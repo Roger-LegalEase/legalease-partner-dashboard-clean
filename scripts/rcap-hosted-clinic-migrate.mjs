@@ -12,6 +12,8 @@ import path from "node:path";
 import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 
+import { packetCatalogQuery, normalizeCatalog, comparePacketCatalog, loadPacketContract } from "./rcap-packet-database-contract.mjs";
+
 import { prepareHostedAcceptanceEvidenceLayout } from "./rcap-hosted-acceptance-evidence-layout.mjs";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -459,7 +461,7 @@ async function main() {
         where table_schema='public' and table_name='clinic_events' and column_name='jurisdiction'
       ) as jurisdiction_column_present,
       (
-        select count(*) = 11
+        select count(*) = 12
           and count(*) filter (where column_name='briefcase_item_id' and ordinal_position=1 and udt_name='uuid' and is_nullable='NO') = 1
           and count(*) filter (where column_name='consumer_auth_user_id' and ordinal_position=2 and udt_name='uuid' and is_nullable='NO') = 1
           and count(*) filter (where column_name='matter_id' and ordinal_position=3 and udt_name='uuid' and is_nullable='NO') = 1
@@ -471,17 +473,19 @@ async function main() {
           and count(*) filter (where column_name='revision' and ordinal_position=9 and udt_name='int4' and is_nullable='NO') = 1
           and count(*) filter (where column_name='created_at' and ordinal_position=10 and udt_name='timestamptz' and is_nullable='NO') = 1
           and count(*) filter (where column_name='updated_at' and ordinal_position=11 and udt_name='timestamptz' and is_nullable='NO') = 1
+          and count(*) filter (where column_name='superseded_artifacts' and ordinal_position=12 and udt_name='jsonb' and is_nullable='NO') = 1
         from information_schema.columns
         where table_schema='public' and table_name='consumer_packet_artifact_provenance'
       ) as provenance_columns_exact,
       (
-        select count(*) = 7
+        select count(*) = 8
           and count(*) filter (where conname='consumer_packet_artifact_provenance_pkey' and pg_get_constraintdef(oid)='PRIMARY KEY (briefcase_item_id)') = 1
           and count(*) filter (where conname='consumer_packet_artifact_provenance_briefcase_item_id_fkey' and pg_get_constraintdef(oid)='FOREIGN KEY (briefcase_item_id) REFERENCES consumer_briefcase_items(id) ON DELETE CASCADE') = 1
           and count(*) filter (where conname='consumer_packet_artifact_provenance_render_job_id_fkey' and pg_get_constraintdef(oid)='FOREIGN KEY (render_job_id) REFERENCES packet_render_jobs(id)') = 1
           and count(*) filter (where conname='consumer_packet_artifact_provenance_verification_hash_check' and pg_get_constraintdef(oid)='CHECK (((verification_hash IS NULL) OR (verification_hash ~ ''^[a-f0-9]{64}$''::text)))') = 1
           and count(*) filter (where conname='consumer_packet_artifact_provenance_entitlement_source_check' and pg_get_constraintdef(oid)='CHECK ((entitlement_source = ANY (ARRAY[''consumer_payment''::text, ''partner_sponsorship''::text, ''legacy_backfill''::text])))') = 1
           and count(*) filter (where conname='consumer_packet_artifact_provenance_revision_check' and pg_get_constraintdef(oid)='CHECK ((revision >= 1))') = 1
+          and count(*) filter (where conname='consumer_packet_artifact_provenance_superseded_artifacts_check' and pg_get_constraintdef(oid)='CHECK ((jsonb_typeof(superseded_artifacts) = ''array''::text))') = 1
           and count(*) filter (where conname='consumer_packet_artifact_provenance_legacy_evidence_required' and pg_get_constraintdef(oid)='CHECK (((entitlement_source <> ''legacy_backfill''::text) OR (legacy_evidence IS NOT NULL)))') = 1
         from pg_constraint
         where conrelid='public.consumer_packet_artifact_provenance'::regclass
@@ -507,11 +511,6 @@ async function main() {
         and pg_get_functiondef(to_regprocedure('public.authorize_consumer_artifact_download(uuid,uuid,text)')) like '%order by p.revision desc%'
         and pg_get_functiondef(to_regprocedure('public.authorize_consumer_artifact_download(uuid,uuid,text)')) like '%limit 1%'
         as tightened_private_download_present,
-      pg_get_functiondef(to_regprocedure('public.finalize_sponsored_packet_generation_if_verified(uuid,uuid,text,jsonb)')) like '%for update%'
-        and pg_get_functiondef(to_regprocedure('public.finalize_sponsored_packet_generation_if_verified(uuid,uuid,text,jsonb)')) like '%partner_sponsorship%'
-        and pg_get_functiondef(to_regprocedure('public.finalize_sponsored_packet_generation_if_verified(uuid,uuid,text,jsonb)')) like '%packet_status = ''ready''%'
-        and pg_get_functiondef(to_regprocedure('public.finalize_sponsored_packet_generation_if_verified(uuid,uuid,text,jsonb)')) like '%mvl-demo%'
-        as atomic_sponsored_finalizer_present,
       not exists (
         select 1 from information_schema.role_table_grants g
         where g.table_schema='public'
@@ -564,6 +563,23 @@ async function main() {
           and not tgisinternal
       ) as ledger_immutable
   `, "clinic_schema_catalog_readback_succeeded");
+  // The entry point is a wrapper. Reuse Grade-A's exact current definitions,
+  // signatures and effective security/grants for it and its route finalizer.
+  const finalizerKeys = ["functions:finalize_sponsored_packet_generation_if_verified", "functions:finalize_sponsored_packet_generation_for_route"];
+  const packetContract = loadPacketContract(rootDir);
+  const finalizerQuery = packetCatalogQuery().replace("as catalog from entries;",
+    `as catalog from entries where key in (${finalizerKeys.map(key => "'" + sqlText(key) + "'").join(",")});`);
+  const finalizerRows = await managementQuery(finalizerQuery, "current_sponsored_finalizer_catalog_readback_succeeded");
+  const finalizerExpected = Object.fromEntries(finalizerKeys.map(key => [key, packetContract.current[key]]));
+  const finalizerFailures = comparePacketCatalog(finalizerExpected, normalizeCatalog(finalizerRows?.[0]?.catalog ?? {}));
+  const currentSponsoredFinalizerExact = finalizerKeys.every(key => packetContract.current[key] && Object.keys(packetContract.current[key]).length === 1)
+    && finalizerFailures.length === 0;
+  evidence.sponsoredFinalizerCertification = {
+    authority: "data/rcap-grade-a/launch-control/PACKET_DATABASE_CONTRACT.json",
+    exactCurrentFunctions: finalizerKeys,
+    passed: currentSponsoredFinalizerExact,
+    mismatches: finalizerFailures.map(failure => failure.name)
+  };
   const readback = Array.isArray(readbackRows) ? readbackRows[0] ?? {} : {};
   const tableNames = postgresArray(readback.tables);
   const rlsTableNames = postgresArray(readback.rls_tables);
@@ -595,14 +611,14 @@ async function main() {
     && truthy(readback.sponsored_finalizer_present)
     && truthy(readback.jurisdiction_column_present)
     && truthy(readback.tightened_private_download_present)
-    && truthy(readback.atomic_sponsored_finalizer_present)
+    && currentSponsoredFinalizerExact
     && provenancePrerequisiteExact
     && truthy(readback.protected_table_grants_tight)
     && truthy(readback.key_function_grants_tight);
   record(
     "all_seven_current_demo_migration_families_read_back",
     currentContractsPresent,
-    `atomic claim=${truthy(readback.atomic_claim_present)}; launch rails=${truthy(readback.verified_enqueue_present)}; private delivery=${truthy(readback.private_download_present)}; tightened authorization=${truthy(readback.tightened_private_download_present)}; atomic sponsored finalization=${truthy(readback.atomic_sponsored_finalizer_present)}; protected table grants=${truthy(readback.protected_table_grants_tight)}; key function grants=${truthy(readback.key_function_grants_tight)}; jurisdiction lock=${truthy(readback.jurisdiction_create_present) && truthy(readback.jurisdiction_column_present)}`
+    `atomic claim=${truthy(readback.atomic_claim_present)}; launch rails=${truthy(readback.verified_enqueue_present)}; private delivery=${truthy(readback.private_download_present)}; tightened authorization=${truthy(readback.tightened_private_download_present)}; atomic sponsored finalization=${currentSponsoredFinalizerExact}; protected table grants=${truthy(readback.protected_table_grants_tight)}; key function grants=${truthy(readback.key_function_grants_tight)}; jurisdiction lock=${truthy(readback.jurisdiction_create_present) && truthy(readback.jurisdiction_column_present)}`
   );
 
   const finalLedgerRows = await managementQuery(`

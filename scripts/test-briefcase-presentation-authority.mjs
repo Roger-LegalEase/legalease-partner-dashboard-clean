@@ -770,6 +770,40 @@ console.log("briefcase-presentation-authority: server commercial actions fail cl
     }
     const badHash=ledgerRows();badHash[0].sha256='0'.repeat(64);await assert.rejects(runLedger(badHash),/not an exact prefix/);assert.equal(applied,1);
     console.log('PASS actual Clinic migration runner: immutable 12-row prefix preserved, capacity13, only #13 applied, replay no-op, gaps/hash/history drift refused');
+    // Run 36155894476 applied #13, then refused this already-authorized
+    // regeneration shape. Execute the runner's exact catalog SQL, not a JS model.
+    db.sql('create table public.packet_render_jobs(id uuid primary key)');
+    db.sql(sqlFile('supabase/migrations/20260901115000_consumer_packet_artifact_provenance.sql'));
+    const shape = runner.match(/\(\n        select count\(\*\) = 12[\s\S]*?\) as provenance_constraints_exact/)[0];
+    const shapeQuery = `select row_to_json(c) from (select ${shape}) c`;
+    const certify = () => db.json(shapeQuery);
+    assert.deepEqual(certify(),{provenance_columns_exact:false,provenance_constraints_exact:false},'old 11-column/7-constraint shape is not current');
+    const extension = sqlFile('supabase/migrations/20260906130000_verified_artifact_regeneration.sql');
+    db.sql(extract(extension,'alter table public.consumer_packet_artifact_provenance',';'));
+    assert.deepEqual(certify(),{provenance_columns_exact:true,provenance_constraints_exact:true},'authorized 12-column/8-constraint shape passes');
+    const column = 'superseded_artifacts', constraint = 'consumer_packet_artifact_provenance_superseded_artifacts_check';
+    const table = 'public.consumer_packet_artifact_provenance';
+    const mutations = [
+      [`alter table ${table} drop column ${column}`, 'provenance_columns_exact'],
+      [`alter table ${table} rename column ${column} to wrong_artifacts`, 'provenance_columns_exact'],
+      [`alter table ${table} alter column ${column} drop not null`, 'provenance_columns_exact'],
+      [`alter table ${table} drop constraint ${constraint}; alter table ${table} alter column ${column} drop default; alter table ${table} alter column ${column} type text using ${column}::text`, 'provenance_columns_exact'],
+      [`alter table ${table} drop constraint ${constraint}`, 'provenance_constraints_exact'],
+      [`alter table ${table} drop constraint ${constraint}; alter table ${table} add constraint ${constraint} check(jsonb_typeof(${column})='object')`, 'provenance_constraints_exact'],
+      [`alter table ${table} add column unexpected text`, 'provenance_columns_exact'],
+      [`alter table ${table} add constraint unexpected check(revision<100)`, 'provenance_constraints_exact']
+    ];
+    for (const [mutation,field] of mutations) {
+      const output=db.sql(`begin; ${mutation}; ${shapeQuery}; rollback;`);
+      const observed=JSON.parse(output.split('\n').find(line=>line.startsWith('{')));
+      assert.equal(observed[field],false,mutation);
+    }
+    assert.deepEqual(certify(),{provenance_columns_exact:true,provenance_constraints_exact:true});
+    const beforeReplay=ledgerRows(),beforeApplied=applied;
+    await runLedger();
+    assert.equal(applied,beforeApplied,'controlling 13/13 prefix executes zero migration SQL');
+    assert.deepEqual(ledgerRows(),beforeReplay,'13/13 replay preserves every ledger value');
+    console.log('PASS current provenance certification: 12 exact columns / 8 exact constraints, old shape refused, 8 schema mutations refused; 13/13 replay executes zero migration SQL');
     console.log('PASS PostgreSQL presentation identity: baseline mismatch reproduced, canonical matter/digests verified, owner/claim negatives, grants and rows preserved');
   } finally { db.stop(); }
 }

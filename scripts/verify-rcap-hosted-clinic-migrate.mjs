@@ -4,6 +4,7 @@ import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 import vm from "node:vm";
+import { packetCatalogQuery, normalizeCatalog, comparePacketCatalog, loadPacketContract } from "./rcap-packet-database-contract.mjs";
 
 const root = process.cwd();
 const entry = fs.readFileSync(path.join(root, ".github/workflows/rcap-f1-ephemeral-staging.yml"), "utf8");
@@ -13,6 +14,10 @@ const migrationScriptPath = path.join(root, "scripts/rcap-hosted-clinic-migrate.
 const migrationScript = fs.existsSync(migrationScriptPath) ? fs.readFileSync(migrationScriptPath, "utf8") : "";
 const provenanceMigrationPath = path.join(root, "supabase/migrations/20260901115000_consumer_packet_artifact_provenance.sql");
 const provenanceMigration = fs.existsSync(provenanceMigrationPath) ? fs.readFileSync(provenanceMigrationPath, "utf8") : "";
+
+const regenerationPath = "supabase/migrations/20260906130000_verified_artifact_regeneration.sql";
+const regenerationMigration = fs.readFileSync(path.join(root, regenerationPath), "utf8");
+const databaseContract = JSON.parse(fs.readFileSync(path.join(root, "data/rcap-grade-a/launch-control/PACKET_DATABASE_CONTRACT.json"), "utf8"));
 
 const { applicationMigrations, expectedLedger, historicalMigration } = vm.runInNewContext(
   migrationScript.slice(migrationScript.indexOf("const APPLICATION_MIGRATIONS ="), migrationScript.indexOf("const REQUIRED_TABLES ="))
@@ -151,6 +156,30 @@ includesEvery(provenanceMigration, [
 ], "authoritative protected provenance prerequisite");
 check(!/insert\s+into\s+public\.consumer_packet_artifact_provenance|update\s+public\.consumer_packet_artifact_provenance|delete\s+from\s+public\.consumer_packet_artifact_provenance/i.test(provenanceMigration), "provenance prerequisite mutates artifact rows");
 
+// Current certification composes the base schema with the already-authorized
+// regeneration extension. Reading this authority does not add a ledger entry.
+check(crypto.createHash("sha256").update(regenerationMigration).digest("hex") === "f0deae88fca966d9cedb63991621312edd1bfa1b65a58de7e5ee63106fc183b7",
+  "authorized regeneration migration bytes changed");
+includesEvery(regenerationMigration, [
+  "alter table public.consumer_packet_artifact_provenance",
+  "add column if not exists superseded_artifacts jsonb not null default '[]'::jsonb",
+  "check (jsonb_typeof(superseded_artifacts) = 'array')"
+], "authorized regeneration provenance extension");
+check(databaseContract.sources.some(entry => entry.path === regenerationPath
+  && entry.sha256 === "f0deae88fca966d9cedb63991621312edd1bfa1b65a58de7e5ee63106fc183b7")
+  && databaseContract.supersessions.some(entry => entry.path === regenerationPath
+    && entry.keys.includes("column:consumer_packet_artifact_provenance.superseded_artifacts")
+    && entry.keys.includes("constraint:consumer_packet_artifact_provenance.consumer_packet_artifact_provenance_superseded_artifacts_check")),
+  "existing Grade-A contract must assign both current provenance facts to the regeneration migration");
+
+includesEvery(migrationScript, [
+  "select count(*) = 12",
+  "column_name='superseded_artifacts' and ordinal_position=12 and udt_name='jsonb' and is_nullable='NO'",
+  "select count(*) = 8",
+  "conname='consumer_packet_artifact_provenance_superseded_artifacts_check' and pg_get_constraintdef(oid)='CHECK ((jsonb_typeof(superseded_artifacts) = ''array''::text))'"
+], "exact current provenance catalog certification");
+check(expectedLedger.every(entry => entry.path !== regenerationPath), "certification-only regeneration authority must not enter the Clinic ledger");
+
 includesEvery(migrationScript, [
   "rcap_acceptance_clinic_migration_ledger",
   "sequence_position",
@@ -186,9 +215,19 @@ includesEvery(migrationScript, [
   '"all_required_functions_exist"',
   '"consumer_artifact_provenance_prerequisite_exact"',
   '"all_seven_current_demo_migration_families_read_back"',
-  "atomic_sponsored_finalizer_present",
+  "currentSponsoredFinalizerExact",
   "ledger records all 13 exact immutable positions"
 ], "Clinic Preview catalog/RLS/readback contract");
+
+includesEvery(migrationScript, [
+  "packetCatalogQuery, normalizeCatalog, comparePacketCatalog, loadPacketContract",
+  "functions:finalize_sponsored_packet_generation_if_verified",
+  "functions:finalize_sponsored_packet_generation_for_route",
+  "comparePacketCatalog(finalizerExpected, normalizeCatalog(finalizerRows?.[0]?.catalog ?? {}))",
+  "&& currentSponsoredFinalizerExact"
+], "Grade-A current wrapper and route-finalizer identity/security certification");
+check(!migrationScript.includes("finalize_sponsored_packet_generation_if_verified(uuid,uuid,text,jsonb)')) like '%for update%'"),
+  "obsolete monolithic wrapper-body assumption must not remain");
 
 includesEvery(migrationScript, [
   "migrationApplied",
@@ -203,6 +242,64 @@ if (failures.length > 0) {
   console.error(`FAIL verify-rcap-hosted-clinic-migrate — ${failures.length}/${checks} failed`);
   for (const failure of failures) console.error(`- ${failure}`);
   process.exit(1);
+}
+
+// Read-only replay of the shipped post-ledger execution path. Catalog responses
+// are captured separately from Acceptance; SQL must match exactly. This harness
+// cannot apply a migration or execute ledger DDL, even if a fixture is incomplete.
+const readbackAt = process.argv.indexOf("--certify-readback");
+if (readbackAt !== -1) {
+  const captured = JSON.parse(fs.readFileSync(process.argv[readbackAt + 1], "utf8"));
+  const cases = {}, queries = [];
+  const evidence = { migrations: [], migrationApplied: false };
+  const context = {
+    rootDir: root, APPLICATION_SHA: "525e16ea64ed08b3bd65a368ff95a1ee5dc25509",
+    packetCatalogQuery, normalizeCatalog, comparePacketCatalog, loadPacketContract,
+    evidence,
+    ClinicMigrationFailure: class extends Error { constructor(id, message) { super(id + ": " + message); } },
+    record(id, passed, observed) { cases[id] = {passed, observed}; if (!passed) throw new Error(id + ": " + observed); },
+    async managementQuery(query, caseId) {
+      if (!/^\s*(select\b|set search_path = public, pg_catalog;\s*with\b)/i.test(query)) throw new Error("READ_ONLY_HARNESS_REFUSED: " + caseId);
+      queries.push(caseId);
+      const receipt = captured[caseId];
+      if (!receipt) throw Object.assign(new Error("READBACK_REQUIRED"), {readbackRequired:{caseId,query}});
+      if (receipt.query !== query) throw new Error("READBACK_QUERY_CHANGED: " + caseId);
+      return receipt.rows;
+    }
+  };
+  const constants = migrationScript.slice(migrationScript.indexOf("const APPLICATION_MIGRATIONS ="), migrationScript.indexOf("const secrets ="));
+  const helpers = migrationScript.slice(migrationScript.indexOf("function sqlText("), migrationScript.indexOf("async function managementQuery("));
+  const postLedger = migrationScript.slice(migrationScript.indexOf("  const existingRows ="), migrationScript.indexOf("\n}\n\ntry {"));
+  try {
+    await vm.runInNewContext(constants + helpers + `
+      const loaded = APPLICATION_MIGRATIONS.map(m => ({...m,sql:'MIGRATION SQL MUST NEVER EXECUTE'}));
+      (async()=>{${postLedger}})()`, context);
+    if (evidence.migrationApplied || evidence.migrations.length !== 13) throw new Error("13/13 certification must execute zero migration SQL");
+    const observedFinalizers = captured.current_sponsored_finalizer_catalog_readback_succeeded.rows[0].catalog;
+    const expectedFinalizers = Object.fromEntries(Object.keys(observedFinalizers).map(key => [key,databaseContract.current[key]]));
+    const wrapper = Object.values(observedFinalizers["functions:finalize_sponsored_packet_generation_if_verified"])[0];
+    const oldWrapperBodyAssumption = ["for update","partner_sponsorship","packet_status = 'ready'","mvl-demo"].every(text => wrapper.definition.includes(text));
+    if (oldWrapperBodyAssumption) throw new Error("Expected current delegated wrapper, not historical monolithic body");
+    let finalizerMutationRefusals = 0;
+    for (const key of Object.keys(observedFinalizers)) for (const mutation of [
+      fn => { fn.definition += "-- changed"; },
+      fn => { fn.securityDefiner = false; },
+      fn => { fn.config = ["search_path=public"]; },
+      fn => { fn.execute.anon = true; },
+      fn => { fn.execute.service_role = false; },
+      fn => { fn.publicExecute = true; }
+    ]) {
+      const changed = structuredClone(observedFinalizers);
+      mutation(Object.values(changed[key])[0]);
+      if (!comparePacketCatalog(expectedFinalizers,normalizeCatalog(changed)).length) throw new Error("Finalizer identity/security mutation accepted");
+      finalizerMutationRefusals++;
+    }
+    console.log(JSON.stringify({oldWrapperBodyAssumption:"STALE_VERIFIER",finalizerMutationRefusals}));
+    console.log(JSON.stringify({readOnlyCertification:{passed:true,cases,queries,migrationSqlExecuted:0,ledgerEntries:evidence.migrations.length,sponsoredFinalizer:evidence.sponsoredFinalizerCertification}}));
+  } catch (error) {
+    if (error.readbackRequired) { console.log(JSON.stringify({readbackRequired:error.readbackRequired})); process.exit(2); }
+    throw error;
+  }
 }
 
 console.log(`OK verify-rcap-hosted-clinic-migrate — ${checks}/${checks}; 13 immutable ledger positions, 12 application-owned blobs, one historical ledger-only position`);

@@ -149,6 +149,180 @@
         "historicalGitBlobSha256": "0d368236f48402bb27953d9b2426e35026ff5d00286f06889ead543c5a32b128",
         "appliedAt": "2026-09-17T20:51:25.209467Z",
         "canonicalMatterMigrationApplied": false
+      },
+      "currentStatus": "APPLIED_AND_LEDGERED_CERTIFICATION_FAILED"
+    },
+    "currentHostedCertification": {
+      "workflowRunId": 36155894476,
+      "workflowSha": "971ce89952ec76c8b6d5c7d3e98d5e2318c38b6f",
+      "acceptanceProjectRef": "hyflxnlhpmiqxvvcoiia",
+      "ledgerPositionsExact": 13,
+      "canonicalMatterMigration": {
+        "sequencePosition": 13,
+        "path": "supabase/migrations/20260925134704_canonical_consumer_presentation_matter.sql",
+        "sha256": "378af4a07b2c02a5405eb5d9c02e4b2b47165485283deaeabeaf01c069f378bc",
+        "applicationSha": "525e16ea64ed08b3bd65a368ff95a1ee5dc25509",
+        "appliedAt": "2026-09-25T15:43:05.04488Z",
+        "applied": true,
+        "ledgered": true,
+        "reapplyAuthorized": false
+      },
+      "canonicalMatterRpcReadback": true,
+      "runConclusion": "failure",
+      "failureCase": "consumer_artifact_provenance_prerequisite_exact",
+      "failureObserved": "columns=false; constraints=false; owner index=true; immutable trigger and no direct policy=true",
+      "disposition": "Migration #13 applied and ledgered successfully before stale post-apply certification failed. The provenance 11/7 shape and monolithic sponsored-wrapper assumptions were superseded by existing Grade-A authority. Run remains failed; current read-only certification passes without migration execution.",
+      "currentProvenanceColumnCount": 12,
+      "currentProvenanceConstraintCount": 8,
+      "regenerationAuthorityPath": "supabase/migrations/20260906130000_verified_artifact_regeneration.sql",
+      "regenerationAuthoritySha256": "f0deae88fca966d9cedb63991621312edd1bfa1b65a58de7e5ee63106fc183b7",
+      "readMethod": "Read-only Acceptance ledger, column, constraint and canonical-matter RPC catalog queries; historical readbacks remain preserved.",
+      "productionTouched": false,
+      "readOnlyPostApplyCertification": {
+        "passed": true,
+        "source": "Exact shipped post-ledger runner evaluated with four SQL-matched read-only Acceptance catalog responses",
+        "capturedQueriesSha256": "681e7083374aa0dba25ba3418145e459fb972082a15382ad877277679d539299",
+        "recordCasesPassed": 6,
+        "ledgerRows": 13,
+        "migrationSqlExecuted": 0,
+        "currentCanonicalMatterRpc": true,
+        "finalizerIdentityAndSecurityMatches": 2,
+        "finalizerMutationRefusals": 12,
+        "noAdditionalStaleAssertion": true,
+        "postLedgerAssertions": [
+          {
+            "assertion": "tables",
+            "classification": "CURRENT AND GREEN",
+            "passed": true,
+            "count": 15
+          },
+          {
+            "assertion": "rls_tables",
+            "classification": "CURRENT AND GREEN",
+            "passed": true,
+            "count": 15
+          },
+          {
+            "assertion": "functions",
+            "classification": "CURRENT AND GREEN",
+            "passed": true,
+            "count": 41
+          },
+          {
+            "assertion": "atomic_claim_present",
+            "classification": "CURRENT AND GREEN",
+            "currentVerdict": "PASS",
+            "observed": true
+          },
+          {
+            "assertion": "verified_enqueue_present",
+            "classification": "CURRENT AND GREEN",
+            "currentVerdict": "PASS",
+            "observed": true
+          },
+          {
+            "assertion": "private_download_present",
+            "classification": "CURRENT AND GREEN",
+            "currentVerdict": "PASS",
+            "observed": true
+          },
+          {
+            "assertion": "jurisdiction_create_present",
+            "classification": "CURRENT AND GREEN",
+            "currentVerdict": "PASS",
+            "observed": true
+          },
+          {
+            "assertion": "sponsored_finalizer_present",
+            "classification": "CURRENT AND GREEN",
+            "currentVerdict": "PASS",
+            "observed": true
+          },
+          {
+            "assertion": "jurisdiction_column_present",
+            "classification": "CURRENT AND GREEN",
+            "currentVerdict": "PASS",
+            "observed": true
+          },
+          {
+            "assertion": "provenance_columns_exact",
+            "classification": "STALE VERIFIER",
+            "currentVerdict": "PASS",
+            "observed": true
+          },
+          {
+            "assertion": "provenance_constraints_exact",
+            "classification": "STALE VERIFIER",
+            "currentVerdict": "PASS",
+            "observed": true
+          },
+          {
+            "assertion": "provenance_owner_index_exact",
+            "classification": "CURRENT AND GREEN",
+            "currentVerdict": "PASS",
+            "observed": true
+          },
+          {
+            "assertion": "provenance_immutable_and_policyless",
+            "classification": "CURRENT AND GREEN",
+            "currentVerdict": "PASS",
+            "observed": true
+          },
+          {
+            "assertion": "tightened_private_download_present",
+            "classification": "CURRENT AND GREEN",
+            "currentVerdict": "PASS",
+            "observed": true
+          },
+          {
+            "assertion": "protected_table_grants_tight",
+            "classification": "CURRENT AND GREEN",
+            "currentVerdict": "PASS",
+            "observed": true
+          },
+          {
+            "assertion": "key_function_grants_tight",
+            "classification": "CURRENT AND GREEN",
+            "currentVerdict": "PASS",
+            "observed": true
+          },
+          {
+            "assertion": "ledger_immutable",
+            "classification": "CURRENT AND GREEN",
+            "currentVerdict": "PASS",
+            "observed": true
+          },
+          {
+            "assertion": "atomic_sponsored_finalizer_present",
+            "classification": "STALE VERIFIER",
+            "currentVerdict": "PASS",
+            "replacement": "Exact Grade-A current identity/security for wrapper and route finalizer; historical monolithic-wrapper body check rejected as stale."
+          },
+          {
+            "assertion": "existing_ledger_is_exact_prefix",
+            "classification": "CURRENT AND GREEN",
+            "currentVerdict": "PASS",
+            "rows": 13
+          },
+          {
+            "assertion": "ledger_records_all_10_exact_frozen_migrations",
+            "classification": "CURRENT AND GREEN",
+            "currentVerdict": "PASS",
+            "rows": 13,
+            "note": "Historical case identifier retained; current check requires exact13-position ledger and immutable trigger."
+          }
+        ]
+      },
+      "existingAuthorityReferences": {
+        "packetDatabaseContract": "data/rcap-grade-a/launch-control/PACKET_DATABASE_CONTRACT.json",
+        "historicalRepairEvidence": "data/rcap-grade-a/launch-control/PACKET_DATABASE_REPAIR_EVIDENCE.json",
+        "historicalRepairEvidenceUnchanged": true,
+        "sponsoredFinalizerSources": [
+          "supabase/migrations/20260906120000_sponsored_route_render_transaction.sql",
+          "supabase/migrations/20260906130000_verified_artifact_regeneration.sql",
+          "supabase/migrations/20260924172645_preserve_sponsored_regeneration_attribution.sql"
+        ],
+        "allPresentAtFrozenApplicationSha": "525e16ea64ed08b3bd65a368ff95a1ee5dc25509"
       }
     }
   },
