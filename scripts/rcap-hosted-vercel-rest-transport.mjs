@@ -1,7 +1,7 @@
 import {fileURLToPath} from 'node:url';
 import {requireCurrentReleaseCandidate} from './grade-a-launch-control/verify-release-candidate-binding.mjs';
 import {sanitizeVercelDiagnostic} from './rcap-hosted-vercel-diagnostics.mjs';
-import {HOSTED_VERCEL_TEAM_ID, HOSTED_VERCEL_PROJECT_ID, HOSTED_VERCEL_PROJECT_NAME, expectedHostedReturnOrigin} from './rcap-hosted-acceptance-vercel-identity.mjs';
+import {HOSTED_ORDINARY_PREVIEW, HOSTED_VERCEL_TEAM_ID, HOSTED_VERCEL_PROJECT_ID, HOSTED_VERCEL_PROJECT_NAME, expectedHostedReturnOrigin} from './rcap-hosted-acceptance-vercel-identity.mjs';
 
 // Preview source is the validated release candidate's application, independent
 // of its reusable worker source and later tools commit. Read the canonical
@@ -47,6 +47,27 @@ export function assertPreviewResponse(d, expectedMeta, expectedId) {
   if (d.projectId !== HOSTED_VERCEL_PROJECT_ID || d.gitSource?.sha !== FROZEN_APPLICATION_SHA) throw new Error('REST_DEPLOYMENT_SOURCE_MISMATCH');
   if (Object.entries(FROZEN_WORKER_METADATA).some(([key,value]) => d.meta?.[key] !== value)) throw new Error('REST_ACCEPTED_WORKER_MISMATCH');
   if (Object.entries(expectedMeta).some(([key,value]) => d.meta?.[key] !== value)) throw new Error('REST_DEPLOYMENT_METADATA_MISMATCH');
+  return d;
+}
+
+// Preservation readback is pinned to the historical ordinary Preview, not to
+// the successor being created. This function cannot authorize a new deployment.
+export function assertPreservedOrdinaryPreview(d) {
+  const expected = {
+    rcapApplicationSha: HOSTED_ORDINARY_PREVIEW.applicationSha,
+    rcapWorkerSourceSha: '615b4021f7fff4b41b774967a78f4b117cfce3e2',
+    rcapWorkerDigest: 'sha256:4704199f2f683b9169702f0d2b5038cb7724569091d88c347867ab6a95aa1b7b',
+    rcapWorkerInputFingerprint: 'sha256:7418fff6198b7c1f137916ddb8d379f4229ce525d691f766e1e01bf522318fe3',
+    rcapAcceptanceProjectRef: ACCEPTANCE_PROJECT,
+    rcapReturnOrigin: expectedHostedReturnOrigin(HOSTED_ORDINARY_PREVIEW.applicationSha),
+    rcapClinicDemoMode: 'none'
+  };
+  if (d?.id !== HOSTED_ORDINARY_PREVIEW.id || d.url !== HOSTED_ORDINARY_PREVIEW.immutableHostname
+    || !Object.hasOwn(d, 'target') || (d.target !== null && d.target !== 'preview')
+    || d.projectId !== HOSTED_VERCEL_PROJECT_ID || d.gitSource?.sha !== HOSTED_ORDINARY_PREVIEW.applicationSha
+    || d.readyState !== 'READY' || Object.entries(expected).some(([key,value]) => d.meta?.[key] !== value)) {
+    throw new Error('DEPLOY_ORDINARY_PREVIEW_MISMATCH');
+  }
   return d;
 }
 

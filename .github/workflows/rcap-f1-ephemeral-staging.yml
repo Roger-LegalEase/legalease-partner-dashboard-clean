@@ -95,10 +95,10 @@ env:
   # this release the worker source and the application are the same commit.
   # Superseded: 117b469c4 / sha256:9faa24e8…, retired because the freeze moved
   # 37 canonical worker inputs past it; and before it c88f10341 / sha256:df6c2965…
-  AUTHORIZED_WORKER_SOURCE_SHA: fe2457a71dd90d0fb83d0ed2738fcd1e6566d76e
-  AUTHORIZED_WORKER_DIGEST: sha256:a22ad8559df69563a4f8b055e0efcb15de128e5ce09d75325abcbf783adff905
+  AUTHORIZED_WORKER_SOURCE_SHA: 2742392d59579d823cd0cdc54456f5e80a210aaf
+  AUTHORIZED_WORKER_DIGEST: sha256:80c6da8c14cd8f09bba81a2b8d0385ac2b2f40bbde16464acc80aa83db0e4813
   IMAGE_REPOSITORY: ghcr.io/roger-legalease/rcap-render-worker
-  CANONICAL_INTEGRATION_BRANCH: claude/legalease-sprint-captain-utucnw
+  CANONICAL_INTEGRATION_BRANCH: captain-release
   STAGING_ENVIRONMENT_NAME: rcap-acceptance
 
 jobs:
@@ -456,8 +456,8 @@ jobs:
       # Preproduction only; production jobs retain their existing containment.
       RELEASE_INTEGRATION_BRANCH: captain-release
       # Accepted by read-only run 35943884247; scoped to this nonproduction job.
-      AUTHORIZED_WORKER_SOURCE_SHA: 4f7d209de11265d0793b7b74c728eab4efde1aa5
-      AUTHORIZED_WORKER_DIGEST: sha256:a950cda9d6016f9b9e1b1d4602680c9236336a9fc6bd4fbd10ead0d60e67b21d
+      AUTHORIZED_WORKER_SOURCE_SHA: 2742392d59579d823cd0cdc54456f5e80a210aaf
+      AUTHORIZED_WORKER_DIGEST: sha256:80c6da8c14cd8f09bba81a2b8d0385ac2b2f40bbde16464acc80aa83db0e4813
     runs-on: ubuntu-latest
     timeout-minutes: 55
     steps:

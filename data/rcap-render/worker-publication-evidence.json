@@ -28,9 +28,9 @@
   "originalPublicationPath": "hosted-acceptance-evidence/worker/publication-36084462506/rcap-render-worker-publication.json",
   "originalArchivePath": "hosted-acceptance-evidence/worker/publication-36084462506/publication.zip",
   "originalPublicationSource": "Native publication artifact 10843079388 from Roger-dispatched run 36084462506. The downloaded ZIP SHA256 matches the Actions artifact digest. Both the detached build source and workflow head are 2742392d59579d823cd0cdc54456f5e80a210aaf. Dockerfile and lockfile hashes independently match Git at that source. workflowRunId is normalized to the numeric ledger representation; all native publication values are retained.",
-  "registryPullByDigestStatus": "pending_image_acceptance",
-  "runtimeAccepted": false,
-  "authorization": "Roger authorized consuming successful publication run 36084462506, binding its exact source, digest, native artifact and canonical input fingerprint, preserving the prior successful image acceptance, independently reviewing and pushing this evidence-only binding to captain-release, then returning the single manual image-acceptance dispatch. No second publication, Preview, Clinic execution, database mutation, hosted_full or Production action is authorized.",
+  "registryPullByDigestStatus": "succeeded_authenticated_read_only",
+  "runtimeAccepted": true,
+  "authorization": "Roger authorized recording successful image acceptance run 36132255563 on captain-release, promoting publication-derived server authority and repinning bounded hosted release machinery. Stop before Gate-3 dispatch; no publication, deployment, Clinic, database mutation, hosted_full or Production action.",
   "priorPublicationEvidencePath": "data/rcap-render/worker-publication-evidence.json#/supersededPublication",
   "supersededPublication": {
     "schemaVersion": "rcap-worker-publication/v1",
@@ -163,7 +163,7 @@
             },
             {
               "number": 11,
-              "name": "Source binding \u2014 OCI revision, or the exact-digest exception",
+              "name": "Source binding — OCI revision, or the exact-digest exception",
               "conclusion": "skipped"
             },
             {
@@ -2124,9 +2124,70 @@
   },
   "workerInputFingerprint": "sha256:10af7c4db830f49c3028087b1b68973f2f2753a75e72b4ff4c8f25320eb1b21a",
   "localVerificationDigest": null,
-  "localVerificationDigestScope": "No independent local build or pull was performed. The native registry digest is recorded; image acceptance remains pending.",
-  "imageAcceptanceAttempts": [],
+  "localVerificationDigestScope": "No independent local build or pull was performed. Successful read-only image acceptance run 36132255563 verified the native registry digest.",
+  "imageAcceptanceAttempts": [
+    {
+      "runId": 36132255563,
+      "runUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/36132255563",
+      "jobId": 108061997737,
+      "runAttempt": 1,
+      "headSha": "06412d02d5992f489d459f5187f2c01e8930aaf2",
+      "sourceSha": "2742392d59579d823cd0cdc54456f5e80a210aaf",
+      "digest": "sha256:80c6da8c14cd8f09bba81a2b8d0385ac2b2f40bbde16464acc80aa83db0e4813",
+      "conclusion": "success",
+      "completedAt": "2026-09-25T11:59:33Z",
+      "nativeResult": {
+        "path": "hosted-acceptance-evidence/worker/image-acceptance-36132255563/native-result.json",
+        "sha256": "51231dfd7d88e5a896d425f646552b948c5463c597eb8297fb292bf9fe80f9c1",
+        "bytes": 5349
+      },
+      "runtimeAccepted": true
+    }
+  ],
   "packageVisibility": "private",
-  "packageVisibilityEvidence": "Expected, previously configured package property only. Prior image acceptance run 36041137857 proved anonymous refusal and authenticated pull for the superseded digest, not this digest. Anonymous/authenticated pull proof for this publication remains pending the forthcoming image-acceptance run.",
-  "readBackLimitation": "Publication only for exact source 2742392d59579d823cd0cdc54456f5e80a210aaf and digest sha256:80c6da8c14cd8f09bba81a2b8d0385ac2b2f40bbde16464acc80aa83db0e4813. No image acceptance, pull proof, runtime acceptance, Preview, Clinic execution, database mutation, hosted_full or Production acceptance is asserted."
+  "packageVisibilityEvidence": "Run 36132255563 proved anonymous registry access refused with HTTP 401 and authenticated pull by this immutable digest succeeded.",
+  "readBackLimitation": "Image acceptance only for the exact recorded source and digest. No successor Preview, Clinic execution, database mutation, hosted_full or Production acceptance is asserted.",
+  "imageAcceptance": {
+    "runId": 36132255563,
+    "runUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/36132255563",
+    "runAttempt": 1,
+    "conclusion": "success",
+    "acceptedAt": "2026-09-25T11:59:33Z",
+    "acceptedAtCommit": "06412d02d5992f489d459f5187f2c01e8930aaf2",
+    "subjectTakenFrom": "Committed publication evidence at the exact workflow head. Native logs name the accepted source and immutable digest; all 20 main steps and all 24 reported steps passed.",
+    "digest": "sha256:80c6da8c14cd8f09bba81a2b8d0385ac2b2f40bbde16464acc80aa83db0e4813",
+    "tag": "2742392d59579d823cd0cdc54456f5e80a210aaf",
+    "readOnly": true,
+    "properties": {
+      "tagResolvesToExpectedDigest": true,
+      "authenticatedPullByDigest": true,
+      "anonymousPullRefused": true,
+      "anonymousStatus": 401,
+      "tagAndDigestAreTheSameImage": true,
+      "sourceBindingExceptionExactlyOneDigestWide": true,
+      "sourceBinding": "SOURCE BINDING: PASS; OCI REVISION: PRESENT; exact source revision verified on the normal path.",
+      "runsAsNonRoot": true,
+      "healthcheckDeclaredAndSucceeds": true,
+      "failsClosedWithoutCredentials": true,
+      "gracefulShutdownOnSigterm": true,
+      "scratchDirectory": "present, owned by rcapworker, empty and writable",
+      "secretScanPositiveAndNegativeControls": true,
+      "filesystemSecretScan": "clean",
+      "configAndHistorySecretScan": "config env matches: 0; layer history matches: 0",
+      "deployedNothingClaimedNothing": true
+    },
+    "nativeResult": {
+      "path": "hosted-acceptance-evidence/worker/image-acceptance-36132255563/native-result.json",
+      "sha256": "51231dfd7d88e5a896d425f646552b948c5463c597eb8297fb292bf9fe80f9c1",
+      "bytes": 5349
+    },
+    "nativeLog": {
+      "path": "hosted-acceptance-evidence/worker/image-acceptance-36132255563/native.log",
+      "sha256": "795266b98f48d494682f923f7f74c3328ad9523f513aea9499564f21bb7c2cbc",
+      "bytes": 266589
+    },
+    "evidenceLimit": "Image acceptance only. No successor Preview, natural delivery proof, hosted_full or Production acceptance is asserted.",
+    "jobId": 108061997737,
+    "sourceSha": "2742392d59579d823cd0cdc54456f5e80a210aaf"
+  }
 }

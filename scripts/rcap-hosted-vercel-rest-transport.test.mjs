@@ -7,7 +7,7 @@ import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {execFileSync} from 'node:child_process';
 import {CANDIDATE_PATH, verifyReleaseCandidateBinding} from './grade-a-launch-control/verify-release-candidate-binding.mjs';
-import {assertPreviewResponse, createPreviewRequest, createRestPreview, FROZEN_APPLICATION_SHA, FROZEN_WORKER_METADATA, CREATE_PREVIEW_URL} from './rcap-hosted-vercel-rest-transport.mjs';
+import {assertPreviewResponse, assertPreservedOrdinaryPreview, createPreviewRequest, createRestPreview, FROZEN_APPLICATION_SHA, FROZEN_WORKER_METADATA, CREATE_PREVIEW_URL} from './rcap-hosted-vercel-rest-transport.mjs';
 import {hostedVercelScopedUrl, resolveHostedVercelIdentity, HOSTED_VERCEL_TEAM_ID, HOSTED_VERCEL_PROJECT_ID, HOSTED_VERCEL_PROJECT_NAME, expectedHostedReturnOrigin, HOSTED_MS_CLINIC_PARTICIPANTS, HOSTED_ORDINARY_PREVIEW} from './rcap-hosted-acceptance-vercel-identity.mjs';
 const identity={teamId:HOSTED_VERCEL_TEAM_ID,projectId:HOSTED_VERCEL_PROJECT_ID,projectName:HOSTED_VERCEL_PROJECT_NAME};
 const source=fs.readFileSync(new URL('./rcap-hosted-acceptance-deploy.mjs',import.meta.url),'utf8');
@@ -275,8 +275,8 @@ async function executePreviewProgram(name, {missingOwner=false, boundaryStatus=2
   const origin=expectedHostedReturnOrigin(FROZEN_APPLICATION_SHA,clinic?'mississippi_clinic':'');
   const meta={...fixture('staging_scoped').meta,rcapCatalogProduct:'prod_synthetic',rcapStagingScopeSha256:crypto.createHash('sha256').update(owner).digest('hex')};
   if(clinic)Object.assign(meta,{rcapReturnOrigin:origin,rcapPreviewPurpose:'mississippi_clinic',rcapClinicDemoMode:'mississippi_preview',rcapStripeConfigured:'false',rcapCatalogProduct:'inline',rcapStagingScopeSha256:crypto.createHash('sha256').update(Object.values(HOSTED_MS_CLINIC_PARTICIPANTS).join(',')).digest('hex')});
-  const ordinaryOrigin=expectedHostedReturnOrigin(FROZEN_APPLICATION_SHA);
-  const ordinary={...response({meta:{...fixture().meta,rcapReturnOrigin:ordinaryOrigin}}),id:HOSTED_ORDINARY_PREVIEW.id,url:HOSTED_ORDINARY_PREVIEW.immutableHostname,alias:[new URL(ordinaryOrigin).host]};
+  const ordinaryOrigin=expectedHostedReturnOrigin(HOSTED_ORDINARY_PREVIEW.applicationSha);
+  const ordinary={...response({meta:{...fixture().meta,rcapApplicationSha:HOSTED_ORDINARY_PREVIEW.applicationSha,rcapWorkerSourceSha:"615b4021f7fff4b41b774967a78f4b117cfce3e2",rcapWorkerDigest:"sha256:4704199f2f683b9169702f0d2b5038cb7724569091d88c347867ab6a95aa1b7b",rcapWorkerInputFingerprint:"sha256:7418fff6198b7c1f137916ddb8d379f4229ce525d691f766e1e01bf522318fe3",rcapReturnOrigin:ordinaryOrigin}}),gitSource:{sha:HOSTED_ORDINARY_PREVIEW.applicationSha},id:HOSTED_ORDINARY_PREVIEW.id,url:HOSTED_ORDINARY_PREVIEW.immutableHostname,alias:[new URL(ordinaryOrigin).host]};
   const remote=()=>({...response({meta}),...remotePatch});
   if(reused) deployment=remote();
   const fetchImpl=async(input,init={})=>{
@@ -325,7 +325,7 @@ async function executePreviewProgram(name, {missingOwner=false, boundaryStatus=2
   if(name==='rcap-hosted-resolve-preview.mjs')env.HOSTED_PREVIEW_DEPLOYMENT_ID='dpl_Synthetic123';
   const program=fs.readFileSync(new URL(`./${name}`,import.meta.url),'utf8').replace(/^#![^\n]*\n/,'').replace(/^import[\s\S]*?;\n/gm,'').replaceAll('import.meta.url',JSON.stringify(new URL(`./${name}`,import.meta.url).href));
   let exitCode=0,error=null;
-  const context={crypto,createHash:crypto.createHash,path,fileURLToPath,Buffer,URL,console:{log(){},error(){}},process:{env,cwd:()=>process.cwd(),exit:code=>{throw Object.assign(new Error('PROGRAM_EXIT'),{exitCode:code});}},fs:{mkdirSync(){},writeFileSync:(p,data)=>{if(receiptFailure&&deployment)throw new Error('RECEIPT_WRITE_FAILED');writes.set(path.basename(p),JSON.parse(data));}},prepareHostedAcceptanceEvidenceLayout:()=>({root:'/synthetic-evidence'}),resolveHostedVercelIdentity:options=>resolveHostedVercelIdentity({...options,fetchImpl}),hostedVercelScopedUrl,expectedHostedReturnOrigin,HOSTED_MS_CLINIC_PARTICIPANTS,HOSTED_ORDINARY_PREVIEW,FROZEN_APPLICATION_SHA,FROZEN_WORKER_METADATA,assertPreviewResponse,createRestPreview:(options,observers)=>createRestPreview(options,{...observers,fetchImpl,sleep:async()=>{}}),fetch:fetchImpl};
+  const context={crypto,createHash:crypto.createHash,path,fileURLToPath,Buffer,URL,console:{log(){},error(){}},process:{env,cwd:()=>process.cwd(),exit:code=>{throw Object.assign(new Error('PROGRAM_EXIT'),{exitCode:code});}},fs:{mkdirSync(){},writeFileSync:(p,data)=>{if(receiptFailure&&deployment)throw new Error('RECEIPT_WRITE_FAILED');writes.set(path.basename(p),JSON.parse(data));}},prepareHostedAcceptanceEvidenceLayout:()=>({root:'/synthetic-evidence'}),resolveHostedVercelIdentity:options=>resolveHostedVercelIdentity({...options,fetchImpl}),hostedVercelScopedUrl,expectedHostedReturnOrigin,HOSTED_MS_CLINIC_PARTICIPANTS,HOSTED_ORDINARY_PREVIEW,FROZEN_APPLICATION_SHA,FROZEN_WORKER_METADATA,assertPreviewResponse, assertPreservedOrdinaryPreview,createRestPreview:(options,observers)=>createRestPreview(options,{...observers,fetchImpl,sleep:async()=>{}}),fetch:fetchImpl};
   try {await vm.runInNewContext(`(async()=>{${program}\n})()`,context);} catch(e){exitCode=e.exitCode??1;error=e.message;}
   return {exitCode,error,calls,writes,meta};
 }

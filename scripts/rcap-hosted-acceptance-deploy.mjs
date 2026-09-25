@@ -27,7 +27,7 @@
 import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
-import { assertPreviewResponse, createRestPreview, FROZEN_WORKER_METADATA } from "./rcap-hosted-vercel-rest-transport.mjs";
+import { assertPreviewResponse, assertPreservedOrdinaryPreview, createRestPreview, FROZEN_WORKER_METADATA } from "./rcap-hosted-vercel-rest-transport.mjs";
 import { fileURLToPath } from "node:url";
 
 import { prepareHostedAcceptanceEvidenceLayout } from "./rcap-hosted-acceptance-evidence-layout.mjs";
@@ -161,16 +161,12 @@ const evidence = {
 
 async function ordinaryPreviewSnapshot() {
   const alias = new URL(expectedHostedReturnOrigin(HOSTED_ORDINARY_PREVIEW.applicationSha)).host;
-  if (RETURN_ALIAS_HOST === alias || APPLICATION_SHA !== HOSTED_ORDINARY_PREVIEW.applicationSha) throw new Error("DEPLOY_CLINIC_ALIAS_NOT_ISOLATED");
+  if (RETURN_ALIAS_HOST === alias) throw new Error("DEPLOY_CLINIC_ALIAS_NOT_ISOLATED");
   const details = [];
   for (const name of [HOSTED_ORDINARY_PREVIEW.id, HOSTED_ORDINARY_PREVIEW.immutableHostname, alias]) {
     const response = await vercelApi(`/v13/deployments/${encodeURIComponent(name)}`);
     if (response.status !== 200) throw new Error("DEPLOY_ORDINARY_PREVIEW_READBACK_FAILED");
-    const d = assertPreviewResponse(response.json, {
-      rcapApplicationSha: APPLICATION_SHA, rcapAcceptanceProjectRef: PROJECT_REF,
-      rcapReturnOrigin: `https://${alias}`, rcapClinicDemoMode: "none"
-    }, HOSTED_ORDINARY_PREVIEW.id);
-    if (d.readyState !== "READY" || d.url !== HOSTED_ORDINARY_PREVIEW.immutableHostname) throw new Error("DEPLOY_ORDINARY_PREVIEW_MISMATCH");
+    const d = assertPreservedOrdinaryPreview(response.json);
     details.push({ name, id: d.id, immutableHostname: d.url, target: d.target,
       applicationSha: d.meta.rcapApplicationSha, aliases: [...(d.alias ?? [])].sort() });
   }
