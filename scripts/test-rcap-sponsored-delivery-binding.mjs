@@ -40,7 +40,8 @@ const { withSyntheticPacketRegistry } = await import("./test-rcap-il-authority-f
 register("./lib/consumer-payment-test-loader.mjs", import.meta.url);
 const { bindEphemeralDb } = await import("./lib/consumer-payment-test-doubles.mjs");
 const { runWorkerCycle } = await import("../src/lib/rcap/render/render-worker.ts");
-const { getRenderJob } = await import("../src/lib/rcap/render/job-queue.ts");
+const { readSponsoredChannelContext } = await import("../src/lib/rcap/fulfillment/sponsored-channel-context.ts");
+const { getRenderJob, finalizeRenderJob } = await import("../src/lib/rcap/render/job-queue.ts");
 const { authorizePacketDownload, streamAuthorizedPacket } = await import("../src/lib/rcap/render/packet-delivery.ts");
 const { consumerPersonMatchKey, consumerMatterIdForItem } = await import("../src/lib/expungement-ai/consumer-identity.ts");
 
@@ -98,13 +99,14 @@ const queue = {
   async fail(id, token, code, detail, retryable) {
     return db.scalar(`select fail_packet_render_job(${q(id)},${q(token)},${q(code)},${q(detail)},${retryable})`);
   },
-  async finalize(input) {
+  async historicalFinalizationFixture(input) {
     const row = db.json(`select row_to_json(t) from (select * from finalize_packet_render_job(${q(input.jobId)},${q(input.fencingToken)},${q(input.outputStoragePath)},${q(input.localSha256)},${q(input.localNormalizedSha256)},${q(input.storedSha256)},${q(input.storedNormalizedSha256)},${input.outputByteCount},${input.outputPageCount},${q(input.containerDigest)})) t`);
     return row && {
       accountingResult: row.accounting_result, deliveryEligibility: row.delivery_eligibility,
       consumptionUnitHash: row.consumption_unit_hash, creditLedgerId: row.credit_ledger_id
     };
   },
+  finalize: finalizeRenderJob,
   async releaseExpired() { return Number(db.scalar("select release_expired_packet_render_claims()")); },
   async requeueRetryable() { return Number(db.scalar("select requeue_retryable_packet_render_jobs()")); }
 };
@@ -176,8 +178,8 @@ function clinicFixtures() {
 const partnerId = randomUUID();
 const eventId = randomUUID();
 
-function seedParticipant({ jurisdiction, pathway, track, event = eventId }) {
-  const userId = randomUUID(), itemId = randomUUID(), personId = randomUUID();
+function seedParticipant({ jurisdiction, pathway, track, event = eventId, userId = randomUUID(), partnerSlug = PARTNER_SLUG }) {
+  const itemId = randomUUID(), personId = randomUUID();
   const pendingId = randomUUID(), sessionId = randomUUID();
   const matterId = consumerMatterIdForItem(itemId);
   const snapshot = {
@@ -205,9 +207,9 @@ function seedParticipant({ jurisdiction, pathway, track, event = eventId }) {
     insert into consumer_pending_screening_results(pending_id,status,claimed_matter_id,claimed_user_id,claimed_at,
       anonymous_session_id,product,partner_slug,jurisdiction,event_id)
       values(${q(pendingId)},'CLAIMED',${q(itemId)},${q(userId)},now(),${q(sessionId)},
-        'rcap_partner',${q(PARTNER_SLUG)},${q(jurisdiction)},${q(event)});
+        'rcap_partner',${q(partnerSlug)},${q(jurisdiction)},${q(event)});
     insert into screening_sessions(session_id,flow_mode,partner_benefit_active,partner_slug,jurisdiction,
-      claimed_slot_state,status) values(${q(sessionId)},'rcap',true,${q(PARTNER_SLUG)},${q(jurisdiction)},'claimed','in_progress');
+      claimed_slot_state,status) values(${q(sessionId)},'rcap',true,${q(partnerSlug)},${q(jurisdiction)},'claimed','in_progress');
     insert into clinic_cases(id,event_id,participant_user_id,screening_session_id,matter_id,jurisdiction,
       route_disposition,queue_status) values(${q(randomUUID())},${q(event)},${q(userId)},${q(sessionId)},
         ${q(itemId)},${q(jurisdiction)},'packet','in_progress');
@@ -339,6 +341,24 @@ try {
       db.scalar(`select count(*)=1 from packet_render_jobs where id=${q(aliceJob)} and sponsored_route_key=${q(ROUTE)}
         and partner_id=${q(partnerId)} and sponsored_verification_hash=${q(alice.verificationHash)}`) === "t");
 
+    // A registration without an exact event name is enough for historical
+    // delivery custody, but cannot establish a new bounded channel grant.
+    const channelInput = { routeId: ROUTE, sourceSessionId: alice.sessionId,
+      briefcaseItemId: alice.itemId, authUserId: alice.userId };
+    check("current channel context refuses an unbounded event registration",
+      await readSponsoredChannelContext(channelInput) === null);
+    db.sql(`update sponsored_packet_render_routes set clinic_event_name='Synthetic sponsored-delivery clinic' where route_key=${q(ROUTE)}`);
+    const channelContext = await readSponsoredChannelContext(channelInput);
+    check("current channel context joins protected owner, partner, event and specification",
+      channelContext?.participantUserId === alice.userId && channelContext?.partnerSlug === PARTNER_SLUG
+        && channelContext?.eventId === eventId && channelContext?.eventName === "Synthetic sponsored-delivery clinic"
+        && channelContext?.registeredSpecificationSha256 === SPEC.specificationSha256, channelContext);
+    check("current channel context refuses a different owner",
+      await readSponsoredChannelContext({ ...channelInput, authUserId: randomUUID() }) === null);
+    check("current channel context refuses a different source session",
+      await readSponsoredChannelContext({ ...channelInput, sourceSessionId: randomUUID() }) === null);
+    db.sql(`update sponsored_packet_render_routes set clinic_event_name=null where route_key=${q(ROUTE)}`);
+
     const queued = await getRenderJob(aliceJob);
     check("getRenderJob surfaces the binding for a non-Illinois partner job from the row, naming the route it was bound to",
       queued?.partnerId === partnerId && queued.sponsoredBinding?.routeKey === ROUTE
@@ -349,8 +369,25 @@ try {
         && queued.sponsoredBinding.clinicEventId === eventId, queued?.sponsoredBinding);
     check("the Illinois personalized binding is not invented for another route", queued.personalizedBinding === undefined);
 
-    const cycle = await runWorkerCycle(deps);
-    check("the worker finalizes the sponsored job", cycle.outcome === "finalized" && cycle.jobId === aliceJob
+    // Current admission refuses the formerly bypassed nonpersonalized route.
+    const deniedClaim=await queue.claim('nonpersonalized-refusal');
+    await queue.startRender(aliceJob,deniedClaim.fencingToken);
+    await queue.startValidation(aliceJob,deniedClaim.fencingToken);
+    const deniedInput={jobId:aliceJob,fencingToken:deniedClaim.fencingToken,outputStoragePath:`${aliceJob}/${sha(bytes)}.pdf`,
+      localSha256:sha(bytes),storedSha256:sha(bytes),localNormalizedSha256:sha(bytes),storedNormalizedSha256:sha(bytes),
+      outputByteCount:bytes.length,outputPageCount:3,containerDigest:'sha256:'+'a'.repeat(64)};
+    check('wrong route / nonpersonalized sponsored job: real finalizer refuses with credits 0 → 0',
+      await finalizeRenderJob(deniedInput)===null
+      && Number(db.scalar(`select count(*) from packet_credit_ledger where render_job_id=${q(aliceJob)}`))===0
+      && db.scalar(`select delivery_eligibility from packet_render_jobs where id=${q(aliceJob)}`)!=='eligible');
+    const {finalizeSponsoredRenderArtifact}=await import('../src/lib/rcap/render/sponsored-packet.ts');
+    check('nonpersonalized publication cannot bypass current authority',await finalizeSponsoredRenderArtifact(aliceJob)===false);
+    // Seed historical delivered custody at SQL level. This does not claim
+    // current channel admission. All new accounting cases use finalizeRenderJob.
+    await storage.upload(deniedInput.outputStoragePath,bytes);
+    const historical=await queue.historicalFinalizationFixture(deniedInput);
+    const cycle={...historical,jobId:aliceJob,outcome:'finalized'};
+    check("historical SQL fixture seeds a formerly finalized sponsored job", cycle.outcome === "finalized" && cycle.jobId === aliceJob
       && cycle.accountingResult === "consumed" && cycle.deliveryEligibility === "eligible", cycle);
     const outputSha = db.scalar(`select output_sha256 from packet_render_jobs where id=${q(aliceJob)}`);
 
@@ -421,6 +458,85 @@ try {
         && db.scalar(`select status from packet_render_jobs where id=${q(ndJob)}`) === "artifact_validated");
     check("the sponsored allowance was not touched by the North Dakota job", clinicUsed() === usedBefore + 1);
   });
+
+  // Current authority/accounting boundary: real application finalizer, real
+  // product verification, real local RPCs. No synthetic canonical authority.
+  const { buildMsNonConvictionVerification } = await import('./lib/rcap-ms-nonconviction-fixture.mjs');
+  const { evaluateAuthoritativeScreeningResult } = await import('../src/lib/expungement-ai/authoritative-screening-result.ts');
+  const { packetInformationPatch, protectedPacketDraftSeedFromAuthoritative, protectedPacketDraftHash } = await import('../src/lib/expungement-ai/packet-information.ts');
+  const { preparePersonalizedPacket } = await import('../src/lib/rcap/render/personalized-packet.ts');
+  const { sponsoredChannelDecisions } = await import('../src/lib/rcap/fulfillment/sponsored-channel-authority.ts');
+  const grant = sponsoredChannelDecisions[0];
+  const msPartnerId = randomUUID();
+  Object.assign(process.env, { VERCEL_ENV: 'preview', VERCEL_TARGET_ENV: 'preview',
+    RCAP_SPONSORED_PREVIEW_CHANNEL: grant.channel, RCAP_CONSUMER_DELIVERY_ROUTE_STATE: grant.routeState,
+    NEXT_PUBLIC_SUPABASE_URL: `https://${grant.acceptanceProjectRef}.supabase.co`,
+    RCAP_CONSUMER_DELIVERY_STAGING_SCOPE: grant.participantUserIds.join(',') });
+  db.sql(`insert into partner_records values(${q(msPartnerId)},${q(grant.partnerSlug)});
+    insert into partner_packet_entitlement(partner_id,packet_cap,overage_enabled,overage_cap) values(${q(msPartnerId)},20,false,0);
+    insert into partner_entitlement(partner_slug,screenings_allowed,pause_at_cap) values(${q(grant.partnerSlug)},20,true);
+    insert into clinic_events(id,partner_slug,name,jurisdiction,status,sponsorship_allocation)
+    values(${q(grant.eventId)},${q(grant.partnerSlug)},${q(grant.eventName)},'MS','published',20);
+    update sponsored_packet_render_routes set packet_specification_sha256=${q(grant.packetSpecificationSha256)},
+      clinic_event_name=${q(grant.eventName)} where route_key=${q(grant.routeId)};`);
+  const p = seedParticipant({ jurisdiction:'MS', pathway:grant.routeId.split(':')[1], track:grant.trackId,
+    event:grant.eventId, userId:grant.participantUserIds[0], partnerSlug:grant.partnerSlug });
+  const verified = buildMsNonConvictionVerification({ evaluateAuthoritativeScreeningResult,
+    protectedPacketDraftSeedFromAuthoritative, packetInformationPatch, matterId:p.matterId,
+    answerOverrides:{release_confirmed:{value:'Yes'},mcic_identifier_delivery_method:{value:'Confidential court-approved MCIC identifier addendum'},
+      mcic_identifier_method_confirmation_source:{value:'Confirmed by Jackson Municipal Court Clerk on 2026-09-25'}} });
+  p.snapshot=verified.snapshot; p.verificationHash=verified.hash;
+  db.sql(`update consumer_briefcase_items set artifact_refs_json='{"attribution":{"locale":"en"}}'::jsonb where id=${q(p.itemId)}`);
+  const { verifiedAt, schemaVersion, ...draftFields }=p.snapshot;
+  const draft={...draftFields,schemaVersion:'expungement-ai/protected-packet-draft/v1',capturedAt:verifiedAt};
+  db.sql(`update consumer_packet_verifications set verification_snapshot=${q(JSON.stringify(p.snapshot))},
+    verification_hash=${q(p.verificationHash)},draft_snapshot=${q(JSON.stringify(draft))},draft_hash=${q(protectedPacketDraftHash(draft))}
+    where briefcase_item_id=${q(p.itemId)};`);
+  const prepared=preparePersonalizedPacket({authUserId:p.userId,briefcaseItemId:p.itemId,personId:p.personId,
+    matterId:p.matterId,verificationHash:p.verificationHash,snapshot:p.snapshot,deliveryLocale:'en'});
+  const r={...renderPayload(p,grant.routeId),packetId:prepared.spec.packetId,inputHash:prepared.spec.inputHash,
+    payload:prepared.payload.renderInputPayload};
+  r.packet.id=r.packetId;
+  const jobId=db.scalar(enqueueSql(p,r));
+  const claim=await queue.claim('current-channel-boundary');
+  assert.equal(claim.id,jobId);
+  assert.equal(await queue.startRender(jobId,claim.fencingToken),true);
+  assert.equal(await queue.startValidation(jobId,claim.fencingToken),true);
+  const input={jobId,fencingToken:claim.fencingToken,outputStoragePath:`${jobId}/${sha(bytes)}.pdf`,
+    localSha256:sha(bytes),storedSha256:sha(bytes),localNormalizedSha256:sha(bytes),storedNormalizedSha256:sha(bytes),
+    outputByteCount:bytes.length,outputPageCount:3,containerDigest:'sha256:'+'a'.repeat(64)};
+  await storage.upload(input.outputStoragePath,bytes);
+  const counts=()=>({credits:Number(db.scalar(`select count(*) from packet_credit_ledger where render_job_id=${q(jobId)}`)),
+    units:Number(db.scalar(`select count(distinct consumption_unit_hash) from packet_credit_ledger where render_job_id=${q(jobId)}`)),
+    clinic:Number(db.scalar(`select screenings_used from partner_entitlement where partner_slug=${q(grant.partnerSlug)}`)),
+    publication:Number(db.scalar(`select count(*) from consumer_packet_artifact_provenance where briefcase_item_id=${q(p.itemId)}`))});
+  async function refuses(label, mutate, restore) {
+    mutate();
+    try {
+      const outcome=await finalizeRenderJob(input);
+      check(`${label}: real finalizer refuses before accounting (0 → 0)`,outcome===null && counts().credits===0 && counts().units===0 && counts().clinic===0 && counts().publication===0,{outcome,counts:counts()});
+      check(`${label}: no deliverable artifact`,db.scalar(`select delivery_eligibility from packet_render_jobs where id=${q(jobId)}`)!=='eligible');
+    } finally { restore(); }
+  }
+  await refuses('absent current grant',()=>sponsoredChannelDecisions.pop(),()=>sponsoredChannelDecisions.push(grant));
+  await refuses('wrong specification',()=>db.sql(`update sponsored_packet_render_routes set packet_specification_sha256=${q('a'.repeat(64))} where route_key=${q(grant.routeId)}`),
+    ()=>db.sql(`update sponsored_packet_render_routes set packet_specification_sha256=${q(grant.packetSpecificationSha256)} where route_key=${q(grant.routeId)}`));
+  await refuses('wrong partner',()=>db.sql(`update clinic_events set partner_slug='wrong-partner' where id=${q(grant.eventId)}`),
+    ()=>db.sql(`update clinic_events set partner_slug=${q(grant.partnerSlug)} where id=${q(grant.eventId)}`));
+  await refuses('wrong event',()=>db.sql(`update clinic_events set name='Wrong Clinic' where id=${q(grant.eventId)}`),
+    ()=>db.sql(`update clinic_events set name=${q(grant.eventName)} where id=${q(grant.eventId)}`));
+  for(const [label,key,value] of [['wrong participant scope','RCAP_CONSUMER_DELIVERY_STAGING_SCOPE',randomUUID()],
+    ['wrong acceptance project','NEXT_PUBLIC_SUPABASE_URL','https://wrong.supabase.co'],
+    ['wrong channel','RCAP_SPONSORED_PREVIEW_CHANNEL','hosted_full'],['wrong Preview','VERCEL_ENV','development']]) {
+    const old=process.env[key]; await refuses(label,()=>process.env[key]=value,()=>process.env[key]=old);
+  }
+  await refuses('Production',()=>{process.env.VERCEL_ENV='production';process.env.VERCEL_TARGET_ENV='production';},
+    ()=>{process.env.VERCEL_ENV='preview';process.env.VERCEL_TARGET_ENV='preview';});
+  const outcome=await finalizeRenderJob(input);
+  check('exact approved channel: real finalizer consumes and publishes once',outcome?.accountingResult==='consumed'
+    && outcome.deliveryEligibility==='eligible' && counts().credits===1 && counts().units===1 && counts().clinic===1 && counts().publication===1,{outcome,counts:counts()});
+  const again=await finalizeRenderJob(input);
+  check('real finalizer replay adds no credit or publication',again!==null && counts().credits===1 && counts().units===1 && counts().clinic===1 && counts().publication===1,{again,counts:counts()});
 
   console.log(`Sponsored delivery binding: ${checks.length} checks PASS on the shipped job loader, publication check and delivery core (local ephemeral PostgreSQL; the non-Illinois registration is a test-only fixture row)`);
 } finally {

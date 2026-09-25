@@ -1,4 +1,5 @@
 import "server-only";
+import { readSponsoredChannelContext } from "@/lib/rcap/fulfillment/sponsored-channel-context";
 
 import { createHash } from "node:crypto";
 import { requestConsumerPacketRender, requestConsumerPacketRenderForWebhook } from "@/lib/expungement-ai/consumer-render-request";
@@ -249,6 +250,14 @@ export async function generatePaidConsumerPacket({
     entitlement: sponsorship.sponsored ? sponsorship.entitlement : undefined
   });
 
+  if (partnerSponsored) {
+    const sponsoredContext = await readSponsoredChannelContext({
+      routeId: `${verification.snapshot.jurisdiction}:${verification.snapshot.pathwayId}`,
+      sourceSessionId: sponsorship.sourceSessionId, briefcaseItemId: item.id, authUserId: userId
+    });
+    assertPacketFulfillmentProven(verification.snapshot.jurisdiction, verification.snapshot.pathwayId,
+      "sponsored entitlement", { trackId: verification.snapshot.selectedTrackId, sponsoredContext: sponsoredContext ?? undefined });
+  }
   if (isPersonalizedDeliveryRoute(`${verification.snapshot.jurisdiction}:${verification.snapshot.pathwayId}`)) {
     if (!resolveConsumerDeliveryAccess({ subjectId: userId }).allowed) {
       throw new ConsumerPacketGenerationError("Consumer delivery is disabled.");
@@ -786,9 +795,13 @@ export async function packetGenerationAllowedNow(userId: string, item: ConsumerB
       paymentRequired: !sponsorship.sponsored,
       entitlement: sponsorship.sponsored ? sponsorship.entitlement : undefined
     });
+    const sponsoredContext = sponsorship.sponsored ? await readSponsoredChannelContext({
+      routeId: `${verification.snapshot.jurisdiction}:${verification.snapshot.pathwayId}`,
+      sourceSessionId: sponsorship.sourceSessionId, briefcaseItemId: item.id, authUserId: userId
+    }) : null;
     if (sponsorship.sponsored) assertPacketFulfillmentProven(
       verification.snapshot.jurisdiction, verification.snapshot.pathwayId, "sponsored entitlement",
-      { trackId: verification.snapshot.selectedTrackId }
+      { trackId: verification.snapshot.selectedTrackId, sponsoredContext: sponsoredContext ?? undefined }
     );
     return true;
   } catch {

@@ -97,6 +97,13 @@ function completenessProof(overrides = {}) {
     hearingAndObjectionStopConditions: covered("hearingAndObjectionStops"),
     customPleadingAuthority: { required: true, approved: true, authorityId: "zz-drafting-authority" },
     filingFormatArtifact: {
+      // Synthetic adopted output is distinct from current provider output.
+      // The completeness control now requires an explicit current-output review.
+      isCurrentCommercialArtifact: false,
+      currentCommercialArtifactReview: { state: "approved", composedBy: "synthetic current provider", why: "Synthetic fixture only", approval: {
+        path: "synthetic-only", recordId: "synthetic-current-output-approval",
+        artifactSha256: sha256("synthetic-current-output"), sha256: sha256("synthetic-current-output-approval")
+      } },
       format: "pdf",
       sha256: sha256("filing.pdf"),
       pageCount: 4,
@@ -819,6 +826,102 @@ if (MUTATIONS) {
     process.exit(1);
   }
   console.log(`Mutations: ${6 + ALL_POINTS.length} deliberate breakages, all caught.`);
+}
+
+// Current channel authority is independent of packet proof and historical posture.
+// Exercise the real adapter and pure scope matcher without touching stored rows.
+{
+  const assert = (await import("node:assert/strict")).default;
+  const { execFileSync } = await import("node:child_process");
+  const { matchesSponsoredChannel, currentSponsoredChannelAllowed, sponsoredChannelDecisions } =
+    await import("../src/lib/rcap/fulfillment/sponsored-channel-authority.ts");
+  const grant = sponsoredChannelDecisions[0];
+  const canonical = JSON.parse(readSource("data/rcap-grade-a/fulfillment-authority-registry.json"))
+    .records.find(r => r.routeId === grant.routeId && !r.supersededBy);
+  const context = { participantUserId: grant.participantUserIds[0], partnerSlug: grant.partnerSlug,
+    eventName: grant.eventName, eventId: grant.eventId, registeredSpecificationSha256: grant.packetSpecificationSha256 };
+  const runtime = { environment: "preview", channel: grant.channel, routeState: grant.routeState,
+    projectUrl: `https://${grant.acceptanceProjectRef}.supabase.co`, scope: grant.participantUserIds.join(",") };
+  const matches = (g = grant, c = canonical, ctx = context, rt = runtime, track = grant.trackId, surface = "sponsored entitlement") =>
+    matchesSponsoredChannel(g, c, track, surface, ctx, rt);
+  check("historical MS sponsored authority remains held and byte-identical to frozen application", () => {
+    const file = "data/rcap-ledger/packet-fulfillment-records.json";
+    assert.equal(sha256(readSource(file)), "6da6d0f7b65bf417908677f688d2793b200d9778a87ecdd9238be7bcbe4ddd53");
+    assert.equal(readSource(file), execFileSync("git", ["show", `a0d0b933f7241a209379775754540fc22775f174:${file}`], { encoding: "utf8", maxBuffer: 16 * 1024 * 1024 }));
+    const old = JSON.parse(readSource(file)).records.find(r => r.routeKey === grant.routeId);
+    assert.equal(old.packetSpecificationSha256, "3a1bed79e3760feb84563a638893942ab557683f6bbe7fb0fddec7e74723257f");
+    assert.equal(old.sponsoredPosture, "held");
+    assert.equal(old.consumerPosture, "held");
+    assert.equal(matches(grant, { ...canonical, packetSpecification: { ...canonical.packetSpecification, sha256: old.packetSpecificationSha256 } }), false);
+  });
+  for (const participantUserId of grant.participantUserIds) for (const surface of grant.surfaces) {
+    check(`current channel admits only its named surface ${surface} / ${participantUserId}`, () => {
+      assert.equal(matches(grant, canonical, { ...context, participantUserId }, runtime, grant.trackId, surface), true);
+    });
+  }
+  for (const [label, changed] of [
+    ["route", { ...canonical, routeId: "MS:other" }],
+    ["family", { ...canonical, packetFamilyId: "other" }],
+    ["specification", { ...canonical, packetSpecification: { ...canonical.packetSpecification, sha256: "0".repeat(64) } }],
+    ["artifact", { ...canonical, artifactValidation: { ...canonical.artifactValidation, artifactSha256: "0".repeat(64) } }]
+  ]) check(`sponsored channel refuses wrong ${label}`, () => assert.equal(matches(grant, changed), false));
+  for (const [key, value] of Object.entries({ participantUserId: "other", partnerSlug: "other", eventName: "other", eventId: "other", registeredSpecificationSha256: "0".repeat(64) }))
+    check(`sponsored channel refuses wrong protected ${key}`, () => assert.equal(matches(grant, canonical, { ...context, [key]: value }), false));
+  for (const [key, value] of [["environment", "production"], ["environment", "unknown"], ["channel", "hosted_full"], ["channel", ""], ["routeState", "live"], ["projectUrl", "https://other.supabase.co"], ["scope", runtime.scope + ",other"], ["scope", grant.participantUserIds[0]], ["scope", ""]])
+    check(`sponsored channel refuses runtime ${key}=${value}`, () => assert.equal(matches(grant, canonical, context, { ...runtime, [key]: value }), false));
+  check("missing current context and wrong track refuse", () => {
+    assert.equal(matchesSponsoredChannel(grant, canonical, grant.trackId, "sponsored entitlement", undefined, runtime), false);
+    assert.equal(matches(grant, canonical, context, runtime, "other"), false);
+  });
+  check("paid consumer surfaces receive no authority from a sponsored decision", () => {
+    for (const surface of ["checkout creation", "consumer payment authority", "participant delivery"])
+      assert.equal(matches(grant, canonical, context, runtime, grant.trackId, surface), false);
+    const source = readSource("src/lib/expungement-ai/packet-fulfillment-authority.ts");
+    assert.ok(source.includes('consumerPosture: msPaidSuccessorConsumerScope(canonical) ? "open" : legacy?.consumerPosture ?? "open"'));
+    assert.ok(!source.includes('legacy?.sponsoredPosture ?? "open"'));
+  });
+  check("entitlement and credit entry points explicitly demand current channel authority", () => {
+    assert.ok(readSource("src/lib/rcap/render/job-queue.ts").includes('sponsoredRenderAuthority({ routeId: spec.routeId, ...identity }, "sponsored entitlement")'));
+    assert.ok(readSource("src/lib/rcap/render/sponsored-packet.ts").includes('authUserId: job.sponsored_consumer_auth_user_id }, "packet credit consumption")'));
+    assert.ok(readSource("src/lib/expungement-ai/rcap-slot-lifecycle.ts").includes('}, "packet credit consumption")'));
+    assert.ok(readSource("src/lib/expungement-ai/packet-generation.ts").includes('sponsoredContext: sponsoredContext ?? undefined'));
+    assert.ok(readSource("src/lib/expungement-ai/briefcase-presentation-authority.ts").includes('sponsoredContext: sponsoredContext ?? undefined'));
+  });
+  const saved = { ...process.env };
+  try {
+    Object.assign(process.env, { VERCEL_ENV: "preview", VERCEL_TARGET_ENV: "preview",
+      RCAP_SPONSORED_PREVIEW_CHANNEL: grant.channel, RCAP_CONSUMER_DELIVERY_ROUTE_STATE: grant.routeState,
+      NEXT_PUBLIC_SUPABASE_URL: runtime.projectUrl, RCAP_CONSUMER_DELIVERY_STAGING_SCOPE: runtime.scope });
+    const { packetFulfillmentAuthority } = await import("../src/lib/expungement-ai/packet-fulfillment-authority.ts");
+    check("real runtime adapter admits current sponsored scope and keeps paid authority independent", () => {
+      const args = [canonical.jurisdiction, canonical.pathwayId];
+      assert.equal(packetFulfillmentAuthority(...args, "sponsored entitlement", { trackId: grant.trackId, sponsoredContext: context }).allowed, true);
+      assert.equal(packetFulfillmentAuthority(...args, "sponsored entitlement", { trackId: grant.trackId }).allowed, false);
+      assert.equal(packetFulfillmentAuthority(...args, "checkout creation", { trackId: grant.trackId }).allowed, true);
+      assert.equal(packetFulfillmentAuthority(...args, "consumer payment authority", { trackId: grant.trackId }).allowed, true);
+    });
+    check("runtime channel validates current approved artifact bytes", () => {
+      assert.equal(currentSponsoredChannelAllowed(canonical, grant.trackId, "sponsored entitlement", context), true);
+      assert.equal(currentSponsoredChannelAllowed(canonical, grant.trackId, "sponsored entitlement"), false);
+    });
+    check("missing current decision refuses instead of defaulting open", () => {
+      const copy = [...sponsoredChannelDecisions];
+      try { sponsoredChannelDecisions.splice(0); assert.equal(currentSponsoredChannelAllowed(canonical, grant.trackId, "sponsored entitlement", context), false); }
+      finally { sponsoredChannelDecisions.push(...copy); }
+    });
+    check("an altered owner decision cannot expand scope or remove artifact pins", () => {
+      const original = grant.artifacts;
+      try { grant.artifacts = original.slice(0, 1); assert.equal(currentSponsoredChannelAllowed(canonical, grant.trackId, "sponsored entitlement", context), false); }
+      finally { grant.artifacts = original; }
+    });
+    check("Production remains unauthorized even for an explicitly scoped participant", () => {
+      process.env.VERCEL_ENV = process.env.VERCEL_TARGET_ENV = "production";
+      assert.equal(currentSponsoredChannelAllowed(canonical, grant.trackId, "sponsored entitlement", context), false);
+    });
+  } finally {
+    for (const key of Object.keys(process.env)) if (!(key in saved)) delete process.env[key];
+    Object.assign(process.env, saved);
+  }
 }
 
 if (failures.length > 0) {

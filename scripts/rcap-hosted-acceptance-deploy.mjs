@@ -383,6 +383,7 @@ const runtimeEnv = {
   // this is absent and the deployment is production.
   ...(CATALOG_PRODUCT_ID ? { STRIPE_CONSUMER_PACKET_PRODUCT_ID: CATALOG_PRODUCT_ID } : {}),
   ...(ROUTE_STATE ? { RCAP_CONSUMER_DELIVERY_ROUTE_STATE: ROUTE_STATE } : {}),
+  ...(CLINIC_DEMO_MODE ? { RCAP_SPONSORED_PREVIEW_CHANNEL: CLINIC_DEMO_MODE } : {}),
   ...(SCOPE_IDS ? { RCAP_CONSUMER_DELIVERY_STAGING_SCOPE: SCOPE_IDS } : {}),
   // Acceptance-only server secrets, derived per acceptance environment from a
   // secret this job already holds and never printed. They are separate from

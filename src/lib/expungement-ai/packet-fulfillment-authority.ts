@@ -1,4 +1,5 @@
 import "server-only";
+import { currentSponsoredChannelAllowed, type SponsoredChannelContext } from "@/lib/rcap/fulfillment/sponsored-channel-authority";
 import { msPaidSuccessorConsumerScope } from "@/lib/rcap/fulfillment/paid-consumer-successor";
 
 import fulfillmentRecords from "@/../data/rcap-ledger/packet-fulfillment-records.json";
@@ -269,7 +270,7 @@ export function packetFulfillmentAuthority(
   jurisdiction: string | null | undefined,
   pathwayId: string | null | undefined,
   surface?: PacketFulfillmentSurface,
-  binding?: { trackId?: string | null; packetFamilyId?: string | null }
+  binding?: { trackId?: string | null; packetFamilyId?: string | null; sponsoredContext?: SponsoredChannelContext }
 ): PacketFulfillmentDecision {
   const routeKey = packetFulfillmentRouteKey(jurisdiction, pathwayId);
   const authority = fulfillmentAuthorityFor(routeKey);
@@ -288,9 +289,8 @@ export function packetFulfillmentAuthority(
   }
   const { specification, path: specificationPath } = resolved;
   const legacy = RECORDS.get(routeKey);
-  // The old ledger may retain a stricter channel posture. It is never proof,
-  // and its absence cannot veto canonical authority. Provider and document
-  // metadata come from the independently registered specification.
+  // Historical channel posture is not authority for current bytes. Sponsored
+  // admission requires a separate current, exactly scoped owner decision.
   const record: PacketFulfillmentRecord = {
     routeKey, jurisdiction: canonical.jurisdiction, pathwayId: canonical.pathwayId,
     packetFamily: specification.packetFamily, packetFamilyLabel: specification.packetFamilyLabel,
@@ -307,8 +307,10 @@ export function packetFulfillmentAuthority(
     verificationBinding: canonical.finalVerification.boundInputsSha256 ?? "",
     privateDelivery: true, repeatDownload: true,
     artifactApprovalStatus: "counsel_reviewed_and_visually_verified",
-    consumerPosture: msPaidSuccessorConsumerScope(canonical) ? "open" : legacy?.consumerPosture ?? "open", sponsoredPosture: legacy?.sponsoredPosture ?? "open",
-    holdReason: legacy?.holdReason ?? "", provenBy: canonical.recordId, provenOn: canonical.effectiveFrom
+    consumerPosture: msPaidSuccessorConsumerScope(canonical) ? "open" : legacy?.consumerPosture ?? "open", sponsoredPosture: surface && currentSponsoredChannelAllowed(canonical, binding?.trackId, surface, binding?.sponsoredContext) ? "open" : "held",
+    holdReason: surface === "sponsored entitlement" || surface === "packet credit consumption"
+      ? "Current sponsored-channel authority is required; historical channel decisions remain historical."
+      : legacy?.holdReason ?? "", provenBy: canonical.recordId, provenOn: canonical.effectiveFrom
   };
 
   if (surface) {
@@ -351,7 +353,7 @@ export function assertPacketFulfillmentProven(
   jurisdiction: string | null | undefined,
   pathwayId: string | null | undefined,
   surface: PacketFulfillmentSurface,
-  binding?: { trackId?: string | null; packetFamilyId?: string | null }
+  binding?: { trackId?: string | null; packetFamilyId?: string | null; sponsoredContext?: SponsoredChannelContext }
 ): void {
   const decision = packetFulfillmentAuthority(jurisdiction, pathwayId, surface, binding);
   if (decision.allowed) return;
