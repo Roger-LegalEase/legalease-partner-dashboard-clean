@@ -1,6 +1,6 @@
 {
   "schemaVersion": "rcap-exact-hosted-tools-binding/v1",
-  "status": "PENDING_SUCCESSOR_WORKER_PUBLICATION",
+  "status": "ACCEPTED_TUPLE_PREVIEW_EXECUTION_HELD",
   "productionAuthorized": false,
   "migrationReplayAuthorized": false,
   "housekeepingReplayAuthorized": false,
@@ -10,136 +10,101 @@
   "independentExactBindingReviewRequiredBeforePush": true,
   "applicationSha": "6ebacdcde8afdf8aa706f16b38e0646babcbdc49",
   "workerSourceSha": "6ebacdcde8afdf8aa706f16b38e0646babcbdc49",
-  "workerDigest": null,
+  "workerDigest": "sha256:74b82e11aac7fa1f850ca52ba1344ca7853fa09120374a83ddb5bbc019f8cdd7",
   "workerInputFingerprint": "sha256:c202ebba08c34ce3665f69269fb913078b02188519c5196af7f3639da84dd0d8",
-  "workerRebuildRequired": true,
-  "runtimeAccepted": false,
-  "toolsSha": "6ebacdcde8afdf8aa706f16b38e0646babcbdc49",
-  "orchestrationFiles": [],
-  "toolsShaIsNotHead": "Exact product/tools snapshot. Only the two pending release control records follow it; no hosted dispatch admitted.",
+  "workerRebuildRequired": false,
+  "runtimeAccepted": true,
+  "toolsSha": "f9b9b24a9242162f2c0a97915f7be351a6c0fc29",
+  "orchestrationFiles": [
+    ".github/workflows/rcap-f1-ephemeral-staging.yml",
+    ".github/workflows/rcap-hosted-acceptance-staging.yml",
+    "scripts/grade-a-launch-control/test-release-candidate-binding-mutations.mjs",
+    "scripts/grade-a-launch-control/verify-release-candidate-binding.mjs"
+  ],
+  "toolsShaIsNotHead": "Exact independently reviewed tools snapshot; only accepted-authority evidence/control records follow it.",
   "hostedFullReady": false,
   "clinicDispatchReady": false,
-  "clinicDeployDispatchReady": false,
-  "executionAuthorizationStatus": "HELD_LOCAL_REVIEW_NO_PUSH_OR_DISPATCH",
+  "clinicDeployDispatchReady": true,
+  "executionAuthorizationStatus": "HELD_ROGER_MANUAL_CLINIC_DEPLOY_READY",
   "manualPushAndDispatchOwner": "Roger; stop before push and all Actions dispatches.",
-  "why": "Real participant-filing safety defect corrected. Successor application and worker required; old digest and Preview are historical only.",
+  "why": "Successful exact read-only image acceptance and the reviewed hosted worker pins admit one manual successor Clinic deploy as the next bounded phase. This task authorizes no dispatch or deployment; predecessor Preview remains historical only.",
   "previousToolsSha": "9948dcc6f196f4b06534c91cd8dc42067b9ddae0",
-  "previousBindingSha256": "19cde14e95ff29f38e98d3acef381bd9132bcc8b4ecb569f6ac993f5c9db31d2",
+  "previousBindingSha256": "636198d4a7d9936c5330fc344bd06ee7de3050a0bcaeee8adca11dc8d8befd6e",
   "supersededRecord": {
     "schemaVersion": "rcap-exact-hosted-tools-binding/v1",
+    "status": "PENDING_SUCCESSOR_WORKER_PUBLICATION",
     "productionAuthorized": false,
     "migrationReplayAuthorized": false,
     "housekeepingReplayAuthorized": false,
     "additionalWorkerPublicationAuthorized": false,
     "imageAcceptanceRerunAuthorized": false,
-    "independentExactBindingReviewRequiredBeforePush": true,
-    "applicationSha": "525e16ea64ed08b3bd65a368ff95a1ee5dc25509",
-    "workerSourceSha": "2742392d59579d823cd0cdc54456f5e80a210aaf",
-    "workerDigest": "sha256:80c6da8c14cd8f09bba81a2b8d0385ac2b2f40bbde16464acc80aa83db0e4813",
-    "workerInputFingerprint": "sha256:10af7c4db830f49c3028087b1b68973f2f2753a75e72b4ff4c8f25320eb1b21a",
-    "toolsSha": "9948dcc6f196f4b06534c91cd8dc42067b9ddae0",
-    "toolsShaIsNotHead": "Exact reviewed orchestration snapshot preceding this data binding. Manual dispatch tools_sha must equal final Captain workflow head; orchestration bytes must match this snapshot.",
-    "orchestrationFiles": [
-      ".github/workflows/rcap-f1-ephemeral-staging.yml",
-      ".github/workflows/rcap-github-hosted-acceptance.yml",
-      ".github/workflows/rcap-hosted-acceptance-staging.yml",
-      "data/rcap-staging-authorization-readiness.json",
-      "scripts/grade-a-launch-control/verify-hosted-tools-binding.test.mjs",
-      "scripts/grade-a-launch-control/verify-release-candidate-binding.mjs",
-      "scripts/rcap-github-acceptance-gate.mjs",
-      "scripts/rcap-github-post-payment-acceptance.mjs",
-      "scripts/rcap-hosted-checkout-gate.mjs",
-      "scripts/rcap-hosted-clinic-migrate.mjs",
-      "scripts/rcap-production-canary.mjs",
-      "scripts/rcap-production-forward-chain-migrate.mjs",
-      "scripts/rcap-production-migration-contract.mjs",
-      "scripts/rcap-production-migration-contract.test.mjs",
-      "scripts/rcap-production-public-verify.mjs",
-      "scripts/test-briefcase-presentation-authority.mjs",
-      "scripts/test-rcap-github-hosted-acceptance-mutations.mjs",
-      "scripts/test-rcap-release-containment.mjs",
-      "scripts/verify-rcap-github-hosted-acceptance.mjs",
-      "scripts/verify-rcap-hosted-checkout-gate.mjs",
-      "scripts/verify-rcap-hosted-clinic-migrate.mjs",
-      "scripts/verify-rcap-hosted-ms-clinic-preview.mjs"
-    ],
-    "previousToolsSha": "cd75f83268c1d29fff87bf6616dcf962c9da78b5",
-    "previousBindingSha256": "abf9f9992a207117c4555e1b56b6ca09ca51fd8ba3f28449d4eec15ae0eaf941",
-    "why": "Dynamic exact Clinic Preview reuse; accepted Checkout worker; current authorized Production preflight/public verification; exact read-only canonical-matter certification. Historical incident containment preserved.",
-    "authorization": "Final launch-runway tools/control currentness reconciliation. Application and worker unchanged; completed 13/13 Clinic certification preserved. Local review only: no push, dispatch, remote mutation, Preview or Production action.",
     "deploymentAuthorized": false,
-    "manualPushAndDispatchOwner": "Roger; local review only, no push or dispatch in this task.",
+    "independentExactBindingReviewRequiredBeforePush": true,
+    "applicationSha": "6ebacdcde8afdf8aa706f16b38e0646babcbdc49",
+    "workerSourceSha": "6ebacdcde8afdf8aa706f16b38e0646babcbdc49",
+    "workerDigest": null,
+    "workerInputFingerprint": "sha256:c202ebba08c34ce3665f69269fb913078b02188519c5196af7f3639da84dd0d8",
+    "workerRebuildRequired": true,
+    "runtimeAccepted": false,
+    "toolsSha": "6ebacdcde8afdf8aa706f16b38e0646babcbdc49",
+    "orchestrationFiles": [],
+    "toolsShaIsNotHead": "Exact product/tools snapshot. Only the two pending release control records follow it; no hosted dispatch admitted.",
     "hostedFullReady": false,
     "clinicDispatchReady": false,
     "clinicDeployDispatchReady": false,
     "executionAuthorizationStatus": "HELD_LOCAL_REVIEW_NO_PUSH_OR_DISPATCH",
-    "deploymentScope": {
-      "vercelProjectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV",
-      "vercelProjectName": "legalease-partner-dashboard-clean",
-      "vercelTeamId": "team_4qLmZK9WI6xIy5vjYC0IF3ae",
-      "target": "preview",
-      "supabaseProjectRef": "hyflxnlhpmiqxvvcoiia",
-      "productionSupabaseRefForbidden": "wwtwtsmywnckfkdaqqeg",
-      "productionTarget": false,
-      "productionAliasesMayMove": false,
-      "productionEnvironmentMayChange": false,
-      "publicDomainActivation": false,
-      "existingDeploymentId": null,
-      "existingHostname": null,
-      "reuseOnly": false,
-      "creationAuthorized": false,
-      "maximumCreations": 1,
-      "phase": "clinic_deploy",
-      "previewPurpose": "mississippi_clinic",
-      "clinicDemoMode": "mississippi_preview",
-      "routeState": "staging_scoped",
-      "returnOrigin": "https://legalease-rcap-clinic-525e16ea64ed-roger947s-projects.vercel.app",
-      "stagingScope": "e7c1d76e-dcf2-4d41-b585-ba164806f391,255998e1-eb69-4239-b151-0f8b8935a539",
-      "stagingScopeSha256": "bb986872d0c7ab762ff553a057fb2cdf33030eb14af7e776f1a874eac169b336",
-      "preservedOrdinaryPreview": {
-        "deploymentId": "dpl_9TFTU2zXE7NYoQWgq74GsdhKUCoZ",
-        "immutableHostname": "legalease-partner-dashboard-clean-2kwcz22rb-roger947s-projects.vercel.app",
-        "alias": "legalease-rcap-a0d0b933f724-roger947s-projects.vercel.app"
-      },
-      "immutableHostname": null,
-      "creationAuthorization": "No Preview creation authorized by this task. #13 already applied; any future execution requires separate owner instruction."
-    },
-    "unresolvedBoundaries": [
-      "Run 36155894476 remains a failed certification run; #13 applied/ledgered and canonical matter RPC corrected.",
-      "Entire corrected post-ledger path passes read-only current Acceptance certification; no rerun dispatched.",
-      "Successor Clinic Preview, Clinic journey and hosted_full remain pending; Production unauthorized."
-    ],
-    "supersedes": {
+    "manualPushAndDispatchOwner": "Roger; stop before push and all Actions dispatches.",
+    "why": "Real participant-filing safety defect corrected. Successor application and worker required; old digest and Preview are historical only.",
+    "previousToolsSha": "9948dcc6f196f4b06534c91cd8dc42067b9ddae0",
+    "previousBindingSha256": "19cde14e95ff29f38e98d3acef381bd9132bcc8b4ecb569f6ac993f5c9db31d2",
+    "supersededRecord": {
       "schemaVersion": "rcap-exact-hosted-tools-binding/v1",
-      "applicationSha": "a0d0b933f7241a209379775754540fc22775f174",
-      "workerSourceSha": "615b4021f7fff4b41b774967a78f4b117cfce3e2",
-      "workerDigest": "sha256:4704199f2f683b9169702f0d2b5038cb7724569091d88c347867ab6a95aa1b7b",
-      "workerInputFingerprint": "sha256:7418fff6198b7c1f137916ddb8d379f4229ce525d691f766e1e01bf522318fe3",
-      "toolsSha": "d6d6cc69fa92014a0bd21b87852ae2696d3ee654",
-      "toolsShaIsNotHead": "Exact orchestration snapshot preceding this binding record. Dispatch tools_sha must equal the final workflow source SHA selected by captain-release; all bound orchestration bytes must still match this snapshot.",
+      "productionAuthorized": false,
+      "migrationReplayAuthorized": false,
+      "housekeepingReplayAuthorized": false,
+      "additionalWorkerPublicationAuthorized": false,
+      "imageAcceptanceRerunAuthorized": false,
+      "independentExactBindingReviewRequiredBeforePush": true,
+      "applicationSha": "525e16ea64ed08b3bd65a368ff95a1ee5dc25509",
+      "workerSourceSha": "2742392d59579d823cd0cdc54456f5e80a210aaf",
+      "workerDigest": "sha256:80c6da8c14cd8f09bba81a2b8d0385ac2b2f40bbde16464acc80aa83db0e4813",
+      "workerInputFingerprint": "sha256:10af7c4db830f49c3028087b1b68973f2f2753a75e72b4ff4c8f25320eb1b21a",
+      "toolsSha": "9948dcc6f196f4b06534c91cd8dc42067b9ddae0",
+      "toolsShaIsNotHead": "Exact reviewed orchestration snapshot preceding this data binding. Manual dispatch tools_sha must equal final Captain workflow head; orchestration bytes must match this snapshot.",
       "orchestrationFiles": [
         ".github/workflows/rcap-f1-ephemeral-staging.yml",
+        ".github/workflows/rcap-github-hosted-acceptance.yml",
         ".github/workflows/rcap-hosted-acceptance-staging.yml",
+        "data/rcap-staging-authorization-readiness.json",
+        "scripts/grade-a-launch-control/verify-hosted-tools-binding.test.mjs",
         "scripts/grade-a-launch-control/verify-release-candidate-binding.mjs",
-        "scripts/rcap-hosted-acceptance-deploy.mjs",
-        "scripts/rcap-hosted-acceptance-redaction.test.mjs",
-        "scripts/rcap-hosted-acceptance-vercel-identity.mjs",
-        "scripts/rcap-hosted-acceptance-vercel-identity.test.mjs",
-        "scripts/rcap-hosted-ms-clinic-preview-audit.mjs",
-        "scripts/rcap-hosted-resolve-preview.mjs",
-        "scripts/rcap-hosted-vercel-rest-transport.mjs",
-        "scripts/rcap-hosted-vercel-rest-transport.test.mjs",
-        "scripts/verify-rcap-commercial-browser.mjs",
-        "scripts/verify-rcap-hosted-ms-clinic-preview.mjs",
-        "scripts/verify-rcap-partner-result-cta.mjs",
-        "scripts/verify-rcap-staging-scoped-preview-contract.mjs"
+        "scripts/rcap-github-acceptance-gate.mjs",
+        "scripts/rcap-github-post-payment-acceptance.mjs",
+        "scripts/rcap-hosted-checkout-gate.mjs",
+        "scripts/rcap-hosted-clinic-migrate.mjs",
+        "scripts/rcap-production-canary.mjs",
+        "scripts/rcap-production-forward-chain-migrate.mjs",
+        "scripts/rcap-production-migration-contract.mjs",
+        "scripts/rcap-production-migration-contract.test.mjs",
+        "scripts/rcap-production-public-verify.mjs",
+        "scripts/test-briefcase-presentation-authority.mjs",
+        "scripts/test-rcap-github-hosted-acceptance-mutations.mjs",
+        "scripts/test-rcap-release-containment.mjs",
+        "scripts/verify-rcap-github-hosted-acceptance.mjs",
+        "scripts/verify-rcap-hosted-checkout-gate.mjs",
+        "scripts/verify-rcap-hosted-clinic-migrate.mjs",
+        "scripts/verify-rcap-hosted-ms-clinic-preview.mjs"
       ],
-      "previousToolsSha": "afad910f90c55d713be17e52c64a1acf329378ee",
-      "previousBindingCommit": "3f159f590d3af06b30701484c335b46f2df09668",
-      "previousBindingSha256": "0f237479e4a679a45cd2a108209076b6c63b0f15a73ff2eb96df87e0d9a04efa",
-      "why": "Correct stale partner-result helper assertions to the exact frozen saved-context message and supply only the authorized positive CTA fixture availability prerequisites. Reuse the same isolated Clinic Preview; failed run and session remain preserved.",
-      "authorization": "Roger authorized exact tools/binding correction, independent review and push only. hosted_clinic_preview is prepared for Roger manual dispatch and is not executed by Captain. No new Preview, database or registration writes, worker publication, payment, #345/e34 activity, hosted_full or Production action.",
+      "previousToolsSha": "cd75f83268c1d29fff87bf6616dcf962c9da78b5",
+      "previousBindingSha256": "abf9f9992a207117c4555e1b56b6ca09ca51fd8ba3f28449d4eec15ae0eaf941",
+      "why": "Dynamic exact Clinic Preview reuse; accepted Checkout worker; current authorized Production preflight/public verification; exact read-only canonical-matter certification. Historical incident containment preserved.",
+      "authorization": "Final launch-runway tools/control currentness reconciliation. Application and worker unchanged; completed 13/13 Clinic certification preserved. Local review only: no push, dispatch, remote mutation, Preview or Production action.",
       "deploymentAuthorized": false,
+      "manualPushAndDispatchOwner": "Roger; local review only, no push or dispatch in this task.",
+      "hostedFullReady": false,
+      "clinicDispatchReady": false,
+      "clinicDeployDispatchReady": false,
+      "executionAuthorizationStatus": "HELD_LOCAL_REVIEW_NO_PUSH_OR_DISPATCH",
       "deploymentScope": {
         "vercelProjectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV",
         "vercelProjectName": "legalease-partner-dashboard-clean",
@@ -151,16 +116,16 @@
         "productionAliasesMayMove": false,
         "productionEnvironmentMayChange": false,
         "publicDomainActivation": false,
-        "existingDeploymentId": "dpl_3RALTWqn3WbEsYFSk3Muh6qw2yhT",
-        "existingHostname": "legalease-rcap-clinic-a0d0b933f724-roger947s-projects.vercel.app",
-        "reuseOnly": true,
+        "existingDeploymentId": null,
+        "existingHostname": null,
+        "reuseOnly": false,
         "creationAuthorized": false,
-        "maximumCreations": 0,
-        "phase": "clinic_preview",
+        "maximumCreations": 1,
+        "phase": "clinic_deploy",
         "previewPurpose": "mississippi_clinic",
         "clinicDemoMode": "mississippi_preview",
         "routeState": "staging_scoped",
-        "returnOrigin": "https://legalease-rcap-clinic-a0d0b933f724-roger947s-projects.vercel.app",
+        "returnOrigin": "https://legalease-rcap-clinic-525e16ea64ed-roger947s-projects.vercel.app",
         "stagingScope": "e7c1d76e-dcf2-4d41-b585-ba164806f391,255998e1-eb69-4239-b151-0f8b8935a539",
         "stagingScopeSha256": "bb986872d0c7ab762ff553a057fb2cdf33030eb14af7e776f1a874eac169b336",
         "preservedOrdinaryPreview": {
@@ -168,47 +133,21 @@
           "immutableHostname": "legalease-partner-dashboard-clean-2kwcz22rb-roger947s-projects.vercel.app",
           "alias": "legalease-rcap-a0d0b933f724-roger947s-projects.vercel.app"
         },
-        "immutableHostname": "legalease-partner-dashboard-clean-ld9koaxfa-roger947s-projects.vercel.app"
+        "immutableHostname": null,
+        "creationAuthorization": "No Preview creation authorized by this task. #13 already applied; any future execution requires separate owner instruction."
       },
-      "manualPushAndDispatchOwner": "Captain pushes independently reviewed tools. HELD - ROGER MUST MANUALLY RETRY hosted_clinic_preview; Captain does not dispatch.",
-      "hostedFullReady": false,
-      "clinicDispatchReady": true,
-      "productionAuthorized": false,
-      "migrationReplayAuthorized": false,
-      "housekeepingReplayAuthorized": false,
-      "additionalWorkerPublicationAuthorized": false,
-      "imageAcceptanceRerunAuthorized": false,
-      "executionAuthorizationStatus": "HELD_ROGER_MANUAL_CLINIC_RETRY_READY",
       "unresolvedBoundaries": [
-        "Clinic run 36067031579 failed at the obsolete helper-text locator. Successful Clinic participant journey and natural delivery remain unproven.",
-        "hosted_full and all Production operations remain held."
+        "Run 36155894476 remains a failed certification run; #13 applied/ledgered and canonical matter RPC corrected.",
+        "Entire corrected post-ledger path passes read-only current Acceptance certification; no rerun dispatched.",
+        "Successor Clinic Preview, Clinic journey and hosted_full remain pending; Production unauthorized."
       ],
-      "regressionEvidence": {
-        "evidenceDirectory": "hosted-acceptance-evidence/runtime-recovery-345/successor-natural-delivery/isolated-clinic-preview/run-36067031579",
-        "clinicVerifier": "83/83 PASS",
-        "transportRedactionIdentity": "51/51 PASS",
-        "toolsBinding": "1/1 PASS",
-        "stagingScopeMutations": "23/23 refused",
-        "legalAidVerifier": "53/53 PASS",
-        "ancestry": "PASS",
-        "currentBinding": "CURRENT",
-        "applicationInputsChanged": 0,
-        "workerInputsCompared": 38,
-        "workerInputsChanged": 0,
-        "workerInputFingerprint": "sha256:7418fff6198b7c1f137916ddb8d379f4229ce525d691f766e1e01bf522318fe3",
-        "migrationsChanged": 0,
-        "remoteMutationsThisTask": 0,
-        "partnerResultCta": "PASS: zero failures; 49 assertion callsites preserved",
-        "verificationStatus": "PASS"
-      },
-      "independentExactBindingReviewRequiredBeforePush": true,
       "supersedes": {
         "schemaVersion": "rcap-exact-hosted-tools-binding/v1",
         "applicationSha": "a0d0b933f7241a209379775754540fc22775f174",
         "workerSourceSha": "615b4021f7fff4b41b774967a78f4b117cfce3e2",
         "workerDigest": "sha256:4704199f2f683b9169702f0d2b5038cb7724569091d88c347867ab6a95aa1b7b",
         "workerInputFingerprint": "sha256:7418fff6198b7c1f137916ddb8d379f4229ce525d691f766e1e01bf522318fe3",
-        "toolsSha": "afad910f90c55d713be17e52c64a1acf329378ee",
+        "toolsSha": "d6d6cc69fa92014a0bd21b87852ae2696d3ee654",
         "toolsShaIsNotHead": "Exact orchestration snapshot preceding this binding record. Dispatch tools_sha must equal the final workflow source SHA selected by captain-release; all bound orchestration bytes must still match this snapshot.",
         "orchestrationFiles": [
           ".github/workflows/rcap-f1-ephemeral-staging.yml",
@@ -224,12 +163,13 @@
           "scripts/rcap-hosted-vercel-rest-transport.test.mjs",
           "scripts/verify-rcap-commercial-browser.mjs",
           "scripts/verify-rcap-hosted-ms-clinic-preview.mjs",
+          "scripts/verify-rcap-partner-result-cta.mjs",
           "scripts/verify-rcap-staging-scoped-preview-contract.mjs"
         ],
-        "previousToolsSha": "fb6e8fa93753c6f771c36aa54f12a96d75b266b6",
-        "previousBindingCommit": "1479fd4bfcfe60a5dc4509a0f074632b5ca13f99",
-        "previousBindingSha256": "1a92461f8f4f84a6800c2cf2cd4b80db9c174a2be9b19162c5a3e081558c5b19",
-        "why": "Bind successful isolated Clinic Preview run 36064114096. The existing Clinic workflow, browser and verifier now require only that immutable deployment and its Clinic alias. Deployment is complete; participant execution has not run.",
+        "previousToolsSha": "afad910f90c55d713be17e52c64a1acf329378ee",
+        "previousBindingCommit": "3f159f590d3af06b30701484c335b46f2df09668",
+        "previousBindingSha256": "0f237479e4a679a45cd2a108209076b6c63b0f15a73ff2eb96df87e0d9a04efa",
+        "why": "Correct stale partner-result helper assertions to the exact frozen saved-context message and supply only the authorized positive CTA fixture availability prerequisites. Reuse the same isolated Clinic Preview; failed run and session remain preserved.",
         "authorization": "Roger authorized exact tools/binding correction, independent review and push only. hosted_clinic_preview is prepared for Roger manual dispatch and is not executed by Captain. No new Preview, database or registration writes, worker publication, payment, #345/e34 activity, hosted_full or Production action.",
         "deploymentAuthorized": false,
         "deploymentScope": {
@@ -262,7 +202,7 @@
           },
           "immutableHostname": "legalease-partner-dashboard-clean-ld9koaxfa-roger947s-projects.vercel.app"
         },
-        "manualPushAndDispatchOwner": "Captain pushes independently reviewed tools. HELD - ROGER MUST MANUALLY DISPATCH hosted_clinic_preview; Captain does not dispatch.",
+        "manualPushAndDispatchOwner": "Captain pushes independently reviewed tools. HELD - ROGER MUST MANUALLY RETRY hosted_clinic_preview; Captain does not dispatch.",
         "hostedFullReady": false,
         "clinicDispatchReady": true,
         "productionAuthorized": false,
@@ -270,13 +210,13 @@
         "housekeepingReplayAuthorized": false,
         "additionalWorkerPublicationAuthorized": false,
         "imageAcceptanceRerunAuthorized": false,
-        "executionAuthorizationStatus": "HELD_ROGER_MANUAL_CLINIC_DISPATCH_READY",
+        "executionAuthorizationStatus": "HELD_ROGER_MANUAL_CLINIC_RETRY_READY",
         "unresolvedBoundaries": [
-          "Clinic participant journey and natural delivery proof have not run.",
+          "Clinic run 36067031579 failed at the obsolete helper-text locator. Successful Clinic participant journey and natural delivery remain unproven.",
           "hosted_full and all Production operations remain held."
         ],
         "regressionEvidence": {
-          "evidenceDirectory": "hosted-acceptance-evidence/runtime-recovery-345/successor-natural-delivery/isolated-clinic-preview/run-36064114096",
+          "evidenceDirectory": "hosted-acceptance-evidence/runtime-recovery-345/successor-natural-delivery/isolated-clinic-preview/run-36067031579",
           "clinicVerifier": "83/83 PASS",
           "transportRedactionIdentity": "51/51 PASS",
           "toolsBinding": "1/1 PASS",
@@ -289,7 +229,9 @@
           "workerInputsChanged": 0,
           "workerInputFingerprint": "sha256:7418fff6198b7c1f137916ddb8d379f4229ce525d691f766e1e01bf522318fe3",
           "migrationsChanged": 0,
-          "remoteMutationsThisTask": 0
+          "remoteMutationsThisTask": 0,
+          "partnerResultCta": "PASS: zero failures; 49 assertion callsites preserved",
+          "verificationStatus": "PASS"
         },
         "independentExactBindingReviewRequiredBeforePush": true,
         "supersedes": {
@@ -298,7 +240,7 @@
           "workerSourceSha": "615b4021f7fff4b41b774967a78f4b117cfce3e2",
           "workerDigest": "sha256:4704199f2f683b9169702f0d2b5038cb7724569091d88c347867ab6a95aa1b7b",
           "workerInputFingerprint": "sha256:7418fff6198b7c1f137916ddb8d379f4229ce525d691f766e1e01bf522318fe3",
-          "toolsSha": "fb6e8fa93753c6f771c36aa54f12a96d75b266b6",
+          "toolsSha": "afad910f90c55d713be17e52c64a1acf329378ee",
           "toolsShaIsNotHead": "Exact orchestration snapshot preceding this binding record. Dispatch tools_sha must equal the final workflow source SHA selected by captain-release; all bound orchestration bytes must still match this snapshot.",
           "orchestrationFiles": [
             ".github/workflows/rcap-f1-ephemeral-staging.yml",
@@ -316,12 +258,12 @@
             "scripts/verify-rcap-hosted-ms-clinic-preview.mjs",
             "scripts/verify-rcap-staging-scoped-preview-contract.mjs"
           ],
-          "previousToolsSha": "7d4103ac676d43fddcf5c4592925b222ec4cb298",
-          "previousBindingCommit": "e9f06b02a99380d6ece1923d45b0f7ecc286bb94",
-          "previousBindingSha256": "e79686df366df77125dd95674c7e5942d14d2bfacb8975a1545273e7d9875d5e",
-          "why": "Tools-only isolated Mississippi Clinic Preview creation/reuse. A purpose-specific alias, exact existing A/B scope, exhaustive prior-deployment readback and ordinary/Production before-after verification. The deployment-only phase never runs the Clinic participant journey.",
-          "authorization": "Roger authorized independently reviewed tools push, then exactly one isolated Clinic acceptance Preview create/reuse of the frozen app/worker. No Clinic execution, ordinary Preview alias movement, registration replay, database mutation, Checkout, Stripe retarget, worker publication, image-acceptance rerun, hosted_full or Production operation.",
-          "deploymentAuthorized": true,
+          "previousToolsSha": "fb6e8fa93753c6f771c36aa54f12a96d75b266b6",
+          "previousBindingCommit": "1479fd4bfcfe60a5dc4509a0f074632b5ca13f99",
+          "previousBindingSha256": "1a92461f8f4f84a6800c2cf2cd4b80db9c174a2be9b19162c5a3e081558c5b19",
+          "why": "Bind successful isolated Clinic Preview run 36064114096. The existing Clinic workflow, browser and verifier now require only that immutable deployment and its Clinic alias. Deployment is complete; participant execution has not run.",
+          "authorization": "Roger authorized exact tools/binding correction, independent review and push only. hosted_clinic_preview is prepared for Roger manual dispatch and is not executed by Captain. No new Preview, database or registration writes, worker publication, payment, #345/e34 activity, hosted_full or Production action.",
+          "deploymentAuthorized": false,
           "deploymentScope": {
             "vercelProjectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV",
             "vercelProjectName": "legalease-partner-dashboard-clean",
@@ -333,12 +275,12 @@
             "productionAliasesMayMove": false,
             "productionEnvironmentMayChange": false,
             "publicDomainActivation": false,
-            "existingDeploymentId": null,
-            "existingHostname": null,
-            "reuseOnly": false,
-            "creationAuthorized": true,
-            "maximumCreations": 1,
-            "phase": "clinic_deploy",
+            "existingDeploymentId": "dpl_3RALTWqn3WbEsYFSk3Muh6qw2yhT",
+            "existingHostname": "legalease-rcap-clinic-a0d0b933f724-roger947s-projects.vercel.app",
+            "reuseOnly": true,
+            "creationAuthorized": false,
+            "maximumCreations": 0,
+            "phase": "clinic_preview",
             "previewPurpose": "mississippi_clinic",
             "clinicDemoMode": "mississippi_preview",
             "routeState": "staging_scoped",
@@ -349,43 +291,37 @@
               "deploymentId": "dpl_9TFTU2zXE7NYoQWgq74GsdhKUCoZ",
               "immutableHostname": "legalease-partner-dashboard-clean-2kwcz22rb-roger947s-projects.vercel.app",
               "alias": "legalease-rcap-a0d0b933f724-roger947s-projects.vercel.app"
-            }
+            },
+            "immutableHostname": "legalease-partner-dashboard-clean-ld9koaxfa-roger947s-projects.vercel.app"
           },
-          "manualPushAndDispatchOwner": "Captain pushes independently reviewed tools. Roger dispatches deployment-only hosted_clinic_deploy using existing GitHub credentials; local Vercel/Clinic credentials are absent. No hosted_clinic_preview dispatch authorized.",
+          "manualPushAndDispatchOwner": "Captain pushes independently reviewed tools. HELD - ROGER MUST MANUALLY DISPATCH hosted_clinic_preview; Captain does not dispatch.",
           "hostedFullReady": false,
-          "clinicDispatchReady": false,
+          "clinicDispatchReady": true,
           "productionAuthorized": false,
           "migrationReplayAuthorized": false,
           "housekeepingReplayAuthorized": false,
           "additionalWorkerPublicationAuthorized": false,
           "imageAcceptanceRerunAuthorized": false,
-          "executionAuthorizationStatus": "DEPLOYMENT_ONLY_PREPARED_NATIVE_PREVIEW_PENDING",
+          "executionAuthorizationStatus": "HELD_ROGER_MANUAL_CLINIC_DISPATCH_READY",
           "unresolvedBoundaries": [
-            "Clinic Preview native deployment/readback and independent binding remain pending.",
-            "Clinic participant execution is held pending the next authorization."
+            "Clinic participant journey and natural delivery proof have not run.",
+            "hosted_full and all Production operations remain held."
           ],
           "regressionEvidence": {
-            "evidenceDirectory": "hosted-acceptance-evidence/runtime-recovery-345/successor-natural-delivery/isolated-clinic-preview",
+            "evidenceDirectory": "hosted-acceptance-evidence/runtime-recovery-345/successor-natural-delivery/isolated-clinic-preview/run-36064114096",
             "clinicVerifier": "83/83 PASS",
-            "transportAndRedaction": "38/38 PASS",
-            "identity": "13/13 PASS",
+            "transportRedactionIdentity": "51/51 PASS",
+            "toolsBinding": "1/1 PASS",
+            "stagingScopeMutations": "23/23 refused",
             "legalAidVerifier": "53/53 PASS",
-            "stagingScope": "PASS; 23/23 mutations caught",
-            "releaseControlMutations": "38/38 refused",
-            "exactHostedToolsBinding": "PASS",
+            "ancestry": "PASS",
+            "currentBinding": "CURRENT",
             "applicationInputsChanged": 0,
             "workerInputsCompared": 38,
             "workerInputsChanged": 0,
             "workerInputFingerprint": "sha256:7418fff6198b7c1f137916ddb8d379f4229ce525d691f766e1e01bf522318fe3",
-            "testOnlyCorrections": [
-              "redaction fixture supplies the required existing worker metadata; assertions unchanged",
-              "three stale workflow mutation anchors aligned to current clauses; assertions unchanged"
-            ],
-            "historicalCounterexamples": [
-              "redaction-baseline-counterexample.json",
-              "scope-baseline-mutations.log"
-            ],
-            "runtimePreviewProof": "PENDING_MANUAL_DEPLOYMENT_ONLY_RUN"
+            "migrationsChanged": 0,
+            "remoteMutationsThisTask": 0
           },
           "independentExactBindingReviewRequiredBeforePush": true,
           "supersedes": {
@@ -394,21 +330,30 @@
             "workerSourceSha": "615b4021f7fff4b41b774967a78f4b117cfce3e2",
             "workerDigest": "sha256:4704199f2f683b9169702f0d2b5038cb7724569091d88c347867ab6a95aa1b7b",
             "workerInputFingerprint": "sha256:7418fff6198b7c1f137916ddb8d379f4229ce525d691f766e1e01bf522318fe3",
-            "toolsSha": "7d4103ac676d43fddcf5c4592925b222ec4cb298",
+            "toolsSha": "fb6e8fa93753c6f771c36aa54f12a96d75b266b6",
             "toolsShaIsNotHead": "Exact orchestration snapshot preceding this binding record. Dispatch tools_sha must equal the final workflow source SHA selected by captain-release; all bound orchestration bytes must still match this snapshot.",
             "orchestrationFiles": [
+              ".github/workflows/rcap-f1-ephemeral-staging.yml",
               ".github/workflows/rcap-hosted-acceptance-staging.yml",
               "scripts/grade-a-launch-control/verify-release-candidate-binding.mjs",
+              "scripts/rcap-hosted-acceptance-deploy.mjs",
+              "scripts/rcap-hosted-acceptance-redaction.test.mjs",
+              "scripts/rcap-hosted-acceptance-vercel-identity.mjs",
+              "scripts/rcap-hosted-acceptance-vercel-identity.test.mjs",
               "scripts/rcap-hosted-ms-clinic-preview-audit.mjs",
+              "scripts/rcap-hosted-resolve-preview.mjs",
+              "scripts/rcap-hosted-vercel-rest-transport.mjs",
+              "scripts/rcap-hosted-vercel-rest-transport.test.mjs",
               "scripts/verify-rcap-commercial-browser.mjs",
-              "scripts/verify-rcap-hosted-ms-clinic-preview.mjs"
+              "scripts/verify-rcap-hosted-ms-clinic-preview.mjs",
+              "scripts/verify-rcap-staging-scoped-preview-contract.mjs"
             ],
-            "previousToolsSha": "2f63a8db7c41f71a704172e16d786401b94d8acd",
-            "previousBindingCommit": "a1de3cf651018d0d4433772d3ffee161f2312109",
-            "previousBindingSha256": "387a644a3f38282481e5ec5c50fb84514ddb2341fe19e160d3bfcb52cc64ccbb",
-            "why": "Tools-only Clinic proof: one exact target-first canonical immutable worker cycle, then full first-owner PDF, natural ordered completion and actual getRenderJob delivered readback before repeat. Existing Clinic assertions are retained. No application or worker input changes. This binds local preparation; it is not a successful hosted proof.",
-            "authorization": "Roger: use the existing hosted Mississippi Clinic product fixture on only dpl_9TFTU2zXE7NYoQWgq74GsdhKUCoZ; tools-only correction, independent review and push; Roger owns manual hosted_clinic_preview dispatch. No new fixture, e34/#345 work, Checkout, hosted_full, migration, worker publication, image acceptance, Preview creation or Production operation.",
-            "deploymentAuthorized": false,
+            "previousToolsSha": "7d4103ac676d43fddcf5c4592925b222ec4cb298",
+            "previousBindingCommit": "e9f06b02a99380d6ece1923d45b0f7ecc286bb94",
+            "previousBindingSha256": "e79686df366df77125dd95674c7e5942d14d2bfacb8975a1545273e7d9875d5e",
+            "why": "Tools-only isolated Mississippi Clinic Preview creation/reuse. A purpose-specific alias, exact existing A/B scope, exhaustive prior-deployment readback and ordinary/Production before-after verification. The deployment-only phase never runs the Clinic participant journey.",
+            "authorization": "Roger authorized independently reviewed tools push, then exactly one isolated Clinic acceptance Preview create/reuse of the frozen app/worker. No Clinic execution, ordinary Preview alias movement, registration replay, database mutation, Checkout, Stripe retarget, worker publication, image-acceptance rerun, hosted_full or Production operation.",
+            "deploymentAuthorized": true,
             "deploymentScope": {
               "vercelProjectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV",
               "vercelProjectName": "legalease-partner-dashboard-clean",
@@ -420,12 +365,25 @@
               "productionAliasesMayMove": false,
               "productionEnvironmentMayChange": false,
               "publicDomainActivation": false,
-              "existingDeploymentId": "dpl_9TFTU2zXE7NYoQWgq74GsdhKUCoZ",
-              "existingHostname": "legalease-rcap-a0d0b933f724-roger947s-projects.vercel.app",
-              "reuseOnly": true,
-              "creationAuthorized": false
+              "existingDeploymentId": null,
+              "existingHostname": null,
+              "reuseOnly": false,
+              "creationAuthorized": true,
+              "maximumCreations": 1,
+              "phase": "clinic_deploy",
+              "previewPurpose": "mississippi_clinic",
+              "clinicDemoMode": "mississippi_preview",
+              "routeState": "staging_scoped",
+              "returnOrigin": "https://legalease-rcap-clinic-a0d0b933f724-roger947s-projects.vercel.app",
+              "stagingScope": "e7c1d76e-dcf2-4d41-b585-ba164806f391,255998e1-eb69-4239-b151-0f8b8935a539",
+              "stagingScopeSha256": "bb986872d0c7ab762ff553a057fb2cdf33030eb14af7e776f1a874eac169b336",
+              "preservedOrdinaryPreview": {
+                "deploymentId": "dpl_9TFTU2zXE7NYoQWgq74GsdhKUCoZ",
+                "immutableHostname": "legalease-partner-dashboard-clean-2kwcz22rb-roger947s-projects.vercel.app",
+                "alias": "legalease-rcap-a0d0b933f724-roger947s-projects.vercel.app"
+              }
             },
-            "manualPushAndDispatchOwner": "Captain pushes independently reviewed tools; Roger alone dispatches. Runtime prerequisites below are unresolved; no dispatch-ready claim.",
+            "manualPushAndDispatchOwner": "Captain pushes independently reviewed tools. Roger dispatches deployment-only hosted_clinic_deploy using existing GitHub credentials; local Vercel/Clinic credentials are absent. No hosted_clinic_preview dispatch authorized.",
             "hostedFullReady": false,
             "clinicDispatchReady": false,
             "productionAuthorized": false,
@@ -433,51 +391,33 @@
             "housekeepingReplayAuthorized": false,
             "additionalWorkerPublicationAuthorized": false,
             "imageAcceptanceRerunAuthorized": false,
-            "executionAuthorizationStatus": "TOOLS_PREPARED_RUNTIME_PREREQUISITES_UNSATISFIED",
+            "executionAuthorizationStatus": "DEPLOYMENT_ONLY_PREPARED_NATIVE_PREVIEW_PENDING",
             "unresolvedBoundaries": [
-              "Exact Preview metadata: Clinic mode none, Stripe configured true, staging scope only acceptance-consumer-a. Existing Clinic fixture and unchanged assertions require mvl-demo-participant-a, Mississippi Clinic mode and its two-participant scope. The frozen application refuses out-of-scope sponsored generation.",
-              "Acceptance has no active sponsored_packet_render_routes registration for the exact Mississippi route. Existing seed does not establish this authority; the protected transaction refuses route_not_registered."
+              "Clinic Preview native deployment/readback and independent binding remain pending.",
+              "Clinic participant execution is held pending the next authorization."
             ],
             "regressionEvidence": {
-              "clinicProof": {
-                "passed": 67,
-                "total": 67,
-                "log": {
-                  "path": "hosted-acceptance-evidence/runtime-recovery-345/successor-natural-delivery/clinic-proof-verifier.log",
-                  "bytes": 4357,
-                  "sha256": "a9fa848f351041bd1093751ad280d9b17a835f15f1ab40fb21f75df4fbd998a4"
-                }
-              },
-              "hostedVerdictsPassed": true,
-              "legalAidVerifier": {
-                "passed": 53,
-                "total": 53
-              },
-              "lint": {
-                "errors": 0,
-                "warnings": 0
-              },
-              "workflowYamlParsed": true,
-              "inputComparison": {
-                "path": "hosted-acceptance-evidence/runtime-recovery-345/successor-natural-delivery/clinic-tools-input-comparison.json",
-                "bytes": 2669,
-                "sha256": "d8bdcf740741f37c6c63814d334bee6f7b071165fddee8362b8925d2cede43ac"
-              },
-              "independentToolsReview": {
-                "path": "hosted-acceptance-evidence/runtime-recovery-345/successor-natural-delivery/independent-tools-bridge-review.json",
-                "bytes": 11124,
-                "sha256": "5ab054b3a83a97f3b1e5e471bc7180e73ff0087f4a568284ea557d2421cc9a82"
-              },
-              "independentRuntimePrerequisites": {
-                "path": "hosted-acceptance-evidence/runtime-recovery-345/successor-natural-delivery/independent-clinic-bridge-prerequisites.json",
-                "bytes": 5254,
-                "sha256": "7efc2bbd728f6f87f55398a5274c32792242c89e713615e539f61c5d9730dc29"
-              },
-              "acceptanceReadOnlyPrerequisites": {
-                "path": "hosted-acceptance-evidence/runtime-recovery-345/successor-natural-delivery/clinic-prerequisites-readback.json",
-                "bytes": 435,
-                "sha256": "155e8649e4a7c2c6e66b1cd547ad3f0d82e130e10d13247d6a1a3196028f591c"
-              }
+              "evidenceDirectory": "hosted-acceptance-evidence/runtime-recovery-345/successor-natural-delivery/isolated-clinic-preview",
+              "clinicVerifier": "83/83 PASS",
+              "transportAndRedaction": "38/38 PASS",
+              "identity": "13/13 PASS",
+              "legalAidVerifier": "53/53 PASS",
+              "stagingScope": "PASS; 23/23 mutations caught",
+              "releaseControlMutations": "38/38 refused",
+              "exactHostedToolsBinding": "PASS",
+              "applicationInputsChanged": 0,
+              "workerInputsCompared": 38,
+              "workerInputsChanged": 0,
+              "workerInputFingerprint": "sha256:7418fff6198b7c1f137916ddb8d379f4229ce525d691f766e1e01bf522318fe3",
+              "testOnlyCorrections": [
+                "redaction fixture supplies the required existing worker metadata; assertions unchanged",
+                "three stale workflow mutation anchors aligned to current clauses; assertions unchanged"
+              ],
+              "historicalCounterexamples": [
+                "redaction-baseline-counterexample.json",
+                "scope-baseline-mutations.log"
+              ],
+              "runtimePreviewProof": "PENDING_MANUAL_DEPLOYMENT_ONLY_RUN"
             },
             "independentExactBindingReviewRequiredBeforePush": true,
             "supersedes": {
@@ -486,18 +426,21 @@
               "workerSourceSha": "615b4021f7fff4b41b774967a78f4b117cfce3e2",
               "workerDigest": "sha256:4704199f2f683b9169702f0d2b5038cb7724569091d88c347867ab6a95aa1b7b",
               "workerInputFingerprint": "sha256:7418fff6198b7c1f137916ddb8d379f4229ce525d691f766e1e01bf522318fe3",
-              "toolsSha": "2f63a8db7c41f71a704172e16d786401b94d8acd",
+              "toolsSha": "7d4103ac676d43fddcf5c4592925b222ec4cb298",
               "toolsShaIsNotHead": "Exact orchestration snapshot preceding this binding record. Dispatch tools_sha must equal the final workflow source SHA selected by captain-release; all bound orchestration bytes must still match this snapshot.",
               "orchestrationFiles": [
-                ".github/workflows/rcap-hosted-acceptance-staging.yml"
+                ".github/workflows/rcap-hosted-acceptance-staging.yml",
+                "scripts/grade-a-launch-control/verify-release-candidate-binding.mjs",
+                "scripts/rcap-hosted-ms-clinic-preview-audit.mjs",
+                "scripts/verify-rcap-commercial-browser.mjs",
+                "scripts/verify-rcap-hosted-ms-clinic-preview.mjs"
               ],
-              "previousToolsSha": "941d2502aca3ebb2a4f6b21873c578b5b31d66a4",
-              "previousBindingCommit": "a3e828b48ce4777fedf29ac9ba039aabdddc6977",
-              "previousBindingSha256": "ff977763168a02e629f99932a6aef81252956ba20169e1396cc567296b6b5108",
-              "preservedPriorWorkingRecordSha256": "3a1f3b156857716674fe73612aa1af460de4e645824af8c36433b9e08ceaa591",
-              "why": "Bind the accepted successor worker and refreshed publication-dependent admission metadata to one Preview. Only the two hosted worker pins changed in orchestration; existing controls remain intact.",
-              "authorization": "Roger: consume successful image acceptance 36041137857 for source 615b4021f7fff4b41b774967a78f4b117cfce3e2, digest sha256:4704199f2f683b9169702f0d2b5038cb7724569091d88c347867ab6a95aa1b7b and fingerprint sha256:7418fff6198b7c1f137916ddb8d379f4229ce525d691f766e1e01bf522318fe3. Preserve history, bind the final application/tools tuple, measure canonical inputs, obtain independent exact-diff ratification, push captain-release, and prepare exactly one successor acceptance Preview. Roger performs the manual Preview dispatch. No second publication, image-acceptance rerun, migration, #345 activity, hosted_full or Production action.",
-              "deploymentAuthorized": true,
+              "previousToolsSha": "2f63a8db7c41f71a704172e16d786401b94d8acd",
+              "previousBindingCommit": "a1de3cf651018d0d4433772d3ffee161f2312109",
+              "previousBindingSha256": "387a644a3f38282481e5ec5c50fb84514ddb2341fe19e160d3bfcb52cc64ccbb",
+              "why": "Tools-only Clinic proof: one exact target-first canonical immutable worker cycle, then full first-owner PDF, natural ordered completion and actual getRenderJob delivered readback before repeat. Existing Clinic assertions are retained. No application or worker input changes. This binds local preparation; it is not a successful hosted proof.",
+              "authorization": "Roger: use the existing hosted Mississippi Clinic product fixture on only dpl_9TFTU2zXE7NYoQWgq74GsdhKUCoZ; tools-only correction, independent review and push; Roger owns manual hosted_clinic_preview dispatch. No new fixture, e34/#345 work, Checkout, hosted_full, migration, worker publication, image acceptance, Preview creation or Production operation.",
+              "deploymentAuthorized": false,
               "deploymentScope": {
                 "vercelProjectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV",
                 "vercelProjectName": "legalease-partner-dashboard-clean",
@@ -508,70 +451,85 @@
                 "productionTarget": false,
                 "productionAliasesMayMove": false,
                 "productionEnvironmentMayChange": false,
-                "publicDomainActivation": false
+                "publicDomainActivation": false,
+                "existingDeploymentId": "dpl_9TFTU2zXE7NYoQWgq74GsdhKUCoZ",
+                "existingHostname": "legalease-rcap-a0d0b933f724-roger947s-projects.vercel.app",
+                "reuseOnly": true,
+                "creationAuthorized": false
               },
-              "manualPushAndDispatchOwner": "Captain pushes the independently reviewed binding; Roger dispatches the single Preview.",
+              "manualPushAndDispatchOwner": "Captain pushes independently reviewed tools; Roger alone dispatches. Runtime prerequisites below are unresolved; no dispatch-ready claim.",
               "hostedFullReady": false,
+              "clinicDispatchReady": false,
               "productionAuthorized": false,
               "migrationReplayAuthorized": false,
               "housekeepingReplayAuthorized": false,
               "additionalWorkerPublicationAuthorized": false,
               "imageAcceptanceRerunAuthorized": false,
+              "executionAuthorizationStatus": "TOOLS_PREPARED_RUNTIME_PREREQUISITES_UNSATISFIED",
+              "unresolvedBoundaries": [
+                "Exact Preview metadata: Clinic mode none, Stripe configured true, staging scope only acceptance-consumer-a. Existing Clinic fixture and unchanged assertions require mvl-demo-participant-a, Mississippi Clinic mode and its two-participant scope. The frozen application refuses out-of-scope sponsored generation.",
+                "Acceptance has no active sponsored_packet_render_routes registration for the exact Mississippi route. Existing seed does not establish this authority; the protected transaction refuses route_not_registered."
+              ],
               "regressionEvidence": {
-                "requiredWorkerDeliveryRun": 36036276987,
-                "requiredWorkerDelivery": {
-                  "path": "hosted-acceptance-evidence/runtime-recovery-345/publisher-attribution-correction/final-release/required-worker-result.json",
-                  "sha256": "bb5c2d87bc49b43a0518721447bd2fa5aac767f3073c100ad5cb23f1298da3a4",
-                  "bytes": 265
+                "clinicProof": {
+                  "passed": 67,
+                  "total": 67,
+                  "log": {
+                    "path": "hosted-acceptance-evidence/runtime-recovery-345/successor-natural-delivery/clinic-proof-verifier.log",
+                    "bytes": 4357,
+                    "sha256": "a9fa848f351041bd1093751ad280d9b17a835f15f1ab40fb21f75df4fbd998a4"
+                  }
                 },
-                "finalLocalRegressions": {
-                  "path": "hosted-acceptance-evidence/runtime-recovery-345/publisher-attribution-correction/final-release/final-local-regressions.json",
-                  "sha256": "6584053fad07a387e2f3bce742c5518ac2cdbc3958c2d6673202b84ff3eec1f7",
-                  "bytes": 1549
+                "hostedVerdictsPassed": true,
+                "legalAidVerifier": {
+                  "passed": 53,
+                  "total": 53
                 },
-                "independentSourceReview": {
-                  "path": "hosted-acceptance-evidence/runtime-recovery-345/publisher-attribution-correction/final-release/independent-terminal-source-ratification.json",
-                  "sha256": "8c086238efbe224e2c9b9de44192a5990125c6391d0845cc9dd68ec6533a0fea",
-                  "bytes": 11569
+                "lint": {
+                  "errors": 0,
+                  "warnings": 0
                 },
-                "nativeImageAcceptance": {
-                  "path": "hosted-acceptance-evidence/worker/image-acceptance-36041137857/native-result.json",
-                  "sha256": "d55d69e40e6d87cb937756097ba99c65d6dd3f90306faa03b5f75b559f756ac2",
-                  "bytes": 4957
+                "workflowYamlParsed": true,
+                "inputComparison": {
+                  "path": "hosted-acceptance-evidence/runtime-recovery-345/successor-natural-delivery/clinic-tools-input-comparison.json",
+                  "bytes": 2669,
+                  "sha256": "d8bdcf740741f37c6c63814d334bee6f7b071165fddee8362b8925d2cede43ac"
                 },
-                "admissionRefresh": {
-                  "path": "hosted-acceptance-evidence/worker/image-acceptance-36041137857/admission-refresh.json",
-                  "sha256": "f90fcafdecb7be051f29bf90386a4e5c945c7f13ff87592e30cb02210917d2d1",
-                  "bytes": 2139
+                "independentToolsReview": {
+                  "path": "hosted-acceptance-evidence/runtime-recovery-345/successor-natural-delivery/independent-tools-bridge-review.json",
+                  "bytes": 11124,
+                  "sha256": "5ab054b3a83a97f3b1e5e471bc7180e73ff0087f4a568284ea557d2421cc9a82"
                 },
-                "independentImageAndAdmissionReview": {
-                  "path": "hosted-acceptance-evidence/worker/image-acceptance-36041137857/independent-image-acceptance-admission-review.json",
-                  "sha256": "3df05e298a86f7c64f8d141a046e4f62ce6c8f0ae60a2183f69c279ccbc2f903",
-                  "bytes": 6230
+                "independentRuntimePrerequisites": {
+                  "path": "hosted-acceptance-evidence/runtime-recovery-345/successor-natural-delivery/independent-clinic-bridge-prerequisites.json",
+                  "bytes": 5254,
+                  "sha256": "7efc2bbd728f6f87f55398a5274c32792242c89e713615e539f61c5d9730dc29"
+                },
+                "acceptanceReadOnlyPrerequisites": {
+                  "path": "hosted-acceptance-evidence/runtime-recovery-345/successor-natural-delivery/clinic-prerequisites-readback.json",
+                  "bytes": 435,
+                  "sha256": "155e8649e4a7c2c6e66b1cd547ad3f0d82e130e10d13247d6a1a3196028f591c"
                 }
               },
+              "independentExactBindingReviewRequiredBeforePush": true,
               "supersedes": {
                 "schemaVersion": "rcap-exact-hosted-tools-binding/v1",
-                "applicationSha": "f6769ad15e2a0754a5e549ae0b45aa10d33fe5e1",
-                "workerSourceSha": "a7ca0201fa8e209216d9c4bd051294b0d5416b90",
-                "workerDigest": "sha256:46dc21329bc2a40c46119cb92b81ac779d3e5347282e0bfb6f10a8d67b197869",
-                "workerInputFingerprint": "sha256:f297b3117eddb500c2022076de48585b713220813dc038b97eb736c4bc3ec6eb",
-                "toolsSha": "941d2502aca3ebb2a4f6b21873c578b5b31d66a4",
-                "toolsShaIsNotHead": "Exact orchestration snapshot preceding the binding record. Dispatch tools_sha must instead equal the final workflow source SHA selected by captain-release at dispatch.",
+                "applicationSha": "a0d0b933f7241a209379775754540fc22775f174",
+                "workerSourceSha": "615b4021f7fff4b41b774967a78f4b117cfce3e2",
+                "workerDigest": "sha256:4704199f2f683b9169702f0d2b5038cb7724569091d88c347867ab6a95aa1b7b",
+                "workerInputFingerprint": "sha256:7418fff6198b7c1f137916ddb8d379f4229ce525d691f766e1e01bf522318fe3",
+                "toolsSha": "2f63a8db7c41f71a704172e16d786401b94d8acd",
+                "toolsShaIsNotHead": "Exact orchestration snapshot preceding this binding record. Dispatch tools_sha must equal the final workflow source SHA selected by captain-release; all bound orchestration bytes must still match this snapshot.",
                 "orchestrationFiles": [
-                  ".github/workflows/rcap-hosted-acceptance-staging.yml",
-                  "scripts/grade-a-launch-control/verify-release-candidate-binding.mjs",
-                  "scripts/rcap-hosted-acceptance-deploy.mjs",
-                  "scripts/rcap-hosted-resolve-preview.mjs",
-                  "scripts/rcap-hosted-vercel-rest-transport.mjs",
-                  "scripts/rcap-hosted-vercel-rest-transport.test.mjs"
+                  ".github/workflows/rcap-hosted-acceptance-staging.yml"
                 ],
-                "previousToolsSha": "2b1c37b129b09eca32de763c30e73d96e6296684",
-                "previousBindingCommit": "1b0bfcd9e79828c5a6039361d3c9943f9f762f1f",
-                "previousBindingSha256": "3b051071090fb68c8e27103a78f32cc689ac9288284357f12d37fed698ba3715",
-                "why": "Bind the accepted correction worker and independently verified application admission metadata to exactly one acceptance Preview. Require native source/worker/Preview metadata, preserve Production snapshots, and refuse creating an Auth participant during replacement.",
-                "authorization": "Roger: proceed directly with exactly one acceptance Preview of the reviewed successor, the accepted a7ca0201 worker / sha256:46dc2132 digest, retarget only existing test webhook we_1U4AKGRWROAHlAKyNFChAnWr after verification, then bounded existing #345 recovery. Captain now explicitly instructed to push and deploy this single Preview after exact final-diff ratification. No Checkout, new payment/entitlement, migration or housekeeping replay, worker republish, Production or live charge. Existing Vercel project explicitly permitted; Preview target and acceptance Supabase only.",
-                "deploymentAuthorized": false,
+                "previousToolsSha": "941d2502aca3ebb2a4f6b21873c578b5b31d66a4",
+                "previousBindingCommit": "a3e828b48ce4777fedf29ac9ba039aabdddc6977",
+                "previousBindingSha256": "ff977763168a02e629f99932a6aef81252956ba20169e1396cc567296b6b5108",
+                "preservedPriorWorkingRecordSha256": "3a1f3b156857716674fe73612aa1af460de4e645824af8c36433b9e08ceaa591",
+                "why": "Bind the accepted successor worker and refreshed publication-dependent admission metadata to one Preview. Only the two hosted worker pins changed in orchestration; existing controls remain intact.",
+                "authorization": "Roger: consume successful image acceptance 36041137857 for source 615b4021f7fff4b41b774967a78f4b117cfce3e2, digest sha256:4704199f2f683b9169702f0d2b5038cb7724569091d88c347867ab6a95aa1b7b and fingerprint sha256:7418fff6198b7c1f137916ddb8d379f4229ce525d691f766e1e01bf522318fe3. Preserve history, bind the final application/tools tuple, measure canonical inputs, obtain independent exact-diff ratification, push captain-release, and prepare exactly one successor acceptance Preview. Roger performs the manual Preview dispatch. No second publication, image-acceptance rerun, migration, #345 activity, hosted_full or Production action.",
+                "deploymentAuthorized": true,
                 "deploymentScope": {
                   "vercelProjectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV",
                   "vercelProjectName": "legalease-partner-dashboard-clean",
@@ -584,347 +542,494 @@
                   "productionEnvironmentMayChange": false,
                   "publicDomainActivation": false
                 },
-                "manualPushAndDispatchOwner": "Captain explicitly instructed by Roger for this single Preview after independent final-diff ratification",
+                "manualPushAndDispatchOwner": "Captain pushes the independently reviewed binding; Roger dispatches the single Preview.",
                 "hostedFullReady": false,
                 "productionAuthorized": false,
                 "migrationReplayAuthorized": false,
                 "housekeepingReplayAuthorized": false,
                 "additionalWorkerPublicationAuthorized": false,
+                "imageAcceptanceRerunAuthorized": false,
                 "regressionEvidence": {
-                  "status": "PASS",
-                  "sourceSnapshotSha": "941d2502aca3ebb2a4f6b21873c578b5b31d66a4",
-                  "transportAndIdentity": {
-                    "passed": 42,
-                    "failed": 0,
-                    "skipped": 0,
-                    "log": "hosted-acceptance-evidence/worker/image-acceptance-36008455059/packet-runtime-preview-tests-final.log",
-                    "sha256": "2b67bdc8d76189edf3c5128a7dd0a2df94dfb482ddf3449e737a7b87a08ee220"
+                  "requiredWorkerDeliveryRun": 36036276987,
+                  "requiredWorkerDelivery": {
+                    "path": "hosted-acceptance-evidence/runtime-recovery-345/publisher-attribution-correction/final-release/required-worker-result.json",
+                    "sha256": "bb5c2d87bc49b43a0518721447bd2fa5aac767f3073c100ad5cb23f1298da3a4",
+                    "bytes": 265
                   },
-                  "releaseCurrentness": {
-                    "current": true,
-                    "status": "CURRENT"
+                  "finalLocalRegressions": {
+                    "path": "hosted-acceptance-evidence/runtime-recovery-345/publisher-attribution-correction/final-release/final-local-regressions.json",
+                    "sha256": "6584053fad07a387e2f3bce742c5518ac2cdbc3958c2d6673202b84ff3eec1f7",
+                    "bytes": 1549
                   },
-                  "identityMutationsRefused": 8,
-                  "boundaryMutationsRefused": 38,
-                  "workerCanonicalInputCount": 38,
-                  "workerInputsChanged": 0,
-                  "applicationSourceCodeChanged": false,
-                  "applicationAdmissionMetadataChanged": true,
-                  "lintErrors": 0,
-                  "lintWarnings": 18,
-                  "sameWarningsAtReceiptHead": 18,
-                  "independentMetadataReview": "hosted-acceptance-evidence/worker/image-acceptance-36008455059/independent-admission-metadata-successor-verification.json"
-                },
-                "supersedes": [
-                  {
-                    "schemaVersion": "rcap-exact-hosted-tools-binding/v1",
-                    "applicationSha": "4f7d209de11265d0793b7b74c728eab4efde1aa5",
-                    "workerSourceSha": "4f7d209de11265d0793b7b74c728eab4efde1aa5",
-                    "workerDigest": "sha256:a950cda9d6016f9b9e1b1d4602680c9236336a9fc6bd4fbd10ead0d60e67b21d",
-                    "workerInputFingerprint": "sha256:b346d23e944e07771e1f837e74c331a9d3c061f09ad5052fc6899e44f4b04fc2",
-                    "toolsSha": "2b1c37b129b09eca32de763c30e73d96e6296684",
-                    "toolsShaIsNotHead": "Exact orchestration snapshot preceding the binding record. Dispatch tools_sha must instead equal the final workflow source SHA selected by captain-release at dispatch.",
-                    "orchestrationFiles": [
-                      ".github/workflows/rcap-f1-ephemeral-staging.yml",
-                      ".github/workflows/rcap-github-hosted-acceptance.yml",
-                      ".github/workflows/rcap-hosted-acceptance-staging.yml",
-                      "data/rcap-grade-a/launch-control/PACKET_DATABASE_CONTRACT.json",
-                      "scripts/grade-a-launch-control/verify-release-candidate-binding.mjs",
-                      "scripts/rcap-github-acceptance-gate.mjs",
-                      "scripts/rcap-github-post-payment-acceptance.mjs",
-                      "scripts/rcap-hosted-acceptance-migrate.mjs",
-                      "scripts/rcap-hosted-acceptance-payment.mjs",
-                      "scripts/rcap-hosted-checkout-gate.mjs",
-                      "scripts/rcap-hosted-target-retry.test.mjs",
-                      "scripts/rcap-migration-certification.mjs",
-                      "scripts/rcap-migration-certification.test.mjs",
-                      "scripts/rcap-packet-database-contract.mjs",
-                      "scripts/rcap-packet-database-contract.test.mjs",
-                      "scripts/rcap-packet-database-reference.mjs",
-                      "scripts/rcap-production-clinic-migrate.mjs",
-                      "scripts/rcap-production-forward-chain-migrate.mjs",
-                      "scripts/rcap-production-legal-aid-migrate.mjs",
-                      "scripts/verify-rcap-packet-database.mjs",
-                      "scripts/verify-rcap-target-worker-journey.mjs",
-                      "supabase/migrations/20260924111541_packet_render_retry_and_phase50_reconciliation.sql"
-                    ],
-                    "previousToolsSha": "6d7b8058ee7fb517bb120a9e812346e82a748131",
-                    "previousBindingCommit": "316f680c3ef54daf9023e784215655e2bdbe8908",
-                    "why": "#345 forward database correction: isolate retry collisions, cap claims, preserve lifecycle history, persist the accepted worker failure vocabulary, close incomplete Phase-50 security state, and require complete postcondition authority for migration adoption. Application, all 38 worker inputs, Preview and Stripe destination remain unchanged.",
-                    "authorization": "Roger Roman mission lock: land the bounded forward correction and verifier, apply only that correction to acceptance hyflxnlhpmiqxvvcoiia, reconcile through canonical lifecycle, prove live readback, then ONE hosted_full with blank promotion input. No Production mutation, worker publication, Preview creation or Stripe retarget.",
-                    "deploymentAuthorized": false,
-                    "deploymentScope": "Reuse only dpl_Cehqdwk8YEb6wWEcsZqHsTS7i8ak / legalease-rcap-4f7d209de112-roger947s-projects.vercel.app. Only supabase/migrations/20260924111541_packet_render_retry_and_phase50_reconciliation.sql is authorized for acceptance; no Production migration.",
-                    "regressionEvidence": {
-                      "crossLayer": {
-                        "command": "node --test scripts/test-consumer-checkout-binding-recovery.mjs",
-                        "passed": 60,
-                        "failed": 0,
-                        "skipped": 0,
-                        "method": "Production adapter and payment-authority client execute the actual migration SQL in PostgreSQL/PGlite. Provider transport is deterministic; binding success is not mocked. Original executed adapter reproduces the failure. Actual hosted replacement block stops every failed case before browser Checkout.",
-                        "verifiedAfterWorkerBinding": true
-                      },
-                      "checkoutGuards": {
-                        "command": "node scripts/test-expungement-checkout-guards.mjs",
-                        "passed": true,
-                        "bindingStateCases": 48,
-                        "includesCrossLayerCases": 60
-                      },
-                      "sqlReadbackAndFinalVerification": {
-                        "command": "node --test scripts/rcap-hosted-final-verification.test.mjs",
-                        "passed": 109,
-                        "failed": 0,
-                        "skipped": 0
-                      },
-                      "typecheck": {
-                        "command": "node_modules/.bin/tsc --noEmit --incremental false",
-                        "exitCode": 0
-                      },
-                      "lint": {
-                        "errors": 0,
-                        "warnings": 1,
-                        "warning": "Existing unused sanitize variable in rcap-hosted-acceptance-payment.mjs; left outside this correction."
-                      },
-                      "hostedVerdictChecks": {
-                        "command": "node scripts/verify-rcap-hosted-acceptance-verdicts.mjs",
-                        "exitCode": 0
-                      },
-                      "workerEquivalence": {
-                        "canonicalInputs": 38,
-                        "equivalent": true,
-                        "changedPaths": 0,
-                        "sourceSha": "4f7d209de11265d0793b7b74c728eab4efde1aa5",
-                        "toolsSnapshot": "2b1c37b129b09eca32de763c30e73d96e6296684",
-                        "fingerprint": "sha256:b346d23e944e07771e1f837e74c331a9d3c061f09ad5052fc6899e44f4b04fc2"
-                      },
-                      "applicationBuild": {
-                        "command": "npm run build -- --webpack",
-                        "exitCode": 0,
-                        "staticPages": 169,
-                        "sourceSha": "4f7d209de11265d0793b7b74c728eab4efde1aa5",
-                        "note": "Compiled, typechecked, generated pages and completed build traces using the exact candidate. Sparse-checkout omissions were restored from tracked bytes; no application or build-configuration change."
-                      },
-                      "previewCatalogReadOnly": {
-                        "actualWorkflowStepExecuted": true,
-                        "productId": "prod_VHEHkvH7dSvGv7",
-                        "priceId": "price_1UGfowRWROAHlAKyIO2FISdR",
-                        "method": "GET",
-                        "mutations": 0,
-                        "replacePreviewSkipsFixtureSetup": true
-                      },
-                      "vercelIdentity": {
-                        "passed": 12,
-                        "failed": 0
-                      },
-                      "previewReuseLegacyTextControl": {
-                        "status": "BASELINE_STALE",
-                        "baselineSha": "cfec63780a6adca2fb23b7ccebd88b5b14b0beab",
-                        "baselineAndCandidateFailure": "The textual verifier expects target !== production inline; the resolver uses the stricter isPreviewTarget(target) helper accepting only null or preview. Same single refusal reproduced by executing the accepted baseline files in an isolated fixture. Resolver and this verifier unchanged; the existing Vercel identity tests require the exact null-or-preview predicate."
-                      },
-                      "predecessorWorkerEquivalence": {
-                        "canonicalInputs": 38,
-                        "equivalent": false,
-                        "changedPaths": 3
-                      },
-                      "authorityBinding": {
-                        "generator": "scripts/generate-rcap-grade-a-fulfillment-authority.mjs",
-                        "completed": true,
-                        "staticWorkerAuthorityUnchanged": true,
-                        "routeStatesUnchanged": true,
-                        "commerciallyEligibleBefore": 6,
-                        "commerciallyEligibleAfter": 6,
-                        "note": "Only external publication/acceptance bindings and their generated record versions/history moved. Existing tracked artifact bytes were materialized from the sparse checkout; no packet, approval, route or worker input changed."
-                      },
-                      "checkoutGate": {
-                        "checks": 139,
-                        "passed": 139,
-                        "bindingStateCasesPassed": 48,
-                        "bindingStateCasesTotal": 48
-                      },
-                      "githubAcceptanceGate": {
-                        "checks": 196,
-                        "passed": 196
-                      },
-                      "releaseBindings": {
-                        "current": true,
-                        "status": "CURRENT",
-                        "identityMutationsRefused": 8,
-                        "identityMutationsTotal": 8,
-                        "boundaryMutationsRefused": 38,
-                        "boundaryMutationsTotal": 38,
-                        "exactHostedToolsBindingTestPassed": true
-                      },
-                      "vercelRestTransport": {
-                        "passed": 25,
-                        "failed": 0
-                      },
-                      "applicationBytesEquivalentToCandidate": true,
-                      "productionPinsChanged": false,
-                      "databaseRepair": {
-                        "command": "node --test scripts/rcap-packet-database-contract.test.mjs scripts/rcap-migration-certification.test.mjs",
-                        "passed": 244,
-                        "failed": 0,
-                        "skipped": 0,
-                        "phase50Postconditions": 157,
-                        "currentPostconditions": 166,
-                        "persistedFailureCodes": 23,
-                        "missingPostconditionMutations": 166,
-                        "realCatalogMutations": 20,
-                        "productionForwardControl": 64,
-                        "productionForwardMutations": 24,
-                        "productionClinicControl": 21,
-                        "productionLegalAidControl": 27,
-                        "hostedRetryPromotionAndBindingTests": 20,
-                        "lintErrors": 0,
-                        "lintWarnings": 0
-                      }
-                    },
-                    "controlRegressionEvidence": {
-                      "targetRetryAndPromotion": {
-                        "command": "node --test scripts/rcap-hosted-target-retry.test.mjs",
-                        "passed": 19,
-                        "failed": 0,
-                        "skipped": 0,
-                        "method": "Execute the production-used journey, worker-cycle wrapper, SQL readers, clock waits and workflow promotion expression with recorded transport responses. Original #345 bytes reproduce both failures. No real payment or job is created by this regression."
-                      },
-                      "targetAttributionMutations": {
-                        "passed": 17,
-                        "total": 17
-                      },
-                      "targetReplayMutations": {
-                        "passed": 3,
-                        "total": 3
-                      },
-                      "sqlReadbackAndFinalVerification": {
-                        "passed": 109,
-                        "failed": 0,
-                        "skipped": 0
-                      },
-                      "applicationBytesChanged": false,
-                      "workerInputCount": 38,
-                      "workerInputsChanged": 0,
-                      "lintErrors": 0,
-                      "lintWarnings": 1,
-                      "lintWarning": "Existing unused sanitize variable, unchanged.",
-                      "checkoutControls": {
-                        "passed": 139,
-                        "total": 139,
-                        "realSqlBindingCasesPassed": 48,
-                        "realSqlBindingCasesTotal": 48
-                      },
-                      "releaseBinding": {
-                        "current": true,
-                        "status": "CURRENT",
-                        "identityMutationsRefused": 8,
-                        "identityMutationsTotal": 8,
-                        "boundaryMutationsRefused": 38,
-                        "boundaryMutationsTotal": 38,
-                        "hostedToolsBindingTestsPassed": 1,
-                        "hostedToolsBindingTestsTotal": 1
-                      }
-                    },
-                    "databaseCorrection": {
-                      "sourceSha": "2b1c37b129b09eca32de763c30e73d96e6296684",
-                      "path": "supabase/migrations/20260924111541_packet_render_retry_and_phase50_reconciliation.sql",
-                      "sha256": "56e9b43d52be55126c56ff3a3974c7038cfc2e425243304482c1f9679ed88880",
-                      "projectRef": "hyflxnlhpmiqxvvcoiia",
-                      "status": "PENDING_AUTHORIZED_ACCEPTANCE_APPLY",
-                      "applicationInputsChanged": false,
-                      "workerInputsChanged": 0,
-                      "workerInputCount": 38,
-                      "previewChanged": false,
-                      "productionAuthorized": false,
-                      "regressionEvidence": {
-                        "command": "node --test scripts/rcap-packet-database-contract.test.mjs scripts/rcap-migration-certification.test.mjs",
-                        "passed": 244,
-                        "failed": 0,
-                        "skipped": 0,
-                        "phase50Postconditions": 157,
-                        "currentPostconditions": 166,
-                        "persistedFailureCodes": 23,
-                        "missingPostconditionMutations": 166,
-                        "realCatalogMutations": 20,
-                        "productionForwardControl": 64,
-                        "productionForwardMutations": 24,
-                        "productionClinicControl": 21,
-                        "productionLegalAidControl": 27,
-                        "hostedRetryPromotionAndBindingTests": 20,
-                        "lintErrors": 0,
-                        "lintWarnings": 0
-                      },
-                      "readbackAuthority": "data/rcap-grade-a/launch-control/PACKET_DATABASE_CONTRACT.json"
-                    }
+                  "independentSourceReview": {
+                    "path": "hosted-acceptance-evidence/runtime-recovery-345/publisher-attribution-correction/final-release/independent-terminal-source-ratification.json",
+                    "sha256": "8c086238efbe224e2c9b9de44192a5990125c6391d0845cc9dd68ec6533a0fea",
+                    "bytes": 11569
+                  },
+                  "nativeImageAcceptance": {
+                    "path": "hosted-acceptance-evidence/worker/image-acceptance-36041137857/native-result.json",
+                    "sha256": "d55d69e40e6d87cb937756097ba99c65d6dd3f90306faa03b5f75b559f756ac2",
+                    "bytes": 4957
+                  },
+                  "admissionRefresh": {
+                    "path": "hosted-acceptance-evidence/worker/image-acceptance-36041137857/admission-refresh.json",
+                    "sha256": "f90fcafdecb7be051f29bf90386a4e5c945c7f13ff87592e30cb02210917d2d1",
+                    "bytes": 2139
+                  },
+                  "independentImageAndAdmissionReview": {
+                    "path": "hosted-acceptance-evidence/worker/image-acceptance-36041137857/independent-image-acceptance-admission-review.json",
+                    "sha256": "3df05e298a86f7c64f8d141a046e4f62ce6c8f0ae60a2183f69c279ccbc2f903",
+                    "bytes": 6230
                   }
-                ],
-                "executionAuthorization": "Roger: Finish the currently bounded Preview-control work, have Codex independently ratify the exact final diff, freeze that SHA, and stop changing source. Then push and deploy exactly one Preview. No additional controls except an existing test failure or a specific remote Preview defect.",
-                "independentPreviewControlRatification": {
-                  "path": "hosted-acceptance-evidence/worker/image-acceptance-36008455059/independent-preview-successor-verification.json",
-                  "sha256": "4a6ecd294b4668207bf71cf4dc14ba6912a60c80c4fac478c0afd493d20beaa4",
-                  "bytes": 19615,
-                  "status": "PASS",
-                  "reviewedSourceSnapshotSha": "941d2502aca3ebb2a4f6b21873c578b5b31d66a4"
                 },
-                "executionHistory": [
-                  {
-                    "authorization": "Roger: proceed directly with exactly one acceptance Preview of the reviewed successor, the accepted a7ca0201 worker / sha256:46dc2132 digest, retarget only existing test webhook we_1U4AKGRWROAHlAKyNFChAnWr after verification, then bounded existing #345 recovery. Captain now explicitly instructed to push and deploy this single Preview after exact final-diff ratification. No Checkout, new payment/entitlement, migration or housekeeping replay, worker republish, Production or live charge. Existing Vercel project explicitly permitted; Preview target and acceptance Supabase only.",
-                    "executionAuthorization": "Roger: Finish the currently bounded Preview-control work, have Codex independently ratify the exact final diff, freeze that SHA, and stop changing source. Then push and deploy exactly one Preview. No additional controls except an existing test failure or a specific remote Preview defect.",
-                    "deploymentAuthorized": true,
-                    "consumedBy": {
-                      "workflowHead": "33b586ad5a450febfba3ef7589eb6b78e6e230df",
-                      "previewRun": 36013780624,
-                      "webhookRun": 36015484914,
-                      "runtimeRecovery": {
-                        "path": "hosted-acceptance-evidence/runtime-recovery-345/runtime-recovery-final-summary.json",
-                        "sha256": "a173ab91c00a9ccd8144d07f29e2a2ae036e369df8f53ed386602980c04d2f8f",
-                        "bytes": 16835
-                      }
-                    }
-                  }
-                ],
-                "runtimeRecovery": {
-                  "path": "hosted-acceptance-evidence/runtime-recovery-345/runtime-recovery-final-summary.json",
-                  "sha256": "a173ab91c00a9ccd8144d07f29e2a2ae036e369df8f53ed386602980c04d2f8f",
-                  "bytes": 16835
-                },
-                "pendingSuccessor": {
-                  "status": "LOCAL_CORRECTION_FROZEN_REMOTE_SUCCESSOR_REQUIRED",
-                  "sourceSha": "aa6e60f246e35ff145a7fb64ca43b2634aef1be9",
-                  "baseSha": "33b586ad5a450febfba3ef7589eb6b78e6e230df",
-                  "canonicalInputsCompared": 38,
-                  "changedCanonicalPaths": [
-                    "src/app/api/expungement-ai/packet/artifacts/[itemId]/route.ts",
-                    "src/app/api/rcap/packets/[jobId]/download/route.ts",
-                    "src/lib/rcap/render/packet-delivery.ts"
+                "supersedes": {
+                  "schemaVersion": "rcap-exact-hosted-tools-binding/v1",
+                  "applicationSha": "f6769ad15e2a0754a5e549ae0b45aa10d33fe5e1",
+                  "workerSourceSha": "a7ca0201fa8e209216d9c4bd051294b0d5416b90",
+                  "workerDigest": "sha256:46dc21329bc2a40c46119cb92b81ac779d3e5347282e0bfb6f10a8d67b197869",
+                  "workerInputFingerprint": "sha256:f297b3117eddb500c2022076de48585b713220813dc038b97eb736c4bc3ec6eb",
+                  "toolsSha": "941d2502aca3ebb2a4f6b21873c578b5b31d66a4",
+                  "toolsShaIsNotHead": "Exact orchestration snapshot preceding the binding record. Dispatch tools_sha must instead equal the final workflow source SHA selected by captain-release at dispatch.",
+                  "orchestrationFiles": [
+                    ".github/workflows/rcap-hosted-acceptance-staging.yml",
+                    "scripts/grade-a-launch-control/verify-release-candidate-binding.mjs",
+                    "scripts/rcap-hosted-acceptance-deploy.mjs",
+                    "scripts/rcap-hosted-resolve-preview.mjs",
+                    "scripts/rcap-hosted-vercel-rest-transport.mjs",
+                    "scripts/rcap-hosted-vercel-rest-transport.test.mjs"
                   ],
-                  "workerInputFingerprint": "sha256:7418fff6198b7c1f137916ddb8d379f4229ce525d691f766e1e01bf522318fe3",
-                  "rebuildRequired": true,
-                  "workerPlan": {
-                    "path": "hosted-acceptance-evidence/runtime-recovery-345/delivery-receipt-successor-input-plan.json",
-                    "sha256": "e413edaf825d283238da1fbe4290b75699a299c7b254ad6141aec2ac81ad2af9",
-                    "bytes": 5524
+                  "previousToolsSha": "2b1c37b129b09eca32de763c30e73d96e6296684",
+                  "previousBindingCommit": "1b0bfcd9e79828c5a6039361d3c9943f9f762f1f",
+                  "previousBindingSha256": "3b051071090fb68c8e27103a78f32cc689ac9288284357f12d37fed698ba3715",
+                  "why": "Bind the accepted correction worker and independently verified application admission metadata to exactly one acceptance Preview. Require native source/worker/Preview metadata, preserve Production snapshots, and refuse creating an Auth participant during replacement.",
+                  "authorization": "Roger: proceed directly with exactly one acceptance Preview of the reviewed successor, the accepted a7ca0201 worker / sha256:46dc2132 digest, retarget only existing test webhook we_1U4AKGRWROAHlAKyNFChAnWr after verification, then bounded existing #345 recovery. Captain now explicitly instructed to push and deploy this single Preview after exact final-diff ratification. No Checkout, new payment/entitlement, migration or housekeeping replay, worker republish, Production or live charge. Existing Vercel project explicitly permitted; Preview target and acceptance Supabase only.",
+                  "deploymentAuthorized": false,
+                  "deploymentScope": {
+                    "vercelProjectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV",
+                    "vercelProjectName": "legalease-partner-dashboard-clean",
+                    "vercelTeamId": "team_4qLmZK9WI6xIy5vjYC0IF3ae",
+                    "target": "preview",
+                    "supabaseProjectRef": "hyflxnlhpmiqxvvcoiia",
+                    "productionSupabaseRefForbidden": "wwtwtsmywnckfkdaqqeg",
+                    "productionTarget": false,
+                    "productionAliasesMayMove": false,
+                    "productionEnvironmentMayChange": false,
+                    "publicDomainActivation": false
                   },
-                  "noSqlChange": true,
+                  "manualPushAndDispatchOwner": "Captain explicitly instructed by Roger for this single Preview after independent final-diff ratification",
+                  "hostedFullReady": false,
                   "productionAuthorized": false,
-                  "publicationAuthorized": false,
-                  "previewAuthorized": false,
-                  "sourceChangesFinished": true,
-                  "independentReview": {
-                    "path": "hosted-acceptance-evidence/runtime-recovery-345/independent-delivery-lifecycle-correction-review.json",
-                    "sha256": "7d850feb9b00e449bc85e6bfcf2194f366d4567550f66e51335c920376fa9738",
-                    "bytes": 13146
+                  "migrationReplayAuthorized": false,
+                  "housekeepingReplayAuthorized": false,
+                  "additionalWorkerPublicationAuthorized": false,
+                  "regressionEvidence": {
+                    "status": "PASS",
+                    "sourceSnapshotSha": "941d2502aca3ebb2a4f6b21873c578b5b31d66a4",
+                    "transportAndIdentity": {
+                      "passed": 42,
+                      "failed": 0,
+                      "skipped": 0,
+                      "log": "hosted-acceptance-evidence/worker/image-acceptance-36008455059/packet-runtime-preview-tests-final.log",
+                      "sha256": "2b67bdc8d76189edf3c5128a7dd0a2df94dfb482ddf3449e737a7b87a08ee220"
+                    },
+                    "releaseCurrentness": {
+                      "current": true,
+                      "status": "CURRENT"
+                    },
+                    "identityMutationsRefused": 8,
+                    "boundaryMutationsRefused": 38,
+                    "workerCanonicalInputCount": 38,
+                    "workerInputsChanged": 0,
+                    "applicationSourceCodeChanged": false,
+                    "applicationAdmissionMetadataChanged": true,
+                    "lintErrors": 0,
+                    "lintWarnings": 18,
+                    "sameWarningsAtReceiptHead": 18,
+                    "independentMetadataReview": "hosted-acceptance-evidence/worker/image-acceptance-36008455059/independent-admission-metadata-successor-verification.json"
                   },
-                  "correctionEvidence": {
+                  "supersedes": [
+                    {
+                      "schemaVersion": "rcap-exact-hosted-tools-binding/v1",
+                      "applicationSha": "4f7d209de11265d0793b7b74c728eab4efde1aa5",
+                      "workerSourceSha": "4f7d209de11265d0793b7b74c728eab4efde1aa5",
+                      "workerDigest": "sha256:a950cda9d6016f9b9e1b1d4602680c9236336a9fc6bd4fbd10ead0d60e67b21d",
+                      "workerInputFingerprint": "sha256:b346d23e944e07771e1f837e74c331a9d3c061f09ad5052fc6899e44f4b04fc2",
+                      "toolsSha": "2b1c37b129b09eca32de763c30e73d96e6296684",
+                      "toolsShaIsNotHead": "Exact orchestration snapshot preceding the binding record. Dispatch tools_sha must instead equal the final workflow source SHA selected by captain-release at dispatch.",
+                      "orchestrationFiles": [
+                        ".github/workflows/rcap-f1-ephemeral-staging.yml",
+                        ".github/workflows/rcap-github-hosted-acceptance.yml",
+                        ".github/workflows/rcap-hosted-acceptance-staging.yml",
+                        "data/rcap-grade-a/launch-control/PACKET_DATABASE_CONTRACT.json",
+                        "scripts/grade-a-launch-control/verify-release-candidate-binding.mjs",
+                        "scripts/rcap-github-acceptance-gate.mjs",
+                        "scripts/rcap-github-post-payment-acceptance.mjs",
+                        "scripts/rcap-hosted-acceptance-migrate.mjs",
+                        "scripts/rcap-hosted-acceptance-payment.mjs",
+                        "scripts/rcap-hosted-checkout-gate.mjs",
+                        "scripts/rcap-hosted-target-retry.test.mjs",
+                        "scripts/rcap-migration-certification.mjs",
+                        "scripts/rcap-migration-certification.test.mjs",
+                        "scripts/rcap-packet-database-contract.mjs",
+                        "scripts/rcap-packet-database-contract.test.mjs",
+                        "scripts/rcap-packet-database-reference.mjs",
+                        "scripts/rcap-production-clinic-migrate.mjs",
+                        "scripts/rcap-production-forward-chain-migrate.mjs",
+                        "scripts/rcap-production-legal-aid-migrate.mjs",
+                        "scripts/verify-rcap-packet-database.mjs",
+                        "scripts/verify-rcap-target-worker-journey.mjs",
+                        "supabase/migrations/20260924111541_packet_render_retry_and_phase50_reconciliation.sql"
+                      ],
+                      "previousToolsSha": "6d7b8058ee7fb517bb120a9e812346e82a748131",
+                      "previousBindingCommit": "316f680c3ef54daf9023e784215655e2bdbe8908",
+                      "why": "#345 forward database correction: isolate retry collisions, cap claims, preserve lifecycle history, persist the accepted worker failure vocabulary, close incomplete Phase-50 security state, and require complete postcondition authority for migration adoption. Application, all 38 worker inputs, Preview and Stripe destination remain unchanged.",
+                      "authorization": "Roger Roman mission lock: land the bounded forward correction and verifier, apply only that correction to acceptance hyflxnlhpmiqxvvcoiia, reconcile through canonical lifecycle, prove live readback, then ONE hosted_full with blank promotion input. No Production mutation, worker publication, Preview creation or Stripe retarget.",
+                      "deploymentAuthorized": false,
+                      "deploymentScope": "Reuse only dpl_Cehqdwk8YEb6wWEcsZqHsTS7i8ak / legalease-rcap-4f7d209de112-roger947s-projects.vercel.app. Only supabase/migrations/20260924111541_packet_render_retry_and_phase50_reconciliation.sql is authorized for acceptance; no Production migration.",
+                      "regressionEvidence": {
+                        "crossLayer": {
+                          "command": "node --test scripts/test-consumer-checkout-binding-recovery.mjs",
+                          "passed": 60,
+                          "failed": 0,
+                          "skipped": 0,
+                          "method": "Production adapter and payment-authority client execute the actual migration SQL in PostgreSQL/PGlite. Provider transport is deterministic; binding success is not mocked. Original executed adapter reproduces the failure. Actual hosted replacement block stops every failed case before browser Checkout.",
+                          "verifiedAfterWorkerBinding": true
+                        },
+                        "checkoutGuards": {
+                          "command": "node scripts/test-expungement-checkout-guards.mjs",
+                          "passed": true,
+                          "bindingStateCases": 48,
+                          "includesCrossLayerCases": 60
+                        },
+                        "sqlReadbackAndFinalVerification": {
+                          "command": "node --test scripts/rcap-hosted-final-verification.test.mjs",
+                          "passed": 109,
+                          "failed": 0,
+                          "skipped": 0
+                        },
+                        "typecheck": {
+                          "command": "node_modules/.bin/tsc --noEmit --incremental false",
+                          "exitCode": 0
+                        },
+                        "lint": {
+                          "errors": 0,
+                          "warnings": 1,
+                          "warning": "Existing unused sanitize variable in rcap-hosted-acceptance-payment.mjs; left outside this correction."
+                        },
+                        "hostedVerdictChecks": {
+                          "command": "node scripts/verify-rcap-hosted-acceptance-verdicts.mjs",
+                          "exitCode": 0
+                        },
+                        "workerEquivalence": {
+                          "canonicalInputs": 38,
+                          "equivalent": true,
+                          "changedPaths": 0,
+                          "sourceSha": "4f7d209de11265d0793b7b74c728eab4efde1aa5",
+                          "toolsSnapshot": "2b1c37b129b09eca32de763c30e73d96e6296684",
+                          "fingerprint": "sha256:b346d23e944e07771e1f837e74c331a9d3c061f09ad5052fc6899e44f4b04fc2"
+                        },
+                        "applicationBuild": {
+                          "command": "npm run build -- --webpack",
+                          "exitCode": 0,
+                          "staticPages": 169,
+                          "sourceSha": "4f7d209de11265d0793b7b74c728eab4efde1aa5",
+                          "note": "Compiled, typechecked, generated pages and completed build traces using the exact candidate. Sparse-checkout omissions were restored from tracked bytes; no application or build-configuration change."
+                        },
+                        "previewCatalogReadOnly": {
+                          "actualWorkflowStepExecuted": true,
+                          "productId": "prod_VHEHkvH7dSvGv7",
+                          "priceId": "price_1UGfowRWROAHlAKyIO2FISdR",
+                          "method": "GET",
+                          "mutations": 0,
+                          "replacePreviewSkipsFixtureSetup": true
+                        },
+                        "vercelIdentity": {
+                          "passed": 12,
+                          "failed": 0
+                        },
+                        "previewReuseLegacyTextControl": {
+                          "status": "BASELINE_STALE",
+                          "baselineSha": "cfec63780a6adca2fb23b7ccebd88b5b14b0beab",
+                          "baselineAndCandidateFailure": "The textual verifier expects target !== production inline; the resolver uses the stricter isPreviewTarget(target) helper accepting only null or preview. Same single refusal reproduced by executing the accepted baseline files in an isolated fixture. Resolver and this verifier unchanged; the existing Vercel identity tests require the exact null-or-preview predicate."
+                        },
+                        "predecessorWorkerEquivalence": {
+                          "canonicalInputs": 38,
+                          "equivalent": false,
+                          "changedPaths": 3
+                        },
+                        "authorityBinding": {
+                          "generator": "scripts/generate-rcap-grade-a-fulfillment-authority.mjs",
+                          "completed": true,
+                          "staticWorkerAuthorityUnchanged": true,
+                          "routeStatesUnchanged": true,
+                          "commerciallyEligibleBefore": 6,
+                          "commerciallyEligibleAfter": 6,
+                          "note": "Only external publication/acceptance bindings and their generated record versions/history moved. Existing tracked artifact bytes were materialized from the sparse checkout; no packet, approval, route or worker input changed."
+                        },
+                        "checkoutGate": {
+                          "checks": 139,
+                          "passed": 139,
+                          "bindingStateCasesPassed": 48,
+                          "bindingStateCasesTotal": 48
+                        },
+                        "githubAcceptanceGate": {
+                          "checks": 196,
+                          "passed": 196
+                        },
+                        "releaseBindings": {
+                          "current": true,
+                          "status": "CURRENT",
+                          "identityMutationsRefused": 8,
+                          "identityMutationsTotal": 8,
+                          "boundaryMutationsRefused": 38,
+                          "boundaryMutationsTotal": 38,
+                          "exactHostedToolsBindingTestPassed": true
+                        },
+                        "vercelRestTransport": {
+                          "passed": 25,
+                          "failed": 0
+                        },
+                        "applicationBytesEquivalentToCandidate": true,
+                        "productionPinsChanged": false,
+                        "databaseRepair": {
+                          "command": "node --test scripts/rcap-packet-database-contract.test.mjs scripts/rcap-migration-certification.test.mjs",
+                          "passed": 244,
+                          "failed": 0,
+                          "skipped": 0,
+                          "phase50Postconditions": 157,
+                          "currentPostconditions": 166,
+                          "persistedFailureCodes": 23,
+                          "missingPostconditionMutations": 166,
+                          "realCatalogMutations": 20,
+                          "productionForwardControl": 64,
+                          "productionForwardMutations": 24,
+                          "productionClinicControl": 21,
+                          "productionLegalAidControl": 27,
+                          "hostedRetryPromotionAndBindingTests": 20,
+                          "lintErrors": 0,
+                          "lintWarnings": 0
+                        }
+                      },
+                      "controlRegressionEvidence": {
+                        "targetRetryAndPromotion": {
+                          "command": "node --test scripts/rcap-hosted-target-retry.test.mjs",
+                          "passed": 19,
+                          "failed": 0,
+                          "skipped": 0,
+                          "method": "Execute the production-used journey, worker-cycle wrapper, SQL readers, clock waits and workflow promotion expression with recorded transport responses. Original #345 bytes reproduce both failures. No real payment or job is created by this regression."
+                        },
+                        "targetAttributionMutations": {
+                          "passed": 17,
+                          "total": 17
+                        },
+                        "targetReplayMutations": {
+                          "passed": 3,
+                          "total": 3
+                        },
+                        "sqlReadbackAndFinalVerification": {
+                          "passed": 109,
+                          "failed": 0,
+                          "skipped": 0
+                        },
+                        "applicationBytesChanged": false,
+                        "workerInputCount": 38,
+                        "workerInputsChanged": 0,
+                        "lintErrors": 0,
+                        "lintWarnings": 1,
+                        "lintWarning": "Existing unused sanitize variable, unchanged.",
+                        "checkoutControls": {
+                          "passed": 139,
+                          "total": 139,
+                          "realSqlBindingCasesPassed": 48,
+                          "realSqlBindingCasesTotal": 48
+                        },
+                        "releaseBinding": {
+                          "current": true,
+                          "status": "CURRENT",
+                          "identityMutationsRefused": 8,
+                          "identityMutationsTotal": 8,
+                          "boundaryMutationsRefused": 38,
+                          "boundaryMutationsTotal": 38,
+                          "hostedToolsBindingTestsPassed": 1,
+                          "hostedToolsBindingTestsTotal": 1
+                        }
+                      },
+                      "databaseCorrection": {
+                        "sourceSha": "2b1c37b129b09eca32de763c30e73d96e6296684",
+                        "path": "supabase/migrations/20260924111541_packet_render_retry_and_phase50_reconciliation.sql",
+                        "sha256": "56e9b43d52be55126c56ff3a3974c7038cfc2e425243304482c1f9679ed88880",
+                        "projectRef": "hyflxnlhpmiqxvvcoiia",
+                        "status": "PENDING_AUTHORIZED_ACCEPTANCE_APPLY",
+                        "applicationInputsChanged": false,
+                        "workerInputsChanged": 0,
+                        "workerInputCount": 38,
+                        "previewChanged": false,
+                        "productionAuthorized": false,
+                        "regressionEvidence": {
+                          "command": "node --test scripts/rcap-packet-database-contract.test.mjs scripts/rcap-migration-certification.test.mjs",
+                          "passed": 244,
+                          "failed": 0,
+                          "skipped": 0,
+                          "phase50Postconditions": 157,
+                          "currentPostconditions": 166,
+                          "persistedFailureCodes": 23,
+                          "missingPostconditionMutations": 166,
+                          "realCatalogMutations": 20,
+                          "productionForwardControl": 64,
+                          "productionForwardMutations": 24,
+                          "productionClinicControl": 21,
+                          "productionLegalAidControl": 27,
+                          "hostedRetryPromotionAndBindingTests": 20,
+                          "lintErrors": 0,
+                          "lintWarnings": 0
+                        },
+                        "readbackAuthority": "data/rcap-grade-a/launch-control/PACKET_DATABASE_CONTRACT.json"
+                      }
+                    }
+                  ],
+                  "executionAuthorization": "Roger: Finish the currently bounded Preview-control work, have Codex independently ratify the exact final diff, freeze that SHA, and stop changing source. Then push and deploy exactly one Preview. No additional controls except an existing test failure or a specific remote Preview defect.",
+                  "independentPreviewControlRatification": {
+                    "path": "hosted-acceptance-evidence/worker/image-acceptance-36008455059/independent-preview-successor-verification.json",
+                    "sha256": "4a6ecd294b4668207bf71cf4dc14ba6912a60c80c4fac478c0afd493d20beaa4",
+                    "bytes": 19615,
+                    "status": "PASS",
+                    "reviewedSourceSnapshotSha": "941d2502aca3ebb2a4f6b21873c578b5b31d66a4"
+                  },
+                  "executionHistory": [
+                    {
+                      "authorization": "Roger: proceed directly with exactly one acceptance Preview of the reviewed successor, the accepted a7ca0201 worker / sha256:46dc2132 digest, retarget only existing test webhook we_1U4AKGRWROAHlAKyNFChAnWr after verification, then bounded existing #345 recovery. Captain now explicitly instructed to push and deploy this single Preview after exact final-diff ratification. No Checkout, new payment/entitlement, migration or housekeeping replay, worker republish, Production or live charge. Existing Vercel project explicitly permitted; Preview target and acceptance Supabase only.",
+                      "executionAuthorization": "Roger: Finish the currently bounded Preview-control work, have Codex independently ratify the exact final diff, freeze that SHA, and stop changing source. Then push and deploy exactly one Preview. No additional controls except an existing test failure or a specific remote Preview defect.",
+                      "deploymentAuthorized": true,
+                      "consumedBy": {
+                        "workflowHead": "33b586ad5a450febfba3ef7589eb6b78e6e230df",
+                        "previewRun": 36013780624,
+                        "webhookRun": 36015484914,
+                        "runtimeRecovery": {
+                          "path": "hosted-acceptance-evidence/runtime-recovery-345/runtime-recovery-final-summary.json",
+                          "sha256": "a173ab91c00a9ccd8144d07f29e2a2ae036e369df8f53ed386602980c04d2f8f",
+                          "bytes": 16835
+                        }
+                      }
+                    }
+                  ],
+                  "runtimeRecovery": {
                     "path": "hosted-acceptance-evidence/runtime-recovery-345/runtime-recovery-final-summary.json",
                     "sha256": "a173ab91c00a9ccd8144d07f29e2a2ae036e369df8f53ed386602980c04d2f8f",
                     "bytes": 16835
-                  }
+                  },
+                  "pendingSuccessor": {
+                    "status": "LOCAL_CORRECTION_FROZEN_REMOTE_SUCCESSOR_REQUIRED",
+                    "sourceSha": "aa6e60f246e35ff145a7fb64ca43b2634aef1be9",
+                    "baseSha": "33b586ad5a450febfba3ef7589eb6b78e6e230df",
+                    "canonicalInputsCompared": 38,
+                    "changedCanonicalPaths": [
+                      "src/app/api/expungement-ai/packet/artifacts/[itemId]/route.ts",
+                      "src/app/api/rcap/packets/[jobId]/download/route.ts",
+                      "src/lib/rcap/render/packet-delivery.ts"
+                    ],
+                    "workerInputFingerprint": "sha256:7418fff6198b7c1f137916ddb8d379f4229ce525d691f766e1e01bf522318fe3",
+                    "rebuildRequired": true,
+                    "workerPlan": {
+                      "path": "hosted-acceptance-evidence/runtime-recovery-345/delivery-receipt-successor-input-plan.json",
+                      "sha256": "e413edaf825d283238da1fbe4290b75699a299c7b254ad6141aec2ac81ad2af9",
+                      "bytes": 5524
+                    },
+                    "noSqlChange": true,
+                    "productionAuthorized": false,
+                    "publicationAuthorized": false,
+                    "previewAuthorized": false,
+                    "sourceChangesFinished": true,
+                    "independentReview": {
+                      "path": "hosted-acceptance-evidence/runtime-recovery-345/independent-delivery-lifecycle-correction-review.json",
+                      "sha256": "7d850feb9b00e449bc85e6bfcf2194f366d4567550f66e51335c920376fa9738",
+                      "bytes": 13146
+                    },
+                    "correctionEvidence": {
+                      "path": "hosted-acceptance-evidence/runtime-recovery-345/runtime-recovery-final-summary.json",
+                      "sha256": "a173ab91c00a9ccd8144d07f29e2a2ae036e369df8f53ed386602980c04d2f8f",
+                      "bytes": 16835
+                    }
+                  },
+                  "executionAuthorizationStatus": "EXISTING_SCOPE_COMPLETED_SUCCESSOR_VARIANCE_NOT_AUTHORIZED"
                 },
-                "executionAuthorizationStatus": "EXISTING_SCOPE_COMPLETED_SUCCESSOR_VARIANCE_NOT_AUTHORIZED"
-              },
-              "executionAuthorization": "Roger: consume successful image acceptance 36041137857 for source 615b4021f7fff4b41b774967a78f4b117cfce3e2, digest sha256:4704199f2f683b9169702f0d2b5038cb7724569091d88c347867ab6a95aa1b7b and fingerprint sha256:7418fff6198b7c1f137916ddb8d379f4229ce525d691f766e1e01bf522318fe3. Preserve history, bind the final application/tools tuple, measure canonical inputs, obtain independent exact-diff ratification, push captain-release, and prepare exactly one successor acceptance Preview. Roger performs the manual Preview dispatch. No second publication, image-acceptance rerun, migration, #345 activity, hosted_full or Production action.",
-              "executionAuthorizationStatus": "AUTHORIZED_ONE_SUCCESSOR_ACCEPTANCE_PREVIEW_ONLY",
-              "independentExactBindingReviewRequiredBeforePush": true
+                "executionAuthorization": "Roger: consume successful image acceptance 36041137857 for source 615b4021f7fff4b41b774967a78f4b117cfce3e2, digest sha256:4704199f2f683b9169702f0d2b5038cb7724569091d88c347867ab6a95aa1b7b and fingerprint sha256:7418fff6198b7c1f137916ddb8d379f4229ce525d691f766e1e01bf522318fe3. Preserve history, bind the final application/tools tuple, measure canonical inputs, obtain independent exact-diff ratification, push captain-release, and prepare exactly one successor acceptance Preview. Roger performs the manual Preview dispatch. No second publication, image-acceptance rerun, migration, #345 activity, hosted_full or Production action.",
+                "executionAuthorizationStatus": "AUTHORIZED_ONE_SUCCESSOR_ACCEPTANCE_PREVIEW_ONLY",
+                "independentExactBindingReviewRequiredBeforePush": true
+              }
             }
-          }
+          },
+          "deploymentEvidence": {
+            "runId": 36064114096,
+            "conclusion": "success",
+            "workflowSha": "1479fd4bfcfe60a5dc4509a0f074632b5ca13f99",
+            "artifactId": 10834998812,
+            "artifactZipSha256": "f3aa7b826e7649655743675fb66ad9b76486208731eb23de189bf70be0cef078",
+            "nativeDeployReceiptSha256": "3b945960e2cfe51aa9429cd02472a24b52cf919b53951c59d1981cd2ebf97c6c",
+            "evidenceDirectory": "hosted-acceptance-evidence/runtime-recovery-345/successor-natural-delivery/isolated-clinic-preview/run-36064114096",
+            "deployment": {
+              "id": "dpl_3RALTWqn3WbEsYFSk3Muh6qw2yhT",
+              "target": null,
+              "readyState": "READY",
+              "immutableHostname": "legalease-partner-dashboard-clean-ld9koaxfa-roger947s-projects.vercel.app",
+              "gitSourceSha": "a0d0b933f7241a209379775754540fc22775f174",
+              "projectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV",
+              "metadata": {
+                "rcapWorkerSourceSha": "615b4021f7fff4b41b774967a78f4b117cfce3e2",
+                "rcapWorkerDigest": "sha256:4704199f2f683b9169702f0d2b5038cb7724569091d88c347867ab6a95aa1b7b",
+                "rcapWorkerInputFingerprint": "sha256:7418fff6198b7c1f137916ddb8d379f4229ce525d691f766e1e01bf522318fe3",
+                "rcapPreviewPurpose": "mississippi_clinic",
+                "rcapApplicationSha": "a0d0b933f7241a209379775754540fc22775f174",
+                "rcapAcceptanceProjectRef": "hyflxnlhpmiqxvvcoiia",
+                "rcapStripeConfigured": "false",
+                "rcapCatalogProduct": "inline",
+                "rcapRouteState": "staging_scoped",
+                "rcapReturnOrigin": "https://legalease-rcap-clinic-a0d0b933f724-roger947s-projects.vercel.app",
+                "rcapClinicDemoMode": "mississippi_preview",
+                "rcapStagingScopeSha256": "bb986872d0c7ab762ff553a057fb2cdf33030eb14af7e776f1a874eac169b336",
+                "githubCommitAuthorName": "Roger-LegalEase",
+                "githubCommitAuthorEmail": "roger@legalease.com",
+                "githubCommitMessage": "chore(rcap): record accepted successor image and admission binding",
+                "githubCommitOrg": "Roger-LegalEase",
+                "githubCommitRef": "a0d0b933f7241a209379775754540fc22775f174",
+                "githubCommitRepo": "legalease-partner-dashboard-clean",
+                "githubCommitSha": "a0d0b933f7241a209379775754540fc22775f174",
+                "githubDeployment": "1",
+                "githubOrg": "Roger-LegalEase",
+                "githubRepo": "legalease-partner-dashboard-clean",
+                "githubRepoOwnerType": "User",
+                "githubCommitRepoId": "1248656766",
+                "githubRepoId": "1248656766",
+                "githubRepoVisibility": "public",
+                "githubHost": "github.com",
+                "githubCommitAuthorLogin": "Roger-LegalEase",
+                "githubCommitVerification": "unverified",
+                "branchAlias": "legalease-partner-dashboard-clean-git-910c39-roger947s-projects.vercel.app",
+                "lambdaRuntimeStats": "{\"nodejs\":3}"
+              }
+            },
+            "aliasAssignment": {
+              "hostname": "legalease-rcap-clinic-a0d0b933f724-roger947s-projects.vercel.app",
+              "deploymentId": "dpl_3RALTWqn3WbEsYFSk3Muh6qw2yhT",
+              "target": null,
+              "passed": true
+            },
+            "clinicScope": {
+              "participants": {
+                "mvl-demo-participant-a@rcap-acceptance.test": "e7c1d76e-dcf2-4d41-b585-ba164806f391",
+                "mvl-demo-participant-b@rcap-acceptance.test": "255998e1-eb69-4239-b151-0f8b8935a539"
+              },
+              "scope": "e7c1d76e-dcf2-4d41-b585-ba164806f391,255998e1-eb69-4239-b151-0f8b8935a539",
+              "sha256": "bb986872d0c7ab762ff553a057fb2cdf33030eb14af7e776f1a874eac169b336"
+            },
+            "ordinaryBeforeAfterEqual": true,
+            "productionBeforeAfterEqual": true,
+            "clinicExecutionPerformed": false,
+            "currentReadbackSha256": "74013788db68e5f98fb2187e48cefb44984d3e367774f9b76f8414c79e3090d6",
+            "nativeRunRecordSha256": "a66a13ac31fa75c9ee14c607c6edc14093bd5a780560174bf76390182d62c077",
+            "nativeArtifactRecordSha256": "e371d85c26e9ce2dcab6a9c180e076935c4059e3ece78c2fedc102fcd3a79620",
+            "nativeJobsRecordSha256": "3fb569c7b1e95d1c1eefeda5e7df94b90e1da2c6f36a5b08fd2fb118b5cd4120"
+          },
+          "clinicExecutionSuccessful": false
         },
         "deploymentEvidence": {
           "runId": 36064114096,
@@ -997,206 +1102,134 @@
           "nativeArtifactRecordSha256": "e371d85c26e9ce2dcab6a9c180e076935c4059e3ece78c2fedc102fcd3a79620",
           "nativeJobsRecordSha256": "3fb569c7b1e95d1c1eefeda5e7df94b90e1da2c6f36a5b08fd2fb118b5cd4120"
         },
-        "clinicExecutionSuccessful": false
+        "clinicExecutionSuccessful": false,
+        "failedClinicRun": {
+          "runId": 36067031579,
+          "toolsSha": "3f159f590d3af06b30701484c335b46f2df09668",
+          "artifactId": 10836304658,
+          "artifactSha256": "b1f917101c28f95c49df68dab546787219bde757a8e2a16b42aa35942ff9b006",
+          "screeningSessionId": "a4a0a041-cc0a-4c19-a262-309e5307d2a9",
+          "manualStateRepairPerformed": false,
+          "retrySetup": "Existing bounded Clinic seed/setup only"
+        }
       },
-      "deploymentEvidence": {
-        "runId": 36064114096,
-        "conclusion": "success",
-        "workflowSha": "1479fd4bfcfe60a5dc4509a0f074632b5ca13f99",
-        "artifactId": 10834998812,
-        "artifactZipSha256": "f3aa7b826e7649655743675fb66ad9b76486208731eb23de189bf70be0cef078",
-        "nativeDeployReceiptSha256": "3b945960e2cfe51aa9429cd02472a24b52cf919b53951c59d1981cd2ebf97c6c",
-        "evidenceDirectory": "hosted-acceptance-evidence/runtime-recovery-345/successor-natural-delivery/isolated-clinic-preview/run-36064114096",
-        "deployment": {
-          "id": "dpl_3RALTWqn3WbEsYFSk3Muh6qw2yhT",
-          "target": null,
-          "readyState": "READY",
-          "immutableHostname": "legalease-partner-dashboard-clean-ld9koaxfa-roger947s-projects.vercel.app",
-          "gitSourceSha": "a0d0b933f7241a209379775754540fc22775f174",
-          "projectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV",
-          "metadata": {
-            "rcapWorkerSourceSha": "615b4021f7fff4b41b774967a78f4b117cfce3e2",
-            "rcapWorkerDigest": "sha256:4704199f2f683b9169702f0d2b5038cb7724569091d88c347867ab6a95aa1b7b",
-            "rcapWorkerInputFingerprint": "sha256:7418fff6198b7c1f137916ddb8d379f4229ce525d691f766e1e01bf522318fe3",
-            "rcapPreviewPurpose": "mississippi_clinic",
-            "rcapApplicationSha": "a0d0b933f7241a209379775754540fc22775f174",
-            "rcapAcceptanceProjectRef": "hyflxnlhpmiqxvvcoiia",
-            "rcapStripeConfigured": "false",
-            "rcapCatalogProduct": "inline",
-            "rcapRouteState": "staging_scoped",
-            "rcapReturnOrigin": "https://legalease-rcap-clinic-a0d0b933f724-roger947s-projects.vercel.app",
-            "rcapClinicDemoMode": "mississippi_preview",
-            "rcapStagingScopeSha256": "bb986872d0c7ab762ff553a057fb2cdf33030eb14af7e776f1a874eac169b336",
-            "githubCommitAuthorName": "Roger-LegalEase",
-            "githubCommitAuthorEmail": "roger@legalease.com",
-            "githubCommitMessage": "chore(rcap): record accepted successor image and admission binding",
-            "githubCommitOrg": "Roger-LegalEase",
-            "githubCommitRef": "a0d0b933f7241a209379775754540fc22775f174",
-            "githubCommitRepo": "legalease-partner-dashboard-clean",
-            "githubCommitSha": "a0d0b933f7241a209379775754540fc22775f174",
-            "githubDeployment": "1",
-            "githubOrg": "Roger-LegalEase",
-            "githubRepo": "legalease-partner-dashboard-clean",
-            "githubRepoOwnerType": "User",
-            "githubCommitRepoId": "1248656766",
-            "githubRepoId": "1248656766",
-            "githubRepoVisibility": "public",
-            "githubHost": "github.com",
-            "githubCommitAuthorLogin": "Roger-LegalEase",
-            "githubCommitVerification": "unverified",
-            "branchAlias": "legalease-partner-dashboard-clean-git-910c39-roger947s-projects.vercel.app",
-            "lambdaRuntimeStats": "{\"nodejs\":3}"
-          }
-        },
-        "aliasAssignment": {
-          "hostname": "legalease-rcap-clinic-a0d0b933f724-roger947s-projects.vercel.app",
-          "deploymentId": "dpl_3RALTWqn3WbEsYFSk3Muh6qw2yhT",
-          "target": null,
-          "passed": true
-        },
-        "clinicScope": {
-          "participants": {
-            "mvl-demo-participant-a@rcap-acceptance.test": "e7c1d76e-dcf2-4d41-b585-ba164806f391",
-            "mvl-demo-participant-b@rcap-acceptance.test": "255998e1-eb69-4239-b151-0f8b8935a539"
+      "previousBindingCommit": "27c8b5022d5a42e552e439ffd053f3953e942422",
+      "deploymentEvidence": null,
+      "clinicMigrationDispatchReady": true,
+      "supersededPreview": {
+        "scope": {
+          "vercelProjectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV",
+          "vercelProjectName": "legalease-partner-dashboard-clean",
+          "vercelTeamId": "team_4qLmZK9WI6xIy5vjYC0IF3ae",
+          "target": "preview",
+          "supabaseProjectRef": "hyflxnlhpmiqxvvcoiia",
+          "productionSupabaseRefForbidden": "wwtwtsmywnckfkdaqqeg",
+          "productionTarget": false,
+          "productionAliasesMayMove": false,
+          "productionEnvironmentMayChange": false,
+          "publicDomainActivation": false,
+          "existingDeploymentId": "dpl_9TNBAkg6Au9PLeNUto7PNiDshj9i",
+          "existingHostname": "legalease-rcap-clinic-67503e7e8d98-roger947s-projects.vercel.app",
+          "reuseOnly": true,
+          "creationAuthorized": false,
+          "maximumCreations": 0,
+          "phase": "clinic_preview",
+          "previewPurpose": "mississippi_clinic",
+          "clinicDemoMode": "mississippi_preview",
+          "routeState": "staging_scoped",
+          "returnOrigin": "https://legalease-rcap-clinic-67503e7e8d98-roger947s-projects.vercel.app",
+          "stagingScope": "e7c1d76e-dcf2-4d41-b585-ba164806f391,255998e1-eb69-4239-b151-0f8b8935a539",
+          "stagingScopeSha256": "bb986872d0c7ab762ff553a057fb2cdf33030eb14af7e776f1a874eac169b336",
+          "preservedOrdinaryPreview": {
+            "deploymentId": "dpl_9TFTU2zXE7NYoQWgq74GsdhKUCoZ",
+            "immutableHostname": "legalease-partner-dashboard-clean-2kwcz22rb-roger947s-projects.vercel.app",
+            "alias": "legalease-rcap-a0d0b933f724-roger947s-projects.vercel.app"
           },
-          "scope": "e7c1d76e-dcf2-4d41-b585-ba164806f391,255998e1-eb69-4239-b151-0f8b8935a539",
-          "sha256": "bb986872d0c7ab762ff553a057fb2cdf33030eb14af7e776f1a874eac169b336"
+          "immutableHostname": "legalease-partner-dashboard-clean-qucrcbw16-roger947s-projects.vercel.app",
+          "creationAuthorization": "No further Preview creation authorized; reuse this exact deployment only."
         },
-        "ordinaryBeforeAfterEqual": true,
-        "productionBeforeAfterEqual": true,
-        "clinicExecutionPerformed": false,
-        "currentReadbackSha256": "74013788db68e5f98fb2187e48cefb44984d3e367774f9b76f8414c79e3090d6",
-        "nativeRunRecordSha256": "a66a13ac31fa75c9ee14c607c6edc14093bd5a780560174bf76390182d62c077",
-        "nativeArtifactRecordSha256": "e371d85c26e9ce2dcab6a9c180e076935c4059e3ece78c2fedc102fcd3a79620",
-        "nativeJobsRecordSha256": "3fb569c7b1e95d1c1eefeda5e7df94b90e1da2c6f36a5b08fd2fb118b5cd4120"
-      },
-      "clinicExecutionSuccessful": false,
-      "failedClinicRun": {
-        "runId": 36067031579,
-        "toolsSha": "3f159f590d3af06b30701484c335b46f2df09668",
-        "artifactId": 10836304658,
-        "artifactSha256": "b1f917101c28f95c49df68dab546787219bde757a8e2a16b42aa35942ff9b006",
-        "screeningSessionId": "a4a0a041-cc0a-4c19-a262-309e5307d2a9",
-        "manualStateRepairPerformed": false,
-        "retrySetup": "Existing bounded Clinic seed/setup only"
-      }
-    },
-    "previousBindingCommit": "27c8b5022d5a42e552e439ffd053f3953e942422",
-    "deploymentEvidence": null,
-    "clinicMigrationDispatchReady": true,
-    "supersededPreview": {
-      "scope": {
-        "vercelProjectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV",
-        "vercelProjectName": "legalease-partner-dashboard-clean",
-        "vercelTeamId": "team_4qLmZK9WI6xIy5vjYC0IF3ae",
-        "target": "preview",
-        "supabaseProjectRef": "hyflxnlhpmiqxvvcoiia",
-        "productionSupabaseRefForbidden": "wwtwtsmywnckfkdaqqeg",
-        "productionTarget": false,
-        "productionAliasesMayMove": false,
-        "productionEnvironmentMayChange": false,
-        "publicDomainActivation": false,
-        "existingDeploymentId": "dpl_9TNBAkg6Au9PLeNUto7PNiDshj9i",
-        "existingHostname": "legalease-rcap-clinic-67503e7e8d98-roger947s-projects.vercel.app",
-        "reuseOnly": true,
-        "creationAuthorized": false,
-        "maximumCreations": 0,
-        "phase": "clinic_preview",
-        "previewPurpose": "mississippi_clinic",
-        "clinicDemoMode": "mississippi_preview",
-        "routeState": "staging_scoped",
-        "returnOrigin": "https://legalease-rcap-clinic-67503e7e8d98-roger947s-projects.vercel.app",
-        "stagingScope": "e7c1d76e-dcf2-4d41-b585-ba164806f391,255998e1-eb69-4239-b151-0f8b8935a539",
-        "stagingScopeSha256": "bb986872d0c7ab762ff553a057fb2cdf33030eb14af7e776f1a874eac169b336",
-        "preservedOrdinaryPreview": {
-          "deploymentId": "dpl_9TFTU2zXE7NYoQWgq74GsdhKUCoZ",
-          "immutableHostname": "legalease-partner-dashboard-clean-2kwcz22rb-roger947s-projects.vercel.app",
-          "alias": "legalease-rcap-a0d0b933f724-roger947s-projects.vercel.app"
+        "deploymentEvidence": {
+          "runId": 36137447419,
+          "conclusion": "success",
+          "workflowSha": "efdd3f5fc8866a796757281a3ebe2e350e977d80",
+          "artifactId": 10865194081,
+          "artifactZipSha256": "dbad440595dd159797c18bcee18eba9cb0052da73382b3b81d5970329ccd5e13",
+          "nativeDeployReceiptSha256": "c86f86473d3ce45c52353a3cd1263737a9f108cc98ecd200560c2c808016ab9c",
+          "ordinaryBeforeAfterEqual": true,
+          "productionBeforeAfterEqual": true,
+          "clinicExecutionPerformed": false
         },
-        "immutableHostname": "legalease-partner-dashboard-clean-qucrcbw16-roger947s-projects.vercel.app",
-        "creationAuthorization": "No further Preview creation authorized; reuse this exact deployment only."
+        "failedClinicRun": {
+          "runId": 36141023122,
+          "artifactId": 10867040781,
+          "artifactZipSha256": "a3625fb880756f0f827d9cd6adb20a30629d30bd0317678474ae57392362b40d",
+          "workflowSha": "7a401c31d94bc9863d9279d8784877ed7e15b706",
+          "briefcaseItemId": "baa3ea24-b656-4743-92a2-b0efb9a48948",
+          "canonicalMatterId": "5293f5a5-c2a3-4453-959e-37646d02504a",
+          "incorrectPendingMatterId": "69eb4d66-d672-44be-854d-93e6022d2995",
+          "failure": "Timeout waiting for packet/generate; trusted presentation RPC returned pending correlation instead of canonical consumer matter. Protected sponsored comparison correctly refused.",
+          "sourceOfDiagnosis": "Roger independent Acceptance readback; native artifact confirms exact reused Preview and response timeout. Local PostgreSQL reproduces the wrong pending identity and proves the forward correction.",
+          "historicalRowsPreserved": true
+        }
       },
-      "deploymentEvidence": {
-        "runId": 36137447419,
-        "conclusion": "success",
-        "workflowSha": "efdd3f5fc8866a796757281a3ebe2e350e977d80",
-        "artifactId": 10865194081,
-        "artifactZipSha256": "dbad440595dd159797c18bcee18eba9cb0052da73382b3b81d5970329ccd5e13",
-        "nativeDeployReceiptSha256": "c86f86473d3ce45c52353a3cd1263737a9f108cc98ecd200560c2c808016ab9c",
-        "ordinaryBeforeAfterEqual": true,
-        "productionBeforeAfterEqual": true,
-        "clinicExecutionPerformed": false
+      "failedClinicMigrationRun": {
+        "runId": 36151713747,
+        "workflowSha": "3aed58bf6c22e54c1466a86cedf15d514bef6ecc",
+        "applicationSha": "525e16ea64ed08b3bd65a368ff95a1ee5dc25509",
+        "conclusion": "failure",
+        "disposition": "Migration runner refused historical-prefix mismatch before the canonical matter migration was applied.",
+        "firstFailure": "existing_ledger_is_exact_prefix: unexpected ledger row at position 12",
+        "canonicalMatterMigrationApplied": false,
+        "historicalPrefixRows": 12,
+        "historicalRow12": {
+          "path": "supabase/migrations/20260917200000_consumer_checkout_session_replacement.sql",
+          "sha256": "0d368236f48402bb27953d9b2426e35026ff5d00286f06889ead543c5a32b128",
+          "applicationSha": "62425c837b5edf3d7e22b110910885abdaec1692"
+        },
+        "evidence": "Read-only Acceptance ledger SELECT confirms exact 1..12; GitHub historical blob independently hashes to row12 receipt; GitHub run metadata confirms workflow SHA and failed apply step."
       },
-      "failedClinicRun": {
-        "runId": 36141023122,
-        "artifactId": 10867040781,
-        "artifactZipSha256": "a3625fb880756f0f827d9cd6adb20a30629d30bd0317678474ae57392362b40d",
-        "workflowSha": "7a401c31d94bc9863d9279d8784877ed7e15b706",
-        "briefcaseItemId": "baa3ea24-b656-4743-92a2-b0efb9a48948",
-        "canonicalMatterId": "5293f5a5-c2a3-4453-959e-37646d02504a",
-        "incorrectPendingMatterId": "69eb4d66-d672-44be-854d-93e6022d2995",
-        "failure": "Timeout waiting for packet/generate; trusted presentation RPC returned pending correlation instead of canonical consumer matter. Protected sponsored comparison correctly refused.",
-        "sourceOfDiagnosis": "Roger independent Acceptance readback; native artifact confirms exact reused Preview and response timeout. Local PostgreSQL reproduces the wrong pending identity and proves the forward correction.",
-        "historicalRowsPreserved": true
-      }
-    },
-    "failedClinicMigrationRun": {
-      "runId": 36151713747,
-      "workflowSha": "3aed58bf6c22e54c1466a86cedf15d514bef6ecc",
-      "applicationSha": "525e16ea64ed08b3bd65a368ff95a1ee5dc25509",
-      "conclusion": "failure",
-      "disposition": "Migration runner refused historical-prefix mismatch before the canonical matter migration was applied.",
-      "firstFailure": "existing_ledger_is_exact_prefix: unexpected ledger row at position 12",
-      "canonicalMatterMigrationApplied": false,
-      "historicalPrefixRows": 12,
-      "historicalRow12": {
-        "path": "supabase/migrations/20260917200000_consumer_checkout_session_replacement.sql",
-        "sha256": "0d368236f48402bb27953d9b2426e35026ff5d00286f06889ead543c5a32b128",
-        "applicationSha": "62425c837b5edf3d7e22b110910885abdaec1692"
+      "clinicPostApplyCertification": {
+        "workflowRunId": 36155894476,
+        "workflowSha": "971ce89952ec76c8b6d5c7d3e98d5e2318c38b6f",
+        "runConclusion": "failure",
+        "migration13AppliedAndLedgered": true,
+        "migration13AppliedAt": "2026-09-25T15:43:05.04488Z",
+        "canonicalMatterRpcCorrected": true,
+        "ledgerRowsExact": 13,
+        "reapplyAuthorized": false,
+        "firstFailure": "consumer_artifact_provenance_prerequisite_exact",
+        "staleCertificationAssumptions": [
+          "pre-regeneration provenance shape 11 columns / 7 constraints",
+          "sponsored entry-point wrapper incorrectly required to contain monolithic finalizer body"
+        ],
+        "disposition": "Run successfully applied and ledgered #13, then failed stale post-apply certification. It remains a failed certification run. Subsequent read-only audit passes the entire corrected post-ledger path without applying migration SQL.",
+        "currentReadOnlyCertification": {
+          "passed": true,
+          "recordCasesPassed": 6,
+          "migrationSqlExecuted": 0,
+          "authorityAndAssertionAudit": "data/rcap-staging-authorization-readiness.json#/clinicModePreviewMigrationAuthorization/currentHostedCertification",
+          "capturedQueriesSha256": "681e7083374aa0dba25ba3418145e459fb972082a15382ad877277679d539299"
+        }
       },
-      "evidence": "Read-only Acceptance ledger SELECT confirms exact 1..12; GitHub historical blob independently hashes to row12 receipt; GitHub run metadata confirms workflow SHA and failed apply step."
-    },
-    "clinicPostApplyCertification": {
-      "workflowRunId": 36155894476,
-      "workflowSha": "971ce89952ec76c8b6d5c7d3e98d5e2318c38b6f",
-      "runConclusion": "failure",
-      "migration13AppliedAndLedgered": true,
-      "migration13AppliedAt": "2026-09-25T15:43:05.04488Z",
-      "canonicalMatterRpcCorrected": true,
-      "ledgerRowsExact": 13,
-      "reapplyAuthorized": false,
-      "firstFailure": "consumer_artifact_provenance_prerequisite_exact",
-      "staleCertificationAssumptions": [
-        "pre-regeneration provenance shape 11 columns / 7 constraints",
-        "sponsored entry-point wrapper incorrectly required to contain monolithic finalizer body"
-      ],
-      "disposition": "Run successfully applied and ledgered #13, then failed stale post-apply certification. It remains a failed certification run. Subsequent read-only audit passes the entire corrected post-ledger path without applying migration SQL.",
-      "currentReadOnlyCertification": {
-        "passed": true,
-        "recordCasesPassed": 6,
-        "migrationSqlExecuted": 0,
-        "authorityAndAssertionAudit": "data/rcap-staging-authorization-readiness.json#/clinicModePreviewMigrationAuthorization/currentHostedCertification",
-        "capturedQueriesSha256": "681e7083374aa0dba25ba3418145e459fb972082a15382ad877277679d539299"
-      }
-    },
-    "runwayCurrentness": {
-      "status": "LOCAL_STRUCTURAL_VERIFICATION_ONLY",
-      "nextMutableExternalOperation": "hosted_clinic_deploy",
-      "optionalReadOnlyReceipt": "hosted_clinic_migrate; 13/13; zero migration SQL",
-      "clinicPreview": "dynamic exact ID/hostname; resolver verified; reuse only; no deploy",
-      "hostedFull": "Requires separate exact current Stripe-enabled ordinary Preview; isolated Clinic Preview cannot satisfy this contract.",
-      "production": "Unauthorized. Current release binding and separate phase authorization required. Future live canonical-matter RPC readback must pass; a mismatch requires separately authorized correction.",
-      "historicalIncidentProbes": "HISTORICAL ONLY / NON-CONTROLLING; production_save_transition_* and production_live_zero_dollar_order excluded from current readiness",
-      "remoteActionsThisTask": 0,
-      "activeLiteralSweep": {
-        "filesScanned": 169,
-        "occurrencesClassified": 122,
-        "remainingSupersededActiveBugs": 0,
-        "classificationCounts": {
-          "CURRENT CONTROLLING": 12,
-          "HISTORICAL EVIDENCE ONLY": 21,
-          "HISTORICAL NEGATIVE TEST": 82,
-          "MIGRATION/SOURCE PROVENANCE AUTHORITY": 7
+      "runwayCurrentness": {
+        "status": "LOCAL_STRUCTURAL_VERIFICATION_ONLY",
+        "nextMutableExternalOperation": "hosted_clinic_deploy",
+        "optionalReadOnlyReceipt": "hosted_clinic_migrate; 13/13; zero migration SQL",
+        "clinicPreview": "dynamic exact ID/hostname; resolver verified; reuse only; no deploy",
+        "hostedFull": "Requires separate exact current Stripe-enabled ordinary Preview; isolated Clinic Preview cannot satisfy this contract.",
+        "production": "Unauthorized. Current release binding and separate phase authorization required. Future live canonical-matter RPC readback must pass; a mismatch requires separately authorized correction.",
+        "historicalIncidentProbes": "HISTORICAL ONLY / NON-CONTROLLING; production_save_transition_* and production_live_zero_dollar_order excluded from current readiness",
+        "remoteActionsThisTask": 0,
+        "activeLiteralSweep": {
+          "filesScanned": 169,
+          "occurrencesClassified": 122,
+          "remainingSupersededActiveBugs": 0,
+          "classificationCounts": {
+            "CURRENT CONTROLLING": 12,
+            "HISTORICAL EVIDENCE ONLY": 21,
+            "HISTORICAL NEGATIVE TEST": 82,
+            "MIGRATION/SOURCE PROVENANCE AUTHORITY": 7
+          }
         }
       }
     }
