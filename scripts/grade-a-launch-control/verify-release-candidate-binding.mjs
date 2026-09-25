@@ -241,6 +241,7 @@ export function verifyReleaseCandidateBinding(root, candidate, receiptPaths = []
         'scripts/rcap-github-post-payment-acceptance.mjs',
         'scripts/grade-a-launch-control/test-release-candidate-binding-mutations.mjs',
         'scripts/grade-a-launch-control/test-release-control-boundary-mutations.mjs',
+        'scripts/test-rcap-release-containment.mjs',
         // Mississippi proof-currentness controls read evidence and assert its
         // history/behavior; they do not change application or worker inputs.
         // They still require an exact declaration and the tools commit's bytes.

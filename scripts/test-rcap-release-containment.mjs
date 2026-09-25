@@ -20,12 +20,16 @@ function structural(documents) {
   const [f1, host, gh, pub] = documents;
   assert.equal(f1.jobs.f1.env.RELEASE_INTEGRATION_BRANCH, "captain-release");
   assert.equal(f1.env.RELEASE_INTEGRATION_BRANCH, undefined, "release pin must not leak into production jobs");
-  assert.equal(f1.env.CANONICAL_INTEGRATION_BRANCH, "claude/legalease-sprint-captain-utucnw",
-    "production's existing containment must not be broadened by this preproduction change");
+  assert.equal(f1.env.CANONICAL_INTEGRATION_BRANCH, "captain-release");
   for (const [name, job] of Object.entries(f1.jobs)) {
     if (name.startsWith("production_")) {
       assert.ok(!JSON.stringify(job).includes("RELEASE_INTEGRATION_BRANCH"));
       assert.ok(!JSON.stringify(job).includes("captain-release"));
+      if (job.steps?.some(step => step.run?.includes('$CANONICAL_INTEGRATION_BRANCH'))) {
+        assert.equal(job.env?.CANONICAL_INTEGRATION_BRANCH, 'claude/legalease-sprint-captain-utucnw');
+        assert.equal(job.env?.AUTHORIZED_WORKER_SOURCE_SHA, 'fe2457a71dd90d0fb83d0ed2738fcd1e6566d76e');
+        assert.equal(job.env?.AUTHORIZED_WORKER_DIGEST, 'sha256:a22ad8559df69563a4f8b055e0efcb15de128e5ce09d75325abcbf783adff905');
+      }
     }
   }
   for (const wf of [host, gh, pub]) assert.equal(wf.env.RELEASE_INTEGRATION_BRANCH, "captain-release");
@@ -44,6 +48,8 @@ function structural(documents) {
 const documents = [entry, hosted, github, publication];
 structural(documents);
 for (const mutate of [
+  d => { delete d[0].jobs.production_public_verify.env.CANONICAL_INTEGRATION_BRANCH; },
+  d => { d[0].jobs.production_save_transition.env.AUTHORIZED_WORKER_SOURCE_SHA = d[0].env.AUTHORIZED_WORKER_SOURCE_SHA; },
   d => { d[0].jobs.f1.env.RELEASE_INTEGRATION_BRANCH = "feature/arbitrary"; },
   d => { d[1].env.RELEASE_INTEGRATION_BRANCH = "*"; },
   d => { d[2].env.RELEASE_INTEGRATION_BRANCH = "${{ inputs.branch }}"; },
@@ -97,7 +103,7 @@ try {
       .replaceAll("${{ inputs.application_sha }}", "$REQUESTED_APPLICATION_SHA")
       .replaceAll("${{ inputs.worker_source_sha }}", "$REQUESTED_WORKER_SOURCE_SHA")
       .replaceAll("${{ inputs.tools_sha }}", "$REQUESTED_TOOLS_SHA");
-    const env = { ...entry.env, REQUESTED_APPLICATION_SHA: candidate, REQUESTED_WORKER_SOURCE_SHA: base, REQUESTED_TOOLS_SHA: candidate };
+    const env = { ...entry.env, ...job.env, REQUESTED_APPLICATION_SHA: candidate, REQUESTED_WORKER_SOURCE_SHA: base, REQUESTED_TOOLS_SHA: candidate };
     const refuseRelease = script => assert.notEqual(run(script, env).status, 0, `${name}: release-only candidate gains no production authority`);
     refuseRelease(shell);
     assert.throws(() => refuseRelease(shell.replaceAll("$CANONICAL_INTEGRATION_BRANCH", "captain-release")), assert.AssertionError);
