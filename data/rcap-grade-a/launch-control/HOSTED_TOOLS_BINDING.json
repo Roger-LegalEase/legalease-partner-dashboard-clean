@@ -10,7 +10,7 @@
   "workerSourceSha": "2742392d59579d823cd0cdc54456f5e80a210aaf",
   "workerDigest": "sha256:80c6da8c14cd8f09bba81a2b8d0385ac2b2f40bbde16464acc80aa83db0e4813",
   "workerInputFingerprint": "sha256:10af7c4db830f49c3028087b1b68973f2f2753a75e72b4ff4c8f25320eb1b21a",
-  "toolsSha": "0b70498640fc158ab23dcff30ebef019e3f76306",
+  "toolsSha": "cd75f83268c1d29fff87bf6616dcf962c9da78b5",
   "toolsShaIsNotHead": "Exact reviewed orchestration snapshot preceding this data binding. Manual dispatch tools_sha must equal final Captain workflow head; orchestration bytes must match this snapshot.",
   "orchestrationFiles": [
     "data/rcap-staging-authorization-readiness.json",
@@ -20,10 +20,10 @@
     "scripts/verify-rcap-hosted-clinic-migrate.mjs",
     "scripts/verify-rcap-hosted-ms-clinic-preview.mjs"
   ],
-  "previousToolsSha": "82f9d5556b998ba62303dbae59daf8221374aaec",
-  "previousBindingSha256": "5aa298b9799aa57803ddfc020889ce1ff329f571336d6cae44a40d36c40ebf45",
-  "why": "Tools/control-only correction: preserve exact immutable hosted positions 1..12, including historical ledger-only #12; apply only #13. Application 525e16ea already carries the unchanged canonical-matter migration bytes; no new application candidate.",
-  "authorization": "Tools-only Clinic ledger reconciliation for failed run 36151713747. Application and migration bytes unchanged. Local independent review only; no push, dispatch, acceptance mutation, deployment, worker publication or Production action.",
+  "previousToolsSha": "0b70498640fc158ab23dcff30ebef019e3f76306",
+  "previousBindingSha256": "a4888bf63c8d7a2f92a535797943d133e1bd6bf24dd8925277350c8ec6cefd61",
+  "why": "Certification-only correction to current authorized provenance 12/8 and sponsored wrapper/route finalizer identity. #13 is already applied and ledgered; application 525e16ea and all worker inputs remain unchanged.",
+  "authorization": "Tools-only reconciliation of the entire hosted Clinic post-apply certification surface to existing Grade-A authority after run 36155894476. #13 already applied; no reapply. Application/worker unchanged. Stop before push; no dispatch, Acceptance mutation, migration/source change, Preview or Production action.",
   "deploymentAuthorized": false,
   "manualPushAndDispatchOwner": "Roger; local review only, no push or dispatch in this task.",
   "hostedFullReady": false,
@@ -59,12 +59,12 @@
       "alias": "legalease-rcap-a0d0b933f724-roger947s-projects.vercel.app"
     },
     "immutableHostname": null,
-    "creationAuthorization": "No creation by agent. After migration13 passes and Roger dispatches, create/reuse one successor at the already-bound application SHA 525e16ea64ed08b3bd65a368ff95a1ee5dc25509."
+    "creationAuthorization": "No Preview creation authorized by this task. #13 already applied; any future execution requires separate owner instruction."
   },
   "unresolvedBoundaries": [
-    "Migration13 not applied.",
-    "New application requires a successor Clinic Preview after migration PASS; old Preview remains untouched.",
-    "Clinic journey and hosted_full remain pending; Production unauthorized."
+    "Run 36155894476 remains a failed certification run; #13 applied/ledgered and canonical matter RPC corrected.",
+    "Entire corrected post-ledger path passes read-only current Acceptance certification; no rerun dispatched.",
+    "Successor Clinic Preview, Clinic journey and hosted_full remain pending; Production unauthorized."
   ],
   "supersedes": {
     "schemaVersion": "rcap-exact-hosted-tools-binding/v1",
@@ -1038,7 +1038,7 @@
       "retrySetup": "Existing bounded Clinic seed/setup only"
     }
   },
-  "previousBindingCommit": "3aed58bf6c22e54c1466a86cedf15d514bef6ecc",
+  "previousBindingCommit": "971ce89952ec76c8b6d5c7d3e98d5e2318c38b6f",
   "deploymentEvidence": null,
   "clinicMigrationDispatchReady": true,
   "supersededPreview": {
@@ -1112,5 +1112,28 @@
       "applicationSha": "62425c837b5edf3d7e22b110910885abdaec1692"
     },
     "evidence": "Read-only Acceptance ledger SELECT confirms exact 1..12; GitHub historical blob independently hashes to row12 receipt; GitHub run metadata confirms workflow SHA and failed apply step."
+  },
+  "clinicPostApplyCertification": {
+    "workflowRunId": 36155894476,
+    "workflowSha": "971ce89952ec76c8b6d5c7d3e98d5e2318c38b6f",
+    "runConclusion": "failure",
+    "migration13AppliedAndLedgered": true,
+    "migration13AppliedAt": "2026-09-25T15:43:05.04488Z",
+    "canonicalMatterRpcCorrected": true,
+    "ledgerRowsExact": 13,
+    "reapplyAuthorized": false,
+    "firstFailure": "consumer_artifact_provenance_prerequisite_exact",
+    "staleCertificationAssumptions": [
+      "pre-regeneration provenance shape 11 columns / 7 constraints",
+      "sponsored entry-point wrapper incorrectly required to contain monolithic finalizer body"
+    ],
+    "disposition": "Run successfully applied and ledgered #13, then failed stale post-apply certification. It remains a failed certification run. Subsequent read-only audit passes the entire corrected post-ledger path without applying migration SQL.",
+    "currentReadOnlyCertification": {
+      "passed": true,
+      "recordCasesPassed": 6,
+      "migrationSqlExecuted": 0,
+      "authorityAndAssertionAudit": "data/rcap-staging-authorization-readiness.json#/clinicModePreviewMigrationAuthorization/currentHostedCertification",
+      "capturedQueriesSha256": "681e7083374aa0dba25ba3418145e459fb972082a15382ad877277679d539299"
+    }
   }
 }

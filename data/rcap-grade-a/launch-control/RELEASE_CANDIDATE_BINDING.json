@@ -43,16 +43,16 @@
       "bytes": 266589
     }
   },
-  "hostedAcceptanceStatus": "PENDING_EXACT_CLINIC_MIGRATION_13_AND_SUCCESSOR_PREVIEW",
+  "hostedAcceptanceStatus": "CLINIC_MIGRATION_13_APPLIED_CERTIFICATION_RECONCILED_READ_ONLY",
   "hostedAcceptance": {
     "journeys": [],
     "manualHostedFullReady": false,
     "preview": null,
     "naturalDelivery": null,
-    "note": "Application SHA remains 525e16ea64ed08b3bd65a368ff95a1ee5dc25509 and already contains the unchanged canonical-matter migration. Migration #13 is not applied; historical hosted #12 is preserved. No successor Preview created; failed runs remain preserved."
+    "note": "Application SHA remains 525e16ea64ed08b3bd65a368ff95a1ee5dc25509. Run 36155894476 applied and ledgered #13 before stale certification failed. Entire corrected post-ledger path now passes read-only Acceptance certification; no workflow rerun or successor Preview created. Failed runs remain preserved."
   },
   "supersededRecordSha256": "0a8b797e98d0eb09891649328fc5345f38265718abcb1268af087618ee2142e3",
-  "scope": "Tools-only Clinic ledger reconciliation for failed run 36151713747. Application and migration bytes unchanged. Local independent review only; no push, dispatch, acceptance mutation, deployment, worker publication or Production action.",
+  "scope": "Tools-only reconciliation of the entire hosted Clinic post-apply certification surface to existing Grade-A authority after run 36155894476. #13 already applied; no reapply. Application/worker unchanged. Stop before push; no dispatch, Acceptance mutation, migration/source change, Preview or Production action.",
   "previewExecutionInstruction": {
     "mode": "hosted_clinic_migrate",
     "manualDispatchOwner": "Roger",
@@ -62,7 +62,7 @@
       "bind returned exact Preview pins",
       "hosted_clinic_preview"
     ],
-    "authorization": "Prepared locally only. Stop before push or dispatch. Migration13 must PASS before one new isolated Preview; no ordinary Preview change.",
+    "authorization": "Stop before push or dispatch. #13 is already applied; do not reapply. Any separately authorized future hosted_clinic_migrate execution must see 13/13 and execute zero migration SQL.",
     "workflowInputsBeforeDispatch": "Use this application SHA and the final reviewed tools SHA. Preview ID/hostname blank for migrate/deploy. Exact successor Preview must be read back and bound before clinic_preview."
   },
   "applicationPin": {
@@ -72,7 +72,7 @@
     "canonicalWorkerInputDiff": [],
     "workerInputFingerprint": "sha256:10af7c4db830f49c3028087b1b68973f2f2753a75e72b4ff4c8f25320eb1b21a",
     "staticWorkerAuthorityByteIdentical": true,
-    "databaseRuntimeChange": "Forward RPC correction only, not yet applied.",
+    "databaseRuntimeChange": "Canonical presentation RPC correction applied and ledgered by run 36155894476; independently confirmed read-only. No additional database/runtime change in this tools-only reconciliation.",
     "migrationPath": "supabase/migrations/20260925134704_canonical_consumer_presentation_matter.sql",
     "migrationSha256": "378af4a07b2c02a5405eb5d9c02e4b2b47165485283deaeabeaf01c069f378bc"
   },
@@ -1707,8 +1707,8 @@
     },
     "independentExactBindingReviewRequiredBeforePush": true
   },
-  "previousBindingCommit": "3aed58bf6c22e54c1466a86cedf15d514bef6ecc",
-  "previousBindingSha256": "19e5ad27cda7f7484852dd6b431b697c6818cafead50bfcdd78e83fcb18aafc7",
+  "previousBindingCommit": "971ce89952ec76c8b6d5c7d3e98d5e2318c38b6f",
+  "previousBindingSha256": "e356b1d5eb45d29aa19b1e779bd4dc42770417a3be30c17be30748a4befabf93",
   "failedClinicMigrationRun": {
     "runId": 36151713747,
     "workflowSha": "3aed58bf6c22e54c1466a86cedf15d514bef6ecc",
@@ -1724,5 +1724,28 @@
       "applicationSha": "62425c837b5edf3d7e22b110910885abdaec1692"
     },
     "evidence": "Read-only Acceptance ledger SELECT confirms exact 1..12; GitHub historical blob independently hashes to row12 receipt; GitHub run metadata confirms workflow SHA and failed apply step."
+  },
+  "clinicPostApplyCertification": {
+    "workflowRunId": 36155894476,
+    "workflowSha": "971ce89952ec76c8b6d5c7d3e98d5e2318c38b6f",
+    "runConclusion": "failure",
+    "migration13AppliedAndLedgered": true,
+    "migration13AppliedAt": "2026-09-25T15:43:05.04488Z",
+    "canonicalMatterRpcCorrected": true,
+    "ledgerRowsExact": 13,
+    "reapplyAuthorized": false,
+    "firstFailure": "consumer_artifact_provenance_prerequisite_exact",
+    "staleCertificationAssumptions": [
+      "pre-regeneration provenance shape 11 columns / 7 constraints",
+      "sponsored entry-point wrapper incorrectly required to contain monolithic finalizer body"
+    ],
+    "disposition": "Run successfully applied and ledgered #13, then failed stale post-apply certification. It remains a failed certification run. Subsequent read-only audit passes the entire corrected post-ledger path without applying migration SQL.",
+    "currentReadOnlyCertification": {
+      "passed": true,
+      "recordCasesPassed": 6,
+      "migrationSqlExecuted": 0,
+      "authorityAndAssertionAudit": "data/rcap-staging-authorization-readiness.json#/clinicModePreviewMigrationAuthorization/currentHostedCertification",
+      "capturedQueriesSha256": "681e7083374aa0dba25ba3418145e459fb972082a15382ad877277679d539299"
+    }
   }
 }
