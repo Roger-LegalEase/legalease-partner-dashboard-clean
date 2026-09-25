@@ -17,7 +17,7 @@ function fixture(route='',{catalog='prod_synthetic',email=null}={}) {
   // deployment env grew CATALOG_PRODUCT_ID, LEGAL_AID_EMAIL and
   // acceptanceServerSecret and this context did not, every test below stopped
   // running on `CATALOG_PRODUCT_ID is not defined` rather than on a contract.
-  const context={RETURN_ORIGIN:expectedHostedReturnOrigin(FROZEN_APPLICATION_SHA),SUPABASE_URL:'https://hyflxnlhpmiqxvvcoiia.supabase.co',keys:{anon:'synthetic-anon',service:'synthetic-service'},ROUTE_STATE:route,SCOPE_IDS:route?'synthetic-id':'',CATALOG_PRODUCT_ID:catalog,LEGAL_AID_EMAIL:email,acceptanceServerSecret:(purpose,bytes)=>Buffer.alloc(bytes,7),Buffer,process:{env:{HOSTED_STRIPE_TEST_SECRET:'sk_test_synthetic',HOSTED_STRIPE_TEST_WEBHOOK_SECRET:'whsec_synthetic'}}};
+  const context={RETURN_ORIGIN:expectedHostedReturnOrigin(FROZEN_APPLICATION_SHA),SUPABASE_URL:'https://hyflxnlhpmiqxvvcoiia.supabase.co',keys:{anon:'synthetic-anon',service:'synthetic-service'},CLINIC_DEMO_MODE:'',ROUTE_STATE:route,SCOPE_IDS:route?'synthetic-id':'',CATALOG_PRODUCT_ID:catalog,LEGAL_AID_EMAIL:email,acceptanceServerSecret:(purpose,bytes)=>Buffer.alloc(bytes,7),Buffer,process:{env:{HOSTED_STRIPE_TEST_SECRET:'sk_test_synthetic',HOSTED_STRIPE_TEST_WEBHOOK_SECRET:'whsec_synthetic'}}};
   const env=vm.runInNewContext(source.slice(source.indexOf('const runtimeEnv ='),source.indexOf('// A live Stripe key'))+'\nJSON.stringify({runtimeEnv,buildEnv});',context);
   return {identity,token:'synthetic-token',applicationSha:FROZEN_APPLICATION_SHA,...JSON.parse(env),meta:{...FROZEN_WORKER_METADATA,rcapApplicationSha:FROZEN_APPLICATION_SHA,rcapAcceptanceProjectRef:'hyflxnlhpmiqxvvcoiia',rcapStripeConfigured:'true',rcapRouteState:route||'disabled',rcapReturnOrigin:context.RETURN_ORIGIN,rcapClinicDemoMode:'none',rcapStagingScopeSha256:'a'.repeat(64)}};
 }
@@ -206,17 +206,10 @@ test('build polling is GET-only, exact ID-bound, and never creates twice',async(
   const m=mock(o,{changes:{readyState:'BUILDING'}});await assert.rejects(createRestPreview(o,{...m,maxPolls:0}),/REST_BUILD_TIMEOUT_NO_RETRY/);assert.equal(m.calls.length,1);
 });
 test('unchanged runtime environment and probes preserved; alias gated after exact identity',()=>{
-  // Re-pinned from 6a0217b024c to 7d606f90a, the commit that owns these
-  // segments today. Two of the four had legitimately moved forward since
-  // 6a0217b: findReusableDeployment gained the rcapCatalogProduct
-  // discriminator, so a Preview built for a different catalog Product is no
-  // longer reusable, and the deployment env gained the catalog Product, the
-  // Legal Aid email provider and the per-acceptance server secrets. Both are
-  // deliberate product moves the older pin could not describe -- and it never
-  // reported them, because the whole suite was failing to evaluate first.
-  // Re-pinning is the mechanism; the end marker is now the same on both sides
-  // rather than two different ones that only happened to align at 6a0217b.
-  const baseline=execFileSync('git',['show','7d606f90ac9f750f94d2c7b99a3bb2c38f2fb2a3:scripts/rcap-hosted-acceptance-deploy.mjs'],{encoding:'utf8'});
+  // Compare unchanged deployment environment/probes with today's accepted
+  // source. It already includes the sponsored Preview channel; the older
+  // baseline predates that input. Successor orchestration changes are tested below.
+  const baseline=execFileSync('git',['show','2742392d59579d823cd0cdc54456f5e80a210aaf:scripts/rcap-hosted-acceptance-deploy.mjs'],{encoding:'utf8'});
   const segment=(s,a,b)=>s.slice(s.indexOf(a),s.indexOf(b,s.indexOf(a)));
   // Reuse and before/after snapshots now bind the accepted worker and require
   // successful readback. Their new behavior is executed below; the unchanged
