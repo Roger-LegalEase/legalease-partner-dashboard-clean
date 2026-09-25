@@ -170,6 +170,22 @@ try {
   assert.equal(verifyReleaseCandidateBinding(root, null).status, "NOT_FROZEN");
   console.log("PASS: absent tooling binding neither blocks a clean candidate nor excuses tooling drift");
 
+  // An empty exact tools set must not turn a path-scoped diff into a whole-tree diff.
+  git("reset", "-q", "--hard", publicationSha); git("clean", "-qfd");
+  bind({ ...candidate, toolsSha: publicationSha, orchestrationFiles: [] });
+  assert.equal(verifyReleaseCandidateBinding(root, candidate).current, true);
+  const publication = JSON.parse(fs.readFileSync(path.join(root, PUBLICATION)));
+  write(PUBLICATION, { ...publication, evidenceNote: "read-only receipt metadata" });
+  assert.equal(verifyReleaseCandidateBinding(root, candidate).current, true);
+  write("src/placeholder.ts", "export const placeholder = false;\n");
+  assert.equal(verifyReleaseCandidateBinding(root, candidate).current, false);
+  git("checkout", "--", "src/placeholder.ts");
+  write("scripts/unreviewed.mjs", "// unauthorized tool\n");
+  git("add", "scripts/unreviewed.mjs");
+  assert.equal(verifyReleaseCandidateBinding(root, candidate).current, false);
+  reset();
+  console.log("PASS empty tools set: evidence receipt allowed; application and unreviewed tool drift refused");
+
   // Pending product successor is measurable but NEVER a current release.
   write("src/changed.ts", "export const safety = true;\n");
   git("add", "src/changed.ts"); git("commit", "-q", "-m", "pending product successor");

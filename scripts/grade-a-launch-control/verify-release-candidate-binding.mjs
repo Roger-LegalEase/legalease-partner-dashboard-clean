@@ -295,7 +295,7 @@ export function verifyReleaseCandidateBinding(root, candidate, receiptPaths = []
       const actual = delta.filter(p => bounded.has(p)).sort();
       if (!Array.isArray(declared) || JSON.stringify([...declared].sort()) !== JSON.stringify(actual)) throw new Error('Tooling file set mismatch');
       // The approved commit's exact blobs must still be present: future changes refuse.
-      git(['diff', '--exit-code', binding.toolsSha, '--', ...actual]);
+      if (actual.length > 0) git(['diff', '--exit-code', binding.toolsSha, '--', ...actual]);
       const toolPlan = createWorkerInputPlan({rootDir: root, candidateSha: binding.toolsSha,
         acceptedSourceSha: frozen.workerSourceSha, acceptedDigest: frozen.workerDigest});
       if (toolPlan.rebuildRequired || toolPlan.aggregateInputSha256 !== frozen.workerInputFingerprint) throw new Error('Tool worker mismatch');
