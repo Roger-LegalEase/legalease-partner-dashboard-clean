@@ -1,3 +1,4 @@
+import { MISSISSIPPI_SYNTHETIC_PACKET_FACTS } from "./rcap-ms-nonconviction-synthetic-facts.mjs";
 // Focused, no-network behavior checks for the approved free-Briefcase flow.
 //
 // This imports the real save policy, in-memory Briefcase adapter, and protected
@@ -191,69 +192,7 @@ const authoritativeReview = evaluateAuthoritativeScreeningResult({
   answers: reviewScreeningAnswers
 });
 const msRequired = authoritativeReview.evaluation.packetPlan.requiredInputIds;
-const cleanPacketAnswers = {
-  age_at_offense: { value: "30", unknown: false },
-  actual_arrest: "Yes",
-  agency_case_or_citation_number: "HPD-2014-00125",
-  agency_case_number: "HPD-2014-00125",
-  aliases: "None",
-  arrest_date: "2014-01-10",
-  arrest_location: "Jackson, Mississippi",
-  arrest_or_citation_date: "2014-01-10",
-  arresting_agency: "Hinds County Sheriff's Office",
-  arresting_or_citing_agency: "Hinds County Sheriff's Office",
-  case_caption_defendant_name: "Acceptance Consumer",
-  case_caption_plaintiff_name: "State of Mississippi",
-  case_outcome: "Dismissed, no-billed, nolle prosequi, or not prosecuted",
-  case_number: "25-CI-00125",
-  charge: { value: "Synthetic misdemeanor charge", unknown: false },
-  charge_classification: "Misdemeanor",
-  charge_legal_citation: "Synthetic test citation",
-  contact_information: "100 Acceptance Way, Jackson, MS 39201",
-  county: { value: "Hinds County", unknown: false },
-  court: { value: "Hinds County Circuit Court", unknown: false },
-  court_name: "Hinds County Circuit Court",
-  court_type: "Circuit Court",
-  date_of_birth: "1990-04-12",
-  disposition_date: { value: "2015-01-15", unknown: false },
-  disposition_record_wording: "Charges dropped",
-  email_address: "acceptance.consumer@example.test",
-  filing_location: "Hinds County",
-  financial_obligations: "Yes",
-  indictment_record: "No indictment was returned.",
-  mcic_identifier_delivery_method: "Confidential court-approved MCIC identifier addendum",
-  mcic_identifier_method_confirmation_source: "Confirmed by the Hinds County Circuit Clerk on 2026-08-15",
-  mailing_address: "100 Acceptance Way, Jackson, MS 39201",
-  name_used_at_arrest: "Acceptance Consumer",
-  nonadjudication_or_diversion: "No",
-  offense_category: { value: "Misdemeanor", unknown: false },
-  offense_date: "2014-01-01",
-  offense_level: "Misdemeanor",
-  open_co_defendant_matter: "No",
-  other_recordkeeping_agencies: "Mississippi Criminal Information Center",
-  participant_full_legal_name: "Acceptance Consumer",
-  personal_impact_confirmed: "No",
-  personal_impact_statement: "Not provided",
-  pending_cases: "No",
-  phone_number: "601-555-0125",
-  prior_relief: "No",
-  prosecuting_authority_name: "Hinds County District Attorney's Office",
-  prosecuting_authority_service_address: "P.O. Box 22747, Jackson, MS 39225",
-  race: "Not stated in synthetic test",
-  record_type: "Arrest or charge",
-  release_confirmed: "Yes",
-  release_date_or_record_source: "Synthetic release record dated 2014-01-10",
-  residency_or_location: { value: "Jackson, Mississippi", unknown: false },
-  sentence_completion_date: "Yes",
-  service_address_confirmation_status: "Confirmed by court or prosecutor",
-  sex: "Not stated in synthetic test",
-  social_security_number: "999-88-0125",
-  social_security_number_last_four: "0125",
-  statutory_disposition_category: "Charges dropped",
-  trafficking_status: "No",
-  certified_disposition_exhibit_status: "Attached as Exhibit A",
-  docket_sheet_exhibit_status: "Inserted as Exhibit B"
-};
+const cleanPacketAnswers = MISSISSIPPI_SYNTHETIC_PACKET_FACTS;
 const reviewMatter = {
   ...packetRetry,
   state: "MS",
@@ -341,6 +280,142 @@ assert.equal(verified.readyToGenerate, true);
 assert.equal(verified.protectedTransition.nextVerification.status, "verified");
 assert.equal(verified.protectedTransition.nextVerification.draftHash, completed.protectedTransition.nextVerification.draftHash, "explicit verification promotes the same protected draft");
 
+// Run 36167663663: valid hashes do not make participant-delivery facts safe.
+const packetAuthority = await import("../src/lib/expungement-ai/packet-information.ts");
+const { mississippiParticipantDeliverySafety } = await import("../src/lib/expungement-ai/packet-route-safety.ts");
+const { composablePacketSpecificationFor } = await import("../src/lib/rcap/grade-a/packet-specification.ts");
+const { composeParticipantDeliveryPacket } = await import("../src/lib/rcap/grade-a/participant-packet.ts");
+const { GradeAPacketCompositionError } = await import("../src/lib/rcap/grade-a/composer.ts");
+const { createHash } = await import("node:crypto");
+const routeKey = `MS:${PACKET_PATHWAY_ID}`;
+const specification = composablePacketSpecificationFor(routeKey);
+const canonicalFacts = Object.fromEntries(Object.entries(cleanPacketAnswers).map(([key,value]) => [key,typeof value === "object" ? value.value : value]));
+const participantMatter = {routeKey,jurisdiction:"MS",pathwayId:PACKET_PATHWAY_ID,facts:canonicalFacts,
+  verifiedAt:verified.protectedTransition.nextVerification.snapshot.verifiedAt,verificationHash:"a".repeat(64),generationPurpose:"participant_delivery"};
+const validPacket = composeParticipantDeliveryPacket(specification,participantMatter);
+assert.ok(validPacket.documents.length > 0);
+const canonical = value => Array.isArray(value) ? value.map(canonical) : value && typeof value === "object"
+  ? Object.fromEntries(Object.keys(value).sort().map(key=>[key,canonical(value[key])])) : value;
+const hash = value => createHash("sha256").update(JSON.stringify(canonical(value))).digest("hex");
+const protectedWith = (changes, at=participantMatter.verifiedAt) => {
+  const record=structuredClone(verified.protectedTransition.nextVerification);
+  for(const snap of [record.snapshot,record.draftSnapshot]) {
+    for(const [key,value] of Object.entries(changes)) {
+      for(const map of ["screeningAnswers","prefilledAnswers","packetAnswers"]) delete snap[map][key];
+      snap.packetAnswers[key]=value;
+    }
+  }
+  record.snapshot.verifiedAt=at;
+  record.hash=hash(record.snapshot);record.draftHash=hash(record.draftSnapshot);
+  return record;
+};
+const mutations = [
+  ["full SSN length",{social_security_number:"1234"}],
+  ["last four length",{social_security_number_last_four:"125"}],
+  ["SSN agreement",{social_security_number_last_four:"0123"}],
+  ["protected MCIC channel",{mcic_identifier_delivery_method:"Public filing"}],
+  ["court/clerk confirmation",{mcic_identifier_method_confirmation_source:"Hinds County Circuit Court"}],
+  ["malformed date",{mcic_identifier_method_confirmation_source:"Confirmed by the Hinds County Circuit Clerk on 2026-02-30"}],
+  ["future date",{mcic_identifier_method_confirmation_source:"Confirmed by the Hinds County Circuit Clerk on 2999-01-01"}],
+  ["actual arrest",{actual_arrest:"No"}],
+  ["release",{release_confirmed:"No"}],
+  ["custodial arrest record",{record_type:"Citation only; no custodial arrest"}],
+  ["unknown wrapper",{social_security_number:{value:"999-88-0125",unknown:true}}]
+];
+for(const [name,changes] of mutations) {
+  assert.equal(mississippiParticipantDeliverySafety({...canonicalFacts,...changes},participantMatter.verifiedAt).safe,false,name);
+  const saved=packetInformationPatch({existingItem:reviewMatter,protectedVerification:completed.protectedTransition.nextVerification,answers:changes,verify:true});
+  assert.ok(!saved || !saved.readyToGenerate,`${name}: draft cannot verify`);
+  assert.throws(()=>packetAuthority.requireCurrentPacketVerificationRecord(reviewMatter,protectedWith(changes)),packetAuthority.CurrentPacketVerificationRequiredError,`${name}: protected currentness`);
+  assert.throws(()=>composeParticipantDeliveryPacket(specification,{...participantMatter,facts:{...canonicalFacts,...changes}}),GradeAPacketCompositionError,`${name}: composition`);
+}
+const badProtected = protectedWith({social_security_number:"25-CR-000123",social_security_number_last_four:"0123",
+  mcic_identifier_method_confirmation_source:"Hinds County Circuit Court"});
+assert.equal(badProtected.status,"verified");
+assert.equal(hash(badProtected.snapshot),badProtected.hash);
+const badModel=protectedPacketInformationModelFor(badProtected);
+assert.ok(badModel,"unsafe protected facts remain available to correct, without rewriting history");
+assert.equal(badModel.reviewSafety.safe,false);
+assert.notEqual(badModel.stage,"ready_to_generate");
+assert.equal(badModel.reviewedAt,null);
+assert.throws(()=>packetAuthority.requireCurrentPacketVerificationRecord(reviewMatter,badProtected),packetAuthority.CurrentPacketVerificationRequiredError);
+const { decorateBriefcaseItemForPresentationWithDependencies } = await import("../src/lib/expungement-ai/briefcase-presentation-authority.ts");
+const badPresentation = await decorateBriefcaseItemForPresentationWithDependencies({consumerAuthUserId:USER_ID,item:reviewMatter}, {
+  readProtectedVerification:async()=>({ok:true,value:badProtected}),
+  readProtectedArtifact:async()=>({ok:true,value:null}),
+  readPaymentAuthority:async()=>({valid:false}),
+  readTrustedPendingSource:async()=>({ok:false,reason:"fixture source not needed"}),
+  evaluateAuthoritative:evaluateAuthoritativeScreeningResult
+});
+assert.equal(badPresentation.verificationStatus,"invalidated");
+assert.equal(badPresentation.packetDraft.reviewSafety.safe,false);
+const React = require("react");
+const clientActions = loadTsWithMocks("src/components/expungement-ai/packet-verification-client.ts",{});
+const {PacketVerificationAction} = loadTsWithMocks("src/components/expungement-ai/PacketVerificationAction.tsx",{
+  "next/navigation":{useRouter:()=>({refresh(){}})},
+  "@/components/expungement-ai/LocalizationProvider":{useLocalization:()=>({text:x=>x})},
+  "@/components/expungement-ai/packet-verification-client":clientActions,
+  "@/app/expungement-ai/pay/ConsumerCheckoutButton":{ConsumerCheckoutButton:()=>{throw Error("unsafe facts exposed checkout");}},
+  "@/components/expungement-ai/PacketGenerateButton":{PacketGenerateButton:()=>{throw Error("unsafe facts exposed generation");}}
+});
+const unsafeHtml = require("react-dom/server").renderToStaticMarkup(React.createElement(PacketVerificationAction,{
+  itemId:reviewMatter.id,verificationAnswers:badModel.initialAnswers,initiallyVerified:false,
+  canVerify:badModel.reviewSafety.safe,mode:"sponsored",
+  commercialActions:{...badPresentation.commercialActions,fulfillmentAvailable:true}
+}));
+assert.doesNotMatch(unsafeHtml,/Verify and prepare clinic packet|I verified these packet facts/);
+
+// Stored verifiedAt, not today's date, decides whether confirmation was future.
+assert.throws(()=>packetAuthority.requireCurrentPacketVerificationRecord(reviewMatter,protectedWith({},"2026-08-14T23:59:59Z")),packetAuthority.CurrentPacketVerificationRequiredError);
+// The prospective timestamp is exactly the one persisted in the final snapshot.
+const RealDate=globalThis.Date;
+try {
+  globalThis.Date=class extends RealDate {constructor(...args){super(...(args.length?args:["2026-08-14T23:59:59Z"]));}};
+  assert.equal(packetInformationPatch({existingItem:reviewMatter,protectedVerification:completed.protectedTransition.nextVerification,answers:{},verify:true}).readyToGenerate,false);
+} finally {globalThis.Date=RealDate;}
+for(const method of ["Confidential court-approved MCIC identifier addendum","Court-approved MCIC identifier sheet","Court-approved nonpublic certified copy","Court-approved signed-order identifier channel"]) {
+  const facts={...canonicalFacts,mcic_identifier_delivery_method:method};
+  assert.equal(mississippiParticipantDeliverySafety(facts,participantMatter.verifiedAt).safe,true);
+  assert.ok(composeParticipantDeliveryPacket(specification,{...participantMatter,facts}).documents.length);
+}
+const internalFacts={...canonicalFacts,mcic_identifier_delivery_method:"internal review only",mcic_identifier_method_confirmation_source:"Not confirmed"};
+assert.ok(composeParticipantDeliveryPacket(specification,{...participantMatter,generationPurpose:"internal_review",facts:internalFacts}));
+assert.throws(()=>composeParticipantDeliveryPacket(specification,{...participantMatter,facts:internalFacts}),GradeAPacketCompositionError);
+assert.throws(()=>composeParticipantDeliveryPacket(specification,{...participantMatter,generationPurpose:"internal_review",facts:{...internalFacts,social_security_number:"123"}}),GradeAPacketCompositionError);
+const filingLater={...canonicalFacts,certified_disposition_exhibit_status:"To be obtained before filing",docket_sheet_exhibit_status:"To be obtained before filing",service_address_confirmation_status:"To be confirmed before filing or service"};
+assert.equal(mississippiParticipantDeliverySafety(filingLater,participantMatter.verifiedAt).safe,true);
+assert.ok(composeParticipantDeliveryPacket(specification,{...participantMatter,facts:filingLater}));
+
+// Execute actual POST + generation function, with real currentness and inert external ports.
+const calls={unexpected:[],artifactReads:0};
+const importDoubles = relative => Object.fromEntries(ts.createSourceFile(relative,fs.readFileSync(path.join(rootDir,relative),"utf8"),ts.ScriptTarget.Latest,true).statements
+  .filter(ts.isImportDeclaration).map(statement=>[statement.moduleSpecifier.text,new Proxy({}, {get:(_,key)=>()=>{calls.unexpected.push(String(key));throw new Error(`unexpected side effect ${String(key)}`);}})]));
+const generationPath="src/lib/expungement-ai/packet-generation.ts";
+const generationMocks=importDoubles(generationPath);
+generationMocks["@/lib/expungement-ai/briefcase"]={getBriefcaseItem:async()=>reviewMatter};
+generationMocks["@/lib/expungement-ai/verification-cas"]={readProtectedPacketArtifact:async()=>{calls.artifactReads++;return {ok:true,value:null};}};
+generationMocks["@/lib/expungement-ai/packet-information"]={...packetAuthority,
+  requireCurrentPacketVerification:async()=>packetAuthority.requireCurrentPacketVerificationRecord(reviewMatter,badProtected)};
+const generation=loadTsWithMocks(generationPath,generationMocks);
+const routePath="src/app/api/expungement-ai/packet/generate/route.ts";
+const routeMocks=importDoubles(routePath);
+routeMocks["next/server"]={NextResponse:{json:(body,init)=>new Response(JSON.stringify(body),init)}};
+routeMocks["@/lib/expungement-ai/auth"]={requireConsumerBriefcaseSession:async()=>({userId:USER_ID})};
+routeMocks["@/lib/expungement-ai/packet-generation"]=generation;
+routeMocks["@/lib/expungement-ai/packet-information"]=packetAuthority;
+routeMocks["@/lib/rcap/render/commercial-admission"]={CommercialAdmissionDeniedError:class extends Error{}};
+const generateRoute=loadTsWithMocks(routePath,routeMocks);
+const response=await generateRoute.POST({json:async()=>({briefcaseItemId:reviewMatter.id})});
+assert.equal(response.status,409);
+assert.deepEqual(await response.json(),{error:"Current final verification is required before packet generation."});
+assert.equal(calls.artifactReads,1);
+assert.deepEqual(calls.unexpected,[],"zero sponsorship resolution/consumption, composition, enqueue, artifact writes or finalization");
+const {assembleParticipantPacket}=await import("../src/lib/rcap/render/participant-packet-assembly.ts");
+const assembly=await assembleParticipantPacket(validPacket,{routeKey,specification,variant:"full",locale:"en",verifiedAt:participantMatter.verifiedAt,
+  matter:{preparedFor:canonicalFacts.participant_full_legal_name,preparedOn:participantMatter.verifiedAt.slice(0,10),jurisdiction:"MS",courtOrAgency:canonicalFacts.court_name,caseOrMatter:canonicalFacts.case_number,remedy:specification.pathwayLabel,packetId:"local-ms-safety-parity"}});
+assert.ok(assembly.bytes.length>1000 && assembly.guideAssembled);
+console.log(`MS gate parity: ${mutations.length}/${mutations.length} draft/currentness/composer mutations; exact protected bad snapshot HTTP409; zero side-effect calls; full participant PDF ${assembly.bytes.length} bytes; sha256 ${createHash("sha256").update(assembly.bytes).digest("hex")}`);
+
 // PostgreSQL jsonb may reorder every object's keys. Ordering changes must retain
 // authority, while a changed fact with the same stored hash must still fail.
 const reverseKeys = value => Array.isArray(value) ? value.map(reverseKeys)
@@ -386,6 +461,7 @@ function loadTsWithMocks(relPath, mocks) {
   const transpiled = ts.transpileModule(fs.readFileSync(resolved, "utf8"), {
     compilerOptions: {
       esModuleInterop: true,
+      jsx: ts.JsxEmit.ReactJSX,
       module: ts.ModuleKind.CommonJS,
       target: ts.ScriptTarget.ES2022
     }

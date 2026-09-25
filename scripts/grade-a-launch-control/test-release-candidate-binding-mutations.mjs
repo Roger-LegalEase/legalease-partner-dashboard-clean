@@ -17,6 +17,7 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { execFileSync } from "node:child_process";
+import { createWorkerInputPlan } from "../rcap-hosted-acceptance-worker-input-plan.mjs";
 import { verifyReleaseCandidateBinding } from "./verify-release-candidate-binding.mjs";
 
 // The literal tuple the verifier used to hard-code. Named here only so the test
@@ -168,6 +169,28 @@ try {
   assert.match(unboundedDelta.reasons.join(" "), /Candidate inputs changed/);
   assert.equal(verifyReleaseCandidateBinding(root, null).status, "NOT_FROZEN");
   console.log("PASS: absent tooling binding neither blocks a clean candidate nor excuses tooling drift");
+
+  // Pending product successor is measurable but NEVER a current release.
+  write("src/changed.ts", "export const safety = true;\n");
+  git("add", "src/changed.ts"); git("commit", "-q", "-m", "pending product successor");
+  const successor = git("rev-parse", "HEAD");
+  const plan = createWorkerInputPlan({rootDir:root,candidateSha:successor,acceptedSourceSha:workerSourceSha,acceptedDigest:workerDigest});
+  const pending = {status:"AWAITING_WORKER_PUBLICATION",applicationSha:successor,workerSourceSha:successor,
+    workerDigest:null,workerDigestReference:null,publication:null,readOnlyImageAcceptance:null,
+    workerInputFingerprint:plan.aggregateInputSha256,workerRebuildRequired:true,runtimeAccepted:false,
+    productionAuthorized:false,productionAuthorization:null};
+  write(TOOLING,{...pending,toolsSha:successor,orchestrationFiles:[],deploymentAuthorized:false,additionalWorkerPublicationAuthorized:false});
+  const pendingResult=verifyReleaseCandidateBinding(root,pending);
+  assert.equal(pendingResult.current,false);
+  assert.equal(pendingResult.status,"AWAITING_WORKER_PUBLICATION",JSON.stringify(pendingResult));
+  for (const patch of [{workerDigest},{runtimeAccepted:true},{workerInputFingerprint:"sha256:"+"0".repeat(64)},
+    {productionAuthorized:true},{workerSourceSha},{publication:{conclusion:"success"}}]) {
+    const result=verifyReleaseCandidateBinding(root,{...pending,...patch});
+    assert.equal(result.current,false); assert.equal(result.status,"INVALID_PENDING_PUBLICATION");
+  }
+  write("src/changed.ts","export const safety = false;\n");
+  assert.equal(verifyReleaseCandidateBinding(root,pending).status,"INVALID_PENDING_PUBLICATION");
+  console.log("PASS pending publication: explicit non-current state; 7 acceptance/identity/drift mutations refused");
 
   console.log(`PASS release-candidate binding: future tuple accepted; ${mutations.length + 1}/${mutations.length + 1} wrong identities refused`);
 } finally {

@@ -17,9 +17,12 @@
  * holding. Nothing here talks to Production, Stripe, or the application.
  */
 
+import assert from "node:assert/strict";
+import fs from "node:fs";
+import { MISSISSIPPI_SYNTHETIC_ROUTE, mississippiSyntheticFactValue } from "./rcap-ms-nonconviction-synthetic-facts.mjs";
 import { chromium } from "playwright";
 
-import { answerBuilderStep, PACKET_SAFE_ANSWERS } from "./rcap-packet-builder-filler.mjs";
+import { answerBuilderStep, PACKET_SAFE_ANSWERS, packetFieldValue, chooseOption } from "./rcap-packet-builder-filler.mjs";
 
 /** The builder shell every question is rendered inside. */
 function builderPage(questionId, prompt, body) {
@@ -213,6 +216,31 @@ function unchecked(page) {
 }
 
 const executablePath = process.env.RCAP_BROWSER_CHROMIUM;
+const msSpec=JSON.parse(fs.readFileSync("data/record-clearing/packet-specifications/MS-nonconviction-expungement-99-19-71-4.v1.json","utf8"));
+let msFacts=0;
+for(const fact of msSpec.requiredFacts.filter(f=>f.ownership==="participant")) {
+  const expected=mississippiSyntheticFactValue(fact.factId);
+  assert.equal(typeof expected,"string");
+  assert.ok(expected.trim());
+  assert.ok(!["Acceptance test information","25-CR-000123","30"].includes(expected),fact.factId);
+  assert.equal(packetFieldValue(fact.factId,"misleading case number or age prompt",MISSISSIPPI_SYNTHETIC_ROUTE),expected);
+  CASES.push({name:`canonical Mississippi required fact ${fact.factId}`,
+    questionId:fact.factId,prompt:fact.prompt ?? fact.factId,body:`<input type="text" id="q-${fact.factId}" value="">`,
+    options:{routeKey:MISSISSIPPI_SYNTHETIC_ROUTE},
+    assert:async page=>assert.equal(await page.locator(`#q-${fact.factId}`).inputValue(),expected)});
+  msFacts++;
+}
+assert.throws(()=>packetFieldValue("new_unmapped_required_fact","case number",MISSISSIPPI_SYNTHETIC_ROUTE),/Unmapped/);
+assert.throws(()=>chooseOption("actual_arrest","arrest",["No"],MISSISSIPPI_SYNTHETIC_ROUTE),/unavailable/);
+console.log(`Mississippi fixture: ${msFacts}/${msFacts} required participant facts mapped; unknown fact and wrong option refused`);
+CASES.push({name:"canonical Mississippi birth date uses all three exact date controls",
+  questionId:"date_of_birth",prompt:"Date of birth",options:{routeKey:MISSISSIPPI_SYNTHETIC_ROUTE},
+  body:`<select id="q-date_of_birth-month"><option value=""></option><option value="04">April</option></select>
+    <select id="q-date_of_birth-day"><option value=""></option><option value="12">12</option></select>
+    <select id="q-date_of_birth-year"><option value=""></option><option value="1990">1990</option></select>`,
+  assert:async page=>{for(const [part,value] of [["month","04"],["day","12"],["year","1990"]])
+    assert.equal(await page.locator(`#q-date_of_birth-${part}`).inputValue(),value);}
+});
 const browser = await chromium.launch(executablePath ? { executablePath } : {});
 const page = await browser.newPage();
 
@@ -224,7 +252,7 @@ for (const testCase of CASES) {
       : builderPage(testCase.questionId, testCase.prompt, testCase.body));
     let refusal = null;
     try {
-      await answerBuilderStep(page);
+      await answerBuilderStep(page, testCase.options ?? {});
     } catch (error) {
       if (!testCase.expectRefusal) throw error;
       refusal = error.message;

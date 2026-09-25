@@ -429,14 +429,16 @@ function legalAuthorityFromProtectedVerification(
     || !canonicalEqual(evaluation.packetPlan ?? null, snapshot.packetPlan)) {
     return { status: "unavailable", reason: "protected_snapshot_authority_mismatch" };
   }
-  const protectedStatus = verification.status === "verified" ? "protected_verified" : "protected_draft";
-  const packetProgress: BriefcasePresentationItem["packetProgress"] = verification.status === "verified"
+  const verificationStatus = verification.status === "verified" && !model.reviewSafety.safe
+    ? "invalidated" : verification.status;
+  const protectedStatus = verificationStatus === "verified" ? "protected_verified" : "protected_draft";
+  const packetProgress: BriefcasePresentationItem["packetProgress"] = verificationStatus === "verified"
     ? "verified"
     : model.missingInputIds.length === 0
       ? "facts_complete"
       : Object.keys(model.packetAnswers).length > 0 ? "in_progress" : "not_started";
   return legalAuthorityFromEvaluation(protectedStatus, authoritative, {
-    verificationStatus: verification.status,
+    verificationStatus,
     packetProgress,
     packetDraft: presentationDraftForModel(model)
   });

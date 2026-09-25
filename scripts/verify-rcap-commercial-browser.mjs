@@ -6,6 +6,7 @@ import vm from "node:vm";
 import ts from "typescript";
 import { spawnSync } from "node:child_process";
 import { register } from "node:module";
+import { MISSISSIPPI_SYNTHETIC_ROUTE } from "./rcap-ms-nonconviction-synthetic-facts.mjs";
 import { answerBuilderStep } from "./rcap-packet-builder-filler.mjs";
 import { chromium } from "playwright";
 import { hostedVercelScopedUrl, resolveHostedVercelIdentity } from "./rcap-hosted-acceptance-vercel-identity.mjs";
@@ -604,7 +605,7 @@ async function answerChoice(page, prompt, option, final = false) {
  * validator). The shared filler never overwrites one.
  */
 async function answerCurrentBuilderQuestion(page) {
-  await answerBuilderStep(page);
+  await answerBuilderStep(page, { routeKey: MISSISSIPPI_SYNTHETIC_ROUTE });
 }
 
 function packetInformationResponse(page, itemId) {

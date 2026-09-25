@@ -56,6 +56,40 @@ export function imageAcceptanceRefusals(publication, candidate) {
 // match that candidate. Only explicitly named acceptance evidence may follow it.
 export function verifyReleaseCandidateBinding(root, candidate, receiptPaths = []) {
   if (!candidate) return { current: false, status: 'NOT_FROZEN', reasons: ['No release candidate binding exists.'] };
+  // A product repair can be exactly frozen without yet having a published or
+  // accepted successor image. This is a descriptive refusal, never admission.
+  if (candidate.status === 'AWAITING_WORKER_PUBLICATION') {
+    try {
+      if (candidate.workerRebuildRequired !== true || candidate.runtimeAccepted !== false
+        || candidate.workerDigest !== null || candidate.workerDigestReference !== null
+        || candidate.publication !== null || candidate.readOnlyImageAcceptance !== null
+        || candidate.productionAuthorized !== false || candidate.productionAuthorization !== null
+        || candidate.workerSourceSha !== candidate.applicationSha) throw new Error('Pending publication must not claim acceptance or a digest');
+      const publication = JSON.parse(fs.readFileSync(path.join(root, 'data/rcap-render/worker-publication-evidence.json')));
+      const plan = createWorkerInputPlan({rootDir: root, candidateSha: candidate.applicationSha,
+        acceptedSourceSha: publication.sourceSha, acceptedDigest: publication.immutableRegistryDigest});
+      if (!plan.rebuildRequired || plan.missingCanonicalInputs.length
+        || plan.aggregateInputSha256 !== candidate.workerInputFingerprint) throw new Error('Pending worker input proof mismatch');
+      const git = args => execFileSync('git', args, {cwd: root, encoding: 'utf8', stdio: 'pipe'}).trim();
+      git(['merge-base', '--is-ancestor', candidate.applicationSha, 'HEAD']);
+      const bindingPath = 'data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json';
+      const binding = JSON.parse(fs.readFileSync(path.join(root, bindingPath)));
+      for (const key of ['applicationSha', 'workerSourceSha', 'workerDigest', 'workerInputFingerprint']) {
+        if (binding[key] !== candidate[key]) throw new Error(`Pending tools ${key} mismatch`);
+      }
+      if (binding.toolsSha !== candidate.applicationSha || !Array.isArray(binding.orchestrationFiles) || binding.orchestrationFiles.length !== 0
+        || binding.deploymentAuthorized !== false || binding.additionalWorkerPublicationAuthorized !== false) throw new Error('Pending tools snapshot mismatch');
+      const allowed = new Set([CANDIDATE_PATH, bindingPath]);
+      const delta = git(['diff', '--name-only', candidate.applicationSha]).split('\n').filter(Boolean);
+      const untracked = git(['ls-files', '--others', '--exclude-standard']).split('\n').filter(Boolean);
+      if ([...delta, ...untracked].some(p => !allowed.has(p))) throw new Error('Pending source or tools changed after freeze');
+      return {current: false, status: 'AWAITING_WORKER_PUBLICATION', reasons: [
+        'Successor source and tools are frozen; worker rebuild, publication and read-only image acceptance are required. No hosted dispatch is admitted.'
+      ]};
+    } catch (error) {
+      return {current: false, status: 'INVALID_PENDING_PUBLICATION', reasons: [error.message]};
+    }
+  }
   const reasons = [];
   if (!/^[a-f0-9]{40}$/.test(candidate.applicationSha ?? '') || !/^sha256:[a-f0-9]{64}$/.test(candidate.workerDigest ?? '')) {
     return { current: false, status: 'INVALID', reasons: ['Exact application SHA and worker digest are required.'] };

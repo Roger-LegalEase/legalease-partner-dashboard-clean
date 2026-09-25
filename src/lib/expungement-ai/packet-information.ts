@@ -26,7 +26,7 @@ import {
   packetSpecificationFor,
   type PacketSpecificationFact
 } from "@/lib/rcap/grade-a/packet-specification";
-import { MISSISSIPPI_NON_CONVICTION_NEUTRAL_FACTS, routeSafetyGateFactIds } from "@/lib/expungement-ai/packet-route-safety";
+import { MISSISSIPPI_NON_CONVICTION_NEUTRAL_FACTS, mississippiParticipantDeliverySafety, routeSafetyGateFactIds } from "@/lib/expungement-ai/packet-route-safety";
 import { baselineCarriedFactIds, routeCollectionOverrideFor } from "@/lib/expungement-ai/packet-collection-overrides";
 import {
   prepayGateFactIds,
@@ -395,7 +395,7 @@ export function packetInformationPatch(input: {
   const nextModel = protectedPacketInformationModelFor(draftRecord);
   if (!nextModel) return null;
   const review = input.verify === true && nextModel.missingInputIds.length === 0
-    ? protectedPacketDraftReviewSafety(nextDraft)
+    ? protectedPacketDraftReviewSafety(nextDraft, now)
     : {
       safe: false,
       reason: nextModel.missingInputIds.length === 0 ? "final_verification_required" : "packet_information_incomplete"
@@ -501,7 +501,8 @@ function packetVerificationStateForRecord(
   protectedAuthority = false
 ): PacketVerificationRecord {
   if (protectedAuthority && stored) {
-    return protectedPacketInformationModelFor(stored as ProtectedPacketVerificationRecord)
+    const model = protectedPacketInformationModelFor(stored as ProtectedPacketVerificationRecord);
+    return model && (stored.status !== "verified" || model.reviewSafety.safe)
       ? stored
       : { status: "invalidated", reason: "protected_verification_dependencies_changed" };
   }
@@ -597,9 +598,13 @@ export function protectedPacketInformationModelFor(
     factKeys: verificationSummary.map((fact) => fact.key),
     systemContextKeys: verificationContext.map((entry) => entry.key)
   };
-  const reviewSafety = verification.status === "verified"
+  const isMississippiNonConviction = snapshot.jurisdiction === "MS"
+    && snapshot.pathwayId === "non-conviction-expungement-for-dismissal-no-disposition-or-acquittal";
+  const reviewSafety = verification.status === "verified" && !isMississippiNonConviction
     ? { safe: true, reason: "authoritative_route_confirmed" }
-    : "capturedAt" in snapshot ? protectedPacketDraftReviewSafety(snapshot) : { safe: false, reason: verification.reason };
+    : protectedPacketDraftReviewSafety(snapshot,
+      "verifiedAt" in snapshot ? snapshot.verifiedAt : new Date().toISOString());
+  const currentlyVerified = verification.status === "verified" && reviewSafety.safe;
   return {
     stateCode: snapshot.jurisdiction,
     pathwayId: snapshot.pathwayId,
@@ -614,10 +619,10 @@ export function protectedPacketInformationModelFor(
     serverFacts,
     requiredInputIds,
     missingInputIds,
-    stage: verification.status === "verified"
+    stage: currentlyVerified
       ? "ready_to_generate"
       : missingInputIds.length === 0 ? "facts_complete" : "in_progress",
-    reviewedAt: verification.status === "verified" && "verifiedAt" in snapshot ? snapshot.verifiedAt : null,
+    reviewedAt: currentlyVerified && "verifiedAt" in snapshot ? snapshot.verifiedAt : null,
     capturedAt: "capturedAt" in snapshot ? snapshot.capturedAt : snapshot.verifiedAt,
     verificationSummary,
     verificationContext,
@@ -999,7 +1004,7 @@ export function protectedPacketDraftSeedFromAuthoritative(input: {
   return { snapshot, hash: protectedPacketDraftHash(snapshot) };
 }
 
-function protectedPacketDraftReviewSafety(draft: ProtectedPacketDraftSnapshot) {
+function protectedPacketDraftReviewSafety(draft: ProtectedPacketAuthoritySnapshot, verifiedAt: string) {
   const authoritative = evaluateProtectedPacketFacts(draft);
   if (!authoritative) return { safe: false, reason: "authoritative_reevaluation_failed" };
   const { evaluation } = authoritative;
@@ -1012,6 +1017,10 @@ function protectedPacketDraftReviewSafety(draft: ProtectedPacketDraftSnapshot) {
     ...answerRecord(draft.packetAnswers),
     ...answerRecord(draft.serverFacts)
   };
+  if (draft.jurisdiction === "MS" && draft.pathwayId === "non-conviction-expungement-for-dismissal-no-disposition-or-acquittal") {
+    const safety = mississippiNonConvictionPacketSafety(answers, verifiedAt);
+    if (!safety.safe) return safety;
+  }
   const publicProfile = projectPublicProfile(getProfileByJurisdiction(draft.jurisdiction)!);
   const questionById = new Map(allPublicQuestions(publicProfile).map((question) => [question.id, toProfileQuestion(question)]));
   for (const id of draft.requiredInputIds) {
@@ -1095,7 +1104,7 @@ function buildPacketVerificationSnapshot(
   flow: CommercialFlow,
   verifiedAt: string
 ): PacketVerificationSnapshot | null {
-  const authority = authoritativePacketContext(item, undefined, flow);
+  const authority = authoritativePacketContext(item, undefined, flow, verifiedAt);
   if (!authority.safe) return null;
   const { profile, evaluation, packetType, selectedTrackId } = authority.authoritative;
   const packetPlan = evaluation.packetPlan ?? null;
@@ -1323,7 +1332,8 @@ export function packetInformationReviewSafety(
 }
 
 export function mississippiNonConvictionPacketSafety(
-  answers: Record<string, AnswerValue>
+  answers: Record<string, AnswerValue>,
+  verifiedAt = new Date().toISOString()
 ): { safe: true; reason: string } | { safe: false; reason: string } {
   // The same list the collection policy reads, so a fact this gate decides on
   // can never be classified as one the participant is not asked before
@@ -1341,7 +1351,11 @@ export function mississippiNonConvictionPacketSafety(
   if (!dispositionWording || ambiguous.test(dispositionWording) || !statutoryEnding.test(dispositionWording)) {
     return { safe: false, reason: "route_changing_answer:disposition_record_wording" };
   }
-  return { safe: true, reason: "route_safety_confirmed" };
+  const filing = mississippiParticipantDeliverySafety(
+    answers, verifiedAt);
+  return filing.safe
+    ? { safe: true, reason: "route_safety_confirmed" }
+    : { safe: false, reason: "participant_delivery_facts_require_verification" };
 }
 
 type AuthoritativePacketContext =
@@ -1355,7 +1369,8 @@ type AuthoritativePacketContext =
 function authoritativePacketContext(
   item: ConsumerBriefcaseItem,
   answerOverride?: Record<string, AnswerValue>,
-  flowOverride?: CommercialFlow
+  flowOverride?: CommercialFlow,
+  verifiedAt = new Date().toISOString()
 ): AuthoritativePacketContext {
   const model = packetInformationModelFor(item);
   const flow = flowOverride ?? readCommercialFlow(item.artifactRefs);
@@ -1382,7 +1397,7 @@ function authoritativePacketContext(
   // These Mississippi facts are source-rule inputs. A contradictory answer
   // cannot remain attached to the ordinary non-conviction packet.
   if (model.stateCode === "MS" && model.pathwayId === "non-conviction-expungement-for-dismissal-no-disposition-or-acquittal") {
-    const routeSafety = mississippiNonConvictionPacketSafety(answers);
+    const routeSafety = mississippiNonConvictionPacketSafety(answers, verifiedAt);
     if (!routeSafety.safe) return routeSafety;
   }
 

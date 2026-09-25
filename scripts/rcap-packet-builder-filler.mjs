@@ -1,4 +1,6 @@
 #!/usr/bin/env node
+import { MISSISSIPPI_SYNTHETIC_ROUTE, mississippiSyntheticFactValue } from "./rcap-ms-nonconviction-synthetic-facts.mjs";
+
 /**
  * The packet-information builder's form filler, as one importable unit.
  *
@@ -8,11 +10,12 @@
  * is probe tooling with no bearing on the packet the worker renders.
  *
  * It answers questions; it never decides them. Every value it enters comes
- * from the answer map below, which is the map the probe has always used.
+ * from the canonical Mississippi fixture on that exact route; unrelated generic
+ * controls retain their fallback behavior.
  */
 
 /**
- * The answers this probe gives, unchanged.
+ * Generic route-safety answers reuse the canonical synthetic facts.
  *
  * The Mississippi non-conviction packet re-checks these route facts before it
  * will verify (mississippiNonConvictionPacketSafety). A first-option or
@@ -20,23 +23,16 @@
  * so these values are the run's factual position and not a convenience — they
  * are entered as written or the step refuses.
  */
-export const PACKET_SAFE_ANSWERS = Object.freeze({
-  pending_cases: "No",
-  trafficking_status: "No",
-  prior_relief: "No",
-  sentence_completion_date: "Yes",
-  financial_obligations: "Yes",
-  nonadjudication_or_diversion: "No",
-  open_co_defendant_matter: "No",
-  actual_arrest: "Yes",
-  release_confirmed: "Yes",
-  disposition_record_wording: "Charges dropped",
-  statutory_disposition_category: "Charges dropped"
-});
+export const PACKET_SAFE_ANSWERS = Object.freeze(Object.fromEntries([
+  "pending_cases", "trafficking_status", "prior_relief", "sentence_completion_date",
+  "financial_obligations", "nonadjudication_or_diversion", "open_co_defendant_matter",
+  "actual_arrest", "release_confirmed", "disposition_record_wording", "statutory_disposition_category"
+].map(id => [id, mississippiSyntheticFactValue(id)])));
 export const PACKET_ISO_DATE = "2015-01-15";
 export const PACKET_BUILDER = "[data-packet-information-builder='active']";
 
-export function packetFieldValue(id, prompt) {
+export function packetFieldValue(id, prompt, routeKey) {
+  if (routeKey === MISSISSIPPI_SYNTHETIC_ROUTE) return mississippiSyntheticFactValue(id);
   if (PACKET_SAFE_ANSWERS[id]) return PACKET_SAFE_ANSWERS[id];
   if (/_date$|_date_/.test(id) || /\bdate\b/i.test(prompt)) return PACKET_ISO_DATE;
   const known = {
@@ -87,11 +83,12 @@ export async function builderQuestionId(builder) {
  * where neither names a real option the first option that does not decline to
  * answer is taken, exactly as before.
  */
-export function chooseOption(questionId, prompt, optionValues) {
-  const safe = PACKET_SAFE_ANSWERS[questionId] ?? packetFieldValue(questionId, prompt);
+export function chooseOption(questionId, prompt, optionValues, routeKey) {
+  const safe = packetFieldValue(questionId, prompt, routeKey);
   const wanted = String(safe).toLowerCase();
   const exact = optionValues.find((value) => value.toLowerCase() === wanted);
   if (exact) return exact;
+  if (routeKey === MISSISSIPPI_SYNTHETIC_ROUTE) throw new Error(`Mississippi synthetic option unavailable: ${questionId}`);
   const prefixed = optionValues.find((value) => value.toLowerCase().startsWith(wanted));
   if (prefixed) return prefixed;
   return optionValues.find((value) => !/not sure|prefer not|unknown|don'?t know/i.test(value)) ?? null;
@@ -232,7 +229,7 @@ export async function answerBuilderStep(page, options = {}) {
   }
 }
 
-async function answerOneControl(page, { redact = (value) => value, questionId: only } = {}) {
+async function answerOneControl(page, { redact = (value) => value, questionId: only, routeKey } = {}) {
   const builder = page.locator(PACKET_BUILDER);
   // The screen's own heading is an h1 when one question owns the screen and an
   // h2 when a section does; the question's own prompt is an h3 inside a
@@ -261,7 +258,7 @@ async function answerOneControl(page, { redact = (value) => value, questionId: o
   if (await radios.count()) {
     if (await builder.locator(`input[type='radio']${named}:visible:checked`).count()) return;
     const values = await radios.evaluateAll((nodes) => nodes.map((node) => node.value).filter(Boolean));
-    const chosen = chooseOption(questionId, prompt, values);
+    const chosen = chooseOption(questionId, prompt, values, routeKey);
     if (!chosen) refuse("single-choice", `options ${JSON.stringify(values)}`);
     await builder.locator(`input[type='radio']${named}[value=${JSON.stringify(chosen)}]`).first().check();
     if (!(await builder.locator(`input[type='radio']${named}:visible:checked`).count())) {
@@ -274,7 +271,7 @@ async function answerOneControl(page, { redact = (value) => value, questionId: o
   if (await checkboxes.count()) {
     if (await builder.locator(`input[type='checkbox']${named}:visible:checked`).count()) return;
     const values = await checkboxes.evaluateAll((nodes) => nodes.map((node) => node.value).filter(Boolean));
-    const chosen = values.length ? chooseOption(questionId, prompt, values) : null;
+    const chosen = values.length ? chooseOption(questionId, prompt, values, routeKey) : null;
     const target = chosen
       ? builder.locator(`input[type='checkbox']${named}[value=${JSON.stringify(chosen)}]`).first()
       : checkboxes.first();
@@ -291,7 +288,7 @@ async function answerOneControl(page, { redact = (value) => value, questionId: o
   if (await text.count()) {
     const current = (await text.inputValue().catch(() => "")).trim();
     if (!current) {
-      await text.fill(packetFieldValue(questionId, prompt));
+      await text.fill(packetFieldValue(questionId, prompt, routeKey));
       if (!(await text.inputValue().catch(() => "")).trim()) refuse("text", "the value did not stick");
     }
     return;
@@ -301,7 +298,7 @@ async function answerOneControl(page, { redact = (value) => value, questionId: o
   if (await textarea.count()) {
     const current = (await textarea.inputValue().catch(() => "")).trim();
     if (!current) {
-      await textarea.fill(packetFieldValue(questionId, prompt));
+      await textarea.fill(packetFieldValue(questionId, prompt, routeKey));
       if (!(await textarea.inputValue().catch(() => "")).trim()) refuse("textarea", "the value did not stick");
     }
     return;
@@ -312,10 +309,13 @@ async function answerOneControl(page, { redact = (value) => value, questionId: o
     : "select:visible:enabled");
   const selectCount = await selects.count();
   if (selectCount === 3) {
-    await selects.nth(0).selectOption("01");
-    await selects.nth(1).selectOption("15");
+    const date = routeKey === MISSISSIPPI_SYNTHETIC_ROUTE ? packetFieldValue(questionId, prompt, routeKey) : PACKET_ISO_DATE;
+    const [year, month, day] = date.split("-");
+    await selects.nth(0).selectOption(month);
+    await selects.nth(1).selectOption(day);
     const years = await selects.nth(2).locator("option").evaluateAll((options) => options.map((option) => option.value).filter(Boolean));
-    await selects.nth(2).selectOption(years.includes("2015") ? "2015" : years.at(-1) ?? "2000");
+    if (routeKey === MISSISSIPPI_SYNTHETIC_ROUTE && !years.includes(year)) refuse("date", "canonical synthetic year unavailable");
+    await selects.nth(2).selectOption(years.includes(year) ? year : years.at(-1) ?? "2000");
     const parts = await selects.evaluateAll((nodes) => nodes.map((node) => node.value));
     if (parts.some((part) => !part)) refuse("date", `parts ${JSON.stringify(parts)}`);
     return;
@@ -324,7 +324,7 @@ async function answerOneControl(page, { redact = (value) => value, questionId: o
     const select = selects.first();
     if (await select.inputValue().catch(() => "")) return;
     const values = await select.locator("option").evaluateAll((options) => options.map((option) => option.value).filter(Boolean));
-    const chosen = chooseOption(questionId, prompt, values);
+    const chosen = chooseOption(questionId, prompt, values, routeKey);
     if (!chosen) refuse("select", `options ${JSON.stringify(values)}`);
     await select.selectOption(chosen);
     if (!(await select.inputValue().catch(() => ""))) refuse("select", `selecting ${JSON.stringify(chosen)} left it empty`);
