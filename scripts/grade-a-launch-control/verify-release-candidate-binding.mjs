@@ -1,5 +1,6 @@
 import { execFileSync } from 'node:child_process';
 import fs from 'node:fs';
+import { createHash } from 'node:crypto';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createWorkerInputPlan } from '../rcap-hosted-acceptance-worker-input-plan.mjs';
@@ -158,7 +159,45 @@ export function verifyReleaseCandidateBinding(root, candidate, receiptPaths = []
       const git = args => execFileSync('git', args, {cwd: root, encoding: 'utf8', stdio: 'pipe'}).trim();
       git(['merge-base', '--is-ancestor', candidate.applicationSha, binding.toolsSha]);
       git(['merge-base', '--is-ancestor', binding.toolsSha, 'HEAD']);
+      // One-commit local-only repair receipt: exact content pins avoid a
+      // self-referential tools commit SHA. This admits ONLY this finite repair,
+      // never a path prefix, runtime input or permission to execute/publish.
+      const localRepairPaths = [
+        'scripts/rcap-acceptance-fixture-retention.mjs',
+        'scripts/rcap-acceptance-queue-reconciliation.mjs',
+        'scripts/rcap-acceptance-queue-reconciliation.test.mjs',
+        'scripts/rcap-hosted-acceptance-payment.mjs',
+        'scripts/verify-rcap-target-worker-journey.mjs',
+        'scripts/grade-a-launch-control/verify-release-candidate-binding.mjs',
+        'scripts/grade-a-launch-control/test-acceptance-queue-tools-binding.mjs',
+        'scripts/grade-a-launch-control/verify-release-candidate-binding.test.mjs',
+        'scripts/grade-a-launch-control/verify-hosted-tools-binding.test.mjs',
+        'docs/rcap/grade-a/handoffs/ACCEPTANCE_QUEUE_36186574507_INVENTORY.json',
+        'docs/rcap/grade-a/handoffs/ACCEPTANCE_QUEUE_36186574507_REPAIR.md'
+      ];
+      const localPinned = new Set();
+      if (binding.localQueueLifecycleRepair) {
+        const repair = binding.localQueueLifecycleRepair;
+        if (repair.schemaVersion !== 'rcap-local-queue-lifecycle-tools/v1'
+          || repair.baseSha !== '18d26b2fd2280d34b105bb69da2f0e26cb05613e'
+          || repair.executionAuthorized !== false || repair.pushAuthorized !== false
+          || binding.clinicDispatchReady !== false || binding.hostedFullReady !== false
+          || binding.productionAuthorized !== false || binding.deploymentAuthorized !== false
+          || binding.migrationReplayAuthorized !== false || binding.housekeepingReplayAuthorized !== false
+          || binding.additionalWorkerPublicationAuthorized !== false || binding.imageAcceptanceRerunAuthorized !== false)
+          throw new Error('Local queue repair must remain execution-held');
+        git(['merge-base','--is-ancestor',repair.baseSha,'HEAD']);
+        if (JSON.stringify(Object.keys(repair.files ?? {}).sort()) !== JSON.stringify([...localRepairPaths].sort()))
+          throw new Error('Local queue repair file set differs');
+        for (const p of localRepairPaths) {
+          const hash = createHash('sha256').update(fs.readFileSync(path.join(root,p))).digest('hex');
+          if (repair.files[p] !== hash) throw new Error(`Local queue repair content drift: ${p}`);
+          localPinned.add(p);
+          generated.add(p);
+        }
+      }
       const bounded = new Set([
+        ...localRepairPaths.filter(p => p.startsWith('scripts/')),
         // Roger's run 36151713747 tools-only hosted ledger reconciliation.
         // Exact reviewed blobs remain pinned; no migration/source exemption.
         'scripts/rcap-hosted-clinic-migrate.mjs',
@@ -295,7 +334,8 @@ export function verifyReleaseCandidateBinding(root, candidate, receiptPaths = []
       const actual = delta.filter(p => bounded.has(p)).sort();
       if (!Array.isArray(declared) || JSON.stringify([...declared].sort()) !== JSON.stringify(actual)) throw new Error('Tooling file set mismatch');
       // The approved commit's exact blobs must still be present: future changes refuse.
-      if (actual.length > 0) git(['diff', '--exit-code', binding.toolsSha, '--', ...actual]);
+      const unchangedTools = actual.filter(p => !localPinned.has(p));
+      if (unchangedTools.length > 0) git(['diff', '--exit-code', binding.toolsSha, '--', ...unchangedTools]);
       const toolPlan = createWorkerInputPlan({rootDir: root, candidateSha: binding.toolsSha,
         acceptedSourceSha: frozen.workerSourceSha, acceptedDigest: frozen.workerDigest});
       if (toolPlan.rebuildRequired || toolPlan.aggregateInputSha256 !== frozen.workerInputFingerprint) throw new Error('Tool worker mismatch');

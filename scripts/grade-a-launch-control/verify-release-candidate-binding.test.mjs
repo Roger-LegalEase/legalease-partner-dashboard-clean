@@ -27,10 +27,15 @@ test('exact clean candidate accepts; tracked and untracked packaged changes refu
   for(const [p,s]of Object.entries(files))write(p,s);
   git('add','--',...Object.keys(files));git('commit','--quiet','-m','synthetic worker source');const source=git('rev-parse','HEAD');
   const digest='sha256:'+'a'.repeat(64);const publication='data/rcap-render/worker-publication-evidence.json';
-  write(publication,JSON.stringify({sourceSha:source,immutableRegistryDigest:digest,workflowConclusion:'success'}));
+  const publicationRecord={sourceSha:source,immutableRegistryDigest:digest,workflowConclusion:'success',runtimeAccepted:true,
+    imageAcceptance:{conclusion:'success',digest,tag:source,runId:123,readOnly:true}};
+  write(publication,JSON.stringify(publicationRecord));
   git('add','--',publication);git('commit','--quiet','-m','synthetic candidate');
-  const candidate={applicationSha:git('rev-parse','HEAD'),workerDigest:digest};
+  const candidate={applicationSha:git('rev-parse','HEAD'),workerSourceSha:source,workerDigest:digest,readOnlyImageAcceptance:{runId:123}};
   assert.equal(verifyReleaseCandidateBinding(root,candidate).current,true);
+  write(publication,JSON.stringify({...publicationRecord,imageAcceptance:null}));
+  assert.equal(verifyReleaseCandidateBinding(root,candidate).current,false,'publication without accepted image must refuse');
+  write(publication,JSON.stringify(publicationRecord));
   for(const p of ['scripts/lib/untracked.mjs','data/runtime/untracked.json','public/untracked.js']){
     write(p,'new input');const r=verifyReleaseCandidateBinding(root,candidate);assert.equal(r.current,false);assert(r.reasons.some(s=>s.includes(p)));fs.unlinkSync(path.join(root,p));
   }

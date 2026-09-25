@@ -14,7 +14,8 @@ test('exact hosted tooling binds; identity, unknown files and post-binding edits
     const candidate=JSON.parse(fs.readFileSync(path.join(root,'data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json')));
     const toolsSha=git('rev-parse','HEAD');
     const orchestrationFiles=git('diff','--name-only',candidate.applicationSha,toolsSha).split('\n').filter(p=>p.startsWith('scripts/')||p.startsWith('.github/')||p==='data/rcap-staging-authorization-readiness.json');
-    const binding={applicationSha:candidate.applicationSha,workerSourceSha:candidate.workerSourceSha,workerDigest:candidate.workerDigest,workerInputFingerprint:candidate.workerInputFingerprint,toolsSha,orchestrationFiles};
+    const priorBinding=JSON.parse(fs.readFileSync(path.join(root,'data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json')));
+    const binding={...priorBinding,applicationSha:candidate.applicationSha,workerSourceSha:candidate.workerSourceSha,workerDigest:candidate.workerDigest,workerInputFingerprint:candidate.workerInputFingerprint,toolsSha,orchestrationFiles};
     const receipt=path.join(root,'data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json');
     const write=b=>fs.writeFileSync(receipt,JSON.stringify(b));
     write(binding);assert.equal(verifyReleaseCandidateBinding(root,candidate).current,true);

@@ -1,4 +1,5 @@
 import { register } from "node:module";
+import { retainPaymentFixture } from "./rcap-acceptance-fixture-retention.mjs";
 import crypto from "node:crypto";
 import fs from "node:fs";
 import { cardEntryEvidence, deliveryRefusal, privateObjectRefusal } from "./rcap-hosted-response-contract.mjs";
@@ -3628,8 +3629,11 @@ let finalCycleResult = null;
   };
 }
 
-// Leave the acceptance database as it was found.
-await sql(`delete from public.consumer_packet_payment_consumption where consumer_briefcase_item_id = '${itemId}'`);
-await sql(`delete from public.consumer_briefcase_items where id = '${itemId}'`);
+// A paid/delivered fixture cannot be rolled back by deleting its owner.
+// Keep jobs, owner, consumption, provenance and receipts together. Retention
+// also applies when the journey fails/throws before reaching this readback.
+evidence.fixtureCleanup = await retainPaymentFixture({
+  project: PROJECT_REF, namespace: runNamespace, sql
+});
 
 finish();

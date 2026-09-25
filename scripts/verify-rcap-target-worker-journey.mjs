@@ -119,14 +119,14 @@ function failures(harness) {
     "the cycle bound is not recomputed against the declared ceiling after each cycle");
   fail(/cycleBound = Math\.min\(boundCeiling, cycle \+ maxAttempts - target\.attempt_count\)/.test(harness),
     "target retries do not retain their remaining attempts inside the original ceiling");
-  // The predicate must mirror the live claim function, all three conditions in
+  // The predicate must mirror the live claim function, all four conditions in
   // order. Checking them separately, or anywhere in the file, is satisfied by
   // the comment that quotes the function and by a second query that happens to
   // filter on renderer_kind for its own reasons — so the whole predicate is
   // matched as one shape, in the place that feeds the claim-order read.
-  fail(/status = 'queued'\s*\n\s+and \(next_attempt_at is null or next_attempt_at <= now\(\)\)\s*\n\s+\$\{rendererKind \? `and renderer_kind = '\$\{sqlText\(rendererKind\)\}'` : ""\}/.test(harness),
-    "the claimable predicate does not apply, in order, the exact three conditions the live claim function applies — queued alone over-counts the backlog, and dropping the renderer-kind filter counts jobs this worker would never be handed");
-  fail(/order by created_at\s*\n\s*limit 200/.test(harness),
+  fail(/status = 'queued'\s*\n\s+and attempt_count < max_attempts\s*\n\s+and \(next_attempt_at is null or next_attempt_at <= now\(\)\)\s*\n\s+\$\{rendererKind \? `and renderer_kind = '\$\{sqlText\(rendererKind\)\}'` : ""\}/.test(harness),
+    "the claimable predicate does not apply, in order, the exact four conditions the live claim function applies — queued alone over-counts the backlog, and dropping the renderer-kind filter counts jobs this worker would never be handed");
+  fail(/where \$\{claimablePredicate\(rendererKind\)\}\s*\n\s*order by created_at, id\s*\n\s*`\);/.test(harness),
     "the claim order is not read in the order the claim function walks it");
   // Waiting is to a canonical instant, inside a declared budget.
   fail(/function canonicalWakeInstant\(/.test(harness) && /await canonicalWakeInstant\(jobId, journey\.rendererKind, retryingTarget\)/.test(harness),
@@ -177,6 +177,10 @@ if (MUTATIONS) {
     // Anchored on the newline so the mutation lands on the PREDICATE and not on
     // the comment above it that quotes the same SQL. A mutation that edits a
     // comment proves nothing about behaviour.
+    ["the claimable predicate drops attempt budget", (h) =>
+      h.replace("\n       and attempt_count < max_attempts", "")],
+    ["claim order loses deterministic id tie-break", (h) =>
+      h.replace("     order by created_at, id\n", "     order by created_at\n")],
     ["the claimable predicate drops next_attempt_at", (h) =>
       h.replace("\n       and (next_attempt_at is null or next_attempt_at <= now())", "")],
     ["the claimable predicate drops the renderer-kind filter", (h) =>
