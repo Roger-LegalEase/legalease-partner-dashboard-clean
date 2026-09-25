@@ -66,12 +66,14 @@ includesEvery(migrationScript, [
   'sha256: "2ce9864b23b628d83ea6ac8583d53928623845f4e3a10bc79644d1b54a1ea39e"',
   'path: "supabase/migrations/20260903130000_atomic_sponsored_packet_finalization.sql"',
   'sha256: "5e032d60f605850538efac1039995ed95c30b6e37babeb83a9240a9ef47888e4"',
+  'path: "supabase/migrations/20260925134704_canonical_consumer_presentation_matter.sql"',
+  'sha256: "378af4a07b2c02a5405eb5d9c02e4b2b47165485283deaeabeaf01c069f378bc"',
   "independent_readiness_hashes_and_order_exact",
   "git",
   '["show", `${APPLICATION_SHA}:${migration.path}`]'
 ], "frozen commit/hash source contract");
-check(!/readdirSync|glob|supabase\/phase-/.test(migrationScript), "migration source can discover or apply files outside the exact eleven-file sequence");
-check((migrationScript.match(/path: "supabase\/migrations\//g) ?? []).length === 11, "protected runner does not contain exactly eleven migration identities");
+check(!/readdirSync|glob|supabase\/phase-/.test(migrationScript), "migration source can discover or apply files outside the exact twelve-file sequence");
+check((migrationScript.match(/path: "supabase\/migrations\//g) ?? []).length === 12, "protected runner does not contain exactly twelve migration identities");
 
 // The ledger's own capacity has to match the sequence it records, or the
 // runner applies a migration to the acceptance database and is then refused
@@ -98,7 +100,7 @@ check(authorized?.status === "authorized_nonproduction_acceptance_only", "indepe
 check(authorized?.acceptanceProjectRef === "hyflxnlhpmiqxvvcoiia", "independent readiness names the wrong acceptance project");
 check(authorized?.productionAuthorized === false, "independent readiness permits Production");
 check(authorized?.adHocCaptainShellSqlAuthorized === false, "independent readiness permits ad hoc Captain SQL");
-check(authorized?.migrationsInApplyOrder?.length === 11, "independent readiness does not pin exactly eleven migrations");
+check(authorized?.migrationsInApplyOrder?.length === 12, "independent readiness does not pin exactly twelve migrations");
 check(
   authorized?.migrationsInApplyOrder?.every((entry) => {
     const bytes = fs.readFileSync(path.join(root, entry.path));
@@ -160,7 +162,7 @@ includesEvery(migrationScript, [
   '"consumer_artifact_provenance_prerequisite_exact"',
   '"all_seven_current_demo_migration_families_read_back"',
   "atomic_sponsored_finalizer_present",
-  "ledger records all 11 exact frozen migrations"
+  "ledger records all 12 exact frozen migrations"
 ], "Clinic Preview catalog/RLS/readback contract");
 
 includesEvery(migrationScript, [
@@ -178,4 +180,4 @@ if (failures.length > 0) {
   process.exit(1);
 }
 
-console.log(`OK verify-rcap-hosted-clinic-migrate — ${checks}/${checks}; exact eleven-file nonproduction Clinic Preview sequence`);
+console.log(`OK verify-rcap-hosted-clinic-migrate — ${checks}/${checks}; exact twelve-file nonproduction Clinic Preview sequence`);

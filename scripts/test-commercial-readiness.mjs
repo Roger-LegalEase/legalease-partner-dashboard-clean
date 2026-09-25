@@ -147,7 +147,7 @@ function buildPaymentAdapter({
         },
         retrieve: async (id, params) => {
           retrieveCalls.push({ id, params });
-          return retrievedSession;
+          return retrievedSession ?? (createCalls.length ? { id: "cs_test_new", mode: "payment", status: "open", url: "https://checkout.stripe.com/c/pay/cs_test_new" } : null);
         },
         update: async (id, params) => {
           updateCalls.push({ id, params });
@@ -205,6 +205,7 @@ function buildPaymentAdapter({
     },
     "@/lib/expungement-ai/consumer-payment-authority": {
       CONSUMER_PACKET_PRODUCT_ID: PRODUCT,
+      readStoredConsumerCheckoutSession: async () => ({ readable: true, checkoutSessionId: null }),
       persistConsumerCheckoutBinding: async (input) => {
         persistCalls.push(input);
         return { outcome: persistOutcome };
@@ -320,7 +321,7 @@ console.log("PASS: checkout prerequisite truth table and participant action agre
 const positive = buildPaymentAdapter();
 await positive.adapter.requireConsumerPacketPurchaseReadiness(USER, eligibleItem());
 const verifiedSnapshot = positive.snapshot();
-function generationHarness({ snapshot = verifiedSnapshot, verified = true, benefit = true } = {}) {
+function generationHarness({ snapshot = verifiedSnapshot, verified = true, benefit = true, sourceMatterId = MATTER, sponsoredContext = null } = {}) {
   const source = read("src/lib/expungement-ai/packet-generation.ts");
   const ast = ts.createSourceFile("generation.ts", source, ts.ScriptTarget.Latest, true);
   const mocks = {};
@@ -334,9 +335,10 @@ function generationHarness({ snapshot = verifiedSnapshot, verified = true, benef
     return { hash: "a".repeat(64), revision: 4, snapshot };
   } };
   mocks["@/lib/expungement-ai/briefcase-presentation-authority"] = { readTrustedBriefcasePresentationSource: async () => ({ ok: true, value: {
-    product: "rcap_partner", partnerBenefitActive: benefit, partnerSlug: "test-partner", sourceSessionId: "test-session", matterId: MATTER
+    product: "rcap_partner", partnerBenefitActive: benefit, partnerSlug: "test-partner", sourceSessionId: "test-session", matterId: sourceMatterId
   } }) };
   mocks["@/lib/expungement-ai/consumer-payment-authority"] = { consumerPacketPaymentAuthority: async () => ({ valid: false }) };
+  mocks["@/lib/rcap/fulfillment/sponsored-channel-context"] = { readSponsoredChannelContext: async () => sponsoredContext };
   mocks["@/lib/rcap/render/personalized-packet"] = { isPersonalizedDeliveryRoute: () => true };
   mocks["@/lib/rcap/render/job-queue"] = { hasFinalizedPersonalizedRender: async () => false };
   return loadTsWithMocks("src/lib/expungement-ai/packet-generation.ts", mocks);
@@ -355,6 +357,24 @@ for (const [label, options, expected] of [
   assert.equal(allowed, expected, label);
   assert.equal(Boolean(client.packetVerificationActions({ verified: true, packetReady: false, mode: "sponsored", commercialActions: { ...deny, generationAllowed: allowed } }).generation), expected);
   console.log(`PASS ${label}`);
+}
+
+// A valid current sponsored context may pass without consumer payment, but
+// the trusted source's matter identity remains a separate mandatory gate.
+{
+  const grant = JSON.parse(read('data/record-clearing/legal-decisions/2026-09-25-ms-nonconv-sponsored-preview.json'));
+  const env = {VERCEL_ENV:'preview',VERCEL_TARGET_ENV:'preview',RCAP_SPONSORED_PREVIEW_CHANNEL:grant.channel,
+    RCAP_CONSUMER_DELIVERY_ROUTE_STATE:grant.routeState,NEXT_PUBLIC_SUPABASE_URL:`https://${grant.acceptanceProjectRef}.supabase.co`,
+    RCAP_CONSUMER_DELIVERY_STAGING_SCOPE:grant.participantUserIds.join(',')};
+  const previous = Object.fromEntries(Object.keys(env).map(k=>[k,process.env[k]]));
+  Object.assign(process.env,env);
+  try {
+    const sponsoredContext = {participantUserId:grant.participantUserIds[0],partnerSlug:grant.partnerSlug,eventName:grant.eventName,eventId:grant.eventId,registeredSpecificationSha256:grant.packetSpecificationSha256};
+    assert.equal(await generationHarness({sponsoredContext}).packetGenerationAllowedNow(grant.participantUserIds[0],eligibleItem()),true,'verified sponsored matter is generation eligible without consumer payment authority');
+    assert.equal(await generationHarness({sponsoredContext,sourceMatterId:'69eb4d66-d672-44be-854d-93e6022d2995'}).packetGenerationAllowedNow(grant.participantUserIds[0],eligibleItem()),false,'screening correlation cannot replace the canonical matter');
+    assert.equal(await generationHarness({sponsoredContext,verified:false}).packetGenerationAllowedNow(grant.participantUserIds[0],eligibleItem()),false,'sponsorship cannot bypass final verification');
+    console.log('PASS sponsored generation: canonical source admits, pending identity refuses, no consumer payment authority');
+  } finally { for (const [key,value] of Object.entries(previous)) value===undefined?delete process.env[key]:process.env[key]=value; }
 }
 
 // Prove the refactor preserves checkout for EVERY route and every existing

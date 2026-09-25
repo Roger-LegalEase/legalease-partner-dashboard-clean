@@ -82,6 +82,11 @@ const MIGRATIONS = Object.freeze([
     sequencePosition: 11,
     path: "supabase/migrations/20260917090000_consumer_promotion_codes.sql",
     sha256: "27be177ca6f35e4dd3b0db56ccbc2f9fef4dd03b5108a8690b2bb8fd13299369"
+  }),
+  Object.freeze({
+    sequencePosition: 12,
+    path: "supabase/migrations/20260925134704_canonical_consumer_presentation_matter.sql",
+    sha256: "378af4a07b2c02a5405eb5d9c02e4b2b47165485283deaeabeaf01c069f378bc"
   })
 ]);
 
@@ -309,7 +314,7 @@ async function main() {
 
   await managementQuery(`
     create table if not exists public.rcap_acceptance_clinic_migration_ledger (
-      sequence_position smallint primary key check (sequence_position between 1 and 11),
+      sequence_position smallint primary key check (sequence_position between 1 and 12),
       migration_path text not null unique,
       sha256 text not null unique check (sha256 ~ '^[0-9a-f]{64}$'),
       application_sha text not null check (application_sha ~ '^[0-9a-f]{40}$'),
@@ -323,13 +328,13 @@ async function main() {
         select 1 from pg_constraint
         where conrelid = 'public.rcap_acceptance_clinic_migration_ledger'::regclass
           and conname = 'rcap_acceptance_clinic_migration_ledger_sequence_position_check'
-          and pg_get_constraintdef(oid) <> 'CHECK (((sequence_position >= 1) AND (sequence_position <= 11)))'
+          and pg_get_constraintdef(oid) <> 'CHECK (((sequence_position >= 1) AND (sequence_position <= 12)))'
       ) then
         alter table public.rcap_acceptance_clinic_migration_ledger
           drop constraint rcap_acceptance_clinic_migration_ledger_sequence_position_check;
         alter table public.rcap_acceptance_clinic_migration_ledger
           add constraint rcap_acceptance_clinic_migration_ledger_sequence_position_check
-          check (sequence_position between 1 and 11);
+          check (sequence_position between 1 and 12);
       end if;
     end $$;
 
@@ -594,7 +599,7 @@ async function main() {
   record(
     "ledger_records_all_10_exact_frozen_migrations",
     ledgerExact,
-    `ledger records all 11 exact frozen migrations=${ledgerExact}; immutable trigger=${truthy(readback.ledger_immutable)}`
+    `ledger records all 12 exact frozen migrations=${ledgerExact}; immutable trigger=${truthy(readback.ledger_immutable)}`
   );
 }
 

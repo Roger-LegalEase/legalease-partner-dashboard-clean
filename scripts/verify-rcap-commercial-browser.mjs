@@ -707,10 +707,13 @@ async function verifyExactHostedPreview(origin, bypass) {
   const token = required("RCAP_BROWSER_VERCEL_TOKEN");
   const deploymentId = required("RCAP_BROWSER_PREVIEW_DEPLOYMENT_ID");
   const applicationSha = required("RCAP_BROWSER_APPLICATION_SHA");
+  const workerSourceSha = required("RCAP_BROWSER_WORKER_SOURCE_SHA");
+  const workerDigest = required("RCAP_BROWSER_WORKER_DIGEST");
   const projectRef = required("RCAP_BROWSER_ACCEPTANCE_PROJECT_REF");
   const expectedScopeSha256 = clinicMode ? required("RCAP_BROWSER_EXPECTED_SCOPE_SHA256") : null;
-  if (!/^dpl_[A-Za-z0-9]+$/.test(deploymentId) || !/^[0-9a-f]{40}$/.test(applicationSha)) {
-    fail("Hosted browser mutation requires an exact deployment id and application SHA.");
+  if (!/^dpl_[A-Za-z0-9]+$/.test(deploymentId) || !/^[0-9a-f]{40}$/.test(applicationSha)
+    || !/^[0-9a-f]{40}$/.test(workerSourceSha) || !/^sha256:[0-9a-f]{64}$/.test(workerDigest)) {
+    fail("Hosted browser mutation requires an exact deployment id, application SHA, worker source and immutable digest.");
   }
   if (clinicMode && projectRef !== "hyflxnlhpmiqxvvcoiia") {
     fail("Clinic browser mutation is restricted to the pinned acceptance Supabase project.");
@@ -731,6 +734,10 @@ async function verifyExactHostedPreview(origin, bypass) {
     && (alias.id ?? alias.uid) === deploymentId
     && (deployment.readyState ?? deployment.status) === "READY"
     && (deployment.target === null || deployment.target === "preview")
+    && deployment.projectId === identity.projectId
+    && deployment.gitSource?.sha === applicationSha
+    && meta.rcapWorkerSourceSha === workerSourceSha
+    && meta.rcapWorkerDigest === workerDigest
     && meta.rcapApplicationSha === applicationSha
     && meta.rcapAcceptanceProjectRef === projectRef
     && meta.rcapRouteState === "staging_scoped"
@@ -744,6 +751,8 @@ async function verifyExactHostedPreview(origin, bypass) {
     deploymentId,
     hostname: host,
     applicationSha,
+    workerSourceSha,
+    workerDigest,
     acceptanceProjectRef: projectRef,
     routeState: meta.rcapRouteState,
     clinicDemoMode: meta.rcapClinicDemoMode,
@@ -913,16 +922,24 @@ function writeClinicReceipt(name, value) {
 
 async function clinicDeliveryPorts({ packetItemId, participantUserId, screeningSessionId }) {
   assert.equal(environmentClassification.previewVerified, true);
-  assert.equal(environmentClassification.deploymentId, "dpl_3RALTWqn3WbEsYFSk3Muh6qw2yhT");
-  assert.equal(environmentClassification.hostname, "legalease-rcap-clinic-a0d0b933f724-roger947s-projects.vercel.app");
-  assert.equal(environmentClassification.applicationSha, "a0d0b933f7241a209379775754540fc22775f174");
+  // The provider-verified object is the release identity; supplied inputs must
+  // still match it before any credential read or worker operation.
+  for (const [field, name] of Object.entries({
+    deploymentId: "RCAP_BROWSER_PREVIEW_DEPLOYMENT_ID",
+    applicationSha: "RCAP_BROWSER_APPLICATION_SHA",
+    workerSourceSha: "RCAP_BROWSER_WORKER_SOURCE_SHA",
+    workerDigest: "RCAP_BROWSER_WORKER_DIGEST",
+    acceptanceProjectRef: "RCAP_BROWSER_ACCEPTANCE_PROJECT_REF"
+  })) assert.equal(environmentClassification[field], required(name));
+  assert.equal(environmentClassification.hostname, new URL(baseUrl).hostname.toLowerCase());
+  assert.equal(environmentClassification.clinicDemoMode, "mississippi_preview");
+  assert.equal(environmentClassification.routeState, "staging_scoped");
+  assert.equal(environmentClassification.stripeConfigured, false);
   for (const id of [packetItemId, participantUserId, screeningSessionId, clinicEventId]) assert.ok(validUuid(id));
-  const project = required("RCAP_BROWSER_ACCEPTANCE_PROJECT_REF");
+  const project = environmentClassification.acceptanceProjectRef;
   assert.equal(project, "hyflxnlhpmiqxvvcoiia");
-  const workerSource = required("RCAP_BROWSER_WORKER_SOURCE_SHA");
-  const workerDigest = required("RCAP_BROWSER_WORKER_DIGEST");
-  assert.equal(workerSource, "615b4021f7fff4b41b774967a78f4b117cfce3e2");
-  assert.equal(workerDigest, "sha256:4704199f2f683b9169702f0d2b5038cb7724569091d88c347867ab6a95aa1b7b");
+  const workerSource = environmentClassification.workerSourceSha;
+  const workerDigest = environmentClassification.workerDigest;
   const image = `ghcr.io/roger-legalease/rcap-render-worker@${workerDigest}`;
   const managementToken = required("SUPABASE_ACCESS_TOKEN");
   const supabaseUrl = `https://${project}.supabase.co`;

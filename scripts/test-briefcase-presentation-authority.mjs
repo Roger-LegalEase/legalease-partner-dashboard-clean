@@ -669,3 +669,86 @@ for (const failure of [false, true]) {
   assert.equal(commercial.commercialActions.checkoutAllowed, !failure, "only server action read controls CTA");
 }
 console.log("briefcase-presentation-authority: server commercial actions fail closed independently of legal results");
+
+// Reproduce run 36141023122 at the actual RPC boundary in disposable PostgreSQL.
+// The two identifiers are deliberately different; a hash-only JS fixture would
+// never catch a SQL source choosing the screening correlation as its matter.
+{
+  const { startEphemeralPg } = await import('./lib/rcap-ephemeral-pg.mjs');
+  const db = startEphemeralPg();
+  const sqlFile = rel => fs.readFileSync(path.join(root, rel), 'utf8');
+  const oldSql = sqlFile('supabase/migrations/20260901120000_dtc_consumer_launch_rails.sql');
+  const extract = (text, start, end) => text.slice(text.indexOf(start), text.indexOf(end, text.indexOf(start)) + end.length);
+  const original = extract(oldSql, 'create or replace function public.get_consumer_briefcase_presentation_source(', '$source$;');
+  const migration = sqlFile('supabase/migrations/20260925134704_canonical_consumer_presentation_matter.sql');
+  const corrected = extract(migration, 'create or replace function public.get_consumer_briefcase_presentation_source(', '$source$;');
+  assert.equal(corrected, original.replace(/coalesce\(\s*i\.summary_json #>> '\{commercialFlow,screening,screeningMatterId\}',\s*p\.candidate_route_context ->> 'matterId',\s*p\.pending_id::text\s*\) as matter_id/, 'public.consumer_matter_id_for_briefcase_item(i.id)::text as matter_id'), 'only matter authority expression changes');
+  const fresh = 'baa3ea24-b656-4743-92a2-b0efb9a48948';
+  const pending = '69eb4d66-d672-44be-854d-93e6022d2995';
+  const canonicalMatter = '5293f5a5-c2a3-4453-959e-37646d02504a';
+  try {
+    db.sql(`create schema extensions; create extension pgcrypto with schema extensions;
+      create role anon; create role authenticated; create role service_role;
+      create table public.consumer_briefcase_items(id uuid primary key,user_id uuid,source_pending_result_id uuid,summary_json jsonb);
+      create table public.consumer_pending_screening_results(pending_id uuid primary key,claimed_user_id uuid,claimed_at timestamptz,anonymous_session_id uuid,product text,partner_slug text,jurisdiction text,profile_version text,candidate_route_context jsonb,screening_answers jsonb,status text,claimed_matter_id uuid);`);
+    db.sql(extract(sqlFile('supabase/phase-55-expungement-matter-payment-binding.sql'), 'create or replace function public.consumer_matter_id_for_briefcase_item(', '$$;'));
+    db.sql(extract(oldSql, 'create or replace function public.consumer_canonical_json(', '$canonical$;'));
+    db.sql(original);
+    db.sql(`revoke all on function public.get_consumer_briefcase_presentation_source(uuid,uuid) from public;
+      grant execute on function public.get_consumer_briefcase_presentation_source(uuid,uuid) to service_role;
+      insert into public.consumer_briefcase_items values ('${fresh}','${ownerId}','${pending}','{"commercialFlow":{"screening":{"screeningCorrelationId":"${pending}"}}}');
+      insert into public.consumer_pending_screening_results values ('${pending}','${ownerId}','2026-09-25T12:00:00Z',null,'rcap_partner','mvl-demo','MS','fixture-v1','{}','{"case_outcome":"Dismissed"}','CLAIMED','${fresh}');`);
+    const rpc = (owner=ownerId,id=fresh) => db.json(`select row_to_json(t) from public.get_consumer_briefcase_presentation_source('${owner}','${id}') t`);
+    assert.equal(rpc().matter_id, pending, 'accepted baseline reproduces screening-result identity contradiction');
+    const acl = db.scalar("select proacl::text from pg_proc where oid='public.get_consumer_briefcase_presentation_source(uuid,uuid)'::regprocedure");
+    const rows = () => db.json("select jsonb_build_object('items',(select jsonb_agg(i) from public.consumer_briefcase_items i),'pending',(select jsonb_agg(p) from public.consumer_pending_screening_results p))");
+    const before = rows();
+    db.sql(migration);
+    const row = rpc();
+    assert.equal(row.matter_id, db.scalar(`select public.consumer_matter_id_for_briefcase_item('${fresh}')::text`));
+    assert.equal(row.matter_id, canonicalMatter); assert.notEqual(row.matter_id, pending);
+    assert.deepEqual(rows(),before,'forward correction rewrites no participant/claim rows');
+    assert.equal(db.scalar("select proacl::text from pg_proc where oid='public.get_consumer_briefcase_presentation_source(uuid,uuid)'::regprocedure"),acl);
+    assert.equal(db.scalar("select prosecdef and proconfig = ARRAY['search_path=\"\"'] from pg_proc where oid='public.get_consumer_briefcase_presentation_source(uuid,uuid)'::regprocedure"),'t');
+    protectedSourceRow = row;
+    assert.equal((await sourceAdapter.readTrustedBriefcasePresentationSource({consumerAuthUserId:ownerId,item:{...item,id:fresh}})).ok,true,'real application validates SQL screening and linkage fingerprints');
+    protectedSourceRow = {...row,matter_id:pending};
+    assert.equal((await sourceAdapter.readTrustedBriefcasePresentationSource({consumerAuthUserId:ownerId,item:{...item,id:fresh}})).ok,false,'changed matter without linkage digest is refused');
+    assert.equal(rpc('99999999-9999-4999-8999-999999999999'),null,'stranger denied');
+    assert.equal(rpc(ownerId,item.id),null,'wrong item denied');
+    for (const change of ["status='PENDING'",`claimed_user_id='99999999-9999-4999-8999-999999999999'`,`claimed_matter_id='${item.id}'`]) {
+      const observed=db.sql(`begin; update public.consumer_pending_screening_results set ${change}; select count(*) from public.get_consumer_briefcase_presentation_source('${ownerId}','${fresh}'); rollback;`);
+      assert.match(observed,/\n0\n/,'claim predicate fails closed');
+    }
+    // Exercise the existing runner's actual ledger/prefix/apply code against
+    // PostgreSQL, with only Management API transport replaced by the local DB.
+    const runner = sqlFile('scripts/rcap-hosted-clinic-migrate.mjs');
+    const sequence = new Function('return '+runner.slice(runner.indexOf('Object.freeze(['),runner.indexOf('\n]);',runner.indexOf('const MIGRATIONS'))+3))();
+    const ledger='public.rcap_acceptance_clinic_migration_ledger';
+    const quote=v=>"'"+String(v).replaceAll("'","''")+"'";
+    db.sql(`create table ${ledger}(sequence_position smallint primary key check(sequence_position between 1 and 11),migration_path text not null unique,sha256 text not null unique check(sha256 ~ '^[0-9a-f]{64}$'),application_sha text not null check(application_sha ~ '^[0-9a-f]{40}$'),applied_at timestamptz not null default now());`);
+    for (const m of sequence.slice(0,11)) db.sql(`insert into ${ledger}(sequence_position,migration_path,sha256,application_sha) values(${m.sequencePosition},${quote(m.path)},${quote(m.sha256)},'67503e7e8d98b4a63103f4d7b66a413b8eb57823')`);
+    const ledgerRows=()=>db.json(`select jsonb_agg(t order by sequence_position) from ${ledger} t`);
+    const originalRows=ledgerRows();
+    const ledgerCode=runner.slice(runner.indexOf('  await managementQuery(`\n    create table'),runner.indexOf('  const names = (values)'));
+    assert.ok(ledgerCode.includes('existing ledger is not an exact prefix'));
+    let applied=0;
+    const runLedger = async (patchRows=null) => {
+      const managementQuery=async(query,caseId)=>{
+        if(caseId==='immutable_clinic_migration_ledger_readable')return patchRows??ledgerRows();
+        if(/^clinic_migration_\d+_applied$/.test(caseId)) {assert.equal(caseId,'clinic_migration_12_applied');assert.equal(query,migration);applied++;}
+        return db.sql(query);
+      };
+      const execute=new Function('managementQuery','MIGRATIONS','loaded','APPLICATION_SHA','ClinicMigrationFailure','record','evidence','sqlText',`return (async()=>{${ledgerCode}})()`);
+      await execute(managementQuery,sequence,sequence.map(m=>({...m,sql:m.sequencePosition===12?migration:'MUST NOT REAPPLY HISTORICAL SQL'})),'2742392d59579d823cd0cdc54456f5e80a210aaf',class extends Error { constructor(id,message){super(id+': '+message);} },(_id,ok)=>assert.ok(ok),{migrations:[]},v=>String(v).replaceAll("'","''"));
+    };
+    await runLedger();assert.equal(applied,1);assert.equal(ledgerRows().length,12);assert.deepEqual(ledgerRows().slice(0,11),originalRows);
+    await runLedger();assert.equal(applied,1,'replay executes no migration SQL');
+    assert.match(db.sqlExpectError(`update ${ledger} set application_sha=repeat('a',40) where sequence_position=1`),/clinic_acceptance_ledger_immutable/);
+    assert.match(db.sqlExpectError(`delete from ${ledger} where sequence_position=1`),/clinic_acceptance_ledger_immutable/);
+    await assert.rejects(runLedger(ledgerRows().slice(1)),/not an exact prefix/);
+    const badHash=ledgerRows();badHash[0].sha256='0'.repeat(64);await assert.rejects(runLedger(badHash),/not an exact prefix/);assert.equal(applied,1);
+    console.log('PASS actual Clinic migration runner: immutable 11-row prefix preserved, capacity12, only #12 applied, replay no-op, gaps/hash drift refused');
+    console.log('PASS PostgreSQL presentation identity: baseline mismatch reproduced, canonical matter/digests verified, owner/claim negatives, grants and rows preserved');
+  } finally { db.stop(); }
+}
