@@ -91,7 +91,9 @@ if (process.argv.includes("--contract-mutations")) {
   console.log(`OK fallback current-contract mutations — ${mutations.length}/${mutations.length}; baseline 8/8`);
   process.exit(0);
 }
-const candidate = requireCurrentReleaseCandidate(root);
+// Keep currentness fail-closed while reporting the substantive source controls
+// too: a deliberately mutated bound tool must not hide its own diagnostic.
+const candidate = JSON.parse(fs.readFileSync(path.join(root, "data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json"), "utf8"));
 const RELEASE_CONTROL_BASE_SHA = candidate.applicationSha;
 const ACCEPTED_WORKER_SOURCE_SHA = candidate.workerSourceSha;
 const ACCEPTED_WORKER_DIGEST = candidate.workerDigest;
@@ -102,6 +104,9 @@ function check(condition, message) {
   checks += 1;
   if (!condition) failures.push(message);
 }
+try { requireCurrentReleaseCandidate(root); }
+catch (error) { check(false, `current release binding refused: ${error.message}`); }
+
 function includesEvery(text, values, label) {
   for (const value of values) check(text.includes(value), `${label} is missing ${JSON.stringify(value)}`);
 }
