@@ -723,11 +723,24 @@ console.log("briefcase-presentation-authority: server commercial actions fail cl
     // Exercise the existing runner's actual ledger/prefix/apply code against
     // PostgreSQL, with only Management API transport replaced by the local DB.
     const runner = sqlFile('scripts/rcap-hosted-clinic-migrate.mjs');
-    const sequence = new Function('return '+runner.slice(runner.indexOf('Object.freeze(['),runner.indexOf('\n]);',runner.indexOf('const MIGRATIONS'))+3))();
+    const { sequence, applicationMigrations, ledgerRowMatches } = new Function(
+      runner.slice(runner.indexOf('const APPLICATION_MIGRATIONS ='),runner.indexOf('const REQUIRED_TABLES ='))
+      +'return {sequence:EXPECTED_LEDGER,applicationMigrations:APPLICATION_MIGRATIONS,ledgerRowMatches};'
+    )();
+    assert.equal(sequence.length,13);
+    assert.equal(applicationMigrations.length,12);
+    assert.ok(applicationMigrations.every(m=>m.sequencePosition!==12),'historical SQL must never load from current application');
     const ledger='public.rcap_acceptance_clinic_migration_ledger';
     const quote=v=>"'"+String(v).replaceAll("'","''")+"'";
-    db.sql(`create table ${ledger}(sequence_position smallint primary key check(sequence_position between 1 and 11),migration_path text not null unique,sha256 text not null unique check(sha256 ~ '^[0-9a-f]{64}$'),application_sha text not null check(application_sha ~ '^[0-9a-f]{40}$'),applied_at timestamptz not null default now());`);
-    for (const m of sequence.slice(0,11)) db.sql(`insert into ${ledger}(sequence_position,migration_path,sha256,application_sha) values(${m.sequencePosition},${quote(m.path)},${quote(m.sha256)},'67503e7e8d98b4a63103f4d7b66a413b8eb57823')`);
+    db.sql(`create table ${ledger}(sequence_position smallint primary key check(sequence_position between 1 and 12),migration_path text not null unique,sha256 text not null unique check(sha256 ~ '^[0-9a-f]{64}$'),application_sha text not null check(application_sha ~ '^[0-9a-f]{40}$'),applied_at timestamptz not null default now());`);
+    // Exact application identities read from the hosted ledger in run 36151713747's investigation.
+    for (const m of sequence.slice(0,12)) {
+      const historicalApp=m.sequencePosition<=3?'441ee3188ee52047a012232d8d11f890a09b4ac5'
+        :m.sequencePosition===4?'3285b6606605549c4ea730610f2c3e55c1e32859'
+        :m.sequencePosition<=10?'7880054bc92d2ed3cfe230ade3524c0d0b42dfda'
+        :m.sequencePosition===11?'8d9382b93ada32adf9e50dd7f52680f4f9fb7018':m.applicationSha;
+      db.sql(`insert into ${ledger}(sequence_position,migration_path,sha256,application_sha) values(${m.sequencePosition},${quote(m.path)},${quote(m.sha256)},${quote(historicalApp)})`);
+    }
     const ledgerRows=()=>db.json(`select jsonb_agg(t order by sequence_position) from ${ledger} t`);
     const originalRows=ledgerRows();
     const ledgerCode=runner.slice(runner.indexOf('  await managementQuery(`\n    create table'),runner.indexOf('  const names = (values)'));
@@ -736,19 +749,27 @@ console.log("briefcase-presentation-authority: server commercial actions fail cl
     const runLedger = async (patchRows=null) => {
       const managementQuery=async(query,caseId)=>{
         if(caseId==='immutable_clinic_migration_ledger_readable')return patchRows??ledgerRows();
-        if(/^clinic_migration_\d+_applied$/.test(caseId)) {assert.equal(caseId,'clinic_migration_12_applied');assert.equal(query,migration);applied++;}
+        if(/^clinic_migration_\d+_applied$/.test(caseId)) {assert.equal(caseId,'clinic_migration_13_applied');assert.equal(query,migration);applied++;}
         return db.sql(query);
       };
-      const execute=new Function('managementQuery','MIGRATIONS','loaded','APPLICATION_SHA','ClinicMigrationFailure','record','evidence','sqlText',`return (async()=>{${ledgerCode}})()`);
-      await execute(managementQuery,sequence,sequence.map(m=>({...m,sql:m.sequencePosition===12?migration:'MUST NOT REAPPLY HISTORICAL SQL'})),'2742392d59579d823cd0cdc54456f5e80a210aaf',class extends Error { constructor(id,message){super(id+': '+message);} },(_id,ok)=>assert.ok(ok),{migrations:[]},v=>String(v).replaceAll("'","''"));
+      const execute=new Function('managementQuery','EXPECTED_LEDGER','HISTORICAL_MIGRATION','ledgerRowMatches','loaded','APPLICATION_SHA','ClinicMigrationFailure','record','evidence','sqlText',`return (async()=>{${ledgerCode}})()`);
+      await execute(managementQuery,sequence,sequence[11],ledgerRowMatches,applicationMigrations.map(m=>({...m,sql:m.sequencePosition===13?migration:'MUST NOT REAPPLY HISTORICAL SQL'})),'525e16ea64ed08b3bd65a368ff95a1ee5dc25509',class extends Error { constructor(id,message){super(id+': '+message);} },(_id,ok)=>assert.ok(ok),{migrations:[]},v=>String(v).replaceAll("'","''"));
     };
-    await runLedger();assert.equal(applied,1);assert.equal(ledgerRows().length,12);assert.deepEqual(ledgerRows().slice(0,11),originalRows);
+    await runLedger();assert.equal(applied,1);assert.equal(ledgerRows().length,13);assert.deepEqual(ledgerRows().slice(0,12),originalRows);
+    assert.match(db.sql(`select pg_get_constraintdef(oid) from pg_constraint where conrelid='${ledger}'::regclass and conname='rcap_acceptance_clinic_migration_ledger_sequence_position_check'`),/sequence_position <= 13/);
     await runLedger();assert.equal(applied,1,'replay executes no migration SQL');
-    assert.match(db.sqlExpectError(`update ${ledger} set application_sha=repeat('a',40) where sequence_position=1`),/clinic_acceptance_ledger_immutable/);
-    assert.match(db.sqlExpectError(`delete from ${ledger} where sequence_position=1`),/clinic_acceptance_ledger_immutable/);
+    assert.deepEqual(ledgerRows().slice(0,12),originalRows,'all twelve historical rows remain byte/value identical');
+    assert.match(db.sqlExpectError(`update ${ledger} set application_sha=repeat('a',40) where sequence_position=12`),/clinic_acceptance_ledger_immutable/);
+    assert.match(db.sqlExpectError(`delete from ${ledger} where sequence_position=12`),/clinic_acceptance_ledger_immutable/);
     await assert.rejects(runLedger(ledgerRows().slice(1)),/not an exact prefix/);
+    await assert.rejects(runLedger(originalRows.slice(0,11)),/required historical ledger row at position 12 absent/);
+    await assert.rejects(runLedger(ledgerRows().filter(r=>r.sequence_position!==12)),/not an exact prefix/);
+    for (const [field,value] of [['migration_path','supabase/migrations/forged.sql'],['sha256','0'.repeat(64)],['application_sha','a'.repeat(40)]]) {
+      const drift=structuredClone(originalRows);drift[11][field]=value;
+      await assert.rejects(runLedger(drift),/not an exact prefix/);
+    }
     const badHash=ledgerRows();badHash[0].sha256='0'.repeat(64);await assert.rejects(runLedger(badHash),/not an exact prefix/);assert.equal(applied,1);
-    console.log('PASS actual Clinic migration runner: immutable 11-row prefix preserved, capacity12, only #12 applied, replay no-op, gaps/hash drift refused');
+    console.log('PASS actual Clinic migration runner: immutable 12-row prefix preserved, capacity13, only #13 applied, replay no-op, gaps/hash/history drift refused');
     console.log('PASS PostgreSQL presentation identity: baseline mismatch reproduced, canonical matter/digests verified, owner/claim negatives, grants and rows preserved');
   } finally { db.stop(); }
 }

@@ -24,7 +24,7 @@ const APPLICATION_SHA = (process.env.HOSTED_APPLICATION_SHA ?? "").trim();
 const PROJECT_REF = (process.env.ACCEPTANCE_SUPABASE_PROJECT_REF ?? "").trim();
 const SUPABASE_ACCESS_TOKEN = process.env.SUPABASE_ACCESS_TOKEN ?? "";
 
-const MIGRATIONS = Object.freeze([
+const APPLICATION_MIGRATIONS = Object.freeze([
   Object.freeze({
     sequencePosition: 1,
     path: "supabase/migrations/20260825120000_clinic_mode_core.sql",
@@ -84,11 +84,33 @@ const MIGRATIONS = Object.freeze([
     sha256: "27be177ca6f35e4dd3b0db56ccbc2f9fef4dd03b5108a8690b2bb8fd13299369"
   }),
   Object.freeze({
-    sequencePosition: 12,
+    sequencePosition: 13,
     path: "supabase/migrations/20260925134704_canonical_consumer_presentation_matter.sql",
     sha256: "378af4a07b2c02a5405eb5d9c02e4b2b47165485283deaeabeaf01c069f378bc"
   })
 ]);
+
+// Historical hosted receipt: required, immutable, and never loaded or replayed
+// from the current application (which does not contain this migration blob).
+const HISTORICAL_MIGRATION = Object.freeze({
+  sequencePosition: 12,
+  path: "supabase/migrations/20260917200000_consumer_checkout_session_replacement.sql",
+  sha256: "0d368236f48402bb27953d9b2426e35026ff5d00286f06889ead543c5a32b128",
+  applicationSha: "62425c837b5edf3d7e22b110910885abdaec1692"
+});
+const EXPECTED_LEDGER = Object.freeze([
+  ...APPLICATION_MIGRATIONS.slice(0, 11),
+  HISTORICAL_MIGRATION,
+  APPLICATION_MIGRATIONS[11]
+]);
+
+function ledgerRowMatches(actual, expected) {
+  return Number(actual.sequence_position) === expected.sequencePosition
+    && actual.migration_path === expected.path
+    && actual.sha256 === expected.sha256
+    && /^[0-9a-f]{40}$/.test(String(actual.application_sha))
+    && (!expected.applicationSha || actual.application_sha === expected.applicationSha);
+}
 
 const REQUIRED_TABLES = Object.freeze([
   "clinic_events",
@@ -165,7 +187,7 @@ const evidence = {
   acceptanceProjectRef: PROJECT_REF || null,
   migrationApplied: false,
   productionTouched: false,
-  exactSequence: MIGRATIONS.map(({ sequencePosition, path: migrationPath, sha256 }) => ({ sequencePosition, path: migrationPath, sha256 })),
+  exactSequence: EXPECTED_LEDGER.map((entry) => ({ ...entry })),
   migrations: [],
   cases: {}
 };
@@ -284,16 +306,13 @@ async function main() {
     `application is a full frozen SHA=${/^[0-9a-f]{40}$/.test(APPLICATION_SHA)}; acceptance project exact=${PROJECT_REF === REQUIRED_PROJECT_REF}; credential supplied=${Boolean(SUPABASE_ACCESS_TOKEN)}`
   );
 
-  const loaded = MIGRATIONS.map((migration, index) => {
-    if (migration.sequencePosition !== index + 1) {
-      throw new ClinicMigrationFailure("frozen_candidate_migration_hashes_and_order_exact", `migration order drift at position ${index + 1}`);
-    }
-    return { ...migration, sql: frozenMigrationBytes(migration) };
-  });
+  const loaded = APPLICATION_MIGRATIONS.map((migration) => ({
+    ...migration, sql: frozenMigrationBytes(migration)
+  }));
   record(
     "frozen_candidate_migration_hashes_and_order_exact",
-    loaded.length === MIGRATIONS.length,
-    `${loaded.length}/${MIGRATIONS.length} files read directly from ${APPLICATION_SHA}; exact order and SHA-256 values verified before the first database write`
+    loaded.length === APPLICATION_MIGRATIONS.length,
+    `${loaded.length}/${APPLICATION_MIGRATIONS.length} application-owned files read directly from ${APPLICATION_SHA}; exact order and SHA-256 values verified before the first database write`
   );
 
   const readiness = JSON.parse(fs.readFileSync(path.join(rootDir, READINESS_PATH), "utf8"));
@@ -302,19 +321,20 @@ async function main() {
   const independentExact = independent?.status === "authorized_nonproduction_acceptance_only"
     && independent?.acceptanceProjectRef === REQUIRED_PROJECT_REF
     && independent?.productionAuthorized === false
-    && independentSequence.length === MIGRATIONS.length
-    && independentSequence.every((entry, index) => entry.sequencePosition === MIGRATIONS[index].sequencePosition
-      && entry.path === MIGRATIONS[index].path
-      && entry.sha256 === MIGRATIONS[index].sha256);
+    && independentSequence.length === EXPECTED_LEDGER.length
+    && independentSequence.every((entry, index) => entry.sequencePosition === EXPECTED_LEDGER[index].sequencePosition
+      && entry.path === EXPECTED_LEDGER[index].path
+      && entry.sha256 === EXPECTED_LEDGER[index].sha256
+      && entry.applicationSha === EXPECTED_LEDGER[index].applicationSha);
   record(
     "independent_readiness_hashes_and_order_exact",
     independentExact,
-    `${independentSequence.length}/${MIGRATIONS.length} readiness identities agree; acceptance project exact=${independent?.acceptanceProjectRef === REQUIRED_PROJECT_REF}; Production authorized=${independent?.productionAuthorized === true}`
+    `${independentSequence.length}/${EXPECTED_LEDGER.length} readiness identities agree; acceptance project exact=${independent?.acceptanceProjectRef === REQUIRED_PROJECT_REF}; Production authorized=${independent?.productionAuthorized === true}`
   );
 
   await managementQuery(`
     create table if not exists public.rcap_acceptance_clinic_migration_ledger (
-      sequence_position smallint primary key check (sequence_position between 1 and 12),
+      sequence_position smallint primary key check (sequence_position between 1 and 13),
       migration_path text not null unique,
       sha256 text not null unique check (sha256 ~ '^[0-9a-f]{64}$'),
       application_sha text not null check (application_sha ~ '^[0-9a-f]{40}$'),
@@ -328,13 +348,13 @@ async function main() {
         select 1 from pg_constraint
         where conrelid = 'public.rcap_acceptance_clinic_migration_ledger'::regclass
           and conname = 'rcap_acceptance_clinic_migration_ledger_sequence_position_check'
-          and pg_get_constraintdef(oid) <> 'CHECK (((sequence_position >= 1) AND (sequence_position <= 12)))'
+          and pg_get_constraintdef(oid) <> 'CHECK (((sequence_position >= 1) AND (sequence_position <= 13)))'
       ) then
         alter table public.rcap_acceptance_clinic_migration_ledger
           drop constraint rcap_acceptance_clinic_migration_ledger_sequence_position_check;
         alter table public.rcap_acceptance_clinic_migration_ledger
           add constraint rcap_acceptance_clinic_migration_ledger_sequence_position_check
-          check (sequence_position between 1 and 12);
+          check (sequence_position between 1 and 13);
       end if;
     end $$;
 
@@ -362,24 +382,25 @@ async function main() {
     order by sequence_position
   `, "immutable_clinic_migration_ledger_readable");
   const existing = Array.isArray(existingRows) ? existingRows : [];
-  if (existing.length > MIGRATIONS.length) {
+  if (existing.length > EXPECTED_LEDGER.length) {
     throw new ClinicMigrationFailure("existing_ledger_is_exact_prefix", `unexpected ledger row count ${existing.length}`);
   }
   for (let index = 0; index < existing.length; index += 1) {
     const actual = existing[index];
-    const expected = MIGRATIONS[index];
-    const exact = Number(actual.sequence_position) === expected.sequencePosition
-      && actual.migration_path === expected.path
-      && actual.sha256 === expected.sha256
-      && /^[0-9a-f]{40}$/.test(String(actual.application_sha));
+    const expected = EXPECTED_LEDGER[index];
+    const exact = ledgerRowMatches(actual, expected);
     if (!exact) {
       throw new ClinicMigrationFailure("existing_ledger_is_exact_prefix", `existing ledger is not an exact prefix; unexpected ledger row at position ${index + 1}`);
     }
   }
-  record("existing_ledger_is_exact_prefix", true, `${existing.length}/${MIGRATIONS.length} immutable entries already present and exact`);
+  if (!existing.some((row) => ledgerRowMatches(row, HISTORICAL_MIGRATION))) {
+    throw new ClinicMigrationFailure("existing_ledger_is_exact_prefix", "required historical ledger row at position 12 absent; historical SQL must not be reconstructed or reapplied");
+  }
+  record("existing_ledger_is_exact_prefix", true, `${existing.length}/${EXPECTED_LEDGER.length} immutable entries already present and exact`);
 
-  for (let index = existing.length; index < loaded.length; index += 1) {
-    const migration = loaded[index];
+  for (const expected of EXPECTED_LEDGER.slice(existing.length)) {
+    const migration = loaded.find((entry) => entry.sequencePosition === expected.sequencePosition);
+    if (!migration) throw new ClinicMigrationFailure("existing_ledger_is_exact_prefix", `no application-owned migration at position ${expected.sequencePosition}`);
     await managementQuery(migration.sql, `clinic_migration_${migration.sequencePosition}_applied`);
     await managementQuery(`
       insert into public.rcap_acceptance_clinic_migration_ledger
@@ -400,7 +421,7 @@ async function main() {
     });
   }
   for (let index = 0; index < existing.length; index += 1) {
-    const migration = MIGRATIONS[index];
+    const migration = EXPECTED_LEDGER[index];
     evidence.migrations.push({
       sequencePosition: migration.sequencePosition,
       path: migration.path,
@@ -590,23 +611,20 @@ async function main() {
     order by sequence_position
   `, "final_clinic_migration_ledger_readback_succeeded");
   const finalLedger = Array.isArray(finalLedgerRows) ? finalLedgerRows : [];
-  const ledgerExact = finalLedger.length === MIGRATIONS.length
-    && finalLedger.every((row, index) => Number(row.sequence_position) === MIGRATIONS[index].sequencePosition
-      && row.migration_path === MIGRATIONS[index].path
-      && row.sha256 === MIGRATIONS[index].sha256
-      && /^[0-9a-f]{40}$/.test(String(row.application_sha)))
+  const ledgerExact = finalLedger.length === EXPECTED_LEDGER.length
+    && finalLedger.every((row, index) => ledgerRowMatches(row, EXPECTED_LEDGER[index]))
     && truthy(readback.ledger_immutable);
   record(
     "ledger_records_all_10_exact_frozen_migrations",
     ledgerExact,
-    `ledger records all 12 exact frozen migrations=${ledgerExact}; immutable trigger=${truthy(readback.ledger_immutable)}`
+    `ledger records all 13 exact immutable positions=${ledgerExact}; immutable trigger=${truthy(readback.ledger_immutable)}`
   );
 }
 
 try {
   await main();
   writeEvidence(true);
-  console.log("\nHOSTED CLINIC MIGRATE: PASS — exact frozen ten-file Clinic Preview sequence is present on acceptance only");
+  console.log("\nHOSTED CLINIC MIGRATE: PASS — 13 immutable ledger positions / 12 application-owned blobs / one historical ledger-only position is present on acceptance only");
 } catch (error) {
   writeEvidence(false, error);
   console.error(`\nHOSTED CLINIC MIGRATE: FAIL — ${sanitize(error instanceof Error ? error.message : error)}`);

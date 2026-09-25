@@ -125,6 +125,12 @@ export function verifyReleaseCandidateBinding(root, candidate, receiptPaths = []
       git(['merge-base', '--is-ancestor', candidate.applicationSha, binding.toolsSha]);
       git(['merge-base', '--is-ancestor', binding.toolsSha, 'HEAD']);
       const bounded = new Set([
+        // Roger's run 36151713747 tools-only hosted ledger reconciliation.
+        // Exact reviewed blobs remain pinned; no migration/source exemption.
+        'scripts/rcap-hosted-clinic-migrate.mjs',
+        'scripts/verify-rcap-hosted-clinic-migrate.mjs',
+        'scripts/test-briefcase-presentation-authority.mjs',
+        'data/rcap-staging-authorization-readiness.json',
         '.github/workflows/rcap-hosted-acceptance-staging.yml',
         '.github/workflows/rcap-f1-ephemeral-staging.yml',
         'scripts/rcap-hosted-checkout-gate.mjs',

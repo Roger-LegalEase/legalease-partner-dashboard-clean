@@ -3,6 +3,7 @@
 import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
+import vm from "node:vm";
 
 const root = process.cwd();
 const entry = fs.readFileSync(path.join(root, ".github/workflows/rcap-f1-ephemeral-staging.yml"), "utf8");
@@ -12,6 +13,11 @@ const migrationScriptPath = path.join(root, "scripts/rcap-hosted-clinic-migrate.
 const migrationScript = fs.existsSync(migrationScriptPath) ? fs.readFileSync(migrationScriptPath, "utf8") : "";
 const provenanceMigrationPath = path.join(root, "supabase/migrations/20260901115000_consumer_packet_artifact_provenance.sql");
 const provenanceMigration = fs.existsSync(provenanceMigrationPath) ? fs.readFileSync(provenanceMigrationPath, "utf8") : "";
+
+const { applicationMigrations, expectedLedger, historicalMigration } = vm.runInNewContext(
+  migrationScript.slice(migrationScript.indexOf("const APPLICATION_MIGRATIONS ="), migrationScript.indexOf("const REQUIRED_TABLES ="))
+  + "({ applicationMigrations: APPLICATION_MIGRATIONS, expectedLedger: EXPECTED_LEDGER, historicalMigration: HISTORICAL_MIGRATION })"
+);
 
 let checks = 0;
 const failures = [];
@@ -72,18 +78,18 @@ includesEvery(migrationScript, [
   "git",
   '["show", `${APPLICATION_SHA}:${migration.path}`]'
 ], "frozen commit/hash source contract");
-check(!/readdirSync|glob|supabase\/phase-/.test(migrationScript), "migration source can discover or apply files outside the exact twelve-file sequence");
-check((migrationScript.match(/path: "supabase\/migrations\//g) ?? []).length === 12, "protected runner does not contain exactly twelve migration identities");
+check(!/readdirSync|glob|supabase\/phase-/.test(migrationScript), "migration source can discover or apply files outside the exact application-owned sequence");
+check((migrationScript.match(/path: "supabase\/migrations\//g) ?? []).length === 13, "protected runner does not contain exactly thirteen ledger identities");
 
 // The ledger's own capacity has to match the sequence it records, or the
 // runner applies a migration to the acceptance database and is then refused
 // when it tries to write the row proving it did — which is exactly what
 // happened in run 35153887031, after the file count had moved to eleven but
 // this bound had not. Derived from the sequence length rather than typed, so
-// the twelfth migration cannot repeat it, and asserted in all three places the
+// a later migration cannot repeat it, and asserted in all three places the
 // runner states it: the create, the drift comparison, and the repair.
 {
-  const sequenceLength = (migrationScript.match(/path: "supabase\/migrations\//g) ?? []).length;
+  const sequenceLength = expectedLedger.length;
   const declared = migrationScript.match(/sequence_position between 1 and (\d+)/g) ?? [];
   check(
     declared.length === 2 && declared.every((text) => text.endsWith(` and ${sequenceLength}`)),
@@ -100,14 +106,33 @@ check(authorized?.status === "authorized_nonproduction_acceptance_only", "indepe
 check(authorized?.acceptanceProjectRef === "hyflxnlhpmiqxvvcoiia", "independent readiness names the wrong acceptance project");
 check(authorized?.productionAuthorized === false, "independent readiness permits Production");
 check(authorized?.adHocCaptainShellSqlAuthorized === false, "independent readiness permits ad hoc Captain SQL");
-check(authorized?.migrationsInApplyOrder?.length === 12, "independent readiness does not pin exactly twelve migrations");
+check(authorized?.migrationsInApplyOrder?.length === 13, "independent readiness does not pin exactly thirteen ledger positions");
 check(
-  authorized?.migrationsInApplyOrder?.every((entry) => {
+  applicationMigrations.every((entry) => {
     const bytes = fs.readFileSync(path.join(root, entry.path));
     return crypto.createHash("sha256").update(bytes).digest("hex") === entry.sha256;
   }),
   "an independently authorized migration hash does not match the tracked bytes"
 );
+
+check(applicationMigrations.length === 12 && expectedLedger.length === 13
+  && applicationMigrations.every((entry) => entry.sequencePosition !== 12)
+  && expectedLedger.every((entry, index) => entry.sequencePosition === index + 1),
+  "contract must separate 12 application-owned blobs from 13 contiguous ledger positions");
+check(historicalMigration.sequencePosition === 12
+  && historicalMigration.path === "supabase/migrations/20260917200000_consumer_checkout_session_replacement.sql"
+  && historicalMigration.sha256 === "0d368236f48402bb27953d9b2426e35026ff5d00286f06889ead543c5a32b128"
+  && historicalMigration.applicationSha === "62425c837b5edf3d7e22b110910885abdaec1692",
+  "historical ledger-only position 12 must pin exact path/hash/application SHA");
+check(JSON.stringify(authorized.migrationsInApplyOrder) === JSON.stringify(expectedLedger),
+  "readiness and runner must agree on every ledger identity including historical application SHA");
+includesEvery(migrationScript, [
+  "const loaded = APPLICATION_MIGRATIONS.map",
+  "existing.some((row) => ledgerRowMatches(row, HISTORICAL_MIGRATION))",
+  "loaded.find((entry) => entry.sequencePosition === expected.sequencePosition)",
+  "actual.application_sha === expected.applicationSha",
+  "finalLedger.every((row, index) => ledgerRowMatches(row, EXPECTED_LEDGER[index]))"
+], "historical receipt refusal and position-based suffix application");
 
 includesEvery(provenanceMigration, [
   "create table if not exists public.consumer_packet_artifact_provenance",
@@ -162,7 +187,7 @@ includesEvery(migrationScript, [
   '"consumer_artifact_provenance_prerequisite_exact"',
   '"all_seven_current_demo_migration_families_read_back"',
   "atomic_sponsored_finalizer_present",
-  "ledger records all 12 exact frozen migrations"
+  "ledger records all 13 exact immutable positions"
 ], "Clinic Preview catalog/RLS/readback contract");
 
 includesEvery(migrationScript, [
@@ -180,4 +205,4 @@ if (failures.length > 0) {
   process.exit(1);
 }
 
-console.log(`OK verify-rcap-hosted-clinic-migrate — ${checks}/${checks}; exact twelve-file nonproduction Clinic Preview sequence`);
+console.log(`OK verify-rcap-hosted-clinic-migrate — ${checks}/${checks}; 13 immutable ledger positions, 12 application-owned blobs, one historical ledger-only position`);

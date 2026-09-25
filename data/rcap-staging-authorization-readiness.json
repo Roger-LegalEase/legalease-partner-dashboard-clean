@@ -70,11 +70,17 @@
       },
       {
         "sequencePosition": 12,
+        "path": "supabase/migrations/20260917200000_consumer_checkout_session_replacement.sql",
+        "sha256": "0d368236f48402bb27953d9b2426e35026ff5d00286f06889ead543c5a32b128",
+        "applicationSha": "62425c837b5edf3d7e22b110910885abdaec1692"
+      },
+      {
+        "sequencePosition": 13,
         "path": "supabase/migrations/20260925134704_canonical_consumer_presentation_matter.sql",
         "sha256": "378af4a07b2c02a5405eb5d9c02e4b2b47165485283deaeabeaf01c069f378bc"
       }
     ],
-    "idempotencyRule": "An existing immutable-ledger prefix at the exact paths and hashes is read back only; only the absent suffix may be applied.",
+    "idempotencyRule": "Existing immutable hosted rows 1..12 are required; historical #12 must match path/hash/application SHA and cannot be reconstructed. Only absent application-owned #13 may be applied; exact 1..13 is replay/readback only.",
     "hashDriftRule": "Any mismatch among frozen commit bytes, this independent record, and the protected runner refuses before the first migration write.",
     "postFailureHostedPrefix": {
       "observedAt": "2026-09-03T14:46:15Z",
@@ -134,7 +140,16 @@
       "authorizedBy": "Roger Roman",
       "authorizedOn": "2026-09-25",
       "failedRunId": 36141023122,
-      "scope": "Exact forward presentation-source identity correction only; existing 11 ledger rows remain an immutable prefix, apply only #12 through hosted_clinic_migrate. No ad hoc SQL or Production authorization."
+      "scope": "Exact forward presentation-source identity correction only; existing 12 immutable hosted rows are preserved. Row 12 independently read back from acceptance and historical Git authority. Apply only #13 through hosted_clinic_migrate. No ad hoc SQL or Production authorization.",
+      "ledgerReconciliationDiscoveryRunId": 36151713747,
+      "historicalRow12Evidence": {
+        "acceptanceProjectRef": "hyflxnlhpmiqxvvcoiia",
+        "readMethod": "Read-only immutable ledger SELECT; exact 12-row prefix confirmed",
+        "historicalGitApplicationSha": "62425c837b5edf3d7e22b110910885abdaec1692",
+        "historicalGitBlobSha256": "0d368236f48402bb27953d9b2426e35026ff5d00286f06889ead543c5a32b128",
+        "appliedAt": "2026-09-17T20:51:25.209467Z",
+        "canonicalMatterMigrationApplied": false
+      }
     }
   },
   "independent_security_proven": true,
