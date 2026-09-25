@@ -62,11 +62,13 @@ export function requireProductionDeploymentBinding(candidate, phase) {
   if (phase === 'preflight') {
     const preview = candidate.hostedAcceptance?.preview;
     if (!/^dpl_[A-Za-z0-9]+$/.test(preview?.deploymentId ?? '') || preview.applicationSha !== candidate.applicationSha
-      || preview.acceptanceProjectRef !== candidate.acceptanceProjectRef || preview.target !== null || preview.readyState !== 'READY') {
+      || preview.acceptanceProjectRef !== candidate.acceptanceProjectRef
+      || preview.workerSourceSha !== candidate.workerSourceSha || preview.workerDigest !== candidate.workerDigest
+      || (preview.target !== null && preview.target !== 'preview') || preview.readyState !== 'READY') {
       throw new Error('production_preflight_preview_binding_missing');
     }
   }
-  if (phase === 'smoke' || phase === 'activate') {
+  if (phase === 'smoke' || phase === 'activate' || phase === 'public_verify') {
     if (!/^dpl_[A-Za-z0-9]+$/.test(authorization.stagedDeploymentId ?? '')
       || !/^dpl_[A-Za-z0-9]+$/.test(authorization.rollbackDeploymentId ?? '')
       || authorization.stagedDeploymentId === authorization.rollbackDeploymentId) {

@@ -234,6 +234,20 @@ jobs:
           fi
           git checkout --detach "${{ inputs.tools_sha }}"
 
+      - name: Require the current release tuple
+        env:
+          APPLICATION_SHA_INPUT: ${{ inputs.application_sha }}
+          WORKER_SOURCE_SHA_INPUT: ${{ inputs.worker_source_sha }}
+          WORKER_DIGEST_INPUT: ${{ inputs.worker_digest }}
+        run: |
+          node --input-type=module <<'JS'
+          import { requireCurrentReleaseCandidate } from './scripts/grade-a-launch-control/verify-release-candidate-binding.mjs';
+          const release = requireCurrentReleaseCandidate(process.cwd());
+          for (const [key, env] of [['applicationSha','APPLICATION_SHA_INPUT'],['workerSourceSha','WORKER_SOURCE_SHA_INPUT'],['workerDigest','WORKER_DIGEST_INPUT']]) {
+            if (release[key] !== process.env[env]) throw new Error('current_release_input_mismatch:' + key);
+          }
+          JS
+
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
@@ -439,9 +453,8 @@ jobs:
             test -z '${{ inputs.contradiction_job_id }}'
           fi
           if [ "$PHASE" = "clinic_preview" ]; then
-            test '${{ inputs.preview_deployment_id }}' = 'dpl_9TNBAkg6Au9PLeNUto7PNiDshj9i'
-            test '${{ inputs.preview_hostname }}' = 'legalease-rcap-clinic-67503e7e8d98-roger947s-projects.vercel.app'
-            test '${{ inputs.application_sha }}' = '67503e7e8d98b4a63103f4d7b66a413b8eb57823'
+            test -n '${{ inputs.preview_deployment_id }}'
+            test -n '${{ inputs.preview_hostname }}'
             DEPLOY=false
           fi
           {

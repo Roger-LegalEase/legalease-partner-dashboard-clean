@@ -403,6 +403,28 @@ try {
     `backups HTTP ${backups.httpStatus}; PITR=${backups.pitrEnabled}; WAL-G=${backups.walgEnabled}; region=${backups.region ?? "unknown"}; backups listed=${backups.backupCount}; latest completed=${backups.latestCompletedBackupAt ?? "none listed"}; physical backups earliest=${unixToIso(backups.physicalBackupData?.earliest_physical_backup_date_unix)} latest=${unixToIso(backups.physicalBackupData?.latest_physical_backup_date_unix)}`
   );
 
+  // The packet contract predates the presentation-source identity correction.
+  // Certify that separate frozen source without replaying it or adopting history.
+  const canonicalMatterSql = frozenMigrationSql(ROOT_DIR, {
+    path: "supabase/migrations/20260925134704_canonical_consumer_presentation_matter.sql",
+    sha256: "378af4a07b2c02a5405eb5d9c02e4b2b47165485283deaeabeaf01c069f378bc"
+  });
+  const expectedMatterBody = canonicalMatterSql.split("$source$")[1];
+  const matterRows = await managementQuery(`select p.prosrc, p.prosecdef, p.proconfig,
+    p.provolatile, l.lanname,
+    has_function_privilege('service_role',p.oid,'EXECUTE') as service_execute,
+    has_function_privilege('anon',p.oid,'EXECUTE') as anon_execute,
+    has_function_privilege('authenticated',p.oid,'EXECUTE') as authenticated_execute
+    from pg_proc p join pg_language l on l.oid=p.prolang
+    where p.oid=to_regprocedure('public.get_consumer_briefcase_presentation_source(uuid,uuid)')`, "canonical_matter_rpc_readback");
+  const matter = matterRows[0] ?? {};
+  record("current_canonical_matter_rpc_exact", Boolean(expectedMatterBody)
+    && matter.prosrc === expectedMatterBody && truthy(matter.prosecdef)
+    && JSON.stringify(postgresArray(matter.proconfig)) === JSON.stringify(['search_path=""'])
+    && matter.provolatile === 's' && matter.lanname === 'sql'
+    && truthy(matter.service_execute) && !truthy(matter.anon_execute) && !truthy(matter.authenticated_execute),
+    "Exact frozen canonical-matter RPC body/security required; missing or stale state needs a separately authorized forward correction, never replay here.");
+
   if (PHASE === "forward_chain_readback") {
     record("readback_phase_wrote_nothing", evidence.productionDatabaseMutated === false, "read-only phase; no SQL other than catalog reads was issued");
     persist(true);

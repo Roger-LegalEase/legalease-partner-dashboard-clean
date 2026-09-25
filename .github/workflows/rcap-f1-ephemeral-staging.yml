@@ -160,11 +160,13 @@ jobs:
     if: inputs.mode == 'production_public_verify'
     runs-on: ubuntu-latest
     timeout-minutes: 30
-    # Historical Production tuple and containment stay closed to this successor.
     env:
-      AUTHORIZED_WORKER_SOURCE_SHA: fe2457a71dd90d0fb83d0ed2738fcd1e6566d76e
-      AUTHORIZED_WORKER_DIGEST: sha256:a22ad8559df69563a4f8b055e0efcb15de128e5ce09d75325abcbf783adff905
-      CANONICAL_INTEGRATION_BRANCH: claude/legalease-sprint-captain-utucnw
+      RCAP_PRODUCTION_PHASE: public_verify
+      RCAP_APPLICATION_SHA: ${{ inputs.application_sha }}
+      RCAP_WORKER_SOURCE_SHA: ${{ inputs.worker_source_sha }}
+      RCAP_WORKER_DIGEST: ${{ inputs.worker_digest }}
+      RCAP_TOOLS_SHA: ${{ inputs.tools_sha }}
+      RCAP_PRODUCTION_PROJECT_REF: wwtwtsmywnckfkdaqqeg
     steps:
       - name: Refuse any input that is not the authorized pinned value
         env:
@@ -176,8 +178,8 @@ jobs:
         run: |
           set -euo pipefail
           printf '%s' "$APPLICATION_SHA_INPUT" | grep -Eq '^[0-9a-f]{40}$' || { echo "::error::application_sha must be a full commit SHA"; exit 1; }
-          [ "$WORKER_SOURCE_SHA_INPUT" = "$AUTHORIZED_WORKER_SOURCE_SHA" ] || { echo "::error::worker_source_sha is not the authorized value"; exit 1; }
-          [ "$WORKER_DIGEST_INPUT" = "$AUTHORIZED_WORKER_DIGEST" ] || { echo "::error::worker_digest is not the authorized value"; exit 1; }
+          printf '%s' "$WORKER_SOURCE_SHA_INPUT" | grep -Eq '^[0-9a-f]{40}$'  || { echo "::error::worker_source_sha is not the authorized value"; exit 1; }
+          printf '%s' "$WORKER_DIGEST_INPUT" | grep -Eq '^sha256:[0-9a-f]{64}$'  || { echo "::error::worker_digest is not the authorized value"; exit 1; }
           printf '%s' "$TOOLS_SHA_INPUT" | grep -Eq '^[0-9a-f]{40}$' || { echo "::error::tools_sha must be a full commit SHA"; exit 1; }
           [ "$TOOLS_SHA_INPUT" = "$WORKFLOW_SHA_INPUT" ] || { echo "::error::tools_sha must equal the workflow source SHA"; exit 1; }
 
@@ -199,6 +201,11 @@ jobs:
           git diff --quiet "${{ inputs.application_sha }}" "${{ inputs.tools_sha }}" -- package.json package-lock.json tsconfig.json scripts/rcap-render-worker.mjs deploy/rcap-render-worker/Dockerfile scripts/lib src \
             || { echo "::error::workflow tools differ from the final application on worker inputs"; exit 1; }
           git checkout --detach "${{ inputs.tools_sha }}"
+
+      - name: Require current release and separate public-verification authorization
+        run: |
+          node scripts/rcap-production-migration-contract.mjs
+          node scripts/verify-rcap-worker-input-equivalence.mjs --base "${{ inputs.worker_source_sha }}" --head "${{ inputs.tools_sha }}"
 
       - name: Set up Node
         uses: actions/setup-node@v4

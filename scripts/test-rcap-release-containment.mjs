@@ -1,6 +1,7 @@
 // Execute the actual workflow containment shells against isolated Git histories.
 // No network, credentials, image publication, or deployment is involved.
 import assert from "node:assert/strict";
+import { requireProductionPhaseAuthorization } from "./rcap-production-migration-contract.mjs";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
@@ -25,7 +26,13 @@ function structural(documents) {
     if (name.startsWith("production_")) {
       assert.ok(!JSON.stringify(job).includes("RELEASE_INTEGRATION_BRANCH"));
       assert.ok(!JSON.stringify(job).includes("captain-release"));
-      if (job.steps?.some(step => step.run?.includes('$CANONICAL_INTEGRATION_BRANCH'))) {
+      if (name === 'production_public_verify') {
+        assert.equal(job.env?.CANONICAL_INTEGRATION_BRANCH, undefined);
+        assert.equal(job.env?.AUTHORIZED_WORKER_SOURCE_SHA, undefined);
+        assert.equal(job.env?.AUTHORIZED_WORKER_DIGEST, undefined);
+        assert.equal(job.env?.RCAP_PRODUCTION_PHASE, 'public_verify');
+        assert.ok(job.steps.some(step => step.run?.includes('node scripts/rcap-production-migration-contract.mjs')));
+      } else if (job.steps?.some(step => step.run?.includes('$CANONICAL_INTEGRATION_BRANCH'))) {
         assert.equal(job.env?.CANONICAL_INTEGRATION_BRANCH, 'claude/legalease-sprint-captain-utucnw');
         assert.equal(job.env?.AUTHORIZED_WORKER_SOURCE_SHA, 'fe2457a71dd90d0fb83d0ed2738fcd1e6566d76e');
         assert.equal(job.env?.AUTHORIZED_WORKER_DIGEST, 'sha256:a22ad8559df69563a4f8b055e0efcb15de128e5ce09d75325abcbf783adff905');
@@ -48,7 +55,7 @@ function structural(documents) {
 const documents = [entry, hosted, github, publication];
 structural(documents);
 for (const mutate of [
-  d => { delete d[0].jobs.production_public_verify.env.CANONICAL_INTEGRATION_BRANCH; },
+  d => { d[0].jobs.production_public_verify.env.CANONICAL_INTEGRATION_BRANCH = 'claude/legalease-sprint-captain-utucnw'; },
   d => { d[0].jobs.production_save_transition.env.AUTHORIZED_WORKER_SOURCE_SHA = d[0].env.AUTHORIZED_WORKER_SOURCE_SHA; },
   d => { d[0].jobs.f1.env.RELEASE_INTEGRATION_BRANCH = "feature/arbitrary"; },
   d => { d[1].env.RELEASE_INTEGRATION_BRANCH = "*"; },
@@ -104,6 +111,13 @@ try {
       .replaceAll("${{ inputs.worker_source_sha }}", "$REQUESTED_WORKER_SOURCE_SHA")
       .replaceAll("${{ inputs.tools_sha }}", "$REQUESTED_TOOLS_SHA");
     const env = { ...entry.env, ...job.env, REQUESTED_APPLICATION_SHA: candidate, REQUESTED_WORKER_SOURCE_SHA: base, REQUESTED_TOOLS_SHA: candidate };
+    if (name === "production_public_verify") {
+      assert.equal(run(shell, env).status, 0, "public verification uses current Captain ancestry");
+      const release = JSON.parse(fs.readFileSync("data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json", "utf8"));
+      assert.throws(() => requireProductionPhaseAuthorization(release, "public_verify"), /not_authorized/,
+        "Captain ancestry cannot grant Production authorization");
+      continue;
+    }
     const refuseRelease = script => assert.notEqual(run(script, env).status, 0, `${name}: release-only candidate gains no production authority`);
     refuseRelease(shell);
     assert.throws(() => refuseRelease(shell.replaceAll("$CANONICAL_INTEGRATION_BRANCH", "captain-release")), assert.AssertionError);

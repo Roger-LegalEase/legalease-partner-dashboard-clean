@@ -132,6 +132,7 @@ check(![
   "8eb8ddc9d8525e7390453c9b7a64224b9651bc42"
 ].some((superseded) => gate.includes(superseded)), "gate still pins a superseded application identity");
 check(![
+  "sha256:a950cda9d6016f9b9e1b1d4602680c9236336a9fc6bd4fbd10ead0d60e67b21d",
   "sha256:1d30530b726554b458a347fd9a00619e38e19d380f058c42504f56631de0f101",
   "sha256:4e5b58e4492289446bcbdd100bb39dcd13dd4512916679fa2a252e4532ab9530",
   "sha256:67132df2d1bee49d123d0d2918880f283d2109195b49150265d348fe1d07a69c",

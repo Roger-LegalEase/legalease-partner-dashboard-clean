@@ -61,9 +61,9 @@ test('Production deployment and smoke receipt binding has an exact successor suc
   const release=structuredClone(candidate);
   release.acceptanceProjectRef='hyflxnlhpmiqxvvcoiia';
   release.hostedAcceptance={preview:{deploymentId:'dpl_localPreview',applicationSha:head,
-    acceptanceProjectRef:release.acceptanceProjectRef,target:null,readyState:'READY'}};
+    acceptanceProjectRef:release.acceptanceProjectRef,workerSourceSha:release.workerSourceSha,workerDigest:release.workerDigest,target:null,readyState:'READY'}};
   const authorization=release.productionAuthorization;
-  authorization.phases.push('preflight','smoke','activate');
+  authorization.phases.push('preflight','smoke','activate','public_verify');
   authorization.stagedDeploymentId='dpl_localStaged';authorization.rollbackDeploymentId='dpl_localRollback';
   authorization.smokeRunId=12345678;
   const smoke={passed:true,applicationSha:head,workerSourceSha:head,workerDigest:release.workerDigest,
@@ -73,12 +73,17 @@ test('Production deployment and smoke receipt binding has an exact successor suc
     realParticipantRecordsCreated:false,realChargesCreated:false};
   const smokeText=JSON.stringify(smoke),sha256=text=>createHash('sha256').update(text).digest('hex');
   authorization.smokeArtifactSha256=sha256(smokeText);
-  for(const phase of ['preflight','smoke','activate'])assert.equal(requireProductionDeploymentBinding(release,phase),authorization);
+  for(const phase of ['preflight','smoke','activate','public_verify'])assert.equal(requireProductionDeploymentBinding(release,phase),authorization);
   const wrong=structuredClone(release);wrong.productionAuthorization.rollbackDeploymentId=authorization.stagedDeploymentId;
   assert.throws(()=>requireProductionDeploymentBinding(wrong,'smoke'),/deployment_binding_missing/);
   wrong.productionAuthorization.rollbackDeploymentId=authorization.rollbackDeploymentId;
   delete wrong.productionAuthorization.smokeArtifactSha256;
   assert.throws(()=>requireProductionDeploymentBinding(wrong,'activate'),/receipt_binding_missing/);
+  assert.throws(()=>requireProductionDeploymentBinding({...release,productionAuthorized:false},'public_verify'),/not_authorized/);
+  for (const key of ['workerSourceSha','workerDigest']) {
+    const stale=structuredClone(release);stale.hostedAcceptance.preview[key]='historical';
+    assert.throws(()=>requireProductionDeploymentBinding(stale,'preflight'),/preview_binding_missing/);
+  }
   wrong.hostedAcceptance.preview.applicationSha='0'.repeat(40);
   assert.throws(()=>requireProductionDeploymentBinding(wrong,'preflight'),/preview_binding_missing/);
   // Execute the actual activation receipt predicate without invoking a phase,
@@ -156,7 +161,9 @@ test('actual Clinic and Legal Aid entrypoints accept complete source state witho
 });
 
 test('actual Production forward control rejects signature/ledger receipts without current postconditions and succeeds on complete state without writes',async t=>{
-  const db=packetApplicationTestDatabase(root);t.after(()=>db.stop());
+  let db=packetApplicationTestDatabase(root);t.after(()=>db.stop());
+  const canonicalMatterPath='supabase/migrations/20260925134704_canonical_consumer_presentation_matter.sql';
+  db.applyFile(path.join(root,canonicalMatterPath));
   const inventory={ledger_present:true,ledger_has_name_column:true,
     ledger_versions:[...LEDGER_BASELINE_VERSIONS,...MIGRATIONS.map(m=>m.version)]};
   for(const m of MIGRATIONS)inventory[`sig_${m.version}`]=true;
@@ -170,6 +177,7 @@ test('actual Production forward control rejects signature/ledger receipts withou
     // Historical inventory/impact is a Management API protocol fixture. The
     // required current dependency catalog is always real PostgreSQL output.
     if(query===packetCatalogQuery())return response([{catalog:JSON.parse(db.sql(query).trim().split('\n').at(-1))}]);
+    if(query.includes('p.prosrc, p.prosecdef'))return response(db.json(`select jsonb_agg(t) from (${query}) t`));
     if(query.includes('ledger_versions'))return response([inventory]);
     if(query.includes('select column_name::text'))return response(['claim_token_hash','status','claimed_matter_id'].map(column_name=>({column_name})));
     if(query.includes('count(*)::int as total_rows'))return response([{total_rows:0}]);
@@ -180,10 +188,32 @@ test('actual Production forward control rejects signature/ledger receipts withou
   const stale=await run();
   assert.equal(stale.passed,false);assert.match(stale.failure,/migration_not_certified/);
   assert.equal(stale.productionDatabaseMutated,false);assert.equal(stale.ledgerRowsRecorded.length,0);
-  db.applyFile(path.join(root,CORRECTION_PATH));
+  // Restore a fresh current-source fixture; replaying the older repair over
+  // later authorized finalizer definitions is correctly refused.
+  db.stop();db=packetApplicationTestDatabase(root);db.applyFile(path.join(root,canonicalMatterPath));
   const correct=await run();
   assert.equal(correct.passed,true,correct.failure);assert.equal(correct.productionDatabaseMutated,false);
   assert.equal(correct.migrationsApplied.length,0);assert.equal(correct.ledgerRowsRecorded.length,0);
   assert.equal(correct.migrationDisposition,'current_release_dependencies_verified_no_write');
   assert.equal(correct.historicalChainCertified,false);
+  db.sql(fs.readFileSync(path.join(root,canonicalMatterPath),'utf8').replace('public.consumer_matter_id_for_briefcase_item(i.id)::text as matter_id','i.id::text as matter_id'));
+  const wrongMatter=await run();
+  assert.equal(wrongMatter.passed,false);assert.match(wrongMatter.failure,/current_canonical_matter_rpc_exact/);
+  assert.equal(wrongMatter.migrationsApplied.length,0);assert.equal(wrongMatter.productionDatabaseMutated,false);
+
+});
+
+// Read-only public verification must follow authorization, not compiled release literals.
+test('public verification uses current authorized deployment identities and cannot use a historical tuple',()=>{
+  const source=fs.readFileSync('scripts/rcap-production-public-verify.mjs','utf8');
+  const workflow=fs.readFileSync('.github/workflows/rcap-f1-ephemeral-staging.yml','utf8');
+  const block=workflow.slice(workflow.indexOf('  production_public_verify:'),workflow.indexOf('  # 2026-09-16 production incident'));
+  for(const key of ['applicationSha','workerSourceSha','workerDigest'])assert.ok(source.includes(`RELEASE_CANDIDATE.${key}`));
+  for(const key of ['stagedDeploymentId','rollbackDeploymentId'])assert.ok(source.includes(`RELEASE_CANDIDATE.productionAuthorization?.${key}`));
+  assert.ok(source.includes('requireProductionMigrationRelease(process.cwd(), process.env)'));
+  assert.ok(block.includes('node scripts/rcap-production-migration-contract.mjs'));
+  assert.ok(block.includes('TOOLS_SHA_INPUT" = "$WORKFLOW_SHA_INPUT'));
+  assert.ok(block.includes('node scripts/verify-rcap-worker-input-equivalence.mjs'));
+  assert.ok(!/dpl_[A-Za-z0-9]+|claude\/legalease-sprint|sha256:[0-9a-f]{64}/.test(source+block));
+  assert.ok(!/AUTHORIZED_WORKER_SOURCE_SHA:|AUTHORIZED_WORKER_DIGEST:/.test(block));
 });

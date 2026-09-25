@@ -496,7 +496,11 @@ try {
   const acceptanceExact = deploymentId(acceptance) === ACCEPTANCE_DEPLOYMENT_ID
     && deploymentReady(acceptance)
     && (acceptance?.target === null || acceptance?.target === "preview")
+    && acceptance?.projectId === vercelIdentity.projectId
+    && acceptance?.gitSource?.sha === APPLICATION_SHA
     && acceptanceMeta.rcapApplicationSha === APPLICATION_SHA
+    && acceptanceMeta.rcapWorkerSourceSha === WORKER_SOURCE_SHA
+    && acceptanceMeta.rcapWorkerDigest === WORKER_DIGEST
     && acceptanceMeta.rcapAcceptanceProjectRef === ACCEPTANCE_PROJECT_REF;
   if (!record(
     "accepted_preview_deployment_is_exact",

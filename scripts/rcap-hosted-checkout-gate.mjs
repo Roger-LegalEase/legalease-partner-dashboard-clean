@@ -53,10 +53,10 @@ const applicationShaExact = /^[0-9a-f]{40}$/.test(APPLICATION_SHA);
 const EXPECTED_RETURN_ORIGIN = applicationShaExact ? expectedHostedReturnOrigin(APPLICATION_SHA) : "";
 const EXPECTED_RETURN_HOST = EXPECTED_RETURN_ORIGIN ? new URL(EXPECTED_RETURN_ORIGIN).host : "";
 const EXPECTED_PROJECT_REF = "hyflxnlhpmiqxvvcoiia";
-// Accepted worker source fe2457a71 was published by run 35769217594 and
-// passed read-only image acceptance 35769776831. Application identity remains
+// Accepted worker source 2742392d was published by run 36084462506 and
+// passed read-only image acceptance 36132255563. Application identity remains
 // separately bound; canonical input equivalence authorizes this digest reuse.
-const EXPECTED_WORKER_DIGEST = "sha256:a950cda9d6016f9b9e1b1d4602680c9236336a9fc6bd4fbd10ead0d60e67b21d";
+const EXPECTED_WORKER_DIGEST = "sha256:80c6da8c14cd8f09bba81a2b8d0385ac2b2f40bbde16464acc80aa83db0e4813";
 const EXPECTED_WORKER_REF = `ghcr.io/roger-legalease/rcap-render-worker@${EXPECTED_WORKER_DIGEST}`;
 const EXPECTED_EVENTS = [
   "checkout.session.async_payment_succeeded",

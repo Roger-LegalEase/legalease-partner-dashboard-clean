@@ -59,8 +59,18 @@ check("browser evidence records the screening session and server generation resp
 check("post-journey audit binds server-side Clinic, artifact, credit, and reset evidence", fs.existsSync("scripts/rcap-hosted-ms-clinic-preview-audit.mjs") && /id: clinic_audit[\s\S]{0,700}rcap-hosted-ms-clinic-preview-audit\.mjs/.test(hosted));
 check("anti-skip requires the post-journey server audit", /O_CLINIC_AUDIT:\s*\$\{\{ steps\.clinic_audit\.outcome \}\}/.test(hosted) && /require "Clinic server-side audit" "\$O_CLINIC_AUDIT"/.test(hosted));
 
-check("Clinic reuse is pinned and cannot create another Preview", /if \[ "\$PHASE" = "clinic_preview" \]; then[\s\S]*?dpl_9TNBAkg6Au9PLeNUto7PNiDshj9i[\s\S]*?DEPLOY=false/.test(hosted)
-  && hosted.includes("if: inputs.phase != 'clinic_preview' && steps.contract.outputs.deploy"));
+function dynamicClinicReuseContract(source) {
+  const block = source.match(/if \[ "\$PHASE" = "clinic_preview" \]; then([\s\S]*?)\n          fi/)?.[1] ?? "";
+  return block.includes("test -n '${{ inputs.preview_deployment_id }}'")
+    && block.includes("test -n '${{ inputs.preview_hostname }}'")
+    && block.includes("DEPLOY=false")
+    && !/dpl_[A-Za-z0-9]+|[0-9a-f]{40}|legalease-rcap-clinic-[a-z0-9-]+\.vercel\.app/.test(block)
+    && source.includes("requireCurrentReleaseCandidate")
+    && source.includes("if: inputs.phase != 'clinic_preview' && steps.contract.outputs.deploy");
+}
+check("Clinic reuse accepts dynamic exact pins and cannot create another Preview", dynamicClinicReuseContract(hosted));
+check("Clinic reuse rejects mutation to historical deployment/application authority", !dynamicClinicReuseContract(hosted.replace("test -n '${{ inputs.preview_deployment_id }}'", "test '${{ inputs.preview_deployment_id }}' = 'dpl_9TNBAkg6Au9PLeNUto7PNiDshj9i'")));
+check("Clinic reuse rejects a missing hostname requirement", !dynamicClinicReuseContract(hosted.replace("test -n '${{ inputs.preview_hostname }}'", "true")));
 check("Clinic worker requires registry access and current database readback", hosted.includes('require "Clinic immutable worker registry access"') && hosted.includes('require "Clinic current database"'));
 
 // Execute the actual browser controllers, without starting a browser, worker,
@@ -218,7 +228,7 @@ const contractStep = workflowSteps.find(s => s.id === "contract");
 const antiskipStep = workflowSteps.find(s => s.id === "antiskip");
 const executionDir = fs.mkdtempSync(path.join(os.tmpdir(), "rcap-clinic-deploy-contract-"));
 try {
-  const inputs = { phase: "clinic_deploy", application_sha: "a0d0b933f7241a209379775754540fc22775f174",
+  const inputs = { phase: "clinic_deploy", application_sha: JSON.parse(fs.readFileSync("data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json")).applicationSha,
     preview_hostname: "", preview_deployment_id: "", promotion_code: "", journey_state: "", contradiction_job_id: "" };
   const output = path.join(executionDir, "outputs");
   const shell = contractStep.run.replace(/\$\{\{ inputs\.(\w+) \}\}/g, (_, key) => inputs[key] ?? "");
@@ -247,6 +257,41 @@ try {
   fs.rmSync(executionDir, { recursive: true });
 }
 
+
+// Simulate the actual shell/if/anti-skip decisions using a hypothetical exact
+// resolver result. This is scheduling proof only: no script/network is invoked.
+for (const phase of ["clinic_preview", "full"]) {
+  const dir=fs.mkdtempSync(path.join(os.tmpdir(),"rcap-runway-"));
+  try {
+    const release=JSON.parse(fs.readFileSync("data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json"));
+    const inputs={phase,application_sha:release.applicationSha,worker_source_sha:release.workerSourceSha,worker_digest:release.workerDigest,
+      preview_deployment_id:"dpl_hypotheticalCurrentPreview",preview_hostname:"current-exact-fixture.vercel.app"};
+    const out=path.join(dir,"outputs");
+    const shell=contractStep.run.replace(/\$\{\{ inputs\.(\w+) \}\}/g,(_,key)=>inputs[key]??"");
+    const result=spawnSync("bash",["-c",shell],{encoding:"utf8",env:{PATH:process.env.PATH,GITHUB_OUTPUT:out},cwd:dir});
+    check(`${phase} current dynamic tuple normalizes`,result.status===0);
+    const outputs=Object.fromEntries(fs.readFileSync(out,"utf8").trim().split("\n").map(line=>line.split("=")));
+    const steps=Object.fromEntries(workflowSteps.filter(s=>s.id).map(s=>[s.id,{outputs:{},outcome:"skipped"}]));
+    steps.contract={outputs,outcome:"success"};
+    steps.resolve_preview.outputs={reused:"true",hostname:inputs.preview_hostname,deployment_id:inputs.preview_deployment_id};
+    const evaluate=expression=>new Function("inputs","steps","always","success",`return (${expression.replace(/^\$\{\{|\}\}$/g,"")});`)(inputs,steps,()=>true,()=>true);
+    for(const step of workflowSteps.filter(s=>s.id))if(!step.if||evaluate(step.if))steps[step.id].outcome="success";
+    check(`${phase} resolves exact Preview without executing deployment`,steps.resolve_preview.outcome==="success"&&steps.deploy_preview.outcome==="skipped");
+    const required=phase==="clinic_preview"?["clinic_seed","clinic_database_readback","clinic_journey","clinic_audit"]:["checkout_gate","golden_journey","payment_journey","matrix_build"];
+    check(`${phase} all journey stages reachable`,required.every(id=>steps[id].outcome==="success"));
+    const env=Object.fromEntries(Object.entries(antiskipStep.env).map(([k,v])=>[k,String(evaluate(v)??"")]));
+    const anti=patch=>spawnSync("bash",["-c",antiskipStep.run],{encoding:"utf8",env:{PATH:process.env.PATH,...env,...patch},cwd:dir});
+    check(`${phase} final anti-skip accepts complete scheduled results`,anti({}).status===0);
+    for(const id of required){
+      const outcomeName=Object.entries(antiskipStep.env).find(([,v])=>v.includes(`steps.${id}.outcome`))?.[0];
+      check(`${phase} anti-skip refuses omitted ${id}`,Boolean(outcomeName)&&anti({[outcomeName]:"skipped"}).status!==0);
+    }
+    if(phase==="clinic_preview"){
+      const missing=shell.replace("test -n 'dpl_hypotheticalCurrentPreview'","test -n ''");
+      check("Clinic missing exact deployment input refuses",spawnSync("bash",["-c",missing],{env:{PATH:process.env.PATH,GITHUB_OUTPUT:out}}).status!==0);
+    }
+  } finally { fs.rmSync(dir,{recursive:true,force:true}); }
+}
 
 // Execute the real identity verifier at a mocked Vercel HTTP boundary. The
 // successor is supplied by the caller; no transient release literal is authority.

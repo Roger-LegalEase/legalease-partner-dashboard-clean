@@ -26,21 +26,14 @@ import {
   resolveHostedVercelIdentity
 } from "./rcap-hosted-acceptance-vercel-identity.mjs";
 
-const APPLICATION_SHA = "4e16d6d8ebe991a8a3f529637b0d3a38c3149cbb";
-const WORKER_SOURCE_SHA = "c88f10341fec848b3f6f4dec9fc3381e6eea0530";
-const WORKER_DIGEST = "sha256:df6c2965e1f569fab5b2d9370b97723170c2c49da7a54f93ffc132525b781d06";
+import { requireProductionMigrationRelease } from './rcap-production-migration-contract.mjs';
+const RELEASE_CANDIDATE = JSON.parse(fs.readFileSync(new URL('../data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json', import.meta.url), 'utf8'));
+const APPLICATION_SHA = RELEASE_CANDIDATE.applicationSha;
+const WORKER_SOURCE_SHA = RELEASE_CANDIDATE.workerSourceSha;
+const WORKER_DIGEST = RELEASE_CANDIDATE.workerDigest;
 const PRODUCTION_PROJECT_REF = "wwtwtsmywnckfkdaqqeg";
-// This control asks whether expungement.ai is serving the deployment this
-// release promoted, so a stale pin here would confirm the public site was
-// serving the release it was already serving. Preflight 35247428602 read the
-// real pair back from Vercel.
-const STAGED_DEPLOYMENT_ID = "dpl_BJMUzi76BWPUbnnxE8Doim6hwkiP";
-// The recovery target is the deployment live now: dpl_DjAscm, running
-// application 0fee79bd1. It post-dates 20260917090000 and calls the current
-// record_consumer_packet_payment signature, so it is payment-compatible as well
-// as available. See the fuller note in rcap-production-activate.mjs, which is
-// the control that can actually move Production onto it.
-const ROLLBACK_DEPLOYMENT_ID = "dpl_DjAscmNucgJHauNsTtpbzGp9zfpU";
+const STAGED_DEPLOYMENT_ID = RELEASE_CANDIDATE.productionAuthorization?.stagedDeploymentId;
+const ROLLBACK_DEPLOYMENT_ID = RELEASE_CANDIDATE.productionAuthorization?.rollbackDeploymentId;
 const PUBLIC_DOMAIN = "expungement.ai";
 const SCREENING_PATH = "/expungement-ai/screening/MS";
 const EVIDENCE_DIR = path.resolve(process.env.RCAP_PUBLIC_EVIDENCE_DIR ?? "production-public-evidence");
@@ -248,6 +241,7 @@ async function walkMississippiScreening(hostname) {
 }
 
 try {
+  requireProductionMigrationRelease(process.cwd(), process.env);
   if (PHASE !== "public_verify"
     || INPUT_APPLICATION_SHA !== APPLICATION_SHA
     || INPUT_WORKER_SOURCE_SHA !== WORKER_SOURCE_SHA
