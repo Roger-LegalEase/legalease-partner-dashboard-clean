@@ -160,6 +160,11 @@ jobs:
     if: inputs.mode == 'production_public_verify'
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    # Historical Production tuple and containment stay closed to this successor.
+    env:
+      AUTHORIZED_WORKER_SOURCE_SHA: fe2457a71dd90d0fb83d0ed2738fcd1e6566d76e
+      AUTHORIZED_WORKER_DIGEST: sha256:a22ad8559df69563a4f8b055e0efcb15de128e5ce09d75325abcbf783adff905
+      CANONICAL_INTEGRATION_BRANCH: claude/legalease-sprint-captain-utucnw
     steps:
       - name: Refuse any input that is not the authorized pinned value
         env:
@@ -237,6 +242,11 @@ jobs:
     if: inputs.mode == 'production_save_transition_reproduce' || inputs.mode == 'production_save_transition_verify' || inputs.mode == 'production_live_zero_dollar_order'
     runs-on: ubuntu-latest
     timeout-minutes: 40
+    # Historical Production tuple and containment stay closed to this successor.
+    env:
+      AUTHORIZED_WORKER_SOURCE_SHA: fe2457a71dd90d0fb83d0ed2738fcd1e6566d76e
+      AUTHORIZED_WORKER_DIGEST: sha256:a22ad8559df69563a4f8b055e0efcb15de128e5ce09d75325abcbf783adff905
+      CANONICAL_INTEGRATION_BRANCH: claude/legalease-sprint-captain-utucnw
     steps:
       - name: Refuse any input that is not the authorized pinned value
         env:
@@ -455,7 +465,7 @@ jobs:
     env:
       # Preproduction only; production jobs retain their existing containment.
       RELEASE_INTEGRATION_BRANCH: captain-release
-      # Accepted by read-only run 35943884247; scoped to this nonproduction job.
+      # Accepted by read-only run 36132255563; scoped to this nonproduction job.
       AUTHORIZED_WORKER_SOURCE_SHA: 2742392d59579d823cd0cdc54456f5e80a210aaf
       AUTHORIZED_WORKER_DIGEST: sha256:80c6da8c14cd8f09bba81a2b8d0385ac2b2f40bbde16464acc80aa83db0e4813
     runs-on: ubuntu-latest

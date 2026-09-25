@@ -432,3 +432,21 @@ test('legacy Legal Aid deployment retains its existing origin and provider envir
   assert.equal(body.env.RESEND_API_KEY,'re_synthetic');
   assert.equal(Object.hasOwn(body.meta,'rcapPreviewPurpose'),false);
 });
+
+test('ordinary Preview preservation pins historical bytes independently of successor and rejects drift', () => {
+  const d = {id:HOSTED_ORDINARY_PREVIEW.id,url:HOSTED_ORDINARY_PREVIEW.immutableHostname,target:null,
+    projectId:HOSTED_VERCEL_PROJECT_ID,gitSource:{sha:HOSTED_ORDINARY_PREVIEW.applicationSha},readyState:'READY',meta:{
+      rcapApplicationSha:HOSTED_ORDINARY_PREVIEW.applicationSha,
+      rcapWorkerSourceSha:'615b4021f7fff4b41b774967a78f4b117cfce3e2',
+      rcapWorkerDigest:'sha256:4704199f2f683b9169702f0d2b5038cb7724569091d88c347867ab6a95aa1b7b',
+      rcapWorkerInputFingerprint:'sha256:7418fff6198b7c1f137916ddb8d379f4229ce525d691f766e1e01bf522318fe3',
+      rcapAcceptanceProjectRef:'hyflxnlhpmiqxvvcoiia',rcapClinicDemoMode:'none',
+      rcapReturnOrigin:expectedHostedReturnOrigin(HOSTED_ORDINARY_PREVIEW.applicationSha)}};
+  assert.equal(assertPreservedOrdinaryPreview(d),d);
+  for (const [key,value] of Object.entries({id:'dpl_Changed',url:'changed.vercel.app',target:'production',projectId:'prj_Changed',gitSource:{sha:FROZEN_APPLICATION_SHA},readyState:'ERROR'})) {
+    assert.throws(()=>assertPreservedOrdinaryPreview({...d,[key]:value}),/ORDINARY_PREVIEW_MISMATCH/);
+  }
+  for (const key of Object.keys(d.meta)) assert.throws(()=>assertPreservedOrdinaryPreview({...d,meta:{...d.meta,[key]:'changed'}}),/ORDINARY_PREVIEW_MISMATCH/);
+  assert.throws(()=>assertPreservedOrdinaryPreview({...d,target:undefined}),/ORDINARY_PREVIEW_MISMATCH/);
+  assert.throws(()=>assertPreviewResponse(d,d.meta),/SOURCE_MISMATCH/);
+});
