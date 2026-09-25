@@ -64,13 +64,103 @@
     "workerInputFingerprint": "sha256:c202ebba08c34ce3665f69269fb913078b02188519c5196af7f3639da84dd0d8",
     "staticWorkerAuthorityByteIdentical": true
   },
-  "hostedAcceptanceStatus": "IMAGE_ACCEPTED_SUCCESSOR_CLINIC_PREVIEW_OUTSTANDING",
+  "hostedAcceptanceStatus": "SUCCESSOR_CLINIC_PREVIEW_DEPLOYED_JOURNEY_OUTSTANDING",
   "hostedAcceptance": {
     "journeys": [],
     "manualHostedFullReady": false,
-    "preview": null,
+    "preview": {
+      "runId": 36183777013,
+      "runAttempt": 1,
+      "conclusion": "success",
+      "workflowSha": "8775cd2132570ce6272baa74f52455bf043814e7",
+      "workflowSourceSha": "8775cd2132570ce6272baa74f52455bf043814e7",
+      "runUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/36183777013",
+      "artifactId": 10885396863,
+      "artifactName": "rcap-hosted-clinic_deploy-36183777013",
+      "artifactZipSha256": "sha256:ee44f71307bb57a44ab75a000bb6d2ce7a9b9694957c15d75ff9ae59b896284b",
+      "deploymentId": "dpl_EopdPGhnhjk8JqwdiAqi9RYmATpB",
+      "hostname": "legalease-rcap-clinic-6ebacdcde8af-roger947s-projects.vercel.app",
+      "immutableHostname": "legalease-partner-dashboard-clean-pfqfb6zu9-roger947s-projects.vercel.app",
+      "returnHostname": "legalease-rcap-clinic-6ebacdcde8af-roger947s-projects.vercel.app",
+      "applicationSha": "6ebacdcde8afdf8aa706f16b38e0646babcbdc49",
+      "gitSourceSha": "6ebacdcde8afdf8aa706f16b38e0646babcbdc49",
+      "workerSourceSha": "6ebacdcde8afdf8aa706f16b38e0646babcbdc49",
+      "workerDigest": "sha256:74b82e11aac7fa1f850ca52ba1344ca7853fa09120374a83ddb5bbc019f8cdd7",
+      "workerInputFingerprint": "sha256:c202ebba08c34ce3665f69269fb913078b02188519c5196af7f3639da84dd0d8",
+      "acceptanceProjectRef": "hyflxnlhpmiqxvvcoiia",
+      "readyState": "READY",
+      "target": null,
+      "routeState": "staging_scoped",
+      "previewPurpose": "mississippi_clinic",
+      "clinicDemoMode": "mississippi_preview",
+      "stagingScopeSha256": "bb986872d0c7ab762ff553a057fb2cdf33030eb14af7e776f1a874eac169b336",
+      "stagingScopeParticipantCount": 2,
+      "stripeConfigured": false,
+      "catalogProduct": "inline",
+      "creationPostCount": 1,
+      "aliasAssignment": {
+        "hostname": "legalease-rcap-clinic-6ebacdcde8af-roger947s-projects.vercel.app",
+        "deploymentId": "dpl_EopdPGhnhjk8JqwdiAqi9RYmATpB",
+        "target": null,
+        "passed": true
+      },
+      "probes": {
+        "health": 200,
+        "render": 401
+      },
+      "productionAliasesUnchanged": true,
+      "productionEnvironmentShapeUnchanged": true,
+      "productionAliasCounts": {
+        "before": 0,
+        "after": 0
+      },
+      "productionEnvironmentShapeCounts": {
+        "before": 35,
+        "after": 35
+      },
+      "ordinaryPreviewUnchanged": true,
+      "clinicExecutionPerformed": false,
+      "stripeRetargetPerformed": false,
+      "migrationReplayPerformed": false,
+      "workerClaimPerformed": false,
+      "paymentPerformed": false,
+      "requiredCases": [
+        "deployed_to_preview_not_production",
+        "deployment_carries_the_final_application_sha",
+        "deployment_carries_the_accepted_worker_binding",
+        "deterministic_nonproduction_return_alias_bound",
+        "bound_to_the_acceptance_supabase_project_only",
+        "production_aliases_unchanged",
+        "production_environment_variables_unchanged",
+        "deployed_application_health_is_200",
+        "delivery_route_refuses_on_the_deployed_instance",
+        "ordinary_preview_unchanged",
+        "clinic_scope_and_purpose_exact"
+      ],
+      "failedCases": [],
+      "artifact": {
+        "path": "hosted-acceptance-evidence/clinic-deploy-36183777013/10885396863.zip",
+        "sha256": "ee44f71307bb57a44ab75a000bb6d2ce7a9b9694957c15d75ff9ae59b896284b",
+        "bytes": 8599
+      },
+      "nativeDeployment": {
+        "path": "hosted-acceptance-evidence/clinic-deploy-36183777013/deploy.json",
+        "sha256": "d08e0fd7099bd414406b75860f7659680b125afb876ffbbf5fe8cf0907289cc8",
+        "bytes": 21986
+      },
+      "nativeRunMetadata": {
+        "path": "hosted-acceptance-evidence/clinic-deploy-36183777013/run.json",
+        "sha256": "74e48eeded0cbd4464d9d6313683ba34ff1bf12456c38fdd479394879979333a",
+        "bytes": 15945
+      },
+      "nativeJobs": {
+        "path": "hosted-acceptance-evidence/clinic-deploy-36183777013/jobs.json",
+        "sha256": "35f23be7d4dcc352522e6118485ab40be0f758f7e1d83654a1338bf3354ba108",
+        "bytes": 20037
+      }
+    },
     "naturalDelivery": null,
-    "note": "No successor Preview exists for this application. Predecessor deployment and failed Clinic journey remain historical only."
+    "note": "Run 36183777013 created the exact successor isolated Clinic Preview. Clinic journey, natural delivery and hosted_full remain unproven. Predecessor deployments and failed journeys remain historical only."
   },
   "historicalClinicExecution": {
     "successfulDeploy": {
@@ -126,11 +216,15 @@
     }
   },
   "previewExecutionInstruction": {
-    "mode": "hosted_clinic_deploy",
+    "mode": "hosted_clinic_preview",
     "manualDispatchOwner": "Roger",
     "previewCountAuthorized": 0,
-    "authorization": "Candidate currentness is not execution authorization. No creation or dispatch authorized by this binding task.",
-    "workflowInputsBeforeDispatch": "Current accepted application/worker tuple; final reviewed Captain tools head; blank Preview ID/hostname. Exact reviewed hosted workflow pins now admit the successor tuple. Roger performs the next manual hosted_clinic_deploy dispatch after push."
+    "reuseOnly": true,
+    "creationAuthorized": false,
+    "preview_deployment_id": "dpl_EopdPGhnhjk8JqwdiAqi9RYmATpB",
+    "preview_hostname": "legalease-rcap-clinic-6ebacdcde8af-roger947s-projects.vercel.app",
+    "authorization": "Only one manual reuse-only Clinic journey is the next bounded phase. This evidence-binding task authorizes no dispatch or external mutation. A mismatch must refuse without deployment fallback.",
+    "workflowInputsBeforeDispatch": "Current accepted application/worker tuple; final reviewed Captain tools head; both exact Preview reuse inputs above. No second Preview, migration replay, payment, hosted_full or Production action."
   },
   "inheritedRed": {
     "command": "node scripts/generate-rcap-grade-a-fulfillment-authority.mjs --check",
