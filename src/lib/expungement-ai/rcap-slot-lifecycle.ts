@@ -1,5 +1,4 @@
 import "server-only";
-import { assertPacketFulfillmentProven } from "@/lib/expungement-ai/packet-fulfillment-authority";
 import {
   CommercialAdmissionDeniedError,
   governCommercialAdmission
@@ -144,15 +143,12 @@ export async function finalizeSponsoredPacketGeneration(input: {
   }
 
   try {
-    // Packet credit consumption. A credit is spent once and is not refunded by
-    // discovering afterwards that the artifact was a text file.
-    if (input.fulfillmentRoute) {
-      assertPacketFulfillmentProven(
-        input.fulfillmentRoute.jurisdiction,
-        input.fulfillmentRoute.pathwayId,
-        "packet credit consumption"
-      );
-    }
+    const { sponsoredRenderAuthority } = await import("@/lib/rcap/render/sponsored-packet");
+    const channel = await sponsoredRenderAuthority({
+      routeId: input.admission.identity.routeId, sourceSessionId: input.sessionId,
+      briefcaseItemId: input.briefcaseItemId, authUserId: input.admission.context.participantUserId
+    }, "packet credit consumption");
+    if (!channel) throw new Error("current_sponsored_channel_authority_required");
     assertExpectedPacketVerificationHash(input.expectedVerificationHash);
   } catch (error) {
     return {

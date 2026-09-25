@@ -271,7 +271,7 @@ export async function enqueueVerifiedSponsoredRender(
   const supabase = getSupabaseAdminClient();
   if (!supabase) return null;
   const { sponsoredRenderAuthority } = await import("@/lib/rcap/render/sponsored-packet");
-  const authority = await sponsoredRenderAuthority({ routeId: spec.routeId, ...identity });
+  const authority = await sponsoredRenderAuthority({ routeId: spec.routeId, ...identity }, "sponsored entitlement");
   if (!authority || authority.partner_slug !== identity.partnerSlug) return null;
   const { data: retries, error: retryError } = await supabase.from("packet_render_jobs").select("*")
     .eq("packet_id", spec.packetId).eq("input_hash", spec.inputHash)
@@ -399,6 +399,10 @@ export async function finalizeRenderJob(input: {
 }): Promise<FinalizeOutcome | null> {
   const supabase = getSupabaseAdminClient();
   if (!supabase) return null;
+  // Admission precedes the transaction that commits credit consumption. Read
+  // the protected job binding, never a worker-supplied sponsorship claim.
+  const { sponsoredRenderJobAdmitted } = await import("@/lib/rcap/render/sponsored-packet");
+  if (!await sponsoredRenderJobAdmitted(input.jobId)) return null;
   const { data, error } = await supabase.rpc("finalize_packet_render_job", {
     p_job_id: input.jobId,
     p_fencing_token: input.fencingToken,

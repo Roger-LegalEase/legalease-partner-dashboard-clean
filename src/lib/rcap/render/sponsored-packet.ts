@@ -1,4 +1,6 @@
 import "server-only";
+import { readSponsoredChannelContext, readSponsoredRouteAuthority } from "@/lib/rcap/fulfillment/sponsored-channel-context";
+import { packetFulfillmentAuthority } from "@/lib/expungement-ai/packet-fulfillment-authority";
 
 import { getSupabaseAdminClient } from "@/lib/supabase/server";
 import { currentPersonalizedVerification, preparePersonalizedPacket, isPersonalizedDeliveryRoute } from "@/lib/rcap/render/personalized-packet";
@@ -11,17 +13,36 @@ import type { RenderJobRow } from "@/lib/rcap/render/job-queue";
  * an additional entitlement check, never a substitute for Grade-A authority. */
 export async function sponsoredRenderAuthority(input: {
   routeId: string; sourceSessionId: string; briefcaseItemId: string; authUserId: string;
-}) {
+}, surface?: "sponsored entitlement" | "packet credit consumption") {
+  // Existing delivered provenance retains its protected download checks. New
+  // entitlement and credit creation explicitly require current channel scope.
+  if (!surface) return readSponsoredRouteAuthority(input);
+  const context = await readSponsoredChannelContext(input);
+  if (!context) return null;
+  const current = await currentPersonalizedVerification(input.authUserId, input.briefcaseItemId);
+  const snapshot = current.snapshot;
+  if (`${snapshot.jurisdiction}:${snapshot.pathwayId}` !== input.routeId) return null;
+  if (!packetFulfillmentAuthority(snapshot.jurisdiction, snapshot.pathwayId, surface,
+    { trackId: snapshot.selectedTrackId, sponsoredContext: context }).allowed) return null;
+  return { valid: true as const, partner_id: context.partnerId, partner_slug: context.partnerSlug,
+    clinic_event_id: context.eventId };
+}
+
+/** Shared pre-accounting gate for every sponsored job, including routes that
+ * do not use the personalized composer. Unbound jobs keep their existing path. */
+export async function sponsoredRenderJobAdmitted(jobId: string): Promise<boolean> {
   const supabase = getSupabaseAdminClient();
-  if (!supabase) return null;
-  const { data, error } = await supabase.rpc("sponsored_packet_render_authority", {
-    p_route_key: input.routeId, p_session_id: input.sourceSessionId,
-    p_briefcase_item_id: input.briefcaseItemId, p_consumer_auth_user_id: input.authUserId
-  });
-  const row = Array.isArray(data) ? data[0] : data;
-  return !error && row?.valid === true ? row as {
-    valid: true; partner_id: string; partner_slug: string; clinic_event_id: string;
-  } : null;
+  if (!supabase) return false;
+  const { data: job, error } = await supabase.from("packet_render_jobs").select("*").eq("id", jobId).maybeSingle();
+  if (error || !job) return false;
+  if (!job.sponsored_route_key) return true;
+  try {
+    const authority = await sponsoredRenderAuthority({ routeId: job.route_id,
+      sourceSessionId: job.sponsored_session_id, briefcaseItemId: job.sponsored_consumer_briefcase_item_id,
+      authUserId: job.sponsored_consumer_auth_user_id }, "packet credit consumption");
+    return Boolean(authority && job.sponsored_route_key === job.route_id
+      && authority.partner_id === job.partner_id && authority.clinic_event_id === job.sponsored_clinic_event_id);
+  } catch { return false; }
 }
 
 /** The worker has already validated and stored these bytes through its fenced
@@ -32,7 +53,9 @@ export async function finalizeSponsoredRenderArtifact(jobId: string): Promise<bo
   if (!supabase) return false;
   const { data: job, error } = await supabase.from("packet_render_jobs").select("*").eq("id", jobId).maybeSingle();
   if (error || !job) return false;
-  if (!isPersonalizedDeliveryRoute(job.route_id) || !job.sponsored_route_key) return true;
+  if (!job.sponsored_route_key) return true;
+  if (!await sponsoredRenderJobAdmitted(jobId)) return false;
+  if (!isPersonalizedDeliveryRoute(job.route_id)) return true;
   if (!["artifact_validated", "delivered"].includes(job.status) || job.delivery_eligibility !== "eligible"
     || !job.output_sha256 || !job.output_storage_path || !job.artifact_validated_at || !job.page_count) return false;
   const current = await currentPersonalizedVerification(job.sponsored_consumer_auth_user_id, job.sponsored_consumer_briefcase_item_id);
@@ -43,7 +66,7 @@ export async function finalizeSponsoredRenderArtifact(jobId: string): Promise<bo
     deliveryLocale: current.deliveryLocale });
   if (prepared.spec.packetId !== job.packet_id || prepared.spec.inputHash !== job.input_hash) return false;
   const authority = await sponsoredRenderAuthority({ routeId: job.route_id, sourceSessionId: job.sponsored_session_id,
-    briefcaseItemId: job.sponsored_consumer_briefcase_item_id, authUserId: job.sponsored_consumer_auth_user_id });
+    briefcaseItemId: job.sponsored_consumer_briefcase_item_id, authUserId: job.sponsored_consumer_auth_user_id }, "packet credit consumption");
   if (!authority || authority.partner_id !== job.partner_id || authority.clinic_event_id !== job.sponsored_clinic_event_id) return false;
   const identity = commercialRouteIdentity({ jurisdiction: current.snapshot.jurisdiction, pathwayId: current.snapshot.pathwayId });
   governArtifactAttachment(identity, fulfillmentRequestContext({

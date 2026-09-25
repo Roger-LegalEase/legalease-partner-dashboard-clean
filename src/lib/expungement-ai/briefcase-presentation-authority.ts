@@ -676,10 +676,17 @@ const DEFAULT_PRESENTATION_DEPENDENCIES: BriefcasePresentationDependencies = {
   readCommercialActions: async ({ consumerAuthUserId, item, legalAuthority, paymentState }) => {
     const { packetFulfillmentAuthority } = await import("@/lib/expungement-ai/packet-fulfillment-authority");
     const packetResult = legalAuthority.resultCode === "packet_ready" || legalAuthority.resultCode === "packet_ready_with_caution";
+    const source = paymentState === "sponsored"
+      ? await readTrustedBriefcasePresentationSource({ consumerAuthUserId, item }) : null;
+    const sponsoredContext = source?.ok && source.value.sourceSessionId
+      ? await (await import("@/lib/rcap/fulfillment/sponsored-channel-context")).readSponsoredChannelContext({
+        routeId: `${legalAuthority.jurisdiction}:${legalAuthority.pathwayId}`,
+        sourceSessionId: source.value.sourceSessionId, briefcaseItemId: item.id, authUserId: consumerAuthUserId
+      }) : null;
     const fulfillmentAvailable = packetResult && packetFulfillmentAuthority(
       legalAuthority.jurisdiction, legalAuthority.pathwayId,
       paymentState === "sponsored" ? "sponsored entitlement" : paymentState === "paid" ? "packet generation" : "checkout creation",
-      { trackId: legalAuthority.selectedTrackId }
+      { trackId: legalAuthority.selectedTrackId, sponsoredContext: sponsoredContext ?? undefined }
     ).allowed;
     if (!fulfillmentAvailable) return { ...UNAVAILABLE_COMMERCIAL_ACTIONS };
     const checkoutAllowed = paymentState === "unpaid"

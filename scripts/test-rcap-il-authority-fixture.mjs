@@ -27,6 +27,11 @@ function completenessProof(overrides = {}) {
     hearingAndObjectionStopConditions: covered("hearingAndObjectionStops"),
     customPleadingAuthority: { required: true, approved: true, authorityId: "zz-drafting-authority" },
     filingFormatArtifact: {
+      // In-memory adopted output needs its own explicit current-output review.
+      isCurrentCommercialArtifact: false,
+      currentCommercialArtifactReview: { state: "approved", composedBy: "synthetic current provider",
+        why: "Synthetic fixture only", approval: { path: "synthetic-only", recordId: "synthetic-current-output-approval",
+          artifactSha256: sha256("synthetic-current-output"), sha256: sha256("synthetic-current-output-approval") } },
       format: "pdf",
       sha256: sha256("filing.pdf"),
       pageCount: 4,

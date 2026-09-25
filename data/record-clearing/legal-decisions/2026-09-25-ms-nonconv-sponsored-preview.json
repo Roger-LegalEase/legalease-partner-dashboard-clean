@@ -1,0 +1,63 @@
+{
+  "schemaVersion": "rcap-sponsored-channel-decision/v1",
+  "decisionId": "MS-NONCONV-SPONSORED-PREVIEW-20260925",
+  "approved": true,
+  "decidedBy": "Roger Roman",
+  "decidedAt": "2026-09-25",
+  "routeId": "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
+  "trackId": "ms-nonconv",
+  "packetFamilyId": "ms-nonconv-set",
+  "packetSpecificationSha256": "1cd7947e482e5b95b5dce3da83076fbd357df578ece1c61634a201ae92b975f2",
+  "channel": "mississippi_preview",
+  "routeState": "staging_scoped",
+  "partnerSlug": "mvl-demo",
+  "eventName": "Mississippi Volunteer Lawyers Clinic Mode Demo",
+  "acceptanceProjectRef": "hyflxnlhpmiqxvvcoiia",
+  "participantUserIds": [
+    "e7c1d76e-dcf2-4d41-b585-ba164806f391",
+    "255998e1-eb69-4239-b151-0f8b8935a539"
+  ],
+  "participantScopeSha256": "bb986872d0c7ab762ff553a057fb2cdf33030eb14af7e776f1a874eac169b336",
+  "surfaces": [
+    "sponsored entitlement",
+    "packet credit consumption"
+  ],
+  "productionAuthorized": false,
+  "publicLaunchAuthorized": false,
+  "liveConsumerPaymentAuthorized": false,
+  "hostedFullAuthorized": false,
+  "historicalAuthorityModified": false,
+  "artifacts": [
+    {
+      "variant": "full",
+      "locale": "en",
+      "path": "data/rcap-ledger/grade-a/artifacts/ms-nonconviction-successor-review-full-en.pdf",
+      "sha256": "9bbe447c8c3eb5ac3967bdbe308a1f19e07a711b21d9b1106f9bcef92dbb4dfd"
+    },
+    {
+      "variant": "full",
+      "locale": "es",
+      "path": "data/rcap-ledger/grade-a/artifacts/ms-nonconviction-successor-review-full-es.pdf",
+      "sha256": "28b5dfcb2d9c8d47d14558f45eeabb3aecfdc870539878452dde2c6d81566e04"
+    },
+    {
+      "variant": "court_only",
+      "locale": "en",
+      "path": "data/rcap-ledger/grade-a/artifacts/ms-nonconviction-successor-review-court-only.pdf",
+      "sha256": "18a452b04d6c26e04cbc26c9f1e0b3d7139de3dcc63f0f9dd8871f9c4e847dfe"
+    }
+  ],
+  "invalidationRule": "Any change to the current packet specification, approved artifact bytes, route, packet family, partner, Clinic event, or authorized participant scope invalidates this sponsored Preview channel authorization and requires a new owner decision.",
+  "ownerInstruction": "I authorize the current Mississippi non-conviction packet for the bounded sponsored MVL Clinic Preview channel only. This decision authorizes the sponsored entitlement and packet-credit path only for the exact bounded nonproduction Clinic Preview described above. This is a new, current channel decision for the current packet bytes. The runtime must fail closed unless the route, current specification digest, sponsored channel, partner/event scope, and bounded participant scope all match this authority. Implementation may now bind this decision generically into the current sponsored-channel authority mechanism without special-casing Mississippi and without weakening the default fail-closed sponsored posture. Production remains unauthorized.",
+  "scopeLimits": [
+    "No sponsorship for another partner, event, participant, route, family, specification, or artifact.",
+    "No broader Mississippi exception.",
+    "No change to legal conclusions, document contents, or existing legal review.",
+    "No reuse of historical 3a1bed79e3760feb84563a638893942ab557683f6bbe7fb0fddec7e74723257f approval for current bytes.",
+    "No modification, deletion or reopening of the historical fulfillment record; historical sponsored authority and held posture remain preserved.",
+    "No historical participant-delivery hashes authorized for the current packet.",
+    "No Production, public launch, live consumer payment, or hosted_full promotion."
+  ],
+  "eventId": "77000000-0000-4000-8000-000000000055",
+  "eventIdentitySource": "scripts/rcap-hosted-ms-clinic-preview-seed.mjs: existing identity of the named authorized event, not a separate grant"
+}

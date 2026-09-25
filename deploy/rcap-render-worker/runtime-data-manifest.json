@@ -4,8 +4,8 @@
   "purpose": "The exact read-only data/ closure the render worker reads at runtime, so the container image carries it and no more.",
   "derivation": "Static traversal of the import graph from scripts/rcap-render-worker.mjs (including @/../data ESM JSON imports), plus fs.readFileSync/readdirSync/existsSync instrumentation while driving packetFulfillmentAuthority, consumerSpecificationBinding, composeGradeAPacket/renderGradeAPacketPdf and buildRenderJobSpec over every record in the Grade-A registry.",
   "containerPath": "/app/<path>, i.e. the repository-relative path is preserved because every reader resolves against process.cwd() and the image WORKDIR is /app.",
-  "fileCount": 141,
-  "totalBytes": 15068655,
+  "fileCount": 145,
+  "totalBytes": 15582792,
   "excluded": [
     {
       "path": "data/rcap-all50/composed-routes/**, other than route.json",
@@ -681,6 +681,20 @@
       "why": "Read only when the delivery route state is live. Absent, deploymentConfigIncomplete() fails closed and every live route stops resolving."
     },
     {
+      "path": "data/rcap-grade-a/fulfillment-authority-registry.json",
+      "sha256": "e3146c0c19beb9261ca9f9118010bd8ccff99b5c3b8101987614cd6df4a90e5c",
+      "bytes": 415188,
+      "readBy": "src/lib/rcap/fulfillment/grade-a-registry.ts",
+      "why": "Canonical commercial admission input required before sponsored credit finalization; absent or invalid evidence refuses."
+    },
+    {
+      "path": "data/rcap-grade-a/fulfillment-observation-snapshot.json",
+      "sha256": "00e9edc7d87436ae04cfb53388af09f72c2fdb19b22a731dc90b526c9002c72f",
+      "bytes": 23768,
+      "readBy": "src/lib/rcap/fulfillment/grade-a-admission.ts",
+      "why": "Canonical commercial admission input required before sponsored credit finalization; absent or invalid evidence refuses."
+    },
+    {
       "path": "data/rcap-grade-a/maintenance/route-holds.json",
       "sha256": "54d7cdd734e207399e1f65977bfca6b6df7bea33c99e236a4f4264c6eb1a0d41",
       "bytes": 9791,
@@ -689,8 +703,8 @@
     },
     {
       "path": "data/rcap-grade-a/worker-static-authority.json",
-      "sha256": "029e0d8d2295f8572fa948e29940de3e89b39dae8f325fc965c1a897fd339751",
-      "bytes": 236248,
+      "sha256": "316953204f7c9ed235384fc3e87893158fedf147aaee4d7f8b32af79845415f3",
+      "bytes": 226527,
       "readBy": "src/lib/rcap/fulfillment/worker-static-authority.ts",
       "why": "Render-only legal/source/specification authority; external publication facts remain outside the image."
     },
@@ -772,6 +786,13 @@
       "why": "Track-to-pathway crosswalk used while resolving a route."
     },
     {
+      "path": "data/rcap-render/worker-publication-evidence.json",
+      "sha256": "0f45ae0212c3443d9182532f4864ac1682968aedf605acaadb089a2e45f2ad36",
+      "bytes": 35127,
+      "readBy": "src/lib/rcap/fulfillment/grade-a-admission.ts",
+      "why": "Canonical commercial admission input required before sponsored credit finalization; absent or invalid evidence refuses."
+    },
+    {
       "path": "data/record-clearing/brand/legalease-logo.png",
       "sha256": "f14df1bf4a8083af233df93203cde5c02819ed7464cac8f67ea5ecbc176a2e3d",
       "bytes": 68169,
@@ -780,8 +801,8 @@
     },
     {
       "path": "data/record-clearing/factory-v2-route-registry.json",
-      "sha256": "23bbdc9eb5fd74f9a0af27192d233f7e9816a2966a6515c80c9139151793745d",
-      "bytes": 517404,
+      "sha256": "e4c986e3a9e1ae21164d5a075870e721e1bd57297807b323804e24cd149a9b9f",
+      "bytes": 528250,
       "readBy": "src/lib/rcap/documents/factory-v2-registry.ts (REGISTRY_PATH)",
       "why": "Factory-v2 route rows behind buildRenderJobSpec."
     },
@@ -807,6 +828,13 @@
       "why": "The controlling owner-paid successor decision. It names the bytes the shared §7 Fees & costs correction moved, and supersedes the v2 record for current commercial output."
     },
     {
+      "path": "data/record-clearing/legal-decisions/2026-09-25-ms-nonconv-sponsored-preview.json",
+      "sha256": "c3e4cdd29cffb935e34ae5105a97da5809df26dfc78aa0ad5fb87e685bee3359",
+      "bytes": 3831,
+      "readBy": "src/lib/rcap/fulfillment/sponsored-channel-authority.ts",
+      "why": "Current immutable sponsored Preview channel decision; absent or mismatched scope refuses."
+    },
+    {
       "path": "data/record-clearing/legal-decisions/route-ratification-registry.json",
       "sha256": "594682411c413f3e02f2852252ea3cb70ff743b0a3daacaf6ee9060911a5eb25",
       "bytes": 149160,
@@ -815,8 +843,8 @@
     },
     {
       "path": "data/record-clearing/legal-design-packet-set-manifests.json",
-      "sha256": "9034e44d95da99cc5f2bc14db11d8a4dee049b0f229c9410b098e30c427043b4",
-      "bytes": 3735740,
+      "sha256": "177d5d131b066827e8ae030715edb28ca6729060b60d7865cd2d67ed76f556f0",
+      "bytes": 3737113,
       "readBy": "src/lib/rcap/documents/factory-v2-registry.ts (ROUTE_MIGRATIONS_PATH)",
       "why": "Packet-set manifests behind buildRenderJobSpec."
     },
@@ -836,8 +864,8 @@
     },
     {
       "path": "data/record-clearing/packet-specifications/DC-correct-misattributed-arrest.v1.json",
-      "sha256": "629a12e684d769f5390f9e5d2ca46500b7d9f9ded3fd87c28a066795c93f4c99",
-      "bytes": 12761,
+      "sha256": "4f687d1cf05b4c858b92af341627433fdad4bf29daf4030bb25d9f7879deef9d",
+      "bytes": 30698,
       "readBy": "src/lib/rcap/grade-a/packet-specification.ts (18 ESM JSON imports) and src/lib/rcap/fulfillment/consumer-specification-binding.ts (readdirSync + per-file sha256)",
       "why": "The binding scans the WHOLE directory and matches a record's packetSpecification.sha256 against file bytes. A partial copy makes an otherwise valid route unbindable, so every .json here ships, including OR-disposition-configurations.v1.json which is scanned though not imported."
     },
@@ -941,8 +969,8 @@
     },
     {
       "path": "data/record-clearing/packet-specifications/VA-absolute-pardon-expungement.v1.json",
-      "sha256": "f0587904ff511c940c14699a4d54582fd5950b2ce9e8485289688874df9b2209",
-      "bytes": 19777,
+      "sha256": "ac219585ad69e39c48ef280b32cc6ee277137a8f6686e94a86588006572d53a4",
+      "bytes": 35565,
       "readBy": "src/lib/rcap/grade-a/packet-specification.ts (18 ESM JSON imports) and src/lib/rcap/fulfillment/consumer-specification-binding.ts (readdirSync + per-file sha256)",
       "why": "The binding scans the WHOLE directory and matches a record's packetSpecification.sha256 against file bytes. A partial copy makes an otherwise valid route unbindable, so every .json here ships, including OR-disposition-configurations.v1.json which is scanned though not imported."
     },

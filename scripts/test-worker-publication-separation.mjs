@@ -13,6 +13,7 @@ for(const record of r.records) {
  record.version+=1; record.history.push({syntheticPublicationOnly:true}); record.provider.imageDigest='sha256:'+'b'.repeat(64);
  if(record.evidenceBindings?.providerPublication) Object.assign(record.evidenceBindings.providerPublication,{publishedSourceSha:'2'.repeat(40),historicalImmutableRegistryDigest:record.provider.imageDigest,currentInputsEquivalent:true,state:'published_input_equivalent'});
  if(record.evidenceBindings?.provider) Object.assign(record.evidenceBindings.provider,{deliveryProviderEvidenceSha256:'c'.repeat(64),deliveryProvider:record.provider});
+ if (!o.routes[record.routeId]) continue; // Historical records have no current observation.
  o.routes[record.routeId].provider.imageDigest=record.provider.imageDigest;
  o.routes[record.routeId].externalPublication={sourceSha:'2'.repeat(40),evidenceSha256:'c'.repeat(64),immutableRegistryDigest:record.provider.imageDigest,workflowConclusion:'success'};
 }
@@ -61,5 +62,63 @@ try {
 } finally {fs.rmSync(rootDir,{recursive:true,force:true});}
 const docker=fs.readFileSync('deploy/rcap-render-worker/Dockerfile','utf8');
 assert(docker.includes('COPY '+STATIC_AUTHORITY_PATH));
-for(const f of ['worker-publication-evidence.json','fulfillment-authority-registry.json','fulfillment-observation-snapshot.json'])assert(!docker.split('\n').filter(l=>l.startsWith('COPY ')).join('\n').includes(f));
-console.log('Actual Docker COPY excludes external publication, registry and observation; static authority retained.');
+// Canonical admission now runs inside the worker before credit finalization.
+// Test the actual image, never a repository data mount or filesystem shim.
+const requiredAuthorityInputs = [
+ 'data/rcap-grade-a/fulfillment-authority-registry.json',
+ 'data/rcap-grade-a/fulfillment-observation-snapshot.json',
+ 'data/rcap-render/worker-publication-evidence.json',
+ 'data/record-clearing/legal-decisions/2026-09-25-ms-nonconv-sponsored-preview.json'
+];
+for(const f of requiredAuthorityInputs) assert(docker.replace(/\\\n\s*/g,' ').split('\n').filter(l=>l.startsWith('COPY ')).join('\n').includes(f));
+console.log('Canonical admission inputs are explicit Docker COPY sources.');
+const reviewImage=process.env.RCAP_REVIEW_WORKER_IMAGE;
+const packagedRoot=process.env.RCAP_REVIEW_WORKER_ROOT;
+if(reviewImage || packagedRoot) {
+ const probe=`
+ import fs from 'node:fs';
+ import {register} from 'node:module';
+ const reads=new Set(); const original=fs.readFileSync;
+ fs.readFileSync=function(p,...args){if(String(p).includes('data/'))reads.add(String(p).replace(process.cwd()+'/',''));return original.call(this,p,...args)};
+ register('./scripts/lib/ts-esm-loader.mjs',new URL('file://'+process.cwd()+'/probe.mjs'));
+ try {
+ const {sponsoredChannelDecisions,currentSponsoredChannelAllowed}=await import('./src/lib/rcap/fulfillment/sponsored-channel-authority.ts');
+ const {getCurrentFulfillmentRecord}=await import('./src/lib/rcap/fulfillment/grade-a-registry.ts');
+ const {packetFulfillmentAuthority}=await import('./src/lib/expungement-ai/packet-fulfillment-authority.ts');
+ const g=sponsoredChannelDecisions[0];
+ Object.assign(process.env,{VERCEL_ENV:'preview',VERCEL_TARGET_ENV:'preview',RCAP_SPONSORED_PREVIEW_CHANNEL:g.channel,
+ RCAP_CONSUMER_DELIVERY_ROUTE_STATE:g.routeState,NEXT_PUBLIC_SUPABASE_URL:'https://'+g.acceptanceProjectRef+'.supabase.co',
+ RCAP_CONSUMER_DELIVERY_STAGING_SCOPE:g.participantUserIds.join(',')});
+ const context={participantUserId:g.participantUserIds[0],partnerSlug:g.partnerSlug,eventName:g.eventName,eventId:g.eventId,registeredSpecificationSha256:g.packetSpecificationSha256};
+ const canonical=getCurrentFulfillmentRecord(g.routeId);
+ const channelAlone=canonical ? currentSponsoredChannelAllowed(canonical,g.trackId,'packet credit consumption',context):false;
+ const admission=packetFulfillmentAuthority('MS',g.routeId.split(':')[1],'packet credit consumption',{trackId:g.trackId,sponsoredContext:context});
+ console.log(JSON.stringify({channelAlone,workerAdmission:admission.allowed,reason:admission.reason,reads:[...reads]}));
+ }catch(error){console.log(JSON.stringify({channelAlone:false,workerAdmission:false,error:String(error),reads:[...reads]}));}
+ `;
+ const run=(input,mutation)=>{
+  // The only mount is the test driver. All runtime source/data come from COPY.
+  const args=['run','--rm','--network=none','--user=root','--entrypoint=node',reviewImage,'--input-type=module','-e',input];
+  const out=packagedRoot
+    ? execFileSync(process.execPath,['--input-type=module','-e',input],{cwd:packagedRoot,encoding:'utf8',maxBuffer:8*1024*1024})
+    : execFileSync('docker',args,{encoding:'utf8',maxBuffer:8*1024*1024});
+  return JSON.parse(out.trim().split('\n').at(-1));
+ };
+ const exact=run(probe);assert.equal(exact.channelAlone,true);assert.equal(exact.workerAdmission,true,JSON.stringify(exact));
+ const manifest=JSON.parse(fs.readFileSync('deploy/rcap-render-worker/runtime-data-manifest.json'));
+ const paths=new Set(manifest.files.map(f=>f.path));
+ for(const f of exact.reads) assert(paths.has(f),'runtime read absent from manifest: '+f);
+ console.log(JSON.stringify({packagedExact:exact}));
+ const grant=JSON.parse(fs.readFileSync(requiredAuthorityInputs.at(-1)));
+ const required=[...requiredAuthorityInputs,...grant.artifacts.map(a=>a.path),
+   'data/record-clearing/packet-specifications/MS-nonconviction-expungement-99-19-71-4.v1.json'];
+ for(const f of required)for(const mutation of ['remove','corrupt']) {
+  const change=mutation==='remove'?`fs.unlinkSync(${JSON.stringify(f)});`:`fs.writeFileSync(${JSON.stringify(f)},'{}');`;
+  const original=packagedRoot ? fs.readFileSync(path.join(packagedRoot,f)):null;
+  let result;
+  try {result=run(probe.replace('try {','try {\n'+change));}
+  finally {if(packagedRoot)fs.writeFileSync(path.join(packagedRoot,f),original);}
+  assert.equal(result.workerAdmission,false,`${mutation} ${f}: ${JSON.stringify(result)}`);
+  console.log(`Packaged refusal PASS: ${mutation} ${f}`);
+ }
+}
