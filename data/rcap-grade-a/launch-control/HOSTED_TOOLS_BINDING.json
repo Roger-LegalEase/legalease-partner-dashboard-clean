@@ -10,15 +10,20 @@
   "workerSourceSha": "2742392d59579d823cd0cdc54456f5e80a210aaf",
   "workerDigest": "sha256:80c6da8c14cd8f09bba81a2b8d0385ac2b2f40bbde16464acc80aa83db0e4813",
   "workerInputFingerprint": "sha256:10af7c4db830f49c3028087b1b68973f2f2753a75e72b4ff4c8f25320eb1b21a",
-  "toolsSha": "82f9d5556b998ba62303dbae59daf8221374aaec",
+  "toolsSha": "0b70498640fc158ab23dcff30ebef019e3f76306",
   "toolsShaIsNotHead": "Exact reviewed orchestration snapshot preceding this data binding. Manual dispatch tools_sha must equal final Captain workflow head; orchestration bytes must match this snapshot.",
   "orchestrationFiles": [
+    "data/rcap-staging-authorization-readiness.json",
+    "scripts/grade-a-launch-control/verify-release-candidate-binding.mjs",
+    "scripts/rcap-hosted-clinic-migrate.mjs",
+    "scripts/test-briefcase-presentation-authority.mjs",
+    "scripts/verify-rcap-hosted-clinic-migrate.mjs",
     "scripts/verify-rcap-hosted-ms-clinic-preview.mjs"
   ],
-  "previousToolsSha": "53f087d2dfba0f8b8b904b6b0524b15143171f6b",
-  "previousBindingSha256": "91363dd7692d9cc1e8d4e5aa97b98f4a690cf9d3604052d4d6f527c117682e47",
-  "why": "Targeted canonical-matter migration and provider-verified Clinic worker identity. Worker unchanged. New application commit carries migration12 for the existing frozen-source runner.",
-  "authorization": "Targeted canonical Clinic presentation identity repair for failed run 36141023122. Local independent review only; no push, dispatch, migration apply, deployment, worker publication or Production action.",
+  "previousToolsSha": "82f9d5556b998ba62303dbae59daf8221374aaec",
+  "previousBindingSha256": "5aa298b9799aa57803ddfc020889ce1ff329f571336d6cae44a40d36c40ebf45",
+  "why": "Tools/control-only correction: preserve exact immutable hosted positions 1..12, including historical ledger-only #12; apply only #13. Application 525e16ea already carries the unchanged canonical-matter migration bytes; no new application candidate.",
+  "authorization": "Tools-only Clinic ledger reconciliation for failed run 36151713747. Application and migration bytes unchanged. Local independent review only; no push, dispatch, acceptance mutation, deployment, worker publication or Production action.",
   "deploymentAuthorized": false,
   "manualPushAndDispatchOwner": "Roger; local review only, no push or dispatch in this task.",
   "hostedFullReady": false,
@@ -54,10 +59,10 @@
       "alias": "legalease-rcap-a0d0b933f724-roger947s-projects.vercel.app"
     },
     "immutableHostname": null,
-    "creationAuthorization": "No creation by agent. After migration12 passes and Roger dispatches, create/reuse one successor at the new exact application SHA."
+    "creationAuthorization": "No creation by agent. After migration13 passes and Roger dispatches, create/reuse one successor at the already-bound application SHA 525e16ea64ed08b3bd65a368ff95a1ee5dc25509."
   },
   "unresolvedBoundaries": [
-    "Migration12 not applied.",
+    "Migration13 not applied.",
     "New application requires a successor Clinic Preview after migration PASS; old Preview remains untouched.",
     "Clinic journey and hosted_full remain pending; Production unauthorized."
   ],
@@ -1033,7 +1038,7 @@
       "retrySetup": "Existing bounded Clinic seed/setup only"
     }
   },
-  "previousBindingCommit": "7a401c31d94bc9863d9279d8784877ed7e15b706",
+  "previousBindingCommit": "3aed58bf6c22e54c1466a86cedf15d514bef6ecc",
   "deploymentEvidence": null,
   "clinicMigrationDispatchReady": true,
   "supersededPreview": {
@@ -1091,5 +1096,21 @@
       "sourceOfDiagnosis": "Roger independent Acceptance readback; native artifact confirms exact reused Preview and response timeout. Local PostgreSQL reproduces the wrong pending identity and proves the forward correction.",
       "historicalRowsPreserved": true
     }
+  },
+  "failedClinicMigrationRun": {
+    "runId": 36151713747,
+    "workflowSha": "3aed58bf6c22e54c1466a86cedf15d514bef6ecc",
+    "applicationSha": "525e16ea64ed08b3bd65a368ff95a1ee5dc25509",
+    "conclusion": "failure",
+    "disposition": "Migration runner refused historical-prefix mismatch before the canonical matter migration was applied.",
+    "firstFailure": "existing_ledger_is_exact_prefix: unexpected ledger row at position 12",
+    "canonicalMatterMigrationApplied": false,
+    "historicalPrefixRows": 12,
+    "historicalRow12": {
+      "path": "supabase/migrations/20260917200000_consumer_checkout_session_replacement.sql",
+      "sha256": "0d368236f48402bb27953d9b2426e35026ff5d00286f06889ead543c5a32b128",
+      "applicationSha": "62425c837b5edf3d7e22b110910885abdaec1692"
+    },
+    "evidence": "Read-only Acceptance ledger SELECT confirms exact 1..12; GitHub historical blob independently hashes to row12 receipt; GitHub run metadata confirms workflow SHA and failed apply step."
   }
 }

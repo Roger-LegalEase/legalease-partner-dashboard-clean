@@ -43,16 +43,16 @@
       "bytes": 266589
     }
   },
-  "hostedAcceptanceStatus": "PENDING_EXACT_CLINIC_MIGRATION_12_AND_SUCCESSOR_PREVIEW",
+  "hostedAcceptanceStatus": "PENDING_EXACT_CLINIC_MIGRATION_13_AND_SUCCESSOR_PREVIEW",
   "hostedAcceptance": {
     "journeys": [],
     "manualHostedFullReady": false,
     "preview": null,
     "naturalDelivery": null,
-    "note": "New application SHA is required because the bounded Clinic migrator reads exact migration bytes from the application commit. Migration #12 is not applied; no successor Preview created; failed run remains preserved."
+    "note": "Application SHA remains 525e16ea64ed08b3bd65a368ff95a1ee5dc25509 and already contains the unchanged canonical-matter migration. Migration #13 is not applied; historical hosted #12 is preserved. No successor Preview created; failed runs remain preserved."
   },
   "supersededRecordSha256": "0a8b797e98d0eb09891649328fc5345f38265718abcb1268af087618ee2142e3",
-  "scope": "Targeted canonical Clinic presentation identity repair for failed run 36141023122. Local independent review only; no push, dispatch, migration apply, deployment, worker publication or Production action.",
+  "scope": "Tools-only Clinic ledger reconciliation for failed run 36151713747. Application and migration bytes unchanged. Local independent review only; no push, dispatch, acceptance mutation, deployment, worker publication or Production action.",
   "previewExecutionInstruction": {
     "mode": "hosted_clinic_migrate",
     "manualDispatchOwner": "Roger",
@@ -62,7 +62,7 @@
       "bind returned exact Preview pins",
       "hosted_clinic_preview"
     ],
-    "authorization": "Prepared locally only. Stop before push or dispatch. Migration12 must PASS before one new isolated Preview; no ordinary Preview change.",
+    "authorization": "Prepared locally only. Stop before push or dispatch. Migration13 must PASS before one new isolated Preview; no ordinary Preview change.",
     "workflowInputsBeforeDispatch": "Use this application SHA and the final reviewed tools SHA. Preview ID/hostname blank for migrate/deploy. Exact successor Preview must be read back and bound before clinic_preview."
   },
   "applicationPin": {
@@ -1707,6 +1707,22 @@
     },
     "independentExactBindingReviewRequiredBeforePush": true
   },
-  "previousBindingCommit": "7a401c31d94bc9863d9279d8784877ed7e15b706",
-  "previousBindingSha256": "69621f818ea180c13b9be306d752ec648af0272aa434440de6f734d3b8df72d6"
+  "previousBindingCommit": "3aed58bf6c22e54c1466a86cedf15d514bef6ecc",
+  "previousBindingSha256": "19e5ad27cda7f7484852dd6b431b697c6818cafead50bfcdd78e83fcb18aafc7",
+  "failedClinicMigrationRun": {
+    "runId": 36151713747,
+    "workflowSha": "3aed58bf6c22e54c1466a86cedf15d514bef6ecc",
+    "applicationSha": "525e16ea64ed08b3bd65a368ff95a1ee5dc25509",
+    "conclusion": "failure",
+    "disposition": "Migration runner refused historical-prefix mismatch before the canonical matter migration was applied.",
+    "firstFailure": "existing_ledger_is_exact_prefix: unexpected ledger row at position 12",
+    "canonicalMatterMigrationApplied": false,
+    "historicalPrefixRows": 12,
+    "historicalRow12": {
+      "path": "supabase/migrations/20260917200000_consumer_checkout_session_replacement.sql",
+      "sha256": "0d368236f48402bb27953d9b2426e35026ff5d00286f06889ead543c5a32b128",
+      "applicationSha": "62425c837b5edf3d7e22b110910885abdaec1692"
+    },
+    "evidence": "Read-only Acceptance ledger SELECT confirms exact 1..12; GitHub historical blob independently hashes to row12 receipt; GitHub run metadata confirms workflow SHA and failed apply step."
+  }
 }
