@@ -202,6 +202,27 @@ export function verifyReleaseCandidateBinding(root, candidate, receiptPaths = []
         'docs/rcap/grade-a/handoffs/CLINIC_DOWNSTREAM_36204248464_INVENTORY.json',
         'docs/rcap/grade-a/handoffs/CLINIC_DOWNSTREAM_36204248464_REPAIR.md'
       ];
+      const accessHistoryPaths = [
+        'scripts/rcap-hosted-ms-clinic-preview-seed.mjs',
+        'scripts/rcap-clinic-access-code-history.test.mjs',
+        'scripts/grade-a-launch-control/verify-release-candidate-binding.mjs'
+      ];
+      if (binding.localClinicAccessHistoryRepair) {
+        const repair=binding.localClinicAccessHistoryRepair;
+        if (repair.baseSha !== '84f0fe2ef1ab2072ebb452cab5fb025baaf079a7'
+          || repair.schemaVersion !== 'rcap-local-clinic-access-history-tools/v1'
+          || repair.executionAuthorized !== false || repair.pushAuthorized !== false
+          || ['clinicDispatchReady','hostedFullReady','productionAuthorized','deploymentAuthorized',
+            'migrationReplayAuthorized','housekeepingReplayAuthorized','additionalWorkerPublicationAuthorized',
+            'imageAcceptanceRerunAuthorized'].some(k=>binding[k]!==false))
+          throw new Error('Clinic access history repair must remain execution-held');
+        git(['merge-base','--is-ancestor',repair.baseSha,'HEAD']);
+        if(JSON.stringify(Object.keys(repair.files??{}).sort())!==JSON.stringify([...accessHistoryPaths].sort()))throw new Error('Clinic access history file set differs');
+        for(const p of accessHistoryPaths){
+          if(repair.files[p]!==createHash('sha256').update(fs.readFileSync(path.join(root,p))).digest('hex'))throw new Error(`Clinic access history content drift: ${p}`);
+          localPinned.add(p);generated.add(p);
+        }
+      }
       if (binding.localClinicDownstreamRepair) {
         const repair=binding.localClinicDownstreamRepair;
         if (repair.baseSha !== '51ad71a326112eda76f089ef27284b1bc15cba7f'
@@ -215,7 +236,8 @@ export function verifyReleaseCandidateBinding(root, candidate, receiptPaths = []
         git(['merge-base','--is-ancestor',repair.baseSha,'HEAD']);
         if(JSON.stringify(Object.keys(repair.files??{}).sort())!==JSON.stringify([...downstreamPaths].sort()))throw new Error('Clinic downstream file set differs');
         for(const p of downstreamPaths){
-          if(repair.files[p]!==createHash('sha256').update(fs.readFileSync(path.join(root,p))).digest('hex'))throw new Error(`Clinic downstream content drift: ${p}`);
+          const bytes=localPinned.has(p)?execFileSync('git',['show',`${binding.localClinicAccessHistoryRepair.baseSha}:${p}`],{cwd:root}):fs.readFileSync(path.join(root,p));
+          if(repair.files[p]!==createHash('sha256').update(bytes).digest('hex'))throw new Error(`Clinic downstream content drift: ${p}`);
           localPinned.add(p);generated.add(p);
         }
       }
@@ -263,6 +285,7 @@ export function verifyReleaseCandidateBinding(root, candidate, receiptPaths = []
         }
       }
       const bounded = new Set([
+        ...accessHistoryPaths,
         ...downstreamPaths.filter(p => p.startsWith('scripts/')),
         ...clinicContextPaths.filter(p => p.startsWith('scripts/')),
         ...localRepairPaths.filter(p => p.startsWith('scripts/')),

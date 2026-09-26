@@ -87,6 +87,7 @@ try {
       v_admin uuid;
       v_staff uuid;
       v_staff_partner_user uuid;
+      v_access_uses integer;
     begin
       select id into v_admin from auth.users where lower(email)='mvl-demo-admin@rcap-acceptance.test';
       select id into v_staff from auth.users where lower(email)='mvl-demo-staff@rcap-acceptance.test';
@@ -116,14 +117,23 @@ try {
         permissions=array['assist','queue','follow_up','reporting']::text[],
         approved_by=v_admin, revoked_at=null, updated_at=now();
 
+      -- Preserve historical usage under the same row lock as the upsert.
+      select uses_count into v_access_uses from public.clinic_event_access_codes
+        where id='${ACCESS_CODE_ID}' for update;
       insert into public.clinic_event_access_codes
         (id,event_id,code_hash,code_hint,max_uses,uses_count,starts_at,expires_at,is_active,created_by)
       values
         ('${ACCESS_CODE_ID}','${EVENT_ID}','${accessCodeHash}','MVL',2,0,now()-interval '1 day',now()+interval '30 days',true,v_admin)
       on conflict (id) do update set
         event_id='${EVENT_ID}', code_hash='${accessCodeHash}', code_hint='MVL',
-        max_uses=2, uses_count=0, starts_at=now()-interval '1 day', expires_at=now()+interval '30 days',
+        max_uses=2, uses_count=public.clinic_event_access_codes.uses_count, starts_at=now()-interval '1 day', expires_at=now()+interval '30 days',
         is_active=true, created_by=v_admin, updated_at=now();
+
+      if not exists(select 1 from public.clinic_event_access_codes
+        where id='${ACCESS_CODE_ID}' and uses_count=coalesce(v_access_uses,0)
+          and uses_count between 0 and max_uses and max_uses=2 and is_active) then
+        raise exception 'bounded_mvl_access_code_history_changed';
+      end if;
 
       insert into public.partner_entitlement
         (partner_slug,screenings_allowed,screenings_used,contract_note,period_label,pause_at_cap,overage_enabled)
@@ -159,7 +169,9 @@ try {
     && row?.access_code_id === ACCESS_CODE_ID
     && row?.is_active === true
     && Number(row?.max_uses) === 2
-    && Number(row?.uses_count) === 0
+    && Number.isInteger(Number(row?.uses_count))
+    && Number(row?.uses_count) >= 0
+    && Number(row?.uses_count) <= Number(row?.max_uses)
     && Number(row?.screenings_allowed) - Number(row?.screenings_used) >= 1
     && row?.pause_at_cap === true
     && row?.overage_enabled === false;
