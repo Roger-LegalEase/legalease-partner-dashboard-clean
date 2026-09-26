@@ -535,13 +535,24 @@ export function verifyAcceptedSuccessorBinding(root,candidate,pending=verifyPend
   if(!pending?.current)throw new Error('Accepted successor required');
   const fail=(ok,msg)=>{if(!ok)throw new Error(msg);};
   const base='c5942743b657b6a17165b72a308efd1cabc2d90e';
-  fail(t?.schemaVersion==='rcap-successor-resume-tools/v1'&&t.baseSha===base&&binding.toolsSha===(t.orderingCorrectionBaseSha??t.checkpointCorrectionBaseSha??t.networkCorrectionBaseSha??t.correctionBaseSha??base)&&t.commit==='single-commit-after-base','Exact successor tools base required');
+  fail(t?.schemaVersion==='rcap-successor-resume-tools/v1'&&t.baseSha===base&&binding.toolsSha===(t.deployedNetworkCorrectionBaseSha??t.orderingCorrectionBaseSha??t.checkpointCorrectionBaseSha??t.networkCorrectionBaseSha??t.correctionBaseSha??base)&&t.commit==='single-commit-after-base','Exact successor tools base required');
   const correctionBase='77fa4c372278b722fd87f9cc4fec26fa560a0975';
   const networkBase='100377462ab83508be1d202472e42313a35bdfa2';
   const checkpointBase='1d47f0238670c36523ff9d7014126966b31aecde';
   const orderingBase='343023e84211b1bc7105f26a265b2a84c2b3245c';
-  const commitBase=t.orderingCorrectionBaseSha??t.checkpointCorrectionBaseSha??t.networkCorrectionBaseSha??t.correctionBaseSha??base;
-  if(t.orderingCorrectionBaseSha){
+  const commitBase=t.deployedNetworkCorrectionBaseSha??t.orderingCorrectionBaseSha??t.checkpointCorrectionBaseSha??t.networkCorrectionBaseSha??t.correctionBaseSha??base;
+  const deployedNetworkBase='658d2368fe54d0b369edc7768985ab8a74783262';
+  if(t.deployedNetworkCorrectionBaseSha){
+   fail(t.deployedNetworkCorrectionBaseSha===deployedNetworkBase&&t.orderingCorrectionBaseSha===orderingBase&&t.checkpointCorrectionBaseSha===checkpointBase&&t.networkCorrectionBaseSha===networkBase&&t.correctionBaseSha===correctionBase,'Exact deployed network correction base required');
+   const permitted=[toolingPath,'scripts/rcap-hosted-clinic-resume.mjs','scripts/rcap-clinic-resume-network-policy.mjs','scripts/rcap-clinic-resume-network-policy.test.mjs','scripts/rcap-clinic-resume-resource-loading.test.mjs','scripts/rcap-clinic-resume-captcha.mjs','scripts/rcap-clinic-resume-captcha.test.mjs','scripts/grade-a-launch-control/verify-release-candidate-binding.mjs','scripts/grade-a-launch-control/accepted-successor-binding.test.mjs'];
+   const changes=[...git(['diff','--name-only',deployedNetworkBase]).split('\n'),...git(['ls-files','--others','--exclude-standard']).split('\n')].filter(Boolean);
+   fail(changes.every(p=>permitted.includes(p)),'Deployed network correction changes only');
+   const previous=JSON.parse(git(['show',`${deployedNetworkBase}:${toolingPath}`]));
+   const expected={...previous,toolsSha:deployedNetworkBase,successorTools:{...previous.successorTools,deployedNetworkCorrectionBaseSha:deployedNetworkBase,files:t.files}};
+   fail(JSON.stringify(binding)===JSON.stringify(expected),'Only exact deployed network tools binding may advance');
+   for(const [rel,hash] of Object.entries(previous.successorTools.files))if(!permitted.includes(rel))fail(t.files[rel]===hash,`Prior tools evidence changed: ${rel}`);
+  }
+  if(t.orderingCorrectionBaseSha&&!t.deployedNetworkCorrectionBaseSha){
    // Fourth bounded correction: the reset write boundary. The browser adapter,
    // contract ordering, their tests and this verifier may move; nothing else.
    fail(t.orderingCorrectionBaseSha===orderingBase&&t.checkpointCorrectionBaseSha===checkpointBase&&t.networkCorrectionBaseSha===networkBase&&t.correctionBaseSha===correctionBase,'Exact fourth tools correction base required');
