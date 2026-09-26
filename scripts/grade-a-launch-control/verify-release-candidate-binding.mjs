@@ -176,6 +176,38 @@ export function verifyReleaseCandidateBinding(root, candidate, receiptPaths = []
         'docs/rcap/grade-a/handoffs/ACCEPTANCE_QUEUE_36186574507_REPAIR.md'
       ];
       const localPinned = new Set();
+      const clinicContextPaths = [
+        'scripts/verify-rcap-commercial-browser.mjs',
+        'scripts/rcap-clinic-worker-context.mjs',
+        'scripts/rcap-clinic-worker-context.test.mjs',
+        'scripts/rcap-clinic-failed-target-reconciliation.mjs',
+        'scripts/rcap-clinic-failed-target-reconciliation.test.mjs',
+        'scripts/grade-a-launch-control/verify-release-candidate-binding.mjs',
+        'scripts/grade-a-launch-control/test-clinic-context-tools-binding.mjs',
+        'scripts/grade-a-launch-control/test-acceptance-queue-tools-binding.mjs',
+        'docs/rcap/grade-a/handoffs/CLINIC_RUNTIME_36204248464_INVENTORY.json',
+        'docs/rcap/grade-a/handoffs/CLINIC_RUNTIME_36204248464_REPAIR.md'
+      ];
+      if (binding.localClinicRuntimeRepair) {
+        const repair = binding.localClinicRuntimeRepair;
+        if (repair.baseSha !== '579febaaddc5a004d824b74f486e567115db4db2'
+          || repair.schemaVersion !== 'rcap-local-clinic-runtime-tools/v1'
+          || repair.executionAuthorized !== false || repair.pushAuthorized !== false
+          || binding.clinicDispatchReady !== false || binding.hostedFullReady !== false
+          || binding.productionAuthorized !== false || binding.deploymentAuthorized !== false
+          || binding.migrationReplayAuthorized !== false || binding.housekeepingReplayAuthorized !== false
+          || binding.additionalWorkerPublicationAuthorized !== false || binding.imageAcceptanceRerunAuthorized !== false)
+          throw new Error('Clinic runtime repair must remain execution-held');
+        git(['merge-base','--is-ancestor',repair.baseSha,'HEAD']);
+        if (JSON.stringify(Object.keys(repair.files ?? {}).sort()) !== JSON.stringify([...clinicContextPaths].sort()))
+          throw new Error('Clinic runtime repair file set differs');
+        for (const p of clinicContextPaths) {
+          if (repair.files[p] !== createHash('sha256').update(fs.readFileSync(path.join(root,p))).digest('hex'))
+            throw new Error(`Clinic runtime repair content drift: ${p}`);
+          localPinned.add(p);generated.add(p);
+        }
+      }
+
       if (binding.localQueueLifecycleRepair) {
         const repair = binding.localQueueLifecycleRepair;
         if (repair.schemaVersion !== 'rcap-local-queue-lifecycle-tools/v1'
@@ -190,13 +222,16 @@ export function verifyReleaseCandidateBinding(root, candidate, receiptPaths = []
         if (JSON.stringify(Object.keys(repair.files ?? {}).sort()) !== JSON.stringify([...localRepairPaths].sort()))
           throw new Error('Local queue repair file set differs');
         for (const p of localRepairPaths) {
-          const hash = createHash('sha256').update(fs.readFileSync(path.join(root,p))).digest('hex');
+          // Preserve the previous immutable receipt; only explicitly superseded files use its base blob.
+          const bytes = localPinned.has(p) ? execFileSync('git',['show',`${binding.localClinicRuntimeRepair.baseSha}:${p}`],{cwd:root}) : fs.readFileSync(path.join(root,p));
+          const hash = createHash('sha256').update(bytes).digest('hex');
           if (repair.files[p] !== hash) throw new Error(`Local queue repair content drift: ${p}`);
           localPinned.add(p);
           generated.add(p);
         }
       }
       const bounded = new Set([
+        ...clinicContextPaths.filter(p => p.startsWith('scripts/')),
         ...localRepairPaths.filter(p => p.startsWith('scripts/')),
         // Roger's run 36151713747 tools-only hosted ledger reconciliation.
         // Exact reviewed blobs remain pinned; no migration/source exemption.

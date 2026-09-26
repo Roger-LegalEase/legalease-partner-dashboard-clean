@@ -1,4 +1,5 @@
 import test from 'node:test';
+import {execFileSync} from 'node:child_process';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import vm from 'node:vm';
@@ -12,7 +13,7 @@ const block=source.slice(source.indexOf('      const localRepairPaths = ['),sour
 const baseline=JSON.parse(fs.readFileSync('data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json'));
 function verify(binding,overrideRead) {
  const localFs={readFileSync:p=>overrideRead?.(p) ?? fs.readFileSync(p)};
- const context=vm.createContext({binding,fs:localFs,path,root:process.cwd(),createHash:crypto.createHash,generated:new Set(),git:()=>''});
+ const context=vm.createContext({binding,execFileSync,fs:localFs,path,root:process.cwd(),createHash:crypto.createHash,generated:new Set(),git:()=>''});
  vm.runInContext(block,context);
 }
 test('local tools pins are finite, exact, fail closed and never grant execution',()=>{

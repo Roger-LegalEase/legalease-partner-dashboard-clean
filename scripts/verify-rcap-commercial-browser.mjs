@@ -10,6 +10,7 @@ import { MISSISSIPPI_SYNTHETIC_ROUTE } from "./rcap-ms-nonconviction-synthetic-f
 import { answerBuilderStep } from "./rcap-packet-builder-filler.mjs";
 import { chromium } from "playwright";
 import { hostedVercelScopedUrl, resolveHostedVercelIdentity } from "./rcap-hosted-acceptance-vercel-identity.mjs";
+import { currentClinicWorkerContext, clinicWorkerDockerArgs } from "./rcap-clinic-worker-context.mjs";
 
 // Hosted browser proof for the sponsored RCAP lane only. It crosses the
 // durable sponsored-generation boundary after explicit final verification.
@@ -942,6 +943,9 @@ async function clinicDeliveryPorts({ packetItemId, participantUserId, screeningS
   const workerSource = environmentClassification.workerSourceSha;
   const workerDigest = environmentClassification.workerDigest;
   const image = `ghcr.io/roger-legalease/rcap-render-worker@${workerDigest}`;
+  const workerRuntime = currentClinicWorkerContext({ preview: environmentClassification,
+    participantUserId, partnerSlug, eventId: clinicEventId, eventName: clinicEventName });
+  writeClinicReceipt("worker-runtime-context", workerRuntime);
   const managementToken = required("SUPABASE_ACCESS_TOKEN");
   const supabaseUrl = `https://${project}.supabase.co`;
   const keyResponse = await fetch(`https://api.supabase.com/v1/projects/${project}/api-keys?reveal=true`, { headers: { Authorization: `Bearer ${managementToken}` } });
@@ -1001,7 +1005,8 @@ async function clinicDeliveryPorts({ packetItemId, participantUserId, screeningS
     spawnSync(command, args, options) {
       assert.equal(command, "docker"); assert.ok(args.includes(image)); assert.equal(args.at(-1), "--once");
       // Same invocation and credential, transported via environment rather than argv.
-      return spawnSync(command, args.map(arg => arg.startsWith("SUPABASE_SERVICE_ROLE_KEY=") ? "SUPABASE_SERVICE_ROLE_KEY" : arg), {
+      const scopedArgs = clinicWorkerDockerArgs(args, image, workerRuntime);
+      return spawnSync(command, scopedArgs.map(arg => arg.startsWith("SUPABASE_SERVICE_ROLE_KEY=") ? "SUPABASE_SERVICE_ROLE_KEY" : arg), {
         ...options, env: { ...process.env, SUPABASE_SERVICE_ROLE_KEY: service }
       });
     }
