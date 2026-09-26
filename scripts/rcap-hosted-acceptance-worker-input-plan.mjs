@@ -168,7 +168,7 @@ function changedCanonicalPaths(rootDir, acceptedSourceSha, candidateSha, inputs)
   return output.toString("utf8").split("\0").filter(Boolean).sort();
 }
 
-function aggregateCanonicalInputs(rootDir, candidateSha, inputs) {
+export function aggregateCanonicalInputs(rootDir, candidateSha, inputs) {
   const output = git(rootDir, [
     "ls-tree",
     "-r",

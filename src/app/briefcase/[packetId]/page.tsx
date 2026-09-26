@@ -182,9 +182,9 @@ function ReadyPacket({
         </p>
         <div className="mt-5 flex flex-wrap gap-3">
           {artifact.documents.map((document) => (
-            <Link href={document.downloadPath} className="inline-flex min-h-11 items-center gap-2 rounded-[10px] bg-[#0B1320] px-5 text-sm font-bold text-white" key={`${document.kind}:${document.downloadPath}`}>
+            <a href={document.downloadPath} className="inline-flex min-h-11 items-center gap-2 rounded-[10px] bg-[#0B1320] px-5 text-sm font-bold text-white" key={`${document.kind}:${document.downloadPath}`}>
               <Download className="h-4 w-4" aria-hidden="true" /> {mississippiClinicPacket ? "Download Mississippi non-conviction expungement packet" : `Download ${document.fileName}`}
-            </Link>
+            </a>
           ))}
         </div>
         <Link href={`/briefcase/${itemId}/review`} className="ml-3 mt-5 inline-flex min-h-11 items-center rounded-[10px] border border-[#D9DEE8] px-5 text-sm font-bold text-[#0B1320]">Review packet information</Link>

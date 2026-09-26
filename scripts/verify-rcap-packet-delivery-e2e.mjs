@@ -1,3 +1,5 @@
+import {testPrivateDownloadPrefetch} from './test-private-download-prefetch.mjs';
+import {MISSISSIPPI_SYNTHETIC_PACKET_FACTS} from './rcap-ms-nonconviction-synthetic-facts.mjs';
 import { exerciseIllinoisDelivery } from "./test-rcap-il-delivery-ephemeral.mjs";
 import { applyConsumerDeliverySchema, assertNoDriftFromMigrations } from "./lib/rcap-delivery-schema-fixture.mjs";
 import { MS_NONCONVICTION_ROUTE, buildMsNonConvictionVerification } from "./lib/rcap-ms-nonconviction-fixture.mjs";
@@ -93,6 +95,7 @@ const SESSION_COOKIE = "rcap-e2e-session";
 const SESSION_VALUE = "e2e-owner-session-token";
 const CONSUMER_SESSION_VALUE = "e2e-consumer-session-token";
 
+let privateStorageReads = 0;
 const storage = {
   async upload(objectPath, bytes) {
     const abs = path.join(storageRoot, objectPath);
@@ -102,6 +105,7 @@ const storage = {
     return { ok: true };
   },
   async read(objectPath) {
+    privateStorageReads++;
     const abs = path.join(storageRoot, objectPath);
     return fs.existsSync(abs) ? fs.readFileSync(abs) : null;
   }
@@ -291,6 +295,7 @@ try {
     evaluateAuthoritativeScreeningResult,
     protectedPacketDraftSeedFromAuthoritative,
     packetInformationPatch,
+    answerOverrides: MISSISSIPPI_SYNTHETIC_PACKET_FACTS,
     matterId: SPONSORED_MATTER
   });
   const verificationSnapshot = sponsoredParticipant.snapshot;
@@ -323,7 +328,11 @@ try {
    * downstream say anything.
    */
   const packetFor = (participant) => {
-    const answers = participant.answers;
+    const answers = Object.fromEntries(Object.entries(participant.answers).map(([key, value]) =>
+      [key, value && typeof value === "object" ? value.value : value]));
+    for (const key of ["participant_full_legal_name", "county", "case_number", "court", "disposition_date", "prosecuting_authority_name", "prosecuting_authority_service_address"]) {
+      assert(typeof answers[key] === "string" && answers[key].length > 0, `e2e: explicit synthetic ${key} reaches rendering`);
+    }
     const [first, ...rest] = String(answers.participant_full_legal_name).split(" ");
     return {
       id: `e2e-pkt-${participant.item.id}`,
@@ -331,20 +340,20 @@ try {
       pathway: ROUTE_PATHWAY,
       petitionerFirstName: first,
       petitionerLastName: rest.join(" ") || first,
-      county: answers.county.value,
+      county: answers.county,
       generatedPlainText:
         `Petitioner ${answers.participant_full_legal_name} requests expungement of cause number `
-        + `${answers.case_number.value} in the ${answers.court.value}, dismissed on `
-        + `${answers.disposition_date.value}.`,
+        + `${answers.case_number} in the ${answers.court}, dismissed on `
+        + `${answers.disposition_date}.`,
       filingNextStepsPacket: {
         title: "How to file your petition",
-        plainText: `1. File the petition with the ${answers.court.value}.`,
-        filingLocation: `${answers.county.value} Circuit Clerk`,
+        plainText: `1. File the petition with the ${answers.court}.`,
+        filingLocation: `${answers.county} Circuit Clerk`,
         filingMethod: "in person",
         requiredDocuments: ["Certified copy of the disposition", "Docket sheet", "Photo ID"],
-        serviceAndCopies: [`Serve the ${answers.prosecuting_authority_name.value}.`],
+        serviceAndCopies: [`Serve the ${answers.prosecuting_authority_name}.`],
         feeSummary: ["Filing fees are set by the clerk."],
-        courtContactOrLocationGuidance: [answers.prosecuting_authority_service_address.value],
+        courtContactOrLocationGuidance: [answers.prosecuting_authority_service_address],
         afterFiling: ["Keep the file-stamped copy."],
         trackingChecklist: ["Petition filed", "Order signed"],
         workflowGaps: [],
@@ -452,6 +461,7 @@ try {
     packetInformationPatch,
     matterId: CONSUMER_MATTER,
     answerOverrides: {
+      ...MISSISSIPPI_SYNTHETIC_PACKET_FACTS,
       participant_full_legal_name: "Consumer Participant",
       case_caption_defendant_name: { value: "Consumer Participant", unknown: false },
       name_used_at_arrest: { value: "Consumer Participant", unknown: false },
@@ -552,6 +562,30 @@ try {
   await new Promise((resolve) => server.listen(0, "127.0.0.1", resolve));
   const port = server.address().port;
   const downloadUrl = `http://127.0.0.1:${port}/api/rcap/packets/${jobId}/download`;
+
+  // Same authenticated non-owner: real HTTP status, body and content type,
+  // and real database/storage side effects, before the owner transmits bytes.
+  const deniedBefore = { storage: privateStorageReads,
+    events: db.scalar('select count(*) from packet_delivery_events'),
+    credits: db.scalar('select count(*) from packet_credit_ledger') };
+  const nonOwnerResponse = async url => {
+    const response = await fetch(url, {headers:{cookie:`${SESSION_COOKIE}=${CONSUMER_SESSION_VALUE}`}});
+    return {status:response.status,contentType:response.headers.get('content-type'),body:await response.text()};
+  };
+  const missingResponse = await nonOwnerResponse(downloadUrl.replace(jobId,'00000000-0000-4000-8000-000000000000'));
+  const crossOwnerResponse = await nonOwnerResponse(downloadUrl);
+  assert(missingResponse.status===404 && JSON.stringify(crossOwnerResponse)===JSON.stringify(missingResponse),
+    'cross-owner and missing job HTTP responses are indistinguishable');
+  assert(privateStorageReads===deniedBefore.storage, 'cross-owner/missing requests read zero private Storage bytes');
+  assert(db.scalar('select count(*) from packet_delivery_events')===deniedBefore.events, 'denials create zero delivery events');
+  assert(db.scalar('select count(*) from packet_credit_ledger')===deniedBefore.credits, 'denials consume zero credits');
+
+  // Production Next surfaces exercise this same real delivery core/database.
+  await testPrivateDownloadPrefetch({url:downloadUrl,
+    ownerCookie:`${SESSION_COOKIE}=${SESSION_VALUE}`,strangerCookie:`${SESSION_COOKIE}=${CONSUMER_SESSION_VALUE}`,
+    bytes:await storage.read(jobRow(jobId).output_storage_path),
+    snapshot:()=>({credits:Number(db.scalar(`select count(*) from packet_credit_ledger where render_job_id='${jobId}'`)),
+      events:db.json(`select coalesce(json_agg(event_type order by created_at,id),'[]') from packet_delivery_events where render_job_id='${jobId}'`)})});
 
   // Browser resolution, in order: an explicitly pinned executable, then
   // Playwright's own cache, then a one-time managed install. This verifier
@@ -729,8 +763,8 @@ try {
   // 7. Another authenticated participant may not reach this packet.
   const otherParticipant = await refusal(SESSION_VALUE);
   assert(
-    otherParticipant.status === 403 && otherParticipant.code === "unauthorized",
-    `consumer: a different participant is refused unauthorized (${otherParticipant.status} ${otherParticipant.code})`
+    otherParticipant.status === 404 && otherParticipant.code === "not_found",
+    `consumer: a different participant receives indistinguishable not_found (${otherParticipant.status} ${otherParticipant.code})`
   );
   await consumerContext.close();
 

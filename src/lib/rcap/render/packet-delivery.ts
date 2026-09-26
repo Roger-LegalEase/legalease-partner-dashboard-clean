@@ -97,11 +97,11 @@ export async function authorizePacketDownload(
   // this packet; a job without one is not served to anyone. Cross-partner and
   // cross-person requests die here without learning anything else about the job.
   if (!job.briefcaseItemId) {
-    return { ok: false, status: 403, code: "unauthorized", message: "This packet is not available for download." };
+    return { ok: false, status: 404, code: "not_found", message: "This packet does not exist." };
   }
   const owns = await ports.userOwnsBriefcaseItem(input.userId, job.briefcaseItemId);
   if (!owns) {
-    return { ok: false, status: 403, code: "unauthorized", message: "This packet is not available for download." };
+    return { ok: false, status: 404, code: "not_found", message: "This packet does not exist." };
   }
 
   // 4. Delivery eligibility — the accounting fact. A technically valid

@@ -409,7 +409,7 @@ try {
     const stranger = randomUUID();
     db.sql(`insert into auth.users values(${q(stranger)})`);
     const other = await authorizePacketDownload(ports(stranger), { jobId: aliceJob, userId: stranger });
-    check("another participant is refused on ownership", !other.ok && other.status === 403 && other.code === "unauthorized", other);
+    check("another participant is refused on ownership", !other.ok && other.status === 404 && other.code === "not_found" && other.message === "This packet does not exist.", other);
     const changed = await authorizePacketDownload({ ...ports(alice.userId),
       getCurrentVerification: async (item) => ({ ...(await ports(alice.userId).getCurrentVerification(item)), hash: "a".repeat(64) })
     }, { jobId: aliceJob, userId: alice.userId });

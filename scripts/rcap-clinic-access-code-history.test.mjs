@@ -52,18 +52,30 @@ test('actual seed SQL preserves new, unused, partial and exhausted access-code h
 });
 
 test('packet capacity and non-replenishing screening authority remain unchanged',()=>{
-  for(const p of ['scripts/rcap-clinic-packet-capacity.mjs','scripts/rcap-clinic-downstream-closure.mjs','scripts/test-rcap-sponsored-delivery-binding.mjs'])
-    assert.equal(fs.readFileSync(p,'utf8'),execFileSync('git',['show',`${base}:${p}`],{encoding:'utf8'}));
+  for(const p of ['scripts/rcap-clinic-packet-capacity.mjs','scripts/rcap-clinic-downstream-closure.mjs','scripts/test-rcap-sponsored-delivery-binding.mjs']) {
+    let current=fs.readFileSync(p,'utf8');
+    // The only successor change in the integration is the owner-authorized
+    // indistinguishable denial assertion. Capacity/accounting proof is intact.
+    if(p.endsWith('test-rcap-sponsored-delivery-binding.mjs')) current=current.replace(
+      '!other.ok && other.status === 404 && other.code === "not_found" && other.message === "This packet does not exist."',
+      '!other.ok && other.status === 403 && other.code === "unauthorized"');
+    assert.equal(current,execFileSync('git',['show',`${base}:${p}`],{encoding:'utf8'}));
+  }
   assert.match(source,/screenings_allowed=public\.partner_entitlement\.screenings_allowed/);
 });
 
 test('exact access-history tools overlay preserves prior receipts and refuses drift or execution',()=>{
-  const root=process.cwd();const text=fs.readFileSync('scripts/grade-a-launch-control/verify-release-candidate-binding.mjs','utf8');
+  const root=process.cwd();
+  // The completed overlay is historical after a pending source successor. Test
+  // its exact accepted Captain bytes, without rewriting its signed hashes.
+  const overlayBase='dc5124f99565baac004f1260e351209a4518ccf1';
+  const historicalRead=p=>execFileSync('git',['show',`${overlayBase}:${path.relative(root,p)}`]);
+  const text=historicalRead(path.join(root,'scripts/grade-a-launch-control/verify-release-candidate-binding.mjs')).toString();
   const block=text.slice(text.indexOf('      const localRepairPaths = ['),text.indexOf('      const bounded = new Set(['));
   const b=JSON.parse(fs.readFileSync('data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json'));
   const prior=JSON.parse(execFileSync('git',['show',`${base}:data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json`],{encoding:'utf8'}));
   for(const k of ['localQueueLifecycleRepair','localClinicRuntimeRepair','localClinicDownstreamRepair'])assert.deepEqual(b[k],prior[k]);
-  const verify=(binding,override)=>vm.runInNewContext(block,{binding,root,path,fs:{readFileSync:p=>override?.(p)??fs.readFileSync(p)},createHash:crypto.createHash,generated:new Set(),execFileSync,git:a=>execFileSync('git',a,{encoding:'utf8'}).trim()});
+  const verify=(binding,override)=>vm.runInNewContext(block,{binding,root,path,fs:{readFileSync:p=>override?.(p)??historicalRead(p)},createHash:crypto.createHash,generated:new Set(),execFileSync,git:a=>execFileSync('git',a,{encoding:'utf8'}).trim()});
   verify(b);
   for(const mutate of [x=>x.localClinicAccessHistoryRepair.executionAuthorized=true,x=>x.localClinicAccessHistoryRepair.pushAuthorized=true,x=>x.clinicDispatchReady=true,x=>x.localClinicAccessHistoryRepair.baseSha='0'.repeat(40),x=>delete x.localClinicAccessHistoryRepair.files['scripts/rcap-clinic-access-code-history.test.mjs'],x=>x.localClinicAccessHistoryRepair.files['src/app/page.tsx']='0'.repeat(64)]){
     const x=structuredClone(b);mutate(x);assert.throws(()=>verify(x));

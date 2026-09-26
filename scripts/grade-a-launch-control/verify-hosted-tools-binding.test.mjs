@@ -11,6 +11,9 @@ test('exact hosted tooling binds; identity, unknown files and post-binding edits
   try {
     execFileSync('git',['clone','--quiet','--shared',process.cwd(),root],{stdio:'pipe'});
     const git=(...args)=>execFileSync('git',args,{cwd:root,encoding:'utf8',stdio:'pipe'}).trim();
+    // Preserve the accepted tools-overlay fixture; a successor is deliberately
+    // held and has its own pending-publication refusal tests.
+    git('checkout','--detach','dc5124f99565baac004f1260e351209a4518ccf1');
     const candidate=JSON.parse(fs.readFileSync(path.join(root,'data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json')));
     const toolsSha=git('rev-parse','HEAD');
     const orchestrationFiles=git('diff','--name-only',candidate.applicationSha,toolsSha).split('\n').filter(p=>p.startsWith('scripts/')||p.startsWith('.github/')||p==='data/rcap-staging-authorization-readiness.json');

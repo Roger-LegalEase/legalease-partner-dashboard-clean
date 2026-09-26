@@ -551,9 +551,9 @@ export function BriefcaseItemCard({ item }: { item: BriefcasePresentationItem })
       {artifact && !isGuidanceOnly ? (
         <div className="mt-4 flex flex-wrap gap-3">
           {artifact.documents.map((document) => (
-            <Link className="inline-flex min-h-10 items-center justify-center gap-2 rounded-[10px] bg-[#0B1320] px-4 text-[13px] font-bold text-white" href={document.downloadPath} key={`${document.kind}:${document.downloadPath}`}>
+            <a className="inline-flex min-h-10 items-center justify-center gap-2 rounded-[10px] bg-[#0B1320] px-4 text-[13px] font-bold text-white" href={document.downloadPath} key={`${document.kind}:${document.downloadPath}`}>
               <Download className="h-4 w-4" aria-hidden="true" /> <LocalizedText k="common.download" fallback="Download" /> {document.fileName}
-            </Link>
+            </a>
           ))}
           <Link className="inline-flex min-h-10 items-center justify-center rounded-[10px] border border-[#D9DEE8] px-4 text-[13px] font-bold text-[#0B1320]" href={`/briefcase/${item.id}`}>
             <LocalizedText k="common.open_matter" fallback="Open matter" />

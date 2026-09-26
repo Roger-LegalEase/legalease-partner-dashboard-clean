@@ -75,6 +75,7 @@ const failures = [];
 const browserErrors = [];
 const generationRequests = [];
 const stripeRequests = [];
+const packetDownloadRequests = [];
 let screeningSessionId = null;
 let participantUserId = null;
 let browser;
@@ -103,6 +104,7 @@ try {
   });
   page.on("request", (request) => {
     const requestUrl = new URL(request.url());
+    if (/^\/api\/rcap\/packets\/[^/]+\/download$/.test(requestUrl.pathname)) packetDownloadRequests.push(requestUrl.pathname);
     if (/stripe\.com$/i.test(requestUrl.hostname) || /\/checkout(?:\/|$)|\/stripe(?:\/|$)/i.test(requestUrl.pathname)) {
       stripeRequests.push({ method: request.method(), origin: requestUrl.origin, path: requestUrl.pathname });
     }
@@ -350,7 +352,11 @@ try {
   }
   await page.waitForURL((url) => url.pathname === `/briefcase/${packetItemId}`, { timeout: 20_000 });
   // Refresh only the existing matter view; this is not another generation or download.
-  if (clinicMode) await page.reload({ waitUntil: "networkidle" });
+  if (clinicMode) {
+    await page.reload({ waitUntil: "domcontentloaded", timeout: 30_000 });
+    await page.locator('[data-packet-ready="true"]').waitFor({ state: "visible", timeout: 30_000 });
+    await page.locator(`a[href="/api/rcap/packets/${clinicProof.target.id}/download"]`).waitFor({ state: "visible", timeout: 15_000 });
+  }
   assertNoCommercialCopy(await page.locator("main").innerText(), "generated partner packet action");
   await screenshotPair(page, "05-partner-packet-generated");
 
@@ -367,6 +373,7 @@ try {
   };
   let firstBytes, firstHash, secondHash;
   if (clinicProof) {
+    assert.equal(packetDownloadRequests.filter(p => p === downloadUrl.pathname).length, 0, "private packet requested before explicit owner download");
     const delivery = await proveClinicFirstDelivery({
       ...clinicProof.ports, downloadOnce,
       generationCount: () => generationRequests.length

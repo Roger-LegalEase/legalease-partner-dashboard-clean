@@ -1,3 +1,4 @@
+import {verifyPendingWorkerSuccessor} from './verify-pending-worker-successor.mjs';
 import { execFileSync } from 'node:child_process';
 import fs from 'node:fs';
 import { createHash } from 'node:crypto';
@@ -56,6 +57,8 @@ export function imageAcceptanceRefusals(publication, candidate) {
 // A receipt's asserted candidate identity is not proof that current inputs still
 // match that candidate. Only explicitly named acceptance evidence may follow it.
 export function verifyReleaseCandidateBinding(root, candidate, receiptPaths = []) {
+  const pending = verifyPendingWorkerSuccessor(root);
+  if (pending) return pending;
   if (!candidate) return { current: false, status: 'NOT_FROZEN', reasons: ['No release candidate binding exists.'] };
   // A product repair can be exactly frozen without yet having a published or
   // accepted successor image. This is a descriptive refusal, never admission.
@@ -504,9 +507,9 @@ export function runReleaseCandidateBindingCli(root = process.cwd(), out = consol
   const lines = [
     `status : ${result.status}`,
     `current: ${result.current}`,
-    `candidate application ${candidate.applicationSha}`,
-    `candidate worker      ${candidate.workerSourceSha}`,
-    `candidate digest      ${candidate.workerDigest}`
+    `candidate application ${result.applicationSha ?? candidate.applicationSha}`,
+    `candidate worker      ${result.workerSourceSha ?? candidate.workerSourceSha}`,
+    `candidate digest      ${Object.hasOwn(result, 'workerDigest') ? result.workerDigest ?? 'pending' : candidate.workerDigest}`
   ];
   for (const reason of result.reasons) lines.push(`refused: ${reason}`);
   const ok = result.current === true && result.status === 'CURRENT';

@@ -209,7 +209,7 @@ function persistenceWiringViolations(input) {
   require(input.reviewPage.includes("decorateBriefcaseItemForPresentation")
     && input.reviewPage.includes("<PacketVerificationAction")
     && !input.reviewPage.includes("<ConsumerCheckoutButton"), "Final review must delegate post-verification payment and generation from protected presentation state.");
-  require(input.verificationAction.includes("packetVerificationActions({ verified, packetReady, mode })")
+  require(input.verificationAction.includes("packetVerificationActions({ verified, packetReady, mode, commercialActions: allowedActions })")
     && input.verificationAction.includes("requestPacketVerification")
     && input.verificationAction.includes("{nextActions.checkout ? (")
     && input.verificationAction.includes("{nextActions.generation?.mode"), "PacketVerificationAction must keep generation and Checkout behind explicit current verification.");
