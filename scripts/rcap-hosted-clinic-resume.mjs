@@ -3,6 +3,7 @@
 // NEVER imports seed/generate/worker execution. Future execution requires two
 // explicit authorizations because the original handoff cookie was lost.
 import assert from 'node:assert/strict';
+import {handleResumeRequest} from './rcap-clinic-resume-network-policy.mjs';
 import fs from 'node:fs';
 import path from 'node:path';
 import {requireCurrentReleaseCandidate} from './grade-a-launch-control/verify-release-candidate-binding.mjs';
@@ -30,7 +31,7 @@ const password=env('HOSTED_CLINIC_DEMO_PASSWORD'),bypass=env('RCAP_BROWSER_VERCE
 const evidenceDir=path.resolve(process.env.RCAP_BROWSER_EVIDENCE_DIR||'hosted-acceptance-evidence/clinic-resume');fs.mkdirSync(evidenceDir,{recursive:true});
 let browser,owner, page,requests=0;const violations=[];const downloadPath=`/api/rcap/packets/${RESUME.job}/download`;
 const readApi=async(route,identity)=>{const r=await fetch(hostedVercelScopedUrl(route,identity),{headers:{Authorization:`Bearer ${vercelToken}`}});assert.equal(r.status,200);return r.json();};
-async function context(){const c=await browser.newContext({acceptDownloads:true});await c.route('**/*',async route=>{const r=route.request(),u=new URL(r.url());if(u.origin===origin){if(r.method()!=='GET'&&r.method()!=='HEAD'&&u.pathname!=='/api/clinic/session/reset'){violations.push(`${r.method()} ${u.pathname}`);return route.abort();}return route.continue({headers:{...r.headers(),'x-vercel-protection-bypass':bypass}});}if(u.origin===`https://${project}.supabase.co`&&u.pathname.startsWith('/auth/v1/'))return route.continue();violations.push(`${r.method()} ${u.origin}${u.pathname}`);return route.abort();});return c;}
+async function context(){const c=await browser.newContext({acceptDownloads:true});await c.route('**/*',route=>handleResumeRequest(route,{origin,bypass,violations}));return c;}
 async function signIn(c,email,next){const p=await c.newPage();await p.goto(`${origin}/expungement-ai/sign-in?mode=signin&next=${encodeURIComponent(next)}`,{waitUntil:'domcontentloaded'});await p.locator('input[name="email"]').fill(email);await p.locator('input[name="password"]').fill(password);const response=p.waitForResponse(r=>r.url().includes('/auth/v1/token')&&r.request().method()==='POST');await p.getByRole('button',{name:'Sign in',exact:true}).click();const r=await response;assert.equal(r.status(),200);const body=await r.json();await p.waitForURL(u=>u.pathname===next);return {p,id:body.user?.id};}
 async function denied(c){const r=await c.request.get(origin+downloadPath,{headers:{'x-vercel-protection-bypass':bypass}});return {status:r.status(),body:await r.text()};}
 try{
