@@ -53,7 +53,7 @@ export function assertResumeState(s,{afterReset=false}={}){
  assert.equal(s.session?.session_id,r.session);assert.equal(s.session.claimed_slot_state,'consumed');assert.equal(s.session.partner_slug,'mvl-demo');
  for(const [k,v] of Object.entries({id:r.clinicCase,matter_id:r.item,screening_session_id:r.session,assisted_session_id:r.assisted,participant_user_id:r.owner,event_id:r.event,queue_status:'packet_ready',route_disposition:'packet'}))assert.equal(s.case?.[k],v,`case ${k}`);
  for(const [k,v] of Object.entries({id:r.assisted,participant_user_id:r.owner,event_id:r.event,screening_session_id:r.session}))assert.equal(s.assisted?.[k],v,`assisted ${k}`);
- if(afterReset){assert.equal(s.assisted.status,'reset');assert.equal(s.assisted.ended_reason,'staff_reset');assert.ok(s.assisted.ended_at);assert.equal(s.sessionAudit?.length,1);assert.equal(s.sessionAudit[0].target_id,r.assisted);assert.equal(s.sessionAudit[0].event_id,r.event);assert.equal(s.sessionAudit[0].actor_user_id,r.owner);assert.equal(s.sessionAudit[0].metadata?.reason,'staff_reset');}else{assert.equal(s.assisted.status,'active');assert.equal(s.assisted.ended_at,null);assert.equal(s.assisted.ended_reason,null);assert.deepEqual(s.sessionAudit,[]);}
+ if(afterReset){assert.equal(s.assisted.status,'reset');assert.equal(s.assisted.ended_reason,'staff_reset');assert.ok(s.assisted.ended_at);assert.equal(s.sessionAudit?.length,1,'exactly one closure audit record');const audit=s.sessionAudit[0];assert.equal(audit.target_id,r.assisted);assert.equal(audit.event_id,r.event);assert.equal(audit.actor_user_id,r.owner,'closure actor must be the original owner');assert.equal(audit.action,'assisted_session_ended');assert.equal(audit.target_type,'assisted_session');assert.equal(audit.metadata?.reason,'staff_reset');}else{assert.equal(s.assisted.status,'active');assert.equal(s.assisted.ended_at,null);assert.equal(s.assisted.ended_reason,null);assert.deepEqual(s.sessionAudit,[]);}
  assert.equal(s.verification?.status,'verified');assert.equal(s.verification.verification_hash,r.verification);assert.equal(s.verification.consumer_auth_user_id,r.owner);assert.equal(s.verification.matter_id,r.matter);
  for(const k of ['provenance','generation','credit'])assert.equal(s[k]?.length,1,k);
  assert.equal(s.provenance[0].render_job_id,r.job);assert.equal(s.provenance[0].verification_hash,r.verification);assert.equal(s.provenance[0].consumer_auth_user_id,r.owner);assert.equal(s.credit[0].id,r.credit);assert.equal(s.credit[0].event_type,'consumed');
@@ -81,7 +81,43 @@ export function exactSessionClosureSql(project,authorization){
  if outcome<>'ended' then raise exception 'canonical session closure refused: %',outcome;end if;
  end $resume$;`;
 }
+// Every browser outcome that the receipt reports is asserted here, BEFORE the
+// contract lets the one permitted write run. Collecting the fields is not
+// enough: a nonzero cookie count, an unsafe history walk, a wrong Participant B
+// identity or response, a forbidden request or a replayed download each refuse.
+export function assertBrowserCleanupBeforeClosure(r,{expectedDownloads=0}={}){
+ assert.equal(r?.signOutConfirmed,true,'server reset must confirm sign-out');
+ assert.equal(r.cookies,0,'participant cookies survived the reset');
+ // Survival is judged against the pre-reset inventory; emptiness is judged on
+ // the clean entry after it initialized AND after Back/Forward, never on an
+ // earlier snapshot. This bounded resume runs with the documented analytics
+ // opt-out observed on that document, so the counts must be zero as measured.
+ assert.deepEqual(r.survived??null,[],'prior participant state survived the reset');
+ const areas=Object.values(r.storage??{});assert.ok(areas.length>0&&areas.every(x=>x===0),'browser storage not empty after Back/Forward');
+ const entry=Object.values(r.storageAfterEntryInit??{});assert.ok(entry.length>0&&entry.every(x=>x===0),'browser storage not empty after the clean entry initialized');
+ assert.equal(r.doNotTrack,'1','bounded no-analytics resume requires the documented opt-out observed on the clean entry');
+ assert.equal(r.historySafe,true,'Back/Forward reached participant state');
+ assert.ok([401,404].includes(r.revokedStatus),'signed-out owner must be denied');
+ assert.equal(r.strangerId,RESUME.stranger,'same-device sign-in must be the exact Participant B');
+ assert.equal(r.sameDeviceStranger,404,'Participant B must receive 404');
+ assert.equal(r.strangerMatchesMissing,true,'Participant B response must equal a missing-packet response');
+ assert.deepEqual(r.violations,[],'resume attempted a forbidden request');
+ assert.equal(r.downloadRequests,expectedDownloads,'owner download replay');
+}
+// Read-only classification of the exact namespace: the active checkpoint, or the
+// same checkpoint already reset with its one matching closure audit record.
+// Anything else refuses. Neither answer grants acceptance, permits a second
+// lifecycle transition, or relaxes an identity check.
+export function classifyResumeLifecycle(s){
+ classifyDeliveryCheckpoint(s);
+ try{assertResumeState(s);return 'EXACT_ACTIVE_CHECKPOINT';}
+ catch(active){try{assertResumeState(s,{afterReset:true});return 'EXACT_RESET_CHECKPOINT';}catch(reset){throw new assert.AssertionError({message:`not the exact active checkpoint (${String(active.message).split('\n')[0]}) and not the exact reset checkpoint (${String(reset.message).split('\n')[0]})`,actual:s.assisted?.status,expected:'active or reset with one matching audit record',operator:'classifyResumeLifecycle'});}}
+}
+export const RESUME_STAGES=Object.freeze(['browser_reset_failed','browser_checks_failed','pre_closure_state_failed','browser_checks_passed','closure_requested','closure_response_lost','closure_committed','readback_failed','readback_verified']);
+const RESUME_PORTS=Object.freeze(['snapshot','requireSuccessorPreview','signInOwner','observeBeforeMatter','openReadyMatter','downloadRequests','explicitDownload','proveDenials','proveStaffQueuePrivacy','resetDevice','violations','recordProgress','closeExactSession']);
+const summarizeReset=r=>({signOutConfirmed:r.signOutConfirmed,cookies:r.cookies,allCookies:r.allCookies??null,storage:r.storage,storageAfterEntryInit:r.storageAfterEntryInit,survived:r.survived,created:r.created,doNotTrack:r.doNotTrack,analyticsProfile:r.analyticsProfile??null,historySafe:r.historySafe,revokedStatus:r.revokedStatus,strangerId:r.strangerId,sameDeviceStranger:r.sameDeviceStranger,strangerMatchesMissing:r.strangerMatchesMissing,violations:r.violations.length,downloadRequests:r.downloadRequests});
 export async function runResumeProof(p){
+ for(const port of RESUME_PORTS)assert.equal(typeof p?.[port],'function',`resume port ${port} required`);
  const before=await p.snapshot();assertResumeState(before);const checkpoint=classifyDeliveryCheckpoint(before);const alreadyProven=checkpoint.state==='SUCCESSOR_EXPLICIT_DOWNLOAD_ALREADY_PROVEN';
  const preview=await p.requireSuccessorPreview();await p.signInOwner();await p.observeBeforeMatter();await p.openReadyMatter();assert.equal(p.downloadRequests(),0);assertPageLoadUnchanged(before,await p.snapshot());assert.equal(p.downloadRequests(),0,'no automatic request immediately before explicit Download');
  let delivered=before,bytes;
@@ -89,11 +125,26 @@ export async function runResumeProof(p){
  const denials=await p.proveDenials();assert.equal(denials.stranger,404);assert.ok([401,404].includes(denials.anonymous));assertPageLoadUnchanged(delivered,await p.snapshot());
  const staffQueueProof=await p.proveStaffQueuePrivacy();assertStaffQueueProof(staffQueueProof);assertPageLoadUnchanged(delivered,await p.snapshot());
  if(alreadyProven)assert.equal(p.downloadRequests(),0,'checkpoint must never download again');
- const reset=await p.resetDeviceAndCloseExactSession();assert.equal(reset.signOutConfirmed,true);assert.equal(reset.cookies,0);assert.ok(Object.values(reset.storage).every(x=>x===0));assert.equal(reset.historySafe,true);assert.equal(reset.sameDeviceStranger,404);
- const after=await p.snapshot();assertResumeState(after,{afterReset:true});assertNoNewAccounting(before,after);assert.deepEqual(after.delivery,delivered.delivery);assert.deepEqual(after.case,before.case);
- if(alreadyProven){classifyDeliveryCheckpoint(after);assert.equal(p.downloadRequests(),0);}
+ // The one permitted write sits behind every browser assertion, and every
+ // stage around it is recorded through the evidence port before the next step
+ // runs, so a lost response, a failed readback or a failed evidence write can
+ // never hide whether the closure happened.
+ const record=async(stage,detail={})=>{assert.ok(RESUME_STAGES.includes(stage));try{await p.recordProgress({stage,at:new Date().toISOString(),...detail});}catch(error){const failure=error instanceof Error?error:new Error(String(error));failure.resumeStage=stage;failure.evidenceWriteFailed=true;throw failure;}};
+ const failAt=async(stage,error)=>{const failure=error instanceof Error?error:new Error(String(error));failure.resumeStage=stage;try{await p.recordProgress({stage,at:new Date().toISOString(),error:String(failure.message).split('\n')[0]});}catch(recordError){failure.recordError=String(recordError?.message??recordError).split('\n')[0];}throw failure;};
+ let cleanup;try{cleanup=await p.resetDevice();}catch(error){await failAt('browser_reset_failed',error);}
+ const reset={...cleanup,violations:p.violations(),downloadRequests:p.downloadRequests()};
+ try{assertBrowserCleanupBeforeClosure(reset,{expectedDownloads:alreadyProven?0:1});}catch(error){await failAt('browser_checks_failed',error);}
+ try{const current=await p.snapshot();assertResumeState(current);assertNoNewAccounting(before,current);assert.deepEqual(current.delivery,delivered.delivery);assert.deepEqual(current.case,before.case);}catch(error){await failAt('pre_closure_state_failed',error);}
+ await record('browser_checks_passed',{lifecycle:'EXACT_ACTIVE_CHECKPOINT',browser:summarizeReset(reset)});
+ // The closure names the exact pinned session and its original owner inside
+ // the SQL itself; Participant B, signed in on the device by now, never reaches it.
+ await record('closure_requested',{session:RESUME.assisted,actor:RESUME.owner,reason:'staff_reset'});
+ try{await p.closeExactSession();}catch(error){await failAt('closure_response_lost',error);}
+ await record('closure_committed');
+ let after;try{after=await p.snapshot();assertResumeState(after,{afterReset:true});assertNoNewAccounting(before,after);assert.deepEqual(after.delivery,delivered.delivery);assert.deepEqual(after.case,before.case);assert.equal(after.delivery.length,delivered.delivery.length,'delivery events changed during closure');if(alreadyProven){classifyDeliveryCheckpoint(after);assert.equal(p.downloadRequests(),0);}}catch(error){await failAt('readback_failed',error);}
+ await record('readback_verified',{closureAudit:{target_id:after.sessionAudit[0].target_id,actor_user_id:after.sessionAudit[0].actor_user_id,event_id:after.sessionAudit[0].event_id}});
  return {schemaVersion:'rcap-clinic-resume/v2',passed:true,namespace:RESUME,checkpoint,preview,
  originalAccidentalDelivery:{sourceRun:RESUME.priorRun,cause:'Next Link prefetch before deliberate participant action',eventIds:before.delivery.slice(0,3).map(e=>e.id),events:before.delivery.slice(0,3)},
  correctedExplicitDelivery:{sourceRun:alreadyProven?CHECKPOINT.sourceRun:p.sourceRun,preview:alreadyProven?CHECKPOINT.previewId:preview.deploymentId,eventIds:delivered.delivery.slice(3).map(e=>e.id),events:delivered.delivery.slice(3),automaticDownloadRequestsBeforeExplicitAction:0,sha256:RESUME.hash,bytes:RESUME.bytes,...(alreadyProven?{artifactId:CHECKPOINT.artifactId,artifactSha256:CHECKPOINT.artifactSha256,evidenceBasis:'Pinned run reached staff proof only after explicit bytes, accounting and denial assertions passed'}:{})},
- finalCheckpointRun:{sourceRun:p.sourceRun,noNewPacketDownload:alreadyProven,newPacketDownloads:alreadyProven?0:1,staffQueueProof,denials,reset,accountingUnchanged:true},staffQueueProof,before,after};
+ finalCheckpointRun:{sourceRun:p.sourceRun,noNewPacketDownload:alreadyProven,newPacketDownloads:alreadyProven?0:1,staffQueueProof,denials,reset:{...summarizeReset(reset),originalCookieUnavailable:true,sessionClosure:'separately authorized exact canonical clinic_end_assisted_session',closureActor:RESUME.owner,closureAuditRecords:after.sessionAudit.length},accountingUnchanged:true},staffQueueProof,before,after};
 }

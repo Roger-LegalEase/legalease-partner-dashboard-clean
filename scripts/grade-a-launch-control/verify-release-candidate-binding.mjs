@@ -535,12 +535,25 @@ export function verifyAcceptedSuccessorBinding(root,candidate,pending=verifyPend
   if(!pending?.current)throw new Error('Accepted successor required');
   const fail=(ok,msg)=>{if(!ok)throw new Error(msg);};
   const base='c5942743b657b6a17165b72a308efd1cabc2d90e';
-  fail(t?.schemaVersion==='rcap-successor-resume-tools/v1'&&t.baseSha===base&&binding.toolsSha===(t.checkpointCorrectionBaseSha??t.networkCorrectionBaseSha??t.correctionBaseSha??base)&&t.commit==='single-commit-after-base','Exact successor tools base required');
+  fail(t?.schemaVersion==='rcap-successor-resume-tools/v1'&&t.baseSha===base&&binding.toolsSha===(t.orderingCorrectionBaseSha??t.checkpointCorrectionBaseSha??t.networkCorrectionBaseSha??t.correctionBaseSha??base)&&t.commit==='single-commit-after-base','Exact successor tools base required');
   const correctionBase='77fa4c372278b722fd87f9cc4fec26fa560a0975';
   const networkBase='100377462ab83508be1d202472e42313a35bdfa2';
   const checkpointBase='1d47f0238670c36523ff9d7014126966b31aecde';
-  const commitBase=t.checkpointCorrectionBaseSha??t.networkCorrectionBaseSha??t.correctionBaseSha??base;
-  if(t.checkpointCorrectionBaseSha){
+  const orderingBase='343023e84211b1bc7105f26a265b2a84c2b3245c';
+  const commitBase=t.orderingCorrectionBaseSha??t.checkpointCorrectionBaseSha??t.networkCorrectionBaseSha??t.correctionBaseSha??base;
+  if(t.orderingCorrectionBaseSha){
+   // Fourth bounded correction: the reset write boundary. The browser adapter,
+   // contract ordering, their tests and this verifier may move; nothing else.
+   fail(t.orderingCorrectionBaseSha===orderingBase&&t.checkpointCorrectionBaseSha===checkpointBase&&t.networkCorrectionBaseSha===networkBase&&t.correctionBaseSha===correctionBase,'Exact fourth tools correction base required');
+   const permitted=[toolingPath,'scripts/rcap-hosted-clinic-resume.mjs','scripts/rcap-clinic-resume-contract.mjs','scripts/rcap-clinic-resume-contract.test.mjs','scripts/rcap-clinic-resume-browser-reset.mjs','scripts/rcap-clinic-resume-browser-reset.test.mjs','scripts/rcap-clinic-resume-transport.test.mjs','scripts/grade-a-launch-control/verify-release-candidate-binding.mjs','scripts/grade-a-launch-control/accepted-successor-binding.test.mjs'];
+   const changes=[...git(['diff','--name-only',orderingBase]).split('\n'),...git(['ls-files','--others','--exclude-standard']).split('\n')].filter(Boolean);
+   fail(changes.every(p=>permitted.includes(p)),'Ordering correction changes only');
+   const previous=JSON.parse(git(['show',`${orderingBase}:${toolingPath}`]));
+   const expected={...previous,toolsSha:orderingBase,successorTools:{...previous.successorTools,orderingCorrectionBaseSha:orderingBase,files:t.files}};
+   fail(JSON.stringify(binding)===JSON.stringify(expected),'Only exact ordering tools binding may advance');
+   for(const [rel,hash] of Object.entries(previous.successorTools.files))if(!permitted.includes(rel))fail(t.files[rel]===hash,`Prior tools evidence changed: ${rel}`);
+  }
+  if(t.checkpointCorrectionBaseSha&&!t.orderingCorrectionBaseSha){
    fail(t.checkpointCorrectionBaseSha===checkpointBase&&t.networkCorrectionBaseSha===networkBase&&t.correctionBaseSha===correctionBase,'Exact third tools correction base required');
    const permitted=[toolingPath,'.github/workflows/rcap-hosted-acceptance-staging.yml','scripts/rcap-hosted-clinic-resume.mjs','scripts/rcap-clinic-resume-contract.mjs','scripts/rcap-clinic-resume-contract.test.mjs','scripts/rcap-clinic-resume-queue-privacy.test.mjs','scripts/rcap-clinic-resume-workflow.test.mjs','scripts/grade-a-launch-control/verify-release-candidate-binding.mjs','scripts/grade-a-launch-control/accepted-successor-binding.test.mjs'];
    const changes=[...git(['diff','--name-only',checkpointBase]).split('\n'),...git(['ls-files','--others','--exclude-standard']).split('\n')].filter(Boolean);
