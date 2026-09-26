@@ -18,8 +18,8 @@ test('native acceptance, pending successor, release and exact hosted tools bind;
  try{
   execFileSync('git',['clone','--quiet','--shared','--no-checkout',process.cwd(),root],{stdio:'pipe'});
   git(['sparse-checkout','set','scripts','src','deploy','data/rcap-render','data/rcap-grade-a/launch-control','hosted-acceptance-evidence/worker/publication-36219916209','hosted-acceptance-evidence/worker/image-acceptance-36247303667']);
-  git(['checkout','--detach',base]);
-  const binding=JSON.parse(fs.readFileSync(toolsPath));const files=[toolsPath,...Object.keys(binding.successorTools.files)];
+  const binding=JSON.parse(fs.readFileSync(toolsPath));
+  git(['checkout','--detach',binding.successorTools.correctionBaseSha??base]);const files=[toolsPath,...Object.keys(binding.successorTools.files)];
   for(const rel of files){fs.mkdirSync(path.dirname(path.join(root,rel)),{recursive:true});fs.copyFileSync(rel,path.join(root,rel));}
   const release=()=>verifyReleaseCandidateBinding(root,read(candidatePath));
   const check=()=>{

@@ -535,9 +535,21 @@ export function verifyAcceptedSuccessorBinding(root,candidate,pending=verifyPend
   if(!pending?.current)throw new Error('Accepted successor required');
   const fail=(ok,msg)=>{if(!ok)throw new Error(msg);};
   const base='c5942743b657b6a17165b72a308efd1cabc2d90e';
-  fail(t?.schemaVersion==='rcap-successor-resume-tools/v1'&&t.baseSha===base&&binding.toolsSha===base&&t.commit==='single-commit-after-base','Exact successor tools base required');
+  fail(t?.schemaVersion==='rcap-successor-resume-tools/v1'&&t.baseSha===base&&binding.toolsSha===(t.correctionBaseSha??base)&&t.commit==='single-commit-after-base','Exact successor tools base required');
+  const correctionBase='77fa4c372278b722fd87f9cc4fec26fa560a0975';
+  const commitBase=t.correctionBaseSha??base;
+  if(t.correctionBaseSha){
+   fail(t.correctionBaseSha===correctionBase,'Exact transport correction base required');
+   const permitted=[toolingPath,'scripts/rcap-hosted-clinic-resume.mjs','scripts/rcap-clinic-resume-transport.test.mjs','scripts/grade-a-launch-control/verify-release-candidate-binding.mjs','scripts/grade-a-launch-control/accepted-successor-binding.test.mjs'];
+   const changes=[...git(['diff','--name-only',correctionBase]).split('\n'),...git(['ls-files','--others','--exclude-standard']).split('\n')].filter(Boolean);
+   fail(changes.every(p=>permitted.includes(p)),'Transport correction changes only');
+   const previous=JSON.parse(git(['show',`${correctionBase}:${toolingPath}`]));
+   const expected={...previous,toolsSha:correctionBase,successorTools:{...previous.successorTools,correctionBaseSha:correctionBase,files:t.files}};
+   fail(JSON.stringify(binding)===JSON.stringify(expected),'Only exact transport tools binding may advance');
+   for(const [rel,hash] of Object.entries(previous.successorTools.files))if(!permitted.includes(rel))fail(t.files[rel]===hash,`Prior tools evidence changed: ${rel}`);
+  }
   const head=git(['rev-parse','HEAD']);
-  if(head!==base)fail(git(['rev-parse',`${head}^`])===base&&git(['rev-list','--parents','-n','1',head]).split(' ').length===2,'One non-merge successor tools commit required');
+  if(head!==commitBase)fail(git(['rev-parse',`${head}^`])===commitBase&&git(['rev-list','--parents','-n','1',head]).split(' ').length===2,'One non-merge successor tools commit required');
   for(const key of ['applicationSha','workerSourceSha','workerDigest','workerInputFingerprint','runtimeAccepted','workerRebuildRequired']){
    fail(candidate?.[key]===pending[key]&&binding[key]===pending[key],`Accepted tuple mismatch: ${key}`);
   }
@@ -559,7 +571,7 @@ export function verifyAcceptedSuccessorBinding(root,candidate,pending=verifyPend
   // Native evidence may be ignored until explicitly staged during preparation.
   const all=new Set([...delta,...untracked,...Object.keys(t.files??{})]);all.delete(toolingPath);
   fail(JSON.stringify([...all].sort())===JSON.stringify(Object.keys(t.files??{}).sort()),'Undeclared successor tools changes');
-  if(head!==base)fail(JSON.stringify(delta.filter(p=>p!==toolingPath).sort())===JSON.stringify(Object.keys(t.files??{}).sort()),'Exact committed successor change set required');
+  if(head!==commitBase)fail(JSON.stringify(delta.filter(p=>p!==toolingPath).sort())===JSON.stringify(Object.keys(t.files??{}).sort()),'Exact committed successor change set required');
   for(const rel of [toolingPath,CANDIDATE_PATH]){
    const historical=JSON.parse(git(['show',`${base}:${rel}`]));
    fail(JSON.stringify(read(rel).supersededRecord)===JSON.stringify(historical),`Historical binding changed: ${rel}`);

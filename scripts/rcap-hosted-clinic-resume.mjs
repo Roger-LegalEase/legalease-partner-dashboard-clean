@@ -15,7 +15,7 @@ const execute=requireResumeAuthorization({project,execute:args.includes('--execu
 const env=k=>{assert.ok(process.env[k]?.trim(),`${k} required`);return process.env[k].trim();};
 const closureSql=execute?exactSessionClosureSql(project,args.includes('--session-closure-authorization')?value('--session-closure-authorization'):null):null;
 const token=env('SUPABASE_ACCESS_TOKEN');
-async function query(sql,readOnly=true){const response=await fetch(`https://api.supabase.com/v1/projects/${project}/database/query`,{method:'POST',headers:{Authorization:`Bearer ${token}`,'Content-Type':'application/json'},body:JSON.stringify({query:sql,read_only:readOnly})});assert.equal(response.status,200,`database query HTTP ${response.status}`);return response.json();}
+async function query(sql,readOnly=true){const response=await fetch(`https://api.supabase.com/v1/projects/${project}/database/query`,{method:'POST',headers:{Authorization:`Bearer ${token}`,'Content-Type':'application/json'},body:JSON.stringify({query:sql,read_only:readOnly})});assert.ok(response.ok,`database query HTTP ${response.status}`);const body=await response.json();if(readOnly)assert.ok(Array.isArray(body),'database query response must be an array');return body;}
 const snapshot=async()=>{const rows=await query(await resumeSql(project));assert.equal(rows.length,1);return rows[0].evidence;};
 if(!execute){const current=await snapshot();assertResumeState(current);console.log(JSON.stringify({mode:'READ_ONLY',namespace:RESUME,state:current,executionHeld:true,originalHandoffUnavailable:true,exactSessionClosureRequiresSeparateAuthorization:true},null,2));process.exit(0);}
 // Validate all future execution credentials/authority before the first browser write.
