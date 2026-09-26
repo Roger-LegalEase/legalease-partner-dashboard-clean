@@ -29,7 +29,7 @@ test('published successor is current publication only; image acceptance and host
   execFileSync('git',['clone','--quiet','--shared','--no-checkout',process.cwd(),root],{stdio:'pipe'});
   git(['sparse-checkout','set','scripts','src','deploy','data/rcap-render','data/rcap-grade-a/launch-control','hosted-acceptance-evidence/worker/publication-36219916209']);
   git(['checkout','--detach','af638b61']);
-  for(const rel of files){fs.mkdirSync(path.dirname(path.join(root,rel)),{recursive:true});fs.copyFileSync(rel,path.join(root,rel));}
+  for(const rel of files){fs.mkdirSync(path.dirname(path.join(root,rel)),{recursive:true});if([PENDING,evidence].includes(rel))fs.writeFileSync(path.join(root,rel),execFileSync('git',['show',`c5942743:${rel}`]));else fs.copyFileSync(rel,path.join(root,rel));}
   const check=()=>{
    const publication=verifySuccessorPublication(root);assert.equal(publication.current,true,JSON.stringify(publication));assert.equal(publication.runtimeAccepted,false);assert.equal(publication.canonicalWorkerInputs,39);
    const pending=verifyPendingWorkerSuccessor(root);assert.equal(pending.status,'AWAITING_WORKER_ACCEPTANCE',JSON.stringify(pending));assert.equal(pending.current,false);assert.equal(pending.workerRebuildRequired,false);

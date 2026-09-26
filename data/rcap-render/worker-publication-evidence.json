@@ -31,9 +31,9 @@
   "originalPublicationBytes": 1248,
   "originalPublicationSource": "Native artifact 10898382917 from successful run 36219916209. Archive and native JSON hashes verified independently; Dockerfile and lockfile match Git at sourceSha. Only workflowRunId is normalized to numeric ledger representation.",
   "workerInputFingerprint": "sha256:a981b7071a0d9d94208e1fa98e89be78ea939da34c778f55b789f97635357677",
-  "runtimeAccepted": false,
-  "registryPullByDigestStatus": "pending_image_acceptance",
-  "authorization": "Roger authorized consuming publication once, updating pending state, and one fast-forward evidence push. Stop before image acceptance dispatch. No rebuild, publication, deployment, Acceptance mutation, Preview, Clinic, Stripe or Production.",
+  "runtimeAccepted": true,
+  "registryPullByDigestStatus": "succeeded_authenticated_read_only",
+  "authorization": "Roger authorized recording successful image acceptance and wiring one future bounded hosted_clinic_resume. One evidence/tools commit and fast-forward push; stop before dispatch, Preview deployment, Acceptance mutation, session closure, worker publication, Stripe and Production.",
   "priorPublicationEvidencePath": "data/rcap-render/worker-publication-evidence.json#/supersededPublication",
   "supersededPublication": {
     "schemaVersion": "rcap-worker-publication/v1",
@@ -234,7 +234,7 @@
                 },
                 {
                   "number": 11,
-                  "name": "Source binding \u2014 OCI revision, or the exact-digest exception",
+                  "name": "Source binding — OCI revision, or the exact-digest exception",
                   "conclusion": "skipped"
                 },
                 {
@@ -4145,5 +4145,111 @@
     }
   ],
   "packageVisibility": "private",
-  "packageVisibilityEvidence": "Existing package visibility retained from predecessor evidence; no successor authenticated pull or anonymous refusal has been performed. Exact image acceptance remains pending."
+  "packageVisibilityEvidence": "Acceptance run 36247303667 proved anonymous token refused HTTP 401 and authenticated digest pull succeeded.",
+  "imageAcceptance": {
+    "runId": 36247303667,
+    "jobId": 108418760982,
+    "runAttempt": 1,
+    "conclusion": "success",
+    "workflowSourceSha": "c5942743b657b6a17165b72a308efd1cabc2d90e",
+    "workflowHead": "c5942743b657b6a17165b72a308efd1cabc2d90e",
+    "sourceSha": "af638b61cc4b74afad972fa79c4c1ca3f6709540",
+    "tag": "af638b61cc4b74afad972fa79c4c1ca3f6709540",
+    "digest": "sha256:063901962bedf73adedb8a7566da2434539082bd1577051e98e4303c566bb3a5",
+    "readOnly": true,
+    "acceptedAt": "2026-09-26T14:07:02Z",
+    "runUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/36247303667",
+    "evidenceBasis": "GitHub Actions run metadata and decoded job log; no artifact",
+    "nativeRunMetadata": {
+      "path": "hosted-acceptance-evidence/worker/image-acceptance-36247303667/run.json",
+      "sha256": "5de3a30a31c2fae26678e5bc055ab4b567abd98533146c81a14140b02e0f1626",
+      "bytes": 15025
+    },
+    "nativeJobMetadata": {
+      "path": "hosted-acceptance-evidence/worker/image-acceptance-36247303667/job.json",
+      "sha256": "78ff8c1e16d166460099edb28415cda47d3e25d9cf2876dfbe1cf6ed0131079e",
+      "bytes": 5324
+    },
+    "nativeLog": {
+      "path": "hosted-acceptance-evidence/worker/image-acceptance-36247303667/native.log",
+      "sha256": "6ee97d0e80b7d893b9686f8ef861c2bd6778e57ea09c28d787cb915a005b273c",
+      "bytes": 266167
+    },
+    "properties": {
+      "tagResolvesToExpectedDigest": true,
+      "authenticatedPullByDigest": true,
+      "anonymousPullRefused": true,
+      "tagAndDigestAreTheSameImage": true,
+      "sourceBinding": true,
+      "runsAsNonRoot": true,
+      "healthcheckDeclaredAndSucceeds": true,
+      "completeModuleGraphResolves": true,
+      "failsClosedWithoutCredentials": true,
+      "gracefulShutdownOnSigterm": true,
+      "scratchEmptyAndWritable": true,
+      "secretScanPositiveAndNegativeControls": true,
+      "firstPartyFilesystemClean": true,
+      "configSecretScanClean": true,
+      "historySecretScanClean": true,
+      "deployedNothingClaimedNothing": true,
+      "unconfiguredExitCode": 2,
+      "anonymousStatus": 401,
+      "ociRevision": "af638b61cc4b74afad972fa79c4c1ca3f6709540"
+    },
+    "evidenceLimit": "Read-only image acceptance only. Successor Preview and bounded Clinic resume remain pending; no Production acceptance."
+  },
+  "imageAcceptanceAttempts": [
+    {
+      "runId": 36247303667,
+      "jobId": 108418760982,
+      "runAttempt": 1,
+      "conclusion": "success",
+      "workflowSourceSha": "c5942743b657b6a17165b72a308efd1cabc2d90e",
+      "workflowHead": "c5942743b657b6a17165b72a308efd1cabc2d90e",
+      "sourceSha": "af638b61cc4b74afad972fa79c4c1ca3f6709540",
+      "tag": "af638b61cc4b74afad972fa79c4c1ca3f6709540",
+      "digest": "sha256:063901962bedf73adedb8a7566da2434539082bd1577051e98e4303c566bb3a5",
+      "readOnly": true,
+      "acceptedAt": "2026-09-26T14:07:02Z",
+      "runUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/36247303667",
+      "evidenceBasis": "GitHub Actions run metadata and decoded job log; no artifact",
+      "nativeRunMetadata": {
+        "path": "hosted-acceptance-evidence/worker/image-acceptance-36247303667/run.json",
+        "sha256": "5de3a30a31c2fae26678e5bc055ab4b567abd98533146c81a14140b02e0f1626",
+        "bytes": 15025
+      },
+      "nativeJobMetadata": {
+        "path": "hosted-acceptance-evidence/worker/image-acceptance-36247303667/job.json",
+        "sha256": "78ff8c1e16d166460099edb28415cda47d3e25d9cf2876dfbe1cf6ed0131079e",
+        "bytes": 5324
+      },
+      "nativeLog": {
+        "path": "hosted-acceptance-evidence/worker/image-acceptance-36247303667/native.log",
+        "sha256": "6ee97d0e80b7d893b9686f8ef861c2bd6778e57ea09c28d787cb915a005b273c",
+        "bytes": 266167
+      },
+      "properties": {
+        "tagResolvesToExpectedDigest": true,
+        "authenticatedPullByDigest": true,
+        "anonymousPullRefused": true,
+        "tagAndDigestAreTheSameImage": true,
+        "sourceBinding": true,
+        "runsAsNonRoot": true,
+        "healthcheckDeclaredAndSucceeds": true,
+        "completeModuleGraphResolves": true,
+        "failsClosedWithoutCredentials": true,
+        "gracefulShutdownOnSigterm": true,
+        "scratchEmptyAndWritable": true,
+        "secretScanPositiveAndNegativeControls": true,
+        "firstPartyFilesystemClean": true,
+        "configSecretScanClean": true,
+        "historySecretScanClean": true,
+        "deployedNothingClaimedNothing": true,
+        "unconfiguredExitCode": 2,
+        "anonymousStatus": 401,
+        "ociRevision": "af638b61cc4b74afad972fa79c4c1ca3f6709540"
+      },
+      "evidenceLimit": "Read-only image acceptance only. Successor Preview and bounded Clinic resume remain pending; no Production acceptance."
+    }
+  ]
 }

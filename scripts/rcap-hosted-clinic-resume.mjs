@@ -5,7 +5,6 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
-import {chromium} from 'playwright';
 import {requireCurrentReleaseCandidate} from './grade-a-launch-control/verify-release-candidate-binding.mjs';
 import {RESUME, resumeSql,requireResumeAuthorization,exactSessionClosureSql,runResumeProof,assertResumeState,sha} from './rcap-clinic-resume-contract.mjs';
 import {hostedVercelScopedUrl,resolveHostedVercelIdentity} from './rcap-hosted-acceptance-vercel-identity.mjs';
@@ -14,12 +13,13 @@ for(let i=0;i<args.length;i++){assert.ok(['--project','--execute','--owner-autho
 const project=args.includes('--project')?value('--project'):'';
 const execute=requireResumeAuthorization({project,execute:args.includes('--execute'),authorization:args.includes('--owner-authorization')?value('--owner-authorization'):null});
 const env=k=>{assert.ok(process.env[k]?.trim(),`${k} required`);return process.env[k].trim();};
+const closureSql=execute?exactSessionClosureSql(project,args.includes('--session-closure-authorization')?value('--session-closure-authorization'):null):null;
 const token=env('SUPABASE_ACCESS_TOKEN');
 async function query(sql,readOnly=true){const response=await fetch(`https://api.supabase.com/v1/projects/${project}/database/query`,{method:'POST',headers:{Authorization:`Bearer ${token}`,'Content-Type':'application/json'},body:JSON.stringify({query:sql,read_only:readOnly})});assert.equal(response.status,200,`database query HTTP ${response.status}`);return response.json();}
 const snapshot=async()=>{const rows=await query(await resumeSql(project));assert.equal(rows.length,1);return rows[0].evidence;};
 if(!execute){const current=await snapshot();assertResumeState(current);console.log(JSON.stringify({mode:'READ_ONLY',namespace:RESUME,state:current,executionHeld:true,originalHandoffUnavailable:true,exactSessionClosureRequiresSeparateAuthorization:true},null,2));process.exit(0);}
 // Validate all future execution credentials/authority before the first browser write.
-const closureSql=exactSessionClosureSql(project,value('--session-closure-authorization'));
+const {chromium}=await import('playwright');
 const base=env('RCAP_BROWSER_BASE_URL'),origin=new URL(base).origin;assert.equal(origin,base);assert.ok(new URL(base).hostname.endsWith('.vercel.app'));assert.equal(new URL(base).protocol,'https:');
 const deploymentId=env('RCAP_BROWSER_PREVIEW_DEPLOYMENT_ID'),applicationSha=env('RCAP_BROWSER_APPLICATION_SHA'),workerDigest=env('RCAP_BROWSER_WORKER_DIGEST');
 assert.match(applicationSha,/^[a-f0-9]{40}$/);assert.notEqual(applicationSha,'6ebacdcde8afdf8aa706f16b38e0646babcbdc49');assert.match(workerDigest,/^sha256:[a-f0-9]{64}$/);assert.notEqual(workerDigest,RESUME.priorDigest);assert.notEqual(deploymentId,'dpl_EopdPGhnhjk8JqwdiAqi9RYmATpB');

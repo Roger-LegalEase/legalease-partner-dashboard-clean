@@ -72,7 +72,8 @@ test('exact access-history tools overlay preserves prior receipts and refuses dr
   const historicalRead=p=>execFileSync('git',['show',`${overlayBase}:${path.relative(root,p)}`]);
   const text=historicalRead(path.join(root,'scripts/grade-a-launch-control/verify-release-candidate-binding.mjs')).toString();
   const block=text.slice(text.indexOf('      const localRepairPaths = ['),text.indexOf('      const bounded = new Set(['));
-  const b=JSON.parse(fs.readFileSync('data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json'));
+  const currentBinding=JSON.parse(fs.readFileSync('data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json'));
+  const b=currentBinding.successorTools?currentBinding.supersededRecord:currentBinding;
   const prior=JSON.parse(execFileSync('git',['show',`${base}:data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json`],{encoding:'utf8'}));
   for(const k of ['localQueueLifecycleRepair','localClinicRuntimeRepair','localClinicDownstreamRepair'])assert.deepEqual(b[k],prior[k]);
   const verify=(binding,override)=>vm.runInNewContext(block,{binding,root,path,fs:{readFileSync:p=>override?.(p)??historicalRead(p)},createHash:crypto.createHash,generated:new Set(),execFileSync,git:a=>execFileSync('git',a,{encoding:'utf8'}).trim()});

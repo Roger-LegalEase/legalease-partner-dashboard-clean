@@ -26,7 +26,7 @@ on:
         description: "ephemeral | hosted_* (Vercel, including audit and reuse-only Checkout) | github_acceptance (temporary HTTPS fallback)"
         required: false
         type: choice
-        options: [ephemeral, required_worker_delivery, hosted_preflight, hosted_vercel_identity, hosted_vercel_audit, hosted_migrate, hosted_clinic_migrate, hosted_legal_aid_migrate, hosted_clinic_deploy, hosted_clinic_preview, hosted_legal_aid_browser, hosted_deploy, hosted_replace_preview, hosted_accept, hosted_stripe_retarget, hosted_checkout_gate, hosted_browser, hosted_payment, hosted_full, hosted_worker_contract, github_acceptance, production_preflight, production_clinic_migrate, production_forward_chain_readback, production_forward_chain_migrate, production_legal_aid_keys_read, production_legal_aid_keys_create, production_legal_aid_readback, production_legal_aid_migrate, production_smoke, production_activate, production_worker_deploy, production_public_verify, production_save_transition_reproduce, production_save_transition_verify, production_live_zero_dollar_order]
+        options: [ephemeral, required_worker_delivery, hosted_preflight, hosted_vercel_identity, hosted_vercel_audit, hosted_migrate, hosted_clinic_migrate, hosted_legal_aid_migrate, hosted_clinic_deploy, hosted_clinic_preview, hosted_clinic_resume, hosted_legal_aid_browser, hosted_deploy, hosted_replace_preview, hosted_accept, hosted_stripe_retarget, hosted_checkout_gate, hosted_browser, hosted_payment, hosted_full, hosted_worker_contract, github_acceptance, production_preflight, production_clinic_migrate, production_forward_chain_readback, production_forward_chain_migrate, production_legal_aid_keys_read, production_legal_aid_keys_create, production_legal_aid_readback, production_legal_aid_migrate, production_smoke, production_activate, production_worker_deploy, production_public_verify, production_save_transition_reproduce, production_save_transition_verify, production_live_zero_dollar_order]
         default: ephemeral
       preview_hostname:
         description: "Exact existing Vercel Preview hostname to REUSE; supplying it forbids creating another deployment"
@@ -78,6 +78,16 @@ on:
         description: "Integration-branch commit carrying the F1 orchestration scripts (must be image-input-equivalent to the freeze)"
         required: true
         type: string
+      clinic_resume_authorization:
+        description: "Required for hosted_clinic_resume: exact owner resume authorization identifier"
+        required: false
+        type: string
+        default: ""
+      clinic_session_closure_authorization:
+        description: "Required for hosted_clinic_resume: exact lost-cookie session closure authorization identifier"
+        required: false
+        type: string
+        default: ""
 
 permissions:
   contents: read
@@ -89,14 +99,10 @@ concurrency:
   cancel-in-progress: false
 
 env:
-  # The accepted worker tuple, rebound 2026-09-22 to the image published from
-  # the Grade-A application freeze 8eb8ddc9d by run 35750246888 and proved
-  # against the registry by read-only image acceptance run 35751543666. For
-  # this release the worker source and the application are the same commit.
-  # Superseded: 117b469c4 / sha256:9faa24e8…, retired because the freeze moved
-  # 37 canonical worker inputs past it; and before it c88f10341 / sha256:df6c2965…
-  AUTHORIZED_WORKER_SOURCE_SHA: 6ebacdcde8afdf8aa706f16b38e0646babcbdc49
-  AUTHORIZED_WORKER_DIGEST: sha256:74b82e11aac7fa1f850ca52ba1344ca7853fa09120374a83ddb5bbc019f8cdd7
+  # Accepted successor: publication 36219916209, read-only image acceptance
+  # 36247303667. Application and worker source share the exact af638b61 freeze.
+  AUTHORIZED_WORKER_SOURCE_SHA: af638b61cc4b74afad972fa79c4c1ca3f6709540
+  AUTHORIZED_WORKER_DIGEST: sha256:063901962bedf73adedb8a7566da2434539082bd1577051e98e4303c566bb3a5
   IMAGE_REPOSITORY: ghcr.io/roger-legalease/rcap-render-worker
   CANONICAL_INTEGRATION_BRANCH: captain-release
   STAGING_ENVIRONMENT_NAME: rcap-acceptance
@@ -351,7 +357,7 @@ jobs:
     if: startsWith(inputs.mode, 'hosted_')
     uses: ./.github/workflows/rcap-hosted-acceptance-staging.yml
     with:
-      phase: ${{ inputs.mode == 'hosted_clinic_deploy' && 'clinic_deploy' || inputs.mode == 'hosted_clinic_preview' && 'clinic_preview' || (inputs.mode == 'hosted_legal_aid_browser' && 'legal_aid_browser' || (inputs.mode == 'hosted_full' && 'full' || (inputs.mode == 'hosted_worker_contract' && 'worker_contract' || (inputs.mode == 'hosted_payment' && 'payment' || (inputs.mode == 'hosted_browser' && 'browser' || (inputs.mode == 'hosted_checkout_gate' && 'checkout_gate' || (inputs.mode == 'hosted_stripe_retarget' && 'stripe_retarget' || (inputs.mode == 'hosted_accept' && 'accept' || (inputs.mode == 'hosted_replace_preview' && 'replace_preview' || (inputs.mode == 'hosted_deploy' && 'deploy' || (inputs.mode == 'hosted_clinic_migrate' && 'clinic_migrate' || (inputs.mode == 'hosted_legal_aid_migrate' && 'legal_aid_migrate' || (inputs.mode == 'hosted_migrate' && 'migrate' || (inputs.mode == 'hosted_vercel_audit' && 'vercel_audit' || (inputs.mode == 'hosted_vercel_identity' && 'vercel_identity' || 'preflight'))))))))))))))) }}
+      phase: ${{ inputs.mode == 'hosted_clinic_resume' && 'clinic_resume' || inputs.mode == 'hosted_clinic_deploy' && 'clinic_deploy' || inputs.mode == 'hosted_clinic_preview' && 'clinic_preview' || (inputs.mode == 'hosted_legal_aid_browser' && 'legal_aid_browser' || (inputs.mode == 'hosted_full' && 'full' || (inputs.mode == 'hosted_worker_contract' && 'worker_contract' || (inputs.mode == 'hosted_payment' && 'payment' || (inputs.mode == 'hosted_browser' && 'browser' || (inputs.mode == 'hosted_checkout_gate' && 'checkout_gate' || (inputs.mode == 'hosted_stripe_retarget' && 'stripe_retarget' || (inputs.mode == 'hosted_accept' && 'accept' || (inputs.mode == 'hosted_replace_preview' && 'replace_preview' || (inputs.mode == 'hosted_deploy' && 'deploy' || (inputs.mode == 'hosted_clinic_migrate' && 'clinic_migrate' || (inputs.mode == 'hosted_legal_aid_migrate' && 'legal_aid_migrate' || (inputs.mode == 'hosted_migrate' && 'migrate' || (inputs.mode == 'hosted_vercel_audit' && 'vercel_audit' || (inputs.mode == 'hosted_vercel_identity' && 'vercel_identity' || 'preflight'))))))))))))))) }}
       preview_hostname: ${{ inputs.preview_hostname }}
       preview_deployment_id: ${{ inputs.preview_deployment_id }}
       contradiction_job_id: ${{ inputs.contradiction_job_id }}
@@ -362,6 +368,8 @@ jobs:
       worker_digest: ${{ inputs.worker_digest }}
       tools_sha: ${{ inputs.tools_sha }}
       supabase_project_ref: ${{ inputs.supabase_project_ref }}
+      clinic_resume_authorization: ${{ inputs.clinic_resume_authorization }}
+      clinic_session_closure_authorization: ${{ inputs.clinic_session_closure_authorization }}
     secrets:
       VERCEL_TOKEN: ${{ (inputs.mode == 'hosted_migrate' || inputs.mode == 'hosted_legal_aid_migrate') && 'not-used-in-supabase-only' || secrets.VERCEL_TOKEN }}
       SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}

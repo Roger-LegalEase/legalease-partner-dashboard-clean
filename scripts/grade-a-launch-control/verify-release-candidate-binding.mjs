@@ -1,4 +1,4 @@
-import {verifyPendingWorkerSuccessor} from './verify-pending-worker-successor.mjs';
+import {verifyPendingWorkerSuccessor,verifySuccessorPublication,assertSuccessorImageAcceptance} from './verify-pending-worker-successor.mjs';
 import { execFileSync } from 'node:child_process';
 import fs from 'node:fs';
 import { createHash } from 'node:crypto';
@@ -58,6 +58,7 @@ export function imageAcceptanceRefusals(publication, candidate) {
 // match that candidate. Only explicitly named acceptance evidence may follow it.
 export function verifyReleaseCandidateBinding(root, candidate, receiptPaths = []) {
   const pending = verifyPendingWorkerSuccessor(root);
+  if (pending?.current === true && pending.status === 'SUCCESSOR_ACCEPTED_PREVIEW_AND_RESUME_PENDING') return verifyAcceptedSuccessorBinding(root,candidate,pending);
   if (pending) return pending;
   if (!candidate) return { current: false, status: 'NOT_FROZEN', reasons: ['No release candidate binding exists.'] };
   // A product repair can be exactly frozen without yet having a published or
@@ -519,4 +520,51 @@ export function runReleaseCandidateBindingCli(root = process.cwd(), out = consol
 
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
   process.exit(runReleaseCandidateBindingCli());
+}
+
+
+// The accepted successor has one evidence/tools commit after its publication
+// binding. Exact content hashes solve the one-commit self-SHA problem without
+// granting an arbitrary later tools overlay or changing the application source.
+export function verifyAcceptedSuccessorBinding(root,candidate,pending=verifyPendingWorkerSuccessor(root)) {
+ try {
+  const git=args=>execFileSync('git',args,{cwd:root,encoding:'utf8',stdio:'pipe'}).trim();
+  const read=rel=>JSON.parse(fs.readFileSync(path.join(root,rel)));
+  const toolingPath='data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json';
+  const binding=read(toolingPath),t=binding.successorTools;
+  if(!pending?.current)throw new Error('Accepted successor required');
+  const fail=(ok,msg)=>{if(!ok)throw new Error(msg);};
+  const base='c5942743b657b6a17165b72a308efd1cabc2d90e';
+  fail(t?.schemaVersion==='rcap-successor-resume-tools/v1'&&t.baseSha===base&&binding.toolsSha===base&&t.commit==='single-commit-after-base','Exact successor tools base required');
+  const head=git(['rev-parse','HEAD']);
+  if(head!==base)fail(git(['rev-parse',`${head}^`])===base&&git(['rev-list','--parents','-n','1',head]).split(' ').length===2,'One non-merge successor tools commit required');
+  for(const key of ['applicationSha','workerSourceSha','workerDigest','workerInputFingerprint','runtimeAccepted','workerRebuildRequired']){
+   fail(candidate?.[key]===pending[key]&&binding[key]===pending[key],`Accepted tuple mismatch: ${key}`);
+  }
+  for(const k of ['productionAuthorized','deploymentAuthorized','migrationReplayAuthorized','housekeepingReplayAuthorized','additionalWorkerPublicationAuthorized','imageAcceptanceRerunAuthorized','hostedFullReady','clinicDispatchReady'])fail(binding[k]===false,`Tools cannot authorize ${k}`);
+  fail(binding.previewExecution==='held'&&candidate.previewExecution==='held'&&candidate.productionAuthorized===false&&candidate.productionAuthorization===null,'Execution remains held');
+  fail(candidate.status===pending.status&&candidate.hostedAcceptanceStatus===pending.status&&binding.status===pending.status,'Accepted Preview-pending state required');
+  fail(candidate.hostedAcceptance?.preview===null&&candidate.hostedAcceptance?.naturalDelivery===null&&candidate.hostedAcceptance?.manualHostedFullReady===false&&candidate.hostedAcceptance?.journeys?.length===0,'No successor hosted acceptance yet');
+  const e=read('data/rcap-render/worker-publication-evidence.json');assertSuccessorImageAcceptance(root,e);
+  fail(imageAcceptanceRefusals(e,candidate).length===0,'Native image acceptance mismatch');
+  fail(JSON.stringify(candidate.readOnlyImageAcceptance)===JSON.stringify(e.imageAcceptance),'Candidate must bind complete native acceptance');
+  fail(candidate.publication?.runId===e.workflowRunId&&candidate.publication?.artifactId===e.publicationArtifactId&&candidate.publication?.artifactSha256===e.publicationArtifactSha256&&candidate.publication?.conclusion==='success','Publication binding mismatch');
+  fail(candidate.workerDigestReference===e.digestPinnedReference,'Digest reference mismatch');
+  for(const [rel,hash] of Object.entries(t.files??{})){
+   fail(/^[0-9a-f]{64}$/.test(hash),'Exact tools content hash required');
+   fail(createHash('sha256').update(fs.readFileSync(path.join(root,rel))).digest('hex')===hash,`Successor tools drift: ${rel}`);
+  }
+  const delta=git(['diff','--name-only',base]).split('\n').filter(Boolean);
+  const untracked=git(['ls-files','--others','--exclude-standard']).split('\n').filter(Boolean);
+  // Native evidence may be ignored until explicitly staged during preparation.
+  const all=new Set([...delta,...untracked,...Object.keys(t.files??{})]);all.delete(toolingPath);
+  fail(JSON.stringify([...all].sort())===JSON.stringify(Object.keys(t.files??{}).sort()),'Undeclared successor tools changes');
+  if(head!==base)fail(JSON.stringify(delta.filter(p=>p!==toolingPath).sort())===JSON.stringify(Object.keys(t.files??{}).sort()),'Exact committed successor change set required');
+  for(const rel of [toolingPath,CANDIDATE_PATH]){
+   const historical=JSON.parse(git(['show',`${base}:${rel}`]));
+   fail(JSON.stringify(read(rel).supersededRecord)===JSON.stringify(historical),`Historical binding changed: ${rel}`);
+  }
+  fail(verifySuccessorPublication(root).current===true,'Canonical worker inputs or publication drift');
+  return {current:true,status:'CURRENT',hostedAcceptanceStatus:pending.status,previewExecution:'held',productionAuthorized:false,reasons:[]};
+ }catch(error){return {current:false,status:'STALE_OR_UNVERIFIED',reasons:[error.message]};}
 }

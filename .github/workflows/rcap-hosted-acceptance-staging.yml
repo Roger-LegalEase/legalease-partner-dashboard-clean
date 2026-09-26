@@ -28,7 +28,7 @@ on:
   workflow_call:
     inputs:
       phase:
-        description: "preflight, vercel_identity, vercel_audit, migrate, clinic_migrate, legal_aid_migrate, clinic_deploy, clinic_preview, legal_aid_browser, deploy, replace_preview, accept, stripe_retarget, checkout_gate, browser, payment, or full"
+        description: "preflight, vercel_identity, vercel_audit, migrate, clinic_migrate, legal_aid_migrate, clinic_deploy, clinic_preview, clinic_resume, legal_aid_browser, deploy, replace_preview, accept, stripe_retarget, checkout_gate, browser, payment, or full"
         required: true
         type: string
       preview_deployment_id:
@@ -76,6 +76,16 @@ on:
         description: "Acceptance Supabase project ref (must equal the authorized value)"
         required: true
         type: string
+      clinic_resume_authorization:
+        description: "Required for hosted_clinic_resume: exact owner resume authorization identifier"
+        required: false
+        type: string
+        default: ""
+      clinic_session_closure_authorization:
+        description: "Required for hosted_clinic_resume: exact lost-cookie session closure authorization identifier"
+        required: false
+        type: string
+        default: ""
     secrets:
       VERCEL_TOKEN:
         required: false
@@ -115,8 +125,8 @@ permissions:
   packages: read
 
 env:
-  AUTHORIZED_WORKER_SOURCE_SHA: 6ebacdcde8afdf8aa706f16b38e0646babcbdc49
-  AUTHORIZED_WORKER_DIGEST: sha256:74b82e11aac7fa1f850ca52ba1344ca7853fa09120374a83ddb5bbc019f8cdd7
+  AUTHORIZED_WORKER_SOURCE_SHA: af638b61cc4b74afad972fa79c4c1ca3f6709540
+  AUTHORIZED_WORKER_DIGEST: sha256:063901962bedf73adedb8a7566da2434539082bd1577051e98e4303c566bb3a5
   AUTHORIZED_ACCEPTANCE_PROJECT_REF: hyflxnlhpmiqxvvcoiia
   IMAGE_REPOSITORY: ghcr.io/roger-legalease/rcap-render-worker
   RELEASE_INTEGRATION_BRANCH: captain-release
@@ -147,6 +157,8 @@ jobs:
     steps:
       - name: Refuse any input that is not the authorized pinned value
         env:
+          CLINIC_RESUME_AUTHORIZATION: ${{ inputs.clinic_resume_authorization }}
+          CLINIC_SESSION_CLOSURE_AUTHORIZATION: ${{ inputs.clinic_session_closure_authorization }}
           PHASE_INPUT: ${{ inputs.phase }}
           PREVIEW_DEPLOYMENT_ID_INPUT: ${{ inputs.preview_deployment_id }}
           PREVIEW_HOSTNAME_INPUT: ${{ inputs.preview_hostname }}
@@ -158,6 +170,13 @@ jobs:
           SUPABASE_PROJECT_REF_INPUT: ${{ inputs.supabase_project_ref }}
         run: |
           set -euo pipefail
+          if [ "$PHASE_INPUT" = "clinic_resume" ]; then
+            [ "$CLINIC_RESUME_AUTHORIZATION" = "Roger:clinic-resume:36211668984:explicit-download-and-device-reset" ] || exit 1
+            [ "$CLINIC_SESSION_CLOSURE_AUTHORIZATION" = "Roger:clinic-resume:36211668984:close-exact-lost-cookie-session" ] || exit 1
+            if [ -n "$PREVIEW_HOSTNAME_INPUT" ] || [ -n "$PREVIEW_DEPLOYMENT_ID_INPUT" ]; then
+              test -n "$PREVIEW_HOSTNAME_INPUT" && test -n "$PREVIEW_DEPLOYMENT_ID_INPUT" || exit 1
+            fi
+          fi
           printf '%s' "$APPLICATION_SHA_INPUT" | grep -Eq '^[0-9a-f]{40}$' || { echo "::error::application_sha must be a full commit SHA"; exit 1; }
           [ "$WORKER_SOURCE_SHA_INPUT" = "$AUTHORIZED_WORKER_SOURCE_SHA" ] || { echo "::error::worker_source_sha is not the authorized value"; exit 1; }
           [ "$WORKER_DIGEST_INPUT" = "$AUTHORIZED_WORKER_DIGEST" ] || { echo "::error::worker_digest is not the authorized value"; exit 1; }
@@ -235,6 +254,7 @@ jobs:
           git checkout --detach "${{ inputs.tools_sha }}"
 
       - name: Require the current release tuple
+        id: release_binding
         env:
           APPLICATION_SHA_INPUT: ${{ inputs.application_sha }}
           WORKER_SOURCE_SHA_INPUT: ${{ inputs.worker_source_sha }}
@@ -427,8 +447,10 @@ jobs:
         run: |
           set -euo pipefail
           PHASE='${{ inputs.phase }}'
+          RESUME=false
           case "$PHASE" in
             full)            DEPLOY=true;  MATRIX=true;  GATE=true;  RETARGET=false; BROWSER=false; CLINIC=false; LEGAL_AID=false ;;
+            clinic_resume)   DEPLOY=true; MATRIX=false; GATE=false; RETARGET=false; BROWSER=false; CLINIC=false; LEGAL_AID=false; RESUME=true ;;
             clinic_deploy)   DEPLOY=true;  MATRIX=false; GATE=false; RETARGET=false; BROWSER=false; CLINIC=false; LEGAL_AID=false ;;
             clinic_preview)  DEPLOY=true;  MATRIX=false; GATE=false; RETARGET=false; BROWSER=false; CLINIC=true;  LEGAL_AID=false ;;
             legal_aid_browser) DEPLOY=true; MATRIX=false; GATE=false; RETARGET=false; BROWSER=false; CLINIC=true;  LEGAL_AID=true  ;;
@@ -445,6 +467,15 @@ jobs:
               exit 1
               ;;
           esac
+          if [ "$PHASE" = "clinic_resume" ]; then
+            test -z '${{ inputs.promotion_code }}'
+            test -z '${{ inputs.journey_state }}'
+            test -z '${{ inputs.contradiction_job_id }}'
+            if [ -n '${{ inputs.preview_hostname }}' ] || [ -n '${{ inputs.preview_deployment_id }}' ]; then
+              test -n '${{ inputs.preview_hostname }}' && test -n '${{ inputs.preview_deployment_id }}' || exit 1
+              DEPLOY=false
+            fi
+          fi
           if [ "$PHASE" = "clinic_deploy" ]; then
             test -z '${{ inputs.preview_deployment_id }}'
             test -z '${{ inputs.preview_hostname }}'
@@ -465,6 +496,7 @@ jobs:
             echo "retarget=$RETARGET"
             echo "browser=$BROWSER"
             echo "clinic=$CLINIC"
+            echo "resume=$RESUME"
             echo "legal_aid=$LEGAL_AID"
             # A read-only diagnosis phase: no Preview, no Checkout, no payment,
             # but it does need the registry to probe inside the published image.
@@ -473,7 +505,7 @@ jobs:
             # delivery — needs an OPEN, identity-narrowed delivery route. Derived
             # from the same decision rather than written out again, so it cannot
             # drift away from which steps actually run.
-            if [ "$MATRIX" = "true" ] || [ "$GATE" = "true" ] || [ "$BROWSER" = "true" ] || [ "$CLINIC" = "true" ] || [ "$PHASE" = "replace_preview" ] || [ "$PHASE" = "clinic_deploy" ]; then
+            if [ "$MATRIX" = "true" ] || [ "$GATE" = "true" ] || [ "$BROWSER" = "true" ] || [ "$CLINIC" = "true" ] || [ "$PHASE" = "replace_preview" ] || [ "$PHASE" = "clinic_deploy" ] || [ "$RESUME" = "true" ]; then
               echo "require_staging_scoped=true"
             else
               echo "require_staging_scoped=false"
@@ -509,7 +541,7 @@ jobs:
       # parser, so frozen dependencies must exist before this verifier runs.
       - name: Install frozen application dependencies for the Checkout gate
         id: gate_deps
-        if: inputs.phase == 'clinic_deploy' || steps.contract.outputs.matrix == 'true' || steps.contract.outputs.gate == 'true' || steps.contract.outputs.diagnose == 'true' || steps.contract.outputs.browser == 'true' || steps.contract.outputs.clinic == 'true'
+        if: inputs.phase == 'clinic_resume' || inputs.phase == 'clinic_deploy' || steps.contract.outputs.matrix == 'true' || steps.contract.outputs.gate == 'true' || steps.contract.outputs.diagnose == 'true' || steps.contract.outputs.browser == 'true' || steps.contract.outputs.clinic == 'true'
         run: npm ci
 
       - name: Verify the bounded MVL Clinic Preview orchestration contract
@@ -533,7 +565,7 @@ jobs:
       # also enforced. Test setup, not an application discount system.
       - name: Ensure the sandbox Stripe catalog fixtures
         id: stripe_fixtures
-        if: inputs.phase != 'clinic_deploy' && inputs.phase != 'replace_preview' && (steps.contract.outputs.deploy == 'true' || steps.contract.outputs.matrix == 'true' || steps.contract.outputs.gate == 'true' || steps.contract.outputs.browser == 'true')
+        if: inputs.phase != 'clinic_resume' && inputs.phase != 'clinic_deploy' && inputs.phase != 'replace_preview' && (steps.contract.outputs.deploy == 'true' || steps.contract.outputs.matrix == 'true' || steps.contract.outputs.gate == 'true' || steps.contract.outputs.browser == 'true')
         env:
           HOSTED_STRIPE_TEST_SECRET: ${{ secrets.HOSTED_STRIPE_TEST_SECRET }}
         run: node scripts/rcap-hosted-acceptance-stripe-fixtures.mjs
@@ -582,10 +614,20 @@ jobs:
       # A supplied-but-mismatching candidate REFUSES. Deploying a fresh Preview
       # in that case looks like resilience and is actually the loss of the
       # operator's instruction to test one specific deployment.
+      - name: Read the exact existing Clinic resume namespace before Preview resolution
+        id: resume_inventory
+        if: steps.contract.outputs.resume == 'true'
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
+        run: |
+          mkdir -p hosted-acceptance-evidence/clinic-resume
+          node scripts/rcap-hosted-clinic-resume.mjs --project "$ACCEPTANCE_SUPABASE_PROJECT_REF" > hosted-acceptance-evidence/clinic-resume/read-only-inventory.json
+
       - name: Resolve the Preview this run will use
         id: resolve_preview
         # The isolated deployer performs its own exhaustive search and before/after readback.
-        if: inputs.phase != 'clinic_deploy' && (steps.contract.outputs.deploy == 'true' || steps.contract.outputs.matrix == 'true' || steps.contract.outputs.gate == 'true' || steps.contract.outputs.browser == 'true' || steps.contract.outputs.clinic == 'true')
+        if: (inputs.phase != 'clinic_resume' || steps.resume_inventory.outcome == 'success') && inputs.phase != 'clinic_deploy' && (steps.contract.outputs.resume == 'true' || steps.contract.outputs.deploy == 'true' || steps.contract.outputs.matrix == 'true' || steps.contract.outputs.gate == 'true' || steps.contract.outputs.browser == 'true' || steps.contract.outputs.clinic == 'true')
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
@@ -593,32 +635,32 @@ jobs:
           # The resolver reads the CANDIDATE from the inputs. Everything
           # downstream reads the RESOLVED identity from this step's outputs.
           HOSTED_PREVIEW_HOSTNAME: ${{ inputs.preview_hostname }}
-          HOSTED_ISOLATED_CLINIC_PREVIEW: ${{ inputs.phase == 'clinic_preview' && 'true' || 'false' }}
+          HOSTED_ISOLATED_CLINIC_PREVIEW: ${{ (inputs.phase == 'clinic_preview' || inputs.phase == 'clinic_resume') && 'true' || 'false' }}
           HOSTED_PREVIEW_DEPLOYMENT_ID: ${{ inputs.preview_deployment_id }}
           HOSTED_APPLICATION_SHA: ${{ inputs.application_sha }}
           ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
-          HOSTED_STRIPE_CATALOG_PRODUCT_ID: ${{ steps.contract.outputs.clinic != 'true' && (steps.preview_catalog.outputs.product_id || steps.stripe_fixtures.outputs.product_id) || '' }}
+          HOSTED_STRIPE_CATALOG_PRODUCT_ID: ${{ steps.contract.outputs.resume != 'true' && steps.contract.outputs.clinic != 'true' && (steps.preview_catalog.outputs.product_id || steps.stripe_fixtures.outputs.product_id) || '' }}
           HOSTED_REQUIRE_STAGING_SCOPED: ${{ steps.contract.outputs.require_staging_scoped }}
-          HOSTED_CLINIC_DEMO_MODE: ${{ steps.contract.outputs.clinic == 'true' && 'mississippi_preview' || '' }}
+          HOSTED_CLINIC_DEMO_MODE: ${{ (steps.contract.outputs.clinic == 'true' || steps.contract.outputs.resume == 'true') && 'mississippi_preview' || '' }}
         run: node scripts/rcap-hosted-resolve-preview.mjs
 
       - name: Deploy the frozen application SHA to Vercel Preview
         id: deploy_preview
         # Suppressed entirely when the resolver reused an exact READY Preview:
         # reuse means no Vercel deployment command runs at all.
-        if: inputs.phase != 'clinic_preview' && steps.contract.outputs.deploy == 'true' && steps.resolve_preview.outputs.reused != 'true'
+        if: (inputs.phase != 'clinic_resume' || steps.resume_inventory.outcome == 'success') && inputs.phase != 'clinic_preview' && steps.contract.outputs.deploy == 'true' && steps.resolve_preview.outputs.reused != 'true'
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
           ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
           HOSTED_APPLICATION_SHA: ${{ inputs.application_sha }}
-          HOSTED_ISOLATED_CLINIC_PREVIEW: ${{ inputs.phase == 'clinic_deploy' && 'true' || 'false' }}
-          HOSTED_STRIPE_TEST_SECRET: ${{ steps.contract.outputs.clinic != 'true' && inputs.phase != 'clinic_deploy' && secrets.HOSTED_STRIPE_TEST_SECRET || '' }}
-          HOSTED_STRIPE_TEST_WEBHOOK_SECRET: ${{ steps.contract.outputs.clinic != 'true' && inputs.phase != 'clinic_deploy' && secrets.HOSTED_STRIPE_TEST_WEBHOOK_SECRET || '' }}
+          HOSTED_ISOLATED_CLINIC_PREVIEW: ${{ (inputs.phase == 'clinic_deploy' || inputs.phase == 'clinic_resume') && 'true' || 'false' }}
+          HOSTED_STRIPE_TEST_SECRET: ${{ steps.contract.outputs.resume != 'true' && steps.contract.outputs.clinic != 'true' && inputs.phase != 'clinic_deploy' && secrets.HOSTED_STRIPE_TEST_SECRET || '' }}
+          HOSTED_STRIPE_TEST_WEBHOOK_SECRET: ${{ steps.contract.outputs.resume != 'true' && steps.contract.outputs.clinic != 'true' && inputs.phase != 'clinic_deploy' && secrets.HOSTED_STRIPE_TEST_WEBHOOK_SECRET || '' }}
           # Baked into the deployment, so a Preview that sells the inline
           # fallback is a different deployment and is never reused for a run
           # that is proving the catalog path.
-          HOSTED_STRIPE_CATALOG_PRODUCT_ID: ${{ steps.contract.outputs.clinic != 'true' && inputs.phase != 'clinic_deploy' && (steps.preview_catalog.outputs.product_id || steps.stripe_fixtures.outputs.product_id) || '' }}
+          HOSTED_STRIPE_CATALOG_PRODUCT_ID: ${{ steps.contract.outputs.resume != 'true' && steps.contract.outputs.clinic != 'true' && inputs.phase != 'clinic_deploy' && (steps.preview_catalog.outputs.product_id || steps.stripe_fixtures.outputs.product_id) || '' }}
           VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
           # Every phase whose normalized contract transacts opens the route only
           # to the named synthetic identity the deploy resolves. Nontransacting
@@ -626,8 +668,8 @@ jobs:
           HOSTED_ROUTE_STATE: ${{ steps.contract.outputs.require_staging_scoped == 'true' && 'staging_scoped' || '' }}
           # The authorized replacement Preview reuses the existing #345 owner.
           # A missing identity is a refusal; this phase cannot create Auth users.
-          HOSTED_EXISTING_PARTICIPANT_ONLY: ${{ (inputs.phase == 'replace_preview' || inputs.phase == 'clinic_deploy') && 'true' || 'false' }}
-          HOSTED_CLINIC_DEMO_MODE: ${{ (steps.contract.outputs.clinic == 'true' || inputs.phase == 'clinic_deploy') && 'mississippi_preview' || '' }}
+          HOSTED_EXISTING_PARTICIPANT_ONLY: ${{ (inputs.phase == 'replace_preview' || inputs.phase == 'clinic_deploy' || inputs.phase == 'clinic_resume') && 'true' || 'false' }}
+          HOSTED_CLINIC_DEMO_MODE: ${{ (steps.contract.outputs.clinic == 'true' || inputs.phase == 'clinic_deploy' || inputs.phase == 'clinic_resume') && 'mississippi_preview' || '' }}
           HOSTED_CLINIC_DEMO_PASSWORD: ${{ secrets.HOSTED_CLINIC_DEMO_PASSWORD }}
           HOSTED_PREVIOUS_WEBHOOK_HOST: ${{ env.PREVIOUS_STRIPE_WEBHOOK_HOST }}
           # Legal Aid browser phase only, and only when both are configured:
@@ -650,7 +692,7 @@ jobs:
           HOSTED_PREVIEW_DEPLOYMENT_ID: ${{ steps.resolve_preview.outputs.deployment_id || steps.deploy_preview.outputs.deployment_id }}
           HOSTED_PREVIEW_HOSTNAME: ${{ steps.resolve_preview.outputs.hostname || steps.deploy_preview.outputs.hostname }}
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-          HOSTED_CLINIC_DEMO_MODE: ${{ steps.contract.outputs.clinic == 'true' && 'mississippi_preview' || '' }}
+          HOSTED_CLINIC_DEMO_MODE: ${{ (steps.contract.outputs.clinic == 'true' || steps.contract.outputs.resume == 'true') && 'mississippi_preview' || '' }}
           HOSTED_CLINIC_DEMO_PASSWORD: ${{ secrets.HOSTED_CLINIC_DEMO_PASSWORD }}
         run: node scripts/rcap-hosted-acceptance-auth-config.mjs
 
@@ -686,8 +728,27 @@ jobs:
       # no-op when the runner image already carries the binary.
       - name: Install the browser the Checkout journey drives
         id: checkout_browser
-        if: steps.contract.outputs.matrix == 'true' || steps.contract.outputs.browser == 'true' || steps.contract.outputs.clinic == 'true'
+        if: steps.contract.outputs.resume == 'true' || steps.contract.outputs.matrix == 'true' || steps.contract.outputs.browser == 'true' || steps.contract.outputs.clinic == 'true'
         run: npx playwright install chromium
+
+      - name: Resume only the existing delivered Clinic packet and reset the exact session
+        id: clinic_resume
+        if: steps.contract.outputs.resume == 'true' && steps.resume_inventory.outcome == 'success' && steps.checkout_browser.outcome == 'success' && steps.resolve_preview.outcome == 'success' && (steps.resolve_preview.outputs.reused == 'true' || steps.deploy_preview.outcome == 'success')
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
+          CLINIC_RESUME_AUTHORIZATION: ${{ inputs.clinic_resume_authorization }}
+          CLINIC_SESSION_CLOSURE_AUTHORIZATION: ${{ inputs.clinic_session_closure_authorization }}
+          RCAP_BROWSER_BASE_URL: https://${{ steps.resolve_preview.outputs.hostname || steps.deploy_preview.outputs.hostname }}
+          RCAP_BROWSER_PREVIEW_DEPLOYMENT_ID: ${{ steps.resolve_preview.outputs.deployment_id || steps.deploy_preview.outputs.deployment_id }}
+          RCAP_BROWSER_APPLICATION_SHA: ${{ inputs.application_sha }}
+          RCAP_BROWSER_WORKER_DIGEST: ${{ inputs.worker_digest }}
+          RCAP_BROWSER_VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          RCAP_BROWSER_VERCEL_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
+          HOSTED_CLINIC_DEMO_PASSWORD: ${{ secrets.HOSTED_CLINIC_DEMO_PASSWORD }}
+          RCAP_BROWSER_EVIDENCE_DIR: hosted-acceptance-evidence/clinic-resume
+        run: |
+          node scripts/rcap-hosted-clinic-resume.mjs --project "$ACCEPTANCE_SUPABASE_PROJECT_REF" --execute --owner-authorization "$CLINIC_RESUME_AUTHORIZATION" --session-closure-authorization "$CLINIC_SESSION_CLOSURE_AUTHORIZATION"
 
       - name: Seed only the bounded synthetic MVL Clinic cohort
         id: clinic_seed
@@ -945,10 +1006,27 @@ jobs:
       # `always()` so the gate itself cannot be skipped by an earlier failure,
       # and it asserts outcomes explicitly — `skipped`, `cancelled`, `failure`
       # and an absent id all fail. Only `success` passes.
+      - name: Upload the bounded Clinic resume evidence
+        id: resume_evidence
+        if: always() && inputs.phase == 'clinic_resume'
+        uses: actions/upload-artifact@v4
+        with:
+          name: rcap-hosted-clinic_resume-${{ github.run_id }}
+          path: |
+            hosted-acceptance-evidence/clinic-resume/
+            hosted-acceptance-evidence/deploy.json
+            hosted-acceptance-evidence/preview-resolution.json
+          if-no-files-found: error
+
       - name: Every required matrix step actually ran
         id: antiskip
         if: always()
         env:
+          O_RELEASE_BINDING: ${{ steps.release_binding.outcome }}
+          O_RESUME_INVENTORY: ${{ steps.resume_inventory.outcome }}
+          O_RESUME_BROWSER: ${{ steps.checkout_browser.outcome }}
+          O_RESUME: ${{ steps.clinic_resume.outcome }}
+          O_RESUME_EVIDENCE: ${{ steps.resume_evidence.outcome }}
           PHASE: ${{ inputs.phase }}
           O_CONTRACT: ${{ steps.contract.outcome }}
           O_VERCEL_IDENTITY: ${{ steps.vercel_identity.outcome }}
@@ -1022,7 +1100,26 @@ jobs:
           if [ "$PHASE" = "vercel_identity" ]; then
             require "scoped Vercel identity read" "$O_VERCEL_IDENTITY"
           fi
-          if [ "$RUNS_CLINIC" = "true" ]; then
+          if [ "$PHASE" = "clinic_resume" ]; then
+            require "current accepted release binding" "$O_RELEASE_BINDING"
+            require "read-only exact resume inventory" "$O_RESUME_INVENTORY"
+            require "successor Preview resolution" "$O_RESOLVE"
+            if [ "$O_REUSED" = "true" ]; then
+              [ "$O_DEPLOY" = "skipped" ] || fail=1
+            elif [ "$O_REUSED" = "false" ]; then
+              require "one successor Preview deployment" "$O_DEPLOY"
+            else
+              fail=1
+            fi
+            require "frozen dependencies" "$O_DEPS"
+            require "browser installation" "$O_RESUME_BROWSER"
+            require "bounded Clinic resume" "$O_RESUME"
+            require "resume evidence upload" "$O_RESUME_EVIDENCE"
+            [ "$RUNS_MATRIX/$RUNS_GATE/$RUNS_BROWSER/$RUNS_CLINIC/$RUNS_LEGAL_AID/$RUNS_DIAGNOSE" = "false/false/false/false/false/false" ] || fail=1
+            for outcome in "$O_AUTH" "$O_CLINIC_SEED" "$O_CLINIC_JOURNEY" "$O_CLINIC_AUDIT" "$O_CLINIC_DATABASE" "$O_REGISTRY" "$O_BUILD" "$O_GATE" "$O_PAYMENT" "$O_GOLDEN" "$O_STRIPE_FIXTURES" "$O_STRIPE_RETARGET" "$O_CLINIC_MIGRATE" "$O_LEGAL_AID_MIGRATE" "$O_LEGAL_AID_SEED" "$O_LEGAL_AID_BROWSER"; do
+              [ "$outcome" = "skipped" ] || fail=1
+            done
+          elif [ "$RUNS_CLINIC" = "true" ]; then
             require "Clinic Preview orchestration contract" "$O_VERIFY_CLINIC_PREVIEW"
             require "Preview resolution boundary" "$O_RESOLVE"
             if [ "$O_REUSED" != "true" ]; then
@@ -1217,7 +1314,7 @@ jobs:
           fi
 
       - name: Upload the hosted acceptance evidence
-        if: always()
+        if: always() && inputs.phase != 'clinic_resume'
         uses: actions/upload-artifact@v4
         with:
           name: rcap-hosted-${{ inputs.phase }}-${{ github.run_id }}
