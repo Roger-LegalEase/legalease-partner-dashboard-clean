@@ -535,11 +535,22 @@ export function verifyAcceptedSuccessorBinding(root,candidate,pending=verifyPend
   if(!pending?.current)throw new Error('Accepted successor required');
   const fail=(ok,msg)=>{if(!ok)throw new Error(msg);};
   const base='c5942743b657b6a17165b72a308efd1cabc2d90e';
-  fail(t?.schemaVersion==='rcap-successor-resume-tools/v1'&&t.baseSha===base&&binding.toolsSha===(t.networkCorrectionBaseSha??t.correctionBaseSha??base)&&t.commit==='single-commit-after-base','Exact successor tools base required');
+  fail(t?.schemaVersion==='rcap-successor-resume-tools/v1'&&t.baseSha===base&&binding.toolsSha===(t.checkpointCorrectionBaseSha??t.networkCorrectionBaseSha??t.correctionBaseSha??base)&&t.commit==='single-commit-after-base','Exact successor tools base required');
   const correctionBase='77fa4c372278b722fd87f9cc4fec26fa560a0975';
   const networkBase='100377462ab83508be1d202472e42313a35bdfa2';
-  const commitBase=t.networkCorrectionBaseSha??t.correctionBaseSha??base;
-  if(t.networkCorrectionBaseSha){
+  const checkpointBase='1d47f0238670c36523ff9d7014126966b31aecde';
+  const commitBase=t.checkpointCorrectionBaseSha??t.networkCorrectionBaseSha??t.correctionBaseSha??base;
+  if(t.checkpointCorrectionBaseSha){
+   fail(t.checkpointCorrectionBaseSha===checkpointBase&&t.networkCorrectionBaseSha===networkBase&&t.correctionBaseSha===correctionBase,'Exact third tools correction base required');
+   const permitted=[toolingPath,'.github/workflows/rcap-hosted-acceptance-staging.yml','scripts/rcap-hosted-clinic-resume.mjs','scripts/rcap-clinic-resume-contract.mjs','scripts/rcap-clinic-resume-contract.test.mjs','scripts/rcap-clinic-resume-queue-privacy.test.mjs','scripts/rcap-clinic-resume-workflow.test.mjs','scripts/grade-a-launch-control/verify-release-candidate-binding.mjs','scripts/grade-a-launch-control/accepted-successor-binding.test.mjs'];
+   const changes=[...git(['diff','--name-only',checkpointBase]).split('\n'),...git(['ls-files','--others','--exclude-standard']).split('\n')].filter(Boolean);
+   fail(changes.every(p=>permitted.includes(p)),'Checkpoint correction changes only');
+   const previous=JSON.parse(git(['show',`${checkpointBase}:${toolingPath}`]));
+   const expected={...previous,toolsSha:checkpointBase,successorTools:{...previous.successorTools,checkpointCorrectionBaseSha:checkpointBase,files:t.files}};
+   fail(JSON.stringify(binding)===JSON.stringify(expected),'Only exact checkpoint tools binding may advance');
+   for(const [rel,hash] of Object.entries(previous.successorTools.files))if(!permitted.includes(rel))fail(t.files[rel]===hash,`Prior tools evidence changed: ${rel}`);
+  }
+  if(t.networkCorrectionBaseSha&&!t.checkpointCorrectionBaseSha){
    fail(t.networkCorrectionBaseSha===networkBase&&t.correctionBaseSha===correctionBase,'Exact second tools correction base required');
    const permitted=[toolingPath,'scripts/rcap-hosted-clinic-resume.mjs','scripts/rcap-clinic-resume-network-policy.mjs','scripts/rcap-clinic-resume-network-policy.test.mjs','scripts/grade-a-launch-control/verify-release-candidate-binding.mjs','scripts/grade-a-launch-control/accepted-successor-binding.test.mjs'];
    const changes=[...git(['diff','--name-only',networkBase]).split('\n'),...git(['ls-files','--others','--exclude-standard']).split('\n')].filter(Boolean);
@@ -549,7 +560,7 @@ export function verifyAcceptedSuccessorBinding(root,candidate,pending=verifyPend
    fail(JSON.stringify(binding)===JSON.stringify(expected),'Only exact network policy tools binding may advance');
    for(const [rel,hash] of Object.entries(previous.successorTools.files))if(!permitted.includes(rel))fail(t.files[rel]===hash,`Prior tools evidence changed: ${rel}`);
   }
-  if(t.correctionBaseSha&&!t.networkCorrectionBaseSha){
+  if(t.correctionBaseSha&&!t.networkCorrectionBaseSha&&!t.checkpointCorrectionBaseSha){
    fail(t.correctionBaseSha===correctionBase,'Exact transport correction base required');
    const permitted=[toolingPath,'scripts/rcap-hosted-clinic-resume.mjs','scripts/rcap-clinic-resume-transport.test.mjs','scripts/grade-a-launch-control/verify-release-candidate-binding.mjs','scripts/grade-a-launch-control/accepted-successor-binding.test.mjs'];
    const changes=[...git(['diff','--name-only',correctionBase]).split('\n'),...git(['ls-files','--others','--exclude-standard']).split('\n')].filter(Boolean);

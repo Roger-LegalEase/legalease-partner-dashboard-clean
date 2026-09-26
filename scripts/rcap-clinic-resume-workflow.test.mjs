@@ -13,7 +13,7 @@ const authorization='Roger:clinic-resume:36211668984:explicit-download-and-devic
 const closure='Roger:clinic-resume:36211668984:close-exact-lost-cookie-session';
 const source='af638b61cc4b74afad972fa79c4c1ca3f6709540';
 const digest='sha256:063901962bedf73adedb8a7566da2434539082bd1577051e98e4303c566bb3a5';
-const baseInputs={phase:'clinic_resume',mode:'hosted_clinic_resume',preview_hostname:'',preview_deployment_id:'',promotion_code:'',journey_state:'',contradiction_job_id:'',clinic_resume_authorization:authorization,clinic_session_closure_authorization:closure};
+const baseInputs={phase:'clinic_resume',mode:'hosted_clinic_resume',preview_hostname:'legalease-rcap-clinic-af638b61cc4b-roger947s-projects.vercel.app',preview_deployment_id:'dpl_Gf6uwETvQNbKXAMCcxLE6ECxLhNR',promotion_code:'',journey_state:'',contradiction_job_id:'',clinic_resume_authorization:authorization,clinic_session_closure_authorization:closure};
 const evaluate=(expression,inputs,states,secrets={})=>new Function('inputs','steps','secrets','always','success',`return (${expression.replace(/^\$\{\{|\}\}$/g,'')});`)(inputs,states,secrets,()=>true,()=>true);
 const forbidden=['auth_identities','clinic_seed','clinic_journey','clinic_audit','clinic_database_readback','registry_login','matrix_build','checkout_gate','payment_journey','golden_journey','stripe_fixtures','stripe_retarget','clinic_migrate','legal_aid_migrate','legal_aid_seed','legal_aid_browser','galleries','worker_contract','migrate_readback'];
 function contract(inputs){
@@ -48,15 +48,16 @@ test('manual mode, authorization inputs and exact release pins reach the reusabl
  for(const doc of [entry,workflow]){assert.equal(doc.env.AUTHORIZED_WORKER_SOURCE_SHA,source);assert.equal(doc.env.AUTHORIZED_WORKER_DIGEST,digest);}
 });
 test('missing/wrong owner or closure authorization and partial retry identity refuse in the first step',()=>{
- const first=steps[0];const env={PATH:process.env.PATH,PHASE_INPUT:'clinic_resume',CLINIC_RESUME_AUTHORIZATION:authorization,CLINIC_SESSION_CLOSURE_AUTHORIZATION:closure,PREVIEW_DEPLOYMENT_ID_INPUT:'',PREVIEW_HOSTNAME_INPUT:'',APPLICATION_SHA_INPUT:source,WORKER_SOURCE_SHA_INPUT:source,WORKER_DIGEST_INPUT:digest,AUTHORIZED_WORKER_SOURCE_SHA:source,AUTHORIZED_WORKER_DIGEST:digest,SUPABASE_PROJECT_REF_INPUT:'hyflxnlhpmiqxvvcoiia',AUTHORIZED_ACCEPTANCE_PROJECT_REF:'hyflxnlhpmiqxvvcoiia',TOOLS_SHA_INPUT:source,WORKFLOW_SHA_INPUT:source};
+ const first=steps[0];const env={PATH:process.env.PATH,PHASE_INPUT:'clinic_resume',CLINIC_RESUME_AUTHORIZATION:authorization,CLINIC_SESSION_CLOSURE_AUTHORIZATION:closure,PREVIEW_DEPLOYMENT_ID_INPUT:'dpl_Gf6uwETvQNbKXAMCcxLE6ECxLhNR',PREVIEW_HOSTNAME_INPUT:'legalease-rcap-clinic-af638b61cc4b-roger947s-projects.vercel.app',APPLICATION_SHA_INPUT:source,WORKER_SOURCE_SHA_INPUT:source,WORKER_DIGEST_INPUT:digest,AUTHORIZED_WORKER_SOURCE_SHA:source,AUTHORIZED_WORKER_DIGEST:digest,SUPABASE_PROJECT_REF_INPUT:'hyflxnlhpmiqxvvcoiia',AUTHORIZED_ACCEPTANCE_PROJECT_REF:'hyflxnlhpmiqxvvcoiia',TOOLS_SHA_INPUT:source,WORKFLOW_SHA_INPUT:source};
  const run=patch=>spawnSync('bash',['-c',first.run],{encoding:'utf8',env:{...env,...patch}}).status;
  assert.equal(run({}),0);
  for(const key of ['CLINIC_RESUME_AUTHORIZATION','CLINIC_SESSION_CLOSURE_AUTHORIZATION'])for(const value of ['', 'wrong'])assert.notEqual(run({[key]:value}),0);
- for(const patch of [{PREVIEW_HOSTNAME_INPUT:'exact.vercel.app'},{PREVIEW_DEPLOYMENT_ID_INPUT:'dpl_Exact'}])assert.notEqual(run(patch),0);
+ for(const patch of [{PREVIEW_HOSTNAME_INPUT:''},{PREVIEW_DEPLOYMENT_ID_INPUT:''},{PREVIEW_HOSTNAME_INPUT:'exact.vercel.app'},{PREVIEW_DEPLOYMENT_ID_INPUT:'dpl_Exact'}])assert.notEqual(run(patch),0);
  const runner=fs.readFileSync('scripts/rcap-hosted-clinic-resume.mjs','utf8');assert(runner.indexOf('const closureSql=')<runner.indexOf("const token=env('SUPABASE_ACCESS_TOKEN')"));
 });
-for(const reused of [false,true])test(`bounded resume ${reused?'reuses exact Preview without fallback':'creates at most one successor Preview'}; required-step and forbidden-step mutations fail`,()=>{
- const inputs={...baseInputs,...(reused?{preview_hostname:'exact.vercel.app',preview_deployment_id:'dpl_Exact'}:{})};
+test('bounded checkpoint reuses exact Preview without fallback; required-step and forbidden-step mutations fail',()=>{
+ const reused=true;
+ const inputs={...baseInputs};
  const states=scheduled(inputs,reused);
  assert.equal(states.contract.outputs.resume,'true');assert.equal(states.contract.outputs.require_staging_scoped,'true');
  for(const key of ['matrix','gate','retarget','browser','clinic','legal_aid','diagnose'])assert.equal(states.contract.outputs[key],'false');
@@ -66,7 +67,8 @@ for(const reused of [false,true])test(`bounded resume ${reused?'reuses exact Pre
  assert.equal(gate(inputs,states).status,0);
  for(const key of ['O_RELEASE_BINDING','O_RESUME_INVENTORY','O_RESOLVE','O_DEPS','O_RESUME_BROWSER','O_RESUME','O_RESUME_EVIDENCE',...(!reused?['O_DEPLOY']:[])])for(const value of ['skipped','failure','cancelled',''])assert.notEqual(gate(inputs,states,{[key]:value}).status,0,`${key} ${value}`);
  for(const key of ['O_AUTH','O_CLINIC_SEED','O_CLINIC_JOURNEY','O_CLINIC_AUDIT','O_CLINIC_DATABASE','O_REGISTRY','O_BUILD','O_GATE','O_PAYMENT','O_GOLDEN','O_STRIPE_FIXTURES','O_STRIPE_RETARGET','O_CLINIC_MIGRATE','O_LEGAL_AID_MIGRATE','O_LEGAL_AID_SEED','O_LEGAL_AID_BROWSER'])assert.notEqual(gate(inputs,states,{[key]:'success'}).status,0,key);
- if(reused)assert.notEqual(gate(inputs,states,{O_DEPLOY:'success'}).status,0);
+ assert.notEqual(gate(inputs,states,{O_DEPLOY:'success'}).status,0);assert.notEqual(gate(inputs,states,{O_REUSED:'false'}).status,0);
+ const noReuse=structuredClone(states);noReuse.resolve_preview.outputs.reused='false';assert.equal(evaluate(byId('clinic_resume').if,inputs,noReuse),false);assert.equal(evaluate(byId('deploy_preview').if,inputs,noReuse),false);
  for(const id of ['resolve_preview','deploy_preview']){const bad=structuredClone(states);bad.resume_inventory.outcome='failure';assert.equal(evaluate(byId(id).if,inputs,bad),false);}
  for(const id of ['resolve_preview','deploy_preview']){
   const env=byId(id).env;
@@ -84,3 +86,5 @@ test('read-only inventory precedes Preview; execution and evidence are mandatory
  for(const key of ['HOSTED_CLINIC_DEMO_ACCESS_CODE','HOSTED_STRIPE_TEST_SECRET'])assert.equal(byId('clinic_resume').env[key],undefined);
  for(const key of ['promotion_code','journey_state','contradiction_job_id'])assert.notEqual(contract({...baseInputs,[key]:'unexpected'}).status,0);
 });
+
+test('checkpoint refuses blank or different Preview identity before any deployment',()=>{for(const patch of [{preview_hostname:''},{preview_deployment_id:''},{preview_hostname:'other.vercel.app'},{preview_deployment_id:'dpl_Other'}])assert.notEqual(contract({...baseInputs,...patch}).status,0);});

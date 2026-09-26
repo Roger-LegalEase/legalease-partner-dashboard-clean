@@ -19,7 +19,7 @@ test('native acceptance, pending successor, release and exact hosted tools bind;
   execFileSync('git',['clone','--quiet','--shared','--no-checkout',process.cwd(),root],{stdio:'pipe'});
   git(['sparse-checkout','set','scripts','src','deploy','data/rcap-render','data/rcap-grade-a/launch-control','hosted-acceptance-evidence/worker/publication-36219916209','hosted-acceptance-evidence/worker/image-acceptance-36247303667']);
   const binding=JSON.parse(fs.readFileSync(toolsPath));
-  git(['checkout','--detach',binding.successorTools.networkCorrectionBaseSha??binding.successorTools.correctionBaseSha??base]);const files=[toolsPath,...Object.keys(binding.successorTools.files)];
+  git(['checkout','--detach',binding.successorTools.checkpointCorrectionBaseSha??binding.successorTools.networkCorrectionBaseSha??binding.successorTools.correctionBaseSha??base]);const files=[toolsPath,...Object.keys(binding.successorTools.files)];
   for(const rel of files){fs.mkdirSync(path.dirname(path.join(root,rel)),{recursive:true});fs.copyFileSync(rel,path.join(root,rel));}
   const release=()=>verifyReleaseCandidateBinding(root,read(candidatePath));
   const check=()=>{
@@ -32,7 +32,7 @@ test('native acceptance, pending successor, release and exact hosted tools bind;
    [publicationPath,[p=>p.runtimeAccepted=false,p=>p.imageAcceptance.runId=1,p=>p.imageAcceptance.jobId=1,p=>p.imageAcceptance.workflowSourceSha=p.sourceSha,p=>p.imageAcceptance.digest=p.supersededPublication.immutableRegistryDigest,p=>p.imageAcceptance.conclusion='failure',p=>p.supersededPublication.runtimeAccepted=false]],
    [pendingPath,[p=>p.acceptance='pending',p=>p.previewExecution='ready',p=>p.productionAuthorized=true,p=>p.applicationSha='0'.repeat(40)]],
    [candidatePath,[p=>p.workerDigest=p.supersededRecord.workerDigest,p=>p.publication.runId=1,p=>p.readOnlyImageAcceptance.jobId=1,p=>p.hostedAcceptance.preview=p.supersededRecord.hostedAcceptance.preview,p=>p.runtimeAccepted=false]],
-   [toolsPath,[p=>p.successorTools.networkCorrectionBaseSha='0'.repeat(40),p=>delete p.successorTools.networkCorrectionBaseSha,p=>p.successorTools.files={},p=>p.applicationSha='0'.repeat(40),p=>p.toolsSha='0'.repeat(40),p=>p.productionAuthorized=true,p=>p.deploymentAuthorized=true,p=>p.clinicDispatchReady=true,p=>p.supersededRecord.status='rewritten']]
+   [toolsPath,[p=>p.successorTools.checkpointCorrectionBaseSha='0'.repeat(40),p=>delete p.successorTools.checkpointCorrectionBaseSha,p=>p.successorTools.networkCorrectionBaseSha='0'.repeat(40),p=>delete p.successorTools.networkCorrectionBaseSha,p=>p.successorTools.files={},p=>p.applicationSha='0'.repeat(40),p=>p.toolsSha='0'.repeat(40),p=>p.productionAuthorized=true,p=>p.deploymentAuthorized=true,p=>p.clinicDispatchReady=true,p=>p.supersededRecord.status='rewritten']]
   ]){
    const file=path.join(root,rel),before=fs.readFileSync(file);
    for(const mutate of mutations){const value=JSON.parse(before);mutate(value);fs.writeFileSync(file,JSON.stringify(value));assert.equal(release().current,false,rel);fs.writeFileSync(file,before);}
@@ -40,6 +40,6 @@ test('native acceptance, pending successor, release and exact hosted tools bind;
   for(const rel of ['.github/workflows/rcap-hosted-acceptance-staging.yml','scripts/rcap-hosted-clinic-resume.mjs','src/lib/rcap/render/packet-delivery.ts','hosted-acceptance-evidence/worker/image-acceptance-36247303667/native.log']){
    const file=path.join(root,rel),before=fs.readFileSync(file);fs.appendFileSync(file,'\n// drift\n');assert.equal(release().current,false,rel);fs.writeFileSync(file,before);
   }
-  const unknown=path.join(root,'scripts/unbound-resume.mjs');fs.writeFileSync(unknown,'// unbound');assert.equal(release().current,false);fs.unlinkSync(unknown);check();
+  const unknown=path.join(root,'scripts/unbound-resume.mjs');fs.writeFileSync(unknown,'// unbound');assert.equal(release().current,false);fs.unlinkSync(unknown);check();git(['-c','user.name=Synthetic Test','-c','user.email=synthetic@example.test','commit','--allow-empty','--quiet','-m','unauthorized extra correction']);assert.equal(release().current,false,'no arbitrary further tools commit');
  }finally{fs.rmSync(root,{recursive:true,force:true});}
 });

@@ -173,9 +173,8 @@ jobs:
           if [ "$PHASE_INPUT" = "clinic_resume" ]; then
             [ "$CLINIC_RESUME_AUTHORIZATION" = "Roger:clinic-resume:36211668984:explicit-download-and-device-reset" ] || exit 1
             [ "$CLINIC_SESSION_CLOSURE_AUTHORIZATION" = "Roger:clinic-resume:36211668984:close-exact-lost-cookie-session" ] || exit 1
-            if [ -n "$PREVIEW_HOSTNAME_INPUT" ] || [ -n "$PREVIEW_DEPLOYMENT_ID_INPUT" ]; then
-              test -n "$PREVIEW_HOSTNAME_INPUT" && test -n "$PREVIEW_DEPLOYMENT_ID_INPUT" || exit 1
-            fi
+            [ "$PREVIEW_HOSTNAME_INPUT" = "legalease-rcap-clinic-af638b61cc4b-roger947s-projects.vercel.app" ] || exit 1
+            [ "$PREVIEW_DEPLOYMENT_ID_INPUT" = "dpl_Gf6uwETvQNbKXAMCcxLE6ECxLhNR" ] || exit 1
           fi
           printf '%s' "$APPLICATION_SHA_INPUT" | grep -Eq '^[0-9a-f]{40}$' || { echo "::error::application_sha must be a full commit SHA"; exit 1; }
           [ "$WORKER_SOURCE_SHA_INPUT" = "$AUTHORIZED_WORKER_SOURCE_SHA" ] || { echo "::error::worker_source_sha is not the authorized value"; exit 1; }
@@ -450,7 +449,7 @@ jobs:
           RESUME=false
           case "$PHASE" in
             full)            DEPLOY=true;  MATRIX=true;  GATE=true;  RETARGET=false; BROWSER=false; CLINIC=false; LEGAL_AID=false ;;
-            clinic_resume)   DEPLOY=true; MATRIX=false; GATE=false; RETARGET=false; BROWSER=false; CLINIC=false; LEGAL_AID=false; RESUME=true ;;
+            clinic_resume)   DEPLOY=false; MATRIX=false; GATE=false; RETARGET=false; BROWSER=false; CLINIC=false; LEGAL_AID=false; RESUME=true ;;
             clinic_deploy)   DEPLOY=true;  MATRIX=false; GATE=false; RETARGET=false; BROWSER=false; CLINIC=false; LEGAL_AID=false ;;
             clinic_preview)  DEPLOY=true;  MATRIX=false; GATE=false; RETARGET=false; BROWSER=false; CLINIC=true;  LEGAL_AID=false ;;
             legal_aid_browser) DEPLOY=true; MATRIX=false; GATE=false; RETARGET=false; BROWSER=false; CLINIC=true;  LEGAL_AID=true  ;;
@@ -471,10 +470,9 @@ jobs:
             test -z '${{ inputs.promotion_code }}'
             test -z '${{ inputs.journey_state }}'
             test -z '${{ inputs.contradiction_job_id }}'
-            if [ -n '${{ inputs.preview_hostname }}' ] || [ -n '${{ inputs.preview_deployment_id }}' ]; then
-              test -n '${{ inputs.preview_hostname }}' && test -n '${{ inputs.preview_deployment_id }}' || exit 1
-              DEPLOY=false
-            fi
+            [ '${{ inputs.preview_hostname }}' = 'legalease-rcap-clinic-af638b61cc4b-roger947s-projects.vercel.app' ] || exit 1
+            [ '${{ inputs.preview_deployment_id }}' = 'dpl_Gf6uwETvQNbKXAMCcxLE6ECxLhNR' ] || exit 1
+            DEPLOY=false
           fi
           if [ "$PHASE" = "clinic_deploy" ]; then
             test -z '${{ inputs.preview_deployment_id }}'
@@ -648,7 +646,7 @@ jobs:
         id: deploy_preview
         # Suppressed entirely when the resolver reused an exact READY Preview:
         # reuse means no Vercel deployment command runs at all.
-        if: (inputs.phase != 'clinic_resume' || steps.resume_inventory.outcome == 'success') && inputs.phase != 'clinic_preview' && steps.contract.outputs.deploy == 'true' && steps.resolve_preview.outputs.reused != 'true'
+        if: inputs.phase != 'clinic_resume' && inputs.phase != 'clinic_preview' && steps.contract.outputs.deploy == 'true' && steps.resolve_preview.outputs.reused != 'true'
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
@@ -733,7 +731,7 @@ jobs:
 
       - name: Resume only the existing delivered Clinic packet and reset the exact session
         id: clinic_resume
-        if: steps.contract.outputs.resume == 'true' && steps.resume_inventory.outcome == 'success' && steps.checkout_browser.outcome == 'success' && steps.resolve_preview.outcome == 'success' && (steps.resolve_preview.outputs.reused == 'true' || steps.deploy_preview.outcome == 'success')
+        if: steps.contract.outputs.resume == 'true' && steps.resume_inventory.outcome == 'success' && steps.checkout_browser.outcome == 'success' && steps.resolve_preview.outcome == 'success' && steps.resolve_preview.outputs.reused == 'true' && steps.deploy_preview.outcome == 'skipped'
         env:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
           ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
@@ -1104,13 +1102,8 @@ jobs:
             require "current accepted release binding" "$O_RELEASE_BINDING"
             require "read-only exact resume inventory" "$O_RESUME_INVENTORY"
             require "successor Preview resolution" "$O_RESOLVE"
-            if [ "$O_REUSED" = "true" ]; then
-              [ "$O_DEPLOY" = "skipped" ] || fail=1
-            elif [ "$O_REUSED" = "false" ]; then
-              require "one successor Preview deployment" "$O_DEPLOY"
-            else
-              fail=1
-            fi
+            [ "$O_REUSED" = "true" ] || fail=1
+            [ "$O_DEPLOY" = "skipped" ] || fail=1
             require "frozen dependencies" "$O_DEPS"
             require "browser installation" "$O_RESUME_BROWSER"
             require "bounded Clinic resume" "$O_RESUME"
