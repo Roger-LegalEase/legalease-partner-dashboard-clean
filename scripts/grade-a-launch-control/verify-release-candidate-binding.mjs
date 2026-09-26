@@ -188,6 +188,37 @@ export function verifyReleaseCandidateBinding(root, candidate, receiptPaths = []
         'docs/rcap/grade-a/handoffs/CLINIC_RUNTIME_36204248464_INVENTORY.json',
         'docs/rcap/grade-a/handoffs/CLINIC_RUNTIME_36204248464_REPAIR.md'
       ];
+      const downstreamPaths = [
+        'scripts/rcap-clinic-packet-capacity.mjs',
+        'scripts/rcap-clinic-downstream-closure.mjs',
+        'scripts/rcap-hosted-ms-clinic-preview-seed.mjs',
+        'scripts/verify-rcap-commercial-browser.mjs',
+        'scripts/verify-rcap-hosted-ms-clinic-preview.mjs',
+        'scripts/test-rcap-sponsored-delivery-binding.mjs',
+        'scripts/rcap-clinic-failed-target-reconciliation.mjs',
+        'scripts/rcap-clinic-failed-target-reconciliation.test.mjs',
+        'scripts/grade-a-launch-control/verify-release-candidate-binding.mjs',
+        'scripts/grade-a-launch-control/test-clinic-downstream-tools-binding.mjs',
+        'docs/rcap/grade-a/handoffs/CLINIC_DOWNSTREAM_36204248464_INVENTORY.json',
+        'docs/rcap/grade-a/handoffs/CLINIC_DOWNSTREAM_36204248464_REPAIR.md'
+      ];
+      if (binding.localClinicDownstreamRepair) {
+        const repair=binding.localClinicDownstreamRepair;
+        if (repair.baseSha !== '51ad71a326112eda76f089ef27284b1bc15cba7f'
+          || repair.schemaVersion !== 'rcap-local-clinic-downstream-tools/v1'
+          || repair.executionAuthorized !== false || repair.pushAuthorized !== false
+          || binding.clinicDispatchReady !== false || binding.hostedFullReady !== false
+          || binding.productionAuthorized !== false || binding.deploymentAuthorized !== false
+          || binding.migrationReplayAuthorized !== false || binding.housekeepingReplayAuthorized !== false
+          || binding.additionalWorkerPublicationAuthorized !== false || binding.imageAcceptanceRerunAuthorized !== false)
+          throw new Error('Clinic downstream repair must remain execution-held');
+        git(['merge-base','--is-ancestor',repair.baseSha,'HEAD']);
+        if(JSON.stringify(Object.keys(repair.files??{}).sort())!==JSON.stringify([...downstreamPaths].sort()))throw new Error('Clinic downstream file set differs');
+        for(const p of downstreamPaths){
+          if(repair.files[p]!==createHash('sha256').update(fs.readFileSync(path.join(root,p))).digest('hex'))throw new Error(`Clinic downstream content drift: ${p}`);
+          localPinned.add(p);generated.add(p);
+        }
+      }
       if (binding.localClinicRuntimeRepair) {
         const repair = binding.localClinicRuntimeRepair;
         if (repair.baseSha !== '579febaaddc5a004d824b74f486e567115db4db2'
@@ -202,7 +233,8 @@ export function verifyReleaseCandidateBinding(root, candidate, receiptPaths = []
         if (JSON.stringify(Object.keys(repair.files ?? {}).sort()) !== JSON.stringify([...clinicContextPaths].sort()))
           throw new Error('Clinic runtime repair file set differs');
         for (const p of clinicContextPaths) {
-          if (repair.files[p] !== createHash('sha256').update(fs.readFileSync(path.join(root,p))).digest('hex'))
+          const bytes=localPinned.has(p)?execFileSync('git',['show',`${binding.localClinicDownstreamRepair.baseSha}:${p}`],{cwd:root}):fs.readFileSync(path.join(root,p));
+          if (repair.files[p] !== createHash('sha256').update(bytes).digest('hex'))
             throw new Error(`Clinic runtime repair content drift: ${p}`);
           localPinned.add(p);generated.add(p);
         }
@@ -231,6 +263,7 @@ export function verifyReleaseCandidateBinding(root, candidate, receiptPaths = []
         }
       }
       const bounded = new Set([
+        ...downstreamPaths.filter(p => p.startsWith('scripts/')),
         ...clinicContextPaths.filter(p => p.startsWith('scripts/')),
         ...localRepairPaths.filter(p => p.startsWith('scripts/')),
         // Roger's run 36151713747 tools-only hosted ledger reconciliation.

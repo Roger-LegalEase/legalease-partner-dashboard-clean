@@ -9,6 +9,7 @@ export const TARGET = Object.freeze({ ...PRIOR, id:'78efc6af-b4fc-4423-8290-0e3c
   packet:'1a9afd62-b6aa-4b2b-8cb6-b2173fd9d9c3', matter:'767da280-0c06-4a20-906d-73c5e7570a6c' });
 export const AUTHORIZATION = 'Roger:acceptance-queue:36204248464:release-expired-exact-clinic-target-and-terminalize';
 const EVENT='acceptance_synthetic_queue_reconciled_36204248464';
+const STORAGE_PATH='packet-artifacts/bc1ed720-681e-4da5-9964-acb2affd5b12/767da280-0c06-4a20-906d-73c5e7570a6c/78efc6af-b4fc-4423-8290-0e3c2e34de07/733889fff7814678e3ad4b4fbebc280cd98daa049cea5c09c1105eb35b95e149.pdf';
 const literal=x=>`'${String(x).replaceAll("'","''")}'`;
 const historical=JSON.parse(fs.readFileSync(new URL('../docs/rcap/grade-a/handoffs/ACCEPTANCE_QUEUE_36186574507_INVENTORY.json',import.meta.url))).inventory;
 
@@ -19,6 +20,9 @@ export async function inventorySql() {
   for(const k of ['id','item','session','packet','matter'])read=read.replaceAll(PRIOR[k],TARGET[k]);
   read=read.replaceAll('acceptance_synthetic_queue_reconciled_36186574507',EVENT);
   return `select inventory || jsonb_build_object(
+    'storageResidue',(select coalesce(jsonb_agg(jsonb_build_object('id',id,'bucket_id',bucket_id,'name',name,'metadata',metadata) order by id),'[]') from storage.objects
+      where bucket_id='rcap-packet-artifacts-private' and name like '%/${TARGET.id}/%'),
+    'storageBucket',(select jsonb_build_object('id',id,'public',public) from storage.buckets where id='rcap-packet-artifacts-private'),
     'leaseExpired',(select claim_expires_at<now() from packet_render_jobs where id='${TARGET.id}'),
     'releaseEligible',(select coalesce(jsonb_agg(id order by id),'[]'::jsonb) from packet_render_jobs where
       (status in ('claimed','rendering','validating') and claim_expires_at is not null and claim_expires_at<now())
@@ -33,6 +37,10 @@ export function classifyInventory(s) {
   const same=(a,b)=>JSON.stringify(a)===JSON.stringify(b);
   const row=s.rows.find(r=>r.job.id===TARGET.id),j=row?.job,c=s.clinic;
   const done=s.receipts?.length===1;
+  check(s.storageBucket?.id==='rcap-packet-artifacts-private'&&s.storageBucket.public===false,'private residue bucket drift');
+  check(s.storageResidue?.length===1&&s.storageResidue[0].id==='06bf3d30-54cb-4ae0-a0db-d3b6b201238c'
+    &&s.storageResidue[0].bucket_id==='rcap-packet-artifacts-private'&&s.storageResidue[0].name===STORAGE_PATH
+    &&s.storageResidue[0].metadata?.size===68881&&s.storageResidue[0].metadata?.mimetype==='application/pdf','pre-finalization private storage residue drift; preserve and remeasure');
   check(same(Object.entries(s.functions??{}).sort(),Object.entries(historical.functions).sort()),'live function drift');
   check(same(s.foreignKeys,historical.foreignKeys),'dependency schema drift');
   check(Boolean(j),'missing exact target');
@@ -59,6 +67,7 @@ export function classifyInventory(s) {
     } else {
       const receipt=s.receipts[0],before=receipt.before;
       check(receipt.authorization===AUTHORIZATION&&receipt.jobId===TARGET.id&&receipt.project==='hyflxnlhpmiqxvvcoiia','receipt authority mismatch');
+      check(same(receipt.storageResidue,s.storageResidue),'preserved private residue differs from audit');
       check(j.status==='failed'&&j.failure_disposition==='terminal'&&!row.has_fencing_token&&j.claim_expires_at===null,'terminal state mismatch');
       check(j.error_code==='timeout'&&j.last_error_detail==='claim lease expired before the worker finished','canonical expiry outcome mismatch');
       check(j.retry_reconciliation_history?.length===1&&j.retry_reconciliation_history[0].authority==='release_expired_packet_render_claims'&&j.retry_reconciliation_history[0].prior_status==='validating','canonical history mismatch');
@@ -92,7 +101,7 @@ export async function applySql(s,{project,apply=false,ownerAuthorization}) {
       public.packet_credit_ledger,public.clinic_packet_reservations,public.legal_aid_document_tasks,
       public.consumer_packet_verifications,public.consumer_artifact_download_grants,public.screening_sessions,
       public.clinic_events,public.clinic_cases,public.consumer_pending_screening_results,public.partner_entitlement,
-      public.rcap_screening_analytics_events,public.rcap_record_events,auth.users in share row exclusive mode;
+      public.rcap_screening_analytics_events,public.rcap_record_events,auth.users,storage.objects,storage.buckets in share row exclusive mode;
     do $repair$ declare snapshot jsonb; after_snapshot jsonb; before_job jsonb; expired_job jsonb; n integer;
     begin
       select inventory into snapshot from (${read}) q;
@@ -112,10 +121,12 @@ export async function applySql(s,{project,apply=false,ownerAuthorization}) {
       insert into public.rcap_record_events(record_type,record_id,partner_slug,event_type,actor,metadata)
       values('document_packet','${TARGET.packet}','mvl-demo','${EVENT}','owner-authorized-acceptance-reconciliation',
         jsonb_build_object('jobId','${TARGET.id}','project','hyflxnlhpmiqxvvcoiia','authorization',${literal(AUTHORIZATION)},
-          'failedRun','36204248464','before',before_job,'afterCanonicalExpiry',expired_job,'operation','release_expired_exact_target_then_terminalize'));
+          'failedRun','36204248464','before',before_job,'storageResidue',snapshot->'storageResidue','afterCanonicalExpiry',expired_job,'operation','release_expired_exact_target_then_terminalize'));
       select inventory into after_snapshot from (${read}) q;
       if after_snapshot->'unrelatedJobsHash' is distinct from snapshot->'unrelatedJobsHash'
         or after_snapshot->'clinic' is distinct from snapshot->'clinic'
+        or after_snapshot->'storageResidue' is distinct from snapshot->'storageResidue'
+        or after_snapshot->'storageBucket' is distinct from snapshot->'storageBucket'
         or after_snapshot->'claimOrder'<>'[]'::jsonb or after_snapshot->'housekeeping'<>'[]'::jsonb
       then raise exception 'unexpected post-reconciliation state';end if;`}
     end $repair$;commit;`;

@@ -5,6 +5,7 @@
 // Checkout, Stripe, Production deployment, or production project is touched.
 
 import crypto from "node:crypto";
+import {seedPacketCapacitySql,packetCapacitySql,assertPacketCapacity} from "./rcap-clinic-packet-capacity.mjs";
 import fs from "node:fs";
 import path from "node:path";
 
@@ -80,6 +81,7 @@ try {
 
   const accessCodeHash = crypto.createHash("sha256").update(ACCESS_CODE).digest("hex");
   const rows = await managementQuery(`
+    begin;
     do $seed$
     declare
       v_admin uuid;
@@ -128,11 +130,12 @@ try {
       values
         ('mvl-demo',2,0,'Synthetic Mississippi Clinic Preview only','2026-preview',true,false)
       on conflict (partner_slug) do update set
-        screenings_allowed=public.partner_entitlement.screenings_used+2,
+        screenings_allowed=public.partner_entitlement.screenings_allowed,
         contract_note='Synthetic Mississippi Clinic Preview only',
         period_label='2026-preview', pause_at_cap=true, overage_enabled=false, updated_at=now();
     end $seed$;
 
+    ${seedPacketCapacitySql(PROJECT_REF)}
     select e.id,e.public_slug,e.name,e.jurisdiction,e.status,e.sponsorship_allocation,
       s.id as event_staff_id,s.status as staff_status,
       c.id as access_code_id,c.is_active,c.max_uses,c.uses_count,
@@ -142,6 +145,7 @@ try {
     join public.clinic_event_access_codes c on c.id='${ACCESS_CODE_ID}' and c.event_id=e.id
     join public.partner_entitlement p on p.partner_slug=e.partner_slug
     where e.id='${EVENT_ID}';
+    commit;
   `);
   const row = Array.isArray(rows) ? rows[0] : null;
   const passed = row?.id === EVENT_ID
@@ -156,9 +160,11 @@ try {
     && row?.is_active === true
     && Number(row?.max_uses) === 2
     && Number(row?.uses_count) === 0
-    && Number(row?.screenings_allowed) - Number(row?.screenings_used) === 2
+    && Number(row?.screenings_allowed) - Number(row?.screenings_used) >= 1
     && row?.pause_at_cap === true
     && row?.overage_enabled === false;
+  const capacityRows = await managementQuery(packetCapacitySql());
+  evidence.packetCapacity = assertPacketCapacity(capacityRows[0].capacity, {seedExact:true});
   evidence.readback = row;
   evidence.passed = passed;
   writeEvidence();

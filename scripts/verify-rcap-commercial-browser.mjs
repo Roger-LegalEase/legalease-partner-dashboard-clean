@@ -1,4 +1,5 @@
 import crypto from "node:crypto";
+import {downstreamClosureSql,assertDownstreamClosure} from "./rcap-clinic-downstream-closure.mjs";
 import fs from "node:fs";
 import path from "node:path";
 import assert from "node:assert/strict";
@@ -818,14 +819,15 @@ async function runClinicTargetCycle(ports, fixture) {
   assert.equal(claimOrder.predictedFirstClaim, target.id, "historical predecessor blocks this proof");
   assert.equal(claimOrder.targetClaimRank, 1);
   assert.equal(claimOrder.claimablePredecessors, 0);
-  await ports.requireNoHistoricalHousekeeping(target.id);
+  const housekeeping = await ports.requireNoHistoricalHousekeeping(target.id);
+  const downstreamClosure = await ports.requireDownstreamClosure(target, fixture, claimOrder, housekeeping);
   const evidence = {
     participantId: fixture.participantUserId, briefcaseItemId: fixture.packetItemId,
     screeningSessionId: fixture.screeningSessionId, targetRenderJobId: target.id,
     verificationHash: target.sponsored_verification_hash, matterId: target.matter_id,
     route: target.route_id, rendererKind: target.renderer_kind,
     workerDigest: ports.workerDigest, preview: ports.preview,
-    claimOrder, targetBefore: target, accountingBeforeWorker: accountingBefore,
+    claimOrder, downstreamClosure, targetBefore: target, accountingBeforeWorker: accountingBefore,
     completionObservedBeforeRepeatDownload: false, receiptRepairPerformed: false
   };
   await ports.receipt("before-worker", evidence);
@@ -1016,6 +1018,7 @@ async function clinicDeliveryPorts({ packetItemId, participantUserId, screeningS
   process.env.SUPABASE_SERVICE_ROLE_KEY = service;
   register("./lib/ts-esm-loader.mjs", import.meta.url);
   const { getRenderJob } = await import("../src/lib/rcap/render/job-queue.ts");
+  const { currentPersonalizedVerification } = await import("../src/lib/rcap/render/personalized-packet.ts");
   return {
     workerDigest, preview: environmentClassification, targetJobs, accounting, getRenderJob,
     receipt: writeClinicReceipt, sleep: ms => new Promise(resolve => setTimeout(resolve, ms)),
@@ -1026,6 +1029,18 @@ async function clinicDeliveryPorts({ packetItemId, participantUserId, screeningS
         or (status in ('claimed','rendering','validating') and claim_expires_at<now())
         or (status='failed' and failure_disposition='retryable'))`)).json;
       assert.equal(rows.length, 0, "historical housekeeping would occur; do not run the worker");
+      return rows;
+    },
+    async requireDownstreamClosure(target, fixture, claimOrder, housekeeping) {
+      const preview = await verifyExactHostedPreview(baseUrl, bypassSecret);
+      assert.deepEqual(preview, environmentClassification, "Preview identity changed before worker");
+      const currentVerification = await currentPersonalizedVerification(fixture.participantUserId, fixture.packetItemId);
+      assert.equal(currentVerification.hash, target.sponsored_verification_hash, "protected verification is no longer current");
+      const snapshot = (await sql(downstreamClosureSql(target.id))).json[0]?.closure;
+      const readback = assertDownstreamClosure(snapshot, {target, fixture, preview, runtime:workerRuntime,
+        supabaseUrl, claimOrder, housekeeping});
+      await writeClinicReceipt("downstream-closure", readback);
+      return readback;
     },
     async runOneCycle(id) {
       assert.equal(diagnostics.cycles.length, 0, "exactly one Clinic worker cycle");

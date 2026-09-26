@@ -4,6 +4,9 @@ import fs from 'node:fs';
 import { packetApplicationTestDatabase } from './rcap-packet-database-reference.mjs';
 import { TARGET as CLINIC, AUTHORIZATION, inventorySql, classifyInventory, applySql, run } from './rcap-clinic-failed-target-reconciliation.mjs';
 const measured=JSON.parse(fs.readFileSync('docs/rcap/grade-a/handoffs/CLINIC_RUNTIME_36204248464_INVENTORY.json')).inventory;
+const storageEvidence=JSON.parse(fs.readFileSync('docs/rcap/grade-a/handoffs/CLINIC_DOWNSTREAM_36204248464_INVENTORY.json')).downstream;
+measured.storageResidue=storageEvidence.residue;
+measured.storageBucket={id:storageEvidence.bucket.id,public:storageEvidence.bucket.public};
 const options={project:'hyflxnlhpmiqxvvcoiia',apply:true,ownerAuthorization:AUTHORIZATION};
 const sqlLiteral=x=>"'"+String(x).replaceAll("'","''")+"'";
 function setupDatabase(db) {
@@ -40,7 +43,7 @@ test('read-only default, explicit authorization, exact project and live drift re
   for(const patch of [{project:'wwtwtsmywnckfkdaqqeg'},{apply:true},{ownerAuthorization:AUTHORIZATION},{apply:true,ownerAuthorization:'wrong'}]){
     calls.length=0;await assert.rejects(run({project:options.project,query,...patch}));assert.equal(calls.length,0);
   }
-  const changes=[s=>s.releaseEligible.push('other'),s=>s.housekeeping.push('other'),s=>s.claimOrder.push('other'),s=>s.leaseExpired=false,
+  const changes=[s=>s.releaseEligible.push('other'),s=>s.housekeeping.push('other'),s=>s.claimOrder.push('other'),s=>s.leaseExpired=false,s=>s.storageResidue=[],s=>s.storageBucket.public=true,s=>s.storageResidue[0].metadata.size=1,
     s=>s.rows.at(-1).job.attempt_count=2,s=>s.rows.at(-1).job.status='claimed',s=>s.rows.at(-1).job.sponsored_session_id='other',
     s=>s.rows.at(-1).provenance=1,s=>s.rows.at(-1).delivery_events=1,s=>s.rows.at(-1).credit_ledger=1,
     s=>s.rows.at(-1).reservations=1,s=>s.clinic.entitlement.used=1,s=>s.clinic.generated=1,
@@ -52,6 +55,8 @@ test('disposable PostgreSQL: fenced expiry, exact impact, rollback, preservation
   const db=packetApplicationTestDatabase(process.cwd());
   try {
     setupDatabase(db);
+    db.sql(`create table storage.objects(id uuid primary key,bucket_id text,name text,metadata jsonb);
+      insert into storage.objects values('${storageEvidence.residue[0].id}','${storageEvidence.residue[0].bucket_id}',${sqlLiteral(storageEvidence.residue[0].name)},${sqlLiteral(JSON.stringify(storageEvidence.residue[0].metadata))}::jsonb);`);
     db.sql(`insert into partner_records(id,partner_slug) values('bc1ed720-681e-4da5-9964-acb2affd5b12','mvl-demo') on conflict do nothing;
       ${[...new Set(measured.rows.map(r=>r.job.person_id))].map(id=>`insert into rcap_persons(id,partner_slug,match_key) values('${id}','mvl-demo','${id}') on conflict do nothing;`).join('\n')}`);
     const read=async()=>db.json(`select inventory from (${await inventorySql()}) q`);
@@ -79,7 +84,7 @@ test('disposable PostgreSQL: fenced expiry, exact impact, rollback, preservation
     assert.deepEqual(await read(),fresh);
     db.sql(sql);
     const after=await read(),report=classifyInventory(after);assert.equal(report.applyAllowed,true,JSON.stringify(report.refusals));assert.equal(report.alreadyApplied,true);
-    assert.equal(after.unrelatedJobsHash,fresh.unrelatedJobsHash);assert.deepEqual(after.clinic,fresh.clinic);
+    assert.equal(after.unrelatedJobsHash,fresh.unrelatedJobsHash);assert.deepEqual(after.clinic,fresh.clinic);assert.deepEqual(after.storageResidue,fresh.storageResidue);
     assert.deepEqual(after.claimOrder,[]);assert.deepEqual(after.housekeeping,[]);
     const old=fresh.rows.find(r=>r.job.id===CLINIC.id).job,job=after.rows.find(r=>r.job.id===CLINIC.id).job;
     for(const k of Object.keys(old))if(!['status','failure_disposition','error_code','last_error_detail','next_attempt_at','claim_expires_at','retry_reconciliation_history','updated_at'].includes(k))assert.deepEqual(job[k],old[k],k);

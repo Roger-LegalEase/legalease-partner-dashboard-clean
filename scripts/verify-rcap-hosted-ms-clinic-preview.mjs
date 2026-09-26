@@ -112,10 +112,11 @@ function fixture() {
       trace.push("claim-order");
       return { readOutcome: "read", targetIsClaimable: true, predictedFirstClaim: job.id, targetClaimRank: 1, claimablePredecessors: 0 };
     },
-    requireNoHistoricalHousekeeping: async () => { trace.push("history-check"); },
+    requireNoHistoricalHousekeeping: async () => { trace.push("history-check"); return []; },
+    requireDownstreamClosure: async () => { trace.push("downstream-closure"); return {passed:true}; },
     receipt: async name => { trace.push(`receipt:${name}`); },
     runOneCycle: async id => {
-      assert.ok(trace.includes("claim-order") && trace.includes("history-check") && trace.includes("receipt:before-worker"), "worker cannot precede target-first proof and receipt");
+      assert.ok(trace.includes("claim-order") && trace.includes("history-check") && trace.includes("downstream-closure") && trace.includes("receipt:before-worker"), "worker cannot precede target-first proof and receipt");
       assert.equal(id, job.id); assert.equal(cycles++, 0); trace.push("worker");
       return { exitCode: 0, cycleResult: { jobId: job.id, outcome: "finalized" }, rowsThatMoved: [job.id] };
     },
@@ -323,4 +324,9 @@ for (const phase of ["clinic_preview", "full"]) {
   check('Clinic delivery consumes verified identity and refuses any tuple divergence before credential access',true);
   check('Clinic delivery carries no historical release literals',!/(dpl_3RALTW|a0d0b933|615b4021|4704199f)/.test(ports));
 }
+const blockedClosure=fixture();
+blockedClosure.ports.requireDownstreamClosure=async()=>{throw new Error('missing_packet_entitlement');};
+await assert.rejects(actual.runClinicTargetCycle(blockedClosure.ports,blockedClosure.identity),/missing_packet_entitlement/);
+assert.equal(blockedClosure.counts().cycles,0);
+check('downstream closure refusal prevents the worker entirely',true);
 console.log(`Hosted Mississippi Clinic Preview workflow: PASS — ${checks.length}/${checks.length} contract and behavioral checks.`);
