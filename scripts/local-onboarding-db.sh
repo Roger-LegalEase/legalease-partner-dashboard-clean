@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-# Bring up a local Postgres with every migration applied, so onboarding database and RLS
+# Bring up a local Postgres with the numbered phases and onboarding reproposal successor,
+# so onboarding database and RLS
 # behavior can be verified without a Supabase project or Docker.
 #
 # The migrations target Supabase, so this creates the parts of that platform they depend on:
@@ -7,7 +8,7 @@
 # auth.role(), auth.email() reading the request.jwt.claim.* settings that RLS policies use.
 # That shim is what makes `set role authenticated` plus a claim behave like a signed-in user.
 #
-#   scripts/local-onboarding-db.sh up      init, start, apply all migrations
+#   scripts/local-onboarding-db.sh up      init, start, apply the local verification schema
 #   scripts/local-onboarding-db.sh apply   re-apply migrations to a running cluster
 #   scripts/local-onboarding-db.sh psql    open a shell
 #   scripts/local-onboarding-db.sh down    stop the cluster
@@ -39,7 +40,16 @@ migration_order() {
 
 apply_shim() {
   psql "$URL" -v ON_ERROR_STOP=1 -q <<'SQL'
-create extension if not exists pgcrypto;
+-- Match phase 50/55's schema-qualified digest calls. IF NOT EXISTS alone does
+-- not relocate an extension installed by an older version of this local shim.
+create schema if not exists extensions;
+create extension if not exists pgcrypto with schema extensions;
+do $$ begin
+  if (select extnamespace from pg_extension where extname = 'pgcrypto')
+     <> 'extensions'::regnamespace then
+    alter extension pgcrypto set schema extensions;
+  end if;
+end $$;
 create schema if not exists auth;
 create schema if not exists storage;
 do $$ begin
@@ -86,8 +96,40 @@ apply_migrations() {
     fi
   done < <(migration_order)
   echo "applied=$applied failed=$failed"
-  [ "$failed" -eq 0 ]
+  [ "$failed" -eq 0 ] || return 1
+  apply_onboarding_successor
+  verify_tenant_prerequisites
 }
+
+# Phase 44's original index includes applied history. The tenant verifier's
+# reproposal case requires this existing successor. Apply after the numbered
+# phases, including 45/47's activity constraints which the successor extends.
+# Do not glob timestamped production migrations into this disposable bootstrap.
+apply_onboarding_successor() {
+  local migration="supabase/migrations/20260822180000_rcap_prefill_reproposal.sql"
+  psql "$URL" -v ON_ERROR_STOP=1 -q -f "$ROOT/$migration"
+  echo "  ok   $migration"
+}
+
+verify_tenant_prerequisites() {
+  psql "$URL" -v ON_ERROR_STOP=1 -q <<'SQL'
+do $$ begin
+  if (select extnamespace from pg_extension where extname = 'pgcrypto')
+     is distinct from 'extensions'::regnamespace then
+    raise exception 'local tenant prerequisite: pgcrypto must be in extensions';
+  end if;
+  perform extensions.digest('local-tenant-bootstrap'::bytea, 'sha256');
+  if to_regclass('public.partner_onboarding_prefill_values_active_field_unique') is not null
+     or to_regclass('public.partner_onboarding_prefill_values_actionable_field_unique') is null
+     or to_regclass('public.partner_onboarding_prefill_values_applied_field_unique') is null then
+    raise exception 'local tenant prerequisite: onboarding reproposal indexes are missing or stale';
+  end if;
+end $$;
+SQL
+}
+
+# Tests source these same functions against a private, disposable Unix socket.
+if [[ "${BASH_SOURCE[0]}" != "$0" ]]; then return; fi
 
 case "${1:-up}" in
   up)
