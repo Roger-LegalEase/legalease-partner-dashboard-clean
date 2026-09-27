@@ -26,24 +26,37 @@ function check(label, condition) {
 
 // Evaluate the actual phase environment expressions: resume adds a distinct
 // flag without changing the full Clinic phase's provider or scope contract.
-const clinicPhaseSteps=parse(hosted).jobs.preflight.steps;
+const hostedWorkflow = parse(hosted);
+const entryWorkflow = parse(entry);
+const clinicPhaseSteps = hostedWorkflow.jobs.preflight.steps;
+const clinicStep = id => clinicPhaseSteps.find(s => s.id === id);
+function workflowValue(expression, inputs, steps, secrets = {}) {
+  if (typeof expression !== "string" || !expression.startsWith("${{")) return expression;
+  return new Function("inputs", "steps", "secrets", "always", "success", `return (${expression.replace(/^\$\{\{|\}\}$/g, "")});`)(inputs, steps, secrets, () => true, () => true);
+}
+function clinicSchedule(id) {
+  const inputs = { phase: "clinic_preview" };
+  const steps = Object.fromEntries(clinicPhaseSteps.filter(s => s.id).map(s => [s.id, { outcome: "success", outputs: {} }]));
+  steps.contract.outputs = phaseScope("clinic_preview").outputs;
+  return workflowValue('${{ ' + clinicStep(id).if + ' }}', inputs, steps);
+}
 function clinicEnv(id,key){
  const expression=clinicPhaseSteps.find(s=>s.id===id).env[key];
  return new Function('inputs','steps','secrets',`return (${expression.replace(/^\$\{\{|\}\}$/g,'')});`)({phase:'clinic_preview'},{contract:{outputs:{clinic:'true',resume:'false',legal_aid:'false'}}},{});
 }
-check("dispatch exposes one dedicated Clinic Preview mode", entry.includes("hosted_clinic_preview"));
-check("dispatch maps Clinic Preview to its dedicated reusable phase", /inputs\.mode == 'hosted_clinic_preview'\s*&&\s*'clinic_preview'/.test(entry));
-check("reusable workflow documents the Clinic Preview phase", hosted.includes("clinic_preview"));
-check("hosted run executes this Clinic Preview verifier", /id: verify_clinic_preview[\s\S]{0,220}verify-rcap-hosted-ms-clinic-preview\.mjs/.test(hosted));
-check("Clinic Preview has its own execution-contract flag", /clinic_preview\)\s+DEPLOY=true;\s+MATRIX=false;\s+GATE=false;\s+RETARGET=false;\s+BROWSER=false;\s+CLINIC=true/.test(hosted));
-check("all non-Clinic phases explicitly clear the Clinic flag", /CLINIC=false/.test(hosted));
+check("dispatch exposes one dedicated Clinic Preview mode", entryWorkflow.on.workflow_dispatch.inputs.mode.options.includes("hosted_clinic_preview"));
+check("dispatch maps Clinic Preview to its dedicated reusable phase", Object.values(entryWorkflow.jobs).some(job => job.with?.phase && workflowValue(job.with.phase, {mode:"hosted_clinic_preview"}, {}) === "clinic_preview"));
+check("reusable workflow documents the Clinic Preview phase", hostedWorkflow.on.workflow_call.inputs.phase.description.includes("clinic_preview"));
+check("hosted run executes this Clinic Preview verifier", clinicStep("verify_clinic_preview").run === "node scripts/verify-rcap-hosted-ms-clinic-preview.mjs" && clinicSchedule("verify_clinic_preview"));
+check("Clinic Preview has its own execution-contract flag", phaseScope("clinic_preview").outputs.clinic === "true");
+check("all non-Clinic phases explicitly clear the Clinic flag", ["preflight", "clinic_deploy", "legal_aid_browser", "sponsor_cap", "full"].every(phase => phaseScope(phase).outputs.clinic === "false"));
 // Execute the parsed contract step, as the integration-contract controls do.
 // Only this local shell is evaluated; no workflow jobs or provider calls run.
-function phaseScope(phase, shell = clinicPhaseSteps.find(s => s.id === "contract").run) {
+function phaseScope(phase, shell = clinicStep("contract").run, overrides = {}) {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), "rcap-clinic-scope-"));
   try {
     const inputs = { phase, preview_deployment_id: phase === "clinic_deploy" ? "" : "dpl_LocalContract",
-      preview_hostname: phase === "clinic_deploy" ? "" : "local-contract.vercel.app" };
+      preview_hostname: phase === "clinic_deploy" ? "" : "local-contract.vercel.app", ...overrides };
     const output = path.join(dir, "outputs");
     const run = spawnSync("bash", ["-c", shell.replace(/\$\{\{ inputs\.(\w+) \}\}/g, (_, key) => inputs[key] ?? "")],
       { encoding: "utf8", cwd: dir, env: { PATH: process.env.PATH, GITHUB_OUTPUT: output } });
@@ -80,24 +93,25 @@ for (const phase of ["clinic_deploy", "legal_aid_browser", "sponsor_cap", "full"
   const result = phaseScope(phase);
   check(`${phase} retains identity-scoped contract behavior`, result.status === 0 && result.outputs.require_staging_scoped === "true");
 }
-check("Preview resolution runs for Clinic Preview", /outputs\.clinic == 'true'/.test(hosted));
+check("Preview resolution runs for Clinic Preview", clinicSchedule("resolve_preview"));
 check("Clinic deploy receives Mississippi mode", clinicEnv("deploy_preview","HOSTED_CLINIC_DEMO_MODE")==="mississippi_preview");
-check("Clinic deploy receives the private demo password", /HOSTED_CLINIC_DEMO_PASSWORD:\s*\$\{\{ secrets\.HOSTED_CLINIC_DEMO_PASSWORD \}\}/.test(hosted));
-check("Clinic Auth runs and receives Mississippi mode", clinicEnv("auth_identities","HOSTED_CLINIC_DEMO_MODE")==="mississippi_preview" && clinicPhaseSteps.find(s=>s.id==="auth_identities").if.includes("steps.contract.outputs.clinic"));
-check("Clinic seed is a dedicated step", /id: clinic_seed[\s\S]{0,500}if: steps\.contract\.outputs\.clinic == 'true'[\s\S]{0,700}HOSTED_CLINIC_DEMO_ACCESS_CODE:\s*\$\{\{ secrets\.HOSTED_CLINIC_DEMO_ACCESS_CODE \}\}/.test(hosted));
-check("Clinic journey is a dedicated step", /id: clinic_journey[\s\S]{0,500}if: steps\.contract\.outputs\.clinic == 'true'/.test(hosted));
+check("Clinic deploy receives the private demo password", clinicStep("deploy_preview").env.HOSTED_CLINIC_DEMO_PASSWORD === "${{ secrets.HOSTED_CLINIC_DEMO_PASSWORD }}");
+check("Clinic Auth runs and receives Mississippi mode", clinicEnv("auth_identities","HOSTED_CLINIC_DEMO_MODE") === "mississippi_preview" && clinicSchedule("auth_identities"));
+check("Clinic seed is a dedicated step", clinicSchedule("clinic_seed") && clinicStep("clinic_seed").env.HOSTED_CLINIC_DEMO_ACCESS_CODE === "${{ secrets.HOSTED_CLINIC_DEMO_ACCESS_CODE }}");
+check("Clinic journey is a dedicated step", clinicSchedule("clinic_journey"));
 check("Clinic deploy receives no Stripe secret", clinicEnv("deploy_preview","HOSTED_STRIPE_TEST_SECRET")==="" && clinicEnv("deploy_preview","HOSTED_STRIPE_TEST_WEBHOOK_SECRET")==="");
-check("Clinic journey receives no Stripe secret", !/id: clinic_journey[\s\S]{0,1200}HOSTED_STRIPE/.test(hosted));
-check("Clinic phase installs browser dependencies without scheduling the legacy matrix", /steps\.contract\.outputs\.clinic == 'true'/.test(hosted) && /id: gate_deps/.test(hosted));
-check("anti-skip records Clinic seed and journey outcomes", /O_CLINIC_SEED:\s*\$\{\{ steps\.clinic_seed\.outcome \}\}/.test(hosted) && /O_CLINIC_JOURNEY:\s*\$\{\{ steps\.clinic_journey\.outcome \}\}/.test(hosted));
-check("anti-skip requires every Clinic Preview boundary", /\[ "\$RUNS_CLINIC" = "true" \][\s\S]*require "Clinic synthetic seed"[\s\S]*require "Clinic screening-to-packet journey"/.test(hosted));
-check("workflow declares private Clinic credentials", /HOSTED_CLINIC_DEMO_PASSWORD:[\s\S]{0,80}required: true/.test(hosted) && /HOSTED_CLINIC_DEMO_ACCESS_CODE:[\s\S]{0,80}required: true/.test(hosted));
+check("Clinic journey receives no Stripe secret", !Object.keys(clinicStep("clinic_journey").env).some(key => key.includes("STRIPE")));
+check("Clinic phase installs browser dependencies without scheduling the legacy matrix", clinicSchedule("gate_deps") && phaseScope("clinic_preview").outputs.matrix === "false");
+check("anti-skip records Clinic seed and journey outcomes", clinicStep("antiskip").env.O_CLINIC_SEED === "${{ steps.clinic_seed.outcome }}" && clinicStep("antiskip").env.O_CLINIC_JOURNEY === "${{ steps.clinic_journey.outcome }}");
+// Clinic seed/journey/audit requirements are executed and mutated below,
+// rather than inferred from shell-fragment proximity.
+check("workflow declares private Clinic credentials", ["HOSTED_CLINIC_DEMO_PASSWORD", "HOSTED_CLINIC_DEMO_ACCESS_CODE"].every(key => hostedWorkflow.on.workflow_call.secrets[key].required === true));
 check("dedicated Clinic seed script exists", fs.existsSync("scripts/rcap-hosted-ms-clinic-preview-seed.mjs"));
 check("sponsored browser supports Clinic entry", browser.includes("RCAP_BROWSER_CLINIC_EVENT_SLUG"));
 check("successful packet claims bind the saved matter to the Clinic case", clinicFollowUp.includes("clinicCaseTreatmentFor") && /packet_ready[\s\S]{0,180}routeDisposition:\s*"packet"/.test(clinicFollowUp));
 check("worker equivalence excludes only the measured server-only Clinic binding repair", hosted.includes("':(exclude)src/lib/clinic-mode/result-follow-up.ts'") && !fs.readFileSync("scripts/rcap-render-worker.mjs", "utf8").includes("result-follow-up"));
 check("Preview resolver requires exact Clinic mode, scope, and no-Stripe metadata", resolver.includes("EXPECTED_CLINIC_DEMO_MODE") && resolver.includes("EXPECTED_STRIPE_CONFIGURED") && resolver.includes("EXPECTED_CLINIC_SCOPE_SHA256"));
-check("Clinic resolver receives its exact mode", /id: resolve_preview[\s\S]{0,2200}HOSTED_CLINIC_DEMO_MODE:\s*\$\{\{ \(steps\.contract\.outputs\.clinic/.test(hosted));
+check("Clinic resolver receives its exact mode", clinicEnv("resolve_preview","HOSTED_CLINIC_DEMO_MODE") === "mississippi_preview");
 check("browser verifies the exact Vercel Preview identity", browser.includes("RCAP_BROWSER_PREVIEW_DEPLOYMENT_ID") && browser.includes("verifyExactHostedPreview"));
 check("approved event staff use the event-scoped queue", browser.includes("/clinic/staff/${clinicEventId}/queue") && !browser.includes("/partner/clinic/${clinicEventId}/follow-up"));
 check("staff proof asserts the created packet-ready case", browser.includes("participantSuffix") && browser.includes("Packet prepared"));
@@ -105,22 +119,50 @@ check("Auth and seed verify the SHA alias resolves to the exact deployment", aut
 check("reset proof checks all browser storage and navigation boundaries", ["localStorage", "sessionStorage", "indexedDB", "caches.keys", "serviceWorker.getRegistrations", "goBack", "goForward"].every((marker) => browser.includes(marker)) && !/goBack\([^)]*\)[^;]*\.catch\(\(\) => null\)/.test(browser));
 check("reset proof performs Participant B handoff in the same browser context", browser.includes("sameDeviceParticipantBDenial"));
 check("browser evidence records the screening session and server generation response", browser.includes("screeningSessionId") && browser.includes("generationResponseBody"));
-check("post-journey audit binds server-side Clinic, artifact, credit, and reset evidence", fs.existsSync("scripts/rcap-hosted-ms-clinic-preview-audit.mjs") && /id: clinic_audit[\s\S]{0,700}rcap-hosted-ms-clinic-preview-audit\.mjs/.test(hosted));
-check("anti-skip requires the post-journey server audit", /O_CLINIC_AUDIT:\s*\$\{\{ steps\.clinic_audit\.outcome \}\}/.test(hosted) && /require "Clinic server-side audit" "\$O_CLINIC_AUDIT"/.test(hosted));
+check("post-journey audit binds server-side Clinic, artifact, credit, and reset evidence", fs.existsSync("scripts/rcap-hosted-ms-clinic-preview-audit.mjs") && clinicSchedule("clinic_audit") && clinicStep("clinic_audit").run.includes("node scripts/rcap-hosted-ms-clinic-preview-audit.mjs"));
+check("anti-skip records the post-journey server audit", clinicStep("antiskip").env.O_CLINIC_AUDIT === "${{ steps.clinic_audit.outcome }}");
 
-function dynamicClinicReuseContract(source) {
-  const block = source.match(/if \[ "\$PHASE" = "clinic_preview" \]; then([\s\S]*?)\n          fi/)?.[1] ?? "";
-  return block.includes("test -n '${{ inputs.preview_deployment_id }}'")
-    && block.includes("test -n '${{ inputs.preview_hostname }}'")
-    && block.includes("DEPLOY=false")
-    && !/dpl_[A-Za-z0-9]+|[0-9a-f]{40}|legalease-rcap-clinic-[a-z0-9-]+\.vercel\.app/.test(block)
-    && source.includes("requireCurrentReleaseCandidate")
-    && source.includes("inputs.phase != 'clinic_preview' && steps.contract.outputs.deploy");
+function assertClinicReuseContract(workflow) {
+  const stepsList = workflow.jobs.preflight.steps;
+  const get = id => stepsList.find(s => s.id === id);
+  const shell = get("contract").run;
+  for (const suffix of ["First", "Second"]) {
+    const inputs = { phase: "clinic_preview", preview_deployment_id: `dpl_${suffix}Local`,
+      preview_hostname: `${suffix.toLowerCase()}-local.vercel.app`, application_sha: (suffix === "First" ? "a" : "b").repeat(40),
+      supabase_project_ref: `project-${suffix}` };
+    const result = phaseScope(inputs.phase, shell, inputs);
+    assert.equal(result.status, 0); assert.equal(result.outputs.deploy, "false");
+    assert.equal(result.outputs.clinic, "true"); assert.equal(result.outputs.require_staging_scoped, "true");
+    for (const key of ["preview_deployment_id", "preview_hostname"]) assert.notEqual(phaseScope(inputs.phase, shell, {...inputs, [key]:""}).status, 0, `missing ${key} must refuse`);
+    const steps = Object.fromEntries(stepsList.filter(s => s.id).map(s => [s.id,{outputs:{},outcome:"success"}]));
+    steps.contract.outputs = result.outputs;
+    const evaluate = expression => workflowValue(expression.startsWith("${{") ? expression : '${{ '+expression+' }}', inputs, steps);
+    assert.equal(evaluate(get("resolve_preview").if), true);
+    for (const reused of ["true", "false", ""]) {
+      steps.resolve_preview.outputs.reused = reused;
+      assert.equal(evaluate(get("deploy_preview").if), false, "Clinic reuse must never deploy");
+    }
+    for (const [env,input] of [["HOSTED_PREVIEW_DEPLOYMENT_ID","preview_deployment_id"],["HOSTED_PREVIEW_HOSTNAME","preview_hostname"],["HOSTED_APPLICATION_SHA","application_sha"],["ACCEPTANCE_SUPABASE_PROJECT_REF","supabase_project_ref"]])
+      assert.equal(workflowValue(get("resolve_preview").env[env],inputs,steps),inputs[input], `dynamic exact ${env}`);
+    assert.equal(evaluate(get("resolve_preview").env.HOSTED_REQUIRE_STAGING_SCOPED), "true");
+    assert.equal(evaluate(get("resolve_preview").env.HOSTED_ISOLATED_CLINIC_PREVIEW), "true");
+  }
 }
-check("Clinic reuse accepts dynamic exact pins and cannot create another Preview", dynamicClinicReuseContract(hosted));
-check("Clinic reuse rejects mutation to historical deployment/application authority", !dynamicClinicReuseContract(hosted.replace('if [ "$PHASE" = "clinic_preview" ]; then\n            test -n', 'if [ "$PHASE" = "clinic_preview" ]; then\n            test "dpl_9TNBAkg6Au9PLeNUto7PNiDshj9i" =')));
-check("Clinic reuse rejects a missing hostname requirement", !dynamicClinicReuseContract(hosted.replace('if [ "$PHASE" = "clinic_preview" ]; then\n            test -n \'${{ inputs.preview_deployment_id }}\'\n            test -n \'${{ inputs.preview_hostname }}\'', 'if [ "$PHASE" = "clinic_preview" ]; then\n            test -n \'${{ inputs.preview_deployment_id }}\'\n            true')));
-check("Clinic worker requires registry access and current database readback", hosted.includes('require "Clinic immutable worker registry access"') && hosted.includes('require "Clinic current database"'));
+assertClinicReuseContract(hostedWorkflow);
+check("Clinic reuse accepts dynamic exact pins and cannot create another Preview", true);
+for (const [name, mutate] of [
+  ["missing deployment id requirement", w => { const step=w.jobs.preflight.steps.find(s=>s.id==="contract");step.run=step.run.replace("test -n '${{ inputs.preview_deployment_id }}'", ":"); }],
+  ["missing hostname requirement", w => { const step=w.jobs.preflight.steps.find(s=>s.id==="contract");step.run=step.run.replace("test -n '${{ inputs.preview_hostname }}'", ":"); }],
+  ["historical deployment authority", w => {w.jobs.preflight.steps.find(s=>s.id==="resolve_preview").env.HOSTED_PREVIEW_DEPLOYMENT_ID="dpl_Historical";}],
+  ["historical source authority", w => {w.jobs.preflight.steps.find(s=>s.id==="resolve_preview").env.HOSTED_APPLICATION_SHA="f".repeat(40);}],
+  ["reuse accidentally enables deployment", w => {w.jobs.preflight.steps.find(s=>s.id==="contract").run+='\necho "deploy=true" >> "$GITHUB_OUTPUT"';}],
+  ["scope weakening", w => {w.jobs.preflight.steps.find(s=>s.id==="resolve_preview").env.HOSTED_REQUIRE_STAGING_SCOPED="false";}],
+  ["identity isolation weakening", w => {w.jobs.preflight.steps.find(s=>s.id==="resolve_preview").env.HOSTED_ISOLATED_CLINIC_PREVIEW="false";}],
+]) {
+  const mutated=structuredClone(hostedWorkflow); mutate(mutated);
+  assert.throws(()=>assertClinicReuseContract(mutated));check(`Clinic reuse rejects ${name}`,true);
+}
+// Registry/database requirements are exercised with the other Clinic outcomes below.
 
 // Execute the actual browser controllers, without starting a browser, worker,
 // or remote write. Faults must stop the real orchestration before its next
@@ -327,7 +369,7 @@ for (const phase of ["clinic_preview", "full"]) {
     const evaluate=expression=>new Function("inputs","steps","always","success",`return (${expression.replace(/^\$\{\{|\}\}$/g,"")});`)(inputs,steps,()=>true,()=>true);
     for(const step of workflowSteps.filter(s=>s.id))if(!step.if||evaluate(step.if))steps[step.id].outcome="success";
     check(`${phase} resolves exact Preview without executing deployment`,steps.resolve_preview.outcome==="success"&&steps.deploy_preview.outcome==="skipped");
-    const required=phase==="clinic_preview"?["clinic_seed","clinic_database_readback","clinic_journey","clinic_audit"]:["checkout_gate","golden_journey","payment_journey","matrix_build"];
+    const required=phase==="clinic_preview"?["clinic_seed","clinic_database_readback","clinic_journey","clinic_audit","registry_login"]:["checkout_gate","golden_journey","payment_journey","matrix_build"];
     check(`${phase} all journey stages reachable`,required.every(id=>steps[id].outcome==="success"));
     const env=Object.fromEntries(Object.entries(antiskipStep.env).map(([k,v])=>[k,String(evaluate(v)??"")]));
     const anti=patch=>spawnSync("bash",["-c",antiskipStep.run],{encoding:"utf8",env:{PATH:process.env.PATH,...env,...patch},cwd:dir});
