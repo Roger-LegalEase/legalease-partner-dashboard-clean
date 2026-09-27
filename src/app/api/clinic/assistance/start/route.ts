@@ -5,6 +5,8 @@ import { claimRcapPartnerScreeningSession } from "@/lib/expungement-ai/rcap-part
 import { getServerAuthState } from "@/lib/supabase/auth-server";
 import { getSupabaseAdminClient } from "@/lib/supabase/server";
 
+import { RECOVERY_COOKIE, hash, mintRecovery, encodeRecovery, recoveryOptions } from "@/lib/clinic-mode/reset-recovery";
+
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
@@ -34,6 +36,8 @@ export async function POST(request: NextRequest) {
     if (!db) return NextResponse.json({ success: false, error: "Clinic assistance is temporarily unavailable." }, { status: 503 });
     const sessionToken = randomBytes(32).toString("base64url");
     const deviceToken = randomBytes(32).toString("base64url");
+    const recovery = mintRecovery(auth.userId, hash(sessionToken), hash(deviceToken));
+    const recoveryValue = encodeRecovery(recovery); // Fail before creating a session if recovery cannot be issued.
     const sessionResult = await db.rpc("clinic_start_assisted_session", {
       p_event_id: entry.eventId, p_event_staff_id: eventStaffId,
       p_participant_user_id: auth.userId, p_screening_session_id: screening.sessionId,
@@ -54,7 +58,7 @@ export async function POST(request: NextRequest) {
     }
     const response = NextResponse.json({ success: true, screeningUrl: `/clinic/${entry.eventSlug}/screening/${jurisdiction.toLowerCase()}` });
     const options = { httpOnly: true, sameSite: "strict" as const, secure: process.env.NODE_ENV === "production", path: "/", maxAge: 30 * 60 };
-    response.cookies.set("clinic_reset_recovery", "", { ...options, maxAge: 0 });
+    response.cookies.set(RECOVERY_COOKIE, recoveryValue, recoveryOptions(recovery));
     response.cookies.set("clinic_session", sessionToken, options);
     response.cookies.set("clinic_device", deviceToken, options);
     response.cookies.set("clinic_event", entry.eventSlug, options);

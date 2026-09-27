@@ -12,9 +12,15 @@ export async function proxy(request: NextRequest) {
   // server revocation or browser cleanup is incomplete. The marker grants no
   // authority; it only locks. API reset and static assets remain reachable.
   const resetPath = request.nextUrl.pathname;
+  const resetAuth = ["/expungement-ai/sign-in", "/sign-in", "/auth/set-password", "/api/auth/sign-in-fallback"].includes(resetPath);
+  const resetAsset = resetPath.startsWith("/_next/static/") || resetPath.startsWith("/_next/image");
   if (request.cookies.get("clinic_reset_pending")?.value && resetPath !== "/clinic/reset"
-    && !resetPath.startsWith("/api/") && !resetPath.startsWith("/_next/")) {
-    return NextResponse.redirect(new URL("/clinic/reset", request.url), 303);
+    && resetPath !== "/api/clinic/session/reset" && !resetAuth && !resetAsset) {
+    const response = resetPath.startsWith("/api/")
+      ? NextResponse.json({ error: "Device reset is incomplete" }, { status: 423 })
+      : NextResponse.redirect(new URL("/clinic/reset", request.url), 303);
+    response.headers.set("Cache-Control", "no-store, private");
+    return response;
   }
   const hostRouting = routePublicProductHost(request);
   if (hostRouting) {
@@ -55,6 +61,12 @@ export const config = {
     // The catch-all above excludes any path containing a dot, so the RSS feeds would never reach
     // the proxy and would 404 on the public hosts even though the allowlist maps them. They are
     // matched explicitly.
+    "/api/:path*",
+    "/briefcase/:path*",
+    "/clinic/:path*",
+    "/partner/:path*",
+    "/internal/:path*",
+    "/_next/data/:path*",
     "/blog/feed.xml",
     "/insights/feed.xml"
   ]

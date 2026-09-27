@@ -18212,7 +18212,7 @@
         "owner": "Codex; independent review pending",
         "base": "0f23a0ca4d6eac7d50a0466d8f2664f9e63a25c7",
         "sourceCommit": "commit introducing this productSuccessor record",
-        "status": "Implemented local D3/D4 candidate; not hosted acceptance or release authorization",
+        "status": "F1/F2 recovery, F3 successor connected controls and F4 actual Clinic destination implemented locally; independent review and hosted acceptance pending",
         "D3": "Disabled server-rendered fieldset and submit; hydration/handler-ready state; explicit POST fallback; synchronous duplicate-submission guard shared by auth actions; reactive mode and forgot-password continuation.",
         "D4": "Authenticated preparation persists a signed, expiring, owner/handoff/device-bound HttpOnly close-only capability before destructive sign-out. Closure checks lookup/RPC/readback, supports idempotent retry after auth loss, refuses unknown closure and mismatched old-session replay. UI masks immediately, propagates tab lock, retains a recovery URL and cookie, independently checks canonical closure and browser cleanup, and admits handover only after both. New session start refuses a pending reset and retires the old capability.",
         "counterexamples": {
@@ -18226,11 +18226,11 @@
           "additional": "Storage/cookie survivor and no-navigation faults; mutation controls; Clinic mobile accessibility on 4 viewports; participant ownership and tenant denials; auth continuation and redirect/sign-out origin regressions",
           "typecheck": "PASS",
           "changedSourceLint": "PASS",
-          "fullApplicationBuild": "NOT VERIFIED: exact integrated baseline and successor webpack builds terminate with SIGTERM and no compiler diagnostic in this environment; logs retained. Component production builds, full typecheck and changed-source lint pass."
+          "fullApplicationBuild": "4723f603 full default-Turbopack build PASS, exit 0, Node 22.23.2 / Next 16.2.6, 2026-09-27 03:48:15–03:50:54 UTC; original full archive SHA f121dad2a8e231cd2b49928410b896907fe7255822ea550ef67c58967efd9335. Revised source requires separate build evidence in revision package."
         },
         "releaseImpact": {
           "workerRebuildRequired": true,
-          "reason": "Nine changed src paths are canonical worker inputs; Dockerfile and canonical input definition unchanged. Measure exact committed source through existing planner.",
+          "reason": "Required product src changes remain canonical worker inputs; exact revision planner result accompanies bundle. No Dockerfile/input definition narrowing.",
           "publication": "Required; not authorized or performed",
           "readOnlyImageAcceptance": "Required after publication; not performed",
           "preview": "New source-bound Preview and candidate-specific evidence required; old af638 Preview not rerun",
@@ -18240,7 +18240,43 @@
         "dispatchAuthorized": false,
         "publicationPerformed": false,
         "deploymentPerformed": false,
-        "hostedAcceptance": false
+        "hostedAcceptance": false,
+        "reviewedComparison": "4723f6031fbd55e99d4acfa2bf69c63880e04efe",
+        "reviewArchive": {
+          "path": "design-handoff/CLAUDE_PRODUCT_REVIEW_4723f603.zip",
+          "sha256": "444662c84996a89c9173e4178bf147c90e102ebc20b358358e3e5fc6ad510955",
+          "D3": "PASS; implementation unchanged",
+          "D4": "F1/F2 required this amendment",
+          "F3": "Historical reset source separated from current product lifecycle"
+        },
+        "recoveryAmendment": {
+          "owner": "Codex",
+          "sourceCommit": "commit introducing this recoveryAmendment record",
+          "ownedFiles": [
+            "src/lib/clinic-mode/reset-recovery.ts",
+            "src/app/api/clinic/session/reset/route.ts",
+            "src/app/api/clinic/assistance/start/route.ts",
+            "src/app/clinic/page.tsx",
+            "src/app/clinic/reset/page.tsx",
+            "src/components/clinic-mode/ClinicPrivacyBoundary.tsx",
+            "src/proxy.ts",
+            "directly dependent reset and connected controls",
+            "qa/grade-a/ExpungementAI_Final_QA_Checklist.xlsx"
+          ],
+          "F1": "Preparation and browser cleanup preserve authentication and handoff on failure. Start issues durable exact-handoff recovery before 30-minute Clinic cookies expire. Recovery configuration failure occurs before session creation.",
+          "F2": "8-hour close authority and explicit 30-day terminal-only reconciliation; retained locator alone confers no authority. Expired or key-invalid proof needs fresh authenticated original owner plus exact DB handoff/device/owner match for closure. No user-wide search, consent/session/staff expiry extension, or focus-driven renewal. Fixed absolute receipt expiry; client lock not renewed on focus/retry.",
+          "F3": "Historical lost-cookie endpoint pinned to 0f23a0ca4; retained unsafe contract/policy comparison identified as 658d2368 (ea8 object absent locally). Current successor connected suite exercises prepare/close/complete with real identity, canonical PostgreSQL, D1 prevention and actual D2 shutdown. No hosted checkpoint repinned.",
+          "destination": "Server-validated original /clinic/<eventSlug>, or real /clinic safe event selection. Reauthentication uses /expungement-ai/sign-in?next=/clinic/reset only while locked.",
+          "O3": "Proxy blocks locked documents including RSC/prefetch and relevant private APIs before rendering/handlers. Mask is not a data authorization control. Full-build HTTP evidence required; no claim about data already delivered before reset.",
+          "evidence": "CODEX_D3_D4_PRODUCT_SUCCESSOR_REVISION/REVIEW.md and evidence/; original 4723 package retained",
+          "independentReview": "PENDING",
+          "hostedAcceptance": false,
+          "F4": "Completion recovers the exact canonical assisted session event_id and validates its published public_slug. Missing/invalid/closed event uses genuine /clinic entry with validated public-event lookup; DB lookup outage retains lock. No client redirect trusted. Fixtures compile actual product index/event/recovery routes with declared public-event data ports."
+        },
+        "unfinishedUXObservations": [
+          "O1: outright hydration failure with JavaScript enabled has disabled/busy form without an explanatory failure message; D3 security PASS does not waive usability.",
+          "Recovery copy/EN–ES parity, qualified assistive-technology review, real devices and the ten-participant hosted sequence remain applicable Grade A requirements; local security controls are not full usability acceptance."
+        ]
       },
       "owner": "Codex; Claude independently reviews the consolidated candidate",
       "scope": "Existing run 36279744465 correction; D1/D2/D3 connected bounded resume. Not a complete launch review.",

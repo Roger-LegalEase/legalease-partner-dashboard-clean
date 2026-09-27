@@ -25,6 +25,8 @@ export function ClinicPrivacyBoundary({ children, cleanEntryPath, recovery = fal
     flushSync(() => { setLocked(true); setResetting(true); });
     setWarning("Ending the participant session and clearing this device…");
     try { resetChannel.current?.postMessage("reset-started"); } catch { /* The local mask and server lock still apply. */ }
+    let preparedConfirmed = false;
+    let recoveryState = "";
     let serverConfirmed = false;
     let localConfirmed = false;
     const request = async (action: string) => {
@@ -36,31 +38,35 @@ export function ClinicPrivacyBoundary({ children, cleanEntryPath, recovery = fal
       return { response, result };
     };
     try {
-      document.cookie = "clinic_reset_pending=1; Path=/; Max-Age=28800; SameSite=Strict";
+      if (!hasPendingReset()) document.cookie = "clinic_reset_pending=1; Path=/; Max-Age=34560000; SameSite=Strict";
       // This is an explicitly locked recovery screen, never a clean entry.
       window.history.replaceState(null, "", "/clinic/reset");
       if (!hasPendingReset()) throw new Error("Device lock could not be saved");
       const prepared = await request("prepare");
+      recoveryState = prepared.result.state;
       if (prepared.response.ok && prepared.result.prepared === true) {
+        preparedConfirmed = true;
         const closed = await request("close");
         serverConfirmed = closed.response.ok && closed.result.revocationConfirmed === true && closed.result.signOutConfirmed === true;
       }
     } catch { /* The lock remains; cleanup still runs independently below. */ }
     try {
-      localConfirmed = (await resetClinicDeviceState(window, cleanEntryPath, { navigate: false })).ok;
+      if (preparedConfirmed) localConfirmed = (await resetClinicDeviceState(window, cleanEntryPath, { navigate: false })).ok;
     } catch { localConfirmed = false; }
     if (serverConfirmed && localConfirmed) {
       try {
         const completed = await request("complete");
         if (completed.response.ok && completed.result.revocationConfirmed === true && completed.result.signOutConfirmed === true && completed.result.success === true) {
           // Recheck after the final server response, before history/navigation.
-          const finalCleanup = await resetClinicDeviceState(window, cleanEntryPath);
+          const entry = completed.result.cleanEntryPath;
+          if (typeof entry !== "string" || !/^\/clinic(?:\/[a-z0-9]+(?:-[a-z0-9]+)*)?$/.test(entry)) throw new Error("Validated Clinic entry missing");
+          const finalCleanup = await resetClinicDeviceState(window, entry);
           if (finalCleanup.ok) return;
         }
       } catch { /* Remain masked for recovery. */ }
     }
-    try { document.cookie = "clinic_reset_pending=1; Path=/; Max-Age=28800; SameSite=Strict"; } catch { /* Keep the recovery screen locked. */ }
-    setWarning("Reset is incomplete. This device is locked. Retry before handing it to another participant.");
+    try { if (!hasPendingReset()) document.cookie = "clinic_reset_pending=1; Path=/; Max-Age=34560000; SameSite=Strict"; } catch { /* Keep the recovery screen locked. */ }
+    setWarning(recoveryState === "authentication_required" ? "Reset needs the original participant to sign in again. This device remains locked." : recoveryState === "handoff_identity_required" ? "The original Clinic handoff is missing. Keep this device locked and ask Clinic support to recover that exact handoff." : "Reset is incomplete. This device is locked. Retry before handing it to another participant.");
     setResetting(false);
     running.current = false;
   }, [cleanEntryPath]);
@@ -75,14 +81,14 @@ export function ClinicPrivacyBoundary({ children, cleanEntryPath, recovery = fal
     };
     const schedule = () => {
       if (timerRef.current) window.clearTimeout(timerRef.current);
-      timerRef.current = window.setTimeout(() => void reset("inactivity"), INACTIVITY_LIMIT_MS);
+      timerRef.current = window.setTimeout(() => { if (!hasPendingReset()) void reset("inactivity"); }, INACTIVITY_LIMIT_MS);
     };
     const activityEvents = ["pointerdown", "keydown", "touchstart"] as const;
     for (const name of activityEvents) window.addEventListener(name, schedule, { passive: true });
     const onPageShow = (event: PageTransitionEvent) => {
-      if (event.persisted || hasPendingReset()) void reset("security_reset");
+      if (event.persisted || hasPendingReset()) setLocked(true);
     };
-    const onFocus = () => { if (hasPendingReset()) void reset("security_reset"); };
+    const onFocus = () => { if (hasPendingReset()) setLocked(true); };
     window.addEventListener("pageshow", onPageShow);
     window.addEventListener("focus", onFocus);
     schedule();
@@ -104,6 +110,7 @@ export function ClinicPrivacyBoundary({ children, cleanEntryPath, recovery = fal
           <button type="button" disabled={resetting} onClick={() => void reset("staff_reset")} className="min-h-11 rounded-md bg-[#B04A26] px-5 py-2 text-sm font-black text-white hover:bg-[#8F3A1C] disabled:opacity-60">{locked && warning && !resetting ? "Retry device reset" : "End clinic session / Reset device"}</button>
         </div>
       </div>
+      {locked && !resetting && <p className="p-4"><a href="/expungement-ai/sign-in?next=%2Fclinic%2Freset">Original participant: sign in to finish reset</a></p>}
       {!locked && children}
     </div>
   );
