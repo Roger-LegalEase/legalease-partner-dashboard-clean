@@ -113,8 +113,8 @@ export function classifyResumeLifecycle(s){
  try{assertResumeState(s);return 'EXACT_ACTIVE_CHECKPOINT';}
  catch(active){try{assertResumeState(s,{afterReset:true});return 'EXACT_RESET_CHECKPOINT';}catch(reset){throw new assert.AssertionError({message:`not the exact active checkpoint (${String(active.message).split('\n')[0]}) and not the exact reset checkpoint (${String(reset.message).split('\n')[0]})`,actual:s.assisted?.status,expected:'active or reset with one matching audit record',operator:'classifyResumeLifecycle'});}}
 }
-export const RESUME_STAGES=Object.freeze(['browser_reset_failed','browser_checks_failed','pre_closure_state_failed','browser_checks_passed','closure_requested','closure_response_lost','closure_committed','readback_failed','readback_verified']);
-const RESUME_PORTS=Object.freeze(['snapshot','requireSuccessorPreview','signInOwner','observeBeforeMatter','openReadyMatter','downloadRequests','explicitDownload','proveDenials','proveStaffQueuePrivacy','resetDevice','violations','recordProgress','closeExactSession']);
+export const RESUME_STAGES=Object.freeze(['browser_reset_failed','browser_finish_failed','browser_checks_failed','pre_closure_state_failed','browser_checks_passed','closure_requested','closure_response_lost','closure_committed','readback_failed','readback_verified']);
+const RESUME_PORTS=Object.freeze(['snapshot','requireSuccessorPreview','signInOwner','observeBeforeMatter','openReadyMatter','downloadRequests','explicitDownload','proveDenials','proveStaffQueuePrivacy','resetDevice','finishBrowserActivity','assertBrowserFinished','violations','recordProgress','closeExactSession']);
 const summarizeReset=r=>({signOutConfirmed:r.signOutConfirmed,cookies:r.cookies,allCookies:r.allCookies??null,storage:r.storage,storageAfterEntryInit:r.storageAfterEntryInit,survived:r.survived,created:r.created,doNotTrack:r.doNotTrack,analyticsProfile:r.analyticsProfile??null,historySafe:r.historySafe,revokedStatus:r.revokedStatus,strangerId:r.strangerId,sameDeviceStranger:r.sameDeviceStranger,strangerMatchesMissing:r.strangerMatchesMissing,violations:r.violations.length,downloadRequests:r.downloadRequests});
 export async function runResumeProof(p){
  for(const port of RESUME_PORTS)assert.equal(typeof p?.[port],'function',`resume port ${port} required`);
@@ -135,10 +135,19 @@ export async function runResumeProof(p){
  const reset={...cleanup,violations:p.violations(),downloadRequests:p.downloadRequests()};
  try{assertBrowserCleanupBeforeClosure(reset,{expectedDownloads:alreadyProven?0:1});}catch(error){await failAt('browser_checks_failed',error);}
  try{const current=await p.snapshot();assertResumeState(current);assertNoNewAccounting(before,current);assert.deepEqual(current.delivery,delivered.delivery);assert.deepEqual(current.case,before.case);}catch(error){await failAt('pre_closure_state_failed',error);}
+ // Stop all producers and await their handlers before final observations. A
+ // read made while the browser was alive cannot authorize the later write.
+ let browserCompletion;
+ try{browserCompletion=await p.finishBrowserActivity();p.assertBrowserFinished();}catch(error){await failAt('browser_finish_failed',error);}
+ const checkFinal=()=>{p.assertBrowserFinished();assertBrowserCleanupBeforeClosure({...cleanup,violations:p.violations(),downloadRequests:p.downloadRequests()},{expectedDownloads:alreadyProven?0:1});};
+ try{checkFinal();const current=await p.snapshot();assertResumeState(current);assertNoNewAccounting(before,current);assert.deepEqual(current.delivery,delivered.delivery);assert.deepEqual(current.case,before.case);checkFinal();}catch(error){await failAt('pre_closure_state_failed',error);}
  await record('browser_checks_passed',{lifecycle:'EXACT_ACTIVE_CHECKPOINT',browser:summarizeReset(reset)});
  // The closure names the exact pinned session and its original owner inside
  // the SQL itself; Participant B, signed in on the device by now, never reaches it.
- await record('closure_requested',{session:RESUME.assisted,actor:RESUME.owner,reason:'staff_reset'});
+ await record('closure_requested',{session:RESUME.assisted,actor:RESUME.owner,reason:'staff_reset',writeNotYetAttempted:true});
+ // Evidence writes are awaited too. No await or live browser producer remains
+ // between this last fresh validation and invoking the exact closure port.
+ try{checkFinal();}catch(error){await failAt('browser_checks_failed',error);}
  try{await p.closeExactSession();}catch(error){await failAt('closure_response_lost',error);}
  await record('closure_committed');
  let after;try{after=await p.snapshot();assertResumeState(after,{afterReset:true});assertNoNewAccounting(before,after);assert.deepEqual(after.delivery,delivered.delivery);assert.deepEqual(after.case,before.case);assert.equal(after.delivery.length,delivered.delivery.length,'delivery events changed during closure');if(alreadyProven){classifyDeliveryCheckpoint(after);assert.equal(p.downloadRequests(),0);}}catch(error){await failAt('readback_failed',error);}
@@ -146,5 +155,5 @@ export async function runResumeProof(p){
  return {schemaVersion:'rcap-clinic-resume/v2',passed:true,namespace:RESUME,checkpoint,preview,
  originalAccidentalDelivery:{sourceRun:RESUME.priorRun,cause:'Next Link prefetch before deliberate participant action',eventIds:before.delivery.slice(0,3).map(e=>e.id),events:before.delivery.slice(0,3)},
  correctedExplicitDelivery:{sourceRun:alreadyProven?CHECKPOINT.sourceRun:p.sourceRun,preview:alreadyProven?CHECKPOINT.previewId:preview.deploymentId,eventIds:delivered.delivery.slice(3).map(e=>e.id),events:delivered.delivery.slice(3),automaticDownloadRequestsBeforeExplicitAction:0,sha256:RESUME.hash,bytes:RESUME.bytes,...(alreadyProven?{artifactId:CHECKPOINT.artifactId,artifactSha256:CHECKPOINT.artifactSha256,evidenceBasis:'Pinned run reached staff proof only after explicit bytes, accounting and denial assertions passed'}:{})},
- finalCheckpointRun:{sourceRun:p.sourceRun,noNewPacketDownload:alreadyProven,newPacketDownloads:alreadyProven?0:1,staffQueueProof,denials,reset:{...summarizeReset(reset),originalCookieUnavailable:true,sessionClosure:'separately authorized exact canonical clinic_end_assisted_session',closureActor:RESUME.owner,closureAuditRecords:after.sessionAudit.length},accountingUnchanged:true},staffQueueProof,before,after};
+ finalCheckpointRun:{sourceRun:p.sourceRun,noNewPacketDownload:alreadyProven,newPacketDownloads:alreadyProven?0:1,staffQueueProof,denials,browserCompletion,reset:{...summarizeReset(reset),originalCookieUnavailable:true,sessionClosure:'separately authorized exact canonical clinic_end_assisted_session',closureActor:RESUME.owner,closureAuditRecords:after.sessionAudit.length},accountingUnchanged:true},staffQueueProof,before,after};
 }

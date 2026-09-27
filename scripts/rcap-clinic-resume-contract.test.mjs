@@ -23,7 +23,7 @@ const local=vm.runInNewContext(localText+exported,sandbox());
 // overrides for the fault under test.
 function ports(s,over={}){
  const calls={closures:0,progress:[],signIns:0};
- const p={sourceRun:'final-checkpoint',snapshot:async()=>structuredClone(s),requireSuccessorPreview:async()=>({deploymentId:CHECKPOINT.previewId}),signInOwner:async()=>{calls.signIns++;},observeBeforeMatter:async()=>{},openReadyMatter:async()=>{},downloadRequests:()=>0,explicitDownload:async()=>{throw Error('must never download');},proveDenials:async()=>({stranger:404,anonymous:401}),proveStaffQueuePrivacy:async()=>queueProof(),resetDevice:async()=>cleanReset(),violations:()=>[],recordProgress:async entry=>{calls.progress.push(entry);},closeExactSession:async()=>{calls.closures++;applyClosure(s);},...over};
+ const p={sourceRun:'final-checkpoint',snapshot:async()=>structuredClone(s),requireSuccessorPreview:async()=>({deploymentId:CHECKPOINT.previewId}),signInOwner:async()=>{calls.signIns++;},observeBeforeMatter:async()=>{},openReadyMatter:async()=>{},downloadRequests:()=>0,explicitDownload:async()=>{throw Error('must never download');},proveDenials:async()=>({stranger:404,anonymous:401}),proveStaffQueuePrivacy:async()=>queueProof(),resetDevice:async()=>cleanReset(),finishBrowserActivity:async()=>({finished:true}),assertBrowserFinished:()=>({finished:true}),violations:()=>[],recordProgress:async entry=>{calls.progress.push(entry);},closeExactSession:async()=>{calls.closures++;applyClosure(s);},...over};
  return {p,calls};
 }
 const sixEventFixture=()=>{const s=fixture();s.delivery=pinnedEvents(6);return s;};
@@ -62,7 +62,7 @@ test('exact six-event checkpoint skips explicit download, asserts the browser be
  assert.equal(downloads,0);assert.equal(calls.closures,1);assert.deepEqual(s.delivery,original);assert.equal(s.delivery.length,6);
  assert.deepEqual(calls.progress.map(e=>e.stage),['browser_checks_passed','closure_requested','closure_committed','readback_verified']);
  for(const stage of calls.progress.map(e=>e.stage))assert.ok(RESUME_STAGES.includes(stage));
- assert.deepEqual(JSON.parse(JSON.stringify(calls.progress[1])),{stage:'closure_requested',at:calls.progress[1].at,session:RESUME.assisted,actor:RESUME.owner,reason:'staff_reset'});
+ assert.deepEqual(JSON.parse(JSON.stringify(calls.progress[1])),{stage:'closure_requested',at:calls.progress[1].at,session:RESUME.assisted,actor:RESUME.owner,reason:'staff_reset',writeNotYetAttempted:true});
  assert.equal(calls.progress[0].browser.cookies,0);assert.equal(calls.progress[0].browser.violations,0);assert.equal(calls.progress[3].closureAudit.actor_user_id,RESUME.owner);
  assert.equal(receipt.checkpoint.state,'SUCCESSOR_EXPLICIT_DOWNLOAD_ALREADY_PROVEN');assert.equal(receipt.correctedExplicitDelivery.sourceRun,'36252986173');assert.equal(receipt.originalAccidentalDelivery.sourceRun,'36211668984');assert.equal(receipt.finalCheckpointRun.noNewPacketDownload,true);
  assert.equal(receipt.finalCheckpointRun.reset.closureActor,RESUME.owner);assert.equal(receipt.finalCheckpointRun.reset.closureAuditRecords,1);assert.equal(receipt.after.assisted.status,'reset');
@@ -97,7 +97,7 @@ test('mutation control: deleting or moving the cleanup assertion lets a dirty de
  const line=" try{assertBrowserCleanupBeforeClosure(reset,{expectedDownloads:alreadyProven?0:1});}catch(error){await failAt('browser_checks_failed',error);}\n";
  const anchor=" try{await p.closeExactSession();}catch(error){await failAt('closure_response_lost',error);}\n";
  assert.ok(text.includes(line)&&text.includes(anchor),'mutation markers missing');
- const mutants={deleted:text.replace(line,''),moved:text.replace(line,'').replace(anchor,anchor+line)};
+ const noFinal=text.replace("assertBrowserCleanupBeforeClosure({...cleanup,violations:p.violations(),downloadRequests:p.downloadRequests()},{expectedDownloads:alreadyProven?0:1});",'');const mutants={deleted:noFinal.replace(line,''),moved:noFinal.replace(line,'').replace(anchor,anchor+line)};
  for(const [label,mutated] of Object.entries(mutants)){
   assert.notEqual(mutated,text);const mutant=vm.runInNewContext(mutated+exported,sandbox());
   const s=sixEventFixture();const {p,calls}=ports(s,{resetDevice:async()=>({...cleanReset(),cookies:1})});
@@ -127,7 +127,7 @@ test('a committed closure with a lost response is recorded, classified by the re
 });
 test('a committed closure followed by a failed readback or a failed evidence write is reported at its stage without a second closure',async()=>{
  const readback=sixEventFixture();let snapshots=0;
- const r1=ports(readback,{snapshot:async()=>{snapshots++;if(snapshots>=6)throw new Error('database query HTTP 502');return structuredClone(readback);}});
+ const r1=ports(readback,{snapshot:async()=>{snapshots++;if(snapshots>=7)throw new Error('database query HTTP 502');return structuredClone(readback);}});
  const e1=await controller.runResumeProof(r1.p).then(()=>null,e=>e);assert.equal(e1?.resumeStage,'readback_failed');assert.equal(r1.calls.closures,1);assert.deepEqual(r1.calls.progress.map(e=>e.stage),['browser_checks_passed','closure_requested','closure_committed','readback_failed']);
  const evidence=sixEventFixture();
  const r2=ports(evidence,{recordProgress:async entry=>{r2.calls.progress.push(entry);if(entry.stage==='closure_committed')throw new Error('ENOSPC: no space left on device');}});

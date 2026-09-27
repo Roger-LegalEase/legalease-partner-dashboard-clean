@@ -6,6 +6,7 @@ import vm from 'node:vm';
 import {once} from 'node:events';
 import {RESUME,resumeSql,requireResumeAuthorization,exactSessionClosureSql} from './rcap-clinic-resume-contract.mjs';
 
+const browserPorts=fs.readFileSync(new URL('./rcap-clinic-resume-browser-ports.mjs',import.meta.url),'utf8');
 const source=fs.readFileSync(new URL('./rcap-hosted-clinic-resume.mjs',import.meta.url),'utf8');
 // Execute the shipped helper with real fetch/HTTP response parsing. Only the
 // destination is redirected to a loopback server; no remote query is executed.
@@ -42,12 +43,13 @@ test('only the separately authorized exact closure sends read_only=false; SQL gu
  assert.match(source,/finishResume\(\{receipt,assertNoViolations:\(\)=>assert\.deepEqual\(violations,\[\],'resume attempted a forbidden request'\),resultPath:[^\n]*setPhase:next=>\{phase=next;\}\}\)/);
  assert.match(source,/resumeFailureRecord\(\{error,stages:progress\.map\(s=>s\.stage\),phase,redact\}\)/);
  assert.match(source,/writeResumeFailureRecord\(\{failure,failurePath:[^\n]*emit:console\.error,redact\}\);\n throw error;/);
- assert.match(source,/expectedStrangerId:RESUME\.stranger/);
+ assert.match(browserPorts,/expectedStrangerId:RESUME\.stranger/);
  // The documented analytics opt-out is installed on every context before any
  // application script, and the pre-reset inventory is taken before the server reset.
- assert.match(source,/async function context\(\)\{const c=await browser\.newContext\(\{acceptDownloads:true\}\);await applyAnalyticsOptOut\(c\);/);
- assert.match(source,/const priorState=await storageInventory\(page\);await serverReset\(page\);/);
- assert.match(source,/analyticsProfile:ANALYTICS_OPT_OUT_PROFILE/);
+ assert.match(browserPorts,/async function context\(\)\{const c=await activity\.context\(\{acceptDownloads:false\}\);/);
+ assert.ok(browserPorts.indexOf('await applyAnalyticsOptOut(c)')<browserPorts.indexOf('async function signIn('));
+ assert.match(browserPorts,/const priorState=await storageInventory\(page\);await serverReset\(page\);/);
+ assert.match(browserPorts,/analyticsProfile:ANALYTICS_OPT_OUT_PROFILE/);
  for(const authorization of [undefined,'wrong'])assert.throws(()=>exactSessionClosureSql(RESUME.project,authorization));
  assert.throws(()=>requireResumeAuthorization({project:RESUME.project,execute:true,authorization:'wrong'}));
  assert.equal(requests.length,0);

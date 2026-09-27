@@ -15,12 +15,12 @@ async function request(method,url,handler=handleResumeRequest,options={}){
 }
 async function analyticsContract(handler=handleResumeRequest){const r=await request('POST',origin+'/api/analytics/web',handler);assert.deepEqual(r,{action:{action:'fulfill',options:{status:204}},violations:[],fetches:[]});}
 test('analytics POST is locally fulfilled 204, never forwarded or counted as a violation',()=>analyticsContract());
-for(const [method,url]of [['POST','/api/clinic/session/reset'],['GET','/briefcase'],['HEAD','/briefcase'],['GET','/api/rcap/packets/existing/download']])test(`${method} ${url} forwards with bypass and toolbar suppression without following redirects`,async()=>{
+for(const [method,url]of [['POST','/api/clinic/session/reset'],['GET','/briefcase'],['HEAD','/briefcase']])test(`${method} ${url} forwards with bypass and toolbar suppression without following redirects`,async()=>{
  const r=await request(method,origin+url);assert.equal(r.action.action,'fulfill');assert.deepEqual(r.violations,[]);assert.deepEqual(r.fetches,[{headers:{'x-test':'preserved','x-vercel-protection-bypass':'synthetic-bypass','x-vercel-skip-toolbar':'1'},maxRedirects:0}]);
 });
 for(const [method,url]of [['POST',origin+'/api/unexpected'],['PUT',origin+'/api/unexpected'],['PATCH',origin+'/api/analytics/web'],['DELETE',origin+'/api/clinic/session/reset'],['POST',origin+'/api/analytics/web/other'],['POST',auth+'/rest/v1/anything'],['POST',auth+'/auth/v10/token'],['GET','https://third-party.example/asset'],['POST','https://third-party.example/api/analytics/web']])test(`${method} ${url} aborts with one violation`,async()=>{const r=await request(method,url);assert.equal(r.action.action,'abort');assert.equal(r.violations.length,1);});
 for(const method of ['GET','POST','PUT','PATCH','DELETE'])test(`Acceptance auth ${method} strips both Preview-only headers`,async()=>{
- const r=await request(method,auth+'/auth/v1/token',handleResumeRequest,{headers:{'X-Vercel-Protection-Bypass':'secret','x-vercel-skip-toolbar':'1'}});assert.deepEqual(r,{action:{action:'continue',options:{headers:{'x-test':'preserved'}}},violations:[],fetches:[]});
+ const r=await request(method,auth+'/auth/v1/user',handleResumeRequest,{headers:{'X-Vercel-Protection-Bypass':'secret','x-vercel-skip-toolbar':'1'}});assert.deepEqual(r,{action:{action:'continue',options:{headers:{'x-test':'preserved'}}},violations:[],fetches:[]});
 });
 test('mutation control: deleting the exact analytics exception fails the same regression',async()=>{
  const source=fs.readFileSync(new URL('./rcap-clinic-resume-network-policy.mjs',import.meta.url),'utf8');
@@ -30,7 +30,7 @@ test('mutation control: deleting the exact analytics exception fails the same re
 });
 test('root tracker really emits analytics POSTs: actual beacon and fetch fallback are suppressed in Chromium',async()=>{
  const root=fs.readFileSync('src/app/layout.tsx','utf8');assert.match(root,/import \{ WebAnalyticsTracker \} from "@\/components\/analytics\/WebAnalyticsTracker"/);assert.match(root,/<WebAnalyticsTracker\s*\/>/);
- const resume=fs.readFileSync('scripts/rcap-hosted-clinic-resume.mjs','utf8');assert.match(resume,/c\.route\('\*\*\/\*',route=>handleResumeRequest\(route,\{origin,bypass,violations,captchaPolicy,network\}\)\)/);assert.match(resume,/assert\.deepEqual\(violations,\[\]/);
+ const resume=fs.readFileSync('scripts/rcap-hosted-clinic-resume.mjs','utf8');assert.match(resume,/createResumeBrowserLifecycle/);assert.match(resume,/handleRequest:route=>handleResumeRequest/);assert.match(resume,/assert\.deepEqual\(violations,\[\]/);
  // Transpile the shipped component and its real analytics dependencies. Only
  // React's effect scheduler and Next's pathname hook are supplied by the fixture.
  const modules={},entry='@/components/analytics/WebAnalyticsTracker',queue=[entry];
@@ -48,4 +48,20 @@ test('root tracker really emits analytics POSTs: actual beacon and fetch fallbac
   }
   assert.equal(received.filter(r=>r.path==='/api/analytics/web').length,0,'analytics never reaches application');assert.ok(received.every(r=>r.bypass==='synthetic-bypass'));
  }finally{await browser?.close();server.closeAllConnections();await new Promise(resolve=>server.close(resolve));}
+});
+test('credential query names refuse before Preview transport, without persisting values',async()=>{
+ for(const name of ['email','password','access_token','refresh_token','token']){const r=await request('GET',origin+'/expungement-ai/sign-in?'+name+'=synthetic-private-value');assert.equal(r.action.action,'abort');assert.equal(r.fetches.length,0);assert.equal(r.violations.length,1);assert.ok(!JSON.stringify(r).includes('synthetic-private-value'));}
+});
+test('exact known toolbar is physically blocked, never fulfilled or forwarded; near misses stay violations',async()=>{
+ const exact='https://vercel.live/_next-live/feedback/feedback.js';
+ for(const [method,url,expected]of [['GET',exact,true],['POST',exact,false],['HEAD',exact,false],['GET',exact+'?unknown=value',false],['GET',exact.replace('vercel.live','vercel.live.evil.invalid'),false],['GET',exact.replace('/feedback.js','/other.js'),false]]){const r=await request(method,url);assert.equal(r.action.action,'abort');assert.equal(r.violations.length,expected?0:1);assert.equal(r.fetches.length,0);}
+});
+test('lost native form query is not a valid optional-widget context; script type and same origin remain required',async()=>{
+ for(const frame of [origin+'/expungement-ai/sign-in?email=&password=','https://other.invalid/expungement-ai/sign-in?mode=signin&next=%2Fbriefcase',origin+'/unapproved']){
+  let abort=0;const violations=[];await handleResumeRequest({request:()=>({url:()=> 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit',method:()=> 'GET',resourceType:()=> 'script',frame:()=>({url:()=>frame}),headers:()=>({})}),abort:()=>abort++},{origin,bypass:'synthetic',violations,captchaPolicy:{project:'hyflxnlhpmiqxvvcoiia',serverCaptchaRequired:false,frontend:{clientCaptchaRequired:false,widgetSiteKeyConfigured:true},syntheticProfile:'bounded no-analytics Clinic resume'}});assert.equal(abort,1);assert.equal(violations.length,1);
+ }
+});
+test('real form token transport observes only identity before fulfillment, strips Preview headers and forbids redirects',async()=>{
+ const {observedTokenIdentity}=await import('./rcap-clinic-resume-network-policy.mjs');
+ for(const status of [200,302]){const violations=[],actions=[];const req={url:()=>auth+'/auth/v1/token?grant_type=password',method:()=> 'POST',resourceType:()=> 'fetch',headers:()=>({'x-vercel-protection-bypass':'private','X-Vercel-Skip-Toolbar':'1',apikey:'synthetic'})};await handleResumeRequest({request:()=>req,fetch:async options=>{assert.deepEqual(options,{headers:{apikey:'synthetic'},maxRedirects:0});actions.push('transport');return{status:()=>status,json:async()=>({user:{id:'synthetic-returned-id'},access_token:'must-not-be-retained'})}},fulfill:()=>{assert.deepEqual(observedTokenIdentity(req),{id:'synthetic-returned-id',status:200});actions.push('fulfill')},abort:()=>actions.push('abort')},{origin,bypass:'private',violations});assert.deepEqual(actions,status===200?['transport','fulfill']:['transport','abort']);assert.equal(violations.length,status===200?0:1);assert.ok(!JSON.stringify(observedTokenIdentity(req)??{}).includes('must-not-be-retained')||status!==200);}
 });

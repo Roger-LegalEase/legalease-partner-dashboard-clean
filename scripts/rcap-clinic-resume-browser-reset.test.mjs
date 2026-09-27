@@ -194,3 +194,6 @@ test('final result write and outer catch: known closure/readback state is preser
 test('evidence redaction removes supplied secrets and bearer tokens',()=>{
  assert.equal(redactSecrets('Authorization: Bearer abc.def-ghi failed for pw=hunter2 bypass=xyz',['hunter2','xyz','']),'Authorization: Bearer [redacted] failed for pw=[redacted] bypass=[redacted]');
 });
+test('an aborted history operation cannot pass merely because the URL remains clean: actual Chromium entry must change',async()=>{
+ const site=origin(),base=await site.url();const browser=await chromium.launch({headless:true});try{const {owner,page,priorState}=await participantOnDevice(browser,base);page.goBack=async()=>{throw new Error('page.goBack: net::ERR_ABORTED')};await assert.rejects(runShippedDeviceReset({page,owner,helperSource,cleanEntryPath,itemId:RESUME.item,priorState}),/did not commit the requested entry/);}finally{await browser.close();await site.close()}
+});

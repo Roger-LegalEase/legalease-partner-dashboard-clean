@@ -18206,6 +18206,61 @@
         }
       ],
       "createsApproval": false
+    },
+    "clinicResumeEngineering": {
+      "owner": "Codex; Claude independently reviews the consolidated candidate",
+      "scope": "Existing run 36279744465 correction; D1/D2/D3 connected bounded resume. Not a complete launch review.",
+      "base": "7214b7cbec3566a9a9895eaaffb9dbc6d46baa7d",
+      "preservedComparison": "ea8eeb8717b1cf40a0e203fab5fa5aad449cd155",
+      "dispatchAuthorized": false,
+      "hostedAcceptance": false,
+      "productBlockers": [
+        {
+          "finding": "D3 ordinary-browser native submit",
+          "status": "OPEN before launch",
+          "paths": [
+            "src/components/expungement-ai/ConsumerSignInForm.tsx"
+          ],
+          "requiredCorrection": "Disable submission until the actual handler is available and provide an explicit safe native fallback that cannot put credentials in a GET URL. Prove JS-disabled/delayed/failed initialization and normal real-client submission. Harness readiness is containment only.",
+          "qaRequirements": [
+            "authentication safety",
+            "P09-01",
+            "P09-17"
+          ]
+        },
+        {
+          "finding": "D4 shared-device reset",
+          "status": "OPEN before launch",
+          "paths": [
+            "src/components/clinic-mode/ClinicPrivacyBoundary.tsx",
+            "src/lib/clinic-mode/device-reset.mjs",
+            "src/app/api/clinic/session/reset/route.ts"
+          ],
+          "requiredCorrection": "Lock or mask participant content before reset; honor server revocation and cleanup outcomes independently; retain a safe failure/retry state; permit handover only after confirmation. Report assisted lookup/RPC and sign-out failures truthfully while attempting local cleanup. Verify current-path participant cookies are removed; refuse surviving cookies/storage. Do not rewrite clean-entry history or claim readiness on failed cleanup. Do not adopt the downstream helper draft unchanged.",
+          "qaRequirements": [
+            "PRODUCT_CONTRACT section 9",
+            "P08-07 ten-person continuous-device sequence",
+            "P08-08 interrupted exit",
+            "P09-01 old-session replay",
+            "P09-17 stale authority"
+          ]
+        }
+      ],
+      "releaseImpact": {
+        "currentApplication": "af638b61cc4b74afad972fa79c4c1ca3f6709540",
+        "currentPreview": "dpl_Gf6uwETvQNbKXAMCcxLE6ECxLhNR",
+        "currentDeploymentPreserved": true,
+        "applicationChangesIncludedHere": false,
+        "requiredSuccessor": "The required product corrections need a new application source freeze and candidate-specific UI/reset/security evidence. Measure canonical worker equivalence for the actual future diff; only reuse the accepted digest if the existing verifier proves equivalence, otherwise follow worker publication/acceptance. Do not change these tools pins to conceal a product correction.",
+        "beforeAnyRunRecommendation": "This tools rehearsal targets the old checkpoint application. It cannot establish acceptance of the required product successor. Reconcile the intended application candidate and successor Preview/evidence before recommending another hosted run; the six events and original provenance remain historical, never replayed."
+      },
+      "remainingDownstreamObligations": [
+        "Legal Aid must reuse the exhausted Clinic namespace without seed/full-journey replay and prove its actual deployed profile.",
+        "Implement the exact accepted-evidence binding transition after verified evidence exists; hosted_accept is not an evidence-only promotion.",
+        "Reconcile consumer, sponsored, payment/refund-history, document, recovery, security and operational requirements against applicable existing QA results; no claim of complete downstream coverage.",
+        "The routed no-analytics fixture does not close ordinary-browser cache, service-worker, multi-tab or ten-person device requirements. Preserve existing valid QA evidence and catalog/workbook distinctions."
+      ],
+      "evidenceBoundary": "Local compiler/browser tests use real harness ports, contract, delivery authorization, shipped reset implementation and canonical queue/closure SQL in disposable PostgreSQL. External identity/data/deployment boundaries are explicitly simulated. No hosted runtime result or product acceptance is created by this record."
     }
   },
   "commercial": {

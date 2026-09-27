@@ -35,7 +35,25 @@ export async function runShippedDeviceReset({page,owner,helperSource,cleanEntryP
  await page.waitForLoadState('load');await page.waitForLoadState('networkidle');
  const afterEntryInit=await storageInventory(page);
  let historySafe=true;const historyTrail=[];
- for(const op of HISTORY_WALK){await page[op]({waitUntil:'domcontentloaded'});const pathname=new URL(page.url()).pathname;const leaked=(await page.locator('body').innerText()).includes(itemId);historyTrail.push(`${op}:${pathname}${leaked?':leaked':''}`);historySafe&&=pathname===cleanEntryPath&&!leaked;}
+ const historySession=await page.context().newCDPSession(page);
+ try{for(const op of HISTORY_WALK){
+  const beforeHistory=await historySession.send('Page.getNavigationHistory');
+  const target=beforeHistory.entries[beforeHistory.currentIndex+(op==='goBack'?-1:1)];
+  let aborted=false;
+  try{await page[op]({waitUntil:'domcontentloaded'});}catch(error){
+   if(!String(error?.message).includes('net::ERR_ABORTED'))throw error;
+   aborted=true;
+  }
+  // An aborted document wait is not traversal failure if Chromium committed
+  // the requested same-document history entry. Prove the exact entry, not just
+  // the identical clean URL; otherwise keep the failure and refuse.
+  const afterHistory=await historySession.send('Page.getNavigationHistory');
+  if(aborted)assert.ok(target&&afterHistory.entries[afterHistory.currentIndex]?.id===target.id,'aborted history operation did not commit the requested entry');
+  await page.waitForLoadState('load');await page.waitForLoadState('networkidle');
+  const pathname=new URL(page.url()).pathname;
+  const leaked=(await page.locator('body').innerText()).includes(itemId)||(await page.locator('[data-packet-ready="true"],[data-briefcase-matter-id]').count())>0;
+  historyTrail.push(`${op}:${pathname}${leaked?':leaked':''}`);historySafe&&=pathname===cleanEntryPath&&!leaked;
+ }}finally{await historySession.detach();}
  await page.waitForLoadState('networkidle');
  const final=await storageInventory(page);
  const cookies=(await owner.cookies()).filter(c=>PARTICIPANT_COOKIE.test(c.name)).length;

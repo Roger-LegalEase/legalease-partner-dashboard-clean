@@ -4,6 +4,8 @@
 // explicit authorizations because the original handoff cookie was lost.
 import assert from 'node:assert/strict';
 import {handleResumeRequest,previewRequestHeaders,readResumeCaptchaPolicy,createNetworkEvidence} from './rcap-clinic-resume-network-policy.mjs';
+import {createResumeBrowserLifecycle} from './rcap-clinic-resume-browser-lifecycle.mjs';
+import {createResumeBrowserPorts} from './rcap-clinic-resume-browser-ports.mjs';
 import {readShippedCaptcha} from './rcap-clinic-resume-captcha.mjs';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -42,14 +44,10 @@ const progressPath=path.join(evidenceDir,'clinic-resume-progress.json'),progress
 let captchaPolicy;const network=createNetworkEvidence(),partialBrowser={acceptance:false};
 const persistProgress=()=>fs.writeFileSync(progressPath,JSON.stringify({schemaVersion:'rcap-clinic-resume-progress/v1',sourceRun:process.env.GITHUB_RUN_ID?.trim()||null,checkpoint:{assisted:RESUME.assisted,owner:RESUME.owner,session:RESUME.session,job:RESUME.job},network,partialBrowser,captchaPolicy:captchaPolicy??null,stages:progress},null,2)+'\n');
 const observed=(step,result)=>{partialBrowser[step]=result;persistProgress();};
-let browser,owner, page,requests=0;const violations=[];const downloadPath=`/api/rcap/packets/${RESUME.job}/download`;
+let browser,activity;const violations=[];
 const readApi=async(route,identity)=>{const r=await fetch(hostedVercelScopedUrl(route,identity),{headers:{Authorization:`Bearer ${vercelToken}`}});assert.equal(r.status,200);return r.json();};
 // Every context carries the documented analytics opt-out before any application
 // script runs; this bounded resume creates no analytics records or identifiers.
-async function context(){const c=await browser.newContext({acceptDownloads:true});await applyAnalyticsOptOut(c);await c.route('**/*',route=>handleResumeRequest(route,{origin,bypass,violations,captchaPolicy,network}));return c;}
-async function signIn(c,email,next){const p=await c.newPage();await p.goto(`${origin}/expungement-ai/sign-in?mode=signin&next=${encodeURIComponent(next)}`,{waitUntil:'domcontentloaded'});await p.locator('input[name="email"]').fill(email);await p.locator('input[name="password"]').fill(password);const response=p.waitForResponse(r=>r.url().includes('/auth/v1/token')&&r.request().method()==='POST');await p.getByRole('button',{name:'Sign in',exact:true}).click();const r=await response;assert.equal(r.status(),200);const body=await r.json();await p.waitForURL(u=>u.pathname===next);return {p,id:body.user?.id};}
-async function probe(c,route){const r=await c.request.get(origin+route,{headers:previewRequestHeaders(bypass),maxRedirects:0});return {status:r.status(),body:await r.text()};}
-const missingPath='/api/rcap/packets/00000000-0000-4000-8000-000000000000/download';
 let phase='contract';
 try{
  const identity=await resolveHostedVercelIdentity({token:vercelToken});
@@ -59,40 +57,10 @@ try{
  const frontend=await readShippedCaptcha({origin,bypass,deployment,applicationSha});
  captchaPolicy=await readResumeCaptchaPolicy({project,token,frontend});persistProgress();
  browser=await chromium.launch({headless:true,executablePath:process.env.RCAP_BROWSER_CHROMIUM||undefined});
+ activity=createResumeBrowserLifecycle({browser,violations,handleRequest:route=>handleResumeRequest(route,{origin,bypass,violations,captchaPolicy,network})});
  const receipt=await runResumeProof({snapshot,sourceRun:env('GITHUB_RUN_ID'),
  requireSuccessorPreview:async()=>{const identity=await resolveHostedVercelIdentity({token:vercelToken});const d=await readApi(`/v13/deployments/${deploymentId}`,identity),alias=await readApi(`/v13/deployments/${new URL(origin).hostname}`,identity),aliases=await readApi(`/v2/deployments/${deploymentId}/aliases`,identity);assert.equal(d.id??d.uid,deploymentId);assert.equal(alias.id??alias.uid,deploymentId);assert.equal(d.readyState??d.status,'READY');assert.ok(d.target===null||d.target==='preview');assert.equal(d.projectId,identity.projectId);assert.equal(d.gitSource?.sha,applicationSha);for(const[k,v]of Object.entries({rcapApplicationSha:applicationSha,rcapWorkerSourceSha:applicationSha,rcapWorkerDigest:workerDigest,rcapAcceptanceProjectRef:project,rcapRouteState:'staging_scoped',rcapClinicDemoMode:'mississippi_preview',rcapStripeConfigured:'false',rcapStagingScopeSha256:sha(`${RESUME.owner},${RESUME.stranger}`)}))assert.equal(d.meta?.[k],v,k);assert.ok((aliases.aliases??[]).every(x=>x.target!=='production'&&x.deployment?.target!=='production'));return {deploymentId,applicationSha,workerDigest,origin};},
- signInOwner:async()=>{owner=await context();owner.on('request',r=>{if(new URL(r.url()).pathname===downloadPath)requests++;});const signed=await signIn(owner,'mvl-demo-participant-a@rcap-acceptance.test','/briefcase');page=signed.p;assert.equal(signed.id,RESUME.owner);observed('ownerSignIn',{exactIdentity:true});},
- observeBeforeMatter:async()=>{assert.equal(requests,0,'no automatic download during direct sign-in/Briefcase landing');},
- openReadyMatter:async()=>{await page.goto(`${origin}/briefcase/${RESUME.item}`,{waitUntil:'domcontentloaded',timeout:30000});await page.locator('[data-packet-ready="true"]').waitFor({timeout:30000});await page.locator(`a[href="${downloadPath}"]`).waitFor({state:'visible'});observed('readyMatter',{ready:true,automaticDownloads:requests});},
- downloadRequests:()=>requests,
- explicitDownload:async()=>{const pending=page.waitForEvent('download');await page.locator(`a[href="${downloadPath}"]`).click();const d=await pending;assert.equal(await d.failure(),null);return fs.readFileSync(await d.path());},
- proveDenials:async()=>{const anon=await context(),stranger=await context();const signed=await signIn(stranger,'mvl-demo-participant-b@rcap-acceptance.test','/briefcase');assert.equal(signed.id,RESUME.stranger);const a=await probe(anon,downloadPath),b=await probe(stranger,downloadPath);const missing=await probe(stranger,missingPath);assert.equal(b.status,missing.status);assert.equal(b.body,missing.body);await anon.close();await stranger.close();observed('denials',{anonymous:a.status,stranger:b.status,indistinguishable:b.status===missing.status&&b.body===missing.body});return{anonymous:a.status,stranger:b.status};},
- proveStaffQueuePrivacy:async()=>{
- const rows=await query(queuePrivacySql(project));assert.equal(rows.length,1);assertQueuePrivacyPrerequisites(rows[0].evidence);
- const admin=await context(),staff=await context();try{
-  const {p,id}=await signIn(admin,'mvl-demo-admin@rcap-acceptance.test',`/clinic/staff/${RESUME.event}/queue`);assert.equal(id,CHECKPOINT.admin);
-  const response=await admin.request.get(`${origin}/api/clinic/events/${RESUME.event}/queue`,{headers:previewRequestHeaders(bypass),maxRedirects:0});assert.equal(response.status(),200);const body=await response.json();
-  const index=body.cases.findIndex(c=>c.id===RESUME.clinicCase);assert.ok(index>=0,'exact durable admin case');const exact=body.cases[index];assert.equal(exact.participantUserId,RESUME.owner);assert.equal(exact.queueStatus,'packet_ready');assert.equal(exact.routeDisposition,'packet');
-  const uiRows=p.locator('tbody tr');assert.equal(await uiRows.count(),body.cases.length);assert.equal(await uiRows.nth(index).getByLabel(`Packet status for participant ending ${RESUME.owner.slice(-8)}`).inputValue(),'packet_ready');
-  const signed=await signIn(staff,'mvl-demo-staff@rcap-acceptance.test',`/clinic/staff/${RESUME.event}/queue`);assert.equal(signed.id,CHECKPOINT.staff);
-  const staffResponse=await staff.request.get(`${origin}/api/clinic/events/${RESUME.event}/queue`,{headers:previewRequestHeaders(bypass),maxRedirects:0});assert.equal(staffResponse.status(),200);const staffBody=await staffResponse.json();
-  const current=await query(queuePrivacySql(project));assert.equal(current.length,1);assertQueuePrivacyPrerequisites(current[0].evidence);assert.ok(!staffBody.cases.some(c=>c.id===RESUME.clinicCase),'expired exact case must be hidden from authorized ordinary staff');
-  observed('queue',{partnerAdminDurableCaseVisible:true,eventStaffAuthorized:true,expiredCaseHidden:true});
-  return {partnerAdminDurableCaseVisible:true,exactCaseId:RESUME.clinicCase,eventStaffAuthorized:true,expiredAssistanceCaseHiddenFromEventStaff:true,eventStaffAuthUserId:CHECKPOINT.staff,adminAuthUserId:CHECKPOINT.admin};
- }finally{await admin.close();await staff.close();}
- },
- resetDevice:async()=>{
- // Browser sign-out and device cleanup use unchanged shipped implementations,
- // driven through the factored adapter. Nothing here writes to the database:
- // the canonical closure of the LOST-cookie session is the separate port below,
- // which the contract calls only after every result returned here is asserted.
- await plantParticipantState(page);const priorState=await storageInventory(page);await serverReset(page);observed('serverReset',{signOutConfirmed:true});
- const cleanup=await runShippedDeviceReset({page,owner,helperSource:fs.readFileSync('src/lib/clinic-mode/device-reset.mjs','utf8'),cleanEntryPath,itemId:RESUME.item,priorState});
- observed('deviceCleanup',{cookies:cleanup.cookies,storage:cleanup.storage,storageAfterEntryInit:cleanup.storageAfterEntryInit,historySafe:cleanup.historySafe,helperSucceeded:cleanup.helperReport?.ok===true,doNotTrack:cleanup.doNotTrack});
- const handover=await observeSameDeviceHandover({cleanup,owner,probe,signIn,strangerEmail:'mvl-demo-participant-b@rcap-acceptance.test',expectedStrangerId:RESUME.stranger,downloadPath,missingPath});
- observed('handover',{revokedStatus:handover.revokedStatus,exactParticipantB:handover.strangerId===RESUME.stranger,sameDeviceStranger:handover.sameDeviceStranger,indistinguishable:handover.strangerMatchesMissing});
- return {...cleanup,...handover,analyticsProfile:ANALYTICS_OPT_OUT_PROFILE};
- },
+ ...createResumeBrowserPorts({activity,origin,bypass,password,query,project,observed}),
  violations:()=>[...violations],
  recordProgress:async entry=>{progress.push(JSON.parse(redact(JSON.stringify(entry))));persistProgress();},
  // closureSql names the exact pinned session and its original owner itself;
@@ -103,6 +71,8 @@ try{
  finishResume({receipt,assertNoViolations:()=>assert.deepEqual(violations,[],'resume attempted a forbidden request'),resultPath:path.join(evidenceDir,'clinic-resume-result.json'),write:fs.writeFileSync,setPhase:next=>{phase=next;}});
  console.log('Clinic checkpoint complete; deliveries remain attributed to runs 36211668984 and 36252986173.');
 }catch(error){
+ try{if(activity)await activity.finish();}catch{partialBrowser.browserCompletionFailed=true;}
+ if(activity)partialBrowser.browserCompletion=activity.observations();
  // The write boundary stays observable on failure. The record is derived from
  // the recorded stages and the phase, never from the absence of a stage tag:
  // a failure after a verified readback reports the closure as committed, and a
@@ -112,4 +82,4 @@ try{
  Object.assign(failure,{network,partialBrowser,captchaPolicy:captchaPolicy??null});
  writeResumeFailureRecord({failure,failurePath:path.join(evidenceDir,'clinic-resume-failure.json'),write:fs.writeFileSync,emit:console.error,redact});
  throw error;
-}finally{try{await browser?.close();}catch(closeError){console.error('browser close failed after the reported outcome: '+redact(String(closeError?.message??closeError).split('\n')[0]));}}
+}finally{try{if(activity)await activity.finish();else await browser?.close();}catch(closeError){console.error('browser close failed after the reported outcome: '+redact(String(closeError?.message??closeError).split('\n')[0]));}}
