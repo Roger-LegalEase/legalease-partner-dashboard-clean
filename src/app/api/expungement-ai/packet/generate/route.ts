@@ -1,3 +1,4 @@
+import { clinicPacketDtcAuthorized, SponsorCapacityRequiresCheckoutError } from "@/lib/expungement-ai/clinic-packet-funding";
 import { NextRequest, NextResponse } from "next/server";
 import { requireConsumerBriefcaseSession } from "@/lib/expungement-ai/auth";
 import { getBriefcaseItem } from "@/lib/expungement-ai/briefcase";
@@ -99,7 +100,7 @@ export async function POST(request: NextRequest) {
         return NextResponse.json(
           {
             error:
-              "Sponsored packet capacity is currently unavailable for this organization. You can continue through the standard Expungement.ai experience.",
+              "Sponsor capacity is exhausted. Your matter and verified answers are saved. Return to this matter’s review to see payment options.",
             sponsoredPaused: true,
             briefcaseItemId
           },
@@ -134,6 +135,10 @@ export async function POST(request: NextRequest) {
       briefcaseItemId
     });
   } catch (error) {
+    if (error instanceof ConsumerPacketPaymentRequiredError
+      && await clinicPacketDtcAuthorized(auth.userId, briefcaseItemId).catch(() => false)) {
+      return packetErrorResponse(new SponsorCapacityRequiresCheckoutError(), true);
+    }
     return packetErrorResponse(error, isPartnerSponsored);
   }
 }
@@ -149,6 +154,9 @@ function safeArtifact(artifact: { fileName: string; generatedAt: string; source:
 }
 
 function packetErrorResponse(error: unknown, isPartnerSponsored: boolean) {
+  if (error instanceof SponsorCapacityRequiresCheckoutError) {
+    return NextResponse.json({ error: error.message, outcome: "sponsor_capacity_exhausted", checkoutRequired: true }, { status: 409 });
+  }
   // The Grade-A authority refused. One sentence and a denial code; the context
   // denials name matter and owner ids and stay on the server.
   if (error instanceof CommercialAdmissionDeniedError) {

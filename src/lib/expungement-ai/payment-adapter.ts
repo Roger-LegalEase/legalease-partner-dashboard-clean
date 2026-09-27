@@ -256,7 +256,7 @@ export async function requireConsumerPacketPurchaseReadiness(userId: string, ite
 export async function consumerPacketPurchaseAllowedNow(userId: string, item: ConsumerBriefcaseItem): Promise<boolean> {
   if (item.paymentStatus === "paid") return false;
   try {
-    if (await isPartnerSponsoredPacketItem(item)) return false;
+    if (await isPartnerSponsoredPacketItem(item, userId)) return false;
     await requireConsumerPacketPurchaseReadiness(userId, item);
     return (await resolveConsumerPersonId(userId)).ok;
   } catch {
@@ -275,6 +275,7 @@ export async function createConsumerPacketCheckout({
   successUrl?: string;
   cancelUrl?: string;
 }): Promise<ConsumerCheckoutResult> {
+  if (await isPartnerSponsoredPacketItem(item, userId)) throw new ConsumerCheckoutNotAllowedError("partner_sponsored");
   // P0 double-charge guard: an already-paid Briefcase item must never mint a new
   // Stripe Checkout Session or demand a retroactive verification. Payment
   // columns are protected server evidence; this does not grant artifact access.

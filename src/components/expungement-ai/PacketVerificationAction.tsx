@@ -77,6 +77,14 @@ export function PacketVerificationAction({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ briefcaseItemId: itemId })
       }).catch(() => null);
+      if (generated?.status === 409) {
+        const outcome = await generated.json().catch(() => null);
+        if (outcome?.outcome === "sponsor_capacity_exhausted") {
+          setPreparing(false);
+          router.refresh();
+          return;
+        }
+      }
       if (!generated?.ok) {
         setPreparing(false);
         setError("We verified your facts, but could not prepare the clinic packet right now. Try again from this review.");

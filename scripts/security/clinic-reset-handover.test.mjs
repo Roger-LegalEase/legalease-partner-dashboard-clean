@@ -13,10 +13,10 @@ test('actual next-participant start refuses incomplete reset and retires old rec
  new Function('require','module','exports',source)(name=>{
   if(name.endsWith('/reset-recovery'))return recovery.exports;
   if(name==='next/server')return {NextRequest,NextResponse};
-  if(name.endsWith('participant-service'))return {getClinicEntryContext:async()=>({partnerSlug:'test',eventId:'event',eventSlug:'test',jurisdiction:'MS'})};
+  if(name.endsWith('participant-service'))return {getClinicEntryContext:async()=>({partnerSlug:'test',eventId:'event',eventSlug:'test',jurisdiction:'MS'}),listApprovedClinicStaff:async()=>[{id:'11111111-1111-4111-8111-111111111111'}]};
   if(name.endsWith('rcap-partner-intake'))return {claimRcapPartnerScreeningSession:async()=>({ok:true,sessionId:'screening'})};
   if(name.endsWith('auth-server'))return {getServerAuthState:async()=>({isAuthenticated:true,userId:'participant-b'})};
-  if(name==='@/lib/supabase/server')return {getSupabaseAdminClient:()=>({rpc:async(name)=>{if(name==='clinic_start_assisted_session')starts++;return {data:'22222222-2222-4222-8222-222222222222',error:null};}})};
+  if(name==='@/lib/supabase/server')return {getSupabaseAdminClient:()=>({rpc:async(name)=>{if(name==='clinic_entry_sponsor_capacity')return {data:true,error:null};if(name==='clinic_start_assisted_session')starts++;return {data:'22222222-2222-4222-8222-222222222222',error:null};}})};
   return require(name);
  },m,m.exports);
  const call=cookie=>m.exports.POST(new NextRequest('http://localhost/api/clinic/assistance/start',{method:'POST',headers:{cookie},body:JSON.stringify({eventSlug:'test',eventStaffId:'11111111-1111-4111-8111-111111111111',jurisdiction:'MS',consent:true})}));

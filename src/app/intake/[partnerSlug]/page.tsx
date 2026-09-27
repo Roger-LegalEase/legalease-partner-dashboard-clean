@@ -1,3 +1,4 @@
+import { SponsorCapacityEntryNotice } from "@/components/expungement-ai/SponsorCapacityNotice";
 import { redirect } from "next/navigation";
 import { FunnelBeacon } from "@/components/analytics/FunnelBeacon";
 import {
@@ -63,7 +64,7 @@ export default async function RcapPartnerIntakePage({
   if (status === "program-full") {
     return (
       <PageShell>
-        <ProgramFullState organizationName={context.organizationName} logoUrl={context.logoUrl} />
+        <ProgramFullState organizationName={context.organizationName} logoUrl={context.logoUrl} consumerUrl={appendAttributionQuery(`/expungement-ai/screening/${context.jurisdiction.toLowerCase()}`, attribution)} />
       </PageShell>
     );
   }
@@ -205,7 +206,7 @@ async function startRcapPartnerScreening(formData: FormData) {
   }
 
   if (result.reason === "capacity_full") {
-    redirect(`/intake/${encodeURIComponent(partnerSlug)}?status=program-full`);
+    redirect(appendAttributionQuery(`/intake/${encodeURIComponent(partnerSlug)}?status=program-full`, attribution));
   }
 
   redirect(`/intake/${encodeURIComponent(partnerSlug)}?status=inactive`);
@@ -412,21 +413,11 @@ function ProgramDetails({
   );
 }
 
-function ProgramFullState({ organizationName, logoUrl }: { organizationName: string; logoUrl: string | null }) {
+function ProgramFullState({ organizationName, logoUrl, consumerUrl }: { organizationName: string; logoUrl: string | null; consumerUrl: string }) {
   return (
     <section className="mx-auto w-full max-w-lg">
       <CoBrandHeader organizationName={organizationName} logoUrl={logoUrl} />
-      <div className="mt-6 rounded-[28px] border border-[#EFE9DD] bg-white/90 p-8 text-center shadow-[0_30px_80px_-44px_rgba(11,19,32,0.40)] backdrop-blur md:p-10">
-        <span className="inline-flex items-center gap-2 rounded-full bg-[#FDF1E8] px-3.5 py-1.5 text-[12px] font-extrabold uppercase tracking-[0.08em] text-[#9A3412]">
-          Program update
-        </span>
-        <h1 className="mt-5 text-[26px] font-black leading-tight text-[#0B1320] md:text-[30px]">
-          This program is currently full
-        </h1>
-        <p className="mx-auto mt-3 max-w-md text-[15px] leading-7 text-[#475A6E]">
-          Please check back later or contact the organization that shared this link.
-        </p>
-      </div>
+      <div className="mt-6"><SponsorCapacityEntryNotice consumerUrl={consumerUrl} /></div>
     </section>
   );
 }

@@ -1,3 +1,4 @@
+import { SponsorCapacityNotice } from "@/components/expungement-ai/SponsorCapacityNotice";
 import Link from "next/link";
 import { CheckCircle2, FileText, ShieldCheck } from "lucide-react";
 import type { ReactNode } from "react";
@@ -52,6 +53,7 @@ export default async function PacketAccuracyReviewPage({
     >
       {item && model && summary ? (
         <section data-accuracy-review="true">
+          {item.sponsorCapacityExhausted ? <SponsorCapacityNotice paid={item.paymentState === "paid"} /> : null}
           <div className="flex flex-wrap items-start justify-between gap-4">
             <div>
               <p className="text-xs font-bold uppercase tracking-[0.08em] text-[#00A99D]">Packet facts</p>
@@ -144,7 +146,7 @@ export default async function PacketAccuracyReviewPage({
           </div>
 
           <PacketVerificationAction
-            key={`${item.verificationStatus}:${item.commercialActions.fulfillmentAvailable}:${item.commercialActions.checkoutAllowed}:${item.commercialActions.generationAllowed}`}
+            key={`${item.paymentState}:${item.verificationStatus}:${item.commercialActions.fulfillmentAvailable}:${item.commercialActions.checkoutAllowed}:${item.commercialActions.generationAllowed}`}
             itemId={item.id}
             commercialActions={item.commercialActions}
             verificationAnswers={model.initialAnswers}

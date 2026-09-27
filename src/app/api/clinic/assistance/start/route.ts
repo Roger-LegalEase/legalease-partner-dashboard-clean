@@ -1,6 +1,6 @@
 import { createHash, randomBytes } from "node:crypto";
 import { NextRequest, NextResponse } from "next/server";
-import { getClinicEntryContext } from "@/lib/clinic-mode/participant-service";
+import { getClinicEntryContext, listApprovedClinicStaff } from "@/lib/clinic-mode/participant-service";
 import { claimRcapPartnerScreeningSession } from "@/lib/expungement-ai/rcap-partner-intake";
 import { getServerAuthState } from "@/lib/supabase/auth-server";
 import { getSupabaseAdminClient } from "@/lib/supabase/server";
@@ -30,10 +30,22 @@ export async function POST(request: NextRequest) {
     if (entry.jurisdiction && requestedJurisdiction !== entry.jurisdiction) {
       return NextResponse.json({ success: false, error: "This Clinic event is fixed to another jurisdiction." }, { status: 400 });
     }
-    const screening = await claimRcapPartnerScreeningSession({ partnerSlug: entry.partnerSlug, jurisdiction });
-    if (!screening.ok) return NextResponse.json({ success: false, error: screening.reason === "capacity_full" ? "Sponsored screening capacity is full." : "The partner screening is unavailable." }, { status: 409 });
+    const staff = await listApprovedClinicStaff(entry.eventId);
+    if (!staff.some(person => person.id === eventStaffId)) {
+      return NextResponse.json({ success: false, error: "Approved staff for this event are required." }, { status: 403 });
+    }
     const db = getSupabaseAdminClient();
     if (!db) return NextResponse.json({ success: false, error: "Clinic assistance is temporarily unavailable." }, { status: 503 });
+    const capacity = await db.rpc("clinic_entry_sponsor_capacity", { p_event: entry.eventId, p_partner: entry.partnerSlug });
+    if (capacity.error || typeof capacity.data !== "boolean") {
+      return NextResponse.json({ success: false, error: "Sponsor capacity could not be confirmed. Please retry." }, { status: 503 });
+    }
+    const fallback = () => NextResponse.json({ success: true, outcome: "sponsor_capacity_exhausted",
+      consumerUrl: `/expungement-ai/screening/${jurisdiction.toLowerCase()}?source=${encodeURIComponent(`clinic:${entry.eventSlug}`)}`
+    }, { headers: { "Cache-Control": "no-store, private, max-age=0" } });
+    if (!capacity.data) return fallback();
+    const screening = await claimRcapPartnerScreeningSession({ partnerSlug: entry.partnerSlug, jurisdiction });
+    if (!screening.ok) return screening.reason === "capacity_full" ? fallback() : NextResponse.json({ success: false, error: "The partner screening is unavailable." }, { status: 409 });
     const sessionToken = randomBytes(32).toString("base64url");
     const deviceToken = randomBytes(32).toString("base64url");
     const recovery = mintRecovery(auth.userId, hash(sessionToken), hash(deviceToken));

@@ -282,7 +282,9 @@ export function buildPaymentAdapter({
   stripeOverride = null,
   authorityOverride = null,
   matterId = MATTER,
-  adapterSource
+  adapterSource,
+  sponsoredCheck = async () => false,
+  dependencyMocks = {}
 } = {}) {
   const createCalls = [];
   const retrieveCalls = [];
@@ -360,7 +362,8 @@ export function buildPaymentAdapter({
       }
     },
     "@/lib/expungement-ai/briefcase": {
-      getBriefcaseItem: async () => null
+      getBriefcaseItem: async () => null,
+      isPartnerSponsoredPacketItem: sponsoredCheck
     },
     "@/lib/expungement-ai/consumer-identity": {
       resolveConsumerPersonId: async () => ({ ok: true, personId: PERSON }),
@@ -405,7 +408,8 @@ export function buildPaymentAdapter({
           revision: verificationRevision
         };
       }
-    }
+    },
+    ...dependencyMocks
   }, adapterSource);
 
   return {

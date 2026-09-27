@@ -1,3 +1,4 @@
+import { clinicPacketDtcAuthorized, reserveClinicPacketFunding } from "@/lib/expungement-ai/clinic-packet-funding";
 import "server-only";
 import { readSponsoredChannelContext } from "@/lib/rcap/fulfillment/sponsored-channel-context";
 
@@ -257,6 +258,7 @@ export async function generatePaidConsumerPacket({
     });
     assertPacketFulfillmentProven(verification.snapshot.jurisdiction, verification.snapshot.pathwayId,
       "sponsored entitlement", { trackId: verification.snapshot.selectedTrackId, sponsoredContext: sponsoredContext ?? undefined });
+    await reserveClinicPacketFunding(userId, item.id, verification.hash);
   }
   if (isPersonalizedDeliveryRoute(`${verification.snapshot.jurisdiction}:${verification.snapshot.pathwayId}`)) {
     if (!resolveConsumerDeliveryAccess({ subjectId: userId }).allowed) {
@@ -1240,6 +1242,7 @@ async function requireCurrentPacketSponsorshipAuthority(
   });
   if (!source.ok) throw new ConsumerPacketSponsorshipAuthorityUnavailableError(source.reason);
   if (source.value.product !== "rcap_partner") return { sponsored: false, sourceSessionId: null };
+  if (await clinicPacketDtcAuthorized(userId, item.id)) return { sponsored: false, sourceSessionId: null };
   if (!source.value.partnerBenefitActive || !source.value.partnerSlug || !source.value.sourceSessionId) {
     throw new ConsumerPacketSponsorshipAuthorityUnavailableError("protected_partner_source_missing");
   }

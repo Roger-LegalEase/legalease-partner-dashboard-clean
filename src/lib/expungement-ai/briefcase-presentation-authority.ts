@@ -108,6 +108,7 @@ export type BriefcasePresentationItem = {
     | { status: "unavailable" };
   commercialActions: BriefcaseCommercialActions;
   paymentState: "paid" | "unpaid" | "sponsored" | "unavailable";
+  sponsorCapacityExhausted?: boolean;
   artifact: BriefcasePresentationArtifact;
 };
 
@@ -302,6 +303,7 @@ export type TrustedBriefcasePresentationSource = {
 type AuthoritativeEvaluation = ReturnType<typeof evaluateAuthoritativeScreeningResult>;
 
 export type BriefcasePresentationDependencies = {
+  readClinicDtcAuthorization?(userId: string, itemId: string): Promise<boolean>;
   readCommercialActions?(input: {
     consumerAuthUserId: string;
     item: ConsumerBriefcaseItem;
@@ -383,24 +385,22 @@ export async function decorateBriefcaseItemForPresentationWithDependencies(
   }
 
   trustedSource ??= await dependencies.readTrustedPendingSource(input);
-  const paymentAuthority = await dependencies.readPaymentAuthority(
-    input.item.id,
-    input.consumerAuthUserId
-  );
-  const paymentState = trustedSource.ok && trustedSource.value.product === "rcap_partner"
-    && trustedSource.value.partnerBenefitActive
-    && Boolean(trustedSource.value.sourceSessionId)
-    && Boolean(trustedSource.value.partnerSlug)
+  const sponsoredSource = trustedSource.ok && trustedSource.value.product === "rcap_partner";
+  const capDecision = sponsoredSource && dependencies.readClinicDtcAuthorization
+    ? await dependencies.readClinicDtcAuthorization(input.consumerAuthUserId, input.item.id).catch(() => null)
+    : false;
+  const sponsorCapacityExhausted = capDecision === true;
+  const paymentState = capDecision === null ? "unavailable" : sponsoredSource && !sponsorCapacityExhausted
     ? "sponsored"
-    : paymentPresentationState(paymentAuthority, trustedSource.ok);
-  return assembleBriefcasePresentationItem({
+    : paymentPresentationState(await dependencies.readPaymentAuthority(input.item.id, input.consumerAuthUserId), trustedSource.ok);
+  return { ...assembleBriefcasePresentationItem({
     item: input.item,
     legalAuthority,
     protectedArtifact: protectedArtifact.value,
     paymentState,
     commercialActions: await dependencies.readCommercialActions?.({ ...input, legalAuthority, paymentState })
       .catch(() => ({ ...UNAVAILABLE_COMMERCIAL_ACTIONS }))
-  });
+  }), sponsorCapacityExhausted };
 }
 
 function legalAuthorityFromProtectedVerification(
@@ -675,6 +675,7 @@ function nonEmpty(value: unknown): value is string {
 }
 
 const DEFAULT_PRESENTATION_DEPENDENCIES: BriefcasePresentationDependencies = {
+  readClinicDtcAuthorization: async (userId, itemId) => (await import("./clinic-packet-funding")).clinicPacketDtcAuthorized(userId, itemId),
   readCommercialActions: async ({ consumerAuthUserId, item, legalAuthority, paymentState }) => {
     const { packetFulfillmentAuthority } = await import("@/lib/expungement-ai/packet-fulfillment-authority");
     const packetResult = legalAuthority.resultCode === "packet_ready" || legalAuthority.resultCode === "packet_ready_with_caution";

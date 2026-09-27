@@ -30,7 +30,7 @@ export async function POST(request: NextRequest) {
   if (!item) {
     return NextResponse.json({ error: "We couldn’t find this case. Return to your Briefcase and try again. Contact support if the problem continues." }, { status: 404 });
   }
-  if (await isPartnerSponsoredPacketItem(item)) {
+  if (await isPartnerSponsoredPacketItem(item, auth.userId)) {
     return NextResponse.json({ error: "Checkout is not used for partner-sponsored RCAP sessions." }, { status: 403 });
   }
 

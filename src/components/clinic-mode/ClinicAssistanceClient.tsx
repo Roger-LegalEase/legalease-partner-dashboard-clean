@@ -1,5 +1,6 @@
 "use client";
 
+import { SponsorCapacityEntryNotice } from "@/components/expungement-ai/SponsorCapacityNotice";
 import { useState, type FormEvent } from "react";
 import { useLocalization } from "@/components/expungement-ai/LocalizationProvider";
 import type { PublicClinicEvent } from "@/lib/clinic-mode/types";
@@ -10,6 +11,7 @@ export function ClinicAssistanceClient({ event, staff }: { event: PublicClinicEv
   const { text } = useLocalization();
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
+  const [consumerUrl, setConsumerUrl] = useState("");
 
   async function start(formEvent: FormEvent<HTMLFormElement>) {
     formEvent.preventDefault();
@@ -20,7 +22,12 @@ export function ClinicAssistanceClient({ event, staff }: { event: PublicClinicEv
       method: "POST", headers: { "content-type": "application/json" },
       body: JSON.stringify({ eventSlug: event.publicSlug, eventStaffId: String(data.get("eventStaffId") ?? ""), jurisdiction: event.jurisdiction ?? String(data.get("jurisdiction") ?? ""), consent: data.get("consent") === "yes" })
     }).catch(() => null);
-    const body = await response?.json().catch(() => null) as { screeningUrl?: string; error?: string } | null;
+    const body = await response?.json().catch(() => null) as { screeningUrl?: string; consumerUrl?: string; outcome?: string; error?: string } | null;
+    if (response?.ok && body?.outcome === "sponsor_capacity_exhausted" && body.consumerUrl?.startsWith("/expungement-ai/screening/")) {
+      setConsumerUrl(body.consumerUrl);
+      setBusy(false);
+      return;
+    }
     if (!response?.ok || !body?.screeningUrl) {
       setError(body?.error ?? "The assisted session could not be started.");
       setBusy(false);
@@ -28,6 +35,8 @@ export function ClinicAssistanceClient({ event, staff }: { event: PublicClinicEv
     }
     window.location.replace(body.screeningUrl);
   }
+
+  if (consumerUrl) return <SponsorCapacityEntryNotice consumerUrl={consumerUrl} />;
 
   return (
     <form onSubmit={start} autoComplete="off" className="rounded-2xl border border-[#E8DED3] bg-white p-6 shadow-sm">

@@ -63,6 +63,7 @@ await waitFor(async () => (await fetch(`${BASE}/p/mvlp/clinics`)).status < 500, 
 
 const browser = await chromium.launch({ executablePath: process.env.PLAYWRIGHT_CHROMIUM ?? "/opt/pw-browsers/chromium", headless: true });
 const results = [];
+const paymentRequests = [];
 const check = (name, ok, detail = "") => { results.push({ name, ok: Boolean(ok), detail }); if (!ok) console.error("FAIL", name, detail); };
 if (SCREENSHOTS) fs.mkdirSync(shotDir, { recursive: true });
 
@@ -112,6 +113,7 @@ try {
   await shot(applicant, "participant-clinics");
   await applicant.click("a:has-text('Register for this clinic')");
   await applicant.waitForURL(/\/clinic\/mvlp-training-clinic\/register/);
+  check("sponsored Legal Aid registration has no payment CTA",await applicant.getByRole("button",{name:/pay \$|checkout/i}).count()===0 && await applicant.locator('a[href*="checkout.stripe.com"]').count()===0);
   check("participant: register page for signed-in account", await applicant.locator("input[name=contactName]").count() === 1);
   await shot(applicant, "participant-register");
   await applicant.fill("input[name=contactName]", "Jordan Example");
@@ -177,6 +179,7 @@ try {
   const storage = await applicant.evaluate(() => [...Object.keys(localStorage), ...Object.keys(sessionStorage)]);
   check("participant: no application data in browser storage", !storage.some((key) => /intake|answer|ssn|legal|signature/i.test(key)), storage.join(","));
   await applicant.goto(`${BASE}/p/mvlp/continue`);
+  check("sponsored participant page has no payment CTA",await applicant.getByRole("button",{name:/pay \$|checkout/i}).count()===0 && await applicant.locator('a[href*="checkout.stripe.com"]').count()===0);
   check("participant: continue hub shows the submitted application", await applicant.locator("text=has been received").count() > 0);
   await shot(applicant, "participant-continue");
   const noScroll = await applicant.evaluate(() => document.documentElement.scrollWidth <= 390);
@@ -538,6 +541,7 @@ try {
   const formerOwnerStatus = await shared.evaluate(async id=>(await fetch(`/api/legal-aid/intakes/${id}`)).status,intakeId);
   check('connected reset: next participant on same device cannot read prior Legal Aid intake',formerOwnerStatus===404 && !(await shared.content()).includes('Jordan Example'));
   await shared.context().close();
+  check("sponsored Clinic and Legal Aid journey never creates or navigates to Stripe Checkout", paymentRequests.length === 0, JSON.stringify(paymentRequests));
 } catch (error) {
   results.push({ok:false,name:"complete connected journey"});
   console.error("end-to-end run failed:", error?.message ?? error);
@@ -566,6 +570,9 @@ async function session(userId, width = 1440) {
   const token = makeJwt({ sub: user.id, email: user.email });
   const value = `base64-${Buffer.from(JSON.stringify({ access_token: token, refresh_token: "local-refresh", token_type: "bearer", expires_in: 31536000, expires_at: 4102444800, user: { id: user.id, aud: "authenticated", role: "authenticated", email: user.email, email_confirmed_at: "2026-09-01T00:00:00Z", app_metadata: { provider: "email" }, user_metadata: {}, created_at: "2026-09-01T00:00:00Z" } })).toString("base64url")}`;
   const context = await browser.newContext({ viewport: { width, height: width < 500 ? 844 : 900 }, deviceScaleFactor: width < 500 ? 2 : 1 });
+  context.on("request", request => {
+    if (/stripe\.com|\/api\/expungement-ai\/(checkout|payment)/i.test(request.url())) paymentRequests.push(request.url());
+  });
   await context.addCookies([{ name: "sb-127-auth-token", value, domain: "127.0.0.1", path: "/" }]);
   const page = await context.newPage();
   page.setDefaultTimeout(30_000);

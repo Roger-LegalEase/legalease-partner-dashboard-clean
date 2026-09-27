@@ -51,3 +51,33 @@ B waits for A's final descendant commit/tree, full-build result, Legal Aid devic
 **B-owned wiring correction before any execution:** the existing `legal_aid_browser` phase still selects `CLINIC=true`; `scripts/verify-rcap-hosted-legal-aid-browser.mjs` lines 36 and 52 explicitly expect a Clinic journey/audit first. Its current 53/53 static PASS therefore does not authorize replay. Replace that phase prerequisite with the read-only packet check, retain mandatory Legal Aid seed/browser/schema evidence and add mandatory post-phase preservation/relationship results. Missing or failed evidence must refuse. Do not manufacture a Clinic PASS to satisfy the older branch. A has not edited this YAML, verifier or anti-skip wiring.
 
 Final local identity and test receipt: `LEGAL_AID_CONTINUATION_EVIDENCE/SOURCE.json` in A's owned worktree. Its absence means the descendant is not ready for binding. That receipt is evidence, not hosted authorization; QA-VER-01 and external human/provider/device requirements remain explicitly dispositioned in the adjacent Claude response.
+
+## Sponsor-cap successor dependency (Roger, 2026-09-27)
+
+`8213e41149` and its review ZIP remain immutable. The next A receipt is
+`SPONSOR_CAP_EVIDENCE/SOURCE.json`; B must wait for its final head/tree, build and
+cap-race results before binding this successor. Required schema dependency:
+`supabase/migrations/20260927152649_clinic_packet_funding_choice.sql`, after the
+existing payment-promotion and sponsored-regeneration migrations. It adds a
+service-only, owner/matter-bound financial choice; it does not backfill or edit
+Applicant A, the historical entitlement, six delivery events or exhausted code.
+Only a separately authorized migration run may apply it outside disposable tests.
+B owns any migration/release/workflow binding changes.
+
+Available capacity reserves sponsorship before rendering, with no Stripe call.
+Exhausted capacity records DTC eligibility for the same verified matter; ordinary
+checkout and verified provider payment remain mandatory before DTC generation.
+Source attribution stays Clinic/Legal Aid. Wrong tenant/event or missing authority
+is not cap exhaustion. Existing fulfillment/release gates are not waived.
+
+The assigned Applicant A reuse phase is **already funded** and remains read-only
+for packet funding: do not allocate a new slot, start checkout, regenerate,
+redeem, reset counters or replay delivery. New cap scenarios run only on fresh
+disposable fixtures, never by exhausting/resetting the historical program.
+The local cap tests stub external provider/release observations explicitly; they
+are not a hosted Stripe, worker-publication or Clinic PASS.
+
+Ordinary DTC integration uses existing configuration names `STRIPE_SECRET_KEY`,
+`STRIPE_WEBHOOK_SECRET`, `STRIPE_CONSUMER_PACKET_PRODUCT_ID` and the existing
+consumer-delivery controls. These are not prerequisites for reusing Applicant A.
+No secret values, rotation, hosted dispatch or publication are authorized here.

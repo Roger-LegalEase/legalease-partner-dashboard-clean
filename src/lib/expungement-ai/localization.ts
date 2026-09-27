@@ -9,6 +9,10 @@ type CopyEntry = {
 };
 
 export const EXPUNGEMENT_COPY: Record<string, CopyEntry> = {
+  "clinic.cap.title": {en: "Sponsored coverage is unavailable", es: "La cobertura del patrocinador no está disponible"},
+  "clinic.cap.body": {en: "This sponsor has reached its capacity. You can continue through the standard consumer service. Screening is free; an eligible packet costs $50 after required information and verification. The sponsor will not pay for this packet.", es: "Este patrocinador ha agotado su capacidad. Puede continuar con el servicio habitual para consumidores. La evaluación es gratuita; un paquete elegible cuesta $50 después de completar la información requerida y la verificación. El patrocinador no pagará este paquete."},
+  "clinic.cap.continue": {en: "Continue with standard consumer service", es: "Continuar con el servicio habitual para consumidores"},
+
   "clinic.participant.0": {en: "Clinic entry is temporarily unavailable.", es: "El acceso a la clínica no está disponible temporalmente."},
   "clinic.participant.1": {en: "Event-specific access", es: "Acceso para este evento"},
   "clinic.participant.2": {en: "Enter this Clinic", es: "Entrar a esta clínica"},

@@ -505,6 +505,21 @@ entitlement.
 entitlement → generate packet. No Stripe button and no consumer price when valid
 sponsorship applies.
 
+**Sponsor cap exhaustion (Roger, 2026-09-27).** Clinic, MVLP and Legal Aid use
+sponsored entitlement while capacity remains. Allocate available capacity
+atomically before rendering. If event or sponsor capacity is exhausted, offer
+ordinary DTC checkout for the **same authenticated participant, matter, verified
+route and packet family**. Preserve screening answers, packet-information answers,
+verification and generated prerequisites. Explain that the sponsor will not pay
+and show the standard consumer price before the participant chooses checkout.
+Only verified Stripe completion creates DTC entitlement; a cap decision is not
+payment evidence. Preserve Clinic/Legal Aid source attribution separately from
+financial entitlement. No repeat intake, duplicate matter, fabricated sponsored
+credit or cap overrun. Concurrent final-slot contenders receive one reservation
+per available slot; losers retain their matter and may continue through DTC.
+Wrong sponsor/event/tenant and missing authority are denials, not proof of cap
+exhaustion. Existing route fulfillment and verification gates still apply.
+
 **Sponsorship reservation.** Create a non-consuming sponsorship reservation when
 the participant claims a result under a valid event. The packet credit is still
 consumed only upon first successful generation. This prevents a participant who
@@ -763,7 +778,7 @@ possible, restrict access, retain only as needed.
 | Signs up but never verifies | No matter, Briefcase, upload, entitlement, or persistent packet progress |
 | Password reset during claim | Preserve continuation and return to the exact pending result |
 | Partner event ends during completion | Apply the sponsor-reservation policy; never silently surprise the participant with checkout |
-| Sponsorship exhausted | Transparent sponsor-unavailable state; consumer payment only when contractually permitted and expressly chosen |
+| Sponsorship exhausted | Clearly tell the participant that sponsored coverage is unavailable and continue through ordinary DTC. Preserve the same matter, known answers, current verification, legal route and participant ownership when they exist. No sponsored entitlement or capacity consumption; no repeated Clinic/Legal Aid intake. Final-slot concurrency allocates sponsored capacity exactly once; other participants transition to DTC. |
 | Material answer change after verification | Invalidate verification and packet authority; preserve financial history |
 | Payment succeeds but browser closes | Webhook completes entitlement and rendering independently |
 | Payment succeeds but render fails | Retry without another charge; provide support or refund path |
@@ -1273,7 +1288,9 @@ policy and no anonymous or authenticated grant.
 **Artifact routes are session-gated and owner-scoped.** Packet download,
 generate, status and checkout all resolve through
 `requireConsumerBriefcaseSession()` against `auth.userId`, never a client-supplied
-identifier. Checkout refuses partner-sponsored items with a 403, keeping the two
+identifier. Checkout refuses currently partner-funded items with a 403. The server-bound
+cap-exhaustion decision above permits the same matter to use DTC funding while preserving
+its sponsored acquisition. Without that decision, the refusal keeps the two
 funding paths apart at the route boundary.
 
 **`CONSUMER_PACKET_PRICE_CENTS = 5000`** at

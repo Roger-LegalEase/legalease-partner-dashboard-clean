@@ -481,7 +481,16 @@ export async function getBriefcaseItemForWebhook(userId: string, itemId: string)
   return rowToBriefcaseItem(data);
 }
 
-export async function isPartnerSponsoredPacketItem(item: ConsumerBriefcaseItem): Promise<boolean> {
+export async function isPartnerSponsoredPacketItem(item: ConsumerBriefcaseItem, userId?: string): Promise<boolean> {
+  if (userId) {
+    const { readTrustedBriefcasePresentationSource } = await import("./briefcase-presentation-authority");
+    const source = await readTrustedBriefcasePresentationSource({ consumerAuthUserId: userId, item });
+    // Unknown acquisition is not permission to charge.
+    if (!source.ok) return true;
+    if (source.value.product !== "rcap_partner") return false;
+    const { clinicPacketDtcAuthorized } = await import("./clinic-packet-funding");
+    return !(await clinicPacketDtcAuthorized(userId, item.id));
+  }
   if (!item.sourceSessionId) return false;
   const supabase = getSupabaseAdminClient();
   if (!supabase) return false;

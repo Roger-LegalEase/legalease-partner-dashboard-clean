@@ -30,6 +30,15 @@ export function PacketGenerateButton({
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ briefcaseItemId })
     }).catch(() => null);
+    if (response?.status === 409) {
+      const result = await response.json().catch(() => null);
+      if (result?.outcome === "sponsor_capacity_exhausted") {
+        router.push(`/briefcase/${encodeURIComponent(briefcaseItemId)}/review`);
+        router.refresh();
+        setStatus("idle");
+        return;
+      }
+    }
     if (!response?.ok || (durable && response.status !== 202)) {
       setStatus("error");
       return;
