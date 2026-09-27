@@ -9,6 +9,9 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 export async function POST(request: NextRequest) {
+  if (request.cookies.get("clinic_reset_pending")?.value) {
+    return NextResponse.json({ success: false, error: "Finish resetting this device before starting another participant." }, { status: 409 });
+  }
   const auth = await getServerAuthState();
   if (!auth.isAuthenticated) return NextResponse.json({ success: false, error: "Participant sign-in is required." }, { status: 401 });
   const body = await request.json().catch(() => null) as Record<string, unknown> | null;
@@ -51,6 +54,7 @@ export async function POST(request: NextRequest) {
     }
     const response = NextResponse.json({ success: true, screeningUrl: `/clinic/${entry.eventSlug}/screening/${jurisdiction.toLowerCase()}` });
     const options = { httpOnly: true, sameSite: "strict" as const, secure: process.env.NODE_ENV === "production", path: "/", maxAge: 30 * 60 };
+    response.cookies.set("clinic_reset_recovery", "", { ...options, maxAge: 0 });
     response.cookies.set("clinic_session", sessionToken, options);
     response.cookies.set("clinic_device", deviceToken, options);
     response.cookies.set("clinic_event", entry.eventSlug, options);

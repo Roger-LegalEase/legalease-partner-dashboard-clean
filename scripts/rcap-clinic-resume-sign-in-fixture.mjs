@@ -28,5 +28,12 @@ if(process.argv.includes('--connected')){
  write(`app/clinic/staff/${r.event}/queue/page.tsx`,`import {ClinicQueueClient} from '@/components/clinic-mode/ClinicQueueClient';export default function Page(){return <ClinicQueueClient eventId="${r.event}" initialCases={[${JSON.stringify(q)}]}/>} `);
  write('app/api/rcap/packets/[jobId]/download/route.ts',`import {NextResponse} from 'next/server';export async function GET(r:Request,{params}:{params:Promise<{jobId:string}>}){return NextResponse.json({routerProbe:true,jobId:(await params).jobId})}`);
 }
-const log=fs.openSync(path.join(out,'build.log'),'w');try{execFileSync(process.execPath,[path.join(root,'node_modules/next/dist/bin/next'),'build'],{cwd:out,env:{...process.env,NEXT_TELEMETRY_DISABLED:'1',NEXT_PUBLIC_AUTH_CAPTCHA_REQUIRED:'false',NEXT_PUBLIC_TURNSTILE_SITE_KEY:'synthetic-site-key',NEXT_PUBLIC_SUPABASE_URL:'https://hyflxnlhpmiqxvvcoiia.supabase.co',NEXT_PUBLIC_SUPABASE_ANON_KEY:'synthetic-public-key'},stdio:['ignore',log,log]});}finally{fs.closeSync(log);}
+if(process.argv.includes('--product-reset')) {
+ const write=(rel,body)=>{fs.mkdirSync(path.dirname(path.join(out,rel)),{recursive:true});fs.writeFileSync(path.join(out,rel),body);};
+ write('app/privacy/page.tsx', 'import {ClinicPrivacyBoundary} from "@/components/clinic-mode/ClinicPrivacyBoundary";export default function Page(){return <ClinicPrivacyBoundary cleanEntryPath="/clinic"><p>Private participant A matter</p></ClinicPrivacyBoundary>}');
+ write('app/clinic/reset/page.tsx', 'import {ClinicPrivacyBoundary} from "@/components/clinic-mode/ClinicPrivacyBoundary";export default function Page(){return <ClinicPrivacyBoundary cleanEntryPath="/clinic" recovery />}');
+ write('app/clinic/page.tsx', 'export default function Page(){return <h1>Clean Clinic entry</h1>}');
+ write('app/api/auth/sign-in-fallback/route.ts',fs.readFileSync('src/app/api/auth/sign-in-fallback/route.ts','utf8'));
+}
+const log=fs.openSync(path.join(out,'build.log'),'w');try{execFileSync(process.execPath,[path.join(root,'node_modules/next/dist/bin/next'),'build'],{cwd:out,env:{...process.env,NEXT_TELEMETRY_DISABLED:'1',NEXT_PUBLIC_AUTH_CAPTCHA_REQUIRED:process.argv.includes('--captcha-required')?'true':'false',NEXT_PUBLIC_TURNSTILE_SITE_KEY:'synthetic-site-key',NEXT_PUBLIC_SUPABASE_URL:'https://hyflxnlhpmiqxvvcoiia.supabase.co',NEXT_PUBLIC_SUPABASE_ANON_KEY:'synthetic-public-key'},stdio:['ignore',log,log]});}finally{fs.closeSync(log);}
 console.log('Built local real-component fixture: '+out);

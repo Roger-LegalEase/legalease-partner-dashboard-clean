@@ -44,6 +44,8 @@ const PARTICIPANT_TRACES = [
 
 await verifyCleanBrowser();
 await verifyHostileBrowsers();
+await verifyCookieSurvivor();
+await verifyCleanupWithoutNavigation();
 await verifyHandoverBetweenParticipants();
 await verifyBackAndForwardDenied();
 await verifySourceContract();
@@ -83,7 +85,7 @@ async function verifyHostileBrowsers(reset = resetClinicDeviceState) {
     }, { expectOk: true, mustStillClear: ["sessionStorage", "indexedDB", "cacheStorage", "serviceWorkers", "navigation"] }],
     ["sessionStorage is entirely unavailable", (browser) => {
       browser.sessionStorage = undefined;
-    }, { expectOk: true, mustStillClear: ["localStorage", "indexedDB", "cacheStorage", "serviceWorkers", "navigation"] }],
+    }, { expectOk: false, failingStep: "sessionStorage", mustStillClear: ["localStorage", "indexedDB", "cacheStorage", "serviceWorkers"] }],
     ["storage refuses every removal", (browser) => {
       browser.localStorage.clear = () => { throw new DOMException("denied", "SecurityError"); };
       browser.localStorage.removeItem = () => {};
@@ -110,12 +112,31 @@ async function verifyHostileBrowsers(reset = resetClinicDeviceState) {
         `${label}: "${expectation.failingStep}" was not reported as a failure (${JSON.stringify(report.failures)})`
       );
     }
-    for (const step of expectation.mustStillClear) {
+    for (const step of expectation.mustStillClear.filter((step) => expectation.expectOk || step !== "navigation")) {
       assert.ok(report.cleared.includes(step),
         `${label}: a refusing capability stopped the reset from clearing ${step}`);
     }
-    assert.equal(browser.locationReplaced, CLEAN_ENTRY, `${label}: the device did not return to the clean Clinic entry`);
+    assert.equal(browser.locationReplaced, expectation.expectOk ? CLEAN_ENTRY : "", `${label}: navigation must require successful cleanup`);
+    if (!expectation.expectOk) assert.deepEqual(browser.historyEntries, ["/clinic/synthetic-event/entry"], `${label}: failed cleanup rewrote history`);
   }
+}
+
+async function verifyCookieSurvivor() {
+  const browser = fakeBrowser();
+  Object.defineProperty(browser, "document", { value: { get cookie() { return "briefcase_owner=participant-a"; }, set cookie(value) {} } });
+  const report = await resetClinicDeviceState(browser, CLEAN_ENTRY);
+  assert.equal(report.ok, false);
+  assert.ok(report.failures.some((failure) => failure.step === "cookies"));
+  assert.equal(browser.locationReplaced, "");
+  assert.deepEqual(browser.historyEntries, ["/clinic/synthetic-event/entry"]);
+}
+
+async function verifyCleanupWithoutNavigation() {
+  const browser = fakeBrowser();
+  const report = await resetClinicDeviceState(browser, CLEAN_ENTRY, { navigate: false });
+  assert.equal(report.ok, true);
+  assert.equal(browser.locationReplaced, "");
+  assert.deepEqual(browser.historyEntries, ["/clinic/synthetic-event/entry"]);
 }
 
 async function verifyHandoverBetweenParticipants(reset = resetClinicDeviceState) {
@@ -182,7 +203,7 @@ async function verifySourceContract() {
     ["cookie clearing", 'await step("cookies", () => clearReadableCookies(environment, cleanEntryPath));', ""],
     ["storage removal fallback", "for (const key of keys) storage.removeItem?.(key);", ""],
     ["surviving-entry check", "if (remaining > 0) throw new Error(`${remaining} ${area} entries survived the reset`);", ""],
-    ["IndexedDB enumeration honesty", 'throw new Error("this browser cannot enumerate IndexedDB databases");', "return false;"],
+    ["IndexedDB enumeration honesty", 'throw new Error("this browser cannot enumerate IndexedDB databases");', "return true;"],
     ["Cache Storage deletion", "const removeCache = (name) => environment.caches.delete(name);", "const removeCache = async () => true;"],
     ["service worker unregister check", 'if (outcomes.some((outcome) => outcome === false)) throw new Error("a service worker refused to unregister");', ""],
     ["history neutralization", "history.pushState(null, \"\", cleanEntryPath);\n    }", "}"],

@@ -17,14 +17,15 @@
 const CLINIC_COOKIE_PREFIXES = ["clinic_", "sb-", "screening_", "briefcase_"];
 
 export async function resetClinicDeviceState(environment = globalThis, cleanEntryPath = "/clinic", options = {}) {
-  const { historyDepth = 3 } = options;
+  const { historyDepth = 3, navigate = true } = options;
   const cleared = [];
   const failures = [];
 
   const step = async (name, run) => {
     try {
       const outcome = await run();
-      if (outcome !== false) cleared.push(name);
+      if (outcome === false) throw new Error(`${name} could not be verified`);
+      cleared.push(name);
       return outcome;
     } catch (error) {
       failures.push({ step: name, reason: describe(error) });
@@ -38,7 +39,11 @@ export async function resetClinicDeviceState(environment = globalThis, cleanEntr
   await step("indexedDB", () => clearIndexedDatabases(environment));
   await step("cacheStorage", () => clearCacheStorage(environment));
   await step("serviceWorkers", () => unregisterServiceWorkers(environment));
+  if (failures.length > 0 || !navigate) return { ok: failures.length === 0, cleared, failures };
+
   await step("history", () => neutralizeHistory(environment, cleanEntryPath, historyDepth));
+
+  if (failures.length > 0) return { ok: false, cleared, failures };
 
   // Navigate last: it can tear down this execution context, and every clearing
   // step above must have run before the device reaches the next participant.
@@ -81,7 +86,7 @@ function clearReadableCookies(environment, cleanEntryPath) {
   const names = document.cookie
     .split(";")
     .map((entry) => entry.split("=")[0]?.trim())
-    .filter((name) => name && CLINIC_COOKIE_PREFIXES.some((prefix) => name.startsWith(prefix)));
+    .filter(isParticipantCookie);
   if (names.length === 0) return true;
   const paths = ["/", cleanEntryPath.startsWith("/") ? cleanEntryPath : `/${cleanEntryPath}`];
   for (const name of names) {
@@ -89,7 +94,16 @@ function clearReadableCookies(environment, cleanEntryPath) {
       document.cookie = `${name}=; Max-Age=0; Path=${path}; SameSite=Lax`;
     }
   }
+  if (document.cookie.split(";").map((entry) => entry.split("=")[0]?.trim()).some(isParticipantCookie)) {
+    throw new Error("Participant cookies survived the reset");
+  }
   return true;
+}
+
+function isParticipantCookie(name) {
+  // A non-identifying lock is deliberately retained until both reset halves
+  // succeed. The identity-bound recovery capability is HttpOnly, never readable.
+  return name && name !== "clinic_reset_pending" && CLINIC_COOKIE_PREFIXES.some((prefix) => name.startsWith(prefix));
 }
 
 async function clearIndexedDatabases(environment) {

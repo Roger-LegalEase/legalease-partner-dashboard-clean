@@ -8,6 +8,6 @@ declare module "@/lib/clinic-mode/device-reset.mjs" {
   export function resetClinicDeviceState(
     environment?: Window,
     cleanEntryPath?: string,
-    options?: { historyDepth?: number }
+    options?: { historyDepth?: number; navigate?: boolean }
   ): Promise<ClinicDeviceResetReport>;
 }

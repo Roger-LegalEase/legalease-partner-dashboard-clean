@@ -18208,6 +18208,40 @@
       "createsApproval": false
     },
     "clinicResumeEngineering": {
+      "productSuccessor": {
+        "owner": "Codex; independent review pending",
+        "base": "0f23a0ca4d6eac7d50a0466d8f2664f9e63a25c7",
+        "sourceCommit": "commit introducing this productSuccessor record",
+        "status": "Implemented local D3/D4 candidate; not hosted acceptance or release authorization",
+        "D3": "Disabled server-rendered fieldset and submit; hydration/handler-ready state; explicit POST fallback; synchronous duplicate-submission guard shared by auth actions; reactive mode and forgot-password continuation.",
+        "D4": "Authenticated preparation persists a signed, expiring, owner/handoff/device-bound HttpOnly close-only capability before destructive sign-out. Closure checks lookup/RPC/readback, supports idempotent retry after auth loss, refuses unknown closure and mismatched old-session replay. UI masks immediately, propagates tab lock, retains a recovery URL and cookie, independently checks canonical closure and browser cleanup, and admits handover only after both. New session start refuses a pending reset and retires the old capability.",
+        "counterexamples": {
+          "D3": "At the exact base, a JS-disabled compiled form sends synthetic credentials in a native GET. Successor controls are disabled until handler-ready; forced native submission is POST without credential query parameters.",
+          "D4": "At the exact base, RPC error followed by cookie loss yields two success responses while canonical session remains active with zero closure audits. Successor refuses both failures, retains identity-bound recovery, then closes once after the fault clears. Proven against the actual route and canonical SQL in disposable PostgreSQL."
+        },
+        "verification": {
+          "productBrowserAndHandover": "20 passing tests: real compiled form/boundary, required/optional CAPTCHA, EN/ES, duplicate submit, exact claim, lost response, tab close, reload, cross-tab masking, cleanup refusal, new-user start, actual proxy recovery redirect",
+          "routeAndCanonicalPostgres": "12 passing tests; no external database used",
+          "dependentTools": "62 passing contract/network/resource/transport/workflow tests; 9 passing real-form harness tests; 9 passing browser-helper tests",
+          "additional": "Storage/cookie survivor and no-navigation faults; mutation controls; Clinic mobile accessibility on 4 viewports; participant ownership and tenant denials; auth continuation and redirect/sign-out origin regressions",
+          "typecheck": "PASS",
+          "changedSourceLint": "PASS",
+          "fullApplicationBuild": "NOT VERIFIED: exact integrated baseline and successor webpack builds terminate with SIGTERM and no compiler diagnostic in this environment; logs retained. Component production builds, full typecheck and changed-source lint pass."
+        },
+        "releaseImpact": {
+          "workerRebuildRequired": true,
+          "reason": "Nine changed src paths are canonical worker inputs; Dockerfile and canonical input definition unchanged. Measure exact committed source through existing planner.",
+          "publication": "Required; not authorized or performed",
+          "readOnlyImageAcceptance": "Required after publication; not performed",
+          "preview": "New source-bound Preview and candidate-specific evidence required; old af638 Preview not rerun",
+          "schemaMigrationRequired": false
+        },
+        "preserved": "Nationwide 346/346 construction and existing packet artifacts, historical approvals, worker publication/acceptance receipts and counters; no corpus rerender",
+        "dispatchAuthorized": false,
+        "publicationPerformed": false,
+        "deploymentPerformed": false,
+        "hostedAcceptance": false
+      },
       "owner": "Codex; Claude independently reviews the consolidated candidate",
       "scope": "Existing run 36279744465 correction; D1/D2/D3 connected bounded resume. Not a complete launch review.",
       "base": "7214b7cbec3566a9a9895eaaffb9dbc6d46baa7d",

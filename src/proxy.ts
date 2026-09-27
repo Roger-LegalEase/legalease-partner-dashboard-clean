@@ -8,6 +8,14 @@ import { getSupabasePublicConfig } from "@/lib/supabase/config";
 const INTERNAL_PATH_HEADER = "x-legalease-internal-path";
 
 export async function proxy(request: NextRequest) {
+  // A reload or a different tab must not reveal the previous participant while
+  // server revocation or browser cleanup is incomplete. The marker grants no
+  // authority; it only locks. API reset and static assets remain reachable.
+  const resetPath = request.nextUrl.pathname;
+  if (request.cookies.get("clinic_reset_pending")?.value && resetPath !== "/clinic/reset"
+    && !resetPath.startsWith("/api/") && !resetPath.startsWith("/_next/")) {
+    return NextResponse.redirect(new URL("/clinic/reset", request.url), 303);
+  }
   const hostRouting = routePublicProductHost(request);
   if (hostRouting) {
     return hostRouting;

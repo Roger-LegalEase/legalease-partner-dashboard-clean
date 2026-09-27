@@ -1,13 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { FormEvent, useState, useSyncExternalStore } from "react";
+import { FormEvent, useRef, useState, useSyncExternalStore } from "react";
 import { TurnstileWidget } from "@/components/auth/TurnstileWidget";
 import { authCaptchaFailureMessage, captchaOptions, isAuthCaptchaRequired } from "@/lib/auth/captcha";
 import { safeAppRedirectPath } from "@/lib/auth/redirect";
 import {
-  CLAIM_TOKEN_PARAM,
-  isWellFormedClaimTokenValue,
   submitClaim
 } from "@/lib/expungement-ai/claim/claim-handoff";
 import {
@@ -27,7 +25,29 @@ type PasswordlessState = "idle" | "magic" | "oauth";
 
 export function ConsumerSignInForm() {
   const { t: translate } = useLocalization();
-  const [mode, setMode] = useState<AuthMode>(() => initialAuthMode());
+  const handlerReady = useSyncExternalStore(subscribeToReadiness, clientReady, serverNotReady);
+  const submission = useRef(false);
+  const leaving = useRef(false);
+
+  async function runSubmission(run: () => Promise<void>) {
+    if (!handlerReady || submission.current) return;
+    submission.current = true;
+    try { await run(); }
+    catch { setErrorMessage(translate("signin.error", genericError)); }
+    finally {
+      if (!leaving.current) {
+        submission.current = false;
+        setIsSubmitting(false);
+        setPasswordlessState("idle");
+      }
+    }
+  }
+
+  function navigate(path: string) {
+    leaving.current = true;
+    window.location.assign(path);
+  }
+  const [modeChoice, setMode] = useState<AuthMode | null>(null);
   const [errorMessage, setErrorMessage] = useState("");
   const [noticeMessage, setNoticeMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -36,6 +56,7 @@ export function ConsumerSignInForm() {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [passwordlessState, setPasswordlessState] = useState<PasswordlessState>("idle");
   const locationSearch = useSyncExternalStore(subscribeToAuthLocation, authLocationSearch, serverAuthLocationSearch);
+  const mode = modeChoice ?? initialAuthMode(locationSearch);
   const requestParams = new URLSearchParams(locationSearch);
   const { claimToken } = consumerAuthContinuationFrom(requestParams);
   const pendingClaimFailed = pendingClaimFailure ?? (requestParams.get("claimRetry") === "1" && Boolean(claimToken));
@@ -56,11 +77,12 @@ export function ConsumerSignInForm() {
       setIsSubmitting(false);
       return;
     }
-    window.location.assign(claimed.redirectTo);
+    navigate(claimed.redirectTo);
   }
 
   async function submitAuth(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    await runSubmission(async () => {
     const requestContext = readAuthRequestContext();
     setIsSubmitting(true);
     setErrorMessage("");
@@ -121,11 +143,13 @@ export function ConsumerSignInForm() {
       return;
     }
 
-    window.location.assign(requestContext.nextPath);
+    navigate(requestContext.nextPath);
+    });
   }
 
   async function sendMagicLink(event: FormEvent<HTMLButtonElement>) {
     const form = event.currentTarget.form;
+    await runSubmission(async () => {
     const email = String(new FormData(form ?? undefined).get("email") ?? "").trim();
     if (!email || (isAuthCaptchaRequired() && !captchaToken.trim())) {
       setErrorMessage(!email ? genericError : authCaptchaFailureMessage);
@@ -150,9 +174,11 @@ export function ConsumerSignInForm() {
       return;
     }
     setNoticeMessage("Check your email for a secure sign-in link. Your saved result will still be here.");
+    });
   }
 
   async function continueWithGoogle() {
+    await runSubmission(async () => {
     const requestContext = readAuthRequestContext();
     setPasswordlessState("oauth");
     setErrorMessage("");
@@ -167,7 +193,8 @@ export function ConsumerSignInForm() {
     if (error) {
       setPasswordlessState("idle");
       setErrorMessage(genericError);
-    }
+    } else { leaving.current = true; }
+    });
   }
 
   const createMode = mode === "create";
@@ -193,8 +220,8 @@ export function ConsumerSignInForm() {
             <button
               className="mt-3 block min-h-10 rounded-md bg-[#FF3B00] px-4 py-2 text-sm font-bold text-white disabled:cursor-not-allowed disabled:opacity-60"
               data-pending-claim-retry="true"
-              disabled={isSubmitting}
-              onClick={() => void finishPendingClaim()}
+              disabled={!handlerReady || isSubmitting}
+              onClick={() => void runSubmission(finishPendingClaim)}
               type="button"
             >
               {isSubmitting ? "Retrying..." : "Retry saving my result"}
@@ -209,7 +236,9 @@ export function ConsumerSignInForm() {
         </div>
       ) : null}
 
-      <form className="mt-6 grid gap-4" onSubmit={submitAuth}>
+      <form method="post" action="/api/auth/sign-in-fallback" data-handler-ready={handlerReady ? "true" : "false"} aria-busy={!handlerReady || isSubmitting} className="mt-6" onSubmit={submitAuth}>
+        <fieldset disabled={!handlerReady || isSubmitting || passwordlessState !== "idle"} className="grid gap-4">
+        <noscript>{translate("signin.javascript_required", "Enable JavaScript to sign in securely.")}</noscript>
         <label className="grid gap-1.5">
           <span className="text-sm font-bold text-[#0B1320]">{translate("common.email", "Email")}</span>
           <input
@@ -233,7 +262,7 @@ export function ConsumerSignInForm() {
             <button
               aria-label={isPasswordVisible ? translate("signin.hide_password", "Hide password") : translate("signin.show_password", "Show password")}
               className="border-l border-[#ECEFF4] px-3 text-sm font-bold text-[#00A99D] transition hover:bg-[#F4F6FA] hover:text-[#0B1320] disabled:cursor-not-allowed disabled:opacity-60"
-              disabled={isSubmitting}
+              disabled={!handlerReady || isSubmitting}
               onClick={() => setIsPasswordVisible((visible) => !visible)}
               type="button"
             >
@@ -244,7 +273,7 @@ export function ConsumerSignInForm() {
         <TurnstileWidget onTokenChange={setCaptchaToken} />
         <button
           className="inline-flex min-h-11 items-center justify-center rounded-md bg-[#FF3B00] px-5 text-sm font-bold text-white transition hover:bg-[#E63500] disabled:cursor-not-allowed disabled:opacity-60"
-          disabled={isSubmitting}
+          disabled={!handlerReady || isSubmitting}
           type="submit"
         >
           {isSubmitting
@@ -258,13 +287,14 @@ export function ConsumerSignInForm() {
         {!createMode ? (
           <button
             className="inline-flex min-h-11 items-center justify-center rounded-md border border-[#00A99D] bg-white px-5 text-sm font-bold text-[#0B6F68] transition hover:bg-[#00A99D]/5 disabled:cursor-not-allowed disabled:opacity-60"
-            disabled={isSubmitting || passwordlessState !== "idle"}
+            disabled={!handlerReady || isSubmitting || passwordlessState !== "idle"}
             onClick={sendMagicLink}
             type="button"
           >
             {passwordlessState === "magic" ? "Sending secure link..." : "Email me a secure sign-in link"}
           </button>
         ) : null}
+        </fieldset>
       </form>
 
       <div className="my-5 flex items-center gap-3" aria-hidden="true">
@@ -274,7 +304,7 @@ export function ConsumerSignInForm() {
       </div>
       <button
         className="inline-flex min-h-11 w-full items-center justify-center rounded-md border border-[#ECEFF4] bg-white px-5 text-sm font-bold text-[#0B1320] transition hover:border-[#00A99D] disabled:cursor-not-allowed disabled:opacity-60"
-        disabled={isSubmitting || passwordlessState !== "idle"}
+        disabled={!handlerReady || isSubmitting || passwordlessState !== "idle"}
         onClick={() => void continueWithGoogle()}
         type="button"
       >
@@ -284,6 +314,7 @@ export function ConsumerSignInForm() {
       <div className="mt-5 flex flex-col gap-3">
         <button
           className="text-left text-sm font-semibold text-[#00A99D] hover:text-[#0B1320]"
+          disabled={!handlerReady || isSubmitting || passwordlessState !== "idle"}
           onClick={() => {
             setMode(createMode ? "signin" : "create");
             setErrorMessage("");
@@ -296,7 +327,7 @@ export function ConsumerSignInForm() {
             ? translate("signin.switch_to_signin", "Already have an account? Sign in")
             : translate("signin.switch_to_create", "New here? Create account")}
         </button>
-        {!createMode ? <Link href={forgotPasswordHref()} className="text-sm font-semibold text-[#00A99D] hover:text-[#0B1320]">
+        {!createMode ? <Link href={forgotPasswordHref(locationSearch)} className="text-sm font-semibold text-[#00A99D] hover:text-[#0B1320]">
           {translate("signin.forgot", "Forgot your password?")}
         </Link> : null}
       </div>
@@ -336,15 +367,13 @@ function readAuthRequestContext() {
   return consumerAuthContinuationFrom(new URLSearchParams(window.location.search));
 }
 
-function forgotPasswordHref() {
-  if (typeof window === "undefined") return "/auth/forgot-password?product=expungement";
-  const continuation = readAuthRequestContext();
+function forgotPasswordHref(search: string) {
+  const continuation = consumerAuthContinuationFrom(new URLSearchParams(search));
   return `/auth/forgot-password?${consumerAuthContinuationQuery(continuation, { product: "expungement" })}`;
 }
 
-function initialAuthMode(): AuthMode {
-  if (typeof window === "undefined") return "signin";
-  const params = new URLSearchParams(window.location.search);
+function initialAuthMode(search: string): AuthMode {
+  const params = new URLSearchParams(search);
   if (params.get("mode") === "create") return "create";
   if (params.get("mode") === "signin") return "signin";
   const next = safeAppRedirectPath(params.get("next"), "");
@@ -366,3 +395,8 @@ function isCaptchaError(error: unknown) {
   const code = "code" in error && typeof error.code === "string" ? error.code.toLowerCase() : "";
   return message.includes("captcha") || code.includes("captcha");
 }
+
+// React reads the client snapshot after hydrating and attaching handlers.
+function subscribeToReadiness() { return () => {}; }
+function clientReady() { return true; }
+function serverNotReady() { return false; }
