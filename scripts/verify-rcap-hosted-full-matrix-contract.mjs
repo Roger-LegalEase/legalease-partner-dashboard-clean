@@ -101,8 +101,26 @@ function failures(hostedText, callerText) {
     if (!step) continue;
     fail(step.if !== null && /steps\.contract\.outputs\./.test(step.if),
       `'${id}' is gated on something other than the normalized contract, so it can disagree with the others`);
-    fail(!/inputs\.phase ==/.test(step.if),
-      `'${id}' still tests inputs.phase directly; that is how 'full' went missing from eight conditions`);
+    if (id === "gate_deps") {
+      // Clinic deployment/resume additionally need dependencies. Their explicit
+      // OR branches do not remove the matrix branch. Execute that condition
+      // for all matrix callers instead of rejecting valid additive clauses.
+      for (const phase of ["full", "accept", "payment"]) {
+        let scheduled = false;
+        try {
+          scheduled = new Function("inputs", "steps", `return (${step.if});`)(
+            { phase }, { contract: { outputs: {
+              matrix: "true", gate: phase === "full" ? "true" : "false",
+              diagnose: "false", browser: "false", clinic: "false"
+            } } }
+          ) === true;
+        } catch { /* An unreadable condition cannot establish scheduling. */ }
+        fail(scheduled, `gate_deps is not scheduled for the ${phase} matrix`);
+      }
+    } else {
+      fail(!/inputs\.phase ==/.test(step.if),
+        `'${id}' still tests inputs.phase directly; that is how 'full' went missing from eight conditions`);
+    }
   }
 
   // The anti-skip gate.
@@ -147,6 +165,9 @@ if (MUTATIONS) {
     ["a required step is switched back to a phase list", (h, c) =>
       [h.replace("        id: golden_journey\n        if: steps.contract.outputs.matrix == 'true'",
                  "        id: golden_journey\n        if: inputs.phase == 'accept'"), c]],
+    ["dependency install keeps Clinic and Checkout but loses the matrix branch", (h, c) =>
+      [h.replace(/(id: gate_deps\n[^\n]*)steps\.contract\.outputs\.matrix == 'true' \|\| /,
+                 "$1"), c]],
     ["the caller passes the wrong phase for hosted_full", (h, c) =>
       [h, c.replace("inputs.mode == 'hosted_full' && 'full'", "inputs.mode == 'hosted_full' && 'deploy'")]],
     ["the Auth step loses its id", (h, c) => [h.replace("        id: auth_identities\n", ""), c]],

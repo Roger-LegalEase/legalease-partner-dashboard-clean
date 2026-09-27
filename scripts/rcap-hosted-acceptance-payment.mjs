@@ -1,4 +1,6 @@
 import { register } from "node:module";
+import { loadCapPaymentInput, currentCapPaymentMatter } from "./rcap-hosted-cap-payment-context.mjs";
+import { snapshotQuery } from "./rcap-hosted-sponsor-cap.mjs";
 import { retainPaymentFixture } from "./rcap-acceptance-fixture-retention.mjs";
 import crypto from "node:crypto";
 import fs from "node:fs";
@@ -7,7 +9,7 @@ import path from "node:path";
 import { spawnSync } from "node:child_process";
 
 import { prepareHostedAcceptanceEvidenceLayout } from "./rcap-hosted-acceptance-evidence-layout.mjs";
-import { completeHostedCheckout, STRIPE_TEST_CARD } from "./rcap-stripe-checkout-browser.mjs";
+import { completeHostedCheckout, STRIPE_TEST_CARD, expectedCheckoutTotal, checkoutAmountMatches } from "./rcap-stripe-checkout-browser.mjs";
 import { captureSurface, reviewJourneyCopy } from "./rcap-journey-copy-review.mjs";
 import { claimAndVerifyHostedFixture } from "./rcap-hosted-final-verification.mjs";
 
@@ -53,6 +55,8 @@ register("./lib/ts-esm-loader.mjs", import.meta.url);
 const { buildRenderJobSpec, validateRenderOutput } = await import("../src/lib/rcap/render/job-contract.ts");
 const { consumerPacketPriceCents } = await import("../src/lib/expungement-ai/payment-adapter.ts");
 
+const CAP_INPUT = loadCapPaymentInput();
+let capMatter = null;
 const rootDir = process.cwd();
 const { root: EVIDENCE_DIR } = prepareHostedAcceptanceEvidenceLayout({ rootDir });
 
@@ -69,15 +73,16 @@ const STRIPE_KEY = process.env.HOSTED_STRIPE_TEST_SECRET ?? "";
 // rather than a separate near-copy of it existing per discount shape. Empty
 // means the ordinary $50 order.
 const PROMOTION_CODE = (process.env.HOSTED_STRIPE_PROMOTION_CODE ?? "").trim() || null;
+const EXPECTED_TOTAL_CENTS = expectedCheckoutTotal({ promotionCode: PROMOTION_CODE,
+  value: process.env.HOSTED_STRIPE_EXPECTED_TOTAL_CENTS ?? '' });
 // The catalog Product this run's coupon is restricted to. The released
 // correction exists so that a product-restricted coupon can match the line
 // item; without asserting the product, a passing discount would only show that
 // SOME coupon applied to SOMETHING, which is what the defect already did.
 const CATALOG_PRODUCT_ID = (process.env.HOSTED_STRIPE_CATALOG_PRODUCT_ID ?? "").trim() || null;
-// Nothing here declares what a code is worth. Promotion codes are created and
-// managed in the Stripe Dashboard; this run types one into Stripe's own field
-// and then believes Stripe about the result, including whether the order ended
-// at zero. Issuing a new code requires no change here and no deployment.
+// Stripe owns coupon terms and calculation. The explicit expected total is the
+// approved test's assertion, never a price override sent to Stripe. A partial
+// discount must not pass as a zero-total test, or vice versa.
 // Lets one run prove a non-Mississippi purchase without duplicating this
 // journey per state. Empty keeps the existing behaviour.
 const JOURNEY_STATE = (process.env.HOSTED_JOURNEY_STATE ?? "").trim().toUpperCase();
@@ -797,11 +802,28 @@ async function prechargeStep(stage, operation) {
 }
 
 ANON_KEY = await supabaseKeys();
-const A = await signIn("acceptance-consumer-a@rcap-acceptance.test", "Acceptance-a-4f7c21!");
-const B = await signIn("acceptance-consumer-b@rcap-acceptance.test", "Acceptance-b-8d3e95!");
+const A = await signIn(CAP_INPUT?.email ?? "acceptance-consumer-a@rcap-acceptance.test", CAP_INPUT ? process.env.HOSTED_CLINIC_DEMO_PASSWORD : "Acceptance-a-4f7c21!");
+const B = CAP_INPUT?.email === "acceptance-consumer-b@rcap-acceptance.test"
+  ? await signIn("acceptance-consumer-a@rcap-acceptance.test", "Acceptance-a-4f7c21!")
+  : await signIn("acceptance-consumer-b@rcap-acceptance.test", "Acceptance-b-8d3e95!");
 if (!A || !B) {
   record("renderable_route_selected_from_the_registry", false, "the synthetic consumer identities could not sign in");
   finish();
+}
+
+if (CAP_INPUT) {
+  capMatter = await prechargeStep("cap_exhausted_current_server_binding", async () => {
+    process.env.NEXT_PUBLIC_SUPABASE_URL = SUPABASE_URL;
+    process.env.SUPABASE_SERVICE_ROLE_KEY = await serviceRoleKey();
+    try {
+      const { getBriefcaseItemForWebhook } = await import("../src/lib/expungement-ai/briefcase.ts");
+      const { requireCurrentPacketVerification } = await import("../src/lib/expungement-ai/packet-information.ts");
+      const { consumerMatterIdForItem } = await import("../src/lib/expungement-ai/consumer-identity.ts");
+      return await currentCapPaymentMatter(CAP_INPUT, { userId: A.id,
+        readSnapshot: async id => { const r = await sql(snapshotQuery(id)); if(r.status !== 200 || r.json?.length !== 1) throw Error("cap readback refused"); return r.json[0].evidence; },
+        getItem: getBriefcaseItemForWebhook, verify: requireCurrentPacketVerification, canonicalMatterId: consumerMatterIdForItem });
+    } finally { delete process.env.SUPABASE_SERVICE_ROLE_KEY; }
+  });
 }
 
 // --- 2. A route the renderer will actually accept ----------------------------
@@ -843,6 +865,7 @@ let route = null;
         packetFields: {}
       });
       tried.push(`${profile.jurisdiction.code}:${pathway.id}`);
+      if (capMatter && `${profile.jurisdiction.code}:${pathway.id}` !== `${capMatter.verification.snapshot.jurisdiction}:${capMatter.verification.snapshot.pathwayId}`) continue;
       if (built.spec) { route = { state: profile.jurisdiction.code, pathwayLabel: label, pathwayId: pathway.id, trackId: null }; break outer; }
     }
   }
@@ -866,7 +889,7 @@ let route = null;
 
 // Provisional screening correlation; replaced by the application's claimed
 // matter ID before packet, payment, worker or replay identities are established.
-let itemId = crypto.randomUUID();
+let itemId = CAP_INPUT?.observation.before.item.id ?? crypto.randomUUID();
 // Single-quoted SQL literal, doubling embedded quotes. Never JSON.stringify:
 // that produces double quotes, which Postgres reads as an identifier.
 const sqlText = (value) => String(value).split("'").join("''");
@@ -1240,7 +1263,19 @@ function buildReviewedFlow(settled) {
 // follow. A state whose waiting rule the evaluator cannot execute is reported
 // by name rather than silently skipped — that is a finding about the corpus.
 let reviewed = null;
-{
+if (capMatter) {
+  const v = capMatter.verification;
+  const model = packetInformationModelFor(capMatter.item);
+  if (!model || model.stage !== "ready_to_generate") throw new Error("existing cap matter has no current ready model");
+  reviewed = { state: v.snapshot.jurisdiction, pathway: { pathwayLabel: model.pathwayLabel }, model,
+    commercialFlow: capMatter.item.artifactRefs.commercialFlow,
+    selectedTrackId: v.snapshot.selectedTrackId, packetAnswers: v.snapshot.packetAnswers,
+    screeningAnswers: v.snapshot.screeningAnswers };
+  if (!reviewed.commercialFlow) throw new Error("existing cap matter screening facts unavailable");
+  route = { state: reviewed.state, pathwayId: v.snapshot.pathwayId, pathwayLabel: model.pathwayLabel, trackId: v.snapshot.selectedTrackId };
+  record("seeded_item_carries_reviewed_packet_information", true, "existing same-matter protected verification loaded; no new screening, claim or verification write");
+  evidence.route = route;
+} else {
   const attempts = [];
   // A requested jurisdiction goes first, so the same journey can be pointed at
   // a non-Mississippi route without a second near-copy of this harness. The
@@ -1340,7 +1375,7 @@ evidence.derivedRouteIdentity = derived;
 // verification. The harness supplies participant answers and an explicit locale.
 let preflightRoute = null;
 await prechargeStep("claim_and_final_verification", async () => {
-  itemId = await claimAndVerifyHostedFixture({
+  if (!CAP_INPUT) itemId = await claimAndVerifyHostedFixture({
     call: (endpoint, options) => callApp(endpoint, { method: "POST", cookie: A.cookie, ...options }),
     record: (id, passed, observed) => {
       record(id, passed, observed);
@@ -1369,6 +1404,7 @@ await prechargeStep("claim_and_final_verification", async () => {
     derived, route, locale: SYNTHETIC_PARTICIPANT_LOCALE });
   const agrees = agreement.passed;
   evidence.seededItemAgreement = { sqlStatus: readback.status, ...agreement };
+  if (CAP_INPUT && itemId !== CAP_INPUT.observation.before.item.id) throw new Error("fallback created a different matter");
   // Invalid bodies are represented only by the sanitized named failures above.
   evidence.seededItem = agrees ? { id: seeded?.id ?? null, status: seeded?.status ?? null,
     resultCode: seeded?.result_code ?? null, pathwayLabel: seeded?.pathway_label ?? null,
@@ -1711,7 +1747,7 @@ let session = null;
   }
 
   let stripeDirect = "not attempted";
-  if (!session) {
+  if (!session && !CAP_INPUT) {
     const form = new URLSearchParams();
     form.set("mode", "payment");
     form.set("success_url", "https://example.com/success");
@@ -1983,11 +2019,11 @@ const stripeApi = async (pathname, init) => {
   const before = { paymentStatus: session.payment_status, amountTotal: session.amount_total, paymentIntent: session.payment_intent ?? null };
   const outcome = await completeHostedCheckout({
     checkoutUrl: session.url,
+    expectedReturnUrl: session.success_url?.replace('{CHECKOUT_SESSION_ID}', session.id),
     promotionCode: PROMOTION_CODE,
     card: STRIPE_TEST_CARD,
-    // Unique per run, so Stripe Link never recognises the address and never
-    // raises a one-time-code challenge that nobody can answer. Run 35170946122
-    // stalled on exactly that, because an earlier run had paid with this email.
+    // Per-matter synthetic contact. If the provider requests verification,
+    // stop for human interaction on this Session instead of starting another.
     email: `acceptance-consumer-${String(itemId).replace(/-/g, "").slice(0, 12)}@rcap-acceptance.test`,
     screenshotDir: path.join(EVIDENCE_DIR, "checkout-screenshots"),
     label: PROMOTION_CODE ? `checkout-${PROMOTION_CODE}` : "checkout-no-code",
@@ -2044,6 +2080,7 @@ const stripeApi = async (pathname, init) => {
   evidence.hostedCheckoutCompletion = {
     promotionCode: PROMOTION_CODE,
     completed: outcome.completed,
+    humanInteractionRequired: outcome.humanInteractionRequired === true,
     paymentStatusBefore: before.paymentStatus,
     paymentStatusAfter: session.payment_status,
     amountTotalAfter: session.amount_total,
@@ -2053,7 +2090,7 @@ const stripeApi = async (pathname, init) => {
     notes: outcome.notes,
     screenshots: outcome.screenshots
   };
-  if (!settled) finish();
+  if (!settled || outcome.humanInteractionRequired) finish();
 }
 
 // --- 4c. What Stripe confirms about the purchase ------------------------------
@@ -2077,6 +2114,7 @@ const stripeConfirmed = { subtotal: null, discount: 0, total: null, currency: nu
   // Stripe's own arithmetic has to close, so a discount that never reached the
   // total cannot pass as one that did.
   const arithmeticCloses = subtotal !== null && total !== null && total === subtotal - discount;
+  const amountMatchesTheAttempt = checkoutAmountMatches(session, EXPECTED_TOTAL_CENTS);
   // A code was typed in, so Stripe must show a discount and name it; no code was
   // typed in, so Stripe must show none.
   const discountMatchesTheAttempt = PROMOTION_CODE
@@ -2101,15 +2139,16 @@ const stripeConfirmed = { subtotal: null, discount: 0, total: null, currency: nu
 
   record(
     "stripe_confirmed_the_discounted_purchase",
-    arithmeticCloses && discountMatchesTheAttempt && settlementFitsTheTotal,
+    arithmeticCloses && amountMatchesTheAttempt && discountMatchesTheAttempt && settlementFitsTheTotal,
     `Stripe reports status=${session.status} subtotal=${subtotal} amount_discount=${discount} amount_total=${total} ${String(currency).toUpperCase()} `
-      + `(its own arithmetic closes: ${arithmeticCloses}). Promotion codes Stripe applied: ${appliedCodes.length ? appliedCodes.join(", ") : "(none)"} `
+      + `(its own arithmetic closes: ${arithmeticCloses}; expected total ${EXPECTED_TOTAL_CENTS} USD cents: ${amountMatchesTheAttempt}). Promotion codes Stripe applied: ${appliedCodes.length ? appliedCodes.join(", ") : "(none)"} `
       + `for ${PROMOTION_CODE ? `entered code ${PROMOTION_CODE}` : "no entered code"} (consistent: ${discountMatchesTheAttempt}). `
       + `payment_status=${session.payment_status}, payment_intent=${session.payment_intent ? "present" : "absent"} (consistent: ${settlementFitsTheTotal}) — `
       + `completion is taken from status=complete plus the payment status Stripe reports, never from a missing PaymentIntent, which alone would equally describe a customer who never paid. `
-      + `No figure here is computed by this harness, so a code issued in the Stripe Dashboard needs no change to prove itself.`
+      + `The approved expected amount is compared with Stripe's readback; this harness never overrides the order's amount.`
   );
   evidence.discount = {
+    expectedSubtotalCents: 5000, expectedTotalCents: EXPECTED_TOTAL_CENTS, expectedCurrency: "usd",
     enteredCode: PROMOTION_CODE, status: session.status, subtotal, discount, total, currency,
     appliedCodes, paymentStatus: session.payment_status,
     paymentIntentPresent: Boolean(session.payment_intent)
@@ -2129,10 +2168,10 @@ const stripeConfirmed = { subtotal: null, discount: 0, total: null, currency: nu
     record(
       "checkout_line_item_is_on_the_catalog_product",
       productId === CATALOG_PRODUCT_ID,
-      `Stripe reports the line item on product ${productId ?? "(absent)"}; the coupon entered on its page is restricted to ${CATALOG_PRODUCT_ID}`
+      `Stripe reports the line item on product ${productId ?? "(absent)"}; the expected catalog Product is ${CATALOG_PRODUCT_ID}`
         + `${productId === CATALOG_PRODUCT_ID
-          ? ", so the discount that applied did so to the product actually being sold"
-          : ", so this Session sells something the coupon cannot apply to"}`
+          ? ", so the Session sells the expected Product; this alone does not prove coupon product restriction"
+          : ", so this Session sells a different Product"}`
     );
     evidence.catalogProduct = { expected: CATALOG_PRODUCT_ID, observed: productId };
   }

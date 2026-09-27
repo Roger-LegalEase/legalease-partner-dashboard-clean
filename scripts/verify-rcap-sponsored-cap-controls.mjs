@@ -1,6 +1,9 @@
 #!/usr/bin/env node
 /**
- * The sponsored-cap contract, proved by controls rather than by reclassification.
+ * Current entrypoint: reviewed protected funding choices, COM-02 refusal,
+ * R-5.1 attribution and R-5.2 reporting controls. No hosted proof is implied.
+ * The historical arithmetic probe described below is retained only behind
+ * --legacy-cap-arithmetic; it is not the channel authority.
  *
  *   node scripts/verify-rcap-sponsored-cap-controls.mjs
  *   node scripts/verify-rcap-sponsored-cap-controls.mjs --mutations
@@ -49,6 +52,18 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 process.chdir(rootDir);
+// The reviewed funding contract replaces pausedAtCap as the channel boundary.
+// Local mutation controls alter observations, never product source or authority.
+// Keep the historical arithmetic probe explicitly available for its old evidence.
+if (!process.argv.includes("--legacy-cap-arithmetic")) {
+  const tests = ["scripts/rcap-sponsored-funding-contract.test.mjs"];
+  if (!process.argv.includes("--mutations")) tests.push(
+    "scripts/legal-aid/commercial-refusal.test.mjs",
+    "scripts/legal-aid/acquisition-provenance.test.mjs",
+    "scripts/legal-aid/sponsor-reporting.test.mjs");
+  const result = spawnSync(process.execPath, ["--test", ...tests], {cwd:rootDir,stdio:"inherit"});
+  process.exit(result.status ?? 1);
+}
 const MUTATIONS = process.argv.includes("--mutations");
 const CHILD = process.argv.includes("--child");
 const AUTHORITY = "src/lib/rcap/fulfillment/grade-a-authority.ts";

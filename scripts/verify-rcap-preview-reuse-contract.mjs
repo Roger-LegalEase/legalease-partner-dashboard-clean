@@ -16,6 +16,7 @@
 // gate has to assert the RESOLUTION boundary rather than the deploy step, or
 // reuse would read as a skipped requirement.
 import fs from "node:fs";
+import ts from "typescript";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { createRequire } from "node:module";
@@ -31,6 +32,24 @@ const RESOLVER = "scripts/rcap-hosted-resolve-preview.mjs";
 
 const read = (p) => fs.readFileSync(path.join(rootDir, p), "utf8");
 
+// Exercise the supplied-candidate target decision, including the predicate
+// it actually invokes. Stricter Preview-only checks must not fail an old regex.
+function refusesNonPreview(source) {
+  try {
+    const ast = ts.createSourceFile("resolver.mjs", source, ts.ScriptTarget.Latest, true);
+    const predicate = ast.statements.filter(ts.isVariableStatement).flatMap(s => [...s.declarationList.declarations])
+      .find(d => d.name.getText(ast) === "isPreviewTarget");
+    const decide = new Function(`return (${predicate.initializer.getText(ast)});`)();
+    const statements = ast.statements.filter(s => ts.isExpressionStatement(s) && s.getText(ast).includes('"target_is_preview_not_production"'));
+    if (statements.length !== 1) return false;
+    return [null, "preview", "production", undefined, "other"].every(target => {
+      const outcomes = [];
+      new Function("target", "isPreviewTarget", "ok", "bad", statements[0].getText(ast))(
+        target, decide, () => outcomes.push(true), () => outcomes.push(false));
+      return outcomes.length === 1 && outcomes[0] === (target === null || target === "preview");
+    });
+  } catch { return false; }
+}
 function failures(hosted, caller, resolver) {
   const out = [];
   const fail = (c, m) => { if (!c) out.push(m); };
@@ -72,8 +91,18 @@ function failures(hosted, caller, resolver) {
   fail(/HOSTED_PREVIEW_DEPLOYMENT_ID: \$\{\{ steps\.resolve_preview\.outputs\.deployment_id( \|\| steps\.deploy_preview\.outputs\.deployment_id)? \}\}/.test(hosted),
     "downstream steps do not read the deployment id from the resolution boundary");
   {
-    const consumers = steps.filter((s) => s.id && s.id !== "resolve_preview");
-    const bypassing = consumers.filter((s) => /HOSTED_PREVIEW_(HOSTNAME|DEPLOYMENT_ID): \$\{\{ inputs\./.test(JSON.stringify(s.env ?? {})));
+    const consumers = steps.slice(steps.indexOf(resolve) + 1).filter(s => s.id);
+    const bypassing = consumers.filter(s => ["HOSTED_PREVIEW_HOSTNAME", "HOSTED_PREVIEW_DEPLOYMENT_ID"].some(key => {
+      const value = s.env?.[key];
+      if (value === undefined) return false;
+      const field = key.endsWith("HOSTNAME") ? "hostname" : "deployment_id";
+      try {
+        const actual = new Function("inputs", "steps", `return (${value.replace(/^\$\{\{|\}\}$/g, "")});`)(
+          {preview_hostname:"raw-host",preview_deployment_id:"raw-id"},
+          {resolve_preview:{outputs:{hostname:"resolved-host",deployment_id:"resolved-id"}},deploy_preview:{outputs:{hostname:"deployed-host",deployment_id:"deployed-id"}}});
+        return actual !== (field === "hostname" ? "resolved-host" : "resolved-id");
+      } catch { return true; }
+    }));
     fail(bypassing.length === 0,
       `${bypassing.map((s) => s.id).join(", ")} read the Preview identity straight from the workflow inputs, bypassing the resolution boundary`);
   }
@@ -95,7 +124,7 @@ function failures(hosted, caller, resolver) {
   // Bind the COMPARISON to the assertion it feeds. Testing for the ok()/bad()
   // pair alone passes even when the condition has been replaced by `true`,
   // because both branches remain in the source either way.
-  fail(/target !== "production"\s*\?\s*ok\("target_is_preview_not_production"/.test(resolver),
+  fail(refusesNonPreview(resolver),
     "the resolver does not refuse a production deployment on the supplied-candidate path");
   fail(/deployedSha === APPLICATION_SHA/.test(resolver),
     "the resolver does not compare the supplied candidate's deployed application SHA against the authorized one");
@@ -130,7 +159,7 @@ if (MUTATIONS) {
   const M = [
     ["hosted_full ignores a supplied Preview hostname", (h, c, r) => [h.replace("      preview_hostname:\n", "      unused_hostname:\n"), c, r]],
     ["reuse accepts a non-READY deployment", (h, c, r) => [h, c, r.replace('readyState === "READY"', "true")]],
-    ["reuse accepts a Production deployment", (h, c, r) => [h, c, r.replaceAll('target !== "production"', "true")]],
+    ["reuse accepts a Production deployment", (h, c, r) => [h, c, r.replaceAll('isPreviewTarget(target) ? ok', 'true ? ok')]],
     ["reuse accepts the wrong application SHA", (h, c, r) => [h, c, r.replaceAll("deployedSha === APPLICATION_SHA", "true")]],
     ["reuse stops checking production aliases", (h, c, r) => [h, c, r.replace(/no_production_alias_attached/g, "alias_check_removed")]],
     ["reuse stops proving the route refuses", (h, c, r) => [h, c, r.replace(/unauthenticated_render_refuses/g, "route_check_removed")]],

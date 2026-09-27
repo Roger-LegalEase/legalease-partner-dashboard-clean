@@ -13,6 +13,7 @@ import { packetTestDatabase, packetApplicationTestDatabase, applyPacketApplicati
 import { REPAIR_PATH, CORRECTION_PATH, CONTRACT_PATH, packetCatalogQuery, queueHealthQuery, comparePacketCatalog, digest } from './rcap-packet-database-contract.mjs';
 import { packetDatabaseReadback } from './verify-rcap-packet-database.mjs';
 import { buildMsNonConvictionVerification, MS_NONCONVICTION_ROUTE } from './lib/rcap-ms-nonconviction-fixture.mjs';
+import { MISSISSIPPI_SYNTHETIC_PACKET_FACTS } from './rcap-ms-nonconviction-synthetic-facts.mjs';
 
 register('./lib/ts-esm-loader.mjs',import.meta.url);
 globalThis.AsyncLocalStorage ??= AsyncLocalStorage;
@@ -151,8 +152,11 @@ test('missing sponsored reader dependency blocks pre-charge; legitimate correcti
   doubles.bindEphemeralDb(db);
   const owner=randomUUID(),stranger=randomUUID(),item=randomUUID(),consumerPerson=randomUUID(),packet=randomUUID();
   const matter=identity.consumerMatterIdForItem(item);
+  // Reuse the existing acceptance-fact authority; the legacy builder's prose
+  // answers predate the current categorical route and delivery-fact contract.
   const participant=buildMsNonConvictionVerification({
-    ...packetInformation,...screening,matterId:matter
+    ...packetInformation,...screening,matterId:matter,
+    answerOverrides:MISSISSIPPI_SYNTHETIC_PACKET_FACTS
   });
   const jsql=value=>`${sql(JSON.stringify(value))}::jsonb`;
   db.sql(`insert into auth.users values(${sql(owner)}),(${sql(stranger)});
@@ -247,6 +251,7 @@ test('missing sponsored reader dependency blocks pre-charge; legitimate correcti
     assert.equal(db.scalar('select count(*) from consumer_packet_payment_consumption'),'1');
   });
   await t.test('actual consumer grant handler binds the same Next lifetime and persists its completion receipt',async()=>{
+    let grantDecision;
     const grantRoute=sourceModule('src/app/api/expungement-ai/packet/artifacts/[itemId]/route.ts',{
       'next/server':nextServer,
       '@/lib/expungement-ai/briefcase':briefcase,
@@ -256,11 +261,13 @@ test('missing sponsored reader dependency blocks pre-charge; legitimate correcti
       '@/lib/expungement-ai/private-delivery':{authorizeConsumerArtifactDownload:async()=>({renderJobId:id,storagePath,expectedSha256:hash,grantId:randomUUID(),fileName:'packet.pdf'})},
       '@/lib/rcap/render/artifact-storage':storage,
       '@/lib/rcap/render/job-queue':currentQueue,
-      '@/lib/rcap/render/packet-delivery':delivery
+      '@/lib/rcap/render/packet-delivery':{...delivery,authorizePacketDownload:async(...args)=>{
+        grantDecision=await delivery.authorizePacketDownload(...args);return grantDecision;
+      }}
     });
     const scope=deliveryRequestScope();
     const response=await scope.run(()=>grantRoute.GET(new nextServer.NextRequest(`https://local.invalid/api/expungement-ai/packet/artifacts/${item}?grant=local`),{params:Promise.resolve({itemId:item})}));
-    assert.equal(response.status,200);assert.deepEqual(Buffer.from(await response.arrayBuffer()),bytes);
+    assert.equal(response.status,200,JSON.stringify(grantDecision));assert.deepEqual(Buffer.from(await response.arrayBuffer()),bytes);
     assert.equal(scope.tasks.length,1,'actual grant handler binds Next receipt lifetime');
     await Promise.all(scope.tasks);assert.deepEqual(scope.errors,[]);
     assert.equal(db.scalar(`select count(*) from packet_delivery_events where render_job_id=${sql(id)} and event_type='transmission_completed'`),'2');
@@ -268,7 +275,7 @@ test('missing sponsored reader dependency blocks pre-charge; legitimate correcti
   });
   await t.test('stranger and anonymous GET requests remain denied before reading storage',async()=>{
     const priorReads=reads;
-    doubles.setSession({isAuthenticated:true,userId:stranger});assert.equal((await request()).status,403);
+    doubles.setSession({isAuthenticated:true,userId:stranger});assert.equal((await request()).status,404);
     doubles.setSession(null);assert.equal((await request()).status,401);
     assert.equal(reads,priorReads);
   });

@@ -42,7 +42,10 @@ const SUPABASE_ACCESS_TOKEN = process.env.SUPABASE_ACCESS_TOKEN ?? "";
 const BYPASS = process.env.VERCEL_AUTOMATION_BYPASS_SECRET ?? "";
 const CLINIC_DEMO_MODE = (process.env.HOSTED_CLINIC_DEMO_MODE ?? "").trim();
 const EXPECTED_CLINIC_DEMO_MODE = CLINIC_DEMO_MODE || "none";
-const EXPECTED_STRIPE_CONFIGURED = CLINIC_DEMO_MODE === "mississippi_preview" ? "false" : "true";
+// Source/project/deployment checks always apply. Sponsored/reuse phases do
+// not inspect shared DTC configuration; only an explicit DTC phase requires it.
+const REQUIRE_DTC_READINESS = process.env.HOSTED_REQUIRE_DTC_READINESS !== "false";
+const EXPECTED_STRIPE_CONFIGURED = "true";
 // Which catalog Product the Preview must be built to sell. It is baked into the
 // deployment at creation like every other environment variable, so a Preview
 // built without it sells the inline fallback and is NOT the deployment a run
@@ -163,8 +166,8 @@ async function findExistingExactPreview() {
       && isPreviewTarget(full.target)
       && meta.rcapApplicationSha === APPLICATION_SHA
       && meta.rcapAcceptanceProjectRef === PROJECT_REF
-      && meta.rcapStripeConfigured === EXPECTED_STRIPE_CONFIGURED
-      && (meta.rcapCatalogProduct ?? "inline") === EXPECTED_CATALOG_PRODUCT
+      && (!REQUIRE_DTC_READINESS || meta.rcapStripeConfigured === EXPECTED_STRIPE_CONFIGURED)
+      && (!REQUIRE_DTC_READINESS || (meta.rcapCatalogProduct ?? "inline") === EXPECTED_CATALOG_PRODUCT)
       && meta.rcapReturnOrigin === EXPECTED_RETURN_ORIGIN
       && (!ISOLATED_CLINIC_PREVIEW || meta.rcapPreviewPurpose === "mississippi_clinic")
       && meta.rcapClinicDemoMode === EXPECTED_CLINIC_DEMO_MODE
@@ -272,12 +275,12 @@ deployedReturnOrigin === EXPECTED_RETURN_ORIGIN
 meta.rcapClinicDemoMode === EXPECTED_CLINIC_DEMO_MODE && (!ISOLATED_CLINIC_PREVIEW || meta.rcapPreviewPurpose === "mississippi_clinic")
   ? ok("deployment_carries_the_exact_clinic_mode", EXPECTED_CLINIC_DEMO_MODE)
   : bad("deployment_carries_the_exact_clinic_mode", `deployment records ${meta.rcapClinicDemoMode ?? "(none)"}, expected ${EXPECTED_CLINIC_DEMO_MODE}`);
-meta.rcapStripeConfigured === EXPECTED_STRIPE_CONFIGURED
-  ? ok("deployment_carries_the_expected_stripe_posture", `rcapStripeConfigured=${EXPECTED_STRIPE_CONFIGURED}`)
+(!REQUIRE_DTC_READINESS || meta.rcapStripeConfigured === EXPECTED_STRIPE_CONFIGURED)
+  ? ok("deployment_carries_the_expected_stripe_posture", REQUIRE_DTC_READINESS ? `rcapStripeConfigured=${EXPECTED_STRIPE_CONFIGURED}` : "not required for sponsored/read-only execution")
   : bad("deployment_carries_the_expected_stripe_posture", `deployment records ${meta.rcapStripeConfigured ?? "(none)"}, expected ${EXPECTED_STRIPE_CONFIGURED}`);
 
-(meta.rcapCatalogProduct ?? "inline") === EXPECTED_CATALOG_PRODUCT
-  ? ok("deployment_sells_the_expected_catalog_product", `rcapCatalogProduct=${EXPECTED_CATALOG_PRODUCT}`)
+(!REQUIRE_DTC_READINESS || (meta.rcapCatalogProduct ?? "inline") === EXPECTED_CATALOG_PRODUCT)
+  ? ok("deployment_sells_the_expected_catalog_product", REQUIRE_DTC_READINESS ? `rcapCatalogProduct=${EXPECTED_CATALOG_PRODUCT}` : "not required for sponsored/read-only execution")
   : bad("deployment_sells_the_expected_catalog_product", `deployment sells ${meta.rcapCatalogProduct ?? "inline"}, expected ${EXPECTED_CATALOG_PRODUCT}; a Preview built against a different product cannot prove this one`);
 if (CLINIC_DEMO_MODE === "mississippi_preview") {
   EXPECTED_CLINIC_SCOPE_SHA256 && meta.rcapStagingScopeSha256 === EXPECTED_CLINIC_SCOPE_SHA256

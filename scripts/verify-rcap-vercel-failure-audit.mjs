@@ -3,6 +3,7 @@
 
 import assert from "node:assert/strict";
 import fs from "node:fs";
+import { parse } from "yaml";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -64,11 +65,18 @@ check("dispatcher exposes only an explicit audit mode", dispatcher.includes("hos
 check("dispatcher maps audit mode to audit phase", dispatcher.includes("inputs.mode == 'hosted_vercel_audit' && 'vercel_audit'"));
 check("hosted workflow verifies the audit", hosted.includes("node scripts/verify-rcap-vercel-failure-audit.mjs"));
 check("hosted workflow runs the audit only in audit phase", hosted.includes("if: inputs.phase == 'vercel_audit'\n        env:") && hosted.includes("node scripts/rcap-vercel-failure-audit.mjs"));
-check(
-  "Supabase preflight is skipped for the Vercel-only audit",
-  hosted.includes("if: inputs.phase == 'migrate'")
-    && hosted.includes("if: inputs.phase != 'migrate' && inputs.phase != 'vercel_audit'")
-);
+const preflights = parse(hosted).jobs.preflight.steps.filter(step => step.run === "node scripts/rcap-hosted-acceptance-preflight.mjs");
+function preflightSchedule(steps, phase) {
+  return steps.filter(step => new Function("inputs", `return (${step.if});`)({phase})).map(step => step.env.PREFLIGHT_SCOPE);
+}
+check("Supabase preflight is skipped for the Vercel-only audit", preflights.length === 2 && preflightSchedule(preflights, "vercel_audit").length === 0);
+for (const phase of ["migrate", "clinic_migrate", "legal_aid_migrate"])
+  check(`${phase} retains Supabase-only preflight`, JSON.stringify(preflightSchedule(preflights, phase)) === '["supabase_only"]');
+check("ordinary preflight retains full scope", JSON.stringify(preflightSchedule(preflights, "preflight")) === '["full"]');
+for (const index of [0,1]) {
+  const changed = structuredClone(preflights); changed[index].if = "true";
+  check(`preflight mutation ${index} cannot skip the audit isolation requirement`, preflightSchedule(changed, "vercel_audit").length !== 0);
+}
 check("audit phase is absent from migration condition", !hosted.includes("inputs.phase == 'vercel_audit' || inputs.phase == 'migrate'"));
 check("audit phase is absent from deploy condition", !hosted.includes("inputs.phase == 'vercel_audit' || inputs.phase == 'deploy'"));
 check("audit phase is absent from Auth condition", !hosted.includes("inputs.phase == 'vercel_audit' || inputs.phase == 'accept'"));

@@ -35,6 +35,24 @@ export const STRIPE_TEST_CARD = Object.freeze({
 
 const FIELD_TIMEOUT = 20_000;
 
+export function expectedCheckoutTotal({ promotionCode, value = '' }) {
+  const supplied = String(value).trim();
+  if (!supplied && !promotionCode) return 5000;
+  if (!/^(0|[1-9][0-9]{0,3})$/.test(supplied)) {
+    throw new Error('Discounted Checkout requires an explicit expected_total_cents (0–4999).');
+  }
+  const amount = Number(supplied);
+  if (promotionCode ? amount >= 5000 : amount !== 5000) {
+    throw new Error('Ordinary Checkout expects 5000 cents; a promotion expects 0–4999 cents.');
+  }
+  return amount;
+}
+
+export function checkoutAmountMatches(session, expectedTotalCents) {
+  return session.amount_subtotal === 5000 && session.amount_total === expectedTotalCents
+    && session.currency === 'usd';
+}
+
 async function firstVisible(scope, selectors, timeout = FIELD_TIMEOUT) {
   const deadline = Date.now() + timeout;
   while (Date.now() < deadline) {
@@ -121,7 +139,7 @@ export async function applyPromotionCode(page, code, notes) {
   return { entered: true, accepted: !rejected, reason };
 }
 
-/** A plausible value for a field this harness did not anticipate. */
+/** Known synthetic billing values; unknown required controls need review. */
 function valueForField({ name, autocomplete, placeholder, type }) {
   const hay = `${name} ${autocomplete} ${placeholder}`.toLowerCase();
   if (/email/.test(hay) || type === "email") return "acceptance-consumer-a@rcap-acceptance.test";
@@ -132,7 +150,7 @@ function valueForField({ name, autocomplete, placeholder, type }) {
   if (/state|province|region/.test(hay)) return "MS";
   if (/phone|tel/.test(hay) || type === "tel") return "6015550142";
   if (/name/.test(hay)) return "Acceptance Test Participant";
-  return "Acceptance";
+  return null;
 }
 
 /**
@@ -141,7 +159,8 @@ function valueForField({ name, autocomplete, placeholder, type }) {
  * configuration, so they are read off the page instead of hard-coded — three
  * unnamed "Required" markers is what made run 35161962654 unactionable.
  */
-async function fillRemainingRequired(page, notes) {
+export async function fillRemainingRequired(page, notes) {
+  await requireNoProviderChallenge(page);
   const unfilled = [];
   for (const scope of frameScopes(page)) {
     const controls = await scope.locator("input:not([type=hidden]):not([type=checkbox]):not([type=radio]), select")
@@ -161,17 +180,24 @@ async function fillRemainingRequired(page, notes) {
         required: el.hasAttribute("required") || el.getAttribute("aria-required") === "true"
       })).catch(() => null);
       if (!describe) continue;
+      if (!describe.required) continue;
       const label = describe.name || describe.autocomplete || describe.placeholder || describe.tag;
 
       try {
         if (describe.tag === "select") {
-          // Country and similar. Prefer the United States where it is offered.
+          // Only the known country control has an authorized fixture answer.
+          if (!/country/i.test(`${describe.name} ${describe.autocomplete}`)) {
+            unfilled.push(label);
+            continue;
+          }
           const options = await control.locator("option").allTextContents();
           const us = options.findIndex((text) => /united states/i.test(text));
-          await control.selectOption({ index: us >= 0 ? us : 1 });
-          notes.push(`${label}: selected ${us >= 0 ? "United States" : "first option"}`);
+          if (us < 0) { unfilled.push(label); continue; }
+          await control.selectOption({ index: us });
+          notes.push(`${label}: selected United States`);
         } else {
           const value = valueForField(describe);
+          if (value === null) { unfilled.push(label); continue; }
           if (!value) continue;
           await control.fill(value);
           notes.push(`${label}: filled`);
@@ -185,35 +211,36 @@ async function fillRemainingRequired(page, notes) {
 }
 
 /**
- * Stripe Link verification, when it appears.
- *
- * Link recognises an email that has paid before and asks it for a six-digit
- * code, which is unanswerable here and simply stalls on the page with no error
- * text. In a sandbox the code is always 000000, so the challenge is cleared
- * rather than waited out. A per-run email usually avoids it entirely; this is
- * the fallback for the addresses Link already knows.
+ * Provider verification belongs to the human operator. Observe across frames,
+ * stop without answering, and let the caller retain the existing Session.
  */
-async function clearOneTimeCodeChallenge(page, notes, shoot) {
-  const field = await firstVisible(page, [
-    'input[autocomplete="one-time-code"]',
-    'input[name="one-time-code"]',
-    'input[id*="one-time-code" i]'
-  ], 2_000);
-  if (!field) return false;
-  notes.push("Stripe asked for a Link one-time code");
-  await shoot("link-challenge");
-  await field.click({ timeout: FIELD_TIMEOUT }).catch(() => {});
-  // Typed rather than filled: the code is rendered as six single-character
-  // boxes that advance on keystroke, and a bulk fill lands entirely in the first.
-  await page.keyboard.type("000000", { delay: 80 }).catch(() => {});
-  await page.waitForTimeout(2500);
-  const stillChallenged = await firstVisible(page, [
-    'input[autocomplete="one-time-code"]',
-    'input[name="one-time-code"]'
-  ], 1_500);
-  notes.push(stillChallenged ? "the one-time code was not accepted" : "the one-time code cleared the challenge");
-  await shoot("link-challenge-answered");
-  return !stillChallenged;
+export async function requireNoProviderChallenge(page) {
+  for (const scope of frameScopes(page)) {
+    for (const selector of [
+      'input[autocomplete="one-time-code"]',
+      'input[name="one-time-code"]',
+      'input[id*="one-time-code" i]',
+      'iframe[title*="challenge" i]',
+      'iframe[title*="captcha" i]',
+      '[role="dialog"]:has-text("Verify your identity")'
+    ]) {
+      if (await scope.locator(selector).first().isVisible()) {
+        const error = new Error('Provider verification requires human interaction; retain this Checkout Session and inspect its state before any further write.');
+        error.code = 'CHECKOUT_HUMAN_INTERACTION_REQUIRED';
+        throw error;
+      }
+    }
+  }
+}
+
+export function isExpectedCheckoutReturn(actual, expected) {
+  try {
+    const url = new URL(actual);
+    const target = new URL(expected);
+    return target.protocol === 'https:' && url.origin === target.origin
+      && url.pathname === target.pathname
+      && [...target.searchParams].every(([key, value]) => url.searchParams.get(key) === value);
+  } catch { return false; }
 }
 
 /**
@@ -230,11 +257,11 @@ async function clearOneTimeCodeChallenge(page, notes, shoot) {
  */
 export async function completeHostedCheckout({
   checkoutUrl,
+  expectedReturnUrl,
   promotionCode = null,
   card = STRIPE_TEST_CARD,
-  // Distinct per run. Stripe Link remembers an address that has paid before and
-  // then challenges it for a one-time code, so reusing one address turns every
-  // later run into a two-factor prompt nobody can answer.
+  // Synthetic contact for this authorized fixture. A provider challenge stops
+  // the run; changing the contact is not a challenge-recovery mechanism.
   email = "acceptance-consumer-a@rcap-acceptance.test",
   screenshotDir = null,
   label = "checkout",
@@ -247,11 +274,13 @@ export async function completeHostedCheckout({
   // capturing the post-payment screens. It observes; it must not act.
   onReturn = null
 }) {
+  if (!isExpectedCheckoutReturn(expectedReturnUrl, expectedReturnUrl)) {
+    throw new Error('Exact HTTPS Checkout success URL is required before opening the provider page.');
+  }
   const notes = [];
   const screenshots = [];
   const browser = await chromium.launch({ args: ["--no-sandbox"] });
   const context = await browser.newContext();
-  if (sessionCookies.length > 0) await context.addCookies(sessionCookies).catch(() => {});
   const page = await context.newPage();
 
   const shoot = async (name) => {
@@ -263,14 +292,20 @@ export async function completeHostedCheckout({
   };
 
   try {
+    if (sessionCookies.length > 0) await context.addCookies(sessionCookies);
     await page.goto(checkoutUrl, { waitUntil: "domcontentloaded", timeout: 60_000 });
     await page.waitForTimeout(2500);
     await shoot("opened");
+    await requireNoProviderChallenge(page);
 
     let promotion = null;
     if (promotionCode) {
       promotion = await applyPromotionCode(page, promotionCode, notes);
       await shoot("promotion-applied");
+      if (!promotion.entered || !promotion.accepted) {
+        notes.push('Promotion was not accepted; stopped before submitting Checkout. Review this Session before another attempt.');
+        return { completed: false, humanInteractionRequired: true, promotion, notes, screenshots };
+      }
     }
 
     // What Stripe is asking for now decides the rest. A zero total shows an
@@ -285,6 +320,7 @@ export async function completeHostedCheckout({
     await fillAcrossFrames(page, [
       'input[name="email"]', 'input[type="email"]', 'input[autocomplete="email"]'
     ], email, "email", notes);
+    await requireNoProviderChallenge(page);
 
     if (!looksFree) {
       if (!card) {
@@ -314,8 +350,12 @@ export async function completeHostedCheckout({
     // per run. Anything left empty is named in the notes, which is what turns a
     // silent "Required" into something actionable.
     const remaining = await fillRemainingRequired(page, notes);
-    if (remaining.length) notes.push(`could not fill: ${remaining.join(", ")}`);
-    await clearOneTimeCodeChallenge(page, notes, shoot);
+    if (remaining.length) {
+      notes.push(`required fields need operator review: ${remaining.join(", ")}`);
+      await shoot("required-fields-unfilled");
+      return { completed: false, humanInteractionRequired: true, promotion, notes, screenshots };
+    }
+    await requireNoProviderChallenge(page);
     await shoot("form-complete");
 
     const submit = await firstVisible(page, [
@@ -336,15 +376,20 @@ export async function completeHostedCheckout({
       notes.push(`submit click failed: ${String(error?.message ?? error).slice(0, 120)}`);
     });
 
-    // Stripe leaves its own domain when the order completes. Waiting on the URL
-    // rather than a success banner keeps this from passing on a page that
-    // merely stopped showing an error.
+    // Only the application's exact success return counts. A challenge redirect,
+    // cancellation, or unrelated page is not a completed browser journey.
     let leftStripe = false;
     const deadline = Date.now() + 90_000;
     while (Date.now() < deadline) {
       await page.waitForTimeout(1500);
       const current = page.url();
-      if (!/checkout\.stripe\.com/.test(current)) { leftStripe = true; break; }
+      if (isExpectedCheckoutReturn(current, expectedReturnUrl)) { leftStripe = true; break; }
+      if (new URL(current).hostname !== 'checkout.stripe.com') {
+        const error = new Error('Unexpected Checkout destination; human review of the existing Session is required.');
+        error.code = 'CHECKOUT_HUMAN_INTERACTION_REQUIRED';
+        throw error;
+      }
+      await requireNoProviderChallenge(page);
     }
     if (leftStripe) {
       notes.push(`returned to ${new URL(page.url()).host}`);
@@ -389,7 +434,7 @@ export async function completeHostedCheckout({
   } catch (error) {
     notes.push(`browser error: ${String(error?.message ?? error).slice(0, 300)}`);
     await shoot("error");
-    return { completed: false, notes, screenshots };
+    return { completed: false, humanInteractionRequired: error?.code === 'CHECKOUT_HUMAN_INTERACTION_REQUIRED', notes, screenshots };
   } finally {
     await context.close().catch(() => {});
     await browser.close().catch(() => {});

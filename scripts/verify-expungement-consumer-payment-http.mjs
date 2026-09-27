@@ -106,7 +106,7 @@ async function runCaseGroup(ids, execute) {
   try { await execute(); } catch (error) {
     const missing = ids.filter(id => !results.some(row => row.id === id));
     for (const id of missing.length ? missing : [ids[0] + '-execution']) {
-      check(id, 'case could not complete its required assertions', false, String(error.message));
+      check(id, 'case could not complete its required assertions', false, `${String(error.message)}; denialCode=${error.decision?.denialCode ?? error.denialCode ?? error.code ?? 'none'}`);
     }
   }
   for (const id of ids) if (!results.some(row => row.id === id)) check(id, 'required assertion was not executed', false);
@@ -288,7 +288,10 @@ async function createItem(userId, label, { paymentAllowed = true, jurisdiction =
     },
     verification: { status: "unverified", reason: "final_verification_not_completed" }
   };
-  const artifactRefs = JSON.stringify({ commercialFlow }).replaceAll("'", "''");
+  // The real claim copies the explicitly selected screening locale into the
+  // matter. This local fixture models that input instead of asking rendering
+  // to invent a language for a matter whose attribution omitted it.
+  const artifactRefs = JSON.stringify({ commercialFlow, attribution: { locale: "en" } }).replaceAll("'", "''");
   db.sql(
     `insert into public.consumer_briefcase_items
       (id, user_id, item_type, jurisdiction, status, payment_allowed,
