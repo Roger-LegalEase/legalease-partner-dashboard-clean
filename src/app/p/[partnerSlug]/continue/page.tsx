@@ -1,3 +1,4 @@
+import { withLegalAidDeviceBoundary } from "@/components/legal-aid/LegalAidDeviceBoundary";
 import Link from "next/link";
 import { unstable_noStore as noStore } from "next/cache";
 import { notFound } from "next/navigation";
@@ -27,6 +28,7 @@ const STATUS_COPY: Record<IntakeStatus, string> = {
 // authenticated account that registered.
 export default async function ContinuePage({ params }: { params: Promise<{ partnerSlug: string }> }) {
   noStore();
+  return withLegalAidDeviceBoundary(async () => {
   const { partnerSlug } = await params;
   const branding = getLegalAidBranding(partnerSlug);
   if (!branding) notFound();
@@ -50,6 +52,7 @@ export default async function ContinuePage({ params }: { params: Promise<{ partn
       <p className="mt-8 text-sm text-[#5B4E66]"><Link href="/briefcase" className="font-bold text-[var(--la-brand-dark)] underline">Go to my LegalEase briefcase</Link> for screening results and prepared documents.</p>
     </LegalAidShell>
   );
+  });
 }
 
 function RegistrationCard({ entry, intake }: { entry: Awaited<ReturnType<typeof listParticipantRegistrations>>[number]; intake: ParticipantIntakeView | null }) {

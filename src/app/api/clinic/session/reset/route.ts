@@ -174,9 +174,11 @@ export async function POST(request: NextRequest) {
   const success = action !== "prepare" && revocationConfirmed && signOutConfirmed;
   const response = NextResponse.json({ success, prepared, revocationConfirmed, signOutConfirmed, state, ...(action === "complete" && success ? { cleanEntryPath } : {}) }, { status: prepared || success ? 200 : 409 });
   const options = { path: "/", httpOnly: true, sameSite: "strict" as const, secure: process.env.NODE_ENV === "production" };
+  // Next response-cookie round trips can drop a zero Max-Age. The explicit
+  // past expiry preserves deletion through the full application response.
   if (mayClear) {
     for (const name of new Set(["clinic_session", "clinic_device", "clinic_event", "clinic_entry", ...request.cookies.getAll().map(c => c.name)
-      .filter(name => name !== RECOVERY_COOKIE && name !== COMPLETED_COOKIE && name !== "clinic_reset_pending" && /^(sb-|clinic_|screening_|briefcase_)/.test(name))])) response.cookies.set(name, "", { ...options, maxAge: 0 });
+      .filter(name => name !== RECOVERY_COOKIE && name !== COMPLETED_COOKIE && name !== "clinic_reset_pending" && /^(sb-|clinic_|screening_|briefcase_)/.test(name))])) response.cookies.set(name, "", { ...options, maxAge: 0, expires: new Date(0) });
     response.headers.set("Clear-Site-Data", '"cache", "storage"');
   }
   if (existing && !issued && !(action === "complete" && success)) {
@@ -185,11 +187,11 @@ export async function POST(request: NextRequest) {
       if (authenticRecovery(existing)) response.cookies.set(RECOVERY_COOKIE, existing, { ...recoveryOptions(prior), expires: new Date(Math.min(retentionDeadline(prior), locatorDeadline ?? Infinity)) });
     } catch { /* Invalid data does not acquire a retention extension. */ }
   }
-  if (expiredLocator) response.cookies.set(RECOVERY_COOKIE, "", { ...options, maxAge: 0 });
+  if (expiredLocator) response.cookies.set(RECOVERY_COOKIE, "", { ...options, maxAge: 0, expires: new Date(0) });
   if (issued) response.cookies.set(RECOVERY_COOKIE, issued.value, recoveryOptions(issued.proof));
   if (action === "complete" && success) {
-    response.cookies.set("clinic_reset_pending", "", { ...options, httpOnly: false, maxAge: 0 });
-    response.cookies.set(RECOVERY_COOKIE, "", { ...options, maxAge: 0 });
+    response.cookies.set("clinic_reset_pending", "", { ...options, httpOnly: false, maxAge: 0, expires: new Date(0) });
+    response.cookies.set(RECOVERY_COOKIE, "", { ...options, maxAge: 0, expires: new Date(0) });
     // Replace participant-bearing state only after the browser's cleanup phase.
     // A lost response or interrupted final navigation can retry using this
     // non-identifying receipt. It grants no session lookup or closure authority.

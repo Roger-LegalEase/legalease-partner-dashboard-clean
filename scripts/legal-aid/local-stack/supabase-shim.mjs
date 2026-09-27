@@ -100,6 +100,7 @@ export async function startSupabaseShim({ db, serviceKey, anonKey, users, port =
       const column = ident(key);
       switch (op) {
         case "eq": clauses.push(`${column} = ${push(value)}`); break;
+        case "cs": clauses.push(`${column} @> ${push(value)}`); break;
         case "neq": clauses.push(`${column} <> ${push(value)}`); break;
         case "gt": clauses.push(`${column} > ${push(value)}`); break;
         case "gte": clauses.push(`${column} >= ${push(value)}`); break;

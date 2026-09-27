@@ -7,6 +7,7 @@ import { requireConsumerBriefcaseApiSession } from "@/lib/expungement-ai/privacy
 import { assertSameOrigin, PrivacyOriginError, PrivacyRequestError, readPrivacyJsonBody, PRIVACY_RESPONSE_HEADERS } from "@/lib/expungement-ai/privacy/request-security";
 import { resolveSessionPartner, SessionPartnerError } from "@/lib/partners/session-partner";
 import { RegistrationInputError } from "./registration-service";
+import { getLegalAidDeviceContext } from "./device-context";
 import { RestrictedFieldError } from "./restricted-fields";
 
 // Shared plumbing for the legal-aid API routes. Every response is private and
@@ -35,6 +36,7 @@ export type ParticipantActor = { ok: true; userId: string; userEmail: string | n
 
 export async function participantActor(request: NextRequest, { mutation = true }: { mutation?: boolean } = {}): Promise<ParticipantActor> {
   if (mutation) assertSameOrigin(request);
+  if ((await getLegalAidDeviceContext())?.recovery) throw new PrivacyRequestError("device_reset_required", "Complete device recovery before opening Legal Aid records.", 423);
   const session = await requireConsumerBriefcaseApiSession();
   if (!session.ok) return { ok: false, response: session.response };
   return { ok: true, userId: session.userId, userEmail: session.userEmail ?? null };
@@ -45,6 +47,7 @@ export type StaffActor = { authUserId: string; kind: "partner" | "internal_admin
 /** An authenticated partner_users identity (partner admin, partner staff, or internal admin). Event-level authority is decided by the legal-aid predicates, not here. */
 export async function staffActor(request: NextRequest, { mutation = true }: { mutation?: boolean } = {}): Promise<StaffActor> {
   if (mutation) assertSameOrigin(request);
+  if ((await getLegalAidDeviceContext())?.recovery) throw new PrivacyRequestError("device_reset_required", "Complete device recovery before opening Legal Aid records.", 423);
   try {
     const actor = await resolveSessionPartner();
     return actor.kind === "partner"
@@ -59,6 +62,7 @@ export async function staffActor(request: NextRequest, { mutation = true }: { mu
 /** Either a participant or a staff member; used by the shared document download route. */
 export async function anyActor(request: NextRequest, options: { mutation?: boolean } = {}): Promise<{ userId: string; kind: "participant" | "staff" } | { response: NextResponse }> {
   if (options.mutation) assertSameOrigin(request);
+  if ((await getLegalAidDeviceContext())?.recovery) throw new PrivacyRequestError("device_reset_required", "Complete device recovery before opening Legal Aid records.", 423);
   const session = await requireConsumerBriefcaseApiSession();
   if (session.ok) return { userId: session.userId, kind: "participant" };
   try {

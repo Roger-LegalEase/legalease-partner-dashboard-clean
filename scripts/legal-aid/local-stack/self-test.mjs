@@ -18,6 +18,14 @@ try {
   assert.equal(none.error, null); assert.equal(none.data, null);
   const count = await admin.from("clinic_events").select("id", { count: "exact", head: true }).eq("partner_slug", "mvlp").in("status", ["draft", "published"]);
   assert.equal(count.count, 2);
+  const member = (await db.query('select id from partner_users where auth_user_id=$1', [IDS.coordinator])).rows[0];
+  const staff = (await db.query("insert into clinic_event_staff(event_id,partner_user_id,permissions,approved_by) values ($1,$2,array['assist']::text[],$3) returning id", [IDS.eventStandard, member.id, IDS.admin])).rows[0];
+  const assisting = await admin.from('clinic_event_staff').select('id').eq('event_id',IDS.eventStandard).contains('permissions',['assist']);
+  assert.equal(assisting.error,null,JSON.stringify(assisting.error)); assert.deepEqual(assisting.data,[{id:staff.id}]);
+  const notIncident = await admin.from('clinic_event_staff').select('id').eq('event_id',IDS.eventStandard).contains('permissions',['assist','incident']);
+  assert.equal(notIncident.error,null); assert.deepEqual(notIncident.data,[]);
+  const otherEvent = await admin.from('clinic_event_staff').select('id').eq('event_id',IDS.eventLegalAid).contains('permissions',['assist']);
+  assert.equal(otherEvent.error,null); assert.deepEqual(otherEvent.data,[]);
   const scalar = await admin.rpc("legal_aid_prepare_policy_profile", { p_actor_user_id: IDS.admin, p_partner_slug: "mvlp", p_intake_schema_version: "mvlp-intake-v1", p_profile: { a: 1 } });
   assert.equal(scalar.error, null, JSON.stringify(scalar.error)); assert.match(String(scalar.data), /^[0-9a-f-]{36}$/);
   const approved = await admin.rpc("legal_aid_approve_policy_profile", { p_actor_user_id: IDS.admin2, p_profile_id: scalar.data, p_note: null });

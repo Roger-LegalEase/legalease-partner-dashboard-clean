@@ -1,3 +1,4 @@
+import { withLegalAidDeviceBoundary } from "@/components/legal-aid/LegalAidDeviceBoundary";
 import Link from "next/link";
 import { unstable_noStore as noStore } from "next/cache";
 import { notFound } from "next/navigation";
@@ -15,6 +16,7 @@ export const revalidate = 0;
 // registering, the same page is the confirmation and the door to the intake.
 export default async function ClinicRegisterPage({ params }: { params: Promise<{ eventSlug: string }> }) {
   noStore();
+  return withLegalAidDeviceBoundary(async () => {
   const { eventSlug } = await params;
   const event = await getLegalAidEventBySlug(eventSlug);
   if (!event) notFound();
@@ -62,6 +64,7 @@ export default async function ClinicRegisterPage({ params }: { params: Promise<{
       </div>
     </LegalAidShell>
   );
+  });
 }
 
 function contactPhrase(preferred: string): string {

@@ -236,6 +236,7 @@ export function ConsumerSignInForm() {
         </div>
       ) : null}
 
+      {!handlerReady && <p role="status" className="mt-4 text-sm">{translate("signin.loading_secure", "Loading secure sign-in. If the controls stay unavailable, reload this page. Do not enter credentials until the controls are ready.")}</p>}
       <form method="post" action="/api/auth/sign-in-fallback" data-handler-ready={handlerReady ? "true" : "false"} aria-busy={!handlerReady || isSubmitting} className="mt-6" onSubmit={submitAuth}>
         <fieldset disabled={!handlerReady || isSubmitting || passwordlessState !== "idle"} className="grid gap-4">
         <noscript>{translate("signin.javascript_required", "Enable JavaScript to sign in securely.")}</noscript>
@@ -336,7 +337,7 @@ export function ConsumerSignInForm() {
 }
 
 function expungementAuthRedirectTo(nextPath: string, claimToken: string, locale: string | null = null) {
-  const path = `/auth/set-password?${consumerAuthContinuationQuery({ nextPath, claimToken, locale })}`;
+  const path = `/auth/set-password?${consumerAuthContinuationQuery({ nextPath, claimToken, locale })}${nextPath === "/clinic/reset" ? "&flow=signin" : ""}`;
   if (typeof window !== "undefined" && isExpungementHost(window.location.hostname)) {
     return `${window.location.origin}${path}`;
   }

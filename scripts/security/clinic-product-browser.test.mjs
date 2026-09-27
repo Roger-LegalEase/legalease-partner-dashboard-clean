@@ -284,3 +284,29 @@ for(const fault of ['completion-response','final-cleanup'])test('M4 browser '+fa
   await p.reload();await p.getByRole('button',{name:'Retry device reset'}).click();await p.waitForURL(u=>u.pathname==='/clinic/test-clinic');assert.equal(s.f.state.audits,1);assert.ok(!(await s.context.cookies()).some(c=>c.name==='clinic_reset_recovery'||c.name==='clinic_reset_pending'));
  }finally{await s.close();}
 });
+
+for (const method of ['magic-link', 'google']) test(`recovery authentication: ${method} requests the exact recovery continuation`, async () => {
+  const s = await site();
+  let requestUrl;
+  try {
+    await s.context.route('https://hyflxnlhpmiqxvvcoiia.supabase.co/**', async route => {
+      requestUrl = route.request().url();
+      await route.fulfill({status:200,contentType:'application/json',body:'{}'});
+    });
+    const p = await s.context.newPage();
+    await ready(p,s.origin,'mode=signin&next=%2Fclinic%2Freset');
+    const forgot = new URL(await p.locator('a[href*="forgot-password"]').getAttribute('href'),s.origin);
+    assert.equal(forgot.searchParams.get('next'),'/clinic/reset');
+    const requested = p.waitForRequest(r=>r.url().includes(method==='google'?'/authorize':'/otp'));
+    if(method==='magic-link') {
+      await p.locator('input[name=email]').fill('synthetic-staff@example.invalid');
+      await p.getByRole('button',{name:'Email me a secure sign-in link'}).click();
+    } else await p.getByRole('button',{name:'Continue with Google'}).click();
+    const request = await requested;
+    const redirect = new URL(new URL(request.url()).searchParams.get('redirect_to'));
+    assert.equal(redirect.pathname,'/auth/set-password');
+    assert.equal(redirect.searchParams.get('next'),'/clinic/reset');
+    assert.equal(redirect.searchParams.get('flow'),'signin');
+    assert.ok(requestUrl || request.url());
+  } finally { await s.close(); }
+});

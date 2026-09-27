@@ -76,6 +76,7 @@ export default function SetPasswordPage() {
       setIsFirstAdminSetup(firstAdminSetup);
       setNextPath(detectedNextPath);
 
+      const recoverySignIn = detectedNextPath === "/clinic/reset" && searchParams.get("flow") === "signin";
       const code = searchParams.get("code");
       const hashParams = new URLSearchParams(window.location.hash.replace(/^#/, ""));
       const accessToken = hashParams.get("access_token");
@@ -130,6 +131,10 @@ export default function SetPasswordPage() {
       }
 
       if (data.session) {
+        if (recoverySignIn) {
+          window.location.assign("/clinic/reset");
+          return;
+        }
         if (isExpungementNext(detectedNextPath)) {
           const claimedNext = await claimExpungementPending(detectedNextPath);
           window.location.assign(claimedNext);

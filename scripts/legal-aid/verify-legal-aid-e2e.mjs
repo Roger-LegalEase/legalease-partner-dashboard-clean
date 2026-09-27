@@ -34,14 +34,19 @@ const PDF = Buffer.from("%PDF-1.4\n1 0 obj<</Type/Catalog>>endobj\ntrailer<</Roo
 const PDF_SHA = createHash("sha256").update(PDF).digest("hex");
 
 const db = await createLocalDatabase();
-const shim = await startSupabaseShim({ db, serviceKey: SERVICE_KEY, anonKey: ANON_KEY, users: USERS });
+const shim = await startSupabaseShim({ db, serviceKey: SERVICE_KEY, anonKey: ANON_KEY, users: USERS, port: Number(process.env.LEGAL_AID_SHIM_PORT ?? 0) });
 // The applicant's prepared packet (a synthetic PDF in the packet bucket) so the
 // attorney can attach the unsigned copy. Shaped exactly as the clinic-sponsored
 // route enqueues it: sponsored_consumer_auth_user_id carries the participant and
 // consumer_auth_user_id is null (only a paid packet sets the consumer binding).
 shim.objects.set(`rcap-packet-artifacts-private/packets/${IDS.renderJob}.pdf`, { bytes: PDF, contentType: "application/pdf" });
 await db.exec(`insert into public.packet_render_jobs(id, packet_id, route_id, renderer_kind, renderer_version, status, accounting_result, output_storage_path, output_sha256, delivery_eligibility, partner_id, matter_id, consumer_briefcase_item_id, consumer_auth_user_id, sponsored_consumer_auth_user_id)
-  values ('${IDS.renderJob}','ms-expungement','MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal','official-pdf','1','artifact_validated','consumed','packets/${IDS.renderJob}.pdf','${PDF_SHA}','eligible','${IDS.partnerRecord}','${IDS.matter}',null,null,'${IDS.applicant}')`);
+  values ('${IDS.renderJob}','ms-expungement','MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal','official-pdf','1','delivered','consumed','packets/${IDS.renderJob}.pdf','${PDF_SHA}','eligible','${IDS.partnerRecord}','${IDS.matter}',null,null,'${IDS.applicant}')`);
+
+// A newer, unrelated synthetic job must never replace the preserved selection.
+// It has no stored artifact, so choosing it accidentally cannot pass a byte check.
+await db.exec(`insert into public.packet_render_jobs(id,packet_id,route_id,renderer_kind,renderer_version,status,accounting_result,output_storage_path,output_sha256,delivery_eligibility,partner_id,matter_id,sponsored_consumer_auth_user_id,created_at)
+  select '80000000-0000-4000-8000-000000000097',packet_id,route_id,renderer_kind,renderer_version,'artifact_validated',accounting_result,'unrelated-not-stored.pdf','${"b".repeat(64)}',delivery_eligibility,partner_id,matter_id,sponsored_consumer_auth_user_id,now()+interval '1 day' from public.packet_render_jobs where id='${IDS.renderJob}'`);
 
 const env = {
   ...process.env, NODE_ENV: "production", PORT: String(PORT), HOSTNAME: "127.0.0.1",
@@ -273,18 +278,20 @@ try {
   check("attorney: audited reveal shows the value once", (await attorney.locator(`text=${SSN_FORMATTED}`).count()) === 1);
   await attorney.click("button:has-text('Hide now')");
   await attorney.waitForSelector("option:has-text('Attach later')", { state: "attached" });
-  await attorney.waitForSelector("option:has-text('artifact_validated')", { state: "attached" });
+  await attorney.waitForSelector(`option[value="${IDS.renderJob}"]`, { state: "attached" });
   await attorney.fill("input[name=documentKey]", "ms-expungement-petition");
   await attorney.fill("input[name=title]", "Petition for Expungement");
   const packetOptions = await attorney.locator("form:has(input[name=documentKey]) select").last().locator("option").count();
-  check("attorney: applicant's prepared packet offered as the unsigned copy", packetOptions === 2, String(packetOptions));
-  await attorney.locator("form:has(input[name=documentKey]) select").last().selectOption({ index: 1 });
+  check("attorney: applicant's prepared packet offered as the unsigned copy", packetOptions === 3, String(packetOptions));
+  await attorney.locator("form:has(input[name=documentKey]) select").last().selectOption(IDS.renderJob);
   await attorney.click("button:has-text('Add document')");
   await attorney.waitForSelector("text=Document added");
-  const task = (await db.query("select id, status, unsigned_artifact_sha256 from public.legal_aid_document_tasks where intake_id=$1", [intakeId])).rows[0];
-  check("documents: task created bound to the packet hash", task && task.status === "draft" && task.unsigned_artifact_sha256 === PDF_SHA);
+  const task = (await db.query("select id, status, unsigned_render_job_id, unsigned_artifact_sha256 from public.legal_aid_document_tasks where intake_id=$1", [intakeId])).rows[0];
+  check("documents: task created bound to the packet hash", task && task.status === "draft" && task.unsigned_render_job_id === IDS.renderJob && task.unsigned_artifact_sha256 === PDF_SHA);
   const unsigned = await attorney.evaluate(async ([intake, taskId]) => { const r = await fetch(`/api/legal-aid/staff/intakes/${intake}/unsigned/${taskId}`); return { status: r.status, type: r.headers.get("content-type"), size: (await r.arrayBuffer()).byteLength }; }, [intakeId, task.id]);
   check("documents: unsigned reviewed copy printable by the attorney", unsigned.status === 200 && unsigned.type === "application/pdf" && unsigned.size === PDF.length, JSON.stringify(unsigned));
+  const mismatched = await attorney.evaluate(async (taskId) => (await fetch(`/api/legal-aid/staff/intakes/00000000-0000-4000-8000-000000000001/unsigned/${taskId}`)).status, task.id);
+  check("documents: unsigned task cannot be opened under an unrelated intake URL", mismatched === 404, String(mismatched));
   for (const label of ["Mark attorney reviewed", "Mark ready for execution", "Mark signature or notary pending"]) {
     await attorney.click(`button:has-text("${label}")`);
     await attorney.waitForSelector("text=Moved to");
@@ -389,8 +396,35 @@ try {
   await anonymous.goto(`${BASE}/clinic/staff/${IDS.eventLegalAid}/applications`);
   check("permissions: anonymous staff URL redirects to sign-in", anonymous.url().includes("/sign-in"));
   await anonymous.close();
-  const applicantStaff = await applicant.evaluate(async (id) => (await fetch(`/clinic/staff/${id}/applications`)).status, IDS.eventLegalAid);
-  check("permissions: participant account cannot open the staff list", applicantStaff === 403 || applicantStaff === 200 ? (await (await fetch(`${BASE}/clinic/staff/${IDS.eventLegalAid}/applications`)).text()).includes("sign-in") || true : true);
+  const applicantStaff = await session(IDS.applicant);
+  await applicantStaff.goto(`${BASE}/clinic/staff/${IDS.eventLegalAid}/applications`);
+  check("permissions: participant account cannot open the staff list", await applicantStaff.getByRole("heading", { name: "Clinic access denied" }).count() === 1 && await applicantStaff.locator("table tbody tr").count() === 0);
+  await applicantStaff.context().close();
+
+  // Real public index/event/consent paths in Spanish. Only disposable rows are
+  // used to establish entry; this never redeems the historical Applicant A code.
+  const spanish = await session(IDS.applicant, 390);
+  await spanish.goto(`${BASE}/clinic`);
+  await spanish.evaluate(() => localStorage.setItem('exp_lang', 'es'));
+  await spanish.reload();
+  await spanish.getByRole('heading', {name:'Abra el evento de su clínica'}).waitFor();
+  check('locale: actual Clinic index is Spanish',await spanish.getByRole('button',{name:'Abrir evento'}).count()===1);
+  await spanish.goto(`${BASE}/clinic/mvlp-standard-check`);
+  await spanish.getByRole('heading',{name:'Entrar a esta clínica'}).waitFor();
+  check('locale: actual event privacy and entry are Spanish',await spanish.getByText('Regla de privacidad',{exact:true}).count()===1 && await spanish.getByLabel('Código de acceso al evento').count()===1);
+  await spanish.getByLabel('Código de acceso al evento').fill('INVALID-LOCAL-CODE');
+  await spanish.getByRole('button',{name:'Continuar al consentimiento del participante'}).click();
+  await spanish.getByRole('alert').filter({hasText:'Ese código no es válido'}).waitFor();
+  check('locale: actual event refusal is Spanish',!(await spanish.locator('#eventCodeError').innerText()).includes('That event code'));
+  const entryToken='legal-aid-spanish-consent-local';
+  const entryCode=(await db.query('insert into clinic_event_access_codes(event_id,code_hash,code_hint,created_by) values ($1,$2,$3,$4) returning id',[IDS.eventStandard,createHash('sha256').update('local-consent-code').digest('hex'),'local',IDS.admin])).rows[0].id;
+  await db.query('insert into clinic_event_access_redemptions(event_id,access_code_id,redemption_nonce_hash) values ($1,$2,$3)',[IDS.eventStandard,entryCode,createHash('sha256').update(entryToken).digest('hex')]);
+  await spanish.context().addCookies([{name:'clinic_entry',value:entryToken,url:BASE}]);
+  await spanish.goto(`${BASE}/clinic/mvlp-standard-check/assist`);
+  await spanish.getByRole('heading',{name:'Consentimiento para recibir asistencia del personal de la clínica'}).waitFor();
+  check('locale: real consent page retains own-account and limited assistance wording',await spanish.getByLabel('Doy mi consentimiento para recibir asistencia durante esta sesión de la clínica.',{exact:false}).count()===1 && await spanish.getByText('participante con sesión iniciada',{exact:false}).count()===1);
+  check('locale: Spanish consent fits 390px without horizontal overflow',await spanish.evaluate(()=>document.documentElement.scrollWidth<=390));
+  await spanish.context().close();
 
   // Desktop screenshots of the participant journey.
   const desktop = await session(IDS.applicant, 1440);
@@ -422,7 +456,90 @@ try {
   await staffNarrow.goto(`${BASE}/clinic/staff/${IDS.eventLegalAid}/applications/${intakeId}`);
   await staffNarrow.waitForSelector("text=Application review");
   await shot(staffNarrow, "staff-review");
+  // Actual participant/staff pages and API actors, with the real Clinic
+  // context resolver. The shim supplies only external auth/database/storage.
+  const shared = await session(IDS.applicant, 390);
+  const handoff = 'legal-aid-local-exact-handoff';
+  const deviceNonce = 'legal-aid-local-device';
+  const assistedId = '80000000-0000-4000-8000-000000000099';
+  const screeningId = '80000000-0000-4000-8000-000000000098';
+  const eventStaff = (await db.query('select id from clinic_event_staff where event_id=$1 limit 1', [IDS.eventLegalAid])).rows[0].id;
+  await db.query('insert into screening_sessions(session_id) values ($1)', [screeningId]);
+  await db.query(`insert into clinic_assisted_sessions(id,event_id,event_staff_id,participant_user_id,screening_session_id,handoff_token_hash,device_nonce_hash,consent_version,consented_at,started_at,expires_at)
+    values ($1,$2,$3,$4,$5,$6,$7,'local-test',now()-interval '2 hours',now()-interval '2 hours',now()+interval '1 hour')`,
+    [assistedId, IDS.eventLegalAid, eventStaff, IDS.applicant, screeningId, createHash('sha256').update(handoff).digest('hex'), createHash('sha256').update(deviceNonce).digest('hex')]);
+  await shared.context().addCookies([
+    {name:'clinic_session',value:handoff,url:BASE}, {name:'clinic_device',value:deviceNonce,url:BASE}, {name:'clinic_shared_device',value:'1',url:BASE}
+  ]);
+  await shared.goto(`${BASE}/p/mvlp/continue`);
+  await shared.getByRole('button',{name:'End clinic session / Reset device'}).waitFor();
+  check('device: active exact Clinic context shows reset alongside owner Legal Aid application', await shared.getByRole('heading',{name:'My application',exact:true}).count() === 1);
+  await db.query("update clinic_assisted_sessions set expires_at=now()-interval '1 hour' where id=$1",[assistedId]);
+  const immutableBefore = (await db.query('select * from clinic_assisted_sessions where id=$1',[assistedId])).rows[0];
+  for (const url of ['/p/mvlp/continue','/clinic/mvlp-training-clinic/register','/clinic/mvlp-training-clinic/intake','/p/mvlp/clinics',`/clinic/staff/${IDS.eventLegalAid}/applications`,`/clinic/staff/${IDS.eventLegalAid}/applications/${intakeId}`]) {
+    const response = await shared.goto(`${BASE}${url}`);
+    await shared.getByRole('button',{name:'Retry device reset'}).waitFor();
+    check(`device: expiry gates actual ${url}`, !((await response.text()).includes('applicant@example.net')) && await shared.locator('input[name=contactName], #f-full_name').count() === 0);
+    await shared.reload();
+    check(`device: reload retains usable reset ${url}`, await shared.getByRole('button',{name:'Retry device reset'}).isEnabled());
+  }
+  for (const url of [`/api/legal-aid/intakes/${intakeId}`, `/api/legal-aid/staff/intakes/${intakeId}`, `/api/legal-aid/staff/intakes/${intakeId}/unsigned/${task.id}`]) {
+    const status = await shared.evaluate(async url => (await fetch(url)).status,url);
+    check(`device: expired context denies API ${url}`,status === 423,String(status));
+  }
+  await shared.context().clearCookies({name:'clinic_session'});
+  await shared.context().clearCookies({name:'clinic_device'});
+  await shared.goto(`${BASE}/p/mvlp/continue`);
+  check('device: ordinary cookie expiry retains recovery using non-authorizing marker',await shared.getByRole('button',{name:'Retry device reset'}).isEnabled());
+  const immutableAfter = (await db.query('select * from clinic_assisted_sessions where id=$1',[assistedId])).rows[0];
+  check('device: recovery visibility never extends consent, lifetime or assistance',JSON.stringify(immutableAfter) === JSON.stringify(immutableBefore));
+  await shared.context().addCookies([{name:'clinic_reset_pending',value:'1',url:BASE}]);
+  await shared.goto(`${BASE}/p/mvlp/continue`);
+  check('device: interrupted reset navigates Legal Aid to canonical recovery',new URL(shared.url()).pathname === '/clinic/reset');
+  await shared.goto(`${BASE}/auth/forgot-password?next=%2Fclinic%2Freset`);
+  check('authentication: password recovery remains reachable while device is locked',new URL(shared.url()).pathname === '/auth/forgot-password');
+  await shared.goto(`${BASE}/auth/set-password?next=%2Fclinic%2Freset&flow=signin`);
+  await shared.waitForURL(url=>url.pathname==='/clinic/reset');
+  check('authentication: authenticated sign-in callback returns to recovery without password replacement',new URL(shared.url()).pathname === '/clinic/reset');
+  const documentLang = await shared.evaluate(()=>document.documentElement.lang);
+  check('device: recovery remains private after authentication continuation',await shared.locator('[data-clinic-locked=true]').count()===1,documentLang);
+  await shared.evaluate(()=>localStorage.setItem('exp_lang','es'));
+  await shared.reload();
+  await shared.getByRole('button',{name:'Reintentar restablecer el dispositivo'}).waitFor();
+  check('copy: Spanish recovery retains lock and translated own-account guidance',await shared.getByText('Personal autorizado del evento:',{exact:false}).count()===1 && await shared.locator('[data-clinic-locked=true]').count()===1);
+  check('accessibility: recovery has no horizontal overflow at 390px in Spanish',await shared.evaluate(()=>document.documentElement.scrollWidth<=390));
+  const failedHydration = await browser.newContext();
+  await failedHydration.route('**/*.js',route=>route.abort());
+  const stalled = await failedHydration.newPage();
+  await stalled.goto(`${BASE}/expungement-ai/sign-in?next=%2Fclinic%2Freset`);
+  check('copy: outright hydration failure explains unavailable controls without enabling credentials',await stalled.getByText('Loading secure sign-in.',{exact:false}).count()===1 && await stalled.locator('input[name=password]').isDisabled());
+  await failedHydration.close();
+  const savedApplication = (await db.query('select * from legal_aid_intakes where id=$1',[intakeId])).rows[0];
+  await shared.context().addCookies([{name:'clinic_session',value:handoff,url:BASE},{name:'clinic_device',value:deviceNonce,url:BASE}]);
+  const resetResponses = [];
+  shared.on('response', async response => {
+    if (new URL(response.url()).pathname === '/api/clinic/session/reset') resetResponses.push({action:response.request().postDataJSON()?.action,status:response.status(),cookies:((await response.request().allHeaders()).cookie??'').split(';').map(c=>({name:c.trim().split('=')[0],hasValue:c.trim().split('=').slice(1).join('=').length>0})),setCookies:(await response.headersArray()).filter(h=>h.name.toLowerCase()==='set-cookie').map(h=>h.value.replace(/^[^;]+/,m=>m.split('=')[0]+'=[redacted]')),body:await response.json().catch(()=>null)});
+  });
+  await shared.getByRole('button',{name:'Reintentar restablecer el dispositivo'}).click();
+  const resetFinished = await Promise.race([
+    shared.waitForURL(url=>url.pathname.includes('sign-in')).then(()=>true),
+    shared.getByText('El restablecimiento está incompleto.',{exact:false}).waitFor().then(()=>false)
+  ]);
+  if (!resetFinished) throw new Error('Connected reset refused: '+JSON.stringify(resetResponses));
+  const closed = (await db.query('select status,ended_reason from clinic_assisted_sessions where id=$1',[assistedId])).rows[0];
+  const audits = (await db.query("select actor_user_id from clinic_event_audit where target_id=$1 and action='assisted_session_ended'",[assistedId])).rows;
+  check('connected reset: real Legal Aid boundary reaches canonical closure and one owner audit',closed.status==='reset' && closed.ended_reason==='staff_reset' && audits.length===1 && audits[0].actor_user_id===IDS.applicant);
+  check('connected reset: confirmed cleanup removes participant locator and original auth cookies',!(await shared.context().cookies()).some(c=>c.name==='clinic_reset_recovery'||c.name==='clinic_session'||c.name==='clinic_device'||c.name==='clinic_reset_pending'||c.name.startsWith('sb-')));
+  check('connected reset: saved Legal Aid application is preserved',JSON.stringify((await db.query('select * from legal_aid_intakes where id=$1',[intakeId])).rows[0])===JSON.stringify(savedApplication));
+  const nextParticipant = await session(IDS.secondApplicant);
+  await shared.context().addCookies(await nextParticipant.context().cookies());
+  await nextParticipant.context().close();
+  await shared.goto(`${BASE}/p/mvlp/continue`);
+  const formerOwnerStatus = await shared.evaluate(async id=>(await fetch(`/api/legal-aid/intakes/${id}`)).status,intakeId);
+  check('connected reset: next participant on same device cannot read prior Legal Aid intake',formerOwnerStatus===404 && !(await shared.content()).includes('Jordan Example'));
+  await shared.context().close();
 } catch (error) {
+  results.push({ok:false,name:"complete connected journey"});
   console.error("end-to-end run failed:", error?.message ?? error);
   for (const context of browser.contexts()) for (const page of context.pages()) {
     console.error("--- open page", page.url());

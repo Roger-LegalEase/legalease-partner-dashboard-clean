@@ -26,6 +26,7 @@ import { chromium } from "playwright";
 import { prepareHostedAcceptanceEvidenceLayout } from "./rcap-hosted-acceptance-evidence-layout.mjs";
 import { expectedHostedReturnOrigin, hostedVercelScopedUrl, resolveHostedVercelIdentity } from "./rcap-hosted-acceptance-vercel-identity.mjs";
 import { LEGAL_AID_FIXTURE as F } from "./rcap-legal-aid/hosted-fixture.mjs";
+import { RESUME } from "./rcap-clinic-resume-contract.mjs";
 import { LEGAL_AID_TABLES } from "./rcap-legal-aid/contract.mjs";
 
 const ROOT = process.cwd();
@@ -342,14 +343,16 @@ async function main() {
   who.APPLICANT_A = await sessionFor(F.packetApplicantEmail, keys);
   record("synthetic_cohort_signs_in", Object.keys(who).length === F.identities.length + 1, `${Object.keys(who).length} synthetic identities signed in against ${SUPABASE_URL} (hashed ids only: ${Object.entries(who).map(([key, user]) => `${key}=${shortId(user.id)}`).join(", ")})`);
 
-  // Applicant A's genuinely generated Mississippi packet from the Clinic
-  // journey on this same Preview. Not a preloaded file: the row must be the
-  // sponsored route's own artifact_validated job with a stored artifact.
-  const packet = await one(`select j.id, j.status, j.output_sha256, j.output_storage_path, j.route_id, j.sponsored_route_key, j.created_at
-    from public.packet_render_jobs j where j.sponsored_consumer_auth_user_id='${who.APPLICANT_A.id}' and j.status in ('artifact_validated','delivered')
-    order by j.created_at desc limit 1`);
-  record("hosted_generated_mississippi_packet_exists_for_applicant_a", Boolean(packet?.id) && /^[a-f0-9]{64}$/.test(packet?.output_sha256 ?? "") && Boolean(packet?.output_storage_path) && String(packet?.route_id ?? "").startsWith("MS:"),
-    packet ? `job=${shortId(packet.id)}; status=${packet.status}; route=${packet.route_id}; sponsored_route=${packet.sponsored_route_key}; sha=${String(packet.output_sha256).slice(0, 12)}…; created=${packet.created_at}` : "no artifact_validated sponsored packet for applicant A on this project; the Clinic journey must have generated one on this Preview");
+  // Reuse the preserved historical packet. Current application identity never
+  // rewrites its renderer or delivery attribution; newer jobs are irrelevant.
+  record("applicant_a_matches_preserved_packet_owner", who.APPLICANT_A.id === RESUME.owner, "exact historical owner required");
+  const packet = await one(`select j.id,j.status,j.output_sha256,j.normalized_output_sha256,j.output_byte_count,j.container_digest,j.sponsored_consumer_briefcase_item_id,j.sponsored_session_id,j.sponsored_verification_hash,j.delivery_eligibility,j.output_storage_path,j.route_id,j.sponsored_route_key,j.created_at from public.packet_render_jobs j where j.id='${RESUME.job}' and j.sponsored_consumer_auth_user_id='${who.APPLICANT_A.id}'`);
+  record("hosted_generated_mississippi_packet_exists_for_applicant_a", packet?.id === RESUME.job && packet.status === "delivered"
+    && packet.output_sha256 === RESUME.hash && packet.normalized_output_sha256 === RESUME.normalizedHash
+    && Number(packet.output_byte_count) === RESUME.bytes && packet.container_digest === RESUME.priorDigest
+    && packet.sponsored_consumer_briefcase_item_id === RESUME.item && packet.sponsored_session_id === RESUME.session
+    && packet.sponsored_verification_hash === RESUME.verification && packet.delivery_eligibility === "eligible"
+    && Boolean(packet.output_storage_path), "exact historical delivered packet, owner, provenance and original renderer required; no generation or redemption");
   evidence.hostedPacket = { jobIdHash: shortId(packet.id), status: packet.status, routeId: packet.route_id, outputSha256: packet.output_sha256, createdAt: packet.created_at };
 
   const browser = await chromium.launch(CHROMIUM ? { executablePath: CHROMIUM, headless: true } : { channel: "chrome", headless: true });
@@ -584,17 +587,17 @@ async function main() {
     await attorney.click("button:has-text('Hide now')");
     await attorney.waitForSelector("option:has-text('Attach later')", { state: "attached" });
     const packetOptions = await attorney.locator("form:has(input[name=documentKey]) select").last().locator("option").allTextContents();
-    const packetOffered = packetOptions.some((text) => text.includes(String(packet.output_sha256).slice(0, 8)) || text.includes("artifact_validated"));
-    record("hosted_generated_packet_offered_as_unsigned_copy", packetOffered && packetOptions.length === 2, `options=${JSON.stringify(packetOptions)}`);
+    const packetOffered = await attorney.locator("form:has(input[name=documentKey]) select").last().locator(`option[value="${RESUME.job}"]`).count() === 1;
+    record("hosted_generated_packet_offered_as_unsigned_copy", packetOffered, `options=${JSON.stringify(packetOptions)}`);
     await attorney.fill("input[name=documentKey]", "ms-expungement-petition");
     await attorney.fill("input[name=title]", "Petition for Expungement");
-    await attorney.locator("form:has(input[name=documentKey]) select").last().selectOption({ index: 1 });
+    await attorney.locator("form:has(input[name=documentKey]) select").last().selectOption(RESUME.job);
     await attorney.click("button:has-text('Add document')");
     await attorney.waitForSelector("text=Document added");
     const task = await one(`select id, status, unsigned_render_job_id, unsigned_artifact_sha256 from public.legal_aid_document_tasks where intake_id='${intakeA.id}'`);
     record("document_task_bound_to_the_hosted_packet_hash", task?.status === "draft" && task?.unsigned_render_job_id === packet.id && task?.unsigned_artifact_sha256 === packet.output_sha256, `task ${shortId(task?.id)} bound to job ${shortId(packet.id)}`);
     const unsigned = await attorney.evaluate(async ([intake, taskId]) => { const r = await fetch(`/api/legal-aid/staff/intakes/${intake}/unsigned/${taskId}`); const bytes = new Uint8Array(await r.arrayBuffer()); const digest = await crypto.subtle.digest("SHA-256", bytes); return { status: r.status, type: r.headers.get("content-type"), size: bytes.byteLength, sha: [...new Uint8Array(digest)].map((x) => x.toString(16).padStart(2, "0")).join("") }; }, [intakeA.id, task.id]);
-    record("unsigned_copy_is_the_hosted_generated_packet_bytes", unsigned.status === 200 && unsigned.type === "application/pdf" && unsigned.sha === packet.output_sha256 && unsigned.size > 1000, `HTTP ${unsigned.status}; ${unsigned.size} bytes; sha matches the render job=${unsigned.sha === packet.output_sha256}`);
+    record("unsigned_copy_is_the_hosted_generated_packet_bytes", unsigned.status === 200 && unsigned.type === "application/pdf" && unsigned.sha === packet.output_sha256 && unsigned.size === RESUME.bytes, `HTTP ${unsigned.status}; ${unsigned.size} bytes; sha matches the render job=${unsigned.sha === packet.output_sha256}`);
     evidence.hostedPacket.unsignedCopyBytes = unsigned.size;
     for (const label of ["Mark attorney reviewed", "Mark ready for execution", "Mark signature or notary pending"]) {
       await attorney.click(`button:has-text("${label}")`);

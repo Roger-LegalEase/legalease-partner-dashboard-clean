@@ -1,3 +1,4 @@
+import { withLegalAidDeviceBoundary } from "@/components/legal-aid/LegalAidDeviceBoundary";
 import Link from "next/link";
 import { unstable_noStore as noStore } from "next/cache";
 import { notFound } from "next/navigation";
@@ -17,12 +18,16 @@ export const revalidate = 0;
 // detail; a notary gets only the execution view.
 export default async function ApplicationDetailPage({ params }: { params: Promise<{ eventId: string; intakeId: string }> }) {
   noStore();
+  return withLegalAidDeviceBoundary(async () => {
   const { eventId: rawEvent, intakeId: rawIntake } = await params;
   const eventId = parseEventId(rawEvent);
   const intakeId = parseEventId(rawIntake);
-  const actor = await staffOrRedirect(`/clinic/staff/${eventId}/applications/${intakeId}`);
+  let actor;
   let context;
-  try { context = await getEventForStaff(eventId, actor.authUserId); }
+  try {
+    actor = await staffOrRedirect(`/clinic/staff/${eventId}/applications/${intakeId}`);
+    context = await getEventForStaff(eventId, actor.authUserId);
+  }
   catch (error) { if (error instanceof ClinicServiceError) return <Denied message={error.message} />; throw error; }
   const branding = getLegalAidBranding(context.event.partnerSlug);
   if (!branding) notFound();
@@ -51,6 +56,7 @@ export default async function ApplicationDetailPage({ params }: { params: Promis
       <div className="mt-6"><ReviewClient detail={loaded.detail} staff={loaded.staff} eventId={eventId} /></div>
     </LegalAidShell>
   );
+  });
 }
 
 async function load(notaryOnly: boolean, intakeId: string, eventId: string, actorUserId: string) {

@@ -10,8 +10,8 @@ export const dynamic = "force-dynamic";
 export async function GET(request: NextRequest, { params }: { params: Promise<{ intakeId: string; taskId: string }> }) {
   try {
     const actor = await staffActor(request, { mutation: false });
-    const { taskId } = await params;
-    const file = await openUnsignedArtifact(uuidOrThrow(taskId, "Document task"), actor.authUserId);
+    const { intakeId, taskId } = await params;
+    const file = await openUnsignedArtifact(uuidOrThrow(taskId, "Document task"), actor.authUserId, uuidOrThrow(intakeId, "Application"));
     return new NextResponse(Buffer.from(file.bytes), { status: 200, headers: privateFileHeaders(file.filename, "application/pdf", file.bytes.byteLength) });
   } catch (error) {
     return legalAidErrorResponse(error);

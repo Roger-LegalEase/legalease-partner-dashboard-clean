@@ -242,13 +242,7 @@ export function nevada176ABranch(facts: Readonly<Record<string, unknown>>): Neva
  * still shows the case.
  */
 export const NEVADA_176A_SUBSECTION_1_GUIDANCE =
-  "Nevada seals this kind of case automatically. Under NRS 176A.245, 176A.265 or 176A.295, "
-  + "once you were discharged from probation or the case was dismissed after the treatment programme, "
-  + "the justice, municipal or district court that handled your case must order the records sealed "
-  + "without a hearing, unless the Division of Parole and Probation asks the court not to. "
-  + "You do not file a petition, you do not need a packet, and there is nothing to pay. "
-  + "If the record still shows the case, contact the court that supervised the programme — it holds the "
-  + "sealing order and is the only body that can act — or Nevada Legal Services.";
+  "Nevada seals this kind of case automatically. This applies once you were discharged from probation or the case was dismissed after the treatment programme. Under NRS 176A.245, 176A.265 or 176A.295, the justice, municipal or district court that handled your case must order the records sealed without a hearing, unless the Division of Parole and Probation asks the court not to. You do not file a petition, you do not need a packet, and there is nothing to pay. If the record still shows the case, contact the court that supervised the programme. That court holds the sealing order and is the only body that can act. You can also contact Nevada Legal Services.";
 
 /**
  * What a participant whose branch is not established is told.

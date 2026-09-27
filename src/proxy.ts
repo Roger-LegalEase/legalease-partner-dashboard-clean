@@ -12,7 +12,7 @@ export async function proxy(request: NextRequest) {
   // server revocation or browser cleanup is incomplete. The marker grants no
   // authority; it only locks. API reset and static assets remain reachable.
   const resetPath = request.nextUrl.pathname;
-  const resetAuth = ["/expungement-ai/sign-in", "/sign-in", "/auth/set-password", "/api/auth/sign-in-fallback"].includes(resetPath);
+  const resetAuth = ["/expungement-ai/sign-in", "/sign-in", "/auth/set-password", "/auth/forgot-password", "/api/auth/sign-in-fallback"].includes(resetPath);
   const resetAsset = resetPath.startsWith("/_next/static/") || resetPath.startsWith("/_next/image");
   if (request.cookies.get("clinic_reset_pending")?.value && resetPath !== "/clinic/reset"
     && resetPath !== "/api/clinic/session/reset" && !resetAuth && !resetAsset) {

@@ -61,7 +61,7 @@ export async function POST(request: NextRequest) {
     // Non-identifying device marker keeps recovery visible after locator expiry.
     // It confers neither read nor assistance authority and is removed on reset.
     response.cookies.set("clinic_shared_device", "1", { ...options, maxAge: 400 * 24 * 60 * 60 });
-    response.cookies.set(COMPLETED_COOKIE, "", { ...options, maxAge: 0 });
+    response.cookies.set(COMPLETED_COOKIE, "", { ...options, maxAge: 0, expires: new Date(0) });
     response.cookies.set(RECOVERY_COOKIE, recoveryValue, recoveryOptions(recovery));
     response.cookies.set("clinic_session", sessionToken, options);
     response.cookies.set("clinic_device", deviceToken, options);

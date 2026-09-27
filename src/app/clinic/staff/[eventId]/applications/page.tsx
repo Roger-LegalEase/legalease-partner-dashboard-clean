@@ -1,3 +1,4 @@
+import { withLegalAidDeviceBoundary } from "@/components/legal-aid/LegalAidDeviceBoundary";
 import Link from "next/link";
 import { unstable_noStore as noStore } from "next/cache";
 import { notFound, redirect } from "next/navigation";
@@ -20,11 +21,15 @@ const STATUS_LABELS: Record<string, string> = {
 // to staff approved on this event; the list carries no financial detail.
 export default async function ApplicationsPage({ params }: { params: Promise<{ eventId: string }> }) {
   noStore();
+  return withLegalAidDeviceBoundary(async () => {
   const { eventId: raw } = await params;
   const eventId = parseEventId(raw);
-  const actor = await staffOrRedirect(`/clinic/staff/${eventId}/applications`);
+  let actor;
   let context;
-  try { context = await getEventForStaff(eventId, actor.authUserId); }
+  try {
+    actor = await staffOrRedirect(`/clinic/staff/${eventId}/applications`);
+    context = await getEventForStaff(eventId, actor.authUserId);
+  }
   catch (error) { if (error instanceof ClinicServiceError) return <Denied message={error.message} />; throw error; }
   const branding = getLegalAidBranding(context.event.partnerSlug);
   if (!branding || context.event.experience !== "legal_aid") notFound();
@@ -62,6 +67,7 @@ export default async function ApplicationsPage({ params }: { params: Promise<{ e
       </div>
     </LegalAidShell>
   );
+  });
 }
 
 export async function staffOrRedirect(next: string) {

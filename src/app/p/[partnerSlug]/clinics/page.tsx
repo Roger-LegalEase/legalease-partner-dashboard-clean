@@ -1,3 +1,4 @@
+import { withLegalAidDeviceBoundary } from "@/components/legal-aid/LegalAidDeviceBoundary";
 import Link from "next/link";
 import { unstable_noStore as noStore } from "next/cache";
 import { notFound } from "next/navigation";
@@ -14,6 +15,7 @@ export const revalidate = 0;
 // configuration. Nothing here is a copied date; each card is a real event.
 export default async function PartnerClinicsPage({ params }: { params: Promise<{ partnerSlug: string }> }) {
   noStore();
+  return withLegalAidDeviceBoundary(async () => {
   const { partnerSlug } = await params;
   const branding = getLegalAidBranding(partnerSlug);
   if (!branding) notFound();
@@ -39,6 +41,7 @@ export default async function PartnerClinicsPage({ params }: { params: Promise<{
       <p className="mt-8 text-sm text-[#5B4E66]">Already registered? <Link href={branding.continueHref} className="font-bold text-[var(--la-brand-dark)] underline">Continue my application</Link></p>
     </LegalAidShell>
   );
+  });
 }
 
 function EventCard({ event, partnerName }: { event: LegalAidEventSummary; partnerName: string }) {

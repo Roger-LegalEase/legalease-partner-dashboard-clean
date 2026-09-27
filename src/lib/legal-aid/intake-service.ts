@@ -520,12 +520,13 @@ export async function listEventStaffDirectory(eventId: string, actorUserId: stri
  * stored bytes must match the hash recorded on the task. The read is
  * recorded in the access log; nothing about delivery entitlement changes.
  */
-export async function openUnsignedArtifact(taskId: string, actorUserId: string): Promise<{ bytes: Uint8Array; filename: string }> {
+export async function openUnsignedArtifact(taskId: string, actorUserId: string, expectedIntakeId: string): Promise<{ bytes: Uint8Array; filename: string }> {
   const db = requireLegalAidDatabase();
   const task = await db.from("legal_aid_document_tasks").select("id,intake_id,title,unsigned_render_job_id,unsigned_artifact_sha256").eq("id", taskId).maybeSingle();
   if (task.error) throw new ClinicServiceError("unavailable", "The document is temporarily unavailable.");
   if (!task.data) throw new ClinicServiceError("not_found", "Document task was not found.");
   const intakeId = String(task.data.intake_id);
+  if (intakeId !== expectedIntakeId) throw new ClinicServiceError("not_found", "Document task was not found for this application.");
   const permissions = await intakePermissionsFor(intakeId, actorUserId);
   if (!permissions.includes("attorney") && !permissions.includes("coordinator") && !permissions.includes("notary")) throw new ClinicServiceError("forbidden", "You are not assigned to this document.");
   if (!task.data.unsigned_render_job_id || !task.data.unsigned_artifact_sha256) throw new ClinicServiceError("not_found", "No prepared copy is attached to this document yet.");
