@@ -5,7 +5,7 @@ import { claimRcapPartnerScreeningSession } from "@/lib/expungement-ai/rcap-part
 import { getServerAuthState } from "@/lib/supabase/auth-server";
 import { getSupabaseAdminClient } from "@/lib/supabase/server";
 
-import { RECOVERY_COOKIE, hash, mintRecovery, encodeRecovery, recoveryOptions } from "@/lib/clinic-mode/reset-recovery";
+import { RECOVERY_COOKIE, COMPLETED_COOKIE, hash, mintRecovery, encodeRecovery, recoveryOptions } from "@/lib/clinic-mode/reset-recovery";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -58,6 +58,10 @@ export async function POST(request: NextRequest) {
     }
     const response = NextResponse.json({ success: true, screeningUrl: `/clinic/${entry.eventSlug}/screening/${jurisdiction.toLowerCase()}` });
     const options = { httpOnly: true, sameSite: "strict" as const, secure: process.env.NODE_ENV === "production", path: "/", maxAge: 30 * 60 };
+    // Non-identifying device marker keeps recovery visible after locator expiry.
+    // It confers neither read nor assistance authority and is removed on reset.
+    response.cookies.set("clinic_shared_device", "1", { ...options, maxAge: 400 * 24 * 60 * 60 });
+    response.cookies.set(COMPLETED_COOKIE, "", { ...options, maxAge: 0 });
     response.cookies.set(RECOVERY_COOKIE, recoveryValue, recoveryOptions(recovery));
     response.cookies.set("clinic_session", sessionToken, options);
     response.cookies.set("clinic_device", deviceToken, options);

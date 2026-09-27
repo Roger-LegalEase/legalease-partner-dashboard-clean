@@ -4,6 +4,8 @@ import fs from 'node:fs';import path from 'node:path';import assert from 'node:a
 const root=process.cwd(),out=path.resolve(process.argv[2]??'');assert.ok(process.argv[2]&&!fs.existsSync(out),'new explicit fixture directory required');
 assert.equal(JSON.parse(fs.readFileSync('node_modules/next/package.json')).version,'16.2.6');
 fs.mkdirSync(out,{recursive:true});fs.cpSync('src',path.join(out,'src'),{recursive:true});
+// Exact reviewed before-state is used only for bounded launch-remainder controls.
+if(process.env.CLINIC_LAYOUT_BASE_SHA)for(const file of ['src/app/briefcase/layout.tsx','src/lib/clinic-mode/participant-service.ts','src/components/clinic-mode/ClinicPrivacyBoundary.tsx','src/app/clinic/[eventSlug]/screening/[state]/page.tsx','src/app/clinic/[eventSlug]/assist/page.tsx'])fs.writeFileSync(path.join(out,file),execFileSync('git',['show',process.env.CLINIC_LAYOUT_BASE_SHA+':'+file]));
 for(const file of ['package.json','package-lock.json'])fs.copyFileSync(file,path.join(out,file));
 fs.symlinkSync(fs.realpathSync('node_modules'),path.join(out,'node_modules'));
 fs.mkdirSync(path.join(out,'app/expungement-ai/sign-in'),{recursive:true});
@@ -31,14 +33,27 @@ if(process.argv.includes('--connected')){
 if(process.argv.includes('--product-reset')) {
  const write=(rel,body)=>{fs.mkdirSync(path.dirname(path.join(out,rel)),{recursive:true});fs.writeFileSync(path.join(out,rel),body);};
  write('app/privacy/page.tsx', 'import {ClinicPrivacyBoundary} from "@/components/clinic-mode/ClinicPrivacyBoundary";export default function Page(){return <ClinicPrivacyBoundary cleanEntryPath="/clinic/test-clinic"><p>Private participant A matter</p></ClinicPrivacyBoundary>}');
- for(const file of ['clinic/page.tsx','clinic/reset/page.tsx','clinic/[eventSlug]/page.tsx'])write('app/'+file,fs.readFileSync('src/app/'+file,'utf8'));
+ for(const file of ['clinic/page.tsx','clinic/reset/page.tsx','clinic/[eventSlug]/page.tsx','clinic/[eventSlug]/screening/[state]/page.tsx','clinic/[eventSlug]/assist/page.tsx'])write('app/'+file,fs.readFileSync(path.join(out,'src/app',file),'utf8'));
  // Exact product route/components, with only external public-event data ports
  // replaced. Invalid/missing slugs refuse; no synthetic success landing page.
  write('fixture-clinic-data.ts', `import {ClinicServiceError} from '@/lib/clinic-mode/errors';
  export async function getPublicClinicEvent(slug:string){if(!['test-clinic','mississippi-volunteer-lawyers-demo'].includes(slug))throw new ClinicServiceError('not_found','Event not found');return {id:'event-a',publicSlug:slug,name:'Disposable Clinic event',startsAt:'2026-09-27T09:00:00Z',endsAt:'2026-09-27T17:00:00Z',timezone:'UTC',locationName:'Local test',geography:'Local',jurisdiction:'MS',status:'published'}}
  export async function getLegalAidEventBySlug(){return null;}`);
  const tsconfig=JSON.parse(fs.readFileSync(path.join(out,'tsconfig.json'),'utf8'));
- for(const key of ['@/lib/clinic-mode/participant-service','@/lib/legal-aid/registration-service'])tsconfig.compilerOptions.paths[key]=['./fixture-clinic-data.ts'];
+ tsconfig.compilerOptions.paths['@/lib/legal-aid/registration-service']=['./fixture-clinic-data.ts'];
+ // Real Briefcase layout AND real participant-service resolver. Only external
+ // auth/database ports are synthetic. Expiry/owner/status filters really run.
+ write('app/briefcase/layout.tsx',fs.readFileSync(path.join(out,'src/app/briefcase/layout.tsx'),'utf8'));
+ for(const rel of ['app/briefcase/page.tsx','app/briefcase/details/page.tsx'])write(rel,'export default function Page(){return <p>Private participant A matter</p>}');
+ write('fixture-clinic-ports.ts', `import {cookies} from 'next/headers'; import {createHash} from 'node:crypto';
+ export async function getServerAuthState(){const c=await cookies();return {isAuthenticated:Boolean(c.get('sb-test')),userId:c.get('fixture_staff')?'staff-a':'participant-a'}}
+ export async function resolveSessionPartner(){throw new Error('Unused staff port')}; export class SessionPartnerError extends Error{};
+ export function getSupabaseAdminClient(){return {from(table:string){const filters:((r:any)=>boolean)[]=[];const q={select(){return q},eq(k:string,v:any){filters.push(r=>r[k]===v);return q},in(k:string,v:any[]){filters.push(r=>v.includes(r[k]));return q},gt(k:string,v:any){filters.push(r=>r[k]>v);return q},async maybeSingle(){const c=await cookies();if(c.get('fixture_db_error'))return {data:null,error:{message:'synthetic outage'}};
+ const event={id:'event-a',public_slug:'test-clinic',name:'Disposable Clinic event',starts_at:'2026-09-27T09:00:00Z',ends_at:'2026-09-27T17:00:00Z',timezone:'UTC',location_name:'Local test',geography:'Local',jurisdiction:'MS',status:'published'};
+ const session={id:'session-a',event_id:'event-a',participant_user_id:'participant-a',screening_session_id:'screening-a',status:'active',handoff_token_hash:createHash('sha256').update('handoff-a').digest('hex'),expires_at:new Date(Date.now()+(c.get('fixture_expired')?-60000:1800000)).toISOString()};
+ const r=table==='clinic_events'?event:table==='clinic_assisted_sessions'?session:null;return {data:r&&filters.every(f=>f(r))?r:null,error:null}}};return q}}}
+ `);
+ for(const key of ['@/lib/supabase/auth-server','@/lib/supabase/server','@/lib/partners/session-partner'])tsconfig.compilerOptions.paths[key]=['./fixture-clinic-ports.ts'];
  fs.writeFileSync(path.join(out,'tsconfig.json'),JSON.stringify(tsconfig));
  write('app/api/auth/sign-in-fallback/route.ts',fs.readFileSync('src/app/api/auth/sign-in-fallback/route.ts','utf8'));
 }

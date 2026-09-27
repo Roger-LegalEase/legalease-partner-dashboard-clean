@@ -17,7 +17,7 @@ const compiled = process.env.CLINIC_PRODUCT_FIXTURE;
 const before = process.env.CLINIC_BEFORE_FIXTURE;
 assert.ok(compiled && before, 'exact compiled before and after fixtures required');
 assert.deepEqual(fs.readFileSync(path.join(before,'src/components/expungement-ai/ConsumerSignInForm.tsx')),execFileSync('git',['show','0f23a0ca4d6eac7d50a0466d8f2664f9e63a25c7:src/components/expungement-ai/ConsumerSignInForm.tsx']));
-for (const file of ['src/components/expungement-ai/ConsumerSignInForm.tsx', 'src/components/clinic-mode/ClinicPrivacyBoundary.tsx', 'src/lib/clinic-mode/device-reset.mjs']) assert.deepEqual(fs.readFileSync(path.join(compiled, file)), fs.readFileSync(file));
+for (const file of ['src/components/expungement-ai/ConsumerSignInForm.tsx', 'src/components/clinic-mode/ClinicPrivacyBoundary.tsx', 'src/lib/clinic-mode/device-reset.mjs', 'src/app/briefcase/layout.tsx', 'src/lib/clinic-mode/participant-service.ts','src/app/clinic/[eventSlug]/screening/[state]/page.tsx','src/app/clinic/[eventSlug]/assist/page.tsx']) assert.deepEqual(fs.readFileSync(path.join(compiled, file)), process.env.CLINIC_LAYOUT_BASE_SHA && ['src/app/briefcase/layout.tsx','src/lib/clinic-mode/participant-service.ts','src/components/clinic-mode/ClinicPrivacyBoundary.tsx','src/app/clinic/[eventSlug]/screening/[state]/page.tsx','src/app/clinic/[eventSlug]/assist/page.tsx'].includes(file) ? execFileSync('git',['show',process.env.CLINIC_LAYOUT_BASE_SHA+':'+file]) : fs.readFileSync(file));
 const defer = () => { let resolve; const promise = new Promise(r => { resolve = r; }); return { promise, resolve }; };
 async function site({ baseline = false, scripts = 'ready', fault = null, required = false } = {}) {
   const root = baseline ? before : required ? process.env.CLINIC_REQUIRED_FIXTURE : compiled, f = fixture(), gate = defer(), scriptArrived = defer(), closeArrived = defer(), committed = defer(), responseGate = defer();
@@ -55,7 +55,7 @@ async function site({ baseline = false, scripts = 'ready', fault = null, require
         return res.end(await response.text());
       }
       if (u.pathname === '/api/auth/sign-in-fallback') { assert.equal(req.method, 'POST'); res.statusCode = 400; return res.end('Secure sign-in requires JavaScript'); }
-      if(u.pathname==='/clinic'||u.pathname.startsWith('/clinic/')){
+      if(u.pathname==='/clinic'||u.pathname.startsWith('/clinic/')||u.pathname.startsWith('/briefcase')){
         const response=await fetch(`http://127.0.0.1:${nextPort}`+u.pathname+u.search,{redirect:'manual',headers:{cookie:req.headers.cookie??''}});
         res.statusCode=response.status;for(const [k,v]of response.headers)if(!['content-encoding','content-length','transfer-encoding','set-cookie'].includes(k))res.setHeader(k,v);res.setHeader('set-cookie',response.headers.getSetCookie());return res.end(Buffer.from(await response.arrayBuffer()));
       }
@@ -240,5 +240,47 @@ for(const event of [null,{id:'event-a',public_slug:'//evil.invalid',status:'publ
  const s=await site();try{const p=await s.participant();s.f.state.rpcError=true;await p.getByRole('button',{name:'End clinic session / Reset device'}).click();await p.getByText('Reset is incomplete.',{exact:false}).waitFor();await p.reload();s.f.state.rpcError=false;s.f.state.event=event;
  await p.getByRole('button',{name:'Retry device reset'}).click();await p.waitForURL(u=>u.pathname==='/clinic');await p.getByRole('heading',{name:'Open your Clinic event'}).waitFor();assert.equal(s.f.state.audits,1);
  await p.getByLabel('Event address name provided by staff').fill('test-clinic');await p.getByRole('button',{name:'Open event',exact:true}).click();await p.waitForURL(u=>u.pathname==='/clinic/test-clinic');await p.getByRole('heading',{name:'Disposable Clinic event'}).waitFor();
+ }finally{await s.close();}
+});
+
+for(const expiry of ['ttl','cookies','all-locators','lookup-error'])test('M3 actual Briefcase layout/resolver retains recovery after '+expiry+' through reload/navigation without participant content',async()=>{
+ const s=await site();try{
+  const p=await s.participant();await s.context.addCookies([{name:'clinic_shared_device',value:'1',url:s.origin,httpOnly:true}]);
+  await p.goto(s.origin+'/briefcase');await p.getByText('Private participant A matter').waitFor();
+  if(expiry==='ttl')await s.context.addCookies([{name:'fixture_expired',value:'1',url:s.origin}]);
+  if(expiry==='lookup-error')await s.context.addCookies([{name:'fixture_db_error',value:'1',url:s.origin}]);
+  if(expiry==='cookies'||expiry==='all-locators')await s.context.addCookies((await s.context.cookies()).filter(c=>['clinic_session','clinic_device',...(expiry==='all-locators'?['clinic_reset_recovery']:[])].includes(c.name)).map(c=>({...c,expires:1})));
+  for(const route of ['/briefcase','/briefcase/details','/clinic/test-clinic/screening/ms','/clinic/test-clinic/assist']){
+   await p.goto(s.origin+route);await p.getByRole('button',{name:'Retry device reset'}).waitFor();
+   assert.equal(await p.getByText('Private participant A matter').count(),0);await p.reload();await p.getByRole('button',{name:'Retry device reset'}).waitFor();
+  }
+  await p.getByRole('button',{name:'Retry device reset'}).focus();assert.equal(await p.getByRole('button',{name:'Retry device reset'}).evaluate(e=>e===document.activeElement),true);
+  if(expiry==='all-locators'){await p.keyboard.press('Enter');await p.getByText('The original Clinic handoff is missing.',{exact:false}).waitFor();assert.equal(s.f.state.audits,0);}
+  else {await p.keyboard.press('Enter');await p.waitForURL(u=>u.pathname==='/clinic/test-clinic');assert.equal(s.f.state.audits,1);}
+ }finally{await s.close();}
+});
+for(const locator of ['missing','expired'])test('M1 browser staff recovery via own sign-in link: '+locator,async()=>{
+ const s=await site();try{
+  const p=await s.participant();const cookies=await s.context.cookies();
+  if(locator==='missing')await s.context.addCookies(cookies.filter(c=>c.name==='clinic_reset_recovery').map(c=>({...c,expires:1})));
+  else {const c=cookies.find(c=>c.name==='clinic_reset_recovery'),proof=s.f.recovery.parseRecovery(c.value);proof.expires=Date.now()-1;await s.context.addCookies([{...c,value:s.f.recovery.encodeRecovery(proof)},...cookies.filter(c=>['clinic_session','clinic_device'].includes(c.name)).map(c=>({...c,expires:1}))]);}
+  await s.context.addCookies([{name:'clinic_reset_pending',value:'1',url:s.origin}]);await p.goto(s.origin+'/clinic/reset');
+  s.f.state.owner='staff-a';s.f.state.actor='staff-a';s.f.state.partner={id:'partner-user-a',auth_user_id:'staff-a',partner_slug:'tenant-a',status:'active'};s.f.state.staff={id:'membership-a',event_id:'event-a',partner_user_id:'partner-user-a',status:'approved',permissions:['assist']};
+  await s.context.route('https://hyflxnlhpmiqxvvcoiia.supabase.co/**',async route=>{const user={id:'staff-a',email:'staff@example.invalid'},token=[Buffer.from('{}').toString('base64url'),Buffer.from(JSON.stringify({sub:user.id,exp:Math.floor(Date.now()/1000)+3600})).toString('base64url'),'test'].join('.');await route.fulfill({status:200,json:{access_token:token,refresh_token:'staff-auth',expires_in:3600,token_type:'bearer',user}});});
+  await p.getByRole('link',{name:'Approved event staff:',exact:false}).click();await p.locator('form[data-handler-ready=true]').waitFor();await p.locator('input[name=email]').fill('staff@example.invalid');await p.locator('input[name=password]').fill('synthetic-staff-password');await p.locator('button[type=submit]').click();await p.waitForURL(u=>u.pathname==='/clinic/reset');
+  await p.getByRole('button',{name:'Retry device reset'}).click();await p.waitForURL(u=>u.pathname==='/clinic/test-clinic');assert.equal(s.f.state.audits,1);assert.equal(s.f.state.session.participant_user_id,'participant-a');
+  assert.ok(!(await s.context.cookies()).some(c=>c.name==='clinic_reset_recovery'));assert.ok(s.requests.every(r=>!r.path.includes('/download')));
+ }finally{await s.close();}
+});
+
+for(const fault of ['completion-response','final-cleanup'])test('M4 browser '+fault+' interruption uses non-identifying completion receipt on retry',async()=>{
+ const s=await site();try{
+  const p=await s.participant();await p.evaluate(fault=>{
+   const fetch=window.fetch.bind(window),databases=indexedDB.databases.bind(indexedDB);let failed=false;
+   window.fetch=async(...args)=>{const r=await fetch(...args);if(!failed&&String(args[0]).includes('/api/clinic/session/reset')&&JSON.parse(args[1].body).action==='complete'&&r.ok){failed=true;if(fault==='completion-response')throw Error('synthetic response interruption');indexedDB.databases=async()=>{indexedDB.databases=databases;throw Error('synthetic final cleanup failure')}}return r};
+  },fault);
+  await p.getByRole('button',{name:'End clinic session / Reset device'}).click();await p.getByText('Reset is incomplete.',{exact:false}).waitFor();
+  const cookies=await s.context.cookies();assert.ok(!cookies.some(c=>c.name==='clinic_reset_recovery'));assert.ok(cookies.some(c=>c.name==='clinic_reset_completed'));assert.ok(cookies.some(c=>c.name==='clinic_reset_pending'));assert.equal(s.f.state.audits,1);
+  await p.reload();await p.getByRole('button',{name:'Retry device reset'}).click();await p.waitForURL(u=>u.pathname==='/clinic/test-clinic');assert.equal(s.f.state.audits,1);assert.ok(!(await s.context.cookies()).some(c=>c.name==='clinic_reset_recovery'||c.name==='clinic_reset_pending'));
  }finally{await s.close();}
 });

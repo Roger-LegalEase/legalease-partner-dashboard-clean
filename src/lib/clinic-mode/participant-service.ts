@@ -178,3 +178,11 @@ function sha256(value: string) { return createHash("sha256").update(value).diges
 function mapPublicEvent(row: Record<string, unknown>): PublicClinicEvent {
   return { id: String(row.id), publicSlug: String(row.public_slug), name: String(row.name), startsAt: String(row.starts_at), endsAt: String(row.ends_at), timezone: String(row.timezone), locationName: String(row.location_name), geography: String(row.geography), jurisdiction: row.jurisdiction ? String(row.jurisdiction) : null, status: row.status as PublicClinicEvent["status"] };
 }
+
+/** Presence only: restriction/recovery UI, never participant or staff authority.
+ * Deliberately independent of auth, consent and assisted-session TTL. */
+export async function hasClinicDeviceRecoveryContext(): Promise<boolean> {
+  const jar = await cookies();
+  return ["clinic_shared_device", "clinic_reset_pending", "clinic_reset_recovery", "clinic_session", "clinic_device"]
+    .some(name => Boolean(jar.get(name)?.value));
+}

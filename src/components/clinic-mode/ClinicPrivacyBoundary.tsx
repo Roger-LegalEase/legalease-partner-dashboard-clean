@@ -66,7 +66,7 @@ export function ClinicPrivacyBoundary({ children, cleanEntryPath, recovery = fal
       } catch { /* Remain masked for recovery. */ }
     }
     try { if (!hasPendingReset()) document.cookie = "clinic_reset_pending=1; Path=/; Max-Age=34560000; SameSite=Strict"; } catch { /* Keep the recovery screen locked. */ }
-    setWarning(recoveryState === "authentication_required" ? "Reset needs the original participant to sign in again. This device remains locked." : recoveryState === "handoff_identity_required" ? "The original Clinic handoff is missing. Keep this device locked and ask Clinic support to recover that exact handoff." : "Reset is incomplete. This device is locked. Retry before handing it to another participant.");
+    setWarning(recoveryState === "authentication_required" ? "Reset needs the original participant or approved event staff to sign in. This device remains locked." : recoveryState === "handoff_identity_required" ? "The original Clinic handoff is missing. Keep this device locked and ask approved event staff to recover that exact handoff. If it cannot be verified, reset will remain blocked." : "Reset is incomplete. This device is locked. Retry before handing it to another participant.");
     setResetting(false);
     running.current = false;
   }, [cleanEntryPath]);
@@ -110,7 +110,7 @@ export function ClinicPrivacyBoundary({ children, cleanEntryPath, recovery = fal
           <button type="button" disabled={resetting} onClick={() => void reset("staff_reset")} className="min-h-11 rounded-md bg-[#B04A26] px-5 py-2 text-sm font-black text-white hover:bg-[#8F3A1C] disabled:opacity-60">{locked && warning && !resetting ? "Retry device reset" : "End clinic session / Reset device"}</button>
         </div>
       </div>
-      {locked && !resetting && <p className="p-4"><a href="/expungement-ai/sign-in?next=%2Fclinic%2Freset">Original participant: sign in to finish reset</a></p>}
+      {locked && !resetting && <p className="p-4"><a href="/expungement-ai/sign-in?next=%2Fclinic%2Freset">Original participant: sign in to finish reset</a><br /><a href="/expungement-ai/sign-in?mode=signin&next=%2Fclinic%2Freset">Approved event staff: sign in with your own account to recover this device</a><br /><span>Staff recovery only ends the verified handoff. It does not open participant documents or resume assistance.</span></p>}
       {!locked && children}
     </div>
   );

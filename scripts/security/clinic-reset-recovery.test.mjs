@@ -26,7 +26,7 @@ test('expired Clinic cookies with participant auth use exact durable handoff, ne
 });
 test('expired close authority has bounded terminal-only reconciliation, no new close or renewed proof',async()=>{
  const f=fixture();await f.call('prepare');expire(f,{closed:true});const receipt=f.jar.get('clinic_reset_recovery');
- assert.equal((await f.call('prepare')).prepared,true);assert.equal((await f.call('close')).success,true);assert.equal((await f.call('complete')).success,true);assert.equal(f.state.calls,0);assert.equal(f.state.audits,1);assert.equal(f.jar.get('clinic_reset_recovery'),receipt);
+ assert.equal((await f.call('prepare')).prepared,true);assert.equal((await f.call('close')).success,true);assert.equal((await f.call('complete')).success,true);assert.equal(f.state.calls,0);assert.equal(f.state.audits,1);assert.equal(f.jar.has('clinic_reset_recovery'),false);assert.ok(f.jar.has('clinic_reset_completed'));
 });
 for(const unusable of [false,true])test('expired/unusable proof needs fresh exact-owner auth to complete: '+unusable,async()=>{
  const f=fixture();await f.call('prepare');expire(f,{unusable});const receipt=f.jar.get('clinic_reset_recovery');
