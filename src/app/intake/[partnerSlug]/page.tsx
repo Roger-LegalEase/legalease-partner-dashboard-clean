@@ -1,3 +1,4 @@
+import { clinicConsumerContinuation } from "@/lib/expungement-ai/claim/clinic-acquisition";
 import { SponsorCapacityEntryNotice } from "@/components/expungement-ai/SponsorCapacityNotice";
 import { redirect } from "next/navigation";
 import { FunnelBeacon } from "@/components/analytics/FunnelBeacon";
@@ -64,7 +65,7 @@ export default async function RcapPartnerIntakePage({
   if (status === "program-full") {
     return (
       <PageShell>
-        <ProgramFullState organizationName={context.organizationName} logoUrl={context.logoUrl} consumerUrl={appendAttributionQuery(`/expungement-ai/screening/${context.jurisdiction.toLowerCase()}`, attribution)} />
+        <ProgramFullState organizationName={context.organizationName} logoUrl={context.logoUrl} consumerUrl={auth.userId ? clinicConsumerContinuation(auth.userId, context.jurisdiction, `partner:${context.partnerSlug}`) : `/expungement-ai/sign-in?next=${encodeURIComponent(`/intake/${context.partnerSlug}?status=program-full`)}`} />
       </PageShell>
     );
   }

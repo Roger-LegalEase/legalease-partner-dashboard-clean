@@ -137,7 +137,7 @@ export async function claimPendingScreeningResult(input: {
     ...(saveInput.artifactRefs ?? {}),
     selectedTrackId,
     ...(isPacketResult(evaluation.resultCode) ? { productId: "expungement_packet" } : {}),
-    // Attribution travels with the matter. It records who sponsored the work; it
+    // Attribution travels with the matter. It records acquisition separately from funding; it
     // never records who owns it.
     attribution: {
       product: row.product,

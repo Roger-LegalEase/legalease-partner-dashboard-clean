@@ -11,6 +11,8 @@ const dispatchMocks={
  '@/lib/expungement-ai/packet-fulfillment-authority':{assertPacketFulfillmentProven:()=>{},packetFulfillmentAuthority:()=>({allowed:true})},
  '@/lib/rcap/render/commercial-admission':{
   governCommercialAdmission:(point,identity,context)=>admissionCalls.push({point,identity,context}),
+  governSponsoredEntitlement:(identity,context)=>admissionCalls.push({point:'sponsored_entitlement',identity,context}),
+  governPacketCreditAdmission:(identity,context)=>admissionCalls.push({point:'packet_credit_admission',identity,context}),
   commercialRouteIdentity:({jurisdiction,pathwayId})=>({routeId:`${jurisdiction}:${pathwayId}`,packetFamilyId:'il-prostitution-j-vacate-set'}),
   fulfillmentRequestContext:x=>x,finalVerificationSnapshotFrom:x=>x
  },
@@ -49,6 +51,28 @@ test('Clinic / Legal Aid funding: final slot, same matter, exact owner and uncha
    assert.equal(db.scalar('select count(*) from packet_render_jobs'),'0');
    assert.equal(choice(winner).funding_mode,'sponsored');assert.equal(choice(loser).funding_mode,'dtc');
    assert.equal(db.scalar('select count(*) from clinic_packet_funding'),'2');
+  });
+  await t.test('O-2 funding survives generation delay and capacity refill without oscillation',()=>{
+   const before=db.scalar('select jsonb_agg(to_jsonb(f) order by briefcase_item_id) from clinic_packet_funding f');
+   db.sql(`update clinic_events set sponsorship_allocation=20 where id=${q(f.eventId)}; update partner_entitlement set screenings_allowed=20; update partner_packet_entitlement set packet_cap=20`);
+   assert.equal(choice(winner).funding_mode,'sponsored');assert.equal(choice(loser).funding_mode,'dtc');
+   assert.equal(db.scalar('select jsonb_agg(to_jsonb(f) order by briefcase_item_id) from clinic_packet_funding f'),before);
+   assert.equal(db.scalar('select count(*) from packet_credit_ledger'),'0');
+   db.sql(`update clinic_events set sponsorship_allocation=1 where id=${q(f.eventId)}; update partner_entitlement set screenings_allowed=1; update partner_packet_entitlement set packet_cap=1`);
+  });
+  await t.test('COM-02 committed SPONSORED choice survives a later real typed admission refusal unchanged',async()=>{
+   const before=db.scalar(`select row_to_json(f) from clinic_packet_funding f where briefcase_item_id=${q(winner.itemId)}`);
+   const {CommercialAdmissionDeniedError}=loadTsWithMocks('src/lib/rcap/render/commercial-admission.ts',{});
+   const error=new CommercialAdmissionDeniedError({admissionPoint:'packet_credit_admission',denialCode:'fulfillment_stale',reason:'stale publication',contextDenials:[]});
+   let writes=0;
+   const lifecycle=loadTsWithMocks('src/lib/expungement-ai/rcap-slot-lifecycle.ts',{
+    '@/lib/rcap/render/commercial-admission':{governPacketCreditAdmission:()=>{throw error;}},
+    '@/lib/supabase/server':{getSupabaseAdminClient:()=>{writes++;throw Error('refusal must precede writes');}}
+   });
+   await assert.rejects(lifecycle.finalizeSponsoredPacketGeneration({sessionId:winner.sessionId,briefcaseItemId:winner.itemId,admission:{identity:{routeId:IL_ROUTE},context:{}}}),e=>e===error&&e.denialCode==='fulfillment_stale');
+   assert.equal(writes,0);assert.equal(choice(winner).funding_mode,'sponsored');
+   assert.equal(db.scalar(`select row_to_json(f) from clinic_packet_funding f where briefcase_item_id=${q(winner.itemId)}`),before);
+   assert.equal(db.scalar('select count(*) from clinic_packet_funding'),'2');assert.equal(db.scalar('select count(*) from packet_render_jobs'),'0');
   });
   await t.test('available sponsorship refuses Stripe creation even if caller invokes payment adapter directly', async()=>{
    const h=buildPaymentAdapter({sponsoredCheck:async()=>!dtc(winner)});

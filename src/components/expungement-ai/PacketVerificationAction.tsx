@@ -77,8 +77,8 @@ export function PacketVerificationAction({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ briefcaseItemId: itemId })
       }).catch(() => null);
+      const outcome = !generated?.ok ? await generated?.json().catch(() => null) : null;
       if (generated?.status === 409) {
-        const outcome = await generated.json().catch(() => null);
         if (outcome?.outcome === "sponsor_capacity_exhausted") {
           setPreparing(false);
           router.refresh();
@@ -87,7 +87,9 @@ export function PacketVerificationAction({
       }
       if (!generated?.ok) {
         setPreparing(false);
-        setError("We verified your facts, but could not prepare the clinic packet right now. Try again from this review.");
+        setError(typeof outcome?.resultCode === "string" && typeof outcome?.error === "string"
+          ? localizeText(outcome.error)
+          : "We verified your facts, but could not prepare the clinic packet right now. Try again from this review.");
         router.refresh();
         return;
       }

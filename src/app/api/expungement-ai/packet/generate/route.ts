@@ -3,8 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { requireConsumerBriefcaseSession } from "@/lib/expungement-ai/auth";
 import { getBriefcaseItem } from "@/lib/expungement-ai/briefcase";
 import {
-  finalizeSponsoredPacketGeneration,
-  resolvePartnerPacketCapDecision
+  finalizeSponsoredPacketGeneration
 } from "@/lib/expungement-ai/rcap-slot-lifecycle";
 import {
   ConsumerPacketGenerationError,
@@ -18,6 +17,7 @@ import { CurrentPacketVerificationRequiredError, requireCurrentPacketVerificatio
 import { consumerMatterIdForItem } from "@/lib/expungement-ai/consumer-identity";
 import {
   CommercialAdmissionDeniedError,
+  governSponsoredEntitlement,
   artifactStorageContext,
   commercialAdmissionRefusalBody,
   commercialRouteIdentity,
@@ -92,21 +92,10 @@ export async function POST(request: NextRequest) {
       });
       const sponsoredAdmission = { identity: sponsoredIdentity, context: sponsoredContext };
 
-      const decision = await resolvePartnerPacketCapDecision(
-        packet.protectedSponsorship.sourceSessionId,
-        sponsoredAdmission
-      );
-      if (decision.pausedAtCap) {
-        return NextResponse.json(
-          {
-            error:
-              "Sponsor capacity is exhausted. Your matter and verified answers are saved. Return to this matter’s review to see payment options.",
-            sponsoredPaused: true,
-            briefcaseItemId
-          },
-          { status: 409 }
-        );
-      }
+      // Funding was chosen by the protected allocator before rendering.
+      // A later admission refusal must retain that immutable choice and the
+      // actual refusal reason; a legacy usage read cannot switch its payer.
+      governSponsoredEntitlement(sponsoredIdentity, sponsoredContext);
       const finalization = await finalizeSponsoredPacketGeneration({
         sessionId: packet.protectedSponsorship.sourceSessionId,
         briefcaseItemId,

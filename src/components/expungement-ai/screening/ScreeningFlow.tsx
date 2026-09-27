@@ -108,7 +108,7 @@ async function markScreeningSessionCompleted(sessionId: string | undefined) {
   }
 }
 
-export function ScreeningFlow({ state, initialSessionId, partnerDisplayName }: { state: string; initialSessionId?: string; partnerDisplayName?: string }) {
+export function ScreeningFlow({ state, initialSessionId, partnerDisplayName, acquisitionReceipt }: { state: string; initialSessionId?: string; partnerDisplayName?: string; acquisitionReceipt?: string }) {
   const router = useRouter();
   const { t: translate, locale } = useLocalization();
   // Only the server-validated active-benefit session prop enables partner
@@ -329,6 +329,7 @@ export function ScreeningFlow({ state, initialSessionId, partnerDisplayName }: {
         // The server resolves partner, program, event, campaign and consent from
         // its own record of this session. The browser only names the session.
         anonymousSessionId: sessionId ?? effectiveInitialSessionId,
+        acquisitionReceipt,
         locale
       })
     }).catch(() => null);

@@ -1,6 +1,10 @@
 // Real changed React controls, deterministic local HTTP/provider boundaries.
 // Actual layout/API/database coverage is in the Legal Aid E2E and cap SQL tests.
 import test from 'node:test';
+import {loadTsWithMocks} from '../test-expungement-checkout-guards.mjs';
+process.env.SUPABASE_SERVICE_ROLE_KEY='synthetic-browser-source-key';
+const acquisition=loadTsWithMocks('src/lib/expungement-ai/claim/clinic-acquisition.ts',{});
+const continuation=acquisition.clinicConsumerContinuation('owner','MS','clinic:mvlp');
 import assert from 'node:assert/strict';
 import http from 'node:http';
 import { once } from 'node:events';
@@ -29,23 +33,24 @@ window.refresh=async()=>{const s=await (await fetch('/state')).json();root.rende
 </main>)};window.refresh();`);
 const router=write('router.js',`export const useRouter=()=>({refresh:()=>window.refresh(),push:p=>{history.pushState({},'',p);window.refresh()}});`);
 const link=write('link.js',`import React from 'react';export default p=>React.createElement('a',p);`);
-const locale=write('locale.js',`import {EXPUNGEMENT_COPY} from '${process.cwd()}/src/lib/expungement-ai/localization';const copy=Object.entries(EXPUNGEMENT_COPY).filter(([k])=>k.startsWith('clinic.cap.')).map(([,v])=>v);const locale=new URLSearchParams(location.search).get('lang')||'en';export const useLocalization=()=>({locale,text:x=>locale==='es'?(copy.find(v=>v.en===x)?.es||x):x,t:(k,f)=>f});`);
+const locale=write('locale.js',`import {EXPUNGEMENT_COPY} from '${process.cwd()}/src/lib/expungement-ai/localization';const copy=Object.entries(EXPUNGEMENT_COPY).filter(([k])=>k.startsWith('clinic.cap.')||k.startsWith('clinic.admission.')).map(([,v])=>v);const locale=new URLSearchParams(location.search).get('lang')||'en';export const useLocalization=()=>({locale,text:x=>locale==='es'?(copy.find(v=>v.en===x)?.es||x):x,t:(k,f)=>f});`);
 const analytics=write('analytics.js',`export const trackFunnelEvent=()=>{};`);
 const loader=write('loader.cjs',`const ts=require(${JSON.stringify(require.resolve('typescript'))});module.exports=s=>ts.transpileModule(s,{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2020,jsx:ts.JsxEmit.ReactJSX}}).outputText;`);
 const bundle=await new Promise((resolve,reject)=>webpack({mode:'production',target:'web',entry,output:{path:temp,filename:'bundle.js'},optimization:{minimize:false},resolve:{extensions:['.tsx','.ts','.js'],modules:[path.resolve('node_modules'),'node_modules'],alias:{'@/lib/analytics/client':analytics,'@':path.resolve('src'),'next/navigation':router,'next/link':link}},module:{rules:[{test:/\.tsx?$/,use:loader}]},plugins:[new webpack.NormalModuleReplacementPlugin(/LocalizationProvider$/,r=>{r.request=locale;})]},(error,stats)=>error?reject(error):stats.hasErrors()?reject(Error(stats.toString({all:false,errors:true}))):resolve(fs.readFileSync(path.join(temp,'bundle.js'),'utf8'))));
 fs.rmSync(temp,{recursive:true,force:true});
 
-async function site({capacity=true,verified=true,entry='review',lostResponse=false}={}){
+async function site({capacity=true,verified=true,entry='review',lostResponse=false,refusal=false}={}){
  const state={dtc:false,ready:false,verified,entry,item:'same-verified-matter'};const requests=[];
  const server=http.createServer(async(req,res)=>{
   let body='';for await(const chunk of req)body+=chunk;requests.push({path:req.url,body});
   res.setHeader('Content-Type','application/json');
   if(req.url==='/bundle.js'){res.setHeader('Content-Type','text/javascript');return res.end(bundle);}
-  if(req.url==='/api/clinic/assistance/start')return res.end(JSON.stringify({success:true,outcome:'sponsor_capacity_exhausted',consumerUrl:'/expungement-ai/screening/ms?source=clinic%3Amvlp'}));
+  if(req.url==='/api/clinic/assistance/start')return res.end(JSON.stringify({success:true,outcome:'sponsor_capacity_exhausted',consumerUrl:continuation}));
   if(req.url==='/state')return res.end(JSON.stringify(state));
   if(req.url.includes('/packet-information')){assert.deepEqual(JSON.parse(body),{answers:{known:'preserved'},verify:true});state.verified=true;return res.end(JSON.stringify({readyToGenerate:true,commercialActions:{fulfillmentAvailable:true,generationAllowed:true,checkoutAllowed:false}}));}
   if(req.url==='/api/expungement-ai/packet/generate'){
    assert.deepEqual(JSON.parse(body),{briefcaseItemId:state.item});
+   if(refusal){res.statusCode=409;return res.end(JSON.stringify({resultCode:'fulfillment_stale',error:'We’re re-checking this route. Your information is saved — please try again shortly.'}));}
    if(capacity){state.ready=true;return res.end('{"packetStatus":"ready"}');}
    state.dtc=true;state.entry='review';
    if(lostResponse){lostResponse=false;return req.socket.destroy();}
@@ -95,7 +100,18 @@ for(const lang of ['en','es'])test(`pre-matter Clinic / MVLP entry ${lang}: trut
   await s.page.locator('input[name=consent]').check();await s.page.getByRole('button',{name:'Start assisted nationwide screening'}).click();
   await s.page.getByRole('heading',{name:lang==='es'?'La cobertura del patrocinador no está disponible':'Sponsored coverage is unavailable'}).waitFor();
   assert.match(await s.page.getByRole('status').innerText(),/sponsor will not pay|patrocinador no pagará/);
-  assert.equal(await s.page.getByRole('link',{name:lang==='es'?'Continuar con el servicio habitual para consumidores':'Continue with standard consumer service'}).getAttribute('href'),'/expungement-ai/screening/ms?source=clinic%3Amvlp');
+  assert.equal(await s.page.getByRole('link',{name:lang==='es'?'Continuar con el servicio habitual para consumidores':'Continue with standard consumer service'}).getAttribute('href'),continuation);
   assert.equal(s.requests.some(r=>/checkout|packet-information|\/screening\//.test(r.path)),false);
+ }finally{await s.close();}
+});
+
+for(const entry of ['matter','review'])for(const lang of ['en','es'])test(`COM-02 ${entry} ${lang}: actual admission retry remains visible, no DTC or Checkout`,async()=>{
+ const s=await site({entry,verified:false,refusal:true});try{
+  await s.page.goto(s.base+'/?lang='+lang);
+  await s.page.getByRole('button',{name:entry==='matter'?'Generate my packet':'Verify and prepare clinic packet',exact:true}).click();
+  await s.page.getByRole('alert').waitFor();
+  assert.match(await s.page.getByRole('alert').innerText(),lang==='es'?/Estamos revisando esta vía/:/We’re re-checking this route/);
+  assert.equal(s.state.dtc,false);assert.equal(s.state.item,'same-verified-matter');assert.equal(s.state.ready,false);
+  assert.equal(s.requests.some(r=>/checkout/.test(r.path)),false);assert.equal(await s.page.locator('[data-sponsor-capacity=exhausted]').count(),0);
  }finally{await s.close();}
 });

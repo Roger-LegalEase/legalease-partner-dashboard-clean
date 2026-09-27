@@ -44,6 +44,8 @@ import {
   finalVerificationSnapshotFrom,
   fulfillmentRequestContext,
   governGenerationAdmission,
+  governSponsoredEntitlement,
+  governPacketCreditAdmission,
   governProviderDispatch,
   governArtifactAttachment,
   governPacketDownloadAdmission
@@ -889,7 +891,7 @@ export async function assertPacketGenerationAllowed(
   const regeneration = isPersonalizedDeliveryRoute(generationIdentity.routeId)
     && await hasFinalizedPersonalizedRender(userId, item.id, !paymentRequired);
   const admitGeneration = regeneration ? governProviderDispatch : governGenerationAdmission;
-  admitGeneration(generationIdentity, fulfillmentRequestContext({
+  const generationContext = fulfillmentRequestContext({
     participantUserId: userId,
     matterId: generationMatterId,
     matterOwnerUserId: userId,
@@ -906,7 +908,15 @@ export async function assertPacketGenerationAllowed(
       alreadyConsumed: packetAlreadyGenerated(item),
       serverVerified: dryRunMode && item.paymentProvider === "dry_run"
     })
-  }));
+  });
+  admitGeneration(generationIdentity, generationContext);
+  if (!paymentRequired) {
+    // Check every admission point whose inputs are known before allocating a
+    // new slot. Later publication changes still refuse without changing payer.
+    governSponsoredEntitlement(generationIdentity, generationContext);
+    governPacketCreditAdmission(generationIdentity, generationContext);
+    governProviderDispatch(generationIdentity, generationContext);
+  }
 
   return verification;
 }

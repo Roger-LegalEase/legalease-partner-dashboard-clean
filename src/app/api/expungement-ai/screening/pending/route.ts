@@ -1,3 +1,5 @@
+import { readClinicAcquisition } from "@/lib/expungement-ai/claim/clinic-acquisition";
+import { getServerAuthState } from "@/lib/supabase/auth-server";
 import { NextResponse } from "next/server";
 import { evaluateAuthoritativeScreeningResult } from "@/lib/expungement-ai/authoritative-screening-result";
 import { claimTokenHash, mintClaimToken } from "@/lib/expungement-ai/claim/claim-token";
@@ -84,6 +86,13 @@ export async function POST(request: Request) {
     : null;
   const attribution = await resolveScreeningAttribution(anonymousSessionId);
 
+  // This receipt records origin only. It cannot change product, partner,
+  // event, consent, eligibility, verification, or entitlement.
+  let acquisition: string | null = null;
+  if (!attribution.isPartnerSession && body.acquisitionReceipt) {
+    const auth = await getServerAuthState();
+    if (auth.isAuthenticated) acquisition = readClinicAcquisition(body.acquisitionReceipt, auth.userId);
+  }
   const claimToken = mintClaimToken();
 
   const { error } = await supabase
@@ -114,7 +123,7 @@ export async function POST(request: Request) {
       partner_slug: attribution.partnerSlug,
       program_id: attribution.programId,
       event_id: attribution.eventId,
-      campaign_name: attribution.campaignName,
+      campaign_name: acquisition ?? attribution.campaignName,
       access_code_id: attribution.accessCodeId,
       consent_grant_id: attribution.consentGrantId
     });
@@ -135,6 +144,7 @@ type PendingCreateBody = {
   screeningCorrelationId?: unknown;
   anonymousSessionId?: unknown;
   locale?: unknown;
+  acquisitionReceipt?: unknown;
 };
 
 async function readJson(request: Request): Promise<{ ok: true; value: PendingCreateBody } | { ok: false }> {

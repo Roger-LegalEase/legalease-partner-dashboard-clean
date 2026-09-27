@@ -7,7 +7,7 @@ export function ClinicReportingDashboard({ report }: { report: ClinicEventReport
     <section className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
       <Metric label="Event entries" value={report.entries} note={`capacity ${report.capacity}`} />
       <Metric label="Clinic cases" value={report.participants} note="aggregate only" />
-      <Metric label="Packets consumed" value={report.sponsorship.consumed} note={`${report.sponsorship.reserved} reserved`} />
+      <Metric label="Sponsored packets generated" value={report.sponsorship.consumed} note={`${report.sponsorship.reserved} sponsored slots reserved`} />
       <Metric label="Allocation remaining" value={allocation === null ? "Base allocation" : Math.max(0, allocation - committed)} note={`${report.sponsorship.released} released`} />
     </section>
     <section className="grid gap-6 lg:grid-cols-3">

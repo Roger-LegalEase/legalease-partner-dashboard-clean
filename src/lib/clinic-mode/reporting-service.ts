@@ -16,12 +16,37 @@ type AccountingRow = { outcome?: string; reservation_id?: string | null };
 
 export async function getClinicEventReport(eventId: string): Promise<ClinicEventReport> {
   const actorUserId = await authenticatedUserId();
-  const result = await requireDatabase().rpc("clinic_get_event_report", {
+  const db = requireDatabase();
+  const result = await db.rpc("clinic_get_event_report", {
     p_event_id: eventId,
     p_actor_user_id: actorUserId
   });
   if (result.error || !result.data || typeof result.data !== "object") throw readError(result.error?.message, "Clinic reporting is unavailable.");
-  return normalizeReport(result.data as Record<string, unknown>);
+  const report = normalizeReport(result.data as Record<string, unknown>);
+  // The RPC above authorizes this exact event before any service-role reads.
+  if (report.eventId !== eventId) throw readError(undefined, "Clinic reporting is unavailable.");
+  const [funding, cases, reservations] = await Promise.all([
+    readPages(() => db.from("clinic_packet_funding").select("briefcase_item_id,funding_mode").eq("event_id", eventId).order("briefcase_item_id")),
+    readPages(() => db.from("clinic_cases").select("id,matter_id").eq("event_id", eventId).order("id")),
+    readPages(() => db.from("clinic_packet_reservations").select("clinic_case_id,status").eq("event_id", eventId).order("id"))
+  ]);
+  if (funding.error || cases.error || reservations.error) throw readError(undefined, "Clinic sponsorship reporting is unavailable.");
+  const itemIds = [...new Set([
+    ...(funding.data ?? []).map(row => String(row.briefcase_item_id)),
+    ...(cases.data ?? []).flatMap(row => row.matter_id ? [String(row.matter_id)] : [])
+  ])];
+  const generated: { briefcase_item_id: string }[] = [];
+  for (let offset = 0; offset < itemIds.length; offset += 100) {
+    const page = await readPages(() => db.from("consumer_packet_artifact_provenance")
+      .select("briefcase_item_id").in("briefcase_item_id", itemIds.slice(offset, offset + 100))
+      .eq("entitlement_source", "partner_sponsorship").order("briefcase_item_id"));
+    if (page.error) throw readError(undefined, "Clinic sponsorship reporting is unavailable.");
+    generated.push(...page.data);
+  }
+  report.sponsorship = { ...report.sponsorship, ...sponsoredReportCounts(
+    funding.data ?? [], cases.data ?? [], reservations.data ?? [], generated
+  ) };
+  return report;
 }
 
 export async function listClinicFollowUps(eventId: string): Promise<ClinicFollowUp[]> {
@@ -157,4 +182,43 @@ function readError(message: string | undefined, fallback: string) {
 function writeError(message?: string, fallback = "The Clinic mutation could not be completed.") {
   if (message?.includes("forbidden") || message?.includes("owner")) return new ClinicServiceError("forbidden", "The Clinic mutation is outside this event or participant boundary.");
   return new ClinicServiceError("conflict", fallback);
+}
+
+// Merge the legacy reservation path with immutable funding choices by matter.
+// A committed choice is not a generated packet; DTC never counts as sponsored.
+export function sponsoredReportCounts(
+  funding: { briefcase_item_id: string; funding_mode: string }[],
+  cases: { id: string; matter_id: string | null }[],
+  reservations: { clinic_case_id: string; status: string }[],
+  generated: { briefcase_item_id: string }[]
+) {
+  const caseKeys = new Map(cases.map(row => [row.id, row.matter_id ?? `case:${row.id}`]));
+  const states = new Map<string, string>();
+  for (const row of reservations) {
+    const key = caseKeys.get(row.clinic_case_id);
+    if (key) states.set(key, row.status);
+  }
+  for (const row of funding) {
+    if (row.funding_mode === "sponsored") {
+      if (states.get(row.briefcase_item_id) !== "consumed") states.set(row.briefcase_item_id, "reserved");
+    }
+    else states.delete(row.briefcase_item_id);
+  }
+  const dtc = new Set(funding.filter(row => row.funding_mode === "dtc").map(row => row.briefcase_item_id));
+  for (const row of generated) if (!dtc.has(row.briefcase_item_id)) states.set(row.briefcase_item_id, "consumed");
+  return {
+    reserved: [...states.values()].filter(value => value === "reserved").length,
+    consumed: [...states.values()].filter(value => value === "consumed").length,
+    released: [...states.values()].filter(value => value === "released").length
+  };
+}
+
+async function readPages<T>(query: () => { range: (from: number, to: number) => PromiseLike<{ data: T[] | null; error: unknown }> }) {
+  const data: T[] = [];
+  for (let offset = 0; ; offset += 500) {
+    const page = await query().range(offset, offset + 499);
+    if (page.error) return { data, error: page.error };
+    data.push(...(page.data ?? []));
+    if ((page.data?.length ?? 0) < 500) return { data, error: null };
+  }
 }

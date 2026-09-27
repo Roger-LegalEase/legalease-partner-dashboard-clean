@@ -155,6 +155,14 @@ export function governCommercialAdmission(
 /** Shared point treatments keep consumer, sponsored and retry callers on the
  * same authority invocation. Callers still supply protected owner, matter,
  * verification and entitlement/storage context; no eligibility rule lives here. */
+export function governSponsoredEntitlement(identity: AdmissionRequestIdentity, context: FulfillmentRequestContext) {
+  return governCommercialAdmission("sponsored_entitlement", identity, context);
+}
+
+export function governPacketCreditAdmission(identity: AdmissionRequestIdentity, context: FulfillmentRequestContext) {
+  return governCommercialAdmission("packet_credit_admission", identity, context);
+}
+
 export function governGenerationAdmission(identity: AdmissionRequestIdentity, context: FulfillmentRequestContext) {
   return governCommercialAdmission("generation_admission", identity, context);
 }

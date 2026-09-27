@@ -1,3 +1,4 @@
+import { clinicConsumerContinuation } from "@/lib/expungement-ai/claim/clinic-acquisition";
 import { createHash, randomBytes } from "node:crypto";
 import { NextRequest, NextResponse } from "next/server";
 import { getClinicEntryContext, listApprovedClinicStaff } from "@/lib/clinic-mode/participant-service";
@@ -41,7 +42,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ success: false, error: "Sponsor capacity could not be confirmed. Please retry." }, { status: 503 });
     }
     const fallback = () => NextResponse.json({ success: true, outcome: "sponsor_capacity_exhausted",
-      consumerUrl: `/expungement-ai/screening/${jurisdiction.toLowerCase()}?source=${encodeURIComponent(`clinic:${entry.eventSlug}`)}`
+      consumerUrl: clinicConsumerContinuation(auth.userId, jurisdiction, `clinic:${entry.eventSlug}`)
     }, { headers: { "Cache-Control": "no-store, private, max-age=0" } });
     if (!capacity.data) return fallback();
     const screening = await claimRcapPartnerScreeningSession({ partnerSlug: entry.partnerSlug, jurisdiction });

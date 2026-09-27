@@ -11,6 +11,7 @@ test('actual next-participant start refuses incomplete reset and retires old rec
  const source=ts.transpileModule(fs.readFileSync('src/app/api/clinic/assistance/start/route.ts','utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022}}).outputText;
  const m={exports:{}};
  new Function('require','module','exports',source)(name=>{
+  if(name.endsWith('/clinic-acquisition'))return {clinicConsumerContinuation:()=>{throw Error('available sponsorship must not enter DTC');}};
   if(name.endsWith('/reset-recovery'))return recovery.exports;
   if(name==='next/server')return {NextRequest,NextResponse};
   if(name.endsWith('participant-service'))return {getClinicEntryContext:async()=>({partnerSlug:'test',eventId:'event',eventSlug:'test',jurisdiction:'MS'}),listApprovedClinicStaff:async()=>[{id:'11111111-1111-4111-8111-111111111111'}]};

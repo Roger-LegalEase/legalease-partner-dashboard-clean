@@ -18,7 +18,7 @@ export default async function ScreeningStatePage({
   searchParams
 }: {
   params: Promise<{ state: string }>;
-  searchParams: Promise<{ session?: string | string[] }>;
+  searchParams: Promise<{ session?: string | string[]; acquisition?: string | string[] }>;
 }) {
   const [{ state }, search] = await Promise.all([params, searchParams]);
   const candidateSessionId = typeof search.session === "string" && isSafeSessionId(search.session) ? search.session : undefined;
@@ -33,7 +33,7 @@ export default async function ScreeningStatePage({
   // same ScreeningFlow instance/state.
   return (
     <ConsumerPageShell wilmaContext="check" showWilma={false} headerVariant="app">
-      <ScreeningFlow key={`${state}:${initialSessionId ?? "dtc"}`} state={state} initialSessionId={initialSessionId} />
+      <ScreeningFlow key={`${state}:${initialSessionId ?? "dtc"}`} state={state} initialSessionId={initialSessionId} acquisitionReceipt={typeof search.acquisition === "string" ? search.acquisition.slice(0, 1500) : undefined} />
     </ConsumerPageShell>
   );
 }

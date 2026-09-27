@@ -16,12 +16,14 @@ export function PacketGenerateButton({
   label?: string;
 }) {
   const router = useRouter();
-  const { t: translate } = useLocalization();
+  const { t: translate, text: localizeText } = useLocalization();
   const [status, setStatus] = useState<"idle" | "submitting" | "preparing" | "error">("idle");
+  const [refusal, setRefusal] = useState<string | null>(null);
   const durable = mode === "paid_durable";
 
   async function generate() {
     setStatus("submitting");
+    setRefusal(null);
     trackFunnelEvent("packet_builder_started", { product_surface: "expungement_ai" });
     const response = await fetch(durable
       ? "/api/expungement-ai/packet/render"
@@ -30,8 +32,8 @@ export function PacketGenerateButton({
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ briefcaseItemId })
     }).catch(() => null);
+    const result = !response?.ok ? await response?.json().catch(() => null) : null;
     if (response?.status === 409) {
-      const result = await response.json().catch(() => null);
       if (result?.outcome === "sponsor_capacity_exhausted") {
         router.push(`/briefcase/${encodeURIComponent(briefcaseItemId)}/review`);
         router.refresh();
@@ -40,6 +42,7 @@ export function PacketGenerateButton({
       }
     }
     if (!response?.ok || (durable && response.status !== 202)) {
+      if (typeof result?.resultCode === "string" && typeof result?.error === "string") setRefusal(result.error);
       setStatus("error");
       return;
     }
@@ -71,7 +74,7 @@ export function PacketGenerateButton({
       </button>
       {status === "error" ? (
         <p className="mt-2 text-[13px] font-semibold text-[#B23036]" role="alert" aria-live="assertive">
-          {durable
+          {refusal ? localizeText(refusal) : durable
             ? "We could not start packet preparation right now. Try again or contact support."
             : translate("briefcase.generate_error", "We could not generate the packet right now. Try again or contact support.")}
         </p>
