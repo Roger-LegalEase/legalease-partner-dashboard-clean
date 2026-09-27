@@ -7,7 +7,7 @@ import path from "node:path";
 import { spawnSync } from "node:child_process";
 
 import { prepareHostedAcceptanceEvidenceLayout } from "./rcap-hosted-acceptance-evidence-layout.mjs";
-import { completeHostedCheckout, STRIPE_TEST_CARD } from "./rcap-stripe-checkout-browser.mjs";
+import { completeHostedCheckout, STRIPE_TEST_CARD, expectedCheckoutTotal, checkoutAmountMatches } from "./rcap-stripe-checkout-browser.mjs";
 import { captureSurface, reviewJourneyCopy } from "./rcap-journey-copy-review.mjs";
 import { claimAndVerifyHostedFixture } from "./rcap-hosted-final-verification.mjs";
 
@@ -69,15 +69,16 @@ const STRIPE_KEY = process.env.HOSTED_STRIPE_TEST_SECRET ?? "";
 // rather than a separate near-copy of it existing per discount shape. Empty
 // means the ordinary $50 order.
 const PROMOTION_CODE = (process.env.HOSTED_STRIPE_PROMOTION_CODE ?? "").trim() || null;
+const EXPECTED_TOTAL_CENTS = expectedCheckoutTotal({ promotionCode: PROMOTION_CODE,
+  value: process.env.HOSTED_STRIPE_EXPECTED_TOTAL_CENTS ?? '' });
 // The catalog Product this run's coupon is restricted to. The released
 // correction exists so that a product-restricted coupon can match the line
 // item; without asserting the product, a passing discount would only show that
 // SOME coupon applied to SOMETHING, which is what the defect already did.
 const CATALOG_PRODUCT_ID = (process.env.HOSTED_STRIPE_CATALOG_PRODUCT_ID ?? "").trim() || null;
-// Nothing here declares what a code is worth. Promotion codes are created and
-// managed in the Stripe Dashboard; this run types one into Stripe's own field
-// and then believes Stripe about the result, including whether the order ended
-// at zero. Issuing a new code requires no change here and no deployment.
+// Stripe owns coupon terms and calculation. The explicit expected total is the
+// approved test's assertion, never a price override sent to Stripe. A partial
+// discount must not pass as a zero-total test, or vice versa.
 // Lets one run prove a non-Mississippi purchase without duplicating this
 // journey per state. Empty keeps the existing behaviour.
 const JOURNEY_STATE = (process.env.HOSTED_JOURNEY_STATE ?? "").trim().toUpperCase();
@@ -1983,11 +1984,11 @@ const stripeApi = async (pathname, init) => {
   const before = { paymentStatus: session.payment_status, amountTotal: session.amount_total, paymentIntent: session.payment_intent ?? null };
   const outcome = await completeHostedCheckout({
     checkoutUrl: session.url,
+    expectedReturnUrl: session.success_url?.replace('{CHECKOUT_SESSION_ID}', session.id),
     promotionCode: PROMOTION_CODE,
     card: STRIPE_TEST_CARD,
-    // Unique per run, so Stripe Link never recognises the address and never
-    // raises a one-time-code challenge that nobody can answer. Run 35170946122
-    // stalled on exactly that, because an earlier run had paid with this email.
+    // Per-matter synthetic contact. If the provider requests verification,
+    // stop for human interaction on this Session instead of starting another.
     email: `acceptance-consumer-${String(itemId).replace(/-/g, "").slice(0, 12)}@rcap-acceptance.test`,
     screenshotDir: path.join(EVIDENCE_DIR, "checkout-screenshots"),
     label: PROMOTION_CODE ? `checkout-${PROMOTION_CODE}` : "checkout-no-code",
@@ -2044,6 +2045,7 @@ const stripeApi = async (pathname, init) => {
   evidence.hostedCheckoutCompletion = {
     promotionCode: PROMOTION_CODE,
     completed: outcome.completed,
+    humanInteractionRequired: outcome.humanInteractionRequired === true,
     paymentStatusBefore: before.paymentStatus,
     paymentStatusAfter: session.payment_status,
     amountTotalAfter: session.amount_total,
@@ -2053,7 +2055,7 @@ const stripeApi = async (pathname, init) => {
     notes: outcome.notes,
     screenshots: outcome.screenshots
   };
-  if (!settled) finish();
+  if (!settled || outcome.humanInteractionRequired) finish();
 }
 
 // --- 4c. What Stripe confirms about the purchase ------------------------------
@@ -2077,6 +2079,7 @@ const stripeConfirmed = { subtotal: null, discount: 0, total: null, currency: nu
   // Stripe's own arithmetic has to close, so a discount that never reached the
   // total cannot pass as one that did.
   const arithmeticCloses = subtotal !== null && total !== null && total === subtotal - discount;
+  const amountMatchesTheAttempt = checkoutAmountMatches(session, EXPECTED_TOTAL_CENTS);
   // A code was typed in, so Stripe must show a discount and name it; no code was
   // typed in, so Stripe must show none.
   const discountMatchesTheAttempt = PROMOTION_CODE
@@ -2101,15 +2104,16 @@ const stripeConfirmed = { subtotal: null, discount: 0, total: null, currency: nu
 
   record(
     "stripe_confirmed_the_discounted_purchase",
-    arithmeticCloses && discountMatchesTheAttempt && settlementFitsTheTotal,
+    arithmeticCloses && amountMatchesTheAttempt && discountMatchesTheAttempt && settlementFitsTheTotal,
     `Stripe reports status=${session.status} subtotal=${subtotal} amount_discount=${discount} amount_total=${total} ${String(currency).toUpperCase()} `
-      + `(its own arithmetic closes: ${arithmeticCloses}). Promotion codes Stripe applied: ${appliedCodes.length ? appliedCodes.join(", ") : "(none)"} `
+      + `(its own arithmetic closes: ${arithmeticCloses}; expected total ${EXPECTED_TOTAL_CENTS} USD cents: ${amountMatchesTheAttempt}). Promotion codes Stripe applied: ${appliedCodes.length ? appliedCodes.join(", ") : "(none)"} `
       + `for ${PROMOTION_CODE ? `entered code ${PROMOTION_CODE}` : "no entered code"} (consistent: ${discountMatchesTheAttempt}). `
       + `payment_status=${session.payment_status}, payment_intent=${session.payment_intent ? "present" : "absent"} (consistent: ${settlementFitsTheTotal}) — `
       + `completion is taken from status=complete plus the payment status Stripe reports, never from a missing PaymentIntent, which alone would equally describe a customer who never paid. `
-      + `No figure here is computed by this harness, so a code issued in the Stripe Dashboard needs no change to prove itself.`
+      + `The approved expected amount is compared with Stripe's readback; this harness never overrides the order's amount.`
   );
   evidence.discount = {
+    expectedSubtotalCents: 5000, expectedTotalCents: EXPECTED_TOTAL_CENTS, expectedCurrency: "usd",
     enteredCode: PROMOTION_CODE, status: session.status, subtotal, discount, total, currency,
     appliedCodes, paymentStatus: session.payment_status,
     paymentIntentPresent: Boolean(session.payment_intent)

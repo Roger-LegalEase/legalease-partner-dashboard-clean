@@ -15,6 +15,9 @@ export async function installLocalPublicationFixture() {
  const publication=JSON.stringify({sourceSha,immutableRegistryDigest:digest,workflowConclusion:'success',syntheticLocalTestOnly:true});
  const externalPublication={currentInputsEquivalent:true,sourceSha,immutableRegistryDigest:digest,workflowConclusion:'success',evidenceSha256:createHash('sha256').update(publication).digest('hex')};
  for(const record of registry.records) {
+  // Missing observations stay missing: this fixture supplies only publication
+  // equivalence, never route evidence or permission for an unobserved route.
+  if (!observations.routes[record.routeId]) continue;
   record.provider.imageDigest=digest;
   record.history.at(-1).recordSha256=registryModule.fulfillmentRecordSha256(record);
   observations.routes[record.routeId].provider.imageDigest=digest;
