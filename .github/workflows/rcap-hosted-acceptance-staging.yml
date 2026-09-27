@@ -28,7 +28,7 @@ on:
   workflow_call:
     inputs:
       phase:
-        description: "preflight, vercel_identity, vercel_audit, migrate, clinic_migrate, legal_aid_migrate, clinic_deploy, clinic_preview, clinic_resume, legal_aid_browser, deploy, replace_preview, accept, stripe_retarget, checkout_gate, browser, payment, or full"
+        description: "preflight, vercel_identity, vercel_audit, migrate, clinic_migrate, legal_aid_migrate, clinic_deploy, clinic_preview, clinic_resume, legal_aid_browser, sponsor_cap, deploy, replace_preview, accept, stripe_retarget, checkout_gate, browser, payment, or full"
         required: true
         type: string
       preview_deployment_id:
@@ -36,6 +36,16 @@ on:
         required: false
         type: string
         default: ""
+      sponsor_case:
+        description: "Existing authorized synthetic case: sponsored, exhausted, or final_slot; never historical Applicant A"
+        required: false
+        type: string
+        default: ""
+      sponsor_items:
+        description: "JSON array of existing synthetic item IDs; all authority is read server-side"
+        required: false
+        type: string
+        default: "[]"
       contradiction_job_id:
         description: "Exact packet_render_jobs id to diagnose (worker_contract phase)"
         required: false
@@ -454,7 +464,7 @@ jobs:
       #   checkout_gate    no             no       yes             no
       #   browser          no             no       no              no (isolated browser=true)
       #   clinic_preview   yes            no       no              no (bounded MVL seed + no-Stripe journey)
-      #   legal_aid_browser yes           no       no              no (Clinic Preview journey + Legal Aid training cohort and browser proof)
+      #   legal_aid_browser no            no       no              no (read-only historical packet + new Legal Aid training cohort)
       #   clinic_migrate   no             no       no              no (exact ten-file Clinic Preview sequence only)
       #   legal_aid_migrate no            no       no              no (exact one-file Legal Aid migration only)
       #   migrate          no             no       no              no
@@ -467,12 +477,14 @@ jobs:
           set -euo pipefail
           PHASE='${{ inputs.phase }}'
           RESUME=false
+          SPONSOR_CAP=false
           case "$PHASE" in
             full)            DEPLOY=true;  MATRIX=true;  GATE=true;  RETARGET=false; BROWSER=false; CLINIC=false; LEGAL_AID=false ;;
+            sponsor_cap)     DEPLOY=false; MATRIX=false; GATE=false; RETARGET=false; BROWSER=false; CLINIC=false; LEGAL_AID=false; SPONSOR_CAP=true ;;
             clinic_resume)   DEPLOY=false; MATRIX=false; GATE=false; RETARGET=false; BROWSER=false; CLINIC=false; LEGAL_AID=false; RESUME=true ;;
             clinic_deploy)   DEPLOY=true;  MATRIX=false; GATE=false; RETARGET=false; BROWSER=false; CLINIC=false; LEGAL_AID=false ;;
             clinic_preview)  DEPLOY=true;  MATRIX=false; GATE=false; RETARGET=false; BROWSER=false; CLINIC=true;  LEGAL_AID=false ;;
-            legal_aid_browser) DEPLOY=true; MATRIX=false; GATE=false; RETARGET=false; BROWSER=false; CLINIC=true;  LEGAL_AID=true  ;;
+            legal_aid_browser) DEPLOY=false; MATRIX=false; GATE=false; RETARGET=false; BROWSER=false; CLINIC=false;  LEGAL_AID=true  ;;
             deploy)          DEPLOY=true;  MATRIX=false; GATE=false; RETARGET=false; BROWSER=false; CLINIC=false; LEGAL_AID=false ;;
             replace_preview) DEPLOY=true;  MATRIX=false; GATE=false; RETARGET=false; BROWSER=false; CLINIC=false; LEGAL_AID=false ;;
             accept)          DEPLOY=false; MATRIX=true;  GATE=false; RETARGET=false; BROWSER=false; CLINIC=false; LEGAL_AID=false ;;
@@ -501,7 +513,7 @@ jobs:
             test -z '${{ inputs.journey_state }}'
             test -z '${{ inputs.contradiction_job_id }}'
           fi
-          if [ "$PHASE" = "clinic_preview" ]; then
+          if [ "$PHASE" = "clinic_preview" ] || [ "$PHASE" = "legal_aid_browser" ] || [ "$PHASE" = "sponsor_cap" ]; then
             test -n '${{ inputs.preview_deployment_id }}'
             test -n '${{ inputs.preview_hostname }}'
             DEPLOY=false
@@ -516,6 +528,13 @@ jobs:
             echo "clinic=$CLINIC"
             echo "resume=$RESUME"
             echo "legal_aid=$LEGAL_AID"
+            echo "sponsor_cap=$SPONSOR_CAP"
+            # Ordinary DTC phases retain their existing controls. Historical
+            # Legal Aid reuse and sponsored execution never imply payment.
+            case "$PHASE" in
+              full|accept|payment|checkout_gate|browser|stripe_retarget|deploy|replace_preview) echo "dtc=true" ;;
+              *) echo "dtc=false" ;;
+            esac
             # A read-only diagnosis phase: no Preview, no Checkout, no payment,
             # but it does need the registry to probe inside the published image.
             if [ "$PHASE" = "worker_contract" ]; then echo "diagnose=true"; else echo "diagnose=false"; fi
@@ -523,7 +542,7 @@ jobs:
             # delivery — needs an OPEN, identity-narrowed delivery route. Derived
             # from the same decision rather than written out again, so it cannot
             # drift away from which steps actually run.
-            if [ "$MATRIX" = "true" ] || [ "$GATE" = "true" ] || [ "$BROWSER" = "true" ] || [ "$CLINIC" = "true" ] || [ "$PHASE" = "replace_preview" ] || [ "$PHASE" = "clinic_deploy" ] || [ "$RESUME" = "true" ]; then
+            if [ "$MATRIX" = "true" ] || [ "$GATE" = "true" ] || [ "$BROWSER" = "true" ] || [ "$CLINIC" = "true" ] || [ "$LEGAL_AID" = "true" ] || [ "$SPONSOR_CAP" = "true" ] || [ "$PHASE" = "replace_preview" ] || [ "$PHASE" = "clinic_deploy" ] || [ "$RESUME" = "true" ]; then
               echo "require_staging_scoped=true"
             else
               echo "require_staging_scoped=false"
@@ -559,12 +578,12 @@ jobs:
       # parser, so frozen dependencies must exist before this verifier runs.
       - name: Install frozen application dependencies for the Checkout gate
         id: gate_deps
-        if: inputs.phase == 'clinic_resume' || inputs.phase == 'clinic_deploy' || steps.contract.outputs.matrix == 'true' || steps.contract.outputs.gate == 'true' || steps.contract.outputs.diagnose == 'true' || steps.contract.outputs.browser == 'true' || steps.contract.outputs.clinic == 'true'
+        if: inputs.phase == 'clinic_resume' || inputs.phase == 'clinic_deploy' || steps.contract.outputs.matrix == 'true' || steps.contract.outputs.gate == 'true' || steps.contract.outputs.diagnose == 'true' || steps.contract.outputs.browser == 'true' || steps.contract.outputs.clinic == 'true' || steps.contract.outputs.legal_aid == 'true' || steps.contract.outputs.sponsor_cap == 'true'
         run: npm ci
 
       - name: Verify the bounded MVL Clinic Preview orchestration contract
         id: verify_clinic_preview
-        if: inputs.phase == 'clinic_preview' || inputs.phase == 'legal_aid_browser' || inputs.phase == 'clinic_deploy'
+        if: inputs.phase == 'clinic_preview' || inputs.phase == 'clinic_deploy'
         run: node scripts/verify-rcap-hosted-ms-clinic-preview.mjs
 
       - name: Verify the reuse-only human Checkout gate
@@ -583,7 +602,7 @@ jobs:
       # also enforced. Test setup, not an application discount system.
       - name: Ensure the sandbox Stripe catalog fixtures
         id: stripe_fixtures
-        if: inputs.phase != 'clinic_resume' && inputs.phase != 'clinic_deploy' && inputs.phase != 'replace_preview' && (steps.contract.outputs.deploy == 'true' || steps.contract.outputs.matrix == 'true' || steps.contract.outputs.gate == 'true' || steps.contract.outputs.browser == 'true')
+        if: steps.contract.outputs.dtc == 'true' && steps.contract.outputs.retarget != 'true' && inputs.phase != 'replace_preview'
         env:
           HOSTED_STRIPE_TEST_SECRET: ${{ secrets.HOSTED_STRIPE_TEST_SECRET }}
           # Dependent checks preserve the existing catalog and coupon history.
@@ -648,7 +667,7 @@ jobs:
       - name: Resolve the Preview this run will use
         id: resolve_preview
         # The isolated deployer performs its own exhaustive search and before/after readback.
-        if: (inputs.phase != 'clinic_resume' || steps.resume_inventory.outcome == 'success') && inputs.phase != 'clinic_deploy' && (steps.contract.outputs.resume == 'true' || steps.contract.outputs.deploy == 'true' || steps.contract.outputs.matrix == 'true' || steps.contract.outputs.gate == 'true' || steps.contract.outputs.browser == 'true' || steps.contract.outputs.clinic == 'true')
+        if: (inputs.phase != 'clinic_resume' || steps.resume_inventory.outcome == 'success') && inputs.phase != 'clinic_deploy' && (steps.contract.outputs.resume == 'true' || steps.contract.outputs.deploy == 'true' || steps.contract.outputs.matrix == 'true' || steps.contract.outputs.gate == 'true' || steps.contract.outputs.browser == 'true' || steps.contract.outputs.clinic == 'true' || steps.contract.outputs.legal_aid == 'true' || steps.contract.outputs.sponsor_cap == 'true')
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
@@ -661,8 +680,9 @@ jobs:
           HOSTED_APPLICATION_SHA: ${{ inputs.application_sha }}
           ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
           HOSTED_STRIPE_CATALOG_PRODUCT_ID: ${{ steps.contract.outputs.resume != 'true' && steps.contract.outputs.clinic != 'true' && (steps.preview_catalog.outputs.product_id || steps.stripe_fixtures.outputs.product_id) || '' }}
+          HOSTED_REQUIRE_DTC_READINESS: ${{ steps.contract.outputs.dtc }}
           HOSTED_REQUIRE_STAGING_SCOPED: ${{ steps.contract.outputs.require_staging_scoped }}
-          HOSTED_CLINIC_DEMO_MODE: ${{ (steps.contract.outputs.clinic == 'true' || steps.contract.outputs.resume == 'true') && 'mississippi_preview' || '' }}
+          HOSTED_CLINIC_DEMO_MODE: ${{ (steps.contract.outputs.clinic == 'true' || steps.contract.outputs.resume == 'true' || steps.contract.outputs.legal_aid == 'true' || steps.contract.outputs.sponsor_cap == 'true') && 'mississippi_preview' || '' }}
         run: node scripts/rcap-hosted-resolve-preview.mjs
 
       - name: Deploy the frozen application SHA to Vercel Preview
@@ -713,7 +733,7 @@ jobs:
           HOSTED_PREVIEW_DEPLOYMENT_ID: ${{ steps.resolve_preview.outputs.deployment_id || steps.deploy_preview.outputs.deployment_id }}
           HOSTED_PREVIEW_HOSTNAME: ${{ steps.resolve_preview.outputs.hostname || steps.deploy_preview.outputs.hostname }}
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-          HOSTED_CLINIC_DEMO_MODE: ${{ (steps.contract.outputs.clinic == 'true' || steps.contract.outputs.resume == 'true') && 'mississippi_preview' || '' }}
+          HOSTED_CLINIC_DEMO_MODE: ${{ (steps.contract.outputs.clinic == 'true' || steps.contract.outputs.resume == 'true' || steps.contract.outputs.legal_aid == 'true' || steps.contract.outputs.sponsor_cap == 'true') && 'mississippi_preview' || '' }}
           HOSTED_CLINIC_DEMO_PASSWORD: ${{ secrets.HOSTED_CLINIC_DEMO_PASSWORD }}
         run: node scripts/rcap-hosted-acceptance-auth-config.mjs
 
@@ -731,7 +751,7 @@ jobs:
 
       - name: Log in to the container registry for the pinned worker image
         id: registry_login
-        if: steps.contract.outputs.matrix == 'true' || steps.contract.outputs.gate == 'true' || steps.contract.outputs.diagnose == 'true' || steps.contract.outputs.clinic == 'true'
+        if: steps.contract.outputs.matrix == 'true' || steps.contract.outputs.gate == 'true' || steps.contract.outputs.diagnose == 'true' || steps.contract.outputs.clinic == 'true' || steps.contract.outputs.sponsor_cap == 'true'
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
@@ -749,7 +769,7 @@ jobs:
       # no-op when the runner image already carries the binary.
       - name: Install the browser the Checkout journey drives
         id: checkout_browser
-        if: steps.contract.outputs.resume == 'true' || steps.contract.outputs.matrix == 'true' || steps.contract.outputs.browser == 'true' || steps.contract.outputs.clinic == 'true'
+        if: steps.contract.outputs.resume == 'true' || steps.contract.outputs.matrix == 'true' || steps.contract.outputs.browser == 'true' || steps.contract.outputs.clinic == 'true' || steps.contract.outputs.legal_aid == 'true'
         run: npx playwright install chromium
 
       - name: Resume only the existing delivered Clinic packet and reset the exact session
@@ -832,8 +852,8 @@ jobs:
           RCAP_BROWSER_EVIDENCE_DIR: hosted-acceptance-evidence/ms-clinic-preview
         run: node scripts/rcap-hosted-ms-clinic-preview-audit.mjs
 
-      # Legal Aid Clinic Mode on the same Preview, after the Clinic journey has
-      # generated applicant A's sponsored Mississippi packet on it. Seeds only
+      # Legal Aid reuses the exact historical Applicant A packet read-only.
+      # The prerequisite replaces historical Clinic replay. Seeds only
       # the synthetic training cohort and the acceptance copy of the MVLP
       # organization; the browser proof deploys nothing, migrates nothing,
       # runs no worker and touches no Production project.
@@ -841,6 +861,39 @@ jobs:
       # repository's TypeScript and PGlite, so they run only once the frozen
       # dependencies are installed (run 35114496743 stopped on
       # ERR_MODULE_NOT_FOUND 'typescript' when they ran before npm ci).
+      - name: Observe the authoritative sponsored funding outcome
+        id: sponsor_outcome
+        if: steps.contract.outputs.sponsor_cap == 'true' && steps.resolve_preview.outcome == 'success'
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
+          HOSTED_APPLICATION_SHA: ${{ inputs.application_sha }}
+          HOSTED_PREVIEW_DEPLOYMENT_ID: ${{ steps.resolve_preview.outputs.deployment_id }}
+          HOSTED_PREVIEW_HOSTNAME: ${{ steps.resolve_preview.outputs.hostname }}
+          VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
+          HOSTED_CLINIC_DEMO_PASSWORD: ${{ secrets.HOSTED_CLINIC_DEMO_PASSWORD }}
+          HOSTED_SPONSOR_CASE: ${{ inputs.sponsor_case }}
+          HOSTED_SPONSOR_ITEMS: ${{ inputs.sponsor_items }}
+        run: node scripts/rcap-hosted-sponsor-cap.mjs observe
+
+      - name: Read existing DTC catalog only for an authoritative cap loser
+        id: cap_stripe_fixtures
+        if: steps.sponsor_outcome.outputs.dtc == 'true'
+        env:
+          HOSTED_STRIPE_TEST_SECRET: ${{ secrets.HOSTED_STRIPE_TEST_SECRET }}
+          HOSTED_STRIPE_FIXTURE_READ_ONLY: 'true'
+        run: node scripts/rcap-hosted-acceptance-stripe-fixtures.mjs
+
+      - name: Install browser only for the authoritative DTC cap loser
+        id: cap_browser
+        if: steps.sponsor_outcome.outputs.dtc == 'true'
+        run: npx playwright install chromium
+
+      - name: Verify existing DTC gate contract for the cap loser
+        id: cap_dtc_gate
+        if: steps.sponsor_outcome.outputs.dtc == 'true'
+        run: node scripts/verify-rcap-hosted-checkout-gate.mjs
+
       - name: Run the first-administrator and Legal Aid schema suites on the frozen dependencies
         id: legal_aid_suites
         if: steps.contract.outputs.legal_aid == 'true' && steps.gate_deps.outcome == 'success'
@@ -848,9 +901,20 @@ jobs:
           node scripts/verify-first-admin-provisioning.mjs
           node scripts/legal-aid/verify-legal-aid-schema.mjs
 
+      - name: Legal Aid historical Applicant A prerequisite
+        id: legal_aid_prerequisite
+        if: steps.contract.outputs.legal_aid == 'true' && steps.resolve_preview.outcome == 'success' && steps.legal_aid_suites.outcome == 'success'
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
+          HOSTED_APPLICATION_SHA: ${{ inputs.application_sha }}
+          HOSTED_PREVIEW_DEPLOYMENT_ID: ${{ steps.resolve_preview.outputs.deployment_id }}
+          HOSTED_PREVIEW_HOSTNAME: ${{ steps.resolve_preview.outputs.hostname }}
+        run: node scripts/rcap-hosted-legal-aid-prerequisite.mjs prerequisite
+
       - name: Seed the synthetic MVLP Legal Aid training cohort
         id: legal_aid_seed
-        if: steps.contract.outputs.legal_aid == 'true' && steps.clinic_audit.outcome == 'success' && steps.legal_aid_suites.outcome == 'success'
+        if: steps.contract.outputs.legal_aid == 'true' && steps.legal_aid_prerequisite.outcome == 'success' && steps.legal_aid_suites.outcome == 'success'
         env:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
           ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
@@ -878,6 +942,28 @@ jobs:
           HOSTED_LEGAL_AID_EMAIL_FROM: ${{ secrets.HOSTED_LEGAL_AID_EMAIL_FROM }}
           RCAP_BROWSER_CHROMIUM: /usr/bin/google-chrome
         run: node scripts/rcap-hosted-legal-aid-browser.mjs
+
+      - name: Legal Aid historical Applicant A preservation
+        id: legal_aid_preservation
+        if: always() && steps.contract.outputs.legal_aid == 'true' && steps.legal_aid_prerequisite.outcome == 'success'
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
+          HOSTED_APPLICATION_SHA: ${{ inputs.application_sha }}
+          HOSTED_PREVIEW_DEPLOYMENT_ID: ${{ steps.resolve_preview.outputs.deployment_id }}
+          HOSTED_PREVIEW_HOSTNAME: ${{ steps.resolve_preview.outputs.hostname }}
+        run: node scripts/rcap-hosted-legal-aid-prerequisite.mjs preservation
+
+      - name: Legal Aid historical Applicant A relationships
+        id: legal_aid_relationships
+        if: steps.contract.outputs.legal_aid == 'true' && steps.legal_aid_browser.outcome == 'success'
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
+          HOSTED_APPLICATION_SHA: ${{ inputs.application_sha }}
+          HOSTED_PREVIEW_DEPLOYMENT_ID: ${{ steps.resolve_preview.outputs.deployment_id }}
+          HOSTED_PREVIEW_HOSTNAME: ${{ steps.resolve_preview.outputs.hostname }}
+        run: node scripts/rcap-hosted-legal-aid-prerequisite.mjs relationships
 
       # Placed AFTER the registry login and the dependency install, because it
       # needs both: it pulls the private image by digest, and it imports the
@@ -962,7 +1048,7 @@ jobs:
       # runtime does not run at all.
       - name: The payment harness still follows this run's own job
         id: verify_harness
-        if: steps.contract.outputs.matrix == 'true'
+        if: steps.contract.outputs.matrix == 'true' || steps.sponsor_outcome.outputs.dtc == 'true'
         run: |
           node --test scripts/rcap-hosted-target-retry.test.mjs
           node scripts/verify-rcap-target-worker-journey.mjs
@@ -977,11 +1063,43 @@ jobs:
           node scripts/verify-rcap-packet-contract.mjs --mutations
 
       - name: Verify the repaired packet database before payment
-        if: steps.contract.outputs.matrix == 'true'
+        id: payment_database
+        if: steps.contract.outputs.matrix == 'true' || steps.sponsor_outcome.outputs.dtc == 'true'
         env:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
           ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
         run: node scripts/verify-rcap-packet-database.mjs
+
+      - name: Continue the same exhausted matter through existing DTC controls
+        id: cap_payment
+        if: steps.sponsor_outcome.outputs.dtc == 'true' && steps.cap_stripe_fixtures.outcome == 'success' && steps.cap_dtc_gate.outcome == 'success' && steps.cap_browser.outcome == 'success' && steps.verify_harness.outcome == 'success' && steps.payment_database.outcome == 'success' && steps.registry_login.outcome == 'success'
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
+          HOSTED_APPLICATION_SHA: ${{ inputs.application_sha }}
+          HOSTED_PREVIEW_DEPLOYMENT_ID: ${{ steps.resolve_preview.outputs.deployment_id }}
+          HOSTED_PREVIEW_HOSTNAME: ${{ steps.resolve_preview.outputs.hostname }}
+          VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
+          HOSTED_CLINIC_DEMO_PASSWORD: ${{ secrets.HOSTED_CLINIC_DEMO_PASSWORD }}
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          HOSTED_WORKER_DIGEST_REF: ghcr.io/roger-legalease/rcap-render-worker@${{ inputs.worker_digest }}
+          HOSTED_STRIPE_TEST_SECRET: ${{ secrets.HOSTED_STRIPE_TEST_SECRET }}
+          HOSTED_STRIPE_TEST_WEBHOOK_SECRET: ${{ secrets.HOSTED_STRIPE_TEST_WEBHOOK_SECRET }}
+          HOSTED_STRIPE_CATALOG_PRODUCT_ID: ${{ steps.cap_stripe_fixtures.outputs.product_id }}
+        run: node scripts/rcap-hosted-sponsor-cap.mjs payment
+
+      - name: Verify sponsor versus DTC accounting and preserved acquisition
+        id: sponsor_accounting
+        if: steps.sponsor_outcome.outcome == 'success' && (steps.sponsor_outcome.outputs.dtc == 'false' || steps.cap_payment.outcome == 'success')
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
+          HOSTED_APPLICATION_SHA: ${{ inputs.application_sha }}
+          HOSTED_PREVIEW_DEPLOYMENT_ID: ${{ steps.resolve_preview.outputs.deployment_id }}
+          HOSTED_PREVIEW_HOSTNAME: ${{ steps.resolve_preview.outputs.hostname }}
+          VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
+          HOSTED_CLINIC_DEMO_PASSWORD: ${{ secrets.HOSTED_CLINIC_DEMO_PASSWORD }}
+        run: node scripts/rcap-hosted-sponsor-cap.mjs accounting
 
       - name: Run the hosted Stripe payment and packet-delivery journey
         id: payment_journey
@@ -1044,6 +1162,10 @@ jobs:
         id: antiskip
         if: always()
         env:
+          HOSTED_APPLICATION_SHA: ${{ inputs.application_sha }}
+          ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
+          HOSTED_PREVIEW_DEPLOYMENT_ID: ${{ steps.resolve_preview.outputs.deployment_id }}
+          HOSTED_PREVIEW_HOSTNAME: ${{ steps.resolve_preview.outputs.hostname }}
           O_RELEASE_BINDING: ${{ steps.release_binding.outcome }}
           O_RESUME_INVENTORY: ${{ steps.resume_inventory.outcome }}
           O_RESUME_BROWSER: ${{ steps.checkout_browser.outcome }}
@@ -1057,6 +1179,18 @@ jobs:
           RUNS_DIAGNOSE: ${{ steps.contract.outputs.diagnose }}
           RUNS_BROWSER: ${{ steps.contract.outputs.browser }}
           RUNS_CLINIC: ${{ steps.contract.outputs.clinic }}
+          RUNS_SPONSOR_CAP: ${{ steps.contract.outputs.sponsor_cap }}
+          CAP_DTC: ${{ steps.sponsor_outcome.outputs.dtc }}
+          O_SPONSOR_OUTCOME: ${{ steps.sponsor_outcome.outcome }}
+          O_SPONSOR_ACCOUNTING: ${{ steps.sponsor_accounting.outcome }}
+          O_CAP_STRIPE_FIXTURES: ${{ steps.cap_stripe_fixtures.outcome }}
+          O_CAP_DTC_GATE: ${{ steps.cap_dtc_gate.outcome }}
+          O_CAP_PAYMENT: ${{ steps.cap_payment.outcome }}
+          O_CAP_BROWSER: ${{ steps.cap_browser.outcome }}
+          O_PAYMENT_DATABASE: ${{ steps.payment_database.outcome }}
+          O_LEGAL_AID_PREREQUISITE: ${{ steps.legal_aid_prerequisite.outcome }}
+          O_LEGAL_AID_PRESERVATION: ${{ steps.legal_aid_preservation.outcome }}
+          O_LEGAL_AID_RELATIONSHIPS: ${{ steps.legal_aid_relationships.outcome }}
           RUNS_LEGAL_AID: ${{ steps.contract.outputs.legal_aid }}
           O_VERIFY_LEGAL_AID_BROWSER: ${{ steps.verify_legal_aid_browser.outcome }}
           O_LEGAL_AID_SUITES: ${{ steps.legal_aid_suites.outcome }}
@@ -1119,6 +1253,12 @@ jobs:
             true/*/false|false/true/false|false/false/true|false/false/false) ;;
             *) echo "::error::the contract emitted matrix='$RUNS_MATRIX' gate='$RUNS_GATE' browser='$RUNS_BROWSER', which is not a decision this gate can read"; exit 1 ;;
           esac
+          if [ "$PHASE" = "legal_aid_browser" ]; then
+            [ "$RUNS_LEGAL_AID/$RUNS_SPONSOR_CAP/$RUNS_CLINIC/$RUNS_MATRIX/$RUNS_GATE/$RUNS_BROWSER" = "true/false/false/false/false/false" ] || exit 1
+          fi
+          if [ "$PHASE" = "sponsor_cap" ]; then
+            [ "$RUNS_SPONSOR_CAP/$RUNS_LEGAL_AID/$RUNS_CLINIC/$RUNS_MATRIX/$RUNS_GATE/$RUNS_BROWSER" = "true/false/false/false/false/false" ] || exit 1
+          fi
           if [ "$PHASE" = "vercel_identity" ]; then
             require "scoped Vercel identity read" "$O_VERCEL_IDENTITY"
           fi
@@ -1136,6 +1276,40 @@ jobs:
             for outcome in "$O_AUTH" "$O_CLINIC_SEED" "$O_CLINIC_JOURNEY" "$O_CLINIC_AUDIT" "$O_CLINIC_DATABASE" "$O_REGISTRY" "$O_BUILD" "$O_GATE" "$O_PAYMENT" "$O_GOLDEN" "$O_STRIPE_FIXTURES" "$O_STRIPE_RETARGET" "$O_CLINIC_MIGRATE" "$O_LEGAL_AID_MIGRATE" "$O_LEGAL_AID_SEED" "$O_LEGAL_AID_BROWSER"; do
               [ "$outcome" = "skipped" ] || fail=1
             done
+          elif [ "$RUNS_SPONSOR_CAP" = "true" ]; then
+            require "exact source-bound Preview" "$O_RESOLVE"
+            require "frozen dependencies" "$O_DEPS"
+            require "authoritative commercial outcome" "$O_SPONSOR_OUTCOME"
+            require "sponsor/DTC accounting" "$O_SPONSOR_ACCOUNTING"
+            if [ "$CAP_DTC" = "true" ]; then
+              require "existing DTC catalog readback" "$O_CAP_STRIPE_FIXTURES"
+              require "existing DTC gate contract" "$O_CAP_DTC_GATE"
+              require "DTC browser" "$O_CAP_BROWSER"
+              require "DTC harness guard" "$O_VERIFY_HARNESS"
+              require "DTC database" "$O_PAYMENT_DATABASE"
+              require "DTC pinned worker registry" "$O_REGISTRY_LOGIN"
+              require "same-matter DTC payment" "$O_CAP_PAYMENT"
+            elif [ "$CAP_DTC" = "false" ]; then
+              for outcome in "$O_CAP_STRIPE_FIXTURES" "$O_CAP_DTC_GATE" "$O_CAP_PAYMENT" "$O_STRIPE_FIXTURES" "$O_STRIPE_RETARGET" "$O_PAYMENT"; do
+                [ "$outcome" = "skipped" ] || fail=1
+              done
+            else fail=1; fi
+            node scripts/verify-rcap-hosted-integration-verdict.mjs sponsor-cap || fail=1
+          elif [ "$RUNS_LEGAL_AID" = "true" ]; then
+            require "Preview resolution boundary" "$O_RESOLVE"
+            require "frozen dependencies" "$O_DEPS"
+            require "Legal Aid browser installation" "$O_RESUME_BROWSER"
+            require "Legal Aid browser contract" "$O_VERIFY_LEGAL_AID_BROWSER"
+            require "first-administrator and Legal Aid schema suites" "$O_LEGAL_AID_SUITES"
+            require "Applicant A read-only prerequisite" "$O_LEGAL_AID_PREREQUISITE"
+            require "Legal Aid synthetic training cohort seed" "$O_LEGAL_AID_SEED"
+            require "Legal Aid Clinic Mode browser proof" "$O_LEGAL_AID_BROWSER"
+            require "Applicant A preservation" "$O_LEGAL_AID_PRESERVATION"
+            require "Legal Aid exact relationships" "$O_LEGAL_AID_RELATIONSHIPS"
+            node scripts/verify-rcap-hosted-integration-verdict.mjs legal-aid || fail=1
+            for outcome in "$O_CLINIC_SEED" "$O_CLINIC_JOURNEY" "$O_CLINIC_AUDIT" "$O_STRIPE_FIXTURES" "$O_STRIPE_RETARGET" "$O_PAYMENT" "$O_GATE"; do
+              [ "$outcome" = "skipped" ] || fail=1
+            done
           elif [ "$RUNS_CLINIC" = "true" ]; then
             require "Clinic Preview orchestration contract" "$O_VERIFY_CLINIC_PREVIEW"
             require "Preview resolution boundary" "$O_RESOLVE"
@@ -1151,12 +1325,6 @@ jobs:
             require "Clinic immutable worker registry access" "$O_REGISTRY_LOGIN"
             require "Clinic screening-to-packet journey" "$O_CLINIC_JOURNEY"
             require "Clinic server-side audit" "$O_CLINIC_AUDIT"
-            if [ "$RUNS_LEGAL_AID" = "true" ]; then
-              require "Legal Aid browser contract" "$O_VERIFY_LEGAL_AID_BROWSER"
-              require "first-administrator and Legal Aid schema suites" "$O_LEGAL_AID_SUITES"
-              require "Legal Aid synthetic training cohort seed" "$O_LEGAL_AID_SEED"
-              require "Legal Aid Clinic Mode browser proof" "$O_LEGAL_AID_BROWSER"
-            fi
           elif [ "$RUNS_MATRIX" = "true" ]; then
             require "Preview resolution boundary"        "$O_RESOLVE"
             # Reuse legitimately skips the raw deploy step; a non-reuse run must have deployed.

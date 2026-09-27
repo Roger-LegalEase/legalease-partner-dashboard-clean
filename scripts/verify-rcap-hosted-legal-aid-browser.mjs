@@ -32,24 +32,24 @@ function check(name, condition) {
 check("dispatcher exposes one dedicated Legal Aid browser mode", dispatcher.includes("hosted_legal_aid_browser"));
 check("dispatcher maps the mode to its dedicated reusable phase", /inputs\.mode == 'hosted_legal_aid_browser'\s*&&\s*'legal_aid_browser'/.test(dispatcher));
 check("dispatcher passes the optional nonproduction email secrets through", ["HOSTED_LEGAL_AID_RESEND_API_KEY", "HOSTED_LEGAL_AID_TEST_MAILBOX", "HOSTED_LEGAL_AID_EMAIL_FROM"].every((name) => dispatcher.includes(`${name}: \${{ secrets.${name} }}`)));
-check("reusable workflow documents the phase", hosted.includes("legal_aid_browser, deploy, replace_preview"));
-check("phase schedules the Clinic Preview journey and the Legal Aid proof, nothing else", /legal_aid_browser\)\s+DEPLOY=true;\s+MATRIX=false;\s+GATE=false;\s+RETARGET=false;\s+BROWSER=false;\s+CLINIC=true;\s+LEGAL_AID=true/.test(hosted));
+check("reusable workflow documents the phase", hosted.includes("legal_aid_browser, sponsor_cap, deploy, replace_preview"));
+check("phase schedules Legal Aid historical reuse without Clinic replay", /legal_aid_browser\)\s+DEPLOY=false;\s+MATRIX=false;\s+GATE=false;\s+RETARGET=false;\s+BROWSER=false;\s+CLINIC=false;\s+LEGAL_AID=true/.test(hosted));
 check("every other phase explicitly clears the Legal Aid flag", (hosted.match(/LEGAL_AID=false/g) ?? []).length >= 10 && !/legal_aid_browser\)[^\n]*LEGAL_AID=false/.test(hosted));
 check("contract emits the Legal Aid flag", hosted.includes('echo "legal_aid=$LEGAL_AID"'));
 check("email secrets are declared optional", ["HOSTED_LEGAL_AID_RESEND_API_KEY", "HOSTED_LEGAL_AID_TEST_MAILBOX", "HOSTED_LEGAL_AID_EMAIL_FROM"].every((name) => new RegExp(`${name}:\\s*\\n\\s*required: false`).test(hosted)));
 
 // --- steps -----------------------------------------------------------------
-check("Clinic Preview contract verifier also runs for this phase", /id: verify_clinic_preview\s*\n\s*if: inputs\.phase == 'clinic_preview' \|\| inputs\.phase == 'legal_aid_browser'/.test(hosted));
+check("Clinic Preview verifier does not require Legal Aid replay", !/id: verify_clinic_preview\s*\n[^\n]*legal_aid_browser/.test(hosted));
 check("this verifier runs for the phase", /id: verify_legal_aid_browser\s*\n\s*if: inputs\.phase == 'legal_aid_browser'[\s\S]{0,200}verify-rcap-hosted-legal-aid-browser\.mjs/.test(hosted));
 check("first-admin and Legal Aid schema suites run on the frozen dependencies", /id: legal_aid_suites\s*\n\s*if: steps\.contract\.outputs\.legal_aid == 'true' && steps\.gate_deps\.outcome == 'success'[\s\S]{0,120}verify-first-admin-provisioning\.mjs\s*\n\s*node scripts\/legal-aid\/verify-legal-aid-schema\.mjs/.test(hosted));
-check("seed runs only after the Clinic audit and the suites passed", /id: legal_aid_seed\s*\n\s*if: steps\.contract\.outputs\.legal_aid == 'true' && steps\.clinic_audit\.outcome == 'success' && steps\.legal_aid_suites\.outcome == 'success'/.test(hosted));
+check("seed runs only after the read-only prerequisite and suites", /id: legal_aid_seed\s*\n\s*if: steps\.contract\.outputs\.legal_aid == 'true' && steps\.legal_aid_prerequisite\.outcome == 'success' && steps\.legal_aid_suites\.outcome == 'success'/.test(hosted));
 check("seed receives the demo password and no Stripe secret", /id: legal_aid_seed[\s\S]{0,900}HOSTED_CLINIC_DEMO_PASSWORD: \$\{\{ secrets\.HOSTED_CLINIC_DEMO_PASSWORD \}\}[\s\S]{0,100}rcap-hosted-legal-aid-seed\.mjs/.test(hosted) && !/id: legal_aid_seed[\s\S]{0,1200}HOSTED_STRIPE/.test(hosted));
 check("browser proof runs only after the seed passed", /id: legal_aid_browser\s*\n\s*if: steps\.contract\.outputs\.legal_aid == 'true' && steps\.legal_aid_seed\.outcome == 'success'/.test(hosted));
 check("browser proof receives the in-memory bypass and no Stripe secret", /id: legal_aid_browser[\s\S]{0,1400}VERCEL_AUTOMATION_BYPASS_SECRET[\s\S]{0,900}rcap-hosted-legal-aid-browser\.mjs/.test(hosted) && !/id: legal_aid_browser[\s\S]{0,1600}HOSTED_STRIPE/.test(hosted));
 check("deploy receives the email provider only in this phase", /HOSTED_LEGAL_AID_RESEND_API_KEY: \$\{\{ steps\.contract\.outputs\.legal_aid == 'true' && secrets\.HOSTED_LEGAL_AID_RESEND_API_KEY \|\| '' \}\}/.test(hosted));
 check("anti-skip records the four Legal Aid outcomes", ["O_VERIFY_LEGAL_AID_BROWSER: ${{ steps.verify_legal_aid_browser.outcome }}", "O_LEGAL_AID_SUITES: ${{ steps.legal_aid_suites.outcome }}", "O_LEGAL_AID_SEED: ${{ steps.legal_aid_seed.outcome }}", "O_LEGAL_AID_BROWSER: ${{ steps.legal_aid_browser.outcome }}", "RUNS_LEGAL_AID: ${{ steps.contract.outputs.legal_aid }}"].every((line) => hosted.includes(line)));
-check("anti-skip requires every Legal Aid boundary when the flag is set", /\[ "\$RUNS_LEGAL_AID" = "true" \][\s\S]{0,400}require "Legal Aid browser contract"[\s\S]{0,200}require "first-administrator and Legal Aid schema suites"[\s\S]{0,200}require "Legal Aid synthetic training cohort seed"[\s\S]{0,200}require "Legal Aid Clinic Mode browser proof"/.test(hosted));
-check("Legal Aid requirements sit inside the Clinic branch, so the Clinic journey is required first", /require "Clinic server-side audit" "\$O_CLINIC_AUDIT"\s*\n\s*if \[ "\$RUNS_LEGAL_AID" = "true" \]/.test(hosted));
+check("anti-skip requires Legal Aid and preservation boundaries", ["O_LEGAL_AID_PREREQUISITE", "O_LEGAL_AID_PRESERVATION", "O_LEGAL_AID_RELATIONSHIPS"].every(value => hosted.includes(`require `) && hosted.includes(`"$${value}"`)));
+check("Legal Aid has its own anti-skip branch before Clinic", hosted.indexOf('elif [ "$RUNS_LEGAL_AID" = "true" ]') < hosted.indexOf('elif [ "$RUNS_CLINIC" = "true" ]'));
 
 // --- deploy: nonproduction email provider only ------------------------------
 check("deploy sets the email provider only when all three values exist", deploy.includes("if (!apiKey || !from || !mailbox) return null;") && deploy.includes('ENABLE_PARTNER_EMAIL_DELIVERY: "true"') && deploy.includes('PARTNER_EMAIL_PROVIDER: "resend"'));
@@ -68,7 +68,7 @@ check("seed creates only reserved .test identities", seed.includes('if (!email.e
 check("seed never records passwords", seed.includes("passwordsRecorded: false") && !/password:\s*DEMO_PASSWORD[^,]*evidence/.test(seed));
 check("seed deletes only rows keyed to the fixture", [...seed.matchAll(/delete from public\.(\w+) where ([^;]+);/g)].every((match) => /event_id='\$\{F\.eventId\}'|partner_slug='\$\{F\.(partnerSlug|handoffPartnerSlug)\}'|auth_user_id in \(\$\{noMembership/.test(match[2])));
 check("seed never touches Production", !seed.includes("wwtwtsmywnckfkdaqqeg") && seed.includes("productionTouched: false"));
-check("seed requires the sponsored packet participant to exist", seed.includes("run the Clinic seed and journey first"));
+check("seed requires the existing participant; prerequisite owns historical authority", seed.includes("packetApplicantId") && hosted.includes("steps.legal_aid_prerequisite.outcome == 'success'"));
 
 // --- browser boundaries -----------------------------------------------------------
 check("browser pins the acceptance project and exact Preview", browser.includes('const EXPECTED_PROJECT_REF = "hyflxnlhpmiqxvvcoiia"') && browser.includes("rcapReturnOrigin === PREVIEW") && browser.includes("productionAliases.length === 0"));
@@ -76,7 +76,7 @@ check("bypass travels only as an in-memory header on the exact origin", browser.
 check("browser deploys nothing, migrates nothing, runs no worker", !/node:child_process|spawn(?:Sync)?\(|docker |vercel deploy|--prod/.test(browser) && browser.includes("migrationApplied: false") && browser.includes("workerRun: false"));
 check("browser reads the Legal Aid schema back without applying it", browser.includes("legal_aid_schema_read_back_without_migrating") && !/create table|alter table|create or replace function/i.test(browser));
 check("browser binds itself to the seed evidence of the same Preview", browser.includes("legal_aid_seed_evidence_bound_to_this_preview"));
-check("the packet must be the hosted sponsored artifact, never a preloaded file", browser.includes("hosted_generated_mississippi_packet_exists_for_applicant_a") && browser.includes("sponsored_consumer_auth_user_id='${who.APPLICANT_A.id}'") && browser.includes("unsigned_copy_is_the_hosted_generated_packet_bytes") && browser.includes("unsigned.sha === packet.output_sha256"));
+check("browser pins the historical packet, owner, hash and renderer", ["RESUME.job", "RESUME.owner", "RESUME.hash", "RESUME.priorDigest"].every(value => browser.includes(value)) && !browser.includes("order by j.created_at desc limit 1"));
 check("no_contact is never reported as delivery", browser.includes("This is not proof of delivery") && browser.includes("follow_up_email_actually_delivered_to_the_test_mailbox") && browser.includes("api.resend.com/emails/"));
 check("email delivery proof requires the provider event to name the authorized mailbox", browser.includes("(providerEvent?.to ?? []).includes(TEST_MAILBOX)"));
 check("browser exercises sign-in, registration, duplicate, capacity and waitlist", ["participant_signs_in_and_returns_to_registration", "duplicate_registration_refused", "capacity_reached_puts_applicant_c_on_the_waitlist", "intake_saved_and_resumed_after_refresh"].every((id) => browser.includes(id)));

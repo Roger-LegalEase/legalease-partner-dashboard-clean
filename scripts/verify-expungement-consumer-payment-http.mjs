@@ -106,7 +106,7 @@ async function runCaseGroup(ids, execute) {
   try { await execute(); } catch (error) {
     const missing = ids.filter(id => !results.some(row => row.id === id));
     for (const id of missing.length ? missing : [ids[0] + '-execution']) {
-      check(id, 'case could not complete its required assertions', false, String(error.message));
+      check(id, 'case could not complete its required assertions', false, `${String(error.message)}; denialCode=${error.decision?.denialCode ?? error.denialCode ?? error.code ?? 'none'}`);
     }
   }
   for (const id of ids) if (!results.some(row => row.id === id)) check(id, 'required assertion was not executed', false);

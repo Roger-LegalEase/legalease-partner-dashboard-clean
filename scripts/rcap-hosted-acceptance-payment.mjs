@@ -1,4 +1,6 @@
 import { register } from "node:module";
+import { loadCapPaymentInput, currentCapPaymentMatter } from "./rcap-hosted-cap-payment-context.mjs";
+import { snapshotQuery } from "./rcap-hosted-sponsor-cap.mjs";
 import { retainPaymentFixture } from "./rcap-acceptance-fixture-retention.mjs";
 import crypto from "node:crypto";
 import fs from "node:fs";
@@ -53,6 +55,8 @@ register("./lib/ts-esm-loader.mjs", import.meta.url);
 const { buildRenderJobSpec, validateRenderOutput } = await import("../src/lib/rcap/render/job-contract.ts");
 const { consumerPacketPriceCents } = await import("../src/lib/expungement-ai/payment-adapter.ts");
 
+const CAP_INPUT = loadCapPaymentInput();
+let capMatter = null;
 const rootDir = process.cwd();
 const { root: EVIDENCE_DIR } = prepareHostedAcceptanceEvidenceLayout({ rootDir });
 
@@ -798,11 +802,28 @@ async function prechargeStep(stage, operation) {
 }
 
 ANON_KEY = await supabaseKeys();
-const A = await signIn("acceptance-consumer-a@rcap-acceptance.test", "Acceptance-a-4f7c21!");
-const B = await signIn("acceptance-consumer-b@rcap-acceptance.test", "Acceptance-b-8d3e95!");
+const A = await signIn(CAP_INPUT?.email ?? "acceptance-consumer-a@rcap-acceptance.test", CAP_INPUT ? process.env.HOSTED_CLINIC_DEMO_PASSWORD : "Acceptance-a-4f7c21!");
+const B = CAP_INPUT?.email === "acceptance-consumer-b@rcap-acceptance.test"
+  ? await signIn("acceptance-consumer-a@rcap-acceptance.test", "Acceptance-a-4f7c21!")
+  : await signIn("acceptance-consumer-b@rcap-acceptance.test", "Acceptance-b-8d3e95!");
 if (!A || !B) {
   record("renderable_route_selected_from_the_registry", false, "the synthetic consumer identities could not sign in");
   finish();
+}
+
+if (CAP_INPUT) {
+  capMatter = await prechargeStep("cap_exhausted_current_server_binding", async () => {
+    process.env.NEXT_PUBLIC_SUPABASE_URL = SUPABASE_URL;
+    process.env.SUPABASE_SERVICE_ROLE_KEY = await serviceRoleKey();
+    try {
+      const { getBriefcaseItemForWebhook } = await import("../src/lib/expungement-ai/briefcase.ts");
+      const { requireCurrentPacketVerification } = await import("../src/lib/expungement-ai/packet-information.ts");
+      const { consumerMatterIdForItem } = await import("../src/lib/expungement-ai/consumer-identity.ts");
+      return await currentCapPaymentMatter(CAP_INPUT, { userId: A.id,
+        readSnapshot: async id => { const r = await sql(snapshotQuery(id)); if(r.status !== 200 || r.json?.length !== 1) throw Error("cap readback refused"); return r.json[0].evidence; },
+        getItem: getBriefcaseItemForWebhook, verify: requireCurrentPacketVerification, canonicalMatterId: consumerMatterIdForItem });
+    } finally { delete process.env.SUPABASE_SERVICE_ROLE_KEY; }
+  });
 }
 
 // --- 2. A route the renderer will actually accept ----------------------------
@@ -844,6 +865,7 @@ let route = null;
         packetFields: {}
       });
       tried.push(`${profile.jurisdiction.code}:${pathway.id}`);
+      if (capMatter && `${profile.jurisdiction.code}:${pathway.id}` !== `${capMatter.verification.snapshot.jurisdiction}:${capMatter.verification.snapshot.pathwayId}`) continue;
       if (built.spec) { route = { state: profile.jurisdiction.code, pathwayLabel: label, pathwayId: pathway.id, trackId: null }; break outer; }
     }
   }
@@ -867,7 +889,7 @@ let route = null;
 
 // Provisional screening correlation; replaced by the application's claimed
 // matter ID before packet, payment, worker or replay identities are established.
-let itemId = crypto.randomUUID();
+let itemId = CAP_INPUT?.observation.before.item.id ?? crypto.randomUUID();
 // Single-quoted SQL literal, doubling embedded quotes. Never JSON.stringify:
 // that produces double quotes, which Postgres reads as an identifier.
 const sqlText = (value) => String(value).split("'").join("''");
@@ -1241,7 +1263,19 @@ function buildReviewedFlow(settled) {
 // follow. A state whose waiting rule the evaluator cannot execute is reported
 // by name rather than silently skipped — that is a finding about the corpus.
 let reviewed = null;
-{
+if (capMatter) {
+  const v = capMatter.verification;
+  const model = packetInformationModelFor(capMatter.item);
+  if (!model || model.stage !== "ready_to_generate") throw new Error("existing cap matter has no current ready model");
+  reviewed = { state: v.snapshot.jurisdiction, pathway: { pathwayLabel: model.pathwayLabel }, model,
+    commercialFlow: capMatter.item.artifactRefs.commercialFlow,
+    selectedTrackId: v.snapshot.selectedTrackId, packetAnswers: v.snapshot.packetAnswers,
+    screeningAnswers: v.snapshot.screeningAnswers };
+  if (!reviewed.commercialFlow) throw new Error("existing cap matter screening facts unavailable");
+  route = { state: reviewed.state, pathwayId: v.snapshot.pathwayId, pathwayLabel: model.pathwayLabel, trackId: v.snapshot.selectedTrackId };
+  record("seeded_item_carries_reviewed_packet_information", true, "existing same-matter protected verification loaded; no new screening, claim or verification write");
+  evidence.route = route;
+} else {
   const attempts = [];
   // A requested jurisdiction goes first, so the same journey can be pointed at
   // a non-Mississippi route without a second near-copy of this harness. The
@@ -1341,7 +1375,7 @@ evidence.derivedRouteIdentity = derived;
 // verification. The harness supplies participant answers and an explicit locale.
 let preflightRoute = null;
 await prechargeStep("claim_and_final_verification", async () => {
-  itemId = await claimAndVerifyHostedFixture({
+  if (!CAP_INPUT) itemId = await claimAndVerifyHostedFixture({
     call: (endpoint, options) => callApp(endpoint, { method: "POST", cookie: A.cookie, ...options }),
     record: (id, passed, observed) => {
       record(id, passed, observed);
@@ -1370,6 +1404,7 @@ await prechargeStep("claim_and_final_verification", async () => {
     derived, route, locale: SYNTHETIC_PARTICIPANT_LOCALE });
   const agrees = agreement.passed;
   evidence.seededItemAgreement = { sqlStatus: readback.status, ...agreement };
+  if (CAP_INPUT && itemId !== CAP_INPUT.observation.before.item.id) throw new Error("fallback created a different matter");
   // Invalid bodies are represented only by the sanitized named failures above.
   evidence.seededItem = agrees ? { id: seeded?.id ?? null, status: seeded?.status ?? null,
     resultCode: seeded?.result_code ?? null, pathwayLabel: seeded?.pathway_label ?? null,
@@ -1712,7 +1747,7 @@ let session = null;
   }
 
   let stripeDirect = "not attempted";
-  if (!session) {
+  if (!session && !CAP_INPUT) {
     const form = new URLSearchParams();
     form.set("mode", "payment");
     form.set("success_url", "https://example.com/success");
