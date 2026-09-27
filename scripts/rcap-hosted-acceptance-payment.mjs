@@ -2133,10 +2133,10 @@ const stripeConfirmed = { subtotal: null, discount: 0, total: null, currency: nu
     record(
       "checkout_line_item_is_on_the_catalog_product",
       productId === CATALOG_PRODUCT_ID,
-      `Stripe reports the line item on product ${productId ?? "(absent)"}; the coupon entered on its page is restricted to ${CATALOG_PRODUCT_ID}`
+      `Stripe reports the line item on product ${productId ?? "(absent)"}; the expected catalog Product is ${CATALOG_PRODUCT_ID}`
         + `${productId === CATALOG_PRODUCT_ID
-          ? ", so the discount that applied did so to the product actually being sold"
-          : ", so this Session sells something the coupon cannot apply to"}`
+          ? ", so the Session sells the expected Product; this alone does not prove coupon product restriction"
+          : ", so this Session sells a different Product"}`
     );
     evidence.catalogProduct = { expected: CATALOG_PRODUCT_ID, observed: productId };
   }

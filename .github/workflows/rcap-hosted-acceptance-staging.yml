@@ -586,6 +586,9 @@ jobs:
         if: inputs.phase != 'clinic_resume' && inputs.phase != 'clinic_deploy' && inputs.phase != 'replace_preview' && (steps.contract.outputs.deploy == 'true' || steps.contract.outputs.matrix == 'true' || steps.contract.outputs.gate == 'true' || steps.contract.outputs.browser == 'true')
         env:
           HOSTED_STRIPE_TEST_SECRET: ${{ secrets.HOSTED_STRIPE_TEST_SECRET }}
+          # Dependent checks preserve the existing catalog and coupon history.
+          # A missing fixture refuses before any mutation; setup is separate.
+          HOSTED_STRIPE_FIXTURE_READ_ONLY: ${{ inputs.preview_hostname != '' && 'true' || 'false' }}
         run: node scripts/rcap-hosted-acceptance-stripe-fixtures.mjs
 
       # Replacing only the Preview does not authorize fixture mutations. Reuse

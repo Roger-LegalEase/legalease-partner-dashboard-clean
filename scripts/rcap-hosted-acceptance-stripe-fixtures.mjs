@@ -34,6 +34,7 @@ import fs from "node:fs";
 import path from "node:path";
 
 const STRIPE_KEY = (process.env.HOSTED_STRIPE_TEST_SECRET ?? "").trim();
+const READ_ONLY = process.env.HOSTED_STRIPE_FIXTURE_READ_ONLY === "true";
 const PRICE_CENTS = Number(process.env.RCAP_ACCEPTANCE_PACKET_PRICE_CENTS ?? "5000");
 const CURRENCY = "usd";
 const STRIPE_API_VERSION = "2024-06-20";
@@ -62,6 +63,7 @@ function fail(message) {
       schemaVersion: "rcap-hosted-acceptance-stripe-fixtures/v1",
       mode: "test",
       ok: false,
+      readOnly: READ_ONLY,
       failure: message,
       keyPresent: Boolean(STRIPE_KEY),
       keyPrefixAccepted: STRIPE_KEY.startsWith("sk_test_")
@@ -72,6 +74,7 @@ function fail(message) {
 
 /** Like stripe(), but returns the error body instead of stopping the run. */
 async function stripeSoft(method, pathname, form) {
+  if (READ_ONLY && method !== "GET") fail(`read-only fixture check refuses ${method} ${pathname}; retain existing objects and obtain a separately authorized setup`);
   const response = await fetch(`https://api.stripe.com/v1/${pathname}`, {
     method,
     headers: {
@@ -87,6 +90,7 @@ async function stripeSoft(method, pathname, form) {
 }
 
 async function stripe(method, pathname, form) {
+  if (READ_ONLY && method !== "GET") fail(`read-only fixture check refuses ${method} ${pathname}; retain existing objects and obtain a separately authorized setup`);
   const url = `https://api.stripe.com/v1/${pathname}`;
   const response = await fetch(url, {
     method,
@@ -167,6 +171,17 @@ async function ensureCoupon(productId) {
       && coupon.applies_to.products[0] === productId
   );
   if (existing) return { coupon: existing, created: false };
+
+  if (READ_ONLY) {
+    // Preserve the explicitly disclosed unrestricted fixture produced by the
+    // existing setup path. Its readback proves no product restriction; it must
+    // never trigger deletion, probing, recreation or an upgraded QA claim.
+    const unrestricted = (listed?.data ?? []).find(coupon => carriesFixtureMarker(coupon)
+      && coupon.valid && coupon.percent_off === 100 && !(coupon.applies_to?.products ?? []).length);
+    if (unrestricted) return { coupon: unrestricted, created: false,
+      restrictionRefusedBy: { existingUnrestrictedFixture: true, readOnly: true } };
+    fail('read-only fixture check found no usable existing coupon; no objects changed');
+  }
 
   // A fixture coupon without the restriction is litter from an earlier attempt
   // and would be found again on every later run. It is deleted rather than left
@@ -313,6 +328,7 @@ async function main() {
     schemaVersion: "rcap-hosted-acceptance-stripe-fixtures/v1",
     mode: "test",
     ok: true,
+    readOnly: READ_ONLY,
     productId: product.id,
     productName: product.name,
     priceId: price.id,
@@ -343,7 +359,9 @@ async function main() {
   if (!evidence.couponRestrictedToProduct) {
     // Stated, not hidden. Acceptance must not be read as proving a restriction
     // this account would not store.
-    evidence.note = "This sandbox account accepts applies_to and does not persist it, so the acceptance coupon"
+    evidence.note = READ_ONLY
+      ? "The existing acceptance coupon has no product restriction. Readback only; no provider probing or fixture mutation. Catalog line-item matching is a separate assertion and does not prove coupon product restriction."
+      : "This sandbox account accepts applies_to and does not persist it, so the acceptance coupon"
       + " carries no product restriction. The released correction is proved instead by"
       + " checkout_line_item_is_on_the_catalog_product, which reads the Session's Product back from Stripe.";
     console.log(
