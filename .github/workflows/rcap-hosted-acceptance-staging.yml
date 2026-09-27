@@ -41,6 +41,11 @@ on:
         required: false
         type: string
         default: ""
+      sponsor_fulfillment:
+        description: "Require sponsored completion: read-only wait for separately authorized finalization, then generated proof (no worker launch)"
+        required: false
+        type: boolean
+        default: false
       sponsor_items:
         description: "JSON array of existing synthetic item IDs; all authority is read server-side"
         required: false
@@ -1101,6 +1106,42 @@ jobs:
           HOSTED_CLINIC_DEMO_PASSWORD: ${{ secrets.HOSTED_CLINIC_DEMO_PASSWORD }}
         run: node scripts/rcap-hosted-sponsor-cap.mjs accounting
 
+      # Completion is opt-in and cannot launch a worker. The authorized worker
+      # must finalize independently; synchronous provenance may already exist.
+      - name: Await authoritative sponsored fulfillment (read only)
+        id: sponsor_fulfillment
+        if: inputs.sponsor_fulfillment && steps.sponsor_outcome.outputs.sponsored == 'true' && steps.sponsor_accounting.outcome == 'success'
+        timeout-minutes: 12
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
+          HOSTED_APPLICATION_SHA: ${{ inputs.application_sha }}
+          HOSTED_PREVIEW_DEPLOYMENT_ID: ${{ steps.resolve_preview.outputs.deployment_id }}
+          HOSTED_PREVIEW_HOSTNAME: ${{ steps.resolve_preview.outputs.hostname }}
+        run: node scripts/rcap-hosted-sponsor-cap.mjs await-fulfillment
+
+      - name: Collect same-matter sponsored generated provenance
+        id: sponsor_generated
+        if: inputs.sponsor_fulfillment && steps.sponsor_outcome.outputs.sponsored == 'true' && steps.sponsor_fulfillment.outcome == 'success'
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
+          HOSTED_APPLICATION_SHA: ${{ inputs.application_sha }}
+          HOSTED_PREVIEW_DEPLOYMENT_ID: ${{ steps.resolve_preview.outputs.deployment_id }}
+          HOSTED_PREVIEW_HOSTNAME: ${{ steps.resolve_preview.outputs.hostname }}
+        run: node scripts/rcap-hosted-sponsor-cap.mjs generated
+
+      - name: Require final sponsored packet verdict
+        id: sponsor_fulfilled_verdict
+        if: inputs.sponsor_fulfillment && steps.sponsor_outcome.outputs.sponsored == 'true' && steps.sponsor_generated.outcome == 'success'
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
+          HOSTED_APPLICATION_SHA: ${{ inputs.application_sha }}
+          HOSTED_PREVIEW_DEPLOYMENT_ID: ${{ steps.resolve_preview.outputs.deployment_id }}
+          HOSTED_PREVIEW_HOSTNAME: ${{ steps.resolve_preview.outputs.hostname }}
+        run: node scripts/verify-rcap-hosted-integration-verdict.mjs sponsor-cap-fulfilled > hosted-acceptance-evidence/sponsor-cap/fulfilled-verdict.json
+
       - name: Run the hosted Stripe payment and packet-delivery journey
         id: payment_journey
         if: steps.contract.outputs.matrix == 'true'
@@ -1180,6 +1221,12 @@ jobs:
           RUNS_BROWSER: ${{ steps.contract.outputs.browser }}
           RUNS_CLINIC: ${{ steps.contract.outputs.clinic }}
           RUNS_SPONSOR_CAP: ${{ steps.contract.outputs.sponsor_cap }}
+          SPONSOR_CASE: ${{ inputs.sponsor_case }}
+          REQUIRE_SPONSOR_FULFILLMENT: ${{ inputs.sponsor_fulfillment }}
+          CAP_SPONSORED: ${{ steps.sponsor_outcome.outputs.sponsored }}
+          O_SPONSOR_FULFILLMENT: ${{ steps.sponsor_fulfillment.outcome }}
+          O_SPONSOR_GENERATED: ${{ steps.sponsor_generated.outcome }}
+          O_SPONSOR_FULFILLED_VERDICT: ${{ steps.sponsor_fulfilled_verdict.outcome }}
           CAP_DTC: ${{ steps.sponsor_outcome.outputs.dtc }}
           O_SPONSOR_OUTCOME: ${{ steps.sponsor_outcome.outcome }}
           O_SPONSOR_ACCOUNTING: ${{ steps.sponsor_accounting.outcome }}
@@ -1295,6 +1342,24 @@ jobs:
               done
             else fail=1; fi
             node scripts/verify-rcap-hosted-integration-verdict.mjs sponsor-cap || fail=1
+            if [ "$REQUIRE_SPONSOR_FULFILLMENT" = "true" ]; then
+              # Derive applicability from the requested case as well as runtime
+              # outcome, so a missing/tampered output cannot skip completion.
+              case "$SPONSOR_CASE" in
+                sponsored|final_slot)
+                  [ "$CAP_SPONSORED" = "true" ] || fail=1
+                  require "authoritative fulfillment boundary" "$O_SPONSOR_FULFILLMENT"
+                  require "sponsored generated read" "$O_SPONSOR_GENERATED"
+                  require "final sponsored verdict" "$O_SPONSOR_FULFILLED_VERDICT"
+                  node scripts/verify-rcap-hosted-integration-verdict.mjs sponsor-cap-fulfilled || fail=1
+                  ;;
+                exhausted)
+                  for outcome in "$O_SPONSOR_FULFILLMENT" "$O_SPONSOR_GENERATED" "$O_SPONSOR_FULFILLED_VERDICT"; do
+                    [ "$outcome" = "skipped" ] || fail=1
+                  done ;;
+                *) fail=1 ;;
+              esac
+            fi
           elif [ "$RUNS_LEGAL_AID" = "true" ]; then
             require "Preview resolution boundary" "$O_RESOLVE"
             require "frozen dependencies" "$O_DEPS"

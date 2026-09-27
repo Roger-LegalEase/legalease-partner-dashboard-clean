@@ -7,7 +7,7 @@ import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { pathToFileURL } from 'node:url';
 import { RESUME } from './rcap-clinic-resume-contract.mjs';
-import { observeFunding, assertFinalSlot, assertContinuity, assertAccounting, stripeScheduled, assertOneRemainingSlot, assertSynthetic, assertSponsoredGenerated } from './rcap-sponsored-funding-contract.mjs';
+import { observeFunding, assertFinalSlot, assertContinuity, assertAccounting, stripeScheduled, assertOneRemainingSlot, assertSynthetic, assertSponsoredGenerated, sponsoredGenerated } from './rcap-sponsored-funding-contract.mjs';
 const UUID = /^[a-f0-9-]{36}$/;
 export function snapshotQuery(itemId) {
   assert.match(itemId, UUID); assert.notEqual(itemId, RESUME.item);
@@ -106,8 +106,28 @@ export async function capTransport(env = process.env, fetchImpl = fetch) {
   };
   return {context,read,generate,authenticate,capacity:async item=>{const rows=await sql(capacityQuery(item));assert.equal(rows.length,1);return rows[0].evidence;}};
 }
+// Poll only protected state; never replay generation, allocate, pay, or run a
+// worker. Invalid evidence fails immediately; only valid pending state waits.
+export async function awaitSponsoredFulfillment(observations, read, {
+  now = Date.now, sleep = ms => new Promise(resolve => setTimeout(resolve, ms)),
+  timeoutMs = 600000, intervalMs = 5000,
+} = {}) {
+  const sponsored = observations.filter(o => o.outcome === 'slot_reserved');
+  assert.ok(sponsored.length, 'fulfillment requires a sponsored reservation');
+  const deadline = now() + timeoutMs;
+  while (true) {
+    const snapshots = await Promise.all(sponsored.map(async o => {
+      const snapshot = await read(o.before.item.id);
+      assertContinuity(o.after, snapshot); assertAccounting(o.outcome, snapshot);
+      return snapshot;
+    }));
+    if (snapshots.every(sponsoredGenerated)) return snapshots;
+    assert.ok(now() < deadline, 'sponsored fulfillment pending: deadline reached; no final packet PASS');
+    await sleep(Math.min(intervalMs, deadline - now()));
+  }
+}
 export async function main(mode, env = process.env) {
-  assert.ok(['observe','payment','accounting','generated'].includes(mode));
+  assert.ok(['observe','payment','accounting','generated','await-fulfillment'].includes(mode));
   const out=path.resolve('hosted-acceptance-evidence/sponsor-cap');fs.mkdirSync(out,{recursive:true});
   const t=await capTransport(env);
   const evidencePath=path.join(out,'outcome.json');
@@ -125,12 +145,17 @@ export async function main(mode, env = process.env) {
     const dtc=observations.some(o=>stripeScheduled(o.outcome));
     const evidence={status:'PASS',...t.context,case:env.HOSTED_SPONSOR_CASE,capacity,observations,dtc};
     fs.writeFileSync(evidencePath,JSON.stringify(evidence,null,2),{flag:'wx',mode:0o600});
-    if(env.GITHUB_OUTPUT) fs.appendFileSync(env.GITHUB_OUTPUT,`dtc=${dtc}\n`);
+    if(env.GITHUB_OUTPUT) fs.appendFileSync(env.GITHUB_OUTPUT,`dtc=${dtc}\nsponsored=${observations.some(o=>o.outcome==='slot_reserved')}\n`);
     return;
   }
   const evidence=JSON.parse(fs.readFileSync(evidencePath,'utf8'));
   for(const [k,v] of Object.entries(t.context))assert.equal(evidence[k],v,`source/target context ${k}`);
   assert.equal(evidence.status,'PASS');
+  if(mode==='await-fulfillment'){
+    const after=await awaitSponsoredFulfillment(evidence.observations,t.read);
+    fs.writeFileSync(path.join(out,'fulfillment-boundary.json'),JSON.stringify({status:'PASS',...t.context,after},null,2),{flag:'wx'});
+    return;
+  }
   if(mode==='generated')assert.ok(evidence.observations.some(o=>o.outcome==='slot_reserved'),'generated proof requires a sponsored matter');
   if(mode==='payment'){
     const losers=evidence.observations.filter(o=>stripeScheduled(o.outcome));assert.equal(losers.length,1);

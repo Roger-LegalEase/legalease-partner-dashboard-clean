@@ -97,7 +97,7 @@ test('actual sponsor anti-skip enforces channel-specific required and forbidden 
   Object.assign(env,{PHASE:'sponsor_cap',O_CONTRACT:'success',RUNS_SPONSOR_CAP:'true',CAP_DTC:String(reason!=='slot_reserved'),O_RESOLVE:'success',O_DEPS:'success',O_SPONSOR_OUTCOME:'success',O_SPONSOR_ACCOUNTING:'success',HOSTED_APPLICATION_SHA:context.applicationSha,ACCEPTANCE_SUPABASE_PROJECT_REF:context.project,HOSTED_PREVIEW_DEPLOYMENT_ID:context.deploymentId,HOSTED_PREVIEW_HOSTNAME:context.hostname});
   const required=['O_SPONSOR_OUTCOME','O_SPONSOR_ACCOUNTING'];
   if(reason!=='slot_reserved')for(const key of ['O_CAP_STRIPE_FIXTURES','O_CAP_DTC_GATE','O_CAP_PAYMENT','O_CAP_BROWSER','O_VERIFY_HARNESS','O_PAYMENT_DATABASE','O_REGISTRY_LOGIN']){env[key]='success';required.push(key);}
-  const run=patch=>spawnSync('bash',['-c',gate.run],{cwd:temp,encoding:'utf8',env:{PATH:process.env.PATH,...env,...patch}});
+  const run=patch=>spawnSync('bash',['-c',gate.run],{cwd:temp,encoding:'utf8',env:{PATH:process.env.PATH,NODE_OPTIONS:"--preserve-symlinks-main",...env,...patch}});
   const good=run({});assert.equal(good.status,0,good.stdout+good.stderr);
   assert.notEqual(run({RUNS_SPONSOR_CAP:'false'}).status,0);assert.notEqual(run({RUNS_LEGAL_AID:'true'}).status,0);
   for(const key of required)for(const value of ['skipped','failure','cancelled',''])assert.notEqual(run({[key]:value}).status,0,`${reason} ${key} ${value}`);
@@ -160,4 +160,43 @@ test('INT-01 final-slot winner is reserved without worker completion',()=>{
  const winner=observation(),loser=observation('event_cap_exhausted','2');
  assertFinalSlot([winner,loser]);assertAccounting(winner.outcome,winner.after);assertAccounting(loser.outcome,loser.after);
  assert.equal(sponsoredGenerated(winner.after),false);assert.throws(()=>assertSponsoredGenerated(winner.after));
+});
+
+import {awaitSponsoredFulfillment} from './rcap-hosted-sponsor-cap.mjs';
+test('completion waits read-only through valid reservation before protected provenance',async()=>{
+ const o=observation();let reads=0,clock=0;
+ const snapshots=await awaitSponsoredFulfillment([o],async()=>++reads===1?o.after:completedSnapshot(o.after),{now:()=>clock,sleep:async ms=>{clock+=ms;},timeoutMs:10,intervalMs:5});
+ assert.equal(reads,2);assert.equal(clock,5);assertSponsoredGenerated(snapshots[0]);
+});
+test('completion pending deadline refuses without replay or worker execution',async()=>{
+ const o=observation();let clock=0,reads=0;
+ await assert.rejects(awaitSponsoredFulfillment([o],async()=>{reads++;return o.after;},{now:()=>clock,sleep:async ms=>{clock+=ms;},timeoutMs:10,intervalMs:5}),/pending/);
+ assert.equal(reads,3);
+});
+for(const field of ['matter_id','consumer_auth_user_id','verification_hash'])test(`completion mutation: wrong generated ${field} refuses immediately`,async()=>{
+ const o=observation(),s=completedSnapshot(o.after);s.sponsoredProvenance[0][field]='wrong';
+ await assert.rejects(awaitSponsoredFulfillment([o],async()=>s,{sleep:async()=>assert.fail('invalid proof must not be retried')}));
+});
+test('completion cannot run for DTC or refusal and race winner may remain pending',async()=>{
+ for(const outcome of ['event_cap_exhausted','fulfillment_stale'])await assert.rejects(awaitSponsoredFulfillment([{outcome}],async()=>assert.fail('must not read')));
+ const winner=observation(),loser=observation('event_cap_exhausted','2');assertFinalSlot([winner,loser]);
+ const reads=[];await awaitSponsoredFulfillment([winner,loser],async id=>{reads.push(id);return completedSnapshot(winner.after);});
+ assert.deepEqual(reads,[winner.before.item.id]);
+});
+test('completion actual Bash anti-skip: required final stages and evidence fail closed',()=>{
+ const gate=parse(fs.readFileSync('.github/workflows/rcap-hosted-acceptance-staging.yml','utf8')).jobs.preflight.steps.find(s=>s.id==='antiskip');
+ const temp=fs.mkdtempSync(path.join(os.tmpdir(),'b-completion-'));
+ try{
+ fs.symlinkSync(path.resolve('scripts'),path.join(temp,'scripts'),'dir');const dir=path.join(temp,'hosted-acceptance-evidence');fs.mkdirSync(path.join(dir,'sponsor-cap'),{recursive:true});
+ const e=capEvidence();e['sponsor-cap/generated.json']={status:'PASS',boundary:'fulfilled',...context,after:[completedSnapshot(observation().after)]};
+ for(const[n,v]of Object.entries(e))fs.writeFileSync(path.join(dir,n),JSON.stringify(v));
+ const env=Object.fromEntries(Object.keys(gate.env).map(k=>[k,k.startsWith('RUNS_')?'false':'skipped']));
+ Object.assign(env,{PHASE:'sponsor_cap',SPONSOR_CASE:'sponsored',REQUIRE_SPONSOR_FULFILLMENT:'true',CAP_SPONSORED:'true',O_CONTRACT:'success',RUNS_SPONSOR_CAP:'true',CAP_DTC:'false',O_RESOLVE:'success',O_DEPS:'success',O_SPONSOR_OUTCOME:'success',O_SPONSOR_ACCOUNTING:'success',O_SPONSOR_FULFILLMENT:'success',O_SPONSOR_GENERATED:'success',O_SPONSOR_FULFILLED_VERDICT:'success',HOSTED_APPLICATION_SHA:context.applicationSha,ACCEPTANCE_SUPABASE_PROJECT_REF:context.project,HOSTED_PREVIEW_DEPLOYMENT_ID:context.deploymentId,HOSTED_PREVIEW_HOSTNAME:context.hostname});
+ const run=patch=>spawnSync('bash',['-c',gate.run],{cwd:temp,encoding:'utf8',env:{PATH:process.env.PATH,NODE_OPTIONS:"--preserve-symlinks-main",...env,...patch}});
+ const good=run({});assert.equal(good.status,0,good.stdout+good.stderr);
+ for(const key of ['O_SPONSOR_FULFILLMENT','O_SPONSOR_GENERATED','O_SPONSOR_FULFILLED_VERDICT'])for(const value of ['skipped','failure','cancelled',''])assert.notEqual(run({[key]:value}).status,0,`${key}:${value}`);
+ for(const value of ['false',''])assert.notEqual(run({CAP_SPONSORED:value}).status,0);
+ fs.unlinkSync(path.join(dir,'sponsor-cap/generated.json'));assert.notEqual(run({}).status,0);
+ const early=run({REQUIRE_SPONSOR_FULFILLMENT:'false',O_SPONSOR_FULFILLMENT:'skipped',O_SPONSOR_GENERATED:'skipped',O_SPONSOR_FULFILLED_VERDICT:'skipped'});assert.equal(early.status,0,early.stdout+early.stderr);assert.match(early.stdout,/INCOMPLETE/);
+ }finally{fs.rmSync(temp,{recursive:true,force:true});}
 });

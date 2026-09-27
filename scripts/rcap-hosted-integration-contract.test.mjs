@@ -87,3 +87,23 @@ test('actual resolver readiness predicates ignore Stripe only for sponsored exec
   assert.equal(verdicts.length,2);assert.equal(verdicts[0][1],!required||configured==='true');assert.equal(verdicts[1][1],!required);
  }
 });
+
+test('completion stage ordering, explicit opt-in, sponsored applicability and no Stripe',()=>{
+ const {inputs,states}=phase('sponsor_cap');
+ const ids=['sponsor_fulfillment','sponsor_generated','sponsor_fulfilled_verdict'];
+ states.sponsor_outcome.outputs.sponsored='true';states.sponsor_accounting.outcome='success';
+ assert.equal(Boolean(evaluate(step(ids[0]).if,inputs,states)),false);
+ inputs.sponsor_fulfillment=true;
+ assert.equal(Boolean(evaluate(step(ids[0]).if,inputs,states)),true);
+ for(let i=1;i<ids.length;i++){
+  assert.equal(Boolean(evaluate(step(ids[i]).if,inputs,states)),false);
+  states[ids[i-1]].outcome='success';assert.equal(Boolean(evaluate(step(ids[i]).if,inputs,states)),true);
+  assert(steps.indexOf(step(ids[i-1]))<steps.indexOf(step(ids[i])));
+ }
+ for(const id of ids){assert(!Object.keys(step(id).env).some(k=>k.includes('STRIPE')));assert(!step(id).run.includes('worker'));}
+ assert.match(step(ids[0]).run,/await-fulfillment/);assert.match(step(ids[1]).run,/ generated$/);assert.match(step(ids[2]).run,/sponsor-cap-fulfilled/);
+ for(const value of ['false','',undefined]){states.sponsor_outcome.outputs.sponsored=value;for(const id of ids)assert.equal(Boolean(evaluate(step(id).if,inputs,states)),false);}
+ assert.equal(workflow.on.workflow_call.inputs.sponsor_fulfillment.default,false);
+ assert.equal(entry.on.workflow_dispatch.inputs.sponsor_fulfillment.default,false);
+ assert(Object.values(entry.jobs).some(j=>j.with?.sponsor_fulfillment==='${{ inputs.sponsor_fulfillment }}'));
+});
