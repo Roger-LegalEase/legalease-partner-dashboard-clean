@@ -37,7 +37,49 @@ check("reusable workflow documents the Clinic Preview phase", hosted.includes("c
 check("hosted run executes this Clinic Preview verifier", /id: verify_clinic_preview[\s\S]{0,220}verify-rcap-hosted-ms-clinic-preview\.mjs/.test(hosted));
 check("Clinic Preview has its own execution-contract flag", /clinic_preview\)\s+DEPLOY=true;\s+MATRIX=false;\s+GATE=false;\s+RETARGET=false;\s+BROWSER=false;\s+CLINIC=true/.test(hosted));
 check("all non-Clinic phases explicitly clear the Clinic flag", /CLINIC=false/.test(hosted));
-check("Clinic Preview requires the identity-scoped route", /\[ "\$CLINIC" = "true" \][\s\S]{0,180}require_staging_scoped=true/.test(hosted));
+// Execute the parsed contract step, as the integration-contract controls do.
+// Only this local shell is evaluated; no workflow jobs or provider calls run.
+function phaseScope(phase, shell = clinicPhaseSteps.find(s => s.id === "contract").run) {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), "rcap-clinic-scope-"));
+  try {
+    const inputs = { phase, preview_deployment_id: phase === "clinic_deploy" ? "" : "dpl_LocalContract",
+      preview_hostname: phase === "clinic_deploy" ? "" : "local-contract.vercel.app" };
+    const output = path.join(dir, "outputs");
+    const run = spawnSync("bash", ["-c", shell.replace(/\$\{\{ inputs\.(\w+) \}\}/g, (_, key) => inputs[key] ?? "")],
+      { encoding: "utf8", cwd: dir, env: { PATH: process.env.PATH, GITHUB_OUTPUT: output } });
+    return { status: run.status, outputs: fs.existsSync(output)
+      ? Object.fromEntries(fs.readFileSync(output, "utf8").trim().split("\n").map(line => line.split("="))) : {} };
+  } finally { fs.rmSync(dir, { recursive: true, force: true }); }
+}
+function isScopedClinic(result) {
+  return result.status === 0 && result.outputs.clinic === "true" && result.outputs.require_staging_scoped === "true";
+}
+check("Clinic Preview requires the identity-scoped route", isScopedClinic(phaseScope("clinic_preview")));
+const scopeShell = clinicPhaseSteps.find(s => s.id === "contract").run;
+const withoutClinicScope = scopeShell.replace(' || [ "$CLINIC" = "true" ]', '');
+assert.notEqual(withoutClinicScope, scopeShell, "scope mutation must change the real contract");
+const removedScope = phaseScope("clinic_preview", withoutClinicScope);
+check("scope mutation removing Clinic fails the invariant", removedScope.status === 0
+  && removedScope.outputs.clinic === "true" && removedScope.outputs.require_staging_scoped === "false" && !isScopedClinic(removedScope));
+const expandedScope = scopeShell.replace('echo "require_staging_scoped=true"',
+  '# Harmless formatting and independent contract clauses\n' + '# padding\n'.repeat(80) +
+  'if [ "$PHASE" = "clinic_preview" ]; then :; fi\n  echo "require_staging_scoped=true"');
+assert.notEqual(expandedScope, scopeShell);
+check("Clinic scope survives harmless formatting and additional clauses", isScopedClinic(phaseScope("clinic_preview", expandedScope)));
+for (const phase of ["preflight", "vercel_identity"]) {
+  const result = phaseScope(phase);
+  check(`${phase} remains non-Clinic and non-transactional`, result.status === 0 && result.outputs.clinic === "false"
+    && result.outputs.require_staging_scoped === "false" && !isScopedClinic(result));
+}
+for (const phase of ["", "unknown_phase"]) {
+  const result = phaseScope(phase);
+  check(`invalid phase ${JSON.stringify(phase)} refuses without scope authority`, result.status !== 0
+    && result.outputs.require_staging_scoped !== "true" && !isScopedClinic(result));
+}
+for (const phase of ["clinic_deploy", "legal_aid_browser", "sponsor_cap", "full", "checkout_gate", "browser", "replace_preview"]) {
+  const result = phaseScope(phase);
+  check(`${phase} retains identity-scoped contract behavior`, result.status === 0 && result.outputs.require_staging_scoped === "true");
+}
 check("Preview resolution runs for Clinic Preview", /outputs\.clinic == 'true'/.test(hosted));
 check("Clinic deploy receives Mississippi mode", clinicEnv("deploy_preview","HOSTED_CLINIC_DEMO_MODE")==="mississippi_preview");
 check("Clinic deploy receives the private demo password", /HOSTED_CLINIC_DEMO_PASSWORD:\s*\$\{\{ secrets\.HOSTED_CLINIC_DEMO_PASSWORD \}\}/.test(hosted));
