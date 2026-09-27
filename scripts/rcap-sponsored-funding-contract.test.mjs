@@ -6,10 +6,10 @@ export function observation(reason='slot_reserved',suffix='1') {
   const item={id:`item-${suffix}`,user_id:`owner-${suffix}`,source_session_id:`screening-${suffix}`,source_pending_result_id:`pending-${suffix}`,jurisdiction:'IL',pathway_label:'reviewed-route',artifact_refs_json:{attribution:{campaignName:'clinic:mvlp',product:'rcap_partner'}}};
   const verification={briefcase_item_id:item.id,consumer_auth_user_id:item.user_id,matter_id:`canonical-${suffix}`,verification_hash:'a'.repeat(64),status:'verified',snapshot:{jurisdiction:'IL',pathwayId:'reviewed-route'}};
   const source={pending_id:item.source_pending_result_id,claimed_user_id:item.user_id,claimed_matter_id:item.id,anonymous_session_id:item.source_session_id,product:'rcap_partner',status:'CLAIMED',event_id:'event',partner_slug:'sponsor'};
-  const before={item,verification,source,funding:[],matterCount:1,sponsoredConsumed:0,sponsoredEntitlements:0,dtcEntitlements:0,overageConsumed:0,orphanJobs:0,checkoutSessions:0,paymentCount:0};
+  const before={item,verification,source,funding:[],sponsoredProvenance:[],matterCount:1,sponsoredConsumed:0,sponsoredEntitlements:0,dtcEntitlements:0,overageConsumed:0,orphanJobs:0,checkoutSessions:0,paymentCount:0};
   const after=structuredClone(before),sponsored=reason==='slot_reserved';
   after.funding=[{briefcase_item_id:item.id,consumer_auth_user_id:item.user_id,source_session_id:item.source_session_id,event_id:source.event_id,partner_slug:source.partner_slug,initial_verification_hash:verification.verification_hash,route_key:`${verification.snapshot.jurisdiction}:${verification.snapshot.pathwayId}`,funding_mode:sponsored?'sponsored':'dtc',reason}];
-  after.sponsoredEntitlements=sponsored?1:0;after.sponsoredConsumed=sponsored?1:0;
+  after.sponsoredEntitlements=sponsored?1:0;after.sponsoredConsumed=0;
   return {before,after,outcome:reason,response:sponsored?{status:200,json:{packetStatus:'ready'}}:{status:409,json:{outcome:'sponsor_capacity_exhausted',checkoutRequired:true}}};
 }
 for(const reason of ['slot_reserved','event_cap_exhausted','partner_cap_exhausted'])test(`exact funding ${reason}`,()=>{
@@ -107,3 +107,57 @@ test('actual sponsor anti-skip enforces channel-specific required and forbidden 
 });
 
 test('mutation: Applicant A owner cannot supply even a new cap item',()=>{const o=observation();o.before.item.user_id='e7c1d76e-dcf2-4d41-b585-ba164806f391';assert.throws(()=>fundingOutcome(o.response,o.before,o.after));});
+
+import {assertSponsoredGenerated,sponsoredGenerated} from './rcap-sponsored-funding-contract.mjs';
+function completedSnapshot(snapshot, renderJobId=null) {
+ const s=structuredClone(snapshot);
+ s.sponsoredProvenance=[{briefcase_item_id:s.item.id,consumer_auth_user_id:s.item.user_id,
+ matter_id:s.verification.matter_id,verification_hash:s.verification.verification_hash,
+ entitlement_source:'partner_sponsorship',render_job_id:renderJobId}];
+ return s;
+}
+test('INT-01 zero early ledger rows pass reservation, never generated',()=>{
+ const o=observation();assert.equal(o.after.sponsoredConsumed,0);
+ assertAccounting(o.outcome,o.after);assert.equal(sponsoredGenerated(o.after),false);
+ assert.throws(()=>assertSponsoredGenerated(o.after));
+ const e=capEvidence();const result=integrationVerdict('sponsor-cap',n=>e[n],context);
+ assert.equal(result.status,'PASS');assert.equal(result.packetAcceptance,'INCOMPLETE');
+ assert.equal(result.sponsoredFulfillment,'PENDING_SEPARATE_FULFILLMENT_PROOF');
+ assert.throws(()=>integrationVerdict('sponsor-cap-fulfilled',n=>e[n],context));
+});
+test('INT-01 synchronous protected provenance needs no universal ledger or worker receipt',()=>{
+ const s=completedSnapshot(observation().after);assert.equal(s.sponsoredConsumed,0);
+ assertSponsoredGenerated(s);
+ const e=capEvidence();e['sponsor-cap/generated.json']={status:'PASS',boundary:'fulfilled',...context,after:[s]};
+ assert.equal(integrationVerdict('sponsor-cap-fulfilled',n=>e[n],context).packetAcceptance,'PASS');
+});
+test('INT-01 durable finalization proof uses the same provenance authority',()=>{
+ const s=completedSnapshot(observation().after,'existing-finalized-job');s.sponsoredConsumed=1;
+ assertSponsoredGenerated(s);
+});
+for(const [name,mutate] of [
+ ['reservation labeled generated',s=>{s.sponsoredProvenance=[];}],
+ ['ledger alone labeled generated',s=>{s.sponsoredProvenance=[];s.sponsoredConsumed=1;}],
+ ['unrelated matter provenance',s=>{s.sponsoredProvenance[0].matter_id='other';}],
+ ['wrong owner provenance',s=>{s.sponsoredProvenance[0].consumer_auth_user_id='other';}],
+ ['wrong verification provenance',s=>{s.sponsoredProvenance[0].verification_hash='b'.repeat(64);}],
+ ['missing reporting input',s=>{delete s.sponsoredProvenance;}],
+])test(`INT-01 mutation: ${name}`,()=>{
+ const s=completedSnapshot(observation().after);mutate(s);assert.throws(()=>assertSponsoredGenerated(s));
+ const e=capEvidence();e['sponsor-cap/generated.json']={status:'PASS',boundary:'fulfilled',...context,after:[s]};
+ assert.throws(()=>integrationVerdict('sponsor-cap-fulfilled',n=>e[n],context));
+});
+test('INT-01 mutation: DTC must never count as sponsored generated',()=>{
+ const s=completedSnapshot(observation('event_cap_exhausted').after);s.paymentCount=1;s.dtcEntitlements=1;
+ assert.throws(()=>assertAccounting('event_cap_exhausted',s,{paid:true}));
+ assert.throws(()=>assertSponsoredGenerated(s));
+});
+test('INT-01 mutation: refusal cannot pass reservation or generated',()=>{
+ const s=observation().after;assert.throws(()=>assertAccounting('fulfillment_stale',s));
+ s.funding=[];assert.throws(()=>assertAccounting('slot_reserved',s));assert.throws(()=>assertSponsoredGenerated(s));
+});
+test('INT-01 final-slot winner is reserved without worker completion',()=>{
+ const winner=observation(),loser=observation('event_cap_exhausted','2');
+ assertFinalSlot([winner,loser]);assertAccounting(winner.outcome,winner.after);assertAccounting(loser.outcome,loser.after);
+ assert.equal(sponsoredGenerated(winner.after),false);assert.throws(()=>assertSponsoredGenerated(winner.after));
+});

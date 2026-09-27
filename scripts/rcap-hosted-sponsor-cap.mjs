@@ -7,7 +7,7 @@ import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { pathToFileURL } from 'node:url';
 import { RESUME } from './rcap-clinic-resume-contract.mjs';
-import { observeFunding, assertFinalSlot, assertContinuity, assertAccounting, stripeScheduled, assertOneRemainingSlot, assertSynthetic } from './rcap-sponsored-funding-contract.mjs';
+import { observeFunding, assertFinalSlot, assertContinuity, assertAccounting, stripeScheduled, assertOneRemainingSlot, assertSynthetic, assertSponsoredGenerated } from './rcap-sponsored-funding-contract.mjs';
 const UUID = /^[a-f0-9-]{36}$/;
 export function snapshotQuery(itemId) {
   assert.match(itemId, UUID); assert.notEqual(itemId, RESUME.item);
@@ -25,6 +25,7 @@ select jsonb_build_object(
 'matterCount',(select count(*) from i),
 'sponsoredEntitlements',(select count(*) from f where funding_mode='sponsored'),
 'sponsoredConsumed',(select count(*) from l where event_type='consumed'),
+'sponsoredProvenance',(select coalesce(jsonb_agg(jsonb_build_object('briefcase_item_id',p.briefcase_item_id,'consumer_auth_user_id',p.consumer_auth_user_id,'matter_id',p.matter_id,'verification_hash',p.verification_hash,'render_job_id',p.render_job_id,'entitlement_source',p.entitlement_source)),'[]') from public.consumer_packet_artifact_provenance p join i on p.briefcase_item_id=i.id where p.entitlement_source='partner_sponsorship'),
 'overageConsumed',(select count(*) from l where event_type='overage_consumed'),
 'checkoutSessions',(select count(*) from i where checkout_session_id is not null),
 'paymentCount',(select count(*) from i where payment_status='paid' and payment_authority='server_webhook' and provider_event_id is not null),
@@ -106,7 +107,7 @@ export async function capTransport(env = process.env, fetchImpl = fetch) {
   return {context,read,generate,authenticate,capacity:async item=>{const rows=await sql(capacityQuery(item));assert.equal(rows.length,1);return rows[0].evidence;}};
 }
 export async function main(mode, env = process.env) {
-  assert.ok(['observe','payment','accounting'].includes(mode));
+  assert.ok(['observe','payment','accounting','generated'].includes(mode));
   const out=path.resolve('hosted-acceptance-evidence/sponsor-cap');fs.mkdirSync(out,{recursive:true});
   const t=await capTransport(env);
   const evidencePath=path.join(out,'outcome.json');
@@ -130,6 +131,7 @@ export async function main(mode, env = process.env) {
   const evidence=JSON.parse(fs.readFileSync(evidencePath,'utf8'));
   for(const [k,v] of Object.entries(t.context))assert.equal(evidence[k],v,`source/target context ${k}`);
   assert.equal(evidence.status,'PASS');
+  if(mode==='generated')assert.ok(evidence.observations.some(o=>o.outcome==='slot_reserved'),'generated proof requires a sponsored matter');
   if(mode==='payment'){
     const losers=evidence.observations.filter(o=>stripeScheduled(o.outcome));assert.equal(losers.length,1);
     const o=losers[0], item=o.before.item.id;
@@ -147,9 +149,11 @@ export async function main(mode, env = process.env) {
     const after=[];
     for(const o of evidence.observations){
       const now=await t.read(o.before.item.id);assertContinuity(o.after,now);
-      assertAccounting(o.outcome,now,{paid:stripeScheduled(o.outcome)});after.push(now);
+      assertAccounting(o.outcome,now,{paid:stripeScheduled(o.outcome)});
+      if(mode==='generated' && o.outcome==='slot_reserved')assertSponsoredGenerated(now);
+      after.push(now);
     }
-    fs.writeFileSync(path.join(out,'accounting.json'),JSON.stringify({status:'PASS',...t.context,after},null,2));
+    fs.writeFileSync(path.join(out,mode==='generated'?'generated.json':'accounting.json'),JSON.stringify({status:'PASS',boundary:mode==='generated'?'fulfilled':'reservation',...t.context,after},null,2),{flag:'wx'});
   }
 }
 if(process.argv[1] && import.meta.url===pathToFileURL(process.argv[1]).href)main(process.argv[2]).catch(e=>{console.error(e.message);process.exitCode=1;});

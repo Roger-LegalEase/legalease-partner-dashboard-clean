@@ -64,10 +64,12 @@ export function assertAccounting(outcome, snapshot, { paid = false } = {}) {
   assert.equal(snapshot.orphanJobs, 0);
   assert.equal(snapshot.overageConsumed, 0);
   assert.equal(snapshot.funding.length, 1);
+  const generated = sponsoredGenerated(snapshot);
   if (outcome === 'slot_reserved') {
     assert.equal(snapshot.funding[0].funding_mode, 'sponsored');
     assert.equal(snapshot.sponsoredEntitlements, 1);
-    assert.equal(snapshot.sponsoredConsumed, 1);
+    assert.ok([0,1].includes(snapshot.sponsoredConsumed), 'no duplicate sponsor consumption');
+    assert.equal(snapshot.funding[0].reason, 'slot_reserved');
     assert.equal(snapshot.dtcEntitlements, 0);
     assert.equal(snapshot.checkoutSessions, 0);
     assert.equal(snapshot.paymentCount, 0);
@@ -75,10 +77,30 @@ export function assertAccounting(outcome, snapshot, { paid = false } = {}) {
     assert.ok(CAP_REASONS.includes(outcome));
     assert.equal(snapshot.funding[0].funding_mode, 'dtc');
     assert.equal(snapshot.sponsoredEntitlements, 0);
+    assert.equal(generated, false, 'DTC cannot count as sponsored generated');
     assert.equal(snapshot.sponsoredConsumed, 0);
     assert.equal(snapshot.dtcEntitlements, paid ? 1 : 0);
     assert.equal(snapshot.paymentCount, paid ? 1 : 0);
   }
+}
+// A's getClinicEventReport reads this protected provenance authority, not a
+// universal packet_credit_ledger row. Identity checks bind that proof to this
+// matter. A null render_job_id is legitimate for synchronous finalization.
+export function sponsoredGenerated(snapshot) {
+  assert.ok(Array.isArray(snapshot.sponsoredProvenance), 'generated provenance read required');
+  assert.ok(snapshot.sponsoredProvenance.length <= 1, 'ambiguous generated provenance');
+  for (const p of snapshot.sponsoredProvenance) {
+    assert.equal(p.entitlement_source, 'partner_sponsorship');
+    assert.equal(p.briefcase_item_id, snapshot.item.id);
+    assert.equal(p.consumer_auth_user_id, snapshot.item.user_id);
+    assert.equal(p.matter_id, snapshot.verification.matter_id);
+    assert.equal(p.verification_hash, snapshot.verification.verification_hash);
+  }
+  return snapshot.sponsoredProvenance.length === 1;
+}
+export function assertSponsoredGenerated(snapshot) {
+  assertAccounting('slot_reserved', snapshot);
+  assert.equal(sponsoredGenerated(snapshot), true, 'sponsored fulfillment pending: no authoritative provenance');
 }
 export function assertFinalSlot(observations) {
   assert.equal(observations.length, 2);

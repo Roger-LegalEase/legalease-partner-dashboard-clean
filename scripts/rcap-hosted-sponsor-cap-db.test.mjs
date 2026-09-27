@@ -5,7 +5,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createFundingFixture} from './legal-aid/sponsor-funding-fixture.mjs';
 import {snapshotQuery,capacityQuery} from './rcap-hosted-sponsor-cap.mjs';
-import {assertOneRemainingSlot,assertContinuity,fundingOutcome} from './rcap-sponsored-funding-contract.mjs';
+import {assertOneRemainingSlot,assertContinuity,fundingOutcome,assertAccounting,assertSponsoredGenerated} from './rcap-sponsored-funding-contract.mjs';
 test('read-only sponsor snapshot and one-slot readiness use real protected tables',async()=>{
  const f=createFundingFixture();try{
  const participants=[f.seedParticipant(),f.seedParticipant()];
@@ -21,6 +21,8 @@ test('read-only sponsor snapshot and one-slot readiness use real protected table
  after.forEach((state,i)=>{const choice=state.funding[0];const response=choice.funding_mode==='sponsored'?{status:200,json:{packetStatus:'generating'}}:{status:409,json:{outcome:'sponsor_capacity_exhausted',checkoutRequired:true}};assert.equal(fundingOutcome(response,before[i],state),choice.reason);});
  assert.equal(after.reduce((n,s)=>n+s.sponsoredEntitlements,0),1);assert.equal(after.reduce((n,s)=>n+s.sponsoredConsumed,0),0,'reservation is not generated/consumed');
  assert(after.every(s=>s.dtcEntitlements===0 && s.orphanJobs===0 && s.checkoutSessions===0));
+ const winner=after.find(s=>s.funding[0].funding_mode==='sponsored');
+ assertAccounting('slot_reserved',winner);assert.throws(()=>assertSponsoredGenerated(winner));
  const loser=after.find(s=>s.funding[0].funding_mode==='dtc');assert.equal(loser.sponsoredEntitlements,0);assert.equal(loser.sponsoredConsumed,0);
  }finally{f.db.stop();}
 });

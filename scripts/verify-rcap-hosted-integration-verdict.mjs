@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
-import { fundingOutcome, stripeScheduled, assertAccounting, assertContinuity, assertFinalSlot, assertOneRemainingSlot } from './rcap-sponsored-funding-contract.mjs';
+import { fundingOutcome, stripeScheduled, assertAccounting, assertContinuity, assertFinalSlot, assertOneRemainingSlot, assertSponsoredGenerated } from './rcap-sponsored-funding-contract.mjs';
 export function integrationVerdict(kind, read, context) {
   const bound = name => {
     const e = read(name); assert.equal(e.status,'PASS',`missing/failed ${name}`);
@@ -11,6 +11,7 @@ export function integrationVerdict(kind, read, context) {
     return e;
   };
   let emailDelivery;
+  let sponsoredFulfillment;
   if(kind==='legal-aid'){
     for(const name of ['prerequisite','preservation','relationships']){
       const e=bound(`legal-aid/${name}.json`);
@@ -35,7 +36,7 @@ export function integrationVerdict(kind, read, context) {
       }
     }
   }else{
-    assert.equal(kind,'sponsor-cap');
+    assert.ok(['sponsor-cap','sponsor-cap-fulfilled'].includes(kind));
     const e=bound('sponsor-cap/outcome.json'),a=bound('sponsor-cap/accounting.json');
     assert.equal(e.observations.length,a.after.length);
     assert.ok([1,2].includes(e.observations.length));
@@ -44,6 +45,18 @@ export function integrationVerdict(kind, read, context) {
     if(e.case==='final_slot'){assertOneRemainingSlot(e.capacity);assertFinalSlot(e.observations);}
     else { assert.equal(e.observations.length,1);assert.ok(['sponsored','exhausted'].includes(e.case));assert.equal(dtc,e.case==='exhausted'); }
     e.observations.forEach((o,i)=>{assert.equal(fundingOutcome(o.response,o.before,o.after),o.outcome);assertContinuity(o.after,a.after[i]);assertAccounting(o.outcome,a.after[i],{paid:stripeScheduled(o.outcome)});});
+    const sponsored=e.observations.some(o=>o.outcome==='slot_reserved');
+    sponsoredFulfillment=sponsored?'PENDING_SEPARATE_FULFILLMENT_PROOF':'NOT_APPLICABLE_DTC';
+    if(kind==='sponsor-cap-fulfilled' && sponsored){
+      const g=bound('sponsor-cap/generated.json');assert.equal(g.boundary,'fulfilled');
+      assert.equal(g.after.length,e.observations.length);
+      e.observations.forEach((o,i)=>{
+        assertContinuity(a.after[i],g.after[i]);
+        if(o.outcome==='slot_reserved')assertSponsoredGenerated(g.after[i]);
+        else assertAccounting(o.outcome,g.after[i],{paid:true});
+      });
+      sponsoredFulfillment='PROVEN';
+    }
     if(dtc){
       const p=bound('sponsor-cap/payment.json');
       assert.equal(p.item,e.observations.find(o=>stripeScheduled(o.outcome)).before.item.id);
@@ -52,7 +65,7 @@ export function integrationVerdict(kind, read, context) {
       for(const id of native.requiredCases)assert.equal(native.cases?.[id]?.passed,true,`missing DTC case ${id}`);
     }
   }
-  return {status:'PASS',kind,...context,...(emailDelivery?{emailDelivery}:{})};
+  return {status:'PASS',kind,...context,...(emailDelivery?{emailDelivery}:{}),...(sponsoredFulfillment?{boundary:kind==='sponsor-cap'?'commercial-handoff':'packet-acceptance',sponsoredFulfillment,packetAcceptance:sponsoredFulfillment==='PENDING_SEPARATE_FULFILLMENT_PROOF'?'INCOMPLETE':'PASS'}:{})};
 }
 if(process.argv[1] && import.meta.url===pathToFileURL(process.argv[1]).href){
   const context={applicationSha:process.env.HOSTED_APPLICATION_SHA,project:process.env.ACCEPTANCE_SUPABASE_PROJECT_REF,
