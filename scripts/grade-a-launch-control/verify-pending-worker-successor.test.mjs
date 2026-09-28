@@ -48,3 +48,13 @@ test('published successor is current publication only; image acceptance and host
   const unknown=path.join(root,'scripts/unapproved-successor.mjs');fs.writeFileSync(unknown,'// unauthorized');assert.equal(verifyPendingWorkerSuccessor(root).status,'INVALID_PENDING_PUBLICATION');fs.unlinkSync(unknown);check();
  }finally{fs.rmSync(root,{recursive:true,force:true});}
 });
+
+// The af638 fixtures above are historical generations, not current-source pins.
+test('current pending generation preserves exact historical source and resume records',()=>{
+ const root=process.cwd(),p=JSON.parse(fs.readFileSync(PENDING));
+ const publication=verifySuccessorPublication(root);assert.equal(publication.current,true,JSON.stringify(publication));
+ const current=verifyPendingWorkerSuccessor(root);assert.equal(current.current,true,JSON.stringify(current));
+ const historical=JSON.parse(execFileSync('git',['show',`${p.releaseBaseSha}:${PENDING}`]));
+ assert.deepEqual(p.supersededRecord,historical);assert.notEqual(p.applicationSha,historical.applicationSha);
+ assert.equal(p.resume,null);assert.equal(p.previewExecution,'held');assert.equal(p.workerRebuildRequired,false);
+});

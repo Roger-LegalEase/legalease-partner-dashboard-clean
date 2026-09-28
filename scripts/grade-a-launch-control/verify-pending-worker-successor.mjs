@@ -8,6 +8,7 @@ export function verifyPendingWorkerSuccessor(root){
  const git=a=>execFileSync('git',a,{cwd:root,encoding:'utf8',stdio:'pipe'}).trim();
  try{
  const p=JSON.parse(fs.readFileSync(file));
+ if(p.releaseBaseSha)return verifyGenerationPending(root,p);
  const accepted=p.status==='SUCCESSOR_ACCEPTED_PREVIEW_AND_RESUME_PENDING';
  const published=accepted||p.status==='AWAITING_WORKER_ACCEPTANCE';
  assert.equal(p.status,accepted?'SUCCESSOR_ACCEPTED_PREVIEW_AND_RESUME_PENDING':published?'AWAITING_WORKER_ACCEPTANCE':'AWAITING_WORKER_PUBLICATION');assert.equal(p.sourceCommit,'commit-introducing-this-record');assert.equal(p.parent,'dc5124f99565baac004f1260e351209a4518ccf1');assert.equal(p.workerRebuildRequired,!published);assert.equal(p.publication,published?'complete':'pending');assert.equal(p.acceptance,accepted?'complete':'pending');assert.equal(p.previewExecution,'held');assert.equal(p.productionAuthorized,false);if(!published)assert.equal(p.workerDigest,null);
@@ -49,6 +50,7 @@ export function verifySuccessorPublication(root) {
   const hash=bytes=>createHash('sha256').update(bytes).digest('hex');
   const git=args=>execFileSync('git',args,{cwd:root,encoding:'utf8',stdio:'pipe'}).trim();
   const e=JSON.parse(read('data/rcap-render/worker-publication-evidence.json'));
+  if(JSON.parse(read(PENDING)).releaseBaseSha)return verifyGenerationPublication(root,e);
   const source='af638b61cc4b74afad972fa79c4c1ca3f6709540';
   const digest='sha256:063901962bedf73adedb8a7566da2434539082bd1577051e98e4303c566bb3a5';
   const prefix='hosted-acceptance-evidence/worker/publication-36219916209/';
@@ -85,6 +87,7 @@ export function verifySuccessorPublication(root) {
 
 
 export function assertSuccessorImageAcceptance(root,e) {
+ if(e.imageAcceptance?.verificationReceipt)return assertGenerationImageAcceptance(root,e);
  const a=e.imageAcceptance;
  assert.equal(e.runtimeAccepted,true);
  for(const [key,value] of Object.entries({runId:36247303667,jobId:108418760982,runAttempt:1,conclusion:'success',workflowSourceSha:'c5942743b657b6a17165b72a308efd1cabc2d90e',sourceSha:e.sourceSha,tag:e.sourceSha,digest:e.immutableRegistryDigest,readOnly:true,evidenceBasis:'GitHub Actions run metadata and decoded job log; no artifact'}))assert.equal(a?.[key],value,`acceptance ${key}`);
@@ -101,4 +104,78 @@ export function assertSuccessorImageAcceptance(root,e) {
  const prior=JSON.parse(execFileSync('git',['show',`${a.workflowSourceSha}:data/rcap-render/worker-publication-evidence.json`],{cwd:root}));
  assert.equal(prior.sourceSha,e.sourceSha);assert.equal(prior.immutableRegistryDigest,e.immutableRegistryDigest);assert.equal(prior.runtimeAccepted,false);
  assert.deepEqual(e.supersededPublication,prior.supersededPublication,'historical 6ebac publication and acceptance unchanged');
+}
+
+// A later generation consumes an already committed publication chain. The base
+// is a release-control identity, never an application or image-source identity.
+const PUBLICATION='data/rcap-render/worker-publication-evidence.json';
+const gitAt=(root,args)=>execFileSync('git',args,{cwd:root,encoding:'utf8',stdio:'pipe'}).trim();
+const jsonAt=(root,sha,rel)=>JSON.parse(gitAt(root,['show',`${sha}:${rel}`]));
+const readJson=(root,rel)=>JSON.parse(fs.readFileSync(path.join(root,rel)));
+const sha256=bytes=>createHash('sha256').update(bytes).digest('hex');
+function checkedNative(root,ref){
+ assert(ref&&typeof ref.path==='string');
+ assert(!path.isAbsolute(ref.path)&&!ref.path.split('/').includes('..'),'repository evidence path');
+ const bytes=fs.readFileSync(path.join(root,ref.path));
+ assert.equal(bytes.length,ref.bytes);assert.equal(sha256(bytes),ref.sha256,ref.path);return bytes;
+}
+export function assertGenerationImageAcceptance(root,e){
+ const a=e.imageAcceptance;assert.equal(e.runtimeAccepted,true);
+ for(const [k,v]of Object.entries({sourceSha:e.sourceSha,tag:e.imageTag,digest:e.immutableRegistryDigest,conclusion:'success',readOnly:true}))assert.equal(a[k],v,`acceptance ${k}`);
+ const run=JSON.parse(checkedNative(root,a.nativeRunMetadata));
+ const jobs=JSON.parse(checkedNative(root,a.nativeJobMetadata));
+ const job=(jobs.jobs??[jobs]).find(j=>j.id===a.jobId);assert(job,'exact acceptance job');
+ const log=checkedNative(root,a.nativeLog).toString();checkedNative(root,a.verificationReceipt);
+ assert.equal(run.id,a.runId);assert.equal(run.head_sha,a.workflowSourceSha);assert.equal(run.run_attempt,a.runAttempt);
+ assert.equal(run.name,'RCAP worker image acceptance');assert.equal(run.status,'completed');assert.equal(run.conclusion,'success');
+ assert.equal(job.run_id,a.runId);assert.equal(job.status,'completed');assert.equal(job.conclusion,'success');
+ // Required steps are committed evidence, checked against both the native job
+ // and the unchanged workflow at the receipt commit, not a caller supplied count.
+ const prior=jsonAt(root,a.workflowSourceSha,PUBLICATION);
+ assert.equal(prior.sourceSha,e.sourceSha);assert.equal(prior.immutableRegistryDigest,e.immutableRegistryDigest);
+ assert.deepEqual(prior.supersededPublication,{sourceSha:e.supersededPublication.sourceSha,immutableRegistryDigest:e.supersededPublication.immutableRegistryDigest,publicationRunId:e.supersededPublication.workflowRunId},'acceptance predecessor lineage');
+ const lineage=[];const visit=p=>{if(!p)return;lineage.push(p);visit(p.supersededPublication);for(const item of p.supersededChain??[])visit(item);};visit(e);
+ assert(prior.supersededChain?.length,'acceptance retired-exception anchor');
+ for(const anchor of prior.supersededChain){const match=lineage.find(p=>p.sourceSha===anchor.sourceSha);assert(match,'retired-exception lineage');assert.deepEqual(anchor,{sourceSha:match.sourceSha,immutableRegistryDigest:match.immutableRegistryDigest,publicationRunId:match.workflowRunId??match.publicationRunId});}
+ assert.equal(a.requiredSteps.length,17);
+ assert.deepEqual(job.steps.filter(s=>s.number>=4&&s.number<=20),a.requiredSteps);
+ assert(a.requiredSteps.every(s=>s.status==='completed'&&s.conclusion==='success'));
+ for(const marker of [`accepting ${e.digestPinnedReference} built from ${e.sourceSha}`,`tag currently resolves to: ${e.immutableRegistryDigest}`,'SOURCE BINDING: PASS','OCI REVISION: PRESENT','config env matches: 0','layer history matches: 0'])assert(log.includes(marker),marker);
+}
+export function verifyGenerationPublication(root,e=readJson(root,PUBLICATION)){
+ try{
+  const p=readJson(root,PENDING),base=p.releaseBaseSha;assert.match(base,/^[a-f0-9]{40}$/);
+  gitAt(root,['merge-base','--is-ancestor',base,'HEAD']);
+  assert.deepEqual(e,jsonAt(root,base,PUBLICATION),'committed publication authority, including failed attempts');
+  const bytes=checkedNative(root,{path:e.originalPublicationPath,bytes:e.originalPublicationBytes,sha256:e.originalPublicationSha256});
+  const native=JSON.parse(bytes);
+  for(const [k,v]of Object.entries(native))assert.deepEqual(e[k],k==='workflowRunId'?Number(v):v,`publication ${k}`);
+  assert.equal('sha256:'+sha256(fs.readFileSync(path.join(root,e.originalArchivePath))),e.publicationArtifactSha256);
+  assert.equal(e.imageTag,e.sourceSha);assert.equal(e.workflowSourceSha,e.sourceSha);
+  assert.equal(e.digestPinnedReference,`${e.imageRepository}@${e.immutableRegistryDigest}`);
+  assert.equal(e.workflowConclusion,'success');assert.equal(e.publishOnlyNoDeploy,true);
+  assert.equal(e.mutableLatestTagCreated,false);assert.equal(e.workerClaimingStarted,false);assert.equal(e.stagingAndProductionUnchanged,true);
+  assert.deepEqual(e.supersededPublication,jsonAt(root,e.sourceSha,PUBLICATION),'entire accepted predecessor retained');
+  assert(e.supersededChain,'retired-exception anchor required');
+  // Historical acceptance is verified in its own generation; it is not current.
+  assertSuccessorImageAcceptance(root,e.supersededPublication);
+  assertGenerationImageAcceptance(root,e);
+  for(const [rel,expected]of [[e.dockerfilePath,e.dockerfileSha256],['package-lock.json',e.lockfileSha256]])assert.equal(sha256(execFileSync('git',['show',`${e.sourceSha}:${rel}`],{cwd:root})),expected);
+  gitAt(root,['merge-base','--is-ancestor',e.sourceSha,base]);
+  const plan=createWorkerInputPlan({rootDir:root,acceptedSourceSha:e.sourceSha,acceptedDigest:e.immutableRegistryDigest,candidateSha:gitAt(root,['rev-parse','HEAD'])});
+  assert.equal(plan.rebuildRequired,false);assert.deepEqual(plan.missingCanonicalInputs,[]);assert.equal(plan.aggregateInputSha256,e.workerInputFingerprint);
+  assert.equal(gitAt(root,['diff','--name-only',e.sourceSha,'--',...plan.canonicalInputs]),'','worker inputs unchanged');
+  assert.equal(gitAt(root,['ls-files','--others','--exclude-standard','--',...plan.canonicalInputs]),'');
+  return {current:true,sourceSha:e.sourceSha,workerDigest:e.immutableRegistryDigest,workerInputFingerprint:e.workerInputFingerprint,canonicalWorkerInputs:plan.canonicalInputs.length,runtimeAccepted:true,reasons:[]};
+ }catch(error){return {current:false,reasons:[error.message]};}
+}
+function verifyGenerationPending(root,p){
+ try{
+  const prior=jsonAt(root,p.releaseBaseSha,PENDING);assert.deepEqual(p.supersededRecord,prior,'historical pending source and resume scope');
+  const e=readJson(root,PUBLICATION),publication=verifyGenerationPublication(root,e);assert.equal(publication.current,true,publication.reasons?.join('; '));
+  const plan=createWorkerInputPlan({rootDir:root,acceptedSourceSha:e.sourceSha,acceptedDigest:e.immutableRegistryDigest,candidateSha:p.releaseBaseSha});
+  const expected={schemaVersion:prior.schemaVersion,status:'SUCCESSOR_ACCEPTED_PREVIEW_AND_RESUME_PENDING',releaseBaseSha:p.releaseBaseSha,sourceCommit:e.sourceSha,applicationSource:'sourceCommit',workerSource:'sourceCommit',applicationSha:e.sourceSha,workerSourceSha:e.sourceSha,workerDigest:e.immutableRegistryDigest,workerInputFingerprint:e.workerInputFingerprint,canonicalWorkerInputs:plan.canonicalInputs,workerChangedPaths:[],workerRebuildRequired:false,publication:'complete',acceptance:'complete',runtimeAccepted:true,previewExecution:'held',productionAuthorized:false,resume:null,supersededRecord:prior};
+  assert.deepEqual(p,expected,'exact current generation pending record');
+  return {current:true,status:p.status,applicationSha:p.applicationSha,workerSourceSha:p.workerSourceSha,workerDigest:p.workerDigest,workerInputFingerprint:p.workerInputFingerprint,runtimeAccepted:true,workerRebuildRequired:false,previewExecution:'held',productionAuthorized:false,releaseBaseSha:p.releaseBaseSha,reasons:[]};
+ }catch(error){return {current:false,status:'INVALID_PENDING_PUBLICATION',reasons:[error.message]};}
 }

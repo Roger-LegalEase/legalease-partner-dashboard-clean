@@ -58,6 +58,7 @@ export function imageAcceptanceRefusals(publication, candidate) {
 // match that candidate. Only explicitly named acceptance evidence may follow it.
 export function verifyReleaseCandidateBinding(root, candidate, receiptPaths = []) {
   const pending = verifyPendingWorkerSuccessor(root);
+  if(pending?.current && pending.releaseBaseSha)return verifyGenerationBinding(root,candidate,pending);
   if (pending?.current === true && pending.status === 'SUCCESSOR_ACCEPTED_PREVIEW_AND_RESUME_PENDING') return verifyAcceptedSuccessorBinding(root,candidate,pending);
   if (pending) return pending;
   if (!candidate) return { current: false, status: 'NOT_FROZEN', reasons: ['No release candidate binding exists.'] };
@@ -518,9 +519,7 @@ export function runReleaseCandidateBindingCli(root = process.cwd(), out = consol
   return ok ? 0 : 1;
 }
 
-if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
-  process.exit(runReleaseCandidateBindingCli());
-}
+
 
 
 // The accepted successor has one evidence/tools commit after its publication
@@ -637,3 +636,62 @@ export function verifyAcceptedSuccessorBinding(root,candidate,pending=verifyPend
   return {current:true,status:'CURRENT',hostedAcceptanceStatus:pending.status,previewExecution:'held',productionAuthorized:false,reasons:[]};
  }catch(error){return {current:false,status:'STALE_OR_UNVERIFIED',reasons:[error.message]};}
 }
+
+// The same bounded single-successor tools pattern, with a generation-specific
+// release base and exact manifest. No future SHA is guessed or self-referenced.
+export const GENERATION_FILES=[
+ 'scripts/grade-a-launch-control/verify-pending-worker-successor.mjs',
+ 'scripts/grade-a-launch-control/verify-release-candidate-binding.mjs',
+ 'data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json',
+ 'data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json',
+ 'data/rcap-grade-a/launch-control/PENDING_WORKER_SUCCESSOR.json',
+ 'scripts/grade-a-launch-control/accepted-successor-binding.test.mjs',
+ 'scripts/grade-a-launch-control/verify-pending-worker-successor.test.mjs',
+ 'scripts/rcap-clinic-resume-workflow.test.mjs',
+ 'scripts/rcap-clinic-resume-captcha.test.mjs'
+];
+function verifyGenerationBinding(root,candidate,pending){
+ try{
+  const git=args=>execFileSync('git',args,{cwd:root,encoding:'utf8',stdio:'pipe'}).trim();
+  const read=rel=>JSON.parse(fs.readFileSync(path.join(root,rel)));
+  const toolsPath='data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json';
+  const binding=read(toolsPath),t=binding.successorTools,base=pending.releaseBaseSha;
+  const expect=(actual,expected,message)=>{if(JSON.stringify(actual)!==JSON.stringify(expected))throw Error(message);};
+  expect(binding.toolsSha,base,'tools base identity');expect(t.baseSha,base,'release/tools base');
+  expect(t.schemaVersion,'rcap-successor-resume-tools/v1','tools schema');expect(t.commit,'single-commit-after-base','bounded successor');
+  const head=git(['rev-parse','HEAD']);
+  if(head!==base)expect(git(['rev-list','--parents','-n','1',head]).split(' '),[head,base],'one non-merge tools successor');
+  expect(Object.keys(t.files).sort(),GENERATION_FILES.filter(p=>p!==toolsPath).sort(),'exact tools manifest paths');
+  for(const [rel,hash]of Object.entries(t.files))expect(createHash('sha256').update(fs.readFileSync(path.join(root,rel))).digest('hex'),hash,`tools drift: ${rel}`);
+  const changed=[...new Set([...git(['diff','--name-only',base]).split('\n'),...git(['ls-files','--others','--exclude-standard']).split('\n')].filter(Boolean))].sort();
+  expect(changed,GENERATION_FILES.slice().sort(),'exact generation change boundary');
+  const e=read('data/rcap-render/worker-publication-evidence.json');
+  for(const record of [candidate,binding]){
+   for(const k of ['applicationSha','workerSourceSha','workerDigest','workerInputFingerprint','runtimeAccepted','workerRebuildRequired','releaseBaseSha'])expect(record[k],pending[k],`current tuple ${k}`);
+   expect(record.status,pending.status,'accepted status');expect(record.previewExecution,'held','Preview execution held');expect(record.productionAuthorized,false,'Production held');
+  }
+  for(const k of ['deploymentAuthorized','migrationReplayAuthorized','housekeepingReplayAuthorized','additionalWorkerPublicationAuthorized','imageAcceptanceRerunAuthorized','hostedFullReady','clinicDispatchReady'])expect(binding[k],false,`tools cannot authorize ${k}`);
+  expect(candidate.productionAuthorization,null,'no Production authorization');expect(candidate.hostedAcceptanceStatus,pending.status,'hosted status');
+  expect(candidate.hostedAcceptance.preview,null,'no final Preview');expect(candidate.hostedAcceptance.naturalDelivery,null,'no delivery');expect(candidate.hostedAcceptance.journeys,[],'no hosted journeys');expect(candidate.hostedAcceptance.manualHostedFullReady,false,'not hosted-ready');
+  expect(candidate.previewExecutionInstruction.preview_hostname,'','no hostname');expect(candidate.previewExecutionInstruction.preview_deployment_id,'','no deployment');expect(candidate.previewExecutionInstruction.executionAuthorized,false,'no dispatch');
+  expect(candidate.readOnlyImageAcceptance,e.imageAcceptance,'exact successful native acceptance');expect(candidate.workerDigestReference,e.digestPinnedReference,'immutable image reference');
+  expect(candidate.publication,{runId:e.workflowRunId,runAttempt:e.workflowRunAttempt,artifactId:e.publicationArtifactId,artifactSha256:e.publicationArtifactSha256,conclusion:e.workflowConclusion},'exact publication');
+  for(const rel of [toolsPath,CANDIDATE_PATH]){
+   const before=JSON.parse(git(['show',`${base}:${rel}`]));expect(read(rel).supersededRecord,before,`historical binding: ${rel}`);
+   expect(read(rel).supersededRecordSha256,createHash('sha256').update(Buffer.from(git(['show',`${base}:${rel}`])+'\n')).digest('hex'),`historical bytes: ${rel}`);
+  }
+  const previous=JSON.parse(git(['show',`${base}:${CANDIDATE_PATH}`]));
+  const previousTools=JSON.parse(git(['show',`${base}:${toolsPath}`]));
+  // Any field outside the explicit generation update retains its prior meaning.
+  const candidateUpdates=new Set(['status','releaseBaseSha','applicationSha','workerSourceSha','workerDigest','workerInputFingerprint','workerRebuildRequired','runtimeAccepted','previewExecution','productionAuthorized','workerDigestReference','publication','readOnlyImageAcceptance','supersededRecord','supersededRecordSha256','applicationPin','hostedAcceptance','scope','previewExecutionInstruction']);
+  for(const key of new Set([...Object.keys(previous),...Object.keys(candidate)]))if(!candidateUpdates.has(key))expect(candidate[key],previous[key],`unchanged candidate field ${key}`);
+  const toolsUpdates=new Set(['status','releaseBaseSha','applicationSha','workerSourceSha','workerDigest','workerInputFingerprint','workerRebuildRequired','runtimeAccepted','previewExecution','productionAuthorized','toolsSha','successorTools','supersededRecord','supersededRecordSha256','manualPushAndDispatchOwner']);
+  for(const key of new Set([...Object.keys(previousTools),...Object.keys(binding)]))if(!toolsUpdates.has(key))expect(binding[key],previousTools[key],`unchanged tools field ${key}`);
+  expect(candidate.applicationPin,{...previous.applicationPin,sourceSha:pending.applicationSha,canonicalInputBaseline:pending.applicationSha,workerInputFingerprint:pending.workerInputFingerprint},'exact application pin');
+  expect(candidate.previewExecutionInstruction,{...previous.previewExecutionInstruction,mode:null},'no inherited resume authority');
+  expect(Object.keys(t).sort(),['schemaVersion','baseSha','commit','files'].sort(),'no inherited tools correction scope');
+  return {current:true,status:'CURRENT',hostedAcceptanceStatus:pending.status,previewExecution:'held',productionAuthorized:false,reasons:[]};
+ }catch(error){return {current:false,status:'STALE_OR_UNVERIFIED',reasons:[error.message]};}
+}
+
+if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) process.exit(runReleaseCandidateBindingCli());

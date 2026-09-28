@@ -86,3 +86,17 @@ test('server true/missing/non-boolean/unreadable still refuses; no raw config, k
 test('actual caller still checks exact alias and both configurations before browser launch',()=>{
  const caller=fs.readFileSync('scripts/rcap-hosted-clinic-resume.mjs','utf8');const begin=caller.indexOf('\ntry{\n const identity='),front=caller.indexOf('await readShippedCaptcha(',begin),server=caller.indexOf('await readResumeCaptchaPolicy(',begin),browser=caller.indexOf('await chromium.launch(',begin);assert.ok(begin>0&&front>begin&&server>front&&browser>server);assert.match(caller.slice(begin,front),/assert.equal\(alias.id\?\?alias.uid,deploymentId/);
 });
+
+// These legacy execution fixtures remain scoped to their actual predecessor.
+// A current release binding does not turn an old Preview into a final Preview.
+test('current generation is distinct from preserved historical hosted fixtures',()=>{
+ const candidate=JSON.parse(fs.readFileSync('data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json'));
+ const publication=JSON.parse(fs.readFileSync('data/rcap-render/worker-publication-evidence.json'));
+ assert.equal(candidate.applicationSha,publication.sourceSha);
+ assert.equal(candidate.workerDigest,publication.immutableRegistryDigest);
+ assert.equal(candidate.hostedAcceptance.preview,null);
+ assert.equal(candidate.hostedAcceptance.manualHostedFullReady,false);
+ assert.equal(candidate.previewExecutionInstruction.executionAuthorized,false);
+ assert.equal(candidate.supersededRecord.applicationSha,publication.supersededPublication.sourceSha);
+ assert.notEqual(candidate.applicationSha,candidate.supersededRecord.applicationSha);
+});

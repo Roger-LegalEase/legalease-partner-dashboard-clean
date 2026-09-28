@@ -88,3 +88,17 @@ test('read-only inventory precedes Preview; execution and evidence are mandatory
 });
 
 test('checkpoint refuses blank or different Preview identity before any deployment',()=>{for(const patch of [{preview_hostname:''},{preview_deployment_id:''},{preview_hostname:'other.vercel.app'},{preview_deployment_id:'dpl_Other'}])assert.notEqual(contract({...baseInputs,...patch}).status,0);});
+
+// These legacy execution fixtures remain scoped to their actual predecessor.
+// A current release binding does not turn an old Preview into a final Preview.
+test('current generation is distinct from preserved historical hosted fixtures',()=>{
+ const candidate=JSON.parse(fs.readFileSync('data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json'));
+ const publication=JSON.parse(fs.readFileSync('data/rcap-render/worker-publication-evidence.json'));
+ assert.equal(candidate.applicationSha,publication.sourceSha);
+ assert.equal(candidate.workerDigest,publication.immutableRegistryDigest);
+ assert.equal(candidate.hostedAcceptance.preview,null);
+ assert.equal(candidate.hostedAcceptance.manualHostedFullReady,false);
+ assert.equal(candidate.previewExecutionInstruction.executionAuthorized,false);
+ assert.equal(candidate.supersededRecord.applicationSha,publication.supersededPublication.sourceSha);
+ assert.notEqual(candidate.applicationSha,candidate.supersededRecord.applicationSha);
+});
