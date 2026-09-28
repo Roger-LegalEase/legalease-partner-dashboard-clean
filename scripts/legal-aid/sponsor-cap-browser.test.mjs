@@ -50,7 +50,7 @@ async function site({capacity=true,verified=true,entry='review',lostResponse=fal
   if(req.url.includes('/packet-information')){assert.deepEqual(JSON.parse(body),{answers:{known:'preserved'},verify:true});state.verified=true;return res.end(JSON.stringify({readyToGenerate:true,commercialActions:{fulfillmentAvailable:true,generationAllowed:true,checkoutAllowed:false}}));}
   if(req.url==='/api/expungement-ai/packet/generate'){
    assert.deepEqual(JSON.parse(body),{briefcaseItemId:state.item});
-   if(refusal){res.statusCode=409;return res.end(JSON.stringify({resultCode:'fulfillment_stale',error:'We’re re-checking this route. Your information is saved — please try again shortly.'}));}
+   if(refusal){res.statusCode=409;return res.end(JSON.stringify({resultCode:'fulfillment_stale',error:'We’re re-checking this route. Your information is saved. Please try again shortly.'}));}
    if(capacity){state.ready=true;return res.end('{"packetStatus":"ready"}');}
    state.dtc=true;state.entry='review';
    if(lostResponse){lostResponse=false;return req.socket.destroy();}
