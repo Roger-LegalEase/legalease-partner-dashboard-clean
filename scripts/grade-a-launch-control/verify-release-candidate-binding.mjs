@@ -639,7 +639,7 @@ export function verifyAcceptedSuccessorBinding(root,candidate,pending=verifyPend
 
 // The same bounded single-successor tools pattern, with a generation-specific
 // release base and exact manifest. No future SHA is guessed or self-referenced.
-export const GENERATION_FILES=[
+const PRIOR_GENERATION_FILES=[
  'scripts/rcap-sponsor-funding-migration-prerequisite.mjs',
  'scripts/rcap-sponsor-funding-migration-prerequisite.test.mjs',
  'scripts/grade-a-launch-control/verify-release-candidate-binding.mjs',
@@ -651,21 +651,30 @@ export const GENERATION_FILES=[
  'scripts/rcap-clinic-resume-workflow.test.mjs',
  'scripts/rcap-clinic-resume-captcha.test.mjs',
 ];
+// DS-08 tools-only currentness successor; predecessor generations retain
+// their original exact manifest and all historical validation.
+export const GENERATION_FILES=[
+ "scripts/grade-a-launch-control/verify-release-candidate-binding.mjs",
+ "data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json",
+ "data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json",
+ "data/rcap-grade-a/launch-control/PENDING_WORKER_SUCCESSOR.json"
+];
 function verifyGenerationBinding(root,candidate,pending){
  try{
   const git=args=>execFileSync('git',args,{cwd:root,encoding:'utf8',stdio:'pipe'}).trim();
   const read=rel=>JSON.parse(fs.readFileSync(path.join(root,rel)));
   const toolsPath='data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json';
   const binding=read(toolsPath),t=binding.successorTools,base=pending.releaseBaseSha;
+  const generationFiles=base==='9ce9233bde4e3c16d0dc9657524ae1a5f02eb2fa'?GENERATION_FILES:PRIOR_GENERATION_FILES;
   const expect=(actual,expected,message)=>{if(JSON.stringify(actual)!==JSON.stringify(expected))throw Error(message);};
   expect(binding.toolsSha,base,'tools base identity');expect(t.baseSha,base,'release/tools base');
   expect(t.schemaVersion,'rcap-successor-resume-tools/v1','tools schema');expect(t.commit,'single-commit-after-base','bounded successor');
   const head=git(['rev-parse','HEAD']);
   if(head!==base)expect(git(['rev-list','--parents','-n','1',head]).split(' '),[head,base],'one non-merge tools successor');
-  expect(Object.keys(t.files).sort(),GENERATION_FILES.filter(p=>p!==toolsPath).sort(),'exact tools manifest paths');
+  expect(Object.keys(t.files).sort(),generationFiles.filter(p=>p!==toolsPath).sort(),'exact tools manifest paths');
   for(const [rel,hash]of Object.entries(t.files))expect(createHash('sha256').update(fs.readFileSync(path.join(root,rel))).digest('hex'),hash,`tools drift: ${rel}`);
   const changed=[...new Set([...git(['diff','--name-only',base]).split('\n'),...git(['ls-files','--others','--exclude-standard']).split('\n')].filter(Boolean))].sort();
-  expect(changed,GENERATION_FILES.slice().sort(),'exact generation change boundary');
+  expect(changed,generationFiles.slice().sort(),'exact generation change boundary');
   const e=read('data/rcap-render/worker-publication-evidence.json');
   for(const record of [candidate,binding]){
    for(const k of ['applicationSha','workerSourceSha','workerDigest','workerInputFingerprint','runtimeAccepted','workerRebuildRequired','releaseBaseSha'])expect(record[k],pending[k],`current tuple ${k}`);
