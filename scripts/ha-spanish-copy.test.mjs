@@ -19,9 +19,38 @@ const current=await load(fs.readFileSync(file,'utf8'));
 const baseline=await load(execFileSync('git',['show','97f3b24c8b9462cf5f100a2c83358360d7252ec2:'+file],{encoding:'utf8'}));
 const added=['signin.pending_claim_error','signin.javascript_required','signin.secure_link_sent','signin.retrying','signin.retry_save','signin.sending_secure_link','signin.email_secure_link','signin.opening_google','signin.continue_google','signin.passwordless.error','signin.captcha_failure','clinic.assistance.staff_error','clinic.assistance.capacity_error','legal_aid.device_reset_required','clinic.verification.prepare_error'];
 const edited=['result.nv.176a_subsection_1_automatic','clinic.admission.stale','clinic.error.10','clinic.error.4','clinic.participant.18','clinic.participant.23','clinic.participant.30','clinic.recovery.1','clinic.recovery.3','clinic.recovery.5','clinic.recovery.7','clinic.recovery.8','clinic.recovery.11','clinic.recovery.12','signin.switch_to_create'];
+// Fixed product-review authority, not HEAD: later copy additions must remain unregistered.
+const legalAidAuthority=await load(execFileSync('git',['show','4576e4e2636e02110daef6ba10e2c8587dfa608f:'+file],{encoding:'utf8'}));
+const legalAidKeys=[
+ 'legal_aid.places_open','legal_aid.participant.auth_required',
+ 'legal_aid.participant.account_unverified','legal_aid.participant.account_deleted',
+ ...Array.from({length:353},(_,i)=>`legal_aid.participant.${i}`),
+];
+function assertCopyAuthority(catalog){
+ const changed=Object.keys(catalog).filter(k=>JSON.stringify(catalog[k])!==JSON.stringify(baseline.EXPUNGEMENT_COPY[k]));
+ assert.deepEqual(changed.sort(),[...added,...edited,...legalAidKeys].sort());
+ for(const k of legalAidKeys)assert.deepEqual(catalog[k],legalAidAuthority.EXPUNGEMENT_COPY[k],k);
+ for(const k of Object.keys(baseline.EXPUNGEMENT_COPY))if(!edited.includes(k))assert.deepEqual(catalog[k],baseline.EXPUNGEMENT_COPY[k],k);
+}
 test('only the bounded catalog entries change; all 15 fallback paths resolve Spanish; only approved Nevada paragraph changes',()=>{
- const changed=Object.keys(current.EXPUNGEMENT_COPY).filter(k=>JSON.stringify(current.EXPUNGEMENT_COPY[k])!==JSON.stringify(baseline.EXPUNGEMENT_COPY[k]));
- assert.deepEqual(changed.sort(),[...added,...edited].sort());
+ assertCopyAuthority(current.EXPUNGEMENT_COPY);
+ for(const k of legalAidKeys){
+  const v=current.EXPUNGEMENT_COPY[k];
+  assert.equal(current.t('es',k,v.en),v.es);
+  assert.equal(current.t('en',k),v.en);
+  if(k!=='legal_aid.places_open')assert.equal(current.resolveLegalAidText('es',v.en),v.es);
+ }
+ // Negative fixtures exercise the same guard without changing source files.
+ const fallback=structuredClone(current.EXPUNGEMENT_COPY);
+ fallback['legal_aid.participant.auth_required'].es=fallback['legal_aid.participant.auth_required'].en;
+ assert.throws(()=>assertCopyAuthority(fallback),{code:'ERR_ASSERTION'});
+ for(const key of ['legal_aid.participant.353','unregistered.spanish_copy']){
+  assert.throws(()=>assertCopyAuthority({...current.EXPUNGEMENT_COPY,[key]:{en:'Unapproved copy',es:'Texto no aprobado'}}),{code:'ERR_ASSERTION'});
+ }
+ const inherited=structuredClone(current.EXPUNGEMENT_COPY);
+ const inheritedKey=Object.keys(baseline.EXPUNGEMENT_COPY).find(k=>!edited.includes(k)&&inherited[k].en!==inherited[k].es);
+ inherited[inheritedKey].es=inherited[inheritedKey].en;
+ assert.throws(()=>assertCopyAuthority(inherited),{code:'ERR_ASSERTION'});
  for(const k of [...added,...edited]){const v=current.EXPUNGEMENT_COPY[k];assert.ok(v.es);assert.notEqual(v.es,v.en);assert.equal(current.t('es',k,v.en),v.es);assert.equal(current.resolveRuntimeText('es',v.en),v.es);assert.equal(current.t('en',k),v.en);}
  for(const k of Object.keys(baseline.EXPUNGEMENT_COPY))if(!edited.includes(k))assert.deepEqual(current.EXPUNGEMENT_COPY[k],baseline.EXPUNGEMENT_COPY[k],k);
  assert.equal(current.EXPUNGEMENT_COPY['clinic.admission.stale'].es,baseline.EXPUNGEMENT_COPY['clinic.admission.stale'].es);
@@ -100,7 +129,7 @@ test('real Spanish sponsor notices retain $50/payment and same-matter meanings, 
  const s=await site(),p=s.page;try{for(const paid of [false,true]){await s.go('sponsor',paid?'&paid=1':'');const text=await p.getByRole('status').innerText();assert.match(text,/Su solicitud|Sus respuestas/);assert.doesNotMatch(text,/\b(Tu|Tus|Puedes|necesitas)\b/);if(!paid){assert.match(text,/\$50/);assert.match(text,/hasta que se confirme el pago/);}}}finally{await s.close();}
 });
 test('real Spanish Legal Aid registration renders device-recovery refusal',async()=>{
- const s=await site(),p=s.page;try{s.state.error=copy('legal_aid.device_reset_required','en');await s.go('legal');await p.getByRole('button',{name:'Register for this clinic'}).click();await visible(p,copy('legal_aid.device_reset_required'));}finally{await s.close();}
+ const s=await site(),p=s.page;try{s.state.error=copy('legal_aid.device_reset_required','en');await s.go('legal');await p.getByRole('button',{name:current.resolveLegalAidText('es','Register for this clinic'),exact:true}).click();await visible(p,copy('legal_aid.device_reset_required'));}finally{await s.close();}
 });
 test('real Spanish verification preserves verified facts and renders preparation failure',async()=>{
  const s=await site(),p=s.page;try{await s.go('verify');await p.getByRole('button').click();await visible(p,copy('clinic.verification.prepare_error'));assert.equal(s.requests.filter(r=>r.includes('packet-information')).length,1);assert.equal(s.requests.some(r=>r.includes('checkout')),false);}finally{await s.close();}

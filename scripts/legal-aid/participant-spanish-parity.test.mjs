@@ -198,16 +198,22 @@ test('Spanish routes, selector, conditional steps and errors use the controlled 
  }finally{await page.close();}
 });
 
+// Use the rendering engine's Intl data, including its default timezone when none is specified.
+async function browserDate(page,locale,options){
+ return page.evaluate(({locale,options,timestamp})=>new Intl.DateTimeFormat(locale,options).format(new Date(timestamp)),{
+  locale:locale==='es'?'es-US':'en-US',options,timestamp:'2026-09-28T16:05:00Z',
+ });
+}
 test('dates use en-US/es-US with unchanged timezone and staff shared components remain English',async()=>{
  for(const locale of ['en','es']){
-  const page=await pageFor('clinics','default',locale);try{const expected=new Intl.DateTimeFormat(locale==='es'?'es-US':'en-US',{dateStyle:'full',timeStyle:'short',timeZone:'America/Chicago'}).format(new Date('2026-09-28T16:05:00Z'));assert.ok((await page.locator('body').textContent()).includes(expected));}finally{await page.close();}
+  const page=await pageFor('clinics','default',locale);try{const expected=await browserDate(page,locale,{dateStyle:'full',timeStyle:'short',timeZone:'America/Chicago'});assert.ok((await page.locator('body').textContent()).includes(expected));}finally{await page.close();}
   for(const [route,scenario] of [['continue','approved'],['intake','submitted'],['intake','signed']]) {
    const dated=await pageFor(route,scenario,locale);try {
     if(scenario==='signed') await stepTo(dated,9);
     const options=scenario==='signed'?{dateStyle:'medium',timeStyle:'short'}:route==='intake'?{dateStyle:'long',timeStyle:'short'}:{dateStyle:'medium'};
-    const expected=new Intl.DateTimeFormat(locale==='es'?'es-US':'en-US',options).format(new Date('2026-09-28T16:05:00Z'));
+    const expected=await browserDate(dated,locale,options);
     assert.ok((await dated.locator('body').textContent()).includes(expected),`${route}/${scenario}/${locale}`);
-    if(scenario==='submitted') assert.ok((await dated.locator('body').textContent()).includes(new Intl.DateTimeFormat(locale==='es'?'es-US':'en-US',{dateStyle:'medium'}).format(new Date('2026-09-28T16:05:00Z'))));
+    if(scenario==='submitted') assert.ok((await dated.locator('body').textContent()).includes(await browserDate(dated,locale,{dateStyle:'medium'})));
    } finally {await dated.close();}
   }
   const recovery=await pageFor('recovery','default',locale);try{assert.ok((await recovery.locator('body').textContent()).includes(oldRuntime.t(locale,'legal_aid.device_reset_required')));}finally{await recovery.close();}
