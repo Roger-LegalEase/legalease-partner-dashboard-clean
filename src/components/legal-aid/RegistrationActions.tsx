@@ -1,5 +1,8 @@
 "use client";
 
+import { LegalAidText } from "@/components/expungement-ai/LocalizationProvider";
+
+
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { laSecondary } from "./LegalAidShell";
@@ -18,16 +21,16 @@ export function CancelRegistrationButton({ registrationId }: { registrationId: s
       router.refresh();
     } finally { setBusy(false); }
   }
-  if (!confirming) return <button type="button" onClick={() => setConfirming(true)} className={laSecondary}>Cancel my registration</button>;
+  if (!confirming) return <button type="button" onClick={() => setConfirming(true)} className={laSecondary}><LegalAidText text={"Cancel my registration"} /></button>;
   return (
     <div className="rounded-md border border-[#E6C9A8] bg-[#FFF8EE] p-4 text-sm">
-      <p className="font-bold">Cancel your place at this clinic?</p>
-      <p className="mt-1 text-[#5B4E66]">Your application answers are kept, but your seat is released to someone else.</p>
+      <p className="font-bold"><LegalAidText text={"Cancel your place at this clinic?"} /></p>
+      <p className="mt-1 text-[#5B4E66]"><LegalAidText text={"Your application answers are kept, but your seat is released to someone else."} /></p>
       <div className="mt-3 flex flex-wrap gap-2">
-        <button type="button" disabled={busy} onClick={cancel} className={laSecondary}>{busy ? "Cancelling…" : "Yes, cancel my registration"}</button>
-        <button type="button" disabled={busy} onClick={() => setConfirming(false)} className={laSecondary}>Keep my place</button>
+        <button type="button" disabled={busy} onClick={cancel} className={laSecondary}><LegalAidText text={busy ? "Cancelling…" : "Yes, cancel my registration"} /></button>
+        <button type="button" disabled={busy} onClick={() => setConfirming(false)} className={laSecondary}><LegalAidText text={"Keep my place"} /></button>
       </div>
-      {error ? <p role="alert" className="mt-2 font-semibold text-[#8A1F1F]">{error}</p> : null}
+      {error ? <p role="alert" className="mt-2 font-semibold text-[#8A1F1F]"><LegalAidText text={error} /></p> : null}
     </div>
   );
 }

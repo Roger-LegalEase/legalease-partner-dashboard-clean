@@ -1,7 +1,10 @@
 "use client";
 
+import { LegalAidText, LegalAidDate, useLegalAidLocalization } from "@/components/expungement-ai/LocalizationProvider";
+
+
 import Link from "next/link";
-import { useCallback, useEffect, useMemo, useRef, useState, type FormEvent } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode, type FormEvent } from "react";
 import {
   INTAKE_FIELDS, INTAKE_SECTIONS, applicableStatements, fieldApplies, type IntakeAnswers, type IntakeFieldSpec, type IntakeSectionKey, type IntakeValidation, type StatementKey
 } from "@/lib/legal-aid/intake-schema";
@@ -17,7 +20,7 @@ import { SignaturePad } from "./SignaturePad";
 type Props = {
   eventId: string;
   eventSlug: string;
-  clinicLabel: string;
+  clinicLabel: ReactNode;
   partnerName: string;
   applicantName: string;
   registrationEmail: string | null;
@@ -39,6 +42,7 @@ const STEPS: { key: StepKey; title: string; intro: string }[] = [
 const EDITABLE = new Set(["draft", "needs_information"]);
 
 export function IntakeClient(props: Props) {
+  const { text } = useLegalAidLocalization();
   const [view, setView] = useState<ParticipantIntakeView | null>(props.initial);
   const [answers, setAnswers] = useState<IntakeAnswers>(() => props.initial?.answers ?? prefill(props));
   const [version, setVersion] = useState<number | null>(props.initial?.currentVersion ?? null);
@@ -143,7 +147,7 @@ export function IntakeClient(props: Props) {
   }
 
   async function withdraw() {
-    if (!intakeId || !window.confirm("Withdraw this application? The clinic team will stop reviewing it.")) return;
+    if (!intakeId || !window.confirm(text("Withdraw this application? The clinic team will stop reviewing it."))) return;
     const response = await fetch(`/api/legal-aid/intakes/${intakeId}/actions`, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ action: "withdraw" }) });
     if (response.ok) await reload();
   }
@@ -156,29 +160,29 @@ export function IntakeClient(props: Props) {
   return (
     <div className="space-y-5">
       {view?.status === "needs_information" && view.openRequests.length > 0 ? (
-        <Panel tone="warn" eyebrow="The clinic team needs more from you" title="Please update your application">
+        <Panel tone="warn" eyebrow={<LegalAidText text="The clinic team needs more from you" />} title={<LegalAidText text="Please update your application" />}>
           <ul className="list-disc space-y-1 pl-5 text-sm">{view.openRequests.map((request) => <li key={request.id}>{request.requestText}</li>)}</ul>
-          <p className="mt-3 text-sm text-[#5B4E66]">Make the changes, sign again where asked, and submit again.</p>
+          <p className="mt-3 text-sm text-[#5B4E66]"><LegalAidText text={"Make the changes, sign again where asked, and submit again."} /></p>
         </Panel>
       ) : null}
 
-      <nav aria-label="Application steps" className="rounded-2xl border border-[#E8E1EE] bg-white p-4">
+      <nav aria-label={text("Application steps")} className="rounded-2xl border border-[#E8E1EE] bg-white p-4">
         <div className="flex items-center justify-between gap-3 text-sm">
-          <span className="font-bold">Step {step + 1} of {STEPS.length}: {current.title}</span>
+          <span className="font-bold"><LegalAidText text={"Step "} />{step + 1}<LegalAidText text={" of "} />{STEPS.length}: <LegalAidText text={current.title} /></span>
           <SaveBadge state={saveState} />
         </div>
         <div className="mt-2 h-2 w-full overflow-hidden rounded-full bg-[#F1ECF4]"><div className="h-2 rounded-full bg-[var(--la-brand)] transition-all" style={{ width: `${progress}%` }} /></div>
         <ol className="mt-3 flex flex-wrap gap-1">
-          {STEPS.map((entry, index) => <li key={entry.key}><button type="button" onClick={() => void goTo(index)} className={`rounded-full px-3 py-1 text-xs font-bold ${index === step ? "bg-[var(--la-brand)] text-white" : "bg-[#F1ECF4] text-[#5B4E66] hover:bg-[var(--la-soft)]"}`}>{index + 1}. {entry.title}</button></li>)}
+          {STEPS.map((entry, index) => <li key={entry.key}><button type="button" onClick={() => void goTo(index)} className={`rounded-full px-3 py-1 text-xs font-bold ${index === step ? "bg-[var(--la-brand)] text-white" : "bg-[#F1ECF4] text-[#5B4E66] hover:bg-[var(--la-soft)]"}`}>{index + 1}. <LegalAidText text={entry.title} /></button></li>)}
         </ol>
       </nav>
 
-      {saveState === "conflict" ? <Panel tone="warn"><p className="text-sm font-semibold">Your application was updated somewhere else (another tab or device). <button type="button" className="underline" onClick={() => window.location.reload()}>Reload to see the latest answers.</button></p></Panel> : null}
-      {saveState === "error" ? <Panel tone="warn"><p className="text-sm font-semibold"><LegalAidRecoveryMessage message={saveError} /> <button type="button" className="underline" onClick={() => void save()}>Try saving again.</button></p></Panel> : null}
+      {saveState === "conflict" ? <Panel tone="warn"><p className="text-sm font-semibold"><LegalAidText text={"Your application was updated somewhere else (another tab or device). "} /><button type="button" className="underline" onClick={() => window.location.reload()}><LegalAidText text={"Reload to see the latest answers."} /></button></p></Panel> : null}
+      {saveState === "error" ? <Panel tone="warn"><p className="text-sm font-semibold"><LegalAidRecoveryMessage message={saveError} /> <button type="button" className="underline" onClick={() => void save()}><LegalAidText text={"Try saving again."} /></button></p></Panel> : null}
 
-      <Panel eyebrow={props.clinicLabel} title={current.title}>
-        <p className="text-sm leading-6 text-[#5B4E66]">{current.intro}</p>
-        {step === 0 ? <p className="mt-3 rounded-md bg-[var(--la-soft)] p-3 text-sm">Your clinic: <strong>{props.clinicLabel}</strong>. It comes from your registration.</p> : null}
+      <Panel eyebrow={props.clinicLabel} title={<LegalAidText text={current.title} />}>
+        <p className="text-sm leading-6 text-[#5B4E66]"><LegalAidText text={current.intro} /></p>
+        {step === 0 ? <p className="mt-3 rounded-md bg-[var(--la-soft)] p-3 text-sm"><LegalAidText text={"Your clinic: "} /><strong>{props.clinicLabel}</strong><LegalAidText text={". It comes from your registration."} /></p> : null}
 
         {current.key === "protected" ? (
           <ProtectedStep intakeId={intakeId} ssnHint={view?.ssnHint ?? null} ensureIntake={ensureIntake} onSaved={(hint) => setView((previous) => previous ? { ...previous, ssnHint: hint } : previous)} />
@@ -197,18 +201,18 @@ export function IntakeClient(props: Props) {
         {submitMessage ? (
           <div role="alert" className={`mt-5 rounded-md border p-3 text-sm ${submitMessage.tone === "ok" ? "border-[#BFE3CF] bg-[#F0FBF4]" : "border-[#E6C9A8] bg-[#FFF8EE]"}`}>
             <p className="font-bold"><LegalAidRecoveryMessage message={submitMessage.text} /></p>
-            {submitMessage.missing?.length ? <ul className="mt-2 list-disc pl-5">{submitMessage.missing.map((label) => <li key={label}>{label}</li>)}</ul> : null}
+            {submitMessage.missing?.length ? <ul className="mt-2 list-disc pl-5">{submitMessage.missing.map((label) => <li key={label}><LegalAidText text={label} /></li>)}</ul> : null}
           </div>
         ) : null}
 
         <div className="mt-6 flex flex-wrap items-center gap-2">
-          {step > 0 ? <button type="button" onClick={() => void goTo(step - 1)} className={laSecondary}>Back</button> : null}
-          {step < STEPS.length - 1 ? <button type="button" onClick={() => void goTo(step + 1)} className={laPrimary}>Save and continue</button> : <button type="button" onClick={() => void submit()} className={laPrimary}>Submit my application</button>}
-          <span className="text-xs text-[#5B4E66]">You can leave and come back; your answers are saved on the server, not on this device.</span>
+          {step > 0 ? <button type="button" onClick={() => void goTo(step - 1)} className={laSecondary}><LegalAidText text={"Back"} /></button> : null}
+          {step < STEPS.length - 1 ? <button type="button" onClick={() => void goTo(step + 1)} className={laPrimary}><LegalAidText text={"Save and continue"} /></button> : <button type="button" onClick={() => void submit()} className={laPrimary}><LegalAidText text={"Submit my application"} /></button>}
+          <span className="text-xs text-[#5B4E66]"><LegalAidText text={"You can leave and come back; your answers are saved on the server, not on this device."} /></span>
         </div>
       </Panel>
 
-      {intakeId ? <p className="text-xs text-[#7A6E85]"><button type="button" onClick={() => void withdraw()} className="underline">Withdraw this application</button> · <Link href={`/clinic/${props.eventSlug}/register`} className="underline">Registration details</Link></p> : null}
+      {intakeId ? <p className="text-xs text-[#7A6E85]"><button type="button" onClick={() => void withdraw()} className="underline"><LegalAidText text={"Withdraw this application"} /></button> · <Link href={`/clinic/${props.eventSlug}/register`} className="underline"><LegalAidText text={"Registration details"} /></Link></p> : null}
     </div>
   );
 }
@@ -238,7 +242,7 @@ function stepIndexForField(key: string): number {
 
 function SaveBadge({ state }: { state: string }) {
   const text = state === "saving" ? "Saving…" : state === "saved" ? "Saved" : state === "dirty" ? "Unsaved changes" : state === "error" ? "Not saved" : state === "conflict" ? "Needs reload" : "";
-  return <span aria-live="polite" className={`text-xs font-bold ${state === "error" || state === "conflict" ? "text-[#8A1F1F]" : "text-[#5B4E66]"}`}>{text}</span>;
+  return <span aria-live="polite" className={`text-xs font-bold ${state === "error" || state === "conflict" ? "text-[#8A1F1F]" : "text-[#5B4E66]"}`}><LegalAidText text={text} /></span>;
 }
 
 function FieldInput({ field, answer, error, onChange }: { field: IntakeFieldSpec; answer: IntakeAnswers[string] | undefined; error?: string; onChange: (answer: IntakeAnswers[string] | null) => void }) {
@@ -248,16 +252,16 @@ function FieldInput({ field, answer, error, onChange }: { field: IntakeFieldSpec
   const id = `f-${field.key.replace(/\W/g, "-")}`;
   const control = (() => {
     if (field.control === "radio") return (
-      <div className="mt-2 grid gap-2 sm:grid-cols-3">{(field.options ?? []).map((option) => <label key={option.value} className="flex min-h-11 items-center gap-2 rounded-md border border-[#E8E1EE] bg-white px-3 text-sm"><input type="radio" name={field.key} value={option.value} checked={value === option.value} onChange={() => onChange({ state: "answered", value: option.value })} />{option.label}</label>)}</div>
+      <div className="mt-2 grid gap-2 sm:grid-cols-3">{(field.options ?? []).map((option) => <label key={option.value} className="flex min-h-11 items-center gap-2 rounded-md border border-[#E8E1EE] bg-white px-3 text-sm"><input type="radio" name={field.key} value={option.value} checked={value === option.value} onChange={() => onChange({ state: "answered", value: option.value })} />{field.key === "address.state" ? option.label : <LegalAidText text={option.label} />}</label>)}</div>
     );
     if (field.control === "dropdown") return (
-      <select id={id} className={laInput} value={value} onChange={(event) => onChange(event.target.value ? { state: "answered", value: event.target.value } : null)}><option value="">Choose…</option>{(field.options ?? []).map((option) => <option key={option.value} value={option.value}>{option.label}</option>)}</select>
+      <select id={id} className={laInput} value={value} onChange={(event) => onChange(event.target.value ? { state: "answered", value: event.target.value } : null)}><option value=""><LegalAidText text={"Choose…"} /></option>{(field.options ?? []).map((option) => <option key={option.value} value={option.value}>{field.key === "address.state" ? option.label : <LegalAidText text={option.label} />}</option>)}</select>
     );
     if (field.control === "textarea") return <textarea id={id} rows={4} className={laInput} value={value} onChange={(event) => onChange(event.target.value ? { state: "answered", value: event.target.value } : null)} />;
     if (field.control === "money") return (
       <div>
         <div className="relative mt-2"><span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-[#5B4E66]">$</span><input id={id} inputMode="decimal" disabled={unknown} className={`${laInput} mt-0 pl-7`} value={value} placeholder="0" onChange={(event) => onChange(event.target.value.trim() ? { state: "answered", value: event.target.value.trim() } : null)} /></div>
-        {field.product.allowUnknown ? <label className="mt-2 flex items-center gap-2 text-sm text-[#5B4E66]"><input id={`${id}-unknown`} type="checkbox" checked={unknown} onChange={(event) => onChange(event.target.checked ? { state: "unknown" } : null)} />I don&apos;t know this amount</label> : null}
+        {field.product.allowUnknown ? <label className="mt-2 flex items-center gap-2 text-sm text-[#5B4E66]"><input id={`${id}-unknown`} type="checkbox" checked={unknown} onChange={(event) => onChange(event.target.checked ? { state: "unknown" } : null)} /><LegalAidText text={"I don't know this amount"} /></label> : null}
       </div>
     );
     if (field.control === "count") return <input id={id} type="number" min={0} step={1} inputMode="numeric" className={laInput} value={value} onChange={(event) => onChange(event.target.value !== "" ? { state: "answered", value: event.target.value } : null)} />;
@@ -267,10 +271,10 @@ function FieldInput({ field, answer, error, onChange }: { field: IntakeFieldSpec
   })();
   return (
     <div>
-      <label htmlFor={id} className="block text-sm font-bold">{field.label}{required ? <span className="text-[var(--la-brand)]"> *</span> : <span className="font-normal text-[#7A6E85]"> (optional)</span>}</label>
-      {field.help ? <p className="mt-1 text-xs leading-5 text-[#5B4E66]">{field.help}</p> : null}
+      <label htmlFor={id} className="block text-sm font-bold"><LegalAidText text={field.label} />{required ? <span className="text-[var(--la-brand)]"> *</span> : <span className="font-normal text-[#7A6E85]"><LegalAidText text={" (optional)"} /></span>}</label>
+      {field.help ? <p className="mt-1 text-xs leading-5 text-[#5B4E66]"><LegalAidText text={field.help} /></p> : null}
       {control}
-      {error ? <p role="alert" className="mt-1 text-xs font-semibold text-[#8A1F1F]">{error}</p> : null}
+      {error ? <p role="alert" className="mt-1 text-xs font-semibold text-[#8A1F1F]"><LegalAidText text={error} /></p> : null}
     </div>
   );
 }
@@ -299,13 +303,13 @@ function ProtectedStep({ intakeId, ssnHint, ensureIntake, onSaved }: { intakeId:
   }
   return (
     <form onSubmit={submit} className="mt-5 space-y-4" autoComplete="off">
-      <p className="text-sm leading-6">{ssnField?.help}</p>
-      {hint ? <p className="rounded-md bg-[var(--la-soft)] p-3 text-sm">On file: <strong>{maskHint(hint)}</strong>. Enter it again only if you need to correct it.</p> : null}
-      <label className="block text-sm font-bold">Social Security number<span className="text-[var(--la-brand)]"> *</span>
+      <p className="text-sm leading-6"><LegalAidText text={ssnField?.help ?? ""} /></p>
+      {hint ? <p className="rounded-md bg-[var(--la-soft)] p-3 text-sm"><LegalAidText text={"On file: "} /><strong>{maskHint(hint)}</strong><LegalAidText text={". Enter it again only if you need to correct it."} /></p> : null}
+      <label className="block text-sm font-bold"><LegalAidText text={"Social Security number"} /><span className="text-[var(--la-brand)]"> *</span>
         <input name="ssn" inputMode="numeric" autoComplete="off" spellCheck={false} className={laInput} value={value} onChange={(event) => setValue(event.target.value)} placeholder="###-##-####" />
       </label>
       <div className="flex flex-wrap items-center gap-3">
-        <button type="submit" disabled={busy || value.replace(/\D/g, "").length !== 9} className={laPrimary}>{busy ? "Saving…" : hint ? "Replace the number on file" : "Save securely"}</button>
+        <button type="submit" disabled={busy || value.replace(/\D/g, "").length !== 9} className={laPrimary}><LegalAidText text={busy ? "Saving…" : hint ? "Replace the number on file" : "Save securely"} /></button>
         {message ? <span role="status" className="text-sm font-semibold"><LegalAidRecoveryMessage message={message} /></span> : null}
       </div>
     </form>
@@ -319,15 +323,15 @@ function AttestationStep({ answers, signatures, intakeId, applicantName, ensureI
     <div className="mt-5 space-y-5">
       {missing.length > 0 ? (
         <div className="rounded-md border border-[#E6C9A8] bg-[#FFF8EE] p-3 text-sm">
-          <p className="font-bold">Before you sign, these answers are still needed:</p>
-          <ul className="mt-2 list-disc pl-5">{missing.slice(0, 12).map((key) => <li key={key}><button type="button" className="underline" onClick={() => onJump(key)}>{labelFor(key)}</button></li>)}{missing.length > 12 ? <li>and {missing.length - 12} more</li> : null}</ul>
+          <p className="font-bold"><LegalAidText text={"Before you sign, these answers are still needed:"} /></p>
+          <ul className="mt-2 list-disc pl-5">{missing.slice(0, 12).map((key) => <li key={key}><button type="button" className="underline" onClick={() => onJump(key)}><LegalAidText text={labelFor(key)} /></button></li>)}{missing.length > 12 ? <li><LegalAidText text={"and "} />{missing.length - 12}<LegalAidText text={" more"} /></li> : null}</ul>
         </div>
       ) : null}
       {statements.map((statement) => {
         const current = signatures.find((signature) => signature.statementKey === statement.key && signature.status === "active" && signature.current);
         return <StatementCard key={statement.key} statementKey={statement.key} title={statement.title} text={statement.text} current={current ?? null} intakeId={intakeId} applicantName={applicantName} ensureIntake={ensureIntake} onSigned={onSigned} />;
       })}
-      <p className="text-xs leading-5 text-[#5B4E66]">Each signature is tied to the statement&apos;s wording and to your answers at the moment you sign. If you change an answer afterwards, you will be asked to sign again.</p>
+      <p className="text-xs leading-5 text-[#5B4E66]"><LegalAidText text={"Each signature is tied to the statement's wording and to your answers at the moment you sign. If you change an answer afterwards, you will be asked to sign again."} /></p>
     </div>
   );
 }
@@ -352,20 +356,20 @@ function StatementCard({ statementKey, title, text, current, intakeId, applicant
   }
   return (
     <div className="rounded-xl border border-[#E8E1EE] bg-white p-4">
-      <p className="text-xs font-black uppercase tracking-[0.18em] text-[var(--la-brand)]">{title}</p>
-      <blockquote className="mt-2 border-l-4 border-[var(--la-brand)] pl-3 text-sm leading-6">{text}</blockquote>
+      <p className="text-xs font-black uppercase tracking-[0.18em] text-[var(--la-brand)]"><LegalAidText text={title} /></p>
+      <blockquote className="mt-2 border-l-4 border-[var(--la-brand)] pl-3 text-sm leading-6"><LegalAidText text={text} /></blockquote>
       {current ? (
-        <p className="mt-3 rounded-md bg-[#F0FBF4] p-3 text-sm">Signed by <strong>{current.signerName}</strong> on {new Intl.DateTimeFormat("en-US", { dateStyle: "medium", timeStyle: "short" }).format(new Date(current.signedAt))} ({current.signatureMethod === "drawn" ? "drawn signature" : "typed signature"}).</p>
+        <p className="mt-3 rounded-md bg-[#F0FBF4] p-3 text-sm"><LegalAidText text={"Signed by "} /><strong>{current.signerName}</strong><LegalAidText text={" on "} /><LegalAidDate value={current.signedAt} options={{ dateStyle: "medium", timeStyle: "short" }} /> (<LegalAidText text={current.signatureMethod === "drawn" ? "drawn signature" : "typed signature"} />).</p>
       ) : (
         <div className="mt-3 space-y-3">
-          <label className="block text-sm font-bold">Your full legal name<input className={laInput} value={name} onChange={(event) => setName(event.target.value)} autoComplete="name" /></label>
+          <label className="block text-sm font-bold"><LegalAidText text={"Your full legal name"} /><input className={laInput} value={name} onChange={(event) => setName(event.target.value)} autoComplete="name" /></label>
           <div className="flex gap-2 text-sm">
-            <label className="flex items-center gap-2"><input type="radio" checked={method === "typed"} onChange={() => setMethod("typed")} />Type my name as my signature</label>
-            <label className="flex items-center gap-2"><input type="radio" checked={method === "drawn"} onChange={() => setMethod("drawn")} />Draw my signature</label>
+            <label className="flex items-center gap-2"><input type="radio" checked={method === "typed"} onChange={() => setMethod("typed")} /><LegalAidText text={"Type my name as my signature"} /></label>
+            <label className="flex items-center gap-2"><input type="radio" checked={method === "drawn"} onChange={() => setMethod("drawn")} /><LegalAidText text={"Draw my signature"} /></label>
           </div>
-          {method === "drawn" ? <SignaturePad onChange={setDrawn} /> : <p className="rounded-md border border-dashed border-[#9C8AA8] bg-white px-3 py-4 font-serif text-2xl italic">{name || "Your name"}</p>}
+          {method === "drawn" ? <SignaturePad onChange={setDrawn} /> : <p className="rounded-md border border-dashed border-[#9C8AA8] bg-white px-3 py-4 font-serif text-2xl italic">{name || <LegalAidText text="Your name" />}</p>}
           {error ? <p role="alert" className="text-sm font-semibold text-[#8A1F1F]"><LegalAidRecoveryMessage message={error} /></p> : null}
-          <button type="button" onClick={() => void sign()} disabled={busy || name.trim().length < 2 || (method === "drawn" && !drawn)} className={laPrimary}>{busy ? "Signing…" : "Sign this statement"}</button>
+          <button type="button" onClick={() => void sign()} disabled={busy || name.trim().length < 2 || (method === "drawn" && !drawn)} className={laPrimary}><LegalAidText text={busy ? "Signing…" : "Sign this statement"} /></button>
         </div>
       )}
     </div>
@@ -398,33 +402,33 @@ export function DocumentsBlock({ intakeId, documents, onChanged, categories = ["
   }
   return (
     <div className="mt-6 border-t border-[#E8E1EE] pt-5">
-      <h3 className="text-base font-black">Documents (optional)</h3>
-      <p className="mt-1 text-sm leading-6 text-[#5B4E66]">Add a photo ID, court paperwork, or proof of income if you have them. PDF, JPEG, PNG or WebP, up to 20 MB each. Files are stored privately and only opened by the clinic team assigned to you.</p>
-      <ul className="mt-3 divide-y divide-[#EEE8F2]">{documents.map((document) => <li key={document.id} className="flex flex-wrap items-center justify-between gap-2 py-2 text-sm"><span><strong>{CATEGORY_LABELS[document.category]}</strong> · {document.originalFilename} · {Math.max(1, Math.round(document.sizeBytes / 1024))} KB</span><span className="flex gap-3"><a href={`/api/legal-aid/documents/${document.id}`} target="_blank" rel="noreferrer" className="font-bold text-[var(--la-brand-dark)] underline">Open</a>{document.uploadedRole === "participant" ? <button type="button" onClick={() => void remove(document.id)} className="underline">Remove</button> : null}</span></li>)}</ul>
+      <h3 className="text-base font-black"><LegalAidText text={"Documents (optional)"} /></h3>
+      <p className="mt-1 text-sm leading-6 text-[#5B4E66]"><LegalAidText text={"Add a photo ID, court paperwork, or proof of income if you have them. PDF, JPEG, PNG or WebP, up to 20 MB each. Files are stored privately and only opened by the clinic team assigned to you."} /></p>
+      <ul className="mt-3 divide-y divide-[#EEE8F2]">{documents.map((document) => <li key={document.id} className="flex flex-wrap items-center justify-between gap-2 py-2 text-sm"><span><strong><LegalAidText text={CATEGORY_LABELS[document.category]} /></strong> · {document.originalFilename} · {Math.max(1, Math.round(document.sizeBytes / 1024))} KB</span><span className="flex gap-3"><a href={`/api/legal-aid/documents/${document.id}`} target="_blank" rel="noreferrer" className="font-bold text-[var(--la-brand-dark)] underline"><LegalAidText text={"Open"} /></a>{document.uploadedRole === "participant" ? <button type="button" onClick={() => void remove(document.id)} className="underline"><LegalAidText text={"Remove"} /></button> : null}</span></li>)}</ul>
       <form onSubmit={upload} className="mt-3 grid gap-3 sm:grid-cols-[1fr_1fr_auto] sm:items-end">
-        <label className="block text-sm font-bold">Type<select name="category" className={laInput}>{categories.map((category) => <option key={category} value={category}>{CATEGORY_LABELS[category]}</option>)}</select></label>
-        <label className="block text-sm font-bold">File<input name="file" type="file" accept="application/pdf,image/jpeg,image/png,image/webp" required className={`${laInput} py-1.5`} /></label>
-        <button type="submit" disabled={busy} className={laSecondary}>{busy ? "Uploading…" : "Upload"}</button>
+        <label className="block text-sm font-bold"><LegalAidText text={"Type"} /><select name="category" className={laInput}>{categories.map((category) => <option key={category} value={category}><LegalAidText text={CATEGORY_LABELS[category]} /></option>)}</select></label>
+        <label className="block text-sm font-bold"><LegalAidText text={"File"} /><input name="file" type="file" accept="application/pdf,image/jpeg,image/png,image/webp" required className={`${laInput} py-1.5`} /></label>
+        <button type="submit" disabled={busy} className={laSecondary}><LegalAidText text={busy ? "Uploading…" : "Upload"} /></button>
       </form>
       {message ? <p role="status" className="mt-2 text-sm font-semibold"><LegalAidRecoveryMessage message={message} /></p> : null}
     </div>
   );
 }
 
-function SubmittedView({ view, partnerName, clinicLabel, onWithdraw, onReload }: { view: ParticipantIntakeView; partnerName: string; clinicLabel: string; onWithdraw: () => Promise<void>; onReload: () => Promise<void> }) {
-  const headline = view.status === "submitted" ? "Your application has been received" : view.status === "staff_review" ? `${partnerName} is reviewing your application` : view.status === "approved" ? "You are approved for clinic services" : view.status === "declined_for_program" ? `${partnerName} could not accept this application` : view.status === "referred" ? "You have been referred to another resource" : "This application was withdrawn";
+function SubmittedView({ view, partnerName, clinicLabel, onWithdraw, onReload }: { view: ParticipantIntakeView; partnerName: string; clinicLabel: ReactNode; onWithdraw: () => Promise<void>; onReload: () => Promise<void> }) {
+  const headline = view.status === "submitted" ? "Your application has been received" : view.status === "staff_review" ? <LegalAidText text="{partnerName} is reviewing your application" vars={{ partnerName }} /> : view.status === "approved" ? "You are approved for clinic services" : view.status === "declined_for_program" ? <LegalAidText text="{partnerName} could not accept this application" vars={{ partnerName }} /> : view.status === "referred" ? "You have been referred to another resource" : "This application was withdrawn";
   const pending = view.nextSteps.filter((step) => step.status === "pending");
   return (
     <div className="space-y-5">
-      <Panel tone="brand" eyebrow={clinicLabel} title={headline}>
-        <p className="text-sm leading-6">{view.status === "submitted" || view.status === "staff_review" ? `You do not need to do anything else right now. ${partnerName} will contact you using the details on your registration.` : view.status === "approved" ? "Your next steps are listed below. Bring a photo ID to the clinic." : view.status === "withdrawn" ? "If you withdrew by mistake, register again or contact the clinic." : `${partnerName} will explain your options.`}</p>
-        {view.submittedAt ? <p className="mt-2 text-xs text-[#5B4E66]">Submitted {new Intl.DateTimeFormat("en-US", { dateStyle: "long", timeStyle: "short" }).format(new Date(view.submittedAt))}.</p> : null}
+      <Panel tone="brand" eyebrow={clinicLabel} title={typeof headline === "string" ? <LegalAidText text={headline} /> : headline}>
+        <p className="text-sm leading-6">{view.status === "submitted" || view.status === "staff_review" ? <LegalAidText text="You do not need to do anything else right now. {partnerName} will contact you using the details on your registration." vars={{ partnerName }} /> : view.status === "approved" ? <LegalAidText text="Your next steps are listed below. Bring a photo ID to the clinic." /> : view.status === "withdrawn" ? <LegalAidText text="If you withdrew by mistake, register again or contact the clinic." /> : <LegalAidText text="{partnerName} will explain your options." vars={{ partnerName }} />}</p>
+        {view.submittedAt ? <p className="mt-2 text-xs text-[#5B4E66]"><LegalAidText text={"Submitted "} /><LegalAidDate value={view.submittedAt} options={{ dateStyle: "long", timeStyle: "short" }} />.</p> : null}
       </Panel>
-      {pending.length > 0 ? <Panel title="Your next steps"><ul className="list-disc space-y-2 pl-5 text-sm">{pending.map((step) => <li key={step.id}><strong>{step.title}</strong>{step.dueAt ? ` · by ${new Intl.DateTimeFormat("en-US", { dateStyle: "medium" }).format(new Date(step.dueAt))}` : ""}{step.detail ? <><br /><span className="text-[#5B4E66]">{step.detail}</span></> : null}</li>)}</ul></Panel> : null}
-      {view.documentTasks.length > 0 ? <Panel title="Your documents"><ul className="divide-y divide-[#EEE8F2] text-sm">{view.documentTasks.map((task) => <li key={task.id} className="py-2"><strong>{task.title}</strong><br /><span className="text-[#5B4E66]">{taskCopy(task.status)}</span></li>)}</ul></Panel> : null}
-      <Panel title="Your documents on file"><DocumentsBlock intakeId={view.id} documents={view.documents} onChanged={onReload} /></Panel>
-      <Panel title="What you told us"><AnswerSummary answers={view.answers} /><p className="mt-3 text-xs text-[#5B4E66]">Protected number on file: {view.ssnHint ? maskHint(view.ssnHint) : "not provided"}.</p></Panel>
-      {view.status !== "withdrawn" && view.status !== "approved" ? <p className="text-xs text-[#7A6E85]"><button type="button" onClick={() => void onWithdraw()} className="underline">Withdraw this application</button></p> : null}
+      {pending.length > 0 ? <Panel title={<LegalAidText text="Your next steps" />}><ul className="list-disc space-y-2 pl-5 text-sm">{pending.map((step) => <li key={step.id}><strong>{step.title}</strong>{step.dueAt ? <><LegalAidText text=" · by " /><LegalAidDate value={step.dueAt} options={{ dateStyle: "medium" }} /></> : ""}{step.detail ? <><br /><span className="text-[#5B4E66]">{step.detail}</span></> : null}</li>)}</ul></Panel> : null}
+      {view.documentTasks.length > 0 ? <Panel title={<LegalAidText text="Your documents" />}><ul className="divide-y divide-[#EEE8F2] text-sm">{view.documentTasks.map((task) => <li key={task.id} className="py-2"><strong>{task.title}</strong><br /><span className="text-[#5B4E66]"><LegalAidText text={taskCopy(task.status)} /></span></li>)}</ul></Panel> : null}
+      <Panel title={<LegalAidText text="Your documents on file" />}><DocumentsBlock intakeId={view.id} documents={view.documents} onChanged={onReload} /></Panel>
+      <Panel title={<LegalAidText text="What you told us" />}><AnswerSummary answers={view.answers} /><p className="mt-3 text-xs text-[#5B4E66]"><LegalAidText text={"Protected number on file: "} />{view.ssnHint ? maskHint(view.ssnHint) : <LegalAidText text="not provided" />}.</p></Panel>
+      {view.status !== "withdrawn" && view.status !== "approved" ? <p className="text-xs text-[#7A6E85]"><button type="button" onClick={() => void onWithdraw()} className="underline"><LegalAidText text={"Withdraw this application"} /></button></p> : null}
     </div>
   );
 }
@@ -448,8 +452,8 @@ export function AnswerSummary({ answers }: { answers: IntakeAnswers }) {
     <dl className="grid gap-x-6 gap-y-2 text-sm sm:grid-cols-2">
       {INTAKE_FIELDS.filter((field) => field.control !== "restricted_ssn" && field.product.requirement !== "derived" && fieldApplies(field, answers)).map((field) => {
         const answer = answers[field.key];
-        const display = !answer ? "—" : answer.state === "unknown" ? "I don't know" : answer.state === "not_applicable" ? "Not applicable" : Array.isArray(answer.value) ? answer.value.join(", ") : (field.options?.find((option) => option.value === answer.value)?.label ?? answer.value ?? "—");
-        return <div key={field.key}><dt className="font-bold">{field.label}</dt><dd className="text-[#5B4E66]">{field.control === "money" && answer?.state === "answered" ? `$${display}` : display}</dd></div>;
+        const display = !answer ? "—" : answer.state === "unknown" ? <LegalAidText text="I don't know" /> : answer.state === "not_applicable" ? <LegalAidText text="Not applicable" /> : Array.isArray(answer.value) ? answer.value.join(", ") : (field.options?.find((option) => option.value === answer.value) && field.key !== "address.state" ? <LegalAidText text={field.options.find((option) => option.value === answer.value)!.label} /> : (field.options?.find((option) => option.value === answer.value)?.label ?? answer.value ?? "—"));
+        return <div key={field.key}><dt className="font-bold"><LegalAidText text={field.label} /></dt><dd className="text-[#5B4E66]">{field.control === "money" && answer?.state === "answered" ? `$${display}` : display}</dd></div>;
       })}
     </dl>
   );

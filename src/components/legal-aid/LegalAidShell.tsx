@@ -1,3 +1,4 @@
+import { LegalAidText, LegalAidAudience, LegalAidLocaleControl } from "@/components/expungement-ai/LocalizationProvider";
 import { LocalizedText } from "@/components/expungement-ai/LocalizationProvider";
 import Link from "next/link";
 import type { CSSProperties, ReactNode } from "react";
@@ -10,19 +11,20 @@ import type { LegalAidBranding } from "@/lib/legal-aid/branding";
 export function LegalAidShell({ branding, children, audience = "participant", maxWidth = "max-w-3xl" }: { branding: LegalAidBranding; children: ReactNode; audience?: "participant" | "staff"; maxWidth?: string }) {
   const style = { "--la-brand": branding.brand, "--la-brand-dark": branding.brandDark, "--la-soft": branding.accentSoft } as CSSProperties;
   return (
-    <div style={style} className="min-h-screen bg-[#FBFAFC] text-[#1E1129]">
+    <LegalAidAudience participant={audience === "participant"}><div style={style} className="min-h-screen bg-[#FBFAFC] text-[#1E1129]">
       <header className="border-b border-[#E8E1EE] bg-white">
-        <div className={`mx-auto flex ${maxWidth} items-center justify-between gap-4 px-4 py-4`}>
+        <div className={`mx-auto flex ${maxWidth} ${audience === "participant" ? "flex-wrap" : ""} items-center justify-between gap-4 px-4 py-4`}>
           <Link href={branding.homeHref} className="flex items-center gap-3">
             {/* eslint-disable-next-line @next/next/no-img-element -- partner logos are static public assets */}
             {branding.logoUrl ? <img src={branding.logoUrl} alt={branding.fullName} className="h-9 w-auto sm:h-11" /> : <span className="text-lg font-black text-[var(--la-brand-dark)]">{branding.name}</span>}
             <span className="sr-only">{branding.fullName}</span>
           </Link>
-          <nav className="flex items-center gap-3 text-sm font-bold">
+          <nav className={`flex ${audience === "participant" ? "flex-wrap" : ""} items-center gap-3 text-sm font-bold`}>
             {audience === "participant" ? (
               <>
-                <Link href={branding.clinicsHref} className="text-[var(--la-brand-dark)] hover:underline">Clinics</Link>
-                <Link href={branding.continueHref} className="rounded-md bg-[var(--la-brand)] px-3 py-2 text-white hover:bg-[var(--la-brand-dark)]">My application</Link>
+                <LegalAidLocaleControl />
+                <Link href={branding.clinicsHref} className="text-[var(--la-brand-dark)] hover:underline"><LegalAidText text={"Clinics"} /></Link>
+                <Link href={branding.continueHref} className="rounded-md bg-[var(--la-brand)] px-3 py-2 text-white hover:bg-[var(--la-brand-dark)]"><LegalAidText text={"My application"} /></Link>
               </>
             ) : (
               <span className="rounded-md bg-[var(--la-soft)] px-3 py-2 text-[var(--la-brand-dark)]">{branding.name} clinic team</span>
@@ -35,16 +37,16 @@ export function LegalAidShell({ branding, children, audience = "participant", ma
         <div className={`mx-auto ${maxWidth} px-4 py-6 text-sm text-[#5B4E66]`}>
           <p className="font-bold text-[#1E1129]">{branding.fullName}</p>
           {branding.contactPhone || branding.contactEmail ? (
-            <p className="mt-1">Questions? {branding.contactPhone ? <a href={`tel:${branding.contactPhone.replace(/\D/g, "")}`} className="font-semibold text-[var(--la-brand-dark)]">{branding.contactPhone}</a> : null}{branding.contactPhone && branding.contactEmail ? " · " : ""}{branding.contactEmail ? <a href={`mailto:${branding.contactEmail}`} className="font-semibold text-[var(--la-brand-dark)]">{branding.contactEmail}</a> : null}</p>
+            <p className="mt-1"><LegalAidText text={"Questions? "} />{branding.contactPhone ? <a href={`tel:${branding.contactPhone.replace(/\D/g, "")}`} className="font-semibold text-[var(--la-brand-dark)]">{branding.contactPhone}</a> : null}{branding.contactPhone && branding.contactEmail ? " · " : ""}{branding.contactEmail ? <a href={`mailto:${branding.contactEmail}`} className="font-semibold text-[var(--la-brand-dark)]">{branding.contactEmail}</a> : null}</p>
           ) : null}
-          <p className="mt-3 text-xs text-[#7A6E85]">Application technology provided by LegalEase. {branding.name} decides who it can help; this site does not give legal advice.</p>
+          <p className="mt-3 text-xs text-[#7A6E85]"><LegalAidText text={"Application technology provided by LegalEase. "} />{branding.name}<LegalAidText text={" decides who it can help; this site does not give legal advice."} /></p>
         </div>
       </footer>
-    </div>
+    </div></LegalAidAudience>
   );
 }
 
-export function Panel({ title, eyebrow, children, tone = "plain" }: { title?: string; eyebrow?: string; children: ReactNode; tone?: "plain" | "brand" | "warn" }) {
+export function Panel({ title, eyebrow, children, tone = "plain" }: { title?: ReactNode; eyebrow?: ReactNode; children: ReactNode; tone?: "plain" | "brand" | "warn" }) {
   const border = tone === "brand" ? "border-[var(--la-brand)] bg-[var(--la-soft)]" : tone === "warn" ? "border-[#E6C9A8] bg-[#FFF8EE]" : "border-[#E8E1EE] bg-white";
   return (
     <section className={`rounded-2xl border p-5 sm:p-6 ${border}`}>
@@ -62,5 +64,5 @@ export const laSecondary = "inline-flex min-h-11 items-center justify-center rou
 export function LegalAidRecoveryMessage({ message }: { message: string }) {
   return message === "Complete device recovery before opening Legal Aid records."
     ? <LocalizedText k="legal_aid.device_reset_required" fallback={message} />
-    : <>{message}</>;
+    : <LegalAidText text={message} />;
 }

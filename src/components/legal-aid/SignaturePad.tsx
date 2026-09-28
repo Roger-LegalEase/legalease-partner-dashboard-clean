@@ -1,5 +1,8 @@
 "use client";
 
+import { LegalAidText, useLegalAidLocalization } from "@/components/expungement-ai/LocalizationProvider";
+
+
 import { useEffect, useRef, useState, type PointerEvent } from "react";
 import { laSecondary } from "./LegalAidShell";
 
@@ -7,6 +10,7 @@ import { laSecondary } from "./LegalAidShell";
 // anything itself; the parent posts it with the statement being signed.
 
 export function SignaturePad({ onChange }: { onChange: (dataUrl: string | null) => void }) {
+  const { text } = useLegalAidLocalization();
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const drawing = useRef(false);
   const [dirty, setDirty] = useState(false);
@@ -68,10 +72,10 @@ export function SignaturePad({ onChange }: { onChange: (dataUrl: string | null) 
 
   return (
     <div>
-      <canvas ref={canvasRef} onPointerDown={start} onPointerMove={move} onPointerUp={end} onPointerCancel={end} onPointerLeave={end} className="h-40 w-full touch-none rounded-md border border-dashed border-[#9C8AA8] bg-white" aria-label="Draw your signature" />
+      <canvas ref={canvasRef} onPointerDown={start} onPointerMove={move} onPointerUp={end} onPointerCancel={end} onPointerLeave={end} className="h-40 w-full touch-none rounded-md border border-dashed border-[#9C8AA8] bg-white" aria-label={text("Draw your signature")} />
       <div className="mt-2 flex items-center justify-between gap-3 text-xs text-[#5B4E66]">
-        <span>{dirty ? "Signature drawn." : "Sign with your finger, stylus, or mouse."}</span>
-        <button type="button" onClick={clear} className={`${laSecondary} min-h-9 px-3 py-1 text-xs`}>Clear</button>
+        <span><LegalAidText text={dirty ? "Signature drawn." : "Sign with your finger, stylus, or mouse."} /></span>
+        <button type="button" onClick={clear} className={`${laSecondary} min-h-9 px-3 py-1 text-xs`}><LegalAidText text={"Clear"} /></button>
       </div>
     </div>
   );

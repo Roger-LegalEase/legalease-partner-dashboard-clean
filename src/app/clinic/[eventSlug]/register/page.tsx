@@ -1,3 +1,4 @@
+import { LegalAidText, LegalAidDate } from "@/components/expungement-ai/LocalizationProvider";
 import { withLegalAidDeviceBoundary } from "@/components/legal-aid/LegalAidDeviceBoundary";
 import Link from "next/link";
 import { unstable_noStore as noStore } from "next/cache";
@@ -6,7 +7,7 @@ import { LegalAidShell, Panel, laPrimary } from "@/components/legal-aid/LegalAid
 import { CancelRegistrationButton } from "@/components/legal-aid/RegistrationActions";
 import { RegistrationForm } from "@/components/legal-aid/RegistrationForm";
 import { requireConsumerBriefcaseSession } from "@/lib/expungement-ai/auth";
-import { formatClinicDate, getLegalAidBranding } from "@/lib/legal-aid/branding";
+import { getLegalAidBranding } from "@/lib/legal-aid/branding";
 import { getLegalAidEventBySlug, getParticipantRegistration } from "@/lib/legal-aid/registration-service";
 
 export const dynamic = "force-dynamic";
@@ -28,36 +29,36 @@ export default async function ClinicRegisterPage({ params }: { params: Promise<{
 
   return (
     <LegalAidShell branding={branding}>
-      <Link href={branding.clinicsHref} className="text-sm font-bold text-[var(--la-brand-dark)]">← All clinics</Link>
+      <Link href={branding.clinicsHref} className="text-sm font-bold text-[var(--la-brand-dark)]"><LegalAidText text={"← All clinics"} /></Link>
       <h1 className="mt-4 text-3xl font-black tracking-tight sm:text-4xl">{event.name}</h1>
-      <p className="mt-2 text-base leading-7 text-[#5B4E66]">{formatClinicDate(event.startsAt, event.timezone)}<br />{event.locationName} · {event.geography}</p>
+      <p className="mt-2 text-base leading-7 text-[#5B4E66]"><LegalAidDate value={event.startsAt} options={{ dateStyle: "full", timeStyle: "short", timeZone: event.timezone }} /><br />{event.locationName} · {event.geography}</p>
       {event.publicDescription ? <p className="mt-3 max-w-2xl text-sm leading-6">{event.publicDescription}</p> : null}
 
       <div className="mt-8 space-y-4">
         {registration && registration.status !== "cancelled" && registration.status !== "declined" ? (
           <>
-            <Panel tone="brand" eyebrow="You are registered" title={registration.status === "waitlisted" ? "You are on the waitlist" : registration.status === "confirmed" ? "Your place is confirmed" : "We have your registration"}>
-              <p className="text-sm leading-6">{registration.status === "waitlisted" ? `${branding.name} will contact you if a place opens.` : `${branding.name} will contact you ${contactPhrase(registration.preferredContact)} with anything you need to bring.`}</p>
+            <Panel tone="brand" eyebrow={<LegalAidText text="You are registered" />} title={<LegalAidText text={registration.status === "waitlisted" ? "You are on the waitlist" : registration.status === "confirmed" ? "Your place is confirmed" : "We have your registration"} />}>
+              <p className="text-sm leading-6">{registration.status === "waitlisted" ? <LegalAidText text="{partnerName} will contact you if a place opens." vars={{ partnerName: branding.name }} /> : <LegalAidText text="{partnerName} will contact you {contact} with anything you need to bring." vars={{ partnerName: branding.name, contact: contactPhrase(registration.preferredContact) }} localizeVars={["contact"]} />}</p>
               <dl className="mt-4 grid gap-2 text-sm sm:grid-cols-2">
-                <div><dt className="font-bold">Name</dt><dd>{registration.contactName}</dd></div>
-                <div><dt className="font-bold">Contact</dt><dd>{[registration.contactEmail, registration.contactPhone].filter(Boolean).join(" · ")}</dd></div>
+                <div><dt className="font-bold"><LegalAidText text={"Name"} /></dt><dd>{registration.contactName}</dd></div>
+                <div><dt className="font-bold"><LegalAidText text={"Contact"} /></dt><dd>{[registration.contactEmail, registration.contactPhone].filter(Boolean).join(" · ")}</dd></div>
               </dl>
             </Panel>
-            <Panel title="Next: complete your private application">
-              <p className="text-sm leading-6 text-[#5B4E66]">Your application asks about your household, income, and your record so the clinic team can prepare. It saves as you go and you can finish it later. Only you sign it.</p>
+            <Panel title={<LegalAidText text="Next: complete your private application" />}>
+              <p className="text-sm leading-6 text-[#5B4E66]"><LegalAidText text={"Your application asks about your household, income, and your record so the clinic team can prepare. It saves as you go and you can finish it later. Only you sign it."} /></p>
               <div className="mt-4 flex flex-wrap gap-2">
-                <Link href={`/clinic/${event.publicSlug}/intake`} className={laPrimary}>Start my application</Link>
+                <Link href={`/clinic/${event.publicSlug}/intake`} className={laPrimary}><LegalAidText text={"Start my application"} /></Link>
                 <CancelRegistrationButton registrationId={registration.id} />
               </div>
             </Panel>
           </>
         ) : !event.registrationOpen ? (
-          <Panel tone="warn" title="Registration is closed for this clinic">
-            <p className="text-sm leading-6">{registration ? "Your earlier registration was cancelled." : ""} See the <Link href={branding.clinicsHref} className="font-bold underline">list of open clinics</Link> for other dates.</p>
+          <Panel tone="warn" title={<LegalAidText text="Registration is closed for this clinic" />}>
+            <p className="text-sm leading-6">{registration ? <LegalAidText text="Your earlier registration was cancelled." /> : ""}<LegalAidText text={" See the "} /><Link href={branding.clinicsHref} className="font-bold underline"><LegalAidText text={"list of open clinics"} /></Link><LegalAidText text={" for other dates."} /></p>
           </Panel>
         ) : (
-          <Panel eyebrow={full ? "Clinic is full" : "Save your place"} title={full ? "Join the waitlist" : "Register"}>
-            {registration ? <p className="mb-4 rounded-md bg-[var(--la-soft)] p-3 text-sm">Your earlier registration was cancelled. Register again to hold a new place.</p> : null}
+          <Panel eyebrow={<LegalAidText text={full ? "Clinic is full" : "Save your place"} />} title={<LegalAidText text={full ? "Join the waitlist" : "Register"} />}>
+            {registration ? <p className="mb-4 rounded-md bg-[var(--la-soft)] p-3 text-sm"><LegalAidText text={"Your earlier registration was cancelled. Register again to hold a new place."} /></p> : null}
             <RegistrationForm eventId={event.id} partnerName={branding.name} defaultEmail={session.userEmail ?? null} />
           </Panel>
         )}

@@ -7,7 +7,7 @@ import {
   persistExpungementLocaleValue,
   readSavedExpungementLocale
 } from "@/app/expungement-ai/landing-locale-controller";
-import { DEFAULT_LOCALE, normalizeLocale, resolveRuntimeText, t, type Locale } from "@/lib/expungement-ai/localization";
+import { DEFAULT_LOCALE, normalizeLocale, resolveRuntimeText, resolveLegalAidText, t, type Locale } from "@/lib/expungement-ai/localization";
 
 type LocalizationContextValue = {
   locale: Locale;
@@ -96,4 +96,32 @@ export function LocalizedRuntimeText({
 }) {
   const { text: localize } = useLocalization();
   return <>{localize(text, { key: k, vars })}</>;
+}
+
+// Audience only; locale remains owned by the existing LocalizationProvider.
+const LegalAidParticipantContext = createContext(true);
+export function LegalAidAudience({ participant, children }: { participant: boolean; children: ReactNode }) {
+  return <LegalAidParticipantContext.Provider value={participant}>{children}</LegalAidParticipantContext.Provider>;
+}
+export function useLegalAidLocalization() {
+  const { locale } = useLocalization();
+  const participant = useContext(LegalAidParticipantContext);
+  const activeLocale = participant ? locale : "en";
+  return { locale: activeLocale, text: (value: string, vars?: Record<string, string | number | undefined>) => resolveLegalAidText(activeLocale, value, vars) };
+}
+export function LegalAidText({ text, vars, localizeVars = [] }: { text: string; vars?: Record<string, string | number | undefined>; localizeVars?: string[] }) {
+  const { text: translate } = useLegalAidLocalization();
+  const values = vars && Object.fromEntries(Object.entries(vars).map(([key, value]) => [key, localizeVars.includes(key) && typeof value === "string" ? translate(value) : value]));
+  return <>{translate(text, values)}</>;
+}
+export function LegalAidLocaleControl() {
+  const { locale, setLocale, t: translate } = useLocalization();
+  return <div role="group" aria-label={translate("common.language_selector", "Choose language")} className="flex gap-2">
+    <button type="button" aria-pressed={locale === "en"} aria-label={translate("common.language_english", "Use English")} className="min-h-10 rounded-md px-2 font-semibold aria-pressed:underline" onClick={() => setLocale("en")}>EN</button>
+    <button type="button" aria-pressed={locale === "es"} aria-label={translate("common.language_spanish", "Usar español")} className="min-h-10 rounded-md px-2 font-semibold aria-pressed:underline" onClick={() => setLocale("es")}>ES</button>
+  </div>;
+}
+export function LegalAidDate({ value, options }: { value: string; options: Intl.DateTimeFormatOptions }) {
+  const { locale } = useLegalAidLocalization();
+  return <>{new Intl.DateTimeFormat(locale === "es" ? "es-US" : "en-US", options).format(new Date(value))}</>;
 }
