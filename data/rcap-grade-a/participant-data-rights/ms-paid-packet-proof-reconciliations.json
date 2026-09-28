@@ -207,6 +207,195 @@
         "productionAuthorized": false,
         "runtimeAuthorized": false
       }
+    },
+    {
+      "reconciledOn": "2026-09-28",
+      "proof": "data/rcap-grade-a/participant-data-rights/ms-paid-packet-proof-20260920.json",
+      "routeId": "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
+      "trackId": "ms-nonconv",
+      "packetFamilyId": "ms-nonconv-set",
+      "regenerationCommit": "97f3b24c8b9462cf5f100a2c83358360d7252ec2",
+      "detectedBy": "scripts/verify-ms-paid-packet-proof-reconciliation.mjs; REL-02 current-state diagnostic",
+      "failure": "The already-current proof refresh at 97f3b24c8 omitted its proof revision and three scoped pin reconciliations.",
+      "baselineComparison": {
+        "acceptedBaselineSha": "ed3af2dd210a023ea9d73e0073a7f9c23792f7e8",
+        "resultOnBaseline": "The prior V3 proof and this source input agree at the prior SHA-256 in the existing ed3af2dd refresh.",
+        "resultOnCandidate": "All 76 live proof inputs match current files. The 97f3b24c8 refresh changed only sourceSha and three input hashes; all substantive proof fields remain identical.",
+        "classification": "existing authorized proof refresh with missing append-only reconciliation"
+      },
+      "whyTheBytesDiffer": {
+        "intentional": true,
+        "commits": [
+          "6ebacdcde8afdf8aa706f16b38e0646babcbdc49"
+        ],
+        "cause": "The existing 6ebacdcde8afdf8aa706f16b38e0646babcbdc49 change applied the shared Mississippi participant-delivery safety check before verification and generation and rechecked stored protected verification. The accepted refresh remeasured the approved artifacts and final-verification digests without changing them."
+      },
+      "pin": {
+        "file": "src/lib/expungement-ai/packet-information.ts",
+        "priorSha256": "2e7a019dc488d07770cfdc4e59dfaf51d00ddd1fd7757e70b3013af392a37dad",
+        "currentSha256": "4153d41c08a7e3badd5735ec92eb0473c5582596e546805ba1c60d7303177b55"
+      },
+      "behaviouralDelta": {
+        "summary": "The existing 6ebacdcde8afdf8aa706f16b38e0646babcbdc49 change applied the shared Mississippi participant-delivery safety check before verification and generation and rechecked stored protected verification. The accepted refresh remeasured the approved artifacts and final-verification digests without changing them. This reconciliation changes no source or behavior.",
+        "authorizesNoNewBehaviour": "Ledger bookkeeping only. No eligibility, participant copy, packet, legal, payment, render, worker, hosted or Production authority is created or changed."
+      },
+      "parityAndSafetyEvidence": {
+        "currentAssemblyByteIdentical": true,
+        "postgresJsonbByteIdentical": true,
+        "postgresVerificationHashIdentical": true,
+        "artifactSha256": {
+          "full-en": "9bbe447c8c3eb5ac3967bdbe308a1f19e07a711b21d9b1106f9bcef92dbb4dfd",
+          "full-es": "28b5dfcb2d9c8d47d14558f45eeabb3aecfdc870539878452dde2c6d81566e04",
+          "court-only": "18a452b04d6c26e04cbc26c9f1e0b3d7139de3dcc63f0f9dd8871f9c4e847dfe"
+        },
+        "finalVerificationBoundInputsSha256": {
+          "full-en": "aeed2e00b77cb12c2686d4c04090edb75f15183c38b0cbd2beb3c7dded511c58",
+          "full-es": "93ed18984ce8a97e606a8a1269c3570843649ea1c9791b1239656d83e485cf5e",
+          "court-only": "cf02d78bd015c6cc8793c0bece22d418b656dec282330af1e8cfe6cc078d5e83"
+        },
+        "sourceAuthorityBoundInputsSha256": "790a95e681384bb8db7f7d00cf0670ba2ba831096b0c261d09cd18de5017ec88",
+        "evidenceCommit": "97f3b24c8b9462cf5f100a2c83358360d7252ec2",
+        "note": "Derived from the existing committed proof; no new rendering, PostgreSQL run, output approval or runtime acceptance is asserted."
+      },
+      "mutationSensitivityPreserved": {
+        "negativeBindingControls": 27,
+        "how": "Preserved from the exact existing 97f3b24c8 proof; all substantive proof results equal the prior V3 proof. No new mutation result is asserted by this historical record."
+      },
+      "scope": {
+        "approvedPacketContentChanged": false,
+        "proofRegenerated": false,
+        "productSourceChanged": false,
+        "workerInputsChanged": false,
+        "imageFingerprintChanged": false,
+        "productionAuthorized": false,
+        "runtimeAuthorized": false
+      }
+    },
+    {
+      "reconciledOn": "2026-09-28",
+      "proof": "data/rcap-grade-a/participant-data-rights/ms-paid-packet-proof-20260920.json",
+      "routeId": "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
+      "trackId": "ms-nonconv",
+      "packetFamilyId": "ms-nonconv-set",
+      "regenerationCommit": "97f3b24c8b9462cf5f100a2c83358360d7252ec2",
+      "detectedBy": "scripts/verify-ms-paid-packet-proof-reconciliation.mjs; REL-02 current-state diagnostic",
+      "failure": "The already-current proof refresh at 97f3b24c8 omitted its proof revision and three scoped pin reconciliations.",
+      "baselineComparison": {
+        "acceptedBaselineSha": "ed3af2dd210a023ea9d73e0073a7f9c23792f7e8",
+        "resultOnBaseline": "The prior V3 proof and this source input agree at the prior SHA-256 in the existing ed3af2dd refresh.",
+        "resultOnCandidate": "All 76 live proof inputs match current files. The 97f3b24c8 refresh changed only sourceSha and three input hashes; all substantive proof fields remain identical.",
+        "classification": "existing authorized proof refresh with missing append-only reconciliation"
+      },
+      "whyTheBytesDiffer": {
+        "intentional": true,
+        "commits": [
+          "6ebacdcde8afdf8aa706f16b38e0646babcbdc49"
+        ],
+        "cause": "The existing 6ebacdcde8afdf8aa706f16b38e0646babcbdc49 change replaced duplicate Mississippi composition checks with mississippiParticipantDeliverySafety. The accepted refresh remeasured the three approved artifacts without changing their bytes."
+      },
+      "pin": {
+        "file": "src/lib/rcap/grade-a/composer.ts",
+        "priorSha256": "b471b8dc3558de977ff1da8449a6d50ee555870067e18b6fef945fc835f7e7cb",
+        "currentSha256": "c3043c3b62ad633ebe898e0746a730f8a27b8581d46813bb4a3a4c3ffd2d1fe6"
+      },
+      "behaviouralDelta": {
+        "summary": "The existing 6ebacdcde8afdf8aa706f16b38e0646babcbdc49 change replaced duplicate Mississippi composition checks with mississippiParticipantDeliverySafety. The accepted refresh remeasured the three approved artifacts without changing their bytes. This reconciliation changes no source or behavior.",
+        "authorizesNoNewBehaviour": "Ledger bookkeeping only. No eligibility, participant copy, packet, legal, payment, render, worker, hosted or Production authority is created or changed."
+      },
+      "parityAndSafetyEvidence": {
+        "currentAssemblyByteIdentical": true,
+        "postgresJsonbByteIdentical": true,
+        "postgresVerificationHashIdentical": true,
+        "artifactSha256": {
+          "full-en": "9bbe447c8c3eb5ac3967bdbe308a1f19e07a711b21d9b1106f9bcef92dbb4dfd",
+          "full-es": "28b5dfcb2d9c8d47d14558f45eeabb3aecfdc870539878452dde2c6d81566e04",
+          "court-only": "18a452b04d6c26e04cbc26c9f1e0b3d7139de3dcc63f0f9dd8871f9c4e847dfe"
+        },
+        "finalVerificationBoundInputsSha256": {
+          "full-en": "aeed2e00b77cb12c2686d4c04090edb75f15183c38b0cbd2beb3c7dded511c58",
+          "full-es": "93ed18984ce8a97e606a8a1269c3570843649ea1c9791b1239656d83e485cf5e",
+          "court-only": "cf02d78bd015c6cc8793c0bece22d418b656dec282330af1e8cfe6cc078d5e83"
+        },
+        "sourceAuthorityBoundInputsSha256": "790a95e681384bb8db7f7d00cf0670ba2ba831096b0c261d09cd18de5017ec88",
+        "evidenceCommit": "97f3b24c8b9462cf5f100a2c83358360d7252ec2",
+        "note": "Derived from the existing committed proof; no new rendering, PostgreSQL run, output approval or runtime acceptance is asserted."
+      },
+      "mutationSensitivityPreserved": {
+        "negativeBindingControls": 27,
+        "how": "Preserved from the exact existing 97f3b24c8 proof; all substantive proof results equal the prior V3 proof. No new mutation result is asserted by this historical record."
+      },
+      "scope": {
+        "approvedPacketContentChanged": false,
+        "proofRegenerated": false,
+        "productSourceChanged": false,
+        "workerInputsChanged": false,
+        "imageFingerprintChanged": false,
+        "productionAuthorized": false,
+        "runtimeAuthorized": false
+      }
+    },
+    {
+      "reconciledOn": "2026-09-28",
+      "proof": "data/rcap-grade-a/participant-data-rights/ms-paid-packet-proof-20260920.json",
+      "routeId": "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
+      "trackId": "ms-nonconv",
+      "packetFamilyId": "ms-nonconv-set",
+      "regenerationCommit": "97f3b24c8b9462cf5f100a2c83358360d7252ec2",
+      "detectedBy": "scripts/verify-ms-paid-packet-proof-reconciliation.mjs; REL-02 current-state diagnostic",
+      "failure": "The already-current proof refresh at 97f3b24c8 omitted its proof revision and three scoped pin reconciliations.",
+      "baselineComparison": {
+        "acceptedBaselineSha": "ed3af2dd210a023ea9d73e0073a7f9c23792f7e8",
+        "resultOnBaseline": "The prior V3 proof and this source input agree at the prior SHA-256 in the existing ed3af2dd refresh.",
+        "resultOnCandidate": "All 76 live proof inputs match current files. The 97f3b24c8 refresh changed only sourceSha and three input hashes; all substantive proof fields remain identical.",
+        "classification": "existing authorized proof refresh with missing append-only reconciliation"
+      },
+      "whyTheBytesDiffer": {
+        "intentional": true,
+        "commits": [
+          "2742392d59579d823cd0cdc54456f5e80a210aaf"
+        ],
+        "cause": "The existing 2742392d59579d823cd0cdc54456f5e80a210aaf change exported prepareBoundPersonalizedPacket and passed the claimed_worker purpose through validated worker binding to buildRenderJobSpec. The accepted refresh remeasured the approved artifacts without changing their bytes."
+      },
+      "pin": {
+        "file": "src/lib/rcap/render/personalized-packet.ts",
+        "priorSha256": "15217abedbfdb2681d7efdf0f9f7cc08f5ec0ce47970e25efc3ff1a651efe90c",
+        "currentSha256": "be009a3ea4ff155ca0db7af17141a8c70c4ee6ca9c38c626ceb09e817d16fb6b"
+      },
+      "behaviouralDelta": {
+        "summary": "The existing 2742392d59579d823cd0cdc54456f5e80a210aaf change exported prepareBoundPersonalizedPacket and passed the claimed_worker purpose through validated worker binding to buildRenderJobSpec. The accepted refresh remeasured the approved artifacts without changing their bytes. This reconciliation changes no source or behavior.",
+        "authorizesNoNewBehaviour": "Ledger bookkeeping only. No eligibility, participant copy, packet, legal, payment, render, worker, hosted or Production authority is created or changed."
+      },
+      "parityAndSafetyEvidence": {
+        "currentAssemblyByteIdentical": true,
+        "postgresJsonbByteIdentical": true,
+        "postgresVerificationHashIdentical": true,
+        "artifactSha256": {
+          "full-en": "9bbe447c8c3eb5ac3967bdbe308a1f19e07a711b21d9b1106f9bcef92dbb4dfd",
+          "full-es": "28b5dfcb2d9c8d47d14558f45eeabb3aecfdc870539878452dde2c6d81566e04",
+          "court-only": "18a452b04d6c26e04cbc26c9f1e0b3d7139de3dcc63f0f9dd8871f9c4e847dfe"
+        },
+        "finalVerificationBoundInputsSha256": {
+          "full-en": "aeed2e00b77cb12c2686d4c04090edb75f15183c38b0cbd2beb3c7dded511c58",
+          "full-es": "93ed18984ce8a97e606a8a1269c3570843649ea1c9791b1239656d83e485cf5e",
+          "court-only": "cf02d78bd015c6cc8793c0bece22d418b656dec282330af1e8cfe6cc078d5e83"
+        },
+        "sourceAuthorityBoundInputsSha256": "790a95e681384bb8db7f7d00cf0670ba2ba831096b0c261d09cd18de5017ec88",
+        "evidenceCommit": "97f3b24c8b9462cf5f100a2c83358360d7252ec2",
+        "note": "Derived from the existing committed proof; no new rendering, PostgreSQL run, output approval or runtime acceptance is asserted."
+      },
+      "mutationSensitivityPreserved": {
+        "negativeBindingControls": 27,
+        "how": "Preserved from the exact existing 97f3b24c8 proof; all substantive proof results equal the prior V3 proof. No new mutation result is asserted by this historical record."
+      },
+      "scope": {
+        "approvedPacketContentChanged": false,
+        "proofRegenerated": false,
+        "productSourceChanged": false,
+        "workerInputsChanged": false,
+        "imageFingerprintChanged": false,
+        "productionAuthorized": false,
+        "runtimeAuthorized": false
+      }
     }
   ],
   "proofGenerations": [
@@ -448,6 +637,43 @@
       ],
       "kind": "input_refresh",
       "evidence": "Existing bounded regeneration at ed3af2dd: only sourceSha and two input hashes changed; all three approved outputs, source authority, final-verification hashes and 27 negative binding controls unchanged."
+    },
+    {
+      "proof": "data/rcap-grade-a/participant-data-rights/ms-paid-packet-proof-20260920.json",
+      "recordedAtCommit": "97f3b24c8b9462cf5f100a2c83358360d7252ec2",
+      "priorSha256": "e1bc83b3db7788d67e349db637de6e760d6e6e8e73f942a4f1826a054e9560bb",
+      "currentSha256": "fb27167b98f3d024b76daa4a9fea88a776177a26c949bb6728c3efc2667adef9",
+      "priorDecision": {
+        "decisionPath": "data/record-clearing/legal-decisions/2026-09-20-ms-nonconv-paid-consumer-successor-v3.json",
+        "decisionSha256": "f8cce1368da9d3398a30c944023ec180ad915a09fef65faf182013890c2d0563"
+      },
+      "currentDecision": {
+        "decisionPath": "data/record-clearing/legal-decisions/2026-09-20-ms-nonconv-paid-consumer-successor-v3.json",
+        "decisionSha256": "f8cce1368da9d3398a30c944023ec180ad915a09fef65faf182013890c2d0563"
+      },
+      "changedFields": [
+        "inputs",
+        "sourceSha"
+      ],
+      "changedInputs": [
+        {
+          "file": "src/lib/expungement-ai/packet-information.ts",
+          "priorSha256": "2e7a019dc488d07770cfdc4e59dfaf51d00ddd1fd7757e70b3013af392a37dad",
+          "currentSha256": "4153d41c08a7e3badd5735ec92eb0473c5582596e546805ba1c60d7303177b55"
+        },
+        {
+          "file": "src/lib/rcap/grade-a/composer.ts",
+          "priorSha256": "b471b8dc3558de977ff1da8449a6d50ee555870067e18b6fef945fc835f7e7cb",
+          "currentSha256": "c3043c3b62ad633ebe898e0746a730f8a27b8581d46813bb4a3a4c3ffd2d1fe6"
+        },
+        {
+          "file": "src/lib/rcap/render/personalized-packet.ts",
+          "priorSha256": "15217abedbfdb2681d7efdf0f9f7cc08f5ec0ce47970e25efc3ff1a651efe90c",
+          "currentSha256": "be009a3ea4ff155ca0db7af17141a8c70c4ee6ca9c38c626ceb09e817d16fb6b"
+        }
+      ],
+      "kind": "input_refresh",
+      "evidence": "Existing owner-authorized REL-02 refresh at 97f3b24c8b9462cf5f100a2c83358360d7252ec2 on combined source 1bacb1498cd6daa013a43f45bb940ff1d1f45fda; only sourceSha and three input hashes changed. All substantive proof fields, three approved artifacts, final-verification digests and 27 negative binding controls are unchanged. This entry records existing evidence; it grants no new approval."
     }
   ]
 }
