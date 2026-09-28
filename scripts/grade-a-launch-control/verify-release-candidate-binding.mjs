@@ -640,15 +640,13 @@ export function verifyAcceptedSuccessorBinding(root,candidate,pending=verifyPend
 // The same bounded single-successor tools pattern, with a generation-specific
 // release base and exact manifest. No future SHA is guessed or self-referenced.
 export const GENERATION_FILES=[
- 'scripts/grade-a-launch-control/verify-pending-worker-successor.mjs',
+ 'scripts/rcap-sponsor-funding-migration-prerequisite.mjs',
+ 'scripts/rcap-sponsor-funding-migration-prerequisite.test.mjs',
  'scripts/grade-a-launch-control/verify-release-candidate-binding.mjs',
  'data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json',
  'data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json',
  'data/rcap-grade-a/launch-control/PENDING_WORKER_SUCCESSOR.json',
  'scripts/grade-a-launch-control/accepted-successor-binding.test.mjs',
- 'scripts/grade-a-launch-control/verify-pending-worker-successor.test.mjs',
- 'scripts/rcap-clinic-resume-workflow.test.mjs',
- 'scripts/rcap-clinic-resume-captcha.test.mjs'
 ];
 function verifyGenerationBinding(root,candidate,pending){
  try{
