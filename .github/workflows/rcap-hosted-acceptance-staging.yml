@@ -697,6 +697,55 @@ jobs:
           HOSTED_CLINIC_DEMO_MODE: ${{ (steps.contract.outputs.clinic == 'true' || steps.contract.outputs.resume == 'true' || steps.contract.outputs.legal_aid == 'true' || steps.contract.outputs.sponsor_cap == 'true') && 'mississippi_preview' || '' }}
         run: node scripts/rcap-hosted-resolve-preview.mjs
 
+      # DS-08 continuity recovery: runner-local only, never repository secrets
+      # or evidence. The deploy helper still receives explicit preserved inputs.
+      - name: Establish preserved Acceptance keys for this deploy
+        id: preserved_acceptance_keys
+        if: inputs.phase != 'clinic_resume' && inputs.phase != 'clinic_preview' && steps.contract.outputs.deploy == 'true' && steps.resolve_preview.outputs.reused != 'true'
+        env:
+          ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
+          HOSTED_CLINIC_DEMO_PASSWORD: ${{ secrets.HOSTED_CLINIC_DEMO_PASSWORD }}
+          HOSTED_LEGAL_AID_RESTRICTED_FIELD_KEY: ${{ secrets.HOSTED_LEGAL_AID_RESTRICTED_FIELD_KEY }}
+          HOSTED_LEGAL_AID_RESTRICTED_FIELD_KEY_VERSION: ${{ secrets.HOSTED_LEGAL_AID_RESTRICTED_FIELD_KEY_VERSION }}
+          HOSTED_PARTICIPANT_PRIVACY_PSEUDONYM_SECRET: ${{ secrets.HOSTED_PARTICIPANT_PRIVACY_PSEUDONYM_SECRET }}
+        run: |
+          node --input-type=module <<'NODE'
+          import { createHmac, randomUUID } from 'node:crypto';
+          import { appendFileSync } from 'node:fs';
+          if (process.env.GITHUB_ACTIONS !== 'true'
+            || process.env.ACCEPTANCE_SUPABASE_PROJECT_REF !== 'hyflxnlhpmiqxvvcoiia'
+            || !process.env.GITHUB_ENV) throw new Error('DS08_CONTINUITY_RUNNER_TARGET_REQUIRED');
+          const names = [
+            'HOSTED_LEGAL_AID_RESTRICTED_FIELD_KEY',
+            'HOSTED_LEGAL_AID_RESTRICTED_FIELD_KEY_VERSION',
+            'HOSTED_PARTICIPANT_PRIVACY_PSEUDONYM_SECRET'
+          ];
+          let values = names.map(name => process.env[name] ?? '');
+          const present = values.filter(value => value !== '').length;
+          if (present !== 0 && present !== names.length) throw new Error('DS08_CONTINUITY_PARTIAL_PRESERVED_INPUTS');
+          if (present === 0) {
+            const password = process.env.HOSTED_CLINIC_DEMO_PASSWORD ?? '';
+            if (password.length < 20) throw new Error('DS08_CONTINUITY_DEMO_PASSWORD_TOO_SHORT');
+            values = [
+              createHmac('sha256', password)
+                .update('rcap-acceptance-server-secret:hyflxnlhpmiqxvvcoiia:legal-aid-restricted-field-key/v1').digest('base64'),
+              'v1',
+              createHmac('sha256', password)
+                .update('rcap-acceptance-server-secret:hyflxnlhpmiqxvvcoiia:participant-privacy-pseudonym-secret/v1').digest('base64url')
+            ];
+          }
+          // Register masks before writing any value. Escape workflow-command
+          // metacharacters so even explicit multiline inputs cannot inject logs.
+          for (const value of values) {
+            console.log('::add-mask::' + value.replaceAll('%', '%25').replaceAll('\r', '%0D').replaceAll('\n', '%0A'));
+          }
+          for (let i = 0; i < names.length; i++) {
+            let delimiter;
+            do { delimiter = 'DS08_' + randomUUID(); } while (values[i].includes(delimiter));
+            appendFileSync(process.env.GITHUB_ENV, names[i] + '<<' + delimiter + '\n' + values[i] + '\n' + delimiter + '\n');
+          }
+          NODE
+
       - name: Deploy the frozen application SHA to Vercel Preview
         id: deploy_preview
         # Suppressed entirely when the resolver reused an exact READY Preview:
@@ -724,9 +773,6 @@ jobs:
           HOSTED_EXISTING_PARTICIPANT_ONLY: ${{ (inputs.phase == 'replace_preview' || inputs.phase == 'clinic_deploy' || inputs.phase == 'clinic_resume') && 'true' || 'false' }}
           HOSTED_CLINIC_DEMO_MODE: ${{ (steps.contract.outputs.clinic == 'true' || inputs.phase == 'clinic_deploy' || inputs.phase == 'clinic_resume') && 'mississippi_preview' || '' }}
           HOSTED_CLINIC_DEMO_PASSWORD: ${{ secrets.HOSTED_CLINIC_DEMO_PASSWORD }}
-          HOSTED_LEGAL_AID_RESTRICTED_FIELD_KEY: ${{ secrets.HOSTED_LEGAL_AID_RESTRICTED_FIELD_KEY }}
-          HOSTED_LEGAL_AID_RESTRICTED_FIELD_KEY_VERSION: ${{ secrets.HOSTED_LEGAL_AID_RESTRICTED_FIELD_KEY_VERSION }}
-          HOSTED_PARTICIPANT_PRIVACY_PSEUDONYM_SECRET: ${{ secrets.HOSTED_PARTICIPANT_PRIVACY_PSEUDONYM_SECRET }}
           HOSTED_PREVIOUS_WEBHOOK_HOST: ${{ env.PREVIOUS_STRIPE_WEBHOOK_HOST }}
           # Legal Aid browser phase only, and only when both are configured:
           # a nonproduction email provider so follow-up delivery can be proved.
