@@ -89,7 +89,7 @@ export function PacketVerificationAction({
         setPreparing(false);
         setError(typeof outcome?.resultCode === "string" && typeof outcome?.error === "string"
           ? localizeText(outcome.error)
-          : "We verified your facts, but could not prepare the clinic packet right now. Try again from this review.");
+          : localizeText("We verified your facts, but could not prepare the clinic packet right now. Try again from this review."));
         router.refresh();
         return;
       }

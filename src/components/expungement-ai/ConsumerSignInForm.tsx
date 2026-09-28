@@ -17,6 +17,7 @@ import { createBrowserSupabaseClient } from "@/lib/supabase/browser";
 import { useLocalization } from "@/components/expungement-ai/LocalizationProvider";
 
 const genericError = "We could not sign you in. Check your email and password and try again.";
+const passwordlessError = "We could not sign you in. Check your email and try again.";
 const genericCreateError = "We could not create your account. Check your email and password and try again.";
 const confirmationMessage = "Check your email to finish creating your account.";
 const pendingClaimError = "You are signed in, but we could not save your result yet. Retry saving it. Your preliminary result is still waiting for you.";
@@ -24,16 +25,16 @@ type AuthMode = "create" | "signin";
 type PasswordlessState = "idle" | "magic" | "oauth";
 
 export function ConsumerSignInForm() {
-  const { t: translate } = useLocalization();
+  const { t: translate, text: localizeText } = useLocalization();
   const handlerReady = useSyncExternalStore(subscribeToReadiness, clientReady, serverNotReady);
   const submission = useRef(false);
   const leaving = useRef(false);
 
-  async function runSubmission(run: () => Promise<void>) {
+  async function runSubmission(run: () => Promise<void>, failureMessage = genericError) {
     if (!handlerReady || submission.current) return;
     submission.current = true;
     try { await run(); }
-    catch { setErrorMessage(translate("signin.error", genericError)); }
+    catch { setErrorMessage(localizeText(failureMessage)); }
     finally {
       if (!leaving.current) {
         submission.current = false;
@@ -152,7 +153,7 @@ export function ConsumerSignInForm() {
     await runSubmission(async () => {
     const email = String(new FormData(form ?? undefined).get("email") ?? "").trim();
     if (!email || (isAuthCaptchaRequired() && !captchaToken.trim())) {
-      setErrorMessage(!email ? genericError : authCaptchaFailureMessage);
+      setErrorMessage(!email ? passwordlessError : authCaptchaFailureMessage);
       return;
     }
     const requestContext = readAuthRequestContext();
@@ -170,11 +171,11 @@ export function ConsumerSignInForm() {
     });
     setPasswordlessState("idle");
     if (error) {
-      setErrorMessage(isCaptchaError(error) ? authCaptchaFailureMessage : genericError);
+      setErrorMessage(isCaptchaError(error) ? authCaptchaFailureMessage : passwordlessError);
       return;
     }
     setNoticeMessage("Check your email for a secure sign-in link. Your saved result will still be here.");
-    });
+    }, passwordlessError);
   }
 
   async function continueWithGoogle() {
@@ -192,9 +193,9 @@ export function ConsumerSignInForm() {
     });
     if (error) {
       setPasswordlessState("idle");
-      setErrorMessage(genericError);
+      setErrorMessage(passwordlessError);
     } else { leaving.current = true; }
-    });
+    }, passwordlessError);
   }
 
   const createMode = mode === "create";
@@ -215,7 +216,7 @@ export function ConsumerSignInForm() {
 
       {displayedError ? (
         <div className="mt-6 rounded-md border border-[#FF3B00]/30 bg-[#FF3B00]/10 px-4 py-3 text-sm font-semibold text-[#FF3B00]">
-          {displayedError}
+          {localizeText(displayedError)}
           {pendingClaimFailed && claimToken ? (
             <button
               className="mt-3 block min-h-10 rounded-md bg-[#FF3B00] px-4 py-2 text-sm font-bold text-white disabled:cursor-not-allowed disabled:opacity-60"
@@ -224,7 +225,7 @@ export function ConsumerSignInForm() {
               onClick={() => void runSubmission(finishPendingClaim)}
               type="button"
             >
-              {isSubmitting ? "Retrying..." : "Retry saving my result"}
+              {isSubmitting ? translate("signin.retrying", "Retrying...") : translate("signin.retry_save", "Retry saving my result")}
             </button>
           ) : null}
         </div>
@@ -232,7 +233,7 @@ export function ConsumerSignInForm() {
 
       {noticeMessage ? (
         <div className="mt-6 rounded-md border border-[#00A99D]/30 bg-[#00A99D]/10 px-4 py-3 text-sm font-semibold text-[#0B6F68]">
-          {noticeMessage}
+          {localizeText(noticeMessage)}
         </div>
       ) : null}
 
@@ -292,7 +293,7 @@ export function ConsumerSignInForm() {
             onClick={sendMagicLink}
             type="button"
           >
-            {passwordlessState === "magic" ? "Sending secure link..." : "Email me a secure sign-in link"}
+            {passwordlessState === "magic" ? translate("signin.sending_secure_link", "Sending secure link...") : translate("signin.email_secure_link", "Email me a secure sign-in link")}
           </button>
         ) : null}
         </fieldset>
@@ -309,7 +310,7 @@ export function ConsumerSignInForm() {
         onClick={() => void continueWithGoogle()}
         type="button"
       >
-        {passwordlessState === "oauth" ? "Opening Google..." : "Continue with Google"}
+        {passwordlessState === "oauth" ? translate("signin.opening_google", "Opening Google...") : translate("signin.continue_google", "Continue with Google")}
       </button>
 
       <div className="mt-5 flex flex-col gap-3">

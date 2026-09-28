@@ -6,7 +6,7 @@ import {
   INTAKE_FIELDS, INTAKE_SECTIONS, applicableStatements, fieldApplies, type IntakeAnswers, type IntakeFieldSpec, type IntakeSectionKey, type IntakeValidation, type StatementKey
 } from "@/lib/legal-aid/intake-schema";
 import type { IntakeDocument, IntakeSignatureSummary, ParticipantIntakeView } from "@/lib/legal-aid/types";
-import { Panel, laInput, laPrimary, laSecondary } from "./LegalAidShell";
+import { LegalAidRecoveryMessage, Panel, laInput, laPrimary, laSecondary } from "./LegalAidShell";
 import { SignaturePad } from "./SignaturePad";
 
 // The confidential intake. Answers autosave to the server (never to browser
@@ -174,7 +174,7 @@ export function IntakeClient(props: Props) {
       </nav>
 
       {saveState === "conflict" ? <Panel tone="warn"><p className="text-sm font-semibold">Your application was updated somewhere else (another tab or device). <button type="button" className="underline" onClick={() => window.location.reload()}>Reload to see the latest answers.</button></p></Panel> : null}
-      {saveState === "error" ? <Panel tone="warn"><p className="text-sm font-semibold">{saveError} <button type="button" className="underline" onClick={() => void save()}>Try saving again.</button></p></Panel> : null}
+      {saveState === "error" ? <Panel tone="warn"><p className="text-sm font-semibold"><LegalAidRecoveryMessage message={saveError} /> <button type="button" className="underline" onClick={() => void save()}>Try saving again.</button></p></Panel> : null}
 
       <Panel eyebrow={props.clinicLabel} title={current.title}>
         <p className="text-sm leading-6 text-[#5B4E66]">{current.intro}</p>
@@ -196,7 +196,7 @@ export function IntakeClient(props: Props) {
 
         {submitMessage ? (
           <div role="alert" className={`mt-5 rounded-md border p-3 text-sm ${submitMessage.tone === "ok" ? "border-[#BFE3CF] bg-[#F0FBF4]" : "border-[#E6C9A8] bg-[#FFF8EE]"}`}>
-            <p className="font-bold">{submitMessage.text}</p>
+            <p className="font-bold"><LegalAidRecoveryMessage message={submitMessage.text} /></p>
             {submitMessage.missing?.length ? <ul className="mt-2 list-disc pl-5">{submitMessage.missing.map((label) => <li key={label}>{label}</li>)}</ul> : null}
           </div>
         ) : null}
@@ -306,7 +306,7 @@ function ProtectedStep({ intakeId, ssnHint, ensureIntake, onSaved }: { intakeId:
       </label>
       <div className="flex flex-wrap items-center gap-3">
         <button type="submit" disabled={busy || value.replace(/\D/g, "").length !== 9} className={laPrimary}>{busy ? "Saving…" : hint ? "Replace the number on file" : "Save securely"}</button>
-        {message ? <span role="status" className="text-sm font-semibold">{message}</span> : null}
+        {message ? <span role="status" className="text-sm font-semibold"><LegalAidRecoveryMessage message={message} /></span> : null}
       </div>
     </form>
   );
@@ -364,7 +364,7 @@ function StatementCard({ statementKey, title, text, current, intakeId, applicant
             <label className="flex items-center gap-2"><input type="radio" checked={method === "drawn"} onChange={() => setMethod("drawn")} />Draw my signature</label>
           </div>
           {method === "drawn" ? <SignaturePad onChange={setDrawn} /> : <p className="rounded-md border border-dashed border-[#9C8AA8] bg-white px-3 py-4 font-serif text-2xl italic">{name || "Your name"}</p>}
-          {error ? <p role="alert" className="text-sm font-semibold text-[#8A1F1F]">{error}</p> : null}
+          {error ? <p role="alert" className="text-sm font-semibold text-[#8A1F1F]"><LegalAidRecoveryMessage message={error} /></p> : null}
           <button type="button" onClick={() => void sign()} disabled={busy || name.trim().length < 2 || (method === "drawn" && !drawn)} className={laPrimary}>{busy ? "Signing…" : "Sign this statement"}</button>
         </div>
       )}
@@ -406,7 +406,7 @@ export function DocumentsBlock({ intakeId, documents, onChanged, categories = ["
         <label className="block text-sm font-bold">File<input name="file" type="file" accept="application/pdf,image/jpeg,image/png,image/webp" required className={`${laInput} py-1.5`} /></label>
         <button type="submit" disabled={busy} className={laSecondary}>{busy ? "Uploading…" : "Upload"}</button>
       </form>
-      {message ? <p role="status" className="mt-2 text-sm font-semibold">{message}</p> : null}
+      {message ? <p role="status" className="mt-2 text-sm font-semibold"><LegalAidRecoveryMessage message={message} /></p> : null}
     </div>
   );
 }

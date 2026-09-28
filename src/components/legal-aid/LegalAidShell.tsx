@@ -1,3 +1,4 @@
+import { LocalizedText } from "@/components/expungement-ai/LocalizationProvider";
 import Link from "next/link";
 import type { CSSProperties, ReactNode } from "react";
 import type { LegalAidBranding } from "@/lib/legal-aid/branding";
@@ -57,3 +58,9 @@ export function Panel({ title, eyebrow, children, tone = "plain" }: { title?: st
 export const laInput = "mt-2 min-h-11 w-full rounded-md border border-[#CDC2D6] bg-white px-3 py-2 text-base font-normal text-[#1E1129] outline-none focus:border-[var(--la-brand)] focus:ring-2 focus:ring-[var(--la-brand)]/25";
 export const laPrimary = "inline-flex min-h-11 items-center justify-center rounded-md bg-[var(--la-brand)] px-5 py-2 text-sm font-bold text-white hover:bg-[var(--la-brand-dark)] disabled:cursor-not-allowed disabled:opacity-50";
 export const laSecondary = "inline-flex min-h-11 items-center justify-center rounded-md border border-[var(--la-brand-dark)] bg-white px-5 py-2 text-sm font-bold text-[var(--la-brand-dark)] hover:bg-[var(--la-soft)] disabled:cursor-not-allowed disabled:opacity-50";
+
+export function LegalAidRecoveryMessage({ message }: { message: string }) {
+  return message === "Complete device recovery before opening Legal Aid records."
+    ? <LocalizedText k="legal_aid.device_reset_required" fallback={message} />
+    : <>{message}</>;
+}

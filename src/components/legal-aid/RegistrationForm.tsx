@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useState, type FormEvent } from "react";
-import { laInput, laPrimary } from "./LegalAidShell";
+import { LegalAidRecoveryMessage, laInput, laPrimary } from "./LegalAidShell";
 
 // Clinic registration collects only what is needed to hold a place and reach
 // the person: name, a way to be contacted, and assistance needs. The
@@ -59,7 +59,7 @@ export function RegistrationForm({ eventId, partnerName, defaultEmail }: { event
       <label className="block text-sm font-bold">Language you prefer (optional)<input name="languagePreference" placeholder="English" className={laInput} /></label>
       <label className="block text-sm font-bold">Anything that would help us assist you at the clinic? (optional)<textarea name="assistanceNeeds" rows={3} placeholder="For example: I need an interpreter, I use a wheelchair, I can only come in the afternoon." className={laInput} /></label>
       <p className="text-xs leading-5 text-[#5B4E66]">Registration holds your place. It does not ask about your finances, citizenship, or Social Security number; that comes later, in your private application, and only if you choose to continue.</p>
-      {error ? <p role="alert" className="rounded-md border border-[#E6B8B8] bg-[#FFF3F3] px-3 py-2 text-sm font-semibold text-[#8A1F1F]">{error}</p> : null}
+      {error ? <p role="alert" className="rounded-md border border-[#E6B8B8] bg-[#FFF3F3] px-3 py-2 text-sm font-semibold text-[#8A1F1F]"><LegalAidRecoveryMessage message={error} /></p> : null}
       <button type="submit" disabled={busy} className={laPrimary}>{busy ? "Saving your place…" : "Register for this clinic"}</button>
     </form>
   );

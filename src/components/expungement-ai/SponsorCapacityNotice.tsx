@@ -6,8 +6,8 @@ export function SponsorCapacityNotice({ paid = false }: { paid?: boolean }) {
   return <p role="status" className="my-4 rounded-xl border border-[#D9DEE8] bg-white p-4 text-sm leading-6 text-[#334155]" data-sponsor-capacity="exhausted">
     {locale === "es"
       ? paid
-        ? "La capacidad del patrocinador se agotó. El pago de este mismo asunto está confirmado. Tu solicitud de la clínica, tus respuestas y tu verificación se conservan."
-        : "La capacidad del patrocinador se agotó. El patrocinador no pagará este paquete. Puedes continuar con el pago habitual de $50 para este mismo asunto verificado. Tus respuestas y tu verificación se conservan; no necesitas empezar de nuevo. No prepararemos el paquete hasta confirmar el pago."
+        ? "Se agotaron los cupos patrocinados, pero el pago para este mismo asunto ya está confirmado. Su solicitud de la clínica, sus respuestas y su verificación se conservan."
+        : "Se agotaron los cupos patrocinados. El patrocinador no pagará este paquete. Puede continuar con la compra habitual de $50 para este mismo asunto verificado. Sus respuestas y su verificación se conservan; no necesita empezar de nuevo. No prepararemos el paquete hasta que se confirme el pago."
       : paid
         ? "Sponsor capacity was exhausted. Payment for this same matter is confirmed. Your Clinic application, answers and verification are preserved."
         : "Sponsor capacity is exhausted. The sponsor will not pay for this packet. You can continue with the standard $50 purchase for this same verified matter. Your answers and verification are saved; you do not need to start again. We will prepare the packet only after payment is confirmed."}

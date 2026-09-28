@@ -67,7 +67,7 @@ export async function POST(request: NextRequest) {
     });
     if (caseResult.error) {
       await db.rpc("clinic_end_assisted_session", { p_session_id: sessionResult.data, p_actor_user_id: auth.userId, p_reason: "security_reset" });
-      return NextResponse.json({ success: false, error: "Participant ownership could not be bound to the Clinic case." }, { status: 409 });
+      return NextResponse.json({ success: false, error: "We could not link your account to this Clinic case." }, { status: 409 });
     }
     const response = NextResponse.json({ success: true, screeningUrl: `/clinic/${entry.eventSlug}/screening/${jurisdiction.toLowerCase()}` });
     const options = { httpOnly: true, sameSite: "strict" as const, secure: process.env.NODE_ENV === "production", path: "/", maxAge: 30 * 60 };
