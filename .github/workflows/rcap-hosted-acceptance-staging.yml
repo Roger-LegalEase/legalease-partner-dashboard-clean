@@ -135,6 +135,13 @@ on:
       # let me reach the application".
       VERCEL_AUTOMATION_BYPASS_SECRET:
         required: false
+      # DS-08: mandatory in the deploy helper; optional here for read-only phases.
+      HOSTED_LEGAL_AID_RESTRICTED_FIELD_KEY:
+        required: false
+      HOSTED_LEGAL_AID_RESTRICTED_FIELD_KEY_VERSION:
+        required: false
+      HOSTED_PARTICIPANT_PRIVACY_PSEUDONYM_SECRET:
+        required: false
       HOSTED_CLINIC_DEMO_PASSWORD:
         required: true
       HOSTED_CLINIC_DEMO_ACCESS_CODE:
@@ -717,6 +724,9 @@ jobs:
           HOSTED_EXISTING_PARTICIPANT_ONLY: ${{ (inputs.phase == 'replace_preview' || inputs.phase == 'clinic_deploy' || inputs.phase == 'clinic_resume') && 'true' || 'false' }}
           HOSTED_CLINIC_DEMO_MODE: ${{ (steps.contract.outputs.clinic == 'true' || inputs.phase == 'clinic_deploy' || inputs.phase == 'clinic_resume') && 'mississippi_preview' || '' }}
           HOSTED_CLINIC_DEMO_PASSWORD: ${{ secrets.HOSTED_CLINIC_DEMO_PASSWORD }}
+          HOSTED_LEGAL_AID_RESTRICTED_FIELD_KEY: ${{ secrets.HOSTED_LEGAL_AID_RESTRICTED_FIELD_KEY }}
+          HOSTED_LEGAL_AID_RESTRICTED_FIELD_KEY_VERSION: ${{ secrets.HOSTED_LEGAL_AID_RESTRICTED_FIELD_KEY_VERSION }}
+          HOSTED_PARTICIPANT_PRIVACY_PSEUDONYM_SECRET: ${{ secrets.HOSTED_PARTICIPANT_PRIVACY_PSEUDONYM_SECRET }}
           HOSTED_PREVIOUS_WEBHOOK_HOST: ${{ env.PREVIOUS_STRIPE_WEBHOOK_HOST }}
           # Legal Aid browser phase only, and only when both are configured:
           # a nonproduction email provider so follow-up delivery can be proved.

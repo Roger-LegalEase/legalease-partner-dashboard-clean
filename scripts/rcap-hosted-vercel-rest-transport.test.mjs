@@ -15,9 +15,9 @@ function fixture(route='',{catalog='prod_synthetic',email=null}={}) {
   // Evaluate the actual unchanged env construction, including every env/build-env
   // value. Every free name the block reads must be supplied here: when the
   // deployment env grew CATALOG_PRODUCT_ID, LEGAL_AID_EMAIL and
-  // acceptanceServerSecret and this context did not, every test below stopped
+  // data-key inputs and this context did not, every test below stopped
   // running on `CATALOG_PRODUCT_ID is not defined` rather than on a contract.
-  const context={RETURN_ORIGIN:expectedHostedReturnOrigin(FROZEN_APPLICATION_SHA),SUPABASE_URL:'https://hyflxnlhpmiqxvvcoiia.supabase.co',keys:{anon:'synthetic-anon',service:'synthetic-service'},CLINIC_DEMO_MODE:'',ROUTE_STATE:route,SCOPE_IDS:route?'synthetic-id':'',CATALOG_PRODUCT_ID:catalog,LEGAL_AID_EMAIL:email,acceptanceServerSecret:(purpose,bytes)=>Buffer.alloc(bytes,7),Buffer,process:{env:{HOSTED_STRIPE_TEST_SECRET:'sk_test_synthetic',HOSTED_STRIPE_TEST_WEBHOOK_SECRET:'whsec_synthetic'}}};
+  const context={RETURN_ORIGIN:expectedHostedReturnOrigin(FROZEN_APPLICATION_SHA),SUPABASE_URL:'https://hyflxnlhpmiqxvvcoiia.supabase.co',keys:{anon:'synthetic-anon',service:'synthetic-service'},CLINIC_DEMO_MODE:'',ROUTE_STATE:route,SCOPE_IDS:route?'synthetic-id':'',CATALOG_PRODUCT_ID:catalog,LEGAL_AID_EMAIL:email,PRESERVED_DATA_KEYS:{LEGAL_AID_RESTRICTED_FIELD_KEY:Buffer.alloc(32,7).toString("base64"),LEGAL_AID_RESTRICTED_FIELD_KEY_VERSION:"v1",PARTICIPANT_PRIVACY_PSEUDONYM_SECRET:"synthetic-preserved-pseudonym-secret"},Buffer,process:{env:{HOSTED_STRIPE_TEST_SECRET:'sk_test_synthetic',HOSTED_STRIPE_TEST_WEBHOOK_SECRET:'whsec_synthetic'}}};
   const env=vm.runInNewContext(source.slice(source.indexOf('const runtimeEnv ='),source.indexOf('// A live Stripe key'))+'\nJSON.stringify({runtimeEnv,buildEnv});',context);
   return {identity,token:'synthetic-token',applicationSha:FROZEN_APPLICATION_SHA,...JSON.parse(env),meta:{...FROZEN_WORKER_METADATA,rcapApplicationSha:FROZEN_APPLICATION_SHA,rcapAcceptanceProjectRef:'hyflxnlhpmiqxvvcoiia',rcapStripeConfigured:'true',rcapRouteState:route||'disabled',rcapReturnOrigin:context.RETURN_ORIGIN,rcapClinicDemoMode:'none',rcapStagingScopeSha256:'a'.repeat(64)}};
 }
@@ -205,11 +205,16 @@ test('build polling is GET-only, exact ID-bound, and never creates twice',async(
   assert.equal(r.creationCalls,1);assert.deepEqual(calls.map(c=>c.init.method),['POST','GET']);assert.match(calls[1].url,/\/dpl_Synthetic123\?teamId=team_/);
   const m=mock(o,{changes:{readyState:'BUILDING'}});await assert.rejects(createRestPreview(o,{...m,maxPolls:0}),/REST_BUILD_TIMEOUT_NO_RETRY/);assert.equal(m.calls.length,1);
 });
-test('unchanged runtime environment and probes preserved; alias gated after exact identity',()=>{
+test('only reviewed DS-08 runtime inputs change; probes and alias identity guards survive',()=>{
   // Compare unchanged deployment environment/probes with today's accepted
   // source. It already includes the sponsored Preview channel; the older
   // baseline predates that input. Successor orchestration changes are tested below.
-  const baseline=execFileSync('git',['show','2742392d59579d823cd0cdc54456f5e80a210aaf:scripts/rcap-hosted-acceptance-deploy.mjs'],{encoding:'utf8'});
+  const originalBaseline=execFileSync('git',['show','2742392d59579d823cd0cdc54456f5e80a210aaf:scripts/rcap-hosted-acceptance-deploy.mjs'],{encoding:'utf8'});
+  // Supersede exactly the credential-derived data-key block. Every other
+  // runtime/build input and probe remains subject to byte equality.
+  const retired=/  \/\/ Acceptance-only server secrets, derived[\s\S]*?  PARTICIPANT_PRIVACY_PSEUDONYM_SECRET: acceptanceServerSecret\([^\n]+\n/g;
+  assert.equal([...originalBaseline.matchAll(retired)].length,1);
+  const baseline=originalBaseline.replace(retired,'  // Server-only transport to this Acceptance deployment; never build inputs.\n  ...PRESERVED_DATA_KEYS,\n');
   const segment=(s,a,b)=>s.slice(s.indexOf(a),s.indexOf(b,s.indexOf(a)));
   // Reuse and before/after snapshots now bind the accepted worker and require
   // successful readback. Their new behavior is executed below; the unchanged
@@ -262,7 +267,7 @@ test('state fallback, ambiguous creation and timeouts keep distinct evidence',as
 
 // Execute the actual deploy/resolver program and REST transport with provider
 // responses at the fetch boundary. No deployment, Auth or queue call is real.
-async function executePreviewProgram(name, {missingOwner=false, boundaryStatus=200, aliasReadbackAbsent=false, afterEnvChanged=false, reused=false, remotePatch={}, receiptFailure=false, clinic=false, aliasConflict=false, searchStatus=200, secondPage=false, badCursor=false, ordinaryMoved=false, scopeOverride, identityMismatch=false, legacyClinic=false}={}) {
+async function executePreviewProgram(name, {missingOwner=false, boundaryStatus=200, aliasReadbackAbsent=false, afterEnvChanged=false, reused=false, remotePatch={}, receiptFailure=false, clinic=false, aliasConflict=false, searchStatus=200, secondPage=false, badCursor=false, ordinaryMoved=false, scopeOverride, identityMismatch=false, legacyClinic=false, envOverride={}}={}) {
   const calls=[], writes=new Map(); let deployment=null, aliasBound=reused, envReads=0;
   const owner='b6dc86a3-12bb-490d-b130-48d95d426a1e';
   const origin=expectedHostedReturnOrigin(FROZEN_APPLICATION_SHA,clinic?'mississippi_clinic':'');
@@ -306,6 +311,11 @@ async function executePreviewProgram(name, {missingOwner=false, boundaryStatus=2
     throw new Error(`unexpected provider call ${method} ${url.pathname}`);
   };
   const env={VERCEL_TOKEN:'synthetic-token',SUPABASE_ACCESS_TOKEN:'synthetic-access',ACCEPTANCE_SUPABASE_PROJECT_REF:'hyflxnlhpmiqxvvcoiia',HOSTED_APPLICATION_SHA:FROZEN_APPLICATION_SHA,HOSTED_ROUTE_STATE:'staging_scoped',HOSTED_EXISTING_PARTICIPANT_ONLY:'true',HOSTED_REQUIRE_STAGING_SCOPED:'true',HOSTED_STRIPE_TEST_SECRET:'sk_test_synthetic',HOSTED_STRIPE_TEST_WEBHOOK_SECRET:'whsec_synthetic',HOSTED_STRIPE_CATALOG_PRODUCT_ID:'prod_synthetic'};
+  Object.assign(env, {
+    HOSTED_LEGAL_AID_RESTRICTED_FIELD_KEY: Buffer.alloc(32,7).toString('base64'),
+    HOSTED_LEGAL_AID_RESTRICTED_FIELD_KEY_VERSION: 'v1',
+    HOSTED_PARTICIPANT_PRIVACY_PSEUDONYM_SECRET: 'synthetic-preserved-pseudonym-secret'
+  }, envOverride);
   if(clinic) {
     delete env.HOSTED_STRIPE_TEST_SECRET;delete env.HOSTED_STRIPE_TEST_WEBHOOK_SECRET;delete env.HOSTED_STRIPE_CATALOG_PRODUCT_ID;
     env.HOSTED_ISOLATED_CLINIC_PREVIEW='true';env.HOSTED_CLINIC_DEMO_MODE='mississippi_preview';env.HOSTED_CLINIC_DEMO_PASSWORD='synthetic-clinic-test-only-password';
@@ -370,9 +380,15 @@ test('actual resolver accepts exact READY Preview and rejects wrong worker, sour
 });
 
 
-test('actual isolated Clinic loop creates once or reuses a paginated exact deployment, preserving ordinary and Production',async()=>{
+test('actual isolated Clinic loop creates once and refuses metadata-only reuse, preserving ordinary and Production',async()=>{
   for(const reused of [false,true]) {
     const r=await executePreviewProgram('rcap-hosted-acceptance-deploy.mjs',{clinic:true,reused,secondPage:true});
+    if(reused) {
+      assert.equal(r.exitCode,1);
+      assert.equal(r.error,'DEPLOY_REUSE_PRESERVED_KEY_CONTINUITY_UNPROVEN');
+      assert.equal(r.calls.some(c=>c.method==='POST'&&(new URL(c.url).hostname==='api.vercel.com'||c.url.includes('/auth/v1/admin'))),false);
+      continue;
+    }
     assert.equal(r.exitCode,0,r.error);
     const e=r.writes.get('deploy.json');assert.equal(e.passed,true);
     const creation=r.calls.find(c=>c.method==='POST'&&new URL(c.url).pathname==='/v13/deployments');
@@ -442,4 +458,14 @@ test('ordinary Preview preservation pins historical bytes independently of succe
   for (const key of Object.keys(d.meta)) assert.throws(()=>assertPreservedOrdinaryPreview({...d,meta:{...d.meta,[key]:'changed'}}),/ORDINARY_PREVIEW_MISMATCH/);
   assert.throws(()=>assertPreservedOrdinaryPreview({...d,target:undefined}),/ORDINARY_PREVIEW_MISMATCH/);
   assert.throws(()=>assertPreviewResponse(d,d.meta),/SOURCE_MISMATCH/);
+});
+
+
+test('DS-08 actual deploy refuses missing preserved inputs before any provider request',async()=>{
+  for(const name of ['HOSTED_LEGAL_AID_RESTRICTED_FIELD_KEY','HOSTED_LEGAL_AID_RESTRICTED_FIELD_KEY_VERSION','HOSTED_PARTICIPANT_PRIVACY_PSEUDONYM_SECRET']) {
+    const r=await executePreviewProgram('rcap-hosted-acceptance-deploy.mjs',{envOverride:{[name]:undefined}});
+    assert.equal(r.exitCode,1);
+    assert.match(r.error,/DEPLOY_PRESERVED_/);
+    assert.equal(r.calls.length,0);
+  }
 });

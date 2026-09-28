@@ -68,6 +68,32 @@ if (!VERCEL_TOKEN || !SUPABASE_ACCESS_TOKEN || PROJECT_REF !== EXPECTED_PROJECT_
   console.error("DEPLOY: VERCEL_TOKEN, SUPABASE_ACCESS_TOKEN, the pinned acceptance project ref and one exact application SHA are required");
   process.exit(1);
 }
+// DS-08: existing data keys are independent of rotatable access credentials.
+// Validate before any remote call. Keep exact preserved bytes; never normalize,
+// derive, fingerprint, or include these values in evidence or build metadata.
+function preservedDataKeys(env) {
+  const key = env.HOSTED_LEGAL_AID_RESTRICTED_FIELD_KEY;
+  const version = env.HOSTED_LEGAL_AID_RESTRICTED_FIELD_KEY_VERSION;
+  const pseudonym = env.HOSTED_PARTICIPANT_PRIVACY_PSEUDONYM_SECRET;
+  if (typeof key !== "string" || !/^[A-Za-z0-9+/]{43}=$/.test(key)
+    || Buffer.from(key, "base64").length !== 32
+    || Buffer.from(key, "base64").toString("base64") !== key) {
+    throw new Error("DEPLOY_PRESERVED_ENCRYPTION_KEY_REQUIRED");
+  }
+  // The authoritative pre-rotation deployment used v1. This credential-only
+  // operation cannot relabel a key or introduce a data-key rotation.
+  if (version !== "v1") throw new Error("DEPLOY_PRESERVED_KEY_VERSION_MISMATCH");
+  if (typeof pseudonym !== "string" || pseudonym.length < 24 || !pseudonym.trim()) {
+    throw new Error("DEPLOY_PRESERVED_PSEUDONYM_REQUIRED");
+  }
+  return Object.freeze({
+    LEGAL_AID_RESTRICTED_FIELD_KEY: key,
+    LEGAL_AID_RESTRICTED_FIELD_KEY_VERSION: version,
+    PARTICIPANT_PRIVACY_PSEUDONYM_SECRET: pseudonym
+  });
+}
+const PRESERVED_DATA_KEYS = preservedDataKeys(process.env);
+
 const VERCEL_IDENTITY = await resolveHostedVercelIdentity({ token: VERCEL_TOKEN });
 const RETURN_ORIGIN = expectedHostedReturnOrigin(APPLICATION_SHA, ISOLATED_CLINIC_PREVIEW ? "mississippi_clinic" : "");
 const RETURN_ALIAS_HOST = new URL(RETURN_ORIGIN).host;
@@ -98,14 +124,6 @@ function sha256(value) {
 
 function sqlText(value) {
   return String(value).split("'").join("''");
-}
-
-// A stable acceptance-only secret: the same acceptance environment always
-// derives the same bytes, so a replacement Preview can still read what the
-// previous Preview encrypted, and no value ever has to be stored or shown.
-function acceptanceServerSecret(purpose, bytes) {
-  const material = CLINIC_DEMO_PASSWORD.length >= 20 ? CLINIC_DEMO_PASSWORD : SUPABASE_ACCESS_TOKEN;
-  return crypto.createHmac("sha256", material).update(`rcap-acceptance-server-secret:${PROJECT_REF}:${purpose}`).digest().subarray(0, bytes);
 }
 
 function syntheticPassword(email) {
@@ -347,6 +365,10 @@ if (MISSISSIPPI_PREVIEW_MODE && (ROUTE_STATE !== "staging_scoped" || SCOPE_IDS.s
 }
 
 const reusable = await findReusableDeployment();
+// Legacy metadata cannot prove the deployed keys equal the preserved inputs.
+// Refuse reuse until that exact deployment has independent continuity proof;
+// never silently reuse it or create a second deployment to bypass the hold.
+if (reusable) throw new Error("DEPLOY_REUSE_PRESERVED_KEY_CONTINUITY_UNPROVEN");
 if (ISOLATED_CLINIC_PREVIEW) {
   const current = await vercelApi(`/v13/deployments/${encodeURIComponent(RETURN_ALIAS_HOST)}`);
   if (current.status !== 404) {
@@ -381,13 +403,8 @@ const runtimeEnv = {
   ...(ROUTE_STATE ? { RCAP_CONSUMER_DELIVERY_ROUTE_STATE: ROUTE_STATE } : {}),
   ...(CLINIC_DEMO_MODE ? { RCAP_SPONSORED_PREVIEW_CHANNEL: CLINIC_DEMO_MODE } : {}),
   ...(SCOPE_IDS ? { RCAP_CONSUMER_DELIVERY_STAGING_SCOPE: SCOPE_IDS } : {}),
-  // Acceptance-only server secrets, derived per acceptance environment from a
-  // secret this job already holds and never printed. They are separate from
-  // the Production values by construction: Production keeps its own keys in
-  // the Vercel Production environment store, which this Preview never reads.
-  LEGAL_AID_RESTRICTED_FIELD_KEY: acceptanceServerSecret("legal-aid-restricted-field-key/v1", 32).toString("base64"),
-  LEGAL_AID_RESTRICTED_FIELD_KEY_VERSION: "v1",
-  PARTICIPANT_PRIVACY_PSEUDONYM_SECRET: acceptanceServerSecret("participant-privacy-pseudonym-secret/v1", 32).toString("base64url"),
+  // Server-only transport to this Acceptance deployment; never build inputs.
+  ...PRESERVED_DATA_KEYS,
   // Legal Aid browser phase only, and only when the workflow was given all
   // three nonproduction email values: the Preview then carries a real email
   // provider so follow-up delivery to the authorized test mailbox can be
