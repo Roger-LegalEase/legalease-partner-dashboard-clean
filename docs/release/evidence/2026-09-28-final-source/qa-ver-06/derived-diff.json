@@ -1,0 +1,83 @@
+{
+  "changes": [
+    {
+      "route": "OR:set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
+      "fields": {
+        "legalApproval": {
+          "before": "pending",
+          "after": "no_record"
+        },
+        "sourceProof": {
+          "before": "bound",
+          "after": "no_record"
+        },
+        "visualProof": {
+          "before": "passed",
+          "after": "no_record"
+        },
+        "finalVerificationBinding": {
+          "before": "unbound",
+          "after": "no_record"
+        },
+        "gradeAProofState": {
+          "before": "INCOMPLETE",
+          "after": "NO_RECORD"
+        },
+        "gradeAMissingProof": {
+          "before": [
+            "final_verification: state is unbound",
+            "fixture: a deterministic fixture and its hash are required",
+            "output_legal_approval: state is pending",
+            "packet_completeness: copyRequirements is missing",
+            "packet_completeness: feeAndWaiverInstructions is missing",
+            "packet_completeness: filingDestination is missing",
+            "packet_completeness: hearingAndObjectionStopConditions is missing",
+            "packet_completeness: postFilingSteps is missing",
+            "packet_completeness: serviceAndNotice is missing"
+          ],
+          "after": []
+        },
+        "commercialAuthorityRefusedBecause": {
+          "before": "Grade-A proof incomplete: final_verification: state is unbound; fixture: a deterministic fixture and its hash are required; output_legal_approval: state is pending; packet_completeness: copyRequirements is missing; packet_completeness: feeAndWaiverInstructions is missing; packet_completeness: filingDestination is missing; packet_completeness: hearingAndObjectionStopConditions is missing; packet_completeness: postFilingSteps is missing; packet_completeness: serviceAndNotice is missing.",
+          "after": "OR:set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c: NO_RECORD. No Grade-A fulfillment record binds OR:set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c; a route nobody has written a record for fails closed."
+        }
+      }
+    },
+    {
+      "route": "VA:regime-1-expungement-available-now",
+      "fields": {
+        "registryTrack": {
+          "before": "va_exp_absolute_pardon",
+          "after": null
+        },
+        "registryTrackState": {
+          "before": "present",
+          "after": "gap"
+        },
+        "routeAndLegalWorkPreserved": {
+          "before": true,
+          "after": false
+        }
+      }
+    }
+  ],
+  "totalsAndAllOtherTopLevelValuesUnchanged": true,
+  "commercialDecisionsUnchanged": true,
+  "markdownByteIdentical": true,
+  "staleRows": 0,
+  "companionOutputs": {
+    "data/rcap-ledger/registry-route-census.json": {
+      "beforeSha256": "34f5f812065134cfcb4012fecfef08992fcbb2f8855aa37442368a4e40a2a630",
+      "afterSha256": "45b5169f2f4195f2c410d1365f8cb94c74b61861882e7434dc1e798672bf45d5",
+      "beforeBasis": "Accepted HEAD; initial git status proved these files clean before generator execution.",
+      "changed": true
+    },
+    "data/rcap-ledger/paid-pathway-denominator.json": {
+      "beforeSha256": "0aa39b35b6ecf542c246f05c399d595172ffb13241a6829d7f1d55ca3a17cb61",
+      "afterSha256": "0aa39b35b6ecf542c246f05c399d595172ffb13241a6829d7f1d55ca3a17cb61",
+      "beforeBasis": "Accepted HEAD; initial git status proved these files clean before generator execution.",
+      "changed": false
+    }
+  },
+  "explanation": "The unchanged generator reads current non-superseded records and legally bound composable specifications. OR retired record is excluded from current authority; VA specification fails the existing composable filter. Companion registry-route-census updates the same VA track/family to null. Only stale derived annotations changed; product behavior and commercial decisions did not change."
+}

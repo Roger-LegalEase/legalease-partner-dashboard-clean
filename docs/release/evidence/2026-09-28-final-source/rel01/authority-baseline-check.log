@@ -1,0 +1,30 @@
+node:internal/child_process:1160
+    result.error = new ErrnoException(result.error, 'spawnSync ' + options.file);
+                   ^
+
+<ref *1> Error: spawnSync pdfinfo ENOENT
+    at Object.spawnSync (node:internal/child_process:1160:20)
+    at spawnSync (node:child_process:928:24)
+    at execFileSync (node:child_process:971:15)
+    at artifactSuccessorInputs (file:///tmp/rcap-rel01-final/scripts/lib/artifact-approval-successor.mjs:48:18)
+    at createArtifactSuccessor (file:///tmp/rcap-rel01-final/scripts/lib/artifact-approval-successor.mjs:65:18)
+    at exactProductizedRecordOrRevocation (file:///tmp/rcap-rel01-final/scripts/generate-rcap-grade-a-fulfillment-authority.mjs:2025:9)
+    at Array.map (<anonymous>)
+    at file:///tmp/rcap-rel01-final/scripts/generate-rcap-grade-a-fulfillment-authority.mjs:2080:31 {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'spawnSync pdfinfo',
+  path: 'pdfinfo',
+  spawnargs: [
+    'data/rcap-all50/overlays/census-v1/ms/ms-misd-addl-set--custom-pleading/fixtures/canonical.pdf'
+  ],
+  error: [Circular *1],
+  status: null,
+  signal: null,
+  output: null,
+  pid: 0,
+  stdout: undefined,
+  stderr: undefined
+}
+
+Node.js v24.21.0

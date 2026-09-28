@@ -1,0 +1,87 @@
+{
+  "classification": "A. EXPECTED EXTERNAL DEPENDENCY",
+  "nameCorrection": "Actual source and saved error invoke pdfinfo, not pdftinfo. No literal pdftinfo reference found in accepted scripts/workflows/deploy/docs/package.json; no such wrapper found.",
+  "cause": "poppler-utils was not installed; both command lookups were initially empty.",
+  "provisioningSource": ".github/workflows/rcap-chat1-integration-current.yml:94-95 and .github/workflows/rcap-chatgpt-recovery.yml:30-31 at accepted source",
+  "provisioningCommands": [
+    "sudo apt-get update -qq",
+    "sudo apt-get install -y --no-install-recommends poppler-utils"
+  ],
+  "executable": "/usr/bin/pdfinfo",
+  "version": "24.02.0",
+  "packageVersion": "24.02.0-1ubuntu9.9",
+  "packageOrigin": "Ubuntu noble-updates/main amd64",
+  "sourceFilesChanged": false,
+  "precheck": "PASS",
+  "rel01": "CURRENT / PASS in isolated local accepted-source checkout; not pushed or integrated",
+  "rel01Executions": 1,
+  "sourceSha": "5e04eafd7eaed7e71722862e651fb787ebbd296d",
+  "sourceTree": "a8aad9ed87dde298fb5119bc2462f9db2d90c77e",
+  "digest": "sha256:6b6a60fc5b2d0060028526013ce37c69f748e2cccb4cfb10943f2af6cf26cfe1",
+  "runtimeAcceptance": {
+    "run": 36443943089,
+    "attempt": 1,
+    "result": "PASS",
+    "receiptCommit": "6c249d68d913f6aa5e6ab2a1506b77e33e7c3f44",
+    "requiredStepsPassed": 17
+  },
+  "beforeBinding": {
+    "sourceSha": "af638b61cc4b74afad972fa79c4c1ca3f6709540",
+    "digest": "sha256:063901962bedf73adedb8a7566da2434539082bd1577051e98e4303c566bb3a5",
+    "currentInputsEquivalent": false,
+    "observationRoutes": 13,
+    "receiptSha256": "3ec8dfca66bdd2cfafc5fc2407b32faf4a183aafe942308f9abb8f640e4b434e"
+  },
+  "afterBinding": {
+    "result": "PASS",
+    "bindingReceiptSha256": "159fbb43c30cf365eca23bebfbe8ce314c328f2030e1a386ebea032793270575",
+    "sourceSha": "5e04eafd7eaed7e71722862e651fb787ebbd296d",
+    "digest": "sha256:6b6a60fc5b2d0060028526013ce37c69f748e2cccb4cfb10943f2af6cf26cfe1",
+    "acceptanceRun": 36443943089,
+    "publicationObservationRoutesCurrent": 13,
+    "historicalRegistryHistoryPreserved": true,
+    "predecessorReceiptPreservedInFull": true,
+    "failedAttemptPreserved": true,
+    "staticWorkerAuthorityUnchanged": true,
+    "onlyPublicationDependentRegistryObservationChanges": true,
+    "trackedChangedFiles": [
+      "data/rcap-grade-a/fulfillment-authority-projection.json",
+      "data/rcap-grade-a/fulfillment-authority-registry.json",
+      "data/rcap-grade-a/fulfillment-observation-snapshot.json",
+      "data/rcap-render/worker-publication-evidence.json"
+    ],
+    "projectionCounters": {
+      "routesWithARecord": 14,
+      "completePacketProven": 6,
+      "incomplete": 7,
+      "stale": 0,
+      "revoked": 0,
+      "superseded": 1,
+      "commerciallyEligible": 6
+    }
+  },
+  "authorityCheck": "PASS; deterministic --check after one generator execution",
+  "outputSha256": {
+    "data/rcap-grade-a/fulfillment-authority-projection.json": "a4c481b48f721ff11e6454775026c43ad5c1fb965a33a10c2e4b00b261d3312c",
+    "data/rcap-grade-a/fulfillment-authority-registry.json": "e17a8f134d81e9a3c4217fd93f6b1d515a1a6fd2696cabe29d4dc198bf783b21",
+    "data/rcap-grade-a/fulfillment-observation-snapshot.json": "9d26b8e3ae38695390f8ad389c696c9bd804c0bc9d71169ef3ce2fb16ada3c22",
+    "data/rcap-render/worker-publication-evidence.json": "159fbb43c30cf365eca23bebfbe8ce314c328f2030e1a386ebea032793270575"
+  },
+  "qaVer06": "NOT REGENERATED per latest explicit instruction; original conditional authorization not exercised",
+  "unchangedQaVer06FileSha256": {
+    "data/rcap-ledger/commercial-packet-integrity.json": "8c270d6d6cf6e6c27a968c7eb5f85b3ae5b864ac70f042d9b6299f6ac3a924dc",
+    "docs/record-clearing/COMMERCIAL_PACKET_INTEGRITY.md": "2dc0acf07bbd5d0c3d89c886df31177cf79e63238f10e3814d641ed915490ba4"
+  },
+  "steps": {
+    "18": "REL-01 CURRENT/PASS; commercial integrity check still deferred with QA-VER-06",
+    "19": "NOT RUN",
+    "21": "NOT RUN"
+  },
+  "ds11": "BLOCKED BEFORE WRITE; no retries",
+  "firstDownstreamFailure": null,
+  "downstreamControlsExecuted": false,
+  "preservedBlockerReceiptSha256": "996dc369d6b54a0d9cb3c5069b32f60ea501bde761ce4efb17e31765e4c78b1b",
+  "archiveSha256": "6bac7ce0032b350bf0d300eac9a7b0f6139db858c3f3e529aa21ac94c6f80e5f",
+  "executionDirectory": "/tmp/rcap-rel01-final",
+  "nextAction": "Stop at restored tooling and completed local REL-01. QA-VER-06 generation/check and steps 19/21 await lifting the latest explicit do-not-regenerate instruction. No push, deployment or hosted action authorized by this result."
+}

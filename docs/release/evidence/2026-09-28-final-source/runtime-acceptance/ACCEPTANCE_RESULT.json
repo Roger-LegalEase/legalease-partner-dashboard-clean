@@ -1,0 +1,61 @@
+{
+  "result": "FAIL",
+  "runtimeAcceptancePassed": false,
+  "sourceSha": "5e04eafd7eaed7e71722862e651fb787ebbd296d",
+  "receiptCommit": "959e69cc608607bb0dec292823f7feee4f30790e",
+  "branch": "codex-b/worker-acceptance-5e04eafd7",
+  "immutableImageReference": "ghcr.io/roger-legalease/rcap-render-worker@sha256:6b6a60fc5b2d0060028526013ce37c69f748e2cccb4cfb10943f2af6cf26cfe1",
+  "workflowId": 338164231,
+  "runId": 36442375228,
+  "runAttempt": 1,
+  "runUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/36442375228",
+  "jobId": 108995881573,
+  "dispatchCount": 1,
+  "receiptOnlyDiffVerified": true,
+  "workflowUnchanged": true,
+  "passedAssertions": [
+    "Take the subject from committed publication evidence",
+    "Ask the registry what the tag resolves to",
+    "Log in to GHCR",
+    "Anonymous pull is refused",
+    "Authenticated pull by immutable digest",
+    "Prove the tag and the digest are the same image"
+  ],
+  "failedStep": "The source-binding exception stays exactly one digest wide",
+  "failureMessages": [
+    "the evidence records no superseded publication for the retired exception to anchor to",
+    "the retired exception names no tuple the evidence records as superseded"
+  ],
+  "cause": "The receipt-only change installed the exact native publication receipt, which omits supersededPublication lineage required by the unchanged retired-exception verifier. Preserving the predecessor in Git history did not satisfy that file-level contract.",
+  "unexecutedAssertions": [
+    "Source binding \u2014 OCI revision, or the exact-digest exception",
+    "Prove the container does not run as root",
+    "Health is configured and its declared command succeeds",
+    "Fail-closed startup, and module graph resolves",
+    "Graceful shutdown on SIGTERM",
+    "Scratch directory is present, owned, and clean",
+    "The secret scan can still catch a secret",
+    "Secret scan of the image filesystem",
+    "Secret scan of the image configuration and history",
+    "This run deployed nothing and claimed nothing"
+  ],
+  "artifactCount": 0,
+  "artifactNote": "No artifacts produced; existing workflow has no upload-artifact step. Native run/job/log evidence collected.",
+  "repeatDispatchPerformed": false,
+  "repairPerformed": false,
+  "rel01Advanced": false,
+  "qaVer06Regenerated": false,
+  "deploymentPreviewProductionOrDs11Mutation": false,
+  "stopBoundary": "Single authorized attempt complete; no repair or rerun authorized.",
+  "evidenceSha256": {
+    "artifacts.json": "f7417e1fb877d3f5934f143cc38ad9e2905476e8f5ac6776507d09441efcd6f6",
+    "prepared-commit.json": "08ca7745cf64c1af234b8d3674a76212eb861efc528cfe50a1c11e2c55b12d9b",
+    "dispatch-response.json": "419e2225f08465aa7b4034ca07d58eeb5f98977768656f45902da43f3211f018",
+    "job-108995881573.log": "b95536cf37fadde4095a1f26477477494c53bb6f72d7e0e3b13b9d4000fed563",
+    "pre-dispatch-runs.json": "763f11efb3fd0695809422708bf5765dfad5d8438bfb9a7bad31f23ff74d3285",
+    "dispatch-attempt.json": "ab90dcad3eb5ace433fdb05f15efb527707d28b02af086d184d1dd1e9f1e65d4",
+    "run.json": "36a7babf75cbb15c95fb6b84dddec0c8e996b8a7fcdff46bae239115feead079",
+    "jobs.json": "6baa6c9fc563f2ba305f6fe372bb8b08fdcc18d3a56ca2555efc28c9a49aaa9b",
+    "receipt-only.diff": "93841407955f7cd82699e2fc391189f0c64694dedcc9368b6855fbbcc9215afe"
+  }
+}

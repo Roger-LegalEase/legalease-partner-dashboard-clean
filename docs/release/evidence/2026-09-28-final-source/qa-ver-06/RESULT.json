@@ -1,0 +1,81 @@
+{
+  "sourceSha": "5e04eafd7eaed7e71722862e651fb787ebbd296d",
+  "sourceTree": "a8aad9ed87dde298fb5119bc2462f9db2d90c77e",
+  "immutableWorkerDigest": "sha256:6b6a60fc5b2d0060028526013ce37c69f748e2cccb4cfb10943f2af6cf26cfe1",
+  "runtimeAcceptance": {
+    "run": 36443943089,
+    "attempt": 1,
+    "result": "PASS",
+    "receiptCommit": "6c249d68d913f6aa5e6ab2a1506b77e33e7c3f44",
+    "requiredStepsPassed": 17
+  },
+  "rel01": "CURRENT/PASS; reused preserved proof and verified all four output hashes unchanged",
+  "rel01Executions": 1,
+  "rel01BindingReceiptSha256": "159fbb43c30cf365eca23bebfbe8ce314c328f2030e1a386ebea032793270575",
+  "beforeSha256": {
+    "data/rcap-ledger/commercial-packet-integrity.json": "8c270d6d6cf6e6c27a968c7eb5f85b3ae5b864ac70f042d9b6299f6ac3a924dc",
+    "docs/record-clearing/COMMERCIAL_PACKET_INTEGRITY.md": "2dc0acf07bbd5d0c3d89c886df31177cf79e63238f10e3814d641ed915490ba4"
+  },
+  "afterSha256": {
+    "data/rcap-ledger/commercial-packet-integrity.json": "42fa0ee31460371101b2e1c26ce394ef6d32c8719eeceac1a87bc6e2751cf5f1",
+    "docs/record-clearing/COMMERCIAL_PACKET_INTEGRITY.md": "2dc0acf07bbd5d0c3d89c886df31177cf79e63238f10e3814d641ed915490ba4"
+  },
+  "companionOutputs": {
+    "data/rcap-ledger/registry-route-census.json": {
+      "beforeSha256": "34f5f812065134cfcb4012fecfef08992fcbb2f8855aa37442368a4e40a2a630",
+      "afterSha256": "45b5169f2f4195f2c410d1365f8cb94c74b61861882e7434dc1e798672bf45d5",
+      "beforeBasis": "Accepted HEAD; initial git status proved these files clean before generator execution.",
+      "changed": true
+    },
+    "data/rcap-ledger/paid-pathway-denominator.json": {
+      "beforeSha256": "0aa39b35b6ecf542c246f05c399d595172ffb13241a6829d7f1d55ca3a17cb61",
+      "afterSha256": "0aa39b35b6ecf542c246f05c399d595172ffb13241a6829d7f1d55ca3a17cb61",
+      "beforeBasis": "Accepted HEAD; initial git status proved these files clean before generator execution.",
+      "changed": false
+    }
+  },
+  "qaVer06PrimaryArtifactGenerations": 1,
+  "deterministicCheck": "PASS; --check recomputed and compared primary JSON/Markdown. Existing generator also writes companion census/denominator even in check mode; no source change made.",
+  "steps": {
+    "18": {
+      "command": "node scripts/generate-commercial-packet-integrity.mjs --check",
+      "result": "PASS",
+      "exitCode": 0
+    },
+    "19": {
+      "command": "node scripts/verify-commercial-packet-integrity.mjs",
+      "result": "PASS",
+      "exitCode": 0,
+      "checks": 1990,
+      "routes": 267
+    },
+    "21": {
+      "command": "node scripts/test-commercial-denominator-mutations.mjs",
+      "result": "PASS",
+      "exitCode": 0,
+      "mutationGroups": 7,
+      "expectedRealTreeConditions": 14
+    }
+  },
+  "mutationTestNote": "Existing step 21 invokes the generator on temporary mutation fixtures and restores saved files in finally blocks. Not a second retained QA-VER-06 primary regeneration. Primary after-hashes and all four REL-01 output hashes verified unchanged afterward; final tracked diff is exactly the six intended release/derived files.",
+  "semanticAssessment": "PASS: stale derived proof annotations for OR/VA only; companion census reflects same VA change. No totals, denominator membership, commercial decisions, product-source or behavior changes; Markdown identical. No STALE proof rows remain.",
+  "firstDownstreamBlocker": null,
+  "ds11": "BLOCKED BEFORE WRITE; no retry",
+  "productSourceChanged": false,
+  "pushed": false,
+  "integrated": false,
+  "committed": false,
+  "nextAction": "Review the exact prepared release-control commit boundary; no push or integration performed. Claude owns QA workbook verification/closure.",
+  "evidenceSha256": {
+    "AFTER.json": "73fba092c0b3ffa3ff58423b33591982680fb26779ed1090c095f20c634e1c07",
+    "BEFORE.json": "586daed6db9200bfafb4fc97608f8a06328c5375a28c264ccd9ef813e607f3f3",
+    "before-COMMERCIAL_PACKET_INTEGRITY.md": "2dc0acf07bbd5d0c3d89c886df31177cf79e63238f10e3814d641ed915490ba4",
+    "before-commercial-packet-integrity.json": "8c270d6d6cf6e6c27a968c7eb5f85b3ae5b864ac70f042d9b6299f6ac3a924dc",
+    "check.log": "16a2c7cc95b0dd651a4063006612efdd2201e78239d0bbfde9c50d5eecbac76c",
+    "derived-diff.json": "2a3dffcf853f89f3ab6ebd3365a98aa6752a9ba53c665d10873cb97a2da9d9c3",
+    "generation.log": "f02ee956c3a1fc7faae4df5383b312819892542d2ead563d4148f8d110359983",
+    "qa-ver06.patch": "bee96f0ea02cb89bcee091e64b77019300be9ee96d9896aee6ad8539c8baa0d1",
+    "step19.log": "c631b28a36bc43fbdc099114408de2f28886038539e0b9d840fc3631c6b0a89a",
+    "step21.log": "b6d2f03bebeeec87be7bd0bbaed1ce707f7adfe949290a0cc12819ec07728276"
+  }
+}

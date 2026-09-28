@@ -1,0 +1,66 @@
+{
+  "result": "BLOCKED_BEFORE_REBINDING",
+  "authority": {
+    "task": "REL-01 #18",
+    "owner": "Codex B release lane",
+    "qaOwner": "Claude",
+    "rogerAuthorization": "existing; explicit current task instruction",
+    "canonicalRecord": "Claude local branch claude/qa-closure-dec89f391, commit 5c39d0a73; contents supplied by Roger locator response, not independently fetched",
+    "order": [
+      "REL-01 binding",
+      "commercial-packet-integrity generation once and check",
+      "chain steps 19 and 21"
+    ]
+  },
+  "sourceSha": "5e04eafd7eaed7e71722862e651fb787ebbd296d",
+  "sourceTree": "a8aad9ed87dde298fb5119bc2462f9db2d90c77e",
+  "targetDigest": "sha256:6b6a60fc5b2d0060028526013ce37c69f748e2cccb4cfb10943f2af6cf26cfe1",
+  "runtimeAcceptance": {
+    "run": 36443943089,
+    "attempt": 1,
+    "result": "PASS",
+    "receiptCommit": "6c249d68d913f6aa5e6ab2a1506b77e33e7c3f44",
+    "requiredStepsPassed": 17
+  },
+  "preservedFailedAcceptance": {
+    "run": 36442375228,
+    "attempt": 1,
+    "result": "FAIL"
+  },
+  "beforeAndAfterBinding": {
+    "sourceSha": "af638b61cc4b74afad972fa79c4c1ca3f6709540",
+    "digest": "sha256:063901962bedf73adedb8a7566da2434539082bd1577051e98e4303c566bb3a5",
+    "currentInputsEquivalent": false,
+    "observationRoutes": 13,
+    "receiptSha256": "3ec8dfca66bdd2cfafc5fc2407b32faf4a183aafe942308f9abb8f640e4b434e"
+  },
+  "mechanism": "scripts/generate-rcap-grade-a-fulfillment-authority.mjs",
+  "readOnlyPrecheck": {
+    "command": "node scripts/generate-rcap-grade-a-fulfillment-authority.mjs --check",
+    "exitCode": 1,
+    "blocker": "spawnSync pdfinfo ENOENT in scripts/lib/artifact-approval-successor.mjs:48",
+    "classification": "environment/tooling prerequisite; missing Poppler pdfinfo; not a worker or product defect",
+    "sandboxIssue": "initial Node/Git spawn EPERM; read-only command rerun outside sandbox reached missing pdfinfo"
+  },
+  "rebindExecutions": 0,
+  "qaVer06Generations": 0,
+  "qaVer06": "NOT RUN; dependent on current REL-01",
+  "steps": {
+    "18": "BLOCKED before mutation",
+    "19": "NOT RUN; dependency blocked",
+    "21": "NOT RUN; dependency blocked"
+  },
+  "ds11": "BLOCKED BEFORE WRITE; no retry",
+  "unchangedBeforeAfterSha256": {
+    "data/rcap-render/worker-publication-evidence.json": "3ec8dfca66bdd2cfafc5fc2407b32faf4a183aafe942308f9abb8f640e4b434e",
+    "data/rcap-grade-a/fulfillment-authority-registry.json": "fcd39126cb242bc6aca778ef176eea3e4f70a355c56ff4253101fa2f965cefa0",
+    "data/rcap-grade-a/fulfillment-observation-snapshot.json": "1afc8adc40918edfd2eb0d4102af9ebb758b641c22593d1f2b58680739fad270",
+    "data/rcap-grade-a/fulfillment-authority-projection.json": "63014f7305352a8e2180eac563850de08dac46a570a59c6945082e5b61dfe582",
+    "data/rcap-grade-a/worker-static-authority.json": "a0c4d6e54bf9c159f0f9272f973e2aee298c45b4b39feb6af3f030bd38244f5e",
+    "data/rcap-ledger/commercial-packet-integrity.json": "8c270d6d6cf6e6c27a968c7eb5f85b3ae5b864ac70f042d9b6299f6ac3a924dc",
+    "docs/record-clearing/COMMERCIAL_PACKET_INTEGRITY.md": "2dc0acf07bbd5d0c3d89c886df31177cf79e63238f10e3814d641ed915490ba4"
+  },
+  "logSha256": "ef42bc8b4d30ead4d7ea48c08e4c4febe96e4346d84beb7ae8d08adeeb2afca1",
+  "nextAction": "Restore the required pdfinfo tool in the execution environment, rerun the read-only precheck, then resume the already-authorized REL-01 binding exactly once if no distinct blocker appears. No duplicate REL-01 authorization required.",
+  "externalMutation": false
+}

@@ -1,0 +1,18 @@
+Commercial denominator — mutations that must be caught
+
+  detected  deleting ND's fulfillment record removes ND from the census
+              ND kept its row and its place in the denominator with no fulfillment record: admission refused
+  detected  an incomplete fulfillment record counts as authorized
+              verifier refused
+  detected  an intended-paid pathway disappears from the census with no reclassification
+              verifier refused
+  detected  checkout is admitted for a census route with no valid fulfillment authority
+              verifier refused
+  detected  a route is marked proven while its Grade-A proofs are incomplete
+              verifier refused
+  detected  the withdrawal record is erased, leaving an unexplained absence
+              verifier refused
+
+  green     14 expected conditions hold on the real tree
+
+7 mutation group(s) checked. Membership is intent, proof is a separate question, and neither can silently move the other.

@@ -99,3 +99,60 @@ equivalence never proves equivalence for A's product successor. Local doubles,
 local SQL and static contracts are not hosted acceptance; real provider delivery,
 real-database reporting, RLS credential availability and authorized hosted cases
 remain separate evidence requirements. Refund classification remains resolved.
+
+### QA-VER-06 and chain 19/21 — PASS; bounded local update prepared
+
+REL-01 remained CURRENT/PASS throughout: its four recorded output hashes are
+unchanged, and it was not rerun (one lifetime rebinding). Accepted product source
+`5e04eafd7eaed7e71722862e651fb787ebbd296d`, tree
+`a8aad9ed87dde298fb5119bc2462f9db2d90c77e`, immutable worker digest
+`sha256:6b6a60fc5b2d0060028526013ce37c69f748e2cccb4cfb10943f2af6cf26cfe1`,
+and successful runtime acceptance `36443943089`, attempt 1, remain unchanged.
+The exact publication-observation receipt hash remains
+`159fbb43c30cf365eca23bebfbe8ce314c328f2030e1a386ebea032793270575`.
+
+The existing commercial-packet-integrity generator ran once for the retained
+QA-VER-06 primary artifacts. BEFORE hashes were saved first; AFTER hashes were
+saved before the check. Its `--check` passed. JSON moved from
+`8c270d6d6cf6e6c27a968c7eb5f85b3ae5b864ac70f042d9b6299f6ac3a924dc` to
+`42fa0ee31460371101b2e1c26ce394ef6d32c8719eeceac1a87bc6e2751cf5f1`.
+Markdown stayed byte-identical at
+`2dc0acf07bbd5d0c3d89c886df31177cf79e63238f10e3814d641ed915490ba4`.
+The JSON refreshes stale OR retired-record and VA composable-track annotations;
+all totals, denominator membership and commercial decisions are unchanged.
+It reports six COMPLETE_PACKET_PROVEN rows, seven INCOMPLETE and zero STALE.
+No participant or product source/behavior changed.
+
+The unchanged generator also writes `registry-route-census.json` and
+`paid-pathway-denominator.json` (including in --check mode). The companion census
+refreshes the same VA track/family annotations; the denominator is byte-identical.
+Companion before-hashes were recovered from accepted HEAD, with the initial clean
+status proving their pre-generation bytes, rather than claimed as a separate
+pre-execution capture. Exact before/after hashes are in `qa-ver-06/RESULT.json`.
+
+Step 18: PASS — `node scripts/generate-commercial-packet-integrity.mjs --check`.
+Step 19: PASS — `node scripts/verify-commercial-packet-integrity.mjs`, 1,990 checks.
+Step 21: PASS — `node scripts/test-commercial-denominator-mutations.mjs`, seven
+mutation groups and fourteen real-tree conditions. Step 21's existing temporary
+fixture generations are not another retained QA-VER-06 regeneration; primary
+AFTER hashes and all REL-01 hashes remained unchanged afterward. Its final diff
+contains only the six intended release-control/derived files.
+
+No downstream blocker appeared. DS-11 remains BLOCKED BEFORE WRITE, no retries.
+The original pdfinfo blocker receipt and failed acceptance 36442375228 remain
+preserved. No worker publication/acceptance, product edit, push, integration,
+deployment, Preview or Production action occurred.
+
+Proposed single local evidence/control commit: parent accepted product source
+`5e04eafd7eaed7e71722862e651fb787ebbd296d`; include only the A/B/C paths in
+`evidence/2026-09-28-final-source/qa-ver-06/COMMIT_BOUNDARY.json`. A: publication
+receipt, fulfillment registry and observation; B: fulfillment projection,
+commercial integrity JSON and companion registry census; C: exact native run
+receipts, local validation evidence and this bounded ledger appendix. Exclude
+all D entries, all old B drafts, the pending migration changes, the DS-08 draft,
+and handoff archives. The isolated ledger starts from accepted HEAD and adds
+only this appendix; the dirty B checkout's older ledger edits are not absorbed.
+No commit has been created. Proposed title:
+`Bind final worker release authority and refresh QA-VER-06 evidence`.
+Claude retains ownership of QA workbook verification/closure. Stop before any
+push or integration; this handoff reports the exact prepared boundary first.
