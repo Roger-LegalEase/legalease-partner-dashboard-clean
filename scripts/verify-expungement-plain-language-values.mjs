@@ -7,7 +7,6 @@ import {
   APPROVED_DELTAS_PATH,
   authorizedBaseline,
   canonicalJson,
-  findProjection,
   loadApprovedParityDeltas
 } from "./lib/screening-parity-deltas.mjs";
 
@@ -171,50 +170,229 @@ function settledDelta(match, baseline, current, label) {
   if (!settled) return null;
 
   const fail = (message) => assert(false, `${label} ${delta.id}: ${message}`);
+  if (!settledShapeChecks(match, current, fail)) return { baseline, pinned: new Set() };
+  return { baseline, pinned: new Set([delta.questionId]) };
+}
 
-  // Every claim the projection made about the approved SHAPE is re-checked here
-  // against the settled tree. Only the transition counts are dropped, because
-  // there is no longer a transition to count — and a record whose remaining
-  // claims went unchecked would be a standing exemption rather than an
-  // approval. The pathway assertion in particular is what stops the record
-  // being quietly repointed at a pathway nobody approved.
+/**
+ * Every claim a projection made about the approved SHAPE, re-checked against a
+ * tree in which the question has already landed. Only the transition counts are
+ * dropped, because there is no longer a transition to count — and a record
+ * whose remaining claims went unchecked would be a standing exemption rather
+ * than an approval. The pathway assertion in particular is what stops the
+ * record being quietly repointed at a pathway nobody approved. Returns false
+ * after reporting the first failure.
+ */
+function settledShapeChecks(match, current, fail) {
+  const { delta, projection } = match;
   const question = current.questions.find((candidate) => candidate.id === delta.questionId);
-  if (!question) return fail(`${delta.questionId} is not present to compare`);
+  if (!question) return fail(`${delta.questionId} is not present to compare`), false;
 
   const hash = sha256(canonicalJson(question));
   if (hash !== projection.addedQuestionSha256) {
-    return fail(
-      `${delta.questionId} has landed in the baseline but hashes to ${hash.slice(0, 12)}…, approved at ${projection.addedQuestionSha256.slice(0, 12)}…`
-    );
+    fail(`${delta.questionId} has landed in the baseline but hashes to ${hash.slice(0, 12)}…, approved at ${projection.addedQuestionSha256.slice(0, 12)}…`);
+    return false;
   }
   if (question.type !== delta.questionType) {
-    return fail(`${delta.questionId} is type "${question.type}", approved type is "${delta.questionType}"`);
+    fail(`${delta.questionId} is type "${question.type}", approved type is "${delta.questionType}"`);
+    return false;
   }
   if (question.stage !== undefined && question.stage !== delta.flowStageId) {
-    return fail(`${delta.questionId} sits in stage "${question.stage}", approved stage is "${delta.flowStageId}"`);
+    fail(`${delta.questionId} sits in stage "${question.stage}", approved stage is "${delta.flowStageId}"`);
+    return false;
   }
 
   if (projection.flowStageChange === "append_question_id") {
     const stage = (current.flowStages ?? []).find((candidate) => candidate.id === delta.flowStageId);
-    if (!stage) return fail(`the approved stage "${delta.flowStageId}" is not present`);
+    if (!stage) return fail(`the approved stage "${delta.flowStageId}" is not present`), false;
     if (!(stage.questionIds ?? []).includes(delta.questionId)) {
-      return fail(`"${delta.flowStageId}" does not list ${delta.questionId}`);
+      return fail(`"${delta.flowStageId}" does not list ${delta.questionId}`), false;
     }
   } else if (JSON.stringify(current.flowStages ?? "").includes(`"${delta.questionId}"`)) {
-    return fail(`names ${delta.questionId} in its flow stages, which this projection does not approve`);
+    return fail(`names ${delta.questionId} in its flow stages, which this projection does not approve`), false;
   }
 
   if (projection.pathwayChange === "add_one") {
     const pathwayIds = (current.pathways ?? []).map((pathway) => pathway.id);
     if (pathwayIds.length !== projection.afterPathwayCount) {
-      return fail(`holds ${pathwayIds.length} pathways, approved after-count is ${projection.afterPathwayCount}`);
+      return fail(`holds ${pathwayIds.length} pathways, approved after-count is ${projection.afterPathwayCount}`), false;
     }
     if (!pathwayIds.includes(delta.pathwayId)) {
-      return fail(`does not carry the approved pathway ${delta.pathwayId}`);
+      return fail(`does not carry the approved pathway ${delta.pathwayId}`), false;
     }
   }
+  return true;
+}
 
-  return { baseline, pinned: new Set([delta.questionId]) };
+/**
+ * Every reviewed delta that projects onto this exact file and jurisdiction, in
+ * record order. One jurisdiction may carry several approved questions (Nevada's
+ * three NRS 176A facts), each its own signed record; their counts must chain
+ * and they are applied in sequence below.
+ */
+function projectionsFor(filePath, jurisdictionCode) {
+  return approvedDeltas.deltas
+    .filter((delta) => delta.jurisdiction === jurisdictionCode)
+    .map((delta) => ({ delta, projection: delta.projections.find((candidate) => candidate.path === filePath) }))
+    .filter((match) => match.projection);
+}
+
+/**
+ * Parity governs pathway IDENTITY and ORDER, exactly as `settledDelta` already
+ * does; a pathway's legal-authority, waiting-rule or ratification content is
+ * governed by the legal-authority and ratification verifiers and moves under
+ * their records, not under a screening approval. A `pathwayChange: "none"`
+ * projection therefore compares pathway ids, and only when they are identical
+ * is the content substituted so the ordinary transform can run. A removed,
+ * added or reordered pathway leaves the baseline untouched and fails below.
+ */
+function pathwayIdentityBaseline(baseline, current, projection) {
+  if (projection.pathwayChange !== "none") return baseline;
+  const baselineIds = (baseline?.pathways ?? []).map((pathway) => pathway.id);
+  const currentIds = (current?.pathways ?? []).map((pathway) => pathway.id);
+  if (canonicalJson(baselineIds) !== canonicalJson(currentIds)) return baseline;
+  if (baseline?.pathways === undefined && current?.pathways === undefined) return baseline;
+  return { ...baseline, pathways: current.pathways };
+}
+
+/**
+ * Several approved questions in one jurisdiction and file: the records are
+ * applied in order, each adding exactly its own question, and the resulting
+ * shape must equal the tree — flow stages compared once after the last
+ * append, pathways by identity with at most one approved addition. Anything
+ * the chain does not name (a fourth question, a reordering, a stage move, a
+ * dropped pathway) leaves the untransformed baseline in place and fails.
+ */
+function chainedBaseline(matches, baseline, current, label) {
+  const untouched = { baseline, pinned: new Set() };
+  const ids = matches.map((match) => match.delta.questionId);
+  const chainLabel = `${label} ${matches.map((match) => match.delta.id).join(" → ")}`;
+  const fail = (message) => {
+    assert(false, `${chainLabel}: ${message}`);
+    return untouched;
+  };
+
+  for (let index = 1; index < matches.length; index += 1) {
+    const previous = matches[index - 1].projection;
+    const next = matches[index].projection;
+    if (next.beforeQuestionCount !== previous.afterQuestionCount) {
+      return fail(`chained approvals do not chain: ${matches[index].delta.id} starts at ${next.beforeQuestionCount}, the previous record ends at ${previous.afterQuestionCount}`);
+    }
+  }
+  const first = matches[0].projection;
+  const last = matches[matches.length - 1].projection;
+
+  if (!Array.isArray(baseline?.questions) || !Array.isArray(current?.questions)) {
+    return fail("the compared profiles carry no question list");
+  }
+  const baselineIds = baseline.questions.map((question) => question.id);
+  const currentIds = current.questions.map((question) => question.id);
+  const baselinePathwayIds = (baseline.pathways ?? []).map((pathway) => pathway.id);
+  const currentPathwayIds = (current.pathways ?? []).map((pathway) => pathway.id);
+
+  // Settled: main already carries every chained question and the tree agrees.
+  if (
+    baselineIds.length === last.afterQuestionCount &&
+    ids.every((id) => baselineIds.includes(id)) &&
+    canonicalJson(baseline.questions) === canonicalJson(current.questions) &&
+    canonicalJson(baseline.flowStages) === canonicalJson(current.flowStages) &&
+    canonicalJson(baselinePathwayIds) === canonicalJson(currentPathwayIds)
+  ) {
+    for (const match of matches) {
+      const perDelta = (message) => assert(false, `${label} ${match.delta.id}: ${message}`);
+      if (!settledShapeChecks(match, current, perDelta)) return untouched;
+    }
+    return { baseline, pinned: new Set(ids) };
+  }
+
+  if (baselineIds.length !== first.beforeQuestionCount) {
+    return fail(`baseline holds ${baselineIds.length} questions, the first approved before-count is ${first.beforeQuestionCount}`);
+  }
+  if (currentIds.length !== last.afterQuestionCount) {
+    return fail(`holds ${currentIds.length} questions, the last approved after-count is ${last.afterQuestionCount}`);
+  }
+  const removed = baselineIds.filter((id) => !currentIds.includes(id));
+  if (removed.length > 0) return fail(`removes ${removed.join(", ")}, which no approval permits`);
+  const added = currentIds.filter((id) => !baselineIds.includes(id));
+  if (canonicalJson(added) !== canonicalJson(ids)) {
+    return fail(`adds ${added.length === 0 ? "nothing" : added.join(", ")}; the chained approvals cover exactly ${ids.join(", ")} in that order`);
+  }
+  const survivingOrder = currentIds.filter((id) => baselineIds.includes(id));
+  if (canonicalJson(survivingOrder) !== canonicalJson(baselineIds)) {
+    return fail("reorders questions that already existed; only appends are approved");
+  }
+
+  const stages = Array.isArray(baseline.flowStages)
+    ? baseline.flowStages.map((stage) => ({ ...stage, questionIds: [...(stage.questionIds ?? [])] }))
+    : undefined;
+  let appended = false;
+  const transformedQuestions = [...baseline.questions];
+  for (const match of matches) {
+    const { delta, projection } = match;
+    const question = current.questions.find((candidate) => candidate.id === delta.questionId);
+    if (!question) return fail(`${delta.questionId} is not present to compare`);
+    if (question.type !== delta.questionType) {
+      return fail(`${delta.questionId} is type "${question.type}", approved type is "${delta.questionType}"`);
+    }
+    if (question.stage !== undefined && question.stage !== delta.flowStageId) {
+      return fail(`${delta.questionId} sits in stage "${question.stage}", approved stage is "${delta.flowStageId}"`);
+    }
+    const questionHash = sha256(canonicalJson(question));
+    if (questionHash !== projection.addedQuestionSha256) {
+      return fail(`${delta.questionId} in ${projection.path} hashes to ${questionHash.slice(0, 12)}…, approved at ${projection.addedQuestionSha256.slice(0, 12)}…`);
+    }
+    if (projection.flowStageChange === "append_question_id") {
+      if (!stages || !Array.isArray(current.flowStages)) {
+        return fail(`${projection.path} is recorded as listing questions in its flow stages but does not`);
+      }
+      const stage = stages.find((candidate) => candidate.id === delta.flowStageId);
+      if (!stage) return fail(`the approved stage "${delta.flowStageId}" is not in the baseline`);
+      stage.questionIds.push(delta.questionId);
+      appended = true;
+    } else if (JSON.stringify(current.flowStages ?? "").includes(`"${delta.questionId}"`)) {
+      return fail(`${projection.path} names ${delta.questionId} in its flow stages, which this projection does not approve`);
+    }
+  }
+  if (appended) {
+    if (canonicalJson(stages) !== canonicalJson(current.flowStages)) {
+      return fail(`the flow-stage change is not an append of ${ids.join(", ")} to their approved stages and nothing else`);
+    }
+  } else if (canonicalJson(baseline.flowStages) !== canonicalJson(current.flowStages)) {
+    return fail(`${first.path} is recorded as changing no flow stages, but they differ`);
+  }
+
+  const additions = matches.filter((match) => match.projection.pathwayChange === "add_one");
+  if (additions.length > 1) return fail("more than one chained record claims a pathway addition");
+  if (additions.length === 1) {
+    const { delta, projection } = additions[0];
+    if (baselinePathwayIds.length !== projection.beforePathwayCount) {
+      return fail(`${projection.path} baseline holds ${baselinePathwayIds.length} pathways, approved before-count is ${projection.beforePathwayCount}`);
+    }
+    if (currentPathwayIds.length !== projection.afterPathwayCount) {
+      return fail(`${projection.path} holds ${currentPathwayIds.length} pathways, approved after-count is ${projection.afterPathwayCount}`);
+    }
+    const droppedPathways = baselinePathwayIds.filter((id) => !currentPathwayIds.includes(id));
+    if (droppedPathways.length > 0) return fail(`removes pathway ${droppedPathways.join(", ")}, which no approval permits`);
+    const addedPathways = currentPathwayIds.filter((id) => !baselinePathwayIds.includes(id));
+    if (addedPathways.length !== 1 || addedPathways[0] !== delta.pathwayId) {
+      return fail(`adds pathway ${addedPathways.length === 0 ? "nothing" : addedPathways.join(", ")}; only ${delta.pathwayId} is approved`);
+    }
+    const survivingPathways = currentPathwayIds.filter((id) => baselinePathwayIds.includes(id));
+    if (canonicalJson(survivingPathways) !== canonicalJson(baselinePathwayIds)) {
+      return fail("reorders pathways that already existed; only one approved addition is permitted");
+    }
+  } else if (canonicalJson(baselinePathwayIds) !== canonicalJson(currentPathwayIds)) {
+    return fail(`${first.path} is recorded as changing no pathways, but their identity or order differs`);
+  }
+
+  for (const id of ids) {
+    const question = current.questions.find((candidate) => candidate.id === id);
+    transformedQuestions.splice(currentIds.indexOf(id), 0, question);
+  }
+  const transformed = { ...baseline, questions: transformedQuestions };
+  if (appended) transformed.flowStages = current.flowStages;
+  if (current.pathways !== undefined) transformed.pathways = current.pathways;
+  return { baseline: transformed, pinned: new Set(ids) };
 }
 
 /**
@@ -224,16 +402,18 @@ function settledDelta(match, baseline, current, label) {
  * stays red — a stale or wrong approval never turns into permission.
  */
 function baselineFor(filePath, jurisdictionCode, baseline, current, label) {
-  const match = findProjection(approvedDeltas.deltas, { filePath, jurisdictionCode });
-  if (!match) return { baseline, pinned: new Set() };
+  const matches = projectionsFor(filePath, jurisdictionCode);
+  if (matches.length === 0) return { baseline, pinned: new Set() };
+  if (matches.length > 1) return chainedBaseline(matches, baseline, current, label);
 
+  const match = matches[0];
   const settled = settledDelta(match, baseline, current, label);
   if (settled) return settled;
 
   const transformed = authorizedBaseline({
     delta: match.delta,
     projection: match.projection,
-    baseline,
+    baseline: pathwayIdentityBaseline(baseline, current, match.projection),
     current,
     onFailure: (reason) => assert(false, `${label} ${reason}`)
   });

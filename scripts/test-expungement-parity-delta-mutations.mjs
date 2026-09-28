@@ -12,6 +12,10 @@ import { registerTrackedMutation } from "./lib/tracked-mutation-guard.mjs";
 registerTrackedMutation("test-expungement-parity-delta-mutations.mjs", [
   "data/expungement-ai/screening-parity-approved-deltas.json",
   "src/lib/rcap-engine/compiled/profiles/MD-maryland.json",
+  "src/lib/rcap-engine/compiled/profiles/NV-nevada.json",
+  "src/lib/rcap-engine/compiled/profiles/SD-south-dakota.json",
+  "src/lib/rcap-engine/compiled/all51.json",
+  "src/lib/expungement-ai/frontend/profiles/all51.json",
   "src/lib/rcap-engine/evaluator.ts",
   "src/lib/rcap-engine/public-profile-projection.ts"
 ]);
@@ -34,9 +38,13 @@ registerTrackedMutation("test-expungement-parity-delta-mutations.mjs", [
 const root = process.cwd();
 const RECORD = "data/expungement-ai/screening-parity-approved-deltas.json";
 const MD_PROFILE = "src/lib/rcap-engine/compiled/profiles/MD-maryland.json";
+const NV_PROFILE = "src/lib/rcap-engine/compiled/profiles/NV-nevada.json";
+const SD_PROFILE = "src/lib/rcap-engine/compiled/profiles/SD-south-dakota.json";
+const AGGREGATE = "src/lib/rcap-engine/compiled/all51.json";
+const FRONTEND_AGGREGATE = "src/lib/expungement-ai/frontend/profiles/all51.json";
 const EVALUATOR = "src/lib/rcap-engine/evaluator.ts";
 const PUBLIC_PROJECTION = "src/lib/rcap-engine/public-profile-projection.ts";
-const TOUCHED = [RECORD, MD_PROFILE, EVALUATOR, PUBLIC_PROJECTION];
+const TOUCHED = [RECORD, MD_PROFILE, NV_PROFILE, SD_PROFILE, AGGREGATE, FRONTEND_AGGREGATE, EVALUATOR, PUBLIC_PROJECTION];
 
 const originals = new Map(TOUCHED.map((file) => [file, fs.readFileSync(path.join(root, file))]));
 
@@ -70,22 +78,35 @@ function sha256File(file) {
 function repin(file) {
   const record = readJson(RECORD);
   const hash = sha256File(file);
-  record.deltas[0].authorizedSha256[file] = hash;
-  record.deltas[0].originallyApprovedSha256[file] = hash;
-  record.deltas[0].beforeAfterEvidence.beforeSha256[file] = hash;
-  record.deltas[0].beforeAfterEvidence.afterSha256[file] = hash;
-  // Re-pin entries continue the chain from authorizedSha256, so moving the pin
-  // to the live bytes strands any that pointed at the old start. Clearing them
-  // is part of simulating a clean pin, not part of the case under test: leaving
-  // them makes the schema reject the stranded hop and the mutation then proves
-  // the bookkeeping works rather than proving the parity comparison does.
-  const superseded = record.deltas[0].supersededSha256;
-  if (Array.isArray(superseded)) {
-    const kept = superseded.filter((entry) => !(entry.path === file && typeof entry.repinnedTo === "string"));
-    if (kept.length > 0) record.deltas[0].supersededSha256 = kept;
-    else delete record.deltas[0].supersededSha256;
+  // Every delta that pins the file is moved together: an aggregate is pinned by
+  // the Maryland record and by every Nevada and South Dakota record, and a
+  // case about the parity comparison must not trip one of their content pins.
+  for (const delta of record.deltas) {
+    if (!delta.authorizedPaths.includes(file)) continue;
+    delta.authorizedSha256[file] = hash;
+    delta.originallyApprovedSha256[file] = hash;
+    delta.beforeAfterEvidence.beforeSha256[file] = hash;
+    delta.beforeAfterEvidence.afterSha256[file] = hash;
+    // Re-pin entries continue the chain from authorizedSha256, so moving the pin
+    // to the live bytes strands any that pointed at the old start. Clearing them
+    // is part of simulating a clean pin, not part of the case under test: leaving
+    // them makes the schema reject the stranded hop and the mutation then proves
+    // the bookkeeping works rather than proving the parity comparison does.
+    const superseded = delta.supersededSha256;
+    if (Array.isArray(superseded)) {
+      const kept = superseded.filter((entry) => !(entry.path === file && typeof entry.repinnedTo === "string"));
+      if (kept.length > 0) delta.supersededSha256 = kept;
+      else delete delta.supersededSha256;
+    }
   }
   writeJson(RECORD, record);
+}
+
+/** The record index of a chained Nevada / South Dakota delta by question id. */
+function deltaIndex(questionId) {
+  const index = readJson(RECORD).deltas.findIndex((delta) => delta.questionId === questionId);
+  if (index < 0) throw new Error(`no delta approves ${questionId}`);
+  return index;
 }
 
 /**
@@ -497,6 +518,137 @@ mutation(
     fs.writeFileSync(path.join(root, RECORD), "{ this is not json");
   },
   "is not valid JSON"
+);
+
+// 18 — Chained approvals (Nevada carries three records, South Dakota one).
+// The chain admits exactly its own questions in its own order, and pathway
+// parity is identity and order: a fourth question, a reordered record, a
+// dropped or reordered pathway, a moved stage or a reworded chained question
+// must all stay red for the stated reason.
+mutation(
+  "a fourth Nevada question is added beyond the chained approvals",
+  () => {
+    const profile = readJson(NV_PROFILE);
+    profile.questions.push({
+      id: "nv_176a_extra_fact",
+      stage: "special_pathways",
+      prompt: "Was anything else true?",
+      type: "single_choice",
+      required: true,
+      contextOnly: false,
+      doesNotSelectPathway: false,
+      options: ["Yes", "No", "I am not sure"]
+    });
+    profile.flowStages.find((stage) => stage.id === "special_pathways").questionIds.push("nv_176a_extra_fact");
+    writeJson(NV_PROFILE, profile);
+    repin(NV_PROFILE);
+  },
+  "the last approved after-count is 21"
+);
+
+mutation(
+  "the chained Nevada records are recorded out of order",
+  () => {
+    const record = readJson(RECORD);
+    const first = deltaIndex("nv_176a_excluded_charge_class");
+    const second = deltaIndex("nv_176a_charge_class");
+    [record.deltas[first], record.deltas[second]] = [record.deltas[second], record.deltas[first]];
+    writeJson(RECORD, record);
+  },
+  "chained approvals do not chain"
+);
+
+mutation(
+  "a chained Nevada question's wording is changed",
+  () => {
+    const profile = readJson(NV_PROFILE);
+    profile.questions.find((question) => question.id === "nv_176a_disposition_class").prompt = "How did it end?";
+    writeJson(NV_PROFILE, profile);
+    repin(NV_PROFILE);
+  },
+  "nv_176a_disposition_class in src/lib/rcap-engine/compiled/profiles/NV-nevada.json hashes to"
+);
+
+mutation(
+  "a chained Nevada question is moved to another flow stage",
+  () => {
+    const profile = readJson(NV_PROFILE);
+    const from = profile.flowStages.find((stage) => stage.id === "special_pathways");
+    from.questionIds = from.questionIds.filter((id) => id !== "nv_176a_charge_class");
+    profile.flowStages[0].questionIds.push("nv_176a_charge_class");
+    profile.questions.find((question) => question.id === "nv_176a_charge_class").stage = profile.flowStages[0].id;
+    writeJson(NV_PROFILE, profile);
+    repin(NV_PROFILE);
+  },
+  "approved stage is \"special_pathways\""
+);
+
+mutation(
+  "an existing Nevada pathway is dropped under the chained approvals",
+  () => {
+    const profile = readJson(NV_PROFILE);
+    profile.pathways = profile.pathways.filter((pathway) => pathway.id !== "general-conviction-record-sealing-under-nrs-179-245");
+    writeJson(NV_PROFILE, profile);
+    repin(NV_PROFILE);
+  },
+  "holds 7 pathways, approved after-count is 8"
+);
+
+mutation(
+  "existing Nevada pathways are reordered under the chained approvals",
+  () => {
+    const profile = readJson(NV_PROFILE);
+    [profile.pathways[0], profile.pathways[1]] = [profile.pathways[1], profile.pathways[0]];
+    writeJson(NV_PROFILE, profile);
+    repin(NV_PROFILE);
+  },
+  "reorders pathways that already existed"
+);
+
+mutation(
+  "the aggregate names a chained Nevada question in its flow stages",
+  () => {
+    const aggregate = readJson(AGGREGATE);
+    aggregate.NV.flowStages[0].questionIds = ["nv_176a_charge_class"];
+    writeJson(AGGREGATE, aggregate);
+    repin(AGGREGATE);
+  },
+  "names nv_176a_charge_class in its flow stages"
+);
+
+mutation(
+  "a South Dakota pathway is removed under a no-pathway-change approval",
+  () => {
+    const profile = readJson(SD_PROFILE);
+    profile.pathways = profile.pathways.filter((pathway) => pathway.id !== "pardon-based-sealing");
+    writeJson(SD_PROFILE, profile);
+    repin(SD_PROFILE);
+  },
+  "is recorded as changing no pathways, but they differ"
+);
+
+mutation(
+  "the South Dakota question is moved to another flow stage",
+  () => {
+    const profile = readJson(SD_PROFILE);
+    const from = profile.flowStages.find((stage) => stage.id === "record_readiness");
+    from.questionIds = from.questionIds.filter((id) => id !== "sd_sis_record_correction_stage");
+    profile.flowStages[0].questionIds.push("sd_sis_record_correction_stage");
+    profile.questions.find((question) => question.id === "sd_sis_record_correction_stage").stage = profile.flowStages[0].id;
+    writeJson(SD_PROFILE, profile);
+    repin(SD_PROFILE);
+  },
+  "approved stage is \"record_readiness\""
+);
+
+mutation(
+  "the chained approvals are withdrawn",
+  () => {
+    const record = readJson(RECORD);
+    record.deltas = record.deltas.filter((delta) => delta.jurisdiction !== "NV");
+    writeJson(RECORD, record);
+  },
+  "NV question count changed."
 );
 
 restore();
