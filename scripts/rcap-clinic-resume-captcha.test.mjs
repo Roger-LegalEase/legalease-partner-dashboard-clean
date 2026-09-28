@@ -89,7 +89,7 @@ test('actual caller still checks exact alias and both configurations before brow
 
 // These legacy execution fixtures remain scoped to their actual predecessor.
 // A current release binding does not turn an old Preview into a final Preview.
-test('current generation is distinct from preserved historical hosted fixtures',()=>{
+test('current generation preserves its exact base without promoting historical hosted fixtures',()=>{
  const candidate=JSON.parse(fs.readFileSync('data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json'));
  const publication=JSON.parse(fs.readFileSync('data/rcap-render/worker-publication-evidence.json'));
  assert.equal(candidate.applicationSha,publication.sourceSha);
@@ -97,6 +97,7 @@ test('current generation is distinct from preserved historical hosted fixtures',
  assert.equal(candidate.hostedAcceptance.preview,null);
  assert.equal(candidate.hostedAcceptance.manualHostedFullReady,false);
  assert.equal(candidate.previewExecutionInstruction.executionAuthorized,false);
- assert.equal(candidate.supersededRecord.applicationSha,publication.supersededPublication.sourceSha);
- assert.notEqual(candidate.applicationSha,candidate.supersededRecord.applicationSha);
+ const historical=JSON.parse(execFileSync('git',['show',`${candidate.releaseBaseSha}:data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json`]));
+ assert.deepEqual(candidate.supersededRecord,historical);
+ assert.notEqual(candidate.releaseBaseSha,historical.releaseBaseSha);
 });

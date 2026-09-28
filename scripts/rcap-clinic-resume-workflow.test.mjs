@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import {spawnSync} from 'node:child_process';
+import {spawnSync,execFileSync} from 'node:child_process';
 import {parse} from 'yaml';
 const entry=parse(fs.readFileSync('.github/workflows/rcap-f1-ephemeral-staging.yml','utf8'));
 const workflow=parse(fs.readFileSync('.github/workflows/rcap-hosted-acceptance-staging.yml','utf8'));
@@ -91,7 +91,7 @@ test('checkpoint refuses blank or different Preview identity before any deployme
 
 // These legacy execution fixtures remain scoped to their actual predecessor.
 // A current release binding does not turn an old Preview into a final Preview.
-test('current generation is distinct from preserved historical hosted fixtures',()=>{
+test('current generation preserves its exact base without promoting historical hosted fixtures',()=>{
  const candidate=JSON.parse(fs.readFileSync('data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json'));
  const publication=JSON.parse(fs.readFileSync('data/rcap-render/worker-publication-evidence.json'));
  assert.equal(candidate.applicationSha,publication.sourceSha);
@@ -99,6 +99,7 @@ test('current generation is distinct from preserved historical hosted fixtures',
  assert.equal(candidate.hostedAcceptance.preview,null);
  assert.equal(candidate.hostedAcceptance.manualHostedFullReady,false);
  assert.equal(candidate.previewExecutionInstruction.executionAuthorized,false);
- assert.equal(candidate.supersededRecord.applicationSha,publication.supersededPublication.sourceSha);
- assert.notEqual(candidate.applicationSha,candidate.supersededRecord.applicationSha);
+ const historical=JSON.parse(execFileSync('git',['show',`${candidate.releaseBaseSha}:data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json`]));
+ assert.deepEqual(candidate.supersededRecord,historical);
+ assert.notEqual(candidate.releaseBaseSha,historical.releaseBaseSha);
 });
