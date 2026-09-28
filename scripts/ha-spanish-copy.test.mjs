@@ -18,12 +18,13 @@ const load=s=>import('data:text/javascript;base64,'+Buffer.from(ts.transpileModu
 const current=await load(fs.readFileSync(file,'utf8'));
 const baseline=await load(execFileSync('git',['show','97f3b24c8b9462cf5f100a2c83358360d7252ec2:'+file],{encoding:'utf8'}));
 const added=['signin.pending_claim_error','signin.javascript_required','signin.secure_link_sent','signin.retrying','signin.retry_save','signin.sending_secure_link','signin.email_secure_link','signin.opening_google','signin.continue_google','signin.passwordless.error','signin.captcha_failure','clinic.assistance.staff_error','clinic.assistance.capacity_error','legal_aid.device_reset_required','clinic.verification.prepare_error'];
-const edited=['clinic.error.10','clinic.error.4','clinic.participant.18','clinic.participant.23','clinic.participant.30','clinic.recovery.1','clinic.recovery.3','clinic.recovery.5','clinic.recovery.7','clinic.recovery.8','clinic.recovery.11','clinic.recovery.12','signin.switch_to_create'];
+const edited=['clinic.admission.stale','clinic.error.10','clinic.error.4','clinic.participant.18','clinic.participant.23','clinic.participant.30','clinic.recovery.1','clinic.recovery.3','clinic.recovery.5','clinic.recovery.7','clinic.recovery.8','clinic.recovery.11','clinic.recovery.12','signin.switch_to_create'];
 test('only the bounded catalog entries change; all 15 fallback paths resolve Spanish; Nevada unchanged',()=>{
  const changed=Object.keys(current.EXPUNGEMENT_COPY).filter(k=>JSON.stringify(current.EXPUNGEMENT_COPY[k])!==JSON.stringify(baseline.EXPUNGEMENT_COPY[k]));
  assert.deepEqual(changed.sort(),[...added,...edited].sort());
  for(const k of [...added,...edited]){const v=current.EXPUNGEMENT_COPY[k];assert.ok(v.es);assert.notEqual(v.es,v.en);assert.equal(current.t('es',k,v.en),v.es);assert.equal(current.resolveRuntimeText('es',v.en),v.es);assert.equal(current.t('en',k),v.en);}
  for(const k of Object.keys(baseline.EXPUNGEMENT_COPY))if(!edited.includes(k))assert.deepEqual(current.EXPUNGEMENT_COPY[k],baseline.EXPUNGEMENT_COPY[k],k);
+ assert.equal(current.EXPUNGEMENT_COPY['clinic.admission.stale'].es,baseline.EXPUNGEMENT_COPY['clinic.admission.stale'].es);
  assert.equal(current.EXPUNGEMENT_COPY['signin.passwordless.error'].en,'We could not sign you in. Check your email and try again.');
 });
 const temp=fs.mkdtempSync(path.join(os.tmpdir(),'ha-spanish-browser-'));

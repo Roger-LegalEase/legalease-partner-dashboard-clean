@@ -99,7 +99,7 @@ const UNAVAILABLE = "This isn’t available yet. Your information is saved in yo
 export function participantCopyFor(denialCode: string, contextDenials: readonly string[] = []): string {
   switch (denialCode) {
     case "fulfillment_stale":
-      return "We’re re-checking this route. Your information is saved — please try again shortly.";
+      return "We’re re-checking this route. Your information is saved. Please try again shortly.";
     case "fulfillment_superseded":
       return "This route was just updated. Please try again.";
     case "participant_context_denied":
