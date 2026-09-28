@@ -653,11 +653,21 @@ const PRIOR_GENERATION_FILES=[
 ];
 // DS-08 tools-only currentness successor; predecessor generations retain
 // their original exact manifest and all historical validation.
-export const GENERATION_FILES=[
+const DS08_GENERATION_FILES=[
  "scripts/grade-a-launch-control/verify-release-candidate-binding.mjs",
  "data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json",
  "data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json",
  "data/rcap-grade-a/launch-control/PENDING_WORKER_SUCCESSOR.json"
+];
+// Exact hosted-pin successor; no historical workflow pins are reclassified.
+export const GENERATION_FILES=[
+ "scripts/grade-a-launch-control/verify-release-candidate-binding.mjs",
+ "data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json",
+ "data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json",
+ "data/rcap-grade-a/launch-control/PENDING_WORKER_SUCCESSOR.json",
+ ".github/workflows/rcap-f1-ephemeral-staging.yml",
+ ".github/workflows/rcap-hosted-acceptance-staging.yml",
+ "scripts/rcap-clinic-resume-workflow.test.mjs"
 ];
 function verifyGenerationBinding(root,candidate,pending){
  try{
@@ -665,7 +675,8 @@ function verifyGenerationBinding(root,candidate,pending){
   const read=rel=>JSON.parse(fs.readFileSync(path.join(root,rel)));
   const toolsPath='data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json';
   const binding=read(toolsPath),t=binding.successorTools,base=pending.releaseBaseSha;
-  const generationFiles=base==='9ce9233bde4e3c16d0dc9657524ae1a5f02eb2fa'?GENERATION_FILES:PRIOR_GENERATION_FILES;
+  const generationFiles=base==='44916baaeb9815ba3dd61d94e8c51294f01e8166'?GENERATION_FILES
+    :base==='9ce9233bde4e3c16d0dc9657524ae1a5f02eb2fa'?DS08_GENERATION_FILES:PRIOR_GENERATION_FILES;
   const expect=(actual,expected,message)=>{if(JSON.stringify(actual)!==JSON.stringify(expected))throw Error(message);};
   expect(binding.toolsSha,base,'tools base identity');expect(t.baseSha,base,'release/tools base');
   expect(t.schemaVersion,'rcap-successor-resume-tools/v1','tools schema');expect(t.commit,'single-commit-after-base','bounded successor');

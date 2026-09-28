@@ -45,7 +45,9 @@ test('manual mode, authorization inputs and exact release pins reach the reusabl
   const caller=Object.values(entry.jobs).find(j=>j.uses==='./.github/workflows/rcap-hosted-acceptance-staging.yml');
   assert.equal(caller.with[key],`\${{ inputs.${key} }}`);assert.equal(evaluate(caller.with.phase,baseInputs,{}),'clinic_resume');
  }
- for(const doc of [entry,workflow]){assert.equal(doc.env.AUTHORIZED_WORKER_SOURCE_SHA,source);assert.equal(doc.env.AUTHORIZED_WORKER_DIGEST,digest);}
+ // Live workflow pins follow current authority; historical fixtures below stay frozen.
+ const accepted=JSON.parse(fs.readFileSync('data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json','utf8'));
+ for(const doc of [entry,workflow]){assert.equal(doc.env.AUTHORIZED_WORKER_SOURCE_SHA,accepted.workerSourceSha);assert.equal(doc.env.AUTHORIZED_WORKER_DIGEST,accepted.workerDigest);}
 });
 test('missing/wrong owner or closure authorization and partial retry identity refuse in the first step',()=>{
  const first=steps[0];const env={PATH:process.env.PATH,PHASE_INPUT:'clinic_resume',CLINIC_RESUME_AUTHORIZATION:authorization,CLINIC_SESSION_CLOSURE_AUTHORIZATION:closure,PREVIEW_DEPLOYMENT_ID_INPUT:'dpl_Gf6uwETvQNbKXAMCcxLE6ECxLhNR',PREVIEW_HOSTNAME_INPUT:'legalease-rcap-clinic-af638b61cc4b-roger947s-projects.vercel.app',APPLICATION_SHA_INPUT:source,WORKER_SOURCE_SHA_INPUT:source,WORKER_DIGEST_INPUT:digest,AUTHORIZED_WORKER_SOURCE_SHA:source,AUTHORIZED_WORKER_DIGEST:digest,SUPABASE_PROJECT_REF_INPUT:'hyflxnlhpmiqxvvcoiia',AUTHORIZED_ACCEPTANCE_PROJECT_REF:'hyflxnlhpmiqxvvcoiia',TOOLS_SHA_INPUT:source,WORKFLOW_SHA_INPUT:source};
