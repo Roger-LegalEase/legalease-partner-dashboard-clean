@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import {applicationInputManifest} from "./rcap-application-inputs.mjs";
 import fs from "node:fs";
 import { checkoutMetadataContractFailures, checkoutMetadataBehaviorFailures } from "./verify-rcap-checkout-metadata-contract.mjs";
 import path from "node:path";
@@ -255,8 +256,8 @@ for (const [label, workflow] of [["entry", entry], ["hosted", hosted]]) {
     && workflow.includes('WORKFLOW_SHA_INPUT: ${{ github.sha }}')
     && workflow.includes('[ "$TOOLS_SHA_INPUT" = "$WORKFLOW_SHA_INPUT" ]')
     && workflow.includes("git merge-base --is-ancestor")
-    && workflow.includes("postcss.config.mjs")
-    && workflow.includes("tailwind.config.ts")
+    && workflow.includes("node scripts/rcap-application-inputs.mjs --base")
+    && workflow.includes("node scripts/verify-rcap-application-candidate.mjs --application")
     && workflow.includes('"${{ inputs.worker_source_sha }}" "${{ inputs.application_sha }}"')
     && workflow.includes('"${{ inputs.application_sha }}" "${{ inputs.tools_sha }}"');
   check(Boolean(inputGuard) && releaseIdentityContract, `${label} workflow release identity contract is incomplete`);
@@ -301,11 +302,7 @@ function gitDiffQuiet(baseSha, paths) {
   return run.status === 0;
 }
 
-check(gitDiffQuiet(RELEASE_CONTROL_BASE_SHA, [
-  "src", "package.json", "package-lock.json", "tsconfig.json", "next.config.ts",
-  "postcss.config.mjs", "tailwind.config.ts", "public",
-  "docs/record-clearing/field-map-drafts"
-]),
+check(gitDiffQuiet(RELEASE_CONTROL_BASE_SHA, applicationInputManifest(root, RELEASE_CONTROL_BASE_SHA).files.map(file => file.path)),
   "checkout-gate branch changes frozen application inputs");
 // Worker inputs are compared against the source the accepted image was built
 // from, so a candidate that silently moved a canonical worker input could not

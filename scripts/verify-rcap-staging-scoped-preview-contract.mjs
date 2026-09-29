@@ -253,7 +253,7 @@ if (MUTATIONS) {
     ["R6 the resolver stops looking for an existing exact Preview", (h, r) =>
       [h, r.replace("async function findExistingExactPreview", "async function unusedSearch")]],
     ["R7 more than one new Preview is created", (h, r) =>
-      [h.replace(" && steps.resolve_preview.outputs.reused != 'true'", ""), r]],
+      [h.replaceAll(" && steps.resolve_preview.outputs.reused != 'true'", ""), r]],
     ["R8 the final gate accepts a skipped matrix step", (h, r) =>
       [h.replace("    success) echo \"  ok       $1\" ;;", "    success|skipped) echo \"  ok       $1\" ;;"), r]],
     ["R8 the gate can pass vacuously again", (h, r) =>

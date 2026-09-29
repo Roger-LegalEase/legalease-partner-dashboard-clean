@@ -1,3 +1,4 @@
+import {applicationInputManifest, applicationInputEquivalence} from '../rcap-application-inputs.mjs';
 import {verifyPendingWorkerSuccessor,verifySuccessorPublication,assertSuccessorImageAcceptance} from './verify-pending-worker-successor.mjs';
 import { execFileSync } from 'node:child_process';
 import fs from 'node:fs';
@@ -57,6 +58,16 @@ export function imageAcceptanceRefusals(publication, candidate) {
 // A receipt's asserted candidate identity is not proof that current inputs still
 // match that candidate. Only explicitly named acceptance evidence may follow it.
 export function verifyReleaseCandidateBinding(root, candidate, receiptPaths = []) {
+  if(candidate?.applicationSha){
+    try {
+      const application = applicationInputEquivalence(root,candidate.applicationSha,'HEAD');
+      if(!application.equivalent)return {current:false,status:'STALE_APPLICATION_INPUTS',reasons:application.changedPaths};
+      const manifest=applicationInputManifest(root,candidate.applicationSha);
+      const dirty=execFileSync('git',['diff','--name-only',candidate.applicationSha],{cwd:root,encoding:'utf8'}).trim().split('\n');
+      const runtime=new Set(manifest.files.map(f=>f.path));
+      if(dirty.some(f=>runtime.has(f)))return {current:false,status:'STALE_APPLICATION_INPUTS',reasons:dirty.filter(f=>runtime.has(f))};
+    } catch(error){return {current:false,status:'INVALID_APPLICATION_INPUTS',reasons:[error.message]};}
+  }
   const pending = verifyPendingWorkerSuccessor(root);
   if(pending?.current && pending.releaseBaseSha)return verifyGenerationBinding(root,candidate,pending);
   if (pending?.current === true && pending.status === 'SUCCESSOR_ACCEPTED_PREVIEW_AND_RESUME_PENDING') return verifyAcceptedSuccessorBinding(root,candidate,pending);
@@ -109,15 +120,8 @@ export function verifyReleaseCandidateBinding(root, candidate, receiptPaths = []
     'data/rcap-grade-a/launch-control/POST_WAVE_2_NATIONAL_LAUNCH_WORKLIST_FREEZE.json',
     // Preserved pre-existing operating notes are not application inputs.
     'CAPTAIN_RESTART.md',
-    // Release records regenerated or updated after the application freeze
-    // (publication evidence, image acceptance, staging action, fulfillment
-    // authority). Data, not orchestration: the orchestration set is
-    // scripts/ and .github/ only.
-    'data/rcap-render/worker-publication-evidence.json',
-    'data/rcap-staging-action.json',
-    'data/rcap-grade-a/fulfillment-authority-projection.json',
-    'data/rcap-grade-a/fulfillment-authority-registry.json',
-    'data/rcap-grade-a/fulfillment-observation-snapshot.json',
+    // Only non-runtime release bookkeeping may follow the application freeze.
+    // Runtime-consumed publication and authority are application inputs.
     // The successor-freeze receipt: written after the freeze it describes, so
     // it can never be inside it. A release record, like the ones above --
     // evidence about the release, not an input the image is built from.
@@ -613,6 +617,9 @@ export function verifyAcceptedSuccessorBinding(root,candidate,pending=verifyPend
   fail(binding.previewExecution==='held'&&candidate.previewExecution==='held'&&candidate.productionAuthorized===false&&candidate.productionAuthorization===null,'Execution remains held');
   fail(candidate.status===pending.status&&candidate.hostedAcceptanceStatus===pending.status&&binding.status===pending.status,'Accepted Preview-pending state required');
   fail(candidate.hostedAcceptance?.preview===null&&candidate.hostedAcceptance?.naturalDelivery===null&&candidate.hostedAcceptance?.manualHostedFullReady===false&&candidate.hostedAcceptance?.journeys?.length===0,'No successor hosted acceptance yet');
+  if(pending.applicationSha!==pending.workerSourceSha){
+    expect(read('data/rcap-grade-a/launch-control/APPLICATION_INPUT_MANIFEST.json'),applicationInputManifest(root,pending.applicationSha),'candidate-derived application manifest');
+  }
   const e=read('data/rcap-render/worker-publication-evidence.json');assertSuccessorImageAcceptance(root,e);
   fail(imageAcceptanceRefusals(e,candidate).length===0,'Native image acceptance mismatch');
   fail(JSON.stringify(candidate.readOnlyImageAcceptance)===JSON.stringify(e.imageAcceptance),'Candidate must bind complete native acceptance');
@@ -687,7 +694,7 @@ const CHECKOUT_PIN_GENERATION_FILES=[
  "scripts/rcap-hosted-checkout-gate.mjs"
 ];
 // Synthetic fixture lifecycle successor; accepted runtime and historical bindings are unchanged.
-export const GENERATION_FILES=[
+const CHECKOUT_LIFECYCLE_GENERATION_FILES=[
   "scripts/grade-a-launch-control/verify-release-candidate-binding.mjs",
   "data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json",
   "data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json",
@@ -697,13 +704,32 @@ export const GENERATION_FILES=[
   "scripts/rcap-hosted-final-verification.test.mjs",
   "scripts/verify-rcap-hosted-checkout-gate.mjs"
 ];
+// Application authority successor: application and worker sources have separate custody.
+export const GENERATION_FILES=[
+  "scripts/verify-rcap-staging-scoped-preview-contract.mjs",
+  "scripts/verify-rcap-hosted-checkout-gate.mjs",
+  "scripts/verify-rcap-preview-reuse-contract.mjs",
+  "scripts/rcap-clinic-resume-workflow.test.mjs",
+  "scripts/grade-a-launch-control/verify-release-candidate-binding.mjs",
+  "scripts/grade-a-launch-control/verify-pending-worker-successor.mjs",
+  "data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json",
+  "data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json",
+  "data/rcap-grade-a/launch-control/PENDING_WORKER_SUCCESSOR.json",
+  "data/rcap-grade-a/launch-control/APPLICATION_INPUT_MANIFEST.json",
+  ".github/workflows/rcap-hosted-acceptance-staging.yml",
+  ".github/workflows/rcap-f1-ephemeral-staging.yml",
+  "scripts/rcap-application-inputs.mjs",
+  "scripts/rcap-application-inputs.test.mjs",
+  "scripts/verify-rcap-application-candidate.mjs"
+];
 function verifyGenerationBinding(root,candidate,pending){
  try{
   const git=args=>execFileSync('git',args,{cwd:root,encoding:'utf8',stdio:'pipe'}).trim();
   const read=rel=>JSON.parse(fs.readFileSync(path.join(root,rel)));
   const toolsPath='data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json';
   const binding=read(toolsPath),t=binding.successorTools,base=pending.releaseBaseSha;
-  const generationFiles=base==='3aeb5cdbeec1f84c61a4a6fca3297d72c40f719a'?GENERATION_FILES
+  const generationFiles=base==='e312a5efa7b4882e0fbf61a5ff0ae7891ac23226'?GENERATION_FILES
+    :base==='3aeb5cdbeec1f84c61a4a6fca3297d72c40f719a'?CHECKOUT_LIFECYCLE_GENERATION_FILES
     :base==='bafe2536f560ddb93d115d591ea0a5b8af0fac90'?CHECKOUT_PIN_GENERATION_FILES
     :base==='d7adfbde5e19ef8025182dc755ba05fbf94e0a79'?BOOTSTRAP_GENERATION_FILES
     :base==='44916baaeb9815ba3dd61d94e8c51294f01e8166'?HOSTED_PIN_GENERATION_FILES
@@ -717,6 +743,9 @@ function verifyGenerationBinding(root,candidate,pending){
   for(const [rel,hash]of Object.entries(t.files))expect(createHash('sha256').update(fs.readFileSync(path.join(root,rel))).digest('hex'),hash,`tools drift: ${rel}`);
   const changed=[...new Set([...git(['diff','--name-only',base]).split('\n'),...git(['ls-files','--others','--exclude-standard']).split('\n')].filter(Boolean))].sort();
   expect(changed,generationFiles.slice().sort(),'exact generation change boundary');
+  if(pending.applicationSha!==pending.workerSourceSha){
+    expect(read('data/rcap-grade-a/launch-control/APPLICATION_INPUT_MANIFEST.json'),applicationInputManifest(root,pending.applicationSha),'candidate-derived application manifest');
+  }
   const e=read('data/rcap-render/worker-publication-evidence.json');
   for(const record of [candidate,binding]){
    for(const k of ['applicationSha','workerSourceSha','workerDigest','workerInputFingerprint','runtimeAccepted','workerRebuildRequired','releaseBaseSha'])expect(record[k],pending[k],`current tuple ${k}`);

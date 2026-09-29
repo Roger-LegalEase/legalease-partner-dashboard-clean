@@ -534,6 +534,15 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies from lockfile
+        run: npm ci
+
       - name: Verify ancestry and image-input equivalence of every pinned SHA
         run: |
           set -euo pipefail
@@ -549,8 +558,8 @@ jobs:
           # The tools commit must carry the exact application and worker bytes:
           # if this diff is empty, building once at tools_sha builds the pinned
           # application SHA's bytes, and the worker fingerprint is unchanged.
-          git diff --quiet "${{ inputs.application_sha }}" "${{ inputs.tools_sha }}" -- src package.json package-lock.json tsconfig.json next.config.ts postcss.config.mjs tailwind.config.ts public docs/record-clearing/field-map-drafts \
-            || { echo "::error::tools_sha differs from application_sha on application bytes"; exit 1; }
+          node scripts/rcap-application-inputs.mjs --base "${{ inputs.application_sha }}" --head "${{ inputs.tools_sha }}"
+          node scripts/verify-rcap-application-candidate.mjs --application "${{ inputs.application_sha }}"
           # Worker equivalence is decided by the canonical resolver. The list
           # this step used to carry named seven paths and omitted
           # Dockerfile.dockerignore, the supplemental guides, the brand asset
@@ -576,15 +585,6 @@ jobs:
           ACTUAL="$(docker inspect --format='{{index .RepoDigests 0}}' "$REF" | sed 's/.*@//')"
           [ "$ACTUAL" = "$AUTHORIZED_WORKER_DIGEST" ] || { echo "::error::pulled digest $ACTUAL differs from authorized digest"; exit 1; }
           echo "Pulled $REF (digest verified; the mutable tag was never used)"
-
-      - name: Set up Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: npm
-
-      - name: Install dependencies from lockfile
-        run: npm ci
 
       - name: Start the disposable Supabase stack (runner-local only)
         run: |

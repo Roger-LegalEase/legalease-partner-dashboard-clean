@@ -166,7 +166,7 @@ if (MUTATIONS) {
     ["a mismatching candidate falls back to deploying", (h, c, r) =>
       [h, c, r.replace('emit("refused_no_exact_preview", { hostname: resolvedHost', 'emit("created_one_new_preview", { hostname: resolvedHost')]],
     ["an exact reuse match still runs the deploy step", (h, c, r) =>
-      [h.replace(" && steps.resolve_preview.outputs.reused != 'true'", ""), c, r]],
+      [h.replaceAll(" && steps.resolve_preview.outputs.reused != 'true'", ""), c, r]],
     ["downstream uses a hostname other than the resolved one", (h, c, r) =>
       [h.replace("HOSTED_PREVIEW_HOSTNAME: ${{ steps.resolve_preview.outputs.hostname || steps.deploy_preview.outputs.hostname }}", "HOSTED_PREVIEW_HOSTNAME: ${{ inputs.preview_hostname }}"), c, r]],
     ["the deployment id is never resolved from the hostname", (h, c, r) =>

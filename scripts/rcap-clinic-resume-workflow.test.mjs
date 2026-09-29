@@ -96,7 +96,9 @@ test('checkpoint refuses blank or different Preview identity before any deployme
 test('current generation preserves its exact base without promoting historical hosted fixtures',()=>{
  const candidate=JSON.parse(fs.readFileSync('data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json'));
  const publication=JSON.parse(fs.readFileSync('data/rcap-render/worker-publication-evidence.json'));
- assert.equal(candidate.applicationSha,publication.sourceSha);
+ assert.equal(candidate.workerSourceSha,publication.sourceSha);
+ assert.equal(candidate.applicationSha,candidate.releaseBaseSha);
+ execFileSync('git',['merge-base','--is-ancestor',candidate.workerSourceSha,candidate.applicationSha]);
  assert.equal(candidate.workerDigest,publication.immutableRegistryDigest);
  assert.equal(candidate.hostedAcceptance.preview,null);
  assert.equal(candidate.hostedAcceptance.manualHostedFullReady,false);
