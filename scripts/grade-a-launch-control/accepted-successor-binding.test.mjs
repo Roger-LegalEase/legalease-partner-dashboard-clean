@@ -56,7 +56,7 @@ test('receipt-chain successor binds the current generation before and after one 
  try{
   execFileSync('git',['clone','--quiet','--shared','--no-checkout',process.cwd(),root],{stdio:'pipe'});
   const binding=JSON.parse(fs.readFileSync(toolsPath));
-  git(['checkout','--detach',binding.successorTools.dependencyOrderCorrectionBaseSha??binding.releaseBaseSha]);
+  git(['checkout','--detach',binding.toolsSha]);
   const generationFiles=[toolsPath,...Object.keys(binding.successorTools.files)];
   for(const rel of generationFiles){fs.mkdirSync(path.dirname(path.join(root,rel)),{recursive:true});fs.copyFileSync(rel,path.join(root,rel));}
   git(['add','-f','--',...generationFiles]);

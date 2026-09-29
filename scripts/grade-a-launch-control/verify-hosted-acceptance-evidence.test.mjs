@@ -68,8 +68,10 @@ test('each native receipt rejects byte drift before semantic validation',()=>{
 
 // Exercise the existing Production gate without network or runtime execution.
 test('hosted acceptance grants no Production phase authority',()=>{
- const candidate=JSON.parse(fs.readFileSync('data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json')).supersededRecord;
- // Acceptance itself is unchanged; only the explicit owner successor grants preflight.
+ let candidate=JSON.parse(fs.readFileSync('data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json'));
+ while(candidate && candidate.status !== 'HOSTED_ACCEPTED_PRODUCTION_HELD') candidate=candidate.supersededRecord;
+ assert.ok(candidate,'the exact hosted-acceptance generation must exist in the supersededRecord chain');
+ // Acceptance itself grants nothing; later owner authorizations do not change it.
  assert.equal(candidate.productionAuthorized,false);assert.equal(candidate.productionAuthorization,null);
  for(const phase of ['preflight','clinic_migrate','packet_migrate','worker_deploy','deploy','smoke','activate','public_verify','alias','live_order']){
   assert.throws(()=>requireProductionPhaseAuthorization(candidate,phase),/not_authorized/);

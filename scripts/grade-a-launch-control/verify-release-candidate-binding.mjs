@@ -807,6 +807,13 @@ export const PREACTIVATION_FILES=[
  "scripts/rcap-production-preactivation-startup.test.mjs",
  "scripts/rcap-production-workflow-dependency-order.test.mjs"
 ];
+const HOSTED_EVIDENCE_TEST_CORRECTION_BASE='07e4df91f92c243c638fc06823d73447fbf33383';
+const HOSTED_EVIDENCE_TEST_CORRECTION_FILES=[
+ 'scripts/grade-a-launch-control/accepted-successor-binding.test.mjs',
+ 'scripts/grade-a-launch-control/verify-hosted-acceptance-evidence.test.mjs',
+ 'scripts/grade-a-launch-control/verify-release-candidate-binding.mjs',
+ 'data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json',
+];
 function verifyGenerationBinding(root,candidate,pending){
  try{
   const git=args=>execFileSync('git',args,{cwd:root,encoding:'utf8',stdio:'pipe'}).trim();
@@ -815,7 +822,8 @@ function verifyGenerationBinding(root,candidate,pending){
   const binding=read(toolsPath),t=binding.successorTools,base=pending.releaseBaseSha;
   const preflightOnly=base===PREFLIGHT_BASE,preactivation=base===PREACTIVATION_BASE,productionScoped=preflightOnly||preactivation;
   const correction=t.dependencyOrderCorrectionBaseSha;
-  const generationFiles=preactivation?PREACTIVATION_FILES:preflightOnly?[...new Set([...GENERATION_FILES,...(correction?PRODUCTION_DEPENDENCY_ORDER_FILES:[])])]:base===HOSTED_BASE?HOSTED_GENERATION_FILES:(base==='879463ec2ef60696da39a0367b4758d26074207b'
+  const hostedTestCorrection=t.hostedEvidenceTestCorrectionBaseSha;
+  const generationFiles=preactivation?[...new Set([...PREACTIVATION_FILES,...(hostedTestCorrection?HOSTED_EVIDENCE_TEST_CORRECTION_FILES:[])])]:preflightOnly?[...new Set([...GENERATION_FILES,...(correction?PRODUCTION_DEPENDENCY_ORDER_FILES:[])])]:base===HOSTED_BASE?HOSTED_GENERATION_FILES:(base==='879463ec2ef60696da39a0367b4758d26074207b'
     ||base==='516b02ac1a68a6aaef41ca9825eae0ece5e3df37')?CHECKOUT_RETURN_GENERATION_FILES
     :base==='7556f87cee1cf3e6f4b503c76b8ba1d1bbc59456'?PACKET_DATABASE_GENERATION_FILES
     :base==='e312a5efa7b4882e0fbf61a5ff0ae7891ac23226'?APPLICATION_AUTHORITY_GENERATION_FILES
@@ -825,7 +833,17 @@ function verifyGenerationBinding(root,candidate,pending){
     :base==='44916baaeb9815ba3dd61d94e8c51294f01e8166'?HOSTED_PIN_GENERATION_FILES
     :base==='9ce9233bde4e3c16d0dc9657524ae1a5f02eb2fa'?DS08_GENERATION_FILES:PRIOR_GENERATION_FILES;
   const expect=(actual,expected,message)=>{if(JSON.stringify(actual)!==JSON.stringify(expected))throw Error(message);};
-  const commitBase=correction??base;
+  const commitBase=hostedTestCorrection??correction??base;
+  if(hostedTestCorrection){
+   expect(preactivation,true,'hosted test correction only on reviewed pre-activation release');
+   expect(correction,undefined,'no combined correction scope');
+   expect(hostedTestCorrection,HOSTED_EVIDENCE_TEST_CORRECTION_BASE,'exact reviewed pre-activation correction base');
+   const priorTools=JSON.parse(git(['show',`${hostedTestCorrection}:${toolsPath}`]));
+   expect(binding,{...priorTools,toolsSha:hostedTestCorrection,successorTools:{...priorTools.successorTools,hostedEvidenceTestCorrectionBaseSha:hostedTestCorrection,files:t.files}},'only exact hosted-evidence test tools correction');
+   for(const [rel,hash]of Object.entries(priorTools.successorTools.files))if(!HOSTED_EVIDENCE_TEST_CORRECTION_FILES.includes(rel))expect(t.files[rel],hash,`preserved tools: ${rel}`);
+   const delta=[...new Set([...git(['diff','--name-only',hostedTestCorrection]).split('\n'),...git(['ls-files','--others','--exclude-standard']).split('\n')].filter(Boolean))].sort();
+   expect(delta,HOSTED_EVIDENCE_TEST_CORRECTION_FILES.slice().sort(),'exact hosted-evidence test correction paths');
+  }
   if(correction){
    expect(preflightOnly,true,'dependency correction only on approved preflight release');
    expect(correction,PRODUCTION_DEPENDENCY_ORDER_BASE,'exact dependency-order correction base');
@@ -879,7 +897,7 @@ function verifyGenerationBinding(root,candidate,pending){
   for(const key of new Set([...Object.keys(previousTools),...Object.keys(binding)]))if(!toolsUpdates.has(key))expect(binding[key],previousTools[key],`unchanged tools field ${key}`);
   expect(candidate.applicationPin,{...previous.applicationPin,sourceSha:pending.applicationSha,canonicalInputBaseline:pending.applicationSha,workerInputFingerprint:pending.workerInputFingerprint},'exact application pin');
   expect(candidate.previewExecutionInstruction,{...previous.previewExecutionInstruction,mode:null,...((base===HOSTED_BASE||productionScoped)?{preview_hostname:PREVIEW.hostname,preview_deployment_id:PREVIEW.deploymentId,firstExecution:'Hosted acceptance is complete; no execution authorized by this record.'}:{})},'exact Preview identity without execution authority');
-  expect(Object.keys(t).sort(),['schemaVersion','baseSha','commit','files',...(correction?['dependencyOrderCorrectionBaseSha']:[])].sort(),'no inherited tools correction scope');
+  expect(Object.keys(t).sort(),['schemaVersion','baseSha','commit','files',...(correction?['dependencyOrderCorrectionBaseSha']:[]),...(hostedTestCorrection?['hostedEvidenceTestCorrectionBaseSha']:[])].sort(),'no inherited tools correction scope');
   return {current:true,status:'CURRENT',hostedAcceptanceStatus:candidate.hostedAcceptanceStatus,releaseStatus:pending.status,previewExecution:'held',productionAuthorized:productionScoped,productionPhases:preactivation?[...PREACTIVATION_PHASES]:preflightOnly?['preflight']:[],reasons:[]};
  }catch(error){return {current:false,status:'STALE_OR_UNVERIFIED',reasons:[error.message]};}
 }
