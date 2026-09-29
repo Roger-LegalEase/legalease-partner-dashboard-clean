@@ -670,7 +670,7 @@ const HOSTED_PIN_GENERATION_FILES=[
  "scripts/rcap-clinic-resume-workflow.test.mjs"
 ];
 // Runner-only continuity bootstrap successor; prior manifests remain exact.
-export const GENERATION_FILES=[
+const BOOTSTRAP_GENERATION_FILES=[
  "scripts/grade-a-launch-control/verify-release-candidate-binding.mjs",
  "data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json",
  "data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json",
@@ -678,13 +678,22 @@ export const GENERATION_FILES=[
  ".github/workflows/rcap-hosted-acceptance-staging.yml",
  "scripts/rcap-hosted-preserved-keys.test.mjs"
 ];
+// Exact Checkout digest-pin correction; prior generation boundaries persist.
+export const GENERATION_FILES=[
+ "scripts/grade-a-launch-control/verify-release-candidate-binding.mjs",
+ "data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json",
+ "data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json",
+ "data/rcap-grade-a/launch-control/PENDING_WORKER_SUCCESSOR.json",
+ "scripts/rcap-hosted-checkout-gate.mjs"
+];
 function verifyGenerationBinding(root,candidate,pending){
  try{
   const git=args=>execFileSync('git',args,{cwd:root,encoding:'utf8',stdio:'pipe'}).trim();
   const read=rel=>JSON.parse(fs.readFileSync(path.join(root,rel)));
   const toolsPath='data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json';
   const binding=read(toolsPath),t=binding.successorTools,base=pending.releaseBaseSha;
-  const generationFiles=base==='d7adfbde5e19ef8025182dc755ba05fbf94e0a79'?GENERATION_FILES
+  const generationFiles=base==='bafe2536f560ddb93d115d591ea0a5b8af0fac90'?GENERATION_FILES
+    :base==='d7adfbde5e19ef8025182dc755ba05fbf94e0a79'?BOOTSTRAP_GENERATION_FILES
     :base==='44916baaeb9815ba3dd61d94e8c51294f01e8166'?HOSTED_PIN_GENERATION_FILES
     :base==='9ce9233bde4e3c16d0dc9657524ae1a5f02eb2fa'?DS08_GENERATION_FILES:PRIOR_GENERATION_FILES;
   const expect=(actual,expected,message)=>{if(JSON.stringify(actual)!==JSON.stringify(expected))throw Error(message);};
