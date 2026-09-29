@@ -1,3 +1,4 @@
+import {HOSTED_BASE,HOSTED_STATUS,verifyHostedAcceptanceEvidence} from './verify-hosted-acceptance-evidence.mjs';
 // A commit cannot contain its own SHA. The source pointer is the exact Git
 // commit which introduced this pending record, resolved through Git history;
 // the recorded parent, exact delta and fingerprints make it non-floating.
@@ -178,6 +179,11 @@ function verifyGenerationPending(root,p){
   const applicationSha=applicationSource==='post-publication-candidate'
     ? (prior.applicationSource==='post-publication-candidate'?prior.applicationSha:p.releaseBaseSha) : e.sourceSha;
   const expected={schemaVersion:prior.schemaVersion,status:'SUCCESSOR_ACCEPTED_PREVIEW_AND_RESUME_PENDING',releaseBaseSha:p.releaseBaseSha,sourceCommit:e.sourceSha,applicationSource,workerSource:'sourceCommit',applicationSha,workerSourceSha:e.sourceSha,workerDigest:e.immutableRegistryDigest,workerInputFingerprint:e.workerInputFingerprint,canonicalWorkerInputs:plan.canonicalInputs,workerChangedPaths:[],workerRebuildRequired:false,publication:'complete',acceptance:'complete',runtimeAccepted:true,previewExecution:'held',productionAuthorized:false,resume:null,supersededRecord:prior};
+  if(p.releaseBaseSha===HOSTED_BASE){
+   verifyHostedAcceptanceEvidence(root);
+   expected.status=HOSTED_STATUS;
+   expected.supersededRecordSha256=createHash('sha256').update(execFileSync('git',['show',`${p.releaseBaseSha}:${PENDING}`],{cwd:root,stdio:'pipe'})).digest('hex');
+  }
   assert.deepEqual(p,expected,'exact current generation pending record');
   return {current:true,status:p.status,applicationSha:p.applicationSha,workerSourceSha:p.workerSourceSha,workerDigest:p.workerDigest,workerInputFingerprint:p.workerInputFingerprint,runtimeAccepted:true,workerRebuildRequired:false,previewExecution:'held',productionAuthorized:false,releaseBaseSha:p.releaseBaseSha,reasons:[]};
  }catch(error){return {current:false,status:'INVALID_PENDING_PUBLICATION',reasons:[error.message]};}

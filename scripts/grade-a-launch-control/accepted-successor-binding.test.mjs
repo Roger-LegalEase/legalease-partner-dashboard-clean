@@ -56,15 +56,16 @@ test('receipt-chain successor binds the current generation before and after one 
   execFileSync('git',['clone','--quiet','--shared','--no-checkout',process.cwd(),root],{stdio:'pipe'});
   const binding=JSON.parse(fs.readFileSync(toolsPath));
   git(['checkout','--detach',binding.releaseBaseSha]);
-  for(const rel of GENERATION_FILES)fs.copyFileSync(rel,path.join(root,rel));
+  for(const rel of GENERATION_FILES){fs.mkdirSync(path.dirname(path.join(root,rel)),{recursive:true});fs.copyFileSync(rel,path.join(root,rel));}
+  git(['add','-f','--',...GENERATION_FILES]);
   const release=()=>verifyReleaseCandidateBinding(root,read(candidatePath));
-  const check=()=>{const result=release();assert.equal(result.current,true,JSON.stringify(result));assert.equal(result.status,'CURRENT');assert.equal(requireCurrentReleaseCandidate(root).hostedAcceptance.preview,null);};
-  check();git(['add','--',...GENERATION_FILES]);git(['-c','user.name=Synthetic Test','-c','user.email=synthetic@example.test','commit','--quiet','-m','synthetic generation successor']);check();
+  const check=()=>{const result=release();assert.equal(result.current,true,JSON.stringify(result));assert.equal(result.status,'CURRENT');assert.equal(requireCurrentReleaseCandidate(root).hostedAcceptance.preview.deploymentId,'dpl_7heA1zUcZ7zs7CciZg8LLdwGiKwT');assert.equal(result.productionAuthorized,false);};
+  check();git(['add','-f','--',...GENERATION_FILES]);git(['-c','user.name=Synthetic Test','-c','user.email=synthetic@example.test','commit','--quiet','-m','synthetic generation successor']);check();
   let refused=0;
   const mutations=[
    [publicationPath,[p=>delete p.supersededPublication,p=>delete p.supersededChain,p=>p.sourceSha='0'.repeat(40),p=>p.immutableRegistryDigest='sha256:'+'0'.repeat(64),p=>p.workerInputFingerprint='sha256:'+'0'.repeat(64),p=>p.originalPublicationPath=p.supersededPublication.originalPublicationPath,p=>p.imageAcceptance.runId=36442375228,p=>p.imageAcceptance.digest=p.supersededPublication.immutableRegistryDigest,p=>p.supersededPublication.sourceSha=p.sourceSha,p=>p.imageAcceptanceAttempts=[]]],
-   [pendingPath,[p=>delete p.supersededRecord,p=>p.sourceCommit='0'.repeat(40),p=>p.resume='unauthorized historical resume',p=>p.productionAuthorized=true]],
-   [candidatePath,[p=>p.hostedAcceptance.preview={deploymentId:'dpl_invented'},p=>p.hostedAcceptance.manualHostedFullReady=true,p=>p.readOnlyImageAcceptance.runId=36442375228,p=>p.supersededRecord.applicationSha='0'.repeat(40),p=>p.applicationPin.sourceSha='0'.repeat(40)]],
+   [pendingPath,[p=>delete p.supersededRecord,p=>p.sourceCommit='0'.repeat(40),p=>p.supersededRecordSha256='0'.repeat(64),p=>p.resume='unauthorized historical resume',p=>p.productionAuthorized=true]],
+   [candidatePath,[p=>p.hostedAcceptance.preview={deploymentId:'dpl_invented'},p=>p.hostedAcceptance.manualHostedFullReady=true,p=>p.readOnlyImageAcceptance.runId=36442375228,p=>p.supersededRecord.applicationSha='0'.repeat(40),p=>p.applicationPin.sourceSha='0'.repeat(40),p=>p.productionAuthorized=true,p=>p.productionAuthorization={approved:true},p=>p.hostedAcceptance.journeys[0].runId=1,p=>p.hostedAcceptance.journeys[1].artifactId=1,p=>p.hostedAcceptance.journeys[1].artifactSha256='sha256:'+'0'.repeat(64),p=>p.hostedAcceptance.journeys[1].exactBrowserReturn=false,p=>p.hostedAcceptance.naturalDelivery=null,p=>p.supersededRecordSha256='0'.repeat(64)]],
    [toolsPath,[p=>p.toolsSha='0'.repeat(40),p=>p.successorTools.files={},p=>p.deploymentAuthorized=true,p=>p.clinicDispatchReady=true,p=>p.supersededRecord.status='relabeled']]
   ];
   for(const [rel,changes]of mutations){const file=path.join(root,rel),before=fs.readFileSync(file);for(const change of changes){const value=JSON.parse(before);change(value);assert.notDeepEqual(value,JSON.parse(before),'mutation must change the input');fs.writeFileSync(file,JSON.stringify(value));assert.equal(release().current,false,rel);refused++;fs.writeFileSync(file,before);}}

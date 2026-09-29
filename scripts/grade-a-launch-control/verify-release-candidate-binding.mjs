@@ -1,3 +1,4 @@
+import {HOSTED_BASE,HOSTED_EVIDENCE_FILES,PREVIEW,verifyHostedAcceptanceEvidence} from './verify-hosted-acceptance-evidence.mjs';
 import {applicationInputManifest, applicationInputEquivalence} from '../rcap-application-inputs.mjs';
 import {verifyPendingWorkerSuccessor,verifySuccessorPublication,assertSuccessorImageAcceptance} from './verify-pending-worker-successor.mjs';
 import { execFileSync } from 'node:child_process';
@@ -735,7 +736,7 @@ const PACKET_DATABASE_GENERATION_FILES=[
   "scripts/rcap-packet-database-contract.test.mjs"
 ];
 // Protected Preview Checkout return transport only; historical scopes remain exact.
-export const GENERATION_FILES=[
+const CHECKOUT_RETURN_GENERATION_FILES=[
   "scripts/rcap-stripe-checkout-browser.mjs",
   "scripts/rcap-stripe-checkout-browser.test.mjs",
   "scripts/test-rcap-stripe-checkout-browser-mutations.mjs",
@@ -745,14 +746,25 @@ export const GENERATION_FILES=[
   "data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json",
   "data/rcap-grade-a/launch-control/PENDING_WORKER_SUCCESSOR.json"
 ];
+export const GENERATION_FILES=[
+ 'scripts/grade-a-launch-control/verify-release-candidate-binding.mjs',
+ 'scripts/grade-a-launch-control/verify-pending-worker-successor.mjs',
+ 'scripts/grade-a-launch-control/verify-hosted-acceptance-evidence.mjs',
+ 'scripts/grade-a-launch-control/verify-hosted-acceptance-evidence.test.mjs',
+ 'scripts/grade-a-launch-control/accepted-successor-binding.test.mjs',
+ 'data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json',
+ 'data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json',
+ 'data/rcap-grade-a/launch-control/PENDING_WORKER_SUCCESSOR.json',
+ ...HOSTED_EVIDENCE_FILES
+];
 function verifyGenerationBinding(root,candidate,pending){
  try{
   const git=args=>execFileSync('git',args,{cwd:root,encoding:'utf8',stdio:'pipe'}).trim();
   const read=rel=>JSON.parse(fs.readFileSync(path.join(root,rel)));
   const toolsPath='data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json';
   const binding=read(toolsPath),t=binding.successorTools,base=pending.releaseBaseSha;
-  const generationFiles=(base==='879463ec2ef60696da39a0367b4758d26074207b'
-    ||base==='516b02ac1a68a6aaef41ca9825eae0ece5e3df37')?GENERATION_FILES
+  const generationFiles=base===HOSTED_BASE?GENERATION_FILES:(base==='879463ec2ef60696da39a0367b4758d26074207b'
+    ||base==='516b02ac1a68a6aaef41ca9825eae0ece5e3df37')?CHECKOUT_RETURN_GENERATION_FILES
     :base==='7556f87cee1cf3e6f4b503c76b8ba1d1bbc59456'?PACKET_DATABASE_GENERATION_FILES
     :base==='e312a5efa7b4882e0fbf61a5ff0ae7891ac23226'?APPLICATION_AUTHORITY_GENERATION_FILES
     :base==='3aeb5cdbeec1f84c61a4a6fca3297d72c40f719a'?CHECKOUT_LIFECYCLE_GENERATION_FILES
@@ -779,8 +791,9 @@ function verifyGenerationBinding(root,candidate,pending){
   }
   for(const k of ['deploymentAuthorized','migrationReplayAuthorized','housekeepingReplayAuthorized','additionalWorkerPublicationAuthorized','imageAcceptanceRerunAuthorized','hostedFullReady','clinicDispatchReady'])expect(binding[k],false,`tools cannot authorize ${k}`);
   expect(candidate.productionAuthorization,null,'no Production authorization');expect(candidate.hostedAcceptanceStatus,pending.status,'hosted status');
-  expect(candidate.hostedAcceptance.preview,null,'no final Preview');expect(candidate.hostedAcceptance.naturalDelivery,null,'no delivery');expect(candidate.hostedAcceptance.journeys,[],'no hosted journeys');expect(candidate.hostedAcceptance.manualHostedFullReady,false,'not hosted-ready');
-  expect(candidate.previewExecutionInstruction.preview_hostname,'','no hostname');expect(candidate.previewExecutionInstruction.preview_deployment_id,'','no deployment');expect(candidate.previewExecutionInstruction.executionAuthorized,false,'no dispatch');
+  if(base===HOSTED_BASE)expect(candidate.hostedAcceptance,verifyHostedAcceptanceEvidence(root),'exact native hosted acceptance');
+  else {expect(candidate.hostedAcceptance.preview,null,'no final Preview');expect(candidate.hostedAcceptance.naturalDelivery,null,'no delivery');expect(candidate.hostedAcceptance.journeys,[],'no hosted journeys');expect(candidate.hostedAcceptance.manualHostedFullReady,false,'not hosted-ready');}
+  expect(candidate.previewExecutionInstruction.preview_hostname,base===HOSTED_BASE?PREVIEW.hostname:'','exact held hostname');expect(candidate.previewExecutionInstruction.preview_deployment_id,base===HOSTED_BASE?PREVIEW.deploymentId:'','exact held deployment');expect(candidate.previewExecutionInstruction.executionAuthorized,false,'no dispatch');
   expect(candidate.readOnlyImageAcceptance,e.imageAcceptance,'exact successful native acceptance');expect(candidate.workerDigestReference,e.digestPinnedReference,'immutable image reference');
   expect(candidate.publication,{runId:e.workflowRunId,runAttempt:e.workflowRunAttempt,artifactId:e.publicationArtifactId,artifactSha256:e.publicationArtifactSha256,conclusion:e.workflowConclusion},'exact publication');
   for(const rel of [toolsPath,CANDIDATE_PATH]){
@@ -790,12 +803,12 @@ function verifyGenerationBinding(root,candidate,pending){
   const previous=JSON.parse(git(['show',`${base}:${CANDIDATE_PATH}`]));
   const previousTools=JSON.parse(git(['show',`${base}:${toolsPath}`]));
   // Any field outside the explicit generation update retains its prior meaning.
-  const candidateUpdates=new Set(['status','releaseBaseSha','applicationSha','workerSourceSha','workerDigest','workerInputFingerprint','workerRebuildRequired','runtimeAccepted','previewExecution','productionAuthorized','workerDigestReference','publication','readOnlyImageAcceptance','supersededRecord','supersededRecordSha256','applicationPin','hostedAcceptance','scope','previewExecutionInstruction']);
+  const candidateUpdates=new Set(['hostedAcceptanceStatus','status','releaseBaseSha','applicationSha','workerSourceSha','workerDigest','workerInputFingerprint','workerRebuildRequired','runtimeAccepted','previewExecution','productionAuthorized','workerDigestReference','publication','readOnlyImageAcceptance','supersededRecord','supersededRecordSha256','applicationPin','hostedAcceptance','scope','previewExecutionInstruction']);
   for(const key of new Set([...Object.keys(previous),...Object.keys(candidate)]))if(!candidateUpdates.has(key))expect(candidate[key],previous[key],`unchanged candidate field ${key}`);
   const toolsUpdates=new Set(['status','releaseBaseSha','applicationSha','workerSourceSha','workerDigest','workerInputFingerprint','workerRebuildRequired','runtimeAccepted','previewExecution','productionAuthorized','toolsSha','successorTools','supersededRecord','supersededRecordSha256','manualPushAndDispatchOwner']);
   for(const key of new Set([...Object.keys(previousTools),...Object.keys(binding)]))if(!toolsUpdates.has(key))expect(binding[key],previousTools[key],`unchanged tools field ${key}`);
   expect(candidate.applicationPin,{...previous.applicationPin,sourceSha:pending.applicationSha,canonicalInputBaseline:pending.applicationSha,workerInputFingerprint:pending.workerInputFingerprint},'exact application pin');
-  expect(candidate.previewExecutionInstruction,{...previous.previewExecutionInstruction,mode:null},'no inherited resume authority');
+  expect(candidate.previewExecutionInstruction,{...previous.previewExecutionInstruction,mode:null,...(base===HOSTED_BASE?{preview_hostname:PREVIEW.hostname,preview_deployment_id:PREVIEW.deploymentId,firstExecution:'Hosted acceptance is complete; no execution authorized by this record.'}:{})},'exact Preview identity without execution authority');
   expect(Object.keys(t).sort(),['schemaVersion','baseSha','commit','files'].sort(),'no inherited tools correction scope');
   return {current:true,status:'CURRENT',hostedAcceptanceStatus:pending.status,previewExecution:'held',productionAuthorized:false,reasons:[]};
  }catch(error){return {current:false,status:'STALE_OR_UNVERIFIED',reasons:[error.message]};}
