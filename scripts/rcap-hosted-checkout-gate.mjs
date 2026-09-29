@@ -529,7 +529,7 @@ async function main() {
 
   // Exactly the Captain-selected route. No search across other jurisdictions,
   // siblings, or whichever route happens to pass is permitted.
-  const { packetInformationModelFor, packetInformationReviewSafety } =
+  const { packetInformationModelFor } =
     await import("../src/lib/expungement-ai/packet-information.ts");
   const { evaluateAuthoritativeScreeningResult } =
     await import("../src/lib/expungement-ai/authoritative-screening-result.ts");
@@ -658,7 +658,7 @@ async function main() {
     }
     return { state, failure: `did not settle in 16 rounds; last ${last?.resultCode ?? "unavailable"}` };
   }
-  function buildReviewedFlow(settled) {
+  function buildPreparedFlow(settled) {
     const { state, profile, evaluation, answers } = settled;
     const pathway = profile.packetGenerator?.pathways?.find(
       (candidate) => candidate.pathwayId === evaluation.pathwayId
@@ -683,11 +683,10 @@ async function main() {
     };
     const initialModel = packetInformationModelFor(baseItem);
     if (!initialModel) return { failure: `${state}: packet-information model unavailable for ${pathway.pathwayLabel}` };
-    const packetAnswers = { ...answers };
-    for (const question of initialModel.questions) {
-      if (!(question.id in packetAnswers)) packetAnswers[question.id] = answerForQuestion(question, question.id);
-    }
-    const reviewedAt = new Date().toISOString();
+    // These are the same facts saved later through the participant API.
+    // Completeness here does not confer protected final verification.
+    const packetAnswers = { ...answers, ...HOSTED_FINAL_REVIEW_ANSWERS };
+    const preparedAt = new Date().toISOString();
     const commercialFlow = {
       version: 1,
       entitlementSource: "consumer_payment",
@@ -703,38 +702,36 @@ async function main() {
         answers
       },
       packetInformation: {
-        stage: "ready_to_generate",
+        stage: "facts_complete",
         requiredInputIds: initialModel.requiredInputIds,
         serverFacts: { jurisdiction: state, pathway_id: initialModel.pathwayId },
         prefilledAnswers: {},
         answers: packetAnswers,
         missingInputIds: [],
-        updatedAt: reviewedAt,
-        reviewedAt
+        updatedAt: preparedAt,
+        reviewedAt: null
       }
     };
     const reviewedItem = { ...baseItem, artifactRefs: { selectedTrackId: MS_CHECKOUT.trackId, commercialFlow } };
     const model = packetInformationModelFor(reviewedItem);
-    const safety = packetInformationReviewSafety(reviewedItem);
-    const complete = model?.stage === "ready_to_generate"
+    const complete = model?.stage === "facts_complete"
       && model.missingInputIds.length === 0
-      && Boolean(model.reviewedAt)
-      && safety.safe;
+      && model.reviewedAt === null;
     return complete
-      ? { state, profile, evaluation, pathway, commercialFlow, model, safety }
-      : { failure: `${state}: stage=${model?.stage ?? "unavailable"}, missing=${model?.missingInputIds.length ?? "unavailable"}, review=${safety.reason}` };
+      ? { state, profile, evaluation, pathway, commercialFlow, model }
+      : { failure: `${state}: stage=${model?.stage ?? "unavailable"}, missing=${model?.missingInputIds.length ?? "unavailable"}` };
   }
 
   const settled = convergeSellableScreening(MS_CHECKOUT.jurisdiction);
-  const reviewed = settled.failure ? settled : buildReviewedFlow(settled);
+  const reviewed = settled.failure ? settled : buildPreparedFlow(settled);
   record(
-    "seeded_item_carries_reviewed_packet_information",
+    "fixture_packet_information_complete_before_final_review",
     !reviewed.failure
       && reviewed.state === MS_CHECKOUT.jurisdiction
       && reviewed.evaluation?.pathwayId === MS_CHECKOUT.pathwayId
       && reviewed.pathway?.pathwayLabel === MS_CHECKOUT.pathwayLabel
       && reviewed.model?.pathwayId === MS_CHECKOUT.pathwayId,
-    reviewed.failure ?? `${reviewed.state} / ${reviewed.pathway?.pathwayLabel}; result=${reviewed.evaluation?.resultCode}; review=${reviewed.safety?.reason}`
+    reviewed.failure ?? `${reviewed.state} / ${reviewed.pathway?.pathwayLabel}; result=${reviewed.evaluation?.resultCode}; final review pending`
   );
 
   const checkoutRequest = {
@@ -780,13 +777,13 @@ async function main() {
     checkoutRouteEvidence
   );
   evidence.checkoutRoute = checkoutRouteIdentity;
-  evidence.reviewedPacketInformation = {
+  evidence.preparedPacketInformation = {
     state: reviewed.state,
     profileVersion: reviewed.profile.profileVersion,
     pathwayId: reviewed.model.pathwayId,
     pathwayLabel: reviewed.pathway.pathwayLabel,
     requiredInputCount: reviewed.model.requiredInputIds.length,
-    reviewSafety: reviewed.safety.reason,
+    finalVerification: "pending_participant_application_boundary",
     selectedTrackId: MS_CHECKOUT.trackId
   };
 

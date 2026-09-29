@@ -87,6 +87,7 @@ export async function prepareFixture(sourceText = gate) {
   const script = `
     import fs from "node:fs"; import path from "node:path"; import crypto from "node:crypto";
     import {MS_CHECKOUT, msMappingEvidence} from ${JSON.stringify(helper)};
+    import { HOSTED_FINAL_REVIEW_ANSWERS } from ${JSON.stringify(new URL("./rcap-hosted-final-verification.mjs", import.meta.url).href)};
     const ROOT = ${JSON.stringify(process.cwd())};
     const evidence = {cases:{}};
     function record(id, passed, observed, details) {
@@ -100,7 +101,7 @@ export async function prepareFixture(sourceText = gate) {
   catch (error) { throw new Error(error.message); }
 }
 
-test("real gate preparation selects only the exact MS reviewed fixture with explicit track", async () => {
+test("real gate preparation selects only the exact MS unverified fixture with explicit track", async () => {
   const result = await prepareFixture();
   assert.equal(result.mappingRequest.pathway, MS_CHECKOUT.pathwayId);
   assert.equal(result.mappingRequest.trackId, MS_CHECKOUT.trackId);
@@ -108,13 +109,22 @@ test("real gate preparation selects only the exact MS reviewed fixture with expl
   assert.equal(result.checkoutRequest.trackId, MS_CHECKOUT.trackId);
   assert.equal(result.reviewed.evaluation.pathwayId, MS_CHECKOUT.pathwayId);
   assert.equal(result.reviewed.pathway.pathwayLabel, MS_CHECKOUT.pathwayLabel);
+  assert.equal(result.reviewed.model.stage, "facts_complete");
+  assert.equal(result.reviewed.model.reviewedAt, null);
+  assert.deepEqual(result.reviewed.model.missingInputIds, []);
+  const { HOSTED_FINAL_REVIEW_ANSWERS } = await import("./rcap-hosted-final-verification.mjs");
+  for (const [key, value] of Object.entries(HOSTED_FINAL_REVIEW_ANSWERS)) {
+    assert.deepEqual(result.reviewed.model.initialAnswers[key], value);
+  }
+  const { packetInformationReviewSafety } = await import("../src/lib/expungement-ai/packet-information.ts");
+  assert.equal(packetInformationReviewSafety({state: "MS", artifactRefs: {commercialFlow: result.reviewed.commercialFlow}}).safe, false);
 });
 
 test("a wrong reviewed pathway stops fixture preparation without trying another route", async () => {
-  const anchor = 'const reviewed = settled.failure ? settled : buildReviewedFlow(settled);';
+  const anchor = 'const reviewed = settled.failure ? settled : buildPreparedFlow(settled);';
   assert.ok(gate.includes(anchor));
   const changed = gate.replace(anchor, anchor + '\n  if (reviewed.evaluation) reviewed.evaluation.pathwayId = "wrong-route";');
-  await assert.rejects(prepareFixture(changed), /seeded_item_carries_reviewed_packet_information/);
+  await assert.rejects(prepareFixture(changed), /fixture_packet_information_complete_before_final_review/);
 });
 
 // Exercise the gate's own retained durable-row predicate, not a copy of it.

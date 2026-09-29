@@ -260,7 +260,7 @@ async function paymentInputs() {
   const preparation = paymentSource.slice(start, end).replaceAll('"../src/', `"${new URL('../src/', import.meta.url).href}`);
   const script = `import fs from 'node:fs'; import path from 'node:path'; import crypto from 'node:crypto';
     import {buildRenderJobSpec} from '${new URL('../src/lib/rcap/render/job-contract.ts', import.meta.url).href}';
-    const rootDir=${JSON.stringify(process.cwd())}; const JOURNEY_STATE='';
+    const rootDir=${JSON.stringify(process.cwd())}; const JOURNEY_STATE=''; const capMatter=null;
     let itemId='d1111111-1111-4111-8111-111111111111'; let route={state:'MS'}; const evidence={};
     function record(id, passed, detail) { if (!passed) throw Error(id+': '+detail); }
     function finish() { throw Error('payment fixture preparation refused'); }
@@ -271,7 +271,7 @@ async function paymentInputs() {
 function paymentContext(app, locale, inputs, sqlStatus = 201) {
   const evidence = {};
   const cases = new Map();
-  const context = { ...inputs, evidence, SYNTHETIC_PARTICIPANT_LOCALE: locale,
+  const context = { ...inputs, evidence, CAP_INPUT: null, SYNTHETIC_PARTICIPANT_LOCALE: locale,
     A: { id: app.item.userId, cookie: 'isolated-auth-transport' }, itemId: 'screening-correlation',
     runNamespace: {}, callApp: app.call, claimAndVerifyHostedFixture,
     verdicts: cases, console: { log() {}, error() {} },

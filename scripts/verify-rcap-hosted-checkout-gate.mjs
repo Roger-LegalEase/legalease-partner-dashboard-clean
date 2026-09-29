@@ -92,14 +92,16 @@ includesEvery(routeContract, [
   '"sponsored_entitlement"', '"packet_credit_admission"', '"consumer payment authority"'
 ], "exact route contract");
 check(
-  gate.includes("seeded_item_carries_reviewed_packet_information")
-    && gate.includes("packetInformationReviewSafety")
+  gate.includes("fixture_packet_information_complete_before_final_review")
+    && gate.includes("model.reviewedAt === null")
+    && gate.includes("answers: HOSTED_FINAL_REVIEW_ANSWERS")
+    && gate.includes("await claimAndVerifyHostedFixture({")
     && gate.includes("briefcase_insert_returning_proves_row")
     && gate.includes("protected_final_verification_current")
     && gate.includes("requireCurrentPacketVerificationRecord")
     && !gate.includes("stored.packet_information_stage")
     && !gate.includes("stored.packet_information_reviewed"),
-  "Checkout fixture must carry an authoritative reviewed packet-information flow before the unpaid render probe"
+  "Checkout fixture must prepare complete unverified facts and establish protected verification through the participant boundary before Checkout"
 );
 check(
   gate.includes("convergeSellableScreening")

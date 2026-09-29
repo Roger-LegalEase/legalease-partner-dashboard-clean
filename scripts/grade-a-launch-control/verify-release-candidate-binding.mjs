@@ -679,12 +679,23 @@ const BOOTSTRAP_GENERATION_FILES=[
  "scripts/rcap-hosted-preserved-keys.test.mjs"
 ];
 // Exact Checkout digest-pin correction; prior generation boundaries persist.
-export const GENERATION_FILES=[
+const CHECKOUT_PIN_GENERATION_FILES=[
  "scripts/grade-a-launch-control/verify-release-candidate-binding.mjs",
  "data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json",
  "data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json",
  "data/rcap-grade-a/launch-control/PENDING_WORKER_SUCCESSOR.json",
  "scripts/rcap-hosted-checkout-gate.mjs"
+];
+// Synthetic fixture lifecycle successor; accepted runtime and historical bindings are unchanged.
+export const GENERATION_FILES=[
+  "scripts/grade-a-launch-control/verify-release-candidate-binding.mjs",
+  "data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json",
+  "data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json",
+  "data/rcap-grade-a/launch-control/PENDING_WORKER_SUCCESSOR.json",
+  "scripts/rcap-hosted-checkout-gate.mjs",
+  "scripts/rcap-hosted-checkout-mapping-evidence.test.mjs",
+  "scripts/rcap-hosted-final-verification.test.mjs",
+  "scripts/verify-rcap-hosted-checkout-gate.mjs"
 ];
 function verifyGenerationBinding(root,candidate,pending){
  try{
@@ -692,7 +703,8 @@ function verifyGenerationBinding(root,candidate,pending){
   const read=rel=>JSON.parse(fs.readFileSync(path.join(root,rel)));
   const toolsPath='data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json';
   const binding=read(toolsPath),t=binding.successorTools,base=pending.releaseBaseSha;
-  const generationFiles=base==='bafe2536f560ddb93d115d591ea0a5b8af0fac90'?GENERATION_FILES
+  const generationFiles=base==='3aeb5cdbeec1f84c61a4a6fca3297d72c40f719a'?GENERATION_FILES
+    :base==='bafe2536f560ddb93d115d591ea0a5b8af0fac90'?CHECKOUT_PIN_GENERATION_FILES
     :base==='d7adfbde5e19ef8025182dc755ba05fbf94e0a79'?BOOTSTRAP_GENERATION_FILES
     :base==='44916baaeb9815ba3dd61d94e8c51294f01e8166'?HOSTED_PIN_GENERATION_FILES
     :base==='9ce9233bde4e3c16d0dc9657524ae1a5f02eb2fa'?DS08_GENERATION_FILES:PRIOR_GENERATION_FILES;
