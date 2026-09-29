@@ -1,3 +1,5 @@
+import {PREACTIVATION_BASE,PREACTIVATION_SCOPE,PREACTIVATION_PHASES,assertPreactivationAuthorization} from './production-preflight-authorization.mjs';
+import {PREFLIGHT_EVIDENCE_FILES,verifyProductionPreflightEvidence} from './verify-production-preflight-evidence.mjs';
 import {PREFLIGHT_BASE,PREFLIGHT_SCOPE,assertPreflightOnlyAuthorization} from './production-preflight-authorization.mjs';
 import {HOSTED_BASE,HOSTED_EVIDENCE_FILES,PREVIEW,verifyHostedAcceptanceEvidence} from './verify-hosted-acceptance-evidence.mjs';
 import {applicationInputManifest, applicationInputEquivalence} from '../rcap-application-inputs.mjs';
@@ -785,15 +787,35 @@ export const PRODUCTION_DEPENDENCY_ORDER_FILES=[
  'scripts/grade-a-launch-control/verify-release-candidate-binding.mjs',
  'data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json',
 ];
+export const PREACTIVATION_FILES=[
+ ".github/workflows/deploy-rcap-render-worker-production.yml",
+ ".github/workflows/rcap-f1-ephemeral-staging.yml",
+ "data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json",
+ "data/rcap-grade-a/launch-control/PENDING_WORKER_SUCCESSOR.json",
+ "data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json",
+ "hosted-acceptance-evidence/production-preflight-36600904357/11048744402.zip",
+ "hosted-acceptance-evidence/production-preflight-36600904357/artifact.json",
+ "hosted-acceptance-evidence/production-preflight-36600904357/jobs.json",
+ "hosted-acceptance-evidence/production-preflight-36600904357/run.json",
+ "scripts/grade-a-launch-control/accepted-successor-binding.test.mjs",
+ "scripts/grade-a-launch-control/production-preactivation-authorization.test.mjs",
+ "scripts/grade-a-launch-control/production-preflight-authorization.mjs",
+ "scripts/grade-a-launch-control/production-preflight-authorization.test.mjs",
+ "scripts/grade-a-launch-control/verify-pending-worker-successor.mjs",
+ "scripts/grade-a-launch-control/verify-production-preflight-evidence.mjs",
+ "scripts/grade-a-launch-control/verify-release-candidate-binding.mjs",
+ "scripts/rcap-production-preactivation-startup.test.mjs",
+ "scripts/rcap-production-workflow-dependency-order.test.mjs"
+];
 function verifyGenerationBinding(root,candidate,pending){
  try{
   const git=args=>execFileSync('git',args,{cwd:root,encoding:'utf8',stdio:'pipe'}).trim();
   const read=rel=>JSON.parse(fs.readFileSync(path.join(root,rel)));
   const toolsPath='data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json';
   const binding=read(toolsPath),t=binding.successorTools,base=pending.releaseBaseSha;
-  const preflightOnly=base===PREFLIGHT_BASE;
+  const preflightOnly=base===PREFLIGHT_BASE,preactivation=base===PREACTIVATION_BASE,productionScoped=preflightOnly||preactivation;
   const correction=t.dependencyOrderCorrectionBaseSha;
-  const generationFiles=preflightOnly?[...new Set([...GENERATION_FILES,...(correction?PRODUCTION_DEPENDENCY_ORDER_FILES:[])])]:base===HOSTED_BASE?HOSTED_GENERATION_FILES:(base==='879463ec2ef60696da39a0367b4758d26074207b'
+  const generationFiles=preactivation?PREACTIVATION_FILES:preflightOnly?[...new Set([...GENERATION_FILES,...(correction?PRODUCTION_DEPENDENCY_ORDER_FILES:[])])]:base===HOSTED_BASE?HOSTED_GENERATION_FILES:(base==='879463ec2ef60696da39a0367b4758d26074207b'
     ||base==='516b02ac1a68a6aaef41ca9825eae0ece5e3df37')?CHECKOUT_RETURN_GENERATION_FILES
     :base==='7556f87cee1cf3e6f4b503c76b8ba1d1bbc59456'?PACKET_DATABASE_GENERATION_FILES
     :base==='e312a5efa7b4882e0fbf61a5ff0ae7891ac23226'?APPLICATION_AUTHORITY_GENERATION_FILES
@@ -827,20 +849,21 @@ function verifyGenerationBinding(root,candidate,pending){
   const e=read('data/rcap-render/worker-publication-evidence.json');
   for(const record of [candidate,binding]){
    for(const k of ['applicationSha','workerSourceSha','workerDigest','workerInputFingerprint','runtimeAccepted','workerRebuildRequired','releaseBaseSha'])expect(record[k],pending[k],`current tuple ${k}`);
-   expect(record.status,pending.status,'accepted status');expect(record.previewExecution,'held','Preview execution held');expect(record.productionAuthorized,preflightOnly,'Production phase-scoped flag');
+   expect(record.status,pending.status,'accepted status');expect(record.previewExecution,'held','Preview execution held');expect(record.productionAuthorized,productionScoped,'Production phase-scoped flag');
   }
   for(const k of ['deploymentAuthorized','migrationReplayAuthorized','housekeepingReplayAuthorized','additionalWorkerPublicationAuthorized','imageAcceptanceRerunAuthorized','hostedFullReady','clinicDispatchReady'])expect(binding[k],false,`tools cannot authorize ${k}`);
-  if(preflightOnly){
-   assertPreflightOnlyAuthorization(candidate);expect(candidate.scope,PREFLIGHT_SCOPE,'preflight-only scope');
+  if(productionScoped){
+   if(preactivation){assertPreactivationAuthorization(candidate);expect(candidate.scope,PREACTIVATION_SCOPE,'bounded pre-activation scope');expect(candidate.productionAuthorization.preflight,verifyProductionPreflightEvidence(root),'bound native preflight');}
+   else {assertPreflightOnlyAuthorization(candidate);expect(candidate.scope,PREFLIGHT_SCOPE,'preflight-only scope');}
    const recordedAt=Date.parse(candidate.productionAuthorization.recordedAt);
-   const predecessorAt=Number(git(['show','-s','--format=%ct',PREFLIGHT_BASE]))*1000;
+   const predecessorAt=Number(git(['show','-s','--format=%ct',base]))*1000;
    expect(recordedAt>=predecessorAt&&recordedAt<=Date.now(),true,'authorization timestamp belongs to this successor');
   }
   else expect(candidate.productionAuthorization,null,'no Production authorization');
   expect(candidate.hostedAcceptanceStatus,pending.status,'hosted status');
-  if(base===HOSTED_BASE||preflightOnly)expect(candidate.hostedAcceptance,verifyHostedAcceptanceEvidence(root),'exact native hosted acceptance');
+  if(base===HOSTED_BASE||productionScoped)expect(candidate.hostedAcceptance,verifyHostedAcceptanceEvidence(root),'exact native hosted acceptance');
   else {expect(candidate.hostedAcceptance.preview,null,'no final Preview');expect(candidate.hostedAcceptance.naturalDelivery,null,'no delivery');expect(candidate.hostedAcceptance.journeys,[],'no hosted journeys');expect(candidate.hostedAcceptance.manualHostedFullReady,false,'not hosted-ready');}
-  expect(candidate.previewExecutionInstruction.preview_hostname,(base===HOSTED_BASE||preflightOnly)?PREVIEW.hostname:'','exact held hostname');expect(candidate.previewExecutionInstruction.preview_deployment_id,(base===HOSTED_BASE||preflightOnly)?PREVIEW.deploymentId:'','exact held deployment');expect(candidate.previewExecutionInstruction.executionAuthorized,false,'no dispatch');
+  expect(candidate.previewExecutionInstruction.preview_hostname,(base===HOSTED_BASE||productionScoped)?PREVIEW.hostname:'','exact held hostname');expect(candidate.previewExecutionInstruction.preview_deployment_id,(base===HOSTED_BASE||productionScoped)?PREVIEW.deploymentId:'','exact held deployment');expect(candidate.previewExecutionInstruction.executionAuthorized,false,'no dispatch');
   expect(candidate.readOnlyImageAcceptance,e.imageAcceptance,'exact successful native acceptance');expect(candidate.workerDigestReference,e.digestPinnedReference,'immutable image reference');
   expect(candidate.publication,{runId:e.workflowRunId,runAttempt:e.workflowRunAttempt,artifactId:e.publicationArtifactId,artifactSha256:e.publicationArtifactSha256,conclusion:e.workflowConclusion},'exact publication');
   for(const rel of [toolsPath,CANDIDATE_PATH]){
@@ -850,14 +873,14 @@ function verifyGenerationBinding(root,candidate,pending){
   const previous=JSON.parse(git(['show',`${base}:${CANDIDATE_PATH}`]));
   const previousTools=JSON.parse(git(['show',`${base}:${toolsPath}`]));
   // Any field outside the explicit generation update retains its prior meaning.
-  const candidateUpdates=new Set([...(preflightOnly?['productionAuthorization']:[]),'hostedAcceptanceStatus','status','releaseBaseSha','applicationSha','workerSourceSha','workerDigest','workerInputFingerprint','workerRebuildRequired','runtimeAccepted','previewExecution','productionAuthorized','workerDigestReference','publication','readOnlyImageAcceptance','supersededRecord','supersededRecordSha256','applicationPin','hostedAcceptance','scope','previewExecutionInstruction']);
+  const candidateUpdates=new Set([...(productionScoped?['productionAuthorization']:[]),'hostedAcceptanceStatus','status','releaseBaseSha','applicationSha','workerSourceSha','workerDigest','workerInputFingerprint','workerRebuildRequired','runtimeAccepted','previewExecution','productionAuthorized','workerDigestReference','publication','readOnlyImageAcceptance','supersededRecord','supersededRecordSha256','applicationPin','hostedAcceptance','scope','previewExecutionInstruction']);
   for(const key of new Set([...Object.keys(previous),...Object.keys(candidate)]))if(!candidateUpdates.has(key))expect(candidate[key],previous[key],`unchanged candidate field ${key}`);
   const toolsUpdates=new Set(['status','releaseBaseSha','applicationSha','workerSourceSha','workerDigest','workerInputFingerprint','workerRebuildRequired','runtimeAccepted','previewExecution','productionAuthorized','toolsSha','successorTools','supersededRecord','supersededRecordSha256','manualPushAndDispatchOwner']);
   for(const key of new Set([...Object.keys(previousTools),...Object.keys(binding)]))if(!toolsUpdates.has(key))expect(binding[key],previousTools[key],`unchanged tools field ${key}`);
   expect(candidate.applicationPin,{...previous.applicationPin,sourceSha:pending.applicationSha,canonicalInputBaseline:pending.applicationSha,workerInputFingerprint:pending.workerInputFingerprint},'exact application pin');
-  expect(candidate.previewExecutionInstruction,{...previous.previewExecutionInstruction,mode:null,...((base===HOSTED_BASE||preflightOnly)?{preview_hostname:PREVIEW.hostname,preview_deployment_id:PREVIEW.deploymentId,firstExecution:'Hosted acceptance is complete; no execution authorized by this record.'}:{})},'exact Preview identity without execution authority');
+  expect(candidate.previewExecutionInstruction,{...previous.previewExecutionInstruction,mode:null,...((base===HOSTED_BASE||productionScoped)?{preview_hostname:PREVIEW.hostname,preview_deployment_id:PREVIEW.deploymentId,firstExecution:'Hosted acceptance is complete; no execution authorized by this record.'}:{})},'exact Preview identity without execution authority');
   expect(Object.keys(t).sort(),['schemaVersion','baseSha','commit','files',...(correction?['dependencyOrderCorrectionBaseSha']:[])].sort(),'no inherited tools correction scope');
-  return {current:true,status:'CURRENT',hostedAcceptanceStatus:candidate.hostedAcceptanceStatus,releaseStatus:pending.status,previewExecution:'held',productionAuthorized:preflightOnly,productionPhases:preflightOnly?['preflight']:[],reasons:[]};
+  return {current:true,status:'CURRENT',hostedAcceptanceStatus:candidate.hostedAcceptanceStatus,releaseStatus:pending.status,previewExecution:'held',productionAuthorized:productionScoped,productionPhases:preactivation?[...PREACTIVATION_PHASES]:preflightOnly?['preflight']:[],reasons:[]};
  }catch(error){return {current:false,status:'STALE_OR_UNVERIFIED',reasons:[error.message]};}
 }
 

@@ -8,7 +8,10 @@ import {PREFLIGHT_BASE,PREFLIGHT_STATUS,PREFLIGHT_NOTE,assertPreflightOnlyAuthor
 import {requireProductionPhaseAuthorization,requireProductionDeploymentBinding,requireProductionReleaseTuple} from '../rcap-production-migration-contract.mjs';
 import {HOSTED_EVIDENCE_FILES,HOSTED_STATUS} from './verify-hosted-acceptance-evidence.mjs';
 const prefix='data/rcap-grade-a/launch-control/';
-const candidate=JSON.parse(fs.readFileSync(prefix+'RELEASE_CANDIDATE_BINDING.json'));
+// Historical authorization remains testable after its explicit supersession.
+const historical='c1c36946287f06a457701ed849f576b310a90f72';
+const historicalRecord=rel=>JSON.parse(execFileSync('git',['show',`${historical}:${rel}`],{maxBuffer:32*1024*1024}));
+const candidate=historicalRecord(prefix+'RELEASE_CANDIDATE_BINDING.json');
 const clone=()=>structuredClone(candidate);
 const refusal={message:'production_phase_not_authorized_for_current_release'};
 const workflow=fs.readFileSync('.github/workflows/rcap-f1-ephemeral-staging.yml','utf8');
@@ -79,7 +82,7 @@ for(const location of ['candidate','authorization'])for(const key of ['stagedDep
 }
 test('all predecessor control records retain exact bytes through nested-record serialization and hashes; native evidence is unchanged',()=>{
  for(const name of ['RELEASE_CANDIDATE_BINDING.json','HOSTED_TOOLS_BINDING.json','PENDING_WORKER_SUCCESSOR.json']){
-  const rel=prefix+name,record=JSON.parse(fs.readFileSync(rel));
+  const rel=prefix+name,record=historicalRecord(rel);
   const bytes=execFileSync('git',['show',`${PREFLIGHT_BASE}:${rel}`],{maxBuffer:32*1024*1024});
   assert.equal(JSON.stringify(record.supersededRecord,null,2)+'\n',bytes.toString());
   assert.equal(record.supersededRecordSha256,createHash('sha256').update(bytes).digest('hex'));

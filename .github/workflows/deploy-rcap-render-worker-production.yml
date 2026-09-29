@@ -68,6 +68,11 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
 
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
       - name: Refuse any worker identity outside the frozen candidate
         env:
           INPUT_WORKER_SOURCE_SHA: ${{ inputs.worker_source_sha }}
@@ -77,12 +82,14 @@ jobs:
           node --input-type=module <<'JS'
           import fs from "node:fs";
           import { requireProductionPhaseAuthorization } from "./scripts/grade-a-launch-control/production-preflight-authorization.mjs";
+          import { verifyProductionPreflightEvidence } from "./scripts/grade-a-launch-control/verify-production-preflight-evidence.mjs";
           const sha = process.env.INPUT_WORKER_SOURCE_SHA ?? "";
           const digest = process.env.INPUT_WORKER_DIGEST ?? "";
           if (!/^[a-f0-9]{40}$/.test(sha)) throw new Error("worker_source_sha must be an exact 40-character SHA");
           if (!/^sha256:[a-f0-9]{64}$/.test(digest)) throw new Error("worker_digest must be an exact sha256 digest");
           const candidate = JSON.parse(fs.readFileSync("data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json", "utf8"));
           requireProductionPhaseAuthorization(candidate, "production_worker_deploy");
+          verifyProductionPreflightEvidence(process.cwd());
           const publication = JSON.parse(fs.readFileSync("data/rcap-render/worker-publication-evidence.json", "utf8"));
           const mismatches = [];
           if (candidate.workerSourceSha !== sha) mismatches.push("candidate workerSourceSha");

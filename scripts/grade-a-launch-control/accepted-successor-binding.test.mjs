@@ -1,3 +1,4 @@
+import {PREACTIVATION_PHASES} from './production-preflight-authorization.mjs';
 import {createHash} from 'node:crypto';
 import test from 'node:test';
 import assert from 'node:assert/strict';
@@ -60,7 +61,7 @@ test('receipt-chain successor binds the current generation before and after one 
   for(const rel of generationFiles){fs.mkdirSync(path.dirname(path.join(root,rel)),{recursive:true});fs.copyFileSync(rel,path.join(root,rel));}
   git(['add','-f','--',...generationFiles]);
   const release=()=>verifyReleaseCandidateBinding(root,read(candidatePath));
-  const check=()=>{const result=release();assert.equal(result.current,true,JSON.stringify(result));assert.equal(result.status,'CURRENT');assert.equal(requireCurrentReleaseCandidate(root).hostedAcceptance.preview.deploymentId,'dpl_7heA1zUcZ7zs7CciZg8LLdwGiKwT');assert.equal(result.productionAuthorized,true);assert.deepEqual(result.productionPhases,['preflight']);};
+  const check=()=>{const result=release();assert.equal(result.current,true,JSON.stringify(result));assert.equal(result.status,'CURRENT');assert.equal(requireCurrentReleaseCandidate(root).hostedAcceptance.preview.deploymentId,'dpl_7heA1zUcZ7zs7CciZg8LLdwGiKwT');assert.equal(result.productionAuthorized,true);assert.deepEqual(result.productionPhases,[...PREACTIVATION_PHASES]);};
   check();git(['add','-f','--',...generationFiles]);git(['-c','user.name=Synthetic Test','-c','user.email=synthetic@example.test','commit','--quiet','-m','synthetic generation successor']);check();
   let refused=0;
   const mutations=[

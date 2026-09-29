@@ -48,7 +48,10 @@ export function assertPreflightOnlyAuthorization(candidate) {
 
 // Shared by the existing Production contract and dependency-free early entrypoint gates.
 export function requireProductionPhaseAuthorization(candidate, phase) {
-  if (isPreflightOnlyRelease(candidate)) {
+  if (candidate?.releaseBaseSha === PREACTIVATION_BASE || candidate?.status === PREACTIVATION_STATUS) {
+    try { assertPreactivationAuthorization(candidate); }
+    catch { throw new Error('production_phase_not_authorized_for_current_release'); }
+  } else if (isPreflightOnlyRelease(candidate)) {
     try { assertPreflightOnlyAuthorization(candidate); }
     catch { throw new Error('production_phase_not_authorized_for_current_release'); }
   }
@@ -67,4 +70,41 @@ export function requireProductionPhaseAuthorization(candidate, phase) {
     }
   }
   return authorization;
+}
+
+export const PREACTIVATION_BASE = 'c1c36946287f06a457701ed849f576b310a90f72';
+export const PREACTIVATION_STATUS = 'HOSTED_ACCEPTED_PRODUCTION_PREACTIVATION_ONLY';
+export const PREACTIVATION_PHASES = Object.freeze(['preflight','clinic_migrate','forward_chain_readback','forward_chain_migrate','legal_aid_keys_read','legal_aid_keys_create','legal_aid_readback','legal_aid_migrate','production_worker_deploy','smoke']);
+export const PREACTIVATION_NOTE = 'I authorize the current frozen Grade A release to proceed through the bounded pre-activation Production sequence only: Production readbacks, only the migrations or key creation proven necessary by those readbacks, deployment of the already-accepted immutable worker, and production_smoke. This does not authorize production_activate, public alias movement, public verification, save-transition live verification, zero-dollar live order, or any other live Production customer transaction. Bind preflight run 36600904357, preserve rollback deployment dpl_5rpkFUKgmp5cGwPaLAzHxx1nUuPK, and use staged deployment dpl_4Kmyt51JN8P4D7iB1GC3VaZcN2hp.';
+export const PREACTIVATION_SCOPE = 'Hosted accepted; successful Production preflight bound. Only the bounded pre-activation sequence is authorized, subject to the existing independent readback-derived write controls. Activation, public verification, alias movement and live customer transactions remain held.';
+export const BOUND_PREFLIGHT = Object.freeze({
+ runId:36600904357, runAttempt:1, artifactId:11048744402,
+ artifactSha256:'sha256:bcd5d9c3d0eecc8556ed0b54dc660eab94737b4f152c2994611c52d2b4d6bcff',
+ toolsSha:PREACTIVATION_BASE, conclusion:'success',
+ evidencePath:'hosted-acceptance-evidence/production-preflight-36600904357',
+});
+export const STAGED_DEPLOYMENT = 'dpl_4Kmyt51JN8P4D7iB1GC3VaZcN2hp';
+export const ROLLBACK_DEPLOYMENT = 'dpl_5rpkFUKgmp5cGwPaLAzHxx1nUuPK';
+export function assertPreactivationAuthorization(candidate) {
+ assert.equal(candidate.status,PREACTIVATION_STATUS,'bounded pre-activation status');
+ assert.equal(candidate.hostedAcceptanceStatus,PREACTIVATION_STATUS,'matching status mirror');
+ assert.equal(candidate.releaseBaseSha,PREACTIVATION_BASE,'approved preflight predecessor');
+ assert.equal(candidate.productionAuthorized,true);
+ for(const [key,value] of Object.entries(TUPLE)) assert.equal(candidate[key],value,`frozen ${key}`);
+ assert.equal(candidate.productionProjectRef,PRODUCTION_PROJECT_REF);
+ const a=candidate.productionAuthorization;
+ assert.ok(validAuthorizationTimestamp(a?.recordedAt),'actual UTC timestamp');
+ assert.ok(Date.parse(a.recordedAt)<=Date.now(),'no future authorization');
+ assert.deepEqual(a,{
+  authorized:true,applicationSha:TUPLE.applicationSha,workerSourceSha:TUPLE.workerSourceSha,
+  workerDigest:TUPLE.workerDigest,workerInputFingerprint:TUPLE.workerInputFingerprint,
+  productionProjectRef:PRODUCTION_PROJECT_REF,recordedBy:PREFLIGHT_OWNER,recordedAt:a.recordedAt,
+  phases:[...PREACTIVATION_PHASES],note:PREACTIVATION_NOTE,
+  stagedDeploymentId:STAGED_DEPLOYMENT,rollbackDeploymentId:ROLLBACK_DEPLOYMENT,
+  preflight:{...BOUND_PREFLIGHT},
+ },'exact bounded owner authorization and native preflight identity');
+ assert.deepEqual(candidate.hostedAcceptance?.preview,{...PREVIEW,...TUPLE,target:null},'accepted Preview control');
+ for(const key of ['stagedDeploymentId','rollbackDeploymentId','smokeRunId','smokeArtifactSha256','smokeReceipt','activationReceipt'])
+  assert.equal(Object.hasOwn(candidate,key),false,`no parallel or unexecuted ${key}`);
+ return a;
 }

@@ -158,6 +158,18 @@ jobs:
           node-version: 22
       - name: Verify the key control never prints or persists a value
         run: node scripts/verify-rcap-production-legal-aid-keys.mjs
+      - name: Verify the bounded key phase and native preflight before service access
+        env:
+          RCAP_LEGAL_AID_KEYS_PHASE: ${{ inputs.mode == 'production_legal_aid_keys_create' && 'create' || 'read' }}
+        run: |
+          node --input-type=module <<'JS'
+          import fs from 'node:fs';
+          import { requireProductionPhaseAuthorization } from './scripts/grade-a-launch-control/production-preflight-authorization.mjs';
+          import { verifyProductionPreflightEvidence } from './scripts/grade-a-launch-control/verify-production-preflight-evidence.mjs';
+          const candidate = JSON.parse(fs.readFileSync('data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json'));
+          requireProductionPhaseAuthorization(candidate, `legal_aid_keys_${process.env.RCAP_LEGAL_AID_KEYS_PHASE}`);
+          verifyProductionPreflightEvidence(process.cwd());
+          JS
       - name: Read, or create once, the Production Legal Aid keys
         env:
           RCAP_LEGAL_AID_KEYS_PHASE: ${{ inputs.mode == 'production_legal_aid_keys_create' && 'create' || 'read' }}

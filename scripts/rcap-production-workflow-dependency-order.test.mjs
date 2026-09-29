@@ -49,7 +49,7 @@ for(const phase of phases)test(`${phase}: clean runner installs once before veri
   if(i===order.verifier){
    assert.ok(node&&installed,'verifier must load with dependencies');
    const c=readCandidate();
-   if(phase==='preflight')assert.equal(requireProductionPhaseAuthorization(c,phase),c.productionAuthorization);
+   if(['preflight','clinic_migrate','forward_chain_readback','forward_chain_migrate','legal_aid_readback','legal_aid_migrate','smoke'].includes(phase))assert.equal(requireProductionPhaseAuthorization(c,phase),c.productionAuthorization);
    else assert.throws(()=>requireProductionPhaseAuthorization(c,phase),{message:'production_phase_not_authorized_for_current_release'});
   }
  }
@@ -83,8 +83,8 @@ test('clean isolated module load reproduces missing TypeScript; frozen local pac
  }finally{fs.rmSync(root,{recursive:true,force:true});}
 });
 
-test('lockfile, application dependency declarations and preflight-only authorization retain exact approved bytes',()=>{
- for(const rel of ['package.json','package-lock.json','data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json','data/rcap-grade-a/launch-control/PENDING_WORKER_SUCCESSOR.json']){
+test('lockfile and application dependency declarations retain exact approved bytes',()=>{
+ for(const rel of ['package.json','package-lock.json']){
   assert.deepEqual(fs.readFileSync(rel),execFileSync('git',['show',`${base}:${rel}`],{maxBuffer:32*1024*1024}));
  }
 });
