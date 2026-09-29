@@ -775,6 +775,16 @@ export const GENERATION_FILES=[
  'data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json',
  'data/rcap-grade-a/launch-control/PENDING_WORKER_SUCCESSOR.json',
 ];
+// Exact tools-only correction for run 36596128309; owner authorization and
+// every accepted application/worker/evidence byte remain at the approved base.
+export const PRODUCTION_DEPENDENCY_ORDER_BASE='4fd9a89707257927218c185e90006be348ac3d58';
+export const PRODUCTION_DEPENDENCY_ORDER_FILES=[
+ 'scripts/grade-a-launch-control/accepted-successor-binding.test.mjs',
+ '.github/workflows/rcap-production-canary.yml',
+ 'scripts/rcap-production-workflow-dependency-order.test.mjs',
+ 'scripts/grade-a-launch-control/verify-release-candidate-binding.mjs',
+ 'data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json',
+];
 function verifyGenerationBinding(root,candidate,pending){
  try{
   const git=args=>execFileSync('git',args,{cwd:root,encoding:'utf8',stdio:'pipe'}).trim();
@@ -782,7 +792,8 @@ function verifyGenerationBinding(root,candidate,pending){
   const toolsPath='data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json';
   const binding=read(toolsPath),t=binding.successorTools,base=pending.releaseBaseSha;
   const preflightOnly=base===PREFLIGHT_BASE;
-  const generationFiles=preflightOnly?GENERATION_FILES:base===HOSTED_BASE?HOSTED_GENERATION_FILES:(base==='879463ec2ef60696da39a0367b4758d26074207b'
+  const correction=t.dependencyOrderCorrectionBaseSha;
+  const generationFiles=preflightOnly?[...new Set([...GENERATION_FILES,...(correction?PRODUCTION_DEPENDENCY_ORDER_FILES:[])])]:base===HOSTED_BASE?HOSTED_GENERATION_FILES:(base==='879463ec2ef60696da39a0367b4758d26074207b'
     ||base==='516b02ac1a68a6aaef41ca9825eae0ece5e3df37')?CHECKOUT_RETURN_GENERATION_FILES
     :base==='7556f87cee1cf3e6f4b503c76b8ba1d1bbc59456'?PACKET_DATABASE_GENERATION_FILES
     :base==='e312a5efa7b4882e0fbf61a5ff0ae7891ac23226'?APPLICATION_AUTHORITY_GENERATION_FILES
@@ -792,10 +803,20 @@ function verifyGenerationBinding(root,candidate,pending){
     :base==='44916baaeb9815ba3dd61d94e8c51294f01e8166'?HOSTED_PIN_GENERATION_FILES
     :base==='9ce9233bde4e3c16d0dc9657524ae1a5f02eb2fa'?DS08_GENERATION_FILES:PRIOR_GENERATION_FILES;
   const expect=(actual,expected,message)=>{if(JSON.stringify(actual)!==JSON.stringify(expected))throw Error(message);};
-  expect(binding.toolsSha,base,'tools base identity');expect(t.baseSha,base,'release/tools base');
+  const commitBase=correction??base;
+  if(correction){
+   expect(preflightOnly,true,'dependency correction only on approved preflight release');
+   expect(correction,PRODUCTION_DEPENDENCY_ORDER_BASE,'exact dependency-order correction base');
+   const priorTools=JSON.parse(git(['show',`${correction}:${toolsPath}`]));
+   expect(binding,{...priorTools,toolsSha:correction,successorTools:{...priorTools.successorTools,dependencyOrderCorrectionBaseSha:correction,files:t.files}},'only exact dependency-order tools correction');
+   for(const [rel,hash]of Object.entries(priorTools.successorTools.files))if(!PRODUCTION_DEPENDENCY_ORDER_FILES.includes(rel))expect(t.files[rel],hash,`preserved tools: ${rel}`);
+   const delta=[...new Set([...git(['diff','--name-only',correction]).split('\n'),...git(['ls-files','--others','--exclude-standard']).split('\n')].filter(Boolean))].sort();
+   expect(delta,PRODUCTION_DEPENDENCY_ORDER_FILES.slice().sort(),'exact dependency-order correction paths');
+  }
+  expect(binding.toolsSha,commitBase,'tools base identity');expect(t.baseSha,base,'release/tools base');
   expect(t.schemaVersion,'rcap-successor-resume-tools/v1','tools schema');expect(t.commit,'single-commit-after-base','bounded successor');
   const head=git(['rev-parse','HEAD']);
-  if(head!==base)expect(git(['rev-list','--parents','-n','1',head]).split(' '),[head,base],'one non-merge tools successor');
+  if(head!==commitBase)expect(git(['rev-list','--parents','-n','1',head]).split(' '),[head,commitBase],'one non-merge tools successor');
   expect(Object.keys(t.files).sort(),generationFiles.filter(p=>p!==toolsPath).sort(),'exact tools manifest paths');
   for(const [rel,hash]of Object.entries(t.files))expect(createHash('sha256').update(fs.readFileSync(path.join(root,rel))).digest('hex'),hash,`tools drift: ${rel}`);
   const changed=[...new Set([...git(['diff','--name-only',base]).split('\n'),...git(['ls-files','--others','--exclude-standard']).split('\n')].filter(Boolean))].sort();
@@ -835,7 +856,7 @@ function verifyGenerationBinding(root,candidate,pending){
   for(const key of new Set([...Object.keys(previousTools),...Object.keys(binding)]))if(!toolsUpdates.has(key))expect(binding[key],previousTools[key],`unchanged tools field ${key}`);
   expect(candidate.applicationPin,{...previous.applicationPin,sourceSha:pending.applicationSha,canonicalInputBaseline:pending.applicationSha,workerInputFingerprint:pending.workerInputFingerprint},'exact application pin');
   expect(candidate.previewExecutionInstruction,{...previous.previewExecutionInstruction,mode:null,...((base===HOSTED_BASE||preflightOnly)?{preview_hostname:PREVIEW.hostname,preview_deployment_id:PREVIEW.deploymentId,firstExecution:'Hosted acceptance is complete; no execution authorized by this record.'}:{})},'exact Preview identity without execution authority');
-  expect(Object.keys(t).sort(),['schemaVersion','baseSha','commit','files'].sort(),'no inherited tools correction scope');
+  expect(Object.keys(t).sort(),['schemaVersion','baseSha','commit','files',...(correction?['dependencyOrderCorrectionBaseSha']:[])].sort(),'no inherited tools correction scope');
   return {current:true,status:'CURRENT',hostedAcceptanceStatus:candidate.hostedAcceptanceStatus,releaseStatus:pending.status,previewExecution:'held',productionAuthorized:preflightOnly,productionPhases:preflightOnly?['preflight']:[],reasons:[]};
  }catch(error){return {current:false,status:'STALE_OR_UNVERIFIED',reasons:[error.message]};}
 }

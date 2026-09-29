@@ -75,6 +75,14 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install frozen dependencies for every Production phase
+        run: npm ci
+
       - name: Verify the exact frozen identity and image-input equivalence
         run: |
           set -euo pipefail
@@ -83,15 +91,6 @@ jobs:
           # bytes and canonical worker input equivalence. Separate current
           # Production phase permission is required before any service access.
           node scripts/rcap-production-migration-contract.mjs
-
-      - name: Set up Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-
-      - name: Install exact dependencies for source-derived Clinic certificates
-        if: inputs.phase == 'clinic_migrate' || inputs.phase == 'forward_chain_readback' || inputs.phase == 'forward_chain_migrate' || inputs.phase == 'legal_aid_readback' || inputs.phase == 'legal_aid_migrate'
-        run: npm ci
 
       - name: Verify the Production migration behavior
         if: inputs.phase == 'clinic_migrate' || inputs.phase == 'forward_chain_readback' || inputs.phase == 'forward_chain_migrate' || inputs.phase == 'legal_aid_readback' || inputs.phase == 'legal_aid_migrate'
@@ -125,14 +124,6 @@ jobs:
         run: |
           node scripts/verify-rcap-production-legal-aid-migrate.mjs
           node scripts/test-rcap-production-legal-aid-migrate-mutations.mjs
-          # The PGlite readback self-test needs node_modules, which this
-          # Supabase-only step runs before installing (run 35120655761 stopped
-          # on ERR_MODULE_NOT_FOUND). It runs in the local test chain; the two
-          # dependency-free proofs above stay blocking here.
-
-      - name: Install frozen dependencies for the exact-SHA Colorado smoke
-        if: inputs.phase == 'smoke'
-        run: npm ci
 
       - name: Verify the bounded Production canary smoke contract
         if: inputs.phase == 'smoke'
