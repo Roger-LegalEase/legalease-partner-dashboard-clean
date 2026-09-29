@@ -1,0 +1,21 @@
+{
+  "name": "canonical_matter_rpc",
+  "projectRef": "wwtwtsmywnckfkdaqqeg",
+  "capturedAt": "2026-09-29T20:38:41.828Z",
+  "readOnly": true,
+  "query": "select p.prosrc,p.prosecdef,p.proconfig,p.provolatile,l.lanname,has_function_privilege('service_role',p.oid,'EXECUTE')as service_execute,has_function_privilege('anon',p.oid,'EXECUTE')as anon_execute,has_function_privilege('authenticated',p.oid,'EXECUTE')as authenticated_execute from pg_proc p join pg_language l on l.oid=p.prolang where p.oid=to_regprocedure('public.get_consumer_briefcase_presentation_source(uuid,uuid)')",
+  "data": [
+    {
+      "prosrc": "\n  with trusted as (\n    select\n      i.user_id as consumer_auth_user_id,\n      i.id as briefcase_item_id,\n      p.claimed_user_id,\n      p.claimed_at,\n      coalesce(p.anonymous_session_id::text, p.pending_id::text) as source_identity,\n      p.product,\n      (p.product = 'rcap_partner' and p.partner_slug is not null) as partner_benefit_active,\n      p.partner_slug,\n      p.jurisdiction,\n      p.profile_version,\n      coalesce(\n        i.summary_json #>> '{commercialFlow,screening,screeningMatterId}',\n        p.candidate_route_context ->> 'matterId',\n        p.pending_id::text\n      ) as matter_id,\n      p.screening_answers,\n      encode(extensions.digest(convert_to(public.consumer_canonical_json(p.screening_answers), 'utf8'), 'sha256'), 'hex') as answers_hash\n    from public.consumer_briefcase_items i\n    join public.consumer_pending_screening_results p\n      on p.pending_id = i.source_pending_result_id\n    where i.id = p_briefcase_item_id\n      and i.user_id = p_consumer_auth_user_id\n      and p.status = 'CLAIMED'\n      and p.claimed_user_id = p_consumer_auth_user_id\n      and p.claimed_matter_id = i.id\n  )\n  select t.consumer_auth_user_id, t.briefcase_item_id, t.claimed_user_id,\n    t.claimed_at::text, t.source_identity, t.product, t.partner_benefit_active,\n    t.partner_slug, t.jurisdiction, t.profile_version, t.matter_id,\n    t.screening_answers, t.answers_hash,\n    encode(extensions.digest(convert_to(public.consumer_canonical_json(jsonb_build_object(\n      'consumerAuthUserId', t.consumer_auth_user_id::text,\n      'briefcaseItemId', t.briefcase_item_id::text,\n      'matterId', t.matter_id,\n      'sourceIdentity', t.source_identity,\n      'claimedAt', t.claimed_at::text,\n      'screeningAnswersSha256', t.answers_hash,\n      'product', t.product,\n      'partnerBenefitActive', t.partner_benefit_active,\n      'partnerSlug', t.partner_slug\n    )), 'utf8'), 'sha256'), 'hex')\n  from trusted t;\n",
+      "prosecdef": true,
+      "proconfig": [
+        "search_path=\"\""
+      ],
+      "provolatile": "s",
+      "lanname": "sql",
+      "service_execute": true,
+      "anon_execute": false,
+      "authenticated_execute": false
+    }
+  ]
+}

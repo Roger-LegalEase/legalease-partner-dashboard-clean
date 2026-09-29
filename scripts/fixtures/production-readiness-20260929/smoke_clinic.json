@@ -1,0 +1,13 @@
+{
+  "name": "smoke_clinic",
+  "projectRef": "wwtwtsmywnckfkdaqqeg",
+  "capturedAt": "2026-09-29T20:48:44.395Z",
+  "readOnly": true,
+  "query": "\n    select\n      array(select c.relname from pg_class c join pg_namespace n on n.oid=c.relnamespace\n        where n.nspname='public' and c.relkind='r' and c.relrowsecurity\n          and c.relname in ('clinic_events','clinic_event_staff','clinic_event_access_codes','clinic_event_access_redemptions','clinic_assisted_sessions','clinic_cases','clinic_follow_ups','clinic_incidents','clinic_event_audit','clinic_packet_reservations') order by c.relname) as rls_tables,\n      array(select distinct p.proname from pg_proc p join pg_namespace n on n.oid=p.pronamespace\n        where n.nspname='public' and p.proname in ('clinic_create_event','clinic_set_event_staff','clinic_create_access_code','clinic_set_event_status','clinic_redeem_event_code','clinic_start_assisted_session','clinic_end_assisted_session','clinic_upsert_case','clinic_transition_case','clinic_upsert_follow_up','clinic_record_incident','clinic_reserve_packet_credit','clinic_finalize_packet_credit','clinic_release_packet_credit','clinic_reserve_participant_packet_credit','clinic_sync_packet_reservation','clinic_actor_can_event','clinic_upsert_event_follow_up','clinic_get_event_queue','clinic_transition_event_case','clinic_get_follow_ups','clinic_get_event_report') order by p.proname) as functions\n  ",
+  "data": [
+    {
+      "rls_tables": "{clinic_assisted_sessions,clinic_cases,clinic_event_access_codes,clinic_event_access_redemptions,clinic_event_audit,clinic_event_staff,clinic_events,clinic_follow_ups,clinic_incidents,clinic_packet_reservations}",
+      "functions": "{clinic_actor_can_event,clinic_create_access_code,clinic_create_event,clinic_end_assisted_session,clinic_finalize_packet_credit,clinic_get_event_queue,clinic_get_event_report,clinic_get_follow_ups,clinic_record_incident,clinic_redeem_event_code,clinic_release_packet_credit,clinic_reserve_packet_credit,clinic_reserve_participant_packet_credit,clinic_set_event_staff,clinic_set_event_status,clinic_start_assisted_session,clinic_sync_packet_reservation,clinic_transition_case,clinic_transition_event_case,clinic_upsert_case,clinic_upsert_event_follow_up,clinic_upsert_follow_up}"
+    }
+  ]
+}

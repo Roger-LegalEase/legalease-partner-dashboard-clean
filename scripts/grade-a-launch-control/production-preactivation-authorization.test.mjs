@@ -69,7 +69,10 @@ test('all prior control bytes and hosted evidence are preserved; conditional-wri
  }
  assert.deepEqual(candidate.hostedAcceptance,candidate.supersededRecord.hostedAcceptance);
  for(const rel of [...HOSTED_EVIDENCE_FILES,'scripts/rcap-production-clinic-migrate.mjs','scripts/rcap-production-forward-chain-migrate.mjs','scripts/rcap-production-legal-aid-migrate.mjs','scripts/rcap-production-legal-aid-keys.mjs','scripts/rcap-production-canary-smoke.mjs','data/rcap-production-forward-chain-migration-authorization.json','data/rcap-production-legal-aid-migration-authorization.json']){
-  assert.deepEqual(fs.readFileSync(rel),execFileSync('git',['show',`${PREACTIVATION_BASE}:${rel}`],{maxBuffer:32*1024*1024}));
+  const prior=execFileSync('git',['show',`${PREACTIVATION_BASE}:${rel}`],{maxBuffer:32*1024*1024});
+  if(rel==='scripts/rcap-production-legal-aid-keys.mjs'){
+   assert.equal(fs.readFileSync(rel,'utf8'),prior.toString().replace('if (existingKey.length === 0 || existingVersion.length === 0) {','if (existingKey.length === 0 || existingVersion.length === 0 || existingPseudonym.length === 0) {'));
+  }else assert.deepEqual(fs.readFileSync(rel),prior);
  }
  assert.equal(PREFLIGHT_EVIDENCE_FILES.length,4);
 });

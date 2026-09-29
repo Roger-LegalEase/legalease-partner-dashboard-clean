@@ -175,6 +175,15 @@ jobs:
           RCAP_LEGAL_AID_KEYS_PHASE: ${{ inputs.mode == 'production_legal_aid_keys_create' && 'create' || 'read' }}
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
         run: node scripts/rcap-production-legal-aid-keys.mjs
+      - name: Set up flyctl for read-only inventory
+        if: inputs.mode == 'production_legal_aid_keys_read'
+        uses: superfly/flyctl-actions/setup-flyctl@master
+      - name: Read the remaining Fly and Vercel readiness identities
+        if: inputs.mode == 'production_legal_aid_keys_read'
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+        run: node scripts/rcap-production-readiness-inventory.mjs
       - name: Upload the key evidence (names and identifiers only)
         if: always()
         uses: actions/upload-artifact@v4

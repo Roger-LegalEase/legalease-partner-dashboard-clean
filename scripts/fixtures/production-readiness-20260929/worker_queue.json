@@ -1,0 +1,16 @@
+{
+  "name": "worker_queue",
+  "projectRef": "wwtwtsmywnckfkdaqqeg",
+  "capturedAt": "2026-09-29T20:38:42.586Z",
+  "readOnly": true,
+  "query": "select count(*) filter(where status='queued' and coalesce(next_attempt_at,created_at)<now()-interval '10 minutes') as stale_queued,count(*) filter(where status='queued') as queued,count(*) filter(where status='claimed') as claimed,count(*) filter(where status='failed' and failure_disposition='terminal') as terminal_failed,extract(epoch from now()-min(created_at) filter(where status='queued')) as oldest_queued_seconds from public.packet_render_jobs",
+  "data": [
+    {
+      "stale_queued": 0,
+      "queued": 0,
+      "claimed": 0,
+      "terminal_failed": 0,
+      "oldest_queued_seconds": null
+    }
+  ]
+}

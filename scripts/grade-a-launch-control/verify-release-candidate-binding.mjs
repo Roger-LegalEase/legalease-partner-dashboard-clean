@@ -814,6 +814,35 @@ const HOSTED_EVIDENCE_TEST_CORRECTION_FILES=[
  'scripts/grade-a-launch-control/verify-release-candidate-binding.mjs',
  'data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json',
 ];
+const READINESS_CORRECTION_BASE="d9a349986379679a70db3566fc570e3aea1cfa3a";
+const READINESS_CORRECTION_FILES=[
+  ".github/workflows/rcap-f1-ephemeral-staging.yml",
+  "data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json",
+  "scripts/fixtures/production-clinic-36625443428/11061205252.zip",
+  "scripts/fixtures/production-clinic-36625443428/catalog.json",
+  "scripts/fixtures/production-readiness-20260929/README.md",
+  "scripts/fixtures/production-readiness-20260929/canonical_matter_rpc.json",
+  "scripts/fixtures/production-readiness-20260929/clinic_baseline.json",
+  "scripts/fixtures/production-readiness-20260929/clinic_inventory.json",
+  "scripts/fixtures/production-readiness-20260929/clinic_source_catalog.json",
+  "scripts/fixtures/production-readiness-20260929/forward_inventory.json",
+  "scripts/fixtures/production-readiness-20260929/legal_forward_inventory.json",
+  "scripts/fixtures/production-readiness-20260929/legal_inventory.json",
+  "scripts/fixtures/production-readiness-20260929/packet_source_catalog.json",
+  "scripts/fixtures/production-readiness-20260929/project.json",
+  "scripts/fixtures/production-readiness-20260929/smoke_clinic.json",
+  "scripts/fixtures/production-readiness-20260929/smoke_save_claim.json",
+  "scripts/fixtures/production-readiness-20260929/worker_queue.json",
+  "scripts/grade-a-launch-control/production-preactivation-authorization.test.mjs",
+  "scripts/grade-a-launch-control/verify-release-candidate-binding.mjs",
+  "scripts/rcap-production-clinic-certification.test.mjs",
+  "scripts/rcap-production-legal-aid-keys.mjs",
+  "scripts/rcap-production-legal-aid-keys.test.mjs",
+  "scripts/rcap-production-migration-contract.mjs",
+  "scripts/rcap-production-readiness-inventory.mjs",
+  "scripts/rcap-production-readiness-inventory.test.mjs",
+  "scripts/rcap-production-readiness-replay.test.mjs"
+];
 function verifyGenerationBinding(root,candidate,pending){
  try{
   const git=args=>execFileSync('git',args,{cwd:root,encoding:'utf8',stdio:'pipe'}).trim();
@@ -823,7 +852,8 @@ function verifyGenerationBinding(root,candidate,pending){
   const preflightOnly=base===PREFLIGHT_BASE,preactivation=base===PREACTIVATION_BASE,productionScoped=preflightOnly||preactivation;
   const correction=t.dependencyOrderCorrectionBaseSha;
   const hostedTestCorrection=t.hostedEvidenceTestCorrectionBaseSha;
-  const generationFiles=preactivation?[...new Set([...PREACTIVATION_FILES,...(hostedTestCorrection?HOSTED_EVIDENCE_TEST_CORRECTION_FILES:[])])]:preflightOnly?[...new Set([...GENERATION_FILES,...(correction?PRODUCTION_DEPENDENCY_ORDER_FILES:[])])]:base===HOSTED_BASE?HOSTED_GENERATION_FILES:(base==='879463ec2ef60696da39a0367b4758d26074207b'
+  const readinessCorrection=t.preactivationReadinessCorrectionBaseSha;
+  const generationFiles=preactivation?[...new Set([...PREACTIVATION_FILES,...(readinessCorrection?READINESS_CORRECTION_FILES:[]),...(hostedTestCorrection?HOSTED_EVIDENCE_TEST_CORRECTION_FILES:[])])]:preflightOnly?[...new Set([...GENERATION_FILES,...(correction?PRODUCTION_DEPENDENCY_ORDER_FILES:[])])]:base===HOSTED_BASE?HOSTED_GENERATION_FILES:(base==='879463ec2ef60696da39a0367b4758d26074207b'
     ||base==='516b02ac1a68a6aaef41ca9825eae0ece5e3df37')?CHECKOUT_RETURN_GENERATION_FILES
     :base==='7556f87cee1cf3e6f4b503c76b8ba1d1bbc59456'?PACKET_DATABASE_GENERATION_FILES
     :base==='e312a5efa7b4882e0fbf61a5ff0ae7891ac23226'?APPLICATION_AUTHORITY_GENERATION_FILES
@@ -833,8 +863,17 @@ function verifyGenerationBinding(root,candidate,pending){
     :base==='44916baaeb9815ba3dd61d94e8c51294f01e8166'?HOSTED_PIN_GENERATION_FILES
     :base==='9ce9233bde4e3c16d0dc9657524ae1a5f02eb2fa'?DS08_GENERATION_FILES:PRIOR_GENERATION_FILES;
   const expect=(actual,expected,message)=>{if(JSON.stringify(actual)!==JSON.stringify(expected))throw Error(message);};
-  const commitBase=hostedTestCorrection??correction??base;
-  if(hostedTestCorrection){
+  const commitBase=readinessCorrection??hostedTestCorrection??correction??base;
+  if(readinessCorrection){
+   expect(preactivation,true,'readiness correction only on reviewed pre-activation release');
+   expect(correction,undefined,'no combined dependency correction scope');
+   expect(readinessCorrection,READINESS_CORRECTION_BASE,'exact reviewed readiness correction base');
+   const priorTools=JSON.parse(git(['show',`${readinessCorrection}:${toolsPath}`]));
+   expect(binding,{...priorTools,toolsSha:readinessCorrection,successorTools:{...priorTools.successorTools,preactivationReadinessCorrectionBaseSha:readinessCorrection,files:t.files}},'only bounded readiness tools correction');
+   for(const [rel,hash]of Object.entries(priorTools.successorTools.files))if(!READINESS_CORRECTION_FILES.includes(rel))expect(t.files[rel],hash,`preserved tools: ${rel}`);
+   const delta=[...new Set([...git(['diff','--name-only',readinessCorrection]).split('\n'),...git(['ls-files','--others','--exclude-standard']).split('\n')].filter(Boolean))].sort();
+   expect(delta,READINESS_CORRECTION_FILES.slice().sort(),'exact readiness correction paths');
+  }else if(hostedTestCorrection){
    expect(preactivation,true,'hosted test correction only on reviewed pre-activation release');
    expect(correction,undefined,'no combined correction scope');
    expect(hostedTestCorrection,HOSTED_EVIDENCE_TEST_CORRECTION_BASE,'exact reviewed pre-activation correction base');
@@ -897,7 +936,7 @@ function verifyGenerationBinding(root,candidate,pending){
   for(const key of new Set([...Object.keys(previousTools),...Object.keys(binding)]))if(!toolsUpdates.has(key))expect(binding[key],previousTools[key],`unchanged tools field ${key}`);
   expect(candidate.applicationPin,{...previous.applicationPin,sourceSha:pending.applicationSha,canonicalInputBaseline:pending.applicationSha,workerInputFingerprint:pending.workerInputFingerprint},'exact application pin');
   expect(candidate.previewExecutionInstruction,{...previous.previewExecutionInstruction,mode:null,...((base===HOSTED_BASE||productionScoped)?{preview_hostname:PREVIEW.hostname,preview_deployment_id:PREVIEW.deploymentId,firstExecution:'Hosted acceptance is complete; no execution authorized by this record.'}:{})},'exact Preview identity without execution authority');
-  expect(Object.keys(t).sort(),['schemaVersion','baseSha','commit','files',...(correction?['dependencyOrderCorrectionBaseSha']:[]),...(hostedTestCorrection?['hostedEvidenceTestCorrectionBaseSha']:[])].sort(),'no inherited tools correction scope');
+  expect(Object.keys(t).sort(),['schemaVersion','baseSha','commit','files',...(correction?['dependencyOrderCorrectionBaseSha']:[]),...(hostedTestCorrection?['hostedEvidenceTestCorrectionBaseSha']:[]),...(readinessCorrection?['preactivationReadinessCorrectionBaseSha']:[])].sort(),'no inherited tools correction scope');
   return {current:true,status:'CURRENT',hostedAcceptanceStatus:candidate.hostedAcceptanceStatus,releaseStatus:pending.status,previewExecution:'held',productionAuthorized:productionScoped,productionPhases:preactivation?[...PREACTIVATION_PHASES]:preflightOnly?['preflight']:[],reasons:[]};
  }catch(error){return {current:false,status:'STALE_OR_UNVERIFIED',reasons:[error.message]};}
 }

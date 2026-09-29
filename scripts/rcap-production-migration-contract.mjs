@@ -84,6 +84,9 @@ export function requireProductionMigrationRelease(root, env = process.env) {
 // come from the existing five source migrations in a disposable PostgreSQL
 // instance, with the same prerequisite shim as rcap-legal-aid/self-test.mjs.
 // No Production catalog or asserted receipt can become expected authority.
+// NOT NULL is compared once, through pg_attribute.attnotnull. PostgreSQL 18
+// also exposes contype='n' constraints; their names are not portable catalog
+// identity. All other constraint types remain in the exact comparison.
 export const clinicSourceCatalogQuery = `with relations as (
   select c.* from pg_class c join pg_namespace n on n.oid=c.relnamespace
   where n.nspname='public' and c.relkind='r'
@@ -97,7 +100,7 @@ export const clinicSourceCatalogQuery = `with relations as (
     'rls',c.relrowsecurity,'forceRls',c.relforcerowsecurity,
     'columns',(select jsonb_agg(jsonb_build_object('name',a.attname,'type',format_type(a.atttypid,a.atttypmod),'notNull',a.attnotnull,'default',pg_get_expr(d.adbin,d.adrelid)) order by a.attname)
       from pg_attribute a left join pg_attrdef d on d.adrelid=a.attrelid and d.adnum=a.attnum where a.attrelid=c.oid and a.attnum>0 and not a.attisdropped),
-    'constraints',coalesce((select jsonb_object_agg(conname,pg_get_constraintdef(oid)) from pg_constraint where conrelid=c.oid),'{}'),
+    'constraints',coalesce((select jsonb_object_agg(conname,pg_get_constraintdef(oid)) from pg_constraint where conrelid=c.oid and contype <> 'n'),'{}'),
     'indexes',coalesce((select jsonb_object_agg(ci.relname,pg_get_indexdef(i.indexrelid)) from pg_index i join pg_class ci on ci.oid=i.indexrelid where i.indrelid=c.oid),'{}'),
     'policies',coalesce((select jsonb_object_agg(polname,jsonb_build_object('command',polcmd,'permissive',polpermissive,'roles',(select jsonb_agg(case when r=0 then 'public' else pg_get_userbyid(r) end order by case when r=0 then 'public' else pg_get_userbyid(r) end) from unnest(polroles) r),'using',pg_get_expr(polqual,polrelid),'check',pg_get_expr(polwithcheck,polrelid))) from pg_policy where polrelid=c.oid),'{}'),
     'triggers',coalesce((select jsonb_object_agg(tgname,jsonb_build_object('enabled',tgenabled,'definition',pg_get_triggerdef(oid))) from pg_trigger where tgrelid=c.oid and not tgisinternal),'{}'),
@@ -118,7 +121,11 @@ export async function clinicSourceTestDatabase() {
   const { PGlite } = await import('@electric-sql/pglite');
   const db = new PGlite();
   try {
+    // These defaults are part of the frozen Supabase baseline
+    // (20260728213131_remote_schema.sql), not grants inferred from Production.
     await db.exec(`create role anon; create role authenticated; create role service_role bypassrls;
+      alter default privileges for role postgres in schema public grant all on tables to service_role;
+      alter default privileges for role postgres in schema public grant all on functions to service_role;
       create schema auth; create table auth.users(id uuid primary key);
       create function auth.uid() returns uuid language sql stable as $$ select nullif(current_setting('request.jwt.claim.sub', true),'')::uuid $$;
       create schema storage; create table storage.buckets(id text primary key,name text,public boolean default false,file_size_limit bigint,allowed_mime_types text[]);

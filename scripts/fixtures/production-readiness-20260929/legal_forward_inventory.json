@@ -1,0 +1,21 @@
+{
+  "name": "legal_forward_inventory",
+  "projectRef": "wwtwtsmywnckfkdaqqeg",
+  "capturedAt": "2026-09-29T20:38:36.602Z",
+  "readOnly": true,
+  "query": "select to_regclass('supabase_migrations.schema_migrations') is not null as migration_ledger_present, to_regclass('public.participant_claim_events') is not null as m20260828100000, exists(select 1 from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='public' and p.proname='guard_packet_delivery_events') as m20260830120000, to_regclass('public.consumer_packet_artifact_provenance') is not null as m20260901115000, exists(select 1 from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='public' and p.proname='bind_consumer_checkout_verification') as m20260901120000, to_regclass('public.consumer_artifact_download_grants') is not null as m20260901130000, exists(select 1 from information_schema.columns where table_schema='public' and table_name='clinic_events' and column_name='jurisdiction') as m20260903120000, exists(select 1 from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='public' and p.proname='finalize_sponsored_packet_generation_if_verified') as m20260903130000, to_regclass('public.sponsored_packet_render_routes') is not null as m20260906120000, exists(select 1 from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='public' and p.proname='finalize_sponsored_packet_generation_for_route') as m20260906130000",
+  "data": [
+    {
+      "migration_ledger_present": true,
+      "m20260828100000": true,
+      "m20260830120000": true,
+      "m20260901115000": true,
+      "m20260901120000": true,
+      "m20260901130000": true,
+      "m20260903120000": true,
+      "m20260903130000": true,
+      "m20260906120000": true,
+      "m20260906130000": true
+    }
+  ]
+}

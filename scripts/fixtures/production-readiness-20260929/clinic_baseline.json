@@ -1,0 +1,16 @@
+{
+  "name": "clinic_baseline",
+  "projectRef": "wwtwtsmywnckfkdaqqeg",
+  "capturedAt": "2026-09-29T20:38:37.348Z",
+  "readOnly": true,
+  "query": "\n    select\n      array(\n        select c.relname from pg_class c join pg_namespace n on n.oid=c.relnamespace\n        where n.nspname='public' and c.relname in (\n          'partner_records','partner_users','screening_sessions',\n          'consumer_briefcase_items','packet_render_jobs','packet_credit_ledger'\n        ) order by c.relname\n      ) as tables,\n      array(\n        select column_name from information_schema.columns\n        where table_schema='public' and table_name='consumer_briefcase_items'\n          and column_name in ('payment_product_id','payment_person_id','payment_matter_id')\n        order by column_name\n      ) as payment_columns,\n      array(\n        select distinct p.proname from pg_proc p join pg_namespace n on n.oid=p.pronamespace\n        where n.nspname='public' and p.proname in (\n          'expungement_packet_product_id','consumer_matter_id_for_briefcase_item',\n          'consumer_packet_payment_authority','record_consumer_packet_payment',\n          'enqueue_packet_render_job','finalize_packet_render_job'\n        ) order by p.proname\n      ) as functions,\n      not exists(\n        select 1 from pg_proc p join pg_namespace n on n.oid=p.pronamespace\n        where n.nspname='public' and p.proname='enqueue_packet_render_job' and p.pronargs=13\n      ) as legacy_enqueue_absent,\n      exists(\n        select 1 from pg_class c join pg_namespace n on n.oid=c.relnamespace\n        where n.nspname='public' and c.relname='packet_render_jobs' and c.relrowsecurity\n      ) as render_jobs_rls\n  ",
+  "data": [
+    {
+      "tables": "{consumer_briefcase_items,packet_credit_ledger,packet_render_jobs,partner_records,partner_users,screening_sessions}",
+      "payment_columns": "{payment_matter_id,payment_person_id,payment_product_id}",
+      "functions": "{consumer_matter_id_for_briefcase_item,consumer_packet_payment_authority,enqueue_packet_render_job,expungement_packet_product_id,finalize_packet_render_job,record_consumer_packet_payment}",
+      "legacy_enqueue_absent": true,
+      "render_jobs_rls": true
+    }
+  ]
+}

@@ -111,7 +111,7 @@ try {
     const existingPseudonym = present(PSEUDONYM_NAME);
     record("existing_pseudonym_secret_is_never_overwritten", true, existingPseudonym.length ? `${PSEUDONYM_NAME} already exists for Production (id ${existingPseudonym[0].id}); it is retained` : `${PSEUDONYM_NAME} absent for Production; it will be created`);
     record("existing_key_is_never_overwritten", true, existingKey.length ? `${KEY_NAME} already exists for Production (id ${existingKey[0].id}); it is retained` : `${KEY_NAME} absent for Production; it will be created`);
-    if (existingKey.length === 0 || existingVersion.length === 0) {
+    if (existingKey.length === 0 || existingVersion.length === 0 || existingPseudonym.length === 0) {
       const body = [];
       if (existingKey.length === 0) body.push({ key: KEY_NAME, value: crypto.randomBytes(32).toString("base64"), type: "sensitive", target: ["production"] });
       if (existingVersion.length === 0) body.push({ key: VERSION_NAME, value: "v1", type: "plain", target: ["production"] });
