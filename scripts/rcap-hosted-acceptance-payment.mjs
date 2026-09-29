@@ -2070,7 +2070,7 @@ const stripeApi = async (pathname, init) => {
   const settled = session.payment_status === "paid" || session.payment_status === "no_payment_required";
   record(
     "customer_completed_the_hosted_checkout_page",
-    settled,
+    settled && outcome.completed === true,
     `Stripe's hosted page was driven in a browser${PROMOTION_CODE ? ` with promotion code ${PROMOTION_CODE}` : " with no promotion code"}; `
       + `${outcome.completed ? "the page returned to the application" : "the page did not return to the application"}. `
       + `Stripe now reports payment_status=${session.payment_status} (was ${before.paymentStatus}), amount_total=${session.amount_total} (was ${before.amountTotal}), `
@@ -2082,6 +2082,7 @@ const stripeApi = async (pathname, init) => {
     promotionCode: PROMOTION_CODE,
     completed: outcome.completed,
     humanInteractionRequired: outcome.humanInteractionRequired === true,
+    postReturnCaptureFailures: outcome.postReturnCaptureFailures ?? [],
     paymentStatusBefore: before.paymentStatus,
     paymentStatusAfter: session.payment_status,
     amountTotalAfter: session.amount_total,
@@ -2091,7 +2092,7 @@ const stripeApi = async (pathname, init) => {
     notes: outcome.notes,
     screenshots: outcome.screenshots
   };
-  if (!settled || outcome.humanInteractionRequired) finish();
+  if (!settled || outcome.completed !== true || outcome.humanInteractionRequired) finish();
 }
 
 // --- 4c. What Stripe confirms about the purchase ------------------------------

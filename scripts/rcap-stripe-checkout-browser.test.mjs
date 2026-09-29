@@ -99,34 +99,74 @@ test('only the same application, matter, success state and Session count as a re
   assert.equal(isExpectedCheckoutReturn(expected, undefined), false);
 });
 
-for (const scenario of ['challenge', 'cookies-fail', 'wrong-return', 'success', 'bootstrap-redirect', 'no-secret', 'no-cookie', 'wrong-cookie-host', 'parent-cookie-host', 'wrong-cookie-name', 'insecure-cookie', 'bootstrap-fail', 'bootstrap-foreign-redirect', 'bootstrap-wrong-url', 'proof-fail', 'proof-html', 'non-vercel-return']) {
+for (const scenario of ['challenge', 'cookies-fail', 'wrong-return', 'success', 'bootstrap-redirect', 'no-secret', 'no-cookie', 'wrong-cookie-host', 'parent-cookie-host', 'wrong-cookie-name', 'insecure-cookie', 'bootstrap-fail', 'bootstrap-foreign-redirect', 'bootstrap-wrong-url', 'proof-fail', 'proof-html', 'non-vercel-return', 'navigation-race', 'delayed-commit-race', 'event-race', 'deadline-return', 'capture-error', 'dom-ready-error', 'screenshot-error', 'generic-before-return', 'submit-error', 'wrong-path', 'wrong-query', 'iframe-only']) {
   test(`Checkout orchestration ${scenario} with local browser double`, async t => {
     const expected = scenario === 'non-vercel-return' ? 'https://untrusted.example/briefcase/matter-a?checkout=success' : 'https://preview.vercel.app/briefcase/matter-a?checkout=success';
     const secret = 'SYNTHETIC-bypass-SECRET';
     const cookieValue = 'SYNTHETIC-cookie-VALUE';
     const events = [];
     const requests = [];
-    const succeeds = ['success', 'bootstrap-redirect'].includes(scenario);
-    const opensStripe = succeeds || ['challenge', 'wrong-return'].includes(scenario);
+    const succeeds = ['success', 'bootstrap-redirect', 'navigation-race', 'delayed-commit-race', 'event-race', 'deadline-return', 'capture-error', 'dom-ready-error', 'screenshot-error'].includes(scenario);
+    const opensStripe = succeeds || ['challenge', 'wrong-return', 'generic-before-return', 'submit-error', 'wrong-path', 'wrong-query', 'iframe-only'].includes(scenario);
     let current = 'https://checkout.stripe.com/c/pay/cs_test_local';
     const mutations = [];
     let closed = 0;
     let captures = 0;
     const challengeSelectors = /one-time-code|challenge|captcha|Verify your identity/;
+    let listener = null;
+    let submitted = false;
+    let clock = 0;
+    if (scenario === 'deadline-return') t.mock.method(Date, 'now', () => submitted ? (clock += 100_000) : 0);
+    let waitsAfterSubmit = 0;
+    let returnEventSeen = false;
+    const sensitiveError = `execution context was destroyed ${secret} ${cookieValue} ?session=private-token`;
     const page = {
-      goto: async (url, options) => { events.push('stripe'); assert.equal(url, current); assert.equal(requests.length, 2); assert.equal(options.headers, undefined); }, waitForTimeout: async () => {}, url: () => current,
+      on: (name, fn) => { assert.equal(name, 'framenavigated'); listener = fn; },
+      off: (name, fn) => { assert.equal(listener, fn); listener = null; },
+      waitForLoadState: async () => { if (scenario === 'dom-ready-error') throw Error(sensitiveError); },
+      waitForURL: async (predicate, options) => {
+        assert.equal(options.waitUntil, 'commit');
+        assert.equal(scenario, 'delayed-commit-race');
+        assert.equal(predicate(new URL(expected)), true);
+        current = expected; listener?.(page);
+      },
+      screenshot: async () => { if (submitted && scenario === 'screenshot-error') throw Error(sensitiveError); },
+      goto: async (url, options) => { events.push('stripe'); assert.equal(url, current); assert.equal(requests.length, 2); assert.equal(options.headers, undefined); }, waitForTimeout: async () => {
+        if (submitted && ++waitsAfterSubmit > 3) throw Error('synthetic return deadline');
+        if (submitted && scenario === 'generic-before-return') throw Error(`generic ${secret} ${cookieValue}`);
+        if (submitted && scenario === 'iframe-only') throw Error('no main-frame return');
+      }, url: () => current,
       mainFrame: () => page, frames: () => [page],
       locator: selector => ({
         all: async () => [], innerText: async () => '$0.00',
+        allInnerTexts: async () => {
+          if (scenario === 'deadline-return') { current = expected; listener?.(page); }
+          return [];
+        },
         first: () => ({
-          isVisible: async () => challengeSelectors.test(selector)
-            ? scenario === 'challenge' && selector.includes('one-time-code') : true,
+          isVisible: async () => {
+            if (submitted && ['navigation-race', 'delayed-commit-race'].includes(scenario)) {
+              if (scenario === 'navigation-race') { current = expected; listener?.(page); }
+              throw Error(sensitiveError);
+            }
+            return challengeSelectors.test(selector)
+              ? scenario === 'challenge' && selector.includes('one-time-code') : true;
+          },
           isDisabled: async () => false,
           fill: async () => mutations.push('fill'),
           click: async () => {
             mutations.push(selector);
             if (selector.includes('hosted-payment-submit-button')) {
-              current = scenario === 'wrong-return' ? 'https://challenge.stripe.com/verify?token=private-token&email=private-person#private-fragment' : expected;
+              submitted = true;
+              if (scenario === 'submit-error') throw Error(`generic submit failure ${secret} ${cookieValue}`);
+              if (['navigation-race', 'delayed-commit-race', 'generic-before-return', 'deadline-return'].includes(scenario)) return;
+              if (scenario === 'iframe-only') { listener?.({ url: () => expected }); return; }
+              current = scenario === 'wrong-return' ? 'https://challenge.stripe.com/verify?token=private-token&email=private-person#private-fragment'
+                : scenario === 'wrong-path' ? expected.replace('matter-a', 'matter-b')
+                : scenario === 'wrong-query' ? expected.replace('success', 'cancelled') : expected;
+              returnEventSeen = isExpectedCheckoutReturn(current, expected);
+              listener?.(page);
+              if (scenario === 'event-race') current = expected.split('?')[0];
             }
           },
         }),
@@ -161,10 +201,19 @@ for (const scenario of ['challenge', 'cookies-fail', 'wrong-return', 'success', 
     t.mock.method(chromium, 'launch', async () => ({ newContext: async options => { assert.equal(options?.extraHTTPHeaders, undefined); return context; }, close: async () => { closed++; } }));
     const outcome = await completeHostedCheckout({ checkoutUrl: current, expectedReturnUrl: expected,
       previewProtectionBypassSecret: scenario === 'no-secret' ? '' : secret,
-      sessionCookies: [{ name: 'synthetic', value: 'local-only' }], onReturn: async () => { captures++; } });
+      sessionCookies: [{ name: 'synthetic', value: 'local-only' }],
+      screenshotDir: scenario === 'screenshot-error' ? '/tmp/checkout-followup-synthetic-screenshots' : null,
+      onReturn: async () => {
+        assert.equal(scenario === 'event-race' ? returnEventSeen : isExpectedCheckoutReturn(current, expected), true, 'capture requires exact return');
+        captures++;
+        if (scenario === 'capture-error') throw Error(sensitiveError);
+      } });
     assert.equal(outcome.completed, succeeds);
     assert.equal(captures, succeeds ? 1 : 0);
     assert.equal(closed, 2);
+    if (['capture-error', 'dom-ready-error', 'screenshot-error', 'navigation-race', 'delayed-commit-race'].includes(scenario)) {
+      assert.ok(outcome.postReturnCaptureFailures.length > 0, 'capture failure is separate from completion');
+    }
     assert.equal(events.includes('stripe'), opensStripe, 'bootstrap failure must stop before Stripe');
     if (opensStripe) assert.deepEqual(events, ['bootstrap', 'bootstrap', 'stripe']);
     const evidence = JSON.stringify(outcome);
@@ -185,4 +234,15 @@ test('hosted payment supplies the bypass only through the narrow helper paramete
   assert.match(harness, /completeHostedCheckout\(\{[\s\S]*?previewProtectionBypassSecret: BYPASS,/);
   assert.doesNotMatch(source, /extraHTTPHeaders|setExtraHTTPHeaders|storageState/);
   assert.match(source, /maxRedirects: 0/);
+});
+
+
+test('payment acceptance requires settlement AND a positively observed browser return', () => {
+  const harness = fs.readFileSync(new URL('./rcap-hosted-acceptance-payment.mjs', import.meta.url), 'utf8');
+  const expression = harness.match(/record\(\s*"customer_completed_the_hosted_checkout_page",\s*([^,]+),/)[1];
+  const accepts = new Function('settled', 'outcome', `return (${expression});`);
+  for (const settled of [false, true]) for (const completed of [false, true, undefined, 'true']) {
+    assert.equal(accepts(settled, { completed }), settled && completed === true);
+  }
+  assert.match(harness, /if \(!settled \|\| outcome.completed !== true \|\| outcome.humanInteractionRequired\) finish\(\);/);
 });

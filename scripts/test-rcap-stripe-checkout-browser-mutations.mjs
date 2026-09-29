@@ -9,7 +9,15 @@ import { spawnSync } from 'node:child_process';
 const root = fs.mkdtempSync(path.join(os.tmpdir(), 'checkout-return-mutations-'));
 const helper = 'rcap-stripe-checkout-browser.mjs';
 const original = fs.readFileSync(new URL(helper, import.meta.url), 'utf8');
+const payment = 'rcap-hosted-acceptance-payment.mjs';
+const originalPayment = fs.readFileSync(new URL(payment, import.meta.url), 'utf8');
 const mutations = [
+  ['omit navigation observer', "page.on('framenavigated', observeReturn);", "// observer omitted"],
+  ['erase exact-return latch', 'exactReturnObserved || unexpectedDestination', 'unexpectedDestination'],
+  ['post-return failure erases completion', 'return { completed: true, returnUrl:', 'return { completed: false, returnUrl:'],
+  ['generic pre-return error accepted', 'if (exactReturnObserved && !unexpectedDestination)', 'if (!unexpectedDestination)'],
+  ['capture exception leaks secrets', "catch { captureFailure('onReturn'); }", "catch (error) { notes.push(error.message); captureFailure('onReturn'); }"],
+  ['settlement alone accepts', 'settled && outcome.completed === true,', 'settled,', payment],
   ['omit bootstrap', 'const bootstrap = await bootstrapPreviewCheckoutReturn(context, expectedReturnUrl, previewProtectionBypassSecret);', "const bootstrap = { origin: '', pathname: '', cookieName: '', cookieDomain: '' };"],
   ['wrong bootstrap host', "target.origin + '/api/health'", "'https://checkout.stripe.com/api/health'"],
   ['redirect forwarding', 'maxRedirects: 0', 'maxRedirects: 20'],
@@ -37,9 +45,12 @@ try {
   const baseline = run();
   assert.equal(baseline.status, 0, baseline.stdout + baseline.stderr);
   let caught = 0;
-  for (const [name, from, to] of mutations) {
-    assert.ok(original.includes(from), `mutation target exists: ${name}`);
-    fs.writeFileSync(path.join(root, helper), original.replace(from, to));
+  for (const [name, from, to, file = helper] of mutations) {
+    const source = file === helper ? original : originalPayment;
+    fs.writeFileSync(path.join(root, helper), original);
+    fs.writeFileSync(path.join(root, payment), originalPayment);
+    assert.ok(source.includes(from), `mutation target exists: ${name}`);
+    fs.writeFileSync(path.join(root, file), source.replace(from, to));
     const result = run();
     assert.equal(result.status, 1, `${name}: must fail assertions, not crash or time out`);
     assert.match(result.stdout + result.stderr, /ERR_ASSERTION/, name);

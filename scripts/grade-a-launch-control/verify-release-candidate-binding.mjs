@@ -751,7 +751,8 @@ function verifyGenerationBinding(root,candidate,pending){
   const read=rel=>JSON.parse(fs.readFileSync(path.join(root,rel)));
   const toolsPath='data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json';
   const binding=read(toolsPath),t=binding.successorTools,base=pending.releaseBaseSha;
-  const generationFiles=base==='516b02ac1a68a6aaef41ca9825eae0ece5e3df37'?GENERATION_FILES
+  const generationFiles=(base==='879463ec2ef60696da39a0367b4758d26074207b'
+    ||base==='516b02ac1a68a6aaef41ca9825eae0ece5e3df37')?GENERATION_FILES
     :base==='7556f87cee1cf3e6f4b503c76b8ba1d1bbc59456'?PACKET_DATABASE_GENERATION_FILES
     :base==='e312a5efa7b4882e0fbf61a5ff0ae7891ac23226'?APPLICATION_AUTHORITY_GENERATION_FILES
     :base==='3aeb5cdbeec1f84c61a4a6fca3297d72c40f719a'?CHECKOUT_LIFECYCLE_GENERATION_FILES
