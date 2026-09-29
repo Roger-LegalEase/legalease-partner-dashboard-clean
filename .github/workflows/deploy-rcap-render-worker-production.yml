@@ -76,11 +76,13 @@ jobs:
           set -euo pipefail
           node --input-type=module <<'JS'
           import fs from "node:fs";
+          import { requireProductionPhaseAuthorization } from "./scripts/grade-a-launch-control/production-preflight-authorization.mjs";
           const sha = process.env.INPUT_WORKER_SOURCE_SHA ?? "";
           const digest = process.env.INPUT_WORKER_DIGEST ?? "";
           if (!/^[a-f0-9]{40}$/.test(sha)) throw new Error("worker_source_sha must be an exact 40-character SHA");
           if (!/^sha256:[a-f0-9]{64}$/.test(digest)) throw new Error("worker_digest must be an exact sha256 digest");
           const candidate = JSON.parse(fs.readFileSync("data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json", "utf8"));
+          requireProductionPhaseAuthorization(candidate, "production_worker_deploy");
           const publication = JSON.parse(fs.readFileSync("data/rcap-render/worker-publication-evidence.json", "utf8"));
           const mismatches = [];
           if (candidate.workerSourceSha !== sha) mismatches.push("candidate workerSourceSha");

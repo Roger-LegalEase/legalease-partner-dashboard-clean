@@ -15,8 +15,12 @@
 
 import crypto from "node:crypto";
 import fs from "node:fs";
+import { requireProductionPhaseAuthorization } from "./grade-a-launch-control/production-preflight-authorization.mjs";
 import path from "node:path";
 import { HOSTED_VERCEL_PROJECT_ID, hostedVercelScopedUrl, resolveHostedVercelIdentity } from "./rcap-hosted-acceptance-vercel-identity.mjs";
+
+// Refuse before service access; historical incident permission cannot carry forward.
+requireProductionPhaseAuthorization(JSON.parse(fs.readFileSync("data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json", "utf8")), `legal_aid_keys_${process.env.RCAP_LEGAL_AID_KEYS_PHASE ?? ""}`);
 
 const PHASE = (process.env.RCAP_LEGAL_AID_KEYS_PHASE ?? "").trim();
 const VERCEL_TOKEN = process.env.VERCEL_TOKEN ?? "";

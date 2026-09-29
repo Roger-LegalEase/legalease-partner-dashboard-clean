@@ -40,6 +40,7 @@
 
 import crypto from "node:crypto";
 import fs from "node:fs";
+import { requireProductionPhaseAuthorization } from "./grade-a-launch-control/production-preflight-authorization.mjs";
 import path from "node:path";
 import zlib from "node:zlib";
 import { chromium, webkit } from "playwright";
@@ -53,6 +54,9 @@ import { answerBuilderStep as answerBuilderControl } from "./rcap-packet-builder
 // behind an unhandled 5xx. It reads; it never deploys, aliases or reads,
 // writes or names an environment variable.
 import { resolveHostedVercelIdentity, hostedVercelScopedUrl } from "./rcap-hosted-acceptance-vercel-identity.mjs";
+
+// Refuse before service access; historical incident permission cannot carry forward.
+requireProductionPhaseAuthorization(JSON.parse(fs.readFileSync("data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json", "utf8")), process.env.RCAP_PRODUCTION_PHASE);
 
 const PRODUCTION_PROJECT_REF = "wwtwtsmywnckfkdaqqeg";
 const PROBE_ACCOUNT_EMAIL = "rcap-production-probe@rcap-acceptance.test";

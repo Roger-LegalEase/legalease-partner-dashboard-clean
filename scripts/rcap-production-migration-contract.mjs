@@ -1,3 +1,4 @@
+import {requireProductionPhaseAuthorization,PRODUCTION_PROJECT_REF} from './grade-a-launch-control/production-preflight-authorization.mjs';
 import fs from 'node:fs';
 import path from 'node:path';
 import { createHash } from 'node:crypto';
@@ -7,7 +8,7 @@ import { requireCurrentReleaseCandidate } from './grade-a-launch-control/verify-
 import { requireMigrationCertification } from './rcap-migration-certification.mjs';
 import { LEGAL_AID_MIGRATION } from './rcap-legal-aid/contract.mjs';
 
-export const PRODUCTION_PROJECT_REF = 'wwtwtsmywnckfkdaqqeg';
+export {requireProductionPhaseAuthorization,PRODUCTION_PROJECT_REF};
 export const CLINIC_SOURCE_FILES = Object.freeze([
   'supabase/migrations/20260825120000_clinic_mode_core.sql',
   'supabase/migrations/20260825121000_clinic_mode_security.sql',
@@ -41,21 +42,6 @@ export function requireProductionReleaseTuple(candidate, binding, env) {
   return candidate;
 }
 
-export function requireProductionPhaseAuthorization(candidate, phase) {
-  const authorization = candidate?.productionAuthorization;
-  if (candidate?.productionAuthorized !== true || authorization?.authorized !== true
-    || authorization?.productionProjectRef !== PRODUCTION_PROJECT_REF
-    || !Array.isArray(authorization?.phases) || !authorization.phases.includes(phase)
-    || !authorization?.recordedBy || !authorization?.recordedAt) {
-    throw new Error('production_phase_not_authorized_for_current_release');
-  }
-  for (const key of ['applicationSha', 'workerSourceSha', 'workerDigest', 'workerInputFingerprint']) {
-    if (!candidate?.[key] || authorization[key] !== candidate[key]) {
-      throw new Error(`production_authorization_tuple_mismatch:${key}`);
-    }
-  }
-  return authorization;
-}
 
 export function requireProductionDeploymentBinding(candidate, phase) {
   const authorization = requireProductionPhaseAuthorization(candidate, phase);

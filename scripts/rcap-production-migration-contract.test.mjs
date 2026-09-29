@@ -27,7 +27,7 @@ const head=execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim();
 const candidate={applicationSha:head,workerSourceSha:head,workerDigest:'sha256:'+'a'.repeat(64),
   workerInputFingerprint:'sha256:'+'b'.repeat(64),productionProjectRef:PRODUCTION_PROJECT_REF,
   productionAuthorized:true};
-candidate.productionAuthorization={...candidate,authorized:true,recordedBy:'local fixture',recordedAt:'2026-09-24',
+candidate.productionAuthorization={...candidate,authorized:true,recordedBy:'local fixture',recordedAt:new Date().toISOString(),
   phases:['clinic_migrate','legal_aid_migrate','forward_chain_migrate']};
 const binding={...candidate,toolsSha:head};
 const environment={RCAP_APPLICATION_SHA:head,RCAP_WORKER_SOURCE_SHA:head,RCAP_WORKER_DIGEST:candidate.workerDigest,

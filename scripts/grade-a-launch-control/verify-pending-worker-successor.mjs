@@ -1,3 +1,4 @@
+import {PREFLIGHT_BASE,PREFLIGHT_STATUS,assertPreflightOnlyAuthorization} from './production-preflight-authorization.mjs';
 import {HOSTED_BASE,HOSTED_STATUS,verifyHostedAcceptanceEvidence} from './verify-hosted-acceptance-evidence.mjs';
 // A commit cannot contain its own SHA. The source pointer is the exact Git
 // commit which introduced this pending record, resolved through Git history;
@@ -184,7 +185,13 @@ function verifyGenerationPending(root,p){
    expected.status=HOSTED_STATUS;
    expected.supersededRecordSha256=createHash('sha256').update(execFileSync('git',['show',`${p.releaseBaseSha}:${PENDING}`],{cwd:root,stdio:'pipe'})).digest('hex');
   }
-  assert.deepEqual(p,expected,'exact current generation pending record');
-  return {current:true,status:p.status,applicationSha:p.applicationSha,workerSourceSha:p.workerSourceSha,workerDigest:p.workerDigest,workerInputFingerprint:p.workerInputFingerprint,runtimeAccepted:true,workerRebuildRequired:false,previewExecution:'held',productionAuthorized:false,releaseBaseSha:p.releaseBaseSha,reasons:[]};
+  if(p.releaseBaseSha===PREFLIGHT_BASE){
+   assert.equal(prior.status,HOSTED_STATUS);
+   assert.deepEqual(p,{...prior,status:PREFLIGHT_STATUS,releaseBaseSha:PREFLIGHT_BASE,productionAuthorized:true,
+    supersededRecord:prior,supersededRecordSha256:sha256(execFileSync('git',['show',`${PREFLIGHT_BASE}:${PENDING}`],{cwd:root,stdio:'pipe'}))},'exact preflight-only pending successor');
+   assertPreflightOnlyAuthorization(readJson(root,'data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json'));
+   verifyHostedAcceptanceEvidence(root);
+  }else assert.deepEqual(p,expected,'exact current generation pending record');
+  return {current:true,status:p.status,applicationSha:p.applicationSha,workerSourceSha:p.workerSourceSha,workerDigest:p.workerDigest,workerInputFingerprint:p.workerInputFingerprint,runtimeAccepted:true,workerRebuildRequired:false,previewExecution:'held',productionAuthorized:p.releaseBaseSha===PREFLIGHT_BASE,releaseBaseSha:p.releaseBaseSha,reasons:[]};
  }catch(error){return {current:false,status:'INVALID_PENDING_PUBLICATION',reasons:[error.message]};}
 }
