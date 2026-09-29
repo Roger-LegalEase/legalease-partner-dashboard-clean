@@ -38,3 +38,17 @@ process.on('exit',()=>assert.equal(writes,mask===7?0:1));
   assert.deepEqual(receipt.observed.after.map(x=>x.key).sort(),names.slice().sort());
  }finally{fs.rmSync(dir,{recursive:true,force:true});}
 });
+for(const problem of ['duplicate-key','duplicate-pseudonym','plain-key','plain-pseudonym'])test(`${problem} refuses before any creation`,()=>{
+ const dir=fs.mkdtempSync(path.join(os.tmpdir(),'rcap-key-refusal-'));
+ try{
+  fs.symlinkSync(path.join(root,'data'),path.join(dir,'data'),'dir');
+  const hook=path.join(dir,'fetch.mjs');
+  const name=problem.endsWith('pseudonym')?names[2]:names[0];
+  const entry={key:name,id:'existing',type:problem.startsWith('plain')?'plain':'sensitive',target:['production']};
+  fs.writeFileSync(hook,`import assert from 'node:assert/strict';globalThis.fetch=async(url,o={})=>{assert.equal(o.method??'GET','GET','no write permitted');const body=url.includes('/env?')?{envs:${JSON.stringify(problem.startsWith('duplicate')?[entry,{...entry,id:'duplicate'}]:[entry])}}:{id:'prj_cdgwGzFqIHgEUlzEburSLaZETdQV',name:'legalease-partner-dashboard-clean',accountId:'team_4qLmZK9WI6xIy5vjYC0IF3ae'};return {status:200,ok:true,text:async()=>JSON.stringify(body)};};`);
+  const r=spawnSync(process.execPath,['--import',hook,path.join(root,'scripts/rcap-production-legal-aid-keys.mjs')],{cwd:dir,encoding:'utf8',stdio:['ignore','pipe','pipe'],env:{PATH:process.env.PATH,RCAP_LEGAL_AID_KEYS_PHASE:'create',VERCEL_TOKEN:'local-test-no-service'}});
+  assert.equal(r.status,1);
+  const receipt=JSON.parse(fs.readFileSync(path.join(dir,'production-canary-evidence/production-legal-aid-keys-create.json')));
+  assert.equal(receipt.failure,'existing_production_key_shape_is_safe');assert.equal(receipt.environmentVariableCreated,false);assert.equal(receipt.environmentVariableOverwritten,false);
+ }finally{fs.rmSync(dir,{recursive:true,force:true});}
+});

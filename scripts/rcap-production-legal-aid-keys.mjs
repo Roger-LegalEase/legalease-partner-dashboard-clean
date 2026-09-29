@@ -109,6 +109,9 @@ try {
     const existingKey = present(KEY_NAME);
     const existingVersion = present(VERSION_NAME);
     const existingPseudonym = present(PSEUDONYM_NAME);
+    record("existing_production_key_shape_is_safe", existingKey.length <= 1 && existingVersion.length <= 1 && existingPseudonym.length <= 1
+      && existingKey.every(entry => entry.type === "sensitive") && existingPseudonym.every(entry => entry.type === "sensitive"),
+      "duplicate or nonsensitive existing protected keys refuse before any creation");
     record("existing_pseudonym_secret_is_never_overwritten", true, existingPseudonym.length ? `${PSEUDONYM_NAME} already exists for Production (id ${existingPseudonym[0].id}); it is retained` : `${PSEUDONYM_NAME} absent for Production; it will be created`);
     record("existing_key_is_never_overwritten", true, existingKey.length ? `${KEY_NAME} already exists for Production (id ${existingKey[0].id}); it is retained` : `${KEY_NAME} absent for Production; it will be created`);
     if (existingKey.length === 0 || existingVersion.length === 0 || existingPseudonym.length === 0) {

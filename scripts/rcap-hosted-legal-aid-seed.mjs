@@ -12,6 +12,7 @@
 // organization named below, so a re-run starts the same training records
 // from a clean state without touching anything else in the project.
 
+import { requireLegalAidAcceptedPreview, assertLegalAidAcceptedPreview } from "./rcap-legal-aid-preview.mjs";
 import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
@@ -40,6 +41,8 @@ if (PROJECT_REF !== EXPECTED_PROJECT_REF
   || DEMO_PASSWORD.length < 20) {
   throw new Error("Legal Aid seed requires the exact acceptance project, application SHA, Preview identity, Vercel/Supabase credentials, and the 20+ character synthetic demo password.");
 }
+
+const acceptedPreview = requireLegalAidAcceptedPreview({ applicationSha: APPLICATION_SHA, projectRef: PROJECT_REF, deploymentId: DEPLOYMENT_ID, hostname: PREVIEW_HOSTNAME });
 
 const { root: evidenceRoot } = prepareHostedAcceptanceEvidenceLayout({ rootDir: process.cwd() });
 const evidenceDir = path.join(evidenceRoot, "legal-aid");
@@ -94,9 +97,11 @@ try {
     && (deployment.json?.target === null || deployment.json?.target === "preview")
     && deployment.json?.meta?.rcapApplicationSha === APPLICATION_SHA
     && deployment.json?.meta?.rcapAcceptanceProjectRef === PROJECT_REF
-    && deployment.json?.meta?.rcapClinicDemoMode === "mississippi_preview"
+    && deployment.json?.meta?.rcapClinicDemoMode === "none"
     && deployment.json?.meta?.rcapRouteState === "staging_scoped";
-  if (!exactPreview) throw new Error("resolved deployment is not the exact READY staging-scoped Mississippi Preview");
+  if (!exactPreview) throw new Error("resolved deployment is not the exact READY staging-scoped accepted release Preview");
+
+  assertLegalAidAcceptedPreview(acceptedPreview, deployment.json);
 
   // --- synthetic identities ------------------------------------------------
   const keys = await supabaseKeys();

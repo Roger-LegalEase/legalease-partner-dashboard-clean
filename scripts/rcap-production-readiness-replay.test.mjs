@@ -7,7 +7,7 @@ import vm from 'node:vm';
 import ts from 'typescript';
 import {execFileSync} from 'node:child_process';
 import {runProductionClinicMigration} from './rcap-production-clinic-migrate.mjs';
-import {buildClinicSourceReference,certifyClinicSourceCatalog,requireProductionPhaseAuthorization,requireProductionReleaseTuple} from './rcap-production-migration-contract.mjs';
+import {buildClinicSourceReference,clinicSourceCatalogQuery,certifyClinicSourceCatalog,requireProductionPhaseAuthorization,requireProductionReleaseTuple} from './rcap-production-migration-contract.mjs';
 import * as forward from './rcap-production-forward-chain-migrate.mjs';
 import {summarizeReadback as legalSummary} from './rcap-legal-aid/contract.mjs';
 import {loadPacketContract,normalizeCatalog} from './rcap-packet-database-contract.mjs';
@@ -30,6 +30,13 @@ test('actual Clinic entrypoint replays exact captured queries and returns no-wri
  const tmp=fs.mkdtempSync(path.join(os.tmpdir(),'clinic-exact-replay-'));
  const normalized=s=>s.trim().replace(/\s+/g,' ');
  const queryMap=new Map(['clinic_baseline','clinic_inventory','clinic_source_catalog'].map(n=>[normalized(capture(n).query),capture(n).data]));
+ // The expanded query additionally inventories the frozen funding overlay.
+ // Its separate fresh Production readback proves all four objects absent;
+ // therefore the original captured core catalog is the exact combined result.
+ const fundingCapture=JSON.parse(fs.readFileSync('scripts/fixtures/production-packet-forward-correction/captured-funding-full.json'));
+ assert.equal(fundingCapture.readOnly,true);assert.equal(fundingCapture.projectRef,candidate.productionProjectRef);
+ assert.deepEqual(fundingCapture.data[0].catalog,{});
+ queryMap.set(normalized(clinicSourceCatalogQuery),capture('clinic_source_catalog').data);
  const head=execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim();let queries=0;
  try{
   const result=await runProductionClinicMigration({rootDir:root,sourceReference:async()=>reference,
@@ -60,7 +67,13 @@ test('actual packet certification refuses all 19 current semantic differences; m
 test('Legal Aid current state is empty with exact prerequisites; absent independent browser authorization still refuses writes',()=>{
  const summary=legalSummary(row('legal_inventory'));assert.equal(summary.prerequisitesExact,true);assert.equal(summary.empty,true);assert.equal(summary.complete,false);
  const authorization=JSON.parse(fs.readFileSync('data/rcap-production-legal-aid-migration-authorization.json'));
- assert.equal(authorization.status,'pending_hosted_acceptance');assert.equal(authorization.hostedAcceptance.browserRunId,null);assert.equal(authorization.dropAuthorized,false);
+ assert.equal(authorization.status,'conditional_on_fresh_hosted_browser');assert.equal(authorization.hostedAcceptance.browserRunId,null);assert.equal(authorization.dropAuthorized,false);
+ assert.equal(authorization.supersededRecord.status,'pending_hosted_acceptance');assert.equal(authorization.supersededRecord.hostedAcceptance.browserRunId,null);
+ assert.equal(authorization.hostedAcceptance.migration.runId,'35114154196');assert.equal(authorization.hostedAcceptance.migration.artifactId,'10453896397');
+ assert.deepEqual(authorization.releaseTuple,Object.fromEntries(['applicationSha','workerSourceSha','workerDigest','workerInputFingerprint','productionProjectRef'].map(key=>[key,candidate[key]])));
+ const control=fs.readFileSync('scripts/rcap-production-legal-aid-migrate.mjs','utf8');
+ assert.ok(control.indexOf('await verifyFreshLegalAidBrowserReceipt')<control.indexOf('await managementQuery(sql, "legal_aid_migration_applied")'));
+ assert.ok(control.includes('immediateBeforeWrite.empty && immediateBeforeWrite.prerequisitesExact'));
 });
 test('current smoke schema and worker queue predicates pass; they do not substitute for remote smoke or Machine proof',()=>{
  const q=row('worker_queue');for(const k of ['stale_queued','queued','claimed','terminal_failed'])assert.equal(Number(q[k]),0);

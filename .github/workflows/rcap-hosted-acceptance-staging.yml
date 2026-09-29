@@ -697,7 +697,7 @@ jobs:
           HOSTED_STRIPE_CATALOG_PRODUCT_ID: ${{ steps.contract.outputs.resume != 'true' && steps.contract.outputs.clinic != 'true' && (steps.preview_catalog.outputs.product_id || steps.stripe_fixtures.outputs.product_id) || '' }}
           HOSTED_REQUIRE_DTC_READINESS: ${{ steps.contract.outputs.dtc }}
           HOSTED_REQUIRE_STAGING_SCOPED: ${{ steps.contract.outputs.require_staging_scoped }}
-          HOSTED_CLINIC_DEMO_MODE: ${{ (steps.contract.outputs.clinic == 'true' || steps.contract.outputs.resume == 'true' || steps.contract.outputs.legal_aid == 'true' || steps.contract.outputs.sponsor_cap == 'true') && 'mississippi_preview' || '' }}
+          HOSTED_CLINIC_DEMO_MODE: ${{ (steps.contract.outputs.clinic == 'true' || steps.contract.outputs.resume == 'true' || steps.contract.outputs.sponsor_cap == 'true') && 'mississippi_preview' || '' }}
         run: node scripts/rcap-hosted-resolve-preview.mjs
 
       # DS-08 continuity recovery: runner-local only, never repository secrets
@@ -797,7 +797,7 @@ jobs:
           HOSTED_PREVIEW_DEPLOYMENT_ID: ${{ steps.resolve_preview.outputs.deployment_id || steps.deploy_preview.outputs.deployment_id }}
           HOSTED_PREVIEW_HOSTNAME: ${{ steps.resolve_preview.outputs.hostname || steps.deploy_preview.outputs.hostname }}
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-          HOSTED_CLINIC_DEMO_MODE: ${{ (steps.contract.outputs.clinic == 'true' || steps.contract.outputs.resume == 'true' || steps.contract.outputs.legal_aid == 'true' || steps.contract.outputs.sponsor_cap == 'true') && 'mississippi_preview' || '' }}
+          HOSTED_CLINIC_DEMO_MODE: ${{ (steps.contract.outputs.clinic == 'true' || steps.contract.outputs.resume == 'true' || steps.contract.outputs.sponsor_cap == 'true') && 'mississippi_preview' || '' }}
           HOSTED_CLINIC_DEMO_PASSWORD: ${{ secrets.HOSTED_CLINIC_DEMO_PASSWORD }}
         run: node scripts/rcap-hosted-acceptance-auth-config.mjs
 

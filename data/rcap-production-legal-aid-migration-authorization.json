@@ -1,6 +1,6 @@
 {
   "schemaVersion": "rcap-production-legal-aid-migration-authorization/v1",
-  "status": "pending_hosted_acceptance",
+  "status": "conditional_on_fresh_hosted_browser",
   "authorizedBy": "Roger Roman",
   "authorizedOn": "2026-09-16",
   "authorizationReference": "Owner instruction of 2026-09-16: Production release is authorized only after the hosted acceptance checks pass; apply only the accepted additive Legal Aid migration through the established protected process; dropping legal_aid tables or columns is not authorized.",
@@ -11,9 +11,41 @@
     "sourceSha": "f5c4f40022e422033985302995511da7157f474d"
   },
   "hostedAcceptance": {
-    "legalAidMigrateRunId": null,
+    "legalAidMigrateRunId": "35114154196",
     "browserRunId": null,
-    "note": "filled in only from actual passing GitHub Actions runs on the acceptance project"
+    "migration": {
+      "runId": "35114154196",
+      "artifactId": "10453896397",
+      "artifactZipSha256": "sha256:fad3384b88249d8cd2411089867b2971c97f66b258269e5958f7a12c29be45db"
+    },
+    "note": "No browser pass is claimed. The migrate run must retrieve and validate a new successful GitHub-native browser run on the exact current tools commit and accepted Preview before any empty-schema write."
   },
-  "dropAuthorized": false
+  "dropAuthorized": false,
+  "recordedAt": "2026-09-29T21:42:54.263170Z",
+  "releaseTuple": {
+    "applicationSha": "e312a5efa7b4882e0fbf61a5ff0ae7891ac23226",
+    "workerSourceSha": "5e04eafd7eaed7e71722862e651fb787ebbd296d",
+    "workerDigest": "sha256:6b6a60fc5b2d0060028526013ce37c69f748e2cccb4cfb10943f2af6cf26cfe1",
+    "workerInputFingerprint": "sha256:90a1e89e306cb5fc23631c63c15c12a44d955d745bbe04aada0716af2805daab",
+    "productionProjectRef": "wwtwtsmywnckfkdaqqeg"
+  },
+  "supersededRecord": {
+    "schemaVersion": "rcap-production-legal-aid-migration-authorization/v1",
+    "status": "pending_hosted_acceptance",
+    "authorizedBy": "Roger Roman",
+    "authorizedOn": "2026-09-16",
+    "authorizationReference": "Owner instruction of 2026-09-16: Production release is authorized only after the hosted acceptance checks pass; apply only the accepted additive Legal Aid migration through the established protected process; dropping legal_aid tables or columns is not authorized.",
+    "productionProjectRef": "wwtwtsmywnckfkdaqqeg",
+    "migration": {
+      "path": "supabase/migrations/20260916120000_legal_aid_clinic_mode.sql",
+      "sha256": "91c9b887324ce36d0515357fef2b9ce19cef271c99c157e8004533c73015cce8",
+      "sourceSha": "f5c4f40022e422033985302995511da7157f474d"
+    },
+    "hostedAcceptance": {
+      "legalAidMigrateRunId": null,
+      "browserRunId": null,
+      "note": "filled in only from actual passing GitHub Actions runs on the acceptance project"
+    },
+    "dropAuthorized": false
+  }
 }

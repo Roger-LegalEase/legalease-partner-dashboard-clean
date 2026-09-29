@@ -61,19 +61,44 @@ for(const [name,mutate]of [
  ...['productionAliasChanged','productionDatabaseMutated','environmentVariableChanged','workerChanged','applicationChanged'].map(k=>[k,d=>d.body[k]=true]),
  ['changed alias hash',d=>d.body.controlHashes.productionAliasMappingAfterSha256='0'.repeat(64)],['failed verdict',d=>d.body.verdicts[0].passed=false],['missing verdict',d=>d.body.verdicts.pop()],
 ])test(`native preflight semantic mutation refuses ${name}`,()=>{const d=structuredClone(documents);mutate(d);assert.throws(()=>validateProductionPreflightDocuments(d));});
-test('all prior control bytes and hosted evidence are preserved; conditional-write controls are unchanged',()=>{
+test('prior authority and hosted evidence are preserved; integrated controls retain frozen safeguards',()=>{
  for(const name of ['RELEASE_CANDIDATE_BINDING.json','HOSTED_TOOLS_BINDING.json','PENDING_WORKER_SUCCESSOR.json']){
   const rel=prefix+name,record=JSON.parse(fs.readFileSync(rel));const bytes=execFileSync('git',['show',`${PREACTIVATION_BASE}:${rel}`],{maxBuffer:32*1024*1024});
   assert.equal(JSON.stringify(record.supersededRecord,null,2).replace(/[\u007f-\uffff]/g,c=>'\\u'+c.charCodeAt(0).toString(16).padStart(4,'0'))+'\n',bytes.toString());
   assert.equal(record.supersededRecordSha256,createHash('sha256').update(bytes).digest('hex'));
  }
  assert.deepEqual(candidate.hostedAcceptance,candidate.supersededRecord.hostedAcceptance);
- for(const rel of [...HOSTED_EVIDENCE_FILES,'scripts/rcap-production-clinic-migrate.mjs','scripts/rcap-production-forward-chain-migrate.mjs','scripts/rcap-production-legal-aid-migrate.mjs','scripts/rcap-production-legal-aid-keys.mjs','scripts/rcap-production-canary-smoke.mjs','data/rcap-production-forward-chain-migration-authorization.json','data/rcap-production-legal-aid-migration-authorization.json']){
-  const prior=execFileSync('git',['show',`${PREACTIVATION_BASE}:${rel}`],{maxBuffer:32*1024*1024});
-  if(rel==='scripts/rcap-production-legal-aid-keys.mjs'){
-   assert.equal(fs.readFileSync(rel,'utf8'),prior.toString().replace('if (existingKey.length === 0 || existingVersion.length === 0) {','if (existingKey.length === 0 || existingVersion.length === 0 || existingPseudonym.length === 0) {'));
-  }else assert.deepEqual(fs.readFileSync(rel),prior);
+ for(const rel of [...HOSTED_EVIDENCE_FILES,'scripts/rcap-production-clinic-migrate.mjs','scripts/rcap-production-canary-smoke.mjs']) {
+  assert.deepEqual(fs.readFileSync(rel),execFileSync('git',['show',`${PREACTIVATION_BASE}:${rel}`],{maxBuffer:32*1024*1024}));
  }
+ for(const rel of ['data/rcap-production-forward-chain-migration-authorization.json','data/rcap-production-legal-aid-migration-authorization.json']) {
+  const prior=JSON.parse(execFileSync('git',['show',`${PREACTIVATION_BASE}:${rel}`],{maxBuffer:32*1024*1024}));
+  const current=JSON.parse(fs.readFileSync(rel));assert.deepEqual(current.supersededRecord,prior);assert.equal(current.dropAuthorized,false);
+ }
+ const priorControl=rel=>execFileSync('git',['show',`${PREACTIVATION_BASE}:${rel}`],{encoding:'utf8',maxBuffer:32*1024*1024});
+ const keysPath='scripts/rcap-production-legal-aid-keys.mjs';
+ const shapeGuard=`    record("existing_production_key_shape_is_safe", existingKey.length <= 1 && existingVersion.length <= 1 && existingPseudonym.length <= 1
+      && existingKey.every(entry => entry.type === "sensitive") && existingPseudonym.every(entry => entry.type === "sensitive"),
+      "duplicate or nonsensitive existing protected keys refuse before any creation");
+`;
+ assert.equal(fs.readFileSync(keysPath,'utf8'),priorControl(keysPath)
+  .replace('if (existingKey.length === 0 || existingVersion.length === 0) {','if (existingKey.length === 0 || existingVersion.length === 0 || existingPseudonym.length === 0) {')
+  .replace('    record("existing_pseudonym_secret_is_never_overwritten"',shapeGuard+'    record("existing_pseudonym_secret_is_never_overwritten"'));
+ const legalPath='scripts/rcap-production-legal-aid-migrate.mjs',legal=fs.readFileSync(legalPath,'utf8'),priorLegal=priorControl(legalPath);
+ const legalImport='import { verifyFreshLegalAidBrowserReceipt } from "./rcap-production-legal-aid-browser-receipt.mjs";\n';
+ const boundary='    const authorization = JSON.parse(fs.readFileSync(path.join(ROOT_DIR, AUTHORIZATION_PATH), "utf8"));';
+ assert.equal(legal.replace(legalImport,'').split(boundary)[0],priorLegal.split(boundary)[0]);
+ const tail='      await managementQuery(sql, "legal_aid_migration_applied");';
+ assert.equal(legal.slice(legal.indexOf(tail)),priorLegal.slice(priorLegal.indexOf(tail)));
+ for(const guard of ['authorization?.productionProjectRef === PRODUCTION_PROJECT_REF','authorization?.migration?.path === LEGAL_AID_MIGRATION.path','authorization?.migration?.sha256 === LEGAL_AID_MIGRATION.sha256','authorization?.migration?.sourceSha === LEGAL_AID_MIGRATION.sourceSha','authorization?.dropAuthorized === false','!before.empty || authorized','if (before.empty && identityAuthorized)','await verifyFreshLegalAidBrowserReceipt','immediateBeforeWrite.empty && immediateBeforeWrite.prerequisitesExact'])assert.ok(legal.includes(guard),guard);
+ const forwardPath='scripts/rcap-production-forward-chain-migrate.mjs',forward=fs.readFileSync(forwardPath,'utf8'),priorForward=priorControl(forwardPath);
+ const forwardImport="import { loadCorrection, requireForwardCorrectionAuthorization, stateFingerprint } from './rcap-production-packet-forward-correction.mjs';\n";
+ const fundingImport="import {fundingCatalogQuery} from './rcap-production-funding-dependency-contract.mjs';\n";
+ assert.equal(forward.split(fundingImport).length,2,'exactly one approved funding catalog import');
+ const forwardBoundary='  const release = requireRelease(ROOT_DIR, env);';
+ assert.equal(forward.replace(forwardImport,'').replace(fundingImport,'').split(forwardBoundary)[0],priorForward.split(forwardBoundary)[0]);
+ assert.equal(forward.slice(forward.indexOf('} catch (error) {')),priorForward.slice(priorForward.indexOf('} catch (error) {')));
+ for(const guard of ['requireForwardCorrectionAuthorization(ROOT_DIR,release,correction)','current.fingerprint === correction.manifest.beforeFingerprint','immediate.fingerprint === correction.manifest.beforeFingerprint','current.fingerprint === correction.manifest.afterFingerprint','requireMigrationCertification({expected: contract.current','evidence.ledgerRowsRecorded.length === 0',"managementQuery(fundingCatalogQuery,label+'_funding')","managementQuery(correction.prerequisites.query,label+'_prerequisites')",'stateFingerprint(packet,canonical,full,funding,prerequisites)'])assert.ok(forward.includes(guard),guard);
  assert.equal(PREFLIGHT_EVIDENCE_FILES.length,4);
 });
 console.log(`Pre-activation boundary: ${required.length} permitted phases; ${denied.length} denied spellings with substitution/appending refusals.`);

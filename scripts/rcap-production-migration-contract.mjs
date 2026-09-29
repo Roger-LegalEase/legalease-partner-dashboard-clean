@@ -7,6 +7,7 @@ import { fileURLToPath } from 'node:url';
 import { requireCurrentReleaseCandidate } from './grade-a-launch-control/verify-release-candidate-binding.mjs';
 import { requireMigrationCertification } from './rcap-migration-certification.mjs';
 import { LEGAL_AID_MIGRATION } from './rcap-legal-aid/contract.mjs';
+import { fundingCatalogQuery, expectedFundingCatalog, certifyFundingCatalog, SOURCE_PATH as FUNDING_SOURCE_PATH, SOURCE_SHA as FUNDING_SOURCE_SHA } from './rcap-production-funding-dependency-contract.mjs';
 
 export {requireProductionPhaseAuthorization,PRODUCTION_PROJECT_REF};
 export const CLINIC_SOURCE_FILES = Object.freeze([
@@ -87,14 +88,14 @@ export function requireProductionMigrationRelease(root, env = process.env) {
 // NOT NULL is compared once, through pg_attribute.attnotnull. PostgreSQL 18
 // also exposes contype='n' constraints; their names are not portable catalog
 // identity. All other constraint types remain in the exact comparison.
-export const clinicSourceCatalogQuery = `with relations as (
+const clinicCoreCatalogQuery = `with relations as (
   select c.* from pg_class c join pg_namespace n on n.oid=c.relnamespace
   where n.nspname='public' and c.relkind='r'
     and (c.relname like 'clinic\\_%' escape '\\' or c.relname like 'legal\\_aid\\_%' escape '\\')
 ), functions as (
   select p.* from pg_proc p join pg_namespace n on n.oid=p.pronamespace
   where n.nspname='public'
-    and (p.proname like 'clinic\\_%' escape '\\' or p.proname like 'legal\\_aid\\_%' escape '\\')
+    and (p.proname like 'clinic\\_%' escape '\\' or p.proname like 'legal\\_aid\\_%' escape '\\' or p.proname='allocate_clinic_packet_funding')
 ), entries as (
   select 'table:'||c.relname as key, jsonb_build_object(
     'rls',c.relrowsecurity,'forceRls',c.relforcerowsecurity,
@@ -117,6 +118,24 @@ export const clinicSourceCatalogQuery = `with relations as (
       where tgrelid='public.packet_render_jobs'::regclass and tgname='clinic_sync_packet_reservation_after_job' and not tgisinternal),'null')
 ) select coalesce(jsonb_object_agg(key,value order by key),'{}') as catalog from entries`;
 
+// A complete funding overlay is a frozen application dependency, not a new
+// Clinic stage. Its full independent catalog retains owners, every overload,
+// all constraints and all relevant privileges. Only these four known core
+// representations are replaced by the stronger full funding representation.
+const FUNDING_CORE_KEYS = [
+  'table:clinic_packet_funding',
+  'function:allocate_clinic_packet_funding(uuid,uuid,text)',
+  'function:clinic_packet_dtc_authorized(uuid,uuid)',
+  'function:clinic_entry_sponsor_capacity(uuid,text)',
+];
+export const clinicSourceCatalogQuery = `select
+  (core.catalog - array[${FUNDING_CORE_KEYS.map(key=>"'"+key+"'").join(',')}]) ||
+  case when to_regclass('public.clinic_packet_funding') is not null or exists (
+    select 1 from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='public'
+      and p.proname in ('allocate_clinic_packet_funding','clinic_packet_dtc_authorized','clinic_entry_sponsor_capacity')
+  ) then funding.catalog else '{}'::jsonb end as catalog
+  from (${clinicCoreCatalogQuery}) core cross join (${fundingCatalogQuery}) funding`;
+
 export async function clinicSourceTestDatabase() {
   const { PGlite } = await import('@electric-sql/pglite');
   const db = new PGlite();
@@ -124,6 +143,7 @@ export async function clinicSourceTestDatabase() {
     // These defaults are part of the frozen Supabase baseline
     // (20260728213131_remote_schema.sql), not grants inferred from Production.
     await db.exec(`create role anon; create role authenticated; create role service_role bypassrls;
+      create role rcap_render_worker; create role rcap_packet_delivery;
       alter default privileges for role postgres in schema public grant all on tables to service_role;
       alter default privileges for role postgres in schema public grant all on functions to service_role;
       create schema auth; create table auth.users(id uuid primary key);
@@ -154,22 +174,34 @@ export async function buildClinicSourceReference(root) {
       await db.exec(sql);
       if (index >= 2) snapshots[['clinic_base', 'clinic_jurisdiction', 'legal_aid'][index - 2]] = (await db.query(clinicSourceCatalogQuery)).rows[0].catalog;
     }
-    return { sources, snapshots };
+    return { sources, snapshots, funding: expectedFundingCatalog(root) };
   } finally {
     await db.close();
   }
 }
 
 export function certifyClinicSourceCatalog(reference, actual, { legalAid = false } = {}) {
+  let core = actual;
+  let fundingDisposition = 'absent';
+  const fundingKeys = Object.keys(reference.funding ?? {});
+  const hasFunding = fundingKeys.some(key=>Object.hasOwn(actual ?? {},key));
+  if(hasFunding) {
+    try {
+      const funding = Object.fromEntries(fundingKeys.filter(key=>Object.hasOwn(actual,key)).map(key=>[key,actual[key]]));
+      certifyFundingCatalog(funding,reference.funding);
+      core = Object.fromEntries(Object.entries(actual).filter(([key])=>!fundingKeys.includes(key)));
+      fundingDisposition = 'exact_frozen_overlay';
+    } catch(error) { throw new Error(`clinic_source_postconditions_failed:funding_overlay:${error.message}`); }
+  }
   const stages = legalAid ? ['legal_aid'] : ['legal_aid', 'clinic_jurisdiction', 'clinic_base'];
   const failures = [];
   for (const stage of stages) {
     try {
       // Require the exact scoped key set as well: an extra overload/table is
       // not a source-derived successor simply because expected keys survive.
-      if (JSON.stringify(Object.keys(reference.snapshots[stage]).sort()) !== JSON.stringify(Object.keys(actual ?? {}).sort())) throw new Error('catalog_key_set_mismatch');
-      const certificate = requireMigrationCertification({ expected: reference.snapshots[stage], actual });
-      return { ...certificate, stage, sources: reference.sources };
+      if (JSON.stringify(Object.keys(reference.snapshots[stage]).sort()) !== JSON.stringify(Object.keys(core ?? {}).sort())) throw new Error('catalog_key_set_mismatch');
+      const certificate = requireMigrationCertification({ expected: reference.snapshots[stage], actual: core });
+      return { ...certificate, stage, sources: reference.sources, fundingDisposition, fundingSource: fundingDisposition === 'exact_frozen_overlay' ? { path: FUNDING_SOURCE_PATH, sha256: FUNDING_SOURCE_SHA } : null };
     } catch (error) { failures.push(`${stage}:${error.message}`); }
   }
   throw new Error(`clinic_source_postconditions_failed:${failures.join(';')}`);

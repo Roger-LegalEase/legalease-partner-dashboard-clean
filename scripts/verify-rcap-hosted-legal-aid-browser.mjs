@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // Static contract for the hosted Legal Aid Clinic Mode browser phase: the
-// dispatcher exposes it, the reusable workflow schedules exactly the Clinic
-// Preview journey plus the Legal Aid seed and browser proof, the anti-skip
+// dispatcher exposes it, the reusable workflow reuses the accepted Preview
+// for the Legal Aid seed and browser proof, the anti-skip
 // gate requires each of them, and the scripts keep their boundaries (one
 // exact Preview, in-memory bypass header only, synthetic identities only, no
 // migration, no worker, no Production, no secret or protected value in
@@ -63,12 +63,15 @@ check("fixture is the acceptance copy of MVLP on a fixed synthetic event", fixtu
 check("fixture assigns no attorney, notary or decision role to the interim coordinator", !/INTERNAL_ADMIN:\s*\[/.test(fixture) && /COORDINATOR: \["coordinator"/.test(fixture) && /ATTORNEY: \["attorney"/.test(fixture) && /NOTARY: \["notary"\]/.test(fixture));
 
 // --- seed boundaries -------------------------------------------------------------
-check("seed pins the acceptance project and exact Preview", seed.includes('const EXPECTED_PROJECT_REF = "hyflxnlhpmiqxvvcoiia"') && seed.includes('rcapClinicDemoMode === "mississippi_preview"') && seed.includes("aliasDeploymentId === DEPLOYMENT_ID"));
+check("seed pins the acceptance project and exact Preview", seed.includes('const EXPECTED_PROJECT_REF = "hyflxnlhpmiqxvvcoiia"') && seed.includes('rcapClinicDemoMode === "none"') && seed.includes("aliasDeploymentId === DEPLOYMENT_ID"));
 check("seed creates only reserved .test identities", seed.includes('if (!email.endsWith("@rcap-acceptance.test")) throw new Error'));
 check("seed never records passwords", seed.includes("passwordsRecorded: false") && !/password:\s*DEMO_PASSWORD[^,]*evidence/.test(seed));
 check("seed deletes only rows keyed to the fixture", [...seed.matchAll(/delete from public\.(\w+) where ([^;]+);/g)].every((match) => /event_id='\$\{F\.eventId\}'|partner_slug='\$\{F\.(partnerSlug|handoffPartnerSlug)\}'|auth_user_id in \(\$\{noMembership/.test(match[2])));
 check("seed never touches Production", !seed.includes("wwtwtsmywnckfkdaqqeg") && seed.includes("productionTouched: false"));
 check("seed requires the existing participant; prerequisite owns historical authority", seed.includes("packetApplicantId") && hosted.includes("steps.legal_aid_prerequisite.outcome == 'success'"));
+
+check("seed and browser require the exact accepted Preview release binding", [seed,browser].every(source => source.includes("requireLegalAidAcceptedPreview(") && source.includes("assertLegalAidAcceptedPreview(acceptedPreview, deployment.json)")));
+check("Legal Aid does not request historical Clinic Preview purpose", !hosted.split("HOSTED_CLINIC_DEMO_MODE:").slice(1).some(line => line.split("\n")[0].includes("outputs.legal_aid")));
 
 // --- browser boundaries -----------------------------------------------------------
 check("browser pins the acceptance project and exact Preview", browser.includes('const EXPECTED_PROJECT_REF = "hyflxnlhpmiqxvvcoiia"') && browser.includes("rcapReturnOrigin === PREVIEW") && browser.includes("productionAliases.length === 0"));

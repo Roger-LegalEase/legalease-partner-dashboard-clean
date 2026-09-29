@@ -25,6 +25,10 @@ on:
         description: "Tools-only execution commit descended from the accepted hosted tools SHA"
         required: true
         type: string
+      legal_aid_browser_run_id:
+        required: false
+        type: string
+        default: ""
     secrets:
       VERCEL_TOKEN:
         required: true
@@ -206,6 +210,8 @@ jobs:
           RCAP_APPLICATION_SHA: ${{ inputs.application_sha }}
           RCAP_PRODUCTION_PROJECT_REF: wwtwtsmywnckfkdaqqeg
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RCAP_LEGAL_AID_BROWSER_RUN_ID: ${{ inputs.legal_aid_browser_run_id }}
         run: node scripts/rcap-production-legal-aid-migrate.mjs
 
       - name: Run the bounded no-alias Production canary smoke

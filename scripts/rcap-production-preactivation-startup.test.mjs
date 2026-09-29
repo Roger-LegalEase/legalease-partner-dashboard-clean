@@ -37,9 +37,18 @@ for(const [name,steps,stop]of [['worker',worker,'Pull the accepted worker by imm
 for(const phase of ['read','create'])test(`Legal Aid ${phase}: actual module startup reaches only an intercepted first service boundary`,()=>{
  const dir=fs.mkdtempSync(path.join(os.tmpdir(),'rcap-keys-boundary-'));
  try{
-  const code=`let calls=0;globalThis.fetch=async()=>{calls++;if(calls!==1)throw new Error('UNEXPECTED_SECOND_SERVICE');console.log('LOCAL_BOUNDARY_REACHED');throw new Error('LOCAL_REHEARSAL_STOP_BEFORE_SERVICE');};await import('./scripts/rcap-production-legal-aid-keys.mjs');if(calls!==1)throw new Error('did not reach exactly the first service boundary');console.log('LOCAL_BOUNDARY_REACHED');`;
+  const boundaryPath=path.join(dir,'intercepted-boundary.json');
+  // A caught refusal exits the child immediately; pipe-backed console output
+  // need not flush. Persist the intercepted call before throwing instead.
+  const code=`import fs from 'node:fs';const calls=[];globalThis.fetch=async(url,options={})=>{calls.push({url:String(url),method:options.method??'GET',hasBody:options.body!==undefined});fs.writeFileSync(${JSON.stringify(boundaryPath)},JSON.stringify(calls));throw new Error('LOCAL_REHEARSAL_STOP_BEFORE_SERVICE');};await import('./scripts/rcap-production-legal-aid-keys.mjs');`;
+
   const result=spawnSync(process.execPath,['--input-type=module','-e',code],{encoding:'utf8',env:{PATH:process.env.PATH,RCAP_LEGAL_AID_KEYS_PHASE:phase,VERCEL_TOKEN:'local-placeholder-not-a-credential',RCAP_PRODUCTION_EVIDENCE_DIR:dir}});
-  assert.match(result.stdout,/LOCAL_BOUNDARY_REACHED/);assert.equal(result.status,1);assert.match(result.stderr,/Vercel identity read failed or timed out/);
+  assert.ifError(result.error);assert.equal(result.status,1);
+  const calls=JSON.parse(fs.readFileSync(boundaryPath,'utf8'));assert.equal(calls.length,1);assert.equal(calls[0].method,'GET');assert.equal(calls[0].hasBody,false);
+  const target=new URL(calls[0].url);assert.equal(target.origin,'https://api.vercel.com');assert.equal(target.pathname,'/v9/projects/legalease-partner-dashboard-clean');assert.equal(target.searchParams.get('teamId'),'team_4qLmZK9WI6xIy5vjYC0IF3ae');
+  const evidence=JSON.parse(fs.readFileSync(path.join(dir,`production-legal-aid-keys-${phase}.json`),'utf8'));
+  assert.equal(evidence.passed,false);assert.equal(evidence.failure,'Vercel identity read failed or timed out');
+  for(const flag of ['secretValuesIncluded','environmentVariableCreated','environmentVariableOverwritten','deploymentTriggered','aliasChanged','productionDatabaseMutated'])assert.equal(evidence[flag],false,flag);
  }finally{fs.rmSync(dir,{recursive:true,force:true});}
 });
 for(const phase of ['activate','public_verify','live_zero_dollar_order','unknown'])test(`Legal Aid refuses ${phase} before any transport`,()=>{

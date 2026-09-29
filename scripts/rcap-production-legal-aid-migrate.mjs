@@ -11,6 +11,7 @@
 // action is performed. Nothing is ever dropped.
 
 import { requireProductionMigrationRelease, buildClinicSourceReference, clinicSourceCatalogQuery, certifyClinicSourceCatalog } from './rcap-production-migration-contract.mjs';
+import { verifyFreshLegalAidBrowserReceipt } from "./rcap-production-legal-aid-browser-receipt.mjs";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -215,20 +216,26 @@ try {
     console.log("PRODUCTION LEGAL AID READBACK PASS — prerequisites and current state recorded without any write");
   } else {
     const authorization = JSON.parse(fs.readFileSync(path.join(ROOT_DIR, AUTHORIZATION_PATH), "utf8"));
-    const authorized = authorization?.status === "authorized_after_hosted_acceptance"
-      && authorization?.productionProjectRef === PRODUCTION_PROJECT_REF
+    const identityAuthorized = authorization?.productionProjectRef === PRODUCTION_PROJECT_REF
       && authorization?.migration?.path === LEGAL_AID_MIGRATION.path
       && authorization?.migration?.sha256 === LEGAL_AID_MIGRATION.sha256
       && authorization?.migration?.sourceSha === LEGAL_AID_MIGRATION.sourceSha
-      && /^[0-9]{6,}$/.test(String(authorization?.hostedAcceptance?.legalAidMigrateRunId ?? ""))
-      && /^[0-9]{6,}$/.test(String(authorization?.hostedAcceptance?.browserRunId ?? ""))
       && authorization?.dropAuthorized === false;
+    let authorized = false;
+    if (before.empty && identityAuthorized) {
+      const candidate = JSON.parse(fs.readFileSync(path.join(ROOT_DIR, "data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json"), "utf8"));
+      evidence.hostedBrowserReceipt = await verifyFreshLegalAidBrowserReceipt({ env, rootDir: ROOT_DIR, fetch, authorization, candidate });
+      authorized = true;
+    }
     record(
       "independent_production_authorization_names_passing_acceptance",
       !before.empty || authorized,
       `no-write existing state=${!before.empty}; status=${authorization?.status}; acceptance migrate run=${authorization?.hostedAcceptance?.legalAidMigrateRunId ?? "none"}; acceptance browser run=${authorization?.hostedAcceptance?.browserRunId ?? "none"}; drop authorized=${authorization?.dropAuthorized}`
     );
     if (before.empty) {
+      const immediateBeforeWrite = await readback("legal_aid_immediate_prewrite_readback");
+      evidence.immediateBeforeWrite = immediateBeforeWrite;
+      record("legal_aid_immediate_prewrite_state_still_empty", immediateBeforeWrite.empty && immediateBeforeWrite.prerequisitesExact, "fresh read after native browser receipt verification; partial or changed state refuses");
       await managementQuery(sql, "legal_aid_migration_applied");
       evidence.migrationApplied = true;
       evidence.productionDatabaseMutated = true;

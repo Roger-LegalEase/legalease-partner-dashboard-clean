@@ -18,6 +18,7 @@
 //   C — application needing confidential review (non-citizen statement),
 //       registered on the waitlist because the training clinic has two seats.
 
+import { requireLegalAidAcceptedPreview, assertLegalAidAcceptedPreview } from "./rcap-legal-aid-preview.mjs";
 import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
@@ -300,6 +301,7 @@ async function main() {
   ].filter(([, present]) => !present).map(([label]) => label);
   record("exact_nonproduction_inputs_present", missing.length === 0, missing.length === 0 ? "all exact nonproduction inputs present" : `missing/mismatched: ${missing.join(", ")}`);
 
+  const acceptedPreview = requireLegalAidAcceptedPreview({ applicationSha: APPLICATION_SHA, projectRef: PROJECT_REF, deploymentId: DEPLOYMENT_ID, hostname: PREVIEW_HOSTNAME });
   const identity = await resolveHostedVercelIdentity({ token: VERCEL_TOKEN });
   const [deployment, alias, aliases] = await Promise.all([
     vercelJson(`/v13/deployments/${encodeURIComponent(DEPLOYMENT_ID)}`, identity),
@@ -316,12 +318,14 @@ async function main() {
       && (deployment.json?.target === null || deployment.json?.target === "preview")
       && deployment.json?.meta?.rcapApplicationSha === APPLICATION_SHA
       && deployment.json?.meta?.rcapAcceptanceProjectRef === PROJECT_REF
-      && deployment.json?.meta?.rcapClinicDemoMode === "mississippi_preview"
+      && deployment.json?.meta?.rcapClinicDemoMode === "none"
       && deployment.json?.meta?.rcapRouteState === "staging_scoped"
       && deployment.json?.meta?.rcapReturnOrigin === PREVIEW
       && productionAliases.length === 0,
     `deployment=${deploymentId}; alias exact=${aliasDeploymentId === DEPLOYMENT_ID}; READY=${deployment.json?.readyState}; target=${JSON.stringify(deployment.json?.target ?? null)}; SHA=${deployment.json?.meta?.rcapApplicationSha}; Production aliases=${productionAliases.length}`
   );
+
+  assertLegalAidAcceptedPreview(acceptedPreview, deployment.json);
 
   const health = await fetch(`${PREVIEW}/api/health`, { headers: { "x-vercel-protection-bypass": BYPASS } });
   const healthJson = await health.json().catch(() => null);
