@@ -705,7 +705,7 @@ const CHECKOUT_LIFECYCLE_GENERATION_FILES=[
   "scripts/verify-rcap-hosted-checkout-gate.mjs"
 ];
 // Application authority successor: application and worker sources have separate custody.
-export const GENERATION_FILES=[
+const APPLICATION_AUTHORITY_GENERATION_FILES=[
   "scripts/verify-rcap-staging-scoped-preview-contract.mjs",
   "scripts/verify-rcap-hosted-checkout-gate.mjs",
   "scripts/verify-rcap-preview-reuse-contract.mjs",
@@ -722,13 +722,26 @@ export const GENERATION_FILES=[
   "scripts/rcap-application-inputs.test.mjs",
   "scripts/verify-rcap-application-candidate.mjs"
 ];
+// Packet reference currentness successor; application and worker identities remain frozen.
+export const GENERATION_FILES=[
+  "scripts/rcap-clinic-resume-workflow.test.mjs",
+  "scripts/grade-a-launch-control/verify-release-candidate-binding.mjs",
+  "scripts/grade-a-launch-control/verify-pending-worker-successor.mjs",
+  "data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json",
+  "data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json",
+  "data/rcap-grade-a/launch-control/PENDING_WORKER_SUCCESSOR.json",
+  "data/rcap-grade-a/launch-control/PACKET_DATABASE_CONTRACT.json",
+  "scripts/rcap-packet-database-reference.mjs",
+  "scripts/rcap-packet-database-contract.test.mjs"
+];
 function verifyGenerationBinding(root,candidate,pending){
  try{
   const git=args=>execFileSync('git',args,{cwd:root,encoding:'utf8',stdio:'pipe'}).trim();
   const read=rel=>JSON.parse(fs.readFileSync(path.join(root,rel)));
   const toolsPath='data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json';
   const binding=read(toolsPath),t=binding.successorTools,base=pending.releaseBaseSha;
-  const generationFiles=base==='e312a5efa7b4882e0fbf61a5ff0ae7891ac23226'?GENERATION_FILES
+  const generationFiles=base==='7556f87cee1cf3e6f4b503c76b8ba1d1bbc59456'?GENERATION_FILES
+    :base==='e312a5efa7b4882e0fbf61a5ff0ae7891ac23226'?APPLICATION_AUTHORITY_GENERATION_FILES
     :base==='3aeb5cdbeec1f84c61a4a6fca3297d72c40f719a'?CHECKOUT_LIFECYCLE_GENERATION_FILES
     :base==='bafe2536f560ddb93d115d591ea0a5b8af0fac90'?CHECKOUT_PIN_GENERATION_FILES
     :base==='d7adfbde5e19ef8025182dc755ba05fbf94e0a79'?BOOTSTRAP_GENERATION_FILES

@@ -36,6 +36,8 @@ export const ATTRIBUTION_FILES = [
   'supabase/migrations/20260924172645_preserve_sponsored_regeneration_attribution.sql'
 ];
 
+export const FUNDING_CHOICE_PATH = 'supabase/migrations/20260927152649_clinic_packet_funding_choice.sql';
+
 // Existing local PostgreSQL harness, with only prerequisite relations. Every
 // Phase-50 statement executes, including Storage and runtime-role revokes.
 // Later phases are replayed to account explicitly for their superseding packet
@@ -120,14 +122,17 @@ export function applyPacketApplicationDependencies(db, root, { deliverySuccessor
   }
 }
 
-export function packetApplicationTestDatabase(root, { corrected = true, deliverySuccessors = true, attributionSuccessors = true } = {}) {
+export function packetApplicationTestDatabase(root, { corrected = true, deliverySuccessors = true, attributionSuccessors = true, fundingChoice = true } = {}) {
   const db=packetTestDatabase(root,55,true);
   try {
     applyPacketApplicationDependencies(db,root,{deliverySuccessors});
     db.applyFile(path.join(root,REPAIR_PATH));
     if(corrected) {
       db.applyFile(path.join(root,CORRECTION_PATH));
-      if(attributionSuccessors) for(const file of ATTRIBUTION_FILES) db.applyFile(path.join(root,file));
+      if(attributionSuccessors) {
+        for(const file of ATTRIBUTION_FILES) db.applyFile(path.join(root,file));
+        if(fundingChoice) db.applyFile(path.join(root,FUNDING_CHOICE_PATH));
+      }
     }
     return db;
   } catch(error) { db.stop(); throw error; }
@@ -137,13 +142,14 @@ export function readPacketCatalog(db) {
   return normalizeCatalog(JSON.parse(db.sql(packetCatalogQuery()).trim().split('\n').at(-1)));
 }
 
-export function buildPacketReference(root) {
+export function buildPacketReference(root, { fundingChoice = true } = {}) {
+  const fundingFiles = fundingChoice ? [FUNDING_CHOICE_PATH] : [];
   const db = packetTestDatabase(root,50,true);
   try {
     const phase50 = readPacketCatalog(db);
     const supersessions = [];
     let prior = phase50;
-    for (const file of [...PHASE_FILES.slice(2), ...APPLICATION_FILES, REPAIR_PATH, CORRECTION_PATH, ...ATTRIBUTION_FILES]) {
+    for (const file of [...PHASE_FILES.slice(2), ...APPLICATION_FILES, REPAIR_PATH, CORRECTION_PATH, ...ATTRIBUTION_FILES, ...fundingFiles]) {
       if (file === APPLICATION_FILES[0]) {
         applyConsumerGrants(db,root);
         db.sql(clinicFixtures());
@@ -158,8 +164,8 @@ export function buildPacketReference(root) {
     }
     return {
       schemaVersion:'rcap-packet-database-contract/v2',
-      derivation:'Disposable PostgreSQL: exact packet and consumer phase sources followed by current verification, sponsored binding, artifact regeneration, promotion and checkout successors. Clinic cross-reference fixtures are excluded from certification; no live schema is adopted as expected authority.',
-      sources:[...CONSUMER_PHASE_FILES,CONSUMER_GRANTS_SOURCE,CONSUMER_CLAIM_SOURCE,...PHASE_FILES,...APPLICATION_FILES,REPAIR_PATH,CORRECTION_PATH,...ATTRIBUTION_FILES].map(file=>({path:file,sha256:digest(fs.readFileSync(path.join(root,file)))})),
+      derivation:'Disposable PostgreSQL: exact packet and consumer phase sources followed by current verification, sponsored binding, artifact regeneration, promotion, checkout, attribution and funding-choice successors. Clinic cross-reference fixtures are excluded from certification; no live schema is adopted as expected authority.',
+      sources:[...CONSUMER_PHASE_FILES,CONSUMER_GRANTS_SOURCE,CONSUMER_CLAIM_SOURCE,...PHASE_FILES,...APPLICATION_FILES,REPAIR_PATH,CORRECTION_PATH,...ATTRIBUTION_FILES,...fundingFiles].map(file=>({path:file,sha256:digest(fs.readFileSync(path.join(root,file)))})),
       phase50, supersessions, current:prior
     };
   } finally { db.stop(); }

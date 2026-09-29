@@ -175,7 +175,8 @@ function verifyGenerationPending(root,p){
   const e=readJson(root,PUBLICATION),publication=verifyGenerationPublication(root,e);assert.equal(publication.current,true,publication.reasons?.join('; '));
   const plan=createWorkerInputPlan({rootDir:root,acceptedSourceSha:e.sourceSha,acceptedDigest:e.immutableRegistryDigest,candidateSha:p.releaseBaseSha});
   const applicationSource=p.applicationSource==='post-publication-candidate'?'post-publication-candidate':'sourceCommit';
-  const applicationSha=applicationSource==='post-publication-candidate'?p.releaseBaseSha:e.sourceSha;
+  const applicationSha=applicationSource==='post-publication-candidate'
+    ? (prior.applicationSource==='post-publication-candidate'?prior.applicationSha:p.releaseBaseSha) : e.sourceSha;
   const expected={schemaVersion:prior.schemaVersion,status:'SUCCESSOR_ACCEPTED_PREVIEW_AND_RESUME_PENDING',releaseBaseSha:p.releaseBaseSha,sourceCommit:e.sourceSha,applicationSource,workerSource:'sourceCommit',applicationSha,workerSourceSha:e.sourceSha,workerDigest:e.immutableRegistryDigest,workerInputFingerprint:e.workerInputFingerprint,canonicalWorkerInputs:plan.canonicalInputs,workerChangedPaths:[],workerRebuildRequired:false,publication:'complete',acceptance:'complete',runtimeAccepted:true,previewExecution:'held',productionAuthorized:false,resume:null,supersededRecord:prior};
   assert.deepEqual(p,expected,'exact current generation pending record');
   return {current:true,status:p.status,applicationSha:p.applicationSha,workerSourceSha:p.workerSourceSha,workerDigest:p.workerDigest,workerInputFingerprint:p.workerInputFingerprint,runtimeAccepted:true,workerRebuildRequired:false,previewExecution:'held',productionAuthorized:false,releaseBaseSha:p.releaseBaseSha,reasons:[]};

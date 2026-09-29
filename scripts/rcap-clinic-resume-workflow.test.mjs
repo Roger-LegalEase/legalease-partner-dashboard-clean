@@ -97,7 +97,7 @@ test('current generation preserves its exact base without promoting historical h
  const candidate=JSON.parse(fs.readFileSync('data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json'));
  const publication=JSON.parse(fs.readFileSync('data/rcap-render/worker-publication-evidence.json'));
  assert.equal(candidate.workerSourceSha,publication.sourceSha);
- assert.equal(candidate.applicationSha,candidate.releaseBaseSha);
+ assert.equal(candidate.applicationSha,candidate.applicationPin.sourceSha);
  execFileSync('git',['merge-base','--is-ancestor',candidate.workerSourceSha,candidate.applicationSha]);
  assert.equal(candidate.workerDigest,publication.immutableRegistryDigest);
  assert.equal(candidate.hostedAcceptance.preview,null);

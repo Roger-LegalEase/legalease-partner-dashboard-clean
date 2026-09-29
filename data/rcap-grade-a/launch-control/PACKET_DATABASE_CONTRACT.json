@@ -1,6 +1,6 @@
 {
   "schemaVersion": "rcap-packet-database-contract/v2",
-  "derivation": "Disposable PostgreSQL: exact packet and consumer phase sources followed by current verification, sponsored binding, artifact regeneration, promotion and checkout successors. Clinic cross-reference fixtures are excluded from certification; no live schema is adopted as expected authority.",
+  "derivation": "Disposable PostgreSQL: exact packet and consumer phase sources followed by current verification, sponsored binding, artifact regeneration, promotion, checkout, attribution and funding-choice successors. Clinic cross-reference fixtures are excluded from certification; no live schema is adopted as expected authority.",
   "sources": [
     {
       "path": "supabase/phase-26-consumer-briefcase-items.sql",
@@ -101,6 +101,10 @@
     {
       "path": "supabase/migrations/20260924172645_preserve_sponsored_regeneration_attribution.sql",
       "sha256": "af514f99b4aaca1d7f92c7eaaf6e6f12079919961fc5a0911caaef31b8c715d2"
+    },
+    {
+      "path": "supabase/migrations/20260927152649_clinic_packet_funding_choice.sql",
+      "sha256": "8c8632dcb8b08ef530eb3843671cee0c785919bf29130936162cba779f7aea75"
     }
   ],
   "phase50": {
@@ -5213,6 +5217,16 @@
       "keys": [
         "functions:finalize_sponsored_packet_generation_for_route"
       ]
+    },
+    {
+      "path": "supabase/migrations/20260927152649_clinic_packet_funding_choice.sql",
+      "keys": [
+        "functions:finalize_packet_render_job",
+        "functions:record_consumer_packet_payment",
+        "functions:sponsored_packet_render_authority",
+        "functions:enqueue_verified_sponsored_packet_render",
+        "functions:finalize_sponsored_packet_generation_for_route"
+      ]
     }
   ],
   "current": {
@@ -6521,7 +6535,7 @@
         },
         "publicExecute": false,
         "securityDefiner": true,
-        "definitionSha256": "41fd4e700aaf1da9b7c3244de5808aee9b0997bd402f52d48c22d506df3ef99b"
+        "definitionSha256": "ad2d95291f4c01c04917a4b02fb4aa416361fafacbd2d46fdd9829d1f9f1a101"
       }
     },
     "functions:guard_packet_credit_ledger": {
@@ -7641,7 +7655,7 @@
         },
         "publicExecute": false,
         "securityDefiner": true,
-        "definitionSha256": "e0b4cc641edb547f237f8c9675a7ba87a1bdb27957e7e64577d3ec59c9a96491"
+        "definitionSha256": "e6024c395243bedd9fd68fa68f1c21b382c741d78aaea32b9c00f70d6e036e82"
       },
       "record_consumer_packet_payment(uuid,text,integer,integer,integer,text,text,text,text,text,text,text,text,text,uuid,uuid,text)": {
         "owner": "postgres",
@@ -8855,7 +8869,7 @@
         },
         "publicExecute": false,
         "securityDefiner": true,
-        "definitionSha256": "3a62caa1fdb04d73c05190564ed5842663d50d7cdf8e2d15731583151f2c7b57"
+        "definitionSha256": "86bee315b6c3664cb3cb5cc7e49b87ce57e2f866b92a4df83d4e8fa436bff555"
       }
     },
     "column:consumer_briefcase_items.amount_cents": {
@@ -11369,7 +11383,7 @@
         },
         "publicExecute": false,
         "securityDefiner": true,
-        "definitionSha256": "27cc982b5623c5d3747106f57cefe7200a709d8ae30e4ded70ca3ed124b5aeb7"
+        "definitionSha256": "64adb0b5241f0a621bb0f646e0a00051bb2e581f4a7c276bd75f739957c60778"
       }
     },
     "column:consumer_artifact_download_grants.created_at": {
@@ -13131,7 +13145,7 @@
         },
         "publicExecute": false,
         "securityDefiner": true,
-        "definitionSha256": "c277fcbb0bbc47ee6eddac1fde3a1c1ad01e2854fa72911b8f2244acf403a3bf"
+        "definitionSha256": "9cc6fc4915c793270bd8368f41f27f1168557cf153ead637e2ae42855ff2d2bd"
       }
     },
     "index:packet_delivery_events.packet_delivery_events_pkey": {
