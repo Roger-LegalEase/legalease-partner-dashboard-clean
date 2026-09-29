@@ -2019,6 +2019,7 @@ const stripeApi = async (pathname, init) => {
   const before = { paymentStatus: session.payment_status, amountTotal: session.amount_total, paymentIntent: session.payment_intent ?? null };
   const outcome = await completeHostedCheckout({
     checkoutUrl: session.url,
+    previewProtectionBypassSecret: BYPASS,
     expectedReturnUrl: session.success_url?.replace('{CHECKOUT_SESSION_ID}', session.id),
     promotionCode: PROMOTION_CODE,
     card: STRIPE_TEST_CARD,

@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
+import fs from 'node:fs';
 import { chromium } from 'playwright';
 import { requireNoProviderChallenge, fillRemainingRequired, isExpectedCheckoutReturn,
   expectedCheckoutTotal, checkoutAmountMatches, completeHostedCheckout } from './rcap-stripe-checkout-browser.mjs';
@@ -98,16 +99,22 @@ test('only the same application, matter, success state and Session count as a re
   assert.equal(isExpectedCheckoutReturn(expected, undefined), false);
 });
 
-for (const scenario of ['challenge', 'cookies-fail', 'wrong-return', 'success']) {
+for (const scenario of ['challenge', 'cookies-fail', 'wrong-return', 'success', 'bootstrap-redirect', 'no-secret', 'no-cookie', 'wrong-cookie-host', 'parent-cookie-host', 'wrong-cookie-name', 'insecure-cookie', 'bootstrap-fail', 'bootstrap-foreign-redirect', 'bootstrap-wrong-url', 'proof-fail', 'proof-html', 'non-vercel-return']) {
   test(`Checkout orchestration ${scenario} with local browser double`, async t => {
-    const expected = 'https://preview.vercel.app/briefcase/matter-a?checkout=success';
+    const expected = scenario === 'non-vercel-return' ? 'https://untrusted.example/briefcase/matter-a?checkout=success' : 'https://preview.vercel.app/briefcase/matter-a?checkout=success';
+    const secret = 'SYNTHETIC-bypass-SECRET';
+    const cookieValue = 'SYNTHETIC-cookie-VALUE';
+    const events = [];
+    const requests = [];
+    const succeeds = ['success', 'bootstrap-redirect'].includes(scenario);
+    const opensStripe = succeeds || ['challenge', 'wrong-return'].includes(scenario);
     let current = 'https://checkout.stripe.com/c/pay/cs_test_local';
     const mutations = [];
     let closed = 0;
     let captures = 0;
     const challengeSelectors = /one-time-code|challenge|captcha|Verify your identity/;
     const page = {
-      goto: async () => {}, waitForTimeout: async () => {}, url: () => current,
+      goto: async (url, options) => { events.push('stripe'); assert.equal(url, current); assert.equal(requests.length, 2); assert.equal(options.headers, undefined); }, waitForTimeout: async () => {}, url: () => current,
       mainFrame: () => page, frames: () => [page],
       locator: selector => ({
         all: async () => [], innerText: async () => '$0.00',
@@ -119,7 +126,7 @@ for (const scenario of ['challenge', 'cookies-fail', 'wrong-return', 'success'])
           click: async () => {
             mutations.push(selector);
             if (selector.includes('hosted-payment-submit-button')) {
-              current = scenario === 'wrong-return' ? 'https://challenge.stripe.com/verify' : expected;
+              current = scenario === 'wrong-return' ? 'https://challenge.stripe.com/verify?token=private-token&email=private-person#private-fragment' : expected;
             }
           },
         }),
@@ -127,17 +134,55 @@ for (const scenario of ['challenge', 'cookies-fail', 'wrong-return', 'success'])
     };
     const context = {
       newPage: async () => page,
+      request: { get: async (url, options) => {
+        events.push('bootstrap'); requests.push({ url, options });
+        assert.equal(url, 'https://preview.vercel.app/api/health');
+        assert.equal(options.maxRedirects, 0, 'headers must never follow redirects');
+        const first = requests.length === 1;
+        assert.deepEqual(options.headers, first ? { 'x-vercel-protection-bypass': secret, 'x-vercel-set-bypass-cookie': 'true' } : undefined);
+        if (scenario === 'bootstrap-fail') throw Error(`request headers ${secret}; Set-Cookie ${cookieValue}`);
+        return {
+          url: () => scenario === 'bootstrap-wrong-url' ? 'https://untrusted.example/api/health' : url,
+          status: () => first && ['bootstrap-redirect', 'bootstrap-foreign-redirect'].includes(scenario) ? 307 : !first && scenario === 'proof-fail' ? 401 : 200,
+          headers: () => ({ location: scenario === 'bootstrap-foreign-redirect' ? 'https://checkout.stripe.com/leak' : '/api/health' }),
+          json: async () => scenario === 'proof-html' ? '<html>Vercel Authentication</html>' : { ok: true, checks: { db: 'ok' }, timestamp: '2026-09-29T00:00:00Z' },
+          dispose: async () => {},
+        };
+      } },
+      cookies: async origin => {
+        assert.equal(origin, 'https://preview.vercel.app');
+        return scenario === 'no-cookie' ? [] : [{ name: scenario === 'wrong-cookie-name' ? 'session' : '_vercel_jwt',
+          domain: scenario === 'wrong-cookie-host' ? 'other.vercel.app' : scenario === 'parent-cookie-host' ? '.vercel.app' : 'preview.vercel.app',
+          path: '/', secure: scenario !== 'insecure-cookie', value: cookieValue }];
+      },
       addCookies: async () => { if (scenario === 'cookies-fail') throw new Error('invalid session cookies'); },
       close: async () => { closed++; },
     };
-    t.mock.method(chromium, 'launch', async () => ({ newContext: async () => context, close: async () => { closed++; } }));
+    t.mock.method(chromium, 'launch', async () => ({ newContext: async options => { assert.equal(options?.extraHTTPHeaders, undefined); return context; }, close: async () => { closed++; } }));
     const outcome = await completeHostedCheckout({ checkoutUrl: current, expectedReturnUrl: expected,
+      previewProtectionBypassSecret: scenario === 'no-secret' ? '' : secret,
       sessionCookies: [{ name: 'synthetic', value: 'local-only' }], onReturn: async () => { captures++; } });
-    assert.equal(outcome.completed, scenario === 'success');
-    assert.equal(captures, scenario === 'success' ? 1 : 0);
+    assert.equal(outcome.completed, succeeds);
+    assert.equal(captures, succeeds ? 1 : 0);
     assert.equal(closed, 2);
+    assert.equal(events.includes('stripe'), opensStripe, 'bootstrap failure must stop before Stripe');
+    if (opensStripe) assert.deepEqual(events, ['bootstrap', 'bootstrap', 'stripe']);
+    const evidence = JSON.stringify(outcome);
+    for (const sensitive of [secret, cookieValue, 'private-token', 'private-person', 'private-fragment']) assert.ok(!evidence.includes(sensitive), sensitive);
+    if (scenario === 'wrong-return') assert.match(evidence, /Unexpected Checkout destination: https:\/\/challenge.stripe.com\/verify;/);
+    if (succeeds) assert.ok(evidence.includes('cookie _vercel_jwt domain preview.vercel.app'));
+    if (!opensStripe) assert.deepEqual(mutations, []);
     if (scenario === 'challenge' || scenario === 'cookies-fail') assert.deepEqual(mutations, []);
     if (scenario === 'challenge' || scenario === 'wrong-return') assert.equal(outcome.humanInteractionRequired, true);
     assert.ok(mutations.filter(value => value.includes('hosted-payment-submit-button')).length <= 1);
   });
 }
+
+
+test('hosted payment supplies the bypass only through the narrow helper parameter', () => {
+  const source = fs.readFileSync(new URL('./rcap-stripe-checkout-browser.mjs', import.meta.url), 'utf8');
+  const harness = fs.readFileSync(new URL('./rcap-hosted-acceptance-payment.mjs', import.meta.url), 'utf8');
+  assert.match(harness, /completeHostedCheckout\(\{[\s\S]*?previewProtectionBypassSecret: BYPASS,/);
+  assert.doesNotMatch(source, /extraHTTPHeaders|setExtraHTTPHeaders|storageState/);
+  assert.match(source, /maxRedirects: 0/);
+});
