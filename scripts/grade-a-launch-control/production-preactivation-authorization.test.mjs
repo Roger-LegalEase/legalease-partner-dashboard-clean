@@ -258,7 +258,9 @@ test('existing workflow data flow selects exact smoke run/name, and the real loc
  const steps=workflow.jobs.preflight.steps,download=steps.find(s=>s.name==='Download the exact successful Production smoke evidence');
  assert.equal(download.uses,'actions/download-artifact@v4');assert.equal(download.if,"inputs.phase == 'activate'");
  const resolve=value=>value.replaceAll('${{ env.PRODUCTION_SMOKE_RUN_ID }}',environment.PRODUCTION_SMOKE_RUN_ID);
- assert.equal(resolve(download.with.name),'rcap-production-smoke-36779982696');assert.equal(resolve(download.with['run-id']),'36779982696');assert.equal(download.with.path,'prior-production-smoke-evidence');
+ assert.equal(resolve(download.with.name),'rcap-production-smoke-36779982696');assert.equal(resolve(download.with['run-id']),'36779982696');assert.equal(download.with.path,'${{ runner.temp }}/rcap-production-smoke-${{ env.PRODUCTION_SMOKE_RUN_ID }}');
+ const activation=steps.find(s=>s.name==='Activate the exact staged Production deployment with rollback protection');
+ assert.equal(activation.env.RCAP_PRODUCTION_SMOKE_EVIDENCE_FILE,download.with.path+'/production-canary-smoke.json');
  assert.ok(steps.findIndex(s=>s.run?.includes('node scripts/rcap-production-migration-contract.mjs'))<steps.indexOf(download));
  const head=execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim();
  assert.deepEqual(requireProductionMigrationRelease(process.cwd(),{RCAP_PRODUCTION_PHASE:'activate',RCAP_APPLICATION_SHA:candidate.applicationSha,RCAP_WORKER_SOURCE_SHA:candidate.workerSourceSha,RCAP_WORKER_DIGEST:candidate.workerDigest,RCAP_PRODUCTION_PROJECT_REF:candidate.productionProjectRef,RCAP_TOOLS_SHA:head,GITHUB_SHA:head}),authorizedCandidate);

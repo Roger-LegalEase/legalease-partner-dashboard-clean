@@ -2,6 +2,7 @@
 
 import fs from "node:fs";
 import path from "node:path";
+import {parse} from "yaml";
 
 const root = path.resolve(process.env.RCAP_PRODUCTION_ACTIVATION_VERIFY_ROOT ?? ".");
 const read = (file) => fs.existsSync(path.join(root, file))
@@ -22,6 +23,23 @@ check(workflow.includes("rcap-production-smoke-${{ env.PRODUCTION_SMOKE_RUN_ID }
 check(workflow.includes("node scripts/verify-rcap-production-activation.mjs"), "workflow self-verifies the activation contract");
 check(workflow.includes("node scripts/test-rcap-production-activation-mutations.mjs"), "workflow runs activation mutation proof");
 check(workflow.includes("node scripts/rcap-production-activate.mjs"), "workflow invokes only the dedicated activation control");
+
+// Parse the actual download and execution steps together: unrelated substrings
+// elsewhere in YAML cannot satisfy the run/name/path handoff contract.
+const steps = parse(workflow)?.jobs?.preflight?.steps ?? [];
+const downloads = steps.filter(step => step.name === 'Download the exact successful Production smoke evidence');
+const activations = steps.filter(step => step.name === 'Activate the exact staged Production deployment with rollback protection');
+const download = downloads[0], activation = activations[0];
+const smokeDirectory = '${{ runner.temp }}/rcap-production-smoke-${{ env.PRODUCTION_SMOKE_RUN_ID }}';
+check(downloads.length === 1 && download?.uses === 'actions/download-artifact@v4' && download?.if === "inputs.phase == 'activate'", 'one isolated exact smoke artifact download');
+check(download?.with?.['run-id'] === '${{ env.PRODUCTION_SMOKE_RUN_ID }}', 'download step uses the bound smoke run ID');
+check(download?.with?.name === 'rcap-production-smoke-${{ env.PRODUCTION_SMOKE_RUN_ID }}', 'download step uses the bound smoke artifact name');
+check(download?.with?.path === smokeDirectory, 'smoke download is run-bound under runner.temp outside the source checkout');
+check(activations.length === 1 && activation?.if === "inputs.phase == 'activate'" && activation?.run === 'node scripts/rcap-production-activate.mjs', 'activation step executes only the unchanged dedicated runtime');
+check(activation?.env?.RCAP_PRODUCTION_SMOKE_EVIDENCE_FILE === `${smokeDirectory}/production-canary-smoke.json`, 'activation consumes the exact matching external smoke file');
+const guardIndex = steps.findIndex(step => step.run?.includes('node scripts/rcap-production-migration-contract.mjs'));
+check(guardIndex >= 0 && guardIndex < steps.indexOf(download) && steps.indexOf(download) < steps.indexOf(activation), 'currentness precedes external staging and the activation runtime recheck');
+check(script.indexOf('requireProductionMigrationRelease(ROOT_DIR, process.env);') >= 0 && script.indexOf('requireProductionMigrationRelease(ROOT_DIR, process.env);') < script.indexOf('const smokeText = fs.readFileSync(SMOKE_FILE'), 'runtime rechecks currentness before reading smoke evidence or promoting');
 
 check(script.includes('const STAGED_DEPLOYMENT_ID = RELEASE_CANDIDATE.productionAuthorization?.stagedDeploymentId;'), "exact staged deployment is pinned");
 check(script.includes('const ROLLBACK_DEPLOYMENT_ID = RELEASE_CANDIDATE.productionAuthorization?.rollbackDeploymentId;'), "exact rollback deployment is pinned");

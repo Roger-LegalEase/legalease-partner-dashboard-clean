@@ -13,6 +13,13 @@ const files = [
   "scripts/verify-rcap-production-activation.mjs"
 ];
 const mutations = [
+  ["checkout-local artifact", "path: ${{ runner.temp }}/rcap-production-smoke-${{ env.PRODUCTION_SMOKE_RUN_ID }}", "path: prior-production-smoke-evidence"],
+  ["runner temp isolation", "${{ runner.temp }}", "${{ github.workspace }}"],
+  ["missing external smoke environment", "RCAP_PRODUCTION_SMOKE_EVIDENCE_FILE:", "UNUSED_SMOKE_FILE:"],
+  ["mismatched external file", "/production-canary-smoke.json", "/different-smoke.json"],
+  ["download run substitution", "run-id: ${{ env.PRODUCTION_SMOKE_RUN_ID }}", "run-id: 36700000000"],
+  ["download artifact substitution", "name: rcap-production-smoke-${{ env.PRODUCTION_SMOKE_RUN_ID }}", "name: rcap-production-smoke-arbitrary"],
+  ["extra activation command", "run: node scripts/rcap-production-activate.mjs", "run: node scripts/rcap-production-activate.mjs && echo extra-command"],
   ["separate phase authorization", "requireProductionMigrationRelease(ROOT_DIR, process.env);", "/* authorization removed */"],
   ["staged deployment", "const STAGED_DEPLOYMENT_ID = RELEASE_CANDIDATE.productionAuthorization?.stagedDeploymentId;", "dpl_wrongstaged"],
   ["rollback deployment", "const ROLLBACK_DEPLOYMENT_ID = RELEASE_CANDIDATE.productionAuthorization?.rollbackDeploymentId;", "dpl_wrongrollback"],
@@ -58,6 +65,7 @@ for (const [name, from, to] of mutations) {
       encoding: "utf8"
     });
     assert.notEqual(result.status, 0, `${name}: verifier accepted mutation`);
+    assert.match(result.stdout, /FAIL/, `${name}: must fail a contract check, not module startup`);
     console.log(`ok   ${name} mutation is rejected`);
   } finally {
     fs.rmSync(root, { recursive: true, force: true });

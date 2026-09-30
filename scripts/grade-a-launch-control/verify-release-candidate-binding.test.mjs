@@ -172,7 +172,7 @@ test('complete release verifier accepts exact smoke evidence with unchanged auth
   ['missing receipt',c=>delete c.productionAuthorization.restage.successfulReceipt],
   ...Object.keys(BOUND_RESTAGE).map(k=>[k,c=>c.productionAuthorization.restage.successfulReceipt[k]=k==='conclusion'?'failure':'wrong']),
  ];
- for(const [name,mutate]of mutations){const c=structuredClone(candidate);mutate(c);const result=verifyReleaseCandidateBinding(root,c);assert.equal(result.current,false,name);assert.ok(result.reasons.some(r=>r.includes('only exact activation decision added; prior evidence and authority preserved')),`${name}: ${JSON.stringify(result)}`);}
+ for(const [name,mutate]of mutations){const c=structuredClone(candidate);mutate(c);const result=verifyReleaseCandidateBinding(root,c);assert.equal(result.current,false,name);assert.ok(result.reasons.some(r=>r.includes('artifact isolation preserves exact authorization and evidence')),`${name}: ${JSON.stringify(result)}`);}
 });
 
 
@@ -229,7 +229,7 @@ test('activation successor binds seven paths, one parent, exact decision and pre
  const vm=await import('node:vm'),base=ACTIVATION_BASE,toolsPath='data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json',candidatePath='data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json';
  const prior=JSON.parse(execFileSync('git',['show',`${base}:${toolsPath}`],{encoding:'utf8'}));
  const priorCandidate=JSON.parse(execFileSync('git',['show',`${base}:${candidatePath}`],{encoding:'utf8'}));
- const binding=JSON.parse(fs.readFileSync(toolsPath)),candidate=JSON.parse(fs.readFileSync(candidatePath));
+ const binding=JSON.parse(execFileSync('git',['show','ff85fd0d8ea131a9885885ebde308611bda9c152:'+toolsPath],{encoding:'utf8'})),candidate=JSON.parse(execFileSync('git',['show','ff85fd0d8ea131a9885885ebde308611bda9c152:'+candidatePath],{encoding:'utf8'}));
  const source=fs.readFileSync('scripts/grade-a-launch-control/verify-release-candidate-binding.mjs','utf8');
  const scope=source.slice(source.indexOf('if(activationAuthorization){'),source.indexOf('  }else if(smokeEvidence){'))+'\n}';
  const ancestry=source.slice(source.indexOf("  const head=git(['rev-parse','HEAD']);",source.indexOf('function verifyGenerationBinding')),source.indexOf('  expect(Object.keys(t.files).sort()',source.indexOf('function verifyGenerationBinding')));
@@ -246,4 +246,26 @@ test('activation successor binds seven paths, one parent, exact decision and pre
  assert.throws(()=>run({mutate:b=>b.deploymentAuthorized=true}),/only bounded activation authorization tools/);
  assert.throws(()=>run({mutate:b=>b.successorTools.files['scripts/rcap-production-canary-smoke.mjs']='0'.repeat(64)}),/preserved tools/);
  assert.throws(()=>run({mutate:b=>delete b.successorTools.preactivationSmokeEvidenceBaseSha}),/only bounded activation authorization tools/);
+});
+
+test('artifact isolation successor preserves authority, prior hashes, exact scope and sole parent',async()=>{
+ const vm=await import('node:vm'),base='ff85fd0d8ea131a9885885ebde308611bda9c152',toolsPath='data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json',candidatePath='data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json';
+ const prior=JSON.parse(execFileSync('git',['show',`${base}:${toolsPath}`],{encoding:'utf8'}));
+ const priorCandidate=JSON.parse(execFileSync('git',['show',`${base}:${candidatePath}`],{encoding:'utf8'}));
+ const binding=JSON.parse(fs.readFileSync(toolsPath)),candidate=JSON.parse(fs.readFileSync(candidatePath));
+ const source=fs.readFileSync('scripts/grade-a-launch-control/verify-release-candidate-binding.mjs','utf8');
+ const scope=source.slice(source.indexOf('if(artifactIsolation){'),source.indexOf('  }else if(activationAuthorization){'))+'\n}';
+ const ancestry=source.slice(source.indexOf("  const head=git(['rev-parse','HEAD']);",source.indexOf('function verifyGenerationBinding')),source.indexOf('  expect(Object.keys(t.files).sort()',source.indexOf('function verifyGenerationBinding')));
+ const files=JSON.parse(source.match(/const ACTIVATION_ARTIFACT_ISOLATION_FILES=(\[[\s\S]*?\]);/)[1]);assert.equal(files.length,8);const head='a'.repeat(40);
+ function run({mutate=()=>{},delta=files,parents=[head,base]}={}){const b=structuredClone(binding),c=structuredClone(candidate);mutate(b,c);
+ vm.runInNewContext(scope+'\n'+ancestry,{binding:b,candidate:c,t:b.successorTools,toolsPath,preactivation:true,artifactIsolation:b.successorTools.activationArtifactIsolationBaseSha,ACTIVATION_ARTIFACT_ISOLATION_BASE:base,ACTIVATION_ARTIFACT_ISOLATION_FILES:files,commitBase:base,
+ expect:(a,b,m)=>assert.equal(JSON.stringify(a),JSON.stringify(b),m),git:args=>args[0]==='show'?JSON.stringify(args[1].endsWith(candidatePath)?priorCandidate:prior):({diff:delta.join('\n'),'ls-files':'','rev-parse':head,'rev-list':parents.join(' ')})[args[0]]});}
+ run();
+ for(const delta of [files.slice(1),[...files,'src/extra.ts'],[...files,'prior-production-smoke-evidence/production-canary-smoke.json']])assert.throws(()=>run({delta}),/exact activation artifact isolation paths/);
+ for(const parents of [[head,base,'b'.repeat(40)],[head,'b'.repeat(40)]])assert.throws(()=>run({parents}),/one non-merge tools successor/);
+ assert.throws(()=>run({mutate:b=>b.successorTools.activationArtifactIsolationBaseSha='0'.repeat(40)}),/exact activation artifact isolation base/);
+ for(const key of Object.keys(candidate.productionAuthorization.activation))assert.throws(()=>run({mutate:(_b,c)=>c.productionAuthorization.activation[key]='wrong'}),/preserves exact authorization and evidence/);
+ assert.throws(()=>run({mutate:(_b,c)=>c.productionAuthorization.activationReceipt={passed:true}}),/preserves exact authorization and evidence/);
+ assert.throws(()=>run({mutate:b=>b.successorTools.activationAuthorizationBaseSha=base}),/only bounded activation artifact isolation tools/);
+ assert.throws(()=>run({mutate:b=>b.successorTools.files['scripts/grade-a-launch-control/production-preflight-authorization.mjs']='0'.repeat(64)}),/preserved tools/);
 });

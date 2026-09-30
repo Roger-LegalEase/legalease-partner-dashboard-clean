@@ -931,6 +931,17 @@ const RESTAGE_ROUTING_FILES=[
   "scripts/grade-a-launch-control/verify-release-candidate-binding.test.mjs",
   "scripts/grade-a-launch-control/test-release-candidate-binding-mutations.mjs"
 ];
+const ACTIVATION_ARTIFACT_ISOLATION_BASE='ff85fd0d8ea131a9885885ebde308611bda9c152';
+const ACTIVATION_ARTIFACT_ISOLATION_FILES=[
+  ".github/workflows/rcap-production-canary.yml",
+  "scripts/verify-rcap-production-activation.mjs",
+  "scripts/test-rcap-production-activation-mutations.mjs",
+  "scripts/grade-a-launch-control/verify-release-candidate-binding.mjs",
+  "scripts/grade-a-launch-control/verify-release-candidate-binding.test.mjs",
+  "data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json",
+  "scripts/rcap-production-activation-artifact-isolation.test.mjs",
+  "scripts/grade-a-launch-control/production-preactivation-authorization.test.mjs"
+];
 const ACTIVATION_AUTHORIZATION_FILES=[
   "scripts/rcap-production-workflow-dependency-order.test.mjs",
   "data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json",
@@ -1046,6 +1057,7 @@ function verifyGenerationBinding(root,candidate,pending){
   const readinessCorrection=t.preactivationReadinessCorrectionBaseSha;
   const closure=t.preactivationClosureBaseSha;
   const harnessCorrection=t.preactivationHarnessCorrectionBaseSha;
+  const artifactIsolation=t.activationArtifactIsolationBaseSha;
   const activationAuthorization=t.activationAuthorizationBaseSha;
   const smokeEvidence=t.preactivationSmokeEvidenceBaseSha;
   const smokeReset=t.preactivationSmokeResetBaseSha;
@@ -1057,7 +1069,7 @@ function verifyGenerationBinding(root,candidate,pending){
   const relationshipsCorrection=t.preactivationLegalAidRelationshipsCorrectionBaseSha;
   const legalAidHarnessSuccessor=t.preactivationLegalAidHarnessSuccessorBaseSha;
   const seedRerunCorrection=t.preactivationLegalAidSeedRerunCorrectionBaseSha;
-  const generationFiles=preactivation?[...new Set([...PREACTIVATION_FILES,...(activationAuthorization?ACTIVATION_AUTHORIZATION_FILES:[]),...(smokeEvidence?SMOKE_EVIDENCE_BINDING_FILES:[]),...(smokeReset?SMOKE_RESET_FILES:[]),...(restageBinding?RESTAGE_BINDING_FILES:[]),...(restageCorrection?PRODUCTION_RESTAGE_FILES:[]),...(restageRoutingCorrection?RESTAGE_ROUTING_FILES:[]),...(productionLegalAidProofCorrection?PRODUCTION_LEGAL_AID_PROOF_FILES:[]),...(relationshipsCorrection?LEGAL_AID_RELATIONSHIPS_FILES:[]),...(legalAidHarnessSuccessor?LEGAL_AID_HARNESS_SUCCESSOR_FILES:[]),...(seedRerunCorrection?LEGAL_AID_SEED_RERUN_CORRECTION_FILES:[]),...(harnessCorrection?HARNESS_CORRECTION_FILES:[]),...(closure?CLOSURE_FILES:[]),...(readinessCorrection?READINESS_CORRECTION_FILES:[]),...(hostedTestCorrection?HOSTED_EVIDENCE_TEST_CORRECTION_FILES:[])])]:preflightOnly?[...new Set([...GENERATION_FILES,...(correction?PRODUCTION_DEPENDENCY_ORDER_FILES:[])])]:base===HOSTED_BASE?HOSTED_GENERATION_FILES:(base==='879463ec2ef60696da39a0367b4758d26074207b'
+  const generationFiles=preactivation?[...new Set([...PREACTIVATION_FILES,...(artifactIsolation?ACTIVATION_ARTIFACT_ISOLATION_FILES:[]),...(activationAuthorization?ACTIVATION_AUTHORIZATION_FILES:[]),...(smokeEvidence?SMOKE_EVIDENCE_BINDING_FILES:[]),...(smokeReset?SMOKE_RESET_FILES:[]),...(restageBinding?RESTAGE_BINDING_FILES:[]),...(restageCorrection?PRODUCTION_RESTAGE_FILES:[]),...(restageRoutingCorrection?RESTAGE_ROUTING_FILES:[]),...(productionLegalAidProofCorrection?PRODUCTION_LEGAL_AID_PROOF_FILES:[]),...(relationshipsCorrection?LEGAL_AID_RELATIONSHIPS_FILES:[]),...(legalAidHarnessSuccessor?LEGAL_AID_HARNESS_SUCCESSOR_FILES:[]),...(seedRerunCorrection?LEGAL_AID_SEED_RERUN_CORRECTION_FILES:[]),...(harnessCorrection?HARNESS_CORRECTION_FILES:[]),...(closure?CLOSURE_FILES:[]),...(readinessCorrection?READINESS_CORRECTION_FILES:[]),...(hostedTestCorrection?HOSTED_EVIDENCE_TEST_CORRECTION_FILES:[])])]:preflightOnly?[...new Set([...GENERATION_FILES,...(correction?PRODUCTION_DEPENDENCY_ORDER_FILES:[])])]:base===HOSTED_BASE?HOSTED_GENERATION_FILES:(base==='879463ec2ef60696da39a0367b4758d26074207b'
     ||base==='516b02ac1a68a6aaef41ca9825eae0ece5e3df37')?CHECKOUT_RETURN_GENERATION_FILES
     :base==='7556f87cee1cf3e6f4b503c76b8ba1d1bbc59456'?PACKET_DATABASE_GENERATION_FILES
     :base==='e312a5efa7b4882e0fbf61a5ff0ae7891ac23226'?APPLICATION_AUTHORITY_GENERATION_FILES
@@ -1067,8 +1079,17 @@ function verifyGenerationBinding(root,candidate,pending){
     :base==='44916baaeb9815ba3dd61d94e8c51294f01e8166'?HOSTED_PIN_GENERATION_FILES
     :base==='9ce9233bde4e3c16d0dc9657524ae1a5f02eb2fa'?DS08_GENERATION_FILES:PRIOR_GENERATION_FILES;
   const expect=(actual,expected,message)=>{if(JSON.stringify(actual)!==JSON.stringify(expected))throw Error(message);};
-  const commitBase=activationAuthorization??smokeEvidence??smokeReset??restageBinding??restageRoutingCorrection??restageTransportCorrection??restageCorrection??productionLegalAidProofCorrection??relationshipsCorrection??legalAidHarnessSuccessor??seedRerunCorrection??harnessCorrection??closure??readinessCorrection??hostedTestCorrection??correction??base;
-  if(activationAuthorization){
+  const commitBase=artifactIsolation??activationAuthorization??smokeEvidence??smokeReset??restageBinding??restageRoutingCorrection??restageTransportCorrection??restageCorrection??productionLegalAidProofCorrection??relationshipsCorrection??legalAidHarnessSuccessor??seedRerunCorrection??harnessCorrection??closure??readinessCorrection??hostedTestCorrection??correction??base;
+  if(artifactIsolation){
+   expect(preactivation,true,'artifact isolation only on the reviewed activation release');
+   expect(artifactIsolation,ACTIVATION_ARTIFACT_ISOLATION_BASE,'exact activation artifact isolation base');
+   const priorTools=JSON.parse(git(['show',`${artifactIsolation}:${toolsPath}`]));
+   expect(binding,{...priorTools,toolsSha:artifactIsolation,successorTools:{...priorTools.successorTools,activationArtifactIsolationBaseSha:artifactIsolation,files:t.files}},'only bounded activation artifact isolation tools');
+   expect(candidate,JSON.parse(git(['show',`${artifactIsolation}:data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json`])),'artifact isolation preserves exact authorization and evidence');
+   for(const [rel,hash]of Object.entries(priorTools.successorTools.files))if(!ACTIVATION_ARTIFACT_ISOLATION_FILES.includes(rel))expect(t.files[rel],hash,`preserved tools: ${rel}`);
+   const delta=[...new Set([...git(['diff','--name-only',artifactIsolation]).split('\n'),...git(['ls-files','--others','--exclude-standard']).split('\n')].filter(Boolean))].sort();
+   expect(delta,ACTIVATION_ARTIFACT_ISOLATION_FILES.slice().sort(),'exact activation artifact isolation paths');
+  }else if(activationAuthorization){
    expect(preactivation,true,'activation decision only on reviewed preactivation release');
    expect(correction,undefined,'no combined dependency correction scope');
    expect(activationAuthorization,ACTIVATION_BASE,'exact activation authorization base');
@@ -1272,7 +1293,7 @@ function verifyGenerationBinding(root,candidate,pending){
   for(const key of new Set([...Object.keys(previousTools),...Object.keys(binding)]))if(!toolsUpdates.has(key))expect(binding[key],previousTools[key],`unchanged tools field ${key}`);
   expect(candidate.applicationPin,{...previous.applicationPin,sourceSha:pending.applicationSha,canonicalInputBaseline:pending.applicationSha,workerInputFingerprint:pending.workerInputFingerprint},'exact application pin');
   expect(candidate.previewExecutionInstruction,{...previous.previewExecutionInstruction,mode:null,...((base===HOSTED_BASE||productionScoped)?{preview_hostname:PREVIEW.hostname,preview_deployment_id:PREVIEW.deploymentId,firstExecution:'Hosted acceptance is complete; no execution authorized by this record.'}:{})},'exact Preview identity without execution authority');
-  expect(Object.keys(t).sort(),['schemaVersion','baseSha','commit','files',...(correction?['dependencyOrderCorrectionBaseSha']:[]),...(hostedTestCorrection?['hostedEvidenceTestCorrectionBaseSha']:[]),...(readinessCorrection?['preactivationReadinessCorrectionBaseSha']:[]),...(closure?['preactivationClosureBaseSha']:[]),...(harnessCorrection?['preactivationHarnessCorrectionBaseSha']:[]),...(seedRerunCorrection?['preactivationLegalAidSeedRerunCorrectionBaseSha']:[]),...(legalAidHarnessSuccessor?['preactivationLegalAidHarnessSuccessorBaseSha']:[]),...(relationshipsCorrection?['preactivationLegalAidRelationshipsCorrectionBaseSha']:[]),...(productionLegalAidProofCorrection?['preactivationProductionLegalAidProofCorrectionBaseSha']:[]),...(restageCorrection?['preactivationProductionRestageBaseSha']:[]),...(restageTransportCorrection?['preactivationRestageTransportBaseSha']:[]),...(restageRoutingCorrection?['preactivationRestageRoutingBaseSha']:[]),...(restageBinding?['preactivationRestageBindingBaseSha']:[]),...(smokeReset?['preactivationSmokeResetBaseSha']:[]),...(smokeEvidence?['preactivationSmokeEvidenceBaseSha']:[]),...(activationAuthorization?['activationAuthorizationBaseSha']:[])].sort(),'no inherited tools correction scope');
+  expect(Object.keys(t).sort(),['schemaVersion','baseSha','commit','files',...(correction?['dependencyOrderCorrectionBaseSha']:[]),...(hostedTestCorrection?['hostedEvidenceTestCorrectionBaseSha']:[]),...(readinessCorrection?['preactivationReadinessCorrectionBaseSha']:[]),...(closure?['preactivationClosureBaseSha']:[]),...(harnessCorrection?['preactivationHarnessCorrectionBaseSha']:[]),...(seedRerunCorrection?['preactivationLegalAidSeedRerunCorrectionBaseSha']:[]),...(legalAidHarnessSuccessor?['preactivationLegalAidHarnessSuccessorBaseSha']:[]),...(relationshipsCorrection?['preactivationLegalAidRelationshipsCorrectionBaseSha']:[]),...(productionLegalAidProofCorrection?['preactivationProductionLegalAidProofCorrectionBaseSha']:[]),...(restageCorrection?['preactivationProductionRestageBaseSha']:[]),...(restageTransportCorrection?['preactivationRestageTransportBaseSha']:[]),...(restageRoutingCorrection?['preactivationRestageRoutingBaseSha']:[]),...(restageBinding?['preactivationRestageBindingBaseSha']:[]),...(smokeReset?['preactivationSmokeResetBaseSha']:[]),...(smokeEvidence?['preactivationSmokeEvidenceBaseSha']:[]),...(activationAuthorization?['activationAuthorizationBaseSha']:[]),...(artifactIsolation?['activationArtifactIsolationBaseSha']:[])].sort(),'no inherited tools correction scope');
   return {current:true,status:'CURRENT',hostedAcceptanceStatus:candidate.hostedAcceptanceStatus,releaseStatus:candidate.status,previewExecution:'held',productionAuthorized:productionScoped,productionPhases:preactivation?[...PREACTIVATION_PHASES,...(activationAuthorization?['activate']:[])]:preflightOnly?['preflight']:[],reasons:[]};
  }catch(error){return {current:false,status:'STALE_OR_UNVERIFIED',reasons:[error.message]};}
 }

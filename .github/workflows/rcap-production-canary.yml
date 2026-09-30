@@ -239,7 +239,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: rcap-production-smoke-${{ env.PRODUCTION_SMOKE_RUN_ID }}
-          path: prior-production-smoke-evidence
+          path: ${{ runner.temp }}/rcap-production-smoke-${{ env.PRODUCTION_SMOKE_RUN_ID }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
           run-id: ${{ env.PRODUCTION_SMOKE_RUN_ID }}
 
@@ -247,6 +247,7 @@ jobs:
         if: inputs.phase == 'activate'
         env:
           RCAP_PRODUCTION_PHASE: "activate"
+          RCAP_PRODUCTION_SMOKE_EVIDENCE_FILE: ${{ runner.temp }}/rcap-production-smoke-${{ env.PRODUCTION_SMOKE_RUN_ID }}/production-canary-smoke.json
           RCAP_APPLICATION_SHA: ${{ inputs.application_sha }}
           RCAP_WORKER_SOURCE_SHA: ${{ inputs.worker_source_sha }}
           RCAP_WORKER_DIGEST: ${{ inputs.worker_digest }}
