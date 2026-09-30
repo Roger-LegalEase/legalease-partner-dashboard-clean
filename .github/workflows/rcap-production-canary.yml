@@ -9,7 +9,7 @@ on:
   workflow_call:
     inputs:
       phase:
-        description: "preflight, clinic_migrate, forward_chain_readback, forward_chain_migrate, legal_aid_readback, legal_aid_migrate, smoke, or activate"
+        description: "preflight, restage, clinic_migrate, forward_chain_readback, forward_chain_migrate, legal_aid_readback, legal_aid_migrate, smoke, or activate"
         required: true
         type: string
       application_sha:
@@ -63,7 +63,7 @@ jobs:
           WORKFLOW_SHA: ${{ github.sha }}
         run: |
           set -euo pipefail
-          case "$INPUT_PHASE" in preflight|clinic_migrate|forward_chain_readback|forward_chain_migrate|legal_aid_readback|legal_aid_migrate|smoke|activate) ;; *) echo "::error::unsupported Production phase"; exit 1 ;; esac
+          case "$INPUT_PHASE" in restage|preflight|clinic_migrate|forward_chain_readback|forward_chain_migrate|legal_aid_readback|legal_aid_migrate|smoke|activate) ;; *) echo "::error::unsupported Production phase"; exit 1 ;; esac
           printf '%s' "$INPUT_APPLICATION_SHA" | grep -Eq '^[0-9a-f]{40}$' || { echo "::error::application SHA must be full"; exit 1; }
           printf '%s' "$INPUT_WORKER_SOURCE_SHA" | grep -Eq '^[0-9a-f]{40}$' || { echo "::error::worker source SHA must be full"; exit 1; }
           printf '%s' "$INPUT_WORKER_DIGEST" | grep -Eq '^sha256:[0-9a-f]{64}$' || { echo "::error::worker digest must be immutable"; exit 1; }
@@ -138,6 +138,7 @@ jobs:
           node scripts/test-rcap-production-activation-mutations.mjs
 
       - name: Pull and identify the accepted worker by immutable digest
+        if: inputs.phase != 'restage'
         run: |
           set -euo pipefail
           echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin >/dev/null
@@ -158,6 +159,19 @@ jobs:
           RCAP_TOOLS_SHA: ${{ inputs.tools_sha }}
           RCAP_WORKER_SOURCE_SHA: ${{ inputs.worker_source_sha }}
           RCAP_WORKER_DIGEST: ${{ inputs.worker_digest }}
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
+        run: node scripts/rcap-production-canary.mjs
+
+      - name: Verify bounded restage mutation and runtime controls
+        if: inputs.phase == 'restage'
+        run: node scripts/test-rcap-production-canary-mutations.mjs
+
+      - name: Create or reuse the authorized post-key Production replacement without aliases
+        if: inputs.phase == 'restage'
+        env:
+          RCAP_PRODUCTION_PHASE: "restage"
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
           VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
