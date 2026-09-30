@@ -181,9 +181,9 @@ test('seed successor binding refuses wrong base, extra paths, changed prior hash
  const base='652793bb1469192ae3ec8c6dbdb5ae8402c05743';
  const toolsPath='data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json';
  const prior=JSON.parse(execFileSync('git',['show',`${base}:${toolsPath}`],{encoding:'utf8'}));
- const binding=JSON.parse(fs.readFileSync(toolsPath));
+ const binding=JSON.parse(execFileSync('git',['show',`ac9befc5972ebd24e5f1aba2e07ee9081d554698:${toolsPath}`],{encoding:'utf8'}));
  const source=fs.readFileSync('scripts/grade-a-launch-control/verify-release-candidate-binding.mjs','utf8');
- const scope=source.slice(source.indexOf('  if(seedRerunCorrection){'),source.indexOf('  }else if(harnessCorrection){'))+'\n}';
+ const scope=source.slice(source.indexOf('if(seedRerunCorrection){'),source.indexOf('  }else if(harnessCorrection){'))+'\n}';
  const ancestry=source.slice(source.indexOf("  const head=git(['rev-parse','HEAD']);",source.indexOf('function verifyGenerationBinding')),source.indexOf('  expect(Object.keys(t.files).sort()',source.indexOf('function verifyGenerationBinding')));
  const files=[toolsPath,'scripts/grade-a-launch-control/verify-release-candidate-binding.mjs','scripts/rcap-hosted-legal-aid-seed.mjs','scripts/rcap-hosted-legal-aid-startup.test.mjs'];
  const head='a'.repeat(40);

@@ -17,6 +17,7 @@ import {
 } from "./rcap-hosted-acceptance-vercel-identity.mjs";
 
 import { requireProductionMigrationRelease } from './rcap-production-migration-contract.mjs';
+import { readProductionEnvironmentMetadataSha256 } from './rcap-production-environment-metadata.mjs';
 const RELEASE_CANDIDATE = JSON.parse(fs.readFileSync(new URL('../data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json', import.meta.url), 'utf8'));
 const APPLICATION_SHA = RELEASE_CANDIDATE.applicationSha;
 const WORKER_SOURCE_SHA = RELEASE_CANDIDATE.workerSourceSha;
@@ -333,6 +334,14 @@ try {
       && staged.json?.meta?.rcapWorkerDigest === WORKER_DIGEST,
     "READY staged deployment carries exact application and worker metadata"
   );
+
+  const currentProductionEnvironmentMetadataSha256 = await readProductionEnvironmentMetadataSha256(vercel, identity.projectId);
+  record(
+    "staged_production_environment_metadata_is_current",
+    staged.json?.meta?.rcapProductionEnvironmentMetadataSha256 === currentProductionEnvironmentMetadataSha256,
+    "staged deployment matches current Production environment metadata SHA-256"
+  );
+  evidence.productionEnvironmentMetadataSha256 = currentProductionEnvironmentMetadataSha256;
 
   const currentIds = new Set();
   for (const domain of (Array.isArray(domains.json?.domains) ? domains.json.domains : [])) {

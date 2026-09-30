@@ -24,6 +24,7 @@ import {
 } from "./rcap-hosted-acceptance-vercel-identity.mjs";
 
 import { requireProductionMigrationRelease } from './rcap-production-migration-contract.mjs';
+import { readProductionEnvironmentMetadataSha256 } from './rcap-production-environment-metadata.mjs';
 const RELEASE_CANDIDATE = JSON.parse(fs.readFileSync(new URL('../data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json', import.meta.url), 'utf8'));
 const APPLICATION_SHA = RELEASE_CANDIDATE.applicationSha;
 const WORKER_SOURCE_SHA = RELEASE_CANDIDATE.workerSourceSha;
@@ -113,28 +114,6 @@ async function getJson(url, token) {
   });
   const text = await response.text();
   return { status: response.status, ok: response.ok, json: parseJson(text) };
-}
-
-function targetList(entry) {
-  return (Array.isArray(entry?.target) ? entry.target : [entry?.target].filter(Boolean))
-    .filter((target) => typeof target === "string")
-    .sort();
-}
-
-function safeEnvironmentMetadataHash(entries) {
-  const safe = entries.map((entry) => ({
-    id: entry?.id ?? null,
-    configurationId: entry?.configurationId ?? null,
-    key: entry?.key ?? null,
-    type: entry?.type ?? null,
-    target: targetList(entry),
-    gitBranch: entry?.gitBranch ?? null,
-    customEnvironmentIds: Array.isArray(entry?.customEnvironmentIds)
-      ? [...entry.customEnvironmentIds].sort()
-      : [],
-    updatedAt: entry?.updatedAt ?? null
-  })).sort((left, right) => JSON.stringify(left).localeCompare(JSON.stringify(right)));
-  return sha256(JSON.stringify(safe));
 }
 
 function normalizeEmbeddedText(value) {
@@ -300,7 +279,8 @@ async function resolveCurrentProduction(vercel, projectId) {
   };
 }
 
-async function listExactStagedCandidates(vercel, projectId, currentProductionId) {
+async function listExactStagedCandidates(vercel, projectId, currentProductionId, currentProductionEnvironmentMetadataSha256) {
+  if (!/^[a-f0-9]{64}$/.test(currentProductionEnvironmentMetadataSha256 ?? "")) throw new Error("current Production environment metadata SHA-256 is required");
   const listed = await vercel(
     "/v6/deployments?projectId=" + encodeURIComponent(projectId)
       + "&target=production&state=READY&limit=100"
@@ -316,7 +296,8 @@ async function listExactStagedCandidates(vercel, projectId, currentProductionId)
       && meta.rcapStagedProduction === "true"
       && meta.rcapApplicationSha === APPLICATION_SHA
       && meta.rcapWorkerSourceSha === WORKER_SOURCE_SHA
-      && meta.rcapWorkerDigest === WORKER_DIGEST;
+      && meta.rcapWorkerDigest === WORKER_DIGEST
+      && meta.rcapProductionEnvironmentMetadataSha256 === currentProductionEnvironmentMetadataSha256;
   });
 }
 
@@ -342,7 +323,8 @@ async function runVercelCli(args, cliEnvironment) {
 // the project's Production environment; `autoAssignCustomDomains: false` is the
 // REST form of `--skip-domain`, so no Production domain moves. Exactly one
 // creation call is made; a failed build or a timeout never retries.
-async function createStagedProduction(vercelIdentity, vercel) {
+async function createStagedProduction(vercelIdentity, vercel, currentProductionEnvironmentMetadataSha256) {
+  if (!/^[a-f0-9]{64}$/.test(currentProductionEnvironmentMetadataSha256 ?? "")) throw new Error("current Production environment metadata SHA-256 is required");
   const body = {
     name: HOSTED_VERCEL_PROJECT_NAME,
     project: vercelIdentity.projectId,
@@ -354,7 +336,8 @@ async function createStagedProduction(vercelIdentity, vercel) {
       rcapApplicationSha: APPLICATION_SHA,
       rcapWorkerSourceSha: WORKER_SOURCE_SHA,
       rcapWorkerDigest: WORKER_DIGEST,
-      rcapToolsSha: INPUT_TOOLS_SHA
+      rcapToolsSha: INPUT_TOOLS_SHA,
+      rcapProductionEnvironmentMetadataSha256: currentProductionEnvironmentMetadataSha256
     }
   };
   const created = await fetch(hostedVercelScopedUrl("/v13/deployments", vercelIdentity), {
@@ -437,13 +420,7 @@ try {
     throw new Error("Vercel Production project identity could not be established");
   }
 
-  const envBeforeResult = await vercel(
-    "/v9/projects/" + encodeURIComponent(vercelIdentity.projectId) + "/env"
-  );
-  if (envBeforeResult.status !== 200 || !Array.isArray(envBeforeResult.json?.envs)) {
-    throw new Error("Vercel environment metadata inventory could not be read");
-  }
-  const environmentHashBefore = safeEnvironmentMetadataHash(envBeforeResult.json.envs);
+  const environmentHashBefore = await readProductionEnvironmentMetadataSha256(vercel, vercelIdentity.projectId);
 
   const productionBefore = await resolveCurrentProduction(vercel, vercelIdentity.projectId);
   if (!record(
@@ -457,13 +434,14 @@ try {
   let stagedCandidates = await listExactStagedCandidates(
     vercel,
     vercelIdentity.projectId,
-    productionBefore.deploymentId
+    productionBefore.deploymentId,
+    environmentHashBefore
   );
   let staged = null;
   if (stagedCandidates.length === 1) {
     staged = await exactDeploymentDetail(vercel, deploymentId(stagedCandidates[0]));
   } else if (stagedCandidates.length === 0) {
-    staged = await createStagedProduction(vercelIdentity, vercel);
+    staged = await createStagedProduction(vercelIdentity, vercel, environmentHashBefore);
     evidence.stagedDeploymentCreated = true;
   } else {
     throw new Error("more than one exact staged Production candidate exists");
@@ -482,7 +460,8 @@ try {
     && stagedMeta.rcapStagedProduction === "true"
     && stagedMeta.rcapApplicationSha === APPLICATION_SHA
     && stagedMeta.rcapWorkerSourceSha === WORKER_SOURCE_SHA
-    && stagedMeta.rcapWorkerDigest === WORKER_DIGEST;
+    && stagedMeta.rcapWorkerDigest === WORKER_DIGEST
+    && stagedMeta.rcapProductionEnvironmentMetadataSha256 === environmentHashBefore;
   if (!record(
     "staged_production_deployment_is_exact",
     stagedExact,
@@ -550,13 +529,7 @@ try {
     throw new Error("Production and acceptance Supabase identities overlap");
   }
 
-  const envAfterResult = await vercel(
-    "/v9/projects/" + encodeURIComponent(vercelIdentity.projectId) + "/env"
-  );
-  if (envAfterResult.status !== 200 || !Array.isArray(envAfterResult.json?.envs)) {
-    throw new Error("post-staging environment metadata inventory could not be read");
-  }
-  const environmentHashAfter = safeEnvironmentMetadataHash(envAfterResult.json.envs);
+  const environmentHashAfter = await readProductionEnvironmentMetadataSha256(vercel, vercelIdentity.projectId);
   const productionAfter = await resolveCurrentProduction(vercel, vercelIdentity.projectId);
 
   const envUnchanged = environmentHashBefore === environmentHashAfter;
@@ -568,9 +541,9 @@ try {
   if (!record(
     "production_environment_metadata_unchanged",
     envUnchanged,
-    "project environment metadata SHA-256 is unchanged"
+    "Production environment metadata SHA-256 is unchanged"
   )) {
-    throw new Error("Vercel project environment metadata changed during preflight");
+    throw new Error("Vercel Production environment metadata changed during preflight");
   }
   if (!record(
     "production_aliases_unchanged",
