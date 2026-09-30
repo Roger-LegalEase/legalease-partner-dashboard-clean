@@ -92,7 +92,7 @@ export const RESTAGE_AUTHORITY = Object.freeze({
     "conclusion": "success"
   }
 });
-export const PREACTIVATION_NOTE = 'I authorize the current frozen Grade A release to proceed through the bounded pre-activation Production sequence only: Production readbacks, only the migrations or key creation proven necessary by those readbacks, deployment of the already-accepted immutable worker, and production_smoke. This does not authorize production_activate, public alias movement, public verification, save-transition live verification, zero-dollar live order, or any other live Production customer transaction. Bind preflight run 36600904357, preserve rollback deployment dpl_5rpkFUKgmp5cGwPaLAzHxx1nUuPK, and use staged deployment dpl_4Kmyt51JN8P4D7iB1GC3VaZcN2hp.';
+export const PREACTIVATION_NOTE = 'I authorize the current frozen Grade A release to proceed through the bounded pre-activation Production sequence only: Production readbacks, only the migrations or key creation proven necessary by those readbacks, deployment of the already-accepted immutable worker, and production_smoke. This does not authorize production_activate, public alias movement, public verification, save-transition live verification, zero-dollar live order, or any other live Production customer transaction. Bind preflight run 36600904357, preserve rollback deployment dpl_5rpkFUKgmp5cGwPaLAzHxx1nUuPK, and use staged deployment dpl_3j4Dr4GHyXmwmrFCTZ6orNNNP7sc bound to successful restage run 36764240971 under the existing restage authority.';
 export const PREACTIVATION_SCOPE = 'Hosted accepted; successful Production preflight bound. Only the bounded pre-activation sequence is authorized, subject to the existing independent readback-derived write controls. Activation, public verification, alias movement and live customer transactions remain held.';
 export const BOUND_PREFLIGHT = Object.freeze({
  runId:36600904357, runAttempt:1, artifactId:11048744402,
@@ -100,7 +100,23 @@ export const BOUND_PREFLIGHT = Object.freeze({
  toolsSha:PREACTIVATION_BASE, conclusion:'success',
  evidencePath:'hosted-acceptance-evidence/production-preflight-36600904357',
 });
-export const STAGED_DEPLOYMENT = 'dpl_4Kmyt51JN8P4D7iB1GC3VaZcN2hp';
+export const STAGED_DEPLOYMENT = 'dpl_3j4Dr4GHyXmwmrFCTZ6orNNNP7sc';
+export const BOUND_RESTAGE = Object.freeze({
+  "runId": 36764240971,
+  "runAttempt": 1,
+  "conclusion": "success",
+  "artifactId": 11119334551,
+  "artifactName": "rcap-production-restage-36764240971",
+  "artifactZipSha256": "sha256:4d2fa07b0386090b11a94fcf09dff4ccb5fb2bdd1449a1c09b16b49d25f3794d",
+  "replacementStagedDeploymentId": "dpl_3j4Dr4GHyXmwmrFCTZ6orNNNP7sc",
+  "rollbackDeploymentId": "dpl_5rpkFUKgmp5cGwPaLAzHxx1nUuPK",
+  "applicationSha": "e312a5efa7b4882e0fbf61a5ff0ae7891ac23226",
+  "workerSourceSha": "5e04eafd7eaed7e71722862e651fb787ebbd296d",
+  "workerDigest": "sha256:6b6a60fc5b2d0060028526013ce37c69f748e2cccb4cfb10943f2af6cf26cfe1",
+  "toolsSha": "38051f337879cfecbcafb89c2f3816c2c4a6c456",
+  "productionProjectRef": "wwtwtsmywnckfkdaqqeg",
+  "evidencePath": "hosted-acceptance-evidence/production-restage-36764240971"
+});
 export const ROLLBACK_DEPLOYMENT = 'dpl_5rpkFUKgmp5cGwPaLAzHxx1nUuPK';
 export function assertPreactivationAuthorization(candidate) {
  assert.equal(candidate.status,PREACTIVATION_STATUS,'bounded pre-activation status');
@@ -119,7 +135,7 @@ export function assertPreactivationAuthorization(candidate) {
   productionProjectRef:PRODUCTION_PROJECT_REF,recordedBy:PREFLIGHT_OWNER,recordedAt:a.recordedAt,
   phases:[...PREACTIVATION_PHASES],note:PREACTIVATION_NOTE,
   stagedDeploymentId:STAGED_DEPLOYMENT,rollbackDeploymentId:ROLLBACK_DEPLOYMENT,
-  preflight:{...BOUND_PREFLIGHT},restage:{...RESTAGE_AUTHORITY,recordedAt:a.restage.recordedAt},
+  preflight:{...BOUND_PREFLIGHT},restage:{...RESTAGE_AUTHORITY,recordedAt:a.restage.recordedAt,successfulReceipt:{...BOUND_RESTAGE}},
  },'exact bounded owner authorization and native preflight identity');
  assert.deepEqual(candidate.hostedAcceptance?.preview,{...PREVIEW,...TUPLE,target:null},'accepted Preview control');
  for(const key of ['stagedDeploymentId','rollbackDeploymentId','smokeRunId','smokeArtifactSha256','smokeReceipt','activationReceipt'])

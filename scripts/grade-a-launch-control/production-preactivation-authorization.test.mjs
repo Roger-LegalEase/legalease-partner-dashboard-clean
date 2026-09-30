@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {execFileSync} from 'node:child_process';
 import {createHash} from 'node:crypto';
-import {PREACTIVATION_BASE,PREACTIVATION_STATUS,PREACTIVATION_PHASES,BOUND_PREFLIGHT,assertPreactivationAuthorization,requireProductionPhaseAuthorization} from './production-preflight-authorization.mjs';
+import {PREACTIVATION_BASE,PREACTIVATION_STATUS,PREACTIVATION_PHASES,BOUND_PREFLIGHT,BOUND_RESTAGE,STAGED_DEPLOYMENT,PREACTIVATION_NOTE,assertPreactivationAuthorization,requireProductionPhaseAuthorization} from './production-preflight-authorization.mjs';
 import {PREFLIGHT_EVIDENCE_FILES,loadProductionPreflightDocuments,validateProductionPreflightDocuments,verifyProductionPreflightEvidence} from './verify-production-preflight-evidence.mjs';
 import {HOSTED_EVIDENCE_FILES} from './verify-hosted-acceptance-evidence.mjs';
 import {requireProductionDeploymentBinding} from '../rcap-production-migration-contract.mjs';
@@ -96,8 +96,9 @@ test('prior authority and hosted evidence are preserved; integrated controls ret
  assert.equal(owner.authorizedBy,'Roger Roman');assert.equal(owner.hostedAcceptance.browserRunId,null);
  assert.deepEqual(owner.releaseTuple,Object.fromEntries(['applicationSha','workerSourceSha','workerDigest','workerInputFingerprint','productionProjectRef'].map(k=>[k,candidate[k]])));
  const priorCandidate=JSON.parse(execFileSync('git',['show',`36f1e3f716aca14ba874cfdb3082edf1c8279ffa:${prefix}RELEASE_CANDIDATE_BINDING.json`],{encoding:'utf8'}));
- assert.deepEqual(candidate,{...priorCandidate,productionAuthorization:{...priorCandidate.productionAuthorization,phases:[...priorCandidate.productionAuthorization.phases,'restage'],restage:candidate.productionAuthorization.restage}});
- assert.equal(candidate.productionAuthorization.stagedDeploymentId,'dpl_4Kmyt51JN8P4D7iB1GC3VaZcN2hp');
+ assert.deepEqual(candidate,{...priorCandidate,productionAuthorization:{...priorCandidate.productionAuthorization,phases:[...priorCandidate.productionAuthorization.phases,'restage'],note:PREACTIVATION_NOTE,stagedDeploymentId:STAGED_DEPLOYMENT,restage:candidate.productionAuthorization.restage}});
+ assert.equal(candidate.productionAuthorization.stagedDeploymentId,'dpl_3j4Dr4GHyXmwmrFCTZ6orNNNP7sc');
+ assert.equal(candidate.productionAuthorization.restage.oldStagedDeploymentId,'dpl_4Kmyt51JN8P4D7iB1GC3VaZcN2hp');
  assert.equal(candidate.productionAuthorization.rollbackDeploymentId,'dpl_5rpkFUKgmp5cGwPaLAzHxx1nUuPK');
  const forwardPath='scripts/rcap-production-forward-chain-migrate.mjs',forward=fs.readFileSync(forwardPath,'utf8'),priorForward=priorControl(forwardPath);
  const forwardImport="import { loadCorrection, requireForwardCorrectionAuthorization, stateFingerprint } from './rcap-production-packet-forward-correction.mjs';\n";
@@ -113,3 +114,63 @@ console.log(`Pre-activation boundary: ${required.length} permitted phases; ${den
 
 for(const key of ['marker','oldStagedDeploymentId','rollbackDeploymentId','authorizedBy','note','keyCreationReceipt','legalAidMigrationReceipt','recordedAt'])test(`restage refuses changed owner authority ${key}`,()=>{const c=clone();c.productionAuthorization.restage[key]='wrong';assert.throws(()=>requireProductionPhaseAuthorization(c,'restage'));});
 test('restage is the only new phase; absent owner restage authority refuses',()=>{const c=clone();delete c.productionAuthorization.restage;assert.throws(()=>requireProductionPhaseAuthorization(c,'restage'));assert.throws(()=>requireProductionPhaseAuthorization(candidate,'activate'));assert.throws(()=>requireProductionPhaseAuthorization(candidate,'production_restage'));});
+
+// These mutation fixtures are copies of captured native evidence, never live calls.
+import {loadProductionRestageDocuments,validateProductionRestageDocuments,verifyProductionRestageEvidence,RESTAGE_EVIDENCE_FILES} from './verify-production-preflight-evidence.mjs';
+import os from 'node:os';
+import path from 'node:path';
+import vm from 'node:vm';
+const restageDocuments=loadProductionRestageDocuments(process.cwd());
+test('exact successful restage receipt binds the replacement without changing historical preflight',()=>{
+ assert.deepEqual(verifyProductionRestageEvidence(process.cwd()),BOUND_RESTAGE);
+ assert.deepEqual(candidate.productionAuthorization.restage.successfulReceipt,BOUND_RESTAGE);
+ assert.equal(documents.body.deployments.stagedProduction,candidate.productionAuthorization.restage.oldStagedDeploymentId);
+ assert.notEqual(documents.body.deployments.stagedProduction,candidate.productionAuthorization.stagedDeploymentId);
+ assert.equal(requireProductionDeploymentBinding(candidate,'smoke'),candidate.productionAuthorization);
+});
+for(const key of Object.keys(BOUND_RESTAGE))test(`smoke rejects substituted successful restage ${key}`,()=>{
+ const c=clone();c.productionAuthorization.restage.successfulReceipt[key]='wrong';
+ assert.throws(()=>requireProductionPhaseAuthorization(c,'smoke'),refusal);
+ assert.throws(()=>requireProductionDeploymentBinding(c,'smoke'));
+});
+for(const [name,mutate] of [
+ ['missing successful receipt',c=>delete c.productionAuthorization.restage.successfulReceipt],
+ ['failed conclusion',c=>c.productionAuthorization.restage.successfulReceipt.conclusion='failure'],
+ ['old staged target',c=>c.productionAuthorization.stagedDeploymentId=c.productionAuthorization.restage.oldStagedDeploymentId],
+ ['arbitrary replacement in both locations',c=>{c.productionAuthorization.stagedDeploymentId='dpl_arbitrary';c.productionAuthorization.restage.successfulReceipt.replacementStagedDeploymentId='dpl_arbitrary';}],
+])test(`smoke refuses ${name}`,()=>{const c=clone();mutate(c);assert.throws(()=>requireProductionPhaseAuthorization(c,'smoke'),refusal);assert.throws(()=>requireProductionDeploymentBinding(c,'smoke'));});
+for(const [name,mutate]of [
+ ['run ID',d=>d.run.id++],['tools',d=>d.run.head_sha='0'.repeat(40)],['conclusion',d=>d.run.conclusion='failure'],
+ ['artifact ID',d=>d.artifact.id++],['artifact digest',d=>d.artifact.digest='sha256:'+'0'.repeat(64)],['artifact association',d=>d.artifact.workflow_run.id++],
+ ...['replacementStagedDeploymentId','rollbackDeploymentId','applicationSha','workerSourceSha','workerDigest','productionProjectRef','oldStagedDeploymentId'].map(k=>[k,d=>d.body[k]='wrong']),
+ ['failed receipt',d=>d.body.passed=false],['missing verdicts',d=>d.body.verdicts=[]],['failed verdict',d=>d.body.verdicts[0].passed=false],
+ ['changed routing',d=>d.body.routingStateAfter[0].deploymentId='dpl_arbitrary'],['changed environment',d=>d.body.controlHashes.environmentAfter='0'.repeat(64)],
+ ...['publicAliasesChanged','productionDatabaseMutated','workerChanged','migrationReplayed','keysCreated','environmentMetadataChanged'].map(k=>[k,d=>d.body[k]=true]),
+])test(`native restage refuses ${name}`,()=>{const d=structuredClone(restageDocuments);mutate(d);assert.throws(()=>validateProductionRestageDocuments(d));});
+test('missing or changed native receipt bytes refuse before the release gate can be current',()=>{
+ const root=fs.mkdtempSync(path.join(os.tmpdir(),'restage-evidence-'));
+ for(const rel of RESTAGE_EVIDENCE_FILES){fs.mkdirSync(path.dirname(path.join(root,rel)),{recursive:true});fs.copyFileSync(rel,path.join(root,rel));}
+ assert.deepEqual(verifyProductionRestageEvidence(root),BOUND_RESTAGE);
+ for(const rel of RESTAGE_EVIDENCE_FILES){const p=path.join(root,rel),b=fs.readFileSync(p);fs.appendFileSync(p,' ');assert.throws(()=>verifyProductionRestageEvidence(root),/native restage bytes/);fs.unlinkSync(p);assert.throws(()=>verifyProductionRestageEvidence(root));fs.writeFileSync(p,b);}
+ fs.rmSync(root,{recursive:true});
+});
+test('real smoke target declarations consume the bound replacement and rollback; arbitrary input cannot override them',async()=>{
+ const source=fs.readFileSync('scripts/rcap-production-canary-smoke.mjs','utf8');
+ const start=source.indexOf('const APPLICATION_SHA ='),end=source.indexOf('const REQUIRED_MIGRATION_HASHES');
+ const context={RELEASE_CANDIDATE:candidate};
+ vm.runInNewContext(source.slice(start,end)+';globalThis.resolved={APPLICATION_SHA,WORKER_SOURCE_SHA,WORKER_DIGEST,STAGED_DEPLOYMENT_ID,ROLLBACK_DEPLOYMENT_ID};',context);
+ assert.equal(context.resolved.STAGED_DEPLOYMENT_ID,BOUND_RESTAGE.replacementStagedDeploymentId);
+ assert.equal(context.resolved.ROLLBACK_DEPLOYMENT_ID,BOUND_RESTAGE.rollbackDeploymentId);
+ for(const [key,field]of [['APPLICATION_SHA','applicationSha'],['WORKER_SOURCE_SHA','workerSourceSha'],['WORKER_DIGEST','workerDigest']])assert.equal(context.resolved[key],BOUND_RESTAGE[field]);
+ assert.ok(source.indexOf('requireProductionMigrationRelease(ROOT_DIR, process.env)')<source.indexOf('await resolveHostedVercelIdentity('),'full release gate precedes service calls');
+ const calls=[];
+ const boundary=source.slice(source.indexOf('  requireProductionMigrationRelease(ROOT_DIR, process.env);'),source.indexOf('  record(\n    "exact_staged_application_worker_identity"'));
+ Object.assign(context,{ROOT_DIR:process.cwd(),process:{env:{RCAP_STAGED_DEPLOYMENT_ID:'dpl_arbitrary'}},VERCEL_TOKEN:'synthetic',
+  requireProductionMigrationRelease:()=>{requireProductionPhaseAuthorization(candidate,'smoke');requireProductionDeploymentBinding(candidate,'smoke');calls.push('release-gate');},
+  resolveHostedVercelIdentity:async()=>({projectId:'synthetic-project'}),hostedVercelScopedUrl:p=>p,
+  getJson:async url=>{calls.push(url);return {status:200,json:{}};}});
+ await vm.runInNewContext('(async()=>{'+boundary+'})()',context);
+ assert.deepEqual(calls,['release-gate','/v9/projects/synthetic-project','/v13/deployments/'+BOUND_RESTAGE.replacementStagedDeploymentId,'/v13/deployments/'+BOUND_RESTAGE.rollbackDeploymentId,'/v9/projects/synthetic-project/domains?limit=100']);
+ assert.equal(source.includes(candidate.productionAuthorization.restage.oldStagedDeploymentId),false);
+ for(const phase of ['activate','public_verify','alias_move'])assert.throws(()=>requireProductionPhaseAuthorization(candidate,phase),refusal);
+});

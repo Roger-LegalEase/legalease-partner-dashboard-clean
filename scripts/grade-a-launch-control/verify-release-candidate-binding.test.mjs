@@ -1,3 +1,4 @@
+import {BOUND_RESTAGE,STAGED_DEPLOYMENT,PREACTIVATION_NOTE} from './production-preflight-authorization.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
@@ -73,7 +74,7 @@ test('restage successor preserves exact twelve-path delta, all earlier hashes, o
  const vm=await import('node:vm'),base='36f1e3f716aca14ba874cfdb3082edf1c8279ffa',toolsPath='data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json',candidatePath='data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json';
  const prior=JSON.parse(execFileSync('git',['show',`${base}:${toolsPath}`],{encoding:'utf8'}));
  const priorCandidate=JSON.parse(execFileSync('git',['show',`${base}:${candidatePath}`],{encoding:'utf8'}));
- const binding=JSON.parse(execFileSync('git',['show','0eb8fbd6032f3f2d906f32e50c79e9fb6a2c76f8:'+toolsPath],{encoding:'utf8'})),candidate=JSON.parse(fs.readFileSync(candidatePath));
+ const binding=JSON.parse(execFileSync('git',['show','0eb8fbd6032f3f2d906f32e50c79e9fb6a2c76f8:'+toolsPath],{encoding:'utf8'})),candidate=JSON.parse(execFileSync('git',['show','38051f337879cfecbcafb89c2f3816c2c4a6c456:'+candidatePath],{encoding:'utf8'}));
  const source=fs.readFileSync('scripts/grade-a-launch-control/verify-release-candidate-binding.mjs','utf8');
  const scope=source.slice(source.indexOf('if(restageCorrection){'),source.indexOf('  }else if(productionLegalAidProofCorrection){'))+'\n}';
  const ancestry=source.slice(source.indexOf("  const head=git(['rev-parse','HEAD']);",source.indexOf('function verifyGenerationBinding')),source.indexOf('  expect(Object.keys(t.files).sort()',source.indexOf('function verifyGenerationBinding')));
@@ -94,7 +95,7 @@ test('restage transport successor preserves six paths, authority, earlier hashes
  const vm=await import('node:vm'),base='0eb8fbd6032f3f2d906f32e50c79e9fb6a2c76f8',toolsPath='data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json',candidatePath='data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json';
  const prior=JSON.parse(execFileSync('git',['show',`${base}:${toolsPath}`],{encoding:'utf8'}));
  const priorCandidate=JSON.parse(execFileSync('git',['show',`${base}:${candidatePath}`],{encoding:'utf8'}));
- const binding=JSON.parse(execFileSync('git',['show','8d77414e30b7fe26084e7ab525ad8d81d82ae692:'+toolsPath],{encoding:'utf8'})),candidate=JSON.parse(fs.readFileSync(candidatePath));
+ const binding=JSON.parse(execFileSync('git',['show','8d77414e30b7fe26084e7ab525ad8d81d82ae692:'+toolsPath],{encoding:'utf8'})),candidate=JSON.parse(execFileSync('git',['show','38051f337879cfecbcafb89c2f3816c2c4a6c456:'+candidatePath],{encoding:'utf8'}));
  const source=fs.readFileSync('scripts/grade-a-launch-control/verify-release-candidate-binding.mjs','utf8');
  const scope=source.slice(source.indexOf('if(restageTransportCorrection){'),source.indexOf('  }else if(restageCorrection){'))+'\n}';
  const ancestry=source.slice(source.indexOf("  const head=git(['rev-parse','HEAD']);",source.indexOf('function verifyGenerationBinding')),source.indexOf('  expect(Object.keys(t.files).sort()',source.indexOf('function verifyGenerationBinding')));
@@ -115,7 +116,7 @@ test('restage routing successor preserves declared paths, authority, earlier has
  const vm=await import('node:vm'),base='8d77414e30b7fe26084e7ab525ad8d81d82ae692',toolsPath='data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json',candidatePath='data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json';
  const prior=JSON.parse(execFileSync('git',['show',`${base}:${toolsPath}`],{encoding:'utf8'}));
  const priorCandidate=JSON.parse(execFileSync('git',['show',`${base}:${candidatePath}`],{encoding:'utf8'}));
- const binding=JSON.parse(fs.readFileSync(toolsPath)),candidate=JSON.parse(fs.readFileSync(candidatePath));
+ const binding=JSON.parse(execFileSync('git',['show','38051f337879cfecbcafb89c2f3816c2c4a6c456:'+toolsPath],{encoding:'utf8'})),candidate=JSON.parse(execFileSync('git',['show','38051f337879cfecbcafb89c2f3816c2c4a6c456:'+candidatePath],{encoding:'utf8'}));
  const source=fs.readFileSync('scripts/grade-a-launch-control/verify-release-candidate-binding.mjs','utf8');
  const scope=source.slice(source.indexOf('if(restageRoutingCorrection){'),source.indexOf('  }else if(restageTransportCorrection){'))+'\n}';
  const ancestry=source.slice(source.indexOf("  const head=git(['rev-parse','HEAD']);",source.indexOf('function verifyGenerationBinding')),source.indexOf('  expect(Object.keys(t.files).sort()',source.indexOf('function verifyGenerationBinding')));
@@ -130,4 +131,41 @@ test('restage routing successor preserves declared paths, authority, earlier has
  assert.throws(()=>run({mutate:(_b,c)=>c.productionAuthorization.phases.push('activate')}),/release authority unchanged/);
  assert.throws(()=>run({mutate:b=>b.successorTools.files['scripts/rcap-production-legal-aid-migrate.mjs']='0'.repeat(64)}),/preserved tools/);
  assert.throws(()=>run({mutate:b=>delete b.successorTools.preactivationProductionLegalAidProofCorrectionBaseSha}),/only bounded restage routing correction/);
+});
+
+test('successful restage binding preserves exact paths, frozen authority, earlier hashes and sole parent',async()=>{
+ const vm=await import('node:vm'),base='38051f337879cfecbcafb89c2f3816c2c4a6c456',toolsPath='data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json',candidatePath='data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json';
+ const prior=JSON.parse(execFileSync('git',['show',`${base}:${toolsPath}`],{encoding:'utf8'}));
+ const priorCandidate=JSON.parse(execFileSync('git',['show',`${base}:${candidatePath}`],{encoding:'utf8'}));
+ const binding=JSON.parse(fs.readFileSync(toolsPath)),candidate=JSON.parse(fs.readFileSync(candidatePath));
+ const source=fs.readFileSync('scripts/grade-a-launch-control/verify-release-candidate-binding.mjs','utf8');
+ const scope=source.slice(source.indexOf('if(restageBinding){'),source.indexOf('  }else if(restageRoutingCorrection){'))+'\n}';
+ const ancestry=source.slice(source.indexOf("  const head=git(['rev-parse','HEAD']);",source.indexOf('function verifyGenerationBinding')),source.indexOf('  expect(Object.keys(t.files).sort()',source.indexOf('function verifyGenerationBinding')));
+ const files=JSON.parse(source.match(/const RESTAGE_BINDING_FILES=(\[[\s\S]*?\]);/)[1]);assert.equal(files.length,11);const head='a'.repeat(40);
+ function run({mutate=()=>{},delta=files,parents=[head,base]}={}){const b=structuredClone(binding),c=structuredClone(candidate);mutate(b,c);
+ vm.runInNewContext(scope+'\n'+ancestry,{binding:b,candidate:c,t:b.successorTools,toolsPath,preactivation:true,correction:undefined,restageBinding:b.successorTools.preactivationRestageBindingBaseSha,RESTAGE_BINDING_BASE:base,RESTAGE_BINDING_FILES:files,commitBase:base,BOUND_RESTAGE,STAGED_DEPLOYMENT,PREACTIVATION_NOTE,
+ expect:(a,b,m)=>assert.equal(JSON.stringify(a),JSON.stringify(b),m),git:args=>args[0]==='show'?JSON.stringify(args[1].endsWith(candidatePath)?priorCandidate:prior):({diff:delta.join('\n'),'ls-files':'','rev-parse':head,'rev-list':parents.join(' ')})[args[0]]});}
+ run();
+ for(const key of Object.keys(BOUND_RESTAGE))assert.throws(()=>run({mutate:(_b,c)=>c.productionAuthorization.restage.successfulReceipt[key]='wrong'}),/only proven replacement and successful receipt bound/);
+ assert.throws(()=>run({mutate:(_b,c)=>delete c.productionAuthorization.restage.successfulReceipt}),/only proven replacement and successful receipt bound/);
+ assert.throws(()=>run({mutate:(_b,c)=>c.productionAuthorization.stagedDeploymentId=c.productionAuthorization.restage.oldStagedDeploymentId}),/only proven replacement and successful receipt bound/);
+ for(const delta of [files.slice(1),[...files,'src/extra.ts']])assert.throws(()=>run({delta}),/exact successful restage binding paths/);
+ for(const parents of [[head,base,'b'.repeat(40)],[head,'b'.repeat(40)]])assert.throws(()=>run({parents}),/one non-merge tools successor/);
+ assert.throws(()=>run({mutate:b=>b.successorTools.preactivationRestageBindingBaseSha='0'.repeat(40)}),/exact successful restage binding base/);
+ for(const key of ['stagedDeploymentId','rollbackDeploymentId'])assert.throws(()=>run({mutate:(_b,c)=>c.productionAuthorization[key]='dpl_Invented'}),/only proven replacement and successful receipt bound/);
+ assert.throws(()=>run({mutate:(_b,c)=>c.productionAuthorization.phases.push('activate')}),/only proven replacement and successful receipt bound/);
+ assert.throws(()=>run({mutate:b=>b.successorTools.files['scripts/rcap-production-legal-aid-migrate.mjs']='0'.repeat(64)}),/preserved tools/);
+ assert.throws(()=>run({mutate:b=>delete b.successorTools.preactivationProductionLegalAidProofCorrectionBaseSha}),/only bounded successful restage binding/);
+});
+
+test('complete release verifier accepts the exact restage binding and refuses every receipt substitution',()=>{
+ const root=process.cwd(),candidate=JSON.parse(fs.readFileSync('data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json'));
+ const valid=verifyReleaseCandidateBinding(root,candidate);assert.equal(valid.current,true,JSON.stringify(valid));assert.equal(valid.status,'CURRENT');
+ const mutations=[
+  ['old staged ID',c=>c.productionAuthorization.stagedDeploymentId=c.productionAuthorization.restage.oldStagedDeploymentId],
+  ['arbitrary staged ID',c=>c.productionAuthorization.stagedDeploymentId='dpl_arbitrary'],
+  ['missing receipt',c=>delete c.productionAuthorization.restage.successfulReceipt],
+  ...Object.keys(BOUND_RESTAGE).map(k=>[k,c=>c.productionAuthorization.restage.successfulReceipt[k]=k==='conclusion'?'failure':'wrong']),
+ ];
+ for(const [name,mutate]of mutations){const c=structuredClone(candidate);mutate(c);const result=verifyReleaseCandidateBinding(root,c);assert.equal(result.current,false,name);assert.ok(result.reasons.some(r=>r.includes('only proven replacement and successful receipt bound')),`${name}: ${JSON.stringify(result)}`);}
 });
