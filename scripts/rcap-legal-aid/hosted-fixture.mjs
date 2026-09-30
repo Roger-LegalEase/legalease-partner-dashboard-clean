@@ -3,17 +3,16 @@
 // the static verifier so the three cannot drift apart.
 //
 // Everything here is synthetic and nonproduction: reserved .test identities,
-// a fixed event id, and the acceptance copy of the MVLP organization. The
+// a run-scoped event id, and the acceptance copy of the MVLP organization. The
 // Production MVLP organization, its coordinator and any real applicant are
 // never named here.
 
-export const LEGAL_AID_FIXTURE = Object.freeze({
+import { createHash } from "node:crypto";
+
+const SHARED_FIXTURE = Object.freeze({
   partnerSlug: "mvlp",
   handoffPartnerSlug: "mvlp-training-handoff",
   handoffOrganizationName: "MVLP Training Handoff (synthetic)",
-  eventId: "78000000-0000-4000-8000-000000000001",
-  eventSlug: "mvlp-training-clinic-acceptance",
-  eventName: "MVLP Training Clinic (acceptance, synthetic)",
   // Two seats: applicants A and B are received, applicant C is waitlisted.
   capacity: 2,
   // Applicant A is the Clinic Preview participant whose sponsored Mississippi
@@ -45,3 +44,19 @@ export const LEGAL_AID_FIXTURE = Object.freeze({
     NOTARY: ["notary"]
   })
 });
+
+// RFC 4122 UUID v5, with a fixed synthetic namespace. No participant input.
+export function resolveLegalAidFixture(env = process.env) {
+  const runId = env.GITHUB_RUN_ID || "0";
+  const runAttempt = env.GITHUB_RUN_ATTEMPT || "1";
+  if (!/^\d{1,20}$/.test(runId) || !/^[1-9]\d{0,9}$/.test(runAttempt)) throw new Error("Invalid synthetic run namespace");
+  const bytes = createHash("sha1").update(Buffer.from("78000000000040008000000000000001", "hex")).update(`${runId}:${runAttempt}`).digest().subarray(0, 16);
+  bytes[6] = (bytes[6] & 15) | 0x50;
+  bytes[8] = (bytes[8] & 63) | 0x80;
+  const hex = bytes.toString("hex");
+  const eventId = `${hex.slice(0,8)}-${hex.slice(8,12)}-${hex.slice(12,16)}-${hex.slice(16,20)}-${hex.slice(20)}`;
+  return Object.freeze({ ...SHARED_FIXTURE, runId, runAttempt, eventId,
+    eventSlug: `mvlp-training-clinic-${runId}-${runAttempt}`,
+    eventName: `MVLP Training Clinic (synthetic ${hex.slice(0,12)})` });
+}
+export const LEGAL_AID_FIXTURE = resolveLegalAidFixture();

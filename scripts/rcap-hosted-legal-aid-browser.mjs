@@ -26,6 +26,7 @@ import { chromium } from "playwright";
 
 import { prepareHostedAcceptanceEvidenceLayout } from "./rcap-hosted-acceptance-evidence-layout.mjs";
 import { expectedHostedReturnOrigin, hostedVercelScopedUrl, resolveHostedVercelIdentity } from "./rcap-hosted-acceptance-vercel-identity.mjs";
+import { signAll, submitApplication } from "./rcap-legal-aid/hosted-actions.mjs";
 import { LEGAL_AID_FIXTURE as F } from "./rcap-legal-aid/hosted-fixture.mjs";
 import { RESUME } from "./rcap-clinic-resume-contract.mjs";
 import { LEGAL_AID_TABLES } from "./rcap-legal-aid/contract.mjs";
@@ -79,6 +80,8 @@ const evidence = {
   previewUrl: PREVIEW || null,
   previewDeploymentId: DEPLOYMENT_ID || null,
   partnerSlug: F.partnerSlug,
+  runId: F.runId,
+  runAttempt: F.runAttempt,
   eventId: F.eventId,
   eventSlug: F.eventSlug,
   workerRun: false,
@@ -250,15 +253,6 @@ async function fillStep(page, section, person) {
       break;
   }
 }
-async function signAll(page) {
-  for (let guard = 0; guard < 6; guard += 1) {
-    const button = page.locator("button:has-text('Sign this statement')").first();
-    if ((await button.count()) === 0) return;
-    const before = await page.locator("button:has-text('Sign this statement')").count();
-    await button.click();
-    await page.waitForFunction((n) => [...document.querySelectorAll("button")].filter((b) => b.textContent === "Sign this statement").length < n, before);
-  }
-}
 // The whole application for one training applicant: registration, every
 // intake step, the protected value, signatures and submission.
 async function applyThroughIntake(page, person, { expectRegistration = "We have your registration", protectedValue = true } = {}) {
@@ -339,7 +333,7 @@ async function main() {
   record("legal_aid_schema_read_back_without_migrating", tablesPresent === LEGAL_AID_TABLES.length && Number(schema?.ledger_rows) === 1, `${tablesPresent}/${LEGAL_AID_TABLES.length} Legal Aid tables; ledger rows=${schema?.ledger_rows}; no migration command exists in this phase`);
 
   const seed = JSON.parse(fs.readFileSync(path.join(EVIDENCE_DIR, "seed.json"), "utf8"));
-  record("legal_aid_seed_evidence_bound_to_this_preview", seed.passed === true && seed.applicationSha === APPLICATION_SHA && seed.previewDeploymentId === DEPLOYMENT_ID && seed.eventId === F.eventId, `seed passed=${seed.passed}; same SHA and deployment=${seed.applicationSha === APPLICATION_SHA && seed.previewDeploymentId === DEPLOYMENT_ID}`);
+  record("legal_aid_seed_evidence_bound_to_this_preview", seed.passed === true && seed.applicationSha === APPLICATION_SHA && seed.previewDeploymentId === DEPLOYMENT_ID && seed.eventId === F.eventId && seed.eventSlug === F.eventSlug && seed.runId === F.runId && seed.runAttempt === F.runAttempt, `seed passed=${seed.passed}; same SHA and deployment=${seed.applicationSha === APPLICATION_SHA && seed.previewDeploymentId === DEPLOYMENT_ID}`);
 
   const keys = await supabaseKeys();
   const who = {};
@@ -376,23 +370,24 @@ async function main() {
     record("internal_legal_aid_setup_page_renders", (await internal.textContent("h1"))?.includes("legal aid clinic setup") === true, `h1=${sanitize(await internal.textContent("h1"))}`);
     await internal.click("button:has-text('Prepare a new draft from the template')");
     await internal.waitForSelector("text=Draft profile prepared");
-    const draft = await one(`select id, status, prepared_by from public.legal_aid_policy_profiles where partner_slug='${F.partnerSlug}' order by version desc limit 1`);
+    const draft = await one(`select id, version, status, prepared_by from public.legal_aid_policy_profiles where partner_slug='${F.partnerSlug}' order by version desc limit 1`);
     record("interim_coordinator_prepares_policy_profile_draft", draft?.status === "draft" && draft?.prepared_by === who.INTERNAL_ADMIN.id, `draft ${shortId(draft?.id)} prepared by the internal administrator`);
     await internal.reload();
-    await internal.click("button:has-text('Approve')");
+    await internal.locator(`input[aria-label="Approval note for profile ${draft.id}"]`).locator("..").locator("button").click();
     await internal.waitForSelector("text=A profile is approved by a second administrator");
     record("preparer_cannot_approve_own_draft", true, "self-approval refused on the internal page");
 
     const adminA = await open({ user: who.ADMIN_A });
     await adminA.goto(`${PREVIEW}/partner/clinic/${F.eventId}/legal-aid`);
-    await adminA.fill("input[placeholder='Approval note (optional)']", "Approved for the acceptance training clinic");
-    await adminA.click("button:has-text('Approve')");
+    const approval = adminA.locator(`input[aria-label="Approval note for profile ${draft.id}"]`);
+    await approval.fill("Approved for the acceptance training clinic");
+    await approval.locator("..").locator("button").click();
     await adminA.waitForSelector("text=Profile approved");
     const approved = await one(`select status, approved_by from public.legal_aid_policy_profiles where id='${draft.id}'`);
     record("independent_administrator_approves_profile", approved?.status === "approved" && approved?.approved_by === who.ADMIN_A.id, "approved by a different administrator (partner admin A)");
 
     await internal.reload();
-    await internal.selectOption("select[name=policyProfileId]", { index: 1 });
+    await internal.selectOption("select[name=policyProfileId]", draft.id);
     await internal.selectOption("select[name=appointmentPolicy]", "mixed");
     await internal.fill("input[name=participantCostNote]", "The clinic is free. Court filing fees may apply.");
     await internal.fill("textarea[name=publicDescription]", "Bring a photo ID and any court paperwork you have. Attorneys review each case at the clinic. (Acceptance training clinic — synthetic.)");
@@ -422,7 +417,7 @@ async function main() {
     await anonymousApplicant.goto(`${PREVIEW}/p/${F.partnerSlug}/clinics`);
     record("public_clinic_listing_shows_the_published_clinic", (await anonymousApplicant.locator(`text=${F.eventName}`).count()) > 0 && !/tenant|Grade A|source hash|release candidate/i.test(await anonymousApplicant.content()), "listing shows the training clinic; no internal vocabulary");
     await screenshot(anonymousApplicant, "participant-clinics");
-    await anonymousApplicant.click("a:has-text('Register for this clinic')");
+    await anonymousApplicant.click(`a[href="${registrationPath}"]`);
     await anonymousApplicant.waitForURL(/sign-in/);
     await anonymousApplicant.locator('[aria-label="Security check"]').waitFor({ state: "visible" });
     const signInUrl = new URL(anonymousApplicant.url());
@@ -461,9 +456,16 @@ async function main() {
     record("intake_saved_and_resumed_after_refresh", (await a.inputValue("#f-name-first")) === "Jordan" && (await a.locator(`text=${SSN_MASKED}`).count()) === 0, "first name restored from the saved draft; protected value never rendered on the answers step");
     await gotoStep(a, "Review and sign");
     record("citizen_sees_no_confidential_review_statement", (await a.locator("text=Confidential status review").count()) === 0 && (await a.locator("text=I am a citizen of the United States of America.").count()) === 1, "citizenship statement only");
-    await signAll(a);
-    await a.click("button:has-text('Submit my application')");
-    await a.waitForSelector("text=Your application has been received");
+    const signingA = await one(`select id from public.legal_aid_intakes where event_id='${F.eventId}' and participant_user_id='${who.APPLICANT_A.id}'`);
+    await signAll(a, signingA.id, PREVIEW);
+    const currentSignatures = await managementQuery(`select s.statement_key, s.answers_hash=i.answers_hash as current from public.legal_aid_intake_signatures s join public.legal_aid_intakes i on i.id=s.intake_id where i.id='${signingA.id}' and s.status='active'`);
+    const expectedSignatures = ["citizenship_attestation", "financial_attestation", "information_sharing_consent"];
+    record("applicant_a_current_signatures_confirmed_before_submit", currentSignatures.length === expectedSignatures.length && currentSignatures.every(s => s.current === true) && JSON.stringify(currentSignatures.map(s => s.statement_key).sort()) === JSON.stringify(expectedSignatures), "exact three applicable active signatures match the current intake answers hash");
+    await submitApplication(a, signingA.id, PREVIEW, result => {
+      evidence.submissions ??= {};
+      evidence.submissions.A = result;
+      record("applicant_a_submit_response", result.status === 200 && result.success && ["submitted", "already_submitted"].includes(result.outcome), JSON.stringify(result));
+    });
     await screenshot(a, "participant-submitted");
     const intakeA = await one(`select id, status, clinic_case_id, answers::text as answers from public.legal_aid_intakes where event_id='${F.eventId}' and participant_user_id='${who.APPLICANT_A.id}'`);
     record("application_submitted_with_clinic_case", intakeA?.status === "submitted" && Boolean(intakeA?.clinic_case_id), `intake ${shortId(intakeA?.id)} submitted`);
@@ -483,9 +485,13 @@ async function main() {
     const b = await open({ user: who.APPLICANT_B });
     const personB = { first: "Taylor", last: "Training", phone: "601-555-0101", email: who.APPLICANT_B.email, citizen: true, assistance: "" };
     await applyThroughIntake(b, personB);
-    await signAll(b);
-    await b.click("button:has-text('Submit my application')");
-    await b.waitForSelector("text=Your application has been received");
+    const signingB = await one(`select id from public.legal_aid_intakes where event_id='${F.eventId}' and participant_user_id='${who.APPLICANT_B.id}'`);
+    await signAll(b, signingB.id, PREVIEW);
+    await submitApplication(b, signingB.id, PREVIEW, result => {
+      evidence.submissions ??= {};
+      evidence.submissions.B = result;
+      record("applicant_b_submit_response", result.status === 200 && result.success && ["submitted", "already_submitted"].includes(result.outcome), JSON.stringify(result));
+    });
     const intakeB = await one(`select id, status from public.legal_aid_intakes where event_id='${F.eventId}' and participant_user_id='${who.APPLICANT_B.id}'`);
     record("applicant_b_submits", intakeB?.status === "submitted", `intake ${shortId(intakeB?.id)}`);
 
@@ -495,9 +501,13 @@ async function main() {
     const regC = await one(`select status, waitlisted_at from public.clinic_registrations where event_id='${F.eventId}' and participant_user_id='${who.APPLICANT_C.id}'`);
     record("capacity_reached_puts_applicant_c_on_the_waitlist", regC?.status === "waitlisted" && Boolean(regC?.waitlisted_at), `status=${regC?.status}`);
     record("non_citizen_sees_confidential_review_acknowledgment", (await c.locator("text=Confidential status review").count()) === 1, "confidential review statement offered to a non-citizen applicant");
-    await signAll(c);
-    await c.click("button:has-text('Submit my application')");
-    await c.waitForSelector("text=Your application has been received");
+    const signingC = await one(`select id from public.legal_aid_intakes where event_id='${F.eventId}' and participant_user_id='${who.APPLICANT_C.id}'`);
+    await signAll(c, signingC.id, PREVIEW);
+    await submitApplication(c, signingC.id, PREVIEW, result => {
+      evidence.submissions ??= {};
+      evidence.submissions.C = result;
+      record("applicant_c_submit_response", result.status === 200 && result.success && ["submitted", "already_submitted"].includes(result.outcome), JSON.stringify(result));
+    });
     const sigC = await one(`select count(*) as n from public.legal_aid_intake_signatures s join public.legal_aid_intakes i on i.id=s.intake_id where i.participant_user_id='${who.APPLICANT_C.id}' and i.event_id='${F.eventId}' and s.statement_key='noncitizen_review_acknowledgment' and s.status='active'`);
     const intakeC = await one(`select id, status from public.legal_aid_intakes where event_id='${F.eventId}' and participant_user_id='${who.APPLICANT_C.id}'`);
     record("applicant_c_submits_with_confidential_review_acknowledgment", intakeC?.status === "submitted" && Number(sigC?.n) === 1, `intake ${shortId(intakeC?.id)}; acknowledgment signed`);

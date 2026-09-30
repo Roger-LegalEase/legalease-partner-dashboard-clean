@@ -173,6 +173,17 @@ test('native frozen schema: audit-only reruns preserve history; audited intake r
   assert.equal(queryLog.length,1);assert.match(queryLog[0],/^select/);assert.equal(sandbox.evidence.passed,undefined);
   assert.deepEqual((await db.query('select * from legal_aid_access_audit order by id')).rows,retained);
   assert.equal((await db.query(`select count(*)::int as n from legal_aid_intakes where id='${intake}'`)).rows[0].n,1);
+  const oldRows={};
+  for(const table of ['clinic_events','clinic_event_audit','legal_aid_intakes','legal_aid_access_audit','legal_aid_policy_profiles']) oldRows[table]=(await db.query(`select * from ${table} order by id`)).rows;
+  const {resolveLegalAidFixture}=await import('./rcap-legal-aid/hosted-fixture.mjs');
+  sandbox.F=resolveLegalAidFixture({GITHUB_RUN_ID:'36663238473',GITHUB_RUN_ATTEMPT:'1'});
+  await run();assert.equal(sandbox.evidence.passed,true);
+  for(const [table,rows] of Object.entries(oldRows)) {
+    const ids=rows.map(row=>`'${row.id}'`).join(',');
+    if(ids)assert.deepEqual((await db.query(`select * from ${table} where id in (${ids}) order by id`)).rows,rows,`${table} historical rows unchanged`);
+  }
+  await assert.rejects(db.exec(`delete from legal_aid_access_audit where intake_id='${intake}'`),/append-only/);
+  await assert.rejects(db.exec(`delete from legal_aid_intakes where id='${intake}'`),/foreign key/);
  }finally{await db.close();}
 });
 
@@ -181,9 +192,9 @@ test('seed successor binding refuses wrong base, extra paths, changed prior hash
  const base='652793bb1469192ae3ec8c6dbdb5ae8402c05743';
  const toolsPath='data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json';
  const prior=JSON.parse(execFileSync('git',['show',`${base}:${toolsPath}`],{encoding:'utf8'}));
- const binding=JSON.parse(fs.readFileSync(toolsPath));
+ const binding=JSON.parse(execFileSync('git',['show',`ac9befc5972ebd24e5f1aba2e07ee9081d554698:${toolsPath}`],{encoding:'utf8'}));
  const source=fs.readFileSync('scripts/grade-a-launch-control/verify-release-candidate-binding.mjs','utf8');
- const scope=source.slice(source.indexOf('  if(seedRerunCorrection){'),source.indexOf('  }else if(harnessCorrection){'))+'\n}';
+ const scope=source.slice(source.indexOf('if(seedRerunCorrection){'),source.indexOf('  }else if(harnessCorrection){'))+'\n}';
  const ancestry=source.slice(source.indexOf("  const head=git(['rev-parse','HEAD']);",source.indexOf('function verifyGenerationBinding')),source.indexOf('  expect(Object.keys(t.files).sort()',source.indexOf('function verifyGenerationBinding')));
  const files=[toolsPath,'scripts/grade-a-launch-control/verify-release-candidate-binding.mjs','scripts/rcap-hosted-legal-aid-seed.mjs','scripts/rcap-hosted-legal-aid-startup.test.mjs'];
  const head='a'.repeat(40);

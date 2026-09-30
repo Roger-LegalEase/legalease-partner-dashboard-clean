@@ -13,7 +13,7 @@ const before=execFileSync('git',['show',`${base}:${browserPath}`],{encoding:'utf
 const section=s=>s.slice(s.indexOf('    // 2. Applicant A:'),s.indexOf('    const personA ='));
 const staticFiles=[
  '.github/workflows/rcap-f1-ephemeral-staging.yml','.github/workflows/rcap-hosted-acceptance-staging.yml',
- 'scripts/rcap-hosted-legal-aid-seed.mjs',browserPath,'scripts/rcap-legal-aid/hosted-fixture.mjs',
+ 'scripts/rcap-legal-aid/hosted-actions.mjs','scripts/rcap-hosted-legal-aid-seed.mjs',browserPath,'scripts/rcap-legal-aid/hosted-fixture.mjs',
  'scripts/rcap-hosted-acceptance-deploy.mjs','scripts/verify-rcap-hosted-legal-aid-browser.mjs'
 ];
 function verify(text){
@@ -37,7 +37,7 @@ test('actual Captain reproduces the CAPTCHA watcher defect; corrected verifier r
 });
 test('corrected harness satisfies the full hosted browser verifier',()=>{
  const result=verify(source);assert.equal(result.status,0,result.stdout+result.stderr);
- assert.match(result.stdout,/60\/60/);
+ assert.match(result.stdout,/64\/64/);
 });
 for(const [label,from,to] of [
  ['password-grant watcher','const registrationUrl =','a.waitForResponse(response => response.url().includes("/auth/v1/token"));\n    const registrationUrl ='],
@@ -62,10 +62,11 @@ for(const [label,from,to] of [
   assert.ok(source.includes(from));const result=verify(source.replace(from,to));assert.notEqual(result.status,0,result.stdout);
  });
 }
-test('all downstream journey code and existing session helpers are byte-preserved',()=>{
- const downstream='    const personA =';
- assert.equal(source.slice(source.indexOf(downstream)),before.slice(before.indexOf(downstream)));
- assert.equal(source.slice(0,source.indexOf('    // 2. Applicant A:')),before.slice(0,before.indexOf('    // 2. Applicant A:')));
+test('existing session helpers and downstream post-submission journey are byte-preserved',()=>{
+ const tail='    // Another participant cannot read A';
+ assert.equal(source.slice(source.indexOf(tail)),before.slice(before.indexOf(tail)));
+ const helpers=s=>s.slice(s.indexOf('function authCookies'),s.indexOf('async function gotoStep'));
+ assert.equal(helpers(source),helpers(before));
 });
 function runtime({captcha=true,owner='exact-owner',sessionOwner=owner,redirect=false,redirectFault=null,eventSlug='training'}={}){
  const calls=[],cases={};

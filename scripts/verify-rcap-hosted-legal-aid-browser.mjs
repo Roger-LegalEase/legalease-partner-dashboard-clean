@@ -19,6 +19,7 @@ const dispatcher = read(".github/workflows/rcap-f1-ephemeral-staging.yml");
 const hosted = read(".github/workflows/rcap-hosted-acceptance-staging.yml");
 const seed = read("scripts/rcap-hosted-legal-aid-seed.mjs");
 const browser = read("scripts/rcap-hosted-legal-aid-browser.mjs");
+const actions = read("scripts/rcap-legal-aid/hosted-actions.mjs");
 const fixture = read("scripts/rcap-legal-aid/hosted-fixture.mjs");
 const deploy = read("scripts/rcap-hosted-acceptance-deploy.mjs");
 
@@ -59,7 +60,7 @@ check("deploy evidence records configuration without values", deploy.includes("v
 // --- shared fixture -----------------------------------------------------------
 check("seed, browser and this verifier share one fixture", seed.includes('from "./rcap-legal-aid/hosted-fixture.mjs"') && browser.includes('from "./rcap-legal-aid/hosted-fixture.mjs"'));
 check("fixture names only reserved .test identities", [...fixture.matchAll(/email: "([^"]+)"/g)].every((match) => match[1].endsWith("@rcap-acceptance.test")) && fixture.includes('packetApplicantEmail: "mvl-demo-participant-a@rcap-acceptance.test"'));
-check("fixture is the acceptance copy of MVLP on a fixed synthetic event", fixture.includes('partnerSlug: "mvlp"') && fixture.includes('eventId: "78000000-0000-4000-8000-000000000001"') && fixture.includes("capacity: 2"));
+check("fixture is the acceptance copy of MVLP on a run-scoped synthetic event", fixture.includes('partnerSlug: "mvlp"') && fixture.includes("env.GITHUB_RUN_ID") && fixture.includes("env.GITHUB_RUN_ATTEMPT") && fixture.includes("export function resolveLegalAidFixture") && fixture.includes("capacity: 2"));
 check("fixture assigns no attorney, notary or decision role to the interim coordinator", !/INTERNAL_ADMIN:\s*\[/.test(fixture) && /COORDINATOR: \["coordinator"/.test(fixture) && /ATTORNEY: \["attorney"/.test(fixture) && /NOTARY: \["notary"\]/.test(fixture));
 
 // --- seed boundaries -------------------------------------------------------------
@@ -89,7 +90,7 @@ check("Applicant A never submits credentials or waits for a browser password gra
 check("anonymous registration proves exact create-mode redirect, bound next route and visible CAPTCHA protection", [
   'const registrationPath = `/clinic/${F.eventSlug}/register`;',
   'const anonymousApplicant = await open({ viewport: { width: 390, height: 844 } });',
-  "await anonymousApplicant.click(\"a:has-text('Register for this clinic')\");",
+  'await anonymousApplicant.click(`a[href="${registrationPath}"]`);',
   'await anonymousApplicant.waitForURL(/sign-in/);',
   "await anonymousApplicant.locator('[aria-label=\"Security check\"]').waitFor({ state: \"visible\" });",
   'const signInUrl = new URL(anonymousApplicant.url());',
@@ -133,5 +134,10 @@ check("evidence carries no secret, password or protected value", browser.include
 check("identities appear in evidence hashed only", browser.includes("hashed ids only") && browser.includes("const shortId = (value) => crypto.createHash"));
 check("browser never names Production", !browser.includes("wwtwtsmywnckfkdaqqeg") && browser.includes("productionTouched: false"));
 check("stored answers are checked for the protected value", browser.includes("protected_value_absent_from_every_stored_answer_document"));
+
+check("signing waits for completed successful responses and reloaded signed cards", actions.includes('response.status() !== 200') && actions.includes('await response.finished()') && actions.includes('await card.locator(busySelector).waitFor({ state: "hidden" })') && actions.includes('hasText: /^Signed by /') && actions.includes('await requireSigningComplete(page)'));
+check("every applicant submits through sanitized response observation", ["a", "b", "c"].every(a => browser.includes(`await submitApplication(${a}, signing${a.toUpperCase()}.id, PREVIEW`)) && actions.includes('const result = sanitizedSubmitResult(') && actions.indexOf('Legal Aid submit refused:') < actions.indexOf('await page.waitForSelector("text=Your application has been received")'));
+check("Applicant A signatures are current before submitting", browser.includes("s.answers_hash=i.answers_hash") && browser.includes("s.status='active'") && browser.indexOf('applicant_a_current_signatures_confirmed_before_submit') < browser.indexOf('await submitApplication(a,'));
+check("seed and browser bind the same synthetic run namespace and preserve profiles", ["runId", "runAttempt", "eventId", "eventSlug"].every(k => browser.includes(`seed.${k} === F.${k}`)) && !/delete from public\.legal_aid_policy_profiles/.test(seed) && browser.includes('await internal.selectOption("select[name=policyProfileId]", draft.id)'));
 
 console.log(`RCAP hosted Legal Aid browser verifier passed: ${checks.length}/${checks.length}`);

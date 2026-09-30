@@ -8,7 +8,7 @@
 // Stripe, Production deployment, or production project is touched.
 //
 // Idempotent and bounded: every row it writes or clears is keyed to the
-// fixed synthetic event, the synthetic identities, or the synthetic handoff
+// run-scoped synthetic event, the synthetic identities, or the synthetic handoff
 // organization named below, so a re-run starts the same training records
 // from a clean state without touching anything else in the project.
 
@@ -64,6 +64,8 @@ const evidence = {
   previewDeploymentId: DEPLOYMENT_ID,
   partnerSlug: F.partnerSlug,
   handoffPartnerSlug: F.handoffPartnerSlug,
+  runId: F.runId,
+  runAttempt: F.runAttempt,
   eventId: F.eventId,
   eventSlug: F.eventSlug,
   eventName: F.eventName,
@@ -76,7 +78,7 @@ const evidence = {
     "synthetic auth users (create or password reset, confirmed)",
     `partner_records/partner_users rows for ${F.partnerSlug} (acceptance copy of the MVLP organization)`,
     `clinic_events row ${F.eventId} reset to a draft standard event`,
-    "training records of that event cleared (registrations, intakes and their children, cases, follow-ups, policy profiles)",
+    "mutable training records of this run-scoped event cleared (registrations, unaudited intakes and their children, cases, follow-ups); audit history and policy profiles retained",
     `every row of the synthetic handoff organization ${F.handoffPartnerSlug} cleared`
   ],
   productionTouched: false,
@@ -172,7 +174,7 @@ try {
       delete from public.clinic_assisted_sessions where event_id='${F.eventId}';
       delete from public.clinic_event_staff where event_id='${F.eventId}';
       update public.clinic_events set policy_profile_id=null, experience='standard', status='draft' where id='${F.eventId}';
-      delete from public.legal_aid_policy_profiles where partner_slug='${F.partnerSlug}';
+      -- Historical policy profiles remain intact; the browser prepares its own version.
 
       insert into public.clinic_events (id,partner_slug,public_slug,name,jurisdiction,starts_at,ends_at,timezone,location_name,geography,capacity,status,sponsorship_allocation,created_by)
       values ('${F.eventId}','${F.partnerSlug}','${F.eventSlug}','${sqlText(F.eventName)}','MS',now()+interval '14 days',now()+interval '14 days 6 hours','America/Chicago','Training venue (synthetic)','Hinds County, Mississippi',${F.capacity},'draft',null,'${byKey.ADMIN_A.id}')
@@ -220,7 +222,6 @@ try {
     && Number(row?.participant_memberships) === 0
     && Number(row?.registrations) === 0
     && Number(row?.intakes) === 0
-    && Number(row?.profiles) === 0
     && Number(row?.handoff_partner_rows) === 0;
   evidence.readback = row;
   evidence.passed = passed;
