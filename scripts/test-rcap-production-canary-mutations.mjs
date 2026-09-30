@@ -13,6 +13,14 @@ const files = [
 ];
 
 const mutations = [
+  ['restage owner phase', "requireProductionPhaseAuthorization(release,'restage')", 'removedPhase(release)'],
+  ['restage decryption disabled', '/env?decrypt=false', '/env?decrypt=true'],
+  ['restage uniqueness', 'replacements.length<=1', 'replacements.length<=2'],
+  ['restage key timing', 'createdAt>t', 'createdAt<t'],
+  ['restage rerun guard', "String(env.GITHUB_RUN_ATTEMPT)==='1'", 'true'],
+  ['restage public-domain alias guard', '!publicBefore.domains.includes(alias)', 'true'],
+  ['restage unchanged environment', 'restage_environment_metadata_unchanged', 'environment_check_removed'],
+
   ["separate phase authorization", "requireProductionMigrationRelease(ROOT_DIR, process.env);", "/* authorization removed */"],
   ["application SHA", "const APPLICATION_SHA = RELEASE_CANDIDATE.applicationSha;", "0c4d8275cca6310329ab0d2b8f2f5bcb3435eb1b"],
   ["worker digest", "const WORKER_DIGEST = RELEASE_CANDIDATE.workerDigest;", "sha256:07bb99a83e4c1b8e6d23d23103d0a1fe6d9bc49fc105a9c52a7a352a855c4832"],
@@ -70,3 +78,91 @@ for (const [name, from, to] of mutations) {
 }
 
 console.log(`test-rcap-production-canary-mutations passed: ${mutations.length}/${mutations.length}`);
+
+// Execute the real restage entrypoint with an offline transport. No Vercel,
+// Supabase, worker or Preview service is contacted by this regression battery.
+const {runProductionRestage,productionRestageKeyTimes,restageDeploymentRequest,validateRestageDeploymentRequest}=await import('./rcap-production-canary.mjs');
+const {HOSTED_VERCEL_PROJECT_ID:projectId,HOSTED_VERCEL_TEAM_ID:teamId,HOSTED_VERCEL_PROJECT_NAME:projectName}=await import('./rcap-hosted-acceptance-vercel-identity.mjs');
+const {RESTAGE_AUTHORITY}=await import('./grade-a-launch-control/production-preflight-authorization.mjs');
+const release=JSON.parse(fs.readFileSync('data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json'));
+const publicDomains=['production.example.test','expungement.ai','www.expungement.ai'];
+const tools='a'.repeat(40),now=Date.now();let runtimeCases=0;
+const keyEntries=()=>['LEGAL_AID_RESTRICTED_FIELD_KEY','LEGAL_AID_RESTRICTED_FIELD_KEY_VERSION','PARTICIPANT_PRIVACY_PSEUDONYM_SECRET'].map(key=>({id:key,key,target:['production'],type:key.endsWith('_VERSION')?'plain':'sensitive',createdAt:now-30000,updatedAt:now-20000,value:'do-not-read-or-record'}));
+function deployment(id,restage=false){return {id,projectId,target:'production',readyState:'READY',url:'synthetic-restage.vercel.app',alias:[],createdAt:restage?now-1000:now-100000,gitSource:{sha:release.applicationSha},meta:{rcapStagedProduction:'true',rcapApplicationSha:release.applicationSha,rcapWorkerSourceSha:release.workerSourceSha,rcapWorkerDigest:release.workerDigest,rcapToolsSha:tools,...(restage?{rcapProductionRestage:RESTAGE_AUTHORITY.marker}:{})}};}
+async function exercise(change=()=>{}) {
+ const f={candidate:structuredClone(release),keys:keyEntries(),old:deployment(RESTAGE_AUTHORITY.oldStagedDeploymentId),replacement:deployment('dpl_Replacement',true),existing:[],rollback:RESTAGE_AUTHORITY.rollbackDeploymentId,attempt:'1',requests:[],envReads:0,mappingReads:0};change(f);
+ const temporary=fs.mkdtempSync(path.join(os.tmpdir(),'restage-offline-'));let posts=0;
+ try {
+ const result=await runProductionRestage({rootDir:process.cwd(),env:{RCAP_PRODUCTION_PHASE:'restage',RCAP_TOOLS_SHA:tools,GITHUB_RUN_ATTEMPT:f.attempt,VERCEL_TOKEN:'synthetic-token',SUPABASE_ACCESS_TOKEN:'synthetic-management',VERCEL_AUTOMATION_BYPASS_SECRET:'synthetic-bypass',RCAP_PRODUCTION_EVIDENCE_DIR:temporary},
+  requireRelease:()=>f.candidate,resolveIdentity:async()=>({projectId,teamId}),pause:async()=>{},
+  inspectRuntime:async()=>({origin:'https://wwtwtsmywnckfkdaqqeg.supabase.co'}),originMatches:async()=>!f.wrongRuntime,
+  fetchImpl:async(url,options)=>{
+   const u=new URL(url);f.requests.push({host:u.host,path:u.pathname,method:options.method});
+   assert.ok(['api.vercel.com','api.supabase.com'].includes(u.host),'unexpected external endpoint');
+   let body;
+   if(options.method==='POST'){
+    assert.equal(u.pathname,'/v13/deployments');assert.equal(u.host,'api.vercel.com');posts++;
+    assert.equal(posts,1,'only one create');const payload=JSON.parse(options.body);validateRestageDeploymentRequest(payload,projectId,tools);assert.equal(payload.gitSource.sha,release.applicationSha);assert.equal(payload.autoAssignCustomDomains,false);
+    if(f.timeout)throw Error('transport timeout');body=f.replacement;
+   }else{
+    assert.equal(options.method,'GET');
+    if(u.host==='api.supabase.com'){assert.equal(u.pathname,'/v1/projects/wwtwtsmywnckfkdaqqeg');body={ref:f.wrongProject?'wrong':'wwtwtsmywnckfkdaqqeg'};}
+    else if(u.pathname==='/v9/projects/'+projectId)body={id:projectId,name:projectName};
+    else if(u.pathname.endsWith('/domains')){f.mappingReads++;body={domains:publicDomains.map(name=>({name}))};}
+    else if(u.pathname.endsWith('/env')){assert.equal(u.searchParams.get('decrypt'),'false');f.envReads++;body={envs:f.keys.map(k=>({...k,...(f.envChangeAt&&f.envReads>=f.envChangeAt?{updatedAt:now-500}: {})}))};}
+    else if(u.pathname==='/v6/deployments'){assert.equal(u.searchParams.has('state'),false);body={deployments:[f.old,...f.existing]};}
+    else if(publicDomains.some(domain=>u.pathname.endsWith('/'+domain))){const changed=f.changedDomain&&u.pathname.endsWith('/'+f.changedDomain)&&f.mappingReads>=f.domainChangeAt;body=deployment(changed?f.replacement.id:f.mappingChangeAt&&f.mappingReads>=f.mappingChangeAt?'dpl_Wrong':f.rollback);}
+    else if(u.pathname.endsWith('/'+RESTAGE_AUTHORITY.oldStagedDeploymentId))body=f.old;
+    else if(u.pathname.endsWith('/'+f.replacement.id))body={...f.replacement,id:f.detailId??f.replacement.id};
+    else throw Error('unexpected API request');
+   }
+   return {ok:true,status:200,text:async()=>JSON.stringify(body)};
+  }});
+ assert.ok(!JSON.stringify(result).includes('do-not-read-or-record'));assert.ok(!JSON.stringify(result).includes('synthetic-token'));
+ for(const flag of ['productionDatabaseMutated','workerChanged','migrationReplayed','keysCreated','keyValuesRecorded'])assert.equal(result[flag],false);
+ assert.deepEqual(JSON.parse(fs.readFileSync(path.join(temporary,'production-restage.json'))),result);
+ return {result,posts,requests:f.requests};
+ }finally{fs.rmSync(temporary,{recursive:true,force:true});}
+}
+async function runtime(name,fn){await fn();runtimeCases++;console.log('ok   restage runtime: '+name);}
+await runtime('zero replacement creates exactly once, after safe key inventory',async()=>{const {result,posts}=await exercise();assert.equal(result.passed,true,result.failure);assert.equal(posts,1);assert.equal(result.deploymentCreated,true);assert.equal(result.reusedExactReplacement,false);assert.equal(result.replacementCreatedAfterKeys,true);assert.equal(result.publicAliasesChanged,false);assert.equal(result.environmentMetadataChanged,false);});
+await runtime('one READY exact replacement reuses with zero POST, including a rerun',async()=>{const {result,posts}=await exercise(f=>{f.existing=[f.replacement];f.attempt='2';});assert.equal(result.passed,true,result.failure);assert.equal(posts,0);assert.equal(result.reusedExactReplacement,true);assert.equal(result.deploymentCreated,false);});
+for(const reuse of [false,true])await runtime('automatic Vercel aliases accepted with rollback mapping: '+(reuse?'reuse':'create'),async()=>{
+ const {result,posts,requests}=await exercise(f=>{f.replacement.alias=['legalease-partner-dashboard-clean-roger947s-projects.vercel.app','legalease-partner-dashboard-clean-git-abcdef-roger947s-projects.vercel.app'];if(reuse)f.existing=[f.replacement];});
+ assert.equal(result.passed,true,result.failure);assert.equal(posts,reuse?0:1);assert.equal(result.publicAliasesChanged,false);
+ for(const domain of publicDomains)assert.equal(requests.filter(r=>r.path==='/v13/deployments/'+domain).length,reuse?2:3,'every configured domain read before and after');
+});
+for(const domain of publicDomains)for(const stage of ['before','after'])await runtime(domain+' mapped to replacement '+stage+' refuses',async()=>{
+ const {result,posts}=await exercise(f=>{f.changedDomain=domain;f.domainChangeAt=stage==='before'?1:3;});
+ assert.equal(result.passed,false);assert.equal(posts,stage==='before'?0:1);assert.equal(result.failure,'restage_public_mapping_is_rollback');if(stage==='after')assert.equal(result.publicAliasesChanged,true);
+});
+for(const [name,change]of [
+ ['wrong rollback',f=>f.rollback='dpl_Wrong'],['wrong old staged ID',f=>f.old.id='dpl_Wrong'],['old staged not READY',f=>f.old.readyState='BUILDING'],
+ ...['applicationSha','workerSourceSha','workerDigest','workerInputFingerprint','productionProjectRef'].map(k=>['wrong release '+k,f=>f.candidate[k]='wrong']),
+ ['missing phase permission',f=>f.candidate.productionAuthorization.phases=f.candidate.productionAuthorization.phases.filter(p=>p!=='restage')],
+ ['missing owner record',f=>delete f.candidate.productionAuthorization.restage],['canonical project mismatch',f=>f.wrongProject=true],
+ ['missing key',f=>f.keys.pop()],['duplicate key',f=>f.keys.push({...f.keys[0]})],['nonsensitive key',f=>f.keys[0].type='plain'],['nonsensitive pseudonym',f=>f.keys[2].type='plain'],
+ ['key only in Preview',f=>f.keys[0].target=['preview']],['missing key timestamp',f=>delete f.keys[0].createdAt],
+ ['replacement before keys',f=>{f.replacement.createdAt=now-60000;f.existing=[f.replacement];}],
+ ['wrong exact-ID readback',f=>{f.existing=[f.replacement];f.detailId='dpl_Other';}],
+ ['replacement future timestamp',f=>{f.replacement.createdAt=now+86400000;f.existing=[f.replacement];}],
+ ['multiple replacements',f=>f.existing=[f.replacement,{...f.replacement,id:'dpl_Other'}]],
+ ['inflight replacement',f=>{f.replacement.readyState='BUILDING';f.existing=[f.replacement];}],
+ ['failed replacement',f=>{f.replacement.readyState='ERROR';f.existing=[f.replacement];}],
+ ['invisible replacement on rerun',f=>f.attempt='2'],
+ ['replacement wrong app',f=>{f.replacement.gitSource.sha='wrong';f.existing=[f.replacement];}],
+ ['replacement wrong worker',f=>{f.replacement.meta.rcapWorkerDigest='wrong';f.existing=[f.replacement];}],
+ ['replacement wrong project',f=>{f.replacement.projectId='wrong';f.existing=[f.replacement];}],
+ ['replacement has public alias',f=>{f.replacement.alias=['production.example.test'];f.existing=[f.replacement];}],
+ ['replacement has configured apex alias',f=>{f.replacement.alias=['expungement.ai'];f.existing=[f.replacement];}],
+ ['replacement domain autoassignment',f=>{f.replacement.autoAssignCustomDomains=true;f.existing=[f.replacement];}],
+ ['environment changes before POST',f=>f.envChangeAt=2],['mapping changes before POST',f=>f.mappingChangeAt=2]
+])await runtime(name+' refuses without POST',async()=>{const {result,posts}=await exercise(change);assert.equal(result.passed,false,name);assert.equal(posts,0,name);});
+for(const [name,change,flag]of [
+ ['environment changes after create',f=>f.envChangeAt=3,'environmentMetadataChanged'],
+ ['public mapping changes after create',f=>f.mappingChangeAt=3,'publicAliasesChanged'],
+ ['wrong runtime',f=>f.wrongRuntime=true,null],['creation timeout never retries',f=>f.timeout=true,null]
+])await runtime(name,async()=>{const {result,posts}=await exercise(change);assert.equal(result.passed,false);assert.equal(posts,1);if(flag)assert.equal(result[flag],true);});
+await runtime('key metadata never reads value property',()=>{const entries=keyEntries();for(const e of entries)Object.defineProperty(e,'value',{get(){throw Error('secret value read');}});assert.equal(productionRestageKeyTimes(entries).length,3);});
+await runtime('request with autoAssignCustomDomains true refuses',()=>{const request=restageDeploymentRequest(projectId,tools);request.autoAssignCustomDomains=true;assert.throws(()=>validateRestageDeploymentRequest(request,projectId,tools));});
+console.log(`Production restage runtime passed: ${runtimeCases}/${runtimeCases}`);

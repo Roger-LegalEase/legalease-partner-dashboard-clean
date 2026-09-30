@@ -11,7 +11,7 @@ const prefix='data/rcap-grade-a/launch-control/';
 const candidate=JSON.parse(fs.readFileSync(prefix+'RELEASE_CANDIDATE_BINDING.json'));
 const clone=()=>structuredClone(candidate);
 const refusal={message:'production_phase_not_authorized_for_current_release'};
-const required=['preflight','clinic_migrate','forward_chain_readback','forward_chain_migrate','legal_aid_keys_read','legal_aid_keys_create','legal_aid_readback','legal_aid_migrate','production_worker_deploy','smoke'];
+const required=['preflight','clinic_migrate','forward_chain_readback','forward_chain_migrate','legal_aid_keys_read','legal_aid_keys_create','legal_aid_readback','legal_aid_migrate','production_worker_deploy','smoke','restage'];
 test('one bounded successor binds exactly the owner phases and actual preflight',()=>{
  assert.equal(candidate.status,PREACTIVATION_STATUS);assert.deepEqual([...PREACTIVATION_PHASES],required);
  assert.deepEqual(candidate.productionAuthorization.phases,required);
@@ -95,7 +95,10 @@ test('prior authority and hosted evidence are preserved; integrated controls ret
  assert.equal(owner.status,'authorized_on_unchanged_application_and_reviewed_behavior');
  assert.equal(owner.authorizedBy,'Roger Roman');assert.equal(owner.hostedAcceptance.browserRunId,null);
  assert.deepEqual(owner.releaseTuple,Object.fromEntries(['applicationSha','workerSourceSha','workerDigest','workerInputFingerprint','productionProjectRef'].map(k=>[k,candidate[k]])));
- assert.deepEqual(fs.readFileSync(prefix+'RELEASE_CANDIDATE_BINDING.json'),execFileSync('git',['show',`80e014d35c6af4dcfd57957013781483bb4ffb52:${prefix}RELEASE_CANDIDATE_BINDING.json`]));
+ const priorCandidate=JSON.parse(execFileSync('git',['show',`36f1e3f716aca14ba874cfdb3082edf1c8279ffa:${prefix}RELEASE_CANDIDATE_BINDING.json`],{encoding:'utf8'}));
+ assert.deepEqual(candidate,{...priorCandidate,productionAuthorization:{...priorCandidate.productionAuthorization,phases:[...priorCandidate.productionAuthorization.phases,'restage'],restage:candidate.productionAuthorization.restage}});
+ assert.equal(candidate.productionAuthorization.stagedDeploymentId,'dpl_4Kmyt51JN8P4D7iB1GC3VaZcN2hp');
+ assert.equal(candidate.productionAuthorization.rollbackDeploymentId,'dpl_5rpkFUKgmp5cGwPaLAzHxx1nUuPK');
  const forwardPath='scripts/rcap-production-forward-chain-migrate.mjs',forward=fs.readFileSync(forwardPath,'utf8'),priorForward=priorControl(forwardPath);
  const forwardImport="import { loadCorrection, requireForwardCorrectionAuthorization, stateFingerprint } from './rcap-production-packet-forward-correction.mjs';\n";
  const fundingImport="import {fundingCatalogQuery} from './rcap-production-funding-dependency-contract.mjs';\n";
@@ -107,3 +110,6 @@ test('prior authority and hosted evidence are preserved; integrated controls ret
  assert.equal(PREFLIGHT_EVIDENCE_FILES.length,4);
 });
 console.log(`Pre-activation boundary: ${required.length} permitted phases; ${denied.length} denied spellings with substitution/appending refusals.`);
+
+for(const key of ['marker','oldStagedDeploymentId','rollbackDeploymentId','authorizedBy','note','keyCreationReceipt','legalAidMigrationReceipt','recordedAt'])test(`restage refuses changed owner authority ${key}`,()=>{const c=clone();c.productionAuthorization.restage[key]='wrong';assert.throws(()=>requireProductionPhaseAuthorization(c,'restage'));});
+test('restage is the only new phase; absent owner restage authority refuses',()=>{const c=clone();delete c.productionAuthorization.restage;assert.throws(()=>requireProductionPhaseAuthorization(c,'restage'));assert.throws(()=>requireProductionPhaseAuthorization(candidate,'activate'));assert.throws(()=>requireProductionPhaseAuthorization(candidate,'production_restage'));});

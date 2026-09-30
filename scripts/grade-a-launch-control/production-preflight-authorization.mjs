@@ -74,7 +74,24 @@ export function requireProductionPhaseAuthorization(candidate, phase) {
 
 export const PREACTIVATION_BASE = 'c1c36946287f06a457701ed849f576b310a90f72';
 export const PREACTIVATION_STATUS = 'HOSTED_ACCEPTED_PRODUCTION_PREACTIVATION_ONLY';
-export const PREACTIVATION_PHASES = Object.freeze(['preflight','clinic_migrate','forward_chain_readback','forward_chain_migrate','legal_aid_keys_read','legal_aid_keys_create','legal_aid_readback','legal_aid_migrate','production_worker_deploy','smoke']);
+export const PREACTIVATION_PHASES = Object.freeze(['preflight','clinic_migrate','forward_chain_readback','forward_chain_migrate','legal_aid_keys_read','legal_aid_keys_create','legal_aid_readback','legal_aid_migrate','production_worker_deploy','smoke','restage']);
+export const RESTAGE_AUTHORITY = Object.freeze({
+  "authorizedBy": "Roger Roman",
+  "note": "I authorize one replacement Production-target staged deployment of application e312a5efa7b4882e0fbf61a5ff0ae7891ac23226, using the already-created Production keys and unchanged accepted worker. Preserve rollback deployment dpl_5rpkFUKgmp5cGwPaLAzHxx1nUuPK. Do not move public aliases, recreate keys, replay migrations, or redeploy the worker. Bind the exact replacement deployment into the existing release controls for Production smoke. Activation remains separately authorized.",
+  "marker": "legal-aid-keys-20260930",
+  "oldStagedDeploymentId": "dpl_4Kmyt51JN8P4D7iB1GC3VaZcN2hp",
+  "rollbackDeploymentId": "dpl_5rpkFUKgmp5cGwPaLAzHxx1nUuPK",
+  "keyCreationReceipt": {
+    "runId": "36647758735",
+    "artifactId": "11069905932",
+    "artifactZipSha256": "sha256:659d9f54f6d1baf11a5958d6ef3d29ede7d23ca61b0fcf5fed8abe7f873d06a0"
+  },
+  "legalAidMigrationReceipt": {
+    "runId": "36733627937",
+    "artifactId": "11106556356",
+    "conclusion": "success"
+  }
+});
 export const PREACTIVATION_NOTE = 'I authorize the current frozen Grade A release to proceed through the bounded pre-activation Production sequence only: Production readbacks, only the migrations or key creation proven necessary by those readbacks, deployment of the already-accepted immutable worker, and production_smoke. This does not authorize production_activate, public alias movement, public verification, save-transition live verification, zero-dollar live order, or any other live Production customer transaction. Bind preflight run 36600904357, preserve rollback deployment dpl_5rpkFUKgmp5cGwPaLAzHxx1nUuPK, and use staged deployment dpl_4Kmyt51JN8P4D7iB1GC3VaZcN2hp.';
 export const PREACTIVATION_SCOPE = 'Hosted accepted; successful Production preflight bound. Only the bounded pre-activation sequence is authorized, subject to the existing independent readback-derived write controls. Activation, public verification, alias movement and live customer transactions remain held.';
 export const BOUND_PREFLIGHT = Object.freeze({
@@ -95,13 +112,14 @@ export function assertPreactivationAuthorization(candidate) {
  const a=candidate.productionAuthorization;
  assert.ok(validAuthorizationTimestamp(a?.recordedAt),'actual UTC timestamp');
  assert.ok(Date.parse(a.recordedAt)<=Date.now(),'no future authorization');
+ assert.ok(validAuthorizationTimestamp(a.restage?.recordedAt) && Date.parse(a.restage.recordedAt)<=Date.now() && Date.parse(a.restage.recordedAt)>=Date.parse('2026-09-30T00:00:00Z'),'actual restage owner timestamp');
  assert.deepEqual(a,{
   authorized:true,applicationSha:TUPLE.applicationSha,workerSourceSha:TUPLE.workerSourceSha,
   workerDigest:TUPLE.workerDigest,workerInputFingerprint:TUPLE.workerInputFingerprint,
   productionProjectRef:PRODUCTION_PROJECT_REF,recordedBy:PREFLIGHT_OWNER,recordedAt:a.recordedAt,
   phases:[...PREACTIVATION_PHASES],note:PREACTIVATION_NOTE,
   stagedDeploymentId:STAGED_DEPLOYMENT,rollbackDeploymentId:ROLLBACK_DEPLOYMENT,
-  preflight:{...BOUND_PREFLIGHT},
+  preflight:{...BOUND_PREFLIGHT},restage:{...RESTAGE_AUTHORITY,recordedAt:a.restage.recordedAt},
  },'exact bounded owner authorization and native preflight identity');
  assert.deepEqual(candidate.hostedAcceptance?.preview,{...PREVIEW,...TUPLE,target:null},'accepted Preview control');
  for(const key of ['stagedDeploymentId','rollbackDeploymentId','smokeRunId','smokeArtifactSha256','smokeReceipt','activationReceipt'])

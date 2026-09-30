@@ -49,7 +49,7 @@ for(const phase of phases)test(`${phase}: clean runner installs once before veri
   if(i===order.verifier){
    assert.ok(node&&installed,'verifier must load with dependencies');
    const c=readCandidate();
-   if(['preflight','clinic_migrate','forward_chain_readback','forward_chain_migrate','legal_aid_readback','legal_aid_migrate','smoke'].includes(phase))assert.equal(requireProductionPhaseAuthorization(c,phase),c.productionAuthorization);
+   if(['preflight','restage','clinic_migrate','forward_chain_readback','forward_chain_migrate','legal_aid_readback','legal_aid_migrate','smoke'].includes(phase))assert.equal(requireProductionPhaseAuthorization(c,phase),c.productionAuthorization);
    else assert.throws(()=>requireProductionPhaseAuthorization(c,phase),{message:'production_phase_not_authorized_for_current_release'});
   }
  }
