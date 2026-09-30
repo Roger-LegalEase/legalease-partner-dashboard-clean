@@ -193,7 +193,7 @@ async function runtimeGet(baseOrigin, pathname) {
   };
 }
 
-async function inspectRuntimeSupabaseOrigin(immutableHostname) {
+async function inspectRuntimeSupabaseOrigin(immutableHostname, readRuntime = runtimeGet) {
   const baseOrigin = "https://" + immutableHostname;
   const candidateOrigins = new Set();
   const fetchedChunks = new Set();
@@ -201,14 +201,14 @@ async function inspectRuntimeSupabaseOrigin(immutableHostname) {
   let successfulChunks = 0;
 
   for (const route of PUBLIC_ROUTES) {
-    const page = await runtimeGet(baseOrigin, route);
+    const page = await readRuntime(baseOrigin, route);
     if (!page.ok || !page.sameHost) continue;
     successfulPages += 1;
     inspectForSupabaseOrigins(page.text, candidateOrigins);
     for (const source of scriptSources(page.text)) {
       if (fetchedChunks.has(source)) continue;
       fetchedChunks.add(source);
-      const chunk = await runtimeGet(baseOrigin, source);
+      const chunk = await readRuntime(baseOrigin, source);
       if (!chunk.ok || !chunk.sameHost) continue;
       successfulChunks += 1;
       inspectForSupabaseOrigins(chunk.text, candidateOrigins);
@@ -230,8 +230,8 @@ async function inspectRuntimeSupabaseOrigin(immutableHostname) {
   };
 }
 
-async function originMapsToProject(origin, projectRef) {
-  const project = await getJson(
+async function originMapsToProject(origin, projectRef, readJson = getJson) {
+  const project = await readJson(
     "https://api.supabase.com/v1/projects/" + encodeURIComponent(projectRef),
     SUPABASE_ACCESS_TOKEN
   );
@@ -242,11 +242,11 @@ async function originMapsToProject(origin, projectRef) {
   const hostname = new URL(origin).hostname.toLowerCase();
   if (hostname === projectRef + ".supabase.co") return true;
 
-  const custom = await getJson(
+  const custom = await readJson(
     "https://api.supabase.com/v1/projects/" + encodeURIComponent(projectRef) + "/custom-hostname",
     SUPABASE_ACCESS_TOKEN
   );
-  const vanity = await getJson(
+  const vanity = await readJson(
     "https://api.supabase.com/v1/projects/" + encodeURIComponent(projectRef) + "/config/vanity-subdomain",
     SUPABASE_ACCESS_TOKEN
   );
@@ -434,11 +434,27 @@ export async function runProductionRestage({env=process.env,rootDir=ROOT_DIR,fet
     productionDatabaseMutated:false,workerChanged:false,migrationReplayed:false,keysCreated:false,
     deploymentCreated:false,deploymentCreateAttempted:false,reusedExactReplacement:false,verdicts:[]};
   const check=(id,ok)=>{receipt.verdicts.push({caseId:id,passed:Boolean(ok)});if(!ok)throw Error(id);};
-  const request=async(url,options)=>{
-    let res;try{res=await fetchImpl(url,{redirect:'error',signal:AbortSignal.timeout(60000),...options});}
-    catch{throw Error('restage_transport_failed_no_retry');}
-    check('restage_transport_ok',res.ok===true);let json;
-    try{json=JSON.parse(await res.text());}catch{throw Error('restage_invalid_json');}return json;
+  const transport=async(operation,url,options={})=>{
+    const method=options.method??'GET',maxAttempts=method==='GET'?3:1;
+    for(let attempt=1;attempt<=maxAttempts;attempt++){
+      let response,text,status,retryable=false;
+      try{
+        response=await fetchImpl(url,{redirect:'error',...options,method,signal:AbortSignal.timeout(60000)});
+        status=response.status;
+        if(response.ok===true){text=await response.text();return {ok:true,status,attempts:attempt,url:response.url,text:async()=>text};}
+        retryable=status===429||(status>=500&&status<=599);
+      }catch{retryable=true;}
+      if(method==='GET'&&retryable&&attempt<maxAttempts){await pause(Math.min(1000*2**(attempt-1),2000));continue;}
+      receipt.transportFailure={operation,method,...(status===undefined?{}:{status}),attempts:attempt,retryable};
+      throw Error(method==='GET'?'restage_read_transport_refused':'restage_write_transport_refused');
+    }
+  };
+  const request=async(operation,url,options)=>{
+    const response=await transport(operation,url,options);
+    try{return JSON.parse(await response.text());}catch{
+      receipt.transportFailure={operation,method:options.method,status:response.status,attempts:response.attempts,retryable:false};
+      throw Error(options.method==='GET'?'restage_read_transport_refused':'restage_write_transport_refused');
+    }
   };
   try {
     check('restage_phase_exact',env.RCAP_PRODUCTION_PHASE==='restage');
@@ -449,32 +465,32 @@ export async function runProductionRestage({env=process.env,rootDir=ROOT_DIR,fet
       && release.workerInputFingerprint==='sha256:90a1e89e306cb5fc23631c63c15c12a44d955d745bbe04aada0716af2805daab'
       && release.productionProjectRef===PRODUCTION_PROJECT_REF && authorization.stagedDeploymentId===RESTAGE_AUTHORITY.oldStagedDeploymentId && authorization.rollbackDeploymentId===RESTAGE_AUTHORITY.rollbackDeploymentId);
     check('restage_sessions_available',Boolean(env.VERCEL_TOKEN&&env.SUPABASE_ACCESS_TOKEN&&env.VERCEL_AUTOMATION_BYPASS_SECRET));
-    const identity=await resolveIdentity({token:env.VERCEL_TOKEN,fetchImpl});
+    const identity=await resolveIdentity({token:env.VERCEL_TOKEN,fetchImpl:(url,options)=>transport('project_identity',url,options)});
     const headers={Authorization:'Bearer '+env.VERCEL_TOKEN};
-    const vercel=pathname=>request(hostedVercelScopedUrl(pathname,identity),{method: "GET",headers});
-    const project=await vercel('/v9/projects/'+encodeURIComponent(identity.projectId));
+    const vercel=(operation,pathname)=>request(operation,hostedVercelScopedUrl(pathname,identity),{method: "GET",headers});
+    const project=await vercel('project_identity','/v9/projects/'+encodeURIComponent(identity.projectId));
     check('restage_project_exact',project.id===identity.projectId&&project.name===HOSTED_VERCEL_PROJECT_NAME);
-    const production=await request('https://api.supabase.com/v1/projects/'+PRODUCTION_PROJECT_REF,{method: "GET",headers:{Authorization:'Bearer '+env.SUPABASE_ACCESS_TOKEN}});
+    const production=await request('production_project','https://api.supabase.com/v1/projects/'+PRODUCTION_PROJECT_REF,{method: "GET",headers:{Authorization:'Bearer '+env.SUPABASE_ACCESS_TOKEN}});
     check('restage_production_project_exact',(production.ref??production.id)===PRODUCTION_PROJECT_REF);
     let publicBaselineRead=false;
     const mapping=async()=>{
-      const listed=await vercel('/v9/projects/'+identity.projectId+'/domains?limit=100');
+      const listed=await vercel('public_domains','/v9/projects/'+identity.projectId+'/domains?limit=100');
       check('restage_domains_complete',Array.isArray(listed.domains)&&listed.domains.length>0&&!listed.pagination?.next);
       const domains=listed.domains.filter(d=>!d.gitBranch).map(d=>d.name).sort();
       check('restage_public_domains_present',domains.length>0&&domains.every(d=>typeof d==='string'));
       const rows=[];
-      for(const domain of domains){const d=await vercel('/v13/deployments/'+encodeURIComponent(domain));
+      for(const domain of domains){const d=await vercel('public_domain:'+domain,'/v13/deployments/'+encodeURIComponent(domain));
         if(publicBaselineRead&&deploymentId(d)!==RESTAGE_AUTHORITY.rollbackDeploymentId)receipt.publicAliasesChanged=true;
         check('restage_public_mapping_is_rollback',deploymentId(d)===RESTAGE_AUTHORITY.rollbackDeploymentId&&deploymentReady(d)&&d.target==='production'&&d.projectId===identity.projectId);rows.push({domain,id:deploymentId(d)});}
       return {domains,hash:sha256(JSON.stringify(rows))};
     };
     const publicBefore=await mapping();publicBaselineRead=true;
-    const old=await vercel('/v13/deployments/'+RESTAGE_AUTHORITY.oldStagedDeploymentId);
+    const old=await vercel('old_staged_deployment','/v13/deployments/'+RESTAGE_AUTHORITY.oldStagedDeploymentId);
     const exactTuple=d=>d?.target==='production'&&d?.projectId===identity.projectId&&d?.gitSource?.sha===APPLICATION_SHA
       &&d?.meta?.rcapStagedProduction==='true'&&d.meta.rcapApplicationSha===APPLICATION_SHA&&d.meta.rcapWorkerSourceSha===WORKER_SOURCE_SHA&&d.meta.rcapWorkerDigest===WORKER_DIGEST;
     check('restage_old_staged_exact',deploymentId(old)===RESTAGE_AUTHORITY.oldStagedDeploymentId&&deploymentReady(old)&&exactTuple(old));
     const environment=async()=>{
-      const doc=await vercel('/v9/projects/'+identity.projectId+'/env?decrypt=false');
+      const doc=await vercel('environment_metadata','/v9/projects/'+identity.projectId+'/env?decrypt=false');
       check('restage_environment_complete',Array.isArray(doc.envs)&&!doc.pagination?.next);
       return {hash:safeEnvironmentMetadataHash(doc.envs),keyTimes:productionRestageKeyTimes(doc.envs)};
     };
@@ -483,7 +499,7 @@ export async function runProductionRestage({env=process.env,rootDir=ROOT_DIR,fet
     // never disappear merely because a READY-only filter hides its result.
     const replacements=[];let cursor=null,complete=false;const cursors=new Set(),ids=new Set();
     for(let page=0;page<100;page++){
-      const listed=await vercel('/v6/deployments?projectId='+identity.projectId+'&target=production&limit=100'+(cursor?'&until='+encodeURIComponent(cursor):''));
+      const listed=await vercel('replacement_inventory','/v6/deployments?projectId='+identity.projectId+'&target=production&limit=100'+(cursor?'&until='+encodeURIComponent(cursor):''));
       check('restage_inventory_valid',Array.isArray(listed.deployments));
       for(const d of listed.deployments)if(d.meta?.rcapProductionRestage===RESTAGE_AUTHORITY.marker&&deploymentId(d)!==RESTAGE_AUTHORITY.rollbackDeploymentId&&!ids.has(deploymentId(d))){ids.add(deploymentId(d));replacements.push(d);}
       cursor=listed.pagination?.next;if(cursor==null){complete=true;break;}
@@ -493,7 +509,7 @@ export async function runProductionRestage({env=process.env,rootDir=ROOT_DIR,fet
     let staged,expectedReplacementId;
     if(replacements.length===1){
       expectedReplacementId=deploymentId(replacements[0]);
-      staged=await vercel('/v13/deployments/'+expectedReplacementId);
+      staged=await vercel('replacement_detail','/v13/deployments/'+expectedReplacementId);
       check('restage_existing_replacement_ready',deploymentReady(staged));receipt.reusedExactReplacement=true;
     }else{
       // A GitHub rerun after an uncertain transport outcome cannot POST again,
@@ -506,11 +522,11 @@ export async function runProductionRestage({env=process.env,rootDir=ROOT_DIR,fet
       receipt.environmentMetadataChanged=immediateEnvironment.hash!==envBefore.hash;
       check('restage_precreate_environment_unchanged',!receipt.environmentMetadataChanged);
       receipt.deploymentCreateAttempted=true;receipt.deploymentCreated=null;
-      const created=await request(hostedVercelScopedUrl('/v13/deployments',identity),{method: "POST",headers:{...headers,'Content-Type':'application/json'},body:JSON.stringify(body)});
+      const created=await request('deployment_create',hostedVercelScopedUrl('/v13/deployments',identity),{method: "POST",headers:{...headers,'Content-Type':'application/json'},body:JSON.stringify(body)});
       check('restage_created_id_valid',/^dpl_[A-Za-z0-9]+$/.test(created.id??'')&&created.id!==RESTAGE_AUTHORITY.oldStagedDeploymentId&&created.id!==RESTAGE_AUTHORITY.rollbackDeploymentId);
       receipt.deploymentCreated=true;receipt.replacementStagedDeploymentId=created.id;expectedReplacementId=created.id;
       for(let poll=0;poll<180;poll++){
-        staged=await vercel('/v13/deployments/'+created.id);
+        staged=await vercel('replacement_detail','/v13/deployments/'+created.id);
         if(deploymentReady(staged))break;
         check('restage_build_not_failed',!['ERROR','CANCELED','CANCELLED','PAUSED','BLOCKED'].includes(staged.readyState??staged.state));
         if(poll<179)await pause(10000);
@@ -523,13 +539,19 @@ export async function runProductionRestage({env=process.env,rootDir=ROOT_DIR,fet
     const aliases=staged.alias??staged.aliases;
     check('restage_replacement_has_no_public_domain',Array.isArray(aliases)&&aliases.every(alias=>typeof alias==='string'&&!publicBefore.domains.includes(alias))&&staged.autoAssignCustomDomains!==true);
     check('restage_runtime_hostname',typeof staged.url==='string'&&/^[a-z0-9.-]+\.vercel\.app$/.test(staged.url));
-    const runtime=await inspectRuntime(staged.url);check('restage_runtime_production_exact',await originMatches(runtime.origin,PRODUCTION_PROJECT_REF));
+    const runtime=await inspectRuntime(staged.url,async(baseOrigin,pathname)=>{
+      const response=await transport('replacement_runtime',new URL(pathname,baseOrigin),{method: "GET",headers:{'x-vercel-protection-bypass':env.VERCEL_AUTOMATION_BYPASS_SECRET},redirect:'follow'});
+      return {ok:response.ok,status:response.status,sameHost:new URL(response.url).host===new URL(baseOrigin).host,text:await response.text()};
+    });
+    check('restage_runtime_production_exact',await originMatches(runtime.origin,PRODUCTION_PROJECT_REF,async(url)=>{
+      const json=await request('production_project',url,{method: "GET",headers:{Authorization:'Bearer '+env.SUPABASE_ACCESS_TOKEN}});return {status:200,json};
+    }));
     const envAfter=await environment(),publicAfter=await mapping();
     receipt.environmentMetadataChanged=envAfter.hash!==envBefore.hash;receipt.publicAliasesChanged=publicAfter.hash!==publicBefore.hash;
     check('restage_environment_metadata_unchanged',!receipt.environmentMetadataChanged);check('restage_public_aliases_unchanged',!receipt.publicAliasesChanged);
     receipt.controlHashes={environmentBefore:envBefore.hash,environmentAfter:envAfter.hash,aliasesBefore:publicBefore.hash,aliasesAfter:publicAfter.hash};
     receipt.passed=true;
-  }catch(error){receipt.failure=/^restage_[a-z_]+$/.test(error.message)?error.message:'restage_control_refused';}
+  }catch(error){receipt.failure=receipt.transportFailure?(receipt.transportFailure.method==='GET'?'restage_read_transport_refused':'restage_write_transport_refused'):/^restage_[a-z_]+$/.test(error.message)?error.message:'restage_control_refused';}
   const directory=path.resolve(env.RCAP_PRODUCTION_EVIDENCE_DIR??'production-canary-evidence');fs.mkdirSync(directory,{recursive:true});
   fs.writeFileSync(path.join(directory,'production-restage.json'),JSON.stringify(receipt,null,2)+'\n');return receipt;
 }

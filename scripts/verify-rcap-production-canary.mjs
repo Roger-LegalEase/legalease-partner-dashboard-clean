@@ -72,6 +72,10 @@ check(restage.includes('restage_environment_metadata_unchanged'), 'restage refus
 check(restage.includes('migrationReplayed:false,keysCreated:false') && restage.includes('productionDatabaseMutated:false,workerChanged:false'), 'restage cannot replay migrations, create keys or change worker');
 check(restage.includes('restage_runtime_production_exact'), 'replacement runtime must resolve canonical Production');
 check((restage.match(/method: "POST"/g)??[]).length===1, 'restage has exactly one create transport and no write retry');
+check(restage.includes("method==='GET'?3:1") && restage.includes("method==='GET'&&retryable&&attempt<maxAttempts"), 'read retry has three attempts; write has one');
+check(restage.includes('status===429||(status>=500&&status<=599)') && restage.includes('Math.min(1000*2**(attempt-1),2000)'), 'only transient HTTP reads use bounded backoff');
+check(restage.includes('receipt.transportFailure={operation,method,...(status===undefined?{}:{status}),attempts:attempt,retryable}'), 'transport diagnostics contain safe metadata only');
+check(restage.includes("transport('project_identity',url,options)") && restage.includes("transport('replacement_runtime'") && restage.includes("request('deployment_create'"), 'identity runtime and write transports have operation labels');
 check(workflow.includes("if: inputs.phase != 'restage'"), 'restage skips worker pull');
 
 const failed = checks.filter((entry) => !entry.passed);
