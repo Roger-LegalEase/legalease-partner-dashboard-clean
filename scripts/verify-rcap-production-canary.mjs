@@ -76,6 +76,10 @@ check(restage.includes("method==='GET'?3:1") && restage.includes("method==='GET'
 check(restage.includes('status===429||(status>=500&&status<=599)') && restage.includes('Math.min(1000*2**(attempt-1),2000)'), 'only transient HTTP reads use bounded backoff');
 check(restage.includes('receipt.transportFailure={operation,method,...(status===undefined?{}:{status}),attempts:attempt,retryable}'), 'transport diagnostics contain safe metadata only');
 check(restage.includes("transport('project_identity',url,options)") && restage.includes("transport('replacement_runtime'") && restage.includes("request('deployment_create'"), 'identity runtime and write transports have operation labels');
+check(restage.includes('production=true&redirects=true') && restage.includes('!d.gitBranch&&!d.customEnvironmentId'), 'inventory includes Production redirects and excludes branch/custom environments');
+check(restage.includes("if(entry.redirect!=null&&entry.redirect!=='')") && /rows.push\(\{name,kind:'redirect'[\s\S]*?continue;[\s\S]*?await vercel\('public_domain:'/.test(restage), 'redirect sources skip deployment lookup');
+check(restage.includes('redirect:entry.redirect,redirectStatusCode:entry.redirectStatusCode??null') && restage.includes("kind:'deployment',deploymentId:deploymentId(d)") && restage.includes('rows.sort((a,b)=>a.name<b.name?-1:a.name>b.name?1:0)'), 'canonical routing state binds direct IDs and redirect target/status');
+check(restage.includes('receipt.routingStateBeforeSha256===receipt.routingStateAfterSha256'), 'before and after complete routing hashes must match');
 check(workflow.includes("if: inputs.phase != 'restage'"), 'restage skips worker pull');
 
 const failed = checks.filter((entry) => !entry.passed);

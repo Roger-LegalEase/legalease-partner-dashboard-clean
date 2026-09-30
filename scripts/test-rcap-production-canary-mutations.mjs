@@ -13,6 +13,11 @@ const files = [
 ];
 
 const mutations = [
+  ['Production domain scope', 'production=true&redirects=true', 'production=false&redirects=false'],
+  ['custom environment exclusion', '!d.gitBranch&&!d.customEnvironmentId', '!d.gitBranch'],
+  ['redirect source classification', "if(entry.redirect!=null&&entry.redirect!=='')", 'if(false)'],
+  ['routing target binding', "redirect:entry.redirect,redirectStatusCode:entry.redirectStatusCode??null", "redirect:'ignored',redirectStatusCode:308"],
+  ['routing state comparison', 'receipt.routingStateBeforeSha256===receipt.routingStateAfterSha256', 'true'],
   ['read attempt bound', "method==='GET'?3:1", "method==='GET'?4:2"],
   ['read retry classification', 'status===429||(status>=500&&status<=599)', 'status>=400'],
   ['read-only retry', "method==='GET'&&retryable&&attempt<maxAttempts", 'retryable&&attempt<maxAttempts'],
@@ -89,12 +94,13 @@ const {runProductionRestage,productionRestageKeyTimes,restageDeploymentRequest,v
 const {HOSTED_VERCEL_PROJECT_ID:projectId,HOSTED_VERCEL_TEAM_ID:teamId,HOSTED_VERCEL_PROJECT_NAME:projectName}=await import('./rcap-hosted-acceptance-vercel-identity.mjs');
 const {RESTAGE_AUTHORITY}=await import('./grade-a-launch-control/production-preflight-authorization.mjs');
 const release=JSON.parse(fs.readFileSync('data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json'));
-const publicDomains=['production.example.test','expungement.ai','www.expungement.ai'];
+const publicDomains=['legalease.com','expungement.ai','www.expungement.ai'];
+const redirectDomain={name:'www.legalease.com',redirect:'synthetic-redirect.example.test',redirectStatusCode:308};
 const tools='a'.repeat(40),now=Date.now();let runtimeCases=0;
 const keyEntries=()=>['LEGAL_AID_RESTRICTED_FIELD_KEY','LEGAL_AID_RESTRICTED_FIELD_KEY_VERSION','PARTICIPANT_PRIVACY_PSEUDONYM_SECRET'].map(key=>({id:key,key,target:['production'],type:key.endsWith('_VERSION')?'plain':'sensitive',createdAt:now-30000,updatedAt:now-20000,value:'do-not-read-or-record'}));
 function deployment(id,restage=false){return {id,projectId,target:'production',readyState:'READY',url:'synthetic-restage.vercel.app',alias:[],createdAt:restage?now-1000:now-100000,gitSource:{sha:release.applicationSha},meta:{rcapStagedProduction:'true',rcapApplicationSha:release.applicationSha,rcapWorkerSourceSha:release.workerSourceSha,rcapWorkerDigest:release.workerDigest,rcapToolsSha:tools,...(restage?{rcapProductionRestage:RESTAGE_AUTHORITY.marker}:{})}};}
 async function exercise(change=()=>{}) {
- const f={candidate:structuredClone(release),keys:keyEntries(),old:deployment(RESTAGE_AUTHORITY.oldStagedDeploymentId),replacement:deployment('dpl_Replacement',true),existing:[],rollback:RESTAGE_AUTHORITY.rollbackDeploymentId,attempt:'1',readFaults:[],delays:[],requests:[],envReads:0,mappingReads:0};change(f);
+ const f={candidate:structuredClone(release),domains:[...publicDomains.map(name=>({name})),{...redirectDomain}],keys:keyEntries(),old:deployment(RESTAGE_AUTHORITY.oldStagedDeploymentId),replacement:deployment('dpl_Replacement',true),existing:[],rollback:RESTAGE_AUTHORITY.rollbackDeploymentId,attempt:'1',readFaults:[],delays:[],requests:[],envReads:0,mappingReads:0};change(f);
  const temporary=fs.mkdtempSync(path.join(os.tmpdir(),'restage-offline-'));let posts=0;
  try {
  const result=await runProductionRestage({rootDir:process.cwd(),env:{RCAP_PRODUCTION_PHASE:'restage',RCAP_TOOLS_SHA:tools,GITHUB_RUN_ATTEMPT:f.attempt,VERCEL_TOKEN:'synthetic-token',SUPABASE_ACCESS_TOKEN:'synthetic-management',VERCEL_AUTOMATION_BYPASS_SECRET:'synthetic-bypass',RCAP_PRODUCTION_EVIDENCE_DIR:temporary},
@@ -117,10 +123,11 @@ async function exercise(change=()=>{}) {
     if(u.host==='synthetic-restage.vercel.app')return {ok:true,status:200,url:String(url),text:async()=>'<html>https://wwtwtsmywnckfkdaqqeg.supabase.co</html>'};
     else if(u.host==='api.supabase.com'){assert.equal(u.pathname,'/v1/projects/wwtwtsmywnckfkdaqqeg');body={ref:f.wrongProject?'wrong':'wwtwtsmywnckfkdaqqeg'};}
     else if((u.pathname==='/v9/projects/'+projectId||u.pathname==='/v9/projects/'+projectName))body={id:projectId,name:projectName,accountId:teamId};
-    else if(u.pathname.endsWith('/domains')){f.mappingReads++;body={domains:publicDomains.map(name=>({name}))};}
+    else if(u.pathname.endsWith('/domains')){assert.equal(u.searchParams.get('production'),'true');assert.equal(u.searchParams.get('redirects'),'true');f.mappingReads++;const domains=structuredClone(f.domains);if(f.changeRouting&&f.mappingReads>=(f.routingChangeAt??3))f.changeRouting(domains);if(f.reverseInventory&&f.mappingReads>1)domains.reverse();body={domains,...(f.incompleteDomains?{pagination:{next:123}}:{})};}
     else if(u.pathname.endsWith('/env')){assert.equal(u.searchParams.get('decrypt'),'false');f.envReads++;body={envs:f.keys.map(k=>({...k,...(f.envChangeAt&&f.envReads>=f.envChangeAt?{updatedAt:now-500}: {})}))};}
     else if(u.pathname==='/v6/deployments'){assert.equal(u.searchParams.has('state'),false);body={deployments:[f.old,...f.existing]};}
-    else if(publicDomains.some(domain=>u.pathname.endsWith('/'+domain))){const changed=f.changedDomain&&u.pathname.endsWith('/'+f.changedDomain)&&f.mappingReads>=f.domainChangeAt;body=deployment(changed?f.replacement.id:f.mappingChangeAt&&f.mappingReads>=f.mappingChangeAt?'dpl_Wrong':f.rollback);}
+    else if(u.pathname.endsWith('/www.legalease.com')&&!f.redirectBecomesDirect)return {ok:false,status:404,text:async()=>{throw Error('redirect source lookup must not read response');}};
+    else if([...publicDomains,...(f.redirectBecomesDirect?['www.legalease.com']:[])].some(domain=>u.pathname.endsWith('/'+domain))){const changed=f.changedDomain&&u.pathname.endsWith('/'+f.changedDomain)&&f.mappingReads>=f.domainChangeAt;body=deployment(changed?f.replacement.id:f.mappingChangeAt&&f.mappingReads>=f.mappingChangeAt?'dpl_Wrong':f.rollback);}
     else if(u.pathname.endsWith('/'+RESTAGE_AUTHORITY.oldStagedDeploymentId))body=f.old;
     else if(u.pathname.endsWith('/'+f.replacement.id))body={...f.replacement,id:f.detailId??f.replacement.id};
     else throw Error('unexpected API request');
@@ -136,6 +143,35 @@ async function exercise(change=()=>{}) {
 async function runtime(name,fn){await fn();runtimeCases++;console.log('ok   restage runtime: '+name);}
 await runtime('zero replacement creates exactly once, after safe key inventory',async()=>{const {result,posts}=await exercise();assert.equal(result.passed,true,result.failure);assert.equal(posts,1);assert.equal(result.deploymentCreated,true);assert.equal(result.reusedExactReplacement,false);assert.equal(result.replacementCreatedAfterKeys,true);assert.equal(result.publicAliasesChanged,false);assert.equal(result.environmentMetadataChanged,false);});
 await runtime('one READY exact replacement reuses with zero POST, including a rerun',async()=>{const {result,posts}=await exercise(f=>{f.existing=[f.replacement];f.attempt='2';});assert.equal(result.passed,true,result.failure);assert.equal(posts,0);assert.equal(result.reusedExactReplacement,true);assert.equal(result.deploymentCreated,false);});
+await runtime('live-shaped www.legalease.com redirect skips source lookup and preserves canonical routing hash',async()=>{
+ const {result,posts,requests}=await exercise();assert.equal(result.passed,true,result.failure);assert.equal(posts,1);
+ assert.equal(requests.some(r=>r.path==='/v13/deployments/www.legalease.com'),false);
+ const expected=[...publicDomains.map(name=>({name,kind:'deployment',deploymentId:RESTAGE_AUTHORITY.rollbackDeploymentId})),{...redirectDomain,kind:'redirect'}].sort((a,b)=>a.name<b.name?-1:1);
+ assert.deepEqual(result.routingStateBefore,expected);assert.deepEqual(result.routingStateAfter,expected);
+ const {createHash}=await import('node:crypto');assert.equal(result.routingStateBeforeSha256,createHash('sha256').update(JSON.stringify(result.routingStateBefore)).digest('hex'));assert.equal(result.routingStateBeforeSha256,result.routingStateAfterSha256);
+});
+await runtime('inventory order does not change routing hash',async()=>{const {result}=await exercise(f=>f.reverseInventory=true);assert.equal(result.passed,true);assert.equal(result.routingStateBeforeSha256,result.routingStateAfterSha256);});
+await runtime('branch and custom environment entries excluded from Production routing',async()=>{
+ const {result,requests}=await exercise(f=>{f.domains.push({name:'branch.example.test',gitBranch:'feature'},{name:'custom.example.test',customEnvironmentId:'env_test'});});
+ assert.equal(result.passed,true);assert.equal(result.routingStateBefore.length,4);assert.equal(requests.some(r=>/branch\.example|custom\.example/.test(r.path)),false);
+});
+for(const [name,change]of [
+ ['redirect target',d=>d.find(x=>x.redirect).redirect='changed.example.test'],
+ ['redirect status',d=>d.find(x=>x.redirect).redirectStatusCode=307],
+ ['redirect to direct',d=>{const e=d.find(x=>x.redirect);e.redirect=null;e.redirectStatusCode=null;}],
+ ['direct to redirect',d=>{d[0].redirect='synthetic-redirect.example.test';d[0].redirectStatusCode=308;}],
+ ['removed routing entry',d=>d.pop()],
+ ['added redirect',d=>d.push({name:'new.example.test',redirect:'synthetic-redirect.example.test',redirectStatusCode:308})]
+])await runtime(name+' after create refuses via routing-state hash',async()=>{
+ const {result,posts}=await exercise(f=>{f.changeRouting=change;f.redirectBecomesDirect=true;});
+ assert.equal(posts,1);assert.equal(result.passed,false);assert.equal(result.failure,'restage_public_aliases_unchanged');assert.equal(result.publicAliasesChanged,true);assert.notEqual(result.routingStateBeforeSha256,result.routingStateAfterSha256);
+});
+await runtime('redirect change immediately before create refuses with zero POST',async()=>{const {result,posts}=await exercise(f=>{f.routingChangeAt=2;f.changeRouting=d=>d.find(x=>x.redirect).redirectStatusCode=307;});assert.equal(posts,0);assert.equal(result.failure,'restage_precreate_mapping_unchanged');});
+await runtime('direct Production domain 404 refuses once before any create',async()=>{
+ const {result,posts,requests}=await exercise(f=>{f.faultPath='/v13/deployments/legalease.com';f.readFaults=[404];});
+ assert.equal(posts,0);assert.equal(result.deploymentCreateAttempted,false);assert.equal(result.failure,'restage_read_transport_refused');assert.deepEqual(result.transportFailure,{operation:'public_domain:legalease.com',method:'GET',status:404,attempts:1,retryable:false});assert.equal(requests.filter(r=>r.path==='/v13/deployments/legalease.com').length,1);
+});
+await runtime('incomplete project domain inventory refuses before lookup or POST',async()=>{const {result,posts}=await exercise(f=>f.incompleteDomains=true);assert.equal(posts,0);assert.equal(result.failure,'restage_domains_complete');});
 await runtime('real identity and runtime readers use injected read transport',async()=>{
  const {result,posts}=await exercise(f=>{f.realReaders=true;f.existing=[f.replacement];});assert.equal(result.passed,true,result.failure);assert.equal(posts,0);
 });
@@ -198,7 +234,7 @@ for(const [name,change]of [
  ['replacement wrong app',f=>{f.replacement.gitSource.sha='wrong';f.existing=[f.replacement];}],
  ['replacement wrong worker',f=>{f.replacement.meta.rcapWorkerDigest='wrong';f.existing=[f.replacement];}],
  ['replacement wrong project',f=>{f.replacement.projectId='wrong';f.existing=[f.replacement];}],
- ['replacement has public alias',f=>{f.replacement.alias=['production.example.test'];f.existing=[f.replacement];}],
+ ['replacement has public alias',f=>{f.replacement.alias=['legalease.com'];f.existing=[f.replacement];}],
  ['replacement has configured apex alias',f=>{f.replacement.alias=['expungement.ai'];f.existing=[f.replacement];}],
  ['replacement domain autoassignment',f=>{f.replacement.autoAssignCustomDomains=true;f.existing=[f.replacement];}],
  ['environment changes before POST',f=>f.envChangeAt=2],['mapping changes before POST',f=>f.mappingChangeAt=2]

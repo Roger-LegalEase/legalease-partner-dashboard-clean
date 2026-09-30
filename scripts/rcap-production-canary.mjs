@@ -474,17 +474,30 @@ export async function runProductionRestage({env=process.env,rootDir=ROOT_DIR,fet
     check('restage_production_project_exact',(production.ref??production.id)===PRODUCTION_PROJECT_REF);
     let publicBaselineRead=false;
     const mapping=async()=>{
-      const listed=await vercel('public_domains','/v9/projects/'+identity.projectId+'/domains?limit=100');
+      const listed=await vercel('public_domains','/v9/projects/'+identity.projectId+'/domains?limit=100&production=true&redirects=true');
       check('restage_domains_complete',Array.isArray(listed.domains)&&listed.domains.length>0&&!listed.pagination?.next);
-      const domains=listed.domains.filter(d=>!d.gitBranch).map(d=>d.name).sort();
-      check('restage_public_domains_present',domains.length>0&&domains.every(d=>typeof d==='string'));
+      const productionDomains=listed.domains.filter(d=>!d.gitBranch&&!d.customEnvironmentId);
+      check('restage_public_domains_present',productionDomains.length>0&&productionDomains.every(d=>typeof d.name==='string'&&d.name.length>0));
+      const domains=productionDomains.map(d=>d.name).sort();
+      check('restage_domain_names_unique',new Set(domains).size===domains.length);
       const rows=[];
-      for(const domain of domains){const d=await vercel('public_domain:'+domain,'/v13/deployments/'+encodeURIComponent(domain));
+      for(const entry of productionDomains){
+        const name=entry.name;
+        if(entry.redirect!=null&&entry.redirect!==''){
+          check('restage_redirect_metadata_valid',typeof entry.redirect==='string'&&(entry.redirectStatusCode==null||Number.isInteger(entry.redirectStatusCode)));
+          rows.push({name,kind:'redirect',redirect:entry.redirect,redirectStatusCode:entry.redirectStatusCode??null});
+          continue;
+        }
+        const d=await vercel('public_domain:'+name,'/v13/deployments/'+encodeURIComponent(name));
         if(publicBaselineRead&&deploymentId(d)!==RESTAGE_AUTHORITY.rollbackDeploymentId)receipt.publicAliasesChanged=true;
-        check('restage_public_mapping_is_rollback',deploymentId(d)===RESTAGE_AUTHORITY.rollbackDeploymentId&&deploymentReady(d)&&d.target==='production'&&d.projectId===identity.projectId);rows.push({domain,id:deploymentId(d)});}
-      return {domains,hash:sha256(JSON.stringify(rows))};
+        check('restage_public_mapping_is_rollback',deploymentId(d)===RESTAGE_AUTHORITY.rollbackDeploymentId&&deploymentReady(d)&&d.target==='production'&&d.projectId===identity.projectId);
+        rows.push({name,kind:'deployment',deploymentId:deploymentId(d)});
+      }
+      rows.sort((a,b)=>a.name<b.name?-1:a.name>b.name?1:0);
+      return {domains,rows,hash:sha256(JSON.stringify(rows))};
     };
     const publicBefore=await mapping();publicBaselineRead=true;
+    receipt.routingStateBefore=publicBefore.rows;receipt.routingStateBeforeSha256=publicBefore.hash;
     const old=await vercel('old_staged_deployment','/v13/deployments/'+RESTAGE_AUTHORITY.oldStagedDeploymentId);
     const exactTuple=d=>d?.target==='production'&&d?.projectId===identity.projectId&&d?.gitSource?.sha===APPLICATION_SHA
       &&d?.meta?.rcapStagedProduction==='true'&&d.meta.rcapApplicationSha===APPLICATION_SHA&&d.meta.rcapWorkerSourceSha===WORKER_SOURCE_SHA&&d.meta.rcapWorkerDigest===WORKER_DIGEST;
@@ -547,8 +560,9 @@ export async function runProductionRestage({env=process.env,rootDir=ROOT_DIR,fet
       const json=await request('production_project',url,{method: "GET",headers:{Authorization:'Bearer '+env.SUPABASE_ACCESS_TOKEN}});return {status:200,json};
     }));
     const envAfter=await environment(),publicAfter=await mapping();
+    receipt.routingStateAfter=publicAfter.rows;receipt.routingStateAfterSha256=publicAfter.hash;
     receipt.environmentMetadataChanged=envAfter.hash!==envBefore.hash;receipt.publicAliasesChanged=publicAfter.hash!==publicBefore.hash;
-    check('restage_environment_metadata_unchanged',!receipt.environmentMetadataChanged);check('restage_public_aliases_unchanged',!receipt.publicAliasesChanged);
+    check('restage_environment_metadata_unchanged',!receipt.environmentMetadataChanged);check('restage_public_aliases_unchanged',!receipt.publicAliasesChanged&&receipt.routingStateBeforeSha256===receipt.routingStateAfterSha256);
     receipt.controlHashes={environmentBefore:envBefore.hash,environmentAfter:envAfter.hash,aliasesBefore:publicBefore.hash,aliasesAfter:publicAfter.hash};
     receipt.passed=true;
   }catch(error){receipt.failure=receipt.transportFailure?(receipt.transportFailure.method==='GET'?'restage_read_transport_refused':'restage_write_transport_refused'):/^restage_[a-z_]+$/.test(error.message)?error.message:'restage_control_refused';}
