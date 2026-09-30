@@ -1,4 +1,4 @@
-import {BOUND_RESTAGE,STAGED_DEPLOYMENT,PREACTIVATION_NOTE} from './production-preflight-authorization.mjs';
+import {BOUND_RESTAGE,BOUND_SMOKE,STAGED_DEPLOYMENT,PREACTIVATION_NOTE} from './production-preflight-authorization.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
@@ -158,16 +158,20 @@ test('successful restage binding preserves exact paths, frozen authority, earlie
  assert.throws(()=>run({mutate:b=>delete b.successorTools.preactivationProductionLegalAidProofCorrectionBaseSha}),/only bounded successful restage binding/);
 });
 
-test('complete release verifier accepts the exact smoke successor with unchanged restage binding and refuses every receipt substitution',()=>{
+test('complete release verifier accepts exact smoke evidence with unchanged authority and restage binding and refuses every receipt substitution',()=>{
  const root=process.cwd(),candidate=JSON.parse(fs.readFileSync('data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json'));
  const valid=verifyReleaseCandidateBinding(root,candidate);assert.equal(valid.current,true,JSON.stringify(valid));assert.equal(valid.status,'CURRENT');
  const mutations=[
+  ['smoke run ID',c=>c.productionAuthorization.smokeRunId++],
+  ['smoke inner SHA',c=>c.productionAuthorization.smokeArtifactSha256='0'.repeat(64)],
+  ['missing smoke receipt',c=>delete c.productionAuthorization.smokeReceipt],
+  ['activation phase',c=>c.productionAuthorization.phases.push('activate')],
   ['old staged ID',c=>c.productionAuthorization.stagedDeploymentId=c.productionAuthorization.restage.oldStagedDeploymentId],
   ['arbitrary staged ID',c=>c.productionAuthorization.stagedDeploymentId='dpl_arbitrary'],
   ['missing receipt',c=>delete c.productionAuthorization.restage.successfulReceipt],
   ...Object.keys(BOUND_RESTAGE).map(k=>[k,c=>c.productionAuthorization.restage.successfulReceipt[k]=k==='conclusion'?'failure':'wrong']),
  ];
- for(const [name,mutate]of mutations){const c=structuredClone(candidate);mutate(c);const result=verifyReleaseCandidateBinding(root,c);assert.equal(result.current,false,name);assert.ok(result.reasons.some(r=>r.includes('smoke reset preserves release authority and successful restage receipt')),`${name}: ${JSON.stringify(result)}`);}
+ for(const [name,mutate]of mutations){const c=structuredClone(candidate);mutate(c);const result=verifyReleaseCandidateBinding(root,c);assert.equal(result.current,false,name);assert.ok(result.reasons.some(r=>r.includes('only exact successful smoke evidence added; no activation authority')),`${name}: ${JSON.stringify(result)}`);}
 });
 
 
@@ -175,7 +179,7 @@ test('smoke reset successor binds exactly eight paths and preserves authority, h
  const vm=await import('node:vm'),base='d087977b9de5ad7f6a49c0dd3abab59225e2b1f4',toolsPath='data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json',candidatePath='data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json';
  const prior=JSON.parse(execFileSync('git',['show',`${base}:${toolsPath}`],{encoding:'utf8'}));
  const priorCandidate=JSON.parse(execFileSync('git',['show',`${base}:${candidatePath}`],{encoding:'utf8'}));
- const binding=JSON.parse(fs.readFileSync(toolsPath)),candidate=JSON.parse(fs.readFileSync(candidatePath));
+ const binding=JSON.parse(execFileSync('git',['show','eb5099862b664d82449ee20e90798fe9fc275a26:'+toolsPath],{encoding:'utf8'})),candidate=JSON.parse(execFileSync('git',['show','eb5099862b664d82449ee20e90798fe9fc275a26:'+candidatePath],{encoding:'utf8'}));
  const source=fs.readFileSync('scripts/grade-a-launch-control/verify-release-candidate-binding.mjs','utf8');
  const scope=source.slice(source.indexOf('if(smokeReset){'),source.indexOf('  }else if(restageBinding){'))+'\n}';
  const ancestry=source.slice(source.indexOf("  const head=git(['rev-parse','HEAD']);",source.indexOf('function verifyGenerationBinding')),source.indexOf('  expect(Object.keys(t.files).sort()',source.indexOf('function verifyGenerationBinding')));
@@ -192,4 +196,30 @@ test('smoke reset successor binds exactly eight paths and preserves authority, h
  assert.throws(()=>run({mutate:(_b,c)=>c.productionAuthorization.phases.push('activate')}),/preserves release authority/);
  assert.throws(()=>run({mutate:b=>b.successorTools.files['scripts/rcap-production-canary.mjs']='0'.repeat(64)}),/preserved tools/);
  assert.throws(()=>run({mutate:b=>delete b.successorTools.preactivationRestageBindingBaseSha}),/only bounded smoke reset correction/);
+});
+
+
+test('smoke evidence successor binds eleven paths, immutable receipt, preserved authority and sole parent',async()=>{
+ const vm=await import('node:vm'),base='eb5099862b664d82449ee20e90798fe9fc275a26',toolsPath='data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json',candidatePath='data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json';
+ const prior=JSON.parse(execFileSync('git',['show',`${base}:${toolsPath}`],{encoding:'utf8'}));
+ const priorCandidate=JSON.parse(execFileSync('git',['show',`${base}:${candidatePath}`],{encoding:'utf8'}));
+ const binding=JSON.parse(fs.readFileSync(toolsPath)),candidate=JSON.parse(fs.readFileSync(candidatePath));
+ const source=fs.readFileSync('scripts/grade-a-launch-control/verify-release-candidate-binding.mjs','utf8');
+ const scope=source.slice(source.indexOf('if(smokeEvidence){'),source.indexOf('  }else if(smokeReset){'))+'\n}';
+ const ancestry=source.slice(source.indexOf("  const head=git(['rev-parse','HEAD']);",source.indexOf('function verifyGenerationBinding')),source.indexOf('  expect(Object.keys(t.files).sort()',source.indexOf('function verifyGenerationBinding')));
+ const files=JSON.parse(source.match(/const SMOKE_EVIDENCE_BINDING_FILES=(\[[\s\S]*?\]);/)[1]);assert.equal(files.length,11);const head='a'.repeat(40);
+ function run({mutate=()=>{},delta=files,parents=[head,base]}={}){const b=structuredClone(binding),c=structuredClone(candidate);mutate(b,c);
+ vm.runInNewContext(scope+'\n'+ancestry,{binding:b,candidate:c,t:b.successorTools,toolsPath,preactivation:true,correction:undefined,smokeEvidence:b.successorTools.preactivationSmokeEvidenceBaseSha,SMOKE_EVIDENCE_BASE:base,SMOKE_EVIDENCE_BINDING_FILES:files,commitBase:base,BOUND_SMOKE,
+ expect:(a,b,m)=>assert.equal(JSON.stringify(a),JSON.stringify(b),m),git:args=>args[0]==='show'?JSON.stringify(args[1].endsWith(candidatePath)?priorCandidate:prior):({diff:delta.join('\n'),'ls-files':'','rev-parse':head,'rev-list':parents.join(' ')})[args[0]]});}
+ run();
+ for(const delta of [files.slice(1),[...files,'src/extra.ts'],[...files,'scripts/rcap-production-activate.mjs']])assert.throws(()=>run({delta}),/exact smoke evidence binding paths/);
+ for(const parents of [[head,base,'b'.repeat(40)],[head,'b'.repeat(40)]])assert.throws(()=>run({parents}),/one non-merge tools successor/);
+ assert.throws(()=>run({mutate:b=>b.successorTools.preactivationSmokeEvidenceBaseSha='0'.repeat(40)}),/exact smoke evidence base/);
+ for(const key of ['stagedDeploymentId','rollbackDeploymentId','smokeRunId','smokeArtifactSha256'])assert.throws(()=>run({mutate:(_b,c)=>c.productionAuthorization[key]='wrong'}),/only exact successful smoke evidence added/);
+ for(const key of Object.keys(BOUND_SMOKE))assert.throws(()=>run({mutate:(_b,c)=>c.productionAuthorization.smokeReceipt[key]='wrong'}),/only exact successful smoke evidence added/);
+ assert.throws(()=>run({mutate:(_b,c)=>delete c.productionAuthorization.restage.successfulReceipt}),/only exact successful smoke evidence added/);
+ assert.throws(()=>run({mutate:(_b,c)=>c.productionAuthorization.phases.push('activate')}),/no activation authority/);
+ assert.throws(()=>run({mutate:(_b,c)=>c.productionAuthorization.activationReceipt={passed:true}}),/no activation authority/);
+ assert.throws(()=>run({mutate:b=>b.successorTools.files['scripts/rcap-production-canary-smoke.mjs']='0'.repeat(64)}),/preserved tools/);
+ assert.throws(()=>run({mutate:b=>delete b.successorTools.preactivationSmokeResetBaseSha}),/only bounded smoke evidence binding/);
 });

@@ -117,6 +117,24 @@ export const BOUND_RESTAGE = Object.freeze({
   "productionProjectRef": "wwtwtsmywnckfkdaqqeg",
   "evidencePath": "hosted-acceptance-evidence/production-restage-36764240971"
 });
+// Successful execution evidence only. This grants no additional owner phase.
+export const BOUND_SMOKE = Object.freeze({
+  "runId": 36779982696,
+  "runAttempt": 1,
+  "conclusion": "success",
+  "artifactId": 11127253731,
+  "artifactName": "rcap-production-smoke-36779982696",
+  "artifactZipSha256": "sha256:c7a4cba1ff2369ea0f17c0b3183964ed02d3508083c62b758919682f96b52a87",
+  "smokeArtifactSha256": "4e18b47b2c45f06a241d1565fb5b43a45354330184f0d7a9f2ac81ec10d34bf6",
+  "toolsSha": "eb5099862b664d82449ee20e90798fe9fc275a26",
+  "applicationSha": "e312a5efa7b4882e0fbf61a5ff0ae7891ac23226",
+  "workerSourceSha": "5e04eafd7eaed7e71722862e651fb787ebbd296d",
+  "workerDigest": "sha256:6b6a60fc5b2d0060028526013ce37c69f748e2cccb4cfb10943f2af6cf26cfe1",
+  "productionProjectRef": "wwtwtsmywnckfkdaqqeg",
+  "stagedDeploymentId": "dpl_3j4Dr4GHyXmwmrFCTZ6orNNNP7sc",
+  "rollbackDeploymentId": "dpl_5rpkFUKgmp5cGwPaLAzHxx1nUuPK",
+  "evidencePath": "hosted-acceptance-evidence/production-smoke-36779982696"
+});
 export const ROLLBACK_DEPLOYMENT = 'dpl_5rpkFUKgmp5cGwPaLAzHxx1nUuPK';
 export function assertPreactivationAuthorization(candidate) {
  assert.equal(candidate.status,PREACTIVATION_STATUS,'bounded pre-activation status');
@@ -135,6 +153,7 @@ export function assertPreactivationAuthorization(candidate) {
   productionProjectRef:PRODUCTION_PROJECT_REF,recordedBy:PREFLIGHT_OWNER,recordedAt:a.recordedAt,
   phases:[...PREACTIVATION_PHASES],note:PREACTIVATION_NOTE,
   stagedDeploymentId:STAGED_DEPLOYMENT,rollbackDeploymentId:ROLLBACK_DEPLOYMENT,
+  smokeRunId:BOUND_SMOKE.runId,smokeArtifactSha256:BOUND_SMOKE.smokeArtifactSha256,smokeReceipt:{...BOUND_SMOKE},
   preflight:{...BOUND_PREFLIGHT},restage:{...RESTAGE_AUTHORITY,recordedAt:a.restage.recordedAt,successfulReceipt:{...BOUND_RESTAGE}},
  },'exact bounded owner authorization and native preflight identity');
  assert.deepEqual(candidate.hostedAcceptance?.preview,{...PREVIEW,...TUPLE,target:null},'accepted Preview control');

@@ -4,7 +4,7 @@ import path from 'node:path';
 import {createHash} from 'node:crypto';
 import {execFileSync} from 'node:child_process';
 import {TUPLE,PREVIEW} from './verify-hosted-acceptance-evidence.mjs';
-import {BOUND_PREFLIGHT,PREACTIVATION_BASE,PRODUCTION_PROJECT_REF,RESTAGE_AUTHORITY,BOUND_RESTAGE,ROLLBACK_DEPLOYMENT} from './production-preflight-authorization.mjs';
+import {BOUND_PREFLIGHT,PREACTIVATION_BASE,PRODUCTION_PROJECT_REF,RESTAGE_AUTHORITY,BOUND_RESTAGE,BOUND_SMOKE,ROLLBACK_DEPLOYMENT} from './production-preflight-authorization.mjs';
 export const PREFLIGHT_EVIDENCE_FILES=['run.json','jobs.json','artifact.json','11048744402.zip'].map(f=>`${BOUND_PREFLIGHT.evidencePath}/${f}`);
 const hashes=['5266d536a1eade77f98d47245bf775153f570e2745d792bdeaa26333bf9e8730','1e5e95d5bc9c11749f54e6d664042b96a3b4baff155e04c55f0fa2e25d6b5de2','f796d13543356036347a277c26163fb32f98a5f1c0ef500194810fe20fb60ca3',BOUND_PREFLIGHT.artifactSha256.slice(7)];
 export function loadProductionPreflightDocuments(root){
@@ -94,3 +94,50 @@ export function validateProductionRestageDocuments({run,jobs,artifact,body:b}){
  return {...r};
 }
 export function verifyProductionRestageEvidence(root){return validateProductionRestageDocuments(loadProductionRestageDocuments(root));}
+
+// Capture the archive and native GitHub metadata without rewriting either.
+// The activation runtime consumes the inner JSON hash, not the ZIP digest.
+export const SMOKE_EVIDENCE_FILES=['run.json','jobs.json','artifact.json','11127253731.zip'].map(f=>`${BOUND_SMOKE.evidencePath}/${f}`);
+const smokeHashes=['3bf250984fece94d8b365d33c482d6162cb55f1631b24c6a05c24d0d75c1d7e2','667415c27f566de7fae2da14046b42397cd326d0fb39f805bf02b2bb1febc8dc','5b85db11b419cb32a9e815d824a9c80df14475530ed9054c8a89196adc822b31',BOUND_SMOKE.artifactZipSha256.slice(7)];
+export function loadProductionSmokeDocuments(root){
+ const bytes=SMOKE_EVIDENCE_FILES.map((f,i)=>{
+  const b=fs.readFileSync(path.join(root,f));
+  assert.equal(createHash('sha256').update(b).digest('hex'),smokeHashes[i],`native smoke bytes: ${f}`);return b;
+ });
+ const bodyBytes=execFileSync('python3',['-c',"import sys,zipfile; z=zipfile.ZipFile(sys.argv[1]); assert z.namelist()==['production-canary-smoke.json']; assert z.getinfo('production-canary-smoke.json').file_size<8000000; sys.stdout.buffer.write(z.read('production-canary-smoke.json'))",path.join(root,SMOKE_EVIDENCE_FILES[3])]);
+ assert.equal(createHash('sha256').update(bodyBytes).digest('hex'),BOUND_SMOKE.smokeArtifactSha256,'native smoke inner JSON bytes');
+ return {run:JSON.parse(bytes[0]),jobs:JSON.parse(bytes[1]),artifact:JSON.parse(bytes[2]),body:JSON.parse(bodyBytes)};
+}
+export function validateProductionSmokeDocuments({run,jobs,artifact,body:b}){
+ const r=BOUND_SMOKE;
+ assert.equal(run.id,r.runId);assert.equal(run.head_sha,r.toolsSha);assert.equal(run.head_branch,'captain-release');
+ assert.equal(run.run_attempt,r.runAttempt);assert.equal(run.status,'completed');assert.equal(run.conclusion,r.conclusion);
+ assert.equal(run.event,'workflow_dispatch');assert.equal(run.path,'.github/workflows/rcap-f1-ephemeral-staging.yml');
+ assert.equal(run.display_title,`RCAP F1 | production_smoke | tools ${r.toolsSha} | app ${r.applicationSha} | cents 5000`);
+ assert.equal(run.repository.full_name,'Roger-LegalEase/legalease-partner-dashboard-clean');
+ assert.equal(artifact.id,r.artifactId);assert.equal(artifact.name,r.artifactName);assert.equal(artifact.digest,r.artifactZipSha256);assert.equal(artifact.expired,false);
+ assert.deepEqual(artifact.workflow_run,{id:run.id,repository_id:run.repository.id,head_repository_id:run.repository.id,head_branch:'captain-release',head_sha:r.toolsSha});
+ assert.equal(jobs.total_count,9);assert.equal(jobs.jobs.length,jobs.total_count,'complete smoke jobs evidence');
+ const successful=jobs.jobs.filter(j=>j.conclusion==='success');assert.equal(successful.length,1);
+ const j=successful[0];assert.equal(j.id,110107512991);assert.equal(j.run_id,r.runId);assert.equal(j.head_sha,r.toolsSha);assert.equal(j.run_attempt,r.runAttempt);
+ assert.equal(j.name,'Read-only Production identity and rollback discovery / Exact Production release phase');
+ assert.equal(j.status,'completed');assert.ok(jobs.jobs.filter(x=>x!==j).every(x=>x.conclusion==='skipped'));
+ for(const number of [1,2,3,4,5,6,8,12,14,23,26,51,52,53])assert.equal(j.steps.find(s=>s.number===number)?.conclusion,'success',`smoke step ${number}`);
+ for(const number of [7,9,10,11,13,15,16,17,18,19,20,21,22,24,25])assert.equal(j.steps.find(s=>s.number===number)?.conclusion,'skipped',`non-smoke step ${number}`);
+ assert.equal(j.steps.find(s=>s.number===23)?.name,'Run the bounded no-alias Production canary smoke');
+ assert.equal(j.steps.find(s=>s.number===26)?.name,'Upload the immutable Production preflight evidence');
+ assert.equal(b.schemaVersion,'rcap-production-canary-smoke/v1');assert.equal(b.passed,true);assert.equal(b.failure,null);
+ for(const k of ['applicationSha','workerSourceSha','workerDigest','productionProjectRef','stagedDeploymentId','rollbackDeploymentId'])assert.equal(b[k],r[k],`smoke ${k}`);
+ assert.deepEqual(b.migrationHashes,['5e3df0a7f49aae3ebbec10b7392acd331e9ca91b2ffa11c7ee16b3e996f3ddef','9a0af066fbe2d47c82f259e6998a7056a2f8c377c8e6875f143d40fd11f18835','9fb46113fbb87eb75b1502f7cb85c9c27a36bac284888202b64baa63398f8010']);
+ for(const key of ['realParticipantRecordsCreated','realChargesCreated','checkoutCreated','workerRun','deploymentTriggered','aliasChanged','environmentVariableChanged','productionDatabasePersistentlyMutated','originPersisted','secretsPersisted'])assert.equal(b[key],false,key);
+ assert.equal(b.transactionalFixtureRolledBack,true);
+ const expected=['exact_staged_application_worker_identity','rollback_target_is_ready_and_still_active','runtime_supabase_origin_is_canonical','staged_health_is_200','production_clinic_schema_direct_readback','save_claim_schema_read_back_exact','transactional_synthetic_fixture_rolled_back','colorado_juvenile_guidance_has_no_commerce','clinic_negative_control_isolated','clinic_reset_boundary_passed'];
+ assert.deepEqual(b.verdicts.map(v=>v.caseId),expected);assert.ok(b.verdicts.every(v=>v.passed===true));
+ for(const key of ['resetPrepareStatus','resetCloseStatus','resetCompleteStatus'])assert.equal(b[key],200,key);
+ for(const key of ['resetPrepared','resetPrepareStateIsNoSession','resetRecoveryCookieIssued','resetCloseSuccess','resetRevocationConfirmed','resetSignOutConfirmed','resetClearSiteDataStorage','resetClinicCookiesCleared','resetCompleteSuccess','resetCleanEntryPathSafe','resetRecoveryRetired'])assert.equal(b[key],true,key);
+ assert.equal(b.runtime.exactlyOneSupabaseOrigin,true);assert.equal(b.runtime.productionProjectMatch,true);
+ assert.match(b.runtime.supabaseOriginSha256,/^[a-f0-9]{64}$/);
+ assert.ok(Date.parse(b.startedAt)>=Date.parse(j.started_at)&&Date.parse(b.finishedAt)<=Date.parse(j.completed_at));
+ return {...r};
+}
+export function verifyProductionSmokeEvidence(root){return validateProductionSmokeDocuments(loadProductionSmokeDocuments(root));}

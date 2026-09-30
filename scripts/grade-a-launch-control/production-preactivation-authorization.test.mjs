@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {execFileSync} from 'node:child_process';
 import {createHash} from 'node:crypto';
-import {PREACTIVATION_BASE,PREACTIVATION_STATUS,PREACTIVATION_PHASES,BOUND_PREFLIGHT,BOUND_RESTAGE,STAGED_DEPLOYMENT,PREACTIVATION_NOTE,assertPreactivationAuthorization,requireProductionPhaseAuthorization} from './production-preflight-authorization.mjs';
+import {PREACTIVATION_BASE,PREACTIVATION_STATUS,PREACTIVATION_PHASES,BOUND_PREFLIGHT,BOUND_RESTAGE,BOUND_SMOKE,STAGED_DEPLOYMENT,PREACTIVATION_NOTE,assertPreactivationAuthorization,requireProductionPhaseAuthorization} from './production-preflight-authorization.mjs';
 import {PREFLIGHT_EVIDENCE_FILES,loadProductionPreflightDocuments,validateProductionPreflightDocuments,verifyProductionPreflightEvidence} from './verify-production-preflight-evidence.mjs';
 import {HOSTED_EVIDENCE_FILES} from './verify-hosted-acceptance-evidence.mjs';
 import {requireProductionDeploymentBinding} from '../rcap-production-migration-contract.mjs';
@@ -110,7 +110,7 @@ test('prior authority and hosted evidence are preserved; integrated controls ret
  assert.equal(owner.authorizedBy,'Roger Roman');assert.equal(owner.hostedAcceptance.browserRunId,null);
  assert.deepEqual(owner.releaseTuple,Object.fromEntries(['applicationSha','workerSourceSha','workerDigest','workerInputFingerprint','productionProjectRef'].map(k=>[k,candidate[k]])));
  const priorCandidate=JSON.parse(execFileSync('git',['show',`36f1e3f716aca14ba874cfdb3082edf1c8279ffa:${prefix}RELEASE_CANDIDATE_BINDING.json`],{encoding:'utf8'}));
- assert.deepEqual(candidate,{...priorCandidate,productionAuthorization:{...priorCandidate.productionAuthorization,phases:[...priorCandidate.productionAuthorization.phases,'restage'],note:PREACTIVATION_NOTE,stagedDeploymentId:STAGED_DEPLOYMENT,restage:candidate.productionAuthorization.restage}});
+ assert.deepEqual(candidate,{...priorCandidate,productionAuthorization:{...priorCandidate.productionAuthorization,phases:[...priorCandidate.productionAuthorization.phases,'restage'],note:PREACTIVATION_NOTE,stagedDeploymentId:STAGED_DEPLOYMENT,restage:candidate.productionAuthorization.restage,smokeRunId:BOUND_SMOKE.runId,smokeArtifactSha256:BOUND_SMOKE.smokeArtifactSha256,smokeReceipt:{...BOUND_SMOKE}}});
  assert.equal(candidate.productionAuthorization.stagedDeploymentId,'dpl_3j4Dr4GHyXmwmrFCTZ6orNNNP7sc');
  assert.equal(candidate.productionAuthorization.restage.oldStagedDeploymentId,'dpl_4Kmyt51JN8P4D7iB1GC3VaZcN2hp');
  assert.equal(candidate.productionAuthorization.rollbackDeploymentId,'dpl_5rpkFUKgmp5cGwPaLAzHxx1nUuPK');
@@ -187,4 +187,99 @@ test('real smoke target declarations consume the bound replacement and rollback;
  assert.deepEqual(calls,['release-gate','/v9/projects/synthetic-project','/v13/deployments/'+BOUND_RESTAGE.replacementStagedDeploymentId,'/v13/deployments/'+BOUND_RESTAGE.rollbackDeploymentId,'/v9/projects/synthetic-project/domains?limit=100']);
  assert.equal(source.includes(candidate.productionAuthorization.restage.oldStagedDeploymentId),false);
  for(const phase of ['activate','public_verify','alias_move'])assert.throws(()=>requireProductionPhaseAuthorization(candidate,phase),refusal);
+});
+
+// Successful smoke is evidence, never a new owner-authorized phase.
+import {loadProductionSmokeDocuments,validateProductionSmokeDocuments,verifyProductionSmokeEvidence,SMOKE_EVIDENCE_FILES} from './verify-production-preflight-evidence.mjs';
+import {requireProductionMigrationRelease} from '../rcap-production-migration-contract.mjs';
+const smokeDocuments=loadProductionSmokeDocuments(process.cwd());
+test('native smoke archive and inner hash bind the exact successful tuple without activation authority',()=>{
+ assert.deepEqual(verifyProductionSmokeEvidence(process.cwd()),BOUND_SMOKE);
+ const a=candidate.productionAuthorization;
+ assert.deepEqual(a.smokeReceipt,BOUND_SMOKE);assert.equal(a.smokeRunId,36779982696);
+ assert.equal(a.smokeArtifactSha256,'4e18b47b2c45f06a241d1565fb5b43a45354330184f0d7a9f2ac81ec10d34bf6');
+ assert.notEqual(a.smokeArtifactSha256,a.smokeReceipt.artifactZipSha256.slice(7));
+ const prior=JSON.parse(execFileSync('git',['show',`eb5099862b664d82449ee20e90798fe9fc275a26:${prefix}RELEASE_CANDIDATE_BINDING.json`],{encoding:'utf8'}));
+ assert.deepEqual(candidate,{...prior,productionAuthorization:{...prior.productionAuthorization,smokeRunId:BOUND_SMOKE.runId,smokeArtifactSha256:BOUND_SMOKE.smokeArtifactSha256,smokeReceipt:{...BOUND_SMOKE}}});
+ assert.deepEqual(a.phases,prior.productionAuthorization.phases);
+ assert.equal(Object.hasOwn(a,'activationReceipt'),false);
+ assert.throws(()=>requireProductionPhaseAuthorization(candidate,'activate'),refusal);
+});
+for(const key of Object.keys(BOUND_SMOKE))test(`smoke evidence binding refuses receipt substitution: ${key}`,()=>{
+ const c=clone();c.productionAuthorization.smokeReceipt[key]='wrong';
+ assert.throws(()=>assertPreactivationAuthorization(c));
+ assert.throws(()=>requireProductionPhaseAuthorization(c,'smoke'),refusal);
+});
+for(const [name,mutate]of [
+ ['wrong smoke run',c=>c.productionAuthorization.smokeRunId++],
+ ['wrong inner hash',c=>c.productionAuthorization.smokeArtifactSha256='0'.repeat(64)],
+ ['ZIP hash used as inner hash',c=>c.productionAuthorization.smokeArtifactSha256=BOUND_SMOKE.artifactZipSha256.slice(7)],
+ ...['smokeRunId','smokeArtifactSha256','smokeReceipt'].map(k=>['missing '+k,c=>delete c.productionAuthorization[k]]),
+ ['failed conclusion',c=>c.productionAuthorization.smokeReceipt.conclusion='failure'],
+ ['activation appended',c=>c.productionAuthorization.phases.push('activate')],
+ ['activation substituted',c=>c.productionAuthorization.phases=['activate']],
+ ['invented activation receipt',c=>c.productionAuthorization.activationReceipt={passed:true}],
+])test(`evidence-only authority refuses ${name}`,()=>{const c=clone();mutate(c);assert.throws(()=>assertPreactivationAuthorization(c));assert.throws(()=>requireProductionPhaseAuthorization(c,'activate'),refusal);});
+for(const [name,mutate]of [
+ ['run ID',d=>d.run.id++],['attempt',d=>d.run.run_attempt++],['tools SHA',d=>d.run.head_sha='0'.repeat(40)],['failed run',d=>d.run.conclusion='failure'],
+ ['wrong phase',d=>d.run.display_title=d.run.display_title.replace('production_smoke','production_activate')],
+ ['artifact ID',d=>d.artifact.id++],['artifact name',d=>d.artifact.name+='-wrong'],['ZIP digest',d=>d.artifact.digest='sha256:'+'0'.repeat(64)],['artifact association',d=>d.artifact.workflow_run.id++],
+ ['missing jobs',d=>d.jobs.jobs.pop()],['failed smoke step',d=>d.jobs.jobs.find(j=>j.conclusion==='success').steps.find(s=>s.number===23).conclusion='failure'],
+ ['activation ran',d=>d.jobs.jobs.find(j=>j.conclusion==='success').steps.find(s=>s.number===25).conclusion='success'],
+ ...['applicationSha','workerSourceSha','workerDigest','productionProjectRef','stagedDeploymentId','rollbackDeploymentId'].map(k=>[k,d=>d.body[k]='wrong']),
+ ['passed false',d=>d.body.passed=false],['missing receipt',d=>delete d.body],['missing verdicts',d=>d.body.verdicts=[]],['failed verdict',d=>d.body.verdicts[0].passed=false],
+ ['missing rollback',d=>d.body.transactionalFixtureRolledBack=false],
+ ...['realParticipantRecordsCreated','realChargesCreated','checkoutCreated','workerRun','deploymentTriggered','aliasChanged','environmentVariableChanged','productionDatabasePersistentlyMutated'].map(k=>[k,d=>d.body[k]=true]),
+ ...['resetPrepared','resetRecoveryCookieIssued','resetCloseSuccess','resetRevocationConfirmed','resetSignOutConfirmed','resetClearSiteDataStorage','resetClinicCookiesCleared','resetCompleteSuccess','resetRecoveryRetired'].map(k=>[k,d=>d.body[k]=false]),
+])test(`native smoke semantic mutation refuses ${name}`,()=>{const d=structuredClone(smokeDocuments);mutate(d);assert.throws(()=>validateProductionSmokeDocuments(d));});
+test('each missing or modified native smoke file refuses; originals restore the positive path',()=>{
+ const root=fs.mkdtempSync(path.join(os.tmpdir(),'smoke-evidence-binding-'));
+ try{
+  for(const rel of SMOKE_EVIDENCE_FILES){fs.mkdirSync(path.dirname(path.join(root,rel)),{recursive:true});fs.copyFileSync(rel,path.join(root,rel));}
+  assert.deepEqual(verifyProductionSmokeEvidence(root),BOUND_SMOKE);
+  for(const rel of SMOKE_EVIDENCE_FILES){const p=path.join(root,rel),b=fs.readFileSync(p);fs.appendFileSync(p,' ');assert.throws(()=>verifyProductionSmokeEvidence(root),/native smoke bytes/);fs.unlinkSync(p);assert.throws(()=>verifyProductionSmokeEvidence(root));fs.writeFileSync(p,b);}
+  assert.deepEqual(verifyProductionSmokeEvidence(root),BOUND_SMOKE);
+ }finally{fs.rmSync(root,{recursive:true,force:true});}
+});
+test('existing workflow data flow selects exact smoke run/name, but real release guard still denies activation',async()=>{
+ const {parse}=await import('yaml');
+ const source=fs.readFileSync('scripts/rcap-production-migration-contract.mjs','utf8');
+ const start=source.indexOf('    if (process.env.GITHUB_ENV)'),end=source.indexOf("    console.log('Production release tuple",start);
+ assert.ok(start>=0&&end>start);
+ const writes=[];
+ // Evaluate only the existing value-export fragment, never its authorization
+ // gate or an activation entrypoint. The real gate is tested separately below.
+ vm.runInNewContext(source.slice(start,end),{candidate,process:{env:{GITHUB_ENV:'mock-only',RCAP_PRODUCTION_PHASE:'activate'}},fs:{appendFileSync:(_p,value)=>writes.push(value)}});
+ const environment=Object.fromEntries(writes.join('').trim().split('\n').map(line=>line.split('=')));
+ assert.equal(environment.PRODUCTION_SMOKE_RUN_ID,'36779982696');
+ const workflow=parse(fs.readFileSync('.github/workflows/rcap-production-canary.yml','utf8'));
+ const steps=workflow.jobs.preflight.steps,download=steps.find(s=>s.name==='Download the exact successful Production smoke evidence');
+ assert.equal(download.uses,'actions/download-artifact@v4');assert.equal(download.if,"inputs.phase == 'activate'");
+ const resolve=value=>value.replaceAll('${{ env.PRODUCTION_SMOKE_RUN_ID }}',environment.PRODUCTION_SMOKE_RUN_ID);
+ assert.equal(resolve(download.with.name),'rcap-production-smoke-36779982696');assert.equal(resolve(download.with['run-id']),'36779982696');assert.equal(download.with.path,'prior-production-smoke-evidence');
+ assert.ok(steps.findIndex(s=>s.run?.includes('node scripts/rcap-production-migration-contract.mjs'))<steps.indexOf(download));
+ const head=execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim();
+ assert.throws(()=>requireProductionMigrationRelease(process.cwd(),{RCAP_PRODUCTION_PHASE:'activate',RCAP_APPLICATION_SHA:candidate.applicationSha,RCAP_WORKER_SOURCE_SHA:candidate.workerSourceSha,RCAP_WORKER_DIGEST:candidate.workerDigest,RCAP_PRODUCTION_PROJECT_REF:candidate.productionProjectRef,RCAP_TOOLS_SHA:head,GITHUB_SHA:head}),refusal);
+});
+test('actual activation declarations and pure smoke predicate consume exact inner bytes; substitutions refuse',()=>{
+ const source=fs.readFileSync('scripts/rcap-production-activate.mjs','utf8');
+ const inner=execFileSync('python3',['-c',"import sys,zipfile; sys.stdout.buffer.write(zipfile.ZipFile(sys.argv[1]).read('production-canary-smoke.json'))",SMOKE_EVIDENCE_FILES[3]],{encoding:'utf8'});
+ const declarations=source.slice(source.indexOf('const APPLICATION_SHA ='),source.indexOf('const SMOKE_FILE ='));
+ const migrations=source.slice(source.indexOf('const REQUIRED_MIGRATION_HASHES ='),source.indexOf('const REQUIRED_TABLES ='));
+ const predicate=source.slice(source.indexOf('  const smokeExact ='),source.indexOf('\n  record(',source.indexOf('  const smokeExact =')));
+ assert.ok(declarations&&migrations&&predicate);
+ const sha256=value=>createHash('sha256').update(value).digest('hex');
+ function run(c=candidate,text=inner){const context={RELEASE_CANDIDATE:c,smokeText:text,smoke:JSON.parse(text),sha256};
+  vm.runInNewContext(declarations+migrations+predicate+';globalThis.result={smokeExact,SMOKE_RUN_ID,STAGED_DEPLOYMENT_ID,ROLLBACK_DEPLOYMENT_ID,APPLICATION_SHA,WORKER_SOURCE_SHA,WORKER_DIGEST};',context);return context.result;}
+ const result=run();assert.equal(result.smokeExact,true);assert.equal(result.SMOKE_RUN_ID,36779982696);
+ for(const [symbol,key]of [['STAGED_DEPLOYMENT_ID','stagedDeploymentId'],['ROLLBACK_DEPLOYMENT_ID','rollbackDeploymentId'],['APPLICATION_SHA','applicationSha'],['WORKER_SOURCE_SHA','workerSourceSha'],['WORKER_DIGEST','workerDigest']])assert.equal(result[symbol],BOUND_SMOKE[key]);
+ for(const key of ['applicationSha','workerSourceSha','workerDigest']){const c=clone();c[key]='wrong';assert.equal(run(c).smokeExact,false);}
+ for(const key of ['stagedDeploymentId','rollbackDeploymentId','smokeArtifactSha256']){const c=clone();c.productionAuthorization[key]='wrong';assert.equal(run(c).smokeExact,false);}
+ const zipHash=clone();zipHash.productionAuthorization.smokeArtifactSha256=BOUND_SMOKE.artifactZipSha256.slice(7);assert.equal(run(zipHash).smokeExact,false);
+ assert.equal(run(candidate,inner+' ').smokeExact,false,'even semantic-equivalent byte substitution refuses');
+ const failed=JSON.parse(inner);failed.passed=false;
+ const c=clone(),text=JSON.stringify(failed);c.productionAuthorization.smokeArtifactSha256=sha256(text);
+ assert.equal(run(c,text).smokeExact,false,'failed receipt cannot pass even with a matching substituted hash');
+ assert.ok(source.indexOf('requireProductionMigrationRelease(ROOT_DIR, process.env);')<source.indexOf('const smokeText ='));
+ assert.ok(source.indexOf('const smokeExact =')<source.indexOf('identity = await resolveHostedVercelIdentity('));
 });

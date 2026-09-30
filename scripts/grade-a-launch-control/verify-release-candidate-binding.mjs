@@ -1,5 +1,5 @@
-import {PREACTIVATION_BASE,PREACTIVATION_SCOPE,PREACTIVATION_PHASES,BOUND_RESTAGE,STAGED_DEPLOYMENT,PREACTIVATION_NOTE,assertPreactivationAuthorization} from './production-preflight-authorization.mjs';
-import {PREFLIGHT_EVIDENCE_FILES,verifyProductionPreflightEvidence,verifyProductionRestageEvidence} from './verify-production-preflight-evidence.mjs';
+import {PREACTIVATION_BASE,PREACTIVATION_SCOPE,PREACTIVATION_PHASES,BOUND_RESTAGE,BOUND_SMOKE,STAGED_DEPLOYMENT,PREACTIVATION_NOTE,assertPreactivationAuthorization} from './production-preflight-authorization.mjs';
+import {PREFLIGHT_EVIDENCE_FILES,verifyProductionPreflightEvidence,verifyProductionRestageEvidence,verifyProductionSmokeEvidence} from './verify-production-preflight-evidence.mjs';
 import {PREFLIGHT_BASE,PREFLIGHT_SCOPE,assertPreflightOnlyAuthorization} from './production-preflight-authorization.mjs';
 import {HOSTED_BASE,HOSTED_EVIDENCE_FILES,PREVIEW,verifyHostedAcceptanceEvidence} from './verify-hosted-acceptance-evidence.mjs';
 import {applicationInputManifest, applicationInputEquivalence} from '../rcap-application-inputs.mjs';
@@ -930,6 +930,20 @@ const RESTAGE_ROUTING_FILES=[
   "scripts/grade-a-launch-control/verify-release-candidate-binding.test.mjs",
   "scripts/grade-a-launch-control/test-release-candidate-binding-mutations.mjs"
 ];
+const SMOKE_EVIDENCE_BASE="eb5099862b664d82449ee20e90798fe9fc275a26";
+const SMOKE_EVIDENCE_BINDING_FILES=[
+  "data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json",
+  "data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json",
+  "scripts/grade-a-launch-control/production-preflight-authorization.mjs",
+  "scripts/grade-a-launch-control/production-preactivation-authorization.test.mjs",
+  "scripts/grade-a-launch-control/verify-production-preflight-evidence.mjs",
+  "scripts/grade-a-launch-control/verify-release-candidate-binding.mjs",
+  "scripts/grade-a-launch-control/verify-release-candidate-binding.test.mjs",
+  "hosted-acceptance-evidence/production-smoke-36779982696/run.json",
+  "hosted-acceptance-evidence/production-smoke-36779982696/jobs.json",
+  "hosted-acceptance-evidence/production-smoke-36779982696/artifact.json",
+  "hosted-acceptance-evidence/production-smoke-36779982696/11127253731.zip"
+];
 const SMOKE_RESET_BASE="d087977b9de5ad7f6a49c0dd3abab59225e2b1f4";
 const SMOKE_RESET_FILES=[
   "scripts/rcap-production-canary-smoke.mjs",
@@ -1022,6 +1036,7 @@ function verifyGenerationBinding(root,candidate,pending){
   const readinessCorrection=t.preactivationReadinessCorrectionBaseSha;
   const closure=t.preactivationClosureBaseSha;
   const harnessCorrection=t.preactivationHarnessCorrectionBaseSha;
+  const smokeEvidence=t.preactivationSmokeEvidenceBaseSha;
   const smokeReset=t.preactivationSmokeResetBaseSha;
   const restageBinding=t.preactivationRestageBindingBaseSha;
   const restageRoutingCorrection=t.preactivationRestageRoutingBaseSha;
@@ -1031,7 +1046,7 @@ function verifyGenerationBinding(root,candidate,pending){
   const relationshipsCorrection=t.preactivationLegalAidRelationshipsCorrectionBaseSha;
   const legalAidHarnessSuccessor=t.preactivationLegalAidHarnessSuccessorBaseSha;
   const seedRerunCorrection=t.preactivationLegalAidSeedRerunCorrectionBaseSha;
-  const generationFiles=preactivation?[...new Set([...PREACTIVATION_FILES,...(smokeReset?SMOKE_RESET_FILES:[]),...(restageBinding?RESTAGE_BINDING_FILES:[]),...(restageCorrection?PRODUCTION_RESTAGE_FILES:[]),...(restageRoutingCorrection?RESTAGE_ROUTING_FILES:[]),...(productionLegalAidProofCorrection?PRODUCTION_LEGAL_AID_PROOF_FILES:[]),...(relationshipsCorrection?LEGAL_AID_RELATIONSHIPS_FILES:[]),...(legalAidHarnessSuccessor?LEGAL_AID_HARNESS_SUCCESSOR_FILES:[]),...(seedRerunCorrection?LEGAL_AID_SEED_RERUN_CORRECTION_FILES:[]),...(harnessCorrection?HARNESS_CORRECTION_FILES:[]),...(closure?CLOSURE_FILES:[]),...(readinessCorrection?READINESS_CORRECTION_FILES:[]),...(hostedTestCorrection?HOSTED_EVIDENCE_TEST_CORRECTION_FILES:[])])]:preflightOnly?[...new Set([...GENERATION_FILES,...(correction?PRODUCTION_DEPENDENCY_ORDER_FILES:[])])]:base===HOSTED_BASE?HOSTED_GENERATION_FILES:(base==='879463ec2ef60696da39a0367b4758d26074207b'
+  const generationFiles=preactivation?[...new Set([...PREACTIVATION_FILES,...(smokeEvidence?SMOKE_EVIDENCE_BINDING_FILES:[]),...(smokeReset?SMOKE_RESET_FILES:[]),...(restageBinding?RESTAGE_BINDING_FILES:[]),...(restageCorrection?PRODUCTION_RESTAGE_FILES:[]),...(restageRoutingCorrection?RESTAGE_ROUTING_FILES:[]),...(productionLegalAidProofCorrection?PRODUCTION_LEGAL_AID_PROOF_FILES:[]),...(relationshipsCorrection?LEGAL_AID_RELATIONSHIPS_FILES:[]),...(legalAidHarnessSuccessor?LEGAL_AID_HARNESS_SUCCESSOR_FILES:[]),...(seedRerunCorrection?LEGAL_AID_SEED_RERUN_CORRECTION_FILES:[]),...(harnessCorrection?HARNESS_CORRECTION_FILES:[]),...(closure?CLOSURE_FILES:[]),...(readinessCorrection?READINESS_CORRECTION_FILES:[]),...(hostedTestCorrection?HOSTED_EVIDENCE_TEST_CORRECTION_FILES:[])])]:preflightOnly?[...new Set([...GENERATION_FILES,...(correction?PRODUCTION_DEPENDENCY_ORDER_FILES:[])])]:base===HOSTED_BASE?HOSTED_GENERATION_FILES:(base==='879463ec2ef60696da39a0367b4758d26074207b'
     ||base==='516b02ac1a68a6aaef41ca9825eae0ece5e3df37')?CHECKOUT_RETURN_GENERATION_FILES
     :base==='7556f87cee1cf3e6f4b503c76b8ba1d1bbc59456'?PACKET_DATABASE_GENERATION_FILES
     :base==='e312a5efa7b4882e0fbf61a5ff0ae7891ac23226'?APPLICATION_AUTHORITY_GENERATION_FILES
@@ -1041,8 +1056,19 @@ function verifyGenerationBinding(root,candidate,pending){
     :base==='44916baaeb9815ba3dd61d94e8c51294f01e8166'?HOSTED_PIN_GENERATION_FILES
     :base==='9ce9233bde4e3c16d0dc9657524ae1a5f02eb2fa'?DS08_GENERATION_FILES:PRIOR_GENERATION_FILES;
   const expect=(actual,expected,message)=>{if(JSON.stringify(actual)!==JSON.stringify(expected))throw Error(message);};
-  const commitBase=smokeReset??restageBinding??restageRoutingCorrection??restageTransportCorrection??restageCorrection??productionLegalAidProofCorrection??relationshipsCorrection??legalAidHarnessSuccessor??seedRerunCorrection??harnessCorrection??closure??readinessCorrection??hostedTestCorrection??correction??base;
-  if(smokeReset){
+  const commitBase=smokeEvidence??smokeReset??restageBinding??restageRoutingCorrection??restageTransportCorrection??restageCorrection??productionLegalAidProofCorrection??relationshipsCorrection??legalAidHarnessSuccessor??seedRerunCorrection??harnessCorrection??closure??readinessCorrection??hostedTestCorrection??correction??base;
+  if(smokeEvidence){
+   expect(preactivation,true,'smoke evidence only on reviewed preactivation release');
+   expect(correction,undefined,'no combined dependency correction scope');
+   expect(smokeEvidence,SMOKE_EVIDENCE_BASE,'exact smoke evidence base');
+   const priorTools=JSON.parse(git(['show',`${smokeEvidence}:${toolsPath}`]));
+   expect(binding,{...priorTools,toolsSha:smokeEvidence,successorTools:{...priorTools.successorTools,preactivationSmokeEvidenceBaseSha:smokeEvidence,files:t.files}},'only bounded smoke evidence binding');
+   const priorCandidate=JSON.parse(git(['show',`${smokeEvidence}:data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json`]));
+   expect(candidate,{...priorCandidate,productionAuthorization:{...priorCandidate.productionAuthorization,smokeRunId:BOUND_SMOKE.runId,smokeArtifactSha256:BOUND_SMOKE.smokeArtifactSha256,smokeReceipt:{...BOUND_SMOKE}}},'only exact successful smoke evidence added; no activation authority');
+   for(const [rel,hash]of Object.entries(priorTools.successorTools.files))if(!SMOKE_EVIDENCE_BINDING_FILES.includes(rel))expect(t.files[rel],hash,`preserved tools: ${rel}`);
+   const delta=[...new Set([...git(['diff','--name-only',smokeEvidence]).split('\n'),...git(['ls-files','--others','--exclude-standard']).split('\n')].filter(Boolean))].sort();
+   expect(delta,SMOKE_EVIDENCE_BINDING_FILES.slice().sort(),'exact smoke evidence binding paths');
+  }else if(smokeReset){
    expect(preactivation,true,'smoke reset only on reviewed preactivation release');
    expect(correction,undefined,'no combined dependency correction scope');
    expect(smokeReset,SMOKE_RESET_BASE,'exact smoke reset base');
@@ -1195,7 +1221,7 @@ function verifyGenerationBinding(root,candidate,pending){
   }
   for(const k of ['deploymentAuthorized','migrationReplayAuthorized','housekeepingReplayAuthorized','additionalWorkerPublicationAuthorized','imageAcceptanceRerunAuthorized','hostedFullReady','clinicDispatchReady'])expect(binding[k],false,`tools cannot authorize ${k}`);
   if(productionScoped){
-   if(preactivation){assertPreactivationAuthorization(candidate);expect(candidate.scope,PREACTIVATION_SCOPE,'bounded pre-activation scope');expect(candidate.productionAuthorization.preflight,verifyProductionPreflightEvidence(root),'bound native preflight');expect(candidate.productionAuthorization.restage.successfulReceipt,verifyProductionRestageEvidence(root),'bound native successful restage');}
+   if(preactivation){assertPreactivationAuthorization(candidate);expect(candidate.scope,PREACTIVATION_SCOPE,'bounded pre-activation scope');expect(candidate.productionAuthorization.preflight,verifyProductionPreflightEvidence(root),'bound native preflight');expect(candidate.productionAuthorization.restage.successfulReceipt,verifyProductionRestageEvidence(root),'bound native successful restage');expect(candidate.productionAuthorization.smokeReceipt,verifyProductionSmokeEvidence(root),'bound native successful smoke');}
    else {assertPreflightOnlyAuthorization(candidate);expect(candidate.scope,PREFLIGHT_SCOPE,'preflight-only scope');}
    const recordedAt=Date.parse(candidate.productionAuthorization.recordedAt);
    const predecessorAt=Number(git(['show','-s','--format=%ct',base]))*1000;
@@ -1221,7 +1247,7 @@ function verifyGenerationBinding(root,candidate,pending){
   for(const key of new Set([...Object.keys(previousTools),...Object.keys(binding)]))if(!toolsUpdates.has(key))expect(binding[key],previousTools[key],`unchanged tools field ${key}`);
   expect(candidate.applicationPin,{...previous.applicationPin,sourceSha:pending.applicationSha,canonicalInputBaseline:pending.applicationSha,workerInputFingerprint:pending.workerInputFingerprint},'exact application pin');
   expect(candidate.previewExecutionInstruction,{...previous.previewExecutionInstruction,mode:null,...((base===HOSTED_BASE||productionScoped)?{preview_hostname:PREVIEW.hostname,preview_deployment_id:PREVIEW.deploymentId,firstExecution:'Hosted acceptance is complete; no execution authorized by this record.'}:{})},'exact Preview identity without execution authority');
-  expect(Object.keys(t).sort(),['schemaVersion','baseSha','commit','files',...(correction?['dependencyOrderCorrectionBaseSha']:[]),...(hostedTestCorrection?['hostedEvidenceTestCorrectionBaseSha']:[]),...(readinessCorrection?['preactivationReadinessCorrectionBaseSha']:[]),...(closure?['preactivationClosureBaseSha']:[]),...(harnessCorrection?['preactivationHarnessCorrectionBaseSha']:[]),...(seedRerunCorrection?['preactivationLegalAidSeedRerunCorrectionBaseSha']:[]),...(legalAidHarnessSuccessor?['preactivationLegalAidHarnessSuccessorBaseSha']:[]),...(relationshipsCorrection?['preactivationLegalAidRelationshipsCorrectionBaseSha']:[]),...(productionLegalAidProofCorrection?['preactivationProductionLegalAidProofCorrectionBaseSha']:[]),...(restageCorrection?['preactivationProductionRestageBaseSha']:[]),...(restageTransportCorrection?['preactivationRestageTransportBaseSha']:[]),...(restageRoutingCorrection?['preactivationRestageRoutingBaseSha']:[]),...(restageBinding?['preactivationRestageBindingBaseSha']:[]),...(smokeReset?['preactivationSmokeResetBaseSha']:[])].sort(),'no inherited tools correction scope');
+  expect(Object.keys(t).sort(),['schemaVersion','baseSha','commit','files',...(correction?['dependencyOrderCorrectionBaseSha']:[]),...(hostedTestCorrection?['hostedEvidenceTestCorrectionBaseSha']:[]),...(readinessCorrection?['preactivationReadinessCorrectionBaseSha']:[]),...(closure?['preactivationClosureBaseSha']:[]),...(harnessCorrection?['preactivationHarnessCorrectionBaseSha']:[]),...(seedRerunCorrection?['preactivationLegalAidSeedRerunCorrectionBaseSha']:[]),...(legalAidHarnessSuccessor?['preactivationLegalAidHarnessSuccessorBaseSha']:[]),...(relationshipsCorrection?['preactivationLegalAidRelationshipsCorrectionBaseSha']:[]),...(productionLegalAidProofCorrection?['preactivationProductionLegalAidProofCorrectionBaseSha']:[]),...(restageCorrection?['preactivationProductionRestageBaseSha']:[]),...(restageTransportCorrection?['preactivationRestageTransportBaseSha']:[]),...(restageRoutingCorrection?['preactivationRestageRoutingBaseSha']:[]),...(restageBinding?['preactivationRestageBindingBaseSha']:[]),...(smokeReset?['preactivationSmokeResetBaseSha']:[]),...(smokeEvidence?['preactivationSmokeEvidenceBaseSha']:[])].sort(),'no inherited tools correction scope');
   return {current:true,status:'CURRENT',hostedAcceptanceStatus:candidate.hostedAcceptanceStatus,releaseStatus:pending.status,previewExecution:'held',productionAuthorized:productionScoped,productionPhases:preactivation?[...PREACTIVATION_PHASES]:preflightOnly?['preflight']:[],reasons:[]};
  }catch(error){return {current:false,status:'STALE_OR_UNVERIFIED',reasons:[error.message]};}
 }
