@@ -1,3 +1,4 @@
+import {ACTIVATION_BASE,ACTIVATION_STATUS,ACTIVATION_SCOPE,ACTIVATION_NOTE,assertActivationAuthorization} from './production-preflight-authorization.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
@@ -8,7 +9,8 @@ import {PREFLIGHT_EVIDENCE_FILES,loadProductionPreflightDocuments,validateProduc
 import {HOSTED_EVIDENCE_FILES} from './verify-hosted-acceptance-evidence.mjs';
 import {requireProductionDeploymentBinding} from '../rcap-production-migration-contract.mjs';
 const prefix='data/rcap-grade-a/launch-control/';
-const candidate=JSON.parse(fs.readFileSync(prefix+'RELEASE_CANDIDATE_BINDING.json'));
+const authorizedCandidate=JSON.parse(fs.readFileSync(prefix+'RELEASE_CANDIDATE_BINDING.json'));
+const candidate=JSON.parse(execFileSync('git',['show',ACTIVATION_BASE+':'+prefix+'RELEASE_CANDIDATE_BINDING.json'],{encoding:'utf8'}));
 const clone=()=>structuredClone(candidate);
 const refusal={message:'production_phase_not_authorized_for_current_release'};
 const required=['preflight','clinic_migrate','forward_chain_readback','forward_chain_migrate','legal_aid_keys_read','legal_aid_keys_create','legal_aid_readback','legal_aid_migrate','production_worker_deploy','smoke','restage'];
@@ -241,7 +243,7 @@ test('each missing or modified native smoke file refuses; originals restore the 
   assert.deepEqual(verifyProductionSmokeEvidence(root),BOUND_SMOKE);
  }finally{fs.rmSync(root,{recursive:true,force:true});}
 });
-test('existing workflow data flow selects exact smoke run/name, but real release guard still denies activation',async()=>{
+test('existing workflow data flow selects exact smoke run/name, and the real local release guard accepts only the dedicated decision',async()=>{
  const {parse}=await import('yaml');
  const source=fs.readFileSync('scripts/rcap-production-migration-contract.mjs','utf8');
  const start=source.indexOf('    if (process.env.GITHUB_ENV)'),end=source.indexOf("    console.log('Production release tuple",start);
@@ -259,7 +261,7 @@ test('existing workflow data flow selects exact smoke run/name, but real release
  assert.equal(resolve(download.with.name),'rcap-production-smoke-36779982696');assert.equal(resolve(download.with['run-id']),'36779982696');assert.equal(download.with.path,'prior-production-smoke-evidence');
  assert.ok(steps.findIndex(s=>s.run?.includes('node scripts/rcap-production-migration-contract.mjs'))<steps.indexOf(download));
  const head=execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim();
- assert.throws(()=>requireProductionMigrationRelease(process.cwd(),{RCAP_PRODUCTION_PHASE:'activate',RCAP_APPLICATION_SHA:candidate.applicationSha,RCAP_WORKER_SOURCE_SHA:candidate.workerSourceSha,RCAP_WORKER_DIGEST:candidate.workerDigest,RCAP_PRODUCTION_PROJECT_REF:candidate.productionProjectRef,RCAP_TOOLS_SHA:head,GITHUB_SHA:head}),refusal);
+ assert.deepEqual(requireProductionMigrationRelease(process.cwd(),{RCAP_PRODUCTION_PHASE:'activate',RCAP_APPLICATION_SHA:candidate.applicationSha,RCAP_WORKER_SOURCE_SHA:candidate.workerSourceSha,RCAP_WORKER_DIGEST:candidate.workerDigest,RCAP_PRODUCTION_PROJECT_REF:candidate.productionProjectRef,RCAP_TOOLS_SHA:head,GITHUB_SHA:head}),authorizedCandidate);
 });
 test('actual activation declarations and pure smoke predicate consume exact inner bytes; substitutions refuse',()=>{
  const source=fs.readFileSync('scripts/rcap-production-activate.mjs','utf8');
@@ -282,4 +284,53 @@ test('actual activation declarations and pure smoke predicate consume exact inne
  assert.equal(run(c,text).smokeExact,false,'failed receipt cannot pass even with a matching substituted hash');
  assert.ok(source.indexOf('requireProductionMigrationRelease(ROOT_DIR, process.env);')<source.indexOf('const smokeText ='));
  assert.ok(source.indexOf('const smokeExact =')<source.indexOf('identity = await resolveHostedVercelIdentity('));
+});
+
+// Current owner decision is tested through the same gate used by the runtime.
+const ownerText = 'I authorize exactly one `production_activate` for the frozen LegalEase Grade A release: application `e312a5efa7b4882e0fbf61a5ff0ae7891ac23226`, worker source `5e04eafd7eaed7e71722862e651fb787ebbd296d`, worker digest `sha256:6b6a60fc5b2d0060028526013ce37c69f748e2cccb4cfb10943f2af6cf26cfe1`, staged deployment `dpl_3j4Dr4GHyXmwmrFCTZ6orNNNP7sc`, rollback deployment `dpl_5rpkFUKgmp5cGwPaLAzHxx1nUuPK`, and successful smoke run `36779982696`. This authorization permits the Production promotion/public-domain movement required by `production_activate` and the existing automatic rollback control if post-promotion verification fails. It does not authorize a rebuild, new deployment, migration, key creation, worker redeployment, Stripe/live order, save-transition live probe, or any other live customer transaction. Stop after activation evidence is collected.';
+test('activation: exact owner text, timestamp, tuple and one attempt; historical authority and receipts preserved',()=>{
+ const a=authorizedCandidate.productionAuthorization;
+ assert.equal(a.activation.note,ownerText);assert.equal(ACTIVATION_NOTE,ownerText);
+ assert.equal(a.activation.authorizedBy,'Roger Roman');
+ assert.equal(a.activation.recordedAt,'2026-09-30T22:13:20.060Z');
+ assert.equal(a.activation.maxAttempts,1);assert.equal(a.activation.state,'authorized_not_executed');
+ assert.equal(assertActivationAuthorization(authorizedCandidate),a.activation);
+ assert.equal(requireProductionPhaseAuthorization(authorizedCandidate,'activate'),a);
+ assert.equal(requireProductionDeploymentBinding(authorizedCandidate,'activate'),a);
+ const historical=structuredClone(authorizedCandidate);delete historical.productionAuthorization.activation;
+ historical.status=candidate.status;historical.scope=candidate.scope;
+ assert.deepEqual(historical,candidate,'only dedicated decision and current status/scope changed');
+ for(const record of [authorizedCandidate,a,a.activation])assert.equal(Object.hasOwn(record,'activationReceipt'),false);
+ const tools=JSON.parse(fs.readFileSync(prefix+'HOSTED_TOOLS_BINDING.json'));
+ for(const key of ['deploymentAuthorized','migrationReplayAuthorized','additionalWorkerPublicationAuthorized'])assert.equal(tools[key],false);
+});
+for(const phase of required)test(`activation: prior ${phase} authority retains its meaning`,()=>{
+ assert.equal(requireProductionPhaseAuthorization(authorizedCandidate,phase),authorizedCandidate.productionAuthorization);
+});
+for(const phase of denied.filter(p=>p!=='activate'))test(`activation: unrelated ${phase} still refuses`,()=>{
+ assert.throws(()=>requireProductionPhaseAuthorization(authorizedCandidate,phase),refusal);
+ const c=structuredClone(authorizedCandidate);c.productionAuthorization.phases.push(phase);
+ assert.throws(()=>requireProductionPhaseAuthorization(c,phase),refusal);
+});
+const activationMutations=[
+ ['absent decision',c=>delete c.productionAuthorization.activation],
+ ['generic activate membership only',c=>{delete c.productionAuthorization.activation;c.productionAuthorization.phases.push('activate');}],
+ ['generic flags only',c=>{delete c.productionAuthorization.activation;c.productionAuthorized=true;c.deploymentAuthorized=true;}],
+ ...Object.keys(authorizedCandidate.productionAuthorization.activation).map(key=>[`decision ${key}`,c=>c.productionAuthorization.activation[key]='wrong']),
+ ['missing timestamp',c=>delete c.productionAuthorization.activation.recordedAt],
+ ...['invalid','2026-02-30T00:00:00.000Z','2999-01-01T00:00:00.000Z','2026-09-30T21:47:49.999Z'].map(value=>[`timestamp ${value}`,c=>c.productionAuthorization.activation.recordedAt=value]),
+ ['missing successful smoke',c=>delete c.productionAuthorization.smokeReceipt],
+ ['failed smoke',c=>c.productionAuthorization.smokeReceipt.conclusion='failure'],
+ ['passed=false smoke',c=>c.productionAuthorization.smokeReceipt.passed=false],
+ ...Object.keys(BOUND_SMOKE).map(key=>[`successful smoke ${key}`,c=>c.productionAuthorization.smokeReceipt[key]='wrong']),
+ ...['applicationSha','workerSourceSha','workerDigest','workerInputFingerprint','productionProjectRef'].map(key=>[`candidate ${key}`,c=>c[key]='wrong']),
+ ...['stagedDeploymentId','rollbackDeploymentId','smokeRunId','smokeArtifactSha256'].map(key=>[`outer ${key}`,c=>c.productionAuthorization[key]='wrong']),
+ ['extra live customer authority',c=>c.productionAuthorization.liveCustomerTransactionsAuthorized=true],
+ ['extra decision permission',c=>c.productionAuthorization.activation.permittedActions.push('public_verify')],
+ ['reusable decision',c=>c.productionAuthorization.activation.maxAttempts=2],
+ ...['candidate','authorization','decision'].map(location=>[`invented activation receipt ${location}`,c=>(location==='candidate'?c:location==='authorization'?c.productionAuthorization:c.productionAuthorization.activation).activationReceipt={passed:true}]),
+];
+for(const [name,mutate]of activationMutations)test(`activation mutation refuses ${name}`,()=>{
+ const c=structuredClone(authorizedCandidate);mutate(c);
+ assert.throws(()=>requireProductionPhaseAuthorization(c,'activate'),refusal);
 });

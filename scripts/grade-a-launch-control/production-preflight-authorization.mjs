@@ -55,10 +55,15 @@ export function requireProductionPhaseAuthorization(candidate, phase) {
     try { assertPreflightOnlyAuthorization(candidate); }
     catch { throw new Error('production_phase_not_authorized_for_current_release'); }
   }
+  let activationAuthorized = false;
+  if (phase === 'activate') {
+    try { assertPreactivationAuthorization(candidate); assertActivationAuthorization(candidate); activationAuthorized = true; }
+    catch { throw new Error('production_phase_not_authorized_for_current_release'); }
+  }
   const authorization = candidate?.productionAuthorization;
   if (candidate?.productionAuthorized !== true || authorization?.authorized !== true
     || authorization?.productionProjectRef !== PRODUCTION_PROJECT_REF
-    || !Array.isArray(authorization?.phases) || !authorization.phases.includes(phase)
+    || !Array.isArray(authorization?.phases) || !(phase === 'activate' ? activationAuthorized : authorization.phases.includes(phase))
     || candidate?.productionProjectRef !== PRODUCTION_PROJECT_REF
     || typeof authorization?.recordedBy !== 'string' || !authorization.recordedBy.trim()
     || !validAuthorizationTimestamp(authorization?.recordedAt)) {
@@ -137,13 +142,14 @@ export const BOUND_SMOKE = Object.freeze({
 });
 export const ROLLBACK_DEPLOYMENT = 'dpl_5rpkFUKgmp5cGwPaLAzHxx1nUuPK';
 export function assertPreactivationAuthorization(candidate) {
- assert.equal(candidate.status,PREACTIVATION_STATUS,'bounded pre-activation status');
+ assert.equal(candidate.status,candidate.productionAuthorization?.activation ? ACTIVATION_STATUS : PREACTIVATION_STATUS,'bounded release status');
  assert.equal(candidate.hostedAcceptanceStatus,PREACTIVATION_STATUS,'matching status mirror');
  assert.equal(candidate.releaseBaseSha,PREACTIVATION_BASE,'approved preflight predecessor');
  assert.equal(candidate.productionAuthorized,true);
  for(const [key,value] of Object.entries(TUPLE)) assert.equal(candidate[key],value,`frozen ${key}`);
  assert.equal(candidate.productionProjectRef,PRODUCTION_PROJECT_REF);
  const a=candidate.productionAuthorization;
+ if (Object.hasOwn(a, 'activation')) assertActivationAuthorization(candidate);
  assert.ok(validAuthorizationTimestamp(a?.recordedAt),'actual UTC timestamp');
  assert.ok(Date.parse(a.recordedAt)<=Date.now(),'no future authorization');
  assert.ok(validAuthorizationTimestamp(a.restage?.recordedAt) && Date.parse(a.restage.recordedAt)<=Date.now() && Date.parse(a.restage.recordedAt)>=Date.parse('2026-09-30T00:00:00Z'),'actual restage owner timestamp');
@@ -154,10 +160,40 @@ export function assertPreactivationAuthorization(candidate) {
   phases:[...PREACTIVATION_PHASES],note:PREACTIVATION_NOTE,
   stagedDeploymentId:STAGED_DEPLOYMENT,rollbackDeploymentId:ROLLBACK_DEPLOYMENT,
   smokeRunId:BOUND_SMOKE.runId,smokeArtifactSha256:BOUND_SMOKE.smokeArtifactSha256,smokeReceipt:{...BOUND_SMOKE},
+  ...(Object.hasOwn(a,'activation') ? {activation:a.activation} : {}),
   preflight:{...BOUND_PREFLIGHT},restage:{...RESTAGE_AUTHORITY,recordedAt:a.restage.recordedAt,successfulReceipt:{...BOUND_RESTAGE}},
  },'exact bounded owner authorization and native preflight identity');
  assert.deepEqual(candidate.hostedAcceptance?.preview,{...PREVIEW,...TUPLE,target:null},'accepted Preview control');
  for(const key of ['stagedDeploymentId','rollbackDeploymentId','smokeRunId','smokeArtifactSha256','smokeReceipt','activationReceipt'])
   assert.equal(Object.hasOwn(candidate,key),false,`no parallel or unexecuted ${key}`);
  return a;
+}
+
+// A dedicated one-attempt owner decision; the historical phase list is unchanged.
+export const ACTIVATION_BASE = '61846b86c29a0b08fb49b815ce706958ecc62a3b';
+export const ACTIVATION_STATUS = "HOSTED_ACCEPTED_PRODUCTION_ACTIVATION_AUTHORIZED";
+export const ACTIVATION_SCOPE = "Successful preactivation evidence complete. Roger Roman authorizes exactly one production_activate for the bound existing staged deployment and automatic rollback only; activation has not executed. The historical preactivation phase list and note retain their scope. Public verification, save-transition live probes and live customer transactions remain unauthorized. No general deployment authority is granted.";
+export const ACTIVATION_NOTE = "I authorize exactly one `production_activate` for the frozen LegalEase Grade A release: application `e312a5efa7b4882e0fbf61a5ff0ae7891ac23226`, worker source `5e04eafd7eaed7e71722862e651fb787ebbd296d`, worker digest `sha256:6b6a60fc5b2d0060028526013ce37c69f748e2cccb4cfb10943f2af6cf26cfe1`, staged deployment `dpl_3j4Dr4GHyXmwmrFCTZ6orNNNP7sc`, rollback deployment `dpl_5rpkFUKgmp5cGwPaLAzHxx1nUuPK`, and successful smoke run `36779982696`. This authorization permits the Production promotion/public-domain movement required by `production_activate` and the existing automatic rollback control if post-promotion verification fails. It does not authorize a rebuild, new deployment, migration, key creation, worker redeployment, Stripe/live order, save-transition live probe, or any other live customer transaction. Stop after activation evidence is collected.";
+export function assertActivationAuthorization(candidate) {
+ const a = candidate?.productionAuthorization;
+ const decision = a?.activation;
+ assert.ok(decision && validAuthorizationTimestamp(decision.recordedAt), 'actual activation UTC timestamp');
+ assert.ok(Date.parse(decision.recordedAt) >= Date.parse('2026-09-30T21:47:50.000Z') && Date.parse(decision.recordedAt) <= Date.now(), 'activation timestamp belongs after its exact predecessor');
+ assert.equal(candidate.status, ACTIVATION_STATUS, 'activation authorized, not executed');
+ assert.equal(candidate.scope, ACTIVATION_SCOPE, 'exact activation scope');
+ assert.deepEqual(decision, {
+  authorizedBy: 'Roger Roman', recordedAt: decision.recordedAt, note: ACTIVATION_NOTE,
+  sourceBaseSha: ACTIVATION_BASE, operation: 'production_activate', maxAttempts: 1,
+  state: 'authorized_not_executed',
+  applicationSha: TUPLE.applicationSha, workerSourceSha: TUPLE.workerSourceSha,
+  workerDigest: TUPLE.workerDigest, workerInputFingerprint: TUPLE.workerInputFingerprint,
+  productionProjectRef: PRODUCTION_PROJECT_REF,
+  stagedDeploymentId: STAGED_DEPLOYMENT, rollbackDeploymentId: ROLLBACK_DEPLOYMENT,
+  smokeRunId: BOUND_SMOKE.runId, smokeArtifactSha256: BOUND_SMOKE.smokeArtifactSha256,
+  smokeReceipt: {...BOUND_SMOKE},
+  permittedActions: ['promote_existing_staged_deployment', 'required_public_domain_movement', 'automatic_rollback_on_failed_post_promotion_verification'],
+ }, 'exact one-time activation owner decision; no unrelated authority');
+ assert.deepEqual(a.smokeReceipt, BOUND_SMOKE, 'exact successful smoke receipt');
+ for (const record of [candidate, a, decision]) assert.equal(Object.hasOwn(record, 'activationReceipt'), false, 'no activation receipt before execution');
+ return decision;
 }
