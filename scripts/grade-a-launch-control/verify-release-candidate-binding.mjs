@@ -913,6 +913,15 @@ const LEGAL_AID_SEED_RERUN_CORRECTION_FILES=[
  "scripts/rcap-hosted-legal-aid-seed.mjs",
  "scripts/rcap-hosted-legal-aid-startup.test.mjs"
 ];
+const SIGNATURE_SUBMIT_BASE="4ea0f4f111ba5863bdbef3817c75bb2949232e34";
+const SIGNATURE_SUBMIT_FILES=[
+  "data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json",
+  "scripts/grade-a-launch-control/verify-release-candidate-binding.mjs",
+  "scripts/rcap-hosted-legal-aid-browser.mjs",
+  "scripts/verify-rcap-hosted-legal-aid-browser.mjs",
+  "scripts/rcap-hosted-legal-aid-signature-submit.test.mjs",
+  "scripts/rcap-hosted-legal-aid-captcha.test.mjs"
+];
 const PRODUCTION_ENVIRONMENT_CORRECTION_BASE="ac9befc5972ebd24e5f1aba2e07ee9081d554698";
 const PRODUCTION_ENVIRONMENT_CORRECTION_FILES=[
  "data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json",
@@ -936,8 +945,9 @@ function verifyGenerationBinding(root,candidate,pending){
   const closure=t.preactivationClosureBaseSha;
   const harnessCorrection=t.preactivationHarnessCorrectionBaseSha;
   const seedRerunCorrection=t.preactivationLegalAidSeedRerunCorrectionBaseSha;
+  const signatureSubmitCorrection=t.preactivationLegalAidSignatureSubmitBaseSha;
   const environmentCorrection=t.preactivationProductionEnvironmentMetadataCorrectionBaseSha;
-  const generationFiles=preactivation?[...new Set([...PREACTIVATION_FILES,...(environmentCorrection?PRODUCTION_ENVIRONMENT_CORRECTION_FILES:[]),...(seedRerunCorrection?LEGAL_AID_SEED_RERUN_CORRECTION_FILES:[]),...(harnessCorrection?HARNESS_CORRECTION_FILES:[]),...(closure?CLOSURE_FILES:[]),...(readinessCorrection?READINESS_CORRECTION_FILES:[]),...(hostedTestCorrection?HOSTED_EVIDENCE_TEST_CORRECTION_FILES:[])])]:preflightOnly?[...new Set([...GENERATION_FILES,...(correction?PRODUCTION_DEPENDENCY_ORDER_FILES:[])])]:base===HOSTED_BASE?HOSTED_GENERATION_FILES:(base==='879463ec2ef60696da39a0367b4758d26074207b'
+  const generationFiles=preactivation?[...new Set([...PREACTIVATION_FILES,...(signatureSubmitCorrection?SIGNATURE_SUBMIT_FILES:[]),...(environmentCorrection?PRODUCTION_ENVIRONMENT_CORRECTION_FILES:[]),...(seedRerunCorrection?LEGAL_AID_SEED_RERUN_CORRECTION_FILES:[]),...(harnessCorrection?HARNESS_CORRECTION_FILES:[]),...(closure?CLOSURE_FILES:[]),...(readinessCorrection?READINESS_CORRECTION_FILES:[]),...(hostedTestCorrection?HOSTED_EVIDENCE_TEST_CORRECTION_FILES:[])])]:preflightOnly?[...new Set([...GENERATION_FILES,...(correction?PRODUCTION_DEPENDENCY_ORDER_FILES:[])])]:base===HOSTED_BASE?HOSTED_GENERATION_FILES:(base==='879463ec2ef60696da39a0367b4758d26074207b'
     ||base==='516b02ac1a68a6aaef41ca9825eae0ece5e3df37')?CHECKOUT_RETURN_GENERATION_FILES
     :base==='7556f87cee1cf3e6f4b503c76b8ba1d1bbc59456'?PACKET_DATABASE_GENERATION_FILES
     :base==='e312a5efa7b4882e0fbf61a5ff0ae7891ac23226'?APPLICATION_AUTHORITY_GENERATION_FILES
@@ -947,8 +957,17 @@ function verifyGenerationBinding(root,candidate,pending){
     :base==='44916baaeb9815ba3dd61d94e8c51294f01e8166'?HOSTED_PIN_GENERATION_FILES
     :base==='9ce9233bde4e3c16d0dc9657524ae1a5f02eb2fa'?DS08_GENERATION_FILES:PRIOR_GENERATION_FILES;
   const expect=(actual,expected,message)=>{if(JSON.stringify(actual)!==JSON.stringify(expected))throw Error(message);};
-  const commitBase=environmentCorrection??seedRerunCorrection??harnessCorrection??closure??readinessCorrection??hostedTestCorrection??correction??base;
-  if(environmentCorrection){
+  const commitBase=signatureSubmitCorrection??environmentCorrection??seedRerunCorrection??harnessCorrection??closure??readinessCorrection??hostedTestCorrection??correction??base;
+  if(signatureSubmitCorrection){
+   expect(preactivation,true,'signature submit correction only on reviewed pre-activation release');
+   expect(correction,undefined,'no combined dependency correction scope');
+   expect(signatureSubmitCorrection,SIGNATURE_SUBMIT_BASE,'exact signature submit correction base');
+   const priorTools=JSON.parse(git(['show',`${signatureSubmitCorrection}:${toolsPath}`]));
+   expect(binding,{...priorTools,toolsSha:signatureSubmitCorrection,successorTools:{...priorTools.successorTools,preactivationLegalAidSignatureSubmitBaseSha:signatureSubmitCorrection,files:t.files}},'only bounded signature submit correction');
+   for(const [rel,hash]of Object.entries(priorTools.successorTools.files))if(!SIGNATURE_SUBMIT_FILES.includes(rel))expect(t.files[rel],hash,`preserved tools: ${rel}`);
+   const delta=[...new Set([...git(['diff','--name-only',signatureSubmitCorrection]).split('\n'),...git(['ls-files','--others','--exclude-standard']).split('\n')].filter(Boolean))].sort();
+   expect(delta,SIGNATURE_SUBMIT_FILES.slice().sort(),'exact signature submit correction paths');
+  }else if(environmentCorrection){
    expect(preactivation,true,'environment metadata correction only on reviewed pre-activation release');
    expect(correction,undefined,'no combined dependency correction scope');
    expect(environmentCorrection,PRODUCTION_ENVIRONMENT_CORRECTION_BASE,'exact Production environment metadata correction base');
@@ -1059,7 +1078,7 @@ function verifyGenerationBinding(root,candidate,pending){
   for(const key of new Set([...Object.keys(previousTools),...Object.keys(binding)]))if(!toolsUpdates.has(key))expect(binding[key],previousTools[key],`unchanged tools field ${key}`);
   expect(candidate.applicationPin,{...previous.applicationPin,sourceSha:pending.applicationSha,canonicalInputBaseline:pending.applicationSha,workerInputFingerprint:pending.workerInputFingerprint},'exact application pin');
   expect(candidate.previewExecutionInstruction,{...previous.previewExecutionInstruction,mode:null,...((base===HOSTED_BASE||productionScoped)?{preview_hostname:PREVIEW.hostname,preview_deployment_id:PREVIEW.deploymentId,firstExecution:'Hosted acceptance is complete; no execution authorized by this record.'}:{})},'exact Preview identity without execution authority');
-  expect(Object.keys(t).sort(),['schemaVersion','baseSha','commit','files',...(correction?['dependencyOrderCorrectionBaseSha']:[]),...(hostedTestCorrection?['hostedEvidenceTestCorrectionBaseSha']:[]),...(readinessCorrection?['preactivationReadinessCorrectionBaseSha']:[]),...(closure?['preactivationClosureBaseSha']:[]),...(harnessCorrection?['preactivationHarnessCorrectionBaseSha']:[]),...(seedRerunCorrection?['preactivationLegalAidSeedRerunCorrectionBaseSha']:[]),...(environmentCorrection?['preactivationProductionEnvironmentMetadataCorrectionBaseSha']:[])].sort(),'no inherited tools correction scope');
+  expect(Object.keys(t).sort(),['schemaVersion','baseSha','commit','files',...(correction?['dependencyOrderCorrectionBaseSha']:[]),...(hostedTestCorrection?['hostedEvidenceTestCorrectionBaseSha']:[]),...(readinessCorrection?['preactivationReadinessCorrectionBaseSha']:[]),...(closure?['preactivationClosureBaseSha']:[]),...(harnessCorrection?['preactivationHarnessCorrectionBaseSha']:[]),...(seedRerunCorrection?['preactivationLegalAidSeedRerunCorrectionBaseSha']:[]),...(environmentCorrection?['preactivationProductionEnvironmentMetadataCorrectionBaseSha']:[]),...(signatureSubmitCorrection?['preactivationLegalAidSignatureSubmitBaseSha']:[])].sort(),'no inherited tools correction scope');
   return {current:true,status:'CURRENT',hostedAcceptanceStatus:candidate.hostedAcceptanceStatus,releaseStatus:pending.status,previewExecution:'held',productionAuthorized:productionScoped,productionPhases:preactivation?[...PREACTIVATION_PHASES]:preflightOnly?['preflight']:[],reasons:[]};
  }catch(error){return {current:false,status:'STALE_OR_UNVERIFIED',reasons:[error.message]};}
 }

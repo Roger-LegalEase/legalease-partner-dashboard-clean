@@ -250,15 +250,138 @@ async function fillStep(page, section, person) {
       break;
   }
 }
-async function signAll(page) {
-  for (let guard = 0; guard < 6; guard += 1) {
-    const button = page.locator("button:has-text('Sign this statement')").first();
-    if ((await button.count()) === 0) return;
-    const before = await page.locator("button:has-text('Sign this statement')").count();
-    await button.click();
-    await page.waitForFunction((n) => [...document.querySelectorAll("button")].filter((b) => b.textContent === "Sign this statement").length < n, before);
-  }
+// BEGIN response-bound signature/submit controls
+// Browser-only harness controls. Responses are observed, never fabricated.
+const statements = new Set(["financial_attestation", "citizenship_attestation", "noncitizen_review_acknowledgment", "information_sharing_consent"]);
+const outcomes = new Set(["submitted", "already_submitted", "validation_failed", "ssn_required", "signature_required", "answers_required", "withdrawn", "not_found", "forbidden", "conflict"]);
+const signSelector = "button:has-text('Sign this statement')";
+const busySelector = "button:has-text('Signing…')";
+
+function actionResponse(intakeId, origin, action) {
+  if (!/^[0-9a-f-]{36}$/i.test(intakeId)) throw new Error("Invalid synthetic intake id");
+  return response => {
+    const request = response.request();
+    const url = new URL(response.url());
+    if (request.method() !== "POST" || url.origin !== new URL(origin).origin || url.pathname !== `/api/legal-aid/intakes/${intakeId}/actions`) return false;
+    try { return request.postDataJSON()?.action === action; } catch { return false; }
+  };
 }
+
+async function signAll(page, intakeId, origin) {
+  const seen = new Set();
+  // These cards and their order persist through the server reload; a locator
+  // rooted at the clicked button would disappear before the reload finishes.
+  const cards = page.locator("div:has(> blockquote)");
+  for (let index = 0; index < await cards.count(); index++) {
+    const card = cards.nth(index);
+    const button = card.locator(signSelector);
+    if (await button.count() === 0) continue;
+    const pending = page.waitForResponse(actionResponse(intakeId, origin, "sign"));
+    await button.click();
+    const response = await pending;
+    if (response.status() !== 200) throw new Error(`Legal Aid sign refused: HTTP ${response.status()}`);
+    if (await response.finished()) throw new Error("Legal Aid sign response did not finish");
+    const key = response.request().postDataJSON().statementKey;
+    const signed = await response.json().catch(() => ({}));
+    if (!statements.has(key) || seen.has(key) || signed.success !== true || !/^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(signed.signatureId ?? "")) throw new Error("Legal Aid sign response did not confirm a distinct applicable statement");
+    seen.add(key);
+    await card.locator(busySelector).waitFor({ state: "hidden" });
+    // Only the server-reloaded current signature renders this signed state.
+    await card.locator("p").filter({ hasText: /^Signed by / }).waitFor({ state: "visible" });
+  }
+  await requireSigningComplete(page);
+}
+
+async function requireSigningComplete(page) {
+  if (await page.locator(signSelector).count() || await page.locator(busySelector).count()) throw new Error("Legal Aid signatures are still incomplete or pending");
+}
+
+function sanitizedSubmitError(error) {
+  // Only frozen public error copy is admissible; unknown text may contain data.
+  const safe = new Set(["Some required answers are missing or need a correction.", "Enter your Social Security number in the protected step before submitting.", "Sign each statement that applies to you before submitting.", "Answer the questions before submitting.", "This application was withdrawn.", "The application could not be submitted."]);
+  return safe.has(error) ? error : "Submission refused; see bounded outcome and field keys.";
+}
+
+// Allowlist from the frozen intake schema: keys only, never answer or error values.
+const submitFieldKeys = new Set([
+  "accounts.checking_balance",
+  "accounts.has_checking",
+  "accounts.has_savings",
+  "accounts.savings_balance",
+  "address.city",
+  "address.line1",
+  "address.line2",
+  "address.postal_code",
+  "address.state",
+  "assets.home_value",
+  "assets.owns_home",
+  "assets.owns_vehicle",
+  "assets.principal_residence",
+  "assets.principal_vehicle",
+  "assets.vehicle_value",
+  "clinic_choices",
+  "date_of_birth",
+  "email",
+  "gender",
+  "has_attorney",
+  "has_open_mvlp_case",
+  "household.adult_count",
+  "household.child_count",
+  "household.disabled_member_count",
+  "household.employer",
+  "household.member_ages",
+  "household.occupation",
+  "is_us_citizen",
+  "legal_matter",
+  "matter_details",
+  "monthly_expenses.child_care",
+  "monthly_expenses.child_support",
+  "monthly_expenses.employment_related",
+  "monthly_expenses.medical",
+  "monthly_expenses.nursing_home_care",
+  "monthly_expenses.rent_mortgage",
+  "monthly_expenses.taxes",
+  "monthly_expenses.transportation",
+  "monthly_receipts.disability",
+  "monthly_receipts.family_friend_assistance",
+  "monthly_receipts.food_stamps",
+  "monthly_receipts.other",
+  "monthly_receipts.pension_retirement",
+  "monthly_receipts.tanf",
+  "monthly_receipts.unemployment",
+  "monthly_receipts.wages",
+  "name.first",
+  "name.last",
+  "phone",
+  "race",
+  "referral_source",
+  "ssn"
+]);
+
+function sanitizedSubmitResult(status, body) {
+  // Names only: no error messages, answer objects, protected values or hashes.
+  const names = values => [...new Set(values.filter(v => submitFieldKeys.has(v)))].sort();
+  return { status, success: body?.success === true,
+    outcome: outcomes.has(body?.outcome) ? body.outcome : "unrecognized_outcome",
+    ...(statements.has(body?.statementKey) ? { statementKey: body.statementKey } : {}),
+    error: body?.success === true ? null : sanitizedSubmitError(body?.error),
+    missingFields: names(Array.isArray(body?.missing) ? body.missing : []),
+    errorFields: names(body?.errors && typeof body.errors === "object" && !Array.isArray(body.errors) ? Object.keys(body.errors) : []) };
+}
+
+async function submitApplication(page, intakeId, origin, observe) {
+  await requireSigningComplete(page);
+  const pending = page.waitForResponse(actionResponse(intakeId, origin, "submit"));
+  await page.click("button:has-text('Submit my application')");
+  const response = await pending;
+  if (await response.finished()) throw new Error("Legal Aid submit response did not finish");
+  const result = sanitizedSubmitResult(response.status(), await response.json().catch(() => ({})));
+  observe(result);
+  if (result.status !== 200 || !result.success || !["submitted", "already_submitted"].includes(result.outcome)) throw new Error(`Legal Aid submit refused: ${JSON.stringify(result)}`);
+  await page.waitForSelector("text=Your application has been received");
+  return result;
+}
+// END response-bound signature/submit controls
 // The whole application for one training applicant: registration, every
 // intake step, the protected value, signatures and submission.
 async function applyThroughIntake(page, person, { expectRegistration = "We have your registration", protectedValue = true } = {}) {
@@ -461,9 +584,13 @@ async function main() {
     record("intake_saved_and_resumed_after_refresh", (await a.inputValue("#f-name-first")) === "Jordan" && (await a.locator(`text=${SSN_MASKED}`).count()) === 0, "first name restored from the saved draft; protected value never rendered on the answers step");
     await gotoStep(a, "Review and sign");
     record("citizen_sees_no_confidential_review_statement", (await a.locator("text=Confidential status review").count()) === 0 && (await a.locator("text=I am a citizen of the United States of America.").count()) === 1, "citizenship statement only");
-    await signAll(a);
-    await a.click("button:has-text('Submit my application')");
-    await a.waitForSelector("text=Your application has been received");
+    const signingA = await one(`select id from public.legal_aid_intakes where event_id='${F.eventId}' and participant_user_id='${who.APPLICANT_A.id}'`);
+    await signAll(a, signingA.id, PREVIEW);
+    await submitApplication(a, signingA.id, PREVIEW, result => {
+      evidence.submissions ??= {};
+      evidence.submissions.A = result;
+      record("applicant_a_submit_response", result.status === 200 && result.success && ["submitted", "already_submitted"].includes(result.outcome), JSON.stringify(result));
+    });
     await screenshot(a, "participant-submitted");
     const intakeA = await one(`select id, status, clinic_case_id, answers::text as answers from public.legal_aid_intakes where event_id='${F.eventId}' and participant_user_id='${who.APPLICANT_A.id}'`);
     record("application_submitted_with_clinic_case", intakeA?.status === "submitted" && Boolean(intakeA?.clinic_case_id), `intake ${shortId(intakeA?.id)} submitted`);
@@ -483,9 +610,13 @@ async function main() {
     const b = await open({ user: who.APPLICANT_B });
     const personB = { first: "Taylor", last: "Training", phone: "601-555-0101", email: who.APPLICANT_B.email, citizen: true, assistance: "" };
     await applyThroughIntake(b, personB);
-    await signAll(b);
-    await b.click("button:has-text('Submit my application')");
-    await b.waitForSelector("text=Your application has been received");
+    const signingB = await one(`select id from public.legal_aid_intakes where event_id='${F.eventId}' and participant_user_id='${who.APPLICANT_B.id}'`);
+    await signAll(b, signingB.id, PREVIEW);
+    await submitApplication(b, signingB.id, PREVIEW, result => {
+      evidence.submissions ??= {};
+      evidence.submissions.B = result;
+      record("applicant_b_submit_response", result.status === 200 && result.success && ["submitted", "already_submitted"].includes(result.outcome), JSON.stringify(result));
+    });
     const intakeB = await one(`select id, status from public.legal_aid_intakes where event_id='${F.eventId}' and participant_user_id='${who.APPLICANT_B.id}'`);
     record("applicant_b_submits", intakeB?.status === "submitted", `intake ${shortId(intakeB?.id)}`);
 
@@ -495,9 +626,13 @@ async function main() {
     const regC = await one(`select status, waitlisted_at from public.clinic_registrations where event_id='${F.eventId}' and participant_user_id='${who.APPLICANT_C.id}'`);
     record("capacity_reached_puts_applicant_c_on_the_waitlist", regC?.status === "waitlisted" && Boolean(regC?.waitlisted_at), `status=${regC?.status}`);
     record("non_citizen_sees_confidential_review_acknowledgment", (await c.locator("text=Confidential status review").count()) === 1, "confidential review statement offered to a non-citizen applicant");
-    await signAll(c);
-    await c.click("button:has-text('Submit my application')");
-    await c.waitForSelector("text=Your application has been received");
+    const signingC = await one(`select id from public.legal_aid_intakes where event_id='${F.eventId}' and participant_user_id='${who.APPLICANT_C.id}'`);
+    await signAll(c, signingC.id, PREVIEW);
+    await submitApplication(c, signingC.id, PREVIEW, result => {
+      evidence.submissions ??= {};
+      evidence.submissions.C = result;
+      record("applicant_c_submit_response", result.status === 200 && result.success && ["submitted", "already_submitted"].includes(result.outcome), JSON.stringify(result));
+    });
     const sigC = await one(`select count(*) as n from public.legal_aid_intake_signatures s join public.legal_aid_intakes i on i.id=s.intake_id where i.participant_user_id='${who.APPLICANT_C.id}' and i.event_id='${F.eventId}' and s.statement_key='noncitizen_review_acknowledgment' and s.status='active'`);
     const intakeC = await one(`select id, status from public.legal_aid_intakes where event_id='${F.eventId}' and participant_user_id='${who.APPLICANT_C.id}'`);
     record("applicant_c_submits_with_confidential_review_acknowledgment", intakeC?.status === "submitted" && Number(sigC?.n) === 1, `intake ${shortId(intakeC?.id)}; acknowledgment signed`);

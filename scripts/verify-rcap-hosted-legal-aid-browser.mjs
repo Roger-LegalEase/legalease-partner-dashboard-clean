@@ -134,4 +134,7 @@ check("identities appear in evidence hashed only", browser.includes("hashed ids 
 check("browser never names Production", !browser.includes("wwtwtsmywnckfkdaqqeg") && browser.includes("productionTouched: false"));
 check("stored answers are checked for the protected value", browser.includes("protected_value_absent_from_every_stored_answer_document"));
 
+check("signatures serialize successful exact action responses and refreshed signed UI", browser.includes('actionResponse(intakeId, origin, "sign")') && browser.includes('request.method() !== "POST"') && browser.includes('request.postDataJSON()?.action === action') && browser.includes('url.pathname !== `/api/legal-aid/intakes/${intakeId}/actions`') && browser.includes('response.status() !== 200') && browser.includes('await response.finished()') && browser.includes('signed.success !== true') && browser.includes('signed.signatureId') && browser.includes('hasText: /^Signed by /') && browser.includes('await requireSigningComplete(page)'));
+check("all applicants use sanitized response-bound submit before waiting for success UI", ["a", "b", "c"].every(a => browser.includes(`await submitApplication(${a}, signing${a.toUpperCase()}.id, PREVIEW`)) && browser.includes('actionResponse(intakeId, origin, "submit")') && browser.includes('const result = sanitizedSubmitResult(') && browser.indexOf('Legal Aid submit refused:') < browser.indexOf('await page.waitForSelector("text=Your application has been received")'));
+
 console.log(`RCAP hosted Legal Aid browser verifier passed: ${checks.length}/${checks.length}`);
