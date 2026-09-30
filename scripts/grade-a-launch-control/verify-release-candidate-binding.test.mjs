@@ -43,5 +43,5 @@ test('exact clean candidate accepts; tracked and untracked packaged changes refu
   write('src/main.mjs',files['src/main.mjs']);assert.equal(verifyReleaseCandidateBinding(root,candidate).current,true);
   assert.equal(verifyReleaseCandidateBinding(root,{...candidate,workerDigest:'sha256:'+'b'.repeat(64)}).current,false);
   assert.equal(verifyReleaseCandidateBinding(root,null).status,'NOT_FROZEN');
-  assert.equal(verifyReleaseCandidateBinding(root,{applicationSha:'invalid'}).status,'INVALID');
+  assert.equal(verifyReleaseCandidateBinding(root,{applicationSha:'invalid'}).status,'INVALID_APPLICATION_INPUTS');
 });

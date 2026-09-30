@@ -8,13 +8,13 @@ import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { pathToFileURL } from 'node:url';
 import { RESUME } from './rcap-clinic-resume-contract.mjs';
+import { LEGAL_AID_FIXTURE } from './rcap-legal-aid/hosted-fixture.mjs';
 const VERIFIER = 'scripts/legal-aid/verify-applicant-a-prerequisite.mjs';
-const EVENT = '78000000-0000-4000-8000-000000000001';
-export function relationshipQuery() {
+export function relationshipQuery(fixture = LEGAL_AID_FIXTURE) {
   // Scalar subqueries deliberately refuse multiple rows; absent rows become
   // null and A's verifier refuses them. No newest-row selection is allowed.
   return `begin transaction read only;
-with e as (select * from public.clinic_events where id='${EVENT}' and public_slug='mvlp-training-clinic-acceptance'),
+with e as (select * from public.clinic_events where id='${fixture.eventId}' and public_slug='${fixture.eventSlug}'),
 r as (select r.* from public.clinic_registrations r join e on r.event_id=e.id where r.participant_user_id='${RESUME.owner}'),
 i as (select i.* from public.legal_aid_intakes i join r on i.registration_id=r.id and i.event_id=r.event_id and i.participant_user_id=r.participant_user_id),
 t as (select t.* from public.legal_aid_document_tasks t join i on t.intake_id=i.id where t.unsigned_render_job_id='${RESUME.job}')
