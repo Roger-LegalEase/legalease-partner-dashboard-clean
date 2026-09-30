@@ -24,6 +24,8 @@ export function integrationVerdict(kind, read, context) {
       if(name==='browser'){
         assert.equal(e.acceptanceProjectRef,context.project);
         assert.ok(Object.keys(e.cases??{}).length>0);
+        for(const id of ['registration_sign_in_is_captcha_protected','synthetic_applicant_session_returns_to_registration'])
+          assert.equal(e.cases[id]?.passed,true,`missing/failed ${id}`);
         for(const [id,c] of Object.entries(e.cases))assert.equal(c.passed,true,id);
         for(const field of ['checkoutCreated','paymentCompleted','stripeTouched','workerRun','migrationApplied'])assert.equal(e[field],false,field);
         emailDelivery=e.emailDelivery?.mode==='configured'?'PROVIDER_EVIDENCE_REQUIRED':'INCOMPLETE / NOT PROVEN';

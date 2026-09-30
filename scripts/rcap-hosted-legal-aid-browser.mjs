@@ -414,23 +414,34 @@ async function main() {
     record("interim_coordinator_publishes_legal_aid_clinic", publish.status === 200 && eventRow?.status === "published" && eventRow?.experience === "legal_aid" && eventRow?.policy_profile_id === draft.id, `PATCH=${publish.status}; status=${eventRow?.status}; experience=${eventRow?.experience}`);
 
     // ------------------------------------------------------------------
-    // 2. Applicant A: real sign-in through the page, registration, the
-    //    complete confidential intake, save/refresh/resume, submission.
+    // 2. Applicant A: anonymous CAPTCHA protection, then the existing real
+    //    Acceptance session for registration and the complete intake journey.
     // ------------------------------------------------------------------
-    const a = await open({ viewport: { width: 390, height: 844 } });
-    await a.goto(`${PREVIEW}/p/${F.partnerSlug}/clinics`);
-    record("public_clinic_listing_shows_the_published_clinic", (await a.locator(`text=${F.eventName}`).count()) > 0 && !/tenant|Grade A|source hash|release candidate/i.test(await a.content()), "listing shows the training clinic; no internal vocabulary");
-    await screenshot(a, "participant-clinics");
-    await a.click("a:has-text('Register for this clinic')");
-    await a.waitForURL(/sign-in/);
-    record("registration_requires_sign_in", /sign-in/.test(a.url()), `redirected to ${new URL(a.url()).pathname}`);
-    await a.locator('input[name="email"]').fill(who.APPLICANT_A.email);
-    await a.locator('input[name="password"]').fill(DEMO_PASSWORD);
-    const authResponse = a.waitForResponse((response) => response.request().method() === "POST" && response.url().includes("/auth/v1/token") && response.url().includes("grant_type=password"));
-    await a.getByRole("button", { name: "Sign in", exact: true }).click();
-    const auth = await authResponse;
-    await a.waitForURL(/\/clinic\/.*\/register/);
-    record("participant_signs_in_and_returns_to_registration", auth.ok() && /\/register/.test(a.url()), `password sign-in HTTP ${auth.status()}; returned to ${new URL(a.url()).pathname}`);
+    const anonymousApplicant = await open({ viewport: { width: 390, height: 844 } });
+    await anonymousApplicant.goto(`${PREVIEW}/p/${F.partnerSlug}/clinics`);
+    record("public_clinic_listing_shows_the_published_clinic", (await anonymousApplicant.locator(`text=${F.eventName}`).count()) > 0 && !/tenant|Grade A|source hash|release candidate/i.test(await anonymousApplicant.content()), "listing shows the training clinic; no internal vocabulary");
+    await screenshot(anonymousApplicant, "participant-clinics");
+    await anonymousApplicant.click("a:has-text('Register for this clinic')");
+    await anonymousApplicant.waitForURL(/sign-in/);
+    await anonymousApplicant.locator('[aria-label="Security check"]').waitFor({ state: "visible" });
+    record("registration_sign_in_is_captcha_protected",
+      new URL(anonymousApplicant.url()).pathname === "/sign-in"
+        && await anonymousApplicant.locator('[aria-label="Security check"]').isVisible(),
+      "anonymous registration redirected to /sign-in; real Turnstile Security check is visible");
+    await screenshot(anonymousApplicant, "participant-sign-in-captcha");
+
+    // Do not automate the human CAPTCHA. Reuse the real password-grant
+    // session already checked against the preserved packet owner above.
+    // newContext places authCookies(user.session) only on EXPECTED_HOSTNAME.
+    const a = await open({ viewport: { width: 390, height: 844 }, user: who.APPLICANT_A });
+    const registrationUrl = `${PREVIEW}/clinic/${F.eventSlug}/register`;
+    await a.goto(registrationUrl);
+    await a.waitForSelector("input[name=contactName]");
+    record("synthetic_applicant_session_returns_to_registration",
+      who.APPLICANT_A.id === RESUME.owner
+        && who.APPLICANT_A.session.user.id === who.APPLICANT_A.id
+        && a.url() === registrationUrl,
+      "real Acceptance password-grant session for exact Applicant A; existing SSR cookies scoped to accepted Preview; authenticated browser reached exact registration route");
     await screenshot(a, "participant-register");
     const personA = { first: "Jordan", last: "Training", phone: "601-555-0100", email: who.APPLICANT_A.email, citizen: true, assistance: "Afternoon only." };
     await applyThroughIntake(a, personA);

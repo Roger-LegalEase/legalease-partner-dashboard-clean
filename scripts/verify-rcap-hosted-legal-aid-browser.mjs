@@ -82,7 +82,41 @@ check("browser binds itself to the seed evidence of the same Preview", browser.i
 check("browser pins the historical packet, owner, hash and renderer", ["RESUME.job", "RESUME.owner", "RESUME.hash", "RESUME.priorDigest"].every(value => browser.includes(value)) && !browser.includes("order by j.created_at desc limit 1"));
 check("no_contact is never reported as delivery", browser.includes("This is not proof of delivery") && browser.includes("follow_up_email_actually_delivered_to_the_test_mailbox") && browser.includes("api.resend.com/emails/"));
 check("email delivery proof requires the provider event to name the authorized mailbox", browser.includes("(providerEvent?.to ?? []).includes(TEST_MAILBOX)"));
-check("browser exercises sign-in, registration, duplicate, capacity and waitlist", ["participant_signs_in_and_returns_to_registration", "duplicate_registration_refused", "capacity_reached_puts_applicant_c_on_the_waitlist", "intake_saved_and_resumed_after_refresh"].every((id) => browser.includes(id)));
+check("browser exercises sign-in, registration, duplicate, capacity and waitlist", ["registration_sign_in_is_captcha_protected", "synthetic_applicant_session_returns_to_registration", "duplicate_registration_refused", "capacity_reached_puts_applicant_c_on_the_waitlist", "intake_saved_and_resumed_after_refresh"].every((id) => browser.includes(id)));
+// Applicant A must never wait for an impossible automated human CAPTCHA grant.
+const applicant = browser.slice(browser.indexOf("// 2. Applicant A:"), browser.indexOf("const personA ="));
+check("Applicant A never submits credentials or waits for a browser password grant", !/waitForResponse|input\[name=["']?(?:email|password)|getByRole/.test(applicant));
+check("anonymous registration proves visible CAPTCHA protection", [
+  'const anonymousApplicant = await open({ viewport: { width: 390, height: 844 } });',
+  "await anonymousApplicant.click(\"a:has-text('Register for this clinic')\");",
+  'await anonymousApplicant.waitForURL(/sign-in/);',
+  "await anonymousApplicant.locator('[aria-label=\"Security check\"]').waitFor({ state: \"visible\" });",
+  'new URL(anonymousApplicant.url()).pathname === "/sign-in"',
+  "&& await anonymousApplicant.locator('[aria-label=\"Security check\"]').isVisible()",
+  'record("registration_sign_in_is_captcha_protected",'
+].every(value => applicant.includes(value)));
+check("Applicant A reuses the exact authenticated context and verifies registration", [
+  'const a = await open({ viewport: { width: 390, height: 844 }, user: who.APPLICANT_A });',
+  'const registrationUrl = `${PREVIEW}/clinic/${F.eventSlug}/register`;',
+  'await a.goto(registrationUrl);',
+  'await a.waitForSelector("input[name=contactName]");',
+  'who.APPLICANT_A.id === RESUME.owner',
+  'who.APPLICANT_A.session.user.id === who.APPLICANT_A.id',
+  '&& a.url() === registrationUrl',
+  'record("synthetic_applicant_session_returns_to_registration",'
+].every(value => applicant.includes(value)));
+check("Applicant A has one genuine Acceptance password-grant identity", (browser.match(/who\.APPLICANT_A\s*=/g) ?? []).length === 1
+  && browser.includes('who.APPLICANT_A = await sessionFor(F.packetApplicantEmail, keys);')
+  && browser.includes('const session = await signedIn.json().catch(() => null);')
+  && browser.includes('return { id: session.user.id, email, session };')
+  && browser.includes('fetch(`${SUPABASE_URL}/auth/v1/token?grant_type=password`')
+  && browser.includes('body: JSON.stringify({ email, password: DEMO_PASSWORD })'));
+check("authenticated context retains original SSR session and exact Preview cookie scope",
+  browser.includes('if (user) await context.addCookies(authCookies(user.session));')
+  && browser.includes('Buffer.from(JSON.stringify(session), "utf8").toString("base64")')
+  && browser.includes('domain: EXPECTED_HOSTNAME, path: "/", secure: true, httpOnly: true, sameSite: "Strict"')
+  && browser.includes('const c = await newContext(browser, options);')
+  && !/jwt\.sign|SignJWT|setExtraHTTPHeaders|Bearer.*user\.session/.test(browser));
 check("browser exercises the three training records", ["trainingRecords.A", "trainingRecords.B", "trainingRecords.C", "applicant_b_returned_for_missing_document", "non_citizen_sees_confidential_review_acknowledgment"].every((id) => browser.includes(id)));
 check("browser exercises protected entry, authorized reveal and denied reveal", ["protected_value_encrypted_at_rest_with_masked_hint", "attorney_audited_reveal_shows_the_value_once", "intake_volunteer_cannot_reveal_or_decide", "notary_uploads_executed_copy_to_private_storage_and_cannot_reveal"].every((id) => browser.includes(id)));
 check("browser exercises staff assignment, decisions and cross-tenant denial", ["interim_coordinator_assigns_clinic_team", "program_decision_recorded_separately_from_legal_eligibility", "other_organizations_administrator_denied_cross_tenant"].every((id) => browser.includes(id)));

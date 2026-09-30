@@ -22,7 +22,7 @@ function phase(name){
 }
 const legalEvidence=()=>({...Object.fromEntries(['prerequisite','preservation','relationships'].map(boundary=>[`legal-aid/${boundary}.json`,{status:'PASS',boundary,...context,native:{result:'PASS',historicalCheckpointUnchanged:true}}])),
  'legal-aid/seed.json':{passed:true,applicationSha:context.applicationSha,previewDeploymentId:context.deploymentId},
- 'legal-aid/browser.json':{passed:true,applicationSha:context.applicationSha,previewDeploymentId:context.deploymentId,acceptanceProjectRef:context.project,cases:{retained_browser_cases:{passed:true}},checkoutCreated:false,paymentCompleted:false,stripeTouched:false,workerRun:false,migrationApplied:false,emailDelivery:{mode:'not_configured'}}});
+ 'legal-aid/browser.json':{passed:true,applicationSha:context.applicationSha,previewDeploymentId:context.deploymentId,acceptanceProjectRef:context.project,cases:{registration_sign_in_is_captcha_protected:{passed:true},synthetic_applicant_session_returns_to_registration:{passed:true},retained_browser_cases:{passed:true}},checkoutCreated:false,paymentCompleted:false,stripeTouched:false,workerRun:false,migrationApplied:false,emailDelivery:{mode:'not_configured'}}});
 test('Legal Aid uses exact Preview, independent of Clinic replay and Stripe',()=>{
  const {inputs,states}=phase('legal_aid_browser');
  for(const k of ['deploy','matrix','gate','retarget','clinic','dtc'])assert.equal(states.contract.outputs[k],'false',k);
@@ -106,4 +106,20 @@ test('completion stage ordering, explicit opt-in, sponsored applicability and no
  assert.equal(workflow.on.workflow_call.inputs.sponsor_fulfillment.default,false);
  assert.equal(entry.on.workflow_dispatch.inputs.sponsor_fulfillment.default,false);
  assert(Object.values(entry.jobs).some(j=>j.with?.sponsor_fulfillment==='${{ inputs.sponsor_fulfillment }}'));
+});
+
+test('Legal Aid verdict accepts truthful synthetic session evidence and refuses missing CAPTCHA, identity or downstream proof',()=>{
+ const e=legalEvidence();
+ assert.equal(integrationVerdict('legal-aid',n=>e[n],context).status,'PASS');
+ for(const id of ['registration_sign_in_is_captcha_protected','synthetic_applicant_session_returns_to_registration','retained_browser_cases']){
+  const bad=structuredClone(e);bad['legal-aid/browser.json'].cases[id].passed=false;
+  assert.throws(()=>integrationVerdict('legal-aid',n=>bad[n],context),new RegExp(id));
+  if(id!=='retained_browser_cases'){
+   delete bad['legal-aid/browser.json'].cases[id];
+   bad['legal-aid/browser.json'].cases.participant_signs_in_and_returns_to_registration={passed:true};
+   assert.throws(()=>integrationVerdict('legal-aid',n=>bad[n],context),new RegExp(id));
+  }
+ }
+ const failed=structuredClone(e);failed['legal-aid/browser.json'].passed=false;
+ assert.throws(()=>integrationVerdict('legal-aid',n=>failed[n],context),/browser native evidence required/);
 });
