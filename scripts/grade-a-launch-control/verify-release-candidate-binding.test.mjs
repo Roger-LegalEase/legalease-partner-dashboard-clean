@@ -50,7 +50,7 @@ test('Production Legal Aid proof successor has exactly fourteen paths, preserves
  const vm=await import('node:vm');const base='80e014d35c6af4dcfd57957013781483bb4ffb52';
  const toolsPath='data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json';
  const prior=JSON.parse(execFileSync('git',['show',`${base}:${toolsPath}`],{encoding:'utf8'}));
- const binding=JSON.parse(fs.readFileSync(toolsPath));const source=fs.readFileSync('scripts/grade-a-launch-control/verify-release-candidate-binding.mjs','utf8');
+ const binding=JSON.parse(execFileSync('git',['show',`36f1e3f716aca14ba874cfdb3082edf1c8279ffa:${toolsPath}`],{encoding:'utf8'}));const source=fs.readFileSync('scripts/grade-a-launch-control/verify-release-candidate-binding.mjs','utf8');
  const scope=source.slice(source.indexOf('if(productionLegalAidProofCorrection){'),source.indexOf('  }else if(relationshipsCorrection){'))+'\n}';
  const ancestry=source.slice(source.indexOf("  const head=git(['rev-parse','HEAD']);",source.indexOf('function verifyGenerationBinding')),source.indexOf('  expect(Object.keys(t.files).sort()',source.indexOf('function verifyGenerationBinding')));
  const files=JSON.parse(source.match(/const PRODUCTION_LEGAL_AID_PROOF_FILES=(\[[\s\S]*?\]);/)[1]);assert.equal(files.length,14);
@@ -67,4 +67,25 @@ test('Production Legal Aid proof successor has exactly fourteen paths, preserves
  for(const key of ['preactivationLegalAidRelationshipsCorrectionBaseSha','preactivationLegalAidHarnessSuccessorBaseSha'])assert.throws(()=>run({mutate:b=>delete b.successorTools[key]}),/only bounded Production Legal Aid proof correction/);
  for(const key of ['applicationSha','workerInputFingerprint','workerRebuildRequired'])assert.throws(()=>run({mutate:b=>b[key]='wrong'}),/only bounded Production Legal Aid proof correction/);
  for(const parents of [[head,base,'b'.repeat(40)],[head,'b'.repeat(40)]])assert.throws(()=>run({parents}),/one non-merge tools successor/);
+});
+
+test('restage successor preserves exact eleven-path delta, all earlier hashes, old staged ID and one parent',async()=>{
+ const vm=await import('node:vm'),base='36f1e3f716aca14ba874cfdb3082edf1c8279ffa',toolsPath='data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json',candidatePath='data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json';
+ const prior=JSON.parse(execFileSync('git',['show',`${base}:${toolsPath}`],{encoding:'utf8'}));
+ const priorCandidate=JSON.parse(execFileSync('git',['show',`${base}:${candidatePath}`],{encoding:'utf8'}));
+ const binding=JSON.parse(fs.readFileSync(toolsPath)),candidate=JSON.parse(fs.readFileSync(candidatePath));
+ const source=fs.readFileSync('scripts/grade-a-launch-control/verify-release-candidate-binding.mjs','utf8');
+ const scope=source.slice(source.indexOf('if(restageCorrection){'),source.indexOf('  }else if(productionLegalAidProofCorrection){'))+'\n}';
+ const ancestry=source.slice(source.indexOf("  const head=git(['rev-parse','HEAD']);",source.indexOf('function verifyGenerationBinding')),source.indexOf('  expect(Object.keys(t.files).sort()',source.indexOf('function verifyGenerationBinding')));
+ const files=JSON.parse(source.match(/const PRODUCTION_RESTAGE_FILES=(\[[\s\S]*?\]);/)[1]);assert.equal(files.length,11);const head='a'.repeat(40);
+ function run({mutate=()=>{},delta=files,parents=[head,base]}={}){const b=structuredClone(binding),c=structuredClone(candidate);mutate(b,c);
+ vm.runInNewContext(scope+'\n'+ancestry,{binding:b,candidate:c,t:b.successorTools,toolsPath,preactivation:true,correction:undefined,restageCorrection:b.successorTools.preactivationProductionRestageBaseSha,PRODUCTION_RESTAGE_BASE:base,PRODUCTION_RESTAGE_FILES:files,commitBase:base,
+ expect:(a,b,m)=>assert.equal(JSON.stringify(a),JSON.stringify(b),m),git:args=>args[0]==='show'?JSON.stringify(args[1].endsWith(candidatePath)?priorCandidate:prior):({diff:delta.join('\n'),'ls-files':'','rev-parse':head,'rev-list':parents.join(' ')})[args[0]]});}
+ run();for(const delta of [files.slice(1),[...files,'src/extra.ts']])assert.throws(()=>run({delta}),/exact Production restage paths/);
+ for(const parents of [[head,base,'b'.repeat(40)],[head,'b'.repeat(40)]])assert.throws(()=>run({parents}),/one non-merge tools successor/);
+ assert.throws(()=>run({mutate:b=>b.successorTools.preactivationProductionRestageBaseSha='0'.repeat(40)}),/exact Production restage base/);
+ for(const key of ['stagedDeploymentId','rollbackDeploymentId'])assert.throws(()=>run({mutate:(_b,c)=>c.productionAuthorization[key]='dpl_Invented'}),/only owner restage authorization added/);
+ assert.throws(()=>run({mutate:(_b,c)=>c.productionAuthorization.phases.push('activate')}),/only owner restage authorization added/);
+ assert.throws(()=>run({mutate:b=>b.successorTools.files['scripts/rcap-production-legal-aid-migrate.mjs']='0'.repeat(64)}),/preserved tools/);
+ assert.throws(()=>run({mutate:b=>delete b.successorTools.preactivationProductionLegalAidProofCorrectionBaseSha}),/only bounded Production restage correction/);
 });

@@ -57,6 +57,23 @@ check(script.includes("originPersisted: false"), "evidence records that runtime 
 
 check(script.includes('requireProductionMigrationRelease(ROOT_DIR, process.env);'), "separate Production phase permission and current tuple guard every operation");
 check(workflow.includes('node scripts/rcap-production-migration-contract.mjs'), "workflow validates current successor binding before service access");
+const restage = script.slice(script.indexOf('export async function runProductionRestage'),script.indexOf('async function runProductionPreflight'));
+check(dispatcher.includes('production_restage') && workflow.includes('RCAP_PRODUCTION_PHASE: "restage"'), 'separate bounded restage phase is wired');
+check(restage.includes("requireProductionPhaseAuthorization(release,'restage')") && restage.includes('requireRelease(rootDir,env)'), 'restage requires current tuple and exact owner phase');
+check(restage.includes('restage_old_staged_exact') && restage.includes('restage_public_mapping_is_rollback'), 'restage preserves old staged and rollback identities');
+check(restage.includes('/env?decrypt=false') && !/\.value\b/.test(script), 'restage reads only metadata with decryption disabled');
+check(script.includes("matches.length,1") && script.includes("entry.type,'sensitive'"), 'restage requires unique protected key names and sensitive types');
+check(restage.includes('restage_replacement_after_keys') && restage.includes('createdAt>t'), 'replacement must postdate all key records');
+check(restage.includes('replacements.length<=1') && restage.includes('restage_existing_replacement_ready'), 'ambiguous or unfinished replacement refuses');
+check(restage.includes("String(env.GITHUB_RUN_ATTEMPT)==='1'") && !restage.includes('&state=READY'), 'retry cannot recreate an invisible or in-flight deployment');
+check(restage.includes('validateRestageDeploymentRequest(body,identity.projectId,env.RCAP_TOOLS_SHA)') && script.includes("body.autoAssignCustomDomains,false"), 'restage exact request cannot assign domains');
+check(restage.includes("aliases.every(alias=>typeof alias==='string'&&!publicBefore.domains.includes(alias))") && restage.includes('restage_public_aliases_unchanged'), 'replacement excludes configured public domains and public mapping stays unchanged');
+check(restage.includes('restage_environment_metadata_unchanged'), 'restage refuses environment metadata change');
+check(restage.includes('migrationReplayed:false,keysCreated:false') && restage.includes('productionDatabaseMutated:false,workerChanged:false'), 'restage cannot replay migrations, create keys or change worker');
+check(restage.includes('restage_runtime_production_exact'), 'replacement runtime must resolve canonical Production');
+check((restage.match(/method: "POST"/g)??[]).length===1, 'restage has exactly one create transport and no write retry');
+check(workflow.includes("if: inputs.phase != 'restage'"), 'restage skips worker pull');
+
 const failed = checks.filter((entry) => !entry.passed);
 for (const entry of checks) console.log(`${entry.passed ? "ok  " : "FAIL"} ${entry.message}`);
 if (failed.length) {
