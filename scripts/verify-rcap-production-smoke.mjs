@@ -8,6 +8,7 @@ const read = (file) => fs.existsSync(path.join(root, file)) ? fs.readFileSync(pa
 const workflow = read(".github/workflows/rcap-production-canary.yml");
 const dispatcher = read(".github/workflows/rcap-f1-ephemeral-staging.yml");
 const script = read("scripts/rcap-production-canary-smoke.mjs");
+const resetHelper = read("scripts/rcap-production-smoke-reset.mjs");
 const checks = [];
 const check = (passed, message) => checks.push({ passed, message });
 
@@ -32,7 +33,15 @@ check(script.includes('"participant_claim_events"'), "save/claim read-back requi
 check(script.includes('const SAVE_CLAIM_LEGACY_COLUMNS = ["matter_id", "source_session_id", "pending_token_hash"]') && script.includes("legacyPresent.length === 0"), "save/claim read-back rejects the legacy matter_id, source_session_id and pending_token_hash columns");
 check(script.includes("colorado_juvenile_guidance_has_no_commerce"), "Colorado juvenile path must remain guidance-only with no commerce");
 check(script.includes("clinic_negative_control_isolated"), "negative-control isolation is required");
-check(script.includes("clinic_reset_boundary_passed"), "Clinic reset API, cookie, header, and DB boundary are required");
+check(script.includes("clinic_reset_boundary_passed"), "Clinic reset API cleanup boundary is required");
+check(script.includes("import { runCleanDeviceReset } from './rcap-production-smoke-reset.mjs';")
+  && script.includes('await runCleanDeviceReset((pathname, options) =>\n    stagedFetch(runtime.deploymentOrigin, pathname, options))')
+  && /"clinic_reset_boundary_passed",\s*reset\.passed,/.test(script), "staged runtime and final verdict use the behaviorally tested reset helper");
+check(resetHelper.includes('export async function runCleanDeviceReset(request)') && !script.includes('clinic_session=synthetic-canary'), "clean-device helper replaces arbitrary participant cookies");
+check(script.includes('redirect: options.redirect ?? "follow"') && resetHelper.includes("redirect: 'manual'"), "reset protocol cannot follow redirects away from exact staged endpoint");
+const resetTail = script.slice(script.indexOf('"clinic_reset_boundary_passed"'));
+check(script.includes('"clinic_reset_boundary_passed"') && !/\brecord\s*\(/.test(resetTail)
+  && resetTail.indexOf('persist(true)') > 0 && resetTail.indexOf('PRODUCTION CANARY SMOKE PASS') > resetTail.indexOf('persist(true)'), "Clinic reset remains final runtime assertion before persistence and PASS");
 check(script.includes("reset role;\n    do $$ declare outcome text"), "Clinic reset preserves the server-authority-only function grant");
 check(script.includes("transactional_synthetic_fixture_rolled_back"), "synthetic fixture must be transactionally rolled back");
 check(script.includes("realParticipantRecordsCreated: false"), "evidence fixes real participant creation to false");

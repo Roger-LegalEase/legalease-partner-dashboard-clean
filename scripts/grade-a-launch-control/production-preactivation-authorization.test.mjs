@@ -68,9 +68,23 @@ test('prior authority and hosted evidence are preserved; integrated controls ret
   assert.equal(record.supersededRecordSha256,createHash('sha256').update(bytes).digest('hex'));
  }
  assert.deepEqual(candidate.hostedAcceptance,candidate.supersededRecord.hostedAcceptance);
- for(const rel of [...HOSTED_EVIDENCE_FILES,'scripts/rcap-production-clinic-migrate.mjs','scripts/rcap-production-canary-smoke.mjs']) {
+ for(const rel of [...HOSTED_EVIDENCE_FILES,'scripts/rcap-production-clinic-migrate.mjs']) {
   assert.deepEqual(fs.readFileSync(rel),execFileSync('git',['show',`${PREACTIVATION_BASE}:${rel}`],{maxBuffer:32*1024*1024}));
  }
+ // The smoke reset harness has an explicitly bound tools-only successor.
+ // Preserve every prior byte outside its reset block and the two plumbing edits;
+ // behavioral tests exercise the new block against the real frozen reset route.
+ const smokePath='scripts/rcap-production-canary-smoke.mjs';
+ const priorSmoke=execFileSync('git',['show',`${PREACTIVATION_BASE}:${smokePath}`],{encoding:'utf8'});
+ const smoke=fs.readFileSync(smokePath,'utf8');
+ const beforeReset=s=>s.slice(0,s.indexOf('  const reset = await '));
+ const afterReset=s=>s.slice(s.indexOf('\n  evidence.runtime ='));
+ assert.equal(beforeReset(smoke)
+  .replace("import { runCleanDeviceReset } from './rcap-production-smoke-reset.mjs';\n",'')
+  .replace('redirect: options.redirect ?? "follow",','redirect: "follow",'),beforeReset(priorSmoke),'all pre-reset safeguards preserved');
+ assert.equal(afterReset(smoke),afterReset(priorSmoke),'entire post-reset persistence and failure handling preserved');
+ assert.match(smoke,/const reset = await runCleanDeviceReset\(\(pathname, options\) =>\s*stagedFetch\(runtime.deploymentOrigin, pathname, options\)\)/);
+ assert.match(smoke,/"clinic_reset_boundary_passed",\s*reset\.passed,/);
  for(const rel of ['data/rcap-production-forward-chain-migration-authorization.json','data/rcap-production-legal-aid-migration-authorization.json']) {
   const prior=JSON.parse(execFileSync('git',['show',`${PREACTIVATION_BASE}:${rel}`],{maxBuffer:32*1024*1024}));
   const current=JSON.parse(fs.readFileSync(rel));assert.deepEqual(current.supersededRecord,prior);assert.equal(current.dropAuthorized,false);
