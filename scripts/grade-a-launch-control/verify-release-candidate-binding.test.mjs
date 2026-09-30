@@ -45,3 +45,26 @@ test('exact clean candidate accepts; tracked and untracked packaged changes refu
   assert.equal(verifyReleaseCandidateBinding(root,null).status,'NOT_FROZEN');
   assert.equal(verifyReleaseCandidateBinding(root,{applicationSha:'invalid'}).status,'INVALID_APPLICATION_INPUTS');
 });
+
+test('Production Legal Aid proof successor has exactly fourteen paths, preserves earlier authority and refuses other parents or merges',async()=>{
+ const vm=await import('node:vm');const base='80e014d35c6af4dcfd57957013781483bb4ffb52';
+ const toolsPath='data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json';
+ const prior=JSON.parse(execFileSync('git',['show',`${base}:${toolsPath}`],{encoding:'utf8'}));
+ const binding=JSON.parse(fs.readFileSync(toolsPath));const source=fs.readFileSync('scripts/grade-a-launch-control/verify-release-candidate-binding.mjs','utf8');
+ const scope=source.slice(source.indexOf('if(productionLegalAidProofCorrection){'),source.indexOf('  }else if(relationshipsCorrection){'))+'\n}';
+ const ancestry=source.slice(source.indexOf("  const head=git(['rev-parse','HEAD']);",source.indexOf('function verifyGenerationBinding')),source.indexOf('  expect(Object.keys(t.files).sort()',source.indexOf('function verifyGenerationBinding')));
+ const files=JSON.parse(source.match(/const PRODUCTION_LEGAL_AID_PROOF_FILES=(\[[\s\S]*?\]);/)[1]);assert.equal(files.length,14);
+ const head='a'.repeat(40);
+ function run({mutate=()=>{},delta=files,parents=[head,base]}={}){
+  const b=structuredClone(binding);mutate(b);
+  vm.runInNewContext(scope+'\n'+ancestry,{binding:b,t:b.successorTools,toolsPath,preactivation:true,correction:undefined,productionLegalAidProofCorrection:b.successorTools.preactivationProductionLegalAidProofCorrectionBaseSha,PRODUCTION_LEGAL_AID_PROOF_BASE:base,PRODUCTION_LEGAL_AID_PROOF_FILES:files,commitBase:base,
+   expect:(a,b,m)=>assert.equal(JSON.stringify(a),JSON.stringify(b),m),git:args=>({show:JSON.stringify(prior),diff:delta.join('\n'),'ls-files':'','rev-parse':head,'rev-list':parents.join(' ')})[args[0]]});
+ }
+ run();
+ assert.throws(()=>run({mutate:b=>b.successorTools.preactivationProductionLegalAidProofCorrectionBaseSha='0'.repeat(40)}),/exact Production Legal Aid proof correction base/);
+ for(const delta of [files.slice(1),[...files,'src/unrelated.ts']])assert.throws(()=>run({delta}),/exact Production Legal Aid proof correction paths/);
+ for(const rel of ['scripts/rcap-hosted-legal-aid-browser.mjs','scripts/rcap-production-worker-readiness.mjs'])assert.throws(()=>run({mutate:b=>b.successorTools.files[rel]='0'.repeat(64)}),/preserved tools/);
+ for(const key of ['preactivationLegalAidRelationshipsCorrectionBaseSha','preactivationLegalAidHarnessSuccessorBaseSha'])assert.throws(()=>run({mutate:b=>delete b.successorTools[key]}),/only bounded Production Legal Aid proof correction/);
+ for(const key of ['applicationSha','workerInputFingerprint','workerRebuildRequired'])assert.throws(()=>run({mutate:b=>b[key]='wrong'}),/only bounded Production Legal Aid proof correction/);
+ for(const parents of [[head,base,'b'.repeat(40)],[head,'b'.repeat(40)]])assert.throws(()=>run({parents}),/one non-merge tools successor/);
+});

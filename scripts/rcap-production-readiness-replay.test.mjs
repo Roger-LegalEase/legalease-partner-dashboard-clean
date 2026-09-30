@@ -64,16 +64,38 @@ test('actual packet certification refuses all 19 current semantic differences; m
  for(const key of ['column:packet_render_jobs.retry_reconciliation_history','functions:guard_packet_render_job_retry_history','trigger:packet_render_jobs.guard_packet_render_job_retry_history'])assert.ok(result.failures.some(x=>x.name===key));
  assert.throws(()=>requireMigrationCertification(args),/migration_not_certified/);
 });
-test('Legal Aid current state is empty with exact prerequisites; absent independent browser authorization still refuses writes',()=>{
+test('Legal Aid captured empty state requires Production-native proof and immediate exact readback before frozen migration',async()=>{
  const summary=legalSummary(row('legal_inventory'));assert.equal(summary.prerequisitesExact,true);assert.equal(summary.empty,true);assert.equal(summary.complete,false);
+ const partial=legalSummary({...row('legal_inventory'),legal_aid_tables:['legal_aid_intakes']});assert.equal(partial.empty,false);assert.equal(partial.complete,false);
  const authorization=JSON.parse(fs.readFileSync('data/rcap-production-legal-aid-migration-authorization.json'));
- assert.equal(authorization.status,'conditional_on_fresh_hosted_browser');assert.equal(authorization.hostedAcceptance.browserRunId,null);assert.equal(authorization.dropAuthorized,false);
+ assert.equal(authorization.status,'authorized_on_unchanged_application_and_reviewed_behavior');assert.equal(authorization.hostedAcceptance.browserRunId,null);assert.equal(authorization.dropAuthorized,false);
+ assert.equal(authorization.productionProjectRef,'wwtwtsmywnckfkdaqqeg');
  assert.equal(authorization.supersededRecord.status,'pending_hosted_acceptance');assert.equal(authorization.supersededRecord.hostedAcceptance.browserRunId,null);
- assert.equal(authorization.hostedAcceptance.migration.runId,'35114154196');assert.equal(authorization.hostedAcceptance.migration.artifactId,'10453896397');
+ assert.deepEqual(authorization.migration,{path:'supabase/migrations/20260916120000_legal_aid_clinic_mode.sql',sha256:'91c9b887324ce36d0515357fef2b9ce19cef271c99c157e8004533c73015cce8',sourceSha:'f5c4f40022e422033985302995511da7157f474d'});
+ assert.equal(authorization.hostedAcceptance.legalAidMigrateRunId,'35114154196');
+ assert.deepEqual(authorization.hostedAcceptance.migration,{runId:'35114154196',artifactId:'10453896397',artifactZipSha256:'sha256:fad3384b88249d8cd2411089867b2971c97f66b258269e5958f7a12c29be45db'});
  assert.deepEqual(authorization.releaseTuple,Object.fromEntries(['applicationSha','workerSourceSha','workerDigest','workerInputFingerprint','productionProjectRef'].map(key=>[key,candidate[key]])));
+ assert.equal(requireProductionPhaseAuthorization(candidate,'legal_aid_migrate'),candidate.productionAuthorization);
+ const denied=structuredClone(candidate);denied.productionAuthorization.phases=denied.productionAuthorization.phases.filter(p=>p!=='legal_aid_migrate');assert.throws(()=>requireProductionPhaseAuthorization(denied,'legal_aid_migrate'));
+ const {PRODUCTION_PROOF_TUPLE,verifyReviewedLegalAidBehavior}=await import('./rcap-production-legal-aid-browser-receipt.mjs');
+ assert.deepEqual(authorization.releaseTuple,PRODUCTION_PROOF_TUPLE);
+ assert.equal(candidate.applicationSha,'e312a5efa7b4882e0fbf61a5ff0ae7891ac23226');
+ const {applicationInputEquivalence}=await import('./rcap-application-inputs.mjs');
+ const equivalence=applicationInputEquivalence(root,candidate.applicationSha,execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim());
+ assert.equal(equivalence.equivalent,true);assert.deepEqual(equivalence.changedPaths,[]);assert.equal(equivalence.comparedInputs,10285);
+ assert.equal(verifyReviewedLegalAidBehavior(root).baseSha,'80e014d35c6af4dcfd57957013781483bb4ffb52');
  const control=fs.readFileSync('scripts/rcap-production-legal-aid-migrate.mjs','utf8');
- assert.ok(control.indexOf('await verifyFreshLegalAidBrowserReceipt')<control.indexOf('await managementQuery(sql, "legal_aid_migration_applied")'));
- assert.ok(control.includes('immediateBeforeWrite.empty && immediateBeforeWrite.prerequisitesExact'));
+ // Require actual call sites to exist: indexOf(-1) must never count as proof
+ // that a removed guard precedes a write. Runtime race/refusal coverage lives
+ // in the required Production proof-gate entrypoint suite.
+ const ordered=['const release = requireRelease(ROOT_DIR, env);','await behaviorProof({','await managementGet(',
+  '"clinic_mode_prerequisites_read_back_exact"','"legal_aid_schema_initial_state_is_empty_or_complete"',
+  'await proof({','"independent_production_authorization_and_reviewed_behavior"',
+  'await readback("legal_aid_immediate_prewrite_readback")','immediateBeforeWrite.empty && immediateBeforeWrite.prerequisitesExact',
+  'await managementQuery(sql, "legal_aid_migration_applied")','"legal_aid_source_postconditions_after"','await readback("legal_aid_catalog_direct_readback")'];
+ let previous=-1;for(const marker of ordered){const index=control.indexOf(marker);assert.ok(index>=0&&index>previous,marker);previous=index;}
+ for(const guard of ['proof = verifyProductionLegalAidProof','before.empty || before.complete','if (before.empty && identityAuthorized)','!before.empty || authorized','authorization?.dropAuthorized === false','frozenMigrationSql(ROOT_DIR, APPLICATION_SHA)','certifyClinicSourceCatalog(reference,','all_12_legal_aid_tables_exist_with_rls_enabled','all_32_legal_aid_functions_exist','private_bucket_and_grants_read_back_tight','legal_aid_schema_complete_after_apply'])assert.ok(control.includes(guard),guard);
+ assert.doesNotMatch(control,/verifyFreshLegalAidBrowserReceipt|RCAP_LEGAL_AID_BROWSER_RUN_ID/);
 });
 test('current smoke schema and worker queue predicates pass; they do not substitute for remote smoke or Machine proof',()=>{
  const q=row('worker_queue');for(const k of ['stale_queued','queued','claimed','terminal_failed'])assert.equal(Number(q[k]),0);

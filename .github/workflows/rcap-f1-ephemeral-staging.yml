@@ -99,11 +99,6 @@ on:
         description: "Integration-branch commit carrying the F1 orchestration scripts (must be image-input-equivalent to the freeze)"
         required: true
         type: string
-      legal_aid_browser_run_id:
-        description: "Exact successful hosted_legal_aid_browser run on this reviewed tools commit; required before an empty Production Legal Aid schema may be written"
-        required: false
-        type: string
-        default: ""
       clinic_resume_authorization:
         description: "Required for hosted_clinic_resume: exact owner resume authorization identifier"
         required: false
@@ -144,7 +139,6 @@ jobs:
       worker_source_sha: ${{ inputs.worker_source_sha }}
       worker_digest: ${{ inputs.worker_digest }}
       tools_sha: ${{ inputs.tools_sha }}
-      legal_aid_browser_run_id: ${{ inputs.legal_aid_browser_run_id }}
     secrets:
       VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
       SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}

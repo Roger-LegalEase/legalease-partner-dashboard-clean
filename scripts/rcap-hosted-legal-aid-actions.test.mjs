@@ -151,7 +151,7 @@ test('real relationshipQuery binds each run namespace while preserving every his
 test('relationships successor binding is exact, preserves earlier tools and refuses merges or alternate parents',async()=>{
  const {execFileSync}=await import('node:child_process');const vm=await import('node:vm');
  const base='721530ba23f65b5fadd6e72ce83acd87e2d3b2d7',toolsPath='data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json';
- const prior=JSON.parse(execFileSync('git',['show',`${base}:${toolsPath}`],{encoding:'utf8'}));const binding=JSON.parse(fs.readFileSync(toolsPath));
+ const prior=JSON.parse(execFileSync('git',['show',`${base}:${toolsPath}`],{encoding:'utf8'}));const binding=JSON.parse(execFileSync('git',['show',`80e014d35c6af4dcfd57957013781483bb4ffb52:${toolsPath}`],{encoding:'utf8'}));
  const source=fs.readFileSync('scripts/grade-a-launch-control/verify-release-candidate-binding.mjs','utf8');
  const scope=source.slice(source.indexOf('if(relationshipsCorrection){'),source.indexOf('  }else if(legalAidHarnessSuccessor){'))+'\n}';
  const ancestry=source.slice(source.indexOf("  const head=git(['rev-parse','HEAD']);",source.indexOf('function verifyGenerationBinding')),source.indexOf('  expect(Object.keys(t.files).sort()',source.indexOf('function verifyGenerationBinding')));

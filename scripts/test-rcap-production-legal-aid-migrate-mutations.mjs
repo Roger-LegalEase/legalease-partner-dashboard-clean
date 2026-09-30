@@ -10,10 +10,17 @@ const files = [
   ".github/workflows/rcap-f1-ephemeral-staging.yml",
   "scripts/rcap-production-legal-aid-migrate.mjs",
   "scripts/rcap-legal-aid/contract.mjs",
+  "scripts/rcap-production-legal-aid-browser-receipt.mjs",
   "data/rcap-production-legal-aid-migration-authorization.json"
 ];
 
 const mutations = [
+  ["local proof before service", "await behaviorProof({", "await omittedProof({"],
+  ["Production proof gate", "await proof({", "await omittedProof({"],
+  ["immediate prewrite guard", "immediateBeforeWrite.empty && immediateBeforeWrite.prerequisitesExact", "true"],
+  ["owner proof status", "authorized_on_unchanged_application_and_reviewed_behavior", "conditional_on_fresh_hosted_browser"],
+  ["canonical equivalence", "application.equivalent,true", "application.equivalent,false"],
+  ["reviewed behavior drift refusal", "reviewed behavior drift:", "ignored drift:"],
   ["current schema proof", "certifyClinicSourceCatalog(reference,", "falseReceipt(reference,"],
   [
     "Production project",
@@ -42,7 +49,7 @@ const mutations = [
   ],
   [
     "independent authorization",
-    "independent_production_authorization_names_passing_acceptance",
+    "independent_production_authorization_and_reviewed_behavior",
     "authorization_ignored"
   ],
   [

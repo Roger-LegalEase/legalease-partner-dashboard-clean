@@ -27,7 +27,7 @@ check(contract.includes('sha256: "91c9b887324ce36d0515357fef2b9ce19cef271c99c157
 check(script.includes("frozenMigrationSql("), "migration bytes come from the frozen application commit");
 check(script.includes("clinic_mode_prerequisites_read_back_exact"), "Clinic Mode prerequisites are read before mutation");
 check(script.includes("legal_aid_schema_initial_state_is_empty_or_complete"), "partial pre-existing Legal Aid schema is refused");
-check(script.includes("independent_production_authorization_names_passing_acceptance"), "Production apply requires the independent authorization naming passing acceptance runs");
+check(script.includes("independent_production_authorization_and_reviewed_behavior"), "Production apply requires independent authorization and reviewed behavior");
 check(script.includes("readback_phase_wrote_nothing"), "readback phase asserts it wrote nothing");
 check(script.includes("all_12_legal_aid_tables_exist_with_rls_enabled"), "12/12 table and RLS readback is required");
 check(script.includes("all_32_legal_aid_functions_exist"), "32/32 function readback is required");
@@ -42,6 +42,16 @@ check(script.includes("realChargesCreated: false"), "evidence fixes real charges
 check(authorization?.productionProjectRef === "wwtwtsmywnckfkdaqqeg", "authorization record names the canonical Production project");
 check(authorization?.dropAuthorized === false, "authorization record forbids dropping Legal Aid structure");
 check(authorization?.migration?.sha256 === "91c9b887324ce36d0515357fef2b9ce19cef271c99c157e8004533c73015cce8", "authorization record pins the same hash");
+
+const proof = read("scripts/rcap-production-legal-aid-browser-receipt.mjs");
+check(authorization.status === 'authorized_on_unchanged_application_and_reviewed_behavior', 'owner authorization uses Production-native proof condition');
+check(!/legal_aid_browser_run_id|RCAP_LEGAL_AID_BROWSER_RUN_ID/.test(workflow+dispatcher+script), 'no stale browser run input remains');
+check(!/api\.github\.com|\bfetch\s*\(/.test(proof), 'Production proof requires no GitHub receipt fetch');
+check(proof.includes('applicationInputEquivalence') && proof.includes("application.changedPaths,[]") && proof.includes("application.equivalent,true"), 'canonical application equivalence refuses drift');
+check(proof.includes('verifyReviewedLegalAidBehavior') && proof.includes('reviewed behavior drift:'), 'reviewed Legal Aid behavior bytes are preserved');
+check(script.includes('behaviorProof = runProductionLegalAidBehaviorProof') && script.includes('await behaviorProof({') && script.indexOf('await behaviorProof({') < script.indexOf('await managementGet('), 'deterministic behavior battery precedes service access');
+check(script.includes('proof = verifyProductionLegalAidProof') && script.includes('await proof({'), 'empty schema requires the Production proof');
+check(script.includes('immediateBeforeWrite.empty && immediateBeforeWrite.prerequisitesExact') && script.indexOf('await proof({') < script.indexOf('await readback("legal_aid_immediate_prewrite_readback")') && script.indexOf('await readback("legal_aid_immediate_prewrite_readback")') < script.indexOf('await managementQuery(sql,'), 'immediate pre-write readback remains mandatory after proof');
 
 const failed = checks.filter((entry) => !entry.passed);
 for (const entry of checks) console.log(`${entry.passed ? "ok  " : "FAIL"} ${entry.message}`);

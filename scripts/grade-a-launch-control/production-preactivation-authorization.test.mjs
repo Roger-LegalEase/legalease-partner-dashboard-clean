@@ -85,12 +85,17 @@ test('prior authority and hosted evidence are preserved; integrated controls ret
   .replace('if (existingKey.length === 0 || existingVersion.length === 0) {','if (existingKey.length === 0 || existingVersion.length === 0 || existingPseudonym.length === 0) {')
   .replace('    record("existing_pseudonym_secret_is_never_overwritten"',shapeGuard+'    record("existing_pseudonym_secret_is_never_overwritten"'));
  const legalPath='scripts/rcap-production-legal-aid-migrate.mjs',legal=fs.readFileSync(legalPath,'utf8'),priorLegal=priorControl(legalPath);
- const legalImport='import { verifyFreshLegalAidBrowserReceipt } from "./rcap-production-legal-aid-browser-receipt.mjs";\n';
- const boundary='    const authorization = JSON.parse(fs.readFileSync(path.join(ROOT_DIR, AUTHORIZATION_PATH), "utf8"));';
- assert.equal(legal.replace(legalImport,'').split(boundary)[0],priorLegal.split(boundary)[0]);
+ const reviewedLegal=execFileSync('git',['show',`80e014d35c6af4dcfd57957013781483bb4ffb52:${legalPath}`],{encoding:'utf8'});
  const tail='      await managementQuery(sql, "legal_aid_migration_applied");';
- assert.equal(legal.slice(legal.indexOf(tail)),priorLegal.slice(priorLegal.indexOf(tail)));
- for(const guard of ['authorization?.productionProjectRef === PRODUCTION_PROJECT_REF','authorization?.migration?.path === LEGAL_AID_MIGRATION.path','authorization?.migration?.sha256 === LEGAL_AID_MIGRATION.sha256','authorization?.migration?.sourceSha === LEGAL_AID_MIGRATION.sourceSha','authorization?.dropAuthorized === false','!before.empty || authorized','if (before.empty && identityAuthorized)','await verifyFreshLegalAidBrowserReceipt','immediateBeforeWrite.empty && immediateBeforeWrite.prerequisitesExact'])assert.ok(legal.includes(guard),guard);
+ assert.equal(legal.slice(legal.indexOf(tail)),reviewedLegal.slice(reviewedLegal.indexOf(tail)),'entire migration apply and postcondition tail preserved');
+ for(const guard of ['authorization?.productionProjectRef === PRODUCTION_PROJECT_REF','authorization?.migration?.path === LEGAL_AID_MIGRATION.path','authorization?.migration?.sha256 === LEGAL_AID_MIGRATION.sha256','authorization?.migration?.sourceSha === LEGAL_AID_MIGRATION.sourceSha','authorization?.dropAuthorized === false','!before.empty || authorized','if (before.empty && identityAuthorized)','await proof({','immediateBeforeWrite.empty && immediateBeforeWrite.prerequisitesExact'])assert.ok(legal.includes(guard),guard);
+ assert.ok(legal.indexOf('await behaviorProof({')<legal.indexOf('await managementGet('),'local proof before service access');
+ assert.ok(legal.indexOf('await proof({')<legal.indexOf('await readback("legal_aid_immediate_prewrite_readback")'));
+ const owner=JSON.parse(fs.readFileSync('data/rcap-production-legal-aid-migration-authorization.json'));
+ assert.equal(owner.status,'authorized_on_unchanged_application_and_reviewed_behavior');
+ assert.equal(owner.authorizedBy,'Roger Roman');assert.equal(owner.hostedAcceptance.browserRunId,null);
+ assert.deepEqual(owner.releaseTuple,Object.fromEntries(['applicationSha','workerSourceSha','workerDigest','workerInputFingerprint','productionProjectRef'].map(k=>[k,candidate[k]])));
+ assert.deepEqual(fs.readFileSync(prefix+'RELEASE_CANDIDATE_BINDING.json'),execFileSync('git',['show',`80e014d35c6af4dcfd57957013781483bb4ffb52:${prefix}RELEASE_CANDIDATE_BINDING.json`]));
  const forwardPath='scripts/rcap-production-forward-chain-migrate.mjs',forward=fs.readFileSync(forwardPath,'utf8'),priorForward=priorControl(forwardPath);
  const forwardImport="import { loadCorrection, requireForwardCorrectionAuthorization, stateFingerprint } from './rcap-production-packet-forward-correction.mjs';\n";
  const fundingImport="import {fundingCatalogQuery} from './rcap-production-funding-dependency-contract.mjs';\n";
