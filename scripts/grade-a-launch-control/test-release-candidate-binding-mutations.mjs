@@ -58,13 +58,6 @@ try {
   git("commit", "-q", "-m", "worker source");
   const workerSourceSha = git("rev-parse", "HEAD");
 
-  // The application freeze: one commit past the worker source that changes no
-  // canonical worker input, so the frozen application reuses the published image.
-  write("docs/note.md", "application freeze\n");
-  git("add", "-f", "docs/note.md");
-  git("commit", "-q", "-m", "application freeze");
-  const applicationSha = git("rev-parse", "HEAD");
-
   // A NEW worker digest, deliberately unlike the retired literal.
   const workerDigest = "sha256:" + "ab".repeat(32);
   // A published image is not an accepted one, and since 2026-09-22 the verifier
@@ -89,7 +82,13 @@ try {
   });
   git("add", "-f", PUBLICATION);
   git("commit", "-q", "-m", "publication evidence");
-  const publicationSha = git("rev-parse", "HEAD");
+  // Publication evidence is runtime-consumed: freeze it with the application,
+  // before the bounded tools-only successor. Adding it after the freeze is
+  // real application drift, not a release-bookkeeping exemption.
+  write("docs/note.md", "application freeze\n");
+  git("add", "-f", "docs/note.md");
+  git("commit", "-q", "-m", "application freeze with accepted publication");
+  const applicationSha = git("rev-parse", "HEAD");
 
   // The tools commit: one bounded orchestration file, after the freeze.
   write("scripts/rcap-vercel-identity-recheck.mjs", "// tooling change\n");
@@ -154,12 +153,12 @@ try {
   console.log("PASS refusal: candidate worker source that was never published");
 
   // 4. With no tooling binding at all, the candidate stands on its own proofs
-  //    and no orchestration change is excused. At the publication commit there
+  //    and no orchestration change is excused. At the frozen application commit there
   //    is no post-freeze orchestration delta, so it verifies; at the tools
   //    commit the same absent binding leaves that delta unbounded, so it
   //    refuses. Both directions matter: the binding is what authorizes bounded
   //    post-freeze tooling, and its absence must not silently permit it.
-  git("reset", "-q", "--hard", publicationSha); git("clean", "-qfd");
+  git("reset", "-q", "--hard", applicationSha); git("clean", "-qfd");
   assert.equal(fs.existsSync(path.join(root, TOOLING)), false, "the fixture must have no tooling binding at this point");
   const unbound = verifyReleaseCandidateBinding(root, candidate);
   assert.equal(unbound.current, true, `an unchanged candidate must verify without a binding: ${unbound.reasons.join("; ")}`);
@@ -171,11 +170,15 @@ try {
   console.log("PASS: absent tooling binding neither blocks a clean candidate nor excuses tooling drift");
 
   // An empty exact tools set must not turn a path-scoped diff into a whole-tree diff.
-  git("reset", "-q", "--hard", publicationSha); git("clean", "-qfd");
-  bind({ ...candidate, toolsSha: publicationSha, orchestrationFiles: [] });
+  git("reset", "-q", "--hard", applicationSha); git("clean", "-qfd");
+  bind({ ...candidate, toolsSha: applicationSha, orchestrationFiles: [] });
   assert.equal(verifyReleaseCandidateBinding(root, candidate).current, true);
   const publication = JSON.parse(fs.readFileSync(path.join(root, PUBLICATION)));
   write(PUBLICATION, { ...publication, evidenceNote: "read-only receipt metadata" });
+  const publicationDrift = verifyReleaseCandidateBinding(root, candidate);
+  assert.equal(publicationDrift.current, false, "runtime publication evidence is frozen application input");
+  assert.match(publicationDrift.reasons.join(" "), /Candidate inputs changed/);
+  write(PUBLICATION, publication);
   assert.equal(verifyReleaseCandidateBinding(root, candidate).current, true);
   write("src/placeholder.ts", "export const placeholder = false;\n");
   assert.equal(verifyReleaseCandidateBinding(root, candidate).current, false);
@@ -184,7 +187,7 @@ try {
   git("add", "scripts/unreviewed.mjs");
   assert.equal(verifyReleaseCandidateBinding(root, candidate).current, false);
   reset();
-  console.log("PASS empty tools set: evidence receipt allowed; application and unreviewed tool drift refused");
+  console.log("PASS empty tools set: publication, application and unreviewed tool drift refused");
 
   // Pending product successor is measurable but NEVER a current release.
   write("src/changed.ts", "export const safety = true;\n");
@@ -205,7 +208,10 @@ try {
     assert.equal(result.current,false); assert.equal(result.status,"INVALID_PENDING_PUBLICATION");
   }
   write("src/changed.ts","export const safety = false;\n");
-  assert.equal(verifyReleaseCandidateBinding(root,pending).status,"INVALID_PENDING_PUBLICATION");
+  const stalePending = verifyReleaseCandidateBinding(root,pending);
+  assert.equal(stalePending.current,false);
+  assert.equal(stalePending.status,"STALE_APPLICATION_INPUTS");
+  assert.deepEqual(stalePending.reasons,["src/changed.ts"]);
   console.log("PASS pending publication: explicit non-current state; 7 acceptance/identity/drift mutations refused");
 
   console.log(`PASS release-candidate binding: future tuple accepted; ${mutations.length + 1}/${mutations.length + 1} wrong identities refused`);
