@@ -1,3 +1,4 @@
+import {PUBLIC_VERIFICATION_BASE,assertPublicVerificationAuthorization} from './production-preflight-authorization.mjs';
 import {ACTIVATION_CLOSURE_BASE,ACTIVATION_CLOSED_STATUS,ACTIVATION_CLOSED_SCOPE,BOUND_ACTIVATION} from './production-preflight-authorization.mjs';
 import {ACTIVATION_BASE,ACTIVATION_STATUS,ACTIVATION_SCOPE,ACTIVATION_NOTE,assertActivationAuthorization} from './production-preflight-authorization.mjs';
 import test from 'node:test';
@@ -10,7 +11,8 @@ import {PREFLIGHT_EVIDENCE_FILES,loadProductionPreflightDocuments,validateProduc
 import {HOSTED_EVIDENCE_FILES} from './verify-hosted-acceptance-evidence.mjs';
 import {requireProductionDeploymentBinding} from '../rcap-production-migration-contract.mjs';
 const prefix='data/rcap-grade-a/launch-control/';
-const closedCandidate=JSON.parse(fs.readFileSync(prefix+'RELEASE_CANDIDATE_BINDING.json'));
+const publicCandidate=JSON.parse(fs.readFileSync(prefix+'RELEASE_CANDIDATE_BINDING.json'));
+const closedCandidate=JSON.parse(execFileSync('git',['show',PUBLIC_VERIFICATION_BASE+':'+prefix+'RELEASE_CANDIDATE_BINDING.json'],{encoding:'utf8'}));
 const authorizedCandidate=JSON.parse(execFileSync('git',['show',ACTIVATION_CLOSURE_BASE+':'+prefix+'RELEASE_CANDIDATE_BINDING.json'],{encoding:'utf8'}));
 const candidate=JSON.parse(execFileSync('git',['show',ACTIVATION_BASE+':'+prefix+'RELEASE_CANDIDATE_BINDING.json'],{encoding:'utf8'}));
 const clone=()=>structuredClone(candidate);
@@ -408,4 +410,57 @@ test('native activation archive and inner receipt have independent byte integrit
   assert.throws(()=>validateProductionActivationReceiptBytes(Buffer.from(JSON.stringify(altered))),/native activation inner JSON bytes/);
   assert.deepEqual(verifyProductionActivationEvidence(root),BOUND_ACTIVATION);
  }finally{fs.rmSync(root,{recursive:true,force:true});}
+});
+
+// The dedicated decision is load-bearing; successful activation alone never grants it.
+test('public verification opens only the exact dedicated decision and preserves consumed activation byte-for-byte',()=>{
+ assert.equal(assertPublicVerificationAuthorization(publicCandidate),publicCandidate.productionAuthorization.publicVerification);
+ assert.equal(requireProductionPhaseAuthorization(publicCandidate,'public_verify'),publicCandidate.productionAuthorization);
+ assert.equal(requireProductionDeploymentBinding(publicCandidate,'public_verify'),publicCandidate.productionAuthorization);
+ assert.deepEqual(publicCandidate.productionAuthorization.activation,closedCandidate.productionAuthorization.activation);
+ assert.deepEqual(publicCandidate.productionAuthorization.phases,closedCandidate.productionAuthorization.phases);
+ assert.equal(publicCandidate.productionAuthorization.publicVerification.note,'I authorize it');
+ for(const r of [publicCandidate,publicCandidate.productionAuthorization,publicCandidate.productionAuthorization.publicVerification])assert.equal(Object.hasOwn(r,'publicVerificationReceipt'),false);
+ assert.throws(()=>requireProductionPhaseAuthorization(publicCandidate,'activate'),consumedRefusal);
+ for(const phase of ['save_transition_reproduce','save_transition_verify','live_zero_dollar_order','alias_move','payment','checkout','stripe','promote','rollback','deploy','account','pending','briefcase','unknown_future_phase'])assert.throws(()=>requireProductionPhaseAuthorization(publicCandidate,phase),refusal);
+});
+const publicMutations=[
+ ['missing decision',c=>delete c.productionAuthorization.publicVerification],
+ ['boolean decision',c=>c.productionAuthorization.publicVerification=true],
+ ...Object.keys(publicCandidate.productionAuthorization.publicVerification).map(k=>[`decision ${k}`,c=>c.productionAuthorization.publicVerification[k]='wrong']),
+ ['missing timestamp',c=>delete c.productionAuthorization.publicVerification.recordedAt],
+ ...['invalid','2026-02-30T00:00:00.000Z','2999-01-01T00:00:00.000Z','2026-10-01T00:00:05.999Z'].map(v=>[`timestamp ${v}`,c=>c.productionAuthorization.publicVerification.recordedAt=v]),
+ ['expanded owner quote',c=>c.productionAuthorization.publicVerification.note='I authorize it for public verification'],
+ ['second attempt',c=>c.productionAuthorization.publicVerification.maxAttempts=2],
+ ['already consumed',c=>c.productionAuthorization.publicVerification.state='consumed_successfully'],
+ ['missing activation receipt',c=>delete c.productionAuthorization.activation.activationReceipt],
+ ...Object.keys(BOUND_ACTIVATION).map(k=>[`activation receipt ${k}`,c=>c.productionAuthorization.activation.activationReceipt[k]='wrong']),
+ ['unconsumed activation',c=>c.productionAuthorization.activation.state='authorized_not_executed'],
+ ['activation attempts',c=>c.productionAuthorization.activation.executedAttempts=2],
+ ['generic phase only',c=>{delete c.productionAuthorization.publicVerification;c.productionAuthorization.phases.push('public_verify');}],
+ ['generic flag only',c=>{delete c.productionAuthorization.publicVerification;c.publicVerificationAuthorized=true;}],
+ ...['candidate','authorization','decision'].map(location=>[`invented public receipt ${location}`,c=>(location==='candidate'?c:location==='authorization'?c.productionAuthorization:c.productionAuthorization.publicVerification).publicVerificationReceipt={passed:true}]),
+ ...['save_transition_reproduce','save_transition_verify','live_zero_dollar_order','stripe','payment','checkout','deployment_creation','promotion','rollback','pending_screening_result_creation','briefcase_matter_creation','account_creation','unrelated_live_phase'].flatMap(p=>[
+  [`phase ${p}`,c=>c.productionAuthorization.phases.push(p)],
+  [`permission ${p}`,c=>c.productionAuthorization.publicVerification.permittedActions.push(p)],
+  [`extra authority ${p}`,c=>c.productionAuthorization[p]=true],
+ ]),
+ ['vague read-only label without restrictions',c=>{delete c.productionAuthorization.publicVerification.prohibitedActions;c.productionAuthorization.publicVerification.readOnly=true;}],
+ ...['applicationSha','workerSourceSha','workerDigest','workerInputFingerprint','productionProjectRef'].map(k=>[`outer tuple ${k}`,c=>c[k]='wrong']),
+];
+for(const [name,mutate]of publicMutations)test(`public verification mutation refuses ${name}`,()=>{
+ const c=structuredClone(publicCandidate);mutate(c);
+ assert.throws(()=>requireProductionPhaseAuthorization(c,'public_verify'),refusal);
+});
+test('public verifier runtime and package bytes are unchanged; source retains its limited anonymous flow',()=>{
+ for(const rel of ['scripts/rcap-production-public-verify.mjs','scripts/rcap-production-activate.mjs','package.json','package-lock.json'])assert.deepEqual(fs.readFileSync(rel),execFileSync('git',['show',`${PUBLIC_VERIFICATION_BASE}:${rel}`],{maxBuffer:32*1024*1024}));
+ const source=fs.readFileSync('scripts/rcap-production-public-verify.mjs','utf8');
+ assert.doesNotMatch(source,/SUPABASE_ACCESS_TOKEN|STRIPE_SECRET|AUTOMATION_BYPASS|screening\/pending|child_process/);
+ assert.deepEqual([...source.matchAll(/method:\s*"([A-Z]+)"/g)].map(m=>m[1]),['GET','GET']);
+ assert.match(source,/browser\.newContext\(/);assert.match(source,/initialState\.cookies\.length === 0 && initialState\.origins\.length === 0/);
+ assert.match(source,/if \(isResult\) \{[\s\S]*?break;/);
+ assert.match(source,/name: \/\^continue\\b\/i/);
+ assert.match(source,/!evidence\.mutations\.checkoutOpened/);
+ // Visible UI may issue stateless POSTs and ordinary analytics. No zero-POST/write claim.
+ assert.ok(publicCandidate.productionAuthorization.publicVerification.permittedActions.includes('ordinary_anonymous_analytics_telemetry'));
 });

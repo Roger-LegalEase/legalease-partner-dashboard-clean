@@ -95,3 +95,62 @@ test('lockfile and application dependency declarations retain exact approved byt
   assert.deepEqual(fs.readFileSync(rel),execFileSync('git',['show',`${base}:${rel}`],{maxBuffer:32*1024*1024}));
  }
 });
+
+const publicWorkflowPath='.github/workflows/rcap-f1-ephemeral-staging.yml';
+const publicBase='994606291c25a9dfcf4b8b5dc3a44b01f17e2ae8';
+const publicDocument=parse(fs.readFileSync(publicWorkflowPath,'utf8'));
+const publicSteps=publicDocument.jobs.production_public_verify.steps;
+function verifyPublicOrder(list){
+ const only=(predicate,label)=>{const matches=list.map((s,i)=>predicate(s)?i:-1).filter(i=>i>=0);assert.equal(matches.length,1,`exactly one ${label}`);return matches[0];};
+ const checkout=only(s=>s.uses==='actions/checkout@v4','checkout');
+ const ancestry=only(s=>s.name==='Verify ancestry of every pinned SHA and check out the tools commit','ancestry/tools checkout');
+ assert.match(list[ancestry].run,/git merge-base --is-ancestor/);
+ assert.match(list[ancestry].run,/git checkout --detach "\$\{\{ inputs.tools_sha \}\}"/);
+ const setup=only(s=>s.uses==='actions/setup-node@v4','Node setup');
+ const install=only(s=>s.run?.trim()==='npm ci','npm ci');
+ const authorization=only(s=>s.run?.includes(gate),'authorization gate');
+ assert.match(list[authorization].run,/node scripts\/verify-rcap-worker-input-equivalence\.mjs --base "\$\{\{ inputs.worker_source_sha \}\}" --head "\$\{\{ inputs.tools_sha \}\}"/);
+ const verifier=only(s=>s.run?.trim()==='node scripts/rcap-production-public-verify.mjs','public verifier');
+ assert.ok(checkout<ancestry&&ancestry<setup&&setup<install&&install<authorization&&authorization<verifier,'checkout -> exact tools -> Node -> npm ci -> authorization -> public verification');
+ for(const i of [setup,install,authorization]){assert.equal(list[i].if,undefined,'unconditional prerequisite');assert.equal(list[i]['continue-on-error'],undefined,'no ignored failure');}
+ for(const [i,s]of list.entries()){
+  const secrets=Object.entries(s.env??{}).filter(([k,v])=>/TOKEN|SECRET|KEY/.test(k)||/secrets\./.test(String(v)));
+  if(secrets.length||/rcap-production-public-verify|\bcurl\b|\bwget\b|\bfetch\(|\bvercel\b|\bsupabase\b|\bstripe\b|docker (?:pull|run|login)/i.test(s.run??''))assert.ok(i>authorization,'authorization before any service access or credential');
+  for(const [key]of secrets){assert.equal(i,verifier,'credentials only on verifier');assert.equal(key,'VERCEL_TOKEN','only Vercel service credential');}
+ }
+ return {checkout,ancestry,setup,install,authorization,verifier};
+}
+test('public verification: committed predecessor fails ordering; corrected job authorizes before service access',()=>{
+ const prior=parse(execFileSync('git',['show',`${publicBase}:${publicWorkflowPath}`],{encoding:'utf8'}));
+ assert.throws(()=>verifyPublicOrder(prior.jobs.production_public_verify.steps),/checkout -> exact tools/);
+ verifyPublicOrder(publicSteps);
+ assert.equal(publicDocument.jobs.production_public_verify.env.VERCEL_TOKEN,undefined);
+ // Only the step order changes; every original step and every other job remain exact.
+ const reordered=structuredClone(prior);
+ const old=reordered.jobs.production_public_verify.steps;
+ const gateIndex=old.findIndex(s=>s.run?.includes(gate));
+ const [gateStep]=old.splice(gateIndex,1);old.splice(gateIndex+2,0,gateStep);
+ assert.deepEqual(publicDocument,reordered);
+});
+const moveBefore=(s,what,before)=>{const i=s.findIndex(what),[step]=s.splice(i,1);s.splice(s.findIndex(before),0,step);};
+const isGate=s=>s.run?.includes(gate),isSetup=s=>s.uses==='actions/setup-node@v4',isInstall=s=>s.run?.trim()==='npm ci',isPublic=s=>s.run?.trim()==='node scripts/rcap-production-public-verify.mjs';
+for(const [name,mutate]of [
+ ['gate before setup',s=>moveBefore(s,isGate,isSetup)],
+ ['gate before npm ci',s=>moveBefore(s,isGate,isInstall)],
+ ['missing npm ci',s=>s.splice(s.findIndex(isInstall),1)],
+ ['conditional npm ci',s=>s.find(isInstall).if='false'],
+ ['duplicate npm ci',s=>s.push({run:'npm ci'})],
+ ['ignored npm ci failure',s=>s.find(isInstall)['continue-on-error']=true],
+ ['missing setup',s=>s.splice(s.findIndex(isSetup),1)],
+ ['late setup',s=>{const [step]=s.splice(s.findIndex(isSetup),1);s.push(step);}],
+ ['early Vercel token',s=>s[0].env.VERCEL_TOKEN='${{ secrets.VERCEL_TOKEN }}'],
+ ['early public verifier',s=>moveBefore(s,isPublic,isGate)],
+ ['conditional gate',s=>s.find(isGate).if='false'],
+ ['missing worker equivalence',s=>s.find(isGate).run=gate],
+ ['early public GET',s=>s.unshift({run:'curl https://expungement.ai'})],
+ ['conditional setup',s=>s.find(isSetup).if='false'],
+ ['ignored setup failure',s=>s.find(isSetup)['continue-on-error']=true],
+ ['ignored gate failure',s=>s.find(isGate)['continue-on-error']=true],
+ ['missing checkout',s=>s.splice(s.findIndex(x=>x.uses==='actions/checkout@v4'),1)],
+ ['missing tools checkout',s=>s.find(x=>x.name==='Verify ancestry of every pinned SHA and check out the tools commit').run='git status'],
+])test(`public workflow mutation refuses ${name}`,()=>{const s=structuredClone(publicSteps);mutate(s);assert.throws(()=>verifyPublicOrder(s));});

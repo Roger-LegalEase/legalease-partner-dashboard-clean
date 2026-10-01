@@ -149,6 +149,60 @@
         "smokeArtifactSha256": "4e18b47b2c45f06a241d1565fb5b43a45354330184f0d7a9f2ac81ec10d34bf6",
         "evidencePath": "hosted-acceptance-evidence/production-activate-36791436905"
       }
+    },
+    "publicVerification": {
+      "authorizedBy": "Roger Roman",
+      "recordedAt": "2026-10-01T11:32:58.668Z",
+      "note": "I authorize it",
+      "sourceBaseSha": "994606291c25a9dfcf4b8b5dc3a44b01f17e2ae8",
+      "operation": "production_public_verify",
+      "maxAttempts": 1,
+      "state": "authorized_not_executed",
+      "applicationSha": "e312a5efa7b4882e0fbf61a5ff0ae7891ac23226",
+      "workerSourceSha": "5e04eafd7eaed7e71722862e651fb787ebbd296d",
+      "workerDigest": "sha256:6b6a60fc5b2d0060028526013ce37c69f748e2cccb4cfb10943f2af6cf26cfe1",
+      "workerInputFingerprint": "sha256:90a1e89e306cb5fc23631c63c15c12a44d955d745bbe04aada0716af2805daab",
+      "productionProjectRef": "wwtwtsmywnckfkdaqqeg",
+      "activatedDeploymentId": "dpl_3j4Dr4GHyXmwmrFCTZ6orNNNP7sc",
+      "rollbackDeploymentId": "dpl_5rpkFUKgmp5cGwPaLAzHxx1nUuPK",
+      "activationRunId": 36791436905,
+      "activationArtifactSha256": "1a3ca55cfda23eca9da0be0029f11a1259e98ddefce57c11cb7e3f7f1ce12780",
+      "publicDomain": "expungement.ai",
+      "permittedActions": [
+        "vercel_get_only_control_plane_readback",
+        "public_https_readback",
+        "anonymous_public_screening_walk",
+        "stateless_screening_progress_requests",
+        "stateless_screening_evaluation_request",
+        "ordinary_anonymous_analytics_telemetry",
+        "public_verification_evidence_collection"
+      ],
+      "prohibitedActions": [
+        "save_my_result",
+        "pending_screening_result_creation",
+        "pending_result_claim",
+        "briefcase_matter_creation",
+        "account_creation",
+        "participant_customer_record_mutation",
+        "packet_generation",
+        "worker_launch",
+        "checkout",
+        "stripe",
+        "charges",
+        "payment",
+        "deployment_creation",
+        "promotion",
+        "rollback",
+        "alias_movement",
+        "environment_variable_mutation",
+        "migration",
+        "key_creation",
+        "privileged_production_database_mutation",
+        "save_transition_reproduce",
+        "save_transition_verify",
+        "live_zero_dollar_order",
+        "other_live_customer_transaction"
+      ]
     }
   },
   "publicationReceipt": {
@@ -158,7 +212,7 @@
   "participantReceiptPaths": [
     "data/rcap-grade-a/participant-data-rights/ms-paid-packet-proof-reconciliations.json"
   ],
-  "status": "HOSTED_ACCEPTED_PRODUCTION_ACTIVATED_AUTHORIZATION_CONSUMED",
+  "status": "HOSTED_ACCEPTED_PRODUCTION_PUBLIC_VERIFICATION_AUTHORIZED",
   "applicationSha": "e312a5efa7b4882e0fbf61a5ff0ae7891ac23226",
   "workerSourceSha": "5e04eafd7eaed7e71722862e651fb787ebbd296d",
   "workerDigest": "sha256:6b6a60fc5b2d0060028526013ce37c69f748e2cccb4cfb10943f2af6cf26cfe1",
@@ -448,7 +502,7 @@
     "note": "Hosted acceptance established. Full-path evidence is supplemented by exact browser return in hosted_payment. Evidence is not execution authority; all dispatch and Production holds remain."
   },
   "previewExecution": "held",
-  "scope": "Exact frozen Production release activated successfully in run 36791436905 attempt 1; native activation evidence bound and one-time production_activate authority consumed. Recorded rollback remains READY according to the activation receipt. Public verification has not run and is not separately authorized. Save-transition and live-order phases remain unauthorized. No next live phase or final Grade A closure is authorized or claimed.",
+  "scope": "Production is live; successful activation evidence is bound and activation authority is consumed. Exactly one production_public_verify is owner-authorized and has not executed. Verification is read-only for release infrastructure and business/customer state; stateless screening progress/evaluate POSTs and ordinary anonymous analytics telemetry are permitted. No publicVerificationReceipt exists. Save-transition, live-order and all other customer transactions remain unauthorized. Final Grade A closure is not claimed.",
   "previewExecutionInstruction": {
     "mode": null,
     "manualDispatchOwner": "Roger",

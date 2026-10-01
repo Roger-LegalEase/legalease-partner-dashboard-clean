@@ -58,6 +58,11 @@ export function requireProductionPhaseAuthorization(candidate, phase) {
   if (phase === 'activate' && candidate?.productionAuthorization?.activation?.state === 'consumed_successfully') {
     throw new Error('production_activate_authorization_consumed');
   }
+  let publicVerificationAuthorized = false;
+  if (phase === 'public_verify') {
+    try { assertPreactivationAuthorization(candidate); assertPublicVerificationAuthorization(candidate); publicVerificationAuthorized = true; }
+    catch { throw new Error('production_phase_not_authorized_for_current_release'); }
+  }
   let activationAuthorized = false;
   if (phase === 'activate') {
     try { assertPreactivationAuthorization(candidate); assertActivationAuthorization(candidate); activationAuthorized = true; }
@@ -66,7 +71,7 @@ export function requireProductionPhaseAuthorization(candidate, phase) {
   const authorization = candidate?.productionAuthorization;
   if (candidate?.productionAuthorized !== true || authorization?.authorized !== true
     || authorization?.productionProjectRef !== PRODUCTION_PROJECT_REF
-    || !Array.isArray(authorization?.phases) || !(phase === 'activate' ? activationAuthorized : authorization.phases.includes(phase))
+    || !Array.isArray(authorization?.phases) || !(phase === 'activate' ? activationAuthorized : phase === 'public_verify' ? publicVerificationAuthorized : authorization.phases.includes(phase))
     || candidate?.productionProjectRef !== PRODUCTION_PROJECT_REF
     || typeof authorization?.recordedBy !== 'string' || !authorization.recordedBy.trim()
     || !validAuthorizationTimestamp(authorization?.recordedAt)) {
@@ -145,7 +150,7 @@ export const BOUND_SMOKE = Object.freeze({
 });
 export const ROLLBACK_DEPLOYMENT = 'dpl_5rpkFUKgmp5cGwPaLAzHxx1nUuPK';
 export function assertPreactivationAuthorization(candidate) {
- assert.equal(candidate.status,candidate.productionAuthorization?.activation ? (candidate.productionAuthorization.activation.state === 'consumed_successfully' ? ACTIVATION_CLOSED_STATUS : ACTIVATION_STATUS) : PREACTIVATION_STATUS,'bounded release status');
+ assert.equal(candidate.status,candidate.productionAuthorization?.publicVerification ? PUBLIC_VERIFICATION_STATUS : candidate.productionAuthorization?.activation ? (candidate.productionAuthorization.activation.state === 'consumed_successfully' ? ACTIVATION_CLOSED_STATUS : ACTIVATION_STATUS) : PREACTIVATION_STATUS,'bounded release status');
  assert.equal(candidate.hostedAcceptanceStatus,PREACTIVATION_STATUS,'matching status mirror');
  assert.equal(candidate.releaseBaseSha,PREACTIVATION_BASE,'approved preflight predecessor');
  assert.equal(candidate.productionAuthorized,true);
@@ -153,6 +158,7 @@ export function assertPreactivationAuthorization(candidate) {
  assert.equal(candidate.productionProjectRef,PRODUCTION_PROJECT_REF);
  const a=candidate.productionAuthorization;
  if (Object.hasOwn(a, 'activation')) assertActivationAuthorization(candidate);
+ if (Object.hasOwn(a, 'publicVerification')) assertPublicVerificationAuthorization(candidate);
  assert.ok(validAuthorizationTimestamp(a?.recordedAt),'actual UTC timestamp');
  assert.ok(Date.parse(a.recordedAt)<=Date.now(),'no future authorization');
  assert.ok(validAuthorizationTimestamp(a.restage?.recordedAt) && Date.parse(a.restage.recordedAt)<=Date.now() && Date.parse(a.restage.recordedAt)>=Date.parse('2026-09-30T00:00:00Z'),'actual restage owner timestamp');
@@ -164,6 +170,7 @@ export function assertPreactivationAuthorization(candidate) {
   stagedDeploymentId:STAGED_DEPLOYMENT,rollbackDeploymentId:ROLLBACK_DEPLOYMENT,
   smokeRunId:BOUND_SMOKE.runId,smokeArtifactSha256:BOUND_SMOKE.smokeArtifactSha256,smokeReceipt:{...BOUND_SMOKE},
   ...(Object.hasOwn(a,'activation') ? {activation:a.activation} : {}),
+  ...(Object.hasOwn(a,'publicVerification') ? {publicVerification:a.publicVerification} : {}),
   preflight:{...BOUND_PREFLIGHT},restage:{...RESTAGE_AUTHORITY,recordedAt:a.restage.recordedAt,successfulReceipt:{...BOUND_RESTAGE}},
  },'exact bounded owner authorization and native preflight identity');
  assert.deepEqual(candidate.hostedAcceptance?.preview,{...PREVIEW,...TUPLE,target:null},'accepted Preview control');
@@ -183,8 +190,8 @@ export function assertActivationAuthorization(candidate) {
  assert.ok(decision && validAuthorizationTimestamp(decision.recordedAt), 'actual activation UTC timestamp');
  assert.ok(Date.parse(decision.recordedAt) >= Date.parse('2026-09-30T21:47:50.000Z') && Date.parse(decision.recordedAt) <= Date.now(), 'activation timestamp belongs after its exact predecessor');
  const consumed = decision.state === 'consumed_successfully';
- assert.equal(candidate.status, consumed ? ACTIVATION_CLOSED_STATUS : ACTIVATION_STATUS, 'activation lifecycle status');
- assert.equal(candidate.scope, consumed ? ACTIVATION_CLOSED_SCOPE : ACTIVATION_SCOPE, 'exact activation scope');
+ assert.equal(candidate.status, a.publicVerification ? PUBLIC_VERIFICATION_STATUS : consumed ? ACTIVATION_CLOSED_STATUS : ACTIVATION_STATUS, 'activation lifecycle status');
+ assert.equal(candidate.scope, a.publicVerification ? PUBLIC_VERIFICATION_SCOPE : consumed ? ACTIVATION_CLOSED_SCOPE : ACTIVATION_SCOPE, 'exact activation scope');
  assert.deepEqual(decision, {
   authorizedBy: 'Roger Roman', recordedAt: decision.recordedAt, note: ACTIVATION_NOTE,
   sourceBaseSha: ACTIVATION_BASE, operation: 'production_activate', maxAttempts: 1,
@@ -226,3 +233,49 @@ export const BOUND_ACTIVATION = Object.freeze({
   "smokeArtifactSha256": "4e18b47b2c45f06a241d1565fb5b43a45354330184f0d7a9f2ac81ec10d34bf6",
   "evidencePath": "hosted-acceptance-evidence/production-activate-36791436905"
 });
+
+
+// One owner decision for the existing public verifier, not general Production authority.
+export const PUBLIC_VERIFICATION_BASE = '994606291c25a9dfcf4b8b5dc3a44b01f17e2ae8';
+export const PUBLIC_VERIFICATION_STATUS = 'HOSTED_ACCEPTED_PRODUCTION_PUBLIC_VERIFICATION_AUTHORIZED';
+export const PUBLIC_VERIFICATION_SCOPE = 'Production is live; successful activation evidence is bound and activation authority is consumed. Exactly one production_public_verify is owner-authorized and has not executed. Verification is read-only for release infrastructure and business/customer state; stateless screening progress/evaluate POSTs and ordinary anonymous analytics telemetry are permitted. No publicVerificationReceipt exists. Save-transition, live-order and all other customer transactions remain unauthorized. Final Grade A closure is not claimed.';
+export const PUBLIC_VERIFICATION_ACTIONS = Object.freeze([
+ 'vercel_get_only_control_plane_readback', 'public_https_readback',
+ 'anonymous_public_screening_walk', 'stateless_screening_progress_requests',
+ 'stateless_screening_evaluation_request', 'ordinary_anonymous_analytics_telemetry',
+ 'public_verification_evidence_collection',
+]);
+export const PUBLIC_VERIFICATION_PROHIBITIONS = Object.freeze([
+ 'save_my_result', 'pending_screening_result_creation', 'pending_result_claim',
+ 'briefcase_matter_creation', 'account_creation', 'participant_customer_record_mutation',
+ 'packet_generation', 'worker_launch', 'checkout', 'stripe', 'charges', 'payment',
+ 'deployment_creation', 'promotion', 'rollback', 'alias_movement',
+ 'environment_variable_mutation', 'migration', 'key_creation',
+ 'privileged_production_database_mutation', 'save_transition_reproduce',
+ 'save_transition_verify', 'live_zero_dollar_order', 'other_live_customer_transaction',
+]);
+export function assertPublicVerificationAuthorization(candidate) {
+ const a = candidate?.productionAuthorization;
+ const decision = a?.publicVerification;
+ assertActivationAuthorization(candidate);
+ assert.equal(a.activation.state, 'consumed_successfully', 'successful activation already consumed');
+ assert.deepEqual(a.activation.activationReceipt, BOUND_ACTIVATION, 'exact successful activation receipt');
+ assert.ok(validAuthorizationTimestamp(decision?.recordedAt), 'actual public verification UTC timestamp');
+ // Commit time of the exact immutable predecessor, also checked from Git by release binding.
+ assert.ok(Date.parse(decision.recordedAt) >= Date.parse('2026-10-01T00:00:06.000Z') && Date.parse(decision.recordedAt) <= Date.now(), 'public verification timestamp belongs after exact predecessor');
+ assert.equal(candidate.status, PUBLIC_VERIFICATION_STATUS);
+ assert.equal(candidate.scope, PUBLIC_VERIFICATION_SCOPE);
+ assert.deepEqual(decision, {
+  authorizedBy: 'Roger Roman', recordedAt: decision.recordedAt, note: 'I authorize it',
+  sourceBaseSha: PUBLIC_VERIFICATION_BASE, operation: 'production_public_verify',
+  maxAttempts: 1, state: 'authorized_not_executed',
+  applicationSha: TUPLE.applicationSha, workerSourceSha: TUPLE.workerSourceSha,
+  workerDigest: TUPLE.workerDigest, workerInputFingerprint: TUPLE.workerInputFingerprint,
+  productionProjectRef: PRODUCTION_PROJECT_REF, activatedDeploymentId: STAGED_DEPLOYMENT,
+  rollbackDeploymentId: ROLLBACK_DEPLOYMENT, activationRunId: BOUND_ACTIVATION.runId,
+  activationArtifactSha256: BOUND_ACTIVATION.activationArtifactSha256, publicDomain: 'expungement.ai',
+  permittedActions: [...PUBLIC_VERIFICATION_ACTIONS], prohibitedActions: [...PUBLIC_VERIFICATION_PROHIBITIONS],
+ }, 'exact one-time public verification decision and business-state restrictions');
+ for (const record of [candidate, a, decision]) assert.equal(Object.hasOwn(record, 'publicVerificationReceipt'), false, 'no public verification receipt before execution');
+ return decision;
+}

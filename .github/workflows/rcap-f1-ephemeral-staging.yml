@@ -250,11 +250,6 @@ jobs:
             || { echo "::error::workflow tools differ from the final application on worker inputs"; exit 1; }
           git checkout --detach "${{ inputs.tools_sha }}"
 
-      - name: Require current release and separate public-verification authorization
-        run: |
-          node scripts/rcap-production-migration-contract.mjs
-          node scripts/verify-rcap-worker-input-equivalence.mjs --base "${{ inputs.worker_source_sha }}" --head "${{ inputs.tools_sha }}"
-
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
@@ -263,6 +258,11 @@ jobs:
 
       - name: Install frozen dependencies
         run: npm ci
+
+      - name: Require current release and separate public-verification authorization
+        run: |
+          node scripts/rcap-production-migration-contract.mjs
+          node scripts/verify-rcap-worker-input-equivalence.mjs --base "${{ inputs.worker_source_sha }}" --head "${{ inputs.tools_sha }}"
 
       # Read-only from the outside: control-plane readback of every Production
       # domain, public HTTPS health and build identity on expungement.ai, and a
