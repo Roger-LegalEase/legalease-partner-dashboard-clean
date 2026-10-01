@@ -4,7 +4,7 @@ import path from 'node:path';
 import {createHash} from 'node:crypto';
 import {execFileSync} from 'node:child_process';
 import {TUPLE,PREVIEW} from './verify-hosted-acceptance-evidence.mjs';
-import {BOUND_PREFLIGHT,PREACTIVATION_BASE,PRODUCTION_PROJECT_REF,RESTAGE_AUTHORITY,BOUND_RESTAGE,BOUND_SMOKE,BOUND_ACTIVATION,ROLLBACK_DEPLOYMENT} from './production-preflight-authorization.mjs';
+import {BOUND_PREFLIGHT,PREACTIVATION_BASE,PRODUCTION_PROJECT_REF,RESTAGE_AUTHORITY,BOUND_RESTAGE,BOUND_SMOKE,BOUND_ACTIVATION,BOUND_PUBLIC_VERIFICATION,ROLLBACK_DEPLOYMENT} from './production-preflight-authorization.mjs';
 export const PREFLIGHT_EVIDENCE_FILES=['run.json','jobs.json','artifact.json','11048744402.zip'].map(f=>`${BOUND_PREFLIGHT.evidencePath}/${f}`);
 const hashes=['5266d536a1eade77f98d47245bf775153f570e2745d792bdeaa26333bf9e8730','1e5e95d5bc9c11749f54e6d664042b96a3b4baff155e04c55f0fa2e25d6b5de2','f796d13543356036347a277c26163fb32f98a5f1c0ef500194810fe20fb60ca3',BOUND_PREFLIGHT.artifactSha256.slice(7)];
 export function loadProductionPreflightDocuments(root){
@@ -193,3 +193,72 @@ export function validateProductionActivationDocuments({run,jobs,artifact,body:b}
  return {...r};
 }
 export function verifyProductionActivationEvidence(root){return validateProductionActivationDocuments(loadProductionActivationDocuments(root));}
+
+// Native archive integrity and semantic receipt checks are independent local checks.
+export const PUBLIC_VERIFICATION_EVIDENCE_FILES=['run.json','jobs.json','artifact.json','11160824476.zip'].map(f=>`${BOUND_PUBLIC_VERIFICATION.evidencePath}/${f}`);
+const publicVerificationHashes=['b42228541d94ea949cde26b6bb64ed226eaf8ecb513ea28ef6331ae90b03460d','9b5312dc30f83d331cddd186c941be168a5ce20a5fd2a80279fa045e83191208','0600859c941a6fb8ae7b225607adecc35f2af798e8794fd2374e791f79ae3674',BOUND_PUBLIC_VERIFICATION.artifactZipSha256.slice(7)];
+export function validateProductionPublicVerificationReceiptBytes(bytes){
+ assert.equal(createHash('sha256').update(bytes).digest('hex'),BOUND_PUBLIC_VERIFICATION.publicVerificationArtifactSha256,'native public verification inner JSON bytes');
+ return JSON.parse(bytes);
+}
+export function loadProductionPublicVerificationDocuments(root){
+ const bytes=PUBLIC_VERIFICATION_EVIDENCE_FILES.map((f,i)=>{
+  const b=fs.readFileSync(path.join(root,f));
+  assert.equal(createHash('sha256').update(b).digest('hex'),publicVerificationHashes[i],`native public verification bytes: ${f}`);return b;
+ });
+ const inner=execFileSync('python3',['-c',"import sys,zipfile; z=zipfile.ZipFile(sys.argv[1]); names=['production-public-verify.json']+[f'mississippi-screening/step-{i:02}.png' for i in range(8)]; assert sorted(z.namelist())==sorted(names); assert all(z.getinfo(n).file_size<8000000 for n in names); assert all(z.read(n).startswith(bytes.fromhex('89504e470d0a1a0a')) for n in names[1:]); sys.stdout.buffer.write(z.read(names[0]))",path.join(root,PUBLIC_VERIFICATION_EVIDENCE_FILES[3])]);
+ return {run:JSON.parse(bytes[0]),jobs:JSON.parse(bytes[1]),artifact:JSON.parse(bytes[2]),body:validateProductionPublicVerificationReceiptBytes(inner)};
+}
+export function validateProductionPublicVerificationDocuments({run,jobs,artifact,body:b}){
+ const r=BOUND_PUBLIC_VERIFICATION;
+ assert.equal(run.id,r.runId);assert.equal(run.run_attempt,r.runAttempt);assert.equal(run.conclusion,r.conclusion);assert.equal(run.status,'completed');
+ assert.equal(run.head_sha,r.toolsSha);assert.equal(run.head_branch,'captain-release');assert.equal(run.event,'workflow_dispatch');
+ assert.equal(run.path,'.github/workflows/rcap-f1-ephemeral-staging.yml');
+ assert.equal(run.display_title,`RCAP F1 | production_public_verify | tools ${r.toolsSha} | app ${r.applicationSha} | cents 5000`);
+ assert.equal(run.repository.full_name,'Roger-LegalEase/legalease-partner-dashboard-clean');
+ assert.equal(artifact.id,r.artifactId);assert.equal(artifact.name,r.artifactName);assert.equal(artifact.digest,r.artifactZipSha256);assert.equal(artifact.expired,false);
+ assert.deepEqual(artifact.workflow_run,{id:r.runId,repository_id:run.repository.id,head_repository_id:run.repository.id,head_branch:'captain-release',head_sha:r.toolsSha});
+ assert.equal(jobs.total_count,9);assert.equal(jobs.jobs.length,9,'complete public verification jobs');
+ const successful=jobs.jobs.filter(j=>j.conclusion==='success');assert.equal(successful.length,1);
+ const j=successful[0];assert.equal(j.id,110365249361);assert.equal(j.run_id,r.runId);assert.equal(j.run_attempt,1);assert.equal(j.head_sha,r.toolsSha);assert.equal(j.head_branch,'captain-release');
+ assert.equal(j.name,'Read-only public-domain verification of the activated Production release');assert.equal(j.status,'completed');
+ assert.ok(jobs.jobs.filter(x=>x!==j).every(x=>x.status==='completed'&&x.conclusion==='skipped'));
+ assert.deepEqual(j.steps.map(s=>s.number),[1,2,3,4,5,6,7,8,9,17,18,19]);
+ assert.ok(j.steps.every(s=>s.status==='completed'&&s.conclusion==='success'));
+ assert.deepEqual(j.steps.slice(4,9).map(s=>s.name),['Set up Node','Install frozen dependencies','Require current release and separate public-verification authorization','Verify the activated release on the public domain','Upload the public verification evidence']);
+ assert.deepEqual(Object.keys(b).sort(),['schemaVersion','startedAt','applicationSha','workerSourceSha','workerDigest','productionProjectRef','activatedDeploymentId','rollbackDeploymentId','publicDomain','productionDomains','domainResolution','publicHttp','buildIdentity','runtimeOrigin','screening','mutations','originPersisted','secretsPersisted','verdicts','finishedAt','passed','failure'].sort());
+ assert.equal(b.schemaVersion,'rcap-production-public-verify/v1');assert.equal(b.passed,true);assert.equal(b.failure,null);
+ for(const k of ['applicationSha','workerSourceSha','workerDigest','productionProjectRef','activatedDeploymentId','rollbackDeploymentId','publicDomain'])assert.equal(b[k],r[k],`public verification ${k}`);
+ assert.equal(r.activationRunId,BOUND_ACTIVATION.runId,'prior activation identity');
+ const verdicts=['release_identity_is_exact','exact_vercel_project_is_bound','activated_deployment_carries_exact_application','public_domain_is_a_production_domain','public_domains_resolve_to_activated_deployment','rollback_target_remains_ready','public_domain_serves_the_application','www_host_lands_on_the_activated_release','public_build_matches_canonical_domain','public_runtime_origin_matches_canonical_domain','mississippi_screening_starts_fresh','mississippi_screening_never_presumes_dui_or_underage_alcohol','mississippi_screening_reaches_the_non_conviction_pathway','mississippi_screening_opens_no_checkout'];
+ assert.deepEqual(b.verdicts.map(v=>v.caseId),verdicts);assert.ok(b.verdicts.every(v=>v.passed===true));
+ assert.equal(b.verdicts.find(v=>v.caseId==='rollback_target_remains_ready').observed,`${r.rollbackDeploymentId} remains READY for rollback`);
+ const domains=['expungement.ai','legalease-partner-dashboard-clean.vercel.app','legalease.com','legaleasepartner.com','www.expungement.ai','www.legalease.com','www.legaleasepartner.com'];
+ assert.deepEqual(b.productionDomains,domains);
+ assert.deepEqual(b.domainResolution,domains.map(domain=>domain==='www.legalease.com'?{domain,lookupStatus:404,deploymentId:null,target:null,state:null}:{domain,lookupStatus:200,deploymentId:r.activatedDeploymentId,target:'production',state:'READY'}));
+ assert.deepEqual(b.publicHttp,{rootStatus:200,rootFinalUrl:'https://expungement.ai/',rootServedByVercel:true,healthStatus:200,healthFinalHost:'expungement.ai',healthChecks:{db:'ok'},healthCacheControl:'no-store',wwwStatus:200,wwwFinalUrl:'https://expungement.ai/'});
+ const build=b.buildIdentity;
+ assert.equal(build.assetsReferencedByPublicRoot,12);assert.equal(build.assetsIdenticalOnCanonicalDomain,12);assert.equal(build.comparisons.length,12);
+ const sources=build.comparisons.map(c=>c.source);assert.equal(new Set(sources).size,12);
+ assert.equal(build.assetInventorySha256,createHash('sha256').update(JSON.stringify(sources)).digest('hex'));
+ for(const c of build.comparisons){assert.ok(c.source.startsWith('/_next/'));assert.equal(c.publicStatus,200);assert.equal(c.canonicalStatus,200);assert.equal(c.identical,true);}
+ const originHash=createHash('sha256').update(`https://${r.productionProjectRef}.supabase.co`).digest('hex');
+ assert.deepEqual(b.runtimeOrigin,{publicOriginCount:1,publicOriginSha256:originHash,canonicalOriginSha256:originHash,isCanonicalProjectHost:true,pagesInspected:3,chunksInspected:15});
+ const screening=b.screening;
+ assert.equal(screening.reachedResult,true);assert.equal(screening.forbiddenPrompt,null);assert.equal(screening.unplanned,null);
+ assert.equal(screening.finalHost,r.publicDomain);assert.equal(screening.finalUrl,'https://expungement.ai/expungement-ai/screening/MS');assert.deepEqual(screening.externalRequestHosts,[]);
+ assert.deepEqual(screening.steps[0],{freshContext:true,cookies:0,storageOrigins:0});assert.equal(screening.steps.length,9);
+ const steps=screening.steps.slice(1);assert.deepEqual(steps.map(s=>s.step),[0,1,2,3,4,5,6,7]);
+ assert.deepEqual(steps.filter(s=>s.clicked).map(s=>s.clicked),['Yes','State or local','The case was dropped or thrown outdismissed, no-billed, nolle prosequi, or not prosecuted','Misdemeanor','Non-conviction expungement for dismissal, no disposition, or acquittal','Yes','1-2 years ago']);
+ assert.ok(steps.every(s=>s.url===screening.finalUrl));
+ assert.ok(steps.every(s=>!(/\bDUI\b|driving under the influence|underage|alcohol/i.test(s.headings.join(' ')))));
+ const result=steps.at(-1);assert.equal(result.isResult,true);assert.equal(result.pathwayNamed,true);assert.equal(Object.hasOwn(result,'clicked'),false);
+ assert.equal(result.headings[0],'A path may be available.');assert.match(result.excerpt,/Non-conviction expungement for dismissal, no disposition, or acquittal/);
+ assert.ok(steps.slice(0,-1).every(s=>s.isResult===false));
+ // This is the verifier's business/privileged-state boundary, not a zero-telemetry-write claim.
+ assert.deepEqual(b.mutations,{deploymentTriggered:false,productionAliasChanged:false,environmentVariableChanged:false,productionDatabaseMutated:false,accountCreated:false,checkoutOpened:false,realChargesCreated:false});
+ assert.equal(b.originPersisted,false);assert.equal(b.secretsPersisted,false);
+ assert.ok(Date.parse(b.startedAt)>=Date.parse(j.started_at)&&Date.parse(b.finishedAt)>=Date.parse(b.startedAt)&&Date.parse(b.finishedAt)<=Date.parse(j.completed_at));
+ return {...r};
+}
+export function verifyProductionPublicVerificationEvidence(root){return validateProductionPublicVerificationDocuments(loadProductionPublicVerificationDocuments(root));}

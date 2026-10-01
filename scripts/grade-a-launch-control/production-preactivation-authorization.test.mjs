@@ -1,3 +1,4 @@
+import {PUBLIC_VERIFICATION_CLOSURE_BASE,PUBLIC_VERIFICATION_CLOSED_STATUS,PUBLIC_VERIFICATION_CLOSED_SCOPE,BOUND_PUBLIC_VERIFICATION} from './production-preflight-authorization.mjs';
 import {PUBLIC_VERIFICATION_BASE,assertPublicVerificationAuthorization} from './production-preflight-authorization.mjs';
 import {ACTIVATION_CLOSURE_BASE,ACTIVATION_CLOSED_STATUS,ACTIVATION_CLOSED_SCOPE,BOUND_ACTIVATION} from './production-preflight-authorization.mjs';
 import {ACTIVATION_BASE,ACTIVATION_STATUS,ACTIVATION_SCOPE,ACTIVATION_NOTE,assertActivationAuthorization} from './production-preflight-authorization.mjs';
@@ -11,7 +12,8 @@ import {PREFLIGHT_EVIDENCE_FILES,loadProductionPreflightDocuments,validateProduc
 import {HOSTED_EVIDENCE_FILES} from './verify-hosted-acceptance-evidence.mjs';
 import {requireProductionDeploymentBinding} from '../rcap-production-migration-contract.mjs';
 const prefix='data/rcap-grade-a/launch-control/';
-const publicCandidate=JSON.parse(fs.readFileSync(prefix+'RELEASE_CANDIDATE_BINDING.json'));
+const publicClosedCandidate=JSON.parse(fs.readFileSync(prefix+'RELEASE_CANDIDATE_BINDING.json'));
+const publicCandidate=JSON.parse(execFileSync('git',['show',PUBLIC_VERIFICATION_CLOSURE_BASE+':'+prefix+'RELEASE_CANDIDATE_BINDING.json'],{encoding:'utf8'}));
 const closedCandidate=JSON.parse(execFileSync('git',['show',PUBLIC_VERIFICATION_BASE+':'+prefix+'RELEASE_CANDIDATE_BINDING.json'],{encoding:'utf8'}));
 const authorizedCandidate=JSON.parse(execFileSync('git',['show',ACTIVATION_CLOSURE_BASE+':'+prefix+'RELEASE_CANDIDATE_BINDING.json'],{encoding:'utf8'}));
 const candidate=JSON.parse(execFileSync('git',['show',ACTIVATION_BASE+':'+prefix+'RELEASE_CANDIDATE_BINDING.json'],{encoding:'utf8'}));
@@ -463,4 +465,81 @@ test('public verifier runtime and package bytes are unchanged; source retains it
  assert.match(source,/!evidence\.mutations\.checkoutOpened/);
  // Visible UI may issue stateless POSTs and ordinary analytics. No zero-POST/write claim.
  assert.ok(publicCandidate.productionAuthorization.publicVerification.permittedActions.includes('ordinary_anonymous_analytics_telemetry'));
+});
+
+import {PUBLIC_VERIFICATION_EVIDENCE_FILES,loadProductionPublicVerificationDocuments,validateProductionPublicVerificationDocuments,validateProductionPublicVerificationReceiptBytes,verifyProductionPublicVerificationEvidence} from './verify-production-preflight-evidence.mjs';
+const publicDocuments=loadProductionPublicVerificationDocuments(process.cwd());
+const publicConsumedRefusal={message:'production_public_verify_authorization_consumed'};
+test('public verification closure preserves the exact owner decision and activation, binds native success and consumes one attempt',()=>{
+ const d=publicClosedCandidate.productionAuthorization.publicVerification;
+ assert.deepEqual(publicClosedCandidate,{...publicCandidate,status:PUBLIC_VERIFICATION_CLOSED_STATUS,scope:PUBLIC_VERIFICATION_CLOSED_SCOPE,productionAuthorization:{...publicCandidate.productionAuthorization,publicVerification:{...publicCandidate.productionAuthorization.publicVerification,state:'consumed_successfully',executedAttempts:1,publicVerificationReceipt:{...BOUND_PUBLIC_VERIFICATION}}}});
+ assert.equal(assertPublicVerificationAuthorization(publicClosedCandidate),d);
+ assert.equal(assertPreactivationAuthorization(publicClosedCandidate),publicClosedCandidate.productionAuthorization);
+ assert.deepEqual(verifyProductionPublicVerificationEvidence(process.cwd()),d.publicVerificationReceipt);
+ assert.equal(d.note,'I authorize it');assert.equal(d.recordedAt,'2026-10-01T11:32:58.668Z');
+ assert.equal(d.executedAttempts,1);assert.equal(d.maxAttempts,1);
+ assert.notEqual(d.publicVerificationReceipt.publicVerificationArtifactSha256,d.publicVerificationReceipt.artifactZipSha256.slice(7));
+ assert.throws(()=>requireProductionPhaseAuthorization(publicClosedCandidate,'public_verify'),publicConsumedRefusal);
+ assert.throws(()=>requireProductionDeploymentBinding(publicClosedCandidate,'public_verify'),publicConsumedRefusal);
+ assert.throws(()=>requireProductionPhaseAuthorization(publicClosedCandidate,'activate'),consumedRefusal);
+ for(const rel of ['scripts/rcap-production-public-verify.mjs','scripts/rcap-production-activate.mjs','.github/workflows/rcap-f1-ephemeral-staging.yml'])assert.deepEqual(fs.readFileSync(rel),execFileSync('git',['show',`${PUBLIC_VERIFICATION_CLOSURE_BASE}:${rel}`]));
+});
+const nextPhases=['packet_canary','production_packet_canary','packet_generation','generate_packet','worker_launch','save_transition_reproduce','save_transition_verify','live_zero_dollar_order','payment','checkout','stripe','alias_move','promote','rollback','unrelated_live_phase'];
+for(const phase of nextPhases)test(`public closure grants no ${phase} authority`,()=>{
+ assert.throws(()=>requireProductionPhaseAuthorization(publicClosedCandidate,phase),refusal);
+ for(const mutate of [c=>c.productionAuthorization.phases.push(phase),c=>c.productionAuthorization.publicVerification.permittedActions.push(phase),c=>c.productionAuthorization[phase]=true]){
+  const c=structuredClone(publicClosedCandidate);mutate(c);
+  assert.throws(()=>assertPreactivationAuthorization(c));
+  assert.throws(()=>requireProductionPhaseAuthorization(c,phase),refusal);
+ }
+});
+for(const [name,mutate]of [
+ ...Object.keys(BOUND_PUBLIC_VERIFICATION).map(k=>[`receipt ${k}`,c=>c.productionAuthorization.publicVerification.publicVerificationReceipt[k]='wrong']),
+ ['missing receipt',c=>delete c.productionAuthorization.publicVerification.publicVerificationReceipt],
+ ['failed receipt',c=>c.productionAuthorization.publicVerification.publicVerificationReceipt.conclusion='failure'],
+ ['unconsumed state',c=>c.productionAuthorization.publicVerification.state='authorized_not_executed'],
+ ['missing attempts',c=>delete c.productionAuthorization.publicVerification.executedAttempts],
+ ...[0,2].map(n=>[`executed attempts ${n}`,c=>c.productionAuthorization.publicVerification.executedAttempts=n]),
+ ['second attempt authorized',c=>c.productionAuthorization.publicVerification.maxAttempts=2],
+ ['reopened generic phase',c=>c.productionAuthorization.phases.push('public_verify')],
+ ['final Grade A status',c=>c.status='FINAL_GRADE_A_CLOSED'],
+ ['final packet closure claim',c=>c.scope+=' Final end-to-end packet closure passed.'],
+ ['activation reopened',c=>c.productionAuthorization.activation.state='authorized_not_executed'],
+ ['parallel receipt',c=>c.publicVerificationReceipt=c.productionAuthorization.publicVerification.publicVerificationReceipt],
+ ['owner note rewritten',c=>c.productionAuthorization.publicVerification.note='I authorize public verification again'],
+ ['owner timestamp rewritten',c=>c.productionAuthorization.publicVerification.recordedAt='invalid'],
+])test(`public closure mutation refuses ${name}`,()=>{
+ const c=structuredClone(publicClosedCandidate);mutate(c);assert.throws(()=>assertPreactivationAuthorization(c));
+ assert.throws(()=>requireProductionPhaseAuthorization(c,'public_verify'),refusal);
+});
+const publicEvidenceMutations=[
+ ['run',d=>d.run.id++],['attempt',d=>d.run.run_attempt++],['conclusion',d=>d.run.conclusion='failure'],
+ ['tools SHA',d=>d.run.head_sha='0'.repeat(40)],['branch',d=>d.run.head_branch='main'],['event',d=>d.run.event='push'],
+ ['artifact ID',d=>d.artifact.id++],['artifact name',d=>d.artifact.name+='wrong'],['ZIP SHA',d=>d.artifact.digest='sha256:'+'0'.repeat(64)],['artifact association',d=>d.artifact.workflow_run.id++],
+ ['missing jobs',d=>d.jobs.jobs.pop()],['failed verifier job',d=>d.jobs.jobs.find(j=>j.conclusion==='success').conclusion='failure'],['skipped gate',d=>d.jobs.jobs.find(j=>j.conclusion==='success').steps.find(s=>s.number===7).conclusion='skipped'],
+ ...['applicationSha','workerSourceSha','workerDigest','productionProjectRef','activatedDeploymentId','rollbackDeploymentId','publicDomain'].map(k=>[k,d=>d.body[k]='wrong']),
+ ['passed=false',d=>d.body.passed=false],['failure',d=>d.body.failure='failure'],['missing receipt',d=>delete d.body],
+ ...publicDocuments.body.verdicts.map((v,i)=>[`failed verdict ${v.caseId}`,d=>d.body.verdicts[i].passed=false]),
+ ['missing verdict',d=>d.body.verdicts.pop()],['duplicate verdict',d=>d.body.verdicts[0]=d.body.verdicts[1]],
+ ['wrong domain deployment',d=>d.body.domainResolution[0].deploymentId='dpl_wrong'],['redirect-only host promoted to deployment',d=>d.body.domainResolution.find(x=>x.domain==='www.legalease.com').deploymentId='dpl_wrong'],
+ ['root HTTP',d=>d.body.publicHttp.rootStatus=500],['health',d=>d.body.publicHttp.healthChecks.db='error'],['www host',d=>d.body.publicHttp.wwwFinalUrl='https://wrong.invalid/'],
+ ['asset drift',d=>d.body.buildIdentity.comparisons[0].identical=false],['asset inventory',d=>d.body.buildIdentity.assetInventorySha256='0'.repeat(64)],
+ ['origin drift',d=>d.body.runtimeOrigin.publicOriginSha256='0'.repeat(64)],['noncanonical origin',d=>d.body.runtimeOrigin.isCanonicalProjectHost=false],
+ ['existing context',d=>d.body.screening.steps[0].cookies=1],['unplanned screen',d=>d.body.screening.unplanned={step:1}],['forbidden prompt',d=>d.body.screening.forbiddenPrompt={step:1}],
+ ['result not reached',d=>d.body.screening.reachedResult=false],['incorrect pathway',d=>d.body.screening.steps.at(-1).pathwayNamed=false],['Save clicked',d=>d.body.screening.steps.at(-1).clicked='Save my result and continue'],['Stripe request',d=>d.body.screening.externalRequestHosts.push('checkout.stripe.com')],
+ ...Object.keys(publicDocuments.body.mutations).map(k=>[`business boundary ${k}`,d=>d.body.mutations[k]=true]),
+ ['invented final Grade A closure',d=>d.body.finalGradeAClosure=true],['receipt time',d=>d.body.finishedAt='invalid'],
+];
+for(const [name,mutate]of publicEvidenceMutations)test(`native public verification rejects ${name}`,()=>{const d=structuredClone(publicDocuments);mutate(d);assert.throws(()=>validateProductionPublicVerificationDocuments(d));});
+test('public verification archive and inner JSON have separate byte-integrity and missing-file refusals',()=>{
+ const root=fs.mkdtempSync(path.join(os.tmpdir(),'public-verification-closure-'));
+ try{
+  for(const rel of PUBLIC_VERIFICATION_EVIDENCE_FILES){fs.mkdirSync(path.dirname(path.join(root,rel)),{recursive:true});fs.copyFileSync(rel,path.join(root,rel));}
+  assert.deepEqual(verifyProductionPublicVerificationEvidence(root),BOUND_PUBLIC_VERIFICATION);
+  for(const rel of PUBLIC_VERIFICATION_EVIDENCE_FILES){const p=path.join(root,rel),bytes=fs.readFileSync(p);fs.appendFileSync(p,' ');assert.throws(()=>verifyProductionPublicVerificationEvidence(root),/native public verification bytes/);fs.unlinkSync(p);assert.throws(()=>verifyProductionPublicVerificationEvidence(root));fs.writeFileSync(p,bytes);}
+  const inner=execFileSync('python3',['-c',"import sys,zipfile; sys.stdout.buffer.write(zipfile.ZipFile(sys.argv[1]).read('production-public-verify.json'))",PUBLIC_VERIFICATION_EVIDENCE_FILES[3]]);
+  assert.deepEqual(validateProductionPublicVerificationReceiptBytes(inner),publicDocuments.body);
+  assert.throws(()=>validateProductionPublicVerificationReceiptBytes(Buffer.concat([inner,Buffer.from(' ')])),/native public verification inner JSON bytes/);
+  const altered=JSON.parse(inner);altered.passed=false;assert.throws(()=>validateProductionPublicVerificationReceiptBytes(Buffer.from(JSON.stringify(altered))),/native public verification inner JSON bytes/);
+ }finally{fs.rmSync(root,{recursive:true,force:true});}
 });

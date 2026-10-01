@@ -1,3 +1,5 @@
+import {PUBLIC_VERIFICATION_CLOSURE_BASE,PUBLIC_VERIFICATION_CLOSED_STATUS,PUBLIC_VERIFICATION_CLOSED_SCOPE,BOUND_PUBLIC_VERIFICATION} from './production-preflight-authorization.mjs';
+import {verifyProductionPublicVerificationEvidence} from './verify-production-preflight-evidence.mjs';
 import {PUBLIC_VERIFICATION_BASE,PUBLIC_VERIFICATION_STATUS,PUBLIC_VERIFICATION_SCOPE,assertPublicVerificationAuthorization} from './production-preflight-authorization.mjs';
 import {ACTIVATION_CLOSURE_BASE,ACTIVATION_CLOSED_STATUS,ACTIVATION_CLOSED_SCOPE,BOUND_ACTIVATION} from './production-preflight-authorization.mjs';
 import {verifyProductionActivationEvidence} from './verify-production-preflight-evidence.mjs';
@@ -175,7 +177,7 @@ test('complete release verifier accepts exact smoke evidence with unchanged auth
   ['missing receipt',c=>delete c.productionAuthorization.restage.successfulReceipt],
   ...Object.keys(BOUND_RESTAGE).map(k=>[k,c=>c.productionAuthorization.restage.successfulReceipt[k]=k==='conclusion'?'failure':'wrong']),
  ];
- for(const [name,mutate]of mutations){const c=structuredClone(candidate);mutate(c);const result=verifyReleaseCandidateBinding(root,c);assert.equal(result.current,false,name);assert.ok(result.reasons.some(r=>r.includes('public verification preserves exact activation closure and prior authority')),`${name}: ${JSON.stringify(result)}`);}
+ for(const [name,mutate]of mutations){const c=structuredClone(candidate);mutate(c);const result=verifyReleaseCandidateBinding(root,c);assert.equal(result.current,false,name);assert.ok(result.reasons.some(r=>r.includes('exact public verification closure preserves original decision, activation and authority')),`${name}: ${JSON.stringify(result)}`);}
 });
 
 
@@ -298,7 +300,7 @@ test('activation closure binds exactly twelve paths, preserves the decision/hist
 test('complete release verifier accepts consumed activation and rejects receipt substitution or new authority',()=>{
  const root=process.cwd(),candidate=JSON.parse(fs.readFileSync('data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json'));
  const valid=verifyReleaseCandidateBinding(root,candidate);assert.equal(valid.current,true,JSON.stringify(valid));assert.equal(valid.status,'CURRENT');
- assert.equal(valid.releaseStatus,PUBLIC_VERIFICATION_STATUS);assert.ok(valid.productionPhases.includes('public_verify'));assert.ok(!valid.productionPhases.includes('activate'));
+ assert.equal(valid.releaseStatus,PUBLIC_VERIFICATION_CLOSED_STATUS);assert.ok(!valid.productionPhases.includes('public_verify'));assert.ok(!valid.productionPhases.includes('activate'));
  const mutations=[
   ...Object.keys(BOUND_ACTIVATION).map(k=>[`activation receipt ${k}`,c=>c.productionAuthorization.activation.activationReceipt[k]='wrong']),
   ['missing activation receipt',c=>delete c.productionAuthorization.activation.activationReceipt],
@@ -309,14 +311,14 @@ test('complete release verifier accepts consumed activation and rejects receipt 
    [`permission ${p}`,c=>c.productionAuthorization.activation.permittedActions.push(p)],
   ]),
  ];
- for(const [name,mutate]of mutations){const c=structuredClone(candidate);mutate(c);const result=verifyReleaseCandidateBinding(root,c);assert.equal(result.current,false,name);assert.ok(result.reasons.some(r=>r.includes('public verification preserves exact activation closure and prior authority')),`${name}: ${JSON.stringify(result)}`);}
+ for(const [name,mutate]of mutations){const c=structuredClone(candidate);mutate(c);const result=verifyReleaseCandidateBinding(root,c);assert.equal(result.current,false,name);assert.ok(result.reasons.some(r=>r.includes('exact public verification closure preserves original decision, activation and authority')),`${name}: ${JSON.stringify(result)}`);}
 });
 
 test('public verification successor binds exactly eight paths, preserves history/hashes and requires one parent',async()=>{
  const vm=await import('node:vm'),base=PUBLIC_VERIFICATION_BASE,toolsPath='data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json',candidatePath='data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json';
  const prior=JSON.parse(execFileSync('git',['show',`${base}:${toolsPath}`],{encoding:'utf8'}));
  const priorCandidate=JSON.parse(execFileSync('git',['show',`${base}:${candidatePath}`],{encoding:'utf8'}));
- const binding=JSON.parse(fs.readFileSync(toolsPath)),candidate=JSON.parse(fs.readFileSync(candidatePath));
+ const binding=JSON.parse(execFileSync('git',['show',`${PUBLIC_VERIFICATION_CLOSURE_BASE}:${toolsPath}`],{encoding:'utf8'})),candidate=JSON.parse(execFileSync('git',['show',`${PUBLIC_VERIFICATION_CLOSURE_BASE}:${candidatePath}`],{encoding:'utf8'}));
  const source=fs.readFileSync('scripts/grade-a-launch-control/verify-release-candidate-binding.mjs','utf8');
  const scope=source.slice(source.indexOf('if(publicVerification){'),source.indexOf('  }else if(activationClosure){'))+'\n}';
  const ancestry=source.slice(source.indexOf("  const head=git(['rev-parse','HEAD']);",source.indexOf('function verifyGenerationBinding')),source.indexOf('  expect(Object.keys(t.files).sort()',source.indexOf('function verifyGenerationBinding')));
@@ -332,5 +334,37 @@ test('public verification successor binds exactly eight paths, preserves history
  for(const key of Object.keys(candidate.productionAuthorization.publicVerification))assert.throws(()=>run({mutate:(_b,c)=>c.productionAuthorization.publicVerification[key]='wrong'}));
  for(const key of ['activationAuthorizationBaseSha','activationArtifactIsolationBaseSha','activationClosureBaseSha'])assert.throws(()=>run({mutate:b=>delete b.successorTools[key]}),/only bounded public verification/);
  assert.throws(()=>run({mutate:(_b,c)=>c.productionAuthorization.activation.recordedAt=c.productionAuthorization.publicVerification.recordedAt}),/preserves exact activation closure/);
+ assert.throws(()=>run({mutate:b=>b.successorTools.files['scripts/verify-rcap-production-activation.mjs']='0'.repeat(64)}),/preserved tools/);
+});
+
+test('public verification closure binds eleven paths, immutable native evidence, original decision and sole parent',async()=>{
+ const vm=await import('node:vm'),base=PUBLIC_VERIFICATION_CLOSURE_BASE,toolsPath='data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json',candidatePath='data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json';
+ const prior=JSON.parse(execFileSync('git',['show',`${base}:${toolsPath}`],{encoding:'utf8'}));
+ const priorCandidate=JSON.parse(execFileSync('git',['show',`${base}:${candidatePath}`],{encoding:'utf8'}));
+ const binding=JSON.parse(fs.readFileSync(toolsPath)),candidate=JSON.parse(fs.readFileSync(candidatePath));
+ const source=fs.readFileSync('scripts/grade-a-launch-control/verify-release-candidate-binding.mjs','utf8');
+ const scope=source.slice(source.indexOf('if(publicVerificationClosure){'),source.indexOf('  }else if(publicVerification){'))+'\n}';
+ const ancestry=source.slice(source.indexOf("  const head=git(['rev-parse','HEAD']);",source.indexOf('function verifyGenerationBinding')),source.indexOf('  expect(Object.keys(t.files).sort()',source.indexOf('function verifyGenerationBinding')));
+ const files=JSON.parse(source.match(/const PUBLIC_VERIFICATION_CLOSURE_FILES=(\[[\s\S]*?\]);/)[1]);assert.equal(files.length,11);const head='a'.repeat(40);
+ function run({mutate=()=>{},delta=files,parents=[head,base]}={}){const b=structuredClone(binding),c=structuredClone(candidate);mutate(b,c);
+ vm.runInNewContext(scope+'\n'+ancestry,{root:process.cwd(),binding:b,candidate:c,t:b.successorTools,toolsPath,preactivation:true,publicVerificationClosure:b.successorTools.publicVerificationClosureBaseSha,PUBLIC_VERIFICATION_CLOSURE_BASE:base,PUBLIC_VERIFICATION_CLOSURE_FILES:files,PUBLIC_VERIFICATION_CLOSED_STATUS,PUBLIC_VERIFICATION_CLOSED_SCOPE,BOUND_PUBLIC_VERIFICATION,assertPublicVerificationAuthorization,verifyProductionActivationEvidence,verifyProductionPublicVerificationEvidence,commitBase:base,
+ expect:(a,b,m)=>assert.equal(JSON.stringify(a),JSON.stringify(b),m),git:args=>args[0]==='show'?JSON.stringify(args[1].endsWith(candidatePath)?priorCandidate:prior):({diff:delta.join('\n'),'ls-files':'','rev-parse':head,'rev-list':parents.join(' ')})[args[0]]});}
+ run();
+ for(const delta of [files.slice(1),[...files,'src/extra.ts'],[...files,'scripts/rcap-production-public-verify.mjs'],[...files,'.github/workflows/rcap-f1-ephemeral-staging.yml']])assert.throws(()=>run({delta}),/exact public verification closure paths/);
+ for(const parents of [[head,base,'b'.repeat(40)],[head,'b'.repeat(40)]])assert.throws(()=>run({parents}),/one non-merge tools successor/);
+ assert.throws(()=>run({mutate:b=>b.successorTools.publicVerificationClosureBaseSha='0'.repeat(40)}),/exact public verification closure base/);
+ const mutations=[
+  ...Object.keys(BOUND_PUBLIC_VERIFICATION).map(k=>[k,c=>c.productionAuthorization.publicVerification.publicVerificationReceipt[k]='wrong']),
+  ...Object.keys(priorCandidate.productionAuthorization.publicVerification).filter(k=>k!=='state').map(k=>[`original decision ${k}`,c=>c.productionAuthorization.publicVerification[k]='wrong']),
+  ['missing receipt',c=>delete c.productionAuthorization.publicVerification.publicVerificationReceipt],
+  ['reopened public decision',c=>c.productionAuthorization.publicVerification=priorCandidate.productionAuthorization.publicVerification],
+  ['activation altered',c=>c.productionAuthorization.activation.executedAttempts=0],
+  ['missing attempts',c=>delete c.productionAuthorization.publicVerification.executedAttempts],
+  ['second execution',c=>c.productionAuthorization.publicVerification.executedAttempts=2],
+  ...['packet_canary','packet_generation','worker_launch','save_transition_reproduce','save_transition_verify','live_zero_dollar_order','payment','checkout'].map(p=>[`new ${p} authority`,c=>c.productionAuthorization.phases.push(p)]),
+  ['invented final packet closure',c=>c.finalGradeAPacketClosure=true],
+ ];
+ for(const [name,mutate]of mutations)assert.throws(()=>run({mutate:(_b,c)=>mutate(c)}),/exact public verification closure preserves original decision, activation and authority/,name);
+ for(const key of ['activationAuthorizationBaseSha','activationArtifactIsolationBaseSha','activationClosureBaseSha','publicVerificationAuthorizationAndWorkflowBaseSha'])assert.throws(()=>run({mutate:b=>delete b.successorTools[key]}),/only bounded public verification closure tools/);
  assert.throws(()=>run({mutate:b=>b.successorTools.files['scripts/verify-rcap-production-activation.mjs']='0'.repeat(64)}),/preserved tools/);
 });

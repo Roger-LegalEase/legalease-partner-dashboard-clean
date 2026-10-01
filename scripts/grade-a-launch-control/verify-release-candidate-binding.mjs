@@ -1,8 +1,9 @@
+import {PUBLIC_VERIFICATION_CLOSURE_BASE,PUBLIC_VERIFICATION_CLOSED_STATUS,PUBLIC_VERIFICATION_CLOSED_SCOPE,BOUND_PUBLIC_VERIFICATION} from './production-preflight-authorization.mjs';
 import {PUBLIC_VERIFICATION_BASE,PUBLIC_VERIFICATION_STATUS,PUBLIC_VERIFICATION_SCOPE,assertPublicVerificationAuthorization} from './production-preflight-authorization.mjs';
 import {ACTIVATION_CLOSURE_BASE,ACTIVATION_CLOSED_STATUS,ACTIVATION_CLOSED_SCOPE,BOUND_ACTIVATION} from './production-preflight-authorization.mjs';
 import {ACTIVATION_BASE,ACTIVATION_STATUS,ACTIVATION_SCOPE,assertActivationAuthorization} from './production-preflight-authorization.mjs';
 import {PREACTIVATION_BASE,PREACTIVATION_SCOPE,PREACTIVATION_PHASES,BOUND_RESTAGE,BOUND_SMOKE,STAGED_DEPLOYMENT,PREACTIVATION_NOTE,assertPreactivationAuthorization} from './production-preflight-authorization.mjs';
-import {PREFLIGHT_EVIDENCE_FILES,verifyProductionPreflightEvidence,verifyProductionRestageEvidence,verifyProductionSmokeEvidence,verifyProductionActivationEvidence} from './verify-production-preflight-evidence.mjs';
+import {PREFLIGHT_EVIDENCE_FILES,verifyProductionPreflightEvidence,verifyProductionRestageEvidence,verifyProductionSmokeEvidence,verifyProductionActivationEvidence,verifyProductionPublicVerificationEvidence} from './verify-production-preflight-evidence.mjs';
 import {PREFLIGHT_BASE,PREFLIGHT_SCOPE,assertPreflightOnlyAuthorization} from './production-preflight-authorization.mjs';
 import {HOSTED_BASE,HOSTED_EVIDENCE_FILES,PREVIEW,verifyHostedAcceptanceEvidence} from './verify-hosted-acceptance-evidence.mjs';
 import {applicationInputManifest, applicationInputEquivalence} from '../rcap-application-inputs.mjs';
@@ -1071,6 +1072,19 @@ const PUBLIC_VERIFICATION_FILES=[
   "scripts/grade-a-launch-control/verify-release-candidate-binding.test.mjs",
   "scripts/rcap-production-workflow-dependency-order.test.mjs"
 ];
+const PUBLIC_VERIFICATION_CLOSURE_FILES=[
+  "data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json",
+  "data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json",
+  "scripts/grade-a-launch-control/production-preflight-authorization.mjs",
+  "scripts/grade-a-launch-control/production-preactivation-authorization.test.mjs",
+  "scripts/grade-a-launch-control/verify-production-preflight-evidence.mjs",
+  "scripts/grade-a-launch-control/verify-release-candidate-binding.mjs",
+  "scripts/grade-a-launch-control/verify-release-candidate-binding.test.mjs",
+  "hosted-acceptance-evidence/production-public-verify-36861106020/run.json",
+  "hosted-acceptance-evidence/production-public-verify-36861106020/jobs.json",
+  "hosted-acceptance-evidence/production-public-verify-36861106020/artifact.json",
+  "hosted-acceptance-evidence/production-public-verify-36861106020/11160824476.zip"
+];
 function verifyGenerationBinding(root,candidate,pending){
  try{
   const git=args=>execFileSync('git',args,{cwd:root,encoding:'utf8',stdio:'pipe'}).trim();
@@ -1083,6 +1097,7 @@ function verifyGenerationBinding(root,candidate,pending){
   const readinessCorrection=t.preactivationReadinessCorrectionBaseSha;
   const closure=t.preactivationClosureBaseSha;
   const harnessCorrection=t.preactivationHarnessCorrectionBaseSha;
+  const publicVerificationClosure=t.publicVerificationClosureBaseSha;
   const publicVerification=t.publicVerificationAuthorizationAndWorkflowBaseSha;
   const activationClosure=t.activationClosureBaseSha;
   const artifactIsolation=t.activationArtifactIsolationBaseSha;
@@ -1097,7 +1112,7 @@ function verifyGenerationBinding(root,candidate,pending){
   const relationshipsCorrection=t.preactivationLegalAidRelationshipsCorrectionBaseSha;
   const legalAidHarnessSuccessor=t.preactivationLegalAidHarnessSuccessorBaseSha;
   const seedRerunCorrection=t.preactivationLegalAidSeedRerunCorrectionBaseSha;
-  const generationFiles=preactivation?[...new Set([...PREACTIVATION_FILES,...(publicVerification?PUBLIC_VERIFICATION_FILES:[]),...(activationClosure?ACTIVATION_CLOSURE_FILES:[]),...(artifactIsolation?ACTIVATION_ARTIFACT_ISOLATION_FILES:[]),...(activationAuthorization?ACTIVATION_AUTHORIZATION_FILES:[]),...(smokeEvidence?SMOKE_EVIDENCE_BINDING_FILES:[]),...(smokeReset?SMOKE_RESET_FILES:[]),...(restageBinding?RESTAGE_BINDING_FILES:[]),...(restageCorrection?PRODUCTION_RESTAGE_FILES:[]),...(restageRoutingCorrection?RESTAGE_ROUTING_FILES:[]),...(productionLegalAidProofCorrection?PRODUCTION_LEGAL_AID_PROOF_FILES:[]),...(relationshipsCorrection?LEGAL_AID_RELATIONSHIPS_FILES:[]),...(legalAidHarnessSuccessor?LEGAL_AID_HARNESS_SUCCESSOR_FILES:[]),...(seedRerunCorrection?LEGAL_AID_SEED_RERUN_CORRECTION_FILES:[]),...(harnessCorrection?HARNESS_CORRECTION_FILES:[]),...(closure?CLOSURE_FILES:[]),...(readinessCorrection?READINESS_CORRECTION_FILES:[]),...(hostedTestCorrection?HOSTED_EVIDENCE_TEST_CORRECTION_FILES:[])])]:preflightOnly?[...new Set([...GENERATION_FILES,...(correction?PRODUCTION_DEPENDENCY_ORDER_FILES:[])])]:base===HOSTED_BASE?HOSTED_GENERATION_FILES:(base==='879463ec2ef60696da39a0367b4758d26074207b'
+  const generationFiles=preactivation?[...new Set([...PREACTIVATION_FILES,...(publicVerificationClosure?PUBLIC_VERIFICATION_CLOSURE_FILES:[]),...(publicVerification?PUBLIC_VERIFICATION_FILES:[]),...(activationClosure?ACTIVATION_CLOSURE_FILES:[]),...(artifactIsolation?ACTIVATION_ARTIFACT_ISOLATION_FILES:[]),...(activationAuthorization?ACTIVATION_AUTHORIZATION_FILES:[]),...(smokeEvidence?SMOKE_EVIDENCE_BINDING_FILES:[]),...(smokeReset?SMOKE_RESET_FILES:[]),...(restageBinding?RESTAGE_BINDING_FILES:[]),...(restageCorrection?PRODUCTION_RESTAGE_FILES:[]),...(restageRoutingCorrection?RESTAGE_ROUTING_FILES:[]),...(productionLegalAidProofCorrection?PRODUCTION_LEGAL_AID_PROOF_FILES:[]),...(relationshipsCorrection?LEGAL_AID_RELATIONSHIPS_FILES:[]),...(legalAidHarnessSuccessor?LEGAL_AID_HARNESS_SUCCESSOR_FILES:[]),...(seedRerunCorrection?LEGAL_AID_SEED_RERUN_CORRECTION_FILES:[]),...(harnessCorrection?HARNESS_CORRECTION_FILES:[]),...(closure?CLOSURE_FILES:[]),...(readinessCorrection?READINESS_CORRECTION_FILES:[]),...(hostedTestCorrection?HOSTED_EVIDENCE_TEST_CORRECTION_FILES:[])])]:preflightOnly?[...new Set([...GENERATION_FILES,...(correction?PRODUCTION_DEPENDENCY_ORDER_FILES:[])])]:base===HOSTED_BASE?HOSTED_GENERATION_FILES:(base==='879463ec2ef60696da39a0367b4758d26074207b'
     ||base==='516b02ac1a68a6aaef41ca9825eae0ece5e3df37')?CHECKOUT_RETURN_GENERATION_FILES
     :base==='7556f87cee1cf3e6f4b503c76b8ba1d1bbc59456'?PACKET_DATABASE_GENERATION_FILES
     :base==='e312a5efa7b4882e0fbf61a5ff0ae7891ac23226'?APPLICATION_AUTHORITY_GENERATION_FILES
@@ -1107,8 +1122,21 @@ function verifyGenerationBinding(root,candidate,pending){
     :base==='44916baaeb9815ba3dd61d94e8c51294f01e8166'?HOSTED_PIN_GENERATION_FILES
     :base==='9ce9233bde4e3c16d0dc9657524ae1a5f02eb2fa'?DS08_GENERATION_FILES:PRIOR_GENERATION_FILES;
   const expect=(actual,expected,message)=>{if(JSON.stringify(actual)!==JSON.stringify(expected))throw Error(message);};
-  const commitBase=publicVerification??activationClosure??artifactIsolation??activationAuthorization??smokeEvidence??smokeReset??restageBinding??restageRoutingCorrection??restageTransportCorrection??restageCorrection??productionLegalAidProofCorrection??relationshipsCorrection??legalAidHarnessSuccessor??seedRerunCorrection??harnessCorrection??closure??readinessCorrection??hostedTestCorrection??correction??base;
-  if(publicVerification){
+  const commitBase=publicVerificationClosure??publicVerification??activationClosure??artifactIsolation??activationAuthorization??smokeEvidence??smokeReset??restageBinding??restageRoutingCorrection??restageTransportCorrection??restageCorrection??productionLegalAidProofCorrection??relationshipsCorrection??legalAidHarnessSuccessor??seedRerunCorrection??harnessCorrection??closure??readinessCorrection??hostedTestCorrection??correction??base;
+  if(publicVerificationClosure){
+   expect(preactivation,true,'public verification closure only on activated Production release');
+   expect(publicVerificationClosure,PUBLIC_VERIFICATION_CLOSURE_BASE,'exact public verification closure base');
+   const priorTools=JSON.parse(git(['show',`${publicVerificationClosure}:${toolsPath}`]));
+   expect(binding,{...priorTools,status:PUBLIC_VERIFICATION_CLOSED_STATUS,toolsSha:publicVerificationClosure,successorTools:{...priorTools.successorTools,publicVerificationClosureBaseSha:publicVerificationClosure,files:t.files}},'only bounded public verification closure tools');
+   const priorCandidate=JSON.parse(git(['show',`${publicVerificationClosure}:data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json`]));
+   expect(candidate,{...priorCandidate,status:PUBLIC_VERIFICATION_CLOSED_STATUS,scope:PUBLIC_VERIFICATION_CLOSED_SCOPE,productionAuthorization:{...priorCandidate.productionAuthorization,publicVerification:{...priorCandidate.productionAuthorization.publicVerification,state:'consumed_successfully',executedAttempts:1,publicVerificationReceipt:{...BOUND_PUBLIC_VERIFICATION}}}},'exact public verification closure preserves original decision, activation and authority');
+   assertPublicVerificationAuthorization(candidate);
+   expect(candidate.productionAuthorization.activation.activationReceipt,verifyProductionActivationEvidence(root),'bound native successful activation');
+   expect(candidate.productionAuthorization.publicVerification.publicVerificationReceipt,verifyProductionPublicVerificationEvidence(root),'bound native successful public verification');
+   for(const [rel,hash]of Object.entries(priorTools.successorTools.files))if(!PUBLIC_VERIFICATION_CLOSURE_FILES.includes(rel))expect(t.files[rel],hash,`preserved tools: ${rel}`);
+   const delta=[...new Set([...git(['diff','--name-only',publicVerificationClosure]).split('\n'),...git(['ls-files','--others','--exclude-standard']).split('\n')].filter(Boolean))].sort();
+   expect(delta,PUBLIC_VERIFICATION_CLOSURE_FILES.slice().sort(),'exact public verification closure paths');
+  }else if(publicVerification){
    expect(preactivation,true,'public verification only on activated Production release');
    expect(publicVerification,PUBLIC_VERIFICATION_BASE,'exact public verification successor base');
    const priorTools=JSON.parse(git(['show',`${publicVerification}:${toolsPath}`]));
@@ -1317,11 +1345,11 @@ function verifyGenerationBinding(root,candidate,pending){
   const e=read('data/rcap-render/worker-publication-evidence.json');
   for(const record of [candidate,binding]){
    for(const k of ['applicationSha','workerSourceSha','workerDigest','workerInputFingerprint','runtimeAccepted','workerRebuildRequired','releaseBaseSha'])expect(record[k],pending[k],`current tuple ${k}`);
-   expect(record.status,publicVerification?PUBLIC_VERIFICATION_STATUS:activationClosure?ACTIVATION_CLOSED_STATUS:activationAuthorization?ACTIVATION_STATUS:pending.status,'accepted status');expect(record.previewExecution,'held','Preview execution held');expect(record.productionAuthorized,productionScoped,'Production phase-scoped flag');
+   expect(record.status,publicVerificationClosure?PUBLIC_VERIFICATION_CLOSED_STATUS:publicVerification?PUBLIC_VERIFICATION_STATUS:activationClosure?ACTIVATION_CLOSED_STATUS:activationAuthorization?ACTIVATION_STATUS:pending.status,'accepted status');expect(record.previewExecution,'held','Preview execution held');expect(record.productionAuthorized,productionScoped,'Production phase-scoped flag');
   }
   for(const k of ['deploymentAuthorized','migrationReplayAuthorized','housekeepingReplayAuthorized','additionalWorkerPublicationAuthorized','imageAcceptanceRerunAuthorized','hostedFullReady','clinicDispatchReady'])expect(binding[k],false,`tools cannot authorize ${k}`);
   if(productionScoped){
-   if(preactivation){assertPreactivationAuthorization(candidate);expect(candidate.scope,publicVerification?PUBLIC_VERIFICATION_SCOPE:activationClosure?ACTIVATION_CLOSED_SCOPE:activationAuthorization?ACTIVATION_SCOPE:PREACTIVATION_SCOPE,'bounded release scope');expect(candidate.productionAuthorization.preflight,verifyProductionPreflightEvidence(root),'bound native preflight');expect(candidate.productionAuthorization.restage.successfulReceipt,verifyProductionRestageEvidence(root),'bound native successful restage');expect(candidate.productionAuthorization.smokeReceipt,verifyProductionSmokeEvidence(root),'bound native successful smoke');}
+   if(preactivation){assertPreactivationAuthorization(candidate);expect(candidate.scope,publicVerificationClosure?PUBLIC_VERIFICATION_CLOSED_SCOPE:publicVerification?PUBLIC_VERIFICATION_SCOPE:activationClosure?ACTIVATION_CLOSED_SCOPE:activationAuthorization?ACTIVATION_SCOPE:PREACTIVATION_SCOPE,'bounded release scope');expect(candidate.productionAuthorization.preflight,verifyProductionPreflightEvidence(root),'bound native preflight');expect(candidate.productionAuthorization.restage.successfulReceipt,verifyProductionRestageEvidence(root),'bound native successful restage');expect(candidate.productionAuthorization.smokeReceipt,verifyProductionSmokeEvidence(root),'bound native successful smoke');}
    else {assertPreflightOnlyAuthorization(candidate);expect(candidate.scope,PREFLIGHT_SCOPE,'preflight-only scope');}
    const recordedAt=Date.parse(candidate.productionAuthorization.recordedAt);
    const predecessorAt=Number(git(['show','-s','--format=%ct',base]))*1000;
@@ -1347,8 +1375,8 @@ function verifyGenerationBinding(root,candidate,pending){
   for(const key of new Set([...Object.keys(previousTools),...Object.keys(binding)]))if(!toolsUpdates.has(key))expect(binding[key],previousTools[key],`unchanged tools field ${key}`);
   expect(candidate.applicationPin,{...previous.applicationPin,sourceSha:pending.applicationSha,canonicalInputBaseline:pending.applicationSha,workerInputFingerprint:pending.workerInputFingerprint},'exact application pin');
   expect(candidate.previewExecutionInstruction,{...previous.previewExecutionInstruction,mode:null,...((base===HOSTED_BASE||productionScoped)?{preview_hostname:PREVIEW.hostname,preview_deployment_id:PREVIEW.deploymentId,firstExecution:'Hosted acceptance is complete; no execution authorized by this record.'}:{})},'exact Preview identity without execution authority');
-  expect(Object.keys(t).sort(),['schemaVersion','baseSha','commit','files',...(correction?['dependencyOrderCorrectionBaseSha']:[]),...(hostedTestCorrection?['hostedEvidenceTestCorrectionBaseSha']:[]),...(readinessCorrection?['preactivationReadinessCorrectionBaseSha']:[]),...(closure?['preactivationClosureBaseSha']:[]),...(harnessCorrection?['preactivationHarnessCorrectionBaseSha']:[]),...(seedRerunCorrection?['preactivationLegalAidSeedRerunCorrectionBaseSha']:[]),...(legalAidHarnessSuccessor?['preactivationLegalAidHarnessSuccessorBaseSha']:[]),...(relationshipsCorrection?['preactivationLegalAidRelationshipsCorrectionBaseSha']:[]),...(productionLegalAidProofCorrection?['preactivationProductionLegalAidProofCorrectionBaseSha']:[]),...(restageCorrection?['preactivationProductionRestageBaseSha']:[]),...(restageTransportCorrection?['preactivationRestageTransportBaseSha']:[]),...(restageRoutingCorrection?['preactivationRestageRoutingBaseSha']:[]),...(restageBinding?['preactivationRestageBindingBaseSha']:[]),...(smokeReset?['preactivationSmokeResetBaseSha']:[]),...(smokeEvidence?['preactivationSmokeEvidenceBaseSha']:[]),...(activationAuthorization?['activationAuthorizationBaseSha']:[]),...(artifactIsolation?['activationArtifactIsolationBaseSha']:[]),...(activationClosure?['activationClosureBaseSha']:[]),...(publicVerification?['publicVerificationAuthorizationAndWorkflowBaseSha']:[])].sort(),'no inherited tools correction scope');
-  return {current:true,status:'CURRENT',hostedAcceptanceStatus:candidate.hostedAcceptanceStatus,releaseStatus:candidate.status,previewExecution:'held',productionAuthorized:productionScoped,productionPhases:preactivation?[...PREACTIVATION_PHASES,...(publicVerification?['public_verify']:[]),...(activationAuthorization&&!activationClosure?['activate']:[])]:preflightOnly?['preflight']:[],reasons:[]};
+  expect(Object.keys(t).sort(),['schemaVersion','baseSha','commit','files',...(correction?['dependencyOrderCorrectionBaseSha']:[]),...(hostedTestCorrection?['hostedEvidenceTestCorrectionBaseSha']:[]),...(readinessCorrection?['preactivationReadinessCorrectionBaseSha']:[]),...(closure?['preactivationClosureBaseSha']:[]),...(harnessCorrection?['preactivationHarnessCorrectionBaseSha']:[]),...(seedRerunCorrection?['preactivationLegalAidSeedRerunCorrectionBaseSha']:[]),...(legalAidHarnessSuccessor?['preactivationLegalAidHarnessSuccessorBaseSha']:[]),...(relationshipsCorrection?['preactivationLegalAidRelationshipsCorrectionBaseSha']:[]),...(productionLegalAidProofCorrection?['preactivationProductionLegalAidProofCorrectionBaseSha']:[]),...(restageCorrection?['preactivationProductionRestageBaseSha']:[]),...(restageTransportCorrection?['preactivationRestageTransportBaseSha']:[]),...(restageRoutingCorrection?['preactivationRestageRoutingBaseSha']:[]),...(restageBinding?['preactivationRestageBindingBaseSha']:[]),...(smokeReset?['preactivationSmokeResetBaseSha']:[]),...(smokeEvidence?['preactivationSmokeEvidenceBaseSha']:[]),...(activationAuthorization?['activationAuthorizationBaseSha']:[]),...(artifactIsolation?['activationArtifactIsolationBaseSha']:[]),...(activationClosure?['activationClosureBaseSha']:[]),...(publicVerification?['publicVerificationAuthorizationAndWorkflowBaseSha']:[]),...(publicVerificationClosure?['publicVerificationClosureBaseSha']:[])].sort(),'no inherited tools correction scope');
+  return {current:true,status:'CURRENT',hostedAcceptanceStatus:candidate.hostedAcceptanceStatus,releaseStatus:candidate.status,previewExecution:'held',productionAuthorized:productionScoped,productionPhases:preactivation?[...PREACTIVATION_PHASES,...(publicVerification&&!publicVerificationClosure?['public_verify']:[]),...(activationAuthorization&&!activationClosure?['activate']:[])]:preflightOnly?['preflight']:[],reasons:[]};
  }catch(error){return {current:false,status:'STALE_OR_UNVERIFIED',reasons:[error.message]};}
 }
 

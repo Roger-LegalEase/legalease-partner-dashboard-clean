@@ -58,6 +58,9 @@ export function requireProductionPhaseAuthorization(candidate, phase) {
   if (phase === 'activate' && candidate?.productionAuthorization?.activation?.state === 'consumed_successfully') {
     throw new Error('production_activate_authorization_consumed');
   }
+  if (phase === 'public_verify' && candidate?.productionAuthorization?.publicVerification?.state === 'consumed_successfully') {
+    throw new Error('production_public_verify_authorization_consumed');
+  }
   let publicVerificationAuthorized = false;
   if (phase === 'public_verify') {
     try { assertPreactivationAuthorization(candidate); assertPublicVerificationAuthorization(candidate); publicVerificationAuthorized = true; }
@@ -150,7 +153,7 @@ export const BOUND_SMOKE = Object.freeze({
 });
 export const ROLLBACK_DEPLOYMENT = 'dpl_5rpkFUKgmp5cGwPaLAzHxx1nUuPK';
 export function assertPreactivationAuthorization(candidate) {
- assert.equal(candidate.status,candidate.productionAuthorization?.publicVerification ? PUBLIC_VERIFICATION_STATUS : candidate.productionAuthorization?.activation ? (candidate.productionAuthorization.activation.state === 'consumed_successfully' ? ACTIVATION_CLOSED_STATUS : ACTIVATION_STATUS) : PREACTIVATION_STATUS,'bounded release status');
+ assert.equal(candidate.status,candidate.productionAuthorization?.publicVerification ? (candidate.productionAuthorization.publicVerification.state === 'consumed_successfully' ? PUBLIC_VERIFICATION_CLOSED_STATUS : PUBLIC_VERIFICATION_STATUS) : candidate.productionAuthorization?.activation ? (candidate.productionAuthorization.activation.state === 'consumed_successfully' ? ACTIVATION_CLOSED_STATUS : ACTIVATION_STATUS) : PREACTIVATION_STATUS,'bounded release status');
  assert.equal(candidate.hostedAcceptanceStatus,PREACTIVATION_STATUS,'matching status mirror');
  assert.equal(candidate.releaseBaseSha,PREACTIVATION_BASE,'approved preflight predecessor');
  assert.equal(candidate.productionAuthorized,true);
@@ -190,8 +193,8 @@ export function assertActivationAuthorization(candidate) {
  assert.ok(decision && validAuthorizationTimestamp(decision.recordedAt), 'actual activation UTC timestamp');
  assert.ok(Date.parse(decision.recordedAt) >= Date.parse('2026-09-30T21:47:50.000Z') && Date.parse(decision.recordedAt) <= Date.now(), 'activation timestamp belongs after its exact predecessor');
  const consumed = decision.state === 'consumed_successfully';
- assert.equal(candidate.status, a.publicVerification ? PUBLIC_VERIFICATION_STATUS : consumed ? ACTIVATION_CLOSED_STATUS : ACTIVATION_STATUS, 'activation lifecycle status');
- assert.equal(candidate.scope, a.publicVerification ? PUBLIC_VERIFICATION_SCOPE : consumed ? ACTIVATION_CLOSED_SCOPE : ACTIVATION_SCOPE, 'exact activation scope');
+ assert.equal(candidate.status, a.publicVerification ? (a.publicVerification.state === 'consumed_successfully' ? PUBLIC_VERIFICATION_CLOSED_STATUS : PUBLIC_VERIFICATION_STATUS) : consumed ? ACTIVATION_CLOSED_STATUS : ACTIVATION_STATUS, 'activation lifecycle status');
+ assert.equal(candidate.scope, a.publicVerification ? (a.publicVerification.state === 'consumed_successfully' ? PUBLIC_VERIFICATION_CLOSED_SCOPE : PUBLIC_VERIFICATION_SCOPE) : consumed ? ACTIVATION_CLOSED_SCOPE : ACTIVATION_SCOPE, 'exact activation scope');
  assert.deepEqual(decision, {
   authorizedBy: 'Roger Roman', recordedAt: decision.recordedAt, note: ACTIVATION_NOTE,
   sourceBaseSha: ACTIVATION_BASE, operation: 'production_activate', maxAttempts: 1,
@@ -263,19 +266,45 @@ export function assertPublicVerificationAuthorization(candidate) {
  assert.ok(validAuthorizationTimestamp(decision?.recordedAt), 'actual public verification UTC timestamp');
  // Commit time of the exact immutable predecessor, also checked from Git by release binding.
  assert.ok(Date.parse(decision.recordedAt) >= Date.parse('2026-10-01T00:00:06.000Z') && Date.parse(decision.recordedAt) <= Date.now(), 'public verification timestamp belongs after exact predecessor');
- assert.equal(candidate.status, PUBLIC_VERIFICATION_STATUS);
- assert.equal(candidate.scope, PUBLIC_VERIFICATION_SCOPE);
+ const consumed = decision.state === 'consumed_successfully';
+ assert.equal(candidate.status, consumed ? PUBLIC_VERIFICATION_CLOSED_STATUS : PUBLIC_VERIFICATION_STATUS);
+ assert.equal(candidate.scope, consumed ? PUBLIC_VERIFICATION_CLOSED_SCOPE : PUBLIC_VERIFICATION_SCOPE);
  assert.deepEqual(decision, {
   authorizedBy: 'Roger Roman', recordedAt: decision.recordedAt, note: 'I authorize it',
   sourceBaseSha: PUBLIC_VERIFICATION_BASE, operation: 'production_public_verify',
-  maxAttempts: 1, state: 'authorized_not_executed',
+  maxAttempts: 1, state: consumed ? 'consumed_successfully' : 'authorized_not_executed',
   applicationSha: TUPLE.applicationSha, workerSourceSha: TUPLE.workerSourceSha,
   workerDigest: TUPLE.workerDigest, workerInputFingerprint: TUPLE.workerInputFingerprint,
   productionProjectRef: PRODUCTION_PROJECT_REF, activatedDeploymentId: STAGED_DEPLOYMENT,
   rollbackDeploymentId: ROLLBACK_DEPLOYMENT, activationRunId: BOUND_ACTIVATION.runId,
   activationArtifactSha256: BOUND_ACTIVATION.activationArtifactSha256, publicDomain: 'expungement.ai',
   permittedActions: [...PUBLIC_VERIFICATION_ACTIONS], prohibitedActions: [...PUBLIC_VERIFICATION_PROHIBITIONS],
+  ...(consumed ? {executedAttempts: 1, publicVerificationReceipt: {...BOUND_PUBLIC_VERIFICATION}} : {}),
  }, 'exact one-time public verification decision and business-state restrictions');
- for (const record of [candidate, a, decision]) assert.equal(Object.hasOwn(record, 'publicVerificationReceipt'), false, 'no public verification receipt before execution');
+ for (const record of [candidate, a, ...(consumed ? [] : [decision])]) assert.equal(Object.hasOwn(record, 'publicVerificationReceipt'), false, 'public verification receipt only on consumed decision');
  return decision;
 }
+
+// Successful public verification is evidence, never authority for a next live phase.
+export const PUBLIC_VERIFICATION_CLOSURE_BASE = 'acd2757432e47c537a6f2c6ab4550f8cd4836f42';
+export const PUBLIC_VERIFICATION_CLOSED_STATUS = 'HOSTED_ACCEPTED_PRODUCTION_PUBLIC_VERIFIED_AUTHORIZATION_CONSUMED';
+export const PUBLIC_VERIFICATION_CLOSED_SCOPE = 'Production is live; activation passed and is closed. Public verification passed in run 36861106020 attempt 1; exact native evidence is bound and the one-time public-verification authority is consumed. Rollback remains READY according to that live verification. Ordinary anonymous analytics/funnel telemetry was authorized; no zero-telemetry-write claim is made. Live customer packet generation has not yet been independently proven on this activated Production tuple. No packet-canary authority exists. Save-transition, live-order, payment and other customer transactions remain unauthorized. Final end-to-end Grade A packet closure is not claimed.';
+export const BOUND_PUBLIC_VERIFICATION = Object.freeze({
+  "runId": 36861106020,
+  "runAttempt": 1,
+  "conclusion": "success",
+  "artifactId": 11160824476,
+  "artifactName": "rcap-production-public-verify-36861106020",
+  "artifactZipSha256": "sha256:d3f772fd09a8f58b9d81d5dca5694faceae830e53b40926e8f4b2bf038156b3e",
+  "publicVerificationArtifactSha256": "60635536a545c4bd14910f6f2af34d92d98801d594bafe151cdd9625350b9bd9",
+  "toolsSha": "acd2757432e47c537a6f2c6ab4550f8cd4836f42",
+  "applicationSha": "e312a5efa7b4882e0fbf61a5ff0ae7891ac23226",
+  "workerSourceSha": "5e04eafd7eaed7e71722862e651fb787ebbd296d",
+  "workerDigest": "sha256:6b6a60fc5b2d0060028526013ce37c69f748e2cccb4cfb10943f2af6cf26cfe1",
+  "productionProjectRef": "wwtwtsmywnckfkdaqqeg",
+  "activatedDeploymentId": "dpl_3j4Dr4GHyXmwmrFCTZ6orNNNP7sc",
+  "rollbackDeploymentId": "dpl_5rpkFUKgmp5cGwPaLAzHxx1nUuPK",
+  "activationRunId": 36791436905,
+  "publicDomain": "expungement.ai",
+  "evidencePath": "hosted-acceptance-evidence/production-public-verify-36861106020"
+});
