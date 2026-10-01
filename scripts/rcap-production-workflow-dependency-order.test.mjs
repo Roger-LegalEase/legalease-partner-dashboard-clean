@@ -130,7 +130,10 @@ test('public verification: committed predecessor fails ordering; corrected job a
  const old=reordered.jobs.production_public_verify.steps;
  const gateIndex=old.findIndex(s=>s.run?.includes(gate));
  const [gateStep]=old.splice(gateIndex,1);old.splice(gateIndex+2,0,gateStep);
- assert.deepEqual(publicDocument,reordered);
+ // Preserve the historical closure assertion against its immutable successor.
+ const closed=parse(execFileSync('git',['show',`acdc8e76671445f7d86e9842c103ac57961522eb:${publicWorkflowPath}`],{encoding:'utf8'}));
+ assert.deepEqual(closed,reordered);
+ assert.deepEqual(publicDocument.jobs.production_public_verify,closed.jobs.production_public_verify);
 });
 const moveBefore=(s,what,before)=>{const i=s.findIndex(what),[step]=s.splice(i,1);s.splice(s.findIndex(before),0,step);};
 const isGate=s=>s.run?.includes(gate),isSetup=s=>s.uses==='actions/setup-node@v4',isInstall=s=>s.run?.trim()==='npm ci',isPublic=s=>s.run?.trim()==='node scripts/rcap-production-public-verify.mjs';
@@ -154,3 +157,54 @@ for(const [name,mutate]of [
  ['missing checkout',s=>s.splice(s.findIndex(x=>x.uses==='actions/checkout@v4'),1)],
  ['missing tools checkout',s=>s.find(x=>x.name==='Verify ancestry of every pinned SHA and check out the tools commit').run='git status'],
 ])test(`public workflow mutation refuses ${name}`,()=>{const s=structuredClone(publicSteps);mutate(s);assert.throws(()=>verifyPublicOrder(s));});
+
+const packetDispatcher=parse(fs.readFileSync(publicWorkflowPath,'utf8'));
+const packetJob=packetDispatcher.jobs.production_packet_canary;
+function verifyPacketOrder(job){
+ assert.equal(job.if,"inputs.mode == 'production_packet_canary'");
+ assert.equal(job.env.RCAP_PRODUCTION_PHASE,'packet_canary');
+ assert.equal(job.env.RCAP_PRODUCTION_DEPLOYMENT_ID,'dpl_3j4Dr4GHyXmwmrFCTZ6orNNNP7sc');
+ assert.equal(job.env.RCAP_PRODUCTION_PROJECT_REF,'wwtwtsmywnckfkdaqqeg');
+ assert.equal(job.env.RCAP_PROBE_BROWSERS,'chromium');
+ assert.equal(job.concurrency['cancel-in-progress'],false);
+ assert.ok(!JSON.stringify(job.env).includes('secrets.')&&!JSON.stringify(job.env).includes('inputs.promotion_code'));
+ const s=job.steps;const gateIndex=s.findIndex(x=>x.run?.includes(gate));
+ const install=s.findIndex(x=>x.run==='npm ci');const setup=s.findIndex(x=>x.uses==='actions/setup-node@v4');
+ assert.ok(gateIndex>install&&install>setup&&setup>s.findIndex(x=>x.uses==='actions/checkout@v4'));
+ for(const i of [setup,install,gateIndex]){assert.equal(s[i].if,undefined);assert.equal(s[i]['continue-on-error'],undefined);}
+ const execution=s.findIndex(x=>x.run?.includes('node scripts/rcap-production-save-transition-probe.mjs'));
+ assert.ok(execution>gateIndex);
+ for(const [i,x]of s.entries())if(JSON.stringify(x.env??{}).includes('secrets.')||JSON.stringify(x.env??{}).includes('inputs.promotion_code'))assert.ok(i>gateIndex,'no service secret or bearer code before gate');
+ assert.equal(s[execution].if,undefined);assert.equal(s[execution]['continue-on-error'],undefined);
+ assert.ok(s[execution].run.indexOf('::add-mask::')<s[execution].run.indexOf('node scripts/'));
+ assert.equal(s[execution].env.RCAP_RESUME_MATTER_ID,'${{ inputs.resume_matter_id }}');
+ const text=JSON.stringify(job);
+ for(const stale of ['fe2457a71dd90d0fb83d0ed2738fcd1e6566d76e','a22ad8559df69563a4f8b055e0efcb15de128e5ce09d75325abcbf783adff905','dpl_BJMUzi76BWPUbnnxE8Doim6hwkiP','preview_hostname','STRIPE_SECRET_KEY','VERCEL_TOKEN','production_worker_deploy'])assert.ok(!text.includes(stale),stale);
+ for(const exact of ['e312a5efa7b4882e0fbf61a5ff0ae7891ac23226','5e04eafd7eaed7e71722862e651fb787ebbd296d','sha256:6b6a60fc5b2d0060028526013ce37c69f748e2cccb4cfb10943f2af6cf26cfe1'])assert.ok(text.includes(exact));
+}
+test('dedicated current-release packet canary is selectable, secret-free until its real refusing gate',()=>{
+ assert.ok(packetDispatcher.on.workflow_dispatch.inputs.mode.options.includes('production_packet_canary'));verifyPacketOrder(packetJob);
+ let secretReached=false;
+ assert.throws(()=>{requireProductionPhaseAuthorization(readCandidate(),'packet_canary');secretReached=true;},{message:'production_phase_not_authorized_for_current_release'});
+ assert.equal(secretReached,false);
+});
+for(const [name,mutate]of [
+ ['secret at job scope',j=>j.env.SUPABASE_ACCESS_TOKEN='${{ secrets.SUPABASE_ACCESS_TOKEN }}'],
+ ['promotion at job scope',j=>j.env.CODE='${{ inputs.promotion_code }}'],
+ ['early secret',j=>j.steps.unshift({env:{FLY_API_TOKEN:'${{ secrets.FLY_API_TOKEN }}'}})],
+ ['late dependency',j=>{const i=j.steps.findIndex(s=>s.run==='npm ci');j.steps.push(...j.steps.splice(i,1));}],
+ ['conditional gate',j=>j.steps.find(s=>s.run?.includes(gate)).if='false'],
+ ['ignored gate',j=>j.steps.find(s=>s.run?.includes(gate))['continue-on-error']=true],
+ ['wrong phase',j=>j.env.RCAP_PRODUCTION_PHASE='live_zero_dollar_order'],
+ ['historical deployment',j=>j.env.RCAP_PRODUCTION_DEPLOYMENT_ID='dpl_BJMUzi76BWPUbnnxE8Doim6hwkiP'],
+ ['parallel browser',j=>j.env.RCAP_PROBE_BROWSERS='chromium,webkit'],
+ ['cancel in progress',j=>j.concurrency['cancel-in-progress']=true],
+])test(`packet workflow mutation: ${name}`,()=>{const j=structuredClone(packetJob);mutate(j);assert.throws(()=>verifyPacketOrder(j));});
+test('historical live-order job retains its identities and authority unchanged',()=>{
+ const old=parse(execFileSync('git',['show','acdc8e76671445f7d86e9842c103ac57961522eb:'+publicWorkflowPath],{encoding:'utf8'}));
+ assert.deepEqual(packetDispatcher.jobs.production_save_transition,old.jobs.production_save_transition);
+ const without=structuredClone(packetDispatcher);delete without.jobs.production_packet_canary;
+ without.on.workflow_dispatch.inputs.mode.options=without.on.workflow_dispatch.inputs.mode.options.filter(m=>m!=='production_packet_canary');
+ without.on.workflow_dispatch.inputs.resume_matter_id.description=old.on.workflow_dispatch.inputs.resume_matter_id.description;
+ assert.deepEqual(without,old);
+});

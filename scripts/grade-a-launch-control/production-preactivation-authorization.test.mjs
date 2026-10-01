@@ -3,6 +3,7 @@ import {PUBLIC_VERIFICATION_BASE,assertPublicVerificationAuthorization} from './
 import {ACTIVATION_CLOSURE_BASE,ACTIVATION_CLOSED_STATUS,ACTIVATION_CLOSED_SCOPE,BOUND_ACTIVATION} from './production-preflight-authorization.mjs';
 import {ACTIVATION_BASE,ACTIVATION_STATUS,ACTIVATION_SCOPE,ACTIVATION_NOTE,assertActivationAuthorization} from './production-preflight-authorization.mjs';
 import test from 'node:test';
+import {parse} from 'yaml';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {execFileSync} from 'node:child_process';
@@ -482,7 +483,10 @@ test('public verification closure preserves the exact owner decision and activat
  assert.throws(()=>requireProductionPhaseAuthorization(publicClosedCandidate,'public_verify'),publicConsumedRefusal);
  assert.throws(()=>requireProductionDeploymentBinding(publicClosedCandidate,'public_verify'),publicConsumedRefusal);
  assert.throws(()=>requireProductionPhaseAuthorization(publicClosedCandidate,'activate'),consumedRefusal);
- for(const rel of ['scripts/rcap-production-public-verify.mjs','scripts/rcap-production-activate.mjs','.github/workflows/rcap-f1-ephemeral-staging.yml'])assert.deepEqual(fs.readFileSync(rel),execFileSync('git',['show',`${PUBLIC_VERIFICATION_CLOSURE_BASE}:${rel}`]));
+ for(const rel of ['scripts/rcap-production-public-verify.mjs','scripts/rcap-production-activate.mjs'])assert.deepEqual(fs.readFileSync(rel),execFileSync('git',['show',`${PUBLIC_VERIFICATION_CLOSURE_BASE}:${rel}`]));
+ const workflow='.github/workflows/rcap-f1-ephemeral-staging.yml';
+ const closed=parse(execFileSync('git',['show',`${PUBLIC_VERIFICATION_CLOSURE_BASE}:${workflow}`],{encoding:'utf8'}));
+ assert.deepEqual(parse(fs.readFileSync(workflow,'utf8')).jobs.production_public_verify,closed.jobs.production_public_verify,'closed public verifier job unchanged; dedicated canary job is checked separately');
 });
 const nextPhases=['packet_canary','production_packet_canary','packet_generation','generate_packet','worker_launch','save_transition_reproduce','save_transition_verify','live_zero_dollar_order','payment','checkout','stripe','alias_move','promote','rollback','unrelated_live_phase'];
 for(const phase of nextPhases)test(`public closure grants no ${phase} authority`,()=>{

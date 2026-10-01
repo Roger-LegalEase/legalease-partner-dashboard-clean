@@ -27,7 +27,7 @@ on:
         description: "ephemeral | hosted_* (Vercel, including audit and reuse-only Checkout) | github_acceptance (temporary HTTPS fallback)"
         required: false
         type: choice
-        options: [ephemeral, required_worker_delivery, hosted_preflight, hosted_vercel_identity, hosted_vercel_audit, hosted_migrate, hosted_clinic_migrate, hosted_legal_aid_migrate, hosted_clinic_deploy, hosted_clinic_preview, hosted_clinic_resume, hosted_legal_aid_browser, hosted_sponsor_cap, hosted_deploy, hosted_replace_preview, hosted_accept, hosted_stripe_retarget, hosted_checkout_gate, hosted_browser, hosted_payment, hosted_full, hosted_worker_contract, github_acceptance, production_preflight, production_restage, production_clinic_migrate, production_forward_chain_readback, production_forward_chain_migrate, production_legal_aid_keys_read, production_legal_aid_keys_create, production_legal_aid_readback, production_legal_aid_migrate, production_smoke, production_activate, production_worker_deploy, production_public_verify, production_save_transition_reproduce, production_save_transition_verify, production_live_zero_dollar_order]
+        options: [ephemeral, required_worker_delivery, hosted_preflight, hosted_vercel_identity, hosted_vercel_audit, hosted_migrate, hosted_clinic_migrate, hosted_legal_aid_migrate, hosted_clinic_deploy, hosted_clinic_preview, hosted_clinic_resume, hosted_legal_aid_browser, hosted_sponsor_cap, hosted_deploy, hosted_replace_preview, hosted_accept, hosted_stripe_retarget, hosted_checkout_gate, hosted_browser, hosted_payment, hosted_full, hosted_worker_contract, github_acceptance, production_preflight, production_restage, production_clinic_migrate, production_forward_chain_readback, production_forward_chain_migrate, production_legal_aid_keys_read, production_legal_aid_keys_create, production_legal_aid_readback, production_legal_aid_migrate, production_smoke, production_activate, production_worker_deploy, production_public_verify, production_save_transition_reproduce, production_save_transition_verify, production_live_zero_dollar_order, production_packet_canary]
         default: ephemeral
       preview_hostname:
         description: "Exact existing Vercel Preview hostname to REUSE; supplying it forbids creating another deployment"
@@ -69,7 +69,7 @@ on:
         type: string
         default: ""
       resume_matter_id:
-        description: "Already-verified matter to resume the live order on (production_live_zero_dollar_order); empty runs the whole journey and mints a new matter"
+        description: "Existing matter for separately authorized recovery; packet canary resume never creates a matter or order"
         required: false
         type: string
         default: ""
@@ -284,6 +284,109 @@ jobs:
           name: rcap-production-public-verify-${{ github.run_id }}
           path: production-public-evidence/
           if-no-files-found: error
+
+  production_packet_canary:
+    name: Current-release packet canary (separate owner authority required)
+    if: inputs.mode == 'production_packet_canary'
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    env:
+      RCAP_PRODUCTION_PHASE: packet_canary
+      RCAP_APPLICATION_SHA: ${{ inputs.application_sha }}
+      RCAP_WORKER_SOURCE_SHA: ${{ inputs.worker_source_sha }}
+      RCAP_WORKER_DIGEST: ${{ inputs.worker_digest }}
+      RCAP_TOOLS_SHA: ${{ inputs.tools_sha }}
+      RCAP_PRODUCTION_PROJECT_REF: wwtwtsmywnckfkdaqqeg
+      RCAP_PRODUCTION_DEPLOYMENT_ID: dpl_3j4Dr4GHyXmwmrFCTZ6orNNNP7sc
+      RCAP_PUBLIC_ORIGIN: https://expungement.ai
+      RCAP_PRODUCTION_SUPABASE_URL: https://wwtwtsmywnckfkdaqqeg.supabase.co
+      RCAP_BROWSER_CHROMIUM: /usr/bin/google-chrome
+      RCAP_PROBE_BROWSERS: chromium
+    concurrency:
+      group: current-release-production-packet-canary
+      cancel-in-progress: false
+    steps:
+      - name: Refuse any input that is not the authorized pinned value
+        env:
+          APPLICATION_SHA_INPUT: ${{ inputs.application_sha }}
+          WORKER_SOURCE_SHA_INPUT: ${{ inputs.worker_source_sha }}
+          WORKER_DIGEST_INPUT: ${{ inputs.worker_digest }}
+          TOOLS_SHA_INPUT: ${{ inputs.tools_sha }}
+          WORKFLOW_SHA_INPUT: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+          printf '%s' "$APPLICATION_SHA_INPUT" | grep -Eq '^[0-9a-f]{40}$' || { echo "::error::application_sha must be a full commit SHA"; exit 1; }
+          printf '%s' "$WORKER_SOURCE_SHA_INPUT" | grep -Eq '^[0-9a-f]{40}$'  || { echo "::error::worker_source_sha is not the authorized value"; exit 1; }
+          printf '%s' "$WORKER_DIGEST_INPUT" | grep -Eq '^sha256:[0-9a-f]{64}$'  || { echo "::error::worker_digest is not the authorized value"; exit 1; }
+          printf '%s' "$TOOLS_SHA_INPUT" | grep -Eq '^[0-9a-f]{40}$' || { echo "::error::tools_sha must be a full commit SHA"; exit 1; }
+          [ "$APPLICATION_SHA_INPUT" = "e312a5efa7b4882e0fbf61a5ff0ae7891ac23226" ] || exit 1
+          [ "$WORKER_SOURCE_SHA_INPUT" = "5e04eafd7eaed7e71722862e651fb787ebbd296d" ] || exit 1
+          [ "$WORKER_DIGEST_INPUT" = "sha256:6b6a60fc5b2d0060028526013ce37c69f748e2cccb4cfb10943f2af6cf26cfe1" ] || exit 1
+          [ "$TOOLS_SHA_INPUT" = "$WORKFLOW_SHA_INPUT" ] || { echo "::error::tools_sha must equal the workflow source SHA"; exit 1; }
+
+      - name: Check out repository history
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Verify ancestry of every pinned SHA and check out the tools commit
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin "$CANONICAL_INTEGRATION_BRANCH"
+          for SHA in "${{ inputs.application_sha }}" "${{ inputs.worker_source_sha }}" "${{ inputs.tools_sha }}"; do
+            git cat-file -e "${SHA}^{commit}" || { echo "::error::$SHA does not resolve"; exit 1; }
+            git merge-base --is-ancestor "$SHA" "origin/$CANONICAL_INTEGRATION_BRANCH" || { echo "::error::$SHA is outside the canonical integration history"; exit 1; }
+          done
+          git merge-base --is-ancestor "${{ inputs.application_sha }}" "${{ inputs.tools_sha }}" \
+            || { echo "::error::the final application candidate is not an ancestor of the workflow tools SHA"; exit 1; }
+          git diff --quiet "${{ inputs.application_sha }}" "${{ inputs.tools_sha }}" -- package.json package-lock.json tsconfig.json scripts/rcap-render-worker.mjs deploy/rcap-render-worker/Dockerfile scripts/lib src \
+            || { echo "::error::workflow tools differ from the final application on worker inputs"; exit 1; }
+          git checkout --detach "${{ inputs.tools_sha }}"
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install frozen dependencies
+        run: npm ci
+
+      - name: Require current release and separate packet-canary authorization
+        run: |
+          node scripts/rcap-production-migration-contract.mjs
+          node scripts/verify-rcap-worker-input-equivalence.mjs --base "${{ inputs.worker_source_sha }}" --head "${{ inputs.tools_sha }}"
+
+      - name: Install PDF inspection utility
+        run: sudo apt-get update && sudo apt-get install --no-install-recommends -y poppler-utils
+
+      - name: Install read-only image inspection CLI
+        uses: superfly/flyctl-actions/setup-flyctl@master
+
+      # No service credential or bearer promotion code exists in an earlier step.
+      # This successor refuses at the gate above; this step is unreachable.
+      - name: Run the separately authorized current-release packet canary
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+          GITHUB_TOKEN: ${{ github.token }}
+          RCAP_LIVE_PROMOTION_CODE: ${{ inputs.promotion_code }}
+          RCAP_RESUME_MATTER_ID: ${{ inputs.resume_matter_id }}
+        run: |
+          set -euo pipefail
+          # Reject control characters before issuing a single-line mask command.
+          [[ "$RCAP_LIVE_PROMOTION_CODE" != *$'\n'* && "$RCAP_LIVE_PROMOTION_CODE" != *$'\r'* ]] || exit 1
+          # Mask the bearer instrument before invoking any consumer code.
+          printf '::add-mask::%s\n' "$RCAP_LIVE_PROMOTION_CODE"
+          node scripts/rcap-production-save-transition-probe.mjs
+
+      - name: Retain sanitized canary evidence; never clean up Production
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rcap-production-packet-canary-${{ github.run_id }}
+          path: production-canary-evidence/
+          if-no-files-found: ignore
 
   # 2026-09-16 production incident ("Save my result and continue" fails on the
   # live Mississippi result page). Reproduce: a signed-out public browser walk
