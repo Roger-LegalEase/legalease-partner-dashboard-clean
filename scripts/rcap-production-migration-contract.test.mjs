@@ -165,7 +165,9 @@ test('actual Clinic and Legal Aid entrypoints accept complete source state witho
 test('public verification uses current authorized deployment identities and cannot use a historical tuple',()=>{
   const source=fs.readFileSync('scripts/rcap-production-public-verify.mjs','utf8');
   const workflow=fs.readFileSync('.github/workflows/rcap-f1-ephemeral-staging.yml','utf8');
-  const block=workflow.slice(workflow.indexOf('  production_public_verify:'),workflow.indexOf('  # 2026-09-16 production incident'));
+  const block=workflow.match(/^  production_public_verify:\n[\s\S]*?(?=^  [A-Za-z_][A-Za-z0-9_-]*:|(?![\s\S]))/m)?.[0];
+  assert.ok(block,'public verification job exists');
+  assert.deepEqual([...block.matchAll(/^  ([A-Za-z_][A-Za-z0-9_-]*):/gm)].map(match=>match[1]),['production_public_verify']);
   for(const key of ['applicationSha','workerSourceSha','workerDigest'])assert.ok(source.includes(`RELEASE_CANDIDATE.${key}`));
   for(const key of ['stagedDeploymentId','rollbackDeploymentId'])assert.ok(source.includes(`RELEASE_CANDIDATE.productionAuthorization?.${key}`));
   assert.ok(source.includes('requireProductionMigrationRelease(process.cwd(), process.env)'));
