@@ -177,7 +177,7 @@ test('complete release verifier accepts exact smoke evidence with unchanged auth
   ['missing receipt',c=>delete c.productionAuthorization.restage.successfulReceipt],
   ...Object.keys(BOUND_RESTAGE).map(k=>[k,c=>c.productionAuthorization.restage.successfulReceipt[k]=k==='conclusion'?'failure':'wrong']),
  ];
- for(const [name,mutate]of mutations){const c=structuredClone(candidate);mutate(c);const result=verifyReleaseCandidateBinding(root,c);assert.equal(result.current,false,name);assert.ok(result.reasons.some(r=>r.includes('packet canary test boundary correction preserves all authorization and closure bytes')),`${name}: ${JSON.stringify(result)}`);}
+ for(const [name,mutate]of mutations){const c=structuredClone(candidate);mutate(c);const result=verifyReleaseCandidateBinding(root,c);assert.equal(result.current,false,name);assert.ok(result.reasons.some(r=>r.includes('packet canary Flyctl pin preserves all authorization and closure bytes')),`${name}: ${JSON.stringify(result)}`);}
 });
 
 
@@ -311,7 +311,7 @@ test('complete release verifier accepts consumed activation and rejects receipt 
    [`permission ${p}`,c=>c.productionAuthorization.activation.permittedActions.push(p)],
   ]),
  ];
- for(const [name,mutate]of mutations){const c=structuredClone(candidate);mutate(c);const result=verifyReleaseCandidateBinding(root,c);assert.equal(result.current,false,name);assert.ok(result.reasons.some(r=>r.includes('packet canary test boundary correction preserves all authorization and closure bytes')),`${name}: ${JSON.stringify(result)}`);}
+ for(const [name,mutate]of mutations){const c=structuredClone(candidate);mutate(c);const result=verifyReleaseCandidateBinding(root,c);assert.equal(result.current,false,name);assert.ok(result.reasons.some(r=>r.includes('packet canary Flyctl pin preserves all authorization and closure bytes')),`${name}: ${JSON.stringify(result)}`);}
 });
 
 test('public verification successor binds exactly eight paths, preserves history/hashes and requires one parent',async()=>{
@@ -397,7 +397,7 @@ test('packet canary test boundary correction preserves exact scope, lineage, byt
  const toolsPath='data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json',candidatePath='data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json';
  const prior=JSON.parse(execFileSync('git',['show',`${base}:${toolsPath}`],{encoding:'utf8'}));
  const priorCandidate=JSON.parse(execFileSync('git',['show',`${base}:${candidatePath}`],{encoding:'utf8'}));
- const binding=JSON.parse(fs.readFileSync(toolsPath)),candidate=JSON.parse(fs.readFileSync(candidatePath));
+ const binding=JSON.parse(execFileSync('git',['show',`c2f217f243f18b50c04ce1d61f8f150bf77c3023:${toolsPath}`],{encoding:'utf8'})),candidate=JSON.parse(fs.readFileSync(candidatePath));
  assert.deepEqual(fs.readFileSync(candidatePath),execFileSync('git',['show',`${base}:${candidatePath}`]));
  const source=fs.readFileSync('scripts/grade-a-launch-control/verify-release-candidate-binding.mjs','utf8');
  const scope=source.slice(source.indexOf('if(packetCanaryTestBoundaryCorrection||binding.toolsSha===PACKET_CANARY_TEST_BOUNDARY_CORRECTION_BASE){'),source.indexOf('  }else if(packetCanaryImplementation){'))+'\n}';
@@ -415,4 +415,29 @@ test('packet canary test boundary correction preserves exact scope, lineage, byt
  for(const mutate of [c=>c.productionAuthorization.packetCanary={authorized:true},c=>c.packetCanaryReceipt={},c=>c.productionAuthorization.phases.push('packet_canary'),c=>c.productionAuthorization.publicVerification.state='authorized_not_executed',c=>c.productionAuthorization.activation.state='authorized_not_executed',c=>c.workerDigest='wrong',c=>c.scope='packet path proven'])assert.throws(()=>run({mutate:(_b,c)=>mutate(c)}),/preserves all authorization and closure bytes/);
  for(const rel of Object.keys(prior.successorTools.files).filter(rel=>!files.includes(rel)))assert.throws(()=>run({mutate:b=>b.successorTools.files[rel]='0'.repeat(64)}),/preserved tools/);
  assert.throws(()=>run({mutate:b=>b.deploymentAuthorized=true}),/only bounded packet canary test boundary correction tools/);
+});
+
+test('packet canary Flyctl pin preserves exact scope, lineage, bytes and refusal',async()=>{
+ const vm=await import('node:vm'),base='c2f217f243f18b50c04ce1d61f8f150bf77c3023';
+ const toolsPath='data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json',candidatePath='data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json';
+ const prior=JSON.parse(execFileSync('git',['show',`${base}:${toolsPath}`],{encoding:'utf8'}));
+ const priorCandidate=JSON.parse(execFileSync('git',['show',`${base}:${candidatePath}`],{encoding:'utf8'}));
+ const binding=JSON.parse(fs.readFileSync(toolsPath)),candidate=JSON.parse(fs.readFileSync(candidatePath));
+ assert.deepEqual(fs.readFileSync(candidatePath),execFileSync('git',['show',`${base}:${candidatePath}`]));
+ const source=fs.readFileSync('scripts/grade-a-launch-control/verify-release-candidate-binding.mjs','utf8');
+ const scope=source.slice(source.indexOf('if(packetCanaryFlyctlPin||binding.toolsSha===PACKET_CANARY_FLYCTL_PIN_BASE){'),source.indexOf('  }else if(packetCanaryTestBoundaryCorrection||binding.toolsSha===PACKET_CANARY_TEST_BOUNDARY_CORRECTION_BASE){'))+'\n}';
+ const ancestry=source.slice(source.indexOf("  const head=git(['rev-parse','HEAD']);",source.indexOf('function verifyGenerationBinding')),source.indexOf('  expect(Object.keys(t.files).sort()',source.indexOf('function verifyGenerationBinding')));
+ const files=JSON.parse(source.match(/const PACKET_CANARY_FLYCTL_PIN_FILES=(\[[\s\S]*?\]);/)[1]);assert.equal(files.length,5);const head='a'.repeat(40);
+ function run({mutate=()=>{},delta=files,parents=[head,base]}={}){const b=structuredClone(binding),c=structuredClone(candidate);mutate(b,c);
+ vm.runInNewContext(scope+'\n'+ancestry,{root:process.cwd(),binding:b,candidate:c,t:b.successorTools,toolsPath,preactivation:true,packetCanaryFlyctlPin:b.successorTools.packetCanaryFlyctlPinBaseSha,PACKET_CANARY_FLYCTL_PIN_BASE:base,PACKET_CANARY_FLYCTL_PIN_FILES:files,assertPublicVerificationAuthorization,verifyProductionActivationEvidence,verifyProductionPublicVerificationEvidence,commitBase:base,
+ expect:(a,b,m)=>assert.equal(JSON.stringify(a),JSON.stringify(b),m),git:args=>args[0]==='show'?JSON.stringify(args[1].endsWith(candidatePath)?priorCandidate:prior):({diff:delta.join('\n'),'ls-files':'','rev-parse':head,'rev-list':parents.join(' ')})[args[0]]});}
+ run();
+ for(const delta of [files.slice(1),[...files,'src/extra.ts'],[...files,candidatePath],[...files,'supabase/new.sql'],[...files,'scripts/rcap-production-packet-canary-contract.mjs'],[...files,'scripts/rcap-production-save-transition-probe.mjs']])assert.throws(()=>run({delta}),/exact packet canary Flyctl pin paths/);
+ for(const parents of [[head,base,'b'.repeat(40)],[head,'b'.repeat(40)]])assert.throws(()=>run({parents}),/one non-merge tools successor/);
+ assert.throws(()=>run({mutate:b=>b.successorTools.packetCanaryFlyctlPinBaseSha='0'.repeat(40)}),/exact packet canary Flyctl pin base/);
+ assert.throws(()=>run({mutate:b=>delete b.successorTools.packetCanaryFlyctlPinBaseSha}),/exact packet canary Flyctl pin base/);
+ for(const key of Object.keys(prior.successorTools).filter(k=>k.endsWith('BaseSha')))for(const mutate of [b=>delete b.successorTools[key],b=>b.successorTools[key]='0'.repeat(40)])assert.throws(()=>run({mutate}),/only bounded packet canary Flyctl pin tools/);
+ for(const mutate of [c=>c.productionAuthorization.packetCanary={authorized:true},c=>c.packetCanaryReceipt={},c=>c.productionAuthorization.phases.push('packet_canary'),c=>c.productionAuthorization.publicVerification.state='authorized_not_executed',c=>c.productionAuthorization.activation.state='authorized_not_executed',c=>c.workerDigest='wrong',c=>c.scope='packet path proven'])assert.throws(()=>run({mutate:(_b,c)=>mutate(c)}),/preserves all authorization and closure bytes/);
+ for(const rel of Object.keys(prior.successorTools.files).filter(rel=>!files.includes(rel)))assert.throws(()=>run({mutate:b=>b.successorTools.files[rel]='0'.repeat(64)}),/preserved tools/);
+ assert.throws(()=>run({mutate:b=>b.deploymentAuthorized=true}),/only bounded packet canary Flyctl pin tools/);
 });

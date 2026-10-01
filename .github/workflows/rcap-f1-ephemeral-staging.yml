@@ -361,7 +361,9 @@ jobs:
         run: sudo apt-get update && sudo apt-get install --no-install-recommends -y poppler-utils
 
       - name: Install read-only image inspection CLI
-        uses: superfly/flyctl-actions/setup-flyctl@master
+        uses: superfly/flyctl-actions/setup-flyctl@ed8efb33836e8b2096c7fd3ba1c8afe303ebbff1
+        with:
+          version: "0.4.111"
 
       # No service credential or bearer promotion code exists in an earlier step.
       # This successor refuses at the gate above; this step is unreachable.

@@ -174,6 +174,12 @@ function verifyPacketOrder(job){
  for(const i of [setup,install,gateIndex]){assert.equal(s[i].if,undefined);assert.equal(s[i]['continue-on-error'],undefined);}
  const execution=s.findIndex(x=>x.run?.includes('node scripts/rcap-production-save-transition-probe.mjs'));
  assert.ok(execution>gateIndex);
+ const flySteps=s.filter(x=>x.uses?.startsWith('superfly/flyctl-actions/setup-flyctl@'));
+ assert.equal(flySteps.length,1,'exactly one Fly CLI setup');
+ const fly=flySteps[0],flyIndex=s.indexOf(fly);
+ assert.deepEqual(fly,{name:'Install read-only image inspection CLI',uses:'superfly/flyctl-actions/setup-flyctl@ed8efb33836e8b2096c7fd3ba1c8afe303ebbff1',with:{version:'0.4.111'}},'exact immutable setup without credentials or mutation commands');
+ assert.equal(job.env.FLY_API_TOKEN,undefined);
+ assert.ok(flyIndex>gateIndex&&flyIndex<execution,'Fly setup after authorization and before execution');
  for(const [i,x]of s.entries())if(JSON.stringify(x.env??{}).includes('secrets.')||JSON.stringify(x.env??{}).includes('inputs.promotion_code'))assert.ok(i>gateIndex,'no service secret or bearer code before gate');
  assert.equal(s[execution].if,undefined);assert.equal(s[execution]['continue-on-error'],undefined);
  assert.ok(s[execution].run.indexOf('::add-mask::')<s[execution].run.indexOf('node scripts/'));
@@ -207,4 +213,26 @@ test('historical live-order job retains its identities and authority unchanged',
  without.on.workflow_dispatch.inputs.mode.options=without.on.workflow_dispatch.inputs.mode.options.filter(m=>m!=='production_packet_canary');
  without.on.workflow_dispatch.inputs.resume_matter_id.description=old.on.workflow_dispatch.inputs.resume_matter_id.description;
  assert.deepEqual(without,old);
+});
+
+const flySetup=j=>j.steps.find(s=>s.uses?.startsWith('superfly/flyctl-actions/setup-flyctl@'));
+for(const [name,mutate]of [
+ ...['master','main','v1','0'.repeat(40)].map(ref=>[`mutable or wrong action ${ref}`,j=>flySetup(j).uses='superfly/flyctl-actions/setup-flyctl@'+ref]),
+ ['missing version',j=>delete flySetup(j).with.version],
+ ...['latest','0.4.110','^0.4.111'].map(version=>[`wrong version ${version}`,j=>flySetup(j).with.version=version]),
+ ['missing setup',j=>j.steps.splice(j.steps.indexOf(flySetup(j)),1)],
+ ['duplicate setup',j=>j.steps.push(structuredClone(flySetup(j)))],
+ ['before authorization',j=>moveBefore(j.steps,s=>s===flySetup(j),isGate)],
+ ['after execution',j=>{const i=j.steps.indexOf(flySetup(j));j.steps.push(...j.steps.splice(i,1));}],
+ ['setup token',j=>flySetup(j).env={FLY_API_TOKEN:'${{ secrets.FLY_API_TOKEN }}'}],
+ ['inherited token',j=>j.env.FLY_API_TOKEN='literal-fixture-token'],
+ ['setup mutation command',j=>flySetup(j).run='flyctl deploy'],
+])test(`packet Fly setup mutation refuses ${name}`,()=>{const j=structuredClone(packetJob);mutate(j);assert.throws(()=>verifyPacketOrder(j));});
+test('Fly hardening changes only the canary setup reference and version; historical lanes remain byte-identical',()=>{
+ const previous=execFileSync('git',['show','c2f217f243f18b50c04ce1d61f8f150bf77c3023:'+publicWorkflowPath],{encoding:'utf8'});
+ const before='      - name: Install read-only image inspection CLI\n        uses: superfly/flyctl-actions/setup-flyctl@master';
+ const after='      - name: Install read-only image inspection CLI\n        uses: superfly/flyctl-actions/setup-flyctl@ed8efb33836e8b2096c7fd3ba1c8afe303ebbff1\n        with:\n          version: "0.4.111"';
+ assert.equal(previous.split(before).length,2);
+ assert.equal(fs.readFileSync(publicWorkflowPath,'utf8'),previous.replace(before,after));
+ assert.equal(packetDispatcher.env?.FLY_API_TOKEN,undefined);
 });
