@@ -97,7 +97,7 @@
       "sourceBaseSha": "61846b86c29a0b08fb49b815ce706958ecc62a3b",
       "operation": "production_activate",
       "maxAttempts": 1,
-      "state": "authorized_not_executed",
+      "state": "consumed_successfully",
       "applicationSha": "e312a5efa7b4882e0fbf61a5ff0ae7891ac23226",
       "workerSourceSha": "5e04eafd7eaed7e71722862e651fb787ebbd296d",
       "workerDigest": "sha256:6b6a60fc5b2d0060028526013ce37c69f748e2cccb4cfb10943f2af6cf26cfe1",
@@ -128,7 +128,27 @@
         "promote_existing_staged_deployment",
         "required_public_domain_movement",
         "automatic_rollback_on_failed_post_promotion_verification"
-      ]
+      ],
+      "executedAttempts": 1,
+      "activationReceipt": {
+        "runId": 36791436905,
+        "runAttempt": 1,
+        "conclusion": "success",
+        "artifactId": 11132063144,
+        "artifactName": "rcap-production-activate-36791436905",
+        "artifactZipSha256": "sha256:facf4ac3497fe15263102f8f6f7a274b55091118e3eb702f1e3ea133dbca9140",
+        "activationArtifactSha256": "1a3ca55cfda23eca9da0be0029f11a1259e98ddefce57c11cb7e3f7f1ce12780",
+        "toolsSha": "47d2f0b87e6dcda358f8f24a8c0eca71bfd02b6a",
+        "applicationSha": "e312a5efa7b4882e0fbf61a5ff0ae7891ac23226",
+        "workerSourceSha": "5e04eafd7eaed7e71722862e651fb787ebbd296d",
+        "workerDigest": "sha256:6b6a60fc5b2d0060028526013ce37c69f748e2cccb4cfb10943f2af6cf26cfe1",
+        "productionProjectRef": "wwtwtsmywnckfkdaqqeg",
+        "stagedDeploymentId": "dpl_3j4Dr4GHyXmwmrFCTZ6orNNNP7sc",
+        "rollbackDeploymentId": "dpl_5rpkFUKgmp5cGwPaLAzHxx1nUuPK",
+        "smokeRunId": 36779982696,
+        "smokeArtifactSha256": "4e18b47b2c45f06a241d1565fb5b43a45354330184f0d7a9f2ac81ec10d34bf6",
+        "evidencePath": "hosted-acceptance-evidence/production-activate-36791436905"
+      }
     }
   },
   "publicationReceipt": {
@@ -138,7 +158,7 @@
   "participantReceiptPaths": [
     "data/rcap-grade-a/participant-data-rights/ms-paid-packet-proof-reconciliations.json"
   ],
-  "status": "HOSTED_ACCEPTED_PRODUCTION_ACTIVATION_AUTHORIZED",
+  "status": "HOSTED_ACCEPTED_PRODUCTION_ACTIVATED_AUTHORIZATION_CONSUMED",
   "applicationSha": "e312a5efa7b4882e0fbf61a5ff0ae7891ac23226",
   "workerSourceSha": "5e04eafd7eaed7e71722862e651fb787ebbd296d",
   "workerDigest": "sha256:6b6a60fc5b2d0060028526013ce37c69f748e2cccb4cfb10943f2af6cf26cfe1",
@@ -428,7 +448,7 @@
     "note": "Hosted acceptance established. Full-path evidence is supplemented by exact browser return in hosted_payment. Evidence is not execution authority; all dispatch and Production holds remain."
   },
   "previewExecution": "held",
-  "scope": "Successful preactivation evidence complete. Roger Roman authorizes exactly one production_activate for the bound existing staged deployment and automatic rollback only; activation has not executed. The historical preactivation phase list and note retain their scope. Public verification, save-transition live probes and live customer transactions remain unauthorized. No general deployment authority is granted.",
+  "scope": "Exact frozen Production release activated successfully in run 36791436905 attempt 1; native activation evidence bound and one-time production_activate authority consumed. Recorded rollback remains READY according to the activation receipt. Public verification has not run and is not separately authorized. Save-transition and live-order phases remain unauthorized. No next live phase or final Grade A closure is authorized or claimed.",
   "previewExecutionInstruction": {
     "mode": null,
     "manualDispatchOwner": "Roger",

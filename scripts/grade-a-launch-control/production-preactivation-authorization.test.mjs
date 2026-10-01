@@ -1,3 +1,4 @@
+import {ACTIVATION_CLOSURE_BASE,ACTIVATION_CLOSED_STATUS,ACTIVATION_CLOSED_SCOPE,BOUND_ACTIVATION} from './production-preflight-authorization.mjs';
 import {ACTIVATION_BASE,ACTIVATION_STATUS,ACTIVATION_SCOPE,ACTIVATION_NOTE,assertActivationAuthorization} from './production-preflight-authorization.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
@@ -9,7 +10,8 @@ import {PREFLIGHT_EVIDENCE_FILES,loadProductionPreflightDocuments,validateProduc
 import {HOSTED_EVIDENCE_FILES} from './verify-hosted-acceptance-evidence.mjs';
 import {requireProductionDeploymentBinding} from '../rcap-production-migration-contract.mjs';
 const prefix='data/rcap-grade-a/launch-control/';
-const authorizedCandidate=JSON.parse(fs.readFileSync(prefix+'RELEASE_CANDIDATE_BINDING.json'));
+const closedCandidate=JSON.parse(fs.readFileSync(prefix+'RELEASE_CANDIDATE_BINDING.json'));
+const authorizedCandidate=JSON.parse(execFileSync('git',['show',ACTIVATION_CLOSURE_BASE+':'+prefix+'RELEASE_CANDIDATE_BINDING.json'],{encoding:'utf8'}));
 const candidate=JSON.parse(execFileSync('git',['show',ACTIVATION_BASE+':'+prefix+'RELEASE_CANDIDATE_BINDING.json'],{encoding:'utf8'}));
 const clone=()=>structuredClone(candidate);
 const refusal={message:'production_phase_not_authorized_for_current_release'};
@@ -243,7 +245,7 @@ test('each missing or modified native smoke file refuses; originals restore the 
   assert.deepEqual(verifyProductionSmokeEvidence(root),BOUND_SMOKE);
  }finally{fs.rmSync(root,{recursive:true,force:true});}
 });
-test('existing workflow data flow selects exact smoke run/name, and the real local release guard accepts only the dedicated decision',async()=>{
+test('existing workflow data flow selects exact smoke run/name, and the real local release guard refuses the consumed decision',async()=>{
  const {parse}=await import('yaml');
  const source=fs.readFileSync('scripts/rcap-production-migration-contract.mjs','utf8');
  const start=source.indexOf('    if (process.env.GITHUB_ENV)'),end=source.indexOf("    console.log('Production release tuple",start);
@@ -263,7 +265,7 @@ test('existing workflow data flow selects exact smoke run/name, and the real loc
  assert.equal(activation.env.RCAP_PRODUCTION_SMOKE_EVIDENCE_FILE,download.with.path+'/production-canary-smoke.json');
  assert.ok(steps.findIndex(s=>s.run?.includes('node scripts/rcap-production-migration-contract.mjs'))<steps.indexOf(download));
  const head=execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim();
- assert.deepEqual(requireProductionMigrationRelease(process.cwd(),{RCAP_PRODUCTION_PHASE:'activate',RCAP_APPLICATION_SHA:candidate.applicationSha,RCAP_WORKER_SOURCE_SHA:candidate.workerSourceSha,RCAP_WORKER_DIGEST:candidate.workerDigest,RCAP_PRODUCTION_PROJECT_REF:candidate.productionProjectRef,RCAP_TOOLS_SHA:head,GITHUB_SHA:head}),authorizedCandidate);
+ assert.throws(()=>requireProductionMigrationRelease(process.cwd(),{RCAP_PRODUCTION_PHASE:'activate',RCAP_APPLICATION_SHA:candidate.applicationSha,RCAP_WORKER_SOURCE_SHA:candidate.workerSourceSha,RCAP_WORKER_DIGEST:candidate.workerDigest,RCAP_PRODUCTION_PROJECT_REF:candidate.productionProjectRef,RCAP_TOOLS_SHA:head,GITHUB_SHA:head}),{message:'production_activate_authorization_consumed'});
 });
 test('actual activation declarations and pure smoke predicate consume exact inner bytes; substitutions refuse',()=>{
  const source=fs.readFileSync('scripts/rcap-production-activate.mjs','utf8');
@@ -335,4 +337,75 @@ const activationMutations=[
 for(const [name,mutate]of activationMutations)test(`activation mutation refuses ${name}`,()=>{
  const c=structuredClone(authorizedCandidate);mutate(c);
  assert.throws(()=>requireProductionPhaseAuthorization(c,'activate'),refusal);
+});
+
+// The live release is closed using successful native evidence, never a second decision.
+import {ACTIVATION_EVIDENCE_FILES,loadProductionActivationDocuments,validateProductionActivationDocuments,validateProductionActivationReceiptBytes,verifyProductionActivationEvidence} from './verify-production-preflight-evidence.mjs';
+const activationDocuments=loadProductionActivationDocuments(process.cwd());
+const consumedRefusal={message:'production_activate_authorization_consumed'};
+test('exact closure preserves the verbatim owner decision and all history, binds success, and consumes one attempt',()=>{
+ const decision=closedCandidate.productionAuthorization.activation;
+ assert.equal(closedCandidate.status,ACTIVATION_CLOSED_STATUS);assert.equal(closedCandidate.scope,ACTIVATION_CLOSED_SCOPE);
+ assert.deepEqual(closedCandidate,{...authorizedCandidate,status:ACTIVATION_CLOSED_STATUS,scope:ACTIVATION_CLOSED_SCOPE,productionAuthorization:{...authorizedCandidate.productionAuthorization,activation:{...authorizedCandidate.productionAuthorization.activation,state:'consumed_successfully',executedAttempts:1,activationReceipt:{...BOUND_ACTIVATION}}}});
+ assert.equal(assertActivationAuthorization(closedCandidate),decision);
+ assert.equal(assertPreactivationAuthorization(closedCandidate),closedCandidate.productionAuthorization);
+ assert.deepEqual(verifyProductionActivationEvidence(process.cwd()),decision.activationReceipt);
+ assert.equal(decision.executedAttempts,decision.maxAttempts);
+ assert.notEqual(decision.activationReceipt.activationArtifactSha256,decision.activationReceipt.artifactZipSha256.slice(7));
+ assert.throws(()=>requireProductionPhaseAuthorization(closedCandidate,'activate'),consumedRefusal);
+ assert.throws(()=>requireProductionDeploymentBinding(closedCandidate,'activate'),consumedRefusal);
+});
+for(const phase of ['public_verify','save_transition_reproduce','save_transition_verify','live_zero_dollar_order'])test(`closed activation grants no ${phase} authority`,()=>{
+ assert.throws(()=>requireProductionPhaseAuthorization(closedCandidate,phase),refusal);
+ for(const mutate of [c=>c.productionAuthorization.phases.push(phase),c=>c.productionAuthorization.activation.permittedActions.push(phase)]){
+  const c=structuredClone(closedCandidate);mutate(c);
+  assert.throws(()=>assertPreactivationAuthorization(c));
+  assert.throws(()=>requireProductionPhaseAuthorization(c,phase),refusal);
+ }
+});
+for(const [name,mutate]of [
+ ...Object.keys(BOUND_ACTIVATION).map(k=>[`receipt ${k}`,c=>c.productionAuthorization.activation.activationReceipt[k]='wrong']),
+ ['missing receipt',c=>delete c.productionAuthorization.activation.activationReceipt],
+ ['failed conclusion',c=>c.productionAuthorization.activation.activationReceipt.conclusion='failure'],
+ ['still authorized after success',c=>c.productionAuthorization.activation.state='authorized_not_executed'],
+ ['second attempt permitted',c=>c.productionAuthorization.activation.maxAttempts=2],
+ ['no executed attempt',c=>c.productionAuthorization.activation.executedAttempts=0],
+ ['second executed attempt',c=>c.productionAuthorization.activation.executedAttempts=2],
+ ['activation re-added to phases',c=>c.productionAuthorization.phases.push('activate')],
+ ['claimed automatic rollback',c=>c.productionAuthorization.activation.activationReceipt.automaticRollback={attempted:true,completed:true}],
+])test(`closure refuses ${name}`,()=>{
+ const c=structuredClone(closedCandidate);mutate(c);
+ assert.throws(()=>assertPreactivationAuthorization(c));
+ assert.throws(()=>requireProductionPhaseAuthorization(c,'activate'),refusal);
+});
+for(const [name,mutate]of [
+ ['run ID',d=>d.run.id++],['attempt',d=>d.run.run_attempt++],['failed conclusion',d=>d.run.conclusion='failure'],
+ ['head SHA',d=>d.run.head_sha='0'.repeat(40)],['artifact ID',d=>d.artifact.id++],['artifact name',d=>d.artifact.name+='-wrong'],
+ ['ZIP SHA',d=>d.artifact.digest='sha256:'+'0'.repeat(64)],['artifact association',d=>d.artifact.workflow_run.id++],
+ ['missing jobs',d=>d.jobs.jobs.pop()],['activation step failed',d=>d.jobs.jobs.find(j=>j.conclusion==='success').steps.find(s=>s.number===25).conclusion='failure'],
+ ['unexpected smoke executed',d=>d.jobs.jobs.find(j=>j.conclusion==='success').steps.find(s=>s.number===23).conclusion='success'],
+ ...['applicationSha','workerSourceSha','workerDigest','productionProjectRef','stagedDeploymentId','rollbackDeploymentId','smokeRunId'].map(k=>[k,d=>d.body[k]='wrong']),
+ ['smoke inner SHA',d=>d.body.controlHashes.smokeArtifactSha256='0'.repeat(64)],
+ ...['promotionAttempted','promotionCompleted','passed','productionAliasChanged'].map(k=>[k,d=>d.body[k]=false]),
+ ...['deploymentTriggered','environmentVariableChanged','productionDatabaseMutated','workerChanged','applicationChanged','realParticipantRecordsCreated','realChargesCreated'].map(k=>[k,d=>d.body[k]=true]),
+ ['automatic rollback attempted',d=>d.body.automaticRollback.attempted=true],['automatic rollback completed',d=>d.body.automaticRollback.completed=true],
+ ['promotion wrong target',d=>d.body.promotion.targetDeploymentId='dpl_wrong'],['promotion not 201',d=>d.body.promotion.httpStatus=200],
+ ['failure present',d=>d.body.failure='failed'],['missing receipt',d=>delete d.body],['missing verdict',d=>d.body.verdicts.pop()],['failed verdict',d=>d.body.verdicts[0].passed=false],
+ ['environment drift',d=>d.body.controlHashes.environmentMetadataAfterSha256='0'.repeat(64)],
+ ['deployment created',d=>d.body.controlHashes.deploymentInventoryAfterSha256='0'.repeat(64)],
+ ['wrong active project proof',d=>d.body.runtimeProof.productionProjectMatch=false],
+])test(`native activation rejects ${name}`,()=>{const d=structuredClone(activationDocuments);mutate(d);assert.throws(()=>validateProductionActivationDocuments(d));});
+test('native activation archive and inner receipt have independent byte integrity and missing-file refusals',()=>{
+ const root=fs.mkdtempSync(path.join(os.tmpdir(),'activation-closure-evidence-'));
+ try{
+  for(const rel of ACTIVATION_EVIDENCE_FILES){fs.mkdirSync(path.dirname(path.join(root,rel)),{recursive:true});fs.copyFileSync(rel,path.join(root,rel));}
+  assert.deepEqual(verifyProductionActivationEvidence(root),BOUND_ACTIVATION);
+  for(const rel of ACTIVATION_EVIDENCE_FILES){const p=path.join(root,rel),bytes=fs.readFileSync(p);fs.appendFileSync(p,' ');assert.throws(()=>verifyProductionActivationEvidence(root),/native activation bytes/);fs.unlinkSync(p);assert.throws(()=>verifyProductionActivationEvidence(root));fs.writeFileSync(p,bytes);}
+  const inner=execFileSync('python3',['-c',"import sys,zipfile; sys.stdout.buffer.write(zipfile.ZipFile(sys.argv[1]).read('production-activation.json'))",ACTIVATION_EVIDENCE_FILES[3]]);
+  assert.deepEqual(validateProductionActivationReceiptBytes(inner),activationDocuments.body);
+  assert.throws(()=>validateProductionActivationReceiptBytes(Buffer.concat([inner,Buffer.from(' ')])),/native activation inner JSON bytes/);
+  const altered=JSON.parse(inner);altered.promotionCompleted=false;
+  assert.throws(()=>validateProductionActivationReceiptBytes(Buffer.from(JSON.stringify(altered))),/native activation inner JSON bytes/);
+  assert.deepEqual(verifyProductionActivationEvidence(root),BOUND_ACTIVATION);
+ }finally{fs.rmSync(root,{recursive:true,force:true});}
 });

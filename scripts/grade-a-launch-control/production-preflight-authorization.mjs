@@ -55,6 +55,9 @@ export function requireProductionPhaseAuthorization(candidate, phase) {
     try { assertPreflightOnlyAuthorization(candidate); }
     catch { throw new Error('production_phase_not_authorized_for_current_release'); }
   }
+  if (phase === 'activate' && candidate?.productionAuthorization?.activation?.state === 'consumed_successfully') {
+    throw new Error('production_activate_authorization_consumed');
+  }
   let activationAuthorized = false;
   if (phase === 'activate') {
     try { assertPreactivationAuthorization(candidate); assertActivationAuthorization(candidate); activationAuthorized = true; }
@@ -142,7 +145,7 @@ export const BOUND_SMOKE = Object.freeze({
 });
 export const ROLLBACK_DEPLOYMENT = 'dpl_5rpkFUKgmp5cGwPaLAzHxx1nUuPK';
 export function assertPreactivationAuthorization(candidate) {
- assert.equal(candidate.status,candidate.productionAuthorization?.activation ? ACTIVATION_STATUS : PREACTIVATION_STATUS,'bounded release status');
+ assert.equal(candidate.status,candidate.productionAuthorization?.activation ? (candidate.productionAuthorization.activation.state === 'consumed_successfully' ? ACTIVATION_CLOSED_STATUS : ACTIVATION_STATUS) : PREACTIVATION_STATUS,'bounded release status');
  assert.equal(candidate.hostedAcceptanceStatus,PREACTIVATION_STATUS,'matching status mirror');
  assert.equal(candidate.releaseBaseSha,PREACTIVATION_BASE,'approved preflight predecessor');
  assert.equal(candidate.productionAuthorized,true);
@@ -179,12 +182,14 @@ export function assertActivationAuthorization(candidate) {
  const decision = a?.activation;
  assert.ok(decision && validAuthorizationTimestamp(decision.recordedAt), 'actual activation UTC timestamp');
  assert.ok(Date.parse(decision.recordedAt) >= Date.parse('2026-09-30T21:47:50.000Z') && Date.parse(decision.recordedAt) <= Date.now(), 'activation timestamp belongs after its exact predecessor');
- assert.equal(candidate.status, ACTIVATION_STATUS, 'activation authorized, not executed');
- assert.equal(candidate.scope, ACTIVATION_SCOPE, 'exact activation scope');
+ const consumed = decision.state === 'consumed_successfully';
+ assert.equal(candidate.status, consumed ? ACTIVATION_CLOSED_STATUS : ACTIVATION_STATUS, 'activation lifecycle status');
+ assert.equal(candidate.scope, consumed ? ACTIVATION_CLOSED_SCOPE : ACTIVATION_SCOPE, 'exact activation scope');
  assert.deepEqual(decision, {
   authorizedBy: 'Roger Roman', recordedAt: decision.recordedAt, note: ACTIVATION_NOTE,
   sourceBaseSha: ACTIVATION_BASE, operation: 'production_activate', maxAttempts: 1,
-  state: 'authorized_not_executed',
+  state: consumed ? 'consumed_successfully' : 'authorized_not_executed',
+  ...(consumed ? {executedAttempts: 1, activationReceipt: {...BOUND_ACTIVATION}} : {}),
   applicationSha: TUPLE.applicationSha, workerSourceSha: TUPLE.workerSourceSha,
   workerDigest: TUPLE.workerDigest, workerInputFingerprint: TUPLE.workerInputFingerprint,
   productionProjectRef: PRODUCTION_PROJECT_REF,
@@ -194,6 +199,30 @@ export function assertActivationAuthorization(candidate) {
   permittedActions: ['promote_existing_staged_deployment', 'required_public_domain_movement', 'automatic_rollback_on_failed_post_promotion_verification'],
  }, 'exact one-time activation owner decision; no unrelated authority');
  assert.deepEqual(a.smokeReceipt, BOUND_SMOKE, 'exact successful smoke receipt');
- for (const record of [candidate, a, decision]) assert.equal(Object.hasOwn(record, 'activationReceipt'), false, 'no activation receipt before execution');
+ for (const record of [candidate, a, ...(consumed ? [] : [decision])]) assert.equal(Object.hasOwn(record, 'activationReceipt'), false, 'activation receipt only on the consumed decision');
  return decision;
 }
+
+// Successful execution closes the original decision; this is evidence, not a new owner decision.
+export const ACTIVATION_CLOSURE_BASE = "47d2f0b87e6dcda358f8f24a8c0eca71bfd02b6a";
+export const ACTIVATION_CLOSED_STATUS = "HOSTED_ACCEPTED_PRODUCTION_ACTIVATED_AUTHORIZATION_CONSUMED";
+export const ACTIVATION_CLOSED_SCOPE = "Exact frozen Production release activated successfully in run 36791436905 attempt 1; native activation evidence bound and one-time production_activate authority consumed. Recorded rollback remains READY according to the activation receipt. Public verification has not run and is not separately authorized. Save-transition and live-order phases remain unauthorized. No next live phase or final Grade A closure is authorized or claimed.";
+export const BOUND_ACTIVATION = Object.freeze({
+  "runId": 36791436905,
+  "runAttempt": 1,
+  "conclusion": "success",
+  "artifactId": 11132063144,
+  "artifactName": "rcap-production-activate-36791436905",
+  "artifactZipSha256": "sha256:facf4ac3497fe15263102f8f6f7a274b55091118e3eb702f1e3ea133dbca9140",
+  "activationArtifactSha256": "1a3ca55cfda23eca9da0be0029f11a1259e98ddefce57c11cb7e3f7f1ce12780",
+  "toolsSha": "47d2f0b87e6dcda358f8f24a8c0eca71bfd02b6a",
+  "applicationSha": "e312a5efa7b4882e0fbf61a5ff0ae7891ac23226",
+  "workerSourceSha": "5e04eafd7eaed7e71722862e651fb787ebbd296d",
+  "workerDigest": "sha256:6b6a60fc5b2d0060028526013ce37c69f748e2cccb4cfb10943f2af6cf26cfe1",
+  "productionProjectRef": "wwtwtsmywnckfkdaqqeg",
+  "stagedDeploymentId": "dpl_3j4Dr4GHyXmwmrFCTZ6orNNNP7sc",
+  "rollbackDeploymentId": "dpl_5rpkFUKgmp5cGwPaLAzHxx1nUuPK",
+  "smokeRunId": 36779982696,
+  "smokeArtifactSha256": "4e18b47b2c45f06a241d1565fb5b43a45354330184f0d7a9f2ac81ec10d34bf6",
+  "evidencePath": "hosted-acceptance-evidence/production-activate-36791436905"
+});

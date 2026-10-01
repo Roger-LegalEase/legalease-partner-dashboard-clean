@@ -1,3 +1,5 @@
+import {ACTIVATION_CLOSURE_BASE,ACTIVATION_CLOSED_STATUS,ACTIVATION_CLOSED_SCOPE,BOUND_ACTIVATION} from './production-preflight-authorization.mjs';
+import {verifyProductionActivationEvidence} from './verify-production-preflight-evidence.mjs';
 import {ACTIVATION_BASE,ACTIVATION_STATUS,ACTIVATION_SCOPE,assertActivationAuthorization} from './production-preflight-authorization.mjs';
 import {BOUND_RESTAGE,BOUND_SMOKE,STAGED_DEPLOYMENT,PREACTIVATION_NOTE} from './production-preflight-authorization.mjs';
 import test from 'node:test';
@@ -172,7 +174,7 @@ test('complete release verifier accepts exact smoke evidence with unchanged auth
   ['missing receipt',c=>delete c.productionAuthorization.restage.successfulReceipt],
   ...Object.keys(BOUND_RESTAGE).map(k=>[k,c=>c.productionAuthorization.restage.successfulReceipt[k]=k==='conclusion'?'failure':'wrong']),
  ];
- for(const [name,mutate]of mutations){const c=structuredClone(candidate);mutate(c);const result=verifyReleaseCandidateBinding(root,c);assert.equal(result.current,false,name);assert.ok(result.reasons.some(r=>r.includes('artifact isolation preserves exact authorization and evidence')),`${name}: ${JSON.stringify(result)}`);}
+ for(const [name,mutate]of mutations){const c=structuredClone(candidate);mutate(c);const result=verifyReleaseCandidateBinding(root,c);assert.equal(result.current,false,name);assert.ok(result.reasons.some(r=>r.includes('exact activation closure preserves original decision and evidence')),`${name}: ${JSON.stringify(result)}`);}
 });
 
 
@@ -252,7 +254,7 @@ test('artifact isolation successor preserves authority, prior hashes, exact scop
  const vm=await import('node:vm'),base='ff85fd0d8ea131a9885885ebde308611bda9c152',toolsPath='data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json',candidatePath='data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json';
  const prior=JSON.parse(execFileSync('git',['show',`${base}:${toolsPath}`],{encoding:'utf8'}));
  const priorCandidate=JSON.parse(execFileSync('git',['show',`${base}:${candidatePath}`],{encoding:'utf8'}));
- const binding=JSON.parse(fs.readFileSync(toolsPath)),candidate=JSON.parse(fs.readFileSync(candidatePath));
+ const binding=JSON.parse(execFileSync('git',['show',ACTIVATION_CLOSURE_BASE+':'+toolsPath],{encoding:'utf8'})),candidate=JSON.parse(execFileSync('git',['show',ACTIVATION_CLOSURE_BASE+':'+candidatePath],{encoding:'utf8'}));
  const source=fs.readFileSync('scripts/grade-a-launch-control/verify-release-candidate-binding.mjs','utf8');
  const scope=source.slice(source.indexOf('if(artifactIsolation){'),source.indexOf('  }else if(activationAuthorization){'))+'\n}';
  const ancestry=source.slice(source.indexOf("  const head=git(['rev-parse','HEAD']);",source.indexOf('function verifyGenerationBinding')),source.indexOf('  expect(Object.keys(t.files).sort()',source.indexOf('function verifyGenerationBinding')));
@@ -268,4 +270,43 @@ test('artifact isolation successor preserves authority, prior hashes, exact scop
  assert.throws(()=>run({mutate:(_b,c)=>c.productionAuthorization.activationReceipt={passed:true}}),/preserves exact authorization and evidence/);
  assert.throws(()=>run({mutate:b=>b.successorTools.activationAuthorizationBaseSha=base}),/only bounded activation artifact isolation tools/);
  assert.throws(()=>run({mutate:b=>b.successorTools.files['scripts/grade-a-launch-control/production-preflight-authorization.mjs']='0'.repeat(64)}),/preserved tools/);
+});
+
+
+test('activation closure binds exactly twelve paths, preserves the decision/history, and admits only one successor parent',async()=>{
+ const vm=await import('node:vm'),base=ACTIVATION_CLOSURE_BASE,toolsPath='data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json',candidatePath='data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json';
+ const prior=JSON.parse(execFileSync('git',['show',`${base}:${toolsPath}`],{encoding:'utf8'}));
+ const priorCandidate=JSON.parse(execFileSync('git',['show',`${base}:${candidatePath}`],{encoding:'utf8'}));
+ const binding=JSON.parse(fs.readFileSync(toolsPath)),candidate=JSON.parse(fs.readFileSync(candidatePath));
+ const source=fs.readFileSync('scripts/grade-a-launch-control/verify-release-candidate-binding.mjs','utf8');
+ const scope=source.slice(source.indexOf('if(activationClosure){'),source.indexOf('  }else if(artifactIsolation){'))+'\n}';
+ const ancestry=source.slice(source.indexOf("  const head=git(['rev-parse','HEAD']);",source.indexOf('function verifyGenerationBinding')),source.indexOf('  expect(Object.keys(t.files).sort()',source.indexOf('function verifyGenerationBinding')));
+ const files=JSON.parse(source.match(/const ACTIVATION_CLOSURE_FILES=(\[[\s\S]*?\]);/)[1]);assert.equal(files.length,12);const head='a'.repeat(40);
+ function run({mutate=()=>{},delta=files,parents=[head,base]}={}){const b=structuredClone(binding),c=structuredClone(candidate);mutate(b,c);
+ vm.runInNewContext(scope+'\n'+ancestry,{root:process.cwd(),binding:b,candidate:c,t:b.successorTools,toolsPath,preactivation:true,activationClosure:b.successorTools.activationClosureBaseSha,ACTIVATION_CLOSURE_BASE:base,ACTIVATION_CLOSURE_FILES:files,ACTIVATION_CLOSED_STATUS,ACTIVATION_CLOSED_SCOPE,BOUND_ACTIVATION,assertActivationAuthorization,verifyProductionActivationEvidence,commitBase:base,
+ expect:(a,b,m)=>assert.equal(JSON.stringify(a),JSON.stringify(b),m),git:args=>args[0]==='show'?JSON.stringify(args[1].endsWith(candidatePath)?priorCandidate:prior):({diff:delta.join('\n'),'ls-files':'','rev-parse':head,'rev-list':parents.join(' ')})[args[0]]});}
+ run();
+ for(const delta of [files.slice(1),[...files,'src/extra.ts'],[...files,'scripts/rcap-production-activate.mjs'],[...files,'scripts/rcap-production-public-verify.mjs'],[...files,'.github/workflows/rcap-production-canary.yml']])assert.throws(()=>run({delta}),/exact activation closure paths/);
+ for(const parents of [[head,base,'b'.repeat(40)],[head,'b'.repeat(40)]])assert.throws(()=>run({parents}),/one non-merge tools successor/);
+ assert.throws(()=>run({mutate:b=>b.successorTools.activationClosureBaseSha='0'.repeat(40)}),/exact activation closure base/);
+ for(const key of Object.keys(priorCandidate.productionAuthorization.activation))assert.throws(()=>run({mutate:(_b,c)=>c.productionAuthorization.activation[key]='wrong'}),/exact activation closure preserves original decision/);
+ assert.throws(()=>run({mutate:b=>b.successorTools.files['scripts/verify-rcap-production-activation.mjs']='0'.repeat(64)}),/preserved tools/);
+ assert.throws(()=>run({mutate:b=>delete b.successorTools.activationAuthorizationBaseSha}),/only bounded activation closure tools/);
+});
+
+test('complete release verifier accepts consumed activation and rejects receipt substitution or new authority',()=>{
+ const root=process.cwd(),candidate=JSON.parse(fs.readFileSync('data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json'));
+ const valid=verifyReleaseCandidateBinding(root,candidate);assert.equal(valid.current,true,JSON.stringify(valid));assert.equal(valid.status,'CURRENT');
+ assert.equal(valid.releaseStatus,ACTIVATION_CLOSED_STATUS);assert.ok(!valid.productionPhases.includes('activate'));
+ const mutations=[
+  ...Object.keys(BOUND_ACTIVATION).map(k=>[`activation receipt ${k}`,c=>c.productionAuthorization.activation.activationReceipt[k]='wrong']),
+  ['missing activation receipt',c=>delete c.productionAuthorization.activation.activationReceipt],
+  ['unconsumed decision',c=>c.productionAuthorization.activation.state='authorized_not_executed'],
+  ['second activation',c=>c.productionAuthorization.activation.maxAttempts=2],
+  ...['activate','public_verify','save_transition_reproduce','save_transition_verify','live_zero_dollar_order'].flatMap(p=>[
+   [`phase ${p}`,c=>c.productionAuthorization.phases.push(p)],
+   [`permission ${p}`,c=>c.productionAuthorization.activation.permittedActions.push(p)],
+  ]),
+ ];
+ for(const [name,mutate]of mutations){const c=structuredClone(candidate);mutate(c);const result=verifyReleaseCandidateBinding(root,c);assert.equal(result.current,false,name);assert.ok(result.reasons.some(r=>r.includes('exact activation closure preserves original decision and evidence')),`${name}: ${JSON.stringify(result)}`);}
 });

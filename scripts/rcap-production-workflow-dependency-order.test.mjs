@@ -51,7 +51,9 @@ for(const phase of phases)test(`${phase}: clean runner installs once before veri
    const c=readCandidate();
    if(['preflight','restage','clinic_migrate','forward_chain_readback','forward_chain_migrate','legal_aid_readback','legal_aid_migrate','smoke'].includes(phase))assert.equal(requireProductionPhaseAuthorization(c,phase),c.productionAuthorization);
    else if(phase==='activate'){
-    assert.equal(requireProductionPhaseAuthorization(c,phase),c.productionAuthorization);
+    assert.throws(()=>requireProductionPhaseAuthorization(c,phase),{message:'production_activate_authorization_consumed'});
+    const historical=JSON.parse(execFileSync('git',['show','47d2f0b87e6dcda358f8f24a8c0eca71bfd02b6a:data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json'],{encoding:'utf8'}));
+    assert.equal(requireProductionPhaseAuthorization(historical,phase),historical.productionAuthorization);
     delete c.productionAuthorization.activation;
     assert.throws(()=>requireProductionPhaseAuthorization(c,phase),{message:'production_phase_not_authorized_for_current_release'});
    }

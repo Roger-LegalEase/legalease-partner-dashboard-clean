@@ -4,7 +4,7 @@ import path from 'node:path';
 import {createHash} from 'node:crypto';
 import {execFileSync} from 'node:child_process';
 import {TUPLE,PREVIEW} from './verify-hosted-acceptance-evidence.mjs';
-import {BOUND_PREFLIGHT,PREACTIVATION_BASE,PRODUCTION_PROJECT_REF,RESTAGE_AUTHORITY,BOUND_RESTAGE,BOUND_SMOKE,ROLLBACK_DEPLOYMENT} from './production-preflight-authorization.mjs';
+import {BOUND_PREFLIGHT,PREACTIVATION_BASE,PRODUCTION_PROJECT_REF,RESTAGE_AUTHORITY,BOUND_RESTAGE,BOUND_SMOKE,BOUND_ACTIVATION,ROLLBACK_DEPLOYMENT} from './production-preflight-authorization.mjs';
 export const PREFLIGHT_EVIDENCE_FILES=['run.json','jobs.json','artifact.json','11048744402.zip'].map(f=>`${BOUND_PREFLIGHT.evidencePath}/${f}`);
 const hashes=['5266d536a1eade77f98d47245bf775153f570e2745d792bdeaa26333bf9e8730','1e5e95d5bc9c11749f54e6d664042b96a3b4baff155e04c55f0fa2e25d6b5de2','f796d13543356036347a277c26163fb32f98a5f1c0ef500194810fe20fb60ca3',BOUND_PREFLIGHT.artifactSha256.slice(7)];
 export function loadProductionPreflightDocuments(root){
@@ -141,3 +141,55 @@ export function validateProductionSmokeDocuments({run,jobs,artifact,body:b}){
  return {...r};
 }
 export function verifyProductionSmokeEvidence(root){return validateProductionSmokeDocuments(loadProductionSmokeDocuments(root));}
+
+// Activation closure captures immutable native evidence; never invokes a live control.
+export const ACTIVATION_EVIDENCE_FILES=['run.json','jobs.json','artifact.json','11132063144.zip'].map(f=>`${BOUND_ACTIVATION.evidencePath}/${f}`);
+const activationHashes=['b6ad2cd09485ea28eee4a09c7a72648bbbc629ddbba84692f8fff156c0eb6bf4','b696e9ff21153932c1671d33875944ca7d14cda579bc47fc900a10a0e8216c3f','859000acc09a14a7061bfeee9595ccae9ad8bdeaecdaf1afee266374e683832b',BOUND_ACTIVATION.artifactZipSha256.slice(7)];
+export function validateProductionActivationReceiptBytes(bytes){
+ assert.equal(createHash('sha256').update(bytes).digest('hex'),BOUND_ACTIVATION.activationArtifactSha256,'native activation inner JSON bytes');
+ return JSON.parse(bytes);
+}
+export function loadProductionActivationDocuments(root){
+ const bytes=ACTIVATION_EVIDENCE_FILES.map((f,i)=>{
+  const b=fs.readFileSync(path.join(root,f));
+  assert.equal(createHash('sha256').update(b).digest('hex'),activationHashes[i],`native activation bytes: ${f}`);return b;
+ });
+ const inner=execFileSync('python3',['-c',"import sys,zipfile; z=zipfile.ZipFile(sys.argv[1]); assert z.namelist()==['production-activation.json']; assert z.getinfo('production-activation.json').file_size<8000000; sys.stdout.buffer.write(z.read('production-activation.json'))",path.join(root,ACTIVATION_EVIDENCE_FILES[3])]);
+ return {run:JSON.parse(bytes[0]),jobs:JSON.parse(bytes[1]),artifact:JSON.parse(bytes[2]),body:validateProductionActivationReceiptBytes(inner)};
+}
+export function validateProductionActivationDocuments({run,jobs,artifact,body:b}){
+ const r=BOUND_ACTIVATION;
+ assert.equal(run.id,r.runId);assert.equal(run.head_sha,r.toolsSha);assert.equal(run.head_branch,'captain-release');
+ assert.equal(run.run_attempt,r.runAttempt);assert.equal(run.status,'completed');assert.equal(run.conclusion,r.conclusion);
+ assert.equal(run.event,'workflow_dispatch');assert.equal(run.path,'.github/workflows/rcap-f1-ephemeral-staging.yml');
+ assert.equal(run.display_title,`RCAP F1 | production_activate | tools ${r.toolsSha} | app ${r.applicationSha} | cents 5000`);
+ assert.equal(run.repository.full_name,'Roger-LegalEase/legalease-partner-dashboard-clean');
+ assert.equal(artifact.id,r.artifactId);assert.equal(artifact.name,r.artifactName);assert.equal(artifact.digest,r.artifactZipSha256);assert.equal(artifact.expired,false);
+ assert.deepEqual(artifact.workflow_run,{id:run.id,repository_id:run.repository.id,head_repository_id:run.repository.id,head_branch:'captain-release',head_sha:r.toolsSha});
+ assert.equal(jobs.total_count,9);assert.equal(jobs.jobs.length,jobs.total_count,'complete activation jobs evidence');
+ const successful=jobs.jobs.filter(j=>j.conclusion==='success');assert.equal(successful.length,1);
+ const j=successful[0];assert.equal(j.id,110145007447);assert.equal(j.run_id,r.runId);assert.equal(j.head_sha,r.toolsSha);assert.equal(j.run_attempt,r.runAttempt);
+ assert.equal(j.name,'Read-only Production identity and rollback discovery / Exact Production release phase');
+ assert.equal(j.status,'completed');assert.ok(jobs.jobs.filter(x=>x!==j).every(x=>x.conclusion==='skipped'));
+ for(const number of [1,2,3,4,5,6,8,13,14,24,25,26,51,52,53])assert.equal(j.steps.find(s=>s.number===number)?.conclusion,'success',`activation step ${number}`);
+ for(const number of [7,9,10,11,12,15,16,17,18,19,20,21,22,23])assert.equal(j.steps.find(s=>s.number===number)?.conclusion,'skipped',`non-activation step ${number}`);
+ assert.equal(j.steps.find(s=>s.number===25)?.name,'Activate the exact staged Production deployment with rollback protection');
+ assert.equal(b.schemaVersion,'rcap-production-activation/v1');assert.equal(b.passed,true);assert.equal(b.failure,null);
+ for(const k of ['applicationSha','workerSourceSha','workerDigest','productionProjectRef','stagedDeploymentId','rollbackDeploymentId','smokeRunId'])assert.equal(b[k],r[k],`activation ${k}`);
+ assert.equal(b.controlHashes.smokeArtifactSha256,r.smokeArtifactSha256);
+ assert.deepEqual(b.migrationHashes,['5e3df0a7f49aae3ebbec10b7392acd331e9ca91b2ffa11c7ee16b3e996f3ddef','9a0af066fbe2d47c82f259e6998a7056a2f8c377c8e6875f143d40fd11f18835','9fb46113fbb87eb75b1502f7cb85c9c27a36bac284888202b64baa63398f8010']);
+ for(const k of ['promotionAttempted','promotionCompleted','productionAliasChanged'])assert.equal(b[k],true,k);
+ for(const k of ['deploymentTriggered','environmentVariableChanged','productionDatabaseMutated','workerChanged','applicationChanged','realParticipantRecordsCreated','realChargesCreated','originPersisted','secretsPersisted'])assert.equal(b[k],false,k);
+ assert.deepEqual(b.promotion,{control:'promote',targetDeploymentId:r.stagedDeploymentId,httpStatus:201,ok:true,errorCode:null,errorMessage:null});
+ assert.deepEqual(b.automaticRollback,{attempted:false,completed:false,productionMoved:null,control:null,failure:null});
+ for(const stem of ['environmentMetadata','deploymentInventory']){
+  assert.match(b.controlHashes[`${stem}BeforeSha256`],/^[a-f0-9]{64}$/);
+  assert.equal(b.controlHashes[`${stem}BeforeSha256`],b.controlHashes[`${stem}AfterSha256`]);
+ }
+ const expected=['successful_smoke_artifact_is_exact','exact_vercel_project_is_bound','staged_deployment_identity_is_exact','rollback_is_ready_and_active_before_promotion','production_clinic_schema_is_exact','production_domains_resolve_to_staged_deployment','active_production_health_is_200','active_runtime_project_is_canonical','environment_metadata_is_unchanged','activation_created_no_deployment','rollback_target_remains_ready'];
+ assert.deepEqual(b.verdicts.map(v=>v.caseId),expected);assert.ok(b.verdicts.every(v=>v.passed===true));
+ assert.deepEqual(b.runtimeProof,{productionProjectMatch:true,exactlyOneOrigin:true,healthyDomainCount:1,productionDomainCount:7,pagesInspected:3,chunksInspected:15});
+ assert.ok(Date.parse(b.startedAt)>=Date.parse(j.started_at)&&Date.parse(b.finishedAt)<=Date.parse(j.completed_at));
+ return {...r};
+}
+export function verifyProductionActivationEvidence(root){return validateProductionActivationDocuments(loadProductionActivationDocuments(root));}
