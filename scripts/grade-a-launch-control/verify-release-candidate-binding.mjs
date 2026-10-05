@@ -8,6 +8,7 @@ import {PREFLIGHT_BASE,PREFLIGHT_SCOPE,assertPreflightOnlyAuthorization} from '.
 import {HOSTED_BASE,HOSTED_EVIDENCE_FILES,PREVIEW,verifyHostedAcceptanceEvidence} from './verify-hosted-acceptance-evidence.mjs';
 import {applicationInputManifest, applicationInputEquivalence} from '../rcap-application-inputs.mjs';
 import {verifyPendingWorkerSuccessor,verifySuccessorPublication,assertSuccessorImageAcceptance} from './verify-pending-worker-successor.mjs';
+import {verifyPinnedBinding} from './verify-pinned-worker-successor.mjs';
 import { execFileSync } from 'node:child_process';
 import fs from 'node:fs';
 import { createHash } from 'node:crypto';
@@ -66,6 +67,17 @@ export function imageAcceptanceRefusals(publication, candidate) {
 // A receipt's asserted candidate identity is not proof that current inputs still
 // match that candidate. Only explicitly named acceptance evidence may follow it.
 export function verifyReleaseCandidateBinding(root, candidate, receiptPaths = []) {
+  // A pinned preparation record is descriptive and NEVER current/dispatchable.
+  // Validate it before comparing the orchestration checkout to application
+  // runtime inputs: publication evidence is intentionally newer here, while
+  // the application build remains pinned to its unchanged source checkout.
+  const pinnedRecordPath=path.join(root,'data/rcap-grade-a/launch-control/PENDING_WORKER_SUCCESSOR.json');
+  if(fs.existsSync(pinnedRecordPath)){
+    try{
+      if(JSON.parse(fs.readFileSync(pinnedRecordPath)).applicationSource==='pinned-source')
+        return verifyPinnedBinding(root,candidate,verifyPendingWorkerSuccessor(root));
+    }catch(error){return {current:false,status:'INVALID_PINNED_BINDING',reasons:[error.message]};}
+  }
   if(candidate?.applicationSha){
     try {
       const application = applicationInputEquivalence(root,candidate.applicationSha,'HEAD');

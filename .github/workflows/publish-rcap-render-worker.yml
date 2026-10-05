@@ -245,6 +245,9 @@ jobs:
           {
             "schemaVersion": "rcap-worker-publication/v1",
             "sourceSha": "${{ steps.resolve.outputs.sha }}",
+            "workflowSourceSha": "${{ github.sha }}",
+            "requestedIntegrationSha": "${{ inputs.integration_sha }}",
+            "tagReplacementAuthorization": "${{ inputs.tag_replacement_authorization }}",
             "canonicalIntegrationBranch": "${CANONICAL_INTEGRATION_BRANCH}",
             "releaseIntegrationBranch": "${RELEASE_INTEGRATION_BRANCH}",
             "containedIn": "${{ steps.containment.outputs.contained_in }}",
