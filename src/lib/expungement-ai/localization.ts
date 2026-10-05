@@ -905,9 +905,11 @@ export const EXPUNGEMENT_COPY: Record<string, CopyEntry> = {
     en: "We could not create your account. Check your email and password and try again.",
     es: "No pudimos crear su cuenta. Revise su correo electrónico y contraseña e intente de nuevo."
   },
+  "signin.reset_password": { en: "Reset password", es: "Restablecer contraseña" },
+  "signin.edit_email": { en: "Edit email", es: "Editar correo electrónico" },
   "signin.confirm_email": {
-    en: "Check your email to finish creating your account.",
-    es: "Revise su correo electrónico para terminar de crear su cuenta."
+    en: "If this email needs verification, check your inbox and spam folder for a confirmation link. Already have an account? Sign in or reset your password.",
+    es: "Si este correo necesita verificación, revise su bandeja de entrada y la carpeta de spam para encontrar un enlace de confirmación. ¿Ya tiene una cuenta? Inicie sesión o restablezca su contraseña."
   },
   "signin.signing_in": { en: "Signing in...", es: "Iniciando sesión..." },
   "signin.forgot": { en: "Forgot your password?", es: "¿Olvidó su contraseña?" },

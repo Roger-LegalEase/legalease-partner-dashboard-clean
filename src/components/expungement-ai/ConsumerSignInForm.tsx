@@ -19,7 +19,7 @@ import { useLocalization } from "@/components/expungement-ai/LocalizationProvide
 const genericError = "We could not sign you in. Check your email and password and try again.";
 const passwordlessError = "We could not sign you in. Check your email and try again.";
 const genericCreateError = "We could not create your account. Check your email and password and try again.";
-const confirmationMessage = "Check your email to finish creating your account.";
+const confirmationMessage = "If this email needs verification, check your inbox and spam folder for a confirmation link. Already have an account? Sign in or reset your password.";
 const pendingClaimError = "You are signed in, but we could not save your result yet. Retry saving it. Your preliminary result is still waiting for you.";
 type AuthMode = "create" | "signin";
 type PasswordlessState = "idle" | "magic" | "oauth";
@@ -51,6 +51,22 @@ export function ConsumerSignInForm() {
   const [modeChoice, setMode] = useState<AuthMode | null>(null);
   const [errorMessage, setErrorMessage] = useState("");
   const [noticeMessage, setNoticeMessage] = useState("");
+  const [signupNextStepsContext, setSignupNextStepsContext] = useState<string | null>(null);
+  const [emailValue, setEmailValue] = useState("");
+  const emailRevision = useRef(0);
+
+  function clearSignupGuidance() {
+    setSignupNextStepsContext(null);
+    setNoticeMessage("");
+    setErrorMessage("");
+  }
+
+  function switchAuthMode(nextMode: AuthMode) {
+    emailRevision.current += 1;
+    setMode(nextMode);
+    clearSignupGuidance();
+    setPendingClaimFailed(false);
+  }
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [pendingClaimFailure, setPendingClaimFailed] = useState<boolean | null>(null);
   const [captchaToken, setCaptchaToken] = useState("");
@@ -58,6 +74,7 @@ export function ConsumerSignInForm() {
   const [passwordlessState, setPasswordlessState] = useState<PasswordlessState>("idle");
   const locationSearch = useSyncExternalStore(subscribeToAuthLocation, authLocationSearch, serverAuthLocationSearch);
   const mode = modeChoice ?? initialAuthMode(locationSearch);
+  const signupNextSteps = mode === "create" && signupNextStepsContext === locationSearch;
   const requestParams = new URLSearchParams(locationSearch);
   const { claimToken } = consumerAuthContinuationFrom(requestParams);
   const pendingClaimFailed = pendingClaimFailure ?? (requestParams.get("claimRetry") === "1" && Boolean(claimToken));
@@ -85,7 +102,11 @@ export function ConsumerSignInForm() {
     event.preventDefault();
     await runSubmission(async () => {
     const requestContext = readAuthRequestContext();
+    const submittedRevision = emailRevision.current;
+    const submittedSearch = window.location.search;
+    const isCurrentAttempt = () => submittedRevision === emailRevision.current && submittedSearch === window.location.search;
     setIsSubmitting(true);
+    setSignupNextStepsContext(null);
     setErrorMessage("");
     setNoticeMessage("");
     setPendingClaimFailed(false);
@@ -121,6 +142,8 @@ export function ConsumerSignInForm() {
       })
       : await supabase.auth.signInWithPassword({ email, password, options: captchaOptions(captchaToken) });
 
+    if (!isCurrentAttempt()) return;
+
     if (response.error) {
       setErrorMessage(isCaptchaError(response.error) ? authCaptchaFailureMessage : errorCopy);
       setIsSubmitting(false);
@@ -129,9 +152,11 @@ export function ConsumerSignInForm() {
 
     const { data: sessionData } = await supabase.auth.getSession();
 
+    if (!isCurrentAttempt()) return;
+
     if (!sessionData.session) {
       if (mode === "create") {
-        setNoticeMessage(translate("signin.confirm_email", confirmationMessage));
+        setSignupNextStepsContext(submittedSearch);
       } else {
         setErrorMessage(errorCopy);
       }
@@ -237,6 +262,24 @@ export function ConsumerSignInForm() {
         </div>
       ) : null}
 
+      {signupNextSteps ? (
+        <div role="status" className="mt-6 rounded-md border border-[#00A99D]/30 bg-[#00A99D]/10 px-4 py-3 text-sm font-semibold text-[#0B6F68]">
+          <p>{translate("signin.confirm_email", confirmationMessage)}</p>
+          <div className="mt-3 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+            <button type="button" className="min-h-11 rounded-md bg-[#00A99D] px-4 py-2 font-bold text-white" onClick={() => switchAuthMode("signin")}>
+              {translate("common.sign_in", "Sign in")}
+            </button>
+            <Link href={forgotPasswordHref(locationSearch)} className="inline-flex min-h-11 items-center rounded-md border border-[#00A99D] px-4 py-2 font-bold">
+              {translate("signin.reset_password", "Reset password")}
+            </Link>
+            <button type="button" className="min-h-11 px-4 py-2 underline" onClick={clearSignupGuidance}>
+              {translate("signin.edit_email", "Edit email")}
+            </button>
+          </div>
+        </div>
+      ) : null}
+
+      <div hidden={signupNextSteps}>
       {!handlerReady && <p role="status" className="mt-4 text-sm">{translate("signin.loading_secure", "Loading secure sign-in. If the controls stay unavailable, reload this page. Do not enter credentials until the controls are ready.")}</p>}
       <form method="post" action="/api/auth/sign-in-fallback" data-handler-ready={handlerReady ? "true" : "false"} aria-busy={!handlerReady || isSubmitting} className="mt-6" onSubmit={submitAuth}>
         <fieldset disabled={!handlerReady || isSubmitting || passwordlessState !== "idle"} className="grid gap-4">
@@ -246,6 +289,12 @@ export function ConsumerSignInForm() {
           <input
             autoComplete="email"
             className="min-h-11 rounded-md border border-[#ECEFF4] bg-white px-3 text-sm text-[#0B1320] shadow-sm outline-none transition focus:border-[#00A99D] focus:ring-2 focus:ring-[#00A99D]/25"
+            value={emailValue}
+            onChange={(event) => {
+              emailRevision.current += 1;
+              setEmailValue(event.target.value);
+              clearSignupGuidance();
+            }}
             name="email"
             required
             type="email"
@@ -317,12 +366,7 @@ export function ConsumerSignInForm() {
         <button
           className="text-left text-sm font-semibold text-[#00A99D] hover:text-[#0B1320]"
           disabled={!handlerReady || isSubmitting || passwordlessState !== "idle"}
-          onClick={() => {
-            setMode(createMode ? "signin" : "create");
-            setErrorMessage("");
-            setNoticeMessage("");
-            setPendingClaimFailed(false);
-          }}
+          onClick={() => switchAuthMode(createMode ? "signin" : "create")}
           type="button"
         >
           {createMode
@@ -332,6 +376,7 @@ export function ConsumerSignInForm() {
         {!createMode ? <Link href={forgotPasswordHref(locationSearch)} className="text-sm font-semibold text-[#00A99D] hover:text-[#0B1320]">
           {translate("signin.forgot", "Forgot your password?")}
         </Link> : null}
+      </div>
       </div>
     </>
   );

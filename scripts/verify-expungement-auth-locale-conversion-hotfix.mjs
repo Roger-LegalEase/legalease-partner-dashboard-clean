@@ -66,7 +66,7 @@ includes(consumerSignInForm, "supabase.auth.signInWithPassword", "returning-user
 includes(consumerSignInForm, "safeAppRedirectPath", "account gate preserves safe next");
 includes(consumerSignInForm, "const requestContext = readAuthRequestContext();", "auth submission reads pending context at click time");
 includes(consumerSignInForm, "claimPendingResult(requestContext.pendingId, requestContext.nextPath)", "pending claim reads live query context instead of a hydration-time snapshot");
-includes(consumerSignInForm, "Check your email to finish creating your account.", "email confirmation copy");
+includes(consumerSignInForm, "If this email needs verification, check your inbox and spam folder for a confirmation link.", "email confirmation copy");
 includes(consumerSignInForm, "if (!response.ok || !payload?.redirectTo) return { ok: false }", "pending claim rejects non-2xx or missing redirect");
 includes(consumerSignInForm, "isExactBriefcaseMatterPath", "pending claim requires exact matter redirect");
 includes(consumerSignInForm, "You are signed in, but we could not save this matter", "pending claim visible failure copy");
