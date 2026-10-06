@@ -172,7 +172,10 @@ test('public verification uses current authorized deployment identities and cann
   for(const key of ['stagedDeploymentId','rollbackDeploymentId'])assert.ok(source.includes(`RELEASE_CANDIDATE.productionAuthorization?.${key}`));
   assert.ok(source.includes('requireProductionMigrationRelease(process.cwd(), process.env)'));
   assert.ok(block.includes('node scripts/rcap-production-migration-contract.mjs'));
-  assert.ok(block.includes('TOOLS_SHA_INPUT" = "$WORKFLOW_SHA_INPUT'));
+  assert.ok(block.includes('$(git rev-parse HEAD)'));
+  assert.ok(block.includes('$GITHUB_SHA'));
+  assert.ok(!block.includes('git checkout --detach'));
+  assert.ok(!block.includes('TOOLS_SHA_INPUT" = "$WORKFLOW_SHA_INPUT'));
   assert.ok(block.includes('node scripts/verify-rcap-worker-input-equivalence.mjs'));
   assert.ok(!/dpl_[A-Za-z0-9]+|claude\/legalease-sprint|sha256:[0-9a-f]{64}/.test(source+block));
   assert.ok(!/AUTHORIZED_WORKER_SOURCE_SHA:|AUTHORIZED_WORKER_DIGEST:/.test(block));

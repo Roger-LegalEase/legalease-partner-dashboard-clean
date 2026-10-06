@@ -22,7 +22,7 @@ on:
         required: true
         type: string
       tools_sha:
-        description: "Tools-only execution commit descended from the accepted hosted tools SHA"
+        description: "Frozen reviewed tooling SHA; execution may contain later exact forward evidence"
         required: true
         type: string
     secrets:
@@ -67,7 +67,7 @@ jobs:
           printf '%s' "$INPUT_APPLICATION_SHA" | grep -Eq '^[0-9a-f]{40}$' || { echo "::error::application SHA must be full"; exit 1; }
           printf '%s' "$INPUT_WORKER_SOURCE_SHA" | grep -Eq '^[0-9a-f]{40}$' || { echo "::error::worker source SHA must be full"; exit 1; }
           printf '%s' "$INPUT_WORKER_DIGEST" | grep -Eq '^sha256:[0-9a-f]{64}$' || { echo "::error::worker digest must be immutable"; exit 1; }
-          [ "$INPUT_TOOLS_SHA" = "$WORKFLOW_SHA" ] || { echo "::error::tools SHA must equal the workflow source SHA"; exit 1; }
+          printf '%s' "$WORKFLOW_SHA" | grep -Eq '^[0-9a-f]{40}$' || { echo "::error::workflow execution SHA must be full"; exit 1; }
           printf '%s' "$INPUT_TOOLS_SHA" | grep -Eq '^[0-9a-f]{40}$' || { echo "::error::tools SHA must be full"; exit 1; }
 
       - name: Check out repository history
@@ -86,7 +86,8 @@ jobs:
       - name: Verify the exact frozen identity and image-input equivalence
         run: |
           set -euo pipefail
-          [ "$(git rev-parse HEAD)" = "${{ inputs.tools_sha }}" ] || { echo "::error::checked out tools SHA mismatch"; exit 1; }
+          git fetch --no-tags origin captain-release
+          [ "$(git rev-parse HEAD)" = "$GITHUB_SHA" ] || { echo "::error::workflow execution checkout mismatch"; exit 1; }
           # Existing successor binding verifies ancestry, exact orchestration
           # bytes and canonical worker input equivalence. Separate current
           # Production phase permission is required before any service access.

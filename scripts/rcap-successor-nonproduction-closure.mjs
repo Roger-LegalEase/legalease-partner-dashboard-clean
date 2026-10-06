@@ -1,5 +1,6 @@
+import {QUEUE_QUERY} from './rcap-production-worker-readiness.mjs';
 // Exact application staging and GET-only predecessor custody. No activation,
-// worker deployment, database credentials, packet generation or live auth.
+// worker deployment, database writes, packet generation or live auth.
 import assert from 'node:assert/strict';
 import {registryImage,assertRegistryMirrorEquivalent} from './rcap-successor-registry-read.mjs';
 import fs from 'node:fs';
@@ -31,6 +32,11 @@ try {
  write('worker-rollback',{passed:true,readOnly:true,capturedAt:fly.capturedAt,machine:m,mirror,predecessor,mirrorEquivalence,procedure:`After separately authorized activation, restore only machine ${m.id} image to ${mirror.reference} using the existing machine configuration preserved in place, restoring only the image and its recorded predecessor digest identity, then verify started state, OCI revision and health. No schema, secrets or application settings require mutation to restore the predecessor. Preserve the predecessor RCAP_WORKER_CONTAINER_DIGEST=${m.acceptedDigest}; changing only image on a successor config would retain the wrong evidence identity.`,configurationRequired:'Same committed fly.toml; restore image and its exact recorded digest identity only, no schema/secret/settings changes',flyConfigurationSha256:hash(oldConfig),workerDeploymentRequired:m.ociRevision!==p.workerSourceSha});
  workerRollbackVerified=true;
 }catch(error){workerRollbackVerified=false;write('worker-rollback',{passed:false,readOnly:true,reason:error.message,operation:rollbackOperation,transportCode:error.cause?.code??null});}
+// Existing aggregate queue query, explicitly read-only; no job is claimed.
+const queueResponse=await fetch('https://api.supabase.com/v1/projects/wwtwtsmywnckfkdaqqeg/database/query',{method:'POST',headers:{Authorization:'Bearer '+process.env.SUPABASE_ACCESS_TOKEN,'Content-Type':'application/json'},body:JSON.stringify({query:QUEUE_QUERY,read_only:true}),redirect:'error',signal:AbortSignal.timeout(60000)});
+assert(queueResponse.ok,`read-only queue HTTP ${queueResponse.status}`);const queueRows=await queueResponse.json();assert(Array.isArray(queueRows)&&queueRows.length===1);const queue=queueRows[0];
+for(const key of ['stale_queued','queued','claimed','terminal_failed'])assert(/^(0|[1-9][0-9]*)$/.test(String(queue[key]))&&Number(queue[key])===0,`safe empty queue: ${key}`);
+write('queue-safety',{passed:true,readOnly:true,capturedAt:new Date().toISOString(),projectRef:'wwtwtsmywnckfkdaqqeg',queue});
 const token=process.env.VERCEL_TOKEN;assert(token);const identity=await resolveHostedVercelIdentity({token});
 async function vercel(pathname){const r=await fetch(hostedVercelScopedUrl(pathname,identity),{method:'GET',headers:{Authorization:'Bearer '+token},redirect:'error',signal:AbortSignal.timeout(60000)});assert(r.ok,`Vercel GET HTTP ${r.status}`);return r.json();}
 const rollback='dpl_3j4Dr4GHyXmwmrFCTZ6orNNNP7sc';
@@ -61,7 +67,7 @@ const after=await aliases();write('production-aliases-after',after);assert.deepE
 for(const a of before.filter(a=>!a.redirect)){const live=await vercel('/v13/deployments/'+a.alias);assert.equal(live.id,rollback,'all existing public aliases remain on predecessor');}
 if(browserFailure)throw browserFailure;
 const browser=JSON.parse(fs.readFileSync(`${out}/browser-results.json`));assert.equal(browser.length,4);assert(browser.every(r=>r.status==='PASS'));
-write('admission',{schemaVersion:'rcap-readonly-successor-admission/v1',capturedAt:new Date().toISOString(),...tuple,workerRollbackVerified,sharedHostRoutingMethod:'frozen-proxy-map-and-staged-targets',stagingCreation:{runId:37457756634,workflowSourceSha:'6eec672ac2cd871d541b0efd6aa9183380d39825',toolsSha:'7b86dff1b62461c360195517095cb39e748286a0',autoAssignCustomDomains:false},workflowSourceSha,runId:Number(process.env.GITHUB_RUN_ID),deploymentId:d.id,hostname:d.url,productionRollback:rollback,productionAliases:before,productionAliasesUnchanged:true,autoAssignCustomDomains:false,signupVerified:true,sharedHostRoutingVerified:true,productionWrites:false,target:d.target,readyState:d.readyState,liveAuthCalls:0,productionAuthorized:false,emailDelivery:'UNVERIFIED: all authentication mocked',hostedScope:'read-only staged signup and host routing; no live participant, payment, packet or queue exercised'});
+write('admission',{schemaVersion:'rcap-readonly-successor-admission/v1',capturedAt:new Date().toISOString(),...tuple,workerRollbackVerified,queueSafetyVerified:true,sharedHostRoutingMethod:'frozen-proxy-map-and-staged-targets',stagingCreation:{runId:37457756634,workflowSourceSha:'6eec672ac2cd871d541b0efd6aa9183380d39825',toolsSha:'7b86dff1b62461c360195517095cb39e748286a0',autoAssignCustomDomains:false},workflowSourceSha,runId:Number(process.env.GITHUB_RUN_ID),deploymentId:d.id,hostname:d.url,productionRollback:rollback,productionAliases:before,productionAliasesUnchanged:true,autoAssignCustomDomains:false,signupVerified:true,sharedHostRoutingVerified:true,productionWrites:false,target:d.target,readyState:d.readyState,liveAuthCalls:0,productionAuthorized:false,emailDelivery:'UNVERIFIED: all authentication mocked',hostedScope:'read-only staged signup, host routing and aggregate queue safety; no live participant, payment, packet or queue consumption'});
 console.log('Exact staged application verified; production aliases and worker unchanged.');
 
 assert(workerRollbackVerified,'Nonproduction closure incomplete: worker rollback evidence failed; staging result retained for review');

@@ -270,6 +270,7 @@ export function verifyPinnedForwardBinding(root,candidate) {
   const artifact=JSON.parse(fs.readFileSync(path.join(root,h.artifactPath)));assert.equal(artifact.id,h.artifactId);assert.equal(artifact.workflow_run.id,h.runId);assert.equal(artifact.workflow_run.head_sha,h.workflowSourceSha);assert.equal(artifact.digest,'sha256:'+hash(fs.readFileSync(path.join(root,h.archivePath))));
   const fromArchive=JSON.parse(execFileSync('unzip',['-p',path.join(root,h.archivePath),'admission.json'],{encoding:'utf8'}));assert.deepEqual(fromArchive,receipt,'actual native artifact receipt');
   const rollback=JSON.parse(execFileSync('unzip',['-p',path.join(root,h.archivePath),'worker-rollback.json'],{encoding:'utf8'}));assert.equal(rollback.passed,true,'rollback availability required');
+  if(receipt.queueSafetyVerified===true){const queue=JSON.parse(execFileSync('unzip',['-p',path.join(root,h.archivePath),'queue-safety.json'],{encoding:'utf8'}));assert.equal(queue.passed,true);assert.equal(queue.readOnly,true);for(const key of ['stale_queued','queued','claimed','terminal_failed'])assert.equal(Number(queue.queue[key]),0);}
   assert.deepEqual(receipt,h.receipt);assertForwardHosted(receipt,expected);assert.equal(receipt.workflowSourceSha,h.workflowSourceSha);assert.equal(receipt.runId,h.runId);
   return {...expected,current:true,bindingVerified:true,status:'CURRENT',hostedAcceptanceStatus:'READ_ONLY_STAGED_ACCEPTED_PRODUCTION_HELD',productionAuthorized:false,reasons:[]};
  }catch(error){return {current:false,status:'INVALID_FORWARD_BINDING',reasons:[error.message]};}

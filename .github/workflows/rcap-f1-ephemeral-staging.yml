@@ -147,7 +147,7 @@ jobs:
       - name: Install browser for mocked signup only
         run: npx playwright install --with-deps chromium
       - name: Verify exact forward controls before provider credentials
-        run: node --test scripts/test-ms-successor-history.mjs scripts/grade-a-launch-control/pinned-forward-binding.test.mjs scripts/grade-a-launch-control/forward-production-successor.test.mjs scripts/rcap-successor-harness.test.mjs
+        run: node --test scripts/test-ms-successor-history.mjs scripts/grade-a-launch-control/pinned-forward-binding.test.mjs scripts/grade-a-launch-control/forward-production-successor.test.mjs scripts/rcap-successor-harness.test.mjs scripts/grade-a-launch-control/forward-production-execution.test.mjs
       - name: Stage exact application without aliases and read worker rollback
         env:
           RCAP_APPLICATION_SHA: ${{ inputs.application_sha }}
@@ -158,6 +158,7 @@ jobs:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: node scripts/rcap-successor-nonproduction-closure.mjs
       - name: Upload non-production closure evidence
@@ -268,14 +269,14 @@ jobs:
           printf '%s' "$WORKER_SOURCE_SHA_INPUT" | grep -Eq '^[0-9a-f]{40}$'  || { echo "::error::worker_source_sha is not the authorized value"; exit 1; }
           printf '%s' "$WORKER_DIGEST_INPUT" | grep -Eq '^sha256:[0-9a-f]{64}$'  || { echo "::error::worker_digest is not the authorized value"; exit 1; }
           printf '%s' "$TOOLS_SHA_INPUT" | grep -Eq '^[0-9a-f]{40}$' || { echo "::error::tools_sha must be a full commit SHA"; exit 1; }
-          [ "$TOOLS_SHA_INPUT" = "$WORKFLOW_SHA_INPUT" ] || { echo "::error::tools_sha must equal the workflow source SHA"; exit 1; }
+          printf '%s' "$WORKFLOW_SHA_INPUT" | grep -Eq '^[0-9a-f]{40}$' || { echo "::error::workflow execution SHA must be full"; exit 1; }
 
       - name: Check out repository history
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Verify ancestry of every pinned SHA and check out the tools commit
+      - name: Verify ancestry and retain the exact workflow execution commit
         run: |
           set -euo pipefail
           git fetch --no-tags origin "$CANONICAL_INTEGRATION_BRANCH"
@@ -287,7 +288,7 @@ jobs:
             || { echo "::error::the final application candidate is not an ancestor of the workflow tools SHA"; exit 1; }
           git diff --quiet "${{ inputs.application_sha }}" "${{ inputs.tools_sha }}" -- package.json package-lock.json tsconfig.json scripts/rcap-render-worker.mjs deploy/rcap-render-worker/Dockerfile scripts/lib src \
             || { echo "::error::workflow tools differ from the final application on worker inputs"; exit 1; }
-          git checkout --detach "${{ inputs.tools_sha }}"
+          [ "$(git rev-parse HEAD)" = "$GITHUB_SHA" ] || { echo "::error::workflow execution checkout mismatch"; exit 1; }
 
       - name: Set up Node
         uses: actions/setup-node@v4

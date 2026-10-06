@@ -1,3 +1,4 @@
+import {assertFrozenForwardExecution} from './forward-production-execution.mjs';
 // Future explicit owner authorization is a distinct successor. This module
 // creates no authorization and never changes the currently held generation.
 import assert from 'node:assert/strict';
@@ -76,6 +77,7 @@ export function verifyForwardProductionSuccessor(root,candidate){
  if(nativeReceipts.activate){assert(nativeReceipts.smoke);assert(Date.parse(nativeReceipts.activate.finishedAt)>=Date.parse(nativeReceipts.smoke.finishedAt));assert.equal(nativeReceipts.activate.smokeRunId,f.receipts.smoke.runId);}
  if(nativeReceipts.public_verify){assert(nativeReceipts.activate);assert(Date.parse(nativeReceipts.public_verify.finishedAt)>=Date.parse(nativeReceipts.activate.finishedAt));}
  assertForwardPhase(candidate,prior,nativeReceipts.activate?'production_worker_deploy':nativeReceipts.smoke?'activate':'smoke');
+ assertFrozenForwardExecution(root,candidate,{toolsSha:f.owner.toolsSha,executionSha:git(root,['rev-parse','HEAD'])});
  const allowed=new Set([PENDING,CANDIDATE,TOOLS,f.ownerPath,...Object.values(f.receipts).flatMap(r=>r.files.map(f=>f.path))]);assert(git(root,['diff','--name-only',f.heldPredecessorSha]).split('\n').filter(Boolean).every(p=>allowed.has(p)),'bounded future authorization closure');assert(git(root,['ls-files','--others','--exclude-standard','--','scripts','.github','src','data','hosted-acceptance-evidence']).split('\n').filter(Boolean).every(p=>allowed.has(p)));
  return {current:true,status:'CURRENT',bindingVerified:true,productionAuthorized:true,...Object.fromEntries(keys.map(k=>[k,prior[k]])),reasons:[]};
  }catch(error){return {current:false,status:'INVALID_FORWARD_PRODUCTION_BINDING',reasons:[error.message]};}

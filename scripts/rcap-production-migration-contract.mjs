@@ -1,3 +1,4 @@
+import {assertFrozenForwardExecution} from './grade-a-launch-control/forward-production-execution.mjs';
 import {requireProductionPhaseAuthorization,PRODUCTION_PROJECT_REF} from './grade-a-launch-control/production-preflight-authorization.mjs';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -37,7 +38,7 @@ export function requireProductionReleaseTuple(candidate, binding, env) {
     throw new Error('production_release_project_mismatch');
   }
   if (!/^[0-9a-f]{40}$/.test(env.RCAP_TOOLS_SHA ?? '')
-    || (env.GITHUB_SHA && env.RCAP_TOOLS_SHA !== env.GITHUB_SHA)) {
+    || (candidate?.forwardProduction ? (env.RCAP_TOOLS_SHA !== candidate.toolsSha || env.RCAP_TOOLS_SHA !== binding.toolsSha || !/^[0-9a-f]{40}$/.test(env.GITHUB_SHA ?? '')) : (env.GITHUB_SHA && env.RCAP_TOOLS_SHA !== env.GITHUB_SHA))) {
     throw new Error('production_execution_tools_mismatch');
   }
   return candidate;
@@ -73,7 +74,8 @@ export function requireProductionMigrationRelease(root, env = process.env) {
   const candidate = requireCurrentReleaseCandidate(root);
   const binding = JSON.parse(fs.readFileSync(path.join(root, 'data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json'), 'utf8'));
   requireProductionReleaseTuple(candidate, binding, env);
-  if (execFileSync('git', ['rev-parse', 'HEAD'], { cwd: root, encoding: 'utf8' }).trim() !== env.RCAP_TOOLS_SHA) {
+  if(candidate.forwardProduction) assertFrozenForwardExecution(root,candidate,{toolsSha:env.RCAP_TOOLS_SHA,executionSha:env.GITHUB_SHA});
+  else if (execFileSync('git', ['rev-parse', 'HEAD'], { cwd: root, encoding: 'utf8' }).trim() !== env.RCAP_TOOLS_SHA) {
     throw new Error('production_execution_tools_are_not_checked_out');
   }
   requireProductionPhaseAuthorization(candidate, env.RCAP_PRODUCTION_PHASE);
