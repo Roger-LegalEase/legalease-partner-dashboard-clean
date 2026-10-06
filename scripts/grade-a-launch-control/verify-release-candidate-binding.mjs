@@ -8,7 +8,7 @@ import {PREFLIGHT_BASE,PREFLIGHT_SCOPE,assertPreflightOnlyAuthorization} from '.
 import {HOSTED_BASE,HOSTED_EVIDENCE_FILES,PREVIEW,verifyHostedAcceptanceEvidence} from './verify-hosted-acceptance-evidence.mjs';
 import {applicationInputManifest, applicationInputEquivalence} from '../rcap-application-inputs.mjs';
 import {verifyPendingWorkerSuccessor,verifySuccessorPublication,assertSuccessorImageAcceptance} from './verify-pending-worker-successor.mjs';
-import {verifyPinnedBinding} from './verify-pinned-worker-successor.mjs';
+import {verifyPinnedBinding,verifyPinnedForwardBinding} from './verify-pinned-worker-successor.mjs';
 import { execFileSync } from 'node:child_process';
 import fs from 'node:fs';
 import { createHash } from 'node:crypto';
@@ -74,6 +74,8 @@ export function verifyReleaseCandidateBinding(root, candidate, receiptPaths = []
   const pinnedRecordPath=path.join(root,'data/rcap-grade-a/launch-control/PENDING_WORKER_SUCCESSOR.json');
   if(fs.existsSync(pinnedRecordPath)){
     try{
+      if(JSON.parse(fs.readFileSync(pinnedRecordPath)).applicationSource==='pinned-source-forward')
+        return verifyPinnedForwardBinding(root,candidate);
       if(JSON.parse(fs.readFileSync(pinnedRecordPath)).applicationSource==='pinned-source')
         return verifyPinnedBinding(root,candidate,verifyPendingWorkerSuccessor(root));
     }catch(error){return {current:false,status:'INVALID_PINNED_BINDING',reasons:[error.message]};}

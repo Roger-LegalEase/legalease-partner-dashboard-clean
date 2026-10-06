@@ -6,6 +6,7 @@ import os from 'node:os';
 import path from 'node:path';
 import {execFileSync} from 'node:child_process';
 import {createHash} from 'node:crypto';
+import {applicationInputEquivalence,applicationInputManifest} from '../rcap-application-inputs.mjs';
 import {createWorkerInputPlan} from '../rcap-hosted-acceptance-worker-input-plan.mjs';
 
 export const PENDING='data/rcap-grade-a/launch-control/PENDING_WORKER_SUCCESSOR.json';
@@ -79,7 +80,7 @@ function sourcePlan(root,p){
  assert.equal(git(root,['ls-files','--others','--exclude-standard','--',...plan.canonicalInputs]),'','no untracked worker inputs');
  held(p);return plan;
 }
-function runEvidence(root,e,workflowPath,runName){
+function runEvidence(root,e,workflowPath,runName,reviewed=read(root,TOOLS)){
  const run=JSON.parse(native(root,e.nativeRunMetadata));
  const jobs=JSON.parse(native(root,e.nativeJobMetadata));
  const log=native(root,e.nativeLog).toString();
@@ -91,7 +92,6 @@ function runEvidence(root,e,workflowPath,runName){
  const job=(jobs.jobs??[jobs]).find(j=>j.id===e.jobId);assert(job,'exact native job');
  assert.equal(job.run_id,run.id);assert.equal(job.status,'completed');assert.equal(job.conclusion,'success');
  assert(job.steps.every(s=>s.status==='completed'&&s.conclusion==='success'),'all native steps, including checkout/setup, must succeed');
- const reviewed=read(root,TOOLS);
  validSha(reviewed.toolsSha);
  const workflowInputs=[workflowPath,...Object.keys(reviewed.successorTools.files).filter(f=>f.startsWith('scripts/')&& !f.endsWith('.test.mjs')),
   'scripts/verify-rcap-worker-tag-integrity.mjs','scripts/verify-rcap-worker-source-binding-exception.mjs','scripts/verify-rcap-worker-image-revision.mjs'];
@@ -102,7 +102,7 @@ function runEvidence(root,e,workflowPath,runName){
  for(const name of required){const step=job.steps.find(s=>s.name===name);assert(step,`missing native step ${name}`);assert.equal(step.status,'completed');assert.equal(step.conclusion,'success',name);}
  return {run,job,log};
 }
-function publication(root,p){
+function publication(root,p,reviewed=read(root,TOOLS)){
  const e=read(root,PUBLICATION),prior=at(root,p.releaseBaseSha,PUBLICATION);
  assert.deepEqual(e.supersededPublication,prior,'full publication predecessor preserved');
  assert.deepEqual(e.supersededChain,prior.supersededChain,'retired source-binding anchors preserved');
@@ -117,7 +117,7 @@ function publication(root,p){
  assert.equal(e.requestedIntegrationSha,p.sourceCommit);assert.equal(e.tagReplacementAuthorization,'');
  // The publication guard runs after the pinned-source checkout. Its actual
  // source bytes must be the same reviewed guard, not merely the tools copy.
- assert.equal(git(root,['rev-parse',`${e.sourceSha}:scripts/verify-rcap-worker-tag-integrity.mjs`]),git(root,['rev-parse',`${read(root,TOOLS).toolsSha}:scripts/verify-rcap-worker-tag-integrity.mjs`]),'pinned build tag guard is reviewed');
+ assert.equal(git(root,['rev-parse',`${e.sourceSha}:scripts/verify-rcap-worker-tag-integrity.mjs`]),git(root,['rev-parse',`${reviewed.toolsSha}:scripts/verify-rcap-worker-tag-integrity.mjs`]),'pinned build tag guard is reviewed');
  for(const [k,v]of Object.entries({publishOnlyNoDeploy:true,mutableLatestTagCreated:false,workerClaimingStarted:false,stagingAndProductionUnchanged:true,workflowConclusion:'success'}))assert.equal(e[k],v,k);
  const bytes=native(root,{path:e.originalPublicationPath,bytes:e.originalPublicationBytes,sha256:e.originalPublicationSha256});
  const artifact=JSON.parse(bytes);
@@ -127,22 +127,22 @@ function publication(root,p){
  const archive=native(root,e.nativeArchive);assert.equal(e.originalArchivePath,e.nativeArchive.path);
  assert.equal(e.publicationArtifactSha256,'sha256:'+hash(archive));
  assert.equal(execFileSync('unzip',['-p',path.join(root,e.originalArchivePath),'rcap-render-worker-publication.json']).toString(),bytes.toString(),'downloaded archive is actual native artifact');
- const evidence=runEvidence(root,e,'.github/workflows/publish-rcap-render-worker.yml','Publish RCAP render worker');
+ const evidence=runEvidence(root,e,'.github/workflows/publish-rcap-render-worker.yml','Publish RCAP render worker',reviewed);
  assert(evidence.log.includes(e.sourceSha)&&evidence.log.includes(e.immutableRegistryDigest),'native build subject');
  assert.equal(e.dockerfilePath,'deploy/rcap-render-worker/Dockerfile');
  for(const [rel,digest]of [[e.dockerfilePath,e.dockerfileSha256],['package-lock.json',e.lockfileSha256]])assert.equal(hash(execFileSync('git',['show',`${p.sourceCommit}:${rel}`],{cwd:root})),digest,rel);
  assert.equal(typeof e.runtimeAccepted,'boolean');
- if(e.runtimeAccepted)acceptance(root,e);else assert.equal(e.imageAcceptance,undefined,'unaccepted image cannot inherit acceptance');
+ if(e.runtimeAccepted)acceptance(root,e,reviewed);else assert.equal(e.imageAcceptance,undefined,'unaccepted image cannot inherit acceptance');
  return e;
 }
-function acceptance(root,e){
+function acceptance(root,e,reviewed=read(root,TOOLS)){
  const a=e.imageAcceptance;assert(a,'actual image acceptance required');
  for(const [k,v]of Object.entries({sourceSha:e.sourceSha,tag:e.imageTag,digest:e.immutableRegistryDigest,readOnly:true,conclusion:'success'}))assert.equal(a[k],v,`acceptance ${k}`);
  validSha(a.workflowSourceSha);git(root,['merge-base','--is-ancestor',a.workflowSourceSha,'HEAD']);
  const prior=at(root,a.workflowSourceSha,PUBLICATION);
  assert.equal(prior.sourceSha,e.sourceSha);assert.equal(prior.immutableRegistryDigest,e.immutableRegistryDigest);assert.equal(prior.runtimeAccepted,false);
  assert.deepEqual(prior.supersededPublication,e.supersededPublication,'acceptance predecessor preserved');
- const {log}=runEvidence(root,a,'.github/workflows/rcap-worker-image-acceptance.yml','RCAP worker image acceptance');
+ const {log}=runEvidence(root,a,'.github/workflows/rcap-worker-image-acceptance.yml','RCAP worker image acceptance',reviewed);
  for(const marker of [`accepting ${e.digestPinnedReference} built from ${e.sourceSha}`,`tag currently resolves to: ${e.immutableRegistryDigest}`,'anonymous token refused with HTTP 401','SOURCE BINDING: PASS','OCI REVISION: PRESENT','config env matches: 0','layer history matches: 0','acceptance is read-only: no push, no deploy, no claim'])assert(log.includes(marker),marker);
  const receipt=JSON.parse(native(root,a.verificationReceipt));
  for(const [k,v]of Object.entries({runId:a.runId,jobId:a.jobId,workflowSourceSha:a.workflowSourceSha,sourceSha:e.sourceSha,digest:e.immutableRegistryDigest,readOnly:true,conclusion:'success'}))assert.equal(receipt[k],v,`receipt ${k}`);
@@ -200,4 +200,84 @@ export function verifyPinnedBinding(root,candidate,pending){
   // authorization stages must still be completed by a separately reviewed record.
   return {...pending,current:false,bindingVerified:true,status:p.status,toolsSha:tools.toolsSha,reasons:['Exact successor tuple is held; application/runtime publication compatibility, hosted acceptance and fresh scoped authorization are not granted by image acceptance.']};
  }catch(error){return {current:false,status:'INVALID_PINNED_BINDING',reasons:[error.message]};}
+}
+
+// Evidence-only application successors retain the accepted worker and native
+// publication/acceptance identities. This stage never inherits activation.
+export function assertForwardTuple(record, expected) {
+ held(record);
+ for(const key of ['applicationSha','workerSourceSha','workerDigest','workerInputFingerprint','toolsSha'])assert.equal(record[key],expected[key],`forward ${key}`);
+ assert.deepEqual(record.publication,expected.publication,'actual publication workflow identity');
+ assert.deepEqual(record.readOnlyImageAcceptance,expected.readOnlyImageAcceptance,'actual acceptance workflow identity');
+ assert.equal(record.productionAuthorized,false,'forward successor cannot authorize production');
+ assert.equal(record.productionAuthorization,null,'old production authorization cannot follow');
+ assert.equal(record.deploymentAuthorized,false);assert.equal(record.clinicDispatchReady,false);
+ assert.equal(record.runtimeAccepted,true);assert.equal(record.workerRebuildRequired,false);
+ assert.equal(record.resume,null);assert.equal(record.previewExecution,'held');
+}
+export function verifyPinnedForwardBinding(root,candidate) {
+ try {
+  const p=read(root,PENDING),tools=read(root,TOOLS);
+  assert.equal(p.applicationSource,'pinned-source-forward');
+  validSha(p.releaseBaseSha);validSha(p.applicationSha);validSha(p.toolsSha);
+  const prior=at(root,p.releaseBaseSha,PENDING);
+  assert.equal(prior.applicationSource,'pinned-source');assert.equal(prior.runtimeAccepted,true);
+  assert.deepEqual(p.supersededRecord,prior,'accepted pending history preserved');
+  sourcePlan(root,prior);
+  const e=publication(root,prior,at(root,p.releaseBaseSha,TOOLS));assert.equal(e.runtimeAccepted,true);
+  assert.deepEqual(e,at(root,p.releaseBaseSha,PUBLICATION),'accepted worker evidence remains immutable');
+  const expected={applicationSha:p.applicationSha,workerSourceSha:prior.workerSourceSha,
+   workerDigest:prior.workerDigest,workerInputFingerprint:prior.workerInputFingerprint,toolsSha:p.toolsSha,
+   publication:at(root,p.releaseBaseSha,CANDIDATE).publication,
+   readOnlyImageAcceptance:at(root,p.releaseBaseSha,CANDIDATE).readOnlyImageAcceptance};
+  for(const [rel,record]of [[PENDING,p],[CANDIDATE,candidate],[TOOLS,tools]]) {
+   assertForwardTuple(record,expected);
+   assert.deepEqual(record.supersededRecord,at(root,p.releaseBaseSha,rel),'complete forward predecessor');
+   assert.equal(record.supersededRecordSha256,hash(execFileSync('git',['show',`${p.releaseBaseSha}:${rel}`],{cwd:root})),'forward predecessor byte hash');
+  }
+  git(root,['merge-base','--is-ancestor',p.applicationSha,p.toolsSha]);git(root,['merge-base','--is-ancestor',p.toolsSha,'HEAD']);
+  assert(applicationInputEquivalence(root,p.applicationSha,'HEAD').equivalent,'current application inputs match frozen successor');
+  const runtime=new Set(applicationInputManifest(root,p.applicationSha).files.map(f=>f.path));
+  assert(git(root,['diff','--name-only',p.applicationSha]).split('\n').every(f=>!runtime.has(f)),'working application inputs remain frozen');
+  const plan=createWorkerInputPlan({rootDir:root,candidateSha:p.applicationSha,acceptedSourceSha:prior.workerSourceSha,acceptedDigest:prior.workerDigest});
+  assert.equal(plan.rebuildRequired,false);assert.deepEqual(plan.missingCanonicalInputs,[]);assert.equal(plan.aggregateInputSha256,prior.workerInputFingerprint);
+  const manifest=tools.successorTools;
+  assert.equal(manifest.baseSha,p.releaseBaseSha);
+  const delta=git(root,['diff','--name-only',p.releaseBaseSha,p.toolsSha]).split('\n').filter(f=>f.startsWith('scripts/')||f.startsWith('.github/')).sort();
+  assert.deepEqual(Object.keys(manifest.files).sort(),delta,'complete forward control manifest');
+  for(const [rel,digest]of Object.entries(manifest.files)) {
+   assert.equal(hash(execFileSync('git',['show',`${p.toolsSha}:${rel}`],{cwd:root})),digest,rel);
+   assert.equal(hash(fs.readFileSync(path.join(root,rel))),digest,'current control bytes');
+  }
+  const allowed=new Set([PENDING,CANDIDATE,TOOLS,...(candidate.hostedAdmission?.files??[]).map(f=>f.path)]);
+  const post=git(root,['diff','--name-only',p.toolsSha]).split('\n').filter(Boolean);
+  assert(post.every(f=>allowed.has(f)),'bounded post-tools forward records');
+  if(!candidate.hostedAdmission)return {...expected,current:false,bindingVerified:true,status:'FORWARD_BOUND_HOSTED_PENDING',productionAuthorized:false,reasons:['Fresh exact staged hosted evidence is required; all production execution remains held.']};
+  assert.deepEqual(tools.hostedAdmission,candidate.hostedAdmission);assert.deepEqual(p.hostedAdmission,candidate.hostedAdmission);
+  const h=candidate.hostedAdmission;
+  assert.equal(h.schemaVersion,'rcap-readonly-successor-admission/v1');
+  assertForwardHosted(h,expected);
+  for(const ref of h.files){assert(ref.path.startsWith('hosted-acceptance-evidence/successor-closure/')&&!ref.path.split('/').includes('..'));const bytes=fs.readFileSync(path.join(root,ref.path));assert.equal(bytes.length,ref.bytes);assert.equal(hash(bytes),ref.sha256);}
+  for(const rel of [h.runPath,h.receiptPath,h.jobsPath,h.artifactPath,h.archivePath])assert(h.files.some(f=>f.path===rel),'all native admission inputs are hashed');
+  const run=JSON.parse(fs.readFileSync(path.join(root,h.runPath))),receipt=JSON.parse(fs.readFileSync(path.join(root,h.receiptPath)));
+  assert.equal(run.id,h.runId);assert.equal(run.head_sha,h.workflowSourceSha);git(root,['merge-base','--is-ancestor',p.toolsSha,h.workflowSourceSha]);assert.equal(git(root,['diff','--name-only',p.toolsSha,h.workflowSourceSha,'--',...Object.keys(manifest.files)]),'','actual workflow control identity');assert.equal(run.path,'.github/workflows/rcap-f1-ephemeral-staging.yml');assert.equal(run.conclusion,'success');assert.equal(run.status,'completed');
+  assert.equal(run.repository.full_name.toLowerCase(),'roger-legalease/legalease-partner-dashboard-clean');assert.equal(run.event,'workflow_dispatch');assert.equal(run.run_attempt,1);
+  const jobs=JSON.parse(fs.readFileSync(path.join(root,h.jobsPath)));const job=jobs.jobs.find(j=>j.id===h.jobId);assert(job);assert.equal(job.run_id,h.runId);assert.equal(job.conclusion,'success');assert.equal(job.status,'completed');
+  for(const name of ['Install frozen dependencies','Install browser for mocked signup only','Verify exact forward controls before provider credentials','Stage exact application without aliases and read worker rollback','Upload non-production closure evidence'])assert.equal(job.steps.find(s=>s.name===name)?.conclusion,'success',name);
+  const artifact=JSON.parse(fs.readFileSync(path.join(root,h.artifactPath)));assert.equal(artifact.id,h.artifactId);assert.equal(artifact.workflow_run.id,h.runId);assert.equal(artifact.workflow_run.head_sha,h.workflowSourceSha);assert.equal(artifact.digest,'sha256:'+hash(fs.readFileSync(path.join(root,h.archivePath))));
+  const fromArchive=JSON.parse(execFileSync('unzip',['-p',path.join(root,h.archivePath),'admission.json'],{encoding:'utf8'}));assert.deepEqual(fromArchive,receipt,'actual native artifact receipt');
+  const rollback=JSON.parse(execFileSync('unzip',['-p',path.join(root,h.archivePath),'worker-rollback.json'],{encoding:'utf8'}));assert.equal(rollback.passed,true,'rollback availability required');
+  assert.deepEqual(receipt,h.receipt);assertForwardHosted(receipt,expected);assert.equal(receipt.workflowSourceSha,h.workflowSourceSha);assert.equal(receipt.runId,h.runId);
+  return {...expected,current:true,bindingVerified:true,status:'CURRENT',hostedAcceptanceStatus:'READ_ONLY_STAGED_ACCEPTED_PRODUCTION_HELD',productionAuthorized:false,reasons:[]};
+ }catch(error){return {current:false,status:'INVALID_FORWARD_BINDING',reasons:[error.message]};}
+}
+export function assertForwardHosted(h,expected) {
+ const age=Date.now()-Date.parse(h.capturedAt);assert(Number.isFinite(age)&&age>=-300000&&age<=86400000,'fresh hosted evidence within 24 hours');
+ validSha(h.workflowSourceSha);assert(Number.isSafeInteger(h.runId)&&h.runId>0,'actual hosted run');
+ for(const key of ['applicationSha','workerSourceSha','workerDigest','workerInputFingerprint','toolsSha'])assert.equal(h[key],expected[key],`hosted ${key}`);
+ assert.match(h.deploymentId,/^dpl_[A-Za-z0-9]+$/);assert.equal(h.productionRollback,'dpl_3j4Dr4GHyXmwmrFCTZ6orNNNP7sc');
+ assert.equal(h.productionAliasesUnchanged,true);assert.equal(h.autoAssignCustomDomains,false);
+ assert.equal(h.sharedHostRoutingMethod,'frozen-proxy-map-and-staged-targets');assert.equal(h.workerRollbackVerified,true);assert.equal(h.signupVerified,true);assert.equal(h.sharedHostRoutingVerified,true);assert.equal(h.productionWrites,false);
+ assert.equal(h.target,'production');assert.equal(h.readyState,'READY');assert.equal(h.liveAuthCalls,0);
+ assert.equal(h.productionAuthorized,false);
 }

@@ -53,3 +53,17 @@ if(process.argv[1]&&path.resolve(process.argv[1])===fileURLToPath(import.meta.ur
   console.log(JSON.stringify(writePinnedRecords(root,pinnedRecords(root,{sourceSha,releaseBaseSha,toolsSha})),null,2));
  }catch(error){console.error(error.message);process.exitCode=1;}
 }
+
+export function forwardPinnedRecords(root,{applicationSha,releaseBaseSha,toolsSha}) {
+ const prior=at(root,releaseBaseSha,PENDING),priorCandidate=at(root,releaseBaseSha,CANDIDATE);
+ assert.equal(prior.applicationSource,'pinned-source');assert.equal(prior.runtimeAccepted,true);
+ const plan=createWorkerInputPlan({rootDir:root,candidateSha:applicationSha,acceptedSourceSha:prior.workerSourceSha,acceptedDigest:prior.workerDigest});
+ assert.equal(plan.rebuildRequired,false);assert.deepEqual(plan.missingCanonicalInputs,[]);assert.equal(plan.aggregateInputSha256,prior.workerInputFingerprint);
+ const tuple={status:'FORWARD_BOUND_HOSTED_PENDING',applicationSha,workerSourceSha:prior.workerSourceSha,workerDigest:prior.workerDigest,workerInputFingerprint:prior.workerInputFingerprint,toolsSha,publication:priorCandidate.publication,readOnlyImageAcceptance:priorCandidate.readOnlyImageAcceptance,runtimeAccepted:true,workerRebuildRequired:false,previewExecution:'held',resume:null,productionAuthorized:false,productionAuthorization:null,deploymentAuthorized:false,clinicDispatchReady:false,hostedAdmission:null};
+ const records={};
+ for(const rel of [PENDING,CANDIDATE,TOOLS])records[rel]={schemaVersion:at(root,releaseBaseSha,rel).schemaVersion,...tuple,releaseBaseSha,supersededRecord:at(root,releaseBaseSha,rel),supersededRecordSha256:hash(execFileSync('git',['show',`${releaseBaseSha}:${rel}`],{cwd:root}))};
+ records[PENDING].applicationSource='pinned-source-forward';
+ const controls=git(root,['diff','--name-only',releaseBaseSha,toolsSha]).split('\n').filter(f=>f.startsWith('scripts/')||f.startsWith('.github/'));
+ records[TOOLS].successorTools={schemaVersion:'rcap-successor-resume-tools/v1',baseSha:releaseBaseSha,files:Object.fromEntries(controls.map(rel=>[rel,hash(execFileSync('git',['show',`${toolsSha}:${rel}`],{cwd:root}))]))};
+ return records;
+}
