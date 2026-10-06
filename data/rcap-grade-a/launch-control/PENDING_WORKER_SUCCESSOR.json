@@ -76,6 +76,8 @@
     "maxActivationAttempts": 1,
     "maxPublicVerificationAttempts": 1,
     "note": "I authorize only smoke, activate, production_worker_deploy and public_verify for application a9f02a89cac16e5b760e41acfccd0a685e8071b7, worker e3ac438da981c84987bd3172751e1a09e3f42309, digest sha256:be3d579fe808b8f0c806fed303f358edfe7a3bb6112866f4484d15ca7de4382a, fingerprint sha256:82d31e68a0edb0557bc9c2f9fce041e6760dd771ab02dc3b385e77235f99f867, tooling fd42d15a40d2ac640582c968325f7029241700ae, staged deployment dpl_GYc99gmGcpTioRSn8Jq6hKiUqhUY, rollback dpl_3j4Dr4GHyXmwmrFCTZ6orNNNP7sc, and the exact alias scope in hosted run 37472391944. Require fresh native smoke before activation, successful consumed activation before worker deployment and public verification, and fail closed on any mismatch. Worker placement may update only the existing nonsecret RCAP_WORKER_CONTAINER_DIGEST release identity to the accepted digest. No migration, key, secret, unrelated environment, auth, payment, participant, packet or extra deployment authority is granted.",
+    "smokeRunId": 37474857779,
+    "smokeArtifactSha256": "c61bd64e15f64849a4ecf818a8319ed2aa3cb0cd977896032a36a252ced32334",
     "activation": {
       "state": "authorized_not_executed",
       "maxAttempts": 1
@@ -1448,7 +1450,48 @@
       "maxPublicVerificationAttempts": 1,
       "note": "I authorize only smoke, activate, production_worker_deploy and public_verify for application a9f02a89cac16e5b760e41acfccd0a685e8071b7, worker e3ac438da981c84987bd3172751e1a09e3f42309, digest sha256:be3d579fe808b8f0c806fed303f358edfe7a3bb6112866f4484d15ca7de4382a, fingerprint sha256:82d31e68a0edb0557bc9c2f9fce041e6760dd771ab02dc3b385e77235f99f867, tooling fd42d15a40d2ac640582c968325f7029241700ae, staged deployment dpl_GYc99gmGcpTioRSn8Jq6hKiUqhUY, rollback dpl_3j4Dr4GHyXmwmrFCTZ6orNNNP7sc, and the exact alias scope in hosted run 37472391944. Require fresh native smoke before activation, successful consumed activation before worker deployment and public verification, and fail closed on any mismatch. Worker placement may update only the existing nonsecret RCAP_WORKER_CONTAINER_DIGEST release identity to the accepted digest. No migration, key, secret, unrelated environment, auth, payment, participant, packet or extra deployment authority is granted."
     },
-    "receipts": {},
+    "receipts": {
+      "smoke": {
+        "runId": 37474857779,
+        "workflowSourceSha": "1907a4da0b624fc2ffc800973b560469af28ac00",
+        "jobId": 112307525495,
+        "artifactId": 11418054142,
+        "receiptSha256": "c61bd64e15f64849a4ecf818a8319ed2aa3cb0cd977896032a36a252ced32334",
+        "runPath": "hosted-acceptance-evidence/forward-production/smoke-37474857779/run.json",
+        "jobsPath": "hosted-acceptance-evidence/forward-production/smoke-37474857779/jobs.json",
+        "artifactPath": "hosted-acceptance-evidence/forward-production/smoke-37474857779/artifact.json",
+        "archivePath": "hosted-acceptance-evidence/forward-production/smoke-37474857779/native.zip",
+        "receiptPath": "hosted-acceptance-evidence/forward-production/smoke-37474857779/production-canary-smoke.json",
+        "archiveEntry": "production-canary-smoke.json",
+        "files": [
+          {
+            "path": "hosted-acceptance-evidence/forward-production/smoke-37474857779/artifact.json",
+            "bytes": 850,
+            "sha256": "cecf7f2a259f104763501f55a0b3259bce9348b00429d727ea4ee0865a215fd9"
+          },
+          {
+            "path": "hosted-acceptance-evidence/forward-production/smoke-37474857779/jobs.json",
+            "bytes": 23147,
+            "sha256": "aff2f0a172e9476a7525c785af312fd748cdfcfeecb8e3866c8413ea34836a92"
+          },
+          {
+            "path": "hosted-acceptance-evidence/forward-production/smoke-37474857779/native.zip",
+            "bytes": 1892,
+            "sha256": "f193c240b5df3009e931f8b75d04ff9ab499f47d564c30e9a5f93146951dce4a"
+          },
+          {
+            "path": "hosted-acceptance-evidence/forward-production/smoke-37474857779/production-canary-smoke.json",
+            "bytes": 4395,
+            "sha256": "c61bd64e15f64849a4ecf818a8319ed2aa3cb0cd977896032a36a252ced32334"
+          },
+          {
+            "path": "hosted-acceptance-evidence/forward-production/smoke-37474857779/run.json",
+            "bytes": 17659,
+            "sha256": "a4d6fc5116579ae3c8d1ca4bffe4be015b3885b70afdaf95b92ec787b868e99a"
+          }
+        ]
+      }
+    },
     "states": {
       "activation": "authorized_not_executed",
       "publicVerification": "authorized_not_executed"
