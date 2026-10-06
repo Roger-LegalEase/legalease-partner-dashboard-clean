@@ -1,0 +1,38 @@
+✔ historical creation retains exact historical event and valid chain (5.325863ms)
+✖ same identity appends truthful evidence refresh and remains deterministic (2.590626ms)
+✔ semantic mutations fail: false approval, erased historical event, rewritten prior history (4.512633ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 2
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 150.413782
+
+✖ failing tests:
+
+test at scripts/test-ms-successor-history.mjs:21:1
+✖ same identity appends truthful evidence refresh and remains deterministic (2.590626ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + '2026-09-20'
+  - '2026-10-06'
+          ^
+  
+      at refreshed (file:///workspaces/legalease-partner-dashboard-clean/scripts/test-ms-successor-history.mjs:18:102)
+      at TestContext.<anonymous> (file:///workspaces/legalease-partner-dashboard-clean/scripts/test-ms-successor-history.mjs:21:171)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '2026-09-20',
+    expected: '2026-10-06',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
