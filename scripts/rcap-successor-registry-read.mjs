@@ -9,7 +9,7 @@ export async function registryImage(host,repo,digest,basic,fetchImpl=fetch){
   assert(r.ok,`registry ${host} GET HTTP ${r.status}`);return Buffer.from(await r.arrayBuffer());
  }
  const bytes=await get(`https://${host}/v2/${repo}/manifests/${digest}`,'application/vnd.oci.image.manifest.v1+json, application/vnd.docker.distribution.manifest.v2+json');assert.equal(hash(bytes),digest,'immutable manifest digest');let manifest=JSON.parse(bytes);
- if(manifest.manifests){const platform=manifest.manifests.find(m=>m.platform?.os==='linux'&&m.platform?.architecture==='amd64');assert(platform);manifest=JSON.parse(await get(`https://${host}/v2/${repo}/manifests/${platform.digest}`,'application/vnd.oci.image.manifest.v1+json, application/vnd.docker.distribution.manifest.v2+json'));}
+ if(manifest.manifests){const platform=manifest.manifests.find(m=>m.platform?.os==='linux'&&m.platform?.architecture==='amd64');assert(platform);const child=await get(`https://${host}/v2/${repo}/manifests/${platform.digest}`,'application/vnd.oci.image.manifest.v1+json, application/vnd.docker.distribution.manifest.v2+json');assert.equal(hash(child),platform.digest,'immutable selected platform manifest');manifest=JSON.parse(child);}
  const config=await get(`https://${host}/v2/${repo}/blobs/${manifest.config.digest}`);assert.equal(hash(config),manifest.config.digest);const parsed=JSON.parse(config);
  return {reference:`${host}/${repo}@${digest}`,manifestDigest:digest,configDigest:manifest.config.digest,layers:manifest.layers.map(l=>l.digest),rootfs:parsed.rootfs.diff_ids,ociRevision:parsed.config?.Labels?.['org.opencontainers.image.revision']??null};
 }

@@ -32,22 +32,22 @@ try {
  workerRollbackVerified=true;
 }catch(error){workerRollbackVerified=false;write('worker-rollback',{passed:false,readOnly:true,reason:error.message,operation:rollbackOperation,transportCode:error.cause?.code??null});}
 const token=process.env.VERCEL_TOKEN;assert(token);const identity=await resolveHostedVercelIdentity({token});
-async function vercel(pathname,body){const r=await fetch(hostedVercelScopedUrl(pathname,identity),{method:body?'POST':'GET',headers:{Authorization:'Bearer '+token,...(body?{'Content-Type':'application/json'}:{})},...(body?{body:JSON.stringify(body)}:{}),redirect:'error',signal:AbortSignal.timeout(60000)});assert(r.ok,`Vercel ${body?'staging POST':'GET'} HTTP ${r.status}`);return r.json();}
+async function vercel(pathname){const r=await fetch(hostedVercelScopedUrl(pathname,identity),{method:'GET',headers:{Authorization:'Bearer '+token},redirect:'error',signal:AbortSignal.timeout(60000)});assert(r.ok,`Vercel GET HTTP ${r.status}`);return r.json();}
 const rollback='dpl_3j4Dr4GHyXmwmrFCTZ6orNNNP7sc';
 async function aliases(){const d=await vercel(`/v3/deployments/${rollback}/aliases`);assert(Array.isArray(d.aliases)&&!d.pagination?.next);return d.aliases.map(a=>({alias:a.alias,redirect:a.redirect??null})).sort((a,b)=>a.alias.localeCompare(b.alias));}
 const before=await aliases();write('production-aliases-before',before);
 const current=await vercel(`/v13/deployments/${rollback}`);assert.equal(current.readyState,'READY');assert.equal(current.gitSource?.sha??current.meta?.githubCommitSha,'e312a5efa7b4882e0fbf61a5ff0ae7891ac23226');
 const project=await vercel(`/v9/projects/${identity.projectId}`);assert.equal(project.name,HOSTED_VERCEL_PROJECT_NAME);assert.equal(project.link?.productionBranch,'main');
 write('project-configuration',{projectId:project.id,productionBranch:project.link.productionBranch,nodeVersion:project.nodeVersion,framework:project.framework,buildCommand:project.buildCommand,installCommand:project.installCommand,outputDirectory:project.outputDirectory,productionConfigInherited:true,envOverrides:false});
-const body={name:HOSTED_VERCEL_PROJECT_NAME,project:identity.projectId,gitSource:{type:'github',repoId:'1248656766',ref:p.applicationSha,sha:p.applicationSha},target:'production',autoAssignCustomDomains:false,meta:{rcapStagedProduction:'true',rcapApplicationSha:p.applicationSha,rcapWorkerSourceSha:p.workerSourceSha,rcapWorkerDigest:p.workerDigest,rcapToolsSha:p.toolsSha}};
-// Exactly one safe POST. No alias/promotion API exists in this program.
+// The exact staged candidate already exists. Final closure is GET-only.
+assert(process.env.RCAP_STAGED_CANDIDATE_HOSTNAME,'exact existing candidate required; creation is closed');
 let created;
 if(process.env.RCAP_STAGED_CANDIDATE_HOSTNAME){
  const hostname=process.env.RCAP_STAGED_CANDIDATE_HOSTNAME;assert(/^[a-z0-9-]+-roger947s-projects\.vercel\.app$/.test(hostname),'exact existing candidate hostname');
  created=await vercel('/v13/deployments/'+hostname);assert.equal(created.id,'dpl_GYc99gmGcpTioRSn8Jq6hKiUqhUY','frozen reused candidate identity');assert.equal(created.meta?.rcapToolsSha,'7b86dff1b62461c360195517095cb39e748286a0','actual original staging control');assert.equal(created.projectId,identity.projectId);assert.equal(created.meta?.rcapStagedProduction,'true');assert.equal(created.meta?.rcapApplicationSha,p.applicationSha);assert.equal(created.meta?.rcapWorkerSourceSha,p.workerSourceSha);assert.equal(created.meta?.rcapWorkerDigest,p.workerDigest);assert(!before.some(a=>a.alias===hostname),'candidate is not a public alias');
  write('candidate-reuse',{id:created.id,hostname,applicationSha:created.gitSource?.sha,originalCreationToolsSha:created.meta.rcapToolsSha,newDeploymentCreated:false});
-}else{created=await vercel('/v13/deployments',body);}
-write('candidate-created',{id:created.id,url:created.url,target:created.target,applicationSha:created.gitSource?.sha});assert.match(created.id,/^dpl_/);assert.equal(created.gitSource?.sha,p.applicationSha);assert.equal(created.target,'production');
+}
+write('candidate-observed',{id:created.id,url:created.url,target:created.target,applicationSha:created.gitSource?.sha});assert.match(created.id,/^dpl_/);assert.equal(created.gitSource?.sha,p.applicationSha);assert.equal(created.target,'production');
 let d=created;
 for(let i=0;i<180&&d.readyState!=='READY';i++){assert(!['ERROR','CANCELED'].includes(d.readyState),'candidate build failed');await new Promise(r=>setTimeout(r,5000));d=await vercel(`/v13/deployments/${created.id}`);}
 assert.equal(d.readyState,'READY');assert.equal(d.gitSource?.sha,p.applicationSha);
