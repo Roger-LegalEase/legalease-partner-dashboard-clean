@@ -18,9 +18,9 @@ export function absoluteAppUrl(path: string) {
 }
 
 export function getPartnerAppBaseUrl() {
-  return configuredBaseUrl("NEXT_PUBLIC_LEGALEASE_PARTNER_URL") ??
-    configuredBaseUrl("NEXT_PUBLIC_PARTNER_APP_URL") ??
-    configuredBaseUrl("NEXT_PUBLIC_APP_URL") ??
+  return configuredBaseUrl(process.env.NEXT_PUBLIC_LEGALEASE_PARTNER_URL) ??
+    configuredBaseUrl(process.env.NEXT_PUBLIC_PARTNER_APP_URL) ??
+    configuredBaseUrl(process.env.NEXT_PUBLIC_APP_URL) ??
     (process.env.NODE_ENV === "production" ? productionPartnerAppUrl : localAppUrl);
 }
 
@@ -29,7 +29,7 @@ export function absolutePartnerAppUrl(path: string) {
 }
 
 export function getExpungementAiBaseUrl() {
-  return configuredBaseUrl("NEXT_PUBLIC_EXPUNGEMENT_AI_URL") ??
+  return configuredBaseUrl(process.env.NEXT_PUBLIC_EXPUNGEMENT_AI_URL) ??
     (process.env.NODE_ENV === "production" ? productionExpungementAiUrl : localAppUrl);
 }
 
@@ -38,7 +38,7 @@ export function absoluteExpungementAiUrl(path: string) {
 }
 
 export function getLegalEaseBaseUrl() {
-  return configuredBaseUrl("NEXT_PUBLIC_LEGALEASE_URL") ??
+  return configuredBaseUrl(process.env.NEXT_PUBLIC_LEGALEASE_URL) ??
     (process.env.NODE_ENV === "production" ? productionLegalEaseUrl : localAppUrl);
 }
 
@@ -72,9 +72,10 @@ export function passwordResetRedirectUrl(context: {
   const isExpungement = context.product === "expungement" || isExpungementAiHostname(context.hostname);
   if (isExpungement) {
     const query = context.continuationQuery?.trim() || "next=%2Fbriefcase";
-    return absoluteExpungementAiUrl(`/auth/set-password?${query}`);
+    return absoluteExpungementAiUrl(`/auth/set-password?${query}&flow=recovery`);
   }
-  return absolutePartnerAppUrl("/auth/set-password?next=/partner/dashboard");
+  const query = context.continuationQuery?.trim() || "next=%2Fpartner%2Fdashboard";
+  return absolutePartnerAppUrl(`/auth/set-password?${query}&flow=recovery`);
 }
 
 export function partnerLandingPageUrl(partnerSlug: string) {
@@ -93,8 +94,9 @@ export function emailPreviewUrl(partnerSlug: string, emailType: string) {
   return absolutePartnerAppUrl(`/internal/partners/admin/${partnerSlug}/emails/${emailType}`);
 }
 
-function configuredBaseUrl(envName: string) {
-  const value = process.env[envName]?.trim();
+// Next inlines public configuration only through literal environment reads.
+function configuredBaseUrl(configuredValue: string | undefined) {
+  const value = configuredValue?.trim();
   return value ? trimTrailingSlash(value) : null;
 }
 

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 import { KeyRound } from "lucide-react";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
@@ -56,112 +56,43 @@ export default function SetPasswordPage() {
   const [isNewPasswordVisible, setIsNewPasswordVisible] = useState(false);
   const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] = useState(false);
   const [isFirstAdminSetup, setIsFirstAdminSetup] = useState(false);
+  const [isRecovery, setIsRecovery] = useState(false);
+  const initialization = useRef<Promise<PasswordSessionResult> | null>(null);
 
   useEffect(() => {
     let isMounted = true;
-    const supabase = createBrowserSupabaseClient();
-    const {
-      data: { subscription }
-    } = supabase.auth.onAuthStateChange((event, session) => {
-      if (event === "PASSWORD_RECOVERY" && session && isMounted) {
-        setErrorMessage("");
-        setState("ready");
-      }
-    });
-
-    async function detectInviteSession() {
-      const searchParams = new URLSearchParams(window.location.search);
-      const detectedNextPath = safeAppRedirectPath(searchParams.get("next"));
-      const firstAdminSetup = searchParams.get("first_admin") === "1";
-      setIsFirstAdminSetup(firstAdminSetup);
-      setNextPath(detectedNextPath);
-
-      const recoverySignIn = detectedNextPath === "/clinic/reset" && searchParams.get("flow") === "signin";
-      const code = searchParams.get("code");
-      const hashParams = new URLSearchParams(window.location.hash.replace(/^#/, ""));
-      const accessToken = hashParams.get("access_token");
-      const refreshToken = hashParams.get("refresh_token");
-
-      if (code) {
-        const { error } = await supabase.auth.exchangeCodeForSession(code);
-        if (error) {
-          scrubAuthUrl(detectedNextPath);
-          if (isMounted) {
-            setDiagnostic({ status: "code_exchange_failed", error: safeAuthDiagnostic(error) });
-            setErrorMessage(authSessionErrorMessage(error));
-            setState("invalid");
-          }
-          return;
-        }
-      } else if (accessToken && refreshToken) {
-        const { error } = await supabase.auth.setSession({ access_token: accessToken, refresh_token: refreshToken });
-        if (error) {
-          scrubAuthUrl(detectedNextPath);
-          if (isMounted) {
-            setDiagnostic({ status: "hash_session_failed", error: safeAuthDiagnostic(error) });
-            setErrorMessage(authSessionErrorMessage(error));
-            setState("invalid");
-          }
-          return;
-        }
-      }
-
-      if (searchParams.get("first_admin_error") === "inactive") {
-        scrubAuthUrl(detectedNextPath);
-        if (isMounted) {
-          setDiagnostic({ status: "no_session_found" });
-          setErrorMessage(inactiveInviteMessage);
-          setState("invalid");
-        }
-        return;
-      }
-
-      scrubAuthUrl(detectedNextPath);
-
-      const { data, error } = await supabase.auth.getSession();
-      if (!isMounted) {
-        return;
-      }
-
-      if (error) {
-        setDiagnostic({ status: "no_session_found", error: safeAuthDiagnostic(error) });
-        setErrorMessage(authSessionErrorMessage(error));
+    // React Strict Mode replays effects. Keep the one-time callback promise,
+    // including its validated flow intent, rather than exchanging it again.
+    initialization.current ??= initializePasswordSession();
+    initialization.current.then(async (result) => {
+      if (!isMounted) return;
+      setNextPath(result.nextPath);
+      setIsRecovery(result.recovery);
+      setIsFirstAdminSetup(result.firstAdmin);
+      if (!result.ready) {
+        setDiagnostic({ status: result.status, error: safeAuthDiagnostic(result.error) });
+        setErrorMessage(result.recovery ? recoverySessionErrorMessage(result.error) : authSessionErrorMessage(result.error));
         setState("invalid");
         return;
       }
-
-      if (data.session) {
-        if (recoverySignIn) {
-          window.location.assign("/clinic/reset");
-          return;
-        }
-        if (isExpungementNext(detectedNextPath)) {
-          const claimedNext = await claimExpungementPending(detectedNextPath);
-          window.location.assign(claimedNext);
-          return;
-        }
-        setState("ready");
+      if (result.clinicSignIn) {
+        window.location.assign("/clinic/reset");
         return;
       }
-
-      setDiagnostic({ status: "no_session_found" });
-      setErrorMessage(inactiveInviteMessage);
+      if (!result.recovery && isExpungementNext(result.nextPath)) {
+        const claimedNext = await claimExpungementPending(result.nextPath);
+        if (isMounted) window.location.assign(claimedNext);
+        return;
+      }
+      setErrorMessage("");
+      setState("ready");
+    }).catch(() => {
+      if (!isMounted) return;
+      setErrorMessage("We could not check this link. Request a new link and try again.");
+      setDiagnostic({ status: "code_exchange_failed" });
       setState("invalid");
-    }
-
-    detectInviteSession().catch((error) => {
-      scrubAuthUrl(safeAppRedirectPath(new URLSearchParams(window.location.search).get("next")));
-      if (isMounted) {
-        setDiagnostic({ status: "code_exchange_failed", error: safeAuthDiagnostic(error) });
-        setErrorMessage(authSessionErrorMessage(error));
-        setState("invalid");
-      }
     });
-
-    return () => {
-      isMounted = false;
-      subscription.unsubscribe();
-    };
+    return () => { isMounted = false; };
   }, []);
 
   async function setPassword(event: FormEvent<HTMLFormElement>) {
@@ -185,16 +116,24 @@ export default function SetPasswordPage() {
     const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
     if (sessionError || !sessionData.session) {
       setDiagnostic({ status: "no_session_found", error: safeAuthDiagnostic(sessionError) });
-      setErrorMessage(sessionError ? authSessionErrorMessage(sessionError) : inactiveInviteMessage);
+      setErrorMessage(isRecovery ? recoverySessionErrorMessage(sessionError) : sessionError ? authSessionErrorMessage(sessionError) : inactiveInviteMessage);
       setState("invalid");
       return;
     }
 
-    const { error } = await supabase.auth.updateUser({ password });
+    let error: unknown;
+    try {
+      ({ error } = await supabase.auth.updateUser({ password }));
+    } catch {
+      setDiagnostic({ status: "update_user_failed" });
+      setErrorMessage("We could not save your password. Please try again.");
+      setState("ready");
+      return;
+    }
 
     if (error) {
       setDiagnostic({ status: "update_user_failed", error: safeAuthDiagnostic(error) });
-      setErrorMessage(updateUserErrorMessage(error));
+      setErrorMessage(isRecovery ? "We could not save your password. Please try again or request a new reset link." : updateUserErrorMessage(error));
       setState("ready");
       return;
     }
@@ -235,18 +174,17 @@ export default function SetPasswordPage() {
       }
     }
 
+    if (!isFirstAdminSetup && isExpungementNext(redirectPath)) {
+      redirectPath = await claimExpungementPending(redirectPath);
+    }
     setDiagnostic({ status: "success" });
     setSuccessMessage(
       isFirstAdminSetup
         ? "Password set. Opening your partner workspace..."
-        : "Password set. Opening your partner dashboard..."
+        : "Password saved. Opening your account..."
     );
     setState("saved");
-    if (isFirstAdminSetup) {
-      window.location.assign(safeAppRedirectPath(redirectPath));
-    } else {
-      window.location.assign(safeAppRedirectPath(nextPath));
-    }
+    window.location.assign(safeAppRedirectPath(redirectPath));
   }
 
   const isBusy = state === "checking" || state === "saving" || state === "saved";
@@ -256,28 +194,33 @@ export default function SetPasswordPage() {
       <div className="mx-auto flex min-h-screen max-w-3xl items-center px-4 py-10 md:px-6">
         <Card className="w-full rounded-md p-6">
           <div className="text-center">
-            <Badge tone="blue">LegalEase account setup</Badge>
+            <Badge tone="blue">{isRecovery ? "LegalEase password recovery" : "LegalEase account setup"}</Badge>
             <span className="mx-auto mt-5 flex h-12 w-12 items-center justify-center rounded-md bg-teal/10 text-teal">
               <KeyRound className="h-6 w-6" aria-hidden="true" />
             </span>
             <h1 className="mt-5 text-3xl font-black text-navy">Set your LegalEase password</h1>
             <p className="mt-3 text-sm leading-6 text-grayWilma-700">
-              Use the email address that received the invitation. After setting your password, you&apos;ll go to your partner dashboard.
+              {isRecovery ? "Save a new password to continue to your account." : "Use the email address that received the invitation to set your password and continue."}
             </p>
           </div>
 
           {state === "checking" ? (
             <div className="mt-6 rounded-md border border-grayWilma-200 bg-grayWilma-100 px-4 py-3 text-sm font-semibold text-grayWilma-700">
-              Checking your invite link...
+              {isRecovery ? "Checking your recovery link..." : "Checking your account link..."}
             </div>
           ) : null}
 
           {state === "invalid" ? (
             <div className="mt-6">
-              <PartnerRecoveryState
-                code="invitation_unavailable"
-                genericHeading="This account setup link cannot be used"
-              />
+              {isRecovery ? (
+                <div role="alert">
+                  <h2 className="text-lg font-black text-navy">This password reset link cannot be used</h2>
+                  <p className="mt-2 text-sm text-grayWilma-700">{errorMessage}</p>
+                  <Link className="mt-4 inline-flex min-h-11 items-center font-bold text-teal focus-visible:outline focus-visible:outline-2" href={`/auth/forgot-password?${consumerAuthContinuationQuery({ ...consumerAuthContinuationFrom(new URLSearchParams(typeof window === "undefined" ? "" : window.location.search)), nextPath })}`}>
+                    Request a new password reset
+                  </Link>
+                </div>
+              ) : <PartnerRecoveryState code="invitation_unavailable" genericHeading="This account setup link cannot be used" />}
             </div>
           ) : null}
 
@@ -371,7 +314,7 @@ export default function SetPasswordPage() {
 
           {state !== "invalid" ? (
           <div className="mt-5 text-center">
-            <Link href="/sign-in?next=/partner/dashboard" className="text-sm font-semibold text-teal hover:text-navy">
+            <Link href={`/sign-in?next=${encodeURIComponent(nextPath)}`} className="text-sm font-semibold text-teal hover:text-navy">
               Back to sign in
             </Link>
           </div>
@@ -476,6 +419,8 @@ function scrubAuthUrl(nextPath: string) {
     ...consumerAuthContinuationFrom(search),
     nextPath: safeAppRedirectPath(nextPath)
   }));
+  if (["recovery", "signin"].includes(search.get("flow") ?? "")) cleanParams.set("flow", search.get("flow")!);
+  if (search.get("first_admin") === "1" && search.get("flow") !== "recovery") cleanParams.set("first_admin", "1");
   window.history.replaceState({}, document.title, `${window.location.pathname}?${cleanParams.toString()}`);
 }
 
@@ -483,8 +428,8 @@ function isExpungementNext(nextPath: string) {
   return nextPath.startsWith("/expungement-ai") || nextPath.startsWith("/briefcase");
 }
 
-// Email verification and password reset both land here. If the participant
-// arrived carrying a claim token, the interrupted continuation finishes now and
+// Email verification and password reset both land here. After verification or
+// a successful password save, the interrupted continuation finishes and
 // they land on the exact matter rather than a generic Briefcase.
 async function claimExpungementPending(nextPath: string) {
   const params = new URLSearchParams(window.location.search);
@@ -497,4 +442,69 @@ async function claimExpungementPending(nextPath: string) {
     mode: "signin",
     claimRetry: "1"
   })}`;
+}
+
+
+type PasswordSessionResult = {
+  nextPath: string;
+  recovery: boolean;
+  firstAdmin: boolean;
+  clinicSignIn: boolean;
+  ready: boolean;
+  status: DiagnosticStatus;
+  error?: unknown;
+};
+
+async function initializePasswordSession(): Promise<PasswordSessionResult> {
+  const search = new URLSearchParams(window.location.search);
+  const hash = new URLSearchParams(window.location.hash.replace(/^#/, ""));
+  const nextPath = safeAppRedirectPath(search.get("next"));
+  const result: PasswordSessionResult = {
+    nextPath,
+    recovery: search.get("flow") === "recovery" || hash.get("type") === "recovery",
+    firstAdmin: search.get("first_admin") === "1",
+    clinicSignIn: nextPath === "/clinic/reset" && search.get("flow") === "signin",
+    ready: false,
+    status: "no_session_found"
+  };
+  const supabase = createBrowserSupabaseClient();
+  try {
+    const code = search.get("code");
+    const accessToken = hash.get("access_token");
+    const refreshToken = hash.get("refresh_token");
+    if (code) {
+      const { data, error } = await supabase.auth.exchangeCodeForSession(code);
+      result.status = "code_exchange_failed";
+      if (error) { result.error = error; return result; }
+      result.recovery ||= (data as typeof data & { redirectType?: string | null }).redirectType === "recovery";
+    } else if (accessToken && refreshToken) {
+      const { error } = await supabase.auth.setSession({ access_token: accessToken, refresh_token: refreshToken });
+      result.status = "hash_session_failed";
+      if (error) { result.error = error; return result; }
+    } else if (result.recovery || (!result.firstAdmin && !result.clinicSignIn)) {
+      // A scrubbed, missing or reused callback cannot borrow a cached session.
+      return result;
+    }
+    if (search.get("first_admin_error") === "inactive") return result;
+    if (result.recovery) { result.firstAdmin = false; result.clinicSignIn = false; }
+    const { data, error } = await supabase.auth.getSession();
+    result.error = error;
+    result.ready = !error && Boolean(data.session);
+    result.status = result.ready ? "checking" : "no_session_found";
+    return result;
+  } catch (error) {
+    result.error = error;
+    result.status = "code_exchange_failed";
+    return result;
+  } finally {
+    scrubAuthUrl(nextPath);
+  }
+}
+
+function recoverySessionErrorMessage(error: unknown) {
+  const candidate = error && typeof error === "object" ? error as { name?: unknown; code?: unknown } : null;
+  if (candidate?.name === "AuthPKCECodeVerifierMissingError" || candidate?.code === "pkce_code_verifier_not_found") {
+    return "Open the reset email in the same browser where you requested it. If that browser is unavailable, request a new reset here.";
+  }
+  return "This reset link is missing, expired, or has already been used. Request a new reset and open it in the browser where you made the request.";
 }

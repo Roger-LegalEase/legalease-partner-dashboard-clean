@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { authCaptchaFailureMessage, captchaOptions, isAuthCaptchaRequired } from "@/lib/auth/captcha";
 import { createBrowserSupabaseClient } from "@/lib/supabase/browser";
-import { passwordResetRedirectUrl } from "@/lib/app-url";
+import { isExpungementAiHostname, passwordResetRedirectUrl } from "@/lib/app-url";
 import {
   consumerAuthContinuationFrom,
   consumerAuthContinuationQuery
@@ -119,6 +119,9 @@ export default function ForgotPasswordPage() {
 function passwordResetRedirectTo() {
   const params = typeof window !== "undefined" ? new URLSearchParams(window.location.search) : new URLSearchParams();
   const continuation = consumerAuthContinuationFrom(params);
+  if (!params.get("next") && params.get("product") !== "expungement" && !isExpungementAiHostname(typeof window === "undefined" ? null : window.location.hostname)) {
+    continuation.nextPath = "/partner/dashboard";
+  }
   return passwordResetRedirectUrl({
     product: params.get("product"),
     hostname: typeof window !== "undefined" ? window.location.hostname : null,

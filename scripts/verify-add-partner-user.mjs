@@ -106,7 +106,7 @@ failIf(!forgotPasswordSource.includes("redirectTo: passwordResetRedirectTo()"), 
 // The reset target is computed by the shared context-aware helper. Partner staff (default /
 // partner host) still resolve to /auth/set-password?next=/partner/dashboard via the partner app URL.
 failIf(!forgotPasswordSource.includes("passwordResetRedirectUrl("), "Forgot-password must delegate to the shared context-aware passwordResetRedirectUrl helper.");
-failIf(!appUrlSource.includes('absolutePartnerAppUrl("/auth/set-password?next=/partner/dashboard")'), "Partner password reset must target /auth/set-password?next=/partner/dashboard via the partner app URL (NEXT_PUBLIC_PARTNER_APP_URL).");
+failIf(!appUrlSource.includes('absolutePartnerAppUrl(`/auth/set-password?${query}&flow=recovery`)') || !appUrlSource.includes('next=%2Fpartner%2Fdashboard'), "Partner recovery must preserve a validated destination and identify the recovery flow.");
 failIf(!forgotPasswordSource.includes("If an account exists for that email, we sent password reset instructions."), "Forgot-password success copy must not reveal whether the account exists.");
 for (const leakingCopy of ["email not found", "user not found", "account does not exist", "no account"]) {
   failIf(forgotPasswordSource.toLowerCase().includes(leakingCopy), `Forgot-password page must not include account enumeration copy: ${leakingCopy}`);
@@ -140,7 +140,8 @@ failIf(!setPasswordSource.includes('"use client"'), "Set-password page must be a
 failIf(!setPasswordSource.includes("createBrowserSupabaseClient()"), "Set-password page must use the browser Supabase client.");
 failIf(!setPasswordSource.includes("exchangeCodeForSession(code)"), "Set-password page must handle auth code invite links.");
 failIf(!setPasswordSource.includes("setSession({ access_token: accessToken, refresh_token: refreshToken })"), "Set-password page must handle hash token invite links.");
-failIf(!setPasswordSource.includes('event === "PASSWORD_RECOVERY"'), "Set-password page must recognize password recovery auth events.");
+failIf(!setPasswordSource.includes('.redirectType === "recovery"') || !setPasswordSource.includes('search.get("flow") === "recovery"'), "Set-password must recognize verified recovery type and preserve explicit recovery intent.");
+failIf(!setPasswordSource.includes('initialization.current ??= initializePasswordSession()'), "Password callbacks must have one initialization owner across effect replay.");
 failIf(!setPasswordSource.includes("updateUser({ password })"), "Set-password page must set the invited user's password.");
 failIf(!setPasswordSource.includes("scrubAuthUrl"), "Set-password page must scrub auth tokens from the URL.");
 failIf(setPasswordSource.includes("console.log") || setPasswordSource.includes("console.warn") || setPasswordSource.includes("console.error"), "Set-password page must not log invite links or auth tokens.");
@@ -162,13 +163,13 @@ failIf(!setPasswordSource.includes("That password does not meet Supabase passwor
 failIf(!setPasswordSource.includes("This invite link is no longer active. Please request a new invitation."), "Set-password page must show a safe missing-session error.");
 failIf(!setPasswordSource.includes("This invite link is invalid or has expired. Please request a new invitation."), "Set-password page must show a safe invalid-token error.");
 failIf(!setPasswordSource.includes("We could not set your password. Please try a different password or request a new invitation."), "Set-password page must show a safe fallback updateUser error.");
-failIf(!setPasswordSource.includes("window.location.assign(safeAppRedirectPath(nextPath))"), "Set-password success must redirect to the safe next path, defaulting to /partner/dashboard.");
+failIf(!setPasswordSource.includes("window.location.assign(safeAppRedirectPath(redirectPath))"), "Password success must use the validated saved-password continuation.");
 failIf(!setPasswordSource.includes("const [isNewPasswordVisible, setIsNewPasswordVisible] = useState(false)") || !setPasswordSource.includes("const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] = useState(false)"), "Set-password visibility controls must default both password fields to hidden.");
 failIf(!setPasswordSource.includes('type={isNewPasswordVisible ? "text" : "password"}') || !setPasswordSource.includes('type={isConfirmPasswordVisible ? "text" : "password"}'), "Set-password inputs must independently toggle between password and text.");
 failIf(!setPasswordSource.includes('aria-label={isNewPasswordVisible ? "Hide new password" : "Show new password"}') || !setPasswordSource.includes('aria-label={isConfirmPasswordVisible ? "Hide confirmed password" : "Show confirmed password"}'), "Set-password visibility buttons must have field-specific accessible labels.");
 failIf((setPasswordSource.match(/type="button"/g) ?? []).length < 2, "Set-password visibility controls must be non-submit buttons.");
 failIf(!setPasswordSource.includes('{isNewPasswordVisible ? "Hide" : "Show"}') || !setPasswordSource.includes('{isConfirmPasswordVisible ? "Hide" : "Show"}'), "Set-password visibility controls must show Show/Hide text for both fields.");
-failIf(!setPasswordSource.includes("scrubAuthUrl(detectedNextPath)") || setPasswordSource.indexOf("scrubAuthUrl(detectedNextPath)") < setPasswordSource.indexOf("exchangeCodeForSession(code)"), "Set-password page must not scrub the URL before session exchange is attempted.");
+failIf(!setPasswordSource.includes("scrubAuthUrl(nextPath)") || setPasswordSource.indexOf("scrubAuthUrl(nextPath);", setPasswordSource.indexOf("async function initializePasswordSession")) < setPasswordSource.indexOf("exchangeCodeForSession(code)"), "Password callback material must be consumed before URL scrubbing.");
 const sessionBeforeUpdateIndex = setPasswordSource.indexOf("const { data: sessionData, error: sessionError } = await supabase.auth.getSession()");
 const updateUserIndex = setPasswordSource.indexOf("updateUser({ password })");
 const validationBeforeUpdateIndex = setPasswordSource.indexOf("const validationMessage = validatePassword(password, confirmPassword)");
@@ -230,7 +231,12 @@ failIf(!clientSource.includes("function safelyResetForm(form: HTMLFormElement)")
 const inviteSuccessBlock = clientSource.slice(inviteSuccessIndex, inviteSuccessReturnIndex);
 failIf(inviteSuccessBlock.includes("throw ") || inviteSuccessBlock.includes('kind: "error"') || inviteSuccessBlock.includes("Unable to add the partner user right now."), "Client invite success branch must not throw or set the generic error.");
 failIf(!redirectSource.includes("safeAppRedirectPath"), "Shared safe redirect helper missing.");
-failIf(!redirectSource.includes("value.startsWith(\"/\")") || !redirectSource.includes("!value.startsWith(\"//\")") || !redirectSource.includes("hasUrlScheme"), "Redirect helper must allow only relative app paths.");
+// Verify redirect behavior, not a helper name that hardened successors removed.
+try {
+  cp.execFileSync(process.execPath, ["scripts/security/test-auth-redirect-security.mjs"], { stdio: "pipe" });
+} catch {
+  failIf(true, "Redirect helper must deny malicious redirects and preserve safe local paths.");
+}
 failIf(!redirectSource.includes("fallback = defaultPartnerAuthRedirect") || !redirectSource.includes("return fallback"), "Redirect helper must reject external next URLs to /partner/dashboard fallback.");
 
 failIf(!routePath.startsWith("src/app/internal/"), "Write route must live under /internal so the production proxy token layer applies.");
