@@ -8,7 +8,8 @@ export async function assertForwardSingleAttempt(candidate,{env=process.env,fetc
  const base='https://api.github.com/repos/Roger-LegalEase/legalease-partner-dashboard-clean';
  async function get(p){const r=await fetchImpl(base+p,{method:'GET',headers:{Authorization:'Bearer '+token,Accept:'application/vnd.github+json'},redirect:'error',signal:AbortSignal.timeout(30000)});assert(r.ok,'native attempt inventory GET failed');return r.json();}
  const current=await get('/actions/runs/'+runId);assert.equal(current.id,runId);assert.equal(current.head_sha,env.GITHUB_SHA);assert.equal(current.run_attempt,1);assert.equal(current.event,'workflow_dispatch');assert.equal(current.path,'.github/workflows/rcap-f1-ephemeral-staging.yml');assert.equal(current.head_branch,'captain-release');assert.equal(current.repository.full_name.toLowerCase(),'roger-legalease/legalease-partner-dashboard-clean');
- const after=Date.parse(candidate.forwardProduction.owner.recordedAt);assert(Number.isFinite(after));
+ // GitHub created_at is second-granular; include the entire approval second.
+ const after=Math.floor(Date.parse(candidate.forwardProduction.owner.recordedAt)/1000)*1000;assert(Number.isFinite(after));
  for(let page=1;page<=100;page++){
   const inventory=await get('/actions/workflows/rcap-f1-ephemeral-staging.yml/runs?event=workflow_dispatch&per_page=100&page='+page);assert(Array.isArray(inventory.workflow_runs));
   for(const run of inventory.workflow_runs){if(run.id===runId||Date.parse(run.created_at)<after)continue;assert(run.id<runId,'another later native dispatch exists; stop');let jobPage=1;
