@@ -1259,8 +1259,10 @@ function mississippiPaidConsumerSuccessorRecord() {
   record.version = sameIdentity ? prior.version + 1 : 1;
   record.history = [...(sameIdentity ? prior.history : []), {
     version: record.version, changeKind: sameIdentity ? "proof_added" : "created",
-    changedAt: "2026-09-20", changedBy: GENERATOR_ID,
-    reason: `New exact paid-consumer owner approval ${approval.decisionPath} sha256:${approval.decisionSha256}, superseding ${approval.supersededDecisionPath} sha256:${approval.supersededDecisionSha256}. The packet contents changed: the shared §7 supplemental guide is assembled into the full packet and the specification's own ms-filing-and-next-steps page is retired in its favour, and the owner approved those exact bytes. Preserves the prior sponsored Preview authority separately. No technical proof, legal review or retirement status is fabricated or waived, and no production or publication authority is created.`,
+    changedAt: sameIdentity ? changeDate : "2026-09-20", changedBy: GENERATOR_ID,
+    reason: sameIdentity
+      ? "Regenerated current evidence and publication bindings without rewriting the prior authority history; no new owner approval, packet-content decision, legal treatment, eligibility change, or hosted acceptance is implied."
+      : `New exact paid-consumer owner approval ${approval.decisionPath} sha256:${approval.decisionSha256}, superseding ${approval.supersededDecisionPath} sha256:${approval.supersededDecisionSha256}. The packet contents changed: the shared §7 supplemental guide is assembled into the full packet and the specification's own ms-filing-and-next-steps page is retired in its favour, and the owner approved those exact bytes. Preserves the prior sponsored Preview authority separately. No technical proof, legal review or retirement status is fabricated or waived, and no production or publication authority is created.`,
     recordSha256: fulfillmentRecordSha256(record),
     supersedesRecordSha256: sameIdentity ? prior.history.at(-1).recordSha256 : null
   }];
