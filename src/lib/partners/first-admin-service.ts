@@ -284,6 +284,39 @@ export async function getFirstAdminAccessView(
   });
 }
 
+// Internal operator preflight. No Auth/membership/invitation writes; public
+// acceptance retains its existing non-enumerating errors and authoritative checks.
+export async function validateFirstAdminInvitationRecipient(input: {
+  partnerSlug: unknown;
+  email: unknown;
+}) {
+  const partnerSlug = normalizePartnerSlug(input.partnerSlug);
+  const email = normalizeEmail(input.email);
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || email.length > 254) {
+    throw new FirstAdminProvisioningError("invalid_input", "Enter a valid work email address.");
+  }
+  const supabase = admin();
+  await requirePartner(supabase, partnerSlug);
+  const matches = await findAuthUsersByEmail(supabase, email);
+  const accountPath = decideFirstAdminAccountPath({ matchCount: matches.length, confirmed: isConfirmedAuthUser(matches[0]) });
+  if (accountPath === "ambiguous") {
+    throw new FirstAdminProvisioningError("auth_ambiguous", "This email has an unconfirmed or ambiguous account. Use a separate verified customer account; no account will be reset or duplicated.");
+  }
+  if (matches[0]) {
+    try {
+      await assertAuthUserCanReceiveInvitation(supabase, matches[0], partnerSlug);
+    } catch (error) {
+      if (!(error instanceof FirstAdminProvisioningError)) throw error;
+      const membership = await findMembershipByAuthUser(supabase, matches[0].id);
+      throw new FirstAdminProvisioningError(error.code,
+        membership?.status === "disabled"
+          ? "This email has disabled partner access. Use a separate customer account; existing access will not be reactivated."
+          : "This email already has incompatible internal or partner access. Use a separate customer account; existing access will not be changed.");
+    }
+  }
+  return { accountPath };
+}
+
 export async function createFirstAdminInvitation(input: {
   partnerSlug: unknown;
   operatorUserId: string;
@@ -313,6 +346,9 @@ export async function createFirstAdminInvitation(input: {
       "This partner already has an active administrator."
     );
   }
+
+  // Validate before any compare-and-set or invalidation of the prior account.
+  await validateFirstAdminInvitationRecipient({ partnerSlug, email: validated.value.email });
 
   const now = input.now ?? new Date();
   const current = await readInvitation(supabase, partnerSlug);
@@ -1353,6 +1389,8 @@ export async function sendFirstAdminInvitationEmail(input: {
   ) {
     return { sent: true, duplicatePrevented: true };
   }
+  // Membership can change between review, creation and delivery.
+  await validateFirstAdminInvitationRecipient({ partnerSlug, email: invitation.email });
   const rawToken = setupTokenFromLink(setupLink);
   if (
     !rawToken ||

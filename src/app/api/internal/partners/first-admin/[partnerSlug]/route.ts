@@ -6,6 +6,7 @@ import {
 } from "@/lib/observability/logger";
 import {
   createFirstAdminInvitation,
+  validateFirstAdminInvitationRecipient,
   endPartnerAdministratorAccess,
   FirstAdminProvisioningError,
   getFirstAdminAccessView,
@@ -75,7 +76,9 @@ export async function POST(
   try {
     const { partnerSlug } = await context.params;
     let result: Record<string, unknown> = {};
-    if (action === "create" || action === "replace") {
+    if (action === "validate") {
+      result = { recipient: await validateFirstAdminInvitationRecipient({ partnerSlug, email: values.email }) };
+    } else if (action === "create" || action === "replace") {
       const creation = await createFirstAdminInvitation({
         partnerSlug,
         operatorUserId: gate.authUserId,

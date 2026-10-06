@@ -92,6 +92,7 @@ check("every provisioning caller goes through provisionPartner", () => {
       // non-loopback Supabase URL before it reaches this call.
       "scripts/capture-rcap-prepared-onboarding-acceptance.mjs",
       "scripts/test-rcap-partner-provisioning-lifecycle.mjs",
+      "scripts/test-hotfix-provisioning-boundaries.mjs",
       ROUTE
     ].sort()
   );

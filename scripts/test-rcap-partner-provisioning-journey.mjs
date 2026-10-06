@@ -20,12 +20,17 @@
 // http://127.0.0.1:3139) whose NEXT_PUBLIC_PARTNER_APP_URL is that same origin,
 // a loopback Supabase stack, and Mailpit on MAILPIT_URL.
 import assert from "node:assert/strict";
-import { chromium } from "playwright";
+import { chromium, webkit } from "playwright";
+import { register } from "node:module";
+import { mkdirSync } from "node:fs";
 import { createClient } from "@supabase/supabase-js";
 
 const BASE = process.env.JOURNEY_BASE_URL ?? "http://127.0.0.1:3139";
 const MAILPIT = process.env.MAILPIT_URL ?? "http://127.0.0.1:54324";
-const SHOTS = process.env.JOURNEY_SCREENSHOT_DIR ?? "/tmp";
+const SHOTS = process.env.JOURNEY_SCREENSHOT_DIR ?? `/tmp/legalease-provisioning-${Date.now()}`;
+mkdirSync(SHOTS, { recursive: true });
+register("./lib/ts-esm-loader.mjs", import.meta.url);
+const { applyInternalOnboardingReview } = await import("../src/lib/partners/onboarding/service.ts");
 const PW = "Journey-Passw0rd!";
 if (!["127.0.0.1", "localhost", "::1"].includes(new URL(BASE).hostname)) {
   throw new Error("This journey only runs against a loopback application.");
@@ -43,6 +48,7 @@ const svc = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.SUPAB
 });
 const run = `${Date.now().toString(36)}`;
 const slug = `journey-${run}`;
+const newSlug = `journey-new-${run}`;
 const adminEmail = `journey-admin-${run}@example.test`;
 const operatorEmail = `journey-operator-${run}@legalease.test`;
 const cleanupUsers = [];
@@ -54,7 +60,7 @@ async function mkUser(email) {
   return data.user;
 }
 
-const browser = await chromium.launch();
+const browser = await (process.argv.includes("--webkit") ? webkit : chromium).launch();
 try {
   const operator = await mkUser(operatorEmail);
   await svc.from("partner_users").insert({
@@ -63,17 +69,23 @@ try {
   // The administrator already has exactly one confirmed account. This is the
   // production canary's identity state.
   await mkUser(adminEmail);
-  await fetch(`${MAILPIT}/api/v1/messages`, { method: "DELETE" });
+  // Capture this run's synthetic recipient only; preserve other agents' mail.
 
   // --- internal operator provisioning ------------------------------------
   const ctx = await browser.newContext({ viewport: { width: 1280, height: 900 } });
   const page = await ctx.newPage();
-  await page.goto(`${BASE}/sign-in?next=/internal/partners/provisioning/new`, { waitUntil: "networkidle" });
+  page.setDefaultTimeout(30000);
+  await page.goto(`${BASE}/sign-in?next=/internal/partners/provisioning`, { waitUntil: "networkidle" });
   await page.fill('input[name="email"]', operatorEmail);
   await page.fill('input[name="password"]', PW);
   await page.click('button[type="submit"]');
-  await page.waitForURL("**/internal/partners/provisioning/new", { timeout: 30000 });
+  await page.waitForURL("**/internal/partners/provisioning", { timeout: 30000 });
+  const beforeTotal = Number(await page.getByText("Total partners", { exact: true }).locator("..").locator("p").first().textContent());
+  if (beforeTotal === 0) await page.getByText("No partner records yet. Provision a new partner to begin.").waitFor();
+  await page.getByRole("link", { name: "Provision a new partner" }).click();
   await page.waitForSelector('[data-provisioning-state="details"]');
+  await page.waitForLoadState('networkidle');
+  await page.waitForFunction(() => Object.keys(document.querySelector('input[name=partnerSlug]') ?? {}).some(key => key.startsWith('__reactProps')));
   console.log("  ok  operator reaches the provisioning form");
 
   await page.fill('input[name="organizationName"]', "Journey Org");
@@ -84,7 +96,17 @@ try {
   await page.fill('input[name="administratorName"]', "Journey Administrator");
   await page.fill('input[name="administratorEmail"]', adminEmail);
   await page.fill('textarea[name="clearanceReason"]', "Local browser acceptance for the reviewed provisioning path.");
-  await page.click('button[type="submit"]');
+  await page.fill('input[name="partnerSlug"]', "https://outside.example.test");
+
+  await page.locator("#partner-page-error").filter({hasText:"Enter only the final part"}).waitFor();
+  await page.locator('[data-provisioning-state=details] button[type=submit]').click();
+
+  await page.locator('#partner-page-error').waitFor({ state: 'visible' });
+  assert.ok((await page.locator('#partner-page-error').textContent()).includes("Enter only the final part"));
+  assert.equal(await page.locator('input[name="partnerSlug"]').evaluate(e => e === document.activeElement), true);
+  assert.ok((await page.locator('#partner-page-address').textContent()).startsWith(`Resulting address: ${BASE}/p/`));
+  await page.fill('input[name="partnerSlug"]', slug);
+  await page.locator('[data-provisioning-state=details] button[type=submit]').click();
   await page.waitForSelector('[data-provisioning-state="review"]');
   const reviewText = await page.textContent('[data-provisioning-state="review"]');
   for (const phrase of [
@@ -109,6 +131,22 @@ try {
   await page.screenshot({ path: `${SHOTS}/journey-2-provisioned.png`, fullPage: true });
   console.log("  ok  provisioning completes and never implies launch");
 
+  const workspace = await svc.from("partner_onboarding").select("id,aggregate_version").eq("partner_slug", slug).single();
+  assert.equal(workspace.error, null);
+  await applyInternalOnboardingReview({ authUserId: operator.id, partnerSlug: slug, role: "internal_admin" }, { workspaceId: workspace.data.id, expectedWorkspaceVersion: workspace.data.aggregate_version, requestId: crypto.randomUUID(), operation: { action: "commercial_gate", outcome: "cleared_by_authorized_internal_override", overrideReason: "Isolated WP-02 unpaid/cleared display test." } });
+  const indexPage = await ctx.newPage();
+  await indexPage.goto(`${BASE}/internal/partners/provisioning`);
+  await indexPage.reload();
+  const row = indexPage.locator(`[data-partner-slug="${slug}"]`);
+  assert.equal(await row.count(), 1, "Provisioned partner appears exactly once after refresh");
+  assert.ok((await row.textContent()).includes("Invoice: Unpaid"));
+  assert.ok((await row.textContent()).includes("Commercial clearance: Cleared by authorized override"));
+  const afterTotal = Number(await indexPage.getByText("Total partners", { exact: true }).locator("..").locator("p").first().textContent());
+  assert.equal(afterTotal, beforeTotal + 1);
+  await row.getByRole('link', { name: 'Provisioning detail' }).click();
+  await indexPage.waitForURL(`**/internal/partners/provisioning/${slug}`);
+  await indexPage.close();
+  console.log("  ok  real index, matching totals, separate unpaid/cleared facts and detail link");
   await page.click('button:has-text("Continue to first administrator invitation")');
   await page.waitForURL(`**/internal/partners/provisioning/${slug}`, { timeout: 30000 });
   await page.waitForSelector("text=No administrator configured", { timeout: 30000 });
@@ -118,14 +156,18 @@ try {
   await page.click('button:has-text("Create administrator invitation")');
   await page.waitForSelector('h3:has-text("Create administrator access")');
   await page.fill('label:has-text("Full name") input', "Journey Administrator");
+  await page.fill('label:has-text("Work email") input', operatorEmail);
+  await page.click('button:has-text("Review administrator access")');
+  await page.getByText("This email already has incompatible internal or partner access.", { exact: false }).waitFor();
+  assert.equal(await page.getByRole('button', { name: 'Confirm and create invitation' }).count(), 0);
   await page.fill('label:has-text("Work email") input', adminEmail);
   await page.click('button:has-text("Review administrator access")');
   await page.click('button:has-text("Confirm and create invitation")');
   await page.waitForSelector("text=Invitation pending", { timeout: 30000 });
   await page.click('button:has-text("Send invitation")');
   await page.waitForSelector("text=Invitation sent through the configured email provider.", { timeout: 30000 });
-  await page.screenshot({ path: `${SHOTS}/journey-3-invited.png`, fullPage: true });
-  console.log("  ok  one invitation is created and delivered");
+  await page.screenshot({ path: `${SHOTS}/journey-3-invited.png`, fullPage: true, mask: [page.locator('input[aria-label="Secure setup link"]')] });
+  console.log("  ok  one invitation is created and delivered to the local mailbox");
 
   await new Promise((r) => setTimeout(r, 800));
   const mail = await (await fetch(`${MAILPIT}/api/v1/messages`)).json();
@@ -166,6 +208,13 @@ try {
   assert.equal(memberships.data[0].role, "partner_admin");
   console.log("  ok  exactly one active partner_admin membership exists");
 
+  await adminPage.goto(`${BASE}/internal/partners/provisioning`);
+  await adminPage.getByText('Protected administrative workspace').waitFor({state:'hidden'});assert.equal(await adminPage.getByRole('heading',{name:'Partner Provisioning',exact:true}).count(),0);
+  const denied = await adminPage.evaluate(async slug => { const r = await fetch(`/api/internal/partners/first-admin/${slug}`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ action: 'validate', email: 'denial@example.test' }) }); return r.status; }, slug);
+  assert.equal(denied, 403);
+  const anonymous = await browser.newContext();const anonymousPage = await anonymous.newPage();await anonymousPage.goto(`${BASE}/internal/partners/provisioning`);assert.equal(new URL(anonymousPage.url()).pathname, '/sign-in');await anonymous.close();
+  console.log("  ok  partner and anonymous index/preflight denial");
+
   const state = await svc.from("partner_onboarding").select("launched_at, landing_page_ready, internal_approved_at").eq("partner_slug", slug).single();
   assert.equal(state.data.launched_at, null);
   assert.equal(state.data.landing_page_ready, false);
@@ -174,9 +223,31 @@ try {
   assert.equal(publicPage.status, 404, `public route returned ${publicPage.status}`);
   console.log("  ok  the public participant page still returns 404 after acceptance");
 
+  // The new-identity path must still establish a password and accept the
+  // invitation; it is distinct from ordinary recovery and existing sign-in.
+  const newEmail = `journey-new-${run}@example.test`;
+  const second = await ctx.request.post(`${BASE}/api/internal/partners/provisioning`, { headers: { origin: BASE }, data: { organizationName: "New Identity Journey", legalOrganizationName: "New Identity Journey LLC", partnerSlug: newSlug, programName: "Synthetic new-admin program", programPurpose: "Local new-administrator acceptance verification.", administratorName: "New Administrator", administratorEmail: newEmail, clearanceReason: "Local authorized provisioning test.", idempotencyKey: crypto.randomUUID() } });
+  assert.equal(second.status(), 200);
+  await page.goto(`${BASE}/internal/partners/provisioning/${newSlug}`);
+  await page.getByRole('button', { name: 'Create administrator invitation' }).click();
+  await page.fill('label:has-text("Full name") input', "New Administrator");await page.fill('label:has-text("Work email") input', newEmail);
+  await page.getByRole('button', { name: 'Review administrator access' }).click();await page.getByRole('button', { name: 'Confirm and create invitation' }).click();
+  const setupInput = page.locator('input[aria-label="Secure setup link"]');await setupInput.waitFor();const newLink = await setupInput.inputValue();
+  const newCtx = await browser.newContext();const newPage = await newCtx.newPage();await newPage.goto(newLink);await newPage.locator('#new-password').waitFor();
+  const newAuth = (await svc.auth.admin.listUsers({ page: 1, perPage: 1000 })).data.users.find(u => u.email === newEmail);assert.ok(newAuth);cleanupUsers.push(newAuth.id);
+  const beforeNewMembership = await svc.from('partner_users').select('id').eq('partner_slug', newSlug);assert.equal(beforeNewMembership.data.length, 0);
+  await newPage.fill('#new-password', PW);await newPage.fill('#confirm-password', PW);await newPage.locator('button[type=submit]').click();await newPage.waitForURL('**/partner/onboarding');
+  const newMembership = await svc.from('partner_users').select('auth_user_id,role,status').eq('partner_slug', newSlug);assert.equal(newMembership.data.length, 1);assert.equal(newMembership.data[0].auth_user_id, newAuth.id);assert.equal(newMembership.data[0].role, 'partner_admin');await newCtx.close();
+  console.log("  ok  new identity sets a password then accepts one membership; existing identity uses ordinary sign-in");
   console.log("\nBrowser journey passed.");
 } finally {
   await browser.close();
+  for (const tenantSlug of [slug, newSlug]) {
+  await svc.from("partner_users").delete().eq("partner_slug", tenantSlug);
+  await svc.from("partner_records").delete().eq("partner_slug", tenantSlug);
+  }
+  const leftoverNew = (await svc.auth.admin.listUsers({ page: 1, perPage: 1000 })).data.users.find(u => u.email === `journey-new-${run}@example.test`);
+  if (leftoverNew && !cleanupUsers.includes(leftoverNew.id)) cleanupUsers.push(leftoverNew.id);
   await svc.from("partner_users").delete().eq("partner_slug", slug);
   await svc.from("partner_email_deliveries").delete().eq("partner_slug", slug);
   await svc.from("partner_events").delete().eq("partner_slug", slug);

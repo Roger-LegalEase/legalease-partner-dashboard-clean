@@ -1,15 +1,13 @@
+import { Badge } from "@/components/ui/Badge";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { ArrowRight, Building2, CheckCircle2, CreditCard, Plus, Settings2 } from "lucide-react";
-import { Badge } from "@/components/ui/Badge";
 import { Card } from "@/components/ui/Card";
 import {
   InternalAdminDenied,
   resolveInternalAdminPageAccess
 } from "@/lib/partners/internal-admin-gate";
 import {
-  getAllPartners,
-  getProgramTier,
   getPaymentStatusLabel,
   getProvisioningStatusLabel
 } from "@/lib/partners/partner-service";
@@ -17,7 +15,9 @@ import {
   internalProvisioningDetail,
   internalProvisioningNew
 } from "@/lib/partners/routes";
-import type { PartnerRecord } from "@/lib/partners/types";
+import { listInternalProvisioningRecords, type InternalProvisioningRecord } from "@/lib/partners/partner-repository";
+import type { PartnerPaymentStatus, PartnerProvisioningStatus } from "@/lib/partners/types";
+import { workspaceStatusLabel } from "@/lib/partners/onboarding/partner-labels";
 
 // Authenticated internal surface: the access gate resolves the session from request
 // cookies, so this page is request-bound and must never be statically prerendered.
@@ -30,11 +30,22 @@ export default async function InternalPartnerProvisioningPage() {
   if (access.kind === "denied") {
     return <InternalAdminDenied title={access.title} body={access.body} />;
   }
-  const partners = getAllPartners();
+  let partners: InternalProvisioningRecord[];
+  try {
+    partners = await listInternalProvisioningRecords();
+  } catch {
+    return <main className="mx-auto max-w-7xl px-4 py-10">
+      <h1 className="text-4xl font-black text-navy">Partner Provisioning</h1>
+      <Card className="mt-6 p-5" role="alert">
+        <p>Partner records could not be loaded. Please retry.</p>
+        <a className="mt-3 inline-flex min-h-11 items-center font-bold text-teal focus-visible:outline focus-visible:outline-2" href="/internal/partners/provisioning">Retry loading partners</a>
+      </Card>
+    </main>;
+  }
   const totalPartners = partners.length;
-  const paymentComplete = partners.filter((record) => record.paymentStatus === "paid").length;
-  const inProvisioning = partners.filter((record) => record.provisioningStatus === "provisioning_in_progress").length;
-  const active = partners.filter((record) => record.provisioningStatus === "provisioned").length;
+  const paymentComplete = partners.filter(record => record.payment_status === "paid").length;
+  const inProvisioning = partners.filter(record => ["provisioning_in_progress", "provisioning"].includes(record.provisioning_status ?? "")).length;
+  const provisioned = partners.filter(record => record.provisioning_status === "provisioned").length;
 
   return (
     <main className="min-h-screen bg-[#f7f8f6] text-navy">
@@ -44,8 +55,7 @@ export default async function InternalPartnerProvisioningPage() {
           <div>
             <h1 className="text-4xl font-black leading-tight text-navy">Partner Provisioning</h1>
             <p className="mt-4 max-w-3xl text-sm leading-6 text-grayWilma-700">
-              Track which partner assets are locked, pending, generating, ready, or active after mock payment and before
-              production activation.
+              Review current partner records, invoice payment, commercial clearance, and onboarding progress.
             </p>
             <Link
               className="mt-6 inline-flex min-h-11 items-center justify-center gap-2 rounded-md bg-navy px-5 py-2 text-sm font-semibold text-white transition hover:bg-navy-mid focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal focus-visible:ring-offset-2"
@@ -58,7 +68,7 @@ export default async function InternalPartnerProvisioningPage() {
           <Card className="rounded-md p-5">
             <p className="text-sm font-black text-navy">Provisioning scope</p>
             <p className="mt-3 text-sm leading-6 text-grayWilma-700">
-              This mock operations layer is structured to become database-backed partner provisioning records later.
+              Records come from the partner database. Invoice payment, commercial clearance, and onboarding are separate facts; provisioning does not publish or activate a program.
             </p>
           </Card>
         </section>
@@ -67,7 +77,7 @@ export default async function InternalPartnerProvisioningPage() {
           <SummaryCard icon={<Building2 className="h-5 w-5" />} label="Total partners" value={totalPartners} />
           <SummaryCard icon={<CreditCard className="h-5 w-5" />} label="Payment complete" value={paymentComplete} />
           <SummaryCard icon={<Settings2 className="h-5 w-5" />} label="In provisioning" value={inProvisioning} />
-          <SummaryCard icon={<CheckCircle2 className="h-5 w-5" />} label="Active" value={active} />
+          <SummaryCard icon={<CheckCircle2 className="h-5 w-5" />} label="Provisioned" value={provisioned} />
         </section>
 
         <section className="mt-8 overflow-hidden rounded-md border border-grayWilma-200 bg-white shadow-sm">
@@ -75,8 +85,9 @@ export default async function InternalPartnerProvisioningPage() {
             <h2 className="text-lg font-black text-navy">Provisioning records</h2>
           </div>
           <div className="divide-y divide-grayWilma-200">
+            {partners.length === 0 ? <p className="px-5 py-5 text-sm text-grayWilma-700">No partner records yet. Provision a new partner to begin.</p> : null}
             {partners.map((record) => (
-              <ProvisioningRow key={record.partnerId} record={record} />
+              <ProvisioningRow key={record.id} record={record} />
             ))}
           </div>
         </section>
@@ -105,34 +116,34 @@ function SummaryCard({
   );
 }
 
-function ProvisioningRow({ record }: { record: PartnerRecord }) {
-  const tier = getProgramTier(record.programTier);
-  const nextAsset = Object.values(record.assets).find((asset) => asset.status !== "active");
-
+function ProvisioningRow({ record }: { record: InternalProvisioningRecord }) {
+  const commercialLabels: Record<string, string> = {
+    blocked: "Not cleared",
+    cleared_by_paid_invoice: "Cleared by paid invoice",
+    cleared_by_approved_purchase_order: "Cleared by approved purchase order",
+    cleared_by_authorized_internal_override: "Cleared by authorized override"
+  };
   return (
-    <div className="grid gap-4 px-5 py-5 lg:grid-cols-[1.1fr_0.8fr_0.8fr_0.7fr_0.9fr_0.8fr_0.9fr_1.2fr_0.45fr] lg:items-center">
+    <div data-partner-slug={record.partner_slug} className="grid gap-4 px-5 py-5 lg:grid-cols-[1.2fr_1fr_1fr_1fr] lg:items-start">
       <div>
-        <p className="font-black text-navy">{record.partnerName}</p>
-        <p className="mt-1 text-xs text-grayWilma-600">{record.partnerSlug}</p>
+        <p className="font-black text-navy">{record.organization_name || record.partner_name}</p>
+        <p className="mt-1 text-xs text-grayWilma-600">{record.partner_slug}</p>
+        <p className="mt-2 text-sm text-grayWilma-700">Package: {record.selected_package_name || "Not recorded"}</p>
       </div>
-      <p className="text-sm font-semibold text-grayWilma-800">{tier.name}</p>
-      <p className="text-sm text-grayWilma-700">{record.region}</p>
-      <Badge tone={record.paymentStatus === "paid" ? "teal" : "orange"}>
-        {getPaymentStatusLabel(record.paymentStatus)}
-      </Badge>
-      <Badge tone={record.provisioningStatus === "provisioned" ? "teal" : "blue"}>
-        {getProvisioningStatusLabel(record.provisioningStatus)}
-      </Badge>
-      <p className="text-sm text-grayWilma-700">{record.launchDateTarget}</p>
-      <p className="text-sm text-grayWilma-700">{record.assignedOwner}</p>
-      <p className="text-sm leading-6 text-grayWilma-700">{nextAsset?.nextAction ?? "Monitor active program."}</p>
-      <Link
-        href={internalProvisioningDetail(record.partnerSlug)}
-        className="inline-flex min-h-10 items-center justify-center gap-2 rounded-md bg-navy px-3 py-2 text-sm font-semibold text-white transition hover:bg-navy-mid"
-      >
-        Detail
-        <ArrowRight className="h-4 w-4" aria-hidden="true" />
-      </Link>
+      <div className="grid gap-2 text-sm text-grayWilma-700">
+        <p>Invoice: {getPaymentStatusLabel(record.payment_status as PartnerPaymentStatus) || "Not recorded"}</p>
+        <p>Commercial clearance: {commercialLabels[record.commercial_gate_status ?? ""] || "Not recorded"}</p>
+      </div>
+      <div className="grid gap-2 text-sm text-grayWilma-700">
+        <p>Onboarding: {record.workspace_status ? workspaceStatusLabel(record.workspace_status) : "No workspace"}</p>
+        <p>Historical provisioning: {getProvisioningStatusLabel(record.provisioning_status as PartnerProvisioningStatus) || "Not recorded"}</p>
+        <p>Owner: {record.assigned_owner || "Not assigned"}</p>
+        <p>Launch target: {record.launch_date_target || "Not recorded"}</p>
+      </div>
+      <div className="flex flex-wrap gap-3">
+        <Link href={internalProvisioningDetail(record.partner_slug)} className="inline-flex min-h-11 items-center gap-2 font-bold text-teal focus-visible:outline focus-visible:outline-2">Provisioning detail <ArrowRight className="h-4 w-4" aria-hidden="true" /></Link>
+        {record.workspace_status ? <Link href={`/internal/partners/onboarding/${encodeURIComponent(record.partner_slug)}`} className="inline-flex min-h-11 items-center font-bold text-teal focus-visible:outline focus-visible:outline-2">Onboarding detail</Link> : null}
+      </div>
     </div>
   );
 }

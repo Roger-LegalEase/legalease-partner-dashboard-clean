@@ -41,7 +41,7 @@ export function validatePartnerProvisioningInput(
   input: PartnerProvisioningInput
 ):
   | { ok: true; value: ValidPartnerProvisioningInput }
-  | { ok: false; error: string } {
+  | { ok: false; error: string; field?: keyof ValidPartnerProvisioningInput } {
   const organizationName = collapse(input.organizationName);
   const legalOrganizationName = collapse(input.legalOrganizationName);
   const partnerSlug = text(input.partnerSlug).toLowerCase();
@@ -53,42 +53,37 @@ export function validatePartnerProvisioningInput(
   const idempotencyKey = text(input.idempotencyKey).toLowerCase();
 
   if (organizationName.length < 2 || organizationName.length > 200) {
-    return { ok: false, error: "Enter the public organization name." };
+    return { ok: false, error: "Enter the public organization name.", field: "organizationName" };
   }
   if (legalOrganizationName.length < 2 || legalOrganizationName.length > 200) {
-    return { ok: false, error: "Enter the legal organization name." };
+    return { ok: false, error: "Enter the legal organization name.", field: "legalOrganizationName" };
   }
-  if (!slugPattern.test(partnerSlug)) {
-    return {
-      ok: false,
-      error:
-        "Enter a partner page address using lowercase letters, numbers, and interior hyphens."
-    };
-  }
+  const pageNameError = partnerPageNameError(partnerSlug);
+  if (pageNameError) return { ok: false, error: pageNameError, field: "partnerSlug" };
   if (programName.length < 2 || programName.length > 200) {
-    return { ok: false, error: "Enter the program name." };
+    return { ok: false, error: "Enter the program name.", field: "programName" };
   }
   if (programPurpose.length < 10 || programPurpose.length > 2000) {
     return {
       ok: false,
-      error: "Describe the program purpose in at least a sentence."
+      error: "Describe the program purpose in at least a sentence.", field: "programPurpose"
     };
   }
   if (administratorName.length < 2 || administratorName.length > 120) {
-    return { ok: false, error: "Enter the administrator’s full name." };
+    return { ok: false, error: "Enter the administrator’s full name.", field: "administratorName" };
   }
   if (
     !administratorEmail ||
     administratorEmail.length > 254 ||
     !emailPattern.test(administratorEmail)
   ) {
-    return { ok: false, error: "Enter a valid administrator work email address." };
+    return { ok: false, error: "Enter a valid administrator work email address.", field: "administratorEmail" };
   }
   if (clearanceReason.length < 10 || clearanceReason.length > 2000) {
     return {
       ok: false,
       error:
-        "Record the authorized internal clearance reason for provisioning this partner."
+        "Record the authorized internal clearance reason for provisioning this partner.", field: "clearanceReason"
     };
   }
   if (!uuidPattern.test(idempotencyKey)) {
@@ -288,4 +283,13 @@ function text(value: unknown): string {
 
 function collapse(value: unknown): string {
   return text(value).replace(/\s+/g, " ");
+}
+
+
+export function partnerPageNameError(value: unknown): string {
+  const suffix = text(value).toLowerCase();
+  if (/^https?:\/\//i.test(suffix) || suffix.includes("/")) {
+    return "Enter only the final part, such as fresh-start-network. Do not enter the organization's website.";
+  }
+  return slugPattern.test(suffix) ? "" : "Use lowercase letters, numbers, and interior hyphens for the partner page name.";
 }

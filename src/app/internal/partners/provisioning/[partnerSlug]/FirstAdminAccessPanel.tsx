@@ -71,7 +71,7 @@ export function FirstAdminAccessPanel({
     idempotencyKey.current = crypto.randomUUID();
   }
 
-  function review(event: FormEvent<HTMLFormElement>) {
+  async function review(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setError(null);
     const fullName = values.fullName.trim().replace(/\s+/g, " ");
@@ -84,8 +84,16 @@ export function FirstAdminAccessPanel({
       setError("Enter a valid work email address.");
       return;
     }
-    setValues({ fullName, email });
-    setMode("review");
+    setBusyAction("validate");
+    try {
+      await postAction("validate", { email });
+      setValues({ fullName, email });
+      setMode("review");
+    } catch (caught) {
+      setError(caught instanceof Error ? caught.message : "The recipient could not be checked. Please retry.");
+    } finally {
+      setBusyAction(null);
+    }
   }
 
   async function createInvitation() {
@@ -493,11 +501,12 @@ export function FirstAdminAccessPanel({
               />
             </label>
             <div className="flex flex-wrap gap-2">
-              <button className={primaryButton} type="submit">
-                Review administrator access
+              <button className={primaryButton} disabled={Boolean(busyAction)} type="submit">
+                {busyAction === "validate" ? "Checking recipient…" : "Review administrator access"}
               </button>
               <button
                 className={secondaryButton}
+                disabled={Boolean(busyAction)}
                 onClick={() => setMode("idle")}
                 type="button"
               >

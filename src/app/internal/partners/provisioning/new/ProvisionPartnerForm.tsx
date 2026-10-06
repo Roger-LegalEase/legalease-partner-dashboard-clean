@@ -8,9 +8,12 @@ import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import {
   buildPartnerProvisioningPreview,
+  partnerPageNameError,
   validatePartnerProvisioningInput,
   type PartnerProvisioningPreview
 } from "@/lib/partners/partner-provisioning-domain";
+
+import { absolutePartnerAppUrl } from "@/lib/app-url";
 
 type Values = {
   organizationName: string;
@@ -62,6 +65,9 @@ export function ProvisionPartnerForm() {
   // the retry can only ever return the first outcome.
   const idempotencyKey = useRef<string | null>(null);
 
+  const pagePrefix = absolutePartnerAppUrl("/p/");
+  const pageNameError = values.partnerSlug ? partnerPageNameError(values.partnerSlug) : "";
+
   function set<K extends keyof Values>(key: K, value: string) {
     setValues((current) => ({ ...current, [key]: value }));
   }
@@ -76,6 +82,8 @@ export function ProvisionPartnerForm() {
     });
     if (!validated.ok) {
       setError(validated.error);
+      const field = event.currentTarget.elements.namedItem(validated.field ?? "");
+      if (field instanceof HTMLElement) field.focus();
       return;
     }
     idempotencyKey.current = key;
@@ -165,7 +173,7 @@ export function ProvisionPartnerForm() {
         </h2>
         <dl className="mt-4 grid gap-2 text-sm sm:grid-cols-2">
           <ResultState label="Legal organization name" value={preview.legalOrganizationName} />
-          <ResultState label="Page address" value={preview.partnerSlug} />
+          <ResultState label="Page address" value={`${pagePrefix}${preview.partnerSlug}`} />
           <ResultState label="Program name" value={preview.programName} />
           <ResultState
             label="First administrator"
@@ -255,7 +263,7 @@ export function ProvisionPartnerForm() {
         activate participant intake.
       </p>
       {error ? <ErrorNote message={error} /> : null}
-      <form className="mt-6 grid gap-4 sm:grid-cols-2" onSubmit={review}>
+      <form className="mt-6 grid gap-4 sm:grid-cols-2" noValidate onSubmit={review}>
         <Field label="Public organization name" required>
           <input
             autoComplete="off"
@@ -279,22 +287,26 @@ export function ProvisionPartnerForm() {
           />
         </Field>
         <Field
-          hint="Reserved now. The public page stays private and returns 404 until publication is authorized separately."
-          label="Partner page address"
+          hint="Enter only the final part, such as fresh-start-network. Do not enter the organization's website."
+          label="Partner page name"
           required
         >
-          <input
-            autoComplete="off"
-            className="provision-input font-mono"
-            maxLength={120}
-            name="partnerSlug"
-            onChange={(event) =>
-              set("partnerSlug", event.target.value.trim().toLowerCase())
-            }
-            pattern="[a-z0-9](?:[a-z0-9-]{0,118}[a-z0-9])?"
-            required
-            value={values.partnerSlug}
-          />
+          <span className="flex min-w-0 flex-col gap-1 sm:flex-row sm:items-center">
+            <span className="break-all text-sm text-grayWilma-600">{pagePrefix}</span>
+            <input
+              aria-describedby="partner-page-address partner-page-error"
+              aria-invalid={Boolean(pageNameError)}
+              autoComplete="off"
+              className="provision-input min-w-0 flex-1 font-mono"
+              maxLength={120}
+              name="partnerSlug"
+              onChange={(event) => set("partnerSlug", event.target.value.trim().toLowerCase())}
+              required
+              value={values.partnerSlug}
+            />
+          </span>
+          <span id="partner-page-address" className="mt-1 block break-all text-sm text-grayWilma-700">Resulting address: {pagePrefix}{values.partnerSlug || "your-page-name"}</span>
+          <span id="partner-page-error" role={pageNameError ? "alert" : undefined} className="mt-1 block text-sm text-orange">{pageNameError}</span>
         </Field>
         <Field label="Program name" required>
           <input

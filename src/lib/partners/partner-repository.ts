@@ -792,3 +792,52 @@ function mapPartnerEmailDeliveryRow(row: PartnerEmailDeliveryRow): PartnerEmailD
     updatedAt: row.updated_at ?? undefined
   };
 }
+
+// Internal provisioning reads current persisted facts, independent of demo/seed
+// readers. Call only after the internal-admin gate; failures never return seeds.
+export type InternalProvisioningRecord = {
+  id: string;
+  partner_slug: string;
+  partner_name: string;
+  organization_name: string | null;
+  selected_package_name: string | null;
+  payment_status: string | null;
+  provisioning_status: string | null;
+  assigned_owner: string | null;
+  launch_date_target: string | null;
+  workspace_status: string | null;
+  commercial_gate_status: string | null;
+};
+
+export async function listInternalProvisioningRecords(): Promise<InternalProvisioningRecord[]> {
+  const supabase = getSupabaseAdminClient();
+  if (!supabase) throw new Error("Provisioning records are unavailable.");
+  async function readPages(table: string, columns: string) {
+    const rows: Record<string, unknown>[] = [];
+    let total: number | null = null;
+    do {
+      const result = await supabase!.from(table).select(columns, { count: "exact" })
+        .order("id", { ascending: true }).range(rows.length, rows.length + 999);
+      if (result.error || !result.data || result.count === null ||
+          (total !== null && total !== result.count)) {
+        throw new Error("Provisioning records could not be read. Please retry.");
+      }
+      total = result.count;
+      // The service may cap each response below the requested range. Advance
+      // by received rows, and use the server total rather than a short-page guess.
+      if (!result.data.length && rows.length < total) throw new Error("Incomplete provisioning read. Please retry.");
+      rows.push(...result.data as unknown as Record<string, unknown>[]);
+    } while (rows.length < total);
+    return rows;
+  }
+  const [partners, workspaces] = await Promise.all([
+    readPages("partner_records", "id,partner_slug,partner_name,organization_name,selected_package_name,payment_status,provisioning_status,assigned_owner,launch_date_target"),
+    readPages("partner_onboarding", "id,partner_slug,status,commercial_gate_status")
+  ]);
+  const bySlug = new Map(workspaces.map(row => [row.partner_slug, row]));
+  return partners.map(row => ({
+    ...row,
+    workspace_status: bySlug.get(row.partner_slug)?.status ?? null,
+    commercial_gate_status: bySlug.get(row.partner_slug)?.commercial_gate_status ?? null
+  })) as InternalProvisioningRecord[];
+}
