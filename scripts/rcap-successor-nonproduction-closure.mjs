@@ -1,7 +1,7 @@
 // Exact application staging and GET-only predecessor custody. No activation,
 // worker deployment, database credentials, packet generation or live auth.
 import assert from 'node:assert/strict';
-import {registryImage} from './rcap-successor-registry-read.mjs';
+import {registryImage,assertRegistryMirrorEquivalent} from './rcap-successor-registry-read.mjs';
 import fs from 'node:fs';
 import {createHash} from 'node:crypto';
 import {execFileSync} from 'node:child_process';
@@ -26,9 +26,9 @@ try {
  const mirror=await registryImage('registry.fly.io',APP,m.imageDigest,'x:'+process.env.FLY_API_TOKEN);
  rollbackOperation='GHCR immutable manifest/config GET';
  const predecessor=await registryImage('ghcr.io','roger-legalease/rcap-render-worker',m.acceptedDigest,'x-access-token:'+process.env.GITHUB_TOKEN);
- assert.equal(mirror.configDigest,predecessor.configDigest,'Fly/GHCR config identity');assert.deepEqual(mirror.layers,predecessor.layers,'Fly/GHCR layers');assert.deepEqual(mirror.rootfs,predecessor.rootfs,'Fly/GHCR rootfs');
+ const mirrorEquivalence=assertRegistryMirrorEquivalent(mirror,predecessor);
  const oldConfig=execFileSync('git',['show',m.ociRevision+':deploy/rcap-render-worker/fly.toml']);assert(oldConfig.equals(fs.readFileSync('deploy/rcap-render-worker/fly.toml')),'unchanged worker configuration');
- write('worker-rollback',{passed:true,readOnly:true,capturedAt:fly.capturedAt,machine:m,mirror,predecessor,procedure:`After separately authorized activation, restore only machine ${m.id} image to ${mirror.reference} using the existing machine configuration preserved in place, restoring only the image and its recorded predecessor digest identity, then verify started state, OCI revision and health. No schema, secrets or application settings require mutation to restore the predecessor. Preserve the predecessor RCAP_WORKER_CONTAINER_DIGEST=${m.acceptedDigest}; changing only image on a successor config would retain the wrong evidence identity.`,configurationRequired:'Same committed fly.toml; restore image and its exact recorded digest identity only, no schema/secret/settings changes',flyConfigurationSha256:hash(oldConfig),workerDeploymentRequired:m.ociRevision!==p.workerSourceSha});
+ write('worker-rollback',{passed:true,readOnly:true,capturedAt:fly.capturedAt,machine:m,mirror,predecessor,mirrorEquivalence,procedure:`After separately authorized activation, restore only machine ${m.id} image to ${mirror.reference} using the existing machine configuration preserved in place, restoring only the image and its recorded predecessor digest identity, then verify started state, OCI revision and health. No schema, secrets or application settings require mutation to restore the predecessor. Preserve the predecessor RCAP_WORKER_CONTAINER_DIGEST=${m.acceptedDigest}; changing only image on a successor config would retain the wrong evidence identity.`,configurationRequired:'Same committed fly.toml; restore image and its exact recorded digest identity only, no schema/secret/settings changes',flyConfigurationSha256:hash(oldConfig),workerDeploymentRequired:m.ociRevision!==p.workerSourceSha});
  workerRollbackVerified=true;
 }catch(error){workerRollbackVerified=false;write('worker-rollback',{passed:false,readOnly:true,reason:error.message,operation:rollbackOperation,transportCode:error.cause?.code??null});}
 const token=process.env.VERCEL_TOKEN;assert(token);const identity=await resolveHostedVercelIdentity({token});

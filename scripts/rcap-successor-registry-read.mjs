@@ -13,3 +13,12 @@ export async function registryImage(host,repo,digest,basic,fetchImpl=fetch){
  const config=await get(`https://${host}/v2/${repo}/blobs/${manifest.config.digest}`);assert.equal(hash(config),manifest.config.digest);const parsed=JSON.parse(config);
  return {reference:`${host}/${repo}@${digest}`,manifestDigest:digest,configDigest:manifest.config.digest,layers:manifest.layers.map(l=>l.digest),rootfs:parsed.rootfs.diff_ids,ociRevision:parsed.config?.Labels?.['org.opencontainers.image.revision']??null};
 }
+
+// Registry mirrors may recompress layer blobs. The immutable verified config
+// binds their uncompressed diff_ids and runtime configuration.
+export function assertRegistryMirrorEquivalent(mirror,predecessor){
+ assert.equal(mirror.configDigest,predecessor.configDigest,'Fly/GHCR config identity');
+ assert.deepEqual(mirror.rootfs,predecessor.rootfs,'Fly/GHCR uncompressed rootfs');
+ assert.equal(mirror.ociRevision,predecessor.ociRevision,'Fly/GHCR source identity');
+ return {configIdentical:true,uncompressedRootfsIdentical:true,compressedLayerDigestsIdentical:JSON.stringify(mirror.layers)===JSON.stringify(predecessor.layers)};
+}
