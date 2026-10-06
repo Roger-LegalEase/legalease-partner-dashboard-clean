@@ -1,6 +1,7 @@
 // Exact application staging and GET-only predecessor custody. No activation,
 // worker deployment, database credentials, packet generation or live auth.
 import assert from 'node:assert/strict';
+import {registryImage} from './rcap-successor-registry-read.mjs';
 import fs from 'node:fs';
 import {createHash} from 'node:crypto';
 import {execFileSync} from 'node:child_process';
@@ -18,18 +19,7 @@ let workerRollbackVerified=false;
 let rollbackOperation='machine GET';
 const tuple=Object.fromEntries(['applicationSha','workerSourceSha','workerDigest','workerInputFingerprint','toolsSha'].map(k=>[k,p[k]]));
 // Rollback availability uses registry GETs only, including challenge token GET.
-async function registryImage(host,repo,digest,basic){
- let authorization='Basic '+Buffer.from(basic).toString('base64');
- async function get(url,accept){
-  let r=await fetch(url,{method:'GET',headers:{Authorization:authorization,...(accept?{Accept:accept}:{})},redirect:'error',signal:AbortSignal.timeout(30000)});
-  if(r.status===401){const challenge=r.headers.get('www-authenticate')??'';const param=k=>new RegExp(k+'="([^"]+)"').exec(challenge)?.[1];const realm=param('realm');assert(realm,'registry challenge');const u=new URL(realm);assert(['ghcr.io','registry.fly.io','api.fly.io'].includes(u.hostname)&&u.protocol==='https:');u.searchParams.set('service',param('service')??host);u.searchParams.set('scope',param('scope')??`repository:${repo}:pull`);const token=await fetch(u,{method:'GET',headers:{Authorization:authorization},redirect:'error'});assert(token.ok,'registry read token');const t=await token.json();authorization='Bearer '+(t.token??t.access_token);r=await fetch(url,{method:'GET',headers:{Authorization:authorization,...(accept?{Accept:accept}:{})},redirect:'follow',signal:AbortSignal.timeout(30000)});}
-  assert(r.ok,`registry ${host} GET HTTP ${r.status}`);return Buffer.from(await r.arrayBuffer());
- }
- const bytes=await get(`https://${host}/v2/${repo}/manifests/${digest}`,'application/vnd.oci.image.manifest.v1+json, application/vnd.docker.distribution.manifest.v2+json');assert.equal(hash(bytes),digest,'immutable manifest digest');let manifest=JSON.parse(bytes);
- if(manifest.manifests){const platform=manifest.manifests.find(m=>m.platform?.os==='linux'&&m.platform?.architecture==='amd64');assert(platform);manifest=JSON.parse(await get(`https://${host}/v2/${repo}/manifests/${platform.digest}`,'application/vnd.oci.image.manifest.v1+json, application/vnd.docker.distribution.manifest.v2+json'));}
- const config=await get(`https://${host}/v2/${repo}/blobs/${manifest.config.digest}`);assert.equal(hash(config),manifest.config.digest);const parsed=JSON.parse(config);
- return {reference:`${host}/${repo}@${digest}`,manifestDigest:digest,configDigest:manifest.config.digest,layers:manifest.layers.map(l=>l.digest),rootfs:parsed.rootfs.diff_ids,ociRevision:parsed.config?.Labels?.['org.opencontainers.image.revision']??null};
-}
+
 try {
  const fly=await readWorkerIdentity({token:process.env.FLY_API_TOKEN});write('fly-identity',fly);assert.equal(fly.machines.length,1);const m=fly.machines[0];assert.equal(m.state,'started');assert.equal(m.ociRevision,'5e04eafd7eaed7e71722862e651fb787ebbd296d');
  rollbackOperation='Fly immutable manifest/config GET';
@@ -54,7 +44,7 @@ const body={name:HOSTED_VERCEL_PROJECT_NAME,project:identity.projectId,gitSource
 let created;
 if(process.env.RCAP_STAGED_CANDIDATE_HOSTNAME){
  const hostname=process.env.RCAP_STAGED_CANDIDATE_HOSTNAME;assert(/^[a-z0-9-]+-roger947s-projects\.vercel\.app$/.test(hostname),'exact existing candidate hostname');
- created=await vercel('/v13/deployments/'+hostname);assert.equal(created.projectId,identity.projectId);assert.equal(created.meta?.rcapStagedProduction,'true');assert.equal(created.meta?.rcapApplicationSha,p.applicationSha);assert.equal(created.meta?.rcapWorkerSourceSha,p.workerSourceSha);assert.equal(created.meta?.rcapWorkerDigest,p.workerDigest);assert(!before.some(a=>a.alias===hostname),'candidate is not a public alias');
+ created=await vercel('/v13/deployments/'+hostname);assert.equal(created.id,'dpl_GYc99gmGcpTioRSn8Jq6hKiUqhUY','frozen reused candidate identity');assert.equal(created.meta?.rcapToolsSha,'7b86dff1b62461c360195517095cb39e748286a0','actual original staging control');assert.equal(created.projectId,identity.projectId);assert.equal(created.meta?.rcapStagedProduction,'true');assert.equal(created.meta?.rcapApplicationSha,p.applicationSha);assert.equal(created.meta?.rcapWorkerSourceSha,p.workerSourceSha);assert.equal(created.meta?.rcapWorkerDigest,p.workerDigest);assert(!before.some(a=>a.alias===hostname),'candidate is not a public alias');
  write('candidate-reuse',{id:created.id,hostname,applicationSha:created.gitSource?.sha,originalCreationToolsSha:created.meta.rcapToolsSha,newDeploymentCreated:false});
 }else{created=await vercel('/v13/deployments',body);}
 write('candidate-created',{id:created.id,url:created.url,target:created.target,applicationSha:created.gitSource?.sha});assert.match(created.id,/^dpl_/);assert.equal(created.gitSource?.sha,p.applicationSha);assert.equal(created.target,'production');
@@ -71,7 +61,7 @@ const after=await aliases();write('production-aliases-after',after);assert.deepE
 for(const a of before.filter(a=>!a.redirect)){const live=await vercel('/v13/deployments/'+a.alias);assert.equal(live.id,rollback,'all existing public aliases remain on predecessor');}
 if(browserFailure)throw browserFailure;
 const browser=JSON.parse(fs.readFileSync(`${out}/browser-results.json`));assert.equal(browser.length,4);assert(browser.every(r=>r.status==='PASS'));
-write('admission',{schemaVersion:'rcap-readonly-successor-admission/v1',capturedAt:new Date().toISOString(),...tuple,workerRollbackVerified,sharedHostRoutingMethod:'frozen-proxy-map-and-staged-targets',workflowSourceSha,runId:Number(process.env.GITHUB_RUN_ID),deploymentId:d.id,hostname:d.url,productionRollback:rollback,productionAliases:before,productionAliasesUnchanged:true,autoAssignCustomDomains:false,signupVerified:true,sharedHostRoutingVerified:true,productionWrites:false,target:d.target,readyState:d.readyState,liveAuthCalls:0,productionAuthorized:false,emailDelivery:'UNVERIFIED: all authentication mocked',hostedScope:'read-only staged signup and host routing; no live participant, payment, packet or queue exercised'});
+write('admission',{schemaVersion:'rcap-readonly-successor-admission/v1',capturedAt:new Date().toISOString(),...tuple,workerRollbackVerified,sharedHostRoutingMethod:'frozen-proxy-map-and-staged-targets',stagingCreation:{runId:37457756634,workflowSourceSha:'6eec672ac2cd871d541b0efd6aa9183380d39825',toolsSha:'7b86dff1b62461c360195517095cb39e748286a0',autoAssignCustomDomains:false},workflowSourceSha,runId:Number(process.env.GITHUB_RUN_ID),deploymentId:d.id,hostname:d.url,productionRollback:rollback,productionAliases:before,productionAliasesUnchanged:true,autoAssignCustomDomains:false,signupVerified:true,sharedHostRoutingVerified:true,productionWrites:false,target:d.target,readyState:d.readyState,liveAuthCalls:0,productionAuthorized:false,emailDelivery:'UNVERIFIED: all authentication mocked',hostedScope:'read-only staged signup and host routing; no live participant, payment, packet or queue exercised'});
 console.log('Exact staged application verified; production aliases and worker unchanged.');
 
 assert(workerRollbackVerified,'Nonproduction closure incomplete: worker rollback evidence failed; staging result retained for review');

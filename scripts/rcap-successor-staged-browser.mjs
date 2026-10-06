@@ -1,6 +1,7 @@
 // Operator-run LOCAL browser check. Does not start/deploy an application or use
 // real Auth. All auth, claim and destination responses are synthetic/mocked.
 import assert from 'node:assert/strict';
+import {seedStagedLocale} from './rcap-successor-browser-contract.mjs';
 import ts from 'typescript';
 import vm from 'node:vm';
 import {execFileSync} from 'node:child_process';
@@ -40,7 +41,7 @@ const results=[];
 try {
  for(const locale of ['en','es']) for(const width of [375,1440]) {
   const context=await browser.newContext({viewport:{width,height:1000},colorScheme:'light',extraHTTPHeaders:{'x-vercel-protection-bypass':bypass}});
-  await context.addInitScript(locale=>localStorage.setItem('exp_lang',locale),locale);
+  await context.addInitScript(seedStagedLocale,{locale,origin});
   let signups=0,signins=0,claims=0,unexpectedAuth=0,fail=false,delay=0;
   const errors=[];
   context.on('page',p=>p.on('pageerror',error=>{let message=error.message;for(const [key,value]of Object.entries(process.env))if(/TOKEN|SECRET|PASSWORD|KEY/.test(key)&&value&&value.length>5)message=message.split(value).join('[redacted]');message=message.replace(/https?:\/\/[^\s)]+/g,url=>{try{const u=new URL(url);return u.origin+u.pathname;}catch{return '[url]';}}).replace(/[A-Za-z0-9_-]{20,}\.[A-Za-z0-9_-]{20,}\.[A-Za-z0-9_-]+/g,'[token]');errors.push({name:error.name,message});fs.writeFileSync(path.join(output,'browser-errors.json'),JSON.stringify({locale,width,errors},null,2));}));
