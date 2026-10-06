@@ -252,6 +252,8 @@ export function verifyPinnedForwardBinding(root,candidate) {
   const allowed=new Set([PENDING,CANDIDATE,TOOLS,...(candidate.hostedAdmission?.files??[]).map(f=>f.path)]);
   const post=git(root,['diff','--name-only',p.toolsSha]).split('\n').filter(Boolean);
   assert(post.every(f=>allowed.has(f)),'bounded post-tools forward records');
+  const untracked=git(root,['ls-files','--others','--exclude-standard','--','scripts','.github','src','data','hosted-acceptance-evidence']).split('\n').filter(Boolean);
+  assert(untracked.every(f=>allowed.has(f)),'no unbound forward inputs');
   if(!candidate.hostedAdmission)return {...expected,current:false,bindingVerified:true,status:'FORWARD_BOUND_HOSTED_PENDING',productionAuthorized:false,reasons:['Fresh exact staged hosted evidence is required; all production execution remains held.']};
   assert.deepEqual(tools.hostedAdmission,candidate.hostedAdmission);assert.deepEqual(p.hostedAdmission,candidate.hostedAdmission);
   const h=candidate.hostedAdmission;
