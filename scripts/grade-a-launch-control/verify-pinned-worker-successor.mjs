@@ -148,7 +148,7 @@ function acceptance(root,e,reviewed=read(root,TOOLS)){
  for(const [k,v]of Object.entries({runId:a.runId,jobId:a.jobId,workflowSourceSha:a.workflowSourceSha,sourceSha:e.sourceSha,digest:e.immutableRegistryDigest,readOnly:true,conclusion:'success'}))assert.equal(receipt[k],v,`receipt ${k}`);
 }
 export function verifyPinnedPublication(root){
- try{const p=read(root,PENDING);sourcePlan(root,p);assert.notEqual(p.publication,'pending','publication absent');const e=publication(root,p);return {current:true,sourceSha:e.sourceSha,workerDigest:e.immutableRegistryDigest,workerInputFingerprint:e.workerInputFingerprint,runtimeAccepted:e.runtimeAccepted,reasons:[]};}
+ try{const p=read(root,PENDING);if(p.applicationSource==='pinned-source-forward'){const bound=verifyPinnedForwardBinding(root,read(root,CANDIDATE));assert(bound.bindingVerified,bound.reasons.join('; '));return {current:true,sourceSha:bound.workerSourceSha,workerDigest:bound.workerDigest,workerInputFingerprint:bound.workerInputFingerprint,runtimeAccepted:true,reasons:[]};}sourcePlan(root,p);assert.notEqual(p.publication,'pending','publication absent');const e=publication(root,p);return {current:true,sourceSha:e.sourceSha,workerDigest:e.immutableRegistryDigest,workerInputFingerprint:e.workerInputFingerprint,runtimeAccepted:e.runtimeAccepted,reasons:[]};}
  catch(error){return {current:false,reasons:[error.message]};}
 }
 export function verifyPinnedSuccessor(root,p=read(root,PENDING)){

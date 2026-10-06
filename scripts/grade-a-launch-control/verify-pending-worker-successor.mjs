@@ -6,13 +6,14 @@ import {HOSTED_BASE,HOSTED_STATUS,verifyHostedAcceptanceEvidence} from './verify
 // commit which introduced this pending record, resolved through Git history;
 // the recorded parent, exact delta and fingerprints make it non-floating.
 import fs from 'node:fs';import path from 'node:path';import assert from 'node:assert/strict';import {execFileSync} from 'node:child_process';import {createHash} from 'node:crypto';import {createWorkerInputPlan,aggregateCanonicalInputs} from '../rcap-hosted-acceptance-worker-input-plan.mjs';
-import {verifyPinnedSuccessor,verifyPinnedPublication} from './verify-pinned-worker-successor.mjs';
+import {verifyPinnedSuccessor,verifyPinnedPublication,verifyPinnedForwardBinding} from './verify-pinned-worker-successor.mjs';
 export const PENDING='data/rcap-grade-a/launch-control/PENDING_WORKER_SUCCESSOR.json';
 export function verifyPendingWorkerSuccessor(root){
  const file=path.join(root,PENDING);if(!fs.existsSync(file))return null;
  const git=a=>execFileSync('git',a,{cwd:root,encoding:'utf8',stdio:'pipe'}).trim();
  try{
  const p=JSON.parse(fs.readFileSync(file));
+ if(p.applicationSource==='pinned-source-forward')return verifyPinnedForwardBinding(root,JSON.parse(fs.readFileSync(path.join(root,'data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json'))));
  if(p.applicationSource==='pinned-source')return verifyPinnedSuccessor(root,p);
  if(p.releaseBaseSha)return verifyGenerationPending(root,p);
  const accepted=p.status==='SUCCESSOR_ACCEPTED_PREVIEW_AND_RESUME_PENDING';
@@ -56,7 +57,7 @@ export function verifySuccessorPublication(root) {
   const hash=bytes=>createHash('sha256').update(bytes).digest('hex');
   const git=args=>execFileSync('git',args,{cwd:root,encoding:'utf8',stdio:'pipe'}).trim();
   const e=JSON.parse(read('data/rcap-render/worker-publication-evidence.json'));
-  if(JSON.parse(read(PENDING)).applicationSource==='pinned-source')return verifyPinnedPublication(root);
+  if(['pinned-source','pinned-source-forward'].includes(JSON.parse(read(PENDING)).applicationSource))return verifyPinnedPublication(root);
   if(JSON.parse(read(PENDING)).releaseBaseSha)return verifyGenerationPublication(root,e);
   const source='af638b61cc4b74afad972fa79c4c1ca3f6709540';
   const digest='sha256:063901962bedf73adedb8a7566da2434539082bd1577051e98e4303c566bb3a5';
