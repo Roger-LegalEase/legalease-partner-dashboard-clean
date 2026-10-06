@@ -151,6 +151,7 @@ jobs:
       - name: Stage exact application without aliases and read worker rollback
         env:
           RCAP_APPLICATION_SHA: ${{ inputs.application_sha }}
+          RCAP_STAGED_CANDIDATE_HOSTNAME: ${{ inputs.preview_hostname }}
           RCAP_WORKER_SOURCE_SHA: ${{ inputs.worker_source_sha }}
           RCAP_WORKER_DIGEST: ${{ inputs.worker_digest }}
           RCAP_TOOLS_SHA: ${{ inputs.tools_sha }}

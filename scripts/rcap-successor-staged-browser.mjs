@@ -43,7 +43,7 @@ try {
   await context.addInitScript(locale=>localStorage.setItem('exp_lang',locale),locale);
   let signups=0,signins=0,claims=0,unexpectedAuth=0,fail=false,delay=0;
   const errors=[];
-  context.on('page',p=>p.on('pageerror',()=>errors.push('pageerror (details withheld)')));
+  context.on('page',p=>p.on('pageerror',error=>{let message=error.message;for(const [key,value]of Object.entries(process.env))if(/TOKEN|SECRET|PASSWORD|KEY/.test(key)&&value&&value.length>5)message=message.split(value).join('[redacted]');message=message.replace(/https?:\/\/[^\s)]+/g,url=>{try{const u=new URL(url);return u.origin+u.pathname;}catch{return '[url]';}}).replace(/[A-Za-z0-9_-]{20,}\.[A-Za-z0-9_-]{20,}\.[A-Za-z0-9_-]+/g,'[token]');errors.push({name:error.name,message});fs.writeFileSync(path.join(output,'browser-errors.json'),JSON.stringify({locale,width,errors},null,2));}));
   await context.route('**/*',async route=>{
    const req=route.request(),url=new URL(req.url());
    if(url.pathname.startsWith('/auth/v1/')){
