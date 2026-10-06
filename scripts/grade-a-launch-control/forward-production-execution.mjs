@@ -7,7 +7,7 @@ const git=(root,args)=>execFileSync('git',args,{cwd:root,encoding:'utf8',stdio:'
 export const FROZEN_CONTROL_SURFACE=['scripts','.github'];
 export function forwardExecutionPaths(candidate){
  const h=candidate.hostedAdmission,f=candidate.forwardProduction;
- return new Set([...records,...(h?.files??[]).map(r=>r.path),...(f?[f.ownerPath,...Object.values(f.receipts).flatMap(r=>r.files.map(x=>x.path))]:[])]);
+ return new Set([...records,...(h?.files??[]).map(r=>r.path),...(f?[f.ownerPath,...(f.owner.refusedAttempt?.files??[]).map(r=>r.path),...Object.values(f.receipts).flatMap(r=>r.files.map(x=>x.path))]:[])]);
 }
 // Current binding/owner validators remain mandatory at callers. This check
 // additionally proves custody of all executable controls and bounded later data.

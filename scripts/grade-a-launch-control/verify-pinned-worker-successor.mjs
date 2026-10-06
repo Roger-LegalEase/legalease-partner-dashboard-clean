@@ -1,3 +1,4 @@
+import {assertVercelProductionScopes} from './vercel-production-scopes.mjs';
 import {AUTHORIZED_FORWARD,verifyForwardProductionSuccessor} from './verify-forward-production-successor.mjs';
 // Explicit source pins extend the existing successor lifecycle. Historical
 // generations continue through their original validators, at their own revision.
@@ -258,7 +259,7 @@ export function verifyPinnedForwardBinding(root,candidate) {
   if(!candidate.hostedAdmission)return {...expected,current:false,bindingVerified:true,status:'FORWARD_BOUND_HOSTED_PENDING',productionAuthorized:false,reasons:['Fresh exact staged hosted evidence is required; all production execution remains held.']};
   assert.deepEqual(tools.hostedAdmission,candidate.hostedAdmission);assert.deepEqual(p.hostedAdmission,candidate.hostedAdmission);
   const h=candidate.hostedAdmission;
-  assert.equal(h.schemaVersion,'rcap-readonly-successor-admission/v1');
+  assert(['rcap-readonly-successor-admission/v1','rcap-readonly-successor-admission/v2'].includes(h.schemaVersion));
   assertForwardHosted(h,expected);
   for(const ref of h.files){assert(ref.path.startsWith('hosted-acceptance-evidence/successor-closure/')&&!ref.path.split('/').includes('..'));const bytes=fs.readFileSync(path.join(root,ref.path));assert.equal(bytes.length,ref.bytes);assert.equal(hash(bytes),ref.sha256);}
   for(const rel of [h.runPath,h.receiptPath,h.jobsPath,h.artifactPath,h.archivePath])assert(h.files.some(f=>f.path===rel),'all native admission inputs are hashed');
@@ -271,6 +272,7 @@ export function verifyPinnedForwardBinding(root,candidate) {
   const fromArchive=JSON.parse(execFileSync('unzip',['-p',path.join(root,h.archivePath),'admission.json'],{encoding:'utf8'}));assert.deepEqual(fromArchive,receipt,'actual native artifact receipt');
   const rollback=JSON.parse(execFileSync('unzip',['-p',path.join(root,h.archivePath),'worker-rollback.json'],{encoding:'utf8'}));assert.equal(rollback.passed,true,'rollback availability required');
   if(receipt.queueSafetyVerified===true){const queue=JSON.parse(execFileSync('unzip',['-p',path.join(root,h.archivePath),'queue-safety.json'],{encoding:'utf8'}));assert.equal(queue.passed,true);assert.equal(queue.readOnly,true);for(const key of ['stale_queued','queued','claimed','terminal_failed'])assert.equal(Number(queue.queue[key]),0);}
+  if(receipt.schemaVersion==='rcap-readonly-successor-admission/v2'){const archived=name=>JSON.parse(execFileSync('unzip',['-p',path.join(root,h.archivePath),name+'.json'],{encoding:'utf8'}));assertVercelProductionScopes(archived('production-aliases-before'),archived('production-project-domains-before'),receipt);assertVercelProductionScopes(archived('production-aliases-after'),archived('production-project-domains-after'),receipt);}
   assert.deepEqual(receipt,h.receipt);assertForwardHosted(receipt,expected);assert.equal(receipt.workflowSourceSha,h.workflowSourceSha);assert.equal(receipt.runId,h.runId);
   return {...expected,current:true,bindingVerified:true,status:'CURRENT',hostedAcceptanceStatus:'READ_ONLY_STAGED_ACCEPTED_PRODUCTION_HELD',productionAuthorized:false,reasons:[]};
  }catch(error){return {current:false,status:'INVALID_FORWARD_BINDING',reasons:[error.message]};}
@@ -280,7 +282,7 @@ export function assertForwardHosted(h,expected) {
  validSha(h.workflowSourceSha);assert(Number.isSafeInteger(h.runId)&&h.runId>0,'actual hosted run');
  for(const key of ['applicationSha','workerSourceSha','workerDigest','workerInputFingerprint','toolsSha'])assert.equal(h[key],expected[key],`hosted ${key}`);
  assert.match(h.deploymentId,/^dpl_[A-Za-z0-9]+$/);assert.equal(h.productionRollback,'dpl_3j4Dr4GHyXmwmrFCTZ6orNNNP7sc');
- assert.equal(h.productionAliasesUnchanged,true);assert.equal(h.autoAssignCustomDomains,false);
+ if(h.schemaVersion==='rcap-readonly-successor-admission/v2'){assertVercelProductionScopes(h.productionDeploymentAliases,h.productionProjectDomains,h);assert.equal(h.productionDeploymentAliasesUnchanged,true);assert.equal(h.productionProjectDomainsUnchanged,true);}else assert.equal(h.productionAliasesUnchanged,true);assert.equal(h.autoAssignCustomDomains,false);
  assert.equal(h.sharedHostRoutingMethod,'frozen-proxy-map-and-staged-targets');assert.equal(h.workerRollbackVerified,true);assert.equal(h.signupVerified,true);assert.equal(h.sharedHostRoutingVerified,true);assert.equal(h.productionWrites,false);
  assert.equal(h.target,'production');assert.equal(h.readyState,'READY');assert.equal(h.liveAuthCalls,0);
  assert.equal(h.productionAuthorized,false);

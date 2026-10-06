@@ -1,3 +1,4 @@
+import {productionDomainsPath,productionProjectDomains,productionDeploymentAliases,assertVercelProductionScopes} from './grade-a-launch-control/vercel-production-scopes.mjs';
 import {QUEUE_QUERY} from './rcap-production-worker-readiness.mjs';
 // Exact application staging and GET-only predecessor custody. No activation,
 // worker deployment, database writes, packet generation or live auth.
@@ -40,8 +41,10 @@ write('queue-safety',{passed:true,readOnly:true,capturedAt:new Date().toISOStrin
 const token=process.env.VERCEL_TOKEN;assert(token);const identity=await resolveHostedVercelIdentity({token});
 async function vercel(pathname){const r=await fetch(hostedVercelScopedUrl(pathname,identity),{method:'GET',headers:{Authorization:'Bearer '+token},redirect:'error',signal:AbortSignal.timeout(60000)});assert(r.ok,`Vercel GET HTTP ${r.status}`);return r.json();}
 const rollback='dpl_3j4Dr4GHyXmwmrFCTZ6orNNNP7sc';
-async function aliases(){const d=await vercel(`/v3/deployments/${rollback}/aliases`);assert(Array.isArray(d.aliases)&&!d.pagination?.next);return d.aliases.map(a=>({alias:a.alias,redirect:a.redirect??null})).sort((a,b)=>a.alias.localeCompare(b.alias));}
+async function aliases(){return productionDeploymentAliases(await vercel(`/v3/deployments/${rollback}/aliases`));}
 const before=await aliases();write('production-aliases-before',before);
+const projectInventoryBefore=await vercel(productionDomainsPath(identity.projectId));const domainsBefore=productionProjectDomains(projectInventoryBefore);write('production-project-domains-before',domainsBefore);write('project-domain-verification',projectInventoryBefore.domains.map(d=>({name:d.name,verified:d.verified??null})));
+for(const domain of domainsBefore.filter(d=>d.redirect===null)){const live=await vercel('/v13/deployments/'+domain.name);assert.equal(live.id,rollback,'all direct Production domains remain on predecessor');}
 const current=await vercel(`/v13/deployments/${rollback}`);assert.equal(current.readyState,'READY');assert.equal(current.gitSource?.sha??current.meta?.githubCommitSha,'e312a5efa7b4882e0fbf61a5ff0ae7891ac23226');
 const project=await vercel(`/v9/projects/${identity.projectId}`);assert.equal(project.name,HOSTED_VERCEL_PROJECT_NAME);assert.equal(project.link?.productionBranch,'main');
 write('project-configuration',{projectId:project.id,productionBranch:project.link.productionBranch,nodeVersion:project.nodeVersion,framework:project.framework,buildCommand:project.buildCommand,installCommand:project.installCommand,outputDirectory:project.outputDirectory,productionConfigInherited:true,envOverrides:false});
@@ -63,11 +66,12 @@ process.env.RCAP_STAGED_ORIGIN=origin;
 let browserFailure;
 try{execFileSync(process.execPath,['scripts/rcap-successor-staged-browser.mjs'],{stdio:'inherit',env:process.env});}catch(error){browserFailure=error;}
 
-const after=await aliases();write('production-aliases-after',after);assert.deepEqual(after,before,'production aliases unchanged');
+const after=await aliases();write('production-aliases-after',after);const domainsAfter=productionProjectDomains(await vercel(productionDomainsPath(identity.projectId)));write('production-project-domains-after',domainsAfter);assertVercelProductionScopes(after,domainsAfter,{productionDeploymentAliases:before,productionProjectDomains:domainsBefore});
+for(const domain of domainsAfter.filter(d=>d.redirect===null)){const live=await vercel('/v13/deployments/'+domain.name);assert.equal(live.id,rollback,'all direct Production domains remain on predecessor after staging');}
 for(const a of before.filter(a=>!a.redirect)){const live=await vercel('/v13/deployments/'+a.alias);assert.equal(live.id,rollback,'all existing public aliases remain on predecessor');}
 if(browserFailure)throw browserFailure;
 const browser=JSON.parse(fs.readFileSync(`${out}/browser-results.json`));assert.equal(browser.length,4);assert(browser.every(r=>r.status==='PASS'));
-write('admission',{schemaVersion:'rcap-readonly-successor-admission/v1',capturedAt:new Date().toISOString(),...tuple,workerRollbackVerified,queueSafetyVerified:true,sharedHostRoutingMethod:'frozen-proxy-map-and-staged-targets',stagingCreation:{runId:37457756634,workflowSourceSha:'6eec672ac2cd871d541b0efd6aa9183380d39825',toolsSha:'7b86dff1b62461c360195517095cb39e748286a0',autoAssignCustomDomains:false},workflowSourceSha,runId:Number(process.env.GITHUB_RUN_ID),deploymentId:d.id,hostname:d.url,productionRollback:rollback,productionAliases:before,productionAliasesUnchanged:true,autoAssignCustomDomains:false,signupVerified:true,sharedHostRoutingVerified:true,productionWrites:false,target:d.target,readyState:d.readyState,liveAuthCalls:0,productionAuthorized:false,emailDelivery:'UNVERIFIED: all authentication mocked',hostedScope:'read-only staged signup, host routing and aggregate queue safety; no live participant, payment, packet or queue consumption'});
+write('admission',{schemaVersion:'rcap-readonly-successor-admission/v2',capturedAt:new Date().toISOString(),...tuple,workerRollbackVerified,queueSafetyVerified:true,sharedHostRoutingMethod:'frozen-proxy-map-and-staged-targets',stagingCreation:{runId:37457756634,workflowSourceSha:'6eec672ac2cd871d541b0efd6aa9183380d39825',toolsSha:'7b86dff1b62461c360195517095cb39e748286a0',autoAssignCustomDomains:false},workflowSourceSha,runId:Number(process.env.GITHUB_RUN_ID),deploymentId:d.id,hostname:d.url,productionRollback:rollback,productionDeploymentAliases:before,productionProjectDomains:domainsBefore,productionDeploymentAliasesUnchanged:true,productionProjectDomainsUnchanged:true,autoAssignCustomDomains:false,signupVerified:true,sharedHostRoutingVerified:true,productionWrites:false,target:d.target,readyState:d.readyState,liveAuthCalls:0,productionAuthorized:false,emailDelivery:'UNVERIFIED: all authentication mocked',hostedScope:'read-only staged signup, host routing and aggregate queue safety; no live participant, payment, packet or queue consumption'});
 console.log('Exact staged application verified; production aliases and worker unchanged.');
 
 assert(workerRollbackVerified,'Nonproduction closure incomplete: worker rollback evidence failed; staging result retained for review');

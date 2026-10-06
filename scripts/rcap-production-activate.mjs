@@ -6,6 +6,7 @@ import {assertForwardSingleAttempt} from './grade-a-launch-control/forward-produ
 // deployment if any post-promotion assertion fails.
 
 import {assertForwardAliasScope} from './grade-a-launch-control/verify-forward-production-successor.mjs';
+import {productionDomainsPath,productionProjectDomains,productionDeploymentAliases,assertVercelProductionScopes} from './grade-a-launch-control/vercel-production-scopes.mjs';
 import { createHash } from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
@@ -221,8 +222,9 @@ async function clinicSchemaReadback() {
 }
 
 async function listProductionDomains(vercel, projectId) {
-  const result = await vercel(`/v9/projects/${encodeURIComponent(projectId)}/domains?limit=100`);
+  const result = await vercel(RELEASE_CANDIDATE.productionAuthorization?.productionProjectDomains ? productionDomainsPath(projectId) : `/v9/projects/${encodeURIComponent(projectId)}/domains?limit=100`);
   if (result.status !== 200) throw new Error("Production domains could not be enumerated");
+  if(RELEASE_CANDIDATE.productionAuthorization?.productionProjectDomains){const scope=productionProjectDomains(result.json);if(JSON.stringify(scope)!==JSON.stringify(RELEASE_CANDIDATE.productionAuthorization.productionProjectDomains))throw new Error("exact Production routing scope changed");return scope.filter(d=>d.redirect===null).map(d=>d.name);}
   const domains = (Array.isArray(result.json?.domains) ? result.json.domains : [])
     .map((entry) => entry?.name)
     .filter((name) => typeof name === "string" && name.length > 0)
@@ -246,6 +248,7 @@ async function resolveProductionDomains(vercel, projectId) {
   return {
     domains,
     deploymentIds: [...new Set(mappings.map((entry) => entry.deploymentId).filter(Boolean))],
+    allDirectResolved: mappings.every(m=>m.deploymentId!==null),
     mappingHash: sha256(JSON.stringify(mappings))
   };
 }
@@ -257,7 +260,7 @@ async function waitForExactProduction(vercel, projectId, expectedDeploymentId) {
     last = await resolveProductionDomains(vercel, projectId);
     if (last.deploymentIds.length === 1
       && last.deploymentIds[0] === expectedDeploymentId
-      && last.domains.length > 0) return last;
+      && last.domains.length > 0 && (!RELEASE_CANDIDATE.productionAuthorization?.productionProjectDomains || last.allDirectResolved)) return last;
     await new Promise((resolve) => setTimeout(resolve, 3_000));
   }
   throw new Error(`Production domains did not converge to ${expectedDeploymentId}; resolved=${last?.deploymentIds.length ?? 0}`);
@@ -526,8 +529,8 @@ try {
   if (RELEASE_CANDIDATE.forwardProduction) {
     const aliases = await vercel(`/v3/deployments/${ROLLBACK_DEPLOYMENT_ID}/aliases`);
     if (aliases.status !== 200 || !Array.isArray(aliases.json?.aliases) || aliases.json.pagination?.next) throw new Error('exact forward alias scope unreadable');
-    const actual = aliases.json.aliases.map(a => ({alias:a.alias,redirect:a.redirect??null})).sort((a,b)=>a.alias.localeCompare(b.alias));
-    assertForwardAliasScope(actual, RELEASE_CANDIDATE.productionAuthorization.productionAliases, beforeDomains.domains);
+    const actual=productionDeploymentAliases(aliases.json);
+    if(RELEASE_CANDIDATE.productionAuthorization.schemaVersion==='rcap-forward-owner-authorization/v2'){const projectScope=await vercel(productionDomainsPath(identity.projectId));if(projectScope.status!==200)throw new Error('Production project routing unreadable');assertVercelProductionScopes(actual,productionProjectDomains(projectScope.json),RELEASE_CANDIDATE.productionAuthorization);}else assertForwardAliasScope(actual,RELEASE_CANDIDATE.productionAuthorization.productionAliases,beforeDomains.domains);
   }
   record(
     "rollback_is_ready_and_active_before_promotion",
@@ -535,6 +538,7 @@ try {
       && deploymentId(rollback.json) === ROLLBACK_DEPLOYMENT_ID
       && ready(rollback.json)
       && rollback.json?.target === "production"
+      && (!RELEASE_CANDIDATE.productionAuthorization?.productionProjectDomains || beforeDomains.allDirectResolved)
       && beforeDomains.deploymentIds.length === 1
       && beforeDomains.deploymentIds[0] === ROLLBACK_DEPLOYMENT_ID,
     "recorded READY rollback deployment is the sole active Production target"
