@@ -6,6 +6,8 @@ import os from "node:os";
 import path from "node:path";
 
 const files = [
+  'scripts/fixtures/production-packet-forward-correction/correction-manifest.json',
+  'scripts/fixtures/production-packet-forward-correction/proposed-forward-delta.sql',
   ".github/workflows/rcap-production-canary.yml",
   ".github/workflows/rcap-f1-ephemeral-staging.yml",
   "scripts/rcap-production-forward-chain-migrate.mjs",
@@ -13,6 +15,10 @@ const files = [
 ];
 
 const mutations = [
+  ['immediate captured-state gate','forward_correction_immediate_before_state_exact','immediate_gate_removed'],
+  ['independent correction authorization','requireForwardCorrectionAuthorization(ROOT_DIR,release,correction)','unbound_correction_authorization()'],
+  ['new phase membership','"phases": [\n    "forward_chain_migrate"\n  ]','"phases": ["activate"]'],
+
   [
     "Production project",
     "wwtwtsmywnckfkdaqqeg",

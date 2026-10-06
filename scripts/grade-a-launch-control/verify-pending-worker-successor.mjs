@@ -1,13 +1,19 @@
+import {PREACTIVATION_BASE,PREACTIVATION_STATUS,assertPreactivationAuthorization} from './production-preflight-authorization.mjs';
+import {verifyProductionPreflightEvidence} from './verify-production-preflight-evidence.mjs';
+import {PREFLIGHT_BASE,PREFLIGHT_STATUS,assertPreflightOnlyAuthorization} from './production-preflight-authorization.mjs';
+import {HOSTED_BASE,HOSTED_STATUS,verifyHostedAcceptanceEvidence} from './verify-hosted-acceptance-evidence.mjs';
 // A commit cannot contain its own SHA. The source pointer is the exact Git
 // commit which introduced this pending record, resolved through Git history;
 // the recorded parent, exact delta and fingerprints make it non-floating.
 import fs from 'node:fs';import path from 'node:path';import assert from 'node:assert/strict';import {execFileSync} from 'node:child_process';import {createHash} from 'node:crypto';import {createWorkerInputPlan,aggregateCanonicalInputs} from '../rcap-hosted-acceptance-worker-input-plan.mjs';
+import {verifyPinnedSuccessor,verifyPinnedPublication} from './verify-pinned-worker-successor.mjs';
 export const PENDING='data/rcap-grade-a/launch-control/PENDING_WORKER_SUCCESSOR.json';
 export function verifyPendingWorkerSuccessor(root){
  const file=path.join(root,PENDING);if(!fs.existsSync(file))return null;
  const git=a=>execFileSync('git',a,{cwd:root,encoding:'utf8',stdio:'pipe'}).trim();
  try{
  const p=JSON.parse(fs.readFileSync(file));
+ if(p.applicationSource==='pinned-source')return verifyPinnedSuccessor(root,p);
  if(p.releaseBaseSha)return verifyGenerationPending(root,p);
  const accepted=p.status==='SUCCESSOR_ACCEPTED_PREVIEW_AND_RESUME_PENDING';
  const published=accepted||p.status==='AWAITING_WORKER_ACCEPTANCE';
@@ -50,6 +56,7 @@ export function verifySuccessorPublication(root) {
   const hash=bytes=>createHash('sha256').update(bytes).digest('hex');
   const git=args=>execFileSync('git',args,{cwd:root,encoding:'utf8',stdio:'pipe'}).trim();
   const e=JSON.parse(read('data/rcap-render/worker-publication-evidence.json'));
+  if(JSON.parse(read(PENDING)).applicationSource==='pinned-source')return verifyPinnedPublication(root);
   if(JSON.parse(read(PENDING)).releaseBaseSha)return verifyGenerationPublication(root,e);
   const source='af638b61cc4b74afad972fa79c4c1ca3f6709540';
   const digest='sha256:063901962bedf73adedb8a7566da2434539082bd1577051e98e4303c566bb3a5';
@@ -174,8 +181,28 @@ function verifyGenerationPending(root,p){
   const prior=jsonAt(root,p.releaseBaseSha,PENDING);assert.deepEqual(p.supersededRecord,prior,'historical pending source and resume scope');
   const e=readJson(root,PUBLICATION),publication=verifyGenerationPublication(root,e);assert.equal(publication.current,true,publication.reasons?.join('; '));
   const plan=createWorkerInputPlan({rootDir:root,acceptedSourceSha:e.sourceSha,acceptedDigest:e.immutableRegistryDigest,candidateSha:p.releaseBaseSha});
-  const expected={schemaVersion:prior.schemaVersion,status:'SUCCESSOR_ACCEPTED_PREVIEW_AND_RESUME_PENDING',releaseBaseSha:p.releaseBaseSha,sourceCommit:e.sourceSha,applicationSource:'sourceCommit',workerSource:'sourceCommit',applicationSha:e.sourceSha,workerSourceSha:e.sourceSha,workerDigest:e.immutableRegistryDigest,workerInputFingerprint:e.workerInputFingerprint,canonicalWorkerInputs:plan.canonicalInputs,workerChangedPaths:[],workerRebuildRequired:false,publication:'complete',acceptance:'complete',runtimeAccepted:true,previewExecution:'held',productionAuthorized:false,resume:null,supersededRecord:prior};
-  assert.deepEqual(p,expected,'exact current generation pending record');
-  return {current:true,status:p.status,applicationSha:p.applicationSha,workerSourceSha:p.workerSourceSha,workerDigest:p.workerDigest,workerInputFingerprint:p.workerInputFingerprint,runtimeAccepted:true,workerRebuildRequired:false,previewExecution:'held',productionAuthorized:false,releaseBaseSha:p.releaseBaseSha,reasons:[]};
+  const applicationSource=p.applicationSource==='post-publication-candidate'?'post-publication-candidate':'sourceCommit';
+  const applicationSha=applicationSource==='post-publication-candidate'
+    ? (prior.applicationSource==='post-publication-candidate'?prior.applicationSha:p.releaseBaseSha) : e.sourceSha;
+  const expected={schemaVersion:prior.schemaVersion,status:'SUCCESSOR_ACCEPTED_PREVIEW_AND_RESUME_PENDING',releaseBaseSha:p.releaseBaseSha,sourceCommit:e.sourceSha,applicationSource,workerSource:'sourceCommit',applicationSha,workerSourceSha:e.sourceSha,workerDigest:e.immutableRegistryDigest,workerInputFingerprint:e.workerInputFingerprint,canonicalWorkerInputs:plan.canonicalInputs,workerChangedPaths:[],workerRebuildRequired:false,publication:'complete',acceptance:'complete',runtimeAccepted:true,previewExecution:'held',productionAuthorized:false,resume:null,supersededRecord:prior};
+  if(p.releaseBaseSha===HOSTED_BASE){
+   verifyHostedAcceptanceEvidence(root);
+   expected.status=HOSTED_STATUS;
+   expected.supersededRecordSha256=createHash('sha256').update(execFileSync('git',['show',`${p.releaseBaseSha}:${PENDING}`],{cwd:root,stdio:'pipe'})).digest('hex');
+  }
+  if(p.releaseBaseSha===PREACTIVATION_BASE){
+   assert.equal(prior.status,PREFLIGHT_STATUS);
+   assert.deepEqual(p,{...prior,status:PREACTIVATION_STATUS,releaseBaseSha:PREACTIVATION_BASE,productionAuthorized:true,
+    supersededRecord:prior,supersededRecordSha256:sha256(execFileSync('git',['show',`${PREACTIVATION_BASE}:${PENDING}`],{cwd:root,stdio:'pipe'}))},'exact bounded pre-activation pending successor');
+   assertPreactivationAuthorization(readJson(root,'data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json'));
+   verifyHostedAcceptanceEvidence(root);verifyProductionPreflightEvidence(root);
+  }else if(p.releaseBaseSha===PREFLIGHT_BASE){
+   assert.equal(prior.status,HOSTED_STATUS);
+   assert.deepEqual(p,{...prior,status:PREFLIGHT_STATUS,releaseBaseSha:PREFLIGHT_BASE,productionAuthorized:true,
+    supersededRecord:prior,supersededRecordSha256:sha256(execFileSync('git',['show',`${PREFLIGHT_BASE}:${PENDING}`],{cwd:root,stdio:'pipe'}))},'exact preflight-only pending successor');
+   assertPreflightOnlyAuthorization(readJson(root,'data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json'));
+   verifyHostedAcceptanceEvidence(root);
+  }else assert.deepEqual(p,expected,'exact current generation pending record');
+  return {current:true,status:p.status,applicationSha:p.applicationSha,workerSourceSha:p.workerSourceSha,workerDigest:p.workerDigest,workerInputFingerprint:p.workerInputFingerprint,runtimeAccepted:true,workerRebuildRequired:false,previewExecution:'held',productionAuthorized:[PREFLIGHT_BASE,PREACTIVATION_BASE].includes(p.releaseBaseSha),releaseBaseSha:p.releaseBaseSha,reasons:[]};
  }catch(error){return {current:false,status:'INVALID_PENDING_PUBLICATION',reasons:[error.message]};}
 }

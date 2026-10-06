@@ -15,8 +15,12 @@
 
 import crypto from "node:crypto";
 import fs from "node:fs";
+import { requireProductionPhaseAuthorization } from "./grade-a-launch-control/production-preflight-authorization.mjs";
 import path from "node:path";
 import { HOSTED_VERCEL_PROJECT_ID, hostedVercelScopedUrl, resolveHostedVercelIdentity } from "./rcap-hosted-acceptance-vercel-identity.mjs";
+
+// Refuse before service access; historical incident permission cannot carry forward.
+requireProductionPhaseAuthorization(JSON.parse(fs.readFileSync("data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json", "utf8")), `legal_aid_keys_${process.env.RCAP_LEGAL_AID_KEYS_PHASE ?? ""}`);
 
 const PHASE = (process.env.RCAP_LEGAL_AID_KEYS_PHASE ?? "").trim();
 const VERCEL_TOKEN = process.env.VERCEL_TOKEN ?? "";
@@ -105,9 +109,12 @@ try {
     const existingKey = present(KEY_NAME);
     const existingVersion = present(VERSION_NAME);
     const existingPseudonym = present(PSEUDONYM_NAME);
+    record("existing_production_key_shape_is_safe", existingKey.length <= 1 && existingVersion.length <= 1 && existingPseudonym.length <= 1
+      && existingKey.every(entry => entry.type === "sensitive") && existingPseudonym.every(entry => entry.type === "sensitive"),
+      "duplicate or nonsensitive existing protected keys refuse before any creation");
     record("existing_pseudonym_secret_is_never_overwritten", true, existingPseudonym.length ? `${PSEUDONYM_NAME} already exists for Production (id ${existingPseudonym[0].id}); it is retained` : `${PSEUDONYM_NAME} absent for Production; it will be created`);
     record("existing_key_is_never_overwritten", true, existingKey.length ? `${KEY_NAME} already exists for Production (id ${existingKey[0].id}); it is retained` : `${KEY_NAME} absent for Production; it will be created`);
-    if (existingKey.length === 0 || existingVersion.length === 0) {
+    if (existingKey.length === 0 || existingVersion.length === 0 || existingPseudonym.length === 0) {
       const body = [];
       if (existingKey.length === 0) body.push({ key: KEY_NAME, value: crypto.randomBytes(32).toString("base64"), type: "sensitive", target: ["production"] });
       if (existingVersion.length === 0) body.push({ key: VERSION_NAME, value: "v1", type: "plain", target: ["production"] });

@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // Static contract for the hosted Legal Aid Clinic Mode browser phase: the
-// dispatcher exposes it, the reusable workflow schedules exactly the Clinic
-// Preview journey plus the Legal Aid seed and browser proof, the anti-skip
+// dispatcher exposes it, the reusable workflow reuses the accepted Preview
+// for the Legal Aid seed and browser proof, the anti-skip
 // gate requires each of them, and the scripts keep their boundaries (one
 // exact Preview, in-memory bypass header only, synthetic identities only, no
 // migration, no worker, no Production, no secret or protected value in
@@ -19,6 +19,7 @@ const dispatcher = read(".github/workflows/rcap-f1-ephemeral-staging.yml");
 const hosted = read(".github/workflows/rcap-hosted-acceptance-staging.yml");
 const seed = read("scripts/rcap-hosted-legal-aid-seed.mjs");
 const browser = read("scripts/rcap-hosted-legal-aid-browser.mjs");
+const actions = read("scripts/rcap-legal-aid/hosted-actions.mjs");
 const fixture = read("scripts/rcap-legal-aid/hosted-fixture.mjs");
 const deploy = read("scripts/rcap-hosted-acceptance-deploy.mjs");
 
@@ -59,16 +60,19 @@ check("deploy evidence records configuration without values", deploy.includes("v
 // --- shared fixture -----------------------------------------------------------
 check("seed, browser and this verifier share one fixture", seed.includes('from "./rcap-legal-aid/hosted-fixture.mjs"') && browser.includes('from "./rcap-legal-aid/hosted-fixture.mjs"'));
 check("fixture names only reserved .test identities", [...fixture.matchAll(/email: "([^"]+)"/g)].every((match) => match[1].endsWith("@rcap-acceptance.test")) && fixture.includes('packetApplicantEmail: "mvl-demo-participant-a@rcap-acceptance.test"'));
-check("fixture is the acceptance copy of MVLP on a fixed synthetic event", fixture.includes('partnerSlug: "mvlp"') && fixture.includes('eventId: "78000000-0000-4000-8000-000000000001"') && fixture.includes("capacity: 2"));
+check("fixture is the acceptance copy of MVLP on a run-scoped synthetic event", fixture.includes('partnerSlug: "mvlp"') && fixture.includes("env.GITHUB_RUN_ID") && fixture.includes("env.GITHUB_RUN_ATTEMPT") && fixture.includes("export function resolveLegalAidFixture") && fixture.includes("capacity: 2"));
 check("fixture assigns no attorney, notary or decision role to the interim coordinator", !/INTERNAL_ADMIN:\s*\[/.test(fixture) && /COORDINATOR: \["coordinator"/.test(fixture) && /ATTORNEY: \["attorney"/.test(fixture) && /NOTARY: \["notary"\]/.test(fixture));
 
 // --- seed boundaries -------------------------------------------------------------
-check("seed pins the acceptance project and exact Preview", seed.includes('const EXPECTED_PROJECT_REF = "hyflxnlhpmiqxvvcoiia"') && seed.includes('rcapClinicDemoMode === "mississippi_preview"') && seed.includes("aliasDeploymentId === DEPLOYMENT_ID"));
+check("seed pins the acceptance project and exact Preview", seed.includes('const EXPECTED_PROJECT_REF = "hyflxnlhpmiqxvvcoiia"') && seed.includes('rcapClinicDemoMode === "none"') && seed.includes("aliasDeploymentId === DEPLOYMENT_ID"));
 check("seed creates only reserved .test identities", seed.includes('if (!email.endsWith("@rcap-acceptance.test")) throw new Error'));
 check("seed never records passwords", seed.includes("passwordsRecorded: false") && !/password:\s*DEMO_PASSWORD[^,]*evidence/.test(seed));
 check("seed deletes only rows keyed to the fixture", [...seed.matchAll(/delete from public\.(\w+) where ([^;]+);/g)].every((match) => /event_id='\$\{F\.eventId\}'|partner_slug='\$\{F\.(partnerSlug|handoffPartnerSlug)\}'|auth_user_id in \(\$\{noMembership/.test(match[2])));
 check("seed never touches Production", !seed.includes("wwtwtsmywnckfkdaqqeg") && seed.includes("productionTouched: false"));
 check("seed requires the existing participant; prerequisite owns historical authority", seed.includes("packetApplicantId") && hosted.includes("steps.legal_aid_prerequisite.outcome == 'success'"));
+
+check("seed and browser require the exact accepted Preview release binding", [seed,browser].every(source => source.includes("requireLegalAidAcceptedPreview(") && source.includes("assertLegalAidAcceptedPreview(acceptedPreview, deployment.json)")));
+check("Legal Aid does not request historical Clinic Preview purpose", !hosted.split("HOSTED_CLINIC_DEMO_MODE:").slice(1).some(line => line.split("\n")[0].includes("outputs.legal_aid")));
 
 // --- browser boundaries -----------------------------------------------------------
 check("browser pins the acceptance project and exact Preview", browser.includes('const EXPECTED_PROJECT_REF = "hyflxnlhpmiqxvvcoiia"') && browser.includes("rcapReturnOrigin === PREVIEW") && browser.includes("productionAliases.length === 0"));
@@ -79,7 +83,45 @@ check("browser binds itself to the seed evidence of the same Preview", browser.i
 check("browser pins the historical packet, owner, hash and renderer", ["RESUME.job", "RESUME.owner", "RESUME.hash", "RESUME.priorDigest"].every(value => browser.includes(value)) && !browser.includes("order by j.created_at desc limit 1"));
 check("no_contact is never reported as delivery", browser.includes("This is not proof of delivery") && browser.includes("follow_up_email_actually_delivered_to_the_test_mailbox") && browser.includes("api.resend.com/emails/"));
 check("email delivery proof requires the provider event to name the authorized mailbox", browser.includes("(providerEvent?.to ?? []).includes(TEST_MAILBOX)"));
-check("browser exercises sign-in, registration, duplicate, capacity and waitlist", ["participant_signs_in_and_returns_to_registration", "duplicate_registration_refused", "capacity_reached_puts_applicant_c_on_the_waitlist", "intake_saved_and_resumed_after_refresh"].every((id) => browser.includes(id)));
+check("browser exercises sign-in, registration, duplicate, capacity and waitlist", ["registration_sign_in_is_captcha_protected", "synthetic_applicant_session_returns_to_registration", "duplicate_registration_refused", "capacity_reached_puts_applicant_c_on_the_waitlist", "intake_saved_and_resumed_after_refresh"].every((id) => browser.includes(id)));
+// Applicant A must never wait for an impossible automated human CAPTCHA grant.
+const applicant = browser.slice(browser.indexOf("// 2. Applicant A:"), browser.indexOf("const personA ="));
+check("Applicant A never submits credentials or waits for a browser password grant", !/waitForResponse|input\[name=["']?(?:email|password)|getByRole/.test(applicant));
+check("anonymous registration proves exact create-mode redirect, bound next route and visible CAPTCHA protection", [
+  'const registrationPath = `/clinic/${F.eventSlug}/register`;',
+  'const anonymousApplicant = await open({ viewport: { width: 390, height: 844 } });',
+  'await anonymousApplicant.click(`a[href="${registrationPath}"]`);',
+  'await anonymousApplicant.waitForURL(/sign-in/);',
+  "await anonymousApplicant.locator('[aria-label=\"Security check\"]').waitFor({ state: \"visible\" });",
+  'const signInUrl = new URL(anonymousApplicant.url());',
+  'signInUrl.pathname === "/expungement-ai/sign-in"',
+  '&& signInUrl.searchParams.get("mode") === "create"',
+  '&& signInUrl.searchParams.get("next") === registrationPath',
+  "&& await anonymousApplicant.locator('[aria-label=\"Security check\"]').isVisible()",
+  'record("registration_sign_in_is_captcha_protected",'
+].every(value => applicant.includes(value)));
+check("Applicant A reuses the exact authenticated context and verifies registration", [
+  'const a = await open({ viewport: { width: 390, height: 844 }, user: who.APPLICANT_A });',
+  'const registrationUrl = `${PREVIEW}${registrationPath}`;',
+  'await a.goto(registrationUrl);',
+  'await a.waitForSelector("input[name=contactName]");',
+  'who.APPLICANT_A.id === RESUME.owner',
+  'who.APPLICANT_A.session.user.id === who.APPLICANT_A.id',
+  '&& a.url() === registrationUrl',
+  'record("synthetic_applicant_session_returns_to_registration",'
+].every(value => applicant.includes(value)));
+check("Applicant A has one genuine Acceptance password-grant identity", (browser.match(/who\.APPLICANT_A\s*=/g) ?? []).length === 1
+  && browser.includes('who.APPLICANT_A = await sessionFor(F.packetApplicantEmail, keys);')
+  && browser.includes('const session = await signedIn.json().catch(() => null);')
+  && browser.includes('return { id: session.user.id, email, session };')
+  && browser.includes('fetch(`${SUPABASE_URL}/auth/v1/token?grant_type=password`')
+  && browser.includes('body: JSON.stringify({ email, password: DEMO_PASSWORD })'));
+check("authenticated context retains original SSR session and exact Preview cookie scope",
+  browser.includes('if (user) await context.addCookies(authCookies(user.session));')
+  && browser.includes('Buffer.from(JSON.stringify(session), "utf8").toString("base64")')
+  && browser.includes('domain: EXPECTED_HOSTNAME, path: "/", secure: true, httpOnly: true, sameSite: "Strict"')
+  && browser.includes('const c = await newContext(browser, options);')
+  && !/jwt\.sign|SignJWT|setExtraHTTPHeaders|Bearer.*user\.session/.test(browser));
 check("browser exercises the three training records", ["trainingRecords.A", "trainingRecords.B", "trainingRecords.C", "applicant_b_returned_for_missing_document", "non_citizen_sees_confidential_review_acknowledgment"].every((id) => browser.includes(id)));
 check("browser exercises protected entry, authorized reveal and denied reveal", ["protected_value_encrypted_at_rest_with_masked_hint", "attorney_audited_reveal_shows_the_value_once", "intake_volunteer_cannot_reveal_or_decide", "notary_uploads_executed_copy_to_private_storage_and_cannot_reveal"].every((id) => browser.includes(id)));
 check("browser exercises staff assignment, decisions and cross-tenant denial", ["interim_coordinator_assigns_clinic_team", "program_decision_recorded_separately_from_legal_eligibility", "other_organizations_administrator_denied_cross_tenant"].every((id) => browser.includes(id)));
@@ -92,5 +134,10 @@ check("evidence carries no secret, password or protected value", browser.include
 check("identities appear in evidence hashed only", browser.includes("hashed ids only") && browser.includes("const shortId = (value) => crypto.createHash"));
 check("browser never names Production", !browser.includes("wwtwtsmywnckfkdaqqeg") && browser.includes("productionTouched: false"));
 check("stored answers are checked for the protected value", browser.includes("protected_value_absent_from_every_stored_answer_document"));
+
+check("signing waits for completed successful responses and reloaded signed cards", actions.includes('response.status() !== 200') && actions.includes('await response.finished()') && actions.includes('await card.locator(busySelector).waitFor({ state: "hidden" })') && actions.includes('hasText: /^Signed by /') && actions.includes('await requireSigningComplete(page)'));
+check("every applicant submits through sanitized response observation", ["a", "b", "c"].every(a => browser.includes(`await submitApplication(${a}, signing${a.toUpperCase()}.id, PREVIEW`)) && actions.includes('const result = sanitizedSubmitResult(') && actions.indexOf('Legal Aid submit refused:') < actions.indexOf('await page.waitForSelector("text=Your application has been received")'));
+check("Applicant A signatures are current before submitting", browser.includes("s.answers_hash=i.answers_hash") && browser.includes("s.status='active'") && browser.indexOf('applicant_a_current_signatures_confirmed_before_submit') < browser.indexOf('await submitApplication(a,'));
+check("seed and browser bind the same synthetic run namespace and preserve profiles", ["runId", "runAttempt", "eventId", "eventSlug"].every(k => browser.includes(`seed.${k} === F.${k}`)) && !/delete from public\.legal_aid_policy_profiles/.test(seed) && browser.includes('await internal.selectOption("select[name=policyProfileId]", draft.id)'));
 
 console.log(`RCAP hosted Legal Aid browser verifier passed: ${checks.length}/${checks.length}`);

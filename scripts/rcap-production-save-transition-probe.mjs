@@ -31,15 +31,23 @@
 // Mississippi follow-up map, the result-heading regex and exactBriefcaseItemId
 // are reused unchanged.
 //
-// What this never does: it never opens a payment surface, never clicks any
-// payment control, never asks the server to build a packet, never prints a
+// Reproduce/verify stop before payment. The separately gated live-order and
+// current-release packet_canary modes reuse the same consumer journey; only
+// they may submit a zero-total Checkout. This file never prints a
 // claim token, the account password, the sign-in handoff URL or the service
 // key, and never touches a Supabase project other than the pinned Production
 // project. The only account it signs in as is the reserved synthetic probe
 // identity on the .test TLD.
 
 import crypto from "node:crypto";
+import { request as playwrightRequest } from "playwright";
+import { requireProductionMigrationRelease } from "./rcap-production-migration-contract.mjs";
+import { CANARY, QUEUE_QUERY, JOB_COLUMNS, assertCanaryRelease, assertWorkerHealth, assertMatter,
+  assertSettlement, assertJob, observeJob, assertDeliveryEvents, inspectPdf, assertDownload,
+  assertAnonymous, assertZeroCheckout, createOneOrderGuard, resumeDisposition, MUTATION_CLASSES, proveCanaryDelivery, assertServiceRequest, readWorkerImageProof
+} from "./rcap-production-packet-canary-contract.mjs";
 import fs from "node:fs";
+import { requireProductionPhaseAuthorization } from "./grade-a-launch-control/production-preflight-authorization.mjs";
 import path from "node:path";
 import zlib from "node:zlib";
 import { chromium, webkit } from "playwright";
@@ -54,8 +62,16 @@ import { answerBuilderStep as answerBuilderControl } from "./rcap-packet-builder
 // writes or names an environment variable.
 import { resolveHostedVercelIdentity, hostedVercelScopedUrl } from "./rcap-hosted-acceptance-vercel-identity.mjs";
 
+// Refuse before service access; historical incident permission cannot carry forward.
+requireProductionPhaseAuthorization(JSON.parse(fs.readFileSync("data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json", "utf8")), process.env.RCAP_PRODUCTION_PHASE);
+
+const IS_PACKET_CANARY = process.env.RCAP_PRODUCTION_PHASE === "packet_canary";
+const CANARY_RELEASE = IS_PACKET_CANARY ? requireProductionMigrationRelease(process.cwd()) : null;
+const CANARY_REQUEST = IS_PACKET_CANARY ? assertCanaryRelease(CANARY_RELEASE, process.env) : null;
+let canaryExistingUserId = null;
+const CANARY_ORDER_GUARD = createOneOrderGuard({ resume: Boolean(CANARY_REQUEST?.resumeMatterId) });
 const PRODUCTION_PROJECT_REF = "wwtwtsmywnckfkdaqqeg";
-const PROBE_ACCOUNT_EMAIL = "rcap-production-probe@rcap-acceptance.test";
+const PROBE_ACCOUNT_EMAIL = IS_PACKET_CANARY ? CANARY.email : "rcap-production-probe@rcap-acceptance.test";
 const PHASE_REPRODUCE = "save_transition_reproduce";
 const PHASE_VERIFY = "save_transition_verify";
 // The authorized live order. It runs the verify journey unchanged and then
@@ -136,10 +152,10 @@ const EVIDENCE_FILE = path.join(EVIDENCE_DIR, `production-save-transition-${PHAS
 const SHOTS_DIR = path.join(EVIDENCE_DIR, "save-transition-screenshots", PHASE);
 
 // --- input contract -----------------------------------------------------------
-if (PHASE !== PHASE_REPRODUCE && PHASE !== PHASE_VERIFY && PHASE !== PHASE_LIVE_ORDER && PHASE !== PHASE_OPEN_PAYABLE) {
+if (PHASE !== PHASE_REPRODUCE && PHASE !== PHASE_VERIFY && PHASE !== PHASE_LIVE_ORDER && PHASE !== PHASE_OPEN_PAYABLE && !IS_PACKET_CANARY) {
   fail(`RCAP_PRODUCTION_PHASE must be ${PHASE_REPRODUCE}, ${PHASE_VERIFY}, ${PHASE_LIVE_ORDER} or ${PHASE_OPEN_PAYABLE}.`);
 }
-if (PHASE === PHASE_LIVE_ORDER && !LIVE_PROMOTION_CODE) {
+if ((PHASE === PHASE_LIVE_ORDER || IS_PACKET_CANARY) && !LIVE_PROMOTION_CODE) {
   fail(`${PHASE_LIVE_ORDER} requires RCAP_LIVE_PROMOTION_CODE. Without a code that clears the total, this phase would place a paid order, which it is not authorized to do.`);
 }
 // The payable phase refuses a promotion code outright. Accepting one would
@@ -151,7 +167,7 @@ if (PHASE === PHASE_OPEN_PAYABLE && LIVE_PROMOTION_CODE) {
 if (RESUME_MATTER_ID && !validUuid(RESUME_MATTER_ID)) {
   fail("RCAP_RESUME_MATTER_ID must be one exact matter id.");
 }
-if (RESUME_MATTER_ID && PHASE !== PHASE_LIVE_ORDER) {
+if (RESUME_MATTER_ID && PHASE !== PHASE_LIVE_ORDER && !IS_PACKET_CANARY) {
   fail(`RCAP_RESUME_MATTER_ID only applies to ${PHASE_LIVE_ORDER}.`);
 }
 if (PRODUCTION_DEPLOYMENT_ID && !/^dpl_[A-Za-z0-9]+$/.test(PRODUCTION_DEPLOYMENT_ID)) {
@@ -167,7 +183,7 @@ if (PROJECT_REF_INPUT && PROJECT_REF_INPUT !== PRODUCTION_PROJECT_REF) {
 if (new URL(SUPABASE_URL).hostname !== `${PRODUCTION_PROJECT_REF}.supabase.co`) {
   fail("RCAP_PRODUCTION_SUPABASE_URL does not belong to the pinned Production project.");
 }
-if (PHASE === PHASE_VERIFY) {
+if (PHASE === PHASE_VERIFY || IS_PACKET_CANARY) {
   if (!SUPABASE_ACCESS_TOKEN) fail("SUPABASE_ACCESS_TOKEN is required for the verify phase.");
   if (PROJECT_REF_INPUT !== PRODUCTION_PROJECT_REF) fail("RCAP_PRODUCTION_PROJECT_REF must equal the pinned Production project for the verify phase.");
 }
@@ -182,6 +198,8 @@ const secrets = new Set();
 if (LIVE_PROMOTION_CODE) secrets.add(LIVE_PROMOTION_CODE);
 if (SUPABASE_ACCESS_TOKEN) secrets.add(SUPABASE_ACCESS_TOKEN);
 if (DEPLOYMENT_READ_TOKEN) secrets.add(DEPLOYMENT_READ_TOKEN);
+if (IS_PACKET_CANARY && process.env.FLY_API_TOKEN) secrets.add(process.env.FLY_API_TOKEN);
+if (IS_PACKET_CANARY && process.env.GITHUB_TOKEN) secrets.add(process.env.GITHUB_TOKEN);
 const verdicts = [];
 const evidence = {
   schemaVersion: "rcap-production-save-transition-probe/v1",
@@ -214,10 +232,13 @@ const evidence = {
 function redact(value) {
   let text = typeof value === "string" ? value : String(value ?? "");
   for (const secret of secrets) {
-    if (secret) text = text.split(secret).join("[redacted]");
+    if (secret) {
+      text = text.split(secret).join("[redacted]").split(encodeURIComponent(secret)).join("[redacted]");
+      if (secret === LIVE_PROMOTION_CODE) text = text.replace(new RegExp(escapeRegExp(secret), "gi"), "[redacted]");
+    }
   }
   // A claim token only ever travels in the sign-in query string.
-  return text.replace(/([?&]claim=)[^&\s"'#]+/g, "$1[redacted]");
+  return text.replace(/([?&](?:claim|grant)=)[^&\s"'#]+/g, "$1[redacted]");
 }
 
 function record(caseId, passed, observed) {
@@ -228,6 +249,7 @@ function record(caseId, passed, observed) {
 }
 
 function persist(passed, failure = null) {
+  if (IS_PACKET_CANARY) evidence.orderGuard = CANARY_ORDER_GUARD.snapshot();
   evidence.finishedAt = new Date().toISOString();
   evidence.passed = passed;
   evidence.failure = failure === null ? null : redact(failure);
@@ -236,6 +258,11 @@ function persist(passed, failure = null) {
 
 // --- Supabase Management / Auth admin (verify phase only) ---------------------
 async function managementApi(pathname, { method = "GET", body = null } = {}) {
+  if (IS_PACKET_CANARY && pathname.endsWith("/database/query")) {
+    if (method !== "POST" || !/^select\b/i.test(body?.query?.trim() ?? "")) throw Error("packet_canary_non_readonly_sql");
+    body = { ...body, read_only: true };
+  }
+  if (IS_PACKET_CANARY) assertServiceRequest("management", { pathname, method, body });
   const response = await fetch(`https://api.supabase.com${pathname}`, {
     method,
     headers: { Authorization: `Bearer ${SUPABASE_ACCESS_TOKEN}`, "Content-Type": "application/json" },
@@ -249,6 +276,7 @@ async function managementApi(pathname, { method = "GET", body = null } = {}) {
 }
 
 async function authAdmin(pathname, serviceKey, { method = "GET", body = null } = {}) {
+  if (IS_PACKET_CANARY) assertServiceRequest("auth", { pathname, method, body, existingUserId: canaryExistingUserId });
   const response = await fetch(`${SUPABASE_URL}${pathname}`, {
     method,
     headers: { apikey: serviceKey, Authorization: `Bearer ${serviceKey}`, "Content-Type": "application/json" },
@@ -281,7 +309,7 @@ async function ensureProbeAccount() {
 
   const password = crypto.randomBytes(32).toString("base64url");
   secrets.add(password);
-  const create = await authAdmin("/auth/v1/admin/users", serviceKey, {
+  const create = IS_PACKET_CANARY && RESUME_MATTER_ID ? { status: 422, ok: false, json: null } : await authAdmin("/auth/v1/admin/users", serviceKey, {
     method: "POST",
     body: { email: PROBE_ACCOUNT_EMAIL, password, email_confirm: true }
   });
@@ -368,9 +396,9 @@ function attachObservers(page, section) {
   const originHost = new URL(ORIGIN).hostname;
   const external = new Set(section.externalRequestHosts);
   const posts = new Set(section.originPostPaths);
-  page.on("pageerror", (error) => section.browserErrors.push(redact(`pageerror at ${safePath(page.url())}: ${error.message}`).slice(0, 300)));
+  page.on("pageerror", (error) => section.browserErrors.push(IS_PACKET_CANARY ? "browser_error" : redact(`pageerror at ${safePath(page.url())}: ${error.message}`).slice(0, 300)));
   page.on("console", (message) => {
-    if (message.type() === "error") section.browserErrors.push(redact(`console at ${safePath(page.url())}: ${message.text()}`).slice(0, 300));
+    if (message.type() === "error") section.browserErrors.push(IS_PACKET_CANARY ? "browser_console_error" : redact(`console at ${safePath(page.url())}: ${message.text()}`).slice(0, 300));
   });
   page.on("request", (request) => {
     let url;
@@ -383,6 +411,9 @@ function attachObservers(page, section) {
 }
 
 async function screenshot(page, section, stem) {
+  // Raster screenshots cannot be reliably scrubbed for bearer codes or grants.
+  // The canary emits sanitized structured evidence only; no HAR/trace/video.
+  if (IS_PACKET_CANARY) return;
   const file = path.join(SHOTS_DIR, `${section.browser}-${stem}.png`);
   try {
     await page.setViewportSize({ width: 1440, height: 1000 });
@@ -478,6 +509,7 @@ async function runSignedOutJourney(page, section) {
   // Registered before the click so neither response can be missed.
   const pendingResponsePromise = page.waitForResponse(responseFor(PENDING_PATH), { timeout: 30_000 }).then((response) => response, () => null);
   const claimResponsePromise = page.waitForResponse(responseFor(CLAIM_PATH), { timeout: 30_000 }).then((response) => response, () => null);
+  if (IS_PACKET_CANARY) CANARY_ORDER_GUARD.claim();
   await saveButton.click();
 
   const pendingResponse = await pendingResponsePromise;
@@ -720,6 +752,7 @@ async function completePacketInformationAndVerify(page, section, matterId) {
  * every matter on it intact.
  */
 async function resumeLiveOrderPhase() {
+  if (IS_PACKET_CANARY) return resumePacketCanary();
   const credentials = await ensureProbeAccount();
   const section = newSection("chromium", "chromium");
   let browser = null;
@@ -915,6 +948,11 @@ async function productionRuntimeLogExcerpt(sinceMs, needles) {
  * entered here at all, because a zero-total order collects none.
  */
 async function placeLiveZeroDollarOrder(page, section, matterId) {
+  if (IS_PACKET_CANARY) {
+    const row = await readCanaryMatter(matterId);
+    assertMatter(row, { matterId, userId: evidence.account.userId });
+    if (row.checkout_session_id || row.payment_status === "paid") throw Error("packet_canary_existing_order_requires_separate_resume_authority");
+  }
   const order = {
     matterId,
     checkoutOpened: false,
@@ -938,15 +976,16 @@ async function placeLiveZeroDollarOrder(page, section, matterId) {
     (response) => response.request().method() === "POST" && new URL(response.url()).pathname === CONSUMER_CHECKOUT_PATH,
     { timeout: 60_000 }
   ).then(
-    async (response) => ({ status: response.status(), body: redact((await response.text().catch(() => "")).slice(0, 1200)) }),
+    async (response) => ({ status: response.status(), body: IS_PACKET_CANARY ? "{}" : redact((await response.text().catch(() => "")).slice(0, 1200)) }),
     () => null
   );
 
   const checkout = page.getByRole("button", { name: CONSUMER_CHECKOUT_LABEL, exact: true });
+  if (IS_PACKET_CANARY) CANARY_ORDER_GUARD.checkout();
   await checkout.click({ timeout: 20_000 });
   order.checkoutOpened = true;
   await page.waitForURL(/checkout\.stripe\.com/, { timeout: 60_000 }).catch(() => null);
-  order.reachedStripe = /checkout\.stripe\.com/.test(page.url());
+  order.reachedStripe = IS_PACKET_CANARY ? new URL(page.url()).origin === "https://checkout.stripe.com" : /checkout\.stripe\.com/.test(page.url());
   order.checkoutResponse = await checkoutAnswer;
   await screenshot(page, section, "08-stripe-checkout");
   // What the reader is looking at when the click does not leave the page. The
@@ -993,6 +1032,13 @@ async function placeLiveZeroDollarOrder(page, section, matterId) {
       + ` resultCode=${parsedCheckoutBody?.resultCode ?? "(none)"}, outcome=${parsedCheckoutBody?.outcome ?? "(none)"}.`
   );
 
+  if (IS_PACKET_CANARY) {
+    const row = await readCanaryMatter(matterId);
+    assertMatter(row, { matterId, userId: evidence.account.userId });
+    if (!row.checkout_session_id?.startsWith("cs_live_")) throw Error("packet_canary_live_session_missing");
+    evidence.canary.checkoutSessionId = row.checkout_session_id;
+    persist(false, "packet_canary_checkout_opened");
+  }
   // Which Stripe Product this Session is actually selling. A coupon restricted
   // to a catalog product only applies to a line item on that product, so this
   // is the one fact that decides whether the code can ever be accepted. Stripe
@@ -1082,10 +1128,16 @@ async function placeLiveZeroDollarOrder(page, section, matterId) {
     'button[data-testid="hosted-payment-submit-button"], button:has-text("Pay"), button:has-text("Place order"), button:has-text("Complete order"), button[type="submit"]'
   ).first();
   await submit.waitFor({ state: "visible", timeout: 20_000 });
+  if (IS_PACKET_CANARY) {
+    const facts = await readCanaryCheckoutFacts(page, order);
+    CANARY_ORDER_GUARD.submit(facts);
+    evidence.canary.submissionAttempted = true;
+    persist(false, "packet_canary_submission_attempted");
+  }
   await submit.click({ timeout: 20_000 });
   order.submitted = true;
   await page.waitForURL((url) => !/checkout\.stripe\.com/.test(String(url)), { timeout: 120_000 }).catch(() => null);
-  order.returnedToApplication = !/checkout\.stripe\.com/.test(page.url());
+  order.returnedToApplication = IS_PACKET_CANARY ? new URL(page.url()).origin === CANARY.origin : !/checkout\.stripe\.com/.test(page.url());
   await screenshot(page, section, "10-returned-from-stripe");
   record(
     "the_zero_total_order_completed_and_returned_to_the_application",
@@ -1093,6 +1145,10 @@ async function placeLiveZeroDollarOrder(page, section, matterId) {
     `submitted the zero-total order and Stripe returned the browser to ${safePathname(page.url())}`
   );
 
+  if (IS_PACKET_CANARY) {
+    await completeCanaryDelivery(page, matterId, order);
+    return order;
+  }
   // Settlement is read from the server's own row, not from the page. The
   // reconciliation columns are the point: a fully discounted order must record
   // the regular price and the discount, and collect nothing.
@@ -1435,6 +1491,21 @@ async function verifyPhase() {
     );
     const firstMatterId = firstSignIn.claimMatterId;
     evidence.mutations.mattersClaimed.push(firstMatterId);
+    if (IS_PACKET_CANARY) {
+      evidence.canary.matterId = firstMatterId;
+      persist(false, "packet_canary_in_progress");
+      const row = await readCanaryMatter(firstMatterId);
+      assertMatter(row, { matterId: firstMatterId, userId: evidence.account.userId });
+      evidence.canary.pendingResultId = row.source_pending_result_id;
+      evidence.canary.claimEvents = await canaryQuery(`select id, event, pending_result_id, matter_id from public.participant_claim_events where matter_id = '${firstMatterId}'`);
+      await expectMatterRendered(page, section, firstMatterId, "canary claim");
+      const journey = await completePacketInformationAndVerify(page, section, firstMatterId);
+      record("canary_final_verification", journey.verifyStatus === 200 && journey.nextActionPresent, "one exact synthetic matter verified");
+      section.liveOrder = await placeLiveZeroDollarOrder(page, section, firstMatterId);
+      evidence.liveOrder = section.liveOrder;
+      section.status = "captured"; section.transitionHealthy = true; evidence.transitionHealthy = true;
+      return; // No second claim, replay journey, or WebKit pending result.
+    }
     const firstRender = await expectMatterRendered(page, section, firstMatterId, "first claim");
     await screenshot(page, section, "03-first-matter");
     await page.reload({ waitUntil: "domcontentloaded" });
@@ -1656,9 +1727,157 @@ function fail(message) {
   process.exit(1);
 }
 
+// --- current-release canary adapters (only reached after real authorization) ---
+async function canaryQuery(query) {
+  const result = await managementApi(`/v1/projects/${PRODUCTION_PROJECT_REF}/database/query`, { method: "POST", body: { query, read_only: true } });
+  if (!result.ok || !Array.isArray(result.json)) throw Error("packet_canary_readback_failed");
+  return result.json;
+}
+async function readCanaryMatter(matterId) {
+  if (!validUuid(matterId)) throw Error("packet_canary_matter_id");
+  const rows = await canaryQuery(`select i.id, i.user_id, u.email, i.source_pending_result_id,
+    i.checkout_session_id, i.payment_status, i.amount_cents, i.regular_price_cents,
+    i.discount_cents, i.currency, i.provider_event_id, i.packet_status
+    from public.consumer_briefcase_items i join auth.users u on u.id = i.user_id
+    where i.id = '${matterId}'`);
+  if (rows.length !== 1) throw Error("packet_canary_matter_not_unique");
+  return rows[0];
+}
+async function canaryJobs(matterId) {
+  if (!validUuid(matterId)) throw Error("packet_canary_matter_id");
+  return canaryQuery(`select ${JOB_COLUMNS} from public.packet_render_jobs where consumer_briefcase_item_id = '${matterId}'`);
+}
+async function preflightPacketCanary() {
+  evidence.schemaVersion = "rcap-production-packet-canary/v1";
+  evidence.canary = { ...CANARY, mutationClasses: [...MUTATION_CLASSES], retainedForAudit: true,
+    cleanupAuthorized: false, deploymentMutated: false, workerMutated: false,
+    environmentMutated: false, aliasMutated: false, migrationOrKeyMutation: false,
+    realCustomerMutated: false, moneyCollectedCents: null,
+    resumeMatterId: RESUME_MATTER_ID || null, toolsSha: process.env.RCAP_TOOLS_SHA };
+  // GET only; never start/update/restart a Machine. Never persist its environment.
+  if (!process.env.FLY_API_TOKEN) throw Error("packet_canary_worker_read_token_missing");
+  assertServiceRequest("fly", { pathname: "/v1/apps/legalease-rcap-render-worker/machines", method: "GET" });
+  const response = await fetch("https://api.machines.dev/v1/apps/legalease-rcap-render-worker/machines", {
+    method: "GET", redirect: "error", signal: AbortSignal.timeout(20000),
+    headers: { Authorization: `Bearer ${process.env.FLY_API_TOKEN}` }
+  });
+  if (!response.ok) throw Error("packet_canary_worker_read_failed");
+  const machines = await response.json();
+  const queue = await canaryQuery(QUEUE_QUERY);
+  if (queue.length !== 1) throw Error("packet_canary_queue_unreadable");
+  if (!Array.isArray(machines) || machines.length !== 1) throw Error("packet_canary_worker_inventory");
+  const imageProof = readWorkerImageProof(machines[0]);
+  evidence.canary.worker = assertWorkerHealth(machines, queue[0], imageProof);
+  const users = await canaryQuery(`select id from auth.users where email = '${CANARY.email}'`);
+  if (users.length > 1) throw Error("packet_canary_account_ambiguous");
+  canaryExistingUserId = users[0]?.id ?? null;
+  if (RESUME_MATTER_ID) {
+    if (users.length !== 1 || users[0].id !== CANARY_REQUEST.expectedUserId) throw Error("packet_canary_resume_owner");
+    const identity = { matterId: RESUME_MATTER_ID, userId: users[0].id };
+    const row = await readCanaryMatter(RESUME_MATTER_ID);
+    const jobs = await canaryJobs(RESUME_MATTER_ID);
+    evidence.canary.resumeDisposition = resumeDisposition(row, identity, jobs);
+    evidence.canary.matterId = RESUME_MATTER_ID;
+    evidence.canary.existingProof = { row, jobs };
+    // Already delivered needs no account reset, browser, grant or second order.
+    if (evidence.canary.resumeDisposition === "already_delivered") {
+      const events = await canaryQuery(`select id, render_job_id, event_type, actor_user_id, created_at from public.packet_delivery_events where render_job_id = '${jobs[0].id}'`);
+      assertDeliveryEvents(events, jobs[0], identity.userId);
+      evidence.canary.deliveryEvents = events;
+    }
+  } else if (users.length) {
+    if (!validUuid(users[0].id)) throw Error("packet_canary_account_identity");
+    const previous = await canaryQuery(`select id from public.consumer_briefcase_items where user_id = '${users[0].id}'`);
+    if (previous.length) throw Error("packet_canary_existing_matter_requires_separate_resume_authority");
+  }
+  persist(false, "packet_canary_preflight_complete");
+}
+async function readCanaryCheckoutFacts(page, order) {
+  // Read a total element, never '$0.00' occurring anywhere in body text.
+  const totals = page.locator('[data-testid="total-amount"], .OrderSummary-totalAmount');
+  const visible = [];
+  for (const element of await totals.all()) if (await element.isVisible()) visible.push((await element.innerText()).trim());
+  if (visible.length !== 1) throw Error("packet_canary_total_ambiguous");
+  const paymentFields = [];
+  for (const frame of page.frames()) {
+    const fields = frame.locator('input[autocomplete^="cc-"], input[name*="card" i], input[name*="iban" i], [data-testid="payment-method-selector"]');
+    for (const field of await fields.all()) if (await field.isVisible()) paymentFields.push("payment-control-present");
+  }
+  const facts = { url: page.url(), promotionEntered: order.promotionEntered, promotionAccepted: order.promotionAccepted, totalText: visible[0], paymentFields };
+  assertZeroCheckout(facts);
+  return facts;
+}
+async function completeCanaryDelivery(page, matterId, order, resume = false) {
+  const identity = { matterId, userId: evidence.account.userId };
+  let downloadUrl;
+  const proof = await proveCanaryDelivery({
+    matter: () => readCanaryMatter(matterId), jobs: () => canaryJobs(matterId),
+    events: jobId => {
+      if (!validUuid(jobId)) throw Error("packet_canary_job_id");
+      return canaryQuery(`select id, render_job_id, event_type, actor_user_id, created_at from public.packet_delivery_events where render_job_id = '${jobId}'`);
+    },
+    wait: () => page.waitForTimeout(10000),
+    capture: (key, value) => { evidence.canary[key] = value; persist(false, "packet_canary_in_progress"); },
+    ownerDownload: async () => {
+      // Existing application grant, exact signed-in owner. Token stays in memory.
+      const link = await page.request.post(`${ORIGIN}/api/expungement-ai/packet/download-link`, { data: { briefcaseItemId: matterId }, timeout: 30000 });
+      if (link.status() !== 200) throw Error("packet_canary_download_grant_refused");
+      const body = await link.json();
+      const url = new URL(body.downloadUrl, ORIGIN);
+      const grant = url.searchParams.get("grant");
+      if (url.origin !== CANARY.origin || url.pathname !== `/api/expungement-ai/packet/artifacts/${matterId}` || !grant) throw Error("packet_canary_download_grant_identity");
+      secrets.add(grant); secrets.add(url.href); downloadUrl = url.href;
+      const grantHash = crypto.createHash("sha256").update(grant).digest("hex");
+      const grants = await canaryQuery(`select id, briefcase_item_id, consumer_auth_user_id, artifact_sha256 from public.consumer_artifact_download_grants where token_hash = '${grantHash}' and briefcase_item_id = '${matterId}'`);
+      if (grants.length !== 1 || grants[0].consumer_auth_user_id !== identity.userId) throw Error("packet_canary_grant_identity");
+      evidence.canary.downloadGrant = grants[0];
+      persist(false, "packet_canary_owner_download_pending");
+      const response = await page.request.get(downloadUrl, { timeout: 120000, maxRedirects: 0 });
+      const bytes = Buffer.from(await response.body());
+      const pages = response.status() === 200 ? inspectPdf(bytes) : [];
+      return { status: response.status(), contentType: response.headers()["content-type"] ?? "", bytes, pages };
+    },
+    anonymousDownload: async () => {
+      const anonymous = await playwrightRequest.newContext();
+      try { return (await anonymous.get(downloadUrl, { timeout: 30000, maxRedirects: 0 })).status(); }
+      finally { await anonymous.dispose(); }
+    }
+  }, identity, { resume });
+  evidence.canary.moneyCollectedCents = proof.settlement.amount_cents;
+  Object.assign(order, proof);
+  evidence.canary.proof = proof;
+  // Privileged readback is bounded to this exact synthetic job; no cleanup SQL.
+  evidence.canary.accountingRows = await canaryQuery(`select id, render_job_id, event_type from public.packet_credit_ledger where render_job_id = '${proof.job.id}'`);
+}
+async function resumePacketCanary() {
+  if (evidence.canary.resumeDisposition === "already_delivered") {
+    evidence.transitionHealthy = true;
+    evidence.canary.recoveryResult = "existing_delivery_proof_no_new_order";
+    return;
+  }
+  const credentials = await ensureProbeAccount();
+  if (evidence.account.userId !== CANARY_REQUEST.expectedUserId) throw Error("packet_canary_resume_owner");
+  const browser = await launchBrowser("chromium");
+  try {
+    const page = await (await browser.newContext()).newPage();
+    const section = newSection("chromium"); evidence.browsers.chromium = section;
+    await page.goto(`${ORIGIN}${SIGN_IN_PATH}`, { waitUntil: "domcontentloaded" });
+    await switchToSignIn(page, section);
+    await page.locator('input[name="email"]').fill(credentials.email);
+    await page.locator('input[name="password"]').fill(credentials.password);
+    const auth = page.waitForResponse(r => r.request().method() === "POST" && r.url().includes("/auth/v1/token") && r.url().includes("grant_type=password"));
+    await page.getByRole("button", { name: "Sign in", exact: true }).click();
+    if (!(await auth).ok()) throw Error("packet_canary_resume_sign_in");
+    const order = { matterId: RESUME_MATTER_ID, checkoutOpened: false, submitted: false, resumed: true };
+    await completeCanaryDelivery(page, RESUME_MATTER_ID, order, true);
+    evidence.liveOrder = order; evidence.transitionHealthy = true;
+  } finally { await browser.close(); }
+}
+
 // --- main -------------------------------------------------------------------------
 try {
   console.log(`RCAP production save-transition probe: phase ${PHASE} against ${ORIGIN} (${BROWSERS.join(", ")})`);
+  if (IS_PACKET_CANARY) await preflightPacketCanary();
   if (PHASE === PHASE_REPRODUCE) await reproducePhase();
   else if (RESUME_MATTER_ID) await resumeLiveOrderPhase();
   else await verifyPhase();

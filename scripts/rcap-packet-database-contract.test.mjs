@@ -9,7 +9,7 @@ import vm from 'node:vm';
 import ts from 'typescript';
 import { AsyncLocalStorage } from 'node:async_hooks';
 import { PDFDocument } from 'pdf-lib';
-import { packetTestDatabase, packetApplicationTestDatabase, applyPacketApplicationDependencies, readPacketCatalog, buildPacketReference, ATTRIBUTION_FILES } from './rcap-packet-database-reference.mjs';
+import { packetTestDatabase, packetApplicationTestDatabase, applyPacketApplicationDependencies, readPacketCatalog, buildPacketReference, ATTRIBUTION_FILES, FUNDING_CHOICE_PATH } from './rcap-packet-database-reference.mjs';
 import { REPAIR_PATH, CORRECTION_PATH, CONTRACT_PATH, packetCatalogQuery, queueHealthQuery, comparePacketCatalog, digest } from './rcap-packet-database-contract.mjs';
 import { packetDatabaseReadback } from './verify-rcap-packet-database.mjs';
 import { buildMsNonConvictionVerification, MS_NONCONVICTION_ROUTE } from './lib/rcap-ms-nonconviction-fixture.mjs';
@@ -222,6 +222,7 @@ test('missing sponsored reader dependency blocks pre-charge; legitimate correcti
   });
   db.applyFile(path.join(root,CORRECTION_PATH));
   for(const file of ATTRIBUTION_FILES)db.applyFile(path.join(root,file));
+  db.applyFile(path.join(root,FUNDING_CHOICE_PATH));
   const durableAttribution={...participant.item.artifactRefs.attribution,locale:'en',preservedProof:{source:'existing synthetic claim',values:[1,2]}};
   db.sql(`update consumer_briefcase_items set artifact_refs_json=jsonb_build_object('attribution',${jsql(durableAttribution)}) where id=${sql(item)}`);
   const final=db.json(`select to_jsonb(f) from finalize_packet_render_job(${sql(id)},${sql(claim.fencing_token)},${sql(storagePath)},${sql(hash)},${sql(hash)},${sql(hash)},${sql(hash)},${bytes.length},1,${sql('sha256:'+digest('local-container'))}) f`);
@@ -454,8 +455,11 @@ test('forward delta repairs the legitimate predecessor without replaying later p
   db.sql(authority);
   for(const file of ATTRIBUTION_FILES)db.applyFile(path.join(root,file));
   const after=readPacketCatalog(db);
-  assert.deepEqual(comparePacketCatalog(JSON.parse(fs.readFileSync(CONTRACT_PATH,'utf8')).current,after),[]);
   for(const key of paymentKeys)assert.deepEqual(after[key],before[key],key);
+  // Funding-choice is a later intentional payment/authority transition. The
+  // historical correction above must still leave payment definitions intact.
+  db.applyFile(path.join(root,FUNDING_CHOICE_PATH));
+  assert.deepEqual(comparePacketCatalog(JSON.parse(fs.readFileSync(CONTRACT_PATH,'utf8')).current,readPacketCatalog(db)),[]);
   const projected=db.json(`select jsonb_agg(to_jsonb(j)-array['sponsored_route_key','sponsored_session_id','sponsored_clinic_event_id','sponsored_consumer_briefcase_item_id','sponsored_consumer_auth_user_id','sponsored_verification_hash'] order by id) from packet_render_jobs j`);
   assert.deepEqual(projected,priorRows,'no job reset, retirement, deletion, attempt change or reconciliation during DDL');
   assert.equal(db.scalar('select count(*) from sponsored_packet_render_routes'),'0','DDL does not replay historical registrations or entitlements');
@@ -836,16 +840,36 @@ test('source-derived current delivery and worker postcondition authority',async 
     assert.ok(comparePacketCatalog(reference.current,changed).some(r=>r.name===name));
     if(value&&typeof value==='object') {changed[name]={};assert.ok(comparePacketCatalog(reference.current,changed).length>0||Object.keys(value).length===0);}
   });
+  await t.test('omitting funding-choice from the reference refuses exactly its five transitioned functions',()=>{
+    assert.equal(reference.sources.at(-1).path,FUNDING_CHOICE_PATH);
+    assert(reference.sources.findIndex(s=>s.path===FUNDING_CHOICE_PATH)>reference.sources.findIndex(s=>s.path===ATTRIBUTION_FILES.at(-1)));
+    const before=buildPacketReference(root,{fundingChoice:false});
+    assert(!before.sources.some(s=>s.path===FUNDING_CHOICE_PATH));
+    assert.deepEqual(comparePacketCatalog(reference.current,before.current).map(f=>f.name).sort(),[
+      'functions:enqueue_verified_sponsored_packet_render',
+      'functions:finalize_packet_render_job',
+      'functions:finalize_sponsored_packet_generation_for_route',
+      'functions:record_consumer_packet_payment',
+      'functions:sponsored_packet_render_authority'
+    ]);
+    const current=packetApplicationTestDatabase(root);
+    try {assert.deepEqual(comparePacketCatalog(reference.current,readPacketCatalog(current)),[]);}
+    finally {current.stop();}
+  });
   const db=setup();t.after(()=>db.stop());
   await t.test('old attribution definitions fail exactly two current postconditions; both forward corrections pass',()=>{
     const prior=packetApplicationTestDatabase(root,{attributionSuccessors:false});
+    const beforeFunding=packetApplicationTestDatabase(root,{fundingChoice:false});
     try {
-      assert.deepEqual(comparePacketCatalog(reference.current,readPacketCatalog(prior)).map(f=>f.name).sort(),[
+      const attributionCurrent=readPacketCatalog(beforeFunding);
+      assert.deepEqual(comparePacketCatalog(attributionCurrent,readPacketCatalog(prior)).map(f=>f.name).sort(),[
         'functions:finalize_sponsored_packet_generation_for_route','functions:publish_validated_consumer_render_artifact'
       ]);
       for(const file of ATTRIBUTION_FILES)prior.applyFile(path.join(root,file));
+      assert.deepEqual(comparePacketCatalog(attributionCurrent,readPacketCatalog(prior)),[]);
+      prior.applyFile(path.join(root,FUNDING_CHOICE_PATH));
       assert.deepEqual(comparePacketCatalog(reference.current,readPacketCatalog(prior)),[]);
-    } finally {prior.stop();}
+    } finally {prior.stop();beforeFunding.stop();}
   });
   await t.test('exact repaired database passes; worker/browser/server grants remain separated',()=>{
     assert.deepEqual(comparePacketCatalog(reference.current,readPacketCatalog(db)),[]);

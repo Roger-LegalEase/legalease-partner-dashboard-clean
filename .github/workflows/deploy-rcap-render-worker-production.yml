@@ -68,6 +68,11 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
 
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
       - name: Refuse any worker identity outside the frozen candidate
         env:
           INPUT_WORKER_SOURCE_SHA: ${{ inputs.worker_source_sha }}
@@ -76,11 +81,15 @@ jobs:
           set -euo pipefail
           node --input-type=module <<'JS'
           import fs from "node:fs";
+          import { requireProductionPhaseAuthorization } from "./scripts/grade-a-launch-control/production-preflight-authorization.mjs";
+          import { verifyProductionPreflightEvidence } from "./scripts/grade-a-launch-control/verify-production-preflight-evidence.mjs";
           const sha = process.env.INPUT_WORKER_SOURCE_SHA ?? "";
           const digest = process.env.INPUT_WORKER_DIGEST ?? "";
           if (!/^[a-f0-9]{40}$/.test(sha)) throw new Error("worker_source_sha must be an exact 40-character SHA");
           if (!/^sha256:[a-f0-9]{64}$/.test(digest)) throw new Error("worker_digest must be an exact sha256 digest");
           const candidate = JSON.parse(fs.readFileSync("data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json", "utf8"));
+          requireProductionPhaseAuthorization(candidate, "production_worker_deploy");
+          verifyProductionPreflightEvidence(process.cwd());
           const publication = JSON.parse(fs.readFileSync("data/rcap-render/worker-publication-evidence.json", "utf8"));
           const mismatches = [];
           if (candidate.workerSourceSha !== sha) mismatches.push("candidate workerSourceSha");
@@ -141,7 +150,18 @@ jobs:
           done
           echo "All required production secret names are present in the Fly secret store (values never read)."
 
+      - name: Read current worker identity and decide no-op or exact deployment
+        id: worker_readiness
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          RCAP_WORKER_SOURCE_SHA: ${{ inputs.worker_source_sha }}
+          RCAP_WORKER_DIGEST: ${{ inputs.worker_digest }}
+          RCAP_PRODUCTION_PROJECT_REF: ${{ env.PRODUCTION_PROJECT_REF }}
+        run: node scripts/rcap-production-worker-readiness.mjs
+
       - name: Mirror the exact image into the app's Fly registry and deploy it by digest
+        if: steps.worker_readiness.outputs.disposition == 'WRITE_REQUIRED_AND_PROVEN'
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
           WORKER_SOURCE_SHA: ${{ inputs.worker_source_sha }}

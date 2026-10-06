@@ -1,3 +1,4 @@
+import {requireProductionPhaseAuthorization,PRODUCTION_PROJECT_REF} from './grade-a-launch-control/production-preflight-authorization.mjs';
 import fs from 'node:fs';
 import path from 'node:path';
 import { createHash } from 'node:crypto';
@@ -6,8 +7,9 @@ import { fileURLToPath } from 'node:url';
 import { requireCurrentReleaseCandidate } from './grade-a-launch-control/verify-release-candidate-binding.mjs';
 import { requireMigrationCertification } from './rcap-migration-certification.mjs';
 import { LEGAL_AID_MIGRATION } from './rcap-legal-aid/contract.mjs';
+import { fundingCatalogQuery, expectedFundingCatalog, certifyFundingCatalog, SOURCE_PATH as FUNDING_SOURCE_PATH, SOURCE_SHA as FUNDING_SOURCE_SHA } from './rcap-production-funding-dependency-contract.mjs';
 
-export const PRODUCTION_PROJECT_REF = 'wwtwtsmywnckfkdaqqeg';
+export {requireProductionPhaseAuthorization,PRODUCTION_PROJECT_REF};
 export const CLINIC_SOURCE_FILES = Object.freeze([
   'supabase/migrations/20260825120000_clinic_mode_core.sql',
   'supabase/migrations/20260825121000_clinic_mode_security.sql',
@@ -41,21 +43,6 @@ export function requireProductionReleaseTuple(candidate, binding, env) {
   return candidate;
 }
 
-export function requireProductionPhaseAuthorization(candidate, phase) {
-  const authorization = candidate?.productionAuthorization;
-  if (candidate?.productionAuthorized !== true || authorization?.authorized !== true
-    || authorization?.productionProjectRef !== PRODUCTION_PROJECT_REF
-    || !Array.isArray(authorization?.phases) || !authorization.phases.includes(phase)
-    || !authorization?.recordedBy || !authorization?.recordedAt) {
-    throw new Error('production_phase_not_authorized_for_current_release');
-  }
-  for (const key of ['applicationSha', 'workerSourceSha', 'workerDigest', 'workerInputFingerprint']) {
-    if (!candidate?.[key] || authorization[key] !== candidate[key]) {
-      throw new Error(`production_authorization_tuple_mismatch:${key}`);
-    }
-  }
-  return authorization;
-}
 
 export function requireProductionDeploymentBinding(candidate, phase) {
   const authorization = requireProductionPhaseAuthorization(candidate, phase);
@@ -98,20 +85,23 @@ export function requireProductionMigrationRelease(root, env = process.env) {
 // come from the existing five source migrations in a disposable PostgreSQL
 // instance, with the same prerequisite shim as rcap-legal-aid/self-test.mjs.
 // No Production catalog or asserted receipt can become expected authority.
-export const clinicSourceCatalogQuery = `with relations as (
+// NOT NULL is compared once, through pg_attribute.attnotnull. PostgreSQL 18
+// also exposes contype='n' constraints; their names are not portable catalog
+// identity. All other constraint types remain in the exact comparison.
+const clinicCoreCatalogQuery = `with relations as (
   select c.* from pg_class c join pg_namespace n on n.oid=c.relnamespace
   where n.nspname='public' and c.relkind='r'
     and (c.relname like 'clinic\\_%' escape '\\' or c.relname like 'legal\\_aid\\_%' escape '\\')
 ), functions as (
   select p.* from pg_proc p join pg_namespace n on n.oid=p.pronamespace
   where n.nspname='public'
-    and (p.proname like 'clinic\\_%' escape '\\' or p.proname like 'legal\\_aid\\_%' escape '\\')
+    and (p.proname like 'clinic\\_%' escape '\\' or p.proname like 'legal\\_aid\\_%' escape '\\' or p.proname='allocate_clinic_packet_funding')
 ), entries as (
   select 'table:'||c.relname as key, jsonb_build_object(
     'rls',c.relrowsecurity,'forceRls',c.relforcerowsecurity,
     'columns',(select jsonb_agg(jsonb_build_object('name',a.attname,'type',format_type(a.atttypid,a.atttypmod),'notNull',a.attnotnull,'default',pg_get_expr(d.adbin,d.adrelid)) order by a.attname)
       from pg_attribute a left join pg_attrdef d on d.adrelid=a.attrelid and d.adnum=a.attnum where a.attrelid=c.oid and a.attnum>0 and not a.attisdropped),
-    'constraints',coalesce((select jsonb_object_agg(conname,pg_get_constraintdef(oid)) from pg_constraint where conrelid=c.oid),'{}'),
+    'constraints',coalesce((select jsonb_object_agg(conname,pg_get_constraintdef(oid)) from pg_constraint where conrelid=c.oid and contype <> 'n'),'{}'),
     'indexes',coalesce((select jsonb_object_agg(ci.relname,pg_get_indexdef(i.indexrelid)) from pg_index i join pg_class ci on ci.oid=i.indexrelid where i.indrelid=c.oid),'{}'),
     'policies',coalesce((select jsonb_object_agg(polname,jsonb_build_object('command',polcmd,'permissive',polpermissive,'roles',(select jsonb_agg(case when r=0 then 'public' else pg_get_userbyid(r) end order by case when r=0 then 'public' else pg_get_userbyid(r) end) from unnest(polroles) r),'using',pg_get_expr(polqual,polrelid),'check',pg_get_expr(polwithcheck,polrelid))) from pg_policy where polrelid=c.oid),'{}'),
     'triggers',coalesce((select jsonb_object_agg(tgname,jsonb_build_object('enabled',tgenabled,'definition',pg_get_triggerdef(oid))) from pg_trigger where tgrelid=c.oid and not tgisinternal),'{}'),
@@ -128,11 +118,34 @@ export const clinicSourceCatalogQuery = `with relations as (
       where tgrelid='public.packet_render_jobs'::regclass and tgname='clinic_sync_packet_reservation_after_job' and not tgisinternal),'null')
 ) select coalesce(jsonb_object_agg(key,value order by key),'{}') as catalog from entries`;
 
+// A complete funding overlay is a frozen application dependency, not a new
+// Clinic stage. Its full independent catalog retains owners, every overload,
+// all constraints and all relevant privileges. Only these four known core
+// representations are replaced by the stronger full funding representation.
+const FUNDING_CORE_KEYS = [
+  'table:clinic_packet_funding',
+  'function:allocate_clinic_packet_funding(uuid,uuid,text)',
+  'function:clinic_packet_dtc_authorized(uuid,uuid)',
+  'function:clinic_entry_sponsor_capacity(uuid,text)',
+];
+export const clinicSourceCatalogQuery = `select
+  (core.catalog - array[${FUNDING_CORE_KEYS.map(key=>"'"+key+"'").join(',')}]) ||
+  case when to_regclass('public.clinic_packet_funding') is not null or exists (
+    select 1 from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='public'
+      and p.proname in ('allocate_clinic_packet_funding','clinic_packet_dtc_authorized','clinic_entry_sponsor_capacity')
+  ) then funding.catalog else '{}'::jsonb end as catalog
+  from (${clinicCoreCatalogQuery}) core cross join (${fundingCatalogQuery}) funding`;
+
 export async function clinicSourceTestDatabase() {
   const { PGlite } = await import('@electric-sql/pglite');
   const db = new PGlite();
   try {
+    // These defaults are part of the frozen Supabase baseline
+    // (20260728213131_remote_schema.sql), not grants inferred from Production.
     await db.exec(`create role anon; create role authenticated; create role service_role bypassrls;
+      create role rcap_render_worker; create role rcap_packet_delivery;
+      alter default privileges for role postgres in schema public grant all on tables to service_role;
+      alter default privileges for role postgres in schema public grant all on functions to service_role;
       create schema auth; create table auth.users(id uuid primary key);
       create function auth.uid() returns uuid language sql stable as $$ select nullif(current_setting('request.jwt.claim.sub', true),'')::uuid $$;
       create schema storage; create table storage.buckets(id text primary key,name text,public boolean default false,file_size_limit bigint,allowed_mime_types text[]);
@@ -161,22 +174,34 @@ export async function buildClinicSourceReference(root) {
       await db.exec(sql);
       if (index >= 2) snapshots[['clinic_base', 'clinic_jurisdiction', 'legal_aid'][index - 2]] = (await db.query(clinicSourceCatalogQuery)).rows[0].catalog;
     }
-    return { sources, snapshots };
+    return { sources, snapshots, funding: expectedFundingCatalog(root) };
   } finally {
     await db.close();
   }
 }
 
 export function certifyClinicSourceCatalog(reference, actual, { legalAid = false } = {}) {
+  let core = actual;
+  let fundingDisposition = 'absent';
+  const fundingKeys = Object.keys(reference.funding ?? {});
+  const hasFunding = fundingKeys.some(key=>Object.hasOwn(actual ?? {},key));
+  if(hasFunding) {
+    try {
+      const funding = Object.fromEntries(fundingKeys.filter(key=>Object.hasOwn(actual,key)).map(key=>[key,actual[key]]));
+      certifyFundingCatalog(funding,reference.funding);
+      core = Object.fromEntries(Object.entries(actual).filter(([key])=>!fundingKeys.includes(key)));
+      fundingDisposition = 'exact_frozen_overlay';
+    } catch(error) { throw new Error(`clinic_source_postconditions_failed:funding_overlay:${error.message}`); }
+  }
   const stages = legalAid ? ['legal_aid'] : ['legal_aid', 'clinic_jurisdiction', 'clinic_base'];
   const failures = [];
   for (const stage of stages) {
     try {
       // Require the exact scoped key set as well: an extra overload/table is
       // not a source-derived successor simply because expected keys survive.
-      if (JSON.stringify(Object.keys(reference.snapshots[stage]).sort()) !== JSON.stringify(Object.keys(actual ?? {}).sort())) throw new Error('catalog_key_set_mismatch');
-      const certificate = requireMigrationCertification({ expected: reference.snapshots[stage], actual });
-      return { ...certificate, stage, sources: reference.sources };
+      if (JSON.stringify(Object.keys(reference.snapshots[stage]).sort()) !== JSON.stringify(Object.keys(core ?? {}).sort())) throw new Error('catalog_key_set_mismatch');
+      const certificate = requireMigrationCertification({ expected: reference.snapshots[stage], actual: core });
+      return { ...certificate, stage, sources: reference.sources, fundingDisposition, fundingSource: fundingDisposition === 'exact_frozen_overlay' ? { path: FUNDING_SOURCE_PATH, sha256: FUNDING_SOURCE_SHA } : null };
     } catch (error) { failures.push(`${stage}:${error.message}`); }
   }
   throw new Error(`clinic_source_postconditions_failed:${failures.join(';')}`);

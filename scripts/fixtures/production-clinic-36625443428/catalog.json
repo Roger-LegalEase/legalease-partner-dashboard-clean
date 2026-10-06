@@ -1,0 +1,1783 @@
+{
+  "provenance": {
+    "runId": 36625443428,
+    "artifactId": 11061205252,
+    "artifactSha256": "sha256:4346001f78554a92035a882f1dc55e5e97f4f99acfb282724a3de86c3ccb2779",
+    "toolsSha": "d9a349986379679a70db3566fc570e3aea1cfa3a",
+    "applicationSha": "e312a5efa7b4882e0fbf61a5ff0ae7891ac23226",
+    "stage": "clinic_jurisdiction",
+    "capturedMismatchKeys": [
+      "table:clinic_cases",
+      "table:clinic_events",
+      "table:clinic_incidents",
+      "table:clinic_follow_ups",
+      "table:clinic_event_audit",
+      "table:clinic_event_staff",
+      "table:clinic_assisted_sessions",
+      "table:clinic_event_access_codes",
+      "table:clinic_packet_reservations",
+      "table:clinic_event_access_redemptions",
+      "function:clinic_sync_packet_reservation()"
+    ],
+    "reconstruction": "The artifact contains complete expected/actual values for all 11 mismatching keys after exact key-set verification. Remaining keys equal the frozen source snapshot under the captured comparator; they are reconstructed from that unchanged source, not independently captured catalog rows. No participant rows or credentials are included."
+  },
+  "catalog": {
+    "table:clinic_cases": {
+      "rls": true,
+      "grants": {
+        "anon": {
+          "DELETE": false,
+          "INSERT": false,
+          "SELECT": false,
+          "UPDATE": false,
+          "TRIGGER": false,
+          "TRUNCATE": false,
+          "REFERENCES": false
+        },
+        "service_role": {
+          "DELETE": true,
+          "INSERT": true,
+          "SELECT": true,
+          "UPDATE": true,
+          "TRIGGER": true,
+          "TRUNCATE": true,
+          "REFERENCES": true
+        },
+        "authenticated": {
+          "DELETE": false,
+          "INSERT": false,
+          "SELECT": true,
+          "UPDATE": false,
+          "TRIGGER": false,
+          "TRUNCATE": false,
+          "REFERENCES": false
+        }
+      },
+      "columns": [
+        {
+          "name": "assisted_session_id",
+          "type": "uuid",
+          "default": null,
+          "notNull": false
+        },
+        {
+          "name": "closed_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "notNull": false
+        },
+        {
+          "name": "county_name",
+          "type": "text",
+          "default": null,
+          "notNull": false
+        },
+        {
+          "name": "court_identity_verified",
+          "type": "boolean",
+          "default": "false",
+          "notNull": true
+        },
+        {
+          "name": "court_name",
+          "type": "text",
+          "default": null,
+          "notNull": false
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "notNull": true
+        },
+        {
+          "name": "event_id",
+          "type": "uuid",
+          "default": null,
+          "notNull": true
+        },
+        {
+          "name": "follow_up_due_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "notNull": false
+        },
+        {
+          "name": "follow_up_owner_staff_id",
+          "type": "uuid",
+          "default": null,
+          "notNull": false
+        },
+        {
+          "name": "id",
+          "type": "uuid",
+          "default": "gen_random_uuid()",
+          "notNull": true
+        },
+        {
+          "name": "jurisdiction",
+          "type": "text",
+          "default": null,
+          "notNull": true
+        },
+        {
+          "name": "last_activity_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "notNull": true
+        },
+        {
+          "name": "matter_id",
+          "type": "uuid",
+          "default": null,
+          "notNull": false
+        },
+        {
+          "name": "participant_user_id",
+          "type": "uuid",
+          "default": null,
+          "notNull": true
+        },
+        {
+          "name": "queue_status",
+          "type": "text",
+          "default": "'started'::text",
+          "notNull": true
+        },
+        {
+          "name": "route_disposition",
+          "type": "text",
+          "default": "'pending'::text",
+          "notNull": true
+        },
+        {
+          "name": "screening_session_id",
+          "type": "uuid",
+          "default": null,
+          "notNull": false
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "notNull": true
+        }
+      ],
+      "indexes": {
+        "clinic_cases_pkey": "CREATE UNIQUE INDEX clinic_cases_pkey ON public.clinic_cases USING btree (id)",
+        "clinic_cases_event_queue_idx": "CREATE INDEX clinic_cases_event_queue_idx ON public.clinic_cases USING btree (event_id, queue_status, last_activity_at)",
+        "clinic_cases_participant_idx": "CREATE INDEX clinic_cases_participant_idx ON public.clinic_cases USING btree (participant_user_id, created_at DESC)",
+        "clinic_cases_event_id_participant_user_id_screening_session_key": "CREATE UNIQUE INDEX clinic_cases_event_id_participant_user_id_screening_session_key ON public.clinic_cases USING btree (event_id, participant_user_id, screening_session_id)"
+      },
+      "forceRls": false,
+      "policies": {
+        "clinic_cases_scoped_read": {
+          "check": null,
+          "roles": [
+            "authenticated"
+          ],
+          "using": "((participant_user_id = auth.uid()) OR clinic_is_internal_admin() OR clinic_is_event_staff(event_id, 'queue'::text) OR ((clinic_current_role() = 'partner_admin'::text) AND clinic_can_read_event(event_id)))",
+          "command": "r",
+          "permissive": true
+        }
+      },
+      "triggers": {
+        "clinic_cases_updated_at": {
+          "enabled": "O",
+          "definition": "CREATE TRIGGER clinic_cases_updated_at BEFORE UPDATE ON public.clinic_cases FOR EACH ROW EXECUTE FUNCTION clinic_set_updated_at()"
+        }
+      },
+      "constraints": {
+        "clinic_cases_pkey": "PRIMARY KEY (id)",
+        "clinic_cases_check": "CHECK (((court_identity_verified = false) OR ((county_name IS NOT NULL) AND (court_name IS NOT NULL))))",
+        "clinic_cases_check1": "CHECK (((queue_status = 'closed'::text) = (closed_at IS NOT NULL)))",
+        "clinic_cases_event_id_fkey": "FOREIGN KEY (event_id) REFERENCES clinic_events(id) ON DELETE RESTRICT",
+        "clinic_cases_matter_id_fkey": "FOREIGN KEY (matter_id) REFERENCES consumer_briefcase_items(id) ON DELETE SET NULL",
+        "clinic_cases_jurisdiction_check": "CHECK (((jurisdiction = upper(jurisdiction)) AND ((length(jurisdiction) >= 2) AND (length(jurisdiction) <= 3))))",
+        "clinic_cases_queue_status_check": "CHECK ((queue_status = ANY (ARRAY['started'::text, 'in_progress'::text, 'needs_information'::text, 'attorney_review'::text, 'packet_ready'::text, 'referred'::text, 'closed'::text])))",
+        "clinic_cases_route_disposition_check": "CHECK ((route_disposition = ANY (ARRAY['pending'::text, 'packet'::text, 'automatic'::text, 'no_filing'::text, 'referral'::text])))",
+        "clinic_cases_assisted_session_id_fkey": "FOREIGN KEY (assisted_session_id) REFERENCES clinic_assisted_sessions(id) ON DELETE SET NULL",
+        "clinic_cases_participant_user_id_fkey": "FOREIGN KEY (participant_user_id) REFERENCES auth.users(id) ON DELETE RESTRICT",
+        "clinic_cases_screening_session_id_fkey": "FOREIGN KEY (screening_session_id) REFERENCES screening_sessions(session_id) ON DELETE SET NULL",
+        "clinic_cases_follow_up_owner_staff_id_fkey": "FOREIGN KEY (follow_up_owner_staff_id) REFERENCES clinic_event_staff(id) ON DELETE SET NULL",
+        "clinic_cases_event_id_participant_user_id_screening_session_key": "UNIQUE (event_id, participant_user_id, screening_session_id)"
+      }
+    },
+    "table:clinic_events": {
+      "rls": true,
+      "grants": {
+        "anon": {
+          "DELETE": false,
+          "INSERT": false,
+          "SELECT": false,
+          "UPDATE": false,
+          "TRIGGER": false,
+          "TRUNCATE": false,
+          "REFERENCES": false
+        },
+        "service_role": {
+          "DELETE": true,
+          "INSERT": true,
+          "SELECT": true,
+          "UPDATE": true,
+          "TRIGGER": true,
+          "TRUNCATE": true,
+          "REFERENCES": true
+        },
+        "authenticated": {
+          "DELETE": false,
+          "INSERT": false,
+          "SELECT": true,
+          "UPDATE": false,
+          "TRIGGER": false,
+          "TRUNCATE": false,
+          "REFERENCES": false
+        }
+      },
+      "columns": [
+        {
+          "name": "capacity",
+          "type": "integer",
+          "default": null,
+          "notNull": true
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "notNull": true
+        },
+        {
+          "name": "created_by",
+          "type": "uuid",
+          "default": null,
+          "notNull": true
+        },
+        {
+          "name": "ends_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "notNull": true
+        },
+        {
+          "name": "geography",
+          "type": "text",
+          "default": null,
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "type": "uuid",
+          "default": "gen_random_uuid()",
+          "notNull": true
+        },
+        {
+          "name": "jurisdiction",
+          "type": "text",
+          "default": null,
+          "notNull": false
+        },
+        {
+          "name": "location_details",
+          "type": "jsonb",
+          "default": "'{}'::jsonb",
+          "notNull": true
+        },
+        {
+          "name": "location_name",
+          "type": "text",
+          "default": null,
+          "notNull": true
+        },
+        {
+          "name": "name",
+          "type": "text",
+          "default": null,
+          "notNull": true
+        },
+        {
+          "name": "partner_slug",
+          "type": "text",
+          "default": null,
+          "notNull": true
+        },
+        {
+          "name": "program_key",
+          "type": "text",
+          "default": "'record-clearing'::text",
+          "notNull": true
+        },
+        {
+          "name": "public_slug",
+          "type": "text",
+          "default": null,
+          "notNull": true
+        },
+        {
+          "name": "sponsorship_allocation",
+          "type": "integer",
+          "default": null,
+          "notNull": false
+        },
+        {
+          "name": "starts_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "notNull": true
+        },
+        {
+          "name": "status",
+          "type": "text",
+          "default": "'draft'::text",
+          "notNull": true
+        },
+        {
+          "name": "timezone",
+          "type": "text",
+          "default": null,
+          "notNull": true
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "notNull": true
+        }
+      ],
+      "indexes": {
+        "clinic_events_pkey": "CREATE UNIQUE INDEX clinic_events_pkey ON public.clinic_events USING btree (id)",
+        "clinic_events_public_slug_key": "CREATE UNIQUE INDEX clinic_events_public_slug_key ON public.clinic_events USING btree (public_slug)",
+        "clinic_events_partner_status_idx": "CREATE INDEX clinic_events_partner_status_idx ON public.clinic_events USING btree (partner_slug, status, starts_at DESC)"
+      },
+      "forceRls": false,
+      "policies": {
+        "clinic_events_tenant_read": {
+          "check": null,
+          "roles": [
+            "authenticated"
+          ],
+          "using": "clinic_can_read_event(id)",
+          "command": "r",
+          "permissive": true
+        }
+      },
+      "triggers": {
+        "clinic_events_updated_at": {
+          "enabled": "O",
+          "definition": "CREATE TRIGGER clinic_events_updated_at BEFORE UPDATE ON public.clinic_events FOR EACH ROW EXECUTE FUNCTION clinic_set_updated_at()"
+        }
+      },
+      "constraints": {
+        "clinic_events_pkey": "PRIMARY KEY (id)",
+        "clinic_events_check": "CHECK ((ends_at > starts_at))",
+        "clinic_events_name_check": "CHECK (((length(TRIM(BOTH FROM name)) >= 3) AND (length(TRIM(BOTH FROM name)) <= 160)))",
+        "clinic_events_status_check": "CHECK ((status = ANY (ARRAY['draft'::text, 'published'::text, 'paused'::text, 'closed'::text, 'archived'::text])))",
+        "clinic_events_capacity_check": "CHECK (((capacity >= 1) AND (capacity <= 100000)))",
+        "clinic_events_timezone_check": "CHECK (((length(TRIM(BOTH FROM timezone)) >= 3) AND (length(TRIM(BOTH FROM timezone)) <= 80)))",
+        "clinic_events_created_by_fkey": "FOREIGN KEY (created_by) REFERENCES auth.users(id) ON DELETE RESTRICT",
+        "clinic_events_geography_check": "CHECK (((length(TRIM(BOTH FROM geography)) >= 2) AND (length(TRIM(BOTH FROM geography)) <= 160)))",
+        "clinic_events_public_slug_key": "UNIQUE (public_slug)",
+        "clinic_events_partner_slug_fkey": "FOREIGN KEY (partner_slug) REFERENCES partner_records(partner_slug) ON DELETE RESTRICT",
+        "clinic_events_public_slug_check": "CHECK ((public_slug ~ '^[a-z0-9]+(?:-[a-z0-9]+)*$'::text))",
+        "clinic_events_jurisdiction_check": "CHECK (((jurisdiction IS NULL) OR ((jurisdiction = upper(jurisdiction)) AND ((length(jurisdiction) >= 2) AND (length(jurisdiction) <= 3)))))",
+        "clinic_events_location_name_check": "CHECK (((length(TRIM(BOTH FROM location_name)) >= 2) AND (length(TRIM(BOTH FROM location_name)) <= 180)))",
+        "clinic_events_location_details_check": "CHECK ((jsonb_typeof(location_details) = 'object'::text))",
+        "clinic_events_sponsorship_allocation_check": "CHECK (((sponsorship_allocation IS NULL) OR (sponsorship_allocation >= 0)))"
+      }
+    },
+    "table:clinic_incidents": {
+      "rls": true,
+      "grants": {
+        "anon": {
+          "DELETE": false,
+          "INSERT": false,
+          "SELECT": false,
+          "UPDATE": false,
+          "TRIGGER": false,
+          "TRUNCATE": false,
+          "REFERENCES": false
+        },
+        "service_role": {
+          "DELETE": true,
+          "INSERT": true,
+          "SELECT": true,
+          "UPDATE": true,
+          "TRIGGER": true,
+          "TRUNCATE": true,
+          "REFERENCES": true
+        },
+        "authenticated": {
+          "DELETE": false,
+          "INSERT": false,
+          "SELECT": true,
+          "UPDATE": false,
+          "TRIGGER": false,
+          "TRUNCATE": false,
+          "REFERENCES": false
+        }
+      },
+      "columns": [
+        {
+          "name": "assigned_to",
+          "type": "uuid",
+          "default": null,
+          "notNull": false
+        },
+        {
+          "name": "category",
+          "type": "text",
+          "default": null,
+          "notNull": true
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "notNull": true
+        },
+        {
+          "name": "detail",
+          "type": "text",
+          "default": null,
+          "notNull": false
+        },
+        {
+          "name": "event_id",
+          "type": "uuid",
+          "default": null,
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "type": "uuid",
+          "default": "gen_random_uuid()",
+          "notNull": true
+        },
+        {
+          "name": "reported_by",
+          "type": "uuid",
+          "default": null,
+          "notNull": true
+        },
+        {
+          "name": "resolved_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "notNull": false
+        },
+        {
+          "name": "severity",
+          "type": "text",
+          "default": null,
+          "notNull": true
+        },
+        {
+          "name": "status",
+          "type": "text",
+          "default": "'open'::text",
+          "notNull": true
+        },
+        {
+          "name": "summary",
+          "type": "text",
+          "default": null,
+          "notNull": true
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "notNull": true
+        }
+      ],
+      "indexes": {
+        "clinic_incidents_pkey": "CREATE UNIQUE INDEX clinic_incidents_pkey ON public.clinic_incidents USING btree (id)",
+        "clinic_incidents_event_status_idx": "CREATE INDEX clinic_incidents_event_status_idx ON public.clinic_incidents USING btree (event_id, status, severity)"
+      },
+      "forceRls": false,
+      "policies": {
+        "clinic_incidents_staff_read": {
+          "check": null,
+          "roles": [
+            "authenticated"
+          ],
+          "using": "(clinic_is_internal_admin() OR clinic_is_event_staff(event_id, 'incident'::text) OR ((clinic_current_role() = 'partner_admin'::text) AND clinic_can_read_event(event_id)))",
+          "command": "r",
+          "permissive": true
+        }
+      },
+      "triggers": {
+        "clinic_incidents_updated_at": {
+          "enabled": "O",
+          "definition": "CREATE TRIGGER clinic_incidents_updated_at BEFORE UPDATE ON public.clinic_incidents FOR EACH ROW EXECUTE FUNCTION clinic_set_updated_at()"
+        }
+      },
+      "constraints": {
+        "clinic_incidents_pkey": "PRIMARY KEY (id)",
+        "clinic_incidents_check": "CHECK (((status = ANY (ARRAY['resolved'::text, 'closed'::text])) = (resolved_at IS NOT NULL)))",
+        "clinic_incidents_status_check": "CHECK ((status = ANY (ARRAY['open'::text, 'investigating'::text, 'resolved'::text, 'closed'::text])))",
+        "clinic_incidents_event_id_fkey": "FOREIGN KEY (event_id) REFERENCES clinic_events(id) ON DELETE RESTRICT",
+        "clinic_incidents_summary_check": "CHECK (((length(TRIM(BOTH FROM summary)) >= 3) AND (length(TRIM(BOTH FROM summary)) <= 500)))",
+        "clinic_incidents_category_check": "CHECK ((category = ANY (ARRAY['privacy'::text, 'safety'::text, 'access'::text, 'device'::text, 'network'::text, 'packet'::text, 'other'::text])))",
+        "clinic_incidents_severity_check": "CHECK ((severity = ANY (ARRAY['low'::text, 'medium'::text, 'high'::text, 'critical'::text])))",
+        "clinic_incidents_assigned_to_fkey": "FOREIGN KEY (assigned_to) REFERENCES auth.users(id) ON DELETE SET NULL",
+        "clinic_incidents_reported_by_fkey": "FOREIGN KEY (reported_by) REFERENCES auth.users(id) ON DELETE RESTRICT"
+      }
+    },
+    "table:clinic_follow_ups": {
+      "rls": true,
+      "grants": {
+        "anon": {
+          "DELETE": false,
+          "INSERT": false,
+          "SELECT": false,
+          "UPDATE": false,
+          "TRIGGER": false,
+          "TRUNCATE": false,
+          "REFERENCES": false
+        },
+        "service_role": {
+          "DELETE": true,
+          "INSERT": true,
+          "SELECT": true,
+          "UPDATE": true,
+          "TRIGGER": true,
+          "TRUNCATE": true,
+          "REFERENCES": true
+        },
+        "authenticated": {
+          "DELETE": false,
+          "INSERT": false,
+          "SELECT": true,
+          "UPDATE": false,
+          "TRIGGER": false,
+          "TRUNCATE": false,
+          "REFERENCES": false
+        }
+      },
+      "columns": [
+        {
+          "name": "clinic_case_id",
+          "type": "uuid",
+          "default": null,
+          "notNull": true
+        },
+        {
+          "name": "communication_state",
+          "type": "text",
+          "default": "'draft'::text",
+          "notNull": true
+        },
+        {
+          "name": "completed_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "notNull": false
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "notNull": true
+        },
+        {
+          "name": "created_by",
+          "type": "uuid",
+          "default": null,
+          "notNull": true
+        },
+        {
+          "name": "due_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "notNull": false
+        },
+        {
+          "name": "event_id",
+          "type": "uuid",
+          "default": null,
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "type": "uuid",
+          "default": "gen_random_uuid()",
+          "notNull": true
+        },
+        {
+          "name": "internal_notes",
+          "type": "text",
+          "default": null,
+          "notNull": false
+        },
+        {
+          "name": "owner_event_staff_id",
+          "type": "uuid",
+          "default": null,
+          "notNull": false
+        },
+        {
+          "name": "participant_safe_message",
+          "type": "text",
+          "default": null,
+          "notNull": false
+        },
+        {
+          "name": "status",
+          "type": "text",
+          "default": "'open'::text",
+          "notNull": true
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "notNull": true
+        }
+      ],
+      "indexes": {
+        "clinic_follow_ups_pkey": "CREATE UNIQUE INDEX clinic_follow_ups_pkey ON public.clinic_follow_ups USING btree (id)",
+        "clinic_follow_ups_case_idx": "CREATE INDEX clinic_follow_ups_case_idx ON public.clinic_follow_ups USING btree (clinic_case_id, created_at DESC)",
+        "clinic_follow_ups_event_status_idx": "CREATE INDEX clinic_follow_ups_event_status_idx ON public.clinic_follow_ups USING btree (event_id, status, due_at)"
+      },
+      "forceRls": false,
+      "policies": {
+        "clinic_follow_ups_staff_read": {
+          "check": null,
+          "roles": [
+            "authenticated"
+          ],
+          "using": "(clinic_is_internal_admin() OR clinic_is_event_staff(event_id, 'follow_up'::text) OR ((clinic_current_role() = 'partner_admin'::text) AND clinic_can_read_event(event_id)))",
+          "command": "r",
+          "permissive": true
+        }
+      },
+      "triggers": {
+        "clinic_follow_ups_updated_at": {
+          "enabled": "O",
+          "definition": "CREATE TRIGGER clinic_follow_ups_updated_at BEFORE UPDATE ON public.clinic_follow_ups FOR EACH ROW EXECUTE FUNCTION clinic_set_updated_at()"
+        }
+      },
+      "constraints": {
+        "clinic_follow_ups_pkey": "PRIMARY KEY (id)",
+        "clinic_follow_ups_check": "CHECK (((status = 'completed'::text) = (completed_at IS NOT NULL)))",
+        "clinic_follow_ups_status_check": "CHECK ((status = ANY (ARRAY['open'::text, 'waiting_on_participant'::text, 'waiting_on_staff'::text, 'completed'::text, 'cancelled'::text])))",
+        "clinic_follow_ups_event_id_fkey": "FOREIGN KEY (event_id) REFERENCES clinic_events(id) ON DELETE RESTRICT",
+        "clinic_follow_ups_created_by_fkey": "FOREIGN KEY (created_by) REFERENCES auth.users(id) ON DELETE RESTRICT",
+        "clinic_follow_ups_clinic_case_id_fkey": "FOREIGN KEY (clinic_case_id) REFERENCES clinic_cases(id) ON DELETE CASCADE",
+        "clinic_follow_ups_communication_state_check": "CHECK ((communication_state = ANY (ARRAY['draft'::text, 'approved'::text, 'sent'::text, 'failed'::text, 'no_contact'::text])))",
+        "clinic_follow_ups_owner_event_staff_id_fkey": "FOREIGN KEY (owner_event_staff_id) REFERENCES clinic_event_staff(id) ON DELETE SET NULL"
+      }
+    },
+    "table:clinic_event_audit": {
+      "rls": true,
+      "grants": {
+        "anon": {
+          "DELETE": false,
+          "INSERT": false,
+          "SELECT": false,
+          "UPDATE": false,
+          "TRIGGER": false,
+          "TRUNCATE": false,
+          "REFERENCES": false
+        },
+        "service_role": {
+          "DELETE": true,
+          "INSERT": true,
+          "SELECT": true,
+          "UPDATE": true,
+          "TRIGGER": true,
+          "TRUNCATE": true,
+          "REFERENCES": true
+        },
+        "authenticated": {
+          "DELETE": false,
+          "INSERT": false,
+          "SELECT": true,
+          "UPDATE": false,
+          "TRIGGER": false,
+          "TRUNCATE": false,
+          "REFERENCES": false
+        }
+      },
+      "columns": [
+        {
+          "name": "action",
+          "type": "text",
+          "default": null,
+          "notNull": true
+        },
+        {
+          "name": "actor_user_id",
+          "type": "uuid",
+          "default": null,
+          "notNull": false
+        },
+        {
+          "name": "event_id",
+          "type": "uuid",
+          "default": null,
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "type": "uuid",
+          "default": "gen_random_uuid()",
+          "notNull": true
+        },
+        {
+          "name": "metadata",
+          "type": "jsonb",
+          "default": "'{}'::jsonb",
+          "notNull": true
+        },
+        {
+          "name": "occurred_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "notNull": true
+        },
+        {
+          "name": "target_id",
+          "type": "uuid",
+          "default": null,
+          "notNull": false
+        },
+        {
+          "name": "target_type",
+          "type": "text",
+          "default": null,
+          "notNull": true
+        }
+      ],
+      "indexes": {
+        "clinic_event_audit_pkey": "CREATE UNIQUE INDEX clinic_event_audit_pkey ON public.clinic_event_audit USING btree (id)",
+        "clinic_event_audit_event_time_idx": "CREATE INDEX clinic_event_audit_event_time_idx ON public.clinic_event_audit USING btree (event_id, occurred_at DESC)"
+      },
+      "forceRls": false,
+      "policies": {
+        "clinic_event_audit_admin_read": {
+          "check": null,
+          "roles": [
+            "authenticated"
+          ],
+          "using": "(clinic_is_internal_admin() OR ((clinic_current_role() = 'partner_admin'::text) AND clinic_can_read_event(event_id)))",
+          "command": "r",
+          "permissive": true
+        }
+      },
+      "triggers": {
+        "clinic_event_audit_append_only": {
+          "enabled": "O",
+          "definition": "CREATE TRIGGER clinic_event_audit_append_only BEFORE DELETE OR UPDATE ON public.clinic_event_audit FOR EACH ROW EXECUTE FUNCTION clinic_guard_append_only()"
+        }
+      },
+      "constraints": {
+        "clinic_event_audit_pkey": "PRIMARY KEY (id)",
+        "clinic_event_audit_action_check": "CHECK (((length(TRIM(BOTH FROM action)) >= 3) AND (length(TRIM(BOTH FROM action)) <= 120)))",
+        "clinic_event_audit_event_id_fkey": "FOREIGN KEY (event_id) REFERENCES clinic_events(id) ON DELETE RESTRICT",
+        "clinic_event_audit_metadata_check": "CHECK ((jsonb_typeof(metadata) = 'object'::text))",
+        "clinic_event_audit_target_type_check": "CHECK ((target_type = ANY (ARRAY['event'::text, 'staff'::text, 'access_code'::text, 'assisted_session'::text, 'case'::text, 'follow_up'::text, 'incident'::text, 'packet_reservation'::text])))",
+        "clinic_event_audit_actor_user_id_fkey": "FOREIGN KEY (actor_user_id) REFERENCES auth.users(id) ON DELETE SET NULL"
+      }
+    },
+    "table:clinic_event_staff": {
+      "rls": true,
+      "grants": {
+        "anon": {
+          "DELETE": false,
+          "INSERT": false,
+          "SELECT": false,
+          "UPDATE": false,
+          "TRIGGER": false,
+          "TRUNCATE": false,
+          "REFERENCES": false
+        },
+        "service_role": {
+          "DELETE": true,
+          "INSERT": true,
+          "SELECT": true,
+          "UPDATE": true,
+          "TRIGGER": true,
+          "TRUNCATE": true,
+          "REFERENCES": true
+        },
+        "authenticated": {
+          "DELETE": false,
+          "INSERT": false,
+          "SELECT": true,
+          "UPDATE": false,
+          "TRIGGER": false,
+          "TRUNCATE": false,
+          "REFERENCES": false
+        }
+      },
+      "columns": [
+        {
+          "name": "approved_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "notNull": true
+        },
+        {
+          "name": "approved_by",
+          "type": "uuid",
+          "default": null,
+          "notNull": true
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "notNull": true
+        },
+        {
+          "name": "event_id",
+          "type": "uuid",
+          "default": null,
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "type": "uuid",
+          "default": "gen_random_uuid()",
+          "notNull": true
+        },
+        {
+          "name": "partner_user_id",
+          "type": "uuid",
+          "default": null,
+          "notNull": true
+        },
+        {
+          "name": "permissions",
+          "type": "text[]",
+          "default": "ARRAY['assist'::text, 'queue'::text]",
+          "notNull": true
+        },
+        {
+          "name": "revoked_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "notNull": false
+        },
+        {
+          "name": "status",
+          "type": "text",
+          "default": "'approved'::text",
+          "notNull": true
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "notNull": true
+        }
+      ],
+      "indexes": {
+        "clinic_event_staff_pkey": "CREATE UNIQUE INDEX clinic_event_staff_pkey ON public.clinic_event_staff USING btree (id)",
+        "clinic_event_staff_event_status_idx": "CREATE INDEX clinic_event_staff_event_status_idx ON public.clinic_event_staff USING btree (event_id, status)",
+        "clinic_event_staff_event_id_partner_user_id_key": "CREATE UNIQUE INDEX clinic_event_staff_event_id_partner_user_id_key ON public.clinic_event_staff USING btree (event_id, partner_user_id)"
+      },
+      "forceRls": false,
+      "policies": {
+        "clinic_event_staff_tenant_read": {
+          "check": null,
+          "roles": [
+            "authenticated"
+          ],
+          "using": "clinic_can_read_event(event_id)",
+          "command": "r",
+          "permissive": true
+        }
+      },
+      "triggers": {
+        "clinic_event_staff_updated_at": {
+          "enabled": "O",
+          "definition": "CREATE TRIGGER clinic_event_staff_updated_at BEFORE UPDATE ON public.clinic_event_staff FOR EACH ROW EXECUTE FUNCTION clinic_set_updated_at()"
+        }
+      },
+      "constraints": {
+        "clinic_event_staff_pkey": "PRIMARY KEY (id)",
+        "clinic_event_staff_check": "CHECK (((status = 'revoked'::text) = (revoked_at IS NOT NULL)))",
+        "clinic_event_staff_status_check": "CHECK ((status = ANY (ARRAY['approved'::text, 'suspended'::text, 'revoked'::text])))",
+        "clinic_event_staff_event_id_fkey": "FOREIGN KEY (event_id) REFERENCES clinic_events(id) ON DELETE CASCADE",
+        "clinic_event_staff_approved_by_fkey": "FOREIGN KEY (approved_by) REFERENCES auth.users(id) ON DELETE RESTRICT",
+        "clinic_event_staff_permissions_check": "CHECK ((permissions <@ ARRAY['assist'::text, 'queue'::text, 'follow_up'::text, 'reporting'::text, 'incident'::text]))",
+        "clinic_event_staff_partner_user_id_fkey": "FOREIGN KEY (partner_user_id) REFERENCES partner_users(id) ON DELETE RESTRICT",
+        "clinic_event_staff_event_id_partner_user_id_key": "UNIQUE (event_id, partner_user_id)"
+      }
+    },
+    "bucket:rcap-legal-aid-private": null,
+    "function:clinic_current_role()": {
+      "owner": "postgres",
+      "execute": {
+        "anon": false,
+        "service_role": true,
+        "authenticated": true
+      },
+      "definition": "CREATE OR REPLACE FUNCTION public.clinic_current_role()\n RETURNS text\n LANGUAGE sql\n STABLE SECURITY DEFINER\n SET search_path TO ''\nAS $function$\n  select pu.role from public.partner_users pu\n  where pu.auth_user_id = auth.uid() and pu.status = 'active'\n$function$\n",
+      "publicExecute": false
+    },
+    "table:clinic_assisted_sessions": {
+      "rls": true,
+      "grants": {
+        "anon": {
+          "DELETE": false,
+          "INSERT": false,
+          "SELECT": false,
+          "UPDATE": false,
+          "TRIGGER": false,
+          "TRUNCATE": false,
+          "REFERENCES": false
+        },
+        "service_role": {
+          "DELETE": true,
+          "INSERT": true,
+          "SELECT": true,
+          "UPDATE": true,
+          "TRIGGER": true,
+          "TRUNCATE": true,
+          "REFERENCES": true
+        },
+        "authenticated": {
+          "DELETE": false,
+          "INSERT": false,
+          "SELECT": true,
+          "UPDATE": false,
+          "TRIGGER": false,
+          "TRUNCATE": false,
+          "REFERENCES": false
+        }
+      },
+      "columns": [
+        {
+          "name": "consent_version",
+          "type": "text",
+          "default": null,
+          "notNull": true
+        },
+        {
+          "name": "consented_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "notNull": true
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "notNull": true
+        },
+        {
+          "name": "device_nonce_hash",
+          "type": "text",
+          "default": null,
+          "notNull": true
+        },
+        {
+          "name": "ended_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "notNull": false
+        },
+        {
+          "name": "ended_reason",
+          "type": "text",
+          "default": null,
+          "notNull": false
+        },
+        {
+          "name": "event_id",
+          "type": "uuid",
+          "default": null,
+          "notNull": true
+        },
+        {
+          "name": "event_staff_id",
+          "type": "uuid",
+          "default": null,
+          "notNull": true
+        },
+        {
+          "name": "expires_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "notNull": true
+        },
+        {
+          "name": "handoff_token_hash",
+          "type": "text",
+          "default": null,
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "type": "uuid",
+          "default": "gen_random_uuid()",
+          "notNull": true
+        },
+        {
+          "name": "last_activity_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "notNull": true
+        },
+        {
+          "name": "participant_user_id",
+          "type": "uuid",
+          "default": null,
+          "notNull": true
+        },
+        {
+          "name": "screening_session_id",
+          "type": "uuid",
+          "default": null,
+          "notNull": false
+        },
+        {
+          "name": "started_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "notNull": true
+        },
+        {
+          "name": "status",
+          "type": "text",
+          "default": "'active'::text",
+          "notNull": true
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "notNull": true
+        }
+      ],
+      "indexes": {
+        "clinic_assisted_sessions_pkey": "CREATE UNIQUE INDEX clinic_assisted_sessions_pkey ON public.clinic_assisted_sessions USING btree (id)",
+        "clinic_assisted_sessions_participant_idx": "CREATE INDEX clinic_assisted_sessions_participant_idx ON public.clinic_assisted_sessions USING btree (participant_user_id, created_at DESC)",
+        "clinic_assisted_sessions_event_status_idx": "CREATE INDEX clinic_assisted_sessions_event_status_idx ON public.clinic_assisted_sessions USING btree (event_id, status, last_activity_at)",
+        "clinic_assisted_sessions_handoff_token_hash_key": "CREATE UNIQUE INDEX clinic_assisted_sessions_handoff_token_hash_key ON public.clinic_assisted_sessions USING btree (handoff_token_hash)"
+      },
+      "forceRls": false,
+      "policies": {
+        "clinic_assisted_sessions_scoped_read": {
+          "check": null,
+          "roles": [
+            "authenticated"
+          ],
+          "using": "(clinic_is_internal_admin() OR ((status = ANY (ARRAY['active'::text, 'handed_off'::text])) AND (expires_at > now()) AND ((participant_user_id = auth.uid()) OR clinic_is_event_staff(event_id, 'assist'::text))))",
+          "command": "r",
+          "permissive": true
+        }
+      },
+      "triggers": {
+        "clinic_assisted_sessions_updated_at": {
+          "enabled": "O",
+          "definition": "CREATE TRIGGER clinic_assisted_sessions_updated_at BEFORE UPDATE ON public.clinic_assisted_sessions FOR EACH ROW EXECUTE FUNCTION clinic_set_updated_at()"
+        }
+      },
+      "constraints": {
+        "clinic_assisted_sessions_pkey": "PRIMARY KEY (id)",
+        "clinic_assisted_sessions_check": "CHECK ((expires_at > started_at))",
+        "clinic_assisted_sessions_check1": "CHECK (((status = ANY (ARRAY['ended'::text, 'expired'::text, 'reset'::text])) = (ended_at IS NOT NULL)))",
+        "clinic_assisted_sessions_status_check": "CHECK ((status = ANY (ARRAY['active'::text, 'handed_off'::text, 'ended'::text, 'expired'::text, 'reset'::text])))",
+        "clinic_assisted_sessions_event_id_fkey": "FOREIGN KEY (event_id) REFERENCES clinic_events(id) ON DELETE RESTRICT",
+        "clinic_assisted_sessions_ended_reason_check": "CHECK (((ended_reason IS NULL) OR (ended_reason = ANY (ARRAY['participant_handoff'::text, 'participant_request'::text, 'staff_reset'::text, 'inactivity'::text, 'event_closed'::text, 'security_reset'::text]))))",
+        "clinic_assisted_sessions_event_staff_id_fkey": "FOREIGN KEY (event_staff_id) REFERENCES clinic_event_staff(id) ON DELETE RESTRICT",
+        "clinic_assisted_sessions_consent_version_check": "CHECK (((length(TRIM(BOTH FROM consent_version)) >= 1) AND (length(TRIM(BOTH FROM consent_version)) <= 80)))",
+        "clinic_assisted_sessions_handoff_token_hash_key": "UNIQUE (handoff_token_hash)",
+        "clinic_assisted_sessions_device_nonce_hash_check": "CHECK ((device_nonce_hash ~ '^[0-9a-f]{64}$'::text))",
+        "clinic_assisted_sessions_handoff_token_hash_check": "CHECK ((handoff_token_hash ~ '^[0-9a-f]{64}$'::text))",
+        "clinic_assisted_sessions_participant_user_id_fkey": "FOREIGN KEY (participant_user_id) REFERENCES auth.users(id) ON DELETE RESTRICT",
+        "clinic_assisted_sessions_screening_session_id_fkey": "FOREIGN KEY (screening_session_id) REFERENCES screening_sessions(session_id) ON DELETE SET NULL"
+      }
+    },
+    "table:clinic_event_access_codes": {
+      "rls": true,
+      "grants": {
+        "anon": {
+          "DELETE": false,
+          "INSERT": false,
+          "SELECT": false,
+          "UPDATE": false,
+          "TRIGGER": false,
+          "TRUNCATE": false,
+          "REFERENCES": false
+        },
+        "service_role": {
+          "DELETE": true,
+          "INSERT": true,
+          "SELECT": true,
+          "UPDATE": true,
+          "TRIGGER": true,
+          "TRUNCATE": true,
+          "REFERENCES": true
+        },
+        "authenticated": {
+          "DELETE": false,
+          "INSERT": false,
+          "SELECT": true,
+          "UPDATE": false,
+          "TRIGGER": false,
+          "TRUNCATE": false,
+          "REFERENCES": false
+        }
+      },
+      "columns": [
+        {
+          "name": "code_hash",
+          "type": "text",
+          "default": null,
+          "notNull": true
+        },
+        {
+          "name": "code_hint",
+          "type": "text",
+          "default": null,
+          "notNull": true
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "notNull": true
+        },
+        {
+          "name": "created_by",
+          "type": "uuid",
+          "default": null,
+          "notNull": true
+        },
+        {
+          "name": "event_id",
+          "type": "uuid",
+          "default": null,
+          "notNull": true
+        },
+        {
+          "name": "expires_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "notNull": false
+        },
+        {
+          "name": "id",
+          "type": "uuid",
+          "default": "gen_random_uuid()",
+          "notNull": true
+        },
+        {
+          "name": "is_active",
+          "type": "boolean",
+          "default": "true",
+          "notNull": true
+        },
+        {
+          "name": "last_used_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "notNull": false
+        },
+        {
+          "name": "max_uses",
+          "type": "integer",
+          "default": null,
+          "notNull": false
+        },
+        {
+          "name": "starts_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "notNull": false
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "notNull": true
+        },
+        {
+          "name": "uses_count",
+          "type": "integer",
+          "default": "0",
+          "notNull": true
+        }
+      ],
+      "indexes": {
+        "clinic_event_access_codes_pkey": "CREATE UNIQUE INDEX clinic_event_access_codes_pkey ON public.clinic_event_access_codes USING btree (id)",
+        "clinic_event_access_codes_active_idx": "CREATE INDEX clinic_event_access_codes_active_idx ON public.clinic_event_access_codes USING btree (event_id, is_active)",
+        "clinic_event_access_codes_event_id_code_hash_key": "CREATE UNIQUE INDEX clinic_event_access_codes_event_id_code_hash_key ON public.clinic_event_access_codes USING btree (event_id, code_hash)"
+      },
+      "forceRls": false,
+      "policies": {
+        "clinic_event_codes_admin_read": {
+          "check": null,
+          "roles": [
+            "authenticated"
+          ],
+          "using": "(clinic_is_internal_admin() OR ((clinic_current_role() = 'partner_admin'::text) AND clinic_can_read_event(event_id)))",
+          "command": "r",
+          "permissive": true
+        }
+      },
+      "triggers": {
+        "clinic_event_access_codes_updated_at": {
+          "enabled": "O",
+          "definition": "CREATE TRIGGER clinic_event_access_codes_updated_at BEFORE UPDATE ON public.clinic_event_access_codes FOR EACH ROW EXECUTE FUNCTION clinic_set_updated_at()"
+        }
+      },
+      "constraints": {
+        "clinic_event_access_codes_pkey": "PRIMARY KEY (id)",
+        "clinic_event_access_codes_check": "CHECK (((max_uses IS NULL) OR (uses_count <= max_uses)))",
+        "clinic_event_access_codes_check1": "CHECK (((expires_at IS NULL) OR (starts_at IS NULL) OR (expires_at > starts_at)))",
+        "clinic_event_access_codes_event_id_fkey": "FOREIGN KEY (event_id) REFERENCES clinic_events(id) ON DELETE CASCADE",
+        "clinic_event_access_codes_max_uses_check": "CHECK (((max_uses IS NULL) OR (max_uses > 0)))",
+        "clinic_event_access_codes_code_hash_check": "CHECK ((code_hash ~ '^[0-9a-f]{64}$'::text))",
+        "clinic_event_access_codes_code_hint_check": "CHECK (((length(code_hint) >= 2) AND (length(code_hint) <= 12)))",
+        "clinic_event_access_codes_created_by_fkey": "FOREIGN KEY (created_by) REFERENCES auth.users(id) ON DELETE RESTRICT",
+        "clinic_event_access_codes_uses_count_check": "CHECK ((uses_count >= 0))",
+        "clinic_event_access_codes_event_id_code_hash_key": "UNIQUE (event_id, code_hash)"
+      }
+    },
+    "function:clinic_set_updated_at()": {
+      "owner": "postgres",
+      "execute": {
+        "anon": true,
+        "service_role": true,
+        "authenticated": true
+      },
+      "definition": "CREATE OR REPLACE FUNCTION public.clinic_set_updated_at()\n RETURNS trigger\n LANGUAGE plpgsql\n SET search_path TO ''\nAS $function$ begin new.updated_at = now(); return new; end $function$\n",
+      "publicExecute": true
+    },
+    "table:clinic_packet_reservations": {
+      "rls": true,
+      "grants": {
+        "anon": {
+          "DELETE": false,
+          "INSERT": false,
+          "SELECT": false,
+          "UPDATE": false,
+          "TRIGGER": false,
+          "TRUNCATE": false,
+          "REFERENCES": false
+        },
+        "service_role": {
+          "DELETE": true,
+          "INSERT": true,
+          "SELECT": true,
+          "UPDATE": true,
+          "TRIGGER": true,
+          "TRUNCATE": true,
+          "REFERENCES": true
+        },
+        "authenticated": {
+          "DELETE": false,
+          "INSERT": false,
+          "SELECT": true,
+          "UPDATE": false,
+          "TRIGGER": false,
+          "TRUNCATE": false,
+          "REFERENCES": false
+        }
+      },
+      "columns": [
+        {
+          "name": "clinic_case_id",
+          "type": "uuid",
+          "default": null,
+          "notNull": true
+        },
+        {
+          "name": "consumed_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "notNull": false
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "notNull": true
+        },
+        {
+          "name": "event_id",
+          "type": "uuid",
+          "default": null,
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "type": "uuid",
+          "default": "gen_random_uuid()",
+          "notNull": true
+        },
+        {
+          "name": "packet_credit_ledger_id",
+          "type": "uuid",
+          "default": null,
+          "notNull": false
+        },
+        {
+          "name": "participant_user_id",
+          "type": "uuid",
+          "default": null,
+          "notNull": true
+        },
+        {
+          "name": "release_reason",
+          "type": "text",
+          "default": null,
+          "notNull": false
+        },
+        {
+          "name": "released_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "notNull": false
+        },
+        {
+          "name": "render_job_id",
+          "type": "uuid",
+          "default": null,
+          "notNull": true
+        },
+        {
+          "name": "reserved_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "notNull": true
+        },
+        {
+          "name": "status",
+          "type": "text",
+          "default": "'reserved'::text",
+          "notNull": true
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "notNull": true
+        }
+      ],
+      "indexes": {
+        "clinic_packet_reservations_pkey": "CREATE UNIQUE INDEX clinic_packet_reservations_pkey ON public.clinic_packet_reservations USING btree (id)",
+        "clinic_packet_reservations_active_case_idx": "CREATE UNIQUE INDEX clinic_packet_reservations_active_case_idx ON public.clinic_packet_reservations USING btree (clinic_case_id) WHERE (status = ANY (ARRAY['reserved'::text, 'consumed'::text]))",
+        "clinic_packet_reservations_event_status_idx": "CREATE INDEX clinic_packet_reservations_event_status_idx ON public.clinic_packet_reservations USING btree (event_id, status, created_at)",
+        "clinic_packet_reservations_render_job_id_key": "CREATE UNIQUE INDEX clinic_packet_reservations_render_job_id_key ON public.clinic_packet_reservations USING btree (render_job_id)"
+      },
+      "forceRls": false,
+      "policies": {
+        "clinic_packet_reservations_admin_read": {
+          "check": null,
+          "roles": [
+            "authenticated"
+          ],
+          "using": "(clinic_is_internal_admin() OR ((clinic_current_role() = 'partner_admin'::text) AND clinic_can_read_event(event_id)))",
+          "command": "r",
+          "permissive": true
+        }
+      },
+      "triggers": {
+        "clinic_packet_reservations_updated_at": {
+          "enabled": "O",
+          "definition": "CREATE TRIGGER clinic_packet_reservations_updated_at BEFORE UPDATE ON public.clinic_packet_reservations FOR EACH ROW EXECUTE FUNCTION clinic_set_updated_at()"
+        }
+      },
+      "constraints": {
+        "clinic_packet_reservations_pkey": "PRIMARY KEY (id)",
+        "clinic_packet_reservations_check": "CHECK (((status = 'consumed'::text) = (consumed_at IS NOT NULL)))",
+        "clinic_packet_reservations_check1": "CHECK (((status = 'released'::text) = (released_at IS NOT NULL)))",
+        "clinic_packet_reservations_check2": "CHECK (((status <> 'consumed'::text) OR (packet_credit_ledger_id IS NOT NULL)))",
+        "clinic_packet_reservations_status_check": "CHECK ((status = ANY (ARRAY['reserved'::text, 'consumed'::text, 'released'::text])))",
+        "clinic_packet_reservations_event_id_fkey": "FOREIGN KEY (event_id) REFERENCES clinic_events(id) ON DELETE RESTRICT",
+        "clinic_packet_reservations_render_job_id_key": "UNIQUE (render_job_id)",
+        "clinic_packet_reservations_render_job_id_fkey": "FOREIGN KEY (render_job_id) REFERENCES packet_render_jobs(id) ON DELETE RESTRICT",
+        "clinic_packet_reservations_clinic_case_id_fkey": "FOREIGN KEY (clinic_case_id) REFERENCES clinic_cases(id) ON DELETE RESTRICT",
+        "clinic_packet_reservations_release_reason_check": "CHECK (((release_reason IS NULL) OR (release_reason = ANY (ARRAY['generation_failed'::text, 'route_changed'::text, 'event_closed'::text, 'manual_cancellation'::text]))))",
+        "clinic_packet_reservations_participant_user_id_fkey": "FOREIGN KEY (participant_user_id) REFERENCES auth.users(id) ON DELETE RESTRICT",
+        "clinic_packet_reservations_packet_credit_ledger_id_fkey": "FOREIGN KEY (packet_credit_ledger_id) REFERENCES packet_credit_ledger(id) ON DELETE RESTRICT"
+      }
+    },
+    "function:clinic_guard_append_only()": {
+      "owner": "postgres",
+      "execute": {
+        "anon": true,
+        "service_role": true,
+        "authenticated": true
+      },
+      "definition": "CREATE OR REPLACE FUNCTION public.clinic_guard_append_only()\n RETURNS trigger\n LANGUAGE plpgsql\n SET search_path TO ''\nAS $function$ begin raise exception '% is append-only', tg_table_name; end $function$\n",
+      "publicExecute": true
+    },
+    "function:clinic_is_internal_admin()": {
+      "owner": "postgres",
+      "execute": {
+        "anon": false,
+        "service_role": true,
+        "authenticated": true
+      },
+      "definition": "CREATE OR REPLACE FUNCTION public.clinic_is_internal_admin()\n RETURNS boolean\n LANGUAGE sql\n STABLE SECURITY DEFINER\n SET search_path TO ''\nAS $function$\n  select exists (\n    select 1 from public.partner_users pu\n    where pu.auth_user_id = auth.uid() and pu.status = 'active'\n      and pu.role = 'internal_admin' and pu.partner_slug is null\n  )\n$function$\n",
+      "publicExecute": false
+    },
+    "function:clinic_can_read_event(uuid)": {
+      "owner": "postgres",
+      "execute": {
+        "anon": false,
+        "service_role": true,
+        "authenticated": true
+      },
+      "definition": "CREATE OR REPLACE FUNCTION public.clinic_can_read_event(p_event_id uuid)\n RETURNS boolean\n LANGUAGE sql\n STABLE SECURITY DEFINER\n SET search_path TO ''\nAS $function$\n  select public.clinic_is_internal_admin()\n    or exists (\n      select 1 from public.clinic_events ce\n      where ce.id = p_event_id and ce.partner_slug = public.clinic_current_partner_slug()\n    )\n$function$\n",
+      "publicExecute": false
+    },
+    "table:clinic_event_access_redemptions": {
+      "rls": true,
+      "grants": {
+        "anon": {
+          "DELETE": false,
+          "INSERT": false,
+          "SELECT": false,
+          "UPDATE": false,
+          "TRIGGER": false,
+          "TRUNCATE": false,
+          "REFERENCES": false
+        },
+        "service_role": {
+          "DELETE": true,
+          "INSERT": true,
+          "SELECT": true,
+          "UPDATE": true,
+          "TRIGGER": true,
+          "TRUNCATE": true,
+          "REFERENCES": true
+        },
+        "authenticated": {
+          "DELETE": false,
+          "INSERT": false,
+          "SELECT": true,
+          "UPDATE": false,
+          "TRIGGER": false,
+          "TRUNCATE": false,
+          "REFERENCES": false
+        }
+      },
+      "columns": [
+        {
+          "name": "access_code_id",
+          "type": "uuid",
+          "default": null,
+          "notNull": true
+        },
+        {
+          "name": "event_id",
+          "type": "uuid",
+          "default": null,
+          "notNull": true
+        },
+        {
+          "name": "id",
+          "type": "uuid",
+          "default": "gen_random_uuid()",
+          "notNull": true
+        },
+        {
+          "name": "redeemed_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "notNull": true
+        },
+        {
+          "name": "redemption_nonce_hash",
+          "type": "text",
+          "default": null,
+          "notNull": true
+        }
+      ],
+      "indexes": {
+        "clinic_event_access_redemptions_pkey": "CREATE UNIQUE INDEX clinic_event_access_redemptions_pkey ON public.clinic_event_access_redemptions USING btree (id)",
+        "clinic_event_access_redemptions_event_idx": "CREATE INDEX clinic_event_access_redemptions_event_idx ON public.clinic_event_access_redemptions USING btree (event_id, redeemed_at DESC)",
+        "clinic_event_access_redemptio_access_code_id_redemption_non_key": "CREATE UNIQUE INDEX clinic_event_access_redemptio_access_code_id_redemption_non_key ON public.clinic_event_access_redemptions USING btree (access_code_id, redemption_nonce_hash)"
+      },
+      "forceRls": false,
+      "policies": {
+        "clinic_event_redemptions_admin_read": {
+          "check": null,
+          "roles": [
+            "authenticated"
+          ],
+          "using": "(clinic_is_internal_admin() OR ((clinic_current_role() = 'partner_admin'::text) AND clinic_can_read_event(event_id)))",
+          "command": "r",
+          "permissive": true
+        }
+      },
+      "triggers": {
+        "clinic_access_redemptions_append_only": {
+          "enabled": "O",
+          "definition": "CREATE TRIGGER clinic_access_redemptions_append_only BEFORE DELETE OR UPDATE ON public.clinic_event_access_redemptions FOR EACH ROW EXECUTE FUNCTION clinic_guard_append_only()"
+        }
+      },
+      "constraints": {
+        "clinic_event_access_redemptions_pkey": "PRIMARY KEY (id)",
+        "clinic_event_access_redemptions_event_id_fkey": "FOREIGN KEY (event_id) REFERENCES clinic_events(id) ON DELETE RESTRICT",
+        "clinic_event_access_redemptions_access_code_id_fkey": "FOREIGN KEY (access_code_id) REFERENCES clinic_event_access_codes(id) ON DELETE RESTRICT",
+        "clinic_event_access_redemptions_redemption_nonce_hash_check": "CHECK ((redemption_nonce_hash ~ '^[0-9a-f]{64}$'::text))",
+        "clinic_event_access_redemptio_access_code_id_redemption_non_key": "UNIQUE (access_code_id, redemption_nonce_hash)"
+      }
+    },
+    "function:clinic_current_partner_slug()": {
+      "owner": "postgres",
+      "execute": {
+        "anon": false,
+        "service_role": true,
+        "authenticated": true
+      },
+      "definition": "CREATE OR REPLACE FUNCTION public.clinic_current_partner_slug()\n RETURNS text\n LANGUAGE sql\n STABLE SECURITY DEFINER\n SET search_path TO ''\nAS $function$\n  select pu.partner_slug from public.partner_users pu\n  where pu.auth_user_id = auth.uid() and pu.status = 'active'\n    and pu.role in ('partner_admin','partner_staff')\n$function$\n",
+      "publicExecute": false
+    },
+    "function:clinic_get_follow_ups(uuid,uuid)": {
+      "owner": "postgres",
+      "execute": {
+        "anon": false,
+        "service_role": true,
+        "authenticated": false
+      },
+      "definition": "CREATE OR REPLACE FUNCTION public.clinic_get_follow_ups(p_event_id uuid, p_actor_user_id uuid)\n RETURNS TABLE(id uuid, clinic_case_id uuid, owner_event_staff_id uuid, jurisdiction text, due_at timestamp with time zone, status text, communication_state text, participant_safe_message text, internal_notes text, updated_at timestamp with time zone)\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO ''\nAS $function$\nbegin\n  if not public.clinic_actor_can_event(p_event_id,p_actor_user_id,'follow_up')\n    then raise exception 'clinic_follow_up_forbidden'; end if;\n  return query\n  select f.id,f.clinic_case_id,f.owner_event_staff_id,c.jurisdiction,f.due_at,\n    f.status,f.communication_state,f.participant_safe_message,f.internal_notes,f.updated_at\n  from public.clinic_follow_ups f\n  join public.clinic_cases c on c.id=f.clinic_case_id and c.event_id=f.event_id\n  where f.event_id=p_event_id\n  order by f.due_at nulls last,f.updated_at desc;\nend $function$\n",
+      "publicExecute": false
+    },
+    "function:clinic_is_event_staff(uuid,text)": {
+      "owner": "postgres",
+      "execute": {
+        "anon": false,
+        "service_role": true,
+        "authenticated": true
+      },
+      "definition": "CREATE OR REPLACE FUNCTION public.clinic_is_event_staff(p_event_id uuid, p_permission text DEFAULT NULL::text)\n RETURNS boolean\n LANGUAGE sql\n STABLE SECURITY DEFINER\n SET search_path TO ''\nAS $function$\n  select exists (\n    select 1\n    from public.clinic_event_staff ces\n    join public.partner_users pu on pu.id = ces.partner_user_id\n    join public.clinic_events ce on ce.id = ces.event_id\n    where ces.event_id = p_event_id and ces.status = 'approved'\n      and pu.auth_user_id = auth.uid() and pu.status = 'active'\n      and pu.partner_slug = ce.partner_slug\n      and (p_permission is null or p_permission = any(ces.permissions))\n  )\n$function$\n",
+      "publicExecute": false
+    },
+    "function:clinic_sync_packet_reservation()": {
+      "owner": "postgres",
+      "execute": {
+        "anon": false,
+        "service_role": true,
+        "authenticated": false
+      },
+      "definition": "CREATE OR REPLACE FUNCTION public.clinic_sync_packet_reservation()\n RETURNS trigger\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO ''\nAS $function$\nbegin\n  if not exists(select 1 from public.clinic_packet_reservations r where r.render_job_id=new.id and r.status='reserved')\n    then return new; end if;\n  if new.status='failed' and new.failure_disposition='terminal' then\n    perform public.clinic_release_packet_credit(new.id,'generation_failed');\n  elsif new.status in ('artifact_validated','delivered')\n    and new.accounting_result in ('consumed','already_consumed','overage_consumed')\n    and new.credit_ledger_id is not null then\n    perform public.clinic_finalize_packet_credit(new.id);\n  end if;\n  return new;\nend $function$\n",
+      "publicExecute": false
+    },
+    "function:clinic_get_event_queue(uuid,uuid)": {
+      "owner": "postgres",
+      "execute": {
+        "anon": false,
+        "service_role": true,
+        "authenticated": false
+      },
+      "definition": "CREATE OR REPLACE FUNCTION public.clinic_get_event_queue(p_event_id uuid, p_actor_user_id uuid)\n RETURNS TABLE(id uuid, event_id uuid, participant_user_id uuid, queue_status text, route_disposition text, jurisdiction text, court_identity_verified boolean, county_name text, court_name text, follow_up_due_at timestamp with time zone, last_activity_at timestamp with time zone)\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO ''\nAS $function$\ndeclare v_privileged boolean;\nbegin\n  if not public.clinic_actor_can_event(p_event_id,p_actor_user_id,'queue')\n    then raise exception 'clinic_queue_forbidden'; end if;\n  select exists(\n    select 1 from public.clinic_events e join public.partner_users pu on pu.auth_user_id=p_actor_user_id and pu.status='active'\n    where e.id=p_event_id and ((pu.role='internal_admin' and pu.partner_slug is null) or (pu.role='partner_admin' and pu.partner_slug=e.partner_slug))\n  ) into v_privileged;\n  return query\n  select c.id,c.event_id,c.participant_user_id,c.queue_status,c.route_disposition,\n    c.jurisdiction,c.court_identity_verified,c.county_name,c.court_name,\n    c.follow_up_due_at,c.last_activity_at\n  from public.clinic_cases c\n  where c.event_id=p_event_id and (\n    v_privileged or exists(\n      select 1 from public.clinic_assisted_sessions s\n      where s.id=c.assisted_session_id and s.event_id=c.event_id\n        and s.status in ('active','handed_off') and s.expires_at>now()\n    )\n  )\n  order by c.last_activity_at desc;\nend $function$\n",
+      "publicExecute": false
+    },
+    "function:clinic_get_event_report(uuid,uuid)": {
+      "owner": "postgres",
+      "execute": {
+        "anon": false,
+        "service_role": true,
+        "authenticated": false
+      },
+      "definition": "CREATE OR REPLACE FUNCTION public.clinic_get_event_report(p_event_id uuid, p_actor_user_id uuid)\n RETURNS jsonb\n LANGUAGE plpgsql\n STABLE SECURITY DEFINER\n SET search_path TO ''\nAS $function$\ndeclare v_report jsonb;\nbegin\n  if not public.clinic_actor_can_event(p_event_id,p_actor_user_id,'reporting')\n    then raise exception 'clinic_reporting_forbidden'; end if;\n  select jsonb_build_object(\n    'eventId',e.id,\n    'eventName',e.name,\n    'eventStatus',e.status,\n    'capacity',e.capacity,\n    'entries',(select count(*) from public.clinic_event_access_redemptions r where r.event_id=e.id),\n    'participants',(select count(*) from public.clinic_cases c where c.event_id=e.id),\n    'queueCounts',coalesce((\n      select jsonb_object_agg(q.queue_status,q.total)\n      from (select c.queue_status,count(*) as total from public.clinic_cases c where c.event_id=e.id group by c.queue_status) q\n    ),'{}'::jsonb),\n    'routeCounts',coalesce((\n      select jsonb_object_agg(r.route_disposition,r.total)\n      from (select c.route_disposition,count(*) as total from public.clinic_cases c where c.event_id=e.id group by c.route_disposition) r\n    ),'{}'::jsonb),\n    'followUpCounts',coalesce((\n      select jsonb_object_agg(f.status,f.total)\n      from (select u.status,count(*) as total from public.clinic_follow_ups u where u.event_id=e.id group by u.status) f\n    ),'{}'::jsonb),\n    'sponsorship',jsonb_build_object(\n      'allocation',e.sponsorship_allocation,\n      'reserved',(select count(*) from public.clinic_packet_reservations p where p.event_id=e.id and p.status='reserved'),\n      'consumed',(select count(*) from public.clinic_packet_reservations p where p.event_id=e.id and p.status='consumed'),\n      'released',(select count(*) from public.clinic_packet_reservations p where p.event_id=e.id and p.status='released')\n    ),\n    'incidents',jsonb_build_object(\n      'open',(select count(*) from public.clinic_incidents i where i.event_id=e.id and i.status in ('open','investigating')),\n      'resolved',(select count(*) from public.clinic_incidents i where i.event_id=e.id and i.status in ('resolved','closed'))\n    )\n  ) into v_report\n  from public.clinic_events e where e.id=p_event_id;\n  if v_report is null then raise exception 'clinic_event_not_found'; end if;\n  return v_report;\nend $function$\n",
+      "publicExecute": false
+    },
+    "function:clinic_finalize_packet_credit(uuid)": {
+      "owner": "postgres",
+      "execute": {
+        "anon": false,
+        "service_role": true,
+        "authenticated": false
+      },
+      "definition": "CREATE OR REPLACE FUNCTION public.clinic_finalize_packet_credit(p_render_job_id uuid)\n RETURNS TABLE(outcome text, reservation_id uuid)\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO ''\nAS $function$\ndeclare v_res public.clinic_packet_reservations%rowtype; v_job public.packet_render_jobs%rowtype;\nbegin\n  select * into v_res from public.clinic_packet_reservations where render_job_id=p_render_job_id for update;\n  if not found then return query select 'reservation_not_found'::text,null::uuid; return; end if;\n  if v_res.status='consumed' then return query select 'already_consumed'::text,v_res.id; return; end if;\n  if v_res.status='released' then return query select 'reservation_released'::text,v_res.id; return; end if;\n  select * into v_job from public.packet_render_jobs where id=p_render_job_id for update;\n  if v_job.status not in ('artifact_validated','delivered') then return query select 'artifact_not_validated'::text,v_res.id; return; end if;\n  if v_job.accounting_result not in ('consumed','already_consumed','overage_consumed') or v_job.credit_ledger_id is null\n    then return query select 'accounting_blocked'::text,v_res.id; return; end if;\n  update public.clinic_packet_reservations set status='consumed',packet_credit_ledger_id=v_job.credit_ledger_id,consumed_at=now()\n    where id=v_res.id;\n  insert into public.clinic_event_audit(event_id,action,target_type,target_id,metadata)\n  values(v_res.event_id,'packet_credit_consumed','packet_reservation',v_res.id,jsonb_build_object('ledger_id',v_job.credit_ledger_id));\n  return query select 'consumed'::text,v_res.id;\nend $function$\n",
+      "publicExecute": false
+    },
+    "function:clinic_actor_can_event(uuid,uuid,text)": {
+      "owner": "postgres",
+      "execute": {
+        "anon": false,
+        "service_role": true,
+        "authenticated": false
+      },
+      "definition": "CREATE OR REPLACE FUNCTION public.clinic_actor_can_event(p_event_id uuid, p_actor_user_id uuid, p_permission text)\n RETURNS boolean\n LANGUAGE sql\n STABLE SECURITY DEFINER\n SET search_path TO ''\nAS $function$\n  select exists (\n    select 1 from public.clinic_events e\n    join public.partner_users pu on pu.auth_user_id=p_actor_user_id and pu.status='active'\n    where e.id=p_event_id and (\n      (pu.role='internal_admin' and pu.partner_slug is null)\n      or (pu.role='partner_admin' and pu.partner_slug=e.partner_slug)\n    )\n  ) or exists (\n    select 1 from public.clinic_event_staff s\n    join public.partner_users pu on pu.id=s.partner_user_id and pu.status='active'\n    join public.clinic_events e on e.id=s.event_id and e.partner_slug=pu.partner_slug\n    where s.event_id=p_event_id and s.status='approved'\n      and pu.auth_user_id=p_actor_user_id and p_permission=any(s.permissions)\n  )\n$function$\n",
+      "publicExecute": false
+    },
+    "function:clinic_release_packet_credit(uuid,text)": {
+      "owner": "postgres",
+      "execute": {
+        "anon": false,
+        "service_role": true,
+        "authenticated": false
+      },
+      "definition": "CREATE OR REPLACE FUNCTION public.clinic_release_packet_credit(p_render_job_id uuid, p_reason text)\n RETURNS TABLE(outcome text, reservation_id uuid)\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO ''\nAS $function$\ndeclare\n  v_res public.clinic_packet_reservations%rowtype;\n  v_job public.packet_render_jobs%rowtype;\n  v_case public.clinic_cases%rowtype;\n  v_event public.clinic_events%rowtype;\nbegin\n  select * into v_res from public.clinic_packet_reservations where render_job_id=p_render_job_id for update;\n  if not found then return query select 'reservation_not_found'::text,null::uuid; return; end if;\n  if v_res.status='consumed' then return query select 'already_consumed'::text,v_res.id; return; end if;\n  if v_res.status='released' then return query select 'already_released'::text,v_res.id; return; end if;\n  if p_reason not in ('generation_failed','route_changed','event_closed','manual_cancellation')\n    then return query select 'invalid_reason'::text,v_res.id; return; end if;\n  select * into v_job from public.packet_render_jobs where id=p_render_job_id;\n  select * into v_case from public.clinic_cases where id=v_res.clinic_case_id;\n  select * into v_event from public.clinic_events where id=v_res.event_id;\n  if p_reason='generation_failed' and v_job.status <> 'failed'\n    then return query select 'job_not_failed'::text,v_res.id; return; end if;\n  if p_reason='route_changed' and v_case.route_disposition='packet'\n    then return query select 'route_still_packet'::text,v_res.id; return; end if;\n  if p_reason='event_closed' and v_event.status not in ('closed','archived')\n    then return query select 'event_still_open'::text,v_res.id; return; end if;\n  update public.clinic_packet_reservations\n  set status='released',released_at=now(),release_reason=p_reason\n  where id=v_res.id;\n  insert into public.clinic_event_audit(event_id,action,target_type,target_id,metadata)\n  values(v_res.event_id,'packet_credit_released','packet_reservation',v_res.id,jsonb_build_object('reason',p_reason));\n  return query select 'released'::text,v_res.id;\nend $function$\n",
+      "publicExecute": false
+    },
+    "function:clinic_reserve_packet_credit(uuid,uuid)": {
+      "owner": "postgres",
+      "execute": {
+        "anon": false,
+        "service_role": true,
+        "authenticated": false
+      },
+      "definition": "CREATE OR REPLACE FUNCTION public.clinic_reserve_packet_credit(p_case_id uuid, p_render_job_id uuid)\n RETURNS TABLE(outcome text, reservation_id uuid)\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO ''\nAS $function$\ndeclare\n  v_case public.clinic_cases%rowtype;\n  v_event public.clinic_events%rowtype;\n  v_job public.packet_render_jobs%rowtype;\n  v_existing public.clinic_packet_reservations%rowtype;\n  v_active_count integer;\n  v_id uuid;\nbegin\n  select * into v_case from public.clinic_cases where id=p_case_id for update;\n  if not found then return query select 'case_not_found'::text,null::uuid; return; end if;\n  if v_case.route_disposition <> 'packet' then return query select 'no_credit_route'::text,null::uuid; return; end if;\n  if v_case.matter_id is null then return query select 'matter_not_bound'::text,null::uuid; return; end if;\n\n  select * into v_job from public.packet_render_jobs where id=p_render_job_id for update;\n  if not found then return query select 'render_job_not_found'::text,null::uuid; return; end if;\n  select * into v_event from public.clinic_events where id=v_case.event_id for update;\n  if not found or v_event.status not in ('published','paused','closed')\n    then return query select 'event_unavailable'::text,null::uuid; return; end if;\n  if v_job.matter_id is distinct from v_case.matter_id\n    or v_job.partner_id is distinct from (\n      select pr.id from public.partner_records pr where pr.partner_slug=v_event.partner_slug\n    )\n    or (v_job.consumer_auth_user_id is not null and v_job.consumer_auth_user_id is distinct from v_case.participant_user_id)\n  then return query select 'render_job_owner_mismatch'::text,null::uuid; return; end if;\n\n  select * into v_existing from public.clinic_packet_reservations\n  where render_job_id=p_render_job_id for update;\n  if found then\n    return query select case v_existing.status\n      when 'consumed' then 'already_consumed'\n      when 'released' then 'already_released'\n      else 'already_reserved' end,v_existing.id;\n    return;\n  end if;\n  select * into v_existing from public.clinic_packet_reservations\n  where clinic_case_id=p_case_id and status in ('reserved','consumed') for update;\n  if found then\n    return query select case when v_existing.status='consumed' then 'already_consumed' else 'already_reserved' end,v_existing.id;\n    return;\n  end if;\n\n  if v_event.sponsorship_allocation is not null then\n    select count(*)::integer into v_active_count\n    from public.clinic_packet_reservations\n    where event_id=v_event.id and status in ('reserved','consumed');\n    if v_active_count >= v_event.sponsorship_allocation\n      then return query select 'sponsorship_exhausted'::text,null::uuid; return; end if;\n  end if;\n\n  insert into public.clinic_packet_reservations(\n    event_id,clinic_case_id,render_job_id,participant_user_id\n  ) values (v_case.event_id,v_case.id,p_render_job_id,v_case.participant_user_id)\n  returning id into v_id;\n  insert into public.clinic_event_audit(event_id,action,target_type,target_id)\n  values(v_case.event_id,'packet_credit_reserved','packet_reservation',v_id);\n  return query select 'reserved'::text,v_id;\nend $function$\n",
+      "publicExecute": false
+    },
+    "function:clinic_set_event_status(uuid,uuid,text)": {
+      "owner": "postgres",
+      "execute": {
+        "anon": false,
+        "service_role": true,
+        "authenticated": false
+      },
+      "definition": "CREATE OR REPLACE FUNCTION public.clinic_set_event_status(p_event_id uuid, p_actor_user_id uuid, p_status text)\n RETURNS text\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO ''\nAS $function$\ndeclare v_event public.clinic_events%rowtype;\nbegin\n  select * into v_event from public.clinic_events where id = p_event_id for update;\n  if not found then return 'not_found'; end if;\n  if not exists (\n    select 1 from public.partner_users pu where pu.auth_user_id = p_actor_user_id\n      and pu.status = 'active' and ((pu.role = 'internal_admin' and pu.partner_slug is null)\n        or (pu.role = 'partner_admin' and pu.partner_slug = v_event.partner_slug))\n  ) then return 'forbidden'; end if;\n  if p_status = v_event.status then return 'unchanged'; end if;\n  if not ((v_event.status = 'draft' and p_status = 'published')\n    or (v_event.status = 'published' and p_status in ('paused','closed'))\n    or (v_event.status = 'paused' and p_status in ('published','closed'))\n    or (v_event.status = 'closed' and p_status = 'archived')) then return 'invalid_transition'; end if;\n  update public.clinic_events set status = p_status where id = p_event_id;\n  if p_status in ('closed','archived') then\n    update public.clinic_assisted_sessions set status = 'ended', ended_at = now(), ended_reason = 'event_closed'\n    where event_id = p_event_id and status in ('active','handed_off');\n  end if;\n  insert into public.clinic_event_audit(event_id, actor_user_id, action, target_type, target_id, metadata)\n  values (p_event_id, p_actor_user_id, 'event_status_changed', 'event', p_event_id,\n    jsonb_build_object('from', v_event.status, 'to', p_status));\n  return 'updated';\nend $function$\n",
+      "publicExecute": false
+    },
+    "function:clinic_redeem_event_code(text,text,text)": {
+      "owner": "postgres",
+      "execute": {
+        "anon": false,
+        "service_role": true,
+        "authenticated": false
+      },
+      "definition": "CREATE OR REPLACE FUNCTION public.clinic_redeem_event_code(p_public_slug text, p_code_hash text, p_redemption_nonce_hash text)\n RETURNS TABLE(outcome text, event_id uuid, partner_slug text)\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO ''\nAS $function$\ndeclare v_event public.clinic_events%rowtype; v_code public.clinic_event_access_codes%rowtype;\nbegin\n  select * into v_event from public.clinic_events where public_slug = p_public_slug for update;\n  if not found or v_event.status <> 'published' then return query select 'event_unavailable'::text, null::uuid, null::text; return; end if;\n  select * into v_code from public.clinic_event_access_codes\n  where clinic_event_access_codes.event_id = v_event.id and code_hash = lower(p_code_hash) for update;\n  if not found then return query select 'invalid_code'::text, null::uuid, null::text; return; end if;\n  if exists (select 1 from public.clinic_event_access_redemptions r where r.access_code_id = v_code.id and r.redemption_nonce_hash = p_redemption_nonce_hash) then\n    return query select 'already_redeemed'::text, v_event.id, v_event.partner_slug; return;\n  end if;\n  if not v_code.is_active or (v_code.starts_at is not null and now() < v_code.starts_at)\n    or (v_code.expires_at is not null and now() >= v_code.expires_at)\n    or (v_code.max_uses is not null and v_code.uses_count >= v_code.max_uses)\n    or (select count(*) from public.clinic_event_access_redemptions r where r.event_id = v_event.id) >= v_event.capacity\n  then return query select 'code_unavailable'::text, null::uuid, null::text; return; end if;\n  insert into public.clinic_event_access_redemptions(event_id, access_code_id, redemption_nonce_hash)\n  values (v_event.id, v_code.id, lower(p_redemption_nonce_hash));\n  update public.clinic_event_access_codes set uses_count = uses_count + 1, last_used_at = now() where id = v_code.id;\n  return query select 'redeemed'::text, v_event.id, v_event.partner_slug;\nend $function$\n",
+      "publicExecute": false
+    },
+    "function:clinic_end_assisted_session(uuid,uuid,text)": {
+      "owner": "postgres",
+      "execute": {
+        "anon": false,
+        "service_role": true,
+        "authenticated": false
+      },
+      "definition": "CREATE OR REPLACE FUNCTION public.clinic_end_assisted_session(p_session_id uuid, p_actor_user_id uuid, p_reason text)\n RETURNS text\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO ''\nAS $function$\ndeclare v_session public.clinic_assisted_sessions%rowtype;\nbegin\n  select * into v_session from public.clinic_assisted_sessions where id=p_session_id for update;\n  if not found then return 'not_found'; end if;\n  if v_session.status in ('ended','expired','reset') then return 'already_ended'; end if;\n  if p_reason not in ('participant_handoff','participant_request','staff_reset','inactivity','event_closed','security_reset')\n    then return 'invalid_reason'; end if;\n  if p_actor_user_id <> v_session.participant_user_id and not exists (\n    select 1 from public.clinic_event_staff s\n    join public.partner_users pu on pu.id=s.partner_user_id\n    join public.clinic_events e on e.id=s.event_id\n    where s.event_id=v_session.event_id and s.status='approved' and 'assist'=any(s.permissions)\n      and pu.auth_user_id=p_actor_user_id and pu.status='active' and pu.partner_slug=e.partner_slug\n  ) then return 'forbidden'; end if;\n  update public.clinic_assisted_sessions\n  set status=case when p_reason in ('staff_reset','security_reset') then 'reset' else 'ended' end,\n    ended_at=now(), ended_reason=p_reason\n  where id=p_session_id;\n  insert into public.clinic_event_audit(event_id,actor_user_id,action,target_type,target_id,metadata)\n  values(v_session.event_id,p_actor_user_id,'assisted_session_ended','assisted_session',p_session_id,jsonb_build_object('reason',p_reason));\n  return 'ended';\nend $function$\n",
+      "publicExecute": false
+    },
+    "function:clinic_transition_event_case(uuid,uuid,uuid,text)": {
+      "owner": "postgres",
+      "execute": {
+        "anon": false,
+        "service_role": true,
+        "authenticated": false
+      },
+      "definition": "CREATE OR REPLACE FUNCTION public.clinic_transition_event_case(p_event_id uuid, p_case_id uuid, p_actor_user_id uuid, p_queue_status text)\n RETURNS text\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO ''\nAS $function$\ndeclare v_privileged boolean;\nbegin\n  if not public.clinic_actor_can_event(p_event_id,p_actor_user_id,'queue')\n    then return 'forbidden'; end if;\n  if not exists(select 1 from public.clinic_cases c where c.id=p_case_id and c.event_id=p_event_id)\n    then return 'not_found'; end if;\n  select exists(\n    select 1 from public.clinic_events e join public.partner_users pu on pu.auth_user_id=p_actor_user_id and pu.status='active'\n    where e.id=p_event_id and ((pu.role='internal_admin' and pu.partner_slug is null) or (pu.role='partner_admin' and pu.partner_slug=e.partner_slug))\n  ) into v_privileged;\n  if not v_privileged and not exists(\n    select 1 from public.clinic_cases c join public.clinic_assisted_sessions s on s.id=c.assisted_session_id\n    where c.id=p_case_id and c.event_id=p_event_id and s.status in ('active','handed_off') and s.expires_at>now()\n  ) then return 'session_inactive'; end if;\n  return public.clinic_transition_case(p_case_id,p_actor_user_id,p_queue_status,null,null);\nend $function$\n",
+      "publicExecute": false
+    },
+    "function:clinic_set_event_staff(uuid,uuid,uuid,text,text[])": {
+      "owner": "postgres",
+      "execute": {
+        "anon": false,
+        "service_role": true,
+        "authenticated": false
+      },
+      "definition": "CREATE OR REPLACE FUNCTION public.clinic_set_event_staff(p_actor_user_id uuid, p_event_id uuid, p_partner_user_id uuid, p_status text, p_permissions text[])\n RETURNS uuid\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO ''\nAS $function$\ndeclare v_partner_slug text; v_staff_partner text; v_id uuid;\nbegin\n  select partner_slug into v_partner_slug from public.clinic_events where id = p_event_id;\n  if v_partner_slug is null then raise exception 'clinic_event_not_found'; end if;\n  if not exists (\n    select 1 from public.partner_users pu where pu.auth_user_id = p_actor_user_id\n      and pu.status = 'active' and ((pu.role = 'internal_admin' and pu.partner_slug is null)\n        or (pu.role = 'partner_admin' and pu.partner_slug = v_partner_slug))\n  ) then raise exception 'clinic_staff_forbidden'; end if;\n  select partner_slug into v_staff_partner from public.partner_users\n    where id = p_partner_user_id and status = 'active' and role in ('partner_admin','partner_staff');\n  if v_staff_partner is distinct from v_partner_slug then raise exception 'clinic_staff_cross_tenant'; end if;\n  insert into public.clinic_event_staff(event_id, partner_user_id, status, permissions, approved_by, revoked_at)\n  values (p_event_id, p_partner_user_id, p_status, p_permissions, p_actor_user_id,\n    case when p_status = 'revoked' then now() else null end)\n  on conflict (event_id, partner_user_id) do update set\n    status = excluded.status, permissions = excluded.permissions,\n    approved_by = excluded.approved_by, approved_at = now(), revoked_at = excluded.revoked_at\n  returning id into v_id;\n  insert into public.clinic_event_audit(event_id, actor_user_id, action, target_type, target_id, metadata)\n  values (p_event_id, p_actor_user_id, 'staff_status_changed', 'staff', v_id, jsonb_build_object('status', p_status));\n  return v_id;\nend $function$\n",
+      "publicExecute": false
+    },
+    "function:clinic_reserve_participant_packet_credit(uuid,uuid,text)": {
+      "owner": "postgres",
+      "execute": {
+        "anon": false,
+        "service_role": true,
+        "authenticated": false
+      },
+      "definition": "CREATE OR REPLACE FUNCTION public.clinic_reserve_participant_packet_credit(p_render_job_id uuid, p_actor_user_id uuid, p_handoff_token_hash text)\n RETURNS TABLE(outcome text, reservation_id uuid)\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO ''\nAS $function$\ndeclare v_case_id uuid;\nbegin\n  select c.id into v_case_id\n  from public.packet_render_jobs j\n  join public.partner_records pr on pr.id=j.partner_id\n  join public.clinic_events e on e.partner_slug=pr.partner_slug\n  join public.clinic_cases c on c.event_id=e.id and c.matter_id=j.matter_id\n  join public.clinic_assisted_sessions s on s.id=c.assisted_session_id\n  where j.id=p_render_job_id and c.participant_user_id=p_actor_user_id\n    and c.route_disposition='packet'\n    and s.participant_user_id=p_actor_user_id\n    and s.handoff_token_hash=lower(p_handoff_token_hash)\n    and s.status in ('active','handed_off') and s.expires_at>now()\n    and (j.consumer_auth_user_id is null or j.consumer_auth_user_id=p_actor_user_id)\n  limit 1;\n  if v_case_id is null then\n    return query select 'render_job_owner_mismatch'::text,null::uuid;\n    return;\n  end if;\n  return query select * from public.clinic_reserve_packet_credit(v_case_id,p_render_job_id);\nend $function$\n",
+      "publicExecute": false
+    },
+    "trigger:packet_render_jobs.clinic_sync_packet_reservation_after_job": {
+      "enabled": "O",
+      "definition": "CREATE TRIGGER clinic_sync_packet_reservation_after_job AFTER UPDATE OF status, accounting_result, credit_ledger_id ON public.packet_render_jobs FOR EACH ROW EXECUTE FUNCTION clinic_sync_packet_reservation()"
+    },
+    "function:clinic_upsert_case(uuid,uuid,uuid,uuid,uuid,text,text,text)": {
+      "owner": "postgres",
+      "execute": {
+        "anon": false,
+        "service_role": true,
+        "authenticated": false
+      },
+      "definition": "CREATE OR REPLACE FUNCTION public.clinic_upsert_case(p_event_id uuid, p_assisted_session_id uuid, p_participant_user_id uuid, p_screening_session_id uuid, p_matter_id uuid, p_queue_status text, p_route_disposition text, p_jurisdiction text)\n RETURNS uuid\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO ''\nAS $function$\ndeclare v_id uuid;\nbegin\n  if not exists (\n    select 1 from public.clinic_assisted_sessions s\n    where s.id=p_assisted_session_id and s.event_id=p_event_id\n      and s.participant_user_id=p_participant_user_id\n      and s.screening_session_id=p_screening_session_id\n      and s.status in ('active','handed_off') and s.expires_at>now()\n  ) then raise exception 'clinic_session_owner_mismatch'; end if;\n  if p_matter_id is not null and not exists (\n    select 1 from public.consumer_briefcase_items b\n    where b.id=p_matter_id and b.user_id=p_participant_user_id\n  ) then raise exception 'clinic_matter_owner_mismatch'; end if;\n  if p_matter_id is not null and exists (\n    select 1 from public.clinic_cases c\n    where c.event_id=p_event_id and c.participant_user_id=p_participant_user_id\n      and c.screening_session_id=p_screening_session_id and c.matter_id is not null\n      and c.matter_id is distinct from p_matter_id\n  ) then raise exception 'clinic_matter_rebind_forbidden'; end if;\n  insert into public.clinic_cases(\n    event_id,participant_user_id,assisted_session_id,screening_session_id,\n    matter_id,queue_status,route_disposition,jurisdiction\n  ) values (\n    p_event_id,p_participant_user_id,p_assisted_session_id,p_screening_session_id,\n    p_matter_id,p_queue_status,p_route_disposition,upper(p_jurisdiction)\n  )\n  on conflict(event_id,participant_user_id,screening_session_id) do update set\n    assisted_session_id=excluded.assisted_session_id,\n    matter_id=coalesce(excluded.matter_id,clinic_cases.matter_id),\n    queue_status=excluded.queue_status,route_disposition=excluded.route_disposition,\n    last_activity_at=now()\n  returning id into v_id;\n  return v_id;\nend $function$\n",
+      "publicExecute": false
+    },
+    "function:clinic_record_incident(uuid,uuid,uuid,text,text,text,text,text,uuid)": {
+      "owner": "postgres",
+      "execute": {
+        "anon": false,
+        "service_role": true,
+        "authenticated": false
+      },
+      "definition": "CREATE OR REPLACE FUNCTION public.clinic_record_incident(p_incident_id uuid, p_event_id uuid, p_actor_user_id uuid, p_severity text, p_status text, p_category text, p_summary text, p_detail text, p_assigned_to uuid)\n RETURNS uuid\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO ''\nAS $function$\ndeclare v_id uuid;\nbegin\n  if not exists(\n    select 1 from public.clinic_event_staff s join public.partner_users pu on pu.id=s.partner_user_id\n    where s.event_id=p_event_id and s.status='approved' and 'incident'=any(s.permissions)\n      and pu.auth_user_id=p_actor_user_id and pu.status='active'\n    union all select 1 from public.partner_users pu join public.clinic_events e on e.id=p_event_id\n      where pu.auth_user_id=p_actor_user_id and pu.status='active' and\n      ((pu.role='internal_admin' and pu.partner_slug is null) or (pu.role='partner_admin' and pu.partner_slug=e.partner_slug))\n  ) then raise exception 'clinic_incident_forbidden'; end if;\n  if p_incident_id is null then\n    insert into public.clinic_incidents(event_id,severity,status,category,summary,detail,reported_by,assigned_to,resolved_at)\n    values(p_event_id,p_severity,p_status,p_category,p_summary,p_detail,p_actor_user_id,p_assigned_to,case when p_status in ('resolved','closed') then now() else null end)\n    returning id into v_id;\n  else\n    update public.clinic_incidents set severity=p_severity,status=p_status,category=p_category,summary=p_summary,detail=p_detail,\n      assigned_to=p_assigned_to,resolved_at=case when p_status in ('resolved','closed') then now() else null end\n    where id=p_incident_id and event_id=p_event_id returning id into v_id;\n  end if;\n  if v_id is null then raise exception 'clinic_incident_not_found'; end if;\n  insert into public.clinic_event_audit(event_id,actor_user_id,action,target_type,target_id)\n  values(p_event_id,p_actor_user_id,'incident_saved','incident',v_id);\n  return v_id;\nend $function$\n",
+      "publicExecute": false
+    },
+    "function:clinic_transition_case(uuid,uuid,text,uuid,timestamp with time zone)": {
+      "owner": "postgres",
+      "execute": {
+        "anon": false,
+        "service_role": true,
+        "authenticated": false
+      },
+      "definition": "CREATE OR REPLACE FUNCTION public.clinic_transition_case(p_case_id uuid, p_actor_user_id uuid, p_queue_status text, p_follow_up_owner_staff_id uuid DEFAULT NULL::uuid, p_follow_up_due_at timestamp with time zone DEFAULT NULL::timestamp with time zone)\n RETURNS text\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO ''\nAS $function$\ndeclare v_case public.clinic_cases%rowtype;\nbegin\n  select * into v_case from public.clinic_cases where id=p_case_id for update;\n  if not found then return 'not_found'; end if;\n  if not exists (\n    select 1 from public.clinic_events e join public.partner_users pu on\n      ((pu.role='internal_admin' and pu.partner_slug is null) or (pu.role='partner_admin' and pu.partner_slug=e.partner_slug))\n      where e.id=v_case.event_id and pu.auth_user_id=p_actor_user_id and pu.status='active'\n    union all\n    select 1 from public.clinic_event_staff s join public.partner_users pu on pu.id=s.partner_user_id\n      where s.event_id=v_case.event_id and s.status='approved' and 'queue'=any(s.permissions)\n        and pu.auth_user_id=p_actor_user_id and pu.status='active'\n  ) then return 'forbidden'; end if;\n  if p_follow_up_owner_staff_id is not null and not exists(select 1 from public.clinic_event_staff where id=p_follow_up_owner_staff_id and event_id=v_case.event_id and status='approved')\n    then return 'invalid_follow_up_owner'; end if;\n  update public.clinic_cases set queue_status=p_queue_status,\n    follow_up_owner_staff_id=p_follow_up_owner_staff_id,follow_up_due_at=p_follow_up_due_at,\n    closed_at=case when p_queue_status='closed' then now() else null end,last_activity_at=now()\n  where id=p_case_id;\n  insert into public.clinic_event_audit(event_id,actor_user_id,action,target_type,target_id,metadata)\n  values(v_case.event_id,p_actor_user_id,'case_status_changed','case',p_case_id,jsonb_build_object('from',v_case.queue_status,'to',p_queue_status));\n  return 'updated';\nend $function$\n",
+      "publicExecute": false
+    },
+    "function:clinic_upsert_follow_up(uuid,uuid,uuid,uuid,timestamp with time zone,text,text,text,text)": {
+      "owner": "postgres",
+      "execute": {
+        "anon": false,
+        "service_role": true,
+        "authenticated": false
+      },
+      "definition": "CREATE OR REPLACE FUNCTION public.clinic_upsert_follow_up(p_follow_up_id uuid, p_case_id uuid, p_actor_user_id uuid, p_owner_event_staff_id uuid, p_due_at timestamp with time zone, p_status text, p_communication_state text, p_participant_safe_message text, p_internal_notes text)\n RETURNS uuid\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO ''\nAS $function$\ndeclare v_case public.clinic_cases%rowtype; v_id uuid;\nbegin\n  select * into v_case from public.clinic_cases where id=p_case_id;\n  if not found or not exists(\n    select 1 from public.clinic_event_staff s join public.partner_users pu on pu.id=s.partner_user_id\n    join public.clinic_events e on e.id=s.event_id\n    where s.event_id=v_case.event_id and s.status='approved' and 'follow_up'=any(s.permissions)\n      and pu.auth_user_id=p_actor_user_id and pu.status='active' and pu.partner_slug=e.partner_slug\n    union all\n    select 1 from public.partner_users pu join public.clinic_events e on e.id=v_case.event_id\n    where pu.auth_user_id=p_actor_user_id and pu.status='active' and\n      ((pu.role='internal_admin' and pu.partner_slug is null) or\n       (pu.role='partner_admin' and pu.partner_slug=e.partner_slug))\n  ) then raise exception 'clinic_follow_up_forbidden'; end if;\n  if p_owner_event_staff_id is not null and not exists(\n    select 1 from public.clinic_event_staff s\n    where s.id=p_owner_event_staff_id and s.event_id=v_case.event_id and s.status='approved'\n      and 'follow_up'=any(s.permissions)\n  ) then raise exception 'clinic_follow_up_owner_invalid'; end if;\n  if p_follow_up_id is null then\n    insert into public.clinic_follow_ups(\n      event_id,clinic_case_id,owner_event_staff_id,due_at,status,communication_state,\n      participant_safe_message,internal_notes,created_by,completed_at\n    ) values (\n      v_case.event_id,p_case_id,p_owner_event_staff_id,p_due_at,p_status,p_communication_state,\n      nullif(trim(p_participant_safe_message),''),nullif(trim(p_internal_notes),''),p_actor_user_id,\n      case when p_status='completed' then now() else null end\n    ) returning id into v_id;\n  else\n    update public.clinic_follow_ups set\n      owner_event_staff_id=p_owner_event_staff_id,due_at=p_due_at,status=p_status,\n      communication_state=p_communication_state,\n      participant_safe_message=nullif(trim(p_participant_safe_message),''),\n      internal_notes=nullif(trim(p_internal_notes),''),\n      completed_at=case when p_status='completed' then now() else null end\n    where id=p_follow_up_id and clinic_case_id=p_case_id and event_id=v_case.event_id\n    returning id into v_id;\n  end if;\n  if v_id is null then raise exception 'clinic_follow_up_not_found'; end if;\n  insert into public.clinic_event_audit(event_id,actor_user_id,action,target_type,target_id)\n  values(v_case.event_id,p_actor_user_id,'follow_up_saved','follow_up',v_id);\n  return v_id;\nend $function$\n",
+      "publicExecute": false
+    },
+    "function:clinic_start_assisted_session(uuid,uuid,uuid,uuid,text,text,text,timestamp with time zone,integer)": {
+      "owner": "postgres",
+      "execute": {
+        "anon": false,
+        "service_role": true,
+        "authenticated": false
+      },
+      "definition": "CREATE OR REPLACE FUNCTION public.clinic_start_assisted_session(p_event_id uuid, p_event_staff_id uuid, p_participant_user_id uuid, p_screening_session_id uuid, p_handoff_token_hash text, p_device_nonce_hash text, p_consent_version text, p_consented_at timestamp with time zone, p_ttl_minutes integer DEFAULT 30)\n RETURNS uuid\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO ''\nAS $function$\ndeclare v_id uuid;\nbegin\n  if p_consented_at is null or p_consented_at > now() then raise exception 'clinic_consent_required'; end if;\n  if p_ttl_minutes < 5 or p_ttl_minutes > 120 then raise exception 'clinic_session_ttl_invalid'; end if;\n  if not exists (\n    select 1 from public.clinic_event_staff s\n    join public.partner_users pu on pu.id=s.partner_user_id\n    join public.clinic_events e on e.id=s.event_id\n    where s.id=p_event_staff_id and s.event_id=p_event_id and s.status='approved'\n      and 'assist'=any(s.permissions) and pu.status='active' and pu.partner_slug=e.partner_slug\n      and e.status='published'\n  ) then raise exception 'clinic_staff_not_approved'; end if;\n  if not exists (select 1 from auth.users where id=p_participant_user_id) then raise exception 'clinic_participant_not_found'; end if;\n  if p_screening_session_id is null or not exists (\n    select 1 from public.screening_sessions where session_id=p_screening_session_id\n  ) then raise exception 'clinic_screening_not_found'; end if;\n  insert into public.clinic_assisted_sessions(\n    event_id,event_staff_id,participant_user_id,screening_session_id,handoff_token_hash,\n    device_nonce_hash,consent_version,consented_at,expires_at\n  ) values (\n    p_event_id,p_event_staff_id,p_participant_user_id,p_screening_session_id,\n    lower(p_handoff_token_hash),lower(p_device_nonce_hash),trim(p_consent_version),\n    p_consented_at,now()+make_interval(mins=>p_ttl_minutes)\n  ) returning id into v_id;\n  insert into public.clinic_event_audit(event_id,action,target_type,target_id,metadata)\n  values (p_event_id,'assistance_consented','assisted_session',v_id,jsonb_build_object('consent_version',p_consent_version));\n  return v_id;\nend $function$\n",
+      "publicExecute": false
+    },
+    "function:clinic_upsert_event_follow_up(uuid,uuid,uuid,uuid,uuid,timestamp with time zone,text,text,text,text)": {
+      "owner": "postgres",
+      "execute": {
+        "anon": false,
+        "service_role": true,
+        "authenticated": false
+      },
+      "definition": "CREATE OR REPLACE FUNCTION public.clinic_upsert_event_follow_up(p_event_id uuid, p_follow_up_id uuid, p_case_id uuid, p_actor_user_id uuid, p_owner_event_staff_id uuid, p_due_at timestamp with time zone, p_status text, p_communication_state text, p_participant_safe_message text, p_internal_notes text)\n RETURNS uuid\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO ''\nAS $function$\nbegin\n  if not public.clinic_actor_can_event(p_event_id,p_actor_user_id,'follow_up')\n    then raise exception 'clinic_follow_up_forbidden'; end if;\n  if not exists(select 1 from public.clinic_cases c where c.id=p_case_id and c.event_id=p_event_id)\n    then raise exception 'clinic_follow_up_event_mismatch'; end if;\n  return public.clinic_upsert_follow_up(\n    p_follow_up_id,p_case_id,p_actor_user_id,p_owner_event_staff_id,p_due_at,\n    p_status,p_communication_state,p_participant_safe_message,p_internal_notes\n  );\nend $function$\n",
+      "publicExecute": false
+    },
+    "function:clinic_create_access_code(uuid,uuid,text,text,integer,timestamp with time zone,timestamp with time zone)": {
+      "owner": "postgres",
+      "execute": {
+        "anon": false,
+        "service_role": true,
+        "authenticated": false
+      },
+      "definition": "CREATE OR REPLACE FUNCTION public.clinic_create_access_code(p_actor_user_id uuid, p_event_id uuid, p_code_hash text, p_code_hint text, p_max_uses integer, p_starts_at timestamp with time zone DEFAULT NULL::timestamp with time zone, p_expires_at timestamp with time zone DEFAULT NULL::timestamp with time zone)\n RETURNS uuid\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO ''\nAS $function$\ndeclare v_partner_slug text; v_id uuid;\nbegin\n  select partner_slug into v_partner_slug from public.clinic_events where id = p_event_id;\n  if not exists (\n    select 1 from public.partner_users pu where pu.auth_user_id = p_actor_user_id\n      and pu.status = 'active' and ((pu.role = 'internal_admin' and pu.partner_slug is null)\n        or (pu.role = 'partner_admin' and pu.partner_slug = v_partner_slug))\n  ) then raise exception 'clinic_code_forbidden'; end if;\n  insert into public.clinic_event_access_codes(event_id, code_hash, code_hint, max_uses, starts_at, expires_at, created_by)\n  values (p_event_id, lower(p_code_hash), p_code_hint, p_max_uses, p_starts_at, p_expires_at, p_actor_user_id)\n  returning id into v_id;\n  insert into public.clinic_event_audit(event_id, actor_user_id, action, target_type, target_id)\n  values (p_event_id, p_actor_user_id, 'access_code_created', 'access_code', v_id);\n  return v_id;\nend $function$\n",
+      "publicExecute": false
+    },
+    "function:clinic_create_event(uuid,text,text,text,timestamp with time zone,timestamp with time zone,text,text,text,integer,integer)": {
+      "owner": "postgres",
+      "execute": {
+        "anon": false,
+        "service_role": true,
+        "authenticated": false
+      },
+      "definition": "CREATE OR REPLACE FUNCTION public.clinic_create_event(p_actor_user_id uuid, p_partner_slug text, p_public_slug text, p_name text, p_starts_at timestamp with time zone, p_ends_at timestamp with time zone, p_timezone text, p_location_name text, p_geography text, p_capacity integer, p_sponsorship_allocation integer DEFAULT NULL::integer)\n RETURNS uuid\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO ''\nAS $function$\ndeclare v_id uuid;\nbegin\n  if not exists (\n    select 1 from public.partner_users pu where pu.auth_user_id = p_actor_user_id\n      and pu.status = 'active'\n      and ((pu.role = 'internal_admin' and pu.partner_slug is null)\n        or (pu.role = 'partner_admin' and pu.partner_slug = p_partner_slug))\n  ) then raise exception 'clinic_event_forbidden'; end if;\n  insert into public.clinic_events(\n    partner_slug, public_slug, name, starts_at, ends_at, timezone,\n    location_name, geography, capacity, sponsorship_allocation, created_by\n  ) values (\n    p_partner_slug, lower(trim(p_public_slug)), trim(p_name), p_starts_at, p_ends_at,\n    trim(p_timezone), trim(p_location_name), trim(p_geography), p_capacity,\n    p_sponsorship_allocation, p_actor_user_id\n  ) returning id into v_id;\n  insert into public.clinic_event_audit(event_id, actor_user_id, action, target_type, target_id)\n  values (v_id, p_actor_user_id, 'event_created', 'event', v_id);\n  return v_id;\nend $function$\n",
+      "publicExecute": false
+    },
+    "function:clinic_create_event(uuid,text,text,text,timestamp with time zone,timestamp with time zone,text,text,text,integer,integer,text)": {
+      "owner": "postgres",
+      "execute": {
+        "anon": false,
+        "service_role": true,
+        "authenticated": false
+      },
+      "definition": "CREATE OR REPLACE FUNCTION public.clinic_create_event(p_actor_user_id uuid, p_partner_slug text, p_public_slug text, p_name text, p_starts_at timestamp with time zone, p_ends_at timestamp with time zone, p_timezone text, p_location_name text, p_geography text, p_capacity integer, p_sponsorship_allocation integer, p_jurisdiction text)\n RETURNS uuid\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO ''\nAS $function$\ndeclare v_id uuid;\nbegin\n  if p_jurisdiction is not null and (p_jurisdiction <> upper(p_jurisdiction) or length(p_jurisdiction) not between 2 and 3) then\n    raise exception 'clinic_event_jurisdiction_invalid';\n  end if;\n  if not exists (\n    select 1 from public.partner_users pu where pu.auth_user_id = p_actor_user_id\n      and pu.status = 'active'\n      and ((pu.role = 'internal_admin' and pu.partner_slug is null)\n        or (pu.role = 'partner_admin' and pu.partner_slug = p_partner_slug))\n  ) then raise exception 'clinic_event_forbidden'; end if;\n  insert into public.clinic_events(\n    partner_slug, public_slug, name, starts_at, ends_at, timezone,\n    location_name, geography, jurisdiction, capacity, sponsorship_allocation, created_by\n  ) values (\n    p_partner_slug, lower(trim(p_public_slug)), trim(p_name), p_starts_at, p_ends_at,\n    trim(p_timezone), trim(p_location_name), trim(p_geography), p_jurisdiction,\n    p_capacity, p_sponsorship_allocation, p_actor_user_id\n  ) returning id into v_id;\n  insert into public.clinic_event_audit(event_id, actor_user_id, action, target_type, target_id)\n  values (v_id, p_actor_user_id, 'event_created', 'event', v_id);\n  return v_id;\nend $function$\n",
+      "publicExecute": false
+    }
+  }
+}

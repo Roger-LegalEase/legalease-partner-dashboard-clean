@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import {fundingCatalogQuery} from './rcap-production-funding-dependency-contract.mjs';
 // Exact Production forward-chain apply and direct readback.
 //
 // Incident of 2026-09-16 ("Save my result and continue" fails on the live
@@ -15,6 +16,7 @@
 import { requireMigrationCertification } from './rcap-migration-certification.mjs';
 import { requireProductionMigrationRelease } from './rcap-production-migration-contract.mjs';
 import { loadPacketContract, packetCatalogQuery, normalizeCatalog } from './rcap-packet-database-contract.mjs';
+import { loadCorrection, requireForwardCorrectionAuthorization, stateFingerprint } from './rcap-production-packet-forward-correction.mjs';
 import { createHash } from "node:crypto";
 import { spawnSync } from "node:child_process";
 import fs from "node:fs";
@@ -353,6 +355,12 @@ try {
 
   const release = requireRelease(ROOT_DIR, env);
   evidence.releaseTuple = { applicationSha: release.applicationSha, workerSourceSha: release.workerSourceSha, workerDigest: release.workerDigest, toolsSha: env.RCAP_TOOLS_SHA };
+  const correction = PHASE === 'forward_chain_migrate' ? loadCorrection(ROOT_DIR) : null;
+  if(correction) evidence.forwardCorrectionAuthorization = {
+    recordedAt: requireForwardCorrectionAuthorization(ROOT_DIR,release,correction).recordedAt,
+    beforeFingerprint: correction.manifest.beforeFingerprint, afterFingerprint: correction.manifest.afterFingerprint,
+    sqlSha256: correction.manifest.sqlSha256
+  };
   const project = await managementGet(`/v1/projects/${encodeURIComponent(PRODUCTION_PROJECT_REF)}`);
   record(
     "canonical_production_project_is_authenticated",
@@ -418,11 +426,12 @@ try {
     from pg_proc p join pg_language l on l.oid=p.prolang
     where p.oid=to_regprocedure('public.get_consumer_briefcase_presentation_source(uuid,uuid)')`, "canonical_matter_rpc_readback");
   const matter = matterRows[0] ?? {};
-  record("current_canonical_matter_rpc_exact", Boolean(expectedMatterBody)
+  const canonicalMatterExact = Boolean(expectedMatterBody)
     && matter.prosrc === expectedMatterBody && truthy(matter.prosecdef)
     && JSON.stringify(postgresArray(matter.proconfig)) === JSON.stringify(['search_path=""'])
     && matter.provolatile === 's' && matter.lanname === 'sql'
-    && truthy(matter.service_execute) && !truthy(matter.anon_execute) && !truthy(matter.authenticated_execute),
+    && truthy(matter.service_execute) && !truthy(matter.anon_execute) && !truthy(matter.authenticated_execute);
+  if(PHASE === 'forward_chain_readback') record("current_canonical_matter_rpc_exact", canonicalMatterExact,
     "Exact frozen canonical-matter RPC body/security required; missing or stale state needs a separately authorized forward correction, never replay here.");
 
   if (PHASE === "forward_chain_readback") {
@@ -436,21 +445,52 @@ try {
     record("forward_chain_current_release_inventory_complete", before.signaturesComplete,
       `present=[${before.present.join(", ")}]; missing=[${before.missing.join(", ")}]`);
     const contract = packetContract(ROOT_DIR);
-    const catalogRows = await managementQuery(packetCatalogQuery(), "current_release_packet_catalog");
-    evidence.certification = requireMigrationCertification({
-      expected: contract.current, actual: normalizeCatalog(catalogRows[0]?.catalog ?? {})
-    });
+    async function correctionReadback(label) {
+      const packet = (await managementQuery(packetCatalogQuery(), label+'_packet'))[0]?.catalog ?? {};
+      const canonical = (await managementQuery(correction.canonical.query, label+'_canonical'))[0] ?? {};
+      const full = (await managementQuery(correction.canonicalFull.query, label+'_canonical_full'))[0] ?? {};
+      const funding=(await managementQuery(fundingCatalogQuery,label+'_funding'))[0]?.catalog ?? {};
+      const prerequisites=(await managementQuery(correction.prerequisites.query,label+'_prerequisites'))[0] ?? {};
+      return {packet,canonical,full,funding,prerequisites,fingerprint:stateFingerprint(packet,canonical,full,funding,prerequisites)};
+    }
+    let current = await correctionReadback('forward_correction_initial');
+    evidence.forwardCorrectionReadback = {beforeFingerprint:current.fingerprint};
+    if(current.fingerprint === correction.manifest.afterFingerprint) {
+      evidence.migrationDisposition = "current_release_dependencies_verified_no_write";
+    } else {
+      record('forward_correction_captured_before_state_exact', current.fingerprint === correction.manifest.beforeFingerprint,
+        `captured=${correction.manifest.beforeFingerprint}; current=${current.fingerprint}`);
+      // The captured receipt replaces a separate readback dispatch, not this
+      // immediate check. The same full checks repeat under locks inside SQL.
+      const immediate = await correctionReadback('forward_correction_immediate_prewrite');
+      record('forward_correction_immediate_before_state_exact', immediate.fingerprint === correction.manifest.beforeFingerprint,
+        `immediate=${immediate.fingerprint}; independently authorized captured state required`);
+      evidence.productionDatabaseMutationAttempted = true;
+      evidence.productionDatabaseMutated = null; // A lost response cannot prove rollback or commit.
+      evidence.productionDatabaseMutationOutcome = 'unknown_until_transaction_response';
+      await managementQuery(correction.sql, 'exact_readback_bound_forward_correction');
+      evidence.productionDatabaseMutated = true;
+      evidence.productionDatabaseMutationOutcome = 'transaction_committed';
+      evidence.migrationsApplied.push({path:'scripts/fixtures/production-packet-forward-correction/proposed-forward-delta.sql',sha256:correction.manifest.sqlSha256});
+      evidence.migrationDisposition = 'exact_readback_bound_forward_correction_applied';
+      current = await correctionReadback('forward_correction_postwrite');
+      record('forward_correction_after_state_exact', current.fingerprint === correction.manifest.afterFingerprint,
+        `expected=${correction.manifest.afterFingerprint}; actual=${current.fingerprint}`);
+    }
+    evidence.forwardCorrectionReadback.afterFingerprint = current.fingerprint;
+    evidence.certification = requireMigrationCertification({expected: contract.current, actual: normalizeCatalog(current.packet)});
     evidence.certification.scope = "current_release_packet_dependencies_only";
-    evidence.migrationDisposition = "current_release_dependencies_verified_no_write";
     evidence.historicalChainCertified = false;
     evidence.readback.after = await readback("forward_chain_final_readback");
     record("forward_chain_current_release_postconditions_verified", evidence.certification.certified,
       "Source-derived current runtime dependencies verified; historical inventory is not a whole-chain certificate.");
-    record("current_release_verification_wrote_nothing", evidence.productionDatabaseMutated === false
-      && evidence.migrationsApplied.length === 0 && evidence.ledgerRowsRecorded.length === 0,
-      "No historical replay or ledger adoption. A partial state needs an independently authorized forward delta.");
+    record('forward_correction_did_not_adopt_history', evidence.ledgerRowsRecorded.length === 0
+      && JSON.stringify(evidence.readback.after.ledgerVersions) === JSON.stringify(before.ledgerVersions),
+      'No historical replay or ledger adoption; exact original ledger preserved.');
+    if(!evidence.productionDatabaseMutated) record("current_release_verification_wrote_nothing", evidence.migrationsApplied.length === 0,
+      "Exact already-corrected state; no historical replay, forward delta or ledger adoption.");
     persist(true);
-    console.log("PRODUCTION FORWARD-CHAIN RELEASE DEPENDENCIES PASS — exact current packet state; no writes");
+    console.log(`PRODUCTION FORWARD-CHAIN RELEASE DEPENDENCIES PASS — ${evidence.migrationDisposition}`);
   }
 } catch (error) {
   const failure = error instanceof Error ? error.message : String(error);

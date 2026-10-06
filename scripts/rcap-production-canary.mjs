@@ -9,6 +9,8 @@
 // Supabase origins exist only in process memory. Evidence contains only
 // booleans, project refs, SHA-256 hashes, and deployment identities.
 
+import assert from "node:assert/strict";
+import { RESTAGE_AUTHORITY, requireProductionPhaseAuthorization } from "./grade-a-launch-control/production-preflight-authorization.mjs";
 import { createHash } from "node:crypto";
 import { spawn } from "node:child_process";
 import fs from "node:fs";
@@ -49,7 +51,7 @@ const ROOT_DIR = path.resolve(path.dirname(fileURLToPath(import.meta.url)), ".."
 const EVIDENCE_DIR = path.resolve(process.env.RCAP_PRODUCTION_EVIDENCE_DIR ?? "production-canary-evidence");
 const EVIDENCE_FILE = path.join(EVIDENCE_DIR, "production-preflight.json");
 
-fs.mkdirSync(EVIDENCE_DIR, { recursive: true });
+
 
 const verdicts = [];
 const evidence = {
@@ -132,6 +134,7 @@ function safeEnvironmentMetadataHash(entries) {
     customEnvironmentIds: Array.isArray(entry?.customEnvironmentIds)
       ? [...entry.customEnvironmentIds].sort()
       : [],
+    createdAt: entry?.createdAt ?? null,
     updatedAt: entry?.updatedAt ?? null
   })).sort((left, right) => JSON.stringify(left).localeCompare(JSON.stringify(right)));
   return sha256(JSON.stringify(safe));
@@ -190,7 +193,7 @@ async function runtimeGet(baseOrigin, pathname) {
   };
 }
 
-async function inspectRuntimeSupabaseOrigin(immutableHostname) {
+async function inspectRuntimeSupabaseOrigin(immutableHostname, readRuntime = runtimeGet) {
   const baseOrigin = "https://" + immutableHostname;
   const candidateOrigins = new Set();
   const fetchedChunks = new Set();
@@ -198,14 +201,14 @@ async function inspectRuntimeSupabaseOrigin(immutableHostname) {
   let successfulChunks = 0;
 
   for (const route of PUBLIC_ROUTES) {
-    const page = await runtimeGet(baseOrigin, route);
+    const page = await readRuntime(baseOrigin, route);
     if (!page.ok || !page.sameHost) continue;
     successfulPages += 1;
     inspectForSupabaseOrigins(page.text, candidateOrigins);
     for (const source of scriptSources(page.text)) {
       if (fetchedChunks.has(source)) continue;
       fetchedChunks.add(source);
-      const chunk = await runtimeGet(baseOrigin, source);
+      const chunk = await readRuntime(baseOrigin, source);
       if (!chunk.ok || !chunk.sameHost) continue;
       successfulChunks += 1;
       inspectForSupabaseOrigins(chunk.text, candidateOrigins);
@@ -227,8 +230,8 @@ async function inspectRuntimeSupabaseOrigin(immutableHostname) {
   };
 }
 
-async function originMapsToProject(origin, projectRef) {
-  const project = await getJson(
+async function originMapsToProject(origin, projectRef, readJson = getJson) {
+  const project = await readJson(
     "https://api.supabase.com/v1/projects/" + encodeURIComponent(projectRef),
     SUPABASE_ACCESS_TOKEN
   );
@@ -239,11 +242,11 @@ async function originMapsToProject(origin, projectRef) {
   const hostname = new URL(origin).hostname.toLowerCase();
   if (hostname === projectRef + ".supabase.co") return true;
 
-  const custom = await getJson(
+  const custom = await readJson(
     "https://api.supabase.com/v1/projects/" + encodeURIComponent(projectRef) + "/custom-hostname",
     SUPABASE_ACCESS_TOKEN
   );
-  const vanity = await getJson(
+  const vanity = await readJson(
     "https://api.supabase.com/v1/projects/" + encodeURIComponent(projectRef) + "/config/vanity-subdomain",
     SUPABASE_ACCESS_TOKEN
   );
@@ -394,6 +397,189 @@ async function exactDeploymentDetail(vercel, identifier) {
   }
   return result.json;
 }
+
+export function productionRestageKeyTimes(entries) {
+  const names=['LEGAL_AID_RESTRICTED_FIELD_KEY','LEGAL_AID_RESTRICTED_FIELD_KEY_VERSION','PARTICIPANT_PRIVACY_PSEUDONYM_SECRET'];
+  return names.map(key=>{
+    const matches=entries.filter(entry=>entry.key===key && targetList(entry).includes('production'));
+    assert.equal(matches.length,1,'restage_key_missing_or_duplicate');
+    const entry=matches[0];
+    if(key!=='LEGAL_AID_RESTRICTED_FIELD_KEY_VERSION') assert.equal(entry.type,'sensitive','restage_key_not_sensitive');
+    const timestamp=value=>typeof value==='number'?value:Date.parse(value);
+    const created=timestamp(entry.createdAt),updated=entry.updatedAt==null?created:timestamp(entry.updatedAt);
+    assert.ok(Number.isFinite(created)&&created>0&&created<=Date.now()&&Number.isFinite(updated)&&updated>=created&&updated<=Date.now(),'restage_key_timestamp_invalid');
+    return Math.max(created,updated);
+  });
+}
+export function restageDeploymentRequest(projectId,toolsSha) {
+  return {name:HOSTED_VERCEL_PROJECT_NAME,project:projectId,
+    gitSource:{type:'github',repoId:'1248656766',ref:APPLICATION_SHA,sha:APPLICATION_SHA},
+    target: "production", autoAssignCustomDomains: false,
+    meta:{rcapStagedProduction:'true',rcapApplicationSha:APPLICATION_SHA,rcapWorkerSourceSha:WORKER_SOURCE_SHA,
+      rcapWorkerDigest:WORKER_DIGEST,rcapToolsSha:toolsSha,rcapProductionRestage:RESTAGE_AUTHORITY.marker}};
+}
+export function validateRestageDeploymentRequest(body,projectId,toolsSha) {
+  assert.deepEqual(body,restageDeploymentRequest(projectId,toolsSha),'restage_exact_no_alias_request');
+  assert.equal(body.autoAssignCustomDomains,false,'restage_no_domain_assignment');
+}
+export async function runProductionRestage({env=process.env,rootDir=ROOT_DIR,fetchImpl=globalThis.fetch,
+  requireRelease=requireProductionMigrationRelease,resolveIdentity=resolveHostedVercelIdentity,
+  inspectRuntime=inspectRuntimeSupabaseOrigin,originMatches=originMapsToProject,
+  pause=ms=>new Promise(resolve=>setTimeout(resolve,ms))}={}) {
+  const receipt={schemaVersion:'rcap-production-restage/v1',passed:false,applicationSha:APPLICATION_SHA,
+    workerSourceSha:WORKER_SOURCE_SHA,workerDigest:WORKER_DIGEST,productionProjectRef:PRODUCTION_PROJECT_REF,
+    oldStagedDeploymentId:RESTAGE_AUTHORITY.oldStagedDeploymentId,replacementStagedDeploymentId:null,
+    rollbackDeploymentId:RESTAGE_AUTHORITY.rollbackDeploymentId,keyNamesPresentOnly:true,keyValuesRecorded:false,
+    replacementCreatedAfterKeys:false,publicAliasesChanged:false,environmentMetadataChanged:false,
+    productionDatabaseMutated:false,workerChanged:false,migrationReplayed:false,keysCreated:false,
+    deploymentCreated:false,deploymentCreateAttempted:false,reusedExactReplacement:false,verdicts:[]};
+  const check=(id,ok)=>{receipt.verdicts.push({caseId:id,passed:Boolean(ok)});if(!ok)throw Error(id);};
+  const transport=async(operation,url,options={})=>{
+    const method=options.method??'GET',maxAttempts=method==='GET'?3:1;
+    for(let attempt=1;attempt<=maxAttempts;attempt++){
+      let response,text,status,retryable=false;
+      try{
+        response=await fetchImpl(url,{redirect:'error',...options,method,signal:AbortSignal.timeout(60000)});
+        status=response.status;
+        if(response.ok===true){text=await response.text();return {ok:true,status,attempts:attempt,url:response.url,text:async()=>text};}
+        retryable=status===429||(status>=500&&status<=599);
+      }catch{retryable=true;}
+      if(method==='GET'&&retryable&&attempt<maxAttempts){await pause(Math.min(1000*2**(attempt-1),2000));continue;}
+      receipt.transportFailure={operation,method,...(status===undefined?{}:{status}),attempts:attempt,retryable};
+      throw Error(method==='GET'?'restage_read_transport_refused':'restage_write_transport_refused');
+    }
+  };
+  const request=async(operation,url,options)=>{
+    const response=await transport(operation,url,options);
+    try{return JSON.parse(await response.text());}catch{
+      receipt.transportFailure={operation,method:options.method,status:response.status,attempts:response.attempts,retryable:false};
+      throw Error(options.method==='GET'?'restage_read_transport_refused':'restage_write_transport_refused');
+    }
+  };
+  try {
+    check('restage_phase_exact',env.RCAP_PRODUCTION_PHASE==='restage');
+    const release=requireRelease(rootDir,env);
+    const authorization=requireProductionPhaseAuthorization(release,'restage');
+    check('restage_owner_exact',JSON.stringify({...authorization.restage,recordedAt:undefined})===JSON.stringify({...RESTAGE_AUTHORITY,recordedAt:undefined}));
+    check('restage_release_exact',release.applicationSha===APPLICATION_SHA && release.workerSourceSha===WORKER_SOURCE_SHA && release.workerDigest===WORKER_DIGEST
+      && release.workerInputFingerprint==='sha256:90a1e89e306cb5fc23631c63c15c12a44d955d745bbe04aada0716af2805daab'
+      && release.productionProjectRef===PRODUCTION_PROJECT_REF && authorization.stagedDeploymentId===RESTAGE_AUTHORITY.oldStagedDeploymentId && authorization.rollbackDeploymentId===RESTAGE_AUTHORITY.rollbackDeploymentId);
+    check('restage_sessions_available',Boolean(env.VERCEL_TOKEN&&env.SUPABASE_ACCESS_TOKEN&&env.VERCEL_AUTOMATION_BYPASS_SECRET));
+    const identity=await resolveIdentity({token:env.VERCEL_TOKEN,fetchImpl:(url,options)=>transport('project_identity',url,options)});
+    const headers={Authorization:'Bearer '+env.VERCEL_TOKEN};
+    const vercel=(operation,pathname)=>request(operation,hostedVercelScopedUrl(pathname,identity),{method: "GET",headers});
+    const project=await vercel('project_identity','/v9/projects/'+encodeURIComponent(identity.projectId));
+    check('restage_project_exact',project.id===identity.projectId&&project.name===HOSTED_VERCEL_PROJECT_NAME);
+    const production=await request('production_project','https://api.supabase.com/v1/projects/'+PRODUCTION_PROJECT_REF,{method: "GET",headers:{Authorization:'Bearer '+env.SUPABASE_ACCESS_TOKEN}});
+    check('restage_production_project_exact',(production.ref??production.id)===PRODUCTION_PROJECT_REF);
+    let publicBaselineRead=false;
+    const mapping=async()=>{
+      const listed=await vercel('public_domains','/v9/projects/'+identity.projectId+'/domains?limit=100&production=true&redirects=true');
+      check('restage_domains_complete',Array.isArray(listed.domains)&&listed.domains.length>0&&!listed.pagination?.next);
+      const productionDomains=listed.domains.filter(d=>!d.gitBranch&&!d.customEnvironmentId);
+      check('restage_public_domains_present',productionDomains.length>0&&productionDomains.every(d=>typeof d.name==='string'&&d.name.trim().length>0));
+      const domains=productionDomains.map(d=>d.name.trim().toLowerCase()).sort();
+      check('restage_domain_names_unique',new Set(domains).size===domains.length);
+      const rows=[];
+      for(const entry of productionDomains){
+        const name=entry.name;
+        check('restage_domain_project_exact',entry.projectId===identity.projectId);
+        if(entry.redirect!=null&&entry.redirect!==''){
+          check('restage_redirect_metadata_valid',typeof entry.redirect==='string'&&(entry.redirectStatusCode==null||[301,302,307,308].includes(entry.redirectStatusCode)));
+          rows.push({name,kind:'redirect',redirect:entry.redirect,redirectStatusCode:entry.redirectStatusCode??null});
+          continue;
+        }
+        const d=await vercel('public_domain:'+name,'/v13/deployments/'+encodeURIComponent(name.trim().toLowerCase()));
+        if(publicBaselineRead&&deploymentId(d)!==RESTAGE_AUTHORITY.rollbackDeploymentId)receipt.publicAliasesChanged=true;
+        check('restage_public_mapping_is_rollback',deploymentId(d)===RESTAGE_AUTHORITY.rollbackDeploymentId&&deploymentReady(d)&&d.target==='production'&&d.projectId===identity.projectId);
+        rows.push({name,kind:'deployment',deploymentId:deploymentId(d)});
+      }
+      // Only a successfully verified direct rollback mapping can be a target.
+      // Check after all direct reads so inventory order cannot grant authority.
+      const directDomains=new Set(rows.filter(row=>row.kind==='deployment').map(row=>row.name.trim().toLowerCase()));
+      check('restage_public_direct_domains_present',directDomains.size>0);
+      for(const row of rows.filter(row=>row.kind==='redirect')){
+        check('restage_redirect_target_is_direct_production_domain',directDomains.has(row.redirect.trim().toLowerCase()));
+      }
+      rows.sort((a,b)=>a.name<b.name?-1:a.name>b.name?1:0);
+      return {domains,rows,hash:sha256(JSON.stringify(rows))};
+    };
+    const publicBefore=await mapping();publicBaselineRead=true;
+    receipt.routingStateBefore=publicBefore.rows;receipt.routingStateBeforeSha256=publicBefore.hash;
+    const old=await vercel('old_staged_deployment','/v13/deployments/'+RESTAGE_AUTHORITY.oldStagedDeploymentId);
+    const exactTuple=d=>d?.target==='production'&&d?.projectId===identity.projectId&&d?.gitSource?.sha===APPLICATION_SHA
+      &&d?.meta?.rcapStagedProduction==='true'&&d.meta.rcapApplicationSha===APPLICATION_SHA&&d.meta.rcapWorkerSourceSha===WORKER_SOURCE_SHA&&d.meta.rcapWorkerDigest===WORKER_DIGEST;
+    check('restage_old_staged_exact',deploymentId(old)===RESTAGE_AUTHORITY.oldStagedDeploymentId&&deploymentReady(old)&&exactTuple(old));
+    const environment=async()=>{
+      const doc=await vercel('environment_metadata','/v9/projects/'+identity.projectId+'/env?decrypt=false');
+      check('restage_environment_complete',Array.isArray(doc.envs)&&!doc.pagination?.next);
+      return {hash:safeEnvironmentMetadataHash(doc.envs),keyTimes:productionRestageKeyTimes(doc.envs)};
+    };
+    const envBefore=await environment();check('restage_key_names_types_and_timestamps',envBefore.keyTimes.length===3);
+    // Inventory every state, including BUILDING/ERROR. A timed-out create must
+    // never disappear merely because a READY-only filter hides its result.
+    const replacements=[];let cursor=null,complete=false;const cursors=new Set(),ids=new Set();
+    for(let page=0;page<100;page++){
+      const listed=await vercel('replacement_inventory','/v6/deployments?projectId='+identity.projectId+'&target=production&limit=100'+(cursor?'&until='+encodeURIComponent(cursor):''));
+      check('restage_inventory_valid',Array.isArray(listed.deployments));
+      for(const d of listed.deployments)if(d.meta?.rcapProductionRestage===RESTAGE_AUTHORITY.marker&&deploymentId(d)!==RESTAGE_AUTHORITY.rollbackDeploymentId&&!ids.has(deploymentId(d))){ids.add(deploymentId(d));replacements.push(d);}
+      cursor=listed.pagination?.next;if(cursor==null){complete=true;break;}
+      check('restage_inventory_progress',!cursors.has(cursor));cursors.add(cursor);
+    }
+    check('restage_inventory_complete',complete);check('restage_at_most_one_replacement',replacements.length<=1);
+    let staged,expectedReplacementId;
+    if(replacements.length===1){
+      expectedReplacementId=deploymentId(replacements[0]);
+      staged=await vercel('replacement_detail','/v13/deployments/'+expectedReplacementId);
+      check('restage_existing_replacement_ready',deploymentReady(staged));receipt.reusedExactReplacement=true;
+    }else{
+      // A GitHub rerun after an uncertain transport outcome cannot POST again,
+      // even if eventual-consistency inventory has not exposed the first ID.
+      check('restage_no_second_create_on_rerun',String(env.GITHUB_RUN_ATTEMPT)==='1');
+      const body=restageDeploymentRequest(identity.projectId,env.RCAP_TOOLS_SHA);validateRestageDeploymentRequest(body,identity.projectId,env.RCAP_TOOLS_SHA);
+      const immediateMapping=await mapping(),immediateEnvironment=await environment();
+      receipt.publicAliasesChanged=immediateMapping.hash!==publicBefore.hash;
+      check('restage_precreate_mapping_unchanged',!receipt.publicAliasesChanged);
+      receipt.environmentMetadataChanged=immediateEnvironment.hash!==envBefore.hash;
+      check('restage_precreate_environment_unchanged',!receipt.environmentMetadataChanged);
+      receipt.deploymentCreateAttempted=true;receipt.deploymentCreated=null;
+      const created=await request('deployment_create',hostedVercelScopedUrl('/v13/deployments',identity),{method: "POST",headers:{...headers,'Content-Type':'application/json'},body:JSON.stringify(body)});
+      check('restage_created_id_valid',/^dpl_[A-Za-z0-9]+$/.test(created.id??'')&&created.id!==RESTAGE_AUTHORITY.oldStagedDeploymentId&&created.id!==RESTAGE_AUTHORITY.rollbackDeploymentId);
+      receipt.deploymentCreated=true;receipt.replacementStagedDeploymentId=created.id;expectedReplacementId=created.id;
+      for(let poll=0;poll<180;poll++){
+        staged=await vercel('replacement_detail','/v13/deployments/'+created.id);
+        if(deploymentReady(staged))break;
+        check('restage_build_not_failed',!['ERROR','CANCELED','CANCELLED','PAUSED','BLOCKED'].includes(staged.readyState??staged.state));
+        if(poll<179)await pause(10000);
+      }
+    }
+    const id=deploymentId(staged);receipt.replacementStagedDeploymentId=id;
+    check('restage_replacement_identity',id===expectedReplacementId&&id!==RESTAGE_AUTHORITY.oldStagedDeploymentId&&id!==RESTAGE_AUTHORITY.rollbackDeploymentId&&deploymentReady(staged)&&exactTuple(staged)&&staged.meta.rcapProductionRestage===RESTAGE_AUTHORITY.marker&&staged.meta.rcapToolsSha===env.RCAP_TOOLS_SHA);
+    const createdAt=typeof staged.createdAt==='number'?staged.createdAt:typeof staged.created==='number'?staged.created:Date.parse(staged.createdAt);
+    check('restage_replacement_after_keys',Number.isFinite(createdAt)&&createdAt<=Date.now()&&envBefore.keyTimes.every(t=>createdAt>t));receipt.replacementCreatedAfterKeys=true;
+    const aliases=staged.alias??staged.aliases;
+    check('restage_replacement_has_no_public_domain',Array.isArray(aliases)&&aliases.every(alias=>typeof alias==='string'&&!publicBefore.domains.includes(alias))&&staged.autoAssignCustomDomains!==true);
+    check('restage_runtime_hostname',typeof staged.url==='string'&&/^[a-z0-9.-]+\.vercel\.app$/.test(staged.url));
+    const runtime=await inspectRuntime(staged.url,async(baseOrigin,pathname)=>{
+      const response=await transport('replacement_runtime',new URL(pathname,baseOrigin),{method: "GET",headers:{'x-vercel-protection-bypass':env.VERCEL_AUTOMATION_BYPASS_SECRET},redirect:'follow'});
+      return {ok:response.ok,status:response.status,sameHost:new URL(response.url).host===new URL(baseOrigin).host,text:await response.text()};
+    });
+    check('restage_runtime_production_exact',await originMatches(runtime.origin,PRODUCTION_PROJECT_REF,async(url)=>{
+      const json=await request('production_project',url,{method: "GET",headers:{Authorization:'Bearer '+env.SUPABASE_ACCESS_TOKEN}});return {status:200,json};
+    }));
+    const envAfter=await environment(),publicAfter=await mapping();
+    receipt.routingStateAfter=publicAfter.rows;receipt.routingStateAfterSha256=publicAfter.hash;
+    receipt.environmentMetadataChanged=envAfter.hash!==envBefore.hash;receipt.publicAliasesChanged=publicAfter.hash!==publicBefore.hash;
+    check('restage_environment_metadata_unchanged',!receipt.environmentMetadataChanged);check('restage_public_aliases_unchanged',!receipt.publicAliasesChanged&&receipt.routingStateBeforeSha256===receipt.routingStateAfterSha256);
+    receipt.controlHashes={environmentBefore:envBefore.hash,environmentAfter:envAfter.hash,aliasesBefore:publicBefore.hash,aliasesAfter:publicAfter.hash};
+    receipt.passed=true;
+  }catch(error){receipt.failure=receipt.transportFailure?(receipt.transportFailure.method==='GET'?'restage_read_transport_refused':'restage_write_transport_refused'):/^restage_[a-z_]+$/.test(error.message)?error.message:'restage_control_refused';}
+  const directory=path.resolve(env.RCAP_PRODUCTION_EVIDENCE_DIR??'production-canary-evidence');fs.mkdirSync(directory,{recursive:true});
+  fs.writeFileSync(path.join(directory,'production-restage.json'),JSON.stringify(receipt,null,2)+'\n');return receipt;
+}
+
+async function runProductionPreflight() {
+fs.mkdirSync(EVIDENCE_DIR, { recursive: true });
 
 try {
   if (PHASE !== "preflight") {
@@ -618,4 +804,11 @@ try {
   persist(false, failure);
   console.error("PRODUCTION PREFLIGHT REFUSED — " + failure);
   process.exit(1);
+}
+
+}
+
+if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  if (PHASE === "restage") { const result=await runProductionRestage(); if(!result.passed)process.exitCode=1; }
+  else await runProductionPreflight();
 }

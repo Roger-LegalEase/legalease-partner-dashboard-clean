@@ -146,22 +146,36 @@ check(script.includes("realChargesCreated: false"), "evidence fixes real charges
 // record at all.
 const PHASE = (process.env.RCAP_PRODUCTION_PHASE ?? "").trim();
 const readbackOnly = PHASE === "forward_chain_readback";
+const historicalAuthorization = authorization.supersededRecord ?? authorization;
 const authorizationPresent = Object.keys(authorization).length > 0;
 if (readbackOnly && !authorizationPresent) {
   console.log("note  read-only readback phase and no apply-authorization record yet: its contents depend on this readback, so they are not required to run it");
 } else {
-  check(authorization?.status === "authorized_production_incident", "authorization record carries the Production incident status");
-  check(authorization?.productionProjectRef === PRODUCTION_PROJECT_REF, "authorization record names the canonical Production project");
-  check(authorization?.applicationSha === HISTORICAL_AUTHORIZATION_SHA, "historical authorization retains its original application SHA");
-  check(authorization?.dropAuthorized === false, "authorization record forbids dropping structure");
-  check(/^[0-9]{6,}$/.test(String(authorization?.readbackRunId ?? "")), "authorization record names the incident readback run");
+  check(historicalAuthorization?.status === "authorized_production_incident", "authorization record carries the Production incident status");
+  check(historicalAuthorization?.productionProjectRef === PRODUCTION_PROJECT_REF, "authorization record names the canonical Production project");
+  check(historicalAuthorization?.applicationSha === HISTORICAL_AUTHORIZATION_SHA, "historical authorization retains its original application SHA");
+  check(historicalAuthorization?.dropAuthorized === false, "authorization record forbids dropping structure");
+  check(/^[0-9]{6,}$/.test(String(historicalAuthorization?.readbackRunId ?? "")), "authorization record names the incident readback run");
   check(
-    Array.isArray(authorization?.migrations)
-      && authorization.migrations.length === EXPECTED_POSITIONS.length
+    Array.isArray(historicalAuthorization?.migrations)
+      && historicalAuthorization.migrations.length === EXPECTED_POSITIONS.length
       && migrations.length === EXPECTED_POSITIONS.length
-      && authorization.migrations.every((entry, index) => entry.position === migrations[index].position && entry.path === migrations[index].path && entry.sha256 === migrations[index].sha256),
+      && historicalAuthorization.migrations.every((entry, index) => entry.position === migrations[index].position && entry.path === migrations[index].path && entry.sha256 === migrations[index].sha256),
     "authorization record names the exact forward chain the control applies"
   );
+  if(authorization.supersededRecord) {
+    const plan=JSON.parse(read('scripts/fixtures/production-packet-forward-correction/correction-manifest.json') || '{}');
+    const candidate=JSON.parse(fs.readFileSync(path.join(gitDir,'data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json')));
+    check(authorization.authorized===true && authorization.status==='authorized_readback_bound_forward_correction', 'new permission is independently readback-bound');
+    check(JSON.stringify(authorization.phases)===JSON.stringify(['forward_chain_migrate']), 'forward correction grants exactly one phase');
+    check(['applicationSha','workerSourceSha','workerDigest','workerInputFingerprint','productionProjectRef'].every(k=>authorization[k]===candidate[k] && authorization[k]===plan.releaseTuple?.[k]), 'forward correction binds the exact current frozen tuple');
+    check(authorization.recordedBy==='Roger Roman' && Number.isFinite(Date.parse(authorization.recordedAt)), 'forward correction has canonical owner and actual timestamp');
+    check(authorization.dropAuthorized===false && authorization.historicalReplayAuthorized===false && authorization.ledgerAdoptionAuthorized===false, 'forward correction does not inherit historic replay or drops');
+    check(authorization.readback?.beforeFingerprint===plan.beforeFingerprint && /^sha256:[a-f0-9]{64}$/.test(plan.beforeFingerprint??'') && authorization.correction?.afterFingerprint===plan.afterFingerprint, 'forward correction binds exact before and after fingerprints');
+    check(authorization.correction?.sha256===plan.sqlSha256 && createHash('sha256').update(read('scripts/fixtures/production-packet-forward-correction/proposed-forward-delta.sql')).digest('hex')===plan.sqlSha256, 'forward correction binds exact reviewed SQL bytes');
+    check(script.includes('requireForwardCorrectionAuthorization(ROOT_DIR,release,correction)') && script.includes('forward_correction_immediate_before_state_exact') && script.includes('await managementQuery(correction.sql,'), 'independent permission and immediate fingerprint gate precede exact delta');
+  }
+
 }
 
 const failed = checks.filter((entry) => !entry.passed);

@@ -56,6 +56,7 @@ test('current pending generation preserves exact historical source and resume re
  const current=verifyPendingWorkerSuccessor(root);assert.equal(current.current,true,JSON.stringify(current));
  const historical=JSON.parse(execFileSync('git',['show',`${p.releaseBaseSha}:${PENDING}`]));
  assert.deepEqual(p.supersededRecord,historical);assert.notEqual(p.releaseBaseSha,historical.releaseBaseSha);
- assert.equal(p.applicationSha,JSON.parse(fs.readFileSync('data/rcap-render/worker-publication-evidence.json')).sourceSha);
+ assert.equal(p.workerSourceSha,JSON.parse(fs.readFileSync('data/rcap-render/worker-publication-evidence.json')).sourceSha);
+ assert.equal(p.applicationSha,historical.applicationSha,'preserve separately frozen application authority');
  assert.equal(p.resume,null);assert.equal(p.previewExecution,'held');assert.equal(p.workerRebuildRequired,false);
 });

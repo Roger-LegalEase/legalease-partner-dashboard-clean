@@ -21,7 +21,7 @@ check(probe.includes('const PRODUCTION_PROJECT_REF = "wwtwtsmywnckfkdaqqeg"'), "
 check(probe.includes("PROJECT_REF_INPUT !== PRODUCTION_PROJECT_REF"), "RCAP_PRODUCTION_PROJECT_REF must equal the pinned project");
 check(probe.includes("`${PRODUCTION_PROJECT_REF}.supabase.co`"), "Supabase URL is bound to the pinned project host");
 check(!/hyflxnlhpmiqxvvcoiia/.test(probe), "the acceptance project is never named");
-check(probe.includes('const PROBE_ACCOUNT_EMAIL = "rcap-production-probe@rcap-acceptance.test"'), "the one authorized account is the reserved synthetic probe identity");
+check(probe.includes('const PROBE_ACCOUNT_EMAIL = IS_PACKET_CANARY ? CANARY.email : "rcap-production-probe@rcap-acceptance.test"'), "the one authorized account is the reserved synthetic probe identity");
 check(probe.includes('const PHASE_REPRODUCE = "save_transition_reproduce"') && probe.includes('const PHASE_VERIFY = "save_transition_verify"'), "both phases are named exactly");
 check(probe.includes('process.env.RCAP_PUBLIC_ORIGIN?.trim() || "https://expungement.ai"'), "public origin defaults to https://expungement.ai");
 check(probe.includes('if (new URL(ORIGIN).protocol !== "https:") fail('), "public origin must be HTTPS");
@@ -84,10 +84,11 @@ check(probe.includes("passwordPersisted: false"), "evidence records that the pas
 // that it exists; it may never take it, and it must still never reach a
 // payment provider or start packet generation.
 check(
-  !/(?:goto|request\.(?:get|post)|fetch)\([^\n]*stripe/i.test(probe)
-    && !/api\.stripe\.com|checkout\.stripe\.com|js\.stripe\.com/i.test(probe)
-    && !/packet\/generate/i.test(probe),
-  "the probe never navigates to a payment provider and never starts packet generation"
+  probe.includes('requireProductionPhaseAuthorization(')
+    && probe.indexOf('requireProductionPhaseAuthorization(JSON.parse') < probe.indexOf('const SUPABASE_ACCESS_TOKEN =')
+    && probe.includes('if (IS_PACKET_CANARY) {\n    await completeCanaryDelivery(page, matterId, order);\n    return order;')
+    && probe.includes('if (PHASE === PHASE_LIVE_ORDER || PHASE === PHASE_OPEN_PAYABLE)'),
+  "payment is confined to separately gated order modes; canary returns through the current delivery contract"
 );
 check(
   /externalRequestHosts\.some\(\(host\) => \/stripe\/i\.test\(host\)\)/.test(probe),
@@ -112,7 +113,7 @@ check(!/\$\{(?:claimToken|password|credentials\.password|handoffUrl|signedOut\.h
 check(!/\bclaimToken\b(?!\s*===|\s*\.length|\?\.claimToken)/.test(probe.replace(/pendingJson\?\.claimToken/g, "")), "the claim token is only ever inspected for presence");
 check(probe.includes("tokenIssued: typeof pendingJson?.claimToken === \"string\"") || probe.includes("const tokenIssued = typeof pendingJson?.claimToken === \"string\""), "the token's presence is reduced to a boolean");
 check(probe.includes("claimTokenPersisted: false") && probe.includes("handoffUrlPersisted: false") && probe.includes("secretsPersisted: false"), "evidence fixes token, handoff URL and secret persistence to false");
-check(probe.includes("function redact(") && probe.includes("/([?&]claim=)[^&\\s\"'#]+/g") && probe.includes("fs.writeFileSync(EVIDENCE_FILE, `${redact(JSON.stringify(evidence, null, 2))}\\n`)"), "the evidence file and every observed string pass through redaction");
+check(probe.includes("function redact(") && probe.includes("(?:claim|grant)") && probe.includes("fs.writeFileSync(EVIDENCE_FILE, `${redact(JSON.stringify(evidence, null, 2))}\\n`)"), "the evidence file and every observed string pass through redaction");
 check(probe.includes("function safePath(") && probe.includes("function safePathname(") && !probe.includes("page.url()}"), "recorded locations drop the query string");
 check(!probe.includes("localStorage.setItem") && !probe.includes("sessionStorage.setItem"), "the probe never seeds browser storage");
 check(!/method:\s*"(?:DELETE|PATCH)"/.test(probe), "the probe issues no DELETE or PATCH");
@@ -158,6 +159,12 @@ check(probe.includes("SUMMARY ${summarize(section)}"), "a one-line summary is pr
 check(probe.includes('"rcap-production-save-transition-probe/v1"'), "evidence schema is versioned");
 check(probe.includes("fullPage: true") && probe.includes("01-result-after-save-click"), "desktop screenshots of the result page after the click are saved");
 
+const canary = read("scripts/rcap-production-packet-canary-contract.mjs");
+check(probe.includes('if (IS_PACKET_CANARY) return;') && probe.includes('secrets.add(grant); secrets.add(url.href)'), "canary emits no screenshots and redacts the grant");
+check(probe.includes('if (IS_PACKET_CANARY) CANARY_ORDER_GUARD.submit(facts);') || probe.includes('CANARY_ORDER_GUARD.submit(facts);'), "canary uses the one-order zero-total guard before submitting");
+check(canary.includes("'artifact_validated'") && canary.includes("'delivered'") && !canary.includes("'succeeded'"), "canary uses the current terminal states");
+check(canary.includes("sha256===job.output_sha256") && canary.includes("status===401"), "download bytes bind to the exact job; anonymous access refuses");
+check(probe.includes('if (IS_PACKET_CANARY) return resumePacketCanary();') && canary.includes("requireThat(!resume"), "resume cannot create another matter or order");
 const failed = checks.filter((entry) => !entry.passed);
 for (const entry of checks) console.log(`${entry.passed ? "ok  " : "FAIL"} ${entry.message}`);
 if (failed.length) {

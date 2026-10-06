@@ -16,6 +16,7 @@ import {
   resolveHostedVercelIdentity
 } from "./rcap-hosted-acceptance-vercel-identity.mjs";
 
+import { runCleanDeviceReset } from './rcap-production-smoke-reset.mjs';
 import { requireProductionMigrationRelease } from './rcap-production-migration-contract.mjs';
 const RELEASE_CANDIDATE = JSON.parse(fs.readFileSync(new URL('../data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json', import.meta.url), 'utf8'));
 const APPLICATION_SHA = RELEASE_CANDIDATE.applicationSha;
@@ -216,7 +217,7 @@ async function stagedFetch(origin, pathname, options = {}) {
       ...(options.cookie ? { Cookie: options.cookie } : {}),
       ...(options.body ? { "Content-Type": "application/json" } : {})
     },
-    redirect: "follow",
+    redirect: options.redirect ?? "follow",
     body: options.body ? JSON.stringify(options.body) : undefined
   });
 }
@@ -533,24 +534,13 @@ try {
     "authenticated negative control saw zero participant session, case, or follow-up rows under Production RLS"
   );
 
-  const reset = await stagedFetch(runtime.deploymentOrigin, "/api/clinic/session/reset", {
-    method: "POST",
-    cookie: "clinic_session=synthetic-canary; clinic_device=synthetic-canary; clinic_event=synthetic-canary",
-    body: { reason: "staff_reset" }
-  });
-  const resetBody = await reset.json().catch(() => null);
-  const cookies = typeof reset.headers.getSetCookie === "function"
-    ? reset.headers.getSetCookie().join("\n")
-    : String(reset.headers.get("set-cookie") ?? "");
+  const reset = await runCleanDeviceReset((pathname, options) =>
+    stagedFetch(runtime.deploymentOrigin, pathname, options));
+  Object.assign(evidence, reset);
   record(
     "clinic_reset_boundary_passed",
-    reset.status === 200
-      && resetBody?.success === true
-      && String(reset.headers.get("clear-site-data") ?? "").includes("storage")
-      && cookies.includes("clinic_session=")
-      && cookies.includes("clinic_device=")
-      && cookies.includes("clinic_event="),
-    `reset HTTP=${reset.status}; Clear-Site-Data=${Boolean(reset.headers.get("clear-site-data"))}; Clinic cookies cleared=${cookies.includes("clinic_session=")}`
+    reset.passed,
+    JSON.stringify(reset)
   );
 
   evidence.runtime = {

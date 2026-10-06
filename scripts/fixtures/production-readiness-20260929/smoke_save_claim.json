@@ -1,0 +1,29 @@
+{
+  "name": "smoke_save_claim",
+  "projectRef": "wwtwtsmywnckfkdaqqeg",
+  "capturedAt": "2026-09-29T20:48:47.779Z",
+  "readOnly": true,
+  "query": "\n    select\n      array(select c.column_name::text from information_schema.columns c\n        where c.table_schema='public' and c.table_name='consumer_pending_screening_results'\n          and c.column_name in ('claim_token_hash','screening_correlation_id','anonymous_session_id','status','claimed_matter_id','candidate_route_context','locale','partner_slug','program_id','event_id','campaign_name','access_code_id','consent_grant_id') order by c.column_name) as required_columns,\n      array(select c.column_name::text from information_schema.columns c\n        where c.table_schema='public' and c.table_name='consumer_pending_screening_results'\n          and c.column_name in ('matter_id','source_session_id','pending_token_hash') order by c.column_name) as legacy_columns,\n      array(select distinct p.proname from pg_proc p join pg_namespace n on n.oid=p.pronamespace\n        where n.nspname='public' and p.proname in ('claim_pending_screening_result')) as functions,\n      array(select c.relname from pg_class c join pg_namespace n on n.oid=c.relnamespace\n        where n.nspname='public' and c.relkind='r' and c.relname in ('participant_claim_events')) as tables\n  ",
+  "data": [
+    {
+      "required_columns": [
+        "access_code_id",
+        "anonymous_session_id",
+        "campaign_name",
+        "candidate_route_context",
+        "claim_token_hash",
+        "claimed_matter_id",
+        "consent_grant_id",
+        "event_id",
+        "locale",
+        "partner_slug",
+        "program_id",
+        "screening_correlation_id",
+        "status"
+      ],
+      "legacy_columns": [],
+      "functions": "{claim_pending_screening_result}",
+      "tables": "{participant_claim_events}"
+    }
+  ]
+}

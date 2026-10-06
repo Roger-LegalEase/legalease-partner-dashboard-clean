@@ -5,12 +5,13 @@
 // Production project, reads the Clinic Mode prerequisites and the current
 // Legal Aid state, and writes nothing. `legal_aid_migrate` applies the one
 // frozen, hash-pinned migration file only when the Legal Aid schema is
-// entirely absent and the independent Production authorization record names
-// the passing hosted acceptance run; a partial pre-existing schema is refused.
+// entirely absent and the independent Production proof gate passes;
+// a partial pre-existing schema is refused.
 // No ledger, fixture, participant, checkout, deployment, alias, or worker
 // action is performed. Nothing is ever dropped.
 
 import { requireProductionMigrationRelease, buildClinicSourceReference, clinicSourceCatalogQuery, certifyClinicSourceCatalog } from './rcap-production-migration-contract.mjs';
+import { verifyProductionLegalAidProof, runProductionLegalAidBehaviorProof } from "./rcap-production-legal-aid-browser-receipt.mjs";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -20,6 +21,7 @@ export async function runProductionLegalAidMigration({
   env = process.env, rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), ".."),
   fetch = globalThis.fetch, requireRelease = requireProductionMigrationRelease,
   sourceReference = buildClinicSourceReference,
+  behaviorProof = runProductionLegalAidBehaviorProof, proof = verifyProductionLegalAidProof,
 } = {}) {
 const APPLICATION_SHA = (env.RCAP_APPLICATION_SHA ?? "").trim();
 const ROOT_DIR = rootDir;
@@ -119,6 +121,7 @@ try {
 
   const release = requireRelease(ROOT_DIR, env);
   evidence.releaseTuple = { applicationSha: release.applicationSha, workerSourceSha: release.workerSourceSha, workerDigest: release.workerDigest, toolsSha: env.RCAP_TOOLS_SHA };
+  if (PHASE === "legal_aid_migrate") evidence.localBehavior = await behaviorProof({rootDir: ROOT_DIR});
   const reference = await sourceReference(ROOT_DIR);
   const project = await managementGet(`/v1/projects/${encodeURIComponent(PRODUCTION_PROJECT_REF)}`);
   record(
@@ -215,20 +218,26 @@ try {
     console.log("PRODUCTION LEGAL AID READBACK PASS — prerequisites and current state recorded without any write");
   } else {
     const authorization = JSON.parse(fs.readFileSync(path.join(ROOT_DIR, AUTHORIZATION_PATH), "utf8"));
-    const authorized = authorization?.status === "authorized_after_hosted_acceptance"
-      && authorization?.productionProjectRef === PRODUCTION_PROJECT_REF
+    const identityAuthorized = authorization?.productionProjectRef === PRODUCTION_PROJECT_REF
       && authorization?.migration?.path === LEGAL_AID_MIGRATION.path
       && authorization?.migration?.sha256 === LEGAL_AID_MIGRATION.sha256
       && authorization?.migration?.sourceSha === LEGAL_AID_MIGRATION.sourceSha
-      && /^[0-9]{6,}$/.test(String(authorization?.hostedAcceptance?.legalAidMigrateRunId ?? ""))
-      && /^[0-9]{6,}$/.test(String(authorization?.hostedAcceptance?.browserRunId ?? ""))
       && authorization?.dropAuthorized === false;
+    let authorized = false;
+    if (before.empty && identityAuthorized) {
+      const candidate = JSON.parse(fs.readFileSync(path.join(ROOT_DIR, "data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json"), "utf8"));
+      evidence.productionProof = await proof({ env, rootDir: ROOT_DIR, authorization, candidate, behaviorProof: evidence.localBehavior });
+      authorized = true;
+    }
     record(
-      "independent_production_authorization_names_passing_acceptance",
+      "independent_production_authorization_and_reviewed_behavior",
       !before.empty || authorized,
-      `no-write existing state=${!before.empty}; status=${authorization?.status}; acceptance migrate run=${authorization?.hostedAcceptance?.legalAidMigrateRunId ?? "none"}; acceptance browser run=${authorization?.hostedAcceptance?.browserRunId ?? "none"}; drop authorized=${authorization?.dropAuthorized}`
+      `no-write existing state=${!before.empty}; status=${authorization?.status}; acceptance migrate run=${authorization?.hostedAcceptance?.legalAidMigrateRunId ?? "none"}; local reviewed behavior=${evidence.localBehavior?.passed === true}; drop authorized=${authorization?.dropAuthorized}`
     );
     if (before.empty) {
+      const immediateBeforeWrite = await readback("legal_aid_immediate_prewrite_readback");
+      evidence.immediateBeforeWrite = immediateBeforeWrite;
+      record("legal_aid_immediate_prewrite_state_still_empty", immediateBeforeWrite.empty && immediateBeforeWrite.prerequisitesExact, "fresh read after Production proof verification; partial or changed state refuses");
       await managementQuery(sql, "legal_aid_migration_applied");
       evidence.migrationApplied = true;
       evidence.productionDatabaseMutated = true;

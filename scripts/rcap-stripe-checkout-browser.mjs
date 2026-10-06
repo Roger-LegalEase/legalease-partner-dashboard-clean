@@ -243,6 +243,62 @@ export function isExpectedCheckoutReturn(actual, expected) {
   } catch { return false; }
 }
 
+/** Only origin/path are evidence: queries, fragments and userinfo stay private. */
+export function sanitizedCheckoutDestination(value) {
+  try {
+    const url = new URL(value);
+    return ['https:', 'http:'].includes(url.protocol) ? url.origin + url.pathname : '(non-HTTP destination)';
+  } catch { return '(invalid destination)'; }
+}
+
+/** Establish protection continuity in the browser's own cookie jar, never in
+ * global headers. Redirects are disabled: Playwright forwards per-request
+ * headers across redirects, which could otherwise disclose the bypass secret.
+ * A second, cookie-only request proves that the application is reachable. */
+export async function bootstrapPreviewCheckoutReturn(context, expectedReturnUrl, previewProtectionBypassSecret) {
+  try {
+    const target = new URL(expectedReturnUrl);
+    if (target.protocol !== 'https:' || target.username || target.password || target.port
+      || !target.hostname.endsWith('.vercel.app')
+      || target.searchParams.has('x-vercel-protection-bypass')
+      || target.searchParams.has('x-vercel-set-bypass-cookie')
+      || !previewProtectionBypassSecret?.trim()) throw new Error();
+    const healthUrl = target.origin + '/api/health';
+    const response = await context.request.get(healthUrl, {
+      headers: { 'x-vercel-protection-bypass': previewProtectionBypassSecret,
+        'x-vercel-set-bypass-cookie': 'true' },
+      maxRedirects: 0, timeout: 30_000
+    });
+    try {
+      if (response.url() !== healthUrl) throw new Error();
+      if ([301, 302, 303, 307, 308].includes(response.status())) {
+        // Vercel sets the cookie through a redirect. Never follow a supplied
+        // destination: permit only a redirect back to this exact health URL.
+        const location = response.headers().location;
+        if (!location || new URL(location, healthUrl).href !== healthUrl) throw new Error();
+      } else if (response.status() !== 200) throw new Error();
+    } finally { await response.dispose(); }
+    const cookies = await context.cookies(target.origin);
+    const cookie = cookies.find(item => item.name === '_vercel_jwt'
+      && item.domain.replace(/^\./, '') === target.hostname
+      && item.path === '/' && item.secure === true);
+    if (!cookie) throw new Error();
+    const proof = await context.request.get(healthUrl, { maxRedirects: 0, timeout: 30_000 });
+    try {
+      if (proof.url() !== healthUrl || proof.status() !== 200) throw new Error();
+      const body = await proof.json();
+      if (body?.ok !== true || body?.checks?.db !== 'ok' || typeof body.timestamp !== 'string') throw new Error();
+    } finally { await proof.dispose(); }
+    return { origin: target.origin, pathname: '/api/health', cookieName: cookie.name, cookieDomain: cookie.domain };
+  } catch {
+    // Request errors can contain headers and Set-Cookie values. Never propagate
+    // their message, cause, response body or cookie objects into evidence.
+    const error = new Error('Preview protection bootstrap failed; stopped before opening Stripe.');
+    error.code = 'CHECKOUT_PREVIEW_BOOTSTRAP_FAILED';
+    throw error;
+  }
+}
+
 /**
  * Drives one Checkout Session to completion.
  *
@@ -252,12 +308,13 @@ export function isExpectedCheckoutReturn(actual, expected) {
  * once Stripe has applied it. A card is always supplied and simply goes unused
  * when Stripe stops asking for one.
  *
- * Returns what happened; the caller decides the verdict by reading the Session
- * back from Stripe, never from this page.
+ * Returns browser-return evidence; the caller requires both that evidence and
+ * authoritative Session settlement read back from Stripe.
  */
 export async function completeHostedCheckout({
   checkoutUrl,
   expectedReturnUrl,
+  previewProtectionBypassSecret,
   promotionCode = null,
   card = STRIPE_TEST_CARD,
   // Synthetic contact for this authorized fixture. A provider challenge stops
@@ -279,6 +336,11 @@ export async function completeHostedCheckout({
   }
   const notes = [];
   const screenshots = [];
+  const postReturnCaptureFailures = [];
+  let promotion = null;
+  let exactReturnObserved = false;
+  let unexpectedDestination = null;
+  let observingReturn = false;
   const browser = await chromium.launch({ args: ["--no-sandbox"] });
   const context = await browser.newContext();
   const page = await context.newPage();
@@ -287,18 +349,52 @@ export async function completeHostedCheckout({
     if (!screenshotDir) return;
     fs.mkdirSync(screenshotDir, { recursive: true });
     const file = path.join(screenshotDir, `${label}-${name}.png`);
-    await page.screenshot({ path: file, fullPage: true }).catch(() => {});
+    await page.screenshot({ path: file, fullPage: true });
     screenshots.push(file);
+  };
+
+  // Observe committed main-frame navigation before submitting. DOM probes can
+  // throw as Stripe navigates; their execution context is not return evidence.
+  const observeReturn = (frame) => {
+    if (!observingReturn || frame !== page.mainFrame() || exactReturnObserved || unexpectedDestination) return;
+    const current = frame.url();
+    if (isExpectedCheckoutReturn(current, expectedReturnUrl)) exactReturnObserved = true;
+    else if (new URL(current).hostname !== 'checkout.stripe.com') unexpectedDestination = sanitizedCheckoutDestination(current);
+  };
+  const requireExpectedDestination = () => {
+    if (!unexpectedDestination) return;
+    const error = new Error('Unexpected Checkout destination');
+    error.sanitizedDestination = unexpectedDestination;
+    error.code = 'CHECKOUT_HUMAN_INTERACTION_REQUIRED';
+    throw error;
+  };
+  const captureFailure = (stage) => {
+    postReturnCaptureFailures.push(stage);
+    notes.push(`post-return capture failed: ${stage}`);
+  };
+  const finishObservedReturn = async () => {
+    notes.push(`returned to ${sanitizedCheckoutDestination(expectedReturnUrl)}`);
+    try { await page.waitForLoadState('domcontentloaded', { timeout: FIELD_TIMEOUT }); }
+    catch { captureFailure('dom_ready'); }
+    if (onReturn) {
+      try { await onReturn(page); }
+      catch { captureFailure('onReturn'); }
+    }
+    try { await shoot('returned'); }
+    catch { captureFailure('screenshot'); }
+    return { completed: true, returnUrl: sanitizedCheckoutDestination(expectedReturnUrl), promotion,
+      postReturnCaptureFailures, notes, screenshots };
   };
 
   try {
     if (sessionCookies.length > 0) await context.addCookies(sessionCookies);
+    const bootstrap = await bootstrapPreviewCheckoutReturn(context, expectedReturnUrl, previewProtectionBypassSecret);
+    notes.push(`Preview protection ready: ${bootstrap.origin}${bootstrap.pathname}; cookie ${bootstrap.cookieName} domain ${bootstrap.cookieDomain}`);
     await page.goto(checkoutUrl, { waitUntil: "domcontentloaded", timeout: 60_000 });
     await page.waitForTimeout(2500);
     await shoot("opened");
     await requireNoProviderChallenge(page);
 
-    let promotion = null;
     if (promotionCode) {
       promotion = await applyPromotionCode(page, promotionCode, notes);
       await shoot("promotion-applied");
@@ -372,35 +468,24 @@ export async function completeHostedCheckout({
     }
     const submitDisabled = await submit.isDisabled().catch(() => false);
     notes.push(`submit control ${submitDisabled ? "is disabled" : "is enabled"}`);
-    await submit.click({ timeout: FIELD_TIMEOUT }).catch((error) => {
-      notes.push(`submit click failed: ${String(error?.message ?? error).slice(0, 120)}`);
-    });
+    observingReturn = true;
+    page.on('framenavigated', observeReturn);
+    await submit.click({ timeout: FIELD_TIMEOUT });
 
     // Only the application's exact success return counts. A challenge redirect,
     // cancellation, or unrelated page is not a completed browser journey.
-    let leftStripe = false;
     const deadline = Date.now() + 90_000;
     while (Date.now() < deadline) {
+      observeReturn(page.mainFrame());
+      requireExpectedDestination();
+      if (exactReturnObserved) return await finishObservedReturn();
       await page.waitForTimeout(1500);
-      const current = page.url();
-      if (isExpectedCheckoutReturn(current, expectedReturnUrl)) { leftStripe = true; break; }
-      if (new URL(current).hostname !== 'checkout.stripe.com') {
-        const error = new Error('Unexpected Checkout destination; human review of the existing Session is required.');
-        error.code = 'CHECKOUT_HUMAN_INTERACTION_REQUIRED';
-        throw error;
-      }
+      observeReturn(page.mainFrame());
+      requireExpectedDestination();
+      if (exactReturnObserved) return await finishObservedReturn();
       await requireNoProviderChallenge(page);
     }
-    if (leftStripe) {
-      notes.push(`returned to ${new URL(page.url()).host}`);
-      if (onReturn) {
-        try {
-          await onReturn(page);
-        } catch (error) {
-          notes.push(`post-payment capture failed: ${String(error?.message ?? error).slice(0, 200)}`);
-        }
-      }
-    } else {
+    {
       // Say what the page is complaining about. "Still on Stripe's page" on its
       // own sent this harness round another cycle guessing at the cause; the
       // page states it — a required field, a declined card, an extra step.
@@ -428,14 +513,44 @@ export async function completeHostedCheckout({
         + `still empty: ${stillEmpty.length ? stillEmpty.join(", ") : "(nothing)"}`
       );
     }
-    await shoot(leftStripe ? "returned" : "stuck");
+    await shoot("stuck");
+    // A commit can arrive while timeout diagnostics are being collected.
+    observeReturn(page.mainFrame());
+    requireExpectedDestination();
+    if (exactReturnObserved) return await finishObservedReturn();
 
-    return { completed: leftStripe, returnUrl: page.url(), promotion, notes, screenshots };
+    return { completed: false, returnUrl: sanitizedCheckoutDestination(page.url()), promotion, notes, screenshots };
   } catch (error) {
-    notes.push(`browser error: ${String(error?.message ?? error).slice(0, 300)}`);
-    await shoot("error");
+    // Re-read after an interrupted DOM operation. Only navigation-specific
+    // errors may await a commit; an unrelated error before return still fails.
+    if (observingReturn && error?.code !== 'CHECKOUT_HUMAN_INTERACTION_REQUIRED') {
+      observeReturn(page.mainFrame());
+      if (!exactReturnObserved && !unexpectedDestination
+        && /execution context was destroyed|frame was detached|navigation interrupted/i.test(String(error?.message))) {
+        await page.waitForURL(url => isExpectedCheckoutReturn(url.href, expectedReturnUrl),
+          { waitUntil: 'commit', timeout: FIELD_TIMEOUT }).catch(() => {});
+        observeReturn(page.mainFrame());
+      }
+      if (exactReturnObserved && !unexpectedDestination) {
+        captureFailure('interrupted_browser_operation');
+        return await finishObservedReturn();
+      }
+    }
+    if (unexpectedDestination) {
+      error = { code: 'CHECKOUT_HUMAN_INTERACTION_REQUIRED', sanitizedDestination: unexpectedDestination };
+    }
+    const message = error?.code === 'CHECKOUT_PREVIEW_BOOTSTRAP_FAILED'
+      ? 'Preview protection bootstrap failed; stopped before opening Stripe.'
+      : error?.sanitizedDestination
+        ? `Unexpected Checkout destination: ${error.sanitizedDestination}; human review of the existing Session is required.`
+        : error?.code === 'CHECKOUT_HUMAN_INTERACTION_REQUIRED'
+          ? 'Provider verification requires human interaction; retain this Checkout Session.'
+          : 'Checkout browser operation failed; review the existing Session before retrying.';
+    notes.push(`browser error: ${message}`);
+    if (error?.code === 'CHECKOUT_HUMAN_INTERACTION_REQUIRED' && !error?.sanitizedDestination) await shoot("error").catch(() => {});
     return { completed: false, humanInteractionRequired: error?.code === 'CHECKOUT_HUMAN_INTERACTION_REQUIRED', notes, screenshots };
   } finally {
+    if (observingReturn) page.off('framenavigated', observeReturn);
     await context.close().catch(() => {});
     await browser.close().catch(() => {});
   }

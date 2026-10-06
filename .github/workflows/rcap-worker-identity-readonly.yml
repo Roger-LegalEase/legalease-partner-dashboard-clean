@@ -1,0 +1,28 @@
+name: RCAP worker read-only identity
+on:
+  workflow_dispatch:
+  # Lets the new GET-only inspector execute on the authorized release branch
+  # without requiring a definition or push on main. No mutation job exists.
+  push:
+    branches: [captain-release]
+    paths: [.github/workflows/rcap-worker-identity-readonly.yml]
+permissions:
+  contents: read
+jobs:
+  identity:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: GET sanitized existing Fly machine identities
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+        run: node scripts/rcap-worker-identity-readonly.mjs
+      - uses: actions/upload-artifact@v4
+        with:
+          name: rcap-worker-readonly-identity-${{ github.run_id }}
+          path: worker-identity-evidence/identity.json
+          if-no-files-found: error

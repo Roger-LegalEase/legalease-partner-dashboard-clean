@@ -9,7 +9,7 @@ on:
   workflow_call:
     inputs:
       phase:
-        description: "preflight, clinic_migrate, forward_chain_readback, forward_chain_migrate, legal_aid_readback, legal_aid_migrate, smoke, or activate"
+        description: "preflight, restage, clinic_migrate, forward_chain_readback, forward_chain_migrate, legal_aid_readback, legal_aid_migrate, smoke, or activate"
         required: true
         type: string
       application_sha:
@@ -63,7 +63,7 @@ jobs:
           WORKFLOW_SHA: ${{ github.sha }}
         run: |
           set -euo pipefail
-          case "$INPUT_PHASE" in preflight|clinic_migrate|forward_chain_readback|forward_chain_migrate|legal_aid_readback|legal_aid_migrate|smoke|activate) ;; *) echo "::error::unsupported Production phase"; exit 1 ;; esac
+          case "$INPUT_PHASE" in restage|preflight|clinic_migrate|forward_chain_readback|forward_chain_migrate|legal_aid_readback|legal_aid_migrate|smoke|activate) ;; *) echo "::error::unsupported Production phase"; exit 1 ;; esac
           printf '%s' "$INPUT_APPLICATION_SHA" | grep -Eq '^[0-9a-f]{40}$' || { echo "::error::application SHA must be full"; exit 1; }
           printf '%s' "$INPUT_WORKER_SOURCE_SHA" | grep -Eq '^[0-9a-f]{40}$' || { echo "::error::worker source SHA must be full"; exit 1; }
           printf '%s' "$INPUT_WORKER_DIGEST" | grep -Eq '^sha256:[0-9a-f]{64}$' || { echo "::error::worker digest must be immutable"; exit 1; }
@@ -75,6 +75,14 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install frozen dependencies for every Production phase
+        run: npm ci
+
       - name: Verify the exact frozen identity and image-input equivalence
         run: |
           set -euo pipefail
@@ -83,15 +91,6 @@ jobs:
           # bytes and canonical worker input equivalence. Separate current
           # Production phase permission is required before any service access.
           node scripts/rcap-production-migration-contract.mjs
-
-      - name: Set up Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-
-      - name: Install exact dependencies for source-derived Clinic certificates
-        if: inputs.phase == 'clinic_migrate' || inputs.phase == 'forward_chain_readback' || inputs.phase == 'forward_chain_migrate' || inputs.phase == 'legal_aid_readback' || inputs.phase == 'legal_aid_migrate'
-        run: npm ci
 
       - name: Verify the Production migration behavior
         if: inputs.phase == 'clinic_migrate' || inputs.phase == 'forward_chain_readback' || inputs.phase == 'forward_chain_migrate' || inputs.phase == 'legal_aid_readback' || inputs.phase == 'legal_aid_migrate'
@@ -120,19 +119,11 @@ jobs:
           # authorization-required path regardless of which phase is running.
           RCAP_PRODUCTION_PHASE= node scripts/test-rcap-production-forward-chain-migrate-mutations.mjs
 
-      - name: Verify the exact Production Legal Aid migration contract
+      - name: Verify the Production-native Legal Aid proof and migration contract
         if: inputs.phase == 'legal_aid_readback' || inputs.phase == 'legal_aid_migrate'
         run: |
           node scripts/verify-rcap-production-legal-aid-migrate.mjs
           node scripts/test-rcap-production-legal-aid-migrate-mutations.mjs
-          # The PGlite readback self-test needs node_modules, which this
-          # Supabase-only step runs before installing (run 35120655761 stopped
-          # on ERR_MODULE_NOT_FOUND). It runs in the local test chain; the two
-          # dependency-free proofs above stay blocking here.
-
-      - name: Install frozen dependencies for the exact-SHA Colorado smoke
-        if: inputs.phase == 'smoke'
-        run: npm ci
 
       - name: Verify the bounded Production canary smoke contract
         if: inputs.phase == 'smoke'
@@ -147,6 +138,7 @@ jobs:
           node scripts/test-rcap-production-activation-mutations.mjs
 
       - name: Pull and identify the accepted worker by immutable digest
+        if: inputs.phase != 'restage'
         run: |
           set -euo pipefail
           echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin >/dev/null
@@ -167,6 +159,19 @@ jobs:
           RCAP_TOOLS_SHA: ${{ inputs.tools_sha }}
           RCAP_WORKER_SOURCE_SHA: ${{ inputs.worker_source_sha }}
           RCAP_WORKER_DIGEST: ${{ inputs.worker_digest }}
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
+        run: node scripts/rcap-production-canary.mjs
+
+      - name: Verify bounded restage mutation and runtime controls
+        if: inputs.phase == 'restage'
+        run: node scripts/test-rcap-production-canary-mutations.mjs
+
+      - name: Create or reuse the authorized post-key Production replacement without aliases
+        if: inputs.phase == 'restage'
+        env:
+          RCAP_PRODUCTION_PHASE: "restage"
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
           VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
@@ -234,7 +239,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: rcap-production-smoke-${{ env.PRODUCTION_SMOKE_RUN_ID }}
-          path: prior-production-smoke-evidence
+          path: ${{ runner.temp }}/rcap-production-smoke-${{ env.PRODUCTION_SMOKE_RUN_ID }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
           run-id: ${{ env.PRODUCTION_SMOKE_RUN_ID }}
 
@@ -242,6 +247,7 @@ jobs:
         if: inputs.phase == 'activate'
         env:
           RCAP_PRODUCTION_PHASE: "activate"
+          RCAP_PRODUCTION_SMOKE_EVIDENCE_FILE: ${{ runner.temp }}/rcap-production-smoke-${{ env.PRODUCTION_SMOKE_RUN_ID }}/production-canary-smoke.json
           RCAP_APPLICATION_SHA: ${{ inputs.application_sha }}
           RCAP_WORKER_SOURCE_SHA: ${{ inputs.worker_source_sha }}
           RCAP_WORKER_DIGEST: ${{ inputs.worker_digest }}

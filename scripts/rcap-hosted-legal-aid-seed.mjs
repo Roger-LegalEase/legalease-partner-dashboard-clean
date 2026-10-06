@@ -8,10 +8,11 @@
 // Stripe, Production deployment, or production project is touched.
 //
 // Idempotent and bounded: every row it writes or clears is keyed to the
-// fixed synthetic event, the synthetic identities, or the synthetic handoff
+// run-scoped synthetic event, the synthetic identities, or the synthetic handoff
 // organization named below, so a re-run starts the same training records
 // from a clean state without touching anything else in the project.
 
+import { requireLegalAidAcceptedPreview, assertLegalAidAcceptedPreview } from "./rcap-legal-aid-preview.mjs";
 import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
@@ -41,6 +42,8 @@ if (PROJECT_REF !== EXPECTED_PROJECT_REF
   throw new Error("Legal Aid seed requires the exact acceptance project, application SHA, Preview identity, Vercel/Supabase credentials, and the 20+ character synthetic demo password.");
 }
 
+const acceptedPreview = requireLegalAidAcceptedPreview({ applicationSha: APPLICATION_SHA, projectRef: PROJECT_REF, deploymentId: DEPLOYMENT_ID, hostname: PREVIEW_HOSTNAME });
+
 const { root: evidenceRoot } = prepareHostedAcceptanceEvidenceLayout({ rootDir: process.cwd() });
 const evidenceDir = path.join(evidenceRoot, "legal-aid");
 const evidencePath = path.join(evidenceDir, "seed.json");
@@ -61,6 +64,8 @@ const evidence = {
   previewDeploymentId: DEPLOYMENT_ID,
   partnerSlug: F.partnerSlug,
   handoffPartnerSlug: F.handoffPartnerSlug,
+  runId: F.runId,
+  runAttempt: F.runAttempt,
   eventId: F.eventId,
   eventSlug: F.eventSlug,
   eventName: F.eventName,
@@ -73,7 +78,7 @@ const evidence = {
     "synthetic auth users (create or password reset, confirmed)",
     `partner_records/partner_users rows for ${F.partnerSlug} (acceptance copy of the MVLP organization)`,
     `clinic_events row ${F.eventId} reset to a draft standard event`,
-    "training records of that event cleared (registrations, intakes and their children, cases, follow-ups, policy profiles)",
+    "mutable training records of this run-scoped event cleared (registrations, unaudited intakes and their children, cases, follow-ups); audit history and policy profiles retained",
     `every row of the synthetic handoff organization ${F.handoffPartnerSlug} cleared`
   ],
   productionTouched: false,
@@ -81,6 +86,20 @@ const evidence = {
 };
 
 try {
+  // Refuse retained intake history before any synthetic identity or row mutation.
+  const auditBeforeRows = await managementQuery(`select
+    (select count(*) from public.clinic_event_audit where event_id='${F.eventId}') as event_audit_rows,
+    (select count(*) from public.legal_aid_access_audit a join public.legal_aid_intakes i on i.id=a.intake_id where i.event_id='${F.eventId}') as intake_audit_rows,
+    (select count(*) from public.clinic_packet_reservations where event_id='${F.eventId}') as packet_reservations`);
+  const auditBefore = auditBeforeRows?.[0];
+  const priorAuditRows = Number(auditBefore?.event_audit_rows);
+  const intakeAuditRows = Number(auditBefore?.intake_audit_rows);
+  const packetReservations = Number(auditBefore?.packet_reservations);
+  if (![priorAuditRows, intakeAuditRows, packetReservations].every(n => Number.isSafeInteger(n) && n >= 0)) throw new Error("LEGAL_AID_SEED_REFUSED_INVALID_HISTORY_COUNTS");
+  evidence.auditRowCounts = { before: priorAuditRows, after: null, intakeAuditRows };
+  if (intakeAuditRows > 0) throw new Error("LEGAL_AID_SEED_REFUSED_AUDITED_INTAKE_HISTORY: append-only Legal Aid access audit references this event's intakes; no reset or identity mutation performed");
+  if (packetReservations > 0) throw new Error("LEGAL_AID_SEED_REFUSED_PACKET_RESERVATION_HISTORY: retained packet reservations prohibit resetting this event's cases; no reset or identity mutation performed");
+
   // --- the exact Preview this run seeds for --------------------------------
   const identity = await resolveHostedVercelIdentity({ token: VERCEL_TOKEN });
   const deployment = await vercelJson(`/v13/deployments/${encodeURIComponent(DEPLOYMENT_ID)}`, identity);
@@ -94,9 +113,11 @@ try {
     && (deployment.json?.target === null || deployment.json?.target === "preview")
     && deployment.json?.meta?.rcapApplicationSha === APPLICATION_SHA
     && deployment.json?.meta?.rcapAcceptanceProjectRef === PROJECT_REF
-    && deployment.json?.meta?.rcapClinicDemoMode === "mississippi_preview"
+    && deployment.json?.meta?.rcapClinicDemoMode === "none"
     && deployment.json?.meta?.rcapRouteState === "staging_scoped";
-  if (!exactPreview) throw new Error("resolved deployment is not the exact READY staging-scoped Mississippi Preview");
+  if (!exactPreview) throw new Error("resolved deployment is not the exact READY staging-scoped accepted release Preview");
+
+  assertLegalAidAcceptedPreview(acceptedPreview, deployment.json);
 
   // --- synthetic identities ------------------------------------------------
   const keys = await supabaseKeys();
@@ -120,6 +141,13 @@ try {
   const rows = await managementQuery(`
     do $seed$
     begin
+      -- Recheck before the transaction's first write; immutable history is never reset.
+      if exists (select 1 from public.legal_aid_access_audit a join public.legal_aid_intakes i on i.id=a.intake_id where i.event_id='${F.eventId}') then
+        raise exception 'LEGAL_AID_SEED_REFUSED_AUDITED_INTAKE_HISTORY';
+      end if;
+      if exists (select 1 from public.clinic_packet_reservations where event_id='${F.eventId}') then
+        raise exception 'LEGAL_AID_SEED_REFUSED_PACKET_RESERVATION_HISTORY';
+      end if;
       -- The acceptance copy of the MVLP organization.
       insert into public.partner_records (partner_id,partner_slug,partner_name,program_tier,payment_status,qualification_status,provisioning_status)
       values ('rcap-hosted-mvlp-training','${F.partnerSlug}','Mississippi Volunteer Lawyers Project (acceptance training copy)','sponsored','paid','qualified','provisioned')
@@ -134,14 +162,19 @@ try {
 
       -- Clear this event's training records and the synthetic handoff
       -- organization, then reset the event to a draft standard event.
+      -- Restrict children precede their mutable intake parent. Audit rows are retained.
+      delete from public.legal_aid_document_tasks where intake_id in (select id from public.legal_aid_intakes where event_id='${F.eventId}');
+      delete from public.legal_aid_documents where intake_id in (select id from public.legal_aid_intakes where event_id='${F.eventId}');
+      delete from public.legal_aid_review_decisions where intake_id in (select id from public.legal_aid_intakes where event_id='${F.eventId}');
+      delete from public.legal_aid_case_exports where intake_id in (select id from public.legal_aid_intakes where event_id='${F.eventId}');
       delete from public.legal_aid_intakes where event_id='${F.eventId}';
       delete from public.clinic_registrations where event_id='${F.eventId}';
       delete from public.clinic_follow_ups where event_id='${F.eventId}';
       delete from public.clinic_cases where event_id='${F.eventId}';
+      delete from public.clinic_assisted_sessions where event_id='${F.eventId}';
       delete from public.clinic_event_staff where event_id='${F.eventId}';
-      delete from public.clinic_event_audit where event_id='${F.eventId}';
       update public.clinic_events set policy_profile_id=null, experience='standard', status='draft' where id='${F.eventId}';
-      delete from public.legal_aid_policy_profiles where partner_slug='${F.partnerSlug}';
+      -- Historical policy profiles remain intact; the browser prepares its own version.
 
       insert into public.clinic_events (id,partner_slug,public_slug,name,jurisdiction,starts_at,ends_at,timezone,location_name,geography,capacity,status,sponsorship_allocation,created_by)
       values ('${F.eventId}','${F.partnerSlug}','${F.eventSlug}','${sqlText(F.eventName)}','MS',now()+interval '14 days',now()+interval '14 days 6 hours','America/Chicago','Training venue (synthetic)','Hinds County, Mississippi',${F.capacity},'draft',null,'${byKey.ADMIN_A.id}')
@@ -171,8 +204,12 @@ try {
       e.id, e.public_slug, e.status, e.experience, e.capacity, e.jurisdiction, e.policy_profile_id
     from public.clinic_events e where e.id='${F.eventId}';
   `);
+  const auditAfterRows = await managementQuery(`select count(*) as event_audit_rows from public.clinic_event_audit where event_id='${F.eventId}'`);
+  const retainedAuditRows = Number(auditAfterRows?.[0]?.event_audit_rows);
+  evidence.auditRowCounts.after = retainedAuditRows;
+  const auditPreserved = Number.isSafeInteger(retainedAuditRows) && retainedAuditRows >= priorAuditRows;
   const row = Array.isArray(rows) ? rows[0] : null;
-  const passed = row?.id === F.eventId
+  const passed = auditPreserved && row?.id === F.eventId
     && row?.public_slug === F.eventSlug
     && row?.status === "draft"
     && row?.experience === "standard"
@@ -185,7 +222,6 @@ try {
     && Number(row?.participant_memberships) === 0
     && Number(row?.registrations) === 0
     && Number(row?.intakes) === 0
-    && Number(row?.profiles) === 0
     && Number(row?.handoff_partner_rows) === 0;
   evidence.readback = row;
   evidence.passed = passed;

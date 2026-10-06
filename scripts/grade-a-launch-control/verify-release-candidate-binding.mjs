@@ -1,4 +1,14 @@
+import {PUBLIC_VERIFICATION_CLOSURE_BASE,PUBLIC_VERIFICATION_CLOSED_STATUS,PUBLIC_VERIFICATION_CLOSED_SCOPE,BOUND_PUBLIC_VERIFICATION} from './production-preflight-authorization.mjs';
+import {PUBLIC_VERIFICATION_BASE,PUBLIC_VERIFICATION_STATUS,PUBLIC_VERIFICATION_SCOPE,assertPublicVerificationAuthorization} from './production-preflight-authorization.mjs';
+import {ACTIVATION_CLOSURE_BASE,ACTIVATION_CLOSED_STATUS,ACTIVATION_CLOSED_SCOPE,BOUND_ACTIVATION} from './production-preflight-authorization.mjs';
+import {ACTIVATION_BASE,ACTIVATION_STATUS,ACTIVATION_SCOPE,assertActivationAuthorization} from './production-preflight-authorization.mjs';
+import {PREACTIVATION_BASE,PREACTIVATION_SCOPE,PREACTIVATION_PHASES,BOUND_RESTAGE,BOUND_SMOKE,STAGED_DEPLOYMENT,PREACTIVATION_NOTE,assertPreactivationAuthorization} from './production-preflight-authorization.mjs';
+import {PREFLIGHT_EVIDENCE_FILES,verifyProductionPreflightEvidence,verifyProductionRestageEvidence,verifyProductionSmokeEvidence,verifyProductionActivationEvidence,verifyProductionPublicVerificationEvidence} from './verify-production-preflight-evidence.mjs';
+import {PREFLIGHT_BASE,PREFLIGHT_SCOPE,assertPreflightOnlyAuthorization} from './production-preflight-authorization.mjs';
+import {HOSTED_BASE,HOSTED_EVIDENCE_FILES,PREVIEW,verifyHostedAcceptanceEvidence} from './verify-hosted-acceptance-evidence.mjs';
+import {applicationInputManifest, applicationInputEquivalence} from '../rcap-application-inputs.mjs';
 import {verifyPendingWorkerSuccessor,verifySuccessorPublication,assertSuccessorImageAcceptance} from './verify-pending-worker-successor.mjs';
+import {verifyPinnedBinding} from './verify-pinned-worker-successor.mjs';
 import { execFileSync } from 'node:child_process';
 import fs from 'node:fs';
 import { createHash } from 'node:crypto';
@@ -57,6 +67,27 @@ export function imageAcceptanceRefusals(publication, candidate) {
 // A receipt's asserted candidate identity is not proof that current inputs still
 // match that candidate. Only explicitly named acceptance evidence may follow it.
 export function verifyReleaseCandidateBinding(root, candidate, receiptPaths = []) {
+  // A pinned preparation record is descriptive and NEVER current/dispatchable.
+  // Validate it before comparing the orchestration checkout to application
+  // runtime inputs: publication evidence is intentionally newer here, while
+  // the application build remains pinned to its unchanged source checkout.
+  const pinnedRecordPath=path.join(root,'data/rcap-grade-a/launch-control/PENDING_WORKER_SUCCESSOR.json');
+  if(fs.existsSync(pinnedRecordPath)){
+    try{
+      if(JSON.parse(fs.readFileSync(pinnedRecordPath)).applicationSource==='pinned-source')
+        return verifyPinnedBinding(root,candidate,verifyPendingWorkerSuccessor(root));
+    }catch(error){return {current:false,status:'INVALID_PINNED_BINDING',reasons:[error.message]};}
+  }
+  if(candidate?.applicationSha){
+    try {
+      const application = applicationInputEquivalence(root,candidate.applicationSha,'HEAD');
+      if(!application.equivalent)return {current:false,status:'STALE_APPLICATION_INPUTS',reasons:application.changedPaths};
+      const manifest=applicationInputManifest(root,candidate.applicationSha);
+      const dirty=execFileSync('git',['diff','--name-only',candidate.applicationSha],{cwd:root,encoding:'utf8'}).trim().split('\n');
+      const runtime=new Set(manifest.files.map(f=>f.path));
+      if(dirty.some(f=>runtime.has(f)))return {current:false,status:'STALE_APPLICATION_INPUTS',reasons:dirty.filter(f=>runtime.has(f))};
+    } catch(error){return {current:false,status:'INVALID_APPLICATION_INPUTS',reasons:[error.message]};}
+  }
   const pending = verifyPendingWorkerSuccessor(root);
   if(pending?.current && pending.releaseBaseSha)return verifyGenerationBinding(root,candidate,pending);
   if (pending?.current === true && pending.status === 'SUCCESSOR_ACCEPTED_PREVIEW_AND_RESUME_PENDING') return verifyAcceptedSuccessorBinding(root,candidate,pending);
@@ -109,15 +140,8 @@ export function verifyReleaseCandidateBinding(root, candidate, receiptPaths = []
     'data/rcap-grade-a/launch-control/POST_WAVE_2_NATIONAL_LAUNCH_WORKLIST_FREEZE.json',
     // Preserved pre-existing operating notes are not application inputs.
     'CAPTAIN_RESTART.md',
-    // Release records regenerated or updated after the application freeze
-    // (publication evidence, image acceptance, staging action, fulfillment
-    // authority). Data, not orchestration: the orchestration set is
-    // scripts/ and .github/ only.
-    'data/rcap-render/worker-publication-evidence.json',
-    'data/rcap-staging-action.json',
-    'data/rcap-grade-a/fulfillment-authority-projection.json',
-    'data/rcap-grade-a/fulfillment-authority-registry.json',
-    'data/rcap-grade-a/fulfillment-observation-snapshot.json',
+    // Only non-runtime release bookkeeping may follow the application freeze.
+    // Runtime-consumed publication and authority are application inputs.
     // The successor-freeze receipt: written after the freeze it describes, so
     // it can never be inside it. A release record, like the ones above --
     // evidence about the release, not an input the image is built from.
@@ -613,6 +637,9 @@ export function verifyAcceptedSuccessorBinding(root,candidate,pending=verifyPend
   fail(binding.previewExecution==='held'&&candidate.previewExecution==='held'&&candidate.productionAuthorized===false&&candidate.productionAuthorization===null,'Execution remains held');
   fail(candidate.status===pending.status&&candidate.hostedAcceptanceStatus===pending.status&&binding.status===pending.status,'Accepted Preview-pending state required');
   fail(candidate.hostedAcceptance?.preview===null&&candidate.hostedAcceptance?.naturalDelivery===null&&candidate.hostedAcceptance?.manualHostedFullReady===false&&candidate.hostedAcceptance?.journeys?.length===0,'No successor hosted acceptance yet');
+  if(pending.applicationSha!==pending.workerSourceSha){
+    expect(read('data/rcap-grade-a/launch-control/APPLICATION_INPUT_MANIFEST.json'),applicationInputManifest(root,pending.applicationSha),'candidate-derived application manifest');
+  }
   const e=read('data/rcap-render/worker-publication-evidence.json');assertSuccessorImageAcceptance(root,e);
   fail(imageAcceptanceRefusals(e,candidate).length===0,'Native image acceptance mismatch');
   fail(JSON.stringify(candidate.readOnlyImageAcceptance)===JSON.stringify(e.imageAcceptance),'Candidate must bind complete native acceptance');
@@ -687,7 +714,7 @@ const CHECKOUT_PIN_GENERATION_FILES=[
  "scripts/rcap-hosted-checkout-gate.mjs"
 ];
 // Synthetic fixture lifecycle successor; accepted runtime and historical bindings are unchanged.
-export const GENERATION_FILES=[
+const CHECKOUT_LIFECYCLE_GENERATION_FILES=[
   "scripts/grade-a-launch-control/verify-release-candidate-binding.mjs",
   "data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json",
   "data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json",
@@ -697,35 +724,730 @@ export const GENERATION_FILES=[
   "scripts/rcap-hosted-final-verification.test.mjs",
   "scripts/verify-rcap-hosted-checkout-gate.mjs"
 ];
+// Application authority successor: application and worker sources have separate custody.
+const APPLICATION_AUTHORITY_GENERATION_FILES=[
+  "scripts/verify-rcap-staging-scoped-preview-contract.mjs",
+  "scripts/verify-rcap-hosted-checkout-gate.mjs",
+  "scripts/verify-rcap-preview-reuse-contract.mjs",
+  "scripts/rcap-clinic-resume-workflow.test.mjs",
+  "scripts/grade-a-launch-control/verify-release-candidate-binding.mjs",
+  "scripts/grade-a-launch-control/verify-pending-worker-successor.mjs",
+  "data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json",
+  "data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json",
+  "data/rcap-grade-a/launch-control/PENDING_WORKER_SUCCESSOR.json",
+  "data/rcap-grade-a/launch-control/APPLICATION_INPUT_MANIFEST.json",
+  ".github/workflows/rcap-hosted-acceptance-staging.yml",
+  ".github/workflows/rcap-f1-ephemeral-staging.yml",
+  "scripts/rcap-application-inputs.mjs",
+  "scripts/rcap-application-inputs.test.mjs",
+  "scripts/verify-rcap-application-candidate.mjs"
+];
+// Packet reference currentness successor; application and worker identities remain frozen.
+const PACKET_DATABASE_GENERATION_FILES=[
+  "scripts/rcap-clinic-resume-workflow.test.mjs",
+  "scripts/grade-a-launch-control/verify-release-candidate-binding.mjs",
+  "scripts/grade-a-launch-control/verify-pending-worker-successor.mjs",
+  "data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json",
+  "data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json",
+  "data/rcap-grade-a/launch-control/PENDING_WORKER_SUCCESSOR.json",
+  "data/rcap-grade-a/launch-control/PACKET_DATABASE_CONTRACT.json",
+  "scripts/rcap-packet-database-reference.mjs",
+  "scripts/rcap-packet-database-contract.test.mjs"
+];
+// Protected Preview Checkout return transport only; historical scopes remain exact.
+const CHECKOUT_RETURN_GENERATION_FILES=[
+  "scripts/rcap-stripe-checkout-browser.mjs",
+  "scripts/rcap-stripe-checkout-browser.test.mjs",
+  "scripts/test-rcap-stripe-checkout-browser-mutations.mjs",
+  "scripts/rcap-hosted-acceptance-payment.mjs",
+  "scripts/grade-a-launch-control/verify-release-candidate-binding.mjs",
+  "data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json",
+  "data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json",
+  "data/rcap-grade-a/launch-control/PENDING_WORKER_SUCCESSOR.json"
+];
+const HOSTED_GENERATION_FILES=[
+ 'scripts/grade-a-launch-control/verify-release-candidate-binding.mjs',
+ 'scripts/grade-a-launch-control/verify-pending-worker-successor.mjs',
+ 'scripts/grade-a-launch-control/verify-hosted-acceptance-evidence.mjs',
+ 'scripts/grade-a-launch-control/verify-hosted-acceptance-evidence.test.mjs',
+ 'scripts/grade-a-launch-control/accepted-successor-binding.test.mjs',
+ 'data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json',
+ 'data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json',
+ 'data/rcap-grade-a/launch-control/PENDING_WORKER_SUCCESSOR.json',
+ ...HOSTED_EVIDENCE_FILES
+];
+export const GENERATION_FILES=[
+ '.github/workflows/deploy-rcap-render-worker-production.yml',
+ 'scripts/rcap-production-legal-aid-keys.mjs',
+ 'scripts/rcap-production-save-transition-probe.mjs',
+ 'scripts/grade-a-launch-control/verify-hosted-acceptance-evidence.test.mjs',
+ 'scripts/grade-a-launch-control/verify-release-candidate-binding.mjs',
+ 'scripts/grade-a-launch-control/verify-pending-worker-successor.mjs',
+ 'scripts/grade-a-launch-control/production-preflight-authorization.mjs',
+ 'scripts/grade-a-launch-control/production-preflight-authorization.test.mjs',
+ 'scripts/grade-a-launch-control/accepted-successor-binding.test.mjs',
+ 'scripts/grade-a-launch-control/verify-pending-worker-successor.test.mjs',
+ 'scripts/rcap-production-migration-contract.mjs',
+ 'scripts/rcap-production-migration-contract.test.mjs',
+ 'data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json',
+ 'data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json',
+ 'data/rcap-grade-a/launch-control/PENDING_WORKER_SUCCESSOR.json',
+];
+// Exact tools-only correction for run 36596128309; owner authorization and
+// every accepted application/worker/evidence byte remain at the approved base.
+export const PRODUCTION_DEPENDENCY_ORDER_BASE='4fd9a89707257927218c185e90006be348ac3d58';
+export const PRODUCTION_DEPENDENCY_ORDER_FILES=[
+ 'scripts/grade-a-launch-control/accepted-successor-binding.test.mjs',
+ '.github/workflows/rcap-production-canary.yml',
+ 'scripts/rcap-production-workflow-dependency-order.test.mjs',
+ 'scripts/grade-a-launch-control/verify-release-candidate-binding.mjs',
+ 'data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json',
+];
+export const PREACTIVATION_FILES=[
+ ".github/workflows/deploy-rcap-render-worker-production.yml",
+ ".github/workflows/rcap-f1-ephemeral-staging.yml",
+ "data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json",
+ "data/rcap-grade-a/launch-control/PENDING_WORKER_SUCCESSOR.json",
+ "data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json",
+ "hosted-acceptance-evidence/production-preflight-36600904357/11048744402.zip",
+ "hosted-acceptance-evidence/production-preflight-36600904357/artifact.json",
+ "hosted-acceptance-evidence/production-preflight-36600904357/jobs.json",
+ "hosted-acceptance-evidence/production-preflight-36600904357/run.json",
+ "scripts/grade-a-launch-control/accepted-successor-binding.test.mjs",
+ "scripts/grade-a-launch-control/production-preactivation-authorization.test.mjs",
+ "scripts/grade-a-launch-control/production-preflight-authorization.mjs",
+ "scripts/grade-a-launch-control/production-preflight-authorization.test.mjs",
+ "scripts/grade-a-launch-control/verify-pending-worker-successor.mjs",
+ "scripts/grade-a-launch-control/verify-production-preflight-evidence.mjs",
+ "scripts/grade-a-launch-control/verify-release-candidate-binding.mjs",
+ "scripts/rcap-production-preactivation-startup.test.mjs",
+ "scripts/rcap-production-workflow-dependency-order.test.mjs"
+];
+const HOSTED_EVIDENCE_TEST_CORRECTION_BASE='07e4df91f92c243c638fc06823d73447fbf33383';
+const HOSTED_EVIDENCE_TEST_CORRECTION_FILES=[
+ 'scripts/grade-a-launch-control/accepted-successor-binding.test.mjs',
+ 'scripts/grade-a-launch-control/verify-hosted-acceptance-evidence.test.mjs',
+ 'scripts/grade-a-launch-control/verify-release-candidate-binding.mjs',
+ 'data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json',
+];
+const READINESS_CORRECTION_BASE="d9a349986379679a70db3566fc570e3aea1cfa3a";
+const READINESS_CORRECTION_FILES=[
+  ".github/workflows/rcap-f1-ephemeral-staging.yml",
+  "data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json",
+  "scripts/fixtures/production-clinic-36625443428/11061205252.zip",
+  "scripts/fixtures/production-clinic-36625443428/catalog.json",
+  "scripts/fixtures/production-readiness-20260929/README.md",
+  "scripts/fixtures/production-readiness-20260929/canonical_matter_rpc.json",
+  "scripts/fixtures/production-readiness-20260929/clinic_baseline.json",
+  "scripts/fixtures/production-readiness-20260929/clinic_inventory.json",
+  "scripts/fixtures/production-readiness-20260929/clinic_source_catalog.json",
+  "scripts/fixtures/production-readiness-20260929/forward_inventory.json",
+  "scripts/fixtures/production-readiness-20260929/legal_forward_inventory.json",
+  "scripts/fixtures/production-readiness-20260929/legal_inventory.json",
+  "scripts/fixtures/production-readiness-20260929/packet_source_catalog.json",
+  "scripts/fixtures/production-readiness-20260929/project.json",
+  "scripts/fixtures/production-readiness-20260929/smoke_clinic.json",
+  "scripts/fixtures/production-readiness-20260929/smoke_save_claim.json",
+  "scripts/fixtures/production-readiness-20260929/worker_queue.json",
+  "scripts/grade-a-launch-control/production-preactivation-authorization.test.mjs",
+  "scripts/grade-a-launch-control/verify-release-candidate-binding.mjs",
+  "scripts/rcap-production-clinic-certification.test.mjs",
+  "scripts/rcap-production-legal-aid-keys.mjs",
+  "scripts/rcap-production-legal-aid-keys.test.mjs",
+  "scripts/rcap-production-migration-contract.mjs",
+  "scripts/rcap-production-readiness-inventory.mjs",
+  "scripts/rcap-production-readiness-inventory.test.mjs",
+  "scripts/rcap-production-readiness-replay.test.mjs"
+];
+const CLOSURE_BASE="380865b07d4b57bbc6506117cc189bcb5f33d771";
+const CLOSURE_FILES=[
+  ".github/workflows/deploy-rcap-render-worker-production.yml",
+  ".github/workflows/rcap-f1-ephemeral-staging.yml",
+  ".github/workflows/rcap-hosted-acceptance-staging.yml",
+  ".github/workflows/rcap-production-canary.yml",
+  "data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json",
+  "data/rcap-production-forward-chain-migration-authorization.json",
+  "data/rcap-production-legal-aid-migration-authorization.json",
+  "scripts/fixtures/production-legal-aid-browser-gate/10453896397.zip",
+  "scripts/fixtures/production-packet-forward-correction/REVIEW.md",
+  "scripts/fixtures/production-packet-forward-correction/captured-canonical-matter-full.json",
+  "scripts/fixtures/production-packet-forward-correction/captured-canonical-matter.json",
+  "scripts/fixtures/production-packet-forward-correction/captured-catalog.json",
+  "scripts/fixtures/production-packet-forward-correction/captured-funding-default-privileges.json",
+  "scripts/fixtures/production-packet-forward-correction/captured-funding-dependencies.json",
+  "scripts/fixtures/production-packet-forward-correction/captured-funding-full.json",
+  "scripts/fixtures/production-packet-forward-correction/captured-funding-prerequisites.json",
+  "scripts/fixtures/production-packet-forward-correction/correction-manifest.json",
+  "scripts/fixtures/production-packet-forward-correction/expected-funding-catalog.json",
+  "scripts/fixtures/production-packet-forward-correction/proposed-forward-delta.sql",
+  "scripts/fixtures/production-packet-forward-correction/source-funding-acceptance.json",
+  "scripts/grade-a-launch-control/production-preactivation-authorization.test.mjs",
+  "scripts/grade-a-launch-control/verify-release-candidate-binding.mjs",
+  "scripts/rcap-hosted-legal-aid-browser.mjs",
+  "scripts/rcap-hosted-legal-aid-seed.mjs",
+  "scripts/rcap-legal-aid-preview.mjs",
+  "scripts/rcap-legal-aid-preview.test.mjs",
+  "scripts/rcap-production-clinic-certification.test.mjs",
+  "scripts/rcap-production-forward-chain-correction.test.mjs",
+  "scripts/rcap-production-forward-chain-migrate.mjs",
+  "scripts/rcap-production-funding-dependency-contract.mjs",
+  "scripts/rcap-production-legal-aid-browser-receipt.mjs",
+  "scripts/rcap-production-legal-aid-browser-receipt.test.mjs",
+  "scripts/rcap-production-legal-aid-keys.mjs",
+  "scripts/rcap-production-legal-aid-keys.test.mjs",
+  "scripts/rcap-production-legal-aid-migrate.mjs",
+  "scripts/rcap-production-migration-contract.mjs",
+  "scripts/rcap-production-migration-contract.test.mjs",
+  "scripts/rcap-production-packet-forward-correction-pglite.test.mjs",
+  "scripts/rcap-production-packet-forward-correction.mjs",
+  "scripts/rcap-production-packet-forward-correction.test.mjs",
+  "scripts/rcap-production-preactivation-startup.test.mjs",
+  "scripts/rcap-production-readiness-replay.test.mjs",
+  "scripts/rcap-production-worker-readiness.mjs",
+  "scripts/rcap-production-worker-readiness.test.mjs",
+  "scripts/test-rcap-production-forward-chain-migrate-mutations.mjs",
+  "scripts/verify-rcap-hosted-legal-aid-browser.mjs",
+  "scripts/verify-rcap-production-forward-chain-migrate.mjs"
+];
+const HARNESS_CORRECTION_BASE="c015c7dbf44596d1f77f405697af9a75c03e045a";
+const HARNESS_CORRECTION_FILES=[
+ "data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json",
+ "scripts/grade-a-launch-control/verify-release-candidate-binding.mjs",
+ "scripts/rcap-hosted-legal-aid-browser.mjs",
+ "scripts/verify-rcap-hosted-legal-aid-browser.mjs",
+ "scripts/rcap-hosted-legal-aid-captcha.test.mjs",
+ "scripts/rcap-hosted-legal-aid-startup.test.mjs",
+ "scripts/rcap-production-worker-readiness.mjs",
+ "scripts/rcap-production-worker-readiness.test.mjs",
+ "scripts/rcap-hosted-integration-contract.test.mjs",
+ "scripts/verify-rcap-hosted-integration-verdict.mjs"
+];
+const RESTAGE_BINDING_BASE="38051f337879cfecbcafb89c2f3816c2c4a6c456";
+const RESTAGE_BINDING_FILES=[
+  "data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json",
+  "data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json",
+  "scripts/grade-a-launch-control/production-preflight-authorization.mjs",
+  "scripts/grade-a-launch-control/production-preactivation-authorization.test.mjs",
+  "scripts/grade-a-launch-control/verify-production-preflight-evidence.mjs",
+  "scripts/grade-a-launch-control/verify-release-candidate-binding.mjs",
+  "scripts/grade-a-launch-control/verify-release-candidate-binding.test.mjs",
+  "hosted-acceptance-evidence/production-restage-36764240971/run.json",
+  "hosted-acceptance-evidence/production-restage-36764240971/jobs.json",
+  "hosted-acceptance-evidence/production-restage-36764240971/artifact.json",
+  "hosted-acceptance-evidence/production-restage-36764240971/11119334551.zip"
+];
+const RESTAGE_ROUTING_BASE="8d77414e30b7fe26084e7ab525ad8d81d82ae692";
+const RESTAGE_ROUTING_FILES=[
+  "scripts/rcap-production-canary.mjs",
+  "scripts/test-rcap-production-canary-mutations.mjs",
+  "scripts/verify-rcap-production-canary.mjs",
+  "data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json",
+  "scripts/grade-a-launch-control/verify-release-candidate-binding.mjs",
+  "scripts/grade-a-launch-control/verify-release-candidate-binding.test.mjs",
+  "scripts/grade-a-launch-control/test-release-candidate-binding-mutations.mjs"
+];
+const ACTIVATION_ARTIFACT_ISOLATION_BASE='ff85fd0d8ea131a9885885ebde308611bda9c152';
+const ACTIVATION_ARTIFACT_ISOLATION_FILES=[
+  ".github/workflows/rcap-production-canary.yml",
+  "scripts/verify-rcap-production-activation.mjs",
+  "scripts/test-rcap-production-activation-mutations.mjs",
+  "scripts/grade-a-launch-control/verify-release-candidate-binding.mjs",
+  "scripts/grade-a-launch-control/verify-release-candidate-binding.test.mjs",
+  "data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json",
+  "scripts/rcap-production-activation-artifact-isolation.test.mjs",
+  "scripts/grade-a-launch-control/production-preactivation-authorization.test.mjs"
+];
+const ACTIVATION_AUTHORIZATION_FILES=[
+  "scripts/rcap-production-workflow-dependency-order.test.mjs",
+  "data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json",
+  "data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json",
+  "scripts/grade-a-launch-control/production-preflight-authorization.mjs",
+  "scripts/grade-a-launch-control/production-preactivation-authorization.test.mjs",
+  "scripts/grade-a-launch-control/verify-release-candidate-binding.mjs",
+  "scripts/grade-a-launch-control/verify-release-candidate-binding.test.mjs"
+];
+const SMOKE_EVIDENCE_BASE="eb5099862b664d82449ee20e90798fe9fc275a26";
+const SMOKE_EVIDENCE_BINDING_FILES=[
+  "data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json",
+  "data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json",
+  "scripts/grade-a-launch-control/production-preflight-authorization.mjs",
+  "scripts/grade-a-launch-control/production-preactivation-authorization.test.mjs",
+  "scripts/grade-a-launch-control/verify-production-preflight-evidence.mjs",
+  "scripts/grade-a-launch-control/verify-release-candidate-binding.mjs",
+  "scripts/grade-a-launch-control/verify-release-candidate-binding.test.mjs",
+  "hosted-acceptance-evidence/production-smoke-36779982696/run.json",
+  "hosted-acceptance-evidence/production-smoke-36779982696/jobs.json",
+  "hosted-acceptance-evidence/production-smoke-36779982696/artifact.json",
+  "hosted-acceptance-evidence/production-smoke-36779982696/11127253731.zip"
+];
+const SMOKE_RESET_BASE="d087977b9de5ad7f6a49c0dd3abab59225e2b1f4";
+const SMOKE_RESET_FILES=[
+  "scripts/rcap-production-canary-smoke.mjs",
+  "scripts/rcap-production-smoke-reset.mjs",
+  "scripts/verify-rcap-production-smoke.mjs",
+  "scripts/test-rcap-production-smoke-mutations.mjs",
+  "data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json",
+  "scripts/grade-a-launch-control/verify-release-candidate-binding.mjs",
+  "scripts/grade-a-launch-control/verify-release-candidate-binding.test.mjs",
+  "scripts/grade-a-launch-control/production-preactivation-authorization.test.mjs"
+];
+const RESTAGE_TRANSPORT_BASE="0eb8fbd6032f3f2d906f32e50c79e9fb6a2c76f8";
+const RESTAGE_TRANSPORT_FILES=[
+  "scripts/rcap-production-canary.mjs",
+  "scripts/test-rcap-production-canary-mutations.mjs",
+  "scripts/verify-rcap-production-canary.mjs",
+  "data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json",
+  "scripts/grade-a-launch-control/verify-release-candidate-binding.mjs",
+  "scripts/grade-a-launch-control/verify-release-candidate-binding.test.mjs"
+];
+const PRODUCTION_RESTAGE_BASE="36f1e3f716aca14ba874cfdb3082edf1c8279ffa";
+const PRODUCTION_RESTAGE_FILES=[
+  ".github/workflows/rcap-f1-ephemeral-staging.yml",
+  ".github/workflows/rcap-production-canary.yml",
+  "scripts/rcap-production-canary.mjs",
+  "scripts/verify-rcap-production-canary.mjs",
+  "scripts/test-rcap-production-canary-mutations.mjs",
+  "scripts/grade-a-launch-control/production-preflight-authorization.mjs",
+  "scripts/grade-a-launch-control/production-preactivation-authorization.test.mjs",
+  "data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json",
+  "data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json",
+  "scripts/grade-a-launch-control/verify-release-candidate-binding.mjs",
+  "scripts/grade-a-launch-control/verify-release-candidate-binding.test.mjs",
+  "scripts/rcap-production-workflow-dependency-order.test.mjs"
+];
+const PRODUCTION_LEGAL_AID_PROOF_BASE="80e014d35c6af4dcfd57957013781483bb4ffb52";
+const PRODUCTION_LEGAL_AID_PROOF_FILES=[
+  ".github/workflows/rcap-f1-ephemeral-staging.yml",
+  ".github/workflows/rcap-production-canary.yml",
+  "data/rcap-production-legal-aid-migration-authorization.json",
+  "scripts/rcap-production-legal-aid-browser-receipt.mjs",
+  "scripts/rcap-production-legal-aid-browser-receipt.test.mjs",
+  "scripts/rcap-production-legal-aid-migrate.mjs",
+  "scripts/verify-rcap-production-legal-aid-migrate.mjs",
+  "scripts/test-rcap-production-legal-aid-migrate-mutations.mjs",
+  "scripts/grade-a-launch-control/production-preactivation-authorization.test.mjs",
+  "data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json",
+  "scripts/grade-a-launch-control/verify-release-candidate-binding.mjs",
+  "scripts/grade-a-launch-control/verify-release-candidate-binding.test.mjs",
+  "scripts/rcap-hosted-legal-aid-actions.test.mjs",
+  "scripts/rcap-production-readiness-replay.test.mjs"
+];
+const LEGAL_AID_RELATIONSHIPS_BASE="721530ba23f65b5fadd6e72ce83acd87e2d3b2d7";
+const LEGAL_AID_RELATIONSHIPS_FILES=[
+  "scripts/rcap-hosted-legal-aid-prerequisite.mjs",
+  "scripts/rcap-hosted-legal-aid-actions.test.mjs",
+  "scripts/grade-a-launch-control/verify-release-candidate-binding.mjs",
+  "data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json",
+  "scripts/grade-a-launch-control/verify-release-candidate-binding.test.mjs"
+];
+const LEGAL_AID_HARNESS_SUCCESSOR_BASE="ac9befc5972ebd24e5f1aba2e07ee9081d554698";
+const LEGAL_AID_HARNESS_SUCCESSOR_FILES=[
+  "data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json",
+  "scripts/grade-a-launch-control/verify-release-candidate-binding.mjs",
+  "scripts/rcap-hosted-legal-aid-browser.mjs",
+  "scripts/rcap-hosted-legal-aid-captcha.test.mjs",
+  "scripts/rcap-hosted-legal-aid-seed.mjs",
+  "scripts/rcap-hosted-legal-aid-startup.test.mjs",
+  "scripts/rcap-legal-aid/hosted-fixture.mjs",
+  "scripts/rcap-legal-aid/hosted-actions.mjs",
+  "scripts/rcap-hosted-legal-aid-actions.test.mjs",
+  "scripts/verify-rcap-hosted-legal-aid-browser.mjs"
+];
+const LEGAL_AID_SEED_RERUN_CORRECTION_BASE="652793bb1469192ae3ec8c6dbdb5ae8402c05743";
+const LEGAL_AID_SEED_RERUN_CORRECTION_FILES=[
+ "data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json",
+ "scripts/grade-a-launch-control/verify-release-candidate-binding.mjs",
+ "scripts/rcap-hosted-legal-aid-seed.mjs",
+ "scripts/rcap-hosted-legal-aid-startup.test.mjs"
+];
+const ACTIVATION_CLOSURE_FILES=[
+  "scripts/rcap-production-workflow-dependency-order.test.mjs",
+  "data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json",
+  "data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json",
+  "scripts/grade-a-launch-control/production-preflight-authorization.mjs",
+  "scripts/grade-a-launch-control/production-preactivation-authorization.test.mjs",
+  "scripts/grade-a-launch-control/verify-production-preflight-evidence.mjs",
+  "scripts/grade-a-launch-control/verify-release-candidate-binding.mjs",
+  "scripts/grade-a-launch-control/verify-release-candidate-binding.test.mjs",
+  "hosted-acceptance-evidence/production-activate-36791436905/run.json",
+  "hosted-acceptance-evidence/production-activate-36791436905/jobs.json",
+  "hosted-acceptance-evidence/production-activate-36791436905/artifact.json",
+  "hosted-acceptance-evidence/production-activate-36791436905/11132063144.zip"
+];
+const PUBLIC_VERIFICATION_FILES=[
+  ".github/workflows/rcap-f1-ephemeral-staging.yml",
+  "data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json",
+  "data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json",
+  "scripts/grade-a-launch-control/production-preflight-authorization.mjs",
+  "scripts/grade-a-launch-control/production-preactivation-authorization.test.mjs",
+  "scripts/grade-a-launch-control/verify-release-candidate-binding.mjs",
+  "scripts/grade-a-launch-control/verify-release-candidate-binding.test.mjs",
+  "scripts/rcap-production-workflow-dependency-order.test.mjs"
+];
+const PUBLIC_VERIFICATION_CLOSURE_FILES=[
+  "data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json",
+  "data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json",
+  "scripts/grade-a-launch-control/production-preflight-authorization.mjs",
+  "scripts/grade-a-launch-control/production-preactivation-authorization.test.mjs",
+  "scripts/grade-a-launch-control/verify-production-preflight-evidence.mjs",
+  "scripts/grade-a-launch-control/verify-release-candidate-binding.mjs",
+  "scripts/grade-a-launch-control/verify-release-candidate-binding.test.mjs",
+  "hosted-acceptance-evidence/production-public-verify-36861106020/run.json",
+  "hosted-acceptance-evidence/production-public-verify-36861106020/jobs.json",
+  "hosted-acceptance-evidence/production-public-verify-36861106020/artifact.json",
+  "hosted-acceptance-evidence/production-public-verify-36861106020/11160824476.zip"
+];
+const PACKET_CANARY_IMPLEMENTATION_BASE='acdc8e76671445f7d86e9842c103ac57961522eb';
+const PACKET_CANARY_IMPLEMENTATION_FILES=[
+  ".github/workflows/rcap-f1-ephemeral-staging.yml",
+  "scripts/rcap-production-save-transition-probe.mjs",
+  "scripts/verify-rcap-production-save-transition-probe.mjs",
+  "scripts/rcap-production-packet-canary-contract.mjs",
+  "scripts/rcap-production-packet-canary.test.mjs",
+  "scripts/rcap-production-workflow-dependency-order.test.mjs",
+  "scripts/grade-a-launch-control/production-preactivation-authorization.test.mjs",
+  "scripts/grade-a-launch-control/verify-release-candidate-binding.mjs",
+  "scripts/grade-a-launch-control/verify-release-candidate-binding.test.mjs",
+  "data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json"
+];
+const PACKET_CANARY_TEST_BOUNDARY_CORRECTION_BASE='cec5142a73246132b2f77ba7e1891f4776f8f234';
+const PACKET_CANARY_TEST_BOUNDARY_CORRECTION_FILES=[
+ "scripts/rcap-production-migration-contract.test.mjs",
+ "data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json",
+ "scripts/grade-a-launch-control/verify-release-candidate-binding.mjs",
+ "scripts/grade-a-launch-control/verify-release-candidate-binding.test.mjs"
+];
+const PACKET_CANARY_FLYCTL_PIN_BASE='c2f217f243f18b50c04ce1d61f8f150bf77c3023';
+const PACKET_CANARY_FLYCTL_PIN_FILES=[
+ ".github/workflows/rcap-f1-ephemeral-staging.yml",
+ "scripts/rcap-production-workflow-dependency-order.test.mjs",
+ "data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json",
+ "scripts/grade-a-launch-control/verify-release-candidate-binding.mjs",
+ "scripts/grade-a-launch-control/verify-release-candidate-binding.test.mjs"
+];
 function verifyGenerationBinding(root,candidate,pending){
  try{
   const git=args=>execFileSync('git',args,{cwd:root,encoding:'utf8',stdio:'pipe'}).trim();
   const read=rel=>JSON.parse(fs.readFileSync(path.join(root,rel)));
   const toolsPath='data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json';
   const binding=read(toolsPath),t=binding.successorTools,base=pending.releaseBaseSha;
-  const generationFiles=base==='3aeb5cdbeec1f84c61a4a6fca3297d72c40f719a'?GENERATION_FILES
+  const preflightOnly=base===PREFLIGHT_BASE,preactivation=base===PREACTIVATION_BASE,productionScoped=preflightOnly||preactivation;
+  const correction=t.dependencyOrderCorrectionBaseSha;
+  const hostedTestCorrection=t.hostedEvidenceTestCorrectionBaseSha;
+  const readinessCorrection=t.preactivationReadinessCorrectionBaseSha;
+  const closure=t.preactivationClosureBaseSha;
+  const harnessCorrection=t.preactivationHarnessCorrectionBaseSha;
+  const packetCanaryFlyctlPin=t.packetCanaryFlyctlPinBaseSha;
+  const packetCanaryTestBoundaryCorrection=t.packetCanaryTestBoundaryCorrectionBaseSha;
+  const packetCanaryImplementation=t.packetCanaryImplementationBaseSha;
+  const publicVerificationClosure=t.publicVerificationClosureBaseSha;
+  const publicVerification=t.publicVerificationAuthorizationAndWorkflowBaseSha;
+  const activationClosure=t.activationClosureBaseSha;
+  const artifactIsolation=t.activationArtifactIsolationBaseSha;
+  const activationAuthorization=t.activationAuthorizationBaseSha;
+  const smokeEvidence=t.preactivationSmokeEvidenceBaseSha;
+  const smokeReset=t.preactivationSmokeResetBaseSha;
+  const restageBinding=t.preactivationRestageBindingBaseSha;
+  const restageRoutingCorrection=t.preactivationRestageRoutingBaseSha;
+  const restageTransportCorrection=t.preactivationRestageTransportBaseSha;
+  const restageCorrection=t.preactivationProductionRestageBaseSha;
+  const productionLegalAidProofCorrection=t.preactivationProductionLegalAidProofCorrectionBaseSha;
+  const relationshipsCorrection=t.preactivationLegalAidRelationshipsCorrectionBaseSha;
+  const legalAidHarnessSuccessor=t.preactivationLegalAidHarnessSuccessorBaseSha;
+  const seedRerunCorrection=t.preactivationLegalAidSeedRerunCorrectionBaseSha;
+  const generationFiles=preactivation?[...new Set([...PREACTIVATION_FILES,...(packetCanaryFlyctlPin?PACKET_CANARY_FLYCTL_PIN_FILES:[]),...(packetCanaryTestBoundaryCorrection?PACKET_CANARY_TEST_BOUNDARY_CORRECTION_FILES:[]),...(packetCanaryImplementation?PACKET_CANARY_IMPLEMENTATION_FILES:[]),...(publicVerificationClosure?PUBLIC_VERIFICATION_CLOSURE_FILES:[]),...(publicVerification?PUBLIC_VERIFICATION_FILES:[]),...(activationClosure?ACTIVATION_CLOSURE_FILES:[]),...(artifactIsolation?ACTIVATION_ARTIFACT_ISOLATION_FILES:[]),...(activationAuthorization?ACTIVATION_AUTHORIZATION_FILES:[]),...(smokeEvidence?SMOKE_EVIDENCE_BINDING_FILES:[]),...(smokeReset?SMOKE_RESET_FILES:[]),...(restageBinding?RESTAGE_BINDING_FILES:[]),...(restageCorrection?PRODUCTION_RESTAGE_FILES:[]),...(restageRoutingCorrection?RESTAGE_ROUTING_FILES:[]),...(productionLegalAidProofCorrection?PRODUCTION_LEGAL_AID_PROOF_FILES:[]),...(relationshipsCorrection?LEGAL_AID_RELATIONSHIPS_FILES:[]),...(legalAidHarnessSuccessor?LEGAL_AID_HARNESS_SUCCESSOR_FILES:[]),...(seedRerunCorrection?LEGAL_AID_SEED_RERUN_CORRECTION_FILES:[]),...(harnessCorrection?HARNESS_CORRECTION_FILES:[]),...(closure?CLOSURE_FILES:[]),...(readinessCorrection?READINESS_CORRECTION_FILES:[]),...(hostedTestCorrection?HOSTED_EVIDENCE_TEST_CORRECTION_FILES:[])])]:preflightOnly?[...new Set([...GENERATION_FILES,...(correction?PRODUCTION_DEPENDENCY_ORDER_FILES:[])])]:base===HOSTED_BASE?HOSTED_GENERATION_FILES:(base==='879463ec2ef60696da39a0367b4758d26074207b'
+    ||base==='516b02ac1a68a6aaef41ca9825eae0ece5e3df37')?CHECKOUT_RETURN_GENERATION_FILES
+    :base==='7556f87cee1cf3e6f4b503c76b8ba1d1bbc59456'?PACKET_DATABASE_GENERATION_FILES
+    :base==='e312a5efa7b4882e0fbf61a5ff0ae7891ac23226'?APPLICATION_AUTHORITY_GENERATION_FILES
+    :base==='3aeb5cdbeec1f84c61a4a6fca3297d72c40f719a'?CHECKOUT_LIFECYCLE_GENERATION_FILES
     :base==='bafe2536f560ddb93d115d591ea0a5b8af0fac90'?CHECKOUT_PIN_GENERATION_FILES
     :base==='d7adfbde5e19ef8025182dc755ba05fbf94e0a79'?BOOTSTRAP_GENERATION_FILES
     :base==='44916baaeb9815ba3dd61d94e8c51294f01e8166'?HOSTED_PIN_GENERATION_FILES
     :base==='9ce9233bde4e3c16d0dc9657524ae1a5f02eb2fa'?DS08_GENERATION_FILES:PRIOR_GENERATION_FILES;
   const expect=(actual,expected,message)=>{if(JSON.stringify(actual)!==JSON.stringify(expected))throw Error(message);};
-  expect(binding.toolsSha,base,'tools base identity');expect(t.baseSha,base,'release/tools base');
+  const commitBase=packetCanaryFlyctlPin??packetCanaryTestBoundaryCorrection??packetCanaryImplementation??publicVerificationClosure??publicVerification??activationClosure??artifactIsolation??activationAuthorization??smokeEvidence??smokeReset??restageBinding??restageRoutingCorrection??restageTransportCorrection??restageCorrection??productionLegalAidProofCorrection??relationshipsCorrection??legalAidHarnessSuccessor??seedRerunCorrection??harnessCorrection??closure??readinessCorrection??hostedTestCorrection??correction??base;
+  if(packetCanaryFlyctlPin||binding.toolsSha===PACKET_CANARY_FLYCTL_PIN_BASE){
+   expect(preactivation,true,'packet canary capability only on closed Production release');
+   expect(packetCanaryFlyctlPin,PACKET_CANARY_FLYCTL_PIN_BASE,'exact packet canary Flyctl pin base');
+   const priorTools=JSON.parse(git(['show',`${packetCanaryFlyctlPin}:${toolsPath}`]));
+   expect(binding,{...priorTools,toolsSha:packetCanaryFlyctlPin,successorTools:{...priorTools.successorTools,packetCanaryFlyctlPinBaseSha:packetCanaryFlyctlPin,files:t.files}},'only bounded packet canary Flyctl pin tools');
+   const priorCandidate=JSON.parse(git(['show',`${packetCanaryFlyctlPin}:data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json`]));
+   expect(candidate,priorCandidate,'packet canary Flyctl pin preserves all authorization and closure bytes');
+   expect(binding.deploymentAuthorized,false,'no deployment authorization');
+   expect(candidate.productionAuthorization.packetCanary,undefined,'no packet canary authorization');
+   expect(candidate.packetCanaryReceipt,undefined,'no packet canary receipt');
+   assertPublicVerificationAuthorization(candidate);
+   expect(candidate.productionAuthorization.activation.activationReceipt,verifyProductionActivationEvidence(root),'bound native successful activation');
+   expect(candidate.productionAuthorization.publicVerification.publicVerificationReceipt,verifyProductionPublicVerificationEvidence(root),'bound native successful public verification');
+   for(const [rel,hash]of Object.entries(priorTools.successorTools.files))if(!PACKET_CANARY_FLYCTL_PIN_FILES.includes(rel))expect(t.files[rel],hash,`preserved tools: ${rel}`);
+   const delta=[...new Set([...git(['diff','--name-only',packetCanaryFlyctlPin]).split('\n'),...git(['ls-files','--others','--exclude-standard']).split('\n')].filter(Boolean))].sort();
+   expect(delta,PACKET_CANARY_FLYCTL_PIN_FILES.slice().sort(),'exact packet canary Flyctl pin paths');
+  }else if(packetCanaryTestBoundaryCorrection||binding.toolsSha===PACKET_CANARY_TEST_BOUNDARY_CORRECTION_BASE){
+   expect(preactivation,true,'packet canary capability only on closed Production release');
+   expect(packetCanaryTestBoundaryCorrection,PACKET_CANARY_TEST_BOUNDARY_CORRECTION_BASE,'exact packet canary test boundary correction base');
+   const priorTools=JSON.parse(git(['show',`${packetCanaryTestBoundaryCorrection}:${toolsPath}`]));
+   expect(binding,{...priorTools,toolsSha:packetCanaryTestBoundaryCorrection,successorTools:{...priorTools.successorTools,packetCanaryTestBoundaryCorrectionBaseSha:packetCanaryTestBoundaryCorrection,files:t.files}},'only bounded packet canary test boundary correction tools');
+   const priorCandidate=JSON.parse(git(['show',`${packetCanaryTestBoundaryCorrection}:data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json`]));
+   expect(candidate,priorCandidate,'packet canary test boundary correction preserves all authorization and closure bytes');
+   expect(binding.deploymentAuthorized,false,'no deployment authorization');
+   expect(candidate.productionAuthorization.packetCanary,undefined,'no packet canary authorization');
+   expect(candidate.packetCanaryReceipt,undefined,'no packet canary receipt');
+   assertPublicVerificationAuthorization(candidate);
+   expect(candidate.productionAuthorization.activation.activationReceipt,verifyProductionActivationEvidence(root),'bound native successful activation');
+   expect(candidate.productionAuthorization.publicVerification.publicVerificationReceipt,verifyProductionPublicVerificationEvidence(root),'bound native successful public verification');
+   for(const [rel,hash]of Object.entries(priorTools.successorTools.files))if(!PACKET_CANARY_TEST_BOUNDARY_CORRECTION_FILES.includes(rel))expect(t.files[rel],hash,`preserved tools: ${rel}`);
+   const delta=[...new Set([...git(['diff','--name-only',packetCanaryTestBoundaryCorrection]).split('\n'),...git(['ls-files','--others','--exclude-standard']).split('\n')].filter(Boolean))].sort();
+   expect(delta,PACKET_CANARY_TEST_BOUNDARY_CORRECTION_FILES.slice().sort(),'exact packet canary test boundary correction paths');
+  }else if(packetCanaryImplementation){
+   expect(preactivation,true,'packet canary capability only on closed Production release');
+   expect(packetCanaryImplementation,PACKET_CANARY_IMPLEMENTATION_BASE,'exact packet canary implementation base');
+   const priorTools=JSON.parse(git(['show',`${packetCanaryImplementation}:${toolsPath}`]));
+   expect(binding,{...priorTools,toolsSha:packetCanaryImplementation,successorTools:{...priorTools.successorTools,packetCanaryImplementationBaseSha:packetCanaryImplementation,files:t.files}},'only bounded packet canary implementation tools');
+   const priorCandidate=JSON.parse(git(['show',`${packetCanaryImplementation}:data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json`]));
+   expect(candidate,priorCandidate,'packet canary implementation preserves all authorization and closure bytes');
+   assertPublicVerificationAuthorization(candidate);
+   expect(candidate.productionAuthorization.activation.activationReceipt,verifyProductionActivationEvidence(root),'bound native successful activation');
+   expect(candidate.productionAuthorization.publicVerification.publicVerificationReceipt,verifyProductionPublicVerificationEvidence(root),'bound native successful public verification');
+   for(const [rel,hash]of Object.entries(priorTools.successorTools.files))if(!PACKET_CANARY_IMPLEMENTATION_FILES.includes(rel))expect(t.files[rel],hash,`preserved tools: ${rel}`);
+   const delta=[...new Set([...git(['diff','--name-only',packetCanaryImplementation]).split('\n'),...git(['ls-files','--others','--exclude-standard']).split('\n')].filter(Boolean))].sort();
+   expect(delta,PACKET_CANARY_IMPLEMENTATION_FILES.slice().sort(),'exact packet canary implementation paths');
+  }else if(publicVerificationClosure){
+   expect(preactivation,true,'public verification closure only on activated Production release');
+   expect(publicVerificationClosure,PUBLIC_VERIFICATION_CLOSURE_BASE,'exact public verification closure base');
+   const priorTools=JSON.parse(git(['show',`${publicVerificationClosure}:${toolsPath}`]));
+   expect(binding,{...priorTools,status:PUBLIC_VERIFICATION_CLOSED_STATUS,toolsSha:publicVerificationClosure,successorTools:{...priorTools.successorTools,publicVerificationClosureBaseSha:publicVerificationClosure,files:t.files}},'only bounded public verification closure tools');
+   const priorCandidate=JSON.parse(git(['show',`${publicVerificationClosure}:data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json`]));
+   expect(candidate,{...priorCandidate,status:PUBLIC_VERIFICATION_CLOSED_STATUS,scope:PUBLIC_VERIFICATION_CLOSED_SCOPE,productionAuthorization:{...priorCandidate.productionAuthorization,publicVerification:{...priorCandidate.productionAuthorization.publicVerification,state:'consumed_successfully',executedAttempts:1,publicVerificationReceipt:{...BOUND_PUBLIC_VERIFICATION}}}},'exact public verification closure preserves original decision, activation and authority');
+   assertPublicVerificationAuthorization(candidate);
+   expect(candidate.productionAuthorization.activation.activationReceipt,verifyProductionActivationEvidence(root),'bound native successful activation');
+   expect(candidate.productionAuthorization.publicVerification.publicVerificationReceipt,verifyProductionPublicVerificationEvidence(root),'bound native successful public verification');
+   for(const [rel,hash]of Object.entries(priorTools.successorTools.files))if(!PUBLIC_VERIFICATION_CLOSURE_FILES.includes(rel))expect(t.files[rel],hash,`preserved tools: ${rel}`);
+   const delta=[...new Set([...git(['diff','--name-only',publicVerificationClosure]).split('\n'),...git(['ls-files','--others','--exclude-standard']).split('\n')].filter(Boolean))].sort();
+   expect(delta,PUBLIC_VERIFICATION_CLOSURE_FILES.slice().sort(),'exact public verification closure paths');
+  }else if(publicVerification){
+   expect(preactivation,true,'public verification only on activated Production release');
+   expect(publicVerification,PUBLIC_VERIFICATION_BASE,'exact public verification successor base');
+   const priorTools=JSON.parse(git(['show',`${publicVerification}:${toolsPath}`]));
+   expect(binding,{...priorTools,status:PUBLIC_VERIFICATION_STATUS,toolsSha:publicVerification,successorTools:{...priorTools.successorTools,publicVerificationAuthorizationAndWorkflowBaseSha:publicVerification,files:t.files}},'only bounded public verification authorization and workflow ordering');
+   const priorCandidate=JSON.parse(git(['show',`${publicVerification}:data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json`]));
+   expect(candidate,{...priorCandidate,status:PUBLIC_VERIFICATION_STATUS,scope:PUBLIC_VERIFICATION_SCOPE,productionAuthorization:{...priorCandidate.productionAuthorization,publicVerification:candidate.productionAuthorization?.publicVerification}},'public verification preserves exact activation closure and prior authority');
+   assertPublicVerificationAuthorization(candidate);
+   expect(candidate.productionAuthorization.activation.activationReceipt,verifyProductionActivationEvidence(root),'bound native successful activation');
+   const recordedAt=Date.parse(candidate.productionAuthorization.publicVerification.recordedAt);
+   expect(recordedAt>=Number(git(['show','-s','--format=%ct',publicVerification]))*1000 && recordedAt<=Date.now(),true,'public verification timestamp belongs to this successor');
+   for(const [rel,hash]of Object.entries(priorTools.successorTools.files))if(!PUBLIC_VERIFICATION_FILES.includes(rel))expect(t.files[rel],hash,`preserved tools: ${rel}`);
+   const delta=[...new Set([...git(['diff','--name-only',publicVerification]).split('\n'),...git(['ls-files','--others','--exclude-standard']).split('\n')].filter(Boolean))].sort();
+   expect(delta,PUBLIC_VERIFICATION_FILES.slice().sort(),'exact public verification authorization and workflow paths');
+  }else if(activationClosure){
+   expect(preactivation,true,'activation closure only on the reviewed Production release');
+   expect(activationClosure,ACTIVATION_CLOSURE_BASE,'exact activation closure base');
+   const priorTools=JSON.parse(git(['show',`${activationClosure}:${toolsPath}`]));
+   expect(binding,{...priorTools,status:ACTIVATION_CLOSED_STATUS,toolsSha:activationClosure,successorTools:{...priorTools.successorTools,activationClosureBaseSha:activationClosure,files:t.files}},'only bounded activation closure tools');
+   const priorCandidate=JSON.parse(git(['show',`${activationClosure}:data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json`]));
+   expect(candidate,{...priorCandidate,status:ACTIVATION_CLOSED_STATUS,scope:ACTIVATION_CLOSED_SCOPE,productionAuthorization:{...priorCandidate.productionAuthorization,activation:{...priorCandidate.productionAuthorization.activation,state:'consumed_successfully',executedAttempts:1,activationReceipt:{...BOUND_ACTIVATION}}}},'exact activation closure preserves original decision and evidence; no new authority');
+   assertActivationAuthorization(candidate);
+   expect(candidate.productionAuthorization.activation.activationReceipt,verifyProductionActivationEvidence(root),'bound native successful activation');
+   for(const [rel,hash]of Object.entries(priorTools.successorTools.files))if(!ACTIVATION_CLOSURE_FILES.includes(rel))expect(t.files[rel],hash,`preserved tools: ${rel}`);
+   const delta=[...new Set([...git(['diff','--name-only',activationClosure]).split('\n'),...git(['ls-files','--others','--exclude-standard']).split('\n')].filter(Boolean))].sort();
+   expect(delta,ACTIVATION_CLOSURE_FILES.slice().sort(),'exact activation closure paths');
+  }else if(artifactIsolation){
+   expect(preactivation,true,'artifact isolation only on the reviewed activation release');
+   expect(artifactIsolation,ACTIVATION_ARTIFACT_ISOLATION_BASE,'exact activation artifact isolation base');
+   const priorTools=JSON.parse(git(['show',`${artifactIsolation}:${toolsPath}`]));
+   expect(binding,{...priorTools,toolsSha:artifactIsolation,successorTools:{...priorTools.successorTools,activationArtifactIsolationBaseSha:artifactIsolation,files:t.files}},'only bounded activation artifact isolation tools');
+   expect(candidate,JSON.parse(git(['show',`${artifactIsolation}:data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json`])),'artifact isolation preserves exact authorization and evidence');
+   for(const [rel,hash]of Object.entries(priorTools.successorTools.files))if(!ACTIVATION_ARTIFACT_ISOLATION_FILES.includes(rel))expect(t.files[rel],hash,`preserved tools: ${rel}`);
+   const delta=[...new Set([...git(['diff','--name-only',artifactIsolation]).split('\n'),...git(['ls-files','--others','--exclude-standard']).split('\n')].filter(Boolean))].sort();
+   expect(delta,ACTIVATION_ARTIFACT_ISOLATION_FILES.slice().sort(),'exact activation artifact isolation paths');
+  }else if(activationAuthorization){
+   expect(preactivation,true,'activation decision only on reviewed preactivation release');
+   expect(correction,undefined,'no combined dependency correction scope');
+   expect(activationAuthorization,ACTIVATION_BASE,'exact activation authorization base');
+   const priorTools=JSON.parse(git(['show',`${activationAuthorization}:${toolsPath}`]));
+   expect(binding,{...priorTools,status:ACTIVATION_STATUS,toolsSha:activationAuthorization,successorTools:{...priorTools.successorTools,activationAuthorizationBaseSha:activationAuthorization,files:t.files}},'only bounded activation authorization tools');
+   const priorCandidate=JSON.parse(git(['show',`${activationAuthorization}:data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json`]));
+   expect(candidate,{...priorCandidate,status:ACTIVATION_STATUS,scope:ACTIVATION_SCOPE,productionAuthorization:{...priorCandidate.productionAuthorization,activation:candidate.productionAuthorization?.activation}},'only exact activation decision added; prior evidence and authority preserved');
+   assertActivationAuthorization(candidate);
+   const recordedAt=Date.parse(candidate.productionAuthorization.activation.recordedAt);
+   expect(recordedAt>=Number(git(['show','-s','--format=%ct',activationAuthorization]))*1000 && recordedAt<=Date.now(),true,'activation timestamp belongs to this successor');
+   for(const [rel,hash]of Object.entries(priorTools.successorTools.files))if(!ACTIVATION_AUTHORIZATION_FILES.includes(rel))expect(t.files[rel],hash,`preserved tools: ${rel}`);
+   const delta=[...new Set([...git(['diff','--name-only',activationAuthorization]).split('\n'),...git(['ls-files','--others','--exclude-standard']).split('\n')].filter(Boolean))].sort();
+   expect(delta,ACTIVATION_AUTHORIZATION_FILES.slice().sort(),'exact activation authorization paths');
+  }else if(smokeEvidence){
+   expect(preactivation,true,'smoke evidence only on reviewed preactivation release');
+   expect(correction,undefined,'no combined dependency correction scope');
+   expect(smokeEvidence,SMOKE_EVIDENCE_BASE,'exact smoke evidence base');
+   const priorTools=JSON.parse(git(['show',`${smokeEvidence}:${toolsPath}`]));
+   expect(binding,{...priorTools,toolsSha:smokeEvidence,successorTools:{...priorTools.successorTools,preactivationSmokeEvidenceBaseSha:smokeEvidence,files:t.files}},'only bounded smoke evidence binding');
+   const priorCandidate=JSON.parse(git(['show',`${smokeEvidence}:data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json`]));
+   expect(candidate,{...priorCandidate,productionAuthorization:{...priorCandidate.productionAuthorization,smokeRunId:BOUND_SMOKE.runId,smokeArtifactSha256:BOUND_SMOKE.smokeArtifactSha256,smokeReceipt:{...BOUND_SMOKE}}},'only exact successful smoke evidence added; no activation authority');
+   for(const [rel,hash]of Object.entries(priorTools.successorTools.files))if(!SMOKE_EVIDENCE_BINDING_FILES.includes(rel))expect(t.files[rel],hash,`preserved tools: ${rel}`);
+   const delta=[...new Set([...git(['diff','--name-only',smokeEvidence]).split('\n'),...git(['ls-files','--others','--exclude-standard']).split('\n')].filter(Boolean))].sort();
+   expect(delta,SMOKE_EVIDENCE_BINDING_FILES.slice().sort(),'exact smoke evidence binding paths');
+  }else if(smokeReset){
+   expect(preactivation,true,'smoke reset only on reviewed preactivation release');
+   expect(correction,undefined,'no combined dependency correction scope');
+   expect(smokeReset,SMOKE_RESET_BASE,'exact smoke reset base');
+   const priorTools=JSON.parse(git(['show',`${smokeReset}:${toolsPath}`]));
+   expect(binding,{...priorTools,toolsSha:smokeReset,successorTools:{...priorTools.successorTools,preactivationSmokeResetBaseSha:smokeReset,files:t.files}},'only bounded smoke reset correction');
+   expect(candidate,JSON.parse(git(['show',`${smokeReset}:data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json`])),'smoke reset preserves release authority and successful restage receipt');
+   for(const [rel,hash]of Object.entries(priorTools.successorTools.files))if(!SMOKE_RESET_FILES.includes(rel))expect(t.files[rel],hash,`preserved tools: ${rel}`);
+   const delta=[...new Set([...git(['diff','--name-only',smokeReset]).split('\n'),...git(['ls-files','--others','--exclude-standard']).split('\n')].filter(Boolean))].sort();
+   expect(delta,SMOKE_RESET_FILES.slice().sort(),'exact smoke reset paths');
+  }else if(restageBinding){
+   expect(preactivation,true,'restage binding only on reviewed preactivation release');
+   expect(correction,undefined,'no combined dependency correction scope');
+   expect(restageBinding,RESTAGE_BINDING_BASE,'exact successful restage binding base');
+   const priorTools=JSON.parse(git(['show',`${restageBinding}:${toolsPath}`]));
+   expect(binding,{...priorTools,toolsSha:restageBinding,successorTools:{...priorTools.successorTools,preactivationRestageBindingBaseSha:restageBinding,files:t.files}},'only bounded successful restage binding');
+   const priorCandidate=JSON.parse(git(['show',`${restageBinding}:data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json`]));
+   expect(candidate,{...priorCandidate,productionAuthorization:{...priorCandidate.productionAuthorization,note:PREACTIVATION_NOTE,stagedDeploymentId:STAGED_DEPLOYMENT,restage:{...priorCandidate.productionAuthorization.restage,successfulReceipt:{...BOUND_RESTAGE}}}},'only proven replacement and successful receipt bound');
+   for(const [rel,hash]of Object.entries(priorTools.successorTools.files))if(!RESTAGE_BINDING_FILES.includes(rel))expect(t.files[rel],hash,`preserved tools: ${rel}`);
+   const delta=[...new Set([...git(['diff','--name-only',restageBinding]).split('\n'),...git(['ls-files','--others','--exclude-standard']).split('\n')].filter(Boolean))].sort();
+   expect(delta,RESTAGE_BINDING_FILES.slice().sort(),'exact successful restage binding paths');
+  }else if(restageRoutingCorrection){
+   expect(preactivation,true,'restage routing only on reviewed preactivation release');
+   expect(correction,undefined,'no combined dependency correction scope');
+   expect(restageRoutingCorrection,RESTAGE_ROUTING_BASE,'exact restage routing base');
+   const priorTools=JSON.parse(git(['show',`${restageRoutingCorrection}:${toolsPath}`]));
+   expect(binding,{...priorTools,toolsSha:restageRoutingCorrection,successorTools:{...priorTools.successorTools,preactivationRestageRoutingBaseSha:restageRoutingCorrection,files:t.files}},'only bounded restage routing correction');
+   expect(candidate,JSON.parse(git(['show',`${restageRoutingCorrection}:data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json`])),'release authority unchanged');
+   for(const [rel,hash]of Object.entries(priorTools.successorTools.files))if(!RESTAGE_ROUTING_FILES.includes(rel))expect(t.files[rel],hash,`preserved tools: ${rel}`);
+   const delta=[...new Set([...git(['diff','--name-only',restageRoutingCorrection]).split('\n'),...git(['ls-files','--others','--exclude-standard']).split('\n')].filter(Boolean))].sort();
+   expect(delta,RESTAGE_ROUTING_FILES.slice().sort(),'exact restage routing paths');
+  }else if(restageTransportCorrection){
+   expect(preactivation,true,'restage transport only on reviewed preactivation release');
+   expect(correction,undefined,'no combined dependency correction scope');
+   expect(restageTransportCorrection,RESTAGE_TRANSPORT_BASE,'exact restage transport base');
+   const priorTools=JSON.parse(git(['show',`${restageTransportCorrection}:${toolsPath}`]));
+   expect(binding,{...priorTools,toolsSha:restageTransportCorrection,successorTools:{...priorTools.successorTools,preactivationRestageTransportBaseSha:restageTransportCorrection,files:t.files}},'only bounded restage transport correction');
+   expect(candidate,JSON.parse(git(['show',`${restageTransportCorrection}:data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json`])),'release authority unchanged');
+   for(const [rel,hash]of Object.entries(priorTools.successorTools.files))if(!RESTAGE_TRANSPORT_FILES.includes(rel))expect(t.files[rel],hash,`preserved tools: ${rel}`);
+   const delta=[...new Set([...git(['diff','--name-only',restageTransportCorrection]).split('\n'),...git(['ls-files','--others','--exclude-standard']).split('\n')].filter(Boolean))].sort();
+   expect(delta,RESTAGE_TRANSPORT_FILES.slice().sort(),'exact restage transport paths');
+  }else if(restageCorrection){
+   expect(preactivation,true,'restage only on reviewed pre-activation release');
+   expect(correction,undefined,'no combined dependency correction scope');
+   expect(restageCorrection,PRODUCTION_RESTAGE_BASE,'exact Production restage base');
+   const priorTools=JSON.parse(git(['show',`${restageCorrection}:${toolsPath}`]));
+   expect(binding,{...priorTools,toolsSha:restageCorrection,successorTools:{...priorTools.successorTools,preactivationProductionRestageBaseSha:restageCorrection,files:t.files}},'only bounded Production restage correction');
+   const priorCandidate=JSON.parse(git(['show',`${restageCorrection}:data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json`]));
+   expect(candidate,{...priorCandidate,productionAuthorization:{...priorCandidate.productionAuthorization,phases:[...priorCandidate.productionAuthorization.phases,'restage'],restage:candidate.productionAuthorization.restage}},'only owner restage authorization added');
+   for(const [rel,hash]of Object.entries(priorTools.successorTools.files))if(!PRODUCTION_RESTAGE_FILES.includes(rel))expect(t.files[rel],hash,`preserved tools: ${rel}`);
+   const delta=[...new Set([...git(['diff','--name-only',restageCorrection]).split('\n'),...git(['ls-files','--others','--exclude-standard']).split('\n')].filter(Boolean))].sort();
+   expect(delta,PRODUCTION_RESTAGE_FILES.slice().sort(),'exact Production restage paths');
+  }else if(productionLegalAidProofCorrection){
+   expect(preactivation,true,'Production Legal Aid proof correction only on reviewed pre-activation release');
+   expect(correction,undefined,'no combined dependency correction scope');
+   expect(productionLegalAidProofCorrection,PRODUCTION_LEGAL_AID_PROOF_BASE,'exact Production Legal Aid proof correction base');
+   const priorTools=JSON.parse(git(['show',`${productionLegalAidProofCorrection}:${toolsPath}`]));
+   expect(binding,{...priorTools,toolsSha:productionLegalAidProofCorrection,successorTools:{...priorTools.successorTools,preactivationProductionLegalAidProofCorrectionBaseSha:productionLegalAidProofCorrection,files:t.files}},'only bounded Production Legal Aid proof correction');
+   for(const [rel,hash]of Object.entries(priorTools.successorTools.files))if(!PRODUCTION_LEGAL_AID_PROOF_FILES.includes(rel))expect(t.files[rel],hash,`preserved tools: ${rel}`);
+   const delta=[...new Set([...git(['diff','--name-only',productionLegalAidProofCorrection]).split('\n'),...git(['ls-files','--others','--exclude-standard']).split('\n')].filter(Boolean))].sort();
+   expect(delta,PRODUCTION_LEGAL_AID_PROOF_FILES.slice().sort(),'exact Production Legal Aid proof correction paths');
+  }else if(relationshipsCorrection){
+   expect(preactivation,true,'relationships correction only on reviewed pre-activation release');
+   expect(correction,undefined,'no combined dependency correction scope');
+   expect(relationshipsCorrection,LEGAL_AID_RELATIONSHIPS_BASE,'exact Legal Aid relationships correction base');
+   const priorTools=JSON.parse(git(['show',`${relationshipsCorrection}:${toolsPath}`]));
+   expect(binding,{...priorTools,toolsSha:relationshipsCorrection,successorTools:{...priorTools.successorTools,preactivationLegalAidRelationshipsCorrectionBaseSha:relationshipsCorrection,files:t.files}},'only bounded Legal Aid relationships correction');
+   for(const [rel,hash]of Object.entries(priorTools.successorTools.files))if(!LEGAL_AID_RELATIONSHIPS_FILES.includes(rel))expect(t.files[rel],hash,`preserved tools: ${rel}`);
+   const delta=[...new Set([...git(['diff','--name-only',relationshipsCorrection]).split('\n'),...git(['ls-files','--others','--exclude-standard']).split('\n')].filter(Boolean))].sort();
+   expect(delta,LEGAL_AID_RELATIONSHIPS_FILES.slice().sort(),'exact Legal Aid relationships correction paths');
+  }else if(legalAidHarnessSuccessor){
+   expect(preactivation,true,'Legal Aid harness successor only on reviewed pre-activation release');
+   expect(correction,undefined,'no combined dependency correction scope');
+   expect(legalAidHarnessSuccessor,LEGAL_AID_HARNESS_SUCCESSOR_BASE,'exact Legal Aid harness successor base');
+   const priorTools=JSON.parse(git(['show',`${legalAidHarnessSuccessor}:${toolsPath}`]));
+   expect(binding,{...priorTools,toolsSha:legalAidHarnessSuccessor,successorTools:{...priorTools.successorTools,preactivationLegalAidHarnessSuccessorBaseSha:legalAidHarnessSuccessor,files:t.files}},'only bounded Legal Aid harness successor');
+   for(const [rel,hash]of Object.entries(priorTools.successorTools.files))if(!LEGAL_AID_HARNESS_SUCCESSOR_FILES.includes(rel))expect(t.files[rel],hash,`preserved tools: ${rel}`);
+   const delta=[...new Set([...git(['diff','--name-only',legalAidHarnessSuccessor]).split('\n'),...git(['ls-files','--others','--exclude-standard']).split('\n')].filter(Boolean))].sort();
+   expect(delta,LEGAL_AID_HARNESS_SUCCESSOR_FILES.slice().sort(),'exact Legal Aid harness successor paths');
+  }else if(seedRerunCorrection){
+   expect(preactivation,true,'seed rerun correction only on reviewed pre-activation release');
+   expect(correction,undefined,'no combined dependency correction scope');
+   expect(seedRerunCorrection,LEGAL_AID_SEED_RERUN_CORRECTION_BASE,'exact Legal Aid seed rerun correction base');
+   expect(harnessCorrection,HARNESS_CORRECTION_BASE,'preserved approved harness correction base');
+   const priorTools=JSON.parse(git(['show',`${seedRerunCorrection}:${toolsPath}`]));
+   expect(binding,{...priorTools,toolsSha:seedRerunCorrection,successorTools:{...priorTools.successorTools,preactivationLegalAidSeedRerunCorrectionBaseSha:seedRerunCorrection,files:t.files}},'only bounded Legal Aid seed rerun tools correction');
+   for(const [rel,hash]of Object.entries(priorTools.successorTools.files))if(!LEGAL_AID_SEED_RERUN_CORRECTION_FILES.includes(rel))expect(t.files[rel],hash,`preserved tools: ${rel}`);
+   const delta=[...new Set([...git(['diff','--name-only',seedRerunCorrection]).split('\n'),...git(['ls-files','--others','--exclude-standard']).split('\n')].filter(Boolean))].sort();
+   expect(delta,LEGAL_AID_SEED_RERUN_CORRECTION_FILES.slice().sort(),'exact Legal Aid seed rerun correction paths');
+  }else if(harnessCorrection){
+   expect(preactivation,true,'harness correction only on reviewed pre-activation release');
+   expect(correction,undefined,'no combined dependency correction scope');
+   expect(harnessCorrection,HARNESS_CORRECTION_BASE,'exact harness correction base');
+   const priorTools=JSON.parse(git(['show',`${harnessCorrection}:${toolsPath}`]));
+   expect(binding,{...priorTools,toolsSha:harnessCorrection,successorTools:{...priorTools.successorTools,preactivationHarnessCorrectionBaseSha:harnessCorrection,files:t.files}},'only bounded pre-activation harness tools correction');
+   for(const [rel,hash]of Object.entries(priorTools.successorTools.files))if(!HARNESS_CORRECTION_FILES.includes(rel))expect(t.files[rel],hash,`preserved tools: ${rel}`);
+   const delta=[...new Set([...git(['diff','--name-only',harnessCorrection]).split('\n'),...git(['ls-files','--others','--exclude-standard']).split('\n')].filter(Boolean))].sort();
+   expect(delta,HARNESS_CORRECTION_FILES.slice().sort(),'exact harness correction paths');
+  }else if(closure){
+   expect(preactivation,true,'closure only on reviewed pre-activation release');
+   expect(correction,undefined,'no combined dependency correction scope');
+   expect(closure,CLOSURE_BASE,'exact readiness closure base');
+   const priorTools=JSON.parse(git(['show',`${closure}:${toolsPath}`]));
+   expect(binding,{...priorTools,toolsSha:closure,successorTools:{...priorTools.successorTools,preactivationClosureBaseSha:closure,files:t.files}},'only bounded integrated closure tools correction');
+   for(const [rel,hash]of Object.entries(priorTools.successorTools.files))if(!CLOSURE_FILES.includes(rel))expect(t.files[rel],hash,`preserved tools: ${rel}`);
+   const delta=[...new Set([...git(['diff','--name-only',closure]).split('\n'),...git(['ls-files','--others','--exclude-standard']).split('\n')].filter(Boolean))].sort();
+   expect(delta,CLOSURE_FILES.slice().sort(),'exact integrated closure paths');
+  }else if(readinessCorrection){
+   expect(preactivation,true,'readiness correction only on reviewed pre-activation release');
+   expect(correction,undefined,'no combined dependency correction scope');
+   expect(readinessCorrection,READINESS_CORRECTION_BASE,'exact reviewed readiness correction base');
+   const priorTools=JSON.parse(git(['show',`${readinessCorrection}:${toolsPath}`]));
+   expect(binding,{...priorTools,toolsSha:readinessCorrection,successorTools:{...priorTools.successorTools,preactivationReadinessCorrectionBaseSha:readinessCorrection,files:t.files}},'only bounded readiness tools correction');
+   for(const [rel,hash]of Object.entries(priorTools.successorTools.files))if(!READINESS_CORRECTION_FILES.includes(rel))expect(t.files[rel],hash,`preserved tools: ${rel}`);
+   const delta=[...new Set([...git(['diff','--name-only',readinessCorrection]).split('\n'),...git(['ls-files','--others','--exclude-standard']).split('\n')].filter(Boolean))].sort();
+   expect(delta,READINESS_CORRECTION_FILES.slice().sort(),'exact readiness correction paths');
+  }else if(hostedTestCorrection){
+   expect(preactivation,true,'hosted test correction only on reviewed pre-activation release');
+   expect(correction,undefined,'no combined correction scope');
+   expect(hostedTestCorrection,HOSTED_EVIDENCE_TEST_CORRECTION_BASE,'exact reviewed pre-activation correction base');
+   const priorTools=JSON.parse(git(['show',`${hostedTestCorrection}:${toolsPath}`]));
+   expect(binding,{...priorTools,toolsSha:hostedTestCorrection,successorTools:{...priorTools.successorTools,hostedEvidenceTestCorrectionBaseSha:hostedTestCorrection,files:t.files}},'only exact hosted-evidence test tools correction');
+   for(const [rel,hash]of Object.entries(priorTools.successorTools.files))if(!HOSTED_EVIDENCE_TEST_CORRECTION_FILES.includes(rel))expect(t.files[rel],hash,`preserved tools: ${rel}`);
+   const delta=[...new Set([...git(['diff','--name-only',hostedTestCorrection]).split('\n'),...git(['ls-files','--others','--exclude-standard']).split('\n')].filter(Boolean))].sort();
+   expect(delta,HOSTED_EVIDENCE_TEST_CORRECTION_FILES.slice().sort(),'exact hosted-evidence test correction paths');
+  }
+  if(correction){
+   expect(preflightOnly,true,'dependency correction only on approved preflight release');
+   expect(correction,PRODUCTION_DEPENDENCY_ORDER_BASE,'exact dependency-order correction base');
+   const priorTools=JSON.parse(git(['show',`${correction}:${toolsPath}`]));
+   expect(binding,{...priorTools,toolsSha:correction,successorTools:{...priorTools.successorTools,dependencyOrderCorrectionBaseSha:correction,files:t.files}},'only exact dependency-order tools correction');
+   for(const [rel,hash]of Object.entries(priorTools.successorTools.files))if(!PRODUCTION_DEPENDENCY_ORDER_FILES.includes(rel))expect(t.files[rel],hash,`preserved tools: ${rel}`);
+   const delta=[...new Set([...git(['diff','--name-only',correction]).split('\n'),...git(['ls-files','--others','--exclude-standard']).split('\n')].filter(Boolean))].sort();
+   expect(delta,PRODUCTION_DEPENDENCY_ORDER_FILES.slice().sort(),'exact dependency-order correction paths');
+  }
+  expect(binding.toolsSha,commitBase,'tools base identity');expect(t.baseSha,base,'release/tools base');
   expect(t.schemaVersion,'rcap-successor-resume-tools/v1','tools schema');expect(t.commit,'single-commit-after-base','bounded successor');
   const head=git(['rev-parse','HEAD']);
-  if(head!==base)expect(git(['rev-list','--parents','-n','1',head]).split(' '),[head,base],'one non-merge tools successor');
+  if(head!==commitBase)expect(git(['rev-list','--parents','-n','1',head]).split(' '),[head,commitBase],'one non-merge tools successor');
   expect(Object.keys(t.files).sort(),generationFiles.filter(p=>p!==toolsPath).sort(),'exact tools manifest paths');
   for(const [rel,hash]of Object.entries(t.files))expect(createHash('sha256').update(fs.readFileSync(path.join(root,rel))).digest('hex'),hash,`tools drift: ${rel}`);
   const changed=[...new Set([...git(['diff','--name-only',base]).split('\n'),...git(['ls-files','--others','--exclude-standard']).split('\n')].filter(Boolean))].sort();
   expect(changed,generationFiles.slice().sort(),'exact generation change boundary');
+  if(pending.applicationSha!==pending.workerSourceSha){
+    expect(read('data/rcap-grade-a/launch-control/APPLICATION_INPUT_MANIFEST.json'),applicationInputManifest(root,pending.applicationSha),'candidate-derived application manifest');
+  }
   const e=read('data/rcap-render/worker-publication-evidence.json');
   for(const record of [candidate,binding]){
    for(const k of ['applicationSha','workerSourceSha','workerDigest','workerInputFingerprint','runtimeAccepted','workerRebuildRequired','releaseBaseSha'])expect(record[k],pending[k],`current tuple ${k}`);
-   expect(record.status,pending.status,'accepted status');expect(record.previewExecution,'held','Preview execution held');expect(record.productionAuthorized,false,'Production held');
+   expect(record.status,publicVerificationClosure?PUBLIC_VERIFICATION_CLOSED_STATUS:publicVerification?PUBLIC_VERIFICATION_STATUS:activationClosure?ACTIVATION_CLOSED_STATUS:activationAuthorization?ACTIVATION_STATUS:pending.status,'accepted status');expect(record.previewExecution,'held','Preview execution held');expect(record.productionAuthorized,productionScoped,'Production phase-scoped flag');
   }
   for(const k of ['deploymentAuthorized','migrationReplayAuthorized','housekeepingReplayAuthorized','additionalWorkerPublicationAuthorized','imageAcceptanceRerunAuthorized','hostedFullReady','clinicDispatchReady'])expect(binding[k],false,`tools cannot authorize ${k}`);
-  expect(candidate.productionAuthorization,null,'no Production authorization');expect(candidate.hostedAcceptanceStatus,pending.status,'hosted status');
-  expect(candidate.hostedAcceptance.preview,null,'no final Preview');expect(candidate.hostedAcceptance.naturalDelivery,null,'no delivery');expect(candidate.hostedAcceptance.journeys,[],'no hosted journeys');expect(candidate.hostedAcceptance.manualHostedFullReady,false,'not hosted-ready');
-  expect(candidate.previewExecutionInstruction.preview_hostname,'','no hostname');expect(candidate.previewExecutionInstruction.preview_deployment_id,'','no deployment');expect(candidate.previewExecutionInstruction.executionAuthorized,false,'no dispatch');
+  if(productionScoped){
+   if(preactivation){assertPreactivationAuthorization(candidate);expect(candidate.scope,publicVerificationClosure?PUBLIC_VERIFICATION_CLOSED_SCOPE:publicVerification?PUBLIC_VERIFICATION_SCOPE:activationClosure?ACTIVATION_CLOSED_SCOPE:activationAuthorization?ACTIVATION_SCOPE:PREACTIVATION_SCOPE,'bounded release scope');expect(candidate.productionAuthorization.preflight,verifyProductionPreflightEvidence(root),'bound native preflight');expect(candidate.productionAuthorization.restage.successfulReceipt,verifyProductionRestageEvidence(root),'bound native successful restage');expect(candidate.productionAuthorization.smokeReceipt,verifyProductionSmokeEvidence(root),'bound native successful smoke');}
+   else {assertPreflightOnlyAuthorization(candidate);expect(candidate.scope,PREFLIGHT_SCOPE,'preflight-only scope');}
+   const recordedAt=Date.parse(candidate.productionAuthorization.recordedAt);
+   const predecessorAt=Number(git(['show','-s','--format=%ct',base]))*1000;
+   expect(recordedAt>=predecessorAt&&recordedAt<=Date.now(),true,'authorization timestamp belongs to this successor');
+  }
+  else expect(candidate.productionAuthorization,null,'no Production authorization');
+  expect(candidate.hostedAcceptanceStatus,pending.status,'hosted status');
+  if(base===HOSTED_BASE||productionScoped)expect(candidate.hostedAcceptance,verifyHostedAcceptanceEvidence(root),'exact native hosted acceptance');
+  else {expect(candidate.hostedAcceptance.preview,null,'no final Preview');expect(candidate.hostedAcceptance.naturalDelivery,null,'no delivery');expect(candidate.hostedAcceptance.journeys,[],'no hosted journeys');expect(candidate.hostedAcceptance.manualHostedFullReady,false,'not hosted-ready');}
+  expect(candidate.previewExecutionInstruction.preview_hostname,(base===HOSTED_BASE||productionScoped)?PREVIEW.hostname:'','exact held hostname');expect(candidate.previewExecutionInstruction.preview_deployment_id,(base===HOSTED_BASE||productionScoped)?PREVIEW.deploymentId:'','exact held deployment');expect(candidate.previewExecutionInstruction.executionAuthorized,false,'no dispatch');
   expect(candidate.readOnlyImageAcceptance,e.imageAcceptance,'exact successful native acceptance');expect(candidate.workerDigestReference,e.digestPinnedReference,'immutable image reference');
   expect(candidate.publication,{runId:e.workflowRunId,runAttempt:e.workflowRunAttempt,artifactId:e.publicationArtifactId,artifactSha256:e.publicationArtifactSha256,conclusion:e.workflowConclusion},'exact publication');
   for(const rel of [toolsPath,CANDIDATE_PATH]){
@@ -735,14 +1457,14 @@ function verifyGenerationBinding(root,candidate,pending){
   const previous=JSON.parse(git(['show',`${base}:${CANDIDATE_PATH}`]));
   const previousTools=JSON.parse(git(['show',`${base}:${toolsPath}`]));
   // Any field outside the explicit generation update retains its prior meaning.
-  const candidateUpdates=new Set(['status','releaseBaseSha','applicationSha','workerSourceSha','workerDigest','workerInputFingerprint','workerRebuildRequired','runtimeAccepted','previewExecution','productionAuthorized','workerDigestReference','publication','readOnlyImageAcceptance','supersededRecord','supersededRecordSha256','applicationPin','hostedAcceptance','scope','previewExecutionInstruction']);
+  const candidateUpdates=new Set([...(productionScoped?['productionAuthorization']:[]),'hostedAcceptanceStatus','status','releaseBaseSha','applicationSha','workerSourceSha','workerDigest','workerInputFingerprint','workerRebuildRequired','runtimeAccepted','previewExecution','productionAuthorized','workerDigestReference','publication','readOnlyImageAcceptance','supersededRecord','supersededRecordSha256','applicationPin','hostedAcceptance','scope','previewExecutionInstruction']);
   for(const key of new Set([...Object.keys(previous),...Object.keys(candidate)]))if(!candidateUpdates.has(key))expect(candidate[key],previous[key],`unchanged candidate field ${key}`);
   const toolsUpdates=new Set(['status','releaseBaseSha','applicationSha','workerSourceSha','workerDigest','workerInputFingerprint','workerRebuildRequired','runtimeAccepted','previewExecution','productionAuthorized','toolsSha','successorTools','supersededRecord','supersededRecordSha256','manualPushAndDispatchOwner']);
   for(const key of new Set([...Object.keys(previousTools),...Object.keys(binding)]))if(!toolsUpdates.has(key))expect(binding[key],previousTools[key],`unchanged tools field ${key}`);
   expect(candidate.applicationPin,{...previous.applicationPin,sourceSha:pending.applicationSha,canonicalInputBaseline:pending.applicationSha,workerInputFingerprint:pending.workerInputFingerprint},'exact application pin');
-  expect(candidate.previewExecutionInstruction,{...previous.previewExecutionInstruction,mode:null},'no inherited resume authority');
-  expect(Object.keys(t).sort(),['schemaVersion','baseSha','commit','files'].sort(),'no inherited tools correction scope');
-  return {current:true,status:'CURRENT',hostedAcceptanceStatus:pending.status,previewExecution:'held',productionAuthorized:false,reasons:[]};
+  expect(candidate.previewExecutionInstruction,{...previous.previewExecutionInstruction,mode:null,...((base===HOSTED_BASE||productionScoped)?{preview_hostname:PREVIEW.hostname,preview_deployment_id:PREVIEW.deploymentId,firstExecution:'Hosted acceptance is complete; no execution authorized by this record.'}:{})},'exact Preview identity without execution authority');
+  expect(Object.keys(t).sort(),['schemaVersion','baseSha','commit','files',...(correction?['dependencyOrderCorrectionBaseSha']:[]),...(hostedTestCorrection?['hostedEvidenceTestCorrectionBaseSha']:[]),...(readinessCorrection?['preactivationReadinessCorrectionBaseSha']:[]),...(closure?['preactivationClosureBaseSha']:[]),...(harnessCorrection?['preactivationHarnessCorrectionBaseSha']:[]),...(seedRerunCorrection?['preactivationLegalAidSeedRerunCorrectionBaseSha']:[]),...(legalAidHarnessSuccessor?['preactivationLegalAidHarnessSuccessorBaseSha']:[]),...(relationshipsCorrection?['preactivationLegalAidRelationshipsCorrectionBaseSha']:[]),...(productionLegalAidProofCorrection?['preactivationProductionLegalAidProofCorrectionBaseSha']:[]),...(restageCorrection?['preactivationProductionRestageBaseSha']:[]),...(restageTransportCorrection?['preactivationRestageTransportBaseSha']:[]),...(restageRoutingCorrection?['preactivationRestageRoutingBaseSha']:[]),...(restageBinding?['preactivationRestageBindingBaseSha']:[]),...(smokeReset?['preactivationSmokeResetBaseSha']:[]),...(smokeEvidence?['preactivationSmokeEvidenceBaseSha']:[]),...(activationAuthorization?['activationAuthorizationBaseSha']:[]),...(artifactIsolation?['activationArtifactIsolationBaseSha']:[]),...(activationClosure?['activationClosureBaseSha']:[]),...(publicVerification?['publicVerificationAuthorizationAndWorkflowBaseSha']:[]),...(publicVerificationClosure?['publicVerificationClosureBaseSha']:[]),...(packetCanaryImplementation?['packetCanaryImplementationBaseSha']:[]),...(packetCanaryTestBoundaryCorrection?['packetCanaryTestBoundaryCorrectionBaseSha']:[]),...(packetCanaryFlyctlPin?['packetCanaryFlyctlPinBaseSha']:[])].sort(),'no inherited tools correction scope');
+  return {current:true,status:'CURRENT',hostedAcceptanceStatus:candidate.hostedAcceptanceStatus,releaseStatus:candidate.status,previewExecution:'held',productionAuthorized:productionScoped,productionPhases:preactivation?[...PREACTIVATION_PHASES,...(publicVerification&&!publicVerificationClosure?['public_verify']:[]),...(activationAuthorization&&!activationClosure?['activate']:[])]:preflightOnly?['preflight']:[],reasons:[]};
  }catch(error){return {current:false,status:'STALE_OR_UNVERIFIED',reasons:[error.message]};}
 }
 

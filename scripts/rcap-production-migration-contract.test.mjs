@@ -13,12 +13,13 @@ import {
 } from './rcap-production-migration-contract.mjs';
 import { runProductionClinicMigration } from './rcap-production-clinic-migrate.mjs';
 import { runProductionLegalAidMigration } from './rcap-production-legal-aid-migrate.mjs';
-import {
-  runProductionForwardChainMigration, LEDGER_BASELINE_VERSIONS, MIGRATIONS,
-  UNLEDGERED_PRIOR_STEPS, PHASE_PREREQUISITES
-} from './rcap-production-forward-chain-migrate.mjs';
-import { packetApplicationTestDatabase } from './rcap-packet-database-reference.mjs';
-import { packetCatalogQuery, CORRECTION_PATH } from './rcap-packet-database-contract.mjs';
+// Forward correction now requires the real captured-state authorization, not
+// this file's generic local tuple or a source-only database missing preserved
+// Production triggers. Reuse the actual-entrypoint suite: exact captured and
+// corrected states, no-op, one guarded transaction, drift/partial/concurrency
+// refusals, and independent full-tuple authorization. Its transport is offline;
+// it does not substitute for the separately retained SQL transformation tests.
+import './rcap-production-forward-chain-correction.test.mjs';
 
 const root=process.cwd();
 const head=execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim();
@@ -27,7 +28,7 @@ const head=execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim();
 const candidate={applicationSha:head,workerSourceSha:head,workerDigest:'sha256:'+'a'.repeat(64),
   workerInputFingerprint:'sha256:'+'b'.repeat(64),productionProjectRef:PRODUCTION_PROJECT_REF,
   productionAuthorized:true};
-candidate.productionAuthorization={...candidate,authorized:true,recordedBy:'local fixture',recordedAt:'2026-09-24',
+candidate.productionAuthorization={...candidate,authorized:true,recordedBy:'local fixture',recordedAt:new Date().toISOString(),
   phases:['clinic_migrate','legal_aid_migrate','forward_chain_migrate']};
 const binding={...candidate,toolsSha:head};
 const environment={RCAP_APPLICATION_SHA:head,RCAP_WORKER_SOURCE_SHA:head,RCAP_WORKER_DIGEST:candidate.workerDigest,
@@ -160,54 +161,13 @@ test('actual Clinic and Legal Aid entrypoints accept complete source state witho
   });
 });
 
-test('actual Production forward control rejects signature/ledger receipts without current postconditions and succeeds on complete state without writes',async t=>{
-  let db=packetApplicationTestDatabase(root);t.after(()=>db.stop());
-  const canonicalMatterPath='supabase/migrations/20260925134704_canonical_consumer_presentation_matter.sql';
-  db.applyFile(path.join(root,canonicalMatterPath));
-  const inventory={ledger_present:true,ledger_has_name_column:true,
-    ledger_versions:[...LEDGER_BASELINE_VERSIONS,...MIGRATIONS.map(m=>m.version)]};
-  for(const m of MIGRATIONS)inventory[`sig_${m.version}`]=true;
-  for(const p of PHASE_PREREQUISITES)inventory[`prereq_${p.name}`]=true;
-  for(const p of UNLEDGERED_PRIOR_STEPS)inventory[`prior_${p.version}`]=true;
-  const requests=[];
-  const fetch=async(url,opts)=>{
-    if(opts.method==='GET')return response(url.endsWith('/backups')?{backups:[]}:{ref:PRODUCTION_PROJECT_REF});
-    const {query}=JSON.parse(opts.body);requests.push(query);
-    assert.match(query.trim(),/^(select|with|set search_path)\b/i,'no historical replay or receipt adoption');
-    // Historical inventory/impact is a Management API protocol fixture. The
-    // required current dependency catalog is always real PostgreSQL output.
-    if(query===packetCatalogQuery())return response([{catalog:JSON.parse(db.sql(query).trim().split('\n').at(-1))}]);
-    if(query.includes('p.prosrc, p.prosecdef'))return response(db.json(`select jsonb_agg(t) from (${query}) t`));
-    if(query.includes('ledger_versions'))return response([inventory]);
-    if(query.includes('select column_name::text'))return response(['claim_token_hash','status','claimed_matter_id'].map(column_name=>({column_name})));
-    if(query.includes('count(*)::int as total_rows'))return response([{total_rows:0}]);
-    assert.fail(`unexpected query: ${query.slice(0,120)}`);
-  };
-  const run=()=>runProductionForwardChainMigration({env:{...environment,RCAP_PRODUCTION_PHASE:'forward_chain_migrate',RCAP_PRODUCTION_EVIDENCE_DIR:evidenceDirectory(t)},rootDir:root,fetch,requireRelease:requireLocalRelease});
-  db.sql('alter table packet_render_jobs drop column sponsored_consumer_auth_user_id');
-  const stale=await run();
-  assert.equal(stale.passed,false);assert.match(stale.failure,/migration_not_certified/);
-  assert.equal(stale.productionDatabaseMutated,false);assert.equal(stale.ledgerRowsRecorded.length,0);
-  // Restore a fresh current-source fixture; replaying the older repair over
-  // later authorized finalizer definitions is correctly refused.
-  db.stop();db=packetApplicationTestDatabase(root);db.applyFile(path.join(root,canonicalMatterPath));
-  const correct=await run();
-  assert.equal(correct.passed,true,correct.failure);assert.equal(correct.productionDatabaseMutated,false);
-  assert.equal(correct.migrationsApplied.length,0);assert.equal(correct.ledgerRowsRecorded.length,0);
-  assert.equal(correct.migrationDisposition,'current_release_dependencies_verified_no_write');
-  assert.equal(correct.historicalChainCertified,false);
-  db.sql(fs.readFileSync(path.join(root,canonicalMatterPath),'utf8').replace('public.consumer_matter_id_for_briefcase_item(i.id)::text as matter_id','i.id::text as matter_id'));
-  const wrongMatter=await run();
-  assert.equal(wrongMatter.passed,false);assert.match(wrongMatter.failure,/current_canonical_matter_rpc_exact/);
-  assert.equal(wrongMatter.migrationsApplied.length,0);assert.equal(wrongMatter.productionDatabaseMutated,false);
-
-});
-
 // Read-only public verification must follow authorization, not compiled release literals.
 test('public verification uses current authorized deployment identities and cannot use a historical tuple',()=>{
   const source=fs.readFileSync('scripts/rcap-production-public-verify.mjs','utf8');
   const workflow=fs.readFileSync('.github/workflows/rcap-f1-ephemeral-staging.yml','utf8');
-  const block=workflow.slice(workflow.indexOf('  production_public_verify:'),workflow.indexOf('  # 2026-09-16 production incident'));
+  const block=workflow.match(/^  production_public_verify:\n[\s\S]*?(?=^  [A-Za-z_][A-Za-z0-9_-]*:|(?![\s\S]))/m)?.[0];
+  assert.ok(block,'public verification job exists');
+  assert.deepEqual([...block.matchAll(/^  ([A-Za-z_][A-Za-z0-9_-]*):/gm)].map(match=>match[1]),['production_public_verify']);
   for(const key of ['applicationSha','workerSourceSha','workerDigest'])assert.ok(source.includes(`RELEASE_CANDIDATE.${key}`));
   for(const key of ['stagedDeploymentId','rollbackDeploymentId'])assert.ok(source.includes(`RELEASE_CANDIDATE.productionAuthorization?.${key}`));
   assert.ok(source.includes('requireProductionMigrationRelease(process.cwd(), process.env)'));

@@ -254,6 +254,18 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          # Node 22, as the published worker image (node:22-slim) and the local
+          # verification run. The application's Supabase client
+          # (@supabase/realtime-js 2.106) requires a native WebSocket when it
+          # connects, which Node 20 lacks; run 35036010302 stopped there.
+          node-version: 22
+
+      - name: Install release verification dependencies from lockfile
+        run: npm ci
+
       - name: Verify ancestry and image-input equivalence of every pinned SHA
         run: |
           set -euo pipefail
@@ -266,8 +278,8 @@ jobs:
             || { echo "::error::the accepted worker source is not an ancestor of the final application candidate"; exit 1; }
           git merge-base --is-ancestor "${{ inputs.application_sha }}" "${{ inputs.tools_sha }}" \
             || { echo "::error::the final application candidate is not an ancestor of the workflow tools SHA"; exit 1; }
-          git diff --quiet "${{ inputs.application_sha }}" "${{ inputs.tools_sha }}" -- src package.json package-lock.json tsconfig.json next.config.ts postcss.config.mjs tailwind.config.ts public docs/record-clearing/field-map-drafts data/record-clearing/supplemental-guides data/record-clearing/brand/legalease-logo.png \
-            || { echo "::error::tools_sha differs from application_sha on application bytes"; exit 1; }
+          node scripts/rcap-application-inputs.mjs --base "${{ inputs.application_sha }}" --head "${{ inputs.tools_sha }}"
+          node scripts/verify-rcap-application-candidate.mjs --application "${{ inputs.application_sha }}"
           # Service inspection makes no image/application acceptance claim.
           # Every other phase retains the existing image-equivalence refusals.
           if [ "${{ inputs.phase }}" != "preflight" ] && [ "${{ inputs.phase }}" != "vercel_identity" ]; then
@@ -308,15 +320,6 @@ jobs:
             if (release[key] !== process.env[env]) throw new Error('current_release_input_mismatch:' + key);
           }
           JS
-
-      - name: Set up Node
-        uses: actions/setup-node@v4
-        with:
-          # Node 22, as the published worker image (node:22-slim) and the local
-          # verification run. The application's Supabase client
-          # (@supabase/realtime-js 2.106) requires a native WebSocket when it
-          # connects, which Node 20 lacks; run 35036010302 stopped there.
-          node-version: 22
 
       # THE RELEASE BINDING IS LOAD-BEARING HERE, not only in a unit test.
       #
@@ -588,10 +591,10 @@ jobs:
       # exists to catch, which is exactly how it behaved when placed earlier.
       # Structured metadata checks execute the real adapter and TypeScript
       # parser, so frozen dependencies must exist before this verifier runs.
-      - name: Install frozen application dependencies for the Checkout gate
+      - name: Verify frozen application dependencies for the Checkout gate
         id: gate_deps
         if: inputs.phase == 'clinic_resume' || inputs.phase == 'clinic_deploy' || steps.contract.outputs.matrix == 'true' || steps.contract.outputs.gate == 'true' || steps.contract.outputs.diagnose == 'true' || steps.contract.outputs.browser == 'true' || steps.contract.outputs.clinic == 'true' || steps.contract.outputs.legal_aid == 'true' || steps.contract.outputs.sponsor_cap == 'true'
-        run: npm ci
+        run: npm ls --depth=0
 
       - name: Verify the bounded MVL Clinic Preview orchestration contract
         id: verify_clinic_preview
@@ -694,7 +697,7 @@ jobs:
           HOSTED_STRIPE_CATALOG_PRODUCT_ID: ${{ steps.contract.outputs.resume != 'true' && steps.contract.outputs.clinic != 'true' && (steps.preview_catalog.outputs.product_id || steps.stripe_fixtures.outputs.product_id) || '' }}
           HOSTED_REQUIRE_DTC_READINESS: ${{ steps.contract.outputs.dtc }}
           HOSTED_REQUIRE_STAGING_SCOPED: ${{ steps.contract.outputs.require_staging_scoped }}
-          HOSTED_CLINIC_DEMO_MODE: ${{ (steps.contract.outputs.clinic == 'true' || steps.contract.outputs.resume == 'true' || steps.contract.outputs.legal_aid == 'true' || steps.contract.outputs.sponsor_cap == 'true') && 'mississippi_preview' || '' }}
+          HOSTED_CLINIC_DEMO_MODE: ${{ (steps.contract.outputs.clinic == 'true' || steps.contract.outputs.resume == 'true' || steps.contract.outputs.sponsor_cap == 'true') && 'mississippi_preview' || '' }}
         run: node scripts/rcap-hosted-resolve-preview.mjs
 
       # DS-08 continuity recovery: runner-local only, never repository secrets
@@ -794,7 +797,7 @@ jobs:
           HOSTED_PREVIEW_DEPLOYMENT_ID: ${{ steps.resolve_preview.outputs.deployment_id || steps.deploy_preview.outputs.deployment_id }}
           HOSTED_PREVIEW_HOSTNAME: ${{ steps.resolve_preview.outputs.hostname || steps.deploy_preview.outputs.hostname }}
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-          HOSTED_CLINIC_DEMO_MODE: ${{ (steps.contract.outputs.clinic == 'true' || steps.contract.outputs.resume == 'true' || steps.contract.outputs.legal_aid == 'true' || steps.contract.outputs.sponsor_cap == 'true') && 'mississippi_preview' || '' }}
+          HOSTED_CLINIC_DEMO_MODE: ${{ (steps.contract.outputs.clinic == 'true' || steps.contract.outputs.resume == 'true' || steps.contract.outputs.sponsor_cap == 'true') && 'mississippi_preview' || '' }}
           HOSTED_CLINIC_DEMO_PASSWORD: ${{ secrets.HOSTED_CLINIC_DEMO_PASSWORD }}
         run: node scripts/rcap-hosted-acceptance-auth-config.mjs
 
