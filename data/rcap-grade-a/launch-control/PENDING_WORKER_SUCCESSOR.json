@@ -1,6 +1,6 @@
 {
   "schemaVersion": "rcap-pending-worker-successor/v1",
-  "status": "FORWARD_BOUND_HOSTED_PENDING",
+  "status": "READ_ONLY_STAGED_ACCEPTED_PRODUCTION_HELD",
   "applicationSha": "a9f02a89cac16e5b760e41acfccd0a685e8071b7",
   "workerSourceSha": "e3ac438da981c84987bd3172751e1a09e3f42309",
   "workerDigest": "sha256:be3d579fe808b8f0c806fed303f358edfe7a3bb6112866f4484d15ca7de4382a",
@@ -26,7 +26,273 @@
   "productionAuthorization": null,
   "deploymentAuthorized": false,
   "clinicDispatchReady": false,
-  "hostedAdmission": null,
+  "hostedAdmission": {
+    "schemaVersion": "rcap-readonly-successor-admission/v1",
+    "capturedAt": "2026-10-06T13:41:50.063Z",
+    "applicationSha": "a9f02a89cac16e5b760e41acfccd0a685e8071b7",
+    "workerSourceSha": "e3ac438da981c84987bd3172751e1a09e3f42309",
+    "workerDigest": "sha256:be3d579fe808b8f0c806fed303f358edfe7a3bb6112866f4484d15ca7de4382a",
+    "workerInputFingerprint": "sha256:82d31e68a0edb0557bc9c2f9fce041e6760dd771ab02dc3b385e77235f99f867",
+    "toolsSha": "fd42d15a40d2ac640582c968325f7029241700ae",
+    "workerRollbackVerified": true,
+    "queueSafetyVerified": true,
+    "sharedHostRoutingMethod": "frozen-proxy-map-and-staged-targets",
+    "stagingCreation": {
+      "runId": 37457756634,
+      "workflowSourceSha": "6eec672ac2cd871d541b0efd6aa9183380d39825",
+      "toolsSha": "7b86dff1b62461c360195517095cb39e748286a0",
+      "autoAssignCustomDomains": false
+    },
+    "workflowSourceSha": "6c7746822fb2aff2c002e27d16fa202cd986587d",
+    "runId": 37472391944,
+    "deploymentId": "dpl_GYc99gmGcpTioRSn8Jq6hKiUqhUY",
+    "hostname": "legalease-partner-dashboard-clean-q1ss4jmds-roger947s-projects.vercel.app",
+    "productionRollback": "dpl_3j4Dr4GHyXmwmrFCTZ6orNNNP7sc",
+    "productionAliases": [
+      {
+        "alias": "expungement.ai",
+        "redirect": null
+      },
+      {
+        "alias": "legalease-partner-dashboard-clean-git-c82cba-roger947s-projects.vercel.app",
+        "redirect": null
+      },
+      {
+        "alias": "legalease-partner-dashboard-clean.vercel.app",
+        "redirect": null
+      },
+      {
+        "alias": "legalease.com",
+        "redirect": null
+      },
+      {
+        "alias": "legaleasepartner.com",
+        "redirect": null
+      },
+      {
+        "alias": "www.expungement.ai",
+        "redirect": "expungement.ai"
+      },
+      {
+        "alias": "www.legaleasepartner.com",
+        "redirect": null
+      }
+    ],
+    "productionAliasesUnchanged": true,
+    "autoAssignCustomDomains": false,
+    "signupVerified": true,
+    "sharedHostRoutingVerified": true,
+    "productionWrites": false,
+    "target": "production",
+    "readyState": "READY",
+    "liveAuthCalls": 0,
+    "productionAuthorized": false,
+    "emailDelivery": "UNVERIFIED: all authentication mocked",
+    "hostedScope": "read-only staged signup, host routing and aggregate queue safety; no live participant, payment, packet or queue consumption",
+    "runPath": "hosted-acceptance-evidence/successor-closure/37472391944/closure-run.json",
+    "receiptPath": "hosted-acceptance-evidence/successor-closure/37472391944/admission.json",
+    "jobsPath": "hosted-acceptance-evidence/successor-closure/37472391944/closure-jobs.json",
+    "artifactPath": "hosted-acceptance-evidence/successor-closure/37472391944/closure-artifact.json",
+    "archivePath": "hosted-acceptance-evidence/successor-closure/37472391944/closure-native.zip",
+    "artifactId": 11416639063,
+    "jobId": 112298967943,
+    "files": [
+      {
+        "path": "hosted-acceptance-evidence/successor-closure/37472391944/activation-contract.log",
+        "bytes": 3019,
+        "sha256": "b7c0b997fc5db20367b5208ec3ecdd3429d2ff18e9536597436c139c04ee5d33"
+      },
+      {
+        "path": "hosted-acceptance-evidence/successor-closure/37472391944/admission.json",
+        "bytes": 2247,
+        "sha256": "c723ef39ce5c431a7140125294a548606681d3e7ba6e99dc7e3c9c316d175536"
+      },
+      {
+        "path": "hosted-acceptance-evidence/successor-closure/37472391944/browser-results.json",
+        "bytes": 713,
+        "sha256": "8d2291dda76638b13301140f456e65deebd7c9145891745cb4071720f7d38ca2"
+      },
+      {
+        "path": "hosted-acceptance-evidence/successor-closure/37472391944/canary-contract.log",
+        "bytes": 4127,
+        "sha256": "455e12396e4c17149a1901205fe2ad0f3f45434354f31bc71bdf73f8fa591b70"
+      },
+      {
+        "path": "hosted-acceptance-evidence/successor-closure/37472391944/candidate-observed.json",
+        "bytes": 223,
+        "sha256": "f17e7ffbdf808b1f1999e5709cb9cff43fde82ac9c5460a6996339d3b67500b4"
+      },
+      {
+        "path": "hosted-acceptance-evidence/successor-closure/37472391944/candidate-ready.json",
+        "bytes": 504,
+        "sha256": "c17f205b2f2a818dbe49ae79a0b4e85331c5d74790c69434633d27266fd77164"
+      },
+      {
+        "path": "hosted-acceptance-evidence/successor-closure/37472391944/candidate-reuse.json",
+        "bytes": 309,
+        "sha256": "dbce5cea718d4b4fb3692e3203908c352f91e3712add738044b90f77c8dd4b2a"
+      },
+      {
+        "path": "hosted-acceptance-evidence/successor-closure/37472391944/closure-artifact.json",
+        "bytes": 867,
+        "sha256": "60ae0c390cf1b54ebf14675b6bbf1517c70a74ecb8f2ea19471bdc2641ac2dc8"
+      },
+      {
+        "path": "hosted-acceptance-evidence/successor-closure/37472391944/closure-jobs.json",
+        "bytes": 17976,
+        "sha256": "90a94edb9a9aee90e7648adee716f5ef6393c6ae1475655f6de39961cd196cee"
+      },
+      {
+        "path": "hosted-acceptance-evidence/successor-closure/37472391944/closure-native.zip",
+        "bytes": 249373,
+        "sha256": "cc6be07f3e7d3d3914db3e5bb32f635bed432e2e0297da93cef4e490a955bf0b"
+      },
+      {
+        "path": "hosted-acceptance-evidence/successor-closure/37472391944/closure-run.json",
+        "bytes": 17703,
+        "sha256": "0378a3a7d72f0f4e1f8fd2beb7065040b18b9294bc3cced3206ad6c75cee8e84"
+      },
+      {
+        "path": "hosted-acceptance-evidence/successor-closure/37472391944/deadlock-before.log",
+        "bytes": 106,
+        "sha256": "f75fc4d95020c9947c1749a51893b75f5ede93279bb2427106d60a9349626efa"
+      },
+      {
+        "path": "hosted-acceptance-evidence/successor-closure/37472391944/execution-tests.log",
+        "bytes": 1427,
+        "sha256": "40dd4969fdcadfe2772b770c7e380e180ff35030626d59d19bd46d882c48df3a"
+      },
+      {
+        "path": "hosted-acceptance-evidence/successor-closure/37472391944/fly-identity.json",
+        "bytes": 820,
+        "sha256": "6becd6af90e3e7d9ece76ef30f22f540126ff15316625e81c39067f7bceac762"
+      },
+      {
+        "path": "hosted-acceptance-evidence/successor-closure/37472391944/focused.log",
+        "bytes": 6501,
+        "sha256": "1031620b958556cc14b33e67dffecfe6f8b2b59b76af293318b1035f3a7c90f8"
+      },
+      {
+        "path": "hosted-acceptance-evidence/successor-closure/37472391944/frozen-product-check.json",
+        "bytes": 435,
+        "sha256": "4d6eccb33fe0d8081074d632a62b7d9b6723b7aaa6ced9e02700afaa0d6a0230"
+      },
+      {
+        "path": "hosted-acceptance-evidence/successor-closure/37472391944/generator-check.log",
+        "bytes": 189,
+        "sha256": "529afde76e80ea101f0bfd38f6bf57cc2636c9ea390ff3b5ea54a310d6d75ee8"
+      },
+      {
+        "path": "hosted-acceptance-evidence/successor-closure/37472391944/independent-review.json",
+        "bytes": 444,
+        "sha256": "55ab2642fab793bca0087199546d2a3a8d2339dbccf209754f2652735b92a424"
+      },
+      {
+        "path": "hosted-acceptance-evidence/successor-closure/37472391944/migration-baseline-comparison.json",
+        "bytes": 944,
+        "sha256": "d6f18aac02f498cbf7737740c6b844e341e6a566baa05f3b6910f65fc7610e80"
+      },
+      {
+        "path": "hosted-acceptance-evidence/successor-closure/37472391944/production-aliases-after.json",
+        "bytes": 551,
+        "sha256": "c52fc8419e8e30ad417ef6351961aac2049711bf4b3d9935d0fe93e934861ae9"
+      },
+      {
+        "path": "hosted-acceptance-evidence/successor-closure/37472391944/production-aliases-before.json",
+        "bytes": 551,
+        "sha256": "c52fc8419e8e30ad417ef6351961aac2049711bf4b3d9935d0fe93e934861ae9"
+      },
+      {
+        "path": "hosted-acceptance-evidence/successor-closure/37472391944/project-configuration.json",
+        "bytes": 273,
+        "sha256": "91bc4647d04a831da289e613788d0757fc0547da22c0674ac9add999067a5056"
+      },
+      {
+        "path": "hosted-acceptance-evidence/successor-closure/37472391944/queue-safety.json",
+        "bytes": 226,
+        "sha256": "051c87b37c9fba0ba3f4b758c83c30325543a9b905a4e5eeab8d2bea6f2f10b6"
+      },
+      {
+        "path": "hosted-acceptance-evidence/successor-closure/37472391944/shared-host-routing.json",
+        "bytes": 417,
+        "sha256": "ea9795376ec32a7f44babaf7453d193700c9a986ecb780e5cadeb3882df0bf26"
+      },
+      {
+        "path": "hosted-acceptance-evidence/successor-closure/37472391944/smoke-contract.log",
+        "bytes": 2263,
+        "sha256": "30900876f092f879d0fb029c0fbe980d1a79d3de481c47d6268e9bd617656938"
+      },
+      {
+        "path": "hosted-acceptance-evidence/successor-closure/37472391944/worker-rollback.json",
+        "bytes": 12768,
+        "sha256": "4c5eb248f72e83577a5ab788aa3ad61ab99510afd36342a937352042c4355b56"
+      }
+    ],
+    "receipt": {
+      "schemaVersion": "rcap-readonly-successor-admission/v1",
+      "capturedAt": "2026-10-06T13:41:50.063Z",
+      "applicationSha": "a9f02a89cac16e5b760e41acfccd0a685e8071b7",
+      "workerSourceSha": "e3ac438da981c84987bd3172751e1a09e3f42309",
+      "workerDigest": "sha256:be3d579fe808b8f0c806fed303f358edfe7a3bb6112866f4484d15ca7de4382a",
+      "workerInputFingerprint": "sha256:82d31e68a0edb0557bc9c2f9fce041e6760dd771ab02dc3b385e77235f99f867",
+      "toolsSha": "fd42d15a40d2ac640582c968325f7029241700ae",
+      "workerRollbackVerified": true,
+      "queueSafetyVerified": true,
+      "sharedHostRoutingMethod": "frozen-proxy-map-and-staged-targets",
+      "stagingCreation": {
+        "runId": 37457756634,
+        "workflowSourceSha": "6eec672ac2cd871d541b0efd6aa9183380d39825",
+        "toolsSha": "7b86dff1b62461c360195517095cb39e748286a0",
+        "autoAssignCustomDomains": false
+      },
+      "workflowSourceSha": "6c7746822fb2aff2c002e27d16fa202cd986587d",
+      "runId": 37472391944,
+      "deploymentId": "dpl_GYc99gmGcpTioRSn8Jq6hKiUqhUY",
+      "hostname": "legalease-partner-dashboard-clean-q1ss4jmds-roger947s-projects.vercel.app",
+      "productionRollback": "dpl_3j4Dr4GHyXmwmrFCTZ6orNNNP7sc",
+      "productionAliases": [
+        {
+          "alias": "expungement.ai",
+          "redirect": null
+        },
+        {
+          "alias": "legalease-partner-dashboard-clean-git-c82cba-roger947s-projects.vercel.app",
+          "redirect": null
+        },
+        {
+          "alias": "legalease-partner-dashboard-clean.vercel.app",
+          "redirect": null
+        },
+        {
+          "alias": "legalease.com",
+          "redirect": null
+        },
+        {
+          "alias": "legaleasepartner.com",
+          "redirect": null
+        },
+        {
+          "alias": "www.expungement.ai",
+          "redirect": "expungement.ai"
+        },
+        {
+          "alias": "www.legaleasepartner.com",
+          "redirect": null
+        }
+      ],
+      "productionAliasesUnchanged": true,
+      "autoAssignCustomDomains": false,
+      "signupVerified": true,
+      "sharedHostRoutingVerified": true,
+      "productionWrites": false,
+      "target": "production",
+      "readyState": "READY",
+      "liveAuthCalls": 0,
+      "productionAuthorized": false,
+      "emailDelivery": "UNVERIFIED: all authentication mocked",
+      "hostedScope": "read-only staged signup, host routing and aggregate queue safety; no live participant, payment, packet or queue consumption"
+    }
+  },
   "releaseBaseSha": "f04c7779322f1dc9df56db1dbf62f98ae820fb3e",
   "supersededRecord": {
     "schemaVersion": "rcap-pending-worker-successor/v1",

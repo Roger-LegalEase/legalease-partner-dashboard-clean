@@ -1,0 +1,51 @@
+ok   dispatcher exposes one isolated Production activation phase
+ok   activation is isolated from preflight, migration, and smoke
+ok   workflow can read only the exact prior smoke artifact
+ok   dispatcher grants the reusable workflow prior-artifact read access
+ok   workflow pins the successful Production smoke run
+ok   workflow pins the exact successful smoke artifact
+ok   workflow self-verifies the activation contract
+ok   workflow runs activation mutation proof
+ok   workflow invokes only the dedicated activation control
+ok   one isolated exact smoke artifact download
+ok   download step uses the bound smoke run ID
+ok   download step uses the bound smoke artifact name
+ok   smoke download is run-bound under runner.temp outside the source checkout
+ok   activation step executes only the unchanged dedicated runtime
+ok   activation consumes the exact matching external smoke file
+ok   currentness precedes external staging and the activation runtime recheck
+ok   runtime rechecks currentness before reading smoke evidence or promoting
+ok   exact staged deployment is pinned
+ok   exact rollback deployment is pinned
+ok   the pre-migration deployment is named by no pin, so it cannot be a recovery target
+ok   exact successful smoke run is pinned
+ok   canonical Production Supabase project is pinned
+ok   final application SHA is pinned
+ok   accepted worker source is pinned
+ok   immutable worker digest is pinned
+ok   activation requires the exact successful smoke artifact
+ok   rollback is READY and active before promotion
+ok   staged deployment identity is rechecked before promotion
+ok   Production Clinic schema is directly read back before promotion
+ok   activation promotes the existing staged deployment through the REST promote control
+ok   promotion has a bounded control-plane wait
+ok   activation never shells out to the Vercel CLI
+ok   all Production domains must resolve to the staged deployment
+ok   runtime smoke selects one exact canonical Vercel Production domain
+ok   post-promotion runtime reads use bounded retry for edge convergence
+ok   active Production health must pass after promotion
+ok   active runtime must map to canonical Production Supabase
+ok   environment metadata must remain unchanged
+ok   recorded rollback target must remain READY
+ok   post-promotion failure has an automatic rollback path
+ok   automatic rollback uses the exact recorded deployment through the REST rollback control
+ok   automatic rollback verifies domain restoration
+ok   activation cannot build or create a deployment
+ok   activation cannot mutate environment variables
+ok   activation cannot create Checkout or charges
+ok   activation contains no database writes
+ok   evidence fixes application and worker changes to false
+ok   separate Production phase permission and current tuple guard every operation
+ok   workflow validates current successor binding before service access
+ok   a claimed successful smoke receipt must match the authorized artifact hash
+verify-rcap-production-activation passed: 50/50

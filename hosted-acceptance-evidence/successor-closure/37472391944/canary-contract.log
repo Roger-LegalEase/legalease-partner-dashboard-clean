@@ -1,0 +1,71 @@
+ok   dedicated Production workflow exists
+ok   dispatcher exposes the controlled Production preflight (may stage a deployment)
+ok   withdrawn environment-mutation mode is not dispatchable
+ok   preflight phase is fixed by the workflow
+ok   workflow permissions are read-only
+ok   application and worker byte identity gate runs first
+ok   worker is pulled only by immutable digest
+ok   workflow self-verifies before discovery
+ok   workflow runs the dedicated control
+ok   evidence uploads even after refusal
+ok   runtime inspection receives the existing protection-bypass secret without printing it
+ok   application SHA is exact
+ok   tools SHA is exact
+ok   worker source SHA is exact
+ok   worker digest is exact
+ok   acceptance project is an explicit negative control
+ok   canonical Production project is pinned explicitly
+ok   accepted Preview deployment is pinned exactly
+ok   environment separation is a required verdict
+ok   exact READY staged Production deployment is a required verdict
+ok   accepted Preview deployment identity is required before runtime inspection
+ok   rollback identity is a required verdict
+ok   Production and acceptance identities come from bounded runtime inspection
+ok   runtime inspection requires exactly one Supabase origin
+ok   Production runtime must map to the canonical project
+ok   accepted Preview runtime must map to acceptance
+ok   only SHA-256 origin hashes are retained in evidence
+ok   a missing staged candidate may be created as a Production-target build without domain assignment
+ok   the staged candidate is built from the exact application SHA through the REST transport
+ok   the staged candidate is not created through the CLI archive upload
+ok   preflight cannot promote the staged deployment
+ok   withdrawn plaintext/decrypt readback gate is absent
+ok   stale single-variable v1 endpoint is absent
+ok   evidence fixes environment-variable mutation to false
+ok   evidence fixes Production alias movement to false
+ok   evidence fixes Production database mutation to false
+ok   preflight contains no environment-variable mutation
+ok   preflight does not issue SQL, even read-only SQL through a POST endpoint
+ok   runtime and management inspection retain explicit GET-only transport
+ok   runtime origins are never logged directly
+ok   evidence records that runtime origins are not persisted
+ok   separate Production phase permission and current tuple guard every operation
+ok   workflow validates current successor binding before service access
+ok   separate bounded restage phase is wired
+ok   restage requires current tuple and exact owner phase
+ok   restage preserves old staged and rollback identities
+ok   restage reads only metadata with decryption disabled
+ok   restage requires unique protected key names and sensitive types
+ok   replacement must postdate all key records
+ok   ambiguous or unfinished replacement refuses
+ok   retry cannot recreate an invisible or in-flight deployment
+ok   restage exact request cannot assign domains
+ok   replacement excludes configured public domains and public mapping stays unchanged
+ok   restage refuses environment metadata change
+ok   restage cannot replay migrations, create keys or change worker
+ok   replacement runtime must resolve canonical Production
+ok   restage has exactly one create transport and no write retry
+ok   read retry has three attempts; write has one
+ok   only transient HTTP reads use bounded backoff
+ok   transport diagnostics contain safe metadata only
+ok   identity runtime and write transports have operation labels
+ok   inventory includes Production redirects and excludes branch/custom environments
+ok   redirect sources skip deployment lookup
+ok   canonical routing state binds direct IDs and redirect target/status
+ok   at least one successfully verified direct domain is required
+ok   every redirect target is a normalized verified direct domain
+ok   redirect status is null/default or an allowed integer without coercion
+ok   every domain belongs to the exact project
+ok   before and after complete routing hashes must match
+ok   restage skips worker pull
+verify-rcap-production-canary passed: 70/70
