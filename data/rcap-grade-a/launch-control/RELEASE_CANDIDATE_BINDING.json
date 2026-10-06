@@ -1,6 +1,6 @@
 {
   "schemaVersion": "rcap-release-candidate-binding/v1",
-  "status": "READ_ONLY_STAGED_ACCEPTED_PRODUCTION_HELD",
+  "status": "FORWARD_EXPLICIT_PRODUCTION_AUTHORIZED",
   "applicationSha": "a9f02a89cac16e5b760e41acfccd0a685e8071b7",
   "workerSourceSha": "e3ac438da981c84987bd3172751e1a09e3f42309",
   "workerDigest": "sha256:be3d579fe808b8f0c806fed303f358edfe7a3bb6112866f4484d15ca7de4382a",
@@ -22,8 +22,69 @@
   "workerRebuildRequired": false,
   "previewExecution": "held",
   "resume": null,
-  "productionAuthorized": false,
-  "productionAuthorization": null,
+  "productionAuthorized": true,
+  "productionAuthorization": {
+    "schemaVersion": "rcap-forward-owner-authorization/v1",
+    "authorized": true,
+    "recordedBy": "Roger Roman",
+    "recordedAt": "2026-10-06T13:43:39.325Z",
+    "productionProjectRef": "wwtwtsmywnckfkdaqqeg",
+    "applicationSha": "a9f02a89cac16e5b760e41acfccd0a685e8071b7",
+    "workerSourceSha": "e3ac438da981c84987bd3172751e1a09e3f42309",
+    "workerDigest": "sha256:be3d579fe808b8f0c806fed303f358edfe7a3bb6112866f4484d15ca7de4382a",
+    "workerInputFingerprint": "sha256:82d31e68a0edb0557bc9c2f9fce041e6760dd771ab02dc3b385e77235f99f867",
+    "toolsSha": "fd42d15a40d2ac640582c968325f7029241700ae",
+    "stagedDeploymentId": "dpl_GYc99gmGcpTioRSn8Jq6hKiUqhUY",
+    "rollbackDeploymentId": "dpl_3j4Dr4GHyXmwmrFCTZ6orNNNP7sc",
+    "productionAliases": [
+      {
+        "alias": "expungement.ai",
+        "redirect": null
+      },
+      {
+        "alias": "legalease-partner-dashboard-clean-git-c82cba-roger947s-projects.vercel.app",
+        "redirect": null
+      },
+      {
+        "alias": "legalease-partner-dashboard-clean.vercel.app",
+        "redirect": null
+      },
+      {
+        "alias": "legalease.com",
+        "redirect": null
+      },
+      {
+        "alias": "legaleasepartner.com",
+        "redirect": null
+      },
+      {
+        "alias": "www.expungement.ai",
+        "redirect": "expungement.ai"
+      },
+      {
+        "alias": "www.legaleasepartner.com",
+        "redirect": null
+      }
+    ],
+    "hostedRunId": 37472391944,
+    "phases": [
+      "smoke",
+      "activate",
+      "production_worker_deploy",
+      "public_verify"
+    ],
+    "maxActivationAttempts": 1,
+    "maxPublicVerificationAttempts": 1,
+    "note": "I authorize only smoke, activate, production_worker_deploy and public_verify for application a9f02a89cac16e5b760e41acfccd0a685e8071b7, worker e3ac438da981c84987bd3172751e1a09e3f42309, digest sha256:be3d579fe808b8f0c806fed303f358edfe7a3bb6112866f4484d15ca7de4382a, fingerprint sha256:82d31e68a0edb0557bc9c2f9fce041e6760dd771ab02dc3b385e77235f99f867, tooling fd42d15a40d2ac640582c968325f7029241700ae, staged deployment dpl_GYc99gmGcpTioRSn8Jq6hKiUqhUY, rollback dpl_3j4Dr4GHyXmwmrFCTZ6orNNNP7sc, and the exact alias scope in hosted run 37472391944. Require fresh native smoke before activation, successful consumed activation before worker deployment and public verification, and fail closed on any mismatch. Worker placement may update only the existing nonsecret RCAP_WORKER_CONTAINER_DIGEST release identity to the accepted digest. No migration, key, secret, unrelated environment, auth, payment, participant, packet or extra deployment authority is granted.",
+    "activation": {
+      "state": "authorized_not_executed",
+      "maxAttempts": 1
+    },
+    "publicVerification": {
+      "state": "authorized_not_executed",
+      "maxAttempts": 1
+    }
+  },
   "deploymentAuthorized": false,
   "clinicDispatchReady": false,
   "hostedAdmission": {
@@ -6431,5 +6492,75 @@
       "releaseBaseSha": "c1c36946287f06a457701ed849f576b310a90f72"
     }
   },
-  "supersededRecordSha256": "8b0756b8ac751b2b265a81baf7b44240d06a316a6fc6fd9fdcc034ead956dce9"
+  "supersededRecordSha256": "8b0756b8ac751b2b265a81baf7b44240d06a316a6fc6fd9fdcc034ead956dce9",
+  "productionProjectRef": "wwtwtsmywnckfkdaqqeg",
+  "forwardProduction": {
+    "heldPredecessorSha": "86889af0a9196da310fb0f1ffddb008b85bbfcfa",
+    "heldRecordHashes": {
+      "data/rcap-grade-a/launch-control/PENDING_WORKER_SUCCESSOR.json": "18957bfbf6ca1488848d60cde94d0313067dddb0e8aa8619ec819d146396169c",
+      "data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json": "9ca2d35df0b71ae6e80d6b1ac73020c2adfefb7ef1cc944942a6e5b0a6ba64f0",
+      "data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json": "e7f6e1e8a468be49944da8d0aa176ed22ef5b6ea43efa3df9f9345ff4922524a"
+    },
+    "ownerPath": "data/rcap-grade-a/launch-control/forward-owner/2026-10-06-signup-hotfix-fd42d15.json",
+    "ownerSha256": "0df579a72b4402f4f0c9128bb645d1349c3b6b40b31b9eda60a5c7f970e2ce05",
+    "owner": {
+      "schemaVersion": "rcap-forward-owner-authorization/v1",
+      "authorized": true,
+      "recordedBy": "Roger Roman",
+      "recordedAt": "2026-10-06T13:43:39.325Z",
+      "productionProjectRef": "wwtwtsmywnckfkdaqqeg",
+      "applicationSha": "a9f02a89cac16e5b760e41acfccd0a685e8071b7",
+      "workerSourceSha": "e3ac438da981c84987bd3172751e1a09e3f42309",
+      "workerDigest": "sha256:be3d579fe808b8f0c806fed303f358edfe7a3bb6112866f4484d15ca7de4382a",
+      "workerInputFingerprint": "sha256:82d31e68a0edb0557bc9c2f9fce041e6760dd771ab02dc3b385e77235f99f867",
+      "toolsSha": "fd42d15a40d2ac640582c968325f7029241700ae",
+      "stagedDeploymentId": "dpl_GYc99gmGcpTioRSn8Jq6hKiUqhUY",
+      "rollbackDeploymentId": "dpl_3j4Dr4GHyXmwmrFCTZ6orNNNP7sc",
+      "productionAliases": [
+        {
+          "alias": "expungement.ai",
+          "redirect": null
+        },
+        {
+          "alias": "legalease-partner-dashboard-clean-git-c82cba-roger947s-projects.vercel.app",
+          "redirect": null
+        },
+        {
+          "alias": "legalease-partner-dashboard-clean.vercel.app",
+          "redirect": null
+        },
+        {
+          "alias": "legalease.com",
+          "redirect": null
+        },
+        {
+          "alias": "legaleasepartner.com",
+          "redirect": null
+        },
+        {
+          "alias": "www.expungement.ai",
+          "redirect": "expungement.ai"
+        },
+        {
+          "alias": "www.legaleasepartner.com",
+          "redirect": null
+        }
+      ],
+      "hostedRunId": 37472391944,
+      "phases": [
+        "smoke",
+        "activate",
+        "production_worker_deploy",
+        "public_verify"
+      ],
+      "maxActivationAttempts": 1,
+      "maxPublicVerificationAttempts": 1,
+      "note": "I authorize only smoke, activate, production_worker_deploy and public_verify for application a9f02a89cac16e5b760e41acfccd0a685e8071b7, worker e3ac438da981c84987bd3172751e1a09e3f42309, digest sha256:be3d579fe808b8f0c806fed303f358edfe7a3bb6112866f4484d15ca7de4382a, fingerprint sha256:82d31e68a0edb0557bc9c2f9fce041e6760dd771ab02dc3b385e77235f99f867, tooling fd42d15a40d2ac640582c968325f7029241700ae, staged deployment dpl_GYc99gmGcpTioRSn8Jq6hKiUqhUY, rollback dpl_3j4Dr4GHyXmwmrFCTZ6orNNNP7sc, and the exact alias scope in hosted run 37472391944. Require fresh native smoke before activation, successful consumed activation before worker deployment and public verification, and fail closed on any mismatch. Worker placement may update only the existing nonsecret RCAP_WORKER_CONTAINER_DIGEST release identity to the accepted digest. No migration, key, secret, unrelated environment, auth, payment, participant, packet or extra deployment authority is granted."
+    },
+    "receipts": {},
+    "states": {
+      "activation": "authorized_not_executed",
+      "publicVerification": "authorized_not_executed"
+    }
+  }
 }
