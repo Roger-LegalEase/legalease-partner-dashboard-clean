@@ -147,7 +147,7 @@ jobs:
       - name: Install browser for mocked signup only
         run: npx playwright install --with-deps chromium
       - name: Verify exact forward controls before provider credentials
-        run: node --test scripts/test-ms-successor-history.mjs scripts/grade-a-launch-control/pinned-forward-binding.test.mjs scripts/rcap-successor-harness.test.mjs
+        run: node --test scripts/test-ms-successor-history.mjs scripts/grade-a-launch-control/pinned-forward-binding.test.mjs scripts/grade-a-launch-control/forward-production-successor.test.mjs scripts/rcap-successor-harness.test.mjs
       - name: Stage exact application without aliases and read worker rollback
         env:
           RCAP_APPLICATION_SHA: ${{ inputs.application_sha }}
@@ -309,6 +309,7 @@ jobs:
       # than the read-only Vercel token; no Supabase, Stripe or bypass secret.
       - name: Verify the activated release on the public domain
         env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           RCAP_PRODUCTION_PHASE: public_verify
           RCAP_APPLICATION_SHA: ${{ inputs.application_sha }}
           RCAP_WORKER_SOURCE_SHA: ${{ inputs.worker_source_sha }}

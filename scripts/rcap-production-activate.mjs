@@ -1,9 +1,11 @@
 #!/usr/bin/env node
+import {assertForwardSingleAttempt} from './grade-a-launch-control/forward-production-single-attempt.mjs';
 // Final activation for the exact staged Production deployment. This control
 // cannot build, migrate, or alter configuration. It promotes the already-smoked
 // Production-target deployment and automatically restores the recorded READY
 // deployment if any post-promotion assertion fails.
 
+import {assertForwardAliasScope} from './grade-a-launch-control/verify-forward-production-successor.mjs';
 import { createHash } from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
@@ -473,6 +475,7 @@ try {
   }
 
   requireProductionMigrationRelease(ROOT_DIR, process.env);
+  await assertForwardSingleAttempt(RELEASE_CANDIDATE);
   const smokeText = fs.readFileSync(SMOKE_FILE, "utf8");
   const smoke = parseJson(smokeText);
   const smokeExact = sha256(smokeText) === RELEASE_CANDIDATE.productionAuthorization.smokeArtifactSha256
@@ -520,6 +523,12 @@ try {
     "READY Production-target staged deployment carries exact application and worker metadata"
   );
   const beforeDomains = await resolveProductionDomains(vercel, identity.projectId);
+  if (RELEASE_CANDIDATE.forwardProduction) {
+    const aliases = await vercel(`/v3/deployments/${ROLLBACK_DEPLOYMENT_ID}/aliases`);
+    if (aliases.status !== 200 || !Array.isArray(aliases.json?.aliases) || aliases.json.pagination?.next) throw new Error('exact forward alias scope unreadable');
+    const actual = aliases.json.aliases.map(a => ({alias:a.alias,redirect:a.redirect??null})).sort((a,b)=>a.alias.localeCompare(b.alias));
+    assertForwardAliasScope(actual, RELEASE_CANDIDATE.productionAuthorization.productionAliases, beforeDomains.domains);
+  }
   record(
     "rollback_is_ready_and_active_before_promotion",
     rollback.status === 200

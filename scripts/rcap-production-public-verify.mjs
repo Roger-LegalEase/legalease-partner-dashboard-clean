@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import {assertForwardSingleAttempt} from './grade-a-launch-control/forward-production-single-attempt.mjs';
 // Read-only verification of the ACTIVATED Production release on its public
 // domain. This control cannot build, promote, roll back, or change any Vercel,
 // Supabase or Stripe state. It proves four things from the outside:
@@ -242,6 +243,7 @@ async function walkMississippiScreening(hostname) {
 
 try {
   requireProductionMigrationRelease(process.cwd(), process.env);
+  await assertForwardSingleAttempt(RELEASE_CANDIDATE);
   if (PHASE !== "public_verify"
     || INPUT_APPLICATION_SHA !== APPLICATION_SHA
     || INPUT_WORKER_SOURCE_SHA !== WORKER_SOURCE_SHA

@@ -246,6 +246,7 @@ jobs:
       - name: Activate the exact staged Production deployment with rollback protection
         if: inputs.phase == 'activate'
         env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           RCAP_PRODUCTION_PHASE: "activate"
           RCAP_PRODUCTION_SMOKE_EVIDENCE_FILE: ${{ runner.temp }}/rcap-production-smoke-${{ env.PRODUCTION_SMOKE_RUN_ID }}/production-canary-smoke.json
           RCAP_APPLICATION_SHA: ${{ inputs.application_sha }}

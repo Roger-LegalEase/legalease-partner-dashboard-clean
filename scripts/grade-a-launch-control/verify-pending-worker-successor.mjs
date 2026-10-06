@@ -1,3 +1,4 @@
+import {AUTHORIZED_FORWARD,verifyForwardProductionSuccessor} from './verify-forward-production-successor.mjs';
 import {PREACTIVATION_BASE,PREACTIVATION_STATUS,assertPreactivationAuthorization} from './production-preflight-authorization.mjs';
 import {verifyProductionPreflightEvidence} from './verify-production-preflight-evidence.mjs';
 import {PREFLIGHT_BASE,PREFLIGHT_STATUS,assertPreflightOnlyAuthorization} from './production-preflight-authorization.mjs';
@@ -13,6 +14,7 @@ export function verifyPendingWorkerSuccessor(root){
  const git=a=>execFileSync('git',a,{cwd:root,encoding:'utf8',stdio:'pipe'}).trim();
  try{
  const p=JSON.parse(fs.readFileSync(file));
+ if(p.applicationSource===AUTHORIZED_FORWARD)return verifyForwardProductionSuccessor(root,JSON.parse(fs.readFileSync(path.join(root,'data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json'))));
  if(p.applicationSource==='pinned-source-forward')return verifyPinnedForwardBinding(root,JSON.parse(fs.readFileSync(path.join(root,'data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json'))));
  if(p.applicationSource==='pinned-source')return verifyPinnedSuccessor(root,p);
  if(p.releaseBaseSha)return verifyGenerationPending(root,p);
@@ -57,7 +59,7 @@ export function verifySuccessorPublication(root) {
   const hash=bytes=>createHash('sha256').update(bytes).digest('hex');
   const git=args=>execFileSync('git',args,{cwd:root,encoding:'utf8',stdio:'pipe'}).trim();
   const e=JSON.parse(read('data/rcap-render/worker-publication-evidence.json'));
-  if(['pinned-source','pinned-source-forward'].includes(JSON.parse(read(PENDING)).applicationSource))return verifyPinnedPublication(root);
+  if(['pinned-source','pinned-source-forward',AUTHORIZED_FORWARD].includes(JSON.parse(read(PENDING)).applicationSource))return verifyPinnedPublication(root);
   if(JSON.parse(read(PENDING)).releaseBaseSha)return verifyGenerationPublication(root,e);
   const source='af638b61cc4b74afad972fa79c4c1ca3f6709540';
   const digest='sha256:063901962bedf73adedb8a7566da2434539082bd1577051e98e4303c566bb3a5';

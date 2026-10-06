@@ -1,3 +1,4 @@
+import {AUTHORIZED_FORWARD,verifyForwardProductionSuccessor} from './verify-forward-production-successor.mjs';
 import {PUBLIC_VERIFICATION_CLOSURE_BASE,PUBLIC_VERIFICATION_CLOSED_STATUS,PUBLIC_VERIFICATION_CLOSED_SCOPE,BOUND_PUBLIC_VERIFICATION} from './production-preflight-authorization.mjs';
 import {PUBLIC_VERIFICATION_BASE,PUBLIC_VERIFICATION_STATUS,PUBLIC_VERIFICATION_SCOPE,assertPublicVerificationAuthorization} from './production-preflight-authorization.mjs';
 import {ACTIVATION_CLOSURE_BASE,ACTIVATION_CLOSED_STATUS,ACTIVATION_CLOSED_SCOPE,BOUND_ACTIVATION} from './production-preflight-authorization.mjs';
@@ -74,6 +75,8 @@ export function verifyReleaseCandidateBinding(root, candidate, receiptPaths = []
   const pinnedRecordPath=path.join(root,'data/rcap-grade-a/launch-control/PENDING_WORKER_SUCCESSOR.json');
   if(fs.existsSync(pinnedRecordPath)){
     try{
+      if(JSON.parse(fs.readFileSync(pinnedRecordPath)).applicationSource===AUTHORIZED_FORWARD)
+        return verifyForwardProductionSuccessor(root,candidate);
       if(JSON.parse(fs.readFileSync(pinnedRecordPath)).applicationSource==='pinned-source-forward')
         return verifyPinnedForwardBinding(root,candidate);
       if(JSON.parse(fs.readFileSync(pinnedRecordPath)).applicationSource==='pinned-source')
