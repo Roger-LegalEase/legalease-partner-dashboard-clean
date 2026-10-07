@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import {loadProductionCandidate} from './grade-a-launch-control/hotfix-production-contract.mjs';
 import {assertForwardSingleAttempt} from './grade-a-launch-control/forward-production-single-attempt.mjs';
 // Final activation for the exact staged Production deployment. This control
 // cannot build, migrate, or alter configuration. It promotes the already-smoked
@@ -19,7 +20,7 @@ import {
 } from "./rcap-hosted-acceptance-vercel-identity.mjs";
 
 import { requireProductionMigrationRelease } from './rcap-production-migration-contract.mjs';
-const RELEASE_CANDIDATE = JSON.parse(fs.readFileSync(new URL('../data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json', import.meta.url), 'utf8'));
+const RELEASE_CANDIDATE = loadProductionCandidate(path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..'));
 const APPLICATION_SHA = RELEASE_CANDIDATE.applicationSha;
 const WORKER_SOURCE_SHA = RELEASE_CANDIDATE.workerSourceSha;
 const WORKER_DIGEST = RELEASE_CANDIDATE.workerDigest;
@@ -478,7 +479,7 @@ try {
   }
 
   requireProductionMigrationRelease(ROOT_DIR, process.env);
-  await assertForwardSingleAttempt(RELEASE_CANDIDATE);
+  if(!RELEASE_CANDIDATE.hotfixProduction)await assertForwardSingleAttempt(RELEASE_CANDIDATE);
   const smokeText = fs.readFileSync(SMOKE_FILE, "utf8");
   const smoke = parseJson(smokeText);
   const smokeExact = sha256(smokeText) === RELEASE_CANDIDATE.productionAuthorization.smokeArtifactSha256
@@ -530,7 +531,7 @@ try {
     const aliases = await vercel(`/v3/deployments/${ROLLBACK_DEPLOYMENT_ID}/aliases`);
     if (aliases.status !== 200 || !Array.isArray(aliases.json?.aliases) || aliases.json.pagination?.next) throw new Error('exact forward alias scope unreadable');
     const actual=productionDeploymentAliases(aliases.json);
-    if(RELEASE_CANDIDATE.productionAuthorization.schemaVersion==='rcap-forward-owner-authorization/v2'){const projectScope=await vercel(productionDomainsPath(identity.projectId));if(projectScope.status!==200)throw new Error('Production project routing unreadable');assertVercelProductionScopes(actual,productionProjectDomains(projectScope.json),RELEASE_CANDIDATE.productionAuthorization);}else assertForwardAliasScope(actual,RELEASE_CANDIDATE.productionAuthorization.productionAliases,beforeDomains.domains);
+    if(RELEASE_CANDIDATE.hotfixProduction||RELEASE_CANDIDATE.productionAuthorization.schemaVersion==='rcap-forward-owner-authorization/v2'){const projectScope=await vercel(productionDomainsPath(identity.projectId));if(projectScope.status!==200)throw new Error('Production project routing unreadable');assertVercelProductionScopes(actual,productionProjectDomains(projectScope.json),RELEASE_CANDIDATE.productionAuthorization);}else assertForwardAliasScope(actual,RELEASE_CANDIDATE.productionAuthorization.productionAliases,beforeDomains.domains);
   }
   record(
     "rollback_is_ready_and_active_before_promotion",

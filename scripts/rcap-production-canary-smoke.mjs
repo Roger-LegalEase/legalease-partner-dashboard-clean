@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import {loadProductionCandidate} from './grade-a-launch-control/hotfix-production-contract.mjs';
 // Bounded smoke for the exact no-alias Production-target staged deployment.
 // All synthetic database rows live inside one explicit transaction that ends
 // with ROLLBACK. No Auth account, participant record, charge, or artifact is
@@ -18,7 +19,7 @@ import {
 
 import { runCleanDeviceReset } from './rcap-production-smoke-reset.mjs';
 import { requireProductionMigrationRelease } from './rcap-production-migration-contract.mjs';
-const RELEASE_CANDIDATE = JSON.parse(fs.readFileSync(new URL('../data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json', import.meta.url), 'utf8'));
+const RELEASE_CANDIDATE = loadProductionCandidate(path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..'));
 const APPLICATION_SHA = RELEASE_CANDIDATE.applicationSha;
 const WORKER_SOURCE_SHA = RELEASE_CANDIDATE.workerSourceSha;
 const WORKER_DIGEST = RELEASE_CANDIDATE.workerDigest;

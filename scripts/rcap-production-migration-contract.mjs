@@ -1,4 +1,5 @@
 import {assertFrozenForwardExecution} from './grade-a-launch-control/forward-production-execution.mjs';
+import {loadProductionCandidate,requireHotfixPhase,verifyHotfixControl} from './grade-a-launch-control/hotfix-production-contract.mjs';
 import {requireProductionPhaseAuthorization,PRODUCTION_PROJECT_REF} from './grade-a-launch-control/production-preflight-authorization.mjs';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -71,6 +72,11 @@ export function requireProductionDeploymentBinding(candidate, phase) {
 }
 
 export function requireProductionMigrationRelease(root, env = process.env) {
+  if(env.RCAP_HOTFIX_JOURNAL){
+    const candidate=loadProductionCandidate(root,env);verifyHotfixControl(root,env);
+    for(const [key,input]of [['applicationSha','RCAP_APPLICATION_SHA'],['workerSourceSha','RCAP_WORKER_SOURCE_SHA'],['workerDigest','RCAP_WORKER_DIGEST'],['toolsSha','RCAP_TOOLS_SHA'],['productionProjectRef','RCAP_PRODUCTION_PROJECT_REF']])if(candidate[key]!==env[input])throw new Error('production_hotfix_tuple_mismatch:'+key);
+    requireHotfixPhase(candidate,env.RCAP_PRODUCTION_PHASE);requireProductionDeploymentBinding(candidate,env.RCAP_PRODUCTION_PHASE);return candidate;
+  }
   const candidate = requireCurrentReleaseCandidate(root);
   const binding = JSON.parse(fs.readFileSync(path.join(root, 'data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json'), 'utf8'));
   requireProductionReleaseTuple(candidate, binding, env);

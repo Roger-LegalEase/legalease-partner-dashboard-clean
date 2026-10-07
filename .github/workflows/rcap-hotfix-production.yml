@@ -1,0 +1,68 @@
+name: Exact onboarding hotfix Production executor
+on:
+  workflow_call:
+    inputs:
+      application_sha:
+        required: true
+        type: string
+      worker_source_sha:
+        required: true
+        type: string
+      worker_digest:
+        required: true
+        type: string
+      tools_sha:
+        required: true
+        type: string
+    secrets:
+      VERCEL_TOKEN:
+        required: true
+      SUPABASE_ACCESS_TOKEN:
+        required: true
+      VERCEL_AUTOMATION_BYPASS_SECRET:
+        required: true
+permissions:
+  contents: read
+  packages: read
+  actions: read
+concurrency:
+  group: rcap-onboarding-hotfix-production-one-attempt
+  cancel-in-progress: false
+jobs:
+  exact_hotfix:
+    runs-on: ubuntu-latest
+    timeout-minutes: 50
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install frozen executor dependencies
+        run: npm ci
+      - name: Focused fail-closed executor regressions and complete synthetic execution
+        run: node --test scripts/grade-a-launch-control/hotfix-production-contract.test.mjs
+      - name: Install browser used by existing public verification
+        run: npx playwright install --with-deps chrome
+      - name: Execute bounded onboarding hotfix Production release
+        env:
+          RCAP_APPLICATION_SHA: ${{ inputs.application_sha }}
+          RCAP_WORKER_SOURCE_SHA: ${{ inputs.worker_source_sha }}
+          RCAP_WORKER_DIGEST: ${{ inputs.worker_digest }}
+          RCAP_TOOLS_SHA: ${{ inputs.tools_sha }}
+          RCAP_PRODUCTION_PROJECT_REF: wwtwtsmywnckfkdaqqeg
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: node scripts/rcap-hotfix-production.mjs
+      - name: Upload complete native hotfix execution evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rcap-onboarding-hotfix-production-${{ github.run_id }}
+          path: |
+            production-hotfix-evidence/
+          if-no-files-found: error

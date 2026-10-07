@@ -1,0 +1,62 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import os from 'node:os';
+import path from 'node:path';
+import {HOTFIX_APP,HOTFIX_BASE,HOTFIX_PROJECT,HOTFIX_MIGRATION,HOTFIX_ENV,HOTFIX_OWNER,HOTFIX_PHASES,hotfixHash,nativeHotfixWorker,assertHotfixOwner,assertHotfixOperation,hotfixRequest,executeHotfix,assertHotfixRollback,requireHotfixPhase} from './hotfix-production-contract.mjs';
+import {runHotfixProduction,assertNativeHotfixAttempt} from '../rcap-hotfix-production.mjs';
+import {requireProductionDeploymentBinding} from '../rcap-production-migration-contract.mjs';
+import {HOSTED_VERCEL_PROJECT_ID as projectId,HOSTED_VERCEL_PROJECT_NAME as projectName,HOSTED_VERCEL_TEAM_ID as teamId} from '../rcap-hosted-acceptance-vercel-identity.mjs';
+const root=path.resolve(import.meta.dirname,'../..');
+const candidate=JSON.parse(fs.readFileSync(path.join(root,'data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json')));
+const worker=nativeHotfixWorker(root);
+const owner={schemaVersion:'rcap-onboarding-hotfix-production-authorization/v1',recordedBy:'Roger Roman',recordedAt:new Date().toISOString(),heldPredecessorSha:HOTFIX_BASE,executorControlSha:HOTFIX_BASE,...Object.fromEntries(['applicationSha','workerSourceSha','workerDigest','workerInputFingerprint','toolsSha'].map(k=>[k,candidate[k]])),productionProjectRef:HOTFIX_PROJECT,hostedClosureRunId:candidate.hostedAdmission.runId,phases:HOTFIX_PHASES,stagedDeploymentLimit:1,activationAttemptLimit:1,workerRebuildAllowed:false,workerPublicationAllowed:false,databaseRollbackAuthorized:false,migrations:[{path:HOTFIX_MIGRATION,sha256:hotfixHash(fs.readFileSync(path.join(root,HOTFIX_MIGRATION)))}],environment:[HOTFIX_ENV]};
+const clone=x=>structuredClone(x);
+const captured=()=>({rollbackDeploymentId:'dpl_CAPTURED',rollbackApplicationSha:'1'.repeat(40),preflightState:{domains:[]},preReleaseFlag:null,stagedDeploymentId:'dpl_NEW'});
+const journalAt=phase=>({...captured(),steps:HOTFIX_PHASES.slice(0,HOTFIX_PHASES.indexOf(phase)).map(phase=>({phase,passed:true}))});
+const accepted=(phase,change=()=>{})=>{const journal=journalAt(phase),request=clone(hotfixRequest(owner,journal,phase));change(request);return ()=>assertHotfixOperation(owner,journal,phase,request);};
+test('exact migration accepted; other path or bytes rejected',()=>{accepted('onboarding_review_migrate')();for(const k of ['path','sha256'])assert.throws(accepted('onboarding_review_migrate',r=>r.scope.migrations[0][k]='unauthorized'));});
+test('exact flag true accepted; other key/value/extra environment rejected',()=>{accepted('onboarding_launch_flag')();for(const k of ['key','value'])assert.throws(accepted('onboarding_launch_flag',r=>r.scope.environment[0][k]='unauthorized'));assert.throws(accepted('onboarding_launch_flag',r=>r.scope.environment.push({key:'OTHER',value:'true'})));});
+test('exact application accepted; other application rejected',()=>{accepted('stage')();assert.throws(accepted('stage',r=>r.scope.applicationSha='f'.repeat(40)));assert.throws(accepted('stage',r=>r.tuple.applicationSha='f'.repeat(40)));});
+test('canonical native worker bound; source/digest/rebuild changes rejected',()=>{assertHotfixOwner(owner,candidate,worker);for(const k of ['workerSourceSha','workerDigest'])assert.throws(accepted('stage',r=>r.tuple[k]='unauthorized'));assert.throws(()=>assertHotfixOwner(owner,{...candidate,workerRebuildRequired:true},worker));assert.throws(()=>assertHotfixOwner({...owner,workerPublicationAllowed:true},candidate,worker));assert.throws(()=>assertHotfixOperation(owner,journalAt('stage'),'production_worker_deploy',hotfixRequest(owner,journalAt('stage'),'stage')));});
+test('smoke required after new deployment; missing/failed smoke prevents promotion',()=>{accepted('smoke')();accepted('activate')();for(const passed of [false,undefined]){const j=journalAt('activate');j.steps.find(s=>s.phase==='smoke').passed=passed;assert.throws(()=>assertHotfixOperation(owner,j,'activate',hotfixRequest(owner,j,'activate')));}});
+test('captured app/config required before mutation; rollback only captured state',()=>{const j=captured(),r={deploymentId:j.rollbackDeploymentId,applicationSha:j.rollbackApplicationSha,flag:j.preReleaseFlag};assertHotfixRollback(j,r);for(const k of Object.keys(r))assert.throws(()=>assertHotfixRollback(j,{...r,[k]:'unauthorized'}));const missing=journalAt('stage');delete missing.preReleaseFlag;assert.throws(()=>assertHotfixOperation(owner,missing,'stage',hotfixRequest(owner,missing,'stage')));});
+test('consumed authorization and failed/reused phase rejected',async()=>{await assert.rejects(executeHotfix(owner,{journal:{steps:[{phase:'preflight',passed:true}]},perform:async()=>({passed:true})}));const j=journalAt('smoke');j.steps.push({phase:'smoke',passed:true,request:hotfixRequest(owner,j,'smoke')});assert.throws(()=>requireHotfixPhase({hotfixProduction:{owner,journal:j}},'smoke'));});
+const native={id:12345678,head_sha:HOTFIX_BASE,head_branch:'captain-release',path:'.github/workflows/rcap-f1-ephemeral-staging.yml',event:'workflow_dispatch',run_attempt:1,repository:{full_name:'Roger-LegalEase/legalease-partner-dashboard-clean'},display_title:'production_hotfix'};
+const env={GITHUB_RUN_ID:String(native.id),GITHUB_SHA:native.head_sha,GITHUB_TOKEN:'test',VERCEL_TOKEN:'test',SUPABASE_ACCESS_TOKEN:'test',VERCEL_AUTOMATION_BYPASS_SECRET:'test',RCAP_APPLICATION_SHA:owner.applicationSha,RCAP_WORKER_SOURCE_SHA:owner.workerSourceSha,RCAP_WORKER_DIGEST:owner.workerDigest,RCAP_TOOLS_SHA:owner.toolsSha};
+const response=data=>new Response(JSON.stringify(data),{status:200});
+test('native reused/consumed execution authorization rejected',async()=>{const request=async url=>response(url.endsWith('/'+native.id)?native:url.includes('/jobs')?{total_count:1,jobs:[{steps:[{name:'Execute bounded onboarding hotfix Production release',conclusion:'failure'}]}]}:{workflow_runs:[{...native,id:native.id-1,created_at:new Date().toISOString()}]});await assert.rejects(assertNativeHotfixAttempt(owner,env,request),/already attempted/);await assert.rejects(assertNativeHotfixAttempt(owner,env,async()=>response({...native,run_attempt:2})));});
+async function fixture({fail,gate,existingFlag=false}={}){
+ const dir=fs.mkdtempSync(path.join(os.tmpdir(),'hotfix-executor-test-'));fs.mkdirSync(path.join(dir,path.dirname(HOTFIX_OWNER)),{recursive:true});fs.writeFileSync(path.join(dir,HOTFIX_OWNER),JSON.stringify(owner));fs.mkdirSync(path.join(dir,path.dirname(HOTFIX_MIGRATION)),{recursive:true});fs.copyFileSync(path.join(root,HOTFIX_MIGRATION),path.join(dir,HOTFIX_MIGRATION));
+ let active=candidate.hostedAdmission.productionRollback,flag=existingFlag?{id:'env_new',...HOTFIX_ENV,value:'false'}:null,definition="raise exception using errcode = '40001', message = 'Onboarding workspace revision conflict';",history=[];const calls=[];
+ const domains=candidate.hostedAdmission.productionProjectDomains;
+ const aliases=candidate.hostedAdmission.productionDeploymentAliases;
+ fs.mkdirSync(path.join(dir,'hosted-acceptance-evidence'),{recursive:true});
+ const request=async(url,options={})=>{const u=new URL(url),p=u.pathname,method=options.method??'GET',body=options.body?JSON.parse(options.body):null;calls.push({p,method,body});
+  if(fail==='config'&&method==='POST'&&p.endsWith('/env')){flag={id:'env_new',...HOTFIX_ENV};throw Error('config failed after provider write');}
+  if(p.includes('api.github'))throw Error('unexpected');
+  if(u.hostname==='api.github.com')return response(p.endsWith('/'+native.id)?native:{workflow_runs:[native]});
+  if(u.hostname==='api.supabase.com'){
+   if(p.endsWith('/projects'))return response([{id:HOTFIX_PROJECT,status:'ACTIVE_HEALTHY'}]);
+   if(body.query.startsWith('begin;')){assert.equal(body.read_only,false);assert(body.query.includes(fs.readFileSync(path.join(dir,HOTFIX_MIGRATION),'utf8')));definition=definition.replace('40001','PT409');history=[{version:'20261007034510',name:'onboarding_review_conflict_transport'}];return response([]);}
+   return response(body.query.includes('pg_get_functiondef')?[{definition}]:history);
+  }
+  if(p===`/v9/projects/${projectName}`)return response({id:projectId,name:projectName,accountId:teamId});
+  if(p.endsWith('/domains'))return response({domains});
+  if(p.endsWith('/aliases'))return response({aliases});
+  if(p.endsWith('/env')&&method==='GET')return response({envs:flag?[flag]:[]});
+  if(p.endsWith('/env')&&method==='POST'){flag={id:'env_new',...body};return response(flag);}
+  if(p.includes('/env/env_new')){if(method==='DELETE'){flag=null;return response({});}if(method==='PATCH'){flag={id:'env_new',...body};return response(flag);}return response(flag);}
+  if(p==='/v13/deployments'&&method==='POST'){assert.equal(body.gitSource.sha,HOTFIX_APP);assert.equal(body.autoAssignCustomDomains,false);if(fail==='deployment')throw Error('deployment failed');return response({id:'dpl_NEW'});}
+  if(p.startsWith('/v13/deployments/')){const id=p.split('/').at(-1);const isNew=id==='dpl_NEW'||!id.startsWith('dpl_')&&active==='dpl_NEW';return response({id:id.startsWith('dpl_')?id:active,projectId,target:'production',readyState:'READY',gitSource:{sha:isNew?HOTFIX_APP:'1'.repeat(40)},url:'new.vercel.app',alias:[],meta:Object.fromEntries(['applicationSha','workerSourceSha','workerDigest','workerInputFingerprint','toolsSha','executorControlSha'].map(k=>['rcap'+k[0].toUpperCase()+k.slice(1),owner[k]]))});}
+  if(p.includes('/rollback/')){active=p.split('/').at(-1);return response({});}
+  throw Error('unexpected provider call '+method+' '+p);
+ };
+ const runCommand=async(program,args,childEnv)=>{const phase=childEnv.RCAP_PRODUCTION_PHASE;const j=JSON.parse(fs.readFileSync(childEnv.RCAP_HOTFIX_JOURNAL));const c={...candidate,hotfixProduction:{owner,journal:j},productionAuthorization:{...owner,stagedDeploymentId:j.stagedDeploymentId,rollbackDeploymentId:j.rollbackDeploymentId,smokeRunId:j.runId,smokeArtifactSha256:j.smokeArtifactSha256}};requireProductionDeploymentBinding(c,phase);assert.equal(args[0],phase==='smoke'?'scripts/rcap-production-canary-smoke.mjs':'scripts/rcap-production-activate.mjs');if(fail===phase)throw Error(phase+' failed');fs.mkdirSync(childEnv.RCAP_PRODUCTION_EVIDENCE_DIR,{recursive:true});if(phase==='smoke')fs.writeFileSync(childEnv.RCAP_PRODUCTION_SMOKE_EVIDENCE_FILE,JSON.stringify({passed:true,stagedDeploymentId:j.stagedDeploymentId,transactionalFixtureRolledBack:true,productionDatabasePersistentlyMutated:false}));else{active='dpl_NEW';fs.writeFileSync(path.join(childEnv.RCAP_PRODUCTION_EVIDENCE_DIR,'production-activation.json'),JSON.stringify({passed:true,promotionCompleted:true}));}};
+ try{const result=await runHotfixProduction(dir,env,{admit:async()=>({owner,candidate,current:true,bindingVerified:true,admissionVerified:true,rebuildRequired:false,...gate}),request,runCommand});return {result,calls,flag,active};}catch(error){return {error,calls,flag,active,journal:fs.existsSync(path.join(dir,'production-hotfix-evidence/execution.json'))?JSON.parse(fs.readFileSync(path.join(dir,'production-hotfix-evidence/execution.json'))):null};}finally{fs.rmSync(dir,{recursive:true,force:true});}
+}
+test('complete executor path: capture -> exact migration -> flag -> new deployment -> smoke -> promotion; no September staged identity',async()=>{const r=await fixture();assert.ifError(r.error);assert.equal(r.result.passed,true);assert.equal(r.result.finalProductionApplicationSha,HOTFIX_APP);assert.equal(r.active,'dpl_NEW');assert.equal(r.flag.value,'true');assert.deepEqual(r.result.steps.map(s=>s.phase),HOTFIX_PHASES);assert(!r.calls.some(c=>/fly|worker|repair|backfill/.test(c.p)));});
+for(const fail of ['config','deployment','smoke','activate'])test('automatic rollback restores captured app/config on '+fail+' failure',async()=>{const r=await fixture({fail});assert(r.error);assert.equal(r.journal.rollback.status,'restored');assert.equal(r.flag,null);assert.equal(r.active,candidate.hostedAdmission.productionRollback);});
+test('current binding, admission and rebuild gates fail before Production calls',async()=>{for(const gate of [{current:false},{bindingVerified:false},{admissionVerified:false},{rebuildRequired:true}]){const r=await fixture({gate});assert(r.error);assert.equal(r.calls.length,0);}});
+
+test('rollback restores captured existing false flag after failure',async()=>{const r=await fixture({fail:'smoke',existingFlag:true});assert(r.error);assert.equal(r.journal.rollback.status,'restored');assert.equal(r.flag.value,'false');});
