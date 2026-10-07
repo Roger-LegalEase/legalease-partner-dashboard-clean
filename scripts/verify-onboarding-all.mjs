@@ -57,6 +57,8 @@ const REGISTRY = [
   { file: "verify-rcap-partner-copy.mjs", group: "local",
     note: "partner-facing copy gate: internal vocabulary, voice, one primary action, required copy" },
   { file: "verify-rcap-onboarding-guided-experience.mjs", group: "local" },
+  { file: "verify-rcap-onboarding-review-layout.mjs", group: "local",
+    note: "HF-004/HF-005/HF-019: review rows, decision counters, guided footer structure" },
   { file: "verify-rcap-onboarding-task3b.mjs", group: "local" },
   { file: "verify-rcap-onboarding-support-contact.mjs", group: "local" },
   { file: "verify-first-admin-provisioning.mjs", group: "local" },

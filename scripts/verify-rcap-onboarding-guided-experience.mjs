@@ -380,11 +380,32 @@ const reviewHtml = render(OnboardingReviewClient, {
   }
 });
 assert.match(reviewHtml, /Decisions before submission/);
-assert.match(reviewHtml, /Sections complete/);
-assert.match(reviewHtml, /Open partner changes/);
-assert.match(reviewHtml, /Waiting on LegalEase/);
+// HF-005: the summary separates partner setup counts from LegalEase review counts,
+// and each number names what it counts. The fixture is one unsubmitted section with
+// one missing item, one open correction and a change since the prior review.
+assert.match(reviewHtml, /Partner setup sections complete/);
+assert.match(reviewHtml, /Partner setup sections incomplete/);
+assert.match(reviewHtml, /Partner decisions remaining/);
+assert.match(reviewHtml, /Partner corrections requested/);
+assert.match(reviewHtml, /Package submission/);
+assert.match(reviewHtml, /Submitted sections awaiting LegalEase review/);
+assert.match(reviewHtml, /LegalEase section reviews outstanding/);
 assert.match(reviewHtml, /Changed since prior review/);
-assert.match(reviewHtml, /Decisions remaining/);
+assert.doesNotMatch(reviewHtml, /Open partner changes|>Sections complete</);
+const reviewMetrics = Object.fromEntries(
+  [...reviewHtml.matchAll(/<dt[^>]*>([^<]+)<\/dt><dd[^>]*>([^<]+)<\/dd>/g)].map((m) => [
+    m[1].trim(),
+    m[2].trim()
+  ])
+);
+assert.equal(reviewMetrics["Partner setup sections complete"], "0 of 1");
+assert.equal(reviewMetrics["Partner setup sections incomplete"], "1");
+assert.equal(reviewMetrics["Partner decisions remaining"], "2");
+assert.equal(reviewMetrics["Partner corrections requested"], "1");
+assert.equal(reviewMetrics["Package submission"], "Not submitted");
+assert.equal(reviewMetrics["Submitted sections awaiting LegalEase review"], "0");
+assert.equal(reviewMetrics["LegalEase section reviews outstanding"], "1 of 1");
+assert.equal(reviewMetrics["Changed since prior review"], "1");
 assert.match(reviewHtml, /View full details/);
 assert.match(reviewHtml, /data-full-audit-default="summary"/);
 assert.doesNotMatch(reviewHtml, /<details[^>]*data-full-audit-default="summary"[^>]* open/);

@@ -118,28 +118,13 @@ export function OnboardingReviewClient({
   const requestIdRef = useRef<string | null>(null);
   const submittingRef = useRef(false);
 
-  const sectionsComplete = sections.filter((section) =>
-    ["Complete", "Changed since review", "Waiting on LegalEase"].includes(
-      section.state
-    )
-  ).length;
-  const openPartnerChanges = sum(
-    sections.map((section) => section.openChangeRequests)
-  );
-  const waitingOnLegalEase = sections.filter(
-    (section) =>
-      section.waitingChangeRequests > 0 ||
-      section.state === "Waiting on LegalEase"
-  ).length;
-  const changedSincePriorReview = sections.filter(
-    (section) => section.changedSinceReview
-  ).length;
-  const missingCount = sum(
-    sections.map((section) => section.missingItems.length)
-  );
-  const prefillBlockers = pendingPrefillSections.length;
-  const partnerBlockers = missingCount + openPartnerChanges + prefillBlockers;
   const submitted = submission.kind === "submitted";
+  const counters = deriveReviewCounters(sections, {
+    packageSubmitted: submitted,
+    pendingPrefillSections: pendingPrefillSections.length
+  });
+  const openPartnerChanges = counters.correctionsRequested;
+  const partnerBlockers = counters.decisionsRemaining;
   const submitEnabled =
     canSubmit &&
     canEdit &&
@@ -332,15 +317,58 @@ export function OnboardingReviewClient({
             The field audit remains available below, but it is not the default view.
           </p>
         </div>
-        <dl className="mt-5 grid border border-[#B8C1C7] bg-white sm:grid-cols-2 lg:grid-cols-3">
-          <Metric label="Sections complete" value={`${sectionsComplete} of 8`} />
-          <Metric label="Open partner changes" value={String(openPartnerChanges)} />
-          <Metric label="Waiting on LegalEase" value={String(waitingOnLegalEase)} />
-          <Metric label="Changed since prior review" value={String(changedSincePriorReview)} />
-          <Metric label="Decisions remaining" value={String(partnerBlockers)} />
+        {/* Eight cells, one derivation each (deriveReviewCounters). Partner setup
+            progress and LegalEase review progress are different questions with
+            different denominators, so they are labelled as such instead of sharing
+            the word "remaining". */}
+        <dl className="mt-5 grid border border-[#B8C1C7] bg-white sm:grid-cols-2 lg:grid-cols-4">
           <Metric
-            label="Sections remaining"
-            value={String(sections.filter((section) => !section.approvalSatisfied).length)}
+            label="Partner setup sections complete"
+            value={`${counters.setupComplete} of ${counters.total}`}
+            note="Sections whose setup information is complete."
+          />
+          <Metric
+            label="Partner setup sections incomplete"
+            value={String(counters.setupIncomplete)}
+            note="Sections that still need partner information."
+          />
+          <Metric
+            label="Partner decisions remaining"
+            value={String(counters.decisionsRemaining)}
+            note="Missing items, correction responses, and pre-filled information to confirm."
+          />
+          <Metric
+            label="Partner corrections requested"
+            value={String(counters.correctionsRequested)}
+            note="Unresolved LegalEase correction requests, not missing fields."
+          />
+          <Metric
+            label="Package submission"
+            value={submitted ? "Submitted" : "Not submitted"}
+            note={
+              submitted
+                ? "The package is with LegalEase for review."
+                : "Completing a section saves it. You submit the whole package below."
+            }
+          />
+          <Metric
+            label="Submitted sections awaiting LegalEase review"
+            value={String(counters.awaitingReview)}
+            note={
+              submitted
+                ? "Submitted sections LegalEase has not yet approved."
+                : "No section is in LegalEase review until the package is submitted."
+            }
+          />
+          <Metric
+            label="LegalEase section reviews outstanding"
+            value={`${counters.reviewsOutstanding} of ${counters.total}`}
+            note="Sections without a satisfied LegalEase review, including sections not yet submitted."
+          />
+          <Metric
+            label="Changed since prior review"
+            value={String(counters.changedSincePriorReview)}
+            note="Sections edited after a LegalEase review."
           />
         </dl>
       </section>
@@ -392,20 +420,39 @@ export function OnboardingReviewClient({
           Each section is collapsed until you choose to review its decision.
         </p>
         <div className="mt-5 border border-[#B8C1C7] bg-white">
-          {sections.map((section, index) => (
-            <details className="border-t border-[#D8DDDF] first:border-t-0" key={section.key}>
-              <summary className="grid min-h-16 cursor-pointer list-none gap-3 p-4 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-inset focus-visible:ring-[#0A8E9A] sm:grid-cols-[38px_minmax(0,1fr)_auto] sm:items-center md:p-5">
-                <span className="text-xs font-bold text-[#0A8E9A] [font-family:var(--font-rcap-mono)]" aria-hidden="true">
-                  {String(index + 1).padStart(2, "0")}
-                </span>
-                <span className="min-w-0">
-                  <span className="block break-words text-sm font-extrabold">{section.title}</span>
-                  <span className="mt-1 block text-xs text-[#475A6E] [font-family:var(--font-rcap-mono)]">
-                    {section.openChangeRequests} requested change{section.openChangeRequests === 1 ? "" : "s"} | {lastStateCopy(section)}
+          {sections.map((section, index) => {
+            const displayState = displaySectionState(section, submitted);
+            return (
+            <details className="group border-t border-[#D8DDDF] first:border-t-0" data-review-section={section.key} key={section.key}>
+              {/* The summary itself is not the grid. WebKit ignores list-style on summary and
+                  renders its ::-webkit-details-marker as a box inside the summary; when the
+                  summary was display:grid that box became the first grid item, pushed every
+                  other cell one column to the right, and left the status word-wrapping inside
+                  the 38px number column (HF-004). The marker is hidden explicitly, the layout
+                  lives in a full-width inner wrapper, and the disclosure stays native. */}
+              <summary className="block cursor-pointer list-none p-4 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-inset focus-visible:ring-[#0A8E9A] md:p-5 [&::-webkit-details-marker]:hidden">
+                <span className="grid min-h-8 w-full min-w-0 gap-2 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center sm:gap-4" data-review-row>
+                  <span className="flex min-w-0 items-start gap-3">
+                    <svg
+                      aria-hidden="true"
+                      className="mt-1 h-3 w-3 shrink-0 fill-[#0A8E9A] transition-transform group-open:rotate-90"
+                      viewBox="0 0 12 12"
+                    >
+                      <path d="M3 1.5 9.5 6 3 10.5z" />
+                    </svg>
+                    <span className="shrink-0 pt-0.5 text-xs font-bold text-[#0A8E9A] [font-family:var(--font-rcap-mono)]" aria-hidden="true">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                    <span className="min-w-0">
+                      <span className="block break-words text-sm font-extrabold" data-review-title>{section.title}</span>
+                      <span className="mt-1 block text-xs text-[#475A6E] [font-family:var(--font-rcap-mono)]">
+                        {section.openChangeRequests} requested change{section.openChangeRequests === 1 ? "" : "s"} | {lastStateCopy(section, submitted)}
+                      </span>
+                    </span>
                   </span>
-                </span>
-                <span className={`text-sm font-bold ${stateClass(section.state)}`}>
-                  {section.state}
+                  <span className={`min-w-0 pl-6 text-sm font-bold sm:pl-0 sm:text-right ${stateClass(displayState)}`} data-review-status>
+                    {displayState}
+                  </span>
                 </span>
               </summary>
               <div className="border-t border-[#D8DDDF] bg-[#F7F4EE] p-4 md:p-5">
@@ -419,7 +466,8 @@ export function OnboardingReviewClient({
                 </Link>
               </div>
             </details>
-          ))}
+            );
+          })}
         </div>
       </section>
 
@@ -428,7 +476,7 @@ export function OnboardingReviewClient({
         data-full-audit-default={DEFAULT_ONBOARDING_REVIEW_DETAIL_MODE}
         open={isOnboardingReviewAuditOpen()}
       >
-        <summary className="flex min-h-14 cursor-pointer list-none items-center justify-between gap-4 p-5 text-base font-extrabold focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-inset focus-visible:ring-[#0A8E9A]">
+        <summary className="flex min-h-14 cursor-pointer list-none items-center justify-between gap-4 p-5 text-base font-extrabold focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-inset focus-visible:ring-[#0A8E9A] [&::-webkit-details-marker]:hidden">
           <span>View full details</span>
           <span className="text-xs text-[#475A6E] [font-family:var(--font-rcap-mono)]">Field audit</span>
         </summary>
@@ -503,13 +551,98 @@ function StatusFact({ label, fact }: { label: string; fact: PartnerImplementatio
   );
 }
 
-function Metric({ label, value }: { label: string; value: string }) {
+function Metric({ label, value, note }: { label: string; value: string; note?: string }) {
   return (
-    <div className="border-b border-[#D8DDDF] p-4 last:border-b-0 sm:border-r lg:[&:nth-child(3n)]:border-r-0">
+    <div className="min-w-0 border-b border-[#D8DDDF] p-4 last:border-b-0 sm:border-r sm:[&:nth-child(2n)]:border-r-0 lg:[&:nth-child(2n)]:border-r lg:[&:nth-child(4n)]:border-r-0">
       <dt className={docketClass}>{label}</dt>
       <dd className="mt-2 text-2xl font-extrabold">{value}</dd>
+      {note ? <p className="mt-1 text-xs leading-5 text-[#475A6E]">{note}</p> : null}
     </div>
   );
+}
+
+export type ReviewCounterSection = Pick<
+  OnboardingReviewSection,
+  | "state"
+  | "openChangeRequests"
+  | "waitingChangeRequests"
+  | "missingItems"
+  | "approvalSatisfied"
+  | "changedSinceReview"
+>;
+
+export type ReviewCounters = {
+  total: number;
+  setupComplete: number;
+  setupIncomplete: number;
+  decisionsRemaining: number;
+  correctionsRequested: number;
+  awaitingReview: number;
+  reviewsOutstanding: number;
+  changedSincePriorReview: number;
+};
+
+const SETUP_COMPLETE_STATES: readonly OnboardingReviewSectionState[] = [
+  "Complete",
+  "Changed since review",
+  "Waiting on LegalEase"
+];
+
+// One source of truth for every number on the decision summary. Each value answers
+// one question, counts sections or requests but never a field as a section, and the
+// LegalEase-review values are separate from partner-setup values: at 7 of 8 setup
+// sections complete the partner has 1 incomplete section while 8 reviews can
+// truthfully remain outstanding, because an unsubmitted section is also unreviewed.
+export function deriveReviewCounters(
+  sections: readonly ReviewCounterSection[],
+  {
+    packageSubmitted,
+    pendingPrefillSections
+  }: { packageSubmitted: boolean; pendingPrefillSections: number }
+): ReviewCounters {
+  const total = sections.length;
+  const setupComplete = sections.filter((section) =>
+    SETUP_COMPLETE_STATES.includes(section.state)
+  ).length;
+  const correctionsRequested = sum(
+    sections.map((section) => section.openChangeRequests)
+  );
+  const missingItems = sum(
+    sections.map((section) => section.missingItems.length)
+  );
+  return {
+    total,
+    setupComplete,
+    setupIncomplete: total - setupComplete,
+    decisionsRemaining: missingItems + correctionsRequested + pendingPrefillSections,
+    correctionsRequested,
+    // A section is in LegalEase review only once the package has been submitted;
+    // before that, "waiting" sections are complete sections the partner still owns.
+    awaitingReview: packageSubmitted
+      ? sections.filter(
+          (section) =>
+            !section.approvalSatisfied &&
+            (section.state === "Waiting on LegalEase" ||
+              section.waitingChangeRequests > 0)
+        ).length
+      : 0,
+    reviewsOutstanding: sections.filter((section) => !section.approvalSatisfied)
+      .length,
+    changedSincePriorReview: sections.filter(
+      (section) => section.changedSinceReview
+    ).length
+  };
+}
+
+// Before the package is submitted, a completed section is "Complete", not "Waiting
+// on LegalEase": nobody at LegalEase is waiting on it yet, the partner still owns
+// final submission. The underlying state is untouched; only the row label changes.
+export function displaySectionState(
+  section: Pick<OnboardingReviewSection, "state">,
+  packageSubmitted: boolean
+): OnboardingReviewSectionState {
+  if (!packageSubmitted && section.state === "Waiting on LegalEase") return "Complete";
+  return section.state;
 }
 
 function DecisionFact({ label, value }: { label: string; value: string }) {
@@ -527,9 +660,13 @@ function sectionActionLabel(section: OnboardingReviewSection, canEdit: boolean) 
   return canEdit && section.state === "Needs attention" ? "Edit section" : "View full section";
 }
 
-function lastStateCopy(section: OnboardingReviewSection) {
+function lastStateCopy(section: OnboardingReviewSection, packageSubmitted: boolean) {
   if (section.approvedAt) return `Approved ${formatTimestamp(section.approvedAt)}`;
-  if (section.submittedAt) return `Submitted ${formatTimestamp(section.submittedAt)}`;
+  if (section.submittedAt) {
+    return packageSubmitted
+      ? `Submitted ${formatTimestamp(section.submittedAt)}`
+      : `Completed ${formatTimestamp(section.submittedAt)} | package not yet submitted`;
+  }
   if (section.lastUpdatedAt) return `Last saved ${formatTimestamp(section.lastUpdatedAt)}`;
   return "No saved date recorded";
 }

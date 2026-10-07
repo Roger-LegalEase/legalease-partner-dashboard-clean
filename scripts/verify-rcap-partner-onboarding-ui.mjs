@@ -243,7 +243,14 @@ const historicalReviewHtml = render(OnboardingReviewClient, {
   }
 });
 assert.match(historicalReviewHtml, /program setup history/);
-assert.doesNotMatch(historicalReviewHtml, /awaiting LegalEase review/);
+// The historical submission banner must not describe a live program as awaiting review.
+// The decision summary's "Submitted sections awaiting LegalEase review" cell (HF-005) is a
+// static counter label and is outside this guarantee, so only the banner is inspected.
+const historicalBanner = /<section aria-labelledby="submitted-heading"[\s\S]*?<\/section>/.exec(
+  historicalReviewHtml
+);
+assert.ok(historicalBanner, "historical submission banner missing");
+assert.doesNotMatch(historicalBanner[0], /awaiting LegalEase review/);
 
 const staffReviewHtml = render(OnboardingReviewClient, {
   ...reviewBase,

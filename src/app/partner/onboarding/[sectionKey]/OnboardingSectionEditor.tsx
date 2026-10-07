@@ -26,6 +26,7 @@ import {
   useContext,
   useCallback,
   useEffect,
+  useLayoutEffect,
   useMemo,
   useRef,
   useState
@@ -2078,15 +2079,98 @@ function GuidedActionBar({
   const nextHref = activeStep.nextSubstep
     ? guidedSectionHref(sectionKey, activeStep.nextSubstep)
     : completionHref;
+  const footerRef = useRef<HTMLDivElement | null>(null);
+  // HF-019: the footer is sticky, so the control the partner is working in can end up
+  // underneath it: focus and hash scrolls stop at the viewport edge, a save failure makes
+  // the footer taller, and a validation message appears below the field after the fact.
+  // Presentation only: nothing here changes how or when anything is saved.
+  const keepFocusedControlAboveFooter = useCallback(() => {
+    const footer = footerRef.current;
+    const active = document.activeElement;
+    const form = footer?.closest("form");
+    if (
+      !footer ||
+      !form ||
+      !(active instanceof HTMLElement) ||
+      !form.contains(active) ||
+      footer.contains(active)
+    ) {
+      return;
+    }
+    // The control plus the help or error text it is described by; whichever sits lowest
+    // has to clear the footer.
+    let lowest: HTMLElement = active;
+    for (const id of (active.getAttribute("aria-describedby") ?? "").split(/\s+/)) {
+      const described = id ? document.getElementById(id) : null;
+      if (
+        described instanceof HTMLElement &&
+        described.getBoundingClientRect().bottom > lowest.getBoundingClientRect().bottom
+      ) {
+        lowest = described;
+      }
+    }
+    if (lowest.getBoundingClientRect().bottom > footer.getBoundingClientRect().top) {
+      // Honours the document scroll padding reserved below.
+      lowest.scrollIntoView({ block: "nearest" });
+    }
+  }, []);
+  useLayoutEffect(() => {
+    const footer = footerRef.current;
+    if (!footer) return undefined;
+    const root = document.documentElement;
+    const previous = root.style.scrollPaddingBottom;
+    // While the footer is mounted its height is reserved as document scroll padding, so
+    // focus, hash and scrollIntoView scrolls keep their target above the footer.
+    const reserve = () => {
+      root.style.scrollPaddingBottom = `${Math.ceil(footer.getBoundingClientRect().height) + 16}px`;
+      keepFocusedControlAboveFooter();
+    };
+    reserve();
+    const observer =
+      typeof ResizeObserver === "function" ? new ResizeObserver(reserve) : null;
+    observer?.observe(footer);
+    // A click into a control that is already partly under the footer does not scroll on
+    // its own; check after the browser's own focus handling has run.
+    const form = footer.closest("form");
+    let frame = 0;
+    const onFocusIn = () => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(keepFocusedControlAboveFooter);
+    };
+    form?.addEventListener("focusin", onFocusIn);
+    return () => {
+      cancelAnimationFrame(frame);
+      form?.removeEventListener("focusin", onFocusIn);
+      observer?.disconnect();
+      root.style.scrollPaddingBottom = previous;
+    };
+  }, [keepFocusedControlAboveFooter]);
+  useEffect(() => {
+    // After a save-state or validation change has rendered (and the editor has moved
+    // focus to the first issue, which happens after this child effect), re-check once.
+    const frame = requestAnimationFrame(keepFocusedControlAboveFooter);
+    return () => cancelAnimationFrame(frame);
+  }, [indicator, issueCount, keepFocusedControlAboveFooter]);
   return (
-    <div className="sticky bottom-0 z-10 mt-5 border border-[#B8C1C7] border-t-4 border-t-[#071B33] bg-[#F7F4EE] p-4">
-      <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end">
-        <div className="min-w-0">
+    <div
+      className="sticky bottom-0 z-10 mt-5 border border-[#B8C1C7] border-t-4 border-t-[#071B33] bg-[#F7F4EE] p-4"
+      data-guided-footer
+      ref={footerRef}
+    >
+      {/* HF-019: a wrapping row, not a two-column grid. The status region can shrink to
+          zero width (min-w-0) and grows when there is room; the action group never
+          shrinks below its labels and wraps under the status when the row is too narrow,
+          which is what 200% text zoom or a long secondary label produces. The previous
+          grid gave the status column minmax(0,1fr) next to an auto column, so once the
+          actions filled the row the status collapsed to 0px and its recovery links were
+          painted underneath the Back control. */}
+      <div className="flex flex-wrap items-end justify-between gap-x-6 gap-y-3">
+        <div className="min-w-0 flex-1 basis-56 break-words">
           <SaveState indicator={indicator} />
           {indicator.kind === "error" &&
           indicator.recovery === "retry" &&
           issueCount === 0 ? (
-            <div className="mt-2 flex flex-wrap gap-4">
+            <div className="mt-2 flex flex-wrap gap-x-4 gap-y-2">
               <button className={recoveryButtonClass} onClick={onRetry} type="button">
                 Retry
               </button>
@@ -2109,9 +2193,9 @@ function GuidedActionBar({
           ) : null}
         </div>
 
-        <div className="grid gap-3 sm:grid-cols-2">
+        <div className="flex w-full max-w-full flex-wrap gap-3 sm:w-auto" data-guided-actions>
           <a
-            className={secondaryActionClass}
+            className={`${secondaryActionClass} w-full min-w-0 whitespace-normal sm:w-auto sm:min-w-32`}
             href={backHref}
             onClick={(event) => {
               if (!activeStep.previousSubstep) return;
@@ -2123,7 +2207,7 @@ function GuidedActionBar({
           </a>
           {controlsEnabled ? (
             <button
-              className="inline-flex min-h-12 items-center justify-center bg-[#FF3B00] px-6 py-3 text-sm font-extrabold text-white hover:bg-[#D93400] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#0A8E9A] focus-visible:ring-offset-2 disabled:cursor-wait disabled:opacity-70"
+              className="inline-flex min-h-12 w-full min-w-0 items-center justify-center whitespace-normal bg-[#FF3B00] px-6 py-3 text-center text-sm font-extrabold text-white hover:bg-[#D93400] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#0A8E9A] focus-visible:ring-offset-2 disabled:cursor-wait disabled:opacity-70 sm:w-auto sm:min-w-32"
               data-primary-guided-action
               disabled={completing}
               type="submit"
@@ -2136,7 +2220,7 @@ function GuidedActionBar({
             </button>
           ) : (
             <a
-              className="inline-flex min-h-12 items-center justify-center bg-[#FF3B00] px-6 py-3 text-sm font-extrabold text-white hover:bg-[#D93400] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#0A8E9A] focus-visible:ring-offset-2"
+              className="inline-flex min-h-12 w-full min-w-0 items-center justify-center whitespace-normal bg-[#FF3B00] px-6 py-3 text-center text-sm font-extrabold text-white hover:bg-[#D93400] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#0A8E9A] focus-visible:ring-offset-2 sm:w-auto sm:min-w-32"
               data-primary-guided-action
               href={nextHref}
               onClick={(event) => {
