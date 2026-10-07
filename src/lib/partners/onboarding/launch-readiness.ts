@@ -421,7 +421,7 @@ const AUTOMATED_EVALUATORS: Readonly<
     }
     return {
       status: "passing",
-      evidence: `Participant support, the applicable legal-resource policy, and an urgent escalation contact are recorded.`,
+      evidence: `Participant support, the applicable legal-resource arrangement, and an urgent escalation contact are recorded.`,
       reference:
         "support_referrals_reporting.participant_support_email, .referral_arrangement, applicable referral/intake fields, .contested_matter_procedure, .urgent_escalation_contact_id"
     };
@@ -607,7 +607,7 @@ export const LAUNCH_CHECK_DEFINITIONS: readonly LaunchCheckDefinition[] = [
     determination: "automated",
     blocking: true,
     partnerVisible: true,
-    nextAction: "Record participant support, the chosen referral policy and its applicable route, and an urgent internal escalation contact."
+    nextAction: "Record participant support, the chosen referral arrangement and its applicable route, and an urgent internal escalation contact."
   },
   {
     key: "artifact_versions_current",

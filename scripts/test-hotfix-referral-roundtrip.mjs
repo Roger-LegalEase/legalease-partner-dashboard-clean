@@ -21,7 +21,7 @@ async function session(user) {
   assert.equal((await auth.auth.signInWithPassword({ email: user.email, password: passwords.get(user.id) })).error, null);
   const api = await request.newContext({ baseURL: BASE, extraHTTPHeaders: { cookie: [...cookies].map(([name, value]) => `${name}=${value}`).join("; "), origin: BASE } });
   requests.push(api);
-  return { api, auth };
+  return { api, auth, cookies };
 }
 async function load(api) {
   const response = await api.get("/api/partners/onboarding/workspace");
@@ -57,7 +57,7 @@ try {
   }
   const partner = await user("referral-partner");
   assert.equal((await db.from("partner_users").insert({ auth_user_id: partner.id, partner_slug: slugs[0], role: "partner_admin", status: "active" })).error, null);
-  const { api, auth } = await session(partner);
+  const { api, auth, cookies } = await session(partner);
   const originalFixture = artifactSourceFixture();
   const rowIds = new Map([
     ...originalFixture.data.organization_contacts.contacts,
@@ -74,6 +74,40 @@ try {
     const reloaded = await load(api);
     assert.equal(reloaded.data.support_referrals_reporting.referral_arrangement, mode);
     assert.equal(reloaded.data.support_referrals_reporting.legal_services_referral_organization, support.legal_services_referral_organization, "Inactive history is retained");
+  }
+
+  if (process.argv.includes("--browser")) {
+    const pw = await import("playwright");
+    const kind = process.argv.includes("--webkit") ? "webkit" : "chromium";
+    const browser = await pw[kind].launch();
+    try {
+      const context = await browser.newContext({viewport:{width:390,height:900}});
+      await context.addCookies([...cookies].map(([name,value])=>({name,value,domain:"127.0.0.1",path:"/"})));
+      const page = await context.newPage();
+      for (const mode of ["established_organization", "general_resources", "no_referrals"]) {
+        const support = {...fixture.data.support_referrals_reporting,referral_arrangement:mode,contested_matter_procedure:`${fixture.data.support_referrals_reporting.contested_matter_procedure} Staff notify the participant and internal program lead.`};
+        await save(api,"support_referrals_reporting",support,"section_complete");
+        await page.goto(`${BASE}/partner/onboarding/support_referrals_reporting?step=legal-referral`);
+        const policy = page.locator("#field-referral-arrangement");
+        await policy.waitFor();
+        await page.waitForFunction(()=>Object.keys(document.querySelector("#field-referral-arrangement")??{}).some(k=>k.startsWith("__reactFiber")));
+        await page.evaluate(()=>document.documentElement.style.fontSize="200%");
+        assert.equal(await policy.inputValue(),mode);
+        assert.equal(await page.locator("#field-legal-services-referral-organization").count(),mode==="established_organization"?1:0);
+        assert.equal(await page.locator("#field-referral-intake-method").count(),mode==="no_referrals"?0:1);
+        for(const control of await page.locator("main input:visible,main textarea:visible,main select:visible,main button:visible,main a:visible").all()) {
+          if(await control.isDisabled()) continue;
+          await control.focus();
+          await control.scrollIntoViewIfNeeded();
+          assert.equal(await control.evaluate(el=>document.activeElement===el),true);
+          assert.equal(await control.evaluate(el=>{const r=el.getBoundingClientRect();const f=document.querySelector("[data-guided-footer]");if(!f||getComputedStyle(f).position!=="sticky")return r.bottom>0&&r.top<innerHeight;const b=f.getBoundingClientRect();return f.contains(el)||r.bottom<=b.top||r.top>=b.bottom;}),true,"Focused control must be usable");
+        }
+        console.log(`${kind} referral form ${mode} at 390px / 200%: active controls, persisted value, reachable keyboard focus PASS`);
+      }
+      await page.goto(`${BASE}/partner/onboarding/support_referrals_reporting?step=contested-escalation`);
+      assert.equal(await page.locator("#field-contested-matter-procedure").count(),1);
+      console.log(`${kind} stop-and-notify field remains available PASS`);
+    } finally {await browser.close();}
   }
   const otherRead = await auth.from("partner_onboarding_workspace_safe").select("id").eq("partner_slug", slugs[1]);
   assert.equal(otherRead.error, null);assert.equal(otherRead.data.length, 0);

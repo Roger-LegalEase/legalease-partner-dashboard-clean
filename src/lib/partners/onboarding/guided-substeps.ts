@@ -503,7 +503,7 @@ const RAW_GUIDED_SECTIONS = [
         id: "legal-referral",
         title: "Legal referral",
         purpose:
-          "Choose the actual referral policy. For general resources, record the reviewed resource route and method; for no referrals, complete the stop-and-notify escalation plan.",
+          "Choose the actual referral arrangement. For general resources, record the reviewed resource route and method; for no referrals, complete the stop-and-notify escalation plan.",
         outcome:
           "The saved process will be used when a matter leaves the self-help path.",
         ...fields(

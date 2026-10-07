@@ -4129,7 +4129,7 @@ function RowMultiCheckField({
                 }
                 type="checkbox"
               />
-              {optionLabels?.[option] ?? onboardingOptionLabel(option)}
+              {onboardingOptionLabel(option)}
             </label>
           );
         })}
