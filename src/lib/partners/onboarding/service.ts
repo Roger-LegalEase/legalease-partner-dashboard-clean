@@ -1099,6 +1099,14 @@ export type InternalOnboardingSnapshot = {
   }>;
   agreements: OnboardingAgreementView[];
   assets: OnboardingAssetView[];
+  // WP-03 (HF-007): the authoritative partner payment read the review function itself
+  // checks before it accepts a paid-invoice outcome, so the panel can explain the
+  // paid-invoice choice instead of letting it reach a generic failure. The server check
+  // is unchanged; this is presentation support only.
+  commercialEvidence: {
+    partnerPaymentStatus: string | null;
+    paidInvoiceClearable: boolean;
+  };
 };
 
 export async function getInternalOnboardingSnapshot(
@@ -1116,10 +1124,16 @@ export async function getInternalOnboardingSnapshot(
     throw new Phase1OnboardingError("persistence_failed", "The onboarding workspace could not be loaded.");
   }
   if (!workspaceData) {
-    return { workspace: null, sections: [], agreements: [], assets: [] };
+    return {
+      workspace: null,
+      sections: [],
+      agreements: [],
+      assets: [],
+      commercialEvidence: { partnerPaymentStatus: null, paidInvoiceClearable: false }
+    };
   }
   const workspace = workspaceData as WorkspaceSafeRow;
-  const [sectionsResult, agreementsResult, assetsResult] = await Promise.all([
+  const [sectionsResult, agreementsResult, assetsResult, paymentResult] = await Promise.all([
     admin
       .from("partner_onboarding_sections")
       .select("section_key, status, revision, completion_percentage")
@@ -1136,12 +1150,27 @@ export async function getInternalOnboardingSnapshot(
       .eq("workspace_id", workspace.id)
       .is("deleted_at", null)
       .in("lifecycle_status", ["pending_review", "active"])
-      .order("uploaded_at", { ascending: false })
+      .order("uploaded_at", { ascending: false }),
+    // Same source and predicate as rcap_service_review_onboarding's paid-invoice check.
+    admin
+      .from("partner_records")
+      .select("payment_status")
+      .eq("partner_slug", context.partnerSlug)
+      .maybeSingle()
   ]);
   if (sectionsResult.error || agreementsResult.error || assetsResult.error) {
     throw new Phase1OnboardingError("persistence_failed", "The onboarding workspace could not be loaded.");
   }
+  // An unreadable payment record is reported as unknown, never as paid.
+  const partnerPaymentStatus =
+    !paymentResult.error && typeof (paymentResult.data as { payment_status?: unknown } | null)?.payment_status === "string"
+      ? String((paymentResult.data as { payment_status: string }).payment_status)
+      : null;
   return {
+    commercialEvidence: {
+      partnerPaymentStatus,
+      paidInvoiceClearable: partnerPaymentStatus === "paid"
+    },
     workspace: {
       id: workspace.id,
       status: asWorkspaceStatus(workspace.status),
@@ -1706,6 +1735,15 @@ function mutationError(error: { code?: string; message?: string }) {
   }
   if (error.code === "42501") {
     return new Phase1OnboardingError("forbidden", "This account cannot change the onboarding workspace.");
+  }
+  if (/paid-invoice outcome requires authoritative paid partner status/i.test(message)) {
+    // WP-03 (HF-007): the database refused a paid-invoice outcome because the partner's
+    // authoritative payment status is not "paid". Say so instead of a generic failure;
+    // the refusal itself still comes from the database.
+    return new Phase1OnboardingError(
+      "commercially_blocked",
+      "The paid-invoice outcome was refused: the partner's authoritative payment status is not paid. Record the gate as blocked, use an approved purchase order, or record an authorized internal override with its reason."
+    );
   }
   if (/commercial/i.test(message)) {
     return new Phase1OnboardingError("commercially_blocked", "Complete the commercial requirements before continuing.");

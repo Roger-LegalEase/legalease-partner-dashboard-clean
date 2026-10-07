@@ -5,10 +5,14 @@ import {
   useRef,
   useState
 } from "react";
+import { useRouter } from "next/navigation";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
-import { ONBOARDING_SECTION_DEFINITIONS } from "@/lib/partners/onboarding/schema";
+import {
+  ONBOARDING_SECTION_DEFINITIONS,
+  ONBOARDING_SECTION_ORDER
+} from "@/lib/partners/onboarding/schema";
 import type {
   CommercialGateOutcome,
   OnboardingSectionKey,
@@ -49,11 +53,21 @@ export type Phase1InternalOnboardingSnapshot = {
     originalFileName: string;
     mediaType: string;
   }>;
+  // The authoritative partner payment read the review function checks before it accepts
+  // a paid-invoice outcome. Absent (older snapshots) means unknown, never paid.
+  commercialEvidence?: {
+    partnerPaymentStatus: string | null;
+    paidInvoiceClearable: boolean;
+  };
 };
 
 export type Phase1InternalReviewPanelProps = {
   partnerSlug: string;
   snapshot: Phase1InternalOnboardingSnapshot;
+  // Continuation shown once Phase 1 is complete. The parent page wires it to the
+  // launch-preparation stage when that stage is available; absent, the panel says so
+  // truthfully instead of pointing at a stage that is not there.
+  launchPreparation?: { href: string; label?: string } | null;
 };
 
 type InternalAction =
@@ -67,20 +81,35 @@ type InternalAction =
   | "ready_for_launch"
   | "close";
 
-type Feedback =
-  | { kind: "idle" }
+// Each operation card owns one feedback region; the approve and waive actions share the
+// section-review card.
+type CardKey =
+  | "create"
+  | "target_launch_date"
+  | "commercial_gate"
+  | "agreement"
+  | "request_changes"
+  | "section_review"
+  | "ready_for_launch"
+  | "close";
+
+type CardFeedback =
+  | { kind: "saving"; action: InternalAction }
   | {
       kind: "success";
       action: InternalAction;
       message: string;
+      detail: string | null;
       status: OnboardingWorkspaceStatus | null;
       workspaceVersion: number | null;
       duplicate: boolean;
     }
   | {
       kind: "error";
+      action: InternalAction;
       message: string;
       conflict: boolean;
+      validation: boolean;
     };
 
 const COMMERCIAL_OUTCOMES = [
@@ -114,25 +143,36 @@ const FINAL_AGREEMENT_STATUSES = new Set([
   "approved"
 ]);
 
+const REVIEWED_SECTION_STATUSES: readonly OnboardingSectionStatus[] = [
+  "approved",
+  "waived",
+  "not_applicable"
+];
+
 const inputClassName =
   "min-h-11 w-full rounded-md border border-grayWilma-200 bg-white px-3 py-2 text-sm text-navy shadow-sm outline-none transition focus:border-teal focus:ring-2 focus:ring-teal/25 disabled:cursor-not-allowed disabled:bg-grayWilma-100 disabled:text-grayWilma-600";
 const textareaClassName = `${inputClassName} min-h-28 resize-y`;
 
 export function Phase1InternalReviewPanel({
   partnerSlug,
-  snapshot
+  snapshot,
+  launchPreparation = null
 }: Phase1InternalReviewPanelProps) {
+  const router = useRouter();
   const [current, setCurrent] =
     useState<Phase1InternalOnboardingSnapshot>(snapshot);
   const [pendingAction, setPendingAction] = useState<InternalAction | null>(
     null
   );
-  const [feedback, setFeedback] = useState<Feedback>({ kind: "idle" });
+  const [cardFeedback, setCardFeedback] = useState<
+    Partial<Record<CardKey, CardFeedback>>
+  >({});
   const inFlightRef = useRef(false);
   const retryAttemptRef = useRef<{
     signature: string;
     requestId: string;
   } | null>(null);
+  const reviewReasonRef = useRef<HTMLTextAreaElement | null>(null);
 
   const [targetLaunchDate, setTargetLaunchDate] = useState(
     snapshot.workspace?.targetLaunchDate ?? ""
@@ -169,6 +209,7 @@ export function Phase1InternalReviewPanel({
   const [changeSection, setChangeSection] =
     useState<OnboardingSectionKey>(firstSection);
   const [changeInstructions, setChangeInstructions] = useState("");
+  const [confirmingCorrection, setConfirmingCorrection] = useState(false);
   const [reviewSection, setReviewSection] =
     useState<OnboardingSectionKey>(firstSection);
   const [reviewDecision, setReviewDecision] = useState<
@@ -182,24 +223,122 @@ export function Phase1InternalReviewPanel({
   const lockedStatus =
     workspace !== null &&
     ["live", "paused", "closed"].includes(workspace.status);
+  const sharedReasons: string[] = [];
+  if (pendingAction !== null) {
+    sharedReasons.push("A save is in progress. Wait for its result before the next action.");
+  } else if (lockedStatus && workspace) {
+    sharedReasons.push(
+      `Phase 1 controls are read-only while the workspace is ${humanize(workspace.status)}.`
+    );
+  }
   const controlsDisabled = pendingAction !== null || lockedStatus;
+
   const selectedReviewSection = current.sections.find(
     (section) => section.key === reviewSection
   );
-  const canApproveSelected =
-    reviewDecision === "waive_section" ||
-    selectedReviewSection?.status === "submitted" ||
-    selectedReviewSection?.status === "needs_changes";
+  const reviewedCount = current.sections.filter((section) =>
+    REVIEWED_SECTION_STATUSES.includes(section.status)
+  ).length;
+  const unreviewedSections = current.sections.filter(
+    (section) => !REVIEWED_SECTION_STATUSES.includes(section.status)
+  );
   const allSectionsReviewed =
     current.sections.length === ONBOARDING_SECTION_DEFINITIONS.length &&
-    current.sections.every((section) =>
-      ["approved", "waived", "not_applicable"].includes(section.status)
+    unreviewedSections.length === 0;
+  const phase1Complete = workspace?.status === "ready_to_launch";
+  const savedAgreement = current.agreements.find(
+    (agreement) => agreement.type === agreementType
+  );
+  const commercialEvidenceRead = current.commercialEvidence ?? {
+    partnerPaymentStatus: null,
+    paidInvoiceClearable: false
+  };
+
+  // Stateful disabled reasons: each names the actual condition, in the card, and
+  // recomputes as fields and workspace state change. A blank required field is a
+  // missing field, never a permission problem.
+  const targetDateReasons = [...sharedReasons];
+  if (!targetReason.trim()) targetDateReasons.push("Enter the internal reason for this target-date change.");
+
+  const commercialReasons = [...sharedReasons];
+  if (
+    commercialOutcome === "cleared_by_paid_invoice" &&
+    !commercialEvidenceRead.paidInvoiceClearable
+  ) {
+    commercialReasons.push(paidInvoiceUnavailableCopy(commercialEvidenceRead.partnerPaymentStatus));
+  }
+  if (
+    commercialOutcome === "cleared_by_approved_purchase_order" &&
+    !commercialEvidence.trim()
+  ) {
+    commercialReasons.push("Enter the approved purchase-order reference.");
+  }
+  if (
+    commercialOutcome === "cleared_by_authorized_internal_override" &&
+    !commercialOverrideReason.trim()
+  ) {
+    commercialReasons.push("Enter the internal reason for the authorized override.");
+  }
+
+  const agreementReasons = [...sharedReasons];
+
+  const correctionReasons = [...sharedReasons];
+  if (workspace && workspace.status !== "ready_for_review") {
+    correctionReasons.push(
+      workspace.status === "waiting_on_partner"
+        ? "The workspace is already with the partner for corrections. Another request can be sent after the partner responds."
+        : `Corrections can be requested only while the workspace is ready for review. It is currently ${humanize(workspace.status)}.`
     );
-  const canMarkReady =
-    workspace?.status === "ready_for_review" &&
-    workspace.commercialGateStatus !== "blocked" &&
-    allSectionsReviewed;
-  const canRequestChanges = workspace?.status === "ready_for_review";
+  }
+  if (!changeInstructions.trim()) {
+    correctionReasons.push("Enter the partner-safe instructions for this correction.");
+  }
+
+  const reviewSectionName = sectionLabel(reviewSection);
+  const reviewReasons = [...sharedReasons];
+  let reviewNote: string | null = null;
+  if (reviewDecision === "approve_section") {
+    const status = selectedReviewSection?.status ?? "not_started";
+    if (REVIEWED_SECTION_STATUSES.includes(status)) {
+      reviewReasons.push(
+        `${reviewSectionName} is already ${humanize(status).toLowerCase()}. No further approval is needed.`
+      );
+    } else if (status === "not_started" || status === "in_progress") {
+      reviewReasons.push(
+        `${reviewSectionName} has not been submitted by the partner yet (currently ${humanize(status).toLowerCase()}).`
+      );
+    } else if (status === "needs_changes") {
+      reviewNote = `${reviewSectionName} has an outstanding correction request. Approving it records that you verified no correction is needed and resolves that request through the same server action; the request, your reason, the request ID and the audit history are kept.`;
+    }
+  }
+  if (!reviewReason.trim()) {
+    reviewReasons.push(
+      `Enter a review reason to ${reviewDecision === "approve_section" ? "approve" : "waive"} ${reviewSectionName}.`
+    );
+  }
+
+  const readyReasons = [...sharedReasons];
+  if (workspace && !phase1Complete) {
+    if (workspace.status !== "ready_for_review") {
+      readyReasons.push(
+        `The workspace must be ready for review before launch preparation. It is currently ${humanize(workspace.status)}.`
+      );
+    }
+    if (workspace.commercialGateStatus === "blocked") {
+      readyReasons.push("The commercial gate is still blocked.");
+    }
+    if (!allSectionsReviewed) {
+      readyReasons.push(
+        unreviewedSections.length > 0
+          ? `${unreviewedSections.length} of ${current.sections.length} sections still need a review decision: ${unreviewedSections
+              .map((section) => sectionLabel(section.key))
+              .join(", ")}.`
+          : "The workspace does not yet carry all eight canonical sections."
+      );
+    }
+    if (!readyReason.trim()) readyReasons.push("Enter the review decision reason.");
+  }
+
   const canClose =
     workspace !== null &&
     [
@@ -210,12 +349,24 @@ export function Phase1InternalReviewPanel({
       "ready_for_review",
       "ready_to_launch"
     ].includes(workspace.status);
+  const closeReasons: string[] = [];
+  if (pendingAction !== null) {
+    closeReasons.push("A save is in progress. Wait for its result before the next action.");
+  }
+  if (workspace && !canClose) {
+    closeReasons.push(
+      `A ${humanize(workspace.status).toLowerCase()} workspace cannot be closed through Phase 1 controls.`
+    );
+  }
+  if (!closeReason.trim()) closeReasons.push("Enter the closure reason.");
 
   async function runOperation(
     action: InternalAction,
-    payload: Record<string, unknown>
-  ) {
-    if (inFlightRef.current) return false;
+    payload: Record<string, unknown>,
+    detail: string | null = null
+  ): Promise<{ ok: boolean; snapshot: Phase1InternalOnboardingSnapshot | null }> {
+    if (inFlightRef.current) return { ok: false, snapshot: null };
+    const card = cardForAction(action);
     const workspaceId = current.workspace?.id;
     const expectedWorkspaceVersion =
       current.workspace?.aggregateVersion;
@@ -233,7 +384,10 @@ export function Phase1InternalReviewPanel({
 
     inFlightRef.current = true;
     setPendingAction(action);
-    setFeedback({ kind: "idle" });
+    setCardFeedback((previous) => ({
+      ...previous,
+      [card]: { kind: "saving", action }
+    }));
 
     try {
       const response = await fetch(
@@ -256,12 +410,17 @@ export function Phase1InternalReviewPanel({
           response.status === 409 &&
           (body?.code === "revision_conflict" ||
             typeof body?.currentWorkspaceVersion === "number");
-        setFeedback({
-          kind: "error",
-          conflict,
-          message: internalErrorMessage(response.status, body, conflict)
-        });
-        return false;
+        setCardFeedback((previous) => ({
+          ...previous,
+          [card]: {
+            kind: "error",
+            action,
+            conflict,
+            validation: body?.code === "invalid_input",
+            message: internalErrorMessage(response.status, body, conflict)
+          }
+        }));
+        return { ok: false, snapshot: null };
       }
 
       const returnedSnapshot = parseSnapshot(body.snapshot);
@@ -272,55 +431,42 @@ export function Phase1InternalReviewPanel({
         returnedSnapshot ??
         mergeOperationResult(current, resultVersion, resultStatus);
 
-      if (nextSnapshot) {
-        setCurrent(nextSnapshot);
-        setTargetLaunchDate(
-          nextSnapshot.workspace?.targetLaunchDate ?? ""
-        );
-        setCommercialOutcome(
-          nextSnapshot.workspace?.commercialGateStatus ?? "blocked"
-        );
-        const refreshedAgreement = nextSnapshot.agreements.find(
-          (agreement) => agreement.type === agreementType
-        );
-        setAgreementStatus(refreshedAgreement?.status ?? "not_started");
-        setAgreementRequired(refreshedAgreement?.required ?? true);
-        setAgreementDetail(
-          refreshedAgreement?.partnerSafeDetail ?? ""
-        );
-        setAgreementFinalizedAssetId(
-          refreshedAgreement?.finalizedAssetId ?? ""
-        );
-        setAgreementEffectiveDate(
-          refreshedAgreement?.effectiveDate ?? ""
-        );
-      }
+      if (nextSnapshot) setCurrent(nextSnapshot);
       retryAttemptRef.current = null;
-      setFeedback({
-        kind: "success",
-        action,
-        message: operationSuccessMessage(action),
-        status:
-          nextSnapshot?.workspace?.status ??
-          resultStatus ??
-          current.workspace?.status ??
-          null,
-        workspaceVersion:
-          nextSnapshot?.workspace?.aggregateVersion ??
-          resultVersion ??
-          current.workspace?.aggregateVersion ??
-          null,
-        duplicate: result?.duplicate === true
-      });
-      return true;
+      setCardFeedback((previous) => ({
+        ...previous,
+        [card]: {
+          kind: "success",
+          action,
+          message: operationSuccessMessage(action),
+          detail,
+          status:
+            nextSnapshot?.workspace?.status ??
+            resultStatus ??
+            current.workspace?.status ??
+            null,
+          workspaceVersion:
+            nextSnapshot?.workspace?.aggregateVersion ??
+            resultVersion ??
+            current.workspace?.aggregateVersion ??
+            null,
+          duplicate: result?.duplicate === true
+        }
+      }));
+      return { ok: true, snapshot: nextSnapshot };
     } catch {
-      setFeedback({
-        kind: "error",
-        conflict: false,
-        message:
-          "The operation could not be confirmed. No success is shown; retrying the unchanged form will use the same request ID."
-      });
-      return false;
+      setCardFeedback((previous) => ({
+        ...previous,
+        [card]: {
+          kind: "error",
+          action,
+          conflict: false,
+          validation: false,
+          message:
+            "The operation could not be confirmed. No success is shown; retrying the unchanged form will use the same request ID."
+        }
+      }));
+      return { ok: false, snapshot: null };
     } finally {
       inFlightRef.current = false;
       setPendingAction(null);
@@ -333,16 +479,20 @@ export function Phase1InternalReviewPanel({
 
   async function saveTargetDate(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const saved = await runOperation("target_launch_date", {
+    const { ok, snapshot: next } = await runOperation("target_launch_date", {
       targetLaunchDate: targetLaunchDate || null,
       reason: targetReason.trim()
     });
-    if (saved) setTargetReason("");
+    if (ok) {
+      // Only this card's fields follow the confirmed save; other cards keep their unsaved input.
+      setTargetLaunchDate(next?.workspace?.targetLaunchDate ?? "");
+      setTargetReason("");
+    }
   }
 
   async function saveCommercialGate(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const saved = await runOperation("commercial_gate", {
+    const { ok, snapshot: next } = await runOperation("commercial_gate", {
       outcome: commercialOutcome,
       evidenceReference: commercialEvidence.trim() || null,
       overrideReason:
@@ -350,7 +500,8 @@ export function Phase1InternalReviewPanel({
           ? commercialOverrideReason.trim()
           : null
     });
-    if (saved) {
+    if (ok) {
+      setCommercialOutcome(next?.workspace?.commercialGateStatus ?? commercialOutcome);
       setCommercialEvidence("");
       setCommercialOverrideReason("");
     }
@@ -358,40 +509,89 @@ export function Phase1InternalReviewPanel({
 
   async function saveAgreement(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    await runOperation("agreement", {
-      agreementType,
-      status: agreementStatus,
-      required: agreementRequired,
-      partnerSafeDetail: agreementDetail.trim() || null,
-      finalizedAssetId: agreementFinalizedAssetId || null,
-      effectiveDate: agreementEffectiveDate || null
-    });
+    const { ok, snapshot: next } = await runOperation(
+      "agreement",
+      {
+        agreementType,
+        status: agreementStatus,
+        required: agreementRequired,
+        partnerSafeDetail: agreementDetail.trim() || null,
+        finalizedAssetId: agreementFinalizedAssetId || null,
+        // Date-only string exactly as the control holds it; blank saves no date.
+        effectiveDate: agreementEffectiveDate || null
+      },
+      `${agreementTypeLabel(agreementType)} saved.`
+    );
+    if (ok) {
+      const refreshed = next?.agreements.find(
+        (agreement) => agreement.type === agreementType
+      );
+      setAgreementStatus(refreshed?.status ?? agreementStatus);
+      setAgreementRequired(refreshed?.required ?? agreementRequired);
+      setAgreementDetail(refreshed?.partnerSafeDetail ?? "");
+      setAgreementFinalizedAssetId(refreshed?.finalizedAssetId ?? "");
+      setAgreementEffectiveDate(refreshed?.effectiveDate ?? "");
+    }
   }
 
   async function requestChanges(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const saved = await runOperation("request_changes", {
-      sectionKey: changeSection,
-      instructions: changeInstructions.trim()
-    });
-    if (saved) setChangeInstructions("");
+    // The form never submits from its first stage: the reviewer sees the section, the
+    // instructions and the consequence, then confirms. Cancel changes nothing.
+    if (!confirmingCorrection) {
+      setConfirmingCorrection(true);
+      return;
+    }
+    const sectionName = sectionLabel(changeSection);
+    const { ok } = await runOperation(
+      "request_changes",
+      {
+        sectionKey: changeSection,
+        instructions: changeInstructions.trim()
+      },
+      `${sectionName} was returned to the partner for corrections. The workspace is now with the partner.`
+    );
+    if (ok) {
+      setChangeInstructions("");
+      setConfirmingCorrection(false);
+    }
   }
 
   async function reviewSectionAction(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const saved = await runOperation(reviewDecision, {
-      sectionKey: reviewSection,
-      reason: reviewReason.trim()
-    });
-    if (saved) setReviewReason("");
+    const decidedSection = reviewSection;
+    const decidedName = sectionLabel(decidedSection);
+    const { ok, snapshot: next } = await runOperation(
+      reviewDecision,
+      {
+        sectionKey: decidedSection,
+        reason: reviewReason.trim()
+      },
+      reviewDecision === "approve_section"
+        ? `${decidedName} approved.`
+        : `${decidedName} waived.`
+    );
+    if (!ok) return; // selection and reason stay for the retry
+    setReviewReason("");
+    const sections = next?.sections ?? current.sections;
+    const nextPending = nextSectionAwaitingDecision(sections, decidedSection);
+    if (nextPending) setReviewSection(nextPending);
+    // Focus stays in this card, on the next thing to type. Deferred one frame so the
+    // field is enabled again after React commits the end of the in-flight state.
+    requestAnimationFrame(() => reviewReasonRef.current?.focus());
   }
 
   async function markReadyForLaunch(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const saved = await runOperation("ready_for_launch", {
+    const { ok } = await runOperation("ready_for_launch", {
       reason: readyReason.trim()
     });
-    if (saved) setReadyReason("");
+    if (ok) {
+      setReadyReason("");
+      // Server-rendered readiness on this page follows the confirmed decision; client
+      // state (unsaved inputs in other cards) is kept by the router refresh.
+      router.refresh();
+    }
   }
 
   async function closeWorkspace(event: FormEvent<HTMLFormElement>) {
@@ -403,10 +603,10 @@ export function Phase1InternalReviewPanel({
     ) {
       return;
     }
-    const saved = await runOperation("close", {
+    const { ok } = await runOperation("close", {
       reason: closeReason.trim()
     });
-    if (saved) setCloseReason("");
+    if (ok) setCloseReason("");
   }
 
   return (
@@ -426,7 +626,8 @@ export function Phase1InternalReviewPanel({
           <p className="mt-2 max-w-3xl text-sm leading-6 text-grayWilma-700">
             Provision and review the partner’s Phase 1 package. These controls
             do not activate a program, send invitations, publish a page, or
-            change live or paused state.
+            change live or paused state. Each card reports its own result
+            beside its action.
           </p>
         </div>
         {workspace ? (
@@ -437,53 +638,6 @@ export function Phase1InternalReviewPanel({
           <Badge>No workspace</Badge>
         )}
       </div>
-
-      {feedback.kind === "success" ? (
-        <Card
-          aria-live="polite"
-          className="mb-5 border-teal/30 bg-teal/10 p-4"
-          role="status"
-        >
-          <p className="font-black text-navy">{feedback.message}</p>
-          <p className="mt-1 text-sm text-grayWilma-700">
-            Persisted status:{" "}
-            <strong>
-              {feedback.status ? humanize(feedback.status) : "Created"}
-            </strong>
-            {feedback.workspaceVersion !== null
-              ? ` · Workspace version ${feedback.workspaceVersion}`
-              : ""}
-            {feedback.duplicate
-              ? " · Existing idempotent result returned"
-              : ""}
-          </p>
-        </Card>
-      ) : null}
-
-      {feedback.kind === "error" ? (
-        <Card
-          className="mb-5 border-orange/40 bg-orange/10 p-4"
-          role="alert"
-          aria-labelledby="phase1-operation-error-heading"
-        >
-          <h3 className="font-black" id="phase1-operation-error-heading">
-            Operation not confirmed
-          </h3>
-          <p className="mt-1 text-sm leading-6 text-grayWilma-800">
-            {feedback.message}
-          </p>
-          {feedback.conflict ? (
-            <Button
-              className="mt-3 min-h-11"
-              onClick={() => window.location.reload()}
-              type="button"
-              variant="secondary"
-            >
-              Reload current workspace
-            </Button>
-          ) : null}
-        </Card>
-      ) : null}
 
       {!workspace ? (
         <Card className="rounded-md border-grayWilma-200 p-6">
@@ -503,6 +657,7 @@ export function Phase1InternalReviewPanel({
               ? "Creating…"
               : "Create Phase 1 workspace"}
           </Button>
+          <CardStatus cardKey="create" feedback={cardFeedback.create} />
         </Card>
       ) : (
         <>
@@ -521,11 +676,16 @@ export function Phase1InternalReviewPanel({
 
           <div className="mt-6 grid items-start gap-5 xl:grid-cols-2">
             <OperationCard
+              cardKey="target_launch_date"
               description="Set or clear the planning date with an auditable internal reason."
+              feedback={cardFeedback.target_launch_date}
               title="Target launch date"
             >
               <form className="grid gap-4" onSubmit={saveTargetDate}>
-                <AdminField label="Target launch date">
+                <AdminField
+                  helperCopy={`Saved target launch date: ${formatDate(workspace.targetLaunchDate)}. Leave blank to clear it.`}
+                  label="Target launch date"
+                >
                   <input
                     className={inputClassName}
                     disabled={controlsDisabled}
@@ -550,8 +710,9 @@ export function Phase1InternalReviewPanel({
                 </AdminField>
                 <OperationButton
                   action="target_launch_date"
-                  disabled={controlsDisabled || !targetReason.trim()}
+                  cardKey="target_launch_date"
                   pendingAction={pendingAction}
+                  reasons={targetDateReasons}
                 >
                   Save target date
                 </OperationButton>
@@ -559,9 +720,34 @@ export function Phase1InternalReviewPanel({
             </OperationCard>
 
             <OperationCard
-              description="Record authoritative commercial evidence. Only the authorized override outcome accepts an override reason."
+              cardKey="commercial_gate"
+              description="Record authoritative commercial evidence. The saved gate is shown separately from the form you are editing."
+              feedback={cardFeedback.commercial_gate}
               title="Commercial gate"
             >
+              <dl
+                className="mb-4 grid gap-1 rounded-md bg-grayWilma-100 px-3 py-3 text-sm"
+                data-saved-commercial-gate={workspace.commercialGateStatus}
+              >
+                <div className="flex flex-wrap justify-between gap-2">
+                  <dt className="font-black">Saved commercial gate</dt>
+                  <dd className="font-semibold">{humanize(workspace.commercialGateStatus)}</dd>
+                </div>
+                <div className="flex flex-wrap justify-between gap-2">
+                  <dt className="font-black">Partner payment status (authoritative read)</dt>
+                  <dd className="font-semibold" data-partner-payment-status={commercialEvidenceRead.partnerPaymentStatus ?? "unknown"}>
+                    {commercialEvidenceRead.partnerPaymentStatus
+                      ? humanize(commercialEvidenceRead.partnerPaymentStatus)
+                      : "Unknown (not readable)"}
+                  </dd>
+                </div>
+                {workspace.commercialGateStatus === "cleared_by_authorized_internal_override" ? (
+                  <p className="text-xs leading-5 text-grayWilma-700">
+                    The authorized override and its internal reason are on the saved record. A
+                    blank reason field below is the edit form, not the saved override.
+                  </p>
+                ) : null}
+              </dl>
               <form className="grid gap-4" onSubmit={saveCommercialGate}>
                 <AdminField label="Commercial outcome" required>
                   <select
@@ -575,44 +761,56 @@ export function Phase1InternalReviewPanel({
                     value={commercialOutcome}
                   >
                     {COMMERCIAL_OUTCOMES.map((outcome) => (
-                      <option key={outcome} value={outcome}>
+                      <option
+                        disabled={
+                          outcome === "cleared_by_paid_invoice" &&
+                          !commercialEvidenceRead.paidInvoiceClearable &&
+                          commercialOutcome !== "cleared_by_paid_invoice"
+                        }
+                        key={outcome}
+                        value={outcome}
+                      >
                         {humanize(outcome)}
+                        {outcome === "cleared_by_paid_invoice" &&
+                        !commercialEvidenceRead.paidInvoiceClearable
+                          ? " (unavailable: partner not paid)"
+                          : ""}
                       </option>
                     ))}
                   </select>
                 </AdminField>
-                <AdminField
-                  helperCopy={
-                    commercialOutcome === "cleared_by_paid_invoice"
-                      ? "Paid status is verified from the authoritative partner provisioning record; typed text cannot clear this gate."
-                      : "Use a bounded approved purchase-order reference. Do not paste payment credentials."
-                  }
-                  label="Evidence reference"
-                  required={
-                    commercialOutcome ===
-                      "cleared_by_approved_purchase_order"
-                  }
-                >
-                  <input
-                    className={inputClassName}
-                    maxLength={500}
-                    onChange={(event) =>
-                      setCommercialEvidence(event.currentTarget.value)
-                    }
-                    disabled={
-                      controlsDisabled ||
-                      commercialOutcome === "cleared_by_paid_invoice"
-                    }
-                    required={
-                      commercialOutcome ===
-                        "cleared_by_approved_purchase_order"
-                    }
-                    value={commercialEvidence}
-                  />
-                </AdminField>
+                {commercialOutcome === "cleared_by_paid_invoice" ? (
+                  <ConstraintCopy>
+                    {commercialEvidenceRead.paidInvoiceClearable
+                      ? "Paid status is verified from the authoritative partner provisioning record; no typed evidence is needed."
+                      : paidInvoiceUnavailableCopy(commercialEvidenceRead.partnerPaymentStatus)}
+                  </ConstraintCopy>
+                ) : null}
+                {commercialOutcome === "cleared_by_approved_purchase_order" ? (
+                  <AdminField
+                    helperCopy="Use a bounded approved purchase-order reference. Do not paste payment credentials."
+                    label="Approved purchase-order reference"
+                    required
+                  >
+                    <input
+                      className={inputClassName}
+                      disabled={controlsDisabled}
+                      maxLength={500}
+                      onChange={(event) =>
+                        setCommercialEvidence(event.currentTarget.value)
+                      }
+                      required
+                      value={commercialEvidence}
+                    />
+                  </AdminField>
+                ) : null}
                 {commercialOutcome ===
                 "cleared_by_authorized_internal_override" ? (
-                  <AdminField label="Authorized override reason" required>
+                  <AdminField
+                    helperCopy="Give the internal reason for clearing the gate without paid or purchase-order evidence. It is kept on the audit record."
+                    label="Authorized override reason"
+                    required
+                  >
                     <textarea
                       className={textareaClassName}
                       disabled={controlsDisabled}
@@ -627,16 +825,9 @@ export function Phase1InternalReviewPanel({
                 ) : null}
                 <OperationButton
                   action="commercial_gate"
-                  disabled={
-                    controlsDisabled ||
-                    (commercialOutcome ===
-                      "cleared_by_approved_purchase_order" &&
-                      !commercialEvidence.trim()) ||
-                    (commercialOutcome ===
-                      "cleared_by_authorized_internal_override" &&
-                      !commercialOverrideReason.trim())
-                  }
+                  cardKey="commercial_gate"
                   pendingAction={pendingAction}
+                  reasons={commercialReasons}
                 >
                   Record commercial outcome
                 </OperationButton>
@@ -644,7 +835,9 @@ export function Phase1InternalReviewPanel({
             </OperationCard>
 
             <OperationCard
+              cardKey="agreement"
               description="Record partner-safe agreement or procurement status. This does not provide e-signature."
+              feedback={cardFeedback.agreement}
               title="Agreement and procurement metadata"
             >
               <form className="grid gap-4" onSubmit={saveAgreement}>
@@ -702,6 +895,16 @@ export function Phase1InternalReviewPanel({
                     ))}
                   </select>
                 </AdminField>
+                {savedAgreement &&
+                savedAgreement.status !== agreementStatus &&
+                FINAL_AGREEMENT_STATUSES.has(savedAgreement.status) &&
+                !FINAL_AGREEMENT_STATUSES.has(agreementStatus) ? (
+                  <ConstraintCopy>
+                    Saved status for {agreementTypeLabel(agreementType)} is{" "}
+                    {humanize(savedAgreement.status)}. Saving {humanize(agreementStatus)} moves it
+                    backwards; confirm that is the deliberate correction before saving.
+                  </ConstraintCopy>
+                ) : null}
                 <label className="flex min-h-11 items-center gap-3 rounded-md border border-grayWilma-200 bg-grayWilma-100 px-3 py-2 text-sm font-black">
                   <input
                     checked={agreementRequired}
@@ -757,9 +960,17 @@ export function Phase1InternalReviewPanel({
                     </select>
                   </AdminField>
                 ) : null}
-                <AdminField label="Effective date">
+                <AdminField
+                  helperCopy={`Saved effective date for ${agreementTypeLabel(agreementType)}: ${
+                    savedAgreement?.effectiveDate
+                      ? formatDate(savedAgreement.effectiveDate)
+                      : "none saved"
+                  }. Leave the field blank to save no date; a greyed date is the browser's placeholder, not a saved value.`}
+                  label="Effective date"
+                >
                   <input
                     className={inputClassName}
+                    data-saved-effective-date={savedAgreement?.effectiveDate ?? ""}
                     disabled={controlsDisabled}
                     onChange={(event) =>
                       setAgreementEffectiveDate(event.currentTarget.value)
@@ -770,8 +981,9 @@ export function Phase1InternalReviewPanel({
                 </AdminField>
                 <OperationButton
                   action="agreement"
-                  disabled={controlsDisabled}
+                  cardKey="agreement"
                   pendingAction={pendingAction}
+                  reasons={agreementReasons}
                 >
                   Save agreement status
                 </OperationButton>
@@ -779,12 +991,14 @@ export function Phase1InternalReviewPanel({
             </OperationCard>
 
             <OperationCard
-              description="Send one consolidated, partner-safe instruction for the selected section."
-              title="Request section changes"
+              cardKey="request_changes"
+              description="Send one consolidated, partner-safe instruction for the selected section. This returns the workspace to the partner; it is not an approval."
+              feedback={cardFeedback.request_changes}
+              title="Request partner corrections"
             >
               <form className="grid gap-4" onSubmit={requestChanges}>
                 <SectionSelect
-                  disabled={controlsDisabled || !canRequestChanges}
+                  disabled={controlsDisabled || confirmingCorrection}
                   onChange={setChangeSection}
                   sections={current.sections}
                   value={changeSection}
@@ -792,7 +1006,7 @@ export function Phase1InternalReviewPanel({
                 <AdminField label="Partner-safe instructions" required>
                   <textarea
                     className={textareaClassName}
-                    disabled={controlsDisabled || !canRequestChanges}
+                    disabled={controlsDisabled || confirmingCorrection}
                     maxLength={5000}
                     onChange={(event) =>
                       setChangeInstructions(event.currentTarget.value)
@@ -801,30 +1015,72 @@ export function Phase1InternalReviewPanel({
                     value={changeInstructions}
                   />
                 </AdminField>
-                {!canRequestChanges ? (
-                  <ConstraintCopy>
-                    Change requests are available only while the workspace is
-                    ready for review.
-                  </ConstraintCopy>
-                ) : null}
-                <OperationButton
-                  action="request_changes"
-                  disabled={
-                    controlsDisabled ||
-                    !canRequestChanges ||
-                    !changeInstructions.trim()
-                  }
-                  pendingAction={pendingAction}
-                >
-                  Request changes
-                </OperationButton>
+                {confirmingCorrection ? (
+                  <div
+                    className="grid gap-3 rounded-md border border-orange/40 bg-orange/10 p-4"
+                    data-correction-confirmation
+                    role="group"
+                    aria-labelledby="phase1-correction-confirm-heading"
+                  >
+                    <h4 className="font-black" id="phase1-correction-confirm-heading">
+                      Confirm: return {sectionLabel(changeSection)} to the partner
+                    </h4>
+                    <p className="whitespace-pre-wrap text-sm leading-6 text-grayWilma-800">
+                      {changeInstructions.trim()}
+                    </p>
+                    <p className="text-sm font-black text-grayWilma-900">
+                      This returns the workspace to the partner for corrections.
+                    </p>
+                    <div className="flex flex-wrap gap-3">
+                      <Button
+                        className="min-h-11"
+                        disabled={correctionReasons.length > 0}
+                        type="submit"
+                        variant="warning"
+                      >
+                        {pendingAction === "request_changes"
+                          ? "Saving…"
+                          : "Confirm and return to partner"}
+                      </Button>
+                      <Button
+                        className="min-h-11"
+                        disabled={pendingAction !== null}
+                        onClick={() => setConfirmingCorrection(false)}
+                        type="button"
+                        variant="secondary"
+                      >
+                        Cancel
+                      </Button>
+                    </div>
+                  </div>
+                ) : (
+                  <OperationButton
+                    action="request_changes"
+                    cardKey="request_changes"
+                    onClick={() => setConfirmingCorrection(true)}
+                    pendingAction={pendingAction}
+                    reasons={correctionReasons}
+                    type="button"
+                  >
+                    Request partner corrections
+                  </OperationButton>
+                )}
               </form>
             </OperationCard>
 
             <OperationCard
-              description="Approve a submitted section or waive it with an auditable reason."
+              cardKey="section_review"
+              description="Approve a submitted section or waive it with an auditable reason. Approval is a review decision, not a correction request."
+              feedback={cardFeedback.section_review}
               title="Approve or waive a section"
             >
+              <p
+                className="mb-4 text-sm font-semibold text-grayWilma-700"
+                data-review-progress={`${reviewedCount}/${current.sections.length}`}
+              >
+                {reviewedCount} of {current.sections.length} sections reviewed
+                {allSectionsReviewed ? ". All sections have a review decision." : "."}
+              </p>
               <form className="grid gap-4" onSubmit={reviewSectionAction}>
                 <SectionSelect
                   disabled={controlsDisabled}
@@ -857,69 +1113,85 @@ export function Phase1InternalReviewPanel({
                     onChange={(event) =>
                       setReviewReason(event.currentTarget.value)
                     }
+                    ref={reviewReasonRef}
                     required
                     value={reviewReason}
                   />
                 </AdminField>
-                {!canApproveSelected ? (
-                  <ConstraintCopy>
-                    Approval requires a submitted or changes-requested section.
-                    Waiver remains available with a reason.
-                  </ConstraintCopy>
-                ) : null}
+                {reviewNote ? <ConstraintCopy>{reviewNote}</ConstraintCopy> : null}
                 <OperationButton
                   action={reviewDecision}
-                  disabled={
-                    controlsDisabled ||
-                    !reviewReason.trim() ||
-                    !canApproveSelected
-                  }
+                  cardKey="section_review"
                   pendingAction={pendingAction}
+                  reasons={reviewReasons}
                 >
                   {reviewDecision === "approve_section"
-                    ? "Approve section"
-                    : "Waive section"}
+                    ? `Approve ${reviewSectionName}`
+                    : `Waive ${reviewSectionName}`}
                 </OperationButton>
               </form>
             </OperationCard>
 
             <OperationCard
+              cardKey="ready_for_launch"
               description="Move a fully reviewed package into launch preparation. This does not activate or publish anything."
+              feedback={cardFeedback.ready_for_launch}
               title="Ready for launch preparation"
             >
-              <form className="grid gap-4" onSubmit={markReadyForLaunch}>
-                <AdminField label="Review decision reason" required>
-                  <textarea
-                    className={textareaClassName}
-                    disabled={controlsDisabled || !canMarkReady}
-                    maxLength={5000}
-                    onChange={(event) =>
-                      setReadyReason(event.currentTarget.value)
-                    }
-                    required
-                    value={readyReason}
-                  />
-                </AdminField>
-                {!canMarkReady ? (
-                  <ConstraintCopy>
-                    Requires a commercially cleared, ready-for-review workspace
-                    with all eight sections approved, waived, or not applicable.
-                  </ConstraintCopy>
-                ) : null}
-                <OperationButton
-                  action="ready_for_launch"
-                  disabled={
-                    controlsDisabled || !canMarkReady || !readyReason.trim()
-                  }
-                  pendingAction={pendingAction}
-                >
-                  Mark ready for launch preparation
-                </OperationButton>
-              </form>
+              {phase1Complete ? (
+                <div className="grid gap-3" data-phase1-complete>
+                  <p className="rounded-md border border-teal/30 bg-teal/10 px-3 py-2 text-sm font-black text-navy" role="status">
+                    Phase 1 complete. All eight sections have been reviewed.
+                  </p>
+                  <p className="text-sm leading-6 text-grayWilma-700">
+                    The ready-for-launch decision is saved once and is not repeated here. Nothing
+                    has been published or activated.
+                  </p>
+                  {launchPreparation ? (
+                    <a
+                      className="inline-flex min-h-11 items-center justify-self-start rounded-md bg-navy px-4 py-2 text-sm font-semibold text-white hover:bg-wilmaBlue focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal focus-visible:ring-offset-2"
+                      data-launch-continuation
+                      href={launchPreparation.href}
+                    >
+                      {launchPreparation.label ?? "Continue to launch preparation"}
+                    </a>
+                  ) : (
+                    <p className="text-sm font-semibold text-grayWilma-800" data-launch-continuation-unavailable>
+                      The launch-preparation stage is not available for this workspace yet, so
+                      there is no next step to open from here.
+                    </p>
+                  )}
+                </div>
+              ) : (
+                <form className="grid gap-4" onSubmit={markReadyForLaunch}>
+                  <AdminField label="Review decision reason" required>
+                    <textarea
+                      className={textareaClassName}
+                      disabled={controlsDisabled}
+                      maxLength={5000}
+                      onChange={(event) =>
+                        setReadyReason(event.currentTarget.value)
+                      }
+                      required
+                      value={readyReason}
+                    />
+                  </AdminField>
+                  <OperationButton
+                    action="ready_for_launch"
+                    cardKey="ready_for_launch"
+                    pendingAction={pendingAction}
+                    reasons={readyReasons}
+                  >
+                    Mark ready for launch preparation
+                  </OperationButton>
+                </form>
+              )}
             </OperationCard>
 
             <OperationCard
+              cardKey="close"
               description="Close an unfinished Phase 1 workspace with an auditable reason."
+              feedback={cardFeedback.close}
               title="Close workspace"
               warning
             >
@@ -936,20 +1208,11 @@ export function Phase1InternalReviewPanel({
                     value={closeReason}
                   />
                 </AdminField>
-                {!canClose ? (
-                  <ConstraintCopy>
-                    The current workspace state cannot be closed through Phase
-                    1 controls.
-                  </ConstraintCopy>
-                ) : null}
                 <OperationButton
                   action="close"
-                  disabled={
-                    pendingAction !== null ||
-                    !canClose ||
-                    !closeReason.trim()
-                  }
+                  cardKey="close"
                   pendingAction={pendingAction}
+                  reasons={closeReasons}
                   warning
                 >
                   Close workspace
@@ -961,6 +1224,38 @@ export function Phase1InternalReviewPanel({
       )}
     </section>
   );
+}
+
+function cardForAction(action: InternalAction): CardKey {
+  return action === "approve_section" || action === "waive_section"
+    ? "section_review"
+    : action;
+}
+
+// The next section still awaiting a review decision, in canonical onboarding order,
+// starting after the one just decided and wrapping to the start. Null when none remains.
+function nextSectionAwaitingDecision(
+  sections: Phase1InternalOnboardingSnapshot["sections"],
+  decided: OnboardingSectionKey
+): OnboardingSectionKey | null {
+  const pending = new Set(
+    sections
+      .filter((section) => section.status === "submitted" || section.status === "needs_changes")
+      .map((section) => section.key)
+  );
+  const order = ONBOARDING_SECTION_ORDER as readonly OnboardingSectionKey[];
+  const start = order.indexOf(decided);
+  for (let offset = 1; offset <= order.length; offset += 1) {
+    const candidate = order[(start + offset) % order.length];
+    if (pending.has(candidate)) return candidate;
+  }
+  return null;
+}
+
+function paidInvoiceUnavailableCopy(paymentStatus: string | null) {
+  return paymentStatus
+    ? `The paid-invoice outcome is unavailable: the partner's authoritative payment status is ${humanize(paymentStatus)}, not Paid. Typed text cannot clear this gate; use an approved purchase order or an authorized internal override with its reason.`
+    : "The paid-invoice outcome is unavailable: the partner's authoritative payment status could not be read. Reload the page or use another evidence path.";
 }
 
 function WorkspaceSummary({
@@ -1008,6 +1303,7 @@ function WorkspaceSummary({
             {snapshot.sections.map((section) => (
               <li
                 className="flex items-center justify-between gap-3 rounded-md border border-grayWilma-200 bg-grayWilma-100 px-3 py-2"
+                data-section-status={section.status}
                 key={section.key}
               >
                 <span className="text-xs font-bold">
@@ -1044,6 +1340,7 @@ function WorkspaceSummary({
                 <dd className="text-right text-xs font-black">
                   {humanize(agreement.status)}
                   {agreement.required ? " · Required" : ""}
+                  {agreement.effectiveDate ? ` · Effective ${formatDate(agreement.effectiveDate)}` : ""}
                 </dd>
               </div>
             ))}
@@ -1055,13 +1352,17 @@ function WorkspaceSummary({
 }
 
 function OperationCard({
+  cardKey,
   title,
   description,
+  feedback,
   warning = false,
   children
 }: {
+  cardKey: CardKey;
   title: string;
   description: string;
+  feedback: CardFeedback | undefined;
   warning?: boolean;
   children: React.ReactNode;
 }) {
@@ -1070,13 +1371,77 @@ function OperationCard({
       className={`rounded-md p-5 ${
         warning ? "border-orange/30" : "border-grayWilma-200"
       }`}
+      data-operation-card={cardKey}
     >
       <h3 className="text-lg font-black">{title}</h3>
       <p className="mt-2 text-sm leading-6 text-grayWilma-700">
         {description}
       </p>
       <div className="mt-5">{children}</div>
+      <CardStatus cardKey={cardKey} feedback={feedback} />
     </Card>
+  );
+}
+
+// HF-003: the outcome of an action is reported inside the card that invoked it, in a
+// live region that stays mounted so each change is announced. Success is shown only
+// with a confirmed server result and the persisted state it returned.
+function CardStatus({
+  cardKey,
+  feedback
+}: {
+  cardKey: CardKey;
+  feedback: CardFeedback | undefined;
+}) {
+  return (
+    <div
+      aria-live="polite"
+      className={feedback ? "mt-4" : "mt-0"}
+      data-card-state={feedback?.kind ?? "idle"}
+      data-card-status={cardKey}
+    >
+      {feedback?.kind === "saving" ? (
+        <p className="rounded-md border border-grayWilma-200 bg-grayWilma-100 px-3 py-2 text-sm font-semibold text-grayWilma-800" role="status">
+          Saving… waiting for the server to confirm.
+        </p>
+      ) : null}
+      {feedback?.kind === "success" ? (
+        <div className="rounded-md border border-teal/30 bg-teal/10 px-3 py-2 text-sm" role="status">
+          <p className="font-black text-navy">{feedback.detail ?? feedback.message}</p>
+          {feedback.detail ? <p className="mt-1 text-grayWilma-800">{feedback.message}</p> : null}
+          <p className="mt-1 text-grayWilma-700">
+            Persisted status:{" "}
+            <strong>{feedback.status ? humanize(feedback.status) : "Created"}</strong>
+            {feedback.workspaceVersion !== null
+              ? ` · Workspace version ${feedback.workspaceVersion}`
+              : ""}
+            {feedback.duplicate ? " · Existing idempotent result returned" : ""}
+          </p>
+        </div>
+      ) : null}
+      {feedback?.kind === "error" ? (
+        <div className="rounded-md border border-orange/40 bg-orange/10 px-3 py-2 text-sm" role="alert">
+          <p className="font-black text-navy">
+            {feedback.conflict
+              ? "Not saved: a newer workspace version exists"
+              : feedback.validation
+                ? "Not saved: the entered information was rejected"
+                : "Not confirmed"}
+          </p>
+          <p className="mt-1 leading-6 text-grayWilma-800">{feedback.message}</p>
+          {feedback.conflict ? (
+            <Button
+              className="mt-3 min-h-11"
+              onClick={() => window.location.reload()}
+              type="button"
+              variant="secondary"
+            >
+              Reload current workspace
+            </Button>
+          ) : null}
+        </div>
+      ) : null}
+    </div>
   );
 }
 
@@ -1145,28 +1510,54 @@ function SectionSelect({
   );
 }
 
+// HF-014: a disabled action lists the actual conditions beside it; the list is tied to
+// the button through aria-describedby and recomputes as the reviewer types.
 function OperationButton({
   action,
+  cardKey,
   pendingAction,
-  disabled,
+  reasons,
   warning = false,
+  type = "submit",
+  onClick,
   children
 }: {
   action: InternalAction;
+  cardKey: CardKey;
   pendingAction: InternalAction | null;
-  disabled: boolean;
+  reasons: string[];
   warning?: boolean;
+  type?: "submit" | "button";
+  onClick?: () => void;
   children: React.ReactNode;
 }) {
+  const reasonsId = `phase1-${cardKey}-disabled-reasons`;
+  const disabled = reasons.length > 0;
   return (
-    <Button
-      className="min-h-11 justify-self-start"
-      disabled={disabled}
-      type="submit"
-      variant={warning ? "warning" : "primary"}
-    >
-      {pendingAction === action ? "Saving…" : children}
-    </Button>
+    <div className="grid gap-2">
+      <Button
+        aria-describedby={disabled ? reasonsId : undefined}
+        className="min-h-11 justify-self-start"
+        data-action={action}
+        disabled={disabled}
+        onClick={onClick}
+        type={type}
+        variant={warning ? "warning" : "primary"}
+      >
+        {pendingAction === action ? "Saving…" : children}
+      </Button>
+      {disabled ? (
+        <ul
+          className="grid gap-1 rounded-md border border-orange/20 bg-orange/10 px-3 py-2 text-xs font-semibold leading-5 text-grayWilma-800"
+          data-disabled-reasons={cardKey}
+          id={reasonsId}
+        >
+          {reasons.map((reason) => (
+            <li key={reason}>{reason}</li>
+          ))}
+        </ul>
+      ) : null}
+    </div>
   );
 }
 
@@ -1322,7 +1713,15 @@ function parseSnapshot(
       }
     ];
   });
-  return { workspace, sections, agreements, assets };
+  const evidence = objectValue(snapshot.commercialEvidence);
+  const commercialEvidence = {
+    partnerPaymentStatus:
+      typeof evidence?.partnerPaymentStatus === "string"
+        ? evidence.partnerPaymentStatus
+        : null,
+    paidInvoiceClearable: evidence?.paidInvoiceClearable === true
+  };
+  return { workspace, sections, agreements, assets, commercialEvidence };
 }
 
 async function readJsonObject(response: Response) {
@@ -1435,7 +1834,7 @@ function operationSuccessMessage(action: InternalAction) {
     target_launch_date: "Target launch date was saved.",
     commercial_gate: "Commercial gate evidence was saved.",
     agreement: "Agreement or procurement metadata was saved.",
-    request_changes: "Partner-safe section changes were requested.",
+    request_changes: "Partner corrections were requested.",
     approve_section: "Section approval was saved.",
     waive_section: "Section waiver was saved.",
     ready_for_launch: "Workspace is ready for launch preparation.",
@@ -1450,7 +1849,7 @@ function internalErrorMessage(
   conflict: boolean
 ) {
   if (conflict) {
-    return "A newer workspace version exists. Reload before applying another internal decision.";
+    return "A newer workspace version exists. Reload before applying another internal decision. Nothing from this attempt was saved.";
   }
   if (status === 401) return "Your internal admin session expired.";
   if (status === 403) {

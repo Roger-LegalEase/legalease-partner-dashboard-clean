@@ -59,6 +59,8 @@ const REGISTRY = [
   { file: "verify-rcap-onboarding-guided-experience.mjs", group: "local" },
   { file: "verify-rcap-onboarding-review-layout.mjs", group: "local",
     note: "HF-004/HF-005/HF-019: review rows, decision counters, guided footer structure" },
+  { file: "verify-rcap-onboarding-internal-review-panel.mjs", group: "local",
+    note: "HF-003/007/012/014/015/016/018: internal review panel feedback, reasons, corrections, commercial evidence, date, completion" },
   { file: "verify-rcap-onboarding-task3b.mjs", group: "local" },
   { file: "verify-rcap-onboarding-support-contact.mjs", group: "local" },
   { file: "verify-first-admin-provisioning.mjs", group: "local" },
