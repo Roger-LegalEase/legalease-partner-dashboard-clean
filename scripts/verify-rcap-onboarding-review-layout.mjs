@@ -364,9 +364,11 @@ guarantee("the footer reserves its own height as document scroll padding and res
   const effect = /useLayoutEffect\(\(\) => \{([\s\S]*?)\}, \[keepFocusedControlAboveFooter\]\);/.exec(bar);
   assert.ok(effect, "GuidedActionBar layout effect missing");
   assert.match(effect[1], /footerRef\.current/);
-  assert.match(effect[1], /root\.style\.scrollPaddingBottom = `\$\{Math\.ceil\(footer\.getBoundingClientRect\(\)\.height\) \+ 16\}px`/);
+  assert.match(effect[1], /const oversized = height > window\.innerHeight \/ 2/);
+  assert.match(effect[1], /footer\.style\.position = oversized \? "static" : ""/);
+  assert.match(effect[1], /root\.style\.scrollPaddingBottom = `\$\{oversized \? 16 : height \+ 16\}px`/);
   assert.match(effect[1], /ResizeObserver/);
-  assert.match(effect[1], /observer\?\.disconnect\(\);\s*root\.style\.scrollPaddingBottom = previous;/);
+  assert.match(effect[1], /observer\?\.disconnect\(\);\s*window\.removeEventListener\("resize", reserve\);\s*root\.style\.scrollPaddingBottom = previous;/);
   assert.match(editorSource, /^import \{[^}]*useLayoutEffect[^}]*\} from "react";/m);
   // The focused control, and the help or error text it is described by, is brought back
   // above the footer when the footer grows, when focus moves into a control, and after a

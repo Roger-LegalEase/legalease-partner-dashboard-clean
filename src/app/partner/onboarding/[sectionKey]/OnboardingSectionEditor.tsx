@@ -2111,6 +2111,7 @@ function GuidedActionBar({
         lowest = described;
       }
     }
+    if (getComputedStyle(footer).position !== "sticky") return;
     if (lowest.getBoundingClientRect().bottom > footer.getBoundingClientRect().top) {
       // Honours the document scroll padding reserved below.
       lowest.scrollIntoView({ block: "nearest" });
@@ -2124,13 +2125,19 @@ function GuidedActionBar({
     // While the footer is mounted its height is reserved as document scroll padding, so
     // focus, hash and scrollIntoView scrolls keep their target above the footer.
     const reserve = () => {
-      root.style.scrollPaddingBottom = `${Math.ceil(footer.getBoundingClientRect().height) + 16}px`;
-      keepFocusedControlAboveFooter();
+      const height = Math.ceil(footer.getBoundingClientRect().height);
+      // At large text sizes the footer can occupy most of the viewport. Let it
+      // flow with the document so the focused field and every action remain usable.
+      const oversized = height > window.innerHeight / 2;
+      footer.style.position = oversized ? "static" : "";
+      root.style.scrollPaddingBottom = `${oversized ? 16 : height + 16}px`;
+      if (!oversized) keepFocusedControlAboveFooter();
     };
     reserve();
     const observer =
       typeof ResizeObserver === "function" ? new ResizeObserver(reserve) : null;
     observer?.observe(footer);
+    window.addEventListener("resize", reserve);
     // A click into a control that is already partly under the footer does not scroll on
     // its own; check after the browser's own focus handling has run.
     const form = footer.closest("form");
@@ -2144,6 +2151,7 @@ function GuidedActionBar({
       cancelAnimationFrame(frame);
       form?.removeEventListener("focusin", onFocusIn);
       observer?.disconnect();
+      window.removeEventListener("resize", reserve);
       root.style.scrollPaddingBottom = previous;
     };
   }, [keepFocusedControlAboveFooter]);
