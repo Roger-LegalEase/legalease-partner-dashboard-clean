@@ -55,6 +55,20 @@ function held(record){
  if(record.previewExecutionInstruction)assert.equal(record.previewExecutionInstruction.executionAuthorized,false);
  if('productionAuthorization' in record)assert.equal(record.productionAuthorization,null);
 }
+// Omission preserves the historical single-commit manifest. An explicit review
+// base binds the whole range, never a branch tip or an inferred release base.
+export function reviewedSourceFiles(root,{sourceSha,parent,sourceRangeBaseSha}){
+ const explicit=sourceRangeBaseSha!==undefined;
+ const base=explicit?sourceRangeBaseSha:parent;
+ if(explicit){
+  validSha(base);
+  assert.equal(git(root,['rev-parse','--verify',`${base}^{commit}`]),base,'exact reviewed source-range commit');
+  git(root,['merge-base','--is-ancestor',base,sourceSha]);
+  const deleted=git(root,['diff','--no-renames','--diff-filter=D','--name-only',base,sourceSha]);
+  assert.equal(deleted,'','reviewed source-range deletions cannot be represented by the source file manifest');
+ }
+ return git(root,['diff',...(explicit?['--no-renames']:[]),'--name-only',base,sourceSha]).split('\n').filter(Boolean);
+}
 function sourcePlan(root,p){
  assert.equal(p.schemaVersion,'rcap-pending-worker-successor/v1');
  validSha(p.releaseBaseSha);validSha(p.sourceCommit);validSha(p.parent);
@@ -74,9 +88,13 @@ function sourcePlan(root,p){
  assert.deepEqual(p.canonicalWorkerInputs,plan.canonicalInputs);
  const changed=git(root,['diff','--name-only',previous.sourceSha,p.sourceCommit,'--',...plan.canonicalInputs]).split('\n').filter(Boolean).sort();
  assert.deepEqual(p.workerChangedPaths,changed);
- const reviewed=git(root,['diff','--name-only',p.parent,p.sourceCommit]).split('\n').filter(Boolean).sort();
+ const reviewed=reviewedSourceFiles(root,{sourceSha:p.sourceCommit,parent:p.parent,
+  ...(Object.hasOwn(p,'sourceRangeBaseSha')?{sourceRangeBaseSha:p.sourceRangeBaseSha}:{})}).sort();
  assert.deepEqual(Object.keys(p.files).sort(),reviewed,'complete reviewed source delta');
  for(const [rel,digest]of Object.entries(p.files))assert.equal(hash(execFileSync('git',['show',`${p.sourceCommit}:${rel}`],{cwd:root})),digest,rel);
+ if(Object.hasOwn(p,'sourceRangeBaseSha')&&reviewed.length){
+  assert.equal(git(root,['diff','--name-only',p.sourceCommit,'--',...reviewed]),'','reviewed source-range files cannot change after source approval');
+ }
  assert.equal(git(root,['diff','--name-only',p.sourceCommit,'HEAD','--',...plan.canonicalInputs]),'','control history cannot change worker inputs');
  assert.equal(git(root,['diff','--name-only',p.sourceCommit,'--',...plan.canonicalInputs]),'','working worker inputs unchanged');
  assert.equal(git(root,['ls-files','--others','--exclude-standard','--',...plan.canonicalInputs]),'','no untracked worker inputs');

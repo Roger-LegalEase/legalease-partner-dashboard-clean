@@ -7,14 +7,15 @@ import os from 'node:os';
 import path from 'node:path';
 import {execFileSync} from 'node:child_process';
 import {createHash} from 'node:crypto';
-import {PENDING,PUBLICATION,CANDIDATE,TOOLS,verifyPinnedSuccessor,verifyPinnedPublication,verifyPinnedBinding,assertCommittedPredecessor} from './verify-pinned-worker-successor.mjs';
+import {PENDING,PUBLICATION,CANDIDATE,TOOLS,verifyPinnedSuccessor,verifyPinnedPublication,verifyPinnedBinding,assertCommittedPredecessor,reviewedSourceFiles} from './verify-pinned-worker-successor.mjs';
 import {pinnedRecords,writePinnedRecords,advancePinnedRecords} from './prepare-pinned-worker-successor.mjs';
 import {verifyReleaseCandidateBinding,requireCurrentReleaseCandidate} from './verify-release-candidate-binding.mjs';
-const base='121c889e15ac872e8dfbdeff18256551d15642aa',source='e3ac438da981c84987bd3172751e1a09e3f42309';
+const base='121c889e15ac872e8dfbdeff18256551d15642aa',historicalSource='e3ac438da981c84987bd3172751e1a09e3f42309';
 const digest='sha256:'+'a'.repeat(64);
 const hash=b=>createHash('sha256').update(b).digest('hex');
 
-test('historical accepted predecessor and full later pinned lifecycle preserve custody and refuse authority and altered evidence',()=>{
+for(const multi of [false,true])test(`${multi?'explicit multi-commit':'historical one-commit'} pinned lifecycle preserves custody and refuses authority and altered evidence`,()=>{
+ let source=historicalSource;
  const root=fs.mkdtempSync(path.join(os.tmpdir(),'rcap-pinned-fixture-'));
  const git=args=>execFileSync('git',args,{cwd:root,encoding:'utf8',stdio:'pipe',maxBuffer:64*1024*1024}).trim();
  const read=rel=>JSON.parse(fs.readFileSync(path.join(root,rel)));
@@ -24,12 +25,43 @@ test('historical accepted predecessor and full later pinned lifecycle preserve c
   execFileSync('git',['clone','--quiet','--shared','--no-checkout',process.cwd(),root],{stdio:'pipe'});
   git(['checkout','--quiet','--detach','cea24d73becc8c1d96485ad708b9411df8855a80']);
   fs.symlinkSync(fs.realpathSync('node_modules'),path.join(root,'node_modules'));
+  const productPaths=['scripts/synthetic-range-a.mjs','src/lib/rcap/synthetic-range-b.ts','src/lib/rcap/synthetic-range-c.ts'];
+  if(multi){
+   for(const [i,rel]of productPaths.entries()){
+    fs.writeFileSync(path.join(root,rel),`export const syntheticRange${i} = ${i};\n`);
+    git(['add','--',rel]);commit(`synthetic reviewed product commit ${i}`);
+   }
+   source=git(['rev-parse','HEAD']);
+  }
   assertCommittedPredecessor(root,base);
   const controls=['scripts/grade-a-launch-control/verify-pending-worker-successor.mjs','scripts/grade-a-launch-control/verify-release-candidate-binding.mjs','.github/workflows/publish-rcap-render-worker.yml'];
   const extra=['scripts/grade-a-launch-control/verify-pinned-worker-successor.mjs','scripts/grade-a-launch-control/prepare-pinned-worker-successor.mjs','scripts/grade-a-launch-control/verify-pinned-worker-successor.test.mjs','scripts/rcap-worker-identity-readonly.mjs','scripts/rcap-worker-identity-readonly.test.mjs','.github/workflows/rcap-worker-identity-readonly.yml'];
   for(const rel of [...new Set([...controls,...extra])]){fs.mkdirSync(path.dirname(path.join(root,rel)),{recursive:true});fs.copyFileSync(rel,path.join(root,rel));}
   git(['add','--',...new Set([...controls,...extra])]);commit('synthetic reviewed controls');const toolsSha=git(['rev-parse','HEAD']);
-  const initial=pinnedRecords(root,{sourceSha:source,releaseBaseSha:base,toolsSha});
+  const options={sourceSha:source,releaseBaseSha:base,toolsSha,...(multi?{sourceRangeBaseSha:base}:{})};
+  if(multi){
+   const legacy=pinnedRecords(root,{sourceSha:source,releaseBaseSha:base,toolsSha});
+   assert(!Object.hasOwn(legacy[PENDING].files,productPaths[0]),'single-commit mode omits earlier product commit');
+   assert.throws(()=>writePinnedRecords(root,legacy),/bounded control paths/,'reproduce the original multi-commit failure');
+  }
+  const initial=pinnedRecords(root,options);
+  if(!multi)assert.equal(JSON.stringify(initial),JSON.stringify(pinnedRecords(root,{...options,sourceRangeBaseSha:undefined})),'omitting the option preserves exact serialized records');
+  const reviewBase=multi?base:git(['rev-parse',`${source}^`]);
+  const expectedFiles=Object.fromEntries(git(['diff','--name-only',reviewBase,source]).split('\n').filter(Boolean).map(rel=>[rel,hash(execFileSync('git',['show',`${source}:${rel}`],{cwd:root}))]));
+  assert.deepEqual(initial[PENDING].files,expectedFiles);
+  assert.equal(Object.hasOwn(initial[PENDING],'sourceRangeBaseSha'),multi,'default record shape unchanged');
+  for(const rel of Object.keys(expectedFiles))assert(!Object.hasOwn(initial[TOOLS].successorTools.files,rel),'reviewed source is not a control');
+  for(const rel of controls)assert(Object.hasOwn(initial[TOOLS].successorTools.files,rel),'actual control remains separately bound');
+  if(multi){
+   for(const rel of productPaths)assert(Object.hasOwn(initial[PENDING].files,rel),'earlier product commits bound');
+   const unbounded='scripts/synthetic-unbounded-control.mjs';
+   fs.writeFileSync(path.join(root,unbounded),'// Synthetic unreviewed control.\n');
+   git(['add','--',unbounded]);commit('synthetic unbounded tool');
+   const bad=pinnedRecords(root,{...options,toolsSha:git(['rev-parse','HEAD'])});
+   assert(Object.hasOwn(bad[TOOLS].successorTools.files,unbounded));
+   assert.throws(()=>writePinnedRecords(root,bad),/bounded control paths/);
+   git(['reset','--hard',toolsSha]); // Only this disposable synthetic repository.
+  }
   const pending=writePinnedRecords(root,initial);assert.equal(pending.status,'AWAITING_WORKER_PUBLICATION');assert.equal(pending.current,false);assert.equal(pending.workerDigest,null);
   assert.equal(verifyPinnedPublication(root).current,false,'predecessor is not new publication');
   assert.throws(()=>requireCurrentReleaseCandidate(root));
@@ -37,6 +69,18 @@ test('historical accepted predecessor and full later pinned lifecycle preserve c
   let refusals=0;
   function mutate(rel,fn){const before=fs.readFileSync(path.join(root,rel)),value=JSON.parse(before);fn(value);write(rel,value);assert.equal(verifyReleaseCandidateBinding(root,read(CANDIDATE)).current,false);assert.match(verifyReleaseCandidateBinding(root,read(CANDIDATE)).status,/INVALID|STALE/);fs.writeFileSync(path.join(root,rel),before);refusals++;}
   for(const fn of [p=>p.sourceCommit='0'.repeat(40),p=>p.parent=base,p=>p.files={},p=>p.workerInputFingerprint='sha256:'+'0'.repeat(64),p=>p.supersededRecord.status='forged',p=>p.workerChangedPaths=[],p=>p.productionAuthorized=true,p=>p.publication='complete',p=>p.workerDigest=digest,p=>p.runtimeAccepted=true])mutate(PENDING,fn);
+  if(multi){
+   mutate(PENDING,p=>delete p.files[productPaths[0]]);
+   mutate(PENDING,p=>p.files['src/lib/rcap/unreviewed.ts']='0'.repeat(64));
+   mutate(PENDING,p=>p.files[productPaths[0]]='0'.repeat(64));
+   mutate(PENDING,p=>p.sourceRangeBaseSha=p.parent);
+   mutate(PENDING,p=>p.sourceRangeBaseSha='0'.repeat(40));
+   const earlier=path.join(root,productPaths[0]),original=fs.readFileSync(earlier);
+   fs.appendFileSync(earlier,'// unreviewed post-source alteration\n');
+   assert.equal(verifyReleaseCandidateBinding(root,read(CANDIDATE)).status,'INVALID_PINNED_BINDING');
+   assert(verifyPinnedSuccessor(root).reasons.some(reason=>reason.includes('cannot change after source approval')));
+   fs.writeFileSync(earlier,original);
+  }
   for(const rel of [PENDING,CANDIDATE,TOOLS])for(const flag of ['migrationReplayAuthorized','housekeepingReplayAuthorized','additionalWorkerPublicationAuthorized','imageAcceptanceRerunAuthorized','hostedFullReady','deploymentAuthorized','clinicDispatchReady'])mutate(rel,p=>p[flag]=true);
   for(const rel of [PENDING,CANDIDATE,TOOLS])mutate(rel,p=>p.previewExecutionInstruction={executionAuthorized:true});
   mutate(TOOLS,p=>p.toolsSha=base);mutate(TOOLS,p=>p.successorTools.files={});mutate(CANDIDATE,p=>p.productionAuthorization={approved:true});
@@ -74,6 +118,25 @@ test('historical accepted predecessor and full later pinned lifecycle preserve c
   mutate(acceptance.nativeRunMetadata.path,p=>p.conclusion='failure');
   assert.throws(()=>advancePinnedRecords(root,e),/replayed/);
   console.log(`SYNTHETIC pinned-lifecycle refusals: ${refusals}`);
+ }finally{fs.rmSync(root,{recursive:true,force:true});}
+});
+
+test('explicit review bases resolve, require ancestry, and refuse deletion or rename',()=>{
+ const root=fs.mkdtempSync(path.join(os.tmpdir(),'rcap-source-range-'));
+ const git=args=>execFileSync('git',args,{cwd:root,encoding:'utf8',stdio:'pipe'}).trim();
+ try{
+  git(['init','--quiet']);git(['config','user.name','Synthetic Test']);git(['config','user.email','synthetic@example.test']);
+  const commit=()=>{git(['add','--','product.txt']);git(['commit','--quiet','-m','synthetic product']);return git(['rev-parse','HEAD']);};
+  fs.writeFileSync(path.join(root,'product.txt'),'base\n');const rangeBase=commit();
+  fs.writeFileSync(path.join(root,'product.txt'),'source\n');const sourceSha=commit();
+  const options={sourceSha,parent:rangeBase,sourceRangeBaseSha:rangeBase};
+  assert.deepEqual(reviewedSourceFiles(root,options),['product.txt']);
+  const unrelated=git(['commit-tree',`${sourceSha}^{tree}`,'-m','synthetic unrelated root']);
+  for(const wrong of ['main',rangeBase.slice(0,12),'0'.repeat(40),unrelated,null])assert.throws(()=>reviewedSourceFiles(root,{...options,sourceRangeBaseSha:wrong}));
+  git(['mv','product.txt','renamed.txt']);git(['commit','--quiet','-m','synthetic rename']);
+  assert.throws(()=>reviewedSourceFiles(root,{...options,sourceSha:git(['rev-parse','HEAD'])}),/deletions cannot be represented/);
+  git(['rm','renamed.txt']);git(['commit','--quiet','-m','synthetic deletion']);
+  assert.throws(()=>reviewedSourceFiles(root,{...options,sourceSha:git(['rev-parse','HEAD'])}),/deletions cannot be represented/);
  }finally{fs.rmSync(root,{recursive:true,force:true});}
 });
 
