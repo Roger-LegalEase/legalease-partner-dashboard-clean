@@ -67,7 +67,7 @@ export function imageAcceptanceRefusals(publication, candidate) {
 
 // A receipt's asserted candidate identity is not proof that current inputs still
 // match that candidate. Only explicitly named acceptance evidence may follow it.
-export function verifyReleaseCandidateBinding(root, candidate, receiptPaths = []) {
+export function verifyReleaseCandidateBinding(root, candidate, receiptPaths = [], history) {
   // A pinned preparation record is descriptive and NEVER current/dispatchable.
   // Validate it before comparing the orchestration checkout to application
   // runtime inputs: publication evidence is intentionally newer here, while
@@ -76,9 +76,9 @@ export function verifyReleaseCandidateBinding(root, candidate, receiptPaths = []
   if(fs.existsSync(pinnedRecordPath)){
     try{
       if(JSON.parse(fs.readFileSync(pinnedRecordPath)).applicationSource===AUTHORIZED_FORWARD)
-        return verifyForwardProductionSuccessor(root,candidate);
+        return verifyForwardProductionSuccessor(root,candidate,history);
       if(JSON.parse(fs.readFileSync(pinnedRecordPath)).applicationSource==='pinned-source-forward')
-        return verifyPinnedForwardBinding(root,candidate);
+        return verifyPinnedForwardBinding(root,candidate,history);
       if(JSON.parse(fs.readFileSync(pinnedRecordPath)).applicationSource==='pinned-source')
         return verifyPinnedBinding(root,candidate,verifyPendingWorkerSuccessor(root));
     }catch(error){return {current:false,status:'INVALID_PINNED_BINDING',reasons:[error.message]};}

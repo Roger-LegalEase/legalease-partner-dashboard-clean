@@ -1,3 +1,4 @@
+import {historicalCheckTime} from './verify-historical-release.mjs';
 import {assertVercelProductionScopes} from './vercel-production-scopes.mjs';
 import {AUTHORIZED_FORWARD,verifyForwardProductionSuccessor} from './verify-forward-production-successor.mjs';
 // Explicit source pins extend the existing successor lifecycle. Historical
@@ -26,7 +27,7 @@ const predecessorCache=new Set();
 export function assertCommittedPredecessor(root,base){
  validSha(base);
  const key=git(root,['rev-parse','--git-common-dir'])+base;
- if(predecessorCache.has(key))return;
+ if(predecessorCache.has(key))return {historyValid:true,current:false,productionAuthorized:false};
  // Never validate an old record against the new source/worktree. Use the
  // committed validator and evidence from its own clean historical snapshot.
  const snapshot=fs.mkdtempSync(path.join(os.tmpdir(),'rcap-predecessor-'));
@@ -35,10 +36,12 @@ export function assertCommittedPredecessor(root,base){
   git(snapshot,['checkout','--quiet','--detach',base]);
   const dependencies=path.join(root,'node_modules');
   if(fs.existsSync(dependencies))fs.symlinkSync(fs.realpathSync(dependencies),path.join(snapshot,'node_modules'));
-  const code="import fs from 'node:fs';import {verifyReleaseCandidateBinding} from './scripts/grade-a-launch-control/verify-release-candidate-binding.mjs';const r=verifyReleaseCandidateBinding(process.cwd(),JSON.parse(fs.readFileSync('data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json')));if(!r.current||r.status!=='CURRENT')throw Error(JSON.stringify(r));console.log('HISTORICAL_PREDECESSOR_VALID');";
+  const historicalModule=new URL('./verify-historical-release.mjs',import.meta.url).href;
+  const code=`import fs from 'node:fs';const c=JSON.parse(fs.readFileSync('${CANDIDATE}'));if(c.forwardProduction||c.hostedAdmission){const {verifyHistoricalRelease}=await import(${JSON.stringify(historicalModule)});const r=await verifyHistoricalRelease(process.cwd(),c);if(!r.historyValid||r.current||r.productionAuthorized)throw Error(JSON.stringify(r));}else{const {verifyReleaseCandidateBinding}=await import('./scripts/grade-a-launch-control/verify-release-candidate-binding.mjs');const r=verifyReleaseCandidateBinding(process.cwd(),c);if(!r.current||r.status!=='CURRENT')throw Error(JSON.stringify(r));}console.log('HISTORICAL_PREDECESSOR_VALID');`;
   const output=execFileSync(process.execPath,['--input-type=module','-e',code],{cwd:snapshot,encoding:'utf8',stdio:'pipe',maxBuffer:4*1024*1024});
   assert(output.includes('HISTORICAL_PREDECESSOR_VALID'),'historical predecessor validation');
   predecessorCache.add(key);
+  return {historyValid:true,current:false,productionAuthorized:false};
  }finally{fs.rmSync(snapshot,{recursive:true,force:true});}
 }
 
@@ -235,7 +238,7 @@ export function assertForwardTuple(record, expected) {
  assert.equal(record.runtimeAccepted,true);assert.equal(record.workerRebuildRequired,false);
  assert.equal(record.resume,null);assert.equal(record.previewExecution,'held');
 }
-export function verifyPinnedForwardBinding(root,candidate) {
+export function verifyPinnedForwardBinding(root,candidate,history) {
  try {
   const p=read(root,PENDING),tools=read(root,TOOLS);
   assert.equal(p.applicationSource,'pinned-source-forward');
@@ -278,7 +281,7 @@ export function verifyPinnedForwardBinding(root,candidate) {
   assert.deepEqual(tools.hostedAdmission,candidate.hostedAdmission);assert.deepEqual(p.hostedAdmission,candidate.hostedAdmission);
   const h=candidate.hostedAdmission;
   assert(['rcap-readonly-successor-admission/v1','rcap-readonly-successor-admission/v2'].includes(h.schemaVersion));
-  assertForwardHosted(h,expected);
+  assertForwardHosted(h,expected,history,root);
   for(const ref of h.files){assert(ref.path.startsWith('hosted-acceptance-evidence/successor-closure/')&&!ref.path.split('/').includes('..'));const bytes=fs.readFileSync(path.join(root,ref.path));assert.equal(bytes.length,ref.bytes);assert.equal(hash(bytes),ref.sha256);}
   for(const rel of [h.runPath,h.receiptPath,h.jobsPath,h.artifactPath,h.archivePath])assert(h.files.some(f=>f.path===rel),'all native admission inputs are hashed');
   const run=JSON.parse(fs.readFileSync(path.join(root,h.runPath))),receipt=JSON.parse(fs.readFileSync(path.join(root,h.receiptPath)));
@@ -291,12 +294,12 @@ export function verifyPinnedForwardBinding(root,candidate) {
   const rollback=JSON.parse(execFileSync('unzip',['-p',path.join(root,h.archivePath),'worker-rollback.json'],{encoding:'utf8'}));assert.equal(rollback.passed,true,'rollback availability required');
   if(receipt.queueSafetyVerified===true){const queue=JSON.parse(execFileSync('unzip',['-p',path.join(root,h.archivePath),'queue-safety.json'],{encoding:'utf8'}));assert.equal(queue.passed,true);assert.equal(queue.readOnly,true);for(const key of ['stale_queued','queued','claimed','terminal_failed'])assert.equal(Number(queue.queue[key]),0);}
   if(receipt.schemaVersion==='rcap-readonly-successor-admission/v2'){const archived=name=>JSON.parse(execFileSync('unzip',['-p',path.join(root,h.archivePath),name+'.json'],{encoding:'utf8'}));assertVercelProductionScopes(archived('production-aliases-before'),archived('production-project-domains-before'),receipt);assertVercelProductionScopes(archived('production-aliases-after'),archived('production-project-domains-after'),receipt);}
-  assert.deepEqual(receipt,h.receipt);assertForwardHosted(receipt,expected);assert.equal(receipt.workflowSourceSha,h.workflowSourceSha);assert.equal(receipt.runId,h.runId);
+  assert.deepEqual(receipt,h.receipt);assertForwardHosted(receipt,expected,history,root);assert.equal(receipt.workflowSourceSha,h.workflowSourceSha);assert.equal(receipt.runId,h.runId);
   return {...expected,current:true,bindingVerified:true,status:'CURRENT',hostedAcceptanceStatus:'READ_ONLY_STAGED_ACCEPTED_PRODUCTION_HELD',productionAuthorized:false,reasons:[]};
  }catch(error){return {current:false,status:'INVALID_FORWARD_BINDING',reasons:[error.message]};}
 }
-export function assertForwardHosted(h,expected) {
- const age=Date.now()-Date.parse(h.capturedAt);assert(Number.isFinite(age)&&age>=-300000&&age<=86400000,'fresh hosted evidence within 24 hours');
+export function assertForwardHosted(h,expected,history,root) {
+ const age=historicalCheckTime(history,root,'hosted')-Date.parse(h.capturedAt);assert(Number.isFinite(age)&&age>=-300000&&age<=86400000,'fresh hosted evidence within 24 hours');
  validSha(h.workflowSourceSha);assert(Number.isSafeInteger(h.runId)&&h.runId>0,'actual hosted run');
  for(const key of ['applicationSha','workerSourceSha','workerDigest','workerInputFingerprint','toolsSha'])assert.equal(h[key],expected[key],`hosted ${key}`);
  assert.match(h.deploymentId,/^dpl_[A-Za-z0-9]+$/);assert.equal(h.productionRollback,'dpl_3j4Dr4GHyXmwmrFCTZ6orNNNP7sc');

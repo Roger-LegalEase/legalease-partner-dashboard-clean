@@ -1,3 +1,4 @@
+import {historicalCheckTime} from './verify-historical-release.mjs';
 import {assertVercelProductionScopes} from './vercel-production-scopes.mjs';
 import {assertFrozenForwardExecution} from './forward-production-execution.mjs';
 // Future explicit owner authorization is a distinct successor. This module
@@ -7,7 +8,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import {execFileSync} from 'node:child_process';
 import {createHash} from 'node:crypto';
-import {assertCommittedPredecessor,PENDING,CANDIDATE,TOOLS} from './verify-pinned-worker-successor.mjs';
+import {assertForwardHosted,assertCommittedPredecessor,PENDING,CANDIDATE,TOOLS} from './verify-pinned-worker-successor.mjs';
 import {applicationInputEquivalence,applicationInputManifest} from '../rcap-application-inputs.mjs';
 import {createWorkerInputPlan} from '../rcap-hosted-acceptance-worker-input-plan.mjs';
 export const AUTHORIZED_FORWARD='pinned-source-forward-authorized';
@@ -46,7 +47,7 @@ export function assertForwardPhase(candidate,held,phase){
  return candidate.productionAuthorization;
 }
 function native(root,ref){assert(ref?.path?.startsWith('hosted-acceptance-evidence/forward-production/')&&!ref.path.split('/').includes('..'));const b=fs.readFileSync(path.join(root,ref.path));assert.equal(b.length,ref.bytes);assert.equal(hash(b),ref.sha256);return b;}
-export function validateForwardNativeDocuments({run,jobs,artifact,receipt,receiptBytes,archiveDigest},ref,owner,phase){
+export function validateForwardNativeDocuments({run,jobs,artifact,receipt,receiptBytes,archiveDigest},ref,owner,phase,history,root){
  const steps={smoke:['Verify the exact frozen identity and image-input equivalence','Run the bounded no-alias Production canary smoke','Upload the immutable Production preflight evidence'],activate:['Verify the exact frozen identity and image-input equivalence','Download the exact successful Production smoke evidence','Activate the exact staged Production deployment with rollback protection','Upload the immutable Production preflight evidence'],public_verify:['Require current release and separate public-verification authorization','Verify the activated release on the public domain','Upload the public verification evidence']}[phase];assert(steps);
  assert.equal(run.id,ref.runId);assert.equal(run.head_sha,ref.workflowSourceSha);assert.equal(run.path,'.github/workflows/rcap-f1-ephemeral-staging.yml');assert.equal(run.event,'workflow_dispatch');assert.equal(run.head_branch,'captain-release');assert.equal(run.run_attempt,1);assert.equal(run.conclusion,'success');assert.equal(run.status,'completed');assert.equal(run.repository.full_name.toLowerCase(),'roger-legalease/legalease-partner-dashboard-clean');
  const job=jobs.jobs.find(j=>j.id===ref.jobId);assert(job);assert.equal(job.run_id,run.id);assert.equal(job.head_sha,run.head_sha);assert.equal(job.run_attempt,1);assert.equal(job.conclusion,'success');assert.equal(job.status,'completed');for(const step of steps)assert.equal(job.steps.find(s=>s.name===step)?.conclusion,'success');assert(job.steps.every(s=>['success','skipped'].includes(s.conclusion)));
@@ -55,30 +56,30 @@ export function validateForwardNativeDocuments({run,jobs,artifact,receipt,receip
  for(const k of ['applicationSha','workerSourceSha','workerDigest','productionProjectRef','rollbackDeploymentId'])assert.equal(receipt[k],owner[k],`native ${phase} ${k}`);
  assert.equal(receipt[phase==='public_verify'?'activatedDeploymentId':'stagedDeploymentId'],owner.stagedDeploymentId);
  if(phase==='public_verify'){assert.equal(receipt.originPersisted,false);assert.equal(receipt.secretsPersisted,false);for(const value of Object.values(receipt.mutations??{}))assert.equal(value,false);assert.deepEqual(Object.keys(receipt.mutations??{}).sort(),['deploymentTriggered','productionAliasChanged','environmentVariableChanged','productionDatabaseMutated','accountCreated','checkoutOpened','realChargesCreated'].sort());}
- assert.equal(receipt.passed,true);const time=Date.parse(receipt.finishedAt);assert(Number.isFinite(time)&&time>=Date.parse(owner.recordedAt)&&time<=Date.now()+300000&&Date.now()-time<=86400000,'fresh post-authorization native receipt');
+ assert.equal(receipt.passed,true);const time=Date.parse(receipt.finishedAt);assert(Number.isFinite(time)&&time>=Date.parse(owner.recordedAt)&&time<=historicalCheckTime(history,root)+300000&&historicalCheckTime(history,root)-time<=86400000,'fresh post-authorization native receipt');
  if(phase==='smoke'){assert.equal(receipt.transactionalFixtureRolledBack,true);assert.equal(receipt.productionDatabasePersistentlyMutated,false);assert.equal(receipt.realParticipantRecordsCreated,false);assert.equal(receipt.realChargesCreated,false);assert.equal(receipt.workerRun,false);assert.equal(receipt.aliasChanged,false);assert.equal(receipt.deploymentTriggered,false);}
  if(phase==='activate'){assert.equal(receipt.promotionCompleted,true);assert.equal(receipt.automaticRollback?.attempted,false);assert.equal(receipt.realParticipantRecordsCreated,false);assert.equal(receipt.realChargesCreated,false);}
  return receipt;
 }
-function verifyNative(root,ref,owner,phase){
+function verifyNative(root,ref,owner,phase,history){
  const files=ref.files;assert(Array.isArray(files));for(const f of files)native(root,f);
  const bytes=p=>{const f=files.find(f=>f.path===p);assert(f,'all native inputs hashed');return native(root,f);};
  const archive=bytes(ref.archivePath),receiptBytes=bytes(ref.receiptPath);const filename={smoke:'production-canary-smoke.json',activate:'production-activation.json',public_verify:'production-public-verify.json'}[phase];assert(filename);assert.equal(ref.archiveEntry,filename);
  const archived=execFileSync('unzip',['-p',path.join(root,ref.archivePath),filename]);assert(archived.equals(receiptBytes),'native ZIP receipt byte identity');
- const receipt=validateForwardNativeDocuments({run:JSON.parse(bytes(ref.runPath)),jobs:JSON.parse(bytes(ref.jobsPath)),artifact:JSON.parse(bytes(ref.artifactPath)),receipt:JSON.parse(receiptBytes),receiptBytes,archiveDigest:'sha256:'+hash(archive)},ref,owner,phase);
+ const receipt=validateForwardNativeDocuments({run:JSON.parse(bytes(ref.runPath)),jobs:JSON.parse(bytes(ref.jobsPath)),artifact:JSON.parse(bytes(ref.artifactPath)),receipt:JSON.parse(receiptBytes),receiptBytes,archiveDigest:'sha256:'+hash(archive)},ref,owner,phase,history,root);
  git(root,['merge-base','--is-ancestor',owner.toolsSha,ref.workflowSourceSha]);assert.equal(git(root,['diff','--name-only',owner.toolsSha,ref.workflowSourceSha,'--','scripts','.github']),'','native production workflow uses frozen controls');return receipt;
 }
-export function verifyForwardProductionSuccessor(root,candidate){
+export function verifyForwardProductionSuccessor(root,candidate,history){
  try{
  const p=read(root,PENDING),tools=read(root,TOOLS),f=candidate.forwardProduction;assert.deepEqual(Object.keys(f??{}).sort(),['heldPredecessorSha','heldRecordHashes','owner','ownerPath','ownerSha256','receipts','states'].sort());assert.equal(p.applicationSource,AUTHORIZED_FORWARD);assert.match(f?.heldPredecessorSha??'',/^[a-f0-9]{40}$/);git(root,['merge-base','--is-ancestor',f.heldPredecessorSha,'HEAD']);assertCommittedPredecessor(root,f.heldPredecessorSha);
  const held={};for(const rel of [PENDING,CANDIDATE,TOOLS]){const b=execFileSync('git',['show',`${f.heldPredecessorSha}:${rel}`],{cwd:root});held[rel]=JSON.parse(b);assert.equal(f.heldRecordHashes[rel],hash(b));assert.equal(held[rel].productionAuthorized,false);assert.equal(held[rel].productionAuthorization,null);assert(held[rel].hostedAdmission);}
- assert.equal(held[PENDING].applicationSource,'pinned-source-forward');const prior=held[CANDIDATE];assertForwardOwner(f.owner,prior);const authorizationBytes=fs.readFileSync(path.join(root,f.ownerPath));assert(f.ownerPath.startsWith('data/rcap-grade-a/launch-control/forward-owner/')&&!f.ownerPath.split('/').includes('..'));assert.equal(hash(authorizationBytes),f.ownerSha256);assert.deepEqual(JSON.parse(authorizationBytes),f.owner);
+ assert.equal(held[PENDING].applicationSource,'pinned-source-forward');const prior=held[CANDIDATE];assertForwardHosted(prior.hostedAdmission,prior,history,root);assertForwardOwner(f.owner,prior);const authorizationBytes=fs.readFileSync(path.join(root,f.ownerPath));assert(f.ownerPath.startsWith('data/rcap-grade-a/launch-control/forward-owner/')&&!f.ownerPath.split('/').includes('..'));assert.equal(hash(authorizationBytes),f.ownerSha256);assert.deepEqual(JSON.parse(authorizationBytes),f.owner);
  for(const [rel,record]of [[PENDING,p],[CANDIDATE,candidate],[TOOLS,tools]])assert.deepEqual(record,{...held[rel],status:'FORWARD_EXPLICIT_PRODUCTION_AUTHORIZED',...(rel===PENDING?{applicationSource:AUTHORIZED_FORWARD}:{}),productionProjectRef:PROJECT,productionAuthorized:true,productionAuthorization:forwardAuthorization(f.owner,f.receipts,f.states),forwardProduction:f},'only explicit future authorization/evidence additions');
  assert(applicationInputEquivalence(root,prior.applicationSha,'HEAD').equivalent);const runtime=new Set(applicationInputManifest(root,prior.applicationSha).files.map(f=>f.path));assert(git(root,['diff','--name-only',prior.applicationSha]).split('\n').every(p=>!runtime.has(p)));
  const plan=createWorkerInputPlan({rootDir:root,candidateSha:git(root,['rev-parse','HEAD']),acceptedSourceSha:prior.workerSourceSha,acceptedDigest:prior.workerDigest});assert.equal(plan.rebuildRequired,false);assert.deepEqual(plan.missingCanonicalInputs,[]);assert.equal(plan.aggregateInputSha256,prior.workerInputFingerprint);
  assert.equal(git(root,['diff','--name-only',f.heldPredecessorSha,'--','scripts','.github']),'','authorized execution cannot change frozen controls');
  if(f.owner.schemaVersion==='rcap-forward-owner-authorization/v2')verifyRefusedForwardAttempt(root,f.owner.refusedAttempt,f.owner);
- const nativeReceipts={};for(const [phase,ref]of Object.entries(f.receipts))nativeReceipts[phase]=verifyNative(root,ref,f.owner,phase);
+ const nativeReceipts={};for(const [phase,ref]of Object.entries(f.receipts))nativeReceipts[phase]=verifyNative(root,ref,f.owner,phase,history);
  if(nativeReceipts.activate){assert(nativeReceipts.smoke);assert(Date.parse(nativeReceipts.activate.finishedAt)>=Date.parse(nativeReceipts.smoke.finishedAt));assert.equal(nativeReceipts.activate.smokeRunId,f.receipts.smoke.runId);}
  if(nativeReceipts.public_verify){assert(nativeReceipts.activate);assert(Date.parse(nativeReceipts.public_verify.finishedAt)>=Date.parse(nativeReceipts.activate.finishedAt));}
  assertForwardPhase(candidate,prior,nativeReceipts.activate?'production_worker_deploy':nativeReceipts.smoke?'activate':'smoke');

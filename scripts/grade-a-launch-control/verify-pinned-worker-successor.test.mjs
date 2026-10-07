@@ -35,7 +35,7 @@ for(const multi of [false,true])test(`${multi?'explicit multi-commit':'historica
   }
   assertCommittedPredecessor(root,base);
   const controls=['scripts/grade-a-launch-control/verify-pending-worker-successor.mjs','scripts/grade-a-launch-control/verify-release-candidate-binding.mjs','.github/workflows/publish-rcap-render-worker.yml'];
-  const extra=['scripts/grade-a-launch-control/verify-pinned-worker-successor.mjs','scripts/grade-a-launch-control/prepare-pinned-worker-successor.mjs','scripts/grade-a-launch-control/verify-pinned-worker-successor.test.mjs','scripts/rcap-worker-identity-readonly.mjs','scripts/rcap-worker-identity-readonly.test.mjs','.github/workflows/rcap-worker-identity-readonly.yml'];
+  const extra=['scripts/grade-a-launch-control/verify-historical-release.mjs','scripts/grade-a-launch-control/verify-pinned-worker-successor.mjs','scripts/grade-a-launch-control/prepare-pinned-worker-successor.mjs','scripts/grade-a-launch-control/verify-pinned-worker-successor.test.mjs','scripts/rcap-worker-identity-readonly.mjs','scripts/rcap-worker-identity-readonly.test.mjs','.github/workflows/rcap-worker-identity-readonly.yml'];
   for(const rel of [...new Set([...controls,...extra])]){fs.mkdirSync(path.dirname(path.join(root,rel)),{recursive:true});fs.copyFileSync(rel,path.join(root,rel));}
   git(['add','--',...new Set([...controls,...extra])]);commit('synthetic reviewed controls');const toolsSha=git(['rev-parse','HEAD']);
   const options={sourceSha:source,releaseBaseSha:base,toolsSha,...(multi?{sourceRangeBaseSha:base}:{})};
