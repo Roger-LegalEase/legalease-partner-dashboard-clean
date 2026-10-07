@@ -327,7 +327,7 @@ export function WilmaBubble({
                   </div>
                 ) : (
                   <div className="rounded-xl bg-[#F7F3EC] px-3 py-2 text-sm leading-5 text-[#0B1320]">
-                    {translate("wilma.need_help", "Need help? Ask Wilma to explain this in plain English.")}
+                    {translate("wilma.need_help", "Need help? Ask Wilma to explain this clearly.")}
                   </div>
                 )}
                 {reported && hasGuideAnswer ? (
