@@ -1,4 +1,4 @@
-import {executedWorkflowFiles,verifySuccessorResponsibilities} from './pinned-successor-responsibilities.mjs';
+import {boundedControl,previewControl,executedWorkflowFiles,verifySuccessorResponsibilities} from './pinned-successor-responsibilities.mjs';
 import {historicalCheckTime} from './verify-historical-release.mjs';
 import {assertVercelProductionScopes} from './vercel-production-scopes.mjs';
 import {AUTHORIZED_FORWARD,verifyForwardProductionSuccessor} from './verify-forward-production-successor.mjs';
@@ -208,7 +208,7 @@ export function verifyPinnedBinding(root,candidate,pending){
   if(tools.successorInputs)verifySuccessorResponsibilities(root,p,tools);
   else assert.deepEqual(Object.keys(manifest.files).sort(),controlDelta.filter(f=>!Object.keys(p.files).includes(f)).sort(),'entire control delta bound');
   for(const [rel,digest]of Object.entries(manifest.files)){
-   assert(/^(scripts\/grade-a-launch-control\/|\.github\/workflows\/|scripts\/rcap-worker-identity)/.test(rel),'bounded control paths');
+   assert(boundedControl(rel)||(tools.successorInputs&&previewControl(rel)),'bounded control paths');
    assert.equal(hash(execFileSync('git',['show',`${tools.toolsSha}:${rel}`],{cwd:root})),digest,rel);
    assert.equal(hash(fs.readFileSync(path.join(root,rel))),digest,'working control bytes');
   }
@@ -273,6 +273,7 @@ export function verifyPinnedForwardBinding(root,candidate,history) {
   const delta=git(root,['diff','--name-only',p.releaseBaseSha,p.toolsSha]).split('\n').filter(f=>f.startsWith('scripts/')||f.startsWith('.github/')).sort();
   assert.deepEqual(Object.keys(manifest.files).sort(),delta,'complete forward control manifest');
   for(const [rel,digest]of Object.entries(manifest.files)) {
+   if(priorTools.successorInputs)assert(boundedControl(rel)||previewControl(rel),'bounded forward control paths');
    assert.equal(hash(execFileSync('git',['show',`${p.toolsSha}:${rel}`],{cwd:root})),digest,rel);
    assert.equal(hash(fs.readFileSync(path.join(root,rel))),digest,'current control bytes');
   }

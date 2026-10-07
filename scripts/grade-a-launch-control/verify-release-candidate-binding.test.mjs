@@ -12,6 +12,15 @@ import os from 'node:os';
 import path from 'node:path';
 import {execFileSync} from 'node:child_process';
 import {verifyReleaseCandidateBinding} from './verify-release-candidate-binding.mjs';
+import {verifyHistoricalRelease} from './verify-historical-release.mjs';
+function historicalFixture(t){
+ const root=fs.mkdtempSync(path.join(os.tmpdir(),'rcap-legacy-release-history-'));
+ execFileSync('git',['clone','--quiet','--shared','--no-checkout',process.cwd(),root],{stdio:'pipe'});
+ execFileSync('git',['checkout','--quiet','--detach','9794f078553d8cd95aec47518ac773ee3e968fdc'],{cwd:root,stdio:'pipe'});
+ fs.symlinkSync(fs.realpathSync('node_modules'),path.join(root,'node_modules'));
+ t.after(()=>fs.rmSync(root,{recursive:true,force:true}));
+ return {root,candidate:JSON.parse(fs.readFileSync(path.join(root,'data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json')))};
+}
 
 test('exact clean candidate accepts; tracked and untracked packaged changes refuse', () => {
   const root=fs.mkdtempSync(path.join(os.tmpdir(),'rcap-release-binding-'));
@@ -164,20 +173,19 @@ test('successful restage binding preserves exact paths, frozen authority, earlie
  assert.throws(()=>run({mutate:b=>delete b.successorTools.preactivationProductionLegalAidProofCorrectionBaseSha}),/only bounded successful restage binding/);
 });
 
-test('complete release verifier accepts exact smoke evidence with unchanged authority and restage binding and refuses every receipt substitution',()=>{
- const root=process.cwd(),candidate=JSON.parse(fs.readFileSync('data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json'));
- const valid=verifyReleaseCandidateBinding(root,candidate);assert.equal(valid.current,true,JSON.stringify(valid));assert.equal(valid.status,'CURRENT');
+test('complete release verifier accepts exact smoke evidence as history and refuses expired current authority and every receipt substitution',async t=>{
+ const {root,candidate}=historicalFixture(t);
+ assert.equal((await verifyHistoricalRelease(root,candidate)).historyValid,true);
+ const valid=verifyReleaseCandidateBinding(root,candidate);assert.equal(valid.current,false,JSON.stringify(valid));assert.ok(valid.reasons.some(r=>r.includes('fresh hosted evidence within 24 hours')),JSON.stringify(valid));
  const mutations=[
-  ['smoke run ID',c=>c.productionAuthorization.smokeRunId++],
-  ['smoke inner SHA',c=>c.productionAuthorization.smokeArtifactSha256='0'.repeat(64)],
-  ['missing smoke receipt',c=>delete c.productionAuthorization.smokeReceipt],
-  ['activation phase',c=>c.productionAuthorization.phases.push('activate')],
-  ['old staged ID',c=>c.productionAuthorization.stagedDeploymentId=c.productionAuthorization.restage.oldStagedDeploymentId],
+  ['smoke run ID',c=>c.forwardProduction.receipts.smoke.runId++],
+  ['smoke receipt hash',c=>c.forwardProduction.receipts.smoke.receiptSha256='0'.repeat(64)],
+  ['missing smoke receipt',c=>delete c.forwardProduction.receipts.smoke],
+  ['authorization tuple',c=>c.productionAuthorization.applicationSha='0'.repeat(40)],
   ['arbitrary staged ID',c=>c.productionAuthorization.stagedDeploymentId='dpl_arbitrary'],
-  ['missing receipt',c=>delete c.productionAuthorization.restage.successfulReceipt],
-  ...Object.keys(BOUND_RESTAGE).map(k=>[k,c=>c.productionAuthorization.restage.successfulReceipt[k]=k==='conclusion'?'failure':'wrong']),
+  ['inherited activation',c=>c.forwardProduction.states.activation='consumed_successfully'],
  ];
- for(const [name,mutate]of mutations){const c=structuredClone(candidate);mutate(c);const result=verifyReleaseCandidateBinding(root,c);assert.equal(result.current,false,name);assert.ok(result.reasons.some(r=>r.includes('packet canary Flyctl pin preserves all authorization and closure bytes')),`${name}: ${JSON.stringify(result)}`);}
+ for(const [name,mutate]of mutations){const c=structuredClone(candidate);mutate(c);await assert.rejects(verifyHistoricalRelease(root,c),undefined,name);}
 });
 
 
@@ -297,21 +305,19 @@ test('activation closure binds exactly twelve paths, preserves the decision/hist
  assert.throws(()=>run({mutate:b=>delete b.successorTools.activationAuthorizationBaseSha}),/only bounded activation closure tools/);
 });
 
-test('complete release verifier accepts consumed activation and rejects receipt substitution or new authority',()=>{
- const root=process.cwd(),candidate=JSON.parse(fs.readFileSync('data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json'));
- const valid=verifyReleaseCandidateBinding(root,candidate);assert.equal(valid.current,true,JSON.stringify(valid));assert.equal(valid.status,'CURRENT');
- assert.equal(valid.releaseStatus,PUBLIC_VERIFICATION_CLOSED_STATUS);assert.ok(!valid.productionPhases.includes('public_verify'));assert.ok(!valid.productionPhases.includes('activate'));
+test('complete release verifier preserves recorded authority as history and rejects expired current authority or new permissions',async t=>{
+ const {root,candidate}=historicalFixture(t);
+ const history=await verifyHistoricalRelease(root,candidate);assert.equal(history.historyValid,true);assert.equal(history.current,false);assert.equal(history.productionAuthorized,false);
+ const valid=verifyReleaseCandidateBinding(root,candidate);assert.equal(valid.current,false,JSON.stringify(valid));assert.ok(valid.reasons.some(r=>r.includes('fresh hosted evidence within 24 hours')),JSON.stringify(valid));
  const mutations=[
-  ...Object.keys(BOUND_ACTIVATION).map(k=>[`activation receipt ${k}`,c=>c.productionAuthorization.activation.activationReceipt[k]='wrong']),
-  ['missing activation receipt',c=>delete c.productionAuthorization.activation.activationReceipt],
-  ['unconsumed decision',c=>c.productionAuthorization.activation.state='authorized_not_executed'],
-  ['second activation',c=>c.productionAuthorization.activation.maxAttempts=2],
-  ...['activate','public_verify','save_transition_reproduce','save_transition_verify','live_zero_dollar_order'].flatMap(p=>[
-   [`phase ${p}`,c=>c.productionAuthorization.phases.push(p)],
-   [`permission ${p}`,c=>c.productionAuthorization.activation.permittedActions.push(p)],
-  ]),
+  ['owner source',c=>c.forwardProduction.owner.workerSourceSha='0'.repeat(40)],
+  ['owner phases',c=>c.forwardProduction.owner.phases.push('publication')],
+  ['reusable activation',c=>c.forwardProduction.owner.maxActivationAttempts=2],
+  ['missing owner',c=>delete c.forwardProduction.owner],
+  ['unrecorded consumption',c=>c.productionAuthorization.activation.state='consumed_successfully'],
+  ['arbitrary reusable authority',c=>c.productionAuthorization.phases.push('publication')],
  ];
- for(const [name,mutate]of mutations){const c=structuredClone(candidate);mutate(c);const result=verifyReleaseCandidateBinding(root,c);assert.equal(result.current,false,name);assert.ok(result.reasons.some(r=>r.includes('packet canary Flyctl pin preserves all authorization and closure bytes')),`${name}: ${JSON.stringify(result)}`);}
+ for(const [name,mutate]of mutations){const c=structuredClone(candidate);mutate(c);await assert.rejects(verifyHistoricalRelease(root,c),undefined,name);}
 });
 
 test('public verification successor binds exactly eight paths, preserves history/hashes and requires one parent',async()=>{

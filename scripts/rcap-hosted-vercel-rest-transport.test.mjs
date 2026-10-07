@@ -7,6 +7,7 @@ import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {execFileSync} from 'node:child_process';
 import {CANDIDATE_PATH, verifyReleaseCandidateBinding} from './grade-a-launch-control/verify-release-candidate-binding.mjs';
+import {requireHeldPreviewAdmission} from './grade-a-launch-control/require-preview-preparation.mjs';
 import {assertPreviewResponse, assertPreservedOrdinaryPreview, createPreviewRequest, createRestPreview, FROZEN_APPLICATION_SHA, FROZEN_WORKER_METADATA, CREATE_PREVIEW_URL} from './rcap-hosted-vercel-rest-transport.mjs';
 import {hostedVercelScopedUrl, resolveHostedVercelIdentity, HOSTED_VERCEL_TEAM_ID, HOSTED_VERCEL_PROJECT_ID, HOSTED_VERCEL_PROJECT_NAME, expectedHostedReturnOrigin, HOSTED_MS_CLINIC_PARTICIPANTS, HOSTED_ORDINARY_PREVIEW} from './rcap-hosted-acceptance-vercel-identity.mjs';
 const identity={teamId:HOSTED_VERCEL_TEAM_ID,projectId:HOSTED_VERCEL_PROJECT_ID,projectName:HOSTED_VERCEL_PROJECT_NAME};
@@ -92,7 +93,10 @@ async function frozenReleaseProblems(w){
   const e=w.evidence;
   const candidate=w.candidate;
   const currentness=verifyReleaseCandidateBinding(w.rootDir,candidate,candidate.participantReceiptPaths??[]);
-  fail(currentness.current===true && currentness.status==='CURRENT',`the release binding is not current: ${currentness.reasons.join('; ')}`);
+  if(candidate.status==='FORWARD_BOUND_HOSTED_PENDING'){
+    fail(currentness.bindingVerified===true&&currentness.current===false&&currentness.status==='FORWARD_BOUND_HOSTED_PENDING','exact HELD binding required');
+    try{const preview=requireHeldPreviewAdmission(w.rootDir,{phase:'replace_preview',applicationSha:w.frozen,workerSourceSha:candidate.workerSourceSha,workerDigest:candidate.workerDigest,toolsSha:candidate.toolsSha,workflowSourceSha:w.head});fail(preview.previewOnly===true&&preview.current===false&&preview.productionAuthorized===false,'Preview-only identity required');}catch(error){fail(false,error.message);}
+  }else fail(currentness.current===true && currentness.status==='CURRENT',`the release binding is not current: ${currentness.reasons.join('; ')}`);
   fail(w.frozen===candidate.applicationSha,'the transport does not name the bound application');
   fail(/^[0-9a-f]{40}$/.test(w.frozen),'the frozen application pin is not an exact 40-character SHA');
   fail((()=>{ try{ return w.git(['cat-file','-t',w.frozen])==='commit'; }catch{ return false; } })(),'the frozen application pin is not a commit in this repository');

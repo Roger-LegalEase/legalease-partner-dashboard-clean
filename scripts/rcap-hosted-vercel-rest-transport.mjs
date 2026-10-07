@@ -1,12 +1,12 @@
 import {fileURLToPath} from 'node:url';
-import {requireCurrentReleaseCandidate} from './grade-a-launch-control/verify-release-candidate-binding.mjs';
+import {loadPreviewTransportIdentity} from './grade-a-launch-control/require-preview-preparation.mjs';
 import {sanitizeVercelDiagnostic} from './rcap-hosted-vercel-diagnostics.mjs';
 import {HOSTED_ORDINARY_PREVIEW, HOSTED_VERCEL_TEAM_ID, HOSTED_VERCEL_PROJECT_ID, HOSTED_VERCEL_PROJECT_NAME, expectedHostedReturnOrigin} from './rcap-hosted-acceptance-vercel-identity.mjs';
 
 // Preview source is the validated release candidate's application, independent
 // of its reusable worker source and later tools commit. Read the canonical
 // binding from this checkout, never a caller-supplied SHA or the branch tip.
-const release = requireCurrentReleaseCandidate(fileURLToPath(new URL('..', import.meta.url)));
+const release = loadPreviewTransportIdentity(fileURLToPath(new URL('..', import.meta.url)));
 export const FROZEN_APPLICATION_SHA = release.applicationSha;
 export const FROZEN_WORKER_METADATA = Object.freeze({
   rcapWorkerSourceSha: release.workerSourceSha,

@@ -10,6 +10,8 @@ const hash=b=>createHash('sha256').update(b).digest('hex');
 const git=(root,args)=>execFileSync('git',args,{cwd:root,encoding:'utf8',maxBuffer:64*1024*1024}).trim();
 const blob=(root,sha,p)=>execFileSync('git',['show',`${sha}:${p}`],{cwd:root,maxBuffer:64*1024*1024});
 export const boundedControl=p=>/^(scripts\/grade-a-launch-control\/|\.github\/workflows\/|scripts\/rcap-worker-identity)/.test(p);
+// Explicitly authorized Preview caller; no scripts/** or runtime exemption.
+export const previewControl=p=>['scripts/rcap-hosted-vercel-rest-transport.mjs','scripts/rcap-hosted-vercel-rest-transport.test.mjs','scripts/rcap-hosted-acceptance-preflight.test.mjs'].includes(p);
 const runtimeAuthority=new Set(['data/rcap-render/worker-publication-evidence.json','data/rcap-grade-a/fulfillment-authority-registry.json','data/rcap-grade-a/fulfillment-observation-snapshot.json','data/rcap-grade-a/fulfillment-authority-projection.json']);
 export function publicationNativeFiles(e){
  const refs=[e.nativeArchive,e.nativeRunMetadata,e.nativeJobMetadata,e.nativeLog,{path:e.originalPublicationPath,bytes:e.originalPublicationBytes,sha256:e.originalPublicationSha256},...Object.values(e.imageAcceptance??{}).filter(v=>v&&typeof v==='object'&&v.path)];
@@ -39,7 +41,7 @@ export function successorResponsibilities(root,{releaseBaseSha,sourceSha,toolsSh
   let accounted=false;
   if(runtimeAuthority.has(p)||inputs.has(p)&&Object.hasOwn(native,p)){assert.equal(hash(blob(root,toolsSha,p)),hash(blob(root,applicationSha,p)),p+' frozen application input');runtimeFiles[p]=hash(blob(root,applicationSha,p));accounted=true;}
   if(Object.hasOwn(native,p)){const b=blob(root,applicationSha,p);assert.equal(b.length,native[p].bytes);assert.equal(hash(b),native[p].sha256);assert.equal(hash(blob(root,toolsSha,p)),hash(b));nativeFiles[p]=native[p];accounted=true;}
-  if(boundedControl(p)){controlFiles[p]=hash(blob(root,toolsSha,p));accounted=true;}
+  if(boundedControl(p)||previewControl(p)){controlFiles[p]=hash(blob(root,toolsSha,p));accounted=true;}
   assert(accounted,'unclassified successor path: '+p);
  }
  const executedControls={};for(const [workflow,sha]of [['.github/workflows/publish-rcap-render-worker.yml',publication.workflowSourceSha],['.github/workflows/rcap-worker-image-acceptance.yml',publication.imageAcceptance.workflowSourceSha]])executedControls[workflow]={workflowSourceSha:sha,files:executedWorkflowFiles(root,sha,workflow)};

@@ -304,7 +304,11 @@ jobs:
               --label "final application -> workflow tools" \
               || { echo "::error::workflow tools differ from the final application on worker inputs"; exit 1; }
           fi
-          git checkout --detach "${{ inputs.tools_sha }}"
+          # HELD Preview creation reads the new evidence records from this
+          # execution head. Its gate proves executable bytes equal tools_sha.
+          if [ "${{ inputs.phase }}" != "replace_preview" ]; then
+            git checkout --detach "${{ inputs.tools_sha }}"
+          fi
 
       - name: Require exact current release or HELD acceptance Preview tuple
         id: release_binding
@@ -769,6 +773,11 @@ jobs:
         # reuse means no Vercel deployment command runs at all.
         if: inputs.phase != 'clinic_resume' && inputs.phase != 'clinic_preview' && steps.contract.outputs.deploy == 'true' && steps.resolve_preview.outputs.reused != 'true'
         env:
+          PHASE_INPUT: ${{ inputs.phase }}
+          APPLICATION_SHA_INPUT: ${{ inputs.application_sha }}
+          WORKER_SOURCE_SHA_INPUT: ${{ inputs.worker_source_sha }}
+          WORKER_DIGEST_INPUT: ${{ inputs.worker_digest }}
+          TOOLS_SHA_INPUT: ${{ inputs.tools_sha }}
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
           ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}

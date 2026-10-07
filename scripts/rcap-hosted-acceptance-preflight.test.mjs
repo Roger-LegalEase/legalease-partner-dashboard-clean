@@ -142,7 +142,10 @@ test("Supabase-only preflight neither requires nor accesses Vercel", () => {
 
 test("service-only exception cannot admit a mutation phase with changed worker inputs", async () => {
   const { spawnSync } = await import('node:child_process');
-  const guarded = hostedWorkflow.slice(hostedWorkflow.indexOf('          if [ "${{ inputs.phase }}" != "preflight" ] && [ "${{ inputs.phase }}" != "vercel_identity" ]; then'), hostedWorkflow.indexOf('          git checkout --detach'));
+  const start=hostedWorkflow.indexOf('          if [ "${{ inputs.phase }}" != "preflight" ] && [ "${{ inputs.phase }}" != "vercel_identity" ]; then');
+  const end=hostedWorkflow.indexOf('          # HELD Preview creation',start);
+  assert.ok(start>=0&&end>start,'complete worker-equivalence guard precedes the separate checkout decision');
+  const guarded = hostedWorkflow.slice(start,end);
   // The guard's worker comparison moved from an inline `git diff --quiet` to
   // the canonical equivalence control, so the refusal now arrives through that
   // command. Both are stubbed to fail: what this test asserts is the GUARD --
