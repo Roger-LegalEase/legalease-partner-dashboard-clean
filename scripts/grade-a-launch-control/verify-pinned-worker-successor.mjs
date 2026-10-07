@@ -1,3 +1,5 @@
+import {verifyClosureControl} from './preview-closure-control.mjs';
+import {PREVIEW_ADMISSION_SCHEMA,assertPreviewAdmission,assertPreviewClosureDocuments,assertNativePreviewCreation} from './preview-closure-contract.mjs';
 import {boundedControl,previewControl,executedWorkflowFiles,verifySuccessorResponsibilities} from './pinned-successor-responsibilities.mjs';
 import {historicalCheckTime} from './verify-historical-release.mjs';
 import {assertVercelProductionScopes} from './vercel-production-scopes.mjs';
@@ -268,6 +270,7 @@ export function verifyPinnedForwardBinding(root,candidate,history) {
   assert(git(root,['diff','--name-only',p.applicationSha]).split('\n').every(f=>!runtime.has(f)),'working application inputs remain frozen');
   const plan=createWorkerInputPlan({rootDir:root,candidateSha:p.applicationSha,acceptedSourceSha:prior.workerSourceSha,acceptedDigest:prior.workerDigest});
   assert.equal(plan.rebuildRequired,false);assert.deepEqual(plan.missingCanonicalInputs,[]);assert.equal(plan.aggregateInputSha256,prior.workerInputFingerprint);
+  const corrected=verifyClosureControl(root,candidate);
   const manifest=tools.successorTools;
   assert.equal(manifest.baseSha,p.releaseBaseSha);
   const delta=git(root,['diff','--name-only',p.releaseBaseSha,p.toolsSha]).split('\n').filter(f=>f.startsWith('scripts/')||f.startsWith('.github/')).sort();
@@ -275,9 +278,9 @@ export function verifyPinnedForwardBinding(root,candidate,history) {
   for(const [rel,digest]of Object.entries(manifest.files)) {
    if(priorTools.successorInputs)assert(boundedControl(rel)||previewControl(rel),'bounded forward control paths');
    assert.equal(hash(execFileSync('git',['show',`${p.toolsSha}:${rel}`],{cwd:root})),digest,rel);
-   assert.equal(hash(fs.readFileSync(path.join(root,rel))),digest,'current control bytes');
+   if(!corrected.has(rel))assert.equal(hash(fs.readFileSync(path.join(root,rel))),digest,'current control bytes');
   }
-  const allowed=new Set([PENDING,CANDIDATE,TOOLS,...(candidate.hostedAdmission?.files??[]).map(f=>f.path)]);
+  const allowed=new Set([PENDING,CANDIDATE,TOOLS,...corrected,...(candidate.hostedAdmission?.files??[]).map(f=>f.path)]);
   const post=git(root,['diff','--name-only',p.toolsSha]).split('\n').filter(Boolean);
   assert(post.every(f=>allowed.has(f)),'bounded post-tools forward records');
   const untracked=git(root,['ls-files','--others','--exclude-standard','--','scripts','.github','src','data','hosted-acceptance-evidence']).split('\n').filter(Boolean);
@@ -285,12 +288,12 @@ export function verifyPinnedForwardBinding(root,candidate,history) {
   if(!candidate.hostedAdmission)return {...expected,current:false,bindingVerified:true,status:'FORWARD_BOUND_HOSTED_PENDING',productionAuthorized:false,reasons:['Fresh exact staged hosted evidence is required; all production execution remains held.']};
   assert.deepEqual(tools.hostedAdmission,candidate.hostedAdmission);assert.deepEqual(p.hostedAdmission,candidate.hostedAdmission);
   const h=candidate.hostedAdmission;
-  assert(['rcap-readonly-successor-admission/v1','rcap-readonly-successor-admission/v2'].includes(h.schemaVersion));
+  assert(['rcap-readonly-successor-admission/v1','rcap-readonly-successor-admission/v2',PREVIEW_ADMISSION_SCHEMA].includes(h.schemaVersion));
   assertForwardHosted(h,expected,history,root);
   for(const ref of h.files){assert(ref.path.startsWith('hosted-acceptance-evidence/successor-closure/')&&!ref.path.split('/').includes('..'));const bytes=fs.readFileSync(path.join(root,ref.path));assert.equal(bytes.length,ref.bytes);assert.equal(hash(bytes),ref.sha256);}
   for(const rel of [h.runPath,h.receiptPath,h.jobsPath,h.artifactPath,h.archivePath])assert(h.files.some(f=>f.path===rel),'all native admission inputs are hashed');
   const run=JSON.parse(fs.readFileSync(path.join(root,h.runPath))),receipt=JSON.parse(fs.readFileSync(path.join(root,h.receiptPath)));
-  assert.equal(run.id,h.runId);assert.equal(run.head_sha,h.workflowSourceSha);git(root,['merge-base','--is-ancestor',p.toolsSha,h.workflowSourceSha]);assert.equal(git(root,['diff','--name-only',p.toolsSha,h.workflowSourceSha,'--',...Object.keys(manifest.files)]),'','actual workflow control identity');assert.equal(run.path,'.github/workflows/rcap-f1-ephemeral-staging.yml');assert.equal(run.conclusion,'success');assert.equal(run.status,'completed');
+  assert.equal(run.id,h.runId);assert.equal(run.head_sha,h.workflowSourceSha);git(root,['merge-base','--is-ancestor',p.toolsSha,h.workflowSourceSha]);assert.equal(git(root,['diff','--name-only',p.toolsSha,h.workflowSourceSha,'--',...Object.keys(manifest.files).filter(rel=>!corrected.has(rel))]),'','actual workflow control identity');if(h.schemaVersion===PREVIEW_ADMISSION_SCHEMA){assert.equal(h.closureControlSha,candidate.closureControl.sourceSha);assert.equal(git(root,['diff','--name-only',candidate.closureControl.sourceSha,h.workflowSourceSha,'--','scripts','.github']),'','actual corrected workflow control identity');}assert.equal(run.path,'.github/workflows/rcap-f1-ephemeral-staging.yml');assert.equal(run.conclusion,'success');assert.equal(run.status,'completed');
   assert.equal(run.repository.full_name.toLowerCase(),'roger-legalease/legalease-partner-dashboard-clean');assert.equal(run.event,'workflow_dispatch');assert.equal(run.run_attempt,1);
   const jobs=JSON.parse(fs.readFileSync(path.join(root,h.jobsPath)));const job=jobs.jobs.find(j=>j.id===h.jobId);assert(job);assert.equal(job.run_id,h.runId);assert.equal(job.conclusion,'success');assert.equal(job.status,'completed');
   for(const name of ['Install frozen dependencies','Install browser for mocked signup only','Verify exact forward controls before provider credentials','Stage exact application without aliases and read worker rollback','Upload non-production closure evidence'])assert.equal(job.steps.find(s=>s.name===name)?.conclusion,'success',name);
@@ -299,8 +302,18 @@ export function verifyPinnedForwardBinding(root,candidate,history) {
   const rollback=JSON.parse(execFileSync('unzip',['-p',path.join(root,h.archivePath),'worker-rollback.json'],{encoding:'utf8'}));assert.equal(rollback.passed,true,'rollback availability required');
   if(receipt.queueSafetyVerified===true){const queue=JSON.parse(execFileSync('unzip',['-p',path.join(root,h.archivePath),'queue-safety.json'],{encoding:'utf8'}));assert.equal(queue.passed,true);assert.equal(queue.readOnly,true);for(const key of ['stale_queued','queued','claimed','terminal_failed'])assert.equal(Number(queue.queue[key]),0);}
   if(receipt.schemaVersion==='rcap-readonly-successor-admission/v2'){const archived=name=>JSON.parse(execFileSync('unzip',['-p',path.join(root,h.archivePath),name+'.json'],{encoding:'utf8'}));assertVercelProductionScopes(archived('production-aliases-before'),archived('production-project-domains-before'),receipt);assertVercelProductionScopes(archived('production-aliases-after'),archived('production-project-domains-after'),receipt);}
+  if(receipt.schemaVersion===PREVIEW_ADMISSION_SCHEMA){
+   const archived=name=>JSON.parse(execFileSync('unzip',['-p',path.join(root,h.archivePath),name],{encoding:'utf8'}));
+   assertPreviewClosureDocuments(receipt,archived);
+   const creation=receipt.previewCreation;const creationZip=execFileSync('unzip',['-p',path.join(root,h.archivePath),'preview-creation-native.zip'],{maxBuffer:64*1024*1024});
+   const temp=fs.mkdtempSync(path.join(os.tmpdir(),'rcap-preview-native-'));
+   try{const zip=path.join(temp,'native.zip');fs.writeFileSync(zip,creationZip);const entry=name=>JSON.parse(execFileSync('unzip',['-p',zip,name],{encoding:'utf8'}));
+    const actual=assertNativePreviewCreation({run:archived('preview-creation-run.json'),jobs:archived('preview-creation-jobs.json'),artifact:archived('preview-creation-artifact.json'),archiveDigest:'sha256:'+hash(creationZip),deploy:entry('deploy.json'),preflight:entry('preflight.json'),creationCandidate:at(root,creation.workflowSourceSha,CANDIDATE)},expected,{creationRunId:creation.runId,deploymentId:receipt.deploymentId,hostname:receipt.hostname});
+    assert.deepEqual(actual,creation,'actual native Preview creation identity');
+   }finally{fs.rmSync(temp,{recursive:true,force:true});}
+  }
   assert.deepEqual(receipt,h.receipt);assertForwardHosted(receipt,expected,history,root);assert.equal(receipt.workflowSourceSha,h.workflowSourceSha);assert.equal(receipt.runId,h.runId);
-  return {...expected,current:true,bindingVerified:true,status:'CURRENT',hostedAcceptanceStatus:'READ_ONLY_STAGED_ACCEPTED_PRODUCTION_HELD',productionAuthorized:false,reasons:[]};
+  return {...expected,current:true,bindingVerified:true,status:'CURRENT',hostedAcceptanceStatus:h.schemaVersion===PREVIEW_ADMISSION_SCHEMA?'READ_ONLY_PREVIEW_ACCEPTED_PRODUCTION_HELD':'READ_ONLY_STAGED_ACCEPTED_PRODUCTION_HELD',productionAuthorized:false,reasons:[]};
  }catch(error){return {current:false,status:'INVALID_FORWARD_BINDING',reasons:[error.message]};}
 }
 export function assertForwardHosted(h,expected,history,root) {
@@ -308,8 +321,8 @@ export function assertForwardHosted(h,expected,history,root) {
  validSha(h.workflowSourceSha);assert(Number.isSafeInteger(h.runId)&&h.runId>0,'actual hosted run');
  for(const key of ['applicationSha','workerSourceSha','workerDigest','workerInputFingerprint','toolsSha'])assert.equal(h[key],expected[key],`hosted ${key}`);
  assert.match(h.deploymentId,/^dpl_[A-Za-z0-9]+$/);assert.equal(h.productionRollback,'dpl_3j4Dr4GHyXmwmrFCTZ6orNNNP7sc');
- if(h.schemaVersion==='rcap-readonly-successor-admission/v2'){assertVercelProductionScopes(h.productionDeploymentAliases,h.productionProjectDomains,h);assert.equal(h.productionDeploymentAliasesUnchanged,true);assert.equal(h.productionProjectDomainsUnchanged,true);}else assert.equal(h.productionAliasesUnchanged,true);assert.equal(h.autoAssignCustomDomains,false);
+ if(h.schemaVersion===PREVIEW_ADMISSION_SCHEMA){assertPreviewAdmission(h);}else if(h.schemaVersion==='rcap-readonly-successor-admission/v2'){assertVercelProductionScopes(h.productionDeploymentAliases,h.productionProjectDomains,h);assert.equal(h.productionDeploymentAliasesUnchanged,true);assert.equal(h.productionProjectDomainsUnchanged,true);}else assert.equal(h.productionAliasesUnchanged,true);assert.equal(h.autoAssignCustomDomains,false);
  assert.equal(h.sharedHostRoutingMethod,'frozen-proxy-map-and-staged-targets');assert.equal(h.workerRollbackVerified,true);assert.equal(h.signupVerified,true);assert.equal(h.sharedHostRoutingVerified,true);assert.equal(h.productionWrites,false);
- assert.equal(h.target,'production');assert.equal(h.readyState,'READY');assert.equal(h.liveAuthCalls,0);
+ if(h.schemaVersion!==PREVIEW_ADMISSION_SCHEMA)assert.equal(h.target,'production');assert.equal(h.readyState,'READY');assert.equal(h.liveAuthCalls,0);
  assert.equal(h.productionAuthorized,false);
 }

@@ -1,3 +1,4 @@
+import {PREVIEW_ADMISSION_SCHEMA,ACCEPTANCE_PROJECT,assertNativePreviewCreation,assertPreviewDeployment,assertPreviewClosureDocuments,sha256} from './grade-a-launch-control/preview-closure-contract.mjs';
 import {productionDomainsPath,productionProjectDomains,productionDeploymentAliases,assertVercelProductionScopes} from './grade-a-launch-control/vercel-production-scopes.mjs';
 import {QUEUE_QUERY} from './rcap-production-worker-readiness.mjs';
 // Exact application staging and GET-only predecessor custody. No activation,
@@ -20,6 +21,22 @@ const workflowSourceSha=execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'
 let workerRollbackVerified=false;
 let rollbackOperation='machine GET';
 const tuple=Object.fromEntries(['applicationSha','workerSourceSha','workerDigest','workerInputFingerprint','toolsSha'].map(k=>[k,p[k]]));
+// Independently download native creation evidence; never trust a typed id alone.
+const gh=(api,binary=false)=>execFileSync('gh',['api',api],{encoding:binary?undefined:'utf8',maxBuffer:64*1024*1024});
+const repo='repos/Roger-LegalEase/legalease-partner-dashboard-clean';
+const creationRunId=process.env.RCAP_PREVIEW_CREATION_RUN_ID;
+assert(/^\d+$/.test(creationRunId??''),'native creation run input required');
+const creationRun=JSON.parse(gh(`${repo}/actions/runs/${creationRunId}`));
+const creationJobs=JSON.parse(gh(`${repo}/actions/runs/${creationRunId}/jobs?per_page=100`));assert(!creationJobs.total_count||creationJobs.jobs.length===creationJobs.total_count,'complete native creation jobs');
+const creationArtifacts=JSON.parse(gh(`${repo}/actions/runs/${creationRunId}/artifacts?per_page=100`));
+const matches=creationArtifacts.artifacts.filter(a=>a.name===`rcap-hosted-replace_preview-${creationRunId}`&&!a.expired);assert.equal(matches.length,1,'one exact native creation artifact');
+const creationArtifact=matches[0];
+write('preview-creation-run',creationRun);write('preview-creation-jobs',creationJobs);write('preview-creation-artifact',creationArtifact);
+const creationArchive=gh(`${repo}/actions/artifacts/${creationArtifact.id}/zip`,true);fs.writeFileSync(`${out}/preview-creation-native.zip`,creationArchive);
+const creationEntry=name=>JSON.parse(execFileSync('unzip',['-p',`${out}/preview-creation-native.zip`,name],{encoding:'utf8'}));
+const creationCandidate=JSON.parse(execFileSync('git',['show',`${creationRun.head_sha}:${CANDIDATE}`],{encoding:'utf8'}));
+const previewCreation=assertNativePreviewCreation({run:creationRun,jobs:creationJobs,artifact:creationArtifact,archiveDigest:sha256(creationArchive),deploy:creationEntry('deploy.json'),preflight:creationEntry('preflight.json'),creationCandidate},tuple,{creationRunId,deploymentId:process.env.RCAP_PREVIEW_DEPLOYMENT_ID,hostname:process.env.RCAP_STAGED_CANDIDATE_HOSTNAME});
+const projectStateResponse=await fetch(`https://api.supabase.com/v1/projects/${ACCEPTANCE_PROJECT}`,{headers:{Authorization:'Bearer '+process.env.SUPABASE_ACCESS_TOKEN},redirect:'error',signal:AbortSignal.timeout(30000)});assert(projectStateResponse.ok,'acceptance project identity GET');const acceptanceState=await projectStateResponse.json();assert.equal(acceptanceState.id,ACCEPTANCE_PROJECT);assert.equal(acceptanceState.name,'legalease-rcap-acceptance');assert.equal(acceptanceState.status,'ACTIVE_HEALTHY');write('acceptance-project-state',{projectRef:acceptanceState.id,name:acceptanceState.name,status:acceptanceState.status,capturedAt:new Date().toISOString()});
 // Rollback availability uses registry GETs only, including challenge token GET.
 
 try {
@@ -48,19 +65,16 @@ for(const domain of domainsBefore.filter(d=>d.redirect===null)){const live=await
 const current=await vercel(`/v13/deployments/${rollback}`);assert.equal(current.readyState,'READY');assert.equal(current.gitSource?.sha??current.meta?.githubCommitSha,'e312a5efa7b4882e0fbf61a5ff0ae7891ac23226');
 const project=await vercel(`/v9/projects/${identity.projectId}`);assert.equal(project.name,HOSTED_VERCEL_PROJECT_NAME);assert.equal(project.link?.productionBranch,'main');
 write('project-configuration',{projectId:project.id,productionBranch:project.link.productionBranch,nodeVersion:project.nodeVersion,framework:project.framework,buildCommand:project.buildCommand,installCommand:project.installCommand,outputDirectory:project.outputDirectory,productionConfigInherited:true,envOverrides:false});
-// The exact staged candidate already exists. Final closure is GET-only.
-assert(process.env.RCAP_STAGED_CANDIDATE_HOSTNAME,'exact existing candidate required; creation is closed');
-let created;
-if(process.env.RCAP_STAGED_CANDIDATE_HOSTNAME){
- const hostname=process.env.RCAP_STAGED_CANDIDATE_HOSTNAME;assert(/^[a-z0-9-]+-roger947s-projects\.vercel\.app$/.test(hostname),'exact existing candidate hostname');
- created=await vercel('/v13/deployments/'+hostname);assert.equal(created.id,'dpl_GYc99gmGcpTioRSn8Jq6hKiUqhUY','frozen reused candidate identity');assert.equal(created.meta?.rcapToolsSha,'7b86dff1b62461c360195517095cb39e748286a0','actual original staging control');assert.equal(created.projectId,identity.projectId);assert.equal(created.meta?.rcapStagedProduction,'true');assert.equal(created.meta?.rcapApplicationSha,p.applicationSha);assert.equal(created.meta?.rcapWorkerSourceSha,p.workerSourceSha);assert.equal(created.meta?.rcapWorkerDigest,p.workerDigest);assert(!before.some(a=>a.alias===hostname),'candidate is not a public alias');
- write('candidate-reuse',{id:created.id,hostname,applicationSha:created.gitSource?.sha,originalCreationToolsSha:created.meta.rcapToolsSha,newDeploymentCreated:false});
-}
-write('candidate-observed',{id:created.id,url:created.url,target:created.target,applicationSha:created.gitSource?.sha});assert.match(created.id,/^dpl_/);assert.equal(created.gitSource?.sha,p.applicationSha);assert.equal(created.target,'production');
-let d=created;
-for(let i=0;i<180&&d.readyState!=='READY';i++){assert(!['ERROR','CANCELED'].includes(d.readyState),'candidate build failed');await new Promise(r=>setTimeout(r,5000));d=await vercel(`/v13/deployments/${created.id}`);}
-assert.equal(d.readyState,'READY');assert.equal(d.gitSource?.sha,p.applicationSha);
-write('candidate-ready',{id:d.id,url:d.url,target:d.target,readyState:d.readyState,applicationSha:d.gitSource.sha,meta:{rcapApplicationSha:d.meta.rcapApplicationSha,rcapWorkerSourceSha:d.meta.rcapWorkerSourceSha,rcapWorkerDigest:d.meta.rcapWorkerDigest}});
+// Verify the exact already-created Preview by id AND immutable hostname.
+const byId=await vercel('/v13/deployments/'+previewCreation.deploymentId);
+const d=await vercel('/v13/deployments/'+previewCreation.hostname);
+for(const observed of [byId,d])assertPreviewDeployment(observed,tuple,previewCreation,{aliases:before,domains:domainsBefore});
+const candidateAliases=await vercel(`/v3/deployments/${d.id}/aliases`);assert(!candidateAliases.pagination?.next,'complete Preview alias inventory');
+for(const a of candidateAliases.aliases??[]){assert(!before.some(p=>p.alias===a.alias),'no Production alias on Preview');assert(!domainsBefore.some(p=>p.name===a.alias),'no Production project domain on Preview');}
+write('candidate-aliases',candidateAliases);write('candidate-reuse',previewCreation);
+write('candidate-ready',{id:d.id,url:d.url,target:d.target,readyState:d.readyState,applicationSha:d.gitSource.sha,projectId:d.projectId,meta:Object.fromEntries(['rcapApplicationSha','rcapWorkerSourceSha','rcapWorkerDigest','rcapWorkerInputFingerprint','rcapAcceptanceProjectRef'].map(k=>[k,d.meta[k]]))});
+const envShape=body=>{assert(Array.isArray(body.envs)&&!body.pagination?.next,'complete Production env inventory');return body.envs.filter(e=>(e.target??[]).includes('production')).map(e=>({id:e.id,key:e.key,target:e.target,updatedAt:e.updatedAt,type:e.type})).sort((a,b)=>a.key.localeCompare(b.key));};
+const environmentBefore=envShape(await vercel(`/v9/projects/${identity.projectId}/env?decrypt=false`));write('production-environment-before',environmentBefore);
 const origin='https://'+d.url;
 process.env.RCAP_STAGED_ORIGIN=origin;
 let browserFailure;
@@ -69,9 +83,11 @@ try{execFileSync(process.execPath,['scripts/rcap-successor-staged-browser.mjs'],
 const after=await aliases();write('production-aliases-after',after);const domainsAfter=productionProjectDomains(await vercel(productionDomainsPath(identity.projectId)));write('production-project-domains-after',domainsAfter);assertVercelProductionScopes(after,domainsAfter,{productionDeploymentAliases:before,productionProjectDomains:domainsBefore});
 for(const domain of domainsAfter.filter(d=>d.redirect===null)){const live=await vercel('/v13/deployments/'+domain.name);assert.equal(live.id,rollback,'all direct Production domains remain on predecessor after staging');}
 for(const a of before.filter(a=>!a.redirect)){const live=await vercel('/v13/deployments/'+a.alias);assert.equal(live.id,rollback,'all existing public aliases remain on predecessor');}
+const environmentAfter=envShape(await vercel(`/v9/projects/${identity.projectId}/env?decrypt=false`));write('production-environment-after',environmentAfter);assert.deepEqual(environmentAfter,environmentBefore,'Production environment unchanged');
+assertPreviewDeployment(await vercel('/v13/deployments/'+d.id),tuple,previewCreation,{aliases:after,domains:domainsAfter});
 if(browserFailure)throw browserFailure;
 const browser=JSON.parse(fs.readFileSync(`${out}/browser-results.json`));assert.equal(browser.length,4);assert(browser.every(r=>r.status==='PASS'));
-write('admission',{schemaVersion:'rcap-readonly-successor-admission/v2',capturedAt:new Date().toISOString(),...tuple,workerRollbackVerified,queueSafetyVerified:true,sharedHostRoutingMethod:'frozen-proxy-map-and-staged-targets',stagingCreation:{runId:37457756634,workflowSourceSha:'6eec672ac2cd871d541b0efd6aa9183380d39825',toolsSha:'7b86dff1b62461c360195517095cb39e748286a0',autoAssignCustomDomains:false},workflowSourceSha,runId:Number(process.env.GITHUB_RUN_ID),deploymentId:d.id,hostname:d.url,productionRollback:rollback,productionDeploymentAliases:before,productionProjectDomains:domainsBefore,productionDeploymentAliasesUnchanged:true,productionProjectDomainsUnchanged:true,autoAssignCustomDomains:false,signupVerified:true,sharedHostRoutingVerified:true,productionWrites:false,target:d.target,readyState:d.readyState,liveAuthCalls:0,productionAuthorized:false,emailDelivery:'UNVERIFIED: all authentication mocked',hostedScope:'read-only staged signup, host routing and aggregate queue safety; no live participant, payment, packet or queue consumption'});
-console.log('Exact staged application verified; production aliases and worker unchanged.');
-
-assert(workerRollbackVerified,'Nonproduction closure incomplete: worker rollback evidence failed; staging result retained for review');
+const admission={schemaVersion:PREVIEW_ADMISSION_SCHEMA,capturedAt:new Date().toISOString(),...tuple,closureControlSha:candidate.closureControl.sourceSha,previewCreation,workerRollbackVerified,queueSafetyVerified:true,sharedHostRoutingMethod:'frozen-proxy-map-and-staged-targets',workflowSourceSha,runId:Number(process.env.GITHUB_RUN_ID),deploymentId:d.id,hostname:d.url,projectId:d.projectId,acceptanceProjectRef:ACCEPTANCE_PROJECT,productionRollback:rollback,productionDeploymentAliases:before,productionProjectDomains:domainsBefore,productionDeploymentAliasesUnchanged:true,productionProjectDomainsUnchanged:true,productionEnvironmentUnchanged:true,projectLevelProductionEnvironmentMutations:0,autoAssignCustomDomains:false,signupVerified:true,sharedHostRoutingVerified:true,productionWrites:false,target:d.target,readyState:d.readyState,liveAuthCalls:0,productionAuthorized:false,newDeploymentCreated:false,workerClaims:0,realPayments:0,participantWrites:0,emailDelivery:'UNVERIFIED: all authentication mocked',hostedScope:'read-only existing acceptance Preview, mocked signup, frozen host routing and aggregate queue safety'};
+assertPreviewClosureDocuments(admission,name=>JSON.parse(fs.readFileSync(`${out}/${name}`)));
+write('admission',admission);
+console.log('Exact existing Preview closure PASS; no deployment creation, Production writes, live auth, payments, participant writes or worker claims.');

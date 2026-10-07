@@ -73,6 +73,11 @@ on:
         required: false
         type: string
         default: ""
+      preview_creation_run_id:
+        description: "Exact successful hosted_replace_preview creation run for read-only successor closure"
+        required: false
+        type: string
+        default: ""
       preview_deployment_id:
         description: "Exact existing Vercel Preview deployment id; optional — resolved from preview_hostname when omitted"
         required: false
@@ -147,11 +152,13 @@ jobs:
       - name: Install browser for mocked signup only
         run: npx playwright install --with-deps chromium
       - name: Verify exact forward controls before provider credentials
-        run: node --test scripts/test-ms-successor-history.mjs scripts/grade-a-launch-control/pinned-forward-binding.test.mjs scripts/grade-a-launch-control/forward-production-successor.test.mjs scripts/rcap-successor-harness.test.mjs scripts/grade-a-launch-control/forward-production-execution.test.mjs scripts/grade-a-launch-control/vercel-production-scopes.test.mjs
+        run: node --test scripts/grade-a-launch-control/preview-closure-contract.test.mjs scripts/grade-a-launch-control/preview-closure-binding.test.mjs scripts/grade-a-launch-control/pinned-forward-binding.test.mjs scripts/rcap-successor-harness.test.mjs
       - name: Stage exact application without aliases and read worker rollback
         env:
           RCAP_APPLICATION_SHA: ${{ inputs.application_sha }}
           RCAP_STAGED_CANDIDATE_HOSTNAME: ${{ inputs.preview_hostname }}
+          RCAP_PREVIEW_DEPLOYMENT_ID: ${{ inputs.preview_deployment_id }}
+          RCAP_PREVIEW_CREATION_RUN_ID: ${{ inputs.preview_creation_run_id }}
           RCAP_WORKER_SOURCE_SHA: ${{ inputs.worker_source_sha }}
           RCAP_WORKER_DIGEST: ${{ inputs.worker_digest }}
           RCAP_TOOLS_SHA: ${{ inputs.tools_sha }}
