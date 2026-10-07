@@ -40,220 +40,54 @@
     "originalJson": "{\n  \"schemaVersion\": \"rcap-worker-publication/v1\",\n  \"sourceSha\": \"b0b721470ea38455d8429c45300c9b3127bfe780\",\n  \"workflowSourceSha\": \"b0b721470ea38455d8429c45300c9b3127bfe780\",\n  \"requestedIntegrationSha\": \"b0b721470ea38455d8429c45300c9b3127bfe780\",\n  \"tagReplacementAuthorization\": \"\",\n  \"canonicalIntegrationBranch\": \"main\",\n  \"releaseIntegrationBranch\": \"captain-release\",\n  \"containedIn\": \"captain-release\",\n  \"dockerfilePath\": \"deploy/rcap-render-worker/Dockerfile\",\n  \"dockerfileSha256\": \"38cd5d35c423c6d4d5a9a12ac0157c28d9bf62fe7195af5d4bff315a38d981c4\",\n  \"lockfileSha256\": \"fc0208973470f108d82dc3defa99647fe1ee01c43a7bea5302487368ae36aae7\",\n  \"imageRepository\": \"ghcr.io/roger-legalease/rcap-render-worker\",\n  \"imageTag\": \"b0b721470ea38455d8429c45300c9b3127bfe780\",\n  \"imageReference\": \"ghcr.io/roger-legalease/rcap-render-worker:b0b721470ea38455d8429c45300c9b3127bfe780\",\n  \"immutableRegistryDigest\": \"sha256:a32bbe9a81cf2cfa3d10fbfa4e0c2588fbf32b4f612a689b90ea503452683658\",\n  \"digestPinnedReference\": \"ghcr.io/roger-legalease/rcap-render-worker@sha256:a32bbe9a81cf2cfa3d10fbfa4e0c2588fbf32b4f612a689b90ea503452683658\",\n  \"workflowRunId\": \"37628990382\",\n  \"workflowRunUrl\": \"https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/37628990382\",\n  \"mutableLatestTagCreated\": false,\n  \"publishOnlyNoDeploy\": true,\n  \"workerClaimingStarted\": false,\n  \"stagingAndProductionUnchanged\": true\n}\n"
   },
   "nativeRunMetadata": {
-    "url": "https://api.github.com/repos/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/37628990382",
+    "path": "hosted-acceptance-evidence/worker/publication-37628990382/run.json",
     "bytes": 15021,
-    "sha256": "ab7cc02d2509272611821cc31cea002162449edf8b748b18b0fd2aabead5d5e1",
-    "id": 37628990382,
-    "headSha": "b0b721470ea38455d8429c45300c9b3127bfe780",
-    "conclusion": "success",
-    "runAttempt": 1
+    "sha256": "ab7cc02d2509272611821cc31cea002162449edf8b748b18b0fd2aabead5d5e1"
   },
   "nativeJobMetadata": {
-    "url": "https://api.github.com/repos/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/37628990382/jobs",
+    "path": "hosted-acceptance-evidence/worker/publication-37628990382/jobs.json",
     "bytes": 4977,
-    "sha256": "41c9d914e5bca5dcd16e58d84ffb85ef7fa88579374ac2f3cbf63fa554196ce8",
-    "jobs": [
-      {
-        "id": 112818041188,
-        "conclusion": "success",
-        "steps": [
-          {
-            "name": "Set up job",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 1,
-            "started_at": "2026-10-07T13:30:17Z",
-            "completed_at": "2026-10-07T13:30:20Z"
-          },
-          {
-            "name": "Reject an abbreviated SHA before anything is fetched",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 2,
-            "started_at": "2026-10-07T13:30:20Z",
-            "completed_at": "2026-10-07T13:30:20Z"
-          },
-          {
-            "name": "Check out the repository history",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 3,
-            "started_at": "2026-10-07T13:30:20Z",
-            "completed_at": "2026-10-07T13:31:31Z"
-          },
-          {
-            "name": "Resolve the commit to build from Git, never from a typed abbreviation",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 4,
-            "started_at": "2026-10-07T13:31:31Z",
-            "completed_at": "2026-10-07T13:31:31Z"
-          },
-          {
-            "name": "Verify the SHA resolves and belongs to the canonical integration history",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 5,
-            "started_at": "2026-10-07T13:31:31Z",
-            "completed_at": "2026-10-07T13:31:32Z"
-          },
-          {
-            "name": "Check out the exact supplied SHA",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 6,
-            "started_at": "2026-10-07T13:31:32Z",
-            "completed_at": "2026-10-07T13:31:33Z"
-          },
-          {
-            "name": "Record the build inputs",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 7,
-            "started_at": "2026-10-07T13:31:33Z",
-            "completed_at": "2026-10-07T13:31:33Z"
-          },
-          {
-            "name": "Set up Node for the tag guard",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 8,
-            "started_at": "2026-10-07T13:31:33Z",
-            "completed_at": "2026-10-07T13:31:39Z"
-          },
-          {
-            "name": "Refuse to overwrite an existing source-SHA tag",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 9,
-            "started_at": "2026-10-07T13:31:39Z",
-            "completed_at": "2026-10-07T13:31:40Z"
-          },
-          {
-            "name": "Set up Buildx",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 10,
-            "started_at": "2026-10-07T13:31:40Z",
-            "completed_at": "2026-10-07T13:31:45Z"
-          },
-          {
-            "name": "Log in to GHCR",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 11,
-            "started_at": "2026-10-07T13:31:45Z",
-            "completed_at": "2026-10-07T13:31:46Z"
-          },
-          {
-            "name": "Re-check the source-SHA tag at the last point before pushing",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 12,
-            "started_at": "2026-10-07T13:31:46Z",
-            "completed_at": "2026-10-07T13:31:46Z"
-          },
-          {
-            "name": "Build and push by source-SHA tag only",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 13,
-            "started_at": "2026-10-07T13:31:46Z",
-            "completed_at": "2026-10-07T13:32:40Z"
-          },
-          {
-            "name": "Emit the machine-readable publication artifact",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 14,
-            "started_at": "2026-10-07T13:32:40Z",
-            "completed_at": "2026-10-07T13:32:40Z"
-          },
-          {
-            "name": "Fail if the registry returned no digest",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 15,
-            "started_at": "2026-10-07T13:32:40Z",
-            "completed_at": "2026-10-07T13:32:40Z"
-          },
-          {
-            "name": "Upload the publication artifact",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 16,
-            "started_at": "2026-10-07T13:32:40Z",
-            "completed_at": "2026-10-07T13:32:41Z"
-          },
-          {
-            "name": "Post Build and push by source-SHA tag only",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 28,
-            "started_at": "2026-10-07T13:32:41Z",
-            "completed_at": "2026-10-07T13:32:43Z"
-          },
-          {
-            "name": "Post Log in to GHCR",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 29,
-            "started_at": "2026-10-07T13:32:43Z",
-            "completed_at": "2026-10-07T13:32:43Z"
-          },
-          {
-            "name": "Post Set up Buildx",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 30,
-            "started_at": "2026-10-07T13:32:43Z",
-            "completed_at": "2026-10-07T13:32:49Z"
-          },
-          {
-            "name": "Post Set up Node for the tag guard",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 31,
-            "started_at": "2026-10-07T13:32:49Z",
-            "completed_at": "2026-10-07T13:32:49Z"
-          },
-          {
-            "name": "Post Check out the repository history",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 32,
-            "started_at": "2026-10-07T13:32:49Z",
-            "completed_at": "2026-10-07T13:32:49Z"
-          },
-          {
-            "name": "Complete job",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 33,
-            "started_at": "2026-10-07T13:32:49Z",
-            "completed_at": "2026-10-07T13:32:49Z"
-          }
-        ]
-      }
-    ]
+    "sha256": "41c9d914e5bca5dcd16e58d84ffb85ef7fa88579374ac2f3cbf63fa554196ce8"
   },
   "nativeLog": {
-    "url": "https://api.github.com/repos/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/37628990382/logs",
+    "path": "hosted-acceptance-evidence/worker/publication-37628990382/native.log",
     "bytes": 562621,
     "sha256": "1c9db2c75d06e0c8300e9a6339bb9e4d4061828c71b9a0d1476f4cd6e921c865"
   },
   "workerInputFingerprint": "sha256:b7603bc68ffe69cccedd434a524bc42711d53eb891f07ed8b7e690c5c9ec33be",
-  "runtimeAccepted": false,
+  "runtimeAccepted": true,
   "imageAcceptance": {
+    "runId": 37630815977,
+    "jobId": 112824295982,
+    "runAttempt": 1,
+    "workflowSourceSha": "3410bb56f221e4c08a78fb25d6cfb21cfdd23070",
     "sourceSha": "b0b721470ea38455d8429c45300c9b3127bfe780",
     "tag": "b0b721470ea38455d8429c45300c9b3127bfe780",
     "digest": "sha256:a32bbe9a81cf2cfa3d10fbfa4e0c2588fbf32b4f612a689b90ea503452683658",
     "readOnly": true,
-    "runId": null,
-    "jobId": null,
-    "conclusion": "pending"
+    "conclusion": "success",
+    "nativeRunMetadata": {
+      "path": "hosted-acceptance-evidence/worker/acceptance-37630815977/run.json",
+      "bytes": 15032,
+      "sha256": "ad65200f321d5b77a81a53a1e4c77dbc4e1be53484fb739563cf73a6c2505156"
+    },
+    "nativeJobMetadata": {
+      "path": "hosted-acceptance-evidence/worker/acceptance-37630815977/jobs.json",
+      "bytes": 5351,
+      "sha256": "1bda899d17ef6ba7268fa5d6ffbcd2ea5eb3e044da49c7d045bd227aae0b6f31"
+    },
+    "nativeLog": {
+      "path": "hosted-acceptance-evidence/worker/acceptance-37630815977/native.log",
+      "bytes": 417374,
+      "sha256": "484d4f8e7954a3e76799493f9241d9b276603062799082849581071ccd62a159"
+    },
+    "verificationReceipt": {
+      "path": "hosted-acceptance-evidence/worker/acceptance-37630815977/verification-receipt.json",
+      "bytes": 440,
+      "sha256": "a10aa20aeb5ca0204ab5a542beb92693c942effa5de374653f34808b4c2adf03"
+    }
   },
-  "registryPullByDigestStatus": "pending_unverified",
+  "registryPullByDigestStatus": "succeeded_authenticated_read_only",
   "supersededPublication": {
     "schemaVersion": "rcap-worker-publication/v1",
     "sourceSha": "e3ac438da981c84987bd3172751e1a09e3f42309",
@@ -7722,5 +7556,12 @@
       "disposition": "superseded_by_source_drift",
       "why": "Superseded by publication run 36178003398 after the reviewed Mississippi participant-delivery safety correction changed canonical worker inputs. Complete predecessor publication, successful acceptance and nested history remain unchanged in supersededPublication. This binding does not retag or delete an image."
     }
-  ]
+  ],
+  "nativeArchive": {
+    "path": "hosted-acceptance-evidence/worker/publication-37628990382/publication.zip",
+    "bytes": 788,
+    "sha256": "d515da52ee12c692c8be7deb620a655da355d9aa2e17ce705f1fdabaab82e4aa"
+  },
+  "originalPublicationPath": "hosted-acceptance-evidence/worker/publication-37628990382/rcap-render-worker-publication.json",
+  "originalArchivePath": "hosted-acceptance-evidence/worker/publication-37628990382/publication.zip"
 }
