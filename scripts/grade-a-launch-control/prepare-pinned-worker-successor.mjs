@@ -1,3 +1,4 @@
+import {successorResponsibilities} from './pinned-successor-responsibilities.mjs';
 import fs from 'node:fs';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
@@ -12,7 +13,7 @@ const at=(root,sha,rel)=>JSON.parse(git(root,['show',`${sha}:${rel}`]));
 const read=(root,rel)=>JSON.parse(fs.readFileSync(path.join(root,rel)));
 const write=(root,rel,value)=>fs.writeFileSync(path.join(root,rel),JSON.stringify(value,null,2)+'\n');
 
-export function pinnedRecords(root,{sourceSha,releaseBaseSha,toolsSha,sourceRangeBaseSha}){
+export function pinnedRecords(root,{sourceSha,releaseBaseSha,toolsSha,sourceRangeBaseSha,applicationSuccessorSha}){
  for(const sha of [sourceSha,releaseBaseSha,toolsSha])assert.match(sha,/^[a-f0-9]{40}$/);
  assertCommittedPredecessor(root,releaseBaseSha);
  const previous=at(root,releaseBaseSha,PUBLICATION);
@@ -25,6 +26,7 @@ export function pinnedRecords(root,{sourceSha,releaseBaseSha,toolsSha,sourceRang
  const tuple={status:p.status,applicationSha:sourceSha,workerSourceSha:sourceSha,workerDigest:null,workerInputFingerprint:p.workerInputFingerprint,toolsSha,runtimeAccepted:false,previewExecution:'held',resume:null,productionAuthorized:false,productionAuthorization:null,deploymentAuthorized:false,clinicDispatchReady:false};
  const controls=git(root,['diff','--name-only',releaseBaseSha,toolsSha]).split('\n').filter(Boolean).filter(f=>!Object.hasOwn(files,f));
  const tools={schemaVersion:'rcap-exact-hosted-tools-binding/v1',...tuple,successorTools:{schemaVersion:'rcap-successor-resume-tools/v1',baseSha:releaseBaseSha,files:Object.fromEntries(controls.map(rel=>[rel,hash(execFileSync('git',['show',`${toolsSha}:${rel}`],{cwd:root}))]))},supersededRecord:at(root,releaseBaseSha,TOOLS)};
+ if(applicationSuccessorSha!==undefined){const categories=successorResponsibilities(root,{releaseBaseSha,sourceSha,toolsSha,applicationSha:applicationSuccessorSha,reviewedFiles:files});tools.successorTools.files=categories.controlFiles;tools.successorInputs=categories.inputs;}
  const candidate={schemaVersion:at(root,releaseBaseSha,CANDIDATE).schemaVersion,...tuple,publication:null,readOnlyImageAcceptance:null,supersededRecord:at(root,releaseBaseSha,CANDIDATE)};
  return {[PENDING]:p,[TOOLS]:tools,[CANDIDATE]:candidate};
 }
@@ -67,4 +69,17 @@ export function forwardPinnedRecords(root,{applicationSha,releaseBaseSha,toolsSh
  const controls=git(root,['diff','--name-only',releaseBaseSha,toolsSha]).split('\n').filter(f=>f.startsWith('scripts/')||f.startsWith('.github/'));
  records[TOOLS].successorTools={schemaVersion:'rcap-successor-resume-tools/v1',baseSha:releaseBaseSha,files:Object.fromEntries(controls.map(rel=>[rel,hash(execFileSync('git',['show',`${toolsSha}:${rel}`],{cwd:root}))]))};
  return records;
+}
+
+// Reuse already completed native lifecycle stages without replaying publication
+// or temporarily replacing runtime publication evidence with its predecessor.
+export function acceptedPinnedRecords(root,options){
+ const records=pinnedRecords(root,options),e=read(root,PUBLICATION);
+ assert.equal(e.sourceSha,options.sourceSha);assert.equal(e.runtimeAccepted,true);
+ assert.equal(e.imageAcceptance?.conclusion,'success');
+ const change={status:'SUCCESSOR_ACCEPTED_PREVIEW_AND_RESUME_PENDING',workerDigest:e.immutableRegistryDigest,runtimeAccepted:true};
+ records[PENDING]={...records[PENDING],...change,workerRebuildRequired:false,publication:'complete',acceptance:'complete'};
+ records[TOOLS]={...records[TOOLS],...change};
+ records[CANDIDATE]={...records[CANDIDATE],...change,publication:{runId:e.workflowRunId,workflowSourceSha:e.workflowSourceSha,artifactId:e.publicationArtifactId,digest:e.immutableRegistryDigest},readOnlyImageAcceptance:{runId:e.imageAcceptance.runId,jobId:e.imageAcceptance.jobId,workflowSourceSha:e.imageAcceptance.workflowSourceSha,digest:e.immutableRegistryDigest}};
+ return records; // writePinnedRecords still validates every native lifecycle fact.
 }

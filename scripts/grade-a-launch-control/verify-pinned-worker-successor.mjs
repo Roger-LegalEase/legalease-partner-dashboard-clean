@@ -1,3 +1,4 @@
+import {executedWorkflowFiles,verifySuccessorResponsibilities} from './pinned-successor-responsibilities.mjs';
 import {historicalCheckTime} from './verify-historical-release.mjs';
 import {assertVercelProductionScopes} from './vercel-production-scopes.mjs';
 import {AUTHORIZED_FORWARD,verifyForwardProductionSuccessor} from './verify-forward-production-successor.mjs';
@@ -118,7 +119,8 @@ function runEvidence(root,e,workflowPath,runName,reviewed=read(root,TOOLS)){
  validSha(reviewed.toolsSha);
  const workflowInputs=[workflowPath,...Object.keys(reviewed.successorTools.files).filter(f=>f.startsWith('scripts/')&& !f.endsWith('.test.mjs')),
   'scripts/verify-rcap-worker-tag-integrity.mjs','scripts/verify-rcap-worker-source-binding-exception.mjs','scripts/verify-rcap-worker-image-revision.mjs'];
- for(const rel of new Set(workflowInputs))assert.equal(git(root,['rev-parse',`${e.workflowSourceSha}:${rel}`]),git(root,['rev-parse',`${reviewed.toolsSha}:${rel}`]),`executed reviewed control ${rel}`);
+ if(reviewed.successorInputs){const bound=reviewed.successorInputs.executedControls[workflowPath];assert.equal(bound.workflowSourceSha,e.workflowSourceSha);assert.deepEqual(bound.files,executedWorkflowFiles(root,e.workflowSourceSha,workflowPath),'actual executed workflow dependency manifest');}
+ else for(const rel of new Set(workflowInputs))assert.equal(git(root,['rev-parse',`${e.workflowSourceSha}:${rel}`]),git(root,['rev-parse',`${reviewed.toolsSha}:${rel}`]),`executed reviewed control ${rel}`);
  const workflow=git(root,['show',`${e.workflowSourceSha}:${workflowPath}`]);
  const required=[...workflow.matchAll(/^\s+- name: (.+)$/gm)].map(m=>m[1]);
  assert(required.length>0);
@@ -203,13 +205,14 @@ export function verifyPinnedBinding(root,candidate,pending){
   git(root,['merge-base','--is-ancestor',tools.toolsSha,'HEAD']);git(root,['merge-base','--is-ancestor',p.sourceCommit,tools.toolsSha]);
   const manifest=tools.successorTools;assert.equal(manifest.schemaVersion,'rcap-successor-resume-tools/v1');assert.equal(manifest.baseSha,base);
   const controlDelta=git(root,['diff','--name-only',base,tools.toolsSha]).split('\n').filter(Boolean);
-  assert.deepEqual(Object.keys(manifest.files).sort(),controlDelta.filter(f=>!Object.keys(p.files).includes(f)).sort(),'entire control delta bound');
+  if(tools.successorInputs)verifySuccessorResponsibilities(root,p,tools);
+  else assert.deepEqual(Object.keys(manifest.files).sort(),controlDelta.filter(f=>!Object.keys(p.files).includes(f)).sort(),'entire control delta bound');
   for(const [rel,digest]of Object.entries(manifest.files)){
    assert(/^(scripts\/grade-a-launch-control\/|\.github\/workflows\/|scripts\/rcap-worker-identity)/.test(rel),'bounded control paths');
    assert.equal(hash(execFileSync('git',['show',`${tools.toolsSha}:${rel}`],{cwd:root})),digest,rel);
    assert.equal(hash(fs.readFileSync(path.join(root,rel))),digest,'working control bytes');
   }
-  const allowed=new Set([PENDING,PUBLICATION,CANDIDATE,TOOLS,...Object.keys(manifest.files)]);
+  const allowed=new Set([PENDING,PUBLICATION,CANDIDATE,TOOLS,...Object.keys(manifest.files),...Object.keys(tools.successorInputs?.runtimeFiles??{}),...Object.keys(tools.successorInputs?.nativeFiles??{})]);
   const pub=p.publication==='complete'?read(root,PUBLICATION):null;
   if(pub){for(const ref of [pub.nativeArchive,pub.nativeRunMetadata,pub.nativeJobMetadata,pub.nativeLog,{path:pub.originalPublicationPath},...Object.values(pub.imageAcceptance??{}).filter(v=>v?.path)])allowed.add(ref.path);}
   const changes=git(root,['diff','--name-only',tools.toolsSha]).split('\n').filter(Boolean);
@@ -247,6 +250,7 @@ export function verifyPinnedForwardBinding(root,candidate,history) {
   assert.equal(prior.applicationSource,'pinned-source');assert.equal(prior.runtimeAccepted,true);
   assert.deepEqual(p.supersededRecord,prior,'accepted pending history preserved');
   sourcePlan(root,prior);
+  const priorTools=at(root,p.releaseBaseSha,TOOLS);if(priorTools.successorInputs)verifySuccessorResponsibilities(root,prior,priorTools);
   const e=publication(root,prior,at(root,p.releaseBaseSha,TOOLS));assert.equal(e.runtimeAccepted,true);
   assert.deepEqual(e,at(root,p.releaseBaseSha,PUBLICATION),'accepted worker evidence remains immutable');
   const expected={applicationSha:p.applicationSha,workerSourceSha:prior.workerSourceSha,

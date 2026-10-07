@@ -152,8 +152,6 @@ permissions:
   packages: read
 
 env:
-  AUTHORIZED_WORKER_SOURCE_SHA: 5e04eafd7eaed7e71722862e651fb787ebbd296d
-  AUTHORIZED_WORKER_DIGEST: sha256:6b6a60fc5b2d0060028526013ce37c69f748e2cccb4cfb10943f2af6cf26cfe1
   AUTHORIZED_ACCEPTANCE_PROJECT_REF: hyflxnlhpmiqxvvcoiia
   IMAGE_REPOSITORY: ghcr.io/roger-legalease/rcap-render-worker
   RELEASE_INTEGRATION_BRANCH: captain-release
@@ -219,11 +217,13 @@ jobs:
             [ "$PREVIEW_DEPLOYMENT_ID_INPUT" = "dpl_Gf6uwETvQNbKXAMCcxLE6ECxLhNR" ] || exit 1
           fi
           printf '%s' "$APPLICATION_SHA_INPUT" | grep -Eq '^[0-9a-f]{40}$' || { echo "::error::application_sha must be a full commit SHA"; exit 1; }
-          [ "$WORKER_SOURCE_SHA_INPUT" = "$AUTHORIZED_WORKER_SOURCE_SHA" ] || { echo "::error::worker_source_sha is not the authorized value"; exit 1; }
-          [ "$WORKER_DIGEST_INPUT" = "$AUTHORIZED_WORKER_DIGEST" ] || { echo "::error::worker_digest is not the authorized value"; exit 1; }
+          printf '%s' "$WORKER_SOURCE_SHA_INPUT" | grep -Eq '^[0-9a-f]{40}$' || exit 1 # Authority comes from the verified committed binding below.
+          printf '%s' "$WORKER_DIGEST_INPUT" | grep -Eq '^sha256:[0-9a-f]{64}$' || exit 1 # Typed identities cannot bypass the binding.
           [ "$SUPABASE_PROJECT_REF_INPUT" = "$AUTHORIZED_ACCEPTANCE_PROJECT_REF" ] || { echo "::error::supabase_project_ref is not the authorized acceptance project"; exit 1; }
           printf '%s' "$TOOLS_SHA_INPUT" | grep -Eq '^[0-9a-f]{40}$' || { echo "::error::tools_sha must be a full commit SHA"; exit 1; }
-          [ "$TOOLS_SHA_INPUT" = "$WORKFLOW_SHA_INPUT" ] || { echo "::error::tools_sha must equal the workflow source SHA"; exit 1; }
+          if [ "$PHASE_INPUT" != "replace_preview" ]; then
+            [ "$TOOLS_SHA_INPUT" = "$WORKFLOW_SHA_INPUT" ] || { echo "::error::tools_sha must equal the workflow source SHA"; exit 1; }
+          fi
           if [ "$PHASE_INPUT" = "checkout_gate" ]; then
             printf '%s' "$PREVIEW_DEPLOYMENT_ID_INPUT" | grep -Eq '^dpl_[A-Za-z0-9]+$' \
               || { echo "::error::checkout_gate requires one exact Vercel deployment id"; exit 1; }
@@ -306,16 +306,19 @@ jobs:
           fi
           git checkout --detach "${{ inputs.tools_sha }}"
 
-      - name: Require the current release tuple
+      - name: Require exact current release or HELD acceptance Preview tuple
         id: release_binding
         env:
+          PHASE_INPUT: ${{ inputs.phase }}
+          TOOLS_SHA_INPUT: ${{ inputs.tools_sha }}
           APPLICATION_SHA_INPUT: ${{ inputs.application_sha }}
           WORKER_SOURCE_SHA_INPUT: ${{ inputs.worker_source_sha }}
           WORKER_DIGEST_INPUT: ${{ inputs.worker_digest }}
         run: |
           node --input-type=module <<'JS'
+          import { requirePreviewPreparation } from './scripts/grade-a-launch-control/require-preview-preparation.mjs';
           import { requireCurrentReleaseCandidate } from './scripts/grade-a-launch-control/verify-release-candidate-binding.mjs';
-          const release = requireCurrentReleaseCandidate(process.cwd());
+          const release = process.env.PHASE_INPUT === 'replace_preview' ? requirePreviewPreparation(process.cwd(), {phase:process.env.PHASE_INPUT, applicationSha:process.env.APPLICATION_SHA_INPUT, workerSourceSha:process.env.WORKER_SOURCE_SHA_INPUT, workerDigest:process.env.WORKER_DIGEST_INPUT, toolsSha:process.env.TOOLS_SHA_INPUT, workflowSourceSha:process.env.GITHUB_SHA}) : requireCurrentReleaseCandidate(process.cwd());
           for (const [key, env] of [['applicationSha','APPLICATION_SHA_INPUT'],['workerSourceSha','WORKER_SOURCE_SHA_INPUT'],['workerDigest','WORKER_DIGEST_INPUT']]) {
             if (release[key] !== process.env[env]) throw new Error('current_release_input_mismatch:' + key);
           }
@@ -336,9 +339,20 @@ jobs:
       # checkout_gate, worker_contract, clinic_preview, legal_aid_browser,
       # stripe_retarget -- is covered, and an unknown phase is already refused
       # by the contract normalizer below.
-      - name: Require a CURRENT exact release/tools binding before any release evidence
+      - name: Require CURRENT authority except exact HELD acceptance Preview creation
         if: inputs.phase != 'migrate' && inputs.phase != 'clinic_migrate' && inputs.phase != 'legal_aid_migrate' && inputs.phase != 'preflight' && inputs.phase != 'vercel_identity' && inputs.phase != 'vercel_audit'
-        run: node scripts/grade-a-launch-control/verify-release-candidate-binding.mjs
+        env:
+          PHASE_INPUT: ${{ inputs.phase }}
+          APPLICATION_SHA_INPUT: ${{ inputs.application_sha }}
+          WORKER_SOURCE_SHA_INPUT: ${{ inputs.worker_source_sha }}
+          WORKER_DIGEST_INPUT: ${{ inputs.worker_digest }}
+          TOOLS_SHA_INPUT: ${{ inputs.tools_sha }}
+        run: |
+          if [ "$PHASE_INPUT" = "replace_preview" ]; then
+            node scripts/grade-a-launch-control/require-preview-preparation.mjs
+          else
+            node scripts/grade-a-launch-control/verify-release-candidate-binding.mjs
+          fi
 
       - name: Record worker rebuild requirement without accepting an image
         if: inputs.phase == 'preflight'
