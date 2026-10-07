@@ -1,0 +1,67 @@
+{
+  "schemaVersion": "rcap-onboarding-hotfix-production-authorization/v1",
+  "recordedBy": "Roger Roman",
+  "recordedAt": "2026-10-07T23:35:36.101Z",
+  "heldPredecessorSha": "94003a1a5b2059eb3a8d8978e68056f05071dc4a",
+  "executorControlSha": "46c9b9984e86f23c84f208a573f395a8969dc850",
+  "applicationSha": "7a8c6a4da102bfd9691a6260d7bb117829cf4019",
+  "workerSourceSha": "b0b721470ea38455d8429c45300c9b3127bfe780",
+  "workerDigest": "sha256:a32bbe9a81cf2cfa3d10fbfa4e0c2588fbf32b4f612a689b90ea503452683658",
+  "workerInputFingerprint": "sha256:b7603bc68ffe69cccedd434a524bc42711d53eb891f07ed8b7e690c5c9ec33be",
+  "toolsSha": "8f809053db8aae0879966679e6edfd640b57224f",
+  "productionProjectRef": "wwtwtsmywnckfkdaqqeg",
+  "hostedClosureRunId": 37698477270,
+  "heldRecordHashes": {
+    "data/rcap-grade-a/launch-control/PENDING_WORKER_SUCCESSOR.json": "deb3dda359a4b2da7559e10b32e70db25d23bd6bfc89fd6265de84f467310829",
+    "data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json": "d360452ac4dfd14d5f9bd57d404412e8aeda03c8b011cc06b9ca884321f30969",
+    "data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json": "7b1f976e0149b5bbba13d950b0da7d41d4e112e8482829b22f32068eea21ffcb"
+  },
+  "controlFiles": {
+    ".github/workflows/rcap-f1-ephemeral-staging.yml": "e4639d18cb7d6b5f2f6a024d70afaa623d582a7be7124a5c3e5836f0a906fbfb",
+    ".github/workflows/rcap-hotfix-production.yml": "09b4363cd14401cacf0802d68602635ce2d9db51695a456273ea5b98f70b1c83",
+    "scripts/grade-a-launch-control/hotfix-production-contract.mjs": "f9d97ccf21df51c3f644d38ae7205d2be24ef8535541229b367d3910012c5483",
+    "scripts/grade-a-launch-control/hotfix-production-contract.test.mjs": "c4da7f56e8b2158c056617b2b5e92774167c481a3ac83917665d18c358e387ce",
+    "scripts/grade-a-launch-control/production-preflight-authorization.mjs": "0d38e308f1482fbbbc68d00af5ee3407249633aa3b6bb7e5d9256f55e7b399e5",
+    "scripts/rcap-hotfix-production.mjs": "619ef66528bdfc2ba1a8dbb460f875afce00cedd7523346a2a316fbfda963a2b",
+    "scripts/rcap-production-activate.mjs": "d432794b3d490b69144505c371b112c9e4826e4b976b8e0bcec3c1313011be0c",
+    "scripts/rcap-production-canary-smoke.mjs": "17416b7270d5f0468a0d0739d60ae7daa52bf3de7f0a26be50e02fae8389e509",
+    "scripts/rcap-production-migration-contract.mjs": "bef41737ef70983ef433b4a535cb241e9831b6115209d43d2ec25d84eabfa78d"
+  },
+  "phases": [
+    "preflight",
+    "onboarding_review_migrate",
+    "onboarding_launch_flag",
+    "stage",
+    "smoke",
+    "activate"
+  ],
+  "migrations": [
+    {
+      "path": "supabase/migrations/20261007034510_onboarding_review_conflict_transport.sql",
+      "sha256": "a96f766c037416abede28c3b18bcdc2a09895f75be75e2e014b65747c96ddc77"
+    }
+  ],
+  "environment": [
+    {
+      "key": "RCAP_ONBOARDING_LAUNCH_PREP_ENABLED",
+      "value": "true",
+      "target": [
+        "production"
+      ],
+      "type": "plain"
+    }
+  ],
+  "stagedDeploymentLimit": 1,
+  "activationAttemptLimit": 1,
+  "workerRebuildAllowed": false,
+  "workerPublicationAllowed": false,
+  "rollbackPolicy": "preserve-native-active-READY-accepted-production-readback",
+  "automaticRollback": [
+    "configuration",
+    "deployment",
+    "smoke",
+    "activation"
+  ],
+  "databaseRollbackAuthorized": false,
+  "note": "Roger authorizes only the exact onboarding hotfix: read-only preflight; one exact conflict-transport migration; only RCAP_ONBOARDING_LAUNCH_PREP_ENABLED=true in Production; one exact Production-target deployment without domain movement; bounded existing smoke; one promotion after successful smoke; no worker placement or publication. No secret, Auth, Stripe, extra migration/environment/deployment/activation, product rebuild, worker rebuild/publication, or unrelated release authority."
+}
