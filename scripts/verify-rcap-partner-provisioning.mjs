@@ -94,6 +94,8 @@ check("every provisioning caller goes through provisionPartner", () => {
       "scripts/test-rcap-partner-provisioning-lifecycle.mjs",
       "scripts/test-hotfix-provisioning-boundaries.mjs",
       "scripts/test-hotfix-referral-roundtrip.mjs",
+      "scripts/test-hotfix-internal-review-database.mjs",
+      "scripts/test-hotfix-launch-preparation.mjs",
       ROUTE
     ].sort()
   );

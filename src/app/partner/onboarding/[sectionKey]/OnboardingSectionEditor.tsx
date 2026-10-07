@@ -160,6 +160,7 @@ export type OnboardingSectionEditorProps = {
 export type OnboardingBrandExperience = {
   preview: CoBrandedPagePreview | null;
   previewUnavailable: boolean;
+  previewUnavailableReason?: string;
   artifactVersionId: string | null;
   partnerReviewStatus: string | null;
   legalEaseApprovalStatus: string | null;
@@ -1438,6 +1439,7 @@ export function OnboardingSectionEditor({
                       previewUnavailable={
                         brandExperience?.previewUnavailable === true
                       }
+                      previewUnavailableReason={brandExperience?.previewUnavailableReason}
                       previewVariant={brandPreviewVariant}
                       reviewMessage={brandReviewMessage}
                       reviewPending={brandReviewPending}
@@ -1714,6 +1716,7 @@ function BrandEditorWorkspace({
   onPreviewVariant,
   preview,
   previewUnavailable,
+  previewUnavailableReason,
   previewVariant,
   reviewMessage,
   reviewPending
@@ -1730,6 +1733,7 @@ function BrandEditorWorkspace({
   onPreviewVariant: (variant: "desktop" | "mobile") => void;
   preview: CoBrandedPagePreview | null;
   previewUnavailable: boolean;
+  previewUnavailableReason?: string;
   previewVariant: "desktop" | "mobile";
   reviewMessage: string | null;
   reviewPending: boolean;
@@ -1801,6 +1805,7 @@ function BrandEditorWorkspace({
           onPreviewVariant={onPreviewVariant}
           preview={preview}
           previewUnavailable={previewUnavailable}
+          previewUnavailableReason={previewUnavailableReason}
           previewVariant={previewVariant}
           reviewMessage={reviewMessage}
           reviewPending={reviewPending}
@@ -1821,6 +1826,7 @@ function BrandPreviewPanel({
   onPreviewVariant,
   preview,
   previewUnavailable,
+  previewUnavailableReason,
   previewVariant,
   reviewMessage,
   reviewPending
@@ -1835,6 +1841,7 @@ function BrandPreviewPanel({
   onPreviewVariant: (variant: "desktop" | "mobile") => void;
   preview: CoBrandedPagePreview | null;
   previewUnavailable: boolean;
+  previewUnavailableReason?: string;
   previewVariant: "desktop" | "mobile";
   reviewMessage: string | null;
   reviewPending: boolean;
@@ -1922,10 +1929,7 @@ function BrandPreviewPanel({
           </div>
         ) : (
           <div className="p-5">
-            <PartnerRecoveryPanel
-              code="private_preview_unavailable"
-              compact
-            />
+            {previewUnavailableReason ? <p role="status" className="text-sm text-[#475A6E]">{previewUnavailableReason}</p> : <PartnerRecoveryPanel code="private_preview_unavailable" compact />}
             {!previewUnavailable ? (
               <p className="mt-3 text-xs text-[#475A6E]">
                 Save the canonical brand task before retrying the preview.

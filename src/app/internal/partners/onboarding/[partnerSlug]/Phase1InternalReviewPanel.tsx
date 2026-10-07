@@ -2,6 +2,7 @@
 
 import {
   type FormEvent,
+  useLayoutEffect,
   useRef,
   useState
 } from "react";
@@ -173,6 +174,7 @@ export function Phase1InternalReviewPanel({
     requestId: string;
   } | null>(null);
   const reviewReasonRef = useRef<HTMLTextAreaElement | null>(null);
+  const focusAfterReview = useRef(false);
 
   const [targetLaunchDate, setTargetLaunchDate] = useState(
     snapshot.workspace?.targetLaunchDate ?? ""
@@ -232,6 +234,12 @@ export function Phase1InternalReviewPanel({
     );
   }
   const controlsDisabled = pendingAction !== null || lockedStatus;
+  useLayoutEffect(() => {
+    if (focusAfterReview.current && !controlsDisabled) {
+      focusAfterReview.current = false;
+      reviewReasonRef.current?.focus();
+    }
+  }, [controlsDisabled, reviewReason, reviewSection]);
 
   const selectedReviewSection = current.sections.find(
     (section) => section.key === reviewSection
@@ -572,13 +580,12 @@ export function Phase1InternalReviewPanel({
         : `${decidedName} waived.`
     );
     if (!ok) return; // selection and reason stay for the retry
+    focusAfterReview.current = true;
     setReviewReason("");
     const sections = next?.sections ?? current.sections;
     const nextPending = nextSectionAwaitingDecision(sections, decidedSection);
     if (nextPending) setReviewSection(nextPending);
-    // Focus stays in this card, on the next thing to type. Deferred one frame so the
-    // field is enabled again after React commits the end of the in-flight state.
-    requestAnimationFrame(() => reviewReasonRef.current?.focus());
+    // Restore focus after React commits the enabled field and next selection.
   }
 
   async function markReadyForLaunch(event: FormEvent<HTMLFormElement>) {

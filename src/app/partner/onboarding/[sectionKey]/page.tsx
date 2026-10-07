@@ -1,6 +1,6 @@
 import { IBM_Plex_Mono, Inter } from "next/font/google";
 import { notFound, redirect } from "next/navigation";
-import { isRcapPartnerOnboardingEnabled } from "@/lib/partners/onboarding/feature";
+import { isRcapPartnerOnboardingEnabled, isRcapOnboardingLaunchPrepEnabled } from "@/lib/partners/onboarding/feature";
 import {
   requirePartnerOnboardingContext,
   type PartnerOnboardingContext
@@ -219,7 +219,9 @@ async function loadBrandExperience(
   context: PartnerOnboardingContext,
   portal: Awaited<ReturnType<typeof getPartnerOnboardingPortal>>
 ) {
+  const enabled = isRcapOnboardingLaunchPrepEnabled();
   try {
+    if (!enabled) throw new Error("Launch preparation disabled");
     const { board, source } = await loadPartnerArtifactBoardWithSource(context);
     const entry =
       board.entries.find(
@@ -254,6 +256,9 @@ async function loadBrandExperience(
     return {
       preview: null,
       previewUnavailable: true,
+      previewUnavailableReason: enabled
+        ? "The private preview could not be loaded. Your saved brand information remains available. Reload to retry or contact LegalEase support."
+        : "Private preview is not available yet because launch preparation is not enabled. You can continue saving brand information; LegalEase must enable this stage before preview and approval are available.",
       artifactVersionId: null,
       partnerReviewStatus: null,
       legalEaseApprovalStatus: null,

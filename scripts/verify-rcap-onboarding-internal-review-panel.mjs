@@ -207,7 +207,9 @@ guarantee("a needs-changes section keeps its approval path and explains that app
 guarantee("after a confirmed approval the card reports it, counts once, clears only its reason and selects the next pending section in canonical order", () => {
   assert.match(panelSource, /reviewDecision === "approve_section"\s*\?\s*`\$\{decidedName\} approved\.`\s*:\s*`\$\{decidedName\} waived\.`/);
   assert.match(panelSource, /if \(!ok\) return; \/\/ selection and reason stay for the retry/);
-  assert.match(panelSource, /setReviewReason\(""\);\s*const sections = next\?\.sections \?\? current\.sections;\s*const nextPending = nextSectionAwaitingDecision\(sections, decidedSection\);\s*if \(nextPending\) setReviewSection\(nextPending\);\s*\/\/ Focus stays in this card[^\n]*\n[^\n]*\n\s*requestAnimationFrame\(\(\) => reviewReasonRef\.current\?\.focus\(\)\);/);
+  assert.match(panelSource, /focusAfterReview\.current = true;\s*setReviewReason\(""\);\s*const sections = next\?\.sections \?\? current\.sections;\s*const nextPending = nextSectionAwaitingDecision\(sections, decidedSection\);\s*if \(nextPending\) setReviewSection\(nextPending\);/);
+  assert.match(panelSource, /useLayoutEffect\(\(\) => \{\s*if \(focusAfterReview\.current && !controlsDisabled\)/);
+  assert.match(panelSource, /reviewReasonRef\.current\?\.focus\(\)/);
   assert.match(panelSource, /const order = ONBOARDING_SECTION_ORDER as readonly OnboardingSectionKey\[\];/);
   const html = render({ snapshot: snapshot({ sections: (key, index) => (index < 3 ? "approved" : "submitted") }) });
   assert.match(html, /data-review-progress="3\/8"/);

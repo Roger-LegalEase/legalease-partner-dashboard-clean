@@ -30,16 +30,26 @@ export default async function OnboardingDetailPage({ params }: { params: Promise
     let prefillSnapshot: Awaited<ReturnType<typeof getInternalPrefillSnapshot>> | null = null;
     let launchPrep: Awaited<ReturnType<typeof getInternalLaunchReadiness>> | null = null;
     let phase1LoadError: string | null = null;
+    let launchPrepLoadError: string | null = null;
+    let prefillLoadError: string | null = null;
     try {
       const context = await requireInternalOnboardingContext(partnerSlug);
       phase1Snapshot = await getInternalOnboardingSnapshot(context);
       if (phase1Snapshot.workspace && isRcapOnboardingPrefillEnabled()) {
-        prefillSnapshot = await getInternalPrefillSnapshot(context);
+        try {
+          prefillSnapshot = await getInternalPrefillSnapshot(context);
+        } catch {
+          prefillLoadError = "The prefill tools could not be loaded. Phase 1 review remains available.";
+        }
       }
       if (phase1Snapshot.workspace && isRcapOnboardingLaunchPrepEnabled()) {
         // One call: readiness carries the artifact board it was derived from,
         // so the page does not read the same source twice.
-        launchPrep = await getInternalLaunchReadiness(context);
+        try {
+          launchPrep = await getInternalLaunchReadiness(context);
+        } catch {
+          launchPrepLoadError = "Launch preparation could not be loaded. Phase 1 review remains available; reload to retry.";
+        }
       }
     } catch {
       phase1LoadError = "The Phase 1 onboarding workspace could not be loaded.";
@@ -73,7 +83,10 @@ export default async function OnboardingDetailPage({ params }: { params: Promise
               <Phase1InternalReviewPanel
                 partnerSlug={partnerSlug}
                 snapshot={phase1Snapshot}
+                launchPreparation={launchPrep ? { href: "#launch-prep-heading" } : undefined}
               />
+              {prefillLoadError ? <p role="status" className="mt-6 text-sm text-orange">{prefillLoadError}</p> : null}
+              {launchPrepLoadError ? <p role="status" className="mt-6 text-sm text-orange">{launchPrepLoadError}</p> : null}
               {prefillSnapshot ? (
                 <Phase1PrefillPanel
                   partnerSlug={partnerSlug}
