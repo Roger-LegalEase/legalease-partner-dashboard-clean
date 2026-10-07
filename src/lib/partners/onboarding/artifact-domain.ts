@@ -1,3 +1,4 @@
+import { isReferralFieldActive } from "./referral-policy";
 import crypto from "node:crypto";
 
 import {
@@ -387,6 +388,8 @@ export function projectArtifactSource(
 
   for (const field of ONBOARDING_SCHEMA_REGISTRY) {
     if (!field.consumers.some((consumer) => consumers.has(consumer))) continue;
+    if (field.dataKey === "referral_arrangement" && !input.data.support_referrals_reporting?.referral_arrangement) continue;
+    if (field.sectionKey === "support_referrals_reporting" && !isReferralFieldActive(input.data.support_referrals_reporting, field.dataKey)) continue;
     // Collection member fields are projected as part of their collection.
     if (field.parentCollection) continue;
 

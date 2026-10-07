@@ -1,3 +1,4 @@
+import { isReferralFieldActive } from "./referral-policy";
 import {
   ONBOARDING_ASSET_DEFINITIONS,
   ONBOARDING_SCHEMA_REGISTRY,
@@ -83,6 +84,10 @@ export function isConditionalRuleActive(
   const access = getSectionRecord(data, "access_sponsorship_capacity");
 
   switch (rule) {
+    case "referral_organization_applies":
+      return isReferralFieldActive(data.support_referrals_reporting, "legal_services_referral_organization");
+    case "referral_intake_applies":
+      return isReferralFieldActive(data.support_referrals_reporting, "referral_intake_method");
     case "program_has_fixed_end":
       return goals.ongoing === false;
     case "known_barriers_include_other":

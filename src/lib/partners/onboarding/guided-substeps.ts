@@ -503,10 +503,11 @@ const RAW_GUIDED_SECTIONS = [
         id: "legal-referral",
         title: "Legal referral",
         purpose:
-          "Describe the approved referral organization, intake method, details, and response expectation.",
+          "Choose the actual referral policy. For general resources, record the reviewed resource route and method; for no referrals, complete the stop-and-notify escalation plan.",
         outcome:
           "The saved process will be used when a matter leaves the self-help path.",
         ...fields(
+          "referral_arrangement",
           "legal_services_referral_organization",
           "referral_intake_method",
           "referral_intake_details",

@@ -1,3 +1,4 @@
+import { isReferralFieldActive, referralPolicyExplanation, REFERRAL_ARRANGEMENT_LABELS } from "./referral-policy";
 import {
   CO_BRANDED_PAGE_CONFIGURATION_GENERATOR_VERSION,
   DASHBOARD_USER_REPORTING_MATRIX_GENERATOR_VERSION,
@@ -165,6 +166,7 @@ function raw(
   const section = (ctx.input.data as Record<string, unknown>)[sectionKey] as
     | Record<string, unknown>
     | undefined;
+  if (sectionKey === "support_referrals_reporting" && !isReferralFieldActive(ctx.input.data.support_referrals_reporting, dataKey)) return null;
   return section?.[dataKey] ?? null;
 }
 
@@ -173,6 +175,7 @@ function raw(
  * show one, so every enum the brief renders is mapped to plain language here.
  */
 const ENUM_LABELS: Readonly<Record<string, string>> = {
+  ...REFERRAL_ARRANGEMENT_LABELS,
   // organization_type
   nonprofit: "Nonprofit",
   government: "Government",
@@ -328,6 +331,7 @@ function row(
   dataKey: string,
   into: { items: Array<{ term: string; value: string }>; gaps: RenderedBlock[] }
 ): void {
+  if (sectionKey === "support_referrals_reporting" && !isReferralFieldActive(ctx.input.data.support_referrals_reporting, dataKey)) return;
   const value = text(ctx, sectionKey, dataKey);
   if (value === null) {
     into.gaps.push(gap(ctx, sectionKey, dataKey));
@@ -543,6 +547,7 @@ function supportAndReferralSection(ctx: Ctx): RenderedSection {
     "Support and legal-services referral",
     ctx,
     [
+      ...(ctx.input.data.support_referrals_reporting?.referral_arrangement ? [["support_referrals_reporting", "referral_arrangement"] as [OnboardingSectionKey, string]] : []),
       ["support_referrals_reporting", "legal_services_referral_organization"],
       ["support_referrals_reporting", "referral_intake_method"],
       ["support_referrals_reporting", "referral_intake_details"],
@@ -553,7 +558,7 @@ function supportAndReferralSection(ctx: Ctx): RenderedSection {
   // controlled language and is not partner-editable.
   section.blocks.push({
     kind: "paragraph",
-    text:
+    text: referralPolicyExplanation(ctx.input.data.support_referrals_reporting) ??
       "Contested and individually represented matters leave the self-help path. " +
       "LegalEase does not provide legal representation, and a participant whose " +
       "matter becomes contested is routed to the referral process recorded above."
@@ -902,6 +907,14 @@ function technicalSupportRoute(): RenderedSection {
 }
 
 function legalReferralRoute(ctx: Ctx): RenderedSection {
+  const policy = referralPolicyExplanation(ctx.input.data.support_referrals_reporting);
+  if (policy) {
+    const fields: Array<[OnboardingSectionKey, string]> = [["support_referrals_reporting", "referral_arrangement"]];
+    if (ctx.input.data.support_referrals_reporting?.referral_arrangement === "general_resources") {
+      fields.push(["support_referrals_reporting", "referral_intake_method"], ["support_referrals_reporting", "referral_intake_details"]);
+    }
+    return definitionSection("route_legal_referral", "Legal-resource policy", ctx, fields, [{kind:"paragraph", text:policy}]);
+  }
   const organization = supportText(
     ctx,
     "legal_services_referral_organization"
@@ -1005,7 +1018,7 @@ function contestedMatterRoute(ctx: Ctx): RenderedSection {
   // The existing product boundary, unchanged. LegalEase-controlled language.
   section.blocks.push({
     kind: "paragraph",
-    text:
+    text: referralPolicyExplanation(ctx.input.data.support_referrals_reporting) ??
       "Contested and individually represented matters leave the self-help path. " +
       "LegalEase does not provide legal representation, and a participant whose " +
       "matter becomes contested is routed to the referral process recorded above."
@@ -1692,6 +1705,9 @@ function quickStartAccessSection(ctx: Ctx): RenderedSection {
 }
 
 function quickStartReferralLanguageSection(ctx: Ctx): RenderedSection {
+  const policy = referralPolicyExplanation(ctx.input.data.support_referrals_reporting);
+  if (policy) return definitionSection("referral_language", "Approved referral language", ctx,
+    [["support_referrals_reporting", "referral_arrangement"], ["support_referrals_reporting", "referral_intake_method"], ["support_referrals_reporting", "referral_intake_details"], ["support_referrals_reporting", "contested_matter_procedure"]], [{kind:"paragraph", text:policy}]);
   const organization = supportText(
     ctx,
     "legal_services_referral_organization"
@@ -2472,9 +2488,9 @@ export function renderPartnerLaunchKit(
         ``,
         `"I can't tell you whether you qualify — the court decides that — but the screening will walk you through it."`,
         ``,
-        referral
+        referralPolicyExplanation(ctx.input.data.support_referrals_reporting) ?? (referral
           ? `"If it turns out your case is contested or you need a lawyer, we refer people to ${referral}."`
-          : `"If it turns out your case is contested or you need a lawyer, we'll refer you to our legal-services partner."`,
+          : `"If it turns out your case is contested or you need a lawyer, we'll refer you to our legal-services partner."`),
         ``,
         `"It's free, and it takes most people under an hour."`
       ].join("\n")

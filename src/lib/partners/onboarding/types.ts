@@ -109,7 +109,9 @@ export type OnboardingConditionalRule =
   | "counties_are_configured"
   | "recordshield_is_in_scope"
   | "overage_approval_is_required"
-  | "procurement_is_required";
+  | "procurement_is_required"
+  | "referral_organization_applies"
+  | "referral_intake_applies";
 
 export type OrganizationType =
   | "nonprofit"
@@ -312,7 +314,10 @@ export type StaffDashboardPlanSectionData = {
   access_review_frequency?: string;
 };
 
+export type ReferralArrangement = "established_organization" | "general_resources" | "no_referrals";
+
 export type SupportReferralsReportingSectionData = {
+  referral_arrangement?: ReferralArrangement;
   participant_support_email?: string;
   participant_support_phone?: string | null;
   partner_staff_support_contact_id?: string;

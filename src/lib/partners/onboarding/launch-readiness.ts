@@ -1,3 +1,4 @@
+import { isReferralFieldActive } from "./referral-policy";
 // Type-only, so this domain module pulls in none of the server-only service.
 import type { ArtifactBoardEntry } from "./artifact-service";
 import type { ArtifactSourceInput } from "./artifact-domain";
@@ -405,21 +406,24 @@ const AUTOMATED_EVALUATORS: Readonly<
     );
     const gaps: string[] = [];
     if (!supportEmail) gaps.push("participant support email");
-    if (!referral) gaps.push("legal-services referral organization");
+    const support = source.data.support_referrals_reporting;
+    if (isReferralFieldActive(support, "legal_services_referral_organization") && !referral) gaps.push("legal-services referral organization");
+    if (support?.referral_arrangement && isReferralFieldActive(support, "referral_intake_method") && (!support.referral_intake_method?.trim() || !support.referral_intake_details?.trim())) gaps.push("applicable intake or reviewed legal-resource method and details");
+    if (support?.referral_arrangement && !support.contested_matter_procedure?.trim()) gaps.push("stop-and-notify escalation procedure");
     if (!escalationResolved) gaps.push("urgent escalation contact");
     if (gaps.length > 0) {
       return {
         status: "failing",
         evidence: `Missing ${missing(gaps)}.`,
         reference:
-          "support_referrals_reporting.participant_support_email, .legal_services_referral_organization, .urgent_escalation_contact_id"
+          "support_referrals_reporting.participant_support_email, .referral_arrangement, applicable referral/intake fields, .contested_matter_procedure, .urgent_escalation_contact_id"
       };
     }
     return {
       status: "passing",
-      evidence: `Participant support, the referral organization, and an urgent escalation contact are all recorded.`,
+      evidence: `Participant support, the applicable legal-resource policy, and an urgent escalation contact are recorded.`,
       reference:
-        "support_referrals_reporting.participant_support_email, .legal_services_referral_organization, .urgent_escalation_contact_id"
+        "support_referrals_reporting.participant_support_email, .referral_arrangement, applicable referral/intake fields, .contested_matter_procedure, .urgent_escalation_contact_id"
     };
   },
 
@@ -603,7 +607,7 @@ export const LAUNCH_CHECK_DEFINITIONS: readonly LaunchCheckDefinition[] = [
     determination: "automated",
     blocking: true,
     partnerVisible: true,
-    nextAction: "Record participant support, the referral organization, and an urgent escalation contact."
+    nextAction: "Record participant support, the chosen referral policy and its applicable route, and an urgent internal escalation contact."
   },
   {
     key: "artifact_versions_current",

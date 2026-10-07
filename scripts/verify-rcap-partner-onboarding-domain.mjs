@@ -169,6 +169,7 @@ const expectedTopLevelFields = {
     "membership_status"
   ],
   support_referrals_reporting: [
+    "referral_arrangement",
     "participant_support_email",
     "participant_support_phone",
     "partner_staff_support_contact_id",

@@ -1,3 +1,4 @@
+import { REFERRAL_ARRANGEMENTS } from "./referral-policy";
 import { z } from "zod";
 
 import {
@@ -448,6 +449,7 @@ const sectionSchemas = {
     .strict(),
   support_referrals_reporting: z
     .object({
+      referral_arrangement: z.enum(REFERRAL_ARRANGEMENTS).optional(),
       participant_support_email: emailSchema().optional(),
       participant_support_phone: optionalNullable(phoneSchema()),
       partner_staff_support_contact_id: stableRowIdSchema().optional(),
@@ -867,6 +869,10 @@ function sectionCrossFieldIssues(
 
   if (sectionKey === "support_referrals_reporting") {
     const support = sectionData as SupportReferralsReportingSectionData;
+    if (mode !== "draft_save" && support.referral_arrangement === "no_referrals" &&
+        support.contested_matter_procedure && !/notif(?:y|ies|ication)|inform(?:s|ed)?/iu.test(support.contested_matter_procedure)) {
+      issues.push(issue(sectionKey, "contested_matter_procedure", "invalid_value", "State how staff stop work and notify the participant through the internal escalation procedure."));
+    }
     if (support.report_recipients) {
       issues.push(
         ...duplicateIssues(
