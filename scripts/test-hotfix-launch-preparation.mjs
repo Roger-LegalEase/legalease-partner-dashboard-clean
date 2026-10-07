@@ -63,6 +63,24 @@ try {
  try {
   const context=await browser.newContext();await context.addCookies([...partnerSession.cookies].map(([name,value])=>({name,value,domain:"127.0.0.1",path:"/"})));
   const page=await context.newPage();
+
+  if(process.argv.includes("--diagnose-source")){
+   const wid=(await snapshot()).workspace.id;
+   const row=await db.from("partner_records").select("id").eq("partner_slug",slug).single();
+   const c=partnerSession.auth;
+   for(const [name,q] of [
+    ["sections",c.from("partner_onboarding_sections").select("section_key,response_data,revision,status").eq("workspace_id",wid)],
+    ["contacts",c.from("partner_onboarding_contacts").select("id,role,name,title,organization,work_email,phone,revision").eq("workspace_id",wid).is("deleted_at",null).order("created_at")],
+    ["planned-users",c.from("partner_onboarding_planned_users").select("id,name,work_email,requested_role,special_permissions,training_attendee,training_status,training_completed_at,invitation_status,membership_status,revision").eq("workspace_id",wid).is("deleted_at",null).order("created_at")],
+    ["recipients",c.from("partner_onboarding_report_recipients").select("id,name,work_email,revision").eq("workspace_id",wid).is("deleted_at",null).order("created_at")],
+    ["assets",c.from("partner_onboarding_assets_safe").select("id,category,lifecycle_status,review_status").eq("workspace_id",wid).is("deleted_at",null).in("lifecycle_status",["pending_review","active"])],
+    ["record",c.from("partner_records").select("id,organization_name,partner_name,program_name,selected_package_id,access_mode").eq("id",row.data.id).maybeSingle()],
+    ["entitlement",c.from("partner_entitlement").select("screenings_allowed,screenings_used,overage_enabled,pause_at_cap").eq("partner_slug",slug).maybeSingle()],
+    ["board-artifacts",c.from("partner_onboarding_artifacts").select("id,artifact_type,current_version_id,lifecycle_status").eq("workspace_id",wid)],
+    ["board-versions",c.from("partner_onboarding_artifact_versions_safe").select("id,artifact_id,version_number,generation_status,approval_status,partner_review_status,partner_visible_instructions,generator_version,generated_at,superseded_at,source_drift_invalidated_at,rendered_content").eq("workspace_id",wid).order("version_number")],
+    ["board-reviews",c.from("partner_onboarding_artifact_reviews").select("id,artifact_version_id,reviewer_type,decision,comments,reviewed_at").eq("workspace_id",wid).order("reviewed_at")]
+   ]){const r=await q;console.log(`Source read ${name}: ${r.error?`${r.error.code} ${r.error.message}`:"PASS"}`);}
+  }
   await page.goto(`${BASE}/partner/onboarding/brand_public_page?step=private-preview-approval`);
   const fresh=await page.locator("main").first().innerText();
   if(enabled){assert.match(fresh,/Needed before review/i);assert.doesNotMatch(fresh,/Private preview is not available yet/);console.log("PASS fresh private preview loads with explicit missing source facts");}
@@ -96,11 +114,11 @@ try {
    const partnerPage=await partnerContext.newPage();await partnerPage.goto(`${BASE}/partner/onboarding/brand_public_page?step=private-preview-approval`);assert.doesNotMatch(await partnerPage.locator("main").first().innerText(),/could not be loaded|Private preview is not available yet/);console.log("PASS populated private preview loads with blank optional links and independently of artifact approval");
    const permissionSQL=sql=>execFileSync("docker",["exec","-i","legalease-hotfix-local-db-1","psql","-U","postgres","-p","55432","-d","rcap","-v","ON_ERROR_STOP=1","-q"],{input:sql,stdio:["pipe","ignore","pipe"]});
    try {
-    permissionSQL("revoke select on partner_onboarding_artifact_versions from service_role, authenticated;");
+    permissionSQL("revoke select on partner_onboarding_artifact_versions from service_role; revoke select on partner_onboarding_artifact_versions_safe from authenticated;");
     await internalPage.reload();
     const failedInternal=await internalPage.locator("main").first().innerText();assert.match(failedInternal,/Phase 1 complete/);assert.match(failedInternal,/Launch preparation could not be loaded/);assert.doesNotMatch(failedInternal,/Phase 1 onboarding workspace could not be loaded/);assert.equal(await internalPage.locator('a[href="#launch-prep-heading"]').count(),0);
     await partnerPage.reload();assert.match(await partnerPage.locator("main").first().innerText(),/private preview could not be loaded/);console.log("PASS real optional-read failure preserves Phase 1, removes dead continuation and identifies preview read failure");
-   } finally {permissionSQL("grant select on partner_onboarding_artifact_versions to service_role, authenticated;");}
+   } finally {permissionSQL("grant select on partner_onboarding_artifact_versions to service_role; grant select on partner_onboarding_artifact_versions_safe to authenticated;");}
    await internalPage.reload();assert.equal(await internalPage.locator("#launch-prep-heading").count(),1);await partnerPage.reload();assert.doesNotMatch(await partnerPage.locator("main").first().innerText(),/private preview could not be loaded/);console.log("PASS local read permission restored and both panels recover");
 
   }

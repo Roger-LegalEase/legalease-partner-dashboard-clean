@@ -160,6 +160,10 @@ export async function loadArtifactSourceInput(
       .maybeSingle()
   ]);
 
+  if ([sections, contacts, plannedUsers, recipients, assets, partnerRecord, entitlement].some((result) => result.error)) {
+    throw new Phase1OnboardingError("persistence_failed", "Program setup could not be loaded.");
+  }
+
   const sectionRows = (sections.data ?? []) as Array<{
     section_key: string;
     response_data: Record<string, unknown> | null;
@@ -488,6 +492,10 @@ async function buildBoard(options: {
       .order("reviewed_at", { ascending: false })
   ]);
 
+  if (artifactsResult.error || versionsResult.error || reviewsResult.error) {
+    throw new Phase1OnboardingError("persistence_failed", "Launch-preparation documents could not be loaded.");
+  }
+
   const artifacts = (artifactsResult.data ?? []) as ArtifactRow[];
   // The column list differs by audience, so the typed client cannot infer a
   // single row shape here.
@@ -633,11 +641,14 @@ export async function loadInternalArtifactBoardWithSource(
   assertLaunchPrepEnabled();
   const admin = requireAdmin();
   const source = await loadArtifactSourceInput(admin, context.partnerSlug);
-  await admin.rpc("rcap_service_ensure_onboarding_artifacts", {
+  const ensured = await admin.rpc("rcap_service_ensure_onboarding_artifacts", {
     p_partner_slug: context.partnerSlug,
     p_workspace_id: source.workspace.id,
     p_generatable_types: [...GENERATABLE_ARTIFACT_TYPES]
   });
+  if (ensured.error) {
+    throw new Phase1OnboardingError("persistence_failed", "Launch-preparation documents could not be loaded.");
+  }
   const board = await buildBoard({
     client: admin,
     partnerSlug: context.partnerSlug,
