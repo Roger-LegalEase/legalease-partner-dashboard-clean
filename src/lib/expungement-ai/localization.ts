@@ -297,7 +297,7 @@ export const EXPUNGEMENT_COPY: Record<string, CopyEntry> = {
     es: "Comience con lo que pasó. Vea qué opciones podrían estar disponibles."
   },
   "start.body": {
-    en: "Answer plain-English questions about your state, case, and outcome. No account or payment is required to begin. If a supported self-help packet is available, review your information before paying $50 to generate it.",
+    en: "Answer clear questions about your state, case, and outcome. No account or payment is required to begin. If a supported self-help packet is available, review your information before paying $50 to generate it.",
     es: "Responda preguntas claras sobre su estado, caso y resultado. No necesita una cuenta ni hacer un pago para comenzar. Si hay un paquete de autoayuda disponible, revise su información antes de pagar $50 para generarlo."
   },
   "start.resume": { en: "Already started? Open Briefcase", es: "¿Ya comenzó? Abra su Maletín" },
@@ -370,7 +370,7 @@ export const EXPUNGEMENT_COPY: Record<string, CopyEntry> = {
   "wilma.your_state": { en: "Your state", es: "Su estado" },
   "wilma.select_state": { en: "Select a state (optional)", es: "Seleccione un estado (opcional)" },
   "wilma.thinking": { en: "Wilma is thinking...", es: "Wilma está pensando..." },
-  "wilma.need_help": { en: "Need help? Ask Wilma to explain this in plain English.", es: "¿Necesita ayuda? Pida a Wilma que lo explique en lenguaje sencillo." },
+  "wilma.need_help": { en: "Need help? Ask Wilma to explain this clearly.", es: "¿Necesita ayuda? Pida a Wilma que lo explique en lenguaje sencillo." },
   "wilma.reported": { en: "Reported, thank you. A reviewer will take a look.", es: "Reportado, gracias. Un revisor lo revisará." },
   "wilma.report_response": { en: "Report this response", es: "Reportar esta respuesta" },
   "wilma.message": { en: "Message Wilma", es: "Enviar mensaje a Wilma" },

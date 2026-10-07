@@ -88,7 +88,7 @@ export function HeroVideo({
         <p className={styles.eyebrow}>Private record-clearing check</p>
         <h1 id="hero-title">The law is complicated. Your next step should not be.</h1>
         <p className={styles.lede}>
-          Start with a free guided check. Answer plain-English questions about your state,
+          Start with a free guided check. Answer clear questions about your state,
           case, and outcome. If a supported self-help packet is available, review your
           information before paying $50 to generate it.
         </p>
