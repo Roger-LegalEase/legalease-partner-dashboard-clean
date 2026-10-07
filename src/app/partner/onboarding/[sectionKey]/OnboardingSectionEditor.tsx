@@ -69,6 +69,8 @@ import {
   PROGRAM_MODELS,
   REQUESTED_DASHBOARD_ROLES
 } from "@/lib/partners/onboarding/schema";
+import { REFERRAL_ARRANGEMENTS, REFERRAL_ARRANGEMENT_LABELS, isReferralFieldActive, referralPolicyExplanation } from "@/lib/partners/onboarding/referral-policy";
+import type { SupportReferralsReportingSectionData } from "@/lib/partners/onboarding/types";
 import type {
   OnboardingSectionKey,
   OnboardingSectionStatus,
@@ -3032,6 +3034,9 @@ function StaffPlanFields(props: FieldRendererProps) {
 }
 
 function SupportReportingFields(props: FieldRendererProps) {
+  const referralData = props.data as SupportReferralsReportingSectionData;
+  const referralActive = (key: string) => isReferralFieldActive(referralData, key);
+  const referralExplanation = referralPolicyExplanation(referralData);
   const recipients = objectRows(props.data.report_recipients);
   const setRecipients = (next: Record<string, unknown>[]) =>
     props.updateField("report_recipients", next);
@@ -3090,6 +3095,7 @@ function SupportReportingFields(props: FieldRendererProps) {
         title="Legal referral and escalation"
         description="When a prosecutor objects, a contested hearing is scheduled, or individualized legal advocacy is required, the self-help path must stop and this approved referral process applies."
         fieldKeys={[
+          "referral_arrangement",
           "legal_services_referral_organization",
           "referral_intake_method",
           "referral_intake_details",
@@ -3097,12 +3103,11 @@ function SupportReportingFields(props: FieldRendererProps) {
         ]}
       >
         <div className="grid gap-5">
-          <TextField
-            fieldKey="legal_services_referral_organization"
-            {...props}
-          />
-          <TextField fieldKey="referral_intake_method" {...props} />
-          <TextAreaField fieldKey="referral_intake_details" {...props} />
+          <SelectField fieldKey="referral_arrangement" options={REFERRAL_ARRANGEMENTS} optionLabels={REFERRAL_ARRANGEMENT_LABELS} {...props} />
+          {referralExplanation ? <p className="text-sm text-grayWilma-700">{referralExplanation}</p> : null}
+          {referralActive("legal_services_referral_organization") ? <TextField fieldKey="legal_services_referral_organization" {...props} /> : null}
+          {referralActive("referral_intake_method") ? <TextField fieldKey="referral_intake_method" {...props} /> : null}
+          {referralActive("referral_intake_details") ? <TextAreaField fieldKey="referral_intake_details" {...props} /> : null}
           <TextAreaField fieldKey="contested_matter_procedure" {...props} />
         </div>
       </FieldGroup>
@@ -3130,7 +3135,7 @@ function SupportReportingFields(props: FieldRendererProps) {
             fieldKey="participant_support_response_expectation"
             {...props}
           />
-          <TextField fieldKey="referral_response_expectation" {...props} />
+          {referralActive("referral_response_expectation") ? <TextField fieldKey="referral_response_expectation" {...props} /> : null}
           <TextField
             fieldKey="contested_matter_response_expectation"
             {...props}
@@ -3831,6 +3836,7 @@ function SelectField({
 }: FieldRendererProps & {
   fieldKey: string;
   options: readonly string[];
+  optionLabels?: Readonly<Record<string, string>>;
 }) {
   return (
     <RowSelectField
@@ -3846,6 +3852,7 @@ function SelectField({
 function RowSelectField({
   fieldKey,
   options,
+  optionLabels,
   value,
   onChange,
   editable,
@@ -3854,6 +3861,7 @@ function RowSelectField({
 }: Pick<FieldRendererProps, "editable" | "issues"> & {
   fieldKey: string;
   options: readonly string[];
+  optionLabels?: Readonly<Record<string, string>>;
   value: unknown;
   onChange: (value: string) => void;
   rowId?: string;
@@ -3882,7 +3890,7 @@ function RowSelectField({
         <option value="">Choose an option</option>
         {options.map((option) => (
           <option key={option} value={option}>
-            {onboardingOptionLabel(option)}
+            {optionLabels?.[option] ?? onboardingOptionLabel(option)}
           </option>
         ))}
       </select>
@@ -4067,6 +4075,7 @@ function RowMultiCheckField({
 }: Pick<FieldRendererProps, "editable" | "issues"> & {
   fieldKey: string;
   options: readonly string[];
+  optionLabels?: Readonly<Record<string, string>>;
   value: unknown;
   onChange: (value: string[]) => void;
   rowId?: string;
@@ -4120,7 +4129,7 @@ function RowMultiCheckField({
                 }
                 type="checkbox"
               />
-              {onboardingOptionLabel(option)}
+              {optionLabels?.[option] ?? onboardingOptionLabel(option)}
             </label>
           );
         })}
