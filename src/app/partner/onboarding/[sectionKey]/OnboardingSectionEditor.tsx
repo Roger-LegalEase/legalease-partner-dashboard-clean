@@ -1271,11 +1271,11 @@ export function OnboardingSectionEditor({
           <Badge
             tone={sectionBadgeTone(sectionStatus, changeRequestStatus)}
           >
-            {changeRequestStatus === "open"
+            {text(changeRequestStatus === "open"
               ? "Changes requested"
               : changeRequestStatus === "partner_responded"
                 ? "Updates submitted"
-                : sectionStatusLabel(sectionStatus)}
+                : sectionStatusLabel(sectionStatus))}
           </Badge>
           {!canEdit &&
           !commercialBlocked &&
@@ -1283,7 +1283,7 @@ export function OnboardingSectionEditor({
             <Badge><PartnerText value="Editing locked" /></Badge>
           ) : null}
         </div>
-        <p className="mt-5 text-xs font-bold uppercase tracking-[0.12em] text-[#0A8E9A] [font-family:var(--font-rcap-mono)]"><PartnerText value="Program configuration | Section" />{guidedSectionIndex(sectionKey)}<PartnerText value="of 8" /></p>
+        <p className="mt-5 text-xs font-bold uppercase tracking-[0.12em] text-[#0A8E9A] [font-family:var(--font-rcap-mono)]"><PartnerText value="Program configuration | Section" />{" "}{guidedSectionIndex(sectionKey)}{" "}<PartnerText value="of 8" /></p>
         <h1 className="mt-2 text-3xl font-extrabold tracking-[-0.02em] md:text-4xl">
           {text(title)}
         </h1>
@@ -1301,7 +1301,7 @@ export function OnboardingSectionEditor({
                 : `Step ${activeStepIndex + 1} of ${guidedSection.substeps.length}`}
             </p>
             <p className="truncate text-sm font-extrabold text-[#071B33]">
-              {requestOverview ? "LegalEase request" : activeStep.title}
+              {text(requestOverview ? "LegalEase request" : activeStep.title)}
             </p>
           </div>
           <SaveState indicator={indicator} compact />
@@ -1591,7 +1591,7 @@ function GuidedStepLink({
       </span>
       <span className="min-w-0">
         <span className="block break-words text-sm font-extrabold text-[#071B33]">{label ? <PartnerText value={label} /> : null}</span>
-        <span className="mt-1 block text-xs leading-5 text-[#475A6E]">{state}</span>
+        <span className="mt-1 block text-xs leading-5 text-[#475A6E]">{<PartnerText value={state} />}</span>
       </span>
     </a>
   );
