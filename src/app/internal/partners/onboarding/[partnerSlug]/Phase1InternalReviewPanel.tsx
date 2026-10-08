@@ -1058,6 +1058,9 @@ export function Phase1InternalReviewPanel({
                       <option value="">No finalized document attached</option>
                       {current.assets
                         .filter((asset) =>
+                          asset.category === "procurement_document" &&
+                          asset.lifecycleStatus === "active" &&
+                          asset.reviewStatus === "approved" &&
                           [
                             "application/pdf",
                             "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
