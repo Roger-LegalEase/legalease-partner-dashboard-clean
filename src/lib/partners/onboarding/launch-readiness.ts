@@ -222,14 +222,22 @@ const AUTOMATED_EVALUATORS: Readonly<
     // gate. "Approved" or "finalized" metadata is not a partner signature.
     const signed = agreement === "signed";
     const procurement = asset(source, "procurement_document");
+    const executed = (source.agreements ?? []).some(row =>
+      ["order_form","master_services_agreement"].includes(row.type) &&
+      row.status === "executed" &&
+      row.finalizedAssetId === procurement?.id &&
+      typeof row.effectiveDate === "string" &&
+      row.effectiveDate <= new Date().toISOString().slice(0,10));
     const documented = procurement?.lifecycleStatus === "active" &&
-      procurement.reviewStatus === "approved";
+      procurement.reviewStatus === "approved" && executed;
     return {
       status: signed && documented ? "passing" : "failing",
       evidence: !signed
-        ? "A signed partner agreement has not been recorded. Approving an order form does not establish signature or contractual acceptance."
-        : "A signed agreement is recorded, but its approved procurement document is unavailable. Review the actual executed document.",
-      reference: "partner_onboarding.agreement_status, partner_onboarding_assets.procurement_document"
+        ? "No signed partner agreement has been recorded. An approved order form without verified signatures is not a signed agreement."
+        : !documented
+          ? "A signed status exists, but an active approved executed agreement document is not linked. Review the actual signed evidence."
+          : "A signed, executed agreement and reviewed private document are recorded.",
+      reference: "partner_onboarding.agreement_status, partner_onboarding_agreements, partner_onboarding_assets.procurement_document"
     };
   },
 
