@@ -2,6 +2,7 @@
 
 import {
   type FormEvent,
+  useEffect,
   useLayoutEffect,
   useRef,
   useState
@@ -175,6 +176,24 @@ export function Phase1InternalReviewPanel({
   } | null>(null);
   const reviewReasonRef = useRef<HTMLTextAreaElement | null>(null);
   const focusAfterReview = useRef(false);
+  // Deep links from readiness must reveal the real control, not a collapsed page.
+  useEffect(() => {
+    const reveal = () => {
+      if (!/^#internal-operation-(agreement|commercial_gate)$/.test(window.location.hash)) return;
+      const details = document.getElementById("setup-review");
+      if (!(details instanceof HTMLDetailsElement)) return;
+      details.open = true;
+      const target = document.getElementById(window.location.hash.slice(1));
+      if (!target) return;
+      requestAnimationFrame(() => {
+        target.scrollIntoView({ block: "start" });
+        (target.querySelector<HTMLElement>("select:not([disabled]), input:not([disabled]), textarea:not([disabled])") ?? target).focus({ preventScroll: true });
+      });
+    };
+    reveal();
+    window.addEventListener("hashchange", reveal);
+    return () => window.removeEventListener("hashchange", reveal);
+  }, []);
 
   const [targetLaunchDate, setTargetLaunchDate] = useState(
     snapshot.workspace?.targetLaunchDate ?? ""
@@ -843,7 +862,7 @@ export function Phase1InternalReviewPanel({
 
             <OperationCard
               cardKey="agreement"
-              description="Record partner-safe agreement or procurement status. This does not provide e-signature."
+              description="Review documented terms and actual signed evidence. An approved order form is not itself a signed agreement and does not clear launch readiness."
               feedback={cardFeedback.agreement}
               title="Agreement and procurement metadata"
             >
@@ -1379,6 +1398,8 @@ function OperationCard({
         warning ? "border-orange/30" : "border-grayWilma-200"
       }`}
       data-operation-card={cardKey}
+      id={`internal-operation-${cardKey}`}
+      tabIndex={-1}
     >
       <h3 className="text-lg font-black">{title}</h3>
       <p className="mt-2 text-sm leading-6 text-grayWilma-700">
