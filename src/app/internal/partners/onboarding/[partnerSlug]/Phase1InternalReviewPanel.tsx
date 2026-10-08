@@ -225,6 +225,11 @@ export function Phase1InternalReviewPanel({
   const [agreementEffectiveDate, setAgreementEffectiveDate] = useState(
     initialAgreement?.effectiveDate ?? ""
   );
+  const [signedFile, setSignedFile] = useState<File | null>(null);
+  const signedFileInput = useRef<HTMLInputElement | null>(null);
+  const [signedReviewed, setSignedReviewed] = useState(false);
+  const [signedReviewReason, setSignedReviewReason] = useState("");
+  const signedAttempt = useRef<{signature: string; requestId: string} | null>(null);
 
   const firstSection = snapshot.sections[0]?.key ?? "organization_contacts";
   const [changeSection, setChangeSection] =
@@ -536,6 +541,86 @@ export function Phase1InternalReviewPanel({
 
   async function saveAgreement(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    if (agreementStatus === "executed" &&
+        ["order_form","master_services_agreement"].includes(agreementType)) {
+      if (inFlightRef.current || pendingAction) return;
+      if (!signedReviewed || !agreementEffectiveDate ||
+          signedReviewReason.trim().length < 10 ||
+          Boolean(signedFile) === Boolean(agreementFinalizedAssetId)) {
+        setCardFeedback(previous => ({
+          ...previous, agreement: {kind:"error",action:"agreement",conflict:false,
+            validation:true,message:"Review the executed signatures, effective date and one private signed PDF/DOCX document before saving."}
+        }));
+        return;
+      }
+      const signature = JSON.stringify({
+        agreementType, agreementEffectiveDate,
+        signedReviewReason, signedFile:signedFile
+          ? [signedFile.name,signedFile.size,signedFile.lastModified] : null,
+        agreementFinalizedAssetId,currentVersion:current.workspace?.aggregateVersion
+      });
+      if (!signedAttempt.current || signedAttempt.current.signature !== signature) {
+        signedAttempt.current = {signature,requestId:crypto.randomUUID()};
+      }
+      const form = new FormData();
+      form.set("requestId", signedAttempt.current.requestId);
+      form.set("expectedWorkspaceVersion", String(current.workspace?.aggregateVersion ?? 0));
+      form.set("agreementType",agreementType);
+      form.set("effectiveDate",agreementEffectiveDate);
+      form.set("reviewReason",signedReviewReason.trim());
+      form.set("confirmed","true");
+      if (signedFile) form.set("file",signedFile);
+      else form.set("existingAssetId",agreementFinalizedAssetId);
+      inFlightRef.current = true;
+      setPendingAction("agreement");
+      setCardFeedback(previous => ({
+        ...previous,agreement:{kind:"saving",action:"agreement"}
+      }));
+      try {
+        const response = await fetch(
+          `/api/internal/partners/onboarding/phase1/${encodeURIComponent(partnerSlug)}/signed-agreement`,
+          {method:"POST",body:form}
+        );
+        const body = await readJsonObject(response);
+        if (!response.ok || body?.success !== true) {
+          setCardFeedback(previous => ({
+            ...previous,agreement:{kind:"error",action:"agreement",
+              conflict:response.status===409,validation:response.status===400,
+              message:typeof body?.error==="string" ? body.error : "Signed agreement was not recorded."}
+          }));
+          return;
+        }
+        const next = parseSnapshot(body.snapshot);
+        if (next) {
+          setCurrent(next);
+          const saved = next.agreements.find(a => a.type === agreementType);
+          setAgreementStatus(saved?.status ?? "executed");
+          setAgreementFinalizedAssetId(saved?.finalizedAssetId ?? "");
+        }
+        setSignedFile(null);
+        if (signedFileInput.current) signedFileInput.current.value="";
+        setSignedReviewed(false);
+        signedAttempt.current=null;
+        setCardFeedback(previous => ({
+          ...previous,agreement:{kind:"success",action:"agreement",
+            message:"Executed signed agreement recorded with immutable document evidence.",
+            detail:"Recheck Launch Readiness; material agreement changes require renewed current-source approvals.",
+            status:next?.workspace?.status??null,
+            workspaceVersion:next?.workspace?.aggregateVersion??null,
+            duplicate:body.duplicate===true}
+        }));
+        router.refresh();
+      } catch {
+        setCardFeedback(previous => ({
+          ...previous,agreement:{kind:"error",action:"agreement",conflict:false,
+            validation:false,message:"Confirmation was interrupted. Retry the unchanged form to reuse its request ID."}
+        }));
+      } finally {
+        inFlightRef.current=false;
+        setPendingAction(null);
+      }
+      return;
+    }
     const { ok, snapshot: next } = await runOperation(
       "agreement",
       {
@@ -1005,13 +1090,44 @@ export function Phase1InternalReviewPanel({
                     value={agreementEffectiveDate}
                   />
                 </AdminField>
+                {agreementStatus === "executed" &&
+                  ["order_form","master_services_agreement"].includes(agreementType) ? (
+                    <div className="space-y-3 rounded-lg border border-teal/40 bg-grayWilma-100 p-4">
+                      <p className="text-sm font-semibold">Executed agreement evidence</p>
+                      <p className="text-sm">Record this as signed only after inspecting the actual agreement executed by the partner and LegalEase. An approved order form without signatures does not qualify.</p>
+                      <label className="block text-sm font-semibold" htmlFor="signed-agreement-file">
+                        Upload the signed agreement (PDF or DOCX, up to 20 MB)
+                      </label>
+                      <input id="signed-agreement-file" ref={signedFileInput} type="file"
+                        accept=".pdf,.docx,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                        disabled={controlsDisabled}
+                        onChange={event => {
+                          setSignedFile(event.currentTarget.files?.[0] ?? null);
+                          if (event.currentTarget.files?.length) setAgreementFinalizedAssetId("");
+                        }} />
+                      <p className="text-xs">Alternatively select an existing approved private procurement document above. Do not select both.</p>
+                      <label className="block text-sm font-semibold">Reviewer evidence note
+                        <textarea className={textareaClassName} value={signedReviewReason}
+                          disabled={controlsDisabled} maxLength={5000}
+                          onChange={event=>setSignedReviewReason(event.currentTarget.value)}
+                          placeholder="Describe which parties signed and how you verified the executed copy." />
+                      </label>
+                      <label className="flex items-start gap-2 text-sm font-semibold">
+                        <input type="checkbox" checked={signedReviewed}
+                          disabled={controlsDisabled}
+                          onChange={event=>setSignedReviewed(event.currentTarget.checked)} />
+                        I personally inspected the executed signatures. This only records existing evidence; it does not sign or accept the agreement for the partner.
+                      </label>
+                    </div>
+                  ) : null}
                 <OperationButton
                   action="agreement"
                   cardKey="agreement"
                   pendingAction={pendingAction}
                   reasons={agreementReasons}
                 >
-                  Save agreement status
+                  {agreementStatus === "executed" && ["order_form","master_services_agreement"].includes(agreementType)
+                    ? "Record verified signed agreement" : "Save agreement status"}
                 </OperationButton>
               </form>
             </OperationCard>
