@@ -52,8 +52,8 @@ try{
      values('${id.partner}','pa','signed-fixture','Signed Fixture','pilot','unpaid');
    insert into public.partner_users(auth_user_id,partner_slug,role,status)
      values('${id.admin}',null,'internal_admin','active'),('${id.attacker}','signed-fixture','partner_admin','active');
-   insert into public.partner_onboarding(id,partner_slug,partner_record_id,status,commercial_gate_status)
-     values('${id.workspace}','signed-fixture','${id.partner}','setup_in_progress','cleared_by_authorized_internal_override');`);
+   insert into public.partner_onboarding(id,partner_slug,partner_record_id,status,commercial_gate_status,commercial_gate_override_reason)
+     values('${id.workspace}','signed-fixture','${id.partner}','setup_in_progress','cleared_by_authorized_internal_override','Synthetic isolated fixture; not real commercial authorization');`);
  const version=Number((await db.query('select aggregate_version from public.partner_onboarding where id=$1',[id.workspace])).rows[0].aggregate_version);
  const signedAssetPath=`partners/${id.partner}/onboarding/${id.workspace}/procurement_document/${id.request}.pdf`;
  const callSigned=(actor=id.admin,confirmed=true,savedVersion=version,reason='I reviewed the signed legal agreement') =>
