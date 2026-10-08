@@ -786,7 +786,18 @@ async function visiblePageText(page) {
 
 async function verifyPublicRegressions() {
   // The approved WMV static composition is intentionally qualified by partner host.
-  const landing = await fetch(`${baseUrl}/p/we-must-vote`, { headers: { host: "legaleasepartner.com" } });
+  // Node fetch filters Host in this runtime; send the real host using http.
+  const landing = await new Promise((resolve, reject) => {
+    http.get(`${baseUrl}/p/we-must-vote`, { headers: { host: "legaleasepartner.com" } }, response => {
+      const chunks = [];
+      response.on("data", chunk => chunks.push(chunk));
+      response.on("end", () => resolve({
+        ok: response.statusCode === 200, status: response.statusCode,
+        text: async () => Buffer.concat(chunks).toString("utf8")
+      }));
+      response.on("error", reject);
+    }).on("error", reject);
+  });
   if (!landing.ok) {
     failures.push(`/p/we-must-vote regression failed with status ${landing.status}.`);
   } else {
