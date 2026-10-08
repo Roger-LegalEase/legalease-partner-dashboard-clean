@@ -139,9 +139,13 @@ begin
   ) values(p_request,w.id,p_slug,p_actor,p_agreement_type,doc.id,
     p_sha256,p_effective_date,btrim(p_review_reason),workspace_version);
 
+  -- Preserve unrelated staff-training and operational attestations. Only
+  -- launch decisions tied to changed contractual authority are renewed.
   update public.partner_onboarding_launch_checks set
     invalidated_at=now(),invalidated_reason='Executed agreement changed'
-    where workspace_id=w.id and invalidated_at is null;
+    where workspace_id=w.id
+      and check_key in ('legalease_final_review_complete','partner_launch_approval_received')
+      and invalidated_at is null;
   update public.partner_onboarding_launch_approvals set
     invalidated_at=now() where workspace_id=w.id and invalidated_at is null;
 
