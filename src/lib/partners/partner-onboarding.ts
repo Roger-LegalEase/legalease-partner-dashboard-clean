@@ -1,7 +1,7 @@
 import "server-only";
 
 import { getSupabaseAdminClient } from "@/lib/supabase/server";
-import { activatePartner, getPartnerRecordBySlug, pausePartner } from "@/lib/partners/partner-repository";
+import { getPartnerRecordBySlug, pausePartner } from "@/lib/partners/partner-repository";
 import { getPartnerAccessMode, updatePartnerAccessMode, type PartnerAccessMode } from "@/lib/partners/partner-access-codes";
 
 // Standardized RCAP partner onboarding workflow. This layer orchestrates the
@@ -709,25 +709,11 @@ export async function setOnboardingStatus(partnerSlug: string, status: Onboardin
 // ---------------------------------------------------------------------------
 
 export async function markLive(partnerSlug: string, actor = "internal_admin"): Promise<PartnerOnboardingView> {
-  const supabase = admin();
-  const slug = normalizeSlug(partnerSlug);
-  const view = await getOnboarding(slug);
-  if (!view.readiness.ready) {
-    throw new PartnerOnboardingError("not_ready", `This partner is not ready to launch: ${view.readiness.blockers.join(" ")}`);
-  }
-
-  await completeTask(supabase, slug, "internal_approval", actor);
-  await patchOnboarding(supabase, slug, {
-    status: "live",
-    launched_at: new Date().toISOString(),
-    internal_approved_at: new Date().toISOString(),
-    training_review_ready: true
-  });
-  // Reuse the existing activation path (provisioning_status -> provisioned),
-  // which is what makes the co-branded page and dashboard active.
-  await activatePartner(slug);
-  await audit(supabase, slug, "partner_marked_live", { actor });
-  return getOnboarding(slug);
+  // Retired independently of UI state. Only the verified launch operation may
+  // grant new publication authority; legacy criteria cannot manufacture it.
+  void partnerSlug;
+  void actor;
+  throw new PartnerOnboardingError("not_ready", "Legacy activation is disabled. Use the verified Launch Studio release after authorization.");
 }
 
 export async function pauseOnboarding(partnerSlug: string, actor = "internal_admin"): Promise<PartnerOnboardingView> {

@@ -116,7 +116,7 @@ console.log("2. Duplicate partner page addresses are rejected.");
 console.log("3. Status, agreement, task-status, and owner constraints are enforced.");
 console.log("4. Onboarding audit events are append-only.");
 console.log("5. RLS is partner-scoped with an internal-admin policy for onboarding + tasks.");
-console.log("6. Marking live activates the partner (page active); pausing deactivates it (no sponsored promise, no credit).");
+console.log("6. Legacy publication is held; controlled pause retains the existing source.");
 console.log("7. Launch readiness gates on required tasks, packet cap, landing review, admin, and required-code active codes.");
 console.log("8. Launch materials generate a partner link and QR code.");
 console.log("9. Internal-only vs partner-facing permissions are enforced at the route + projection layer.");
@@ -264,9 +264,10 @@ function verifySourceWiring() {
   assert(migration.includes("create table if not exists public.partner_onboarding_tasks"), "Migration must create the checklist table.");
   assert(!/create table[^;]*packet_cap/i.test(migration), "Onboarding must not duplicate the packet cap column (partner_entitlement is authoritative).");
 
-  // Lib reuse: go-live/pause reuse existing activation; billing writes partner_entitlement; access mode reuses phase-41.
+  // Legacy publication is held; controlled pause, allowance and access sources stay reused.
   const lib = read("src/lib/partners/partner-onboarding.ts");
-  assert(lib.includes("activatePartner(slug)"), "markLive must reuse activatePartner.");
+  assert(!lib.includes("activatePartner(slug)"), "legacy markLive must not bypass verified launch.");
+  assert(lib.includes("verified launch operation"), "legacy publication must explain its held state.");
   assert(lib.includes("pausePartner(slug)"), "pauseOnboarding must reuse pausePartner.");
   assert(lib.includes('.from("partner_entitlement")'), "Billing must write the authoritative partner_entitlement ledger.");
   assert(lib.includes("updatePartnerAccessMode"), "Access mode must reuse the existing access-code system.");

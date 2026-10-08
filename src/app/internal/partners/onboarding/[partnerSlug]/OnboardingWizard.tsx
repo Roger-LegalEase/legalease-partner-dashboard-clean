@@ -62,7 +62,7 @@ export function OnboardingWizard({ onboarding }: { onboarding: PartnerOnboarding
         <p className={`rounded-md px-4 py-3 text-sm font-semibold ${message.tone === "ok" ? "bg-[#E7F7F0] text-[#0F6E56]" : "bg-[#FDF1E8] text-[#9A3412]"}`}>{message.text}</p>
       ) : null}
 
-      <GoLivePanel onboarding={onboarding} busy={busy} onGoLive={() => call("go_live")} onPause={() => call("pause")} />
+      <GoLivePanel onboarding={onboarding} busy={busy} onPause={() => call("pause")} />
 
       <BillingSection onboarding={onboarding} busy={busy} onSave={(p) => call("billing", p)} />
       <AccessSection onboarding={onboarding} busy={busy} onSave={(mode) => call("access_mode", { accessMode: mode })} />
@@ -81,18 +81,16 @@ export function OnboardingWizard({ onboarding }: { onboarding: PartnerOnboarding
   );
 }
 
-function GoLivePanel({ onboarding, busy, onGoLive, onPause }: { onboarding: PartnerOnboardingView; busy: boolean; onGoLive: () => void; onPause: () => void }) {
+function GoLivePanel({ onboarding, busy, onPause }: { onboarding: PartnerOnboardingView; busy: boolean; onPause: () => void }) {
   return (
     <section className="rounded-lg border border-[#EEE6DB] bg-white p-6">
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
           <h2 className="text-lg font-black">Go live</h2>
-          <p className="mt-1 text-sm text-[#5C5750]">A partner can only go live when every required step is complete or skipped.</p>
+          <p className="mt-1 text-sm text-[#5C5750]">Launch is held until the reviewed program passes the authorized launch preflight. Legacy checklist completion does not authorize publication.</p>
         </div>
         <div className="flex gap-2">
-          <button disabled={busy || !onboarding.readiness.ready || onboarding.status === "live"} onClick={onGoLive} className="rounded-md bg-[#1D9E75] px-5 py-2.5 text-sm font-black text-white hover:bg-[#0F6E56] disabled:opacity-50">
-            Mark Live
-          </button>
+
           <button disabled={busy || onboarding.status === "paused"} onClick={onPause} className="rounded-md border border-[#D7DEE8] px-5 py-2.5 text-sm font-bold hover:border-[#CBD5E1] disabled:opacity-50">
             Pause Partner
           </button>
@@ -105,7 +103,7 @@ function GoLivePanel({ onboarding, busy, onGoLive, onPause }: { onboarding: Part
           ))}
         </ul>
       ) : (
-        <p className="mt-4 text-sm font-bold text-[#0F6E56]">Ready to Launch.</p>
+        <p className="mt-4 text-sm font-bold text-navy">Legacy checklist complete; launch authorization remains separate.</p>
       )}
     </section>
   );
