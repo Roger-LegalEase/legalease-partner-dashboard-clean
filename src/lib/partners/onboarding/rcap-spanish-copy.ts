@@ -1,5 +1,6 @@
 // Application copy only; partner facts retain their approved language.
 export const RCAP_SPANISH_COPY:Readonly<Record<string,string>> = {
+  "Current task":"Tarea actual",
   "Confirm the package is accurate and authorized for implementation review.": "Confirme que el paquete sea correcto y esté autorizado para revisión de implementación.",
   "Set the support, escalation, legal-referral, and reporting operating plan.": "Defina el plan operativo de apoyo, escalamiento, derivación legal e informes.",
   "Plan dashboard access without creating memberships or sending invitations.": "Planifique el acceso al panel sin crear membresías ni enviar invitaciones.",

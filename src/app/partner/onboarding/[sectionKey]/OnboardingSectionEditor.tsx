@@ -1384,11 +1384,11 @@ export function OnboardingSectionEditor({
                       </h2>
                     </div>
                     <p className="text-xs font-bold text-[#475A6E] [font-family:var(--font-rcap-mono)]">
-                      {activeStepProgress?.needsAttention
+                      {text(activeStepProgress?.needsAttention
                         ? "Needs information"
                         : activeStepProgress?.complete
                           ? "Saved task"
-                          : "Current task"}
+                          : "Current task")}
                     </p>
                   </div>
                   <p className="mt-3 max-w-3xl text-sm leading-6 text-[#475A6E]">
