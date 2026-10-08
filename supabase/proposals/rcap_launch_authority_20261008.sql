@@ -104,6 +104,9 @@ begin
   elsif tg_table_name='rcap_launch_operation_events' then
     -- Serialize transitions of the same workspace; receipt insertion is atomic.
     perform 1 from public.partner_onboarding where id=new.workspace_id for update;
+    if new.step='prepared' and exists(select 1 from public.rcap_launch_operation_events active where active.workspace_id=new.workspace_id and active.step='prepared' and active.operation_id<>new.operation_id and not exists(select 1 from public.rcap_launch_operation_events terminal where terminal.operation_id=active.operation_id and terminal.step in ('complete','held','failed'))) then
+      raise exception 'another launch operation is active' using errcode='40001';
+    end if;
     select * into v_prior from public.rcap_launch_operation_events where workspace_id=new.workspace_id and operation_id=new.operation_id order by created_at desc limit 1;
     if found and (v_prior.snapshot_hash<>new.snapshot_hash or v_prior.request_id<>new.request_id or v_prior.actor_auth_user_id<>new.actor_auth_user_id or v_prior.authority_reference<>new.authority_reference) then
       raise exception 'operation inputs are immutable' using errcode='40001';
@@ -187,6 +190,7 @@ declare v_workspace public.partner_onboarding%rowtype; begin
  perform public.rcap_service_assert_internal_actor(p_actor);
  if not exists(select 1 from public.rcap_synthetic_launch_targets t join public.partner_users u on u.auth_user_id=t.registered_by where t.partner_slug=p_slug and u.role='internal_admin' and u.status='active' and u.partner_slug is null) then raise exception 'registered synthetic target required' using errcode='42501'; end if;
  select * into strict v_workspace from public.partner_onboarding where partner_slug=p_slug for update;
+ if v_workspace.status='live' then raise exception 'already published' using errcode='40001'; end if;
  if v_workspace.aggregate_version<>p_version then raise exception 'stale launch source' using errcode='40001'; end if;
  if not exists(select 1 from public.rcap_launch_operation_events where workspace_id=v_workspace.id and operation_id=p_operation and actor_auth_user_id=p_actor and snapshot_hash=p_hash and step='prepared') then raise exception 'matching prepared authority required' using errcode='42501'; end if;
  if not exists(select 1 from public.partner_records where partner_slug=p_slug and payment_status in ('paid','demo_paid') and qualification_status='qualified' and provisioning_status in ('provisioned','active')) then raise exception 'existing activation authority required' using errcode='42501'; end if;
@@ -205,6 +209,7 @@ declare v_event public.rcap_launch_operation_events%rowtype; begin
  perform public.rcap_service_assert_internal_actor(p_actor);
  select e.* into strict v_event from public.rcap_launch_operation_events e join public.partner_onboarding po on po.id=e.workspace_id where e.partner_slug=p_slug and e.operation_id=p_operation and e.step='prepared' and e.actor_auth_user_id=p_actor and e.snapshot_hash=p_hash for update of po;
  if exists(select 1 from public.rcap_launch_operation_events where operation_id=p_operation and step='complete') then raise exception 'completed operation cannot compensate'; end if;
+ if not exists(select 1 from public.rcap_launch_operation_events where operation_id=p_operation and step='publication_staged') then return true; end if;
  update public.partner_onboarding set status=v_event.evidence->'previousPublication'->>'status',landing_page_ready=(v_event.evidence->'previousPublication'->>'landing_page_ready')::boolean,internal_approved_at=(v_event.evidence->'previousPublication'->>'internal_approved_at')::timestamptz,launched_at=(v_event.evidence->'previousPublication'->>'launched_at')::timestamptz where id=v_event.workspace_id;
  return true;
 end $$;
