@@ -208,7 +208,11 @@ export function Phase1InternalReviewPanel({
   const [commercialEvidence, setCommercialEvidence] = useState("");
   const [commercialOverrideReason, setCommercialOverrideReason] = useState("");
 
-  const initialAgreement = snapshot.agreements[0];
+  const initialAgreement = snapshot.agreements.find(agreement =>
+    agreement.type === "order_form" && agreement.status !== "not_required"
+  ) ?? snapshot.agreements.find(agreement =>
+    agreement.type === "master_services_agreement" && agreement.status !== "not_required"
+  ) ?? snapshot.agreements[0];
   const [agreementType, setAgreementType] = useState<AgreementType>(
     initialAgreement?.type ?? "order_form"
   );
@@ -1052,9 +1056,13 @@ export function Phase1InternalReviewPanel({
                     <select
                       className={inputClassName}
                       disabled={controlsDisabled}
-                      onChange={(event) =>
-                        setAgreementFinalizedAssetId(event.currentTarget.value)
-                      }
+                      onChange={(event) => {
+                        setAgreementFinalizedAssetId(event.currentTarget.value);
+                        if (event.currentTarget.value) {
+                          setSignedFile(null);
+                          if (signedFileInput.current) signedFileInput.current.value = "";
+                        }
+                      }}
                       value={agreementFinalizedAssetId}
                     >
                       <option value="">No finalized document attached</option>
