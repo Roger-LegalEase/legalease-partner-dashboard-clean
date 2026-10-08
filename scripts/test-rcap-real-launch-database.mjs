@@ -21,7 +21,7 @@ try{
  await db.exec('grant all on all tables in schema public to service_role;grant execute on all functions in schema public to service_role;');
  const signatures=['public.claim_partner_screening_session(text,text,text,timestamptz)','public.claim_rcap_screening_session(text,text)'];
  const before=[];for(const signature of signatures)before.push((await db.query('select pg_get_functiondef($1::regprocedure) as definition',[signature])).rows[0].definition);
- for(const file of ['supabase/proposals/rcap_launch_package_20261008.sql','supabase/proposals/rcap_launch_authority_20261008.sql','supabase/proposals/rcap_real_launch_20261008.sql'])await db.exec(read(file));
+ for(const file of ['supabase/proposals/rcap_launch_package_20261008.sql','supabase/proposals/rcap_launch_authority_20261008.sql','supabase/proposals/rcap_real_launch_20261008.sql','supabase/proposals/rcap_signed_agreement_alignment_20261008.sql'])await db.exec(read(file));
  console.log('PASS complete real-launch SQL proposal applies atomically to a fresh disposable database');
  for(const [index,signature] of signatures.entries()){const after=(await db.query('select pg_get_functiondef($1::regprocedure) as definition',[signature])).rows[0].definition;assert.equal(after,before[index].replace("pr.payment_status in ('paid', 'demo_paid')",'public.rcap_partner_activation_for_launch(pr.partner_slug)'));}
  console.log('PASS both existing claim functions preserve every guard and effect except the bounded activation predicate');
@@ -35,4 +35,49 @@ try{
  await assert.rejects(db.query("select public.rcap_service_stage_real_launch('unregistered','aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa','bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb',1,$1,'[]','cccccccc-cccc-4ccc-8ccc-cccccccccccc')",['a'.repeat(64)]),error=>error.code==='42501');
  assert.equal((await db.query("select public.rcap_partner_activation_for_launch('unregistered') as active")).rows[0].active,false);
  console.log('PASS forged service actor and absent commercial/publication authority fail closed');
+ console.log('PASS signed-agreement proposal applies to the full real-launch migration chain');
+ const contractRpc='public.rcap_service_record_signed_agreement(text,uuid,bigint,uuid,text,uuid,boolean,text,text,text,text,bigint,text,date,text,boolean)';
+ for(const role of ['anon','authenticated'])assert.equal(
+   (await db.query('select has_function_privilege($1,$2,$3) as allowed',[role,contractRpc,'EXECUTE'])).rows[0].allowed,false
+ );
+ const signedTable='public.rcap_signed_agreement_receipts';
+ for(const privilege of ['UPDATE','DELETE','TRUNCATE','REFERENCES','TRIGGER'])
+   assert.equal((await db.query('select has_table_privilege($1,$2,$3) as allowed',['service_role',signedTable,privilege])).rows[0].allowed,false);
+ for(const privilege of ['SELECT','INSERT'])
+   assert.equal((await db.query('select has_table_privilege($1,$2,$3) as allowed',['service_role',signedTable,privilege])).rows[0].allowed,true);
+ console.log('PASS signed agreement receipts are append-only and browser calls denied');
+ const id={partner:'11111111-1111-4111-8111-111111111111',workspace:'11111111-2222-4333-8444-555555555555',admin:'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa',request:'dddddddd-dddd-4ddd-8ddd-dddddddddddd',attacker:'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb'};
+ await db.exec(`insert into auth.users(id,email) values('${id.admin}','internal@legalease.test'),('${id.attacker}','attacker@unrelated.test');
+   insert into public.partner_records(id,partner_id,partner_slug,partner_name,program_tier,payment_status)
+     values('${id.partner}','pa','signed-fixture','Signed Fixture','pilot','unpaid');
+   insert into public.partner_users(auth_user_id,partner_slug,role,status)
+     values('${id.admin}',null,'internal_admin','active'),('${id.attacker}','signed-fixture','partner_admin','active');
+   insert into public.partner_onboarding(id,partner_slug,partner_record_id,status,commercial_gate_status)
+     values('${id.workspace}','signed-fixture','${id.partner}','setup_in_progress','cleared_by_authorized_internal_override');`);
+ const version=Number((await db.query('select aggregate_version from public.partner_onboarding where id=$1',[id.workspace])).rows[0].aggregate_version);
+ const signedAssetPath=`partners/${id.partner}/onboarding/${id.workspace}/procurement_document/${id.request}.pdf`;
+ const callSigned=(actor=id.admin,confirmed=true,savedVersion=version,reason='I reviewed the signed legal agreement') =>
+   db.query(`select * from public.rcap_service_record_signed_agreement(
+     $1,$2,$3,$4,'order_form',$5,true,$6,'actual-signed.pdf',
+     'application/pdf','pdf',34,$7,'2026-10-01',$8,$9)`,
+     ['signed-fixture',actor,savedVersion,id.request,id.request,signedAssetPath,'a'.repeat(64),reason,confirmed]);
+ await assert.rejects(callSigned(id.attacker));
+ await assert.rejects(callSigned(id.admin,false));
+ assert.equal(Number((await db.query('select count(*)::integer as n from public.rcap_signed_agreement_receipts')).rows[0].n),0);
+ const receipt=await callSigned();
+ assert.equal(receipt.rows[0].duplicate,false);
+ assert.equal((await db.query('select agreement_status from public.partner_onboarding where id=$1',[id.workspace])).rows[0].agreement_status,'signed');
+ const normalized=(await db.query("select status,finalized_asset_id,effective_date::text as date from public.partner_onboarding_agreements where workspace_id=$1 and agreement_type='order_form'",[id.workspace])).rows[0];
+ assert.equal(normalized.status,'executed');
+ assert.equal(normalized.finalized_asset_id,id.request);
+ assert.equal(normalized.date,'2026-10-01');
+ assert.equal((await callSigned()).rows[0].duplicate,true);
+ await assert.rejects(db.query('update public.rcap_signed_agreement_receipts set reviewed_reason=$1 where id=$2',['Forged amendment',id.request]));
+ await assert.rejects(db.query('delete from public.rcap_signed_agreement_receipts where id=$1',[id.request]));
+ console.log('PASS signed-file evidence, admin authority, atomic agreement, idempotency and audit immutability');
+ // A later downgrade must fail closed rather than relying on the old signed flag.
+ await db.query("update public.partner_onboarding_agreements set status='approved' where workspace_id=$1 and agreement_type='order_form'",[id.workspace]);
+ await assert.rejects(db.query("update public.partner_onboarding set rcap_launch_operation_id=$2,status='live',landing_page_ready=true where id=$1",[id.workspace,'cccccccc-cccc-4ccc-8ccc-cccccccccccc']));
+ console.log('PASS real launch refuses a stale or withdrawn executed document even with a legacy signed flag');
+
 }finally{await db.close();}
