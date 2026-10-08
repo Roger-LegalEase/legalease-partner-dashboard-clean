@@ -227,7 +227,7 @@ begin
     'Executed agreement verified by LegalEase',doc.id,
     p_effective_date,p_actor,now(),p_request,p_sha256
   ) on conflict(workspace_id,agreement_type) do update set
-    status='executed',is_required=true,
+    status='executed',is_required=true,partner_safe_detail=excluded.partner_safe_detail,
     finalized_asset_id=excluded.finalized_asset_id,
     effective_date=excluded.effective_date,
     recorded_by=excluded.recorded_by,recorded_at=excluded.recorded_at,

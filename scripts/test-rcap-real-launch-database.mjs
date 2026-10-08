@@ -76,8 +76,9 @@ try{
  const receipt=await callSigned();
  assert.equal(receipt.rows[0].duplicate,false);
  assert.equal((await db.query('select agreement_status from public.partner_onboarding where id=$1',[id.workspace])).rows[0].agreement_status,'signed');
- const normalized=(await db.query("select status,finalized_asset_id,effective_date::text as date from public.partner_onboarding_agreements where workspace_id=$1 and agreement_type='order_form'",[id.workspace])).rows[0];
+ const normalized=(await db.query("select status,partner_safe_detail,finalized_asset_id,effective_date::text as date from public.partner_onboarding_agreements where workspace_id=$1 and agreement_type='order_form'",[id.workspace])).rows[0];
  assert.equal(normalized.status,'executed');
+ assert.equal(normalized.partner_safe_detail,'Executed agreement verified by LegalEase');
  assert.equal(normalized.finalized_asset_id,id.request);
  assert.equal(normalized.date,'2026-10-01');
  assert.equal((await callSigned()).rows[0].duplicate,true);
