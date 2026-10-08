@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
+import { useHashDestination } from "@/components/partners/onboarding/use-hash-destination";
 
 import { Badge } from "@/components/ui/Badge";
 import { Card } from "@/components/ui/Card";
@@ -35,7 +36,7 @@ const APPROVAL_COPY: Record<string, string> = {
   ready_for_review: "Ready for LegalEase review",
   changes_requested: "Changes requested",
   approved: "Approved by LegalEase",
-  superseded: "Superseded",
+  superseded: "A newer version is needed",
   generation_failed: "Generation failed"
 };
 
@@ -55,19 +56,27 @@ export function Phase2AArtifactsPanel({
   board: ArtifactBoard;
   readiness: LaunchReadiness | null;
 }) {
+  const requests = useRef(new Map<string, string>());
   const [current, setCurrent] = useState(board);
   const [pending, setPending] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
-  const [area, setArea] = useState<
-    "artifacts" | "co_branded_page" | "launch_readiness" | "resources"
-  >("artifacts");
+  type Area = "artifacts" | "co_branded_page" | "launch_readiness" | "resources";
+  const hash = useHashDestination();
+  const [selection, setSelection] = useState<{area:Area;hash:string}>({area:"artifacts",hash:""});
+  const area = selection.hash === hash ? selection.area : (["artifacts", "co_branded_page", "launch_readiness", "resources"] as const).find(key => hash === `#launch-prep-area-${key}`) ?? "artifacts";
+  const setArea = (area: Area) => setSelection({area, hash});
   const [openPreview, setOpenPreview] = useState<string | null>(null);
+  const [viewed, setViewed] = useState<Record<string, string>>({});
+  const [reviewed, setReviewed] = useState<Record<string, string>>({});
   const [openHistory, setOpenHistory] = useState<string | null>(null);
   const [commentFor, setCommentFor] = useState<string | null>(null);
   const [comment, setComment] = useState("");
 
   async function mutate(action: string, payload: Record<string, unknown>) {
     if (pending) return;
+    const key = JSON.stringify({ action, payload });
+    const requestId = requests.current.get(key) ?? crypto.randomUUID();
+    requests.current.set(key, requestId);
     setPending(true);
     setMessage(null);
     try {
@@ -78,7 +87,7 @@ export function Phase2AArtifactsPanel({
           headers: { "content-type": "application/json" },
           body: JSON.stringify({
             action,
-            requestId: crypto.randomUUID(),
+            requestId,
             payload
           })
         }
@@ -92,6 +101,7 @@ export function Phase2AArtifactsPanel({
         setMessage(body.error ?? "That action could not be completed.");
         return;
       }
+      requests.current.delete(key);
       if (body.board) setCurrent(body.board);
       setCommentFor(null);
       setComment("");
@@ -111,7 +121,7 @@ export function Phase2AArtifactsPanel({
     <section className="mt-8" aria-labelledby="launch-prep-heading">
       <div className="flex flex-wrap items-baseline justify-between gap-2">
         <h2 id="launch-prep-heading" className="text-xl font-black text-navy">
-          Launch preparation
+          Launch package and review
         </h2>
         <p className="text-xs text-grayWilma-700">
           Generated from this partner&rsquo;s current program setup data.
@@ -121,9 +131,9 @@ export function Phase2AArtifactsPanel({
       <div className="mt-3 flex flex-wrap gap-2" role="tablist" aria-label="Launch preparation areas">
         {(
           [
-            ["artifacts", "Artifacts"],
-            ["co_branded_page", "Co-Branded Page"],
-            ["launch_readiness", "Launch Readiness"],
+            ["artifacts", "Launch package"],
+            ["co_branded_page", "Your page"],
+            ["launch_readiness", "Review & launch"],
             ["resources", "Resources"]
           ] as const
         ).map(([key, label]) => (
@@ -201,22 +211,39 @@ export function Phase2AArtifactsPanel({
           role="tabpanel"
           aria-labelledby="launch-prep-tab-artifacts"
         >
+          <Card className="p-5">
+            <h3 className="text-xl font-bold">Review the launch package</h3>
+            <p className="mt-3 text-sm leading-6">Open each required document and confirm that you reviewed the exact version. A package decision records individual LegalEase approvals; partner confirmation stays separate.</p>
+            <div className="mt-4 space-y-3">{current.entries.filter(entry => entry.artifactType !== "partner_launch_kit").map(entry => {
+              const version = entry.currentVersion;
+              return <label key={entry.artifactType} className="flex min-h-11 items-start gap-3 text-sm">
+                <input type="checkbox" className="mt-1 h-5 w-5" disabled={!version?.snapshotHash || viewed[version.id] !== version.snapshotHash || version.approvalStatus === "superseded" || entry.sourceFreshness !== "current"}
+                  checked={Boolean(version?.snapshotHash && reviewed[version.id] === version.snapshotHash)}
+                  onChange={event => { if(version?.snapshotHash) setReviewed(values=>({...values,[version.id]:event.target.checked ? version.snapshotHash! : ""})); }} />
+                <span>I reviewed {entry.label}{version ? `, version ${version.versionNumber}` : " (not yet generated)"}</span>
+              </label>;
+            })}</div>
+            {current.packageReviewEnabled ? <button type="button" className={`${buttonClass} mt-5`} disabled={pending || current.entries.filter(entry=>entry.artifactType!=="partner_launch_kit").some(entry=>!entry.currentVersion?.snapshotHash || reviewed[entry.currentVersion.id]!==entry.currentVersion.snapshotHash)}
+              onClick={()=>mutate("approve_package",{workspaceVersion:current.workspaceVersion,reviewedVersions:current.entries.filter(entry=>entry.artifactType!=="partner_launch_kit").map(entry=>({id:entry.currentVersion?.id,snapshotHash:entry.currentVersion?.snapshotHash}))})}>Approve reviewed launch package</button>
+              : <p className="mt-5 text-sm text-grayWilma-700">Package approval awaits the audited Launch Studio release. Existing individual document review remains available below.</p>}
+          </Card>
           {current.entries.map((entry) => (
             <ArtifactRow
               key={entry.artifactType}
               entry={entry}
               partnerSlug={partnerSlug}
               pending={pending}
+              retirementEnabled={current.packageReviewEnabled === true}
               previewOpen={openPreview === entry.artifactType}
               historyOpen={openHistory === entry.artifactType}
               commentOpen={commentFor === entry.artifactType}
               comment={comment}
               onComment={setComment}
-              onTogglePreview={() =>
-                setOpenPreview(
-                  openPreview === entry.artifactType ? null : entry.artifactType
-                )
-              }
+              onTogglePreview={() => {
+                const version = entry.currentVersion;
+                if(version?.snapshotHash) setViewed(values=>({...values,[version.id]:version.snapshotHash!}));
+                setOpenPreview(openPreview === entry.artifactType ? null : entry.artifactType);
+              }}
               onToggleHistory={() =>
                 setOpenHistory(
                   openHistory === entry.artifactType ? null : entry.artifactType
@@ -240,6 +267,7 @@ function ArtifactRow({
   entry,
   partnerSlug,
   pending,
+  retirementEnabled,
   previewOpen,
   historyOpen,
   commentOpen,
@@ -253,6 +281,7 @@ function ArtifactRow({
   entry: ArtifactBoardEntry;
   partnerSlug: string;
   pending: boolean;
+  retirementEnabled: boolean;
   previewOpen: boolean;
   historyOpen: boolean;
   commentOpen: boolean;
@@ -263,6 +292,8 @@ function ArtifactRow({
   onOpenComment: () => void;
   onMutate: (action: string, payload: Record<string, unknown>) => void;
 }) {
+  const [retirementReason, setRetirementReason] = useState("");
+  const [retirementConfirmed, setRetirementConfirmed] = useState(false);
   const version = entry.currentVersion;
   // Reviews of the version on screen, so a change request is visible without
   // having to open version history.
@@ -274,7 +305,8 @@ function ArtifactRow({
     version !== null &&
     version.generationStatus === "succeeded" &&
     entry.sourceFreshness !== "stale" &&
-    version.approvalStatus !== "approved";
+    version.approvalStatus !== "approved" &&
+    version.approvalStatus !== "superseded" && version.supersededAt === null;
 
   return (
     <Card className="p-5" data-artifact-type={entry.artifactType}>
@@ -390,16 +422,6 @@ function ArtifactRow({
               >
                 Approve version
               </button>
-              <button
-                type="button"
-                className={quietButtonClass}
-                disabled={pending}
-                onClick={() =>
-                  onMutate("supersede", { artifactVersionId: version.id })
-                }
-              >
-                Supersede
-              </button>
               {version.approvalStatus === "approved" ? (
                 <a
                   className={quietButtonClass}
@@ -454,6 +476,12 @@ function ArtifactRow({
         </div>
       ) : null}
 
+      {retirementEnabled && version && version.approvalStatus !== "superseded" ? <details className="mt-5 border-t border-grayWilma-200 pt-4">
+        <summary className="min-h-11 cursor-pointer text-sm font-bold text-orange">Retire this version (requires a reason)</summary>
+        <label className="mt-3 block text-sm">Why is this version being retired?<textarea value={retirementReason} onChange={event=>setRetirementReason(event.target.value)} className={`${inputClass} mt-2`} maxLength={2000}/></label>
+        <label className="mt-3 flex min-h-11 items-center gap-3 text-sm"><input type="checkbox" checked={retirementConfirmed} onChange={event=>setRetirementConfirmed(event.target.checked)} />I understand this version cannot be approved again and a new version will be required.</label>
+        <button type="button" className={`${quietButtonClass} mt-3`} disabled={pending || !retirementConfirmed || retirementReason.trim().length<10} onClick={()=>onMutate("supersede",{artifactVersionId:version.id,reason:retirementReason,confirmed:true})}>Confirm version retirement</button>
+      </details> : null}
       {historyOpen ? (
         <div className="mt-4 space-y-2">
           {entry.versions.map((historic) => (

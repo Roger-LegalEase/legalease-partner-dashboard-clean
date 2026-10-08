@@ -358,14 +358,15 @@ check("no publication, invitation, or activation capability is added", () => {
   }
 });
 
-check("Lane A's first-admin surface is untouched", () => {
+check("artifact preparation cannot provision users or partners", () => {
   const combined = NEW_FILES.map(read).join("\n");
   for (const forbidden of [
     "partner_users",
     "auth.admin",
     "createUser",
     "/partner/team",
-    "provisioning"
+    "provisionPartner",
+    "rcap_service_provision_partner"
   ]) {
     assert.ok(
       !combined.includes(forbidden),

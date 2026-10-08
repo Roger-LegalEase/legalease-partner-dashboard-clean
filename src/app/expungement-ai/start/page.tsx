@@ -20,7 +20,7 @@ export default function StartPage() {
           <p className="mx-auto mt-5 max-w-2xl text-[16px] leading-7 text-[#5A6275]">
             <LocalizedText
               k="start.body"
-              fallback="Answer plain-English questions about your state, case, and outcome. No account or payment is required to begin. If a supported self-help packet is available, review your information before paying $50 to generate it."
+              fallback="Answer clear questions about your state, case, and outcome. No account or payment is required to begin. If a supported self-help packet is available, review your information before paying $50 to generate it."
             />
           </p>
           <div className="mx-auto mt-7 max-w-sm">

@@ -26,7 +26,7 @@ for (const text of [
   "Apply preview",
   "Apply selected",
   "Select all approved and conflict-free",
-  "Preview as partner",
+  "Prepare program information",
   "Conflict",
   "Approve",
   "Reject",

@@ -1,3 +1,7 @@
+import { CoBrandedPageView } from "@/components/partners/onboarding/CoBrandedPageView";
+import { getApprovedPublicPageConfiguration } from "@/lib/partners/onboarding/public-page-configuration";
+import { isRcapLaunchStudioEnabled } from "@/lib/partners/onboarding/feature";
+import { partnerIntake } from "@/lib/partners/routes";
 import { notFound } from "next/navigation";
 import { FunnelBeacon } from "@/components/analytics/FunnelBeacon";
 import { PartnerLandingPageTemplate } from "@/components/partners/PartnerLandingPageTemplate";
@@ -16,6 +20,15 @@ export default async function CoBrandedPartnerPage({
 
   if (!partner) {
     notFound();
+  }
+
+  if (isRcapLaunchStudioEnabled()) {
+    const configuration = await getApprovedPublicPageConfiguration(partner.partnerSlug);
+    if (!configuration) notFound();
+    const assetHref = (id: string | null) => id ? `/api/partners/public-page/${encodeURIComponent(partner.partnerSlug)}/assets/${encodeURIComponent(id)}` : null;
+    return <CoBrandedPageView preview={configuration.preview} variant="desktop"
+      logoSrc={assetHref(configuration.preview.logo.assetId)} heroSrc={assetHref(configuration.preview.heroImage.assetId)}
+      liveCtaHref={partnerIntake(partner.partnerSlug)} />;
   }
 
   return (

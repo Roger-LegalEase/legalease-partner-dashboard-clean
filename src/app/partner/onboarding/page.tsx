@@ -287,6 +287,7 @@ async function Phase1PartnerOnboardingPage() {
   return (
     <Shell wide>
       <Phase1OnboardingHome
+        launchPrepEnabled={isRcapOnboardingLaunchPrepEnabled()}
         organizationName={portal.organizationName}
         programName={portal.programName}
         implementationOwner={null}

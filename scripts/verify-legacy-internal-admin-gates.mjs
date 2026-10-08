@@ -94,7 +94,7 @@ function verifySourceShape() {
     failures.push("Internal admin gate helper must enforce requireInternalAdminSession().");
   }
 
-  assertGateBefore(dashboardPage, "src/app/dashboard/partners/page.tsx", "resolveInternalAdminPageAccess(", "return <PartnerDashboardClient");
+  assertGateBefore(dashboardPage, "src/app/dashboard/partners/page.tsx", "resolveInternalAdminPageAccess(", 'redirect("/internal")');
   assertGateBefore(dashboardDetail, "src/app/dashboard/partners/[partnerSlug]/page.tsx", "resolveInternalAdminPageAccess(", "await getPartnerRecordBySlug");
   assertGateBefore(dashboardDetail, "src/app/dashboard/partners/[partnerSlug]/page.tsx", "resolveInternalAdminPageAccess(", "await getPartnerDocumentActivitySummary");
   assertGateBefore(adminPage, "src/app/internal/partners/admin/page.tsx", "resolveInternalAdminPageAccess(", "await getAllPartnerRecords");
@@ -184,8 +184,8 @@ async function verifyInternalAdminAllowed() {
 
   await page.goto(`${baseUrl}/dashboard/partners`, { waitUntil: "networkidle" });
   const dashboardBody = await visiblePageText(page);
-  if (!dashboardBody.includes("Partner Dashboard") || !dashboardBody.includes("Referral Pipeline Summary")) {
-    failures.push("internal_admin could not access /dashboard/partners.");
+  if (!dashboardBody.includes("Command Center") || !dashboardBody.includes("RCAP Partner Launch Studio") || !page.url().endsWith("/internal")) {
+    failures.push("internal_admin did not reach the protected Command Center.");
   }
 
   await page.goto(`${baseUrl}/internal/partners/admin`, { waitUntil: "networkidle" });

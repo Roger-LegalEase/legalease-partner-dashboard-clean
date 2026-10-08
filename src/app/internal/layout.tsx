@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { unstable_noStore as noStore } from "next/cache";
@@ -65,6 +66,11 @@ export default async function InternalLayout({ children }: { children: ReactNode
           </section>
         </div>
       </header>
+      <nav aria-label="Internal workspace navigation" className="flex flex-wrap gap-4 border-b border-grayWilma-200 bg-white px-4 py-2 md:px-6">
+        <Link href="/internal" className="inline-flex min-h-11 items-center font-bold text-teal">Back to Command Center</Link>
+        <Link href="/internal/partners/onboarding" className="inline-flex min-h-11 items-center font-bold text-navy">Partners</Link>
+        <Link href="/internal/command-center/performance" className="inline-flex min-h-11 items-center font-bold text-navy">Performance / health</Link>
+      </nav>
       {children}
     </div>
   );

@@ -32,7 +32,7 @@ const root = process.cwd();
 const PORT = Number(process.env.FRONTEND_SURFACES_PORT ?? 4123);
 const EXTERNAL_BASE = process.env.FRONTEND_SURFACES_BASE_URL?.replace(/\/+$/, "");
 const BASE = EXTERNAL_BASE ?? `http://127.0.0.1:${PORT}`;
-const OUT_DIR = path.join(root, "artifacts", "frontend-surfaces");
+const OUT_DIR = process.env.FRONTEND_SURFACES_CAPTURE_DIR ?? path.join(root, "artifacts", "frontend-surfaces");
 
 const DESKTOP = { width: 1280, height: 900 };
 const MOBILE = { width: 390, height: 844 };

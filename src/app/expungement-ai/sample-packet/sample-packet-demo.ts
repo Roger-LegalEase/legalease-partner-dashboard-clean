@@ -181,7 +181,7 @@ export const samplePacketTabs: SamplePacketTab[] = [
         title: "Tracking it in your Briefcase",
         lines: [
           "Your Briefcase shows each step as Ready, Filed, or Waiting.",
-          "Wilma can explain any step in plain English if something is unclear.",
+          "Wilma can explain any step clearly if something is unclear.",
           "You can download your packet again any time from your Briefcase."
         ]
       },

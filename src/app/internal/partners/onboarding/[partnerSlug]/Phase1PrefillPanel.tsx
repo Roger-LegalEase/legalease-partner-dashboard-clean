@@ -1,7 +1,6 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import Link from "next/link";
 import { Badge } from "@/components/ui/Badge";
 import { Card } from "@/components/ui/Card";
 import {
@@ -214,23 +213,17 @@ export function Phase1PrefillPanel({
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div>
           <p className="text-xs font-black uppercase tracking-wide text-orange">
-            Phase 1.1
+            Program setup
           </p>
           <h2 id="prefill-heading" className="mt-1 text-2xl font-black">
-            Prefill
+            Prepare program information
           </h2>
           <p className="mt-1 max-w-3xl text-sm text-grayWilma-700">
             Prepare structured suggestions, review them, then apply only
             approved conflict-free values for the partner to confirm.
           </p>
         </div>
-        <Link
-          href="/partner/onboarding"
-          className={quietButtonClass}
-          target="_blank"
-        >
-          Preview as partner
-        </Link>
+
       </div>
 
       <div className="mt-4 grid grid-cols-2 gap-3 md:grid-cols-5 xl:grid-cols-9">

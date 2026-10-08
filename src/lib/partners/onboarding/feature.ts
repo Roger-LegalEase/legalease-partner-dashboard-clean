@@ -38,3 +38,8 @@ export function isRcapOnboardingLaunchPrepEnabled(
       "true"
   );
 }
+
+// Disabled until the owner approves this exact template and launch release.
+export function isRcapLaunchStudioEnabled(environment: FlagEnvironment = process.env): boolean {
+  return isRcapOnboardingLaunchPrepEnabled(environment) && environment.RCAP_LAUNCH_STUDIO_ENABLED?.trim().toLowerCase() === "true";
+}

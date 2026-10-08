@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { useLocalization } from "@/components/expungement-ai/LocalizationProvider";
 import Link from "next/link";
 import {
   FIELD_COPY,
@@ -288,6 +289,7 @@ export function OnboardingSectionEditor({
   brandExperience
 }: OnboardingSectionEditorProps) {
   const router = useRouter();
+  const { text } = useLocalization();
   const firstData = useMemo(() => cloneRecord(initialData), [initialData]);
   const guidedSection = useMemo(
     () => getGuidedSection(sectionKey),
@@ -470,6 +472,10 @@ export function OnboardingSectionEditor({
         : null,
     [brandExperience, brandReviewStatus]
   );
+  const brandHeroSrc = useMemo(() => {
+    const asset = currentAssets.find(candidate => candidate.id === liveBrandPreview?.heroImage.assetId);
+    return asset ? assetPreviewHref(asset) : null;
+  }, [currentAssets, liveBrandPreview]);
   const brandLogoSrc = useMemo(() => {
     if (!liveBrandPreview?.showPartnerLogo) return null;
     const asset = currentAssets.find(
@@ -1283,10 +1289,10 @@ export function OnboardingSectionEditor({
           Program configuration | Section {guidedSectionIndex(sectionKey)} of 8
         </p>
         <h1 className="mt-2 text-3xl font-extrabold tracking-[-0.02em] md:text-4xl">
-          {title}
+          {text(title)}
         </h1>
         <p className="mt-2 max-w-3xl text-base leading-7 text-[#475A6E]">
-          {purpose}
+          {text(purpose)}
         </p>
       </header>
 
@@ -1382,10 +1388,10 @@ export function OnboardingSectionEditor({
                   <div className="flex min-w-0 flex-wrap items-start justify-between gap-4">
                     <div className="min-w-0">
                       <p className="text-xs font-bold uppercase tracking-[0.1em] text-[#0A8E9A] [font-family:var(--font-rcap-mono)]">
-                        Step {activeStepIndex + 1} of {guidedSection.substeps.length}
+                        {text("Step")} {activeStepIndex + 1} {text("of")} {guidedSection.substeps.length}
                       </p>
                       <h2 className="mt-2 text-2xl font-extrabold text-[#071B33]" id="guided-task-heading">
-                        {activeStep.title}
+                        {text(activeStep.title)}
                       </h2>
                     </div>
                     <p className="text-xs font-bold text-[#475A6E] [font-family:var(--font-rcap-mono)]">
@@ -1397,10 +1403,10 @@ export function OnboardingSectionEditor({
                     </p>
                   </div>
                   <p className="mt-3 max-w-3xl text-sm leading-6 text-[#475A6E]">
-                    {activeStep.purpose}
+                    {text(activeStep.purpose)}
                   </p>
                   <p className="mt-3 border-l-4 border-[#0A8E9A] pl-3 text-sm leading-6 text-[#071B33]">
-                    After Save and Continue: {activeStep.outcome}
+                    {text("After Save and Continue")}: {text(activeStep.outcome)}
                   </p>
                 </div>
 
@@ -1430,6 +1436,7 @@ export function OnboardingSectionEditor({
                       }
                       dirty={dirty}
                       editor={guidedTaskContent}
+                      heroSrc={brandHeroSrc}
                       logoSrc={brandLogoSrc}
                       mobileMode={brandMobileMode}
                       onApprove={() => void approvePartnerBrandContent()}
@@ -1709,6 +1716,7 @@ function BrandEditorWorkspace({
   canPartnerReview,
   dirty,
   editor,
+  heroSrc,
   logoSrc,
   mobileMode,
   onApprove,
@@ -1726,6 +1734,7 @@ function BrandEditorWorkspace({
   canPartnerReview: boolean;
   dirty: boolean;
   editor: ReactNode;
+  heroSrc: string | null;
   logoSrc: string | null;
   mobileMode: "edit" | "preview";
   onApprove: () => void;
@@ -1800,6 +1809,7 @@ function BrandEditorWorkspace({
           dirty={dirty}
           finalReview={finalReview}
           hidden={mobileMode !== "preview"}
+          heroSrc={heroSrc}
           logoSrc={logoSrc}
           onApprove={onApprove}
           onPreviewVariant={onPreviewVariant}
@@ -1821,6 +1831,7 @@ function BrandPreviewPanel({
   dirty,
   finalReview,
   hidden,
+  heroSrc,
   logoSrc,
   onApprove,
   onPreviewVariant,
@@ -1836,6 +1847,7 @@ function BrandPreviewPanel({
   dirty: boolean;
   finalReview: boolean;
   hidden: boolean;
+  heroSrc: string | null;
   logoSrc: string | null;
   onApprove: () => void;
   onPreviewVariant: (variant: "desktop" | "mobile") => void;
@@ -1917,10 +1929,11 @@ function BrandPreviewPanel({
               className={
                 previewVariant === "mobile"
                   ? "mx-auto w-[390px] max-w-full"
-                  : "min-w-[680px]"
+                  : "w-full min-w-0"
               }
             >
               <CoBrandedPageView
+                heroSrc={heroSrc}
                 logoSrc={logoSrc}
                 preview={preview}
                 variant={previewVariant}
@@ -2079,6 +2092,7 @@ function GuidedActionBar({
   onReturnToSaved: () => void;
   sectionKey: OnboardingSectionKey;
 }) {
+  const { text } = useLocalization();
   const backHref = activeStep.previousSubstep
     ? guidedSectionHref(sectionKey, activeStep.previousSubstep)
     : "/partner/onboarding#program-configuration";
@@ -2217,7 +2231,7 @@ function GuidedActionBar({
               onNavigate(activeStep.previousSubstep);
             }}
           >
-            {activeStep.previousSubstep ? "Back" : "Implementation center"}
+            {activeStep.previousSubstep ? text("Back") : text("Implementation center")}
           </a>
           {controlsEnabled ? (
             <button
@@ -2227,10 +2241,10 @@ function GuidedActionBar({
               type="submit"
             >
               {completing
-                ? "Saving"
+                ? text("Saving")
                 : activeStep.nextSubstep
-                  ? "Save and Continue"
-                  : "Save section"}
+                  ? text("Save and Continue")
+                  : text("Save section")}
             </button>
           ) : (
             <a
@@ -2243,7 +2257,7 @@ function GuidedActionBar({
                 onNavigate(activeStep.nextSubstep);
               }}
             >
-              {activeStep.nextSubstep ? "Continue" : "Return to implementation center"}
+              {activeStep.nextSubstep ? text("Continue") : text("Return to implementation center")}
             </a>
           )}
         </div>
@@ -2259,6 +2273,7 @@ function SaveState({
   indicator: SaveIndicator;
   compact?: boolean;
 }) {
+  const { text } = useLocalization();
   return (
     <div
       aria-atomic="true"
@@ -2269,7 +2284,7 @@ function SaveState({
       data-save-state={indicator.kind}
       role="status"
     >
-      {indicator.message}
+      {text(indicator.message)}
     </div>
   );
 }
@@ -4237,6 +4252,14 @@ function FieldFrame({
   children: ReactNode;
   className?: string;
 }) {
+  const { text } = useLocalization();
+  const questions: Record<string, string> = {
+    participant_access_model: "How will people join your program?",
+    participant_support_email: "Where can participants email for help?",
+    reporting_cadence: "How often should your team receive reports?",
+    primary_dashboard_administrator_row_id: "Who will manage your program dashboard?",
+    program_headline: "What should people see at the top of your page?"
+  };
   const guided = useContext(GuidedRenderContext);
   const visible = useGuidedFieldVisibility(fieldKey);
   const prefilled = useContext(PrefillFieldContext).has(fieldKey);
@@ -4257,7 +4280,7 @@ function FieldFrame({
       data-guided-field={guidedFieldRoot(fieldKey)}
     >
       <label className="text-sm font-black" htmlFor={id}>
-        {label}
+        {text(questions[guidedFieldRoot(fieldKey)] ?? label)}
         {required ? (
           <>
             <span className="ml-1 text-orange" aria-hidden="true">
@@ -4334,7 +4357,7 @@ function FieldFrame({
       ) : null}
       {helperCopy ? (
         <p className="mt-1 text-xs leading-5 text-grayWilma-600" id={`${id}-help`}>
-          {helperCopy}
+          <strong>{text("Why we ask")}: </strong>{text(helperCopy)}
         </p>
       ) : null}
       <div className="mt-1.5">{children}</div>

@@ -66,9 +66,15 @@ export default async function OnboardingDetailPage({ params }: { params: Promise
           </Link>
           <header className="mt-4">
             <p className="text-xs font-black uppercase tracking-wide text-orange">
-              RCAP Partner Onboarding · Phase 1
+              RCAP Partner Launch Studio
             </p>
-            <h1 className="mt-2 text-3xl font-black">Internal onboarding review</h1>
+            <h1 className="mt-2 text-3xl font-black">Prepare your partner program</h1>
+            <nav aria-label="Launch Studio tasks" className="mt-5 flex flex-wrap gap-3">
+              <Link href="#setup-review" className="inline-flex min-h-11 items-center rounded-md border px-4 font-bold">Overview</Link>
+              <Link href="#prefill-heading" className="inline-flex min-h-11 items-center rounded-md border px-4 font-bold">Setup</Link>
+              <Link href="#launch-prep-area-co_branded_page" className="inline-flex min-h-11 items-center rounded-md border px-4 font-bold">Page preview</Link>
+              <Link href="#launch-prep-area-launch_readiness" className="inline-flex min-h-11 items-center rounded-md bg-navy px-4 font-bold text-white">Review & launch</Link>
+            </nav>
             <p className="mt-2 text-sm text-grayWilma-700">
               Partner: <span className="font-mono font-semibold">{partnerSlug}</span>
             </p>
@@ -80,11 +86,20 @@ export default async function OnboardingDetailPage({ params }: { params: Promise
             </p>
           ) : (
             <>
+              {launchPrep?.program ? <section className="mt-6 rounded-xl border border-teal/30 bg-white p-6" aria-label="Program status">
+                <h2 className="text-xl font-bold">{launchPrep.program.status}</h2>
+                <p className="mt-3 text-sm">{launchPrep.program.funding.explanation}</p>
+                <p className="mt-2 text-sm">Recorded payment: {launchPrep.program.funding.paymentStatus ?? "Unavailable"}. Screening allowance: {launchPrep.program.screeningAllowance.value ?? "Not configured"}. Packet allowance: {launchPrep.program.packetAllowance.value ?? (launchPrep.program.packetAllowance.status === "unavailable" ? "Unavailable" : "Not configured")}.</p>
+                {launchPrep.program.discrepancies.map(detail => <p key={detail} className="mt-3 text-sm text-orange">{detail}</p>)}
+              </section> : null}
+              <details id="setup-review" className="mt-6 rounded-xl border bg-white p-6">
+                <summary className="min-h-11 cursor-pointer font-bold">Detailed setup review</summary>
               <Phase1InternalReviewPanel
                 partnerSlug={partnerSlug}
                 snapshot={phase1Snapshot}
                 launchPreparation={launchPrep ? { href: "#launch-prep-heading" } : undefined}
               />
+              </details>
               {prefillLoadError ? <p role="status" className="mt-6 text-sm text-orange">{prefillLoadError}</p> : null}
               {launchPrepLoadError ? <p role="status" className="mt-6 text-sm text-orange">{launchPrepLoadError}</p> : null}
               {prefillSnapshot ? (

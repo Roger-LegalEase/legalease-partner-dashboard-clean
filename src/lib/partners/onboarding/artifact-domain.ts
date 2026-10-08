@@ -286,9 +286,13 @@ export type ArtifactSourceInput = {
     organizationName: string;
     programName: string | null;
     accessMode: string | null;
+    paymentStatus?: string | null;
+    provisioningStatus?: string | null;
+    legacyOnboardingStatus?: string | null;
   };
   data: OnboardingPartnerData;
   readOnlyValues: OnboardingReadOnlyValues;
+  packetAllocationSourceStatus?: "available" | "not_configured" | "unavailable";
   assets: readonly ArtifactAssetInput[];
   sectionRevisions: Partial<Record<OnboardingSectionKey, number>>;
   /** Section workflow status, read for launch readiness. Not projected. */

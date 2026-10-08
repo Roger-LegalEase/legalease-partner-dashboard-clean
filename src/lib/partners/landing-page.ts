@@ -91,7 +91,7 @@ export function buildPartnerLandingPageData(partner: PartnerRecord): PartnerLand
       ? "Clear your Mississippi record with We Must Vote + LegalEase."
       : `Start your ${serviceArea} record-clearing screening.`,
     landingPageSubheadline: isWeMustVote
-      ? "Start a guided Mississippi record review, prepare a draft expungement packet where the workflow supports it, and see filing next steps in plain English."
+      ? "Start a guided Mississippi record review, prepare a draft expungement packet where the workflow supports it, and see filing next steps clearly."
       : `${organizationName} and LegalEase help residents start with plain-language screening and a practical next step.`,
     primaryCtaLabel: isWeMustVote ? "Start Mississippi Record Review" : "Start My Free Screening",
     primaryCtaHref: partnerIntake(partner.partnerSlug),
@@ -284,7 +284,7 @@ function buildMvlpLandingPageData(partner: PartnerRecord): PartnerLandingPageTem
     ],
     promiseItems: [
       { title: "Free to register", body: "Choose a clinic and tell us how to reach you. You do not need every answer before you start.", imageUrl: illustration("promise-free-to-start.png") },
-      { title: "Plain-English steps", body: "Your application asks simple questions, saves your progress, and shows what is still needed.", imageUrl: illustration("promise-plain-language-guidance.png") },
+      { title: "Clear steps", body: "Your application asks simple questions, saves your progress, and shows what is still needed.", imageUrl: illustration("promise-plain-language-guidance.png") },
       { title: "Real people review your application", body: "MVLP staff and volunteer attorneys review your application and tell you what comes next.", imageUrl: illustration("promise-right-next-step.png") }
     ],
     quoteText: "Many people wait because the process feels confusing, expensive, or out of reach. MVLP clinics give Mississippians a trusted place to start, with volunteer attorneys and a clear plan for what happens next.",

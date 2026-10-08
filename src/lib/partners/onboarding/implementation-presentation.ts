@@ -1,3 +1,4 @@
+import type { LaunchResolution } from "./launch-readiness";
 import {
   nextActionOwnerLabel,
   sectionStatusLabel
@@ -60,6 +61,7 @@ export type PartnerImplementationReadinessInput = {
     label: string;
     owner: "partner" | "legalease";
     action: string;
+    resolutions?: LaunchResolution[];
   } | null;
 };
 
@@ -724,8 +726,8 @@ function currentActionFor(
       dueDateFallback: "Not scheduled",
       schedulingAction: "Ask LegalEase to confirm the due date for this readiness action.",
       whyItMatters: "This is the next unmet launch readiness check.",
-      href: "/partner/onboarding/resources",
-      label: "Open launch readiness"
+      href: input.readiness.primaryNextAction.resolutions?.find(action => action.canActorResolve && action.href)?.href ?? "/partner/onboarding/resources",
+      label: input.readiness.primaryNextAction.resolutions?.find(action => action.canActorResolve && action.href)?.actionLabel ?? "Review program status"
     };
   }
   if (input.workspaceStatus === "live") {

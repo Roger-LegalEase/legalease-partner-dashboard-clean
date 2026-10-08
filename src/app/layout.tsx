@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { headers } from "next/headers";
 import { Geist, Geist_Mono } from "next/font/google";
 import { LocalizationProvider } from "@/components/expungement-ai/LocalizationProvider";
 import { WebAnalyticsTracker } from "@/components/analytics/WebAnalyticsTracker";
@@ -14,7 +15,7 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
+const defaultMetadata: Metadata = {
   title: "LegalEase Partner Dashboard",
   description: "Partner dashboard for LegalEase partners",
   // Default LegalEase mark for the partner dashboard / legalease surfaces. This replaces the
@@ -25,6 +26,18 @@ export const metadata: Metadata = {
     icon: "/favicon.ico",
   },
 };
+
+export async function generateMetadata(): Promise<Metadata> {
+  const host = (await headers()).get("host")?.split(":")[0]?.toLowerCase();
+  if (host !== "legaleasepartner.com" && host !== "www.legaleasepartner.com") return defaultMetadata;
+  return { ...defaultMetadata, icons: {
+    icon: [
+      { url: "/expungement-ai/favicon.ico", sizes: "16x16 32x32 48x48" },
+      { url: "/expungement-ai/icon-192.png", type: "image/png", sizes: "192x192" },
+      { url: "/expungement-ai/icon-512.png", type: "image/png", sizes: "512x512" }
+    ], apple: { url: "/expungement-ai/apple-touch-icon.png", sizes: "180x180" }
+  }};
+}
 
 export default function RootLayout({
   children,

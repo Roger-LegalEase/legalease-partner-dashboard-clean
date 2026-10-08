@@ -39,7 +39,9 @@ export function CoBrandedPagePanel({
     version !== null &&
     version.generationStatus === "succeeded" &&
     entry.sourceFreshness !== "stale" &&
-    version.approvalStatus !== "approved";
+    version.approvalStatus !== "approved" &&
+    version.approvalStatus !== "superseded" &&
+    version.supersededAt === null;
 
   const logoSrc =
     preview?.logo.assetId && preview.showPartnerLogo
@@ -230,6 +232,7 @@ export function CoBrandedPagePanel({
             </div>
             <div className="mt-3 overflow-x-auto">
               <CoBrandedPageView
+                heroSrc={preview.heroImage.assetId ? `/api/internal/partners/onboarding/phase1/${encodeURIComponent(partnerSlug)}/assets/${encodeURIComponent(preview.heroImage.assetId)}` : null}
                 logoSrc={logoSrc}
                 ownershipReview={ownershipReview}
                 preview={preview}

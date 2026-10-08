@@ -342,13 +342,13 @@ async function verifyHttpIsolation() {
 
   const internal = await signIn(requiredEnv.PARTNER_RLS_INTERNAL_ADMIN_EMAIL, requiredEnv.PARTNER_RLS_INTERNAL_ADMIN_PASSWORD);
   await gotoAllowingRedirectAbort(internal, `${baseUrl}/partner/dashboard`);
-  if (!internal.url().startsWith(`${baseUrl}/dashboard/partners`)) {
-    failures.push(`Internal admin was not redirected to /dashboard/partners. Final URL: ${internal.url()}`);
+  if (!internal.url().startsWith(`${baseUrl}/internal`)) {
+    failures.push(`Internal admin was not redirected to /internal. Final URL: ${internal.url()}`);
   }
   await internal.close();
 
   checks.push("Unauthenticated access redirects to /sign-in?next=/partner/dashboard.");
-  checks.push("Internal admin redirects to /dashboard/partners and no-partner authenticated access is denied.");
+  checks.push("Internal admin redirects to /internal and no-partner authenticated access is denied.");
   checks.push("Two real partner sessions reached /partner/dashboard through the app sign-in path.");
   checks.push("Partner team page allows partner_admin, denies partner_staff and no-partner users, and redirects unauthenticated users.");
   checks.push("Partner team page did not render forbidden cross-partner identity for the exercised partner contexts.");
@@ -785,7 +785,8 @@ async function visiblePageText(page) {
 }
 
 async function verifyPublicRegressions() {
-  const landing = await fetch(`${baseUrl}/p/we-must-vote`);
+  // The approved WMV static composition is intentionally qualified by partner host.
+  const landing = await fetch(`${baseUrl}/p/we-must-vote`, { headers: { host: "legaleasepartner.com" } });
   if (!landing.ok) {
     failures.push(`/p/we-must-vote regression failed with status ${landing.status}.`);
   } else {

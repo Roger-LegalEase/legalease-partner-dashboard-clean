@@ -1,0 +1,47 @@
+import assert from 'node:assert/strict';
+import { register } from 'node:module';
+import { artifactSourceFixture } from './lib/rcap-onboarding-artifact-fixture.mjs';
+register('./lib/ts-esm-loader.mjs',import.meta.url);
+const {evaluateLaunchReadiness,partnerVisibleReadiness,LAUNCH_CHECK_DEFINITIONS}=await import('../src/lib/partners/onboarding/launch-readiness.ts');
+const {resolveProgramPresentation}=await import('../src/lib/partners/onboarding/program-presentation.ts');
+const source=artifactSourceFixture();
+source.workspace.status='ready_to_launch';
+source.workspace.commercialGateStatus='cleared_by_authorized_internal_override';
+source.partnerRecord={...source.partnerRecord,accessMode:'invite_only',paymentStatus:'unpaid',provisioningStatus:'blocked_payment_required',legacyOnboardingStatus:'not_started'};
+source.data.access_sponsorship_capacity.participant_access_model='open';
+source.readOnlyValues.screening_allocation=null;
+source.readOnlyValues.packet_credits=12;
+source.sectionStatuses=Object.fromEntries(Object.keys(source.data).map(key=>[key,'approved']));
+source.workspace.agreementStatus='executed';
+const artifacts=['implementation_brief','operations_escalation_plan','dashboard_user_reporting_matrix','staff_quick_start_guide','co_branded_page_configuration'].map((artifactType,index)=>({artifactType,label:artifactType,available:true,sourceFreshness:'current',staleFields:[],invalidatedApprovals:{legalease:false,partner:false},currentVersion:{id:`synthetic-version-${index}`,versionNumber:index===4?2:1,generationStatus:'succeeded',approvalStatus:index===4?'approved':'superseded',partnerReviewStatus:'approved'},versions:[]}));
+const recorded=['staff_training_completed','legalease_final_review_complete'].map(checkKey=>({checkKey,status:'passing',evidenceSummary:'Genuine synthetic reviewer receipt',evidenceReference:'synthetic-receipt',checkedAt:'2026-10-08T11:00:00Z',invalidatedAt:null,invalidatedReason:null}));
+const input={source,artifacts,recorded};
+let count=0;
+for (const actor of ['internal','partner_admin','partner_staff']) {
+ const readiness=evaluateLaunchReadiness(input,actor);
+ const access=readiness.checks.find(check=>check.key==='access_model_and_capacity_present');
+ assert.equal(access.owner,'legalease');
+ assert.ok(access.resolutions.every(action=>action.actualMissingFact!=='participant_access_model'));
+ const allowance=access.resolutions.find(action=>action.actualMissingFact==='screening_allocation');
+ assert.equal(allowance.canActorResolve,actor==='internal');
+ assert.equal(allowance.href,actor==='internal'?`/internal/partners/admin/${source.workspace.partnerSlug}#rcap-screening-allowance`:null);
+ assert.equal(readiness.ready,false);
+ assert.equal(readiness.checks.find(check=>check.key==='staff_training_completed').status,'passing');
+ assert.equal(readiness.checks.find(check=>check.key==='legalease_final_review_complete').status,'passing');
+ assert.equal(readiness.checks.find(check=>check.key==='partner_launch_approval_received').status,'not_started'); count++;
+ const truth=resolveProgramPresentation(source,readiness);
+ assert.equal(truth.setupApproved,true); assert.equal(truth.launchReady,false); assert.equal(truth.funding.paymentStatus,'unpaid');
+ assert.equal(truth.screeningAllowance.value,null); assert.equal(truth.packetAllowance.value,12); assert.equal(truth.access.conflict,true); count++;
+ for (const check of readiness.checks.filter(check=>!["passing","waived","not_applicable"].includes(check.status))) {
+  assert.ok(check.resolutions?.length,`${check.key} needs ownership/action`);
+  if(actor!=='internal') assert.ok(check.resolutions.every(action=>!action.href?.startsWith('/internal')));
+ } count++;
+ const partner=partnerVisibleReadiness(readiness);
+ assert.ok(partner.checks.every(check=>(check.resolutions ?? []).every(action=>!action.href?.startsWith('/internal')))); count++;
+}
+source.data.access_sponsorship_capacity.participant_access_model=undefined;
+const missing=evaluateLaunchReadiness(input).checks.find(check=>check.key==='access_model_and_capacity_present');
+assert.equal(missing.resolutions[0].href,'/partner/onboarding/access_sponsorship_capacity?step=participant-access-model');
+assert.equal(missing.resolutions[1].owner,'legalease');count++;
+assert.equal(LAUNCH_CHECK_DEFINITIONS.length,15);
+console.log(`${count} source reconciliation and role-aware action cases PASS.`);

@@ -46,6 +46,7 @@ export default async function NewPartnerOnboardingPage({
               idempotent workspace control. No partner, invitation,
               publication, or activation is created by this lookup.
             </p>
+            <Link href="/internal/partners/provisioning/new" className="mt-5 inline-flex min-h-11 items-center rounded-md bg-orange px-5 py-2 font-bold text-white">Create a new partner</Link>
             <form className="mt-6 grid gap-3" method="get">
               <label
                 className="text-sm font-black text-navy"

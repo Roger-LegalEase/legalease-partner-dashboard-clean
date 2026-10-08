@@ -1,6 +1,8 @@
+import Link from "next/link";
 import { Badge } from "@/components/ui/Badge";
 import { Card } from "@/components/ui/Card";
 import type {
+  LaunchResolution,
   LaunchCheckEvaluation,
   LaunchCheckStatus,
   LaunchReadiness
@@ -76,6 +78,7 @@ export function LaunchReadinessView({
             <p className="mt-1 text-xs text-grayWilma-700">
               For: {readiness.primaryNextAction.label}
             </p>
+            <ResolutionActions resolutions={readiness.primaryNextAction.resolutions} />
           </div>
         ) : null}
 
@@ -97,6 +100,7 @@ export function LaunchReadinessView({
             {group.checks.map((check) => (
               <Card
                 key={check.key}
+                id={`check-${check.key}`}
                 className="p-4"
                 data-check-key={check.key}
                 data-check-status={check.status}
@@ -121,9 +125,7 @@ export function LaunchReadinessView({
                 <p className="mt-3 text-sm leading-relaxed text-grayWilma-800">
                   {check.evidenceSummary}
                 </p>
-                <p className="mt-1 text-[0.68rem] uppercase tracking-wide text-grayWilma-600">
-                  Evidence: {check.evidenceReference}
-                </p>
+                {audience === "internal" ? <p className="mt-1 text-xs text-grayWilma-600">Evidence: {check.evidenceReference}</p> : null}
 
                 {check.blocking &&
                 check.status !== "passing" &&
@@ -134,6 +136,7 @@ export function LaunchReadinessView({
                   </p>
                 ) : null}
 
+                <ResolutionActions resolutions={check.resolutions} />
                 {renderCheckAction ? (
                   <div className="mt-3">{renderCheckAction(check)}</div>
                 ) : null}
@@ -144,4 +147,12 @@ export function LaunchReadinessView({
       ))}
     </div>
   );
+}
+
+function ResolutionActions({ resolutions }: { resolutions?: LaunchResolution[] }) {
+  return <div className="mt-3 flex flex-wrap gap-3">{resolutions?.map(resolution =>
+    resolution.href && resolution.canActorResolve
+      ? <Link key={resolution.actualMissingFact} href={resolution.href} className="inline-flex min-h-11 items-center rounded-md bg-navy px-4 py-2 text-sm font-bold text-white focus-visible:ring-2 focus-visible:ring-teal">{resolution.actionLabel}</Link>
+      : <p key={resolution.actualMissingFact} className="text-sm font-semibold text-grayWilma-700">{resolution.actionLabel}</p>
+  )}</div>;
 }

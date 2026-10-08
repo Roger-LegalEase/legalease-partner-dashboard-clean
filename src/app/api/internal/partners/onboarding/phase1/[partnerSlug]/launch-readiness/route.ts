@@ -21,9 +21,7 @@ export const revalidate = 0;
 
 const INTERNAL_STATUSES: readonly LaunchCheckStatus[] = [
   "passing",
-  "needs_review",
-  "waived",
-  "not_applicable"
+  "needs_review"
 ];
 
 export async function GET(

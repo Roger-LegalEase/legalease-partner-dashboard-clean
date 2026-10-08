@@ -35,7 +35,7 @@ import {
   type RenderedDocument
 } from "./artifact-generator";
 import { Phase1OnboardingError } from "./errors";
-import { isRcapOnboardingLaunchPrepEnabled } from "./feature";
+import { isRcapLaunchStudioEnabled, isRcapOnboardingLaunchPrepEnabled } from "./feature";
 import { deriveRecordShieldScope } from "./scope";
 import { createPrivateOnboardingAssetUrl } from "./storage";
 import type {
@@ -110,7 +110,8 @@ export async function loadArtifactSourceInput(
     recipients,
     assets,
     partnerRecord,
-    entitlement
+    entitlement,
+    packetEntitlement
   ] = await Promise.all([
     client
       .from("partner_onboarding_sections")
@@ -147,7 +148,7 @@ export async function loadArtifactSourceInput(
       .in("lifecycle_status", ["pending_review", "active"]),
     client
       .from("partner_records")
-      .select("id, organization_name, partner_name, program_name, selected_package_id, access_mode")
+      .select("id, organization_name, partner_name, program_name, selected_package_id, access_mode, payment_status, provisioning_status, onboarding_status")
       .eq("id", String(workspace.partner_record_id))
       .maybeSingle(),
     client
@@ -157,6 +158,12 @@ export async function loadArtifactSourceInput(
       // resolved to null and never reached a document.
       .select("screenings_allowed, screenings_used, overage_enabled, pause_at_cap")
       .eq("partner_slug", partnerSlug)
+      .maybeSingle(),
+    client.from("partner_packet_entitlement")
+      .select("packet_cap")
+      .eq("partner_id", String(workspace.partner_record_id))
+      .eq("entitlement_scope", "sponsored_packets")
+      .is("expires_at", null)
       .maybeSingle()
   ]);
 
@@ -233,10 +240,9 @@ export async function loadArtifactSourceInput(
       entitlementRow?.screenings_allowed != null
         ? `${entitlementRow.screenings_allowed} sponsored screenings`
         : undefined,
-    sponsored_packet_scope:
-      entitlementRow?.screenings_allowed != null
-        ? `Sponsored packets follow the selected package`
-        : undefined,
+    sponsored_packet_scope: packetEntitlement.data?.packet_cap != null
+      ? `${packetEntitlement.data.packet_cap} sponsored packet credits` : undefined,
+    packet_credits: packetEntitlement.data?.packet_cap != null ? Number(packetEntitlement.data.packet_cap) : null,
     recordshield_pathway: scope.inScope ? "RecordShield included" : null,
     overage_behavior: entitlementRow?.overage_enabled
       ? "Overage enabled"
@@ -254,6 +260,7 @@ export async function loadArtifactSourceInput(
   };
 
   return {
+    packetAllocationSourceStatus: packetEntitlement.error ? "unavailable" : packetEntitlement.data ? "available" : "not_configured",
     workspace: {
       id: workspaceId,
       partnerSlug,
@@ -277,7 +284,10 @@ export async function loadArtifactSourceInput(
         (partner.partner_name as string | null) ??
         partnerSlug,
       programName: (partner.program_name as string | null) ?? null,
-      accessMode: (partner.access_mode as string | null) ?? null
+      accessMode: (partner.access_mode as string | null) ?? null,
+      paymentStatus: (partner.payment_status as string | null) ?? null,
+      provisioningStatus: (partner.provisioning_status as string | null) ?? null,
+      legacyOnboardingStatus: (partner.onboarding_status as string | null) ?? null
     },
     data: data as OnboardingPartnerData,
     readOnlyValues,
@@ -319,6 +329,7 @@ export type ArtifactVersionView = {
   generatorVersion: string;
   generatedAt: string;
   supersededAt: string | null;
+  snapshotHash?: string | null;
   staleAt: string | null;
   document: RenderedDocument | null;
 };
@@ -370,6 +381,8 @@ export type LegalEasePublicPageConfiguration = {
 
 export type ArtifactBoard = {
   workspaceId: string;
+  workspaceVersion?: number;
+  packageReviewEnabled?: boolean;
   partnerSlug: string;
   organizationName: string;
   entries: ArtifactBoardEntry[];
@@ -395,13 +408,14 @@ type VersionRow = {
   generator_version: string;
   generated_at: string;
   superseded_at: string | null;
+  snapshot_hash?: string | null;
   source_drift_invalidated_at: string | null;
   normalized_snapshot: Record<string, unknown>;
   rendered_content: Record<string, unknown>;
 };
 
 const INTERNAL_VERSION_COLUMNS =
-  "id, artifact_id, version_number, generation_status, generation_error_code, approval_status, partner_review_status, partner_visible_instructions, generator_version, generated_at, superseded_at, source_drift_invalidated_at, normalized_snapshot, rendered_content";
+  "id, artifact_id, version_number, generation_status, generation_error_code, approval_status, partner_review_status, partner_visible_instructions, generator_version, generated_at, superseded_at, source_drift_invalidated_at, snapshot_hash, normalized_snapshot, rendered_content";
 
 const PARTNER_VERSION_COLUMNS =
   "id, artifact_id, version_number, generation_status, approval_status, partner_review_status, partner_visible_instructions, generator_version, generated_at, superseded_at, source_drift_invalidated_at, rendered_content";
@@ -419,6 +433,7 @@ function toVersionView(row: VersionRow): ArtifactVersionView {
     generatorVersion: row.generator_version,
     generatedAt: row.generated_at,
     supersededAt: row.superseded_at,
+    snapshotHash: row.snapshot_hash ?? null,
     staleAt: row.source_drift_invalidated_at,
     document:
       row.generation_status === "succeeded" && content && typeof content === "object"
@@ -610,6 +625,8 @@ async function buildBoard(options: {
     workspaceId: source.workspace.id,
     partnerSlug,
     organizationName: source.partnerRecord.organizationName,
+    workspaceVersion: source.workspace.aggregateVersion,
+    packageReviewEnabled: audience === "internal" && isRcapLaunchStudioEnabled(),
     entries,
     legalEasePageConfiguration:
       audience === "internal"
@@ -819,6 +836,19 @@ export async function reviewArtifactVersion(
   assertLaunchPrepEnabled();
   const admin = requireAdmin();
 
+  if ((input.reviewerType === "legalease" && context.role !== "internal_admin") ||
+      (input.reviewerType === "partner" && context.role !== "partner_admin")) {
+    throw new Phase1OnboardingError("forbidden", "You cannot record this reviewer’s approval.");
+  }
+  const workspace = await admin.from("partner_onboarding").select("id").eq("partner_slug", context.partnerSlug).maybeSingle();
+  if (workspace.error || !workspace.data) throw new Phase1OnboardingError("workspace_not_found", "Program workspace unavailable.");
+  const version = await admin.from("partner_onboarding_artifact_versions")
+    .select("generation_status, approval_status, superseded_at, source_drift_invalidated_at")
+    .eq("id", input.artifactVersionId).eq("workspace_id", workspace.data.id).maybeSingle();
+  if (version.error || !version.data) throw new Phase1OnboardingError("invalid_input", "The review version could not be verified.");
+  if (input.decision === "approve" && (version.data.generation_status !== "succeeded" || version.data.approval_status === "superseded" || version.data.superseded_at || version.data.source_drift_invalidated_at)) {
+    throw new Phase1OnboardingError("invalid_transition", "A newer current version is needed before approval.");
+  }
   const { data, error } = await admin.rpc("rcap_service_review_onboarding_artifact", {
     p_partner_slug: context.partnerSlug,
     p_actor_user_id: context.authUserId,
@@ -962,32 +992,20 @@ function boundedText(value: unknown, maxLength: number): string | null {
 
 export async function supersedeArtifactVersion(
   context: InternalOnboardingContext,
-  input: { artifactVersionId: string }
+  input: { artifactVersionId: string; reason?: string; requestId?: string; confirmed?: boolean }
 ): Promise<{ superseded: boolean }> {
   assertLaunchPrepEnabled();
-  const admin = requireAdmin();
-  const { data, error } = await admin.rpc(
-    "rcap_service_supersede_onboarding_artifact_version",
-    {
-      p_partner_slug: context.partnerSlug,
-      p_actor_user_id: context.authUserId,
-      p_artifact_version_id: input.artifactVersionId
-    }
-  );
-  if (error) {
-    throw new Phase1OnboardingError(
-      "persistence_failed",
-      "The version could not be superseded."
-    );
+  if (!isRcapLaunchStudioEnabled()) throw new Phase1OnboardingError("feature_disabled", "Version retirement requires the audited Launch Studio release.");
+  if (context.role !== "internal_admin" || input.confirmed !== true || !input.requestId || !input.reason || input.reason.trim().length < 10) {
+    throw new Phase1OnboardingError("invalid_input", "Confirm retirement and record a specific reason.");
   }
-  const row = firstRow(data);
-  return { superseded: row?.superseded === true };
+  const { data, error } = await requireAdmin().rpc("rcap_service_retire_onboarding_artifact", {
+    p_partner_slug: context.partnerSlug, p_actor_user_id: context.authUserId,
+    p_artifact_version_id: input.artifactVersionId, p_reason: input.reason.trim(), p_request_id: input.requestId
+  });
+  if (error) throw new Phase1OnboardingError("persistence_failed", "Audited version retirement is unavailable. Nothing was confirmed.");
+  return { superseded: firstRow(data)?.superseded === true };
 }
-
-// --- co-branded page preview assets ------------------------------------------
-
-const UUID_PATTERN =
-  /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
 /**
  * Resolves one organizational asset to a short-lived private URL so the
@@ -996,6 +1014,8 @@ const UUID_PATTERN =
  * the partner slug names, so it cannot reach another tenant's asset. No public
  * URL is minted and nothing is published.
  */
+const UUID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+
 export async function loadInternalOnboardingAssetUrl(
   context: InternalOnboardingContext,
   assetId: string
@@ -1146,4 +1166,34 @@ function firstRow(data: unknown): Record<string, unknown> | null {
   }
   if (data && typeof data === "object") return data as Record<string, unknown>;
   return null;
+}
+
+/** One reviewed package, preserving distinct immutable per-version receipts. */
+export async function reviewLaunchPackage(context: InternalOnboardingContext,
+  input: { requestId: string; workspaceVersion: number; reviewedVersions: Array<{id:string;snapshotHash:string}> }) {
+  if (!isRcapLaunchStudioEnabled()) throw new Phase1OnboardingError("feature_disabled", "Package approval awaits the audited Launch Studio release.");
+  if (context.role !== "internal_admin") throw new Phase1OnboardingError("forbidden", "An authorized internal reviewer is required.");
+  const { board, source } = await loadInternalArtifactBoardWithSource(context);
+  if (source.workspace.aggregateVersion !== input.workspaceVersion) throw new Phase1OnboardingError("invalid_transition", "Program information changed. Review the current package.");
+  const required = ["implementation_brief", "operations_escalation_plan", "dashboard_user_reporting_matrix", "staff_quick_start_guide", "co_branded_page_configuration"];
+  const entries = board.entries.filter(entry => required.includes(entry.artifactType));
+  if (entries.length !== required.length || input.reviewedVersions.length !== required.length || new Set(input.reviewedVersions.map(v=>v.id)).size !== required.length) throw new Phase1OnboardingError("invalid_input", "Review every required current document.");
+  for (const entry of entries) {
+    const version = entry.currentVersion;
+    if (!version || version.generationStatus !== "succeeded" || version.approvalStatus === "superseded" || version.supersededAt || entry.sourceFreshness !== "current" ||
+        !input.reviewedVersions.some(review=>review.id===version.id && review.snapshotHash===version.snapshotHash)) {
+      throw new Phase1OnboardingError("invalid_transition", "The package contains an unavailable, retired or changed document. Review the current versions.");
+    }
+  }
+  const {error} = await requireAdmin().rpc("rcap_service_review_launch_package", {
+    p_partner_slug: context.partnerSlug, p_actor_user_id: context.authUserId, p_request_id: input.requestId,
+    p_workspace_version: input.workspaceVersion, p_versions: input.reviewedVersions
+  });
+  if(error) throw new Phase1OnboardingError("persistence_failed", "Package approval could not be recorded. Refresh to check the current receipts before retrying.");
+  const refreshed = await loadInternalArtifactBoardWithSource(context);
+  if (refreshed.source.workspace.aggregateVersion !== input.workspaceVersion || entries.some(entry => {
+    const current = refreshed.board.entries.find(value => value.artifactType === entry.artifactType);
+    return current?.currentVersion?.id !== entry.currentVersion?.id || current?.currentVersion?.approvalStatus !== "approved" || current?.sourceFreshness !== "current";
+  })) throw new Phase1OnboardingError("invalid_transition", "The package changed during review. Refresh and review the affected versions; launch remains held.");
+  return { approved: true };
 }

@@ -28,7 +28,7 @@ export type WilmaGuardResult = {
 };
 
 const safeScreeningRedirect = "The free screening uses your answers and your state's rules to show what may be available. I can explain each question, but I do not decide which option is available or promise an outcome. Let's use the screening for that part.";
-const safeHumanRedirect = "This is a question for a lawyer or legal aid, and I do not want to guess about something this important. I can still explain the general steps in plain English while you find legal help.";
+const safeHumanRedirect = "This is a question for a lawyer or legal aid, and I do not want to guess about something this important. I can still explain the general steps clearly while you find legal help.";
 const safeScreeningRedirectEs = "La evaluación gratuita usa sus respuestas y las reglas de su estado para mostrar qué opciones podrían estar disponibles. Puedo explicar cada pregunta, pero no decido qué opción está disponible ni prometo un resultado. Use la evaluación para esa parte.";
 const safeHumanRedirectEs = "Esta pregunta requiere la ayuda de un abogado o de asistencia legal, y no quiero adivinar sobre algo tan importante. Puedo explicar los pasos generales con palabras claras mientras busca ayuda legal.";
 

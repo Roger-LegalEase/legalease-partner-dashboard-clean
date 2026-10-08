@@ -12,6 +12,7 @@ import type { PartnerSupportContact } from "@/lib/partners/onboarding/support-co
 import { PartnerSupportLink } from "./PartnerSupportLink";
 
 export type Phase1OnboardingHomeProps = {
+  launchPrepEnabled?: boolean;
   organizationName: string;
   programName: string | null;
   implementationOwner: string | null;
@@ -40,6 +41,7 @@ export type Phase1OnboardingHomeProps = {
 };
 
 export function Phase1OnboardingHome({
+  launchPrepEnabled = false,
   organizationName,
   programName,
   implementationOwner,
@@ -67,14 +69,13 @@ export function Phase1OnboardingHome({
     <div className="min-w-0 text-[#071B33]">
       <nav className="mb-7 flex flex-wrap gap-x-6 gap-y-2" aria-label="Implementation navigation">
         <PortalLink href="/partner/dashboard">Back to dashboard</PortalLink>
-        <PortalLink href="/partner/onboarding/resources">Resources and launch readiness</PortalLink>
-        <PortalLink href="/partner/onboarding/artifacts">Implementation materials</PortalLink>
+        {launchPrepEnabled ? <><PortalLink href="/partner/onboarding/resources">Launch &amp; resources</PortalLink><PortalLink href="/partner/onboarding/artifacts#your-page">Your page and materials</PortalLink></> : null}
       </nav>
 
       <header className="border-b-4 border-[#071B33] pb-6">
         <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(280px,0.42fr)] lg:items-end">
           <div className="min-w-0">
-            <p className={docketClass}>RCAP implementation center</p>
+            <p className={docketClass}>Your program workspace</p>
             <h1 className="mt-3 break-words text-3xl font-extrabold tracking-[-0.025em] text-[#071B33] sm:text-4xl lg:text-5xl">
               {programName || organizationName}
             </h1>

@@ -47,14 +47,14 @@ export function draftWilmaPlaceholderResponse(message: string, locale: "en" | "e
     if (locale === "es") {
       return "Soy una guía, no su abogada. Puedo explicar el proceso general en lenguaje sencillo, pero para asesoría sobre su situación específica conviene hablar con ayuda legal o con un abogado.";
     }
-    return "I'm a guide, not your lawyer. I would rather point you to the right person than guess about something that matters. I can explain the general process in plain English and help you find legal help for advice about your situation.";
+    return "I'm a guide, not your lawyer. I would rather point you to the right person than guess about something that matters. I can explain the general process clearly and help you find legal help for advice about your situation.";
   }
 
   if (/\b(expungement|sealing|petition|filing|court)\b/i.test(message)) {
     if (locale === "es") {
       return "Puedo explicarle el proceso general con palabras claras. La evaluación gratuita muestra qué opciones podrían estar disponibles. Para una estrategia legal sobre su caso, hable con un abogado o con ayuda legal.";
     }
-    return "I can explain how the general process works in plain English. The free screening shows which options may be available. A lawyer or legal aid should handle legal strategy for your case.";
+    return "I can explain how the general process works clearly. The free screening shows which options may be available. A lawyer or legal aid should handle legal strategy for your case.";
   }
 
   if (locale === "es") {

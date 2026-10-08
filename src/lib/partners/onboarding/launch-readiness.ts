@@ -1,3 +1,5 @@
+import { guidedSectionHref, guidedSubstepForField } from "./guided-substeps";
+import type { OnboardingSectionKey } from "./types";
 import { isReferralFieldActive } from "./referral-policy";
 // Type-only, so this domain module pulls in none of the server-only service.
 import type { ArtifactBoardEntry } from "./artifact-service";
@@ -75,7 +77,18 @@ export type LaunchCheckDefinition = {
   nextAction: string;
 };
 
+export type LaunchResolution = {
+  actualMissingFact: string;
+  owner: LaunchCheckOwner;
+  actionLabel: string;
+  href: string | null;
+  blockingReason: string;
+  sourceReceipt: string;
+  canActorResolve: boolean;
+};
+
 export type LaunchCheckEvaluation = LaunchCheckDefinition & {
+  resolutions?: LaunchResolution[];
   status: LaunchCheckStatus;
   evidenceSummary: string;
   evidenceReference: string;
@@ -101,6 +114,7 @@ export type LaunchReadiness = {
     label: string;
     owner: LaunchCheckOwner;
     action: string;
+    resolutions?: LaunchResolution[];
   } | null;
 };
 
@@ -261,6 +275,7 @@ const AUTOMATED_EVALUATORS: Readonly<
     const gaps: string[] = [];
     if (!model) gaps.push("participant access model");
     if (allocation == null) gaps.push("screening allocation");
+    if (model && source.partnerRecord.accessMode && model !== source.partnerRecord.accessMode) gaps.push("LegalEase reconciliation of conflicting access settings");
     if (gaps.length > 0) {
       return {
         status: "failing",
@@ -685,7 +700,8 @@ export function launchCheckDefinition(
  * invalidated decision reverts to needing review rather than silently standing.
  */
 export function evaluateLaunchReadiness(
-  input: LaunchCheckSource
+  input: LaunchCheckSource,
+  actor: "internal" | "partner_admin" | "partner_staff" = "partner_admin"
 ): LaunchReadiness {
   const recordedByKey = new Map(
     input.recorded.map((row) => [row.checkKey, row])
@@ -726,7 +742,7 @@ export function evaluateLaunchReadiness(
         ...definition,
         // An invalidated decision is not a passing one. It goes back to the
         // reviewer rather than quietly counting toward readiness.
-        status: invalidated ? "needs_review" : recorded.status,
+        status: invalidated || recorded.status === "waived" || recorded.status === "not_applicable" ? "needs_review" : recorded.status,
         evidenceSummary: invalidated
           ? `Recorded, then invalidated: ${recorded.invalidatedReason ?? "source data changed"}.`
           : recorded.evidenceSummary ?? "Recorded by an authorized reviewer.",
@@ -737,6 +753,16 @@ export function evaluateLaunchReadiness(
       };
     }
   );
+
+  for (const check of checks) {
+    if (isSatisfiedLaunchCheckStatus(check.status)) continue;
+    check.resolutions = resolveLaunchActions(check, input, actor);
+    const primary = check.resolutions[0];
+    if (primary) {
+      check.owner = primary.owner;
+      check.nextAction = primary.actionLabel;
+    }
+  }
 
   const blockingFailures = checks.filter(
     (check) => check.blocking && !isSatisfiedLaunchCheckStatus(check.status)
@@ -764,7 +790,8 @@ export function evaluateLaunchReadiness(
           checkKey: primary.key,
           label: primary.label,
           owner: primary.owner,
-          action: primary.nextAction
+          action: primary.nextAction,
+          resolutions: primary.resolutions
         }
       : null
   };
@@ -774,11 +801,16 @@ export function evaluateLaunchReadiness(
 export function partnerVisibleReadiness(
   readiness: LaunchReadiness
 ): LaunchReadiness {
-  const checks = readiness.checks.filter((check) => check.partnerVisible);
+  const checks = readiness.checks.filter((check) => check.partnerVisible).map((check) => ({
+    ...check,
+    resolutions: check.resolutions?.map((resolution) => resolution.href?.startsWith("/internal")
+      ? { ...resolution, href: null, canActorResolve: false, actionLabel: "LegalEase is completing this task" }
+      : resolution)
+  }));
   const blockingFailures = checks.filter(
     (check) => check.blocking && !isSatisfiedLaunchCheckStatus(check.status)
   );
-  const primary = blockingFailures.find((check) => check.owner === "partner") ?? null;
+  const primary = blockingFailures.find((check) => check.owner === "partner") ?? blockingFailures[0] ?? null;
   return {
     // Readiness itself is never recomputed from the filtered set: a partner
     // must not read "ready" because the checks it cannot see were hidden.
@@ -795,8 +827,102 @@ export function partnerVisibleReadiness(
           checkKey: primary.key,
           label: primary.label,
           owner: primary.owner,
-          action: primary.nextAction
+          action: primary.nextAction,
+          resolutions: primary.resolutions
         }
       : null
   };
+}
+
+/** One source-derived resolver shared by operator, partner and overview views. */
+function resolveLaunchActions(check: LaunchCheckEvaluation, input: LaunchCheckSource,
+  actor: "internal" | "partner_admin" | "partner_staff"): LaunchResolution[] {
+  const internal = actor === "internal";
+  const workspace = `/internal/partners/onboarding/${encodeURIComponent(input.source.workspace.partnerSlug)}`;
+  function result(fact: string, owner: LaunchCheckOwner, label: string, partnerHref: string | null,
+    internalHref = `${workspace}#prefill-heading`): LaunchResolution {
+    const canActorResolve = internal ? owner === "legalease" || check.determination === "automated" : actor === "partner_admin" && owner === "partner";
+    return { actualMissingFact: fact, owner, actionLabel: canActorResolve ? label : owner === "legalease"
+      ? "LegalEase is completing this task" : "Your program administrator must confirm this task",
+      href: canActorResolve ? internal ? internalHref : partnerHref : null,
+      blockingReason: check.evidenceSummary, sourceReceipt: check.evidenceReference, canActorResolve };
+  }
+  function guided(section: OnboardingSectionKey, field: string) {
+    const step = guidedSubstepForField(section, field);
+    return step ? guidedSectionHref(section, step.id) : null;
+  }
+  if (check.key === "access_model_and_capacity_present") {
+    const actions: LaunchResolution[] = [];
+    if (!text(input.source, "access_sponsorship_capacity", "participant_access_model")) {
+      actions.push(result("participant_access_model", "partner", internal ? "Prepare how people join" : "Choose how people join",
+        guided("access_sponsorship_capacity", "participant_access_model")));
+    }
+    if (input.source.readOnlyValues.screening_allocation == null) {
+      actions.push(result("screening_allocation", "legalease", internal ? "Configure authorized screening allowance" : "LegalEase is configuring your program allowance", null,
+        `/internal/partners/admin/${encodeURIComponent(input.source.workspace.partnerSlug)}#rcap-screening-allowance`));
+      if (!internal) actions[actions.length - 1].actionLabel = "LegalEase is configuring your program allowance";
+    }
+    const model = text(input.source, "access_sponsorship_capacity", "participant_access_model");
+    if (model && input.source.partnerRecord.accessMode && model !== input.source.partnerRecord.accessMode) {
+      actions.push(result("access_source_conflict", "legalease", "Review conflicting access settings", null, `${workspace}#setup-review`));
+    }
+    return actions;
+  }
+  if (check.key === "report_recipients_configured") {
+    const actions: LaunchResolution[] = [];
+    if (!rows(input.source, "support_referrals_reporting", "report_recipients").some(row => typeof row.work_email === "string" && row.work_email))
+      actions.push(result("report_recipients", "partner", "Add a report recipient", guided("support_referrals_reporting", "report_recipients")));
+    if (!text(input.source, "support_referrals_reporting", "reporting_cadence"))
+      actions.push(result("reporting_cadence", "partner", "Choose report timing", guided("support_referrals_reporting", "reporting_cadence")));
+    return actions;
+  }
+  if (check.key === "support_and_referral_contacts_configured") {
+    const support = input.source.data.support_referrals_reporting;
+    const gaps: string[] = [];
+    if (!text(input.source, "support_referrals_reporting", "participant_support_email")) gaps.push("participant_support_email");
+    if (isReferralFieldActive(support, "legal_services_referral_organization") && !support?.legal_services_referral_organization?.trim()) gaps.push("legal_services_referral_organization");
+    if (support?.referral_arrangement && isReferralFieldActive(support, "referral_intake_method")) {
+      if (!support.referral_intake_method?.trim()) gaps.push("referral_intake_method");
+      if (!support.referral_intake_details?.trim()) gaps.push("referral_intake_details");
+    }
+    if (support?.referral_arrangement && !support.contested_matter_procedure?.trim()) gaps.push("contested_matter_procedure");
+    if (!rows(input.source, "organization_contacts", "contacts").some(row => row.stable_row_id === support?.urgent_escalation_contact_id)) gaps.push("urgent_escalation_contact_id");
+    return gaps.map(field => result(field, "partner", "Add participant support information", guided("support_referrals_reporting", field)));
+  }
+  if (check.key === "public_page_fields_present") {
+    const gaps: Array<[OnboardingSectionKey, string]> = [];
+    if (!(input.source.workspace.publicDisplayName ?? text(input.source, "organization_contacts", "public_organization_name"))) gaps.push(["organization_contacts", "public_organization_name"]);
+    if (!(input.source.workspace.publicHeadline ?? text(input.source, "brand_public_page", "program_headline"))) gaps.push(["brand_public_page", "program_headline"]);
+    for (const field of ["approved_organization_description", "primary_cta_label"]) if (!text(input.source, "brand_public_page", field)) gaps.push(["brand_public_page", field]);
+    return gaps.map(([section, field]) => result(field, "partner", "Review your page information", guided(section, field)));
+  }
+  const fields: Record<string, [OnboardingSectionKey, string, string]> = {
+    required_logo_present: ["brand_public_page", "transparent_logo", "Upload your logo"],
+    public_page_fields_present: ["brand_public_page", "approved_organization_description", "Review your page information"],
+    planned_partner_administrator_present: ["staff_dashboard_plan", "primary_dashboard_administrator_row_id", "Choose your program administrator"],
+    report_recipients_configured: ["support_referrals_reporting", "report_recipients", "Add a report recipient"],
+    support_and_referral_contacts_configured: ["support_referrals_reporting", "participant_support_email", "Add participant support information"]
+  };
+  if (check.key === "required_logo_present") return [result("transparent_logo", "partner", internal ? "Review branding" : "Upload your logo",
+    guidedSectionHref("brand_public_page", "private-assets"))];
+  if (fields[check.key]) {
+    const [section, field, label] = fields[check.key];
+    return [result(field, check.owner, internal ? "Prepare program information" : label, guided(section, field))];
+  }
+  if (check.key === "onboarding_sections_complete") {
+    const statuses = input.source.sectionStatuses ?? {};
+    const pending = Object.entries(statuses).find(([, status]) => !["approved", "waived", "not_applicable"].includes(status));
+    const inReview = Object.values(statuses).every(status => ["approved", "submitted", "waived", "not_applicable"].includes(status));
+    return [result("section_review", inReview ? "legalease" : "partner", inReview ? "LegalEase is reviewing your setup" : "Continue program setup",
+      pending ? `/partner/onboarding/${encodeURIComponent(pending[0])}` : "/partner/onboarding", `${workspace}#setup-review`)];
+  }
+  if (["artifact_versions_current", "required_artifact_approvals_complete"].includes(check.key)) {
+    const needsNew = input.artifacts.some(entry => entry.sourceFreshness === "stale" || entry.currentVersion?.approvalStatus === "superseded");
+    return [result("current_reviewed_materials", "legalease", internal ? needsNew ? "Regenerate affected versions and review launch package" : "Review launch package" : "LegalEase is updating your launch materials",
+      null, `${workspace}#launch-prep-area-artifacts`)];
+  }
+  if (check.determination === "manual") return [result(check.key, check.owner,
+    check.key === "partner_launch_approval_received" ? "Review and approve your program" : check.key === "staff_training_completed" ? "Confirm staff training" : "Open final review",
+    `/partner/onboarding/resources#check-${check.key}`, `${workspace}#launch-prep-area-launch_readiness`)];
+  return [result(check.key, "legalease", "Review program funding and terms", null, `${workspace}#setup-review`)];
 }

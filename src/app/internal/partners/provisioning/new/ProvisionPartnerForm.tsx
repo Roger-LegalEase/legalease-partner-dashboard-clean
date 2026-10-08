@@ -143,21 +143,19 @@ export function ProvisionPartnerForm() {
           <ResultState label="Program activation" value="Inactive" />
         </dl>
         <p className="mt-5 text-sm leading-6 text-grayWilma-700">
-          Provisioning is not launch. The next step is inviting the first
-          administrator; publication and activation stay separate decisions after
-          that.
+          Provisioning is not launch. You can prepare the program now. Request the administrator’s confirmation when the program needs their approval.
         </p>
         <div className="mt-6">
           <Button
             className="min-h-11"
             onClick={() =>
               router.push(
-                `/internal/partners/provisioning/${encodeURIComponent(result.partnerSlug)}`
+                `/internal/partners/onboarding/${encodeURIComponent(result.partnerSlug)}`
               )
             }
             type="button"
           >
-            Continue to first administrator invitation
+            Continue to program setup
           </Button>
         </div>
       </Card>

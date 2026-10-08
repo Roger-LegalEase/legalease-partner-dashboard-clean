@@ -8,6 +8,9 @@ import { getSupabasePublicConfig } from "@/lib/supabase/config";
 const INTERNAL_PATH_HEADER = "x-legalease-internal-path";
 
 export async function proxy(request: NextRequest) {
+  if (request.nextUrl.pathname === "/favicon.ico" && ["legaleasepartner.com", "www.legaleasepartner.com"].includes(normalizeHost(request.headers.get("host")))) {
+    return NextResponse.rewrite(new URL("/expungement-ai/favicon.ico", request.url));
+  }
   // A reload or a different tab must not reveal the previous participant while
   // server revocation or browser cleanup is incomplete. The marker grants no
   // authority; it only locks. API reset and static assets remain reachable.
@@ -67,6 +70,7 @@ export const config = {
     "/partner/:path*",
     "/internal/:path*",
     "/_next/data/:path*",
+    "/favicon.ico",
     "/blog/feed.xml",
     "/insights/feed.xml"
   ]

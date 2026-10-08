@@ -806,6 +806,7 @@ export type InternalProvisioningRecord = {
   assigned_owner: string | null;
   launch_date_target: string | null;
   workspace_status: string | null;
+  workspace_updated_at: string | null;
   commercial_gate_status: string | null;
 };
 
@@ -832,12 +833,13 @@ export async function listInternalProvisioningRecords(): Promise<InternalProvisi
   }
   const [partners, workspaces] = await Promise.all([
     readPages("partner_records", "id,partner_slug,partner_name,organization_name,selected_package_name,payment_status,provisioning_status,assigned_owner,launch_date_target"),
-    readPages("partner_onboarding", "id,partner_slug,status,commercial_gate_status")
+    readPages("partner_onboarding", "id,partner_slug,status,commercial_gate_status,updated_at")
   ]);
   const bySlug = new Map(workspaces.map(row => [row.partner_slug, row]));
   return partners.map(row => ({
     ...row,
     workspace_status: bySlug.get(row.partner_slug)?.status ?? null,
+    workspace_updated_at: bySlug.get(row.partner_slug)?.updated_at ?? null,
     commercial_gate_status: bySlug.get(row.partner_slug)?.commercial_gate_status ?? null
   })) as InternalProvisioningRecord[];
 }

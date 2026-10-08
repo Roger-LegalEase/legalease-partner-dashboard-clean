@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useHashDestination } from "@/components/partners/onboarding/use-hash-destination";
 
 import { Badge } from "@/components/ui/Badge";
 import { Card } from "@/components/ui/Card";
@@ -44,7 +45,10 @@ export function PartnerArtifactsClient({
   const [current, setCurrent] = useState(board);
   const [pending, setPending] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
-  const [openPreview, setOpenPreview] = useState<string | null>(null);
+  const hash = useHashDestination();
+  const [requestedPreview, setOpenPreview] = useState<string | null | undefined>(undefined);
+  const openPreview = requestedPreview === undefined && hash === "#your-page"
+    ? "co_branded_page_configuration" : requestedPreview ?? null;
   const [correctionFor, setCorrectionFor] = useState<string | null>(null);
   const [comment, setComment] = useState("");
 
@@ -306,11 +310,13 @@ function PartnerArtifactCard({
               <CoBrandedPageView
                 preview={version.document.pagePreview}
                 variant="desktop"
+                heroSrc={version.document.pagePreview.heroImage.assetId ? `/api/partners/onboarding/assets/${encodeURIComponent(version.document.pagePreview.heroImage.assetId)}` : null}
                 logoSrc={partnerLogoSrc(version.document.pagePreview)}
               />
               <CoBrandedPageView
                 preview={version.document.pagePreview}
                 variant="mobile"
+                heroSrc={version.document.pagePreview.heroImage.assetId ? `/api/partners/onboarding/assets/${encodeURIComponent(version.document.pagePreview.heroImage.assetId)}` : null}
                 logoSrc={partnerLogoSrc(version.document.pagePreview)}
               />
             </>

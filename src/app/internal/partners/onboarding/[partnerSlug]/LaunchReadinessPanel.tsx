@@ -1,5 +1,7 @@
 "use client";
 
+import { LAUNCH_EXCEPTION_POLICY } from "@/lib/partners/onboarding/launch-exception-policy";
+
 import { useState } from "react";
 
 import { LaunchReadinessView } from "@/components/partners/onboarding/LaunchReadinessView";
@@ -131,20 +133,7 @@ export function LaunchReadinessPanel({
         >
           Mark complete
         </button>
-        <button
-          type="button"
-          className={quietButtonClass}
-          disabled={pending || check.status === "waived"}
-          onClick={() =>
-            mutate("record_check", {
-              checkKey: check.key,
-              status: "waived",
-              evidenceSummary: "Waived by an internal reviewer."
-            })
-          }
-        >
-          Waive
-        </button>
+
       </div>
     );
   }
@@ -159,6 +148,12 @@ export function LaunchReadinessPanel({
           {message}
         </p>
       ) : null}
+      <details className="mb-6 rounded-xl border border-grayWilma-200 bg-white p-5">
+        <summary className="cursor-pointer font-bold text-navy">Manage launch exceptions</summary>
+        <p className="my-3 text-sm text-grayWilma-700">Exception writes are unavailable until the policy and audited database controls receive authorization. Missing work remains visible; genuine consent and required reviews cannot be waived.</p>
+        <ul className="space-y-2 text-sm">{current.checks.map(check => <li key={check.key}><strong>{check.label}</strong>: {LAUNCH_EXCEPTION_POLICY[check.key]?.classification.replaceAll("_", " ") ?? "hard stop"}. {LAUNCH_EXCEPTION_POLICY[check.key]?.basis}</li>)}</ul>
+      </details>
+      <p className="mb-5 rounded-xl border border-grayWilma-200 bg-white p-5 text-sm" role="status">Launch is held pending authorized commercial/publication policy and durable launch receipts with public verification. Setup and document approval do not publish this program.</p>
       <LaunchReadinessView
         readiness={current}
         audience="internal"

@@ -453,16 +453,17 @@ check("the rendered document states the publication boundary", () => {
 
 // --- preview surfaces --------------------------------------------------------
 
-check("the preview renders at desktop and at 390x844, in both surfaces", () => {
+check("the shared composition supports desktop and 390px responsive previews in both surfaces", () => {
   const view = read("src/components/partners/onboarding/CoBrandedPageView.tsx");
   assert.ok(view.includes('w-[390px]'), "the mobile frame must be 390 wide");
-  assert.ok(view.includes('h-[844px]'), "the mobile frame must be 844 tall");
+  assert.ok(view.includes("max-w-full"), "the mobile preview must fit its receiving viewport");
+  assert.ok(!view.includes("h-[844px]"), "shared public composition must not clip a longer page to a fixed preview height");
   assert.ok(
     view.includes("ownershipReview = false"),
     "ownership review must default off"
   );
   assert.ok(
-    view.includes('"data-content-ownership-review": "enabled"'),
+    /"data-content-ownership-review"\s*:\s*"enabled"/.test(view),
     "the internal overlay must be opt-in"
   );
   assert.ok(

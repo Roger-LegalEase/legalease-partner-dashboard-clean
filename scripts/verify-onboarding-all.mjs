@@ -67,7 +67,13 @@ const REGISTRY = [
   { file: "verify-first-admin-first-impressions.mjs", group: "local" },
   { file: "verify-launch-readiness.mjs", group: "local" },
 
+  { file: "test-rcap-hotfix-containment.mjs", group: "local" },
+  { file: "test-rcap-hotfix-readiness.mjs", group: "local" },
+  { file: "test-rcap-hotfix-exceptions.mjs", group: "local" },
+  { file: "test-rcap-hotfix-launch-denials.mjs", group: "local" },
+
   // --- browser: drives a running application -------------------------------------------
+  { file: "capture-rcap-hotfix-acceptance.mjs", group: "browser", note: "loopback-only managed/self-service Chromium and WebKit proof; no successful launch claimed" },
   { file: "capture-rcap-prepared-onboarding-acceptance.mjs", group: "browser",
     note: "local acceptance against a loopback Supabase; needs `supabase start`, a production build and Playwright chromium" },
 

@@ -7,6 +7,7 @@ import {
   generateArtifactVersion,
   getInternalArtifactBoard,
   reviewArtifactVersion,
+  reviewLaunchPackage,
   supersedeArtifactVersion,
   updateLegalEasePublicPageConfiguration
 } from "@/lib/partners/onboarding/artifact-service";
@@ -55,6 +56,13 @@ export async function POST(
         artifactType: requiredString(payload.artifactType, 60),
         requestId
       });
+    } else if (action === "approve_package") {
+      const versions = payload.reviewedVersions;
+      if (!Array.isArray(versions) || versions.length !== 5 || !Number.isSafeInteger(payload.workspaceVersion)) throw new Phase1OnboardingError("invalid_input", "Review the exact current package.");
+      result = await reviewLaunchPackage(context, {requestId, workspaceVersion: Number(payload.workspaceVersion), reviewedVersions: versions.map(value => {
+        const item = objectValue(value);
+        return {id:requiredString(item.id,40), snapshotHash:requiredString(item.snapshotHash,64)};
+      })});
     } else if (action === "approve") {
       result = await reviewArtifactVersion(context, {
         reviewerType: "legalease",
@@ -77,7 +85,8 @@ export async function POST(
       });
     } else if (action === "supersede") {
       result = await supersedeArtifactVersion(context, {
-        artifactVersionId: requiredString(payload.artifactVersionId, 40)
+        artifactVersionId: requiredString(payload.artifactVersionId, 40),
+        reason: requiredString(payload.reason, 2000), requestId, confirmed: payload.confirmed === true
       });
     } else if (action === "configure_public_page_language") {
       // LegalEase records its own controlled page language here. There is no

@@ -1,6 +1,7 @@
 import "server-only";
 
 import crypto from "node:crypto";
+import { resolveProgramPresentation, type ProgramPresentation } from "./program-presentation";
 
 import { createServerSupabaseAuthClient } from "@/lib/supabase/auth-server";
 import { getSupabaseAdminClient } from "@/lib/supabase/server";
@@ -78,6 +79,7 @@ export type LaunchReadinessView = {
   organizationName: string;
   readiness: LaunchReadiness;
   board: ArtifactBoard;
+  program?: ProgramPresentation;
 };
 
 /**
@@ -99,11 +101,12 @@ export async function getInternalLaunchReadiness(
   const admin = requireAdmin();
   const { board, source } = await loadInternalArtifactBoardWithSource(context);
 
-  const { data } = await admin
+  const { data, error: checksError } = await admin
     .from("partner_onboarding_launch_checks")
     .select(RECORDED_COLUMNS)
     .eq("workspace_id", source.workspace.id);
 
+  if (checksError) throw new Phase1OnboardingError("persistence_failed", "Launch-check source is unavailable. No readiness verdict can be confirmed.");
   let recorded = toRecorded((data ?? []) as RecordedRow[]);
 
   // Readiness follows the artifacts: a material source change invalidates a
@@ -143,13 +146,14 @@ export async function getInternalLaunchReadiness(
     source,
     artifacts: board.entries,
     recorded
-  });
+  }, "internal");
 
   await recordReadinessTransition(admin, context.partnerSlug, source, readiness);
 
   return {
     partnerSlug: context.partnerSlug,
     organizationName: board.organizationName,
+    program: resolveProgramPresentation(source, readiness),
     readiness,
     board
   };
@@ -187,11 +191,12 @@ export async function getPartnerLaunchReadiness(
   const supabase = await createServerSupabaseAuthClient();
   const { board, source } = await loadPartnerArtifactBoardWithSource(context);
 
-  const { data } = await supabase
+  const { data, error: checksError } = await supabase
     .from("partner_onboarding_launch_checks")
     .select(RECORDED_COLUMNS)
     .eq("workspace_id", source.workspace.id);
 
+  if (checksError) throw new Phase1OnboardingError("persistence_failed", "Program review status is unavailable. Reload to retry.");
   // The partner surface persists nothing: it holds only a session client under
   // RLS, and every mutation RPC is revoked from browser roles. It renders
   // computed readiness rather than a stored verdict.
@@ -199,7 +204,7 @@ export async function getPartnerLaunchReadiness(
     source,
     artifacts: board.entries,
     recorded: toRecorded((data ?? []) as RecordedRow[])
-  });
+  }, context.role);
 
   return { readiness: partnerVisibleReadiness(readiness), board };
 }
@@ -244,6 +249,13 @@ export async function recordLaunchCheck(
     );
   }
 
+  if ((input.reviewerType === "legalease" && context.role !== "internal_admin") ||
+      (input.reviewerType === "partner" && context.role !== "partner_admin")) {
+    throw new Phase1OnboardingError("forbidden", "This reviewer role is not authorized.");
+  }
+  if (input.status === "waived" || input.status === "not_applicable") {
+    throw new Phase1OnboardingError("forbidden", "Use an independently authorized, audited launch exception. Missing work cannot be recorded as complete.");
+  }
   const admin = requireAdmin();
   const workspaceId = await workspaceIdFor(admin, context.partnerSlug);
 
@@ -292,6 +304,10 @@ export async function recordLaunchApproval(
   }
 ): Promise<{ approvalId: string; duplicate: boolean }> {
   assertLaunchPrepEnabled();
+  if ((input.reviewerType === "legalease" && context.role !== "internal_admin") ||
+      (input.reviewerType === "partner" && context.role !== "partner_admin")) {
+    throw new Phase1OnboardingError("forbidden", "This reviewer role is not authorized.");
+  }
   const admin = requireAdmin();
   const workspaceId = await workspaceIdFor(admin, context.partnerSlug);
 

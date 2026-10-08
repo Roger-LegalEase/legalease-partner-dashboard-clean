@@ -94,7 +94,7 @@ check("all six brand tasks remain ordered and stable", () => {
 check("desktop and mobile render the same authoritative edited values", () => {
   for (const html of [desktop, mobile]) {
     assert.match(html, /A current locally edited headline/);
-    assert.match(html, /Demo Justice Access Partner × RCAP by LegalEase/);
+    assert.match(html, /Demo Justice Access Partner/);
     assert.match(html, /Powered by Expungement\.ai/);
   }
 });
@@ -191,10 +191,10 @@ check("the participant composition carries privacy and accessibility links", () 
   assert.match(desktop, /https:\/\/demo\.test\/accessibility/);
 });
 
-check("the participant composition has one primary participant action", () => {
+check("the participant composition repeats the same primary participant action", () => {
   assert.equal(
     (desktop.match(/See if you qualify/g) ?? []).length,
-    1
+    2
   );
 });
 
@@ -293,7 +293,7 @@ check("the account setup failure renders a designed generic recovery", () => {
   assert.match(page, /invitation_unavailable/);
 });
 
-check("the private preview notice stays outside participant composition", () => {
+check("the public composition omits the private notice and uses the authorized intake destination", () => {
   const editor = read(
     "src/app/partner/onboarding/[sectionKey]/OnboardingSectionEditor.tsx"
   );
@@ -301,10 +301,12 @@ check("the private preview notice stays outside participant composition", () => 
     editor,
     /This page is not published and participant intake is inactive/
   );
-  assert.doesNotMatch(
-    read("src/components/partners/onboarding/CoBrandedPageView.tsx"),
-    /Private preview/
-  );
+  const published = renderToStaticMarkup(React.createElement(CoBrandedPageView, {
+    preview: authoritative, variant: "desktop", logoSrc: null,
+    liveCtaHref: "/intake/demo-partner"
+  }));
+  assert.doesNotMatch(published, /Private preview/);
+  assert.equal((published.match(/href="\/intake\/demo-partner"/g) ?? []).length, 2);
 });
 
 check("the public eligibility gate remains untouched and fail closed", () => {

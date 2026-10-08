@@ -67,7 +67,7 @@ export function RcapAllowanceControl({
   }
 
   return (
-    <section className="mt-8 rounded-md border border-grayWilma-200 bg-white p-6 shadow-sm">
+    <section id="rcap-screening-allowance" className="mt-8 rounded-md border border-grayWilma-200 bg-white p-6 shadow-sm">
       <div className="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
         <div>
           <h2 className="text-lg font-black text-navy">RCAP screening allowance</h2>
