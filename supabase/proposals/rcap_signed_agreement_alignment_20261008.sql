@@ -43,7 +43,7 @@ declare
   previous_doc public.partner_onboarding_assets%rowtype;
 begin
   perform public.rcap_service_assert_internal_actor(p_actor);
-  if not p_confirmed or p_agreement_type not in ('order_form','master_services_agreement')
+  if p_confirmed is distinct from true or p_agreement_type not in ('order_form','master_services_agreement')
      or p_effective_date is null or p_effective_date>current_date
      or length(btrim(coalesce(p_review_reason,''))) not between 10 and 5000
      or p_sha256 !~ '^[a-f0-9]{64}$' then
@@ -65,7 +65,7 @@ begin
     return;
   end if;
 
-  if w.aggregate_version<>p_expected_version
+  if w.aggregate_version is distinct from p_expected_version
      or w.status in ('live','paused','closed')
      or w.commercial_gate_status='blocked' then
     raise exception 'Current unpublished agreement workspace required' using errcode='40001';
