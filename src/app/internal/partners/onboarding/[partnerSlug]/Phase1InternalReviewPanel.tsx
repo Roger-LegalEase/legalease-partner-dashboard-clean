@@ -1849,7 +1849,9 @@ function parseSnapshot(
       typeof asset.id !== "string" ||
       typeof asset.category !== "string" ||
       typeof asset.originalFileName !== "string" ||
-      typeof asset.mediaType !== "string"
+      typeof asset.mediaType !== "string" ||
+      typeof asset.reviewStatus !== "string" ||
+      typeof asset.lifecycleStatus !== "string"
     ) {
       return [];
     }
@@ -1858,7 +1860,9 @@ function parseSnapshot(
         id: asset.id,
         category: asset.category,
         originalFileName: asset.originalFileName,
-        mediaType: asset.mediaType
+        mediaType: asset.mediaType,
+        reviewStatus: asset.reviewStatus,
+        lifecycleStatus: asset.lifecycleStatus
       }
     ];
   });
