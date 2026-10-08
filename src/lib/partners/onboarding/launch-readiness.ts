@@ -218,23 +218,18 @@ const AUTOMATED_EVALUATORS: Readonly<
 
   agreements_and_procurement_recorded: ({ source }) => {
     const agreement = source.workspace.agreementStatus;
-    const agreementRecorded =
-      typeof agreement === "string" &&
-      ["signed","executed","finalized","approved"].includes(agreement);
+    // This must agree with rcap_service_stage_real_launch's signed-agreement
+    // gate. "Approved" or "finalized" metadata is not a partner signature.
+    const signed = agreement === "signed";
     const procurement = asset(source, "procurement_document");
-    if (!agreementRecorded) {
-      return {
-        status: "failing",
-        evidence: "No agreement status has been recorded for this partner.",
-        reference: "partner_onboarding.agreement_status"
-      };
-    }
+    const documented = procurement?.lifecycleStatus === "active" &&
+      procurement.reviewStatus === "approved";
     return {
-      status: "passing",
-      evidence: procurement
-        ? `Agreement status ${agreementLabel(agreement)}, with a procurement document on file.`
-        : `Agreement status ${agreementLabel(agreement)}. No procurement document was requested.`,
-      reference: "partner_onboarding.agreement_status, asset.procurement_document"
+      status: signed && documented ? "passing" : "failing",
+      evidence: !signed
+        ? "A signed partner agreement has not been recorded. Approving an order form does not establish signature or contractual acceptance."
+        : "A signed agreement is recorded, but its approved procurement document is unavailable. Review the actual executed document.",
+      reference: "partner_onboarding.agreement_status, partner_onboarding_assets.procurement_document"
     };
   },
 
@@ -919,6 +914,16 @@ function resolveLaunchActions(check: LaunchCheckEvaluation, input: LaunchCheckSo
     const needsNew = input.artifacts.some(entry => entry.sourceFreshness === "stale" || entry.currentVersion?.approvalStatus === "superseded");
     return [result("current_reviewed_materials", "legalease", internal ? needsNew ? "Regenerate affected versions and review launch package" : "Review launch package" : "LegalEase is updating your launch materials",
       null, `${workspace}#launch-prep-area-artifacts`)];
+  }
+  if (check.key === "agreements_and_procurement_recorded") {
+    return [result("signed_agreement_evidence", "legalease",
+      "Review signed agreement and funding terms", null,
+      `${workspace}#internal-operation-agreement`)];
+  }
+  if (check.key === "commercial_gate_cleared") {
+    return [result("commercial_gate", "legalease",
+      "Review documented commercial authorization", null,
+      `${workspace}#internal-operation-commercial_gate`)];
   }
   if (check.determination === "manual") return [result(check.key, check.owner,
     check.key === "partner_launch_approval_received" ? "Review and approve your program" : check.key === "staff_training_completed" ? "Confirm staff training" : "Open final review",
