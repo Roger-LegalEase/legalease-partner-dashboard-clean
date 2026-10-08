@@ -13,7 +13,8 @@ import {
 } from "./artifact-service";
 import type { ArtifactSourceInput } from "./artifact-domain";
 import { Phase1OnboardingError } from "./errors";
-import { isRcapOnboardingLaunchPrepEnabled } from "./feature";
+import {getAuthoritativelyPublicPartnerRecord} from "@/lib/partners/public-partner-page";
+import { isRcapOnboardingLaunchPrepEnabled,isRcapLaunchStudioEnabled } from "./feature";
 import {
   evaluateLaunchReadiness,
   launchCheckDefinition,
@@ -150,10 +151,15 @@ export async function getInternalLaunchReadiness(
 
   await recordReadinessTransition(admin, context.partnerSlug, source, readiness);
 
+  const program=resolveProgramPresentation(source, readiness);
+  if(source.workspace.status==="live"&&isRcapLaunchStudioEnabled()){
+    const receipt=await admin.from("rcap_launch_operation_events").select("step,evidence").eq("workspace_id",source.workspace.id).order("created_at",{ascending:false}).limit(1).maybeSingle();
+    if(!receipt.error&&receipt.data?.step==="complete"&&receipt.data.evidence?.verified===true&&board.entries.some(e=>e.artifactType==="co_branded_page_configuration"&&e.sourceFreshness==="current"&&e.currentVersion?.approvalStatus==="approved")&&await getAuthoritativelyPublicPartnerRecord(context.partnerSlug))program.status="Live and verified";
+  }
   return {
     partnerSlug: context.partnerSlug,
     organizationName: board.organizationName,
-    program: resolveProgramPresentation(source, readiness),
+    program,
     readiness,
     board
   };

@@ -7,7 +7,7 @@ export async function GET(_request: Request, { params }: {params: Promise<{partn
   const { partnerSlug, assetId } = await params;
   const missing = () => new Response("Not found", {status:404,headers:{"cache-control":"no-store"}});
   if (!/^[0-9a-f-]{36}$/i.test(assetId)) return missing();
-  const config = await getApprovedPublicPageConfiguration(partnerSlug);
+  const config = await getApprovedPublicPageConfiguration(partnerSlug,_request.headers.get("x-rcap-synthetic-verification"));
   if (!config || !visiblePublicPageAssetIds(config.preview).includes(assetId)) return missing();
   const admin = getSupabaseAdminClient();
   if (!admin) return missing();

@@ -569,10 +569,14 @@ check("readiness costs no query per check", () => {
   assert.ok(fn);
   // One board load (which carries the shared canonical read) and one read of
   // recorded decisions. The refresh after an invalidation is the only other
-  // one, and it happens only when a write actually occurred.
+  // one, and it happens only when a write actually occurred. A published Studio
+  // performs one bounded receipt lookup, independently of the check count.
+  assert.equal((fn.match(/from\("rcap_launch_operation_events"\)/g) ?? []).length, 1);
+  assert.ok(fn.includes('source.workspace.status==="live"&&isRcapLaunchStudioEnabled()'));
+  assert.ok(fn.includes('.limit(1).maybeSingle()'));
   assert.equal(
     (fn.match(/\.from\(/g) ?? []).length,
-    2,
+    3,
     "readiness must not add a read per check"
   );
   assert.ok(fn.includes("loadInternalArtifactBoardWithSource"));

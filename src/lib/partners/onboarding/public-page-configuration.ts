@@ -29,7 +29,7 @@ export async function getApprovedPublicPageConfiguration(partnerSlug: string, ve
       .eq("workspace_id", source.workspace.id).eq("artifact_type", "co_branded_page_configuration").maybeSingle();
     if (artifact.error || !artifact.data?.current_version_id) return null;
     const version = await admin.from("partner_onboarding_artifact_versions")
-      .select("rendered_content, normalized_snapshot, generator_version, generation_status, approval_status, partner_review_status, superseded_at, source_drift_invalidated_at")
+      .select("snapshot_hash, rendered_content, normalized_snapshot, generator_version, generation_status, approval_status, partner_review_status, superseded_at, source_drift_invalidated_at")
       .eq("id", artifact.data.current_version_id).eq("workspace_id", source.workspace.id).maybeSingle();
     const row = version.data;
     if (version.error || !row || row.generation_status !== "succeeded" || row.approval_status !== "approved" || row.partner_review_status !== "approved" || row.superseded_at || row.source_drift_invalidated_at) return null;
@@ -41,6 +41,6 @@ export async function getApprovedPublicPageConfiguration(partnerSlug: string, ve
     const document = row.rendered_content as RenderedDocument;
     if (!document?.pagePreview || document.pagePreview.missing.length) return null;
     if (visiblePublicPageAssetIds(document.pagePreview).some(id => !source.assets.some(asset => asset.id === id && asset.lifecycleStatus === "active" && asset.reviewStatus === "approved"))) return null;
-    return { preview: document.pagePreview, workspaceId: source.workspace.id, partnerSlug: partner.partnerSlug };
+    return { accessMode:access,operationId:(await admin.from("partner_onboarding").select("*").eq("id",source.workspace.id).single()).data?.rcap_launch_operation_id as string|null|undefined,pageHash:row.snapshot_hash,preview: document.pagePreview, workspaceId: source.workspace.id, partnerSlug: partner.partnerSlug };
   } catch { return null; }
 }

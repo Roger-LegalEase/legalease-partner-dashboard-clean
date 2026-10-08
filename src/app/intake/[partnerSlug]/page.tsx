@@ -89,7 +89,7 @@ export default async function RcapPartnerIntakePage({
         event="partner_intake_started"
         meta={{ partner_slug: context.partnerSlug, state: context.jurisdiction, product_surface: "legalease_partner" }}
       />
-      <section className="mx-auto w-full max-w-2xl">
+      <section className="mx-auto w-full max-w-2xl" data-rcap-intake-partner={context.partnerSlug} data-rcap-access={context.accessMode} data-rcap-jurisdiction={context.jurisdiction}>
         <CoBrandHeader organizationName={context.organizationName} logoUrl={context.logoUrl} />
 
         <div className="mt-6 overflow-hidden rounded-[28px] border border-[#EFE9DD] bg-white/90 shadow-[0_30px_80px_-44px_rgba(11,19,32,0.40)] backdrop-blur">

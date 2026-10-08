@@ -3,6 +3,7 @@ import "server-only";
 import { getSupabaseAdminClient } from "@/lib/supabase/server";
 import { hashAccessCode, normalizeAccessCode } from "@/lib/partners/access-code-crypto";
 import type { PartnerAccessMode } from "@/lib/partners/partner-access-codes";
+import {getApprovedPublicPageConfiguration} from "@/lib/partners/onboarding/public-page-configuration";
 import { isPartnerActivationAuthorized } from "@/lib/partners/partner-public-eligibility";
 
 export type RcapPartnerIntakeContext = {
@@ -91,29 +92,41 @@ export async function resolveRcapPartnerIntakeContext(partnerSlug: string): Prom
     .eq("partner_slug", slug)
     .maybeSingle<PartnerContextRow>();
 
+  const publication=await supabase.from("partner_onboarding").select("*").eq("partner_slug",slug).maybeSingle();
+  const launchActivation=publication.data&&Object.prototype.hasOwnProperty.call(publication.data,"rcap_launch_operation_id")?await supabase.rpc("rcap_partner_activation_for_launch",{p_slug:slug}):null;
   if (
     error ||
     !data ||
-    !isPartnerActivationAuthorized({
+    publication.error ||
+    (launchActivation?launchActivation.error||launchActivation.data!==true:!isPartnerActivationAuthorized({
       paymentStatus: data.payment_status,
       qualificationStatus: data.qualification_status,
       provisioningStatus: data.provisioning_status
-    })
+    }))
   ) {
     return null;
   }
 
-  const jurisdiction = normalizeJurisdiction(data.target_state ?? data.state);
+  let jurisdiction = normalizeJurisdiction(data.target_state ?? data.state);
+  let branding:Awaited<ReturnType<typeof getApprovedPublicPageConfiguration>>=null;
+  if(publication.data?.rcap_launch_operation_id){
+   const geography=await supabase.from("partner_onboarding_sections").select("response_data").eq("workspace_id",publication.data.id).eq("section_key","geography_audience_language_accessibility").eq("status","approved").single();
+   const approved=Array.isArray(geography.data?.response_data?.jurisdictions)?geography.data.response_data.jurisdictions.map((value:unknown)=>typeof value==="string"?normalizeJurisdiction(value):null).filter(Boolean):[];
+   if(geography.error)return null;
+   jurisdiction=approved.length===1?approved[0]:approved.includes(jurisdiction)?jurisdiction:null;
+   branding=await getApprovedPublicPageConfiguration(slug);
+   if(!branding)return null;
+  }
   if (!jurisdiction) return null;
 
   return {
     partnerSlug: data.partner_slug,
     partnerName: data.partner_name ?? data.partner_slug,
-    organizationName: data.organization_name ?? data.partner_name ?? data.partner_slug,
-    programName: data.program_name,
+    organizationName: branding?.preview.publicName.value ?? data.organization_name ?? data.partner_name ?? data.partner_slug,
+    programName: branding?.preview.programName.value ?? data.program_name,
     serviceArea: data.service_area,
     jurisdiction,
-    logoUrl: data.logo_url,
+    logoUrl: branding?.preview.showPartnerLogo&&branding.preview.logo.assetId?`/api/partners/public-page/${slug}/assets/${branding.preview.logo.assetId}`:data.logo_url,
     accessMode: normalizeAccessMode(data.access_mode)
   };
 }

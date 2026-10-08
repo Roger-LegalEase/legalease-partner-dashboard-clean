@@ -4,7 +4,8 @@ import { onboardingHttpError, onboardingJson } from "@/lib/partners/onboarding/h
 import { getLaunchPreflight } from "@/lib/partners/onboarding/launch-preflight";
 import {Phase1OnboardingError} from "@/lib/partners/onboarding/errors";
 import {isDisposableLaunchEnvironment} from "@/lib/partners/onboarding/synthetic-launch-security";
-import { executeSyntheticLaunch } from "@/lib/partners/onboarding/synthetic-launch-service";
+import {realLaunchOrigin} from "@/lib/partners/onboarding/real-launch-security";
+import { executeSyntheticLaunch,executeRealLaunch } from "@/lib/partners/onboarding/synthetic-launch-service";
 import { readBoundedJson, requireRequestId, assertSameOrigin } from "@/lib/partners/onboarding/request-security";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -19,8 +20,9 @@ export async function POST(request: NextRequest, {params}: {params: Promise<{par
   try {
     assertSameOrigin(request);
     const context = await requireInternalOnboardingContext((await params).partnerSlug);
-    if(!isDisposableLaunchEnvironment())throw new Phase1OnboardingError("feature_disabled","Live launch is disabled; only registered disposable loopback targets may launch.");
+    if(!realLaunchOrigin()&&!isDisposableLaunchEnvironment())throw new Phase1OnboardingError("feature_disabled","Live launch is disabled; only registered disposable loopback targets may launch.");
     const body = await readBoundedJson(request);
-    return onboardingJson({success:true,result:await executeSyntheticLaunch(context,{requestId:requireRequestId(body.requestId),snapshotHash:String(body.snapshotHash??""),confirmed:body.confirmed===true})});
+    const preflight=await getLaunchPreflight(context);
+    return onboardingJson({success:true,result:await (preflight.mode==="real"?executeRealLaunch:executeSyntheticLaunch)(context,{requestId:requireRequestId(body.requestId),snapshotHash:String(body.snapshotHash??""),confirmed:body.confirmed===true})});
   } catch(error) { return onboardingHttpError(error); }
 }

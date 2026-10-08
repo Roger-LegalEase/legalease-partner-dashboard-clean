@@ -1,9 +1,11 @@
 import "server-only";
 import {isDisposableLaunchEnvironment,acceptsSyntheticVerification} from "./onboarding/synthetic-launch-security";
 
+import {acceptsRealVerification,realLaunchLeaseActive} from "./onboarding/real-launch-security";
+import {commercialAuthorityValid,type CommercialAuthority} from "./onboarding/commercial-authority";
 import { getSupabaseAdminClient } from "@/lib/supabase/server";
 import { getPartnerRecordBySlug } from "./partner-repository";
-import { isPublicPartnerEligible } from "./partner-public-eligibility";
+import { isPublicPartnerEligible,isPartnerPublicationAuthorized } from "./partner-public-eligibility";
 import type { PartnerRecord } from "./types";
 
 type ActivationRow = {
@@ -17,6 +19,7 @@ type PublicationRow = {
   landing_page_ready: boolean | null;
   internal_approved_at: string | null;
   launched_at: string | null;
+  rcap_launch_operation_id?:string|null;
 };
 
 /**
@@ -43,12 +46,12 @@ export async function getAuthoritativelyPublicPartnerRecord(
     const [activationResult, publicationResult] = await Promise.all([
       supabase
         .from("partner_records")
-        .select("payment_status, qualification_status, provisioning_status")
+        .select("*")
         .eq("partner_slug", slug)
         .maybeSingle<ActivationRow>(),
       supabase
         .from("partner_onboarding")
-        .select("status, landing_page_ready, internal_approved_at, launched_at")
+        .select("*")
         .eq("partner_slug", slug)
         .maybeSingle<PublicationRow>()
     ]);
@@ -62,6 +65,19 @@ export async function getAuthoritativelyPublicPartnerRecord(
       return undefined;
     }
 
+    const operation=publicationResult.data.rcap_launch_operation_id;
+    let documentedActivation=false;
+    if(operation){
+      const receipt=await supabase.from("rcap_launch_operation_events").select("step,evidence,created_at").eq("partner_slug",slug).eq("operation_id",operation).order("created_at",{ascending:false}).limit(1).maybeSingle();
+      if(receipt.error||!receipt.data||(!["complete","public_verified"].includes(receipt.data.step)&&!(receipt.data.step==="publication_staged"&&acceptsRealVerification(slug,operation,verificationToken))))return undefined;
+      if(receipt.data.step!=="complete"&&!realLaunchLeaseActive(receipt.data.created_at))return undefined;
+      const authority=await supabase.from("rcap_commercial_authorizations").select("*").eq("id",String(receipt.data.evidence.commercialAuthorityId??"")).maybeSingle();
+      const row=activationResult.data as ActivationRow & {access_mode:string;stripe_payment_intent_id:string;paid_at:string;payment_amount:number};
+      if(authority.error||!commercialAuthorityValid(authority.data as CommercialAuthority|null,row)||authority.data?.access_mode!==row.access_mode||!["active","provisioned"].includes(row.provisioning_status??""))return undefined;
+      const document=await supabase.from("partner_onboarding_assets").select("id").eq("id",authority.data.document_id).eq("sha256_hex",authority.data.document_hash).eq("review_status","approved").eq("lifecycle_status","active").maybeSingle();
+      if(document.error||!document.data)return undefined;
+      documentedActivation=true;
+    }
     const eligible = isPublicPartnerEligible({
       activation: {
         paymentStatus: activationResult.data.payment_status,
@@ -75,7 +91,7 @@ export async function getAuthoritativelyPublicPartnerRecord(
         launchedAt: publicationResult.data.launched_at
       }
     });
-    if (!eligible) return undefined;
+    if (!eligible && !(documentedActivation&&isPartnerPublicationAuthorized({status:publicationResult.data.status,landingPageReady:publicationResult.data.landing_page_ready===true,internalApprovedAt:publicationResult.data.internal_approved_at,launchedAt:publicationResult.data.launched_at}))) return undefined;
 
     const partner = await getPartnerRecordBySlug(slug);
     return partner?.partnerSlug === slug ? partner : undefined;
