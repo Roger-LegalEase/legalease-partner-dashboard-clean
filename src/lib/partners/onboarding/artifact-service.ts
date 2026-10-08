@@ -109,6 +109,7 @@ export async function loadArtifactSourceInput(
     plannedUsers,
     recipients,
     assets,
+    agreements,
     partnerRecord,
     entitlement,
     packetEntitlement
@@ -147,6 +148,10 @@ export async function loadArtifactSourceInput(
       .is("deleted_at", null)
       .in("lifecycle_status", ["pending_review", "active"]),
     client
+      .from("partner_onboarding_agreements_safe")
+      .select("agreement_type,status,finalized_asset_id,effective_date")
+      .eq("workspace_id",workspaceId),
+    client
       .from("partner_records")
       .select("id, organization_name, partner_name, program_name, selected_package_id, access_mode, payment_status, provisioning_status, onboarding_status")
       .eq("id", String(workspace.partner_record_id))
@@ -167,7 +172,7 @@ export async function loadArtifactSourceInput(
       .maybeSingle()
   ]);
 
-  if ([sections, contacts, plannedUsers, recipients, assets, partnerRecord, entitlement].some((result) => result.error)) {
+  if ([sections, contacts, plannedUsers, recipients, assets, agreements, partnerRecord, entitlement].some((result) => result.error)) {
     throw new Phase1OnboardingError("persistence_failed", "Program setup could not be loaded.");
   }
 
@@ -291,6 +296,12 @@ export async function loadArtifactSourceInput(
     },
     data: data as OnboardingPartnerData,
     readOnlyValues,
+    agreements: ((agreements.data ?? []) as Array<Record<string, unknown>>).map(row=>({
+      type:String(row.agreement_type),
+      status:String(row.status),
+      finalizedAssetId: typeof row.finalized_asset_id === "string" ? row.finalized_asset_id : null,
+      effectiveDate: typeof row.effective_date === "string" ? row.effective_date : null
+    })),
     assets: ((assets.data ?? []) as Array<Record<string, unknown>>).map((row) => ({
       id: String(row.id),
       category: row.category as ArtifactSourceInput["assets"][number]["category"],
