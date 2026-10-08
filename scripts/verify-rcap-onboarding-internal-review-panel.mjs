@@ -198,10 +198,12 @@ guarantee("a needs-changes section keeps its approval path and explains that app
   const html = render({ snapshot: snapshot({ status: "waiting_on_partner", sections: (key) => (key === "organization_contacts" ? "needs_changes" : "submitted") }) });
   assert.deepEqual(disabledReasons(html, "section_review"), ["Enter a review reason to approve Organization and contacts."]);
   assert.match(text(card(html, "section_review")), /Organization and contacts has an outstanding correction request\. Approving it records that you verified no correction is needed and resolves that request through the same server action; the request, your reason, the request ID and the audit history are kept\./);
-  // No new API: the only endpoint is the existing phase1 route and the only actions are
-  // the existing ones; nothing deletes or rewrites a request.
-  assert.equal((panelSource.match(/\/api\//g) ?? []).length, 1);
+  // The correction/approval path still uses the same Phase 1 endpoint.
+  // The only additional route is narrowly scoped to verified signed-document
+  // evidence; it cannot delete a correction request or approve a section.
+  assert.equal((panelSource.match(/\/api\//g) ?? []).length, 2);
   assert.match(panelSource, /`\/api\/internal\/partners\/onboarding\/phase1\/\$\{encodeURIComponent\(partnerSlug\)\}`/);
+  assert.match(panelSource, /`\/api\/internal\/partners\/onboarding\/phase1\/\$\{encodeURIComponent\(partnerSlug\)\}\/signed-agreement`/);
   assert.doesNotMatch(panelSource, /undo|delete_request|withdraw/i);
 });
 guarantee("after a confirmed approval the card reports it, counts once, clears only its reason and selects the next pending section in canonical order", () => {
