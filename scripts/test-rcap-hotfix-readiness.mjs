@@ -45,3 +45,10 @@ assert.equal(missing.resolutions[0].href,'/partner/onboarding/access_sponsorship
 assert.equal(missing.resolutions[1].owner,'legalease');count++;
 assert.equal(LAUNCH_CHECK_DEFINITIONS.length,15);
 console.log(`${count} source reconciliation and role-aware action cases PASS.`);
+
+const {visiblePublicPageAssetIds}=await import('../src/lib/partners/onboarding/public-page-configuration.ts');
+const previewAssets={showPartnerLogo:false,logo:{assetId:'own-hidden-logo'},heroImage:{assetId:'own-approved-hero'}};
+assert.deepEqual(visiblePublicPageAssetIds(previewAssets),['own-approved-hero']);
+assert.deepEqual(visiblePublicPageAssetIds({...previewAssets,showPartnerLogo:true}),['own-hidden-logo','own-approved-hero']);
+assert.deepEqual(visiblePublicPageAssetIds({...previewAssets,heroImage:{assetId:null}}),[]);
+console.log('3 approved-public-asset visibility cases PASS; hidden logos are not public download grants.');

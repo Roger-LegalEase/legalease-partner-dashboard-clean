@@ -1,4 +1,4 @@
-import { getApprovedPublicPageConfiguration } from "@/lib/partners/onboarding/public-page-configuration";
+import { getApprovedPublicPageConfiguration, visiblePublicPageAssetIds } from "@/lib/partners/onboarding/public-page-configuration";
 import { getSupabaseAdminClient } from "@/lib/supabase/server";
 import { ONBOARDING_STORAGE_BUCKET } from "@/lib/partners/onboarding/storage";
 
@@ -8,7 +8,7 @@ export async function GET(_request: Request, { params }: {params: Promise<{partn
   const missing = () => new Response("Not found", {status:404,headers:{"cache-control":"no-store"}});
   if (!/^[0-9a-f-]{36}$/i.test(assetId)) return missing();
   const config = await getApprovedPublicPageConfiguration(partnerSlug);
-  if (!config || ![config.preview.logo.assetId, config.preview.heroImage.assetId].includes(assetId)) return missing();
+  if (!config || !visiblePublicPageAssetIds(config.preview).includes(assetId)) return missing();
   const admin = getSupabaseAdminClient();
   if (!admin) return missing();
   const asset = await admin.from("partner_onboarding_assets").select("object_path, media_type")

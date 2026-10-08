@@ -3,8 +3,16 @@ import { getSupabaseAdminClient } from "@/lib/supabase/server";
 import { getAuthoritativelyPublicPartnerRecord } from "@/lib/partners/public-partner-page";
 import { loadArtifactSourceInput } from "./artifact-service";
 import { ARTIFACT_GENERATOR_VERSIONS, detectArtifactDrift, projectArtifactSource } from "./artifact-domain";
-import type { RenderedDocument } from "./artifact-generator";
+import type { CoBrandedPagePreview, RenderedDocument } from "./artifact-generator";
 import { isRcapLaunchStudioEnabled } from "./feature";
+
+/** Only assets actually selected for the approved public composition are public. */
+export function visiblePublicPageAssetIds(preview: Pick<CoBrandedPagePreview, "logo" | "heroImage" | "showPartnerLogo">): string[] {
+  return [...new Set([
+    preview.showPartnerLogo ? preview.logo.assetId : null,
+    preview.heroImage.assetId
+  ].filter((id): id is string => Boolean(id)))];
+}
 
 /** Public reads require activation, publication and the exact current approvals. */
 export async function getApprovedPublicPageConfiguration(partnerSlug: string) {
@@ -32,6 +40,7 @@ export async function getApprovedPublicPageConfiguration(partnerSlug: string) {
     if (drift.stale) return null;
     const document = row.rendered_content as RenderedDocument;
     if (!document?.pagePreview || document.pagePreview.missing.length) return null;
+    if (visiblePublicPageAssetIds(document.pagePreview).some(id => !source.assets.some(asset => asset.id === id && asset.lifecycleStatus === "active" && asset.reviewStatus === "approved"))) return null;
     return { preview: document.pagePreview, workspaceId: source.workspace.id, partnerSlug: partner.partnerSlug };
   } catch { return null; }
 }
