@@ -63,6 +63,9 @@ try{
      ['signed-fixture',actor,savedVersion,id.request,id.request,signedAssetPath,'a'.repeat(64),reason,confirmed]);
  await assert.rejects(callSigned(id.attacker));
  await assert.rejects(callSigned(id.admin,false));
+ await assert.rejects(callSigned(id.admin,null));
+ await assert.rejects(callSigned(id.admin,true,null));
+ await assert.rejects(callSigned(id.admin,true,version+1));
  assert.equal(Number((await db.query('select count(*)::integer as n from public.rcap_signed_agreement_receipts')).rows[0].n),0);
  const receipt=await callSigned();
  assert.equal(receipt.rows[0].duplicate,false);
