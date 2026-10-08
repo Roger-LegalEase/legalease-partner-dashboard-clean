@@ -1,5 +1,5 @@
 import { InternalAdminDenied, resolveInternalAdminPageAccess } from "@/lib/partners/internal-admin-gate";
-import { PartnerDashboardClient } from "./PartnerDashboardClient";
+import { redirect } from "next/navigation";
 
 // Authenticated internal surface: the access gate resolves the session from request
 // cookies, so this page is request-bound and must never be statically prerendered.
@@ -12,5 +12,5 @@ export default async function PartnerDashboardPage() {
     return <InternalAdminDenied title={access.title} body={access.body} />;
   }
 
-  return <PartnerDashboardClient />;
+  redirect("/internal");
 }

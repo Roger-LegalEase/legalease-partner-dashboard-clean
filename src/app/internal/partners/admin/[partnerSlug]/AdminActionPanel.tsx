@@ -19,9 +19,7 @@ type ActionState = {
 
 const primaryActions: PartnerAdminAction[] = [
   "mark_qualified",
-  "mark_payment_complete",
   "move_to_provisioning",
-  "activate_partner",
   "pause_partner"
 ];
 
@@ -76,13 +74,13 @@ export function AdminActionPanel({ partnerSlug, assets }: { partnerSlug: string;
     <section className="rounded-md border border-orange/30 bg-orange/10 p-5">
       <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
         <div>
-          <h2 className="text-lg font-black text-navy">Write-ready admin actions</h2>
+          <h2 className="text-lg font-black text-navy">Support actions</h2>
           <p className="mt-2 max-w-3xl text-sm leading-6 text-grayWilma-800">
             If Supabase partner data is enabled, this action writes to the partner records. Otherwise it runs in safe
             fallback mode and does not persist.
           </p>
           <p className="mt-2 max-w-3xl text-sm leading-6 text-grayWilma-800">
-            Mark Payment Complete records paid state for internal operations only. Stripe Checkout payment IDs are recorded by webhook confirmation.
+            Payment status requires verified payment evidence. Program launch requires the current launch review; legacy shortcuts are disabled.
           </p>
         </div>
         <span className="inline-flex rounded-full border border-orange/30 bg-white px-3 py-1 text-xs font-black text-orange">

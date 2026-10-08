@@ -2,12 +2,10 @@ import {
   type PartnerAdminAction
 } from "@/lib/partners/admin-actions";
 import {
-  activatePartner,
   addPartnerEvent,
   addPartnerInternalNote,
   pausePartner,
   updatePartnerAssetStatus,
-  updatePartnerPaymentStatus,
   updatePartnerProvisioningStatus,
   updatePartnerQualificationStatus
 } from "@/lib/partners/partner-repository";
@@ -17,8 +15,7 @@ export async function runPartnerAdminAction({
   action,
   partnerSlug,
   assetKey,
-  note,
-  currentProvisioningStatus
+  note
 }: {
   action: PartnerAdminAction;
   partnerSlug: string;
@@ -33,29 +30,18 @@ export async function runPartnerAdminAction({
     ]);
   }
 
-  if (action === "mark_payment_complete") {
-    const steps = [
-      () => updatePartnerPaymentStatus(partnerSlug, "paid"),
-      ...(["provisioned", "active", "paused"].includes(currentProvisioningStatus)
-        ? []
-        : [() => updatePartnerProvisioningStatus(partnerSlug, "ready_for_onboarding" as const)]),
-      () => addPartnerEvent(partnerSlug, "payment_confirmed", "Payment confirmed", { source: "admin_action" })
-    ];
-
-    return runSteps(action, partnerSlug, steps);
+  if (action === "mark_payment_complete" || action === "activate_partner") {
+    return {
+      success: false, persisted: false, mode: "local_fallback", action, partnerSlug,
+      message: "This legacy action is retired. Verified payment evidence and launch authorization are required.",
+      error: "Legacy payment and activation shortcuts are disabled."
+    };
   }
 
   if (action === "move_to_provisioning") {
     return runSteps(action, partnerSlug, [
       () => updatePartnerProvisioningStatus(partnerSlug, "provisioning_in_progress"),
       () => addPartnerEvent(partnerSlug, "provisioning_started", "Provisioning started", { source: "admin_action" })
-    ]);
-  }
-
-  if (action === "activate_partner") {
-    return runSteps(action, partnerSlug, [
-      () => activatePartner(partnerSlug),
-      () => addPartnerEvent(partnerSlug, "partner_activated", "Partner activated", { source: "admin_action" })
     ]);
   }
 

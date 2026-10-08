@@ -34,6 +34,9 @@ export async function POST(request: Request) {
   }
 
   const { action, partnerSlug, assetKey, note } = validation.data;
+  if (action === "mark_payment_complete" || action === "activate_partner") {
+    return NextResponse.json({ success: false, error: "Legacy payment and activation shortcuts are disabled." }, { status: 403 });
+  }
   const partner = await getPartnerRecordBySlug(partnerSlug);
   if (!partner) {
     logSecurityWarn({ event: "legacy_admin action failed", route: "/api/internal/partners/admin-action", outcome: "unknown_partner", requestId, metadata: { action } });

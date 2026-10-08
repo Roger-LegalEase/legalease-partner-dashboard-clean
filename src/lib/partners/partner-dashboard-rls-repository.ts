@@ -20,7 +20,7 @@ export type PartnerDashboardRlsData =
   | {
       kind: "internal_admin";
       authUserId: string;
-      redirectTo: "/dashboard/partners";
+      redirectTo: "/internal";
     };
 
 export type PartnerDashboardPartner = {
@@ -100,7 +100,7 @@ export async function getPartnerDashboardRlsData(): Promise<PartnerDashboardRlsD
     return {
       kind: "internal_admin",
       authUserId: sessionPartner.authUserId,
-      redirectTo: "/dashboard/partners"
+      redirectTo: "/internal"
     };
   }
 
