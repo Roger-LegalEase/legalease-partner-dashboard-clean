@@ -300,6 +300,13 @@ export type ArtifactSourceInput = {
   readOnlyValues: OnboardingReadOnlyValues;
   packetAllocationSourceStatus?: "available" | "not_configured" | "unavailable";
   assets: readonly ArtifactAssetInput[];
+  /** Launch-only reviewed agreement evidence, excluded from packet projection. */
+  agreements?: readonly {
+    type: string;
+    status: string;
+    finalizedAssetId: string | null;
+    effectiveDate: string | null;
+  }[];
   sectionRevisions: Partial<Record<OnboardingSectionKey, number>>;
   /** Section workflow status, read for launch readiness. Not projected. */
   sectionStatuses?: Partial<Record<OnboardingSectionKey, string>>;
