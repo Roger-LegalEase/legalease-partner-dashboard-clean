@@ -80,6 +80,19 @@ export async function POST(request: NextRequest, { params }: {
         || prior.data.reviewed_reason!==reviewReason.trim()) {
         throw new Phase1OnboardingError("duplicate_request","This request ID belongs to a different agreement review.");
       }
+      // A retried request can only confirm the exact previously reviewed bytes.
+      // Reusing a UUID with a different document must not report a false save.
+      if (file instanceof File && file.size > 0) {
+        const validated = await validateOnboardingAssetFile(file,"procurement_document");
+        const digest = createHash("sha256").update(validated.bytes).digest("hex");
+        if (digest !== prior.data.asset_sha256 || prior.data.asset_id !== requestId) {
+          throw new Phase1OnboardingError("duplicate_request",
+            "This signed-agreement request ID was already used for different document contents.");
+        }
+      } else if (prior.data.asset_id !== existing) {
+        throw new Phase1OnboardingError("duplicate_request",
+          "This signed-agreement request ID belongs to another document.");
+      }
       const snapshot = await getInternalOnboardingSnapshot(context);
       return onboardingJson({success:true,duplicate:true,workspaceVersion:prior.data.workspace_version,snapshot});
     }
