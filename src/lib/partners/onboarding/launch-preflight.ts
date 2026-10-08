@@ -15,15 +15,14 @@ export async function getLaunchPreflight(context:InternalOnboardingContext){
  const {data:workspace,error:workspaceError}=await admin.from("partner_onboarding").select("id,aggregate_version,status,landing_page_ready,agreement_status").eq("partner_slug",context.partnerSlug).single();
  if(workspaceError)throw new Phase1OnboardingError("persistence_failed","Program source unavailable.");
  const realEnabled=Boolean(realLaunchOrigin());
- const [commercial,documents,packets,financial,capacitySource,geography,signedReceipt,executedAgreements]=await Promise.all([
+ const [commercial,documents,packets,financial,capacitySource,geography,signedReceipt]=await Promise.all([
  admin.from("rcap_commercial_authorizations").select("*").eq("workspace_id",workspace.id).order("created_at",{ascending:false}).limit(1).maybeSingle(),
- admin.from("partner_onboarding_assets").select("id,original_filename,sha256_hex").eq("workspace_id",workspace.id).eq("category","procurement_document").eq("lifecycle_status","active").eq("review_status","approved"),
+ admin.from("partner_onboarding_assets").select("id,original_filename,sha256_hex").eq("workspace_id",workspace.id).eq("category","procurement_document").eq("lifecycle_status","active").eq("review_status","approved").is("deleted_at",null),
  admin.from("partner_records").select("id,payment_status,qualification_status,stripe_payment_intent_id,paid_at,payment_amount,target_state,state").eq("partner_slug",context.partnerSlug).single().then(async result=>({record:result,entitlements:result.data?await admin.from("partner_packet_entitlement").select("id,packet_cap,effective_at,expires_at").eq("partner_id",result.data.id):{data:[],error:null}})),
  admin.from("partner_entitlement").select("screenings_allowed,screenings_used").eq("partner_slug",context.partnerSlug).maybeSingle(),
  admin.from("rcap_launch_capacity_events").select("created_at,document_id").eq("workspace_id",workspace.id).order("created_at",{ascending:false}).limit(1).maybeSingle(),
  admin.from("partner_onboarding_sections").select("response_data,status").eq("workspace_id",workspace.id).eq("section_key","geography_audience_language_accessibility").single(),
- admin.from("rcap_signed_agreement_receipts").select("id,asset_id,asset_sha256,agreement_type,effective_date").eq("workspace_id",workspace.id).order("created_at",{ascending:false}).limit(1).maybeSingle(),
- admin.from("partner_onboarding_agreements").select("agreement_type,status,finalized_asset_id,effective_date").eq("workspace_id",workspace.id)
+ admin.from("rcap_signed_agreement_receipts").select("id,asset_id,asset_sha256,agreement_type,effective_date").eq("workspace_id",workspace.id).order("created_at",{ascending:false}).limit(1).maybeSingle()
  ]);
  const approvedJurisdictions=geography.data?.status==="approved"&&Array.isArray(geography.data.response_data?.jurisdictions)?geography.data.response_data.jurisdictions.filter((value:unknown):value is string=>typeof value==="string"&&/^[A-Z]{2,3}$/.test(value)):[];
  const legacyJurisdiction=packets.record.data?.target_state??packets.record.data?.state;
@@ -31,13 +30,8 @@ export async function getLaunchPreflight(context:InternalOnboardingContext){
  const authority=commercial.error?null:commercial.data as CommercialAuthority|null;
  const scopeCurrent=Boolean(!capacitySource.error&&(!capacitySource.data||(authority&&capacitySource.data.document_id===authority.document_id&&Date.parse(capacitySource.data.created_at)<=Date.parse((commercial.data as {created_at:string}).created_at))));
  const commercialValid=scopeCurrent&&commercialAuthorityValid(authority,packets.record.error?null:packets.record.data)&&Boolean(documents.data?.some(doc=>doc.id===authority?.document_id&&doc.sha256_hex===authority?.document_hash));
- const documentedAgreementValid=Boolean(!signedReceipt.error&&!executedAgreements.error
-   && signedReceipt.data && signedReceipt.data.effective_date <= new Date().toISOString().slice(0,10)
-   && executedAgreements.data?.some(a=>a.agreement_type===signedReceipt.data?.agreement_type
-     && a.status==="executed" && a.finalized_asset_id===signedReceipt.data?.asset_id
-     && a.effective_date===signedReceipt.data?.effective_date)
-   && documents.data?.some(d=>d.id===signedReceipt.data?.asset_id
-     && d.sha256_hex===signedReceipt.data?.asset_sha256));
+ const documentedAgreementValid = !signedReceipt.error &&
+   view.readiness.checks.find(check => check.key === "agreements_and_procurement_recorded")?.status === "passing";
  const approvals=await admin.from("partner_onboarding_launch_approvals").select("id,approval_type,reviewer_user_id,decision,invalidated_at,recorded_at").eq("workspace_id",workspace.id).order("recorded_at",{ascending:false}).order("id",{ascending:false});
  const consent=approvals.data?.find(a=>a.approval_type==="partner_launch_approval"),finalReview=approvals.data?.find(a=>a.approval_type==="legalease_final_review");
  const reviewers=await admin.from("partner_users").select("auth_user_id,partner_slug,role,status").in("auth_user_id",[consent?.reviewer_user_id,finalReview?.reviewer_user_id].filter((id):id is string=>Boolean(id)));

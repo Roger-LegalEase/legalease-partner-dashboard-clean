@@ -63,8 +63,11 @@ export function Phase2AArtifactsPanel({
   type Area = "artifacts" | "co_branded_page" | "launch_readiness" | "resources";
   const hash = useHashDestination();
   const [selection, setSelection] = useState<{area:Area;hash:string}>({area:"artifacts",hash:""});
-  const area = selection.hash === hash ? selection.area : (["artifacts", "co_branded_page", "launch_readiness", "resources"] as const).find(key => hash === `#launch-prep-area-${key}`) ?? "artifacts";
-  const setArea = (area: Area) => setSelection({area, hash});
+  const area = hash === "#launch-commercial-authority" ? "launch_readiness" : selection.hash === hash ? selection.area : (["artifacts", "co_branded_page", "launch_readiness", "resources"] as const).find(key => hash === `#launch-prep-area-${key}`) ?? "artifacts";
+  const setArea = (area: Area) => {
+    if (hash === "#launch-commercial-authority") window.location.assign(`#launch-prep-area-${area}`);
+    setSelection({area, hash});
+  };
   const [openPreview, setOpenPreview] = useState<string | null>(null);
   const [viewed, setViewed] = useState<Record<string, string>>({});
   const [reviewed, setReviewed] = useState<Record<string, string>>({});

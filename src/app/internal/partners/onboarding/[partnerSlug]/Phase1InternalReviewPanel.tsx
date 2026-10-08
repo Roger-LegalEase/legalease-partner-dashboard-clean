@@ -48,6 +48,7 @@ export type Phase1InternalOnboardingSnapshot = {
     partnerSafeDetail: string | null;
     finalizedAssetId: string | null;
     effectiveDate: string | null;
+    signedReceiptId?: string | null;
   }>;
   assets: Array<{
     id: string;
@@ -180,21 +181,38 @@ export function Phase1InternalReviewPanel({
   const focusAfterReview = useRef(false);
   // Deep links from readiness must reveal the real control, not a collapsed page.
   useEffect(() => {
-    const reveal = () => {
-      if (!/^#internal-operation-(agreement|commercial_gate)$/.test(window.location.hash)) return;
+    const reveal = (destination: string | Event = window.location.hash) => {
+      const hash = typeof destination === "string" ? destination : window.location.hash;
+      if (!/^#internal-operation-(agreement|commercial_gate|section_review)$/.test(hash)) return;
       const details = document.getElementById("setup-review");
       if (!(details instanceof HTMLDetailsElement)) return;
       details.open = true;
-      const target = document.getElementById(window.location.hash.slice(1));
+      const target = document.getElementById(hash.slice(1));
       if (!target) return;
       requestAnimationFrame(() => {
         target.scrollIntoView({ block: "start" });
         (target.querySelector<HTMLElement>("select:not([disabled]), input:not([disabled]), textarea:not([disabled])") ?? target).focus({ preventScroll: true });
       });
     };
+    const clicked = (event: MouseEvent) => {
+      if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+      const anchor = event.target instanceof Element ? event.target.closest("a[href]") : null;
+      if (!(anchor instanceof HTMLAnchorElement)) return;
+      const url = new URL(anchor.href, window.location.href);
+      if (url.origin === window.location.origin && url.pathname === window.location.pathname
+        && /^#internal-operation-(agreement|commercial_gate|section_review)$/.test(url.hash)) {
+        event.preventDefault();
+        window.location.hash = url.hash;
+        reveal(url.hash);
+      }
+    };
     reveal();
     window.addEventListener("hashchange", reveal);
-    return () => window.removeEventListener("hashchange", reveal);
+    document.addEventListener("click", clicked, true);
+    return () => {
+      window.removeEventListener("hashchange", reveal);
+      document.removeEventListener("click", clicked, true);
+    };
   }, []);
 
   const [targetLaunchDate, setTargetLaunchDate] = useState(
@@ -552,10 +570,11 @@ export function Phase1InternalReviewPanel({
       if (inFlightRef.current || pendingAction) return;
       if (!signedReviewed || !agreementEffectiveDate ||
           signedReviewReason.trim().length < 10 ||
-          Boolean(signedFile) === Boolean(agreementFinalizedAssetId)) {
+          Boolean(signedFile) === Boolean(agreementFinalizedAssetId) ||
+          Boolean(signedFile && signedFile.size > 4 * 1024 * 1024)) {
         setCardFeedback(previous => ({
           ...previous, agreement: {kind:"error",action:"agreement",conflict:false,
-            validation:true,message:"Review the executed signatures, effective date and one private signed PDF/DOCX document before saving."}
+            validation:true,message:"Review the executed signatures, effective date and one private signed PDF/DOCX document (upload up to 4 MB) before saving."}
         }));
         return;
       }
@@ -597,6 +616,11 @@ export function Phase1InternalReviewPanel({
           return;
         }
         const next = parseSnapshot(body.snapshot);
+        if (!next) {
+          setCardFeedback(previous => ({...previous, agreement: {kind:"error", action:"agreement", conflict:false,
+            validation:false, message:"The saved agreement could not be reread. Retry the unchanged request or refresh."}}));
+          return;
+        }
         if (next) {
           setCurrent(next);
           const saved = next.agreements.find(a => a.type === agreementType);
@@ -957,6 +981,11 @@ export function Phase1InternalReviewPanel({
               feedback={cardFeedback.agreement}
               title="Agreement and procurement metadata"
             >
+              <dl className="mb-4 grid gap-1 rounded-md bg-grayWilma-100 px-3 py-3 text-sm" data-saved-agreement-state={savedAgreement?.status ?? "not_started"}>
+                <div><dt className="font-black">Saved document state</dt><dd>{humanize(savedAgreement?.status ?? "not_started")}</dd></div>
+                <div><dt className="font-black">Saved document</dt><dd>{current.assets.find(asset => asset.id === savedAgreement?.finalizedAssetId)?.originalFileName ?? "No current private document attached"}</dd></div>
+                <div><dt className="font-black">Execution evidence</dt><dd>{savedAgreement?.signedReceiptId ? "Execution receipt recorded; current contractual clearance is checked in Review & launch." : "Needs agreement verification. Approval alone does not verify execution."}</dd></div>
+              </dl>
               <form className="grid gap-4" onSubmit={saveAgreement}>
                 <AdminField label="Agreement type" required>
                   <select
@@ -968,6 +997,10 @@ export function Phase1InternalReviewPanel({
                       const agreement = current.agreements.find(
                         (candidate) => candidate.type === nextType
                       );
+                      setSignedReviewed(false);
+                      setSignedFile(null);
+                      signedAttempt.current = null;
+                      if (signedFileInput.current) signedFileInput.current.value = "";
                       setAgreementType(nextType);
                       setAgreementStatus(
                         agreement?.status ?? "not_started"
@@ -1057,6 +1090,8 @@ export function Phase1InternalReviewPanel({
                       className={inputClassName}
                       disabled={controlsDisabled}
                       onChange={(event) => {
+                        setSignedReviewed(false);
+                        signedAttempt.current = null;
                         setAgreementFinalizedAssetId(event.currentTarget.value);
                         if (event.currentTarget.value) {
                           setSignedFile(null);
@@ -1109,12 +1144,14 @@ export function Phase1InternalReviewPanel({
                       <p className="text-sm font-semibold">Executed agreement evidence</p>
                       <p className="text-sm">Record this as signed only after inspecting the actual agreement executed by the partner and LegalEase. An approved order form without signatures does not qualify.</p>
                       <label className="block text-sm font-semibold" htmlFor="signed-agreement-file">
-                        Upload the signed agreement (PDF or DOCX, up to 20 MB)
+                        Upload the signed agreement (PDF or DOCX, up to 4 MB)
                       </label>
                       <input id="signed-agreement-file" ref={signedFileInput} type="file"
                         accept=".pdf,.docx,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
                         disabled={controlsDisabled}
                         onChange={event => {
+                          setSignedReviewed(false);
+                          signedAttempt.current = null;
                           setSignedFile(event.currentTarget.files?.[0] ?? null);
                           if (event.currentTarget.files?.length) setAgreementFinalizedAssetId("");
                         }} />
@@ -1843,6 +1880,7 @@ function parseSnapshot(
           typeof agreement.finalizedAssetId === "string"
             ? agreement.finalizedAssetId
             : null,
+        signedReceiptId: typeof agreement.signedReceiptId === "string" ? agreement.signedReceiptId : null,
         effectiveDate:
           typeof agreement.effectiveDate === "string"
             ? agreement.effectiveDate

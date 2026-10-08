@@ -1,11 +1,42 @@
 "use client";
 import Link from "next/link";
-import {useState,useRef} from "react";
+import {useState,useRef,useEffect} from "react";
 import type {getLaunchPreflight} from "@/lib/partners/onboarding/launch-preflight";
 type Preflight=Awaited<ReturnType<typeof getLaunchPreflight>>;
 export function LaunchControl({partnerSlug}:{partnerSlug:string}){
  const [view,setView]=useState<Preflight|null>(null),[message,setMessage]=useState(""),[pending,setPending]=useState(false),[confirmed,setConfirmed]=useState(false),[reason,setReason]=useState(""),[authority,setAuthority]=useState("");const [kind,setKind]=useState("sponsored"),[documentId,setDocumentId]=useState(""),[packetId,setPacketId]=useState(""),[expires,setExpires]=useState(""),[commercialConfirmed,setCommercialConfirmed]=useState(false);const [screenings,setScreenings]=useState(""),[packetCap,setPacketCap]=useState("");const request=useRef<{payload:string;id:string}|null>(null);
  const base=`/api/internal/partners/onboarding/phase1/${encodeURIComponent(partnerSlug)}`;
+ useEffect(() => {
+  let active = true;
+  const reveal = async () => {
+   if (window.location.hash !== "#launch-commercial-authority") return;
+   if (!view) {
+    try {
+     const response = await fetch(`${base}/launch`, {cache:"no-store"});
+     const body = await response.json();
+     if (!response.ok) throw new Error(body.error ?? "Preflight unavailable.");
+     if (active) setView(body.preflight);
+    } catch (error) { if (active) setMessage(error instanceof Error ? error.message : "Preflight unavailable."); }
+    return;
+   }
+   const target = document.getElementById("launch-commercial-authority");
+   if (target instanceof HTMLDetailsElement) {
+    target.open = true;
+    requestAnimationFrame(() => { if (active) { target.scrollIntoView({block:"start"}); target.querySelector<HTMLElement>("select:not([disabled])")?.focus({preventScroll:true}); } });
+   }
+  };
+  const clicked = (event: MouseEvent) => {
+   if (event.button || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+   const anchor = event.target instanceof Element ? event.target.closest("a[href]") : null;
+   if (!(anchor instanceof HTMLAnchorElement)) return;
+   const url = new URL(anchor.href);
+   if (url.origin === location.origin && url.pathname === location.pathname && url.hash === "#launch-commercial-authority") {
+    event.preventDefault(); window.location.hash = url.hash; void reveal();
+   }
+  };
+  void reveal(); window.addEventListener("hashchange", reveal); document.addEventListener("click", clicked, true);
+  return () => { active = false; window.removeEventListener("hashchange", reveal); document.removeEventListener("click", clicked, true); };
+ }, [base, view]);
  async function refresh(){const response=await fetch(`${base}/launch`,{cache:"no-store"});const body=await response.json();if(!response.ok)throw new Error(body.error??"Preflight unavailable.");setView(body.preflight);return body.preflight as Preflight;}
  async function run(action:"preflight"|"launch"|"grant"|"revoke"|"commercial"|"capacity"|"recover",grantId?:string){setPending(true);setMessage("");try{
   if(action==="preflight"){const result=await refresh();setMessage(result.canLaunch?"Preflight ready. Review before confirming.":result.heldReason??result.effective.label);return;}
@@ -14,7 +45,7 @@ export function LaunchControl({partnerSlug}:{partnerSlug:string}){
   const key=JSON.stringify(payload);if(!request.current || request.current.payload!==key)request.current={payload:key,id:crypto.randomUUID()};
   const response=await fetch(`${base}/${(action==="launch"||action==="recover")?"launch":action==="commercial"?"commercial-authority":action==="capacity"?"launch-capacity":"exceptions"}`,{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({...payload,requestId:action==="recover"?view.latestOperation?.request_id:request.current.id})});const body=await response.json();if(!response.ok){if(body.code==="invalid_transition"){request.current=null;await refresh();}throw new Error(body.error??"Action could not be completed.");}request.current=null;setConfirmed(false);await refresh();setMessage(action==="launch"?`${body.result.mode==="real"?"Live and verified":"Synthetic launch verified"}: ${body.result.publicUrl}`:action==="capacity"?"Documented capacity saved. Refresh and renew the affected package and approvals.":action==="commercial"?"Documented authority recorded. Refresh and renew current-source approvals before launch.":action==="grant"?"Exception authorized; raw work remains incomplete.":"Exception revoked.");
  }catch(error){setMessage(error instanceof Error?error.message:"Action unavailable. Try again.");}finally{setPending(false);}}
- return <section aria-label="Launch controls" className="mb-6 rounded-xl border bg-white p-5"><h2 className="text-xl font-bold">Review and launch</h2><p className="mt-3 text-sm">Real publication requires separate release authorization and verified partner-specific authority. Review the current package and resolve its remaining requirements here.</p><button className="mt-4 min-h-11 rounded bg-navy px-4 text-white" disabled={pending} onClick={()=>run("preflight")}>Review current preflight</button><p role="status" className="mt-3">{message}</p>{view?<><p className="mt-3">{view.program?.status}. {view.effective.label}. {view.heldReason}</p>{view.latestOperation?.step==="complete"?<p className="mt-3">Verified launch receipt: {view.latestOperation.operation_id}, recorded {view.latestOperation.created_at}.</p>:null}{view.latestOperation&&["prepared","publication_staged","public_verified"].includes(view.latestOperation.step)?<button className="mt-3 min-h-11 rounded border px-4" disabled={pending||!view.canRecover} onClick={()=>run("recover")}>Recover interrupted publication after safety lease</button>:null}{view.mode==="real"?<ul className="mt-3">{view.realAuthorityRequirements.map(item=><li key={item.label}>{item.label}: {item.passing?"Verified":"Required"}</li>)}</ul>:null}<details className="mt-4"><summary className="min-h-11 cursor-pointer font-bold">Review commercial authority</summary><p>Approved procurement evidence and a signed agreement are required. This does not record a payment or allocate capacity. Recording new authority reconciles the approved access model and requires renewed launch approvals.</p><p>{view.commercialAuthority?`Recorded ${view.commercialAuthority.kind} authority: ${view.commercialAuthority.authority_reference}. Expires ${view.commercialAuthority.expires_at}.`:"No documented commercial authorization recorded."}</p>
+ return <section aria-label="Launch controls" className="mb-6 rounded-xl border bg-white p-5"><h2 className="text-xl font-bold">Review and launch</h2><p className="mt-3 text-sm">Real publication requires separate release authorization and verified partner-specific authority. Review the current package and resolve its remaining requirements here.</p><button className="mt-4 min-h-11 rounded bg-navy px-4 text-white" disabled={pending} onClick={()=>run("preflight")}>Review current preflight</button><p role="status" className="mt-3">{message}</p>{view?<><p className="mt-3">{view.program?.status}. {view.effective.label}. {view.heldReason}</p>{view.latestOperation?.step==="complete"?<p className="mt-3">Verified launch receipt: {view.latestOperation.operation_id}, recorded {view.latestOperation.created_at}.</p>:null}{view.latestOperation&&["prepared","publication_staged","public_verified"].includes(view.latestOperation.step)?<button className="mt-3 min-h-11 rounded border px-4" disabled={pending||!view.canRecover} onClick={()=>run("recover")}>Recover interrupted publication after safety lease</button>:null}{view.mode==="real"?<ul className="mt-3">{view.realAuthorityRequirements.map(item=><li key={item.label}>{item.label}: {item.passing?"Verified":"Required"}</li>)}</ul>:null}<details id="launch-commercial-authority" className="mt-4"><summary className="min-h-11 cursor-pointer font-bold">Review commercial authority</summary><p>Approved procurement evidence and a signed agreement are required. This does not record a payment or allocate capacity. Recording new authority reconciles the approved access model and requires renewed launch approvals.</p><p>{view.commercialAuthority?`Recorded ${view.commercialAuthority.kind} authority: ${view.commercialAuthority.authority_reference}. Expires ${view.commercialAuthority.expires_at}.`:"No documented commercial authorization recorded."}</p>
  <label className="mt-3 block">Authority type<select className="min-h-11 w-full rounded border p-2" value={kind} onChange={e=>setKind(e.target.value)}><option value="sponsored">Authorized sponsored program</option><option value="purchase_order">Approved purchase order</option><option value="verified_paid">Verified paid agreement</option></select></label>
  <label className="mt-3 block">Approved procurement document<select className="min-h-11 w-full rounded border p-2" value={documentId} onChange={e=>setDocumentId(e.target.value)}><option value="">Select reviewed document</option>{view.commercialDocuments.map(doc=><option key={doc.id} value={doc.id}>{doc.original_filename}</option>)}</select></label>{documentId?<Link className="mt-3 inline-flex min-h-11 items-center underline" href={`${base}/assets/${encodeURIComponent(documentId)}`} target="_blank" rel="noopener noreferrer">Open selected private procurement document</Link>:null}
  <label className="mt-3 block">Existing authorized packet allocation<select className="min-h-11 w-full rounded border p-2" value={packetId} onChange={e=>setPacketId(e.target.value)}><option value="">Select allocation</option>{view.packetAllocations.map(packet=><option key={packet.id} value={packet.id}>{packet.packet_cap} packets — {packet.id}</option>)}</select></label>

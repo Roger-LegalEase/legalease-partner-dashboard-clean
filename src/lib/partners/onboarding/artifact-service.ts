@@ -112,7 +112,9 @@ export async function loadArtifactSourceInput(
     agreements,
     partnerRecord,
     entitlement,
-    packetEntitlement
+    packetEntitlement,
+    agreementEvidence,
+    executionDocuments
   ] = await Promise.all([
     client
       .from("partner_onboarding_sections")
@@ -143,15 +145,17 @@ export async function loadArtifactSourceInput(
       .order("created_at", { ascending: true }),
     client
       .from("partner_onboarding_assets_safe")
-      .select("id, category, lifecycle_status, review_status")
+      .select("id, category, lifecycle_status, review_status, media_type")
       .eq("workspace_id", workspaceId)
       .is("deleted_at", null)
       .in("lifecycle_status", ["pending_review", "active"]),
     client
       .from("partner_onboarding_agreements_safe")
-      .select("agreement_type,status,finalized_asset_id,effective_date")
+      .select("agreement_type,status,is_required,finalized_asset_id,effective_date,signed_receipt_id,signed_asset_sha256")
       .eq("workspace_id",workspaceId),
-    client
+    // Financial/access columns remain withheld from browser database roles.
+    // Read this one authoritative partner only after its workspace RLS check.
+    requireAdmin()
       .from("partner_records")
       .select("id, organization_name, partner_name, program_name, selected_package_id, access_mode, payment_status, provisioning_status, onboarding_status")
       .eq("id", String(workspace.partner_record_id))
@@ -169,7 +173,15 @@ export async function loadArtifactSourceInput(
       .eq("partner_id", String(workspace.partner_record_id))
       .eq("entitlement_scope", "sponsored_packets")
       .is("expires_at", null)
-      .maybeSingle()
+      .maybeSingle(),
+    // The caller already proved access to this workspace through the safe view.
+    // Return only its clearance boolean; private receipt details stay service-only.
+    requireAdmin().rpc("rcap_agreement_clearance", { p_workspace: workspaceId }),
+    // Private hashes are read server-side only, after the workspace access check.
+    // Keep the existing browser asset view and its withheld columns unchanged.
+    requireAdmin().from("partner_onboarding_assets").select("id,sha256_hex")
+      .eq("workspace_id",workspaceId).eq("category","procurement_document")
+      .eq("lifecycle_status","active").eq("review_status","approved").is("deleted_at",null)
   ]);
 
   if ([sections, contacts, plannedUsers, recipients, assets, agreements, partnerRecord, entitlement].some((result) => result.error)) {
@@ -296,18 +308,24 @@ export async function loadArtifactSourceInput(
     },
     data: data as OnboardingPartnerData,
     readOnlyValues,
+    agreementEvidenceCurrent: !agreementEvidence.error && agreementEvidence.data === true,
     agreements: ((agreements.data ?? []) as Array<Record<string, unknown>>).map(row=>({
       type:String(row.agreement_type),
       status:String(row.status),
       finalizedAssetId: typeof row.finalized_asset_id === "string" ? row.finalized_asset_id : null,
+      required: row.is_required === true,
+      signedAssetSha256: typeof row.signed_asset_sha256 === "string" ? row.signed_asset_sha256 : null,
+      signedReceiptId: typeof row.signed_receipt_id === "string" ? row.signed_receipt_id : null,
       effectiveDate: typeof row.effective_date === "string" ? row.effective_date : null
     })),
     assets: ((assets.data ?? []) as Array<Record<string, unknown>>).map((row) => ({
       id: String(row.id),
       category: row.category as ArtifactSourceInput["assets"][number]["category"],
-      // The safe view withholds the content hash, so asset identity here is the
-      // row id plus its review state.
+      // Only procurement hashes enter contractual verification; existing
+      // branding projections retain their prior identity contract.
       sha256Hex: null,
+      executionSha256: executionDocuments.error ? null : executionDocuments.data?.find(doc => doc.id === row.id)?.sha256_hex ?? null,
+      mediaType: String(row.media_type),
       lifecycleStatus: String(row.lifecycle_status),
       reviewStatus: String(row.review_status)
     })),

@@ -71,6 +71,8 @@ const REGISTRY = [
   { file: "test-rcap-hotfix-readiness.mjs", group: "local" },
   { file: "test-rcap-hotfix-exceptions.mjs", group: "local" },
   { file: "test-rcap-hotfix-launch-denials.mjs", group: "local" },
+  { file: "test-rcap-signed-agreement-security.mjs", group: "local" },
+  { file: "test-rcap-signed-agreement-browser.mjs", group: "browser", note: "Hydrated agreement journey using disposable loopback identities and private documents" },
   { file: "test-rcap-real-launch-authority.mjs", group: "local" },
   { file: "test-rcap-real-launch-database.mjs", group: "local" },
   { file: "test-rcap-real-launch-browser.mjs", group: "browser", note: "Production-equivalent launch only against disposable loopback partners" },

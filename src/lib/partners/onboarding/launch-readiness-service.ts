@@ -127,7 +127,11 @@ export async function getInternalLaunchReadiness(
         launchCheckDefinition(row.checkKey)?.owner === "legalease")
   );
 
-  if (drifted.length > 0 && standing.length > 0) {
+  // Executed-document changes already renew contractual launch decisions in
+  // the atomic verification service. They do not undo staff training or outreach.
+  const contractOnlyDrift = drifted.length > 0 && drifted.every(entry =>
+    entry.staleFields.length > 0 && entry.staleFields.every(field => field === "asset.procurement_document"));
+  if (drifted.length > 0 && standing.length > 0 && !contractOnlyDrift) {
     await admin.rpc("rcap_service_invalidate_onboarding_launch_checks", {
       p_partner_slug: context.partnerSlug,
       p_workspace_id: source.workspace.id,

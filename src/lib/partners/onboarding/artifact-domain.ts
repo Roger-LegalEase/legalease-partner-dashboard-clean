@@ -265,11 +265,15 @@ export type ArtifactAssetInput = {
   id: string;
   category: OrganizationalAssetCategory;
   sha256Hex: string | null;
+  mediaType?: string;
+  executionSha256?: string | null;
   lifecycleStatus: string;
   reviewStatus: string;
 };
 
 export type ArtifactSourceInput = {
+  /** Scoped service read of current execution evidence, including private-object custody. */
+  agreementEvidenceCurrent?: boolean;
   workspace: {
     id: string;
     partnerSlug: string;
@@ -305,6 +309,9 @@ export type ArtifactSourceInput = {
     type: string;
     status: string;
     finalizedAssetId: string | null;
+    required?: boolean;
+    signedReceiptId?: string | null;
+    signedAssetSha256?: string | null;
     effectiveDate: string | null;
   }[];
   sectionRevisions: Partial<Record<OnboardingSectionKey, number>>;

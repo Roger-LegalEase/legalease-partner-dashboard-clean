@@ -1,3 +1,4 @@
+import { agreementClearance } from "./agreement-clearance";
 import { guidedSectionHref, guidedSubstepForField } from "./guided-substeps";
 import type { OnboardingSectionKey } from "./types";
 import { isReferralFieldActive } from "./referral-policy";
@@ -217,27 +218,11 @@ const AUTOMATED_EVALUATORS: Readonly<
   },
 
   agreements_and_procurement_recorded: ({ source }) => {
-    const agreement = source.workspace.agreementStatus;
-    // This must agree with rcap_service_stage_real_launch's signed-agreement
-    // gate. "Approved" or "finalized" metadata is not a partner signature.
-    const signed = agreement === "signed";
-    const procurement = asset(source, "procurement_document");
-    const executed = (source.agreements ?? []).some(row =>
-      ["order_form","master_services_agreement"].includes(row.type) &&
-      row.status === "executed" &&
-      row.finalizedAssetId === procurement?.id &&
-      typeof row.effectiveDate === "string" &&
-      row.effectiveDate <= new Date().toISOString().slice(0,10));
-    const documented = procurement?.lifecycleStatus === "active" &&
-      procurement.reviewStatus === "approved" && executed;
+    const clearance = agreementClearance(source);
     return {
-      status: signed && documented ? "passing" : "failing",
-      evidence: !signed
-        ? "No signed partner agreement has been recorded. An approved order form without verified signatures is not a signed agreement."
-        : !documented
-          ? "A signed status exists, but an active approved executed agreement document is not linked. Review the actual signed evidence."
-          : "A signed, executed agreement and reviewed private document are recorded.",
-      reference: "partner_onboarding.agreement_status, partner_onboarding_agreements, partner_onboarding_assets.procurement_document"
+      status: clearance.passing ? "passing" : "failing",
+      evidence: clearance.reason,
+      reference: "partner_onboarding.agreement_status, partner_onboarding_agreements, verified private document and immutable execution receipt"
     };
   },
 
@@ -516,10 +501,6 @@ function commercialGateLabel(value: string): string {
     default:
       return "blocked";
   }
-}
-
-function agreementLabel(value: string): string {
-  return value.replace(/_/g, " ");
 }
 
 function assetReviewLabel(value: string): string {
@@ -866,7 +847,7 @@ function resolveLaunchActions(check: LaunchCheckEvaluation, input: LaunchCheckSo
     }
     const model = text(input.source, "access_sponsorship_capacity", "participant_access_model");
     if (model && input.source.partnerRecord.accessMode && model !== input.source.partnerRecord.accessMode) {
-      actions.push(result("access_source_conflict", "legalease", "Review conflicting access settings", null, `${workspace}#setup-review`));
+      actions.push(result("access_source_conflict", "legalease", "Review conflicting access settings", null, `${workspace}#launch-commercial-authority`));
     }
     return actions;
   }
@@ -916,7 +897,7 @@ function resolveLaunchActions(check: LaunchCheckEvaluation, input: LaunchCheckSo
     const pending = Object.entries(statuses).find(([, status]) => !["approved", "waived", "not_applicable"].includes(status));
     const inReview = Object.values(statuses).every(status => ["approved", "submitted", "waived", "not_applicable"].includes(status));
     return [result("section_review", inReview ? "legalease" : "partner", inReview ? "LegalEase is reviewing your setup" : "Continue program setup",
-      pending ? `/partner/onboarding/${encodeURIComponent(pending[0])}` : "/partner/onboarding", `${workspace}#setup-review`)];
+      pending ? `/partner/onboarding/${encodeURIComponent(pending[0])}` : "/partner/onboarding", `${workspace}#internal-operation-section_review`)];
   }
   if (["artifact_versions_current", "required_artifact_approvals_complete"].includes(check.key)) {
     const needsNew = input.artifacts.some(entry => entry.sourceFreshness === "stale" || entry.currentVersion?.approvalStatus === "superseded");
@@ -925,7 +906,7 @@ function resolveLaunchActions(check: LaunchCheckEvaluation, input: LaunchCheckSo
   }
   if (check.key === "agreements_and_procurement_recorded") {
     return [result("signed_agreement_evidence", "legalease",
-      "Review signed agreement and funding terms", null,
+      "Review program funding and terms", null,
       `${workspace}#internal-operation-agreement`)];
   }
   if (check.key === "commercial_gate_cleared") {
@@ -936,5 +917,5 @@ function resolveLaunchActions(check: LaunchCheckEvaluation, input: LaunchCheckSo
   if (check.determination === "manual") return [result(check.key, check.owner,
     check.key === "partner_launch_approval_received" ? "Review and approve your program" : check.key === "staff_training_completed" ? "Confirm staff training" : "Open final review",
     `/partner/onboarding/resources#check-${check.key}`, `${workspace}#launch-prep-area-launch_readiness`)];
-  return [result(check.key, "legalease", "Review program funding and terms", null, `${workspace}#setup-review`)];
+  return [result(check.key, "legalease", "Review program funding and terms", null, `${workspace}#internal-operation-section_review`)];
 }

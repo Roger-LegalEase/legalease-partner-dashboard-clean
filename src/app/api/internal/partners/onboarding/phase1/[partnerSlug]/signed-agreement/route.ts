@@ -1,5 +1,5 @@
 import "server-only";
-import { createHash } from "node:crypto";
+import { createHash, randomUUID } from "node:crypto";
 import type { NextRequest } from "next/server";
 import { requireInternalOnboardingContext } from "@/lib/partners/onboarding/auth-context";
 import { isRcapLaunchStudioEnabled } from "@/lib/partners/onboarding/feature";
@@ -10,7 +10,7 @@ import {
 } from "@/lib/partners/onboarding/request-security";
 import { validateOnboardingAssetFile } from "@/lib/partners/onboarding/asset-security";
 import {
-  buildOnboardingObjectPath, uploadPrivateOnboardingAsset, deletePrivateOnboardingAsset
+  ONBOARDING_STORAGE_BUCKET, buildOnboardingObjectPath, uploadPrivateOnboardingAsset, deletePrivateOnboardingAsset
 } from "@/lib/partners/onboarding/storage";
 import { getInternalOnboardingSnapshot } from "@/lib/partners/onboarding/service";
 import { getSupabaseAdminClient } from "@/lib/supabase/server";
@@ -18,7 +18,8 @@ import { getSupabaseAdminClient } from "@/lib/supabase/server";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
-const MAX_MULTIPART_BYTES = 21 * 1024 * 1024;
+const MAX_FILE_BYTES = 4 * 1024 * 1024;
+const MAX_MULTIPART_BYTES = MAX_FILE_BYTES + 64 * 1024;
 
 /**
  * One scoped internal-admin operation: record a reviewed, executed agreement
@@ -30,6 +31,8 @@ export async function POST(request: NextRequest, { params }: {
   params: Promise<{ partnerSlug: string }>
 }) {
   let orphanPath: string | null = null;
+  let commitAttempted = false;
+  let transactionRejected = false;
   try {
     assertSameOrigin(request);
     if (!isRcapLaunchStudioEnabled()) {
@@ -50,6 +53,7 @@ export async function POST(request: NextRequest, { params }: {
       || typeof effectiveDate !== "string"
       || !/^\d{4}-\d{2}-\d{2}$/.test(effectiveDate)
       || !Number.isFinite(Date.parse(effectiveDate))
+      || new Date(effectiveDate).toISOString().slice(0, 10) !== effectiveDate
       || Date.parse(effectiveDate) > Date.now()
       || typeof reviewReason !== "string" || reviewReason.trim().length < 10
       || reviewReason.trim().length > 5000 || !confirmed) {
@@ -58,6 +62,9 @@ export async function POST(request: NextRequest, { params }: {
     }
     const file = form.get("file");
     const existing = form.get("existingAssetId");
+    if (file instanceof File && file.size > MAX_FILE_BYTES) {
+      throw new Phase1OnboardingError("invalid_input", "Upload a signed PDF/DOCX of at most 4 MB, or select an existing approved document.");
+    }
     if ((file instanceof File && file.size > 0) === (typeof existing === "string" && existing.length > 0)) {
       throw new Phase1OnboardingError("invalid_input",
         "Choose either a signed PDF/DOCX file or an existing approved document, not both.");
@@ -69,6 +76,18 @@ export async function POST(request: NextRequest, { params }: {
     if(workspaceError || !workspace?.id || !workspace.partner_record_id) {
       throw new Phase1OnboardingError("workspace_not_found", "This partner workspace is unavailable.");
     }
+
+    const confirmedSnapshot = async () => {
+      const { data: agreement, error: rereadError } = await admin
+        .from("partner_onboarding_agreements")
+        .select("status,signed_receipt_id")
+        .eq("workspace_id", workspace.id).eq("agreement_type", type).single();
+      if (rereadError) throw new Phase1OnboardingError("persistence_failed", "Agreement confirmation could not be reread. Retry the unchanged request.");
+      if (agreement?.status !== "executed" || agreement.signed_receipt_id !== requestId) {
+        throw new Phase1OnboardingError("revision_conflict", "This agreement review has been superseded. Reload the current evidence.");
+      }
+      return getInternalOnboardingSnapshot(context);
+    };
 
     const prior = await admin.from("rcap_signed_agreement_receipts")
       .select("workspace_id,actor_auth_user_id,agreement_type,asset_id,asset_sha256,effective_date,reviewed_reason,workspace_version")
@@ -85,7 +104,7 @@ export async function POST(request: NextRequest, { params }: {
       if (file instanceof File && file.size > 0) {
         const validated = await validateOnboardingAssetFile(file,"procurement_document");
         const digest = createHash("sha256").update(validated.bytes).digest("hex");
-        if (digest !== prior.data.asset_sha256 || prior.data.asset_id !== requestId) {
+        if (digest !== prior.data.asset_sha256) {
           throw new Phase1OnboardingError("duplicate_request",
             "This signed-agreement request ID was already used for different document contents.");
         }
@@ -93,7 +112,7 @@ export async function POST(request: NextRequest, { params }: {
         throw new Phase1OnboardingError("duplicate_request",
           "This signed-agreement request ID belongs to another document.");
       }
-      const snapshot = await getInternalOnboardingSnapshot(context);
+      const snapshot = await confirmedSnapshot();
       return onboardingJson({success:true,duplicate:true,workspaceVersion:prior.data.workspace_version,snapshot});
     }
 
@@ -111,7 +130,7 @@ export async function POST(request: NextRequest, { params }: {
     let newAsset=false;
     if (file instanceof File && file.size > 0) {
       const validated = await validateOnboardingAssetFile(file,"procurement_document");
-      assetId = requestId;
+      assetId = randomUUID();
       sha256 = createHash("sha256").update(validated.bytes).digest("hex");
       objectPath = buildOnboardingObjectPath({
         partnerId:String(workspace.partner_record_id),workspaceId:String(workspace.id),
@@ -133,7 +152,20 @@ export async function POST(request: NextRequest, { params }: {
         .maybeSingle();
       if(aerr||!a?.sha256_hex)throw new Phase1OnboardingError("invalid_input",
         "Select an approved, current procurement document or upload the signed PDF/DOCX.");
-      sha256=a.sha256_hex;
+      const { data: privateCopy, error: downloadError } = await admin.storage
+        .from(ONBOARDING_STORAGE_BUCKET).download(a.object_path);
+      if (downloadError || !privateCopy) {
+        throw new Phase1OnboardingError("invalid_input", "The approved document's private copy is unavailable.");
+      }
+      const validated = await validateOnboardingAssetFile(
+        new File([privateCopy], a.original_filename, { type: a.media_type }), "procurement_document"
+      );
+      const actualHash = createHash("sha256").update(validated.bytes).digest("hex");
+      if (actualHash !== a.sha256_hex || validated.sizeBytes !== a.byte_size
+        || validated.contentType !== a.media_type || validated.extension !== a.file_extension) {
+        throw new Phase1OnboardingError("invalid_input", "The private document does not match its recorded identity.");
+      }
+      sha256=actualHash;
       objectPath=a.object_path;
       filename=a.original_filename;
       mediaType=a.media_type;
@@ -141,6 +173,7 @@ export async function POST(request: NextRequest, { params }: {
       byteSize=a.byte_size;
     }
 
+    commitAttempted = true;
     const {data,error}=await admin.rpc("rcap_service_record_signed_agreement",{
       p_slug:context.partnerSlug,p_actor:context.authUserId,
       p_expected_version:expectedVersion,p_request:requestId,
@@ -149,16 +182,23 @@ export async function POST(request: NextRequest, { params }: {
       p_extension:extension,p_byte_size:byteSize,p_sha256:sha256,
       p_effective_date:effectiveDate,p_review_reason:reviewReason.trim(),p_confirmed:true
     });
-    if (error) throw new Phase1OnboardingError("invalid_transition",
-      "The signed agreement was not recorded. Recheck the file, existing agreement and workspace version.");
+    if (error) {
+      transactionRejected = ["22023", "42501", "40001", "23505", "23514", "55000"].includes(error.code);
+      throw new Phase1OnboardingError("invalid_transition",
+      "Agreement confirmation was interrupted or refused. Retry the unchanged form to reconcile its request ID.");
+    }
+    if (newAsset && data?.[0]?.duplicate === true && orphanPath) {
+      // This attempt owns a unique object; an idempotent replay did not attach it.
+      try { await deletePrivateOnboardingAsset(orphanPath); } catch { /* private orphan */ }
+    }
     orphanPath=null; // Only committed asset storage is retained.
-    const snapshot=await getInternalOnboardingSnapshot(context);
+    const snapshot=await confirmedSnapshot();
     return onboardingJson({success:true,duplicate:data?.[0]?.duplicate===true,
       workspaceVersion:data?.[0]?.workspace_version,snapshot});
   } catch(error) {
-    if(orphanPath) {
-      // A failed database transaction cannot make this deterministic private
-      // object visible. Cleanup is best effort and never masks the error.
+    if(orphanPath && (!commitAttempted || transactionRejected)) {
+      // Only a positively rejected transaction can be cleaned up. A timeout
+      // may follow a committed transaction: preserve its private document.
       try{await deletePrivateOnboardingAsset(orphanPath);}catch{/* private orphan remains inaccessible */}
     }
     return onboardingHttpError(error);

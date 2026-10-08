@@ -44,15 +44,16 @@ function check(name, fn) {
 /** A partner whose data satisfies every automated check. */
 function readySource() {
   const source = artifactSourceFixture();
+  source.agreementEvidenceCurrent = true;
   source.workspace.agreementStatus = "signed";
   source.agreements = [{
-    type:"order_form",status:"executed",
+    type:"order_form",status:"executed",signedReceiptId:"dddddddd-dddd-4ddd-8ddd-dddddddddddd",signedAssetSha256:"a".repeat(64),
     finalizedAssetId:"a1000000-0000-4000-8000-000000000003",
     effectiveDate:"2026-09-01"
   }];
   source.assets.push({
     id:"a1000000-0000-4000-8000-000000000003",
-    category:"procurement_document",sha256Hex:null,
+    category:"procurement_document",sha256Hex:null,executionSha256:"a".repeat(64),mediaType:"application/pdf",
     lifecycleStatus:"active",reviewStatus:"approved"
   });
   source.workspace.launchReadinessState = null;
@@ -313,6 +314,20 @@ check("agreement readiness matches signed-document launch authority", () => {
   complete.agreements[0].status = "executed";
   complete.assets.find(a=>a.category==="procurement_document").reviewStatus="pending";
   assert.equal(byKey(evaluateReady({source:complete}),"agreements_and_procurement_recorded").status,"failing");
+});
+
+check("agreement contract fails closed for every nonexecuted state, missing receipt, changed hash and required supporting document", () => {
+  for (const state of ["not_required","not_started","requested","under_review","finalized","approved","waived"]) {
+    const source=readySource();source.agreements[0].status=state;
+    assert.equal(byKey(evaluateReady({source}),"agreements_and_procurement_recorded").status,"failing",state);
+  }
+  for (const mutate of [
+    source=>source.agreements[0].signedReceiptId=null,
+    source=>source.agreements[0].effectiveDate="2999-01-01",
+    source=>source.agreements[0].signedAssetSha256="b".repeat(64),
+    source=>source.assets.find(a=>a.category==="procurement_document").lifecycleStatus="superseded",
+    source=>source.agreements.push({type:"data_privacy_security_addendum",status:"requested",required:true,finalizedAssetId:null,effectiveDate:null})
+  ]) {const source=readySource();mutate(source);assert.equal(byKey(evaluateReady({source}),"agreements_and_procurement_recorded").status,"failing");}
 });
 
 check("agreement readiness action opens the real review field", () => {
@@ -608,7 +623,7 @@ check("an unchanged readiness read issues no statement", () => {
   const service = read("src/lib/partners/onboarding/launch-readiness-service.ts");
   // Invalidation runs only when drift was observed *and* something standing
   // would actually change.
-  assert.ok(service.includes("if (drifted.length > 0 && standing.length > 0)"));
+  assert.ok(service.includes("if (drifted.length > 0 && standing.length > 0 && !contractOnlyDrift)"));
   // The readiness event is skipped entirely when the state already matches.
   assert.ok(
     service.includes("if (source.workspace.launchReadinessState === state) return;")

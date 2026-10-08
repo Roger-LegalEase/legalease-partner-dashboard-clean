@@ -117,6 +117,7 @@ export type OnboardingAgreementView = {
   partnerSafeDetail: string | null;
   finalizedAssetId: string | null;
   effectiveDate: string | null;
+  signedReceiptId?: string | null;
 };
 
 export type OnboardingActivityView = {
@@ -313,6 +314,7 @@ type AssetRow = {
 };
 
 type AgreementRow = {
+  signed_receipt_id?: string | null;
   id: string;
   agreement_type: OnboardingAgreementView["type"];
   status: string;
@@ -444,7 +446,7 @@ export async function getPartnerOnboardingPortal(
       .order("uploaded_at", { ascending: false }),
     supabase
       .from("partner_onboarding_agreements_safe")
-      .select("id, agreement_type, status, is_required, partner_safe_detail, finalized_asset_id, effective_date")
+      .select("id, agreement_type, status, is_required, partner_safe_detail, finalized_asset_id, effective_date, signed_receipt_id")
       .eq("workspace_id", workspaceId)
       .order("agreement_type", { ascending: true }),
     supabase
@@ -1141,7 +1143,7 @@ export async function getInternalOnboardingSnapshot(
       .order("created_at", { ascending: true }),
     admin
       .from("partner_onboarding_agreements_safe")
-      .select("id, agreement_type, status, is_required, partner_safe_detail, finalized_asset_id, effective_date")
+      .select("id, agreement_type, status, is_required, partner_safe_detail, finalized_asset_id, effective_date, signed_receipt_id")
       .eq("workspace_id", workspace.id)
       .order("agreement_type", { ascending: true }),
     admin
@@ -1644,7 +1646,8 @@ function mapAgreement(row: AgreementRow): OnboardingAgreementView {
     required: row.is_required,
     partnerSafeDetail: row.partner_safe_detail,
     finalizedAssetId: row.finalized_asset_id,
-    effectiveDate: row.effective_date
+    effectiveDate: row.effective_date,
+    signedReceiptId: row.signed_receipt_id ?? null
   };
 }
 
