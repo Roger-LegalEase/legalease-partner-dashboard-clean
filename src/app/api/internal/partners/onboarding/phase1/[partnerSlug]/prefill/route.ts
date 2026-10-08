@@ -1,5 +1,5 @@
 import type { NextRequest } from "next/server";
-import { requireInternalOnboardingContext } from "@/lib/partners/onboarding/auth-context";
+import { requireStudioContext } from "@/lib/partners/onboarding/studio-authorization";
 import { Phase1OnboardingError } from "@/lib/partners/onboarding/errors";
 import { onboardingHttpError, onboardingJson } from "@/lib/partners/onboarding/http";
 import {
@@ -32,7 +32,7 @@ export async function GET(
 ) {
   try {
     const { partnerSlug } = await params;
-    const context = await requireInternalOnboardingContext(partnerSlug);
+    const context = await requireStudioContext(partnerSlug);
     return onboardingJson({
       success: true,
       snapshot: await getInternalPrefillSnapshot(context)
@@ -49,7 +49,7 @@ export async function POST(
   try {
     assertSameOrigin(request);
     const { partnerSlug } = await params;
-    const context = await requireInternalOnboardingContext(partnerSlug);
+    const context = await requireStudioContext(partnerSlug);
     const body = await readBoundedJson(request);
     const requestId = requireRequestId(body.requestId);
     const action = requiredString(body.action, 40);
@@ -82,6 +82,7 @@ export async function POST(
         action
       });
     } else if (action === "override_conflict") {
+      if(context.role!=="internal_admin") throw new Phase1OnboardingError("forbidden","An internal administrator must resolve partner-answer conflicts.");
       // Replacing a partner's own answer is its own action, never a variant of apply.
       result = await overridePrefillConflict(context, {
         requestId,

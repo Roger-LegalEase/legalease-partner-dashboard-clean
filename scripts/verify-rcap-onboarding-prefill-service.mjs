@@ -43,7 +43,9 @@ assert.match(migration, /v_section\.revision <> \(v_update->>'expectedRevision'\
 assert.match(migration, /v_value\.review_status <> 'approved'/);
 assert.match(migration, /v_value\.partner_review_status <> 'not_applied'/);
 
-assert.match(route, /requireInternalOnboardingContext/);
+assert.match(route, /requireStudioContext/);
+assert.match(read("src/lib/partners/onboarding/studio-authorization.ts"), /requireInternalOnboardingContext/);
+assert.match(service, /assertStudioCapability\(context,\s*"prepare"\)/);
 assert.match(route, /assertSameOrigin/);
 assert.match(route, /readBoundedJson/);
 assert.match(route, /requireRequestId/);

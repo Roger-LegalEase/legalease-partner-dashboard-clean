@@ -220,8 +220,7 @@ const AUTOMATED_EVALUATORS: Readonly<
     const agreement = source.workspace.agreementStatus;
     const agreementRecorded =
       typeof agreement === "string" &&
-      agreement.length > 0 &&
-      agreement !== "not_started";
+      ["signed","executed","finalized","approved"].includes(agreement);
     const procurement = asset(source, "procurement_document");
     if (!agreementRecorded) {
       return {
@@ -294,10 +293,10 @@ const AUTOMATED_EVALUATORS: Readonly<
 
   required_logo_present: ({ source }) => {
     const logo = asset(source, "transparent_logo");
-    if (!logo) {
+    if (!logo || logo.lifecycleStatus!=="active" || logo.reviewStatus!=="approved") {
       return {
         status: "failing",
-        evidence: "No transparent logo has been uploaded.",
+        evidence: "An active, approved transparent logo is required.",
         reference: "partner_onboarding_assets.transparent_logo"
       };
     }

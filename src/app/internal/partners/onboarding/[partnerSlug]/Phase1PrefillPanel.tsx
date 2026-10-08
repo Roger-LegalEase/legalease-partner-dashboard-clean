@@ -71,12 +71,15 @@ function preparedOn(value: string) {
 
 export function Phase1PrefillPanel({
   partnerSlug,
-  snapshot
+  snapshot,
+  assignedOperator = false
 }: {
   partnerSlug: string;
   snapshot: InternalPrefillSnapshot;
+  assignedOperator?: boolean;
 }) {
   const [current, setCurrent] = useState(snapshot);
+  const operatorNotice = assignedOperator ? "Assigned preparation only. Partner confirmation and administrator authority remain separate." : null;
   const [selected, setSelected] = useState<string[]>([]);
   const [pending, setPending] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
@@ -218,6 +221,7 @@ export function Phase1PrefillPanel({
           <h2 id="prefill-heading" className="mt-1 text-2xl font-black">
             Prepare program information
           </h2>
+          {operatorNotice ? <p role="note" className="mt-3 text-sm">{operatorNotice}</p> : null}
           <p className="mt-1 max-w-3xl text-sm text-grayWilma-700">
             Prepare structured suggestions, review them, then apply only
             approved conflict-free values for the partner to confirm.

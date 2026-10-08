@@ -1266,9 +1266,7 @@ export function OnboardingSectionEditor({
           className="inline-flex min-h-11 items-center text-sm font-bold text-[#0A6E77] underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#0A8E9A] focus-visible:ring-offset-2"
           href="/partner/onboarding#program-configuration"
           onClick={guardUnsavedNavigation}
-        >
-          Return to implementation center
-        </Link>
+        ><PartnerText value="Return to implementation center" /></Link>
         <div className="mt-4 flex flex-wrap items-center gap-3">
           <Badge
             tone={sectionBadgeTone(sectionStatus, changeRequestStatus)}
@@ -1282,12 +1280,10 @@ export function OnboardingSectionEditor({
           {!canEdit &&
           !commercialBlocked &&
           !["approved", "waived", "not_applicable"].includes(sectionStatus) ? (
-            <Badge>Editing locked</Badge>
+            <Badge><PartnerText value="Editing locked" /></Badge>
           ) : null}
         </div>
-        <p className="mt-5 text-xs font-bold uppercase tracking-[0.12em] text-[#0A8E9A] [font-family:var(--font-rcap-mono)]">
-          Program configuration | Section {guidedSectionIndex(sectionKey)} of 8
-        </p>
+        <p className="mt-5 text-xs font-bold uppercase tracking-[0.12em] text-[#0A8E9A] [font-family:var(--font-rcap-mono)]"><PartnerText value="Program configuration | Section" />{guidedSectionIndex(sectionKey)}<PartnerText value="of 8" /></p>
         <h1 className="mt-2 text-3xl font-extrabold tracking-[-0.02em] md:text-4xl">
           {text(title)}
         </h1>
@@ -1330,13 +1326,8 @@ export function OnboardingSectionEditor({
               role="status"
               aria-labelledby="commercial-block-heading"
             >
-              <h2 id="commercial-block-heading" className="font-extrabold text-[#071B33]">
-                Setup is waiting on your program terms
-              </h2>
-              <p className="mt-2 text-sm leading-6 text-[#475A6E]">
-                You can review this task. Editing opens after LegalEase confirms
-                the applicable commercial arrangement.
-              </p>
+              <h2 id="commercial-block-heading" className="font-extrabold text-[#071B33]"><PartnerText value="Setup is waiting on your program terms" /></h2>
+              <p className="mt-2 text-sm leading-6 text-[#475A6E]"><PartnerText value="You can review this task. Editing opens after LegalEase confirms the applicable commercial arrangement." /></p>
             </div>
           ) : null}
 
@@ -1350,9 +1341,7 @@ export function OnboardingSectionEditor({
                 {concurrentUpdate.heading}
               </h2>
               <p className="mt-2 text-sm leading-6 text-[#475A6E]">
-                {concurrentUpdate.explanation} Your entries remain in this view
-                and nothing you typed was overwritten.
-              </p>
+                {concurrentUpdate.explanation}<PartnerText value="Your entries remain in this view and nothing you typed was overwritten." /></p>
               <Button
                 className="mt-4 min-h-11 rounded-none"
                 onClick={() => window.location.reload()}
@@ -1418,10 +1407,8 @@ export function OnboardingSectionEditor({
                   )
                 ) ? (
                   <div className="border-b border-[#0A8E9A] bg-[#EEF7F6] p-5 text-sm leading-6 text-[#071B33] md:px-7">
-                    <p className="font-bold">Review the pre-filled information in this task.</p>
-                    <p className="mt-1 text-[#475A6E]">
-                      Correct or clear anything that changed before continuing.
-                    </p>
+                    <p className="font-bold"><PartnerText value="Review the pre-filled information in this task." /></p>
+                    <p className="mt-1 text-[#475A6E]"><PartnerText value="Correct or clear anything that changed before continuing." /></p>
                   </div>
                 ) : null}
 
@@ -1476,10 +1463,7 @@ export function OnboardingSectionEditor({
           {requestOverview ? (
             <div className="sticky bottom-0 z-10 mt-5 border border-[#B8C1C7] border-t-4 border-t-[#071B33] bg-[#F7F4EE] p-4">
               <div className="grid gap-3 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center">
-                <p className="text-sm leading-6 text-[#475A6E]">
-                  Review the request, then open the first task. The section-level
-                  model does not identify one authoritative field.
-                </p>
+                <p className="text-sm leading-6 text-[#475A6E]"><PartnerText value="Review the request, then open the first task. The section-level model does not identify one authoritative field." /></p>
                 <a
                   className="inline-flex min-h-12 items-center justify-center bg-[#FF3B00] px-5 py-3 text-sm font-extrabold text-white hover:bg-[#D93400] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#0A8E9A] focus-visible:ring-offset-2"
                   data-primary-guided-action
@@ -1488,9 +1472,7 @@ export function OnboardingSectionEditor({
                     event.preventDefault();
                     navigateToStep(activeStep.id);
                   }}
-                >
-                  Review section tasks
-                </a>
+                ><PartnerText value="Review section tasks" /></a>
               </div>
             </div>
           ) : null}
@@ -1528,9 +1510,7 @@ function GuidedTaskRail({
       className="hidden border border-[#B8C1C7] bg-white lg:sticky lg:top-6 lg:block lg:self-start"
     >
       <div className="border-b border-[#B8C1C7] p-4">
-        <p className="text-xs font-bold uppercase tracking-[0.1em] text-[#475A6E] [font-family:var(--font-rcap-mono)]">
-          Section tasks
-        </p>
+        <p className="text-xs font-bold uppercase tracking-[0.1em] text-[#475A6E] [font-family:var(--font-rcap-mono)]"><PartnerText value="Section tasks" /></p>
       </div>
       <ol>
         {changeRequestStatus ? (
@@ -1610,7 +1590,7 @@ function GuidedStepLink({
         {marker}
       </span>
       <span className="min-w-0">
-        <span className="block break-words text-sm font-extrabold text-[#071B33]">{label}</span>
+        <span className="block break-words text-sm font-extrabold text-[#071B33]">{label ? <PartnerText value={label} /> : null}</span>
         <span className="mt-1 block text-xs leading-5 text-[#475A6E]">{state}</span>
       </span>
     </a>
@@ -1653,47 +1633,30 @@ function GuidedSurfaceContent({
             value={String(sectionSummary.waitingOnLegalEase)}
           />
         </div>
-        <Link className={secondaryActionClass} href="/partner/onboarding/review">
-          Open decision summary
-        </Link>
+        <Link className={secondaryActionClass} href="/partner/onboarding/review"><PartnerText value="Open decision summary" /></Link>
       </div>
     );
   }
   if (step.surface === "private_preview") {
     return (
       <div className="border-l-4 border-[#0A8E9A] bg-[#EEF7F6] p-5">
-        <h3 className="font-extrabold text-[#071B33]">
-          Review responsibilities before deciding
-        </h3>
-        <p className="mt-2 text-sm leading-6 text-[#475A6E]">
-          The partner decision covers organization facts and brand content.
-          LegalEase controls legal language, eligibility and outcome claims,
-          payment behavior, routing, privacy claims, and participant activation.
-        </p>
-        <p className="mt-2 text-sm font-semibold leading-6 text-[#071B33]">
-          Partner approval does not publish the page or activate participant
-          intake.
-        </p>
+        <h3 className="font-extrabold text-[#071B33]"><PartnerText value="Review responsibilities before deciding" /></h3>
+        <p className="mt-2 text-sm leading-6 text-[#475A6E]"><PartnerText value="The partner decision covers organization facts and brand content. LegalEase controls legal language, eligibility and outcome claims, payment behavior, routing, privacy claims, and participant activation." /></p>
+        <p className="mt-2 text-sm font-semibold leading-6 text-[#071B33]"><PartnerText value="Partner approval does not publish the page or activate participant intake." /></p>
       </div>
     );
   }
   if (step.surface === "submission") {
     return (
       <div className="mb-6 border-l-4 border-[#0A8E9A] bg-[#EEF7F6] p-5">
-        <h3 className="font-extrabold text-[#071B33]">Decision summary comes first</h3>
-        <p className="mt-2 text-sm leading-6 text-[#475A6E]">
-          Save this section, then open the final review to see decisions,
-          exceptions, publication, activation, and the one current next action.
-        </p>
+        <h3 className="font-extrabold text-[#071B33]"><PartnerText value="Decision summary comes first" /></h3>
+        <p className="mt-2 text-sm leading-6 text-[#475A6E]"><PartnerText value="Save this section, then open the final review to see decisions, exceptions, publication, activation, and the one current next action." /></p>
       </div>
     );
   }
   if (step.surface === "canonical_reuse" && canonicalReferences.length === 0) {
     return (
-      <p className="border-l-4 border-[#475A6E] pl-4 text-sm leading-6 text-[#475A6E]">
-        No reusable public identity has been saved yet. Return to the source
-        sections to provide it.
-      </p>
+      <p className="border-l-4 border-[#475A6E] pl-4 text-sm leading-6 text-[#475A6E]"><PartnerText value="No reusable public identity has been saved yet. Return to the source sections to provide it." /></p>
     );
   }
   return null;
@@ -1703,7 +1666,7 @@ function SummaryFact({ label, value }: { label: string; value: string }) {
   return (
     <div className="border-b border-[#D8DDDF] p-4 last:border-b-0 sm:border-b-0 sm:border-r sm:last:border-r-0">
       <p className="text-xs font-bold uppercase tracking-[0.08em] text-[#475A6E] [font-family:var(--font-rcap-mono)]">
-        {label}
+        {label ? <PartnerText value={label} /> : null}
       </p>
       <p className="mt-2 text-xl font-extrabold text-[#071B33]">{value}</p>
     </div>
@@ -1778,25 +1741,15 @@ function BrandEditorWorkspace({
           data-brand-editor-mode="edit"
         >
           <aside className="mb-6 border border-[#B8C1C7] bg-[#F7F4EE] p-4">
-            <p className="text-xs font-bold uppercase tracking-[0.1em] text-[#475A6E] [font-family:var(--font-rcap-mono)]">
-              Content responsibility
-            </p>
+            <p className="text-xs font-bold uppercase tracking-[0.1em] text-[#475A6E] [font-family:var(--font-rcap-mono)]"><PartnerText value="Content responsibility" /></p>
             <dl className="mt-3 grid gap-3 text-sm leading-6">
               <div>
-                <dt className="font-extrabold text-[#071B33]">Partner content</dt>
-                <dd className="text-[#475A6E]">
-                  Organization facts, brand assets, support information, and
-                  partner links.
-                </dd>
+                <dt className="font-extrabold text-[#071B33]"><PartnerText value="Partner content" /></dt>
+                <dd className="text-[#475A6E]"><PartnerText value="Organization facts, brand assets, support information, and partner links." /></dd>
               </div>
               <div>
-                <dt className="font-extrabold text-[#071B33]">
-                  LegalEase-controlled content
-                </dt>
-                <dd className="text-[#475A6E]">
-                  Legal boundaries, claims, privacy statements, payment
-                  behavior, eligibility, and participant routing.
-                </dd>
+                <dt className="font-extrabold text-[#071B33]"><PartnerText value="LegalEase-controlled content" /></dt>
+                <dd className="text-[#475A6E]"><PartnerText value="Legal boundaries, claims, privacy statements, payment behavior, eligibility, and participant routing." /></dd>
               </div>
             </dl>
           </aside>
@@ -1868,18 +1821,12 @@ function BrandPreviewPanel({
         <div className="border-b border-[#B8C1C7] bg-[#EEF7F6] p-4">
           <div className="flex flex-wrap items-start justify-between gap-3">
             <div>
-              <p className="text-xs font-bold uppercase tracking-[0.1em] text-[#0A6E77] [font-family:var(--font-rcap-mono)]">
-                Private preview
-              </p>
+              <p className="text-xs font-bold uppercase tracking-[0.1em] text-[#0A6E77] [font-family:var(--font-rcap-mono)]"><PartnerText value="Private preview" /></p>
               <h3
                 className="mt-1 text-lg font-extrabold text-[#071B33]"
                 id="brand-preview-heading"
-              >
-                Participant page
-              </h3>
-              <p className="mt-1 text-xs leading-5 text-[#475A6E]">
-                This page is not published and participant intake is inactive.
-              </p>
+              ><PartnerText value="Participant page" /></h3>
+              <p className="mt-1 text-xs leading-5 text-[#475A6E]"><PartnerText value="This page is not published and participant intake is inactive." /></p>
             </div>
             <div
               aria-label="Preview size"
@@ -1944,18 +1891,14 @@ function BrandPreviewPanel({
           <div className="p-5">
             {previewUnavailableReason ? <p role="status" className="text-sm text-[#475A6E]">{previewUnavailableReason}</p> : <PartnerRecoveryPanel code="private_preview_unavailable" compact />}
             {!previewUnavailable ? (
-              <p className="mt-3 text-xs text-[#475A6E]">
-                Save the canonical brand task before retrying the preview.
-              </p>
+              <p className="mt-3 text-xs text-[#475A6E]"><PartnerText value="Save the canonical brand task before retrying the preview." /></p>
             ) : null}
           </div>
         )}
 
         {preview && preview.missing.length > 0 ? (
           <div className="border-t border-[#B8C1C7] p-4">
-            <p className="text-xs font-bold uppercase tracking-[0.08em] text-[#475A6E] [font-family:var(--font-rcap-mono)]">
-              Needed before review
-            </p>
+            <p className="text-xs font-bold uppercase tracking-[0.08em] text-[#475A6E] [font-family:var(--font-rcap-mono)]"><PartnerText value="Needed before review" /></p>
             <ul className="mt-2 space-y-1 text-xs leading-5 text-[#475A6E]">
               {preview.missing.map((item) => (
                 <li key={item.label}>
@@ -1992,10 +1935,7 @@ function BrandPreviewPanel({
                   : "Approve factual and brand content"}
               </button>
             ) : null}
-            <p className="mt-3 text-xs leading-5 text-[#475A6E]">
-              Saving or approving these values does not publish this page,
-              create an access code, or activate participant intake.
-            </p>
+            <p className="mt-3 text-xs leading-5 text-[#475A6E]"><PartnerText value="Saving or approving these values does not publish this page, create an access code, or activate participant intake." /></p>
           </div>
         ) : null}
       </div>
@@ -2007,7 +1947,7 @@ function PreviewState({ label, value }: { label: string; value: string }) {
   return (
     <div className="border-b border-[#D8DDDF] p-3 last:border-b-0 sm:border-r sm:even:border-r-0">
       <dt className="text-[0.62rem] font-bold uppercase tracking-[0.08em] text-[#475A6E] [font-family:var(--font-rcap-mono)]">
-        {label}
+        {label ? <PartnerText value={label} /> : null}
       </dt>
       <dd className="mt-1 text-sm font-extrabold text-[#071B33]">{value}</dd>
     </div>
@@ -2038,29 +1978,26 @@ function PartnerRecoveryPanel({
       </h3>
       <dl className="mt-3 grid gap-3 text-sm leading-6">
         <div>
-          <dt className="font-extrabold text-[#071B33]">What happened</dt>
+          <dt className="font-extrabold text-[#071B33]"><PartnerText value="What happened" /></dt>
           <dd className="text-[#475A6E]">{recovery.happened}</dd>
         </div>
         <div>
-          <dt className="font-extrabold text-[#071B33]">What remained safe</dt>
+          <dt className="font-extrabold text-[#071B33]"><PartnerText value="What remained safe" /></dt>
           <dd className="text-[#475A6E]">{recovery.safe}</dd>
         </div>
         <div>
-          <dt className="font-extrabold text-[#071B33]">What to do now</dt>
+          <dt className="font-extrabold text-[#071B33]"><PartnerText value="What to do now" /></dt>
           <dd className="text-[#475A6E]">{recovery.next}</dd>
         </div>
       </dl>
       <a className={`${secondaryActionClass} mt-4`} href={recovery.returnHref}>
         {recovery.returnLabel}
       </a>
-      <p className="mt-4 break-words text-xs leading-5 text-[#475A6E]">
-        Need help? Email{" "}
+      <p className="mt-4 break-words text-xs leading-5 text-[#475A6E]"><PartnerText value="Need help? Email" />{" "}
         <a
           className="font-bold text-[#0A6E77] underline underline-offset-4"
           href="mailto:partners@legalease.com"
-        >
-          partners@legalease.com
-        </a>
+        ><PartnerText value="partners@legalease.com" /></a>
         .
       </p>
     </section>
@@ -2199,13 +2136,9 @@ function GuidedActionBar({
           indicator.recovery === "retry" &&
           issueCount === 0 ? (
             <div className="mt-2 flex flex-wrap gap-x-4 gap-y-2">
-              <button className={recoveryButtonClass} onClick={onRetry} type="button">
-                Retry
-              </button>
+              <button className={recoveryButtonClass} onClick={onRetry} type="button"><PartnerText value="Retry" /></button>
               {dirty ? (
-                <button className={recoveryButtonClass} onClick={onReturnToSaved} type="button">
-                  Return to last saved version
-                </button>
+                <button className={recoveryButtonClass} onClick={onReturnToSaved} type="button"><PartnerText value="Return to last saved version" /></button>
               ) : null}
             </div>
           ) : null}
@@ -2215,9 +2148,7 @@ function GuidedActionBar({
               href={`/sign-in?next=${encodeURIComponent(
                 guidedSectionHref(sectionKey, activeStep.id)
               )}`}
-            >
-              Sign in again
-            </Link>
+            ><PartnerText value="Sign in again" /></Link>
           ) : null}
         </div>
 
@@ -2415,7 +2346,7 @@ function OrganizationContactsFields(props: FieldRendererProps) {
                 key={rowId}
               >
                 <div className="mb-4 flex items-center justify-between gap-3">
-                  <h3 className="font-black">Contact {index + 1}</h3>
+                  <h3 className="font-black"><PartnerText value="Contact" />{index + 1}</h3>
                   <Button
                     disabled={!props.editable}
                     onClick={() =>
@@ -2428,9 +2359,7 @@ function OrganizationContactsFields(props: FieldRendererProps) {
                     }
                     type="button"
                     variant="ghost"
-                  >
-                    Remove
-                  </Button>
+                  ><PartnerText value="Remove" /></Button>
                 </div>
                 <div className="grid gap-4 md:grid-cols-2">
                   <RowSelectField
@@ -2510,9 +2439,7 @@ function OrganizationContactsFields(props: FieldRendererProps) {
             }
             type="button"
             variant="secondary"
-          >
-            Add contact
-          </Button>
+          ><PartnerText value="Add contact" /></Button>
         </div>
       </FieldGroup>
     </div>
@@ -2688,11 +2615,7 @@ function GeographyFields(props: FieldRendererProps) {
           <TextField fieldKey="primary_language" {...props} />
           <BooleanField fieldKey="enable_spanish" {...props} />
           {spanishEnabled ? (
-            <div className="rounded-md border border-teal/25 bg-teal/10 px-4 py-3 text-sm leading-6 text-grayWilma-800">
-              Spanish participant-program configuration will be included in
-              launch preparation. LegalEase will review translated controlled
-              content separately.
-            </div>
+            <div className="rounded-md border border-teal/25 bg-teal/10 px-4 py-3 text-sm leading-6 text-grayWilma-800"><PartnerText value="Spanish participant-program configuration will be included in launch preparation. LegalEase will review translated controlled content separately." /></div>
           ) : null}
           <LinesField fieldKey="additional_languages" {...props} />
           <TextAreaField
@@ -2761,10 +2684,7 @@ function AccessPlanFields(props: FieldRendererProps) {
             ) : null}
           </div>
         ) : accessModel === "open" ? (
-          <p className="mt-4 rounded-md border border-teal/25 bg-teal/10 px-4 py-3 text-sm leading-6 text-grayWilma-800">
-            Participants can enter through the open program path. Code-planning
-            fields are not active.
-          </p>
+          <p className="mt-4 rounded-md border border-teal/25 bg-teal/10 px-4 py-3 text-sm leading-6 text-grayWilma-800"><PartnerText value="Participants can enter through the open program path. Code-planning fields are not active." /></p>
         ) : null}
       </FieldGroup>
 
@@ -2817,6 +2737,7 @@ function BrandFields(props: FieldRendererProps) {
         />
       ) : null}
 
+      <FieldGroup title="Spanish page content" description="Provide organization-approved Spanish copy. This requires the same page review as the English version." fieldKeys={["program_headline_es", "program_subheadline_es", "approved_organization_description_es", "primary_cta_label_es", "participant_support_copy_es", "service_area_es", "target_audience_es"] }><div className="grid gap-5">{["program_headline_es", "program_subheadline_es", "approved_organization_description_es", "primary_cta_label_es", "participant_support_copy_es", "service_area_es", "target_audience_es"].map(fieldKey=><TextAreaField key={fieldKey} fieldKey={fieldKey} {...props}/>)}</div></FieldGroup>
       <FieldGroup
         title="Approved public-page copy"
         description="Provide plain text approved by your team. LegalEase-controlled legal and product language remains read-only."
@@ -2869,9 +2790,7 @@ function BrandFields(props: FieldRendererProps) {
         description="Legal disclaimers, self-help boundaries, eligibility and outcome claims, platform privacy and security statements, payment logic, participant routing, and LegalEase legal links are reviewed and controlled by LegalEase."
         surface="private_preview"
       >
-        <div className="rounded-md border border-grayWilma-200 bg-grayWilma-100 px-4 py-3 text-sm font-semibold leading-6 text-grayWilma-700">
-          These items are not editable in partner onboarding.
-        </div>
+        <div className="rounded-md border border-grayWilma-200 bg-grayWilma-100 px-4 py-3 text-sm font-semibold leading-6 text-grayWilma-700"><PartnerText value="These items are not editable in partner onboarding." /></div>
       </FieldGroup>
     </div>
   );
@@ -2918,7 +2837,7 @@ function StaffPlanFields(props: FieldRendererProps) {
                 key={rowId}
               >
                 <div className="mb-4 flex items-center justify-between gap-3">
-                  <h3 className="font-black">Planned user {index + 1}</h3>
+                  <h3 className="font-black"><PartnerText value="Planned user" />{index + 1}</h3>
                   <Button
                     disabled={!props.editable}
                     onClick={() =>
@@ -2931,9 +2850,7 @@ function StaffPlanFields(props: FieldRendererProps) {
                     }
                     type="button"
                     variant="ghost"
-                  >
-                    Remove
-                  </Button>
+                  ><PartnerText value="Remove" /></Button>
                 </div>
                 <div className="grid gap-4 md:grid-cols-2">
                   <RowTextField
@@ -3009,9 +2926,7 @@ function StaffPlanFields(props: FieldRendererProps) {
             }
             type="button"
             variant="secondary"
-          >
-            Add planned user
-          </Button>
+          ><PartnerText value="Add planned user" /></Button>
         </div>
       </FieldGroup>
 
@@ -3228,7 +3143,7 @@ function SupportReportingFields(props: FieldRendererProps) {
                 key={rowId}
               >
                 <div className="mb-4 flex items-center justify-between gap-3">
-                  <h3 className="font-black">Recipient {index + 1}</h3>
+                  <h3 className="font-black"><PartnerText value="Recipient" />{index + 1}</h3>
                   <Button
                     disabled={!props.editable}
                     onClick={() =>
@@ -3241,9 +3156,7 @@ function SupportReportingFields(props: FieldRendererProps) {
                     }
                     type="button"
                     variant="ghost"
-                  >
-                    Remove
-                  </Button>
+                  ><PartnerText value="Remove" /></Button>
                 </div>
                 <div className="grid gap-4 md:grid-cols-2">
                   <RowTextField
@@ -3288,9 +3201,7 @@ function SupportReportingFields(props: FieldRendererProps) {
             }
             type="button"
             variant="secondary"
-          >
-            Add report recipient
-          </Button>
+          ><PartnerText value="Add report recipient" /></Button>
         </div>
       </FieldGroup>
 
@@ -3432,8 +3343,7 @@ function AssetFields(props: FieldRendererProps) {
                 <p className="mt-1 text-xs leading-5 text-grayWilma-600">
                   {definition.allowedExtensions
                     .map((extension) => extension.toUpperCase())
-                    .join(", ")}{" "}
-                  · up to {formatBytes(definition.maxBytes)}
+                    .join(", ")}{" "}<PartnerText value="· up to" />{formatBytes(definition.maxBytes)}
                 </p>
 
                 {asset ? (
@@ -3487,28 +3397,19 @@ function AssetFields(props: FieldRendererProps) {
                       </dl>
                       {asset.reviewStatus === "rejected" ? (
                         <p className="mt-3 border-l-4 border-[#FF3B00] pl-3 text-xs leading-5 text-[#475A6E]">
-                          <span className="font-bold text-[#071B33]">
-                            Rejection reason:
-                          </span>{" "}
-                          This asset record does not carry a partner-safe reason.
-                          Contact partners@legalease.com before replacing it.
-                        </p>
+                          <span className="font-bold text-[#071B33]"><PartnerText value="Rejection reason:" /></span>{" "}<PartnerText value="This asset record does not carry a partner-safe reason. Contact partners@legalease.com before replacing it." /></p>
                       ) : null}
                       {assetDownloadHref(asset) ? (
                         <button
                           className="mt-1 inline-flex min-h-8 items-center text-xs font-bold text-teal underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal"
                           onClick={() => void props.downloadAsset(asset)}
                           type="button"
-                        >
-                          Download private file
-                        </button>
+                        ><PartnerText value="Download private file" /></button>
                       ) : null}
                     </div>
                   </div>
                 ) : (
-                  <p className="mt-3 text-sm text-grayWilma-600">
-                    No current file.
-                  </p>
+                  <p className="mt-3 text-sm text-grayWilma-600"><PartnerText value="No current file." /></p>
                 )}
 
                 {previewFailed ? (
@@ -3530,7 +3431,7 @@ function AssetFields(props: FieldRendererProps) {
                 props.assetBusyCategory === definition.category ? (
                   <div className="mt-3" role="status">
                     <div className="flex items-center justify-between gap-3 text-xs font-bold text-[#475A6E]">
-                      <span>Uploading private file</span>
+                      <span><PartnerText value="Uploading private file" /></span>
                       <span>{progress}%</span>
                     </div>
                     <progress
@@ -3589,13 +3490,8 @@ function AssetFields(props: FieldRendererProps) {
                   }
                 }}
               >
-                <p className="text-sm font-bold text-[#071B33]">
-                  Drop an approved file here
-                </p>
-                <p className="mt-1 text-xs leading-5 text-[#475A6E]">
-                  The file remains private. Uploading or replacing it does not
-                  publish the participant page or activate the program.
-                </p>
+                <p className="text-sm font-bold text-[#071B33]"><PartnerText value="Drop an approved file here" /></p>
+                <p className="mt-1 text-xs leading-5 text-[#475A6E]"><PartnerText value="The file remains private. Uploading or replacing it does not publish the participant page or activate the program." /></p>
                 <div className="mt-3 flex flex-wrap gap-2">
                 <label
                   className={`inline-flex min-h-11 items-center justify-center border border-[#071B33] bg-white px-4 py-2 text-sm font-semibold transition ${
@@ -3637,9 +3533,7 @@ function AssetFields(props: FieldRendererProps) {
                     onClick={() => void props.deleteAsset(asset)}
                     type="button"
                     variant="ghost"
-                  >
-                    Remove
-                  </Button>
+                  ><PartnerText value="Remove" /></Button>
                 ) : null}
                 </div>
               </div>
@@ -3655,7 +3549,7 @@ function AssetDetail({ label, value }: { label: string; value: string }) {
   return (
     <div>
       <dt className="font-bold uppercase tracking-[0.06em] text-[#475A6E] [font-family:var(--font-rcap-mono)]">
-        {label}
+        {label ? <PartnerText value={label} /> : null}
       </dt>
       <dd className="mt-0.5 break-words text-[#071B33]">{value}</dd>
     </div>
@@ -3693,10 +3587,10 @@ function FieldGroup({
   if (!visible) return null;
   return (
     <section>
-      <h3 className="text-xl font-extrabold">{title}</h3>
+      <h3 className="text-xl font-extrabold">{title ? <PartnerText value={title} /> : null}</h3>
       {description ? (
         <p className="mt-1 max-w-3xl text-sm leading-6 text-grayWilma-600">
-          {description}
+          {description ? <PartnerText value={description} /> : null}
         </p>
       ) : null}
       <div className="mt-5">{children}</div>
@@ -3914,7 +3808,7 @@ function RowSelectField({
         onChange={(event) => onChange(event.currentTarget.value)}
         value={stringValue(value)}
       >
-        <option value="">Choose an option</option>
+        <option value=""><PartnerText value="Choose an option" /></option>
         {options.map((option) => (
           <option key={option} value={option}>
             {optionLabels?.[option] ?? onboardingOptionLabel(option)}
@@ -3989,7 +3883,7 @@ function RowBooleanField({
               className="mt-1 block text-xs leading-5 text-grayWilma-600"
               id={`${id}-help`}
             >
-              {metadata.helperCopy}
+              {metadata.helperCopy ? <PartnerText value={metadata.helperCopy} /> : null}
             </span>
           ) : null}
         </span>
@@ -4130,7 +4024,7 @@ function RowMultiCheckField({
       </legend>
       {metadata?.helperCopy ? (
         <p className="mt-1 text-xs leading-5 text-grayWilma-600" id={`${id}-help`}>
-          {metadata.helperCopy}
+          {metadata.helperCopy ? <PartnerText value={metadata.helperCopy} /> : null}
         </p>
       ) : null}
       <div className="mt-2 grid gap-2 sm:grid-cols-2">
@@ -4156,7 +4050,7 @@ function RowMultiCheckField({
                 }
                 type="checkbox"
               />
-              {onboardingOptionLabel(option)}
+              {onboardingOptionLabel(option) ? <PartnerText value={onboardingOptionLabel(option)} /> : null}
             </label>
           );
         })}
@@ -4218,9 +4112,9 @@ function OptionReferenceField({
         }
         value={value}
       >
-        <option value="">Choose a person</option>
+        <option value=""><PartnerText value="Choose a person" /></option>
         {value && !options.some((option) => option.id === value) ? (
-          <option value={value}>Current saved selection</option>
+          <option value={value}><PartnerText value="Current saved selection" /></option>
         ) : null}
         {options.map((option) => (
           <option key={option.id} value={option.id}>
@@ -4286,20 +4180,20 @@ function FieldFrame({
             <span className="ml-1 text-orange" aria-hidden="true">
               *
             </span>
-            <span className="sr-only"> (required)</span>
+            <span className="sr-only"><PartnerText value="(required)" /></span>
           </>
         ) : null}
       </label>
       {prefilled ? (
         <p className="mt-1 text-xs font-semibold text-teal" data-field-provenance="prepared">
-          {FIELD_COPY.prepared.label}. {FIELD_COPY.shared.supporting}
+          <PartnerText value={FIELD_COPY.prepared.label} />. <PartnerText value={FIELD_COPY.shared.supporting} />
         </p>
       ) : partnerUpdated ? (
         <p
           className="mt-1 text-xs font-semibold text-[#475A6E]"
           data-field-provenance="partner-updated"
         >
-          {FIELD_COPY.partnerUpdated.label}. {FIELD_COPY.partnerUpdated.supporting}
+          <PartnerText value={FIELD_COPY.partnerUpdated.label} />. <PartnerText value={FIELD_COPY.partnerUpdated.supporting} />
         </p>
       ) : null}
       {requested && guided?.activeChangeRequest ? (
@@ -4307,14 +4201,14 @@ function FieldFrame({
           aria-label="LegalEase requested correction"
           className="mt-3 border-y border-[#FF3B00] py-3 text-sm leading-6 text-[#071B33]"
         >
-          <p className="font-extrabold">LegalEase requested an update to this field.</p>
+          <p className="font-extrabold"><PartnerText value="LegalEase requested an update to this field." /></p>
           <dl className="mt-2 grid gap-2">
             <div>
-              <dt className="font-bold text-[#475A6E]">Requested by</dt>
+              <dt className="font-bold text-[#475A6E]"><PartnerText value="Requested by" /></dt>
               <dd>{guided.activeChangeRequest.requestedByLabel}</dd>
             </div>
             <div>
-              <dt className="font-bold text-[#475A6E]">Requested on</dt>
+              <dt className="font-bold text-[#475A6E]"><PartnerText value="Requested on" /></dt>
               <dd>
                 {formatRecordedTimestamp(
                   guided.activeChangeRequest.requestedAt
@@ -4322,30 +4216,30 @@ function FieldFrame({
               </dd>
             </div>
             <div>
-              <dt className="font-bold text-[#475A6E]">Reason</dt>
+              <dt className="font-bold text-[#475A6E]"><PartnerText value="Reason" /></dt>
               <dd className="whitespace-pre-wrap">
                 {guided.activeChangeRequest.requestedCorrection}
               </dd>
             </div>
             <div>
-              <dt className="font-bold text-[#475A6E]">Requested correction</dt>
+              <dt className="font-bold text-[#475A6E]"><PartnerText value="Requested correction" /></dt>
               <dd className="whitespace-pre-wrap">
                 {guided.activeChangeRequest.requestedCorrection}
               </dd>
             </div>
             <div>
-              <dt className="font-bold text-[#475A6E]">Current value</dt>
-              <dd>The saved value is shown in the field below.</dd>
+              <dt className="font-bold text-[#475A6E]"><PartnerText value="Current value" /></dt>
+              <dd><PartnerText value="The saved value is shown in the field below." /></dd>
             </div>
             <div>
-              <dt className="font-bold text-[#475A6E]">Partner response</dt>
+              <dt className="font-bold text-[#475A6E]"><PartnerText value="Partner response" /></dt>
               <dd>
                 {guided.activeChangeRequest.partnerResponse ||
                   "No response recorded"}
               </dd>
             </div>
             <div>
-              <dt className="font-bold text-[#475A6E]">Resolution status</dt>
+              <dt className="font-bold text-[#475A6E]"><PartnerText value="Resolution status" /></dt>
               <dd>
                 {guided.activeChangeRequest.status === "open"
                   ? "Partner correction required"
@@ -4383,7 +4277,7 @@ function FieldIssueList({
     <div className="mt-1.5 grid gap-1" id={`${id}-error`}>
       {fieldIssues.map((issue, index) => (
         <p className="text-sm font-semibold text-orange" key={`${issue.message}-${index}`}>
-          {issue.message}
+          <PartnerText value={issue.message} />
         </p>
       ))}
     </div>
@@ -4405,12 +4299,8 @@ function ErrorSummary({
       className="mb-5 border-l-[6px] border-[#FF3B00] bg-white p-5"
       role="alert"
     >
-      <h2 id="section-errors-heading" className="font-extrabold">
-        Fix this information before continuing
-      </h2>
-      <p className="mt-2 text-sm leading-6 text-[#475A6E]">
-        Your entries remain in place. The first invalid field receives focus.
-      </p>
+      <h2 id="section-errors-heading" className="font-extrabold"><PartnerText value="Fix this information before continuing" /></h2>
+      <p className="mt-2 text-sm leading-6 text-[#475A6E]"><PartnerText value="Your entries remain in place. The first invalid field receives focus." /></p>
       <ul className="mt-3 list-disc space-y-2 pl-5 text-sm">
         {issues.map((issue, index) => {
           const step = guidedSubstepForField(sectionKey, issue.fieldKey);
@@ -4433,7 +4323,7 @@ function ErrorSummary({
                   }, 0);
                 }}
               >
-                {issue.message}
+                <PartnerText value={issue.message} />
               </a>
             </li>
           );
@@ -4470,16 +4360,14 @@ function CanonicalReferenceValues({
             </dd>
             {item.helperCopy ? (
               <p className="mt-1 text-xs leading-5 text-grayWilma-600">
-                {item.helperCopy}
+                {item.helperCopy ? <PartnerText value={item.helperCopy} /> : null}
               </p>
             ) : null}
             <Link
               className="mt-2 inline-flex min-h-8 items-center text-xs font-bold text-teal underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal"
               href={item.editHref}
               onClick={onNavigate}
-            >
-              Edit source
-            </Link>
+            ><PartnerText value="Edit source" /></Link>
           </div>
         ))}
       </dl>
@@ -4523,7 +4411,7 @@ function ReadOnlyValues({
             </dd>
             {item.helperCopy ? (
               <p className="mt-1 text-xs leading-5 text-grayWilma-600">
-                {item.helperCopy}
+                {item.helperCopy ? <PartnerText value={item.helperCopy} /> : null}
               </p>
             ) : null}
           </div>
@@ -4544,11 +4432,11 @@ function ReadOnlyNotice({
 }) {
   return (
     <div className="rounded-md border border-grayWilma-200 bg-grayWilma-100 p-4">
-      <p className="text-sm font-black">{label}</p>
+      <p className="text-sm font-black">{label ? <PartnerText value={label} /> : null}</p>
       <p className="mt-1 text-sm font-semibold">{formatDisplayValue(value)}</p>
       {helperCopy ? (
         <p className="mt-1 text-xs leading-5 text-grayWilma-600">
-          {helperCopy}
+          {helperCopy ? <PartnerText value={helperCopy} /> : null}
         </p>
       ) : null}
     </div>
@@ -5082,9 +4970,7 @@ export function GuidedChangeRequestPanel({
           }`}
           data-active-change-request={active.status}
         >
-          <p className="text-xs font-bold uppercase tracking-[0.12em] text-[#475A6E] [font-family:var(--font-rcap-mono)]">
-            LegalEase review request
-          </p>
+          <p className="text-xs font-bold uppercase tracking-[0.12em] text-[#475A6E] [font-family:var(--font-rcap-mono)]"><PartnerText value="LegalEase review request" /></p>
           <h2
             className="mt-2 text-xl font-extrabold text-[#071B33]"
             id={`change-request-${active.id}`}
@@ -5093,15 +4979,9 @@ export function GuidedChangeRequestPanel({
               ? "A correction is required"
               : "Your correction is with LegalEase"}
           </h2>
-          <p className="mt-3 text-sm font-semibold leading-6 text-[#071B33]">
-            This request applies to this part of the section.
-          </p>
+          <p className="mt-3 text-sm font-semibold leading-6 text-[#071B33]"><PartnerText value="This request applies to this part of the section." /></p>
           {sectionLevel ? (
-            <p className="mt-2 text-sm leading-6 text-[#475A6E]">
-              The current request is attached to the section rather than one
-              authoritative field. No field-level target has been inferred
-              from the request text.
-            </p>
+            <p className="mt-2 text-sm leading-6 text-[#475A6E]"><PartnerText value="The current request is attached to the section rather than one authoritative field. No field-level target has been inferred from the request text." /></p>
           ) : null}
 
           <dl className="mt-5 grid border border-[#B8C1C7] sm:grid-cols-2">
@@ -5144,24 +5024,16 @@ export function GuidedChangeRequestPanel({
           </dl>
 
           {active.status === "open" ? (
-            <p className="mt-4 border-t border-[#D8DDDF] pt-4 text-sm leading-6 text-[#475A6E]">
-              Correct the relevant task, then submit the section. The current
-              authoritative workflow records the partner response when that
-              submission succeeds.
-            </p>
+            <p className="mt-4 border-t border-[#D8DDDF] pt-4 text-sm leading-6 text-[#475A6E]"><PartnerText value="Correct the relevant task, then submit the section. The current authoritative workflow records the partner response when that submission succeeds." /></p>
           ) : (
-            <p className="mt-4 border-t border-[#D8DDDF] pt-4 text-sm leading-6 text-[#475A6E]">
-              No further partner action is required unless LegalEase requests
-              another correction.
-            </p>
+            <p className="mt-4 border-t border-[#D8DDDF] pt-4 text-sm leading-6 text-[#475A6E]"><PartnerText value="No further partner action is required unless LegalEase requests another correction." /></p>
           )}
         </section>
       ) : null}
 
       {history.length > 0 ? (
         <details className="border border-[#B8C1C7] bg-white p-5">
-          <summary className="min-h-11 cursor-pointer text-sm font-extrabold text-[#071B33] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#0A8E9A] focus-visible:ring-offset-2">
-            View resolved request history ({history.length})
+          <summary className="min-h-11 cursor-pointer text-sm font-extrabold text-[#071B33] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#0A8E9A] focus-visible:ring-offset-2"><PartnerText value="View resolved request history (" />{history.length})
           </summary>
           <ol className="mt-4 grid gap-4">
             {history.map((request) => (
@@ -5172,15 +5044,13 @@ export function GuidedChangeRequestPanel({
                 <p className="mt-1 whitespace-pre-wrap text-sm leading-6 text-[#475A6E]">
                   {request.requestedCorrection}
                 </p>
-                <p className="mt-2 text-xs text-[#475A6E] [font-family:var(--font-rcap-mono)]">
-                  Requested {formatTimestamp(request.requestedAt)}
+                <p className="mt-2 text-xs text-[#475A6E] [font-family:var(--font-rcap-mono)]"><PartnerText value="Requested" />{formatTimestamp(request.requestedAt)}
                   {request.resolvedAt
                     ? ` | Closed ${formatTimestamp(request.resolvedAt)}`
                     : ""}
                 </p>
                 {request.partnerResponse ? (
-                  <p className="mt-2 text-sm leading-6 text-[#475A6E]">
-                    Partner response: {request.partnerResponse}
+                  <p className="mt-2 text-sm leading-6 text-[#475A6E]"><PartnerText value="Partner response:" />{request.partnerResponse}
                   </p>
                 ) : null}
               </li>
@@ -5208,7 +5078,7 @@ function RequestFact({
       }`}
     >
       <dt className="text-xs font-bold uppercase tracking-[0.08em] text-[#475A6E] [font-family:var(--font-rcap-mono)]">
-        {label}
+        {label ? <PartnerText value={label} /> : null}
       </dt>
       <dd className="mt-2 break-words whitespace-pre-wrap text-sm leading-6 text-[#071B33]">
         {value}
@@ -5299,20 +5169,12 @@ export function OnboardingStaffSectionSummary({
         <Link
           className={staffUtilityLinkClass}
           href="/partner/onboarding#program-configuration"
-        >
-          Return to implementation center
-        </Link>
-        <p className="mt-5 text-xs font-bold uppercase tracking-[0.12em] text-[#0A8E9A] [font-family:var(--font-rcap-mono)]">
-          Staff program summary
-        </p>
+        ><PartnerText value="Return to implementation center" /></Link>
+        <p className="mt-5 text-xs font-bold uppercase tracking-[0.12em] text-[#0A8E9A] [font-family:var(--font-rcap-mono)]"><PartnerText value="Staff program summary" /></p>
         <h1 className="mt-2 text-3xl font-extrabold tracking-[-0.02em] md:text-4xl">
           {section.title}
         </h1>
-        <p className="mt-3 max-w-3xl text-sm leading-6 text-[#475A6E]">
-          You can read the submitted or approved implementation record because
-          your active {organizationName} staff role includes this workspace. A
-          partner administrator manages corrections and submission.
-        </p>
+        <p className="mt-3 max-w-3xl text-sm leading-6 text-[#475A6E]"><PartnerText value="You can read the submitted or approved implementation record because your active" />{organizationName}<PartnerText value="staff role includes this workspace. A partner administrator manages corrections and submission." /></p>
         <dl className="mt-5 grid border border-[#B8C1C7] bg-white sm:grid-cols-3">
           <StaffFact
             label="Section state"
@@ -5348,9 +5210,7 @@ export function OnboardingStaffSectionSummary({
           className="hidden border border-[#B8C1C7] bg-white lg:sticky lg:top-6 lg:block lg:self-start"
         >
           <div className="border-b border-[#B8C1C7] p-4">
-            <p className="text-xs font-bold uppercase tracking-[0.1em] text-[#475A6E] [font-family:var(--font-rcap-mono)]">
-              Read-only section
-            </p>
+            <p className="text-xs font-bold uppercase tracking-[0.1em] text-[#475A6E] [font-family:var(--font-rcap-mono)]"><PartnerText value="Read-only section" /></p>
           </div>
           <ol>
             {section.changeRequestStatus ? (
@@ -5393,8 +5253,7 @@ export function OnboardingStaffSectionSummary({
               aria-labelledby="staff-summary-step"
               className="border border-[#B8C1C7] bg-white p-5 md:p-7"
             >
-              <p className="text-xs font-bold uppercase tracking-[0.1em] text-[#0A8E9A] [font-family:var(--font-rcap-mono)]">
-                Step {resolution.index + 1} of {resolution.section.substeps.length}
+              <p className="text-xs font-bold uppercase tracking-[0.1em] text-[#0A8E9A] [font-family:var(--font-rcap-mono)]"><PartnerText value="Step" />{resolution.index + 1}<PartnerText value="of" />{resolution.section.substeps.length}
               </p>
               <h2
                 className="mt-2 text-2xl font-extrabold"
@@ -5423,10 +5282,7 @@ export function OnboardingStaffSectionSummary({
                   ))}
                 </dl>
               ) : (
-                <div className="mt-6 border-l-4 border-[#0A8E9A] bg-[#EEF7F6] p-4 text-sm leading-6 text-[#475A6E]">
-                  This task explains the implementation decision and has no
-                  staff-editable field.
-                </div>
+                <div className="mt-6 border-l-4 border-[#0A8E9A] bg-[#EEF7F6] p-4 text-sm leading-6 text-[#475A6E]"><PartnerText value="This task explains the implementation decision and has no staff-editable field." /></div>
               )}
 
               <p className="mt-6 border-t border-[#D8DDDF] pt-4 text-sm leading-6 text-[#475A6E]">
@@ -5436,16 +5292,11 @@ export function OnboardingStaffSectionSummary({
           )}
 
           <div className="mt-5 border-t-4 border-[#071B33] pt-5">
-            <p className="text-sm leading-6 text-[#475A6E]">
-              Need a correction? Contact {administratorName || "your partner administrator"}.
-              Staff access cannot edit or submit this record.
-            </p>
+            <p className="text-sm leading-6 text-[#475A6E]"><PartnerText value="Need a correction? Contact" />{administratorName || "your partner administrator"}<PartnerText value=". Staff access cannot edit or submit this record." /></p>
             <Link
               className="mt-4 inline-flex min-h-12 items-center justify-center border border-[#071B33] bg-[#071B33] px-5 py-3 text-sm font-extrabold text-white focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#0A8E9A] focus-visible:ring-offset-2"
               href="/partner/onboarding#program-configuration"
-            >
-              Return to implementation center
-            </Link>
+            ><PartnerText value="Return to implementation center" /></Link>
           </div>
         </div>
       </div>
@@ -5457,7 +5308,7 @@ function StaffFact({ label, value }: { label: string; value: string }) {
   return (
     <div className="min-w-0 border-b border-[#D8DDDF] p-4 last:border-b-0 sm:border-b-0 sm:border-r sm:last:border-r-0">
       <dt className="text-xs font-bold uppercase tracking-[0.08em] text-[#475A6E] [font-family:var(--font-rcap-mono)]">
-        {label}
+        {label ? <PartnerText value={label} /> : null}
       </dt>
       <dd className="mt-2 break-words text-sm font-extrabold text-[#071B33]">
         {value}
@@ -5490,7 +5341,7 @@ function StaffStepLink({
       <span className="text-xs [font-family:var(--font-rcap-mono)]">
         {marker}
       </span>
-      <span className="break-words">{label}</span>
+      <span className="break-words">{label ? <PartnerText value={label} /> : null}</span>
     </Link>
   );
 }
@@ -5545,3 +5396,5 @@ function formatStaffDate(value: string | null): string {
 
 const staffUtilityLinkClass =
   "inline-flex min-h-11 items-center text-sm font-bold text-[#0A6E77] underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#0A8E9A] focus-visible:ring-offset-2";
+
+function PartnerText({value}:{value:string}) {const {text}=useLocalization();return <>{text(value)}</>;}

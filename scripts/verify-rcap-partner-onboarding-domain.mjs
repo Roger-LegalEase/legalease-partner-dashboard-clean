@@ -154,7 +154,9 @@ const expectedTopLevelFields = {
     "participant_support_copy",
     "partner_privacy_url",
     "accessibility_url",
-    "impact_reporting_url"
+    "impact_reporting_url",
+    "program_headline_es", "program_subheadline_es", "approved_organization_description_es",
+    "primary_cta_label_es", "participant_support_copy_es", "service_area_es", "target_audience_es"
   ],
   staff_dashboard_plan: [
     "planned_users",

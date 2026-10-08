@@ -1,3 +1,4 @@
+import {AssetReviewControl} from "./AssetReviewControl";
 import Link from "next/link";
 import { InternalAdminDenied, resolveInternalAdminPageAccess } from "@/lib/partners/internal-admin-gate";
 import { getOnboarding, startOnboardingForExistingPartner, statusLabel, type PartnerOnboardingView } from "@/lib/partners/partner-onboarding";
@@ -100,6 +101,7 @@ export default async function OnboardingDetailPage({ params }: { params: Promise
                 launchPreparation={launchPrep ? { href: "#launch-prep-heading" } : undefined}
               />
               </details>
+              <AssetReviewControl partnerSlug={partnerSlug} assets={phase1Snapshot.assets} />
               {prefillLoadError ? <p role="status" className="mt-6 text-sm text-orange">{prefillLoadError}</p> : null}
               {launchPrepLoadError ? <p role="status" className="mt-6 text-sm text-orange">{launchPrepLoadError}</p> : null}
               {prefillSnapshot ? (

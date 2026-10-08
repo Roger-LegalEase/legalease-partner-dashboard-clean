@@ -404,6 +404,14 @@ const sectionSchemas = {
     .strict(),
   brand_public_page: z
     .object({
+      program_headline_es: safeString(ONBOARDING_FIELD_LIMITS.longText,"multiline").optional(),
+      program_subheadline_es: safeString(ONBOARDING_FIELD_LIMITS.longText,"multiline").optional(),
+      approved_organization_description_es: safeString(ONBOARDING_FIELD_LIMITS.longText,"multiline").optional(),
+      primary_cta_label_es: safeString(ONBOARDING_FIELD_LIMITS.longText,"multiline").optional(),
+      participant_support_copy_es: safeString(ONBOARDING_FIELD_LIMITS.longText,"multiline").optional(),
+      service_area_es: safeString(ONBOARDING_FIELD_LIMITS.longText,"multiline").optional(),
+      target_audience_es: safeString(ONBOARDING_FIELD_LIMITS.longText,"multiline").optional(),
+
       approved_organization_description: safeString(
         ONBOARDING_FIELD_LIMITS.longText,
         "multiline"

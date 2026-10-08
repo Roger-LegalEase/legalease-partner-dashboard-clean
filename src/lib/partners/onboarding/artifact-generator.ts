@@ -4,6 +4,7 @@ import {
   DASHBOARD_USER_REPORTING_MATRIX_GENERATOR_VERSION,
   IMPLEMENTATION_BRIEF_GENERATOR_VERSION,
   LEGALEASE_PUBLIC_PAGE_LANGUAGE,
+  LEGALEASE_PUBLIC_PAGE_LANGUAGE_ES,
   LEGALEASE_TECHNICAL_SUPPORT_ROUTE,
   OPERATIONS_ESCALATION_PLAN_GENERATOR_VERSION,
   PARTNER_LAUNCH_KIT_GENERATOR_VERSION,
@@ -54,6 +55,7 @@ export type PagePreviewAsset = {
 };
 
 export type CoBrandedPagePreview = {
+  spanish?: Partial<Record<"headline"|"subheadline"|"organizationDescription"|"primaryActionLabel"|"participantSupportCopy"|"serviceArea"|"targetAudience",string>>;
   publicName: PagePreviewField;
   programName: PagePreviewField;
   headline: PagePreviewField;
@@ -73,7 +75,7 @@ export type CoBrandedPagePreview = {
   heroImage: PagePreviewAsset;
   showPartnerLogo: boolean;
   showPoweredBy: boolean;
-  legalBlocks: Array<{ category: string; heading: string; body: string }>;
+  legalBlocks: Array<{ category: string; heading: string; body: string; headingEs?: string; bodyEs?: string }>;
   missing: Array<{ label: string; whereToSet: string }>;
 };
 
@@ -1924,7 +1926,7 @@ function assetSlot(
 ): PagePreviewAsset {
   const asset = ctx.input.assets.find(
     (candidate) =>
-      candidate.category === category && candidate.lifecycleStatus !== "deleted"
+      candidate.category === category && ["active","pending_review"].includes(candidate.lifecycleStatus) && candidate.reviewStatus!=="rejected"
   );
   return {
     key,
@@ -1970,6 +1972,7 @@ export function renderCoBrandedPageConfiguration(
   const ctx: Ctx = { input, gaps: 0 };
 
   const preview: CoBrandedPagePreview = {
+    spanish: {headline: text(ctx,"brand_public_page","program_headline_es") ?? undefined,subheadline: text(ctx,"brand_public_page","program_subheadline_es") ?? undefined,organizationDescription: text(ctx,"brand_public_page","approved_organization_description_es") ?? undefined,primaryActionLabel: text(ctx,"brand_public_page","primary_cta_label_es") ?? undefined,participantSupportCopy: text(ctx,"brand_public_page","participant_support_copy_es") ?? undefined,serviceArea: text(ctx,"brand_public_page","service_area_es") ?? undefined,targetAudience: text(ctx,"brand_public_page","target_audience_es") ?? undefined},
     publicName: configuredField(
       ctx,
       "public_name",
@@ -2093,13 +2096,18 @@ export function renderCoBrandedPageConfiguration(
       ([category, block]) => ({
         category,
         heading: block.heading,
-        body: block.body
+        body: block.body,
+        headingEs: LEGALEASE_PUBLIC_PAGE_LANGUAGE_ES[category].heading,
+        bodyEs: LEGALEASE_PUBLIC_PAGE_LANGUAGE_ES[category].body
       })
     ),
     missing: []
   };
 
   const missing: Array<{ label: string; whereToSet: string }> = [];
+  if(input.data.geography_audience_language_accessibility?.enable_spanish) {
+    for(const key of ["headline", "subheadline", "organizationDescription", "primaryActionLabel", "participantSupportCopy", "serviceArea", "targetAudience"] as const) if(!preview.spanish?.[key]) missing.push({label:`Spanish ${key}`,whereToSet:"Program setup → Your page → Spanish page content"});
+  }
   for (const field of [
     preview.publicName,
     preview.headline,

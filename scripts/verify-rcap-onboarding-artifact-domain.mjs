@@ -80,7 +80,7 @@ check("every generator version is a pinned hand-maintained constant", () => {
     operations_escalation_plan: "operations_escalation_plan_v1",
     dashboard_user_reporting_matrix: "dashboard_user_reporting_matrix_v1",
     staff_quick_start_guide: "staff_quick_start_guide_v1",
-    co_branded_page_configuration: "co_branded_page_configuration_v1",
+    co_branded_page_configuration: "co_branded_page_configuration_v2",
     partner_launch_kit: "partner_launch_kit_v1"
   });
   for (const version of Object.values(domain.ARTIFACT_GENERATOR_VERSIONS)) {

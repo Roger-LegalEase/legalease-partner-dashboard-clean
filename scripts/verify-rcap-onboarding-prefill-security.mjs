@@ -68,7 +68,11 @@ assert.doesNotMatch(migration, /security\s+definer/iu);
 assert.doesNotMatch(migration, /grant\s+(insert|update|delete|all)[\s\S]*authenticated/iu);
 assert.doesNotMatch(migration, /raw_(email|meeting|note|transcript|proposal)/iu);
 assert.doesNotMatch(route + partnerService, /service_role|serviceRoleKey|admin client/iu);
-assert.match(route, /requireInternalOnboardingContext\(partnerSlug\)/);
+assert.match(route, /requireStudioContext\(partnerSlug\)/);
+const scopedGuard=read("src/lib/partners/onboarding/studio-authorization.ts");
+assert.match(scopedGuard,/requireInternalOnboardingContext/);
+assert.match(scopedGuard,/canAssignedSuccessManagerAct/);
+assert.match(scopedGuard,/eq\("auth_user_id",context.authUserId\)/);
 assert.match(partnerService, /createServerSupabaseAuthClient/);
 assert.doesNotMatch(partnerService, /browser.*partner|payload.*partner_slug/iu);
 

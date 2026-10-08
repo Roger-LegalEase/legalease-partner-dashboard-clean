@@ -2,7 +2,7 @@ import "server-only";
 
 import crypto from "node:crypto";
 import { getSupabaseAdminClient } from "@/lib/supabase/server";
-import type { InternalOnboardingContext } from "./auth-context";
+import { assertStudioCapability, type StudioContext } from "./studio-authorization";
 import { deriveOnboardingSummary, isFieldActive } from "./derivations";
 import { Phase1OnboardingError } from "./errors";
 import { isRcapOnboardingPrefillEnabled } from "./feature";
@@ -239,9 +239,10 @@ export type PartnerPrefillMetadata = {
 };
 
 export async function getInternalPrefillSnapshot(
-  context: InternalOnboardingContext
+  context: StudioContext
 ): Promise<InternalPrefillSnapshot> {
   assertPrefillEnabled();
+  await assertStudioCapability(context,"prepare");
   const admin = requireAdmin();
   const loaded = await loadCanonicalWorkspace(admin, context.partnerSlug);
   if (!loaded) {
@@ -296,10 +297,11 @@ export async function getInternalPrefillSnapshot(
 }
 
 export async function importKnownPartnerData(
-  context: InternalOnboardingContext,
+  context: StudioContext,
   input: { requestId: string }
 ) {
   assertPrefillEnabled();
+  await assertStudioCapability(context,"prepare");
   const admin = requireAdmin();
   const loaded = await requireCanonicalWorkspace(admin, context.partnerSlug);
   const [partnerResult, usersResult, activeValuesResult] = await Promise.all([
@@ -368,7 +370,7 @@ export async function importKnownPartnerData(
 }
 
 export async function addStructuredPrefillSuggestion(
-  context: InternalOnboardingContext,
+  context: StudioContext,
   input: {
     requestId: string;
     sectionKey: OnboardingSectionKey;
@@ -381,6 +383,7 @@ export async function addStructuredPrefillSuggestion(
   }
 ) {
   assertPrefillEnabled();
+  await assertStudioCapability(context,"prepare");
   if (!isPrefillSourceType(input.sourceType)) {
     throw new Phase1OnboardingError(
       "invalid_input",
@@ -465,7 +468,7 @@ export async function addStructuredPrefillSuggestion(
 }
 
 export async function reviewPrefillSuggestion(
-  context: InternalOnboardingContext,
+  context: StudioContext,
   input: {
     requestId: string;
     workspaceId: string;
@@ -475,6 +478,7 @@ export async function reviewPrefillSuggestion(
   }
 ) {
   assertPrefillEnabled();
+  await assertStudioCapability(context,"prepare");
   const admin = requireAdmin();
   const payloadHash = hashPrefill({
     partnerSlug: context.partnerSlug,
@@ -517,7 +521,7 @@ export async function reviewPrefillSuggestion(
  * the write, with its own version checks intact.
  */
 export async function overridePrefillConflict(
-  context: InternalOnboardingContext,
+  context: StudioContext,
   input: {
     requestId: string;
     valueId: string;
@@ -528,6 +532,8 @@ export async function overridePrefillConflict(
   }
 ) {
   assertPrefillEnabled();
+  await assertStudioCapability(context,"prepare");
+  if(context.role!=="internal_admin") throw new Phase1OnboardingError("forbidden","Only an internal administrator may replace a partner answer.");
   const reason = String(input.reason ?? "").trim();
   if (reason.length < 10 || reason.length > 500 || /[\u0000-\u001f\u007f]/.test(reason)) {
     throw new Phase1OnboardingError(
@@ -637,7 +643,7 @@ export async function overridePrefillConflict(
 }
 
 export async function applyOnboardingPrefill(
-  context: InternalOnboardingContext,
+  context: StudioContext,
   input: {
     requestId: string;
     workspaceId: string;
@@ -646,6 +652,7 @@ export async function applyOnboardingPrefill(
   }
 ) {
   assertPrefillEnabled();
+  await assertStudioCapability(context,"prepare");
   const admin = requireAdmin();
   const loaded = await requireCanonicalWorkspace(admin, context.partnerSlug);
   if (
@@ -881,7 +888,7 @@ function prepareSuggestions(
 
 async function prepareBatch(
   admin: SupabaseAdmin,
-  context: InternalOnboardingContext,
+  context: StudioContext,
   loaded: LoadedWorkspace,
   input: {
     requestId: string;

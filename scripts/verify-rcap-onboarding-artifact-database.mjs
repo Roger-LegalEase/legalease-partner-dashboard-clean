@@ -566,16 +566,29 @@ async function verifyLaunchAuthorityProposal() {
     await reject(()=>db.query(`update public.rcap_partner_operator_assignments set partner_slug='partner-b' where id=$1`,[result.rows[0].id]),"immutable tenant assignment");
     await db.query(`update public.rcap_partner_operator_assignments set revoked_at=now(),revoked_by=$1,revocation_reason='Synthetic authorization revoked' where id=$2`,[ids.userInternal,result.rows[0].id]);
   });
-  const exception=(key='report_recipients_configured',actor=ids.userInternal,workspace=ids.workspaceA)=>db.query(`insert into public.rcap_launch_exception_events(kind,workspace_id,partner_slug,check_key,actor_auth_user_id,actor_role,request_id,reason,authority_reference,snapshot_hash) values('grant',$1,'partner-a',$2,$3,'internal_admin',gen_random_uuid(),'Approved temporary reporting arrangement','Synthetic approved alternative policy',$4) returning id`,[workspace,key,actor,HASH_A]);
+  const exception=(key='communications_approved',actor=ids.userInternal,workspace=ids.workspaceA)=>db.query(`insert into public.rcap_launch_exception_events(kind,workspace_id,partner_slug,check_key,actor_auth_user_id,actor_role,request_id,reason,authority_reference,snapshot_hash) values('grant',$1,'partner-a',$2,$3,'internal_admin',gen_random_uuid(),'Approved temporary reporting arrangement','Synthetic approved alternative policy',$4) returning id`,[workspace,key,actor,HASH_A]);
   await check("proposed exception journal denies hard gates, actors and mismatched scope",async()=>{
     await reject(()=>exception('partner_launch_approval_received'),"cannot waive consent");await reject(()=>exception('report_recipients_configured',ids.userA),"partner cannot grant waiver");await reject(()=>exception('report_recipients_configured',ids.userInternal,ids.workspaceB),"cross tenant denied");
-    const grant=await exception();await db.query(`insert into public.rcap_launch_exception_events(kind,grant_id,workspace_id,partner_slug,check_key,actor_auth_user_id,actor_role,request_id,reason,authority_reference,snapshot_hash) values('revoke',$1,$2,'partner-a','report_recipients_configured',$3,'internal_admin',gen_random_uuid(),'Synthetic reporting exception revoked','Synthetic approved alternative policy',$4)`,[grant.rows[0].id,ids.workspaceA,ids.userInternal,HASH_A]);
+    const grant=await exception();await db.query(`insert into public.rcap_launch_exception_events(kind,grant_id,workspace_id,partner_slug,check_key,actor_auth_user_id,actor_role,request_id,reason,authority_reference,snapshot_hash) values('revoke',$1,$2,'partner-a','communications_approved',$3,'internal_admin',gen_random_uuid(),'Synthetic reporting exception revoked','Synthetic approved alternative policy',$4)`,[grant.rows[0].id,ids.workspaceA,ids.userInternal,HASH_A]);
   });
   await check("proposed launch journal cannot complete without prior verification receipts",async()=>{
     const operation='f0000000-0000-4000-8000-000000000001',request='f1000000-0000-4000-8000-000000000001';
     const step=(value,hash=HASH_A)=>db.query(`insert into public.rcap_launch_operation_events(workspace_id,partner_slug,operation_id,request_id,step,actor_auth_user_id,snapshot_hash,authority_reference) values($1,'partner-a',$2,$3,$4,$5,$6,'Synthetic genuine program authority')`,[ids.workspaceA,operation,request,value,ids.userInternal,hash]);
     await reject(()=>step('complete'),"cannot claim completion before verified publication");await reject(()=>step('public_verified'),"cannot claim verified before staging");await step('prepared');await reject(()=>step('publication_staged',HASH_B),"changed snapshot cannot continue");await step('held');await reject(()=>step('publication_staged'),"held operation cannot continue");
     assert(Number((await db.query(`select count(*) as count from public.rcap_launch_operation_events where step='complete'`)).rows[0].count)===0,"no synthetic successful launch claimed");
+  });
+  await check("assigned preparation checks live capability, tenant and revocation",async()=>{
+    const current=await assignment(['prepare']);
+    const can=async(slug,capability)=>(await db.query(`select public.rcap_studio_actor_can($1,$2,$3) as allowed`,[ids.userA,slug,capability])).rows[0].allowed;
+    assert(await can('partner-a','prepare'),"assigned preparation permitted");
+    assert(!await can('partner-b','prepare'),"foreign scope denied");
+    assert(!await can('partner-a','review_operational_material'),"unassigned capability denied");
+    await db.query(`update public.rcap_partner_operator_assignments set revoked_at=now(),revoked_by=$1,revocation_reason='Synthetic scoped capability revoked' where id=$2`,[ids.userInternal,current.rows[0].id]);
+    assert(!await can('partner-a','prepare'),"revoked preparation denied");
+  });
+  await check("audit receipts refuse privileged modification and deletion",async()=>{
+    await reject(()=>db.query(`update public.rcap_launch_operation_events set authority_reference='Rewritten authority'`),"launch evidence immutable");
+    await reject(()=>db.query(`delete from public.rcap_launch_exception_events`),"exception history immutable");
   });
   await check("proposed journals deny authenticated direct writes",async()=>{
     await db.exec('set role authenticated;');await reject(()=>db.query(`select * from public.rcap_launch_exception_events`),"no direct journal read");await db.exec('reset role;');

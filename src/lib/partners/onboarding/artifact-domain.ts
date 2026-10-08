@@ -1,3 +1,4 @@
+import { RCAP_SPANISH_COPY } from "./rcap-spanish-copy";
 import { isReferralFieldActive } from "./referral-policy";
 import crypto from "node:crypto";
 
@@ -103,7 +104,7 @@ export const DASHBOARD_USER_REPORTING_MATRIX_GENERATOR_VERSION =
 export const STAFF_QUICK_START_GUIDE_GENERATOR_VERSION =
   "staff_quick_start_guide_v1";
 export const CO_BRANDED_PAGE_CONFIGURATION_GENERATOR_VERSION =
-  "co_branded_page_configuration_v1";
+  "co_branded_page_configuration_v2";
 export const PARTNER_LAUNCH_KIT_GENERATOR_VERSION = "partner_launch_kit_v1";
 
 export const ARTIFACT_GENERATOR_VERSIONS: Readonly<
@@ -175,9 +176,14 @@ export const LEGALEASE_PUBLIC_PAGE_LANGUAGE: Readonly<
   }
 };
 
-export const LEGALEASE_PUBLIC_PAGE_PROJECTION_KEYS = Object.keys(
-  LEGALEASE_PUBLIC_PAGE_LANGUAGE
-).map((category) => `legalease_public_page.${category}`);
+export const LEGALEASE_PUBLIC_PAGE_LANGUAGE_ES = Object.fromEntries(
+  Object.entries(LEGALEASE_PUBLIC_PAGE_LANGUAGE).map(([category, block]) => [category, {
+    heading: RCAP_SPANISH_COPY[block.heading] ?? block.heading,
+    body: RCAP_SPANISH_COPY[block.body] ?? block.body
+  }])
+);
+export const LEGALEASE_PUBLIC_PAGE_PROJECTION_KEYS = Object.keys(LEGALEASE_PUBLIC_PAGE_LANGUAGE)
+  .flatMap(category => [`legalease_public_page.${category}`, `legalease_public_page_es.${category}`]);
 
 /**
  * Workspace-level values that no registry field covers. `target_launch_date` is
@@ -431,6 +437,8 @@ export function projectArtifactSource(
       LEGALEASE_PUBLIC_PAGE_LANGUAGE
     )) {
       values[`legalease_public_page.${category}`] = `${block.heading}: ${block.body}`;
+      const spanish = LEGALEASE_PUBLIC_PAGE_LANGUAGE_ES[category];
+      values[`legalease_public_page_es.${category}`] = `${spanish.heading}: ${spanish.body}`;
     }
   }
 

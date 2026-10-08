@@ -1,6 +1,6 @@
 "use client";
 
-import { LAUNCH_EXCEPTION_POLICY } from "@/lib/partners/onboarding/launch-exception-policy";
+import { LaunchControl } from "./LaunchControl";
 
 import { useState } from "react";
 
@@ -148,12 +148,7 @@ export function LaunchReadinessPanel({
           {message}
         </p>
       ) : null}
-      <details className="mb-6 rounded-xl border border-grayWilma-200 bg-white p-5">
-        <summary className="cursor-pointer font-bold text-navy">Manage launch exceptions</summary>
-        <p className="my-3 text-sm text-grayWilma-700">Exception writes are unavailable until the policy and audited database controls receive authorization. Missing work remains visible; genuine consent and required reviews cannot be waived.</p>
-        <ul className="space-y-2 text-sm">{current.checks.map(check => <li key={check.key}><strong>{check.label}</strong>: {LAUNCH_EXCEPTION_POLICY[check.key]?.classification.replaceAll("_", " ") ?? "hard stop"}. {LAUNCH_EXCEPTION_POLICY[check.key]?.basis}</li>)}</ul>
-      </details>
-      <p className="mb-5 rounded-xl border border-grayWilma-200 bg-white p-5 text-sm" role="status">Launch is held pending authorized commercial/publication policy and durable launch receipts with public verification. Setup and document approval do not publish this program.</p>
+      <LaunchControl partnerSlug={partnerSlug} />
       <LaunchReadinessView
         readiness={current}
         audience="internal"

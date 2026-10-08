@@ -1,4 +1,5 @@
 import "server-only";
+import {isDisposableLaunchEnvironment,acceptsSyntheticVerification} from "./onboarding/synthetic-launch-security";
 
 import { getSupabaseAdminClient } from "@/lib/supabase/server";
 import { getPartnerRecordBySlug } from "./partner-repository";
@@ -23,7 +24,7 @@ type PublicationRow = {
  * both authoritative. Every lookup failure returns the same absent result.
  */
 export async function getAuthoritativelyPublicPartnerRecord(
-  partnerSlug: string
+  partnerSlug: string, verificationToken: string | null = null
 ): Promise<PartnerRecord | undefined> {
   const slug = normalizePartnerSlug(partnerSlug);
   if (!slug) return undefined;
@@ -32,6 +33,13 @@ export async function getAuthoritativelyPublicPartnerRecord(
   if (!supabase) return undefined;
 
   try {
+    if(isDisposableLaunchEnvironment()) {
+      const target=await supabase.from("rcap_synthetic_launch_targets").select("partner_slug").eq("partner_slug",slug).maybeSingle();
+      if(target.error)return undefined;
+      if(target.data){const receipt=await supabase.from("rcap_launch_operation_events").select("operation_id,step").eq("partner_slug",slug).order("created_at",{ascending:false}).limit(1).maybeSingle();
+        if(receipt.error || !receipt.data || (!["complete","public_verified"].includes(receipt.data.step) && !(receipt.data.step==="publication_staged" && acceptsSyntheticVerification(slug,receipt.data.operation_id,verificationToken))))return undefined;
+      }
+    }
     const [activationResult, publicationResult] = await Promise.all([
       supabase
         .from("partner_records")

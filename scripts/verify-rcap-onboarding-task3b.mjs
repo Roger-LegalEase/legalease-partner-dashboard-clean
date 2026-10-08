@@ -83,6 +83,7 @@ check("all six brand tasks remain ordered and stable", () => {
     [
       "reused-public-identity",
       "approved-public-copy",
+      "approved-spanish-copy",
       "participant-support-copy",
       "privacy-accessibility-links",
       "private-assets",

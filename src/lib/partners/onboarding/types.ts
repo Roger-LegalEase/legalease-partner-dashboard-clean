@@ -295,6 +295,14 @@ export type AccessSponsorshipCapacitySectionData = {
 };
 
 export type BrandPublicPageSectionData = {
+  program_headline_es?: string;
+  program_subheadline_es?: string;
+  approved_organization_description_es?: string;
+  primary_cta_label_es?: string;
+  participant_support_copy_es?: string;
+  service_area_es?: string;
+  target_audience_es?: string;
+
   approved_organization_description?: string;
   program_headline?: string;
   program_subheadline?: string;

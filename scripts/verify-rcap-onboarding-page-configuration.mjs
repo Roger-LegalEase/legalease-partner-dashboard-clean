@@ -543,7 +543,11 @@ check("the preview shows the real logo through a tenant-scoped route", () => {
     "src/app/api/internal/partners/onboarding/phase1/[partnerSlug]/assets/[assetId]/route.ts"
   );
   assert.ok(route.includes("export async function GET"));
-  for (const method of ["POST", "PUT", "PATCH", "DELETE"]) {
+  assert.ok(route.includes("export async function POST"));
+  assert.ok(route.includes("requireInternalOnboardingContext"));
+  assert.ok(route.includes("isRcapLaunchStudioEnabled"));
+  assert.ok(route.includes("rcap_service_review_studio_asset"));
+  for (const method of ["PUT", "PATCH", "DELETE"]) {
     assert.ok(
       !route.includes(`export async function ${method}`),
       `the asset route must not expose ${method}`

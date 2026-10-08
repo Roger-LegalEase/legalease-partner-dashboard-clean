@@ -372,6 +372,7 @@ const RAW_GUIDED_SECTIONS = [
           "primary_cta_label"
         )
       },
+      {id:"approved-spanish-copy",title:"Spanish page content",purpose:"Provide your approved Spanish headline, description, geography and support copy when your program supports Spanish.",outcome:"Both language versions require genuine page review before publication.",...fields("program_headline_es","program_subheadline_es","approved_organization_description_es","primary_cta_label_es","participant_support_copy_es","service_area_es","target_audience_es")},
       {
         id: "participant-support-copy",
         title: "Participant support information",

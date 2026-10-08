@@ -1,3 +1,4 @@
+import {RCAP_SPANISH_COPY} from "@/lib/partners/onboarding/rcap-spanish-copy";
 export type Locale = "en" | "es";
 
 export const DEFAULT_LOCALE: Locale = "en";
@@ -1038,7 +1039,8 @@ export function t(locale: Locale, key: string, fallback?: string, vars?: Record<
   return interpolate(value, vars);
 }
 
-export function resolveRuntimeText(locale: Locale, text: string, options?: { key?: string; vars?: Record<string, string | number | undefined> }) {
+export function resolveRuntimeText(locale: Locale, text: string, options?: { key?: string; vars?: Record<string, string | number | undefined> }): string {
+  if (locale === "es" && RCAP_SPANISH_COPY[text]) return interpolate(RCAP_SPANISH_COPY[text],options?.vars);
   if (options?.key) return t(locale, options.key, text, options.vars);
   const key = EXACT_ENGLISH_INDEX.get(normalize(text));
   if (key) return t(locale, key, text, options?.vars);
@@ -1083,8 +1085,9 @@ function slugify(text: string) {
   return normalize(text).toLowerCase().replace(/[^a-z0-9]+/g, "_").replace(/^_+|_+$/g, "");
 }
 
-function resolveSpanishPattern(text: string, vars?: Record<string, string | number | undefined>) {
+function resolveSpanishPattern(text: string, vars?: Record<string, string | number | undefined>): string {
   const normalized = interpolate(normalize(text), vars);
+  const requiredField=normalized.match(/^(.+) is required\.$/);if(requiredField)return `${resolveRuntimeText("es",requiredField[1])} es obligatorio.`;
   const possibleRoute = normalized.match(/^Based on your answers, there may be a (.+) route for this case\.$/);
   if (possibleRoute) return `Según lo que compartió, puede haber una ruta de ${possibleRoute[1]} para este caso.`;
 

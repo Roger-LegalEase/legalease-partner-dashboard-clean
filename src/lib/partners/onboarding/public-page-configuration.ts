@@ -15,9 +15,9 @@ export function visiblePublicPageAssetIds(preview: Pick<CoBrandedPagePreview, "l
 }
 
 /** Public reads require activation, publication and the exact current approvals. */
-export async function getApprovedPublicPageConfiguration(partnerSlug: string) {
+export async function getApprovedPublicPageConfiguration(partnerSlug: string, verificationToken: string | null = null) {
   if (!isRcapLaunchStudioEnabled()) return null;
-  const partner = await getAuthoritativelyPublicPartnerRecord(partnerSlug);
+  const partner = await getAuthoritativelyPublicPartnerRecord(partnerSlug,verificationToken);
   if (!partner) return null;
   const admin = getSupabaseAdminClient();
   if (!admin) return null;

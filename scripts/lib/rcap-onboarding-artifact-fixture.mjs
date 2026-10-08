@@ -112,6 +112,14 @@ export function artifactSourceFixture() {
         capacity_escalation_response_expectation: "A decision within two business days"
       },
       brand_public_page: {
+        program_headline_es: "Un camino claro hacia su próxima oportunidad",
+        program_subheadline_es: "Prepare sus propios documentos con herramientas de autoayuda.",
+        approved_organization_description_es: "Esta organización sintética ayuda a su comunidad a comprender sus opciones.",
+        primary_cta_label_es: "Comenzar gratis",
+        participant_support_copy_es: "Contacte al personal del programa para obtener ayuda.",
+        service_area_es: "Mississippi, Maryland y el Distrito de Columbia",
+        target_audience_es: "Personas de la comunidad con antecedentes elegibles.",
+
         approved_organization_description:
           "Demo Justice Access Partner helps neighbors clear old records.",
         program_headline: "Clear your record, for free",
