@@ -44,7 +44,17 @@ function check(name, fn) {
 /** A partner whose data satisfies every automated check. */
 function readySource() {
   const source = artifactSourceFixture();
-  source.workspace.agreementStatus = "executed";
+  source.workspace.agreementStatus = "signed";
+  source.agreements = [{
+    type:"order_form",status:"executed",
+    finalizedAssetId:"a1000000-0000-4000-8000-000000000003",
+    effectiveDate:"2026-09-01"
+  }];
+  source.assets.push({
+    id:"a1000000-0000-4000-8000-000000000003",
+    category:"procurement_document",sha256Hex:null,
+    lifecycleStatus:"active",reviewStatus:"approved"
+  });
   source.workspace.launchReadinessState = null;
   source.sectionStatuses = {
     organization_contacts: "approved",
@@ -288,6 +298,38 @@ check("each automated check actually moves when its own source moves", () => {
       `${key} must explain why it failed`
     );
   }
+});
+
+check("agreement readiness matches signed-document launch authority", () => {
+  const complete = readySource();
+  assert.equal(byKey(evaluateReady({source:complete}),"agreements_and_procurement_recorded").status,"passing");
+  complete.workspace.agreementStatus = "not_sent";
+  const unsigned = byKey(evaluateReady({source:complete}),"agreements_and_procurement_recorded");
+  assert.equal(unsigned.status,"failing");
+  assert.match(unsigned.evidenceSummary,/signed partner agreement/i);
+  complete.workspace.agreementStatus = "signed";
+  complete.agreements[0].status = "approved";
+  assert.equal(byKey(evaluateReady({source:complete}),"agreements_and_procurement_recorded").status,"failing");
+  complete.agreements[0].status = "executed";
+  complete.assets.find(a=>a.category==="procurement_document").reviewStatus="pending";
+  assert.equal(byKey(evaluateReady({source:complete}),"agreements_and_procurement_recorded").status,"failing");
+});
+
+check("agreement readiness action opens the real review field", () => {
+  const source=readySource();
+  source.workspace.agreementStatus="not_sent";
+  const result=evaluateLaunchReadiness({
+    source,artifacts:approvedArtifacts(),recorded:recordedManualChecks()
+  },"internal");
+  const agreement=byKey(result,"agreements_and_procurement_recorded");
+  assert.equal(agreement.resolutions?.[0]?.href,
+    "/internal/partners/onboarding/demo-partner#internal-operation-agreement");
+  assert.equal(agreement.resolutions?.[0]?.canActorResolve,true);
+  const view=read("src/app/internal/partners/onboarding/[partnerSlug]/Phase1InternalReviewPanel.tsx");
+  assert.match(view,/details\.open = true/);
+  assert.match(view,/internal-operation-\$\{cardKey\}/);
+  const parent=read("src/app/internal/partners/onboarding/[partnerSlug]/page.tsx");
+  assert.match(parent,/<details id="setup-review"/);
 });
 
 check("a stale document fails the currency check and names the document", () => {
