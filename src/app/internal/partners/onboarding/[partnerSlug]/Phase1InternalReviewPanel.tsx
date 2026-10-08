@@ -54,6 +54,8 @@ export type Phase1InternalOnboardingSnapshot = {
     category: string;
     originalFileName: string;
     mediaType: string;
+    reviewStatus: string;
+    lifecycleStatus: string;
   }>;
   // The authoritative partner payment read the review function checks before it accepts
   // a paid-invoice outcome. Absent (older snapshots) means unknown, never paid.
