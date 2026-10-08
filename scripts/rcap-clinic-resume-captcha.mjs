@@ -135,7 +135,7 @@ export function inspectShippedCaptcha(chunks){
   if(!ts.isCallExpression(left)||left.arguments.length||!ts.isPrefixUnaryExpression(right)||right.operator!==ts.SyntaxKind.ExclamationToken)return;
   const trim=unwrap(right.operand);if(!ts.isCallExpression(trim)||!ts.isPropertyAccessExpression(trim.expression)||trim.expression.name.text!=='trim')return;
   const call=importedExport(left.expression);if(!call)return;
-  const id=importId(factory,call.alias),module=modules.get(id);if(!module?.text.includes(message))return;
+  const id=importId(factory,call.alias),bundleModule=modules.get(id);if(!bundleModule?.text.includes(message))return;
   const errorKeys=[];walk(ts.isIfStatement(n)?n.thenStatement:n.whenTrue,x=>{if(ts.isPropertyAccessExpression(x)&&ts.isIdentifier(x.expression)&&x.expression.text===call.alias)errorKeys.push(x.name.text);});
   guards.push({id,key:call.key,errorKeys});
  });
@@ -143,15 +143,15 @@ export function inspectShippedCaptcha(chunks){
  assert.equal(new Set(guards.map(g=>`${g.id}:${g.key}`)).size,1,'ambiguous shipped CAPTCHA guard');
  const results=[];
  for(const guard of guards){
-  const module=modules.get(guard.id),exports=helperExports(module,guard.id);
-  const evaluate=(key,invoke=false)=>{const definition=exports.get(key);assert.ok(definition,'missing helper export');return closedValue(module,definition.value,definition.getter,invoke);};
+  const bundleModule=modules.get(guard.id),exports=helperExports(bundleModule,guard.id);
+  const evaluate=(key,invoke=false)=>{const definition=exports.get(key);assert.ok(definition,'missing helper export');return closedValue(bundleModule,definition.value,definition.getter,invoke);};
   assert.ok(guard.errorKeys.some(key=>exports.has(key)&&evaluate(key)===message),'helper error binding mismatch');
   const required=evaluate(guard.key,true),siteKey=evaluate('getTurnstileSiteKey',true);
   const proof={required,siteKeyConfigured:typeof siteKey==='string'&&siteKey.trim().length>0};
   assert.equal(typeof proof.required,'boolean','shipped CAPTCHA requirement must be boolean');
   assert.equal(proof.required,false,'shipped client requires CAPTCHA');
   assert.equal(proof.siteKeyConfigured,true,'shipped widget site key must be configured');
-  results.push({moduleId:guard.id,guardExport:guard.key,moduleFormat:module.format,moduleSha256:digest(module.text)});
+  results.push({moduleId:guard.id,guardExport:guard.key,moduleFormat:bundleModule.format,moduleSha256:digest(bundleModule.text)});
  }
  return {clientCaptchaRequired:false,widgetSiteKeyConfigured:true,source:'exact deployment shipped sign-in bundle',guards:results,chunkSha256:chunks.map(x=>digest(x.body))};
 }

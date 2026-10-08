@@ -36,18 +36,18 @@ export function fixture({ database } = {}) {
   const recoveryModule = {exports:{}};
   new Function('require','module','exports','process',ts.transpileModule(baseline ? execFileSync('git',['show',`${baseline}:src/lib/clinic-mode/reset-recovery.ts`],{encoding:'utf8'}) : fs.readFileSync('src/lib/clinic-mode/reset-recovery.ts','utf8'), {compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022}}).outputText)(require,recoveryModule,recoveryModule.exports,runtimeProcess);
   const output = ts.transpileModule(source, { compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022 } }).outputText;
-  const module = { exports: {} };
+  const routeModule = { exports: {} };
   new Function('require', 'module', 'exports', 'process', output)(name => {
     if (name.endsWith('/reset-recovery')) return recoveryModule.exports;
     if (name === 'next/server') return { NextRequest, NextResponse };
     if (name.includes('auth-server')) return { createServerSupabaseAuthClient: async () => auth };
     if (name === '@/lib/supabase/server') return { getSupabaseAdminClient: () => db };
     return require(name);
-  }, module, module.exports, runtimeProcess);
+  }, routeModule, routeModule.exports, runtimeProcess);
   async function call(action, { deliver = true, extra = {}, origin = 'http://localhost' } = {}) {
-    const response = await module.exports.POST(new NextRequest('http://localhost/api/clinic/session/reset', { method: 'POST', headers: { origin, 'content-type': 'application/json', cookie: [...jar].map(([k, v]) => `${k}=${v}`).join('; ') }, body: JSON.stringify({ action, ...extra }) }));
+    const response = await routeModule.exports.POST(new NextRequest('http://localhost/api/clinic/session/reset', { method: 'POST', headers: { origin, 'content-type': 'application/json', cookie: [...jar].map(([k, v]) => `${k}=${v}`).join('; ') }, body: JSON.stringify({ action, ...extra }) }));
     if (deliver) for (const cookie of response.cookies.getAll()) { if (cookie.maxAge === 0 || cookie.expires?.getTime() === 0) jar.delete(cookie.name); else jar.set(cookie.name, cookie.value); }
     return { status: response.status, cookies:response.cookies.getAll(), ...await response.json() };
   }
-  return { state, jar, call, issueAtStart() { const proof=recoveryModule.exports.mintRecovery(state.owner,sha('handoff-a'),sha('device-a')); jar.set('clinic_reset_recovery',recoveryModule.exports.encodeRecovery(proof)); }, recovery:recoveryModule.exports, POST: module.exports.POST };
+  return { state, jar, call, issueAtStart() { const proof=recoveryModule.exports.mintRecovery(state.owner,sha('handoff-a'),sha('device-a')); jar.set('clinic_reset_recovery',recoveryModule.exports.encodeRecovery(proof)); }, recovery:recoveryModule.exports, POST: routeModule.exports.POST };
 }

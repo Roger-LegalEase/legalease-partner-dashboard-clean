@@ -171,15 +171,15 @@ test("PF05 keeps the runSelfTests API alias and direct CLI dispatch wiring", asy
   assert.match(source, /else await runFamilyById\("ut_pet_cannabis-set"\);/);
   assert.match(source, /if \(argv\.includes\("--self-test"\)\) return selfTest\(\);/);
   assert.doesNotMatch(source, /if \(argv\.includes\("--self-test"\)\) return runSelfTests\(\);/);
-  const module = await import(pathToFileURL(builderPath).href);
-  assert.equal(module.runSelfTests, module.selfTest);
-  assert.equal(typeof module.runFamilyById, "function");
+  const builderModule = await import(pathToFileURL(builderPath).href);
+  assert.equal(builderModule.runSelfTests, builderModule.selfTest);
+  assert.equal(typeof builderModule.runFamilyById, "function");
   const instructionsPath = path.join(
     repositoryRoot,
     "data/rcap-all50/overlays/census-v1/ut/ut-pet-cannabis-set--official-pdf-fill/participant-instructions.md",
   );
   const before = fs.readFileSync(instructionsPath);
-  await module.runFamilyById("ut_pet_cannabis-set", ["--instructions-only"]);
+  await builderModule.runFamilyById("ut_pet_cannabis-set", ["--instructions-only"]);
   assert.deepEqual(fs.readFileSync(instructionsPath), before,
     "programmatic family dispatch must preserve the frozen participant instructions");
 });

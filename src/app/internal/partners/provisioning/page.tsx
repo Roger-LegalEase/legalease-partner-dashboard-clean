@@ -38,7 +38,7 @@ export default async function InternalPartnerProvisioningPage() {
       <h1 className="text-4xl font-black text-navy">Partner Provisioning</h1>
       <Card className="mt-6 p-5" role="alert">
         <p>Partner records could not be loaded. Please retry.</p>
-        <a className="mt-3 inline-flex min-h-11 items-center font-bold text-teal focus-visible:outline focus-visible:outline-2" href="/internal/partners/provisioning">Retry loading partners</a>
+        <Link className="mt-3 inline-flex min-h-11 items-center font-bold text-teal focus-visible:outline focus-visible:outline-2" href="/internal/partners/provisioning">Retry loading partners</Link>
       </Card>
     </main>;
   }
