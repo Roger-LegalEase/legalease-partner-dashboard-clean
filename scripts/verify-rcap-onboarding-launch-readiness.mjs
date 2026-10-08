@@ -332,6 +332,28 @@ check("agreement readiness action opens the real review field", () => {
   assert.match(parent,/<details id="setup-review"/);
 });
 
+check("signed contract recording is an audited, source-checked, actor-scoped operation", () => {
+  const route=read("src/app/api/internal/partners/onboarding/phase1/[partnerSlug]/signed-agreement/route.ts");
+  const proposal=read("supabase/proposals/rcap_signed_agreement_alignment_20261008.sql");
+  assert.match(route,/requireInternalOnboardingContext/);
+  assert.match(route,/assertSameOrigin/);
+  assert.match(route,/readBoundedMultipartFormData/);
+  assert.match(route,/validateOnboardingAssetFile/);
+  assert.match(route,/getInternalOnboardingSnapshot/);
+  assert.match(proposal,/rcap_service_assert_internal_actor\(p_actor\)/);
+  assert.match(proposal,/rcap_signed_agreement_receipts/);
+  assert.match(proposal,/rcap_signed_agreement_immutable/);
+  assert.match(proposal,/rcap_require_documented_real_agreement/);
+  assert.match(proposal,/new\.rcap_launch_operation_id is not null/);
+  assert.match(proposal,/a\.status='executed'/);
+  assert.match(proposal,/new\.agreement_status='signed'/);
+  assert.match(proposal,/new\.landing_page_ready/);
+  assert.match(proposal,/revoke all on public\.rcap_signed_agreement_receipts from public,anon,authenticated,service_role/);
+  assert.match(proposal,/grant select,insert on public\.rcap_signed_agreement_receipts to service_role/);
+  assert.doesNotMatch(proposal,/update public\.partner_records\s+set\s+payment_status/i);
+  assert.doesNotMatch(proposal,/insert into public\.partner_packet_entitlement/i);
+});
+
 check("a stale document fails the currency check and names the document", () => {
   const artifacts = approvedArtifacts();
   artifacts[1] = {
