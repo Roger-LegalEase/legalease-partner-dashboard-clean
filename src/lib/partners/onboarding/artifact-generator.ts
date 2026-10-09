@@ -1,6 +1,6 @@
+import { artifactGeneratorVersion } from "./artifact-domain";
 import { isReferralFieldActive, referralPolicyExplanation, REFERRAL_ARRANGEMENT_LABELS } from "./referral-policy";
 import {
-  CO_BRANDED_PAGE_CONFIGURATION_GENERATOR_VERSION,
   DASHBOARD_USER_REPORTING_MATRIX_GENERATOR_VERSION,
   IMPLEMENTATION_BRIEF_GENERATOR_VERSION,
   LEGALEASE_PUBLIC_PAGE_LANGUAGE,
@@ -131,6 +131,27 @@ type Ctx = {
 export function renderImplementationBrief(
   input: ArtifactSourceInput
 ): RenderedDocument {
+  if (input.workspace.rcapPolicyVersion === "rcap2.2") {
+    const org = input.data.organization_contacts;
+    const geo = input.data.geography_audience_language_accessibility;
+    const access = input.data.access_sponsorship_capacity;
+    return { documentTitle: "Implementation Brief", organizationName: org?.public_organization_name ?? input.partnerRecord.organizationName, programName: org?.public_program_name ?? null,
+      generatorVersion: artifactGeneratorVersion("implementation_brief",input), gapCount: 0,
+      sections: [
+        {key:"program",heading:"Your program",blocks:[{kind:"definitions",items:[
+          {term:"Organization",value:org?.legal_organization_name ?? "Not provided"},
+          {term:"Service area",value:geo?.service_area_description ?? "Not provided"},
+          {term:"Jurisdiction",value:geo?.jurisdictions?.join(", ") ?? "Not provided"},
+          {term:"Participation",value:({online:"Online",clinics:"At clinics or events",both:"Online and at clinics"} as const)[input.data.program_goals?.participation_mode ?? "online"]},
+          {term:"Participant access",value:({open:"Anyone with the link",optional_code:"Optional access code",required_code:"Access code required",invite_only:"Invited participants only"} as const)[access?.participant_access_model ?? "open"]},
+          {term:"Languages",value:geo?.enable_spanish ? "English and Spanish" : "English"},
+          {term:"Screening allowance",value:String(input.readOnlyValues.screening_allocation ?? "Unavailable")},
+          {term:"Packet allowance",value:String(input.readOnlyValues.packet_credits ?? "Unavailable")}
+        ]}]},
+        {key:"support",heading:"Participant support",blocks:[{kind:"paragraph",text:input.data.support_referrals_reporting?.participant_support_email ?? LEGALEASE_TECHNICAL_SUPPORT_ROUTE},{kind:"paragraph",text:input.data.support_referrals_reporting?.contested_matter_procedure ?? "Stop self-help for contested proceedings or requests for representation. Contact LegalEase support for the correct next step."}]},
+        {key:"ownership",heading:"Participant privacy",blocks:[{kind:"paragraph",text:"Participants own their account, matter, Briefcase, answers and documents. Clinic assistance requires their current consent. Program setup does not grant access to participant records or packet funding."}]}
+      ]};
+  }
   const ctx: Ctx = { input, gaps: 0 };
   const sections: RenderedSection[] = [
     identitySection(ctx),
@@ -2090,7 +2111,7 @@ export function renderCoBrandedPageConfiguration(
       "hero_or_community_image",
       "Hero or community image"
     ),
-    showPartnerLogo: input.workspace.showPartnerLogo !== false,
+    showPartnerLogo: input.workspace.showPartnerLogo !== false && (input.workspace.rcapPolicyVersion !== "rcap2.2" || input.assets.some(asset => asset.category === "transparent_logo" && asset.lifecycleStatus === "active" && asset.reviewStatus === "approved")),
     showPoweredBy: input.workspace.showPoweredBy !== false,
     legalBlocks: Object.entries(LEGALEASE_PUBLIC_PAGE_LANGUAGE).map(
       ([category, block]) => ({
@@ -2146,7 +2167,7 @@ export function renderCoBrandedPageConfiguration(
     organizationName:
       preview.publicName.value ?? input.partnerRecord.organizationName,
     programName: preview.programName.value ?? input.partnerRecord.programName,
-    generatorVersion: CO_BRANDED_PAGE_CONFIGURATION_GENERATOR_VERSION,
+    generatorVersion: artifactGeneratorVersion("co_branded_page_configuration",input),
     sections,
     gapCount: ctx.gaps,
     pagePreview: preview

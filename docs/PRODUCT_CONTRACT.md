@@ -32,85 +32,105 @@ acceptance tests.
 |---|---|---|
 | **A** | Expungement.ai participant — anonymous screening → preliminary result → authenticated claim → matter → Briefcase → packet information → verification → payment → packet | participant |
 | **B** | RCAP participant — partner or event entry → anonymous or assisted screening → preliminary result → authentication → matter and Briefcase → consented assistance → sponsorship → packet or guidance | participant |
-| **C** | RCAP partner organization — LegalEase provisioning → first-admin invitation → secure activation → Implementation Center → prepared-information review → eight configuration sections → review and authorization → LegalEase corrections and approval → private page and materials → launch readiness → go-live → operational dashboard | partner |
+| **C** | RCAP partner organization — Join → Organization → Program → Team → Start → operational dashboard | partner |
 
-Experience C is an existing product to **audit, simplify, integrate and harden** —
-not something to invent. It is merged into `main` and substantial.
+Experience C reuses the canonical partner workspace, configuration sections,
+materials, commercial authority, launch journal, team services and Clinic events.
+The five visible steps replace the eight-section/seven-milestone approval journey.
+Existing live partners open their dashboard and are never forced through setup.
 
-The partner owns its organization workspace, program configuration, branding,
-sponsorship allocation, access codes, staff memberships, reporting
-configuration, and its own aggregate program data.
+The partner owns its program, branding, access configuration, staff memberships
+and permitted aggregate reporting. Participants retain their own account, matter,
+Briefcase, answers, documents and consent. Experiences A and B are unchanged.
 
-The partner does **not** own a participant account, matter, Briefcase,
-authentication credentials, packet documents, unrestricted participant answers,
-or any right to permanently access participant records.
+### Partner setup and operations
 
-LegalEase governs implementation, legal logic, packet authority, security, and
-launch approval.
+Join reuses the single-use first-admin invitation and authenticated claim. Organization
+asks only missing organization, public/program name and primary-contact facts;
+website and branding assets are optional. Program asks service jurisdiction and area,
+participation mode (online, clinics, both), actual access mode and supported languages.
+Real commercial terms are read-only; planning volumes confer no credits. Approved
+support defaults are allowed, with a real stop-and-notify referral route. Team
+invitations are optional and use the existing Partner Staff membership service.
 
-### The partner surfaces that exist
+Start renders the actual Implementation Brief and Co-branded Page Configuration.
+One authenticated, exact-version final confirmation records the partner's factual
+and brand review, with actor, workspace, timestamp and idempotency identity. It is
+neither an agreement signature nor payment. Saved setup is independent of publication.
+Autosave advances only after server persistence and retains edits on failure.
 
-```text
-/partner/setup?token=...          first-administrator activation, single-use token
-/partner/first-admin/claim        exactly-once membership creation, replay-safe
-/partner/onboarding               RCAP Implementation Center
-/partner/onboarding/[sectionKey]  the eight governed sections, stable ?step= routes
-/partner/onboarding/review        submission gate and correction cycle
-/partner/onboarding/artifacts     implementation materials
-/partner/onboarding/resources     launch readiness
-/partner/dashboard                operational home
-/partner/team                     membership and invitations
-/partner/access-codes             access model and codes
-/partner/clinic/[eventId]         clinic operations, follow-up, reporting
-/internal/partners/onboarding/*   LegalEase provisioning and prefill
-/internal/partners/provisioning/* LegalEase partner creation
-```
+When publication is independently authorized, the primary action is **Start my
+program**. Otherwise show **Your program is set up.** and **LegalEase is finalizing
+your program terms. Your information is saved, and you can return to your dashboard.**
+The action is **Go to my dashboard**; no hidden second onboarding or repeat review.
 
-Seven implementation milestones: program terms · administrator access · program
-configuration · brand and participant page · team and training · launch
-readiness · go-live. Each carries a status, an owner, a date, a blocker, a next
-action, and a link to the applicable workspace.
+The operating navigation is Home · Participants · Clinics · Reporting · Team ·
+Settings, with Help available. Home shows truthful status, allowed participant link,
+screening activity, packets generated, capacity and clinics. Unknown metrics are
+Unavailable. Participants exposes only permitted activity or consented follow-up.
+Clinic drafts inherit parent geography, access, language, support and financial scope;
+opening a clinic is separate from creating it. Staff identity, event permission,
+participant consent, shared-device reset and packet protections remain mandatory.
 
-Eight governed sections: organization and contacts · program goals · geography,
-audience, language and accessibility · access, sponsorship and capacity plan ·
-brand and public-page content · staff and dashboard plan · support, legal
-referrals and reporting · review and authorization.
+### Platform Admin and action-scoped authority
 
-### LegalEase prefill
+One Partner Program surface supports find/create, preparation, genuine commercial
+scope, invitation and Start. Advanced history is optional. Preparation never
+impersonates partner consent or manufactures a signature, payment or entitlement.
 
-> **LegalEase should prepare every onboarding answer it can reliably derive from
-> approved partner records, agreements, order forms, and implementation
-> conversations. Prepared answers remain suggestions until reviewed by the
-> partner. LegalEase may not provide the partner's final authorization, accept
-> contractual acknowledgments on its behalf, or silently overwrite
-> partner-confirmed information.**
+One server policy contract governs complete_setup, publish_partner_page,
+accept_screenings, issue_sponsored_packet, offer_paid_packet, create_clinic,
+publish_clinic, assist_participant, manage_team and view_reporting. Decisions bind
+actor, tenant, policy version, authority and material dependencies. SQL independently
+checks the protected facts in the publication transaction. Setup completion is not
+publication, screening is not packet entitlement, and Clinic publication is not
+participant-data access.
 
-The partner sees work in three categories — **Prepared by LegalEase** · **Needs
-your input** · **Optional** — and may keep, edit, or reject any prepared answer.
-Applied prefill lands at `partner_review_status = pending` and blocks final
-submission until reviewed. Partner staff may view prepared information but cannot
-give the organization's confirmation.
+LegalEase-owned business requirements are registered by owner, classification,
+capability, evidence, default/alternative, effects, dependencies and next action.
+Authenticated Platform Admins can configure them or record scoped not_applicable,
+alternative_authorized or exception_granted decisions through one atomic
+**Override & Continue** action. Unknown requirements fail closed. Security,
+privacy, participant consent, tenant boundaries, financial truth and legal fulfillment
+are protected; no general override can waive them. Exceptions are immutable audit
+events and depend only on the facts relevant to their scope.
 
-LegalEase may prepare organization and contact information, program context,
-geography and access, brand and public-page drafts, and operations and reporting
-expectations.
+Actual paid, sponsored and purchase-order authority remain distinct. A documented,
+authorized screening-only arrangement may publish screening without packet credits
+or a fabricated signed agreement. Any legally required agreement must still have
+genuine verified execution evidence. Sponsored packet issuance always requires the
+existing atomic matter-bound entitlement, verification and capacity controls.
 
-LegalEase may **not** prefill or self-authorize packet-credit allocation,
-screening allocation, sponsorship scope, overage behaviour or approval, payment
-state, agreement acceptance, authority to invite users or manage codes or export
-reports, contested-matter procedures, final legal acknowledgments, final program
-or brand authorization, approver name or title, authorization timestamp, or
-electronic-signature-equivalent fields. Commercial terms appear as authoritative
-read-only contract context, never as editable suggestions.
+There are four activation cases. S1: a real Platform Admin has recorded revocable,
+program-specific, dependency-bound standing launch authorization; after current
+partner confirmation the server executes under that verified delegation, with no
+second admin click. S2: no standing authorization; one actual admin Start action is
+required. S3: external terms pending; preserve setup and expose the useful private
+dashboard. S4: an approved alternative or business exception permits only its exact
+capabilities. Release-SHA authorization never grants partner business authority.
 
-Manual information from a kickoff, proposal, email or meeting is converted into
-one canonical field, one validated structured value, and one short internal
-source label. The portal is not a repository for raw email chains, transcripts,
-recordings, proposals, contracts, or internal notes.
+### Canonical preparation and compatibility
 
-Once the partner confirms, modifies or rejects a prepared value, LegalEase cannot
-silently overwrite it. A new reviewed suggestion or a formal change request is
-required.
+Authoritative contract/financial facts outrank partner-confirmed values, which
+outrank verified prefill, approved defaults and new answers. LegalEase cannot
+silently overwrite partner-confirmed values. Final review covers the actual values
+and material versions once; no separate prepared-answer approval ceremony remains.
+Unrelated edits preserve genuine training, agreements, funding and consent history.
+Affected reviews, exceptions and delegations are re-evaluated on material change.
+Legacy programs and old application callers retain compatible policy behavior.
+
+### RCAP 2.0 Version 2.2 release authority
+
+The owner-authorized sequence is build → essential technical verification → merge
+→ compatible Production SQL → stage Production without domains → assign only
+legaleasepartner.com and www.legaleasepartner.com → verify live → owner tests.
+Type/build/lint, focused authorization/financial/idempotency regressions, local SQL
+and old-app compatibility, exact source identity, two-domain scope and rollback
+readiness remain mandatory. A separate acceptance environment, simulated onboarding,
+owner UX PASS, 33-scenario browser campaign and usability timing are not release
+gates. Other brands, participant data, live money and real program launches are
+outside deployment verification. Preserve per-domain rollback and report actual
+Production evidence rather than inferring deployment from compilation.
 
 ---
 

@@ -1,5 +1,6 @@
 "use client";
 
+import { useLocalization } from "@/components/expungement-ai/LocalizationProvider";
 import { FormEvent, useRef, useState } from "react";
 import { INVITATION_DELIVERY_COPY } from "@/lib/partners/onboarding/partner-copy";
 
@@ -24,6 +25,7 @@ type InviteResponse = {
 };
 
 export function PartnerTeamInviteForm({ partnerSlug, partnerName }: PartnerTeamInviteFormProps) {
+  const {locale}=useLocalization(); const t=(en:string,es:string)=>locale==="es"?es:en;
   const [state, setState] = useState<SubmitState>({ kind: "idle" });
   const isSubmittingRef = useRef(false);
 
@@ -75,14 +77,14 @@ export function PartnerTeamInviteForm({ partnerSlug, partnerName }: PartnerTeamI
   return (
     <form className="grid gap-5" onSubmit={onSubmit}>
       <div className="grid gap-1.5">
-        <span className="text-sm font-black text-navy">Partner</span>
+        <span className="text-sm font-black text-navy">{t("Partner","Programa")}</span>
         <div className="min-h-11 rounded-md border border-grayWilma-200 bg-grayWilma-100 px-3 py-3 text-sm font-semibold text-grayWilma-700">
           {partnerName}
         </div>
       </div>
 
       <label className="grid gap-1.5">
-        <span className="text-sm font-black text-navy">Contact email</span>
+        <span className="text-sm font-black text-navy">{t("Contact email","Correo de contacto")}</span>
         <input
           autoComplete="email"
           className="min-h-11 rounded-md border border-grayWilma-200 bg-white px-3 text-sm text-navy shadow-sm outline-none transition focus:border-teal focus:ring-2 focus:ring-teal/25"
@@ -94,7 +96,7 @@ export function PartnerTeamInviteForm({ partnerSlug, partnerName }: PartnerTeamI
       </label>
 
       <label className="grid gap-1.5">
-        <span className="text-sm font-black text-navy">Name / label</span>
+        <span className="text-sm font-black text-navy">{t("Name / label","Nombre")}</span>
         <input
           autoComplete="name"
           className="min-h-11 rounded-md border border-grayWilma-200 bg-white px-3 text-sm text-navy shadow-sm outline-none transition focus:border-teal focus:ring-2 focus:ring-teal/25"
@@ -105,7 +107,7 @@ export function PartnerTeamInviteForm({ partnerSlug, partnerName }: PartnerTeamI
       </label>
 
       <div className="grid gap-1.5">
-        <span className="text-sm font-black text-navy">Role</span>
+        <span className="text-sm font-black text-navy">{t("Role","Rol")}</span>
         <div className="min-h-11 rounded-md border border-grayWilma-200 bg-grayWilma-100 px-3 py-3 text-sm font-semibold text-grayWilma-700">
           Partner staff
         </div>
@@ -113,23 +115,23 @@ export function PartnerTeamInviteForm({ partnerSlug, partnerName }: PartnerTeamI
 
       {state.kind === "success" ? (
         <div className="rounded-md border border-teal/25 bg-teal/10 px-4 py-4 text-sm text-teal">
-          <p className="font-black">Status: Invitation created</p>
+          <p className="font-black">{t("Status: Invitation created","Estado: Invitación creada")}</p>
           <dl className="mt-3 grid gap-2 text-grayWilma-800">
             <div className="grid gap-0.5">
-              <dt className="text-xs font-black uppercase text-grayWilma-600">Email</dt>
+              <dt className="text-xs font-black uppercase text-grayWilma-600">{t("Email","Correo")}</dt>
               <dd className="font-semibold">{state.email}</dd>
             </div>
             <div className="grid gap-0.5">
-              <dt className="text-xs font-black uppercase text-grayWilma-600">Partner</dt>
+              <dt className="text-xs font-black uppercase text-grayWilma-600">{t("Partner","Programa")}</dt>
               <dd className="font-semibold">{state.partnerSlug}</dd>
             </div>
             <div className="grid gap-0.5">
-              <dt className="text-xs font-black uppercase text-grayWilma-600">Role</dt>
-              <dd className="font-semibold">Partner staff</dd>
+              <dt className="text-xs font-black uppercase text-grayWilma-600">{t("Role","Rol")}</dt>
+              <dd className="font-semibold">{t("Partner staff","Personal del programa")}</dd>
             </div>
             <div className="grid gap-0.5">
-              <dt className="text-xs font-black uppercase text-grayWilma-600">Next step</dt>
-              <dd className="font-semibold">Ask the user to check their inbox and set their password.</dd>
+              <dt className="text-xs font-black uppercase text-grayWilma-600">{t("Next step","Siguiente paso")}</dt>
+              <dd className="font-semibold">{t("Ask the user to check their inbox and set their password.","Pida a la persona que revise su correo y establezca su contraseña.")}</dd>
             </div>
           </dl>
           <p className="sr-only">{state.message}</p>
@@ -145,7 +147,7 @@ export function PartnerTeamInviteForm({ partnerSlug, partnerName }: PartnerTeamI
         disabled={state.kind === "submitting"}
         type="submit"
       >
-        {state.kind === "submitting" ? "Sending invite..." : "Send partner staff invite"}
+        {state.kind === "submitting" ? t("Sending invite...","Enviando invitación…") : t("Send partner staff invite","Invitar personal al programa")}
       </button>
     </form>
   );

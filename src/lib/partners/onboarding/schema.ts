@@ -201,6 +201,7 @@ function defineField(
 }
 
 export const ONBOARDING_SCHEMA_REGISTRY = [
+  defineField({ key: "participation_mode", dataKey: "participation_mode", sectionKey: "program_goals", dataType: "enum", label: "How people participate", ownership: "partner_editable", requirement: "optional", normalization: "single_line", sensitivity: "public", completionWeight: 0, consumers: ["implementation_brief", "public_partner_page"], enumValues: ["online", "clinics", "both"] }),
   defineField({
     key: "legal_organization_name",
     dataKey: "legal_organization_name",

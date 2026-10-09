@@ -43,3 +43,7 @@ export function isRcapOnboardingLaunchPrepEnabled(
 export function isRcapLaunchStudioEnabled(environment: FlagEnvironment = process.env): boolean {
   return isRcapOnboardingLaunchPrepEnabled(environment) && environment.RCAP_LAUNCH_STUDIO_ENABLED?.trim().toLowerCase() === "true";
 }
+
+export function isRcap2Enabled(environment: FlagEnvironment = process.env): boolean {
+  return isRcapPartnerOnboardingEnabled(environment) && environment.RCAP_2_0_ENABLED === "true";
+}

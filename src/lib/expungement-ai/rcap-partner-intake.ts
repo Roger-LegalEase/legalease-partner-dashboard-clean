@@ -1,3 +1,4 @@
+import { isRcap2Enabled } from "@/lib/partners/onboarding/feature";
 import "server-only";
 
 import { getSupabaseAdminClient } from "@/lib/supabase/server";
@@ -110,7 +111,9 @@ export async function resolveRcapPartnerIntakeContext(partnerSlug: string): Prom
   let jurisdiction = normalizeJurisdiction(data.target_state ?? data.state);
   let branding:Awaited<ReturnType<typeof getApprovedPublicPageConfiguration>>=null;
   if(publication.data?.rcap_launch_operation_id){
-   const geography=await supabase.from("partner_onboarding_sections").select("response_data").eq("workspace_id",publication.data.id).eq("section_key","geography_audience_language_accessibility").eq("status","approved").single();
+   let geographyQuery=supabase.from("partner_onboarding_sections").select("response_data").eq("workspace_id",publication.data.id).eq("section_key","geography_audience_language_accessibility");
+   if(!(isRcap2Enabled()&&publication.data.rcap_policy_version==="rcap2.2"))geographyQuery=geographyQuery.eq("status","approved");
+   const geography=await geographyQuery.single();
    const approved=Array.isArray(geography.data?.response_data?.jurisdictions)?geography.data.response_data.jurisdictions.map((value:unknown)=>typeof value==="string"?normalizeJurisdiction(value):null).filter(Boolean):[];
    if(geography.error)return null;
    jurisdiction=approved.length===1?approved[0]:approved.includes(jurisdiction)?jurisdiction:null;

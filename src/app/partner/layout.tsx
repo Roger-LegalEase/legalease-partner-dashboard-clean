@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import { resolveSessionPartner, SessionPartnerError } from "@/lib/partners/session-partner";
-import { isRcapOnboardingLaunchPrepEnabled } from "@/lib/partners/onboarding/feature";
+import { isRcap2Enabled,isRcapOnboardingLaunchPrepEnabled } from "@/lib/partners/onboarding/feature";
 import { getPartnerSupportContact } from "@/lib/partners/onboarding/support-contact";
 import { PartnerWorkspaceNav } from "@/components/partners/PartnerWorkspaceNav";
 
@@ -12,5 +12,5 @@ export default async function PartnerLayout({children}: {children: ReactNode}) {
   let member = false;
   try { member = (await resolveSessionPartner()).kind === "partner"; }
   catch(error) { if (!(error instanceof SessionPartnerError)) throw error; }
-  return <>{member ? <PartnerWorkspaceNav launchPrepEnabled={isRcapOnboardingLaunchPrepEnabled()} helpHref={getPartnerSupportContact().mailtoHref} /> : null}{children}</>;
+  return <>{member ? <PartnerWorkspaceNav programMode={isRcap2Enabled()} launchPrepEnabled={isRcapOnboardingLaunchPrepEnabled()} helpHref={getPartnerSupportContact().mailtoHref} /> : null}{children}</>;
 }

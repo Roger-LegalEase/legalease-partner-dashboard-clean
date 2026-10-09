@@ -15,7 +15,8 @@ export function CoBrandedPageView({ preview: sourcePreview, variant, logoSrc, he
 }) {
   const mobile = variant === "mobile";
   const { locale, setLocale, text } = useLocalization();
-  const es = locale === "es";
+  const spanishAvailable = ["headline","subheadline","organizationDescription","primaryActionLabel","participantSupportCopy","serviceArea","targetAudience"].every(key=>Boolean(sourcePreview.spanish?.[key as keyof NonNullable<CoBrandedPagePreview["spanish"]>]));
+  const es = locale === "es" && spanishAvailable;
   const preview = {...sourcePreview};
   if(es && sourcePreview.spanish) {for(const key of ["headline","subheadline","organizationDescription","primaryActionLabel","participantSupportCopy","serviceArea","targetAudience"] as const){const value=sourcePreview.spanish[key];if(value)preview[key]={...sourcePreview[key],value};}}
   const privacyHref = safePublicHref(preview.partnerPrivacyUrl?.value ?? null);
@@ -32,12 +33,12 @@ export function CoBrandedPageView({ preview: sourcePreview, variant, logoSrc, he
         <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4"><div className="flex min-w-0 items-center gap-4">
           {preview.showPartnerLogo && logoSrc ? <img width={150} height={48} src={logoSrc} alt={`${preview.publicName.value ?? "Partner"} logo`} className="h-12 w-auto max-w-[150px] object-contain" /> : null}
           <div><p className="text-lg font-extrabold">{preview.publicName.value || preview.programName.value}</p><p className="mt-1 text-xs font-semibold text-[#475A6E]">{preview.programName.value} · Powered by Expungement.ai</p></div>
-        </div><div className="flex flex-wrap items-center gap-3"><span className="rounded-full bg-[#EEF7F6] px-4 py-2 text-xs font-bold text-[#0A6E77]">{es ? "Empiece con una evaluación gratuita" : "Free screening to start"}</span><div role="group" aria-label={es ? "Idioma de la página" : "Page language"} className="flex gap-1">{(["en", "es"] as const).map(language => <button key={language} type="button" aria-pressed={locale === language} onClick={() => setLocale(language)} className="inline-flex min-h-11 items-center rounded-md border border-[#C6D5DE] px-3 text-sm font-bold focus-visible:ring-4 focus-visible:ring-teal">{language === "es" ? "Español" : "English"}</button>)}</div></div></div>
+        </div><div className="flex flex-wrap items-center gap-3"><span className="rounded-full bg-[#EEF7F6] px-4 py-2 text-xs font-bold text-[#0A6E77]">{es ? "Empiece con una evaluación gratuita" : "Free screening to start"}</span><div role="group" aria-label={es ? "Idioma de la página" : "Page language"} className="flex gap-1">{(["en", ...(spanishAvailable?["es" as const]:[])] as const).map(language => <button key={language} type="button" aria-pressed={locale === language} onClick={() => setLocale(language)} className="inline-flex min-h-11 items-center rounded-md border border-[#C6D5DE] px-3 text-sm font-bold focus-visible:ring-4 focus-visible:ring-teal">{language === "es" ? "Español" : "English"}</button>)}</div></div></div>
       </header>
     </OwnershipGroup>
     <OwnershipGroup enabled={ownershipReview} label="Partner supplied" tone="teal">
       <main>
-        <section className="relative overflow-hidden bg-[#071B33] text-white">
+        <section data-rcap-brand={!preview.showPartnerLogo ? "text" : undefined} className="relative overflow-hidden bg-[#071B33] text-white">
           <div className={`mx-auto grid max-w-6xl gap-8 px-5 py-12 md:px-8 ${mobile ? "" : "md:grid-cols-[1.2fr_1fr] md:items-center md:py-20"}`}>
             <div><p className="text-sm font-bold text-[#8AD8CF]">{preview.serviceArea.value}</p><FieldContent field={preview.headline}><h2 className={`${mobile ? "text-4xl" : "text-4xl md:text-5xl"} mt-5 font-extrabold leading-[1.08] tracking-tight`}>{preview.headline.value}</h2></FieldContent>
               <FieldContent field={preview.subheadline}><p className="mt-6 max-w-xl text-lg leading-8 text-[#DFE8EE]">{preview.subheadline.value}</p></FieldContent><div className="mt-8">{cta}</div><p className="mt-4 text-sm text-[#DFE8EE]">{es ? "Sin cuenta para empezar. Sus respuestas permanecen privadas." : "No account required to start. Your answers remain private."}</p>
@@ -78,7 +79,8 @@ function ContentBlock({
 
 function SupportRoute({ preview }: { preview: CoBrandedPagePreview }) {
   const { locale } = useLocalization();
-  const es = locale === "es";
+  const spanishAvailable = ["headline","subheadline","organizationDescription","primaryActionLabel","participantSupportCopy","serviceArea","targetAudience"].every(key=>Boolean(preview.spanish?.[key as keyof NonNullable<CoBrandedPagePreview["spanish"]>]));
+  const es = locale === "es" && spanishAvailable;
   if (!preview.supportEmail.value && !preview.supportPhone.value) return null;
   return (
     <div>

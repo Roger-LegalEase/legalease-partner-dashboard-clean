@@ -1,5 +1,6 @@
 // Fresh disposable PostgreSQL-compatible migration and privilege verification.
 import assert from 'node:assert/strict';
+import {testProgramPolicy} from './test-rcap2-program-policy.mjs';
 import fs from 'node:fs';
 import {PGlite} from '@electric-sql/pglite';
 const db=new PGlite(),read=file=>fs.readFileSync(file,'utf8');
@@ -22,6 +23,9 @@ try{
  const signatures=['public.claim_partner_screening_session(text,text,text,timestamptz)','public.claim_rcap_screening_session(text,text)'];
  const before=[];for(const signature of signatures)before.push((await db.query('select pg_get_functiondef($1::regprocedure) as definition',[signature])).rows[0].definition);
  for(const file of ['supabase/proposals/rcap_launch_package_20261008.sql','supabase/proposals/rcap_launch_authority_20261008.sql','supabase/proposals/rcap_real_launch_20261008.sql','supabase/proposals/rcap_signed_agreement_alignment_20261008.sql'])await db.exec(read(file));
+ await db.exec(originalTable('supabase/migrations/20260825120000_clinic_mode_core.sql','create table public.clinic_events'));
+ await db.exec('alter table public.clinic_events add column jurisdiction text;');
+ await db.exec(read('supabase/migrations/20261009224252_rcap2_program_policy_and_start.sql'));
  console.log('PASS complete real-launch SQL proposal applies atomically to a fresh disposable database');
  for(const [index,signature] of signatures.entries()){const after=(await db.query('select pg_get_functiondef($1::regprocedure) as definition',[signature])).rows[0].definition;assert.equal(after,before[index].replace("pr.payment_status in ('paid', 'demo_paid')",'public.rcap_partner_activation_for_launch(pr.partner_slug)'));}
  console.log('PASS both existing claim functions preserve every guard and effect except the bounded activation predicate');
@@ -118,4 +122,5 @@ try{
  assert.equal(await sqlClearance(),false);
  console.log('PASS real launch refuses a stale or withdrawn executed document even with a legacy signed flag');
 
+ await testProgramPolicy(db,id);
 }finally{await db.close();}

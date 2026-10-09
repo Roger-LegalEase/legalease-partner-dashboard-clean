@@ -248,6 +248,7 @@ export type OrganizationContactsSectionData = {
 };
 
 export type ProgramGoalsSectionData = {
+  participation_mode?: "online" | "clinics" | "both";
   primary_goal?: string;
   definition_of_success?: string;
   target_population?: string;

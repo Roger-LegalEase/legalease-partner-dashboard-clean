@@ -25,7 +25,7 @@ async function executeLaunch(context:InternalOnboardingContext,input:{requestId:
  }
  async function verifyBranding(html:string,token:string|null=null){
   const assets=[...html.matchAll(/data-rcap-asset="([a-f0-9-]+)"/g)].map(match=>match[1]);
-  if(!assets.length)throw new Error("Approved branding absent from public readback.");
+  if(!assets.length && !html.includes('data-rcap-brand="text"'))throw new Error("Approved branding absent from public readback.");
   for(const id of assets){
    const response=await fetch(new URL(`/api/partners/public-page/${context.partnerSlug}/assets/${id}`,origin!),{headers:token?{"x-rcap-synthetic-verification":token}:{},cache:"no-store",redirect:"manual",signal:AbortSignal.timeout(20000)});
    if(response.status!==200||!response.headers.get("content-type")?.startsWith("image/"))throw new Error("Approved branding asset readback failed.");

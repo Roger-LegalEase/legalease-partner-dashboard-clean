@@ -1,6 +1,6 @@
 import { IBM_Plex_Mono, Inter } from "next/font/google";
 import { notFound, redirect } from "next/navigation";
-import { isRcapPartnerOnboardingEnabled, isRcapOnboardingLaunchPrepEnabled } from "@/lib/partners/onboarding/feature";
+import { isRcap2Enabled,isRcapPartnerOnboardingEnabled, isRcapOnboardingLaunchPrepEnabled } from "@/lib/partners/onboarding/feature";
 import {
   requirePartnerOnboardingContext,
   type PartnerOnboardingContext
@@ -58,6 +58,7 @@ export default async function PartnerOnboardingSectionPage({
 }) {
   if (!isRcapPartnerOnboardingEnabled()) notFound();
   const { sectionKey: rawSectionKey } = await params;
+  if(isRcap2Enabled()){const step=rawSectionKey==="organization_contacts"?"organization":rawSectionKey==="dashboard_users_training"?"team":rawSectionKey==="launch_review"?"start":"program";redirect(`/partner/settings?step=${step}`);}
   if (!(ONBOARDING_SECTION_ORDER as readonly string[]).includes(rawSectionKey)) {
     notFound();
   }

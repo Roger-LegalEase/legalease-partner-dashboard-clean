@@ -16,7 +16,7 @@ function preparedValues(snapshot: InternalPrefillSnapshot) {
   return values;
 }
 
-export function ManagedProgramEditor({ partnerSlug, snapshot }: { partnerSlug: string; snapshot: InternalPrefillSnapshot }) {
+export function ManagedProgramEditor({ partnerSlug, snapshot, compact=false }: { partnerSlug: string; snapshot: InternalPrefillSnapshot; compact?:boolean }) {
   const router = useRouter();
   const [refreshing, startRefresh] = useTransition();
   const [current, setCurrent] = useState(snapshot);
@@ -25,7 +25,8 @@ export function ManagedProgramEditor({ partnerSlug, snapshot }: { partnerSlug: s
   const [draft, setDraft] = useState<Record<string, unknown>>(() => preparedValues(snapshot));
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState("");
-  const fields = current.eligibleFields.filter(field => field.sectionKey === section);
+  const mainFields=["legal_organization_name","public_organization_name","public_program_name","website","contacts","participation_mode","jurisdictions","service_area_description","primary_language","enable_spanish","participant_access_model","participant_support_email","referral_arrangement","contested_matter_procedure"];
+  const fields = current.eligibleFields.filter(field => compact ? mainFields.includes(field.fieldKey) : field.sectionKey === section);
   const contacts = (current.currentValues?.contacts ?? []) as Array<{ stable_row_id: string; name: string; work_email?: string }>;
   function set(key: string, value: unknown) { setDraft(previous => ({...previous, [key]: value})); }
   async function save() {
@@ -37,7 +38,7 @@ export function ManagedProgramEditor({ partnerSlug, snapshot }: { partnerSlug: s
         const response = await fetch(`/api/internal/partners/onboarding/phase1/${encodeURIComponent(partnerSlug)}/prefill`, {
           method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({
             action: "save_prepared", requestId: crypto.randomUUID(), expectedWorkspaceVersion: latest.workspace?.aggregateVersion,
-            payload: { sectionKey: section, fieldKey: field.fieldKey, proposedValue: draft[field.fieldKey], expectedFieldValueHash: latest.fieldValueHashes?.[field.fieldKey] }
+            payload: { sectionKey: field.sectionKey, fieldKey: field.fieldKey, proposedValue: draft[field.fieldKey], expectedFieldValueHash: latest.fieldValueHashes?.[field.fieldKey] }
           })
         });
         const body = await response.json();
@@ -64,11 +65,11 @@ export function ManagedProgramEditor({ partnerSlug, snapshot }: { partnerSlug: s
   }
   return <section id="prefill-heading" className="mt-6 scroll-mt-52 sm:scroll-mt-28 rounded-xl border bg-white p-6" aria-labelledby="configure-program-heading">
     <h2 id="configure-program-heading" className="text-2xl font-bold">Configure program</h2>
-    <p className="mt-2 text-sm">Save each section as you go. Previously saved answers remain available when you return.</p>
+    <p className="mt-2 text-sm">Save the program details here. Existing partner answers and their history are preserved.</p>
     <button type="button" disabled={busy || refreshing} onClick={reuseKnown} className="mt-4 min-h-11 rounded border px-4 font-bold">Use saved partner details</button>
-    <label className="mt-4 block font-bold">Program section<select className={control} disabled={busy || refreshing} value={section} onChange={event => {
+    {!compact ? <label className="mt-4 block font-bold">Program section<select className={control} disabled={busy || refreshing} value={section} onChange={event => {
       setSection(event.target.value as typeof section); setMessage("");
-    }}>{sections.map(([key, label]) => <option key={key} value={key}>{label}</option>)}</select></label>
+    }}>{sections.map(([key, label]) => <option key={key} value={key}>{label}</option>)}</select></label> : null}
     <div className="mt-5 grid gap-5 sm:grid-cols-2">{fields.map(field => <div key={field.fieldKey} className={field.dataType.endsWith("_collection") || field.dataType === "long_text" ? "sm:col-span-2" : ""}>
       {field.dataType.endsWith("_collection") ? <><h3 className="mb-3 font-bold">{field.fieldLabel}</h3><PreparedCollectionEditor fieldKey={field.fieldKey} rows={(draft[field.fieldKey] ?? []) as Record<string, unknown>[]} onChange={value => set(field.fieldKey, value)} /></> :
       <label className="block text-sm font-bold">{field.fieldLabel}
@@ -80,7 +81,7 @@ export function ManagedProgramEditor({ partnerSlug, snapshot }: { partnerSlug: s
         {field.dataType.endsWith("_array") ? <span className="mt-1 block font-normal">Separate multiple answers with commas.{field.enumValues.length ? ` Options: ${field.enumValues.join(", ")}.` : ""}</span> : null}
       </label>}
     </div>)}</div>
-    <button type="button" disabled={busy || refreshing} onClick={save} className="mt-6 min-h-11 rounded bg-navy px-5 font-bold text-white disabled:opacity-50">{busy || refreshing ? "Saving…" : "Save section"}</button>
+    <button type="button" disabled={busy || refreshing} onClick={save} className="mt-6 min-h-11 rounded bg-navy px-5 font-bold text-white disabled:opacity-50">{busy || refreshing ? "Saving…" : compact ? "Save program" : "Save section"}</button>
     <p role="status" className="mt-3">{refreshing ? "Updating program materials…" : message}</p>
   </section>;
 }
