@@ -51,8 +51,8 @@ export function LaunchReadinessView({
           <div>
             <h3 className="text-base font-black text-navy">
               {readiness.ready
-                ? "Ready to launch"
-                : "Not ready to launch"}
+                ? "Program review complete"
+                : "Program review needs attention"}
             </h3>
             <p className="mt-1 text-sm text-grayWilma-700">
               {readiness.ready
@@ -63,7 +63,7 @@ export function LaunchReadinessView({
             </p>
           </div>
           <Badge tone={readiness.ready ? "teal" : "orange"}>
-            {readiness.ready ? "Ready" : "Not ready"}
+            {readiness.ready ? "Complete" : "Needs attention"}
           </Badge>
         </div>
 
@@ -115,7 +115,7 @@ export function LaunchReadinessView({
                       {check.determination === "automated"
                         ? "Derived from program data"
                         : "Recorded by a reviewer"}{" "}
-                      · {check.blocking ? "Blocking" : "Not blocking"}
+                      · {check.blocking ? "Required" : "Optional"}
                     </p>
                   </div>
                   <Badge tone={statusTone(check.status)}>
@@ -126,7 +126,6 @@ export function LaunchReadinessView({
                 <p className="mt-3 text-sm leading-relaxed text-grayWilma-800">
                   {check.evidenceSummary}
                 </p>
-                {audience === "internal" ? <p className="mt-1 text-xs text-grayWilma-600">Evidence: {check.evidenceReference}</p> : null}
 
                 {check.blocking &&
                 check.status !== "passing" &&
