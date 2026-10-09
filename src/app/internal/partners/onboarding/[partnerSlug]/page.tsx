@@ -71,10 +71,10 @@ export default async function OnboardingDetailPage({ params }: { params: Promise
             </p>
             <h1 className="mt-2 text-3xl font-black">Prepare your partner program</h1>
             <nav aria-label="Launch Studio tasks" className="mt-5 flex flex-wrap gap-3">
-              <Link href="#setup-review" className="inline-flex min-h-11 items-center rounded-md border px-4 font-bold">Overview</Link>
-              <Link href="#prefill-heading" className="inline-flex min-h-11 items-center rounded-md border px-4 font-bold">Setup</Link>
-              <Link href="#launch-prep-area-co_branded_page" className="inline-flex min-h-11 items-center rounded-md border px-4 font-bold">Page preview</Link>
-              <Link href="#launch-prep-area-launch_readiness" className="inline-flex min-h-11 items-center rounded-md bg-navy px-4 font-bold text-white">Review & launch</Link>
+              <a href="#setup-review" className="inline-flex min-h-11 items-center rounded-md border px-4 font-bold">Overview</a>
+              <a href="#prefill-heading" className="inline-flex min-h-11 items-center rounded-md border px-4 font-bold">Setup</a>
+              <a href="#launch-prep-area-co_branded_page" className="inline-flex min-h-11 items-center rounded-md border px-4 font-bold">Page preview</a>
+              <a href="#launch-prep-area-launch_readiness" className="inline-flex min-h-11 items-center rounded-md border px-4 font-bold">Review & launch</a>
             </nav>
             <p className="mt-2 text-sm text-grayWilma-700">
               Partner: <span className="font-mono font-semibold">{partnerSlug}</span>

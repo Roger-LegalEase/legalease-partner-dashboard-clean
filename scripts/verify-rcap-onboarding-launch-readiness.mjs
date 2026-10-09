@@ -333,8 +333,8 @@ check("agreement contract fails closed for every nonexecuted state, missing rece
 check("Launch Studio top navigation always has scrollable hash targets", () => {
   const page = read("src/app/internal/partners/onboarding/[partnerSlug]/page.tsx");
   const panel = read("src/app/internal/partners/onboarding/[partnerSlug]/Phase2AArtifactsPanel.tsx");
-  assert.match(page, /href="#launch-prep-area-launch_readiness"/);
-  assert.match(page, /href="#launch-prep-area-co_branded_page"/);
+  assert.match(page, /<a href="#launch-prep-area-launch_readiness"/);
+  assert.match(page, /<a href="#launch-prep-area-co_branded_page"/);
   assert.match(panel, /id=\{`launch-prep-area-\$\{key\}`\}/);
   assert.match(panel, /aria-controls=\{`launch-prep-panel-\$\{key\}`\}/);
   for (const area of ["artifacts", "co_branded_page", "launch_readiness", "resources"]) {
