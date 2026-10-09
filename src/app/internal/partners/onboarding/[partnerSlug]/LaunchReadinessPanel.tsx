@@ -19,19 +19,20 @@ const quietButtonClass =
  * The internal Launch Readiness area.
  *
  * Its only actions record a LegalEase decision on a LegalEase-owned manual
- * check. Automated checks have no control at all, because their state comes
- * from program data. There is no publish, activate, invite, or send control
- * here, and none can be added without also changing the service and the
- * database, both of which refuse.
+ * check. Automated checks come from program data. The separate LaunchControl
+ * verifies release and partner authority before an explicit launch action.
  */
 export function LaunchReadinessPanel({
   partnerSlug,
-  readiness
+  readiness,
+  onProgramChange
 }: {
   partnerSlug: string;
   readiness: LaunchReadiness;
+  onProgramChange?: () => Promise<void>;
 }) {
   const [current, setCurrent] = useState(readiness);
+  const [readinessRevision, setReadinessRevision] = useState(0);
   const [pending, setPending] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
 
@@ -63,7 +64,10 @@ export function LaunchReadinessPanel({
         setMessage(body.error ?? "That action could not be completed.");
         return;
       }
-      if (body.readiness) setCurrent(body.readiness);
+      if (body.readiness) {
+        setCurrent(body.readiness);
+        setReadinessRevision(value => value + 1);
+      }
     } catch {
       setMessage("That action could not be completed.");
     } finally {
@@ -148,7 +152,7 @@ export function LaunchReadinessPanel({
           {message}
         </p>
       ) : null}
-      <LaunchControl partnerSlug={partnerSlug} />
+      <LaunchControl partnerSlug={partnerSlug} readinessRevision={readinessRevision} onReadinessChange={setCurrent} onProgramChange={onProgramChange} />
       <LaunchReadinessView
         readiness={current}
         audience="internal"

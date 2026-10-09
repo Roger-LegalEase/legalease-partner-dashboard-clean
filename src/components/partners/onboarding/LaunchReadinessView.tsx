@@ -56,7 +56,7 @@ export function LaunchReadinessView({
             </h3>
             <p className="mt-1 text-sm text-grayWilma-700">
               {readiness.ready
-                ? "Every blocking check is met. Launching itself is a separate, later decision."
+                ? audience === "internal" ? "Program review is complete. The launch controls also verify current authority and allocations before publication." : "Program review is complete. LegalEase verifies current authority and allocations before publication."
                 : `${readiness.blockingFailures} blocking ${
                     readiness.blockingFailures === 1 ? "check is" : "checks are"
                   } not met yet.`}
@@ -83,8 +83,9 @@ export function LaunchReadinessView({
         ) : null}
 
         <p className="mt-4 text-xs text-grayWilma-700">
-          This page reports readiness only. It does not publish the page,
-          activate the program, release an access code, or send anything.
+          {audience === "internal"
+            ? "Recording a review does not launch the program. Use the separate launch confirmation after all requirements are met."
+            : "Your confirmations record program readiness. Only an authorized LegalEase administrator can launch the program."}
         </p>
       </Card>
 

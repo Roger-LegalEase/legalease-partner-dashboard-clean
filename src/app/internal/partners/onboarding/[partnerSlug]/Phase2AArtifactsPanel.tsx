@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, type ReactNode } from "react";
+import { useCallback, useRef, useState, type ReactNode } from "react";
 import { useHashDestination } from "@/components/partners/onboarding/use-hash-destination";
 
 import { Badge } from "@/components/ui/Badge";
@@ -62,6 +62,15 @@ export function Phase2AArtifactsPanel({
 }) {
   const requests = useRef(new Map<string, string>());
   const [current, setCurrent] = useState(board);
+  const refreshProgramMaterials = useCallback(async () => {
+    const response = await fetch(
+      `/api/internal/partners/onboarding/phase1/${encodeURIComponent(partnerSlug)}/artifacts`,
+      { cache: "no-store" }
+    );
+    const body = await response.json();
+    if (!response.ok || !body.board) throw new Error("Program saved. Refresh this page to load its updated materials.");
+    setCurrent(body.board);
+  }, [partnerSlug]);
   const [pending, setPending] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
   type Area = "artifacts" | "co_branded_page" | "launch_readiness" | "resources";
@@ -81,12 +90,24 @@ export function Phase2AArtifactsPanel({
 
   async function mutate(action: string, payload: Record<string, unknown>) {
     if (pending) return;
-    const key = JSON.stringify({ action, payload });
-    const requestId = requests.current.get(key) ?? crypto.randomUUID();
-    requests.current.set(key, requestId);
     setPending(true);
     setMessage(null);
     try {
+      if (action === "generate_package") {
+        // Preparation uses current source. Approval still binds to the exact
+        // versions the reviewer inspected; it never silently advances them.
+        const latest = await fetch(
+          `/api/internal/partners/onboarding/phase1/${encodeURIComponent(partnerSlug)}/artifacts`,
+          { cache: "no-store" }
+        );
+        const fresh = await latest.json();
+        if (!latest.ok || !fresh.board) throw new Error("Current materials could not be loaded.");
+        setCurrent(fresh.board);
+        payload = { ...payload, workspaceVersion: fresh.board.workspaceVersion };
+      }
+      const key = JSON.stringify({ action, payload });
+      const requestId = requests.current.get(key) ?? crypto.randomUUID();
+      requests.current.set(key, requestId);
       const response = await fetch(
         `/api/internal/partners/onboarding/phase1/${encodeURIComponent(partnerSlug)}/artifacts`,
         {
@@ -204,12 +225,14 @@ export function Phase2AArtifactsPanel({
           role="tabpanel"
           aria-labelledby="launch-prep-tab-launch_readiness"
         >
-          {launchSimulation ?? (readiness ? (
+          {readiness ? (
             <LaunchReadinessPanel
               partnerSlug={partnerSlug}
               readiness={readiness}
+              onProgramChange={refreshProgramMaterials}
             />
-          ) : null)}
+          ) : null}
+          {launchSimulation}
         </div>
       ) : area === "resources" ? (
         <div
