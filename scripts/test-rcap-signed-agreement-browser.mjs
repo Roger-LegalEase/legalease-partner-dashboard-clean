@@ -44,6 +44,25 @@ async function signIn(page,u,next){await page.goto(`${origin}/sign-in?next=${enc
 const page=await ctx.newPage(),path=`/internal/partners/onboarding/${slug}`;
 try{
 await check('verified Platform Admin login and Fresh Start conflicting-state blocker',async()=>{await signIn(page,admin,path);await page.getByRole('tab',{name:'Review & launch',exact:true}).click();await page.getByRole('link',{name:'Review program funding and terms',exact:true}).first().waitFor();assert.equal((await ok(await db.from('partner_onboarding').select('agreement_status').eq('id',workspace.id).single())).agreement_status,'not_sent');});
+await check('top Review & launch navigation scrolls to the mounted panel',async()=>{
+ await page.goto(`${origin}${path}`);
+ const nav=page.getByRole('navigation',{name:'Launch Studio tasks'});
+ await nav.getByRole('link',{name:'Review & launch',exact:true}).click();
+ await page.waitForFunction(()=>{
+  const anchor=document.getElementById('launch-prep-area-launch_readiness');
+  const tab=document.getElementById('launch-prep-tab-launch_readiness');
+  const panel=document.getElementById('launch-prep-panel-launch_readiness');
+  return !!anchor && !!panel && tab?.getAttribute('aria-selected')==='true'
+    && anchor.getBoundingClientRect().top>=0 && anchor.getBoundingClientRect().top<200;
+ });
+ assert.equal(await page.getByRole('tab',{name:'Review & launch',exact:true}).getAttribute('aria-selected'),'true');
+ await page.reload();
+ await page.waitForFunction(()=>{
+  const tab=document.getElementById('launch-prep-tab-launch_readiness');
+  return tab?.getAttribute('aria-selected')==='true'
+    && !!document.getElementById('launch-prep-panel-launch_readiness');
+ });
+});
 const card=page.locator('#internal-operation-agreement');
 await check('first blocker click expands, scrolls and focuses the actual agreement control',async()=>{await page.getByRole('link',{name:'Review program funding and terms',exact:true}).first().click();await card.waitFor({state:'visible'});await page.waitForFunction(()=>Boolean(document.activeElement?.closest('#internal-operation-agreement')));assert.equal(await page.locator('#setup-review').evaluate(d=>d.open),true);assert.equal(await card.getByLabel(/^Status/).inputValue(),'approved');await page.screenshot({path:`${output}/agreement-open.png`,fullPage:true});});
 await check('same-hash repeat, refresh and direct URL reveal the editable control',async()=>{await page.getByRole('tab',{name:'Review & launch',exact:true}).click();await page.locator('#setup-review').evaluate(d=>d.open=false);await page.getByRole('link',{name:'Review program funding and terms',exact:true}).first().click();await card.waitFor({state:'visible'});await page.waitForURL(u=>u.hash==='#internal-operation-agreement');await page.reload();await card.waitFor({state:'visible'});await page.waitForFunction(()=>Boolean(document.activeElement?.closest('#internal-operation-agreement')));await page.goto(origin+path+'#internal-operation-agreement');await card.waitFor({state:'visible'});});

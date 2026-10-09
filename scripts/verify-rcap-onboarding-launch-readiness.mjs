@@ -330,6 +330,19 @@ check("agreement contract fails closed for every nonexecuted state, missing rece
   ]) {const source=readySource();mutate(source);assert.equal(byKey(evaluateReady({source}),"agreements_and_procurement_recorded").status,"failing");}
 });
 
+check("Launch Studio top navigation always has scrollable hash targets", () => {
+  const page = read("src/app/internal/partners/onboarding/[partnerSlug]/page.tsx");
+  const panel = read("src/app/internal/partners/onboarding/[partnerSlug]/Phase2AArtifactsPanel.tsx");
+  assert.match(page, /href="#launch-prep-area-launch_readiness"/);
+  assert.match(page, /href="#launch-prep-area-co_branded_page"/);
+  assert.match(panel, /id=\{`launch-prep-area-\$\{key\}`\}/);
+  assert.match(panel, /aria-controls=\{`launch-prep-panel-\$\{key\}`\}/);
+  for (const area of ["artifacts", "co_branded_page", "launch_readiness", "resources"]) {
+    assert.match(panel, new RegExp(`id="launch-prep-panel-${area}"`));
+    assert.doesNotMatch(panel, new RegExp(`id="launch-prep-area-${area}"`));
+  }
+});
+
 check("agreement readiness action opens the real review field", () => {
   const source=readySource();
   source.workspace.agreementStatus="not_sent";
