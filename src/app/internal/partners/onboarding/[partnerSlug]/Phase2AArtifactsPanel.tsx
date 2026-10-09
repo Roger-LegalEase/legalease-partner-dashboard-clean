@@ -122,6 +122,11 @@ export function Phase2AArtifactsPanel({
 
   return (
     <section className="mt-8" aria-labelledby="launch-prep-heading">
+      {/* Stable hash targets exist even before their conditional tabpanels mount.
+          Safari otherwise updates the address bar without moving the operator. */}
+      {(["artifacts", "co_branded_page", "launch_readiness", "resources"] as const).map(key => (
+        <span key={key} id={`launch-prep-area-${key}`} className="block scroll-mt-28" aria-hidden="true" />
+      ))}
       <div className="flex flex-wrap items-baseline justify-between gap-2">
         <h2 id="launch-prep-heading" className="text-xl font-black text-navy">
           Launch package and review
@@ -146,7 +151,7 @@ export function Phase2AArtifactsPanel({
             role="tab"
             id={`launch-prep-tab-${key}`}
             aria-selected={area === key}
-            aria-controls={`launch-prep-area-${key}`}
+            aria-controls={`launch-prep-panel-${key}`}
             className={`inline-flex min-h-11 items-center rounded-md border px-4 py-2 text-sm font-bold ${
               area === key
                 ? "border-navy bg-navy text-white"
@@ -171,7 +176,7 @@ export function Phase2AArtifactsPanel({
       {area === "co_branded_page" ? (
         <div
           className="mt-4"
-          id="launch-prep-area-co_branded_page"
+          id="launch-prep-panel-co_branded_page"
           role="tabpanel"
           aria-labelledby="launch-prep-tab-co_branded_page"
         >
@@ -187,7 +192,7 @@ export function Phase2AArtifactsPanel({
       ) : area === "launch_readiness" ? (
         <div
           className="mt-4"
-          id="launch-prep-area-launch_readiness"
+          id="launch-prep-panel-launch_readiness"
           role="tabpanel"
           aria-labelledby="launch-prep-tab-launch_readiness"
         >
@@ -201,7 +206,7 @@ export function Phase2AArtifactsPanel({
       ) : area === "resources" ? (
         <div
           className="mt-4"
-          id="launch-prep-area-resources"
+          id="launch-prep-panel-resources"
           role="tabpanel"
           aria-labelledby="launch-prep-tab-resources"
         >
@@ -210,7 +215,7 @@ export function Phase2AArtifactsPanel({
       ) : (
         <div
           className="mt-4 space-y-4"
-          id="launch-prep-area-artifacts"
+          id="launch-prep-panel-artifacts"
           role="tabpanel"
           aria-labelledby="launch-prep-tab-artifacts"
         >
