@@ -41,7 +41,7 @@ export async function requireClinicPartnerAdmin() {
 export async function listClinicPrograms(): Promise<ClinicProgramOption[]> {
   const actor = await requireClinicEventAdministrator();
   const db = requireDatabase();
-  let query = db.from("partner_records").select("partner_slug,organization_name,partner_name,target_state,state").order("organization_name");
+  let query = db.from("partner_records").select("partner_slug,organization_name,partner_name,target_state,state,service_area").order("organization_name");
   if (actor.kind === "partner") query = query.eq("partner_slug", actor.partnerSlug);
   const records = await query;
   if (records.error) throw new ClinicServiceError("unavailable", "Partner programs could not be loaded. Please retry.");
@@ -56,7 +56,7 @@ export async function listClinicPrograms(): Promise<ClinicProgramOption[]> {
     const data = sections.data?.find(row => row.workspace_id === workspace?.id)?.response_data ?? {};
     const fallback = record.target_state || record.state;
     return {slug: record.partner_slug, name: record.organization_name || record.partner_name,
-      geography: typeof data.service_area_description === "string" ? data.service_area_description : "",
+      geography: typeof data.service_area_description === "string" ? data.service_area_description : record.service_area??"",
       jurisdictions: Array.isArray(data.jurisdictions) ? data.jurisdictions.filter((value: unknown): value is string => typeof value === "string") : fallback ? [fallback] : []};
   });
 }

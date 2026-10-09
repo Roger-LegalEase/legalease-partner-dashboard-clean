@@ -193,6 +193,7 @@ const RAW_GUIDED_SECTIONS = [
         outcome:
           "LegalEase will compare this plan with readiness and scheduling decisions.",
         ...fields(
+          "participation_mode",
           "program_model",
           "program_start_date",
           "ongoing",

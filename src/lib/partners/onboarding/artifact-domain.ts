@@ -275,6 +275,8 @@ export type ArtifactSourceInput = {
   /** Scoped service read of current execution evidence, including private-object custody. */
   agreementEvidenceCurrent?: boolean;
   workspace: {
+    rcapPolicyVersion?: string;
+    rcapMaterialFingerprints?: Record<string,string>;
     id: string;
     partnerSlug: string;
     aggregateVersion: number;
@@ -409,6 +411,7 @@ export function projectArtifactSource(
 ): ArtifactProjection {
   const consumers = consumersForType(artifactType);
   const values: Record<string, unknown> = {};
+  if (input.workspace.rcapPolicyVersion === "rcap2.2") { values.rcap_standard_policy = "rcap2.2"; values.rcap_dependency_hash = input.workspace.rcapMaterialFingerprints?.[artifactType] ?? null; }
 
   for (const field of ONBOARDING_SCHEMA_REGISTRY) {
     if (!field.consumers.some((consumer) => consumers.has(consumer))) continue;
@@ -581,4 +584,8 @@ export function detectArtifactDrift(input: {
     // LegalEase-only change leaves it standing.
     invalidatesPartnerApproval: partnerOwnedChanged || generatorChanged
   };
+}
+
+export function artifactGeneratorVersion(type: ArtifactType, source: ArtifactSourceInput): string {
+ return ARTIFACT_GENERATOR_VERSIONS[type] + (source.workspace.rcapPolicyVersion === "rcap2.2" ? "_rcap2" : "");
 }

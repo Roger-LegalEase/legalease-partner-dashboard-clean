@@ -16,10 +16,13 @@ export type ActiveClinicParticipantContext = Pick<
 
 export async function getPublicClinicEvent(eventSlug: string): Promise<PublicClinicEvent> {
   const db = requireDatabase();
-  const result = await db.from("clinic_events").select("id,public_slug,name,starts_at,ends_at,timezone,location_name,geography,jurisdiction,status")
+  const result = await db.from("clinic_events").select("id,partner_slug,public_slug,name,starts_at,ends_at,timezone,location_name,geography,jurisdiction,status")
     .eq("public_slug", normalizeSlug(eventSlug)).eq("status", "published").maybeSingle();
   if (result.error) throw new ClinicServiceError("unavailable", "Clinic entry is temporarily unavailable.");
   if (!result.data) throw new ClinicServiceError("not_found", "This Clinic event is not open.");
+  const parent=await db.from("partner_onboarding").select("rcap_policy_version").eq("partner_slug",result.data.partner_slug).maybeSingle();
+  if(parent.error)throw new ClinicServiceError("unavailable","Program status could not be verified.");
+  if(parent.data?.rcap_policy_version==="rcap2.2"){const active=await db.rpc("rcap_partner_activation_for_launch",{p_slug:result.data.partner_slug});if(active.error||active.data!==true)throw new ClinicServiceError("not_found","This Clinic event is not open.");}
   return mapPublicEvent(result.data);
 }
 

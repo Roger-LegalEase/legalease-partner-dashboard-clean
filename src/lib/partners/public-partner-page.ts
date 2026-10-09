@@ -1,3 +1,4 @@
+import { isRcap2Enabled } from "./onboarding/feature";
 import "server-only";
 import {isDisposableLaunchEnvironment,acceptsSyntheticVerification} from "./onboarding/synthetic-launch-security";
 
@@ -20,6 +21,7 @@ type PublicationRow = {
   internal_approved_at: string | null;
   launched_at: string | null;
   rcap_launch_operation_id?:string|null;
+  rcap_policy_version?:string;
 };
 
 /**
@@ -73,7 +75,10 @@ export async function getAuthoritativelyPublicPartnerRecord(
       if(receipt.data.step!=="complete"&&!realLaunchLeaseActive(receipt.data.created_at))return undefined;
       const authority=await supabase.from("rcap_commercial_authorizations").select("*").eq("id",String(receipt.data.evidence.commercialAuthorityId??"")).maybeSingle();
       const row=activationResult.data as ActivationRow & {access_mode:string;stripe_payment_intent_id:string;paid_at:string;payment_amount:number};
-      if(authority.error||!commercialAuthorityValid(authority.data as CommercialAuthority|null,row)||authority.data?.access_mode!==row.access_mode||!["active","provisioned"].includes(row.provisioning_status??""))return undefined;
+      const validAuthority = isRcap2Enabled() && publicationResult.data.rcap_policy_version === "rcap2.2"
+        ? (await supabase.rpc("rcap_program_commercial_valid",{p_workspace:authority.data?.workspace_id})).data === true
+        : commercialAuthorityValid(authority.data as CommercialAuthority|null,row);
+      if(authority.error||!validAuthority||authority.data?.access_mode!==row.access_mode||!["active","provisioned"].includes(row.provisioning_status??""))return undefined;
       const document=await supabase.from("partner_onboarding_assets").select("id").eq("id",authority.data.document_id).eq("sha256_hex",authority.data.document_hash).eq("review_status","approved").eq("lifecycle_status","active").maybeSingle();
       if(document.error||!document.data)return undefined;
       documentedActivation=true;

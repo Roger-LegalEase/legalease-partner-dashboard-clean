@@ -1,15 +1,16 @@
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { notFound,redirect } from "next/navigation";
 
 import { requirePartnerOnboardingContext } from "@/lib/partners/onboarding/auth-context";
 import { getPartnerLaunchReadiness } from "@/lib/partners/onboarding/launch-readiness-service";
-import { isRcapOnboardingLaunchPrepEnabled } from "@/lib/partners/onboarding/feature";
+import { isRcap2Enabled,isRcapOnboardingLaunchPrepEnabled } from "@/lib/partners/onboarding/feature";
 
 import { PartnerResourcesClient } from "./PartnerResourcesClient";
 
 export const dynamic = "force-dynamic";
 
 export default async function PartnerResourcesPage() {
+  if(isRcap2Enabled())redirect("/partner/settings?step=start");
   if (!isRcapOnboardingLaunchPrepEnabled()) {
     notFound();
   }

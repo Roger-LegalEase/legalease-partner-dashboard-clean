@@ -2,7 +2,7 @@ import "server-only";
 import { getSupabaseAdminClient } from "@/lib/supabase/server";
 import { getAuthoritativelyPublicPartnerRecord } from "@/lib/partners/public-partner-page";
 import { loadArtifactSourceInput } from "./artifact-service";
-import { ARTIFACT_GENERATOR_VERSIONS, detectArtifactDrift, projectArtifactSource } from "./artifact-domain";
+import { artifactGeneratorVersion, detectArtifactDrift, projectArtifactSource } from "./artifact-domain";
 import type { CoBrandedPagePreview, RenderedDocument } from "./artifact-generator";
 import { isRcapLaunchStudioEnabled } from "./feature";
 
@@ -32,11 +32,11 @@ export async function getApprovedPublicPageConfiguration(partnerSlug: string, ve
       .select("snapshot_hash, rendered_content, normalized_snapshot, generator_version, generation_status, approval_status, partner_review_status, superseded_at, source_drift_invalidated_at")
       .eq("id", artifact.data.current_version_id).eq("workspace_id", source.workspace.id).maybeSingle();
     const row = version.data;
-    if (version.error || !row || row.generation_status !== "succeeded" || row.approval_status !== "approved" || row.partner_review_status !== "approved" || row.superseded_at || row.source_drift_invalidated_at) return null;
+    if (version.error || !row || row.generation_status !== "succeeded" || (row.approval_status !== "approved" && !(source.workspace.rcapPolicyVersion === "rcap2.2" && row.generator_version.endsWith("_rcap2"))) || row.partner_review_status !== "approved" || row.superseded_at || row.source_drift_invalidated_at) return null;
     const drift = detectArtifactDrift({ storedSnapshot: row.normalized_snapshot,
       storedGeneratorVersion: row.generator_version,
       current: projectArtifactSource("co_branded_page_configuration", source),
-      currentGeneratorVersion: ARTIFACT_GENERATOR_VERSIONS.co_branded_page_configuration });
+      currentGeneratorVersion: artifactGeneratorVersion("co_branded_page_configuration",source) });
     if (drift.stale) return null;
     const document = row.rendered_content as RenderedDocument;
     if (!document?.pagePreview || document.pagePreview.missing.length) return null;

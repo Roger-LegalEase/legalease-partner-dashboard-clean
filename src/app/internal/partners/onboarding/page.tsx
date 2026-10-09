@@ -4,7 +4,8 @@ import { listInternalProvisioningRecords } from "@/lib/partners/partner-reposito
 import { workspaceStatusLabel } from "@/lib/partners/onboarding/partner-labels";
 
 export const dynamic = "force-dynamic";
-export default async function LaunchStudioIndex() {
+export default async function LaunchStudioIndex({searchParams}:{searchParams:Promise<{q?:string}>}) {
+  const query=((await searchParams).q??"").trim().toLowerCase();
   const access = await resolveInternalAdminPageAccess("/internal/partners/onboarding");
   if (access.kind === "denied") return <InternalAdminDenied title={access.title} body={access.body} email={access.email} />;
   const records = await listInternalProvisioningRecords().catch(() => null);
@@ -13,7 +14,7 @@ export default async function LaunchStudioIndex() {
       <Link href="/internal/partners/provisioning/new" className="inline-flex min-h-11 items-center rounded-md bg-orange px-5 py-3 font-bold text-white">Create partner</Link>
     </header>
     <p className="mt-5 text-sm text-grayWilma-700">Source: current partner records and canonical program workspaces. Setup approval is separate from launch verification.</p>
-    <div className="mt-6 grid gap-4 md:grid-cols-2">{records?.map(record=><article key={record.id} className="rounded-xl border border-grayWilma-200 bg-white p-6 shadow-sm">
+    <form className="mt-6 flex gap-3"><label className="grow font-bold">Find a partner<input name="q" defaultValue={query} type="search" className="mt-2 min-h-11 w-full rounded border px-3" placeholder="Organization name or program address"/></label><button className="self-end min-h-11 rounded border px-5 font-bold">Search</button></form><div className="mt-6 grid gap-4 md:grid-cols-2">{records?.filter(record=>`${record.organization_name} ${record.partner_name} ${record.partner_slug}`.toLowerCase().includes(query)).map(record=><article key={record.id} className="rounded-xl border border-grayWilma-200 bg-white p-6 shadow-sm">
       <h2 className="text-xl font-bold">{record.organization_name || record.partner_name}</h2>
       <p className="mt-3 font-semibold text-teal">{record.workspace_status === "ready_to_launch" ? "Setup approved; launch review remaining" : record.workspace_status === "live" ? "Launch recorded; review public status" : record.workspace_status ? workspaceStatusLabel(record.workspace_status) : "Program setup not started"}</p>
       <p className="mt-3 text-sm">Last saved: {record.workspace_updated_at ? new Date(record.workspace_updated_at).toLocaleString("en-US", {timeZone:"UTC"}) + " UTC" : "Unavailable"}</p>

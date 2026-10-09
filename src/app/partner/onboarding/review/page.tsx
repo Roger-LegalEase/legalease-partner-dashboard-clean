@@ -2,7 +2,7 @@ import { notFound, redirect } from "next/navigation";
 import { IBM_Plex_Mono, Inter } from "next/font/google";
 import { requirePartnerOnboardingContext } from "@/lib/partners/onboarding/auth-context";
 import { isFieldActive } from "@/lib/partners/onboarding/derivations";
-import { isRcapPartnerOnboardingEnabled } from "@/lib/partners/onboarding/feature";
+import { isRcap2Enabled,isRcapPartnerOnboardingEnabled } from "@/lib/partners/onboarding/feature";
 import {
   getOnboardingFieldsForSection
 } from "@/lib/partners/onboarding/schema";
@@ -49,6 +49,7 @@ const rcapMono = IBM_Plex_Mono({
 });
 
 export default async function PartnerOnboardingReviewPage() {
+  if(isRcap2Enabled())redirect("/partner/settings?step=start");
   if (!isRcapPartnerOnboardingEnabled()) notFound();
   let portal: Awaited<ReturnType<typeof getPartnerOnboardingPortal>>;
   try {

@@ -108,7 +108,7 @@ export function ClinicAdminConsole({ events, workspace, internal, partnerSlug, p
 
   return (
     <div className="space-y-6">
-      <Link prefetch={false} className="inline-flex min-h-11 items-center font-bold text-[#0F6E56]" href={internal && (partnerSlug || workspace?.event.partnerSlug) ? `/internal/partners/onboarding/${partnerSlug || workspace?.event.partnerSlug}` : "/partner/onboarding"}><ClinicText value="Back to program setup" /></Link>
+      <Link prefetch={false} className="inline-flex min-h-11 items-center font-bold text-[#0F6E56]" href={internal && (partnerSlug || workspace?.event.partnerSlug) ? `/internal/partners/onboarding/${partnerSlug || workspace?.event.partnerSlug}` : "/partner/dashboard"}><ClinicText value="Back to program" /></Link>
       <div aria-live="polite" className={`min-h-6 rounded-md px-3 py-2 text-sm font-semibold ${notice ? "border border-[#DCC9B8] bg-[#FFF7ED] text-[#8A3C1F]" : "text-transparent"}`}>
         {text(notice || "No update")}
       </div>
@@ -125,8 +125,8 @@ export function ClinicAdminConsole({ events, workspace, internal, partnerSlug, p
               <Field label="Ends" name="endsAt" type="datetime-local" required />
               <label className="block text-sm font-bold"><ClinicText value="Timezone" /><select name="timezone" className={inputClass} value={timezone} onChange={event => setTimezone(event.target.value)}>{TIMEZONES.map(([zone,label]) => <option key={zone} value={zone}>{text(label)}</option>)}{!TIMEZONES.some(([zone]) => zone === timezone) ? <option value={timezone}>{timezone.replaceAll("_", " ").split("/").at(-1)}</option> : null}</select></label>
               <Field label="Location" name="locationName" required />
-              <Field key={`geography-${selectedPartner}`} label="Geography" name="geography" defaultValue={program?.geography ?? ""} placeholder={text("City, county, or statewide")} required />
-              <label key={`jurisdiction-${selectedPartner}`} className="block text-sm font-bold"><ClinicText value="Participant state" /><select name="jurisdiction" className={inputClass} defaultValue={program?.jurisdictions.length === 1 ? program.jurisdictions[0] : ""}><option value=""><ClinicText value="Participants choose their state" /></option>{jurisdictionOptions.map(option => <option key={option.code} value={option.code}>{option.name}</option>)}</select></label>
+              <input type="hidden" name="geography" value={program?.geography??""}/><p className="text-sm">{program?.name} · {program?.geography}</p>
+              {program?.jurisdictions.length===1?<input type="hidden" name="jurisdiction" value={program.jurisdictions[0]}/>:<label className="block text-sm font-bold"><ClinicText value="Participant state"/><select name="jurisdiction" className={inputClass} required><option value="">{text("Select a state")}</option>{jurisdictionOptions.filter(j=>program?.jurisdictions.includes(j.code)).map(j=><option key={j.code} value={j.code}>{j.name}</option>)}</select></label>}
               <Field label="Capacity" name="capacity" type="number" min="1" required />
               <details className="sm:col-span-2"><summary className="min-h-11 cursor-pointer font-bold"><ClinicText value="Event sponsorship limit (optional)" /></summary><p className="my-2 text-sm"><ClinicText value="This limit does not add funding or grant packet credits." /></p><Field label="Sponsored packet allocation" name="sponsorshipAllocation" type="number" min="0" /></details>
             </div>

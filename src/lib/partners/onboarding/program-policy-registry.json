@@ -1,0 +1,385 @@
+[
+  {
+    "key": "organization_facts",
+    "label": "Complete your organization information",
+    "owner_domain": "legal",
+    "classification": "NON_OVERRIDABLE",
+    "actions": [
+      "complete_setup",
+      "publish_partner_page",
+      "accept_screenings",
+      "publish_clinic"
+    ],
+    "required_evidence": "Complete your organization information",
+    "permitted_default": null,
+    "permitted_alternative": null,
+    "exception_effects": [],
+    "dependencies": [
+      "organization_contacts.legal_organization_name",
+      "organization_contacts.public_organization_name",
+      "organization_contacts.public_program_name"
+    ],
+    "invalidation_triggers": [
+      "organization_contacts.legal_organization_name",
+      "organization_contacts.public_organization_name",
+      "organization_contacts.public_program_name"
+    ],
+    "next_action": "Complete your organization information"
+  },
+  {
+    "key": "program_scope",
+    "label": "Choose the service area and participation settings",
+    "owner_domain": "legal",
+    "classification": "NON_OVERRIDABLE",
+    "actions": [
+      "complete_setup",
+      "publish_partner_page",
+      "accept_screenings",
+      "publish_clinic"
+    ],
+    "required_evidence": "Choose the service area and participation settings",
+    "permitted_default": null,
+    "permitted_alternative": null,
+    "exception_effects": [],
+    "dependencies": [
+      "geography_audience_language_accessibility",
+      "access_sponsorship_capacity.participant_access_model",
+      "program_goals.participation_mode"
+    ],
+    "invalidation_triggers": [
+      "geography_audience_language_accessibility",
+      "access_sponsorship_capacity.participant_access_model",
+      "program_goals.participation_mode"
+    ],
+    "next_action": "Choose the service area and participation settings"
+  },
+  {
+    "key": "support_and_referral_contacts_configured",
+    "label": "Confirm the support and escalation route",
+    "owner_domain": "legal",
+    "classification": "NON_OVERRIDABLE",
+    "actions": [
+      "complete_setup",
+      "publish_partner_page",
+      "accept_screenings",
+      "publish_clinic"
+    ],
+    "required_evidence": "Confirm the support and escalation route",
+    "permitted_default": null,
+    "permitted_alternative": null,
+    "exception_effects": [],
+    "dependencies": [
+      "support_referrals_reporting.referral_arrangement",
+      "support_referrals_reporting.participant_support_email",
+      "support_referrals_reporting.contested_matter_procedure"
+    ],
+    "invalidation_triggers": [
+      "support_referrals_reporting.referral_arrangement",
+      "support_referrals_reporting.participant_support_email",
+      "support_referrals_reporting.contested_matter_procedure"
+    ],
+    "next_action": "Confirm the support and escalation route"
+  },
+  {
+    "key": "commercial_gate_cleared",
+    "label": "LegalEase is finalizing your program terms",
+    "owner_domain": "finance_truth",
+    "classification": "REQUIRES_ACTUAL_AUTHORITY",
+    "actions": [
+      "publish_partner_page",
+      "accept_screenings",
+      "publish_clinic",
+      "issue_sponsored_packet"
+    ],
+    "required_evidence": "LegalEase is finalizing your program terms",
+    "permitted_default": null,
+    "permitted_alternative": null,
+    "exception_effects": [],
+    "dependencies": [
+      "commercial"
+    ],
+    "invalidation_triggers": [
+      "commercial"
+    ],
+    "next_action": "LegalEase is finalizing your program terms"
+  },
+  {
+    "key": "agreements_and_procurement_recorded",
+    "label": "Record the actual agreement or authorized limited-service basis",
+    "owner_domain": "third_party_contract",
+    "classification": "REQUIRES_ACTUAL_AUTHORITY",
+    "actions": [
+      "publish_partner_page",
+      "accept_screenings",
+      "publish_clinic",
+      "issue_sponsored_packet"
+    ],
+    "required_evidence": "Record the actual agreement or authorized limited-service basis",
+    "permitted_default": null,
+    "permitted_alternative": null,
+    "exception_effects": [],
+    "dependencies": [
+      "commercial",
+      "agreements"
+    ],
+    "invalidation_triggers": [
+      "commercial",
+      "agreements"
+    ],
+    "next_action": "Record the actual agreement or authorized limited-service basis"
+  },
+  {
+    "key": "access_model_and_capacity_present",
+    "label": "Reconcile the authorized access and screening allowance",
+    "owner_domain": "finance_truth",
+    "classification": "REQUIRES_ACTUAL_AUTHORITY",
+    "actions": [
+      "publish_partner_page",
+      "accept_screenings",
+      "publish_clinic"
+    ],
+    "required_evidence": "Reconcile the authorized access and screening allowance",
+    "permitted_default": null,
+    "permitted_alternative": null,
+    "exception_effects": [],
+    "dependencies": [
+      "commercial",
+      "access_sponsorship_capacity.participant_access_model",
+      "screening_capacity"
+    ],
+    "invalidation_triggers": [
+      "commercial",
+      "access_sponsorship_capacity.participant_access_model",
+      "screening_capacity"
+    ],
+    "next_action": "Reconcile the authorized access and screening allowance"
+  },
+  {
+    "key": "packet_entitlement",
+    "label": "Sponsored packets are unavailable",
+    "owner_domain": "finance_truth",
+    "classification": "REQUIRES_ACTUAL_AUTHORITY",
+    "actions": [
+      "issue_sponsored_packet"
+    ],
+    "required_evidence": "Sponsored packets are unavailable",
+    "permitted_default": null,
+    "permitted_alternative": null,
+    "exception_effects": [],
+    "dependencies": [
+      "commercial",
+      "packet_capacity"
+    ],
+    "invalidation_triggers": [
+      "commercial",
+      "packet_capacity"
+    ],
+    "next_action": "Sponsored packets are unavailable"
+  },
+  {
+    "key": "artifact_versions_current",
+    "label": "Review the updated program materials",
+    "owner_domain": "legal",
+    "classification": "NON_OVERRIDABLE",
+    "actions": [
+      "publish_partner_page",
+      "accept_screenings",
+      "publish_clinic"
+    ],
+    "required_evidence": "Review the updated program materials",
+    "permitted_default": null,
+    "permitted_alternative": null,
+    "exception_effects": [],
+    "dependencies": [
+      "materials"
+    ],
+    "invalidation_triggers": [
+      "materials"
+    ],
+    "next_action": "Review the updated program materials"
+  },
+  {
+    "key": "partner_launch_approval_received",
+    "label": "Review your program",
+    "owner_domain": "participant_consent",
+    "classification": "NON_OVERRIDABLE",
+    "actions": [
+      "publish_partner_page",
+      "accept_screenings",
+      "publish_clinic"
+    ],
+    "required_evidence": "Review your program",
+    "permitted_default": null,
+    "permitted_alternative": null,
+    "exception_effects": [],
+    "dependencies": [
+      "materials",
+      "partner_confirmation"
+    ],
+    "invalidation_triggers": [
+      "materials",
+      "partner_confirmation"
+    ],
+    "next_action": "Review your program"
+  },
+  {
+    "key": "legalease_final_review_complete",
+    "label": "LegalEase must authorize program start",
+    "owner_domain": "third_party_contract",
+    "classification": "REQUIRES_ACTUAL_AUTHORITY",
+    "actions": [
+      "publish_partner_page"
+    ],
+    "required_evidence": "LegalEase must authorize program start",
+    "permitted_default": null,
+    "permitted_alternative": null,
+    "exception_effects": [],
+    "dependencies": [
+      "launch_scope"
+    ],
+    "invalidation_triggers": [
+      "launch_scope"
+    ],
+    "next_action": "LegalEase must authorize program start"
+  },
+  {
+    "key": "required_logo_present",
+    "label": "Use an approved logo or the RCAP text identity",
+    "owner_domain": "legalease_business",
+    "classification": "EXCEPTION_ELIGIBLE",
+    "actions": [
+      "publish_partner_page",
+      "accept_screenings",
+      "publish_clinic"
+    ],
+    "required_evidence": "Use an approved logo or the RCAP text identity",
+    "permitted_default": "RCAP text identity",
+    "permitted_alternative": "Recorded scoped Platform Admin business decision",
+    "exception_effects": [
+      "publish_partner_page",
+      "accept_screenings",
+      "publish_clinic"
+    ],
+    "dependencies": [
+      "brand_public_page"
+    ],
+    "invalidation_triggers": [
+      "brand_public_page"
+    ],
+    "next_action": "Use an approved logo or the RCAP text identity"
+  },
+  {
+    "key": "report_recipients_configured",
+    "label": "Reporting delivery preferences",
+    "owner_domain": "legalease_business",
+    "classification": "EXCEPTION_ELIGIBLE",
+    "actions": [
+      "view_reporting"
+    ],
+    "required_evidence": "Reporting delivery preferences",
+    "permitted_default": "Reports available to authorized administrators",
+    "permitted_alternative": "Recorded scoped Platform Admin business decision",
+    "exception_effects": [
+      "view_reporting"
+    ],
+    "dependencies": [
+      "support_referrals_reporting.reporting_cadence"
+    ],
+    "invalidation_triggers": [
+      "support_referrals_reporting.reporting_cadence"
+    ],
+    "next_action": "Reporting delivery preferences"
+  },
+  {
+    "key": "communications_approved",
+    "label": "Outreach scheduling",
+    "owner_domain": "legalease_business",
+    "classification": "EXCEPTION_ELIGIBLE",
+    "actions": [
+      "publish_partner_page",
+      "accept_screenings",
+      "publish_clinic"
+    ],
+    "required_evidence": "Outreach scheduling",
+    "permitted_default": "No separate campaign approval",
+    "permitted_alternative": "Recorded scoped Platform Admin business decision",
+    "exception_effects": [
+      "publish_partner_page",
+      "accept_screenings",
+      "publish_clinic"
+    ],
+    "dependencies": [
+      "program_goals.outreach_channels"
+    ],
+    "invalidation_triggers": [
+      "program_goals.outreach_channels"
+    ],
+    "next_action": "Outreach scheduling"
+  },
+  {
+    "key": "staff_training_completed",
+    "label": "Clinic operating preparation",
+    "owner_domain": "legalease_business",
+    "classification": "EXCEPTION_ELIGIBLE",
+    "actions": [
+      "publish_clinic"
+    ],
+    "required_evidence": "Clinic operating preparation",
+    "permitted_default": "Use the embedded Clinic staff guide",
+    "permitted_alternative": "Recorded scoped Platform Admin business decision",
+    "exception_effects": [
+      "publish_clinic"
+    ],
+    "dependencies": [
+      "program_goals.participation_mode"
+    ],
+    "invalidation_triggers": [
+      "program_goals.participation_mode"
+    ],
+    "next_action": "Clinic operating preparation"
+  },
+  {
+    "key": "participant_access",
+    "label": "Participant consent and event staff authorization are required",
+    "owner_domain": "participant_consent",
+    "classification": "NON_OVERRIDABLE",
+    "actions": [
+      "assist_participant"
+    ],
+    "required_evidence": "Participant consent and event staff authorization are required",
+    "permitted_default": null,
+    "permitted_alternative": null,
+    "exception_effects": [],
+    "dependencies": [
+      "event",
+      "consent"
+    ],
+    "invalidation_triggers": [
+      "event",
+      "consent"
+    ],
+    "next_action": "Participant consent and event staff authorization are required"
+  },
+  {
+    "key": "paid_packet_verification",
+    "label": "Packet purchase is available only for a verified participant matter",
+    "owner_domain": "legal_fulfillment",
+    "classification": "NON_OVERRIDABLE",
+    "actions": [
+      "offer_paid_packet"
+    ],
+    "required_evidence": "Packet purchase is available only for a verified participant matter",
+    "permitted_default": null,
+    "permitted_alternative": null,
+    "exception_effects": [],
+    "dependencies": [
+      "matter",
+      "verification"
+    ],
+    "invalidation_triggers": [
+      "matter",
+      "verification"
+    ],
+    "next_action": "Packet purchase is available only for a verified participant matter"
+  }
+]

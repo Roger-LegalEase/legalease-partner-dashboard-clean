@@ -1,7 +1,7 @@
 export type CommercialAuthority = {
- id:string; workspace_id:string; kind:"verified_paid"|"sponsored"|"purchase_order";
+ id:string; workspace_id:string; kind:"verified_paid"|"sponsored"|"purchase_order"|"screening_only";
  document_id:string; document_hash:string; authority_reference:string; expires_at:string;
- access_mode:string; packet_entitlement_id:string; actor_auth_user_id:string;
+ access_mode:string; packet_entitlement_id:string|null; actor_auth_user_id:string;
 };
 export type CommercialFacts = {payment_status:string|null;stripe_payment_intent_id:string|null;paid_at:string|null;payment_amount:number|null;qualification_status:string|null};
 /** No mutable override, demo payment, or undocumented contract can satisfy this rule. */

@@ -1,3 +1,7 @@
+import { ProgramDashboard } from "./ProgramDashboard";
+import { isRcap2Enabled } from "@/lib/partners/onboarding/feature";
+import { getProgramExperience } from "@/lib/partners/onboarding/program-experience-service";
+import { listClinicEvents } from "@/lib/clinic-mode/service";
 import Link from "next/link";
 import type { CSSProperties, ReactNode } from "react";
 import { redirect } from "next/navigation";
@@ -61,6 +65,11 @@ export default async function PartnerDashboardPage() {
 
   if (dashboard.kind === "denied") {
     return <DeniedDashboard title={dashboard.title} body={dashboard.body} />;
+  }
+
+  if(isRcap2Enabled()) {
+    const [program,clinics]=await Promise.all([getProgramExperience({partnerSlug:dashboard.partnerSlug,authUserId:dashboard.authUserId,role:dashboard.role,workEmail:null}).catch(()=>null),listClinicEvents().catch(()=>null)]);
+    return <ProgramDashboard dashboard={dashboard} program={program} clinicCount={clinics?.length??null}/>;
   }
 
   const storedPartnerLabel = dashboard.partner?.organizationName ?? dashboard.partner?.partnerName ?? toTitleCase(dashboard.partnerSlug);

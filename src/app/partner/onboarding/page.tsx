@@ -1,3 +1,6 @@
+import { isRcap2Enabled } from "@/lib/partners/onboarding/feature";
+import { getProgramExperience } from "@/lib/partners/onboarding/program-experience-service";
+import { ProgramOnboarding } from "./ProgramOnboarding";
 import Link from "next/link";
 import { IBM_Plex_Mono, Inter } from "next/font/google";
 import { redirect } from "next/navigation";
@@ -49,7 +52,13 @@ const rcapMono = IBM_Plex_Mono({
   display: "swap"
 });
 
-export default async function PartnerOnboardingPage() {
+export default async function PartnerOnboardingPage({searchParams}: {searchParams:Promise<{step?:string}>}) {
+  if(isRcap2Enabled()) {
+    const context=await requirePartnerOnboardingContext().catch(error=>{if(error?.code==="unauthenticated")redirect(`/sign-in?next=${ROUTE}`);throw error;});
+    const view=await getProgramExperience(context);
+    if(view.decision.status==="live" || view.decision.setupComplete || context.role==="partner_staff")redirect("/partner/dashboard");
+    return <ProgramOnboarding initial={view} requestedStep={(await searchParams).step}/>;
+  }
   if (isRcapPartnerOnboardingEnabled()) {
     return Phase1PartnerOnboardingPage();
   }

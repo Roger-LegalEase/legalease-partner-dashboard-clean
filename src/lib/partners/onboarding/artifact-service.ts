@@ -1,3 +1,5 @@
+import { isRcap2Enabled } from "./feature";
+import { artifactGeneratorVersion } from "./artifact-domain";
 import "server-only";
 
 import crypto from "node:crypto";
@@ -102,7 +104,14 @@ export async function loadArtifactSourceInput(
     );
   }
   const workspaceId = String(workspace.id);
+  const policyVersion = isRcap2Enabled() ? (await requireAdmin().from("partner_onboarding").select("rcap_policy_version").eq("id",workspaceId).single()).data?.rcap_policy_version : "legacy";
 
+  const rcapMaterialFingerprints: Record<string,string> = {};
+  if (policyVersion === "rcap2.2") await Promise.all(GENERATABLE_ARTIFACT_TYPES.map(async type => {
+    const result = await requireAdmin().rpc("rcap_program_material_scope",{p_workspace:workspaceId,p_type:type});
+    if(result.error) throw new Phase1OnboardingError("persistence_failed","Program source could not be verified.");
+    rcapMaterialFingerprints[type]=String(result.data);
+  }));
   const [
     sections,
     contacts,
@@ -279,6 +288,8 @@ export async function loadArtifactSourceInput(
   return {
     packetAllocationSourceStatus: packetEntitlement.error ? "unavailable" : packetEntitlement.data ? "available" : "not_configured",
     workspace: {
+      rcapPolicyVersion: policyVersion,
+      rcapMaterialFingerprints,
       id: workspaceId,
       partnerSlug,
       aggregateVersion: Number(workspace.aggregate_version ?? 0),
@@ -580,9 +591,7 @@ async function buildBoard(options: {
           storedSnapshot: stored,
           storedGeneratorVersion: current.generator_version,
           current: projection,
-          currentGeneratorVersion: ARTIFACT_GENERATOR_VERSIONS[
-            artifactType as keyof typeof ARTIFACT_GENERATOR_VERSIONS
-          ]
+          currentGeneratorVersion: artifactGeneratorVersion(artifactType as keyof typeof ARTIFACT_GENERATOR_VERSIONS, source)
         });
         stale = stale || drift.stale;
         staleFields = drift.changedKeys;
@@ -780,7 +789,7 @@ export async function buildLaunchKitQr(partnerSlug: string): Promise<LaunchKitQr
 }
 
 export async function generateArtifactVersion(
-  context: InternalOnboardingContext,
+  context: InternalOnboardingContext | PartnerOnboardingContext,
   input: { artifactType: string; requestId: string }
 ): Promise<{ versionId: string; versionNumber: number; duplicate: boolean }> {
   assertLaunchPrepEnabled();
@@ -824,7 +833,7 @@ export async function generateArtifactVersion(
       p_source_asset_versions: provenance.sourceAssetVersions,
       p_normalized_snapshot: projection.values,
       p_snapshot_hash: projection.hash,
-      p_generator_version: ARTIFACT_GENERATOR_VERSIONS[artifactType],
+      p_generator_version: artifactGeneratorVersion(artifactType, source),
       p_rendered_content: generationStatus === "succeeded" ? rendered : {},
       p_generation_status: generationStatus,
       p_generation_error_code: generationErrorCode

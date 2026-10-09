@@ -1,3 +1,8 @@
+import { isRcap2Enabled } from "@/lib/partners/onboarding/feature";
+import { getPartnerDashboardRlsData } from "@/lib/partners/partner-dashboard-rls-repository";
+import { getProgramExperience } from "@/lib/partners/onboarding/program-experience-service";
+import { listClinicEvents } from "@/lib/clinic-mode/service";
+import { ProgramDashboard } from "../dashboard/ProgramDashboard";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { requirePartnerSession, SessionPartnerError } from "@/lib/partners/session-partner";
@@ -9,6 +14,11 @@ export default async function PartnerReportingPage() {
     if (error instanceof SessionPartnerError && error.code === "unauthenticated") redirect("/sign-in?next=/partner/reporting");
     if (error instanceof SessionPartnerError) return <main className="p-8"><h1 className="text-2xl font-bold">Partner access required</h1><Link href="/partner/dashboard">Return to your dashboard</Link></main>;
     throw error;
+  }
+  if(isRcap2Enabled()){
+    const dashboard=await getPartnerDashboardRlsData();if(dashboard.kind!=="partner")redirect("/internal");
+    const [program,clinics]=await Promise.all([getProgramExperience({partnerSlug:dashboard.partnerSlug,authUserId:dashboard.authUserId,role:dashboard.role,workEmail:null}).catch(()=>null),listClinicEvents().catch(()=>null)]);
+    return <ProgramDashboard dashboard={dashboard} program={program} clinicCount={clinics?.length??null} participants reporting/>;
   }
   return <main className="mx-auto w-full max-w-4xl px-4 py-10"><h1 className="text-3xl font-black"><LocalizedRuntimeText text="Program reporting" /></h1><p className="mt-4"><LocalizedRuntimeText text="Report exports are not yet available. View recorded program activity in your dashboard." /></p><Link href="/partner/dashboard" className="mt-6 inline-flex min-h-11 items-center rounded-md bg-navy px-5 py-2 font-bold text-white"><LocalizedRuntimeText text="Open program dashboard" /></Link></main>;
 }

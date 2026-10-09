@@ -97,6 +97,7 @@ const expectedTopLevelFields = {
     "contacts"
   ],
   program_goals: [
+    "participation_mode",
     "primary_goal",
     "definition_of_success",
     "target_population",

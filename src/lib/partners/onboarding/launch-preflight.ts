@@ -1,3 +1,5 @@
+import { isRcap2Enabled } from "./feature";
+import { getProgramLaunchPreflight } from "./program-launch-preflight";
 import "server-only";
 import {createHash} from "node:crypto";
 import type {InternalOnboardingContext} from "./auth-context";
@@ -11,6 +13,15 @@ import {commercialAuthorityValid,type CommercialAuthority} from "./commercial-au
 import {partnerLaunchMaterialsApproved} from "./partner-material-policy";
 import {Phase1OnboardingError} from "./errors";
 export async function getLaunchPreflight(context:InternalOnboardingContext){
+ if(context.role!=="internal_admin")throw new Phase1OnboardingError("forbidden","Internal launch authority is required.");
+ if(isRcap2Enabled()){
+  const {data,error}=await getSupabaseAdminClient()!.from("partner_onboarding").select("rcap_policy_version").eq("partner_slug",context.partnerSlug).single();
+  if(error)throw new Phase1OnboardingError("persistence_failed","Program policy is unavailable.");
+  if(data.rcap_policy_version==="rcap2.2")return getProgramLaunchPreflight(context);
+ }
+ return getLegacyLaunchPreflight(context);
+}
+async function getLegacyLaunchPreflight(context:InternalOnboardingContext){
  if(context.role!=="internal_admin")throw new Phase1OnboardingError("forbidden","Internal launch authority is required.");
  const view=await getInternalLaunchReadiness(context);const admin=getSupabaseAdminClient()!;
  const {data:workspace,error:workspaceError}=await admin.from("partner_onboarding").select("id,aggregate_version,status,landing_page_ready,agreement_status").eq("partner_slug",context.partnerSlug).single();

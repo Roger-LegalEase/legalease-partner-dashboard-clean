@@ -1,3 +1,9 @@
+import { ProgramOperations } from "./ProgramOperations";
+import { getProgramOperations } from "@/lib/partners/onboarding/program-operations-service";
+import { FirstAdminAccessPanel } from "../../provisioning/[partnerSlug]/FirstAdminAccessPanel";
+import { getFirstAdminAccessView,getFirstAdminPartnerSummary } from "@/lib/partners/first-admin-service";
+import { LaunchControl } from "./LaunchControl";
+import { isRcap2Enabled } from "@/lib/partners/onboarding/feature";
 import { ManagedProgramEditor } from "@/components/partners/onboarding/ManagedProgramEditor";
 import { LaunchSimulation } from "@/components/partners/onboarding/LaunchSimulation";
 import { isDisposableLaunchEnvironment } from "@/lib/partners/onboarding/synthetic-launch-security";
@@ -28,6 +34,24 @@ export default async function OnboardingDetailPage({ params }: { params: Promise
   const access = await resolveInternalAdminPageAccess(`/internal/partners/onboarding/${partnerSlug}`);
   if (access.kind === "denied") {
     return <InternalAdminDenied title={access.title} body={access.body} />;
+  }
+
+  if (isRcap2Enabled()) {
+    const context=await requireInternalOnboardingContext(partnerSlug);
+    const [snapshot,prefill,operations,partner,adminAccess]=await Promise.all([getInternalOnboardingSnapshot(context),getInternalPrefillSnapshot(context),getProgramOperations(context),getFirstAdminPartnerSummary(partnerSlug),getFirstAdminAccessView(partnerSlug)]);
+    return <main className="mx-auto max-w-6xl px-4 py-10 text-navy">
+      <Link className="inline-flex min-h-11 items-center underline" href="/internal/partners/onboarding">All partner programs</Link>
+      <h1 className="mt-4 text-3xl font-black">{partner.publicName}</h1><p className="mt-3">Prepare the program, record its genuine service authority, and invite its administrator.</p>
+      <ManagedProgramEditor key={prefill.workspace?.aggregateVersion} partnerSlug={partnerSlug} snapshot={prefill} compact/>
+      <div className="mt-6"><FirstAdminAccessPanel partner={partner} initialAccess={adminAccess} onboardingEnabled/></div>
+      <ProgramOperations key={operations.view.version} initial={operations}/>
+      <details className="mt-6 rounded-xl border bg-white p-6"><summary className="min-h-11 cursor-pointer text-xl font-bold">Agreements, funding, and reviewed documents</summary>
+        <Phase1InternalReviewPanel partnerSlug={partnerSlug} snapshot={snapshot}/><AssetReviewControl partnerSlug={partnerSlug} assets={snapshot.assets}/>
+        <LaunchControl partnerSlug={partnerSlug} commercialOnly/>
+      </details>
+      <Link className="mt-6 inline-flex min-h-11 items-center rounded border px-5 font-bold" href={`/internal/clinic?partner=${encodeURIComponent(partnerSlug)}`}>Manage program clinics</Link>
+      <details className="mt-6"><summary className="min-h-11 cursor-pointer font-bold">Advanced source history and corrections</summary><Phase1PrefillPanel partnerSlug={partnerSlug} snapshot={prefill}/></details>
+    </main>;
   }
 
   if (isRcapPartnerOnboardingEnabled()) {

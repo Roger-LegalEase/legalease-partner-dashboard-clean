@@ -36,6 +36,10 @@ export async function resolve(specifier, context, next) {
   if (specifier.startsWith("@/")) {
     return { url: pathToFileURL(resolveAliasPath(path.join(root, "src", specifier.slice(2)))).href, shortCircuit: true };
   }
+  if (specifier.startsWith(".") && context.parentURL?.startsWith("file:")) {
+    const resolved=resolveAliasPath(path.resolve(path.dirname(fileURLToPath(context.parentURL)),specifier));
+    if(existsSync(resolved))return {url:pathToFileURL(resolved).href,shortCircuit:true};
+  }
   return next(specifier, context);
 }
 

@@ -1,3 +1,4 @@
+import { isRcap2Enabled } from "./feature";
 import "server-only";
 
 import crypto from "node:crypto";
@@ -685,8 +686,8 @@ export async function getPartnerOnboardingPortal(
     role: context.role,
     canEdit:
       context.role === "partner_admin" &&
-      workspace.commercial_gate_status !== "blocked" &&
-      ["setup_in_progress", "waiting_on_partner"].includes(workspace.status),
+      (isRcap2Enabled() ? !["paused", "closed"].includes(workspace.status) : workspace.commercial_gate_status !== "blocked" &&
+      ["setup_in_progress", "waiting_on_partner"].includes(workspace.status)),
     data,
     sections,
     teamMembers: ((plannedUsersResult.data ?? []) as PlannedUserRow[]).map(
@@ -779,10 +780,10 @@ export async function savePartnerOnboardingSection<K extends OnboardingSectionKe
   }
 
   const portal = await getPartnerOnboardingPortal(context);
-  if (portal.workspace.commercialGateStatus === "blocked") {
+  if (!isRcap2Enabled() && portal.workspace.commercialGateStatus === "blocked") {
     throw new Phase1OnboardingError("commercially_blocked", "Complete the commercial requirements before editing setup.");
   }
-  if (!["setup_in_progress", "waiting_on_partner"].includes(portal.workspace.status)) {
+  if ((!isRcap2Enabled() && !["setup_in_progress", "waiting_on_partner"].includes(portal.workspace.status)) || ["paused", "closed"].includes(portal.workspace.status)) {
     throw new Phase1OnboardingError("invalid_transition", "This setup package is not currently editable.");
   }
   const section = portal.sections.find((candidate) => candidate.key === input.sectionKey);
