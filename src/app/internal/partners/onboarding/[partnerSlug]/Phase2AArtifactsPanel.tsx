@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useCallback, useRef, useState, type ReactNode } from "react";
 import { useHashDestination } from "@/components/partners/onboarding/use-hash-destination";
 
 import { Badge } from "@/components/ui/Badge";
@@ -50,14 +50,27 @@ const PARTNER_COPY: Record<string, string> = {
 export function Phase2AArtifactsPanel({
   partnerSlug,
   board,
-  readiness
+  readiness,
+  unifiedNavigation = false,
+  launchSimulation
 }: {
   partnerSlug: string;
   board: ArtifactBoard;
   readiness: LaunchReadiness | null;
+  unifiedNavigation?: boolean;
+  launchSimulation?: ReactNode;
 }) {
   const requests = useRef(new Map<string, string>());
   const [current, setCurrent] = useState(board);
+  const refreshProgramMaterials = useCallback(async () => {
+    const response = await fetch(
+      `/api/internal/partners/onboarding/phase1/${encodeURIComponent(partnerSlug)}/artifacts`,
+      { cache: "no-store" }
+    );
+    const body = await response.json();
+    if (!response.ok || !body.board) throw new Error("Program saved. Refresh this page to load its updated materials.");
+    setCurrent(body.board);
+  }, [partnerSlug]);
   const [pending, setPending] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
   type Area = "artifacts" | "co_branded_page" | "launch_readiness" | "resources";
@@ -77,12 +90,24 @@ export function Phase2AArtifactsPanel({
 
   async function mutate(action: string, payload: Record<string, unknown>) {
     if (pending) return;
-    const key = JSON.stringify({ action, payload });
-    const requestId = requests.current.get(key) ?? crypto.randomUUID();
-    requests.current.set(key, requestId);
     setPending(true);
     setMessage(null);
     try {
+      if (action === "generate_package") {
+        // Preparation uses current source. Approval still binds to the exact
+        // versions the reviewer inspected; it never silently advances them.
+        const latest = await fetch(
+          `/api/internal/partners/onboarding/phase1/${encodeURIComponent(partnerSlug)}/artifacts`,
+          { cache: "no-store" }
+        );
+        const fresh = await latest.json();
+        if (!latest.ok || !fresh.board) throw new Error("Current materials could not be loaded.");
+        setCurrent(fresh.board);
+        payload = { ...payload, workspaceVersion: fresh.board.workspaceVersion };
+      }
+      const key = JSON.stringify({ action, payload });
+      const requestId = requests.current.get(key) ?? crypto.randomUUID();
+      requests.current.set(key, requestId);
       const response = await fetch(
         `/api/internal/partners/onboarding/phase1/${encodeURIComponent(partnerSlug)}/artifacts`,
         {
@@ -115,6 +140,10 @@ export function Phase2AArtifactsPanel({
     }
   }
 
+  const packageEntries = current.entries.filter(entry => entry.artifactType !== "partner_launch_kit");
+  const isApproved = (entry: ArtifactBoardEntry) => entry.sourceFreshness === "current" && entry.currentVersion?.approvalStatus === "approved";
+  const packageApproved = packageEntries.length === 5 && packageEntries.every(isApproved);
+
   const pageEntry =
     current.entries.find(
       (entry) => entry.artifactType === "co_branded_page_configuration"
@@ -122,6 +151,11 @@ export function Phase2AArtifactsPanel({
 
   return (
     <section className="mt-8" aria-labelledby="launch-prep-heading">
+      {/* Stable hash targets exist even before their conditional tabpanels mount.
+          Safari otherwise updates the address bar without moving the operator. */}
+      {(["artifacts", "co_branded_page", "launch_readiness", "resources"] as const).map(key => (
+        <span key={key} id={`launch-prep-area-${key}`} className="block scroll-mt-52 sm:scroll-mt-28" aria-hidden="true" />
+      ))}
       <div className="flex flex-wrap items-baseline justify-between gap-2">
         <h2 id="launch-prep-heading" className="text-xl font-black text-navy">
           Launch package and review
@@ -131,7 +165,7 @@ export function Phase2AArtifactsPanel({
         </p>
       </div>
 
-      <div className="mt-3 flex flex-wrap gap-2" role="tablist" aria-label="Launch preparation areas">
+      <div hidden={unifiedNavigation} className={unifiedNavigation ? "hidden" : "mt-3 flex flex-wrap gap-2"} role="tablist" aria-label="Launch preparation areas">
         {(
           [
             ["artifacts", "Launch package"],
@@ -146,7 +180,7 @@ export function Phase2AArtifactsPanel({
             role="tab"
             id={`launch-prep-tab-${key}`}
             aria-selected={area === key}
-            aria-controls={`launch-prep-area-${key}`}
+            aria-controls={`launch-prep-panel-${key}`}
             className={`inline-flex min-h-11 items-center rounded-md border px-4 py-2 text-sm font-bold ${
               area === key
                 ? "border-navy bg-navy text-white"
@@ -171,7 +205,7 @@ export function Phase2AArtifactsPanel({
       {area === "co_branded_page" ? (
         <div
           className="mt-4"
-          id="launch-prep-area-co_branded_page"
+          id="launch-prep-panel-co_branded_page"
           role="tabpanel"
           aria-labelledby="launch-prep-tab-co_branded_page"
         >
@@ -187,7 +221,7 @@ export function Phase2AArtifactsPanel({
       ) : area === "launch_readiness" ? (
         <div
           className="mt-4"
-          id="launch-prep-area-launch_readiness"
+          id="launch-prep-panel-launch_readiness"
           role="tabpanel"
           aria-labelledby="launch-prep-tab-launch_readiness"
         >
@@ -195,13 +229,15 @@ export function Phase2AArtifactsPanel({
             <LaunchReadinessPanel
               partnerSlug={partnerSlug}
               readiness={readiness}
+              onProgramChange={refreshProgramMaterials}
             />
           ) : null}
+          {launchSimulation}
         </div>
       ) : area === "resources" ? (
         <div
           className="mt-4"
-          id="launch-prep-area-resources"
+          id="launch-prep-panel-resources"
           role="tabpanel"
           aria-labelledby="launch-prep-tab-resources"
         >
@@ -210,14 +246,14 @@ export function Phase2AArtifactsPanel({
       ) : (
         <div
           className="mt-4 space-y-4"
-          id="launch-prep-area-artifacts"
+          id="launch-prep-panel-artifacts"
           role="tabpanel"
           aria-labelledby="launch-prep-tab-artifacts"
         >
           <Card className="p-5">
             <h3 className="text-xl font-bold">Review the launch package</h3>
-            <p className="mt-3 text-sm leading-6">Open each required document and confirm that you reviewed the exact version. A package decision records individual LegalEase approvals; partner confirmation stays separate.</p>
-            <div className="mt-4 space-y-3">{current.entries.filter(entry => entry.artifactType !== "partner_launch_kit").map(entry => {
+            <p className="mt-3 text-sm leading-6">Review the new or changed documents together. Existing approvals remain valid for unchanged versions. Partner confirmation stays separate.</p>
+            <div className="mt-4 space-y-3">{packageEntries.filter(entry => !isApproved(entry)).map(entry => {
               const version = entry.currentVersion;
               return <label key={entry.artifactType} className="flex min-h-11 items-start gap-3 text-sm">
                 <input type="checkbox" className="mt-1 h-5 w-5" disabled={!version?.snapshotHash || viewed[version.id] !== version.snapshotHash || version.approvalStatus === "superseded" || entry.sourceFreshness !== "current"}
@@ -226,10 +262,11 @@ export function Phase2AArtifactsPanel({
                 <span>I reviewed {entry.label}{version ? `, version ${version.versionNumber}` : " (not yet generated)"}</span>
               </label>;
             })}</div>
-            {current.packageReviewEnabled ? <button type="button" className={`${buttonClass} mt-5`} disabled={pending || current.entries.filter(entry=>entry.artifactType!=="partner_launch_kit").some(entry=>!entry.currentVersion?.snapshotHash || reviewed[entry.currentVersion.id]!==entry.currentVersion.snapshotHash)}
+            {packageApproved ? <p className="mt-5 font-bold text-teal" role="status">Current review package approved.</p> : current.packageReviewEnabled ? <button type="button" className={`${buttonClass} mt-5`} disabled={pending || packageEntries.some(entry=>!isApproved(entry) && (!entry.currentVersion?.snapshotHash || reviewed[entry.currentVersion.id]!==entry.currentVersion.snapshotHash))}
               onClick={()=>mutate("approve_package",{workspaceVersion:current.workspaceVersion,reviewedVersions:current.entries.filter(entry=>entry.artifactType!=="partner_launch_kit").map(entry=>({id:entry.currentVersion?.id,snapshotHash:entry.currentVersion?.snapshotHash}))})}>Approve reviewed launch package</button>
               : <p className="mt-5 text-sm text-grayWilma-700">Package approval awaits the audited Launch Studio release. Existing individual document review remains available below.</p>}
           </Card>
+          <button type="button" className={buttonClass} disabled={pending} onClick={() => mutate("generate_package", {workspaceVersion: current.workspaceVersion})}>Prepare current review package</button>
           {current.entries.map((entry) => (
             <ArtifactRow
               key={entry.artifactType}
@@ -339,6 +376,7 @@ function ArtifactRow({
         </div>
       </div>
 
+      <details className="mt-4"><summary className="cursor-pointer text-sm font-bold">Document history and details</summary>
       <dl className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
         <Detail term="Generation">
           {!entry.available
@@ -360,7 +398,7 @@ function ArtifactRow({
         <Detail term="Last generated">
           {version ? version.generatedAt.slice(0, 10) : "—"}
         </Detail>
-      </dl>
+      </dl></details>
 
       {entry.blocker ? (
         <p className="mt-3 rounded-md border border-grayWilma-200 bg-[#faf9f7] px-3 py-2 text-xs font-semibold text-grayWilma-700">
@@ -370,9 +408,7 @@ function ArtifactRow({
 
       {entry.sourceFreshness === "stale" && entry.staleFields.length > 0 ? (
         <>
-          <p className="mt-2 text-xs text-orange">
-            Changed since this version: {entry.staleFields.join(", ")}
-          </p>
+          <p className="mt-2 text-xs text-orange">Program information used by this document changed. Prepare the current review package.</p>
           <p className="mt-1 text-xs font-bold text-orange">
             {invalidationSummary(entry.invalidatedApprovals)}
           </p>
@@ -415,7 +451,7 @@ function ArtifactRow({
               <button type="button" className={quietButtonClass} onClick={onOpenComment}>
                 Request changes
               </button>
-              <button
+              {!retirementEnabled ? <button
                 type="button"
                 className={quietButtonClass}
                 disabled={pending || !canApprove}
@@ -424,7 +460,7 @@ function ArtifactRow({
                 }
               >
                 Approve version
-              </button>
+              </button> : null}
               {version.approvalStatus === "approved" ? (
                 <a
                   className={quietButtonClass}

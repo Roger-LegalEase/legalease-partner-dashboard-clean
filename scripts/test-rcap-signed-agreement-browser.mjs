@@ -43,10 +43,29 @@ async function check(name,fn){await fn();results.push({name,status:'PASS'});cons
 async function signIn(page,u,next){await page.goto(`${origin}/sign-in?next=${encodeURIComponent(next)}`);await page.waitForFunction(()=>{const f=document.querySelector('form');return f&&Object.keys(f).some(k=>k.startsWith('__reactProps$')&&typeof f[k]?.onSubmit==='function');});await page.locator('input[type=email]').fill(u.email);await page.locator('input[type=password]').fill(password);await page.getByRole('button',{name:/^sign in$/i}).click();await page.waitForURL(u=>!u.pathname.startsWith('/sign-in'),{timeout:60000});}
 const page=await ctx.newPage(),path=`/internal/partners/onboarding/${slug}`;
 try{
-await check('verified Platform Admin login and Fresh Start conflicting-state blocker',async()=>{await signIn(page,admin,path);await page.getByRole('tab',{name:'Review & launch',exact:true}).click();await page.getByRole('link',{name:'Review program funding and terms',exact:true}).first().waitFor();assert.equal((await ok(await db.from('partner_onboarding').select('agreement_status').eq('id',workspace.id).single())).agreement_status,'not_sent');});
+await check('verified Platform Admin login and Fresh Start conflicting-state blocker',async()=>{await signIn(page,admin,path);await page.getByRole('navigation',{name:'Launch Studio tasks'}).getByRole('link',{name:'Launch',exact:true}).click();await page.getByRole('link',{name:'Review program funding and terms',exact:true}).first().waitFor();assert.equal((await ok(await db.from('partner_onboarding').select('agreement_status').eq('id',workspace.id).single())).agreement_status,'not_sent');});
+await check('top Review & launch navigation scrolls to the mounted panel',async()=>{
+ await page.goto(`${origin}${path}`);
+ const nav=page.getByRole('navigation',{name:'Launch Studio tasks'});
+ await nav.getByRole('link',{name:'Launch',exact:true}).click();
+ await page.waitForFunction(()=>{
+  const anchor=document.getElementById('launch-prep-area-launch_readiness');
+  const tab=document.getElementById('launch-prep-tab-launch_readiness');
+  const panel=document.getElementById('launch-prep-panel-launch_readiness');
+  return !!anchor && !!panel && tab?.getAttribute('aria-selected')==='true'
+    && anchor.getBoundingClientRect().top>=0 && anchor.getBoundingClientRect().top<200;
+ });
+ assert.equal(await page.locator('#launch-prep-tab-launch_readiness').getAttribute('aria-selected'),'true');
+ await page.reload();
+ await page.waitForFunction(()=>{
+  const tab=document.getElementById('launch-prep-tab-launch_readiness');
+  return tab?.getAttribute('aria-selected')==='true'
+    && !!document.getElementById('launch-prep-panel-launch_readiness');
+ });
+});
 const card=page.locator('#internal-operation-agreement');
 await check('first blocker click expands, scrolls and focuses the actual agreement control',async()=>{await page.getByRole('link',{name:'Review program funding and terms',exact:true}).first().click();await card.waitFor({state:'visible'});await page.waitForFunction(()=>Boolean(document.activeElement?.closest('#internal-operation-agreement')));assert.equal(await page.locator('#setup-review').evaluate(d=>d.open),true);assert.equal(await card.getByLabel(/^Status/).inputValue(),'approved');await page.screenshot({path:`${output}/agreement-open.png`,fullPage:true});});
-await check('same-hash repeat, refresh and direct URL reveal the editable control',async()=>{await page.getByRole('tab',{name:'Review & launch',exact:true}).click();await page.locator('#setup-review').evaluate(d=>d.open=false);await page.getByRole('link',{name:'Review program funding and terms',exact:true}).first().click();await card.waitFor({state:'visible'});await page.waitForURL(u=>u.hash==='#internal-operation-agreement');await page.reload();await card.waitFor({state:'visible'});await page.waitForFunction(()=>Boolean(document.activeElement?.closest('#internal-operation-agreement')));await page.goto(origin+path+'#internal-operation-agreement');await card.waitFor({state:'visible'});});
+await check('same-hash repeat, refresh and direct URL reveal the editable control',async()=>{await page.getByRole('navigation',{name:'Launch Studio tasks'}).getByRole('link',{name:'Launch',exact:true}).click();await page.locator('#setup-review').evaluate(d=>d.open=false);await page.getByRole('link',{name:'Review program funding and terms',exact:true}).first().click();await card.waitFor({state:'visible'});await page.waitForURL(u=>u.hash==='#internal-operation-agreement');await page.reload();await card.waitFor({state:'visible'});await page.waitForFunction(()=>Boolean(document.activeElement?.closest('#internal-operation-agreement')));await page.goto(origin+path+'#internal-operation-agreement');await card.waitFor({state:'visible'});});
 const executed=await PDFDocument.create();const sheet=executed.addPage();sheet.drawText('DISPOSABLE EXECUTED AGREEMENT - NO REAL PARTNER');sheet.drawText('Synthetic partner execution: Test Partner',{x:30,y:650});sheet.drawText('Synthetic LegalEase execution: Test Admin',{x:30,y:620});const signedBytes=Buffer.from(await executed.save());
 await check('authorized Admin records actual inspected private executed-copy evidence',async()=>{await card.getByLabel(/^Status/).selectOption('executed');await page.locator('#signed-agreement-file').setInputFiles({name:'executed-fixture.pdf',mimeType:'application/pdf',buffer:signedBytes});await card.getByLabel(/^Effective date/).fill('2026-10-01');await card.getByLabel('Reviewer evidence note').fill('Inspected both synthetic executed signatures and correct fixture partner identity.');await card.getByRole('checkbox',{name:/I personally inspected/}).check();await page.route('**/signed-agreement',async route=>{const committed=await route.fetch();assert.equal(committed.status(),200,await committed.text());await route.abort('failed');});
 await card.getByRole('button',{name:'Record verified signed agreement'}).click();

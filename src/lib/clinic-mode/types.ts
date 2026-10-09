@@ -11,6 +11,7 @@ export type ClinicStaffPermission = (typeof CLINIC_STAFF_PERMISSIONS)[number];
 
 export type ClinicEvent = {
   id: string;
+  staffPermissions?: ClinicStaffPermission[];
   partnerSlug: string;
   publicSlug: string;
   name: string;
@@ -56,11 +57,15 @@ export type ClinicAuditEntry = {
   occurredAt: string;
 };
 
+export type ClinicProgramOption = { slug: string; name: string; geography: string; jurisdictions: string[] };
+
 export type ClinicEventWorkspace = {
+  partnerName?: string;
   event: ClinicEvent;
   entryUrl: string;
   qrDataUrl: string;
   staff: ClinicEventStaff[];
+  staffOptions?: Array<{ id: string; email: string }>;
   accessCodes: ClinicAccessCodeSummary[];
   audit: ClinicAuditEntry[];
 };
@@ -107,6 +112,7 @@ export type ClinicParticipantSession = {
 
 export type ClinicQueueCase = {
   id: string;
+  reference?: string;
   eventId: string;
   participantUserId: string;
   queueStatus: "started" | "in_progress" | "needs_information" | "attorney_review" | "packet_ready" | "referred" | "closed";
@@ -122,6 +128,7 @@ export type ClinicQueueCase = {
 export type ClinicFollowUp = {
   id: string;
   clinicCaseId: string;
+  caseReference?: string;
   ownerEventStaffId: string | null;
   jurisdiction: string;
   dueAt: string | null;

@@ -7,6 +7,7 @@ import { Card } from "@/components/ui/Card";
 import { LaunchKitView } from "@/components/partners/onboarding/LaunchKitView";
 import { LaunchReadinessView } from "@/components/partners/onboarding/LaunchReadinessView";
 import type { ArtifactBoardEntry } from "@/lib/partners/onboarding/artifact-service";
+import { requiresPartnerLaunchReview } from "@/lib/partners/onboarding/partner-material-policy";
 import { ACTION_FAILURE_COPY } from "@/lib/partners/onboarding/partner-copy";
 import type {
   LaunchCheckEvaluation,
@@ -42,7 +43,7 @@ export function PartnerResourcesClient({
   const available = entries.filter(
     (entry) =>
       entry.currentVersion?.approvalStatus === "approved" &&
-      entry.currentVersion.partnerReviewStatus === "approved"
+      (!requiresPartnerLaunchReview(entry.artifactType) || entry.currentVersion.partnerReviewStatus === "approved")
   );
   const launchKit = entries.find(
     (entry) => entry.artifactType === "partner_launch_kit"

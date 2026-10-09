@@ -10,6 +10,7 @@ import type {
   ClinicAccessCodeSummary,
   ClinicAuditEntry,
   ClinicEvent,
+  ClinicProgramOption,
   ClinicEventStaff,
   ClinicEventStatus,
   ClinicEventWorkspace,
@@ -22,6 +23,12 @@ export { ClinicServiceError } from "@/lib/clinic-mode/errors";
 
 type ClinicActor = SessionPartner;
 
+export async function requireClinicPartnerActor() {
+  const actor = await resolveClinicActor();
+  if (actor.kind !== "partner") throw new ClinicServiceError("forbidden", "A partner account is required.");
+  return actor;
+}
+
 export async function requireClinicPartnerAdmin() {
   const actor = await resolveClinicActor();
   if (actor.kind !== "partner" || actor.role !== "partner_admin") {
@@ -30,14 +37,48 @@ export async function requireClinicPartnerAdmin() {
   return actor;
 }
 
+/** Program choices come from the same administrator scope as event creation. */
+export async function listClinicPrograms(): Promise<ClinicProgramOption[]> {
+  const actor = await requireClinicEventAdministrator();
+  const db = requireDatabase();
+  let query = db.from("partner_records").select("partner_slug,organization_name,partner_name,target_state,state").order("organization_name");
+  if (actor.kind === "partner") query = query.eq("partner_slug", actor.partnerSlug);
+  const records = await query;
+  if (records.error) throw new ClinicServiceError("unavailable", "Partner programs could not be loaded. Please retry.");
+  if (!records.data?.length) return [];
+  const workspaces = await db.from("partner_onboarding").select("id,partner_slug").in("partner_slug", records.data.map(row => row.partner_slug));
+  if (workspaces.error) throw new ClinicServiceError("unavailable", "Program information could not be loaded. Please retry.");
+  const sections = workspaces.data?.length ? await db.from("partner_onboarding_sections").select("workspace_id,response_data")
+    .in("workspace_id", workspaces.data.map(row => row.id)).eq("section_key", "geography_audience_language_accessibility") : {data: [], error: null};
+  if (sections.error) throw new ClinicServiceError("unavailable", "Program geography could not be loaded. Please retry.");
+  return records.data.map(record => {
+    const workspace = workspaces.data?.find(row => row.partner_slug === record.partner_slug);
+    const data = sections.data?.find(row => row.workspace_id === workspace?.id)?.response_data ?? {};
+    const fallback = record.target_state || record.state;
+    return {slug: record.partner_slug, name: record.organization_name || record.partner_name,
+      geography: typeof data.service_area_description === "string" ? data.service_area_description : "",
+      jurisdictions: Array.isArray(data.jurisdictions) ? data.jurisdictions.filter((value: unknown): value is string => typeof value === "string") : fallback ? [fallback] : []};
+  });
+}
+
 export async function listClinicEvents(): Promise<ClinicEvent[]> {
   const actor = await resolveClinicActor();
   const db = requireDatabase();
   let query = db.from("clinic_events").select("*").order("starts_at", { ascending: false });
   if (actor.kind === "partner") query = query.eq("partner_slug", actor.partnerSlug);
+  let assignments: Array<{event_id: string; permissions: ClinicEventStaff["permissions"]}> = [];
+  if (actor.kind === "partner" && actor.role !== "partner_admin") {
+    const member = await db.from("partner_users").select("id").eq("auth_user_id", actor.authUserId).eq("partner_slug", actor.partnerSlug).eq("status", "active").single();
+    if (member.error) throw new ClinicServiceError("forbidden", "Your partner team access could not be verified.");
+    const assigned = await db.from("clinic_event_staff").select("event_id,permissions").eq("partner_user_id", member.data.id).eq("status", "approved");
+    if (assigned.error) throw new ClinicServiceError("unavailable", "Assigned clinics could not be loaded. Please retry.");
+    assignments = assigned.data ?? [];
+    if (!assignments.length) return [];
+    query = query.in("id", assignments.map(row => row.event_id));
+  }
   const result = await query;
   if (result.error) throw new ClinicServiceError("unavailable", "Clinic events are temporarily unavailable.");
-  return (result.data ?? []).map(mapEvent);
+  return (result.data ?? []).map(row => ({...mapEvent(row), staffPermissions: assignments.find(assignment => assignment.event_id === row.id)?.permissions}));
 }
 
 export async function getClinicEventWorkspace(eventId: string): Promise<ClinicEventWorkspace> {
@@ -58,12 +99,22 @@ export async function getClinicEventWorkspace(eventId: string): Promise<ClinicEv
     throw new ClinicServiceError("unavailable", "Clinic workspace details are temporarily unavailable.");
   }
   const event = mapEvent(eventResult.data);
+  // Use the event's already-authorized tenant, never a client-supplied scope.
+  let membersQuery = db.from("partner_users").select("id,invited_email")
+    .eq("partner_slug", event.partnerSlug).eq("status", "active").in("role", ["partner_admin", "partner_staff"]);
+  const staffOnly = actor.kind === "partner" && actor.role !== "partner_admin";
+  if (staffOnly) membersQuery = membersQuery.in("id", (staffResult.data ?? []).map(row => row.partner_user_id));
+  const members = staffOnly && !staffResult.data?.length ? {data: [], error: null} : await membersQuery;
+  if (members.error) throw new ClinicServiceError("unavailable", "The partner team could not be loaded. Please retry.");
+  const partner = await db.from("partner_records").select("organization_name,partner_name").eq("partner_slug", event.partnerSlug).maybeSingle();
   const entryUrl = absolutePartnerAppUrl(`/clinic/${event.publicSlug}`);
   return {
     event,
+    partnerName: partner.data?.organization_name || partner.data?.partner_name || "Partner program",
     entryUrl,
     qrDataUrl: await QRCode.toDataURL(entryUrl, { margin: 1, width: 320, errorCorrectionLevel: "M" }),
     staff: (staffResult.data ?? []).map(mapStaff),
+    staffOptions: (members.data ?? []).flatMap(member => member.invited_email ? [{ id: member.id, email: member.invited_email }] : []),
     accessCodes: (codesResult.data ?? []).map(mapCode),
     audit: (auditResult.data ?? []).map(mapAudit)
   };

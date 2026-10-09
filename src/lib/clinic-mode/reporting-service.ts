@@ -1,4 +1,5 @@
 import "server-only";
+import { clinicCaseReference } from "./case-reference";
 
 import { createHash } from "node:crypto";
 import { cookies } from "next/headers";
@@ -56,7 +57,7 @@ export async function listClinicFollowUps(eventId: string): Promise<ClinicFollow
     p_actor_user_id: actorUserId
   });
   if (result.error) throw readError(result.error.message, "Clinic follow-up is unavailable.");
-  return ((result.data ?? []) as Record<string, unknown>[]).map(mapFollowUp);
+  return ((result.data ?? []) as Record<string, unknown>[]).map(row => mapFollowUp(row, eventId));
 }
 
 export async function saveClinicFollowUp(eventId: string, input: SaveClinicFollowUpInput): Promise<string> {
@@ -127,10 +128,11 @@ function accountingResult(result: { data: unknown; error: { message?: string } |
   };
 }
 
-function mapFollowUp(row: Record<string, unknown>): ClinicFollowUp {
+function mapFollowUp(row: Record<string, unknown>, eventId: string): ClinicFollowUp {
   return {
     id: String(row.id),
     clinicCaseId: String(row.clinic_case_id),
+    caseReference: clinicCaseReference(eventId, String(row.clinic_case_id)),
     ownerEventStaffId: row.owner_event_staff_id ? String(row.owner_event_staff_id) : null,
     jurisdiction: String(row.jurisdiction),
     dueAt: row.due_at ? String(row.due_at) : null,

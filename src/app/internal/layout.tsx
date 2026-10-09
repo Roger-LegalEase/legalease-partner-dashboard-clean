@@ -52,7 +52,7 @@ export default async function InternalLayout({ children }: { children: ReactNode
             </p>
             <p>
               <span className="font-semibold text-grayWilma-600">Role:</span>{" "}
-              <span className="font-black text-navy">{access.session.role}</span>
+              <span className="font-black text-navy">Platform Admin</span>
             </p>
             <form action="/sign-out" method="post">
               <button
@@ -67,9 +67,9 @@ export default async function InternalLayout({ children }: { children: ReactNode
         </div>
       </header>
       <nav aria-label="Internal workspace navigation" className="flex flex-wrap gap-4 border-b border-grayWilma-200 bg-white px-4 py-2 md:px-6">
-        <Link href="/internal" className="inline-flex min-h-11 items-center font-bold text-teal">Back to Command Center</Link>
-        <Link href="/internal/partners/onboarding" className="inline-flex min-h-11 items-center font-bold text-navy">Partners</Link>
-        <Link href="/internal/command-center/performance" className="inline-flex min-h-11 items-center font-bold text-navy">Performance / health</Link>
+        <Link prefetch={false} href="/internal" className="inline-flex min-h-11 items-center font-bold text-teal">Back to Command Center</Link>
+        <Link prefetch={false} href="/internal/partners/onboarding" className="inline-flex min-h-11 items-center font-bold text-navy">Partners</Link>
+        <Link prefetch={false} href="/internal/command-center/performance" className="inline-flex min-h-11 items-center font-bold text-navy">Performance / health</Link>
       </nav>
       {children}
     </div>

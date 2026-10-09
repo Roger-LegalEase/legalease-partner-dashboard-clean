@@ -1,3 +1,7 @@
+import { ManagedProgramEditor } from "@/components/partners/onboarding/ManagedProgramEditor";
+import { LaunchSimulation } from "@/components/partners/onboarding/LaunchSimulation";
+import { isDisposableLaunchEnvironment } from "@/lib/partners/onboarding/synthetic-launch-security";
+import { StudioSection } from "@/components/partners/onboarding/StudioSection";
 import {AssetReviewControl} from "./AssetReviewControl";
 import Link from "next/link";
 import { InternalAdminDenied, resolveInternalAdminPageAccess } from "@/lib/partners/internal-admin-gate";
@@ -36,24 +40,27 @@ export default async function OnboardingDetailPage({ params }: { params: Promise
     try {
       const context = await requireInternalOnboardingContext(partnerSlug);
       phase1Snapshot = await getInternalOnboardingSnapshot(context);
-      if (phase1Snapshot.workspace && isRcapOnboardingPrefillEnabled()) {
-        try {
-          prefillSnapshot = await getInternalPrefillSnapshot(context);
-        } catch {
-          prefillLoadError = "The prefill tools could not be loaded. Phase 1 review remains available.";
-        }
-      }
       if (phase1Snapshot.workspace && isRcapOnboardingLaunchPrepEnabled()) {
         // One call: readiness carries the artifact board it was derived from,
         // so the page does not read the same source twice.
         try {
           launchPrep = await getInternalLaunchReadiness(context);
         } catch {
-          launchPrepLoadError = "Launch preparation could not be loaded. Phase 1 review remains available; reload to retry.";
+          launchPrepLoadError = "The review package could not be loaded. Reload to retry.";
+        }
+      }
+      // Readiness can record a state transition. Read editors after that write
+      // so their optimistic versions describe the page the operator receives.
+      phase1Snapshot = await getInternalOnboardingSnapshot(context);
+      if (phase1Snapshot.workspace && isRcapOnboardingPrefillEnabled()) {
+        try {
+          prefillSnapshot = await getInternalPrefillSnapshot(context);
+        } catch {
+          prefillLoadError = "Program information could not be loaded. Reload to retry.";
         }
       }
     } catch {
-      phase1LoadError = "The Phase 1 onboarding workspace could not be loaded.";
+      phase1LoadError = "This partner program could not be loaded. Reload to retry.";
     }
 
     return (
@@ -70,59 +77,57 @@ export default async function OnboardingDetailPage({ params }: { params: Promise
               RCAP Partner Launch Studio
             </p>
             <h1 className="mt-2 text-3xl font-black">Prepare your partner program</h1>
-            <nav aria-label="Launch Studio tasks" className="mt-5 flex flex-wrap gap-3">
-              <Link href="#setup-review" className="inline-flex min-h-11 items-center rounded-md border px-4 font-bold">Overview</Link>
-              <Link href="#prefill-heading" className="inline-flex min-h-11 items-center rounded-md border px-4 font-bold">Setup</Link>
-              <Link href="#launch-prep-area-co_branded_page" className="inline-flex min-h-11 items-center rounded-md border px-4 font-bold">Page preview</Link>
-              <Link href="#launch-prep-area-launch_readiness" className="inline-flex min-h-11 items-center rounded-md bg-navy px-4 font-bold text-white">Review & launch</Link>
-            </nav>
+
             <p className="mt-2 text-sm text-grayWilma-700">
-              Partner: <span className="font-mono font-semibold">{partnerSlug}</span>
+              Partner: <span className="font-semibold">{String(prefillSnapshot?.currentValues?.public_organization_name ?? prefillSnapshot?.currentValues?.legal_organization_name ?? "Partner program")}</span>
             </p>
           </header>
+            <nav aria-label="Launch Studio tasks" className="sticky top-0 z-[60] mt-5 flex flex-wrap gap-3 border-b bg-[#f7f8f6] py-3">
+              <Link href="/internal/partners/onboarding" className="inline-flex min-h-11 items-center rounded-md border px-4 font-bold">Create / resume partner</Link>
+              <a href="#prefill-heading" className="inline-flex min-h-11 items-center rounded-md border px-4 font-bold">Configure program</a>
+              <a href="#launch-prep-area-co_branded_page" className="inline-flex min-h-11 items-center rounded-md border px-4 font-bold">Preview</a>
+              <a href="#launch-prep-area-artifacts" className="inline-flex min-h-11 items-center rounded-md border px-4 font-bold">Review</a>
+              <a href="#launch-prep-area-launch_readiness" className="inline-flex min-h-11 items-center rounded-md bg-navy px-4 font-bold text-white">Launch</a>
+            </nav>
 
           {phase1LoadError || !phase1Snapshot ? (
             <p className="mt-6 rounded-md border border-orange/30 bg-orange/10 px-4 py-3 text-sm font-semibold text-orange">
-              {phase1LoadError ?? "The Phase 1 workspace was not found."}
+              {phase1LoadError ?? "This partner program was not found."}
             </p>
           ) : (
             <>
-              {launchPrep?.program ? <section className="mt-6 rounded-xl border border-teal/30 bg-white p-6" aria-label="Program status">
-                <h2 className="text-xl font-bold">{launchPrep.program.status}</h2>
-                <p className="mt-3 text-sm">{launchPrep.program.funding.explanation}</p>
-                <p className="mt-2 text-sm">Recorded payment: {launchPrep.program.funding.paymentStatus ?? "Unavailable"}. Screening allowance: {launchPrep.program.screeningAllowance.value ?? "Not configured"}. Packet allowance: {launchPrep.program.packetAllowance.value ?? (launchPrep.program.packetAllowance.status === "unavailable" ? "Unavailable" : "Not configured")}.</p>
-                {launchPrep.program.discrepancies.map(detail => <p key={detail} className="mt-3 text-sm text-orange">{detail}</p>)}
-              </section> : null}
-              <details id="setup-review" className="mt-6 rounded-xl border bg-white p-6">
-                <summary className="min-h-11 cursor-pointer font-bold">Detailed setup review</summary>
-              <Phase1InternalReviewPanel
-                partnerSlug={partnerSlug}
-                snapshot={phase1Snapshot}
-                launchPreparation={launchPrep ? { href: "#launch-prep-heading" } : undefined}
-              />
-              </details>
-              <AssetReviewControl partnerSlug={partnerSlug} assets={phase1Snapshot.assets} />
-              {prefillLoadError ? <p role="status" className="mt-6 text-sm text-orange">{prefillLoadError}</p> : null}
-              {launchPrepLoadError ? <p role="status" className="mt-6 text-sm text-orange">{launchPrepLoadError}</p> : null}
-              {prefillSnapshot ? (
-                <Phase1PrefillPanel
-                  partnerSlug={partnerSlug}
-                  snapshot={prefillSnapshot}
-                />
-              ) : null}
-              {launchPrep?.board.legalEasePageConfiguration ? (
-                <LegalEasePublicPageLanguagePanel
-                  partnerSlug={partnerSlug}
-                  configuration={launchPrep.board.legalEasePageConfiguration}
-                />
-              ) : null}
+              <StudioSection stage="configure">
+                {prefillSnapshot ? <ManagedProgramEditor partnerSlug={partnerSlug} snapshot={prefillSnapshot} /> : null}
+                <Link href={`/internal/clinic?partner=${encodeURIComponent(partnerSlug)}`} className="mt-6 inline-flex min-h-11 items-center rounded-md border border-teal px-5 font-bold text-teal">Configure clinic events</Link>
+                {prefillLoadError ? <p role="status" className="mt-6 text-sm text-orange">{prefillLoadError}</p> : null}
+                {launchPrepLoadError ? <p role="status" className="mt-6 text-sm text-orange">{launchPrepLoadError}</p> : null}
+                <details id="setup-review" className="mt-6 rounded-xl border bg-white p-6">
+                  <summary className="min-h-11 cursor-pointer font-bold">Funding, agreements, and administrative settings</summary>
+                  <Phase1InternalReviewPanel partnerSlug={partnerSlug} snapshot={phase1Snapshot} launchPreparation={launchPrep ? { href: "#launch-prep-area-artifacts" } : undefined} />
+                  <AssetReviewControl partnerSlug={partnerSlug} assets={phase1Snapshot.assets} />
+                  {launchPrep?.board.legalEasePageConfiguration ? <LegalEasePublicPageLanguagePanel partnerSlug={partnerSlug} configuration={launchPrep.board.legalEasePageConfiguration} /> : null}
+                  {launchPrep?.program ? <details className="mt-6"><summary className="cursor-pointer font-bold">Administrative diagnostics</summary>
+                    <p>{launchPrep.program.funding.explanation}</p>
+                    <p>Recorded payment: {launchPrep.program.funding.paymentStatus ?? "Unavailable"}. Screening allowance: {launchPrep.program.screeningAllowance.value ?? "Not configured"}. Packet allowance: {launchPrep.program.packetAllowance.value ?? "Not configured"}.</p>
+                    {launchPrep.program.discrepancies.map(detail => <p key={detail}>{detail}</p>)}
+                  </details> : null}
+                </details>
+                <details className="mt-6"><summary className="min-h-11 cursor-pointer font-bold">Preparation history and corrections</summary>
+                  {prefillSnapshot ? <Phase1PrefillPanel key={prefillSnapshot.workspace?.aggregateVersion} partnerSlug={partnerSlug} snapshot={prefillSnapshot} /> : null}
+                </details>
+              </StudioSection>
+              <StudioSection stage="materials">
               {launchPrep ? (
                 <Phase2AArtifactsPanel
+                  key={launchPrep.board.workspaceVersion}
                   partnerSlug={partnerSlug}
                   board={launchPrep.board}
                   readiness={launchPrep.readiness}
+                  unifiedNavigation
+                  launchSimulation={isDisposableLaunchEnvironment() ? <LaunchSimulation partnerSlug={partnerSlug} /> : undefined}
                 />
               ) : null}
+              </StudioSection>
             </>
           )}
         </div>

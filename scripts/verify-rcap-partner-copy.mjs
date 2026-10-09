@@ -18,6 +18,8 @@
 import { readFileSync, existsSync, readdirSync, statSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import assert from "node:assert/strict";
+import ts from "typescript";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const jsonMode = process.argv.includes("--json");
@@ -222,10 +224,6 @@ function extractCandidates(rel, source) {
     const propRe = new RegExp(`\\b(?:${COPY_PROPS})\\s*:\\s*(?:"([^"]*)"|'([^']*)'|\`([^\`]*)\`)`, "g");
     while ((m = propRe.exec(raw))) push(n, m[1] ?? m[2] ?? m[3] ?? "");
 
-    // 3. single-line JSX text nodes. Multi-line ones are handled after this loop.
-    const jsxRe = />([^<>{}\n]{4,})</g;
-    while ((m = jsxRe.exec(raw))) push(n, m[1]);
-
     // 4a. returned string literals in presentation modules
     const returnRe = /\breturn\s+(?:"([^"]{6,})"|'([^']{6,})'|`([^`]{6,})`)/g;
     while ((m = returnRe.exec(raw))) push(n, m[1] ?? m[2] ?? m[3] ?? "");
@@ -261,6 +259,27 @@ function extractCandidates(rel, source) {
       }
     }
   });
+
+  // Keep the existing text-node coverage, but require actual JSX syntax.
+  // Type generics and ternary expressions also contain > ... <; they are code.
+  const jsxTextRanges = [];
+  if (rel.endsWith(".tsx")) {
+    const tree = ts.createSourceFile(rel, clean, ts.ScriptTarget.Latest, true, ts.ScriptKind.TSX);
+    const visit = (node) => {
+      if (ts.isJsxText(node)) jsxTextRanges.push([node.pos, node.end]);
+      ts.forEachChild(node, visit);
+    };
+    visit(tree);
+  }
+  const jsxRe = />([^<>{}\n]{4,})</g;
+  let match;
+  while ((match = jsxRe.exec(clean))) {
+    const start = match.index + 1;
+    // Non-TSX modules include the existing branded email HTML string surfaces.
+    if (!rel.endsWith(".tsx") || jsxTextRanges.some(([from, to]) => from <= start && to >= start + match[1].length)) {
+      push(line_of(clean, start), match[1]);
+    }
+  }
 
   // 6. JSX text that prettier wrapped across several lines. A paragraph is one sentence to
   // the partner reading it, so it has to be judged as one string: the worst copy on the
@@ -334,6 +353,16 @@ function checkCandidate(file, line, prose, original = prose) {
 }
 
 /* ---------------------------------------------------------------------- run */
+
+const extractionProbe = extractCandidates("probe.tsx", `
+type Props = { rows: Record<string, unknown>[]; onChange: (rows: Record<string, unknown>[]) => void };
+const View = () => <div>{field.enumValues ? <span>Choose a person</span> : field.enumValues ? <select /> : null}
+  <p>Review database rows</p><p>Review the
+  database records</p></div>;
+`);
+assert(extractionProbe.some(candidate => candidate.prose === "Review database rows"));
+assert(extractionProbe.some(candidate => candidate.prose === "Review the database records"));
+assert(!extractionProbe.some(candidate => /onChange|Record|field\.enumValues/.test(candidate.prose)));
 
 const files = [
   ...SURFACE_DIRS.flatMap((d) => walk(d)),

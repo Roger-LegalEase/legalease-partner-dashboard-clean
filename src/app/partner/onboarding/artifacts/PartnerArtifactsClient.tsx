@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/Badge";
 import { Card } from "@/components/ui/Card";
 import { ArtifactDocumentView } from "@/components/partners/onboarding/ArtifactDocumentView";
 import { CoBrandedPageView } from "@/components/partners/onboarding/CoBrandedPageView";
+import { requiresPartnerLaunchReview } from "@/lib/partners/onboarding/partner-material-policy";
 import { ACTION_FAILURE_COPY } from "@/lib/partners/onboarding/partner-copy";
 import type {
   ArtifactBoard,
@@ -54,13 +55,14 @@ export function PartnerArtifactsClient({
 
   const awaiting = current.entries.filter(
     (entry) =>
+      requiresPartnerLaunchReview(entry.artifactType) &&
       entry.currentVersion?.partnerReviewStatus === "awaiting_partner" &&
       entry.currentVersion.approvalStatus === "approved"
   );
   const approved = current.entries.filter(
     (entry) =>
-      entry.currentVersion?.partnerReviewStatus === "approved" &&
-      entry.currentVersion.approvalStatus === "approved"
+      (!requiresPartnerLaunchReview(entry.artifactType) || entry.currentVersion?.partnerReviewStatus === "approved") &&
+      entry.currentVersion?.approvalStatus === "approved"
   );
 
   async function mutate(action: string, payload: Record<string, unknown>) {
@@ -206,6 +208,7 @@ function PartnerArtifactCard({
   const version = entry.currentVersion;
   if (!version) return null;
   const partnerApproved = version.partnerReviewStatus === "approved";
+  const reviewRequired = requiresPartnerLaunchReview(entry.artifactType);
 
   return (
     <Card className="p-5" data-artifact-type={entry.artifactType}>
@@ -217,8 +220,8 @@ function PartnerArtifactCard({
             {version.generatedAt.slice(0, 10)}
           </p>
         </div>
-        <Badge tone={partnerApproved ? "teal" : "orange"}>
-          {partnerApproved ? "You approved this" : "Needs your review"}
+        <Badge tone={partnerApproved || !reviewRequired ? "teal" : "orange"}>
+          {!reviewRequired ? "Reference material" : partnerApproved ? "You approved this" : "Needs your review"}
         </Badge>
       </div>
 
@@ -232,7 +235,7 @@ function PartnerArtifactCard({
         <button type="button" className={quietButtonClass} onClick={onTogglePreview}>
           {previewOpen ? "Hide preview" : "Preview"}
         </button>
-        {canReview && !partnerApproved ? (
+        {canReview && reviewRequired && !partnerApproved ? (
           <>
             <button
               type="button"
@@ -249,7 +252,7 @@ function PartnerArtifactCard({
             </button>
           </>
         ) : null}
-        {partnerApproved ? (
+        {partnerApproved || !reviewRequired ? (
           <a
             className={quietButtonClass}
             href={`/api/partners/onboarding/artifacts/download?versionId=${encodeURIComponent(
@@ -261,7 +264,7 @@ function PartnerArtifactCard({
         ) : null}
       </div>
 
-      {!canReview ? (
+      {!canReview && reviewRequired ? (
         <p className="mt-3 text-xs text-grayWilma-700">
           Your account can view these documents. A partner administrator approves
           them.

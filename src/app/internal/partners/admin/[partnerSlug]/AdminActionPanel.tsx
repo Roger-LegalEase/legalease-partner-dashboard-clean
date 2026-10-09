@@ -71,7 +71,7 @@ export function AdminActionPanel({ partnerSlug, assets }: { partnerSlug: string;
   }
 
   return (
-    <section className="rounded-md border border-orange/30 bg-orange/10 p-5">
+    <section id="partner-qualification" className="scroll-mt-24 rounded-md border border-orange/30 bg-orange/10 p-5">
       <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
         <div>
           <h2 className="text-lg font-black text-navy">Support actions</h2>
@@ -157,6 +157,8 @@ export function AdminActionPanel({ partnerSlug, assets }: { partnerSlug: string;
           Add Internal Note
         </Button>
       </div>
+
+      <a href={`/internal/partners/onboarding/${encodeURIComponent(partnerSlug)}#launch-commercial-authority`} className="mt-5 inline-flex min-h-11 items-center font-bold underline">Return to program launch</a>
 
       {result ? (
         <div className="mt-4 flex items-start gap-2 rounded-md border border-teal/30 bg-white px-3 py-3 text-sm font-semibold text-grayWilma-800">

@@ -4,6 +4,8 @@ import { Phase1OnboardingError } from "@/lib/partners/onboarding/errors";
 import { onboardingHttpError, onboardingJson } from "@/lib/partners/onboarding/http";
 import {
   addStructuredPrefillSuggestion,
+  savePreparedProgramValue,
+  applyKnownProgramFacts,
   applyOnboardingPrefill,
   getInternalPrefillSnapshot,
   importKnownPartnerData,
@@ -56,7 +58,16 @@ export async function POST(
     const payload = objectValue(body.payload);
     let result: unknown;
 
-    if (action === "import_known") {
+    if (action === "reuse_known") {
+      result = await applyKnownProgramFacts(context, {requestId});
+    } else if (action === "save_prepared") {
+      result = await savePreparedProgramValue(context, {
+        requestId, sectionKey: sectionKey(payload.sectionKey),
+        fieldKey: requiredString(payload.fieldKey, 120), proposedValue: payload.proposedValue,
+        expectedWorkspaceVersion: requiredVersion(body.expectedWorkspaceVersion),
+        expectedFieldValueHash: requiredString(payload.expectedFieldValueHash, 64)
+      });
+    } else if (action === "import_known") {
       result = await importKnownPartnerData(context, { requestId });
     } else if (action === "add") {
       result = await addStructuredPrefillSuggestion(context, {

@@ -17,20 +17,20 @@ export class ClinicValidationError extends Error {
 
 export function parseCreateClinicEvent(value: unknown): CreateClinicEventInput {
   const body = record(value);
-  const startsAt = isoDate(body.startsAt, "startsAt");
-  const endsAt = isoDate(body.endsAt, "endsAt");
-  if (Date.parse(endsAt) <= Date.parse(startsAt)) throw new ClinicValidationError("endsAt must be after startsAt.");
+  const startsAt = isoDate(body.startsAt, "Start time");
+  const endsAt = isoDate(body.endsAt, "End time");
+  if (Date.parse(endsAt) <= Date.parse(startsAt)) throw new ClinicValidationError("The end time must be after the start time.");
   return {
     partnerSlug: optionalSlug(body.partnerSlug),
     jurisdiction: optionalJurisdiction(body.jurisdiction),
-    publicSlug: slug(body.publicSlug, "publicSlug"),
-    name: text(body.name, "name", 3, 160),
+    publicSlug: slug(body.publicSlug, "Event link name"),
+    name: text(body.name, "Event name", 3, 160),
     startsAt,
     endsAt,
     timezone: text(body.timezone, "timezone", 3, 80),
-    locationName: text(body.locationName, "locationName", 2, 180),
+    locationName: text(body.locationName, "Location", 2, 180),
     geography: text(body.geography, "geography", 2, 160),
-    capacity: integer(body.capacity, "capacity", 1, 100000),
+    capacity: integer(body.capacity, "Capacity", 1, 100000),
     sponsorshipAllocation: nullableInteger(body.sponsorshipAllocation, "sponsorshipAllocation", 0, 100000)
   };
 }
@@ -65,7 +65,7 @@ export function parseCreateClinicAccessCode(value: unknown): CreateClinicAccessC
   const startsAt = nullableIsoDate(body.startsAt, "startsAt");
   const expiresAt = nullableIsoDate(body.expiresAt, "expiresAt");
   if (startsAt && expiresAt && Date.parse(expiresAt) <= Date.parse(startsAt)) {
-    throw new ClinicValidationError("expiresAt must be after startsAt.");
+    throw new ClinicValidationError("The access code must expire after it starts.");
   }
   return {
     maxUses: nullableInteger(body.maxUses, "maxUses", 1, 100000),

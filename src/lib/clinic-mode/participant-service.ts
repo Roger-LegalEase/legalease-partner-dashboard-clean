@@ -1,4 +1,5 @@
 import "server-only";
+import { clinicCaseReference } from "./case-reference";
 
 import { createHash } from "node:crypto";
 import { cookies } from "next/headers";
@@ -116,7 +117,7 @@ export async function listClinicQueue(eventId: string): Promise<ClinicQueueCase[
   });
   if (result.error) throw new ClinicServiceError("unavailable", "Clinic queue is temporarily unavailable.");
   return (result.data ?? []).map((row: Record<string, unknown>) => ({
-    id: String(row.id), eventId: String(row.event_id), participantUserId: String(row.participant_user_id),
+    id: String(row.id), reference: clinicCaseReference(eventId, String(row.id)), eventId: String(row.event_id), participantUserId: String(row.participant_user_id),
     queueStatus: row.queue_status as ClinicQueueCase["queueStatus"], routeDisposition: row.route_disposition as ClinicQueueCase["routeDisposition"],
     jurisdiction: String(row.jurisdiction), courtIdentityVerified: Boolean(row.court_identity_verified),
     countyName: row.county_name ? String(row.county_name) : null, courtName: row.court_name ? String(row.court_name) : null,
@@ -125,10 +126,12 @@ export async function listClinicQueue(eventId: string): Promise<ClinicQueueCase[
 }
 
 export async function getClinicQueueEvent(eventId: string) {
-  await assertQueueAccess(eventId);
+  const actor = await assertQueueAccess(eventId);
   const result = await requireDatabase().from("clinic_events").select("id,name,status").eq("id", eventId).maybeSingle();
   if (result.error || !result.data) throw new ClinicServiceError("not_found", "Clinic event was not found.");
-  return { id: String(result.data.id), name: String(result.data.name), status: String(result.data.status) };
+  return { id: String(result.data.id), name: String(result.data.name), status: String(result.data.status),
+    controlsHref: actor.kind === "internal_admin" ? `/internal/clinic/${eventId}` : actor.role === "partner_admin" ? `/partner/clinic/${eventId}` : "/partner/clinic",
+    controlsLabel: actor.kind === "internal_admin" || actor.role === "partner_admin" ? "Back to event controls" : "Back to clinics" };
 }
 
 export async function transitionClinicQueueCase(eventId: string, caseId: string, queueStatus: ClinicQueueCase["queueStatus"]) {

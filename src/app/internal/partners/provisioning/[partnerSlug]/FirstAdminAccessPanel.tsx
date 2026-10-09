@@ -16,6 +16,8 @@ type PartnerSummary = {
   legalName: string;
   jurisdiction: string;
   selectedPackage: string;
+  administratorName?: string;
+  administratorEmail?: string;
   workspaceStatus?: OnboardingWorkspaceStatus;
   completionPercentage?: number;
   provisioningStatus?: PartnerProvisioningStatus;
@@ -54,8 +56,8 @@ export function FirstAdminAccessPanel({
   const [mode, setMode] = useState<"idle" | "form" | "review">("idle");
   const [replaceCurrent, setReplaceCurrent] = useState(false);
   const [values, setValues] = useState<FormValues>({
-    fullName: initialAccess.invitation?.fullName ?? "",
-    email: initialAccess.invitation?.email ?? ""
+    fullName: initialAccess.invitation?.fullName ?? partner.administratorName ?? "",
+    email: initialAccess.invitation?.email ?? partner.administratorEmail ?? ""
   });
   const [busyAction, setBusyAction] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);

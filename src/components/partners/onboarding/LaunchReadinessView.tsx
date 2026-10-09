@@ -51,19 +51,19 @@ export function LaunchReadinessView({
           <div>
             <h3 className="text-base font-black text-navy">
               {readiness.ready
-                ? "Ready to launch"
-                : "Not ready to launch"}
+                ? "Program review complete"
+                : "Program review needs attention"}
             </h3>
             <p className="mt-1 text-sm text-grayWilma-700">
               {readiness.ready
-                ? "Every blocking check is met. Launching itself is a separate, later decision."
+                ? audience === "internal" ? "Program review is complete. The launch controls also verify current authority and allocations before publication." : "Program review is complete. LegalEase verifies current authority and allocations before publication."
                 : `${readiness.blockingFailures} blocking ${
                     readiness.blockingFailures === 1 ? "check is" : "checks are"
                   } not met yet.`}
             </p>
           </div>
           <Badge tone={readiness.ready ? "teal" : "orange"}>
-            {readiness.ready ? "Ready" : "Not ready"}
+            {readiness.ready ? "Complete" : "Needs attention"}
           </Badge>
         </div>
 
@@ -83,8 +83,9 @@ export function LaunchReadinessView({
         ) : null}
 
         <p className="mt-4 text-xs text-grayWilma-700">
-          This page reports readiness only. It does not publish the page,
-          activate the program, release an access code, or send anything.
+          {audience === "internal"
+            ? "Recording a review does not launch the program. Use the separate launch confirmation after all requirements are met."
+            : "Your confirmations record program readiness. Only an authorized LegalEase administrator can launch the program."}
         </p>
       </Card>
 
@@ -114,7 +115,7 @@ export function LaunchReadinessView({
                       {check.determination === "automated"
                         ? "Derived from program data"
                         : "Recorded by a reviewer"}{" "}
-                      · {check.blocking ? "Blocking" : "Not blocking"}
+                      · {check.blocking ? "Required" : "Optional"}
                     </p>
                   </div>
                   <Badge tone={statusTone(check.status)}>
@@ -125,7 +126,6 @@ export function LaunchReadinessView({
                 <p className="mt-3 text-sm leading-relaxed text-grayWilma-800">
                   {check.evidenceSummary}
                 </p>
-                {audience === "internal" ? <p className="mt-1 text-xs text-grayWilma-600">Evidence: {check.evidenceReference}</p> : null}
 
                 {check.blocking &&
                 check.status !== "passing" &&
