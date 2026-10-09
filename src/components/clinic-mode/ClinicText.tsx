@@ -1,0 +1,117 @@
+"use client";
+import { useLocalization } from "@/components/expungement-ai/LocalizationProvider";
+const spanish: Record<string, string> = {
+  "No participant cases are available to you. You can still complete existing follow-up here.": "No tiene casos de participantes disponibles. Aún puede completar el seguimiento existente aquí.",
+  "Event overview": "Resumen de eventos",
+  "Clinic queue unavailable": "Lista de casos no disponible",
+  "Ask your program administrator to confirm your assignment and queue permission for this event.": "Pida al administrador del programa que confirme su asignación y su permiso para la lista de casos de este evento.",
+  "No participant cases are available to you.": "No tiene casos de participantes disponibles.",
+  "Your clinic assignments": "Sus clínicas asignadas",
+  "Choose an assigned event to assist participants, manage its queue, or complete authorized follow-up.": "Elija un evento asignado para asistir a participantes, gestionar su lista de casos o completar el seguimiento autorizado.",
+  "Back to clinics": "Volver a las clínicas",
+  "Participant entry": "Entrada de participantes",
+  "No clinics are assigned to you. Ask your program administrator for an event assignment.": "No tiene clínicas asignadas. Pida una asignación al administrador de su programa.",
+  "This clinic is not open": "Esta clínica no está abierta",
+  "Ask clinic staff for the current event link and schedule.": "Pida al personal el enlace y el horario actuales del evento.",
+  "Return to clinic entry": "Volver a la entrada de clínicas",
+  "Communication": "Comunicación", "No due date": "Sin fecha límite", "Unavailable case": "Caso no disponible",
+  "Partner": "Organización",
+  "Select a partner": "Seleccione una organización",
+  "Participant state": "Estado de los participantes",
+  "Participants choose their state": "Cada participante elige su estado",
+  "Event sponsorship limit (optional)": "Límite de patrocinio del evento (opcional)",
+  "This limit does not add funding or grant packet credits.": "Este límite no agrega fondos ni concede créditos para paquetes.",
+  "Optional code limits and schedule": "Límites y horario opcionales del código",
+  "Times use the event timezone.": "Los horarios usan la zona horaria del evento.",
+  "Open clinic": "Abrir clínica",
+  "Other event tools": "Otras herramientas del evento",
+  "Legal aid registration is a separate workflow with its own permissions.": "La inscripción para asistencia jurídica es un proceso separado con sus propios permisos.",
+  "Assist participants": "Asistir a participantes",
+  "Manage case queue": "Gestionar la lista de casos",
+  "Manage follow-up": "Gestionar el seguimiento",
+  "View reports": "Ver informes",
+  "Record incidents": "Registrar incidentes",
+  "Eastern time": "Hora del Este",
+  "Central time": "Hora Central",
+  "Mountain time": "Hora de la Montaña",
+  "Arizona time": "Hora de Arizona",
+  "Pacific time": "Hora del Pacífico",
+  "Alaska time": "Hora de Alaska",
+  "Hawaii time": "Hora de Hawái",
+  "Puerto Rico time": "Hora de Puerto Rico",
+  "Universal time (UTC)": "Hora universal (UTC)",
+  "City, county, or statewide": "Ciudad, condado o todo el estado",
+
+  "Clinic Mode administration": "Administración de clínicas",
+  "Manage event schedules, capacity, approved staff, participant entry, and operating status. Access is permanently limited to the LegalEase partner account shown above.": "Administre horarios, capacidad, personal autorizado, acceso de participantes y estado del evento. El acceso se limita a la cuenta del programa indicada arriba.",
+  "Back to event controls": "Volver a los controles del evento",
+  "Back to program": "Volver al programa",
+  "Follow-up operations": "Gestión del seguimiento",
+  "Manage time-bound follow-up without granting staff permanent access to a participant's account or matter.": "Gestione el seguimiento sin dar al personal acceso permanente a la cuenta o al asunto del participante.",
+  "Follow-up unavailable": "Seguimiento no disponible",
+  "Reporting unavailable": "Informes no disponibles",
+  "Authorized event summary": "Resumen autorizado del evento",
+  "Operational totals only. Participant and matter identities are excluded before this report is returned.": "Solo totales operativos. Este informe excluye las identidades de participantes y asuntos.",
+  "case queue": "lista de casos",
+  "Queue access is event-scoped. Participant references are intentionally minimized; payment, entitlement, verified court identity, and another tenant's matters cannot be changed here.": "El acceso a la lista se limita a este evento y muestra referencias mínimas. Aquí no se pueden cambiar pagos, autorizaciones, identidades verificadas ni asuntos de otro programa.",
+  "Approved event staff updated.": "Se actualizó el personal autorizado.",
+  "Follow-up saved in this event.": "Se guardó el seguimiento de este evento.",
+  "Queue status updated.": "Se actualizó el estado del caso.",
+  "Screening in progress": "Evaluación en curso",
+  "Result saved": "Resultado guardado",
+  "Packet information needed": "Falta información del paquete",
+  "Attorney review requested": "Revisión legal solicitada",
+  "Packet prepared": "Paquete preparado",
+  "Referred for help": "Derivado para recibir ayuda",
+  "Closed": "Cerrado",
+  "Verified": "Verificada",
+  "Manual / unverified": "Manual / sin verificar",
+  "pending": "pendiente",
+  "completed": "completado",
+  "open": "abierto",
+
+  "Case": "Caso",
+  "Back to program setup": "Volver a la configuración del programa", "Back to Clinic Mode": "Volver a las clínicas",
+  "Create clinic event": "Crear evento de clínica", "Event control": "Configuración del evento", "Event team": "Equipo del evento",
+  "Clinic events": "Eventos de clínica", "Live authority": "Eventos del programa", "Approved event staff": "Personal autorizado del evento",
+  "Staff email": "Correo del personal", "Select a team member": "Seleccione una persona del equipo", "Manage partner team": "Administrar el equipo",
+  "No active team members are available.": "No hay miembros activos del equipo disponibles.", "Staff status": "Estado del personal",
+  "Approved": "Autorizado", "Suspended": "Suspendido", "Revoked": "Revocado", "Event-only permissions": "Permisos para este evento",
+  "Save staff authorization": "Guardar autorización del personal", "Reveal once": "Se muestra una vez", "Event access code": "Código de acceso al evento",
+  "Generate event access code": "Generar código de acceso", "Event incident and audit history": "Historial del evento",
+  "Staff case queue": "Lista de casos del personal", "Follow-up": "Seguimiento", "Reporting": "Informes", "Legal aid clinic setup": "Configurar asistencia legal",
+  "No Clinic events exist for this authorized scope.": "Todavía no hay eventos de clínica para este programa.",
+  "The QR identifies this event. Participants enter the separate code after opening the event page, so the QR never carries a reusable secret.": "El código QR identifica este evento. Los participantes ingresan un código de acceso separado después de abrir la página del evento; el QR no contiene una clave reutilizable.",
+  "Partner page address": "Dirección de la página del programa", "Event link name": "Nombre del enlace del evento", "Event name": "Nombre del evento",
+  "Starts": "Inicio", "Ends": "Fin", "Timezone": "Zona horaria", "Location": "Lugar", "Geography": "Área de servicio",
+  "Fixed jurisdiction (optional)": "Jurisdicción del evento (opcional)", "Capacity": "Capacidad", "Sponsored packet allocation": "Cantidad de paquetes patrocinados",
+  "Maximum uses": "Número máximo de usos", "Code starts": "Inicio de validez del código", "Code expires": "Vencimiento del código",
+  "Publish event": "Abrir evento", "Pause event": "Pausar evento", "Resume event": "Reanudar evento", "Close event": "Cerrar evento", "Archive event": "Archivar evento",
+  "Court identity": "Identidad para el tribunal", "Jurisdiction": "Jurisdicción", "No participants have entered this event.": "Todavía no hay participantes en este evento.",
+  "Packet status": "Estado del paquete", "Participant reference": "Referencia del participante", "Route": "Vía de trámite",
+  "Clinic case": "Caso de la clínica", "Due date": "Fecha límite", "Event-scoped work": "Trabajo para este evento", "Follow-up queue": "Lista de seguimiento",
+  "Internal notes": "Notas internas", "Internal:": "Interno:", "Mark completed": "Marcar como completado", "No follow-up work is scheduled.": "No hay tareas de seguimiento programadas.",
+  "No participant identity": "Sin identidad del participante", "Owner": "Responsable", "Participant-safe message": "Mensaje para el participante", "Participant-safe:": "Para el participante:",
+  "Save follow-up": "Guardar seguimiento", "Schedule follow-up": "Programar seguimiento", "Select a case": "Seleccione un caso", "Unassigned": "Sin asignar",
+  "Participant-safe copy is kept separate from internal notes. Neither field changes account or matter ownership.": "El mensaje para el participante se guarda separado de las notas internas. Ninguno cambia la titularidad de la cuenta o del asunto.",
+  "Aggregate event reporting": "Informe agregado del evento", "No activity yet.": "Todavía no hay actividad.", "Privacy boundary": "Protección de la privacidad",
+  "This report returns counts only. It contains no participant, account, matter, Briefcase, packet, court, form, upload, or message identity.": "Este informe muestra solo totales. No identifica participantes, cuentas, asuntos, maletines, paquetes, tribunales, formularios, archivos ni mensajes.",
+  "Event entries": "Entradas al evento", "Clinic cases": "Casos de la clínica", "Sponsored packets generated": "Paquetes patrocinados generados", "Allocation remaining": "Asignación restante", "Queue": "Lista de casos", "Nationwide route": "Vías de trámite",
+  "assist": "asistencia", "queue": "lista de casos", "follow up": "seguimiento", "reporting": "informes", "incident": "incidentes",
+  "draft": "Borrador", "published": "Abierto", "paused": "Pausado", "closed": "Cerrado", "archived": "Archivado"
+};
+export function useClinicText() {
+  const {locale, text} = useLocalization();
+  return (value: string) => {
+    if (locale !== "es") return value === "published" ? "Open" : value === "Event moved to published." ? "Clinic opened." : value;
+    const code = value.match(/^Event access code \(shown once\): (.+)$/);
+    if (code) return `Código de acceso (se muestra una vez): ${code[1]}`;
+    const status = value.match(/^Event moved to (.+)\.$/);
+    if (status) return `Estado del evento: ${spanish[status[1]] ?? status[1]}.`;
+    return spanish[value] ?? text(value);
+  };
+}
+export function ClinicText({ value }: { value: string }) {
+  const text = useClinicText();
+  return <>{text(value)}</>;
+}

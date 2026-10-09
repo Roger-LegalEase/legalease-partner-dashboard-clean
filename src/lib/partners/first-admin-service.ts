@@ -52,6 +52,8 @@ type PartnerRecordRow = {
   target_state: string | null;
   state: string | null;
   selected_package_name: string | null;
+  primary_contact_name: string | null;
+  primary_contact_email: string | null;
 };
 
 type PartnerUserRow = {
@@ -153,7 +155,9 @@ export async function getFirstAdminPartnerSummary(partnerSlugValue: unknown) {
     legalName: partner.legal_name ?? "Not recorded",
     jurisdiction:
       partner.target_state ?? partner.state ?? "Not recorded",
-    selectedPackage: partner.selected_package_name ?? "Not selected"
+    selectedPackage: partner.selected_package_name ?? "Not selected",
+    administratorName: partner.primary_contact_name ?? "",
+    administratorEmail: partner.primary_contact_email ?? ""
   };
 }
 
@@ -1557,7 +1561,7 @@ async function requirePartner(supabase: SupabaseAdmin, partnerSlug: string) {
   const { data, error } = await supabase
     .from("partner_records")
     .select(
-      "partner_slug, partner_name, organization_name, legal_name, target_state, state, selected_package_name"
+      "partner_slug, partner_name, organization_name, legal_name, target_state, state, selected_package_name, primary_contact_name, primary_contact_email"
     )
     .eq("partner_slug", partnerSlug)
     .maybeSingle();

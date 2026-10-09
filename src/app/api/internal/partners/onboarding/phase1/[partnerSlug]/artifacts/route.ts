@@ -1,3 +1,4 @@
+import { createHash } from "node:crypto";
 import type { NextRequest } from "next/server";
 
 import { requireInternalOnboardingContext } from "@/lib/partners/onboarding/auth-context";
@@ -51,7 +52,18 @@ export async function POST(
     const payload = objectValue(body.payload);
 
     let result: unknown;
-    if (action === "generate" || action === "regenerate") {
+    if (action === "generate_package") {
+      const board = await getInternalArtifactBoard(context);
+      if (payload.workspaceVersion !== board.workspaceVersion) throw new Phase1OnboardingError("revision_conflict", "Program information changed. Reload the package.");
+      const generated = [];
+      for (const entry of board.entries) {
+        if (entry.artifactType === "partner_launch_kit" || (entry.sourceFreshness === "current" && entry.currentVersion?.generationStatus === "succeeded")) continue;
+        const hash = createHash("sha256").update(`${requestId}:${entry.artifactType}`).digest("hex");
+        const childRequestId = `${hash.slice(0,8)}-${hash.slice(8,12)}-4${hash.slice(13,16)}-a${hash.slice(17,20)}-${hash.slice(20,32)}`;
+        generated.push(await generateArtifactVersion(context, { artifactType: entry.artifactType, requestId: childRequestId }));
+      }
+      result = { generated: generated.length };
+    } else if (action === "generate" || action === "regenerate") {
       result = await generateArtifactVersion(context, {
         artifactType: requiredString(payload.artifactType, 60),
         requestId

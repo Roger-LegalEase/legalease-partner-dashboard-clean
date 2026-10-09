@@ -1,3 +1,5 @@
+import { PracticeNotice } from "@/components/partners/onboarding/PracticeNotice";
+import { isDisposableLaunchEnvironment } from "@/lib/partners/onboarding/synthetic-launch-security";
 import type { Metadata } from "next";
 import { headers } from "next/headers";
 import { Geist, Geist_Mono } from "next/font/google";
@@ -50,7 +52,7 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <LocalizationProvider>{children}</LocalizationProvider>
+        <LocalizationProvider>{isDisposableLaunchEnvironment() ? <PracticeNotice /> : null}{children}</LocalizationProvider>
         <WebAnalyticsTracker />
       </body>
     </html>

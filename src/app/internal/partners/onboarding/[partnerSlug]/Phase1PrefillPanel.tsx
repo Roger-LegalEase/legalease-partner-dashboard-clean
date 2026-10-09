@@ -1,6 +1,8 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
+import { PreparedCollectionEditor } from "@/components/partners/onboarding/PreparedCollectionEditor";
 import { Badge } from "@/components/ui/Badge";
 import { Card } from "@/components/ui/Card";
 import {
@@ -66,7 +68,7 @@ function preparedOn(value: string) {
   const parsed = new Date(value);
   return Number.isNaN(parsed.getTime())
     ? "Date not recorded"
-    : parsed.toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" });
+    : parsed.toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric", timeZone: "UTC" });
 }
 
 export function Phase1PrefillPanel({
@@ -78,6 +80,7 @@ export function Phase1PrefillPanel({
   snapshot: InternalPrefillSnapshot;
   assignedOperator?: boolean;
 }) {
+  const router = useRouter();
   const [current, setCurrent] = useState(snapshot);
   const operatorNotice = assignedOperator ? "Assigned preparation only. Partner confirmation and administrator authority remain separate." : null;
   const [selected, setSelected] = useState<string[]>([]);
@@ -96,7 +99,15 @@ export function Phase1PrefillPanel({
   const selectedField =
     sectionFields.find((field) => field.fieldKey === fieldKey) ??
     sectionFields[0];
-  const [proposedValue, setProposedValue] = useState("");
+  const displayValue = (value: unknown) => Array.isArray(value) ? value.join(", ") : value == null ? "" : String(value);
+  const [proposedValue, setProposedValue] = useState(displayValue(snapshot.currentValues?.[firstField?.fieldKey ?? ""]));
+  const [collectionRows, setCollectionRows] = useState<Record<string, unknown>[]>([]);
+  function selectField(key: string) {
+    setFieldKey(key);
+    const value = current.currentValues?.[key];
+    setProposedValue(displayValue(value));
+    setCollectionRows(Array.isArray(value) ? value as Record<string, unknown>[] : []);
+  }
   const [sourceType, setSourceType] =
     useState<PrefillSourceType>("meeting");
   const [sourceLabel, setSourceLabel] = useState("");
@@ -169,14 +180,15 @@ export function Phase1PrefillPanel({
       );
       const body = (await response.json()) as {
         snapshot?: InternalPrefillSnapshot;
-        error?: { message?: string };
+        error?: { message?: string } | string;
       };
       if (!response.ok || !body.snapshot) {
-        throw new Error(body.error?.message ?? "The prefill action failed.");
+        throw new Error((typeof body.error === "string" ? body.error : body.error?.message) ?? "Program information could not be saved.");
       }
       setCurrent(body.snapshot);
       setSelected([]);
-      setMessage("Prefill changes saved.");
+      setMessage("Program information saved.");
+      router.refresh();
     } catch (error) {
       setMessage(
         error instanceof Error
@@ -190,15 +202,12 @@ export function Phase1PrefillPanel({
 
   function changeSection(value: OnboardingSectionKey) {
     setSectionKey(value);
-    setFieldKey(
-      current.eligibleFields.find((field) => field.sectionKey === value)
-        ?.fieldKey ?? ""
-    );
-    setProposedValue("");
+    selectField(current.eligibleFields.find(field => field.sectionKey === value)?.fieldKey ?? "");
   }
 
   function typedProposedValue() {
     if (!selectedField) return proposedValue;
+    if (selectedField.dataType.endsWith("_collection")) return collectionRows;
     if (selectedField.dataType === "boolean") return proposedValue === "true";
     if (selectedField.dataType === "integer")
       return proposedValue === "" ? null : Number(proposedValue);
@@ -212,25 +221,24 @@ export function Phase1PrefillPanel({
   }
 
   return (
-    <section className="mt-8" aria-labelledby="prefill-heading">
+    <section className="mt-8" aria-labelledby="preparation-history-heading">
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div>
           <p className="text-xs font-black uppercase tracking-wide text-orange">
             Program setup
           </p>
-          <h2 id="prefill-heading" className="mt-1 text-2xl font-black">
+          <h2 id="preparation-history-heading" className="mt-1 text-2xl font-black">
             Prepare program information
           </h2>
           {operatorNotice ? <p role="note" className="mt-3 text-sm">{operatorNotice}</p> : null}
           <p className="mt-1 max-w-3xl text-sm text-grayWilma-700">
-            Prepare structured suggestions, review them, then apply only
-            approved conflict-free values for the partner to confirm.
+            Enter and save program information once. Required partner confirmations remain separate.
           </p>
         </div>
 
       </div>
 
-      <div className="mt-4 grid grid-cols-2 gap-3 md:grid-cols-5 xl:grid-cols-9">
+      <details className="mt-4"><summary className="cursor-pointer text-sm">Preparation history</summary><div className="mt-4 grid grid-cols-2 gap-3 md:grid-cols-5 xl:grid-cols-9">
         {Object.entries(current.summary).map(([key, value]) => (
           <Card key={key} className="border-grayWilma-200 p-3">
             <p className="text-2xl font-black">{value}</p>
@@ -241,6 +249,7 @@ export function Phase1PrefillPanel({
         ))}
       </div>
 
+      </details>
       {message ? (
         <p
           className="mt-4 rounded-md border border-grayWilma-200 bg-white px-4 py-3 text-sm"
@@ -275,12 +284,13 @@ export function Phase1PrefillPanel({
             </Card>
 
             <Card className="border-grayWilma-200 p-5" data-prefill-add-form>
-              <h3 className="text-lg font-black">Add structured suggestion</h3>
+              <h3 className="text-lg font-black">Program information</h3>
               <div className="mt-4 grid gap-3 sm:grid-cols-2">
                 <label className="text-sm font-bold">
                   Section
                   <select
                     className={`${inputClass} mt-1`}
+                    aria-label="Section"
                     value={sectionKey}
                     onChange={(event) =>
                       changeSection(event.target.value as OnboardingSectionKey)
@@ -303,8 +313,9 @@ export function Phase1PrefillPanel({
                   Field
                   <select
                     className={`${inputClass} mt-1`}
+                    aria-label="Field"
                     value={selectedField?.fieldKey ?? ""}
-                    onChange={(event) => setFieldKey(event.target.value)}
+                    onChange={(event) => selectField(event.target.value)}
                   >
                     {sectionFields.map((field) => (
                       <option key={field.fieldKey} value={field.fieldKey}>
@@ -314,11 +325,16 @@ export function Phase1PrefillPanel({
                   </select>
                 </label>
                 <label className="text-sm font-bold sm:col-span-2">
-                  Proposed value
-                  {selectedField?.enumValues.length ? (
+                  Answer
+                  {selectedField?.dataType.endsWith("_collection") ? <PreparedCollectionEditor fieldKey={selectedField.fieldKey} rows={collectionRows} onChange={setCollectionRows} /> : selectedField?.dataType.endsWith("_reference") ? (
+                    <select className={`${inputClass} mt-1`} aria-label="Answer" value={proposedValue} onChange={event => setProposedValue(event.target.value)}>
+                      <option value="">Select a contact</option>
+                      {(Object.values(current.currentValues ?? {}).flat().filter(value => value && typeof value === "object" && "stable_row_id" in value && "name" in value) as Array<{stable_row_id: string; name: string}>).map(person => <option key={person.stable_row_id} value={person.stable_row_id}>{person.name}</option>)}
+                    </select>
+                  ) : selectedField?.enumValues.length ? (
                     <select
                       className={`${inputClass} mt-1`}
-                      value={proposedValue}
+                      aria-label="Answer" value={proposedValue}
                       onChange={(event) => setProposedValue(event.target.value)}
                     >
                       <option value="">Choose a value</option>
@@ -331,7 +347,7 @@ export function Phase1PrefillPanel({
                   ) : selectedField?.dataType === "boolean" ? (
                     <select
                       className={`${inputClass} mt-1`}
-                      value={proposedValue}
+                      aria-label="Answer" value={proposedValue}
                       onChange={(event) => setProposedValue(event.target.value)}
                     >
                       <option value="">Choose a value</option>
@@ -343,11 +359,12 @@ export function Phase1PrefillPanel({
                       className={`${inputClass} mt-1 min-h-24`}
                       data-proposed-value
                       maxLength={selectedField?.maxLength ?? 5000}
-                      value={proposedValue}
+                      aria-label="Answer" value={proposedValue}
                       onChange={(event) => setProposedValue(event.target.value)}
                     />
                   )}
                 </label>
+                <details className="sm:col-span-2"><summary className="cursor-pointer text-sm">Source notes</summary>
                 <label className="text-sm font-bold">
                   Source type
                   <select
@@ -397,30 +414,31 @@ export function Phase1PrefillPanel({
                     onChange={(event) => setConfidence(event.target.value)}
                   />
                 </label>
+                </details>
               </div>
               <button
                 className={`${buttonClass} mt-4`}
                 disabled={
                   pending ||
                   !selectedField ||
-                  !sourceLabel.trim() ||
-                  proposedValue === ""
+                  (selectedField?.dataType.endsWith("_collection") ? collectionRows.length === 0 : proposedValue === "")
                 }
                 onClick={() =>
-                  mutate("add", {
+                  mutate("save_prepared", {
                     sectionKey,
                     fieldKey: selectedField?.fieldKey,
                     proposedValue: typedProposedValue(),
+                    expectedFieldValueHash: current.fieldValueHashes?.[selectedField?.fieldKey ?? ""],
                     sourceType,
                     sourceLabel,
                     sourceReferenceId,
                     confidence
-                  })
+                  }, { version: true })
                 }
                 data-add-suggestion
                 type="button"
               >
-                Add suggestion
+                Save program information
               </button>
             </Card>
           </div>

@@ -675,6 +675,25 @@ export function launchCheckDefinition(
   return LAUNCH_CHECK_DEFINITIONS.find((definition) => definition.key === key);
 }
 
+/** The reviews that actually depend on changed document inputs. */
+export function launchChecksAffectedByArtifacts(entries: readonly ArtifactBoardEntry[]): string[] {
+  const affected = new Set<string>();
+  for (const entry of entries) {
+    if (!entry.available || entry.sourceFreshness !== "stale") continue;
+    const fields = entry.staleFields.filter(field => field !== "asset.procurement_document");
+    if (!fields.length) continue;
+    affected.add("legalease_final_review_complete");
+    if (entry.invalidatedApprovals.partner) affected.add("partner_launch_approval_received");
+    if (entry.artifactType === "partner_launch_kit") affected.add("communications_approved");
+    // Training remains completed when names, dates, branding or budgets change.
+    // Renew it only when staff responsibilities or service boundaries change.
+    if (entry.artifactType === "staff_quick_start_guide" && fields.some(field =>
+      /^(staff_dashboard_plan\.|support_referrals_reporting\.|legalease_technical_support|generator_version)/.test(field)
+    )) affected.add("staff_training_completed");
+  }
+  return [...affected];
+}
+
 // --- evaluation --------------------------------------------------------------
 
 /**

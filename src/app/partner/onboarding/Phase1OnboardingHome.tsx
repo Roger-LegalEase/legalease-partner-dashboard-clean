@@ -1,3 +1,4 @@
+import { LocalizedRuntimeText } from "@/components/expungement-ai/LocalizationProvider";
 import Link from "next/link";
 import type {
   PartnerImplementationFact,
@@ -68,14 +69,14 @@ export function Phase1OnboardingHome({
   return (
     <div className="min-w-0 text-[#071B33]">
       <nav className="mb-7 flex flex-wrap gap-x-6 gap-y-2" aria-label="Implementation navigation">
-        <PortalLink href="/partner/dashboard">Back to dashboard</PortalLink>
-        {launchPrepEnabled ? <><PortalLink href="/partner/onboarding/resources">Launch &amp; resources</PortalLink><PortalLink href="/partner/onboarding/artifacts#your-page">Your page and materials</PortalLink></> : null}
+        <PortalLink href="/partner/dashboard"><LocalizedRuntimeText text="Back to dashboard" /></PortalLink>
+        {launchPrepEnabled ? <><PortalLink href="/partner/onboarding/resources"><LocalizedRuntimeText text="Launch &amp; resources" /></PortalLink><PortalLink href="/partner/onboarding/artifacts#your-page"><LocalizedRuntimeText text="Your page and materials" /></PortalLink></> : null}
       </nav>
 
       <header className="border-b-4 border-[#071B33] pb-6">
         <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(280px,0.42fr)] lg:items-end">
           <div className="min-w-0">
-            <p className={docketClass}>Your program workspace</p>
+            <p className={docketClass}><LocalizedRuntimeText text="Your program workspace" /></p>
             <h1 className="mt-3 break-words text-3xl font-extrabold tracking-[-0.025em] text-[#071B33] sm:text-4xl lg:text-5xl">
               {programName || organizationName}
             </h1>
@@ -89,10 +90,10 @@ export function Phase1OnboardingHome({
               data-overall-implementation-state={presentation.overall.key}
             >
               <p className="text-lg font-extrabold text-[#071B33]">
-                {presentation.overall.label}
+                <LocalizedRuntimeText text={presentation.overall.label} />
               </p>
               <p className="mt-1 max-w-3xl text-sm leading-6 text-[#475A6E]">
-                {presentation.overall.description}
+                <LocalizedRuntimeText text={presentation.overall.description} />
               </p>
             </div>
           </div>
@@ -119,16 +120,13 @@ export function Phase1OnboardingHome({
           </dl>
         </div>
         {isPartnerStaff ? (
-          <p className="mt-5 border-l-4 border-[#475A6E] pl-4 text-sm font-semibold text-[#475A6E]">
-            View only access. A partner administrator manages configuration changes.
-          </p>
+          <p className="mt-5 border-l-4 border-[#475A6E] pl-4 text-sm font-semibold text-[#475A6E]"><LocalizedRuntimeText text="View only access. A partner administrator manages configuration changes." /></p>
         ) : null}
       </header>
 
+      <details className="mt-4"><summary className="min-h-11 cursor-pointer font-bold"><LocalizedRuntimeText text="Program status details" /></summary>
       <section className="border-x border-b border-[#B8C1C7] bg-white" aria-labelledby="status-architecture-heading">
-        <h2 id="status-architecture-heading" className="sr-only">
-          Implementation status
-        </h2>
+        <h2 id="status-architecture-heading" className="sr-only"><LocalizedRuntimeText text="Implementation status" /></h2>
         <dl className="grid sm:grid-cols-2 xl:grid-cols-5">
           {presentation.dimensions.map((dimension) => (
             <div
@@ -136,25 +134,26 @@ export function Phase1OnboardingHome({
               key={dimension.label}
               data-status-dimension={dimension.fact.key}
             >
-              <dt className={docketClass}>{dimension.label}</dt>
+              <dt className={docketClass}><LocalizedRuntimeText text={dimension.label} /></dt>
               <dd className={`mt-2 text-base font-extrabold ${toneText(dimension.fact.tone)}`}>
-                {dimension.fact.label}
+                <LocalizedRuntimeText text={dimension.fact.label} />
               </dd>
               <p className="mt-1 text-xs leading-5 text-[#475A6E]">
-                {dimension.fact.description}
+                <LocalizedRuntimeText text={dimension.fact.description} />
               </p>
             </div>
           ))}
         </dl>
       </section>
+      </details>
 
       {hasPendingPrefill ? (
         <div
           className="mt-6 border border-[#0A8E9A] bg-[#EAF5F4] px-4 py-4 text-sm leading-6 text-[#071B33] md:px-5"
           data-prepared-onboarding-banner
         >
-          <p className="text-base font-extrabold">{PREPARED_BANNER.heading}</p>
-          <p className="mt-2 max-w-3xl">{PREPARED_BANNER.explanation}</p>
+          <p className="text-base font-extrabold"><LocalizedRuntimeText text={PREPARED_BANNER.heading} /></p>
+          <p className="mt-2 max-w-3xl"><LocalizedRuntimeText text={PREPARED_BANNER.explanation} /></p>
           <dl className="mt-4 grid gap-3 sm:grid-cols-3" data-prepared-workload>
             <WorkloadCard
               label={PREPARATION_CARD_LABELS.prepared}
@@ -173,12 +172,12 @@ export function Phase1OnboardingHome({
             />
           </dl>
           {PREPARED_BANNER.primaryAction ? (
-            <Link
+            <Link prefetch={false}
               className="mt-4 inline-flex min-h-11 items-center justify-center bg-[#071B33] px-5 py-2.5 text-sm font-extrabold text-white hover:bg-[#0A2A4E] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#0A8E9A] focus-visible:ring-offset-2"
-              href={PREPARED_BANNER.primaryAction.href ?? "/partner/onboarding"}
+              href={(presentation.configuration.sections.find(section => section.state.key === "prefill_review") ?? presentation.configuration.sections[0])?.href ?? "/partner/onboarding/organization_contacts"}
               data-prepared-onboarding-action
             >
-              {PREPARED_BANNER.primaryAction.label}
+              <LocalizedRuntimeText text={PREPARED_BANNER.primaryAction.label} />
             </Link>
           ) : null}
         </div>
@@ -192,18 +191,18 @@ export function Phase1OnboardingHome({
         <div className="border-l-[6px] border-[#FF3B00] p-5 sm:p-7">
           <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(250px,0.42fr)] lg:items-end">
             <div className="min-w-0">
-              <p className={`${docketClass} text-[#C42E00]`}>Current next action</p>
+              <p className={`${docketClass} text-[#C42E00]`}><LocalizedRuntimeText text="Current next action" /></p>
               <h2 id="current-next-action-heading" className="mt-3 text-2xl font-extrabold leading-tight text-[#071B33] sm:text-3xl">
-                {presentation.currentAction.action}
+                <LocalizedRuntimeText text={presentation.currentAction.action} />
               </h2>
               <p className="mt-3 max-w-3xl text-sm leading-6 text-[#475A6E]">
-                {presentation.currentAction.whyItMatters}
+                <LocalizedRuntimeText text={presentation.currentAction.whyItMatters} />
               </p>
             </div>
             {/* A state LegalEase owns gets a quiet link, not a second orange call to
                 action. Two primary actions on one screen leaves a program director
                 guessing which one is theirs. */}
-            <Link
+            <Link prefetch={false}
               className={
                 nextActionIsQuiet
                   ? "inline-flex min-h-11 items-center justify-center border border-[#475A6E] px-5 py-2.5 text-center text-sm font-bold text-[#071B33] hover:bg-[#EDF1F3] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#0A8E9A] focus-visible:ring-offset-2"
@@ -213,7 +212,7 @@ export function Phase1OnboardingHome({
               data-primary-next-action={nextActionIsQuiet ? undefined : true}
               data-secondary-next-action={nextActionIsQuiet ? true : undefined}
             >
-              {presentation.currentAction.label}
+              <LocalizedRuntimeText text={presentation.currentAction.label} />
             </Link>
           </div>
           <dl className="mt-6 grid border-t border-[#D8DDDF] pt-4 sm:grid-cols-3">
@@ -234,14 +233,12 @@ export function Phase1OnboardingHome({
             />
           </dl>
           {isPartnerStaff ? (
-            <p className="mt-4 text-sm leading-6 text-[#475A6E]">
-              You can review this workspace. A partner administrator must complete any configuration change.
-            </p>
+            <p className="mt-4 text-sm leading-6 text-[#475A6E]"><LocalizedRuntimeText text="You can review this workspace. A partner administrator must complete any configuration change." /></p>
           ) : null}
         </div>
       </section>
 
-      <section className="mt-10" aria-labelledby="implementation-milestones-heading">
+      <details className="mt-6"><summary className="min-h-11 cursor-pointer font-bold"><LocalizedRuntimeText text="Program milestones" /></summary><section className="mt-10" aria-labelledby="implementation-milestones-heading">
         <SectionHeading
           eyebrow="Implementation path"
           heading="Seven implementation milestones"
@@ -295,8 +292,7 @@ export function Phase1OnboardingHome({
                     <ActionFact label="Blocker" value={milestone.blocker} />
                   </dl>
                   <div className="flex flex-col gap-3 border-t border-[#D8DDDF] pt-4 sm:flex-row sm:items-center sm:justify-between">
-                    <p className="text-sm font-semibold leading-6 text-[#071B33]">
-                      Next: {milestone.nextAction}
+                    <p className="text-sm font-semibold leading-6 text-[#071B33]"><LocalizedRuntimeText text="Next:" />{milestone.nextAction}
                     </p>
                     <PortalLink href={milestone.href}>{milestone.actionLabel}</PortalLink>
                   </div>
@@ -305,7 +301,7 @@ export function Phase1OnboardingHome({
             </li>
           ))}
         </ol>
-      </section>
+      </section></details>
 
       <section className="mt-10 scroll-mt-4" id="program-configuration" aria-labelledby="program-configuration-heading">
         <SectionHeading
@@ -317,12 +313,12 @@ export function Phase1OnboardingHome({
         <div className="mt-5 border border-[#B8C1C7] bg-white">
           <div className="grid gap-5 border-b border-[#B8C1C7] p-5 md:grid-cols-[minmax(0,1fr)_minmax(220px,0.36fr)] md:items-end">
             <div>
-              <p className={docketClass}>Setup information</p>
+              <p className={docketClass}><LocalizedRuntimeText text="Setup information" /></p>
               <p className="mt-2 text-xl font-extrabold text-[#071B33]">
-                {presentation.setupInformation.label}
+                <LocalizedRuntimeText text={presentation.setupInformation.label} />
               </p>
               <p className="mt-1 text-sm leading-6 text-[#475A6E]">
-                {presentation.setupInformation.description}
+                <LocalizedRuntimeText text={presentation.setupInformation.description} />
               </p>
             </div>
             <div>
@@ -343,7 +339,7 @@ export function Phase1OnboardingHome({
               <p className="mt-2 text-xs leading-5 text-[#475A6E]">
                 {presentation.configuration.unresolvedChangeRequests > 0
                   ? `${presentation.configuration.unresolvedChangeRequests} unresolved change request${presentation.configuration.unresolvedChangeRequests === 1 ? "" : "s"}`
-                  : "No unresolved change requests"}
+                  : <LocalizedRuntimeText text="No unresolved change requests" />}
               </p>
             </div>
           </div>
@@ -360,29 +356,28 @@ export function Phase1OnboardingHome({
                 <div className="min-w-0">
                   <div className="flex min-w-0 flex-wrap items-center gap-x-3 gap-y-1">
                     <h3 className="break-words text-sm font-extrabold text-[#071B33]">
-                      {section.title}
+                      <LocalizedRuntimeText text={section.title} />
                     </h3>
                     <StatusText fact={section.state} compact />
                   </div>
                   <p className="mt-1 text-sm leading-5 text-[#475A6E]">
-                    {section.changeRequest || section.summary}
+                    <LocalizedRuntimeText text={section.changeRequest || section.summary} />
                   </p>
-                  {section.currentSubstepTitle ? (
-                    <p className="mt-2 text-xs font-bold text-[#071B33] [font-family:var(--font-rcap-mono)]">
-                      Current task: {section.currentSubstepTitle}
+                  {section.currentSubstepTitle && !["submitted", "approved", "waived", "not_applicable"].includes(section.state.key) ? (
+                    <p className="mt-2 text-xs font-bold text-[#071B33] [font-family:var(--font-rcap-mono)]"><LocalizedRuntimeText text="Current task" />: <LocalizedRuntimeText text={section.currentSubstepTitle} />
                     </p>
                   ) : null}
                   <p className="mt-2 text-xs text-[#475A6E] [font-family:var(--font-rcap-mono)]">
-                    {section.lastStateLabel}
+                    <LocalizedRuntimeText text={section.lastStateLabel} />
                     {section.lastStateAt ? ` ${formatDate(section.lastStateAt, "")}` : ""}
                   </p>
                 </div>
-                <Link
+                <Link prefetch={false}
                   className="inline-flex min-h-11 items-center justify-center border border-[#071B33] bg-white px-4 py-2 text-center text-sm font-bold text-[#071B33] hover:border-[#0A8E9A] hover:text-[#0A8E9A] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#0A8E9A] focus-visible:ring-offset-2 sm:justify-self-end"
                   href={section.href}
                   aria-label={`${section.actionLabel}: ${section.title}`}
                 >
-                  {section.actionLabel}
+                  <LocalizedRuntimeText text={section.actionLabel} />
                 </Link>
               </li>
             ))}
@@ -390,7 +385,7 @@ export function Phase1OnboardingHome({
         </div>
       </section>
 
-      <section className="mt-10" aria-labelledby="implementation-schedule-heading">
+      <details className="mt-6"><summary className="min-h-11 cursor-pointer font-bold"><LocalizedRuntimeText text="Program schedule" /></summary><section className="mt-10" aria-labelledby="implementation-schedule-heading">
         <SectionHeading
           eyebrow="Decision calendar"
           heading="Implementation schedule"
@@ -405,7 +400,7 @@ export function Phase1OnboardingHome({
                 key={item.key}
                 data-schedule-state={item.date ? "scheduled" : "not-scheduled"}
               >
-                <h3 className="text-sm font-extrabold text-[#071B33]">{item.label}</h3>
+                <h3 className="text-sm font-extrabold text-[#071B33]"><LocalizedRuntimeText text={item.label} /></h3>
                 <p className="text-sm font-bold text-[#475A6E] [font-family:var(--font-rcap-mono)]">
                   {formatDate(item.date, item.dateFallback)}
                 </p>
@@ -414,7 +409,7 @@ export function Phase1OnboardingHome({
             ))}
           </ul>
         </div>
-      </section>
+      </section></details>
 
       <section className="mt-10 scroll-mt-4" id="commercial-support" aria-labelledby="commercial-support-heading">
         <SectionHeading
@@ -425,15 +420,13 @@ export function Phase1OnboardingHome({
         />
         <div className="mt-5 grid items-start gap-5 lg:grid-cols-2">
           <div className="border border-[#B8C1C7] bg-white p-5">
-            <h3 className="text-base font-extrabold text-[#071B33]">Commercial record</h3>
+            <h3 className="text-base font-extrabold text-[#071B33]"><LocalizedRuntimeText text="Commercial record" /></h3>
             <p className={`mt-3 border-l-4 pl-3 text-sm font-bold ${commercial.blocked ? "border-[#FF3B00] text-[#C42E00]" : "border-[#0A8E9A] text-[#0A6E77]"}`}>
-              {commercial.label}
+              <LocalizedRuntimeText text={commercial.label} />
             </p>
-            <p className="mt-3 text-sm leading-6 text-[#475A6E]">{commercial.detail}</p>
+            <p className="mt-3 text-sm leading-6 text-[#475A6E]"><LocalizedRuntimeText text={commercial.detail} /></p>
 
-            <h4 className="mt-6 border-t border-[#D8DDDF] pt-5 text-sm font-extrabold text-[#071B33]">
-              Agreements and procurement
-            </h4>
+            <h4 className="mt-6 border-t border-[#D8DDDF] pt-5 text-sm font-extrabold text-[#071B33]"><LocalizedRuntimeText text="Agreements and procurement" /></h4>
             {agreements.length > 0 ? (
               <dl className="mt-3 grid gap-4">
                 {agreements.map((agreement) => (
@@ -448,38 +441,30 @@ export function Phase1OnboardingHome({
                       <p className="text-xs leading-5 text-[#475A6E]">{agreement.detail}</p>
                     ) : null}
                     {agreement.downloadHref ? (
-                      <PortalLink href={agreement.downloadHref}>Download finalized copy</PortalLink>
+                      <PortalLink href={agreement.downloadHref}><LocalizedRuntimeText text="Download finalized copy" /></PortalLink>
                     ) : null}
                   </div>
                 ))}
               </dl>
             ) : (
-              <p className="mt-3 text-sm leading-6 text-[#475A6E]">
-                No agreement updates are available yet.
-              </p>
+              <p className="mt-3 text-sm leading-6 text-[#475A6E]"><LocalizedRuntimeText text="No agreement updates are available yet." /></p>
             )}
           </div>
 
           <div className="border border-[#B8C1C7] bg-white p-5">
-            <h3 className="text-base font-extrabold text-[#071B33]">LegalEase support</h3>
-            <p className="mt-3 text-sm leading-6 text-[#475A6E]">
-              Ask about implementation ownership, scheduling, commercial status, or a launch-readiness decision.
-            </p>
+            <h3 className="text-base font-extrabold text-[#071B33]"><LocalizedRuntimeText text="LegalEase support" /></h3>
+            <p className="mt-3 text-sm leading-6 text-[#475A6E]"><LocalizedRuntimeText text="Ask about implementation ownership, scheduling, commercial status, or a launch-readiness decision." /></p>
             <p className="mt-3 break-all text-sm font-bold leading-6">
               <PartnerSupportLink contact={support} href={supportHref} />
             </p>
-            <p className="mt-1 text-xs leading-5 text-[#475A6E]">
-              Opens your email app with this organization in the subject.
-            </p>
+            <p className="mt-1 text-xs leading-5 text-[#475A6E]"><LocalizedRuntimeText text="Opens your email app with this organization in the subject." /></p>
 
-            <h4 className="mt-6 border-t border-[#D8DDDF] pt-5 text-sm font-extrabold text-[#071B33]">
-              Recent implementation activity
-            </h4>
+            <h4 className="mt-6 border-t border-[#D8DDDF] pt-5 text-sm font-extrabold text-[#071B33]"><LocalizedRuntimeText text="Recent implementation activity" /></h4>
             {recentActivity.length > 0 ? (
               <ol className="mt-3 grid gap-3">
                 {recentActivity.map((item) => (
                   <li className="border-l-2 border-[#0A8E9A] pl-3" key={item.id}>
-                    <p className="text-sm font-semibold leading-5 text-[#071B33]">{item.label}</p>
+                    <p className="text-sm font-semibold leading-5 text-[#071B33]"><LocalizedRuntimeText text={item.label} /></p>
                     <time
                       className="mt-1 block text-xs text-[#475A6E] [font-family:var(--font-rcap-mono)]"
                       dateTime={item.createdAt}
@@ -490,28 +475,12 @@ export function Phase1OnboardingHome({
                 ))}
               </ol>
             ) : (
-              <p className="mt-3 text-sm leading-6 text-[#475A6E]">
-                Meaningful implementation activity will appear here.
-              </p>
+              <p className="mt-3 text-sm leading-6 text-[#475A6E]"><LocalizedRuntimeText text="Meaningful implementation activity will appear here." /></p>
             )}
           </div>
         </div>
       </section>
 
-      <footer className="mt-10 border-t-4 border-[#071B33] py-6" aria-labelledby="documented-next-step-heading">
-        <p className={docketClass}>Documented next step</p>
-        <h2 id="documented-next-step-heading" className="mt-2 text-lg font-extrabold text-[#071B33]">
-          {presentation.currentAction.action}
-        </h2>
-        <p className="mt-2 text-sm leading-6 text-[#475A6E]">
-          Owner: {presentation.currentAction.owner}. Due date: {presentation.currentAction.dueDateFallback}.
-        </p>
-        <div className="mt-3">
-          <PortalLink href={presentation.currentAction.href}>
-            Return to the current action
-          </PortalLink>
-        </div>
-      </footer>
     </div>
   );
 }
@@ -519,9 +488,9 @@ export function Phase1OnboardingHome({
 function HeaderFact({ label, value, helper }: { label: string; value: string; helper: string }) {
   return (
     <div className="min-w-0 border-t border-[#D8DDDF] p-4 first:border-t-0 sm:border-l sm:border-t-0 sm:first:border-l-0 lg:border-l-0 lg:border-t lg:first:border-t-0">
-      <dt className={docketClass}>{label}</dt>
-      <dd className="mt-2 break-words text-sm font-extrabold text-[#071B33]">{value}</dd>
-      <p className="mt-1 text-xs leading-5 text-[#475A6E]">{helper}</p>
+      <dt className={docketClass}><LocalizedRuntimeText text={label} /></dt>
+      <dd className="mt-2 break-words text-sm font-extrabold text-[#071B33]"><LocalizedRuntimeText text={value} /></dd>
+      <p className="mt-1 text-xs leading-5 text-[#475A6E]"><LocalizedRuntimeText text={helper} /></p>
     </div>
   );
 }
@@ -537,12 +506,12 @@ function ActionFact({
 }) {
   return (
     <div className="min-w-0 border-t border-[#D8DDDF] py-3 first:border-t-0 sm:border-l sm:border-t-0 sm:px-4 sm:py-0 sm:first:border-l-0 sm:first:pl-0">
-      <dt className={docketClass}>{label}</dt>
+      <dt className={docketClass}><LocalizedRuntimeText text={label} /></dt>
       <dd
         className="mt-2 break-words text-sm font-semibold leading-5 text-[#071B33]"
         {...(dataAttribute ? { [`data-next-action-${dataAttribute}`]: true } : {})}
       >
-        {value}
+        <LocalizedRuntimeText text={value} />
       </dd>
     </div>
   );
@@ -562,12 +531,12 @@ function SectionHeading({
   return (
     <div className="grid gap-2 md:grid-cols-[minmax(0,0.58fr)_minmax(280px,0.42fr)] md:items-end">
       <div>
-        <p className={docketClass}>{eyebrow}</p>
+        <p className={docketClass}><LocalizedRuntimeText text={eyebrow} /></p>
         <h2 id={id} className="mt-2 text-2xl font-extrabold tracking-[-0.015em] text-[#071B33] sm:text-3xl">
-          {heading}
+          <LocalizedRuntimeText text={heading} />
         </h2>
       </div>
-      <p className="text-sm leading-6 text-[#475A6E] md:text-right">{detail}</p>
+      <p className="text-sm leading-6 text-[#475A6E] md:text-right"><LocalizedRuntimeText text={detail} /></p>
     </div>
   );
 }
@@ -578,7 +547,7 @@ function StatusText({ fact, compact = false }: { fact: PartnerImplementationFact
       className={`${compact ? "text-xs" : "text-sm"} font-bold ${toneText(fact.tone)} [font-family:var(--font-rcap-mono)]`}
       data-presentation-state={fact.key}
     >
-      {fact.label}
+      <LocalizedRuntimeText text={fact.label} />
     </span>
   );
 }
@@ -595,7 +564,7 @@ function WorkloadCard({
 }) {
   return (
     <div className="border border-[#0A8E9A] bg-white px-3 py-2" data-workload-scope={scope}>
-      <dt className="text-xs font-bold uppercase tracking-[0.05em] text-[#475A6E]">{label}</dt>
+      <dt className="text-xs font-bold uppercase tracking-[0.05em] text-[#475A6E]"><LocalizedRuntimeText text={label} /></dt>
       <dd className="mt-1 text-xl font-extrabold text-[#071B33]">{count}</dd>
     </div>
   );
@@ -603,7 +572,7 @@ function WorkloadCard({
 
 function PortalLink({ href, children }: { href: string; children: React.ReactNode }) {
   return (
-    <Link
+    <Link prefetch={false}
       className="inline-flex min-h-11 max-w-full items-center break-words text-sm font-bold text-[#0A6E77] underline decoration-2 underline-offset-4 hover:text-[#071B33] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#0A8E9A] focus-visible:ring-offset-2"
       href={href}
     >

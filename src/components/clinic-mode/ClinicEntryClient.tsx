@@ -4,8 +4,8 @@ import { useState, type FormEvent } from "react";
 import { useLocalization } from "@/components/expungement-ai/LocalizationProvider";
 import type { PublicClinicEvent } from "@/lib/clinic-mode/types";
 
-export function ClinicEntryClient({ event }: { event: PublicClinicEvent }) {
-  const { text } = useLocalization();
+export function ClinicEntryClient({ event, practice = false }: { event: PublicClinicEvent; practice?: boolean }) {
+  const { text, locale } = useLocalization();
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
 
@@ -30,7 +30,7 @@ export function ClinicEntryClient({ event }: { event: PublicClinicEvent }) {
       <h2 className="mt-3 text-2xl font-black text-[#0F1E3D]">{text("Enter this Clinic")}</h2>
       <p className="mt-3 text-sm leading-6 text-[#5C5750]">{text("Enter the code provided by Clinic staff. The code is checked by the server and cannot grant access to another event or organization.")}</p>
       <div className="mt-5 rounded-xl border border-[#D9E5DF] bg-[#F3F8F5] p-4 text-sm leading-6 text-[#29453B]">
-        <p><strong>{text("Screening is free")}</strong>{text(", and the partner covers the packet. You will use your own account and keep ownership of your matter.")}</p>
+        {practice ? <p>{locale === "es" ? "Evento de práctica: use una cuenta ficticia .test verificada. No se usan créditos patrocinados, pagos ni datos de participantes reales." : "Practice event: use a verified fictional .test account. No sponsor credits, payment, or real participant data are used."}</p> : <p><strong>{text("Screening is free")}</strong>{text(", and the partner covers the packet. You will use your own account and keep ownership of your matter.")}</p>}
         <p className="mt-2">{text("Have your court or arrest records ready. A volunteer can help you find and enter record facts, but LegalEase does not file the packet or guarantee relief.")}</p>
       </div>
       <label className="mt-5 block text-sm font-black text-[#0F1E3D]" htmlFor="eventCode">{text("Event access code")}</label>

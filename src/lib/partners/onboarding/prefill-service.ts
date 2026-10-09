@@ -220,6 +220,8 @@ export type InternalPrefillSnapshot = {
     maxLength: number | null;
   }>;
   suggestions: InternalPrefillSuggestionView[];
+  currentValues?: Record<string, unknown>;
+  fieldValueHashes?: Record<string, string>;
 };
 
 export type PartnerPrefillMetadata = {
@@ -291,7 +293,9 @@ export async function getInternalPrefillSnapshot(
       aggregateVersion: Number(loaded.workspace.aggregate_version)
     },
     summary: summarizeSuggestions(suggestions),
-    eligibleFields: eligibleFieldOptions(),
+    eligibleFields: eligibleFieldOptions().filter(field => isFieldActive(requirePrefillEligibleField(field.sectionKey, field.fieldKey), loaded.data, loaded.derivationContext)),
+    fieldValueHashes: Object.fromEntries(eligibleFieldOptions().map(field => [field.fieldKey, hashPrefill(canonicalPrefillFieldValue(loaded.data, field.sectionKey, field.fieldKey))])),
+    currentValues: Object.fromEntries(eligibleFieldOptions().map(field => [field.fieldKey, canonicalPrefillFieldValue(loaded.data, field.sectionKey, field.fieldKey)])),
     suggestions
   };
 }
@@ -380,6 +384,7 @@ export async function addStructuredPrefillSuggestion(
     sourceLabel: string;
     sourceReferenceId?: string | null;
     confidence?: number | null;
+    expectedFieldValueHash?: string;
   }
 ) {
   assertPrefillEnabled();
@@ -392,6 +397,8 @@ export async function addStructuredPrefillSuggestion(
   }
   const admin = requireAdmin();
   const loaded = await requireCanonicalWorkspace(admin, context.partnerSlug);
+  if (input.expectedFieldValueHash && hashPrefill(canonicalPrefillFieldValue(loaded.data, input.sectionKey, input.fieldKey)) !== input.expectedFieldValueHash)
+    throw new Phase1OnboardingError("revision_conflict", "This answer changed. Reload before saving; the current answer was preserved.");
   const { data: existing, error } = await admin
     .from("partner_onboarding_prefill_values")
     .select("id")
@@ -465,6 +472,87 @@ export async function addStructuredPrefillSuggestion(
   }
 
   return batch;
+}
+
+/** Reuse evidenced partner facts only where the canonical answer is empty. */
+export async function applyKnownProgramFacts(context: StudioContext, input: { requestId: string }) {
+  await importKnownPartnerData(context, input);
+  let snapshot = await getInternalPrefillSnapshot(context);
+  const candidates = snapshot.suggestions.filter(value => value.createdBy === context.authUserId && ["proposed", "approved"].includes(value.reviewStatus) &&
+    (value.fieldKey !== "contacts" || Array.isArray(value.proposedValue) && value.proposedValue.every(person => person && typeof person === "object" && ["role", "name", "title", "work_email"].every(key => typeof person[key] === "string" && person[key].trim()))) &&
+    (value.fieldKey !== "planned_users" || Array.isArray(value.proposedValue) && value.proposedValue.every(person => person && typeof person === "object" && ["name", "work_email", "requested_role"].every(key => typeof person[key] === "string" && person[key].trim()))) &&
+    (value.currentValue == null || value.currentValue === "" || Array.isArray(value.currentValue) && value.currentValue.length === 0));
+  for (const candidate of candidates) {
+    snapshot = await getInternalPrefillSnapshot(context);
+    const value = snapshot.suggestions.find(value => value.id === candidate.id);
+    if (!value || !snapshot.workspace || value.conflict) continue;
+    if (value.reviewStatus === "proposed") await reviewPrefillSuggestion(context, {
+      requestId: crypto.randomUUID(), workspaceId: snapshot.workspace.id,
+      valueId: value.id, expectedBatchVersion: value.batchVersion, action: "approve"
+    });
+  }
+  snapshot = await getInternalPrefillSnapshot(context);
+  if (!snapshot.workspace) throw persistenceError("The program could not be loaded.");
+  const approved = snapshot.suggestions.filter(value => candidates.some(candidate => candidate.id === value.id) && value.reviewStatus === "approved" && !value.conflict);
+  if (!approved.length) return { applied: 0 };
+  return applyOnboardingPrefill(context, {requestId: crypto.randomUUID(), workspaceId: snapshot.workspace.id,
+    expectedWorkspaceVersion: snapshot.workspace.aggregateVersion, selectedValueIds: approved.map(value => value.id)});
+}
+
+/** A single operator save, retaining the existing preparation/review/apply receipts. */
+export async function savePreparedProgramValue(context: StudioContext, input: {
+  requestId: string; sectionKey: OnboardingSectionKey; fieldKey: string;
+  proposedValue: unknown; expectedWorkspaceVersion: number; expectedFieldValueHash: string;
+}) {
+  await assertStudioCapability(context, "prepare");
+  const admin = requireAdmin();
+  const loaded = await requireCanonicalWorkspace(admin, context.partnerSlug);
+  const normalized = normalizePrefillValue(input.sectionKey, input.fieldKey, input.proposedValue, loaded.data, loaded.derivationContext);
+  const requiredPersonFields = input.fieldKey === "contacts" ? ["name", "title", "work_email", "role"] : input.fieldKey === "planned_users" ? ["name", "work_email", "requested_role"] : [];
+  if (Array.isArray(normalized)) for (const [index, person] of normalized.entries()) {
+    for (const key of requiredPersonFields) if (!person || typeof person[key] !== "string" || !person[key].trim())
+      throw new Phase1OnboardingError("invalid_input", `Complete ${key.replaceAll("_", " ")} for person ${index + 1} before saving this section.`);
+  }
+  const prior = await admin.from("partner_onboarding_prefill_batches").select("id,created_by,workspace_id")
+    .eq("request_id", input.requestId).maybeSingle();
+  if (prior.error) throw persistenceError("The previous save could not be checked. Retry this save.");
+  if (prior.data && (prior.data.created_by !== context.authUserId || prior.data.workspace_id !== loaded.workspace.id))
+    throw new Phase1OnboardingError("forbidden", "This save belongs to another workspace or operator.");
+  if (!prior.data && hashPrefill(canonicalPrefillFieldValue(loaded.data, input.sectionKey, input.fieldKey)) !== input.expectedFieldValueHash)
+    throw new Phase1OnboardingError("revision_conflict", "This program changed. Reload before saving; your answer has not been replaced.");
+  if (!prior.data && stablePrefillJson(canonicalPrefillFieldValue(loaded.data, input.sectionKey, input.fieldKey)) === stablePrefillJson(normalized))
+    return { duplicate: true };
+  if (!prior.data) {
+    const pending = (await getInternalPrefillSnapshot(context)).suggestions.find(value => value.fieldKey === input.fieldKey && value.sectionKey === input.sectionKey && ["proposed", "approved"].includes(value.reviewStatus));
+    if (pending) {
+      if (pending.createdBy !== context.authUserId) throw new Phase1OnboardingError("revision_conflict", "Another prepared answer needs review in preparation history.");
+      await reviewPrefillSuggestion(context, {requestId: crypto.randomUUID(), workspaceId: loaded.workspace.id, valueId: pending.id, expectedBatchVersion: pending.batchVersion, action: "supersede"});
+    }
+  }
+  const batch = prior.data ? { batchId: prior.data.id } : await addStructuredPrefillSuggestion(context, {
+    ...input, sourceType: "manual", sourceLabel: "Program information entered and reviewed by the signed-in operator."
+  });
+  let snapshot = await getInternalPrefillSnapshot(context);
+  const value = snapshot.suggestions.find(row => row.batchId === batch.batchId && row.fieldKey === input.fieldKey && row.sectionKey === input.sectionKey);
+  if (!value || !snapshot.workspace || stablePrefillJson(value.proposedValue) !== stablePrefillJson(normalized))
+    throw new Phase1OnboardingError("invalid_input", "A saved request cannot be reused for different information.");
+  if (value.reviewStatus === "applied") return { duplicate: true };
+  if (value.conflict || !["proposed", "approved"].includes(value.reviewStatus))
+    throw new Phase1OnboardingError("revision_conflict", "A partner answer changed. Review the difference in preparation history before replacing it.");
+  if (value.reviewStatus === "proposed") await reviewPrefillSuggestion(context, {
+    requestId: crypto.randomUUID(), workspaceId: snapshot.workspace.id,
+    valueId: value.id, expectedBatchVersion: value.batchVersion, action: "approve"
+  });
+  snapshot = await getInternalPrefillSnapshot(context);
+  if (!snapshot.workspace) throw persistenceError("The program could not be read back.");
+  const result = await applyOnboardingPrefill(context, {
+    requestId: crypto.randomUUID(), workspaceId: snapshot.workspace.id,
+    expectedWorkspaceVersion: snapshot.workspace.aggregateVersion, selectedValueIds: [value.id]
+  });
+  const verified = await getInternalPrefillSnapshot(context);
+  if (!verified.suggestions.some(row => row.id === value.id && row.reviewStatus === "applied"))
+    throw new Phase1OnboardingError("revision_conflict", "The answer was not applied. Review the difference in preparation history.");
+  return result;
 }
 
 export async function reviewPrefillSuggestion(
@@ -1612,7 +1700,7 @@ function emptySummary(): InternalPrefillSnapshot["summary"] {
 
 function eligibleFieldOptions(): InternalPrefillSnapshot["eligibleFields"] {
   return getPrefillEligibleFields(undefined, {
-    includeCollections: false
+    includeCollections: true
   }).map((field) => ({
     sectionKey: field.sectionKey,
     sectionLabel:

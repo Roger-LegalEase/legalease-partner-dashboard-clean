@@ -846,7 +846,7 @@ export function OnboardingSectionEditor({
       navigateToStep(activeStep.id);
       return;
     }
-    if (!controlsEnabled || completingRef.current) return;
+    if (!controlsEnabled || completingRef.current || assetOperationsRef.current.size > 0) return;
     if (debounceRef.current) {
       clearTimeout(debounceRef.current);
       debounceRef.current = null;
@@ -1446,9 +1446,9 @@ export function OnboardingSectionEditor({
 
               <GuidedActionBar
                 activeStep={activeStep}
-                completing={completing}
+                completing={completing || assetBusyCategory !== null}
                 completionHref={completionHref}
-                controlsEnabled={controlsEnabled}
+                controlsEnabled={editable}
                 dirty={dirty}
                 indicator={indicator}
                 issueCount={issues.length}

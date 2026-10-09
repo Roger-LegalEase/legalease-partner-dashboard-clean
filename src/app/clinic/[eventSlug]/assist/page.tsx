@@ -1,5 +1,6 @@
 import { LocalizedRuntimeText } from "@/components/expungement-ai/LocalizationProvider";
 import { unstable_noStore as noStore } from "next/cache";
+import { ClinicServiceError } from "@/lib/clinic-mode/errors";
 import { redirect } from "next/navigation";
 import { ClinicAssistanceClient } from "@/components/clinic-mode/ClinicAssistanceClient";
 import { ClinicPrivacyBoundary } from "@/components/clinic-mode/ClinicPrivacyBoundary";
@@ -17,6 +18,7 @@ export default async function ClinicAssistPage({ params }: { params: Promise<{ e
   if (!auth.isAuthenticated) redirect(`/expungement-ai/sign-in?mode=create&next=${encodeURIComponent(`/clinic/${eventSlug}/assist`)}`);
   const context = await Promise.all([getPublicClinicEvent(eventSlug), getClinicEntryContext(eventSlug)]).catch(async (error) => {
     if (await hasClinicDeviceRecoveryContext()) return null;
+    if (error instanceof ClinicServiceError && ["forbidden", "not_found"].includes(error.code)) redirect(`/clinic/${encodeURIComponent(eventSlug)}`);
     throw error;
   });
   if (!context) return <ClinicPrivacyBoundary cleanEntryPath="/clinic" recovery />;

@@ -1,3 +1,6 @@
+import { canUseClinicPractice } from "@/lib/partners/onboarding/practice-receipt";
+import { saveScreeningSession } from "@/lib/expungement-ai/screening-session-persistence";
+import { SupabaseScreeningResumeStorage } from "@/lib/expungement-ai/screening-resume-service";
 import { clinicConsumerContinuation } from "@/lib/expungement-ai/claim/clinic-acquisition";
 import { createHash, randomBytes } from "node:crypto";
 import { NextRequest, NextResponse } from "next/server";
@@ -37,7 +40,8 @@ export async function POST(request: NextRequest) {
     }
     const db = getSupabaseAdminClient();
     if (!db) return NextResponse.json({ success: false, error: "Clinic assistance is temporarily unavailable." }, { status: 503 });
-    const capacity = await db.rpc("clinic_entry_sponsor_capacity", { p_event: entry.eventId, p_partner: entry.partnerSlug });
+    const practice = await canUseClinicPractice(entry.partnerSlug, auth);
+    const capacity = practice ? { data: true, error: null } : await db.rpc("clinic_entry_sponsor_capacity", { p_event: entry.eventId, p_partner: entry.partnerSlug });
     if (capacity.error || typeof capacity.data !== "boolean") {
       return NextResponse.json({ success: false, error: "Sponsor capacity could not be confirmed. Please retry." }, { status: 503 });
     }
@@ -45,7 +49,11 @@ export async function POST(request: NextRequest) {
       consumerUrl: clinicConsumerContinuation(auth.userId, jurisdiction, `clinic:${entry.eventSlug}`)
     }, { headers: { "Cache-Control": "no-store, private, max-age=0" } });
     if (!capacity.data) return fallback();
-    const screening = await claimRcapPartnerScreeningSession({ partnerSlug: entry.partnerSlug, jurisdiction });
+    // Practice uses the existing free-screening storage and Clinic consent/permission
+    // transactions. It creates no sponsor allowance, payment, or launch authority.
+    const screening = practice
+      ? { ok: true as const, sessionId: (await saveScreeningSession(new SupabaseScreeningResumeStorage(db), {jurisdiction, answers: {}})).sessionId }
+      : await claimRcapPartnerScreeningSession({ partnerSlug: entry.partnerSlug, jurisdiction });
     if (!screening.ok) return screening.reason === "capacity_full" ? fallback() : NextResponse.json({ success: false, error: "The partner screening is unavailable." }, { status: 409 });
     const sessionToken = randomBytes(32).toString("base64url");
     const deviceToken = randomBytes(32).toString("base64url");
@@ -55,7 +63,7 @@ export async function POST(request: NextRequest) {
       p_event_id: entry.eventId, p_event_staff_id: eventStaffId,
       p_participant_user_id: auth.userId, p_screening_session_id: screening.sessionId,
       p_handoff_token_hash: sha(sessionToken), p_device_nonce_hash: sha(deviceToken),
-      p_consent_version: "clinic-assistance-v1", p_consented_at: new Date().toISOString(), p_ttl_minutes: 30
+      p_consent_version: practice ? "clinic-practice-assistance-v1" : "clinic-assistance-v1", p_consented_at: new Date().toISOString(), p_ttl_minutes: 30
     });
     if (sessionResult.error || typeof sessionResult.data !== "string") {
       return NextResponse.json({ success: false, error: "Assisted session could not be started." }, { status: 409 });

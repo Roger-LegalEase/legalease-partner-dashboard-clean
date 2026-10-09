@@ -17,6 +17,7 @@ import {getAuthoritativelyPublicPartnerRecord} from "@/lib/partners/public-partn
 import { isRcapOnboardingLaunchPrepEnabled,isRcapLaunchStudioEnabled } from "./feature";
 import {
   evaluateLaunchReadiness,
+  launchChecksAffectedByArtifacts,
   launchCheckDefinition,
   partnerVisibleReadiness,
   type LaunchCheckStatus,
@@ -110,40 +111,22 @@ export async function getInternalLaunchReadiness(
   if (checksError) throw new Phase1OnboardingError("persistence_failed", "Launch-check source is unavailable. No readiness verdict can be confirmed.");
   let recorded = toRecorded((data ?? []) as RecordedRow[]);
 
-  // Readiness follows the artifacts: a material source change invalidates a
-  // recorded decision the same way it invalidates an approval, with the same
-  // ownership asymmetry. The board already computed both.
-  const drifted = board.entries.filter(
-    (entry) => entry.available && entry.sourceFreshness === "stale"
-  );
-  const invalidatesPartnerOwned = drifted.some(
-    (entry) => entry.invalidatedApprovals.partner
-  );
-  const standing = recorded.filter(
-    (row) =>
-      row.invalidatedAt === null &&
-      ["passing", "waived", "not_applicable"].includes(row.status) &&
-      (invalidatesPartnerOwned ||
-        launchCheckDefinition(row.checkKey)?.owner === "legalease")
-  );
-
-  // Executed-document changes already renew contractual launch decisions in
-  // the atomic verification service. They do not undo staff training or outreach.
-  const contractOnlyDrift = drifted.length > 0 && drifted.every(entry =>
-    entry.staleFields.length > 0 && entry.staleFields.every(field => field === "asset.procurement_document"));
-  if (drifted.length > 0 && standing.length > 0 && !contractOnlyDrift) {
-    await admin.rpc("rcap_service_invalidate_onboarding_launch_checks", {
+  // Each decision follows its own material dependencies. A branding edit does
+  // not erase training, and procurement never invalidates operational work.
+  const affected = launchChecksAffectedByArtifacts(board.entries);
+  const standing = recorded.filter(row => row.invalidatedAt === null &&
+    ["passing", "waived", "not_applicable"].includes(row.status) && affected.includes(row.checkKey));
+  if (standing.length) {
+    const invalidation = await admin.rpc("rcap_service_invalidate_affected_launch_checks", {
       p_partner_slug: context.partnerSlug,
       p_workspace_id: source.workspace.id,
-      p_invalidate_partner_owned: invalidatesPartnerOwned,
-      p_reason: `Program data changed after these were recorded: ${drifted
-        .map((entry) => entry.label)
-        .join(", ")}`
+      p_check_keys: standing.map(row => row.checkKey),
+      p_reason: "Information used by this review changed. Review the updated material."
     });
-    const refreshed = await admin
-      .from("partner_onboarding_launch_checks")
-      .select(RECORDED_COLUMNS)
-      .eq("workspace_id", source.workspace.id);
+    if (invalidation.error) throw new Phase1OnboardingError("persistence_failed", "Updated program information needs review. Please retry.");
+    const refreshed = await admin.from("partner_onboarding_launch_checks")
+      .select(RECORDED_COLUMNS).eq("workspace_id", source.workspace.id);
+    if (refreshed.error) throw new Phase1OnboardingError("persistence_failed", "Current reviews could not be loaded. Please retry.");
     recorded = toRecorded((refreshed.data ?? []) as RecordedRow[]);
   }
 
