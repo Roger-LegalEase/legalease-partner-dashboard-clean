@@ -135,7 +135,7 @@ try{
   assert.equal(await page.locator('select[name=partnerSlug]').inputValue(),slug);
   const eventName=`Local RCAP acceptance ${Date.now()}`;
   await page.locator('input[name=name]').fill(eventName);await page.locator('input[name=startsAt]').fill(new Date(Date.now()+86400000).toISOString().slice(0,16));await page.locator('input[name=endsAt]').fill(new Date(Date.now()+90000000).toISOString().slice(0,16));await page.locator('input[name=locationName]').fill('Local fixture event room');await page.locator('input[name=capacity]').fill('10');
-  const created=page.waitForResponse(r=>r.request().method()==='POST'&&r.url().endsWith('/api/clinic/events'));await page.getByRole('button',{name:'Create clinic event',exact:true}).click();const result=await created;assert.ok(result.ok(),JSON.stringify(await result.json()));
+  const created=page.waitForResponse(r=>r.request().method()==='POST'&&r.url().endsWith('/api/clinic/events'));await page.getByRole('button',{name:'Create clinic event',exact:true}).click();const result=await created;assert.ok(result.ok(),`Clinic creation returned HTTP ${result.status()}`);
   await page.getByRole('heading',{name:eventName,exact:true}).waitFor();
   const eventPath=new URL(page.url()).pathname,eventId=eventPath.split('/').at(-1);
   const opened=page.waitForResponse(r=>r.request().method()==='PATCH'&&r.url().endsWith(`/api/clinic/events/${eventId}`));await page.getByRole('button',{name:'Open clinic',exact:true}).click();const openedResult=await opened;assert.equal(openedResult.status(),200,JSON.stringify(await openedResult.json()));await page.getByRole('button',{name:'Pause event',exact:true}).waitFor();
