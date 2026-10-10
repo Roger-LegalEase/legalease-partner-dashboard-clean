@@ -1,6 +1,6 @@
 import fs from 'node:fs';import assert from 'node:assert/strict';import {createHash} from 'node:crypto';
 import {actorBrowser,record,origin,root,fixture,db,checked,write} from './campaign-support.mjs';
-const {matterId}=JSON.parse(fs.readFileSync(`${root}/server/participant-packet-fixture.json`));
+const {matterId}=JSON.parse(fs.readFileSync(`${root}/server/participant-paid-fixture.json`));
 const account=fixture('clinic-participant-development-access.private'),a=await actorBrowser('participant',account),p=a.page;
 let other;
 try{

@@ -26,4 +26,8 @@ const conclusions={
 'G-21':['A-T16','U-T18','U-T17','Evidence separately identifies actual protected OpenAI, actual Stripe TEST, isolated application interactions, simulated provider failures, and unperformed Production owner acceptance. No Production cutover is claimed.']
 };
 for(const row of rows){const list=conclusions[row.gapId];assert.ok(list);const note=list.at(-1),ids=list.slice(0,-1),found=ids.map(id=>{const c=cases.find(r=>r.caseId===id);assert.ok(c);return c;});row.before=row.contract[1];row.after=note;row.caseIds=ids;row.evidence=[...new Set(found.flatMap(c=>c.evidence??[]))];row.status=found.some(c=>['BLOCKED','FAIL','NOT_RUN'].includes(c.result))?'ACCEPTANCE_BLOCKED':row.gapId==='G-03'?'ISOLATED_VERIFIED_PRODUCTION_OWNER_PENDING':row.gapId==='G-14'?'CONDITIONAL_NOT_OFFERED':row.gapId==='G-21'?'EVIDENCE_BOUNDARIES_RECORDED':'RESOLVED_IN_ISOLATED_APPLICATION';row.releaseAcceptance='NOT_CLAIMED';}
+const reset=rows.find(row=>row.gapId==='G-13'),proof='controls/clinic-preconsent-reset.json';
+if(fs.existsSync(root+'/'+proof)&&JSON.parse(fs.readFileSync(root+'/'+proof)).result==='PASS') {
+ reset.evidence.push(proof);reset.after+=' Pre-consent exit closes only the exact unused entry, creates no assistance, and prevents replay.';
+} else {reset.status='ACCEPTANCE_BLOCKED';reset.after+=' Pre-consent reset has no successful final-candidate receipt.';}
 fs.writeFileSync(root+'/ux-gap-ledger.json',JSON.stringify(rows,null,2)+'\n');console.log(JSON.stringify({gaps:rows.length,statuses:rows.reduce((a,r)=>(a[r.status]=(a[r.status]??0)+1,a),{})}));

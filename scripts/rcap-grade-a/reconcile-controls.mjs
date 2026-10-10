@@ -75,6 +75,17 @@ disposition('C07-10','CONDITIONAL_NOT_OFFERED','Optional editing of completed fo
 verify('C08-01 C08-02','C-T20','Real authorized aggregate event reporting exposes no participant-owned private documents.');
 disposition('C08-03 C08-04','CONDITIONAL_NOT_OFFERED','Unimplemented report filters and exports are not advertised as functioning controls.','C-T20');
 verify('C09-01..05','C-T21 C-T22 U-T22 U-T23','Real authenticated session reset, retry/recovery and privacy lock prevent prior participant data on back navigation or next participant use.');
+// Assisted reset does not prove exit before consent. Require its own canonical
+// readback receipt as well, so this security regression cannot be hidden by a
+// passing adjacent scenario.
+const preconsentPath='controls/clinic-preconsent-reset.json';
+if(fs.existsSync(root+'/'+preconsentPath)) {
+ const proof=JSON.parse(fs.readFileSync(root+'/'+preconsentPath));
+ assert.equal(proof.sourceSha,JSON.parse(fs.readFileSync(root+'/manifest.json')).baselineSha);
+ assert.equal(proof.result,'PASS');assert.equal(proof.sessionsBefore,proof.sessionsAfter);
+ assert.equal(proof.closed.assisted_session_id,null);assert.equal(proof.replayStatus,409);
+ for(const id of ['C09-01','C09-02'])rows.find(row=>row.controlId===id).evidence.push(preconsentPath);
+} else assign('C09-01 C09-02','ACCEPTANCE_INCOMPLETE','BLOCKED',['acceptance-ledger.jsonl'],'Pre-consent reset and closed-entry replay have no successful final-candidate browser/readback receipt.');
 verify('U01-06','U-T03','Published current program CTA leads to the actual authorized intake.');
 verify('U02-01..04 U02-11','U-T02 U-T03 U-T04','Current co-branded intake, jurisdiction picker and inactive/forged-state denials use server authorization.');
 verify('U02-05..07 U02-12','U-T05 U-T06','Actual code failure, scoped reactivation, one-use replay and safe consumer alternative work in the mobile Spanish journey.');

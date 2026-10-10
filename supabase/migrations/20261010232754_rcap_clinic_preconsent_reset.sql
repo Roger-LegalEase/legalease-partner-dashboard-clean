@@ -10,6 +10,35 @@ alter table public.clinic_event_access_redemptions
 -- latest participant, event, or session. Existing assisted recovery still works.
 -- Corrected entry responses opt in explicitly; old deployments remain false.
 
+-- Existing Clinic tables grant the server role SELECT only. Keep these wrappers
+-- SECURITY INVOKER and grant only the columns needed by this entry lifecycle.
+grant update (reset_binding_supported,assisted_session_id,closed_at,closed_by)
+  on public.clinic_event_access_redemptions to service_role;
+grant insert (event_id,actor_user_id,action,target_type,target_id,metadata)
+  on public.clinic_event_audit to service_role;
+
+-- Preserve every original redemption/audit fact. Only the new, monotonic
+-- lifecycle columns can change; the generic audit trigger remains untouched.
+create function public.clinic_guard_entry_lifecycle()
+returns trigger language plpgsql security invoker set search_path = '' as $$
+begin
+  if tg_op='DELETE' then raise exception 'Clinic redemption facts are immutable'; end if;
+  if (to_jsonb(new)-array['reset_binding_supported','assisted_session_id','closed_at','closed_by'])
+    is distinct from (to_jsonb(old)-array['reset_binding_supported','assisted_session_id','closed_at','closed_by'])
+    then raise exception 'Clinic redemption facts are immutable'; end if;
+  if (old.reset_binding_supported and not new.reset_binding_supported)
+    or (not old.reset_binding_supported and new.reset_binding_supported and old.redeemed_at<transaction_timestamp())
+    or (old.assisted_session_id is not null and new.assisted_session_id is distinct from old.assisted_session_id)
+    or (old.closed_at is not null and (new.closed_at is distinct from old.closed_at or new.closed_by is distinct from old.closed_by))
+    or (new.closed_at is not null and new.assisted_session_id is not null)
+    then raise exception 'Clinic entry lifecycle cannot be rewritten'; end if;
+  return new;
+end $$;
+drop trigger clinic_access_redemptions_append_only on public.clinic_event_access_redemptions;
+create trigger clinic_access_redemptions_append_only before update or delete on public.clinic_event_access_redemptions
+  for each row execute function public.clinic_guard_entry_lifecycle();
+revoke all on function public.clinic_guard_entry_lifecycle() from public,anon,authenticated;
+
 -- Mark provenance in the same transaction as redemption so a lost response or
 -- failed write cannot leave a newly accepted entry without its reset binding.
 create function public.clinic_redeem_event_code_with_reset(p_public_slug text,p_code_hash text,p_redemption_nonce_hash text)

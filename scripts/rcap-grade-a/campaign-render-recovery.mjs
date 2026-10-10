@@ -1,6 +1,6 @@
 import fs from 'node:fs';import assert from 'node:assert/strict';import {execFile} from 'node:child_process';import {promisify} from 'node:util';
 import {actorBrowser,record,origin,root,fixture,db,checked,write} from './campaign-support.mjs';
-const exec=promisify(execFile),{matterId}=JSON.parse(fs.readFileSync(`${root}/server/participant-packet-fixture.json`)),a=await actorBrowser('participant',fixture('clinic-participant-development-access.private')),p=a.page;
+const exec=promisify(execFile),{matterId}=JSON.parse(fs.readFileSync(`${root}/server/participant-paid-fixture.json`)),a=await actorBrowser('participant',fixture('clinic-participant-development-access.private')),p=a.page;
 const item=()=>db.from('consumer_briefcase_items').select('id,payment_status,amount_cents,checkout_session_id,payment_intent_id').eq('id',matterId).single().then(checked);
 try{
  const before=await item();assert.equal(before.payment_status,'paid');
