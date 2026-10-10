@@ -1,0 +1,80 @@
+{
+  "baseRelease": "9cf86117b80966827b8bce71e446627c700e8830",
+  "environment": "isolated loopback Next + GoTrue + PostgREST + PostgreSQL",
+  "baseline": {
+    "httpStatus": 403,
+    "unchanged": true
+  },
+  "browser": {
+    "results": [
+      {
+        "name": "Platform Admin signs in through the actual local authentication form",
+        "status": "PASS"
+      },
+      {
+        "name": "Existing workspace reproduces an active partner administrator and two recorded Not Required agreements without execution evidence",
+        "status": "PASS"
+      },
+      {
+        "name": "One save establishes LegalEase responsibility and preserves memberships, agreements, approvals and financial rows",
+        "status": "PASS"
+      },
+      {
+        "name": "Refresh persists the operating model, Not Required applicability and Screening Only without legacy launch actions",
+        "status": "PASS"
+      },
+      {
+        "name": "Save has one auditable operating-responsibility decision and retry does not duplicate it",
+        "status": "PASS"
+      },
+      {
+        "name": "Authenticated Program Setup refuses a workspace with verified signatures and external authority and explains why",
+        "status": "PASS"
+      },
+      {
+        "name": "Converted program generates current materials and displays the actual preview without partner review",
+        "status": "PASS"
+      },
+      {
+        "name": "One Platform Admin confirmation launches through the real protected pathway with no packet funding",
+        "status": "PASS"
+      }
+    ],
+    "errors": []
+  },
+  "launch": {
+    "live": true,
+    "operatingModel": "legalease_managed",
+    "jurisdictions": [
+      "DC",
+      "MD",
+      "VA"
+    ],
+    "serviceMode": "screening_only",
+    "receiptSequence": [
+      "prepared",
+      "publication_staged",
+      "public_verified",
+      "complete"
+    ]
+  },
+  "migration": {
+    "file": "20261010074948_rcap_operating_responsibility_rights.sql",
+    "sha256": "6b293060e3bcf65e9b1264c6c150f25583192c4c5b902fdf44a89eb5e49d1c03",
+    "nativeRehearsal": "PASS",
+    "existingAclAndSecurityPreserved": true,
+    "dataMigration": false
+  },
+  "nativeSqlRegression": "PASS; rolled back",
+  "credentialFreeRegression": "PASS; existing real-launch CI gate",
+  "productionChanged": false,
+  "productionOwnerAcceptance": "not run",
+  "localEvidenceSha256": {
+    "baseline.json": "d71b1b5a185f0cd21df7993d05267b0afb87147266001a717bd56a48eefb5ed9",
+    "verified-browser/browser-results.json": "bc1c814549097b0cbefeebe3b16c777964b6c4ad1232916852357dffdec964d8",
+    "verified-browser/launch.json": "c3dab5121feb4a9aeb8d98b9df84198a10662933cb4aa852b89d52c0f3e72f59",
+    "native-sql-acceptance.log": "38692d40e0358896aab1482f3e76a582c5c4e102362945feab489272f33d6d47",
+    "final-migration-rehearsal.log": "eecf4552e7c0b7932da00dee5678275fb4e7451ab70ca153ff6aa2e7e459c30a",
+    "final-sql-ci.log": "04f922331d3c750a0a73032a9ac234cfa7c0c75404940150a77d63e33e37c124"
+  }
+}

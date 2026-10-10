@@ -65,6 +65,19 @@ export async function saveProgramConfiguration(context: Context, input: { patche
   });
   if (result.error) {
     const code = result.error.code;
+    if (code === "42501" && result.error.message === "rcap_external_operating_rights") {
+      const labels: Record<string, string> = {
+        agreement_evidence: "finalized or executed agreement evidence",
+        partner_operating_approval: "an affirmative partner operating approval",
+        commercial_authority: "documented commercial authority"
+      };
+      let reasons: string[] = [];
+      try {
+        const evidence: unknown = JSON.parse(result.error.details ?? "[]");
+        if (Array.isArray(evidence)) reasons = [...new Set(evidence.flatMap(item => labels[item?.kind] ? [labels[item.kind]] : []))];
+      } catch { /* An unreadable detail must still refuse the transfer. */ }
+      throw new Phase1OnboardingError("forbidden", `Operating responsibility was not changed: this program has ${reasons.join(", ") || "recorded external operating rights"}. Keep Partner-managed until the existing authority is reviewed and any transfer is legitimately resolved with its rights holder. Memberships, agreements and approvals have been preserved.`);
+    }
     if (code === "PT409" || code === "40001" || code === "23505") throw new Phase1OnboardingError("revision_conflict", "This program changed. Reload before retrying this save.");
     if (code === "42501") throw new Phase1OnboardingError("forbidden", "Your account cannot change these program details or the protected legal identity.");
     if (code === "55000") throw new Phase1OnboardingError("invalid_transition", "This program's current state does not permit this configuration change.");

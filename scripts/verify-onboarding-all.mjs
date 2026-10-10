@@ -78,11 +78,13 @@ const REGISTRY = [
   { file: "test-rcap-real-launch-browser.mjs", group: "browser", note: "Production-equivalent launch only against disposable loopback partners" },
 
   // --- browser: drives a running application -------------------------------------------
+  { file: "test-rcap-operating-rights-browser.mjs", group: "browser", note: "Existing-workspace operating-model conversion and protected launch against isolated authenticated infrastructure" },
   { file: "capture-rcap-hotfix-acceptance.mjs", group: "browser", note: "loopback-only managed/self-service Chromium and WebKit proof; no successful launch claimed" },
   { file: "capture-rcap-prepared-onboarding-acceptance.mjs", group: "browser",
     note: "local acceptance against a loopback Supabase; needs `supabase start`, a production build and Playwright chromium" },
 
   // --- database: needs a reachable Supabase --------------------------------------------
+  { file: "test-rcap-operating-rights-migration.mjs", group: "database", note: "Disposable socket-only PostgreSQL rehearsal from RCAP_LOCAL_SCHEMA_FILE; no remote database access" },
   { file: "verify-onboarding-persistence.mjs", group: "database",
     note: "requires NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY" },
   { file: "test-first-admin-supabase-lifecycle.mjs", group: "database",
