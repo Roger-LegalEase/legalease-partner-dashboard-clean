@@ -18,7 +18,7 @@ export async function getProgramOperations(context:InternalOnboardingContext){
  const identity=await requireWorkspaceLoad("operations.identity","getProgramWorkspaceIdentity",()=>getProgramWorkspaceIdentity(context));
  const [experience,launch,decision]=await Promise.all([
   recoverWorkspaceLoad("operations.experience","getProgramExperience","Program details are temporarily unavailable. Reload to retry.",()=>getProgramExperience(context)),
-  recoverWorkspaceLoad("operations.preflight","getLaunchPreflight","Launch readiness is unavailable. Preparation remains available; Start program is disabled. Reload to retry.",()=>getLaunchPreflight(context)),
+  recoverWorkspaceLoad("operations.preflight","getLaunchPreflight","Launch readiness is unavailable. Reload to verify the current requirements before starting the program.",()=>getLaunchPreflight(context)),
   recoverWorkspaceLoad("operations.policy","rcap_service_evaluate_program","Program authority could not be verified. Privileged actions are disabled. Reload to retry.",()=>programDecision(context,"publish_partner_page"))
  ]);
  for(const value of [experience.value?.decision,decision.value])if(value&&(value.workspaceId!==identity.workspaceId||value.partnerSlug!==identity.partnerSlug))throw new Phase1OnboardingError("forbidden","Program identity does not match this workspace.");

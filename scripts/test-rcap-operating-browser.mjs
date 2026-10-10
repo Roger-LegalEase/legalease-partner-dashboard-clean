@@ -57,7 +57,7 @@ try{
   assert.equal(response.status(),409);assert.equal((await response.json()).code,'revision_conflict');assert.ok(Date.now()-started<10000);
  });
  await check('Generate actual materials without contract or partner review',async()=>{
-  prepared=await mutation('Generate and preview materials','/program');
+  prepared=await mutation(/^(Generate|Update) Materials$/,'/program');
   assert.equal(prepared.operations.view.materials.length,2,JSON.stringify(prepared.operations.view.decision));
   fs.writeFileSync(`${out}/preflight.json`,JSON.stringify({decision:prepared.operations.launchDecision,preflight:prepared.operations.preflight?.heldReason,issues:prepared.operations.issues},null,2));
   await page.locator('[aria-label="Current program preview"]').waitFor();
@@ -70,13 +70,13 @@ try{
   const english=prepared.operations.view.materials.find(m=>m.type==='co_branded_page_configuration').document.pagePreview.headline.value;
   const translationsBefore=(await state()).data.brand_public_page;
   await page.getByLabel('Enable Spanish',{exact:true}).uncheck();await mutation('Save program','/configuration');await page.reload();assert.equal(await page.getByLabel('Enable Spanish',{exact:true}).isChecked(),false);
-  prepared=await mutation('Generate and preview materials','/program');
+  prepared=await mutation(/^(Generate|Update) Materials$/,'/program');
   const preview=prepared.operations.view.materials.find(m=>m.type==='co_branded_page_configuration').document.pagePreview;assert.equal(preview.headline.value,english);assert.equal(preview.spanishEnabled,false);const translationsAfter=(await state()).data.brand_public_page;for(const key of Object.keys(translationsBefore).filter(k=>k.endsWith('_es')))assert.deepEqual(translationsAfter[key],translationsBefore[key]);assert.equal(await page.getByRole('button',{name:'Español',exact:true}).count(),0);
  });
  }
  if(process.env.RCAP_TEST_STANDARD_SPANISH){
   assert.equal(prepared.operations.canStart,true,'English operation remains ready');
-  await page.getByLabel('Enable Spanish',{exact:true}).check();await mutation('Save program','/configuration');await page.reload();prepared=await mutation('Generate and preview materials','/program');
+  await page.getByLabel('Enable Spanish',{exact:true}).check();await mutation('Save program','/configuration');await page.reload();prepared=await mutation(/^(Generate|Update) Materials$/,'/program');
  }
  await check('One final authenticated confirmation starts the real protected publication pathway',async()=>{
   assert.equal(prepared.operations.canStart,true,JSON.stringify(prepared.operations.launchDecision));

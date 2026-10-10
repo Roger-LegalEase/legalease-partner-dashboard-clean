@@ -15,7 +15,12 @@ const groups = [
   ["Participant page content", ["brand_public_page"]]
 ] as const;
 
-export function ManagedProgramEditor({ configuration }: { configuration: ProgramConfiguration }) {
+export function ManagedProgramEditor({ configuration, onDraftChange, onSavingChange, onSaved }: {
+  configuration: ProgramConfiguration;
+  onDraftChange?: () => void;
+  onSavingChange?: (saving: boolean) => void;
+  onSaved?: (version: number) => void;
+}) {
   const router = useRouter();
   const [refreshing, startRefresh] = useTransition();
   const [current, setCurrent] = useState(configuration);
@@ -42,12 +47,14 @@ export function ManagedProgramEditor({ configuration }: { configuration: Program
   }
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState("");
+  const [showReview, setShowReview] = useState(false);
   const request = useRef<{ payload: string; id: string } | null>(null);
   const locked = busy || refreshing || ["paused", "closed"].includes(current.status);
   const managed=draft.program_goals?.operating_model === "legalease_managed";
   const spanish=draft.geography_audience_language_accessibility?.enable_spanish === true;
   const fields = ONBOARDING_SCHEMA_REGISTRY.filter(field => PROGRAM_CONFIGURATION_FIELDS[field.sectionKey]?.includes(field.key) && (managed || !["operator_authority_reference","external_agreement_applicability","service_mode"].includes(field.key)) && (!field.key.endsWith("_es") || spanish));
   function set(section: OnboardingSectionKey, key: string, value: unknown) {
+    onDraftChange?.(); setShowReview(false); setMessage("");
     setDraft(previous => {
       const next={...previous,[section]:{...previous[section],[key]:value}};
       if(key==="operating_model" && value==="legalease_managed") next.program_goals={...next.program_goals,service_mode:next.program_goals?.service_mode??"screening_only",external_agreement_applicability:"not_applicable",operator_authority_reference:next.program_goals?.operator_authority_reference??"LegalEase operates this program under its own internal business and publication authority."};
@@ -57,7 +64,7 @@ export function ManagedProgramEditor({ configuration }: { configuration: Program
     });
   }
   async function save(event: React.FormEvent) {
-    event.preventDefault(); setBusy(true); setMessage("");
+    event.preventDefault(); setBusy(true); onSavingChange?.(true); setMessage(""); setShowReview(false);
     try {
       const patches: ProgramPatch[] = [];
       for (const [section, keys] of Object.entries(PROGRAM_CONFIGURATION_FIELDS)) {
@@ -67,7 +74,7 @@ export function ManagedProgramEditor({ configuration }: { configuration: Program
         const changed = Object.fromEntries(keys.filter(field => JSON.stringify(values[field] ?? null) !== JSON.stringify(before[field] ?? null)).map(field => [field, values[field]]));
         if (Object.keys(changed).length) patches.push({ section: key, values: changed, base: before });
       }
-      if (!patches.length) { setMessage("No changes to save."); return; }
+      if (!patches.length) { setMessage("No changes to save. Review the saved program materials."); onSaved?.(current.version); setShowReview(true); return; }
       const payload = JSON.stringify({ patches, expectedVersion: current.version });
       if (request.current?.payload !== payload) request.current = { payload, id: crypto.randomUUID() };
       const response = await fetch(`/api/internal/partners/onboarding/phase1/${encodeURIComponent(current.partnerSlug)}/configuration`, {
@@ -76,14 +83,15 @@ export function ManagedProgramEditor({ configuration }: { configuration: Program
       const body = await response.json();
       if (!response.ok || !body.configuration) throw new Error(typeof body.error === "string" ? body.error : "Program configuration could not be saved. Please retry.");
       setCurrent(body.configuration); setDraft(body.configuration.data); request.current = null;
+      onSaved?.(body.configuration.version); setShowReview(true);
       setMessage(body.configuration.operatingModel !== current.operatingModel
         ? "Operating responsibility and program information saved. Existing memberships, agreement history and approvals are preserved."
-        : "Program information saved. Readiness reflects these saved values.");
+        : "Program information saved and read back. Review its materials next.");
       startRefresh(() => router.refresh());
     } catch (error) { setMessage(error instanceof Error ? error.message : "Please retry saving this program."); }
-    finally { setBusy(false); }
+    finally { setBusy(false); onSavingChange?.(false); }
   }
-  return <section id="configure-program" className="mt-6 rounded-xl border bg-white p-6" aria-labelledby="configure-program-heading">
+  return <section id="configure-program" tabIndex={-1} className="mt-6 scroll-mt-32 rounded-xl border bg-white p-6" aria-labelledby="configure-program-heading">
     <h2 id="configure-program-heading" className="text-2xl font-bold">Configure program</h2>
     <p className="mt-2 text-sm">Save organization and program details together. The final Start Program confirmation authorizes the saved operating scope and current materials.</p>
     {managed && current.operatingModel !== "legalease_managed" ? <p className="mt-3 rounded border p-3 text-sm">Saving establishes LegalEase&apos;s operating responsibility for this program and records your Platform Admin decision. Administrator membership and a recorded Not Required agreement do not establish independent operating rights. Existing external agreement or operating-authority evidence prevents the change.</p> : null}
@@ -94,7 +102,7 @@ export function ManagedProgramEditor({ configuration }: { configuration: Program
           const disabled = field.key === "legal_organization_name" && current.legalIdentityLocked;
           const options = field.enumValues ?? [];
           if(field.key.endsWith("_es") && managed){ const resolved=standardProgramSpanish(draft);const keys:Record<string,keyof typeof resolved>={program_headline_es:"headline",program_subheadline_es:"subheadline",approved_organization_description_es:"organizationDescription",primary_cta_label_es:"primaryActionLabel",participant_support_copy_es:"participantSupportCopy",service_area_es:"serviceArea",target_audience_es:"targetAudience"};if(!value && resolved[keys[field.key]])return null; }
-          return <div key={field.key} className={field.key === "contacts" || field.dataType === "long_text" ? "sm:col-span-2" : ""}>
+          return <div key={field.key} id={`program-field-${field.key}`} tabIndex={-1} className={`scroll-mt-32 ${field.key === "contacts" || field.dataType === "long_text" ? "sm:col-span-2" : ""}`}>
             {field.key === "contacts" ? <><h3 className="mb-3 font-bold">Program contacts</h3><PreparedCollectionEditor fieldKey="contacts" rows={(value ?? []) as Record<string, unknown>[]} onChange={value => set(field.sectionKey, field.key, value)} /></> :
               <label className="block text-sm font-bold">{field.label}
                 {field.key === "enable_spanish" ? <><input aria-label="Enable Spanish" className="ml-3" type="checkbox" checked={value===true} onChange={event=>set(field.sectionKey,field.key,event.target.checked)}/><span className="mt-1 block font-normal">Standard Spanish page content is included. Only custom claims need translation. Legal-document availability varies by jurisdiction.</span></> : field.key === "jurisdictions" ? <select aria-label="Jurisdictions" multiple size={6} className={control} value={Array.isArray(value)?value:[]} onChange={event=>set(field.sectionKey,field.key,Array.from(event.target.selectedOptions,option=>option.value))}>{Object.entries(PROGRAM_JURISDICTIONS).map(([code,name])=><option key={code} value={code}>{name}</option>)}</select> : field.dataType === "boolean" ? <select aria-label={field.label} className={control} value={display(value)} onChange={event => set(field.sectionKey, field.key, event.target.value === "true")}><option value="">Choose</option><option value="true">Yes</option><option value="false">No</option></select> :
@@ -109,6 +117,7 @@ export function ManagedProgramEditor({ configuration }: { configuration: Program
       </fieldset>)}
       <button type="submit" disabled={locked} className="mt-6 min-h-11 rounded bg-navy px-5 font-bold text-white disabled:opacity-50">{busy || refreshing ? "Saving…" : "Save program"}</button>
       <p role="status" className="mt-3">{message}</p>
+      {showReview && !busy ? <a className="mt-3 inline-flex min-h-11 items-center rounded border px-5 font-bold" href="#program-materials" onClick={() => document.getElementById("program-materials")?.focus({preventScroll: true})}>Review Program Materials</a> : null}
     </form>
   </section>;
 }
