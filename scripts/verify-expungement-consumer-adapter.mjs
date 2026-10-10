@@ -90,7 +90,12 @@ assert(selectable.length === 51, `Expected all 50 states + DC selectable, found 
 assert(checkPage.includes("<StatePicker />"), "Check route must enter the profile-driven StatePicker.");
 assert(statePickerSource.includes("data-state-count={jurisdictions.length}"), "StatePicker must expose selectable jurisdiction count for verification.");
 assert(statePickerSource.includes('href={`/expungement-ai/screening/${jurisdiction.code}`}'), "StatePicker must route selected states into profile-driven ScreeningFlow routes.");
-assert(screeningFlowSource.includes("deriveScreens(load.profile)") && screeningFlowSource.includes("currentIndex < screens.length - 1"), "ScreeningFlow must derive the full profile question sequence before evaluating.");
+assert(screeningFlowSource.includes("await requestScreeningProgress(profile, answers)")
+  && screeningFlowSource.includes("screensFromQuestionIds(profile, selectedIds)")
+  && screeningFlowSource.includes("sanitizeAnswersForQuestionIds(answers,")
+  && screeningFlowSource.includes("nextIndex < selectedScreens.length")
+  && screeningFlowSource.includes("runEvaluation(sanitizedAnswers)"),
+  "ScreeningFlow must use the authoritative selected question sequence, sanitize skipped answers, and finish required questions before evaluation.");
 assert(!checkPage.includes("state_not_live"), "Consumer check flow must not include state_not_live.");
 assert(!adapterSource.includes("state_not_live"), "Consumer adapter must not include state_not_live.");
 assert(resultPanelSource.includes('result.paymentAllowed === true && (result.resultCode === "packet_ready" || result.resultCode === "packet_ready_with_caution")'), "Pay gate must require paymentAllowed and packet-ready result codes.");

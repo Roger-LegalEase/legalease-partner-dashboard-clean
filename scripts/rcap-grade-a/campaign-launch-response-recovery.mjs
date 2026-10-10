@@ -1,5 +1,6 @@
+import fs from 'node:fs';
 import assert from'node:assert/strict';import{actorBrowser,origin,root,db,checked,write,sourceIdentity}from'./campaign-support.mjs';
-const slug='grade-a-scale-wa-mv2vjhbj',a=await actorBrowser('admin'),p=a.page,proofs=[];let launchResponse;
+const {slug}=JSON.parse(fs.readFileSync(root+'/server/ten-program-scale.json')).receipts.find(r=>r.code==='WA'),a=await actorBrowser('admin'),p=a.page,proofs=[];let launchResponse;
 try{
  await p.goto(origin+'/internal/partners/onboarding/'+slug);const workspace=checked(await db.from('partner_onboarding').select('id,status').eq('partner_slug',slug).single());assert.notEqual(workspace.status,'live','Already completed: do not launch twice');
  const update=p.getByRole('button',{name:/^(Update Materials|Generate Materials)$/}).first();if(await update.count()){const done=p.waitForResponse(r=>r.request().method()==='POST'&&r.url().endsWith('/program'));await update.click();const response=await done,body=await response.json();assert.equal(response.status(),200,body.error);assert.equal(body.operations.view.materials.length,2);}

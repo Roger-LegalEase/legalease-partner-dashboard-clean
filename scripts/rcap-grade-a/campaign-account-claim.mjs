@@ -33,7 +33,7 @@ try{
  const rows=await db.from('consumer_briefcase_items').select('id,user_id,source_session_id').eq('source_session_id',sessionId);assert.equal(rows.error,null);assert.deepEqual(rows.data.map(m=>m.id),[itemId]);assert.deepEqual(financial,[]);
  await p.reload();await p.locator(`[data-briefcase-matter-id="${itemId}"]`).waitFor();
  result.stages.push('Real participant sign-in resumed the exact result; repeated protected claim produced one owned matter and refresh preserved it');
- const item=(await db.from('consumer_briefcase_items').select('id,user_id,source_session_id,payment_status,partner_slug').eq('id',itemId).single()).data;
+ const itemReadback=await db.from('consumer_briefcase_items').select('id,user_id,source_session_id,payment_status').eq('id',itemId).single();assert.equal(itemReadback.error,null);const item=itemReadback.data;assert.ok(item);
  result.itemId=itemId;result.sessionId=sessionId;result.result='PASS';
  await record({page:p,role:'participant',engine:'chromium',width:1280,errors:[]},['U-T08','U-T10'],['Complete actual anonymous screening','Save the exact preliminary result','Leave and return to the authentication continuation','Create a new account','Open actual verification email','Claim the exact result','Replay the claim and refresh'], 'Actual account creation and email verification recover the exact pending screening result as one owned matter after interrupted authentication.',{fixture:slug,item,claimReplayStatus:replay.status});
  write('server/new-participant-claim.json',{slug,itemId,sessionId,userId:item.user_id,result:'PASS'});

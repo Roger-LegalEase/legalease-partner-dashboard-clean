@@ -68,7 +68,8 @@ export async function POST(request: NextRequest) {
     const deviceToken = nonce("device");
     const recovery = mintRecovery(auth.userId, hash(sessionToken), hash(deviceToken));
     const recoveryValue = encodeRecovery(recovery); // Fail before creating a session if recovery cannot be issued.
-    const sessionResult = await db.rpc("clinic_start_assisted_session", {
+    const sessionResult = await db.rpc("clinic_start_assisted_session_for_entry", {
+      p_entry_hash: entry.entryRedemptionHash,
       p_event_id: entry.eventId, p_event_staff_id: eventStaffId,
       p_participant_user_id: auth.userId, p_screening_session_id: screening.sessionId,
       p_handoff_token_hash: sha(sessionToken), p_device_nonce_hash: sha(deviceToken),

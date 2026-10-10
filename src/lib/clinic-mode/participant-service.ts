@@ -99,7 +99,7 @@ export async function getClinicEntryContext(eventSlug: string) {
   if (!rawToken) throw new ClinicServiceError("forbidden", "Enter the event access code on this device first.");
   const db = requireDatabase();
   const redemption = await db.from("clinic_event_access_redemptions").select("event_id,redeemed_at")
-    .eq("redemption_nonce_hash", sha256(rawToken)).gt("redeemed_at", new Date(Date.now() - 8 * 60 * 60 * 1000).toISOString()).maybeSingle();
+    .eq("redemption_nonce_hash", sha256(rawToken)).is("closed_at", null).gt("redeemed_at", new Date(Date.now() - 8 * 60 * 60 * 1000).toISOString()).maybeSingle();
   if (redemption.error || !redemption.data) throw new ClinicServiceError("forbidden", "The event entry handoff expired.");
   const event = await db.from("clinic_events").select("id,partner_slug,public_slug,name,jurisdiction,status")
     .eq("id", redemption.data.event_id).eq("public_slug", normalizeSlug(eventSlug)).eq("status", "published").maybeSingle();

@@ -13,11 +13,12 @@ for(const role of ['admin','partner_admin','participant','public']){
   visited.add(key);await p.goto(origin+instance.route);await p.getByRole('heading',{level:1}).first().waitFor();
   // Details may contain legitimate advanced links.
   for(const details of await p.locator('details').all())if(await details.getAttribute('open')===null)await details.locator(':scope > summary').click();
+  if(instance.name==='Report a Wilma issue')await p.getByRole('button',{name:'Ask Wilma',exact:true}).click();
   const exact=p.locator('a').filter({visible:true});let target=null;
   for(const candidate of await exact.all())if(await candidate.getAttribute('href')===href){target=candidate;break;}
   assert.ok(target,'Missing visible link '+instance.name+' on '+instance.route);
   await target.click();const expected=new URL(href,origin+instance.route);
-  await p.waitForURL(u=>u.pathname===expected.pathname&&u.hash===expected.hash);
+  if(role==='public'&&expected.pathname==='/briefcase'){await p.waitForURL(u=>u.pathname==='/expungement-ai/sign-in'&&u.searchParams.get('next')==='/briefcase');await p.getByLabel('Email',{exact:true}).waitFor();assert.equal(await p.locator('[data-briefcase-matter-id]').count(),0);}else await p.waitForURL(u=>u.pathname===expected.pathname&&u.hash===expected.hash);
   await p.getByRole('heading',{level:1}).first().waitFor();
   assert.equal(await p.getByText(/Application error|Internal Server Error/).count(),0);
   const heading=await p.getByRole('heading',{level:1}).first().innerText();assert.ok(!/^(404|page not found|not found)/i.test(heading),heading);

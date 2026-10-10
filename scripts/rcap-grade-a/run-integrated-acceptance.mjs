@@ -16,7 +16,7 @@ const ownerPlan='/workspaces/training-modules-09-10/output/LegalEase_RCAP_Grade_
 execFileSync(process.execPath,['scripts/rcap-grade-a/import-contract.mjs',ownerPlan,root],{stdio:'inherit'});
 for(const dir of ['server','providers','journeys','logs'])fs.mkdirSync(`${root}/${dir}`,{recursive:true});
 const development='artifacts/rcap-grade-a-final/ba81792225d6d82ef57c104061e9d5eb9d7db395';
-for(const file of ['creation-development-check.json','staff-development-access.private.json']) {
+for(const file of ['creation-development-check.json','staff-development-access.private.json','clinic-participant-development-access.private.json']) {
  fs.copyFileSync(`${development}/server/${file}`,`${root}/server/${file}`);
  if(file.includes('.private.'))fs.chmodSync(`${root}/server/${file}`,0o600);
 }
@@ -36,18 +36,19 @@ const steps=[
  ['campaign-admin',[]],['campaign-scale',[]],
  ['check-partner-transition',[]],['check-clinic-integration',[]],
  ['check-clinic-queue-reset',['check-clinic-integration']],
- ['campaign-clinic-lifecycle',['check-clinic-queue-reset']],
- ['campaign-clinic-boundaries',[]],['campaign-clinic-optional-mode',[]],
+ ['campaign-clinic-boundaries',['check-clinic-queue-reset']],
+ ['campaign-clinic-lifecycle',['campaign-clinic-boundaries']],['campaign-clinic-optional-mode',[]],
  ['campaign-invitation-recovery',['check-clinic-integration']],
- ['campaign-spanish-failures',[]],['campaign-spanish-update',['campaign-spanish-failures']],
+ ['campaign-spanish-failures',[]],
  ['campaign-partner-spanish',['campaign-invitation-recovery']],
  ['campaign-partner-scope-codes',['campaign-invitation-recovery']],
+ ['campaign-partner-code-lifecycle',['campaign-invitation-recovery']],
  ['campaign-partner-staff',['check-partner-transition']],
- ['campaign-partner-delegation',['campaign-partner-spanish','campaign-partner-scope-codes']],
+ ['campaign-partner-delegation',['campaign-partner-spanish','campaign-partner-scope-codes','campaign-partner-code-lifecycle']],
  ['campaign-partner-navigation',['check-partner-transition','campaign-admin']],
  ['campaign-admin-boundaries',['campaign-scale']],['campaign-admin-diagnostics',['campaign-scale']],
  ['campaign-launch-authority-denial',['check-partner-transition']],
- ['campaign-public-boundaries',['campaign-spanish-update','campaign-scale']],
+
  ['campaign-access-code-claim',[]],['campaign-account-claim',[]],
  ['campaign-account-claim-readback',['campaign-account-claim']],
  ['campaign-participant-boundaries',['campaign-account-claim-readback']],
@@ -79,7 +80,9 @@ const steps=[
  ['campaign-extra-disclosures',['audit-extra-controls']],
  ['campaign-program-capacity-controls',['campaign-partner-delegation']],
  ['campaign-diagnostic-revocation-controls',['campaign-partner-delegation']],
- ['campaign-extra-admin-actions',['campaign-diagnostic-revocation-controls']]
+ ['campaign-extra-admin-actions',['campaign-diagnostic-revocation-controls']],
+ ['campaign-spanish-update',['campaign-spanish-failures']],
+ ['campaign-public-boundaries',['campaign-spanish-update','campaign-scale']]
 ];
 const compositeCases={
  'check-partner-transition':['P-T04','P-T09','P-T11','P-T12'],

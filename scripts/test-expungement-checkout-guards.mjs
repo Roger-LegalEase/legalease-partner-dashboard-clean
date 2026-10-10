@@ -845,6 +845,8 @@ function buildReconciliation({
   paymentOutcome = "recorded_paid",
   item = eligibleItem({ checkoutSessionId: "cs_test_bound", sourceSessionId: undefined }),
   sponsorship = null,
+  fundingAuthority = false,
+  fundingError = null,
   protectedArtifactReady = false
 } = {}) {
   const paymentCalls = [];
@@ -852,7 +854,14 @@ function buildReconciliation({
   const statusCalls = [];
   const claimCalls = [];
 
+  const fundingCalls = [];
   const supabase = {
+    async rpc(name, args) {
+      assert.equal(name, "rcap_consumer_packet_authorized");
+      assert.deepEqual(args, { p_item: item.id, p_owner: USER });
+      fundingCalls.push({ name, args });
+      return { data: fundingAuthority, error: fundingError };
+    },
     from(table) {
       if (table === "processed_stripe_events") {
         return {
@@ -875,6 +884,9 @@ function buildReconciliation({
     }
   };
 
+  // This real classifier closes over this case's database double. Do not reuse
+  // another case's captured Supabase client through the TypeScript module cache.
+  REAL_MODULE_CACHE.delete(path.join(rootDir, "src/lib/expungement-ai/clinic-packet-funding.ts"));
   const reconciliation = loadTsWithMocks("src/lib/expungement-ai/checkout-reconciliation.ts", {
     "server-only": {},
     stripe: {},
@@ -928,7 +940,7 @@ function buildReconciliation({
     }
   });
 
-  return { reconciliation, paymentCalls, renderCalls, statusCalls, claimCalls };
+  return { reconciliation, paymentCalls, renderCalls, statusCalls, claimCalls, fundingCalls };
 }
 
 async function webhookBehavior() {
@@ -1010,6 +1022,32 @@ async function webhookBehavior() {
     );
     assert.equal(h.claimCalls.length, 0);
     assert.equal(h.paymentCalls.length, 0);
+  }
+
+  for (const fundingAuthority of [true, false, null]) {
+    const h = buildReconciliation({
+      item: eligibleItem({ checkoutSessionId: "cs_test_bound", sourceSessionId: "screening-only-rcap" }),
+      sponsorship: { session_id: "screening-only-rcap", flow_mode: "rcap", partner_benefit_active: true, partner_slug: "screening-only" },
+      fundingAuthority
+    });
+    if (fundingAuthority === true) {
+      assert.equal(await h.reconciliation.reconcileExpungementAiCheckoutEvent(completedEvent()), "processed");
+      assert.equal(h.paymentCalls.length, 1, "Only affirmative canonical consumer funding authority permits the writer");
+    } else {
+      await assert.rejects(h.reconciliation.reconcileExpungementAiCheckoutEvent(completedEvent()),
+        fundingAuthority === false ? /partner-sponsored RCAP matters cannot enter/ : /Packet funding authority is unavailable/);
+      assert.equal(h.claimCalls.length, 0); assert.equal(h.paymentCalls.length, 0); assert.equal(h.renderCalls.length, 0);
+    }
+    assert.equal(h.fundingCalls.length, 1, "The bound owner/matter authority must be read");
+  }
+  {
+    const h = buildReconciliation({
+      item: eligibleItem({ checkoutSessionId: "cs_test_bound", sourceSessionId: "unknown-funding" }),
+      sponsorship: { flow_mode: "rcap", partner_benefit_active: true, partner_slug: "screening-only" },
+      fundingAuthority: true, fundingError: { message: "isolated authority unavailable" }
+    });
+    await assert.rejects(h.reconciliation.reconcileExpungementAiCheckoutEvent(completedEvent()), /Packet funding authority is unavailable/);
+    assert.equal(h.paymentCalls.length, 0); assert.equal(h.claimCalls.length, 0);
   }
 
   {

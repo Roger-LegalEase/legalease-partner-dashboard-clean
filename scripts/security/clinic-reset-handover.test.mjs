@@ -9,18 +9,24 @@ const recovery={exports:{}};new Function('require','module','exports','process',
 test('actual next-participant start refuses incomplete reset and retires old recovery after successful handover',async()=>{
  let starts=0;
  const source=ts.transpileModule(fs.readFileSync('src/app/api/clinic/assistance/start/route.ts','utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022}}).outputText;
+ const security={exports:{}};new Function('module','exports',ts.transpileModule(fs.readFileSync('src/lib/partners/onboarding/request-security.ts','utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022}}).outputText)(security,security.exports);
  const m={exports:{}};
- new Function('require','module','exports',source)(name=>{
+ new Function('require','module','exports','process',source)(name=>{
+  if(name.endsWith('/request-security'))return security.exports;
+  if(name.endsWith('/error-response'))return {clinicErrorResponse:e=>NextResponse.json({error:e.message},{status:e.status??500})};
+  if(name.endsWith('/program-packet-funding'))return {getProgramPacketFunding:async()=> 'consumer'};
+  if(name.endsWith('/practice-receipt'))return {canUseClinicPractice:async()=>false};
+  if(name.endsWith('/screening-session-persistence')||name.endsWith('/screening-resume-service'))return {};
   if(name.endsWith('/clinic-acquisition'))return {clinicConsumerContinuation:()=>{throw Error('available sponsorship must not enter DTC');}};
   if(name.endsWith('/reset-recovery'))return recovery.exports;
   if(name==='next/server')return {NextRequest,NextResponse};
-  if(name.endsWith('participant-service'))return {getClinicEntryContext:async()=>({partnerSlug:'test',eventId:'event',eventSlug:'test',jurisdiction:'MS'}),listApprovedClinicStaff:async()=>[{id:'11111111-1111-4111-8111-111111111111'}]};
+  if(name.endsWith('participant-service'))return {getClinicEntryContext:async()=>({partnerSlug:'test',eventId:'event',eventSlug:'test',jurisdiction:'MS',entryRedemptionHash:'a'.repeat(64)}),listApprovedClinicStaff:async()=>[{id:'11111111-1111-4111-8111-111111111111'}]};
   if(name.endsWith('rcap-partner-intake'))return {claimRcapPartnerScreeningSession:async()=>({ok:true,sessionId:'screening'})};
   if(name.endsWith('auth-server'))return {getServerAuthState:async()=>({isAuthenticated:true,userId:'participant-b'})};
-  if(name==='@/lib/supabase/server')return {getSupabaseAdminClient:()=>({rpc:async(name)=>{if(name==='clinic_entry_sponsor_capacity')return {data:true,error:null};if(name==='clinic_start_assisted_session')starts++;return {data:'22222222-2222-4222-8222-222222222222',error:null};}})};
+  if(name==='@/lib/supabase/server')return {getSupabaseAdminClient:()=>({from:()=>({select:()=>({eq(){return this;},maybeSingle:async()=>({data:{id:'case'},error:null})})}),rpc:async(name,args)=>{if(name==='clinic_entry_sponsor_capacity')return {data:true,error:null};if(name==='clinic_start_assisted_session_for_entry'){assert.equal(args.p_entry_hash,'a'.repeat(64));starts++;}return {data:'22222222-2222-4222-8222-222222222222',error:null};}})};
   return require(name);
- },m,m.exports);
- const call=cookie=>m.exports.POST(new NextRequest('http://localhost/api/clinic/assistance/start',{method:'POST',headers:{cookie},body:JSON.stringify({eventSlug:'test',eventStaffId:'11111111-1111-4111-8111-111111111111',jurisdiction:'MS',consent:true})}));
+ },m,m.exports,{env:{SUPABASE_SERVICE_ROLE_KEY:'disposable-key'}});
+ const call=cookie=>m.exports.POST(new NextRequest('http://localhost/api/clinic/assistance/start',{method:'POST',headers:{cookie,origin:'http://localhost',host:'localhost','content-type':'application/json'},body:JSON.stringify({eventSlug:'test',eventStaffId:'11111111-1111-4111-8111-111111111111',jurisdiction:'MS',consent:true})}));
  assert.equal((await call('clinic_reset_pending=1; clinic_reset_recovery=old')).status,409);assert.equal(starts,0);
  const response=await call('clinic_reset_recovery=old');assert.equal(response.status,200);assert.equal(starts,1);assert.notEqual(response.cookies.get('clinic_reset_recovery').value,'old');assert.ok(response.cookies.get('clinic_reset_recovery').expires);assert.ok(response.cookies.get('clinic_session').value);assert.ok(response.cookies.get('clinic_device').value);
 });

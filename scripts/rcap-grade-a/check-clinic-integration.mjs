@@ -27,7 +27,7 @@ try{
  await admin.locator('[name=endsAt]').fill(new Date(Date.now()+86400000).toISOString().slice(0,16));
  await admin.getByLabel('Location',{exact:true}).fill('Isolated shared-device test');
  await admin.getByLabel('Participant state',{exact:false}).selectOption('CA');
- await admin.getByLabel('Capacity',{exact:true}).fill('3');
+ await admin.getByLabel('Capacity',{exact:true}).fill('4');
  const creation=admin.waitForResponse(r=>r.url().endsWith('/api/clinic/events')&&r.request().method()==='POST');
  await admin.getByRole('button',{name:'Create clinic event',exact:true}).click();const created=await creation;const event=await created.json();assert.equal(created.status(),201,JSON.stringify(event));eventId=event.eventId;result.eventId=eventId;
  await admin.waitForURL(u=>u.pathname===`/internal/clinic/${eventId}`);
