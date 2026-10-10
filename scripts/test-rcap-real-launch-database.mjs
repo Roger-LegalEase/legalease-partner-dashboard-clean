@@ -126,4 +126,5 @@ try{
  await (await import("./test-rcap-workspace-recovery.mjs")).testWorkspaceRecovery(db,id);
  await (await import("./test-rcap2-program-configuration.mjs")).testProgramConfiguration(db,id);
  await testProgramPolicy(db,id);
+ await (await import('./test-rcap-operating-rights.mjs')).testOperatingRights(db,id);
 }finally{await db.close();}

@@ -89,6 +89,15 @@ changing this selection. Opening a legacy workspace never changes its policy or 
 An explicit authorized operator choice may select the current policy transactionally;
 all prior records and approval evidence remain intact.
 
+Application administrator membership and the recording of a `not_required` agreement
+are administrative facts, not evidence of independent operating rights. A Platform
+Admin may establish LegalEase responsibility in the normal program save, including
+for an owner-designated fictional organization with no third-party rights. That save
+records the actor, basis, prior/new operator and external-rights evaluation while
+preserving memberships, agreement history and approvals. Executed/finalized agreement
+evidence, affirmative partner operating approval and commercial authority remain
+protected; an operator choice never overrides them.
+
 For a genuine LegalEase-managed program, the administrator may designate an external
 partner agreement as not applicable. No partner administrator, partner final review,
 procurement document, duplicate commercial approval or arbitrary expiration is required
