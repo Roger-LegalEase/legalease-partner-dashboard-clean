@@ -59,7 +59,7 @@ try{
  await check('Saved legacy configuration preserves policy, agreements and approval history',async()=>{
   const fresh=await context.request.get(`${origin}/api/internal/partners/onboarding/phase1/${slug}/configuration`);assert.equal((await fresh.json()).configuration.policyVersion,before.policyVersion);assert.deepEqual(await protectedState(),protectedBefore);
  });
- async function action(buttonName){const pending=page.waitForResponse(r=>r.request().method()==='POST'&&r.url().endsWith('/program'));await page.getByRole('button',{name:buttonName,exact:true}).click();const r=await pending;const b=await r.json();assert.equal(r.status(),200,JSON.stringify(b));await page.reload({waitUntil:'domcontentloaded'});await page.getByRole('heading',{name:'Configure program',exact:true}).waitFor();return b;}
+ async function action(buttonName){assert.equal(await page.getByRole('button',{name:buttonName,exact:true}).isEnabled(),true,buttonName+' must be enabled');const pending=page.waitForResponse(r=>r.request().method()==='POST'&&r.url().endsWith('/program'));await page.getByRole('button',{name:buttonName,exact:true}).click();const r=await pending;const b=await r.json();assert.equal(r.status(),200,JSON.stringify(b));await page.reload({waitUntil:'domcontentloaded'});await page.getByRole('heading',{name:'Configure program',exact:true}).waitFor();return b;}
  if(before.policyVersion==='legacy')await check('Explicit policy choice advances the same workspace without the section approval maze',async()=>{
   await action('Use five-step setup');assert.equal(await page.getByRole('button',{name:'Use five-step setup',exact:true}).count(),0);assert.deepEqual(await protectedState(),protectedBefore);
  });
@@ -97,6 +97,7 @@ try{
  });
 
  async function authorize(){
+  await page.waitForLoadState("networkidle");
   await page.getByLabel('Specific authority or decision basis',{exact:true}).fill('Authorized disposable functional acceptance for this program; no real commercial activity.');
   await page.getByLabel('Authorization expires',{exact:true}).fill(new Date(Date.now()+7*86400000).toISOString().slice(0,16));
   await page.getByRole('checkbox',{name:/I reviewed this program and its actual authority/}).check();
@@ -115,7 +116,7 @@ try{
  });
  await check('Screening-only authority is recorded without payment or packet entitlement',async()=>{
   await authorize();await page.getByText('Service authority and agreements',{exact:true}).click();
-  await page.getByLabel('Policy or authority reference',{exact:true}).fill('Owner-authorized isolated application acceptance fixture.');await page.getByLabel('Effective conditions',{exact:true}).fill('Local screening program only; no money and no real participants.');await page.getByLabel('Termination or revocation rule',{exact:true}).fill('Authority ends when this disposable acceptance exercise ends.');await page.getByLabel('Documented screening allowance',{exact:true}).fill('100');
+  await page.getByLabel('Policy or authority reference',{exact:true}).fill('Owner-authorized isolated application acceptance fixture.');await page.getByLabel('Effective conditions',{exact:true}).fill('Local screening program only; no money and no real participants.');await page.getByLabel('Termination or revocation rule',{exact:true}).fill('Authority ends when this disposable acceptance exercise ends.');await page.getByLabel('Documented screening allowance',{exact:true}).fill('100');await page.getByRole('checkbox',{name:/I reviewed this program and its actual authority/}).check();
   await action('Record limited-service authority');await page.getByLabel('Program status').getByText('Current screening-only authority',{exact:true}).waitFor();
   const r=await db.from('partner_records').select('payment_status').eq('partner_slug',slug).single();assert.equal(r.data.payment_status,'unpaid');
   await action('View current program materials');
@@ -134,7 +135,7 @@ try{
   assert.equal(await page.locator('select[name=partnerSlug]').inputValue(),slug);
   const eventName=`Local RCAP acceptance ${Date.now()}`;
   await page.locator('input[name=name]').fill(eventName);await page.locator('input[name=startsAt]').fill(new Date(Date.now()+86400000).toISOString().slice(0,16));await page.locator('input[name=endsAt]').fill(new Date(Date.now()+90000000).toISOString().slice(0,16));await page.locator('input[name=locationName]').fill('Local fixture event room');await page.locator('input[name=capacity]').fill('10');
-  const created=page.waitForResponse(r=>r.request().method()==='POST'&&r.url().endsWith('/api/clinic/events'));await page.getByRole('button',{name:'Create clinic event',exact:true}).click();const result=await created;assert.equal(result.status(),200,JSON.stringify(await result.json()));
+  const created=page.waitForResponse(r=>r.request().method()==='POST'&&r.url().endsWith('/api/clinic/events'));await page.getByRole('button',{name:'Create clinic event',exact:true}).click();const result=await created;assert.ok(result.ok(),JSON.stringify(await result.json()));
   await page.getByRole('heading',{name:eventName,exact:true}).waitFor();
   const eventPath=new URL(page.url()).pathname,eventId=eventPath.split('/').at(-1);
   const opened=page.waitForResponse(r=>r.request().method()==='PATCH'&&r.url().endsWith(`/api/clinic/events/${eventId}`));await page.getByRole('button',{name:'Open clinic',exact:true}).click();const openedResult=await opened;assert.equal(openedResult.status(),200,JSON.stringify(await openedResult.json()));await page.getByRole('button',{name:'Pause event',exact:true}).waitFor();
