@@ -1,4 +1,5 @@
 import "server-only";
+import { getProfileByJurisdiction } from "@/lib/rcap-engine/profile-registry";
 import { createHash,randomUUID } from "node:crypto";
 import { getSupabaseAdminClient } from "@/lib/supabase/server";
 import type { InternalOnboardingContext } from "./auth-context";
@@ -47,6 +48,7 @@ export async function prepareInternalProgram(context:InternalOnboardingContext){
   organization_contacts:{public_organization_name:name,public_program_name:`${name} RCAP`},
   program_goals:{participation_mode:"online",target_population:"People in the program service area"},
   geography_audience_language_accessibility:{primary_language:"English",enable_spanish:false},
+  ...(snapshot.operatingModel==="legalease_managed"?{access_sponsorship_capacity:{participant_access_model:"open"}}:{}),
   support_referrals_reporting:{participant_support_email:getPartnerSupportContact().email,referral_arrangement:"no_referrals",contested_matter_procedure:"Stop the self-help process for prosecutor objections, contested hearings, or requests for individualized representation. Notify the participant and contact LegalEase support. LegalEase does not provide representation."},
   brand_public_page:{program_headline:"Explore your record-clearing options",program_subheadline:"Answer clear questions to understand possible next steps.",approved_organization_description:`A record-clearing access program from ${name}.`,primary_cta_label:"Start free screening",participant_support_copy:"Contact program support if you need help getting started."}
  };
@@ -57,7 +59,9 @@ export async function prepareInternalProgram(context:InternalOnboardingContext){
   if(Object.keys(missing).length)patches.push({section:key,values:missing,base:current});
  }
  if(patches.length)await saveProgramConfiguration(context,{patches,requestId:randomUUID(),expectedVersion:snapshot.version});
- if((await programDecision(context,"complete_setup")).allowed)await prepareProgramReview(context);
+ const setup=await programDecision(context,"complete_setup");
+ if(!setup.allowed)throw new Phase1OnboardingError("invalid_input",setup.blockers.map(b=>b.label).join(" "));
+ await prepareProgramReview(context);
 }
 function childRequest(request:string,purpose:string){const h=createHash("sha256").update(`${request}:${purpose}`).digest("hex");return `${h.slice(0,8)}-${h.slice(8,12)}-4${h.slice(13,16)}-8${h.slice(17,20)}-${h.slice(20,32)}`;}
 export async function runProgramOperation(context:InternalOnboardingContext,body:Record<string,unknown>,requestId:string){
@@ -84,9 +88,17 @@ export async function runProgramOperation(context:InternalOnboardingContext,body
  if(body.action==="start"){const preflight=await getLaunchPreflight(context);if(!preflight.canAuthorizeStart)throw new Phase1OnboardingError("invalid_transition",preflight.heldReason??"Current launch authority is unavailable.");}
  if(body.version!==current.sourceVersion||body.scopeHash!==current.scopeHash)throw new Phase1OnboardingError("revision_conflict","This program changed. Reload and review the current details.");
  if(body.action==="delegate"||body.action==="start"||body.action==="withdraw_delegation"||body.action==="revoke_authority"){
-  const type=body.action==="revoke_authority"?"commercial_revocation":body.action==="start"?"legalease_final_review":"standing_launch_authorization";
+  const type=body.action==="revoke_authority"?(current.operatingModel==="legalease_managed"?"legalease_final_review":"commercial_revocation"):body.action==="start"?"legalease_final_review":"standing_launch_authorization";
   const withdraw=body.action==="withdraw_delegation"||body.action==="revoke_authority";
-  await recordProgramDecision(context,type,withdraw?"withdraw":"approve",{policy_version:"rcap2.2",scope_hash:current.scopeHash,authority_id:current.authorityId,expires_at:body.expiresAt,authority_basis:body.reason,capabilities:["publish_partner_page","accept_screenings","create_clinic","publish_clinic"]},body.action==="start"?childRequest(requestId,"review"):requestId);
+  let details:Record<string,unknown>={policy_version:"rcap2.2",scope_hash:current.scopeHash,authority_id:current.authorityId,expires_at:body.expiresAt,authority_basis:body.reason,capabilities:["publish_partner_page","accept_screenings","create_clinic","publish_clinic"]};
+  if (body.action==="start" && current.operatingModel==="legalease_managed") {
+   const view=await getProgramExperience(context);
+   if(!view.reviewToken || body.reviewToken!==view.reviewToken) throw new Phase1OnboardingError("revision_conflict","Preview the current materials before confirming Start Program.");
+   const jurisdictions=view.data.geography_audience_language_accessibility?.jurisdictions??[];
+   const profiles=Object.fromEntries(jurisdictions.map(code=>{const profile=getProfileByJurisdiction(code);if(!profile)throw new Phase1OnboardingError("invalid_input","This jurisdiction does not have a supported screening profile.");return [code,profile.profileVersion];}));
+   details={policy_version:"rcap2.2",scope_hash:current.scopeHash,materials_hash:current.materialsHash,operator_identity:"LegalEase",operating_model:"legalease_managed",authority_basis:view.data.program_goals?.operator_authority_reference,service_mode:view.data.program_goals?.service_mode,jurisdictions,spanish_enabled:view.data.geography_audience_language_accessibility?.enable_spanish===true,screening_profiles:profiles,statement_version:"rcap-operating-confirmation-v1",capabilities:["publish_partner_page","accept_screenings",...(["clinics","both"].includes(view.data.program_goals?.participation_mode??"")?["create_clinic","publish_clinic"]:[]),...(view.data.program_goals?.service_mode==="participant_paid"?["offer_paid_packet"]:view.data.program_goals?.service_mode==="sponsored_packets"?["issue_sponsored_packet"]:[])],publication_scope:`/p/${context.partnerSlug}`,material_versions:view.materials.map(m=>({type:m.type,id:m.id,hash:m.hash,version:m.version}))};
+  }
+  await recordProgramDecision(context,type,withdraw?"withdraw":"approve",details,body.action==="start"?childRequest(requestId,"review"):requestId);
   if(body.action==="start"){const preflight=await getLaunchPreflight(context);if(!preflight.canLaunch)throw new Phase1OnboardingError("invalid_transition",preflight.heldReason??"The program cannot start yet.");await executeRealLaunch(context,{requestId,snapshotHash:preflight.snapshotHash,confirmed:true});}
   return;
  }

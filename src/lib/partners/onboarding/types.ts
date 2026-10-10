@@ -46,6 +46,7 @@ export type OnboardingValidationMode =
   | "final_submit";
 
 export type OnboardingFieldOwnership =
+  | "legalease_controlled"
   | "partner_editable"
   | "internal_read_only"
   | "system_derived";
@@ -248,6 +249,10 @@ export type OrganizationContactsSectionData = {
 };
 
 export type ProgramGoalsSectionData = {
+  operating_model?: "partner_managed" | "legalease_managed";
+  operator_authority_reference?: string;
+  external_agreement_applicability?: "required" | "not_applicable";
+  service_mode?: "screening_only" | "participant_paid" | "sponsored_packets";
   participation_mode?: "online" | "clinics" | "both";
   primary_goal?: string;
   definition_of_success?: string;
@@ -528,6 +533,7 @@ export type OnboardingDerivationContext = {
 };
 
 export type OnboardingValidationContext = Partial<OnboardingDerivationContext> & {
+  canonicalOperatingFields?: boolean;
   workspaceStatus?: OnboardingWorkspaceStatus;
   allSections?: OnboardingPartnerData;
 };

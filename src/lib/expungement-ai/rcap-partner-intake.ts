@@ -1,4 +1,4 @@
-import { isRcap2Enabled } from "@/lib/partners/onboarding/feature";
+import { getProfileByJurisdiction } from "@/lib/rcap-engine/profile-registry";
 import "server-only";
 
 import { getSupabaseAdminClient } from "@/lib/supabase/server";
@@ -14,6 +14,8 @@ export type RcapPartnerIntakeContext = {
   programName: string | null;
   serviceArea: string | null;
   jurisdiction: string;
+  jurisdictions: string[];
+  spanishEnabled: boolean;
   logoUrl: string | null;
   accessMode: PartnerAccessMode;
 };
@@ -29,7 +31,7 @@ export type RcapPartnerCodeClaimResult =
     }
   | {
       ok: false;
-      reason: "partner_inactive" | "code_required" | "invalid" | "inactive" | "expired" | "exhausted";
+      reason: "partner_inactive" | "jurisdiction_not_authorized" | "code_required" | "invalid" | "inactive" | "expired" | "exhausted";
     };
 
 type CodeClaimRpcRow = {
@@ -52,7 +54,7 @@ export type RcapPartnerClaimResult =
     }
   | {
       ok: false;
-      reason: "partner_inactive" | "capacity_full";
+      reason: "partner_inactive" | "jurisdiction_not_authorized" | "code_required" | "capacity_full";
       screeningsUsed: number | null;
       screeningsAllowed: number | null;
     };
@@ -80,7 +82,7 @@ type ClaimRpcRow = {
   screenings_allowed: number | null;
 };
 
-export async function resolveRcapPartnerIntakeContext(partnerSlug: string): Promise<RcapPartnerIntakeContext | null> {
+export async function resolveRcapPartnerIntakeContext(partnerSlug: string, selectedJurisdiction?: string): Promise<RcapPartnerIntakeContext | null> {
   const slug = normalizePartnerSlug(partnerSlug);
   if (!slug) return null;
 
@@ -108,19 +110,15 @@ export async function resolveRcapPartnerIntakeContext(partnerSlug: string): Prom
     return null;
   }
 
-  let jurisdiction = normalizeJurisdiction(data.target_state ?? data.state);
-  let branding:Awaited<ReturnType<typeof getApprovedPublicPageConfiguration>>=null;
-  if(publication.data?.rcap_launch_operation_id){
-   let geographyQuery=supabase.from("partner_onboarding_sections").select("response_data").eq("workspace_id",publication.data.id).eq("section_key","geography_audience_language_accessibility");
-   if(!(isRcap2Enabled()&&publication.data.rcap_policy_version==="rcap2.2"))geographyQuery=geographyQuery.eq("status","approved");
-   const geography=await geographyQuery.single();
-   const approved=Array.isArray(geography.data?.response_data?.jurisdictions)?geography.data.response_data.jurisdictions.map((value:unknown)=>typeof value==="string"?normalizeJurisdiction(value):null).filter(Boolean):[];
-   if(geography.error)return null;
-   jurisdiction=approved.length===1?approved[0]:approved.includes(jurisdiction)?jurisdiction:null;
-   branding=await getApprovedPublicPageConfiguration(slug);
-   if(!branding)return null;
-  }
-  if (!jurisdiction) return null;
+  const scope = await supabase.rpc("rcap_program_screening_jurisdictions", { p_slug: slug });
+  if (scope.error || !Array.isArray(scope.data)) return null;
+  const jurisdictions = scope.data.filter((code:unknown):code is string => typeof code==="string" && Boolean(getProfileByJurisdiction(code)));
+  if (!jurisdictions.length || jurisdictions.length!==scope.data.length) return null;
+  const requested = selectedJurisdiction ? normalizeJurisdiction(selectedJurisdiction) : "";
+  if (requested && !jurisdictions.includes(requested)) return null;
+  const jurisdiction = requested || (jurisdictions.length===1 ? jurisdictions[0] : "");
+  const branding = publication.data?.rcap_launch_operation_id ? await getApprovedPublicPageConfiguration(slug) : null;
+  if (publication.data?.rcap_launch_operation_id && !branding) return null;
 
   return {
     partnerSlug: data.partner_slug,
@@ -128,15 +126,16 @@ export async function resolveRcapPartnerIntakeContext(partnerSlug: string): Prom
     organizationName: branding?.preview.publicName.value ?? data.organization_name ?? data.partner_name ?? data.partner_slug,
     programName: branding?.preview.programName.value ?? data.program_name,
     serviceArea: data.service_area,
-    jurisdiction,
+    jurisdiction, jurisdictions, spanishEnabled: branding?.preview.spanishEnabled === true,
     logoUrl: branding?.preview.showPartnerLogo&&branding.preview.logo.assetId?`/api/partners/public-page/${slug}/assets/${branding.preview.logo.assetId}`:data.logo_url,
-    accessMode: normalizeAccessMode(data.access_mode)
+    accessMode: normalizeAccessMode(branding?.accessMode ?? data.access_mode)
   };
 }
 
 export async function claimRcapPartnerScreeningSession(input: {
   partnerSlug: string;
   jurisdiction: string;
+  clinicRedemptionHash?: string;
 }): Promise<RcapPartnerClaimResult> {
   const slug = normalizePartnerSlug(input.partnerSlug);
   const jurisdiction = normalizeJurisdiction(input.jurisdiction);
@@ -149,9 +148,12 @@ export async function claimRcapPartnerScreeningSession(input: {
     return { ok: false, reason: "partner_inactive", screeningsUsed: null, screeningsAllowed: null };
   }
 
+  const context = await resolveRcapPartnerIntakeContext(slug, jurisdiction);
+  if (!context) return { ok:false, reason:"jurisdiction_not_authorized", screeningsUsed:null, screeningsAllowed:null };
   const { data, error } = await supabase.rpc("claim_rcap_screening_session", {
     p_partner_slug: slug,
-    p_jurisdiction: jurisdiction
+    p_jurisdiction: jurisdiction,
+    ...(input.clinicRedemptionHash ? {p_clinic_redemption:input.clinicRedemptionHash} : {})
   });
 
   if (error) {
@@ -174,7 +176,7 @@ export async function claimRcapPartnerScreeningSession(input: {
 
   return {
     ok: false,
-    reason: row.reason === "capacity_full" ? "capacity_full" : "partner_inactive",
+    reason: row.reason === "capacity_full" ? "capacity_full" : row.reason === "code_required" ? "code_required" : row.reason === "jurisdiction_not_authorized" ? "jurisdiction_not_authorized" : "partner_inactive",
     screeningsUsed: row.screenings_used,
     screeningsAllowed: row.screenings_allowed
   };
@@ -202,6 +204,8 @@ export async function claimPartnerScreeningSessionWithCode(input: {
     return { ok: false, reason: "partner_inactive" };
   }
 
+  const context = await resolveRcapPartnerIntakeContext(slug, jurisdiction);
+  if (!context) return { ok:false, reason:"jurisdiction_not_authorized" };
   const { data, error } = await supabase.rpc("claim_partner_screening_session", {
     p_partner_slug: slug,
     p_jurisdiction: jurisdiction,
@@ -229,10 +233,11 @@ export async function claimPartnerScreeningSessionWithCode(input: {
   return { ok: false, reason: normalizeClaimReason(row.reason) };
 }
 
-type CodeClaimRejectReason = "partner_inactive" | "code_required" | "invalid" | "inactive" | "expired" | "exhausted";
+type CodeClaimRejectReason = "partner_inactive" | "jurisdiction_not_authorized" | "code_required" | "invalid" | "inactive" | "expired" | "exhausted";
 
 function normalizeClaimReason(reason: string | null): CodeClaimRejectReason {
   switch (reason) {
+    case "jurisdiction_not_authorized":
     case "code_required":
     case "invalid":
     case "inactive":

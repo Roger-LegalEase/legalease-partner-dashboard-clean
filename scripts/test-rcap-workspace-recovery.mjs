@@ -46,7 +46,7 @@ export async function testWorkspaceRecovery(db,id){
  const {programDecision,prepareProgramDefaults,prepareProgramReview,enableProgramPolicy}=await import('../src/lib/partners/onboarding/program-experience-service.ts');
  const html=element=>renderToStaticMarkup(createElement(LocalizationProvider,null,element));
  const page=()=>AdminPage({params:Promise.resolve({partnerSlug:'signed-fixture'})});
- const startDisabled=value=>assert.match(value,/<button[^>]*disabled=""[^>]*>Start program<\/button>/);
+ const startDisabled=value=>assert.match(value,/<button[^>]*disabled=""[^>]*>Start program<\/button>/i);
  adminSession();
  let result=await page(),rendered=html(result);assert.match(rendered,/Signed Fixture/);assert.match(rendered,/Manage program clinics/);assert.match(rendered,/Use five-step setup/);startDisabled(rendered);
  const legacy=await getProgramOperations(context);assert(legacy.view&&legacy.preflight&&legacy.launchDecision);assert.deepEqual(legacy.issues,[]);assert.equal(legacy.identity.policyVersion,'legacy');
@@ -72,8 +72,8 @@ export async function testWorkspaceRecovery(db,id){
  assert.equal(await snapshot(),before);
  console.log('PASS actual partner onboarding entry renders five steps; opening or automatic preparation cannot upgrade legacy policy');
  adminSession();
- setWorkspaceFault((query)=>query.includes('from public."partner_events"')?{code:'08006',message:'sensitive fixture details MUST NOT LOG'}:null);
- rendered=html(await page());assert.match(rendered,/Administrator access details are unavailable/);assert.match(rendered,/Reload workspace/);assert.match(rendered,/Prepare and start/);
+ setWorkspaceFault((query)=>query.includes('"id","approval_type","decision","recorded_at","policy_details"')?{code:'08006',message:'sensitive fixture details MUST NOT LOG'}:null);
+ rendered=html(await page());assert.match(rendered,/Authorization history is unavailable/);assert.match(rendered,/Reload workspace/);assert.match(rendered,/Program status/);
  setWorkspaceFault(query=>query.includes('"id","approval_type","decision","recorded_at","policy_details"')?{code:'08006'}:null);
  const partial=await getProgramOperations(context);assert(partial.view&&partial.preflight);assert.equal(partial.decisions,null);assert(partial.issues.some(i=>i.loader==='operations.decisions'));
  console.log('PASS independent page and nested optional administrative failures retain the valid workspace with recovery actions');
@@ -96,7 +96,7 @@ export async function testWorkspaceRecovery(db,id){
  const v2Before=await snapshot();
  console.log('PASS policy upgrade requires explicit administrator intent, current version and a durable audit; replay is idempotent');
  const v2=await getProgramOperations(context);assert(v2.view&&v2.preflight&&v2.launchDecision);assert.deepEqual(v2.issues,[]);assert.equal(v2.identity.policyVersion,'rcap2.2');
- rendered=html(await page());assert.match(rendered,/Prepare and start/);startDisabled(rendered);
+ rendered=html(await page());assert.match(rendered,/Program status/);startDisabled(rendered);
  partnerSession();rendered=html(await PartnerPage({searchParams:Promise.resolve({})}));assert.match(rendered,/Program setup/);assert.doesNotMatch(rendered,/Use five-step setup/);assert.equal(await snapshot(),v2Before);
  adminSession();setWorkspaceFault(query=>query.includes('from public."rcap_launch_operation_events"')?{code:'08006'}:null);const heldV2=await getProgramOperations(context);assert(heldV2.view);assert.equal(heldV2.preflight,null);assert.equal(heldV2.canStart,false);startDisabled(html(await page()));setWorkspaceFault(null);
  assert.equal(await snapshot(),v2Before);

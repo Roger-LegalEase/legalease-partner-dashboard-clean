@@ -1,3 +1,4 @@
+import { standardProgramSpanish } from "./program-defaults";
 import { artifactGeneratorVersion } from "./artifact-domain";
 import { isReferralFieldActive, referralPolicyExplanation, REFERRAL_ARRANGEMENT_LABELS } from "./referral-policy";
 import {
@@ -55,6 +56,7 @@ export type PagePreviewAsset = {
 };
 
 export type CoBrandedPagePreview = {
+  spanishEnabled?: boolean;
   spanish?: Partial<Record<"headline"|"subheadline"|"organizationDescription"|"primaryActionLabel"|"participantSupportCopy"|"serviceArea"|"targetAudience",string>>;
   publicName: PagePreviewField;
   programName: PagePreviewField;
@@ -140,13 +142,19 @@ export function renderImplementationBrief(
       sections: [
         {key:"program",heading:"Your program",blocks:[{kind:"definitions",items:[
           {term:"Organization",value:org?.legal_organization_name ?? "Not provided"},
+          ...(input.workspace.operatingModel==="legalease_managed" ? [
+            {term:"Operator",value:"LegalEase"},
+            {term:"Operating authority",value:input.data.program_goals?.operator_authority_reference??"Not provided"},
+            {term:"External agreement",value:input.data.program_goals?.external_agreement_applicability==="not_applicable"?"Not applicable to this internally operated program":"Required under the recorded arrangement"},
+            {term:"Services",value:(input.data.program_goals?.service_mode??"Not configured").replaceAll("_"," ")}
+          ] : []),
           {term:"Service area",value:geo?.service_area_description ?? "Not provided"},
           {term:"Jurisdiction",value:geo?.jurisdictions?.join(", ") ?? "Not provided"},
           {term:"Participation",value:({online:"Online",clinics:"At clinics or events",both:"Online and at clinics"} as const)[input.data.program_goals?.participation_mode ?? "online"]},
           {term:"Participant access",value:({open:"Anyone with the link",optional_code:"Optional access code",required_code:"Access code required",invite_only:"Invited participants only"} as const)[access?.participant_access_model ?? "open"]},
           {term:"Languages",value:geo?.enable_spanish ? "English and Spanish" : "English"},
-          {term:"Screening allowance",value:String(input.readOnlyValues.screening_allocation ?? "Unavailable")},
-          {term:"Packet allowance",value:String(input.readOnlyValues.packet_credits ?? "Unavailable")}
+          {term:"Screening",value:input.workspace.operatingModel === "legalease_managed" ? "Free screening in the authorized jurisdictions; separate packet requirements apply" : String(input.readOnlyValues.screening_allocation ?? "Unavailable")},
+          {term:"Packet allowance",value:input.workspace.operatingModel === "legalease_managed" && input.data.program_goals?.service_mode !== "sponsored_packets" ? "No sponsored packets authorized" : String(input.readOnlyValues.packet_credits ?? "Unavailable")}
         ]}]},
         {key:"support",heading:"Participant support",blocks:[{kind:"paragraph",text:input.data.support_referrals_reporting?.participant_support_email ?? LEGALEASE_TECHNICAL_SUPPORT_ROUTE},{kind:"paragraph",text:input.data.support_referrals_reporting?.contested_matter_procedure ?? "Stop self-help for contested proceedings or requests for representation. Contact LegalEase support for the correct next step."}]},
         {key:"ownership",heading:"Participant privacy",blocks:[{kind:"paragraph",text:"Participants own their account, matter, Briefcase, answers and documents. Clinic assistance requires their current consent. Program setup does not grant access to participant records or packet funding."}]}
@@ -1993,7 +2001,8 @@ export function renderCoBrandedPageConfiguration(
   const ctx: Ctx = { input, gaps: 0 };
 
   const preview: CoBrandedPagePreview = {
-    spanish: {headline: text(ctx,"brand_public_page","program_headline_es") ?? undefined,subheadline: text(ctx,"brand_public_page","program_subheadline_es") ?? undefined,organizationDescription: text(ctx,"brand_public_page","approved_organization_description_es") ?? undefined,primaryActionLabel: text(ctx,"brand_public_page","primary_cta_label_es") ?? undefined,participantSupportCopy: text(ctx,"brand_public_page","participant_support_copy_es") ?? undefined,serviceArea: text(ctx,"brand_public_page","service_area_es") ?? undefined,targetAudience: text(ctx,"brand_public_page","target_audience_es") ?? undefined},
+    spanishEnabled: input.data.geography_audience_language_accessibility?.enable_spanish === true,
+    spanish: input.workspace.operatingModel === "legalease_managed" ? standardProgramSpanish(input.data) : {headline: text(ctx,"brand_public_page","program_headline_es") ?? undefined,subheadline: text(ctx,"brand_public_page","program_subheadline_es") ?? undefined,organizationDescription: text(ctx,"brand_public_page","approved_organization_description_es") ?? undefined,primaryActionLabel: text(ctx,"brand_public_page","primary_cta_label_es") ?? undefined,participantSupportCopy: text(ctx,"brand_public_page","participant_support_copy_es") ?? undefined,serviceArea: text(ctx,"brand_public_page","service_area_es") ?? undefined,targetAudience: text(ctx,"brand_public_page","target_audience_es") ?? undefined},
     publicName: configuredField(
       ctx,
       "public_name",

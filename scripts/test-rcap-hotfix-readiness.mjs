@@ -24,7 +24,7 @@ for (const actor of ['internal','partner_admin','partner_staff']) {
  assert.ok(access.resolutions.every(action=>action.actualMissingFact!=='participant_access_model'));
  const allowance=access.resolutions.find(action=>action.actualMissingFact==='screening_allocation');
  assert.equal(allowance.canActorResolve,actor==='internal');
- assert.equal(allowance.href,actor==='internal'?`/internal/partners/onboarding/${source.workspace.partnerSlug}#program-service-authority`:null);
+ assert.equal(allowance.href,actor==='internal'?`/internal/partners/onboarding/${source.workspace.partnerSlug}/diagnostics#program-service-authority`:null);
  assert.equal(readiness.ready,false);
  assert.equal(readiness.checks.find(check=>check.key==='staff_training_completed').status,'passing');
  assert.equal(readiness.checks.find(check=>check.key==='legalease_final_review_complete').status,'passing');

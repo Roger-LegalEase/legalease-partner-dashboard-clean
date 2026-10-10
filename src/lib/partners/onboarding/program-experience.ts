@@ -3,8 +3,8 @@ import type { RenderedDocument } from "./artifact-generator";
 export const PROGRAM_ACTIONS = ["complete_setup", "publish_partner_page", "accept_screenings", "issue_sponsored_packet", "offer_paid_packet", "create_clinic", "publish_clinic", "assist_participant", "manage_team", "view_reporting"] as const;
 export type ProgramAction = typeof PROGRAM_ACTIONS[number];
 export type ProgramRequirement = {key:string;label:string;owner_domain:string;classification:string;passing?:boolean;effective?:boolean;dependency_hash?:string;default_applied?:boolean;exception_id?:string|null};
-export type ProgramDecision = {policyVersion:string;workspaceId:string;partnerSlug:string;actor:string;role:string;action:ProgramAction;allowed:boolean;requirements:ProgramRequirement[];blockers:ProgramRequirement[];activeExceptions:string[];sourceVersion:number;scopeHash:string;materialsHash:string;authorityId:string|null;setupComplete:boolean;delegated:boolean;configurationComplete:boolean;live:boolean;status:string;primaryNextAction:string};
-export type ProgramMaterial = {type:string;version:number;document:RenderedDocument};
+export type ProgramDecision = {operatingModel?:"partner_managed"|"legalease_managed";canAuthorizeStart?:boolean;jurisdictions?:string[];serviceMode?:string;policyVersion:string;workspaceId:string;partnerSlug:string;actor:string;role:string;action:ProgramAction;allowed:boolean;requirements:ProgramRequirement[];blockers:ProgramRequirement[];activeExceptions:string[];sourceVersion:number;scopeHash:string;materialsHash:string;authorityId:string|null;setupComplete:boolean;delegated:boolean;configurationComplete:boolean;live:boolean;status:string;primaryNextAction:string};
+export type ProgramMaterial = {type:string;id:string;hash:string;version:number;document:RenderedDocument};
 export type ProgramExperience = {
  partnerSlug:string;organizationName:string;version:number;data:OnboardingPartnerData;canEdit:boolean;legalIdentityLocked:boolean;
  decision:ProgramDecision;capabilities:Partial<Record<ProgramAction,boolean>>;materials:ProgramMaterial[];reviewToken:string|null;

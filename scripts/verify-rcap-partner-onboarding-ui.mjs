@@ -48,7 +48,7 @@ assert.match(
   "The configured support address must wrap even when the mailbox local-part is longer than the mobile viewport."
 );
 assert.match(internalDetailPageSource, /<ProgramOperations/);
-assert.match(internalDetailPageSource, /onboardingEnabled accessOnly/);
+assert.doesNotMatch(internalDetailPageSource, /FirstAdminWorkspace|Phase1PrefillPanel|Phase1InternalReviewPanel/);
 
 const mocks = {
   "next/link": function Link({ children, href, ...props }) {

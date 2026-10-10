@@ -15,7 +15,7 @@ export function CoBrandedPageView({ preview: sourcePreview, variant, logoSrc, he
 }) {
   const mobile = variant === "mobile";
   const { locale, setLocale, text } = useLocalization();
-  const spanishAvailable = ["headline","subheadline","organizationDescription","primaryActionLabel","participantSupportCopy","serviceArea","targetAudience"].every(key=>Boolean(sourcePreview.spanish?.[key as keyof NonNullable<CoBrandedPagePreview["spanish"]>]));
+  const spanishAvailable = (sourcePreview.spanishEnabled ?? sourcePreview.languageAvailability.value?.includes("Spanish")) && ["headline","subheadline","organizationDescription","primaryActionLabel","participantSupportCopy","serviceArea","targetAudience"].every(key=>Boolean(sourcePreview.spanish?.[key as keyof NonNullable<CoBrandedPagePreview["spanish"]>]));
   const es = locale === "es" && spanishAvailable;
   const preview = {...sourcePreview};
   if(es && sourcePreview.spanish) {for(const key of ["headline","subheadline","organizationDescription","primaryActionLabel","participantSupportCopy","serviceArea","targetAudience"] as const){const value=sourcePreview.spanish[key];if(value)preview[key]={...sourcePreview[key],value};}}
@@ -79,7 +79,7 @@ function ContentBlock({
 
 function SupportRoute({ preview }: { preview: CoBrandedPagePreview }) {
   const { locale } = useLocalization();
-  const spanishAvailable = ["headline","subheadline","organizationDescription","primaryActionLabel","participantSupportCopy","serviceArea","targetAudience"].every(key=>Boolean(preview.spanish?.[key as keyof NonNullable<CoBrandedPagePreview["spanish"]>]));
+  const spanishAvailable = (preview.spanishEnabled ?? preview.languageAvailability.value?.includes("Spanish")) && ["headline","subheadline","organizationDescription","primaryActionLabel","participantSupportCopy","serviceArea","targetAudience"].every(key=>Boolean(preview.spanish?.[key as keyof NonNullable<CoBrandedPagePreview["spanish"]>]));
   const es = locale === "es" && spanishAvailable;
   if (!preview.supportEmail.value && !preview.supportPhone.value) return null;
   return (

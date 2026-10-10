@@ -97,6 +97,7 @@ const expectedTopLevelFields = {
     "contacts"
   ],
   program_goals: [
+    "operating_model", "operator_authority_reference", "external_agreement_applicability", "service_mode",
     "participation_mode",
     "primary_goal",
     "definition_of_success",
@@ -485,6 +486,8 @@ for (const field of ONBOARDING_SCHEMA_REGISTRY) {
     assert.equal(field.completionWeight, 0);
   }
 }
+
+for (const key of ["operating_model","operator_authority_reference","external_agreement_applicability","service_mode"]) assert.equal(findField(key).ownership, "legalease_controlled");
 
 const recordShieldField = findField("recordshield_pathway");
 assert.deepEqual(deriveRecordShieldScope("community-access-program"), {

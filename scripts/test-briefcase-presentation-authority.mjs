@@ -107,6 +107,7 @@ let defaultPaymentRead = async () => ({ valid: false, reason: "default_payment_n
 let defaultEvaluate = () => { throw new Error("default_evaluator_not_configured"); };
 
 const adapter = loadTsWithMocks("src/lib/expungement-ai/briefcase-presentation-authority.ts", {
+  "@/lib/partners/onboarding/program-packet-funding": { getProgramPacketFunding: async()=>"unavailable" },
   "server-only": {},
   "@/components/expungement-ai/screening/answers": { toScreeningAnswers: (answers) => answers },
   "@/lib/expungement-ai/authoritative-screening-result": { evaluateAuthoritativeScreeningResult: (...args) => defaultEvaluate(...args) },
@@ -341,6 +342,21 @@ assert.equal(protectedRuntime.artifact.status, "ready");
 assert.deepEqual(protectedRuntime.packetDraft.prefilledAnswers, {}, "the protected verified snapshot exposes its exact prefilled-answer source map");
 assert.deepEqual(protectedRuntime.packetDraft.packetAnswers, { participant_full_legal_name: "Protected Person" }, "the protected verified snapshot exposes its exact packet-answer source map");
 
+// Program attribution alone must never grant sponsorship, including after a paid packet exists.
+for (const [funding, expected] of [["consumer", "paid"], ["sponsored", "sponsored"], ["unavailable", "unavailable"]]) {
+  const result = await adapter.decorateBriefcaseItemForPresentationWithDependencies({consumerAuthUserId: "11111111-1111-4111-8111-111111111111", item}, {
+    readProtectedVerification: async()=>({ok:true,value:protectedVerification}),
+    readProtectedArtifact: async()=>({ok:true,value:protectedArtifact}),
+    readTrustedPendingSource: async()=>({ok:true,value:{jurisdiction:"PA",profileVersion:"profile-pa-1",matterId:item.id,answers:{case_outcome:"Dismissed"},product:"rcap_partner",sourceSessionId:null,claimedAt:"2026-08-01T00:00:00.000Z",partnerBenefitActive:true,partnerSlug:"authorized-program"}}),
+    readProgramPacketFunding: async()=>funding,
+    readClinicDtcAuthorization: async()=>false,
+    readPaymentAuthority: async()=>({valid:true,reason:"paid",providerEventId:"evt_current"}),
+    evaluateAuthoritative: ()=>authoritativeEvaluation
+  });
+  assert.equal(result.paymentState, expected, `current ${funding} program funding governs commercial mode`);
+  assert.equal(result.artifact.canDownload, true, "protected completed packet ownership remains intact");
+}
+
 defaultVerificationRead = async () => ({ ok: true, value: protectedVerification });
 defaultArtifactRead = async () => ({ ok: true, value: protectedArtifact });
 defaultPaymentRead = async () => ({ valid: true, reason: "paid", providerEventId: "evt_default" });
@@ -549,6 +565,7 @@ durableSourceRow.source_linkage_sha256 = digest({
 });
 let protectedSourceRow = durableSourceRow;
 const sourceAdapter = loadTsWithMocks("src/lib/expungement-ai/briefcase-presentation-authority.ts", {
+  "@/lib/partners/onboarding/program-packet-funding": { getProgramPacketFunding: async()=>"unavailable" },
   "server-only": {},
   "@/components/expungement-ai/screening/answers": { toScreeningAnswers: (answers) => answers },
   "@/lib/expungement-ai/authoritative-screening-result": {},

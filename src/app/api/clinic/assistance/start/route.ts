@@ -1,3 +1,4 @@
+import { getProgramPacketFunding } from "@/lib/partners/onboarding/program-packet-funding";
 import { canUseClinicPractice } from "@/lib/partners/onboarding/practice-receipt";
 import { saveScreeningSession } from "@/lib/expungement-ai/screening-session-persistence";
 import { SupabaseScreeningResumeStorage } from "@/lib/expungement-ai/screening-resume-service";
@@ -41,7 +42,8 @@ export async function POST(request: NextRequest) {
     const db = getSupabaseAdminClient();
     if (!db) return NextResponse.json({ success: false, error: "Clinic assistance is temporarily unavailable." }, { status: 503 });
     const practice = await canUseClinicPractice(entry.partnerSlug, auth);
-    const capacity = practice ? { data: true, error: null } : await db.rpc("clinic_entry_sponsor_capacity", { p_event: entry.eventId, p_partner: entry.partnerSlug });
+    const funding = await getProgramPacketFunding(entry.partnerSlug, jurisdiction);
+    const capacity = practice || funding === "consumer" ? { data: true, error: null } : await db.rpc("clinic_entry_sponsor_capacity", { p_event: entry.eventId, p_partner: entry.partnerSlug });
     if (capacity.error || typeof capacity.data !== "boolean") {
       return NextResponse.json({ success: false, error: "Sponsor capacity could not be confirmed. Please retry." }, { status: 503 });
     }
@@ -53,7 +55,7 @@ export async function POST(request: NextRequest) {
     // transactions. It creates no sponsor allowance, payment, or launch authority.
     const screening = practice
       ? { ok: true as const, sessionId: (await saveScreeningSession(new SupabaseScreeningResumeStorage(db), {jurisdiction, answers: {}})).sessionId }
-      : await claimRcapPartnerScreeningSession({ partnerSlug: entry.partnerSlug, jurisdiction });
+      : await claimRcapPartnerScreeningSession({ partnerSlug: entry.partnerSlug, jurisdiction, clinicRedemptionHash: entry.entryRedemptionHash });
     if (!screening.ok) return screening.reason === "capacity_full" ? fallback() : NextResponse.json({ success: false, error: "The partner screening is unavailable." }, { status: 409 });
     const sessionToken = randomBytes(32).toString("base64url");
     const deviceToken = randomBytes(32).toString("base64url");

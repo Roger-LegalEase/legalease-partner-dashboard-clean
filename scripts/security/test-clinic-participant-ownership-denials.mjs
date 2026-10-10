@@ -76,8 +76,8 @@ function fixtureTables() {
   return {
     clinic_events: [
       // Event A carries a sponsorship allocation: sponsorship must not become ownership.
-      { id: ids.eventA, partner_slug: "tenant-a", public_slug: "tenant-a-clinic", name: "Tenant A clinic", status: "published", sponsorship_allocation: 25 },
-      { id: ids.eventB, partner_slug: "tenant-b", public_slug: "tenant-b-clinic", name: "Tenant B clinic", status: "published", sponsorship_allocation: null },
+      { id: ids.eventA, partner_slug: "tenant-a", public_slug: "tenant-a-clinic", name: "Tenant A clinic", jurisdiction:"MD", status: "published", sponsorship_allocation: 25 },
+      { id: ids.eventB, partner_slug: "tenant-b", public_slug: "tenant-b-clinic", name: "Tenant B clinic", jurisdiction:"MD", status: "published", sponsorship_allocation: null },
       { id: ids.eventDraft, partner_slug: "tenant-a", public_slug: "tenant-a-draft-clinic", name: "Tenant A unpublished clinic", status: "draft", sponsorship_allocation: null }
     ],
     clinic_assisted_sessions: [
@@ -114,10 +114,12 @@ function fixtureTables() {
   };
 }
 
+let programJurisdictions=["MD"];
 function database() {
   return createPostgrestDouble({
     tables: fixtureTables(),
     rpc: {
+      rcap_program_screening_jurisdictions: () => ({data:programJurisdictions,error:null}),
       clinic_get_event_queue: () => ({ data: [], error: null }),
       clinic_transition_event_case: () => ({ data: "updated", error: null })
     }
@@ -164,6 +166,7 @@ async function runScenarios(service) {
 
   // --- Public event surface: published events only, and no private columns. ---
   as({});
+  programJurisdictions=["MD"];
   const published = await getPublicClinicEvent("tenant-a-clinic");
   assert.equal(published.id, ids.eventA);
   assert.deepEqual(
@@ -174,6 +177,11 @@ async function runScenarios(service) {
   for (const key of Object.keys(published)) {
     assert.ok(!/sponsor|partner|capacity|created/iu.test(key), `public event projection exposed "${key}"`);
   }
+  programJurisdictions=[];
+  await denied(() => getPublicClinicEvent("tenant-a-clinic"), "not_found", "revoked program jurisdiction denies Clinic entry");
+  programJurisdictions=["VA"];
+  await denied(() => getPublicClinicEvent("tenant-a-clinic"), "not_found", "out-of-program Clinic jurisdiction denied");
+  programJurisdictions=["MD"];
   await denied(() => getPublicClinicEvent("tenant-c-clinic"), "not_found", "unknown event slug");
   await denied(() => getPublicClinicEvent("tenant-a-draft-clinic"), "not_found", "unpublished event exposed on the public surface");
   await denied(() => getPublicClinicEvent("../tenant-a-clinic"), "not_found", "non-canonical public event slug");

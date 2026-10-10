@@ -24,7 +24,8 @@ export async function getApprovedPublicPageConfiguration(partnerSlug: string, ve
   try {
     const source = await loadArtifactSourceInput(admin, partner.partnerSlug);
     const access = source.data.access_sponsorship_capacity?.participant_access_model;
-    if (!access || access !== source.partnerRecord.accessMode) return null;
+    const managed=source.workspace.operatingModel==="legalease_managed";
+    if (!access || (!managed && access !== source.partnerRecord.accessMode)) return null;
     const artifact = await admin.from("partner_onboarding_artifacts").select("current_version_id")
       .eq("workspace_id", source.workspace.id).eq("artifact_type", "co_branded_page_configuration").maybeSingle();
     if (artifact.error || !artifact.data?.current_version_id) return null;
@@ -32,7 +33,7 @@ export async function getApprovedPublicPageConfiguration(partnerSlug: string, ve
       .select("snapshot_hash, rendered_content, normalized_snapshot, generator_version, generation_status, approval_status, partner_review_status, superseded_at, source_drift_invalidated_at")
       .eq("id", artifact.data.current_version_id).eq("workspace_id", source.workspace.id).maybeSingle();
     const row = version.data;
-    if (version.error || !row || row.generation_status !== "succeeded" || (row.approval_status !== "approved" && !(source.workspace.rcapPolicyVersion === "rcap2.2" && row.generator_version.endsWith("_rcap2"))) || row.partner_review_status !== "approved" || row.superseded_at || row.source_drift_invalidated_at) return null;
+    if (version.error || !row || row.generation_status !== "succeeded" || (row.approval_status !== "approved" && !(source.workspace.rcapPolicyVersion === "rcap2.2" && row.generator_version.endsWith("_rcap2"))) || (!managed && row.partner_review_status !== "approved") || (managed && row.approval_status !== "approved") || row.superseded_at || row.source_drift_invalidated_at) return null;
     const drift = detectArtifactDrift({ storedSnapshot: row.normalized_snapshot,
       storedGeneratorVersion: row.generator_version,
       current: projectArtifactSource("co_branded_page_configuration", source),

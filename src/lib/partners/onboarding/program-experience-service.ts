@@ -71,17 +71,23 @@ export async function getProgramExperience(context:Context):Promise<ProgramExper
   if(!row||row.generation_status!=="succeeded"||row.source_drift_invalidated_at||row.superseded_at)continue;
   if(detectArtifactDrift({storedSnapshot:row.normalized_snapshot,storedGeneratorVersion:row.generator_version,current:projectArtifactSource(type,source),currentGeneratorVersion:artifactGeneratorVersion(type,source)}).stale)continue;
   if(type==="co_branded_page_configuration"&&row.rendered_content?.pagePreview?.missing?.length)continue;
-  materials.push({type,version:row.version_number,document:row.rendered_content});
+  materials.push({type,id:row.id,hash:row.snapshot_hash,version:row.version_number,document:row.rendered_content});
  }
  let packets:number|null=null;
- if(authority.data?.kind==="screening_only")packets=0;
- else if(authority.data?.packet_entitlement_id){
-  const [allocation,usage]=await Promise.all([db().from("partner_packet_entitlement").select("packet_cap").eq("id",authority.data.packet_entitlement_id).single(),db().from("packet_credit_ledger").select("id",{count:"exact",head:true}).eq("entitlement_id",authority.data.packet_entitlement_id).in("event_type",["reserved","consumed"])]);
+ let entitlementId=authority.data?.packet_entitlement_id;
+ if(decision.operatingModel==="legalease_managed") {
+  const allocation=await db().from("partner_packet_entitlement").select("id,partner_records!inner(partner_slug)").eq("partner_records.partner_slug",context.partnerSlug).eq("entitlement_scope","sponsored_packets").is("expires_at",null).maybeSingle();
+  entitlementId=allocation.error?null:allocation.data?.id;
+ }
+
+ if(decision.serviceMode==="screening_only"||authority.data?.kind==="screening_only")packets=0;
+ else if(entitlementId){
+  const [allocation,usage]=await Promise.all([db().from("partner_packet_entitlement").select("packet_cap").eq("id",entitlementId).single(),db().from("packet_credit_ledger").select("id",{count:"exact",head:true}).eq("entitlement_id",entitlementId).in("event_type",["reserved","consumed"])]);
   if(!allocation.error&&!usage.error)packets=Math.max(0,allocation.data.packet_cap-(usage.count??0));
  }
  return {partnerSlug:context.partnerSlug,organizationName:source.data.organization_contacts?.public_organization_name??source.partnerRecord.organizationName,version:decision.sourceVersion,data:source.data,legalIdentityLocked:source.workspace.agreementStatus==="signed"||Boolean(authority.data),canEdit:context.role!=="partner_staff"&&!["paused","closed"].includes(decision.status),decision,capabilities:Object.fromEntries(decisions),materials,reviewToken:materials.length===2?reviewToken(context,decision):null,
  publicUrl:decision.live?`/p/${encodeURIComponent(context.partnerSlug)}`:null,
- commercial:{label:authority.data&&Date.parse(authority.data.expires_at)<=Date.now()?"Recorded service authority has expired.":authority.data?.kind==="screening_only"?"Screening-only terms recorded. Sponsored packets are unavailable.":authority.data?"Documented program terms recorded":"Current service authority has not been recorded",screenings:screening.error||!screening.data?null:Math.max(0,screening.data.screenings_allowed-screening.data.screenings_used),packets,expiresAt:authority.data?.expires_at??null}};
+ commercial:{label:decision.operatingModel==="legalease_managed"?(decision.authorityId?"LegalEase internal operating authority recorded.":"Confirm LegalEase operating authority with Start Program."):authority.data&&Date.parse(authority.data.expires_at)<=Date.now()?"Recorded service authority has expired.":authority.data?.kind==="screening_only"?"Screening-only terms recorded. Sponsored packets are unavailable.":authority.data?"Documented program terms recorded":"Current service authority has not been recorded",screenings:screening.error||!screening.data?null:Math.max(0,screening.data.screenings_allowed-screening.data.screenings_used),packets,expiresAt:authority.data?.expires_at??null}};
 }
 
 export async function saveProgramPatches(context:PartnerOnboardingContext,patches:ProgramPatch[],requestId:string,expectedVersion?:number){
@@ -125,7 +131,7 @@ export async function prepareProgramReview(context:Context){
 export async function recordProgramDecision(context:Context,type:string,decision:"approve"|"withdraw",details:Record<string,unknown>,requestId:string){
  const view=await programDecision(context,"complete_setup");
  const result=await db().rpc("rcap_service_record_program_decision",{p_slug:context.partnerSlug,p_actor:context.authUserId,p_type:type,p_decision:decision,p_version:view.sourceVersion,p_details:details,p_request:requestId});
- if(result.error)throw new Phase1OnboardingError(result.error.code==="40001"?"revision_conflict":"invalid_transition","This decision could not be recorded. Review the current program and its real authority.");
+ if(result.error)throw new Phase1OnboardingError(["PT409","40001"].includes(result.error.code)?"revision_conflict":"invalid_transition","This decision could not be recorded. Review the current program and its real authority.");
  return result.data as string;
 }
 export async function finishProgramSetup(context:PartnerOnboardingContext,input:{reviewToken:string;requestId:string;confirmed:boolean}){

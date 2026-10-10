@@ -252,21 +252,23 @@ export async function resolvePartnerPacketCapDecision(
 
   const { data: session } = await supabase
     .from("screening_sessions")
-    .select("partner_slug, partner_benefit_active, flow_mode")
+    .select("partner_slug, partner_benefit_active, flow_mode, jurisdiction")
     .eq("session_id", sessionId)
-    .maybeSingle<{ partner_slug: string | null; partner_benefit_active: boolean | null; flow_mode: string | null }>();
+    .maybeSingle<{ partner_slug: string | null; partner_benefit_active: boolean | null; flow_mode: string | null; jurisdiction:string | null }>();
 
   if (!session || session.flow_mode !== "rcap" || !session.partner_slug || session.partner_benefit_active !== true) {
     return { partnerBenefit: false, pausedAtCap: false };
   }
 
+  const authority=await supabase.rpc("rcap_program_packet_scope_authorized",{p_slug:session.partner_slug,p_jurisdiction:session.jurisdiction});
+  if(authority.error || authority.data!==true) return {partnerBenefit:false,pausedAtCap:false};
   const { data: ent } = await supabase
     .from("partner_entitlement")
     .select("screenings_allowed, screenings_used, pause_at_cap")
     .eq("partner_slug", session.partner_slug)
     .maybeSingle<{ screenings_allowed: number; screenings_used: number; pause_at_cap: boolean }>();
 
-  if (!ent) return { partnerBenefit: true, pausedAtCap: false };
+  if (!ent) return { partnerBenefit: false, pausedAtCap: false };
 
   const atCap = ent.screenings_used >= ent.screenings_allowed;
   return { partnerBenefit: true, pausedAtCap: Boolean(ent.pause_at_cap) && atCap };

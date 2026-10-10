@@ -48,9 +48,10 @@ export async function saveProgramConfiguration(context: Context, input: { patche
     if (!fields || !patch.values || Array.isArray(patch.values) || !patch.base || Array.isArray(patch.base)) throw new Phase1OnboardingError("invalid_input", "Check the program information.");
     const stored = (current.data[patch.section] ?? {}) as Record<string, unknown>;
     for (const key of Object.keys(patch.values)) {
+      if (["operating_model", "operator_authority_reference", "external_agreement_applicability", "service_mode"].includes(key) && context.role !== "internal_admin") throw new Phase1OnboardingError("forbidden", "Only a Platform Admin can change operating responsibility.");
       if (!fields.includes(key)) throw new Phase1OnboardingError("forbidden", "This field requires a separate authorized operation.");
     }
-    const validation = validateOnboardingSection(patch.section, { ...stored, ...patch.values }, "draft_save", { allSections });
+    const validation = validateOnboardingSection(patch.section, { ...stored, ...patch.values }, "draft_save", { allSections, canonicalOperatingFields:true });
     if (!validation.success) throw new Phase1OnboardingError("invalid_input", validation.issues.map(i => i.message).join(" "), { issues: validation.issues });
     const normalized = validation.data as Record<string, unknown>;
     for (const key of Object.keys(patch.values)) {
@@ -64,7 +65,7 @@ export async function saveProgramConfiguration(context: Context, input: { patche
   });
   if (result.error) {
     const code = result.error.code;
-    if (code === "40001" || code === "23505") throw new Phase1OnboardingError("revision_conflict", "This program changed. Reload before retrying this save.");
+    if (code === "PT409" || code === "40001" || code === "23505") throw new Phase1OnboardingError("revision_conflict", "This program changed. Reload before retrying this save.");
     if (code === "42501") throw new Phase1OnboardingError("forbidden", "Your account cannot change these program details or the protected legal identity.");
     if (code === "55000") throw new Phase1OnboardingError("invalid_transition", "This program's current state does not permit this configuration change.");
     if (code === "22023") throw new Phase1OnboardingError("invalid_input", "Check the participation mode, jurisdiction and program information.");
