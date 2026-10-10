@@ -1,3 +1,4 @@
+import { workspaceReadError } from "./workspace-loading";
 import { isRcap2Enabled } from "./feature";
 import "server-only";
 
@@ -1124,7 +1125,7 @@ export async function getInternalOnboardingSnapshot(
     .eq("partner_slug", context.partnerSlug)
     .maybeSingle();
   if (workspaceError) {
-    throw new Phase1OnboardingError("persistence_failed", "The onboarding workspace could not be loaded.");
+    throw workspaceReadError("partner_onboarding_workspace_safe.snapshot",workspaceError,"The onboarding workspace could not be loaded.");
   }
   if (!workspaceData) {
     return {
@@ -1162,7 +1163,7 @@ export async function getInternalOnboardingSnapshot(
       .maybeSingle()
   ]);
   if (sectionsResult.error || agreementsResult.error || assetsResult.error) {
-    throw new Phase1OnboardingError("persistence_failed", "The onboarding workspace could not be loaded.");
+    throw workspaceReadError("onboarding_snapshot.details",[sectionsResult.error,agreementsResult.error,assetsResult.error],"The onboarding workspace could not be loaded.");
   }
   // An unreadable payment record is reported as unknown, never as paid.
   const partnerPaymentStatus =

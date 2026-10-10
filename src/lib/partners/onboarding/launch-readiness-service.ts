@@ -1,3 +1,4 @@
+import { workspaceReadError } from "./workspace-loading";
 import "server-only";
 
 import crypto from "node:crypto";
@@ -97,18 +98,19 @@ export type LaunchReadinessView = {
  * state differs from the last one observed. An unchanged read issues neither.
  */
 export async function getInternalLaunchReadiness(
-  context: InternalOnboardingContext
+  context: InternalOnboardingContext,
+  options: { readOnly?: boolean } = {}
 ): Promise<LaunchReadinessView> {
   assertLaunchPrepEnabled();
   const admin = requireAdmin();
-  const { board, source } = await loadInternalArtifactBoardWithSource(context);
+  const { board, source } = await loadInternalArtifactBoardWithSource(context, options);
 
   const { data, error: checksError } = await admin
     .from("partner_onboarding_launch_checks")
     .select(RECORDED_COLUMNS)
     .eq("workspace_id", source.workspace.id);
 
-  if (checksError) throw new Phase1OnboardingError("persistence_failed", "Launch-check source is unavailable. No readiness verdict can be confirmed.");
+  if (checksError) throw workspaceReadError("partner_onboarding_launch_checks.read",checksError,"Launch-check source is unavailable. No readiness verdict can be confirmed.");
   let recorded = toRecorded((data ?? []) as RecordedRow[]);
 
   // Each decision follows its own material dependencies. A branding edit does
@@ -116,7 +118,7 @@ export async function getInternalLaunchReadiness(
   const affected = launchChecksAffectedByArtifacts(board.entries);
   const standing = recorded.filter(row => row.invalidatedAt === null &&
     ["passing", "waived", "not_applicable"].includes(row.status) && affected.includes(row.checkKey));
-  if (standing.length) {
+  if (standing.length && !options.readOnly) {
     const invalidation = await admin.rpc("rcap_service_invalidate_affected_launch_checks", {
       p_partner_slug: context.partnerSlug,
       p_workspace_id: source.workspace.id,
@@ -130,13 +132,18 @@ export async function getInternalLaunchReadiness(
     recorded = toRecorded((refreshed.data ?? []) as RecordedRow[]);
   }
 
+  if (options.readOnly) {
+    // Preserve stored approvals while refusing to treat computed drift as current.
+    recorded = recorded.map(row => standing.includes(row) ? { ...row, invalidatedAt: "computed", invalidatedReason: "Source changed" } : row);
+  }
+
   const readiness = evaluateLaunchReadiness({
     source,
     artifacts: board.entries,
     recorded
   }, "internal");
 
-  await recordReadinessTransition(admin, context.partnerSlug, source, readiness);
+  if (!options.readOnly) await recordReadinessTransition(admin, context.partnerSlug, source, readiness);
 
   const program=resolveProgramPresentation(source, readiness);
   if(source.workspace.status==="live"&&isRcapLaunchStudioEnabled()){

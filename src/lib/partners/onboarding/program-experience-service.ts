@@ -1,3 +1,4 @@
+import { workspaceReadError } from "./workspace-loading";
 import "server-only";
 import { createHash, createHmac, randomUUID } from "node:crypto";
 import { getSupabaseAdminClient } from "@/lib/supabase/server";
@@ -20,13 +21,31 @@ function db(){const client=getSupabaseAdminClient();if(!client)throw new Phase1O
 function enabled(){if(!isRcap2Enabled())throw new Phase1OnboardingError("feature_disabled","Program setup is unavailable.");}
 export async function programDecision(context:Context,action:ProgramAction):Promise<ProgramDecision>{
  enabled();const result=await db().rpc("rcap_service_evaluate_program",{p_slug:context.partnerSlug,p_actor:context.authUserId,p_action:action});
- if(result.error||!result.data)throw new Phase1OnboardingError(result.error?.code==="42501"?"forbidden":"persistence_failed","This program action is unavailable for your account. Please retry.");
- return result.data as ProgramDecision;
+ if(result.error||!result.data)throw workspaceReadError("rcap_service_evaluate_program",result.error,"This program action is unavailable for your account. Please retry.");
+ const decision=result.data as ProgramDecision;
+ if(decision.partnerSlug!==context.partnerSlug||decision.actor!==context.authUserId||decision.role!==context.role||!decision.workspaceId||!["legacy","rcap2.2"].includes(decision.policyVersion))throw new Phase1OnboardingError("forbidden","Program identity could not be verified.");
+ if(decision.action!==action||typeof decision.allowed!=="boolean"||!Number.isSafeInteger(Number(decision.sourceVersion))||!Array.isArray(decision.requirements)||!Array.isArray(decision.blockers)||typeof decision.scopeHash!=="string"||!decision.requirements.every(r=>r&&typeof r.key==="string"&&typeof r.label==="string"&&typeof r.effective==="boolean")||!decision.blockers.every(r=>r&&typeof r.key==="string"&&typeof r.label==="string"))throw new Phase1OnboardingError("persistence_failed","The program authority response is invalid.",{operation:"rcap_service_evaluate_program"});
+ return decision;
 }
-export async function enableProgramPolicy(context:Context){
- enabled();const result=await db().rpc("rcap_service_enable_program_policy",{p_slug:context.partnerSlug,p_actor:context.authUserId});
- if(result.error)throw new Phase1OnboardingError("invalid_transition","This program cannot change setup policy in its current state.");
+export async function enableProgramPolicy(context:Context,input:{confirmed:boolean;requestId:string;expectedVersion:number}){
+ const current=await programDecision(context,"complete_setup");
+ if(context.role==="partner_staff"||input.confirmed!==true)throw new Phase1OnboardingError("forbidden","Explicit administrator authorization is required to change setup policy.");
+ if(current.policyVersion==="rcap2.2")return;
+ if(current.sourceVersion!==input.expectedVersion)throw new Phase1OnboardingError("revision_conflict","The program changed. Reload before choosing five-step setup.");
+ if(["live","paused","closed"].includes(current.status))throw new Phase1OnboardingError("invalid_transition","This existing program retains its current policy.");
+ // Durable intent is written before the existing actor-checked RPC. A failed RPC
+ // remains a request, never a fabricated success. Opening the workspace calls neither.
+ const prior=await db().from("partner_events").select("partner_slug,event_type,event_payload").eq("id",input.requestId).maybeSingle();
+ if(prior.error)throw workspaceReadError("partner_events.policy_upgrade",prior.error,"The policy request could not be verified.");
+ if(prior.data&&(prior.data.partner_slug!==context.partnerSlug||prior.data.event_type!=="rcap_program_policy_upgrade_requested"||prior.data.event_payload?.actor!==context.authUserId))throw new Phase1OnboardingError("forbidden","The policy request belongs to another operation.");
+ if(!prior.data){const audit=await db().from("partner_events").insert({id:input.requestId,partner_slug:context.partnerSlug,event_type:"rcap_program_policy_upgrade_requested",event_label:"Five-step program setup requested",event_payload:{actor:context.authUserId,workspaceId:current.workspaceId,sourceVersion:current.sourceVersion,from:"legacy",to:"rcap2.2"}});if(audit.error)throw workspaceReadError("partner_events.policy_upgrade",audit.error,"The policy request could not be recorded.");}
+ const result=await db().rpc("rcap_service_enable_program_policy",{p_slug:context.partnerSlug,p_actor:context.authUserId});
+ if(result.error)throw new Phase1OnboardingError(result.error.code==="42501"?"forbidden":"invalid_transition","This program cannot change setup policy in its current state.");
 }
+async function requireCurrentProgramPolicy(context:Context){
+ if((await programDecision(context,"complete_setup")).policyVersion!=="rcap2.2")throw new Phase1OnboardingError("invalid_transition","Choose Use five-step setup explicitly before changing this program through the five-step workflow.");
+}
+
 function reviewToken(context:Context,decision:ProgramDecision){
  const key=process.env.SUPABASE_SERVICE_ROLE_KEY;if(!key)throw new Phase1OnboardingError("persistence_failed","Review is temporarily unavailable.");
  return createHmac("sha256",key).update(JSON.stringify([context.authUserId,context.partnerSlug,decision.materialsHash,"rcap2-final-review-v1"])).digest("hex");
@@ -41,7 +60,7 @@ export async function getProgramExperience(context:Context):Promise<ProgramExper
   db().from("rcap_commercial_authorizations").select("kind,expires_at,packet_entitlement_id").eq("workspace_id",decision.workspaceId).order("created_at",{ascending:false}).order("id",{ascending:false}).limit(1).maybeSingle(),
   Promise.all(PROGRAM_ACTIONS.filter(a=>context.role!=="partner_staff"||a==="view_reporting"||a==="assist_participant"||a==="offer_paid_packet").map(async action=>[action,(await programDecision(context,action)).allowed] as const))
  ]);
- if(versions.error||authority.error)throw new Phase1OnboardingError("persistence_failed","Your program could not be loaded. Please retry.");
+ if(versions.error||authority.error)throw workspaceReadError("program_experience.materials_or_authority",[versions.error,authority.error],"Your program could not be loaded. Please retry.");
  const materialRows=versions.data?.length?await db().from("partner_onboarding_artifact_versions").select("id,version_number,rendered_content,generator_version,normalized_snapshot,snapshot_hash,generation_status,source_drift_invalidated_at,superseded_at").in("id",versions.data.map(v=>v.current_version_id).filter(Boolean)):{data:[],error:null};
  const materials:ProgramMaterial[]=[];
  for(const material of versions.data??[]){
@@ -75,7 +94,7 @@ const editable:Partial<Record<OnboardingSectionKey,readonly string[]>>={
 function same(a:unknown,b:unknown){return JSON.stringify(a??null)===JSON.stringify(b??null);}
 export async function saveProgramPatches(context:PartnerOnboardingContext,patches:ProgramPatch[],requestId:string){
  enabled();if(context.role!=="partner_admin")throw new Phase1OnboardingError("forbidden","A program administrator must save these details.");
- await enableProgramPolicy(context);
+ await programDecision(context,"complete_setup");
  if(!Array.isArray(patches)||patches.length>7)throw new Phase1OnboardingError("invalid_input","Choose the program fields to save.");
  for(const [index,patch] of patches.entries()){
   if(!editable[patch.section]||!patch.values||typeof patch.values!=="object"||!patch.base)throw new Phase1OnboardingError("invalid_input","Check the program information.");
@@ -95,7 +114,7 @@ export async function saveProgramPatches(context:PartnerOnboardingContext,patche
  return getProgramExperience(context);
 }
 export async function prepareProgramDefaults(context:PartnerOnboardingContext,requestId:string){
- await enableProgramPolicy(context);const portal=await getPartnerOnboardingPortal(context);const data=portal.data;const support=getPartnerSupportContact();
+ await requireCurrentProgramPolicy(context);const portal=await getPartnerOnboardingPortal(context);const data=portal.data;const support=getPartnerSupportContact();
  const defaults:OnboardingPartnerData={
   organization_contacts:{public_organization_name:data.organization_contacts?.legal_organization_name??portal.organizationName,public_program_name:`${data.organization_contacts?.public_organization_name??portal.organizationName} RCAP`},
   program_goals:{participation_mode:"online",target_population:"People in the program service area"},
@@ -112,6 +131,7 @@ export async function prepareProgramDefaults(context:PartnerOnboardingContext,re
  return saveProgramPatches(context,patches,requestId);
 }
 export async function prepareProgramReview(context:Context){
+ await requireCurrentProgramPolicy(context);
  const decision=await programDecision(context,"complete_setup");
  if(!decision.allowed)throw new Phase1OnboardingError("invalid_input",decision.primaryNextAction);
  const source=await loadArtifactSourceInput(db(),context.partnerSlug);

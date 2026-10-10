@@ -1,3 +1,5 @@
+import { getProgramWorkspaceIdentity } from "@/lib/partners/onboarding/program-workspace";
+import { recoverWorkspaceLoad, requireWorkspaceLoad } from "@/lib/partners/onboarding/workspace-loading";
 import { ProgramOperations } from "./ProgramOperations";
 import { getProgramOperations } from "@/lib/partners/onboarding/program-operations-service";
 import { FirstAdminAccessPanel } from "../../provisioning/[partnerSlug]/FirstAdminAccessPanel";
@@ -38,19 +40,30 @@ export default async function OnboardingDetailPage({ params }: { params: Promise
 
   if (isRcap2Enabled()) {
     const context=await requireInternalOnboardingContext(partnerSlug);
-    const [snapshot,prefill,operations,partner,adminAccess]=await Promise.all([getInternalOnboardingSnapshot(context),getInternalPrefillSnapshot(context),getProgramOperations(context),getFirstAdminPartnerSummary(partnerSlug),getFirstAdminAccessView(partnerSlug)]);
+    const identity=await requireWorkspaceLoad("page.identity","getProgramWorkspaceIdentity",()=>getProgramWorkspaceIdentity(context));
+    const partner=await requireWorkspaceLoad("page.partner","getFirstAdminPartnerSummary",()=>getFirstAdminPartnerSummary(partnerSlug));
+    const [snapshotResult,prefillResult,operationsResult,accessResult]=await Promise.all([
+      recoverWorkspaceLoad("page.snapshot","getInternalOnboardingSnapshot","Agreements and document review are temporarily unavailable. Reload to retry.",()=>getInternalOnboardingSnapshot(context)),
+      recoverWorkspaceLoad("page.prefill","getInternalPrefillSnapshot","Program preparation is temporarily unavailable. Reload to retry.",()=>getInternalPrefillSnapshot(context)),
+      recoverWorkspaceLoad("page.operations","getProgramOperations","Program operations are unavailable. You can review the available information; Start program is disabled. Reload to retry.",()=>getProgramOperations(context)),
+      recoverWorkspaceLoad("page.administrator","getFirstAdminAccessView","Administrator access details are unavailable. Reload to retry.",()=>getFirstAdminAccessView(partnerSlug))
+    ]);
+    const snapshot=snapshotResult.value,prefill=prefillResult.value,operations=operationsResult.value,adminAccess=accessResult.value;
+    const issues=[snapshotResult.issue,prefillResult.issue,operationsResult.issue,accessResult.issue].filter(issue=>issue!==null);
+
     return <main className="mx-auto max-w-6xl px-4 py-10 text-navy">
       <Link className="inline-flex min-h-11 items-center underline" href="/internal/partners/onboarding">All partner programs</Link>
       <h1 className="mt-4 text-3xl font-black">{partner.publicName}</h1><p className="mt-3">Prepare the program, record its genuine service authority, and invite its administrator.</p>
-      <ManagedProgramEditor key={prefill.workspace?.aggregateVersion} partnerSlug={partnerSlug} snapshot={prefill} compact/>
-      <div className="mt-6"><FirstAdminAccessPanel partner={partner} initialAccess={adminAccess} onboardingEnabled/></div>
-      <ProgramOperations key={operations.view.version} initial={operations}/>
-      <details className="mt-6 rounded-xl border bg-white p-6"><summary className="min-h-11 cursor-pointer text-xl font-bold">Agreements, funding, and reviewed documents</summary>
+      {issues.length?<div role="alert" className="mt-6 rounded border border-orange/40 bg-orange/10 p-4"><ul>{issues.map(issue=><li key={issue.loader}>{issue.message}</li>)}</ul><a className="inline-flex min-h-11 items-center underline" href={`/internal/partners/onboarding/${encodeURIComponent(partnerSlug)}`}>Reload workspace</a></div>:null}
+      {prefill?<ManagedProgramEditor key={prefill.workspace?.aggregateVersion} partnerSlug={partnerSlug} snapshot={prefill} compact/>:null}
+      {adminAccess?<div className="mt-6"><FirstAdminAccessPanel partner={partner} initialAccess={adminAccess} onboardingEnabled/></div>:null}
+      {operations?<ProgramOperations key={identity.version} initial={operations}/>:<button className="mt-6 min-h-11 rounded border px-5 disabled:opacity-50" disabled>Start program</button>}
+      {snapshot?<details className="mt-6 rounded-xl border bg-white p-6"><summary className="min-h-11 cursor-pointer text-xl font-bold">Agreements, funding, and reviewed documents</summary>
         <Phase1InternalReviewPanel partnerSlug={partnerSlug} snapshot={snapshot}/><AssetReviewControl partnerSlug={partnerSlug} assets={snapshot.assets}/>
         <LaunchControl partnerSlug={partnerSlug} commercialOnly/>
-      </details>
+      </details>:null}
       <Link className="mt-6 inline-flex min-h-11 items-center rounded border px-5 font-bold" href={`/internal/clinic?partner=${encodeURIComponent(partnerSlug)}`}>Manage program clinics</Link>
-      <details className="mt-6"><summary className="min-h-11 cursor-pointer font-bold">Advanced source history and corrections</summary><Phase1PrefillPanel partnerSlug={partnerSlug} snapshot={prefill}/></details>
+      {prefill?<details className="mt-6"><summary className="min-h-11 cursor-pointer font-bold">Advanced source history and corrections</summary><Phase1PrefillPanel partnerSlug={partnerSlug} snapshot={prefill}/></details>:null}
     </main>;
   }
 

@@ -153,6 +153,10 @@ export const PARTNER_ACCESS_CODES_FILES = [
 // partner_users systems. Internal pages/routes are internal-admin gated; the
 // partner-facing route is scoped to the caller's own partner.
 export const PARTNER_ONBOARDING_FILES = [
+  // Owner-authorized RCAP recovery: missing prefill lineage and workspace boundaries.
+  "supabase/migrations/20261010000731_rcap_prefill_lineage_compatibility.sql",
+  "src/lib/partners/onboarding/workspace-loading.ts",
+  "src/lib/partners/onboarding/program-workspace.ts",
   "supabase/phase-42-partner-onboarding.sql",
   // Phase 43 (reviewed): additive RCAP Partner Onboarding Phase 1 workspace,
   // section, asset, review, and tenant-isolation schema. Migration file only;
