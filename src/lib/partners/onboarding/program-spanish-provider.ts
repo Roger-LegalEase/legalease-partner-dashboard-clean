@@ -5,8 +5,13 @@ import { z } from "zod";
 import { SPANISH_FIELDS, PROGRAM_JURISDICTIONS, type PublicCopy, type PublicCopyKey, type publicCopySource } from "./program-defaults";
 import { Phase1OnboardingError } from "./errors";
 
-const field = z.string().nullable();
-export const spanishDraftSchema = z.object({headline:field,subheadline:field,organizationDescription:field,primaryActionLabel:field,participantSupportCopy:field,serviceArea:field,targetAudience:field}).strict();
+export function spanishDraftSchema(keys: PublicCopyKey[]) {
+ // All seven keys stay in the contract, but approved/source-matched fields
+ // are not translation work. Enforce null in the provider's strict schema,
+ // rather than permitting a string and relying on a prompt to forbid it.
+ const field=(key:PublicCopyKey)=>keys.includes(key)?z.string():z.null();
+ return z.object({headline:field("headline"),subheadline:field("subheadline"),organizationDescription:field("organizationDescription"),primaryActionLabel:field("primaryActionLabel"),participantSupportCopy:field("participantSupportCopy"),serviceArea:field("serviceArea"),targetAudience:field("targetAudience")}).strict();
+}
 export const SPANISH_PROVIDER_ERROR = "Spanish preparation could not be completed. Your English copy and existing materials are preserved. Retry Update Materials when the translation provider is available.";
 export type SpanishFailureStage = "configuration" | "request" | "response" | "json" | "schema" | "validation" | "unexpected";
 export type SpanishFailureCode = "credential_unavailable" | "provider_authentication" | "provider_rate_limit" | "provider_model_unavailable" | "provider_timeout" | "provider_connection" | "provider_request" | "provider_incomplete" | "invalid_json" | "invalid_schema" | "invalid_field" | "protected_tokens_changed" | "identity_changed" | "jurisdiction_added" | "unsupported_claim" | "source_limitation_removed" | "unexpected_failure";
@@ -27,16 +32,20 @@ export function spanishFailureDiagnostic(error:unknown,stage:SpanishFailureStage
  if(error instanceof SpanishValidationError)return {...diagnostic,stage:"validation",code:error.code,field:error.field,rule:error.rule};
  if(error instanceof OpenAI.APIError) {
   diagnostic.stage="request";diagnostic.providerStatus=error.status;diagnostic.providerRequestId=safeIdentifier(error.requestID);
-  diagnostic.code=error instanceof OpenAI.APIConnectionTimeoutError?"provider_timeout":error instanceof OpenAI.APIConnectionError?"provider_connection":error.status===401||error.status===403?"provider_authentication":error.status===429?"provider_rate_limit":error.status===404?"provider_model_unavailable":"provider_request";
+  diagnostic.code=error instanceof OpenAI.APIConnectionTimeoutError?"provider_timeout":error instanceof OpenAI.APIConnectionError?"provider_connection":error.status===401||error.status===403?"provider_authentication":error.status===429?"provider_rate_limit":error.status===404||error.code==="model_not_found"?"provider_model_unavailable":"provider_request";
  } else if(stage==="json" && error instanceof SyntaxError)diagnostic.code="invalid_json";
- else if(stage==="schema" && error instanceof z.ZodError) {diagnostic.code="invalid_schema";const key=error.issues[0]?.path[0];if(typeof key==="string"&&key in SPANISH_FIELDS)diagnostic.field=key as PublicCopyKey;}
+ else if(stage==="schema" && error instanceof z.ZodError) {diagnostic.code="invalid_schema";const key=error.issues[0]?.path[0];if(typeof key==="string"&&Object.hasOwn(SPANISH_FIELDS,key))diagnostic.field=key as PublicCopyKey;}
  else if(stage==="response")diagnostic.code="provider_incomplete";
  else diagnostic.stage="unexpected";
  return diagnostic;
 }
 export function spanishProviderConfig() {
  const apiKey=process.env.OPENAI_API_KEY?.trim();
- if (!apiKey) throw new Phase1OnboardingError("persistence_failed", SPANISH_PROVIDER_ERROR);
+ if (!apiKey) {
+  const diagnostic:SpanishFailureDiagnostic={stage:"configuration",code:"credential_unavailable"};
+  console.error(JSON.stringify({event:"rcap_spanish_preparation_failed",...diagnostic}));
+  throw new SpanishPreparationError(diagnostic);
+ }
  // Same approved OpenAI Responses infrastructure as content promotion and Wilma.
  return {apiKey,model:process.env.RCAP_TRANSLATION_OPENAI_MODEL?.trim() || "gpt-4.1-mini"};
 }
@@ -63,6 +72,7 @@ export async function draftProgramSpanish(source: ReturnType<typeof publicCopySo
  if (JSON.stringify(publicText).length>16_000)throw new Phase1OnboardingError("invalid_input","The public-page copy is too long to prepare safely. Shorten the public copy, then retry Update Materials.");
  let stage:SpanishFailureStage="request",providerRequestId:string|undefined;
  try {
+  const schema=spanishDraftSchema(keys);
   const client=new OpenAI({...config,maxRetries:0,timeout:30_000});
   const response=await client.responses.create({
    model:config.model,store:false,max_output_tokens:8000,
@@ -75,12 +85,12 @@ export async function draftProgramSpanish(source: ReturnType<typeof publicCopySo
     "Do not translate or create legal/compliance blocks; none are supplied."
    ].join("\n"),
    input:JSON.stringify({publicText,identity:source.identity,authorizedJurisdictions:source.jurisdictions,services:source.services}),
-   text:{format:zodTextFormat(spanishDraftSchema,"rcap_public_spanish")}
+   text:{format:zodTextFormat(schema,"rcap_public_spanish")}
   });
   providerRequestId=response._request_id??undefined;stage="response";
   if(response.status!=="completed")throw new Error("Provider did not complete");
   stage="json";const parsed:unknown=JSON.parse(response.output_text);
-  stage="schema";const result=spanishDraftSchema.parse(parsed);
+  stage="schema";const result=schema.parse(parsed);
   stage="validation";
   const copy:Partial<PublicCopy>={};
   for(const key of Object.keys(SPANISH_FIELDS) as PublicCopyKey[]) {
