@@ -37,14 +37,14 @@ for (const text of [
 assert.match(internal, /overflow-x-auto/);
 assert.match(internal, /min-w-\[1100px\]/);
 assert.match(internal, /window\.confirm/);
-// The primary journey saves once through the existing preparation service;
-// the suggestion/review/apply controls above remain in preparation history.
+// Ordinary editing uses one canonical transaction. Historical prefill remains isolated.
 const managed = read("src/components/partners/onboarding/ManagedProgramEditor.tsx");
 const studio = read("src/app/internal/partners/onboarding/[partnerSlug]/page.tsx");
 assert.match(studio, /<ManagedProgramEditor/);
-assert.match(managed, /Save section/);
-assert.match(managed, /action: "save_prepared"/);
-assert.match(managed, /expectedFieldValueHash/);
+assert.match(managed, /Save program/);
+assert.match(managed, /\/configuration/);
+assert.match(managed, /expectedVersion: current.version/);
+assert.doesNotMatch(managed, /save_prepared|prefill|expectedFieldValueHash/);
 assert.doesNotMatch(managed, /window\.confirm/);
 // The prepared banner's wording lives in the canonical partner copy contract, not inline
 // in the component. Assert both halves: the contract owns the sentence, and the home reads

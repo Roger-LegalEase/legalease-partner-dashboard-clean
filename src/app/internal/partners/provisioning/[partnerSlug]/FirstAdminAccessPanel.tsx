@@ -29,6 +29,7 @@ type Props = {
   partner: PartnerSummary;
   initialAccess: FirstAdminAccessView;
   onboardingEnabled: boolean;
+  accessOnly?: boolean;
 };
 
 type FormValues = {
@@ -49,7 +50,8 @@ const expirationHours = 72;
 export function FirstAdminAccessPanel({
   partner,
   initialAccess,
-  onboardingEnabled
+  onboardingEnabled,
+  accessOnly = false
 }: Props) {
   const [access, setAccess] = useState(initialAccess);
   const [setupLink, setSetupLink] = useState<string | null>(null);
@@ -335,15 +337,15 @@ export function FirstAdminAccessPanel({
           <Detail label="Administrator access" value={presentation.access.label} description={presentation.access.description} />
           <Detail label="Auth account" value={presentation.account} />
           <Detail label="Tenant membership" value={presentation.membership} />
-          <Detail label="Program configuration" value={presentation.configuration.label} description={presentation.configuration.description} />
+          {!accessOnly ? <><Detail label="Program configuration" value={presentation.configuration.label} description={presentation.configuration.description} />
           <Detail label="Publication" value={presentation.publication.label} description={presentation.publication.description} />
           <Detail label="Program activation" value={presentation.activation.label} description={presentation.activation.description} />
           <Detail label="Current next action" value={presentation.nextAction} />
           <Detail label="Owner" value={presentation.owner} />
-          <Detail label="Due date" value={presentation.dueDate} />
+          <Detail label="Due date" value={presentation.dueDate} /></> : null}
         </div>
 
-        {presentation.missingInformation.length > 0 ? (
+        {!accessOnly && presentation.missingInformation.length > 0 ? (
           <div className="mt-5 border-l-4 border-orange bg-[#F7F4EE] p-4">
             <p className="font-black text-navy">Information still required</p>
             <ul className="mt-2 grid gap-2 text-sm leading-6 text-grayWilma-700">
@@ -395,7 +397,7 @@ export function FirstAdminAccessPanel({
           </div>
         ) : null}
 
-        {access.accessStatus === "administrator_active" && presentation.configuration.label !== "Approved" ? (
+        {!accessOnly && access.accessStatus === "administrator_active" && presentation.configuration.label !== "Approved" ? (
           <Link data-primary-action="true" className={`${primaryButton} mt-6`} href={presentation.primaryAction.href}>
             {presentation.primaryAction.label}
           </Link>

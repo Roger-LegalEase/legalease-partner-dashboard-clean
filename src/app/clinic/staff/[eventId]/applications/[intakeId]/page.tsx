@@ -9,7 +9,7 @@ import { ClinicServiceError } from "@/lib/clinic-mode/errors";
 import { parseEventId } from "@/lib/clinic-mode/validation";
 import { getLegalAidBranding } from "@/lib/legal-aid/branding";
 import { getEventForStaff, getNotaryTaskView, getStaffIntakeDetail, intakePermissionsFor, listEventStaffDirectory } from "@/lib/legal-aid/intake-service";
-import { Denied, staffOrRedirect } from "../page";
+import { Denied, staffOrRedirect } from "../access";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;

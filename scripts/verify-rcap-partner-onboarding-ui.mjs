@@ -19,11 +19,10 @@ const internalDetailPageSource = fs.readFileSync(
   ),
   "utf8"
 );
-assert.match(
-  internalDetailPageSource,
-  /phase1Snapshot\.workspace\s*&&\s*isRcapOnboardingPrefillEnabled\(\)/,
-  "A partner without a Phase 1 workspace must still reach the workspace creation control when Prefill is enabled."
-);
+assert.match(internalDetailPageSource, /requireWorkspaceLoad\("page.identity"/);
+assert.match(internalDetailPageSource, /recoverWorkspaceLoad\("page.configuration"/);
+assert.match(internalDetailPageSource, /<ManagedProgramEditor/);
+assert.doesNotMatch(internalDetailPageSource, /Phase1InternalReviewPanel|Phase1PrefillPanel|LaunchControl|Phase2AArtifactsPanel/);
 
 for (const relativePath of [
   "src/app/partner/onboarding/page.tsx",
@@ -48,11 +47,8 @@ assert.match(
   /className=\{`break-all /,
   "The configured support address must wrap even when the mailbox local-part is longer than the mobile viewport."
 );
-assert.match(
-  internalDetailPageSource,
-  /phase1Snapshot\.workspace\s*&&\s*isRcapOnboardingLaunchPrepEnabled\(\)/,
-  "A partner without a Phase 1 workspace must still reach the workspace creation control when Launch Prep is enabled."
-);
+assert.match(internalDetailPageSource, /<ProgramOperations/);
+assert.match(internalDetailPageSource, /onboardingEnabled accessOnly/);
 
 const mocks = {
   "next/link": function Link({ children, href, ...props }) {
