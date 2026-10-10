@@ -51,7 +51,7 @@ export async function testWorkspaceRecovery(db,id){
  let result=await page(),rendered=html(result);assert.match(rendered,/Signed Fixture/);assert.match(rendered,/Manage program clinics/);assert.match(rendered,/Use five-step setup/);startDisabled(rendered);
  const legacy=await getProgramOperations(context);assert(legacy.view&&legacy.preflight&&legacy.launchDecision);assert.deepEqual(legacy.issues,[]);assert.equal(legacy.identity.policyVersion,'legacy');
  assert.equal(await snapshot(),before,'legacy SSR and preflight do not mutate setup, policy, approvals, artifacts or money');
- assert(!operations.some(op=>op.operation.startsWith('rpc:')&&!['rcap_service_assert_internal_actor','rcap_service_evaluate_program','rcap_program_material_scope','rcap_agreement_clearance'].includes(op.operation.slice(4))));
+ assert(!operations.some(op=>op.operation.startsWith('rpc:')&&!['rcap_service_get_program_configuration','rcap_service_assert_internal_actor','rcap_service_evaluate_program','rcap_program_material_scope','rcap_agreement_clearance'].includes(op.operation.slice(4))));
  console.log('PASS actual authenticated legacy admin page server rendering; preparation editor and Clinic navigation survive; all stored program records unchanged');
  await db.exec('begin');
  try{

@@ -1,16 +1,18 @@
 import { workspaceReadError } from "./workspace-loading";
 import "server-only";
-import { createHash, createHmac, randomUUID } from "node:crypto";
+import { createHmac, randomUUID } from "node:crypto";
 import { getSupabaseAdminClient } from "@/lib/supabase/server";
 import type { InternalOnboardingContext, PartnerOnboardingContext } from "./auth-context";
 import { getAuthoritativelyPublicPartnerRecord } from "../public-partner-page";
 import { isRcap2Enabled } from "./feature";
 import { Phase1OnboardingError } from "./errors";
-import { getPartnerOnboardingPortal, savePartnerOnboardingSection } from "./service";
 import { artifactGeneratorVersion, detectArtifactDrift, projectArtifactSource } from "./artifact-domain";
 import { generateArtifactVersion, loadArtifactSourceInput } from "./artifact-service";
 import { getPartnerSupportContact } from "./support-contact";
 import { PROGRAM_ACTIONS, type ProgramAction, type ProgramDecision, type ProgramExperience, type ProgramMaterial } from "./program-experience";
+import { getProgramConfiguration, saveProgramConfiguration } from "./program-configuration-service";
+import type { ProgramPatch } from "./program-configuration";
+export type { ProgramPatch } from "./program-configuration";
 import type { OnboardingPartnerData, OnboardingSectionKey } from "./types";
 import { executeRealLaunch } from "./synthetic-launch-service";
 import { getLaunchPreflight } from "./launch-preflight";
@@ -79,48 +81,21 @@ export async function getProgramExperience(context:Context):Promise<ProgramExper
  }
  return {partnerSlug:context.partnerSlug,organizationName:source.data.organization_contacts?.public_organization_name??source.partnerRecord.organizationName,version:decision.sourceVersion,data:source.data,legalIdentityLocked:source.workspace.agreementStatus==="signed"||Boolean(authority.data),canEdit:context.role!=="partner_staff"&&!["paused","closed"].includes(decision.status),decision,capabilities:Object.fromEntries(decisions),materials,reviewToken:materials.length===2?reviewToken(context,decision):null,
  publicUrl:decision.live?`/p/${encodeURIComponent(context.partnerSlug)}`:null,
- commercial:{label:authority.data?.kind==="screening_only"?"Screening-only program. Sponsored packets are unavailable.":authority.data?"Documented program terms":"LegalEase is finalizing your program terms",screenings:screening.error||!screening.data?null:Math.max(0,screening.data.screenings_allowed-screening.data.screenings_used),packets,expiresAt:authority.data?.expires_at??null}};
+ commercial:{label:authority.data&&Date.parse(authority.data.expires_at)<=Date.now()?"Recorded service authority has expired.":authority.data?.kind==="screening_only"?"Screening-only terms recorded. Sponsored packets are unavailable.":authority.data?"Documented program terms recorded":"Current service authority has not been recorded",screenings:screening.error||!screening.data?null:Math.max(0,screening.data.screenings_allowed-screening.data.screenings_used),packets,expiresAt:authority.data?.expires_at??null}};
 }
 
-export type ProgramPatch={section:OnboardingSectionKey;values:Record<string,unknown>;base:Record<string,unknown>};
-const editable:Partial<Record<OnboardingSectionKey,readonly string[]>>={
- organization_contacts:["legal_organization_name","public_organization_name","public_program_name","website","primary_address","contacts"],
- program_goals:["participation_mode","target_population"],
- geography_audience_language_accessibility:["jurisdictions","service_area_description","counties","primary_language","enable_spanish"],
- access_sponsorship_capacity:["participant_access_model"],
- support_referrals_reporting:["participant_support_email","referral_arrangement","contested_matter_procedure"],
- brand_public_page:["program_headline","program_subheadline","approved_organization_description","primary_cta_label","participant_support_copy","program_headline_es","program_subheadline_es","approved_organization_description_es","primary_cta_label_es","participant_support_copy_es","service_area_es","target_audience_es"]
-};
-function same(a:unknown,b:unknown){return JSON.stringify(a??null)===JSON.stringify(b??null);}
-export async function saveProgramPatches(context:PartnerOnboardingContext,patches:ProgramPatch[],requestId:string){
- enabled();if(context.role!=="partner_admin")throw new Phase1OnboardingError("forbidden","A program administrator must save these details.");
- await programDecision(context,"complete_setup");
- if(!Array.isArray(patches)||patches.length>7)throw new Phase1OnboardingError("invalid_input","Choose the program fields to save.");
- for(const [index,patch] of patches.entries()){
-  if(!editable[patch.section]||!patch.values||typeof patch.values!=="object"||!patch.base)throw new Phase1OnboardingError("invalid_input","Check the program information.");
-  const portal=await getPartnerOnboardingPortal(context);const current=(portal.data[patch.section]??{}) as Record<string,unknown>;
-  for(const [key,value] of Object.entries(patch.values)){
-   if(portal.workspace.status==="live"&&((patch.section==="geography_audience_language_accessibility")||(patch.section==="access_sponsorship_capacity")||(patch.section==="program_goals"&&key==="participation_mode"))&&!same(current[key],value))throw new Phase1OnboardingError("forbidden","Contact LegalEase to change the service scope of your live program.");
-   if(!editable[patch.section]?.includes(key))throw new Phase1OnboardingError("forbidden","This program field is managed by LegalEase.");
-   if(!same(current[key],patch.base[key])&&!same(current[key],value))throw new Phase1OnboardingError("revision_conflict","Someone updated this information. Review the latest version.");
-   if(key==="legal_organization_name"&&current[key]&&!same(current[key],value)&&(await getProgramExperience(context)).legalIdentityLocked)throw new Phase1OnboardingError("forbidden","Contact LegalEase to correct the legal organization name.");
-  }
-  if(Object.entries(patch.values).every(([k,v])=>same(current[k],v)))continue;
-  const section=portal.sections.find(s=>s.key===patch.section)!;
-  const childRequest=createHash("sha256").update(`${requestId}:${index}`).digest("hex");
-  const id=`${childRequest.slice(0,8)}-${childRequest.slice(8,12)}-4${childRequest.slice(13,16)}-8${childRequest.slice(17,20)}-${childRequest.slice(20,32)}`;
-  await savePartnerOnboardingSection(context,{sectionKey:patch.section,expectedRevision:section.revision,expectedWorkspaceVersion:portal.workspace.aggregateVersion,requestId:id,mode:"draft_save",data:{...current,...patch.values}});
- }
+export async function saveProgramPatches(context:PartnerOnboardingContext,patches:ProgramPatch[],requestId:string,expectedVersion?:number){
+ await saveProgramConfiguration(context,{patches,requestId,expectedVersion});
  return getProgramExperience(context);
 }
 export async function prepareProgramDefaults(context:PartnerOnboardingContext,requestId:string){
- await requireCurrentProgramPolicy(context);const portal=await getPartnerOnboardingPortal(context);const data=portal.data;const support=getPartnerSupportContact();
+ await requireCurrentProgramPolicy(context);const portal=await getProgramConfiguration(context);const data=portal.data;const organizationName=data.organization_contacts?.public_organization_name??data.organization_contacts?.legal_organization_name??"";const support=getPartnerSupportContact();
  const defaults:OnboardingPartnerData={
-  organization_contacts:{public_organization_name:data.organization_contacts?.legal_organization_name??portal.organizationName,public_program_name:`${data.organization_contacts?.public_organization_name??portal.organizationName} RCAP`},
+  organization_contacts:{public_organization_name:data.organization_contacts?.legal_organization_name??organizationName,public_program_name:`${data.organization_contacts?.public_organization_name??organizationName} RCAP`},
   program_goals:{participation_mode:"online",target_population:"People in the program service area"},
   geography_audience_language_accessibility:{primary_language:"English",enable_spanish:false},
   support_referrals_reporting:{participant_support_email:support.email,referral_arrangement:"no_referrals",contested_matter_procedure:"Stop the self-help process for prosecutor objections, contested hearings, or requests for individualized representation. Notify the participant and contact LegalEase support for the appropriate next step. LegalEase does not provide representation."},
-  brand_public_page:{program_headline:"Explore your record-clearing options",program_subheadline:"Answer clear questions to understand possible next steps.",approved_organization_description:`A record-clearing access program from ${data.organization_contacts?.public_organization_name??portal.organizationName}.`,primary_cta_label:"Start free screening",participant_support_copy:"Contact program support if you need help getting started."}
+  brand_public_page:{program_headline:"Explore your record-clearing options",program_subheadline:"Answer clear questions to understand possible next steps.",approved_organization_description:`A record-clearing access program from ${data.organization_contacts?.public_organization_name??organizationName}.`,primary_cta_label:"Start free screening",participant_support_copy:"Contact program support if you need help getting started."}
  };
  const patches:ProgramPatch[]=[];
  for(const [section,values] of Object.entries(defaults)){

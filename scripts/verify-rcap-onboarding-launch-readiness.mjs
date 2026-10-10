@@ -330,17 +330,13 @@ check("agreement contract fails closed for every nonexecuted state, missing rece
   ]) {const source=readySource();mutate(source);assert.equal(byKey(evaluateReady({source}),"agreements_and_procurement_recorded").status,"failing");}
 });
 
-check("Launch Studio top navigation always has scrollable hash targets", () => {
-  const page = read("src/app/internal/partners/onboarding/[partnerSlug]/page.tsx");
-  const panel = read("src/app/internal/partners/onboarding/[partnerSlug]/Phase2AArtifactsPanel.tsx");
-  assert.match(page, /<a href="#launch-prep-area-launch_readiness"/);
-  assert.match(page, /<a href="#launch-prep-area-co_branded_page"/);
-  assert.match(panel, /id=\{`launch-prep-area-\$\{key\}`\}/);
-  assert.match(panel, /aria-controls=\{`launch-prep-panel-\$\{key\}`\}/);
-  for (const area of ["artifacts", "co_branded_page", "launch_readiness", "resources"]) {
-    assert.match(panel, new RegExp(`id="launch-prep-panel-${area}"`));
-    assert.doesNotMatch(panel, new RegExp(`id="launch-prep-area-${area}"`));
-  }
+check("Normal workspace has one configuration and launch surface with real resolution targets", () => {
+  const page=read("src/app/internal/partners/onboarding/[partnerSlug]/page.tsx");
+  const operations=read("src/app/internal/partners/onboarding/[partnerSlug]/ProgramOperations.tsx");
+  assert.doesNotMatch(page,/Phase1InternalReviewPanel|Phase1PrefillPanel|LaunchControl|Phase2AArtifactsPanel/);
+  assert.equal((page.match(/<ProgramOperations/g)??[]).length,1);
+  assert.match(operations,/!ops.canStart/);
+  for(const id of ["program-materials","program-next-action","program-service-authority"])assert.ok(operations.includes(`id="${id}"`));
 });
 
 check("agreement readiness action opens the real review field", () => {
@@ -351,13 +347,11 @@ check("agreement readiness action opens the real review field", () => {
   },"internal");
   const agreement=byKey(result,"agreements_and_procurement_recorded");
   assert.equal(agreement.resolutions?.[0]?.href,
-    "/internal/partners/onboarding/demo-partner#internal-operation-agreement");
+    "/internal/partners/onboarding/demo-partner#program-service-authority");
   assert.equal(agreement.resolutions?.[0]?.canActorResolve,true);
-  const view=read("src/app/internal/partners/onboarding/[partnerSlug]/Phase1InternalReviewPanel.tsx");
-  assert.match(view,/details\.open = true/);
-  assert.match(view,/internal-operation-\$\{cardKey\}/);
-  const parent=read("src/app/internal/partners/onboarding/[partnerSlug]/page.tsx");
-  assert.match(parent,/<details id="setup-review"/);
+  const view=read("src/app/internal/partners/onboarding/[partnerSlug]/ProgramOperations.tsx");
+  assert.match(view,/target.open=true/);
+  assert.match(view,/id="program-service-authority"/);
 });
 
 check("signed contract recording is an audited, source-checked, actor-scoped operation", () => {

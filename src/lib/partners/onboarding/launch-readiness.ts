@@ -842,7 +842,7 @@ function resolveLaunchActions(check: LaunchCheckEvaluation, input: LaunchCheckSo
   const internal = actor === "internal";
   const workspace = `/internal/partners/onboarding/${encodeURIComponent(input.source.workspace.partnerSlug)}`;
   function result(fact: string, owner: LaunchCheckOwner, label: string, partnerHref: string | null,
-    internalHref = `${workspace}#prefill-heading`): LaunchResolution {
+    internalHref = `${workspace}#configure-program`): LaunchResolution {
     const canActorResolve = internal ? owner === "legalease" || check.determination === "automated" : actor === "partner_admin" && owner === "partner";
     return { actualMissingFact: fact, owner, actionLabel: canActorResolve ? label : owner === "legalease"
       ? "LegalEase is completing this task" : "Your program administrator must confirm this task",
@@ -861,12 +861,12 @@ function resolveLaunchActions(check: LaunchCheckEvaluation, input: LaunchCheckSo
     }
     if (input.source.readOnlyValues.screening_allocation == null) {
       actions.push(result("screening_allocation", "legalease", internal ? "Configure authorized screening allowance" : "LegalEase is configuring your program allowance", null,
-        `/internal/partners/admin/${encodeURIComponent(input.source.workspace.partnerSlug)}#rcap-screening-allowance`));
+        `${workspace}#program-service-authority`));
       if (!internal) actions[actions.length - 1].actionLabel = "LegalEase is configuring your program allowance";
     }
     const model = text(input.source, "access_sponsorship_capacity", "participant_access_model");
     if (model && input.source.partnerRecord.accessMode && model !== input.source.partnerRecord.accessMode) {
-      actions.push(result("access_source_conflict", "legalease", "Review conflicting access settings", null, `${workspace}#launch-commercial-authority`));
+      actions.push(result("access_source_conflict", "legalease", "Review conflicting access settings", null, `${workspace}#program-service-authority`));
     }
     return actions;
   }
@@ -916,25 +916,25 @@ function resolveLaunchActions(check: LaunchCheckEvaluation, input: LaunchCheckSo
     const pending = Object.entries(statuses).find(([, status]) => !["approved", "waived", "not_applicable"].includes(status));
     const inReview = Object.values(statuses).every(status => ["approved", "submitted", "waived", "not_applicable"].includes(status));
     return [result("section_review", inReview ? "legalease" : "partner", inReview ? "LegalEase is reviewing your setup" : "Continue program setup",
-      pending ? `/partner/onboarding/${encodeURIComponent(pending[0])}` : "/partner/onboarding", `${workspace}#internal-operation-section_review`)];
+      pending ? `/partner/onboarding/${encodeURIComponent(pending[0])}` : "/partner/onboarding", `${workspace}#program-next-action`)];
   }
   if (["artifact_versions_current", "required_artifact_approvals_complete"].includes(check.key)) {
     const needsNew = input.artifacts.some(entry => entry.sourceFreshness === "stale" || entry.currentVersion?.approvalStatus === "superseded");
     return [result("current_reviewed_materials", "legalease", internal ? needsNew ? "Regenerate affected versions and review launch package" : "Review launch package" : "LegalEase is updating your launch materials",
-      null, `${workspace}#launch-prep-area-artifacts`)];
+      null, `${workspace}#program-materials`)];
   }
   if (check.key === "agreements_and_procurement_recorded") {
     return [result("signed_agreement_evidence", "legalease",
       "Review program funding and terms", null,
-      `${workspace}#internal-operation-agreement`)];
+      `${workspace}#program-service-authority`)];
   }
   if (check.key === "commercial_gate_cleared") {
     return [result("commercial_gate", "legalease",
       "Review documented commercial authorization", null,
-      `${workspace}#internal-operation-commercial_gate`)];
+      `${workspace}#program-service-authority`)];
   }
   if (check.determination === "manual") return [result(check.key, check.owner,
     check.key === "partner_launch_approval_received" ? "Review and approve your program" : check.key === "staff_training_completed" ? "Confirm staff training" : "Open final review",
-    `/partner/onboarding/resources#check-${check.key}`, `${workspace}#launch-prep-area-launch_readiness`)];
-  return [result(check.key, "legalease", "Review program funding and terms", null, `${workspace}#internal-operation-section_review`)];
+    `/partner/onboarding/resources#check-${check.key}`, `${workspace}#program-next-action`)];
+  return [result(check.key, "legalease", "Review program funding and terms", null, `${workspace}#program-next-action`)];
 }

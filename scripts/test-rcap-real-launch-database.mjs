@@ -26,6 +26,7 @@ try{
  await db.exec(originalTable('supabase/migrations/20260825120000_clinic_mode_core.sql','create table public.clinic_events'));
  await db.exec('alter table public.clinic_events add column jurisdiction text;');
  await db.exec(read('supabase/migrations/20261009224252_rcap2_program_policy_and_start.sql'));
+ await db.exec(read('supabase/migrations/20261010010147_rcap_canonical_program_configuration.sql'));
  console.log('PASS complete real-launch SQL proposal applies atomically to a fresh disposable database');
  for(const [index,signature] of signatures.entries()){const after=(await db.query('select pg_get_functiondef($1::regprocedure) as definition',[signature])).rows[0].definition;assert.equal(after,before[index].replace("pr.payment_status in ('paid', 'demo_paid')",'public.rcap_partner_activation_for_launch(pr.partner_slug)'));}
  console.log('PASS both existing claim functions preserve every guard and effect except the bounded activation predicate');
@@ -123,5 +124,6 @@ try{
  console.log('PASS real launch refuses a stale or withdrawn executed document even with a legacy signed flag');
 
  await (await import("./test-rcap-workspace-recovery.mjs")).testWorkspaceRecovery(db,id);
+ await (await import("./test-rcap2-program-configuration.mjs")).testProgramConfiguration(db,id);
  await testProgramPolicy(db,id);
 }finally{await db.close();}

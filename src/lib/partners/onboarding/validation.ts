@@ -307,6 +307,7 @@ const sectionSchemas = {
     .strict(),
   program_goals: z
     .object({
+      participation_mode: z.enum(["online", "clinics", "both"]).optional(),
       primary_goal: safeString(
         ONBOARDING_FIELD_LIMITS.longText,
         "multiline"

@@ -8,7 +8,8 @@ import { getProgramWorkspaceIdentity } from "./program-workspace";
 import { recoverWorkspaceLoad, requireWorkspaceLoad, workspaceReadError } from "./workspace-loading";
 import { getLaunchPreflight } from "./launch-preflight";
 import { executeRealLaunch } from "./synthetic-launch-service";
-import { applyKnownProgramFacts,getInternalPrefillSnapshot,savePreparedProgramValue } from "./prefill-service";
+import { getProgramConfiguration,saveProgramConfiguration } from "./program-configuration-service";
+import type { ProgramPatch } from "./program-configuration";
 import type { OnboardingSectionKey } from "./types";
 import { getPartnerSupportContact } from "./support-contact";
 import type { ProgramAction, ProgramDecision } from "./program-experience";
@@ -40,9 +41,8 @@ export async function getProgramOperations(context:InternalOnboardingContext){
 }
 export async function prepareInternalProgram(context:InternalOnboardingContext){
  if((await getProgramWorkspaceIdentity(context)).policyVersion!=="rcap2.2")throw new Phase1OnboardingError("invalid_transition","Choose Use five-step setup explicitly before preparing standard defaults.");
- await applyKnownProgramFacts(context,{requestId:randomUUID()});
- let snapshot=await getInternalPrefillSnapshot(context);
- const name=String(snapshot.currentValues?.public_organization_name??snapshot.currentValues?.legal_organization_name??"Your organization");
+ const snapshot=await getProgramConfiguration(context);
+ const name=String(snapshot.data.organization_contacts?.public_organization_name??snapshot.data.organization_contacts?.legal_organization_name??"Your organization");
  const defaults:Partial<Record<OnboardingSectionKey,Record<string,unknown>>>={
   organization_contacts:{public_organization_name:name,public_program_name:`${name} RCAP`},
   program_goals:{participation_mode:"online",target_population:"People in the program service area"},
@@ -50,12 +50,13 @@ export async function prepareInternalProgram(context:InternalOnboardingContext){
   support_referrals_reporting:{participant_support_email:getPartnerSupportContact().email,referral_arrangement:"no_referrals",contested_matter_procedure:"Stop the self-help process for prosecutor objections, contested hearings, or requests for individualized representation. Notify the participant and contact LegalEase support. LegalEase does not provide representation."},
   brand_public_page:{program_headline:"Explore your record-clearing options",program_subheadline:"Answer clear questions to understand possible next steps.",approved_organization_description:`A record-clearing access program from ${name}.`,primary_cta_label:"Start free screening",participant_support_copy:"Contact program support if you need help getting started."}
  };
- for(const [section,values] of Object.entries(defaults))for(const [field,value] of Object.entries(values)){
-  if(snapshot.currentValues?.[field]!==undefined&&snapshot.currentValues?.[field]!==null&&snapshot.currentValues?.[field]!=="")continue;
-  if(!snapshot.workspace||!snapshot.fieldValueHashes?.[field])continue;
-  await savePreparedProgramValue(context,{requestId:randomUUID(),sectionKey:section as OnboardingSectionKey,fieldKey:field,proposedValue:value,expectedWorkspaceVersion:snapshot.workspace.aggregateVersion,expectedFieldValueHash:snapshot.fieldValueHashes?.[field]});
-  snapshot=await getInternalPrefillSnapshot(context);
+ const patches:ProgramPatch[]=[];
+ for(const [section,values] of Object.entries(defaults)){
+  const key=section as OnboardingSectionKey,current=(snapshot.data[key]??{}) as Record<string,unknown>;
+  const missing=Object.fromEntries(Object.entries(values).filter(([field])=>current[field]===undefined||current[field]===null||current[field]===""));
+  if(Object.keys(missing).length)patches.push({section:key,values:missing,base:current});
  }
+ if(patches.length)await saveProgramConfiguration(context,{patches,requestId:randomUUID(),expectedVersion:snapshot.version});
  if((await programDecision(context,"complete_setup")).allowed)await prepareProgramReview(context);
 }
 function childRequest(request:string,purpose:string){const h=createHash("sha256").update(`${request}:${purpose}`).digest("hex");return `${h.slice(0,8)}-${h.slice(8,12)}-4${h.slice(13,16)}-8${h.slice(17,20)}-${h.slice(20,32)}`;}
