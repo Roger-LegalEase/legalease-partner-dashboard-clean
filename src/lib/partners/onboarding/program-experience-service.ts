@@ -58,13 +58,15 @@ export async function getProgramExperience(context:Context):Promise<ProgramExper
  const decision=await programDecision(context,context.role==="partner_staff"?"view_reporting":"complete_setup");
  if(decision.policyVersion==="legacy"&&decision.status==="live")decision.live=Boolean(await getAuthoritativelyPublicPartnerRecord(context.partnerSlug));
  const source=await loadArtifactSourceInput(db(),context.partnerSlug);
- const [versions,screening,authority,decisions,jurisdictionScope]=await Promise.all([
+ const [versions,screening,authority,decisions,jurisdictionScope,screeningCapacity]=await Promise.all([
   db().from("partner_onboarding_artifacts").select("artifact_type,current_version_id").eq("workspace_id",decision.workspaceId).in("artifact_type",[...requiredMaterials]),
   db().from("partner_entitlement").select("screenings_allowed,screenings_used").eq("partner_slug",context.partnerSlug).maybeSingle(),
   db().from("rcap_commercial_authorizations").select("kind,expires_at,packet_entitlement_id").eq("workspace_id",decision.workspaceId).order("created_at",{ascending:false}).order("id",{ascending:false}).limit(1).maybeSingle(),
   Promise.all(PROGRAM_ACTIONS.filter(a=>context.role!=="partner_staff"||a==="view_reporting"||a==="assist_participant"||a==="offer_paid_packet").map(async action=>[action,await programDecision(context,action)] as const)),
-  context.role==="internal_admin" ? Promise.resolve({data:null,error:null}) : db().rpc("rcap_program_partner_jurisdictions",{p_workspace:decision.workspaceId})
+  context.role==="internal_admin" ? Promise.resolve({data:null,error:null}) : db().rpc("rcap_program_partner_jurisdictions",{p_workspace:decision.workspaceId}),
+  db().rpc("rcap_program_screening_capacity",{p_slug:context.partnerSlug})
  ]);
+ if(screeningCapacity.error)throw workspaceReadError("program_experience.screening_capacity",screeningCapacity.error,"The current screening allowance could not be verified.");
  if(jurisdictionScope.error || (context.role!=="internal_admin" && (!Array.isArray(jurisdictionScope.data) || !jurisdictionScope.data.every(code=>typeof code==="string"))))throw workspaceReadError("program_experience.jurisdiction_scope",jurisdictionScope.error,"The permitted service area could not be verified. Please retry.");
  if(versions.error||authority.error)throw workspaceReadError("program_experience.materials_or_authority",[versions.error,authority.error],"Your program could not be loaded. Please retry.");
  const materialRows=versions.data?.length?await db().from("partner_onboarding_artifact_versions").select("id,version_number,rendered_content,generator_version,normalized_snapshot,snapshot_hash,generation_status,source_drift_invalidated_at,superseded_at").in("id",versions.data.map(v=>v.current_version_id).filter(Boolean)):{data:[],error:null};
@@ -108,7 +110,7 @@ export async function getProgramExperience(context:Context):Promise<ProgramExper
   : null;
  return {partnerSlug:context.partnerSlug,organizationName:source.data.organization_contacts?.public_organization_name??source.partnerRecord.organizationName,version:decision.sourceVersion,data:source.data,permittedJurisdictions:jurisdictionScope.data??undefined,publicationNextAction,legalIdentityLocked:source.workspace.agreementStatus==="signed"||Boolean(authority.data),canEdit:context.role!=="partner_staff"&&!["paused","closed"].includes(decision.status),decision,capabilities:Object.fromEntries(decisions.map(([action,result])=>[action,result.allowed])),materials,draftMaterials,reviewToken:materials.length===2?reviewToken(context,decision):null,
  publicUrl:decision.live?`/p/${encodeURIComponent(context.partnerSlug)}`:null,
- commercial:{label:decision.operatingModel==="legalease_managed"?(decision.authorityId?"LegalEase internal operating authority recorded.":"Confirm LegalEase operating authority with Start Program."):authority.data&&Date.parse(authority.data.expires_at)<=Date.now()?"Recorded service authority has expired.":authority.data?.kind==="screening_only"?"Screening-only terms recorded. Sponsored packets are unavailable.":authority.data?"Documented program terms recorded":"Current service authority has not been recorded",screenings:screening.error||!screening.data?null:Math.max(0,screening.data.screenings_allowed-screening.data.screenings_used),packets,expiresAt:authority.data?.expires_at??null}};
+ commercial:{label:decision.operatingModel==="legalease_managed"?(decision.authorityId?"LegalEase internal operating authority recorded.":"Confirm LegalEase operating authority with Start Program."):authority.data&&Date.parse(authority.data.expires_at)<=Date.now()?"Recorded service authority has expired.":authority.data?.kind==="screening_only"?"Screening-only terms recorded. Sponsored packets are unavailable.":authority.data?"Documented program terms recorded":"Current service authority has not been recorded",screenings:screeningCapacity.data?.limited===true?screeningCapacity.data.remaining:screening.error||!screening.data?null:Math.max(0,screening.data.screenings_allowed-screening.data.screenings_used),packets,expiresAt:authority.data?.expires_at??null}};
 }
 
 export async function saveProgramPatches(context:PartnerOnboardingContext,patches:ProgramPatch[],requestId:string,expectedVersion?:number,confirmPublicationHold=false){

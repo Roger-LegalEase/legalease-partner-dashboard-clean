@@ -32,7 +32,7 @@ export type RcapPartnerCodeClaimResult =
     }
   | {
       ok: false;
-      reason: "partner_inactive" | "jurisdiction_not_authorized" | "code_required" | "invalid" | "inactive" | "expired" | "exhausted";
+      reason: "partner_inactive" | "jurisdiction_not_authorized" | "code_required" | "invalid" | "inactive" | "expired" | "exhausted" | "capacity_full";
     };
 
 type CodeClaimRpcRow = {
@@ -247,7 +247,7 @@ export function screeningEntryRequestHash(requestId:string,participantUserId?:st
  return createHmac("sha256",key).update(JSON.stringify(["rcap-screening-entry-v1",requestId,participantUserId??null])).digest("hex");
 }
 
-type CodeClaimRejectReason = "partner_inactive" | "jurisdiction_not_authorized" | "code_required" | "invalid" | "inactive" | "expired" | "exhausted";
+type CodeClaimRejectReason = "partner_inactive" | "jurisdiction_not_authorized" | "code_required" | "invalid" | "inactive" | "expired" | "exhausted" | "capacity_full";
 
 function normalizeClaimReason(reason: string | null): CodeClaimRejectReason {
   switch (reason) {
@@ -257,6 +257,7 @@ function normalizeClaimReason(reason: string | null): CodeClaimRejectReason {
     case "inactive":
     case "expired":
     case "exhausted":
+    case "capacity_full":
       return reason;
     default:
       return "partner_inactive";

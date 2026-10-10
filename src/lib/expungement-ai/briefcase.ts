@@ -488,8 +488,8 @@ export async function isPartnerSponsoredPacketItem(item: ConsumerBriefcaseItem, 
     // Unknown acquisition is not permission to charge.
     if (!source.ok) return true;
     if (source.value.product !== "rcap_partner") return false;
-    const { clinicPacketDtcAuthorized } = await import("./clinic-packet-funding");
-    return !(await clinicPacketDtcAuthorized(userId, item.id));
+    const { rcapConsumerPacketAuthorized } = await import("./clinic-packet-funding");
+    return !(await rcapConsumerPacketAuthorized(userId, item.id));
   }
   if (!item.sourceSessionId) return false;
   const supabase = getSupabaseAdminClient();

@@ -3,7 +3,7 @@
 import fs from 'node:fs';
 import crypto from 'node:crypto';
 import assert from 'node:assert/strict';
-const root='artifacts/rcap-grade-a-final/ba81792225d6d82ef57c104061e9d5eb9d7db395';
+const root=process.env.RCAP_CAMPAIGN_DIR??'artifacts/rcap-grade-a-final/ba81792225d6d82ef57c104061e9d5eb9d7db395';
 const admin='src/app/internal/partners/onboarding/[partnerSlug]/';
 const onboarding='src/lib/partners/onboarding/';
 const clinic='src/components/clinic-mode/';
@@ -35,7 +35,7 @@ bind('U01','/p/[partnerSlug]','Public participant',['src/components/partners/onb
 bind('U02','/intake/[partnerSlug]','Anonymous / authenticated participant',['src/app/intake/[partnerSlug]/page.tsx','src/lib/expungement-ai/rcap-partner-intake.ts'],'Canonical program jurisdiction/access and atomic screening claim',cases('U',2,6));
 bind('U03','/expungement-ai/screening/[state]','Anonymous / authenticated participant',[consumer+'screening/ScreeningFlow.tsx',consumer+'screening/ScreeningResult.tsx'],'State-specific screening engine; short-lived pending result, no anonymous durable matter',['U-T07','U-T08','U-T15']);
 bind('U04','/expungement-ai/sign-in; exact claim continuation','Authenticated participant',[consumer+'ConsumerSignInForm.tsx','src/lib/expungement-ai/claim/claim-handoff.ts','src/lib/expungement-ai/claim/claim-service.ts'],'Verified account and atomic owner-bound pending-result claim',cases('U',8,12));
-bind('U05 U06','/briefcase/matters/[matterId]; /briefcase/matters/[matterId]/packet-information; /briefcase/matters/[matterId]/review','Owning authenticated participant',[consumer+'BriefcaseViews.tsx',consumer+'PacketInformationBuilder.tsx',consumer+'PacketVerificationAction.tsx','src/lib/expungement-ai/packet-information.ts'],'Canonical owned matter facts, current verification, supported route and source provenance',cases('U',12,16));
+bind('U05 U06','/briefcase/matters/[matterId]; /briefcase/[matterId]/packet-information; /briefcase/[matterId]/review','Owning authenticated participant',[consumer+'BriefcaseViews.tsx',consumer+'PacketInformationBuilder.tsx',consumer+'PacketVerificationAction.tsx','src/lib/expungement-ai/packet-information.ts'],'Canonical owned matter facts, current verification, supported route and source provenance',cases('U',12,16));
 bind('U07','/briefcase/matters/[matterId]','Owning authenticated participant',[consumer+'PacketGenerateButton.tsx','src/app/api/expungement-ai/packet/generate/route.ts','src/app/api/expungement-ai/packet/download/route.ts'],'Exact verified matter/route, actual payment or sponsorship, protected artifact provenance',cases('U',16,23));
 bind('U08','/briefcase/settings/privacy; /briefcase; assisted-session boundary','Owning authenticated participant',[consumer+'PrivacyDataView.tsx',clinic+'ClinicPrivacyBoundary.tsx','src/lib/expungement-ai/privacy/request-security.ts'],'Participant ownership, privacy requests, current consent and validated account recovery',cases('U',10,23));
 for(const b of Object.values(bindings)) for(const f of b.files)assert.ok(fs.existsSync(f),`Source missing: ${f}`);

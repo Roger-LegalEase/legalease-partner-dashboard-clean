@@ -2,6 +2,7 @@
 
 import { Maximize2, Minimize2, Send } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import type { WilmaPageContext } from "@/lib/expungement-ai/wilma";
 import { useLocalization } from "@/components/expungement-ai/LocalizationProvider";
@@ -79,7 +80,6 @@ export function WilmaBubble({
   // Regular vs expanded chat size. Transient: lives only while the chat is open and resets to
   // regular whenever the panel is closed/reopened (handled in the open/close handlers below).
   const [expanded, setExpanded] = useState(false);
-  const [reported, setReported] = useState(false);
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState<WilmaMessage[]>([]);
   const [isSending, setIsSending] = useState(false);
@@ -93,6 +93,8 @@ export function WilmaBubble({
     }
   });
   const turnstileRef = useRef<HTMLDivElement | null>(null);
+  const messageInputRef = useRef<HTMLInputElement | null>(null);
+  const bubbleRef = useRef<HTMLButtonElement | null>(null);
   // The rendered widget id, kept in a ref so handleSubmit can reset() it between turns to
   // mint a fresh single-use token (the previous one is spent server-side after each send).
   const turnstileWidgetRef = useRef<string | undefined>(undefined);
@@ -106,16 +108,36 @@ export function WilmaBubble({
   const trimmedMessage = message.trim();
 
   useEffect(() => {
+    const openGuide = () => {
+      setIsOpen(true);
+      setExpanded(false);
+      messageInputRef.current?.focus();
+    };
     const openFromHash = () => {
       if (window.location.hash === "#ask-wilma") {
-        setIsOpen(true);
-        setExpanded(false);
+        openGuide();
       }
+    };
+    // Next navigation may update the hash without a native hashchange event.
+    // The same link must also reopen the guide after Close, when its hash has
+    // not changed. Keep both normal links and direct bookmarked entry working.
+    const openFromLink = (event: MouseEvent) => {
+      if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+      const link = event.target instanceof Element ? event.target.closest<HTMLAnchorElement>('a[href="#ask-wilma"]') : null;
+      if (link) openGuide();
     };
     openFromHash();
     window.addEventListener("hashchange", openFromHash);
-    return () => window.removeEventListener("hashchange", openFromHash);
+    document.addEventListener("click", openFromLink);
+    return () => {
+      window.removeEventListener("hashchange", openFromHash);
+      document.removeEventListener("click", openFromLink);
+    };
   }, []);
+
+  useEffect(() => {
+    if (isOpen) messageInputRef.current?.focus();
+  }, [isOpen]);
 
   // Load and render the Turnstile widget for the anonymous surface, when a site key is set.
   // With no site key (e.g. staging pre-launch), the token stays undefined and the server
@@ -244,7 +266,7 @@ export function WilmaBubble({
   }
 
   return (
-    <div id="ask-wilma" className="fixed bottom-4 right-4 z-50 font-sans" data-wilma-surface={context}>
+    <div id="ask-wilma" className={`fixed right-4 z-50 font-sans ${context === "briefcase" ? "bottom-20 md:bottom-4" : "bottom-4"}`} data-wilma-surface={context}>
       {isOpen ? (
         <section
           className={`mb-3 flex max-h-[calc(100dvh-6rem)] flex-col overflow-hidden rounded-2xl border border-[#ECEFF4] bg-white shadow-2xl ${
@@ -278,7 +300,7 @@ export function WilmaBubble({
               >
                 {expanded ? <Minimize2 className="h-4 w-4" aria-hidden="true" /> : <Maximize2 className="h-4 w-4" aria-hidden="true" />}
               </button>
-              <button className="rounded-md px-2 py-1 text-xs font-semibold text-white/70 hover:bg-white/10 hover:text-white" onClick={() => { setIsOpen(false); setExpanded(false); }} type="button">
+              <button className="rounded-md px-2 py-1 text-xs font-semibold text-white/70 hover:bg-white/10 hover:text-white" onClick={() => { setIsOpen(false); setExpanded(false); bubbleRef.current?.focus(); }} type="button">
                 {translate("wilma.close", "Close")}
               </button>
             </div>
@@ -330,23 +352,13 @@ export function WilmaBubble({
                     {translate("wilma.need_help", "Need help? Ask Wilma to explain this clearly.")}
                   </div>
                 )}
-                {reported && hasGuideAnswer ? (
-                  <p className="text-xs font-semibold text-[#5A6275]" data-wilma-report-response="true" role="status">
-                    {translate("wilma.reported", "Reported, thank you. A reviewer will take a look.")}
-                  </p>
-                ) : hasGuideAnswer ? (
-                  <button
-                    className="text-xs font-semibold text-[#00A99D]"
-                    data-wilma-report-response="true"
-                    type="button"
-                    onClick={() => setReported(true)}
-                  >
-                    {translate("wilma.report_response", "Report this response")}
-                  </button>
-                ) : null}
+                {hasGuideAnswer ? <Link className="inline-flex min-h-11 items-center text-xs font-semibold text-[#08786F] underline" data-wilma-report-response="true" href={`/expungement-ai/support?category=wilma${briefcaseItemId ? `&briefcaseItemId=${encodeURIComponent(briefcaseItemId)}` : ""}`}>
+                  {translate("wilma.report_response", "Report a Wilma issue")}
+                </Link> : null}
                 {isPublic && siteKey ? <div ref={turnstileRef} className="min-h-[1px]" /> : null}
                 <form className="flex gap-2" onSubmit={handleSubmit}>
                   <input
+                    ref={messageInputRef}
                     aria-label={translate("wilma.message", "Message Wilma")}
                     className="min-h-10 min-w-0 flex-1 rounded-lg border border-[#ECEFF4] px-3 text-sm outline-none focus:border-[#00A99D] focus:ring-2 focus:ring-[#00A99D]/20 disabled:cursor-not-allowed disabled:bg-[#F4F6FA]"
                     disabled={isSending}
@@ -374,6 +386,7 @@ export function WilmaBubble({
         </section>
       ) : null}
       <button
+        ref={bubbleRef}
         aria-label={translate("common.ask_wilma", "Ask Wilma")}
         className="flex min-h-12 items-center gap-3 rounded-full border border-[#ECEFF4] bg-white py-2 pl-4 pr-2 text-sm font-bold text-[#0B1320] shadow-xl"
         data-wilma-bubble="true"

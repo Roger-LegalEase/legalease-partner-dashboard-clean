@@ -51,7 +51,7 @@ export async function testWorkspaceRecovery(db,id){
  let result=await page(),rendered=html(result);assert.match(rendered,/Signed Fixture/);assert.match(rendered,/Manage program clinics/);assert.match(rendered,/Use five-step setup/);startUnavailable(rendered);
  const legacy=await getProgramOperations(context);assert(legacy.view&&legacy.preflight&&legacy.launchDecision);assert.deepEqual(legacy.issues,[]);assert.equal(legacy.identity.policyVersion,'legacy');
  assert.equal(await snapshot(),before,'legacy SSR and preflight do not mutate setup, policy, approvals, artifacts or money');
- assert(!operations.some(op=>op.operation.startsWith('rpc:')&&!['rcap_service_get_program_configuration','rcap_service_assert_internal_actor','rcap_service_evaluate_program','rcap_program_material_scope','rcap_agreement_clearance'].includes(op.operation.slice(4))));
+ assert(!operations.some(op=>op.operation.startsWith('rpc:')&&!['rcap_service_get_program_configuration','rcap_service_assert_internal_actor','rcap_service_evaluate_program','rcap_program_material_scope','rcap_agreement_clearance','rcap_program_screening_capacity'].includes(op.operation.slice(4))));
  console.log('PASS actual authenticated legacy admin page server rendering; preparation editor and Clinic navigation survive; all stored program records unchanged');
  await db.exec('begin');
  try{
@@ -72,9 +72,9 @@ export async function testWorkspaceRecovery(db,id){
  assert.equal(await snapshot(),before);
  console.log('PASS actual partner onboarding entry renders five steps; opening or automatic preparation cannot upgrade legacy policy');
  adminSession();
- setWorkspaceFault((query)=>query.includes('"id","approval_type","decision","recorded_at","policy_details"')?{code:'08006',message:'sensitive fixture details MUST NOT LOG'}:null);
+ setWorkspaceFault((query)=>query.includes('"id","approval_type","decision","recorded_at","reviewer_user_id","invalidated_at","policy_details"')?{code:'08006',message:'sensitive fixture details MUST NOT LOG'}:null);
  rendered=html(await page());assert.match(rendered,/Authorization history is unavailable/);assert.match(rendered,/Reload workspace/);assert.match(rendered,/Program status/);
- setWorkspaceFault(query=>query.includes('"id","approval_type","decision","recorded_at","policy_details"')?{code:'08006'}:null);
+ setWorkspaceFault(query=>query.includes('"id","approval_type","decision","recorded_at","reviewer_user_id","invalidated_at","policy_details"')?{code:'08006'}:null);
  const partial=await getProgramOperations(context);assert(partial.view&&partial.preflight);assert.equal(partial.decisions,null);assert(partial.issues.some(i=>i.loader==='operations.decisions'));
  console.log('PASS independent page and nested optional administrative failures retain the valid workspace with recovery actions');
  setWorkspaceFault(query=>query.includes('from public."partner_onboarding_launch_checks"')?{code:'08006'}:null);

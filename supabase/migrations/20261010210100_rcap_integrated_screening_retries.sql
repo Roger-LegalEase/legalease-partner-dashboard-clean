@@ -6,6 +6,55 @@ alter table public.screening_sessions add column if not exists entry_request_has
 alter table public.screening_sessions add column if not exists entry_request_fingerprint text;
 create unique index if not exists screening_sessions_entry_request_unique on public.screening_sessions(entry_request_hash) where entry_request_hash is not null;
 
+-- A documented screening-only allowance counts actual admitted screenings.
+-- The legacy screenings_used field is packet accounting and is never rewritten.
+create or replace function public.rcap_program_screening_capacity(p_slug text)
+returns jsonb language plpgsql security invoker set search_path='' as $$
+declare allowance integer; admitted bigint;
+begin
+ select (a.legal_basis->>'screenings_allowed')::integer into allowance
+ from public.partner_onboarding w
+ join lateral (select c.* from public.rcap_commercial_authorizations c where c.workspace_id=w.id order by c.created_at desc,c.id desc limit 1) a on true
+ where w.partner_slug=p_slug and w.rcap_policy_version='rcap2.2' and w.operating_model='partner_managed'
+ and a.kind='screening_only' and a.legal_basis->>'screenings_allowed' ~ '^[0-9]{1,7}$';
+ if allowance is null then return jsonb_build_object('limited',false);end if;
+ select count(*) into admitted from public.screening_sessions where partner_slug=p_slug and flow_mode='rcap';
+ return jsonb_build_object('limited',true,'allowed',allowance,'used',admitted,'remaining',greatest(0,allowance-admitted));
+end $$;
+revoke all on function public.rcap_program_screening_capacity(text) from public,anon,authenticated;
+grant execute on function public.rcap_program_screening_capacity(text) to service_role;
+
+-- Both protected admission functions already lock the program workspace. Check
+-- capacity inside that lock and before any code redemption or session insert.
+-- Existing retries resolve their original session before entering these functions.
+do $capacity$
+declare fn regprocedure; definition text; anchor text; guard text;
+begin
+ foreach fn in array array['public.claim_rcap_screening_session(text,text,text)'::regprocedure,'public.claim_partner_screening_session(text,text,text,timestamp with time zone)'::regprocedure] loop
+  definition:=pg_get_functiondef(fn);
+  if position('rcap_program_screening_capacity' in definition)=0 then
+   definition:=replace(definition,E'declare\n',E'declare\n  v_capacity jsonb;\n');
+   if fn='public.claim_rcap_screening_session(text,text,text)'::regprocedure then
+    anchor:='  v_session_id := gen_random_uuid();';
+    guard:=$guard$  v_capacity:=public.rcap_program_screening_capacity(v_partner_slug);
+  if coalesce((v_capacity->>'limited')::boolean,false) and (v_capacity->>'remaining')::bigint<=0 then
+    return query select false,null::uuid,'capacity_full'::text,(v_capacity->>'used')::integer,(v_capacity->>'allowed')::integer;return;
+  end if;
+$guard$;
+   else
+    anchor:='  -- Atomically redeem a limited/single-use code as part of the claim.';
+    guard:=$guard$  v_capacity:=public.rcap_program_screening_capacity(v_partner_slug);
+  if coalesce((v_capacity->>'limited')::boolean,false) and (v_capacity->>'remaining')::bigint<=0 then
+    return query select false,null::uuid,'capacity_full'::text,false,null::text,null::text,v_access_mode,null::uuid;return;
+  end if;
+$guard$;
+   end if;
+   if position(anchor in definition)=0 or position('v_capacity jsonb' in definition)=0 then raise exception 'screening capacity guard anchor changed';end if;
+   execute replace(definition,anchor,guard||anchor);
+  end if;
+ end loop;
+end $capacity$;
+
 create or replace function public.rcap_service_claim_program_screening(
  p_partner_slug text,p_jurisdiction text,p_mode text,p_request_hash text,
  p_code_hash text default null,p_clinic_redemption text default null
@@ -66,4 +115,5 @@ begin
 $guard$||anchor);
  end if;
 end $migration$;
+notify pgrst, 'reload schema';
 commit;

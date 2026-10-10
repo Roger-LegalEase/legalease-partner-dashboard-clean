@@ -4,7 +4,7 @@ import fs from 'node:fs';
 import {randomUUID} from 'node:crypto';
 export async function testOperatingRights(db,id){
  const source=fs.readFileSync('supabase/migrations/20261010023000_rcap_operating_authority.sql','utf8');
- await db.exec("alter table public.partner_onboarding add column operating_model text not null default 'partner_managed'");
+ await db.exec("alter table public.partner_onboarding add column if not exists operating_model text not null default 'partner_managed'");
  for(const name of ['rcap_program_external_rights_present','rcap_service_get_program_configuration','rcap_service_save_program_configuration']){
   const pattern=new RegExp(`create (?:or replace )?function public\\.${name}\\(`,'i');
   const start=source.search(pattern);assert.ok(start>=0);const end=source.indexOf('$$;',source.indexOf('as $$',start))+3;

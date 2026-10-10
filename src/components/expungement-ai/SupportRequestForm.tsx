@@ -84,7 +84,7 @@ export function SupportRequestForm({
           <textarea className="min-h-32 rounded-md border border-[#D9DEE8] px-3 py-2 text-sm leading-6" value={message} onChange={(event) => setMessage(event.target.value)} required maxLength={2000} />
         </label>
       </div>
-      <button className="mt-5 inline-flex min-h-11 items-center justify-center gap-2 rounded-md bg-[#FF3B00] px-5 text-sm font-bold text-white disabled:opacity-60" type="submit" disabled={pending}>
+      <button className="mt-5 inline-flex min-h-11 items-center justify-center gap-2 rounded-md bg-[#C2350A] px-5 text-sm font-bold text-white disabled:opacity-60" type="submit" disabled={pending}>
         <Send className="h-4 w-4" aria-hidden="true" />
         {pending ? "Sending" : "Send request"}
       </button>
@@ -93,7 +93,7 @@ export function SupportRequestForm({
           {status.message} Reference: {status.supportItemId}{status.dryRun ? " (local dry run)" : ""}
         </p>
       ) : status?.error ? (
-        <p className="mt-4 rounded-md bg-[#FF3B00]/10 p-3 text-sm font-semibold text-[#8F2300]">{status.error}</p>
+        <p className="mt-4 rounded-md bg-[#C2350A]/10 p-3 text-sm font-semibold text-[#8F2300]">{status.error}</p>
       ) : null}
     </form>
   );

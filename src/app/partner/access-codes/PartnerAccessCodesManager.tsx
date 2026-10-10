@@ -309,7 +309,7 @@ function CreateCodeForm({ busy, onCreate }: { busy: boolean; onCreate: (fields: 
           <button
             type="submit"
             disabled={busy}
-            className="rounded-md bg-[#D85A30] px-5 py-2.5 text-sm font-black text-white hover:bg-[#BF4B25] disabled:opacity-60"
+            className="rounded-md bg-[#B94622] px-5 py-2.5 text-sm font-black text-white hover:bg-[#BF4B25] disabled:opacity-60"
           >
             <T text={busy ? "Saving code…" : "Create Code"} />
           </button>

@@ -1053,9 +1053,8 @@ export async function supersedeArtifactVersion(
 }
 
 /**
- * Resolves one organizational asset to a short-lived private URL so the
- * internal co-branded page preview can show the partner's real logo instead of
- * a placeholder. Read-only, internal-admin only, and scoped to the workspace
+ * Resolves one organizational asset to a short-lived private URL for the
+ * internal preview or supporting-document review. Read-only, internal-admin only, and scoped to the workspace
  * the partner slug names, so it cannot reach another tenant's asset. No public
  * URL is minted and nothing is published.
  */
@@ -1089,7 +1088,7 @@ export async function loadInternalOnboardingAssetUrl(
 
   const { data, error } = await admin
     .from("partner_onboarding_assets")
-    .select("object_path, media_type")
+    .select("object_path, media_type, original_filename")
     .eq("id", assetId)
     .eq("workspace_id", workspaceId)
     .is("deleted_at", null)
@@ -1102,15 +1101,12 @@ export async function loadInternalOnboardingAssetUrl(
       "Organizational asset not found."
     );
   }
-  const row = data as { object_path: string; media_type: string };
-  if (!row.media_type.startsWith("image/")) {
-    throw new Phase1OnboardingError(
-      "workspace_not_found",
-      "Organizational asset not found."
-    );
-  }
+  const row = data as { object_path: string; media_type: string; original_filename: string };
   return {
-    url: await createPrivateOnboardingAssetUrl({ objectPath: row.object_path }),
+    url: await createPrivateOnboardingAssetUrl({
+      objectPath: row.object_path,
+      downloadFileName: row.media_type.startsWith("image/") ? undefined : row.original_filename
+    }),
     mediaType: row.media_type
   };
 }

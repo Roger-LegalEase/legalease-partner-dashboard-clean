@@ -75,6 +75,7 @@ export function ProgramOperations({ initial, configuration }: { initial: Operati
   const [ops, setOps] = useState(initial);
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState("");
+  const [publicationUncertain, setPublicationUncertain] = useState(false);
   const [preparationError, setPreparationError] = useState<string | null>(null);
   const [confirmedReview, setConfirmedReview] = useState<string | null>(null);
   const [configurationDirty, setConfigurationDirty] = useState(false);
@@ -101,9 +102,11 @@ export function ProgramOperations({ initial, configuration }: { initial: Operati
   const visibleMaterials=[...materials,...draftMaterials];
   const reviewIdentity = JSON.stringify([ops.identity.workspaceId, view?.version, view?.decision.scopeHash, view?.reviewToken, materials.map(({ material }) => [material.id, material.hash, material.version])]);
   const confirmed = confirmedReview === reviewIdentity;
-  const readyForConfirmation = snapshotCurrent && materialsCurrent && Boolean(view?.reviewToken) && ops.canStart;
+  const readyForConfirmation = !publicationUncertain && snapshotCurrent && materialsCurrent && Boolean(view?.reviewToken) && ops.canStart;
   const authoritativeNext=nextStep(ops, materialsCurrent);
-  const resolution: NextStep | null = configurationDirty
+  const resolution: NextStep | null = publicationUncertain
+    ? { reason: "The publication response could not be confirmed. Check the saved program status before continuing.", label: "Check publication status", action: "reload" }
+    : configurationDirty
     ? { reason: "Save your program changes before reviewing materials or starting the program.", label: "Save program changes", href: "#configure-program" }
     : !snapshotCurrent && view
       ? { reason: configurationSaving ? "Saving your program…" : "Checking material versions against the saved program…", label: "Refresh Preview", action: "reload" }
@@ -129,7 +132,7 @@ export function ProgramOperations({ initial, configuration }: { initial: Operati
         const target = document.getElementById(started ? "program-dashboard" : "program-materials");
         target?.focus({ preventScroll: true }); target?.scrollIntoView({ behavior: "smooth" });
       });
-    } catch (error) { const failure=error instanceof Error ? error.message : "Reload and retry."; if(action==="prepare" || action==="review")setPreparationError(failure);else setMessage(failure); }
+    } catch (error) { const failure=error instanceof Error ? error.message : "Reload and retry."; if(action==="prepare" || action==="review")setPreparationError(failure);else { setMessage(failure); if(action==="start")setPublicationUncertain(true); } }
     finally { setBusy(false); }
   }
   return <section className="mt-6 space-y-6" aria-label="Program operations">

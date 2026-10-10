@@ -209,6 +209,8 @@ async function startRcapPartnerScreeningWithCode(formData: FormData) {
     redirect(`/intake/${encodeURIComponent(partnerSlug)}?status=inactive`);
   }
 
+  if (result.reason === "capacity_full") redirect(`/intake/${encodeURIComponent(partnerSlug)}?jurisdiction=${encodeURIComponent(jurisdiction)}&status=program-full`);
+
   // Invalid / missing / expired / exhausted code: re-render intake with a clear
   // message and the standard-consumer escape hatch. No partner benefit granted.
   redirect(`/intake/${encodeURIComponent(partnerSlug)}?jurisdiction=${encodeURIComponent(jurisdiction)}&status=code_${result.reason}`);

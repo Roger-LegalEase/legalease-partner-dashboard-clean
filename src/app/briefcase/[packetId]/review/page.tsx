@@ -93,10 +93,11 @@ export default async function PacketAccuracyReviewPage({
           <div className="mt-6">
             <ReviewCard title="Details we already have" icon={<ShieldCheck className="h-5 w-5" aria-hidden="true" />}>
               <p className="text-sm leading-6 text-[#475A6E]" id="verification-context-description">
-                We used these to work out which forms your packet needs. They can’t be changed here.
+                These identify the saved case you are reviewing. Your answers above determine the packet and its requirements.
               </p>
               <dl aria-describedby="verification-context-description" className="mt-4 grid gap-3 text-sm">
-                {summary.context.map((entry) => <SummaryLine key={entry.key} label={entry.label} value={entry.value} />)}
+                <SummaryLine label="Jurisdiction" value={item.jurisdiction ?? "Unavailable"} />
+                <SummaryLine label="Packet pathway" value={item.pathwayLabel ?? "Saved packet pathway"} />
               </dl>
             </ReviewCard>
           </div>

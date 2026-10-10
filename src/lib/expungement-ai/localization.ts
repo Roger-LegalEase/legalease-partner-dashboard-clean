@@ -10,6 +10,17 @@ type CopyEntry = {
 };
 
 export const EXPUNGEMENT_COPY: Record<string, CopyEntry> = {
+  "packet.recovery.0": {"en": "Preparing packet", "es": "Preparando el paquete"},
+  "packet.recovery.1": {"en": "Starting packet preparation...", "es": "Iniciando la preparación del paquete…"},
+  "packet.recovery.2": {"en": "Retry packet preparation", "es": "Reintentar la preparación del paquete"},
+  "packet.recovery.3": {"en": "Prepare my packet", "es": "Preparar mi paquete"},
+  "packet.recovery.4": {"en": "Prepare updated packet", "es": "Preparar el paquete actualizado"},
+  "packet.recovery.5": {"en": "Packet preparation failed. Your payment is preserved. Retry preparation without another charge.", "es": "La preparación del paquete falló. Su pago se conserva. Reintente la preparación sin otro cargo."},
+  "packet.recovery.6": {"en": "Packet preparation needs support. Your payment is preserved.", "es": "Se necesita ayuda para preparar el paquete. Su pago se conserva."},
+  "packet.recovery.7": {"en": "Your payment is preserved. We could not confirm the completed packet yet. Retry the status check or return to this matter later.", "es": "Su pago se conserva. Todavía no pudimos confirmar que el paquete esté completo. Reintente la consulta o vuelva a este asunto más tarde."},
+  "packet.recovery.8": {"en": "Your payment is confirmed. We are preparing your packet; this page will open it when it is ready.", "es": "Su pago está confirmado. Estamos preparando su paquete; esta página lo mostrará cuando esté listo."},
+  "packet.recovery.9": {"en": "We could not start packet preparation right now. Try again or contact support.", "es": "No pudimos iniciar la preparación del paquete. Inténtelo de nuevo o contacte al soporte."},
+
   "clinic.integrated.entry.0": {"en": "This clinic is outside its scheduled hours. Check the event time with staff.", "es": "Esta clínica está fuera de su horario. Confirme la hora del evento con el personal."},
   "clinic.integrated.entry.1": {"en": "This event code has expired. Ask Clinic staff for a current code.", "es": "Este código ha vencido. Pida un código vigente al personal de la clínica."},
   "clinic.integrated.entry.2": {"en": "This event code is no longer active. Ask Clinic staff for a current code.", "es": "Este código ya no está activo. Pida un código vigente al personal de la clínica."},
@@ -420,6 +431,9 @@ export const EXPUNGEMENT_COPY: Record<string, CopyEntry> = {
   "legal_aid.participant.351": {"en": "This application was withdrawn.", "es": "Esta solicitud fue retirada."},
   "legal_aid.participant.352": {"en": "Choose a file to upload.", "es": "Elija un archivo para cargar."},
 
+  "signin.claim_unavailable": { en: "This result link is no longer available. Start a new free screening, or return to your Briefcase for results you already saved.", es: "Este enlace al resultado ya no está disponible. Comience una nueva evaluación gratuita o regrese a su Maletín para ver los resultados que ya guardó." },
+  "signin.new_screening": { en: "Start a new free screening", es: "Comenzar una nueva evaluación gratuita" },
+  "signin.saved_results": { en: "Open my Briefcase", es: "Abrir mi Maletín" },
   "signin.pending_claim_error": { en: "You are signed in, but we could not save your result yet. Retry saving it. Your preliminary result is still waiting for you.", es: "Ha iniciado sesión, pero todavía no pudimos guardar su resultado. Vuelva a intentar guardarlo. Su resultado preliminar sigue disponible." },
   "signin.javascript_required": { en: "Enable JavaScript to sign in securely.", es: "Active JavaScript para iniciar sesión de forma segura." },
   "signin.secure_link_sent": { en: "Check your email for a secure sign-in link. Your saved result will still be here.", es: "Revise su correo electrónico para encontrar un enlace seguro de inicio de sesión. Su resultado guardado seguirá aquí." },
@@ -866,8 +880,8 @@ export const EXPUNGEMENT_COPY: Record<string, CopyEntry> = {
   },
   "briefcase.profile_settings": { en: "Profile and settings", es: "Perfil y configuración" },
   "briefcase.settings_body": {
-    en: "Your account preferences live here. This pass does not change partner auth, sessions, or billing.",
-    es: "Sus preferencias de cuenta están aquí. Esto no cambia la autenticación de socios, sesiones ni facturación."
+    en: "Review your payment history, available privacy options, and support for your account.",
+    es: "Consulte su historial de pagos, las opciones de privacidad disponibles y la ayuda para su cuenta."
   },
   "briefcase.technical_support": { en: "Get technical support", es: "Obtener ayuda técnica" },
   "briefcase.stuck": { en: "Stuck on something?", es: "¿Tiene alguna duda?" },
@@ -985,8 +999,7 @@ export const EXPUNGEMENT_COPY: Record<string, CopyEntry> = {
   "wilma.select_state": { en: "Select a state (optional)", es: "Seleccione un estado (opcional)" },
   "wilma.thinking": { en: "Wilma is thinking...", es: "Wilma está pensando..." },
   "wilma.need_help": { en: "Need help? Ask Wilma to explain this clearly.", es: "¿Necesita ayuda? Pida a Wilma que lo explique en lenguaje sencillo." },
-  "wilma.reported": { en: "Reported, thank you. A reviewer will take a look.", es: "Reportado, gracias. Un revisor lo revisará." },
-  "wilma.report_response": { en: "Report this response", es: "Reportar esta respuesta" },
+  "wilma.report_response": { en: "Report a Wilma issue", es: "Reportar un problema con Wilma" },
   "wilma.message": { en: "Message Wilma", es: "Enviar mensaje a Wilma" },
   "wilma.ask_question": { en: "Ask Wilma about this question", es: "Preguntar a Wilma sobre esta pregunta" },
   "wilma.send": { en: "Send message", es: "Enviar mensaje" },

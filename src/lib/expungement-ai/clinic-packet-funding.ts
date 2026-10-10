@@ -6,7 +6,17 @@ import { getSupabaseAdminClient } from "@/lib/supabase/server";
 export async function clinicPacketDtcAuthorized(userId: string, itemId: string): Promise<boolean> {
   const db = getSupabaseAdminClient();
   if (!db) throw new Error("Packet funding authority is unavailable.");
-  const { data, error } = await db.rpc("clinic_packet_dtc_authorized", { p_item: itemId, p_owner: userId });
+  const { data, error } = await db.rpc("clinic_packet_capacity_dtc_authorized", { p_item: itemId, p_owner: userId });
+  if (error || typeof data !== "boolean") throw new Error("Packet funding authority is unavailable.");
+  return data;
+}
+
+/** Same protected funding interpretation used by payment recording. This is a
+ * read-only classification, never a payment or a sponsored packet entitlement. */
+export async function rcapConsumerPacketAuthorized(userId: string, itemId: string): Promise<boolean> {
+  const db = getSupabaseAdminClient();
+  if (!db) throw new Error("Packet funding authority is unavailable.");
+  const { data, error } = await db.rpc("rcap_consumer_packet_authorized", { p_item: itemId, p_owner: userId });
   if (error || typeof data !== "boolean") throw new Error("Packet funding authority is unavailable.");
   return data;
 }

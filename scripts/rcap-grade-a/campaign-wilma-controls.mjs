@@ -1,0 +1,33 @@
+import fs from 'node:fs';
+import assert from 'node:assert/strict';
+import {actorBrowser,origin,root,write,sourceIdentity,db,checked} from './campaign-support.mjs';
+const account=JSON.parse(fs.readFileSync(root+'/server/new-participant-claim.private.json'));
+const a=await actorBrowser('participant',account),p=a.page,proofs=[];
+try {
+  await p.goto(origin+'/briefcase/settings');
+  await p.getByRole('link',{name:'Ask Wilma',exact:true}).click();
+  const panel=p.locator('[data-wilma-chat=open]');await panel.waitFor();
+  await p.getByRole('button',{name:'Expand chat',exact:true}).click();
+  assert.equal(await panel.getAttribute('data-wilma-size'),'expanded');
+  await p.getByRole('button',{name:'Collapse chat',exact:true}).click();
+  assert.equal(await panel.getAttribute('data-wilma-size'),'regular');
+  await p.getByRole('button',{name:'Close',exact:true}).click();await panel.waitFor({state:'hidden'});
+  await p.getByRole('button',{name:'Ask Wilma',exact:true}).click();await panel.waitFor();
+  proofs.push({controls:['Ask Wilma link','Ask Wilma button','Expand chat','Collapse chat','Close'],action:'Open through existing Briefcase navigation, expand, collapse, close and reopen the actual guide panel',result:'PASS'});
+  await p.getByRole('textbox',{name:'Message Wilma',exact:true}).fill('Where can I find technical help with this account?');
+  const request=p.waitForResponse(r=>r.request().method()==='POST'&&r.url().endsWith('/api/expungement-ai/wilma/chat'));
+  await p.getByRole('button',{name:'Send message',exact:true}).click();const response=await request,body=await response.json();
+  assert.equal(typeof body.response,'string');assert.ok(body.response.trim());await panel.getByText(body.response,{exact:true}).waitFor();
+  proofs.push({controls:['Message Wilma','Send message'],action:'Send nonsensitive account-help question through protected actual route; render the server-provided deterministic unavailable-provider fallback',httpStatus:response.status(),result:'PASS_FALLBACK_ONLY',genuineProviderAcceptance:false});
+  await p.getByRole('link',{name:'Report a Wilma issue',exact:true}).click();await p.waitForURL(u=>u.pathname==='/expungement-ai/support'&&u.searchParams.get('category')==='wilma');
+  assert.equal(await p.getByLabel('What do you need help with?',{exact:false}).inputValue(),'wilma');
+  const message='Isolated Wilma support control verification. This reports a local acceptance fallback; no outside contact or response is requested.';
+  await p.getByLabel('Email',{exact:true}).fill(account.email);await p.getByLabel('Message',{exact:true}).fill(message);
+  const sent=p.waitForResponse(r=>r.request().method()==='POST'&&r.url().endsWith('/api/expungement-ai/support'));
+  await p.getByRole('button',{name:'Send request',exact:true}).click();const savedResponse=await sent,savedBody=await savedResponse.json();assert.equal(savedResponse.status(),200);assert.equal(savedBody.dryRun,undefined);
+  await p.getByText('Thanks — your request has been sent to LegalEase support. Reference: '+savedBody.supportItemId,{exact:true}).waitFor();
+  const saved=checked(await db.from('legalease_os_support_items').select('id,user_id,category,status,source,channel,message_redacted').eq('id',savedBody.supportItemId).single());assert.equal(saved.category,'wilma');assert.equal(saved.message_redacted,message);assert.equal(saved.status,'new');
+  proofs.push({controls:['Report a Wilma issue'],action:'Navigate to existing category-bound support form, submit actual isolated report, and read back the saved authoritative receipt',receipt:saved,result:'PASS'});
+  write('controls/wilma.json',{sourceIdentity,result:'PASS',genuineProviderAcceptance:false,providerLimitation:'Local transport permits only the isolated Spanish Responses contract. This checks the real Wilma unavailable-provider path and report persistence, not a genuine AI answer.',proofs});
+  console.log(JSON.stringify({result:'PASS',proofs:proofs.length,genuineProviderAcceptance:false}));
+} catch(error){write('controls/wilma-error.json',{sourceIdentity,error:error.message,proofs});throw error;}finally{await a.browser.close();}

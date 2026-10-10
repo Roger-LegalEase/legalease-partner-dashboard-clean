@@ -88,7 +88,7 @@ export async function reconcileExpungementAiCheckoutEvent(
     throw new Error("Consumer checkout Briefcase item not found.");
   }
 
-  await assertConsumerItemIsNotSponsored(item);
+  await assertConsumerItemIsNotSponsored(item, userId);
   const protectedArtifact = await readProtectedPacketArtifact({
     consumerAuthUserId: userId,
     briefcaseItemId: item.id
@@ -231,7 +231,7 @@ async function finalizePaidCheckoutSession(
 
 }
 
-async function assertConsumerItemIsNotSponsored(item: ConsumerBriefcaseItem): Promise<void> {
+async function assertConsumerItemIsNotSponsored(item: ConsumerBriefcaseItem, userId: string): Promise<void> {
   if (!item.sourceSessionId) return;
   const supabase = getSupabaseAdminClient();
   if (!supabase) throw new Error("Stripe webhook sponsorship authority is not configured.");
@@ -248,7 +248,8 @@ async function assertConsumerItemIsNotSponsored(item: ConsumerBriefcaseItem): Pr
     }>();
 
   if (error) throw new Error("Unable to verify Checkout sponsorship authority.");
-  if (data?.flow_mode === "rcap" && data.partner_benefit_active === true && data.partner_slug) {
+  if (data?.flow_mode === "rcap" && data.partner_benefit_active === true && data.partner_slug
+    && !(await (await import("./clinic-packet-funding")).rcapConsumerPacketAuthorized(userId, item.id))) {
     throw new ConsumerCheckoutEvidenceError("partner-sponsored RCAP matters cannot enter the consumer payment writer");
   }
 }

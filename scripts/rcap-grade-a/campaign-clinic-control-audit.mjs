@@ -1,0 +1,15 @@
+import assert from 'node:assert/strict';
+import {actorBrowser,origin,fixture,db,checked,write,sourceIdentity} from './campaign-support.mjs';
+const event='152062da-5bc1-4dda-8a1e-a9c376ea650f',account=fixture('staff-development-access.private');
+const a=await actorBrowser('admin'),s=await actorBrowser('clinic_staff',account),p=a.page,proofs=[];
+const path='/internal/clinic/'+event;
+async function update(status,permissions){await p.getByLabel('Staff status',{exact:true}).selectOption(status);for(const c of await p.locator('[name=permissions]').all())await c.setChecked(permissions.includes(await c.inputValue()));const wait=p.waitForResponse(r=>r.request().method()==='POST'&&r.url().endsWith('/staff'));await p.getByRole('button',{name:'Save staff authorization',exact:true}).click();assert.equal((await wait).status(),200);const row=checked(await db.from('clinic_event_staff').select('status,permissions').eq('event_id',event).eq('partner_user_id',await p.getByLabel('Staff email',{exact:true}).inputValue()).single());assert.equal(row.status,status);assert.deepEqual([...row.permissions].sort(),permissions.sort());return row;}
+try{
+ await p.goto(origin+path);await p.getByLabel('Staff email',{exact:true}).selectOption({label:account.email});
+ const previous=checked(await db.from('clinic_event_staff').select('status,permissions').eq('event_id',event).eq('partner_user_id',await p.getByLabel('Staff email',{exact:true}).inputValue()).single());
+ const all=['assist','queue','follow_up','reporting','incident'];
+ for(const status of ['suspended','revoked']){const row=await update(status,all);const response=await s.context.request.get(origin+'/api/clinic/events/'+event+'/queue');assert.equal(response.status(),403);await s.page.goto(origin+'/partner/clinic');assert.equal(await s.page.locator(`a[href='/partner/clinic/${event}/queue']`).count(),0);proofs.push({ids:['C03-02','C03-04','C03-05','C03-06','C03-07','C03-08','C03-09','C03-10'],action:'Set '+status+' through event controls, read exact permissions and verify current-session denial',readback:row,httpStatus:response.status()});}
+ await update(previous.status,previous.permissions);await s.page.goto(origin+'/partner/clinic');const response=await s.context.request.get(origin+'/api/clinic/events/'+event+'/queue');assert.equal(response.status(),200);proofs.push({ids:['C03-01','C03-10'],action:'Restore prior approved assignment through actual control and verify access returns without a new login',readback:previous});
+ await p.getByRole('heading',{name:'Event incident and audit history',exact:true}).waitFor();proofs.push({ids:['C02-13'],action:'Inspect the actual event audit after authorization changes'});
+ write('controls/clinic-staff.json',{sourceIdentity,result:'PASS',event,proofs});console.log(JSON.stringify({result:'PASS',controls:[...new Set(proofs.flatMap(x=>x.ids))].length}));
+}catch(e){write('controls/clinic-staff-error.json',{sourceIdentity,error:e.message,proofs,text:(await p.locator('body').innerText()).slice(-1200)});throw e;}finally{await a.browser.close();await s.browser.close();}

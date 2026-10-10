@@ -1,5 +1,17 @@
 begin;
 
+-- The contact collection alias must not shadow the surrounding PL/pgSQL
+-- patch variable. Keep stable IDs, tenant checks and soft deletion intact.
+do $migration$
+declare definition text;
+ old_value text := $old$jsonb_array_elements(proposed->'contacts') item where item->>'stable_row_id'=c.id::text$old$;
+ new_value text := $new$jsonb_array_elements(proposed->'contacts') as contact_entry(value) where contact_entry.value->>'stable_row_id'=c.id::text$new$;
+begin
+ definition:=pg_get_functiondef('public.rcap_service_save_program_configuration(text,uuid,bigint,jsonb,uuid)'::regprocedure);
+ if (length(definition)-length(replace(definition,old_value,'')))/length(old_value)<>1 then raise exception 'Contact collection alias anchor changed';end if;
+ execute replace(definition,old_value,new_value);
+end $migration$;
+
 -- Reuse the existing configuration transaction and protected launch. Editing a
 -- published scope requires explicit acknowledgment that new entry is held.
 -- Participant records, historical publication receipts, and approvals remain.

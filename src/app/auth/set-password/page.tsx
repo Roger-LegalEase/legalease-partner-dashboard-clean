@@ -438,6 +438,7 @@ async function claimExpungementPending(nextPath: string) {
   const claimed = await submitClaim(claimToken);
   if (claimed.ok) return claimed.redirectTo;
   const continuation = consumerAuthContinuationFrom(params);
+  if ([400, 403, 404, 409, 410, 422].includes(claimed.status)) return `/expungement-ai/sign-in?${consumerAuthContinuationQuery({...continuation, claimToken: ""}, {mode: "signin", claimUnavailable: "1"})}`;
   return `/expungement-ai/sign-in?${consumerAuthContinuationQuery(continuation, {
     mode: "signin",
     claimRetry: "1"
