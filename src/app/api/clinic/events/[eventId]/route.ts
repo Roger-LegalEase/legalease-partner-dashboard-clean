@@ -1,3 +1,4 @@
+import { assertSameOrigin, readBoundedJson } from "@/lib/partners/onboarding/request-security";
 import { NextRequest, NextResponse } from "next/server";
 import { getClinicEventWorkspace, setClinicEventStatus } from "@/lib/clinic-mode/service";
 import { parseClinicEventStatus, parseEventId } from "@/lib/clinic-mode/validation";
@@ -19,8 +20,9 @@ export async function GET(_request: NextRequest, context: Context) {
 
 export async function PATCH(request: NextRequest, context: Context) {
   try {
+    assertSameOrigin(request);
     const { eventId } = await context.params;
-    const body = await request.json() as Record<string, unknown>;
+    const body = await readBoundedJson(request) as Record<string, unknown>;
     const outcome = await setClinicEventStatus(parseEventId(eventId), parseClinicEventStatus(body.status));
     return NextResponse.json({ success: true, outcome });
   } catch (error) {

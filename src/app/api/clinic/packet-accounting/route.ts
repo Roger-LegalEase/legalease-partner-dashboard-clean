@@ -1,3 +1,4 @@
+import { assertSameOrigin, readBoundedJson } from "@/lib/partners/onboarding/request-security";
 import { NextRequest, NextResponse } from "next/server";
 import { clinicErrorResponse } from "@/app/api/clinic/error-response";
 import { reserveClinicPacketCredit } from "@/lib/clinic-mode/reporting-service";
@@ -9,9 +10,10 @@ export const dynamic = "force-dynamic";
 
 export async function POST(request: NextRequest) {
   try {
+    assertSameOrigin(request);
     const auth = await getServerAuthState();
     if (!auth.isAuthenticated) return NextResponse.json({ success: false, error: "Sign in to reserve sponsored packet generation." }, { status: 401 });
-    const body = await request.json() as { renderJobId?: unknown };
+    const body = await readBoundedJson(request) as { renderJobId?: unknown };
     const renderJobId = parseEventId(typeof body.renderJobId === "string" ? body.renderJobId : "");
     const accounting = await reserveClinicPacketCredit(renderJobId);
     const accepted = ["reserved", "already_reserved", "already_consumed"].includes(accounting.outcome);

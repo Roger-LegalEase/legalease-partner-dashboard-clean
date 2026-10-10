@@ -31,9 +31,7 @@ const read = (rel) => fs.readFileSync(path.join(root, rel), "utf8");
 
 const MIGRATION = "supabase/migrations/20260819120000_rcap_partner_provisioning.sql";
 const SERVICE = "src/lib/partners/partner-provisioning-service.ts";
-const DOMAIN = "src/lib/partners/partner-provisioning-domain.ts";
 const FIRST_ADMIN = "src/lib/partners/first-admin-service.ts";
-const FIRST_ADMIN_DOMAIN = "src/lib/partners/first-admin-domain.ts";
 const ROUTE = "src/app/api/internal/partners/provisioning/route.ts";
 const CLAIM_ROUTE = "src/app/partner/first-admin/claim/route.ts";
 const SETUP_ROUTE = "src/app/partner/setup/route.ts";
@@ -67,7 +65,7 @@ check("exactly one module calls the provisioning RPC", () => {
     .filter((file) => /\.(ts|tsx|mjs)$/.test(file))
     .filter((file) => path.relative(root, file) !== SELF)
     .filter((file) =>
-      fs.readFileSync(file, "utf8").includes('"rcap_service_provision_partner"')
+      /\.rpc\(\s*["']rcap_service_provision_partner["']/.test(fs.readFileSync(file, "utf8"))
     )
     .map((file) => path.relative(root, file));
   assert.deepEqual(callers, [SERVICE], `unexpected RPC callers: ${callers}`);
@@ -91,11 +89,14 @@ check("every provisioning caller goes through provisionPartner", () => {
       // the screens under review are the real screens rather than a fixture. It refuses any
       // non-loopback Supabase URL before it reaches this call.
       "scripts/capture-rcap-prepared-onboarding-acceptance.mjs",
+      "scripts/capture-rcap-hotfix-acceptance.mjs",
       "scripts/test-rcap-partner-provisioning-lifecycle.mjs",
       "scripts/test-hotfix-provisioning-boundaries.mjs",
       "scripts/test-hotfix-referral-roundtrip.mjs",
       "scripts/test-hotfix-internal-review-database.mjs",
       "scripts/test-hotfix-launch-preparation.mjs",
+      "scripts/test-rcap-real-launch-browser.mjs",
+      "scripts/test-rcap-signed-agreement-browser.mjs",
       ROUTE
     ].sort()
   );

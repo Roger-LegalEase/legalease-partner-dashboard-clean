@@ -412,7 +412,11 @@ function verifySourceWiring() {
   assert(crypto.includes("createHash(\"sha256\")"), "Codes must be hashed, not stored raw.");
   const lib = read("src/lib/partners/partner-access-codes.ts");
   assert(!lib.includes("code_hash,") || lib.includes("code_hash: hashAccessCode"), "code_hash must only be written, never selected into views.");
-  assert(!/SAFE_COLUMNS[^;]*code_hash/.test(lib), "Display views must never select code_hash.");
+  const displayColumns = lib.match(/const SAFE_COLUMNS\s*=\s*"([^"]+)"\s*;/)?.[1];
+  assert(displayColumns && !displayColumns.split(",").map(column => column.trim()).includes("code_hash"), "Display views must never select code_hash.");
+  // A server-side equality filter on the hash does not select or disclose it.
+  // Reject literal hash projections separately, including a future .select("*").
+  assert(!/\.select\(["'][^"']*(?:code_hash|\*)[^"']*["']\)/.test(lib), "Code reads must retain an explicit safe projection.");
   assert(lib.includes("hashAccessCode(normalized)"), "Validation must hash the normalized code before lookup.");
 
   // Attribution is server-resolved; the browser cannot assert partner benefit.
@@ -445,7 +449,11 @@ function verifySourceWiring() {
   assert(packetRoute.includes("packet.protectedSponsorship"), "Cap accounting must be gated on server-derived partner sponsorship.");
   assert(packetRoute.includes("finalizeSponsoredPacketGeneration"), "Successful partner packets must consume cap and attach Ready in one atomic finalization.");
   assert(packetRoute.includes("expectedVerificationHash"), "Sponsored finalization must be bound to the verification it was prepared against.");
-  assert(packetRoute.includes("pausedAtCap"), "pause_at_cap must be honored before generating a sponsored packet.");
+  // The accepted route no longer uses the legacy screening-cap projection as
+  // packet authority. Current funding/denial behavior is exercised separately
+  // by verify-rcap-sponsored-cap-controls, including ledger race mutations.
+  assert(packetRoute.includes("governSponsoredEntitlement"), "Sponsored generation must pass current governed entitlement admission.");
+  assert(packetRoute.includes('outcome: "sponsor_capacity_exhausted"'), "Actual funding exhaustion must remain an explicit refusal.");
 
   // Public validation route: rate-limited and minimal.
   const validateRoute = read("src/app/api/rcap/access-code/validate/route.ts");

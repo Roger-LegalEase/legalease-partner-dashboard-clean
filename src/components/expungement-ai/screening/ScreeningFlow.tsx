@@ -536,7 +536,7 @@ export function ScreeningFlow({ state, initialSessionId, partnerDisplayName, acq
             disabled={selectingQuestions}
             className="min-h-[48px] flex-1 rounded-[14px] bg-[#FF3B00] px-6 py-3 text-base font-extrabold text-white shadow-[0_10px_26px_rgba(255,59,0,.28)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0B1320] focus-visible:ring-offset-2 disabled:cursor-wait disabled:opacity-60"
           >
-            {selectingQuestions ? translate("screening.loading_next", "Loading next question...") : translate("common.continue", "Continue")} &rarr;
+            {selectingQuestions ? translate("screening.loading_next", "Loading next question...") : translate("common.continue", "Continue")} <span aria-hidden="true">&rarr;</span>
           </button>
           <button
             type="button"

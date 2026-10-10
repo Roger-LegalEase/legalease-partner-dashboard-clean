@@ -1,5 +1,6 @@
 import { getProfileByJurisdiction } from "@/lib/rcap-engine/profile-registry";
 import "server-only";
+import { createHmac } from "node:crypto";
 
 import { getSupabaseAdminClient } from "@/lib/supabase/server";
 import { hashAccessCode, normalizeAccessCode } from "@/lib/partners/access-code-crypto";
@@ -136,6 +137,8 @@ export async function claimRcapPartnerScreeningSession(input: {
   partnerSlug: string;
   jurisdiction: string;
   clinicRedemptionHash?: string;
+  requestId?: string;
+  participantUserId?: string;
 }): Promise<RcapPartnerClaimResult> {
   const slug = normalizePartnerSlug(input.partnerSlug);
   const jurisdiction = normalizeJurisdiction(input.jurisdiction);
@@ -150,7 +153,9 @@ export async function claimRcapPartnerScreeningSession(input: {
 
   const context = await resolveRcapPartnerIntakeContext(slug, jurisdiction);
   if (!context) return { ok:false, reason:"jurisdiction_not_authorized", screeningsUsed:null, screeningsAllowed:null };
-  const { data, error } = await supabase.rpc("claim_rcap_screening_session", {
+  const { data, error } = input.requestId ? await supabase.rpc("rcap_service_claim_program_screening",{
+    p_partner_slug:slug,p_jurisdiction:jurisdiction,p_mode:input.clinicRedemptionHash?"clinic":"ordinary",p_request_hash:screeningEntryRequestHash(input.requestId,input.participantUserId),p_clinic_redemption:input.clinicRedemptionHash??null
+  }) : await supabase.rpc("claim_rcap_screening_session", {
     p_partner_slug: slug,
     p_jurisdiction: jurisdiction,
     ...(input.clinicRedemptionHash ? {p_clinic_redemption:input.clinicRedemptionHash} : {})
@@ -189,6 +194,7 @@ export async function claimPartnerScreeningSessionWithCode(input: {
   partnerSlug: string;
   jurisdiction: string;
   accessCode?: string | null;
+  requestId?: string;
 }): Promise<RcapPartnerCodeClaimResult> {
   const slug = normalizePartnerSlug(input.partnerSlug);
   const jurisdiction = normalizeJurisdiction(input.jurisdiction);
@@ -206,7 +212,9 @@ export async function claimPartnerScreeningSessionWithCode(input: {
 
   const context = await resolveRcapPartnerIntakeContext(slug, jurisdiction);
   if (!context) return { ok:false, reason:"jurisdiction_not_authorized" };
-  const { data, error } = await supabase.rpc("claim_partner_screening_session", {
+  const { data, error } = input.requestId ? await supabase.rpc("rcap_service_claim_program_screening",{
+    p_partner_slug:slug,p_jurisdiction:jurisdiction,p_mode:"code",p_request_hash:screeningEntryRequestHash(input.requestId),p_code_hash:codeHash
+  }) : await supabase.rpc("claim_partner_screening_session", {
     p_partner_slug: slug,
     p_jurisdiction: jurisdiction,
     p_code_hash: codeHash
@@ -231,6 +239,12 @@ export async function claimPartnerScreeningSessionWithCode(input: {
   }
 
   return { ok: false, reason: normalizeClaimReason(row.reason) };
+}
+
+export function screeningEntryRequestHash(requestId:string,participantUserId?:string){
+ const key=process.env.SUPABASE_SERVICE_ROLE_KEY;
+ if(!key||!/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(requestId))throw new Error("The screening request could not be verified. Reload entry and try again.");
+ return createHmac("sha256",key).update(JSON.stringify(["rcap-screening-entry-v1",requestId,participantUserId??null])).digest("hex");
 }
 
 type CodeClaimRejectReason = "partner_inactive" | "jurisdiction_not_authorized" | "code_required" | "invalid" | "inactive" | "expired" | "exhausted";

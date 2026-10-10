@@ -35,23 +35,23 @@ const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
  */
 const REAL_MODULE_CACHE = new Map();
 
-function aliasPath(specifier) {
-  if (!specifier.startsWith("@/")) return null;
+function aliasPath(specifier, importer) {
+  if (!specifier.startsWith("@/") && !specifier.startsWith("./") && !specifier.startsWith("../")) return null;
   // `@/*` is `./src/*`, which is also how the repository reaches its data files:
   // `@/../data/...json` normalises to `<root>/data/...json`.
-  const base = path.join(rootDir, "src", specifier.slice(2));
+  const base = specifier.startsWith("@/") ? path.join(rootDir, "src", specifier.slice(2)) : path.resolve(path.dirname(importer), specifier);
   for (const candidate of [base, `${base}.ts`, `${base}.tsx`, path.join(base, "index.ts")]) {
     if (fs.existsSync(candidate) && fs.statSync(candidate).isFile()) return candidate;
   }
   return null;
 }
 
-function requireFor(mocks) {
+function requireFor(mocks, importer) {
   return (specifier) => {
     if (specifier in mocks) return mocks[specifier];
     // `server-only` is a build-time marker with no runtime behaviour to test.
     if (specifier === "server-only" || specifier === "client-only") return {};
-    const aliased = aliasPath(specifier);
+    const aliased = aliasPath(specifier, importer);
     if (aliased) return aliased.endsWith(".json") ? require(aliased) : loadTsFile(aliased, mocks);
     return require(specifier);
   };
@@ -72,7 +72,7 @@ function loadTsFile(resolved, mocks, source) {
   const compiledFilename = `${resolved}.cjs`;
   mod.filename = compiledFilename;
   mod.paths = Module._nodeModulePaths(path.dirname(resolved));
-  mod.require = requireFor(mocks);
+  mod.require = requireFor(mocks, resolved);
   mod._compile(transpiled, compiledFilename);
   // Only dependencies loaded for real are cached. The module under test is
   // loaded fresh each time, because each case gives it different doubles.

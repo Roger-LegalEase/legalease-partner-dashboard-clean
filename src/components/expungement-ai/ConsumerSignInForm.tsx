@@ -306,6 +306,7 @@ export function ConsumerSignInForm() {
             <input
               autoComplete={createMode ? "new-password" : "current-password"}
               className="min-w-0 flex-1 bg-transparent px-3 text-sm text-[#0B1320] outline-none"
+              aria-label={translate("common.password", "Password")}
               name="password"
               required
               type={isPasswordVisible ? "text" : "password"}

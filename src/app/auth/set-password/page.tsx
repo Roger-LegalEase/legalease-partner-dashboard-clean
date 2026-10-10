@@ -51,7 +51,7 @@ export default function SetPasswordPage() {
   const [state, setState] = useState<InviteState>("checking");
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
-  const [nextPath, setNextPath] = useState(defaultNextPath);
+  const [nextPath, setNextPath] = useState("/partner/dashboard");
   const [diagnostic, setDiagnostic] = useState<SafeAuthDiagnostic>({ status: "checking" });
   const [isNewPasswordVisible, setIsNewPasswordVisible] = useState(false);
   const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] = useState(false);
@@ -77,6 +77,13 @@ export default function SetPasswordPage() {
       }
       if (result.clinicSignIn) {
         window.location.assign("/clinic/reset");
+        return;
+      }
+      // Signup and email sign-in already establish the participant session. A
+      // Clinic consent continuation must not ask them to set a password again.
+      // The destination independently checks identity, event entry and consent.
+      if (!result.recovery && !result.firstAdmin && /^\/clinic\/[a-z0-9]+(?:-[a-z0-9]+)*\/assist$/.test(result.nextPath)) {
+        window.location.assign(result.nextPath);
         return;
       }
       if (!result.recovery && isExpungementNext(result.nextPath)) {
@@ -402,13 +409,6 @@ function safeDiagnosticText(value: unknown) {
     .slice(0, 180);
 }
 
-function defaultNextPath() {
-  if (typeof window === "undefined") {
-    return "/partner/dashboard";
-  }
-
-  return safeAppRedirectPath(new URLSearchParams(window.location.search).get("next"));
-}
 
 // Strips the Supabase auth fragment and query while preserving the claim token,
 // which is still needed one call further on. submitClaim removes the token

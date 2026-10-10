@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { unstable_noStore as noStore } from "next/cache";
 import { headers } from "next/headers";
+import { getPartnerSupportContact } from "@/lib/partners/onboarding/support-contact";
 import {
   InternalAdminDenied,
   resolveInternalAdminPageAccess
@@ -67,9 +68,12 @@ export default async function InternalLayout({ children }: { children: ReactNode
         </div>
       </header>
       <nav aria-label="Internal workspace navigation" className="flex flex-wrap gap-4 border-b border-grayWilma-200 bg-white px-4 py-2 md:px-6">
-        <Link prefetch={false} href="/internal" className="inline-flex min-h-11 items-center font-bold text-teal">Back to Command Center</Link>
-        <Link prefetch={false} href="/internal/partners/onboarding" className="inline-flex min-h-11 items-center font-bold text-navy">Partners</Link>
-        <Link prefetch={false} href="/internal/command-center/performance" className="inline-flex min-h-11 items-center font-bold text-navy">Performance / health</Link>
+        <Link prefetch={false} href="/internal" className="inline-flex min-h-11 items-center font-bold text-[#08786F]">Back to Command Center</Link>
+        <Link prefetch={false} href="/internal/partners/onboarding" className="inline-flex min-h-11 items-center font-bold text-navy">Programs</Link>
+        <Link prefetch={false} href="/internal/clinic" className="inline-flex min-h-11 items-center font-bold text-navy">Clinics</Link>
+        <Link prefetch={false} href="/internal/partner-users" className="inline-flex min-h-11 items-center font-bold text-navy">Team &amp; Access</Link>
+        <Link prefetch={false} href="/internal/command-center/performance" className="inline-flex min-h-11 items-center font-bold text-navy">Reporting</Link>
+        <a href={`mailto:${getPartnerSupportContact().email}`} className="inline-flex min-h-11 items-center font-bold text-navy">Help</a>
       </nav>
       {children}
     </div>

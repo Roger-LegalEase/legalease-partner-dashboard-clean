@@ -45,7 +45,11 @@ assert.match(managed, /Save program/);
 assert.match(managed, /\/configuration/);
 assert.match(managed, /expectedVersion: current.version/);
 assert.doesNotMatch(managed, /save_prepared|prefill|expectedFieldValueHash/);
-assert.doesNotMatch(managed, /window\.confirm/);
+// Draft saves have no approval ceremony. A live material edit explicitly holds
+// new entry; leaving an unsaved draft warns about data loss.
+assert.match(managed, /const confirmPublicationHold = current.status === "live" && dirty/);
+assert.match(managed, /if \(confirmPublicationHold && !window\.confirm/);
+assert.match(managed, /Leave without saving your program changes/);
 // The prepared banner's wording lives in the canonical partner copy contract, not inline
 // in the component. Assert both halves: the contract owns the sentence, and the home reads
 // it from there rather than keeping a second copy that can drift.

@@ -58,12 +58,14 @@ export async function getProgramExperience(context:Context):Promise<ProgramExper
  const decision=await programDecision(context,context.role==="partner_staff"?"view_reporting":"complete_setup");
  if(decision.policyVersion==="legacy"&&decision.status==="live")decision.live=Boolean(await getAuthoritativelyPublicPartnerRecord(context.partnerSlug));
  const source=await loadArtifactSourceInput(db(),context.partnerSlug);
- const [versions,screening,authority,decisions]=await Promise.all([
+ const [versions,screening,authority,decisions,jurisdictionScope]=await Promise.all([
   db().from("partner_onboarding_artifacts").select("artifact_type,current_version_id").eq("workspace_id",decision.workspaceId).in("artifact_type",[...requiredMaterials]),
   db().from("partner_entitlement").select("screenings_allowed,screenings_used").eq("partner_slug",context.partnerSlug).maybeSingle(),
   db().from("rcap_commercial_authorizations").select("kind,expires_at,packet_entitlement_id").eq("workspace_id",decision.workspaceId).order("created_at",{ascending:false}).order("id",{ascending:false}).limit(1).maybeSingle(),
-  Promise.all(PROGRAM_ACTIONS.filter(a=>context.role!=="partner_staff"||a==="view_reporting"||a==="assist_participant"||a==="offer_paid_packet").map(async action=>[action,(await programDecision(context,action)).allowed] as const))
+  Promise.all(PROGRAM_ACTIONS.filter(a=>context.role!=="partner_staff"||a==="view_reporting"||a==="assist_participant"||a==="offer_paid_packet").map(async action=>[action,await programDecision(context,action)] as const)),
+  context.role==="internal_admin" ? Promise.resolve({data:null,error:null}) : db().rpc("rcap_program_partner_jurisdictions",{p_workspace:decision.workspaceId})
  ]);
+ if(jurisdictionScope.error || (context.role!=="internal_admin" && (!Array.isArray(jurisdictionScope.data) || !jurisdictionScope.data.every(code=>typeof code==="string"))))throw workspaceReadError("program_experience.jurisdiction_scope",jurisdictionScope.error,"The permitted service area could not be verified. Please retry.");
  if(versions.error||authority.error)throw workspaceReadError("program_experience.materials_or_authority",[versions.error,authority.error],"Your program could not be loaded. Please retry.");
  const materialRows=versions.data?.length?await db().from("partner_onboarding_artifact_versions").select("id,version_number,rendered_content,generator_version,normalized_snapshot,snapshot_hash,generation_status,source_drift_invalidated_at,superseded_at").in("id",versions.data.map(v=>v.current_version_id).filter(Boolean)):{data:[],error:null};
  if(materialRows.error)throw workspaceReadError("program_experience.material_versions",materialRows.error,"Current material versions could not be checked.");
@@ -80,6 +82,9 @@ export async function getProgramExperience(context:Context):Promise<ProgramExper
   }
   materials.push({type,id:row.id,hash:row.snapshot_hash,version:row.version_number,document:row.rendered_content});
  }
+ // The policy confirmation is necessary, but every rendered source and generator
+ // fingerprint must also match before the workspace can call setup complete.
+ decision.setupComplete=decision.setupComplete&&materials.length===requiredMaterials.length;
  let packets:number|null=null;
  let entitlementId=authority.data?.packet_entitlement_id;
  if(decision.operatingModel==="legalease_managed") {
@@ -92,13 +97,22 @@ export async function getProgramExperience(context:Context):Promise<ProgramExper
   const [allocation,usage]=await Promise.all([db().from("partner_packet_entitlement").select("packet_cap").eq("id",entitlementId).single(),db().from("packet_credit_ledger").select("id",{count:"exact",head:true}).eq("entitlement_id",entitlementId).in("event_type",["reserved","consumed"])]);
   if(!allocation.error&&!usage.error)packets=Math.max(0,allocation.data.packet_cap-(usage.count??0));
  }
- return {partnerSlug:context.partnerSlug,organizationName:source.data.organization_contacts?.public_organization_name??source.partnerRecord.organizationName,version:decision.sourceVersion,data:source.data,legalIdentityLocked:source.workspace.agreementStatus==="signed"||Boolean(authority.data),canEdit:context.role!=="partner_staff"&&!["paused","closed"].includes(decision.status),decision,capabilities:Object.fromEntries(decisions),materials,draftMaterials,reviewToken:materials.length===2?reviewToken(context,decision):null,
+ const publication=decisions.find(([action])=>action==="publish_partner_page")?.[1];
+ const blocker=publication?.blockers[0];
+ const configurationKeys=["organization_facts","program_scope","geographic_presentation","support_and_referral_contacts_configured"];
+ const publicationNextAction:ProgramExperience["publicationNextAction"]=!decision.live&&blocker ? configurationKeys.includes(blocker.key)
+  ? {reason:blocker.label,href:"/partner/settings?step=program",label:"Review program settings",labelEs:"Revisar la configuración"}
+  : !decision.setupComplete && ["partner_launch_approval_received","artifact_versions_current"].includes(blocker.key)
+   ? {reason:blocker.label,href:"/partner/settings?step=start",label:"Review current materials",labelEs:"Revisar los materiales actuales"}
+   : {reason:blocker.label,href:getPartnerSupportContact().mailtoHref,label:"Contact LegalEase about publication",labelEs:"Contactar a LegalEase sobre la publicación"}
+  : null;
+ return {partnerSlug:context.partnerSlug,organizationName:source.data.organization_contacts?.public_organization_name??source.partnerRecord.organizationName,version:decision.sourceVersion,data:source.data,permittedJurisdictions:jurisdictionScope.data??undefined,publicationNextAction,legalIdentityLocked:source.workspace.agreementStatus==="signed"||Boolean(authority.data),canEdit:context.role!=="partner_staff"&&!["paused","closed"].includes(decision.status),decision,capabilities:Object.fromEntries(decisions.map(([action,result])=>[action,result.allowed])),materials,draftMaterials,reviewToken:materials.length===2?reviewToken(context,decision):null,
  publicUrl:decision.live?`/p/${encodeURIComponent(context.partnerSlug)}`:null,
  commercial:{label:decision.operatingModel==="legalease_managed"?(decision.authorityId?"LegalEase internal operating authority recorded.":"Confirm LegalEase operating authority with Start Program."):authority.data&&Date.parse(authority.data.expires_at)<=Date.now()?"Recorded service authority has expired.":authority.data?.kind==="screening_only"?"Screening-only terms recorded. Sponsored packets are unavailable.":authority.data?"Documented program terms recorded":"Current service authority has not been recorded",screenings:screening.error||!screening.data?null:Math.max(0,screening.data.screenings_allowed-screening.data.screenings_used),packets,expiresAt:authority.data?.expires_at??null}};
 }
 
-export async function saveProgramPatches(context:PartnerOnboardingContext,patches:ProgramPatch[],requestId:string,expectedVersion?:number){
- await saveProgramConfiguration(context,{patches,requestId,expectedVersion});
+export async function saveProgramPatches(context:PartnerOnboardingContext,patches:ProgramPatch[],requestId:string,expectedVersion?:number,confirmPublicationHold=false){
+ await saveProgramConfiguration(context,{patches,requestId,expectedVersion,confirmPublicationHold});
  return getProgramExperience(context);
 }
 export async function prepareProgramDefaults(context:PartnerOnboardingContext,requestId:string){

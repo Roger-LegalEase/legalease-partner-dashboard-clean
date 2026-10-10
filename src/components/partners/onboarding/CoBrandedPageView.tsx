@@ -23,8 +23,8 @@ export function CoBrandedPageView({ preview: sourcePreview, variant, logoSrc, he
   const accessibilityHref = safePublicHref(preview.accessibilityUrl?.value ?? null);
   const ctaLabel = text(preview.primaryActionLabel.value ?? "") || (es ? "Comenzar gratis" : "Start free");
   const cta = liveCtaHref
-    ? <a href={liveCtaHref} className="inline-flex min-h-12 items-center justify-center rounded-lg bg-[#D85A30] px-6 py-3 font-bold text-white focus-visible:ring-4 focus-visible:ring-teal">{ctaLabel} →</a>
-    : <span aria-disabled="true" className="inline-flex min-h-12 items-center justify-center rounded-lg bg-[#D85A30] px-6 py-3 font-bold text-white">{ctaLabel}</span>;
+    ? <a href={liveCtaHref} className="inline-flex min-h-12 items-center justify-center rounded-lg bg-[#B94622] px-6 py-3 font-bold text-white focus-visible:ring-4 focus-visible:ring-teal">{ctaLabel}<span aria-hidden="true" className="ml-2">→</span></a>
+    : <span aria-disabled="true" className="inline-flex min-h-12 items-center justify-center rounded-lg bg-[#B94622] px-6 py-3 font-bold text-white">{ctaLabel}</span>;
   return <div className={`${mobile ? "w-[390px] max-w-full" : "w-full"} overflow-hidden rounded-xl bg-white text-[#071B33] shadow-sm`} data-preview-variant={variant} {...(ownershipReview ? {"data-content-ownership-review":"enabled"} : {})}>
     {ownershipReview ? <OwnershipLegend /> : null}
     {!liveCtaHref ? <p className="bg-[#EEF7F6] px-5 py-3 text-sm font-semibold">{es ? "Vista previa privada · El programa aún no está publicado" : "Private preview · This does not publish or start the program"}</p> : null}

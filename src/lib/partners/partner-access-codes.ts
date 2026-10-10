@@ -1,6 +1,7 @@
 import "server-only";
 
 import { getSupabaseAdminClient } from "@/lib/supabase/server";
+import { getAuthoritativelyPublicPartnerRecord } from "./public-partner-page";
 import {
   accessCodeDisplayHint,
   hashAccessCode,
@@ -10,7 +11,7 @@ import {
 // Server-authoritative access-code management + validation. All raw codes are
 // normalized and hashed here; only hashes reach Supabase. Mutations run through
 // the service-role admin client after the caller has already been authorized
-// (partner admin/staff for their own slug, or internal admin) at the route layer.
+// (partner admin for their own slug, or internal admin) at the route layer.
 
 export type PartnerAccessMode = "open" | "optional_code" | "required_code" | "invite_only";
 export type PartnerAccessCodeType = "shared" | "single_use" | "limited_use";
@@ -164,15 +165,18 @@ export async function validatePartnerAccessCode(
 // Management (mutations). Callers must already be authorized for partnerSlug.
 // ---------------------------------------------------------------------------
 
-export async function createPartnerAccessCode(input: CreatePartnerAccessCodeInput): Promise<PartnerAccessCodeView> {
+export async function createPartnerAccessCode(input: CreatePartnerAccessCodeInput): Promise<PartnerAccessCodeView & { reused?: true }> {
   const slug = normalizeSlug(input.partnerSlug);
   const supabase = requireAdminClient();
   await assertPartnerExists(supabase, slug);
+  await assertCodeMode(supabase,slug);
 
   const normalized = normalizeAccessCode(input.rawCode);
-  if (normalized.length < 3) {
-    throw new PartnerAccessCodeError("invalid_input", "An access code must be at least 3 characters.");
+  if (normalized.length < 3 || normalized.length>120 || !/^[A-Z0-9_-]+$/.test(normalized)) {
+    throw new PartnerAccessCodeError("invalid_input", "Use 3–120 letters, numbers, hyphens or underscores for an access code.");
   }
+  const startsAt=cleanText(input.startsAt),expiresAt=cleanText(input.expiresAt);
+  if((startsAt&&!Number.isFinite(Date.parse(startsAt)))||(expiresAt&&(!Number.isFinite(Date.parse(expiresAt))||Date.parse(expiresAt)<=Date.now()))||(startsAt&&expiresAt&&Date.parse(expiresAt)<=Date.parse(startsAt)))throw new PartnerAccessCodeError("invalid_input","Choose a future expiry after the code's start time.");
 
   const codeType: PartnerAccessCodeType = input.codeType ?? "shared";
   if (!PARTNER_ACCESS_CODE_TYPES.includes(codeType)) {
@@ -201,8 +205,8 @@ export async function createPartnerAccessCode(input: CreatePartnerAccessCodeInpu
       code_type: codeType,
       max_uses: maxUses,
       is_active: true,
-      starts_at: cleanText(input.startsAt),
-      expires_at: cleanText(input.expiresAt),
+      starts_at: startsAt,
+      expires_at: expiresAt,
       created_by: cleanText(input.createdBy)
     })
     .select(SAFE_COLUMNS)
@@ -210,6 +214,17 @@ export async function createPartnerAccessCode(input: CreatePartnerAccessCodeInpu
 
   if (error) {
     if ((error as { code?: string }).code === "23505") {
+      // Recover a lost successful response without creating another code or
+      // changing an existing code's limits. Tenant authorization is unchanged.
+      const existing = await supabase.from("partner_access_codes").select(SAFE_COLUMNS)
+        .eq("partner_slug", slug).eq("code_hash", hashAccessCode(normalized)).maybeSingle<AccessCodeRow>();
+      const row = existing.data;
+      const sameTime = (a: string | null, b: string | null) => a === b || Boolean(a && b && Date.parse(a) === Date.parse(b));
+      if (!existing.error && row?.is_active && row.campaign_name === cleanText(input.campaignName)
+        && row.description === cleanText(input.description) && row.code_type === codeType && row.max_uses === maxUses
+        && sameTime(row.starts_at, startsAt) && sameTime(row.expires_at, expiresAt)) {
+        return { ...viewFromRow(row, EMPTY_ANALYTICS), reused: true };
+      }
       throw new PartnerAccessCodeError("duplicate_code", "That access code already exists for this organization.");
     }
     throw new PartnerAccessCodeError("write_failed", "Could not create the access code.");
@@ -233,6 +248,16 @@ export async function setPartnerAccessCodeActive(input: {
   if (!codeId) throw new PartnerAccessCodeError("invalid_input", "codeId is required.");
 
   const supabase = requireAdminClient();
+  const current=await supabase.from("partner_access_codes").select(SAFE_COLUMNS).eq("id",codeId).eq("partner_slug",slug).maybeSingle<AccessCodeRow>();
+  if(current.error)throw new PartnerAccessCodeError("read_failed","The current code could not be checked. Retry.");
+  if(!current.data)throw new PartnerAccessCodeError("not_found","Access code not found for this organization.");
+  if(input.isActive){
+    await assertCodeMode(supabase,slug);
+    if(!await getAuthoritativelyPublicPartnerRecord(slug))throw new PartnerAccessCodeError("invalid_input","Publish the current authorized program before reactivating this code.");
+    if(current.data.expires_at&&Date.parse(current.data.expires_at)<=Date.now())throw new PartnerAccessCodeError("invalid_input","This code has expired. Create a new code with a future expiry.");
+    if(current.data.max_uses!==null&&current.data.uses_count>=current.data.max_uses)throw new PartnerAccessCodeError("invalid_input","This code has reached its use limit. Create a new code if more screening access is authorized.");
+  }
+  if(current.data.is_active===input.isActive){const {byCode}=await codeAnalyticsMap(supabase,slug);return viewFromRow(current.data,byCode[codeId]??EMPTY_ANALYTICS);}
   const { data, error } = await supabase
     .from("partner_access_codes")
     .update({ is_active: input.isActive })
@@ -260,6 +285,15 @@ export async function setPartnerAccessCodeActive(input: {
   return viewFromRow(data, byCode[codeId] ?? EMPTY_ANALYTICS);
 }
 
+async function assertCodeMode(supabase:ReturnType<typeof requireAdminClient>,slug:string){
+ const workspace=await supabase.from("partner_onboarding").select("id,rcap_policy_version").eq("partner_slug",slug).maybeSingle();
+ if(workspace.error)throw new PartnerAccessCodeError("read_failed","The saved program access setting could not be checked.");
+ if(workspace.data?.rcap_policy_version!=="rcap2.2")return;
+ const source=await supabase.rpc("rcap_program_policy_source",{p_workspace:workspace.data.id});
+ if(source.error||!source.data)throw new PartnerAccessCodeError("read_failed","The saved program access setting could not be checked.");
+ if(!["optional_code","required_code","invite_only"].includes(source.data.access_sponsorship_capacity?.participant_access_model))throw new PartnerAccessCodeError("invalid_input","Choose an access-code mode in Program settings before managing new codes.");
+}
+
 export async function listPartnerAccessCodes(partnerSlug: string): Promise<PartnerAccessCodeView[]> {
   const slug = normalizeSlug(partnerSlug);
   const supabase = requireAdminClient();
@@ -283,6 +317,7 @@ export type PartnerAccessCodeAnalytics = {
   partnerSlug: string;
   accessMode: PartnerAccessMode;
   packetCap: number;
+  capacityAvailable: boolean;
   packetsUsed: number;
   remainingBalance: number;
   overagePackets: number;
@@ -299,7 +334,7 @@ export async function getPartnerAccessCodeAnalytics(partnerSlug: string): Promis
   const slug = normalizeSlug(partnerSlug);
   const supabase = requireAdminClient();
 
-  const [{ data: partnerRow }, { data: entRow }, codes, analyticsMap] = await Promise.all([
+  const [partnerResult, entitlementResult, codes, analyticsMap] = await Promise.all([
     supabase.from("partner_records").select("access_mode").eq("partner_slug", slug).maybeSingle<{ access_mode: string | null }>(),
     supabase
       .from("partner_entitlement")
@@ -318,6 +353,9 @@ export async function getPartnerAccessCodeAnalytics(partnerSlug: string): Promis
     codeAnalyticsMap(supabase, slug)
   ]);
 
+  if (partnerResult.error || entitlementResult.error) throw new PartnerAccessCodeError("write_failed", "Access and screening capacity could not be read. Reload to retry.");
+  if (!partnerResult.data) throw new PartnerAccessCodeError("unknown_partner", "Program not found.");
+  const partnerRow = partnerResult.data, entRow = entitlementResult.data;
   const packetCap = entRow?.screenings_allowed ?? 0;
   const packetsUsed = entRow?.screenings_used ?? 0;
 
@@ -325,6 +363,7 @@ export async function getPartnerAccessCodeAnalytics(partnerSlug: string): Promis
     partnerSlug: slug,
     accessMode: normalizeAccessMode(partnerRow?.access_mode),
     packetCap,
+    capacityAvailable: Boolean(entRow),
     packetsUsed,
     remainingBalance: Math.max(0, packetCap - packetsUsed),
     overagePackets: entRow?.overage_packets ?? 0,
@@ -346,6 +385,9 @@ export async function updatePartnerAccessMode(input: {
     throw new PartnerAccessCodeError("invalid_input", "Unknown access mode.");
   }
   const supabase = requireAdminClient();
+  const workspace = await supabase.from("partner_onboarding").select("rcap_policy_version").eq("partner_slug", slug).maybeSingle();
+  if (workspace.error) throw new PartnerAccessCodeError("write_failed", "Program configuration could not be checked. Retry later.");
+  if (workspace.data?.rcap_policy_version === "rcap2.2") throw new PartnerAccessCodeError("invalid_input", "Change participant access in Program settings so the saved scope, materials, and publication review stay together.");
   const { data, error } = await supabase
     .from("partner_records")
     .update({ access_mode: input.accessMode })

@@ -123,6 +123,10 @@ try{
  assert.equal(await sqlClearance(),false);
  console.log('PASS real launch refuses a stale or withdrawn executed document even with a legacy signed flag');
 
+ // The application now reads delegated geography on every workspace load.
+ // Apply the actual read function to this historical schema fixture before
+ // testing compatibility; later policy migrations retain their existing order.
+ await db.exec(read('supabase/migrations/20261010190234_rcap_integrated_jurisdiction_scope.sql').split('create or replace function public.rcap_service_save_program_configuration(')[0]+'commit;');
  await (await import("./test-rcap-workspace-recovery.mjs")).testWorkspaceRecovery(db,id);
  await (await import("./test-rcap2-program-configuration.mjs")).testProgramConfiguration(db,id);
  await testProgramPolicy(db,id);

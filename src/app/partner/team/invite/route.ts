@@ -1,4 +1,5 @@
-import { NextResponse } from "next/server";
+import { NextResponse, type NextRequest } from "next/server";
+import { assertSameOrigin } from "@/lib/partners/onboarding/request-security";
 import { getSafeRequestId, logSecurityInfo, logSecurityWarn } from "@/lib/observability/logger";
 import { failureMessageForAddPartnerUser, invitePartnerStaffForCurrentPartner, validatePartnerStaffInviteInput, type ResolvedPartnerAdminSession } from "@/lib/partners/partner-team";
 import { checkPartnerTeamInviteRateLimit } from "@/lib/partners/partner-team-rate-limit";
@@ -18,7 +19,7 @@ type PartnerTeamInviteFailureOutcome =
   | "mapping_failed"
   | "unknown_error";
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
   const requestId = getSafeRequestId(request);
 
   if (!isSameOriginRequest(request)) {
@@ -193,21 +194,6 @@ function failureResponse(outcome: PartnerTeamInviteFailureOutcome, message: stri
   return NextResponse.json({ ok: false, outcome, message }, init);
 }
 
-function isSameOriginRequest(request: Request) {
-  const requestOrigin = new URL(request.url).origin;
-  const origin = request.headers.get("origin");
-  if (origin) {
-    return origin === requestOrigin;
-  }
-
-  const referer = request.headers.get("referer");
-  if (!referer) {
-    return false;
-  }
-
-  try {
-    return new URL(referer).origin === requestOrigin;
-  } catch {
-    return false;
-  }
+function isSameOriginRequest(request: NextRequest) {
+  try { assertSameOrigin(request); return true; } catch { return false; }
 }

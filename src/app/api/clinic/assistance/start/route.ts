@@ -1,9 +1,11 @@
+import { assertSameOrigin, readBoundedJson, requireRequestId } from "@/lib/partners/onboarding/request-security";
+import { clinicErrorResponse } from "@/app/api/clinic/error-response";
 import { getProgramPacketFunding } from "@/lib/partners/onboarding/program-packet-funding";
 import { canUseClinicPractice } from "@/lib/partners/onboarding/practice-receipt";
 import { saveScreeningSession } from "@/lib/expungement-ai/screening-session-persistence";
 import { SupabaseScreeningResumeStorage } from "@/lib/expungement-ai/screening-resume-service";
 import { clinicConsumerContinuation } from "@/lib/expungement-ai/claim/clinic-acquisition";
-import { createHash, randomBytes } from "node:crypto";
+import { createHash, createHmac, randomUUID } from "node:crypto";
 import { NextRequest, NextResponse } from "next/server";
 import { getClinicEntryContext, listApprovedClinicStaff } from "@/lib/clinic-mode/participant-service";
 import { claimRcapPartnerScreeningSession } from "@/lib/expungement-ai/rcap-partner-intake";
@@ -16,12 +18,13 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 export async function POST(request: NextRequest) {
+  let body:Record<string,unknown>;
+  try{assertSameOrigin(request);body=await readBoundedJson(request);if(body.requestId!==undefined)requireRequestId(body.requestId);}catch(error){return clinicErrorResponse(error);}
   if (request.cookies.get("clinic_reset_pending")?.value) {
     return NextResponse.json({ success: false, error: "Finish resetting this device before starting another participant." }, { status: 409 });
   }
   const auth = await getServerAuthState();
   if (!auth.isAuthenticated) return NextResponse.json({ success: false, error: "Participant sign-in is required." }, { status: 401 });
-  const body = await request.json().catch(() => null) as Record<string, unknown> | null;
   const eventSlug = typeof body?.eventSlug === "string" ? body.eventSlug : "";
   const eventStaffId = typeof body?.eventStaffId === "string" ? body.eventStaffId : "";
   const requestedJurisdiction = typeof body?.jurisdiction === "string" ? body.jurisdiction.trim().toUpperCase() : "";
@@ -53,12 +56,16 @@ export async function POST(request: NextRequest) {
     if (!capacity.data) return fallback();
     // Practice uses the existing free-screening storage and Clinic consent/permission
     // transactions. It creates no sponsor allowance, payment, or launch authority.
+    const requestId=typeof body.requestId==="string"?body.requestId:randomUUID();
     const screening = practice
       ? { ok: true as const, sessionId: (await saveScreeningSession(new SupabaseScreeningResumeStorage(db), {jurisdiction, answers: {}})).sessionId }
-      : await claimRcapPartnerScreeningSession({ partnerSlug: entry.partnerSlug, jurisdiction, clinicRedemptionHash: entry.entryRedemptionHash });
+      : await claimRcapPartnerScreeningSession({ partnerSlug: entry.partnerSlug, jurisdiction, clinicRedemptionHash: entry.entryRedemptionHash, requestId, participantUserId:auth.userId });
     if (!screening.ok) return screening.reason === "capacity_full" ? fallback() : NextResponse.json({ success: false, error: "The partner screening is unavailable." }, { status: 409 });
-    const sessionToken = randomBytes(32).toString("base64url");
-    const deviceToken = randomBytes(32).toString("base64url");
+    const secret=process.env.SUPABASE_SERVICE_ROLE_KEY;
+    if(!secret)throw new Error("Clinic assistance signing is unavailable.");
+    const nonce=(kind:string)=>createHmac("sha256",secret).update(JSON.stringify(["clinic-assistance-v1",kind,auth.userId,entry.eventId,eventStaffId,entry.entryRedemptionHash,requestId])).digest("base64url");
+    const sessionToken = nonce("session");
+    const deviceToken = nonce("device");
     const recovery = mintRecovery(auth.userId, hash(sessionToken), hash(deviceToken));
     const recoveryValue = encodeRecovery(recovery); // Fail before creating a session if recovery cannot be issued.
     const sessionResult = await db.rpc("clinic_start_assisted_session", {
@@ -70,7 +77,9 @@ export async function POST(request: NextRequest) {
     if (sessionResult.error || typeof sessionResult.data !== "string") {
       return NextResponse.json({ success: false, error: "Assisted session could not be started." }, { status: 409 });
     }
-    const caseResult = await db.rpc("clinic_upsert_case", {
+    const previousCase=await db.from("clinic_cases").select("id").eq("event_id",entry.eventId).eq("assisted_session_id",sessionResult.data).eq("participant_user_id",auth.userId).maybeSingle();
+    if(previousCase.error)throw new Error("Clinic case readback is unavailable.");
+    const caseResult = previousCase.data ? {error:null} : await db.rpc("clinic_upsert_case", {
       p_event_id: entry.eventId, p_assisted_session_id: sessionResult.data,
       p_participant_user_id: auth.userId, p_screening_session_id: screening.sessionId,
       p_matter_id: null, p_queue_status: "started", p_route_disposition: "pending", p_jurisdiction: jurisdiction

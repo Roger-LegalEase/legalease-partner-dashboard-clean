@@ -10,6 +10,15 @@ type CopyEntry = {
 };
 
 export const EXPUNGEMENT_COPY: Record<string, CopyEntry> = {
+  "clinic.integrated.entry.0": {"en": "This clinic is outside its scheduled hours. Check the event time with staff.", "es": "Esta clínica está fuera de su horario. Confirme la hora del evento con el personal."},
+  "clinic.integrated.entry.1": {"en": "This event code has expired. Ask Clinic staff for a current code.", "es": "Este código ha vencido. Pida un código vigente al personal de la clínica."},
+  "clinic.integrated.entry.2": {"en": "This event code is no longer active. Ask Clinic staff for a current code.", "es": "Este código ya no está activo. Pida un código vigente al personal de la clínica."},
+  "clinic.integrated.entry.3": {"en": "This event code is scheduled for a later time. Check its start time with staff.", "es": "Este código está programado para más tarde. Confirme su hora de inicio con el personal."},
+  "clinic.integrated.entry.4": {"en": "That code does not match this event. Check the code with Clinic staff.", "es": "El código no corresponde a este evento. Confírmelo con el personal de la clínica."},
+  "clinic.integrated.entry.5": {"en": "This code or event has reached its limit. Ask Clinic staff about available entry.", "es": "El código o el evento ha alcanzado su límite. Pregunte al personal sobre las opciones de entrada."},
+  "clinic.integrated.entry.6": {"en": "This clinic is not currently open. Ask staff for the current event link.", "es": "La clínica no está abierta en este momento. Pida al personal el enlace vigente del evento."},
+  "clinic.integrated.entry.7": {"en": "Clinic entry could not be verified. Retry or ask event staff for help.", "es": "No se pudo verificar la entrada. Reintente o pida ayuda al personal del evento."},
+
   "rcap.setup.copy.0": {"en": "Where can participants email for help?", "es": "¿Dónde pueden los participantes enviar un correo para pedir ayuda?"},
   "rcap.setup.copy.1": {"en": "How often should your team receive reports?", "es": "¿Con qué frecuencia debe recibir informes su equipo?"},
   "rcap.setup.copy.2": {"en": "Who will manage your program dashboard?", "es": "¿Quién administrará el panel de su programa?"},
@@ -456,7 +465,9 @@ export const EXPUNGEMENT_COPY: Record<string, CopyEntry> = {
   "clinic.participant.20": {en: "I consent to assistance for this Clinic session.", es: "Doy mi consentimiento para recibir asistencia durante esta sesión de la clínica."},
   "clinic.participant.21": {en: " I understand I can end assistance at any time, and Clinic staff do not receive permanent access to my matter.", es: " Entiendo que puedo finalizar la asistencia en cualquier momento y que el personal de la clínica no recibe acceso permanente a mi asunto."},
   "clinic.participant.22": {en: "Starting secure session…", es: "Iniciando la sesión segura…"},
-  "clinic.participant.23": { en: "Start assisted nationwide screening", es: "Iniciar la evaluación con asistencia en todo el país" },
+  "clinic.participant.23": { en: "Start screening with assistance", es: "Iniciar la evaluación con asistencia" },
+  "clinic.participant.scope_missing": { en: "This event has no authorized screening jurisdiction. Ask the event coordinator to correct the event scope.", es: "Este evento no tiene una jurisdicción autorizada para la evaluación. Pida al coordinador que corrija el alcance del evento." },
+  "clinic.participant.staff_missing": { en: "No approved assistance staff are available. Ask the event coordinator for help.", es: "No hay personal de asistencia autorizado disponible. Pida ayuda al coordinador del evento." },
   "clinic.participant.24": {en: "Open your Clinic event", es: "Abra el evento de su clínica"},
   "clinic.participant.25": {en: "Use the event link or QR code provided by Clinic staff. Confirm the event name before the next participant signs in.", es: "Use el enlace o código QR del evento que le dio el personal de la clínica. Confirme el nombre del evento antes de que el siguiente participante inicie sesión."},
   "clinic.participant.26": {en: "If the original event is no longer available, ask staff which event to use. This page does not restore an assisted session or participant data.", es: "Si el evento original ya no está disponible, pregunte al personal qué evento debe usar. Esta página no restaura una sesión de asistencia ni los datos de un participante."},

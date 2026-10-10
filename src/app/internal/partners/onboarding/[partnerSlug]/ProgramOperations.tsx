@@ -1,11 +1,11 @@
 "use client";
-import { useRef, useState, useTransition } from "react";
+import { useEffect, useRef, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import type { getProgramOperations } from "@/lib/partners/onboarding/program-operations-service";
 import type { ProgramConfiguration } from "@/lib/partners/onboarding/program-configuration";
 import { ArtifactDocumentView } from "@/components/partners/onboarding/ArtifactDocumentView";
-import { CoBrandedPageView } from "@/components/partners/onboarding/CoBrandedPageView";
-import { programGeographyIssue } from "@/lib/partners/onboarding/program-defaults";
+import { ProgramPagePreview } from "@/components/partners/onboarding/ProgramPagePreview";
+import { programGeographyIssue, programServiceArea } from "@/lib/partners/onboarding/program-defaults";
 import { ManagedProgramEditor } from "@/components/partners/onboarding/ManagedProgramEditor";
 
 type Operations = Awaited<ReturnType<typeof getProgramOperations>>;
@@ -15,7 +15,12 @@ const documents = [
   { type: "implementation_brief", title: "Program Summary", id: "program-summary-preview" },
   { type: "co_branded_page_configuration", title: "Participant Page", id: "participant-page-preview" }
 ] as const;
-function focusSection(id: string) { document.getElementById(id)?.focus({ preventScroll: true }); }
+function focusSection(id: string) {
+  const target = document.getElementById(id);
+  if (target instanceof HTMLDetailsElement) target.open = true;
+  for (let ancestor = target?.parentElement; ancestor; ancestor = ancestor.parentElement) if (ancestor instanceof HTMLDetailsElement) ancestor.open = true;
+  target?.focus({ preventScroll: true });
+}
 function NextAction({ step, pending, busy, onAction }: { step: NextStep; pending: boolean; busy: boolean; onAction: (action: string) => void }) {
   return <div className="mt-4 rounded border p-4" aria-label="Next launch step"><p>{step.reason}</p>
     {step.href ? <a className={`mt-3 ${button}`} href={step.href} onClick={() => { if (step.href?.startsWith("#")) focusSection(step.href.slice(1)); }}>{step.label}</a>
@@ -39,7 +44,7 @@ function nextStep(ops: Operations, materialsCurrent: boolean): NextStep | null {
     commercial_gate_cleared: ["Review service authority", authority],
     agreements_and_procurement_recorded: ["Review required agreements", authority],
     access_model_and_capacity_present: ["Review access and capacity", authority],
-    partner_launch_approval_received: ["Review required partner approval", authority]
+    partner_launch_approval_received: ["Open partner administrator access", "#program-team"]
   };
   function requirement(blocker: { key: string; label: string }): NextStep {
     const [label, href] = destinations[blocker.key] ?? ["Review program requirements", authority];
@@ -63,6 +68,10 @@ function nextStep(ops: Operations, materialsCurrent: boolean): NextStep | null {
 
 export function ProgramOperations({ initial, configuration }: { initial: Operations; configuration?: ProgramConfiguration }) {
   const router = useRouter();
+  useEffect(() => {
+    const reveal = () => { if (location.hash) { let id=location.hash.slice(1); try { id=decodeURIComponent(id); } catch { return; } focusSection(id); document.getElementById(id)?.scrollIntoView(); } };
+    reveal(); window.addEventListener("hashchange",reveal); return()=>window.removeEventListener("hashchange",reveal);
+  }, []);
   const [ops, setOps] = useState(initial);
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState("");
@@ -124,21 +133,28 @@ export function ProgramOperations({ initial, configuration }: { initial: Operati
     finally { setBusy(false); }
   }
   return <section className="mt-6 space-y-6" aria-label="Program operations">
-    <nav className="flex flex-wrap gap-3" aria-label="Program material navigation">
-      {visibleMaterials.map(doc => <a key={doc.type} className={button} href={`#${doc.id}`} onClick={() => focusSection(doc.id)}>View {doc.title}</a>)}
-      <a className={button} href="#program-materials" onClick={() => focusSection("program-materials")}>Preview{live ? " program materials" : " & Start Program"}</a>
-    </nav>
-    {configuration ? <ManagedProgramEditor configuration={configuration} onDraftChange={() => { setConfigurationDirty(true); setConfirmedReview(null); setMessage(""); setPreparationError(null); }} onSavingChange={setConfigurationSaving} onSaved={(version, operations, error) => { setSavedVersion(version); if(operations)setOps(operations); setConfigurationDirty(false); setConfirmedReview(null); setMessage(""); setPreparationError(error??null); }} /> : null}
-    {ops.issues.length ? <div role="alert" className="rounded border border-orange p-4">{ops.issues.map(issue => <p key={issue.loader}>{issue.message}</p>)}<button className={button} onClick={() => window.location.reload()}>Reload workspace</button></div> : null}
     <div id="program-dashboard" tabIndex={-1} className="scroll-mt-32 rounded-xl border bg-white p-6"><h2 className="text-2xl font-bold">{live ? "Program dashboard" : "Program status"}</h2>
+      <p className="mt-3">{managed ? "LegalEase-managed" : "Partner-managed"} · {programServiceArea(view?.data.geography_audience_language_accessibility?.jurisdictions ?? []) || "Jurisdictions not configured"} · {(view?.data.program_goals?.service_mode ?? "documented services").replaceAll("_", " ")}</p>
       <dl className="mt-4 grid gap-5 sm:grid-cols-2" aria-label="Program status">
         <div><dt className="font-bold">Program setup</dt><dd>{configurationDirty ? "Unsaved program changes" : configurationSaving ? "Saving program details…" : view?.decision.configurationComplete ? "Saved program details complete" : "Save the required program details"}</dd></div>
         <div><dt className="font-bold">Operating authority</dt><dd>{managed ? view?.decision.authorityId ? "LegalEase operating decision recorded" : "LegalEase-managed · Confirm with Start Program" : ops.preflight?.commercialValid ? "Current documented partner authority" : "Partner-managed · Existing consent and contract requirements apply"}</dd></div>
         <div><dt className="font-bold">Publication</dt><dd>{live ? "Published and routing verified" : readyForConfirmation ? "Ready for your review and confirmation." : "Complete the next action in Preview"}</dd></div>
         <div><dt className="font-bold">Sponsored packets</dt><dd>{view?.capabilities.issue_sponsored_packet ? `${view.commercial.packets ?? 0} available under funded authority` : "No sponsored packets authorized"}</dd></div>
       </dl>
-      {live ? <div className="mt-5 flex flex-wrap gap-4"><a className={button} href={`/p/${ops.identity.partnerSlug}`}>Open participant page</a><a className={button} href={`/internal/clinic?partner=${ops.identity.partnerSlug}`}>Manage program clinics</a><a className={button} href="#program-activity">Program activity</a></div> : null}
+      {live ? <div className="mt-5 flex flex-wrap gap-4"><a className={button} href={`/p/${ops.identity.partnerSlug}`}>Open participant page</a><a className={button} href={`/internal/clinic?partner=${ops.identity.partnerSlug}`}>Manage program clinics</a><a className={button} href="#program-activity">Program activity</a><button type="button" className={button} onClick={async()=>{try{await navigator.clipboard.writeText(new URL(`/p/${ops.identity.partnerSlug}`,location.origin).href);setMessage("Participant link copied.");}catch{setMessage("Open the participant page to copy its address.");}}}>Copy participant link</button></div> : <a className={`${button} mt-5 bg-navy text-white`} href={view?.decision.configurationComplete ? "#program-materials" : "#configure-program"} onClick={()=>focusSection(view?.decision.configurationComplete ? "program-materials" : "configure-program")}>{view?.decision.configurationComplete ? "Review program materials" : "Configure program"}</a>}
     </div>
+    <nav className="flex flex-wrap gap-3 rounded-xl border bg-white p-4" aria-label="Program material navigation">
+      <a className={button} href="#configure-program" onClick={() => focusSection("configure-program")}>Configure</a>
+      {visibleMaterials.map(doc => <a key={doc.type} className={button} href={`#${doc.id}`} onClick={() => focusSection(doc.id)}>View {doc.title}</a>)}
+      <a className={button} href="#program-materials" onClick={() => focusSection("program-materials")}>Preview{live ? " program materials" : " & Start Program"}</a>
+      {["optional_code", "required_code", "invite_only"].includes(view?.data.access_sponsorship_capacity?.participant_access_model ?? "") ? <a className={button} href={`/internal/partners/onboarding/${ops.identity.partnerSlug}/access-codes`}>Manage access codes</a> : null}
+      <a className={button} href="#program-team" onClick={() => focusSection("program-team")}>Team &amp; access</a>
+    </nav>
+
+    {ops.issues.length ? <div role="alert" className="rounded border border-orange p-4">{ops.issues.map(issue => <p key={issue.loader}>{issue.message}</p>)}<button className={button} onClick={() => window.location.reload()}>Reload workspace</button></div> : null}
+    <details open={!live} className="rounded-xl border bg-white p-4"><summary className="min-h-11 cursor-pointer py-3 text-lg font-bold">Configure program details</summary>
+    {configuration ? <ManagedProgramEditor configuration={configuration} onDraftChange={() => { setConfigurationDirty(true); setConfirmedReview(null); setMessage(""); setPreparationError(null); }} onSavingChange={setConfigurationSaving} onSaved={(version, operations, error) => { setSavedVersion(version); if(operations)setOps(operations); setConfigurationDirty(false); setConfirmedReview(null); setMessage(""); setPreparationError(error??null); }} /> : null}
+    </details>
     <section id="program-materials" tabIndex={-1} className="scroll-mt-32 rounded-xl border bg-white p-6" aria-labelledby="program-materials-heading">
       <h2 id="program-materials-heading" className="text-2xl font-bold">Preview</h2>
       <p className="mt-3" role="status">{busy || configurationSaving ? "Preparing — saved content and materials are being checked." : preparationError ? "Failed — preparation did not complete." : materialsCurrent ? "Ready — both materials are complete and current." : "Needs attention — materials are not ready for publication."}</p>
@@ -146,15 +162,15 @@ export function ProgramOperations({ initial, configuration }: { initial: Operati
       {visibleMaterials.length ? <div className="mt-6 space-y-6" aria-label="Current program preview">{visibleMaterials.map(({ type, title, id, material }) => <article key={material.id} id={id} tabIndex={-1} className="scroll-mt-32" aria-label={`${title} · Version ${material.version}`} data-material-id={material.id} data-material-version={material.version} data-material-hash={material.hash}>
         <h3 className="mb-3 text-xl font-bold">{title} · Version {material.version}{material.issues?.length ? " · Incomplete draft" : ""}</h3>
         {material.issues?.length ? <p className="mb-3 rounded border p-3">This draft cannot be published. {material.issues.some(issue=>issue.startsWith("Spanish")) ? "Spanish content is incomplete. Update Materials includes automatic Spanish preparation." : material.issues[0]}</p> : type==="co_branded_page_configuration" && view?.data.geography_audience_language_accessibility?.enable_spanish ? <p className="mb-3">Review English and Español. Prepared Spanish drafts are covered by your single final confirmation below.</p> : null}
-        {type === "co_branded_page_configuration" && material.document.pagePreview ? <CoBrandedPageView preview={material.document.pagePreview} variant="desktop" logoSrc={material.document.pagePreview.logo.assetId ? `/api/internal/partners/onboarding/phase1/${view!.partnerSlug}/assets/${material.document.pagePreview.logo.assetId}` : null} /> : <ArtifactDocumentView document={material.document} versionNumber={material.version} />}
+        {type === "co_branded_page_configuration" && material.document.pagePreview ? <ProgramPagePreview preview={material.document.pagePreview} logoSrc={material.document.pagePreview.logo.assetId ? `/api/internal/partners/onboarding/phase1/${view!.partnerSlug}/assets/${material.document.pagePreview.logo.assetId}` : null} /> : <ArtifactDocumentView document={material.document} versionNumber={material.version} />}
       </article>)}</div> : null}
-      {!live && view ? <section className="mt-6 rounded border p-4" aria-labelledby="final-program-review-heading">
+      {!live && view ? <section id="final-program-review" tabIndex={-1} className="mt-6 scroll-mt-32 rounded border p-4" aria-labelledby="final-program-review-heading">
         <h3 id="final-program-review-heading" className="text-xl font-bold">Final Review &amp; Start Program</h3>
         {readyForConfirmation ? <>
           <p className="mt-2">Ready for your review and confirmation.</p>
           <dl className="mt-4 grid gap-3 sm:grid-cols-2">
             <div><dt className="font-bold">Program operator</dt><dd>{managed ? "LegalEase" : view.organizationName}</dd></div>
-            <div><dt className="font-bold">Authorized jurisdictions</dt><dd>{view.data.geography_audience_language_accessibility?.jurisdictions?.join(", ")}</dd></div>
+            <div><dt className="font-bold">Authorized jurisdictions</dt><dd>{programServiceArea(view.data.geography_audience_language_accessibility?.jurisdictions??[])}</dd></div>
             <div><dt className="font-bold">Services</dt><dd>{(view.data.program_goals?.service_mode ?? ops.preflight?.commercialAuthority?.kind ?? "documented services").replaceAll("_", " ")}</dd></div>
             <div><dt className="font-bold">Languages</dt><dd>Primary: {view.data.geography_audience_language_accessibility?.primary_language || "English"} · Spanish {view.data.geography_audience_language_accessibility?.enable_spanish ? "enabled" : "disabled"}</dd></div>
             <div><dt className="font-bold">Participation and Clinic Mode</dt><dd>{{ online: "Online", clinics: "Clinic Mode", both: "Online and Clinic Mode" }[view.data.program_goals?.participation_mode ?? "online"]}</dd></div>

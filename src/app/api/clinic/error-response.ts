@@ -1,8 +1,10 @@
+import { OnboardingRequestError } from "@/lib/partners/onboarding/request-security";
 import { NextResponse } from "next/server";
 import { ClinicServiceError } from "@/lib/clinic-mode/errors";
 import { ClinicValidationError } from "@/lib/clinic-mode/validation";
 
 export function clinicErrorResponse(error: unknown) {
+  if(error instanceof OnboardingRequestError)return NextResponse.json({success:false,error:error.message},{status:error.status});
   if (error instanceof ClinicValidationError) {
     return NextResponse.json({ success: false, error: error.message }, { status: 400 });
   }

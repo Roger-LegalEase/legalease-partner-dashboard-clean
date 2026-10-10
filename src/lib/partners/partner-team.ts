@@ -104,11 +104,11 @@ export async function getPartnerTeamPageData(sessionPartner: ResolvedPartnerSess
 }
 
 export async function listPartnerTeamMembersForResolvedSession(
-  sessionPartner: ResolvedPartnerSession
-): Promise<PartnerTeamMember[]> {
+  sessionPartner: Pick<ResolvedPartnerSession,"partnerSlug"|"authUserId"> & {role:"internal_admin"|"partner_admin"|"partner_staff"}
+): Promise<PartnerTeamMember[] | null> {
   const supabase = getSupabaseAdminClient();
   if (!supabase) {
-    return [];
+    return null;
   }
 
   const { data, error } = await supabase
@@ -119,7 +119,7 @@ export async function listPartnerTeamMembersForResolvedSession(
     .order("created_at", { ascending: true });
 
   if (error || !data) {
-    return [];
+    return null;
   }
 
   return (data as PartnerUserTeamRow[])
