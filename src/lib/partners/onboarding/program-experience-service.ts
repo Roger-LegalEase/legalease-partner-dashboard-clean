@@ -1,3 +1,5 @@
+import { prepareProgramSpanish } from "./program-spanish-service";
+import { renderCoBrandedPageConfiguration, programPageIssues } from "./artifact-generator";
 import { workspaceReadError } from "./workspace-loading";
 import "server-only";
 import { createHmac, randomUUID } from "node:crypto";
@@ -64,13 +66,18 @@ export async function getProgramExperience(context:Context):Promise<ProgramExper
  ]);
  if(versions.error||authority.error)throw workspaceReadError("program_experience.materials_or_authority",[versions.error,authority.error],"Your program could not be loaded. Please retry.");
  const materialRows=versions.data?.length?await db().from("partner_onboarding_artifact_versions").select("id,version_number,rendered_content,generator_version,normalized_snapshot,snapshot_hash,generation_status,source_drift_invalidated_at,superseded_at").in("id",versions.data.map(v=>v.current_version_id).filter(Boolean)):{data:[],error:null};
+ if(materialRows.error)throw workspaceReadError("program_experience.material_versions",materialRows.error,"Current material versions could not be checked.");
  const materials:ProgramMaterial[]=[];
+ const draftMaterials:NonNullable<ProgramExperience["draftMaterials"]>=[];
  for(const material of versions.data??[]){
   const row=materialRows.data?.find(v=>v.id===material.current_version_id);
   const type=material.artifact_type as typeof requiredMaterials[number];
   if(!row||row.generation_status!=="succeeded"||row.source_drift_invalidated_at||row.superseded_at)continue;
   if(detectArtifactDrift({storedSnapshot:row.normalized_snapshot,storedGeneratorVersion:row.generator_version,current:projectArtifactSource(type,source),currentGeneratorVersion:artifactGeneratorVersion(type,source)}).stale)continue;
-  if(type==="co_branded_page_configuration"&&row.rendered_content?.pagePreview?.missing?.length)continue;
+  if(type==="co_branded_page_configuration") {
+   const issues=programPageIssues(source,row.rendered_content?.pagePreview);
+   if(issues.length){draftMaterials.push({type,id:row.id,hash:row.snapshot_hash,version:row.version_number,document:row.rendered_content,issues});continue;}
+  }
   materials.push({type,id:row.id,hash:row.snapshot_hash,version:row.version_number,document:row.rendered_content});
  }
  let packets:number|null=null;
@@ -85,7 +92,7 @@ export async function getProgramExperience(context:Context):Promise<ProgramExper
   const [allocation,usage]=await Promise.all([db().from("partner_packet_entitlement").select("packet_cap").eq("id",entitlementId).single(),db().from("packet_credit_ledger").select("id",{count:"exact",head:true}).eq("entitlement_id",entitlementId).in("event_type",["reserved","consumed"])]);
   if(!allocation.error&&!usage.error)packets=Math.max(0,allocation.data.packet_cap-(usage.count??0));
  }
- return {partnerSlug:context.partnerSlug,organizationName:source.data.organization_contacts?.public_organization_name??source.partnerRecord.organizationName,version:decision.sourceVersion,data:source.data,legalIdentityLocked:source.workspace.agreementStatus==="signed"||Boolean(authority.data),canEdit:context.role!=="partner_staff"&&!["paused","closed"].includes(decision.status),decision,capabilities:Object.fromEntries(decisions),materials,reviewToken:materials.length===2?reviewToken(context,decision):null,
+ return {partnerSlug:context.partnerSlug,organizationName:source.data.organization_contacts?.public_organization_name??source.partnerRecord.organizationName,version:decision.sourceVersion,data:source.data,legalIdentityLocked:source.workspace.agreementStatus==="signed"||Boolean(authority.data),canEdit:context.role!=="partner_staff"&&!["paused","closed"].includes(decision.status),decision,capabilities:Object.fromEntries(decisions),materials,draftMaterials,reviewToken:materials.length===2?reviewToken(context,decision):null,
  publicUrl:decision.live?`/p/${encodeURIComponent(context.partnerSlug)}`:null,
  commercial:{label:decision.operatingModel==="legalease_managed"?(decision.authorityId?"LegalEase internal operating authority recorded.":"Confirm LegalEase operating authority with Start Program."):authority.data&&Date.parse(authority.data.expires_at)<=Date.now()?"Recorded service authority has expired.":authority.data?.kind==="screening_only"?"Screening-only terms recorded. Sponsored packets are unavailable.":authority.data?"Documented program terms recorded":"Current service authority has not been recorded",screenings:screening.error||!screening.data?null:Math.max(0,screening.data.screenings_allowed-screening.data.screenings_used),packets,expiresAt:authority.data?.expires_at??null}};
 }
@@ -114,19 +121,22 @@ export async function prepareProgramDefaults(context:PartnerOnboardingContext,re
 export async function prepareProgramReview(context:Context){
  await requireCurrentProgramPolicy(context);
  const decision=await programDecision(context,"complete_setup");
- if(!decision.allowed)throw new Phase1OnboardingError("invalid_input",decision.primaryNextAction);
+ if(!decision.allowed)throw new Phase1OnboardingError("invalid_input",decision.blockers.map(b=>b.label).join(" "));
+ const before=await getProgramExperience(context);
+ if(before.materials.length===requiredMaterials.length)return before;
+ if(!before.materials.some(m=>m.type==="co_branded_page_configuration"))await prepareProgramSpanish(context);
  const source=await loadArtifactSourceInput(db(),context.partnerSlug);
+ const draft=renderCoBrandedPageConfiguration(source);
+ if(!draft.pagePreview || draft.pagePreview.missing.length)throw new Phase1OnboardingError("invalid_input",draft.pagePreview?.missing[0] ? `${draft.pagePreview.missing[0].label}. ${draft.pagePreview.missing[0].whereToSet}.` : "Participant Page content could not be verified. Retry Update Materials.");
  const ensured=await db().rpc("rcap_service_ensure_onboarding_artifacts",{p_partner_slug:context.partnerSlug,p_workspace_id:decision.workspaceId,p_generatable_types:[...requiredMaterials]});
  if(ensured.error)throw new Phase1OnboardingError("persistence_failed","Your review documents could not be prepared. Please retry.");
  const view=await getProgramExperience(context);
  for(const type of requiredMaterials){if(view.materials.some(m=>m.type===type))continue;
-  const result=await generateArtifactVersion(context,{artifactType:type,requestId:randomUUID()});
-  if(!result.versionId)throw new Phase1OnboardingError("persistence_failed","Your review documents could not be prepared.");
+  await generateArtifactVersion(context,{artifactType:type,requestId:randomUUID()});
  }
- // Page generation uses exactly the source-bound standard template; a custom
- // LegalEase override remains in the canonical source and the final real review.
- void source;
- return getProgramExperience(context);
+ const result=await getProgramExperience(context);
+ if(result.materials.length!==requiredMaterials.length)throw new Phase1OnboardingError("revision_conflict","Materials are not yet complete and current. The program may have changed during preparation. Retry Update Materials.");
+ return result;
 }
 export async function recordProgramDecision(context:Context,type:string,decision:"approve"|"withdraw",details:Record<string,unknown>,requestId:string){
  const view=await programDecision(context,"complete_setup");

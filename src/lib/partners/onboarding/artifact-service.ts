@@ -213,6 +213,11 @@ export async function loadArtifactSourceInput(
     if (row.status) sectionStatuses[row.section_key] = row.status;
   }
 
+  if(policyVersion === "rcap2.2") {
+    const provenance=await requireAdmin().from("partner_events").select("event_payload").eq("partner_slug",partnerSlug).eq("event_type","rcap_spanish_draft_prepared").order("created_at",{ascending:false}).order("id",{ascending:false}).limit(1).maybeSingle();
+    if(provenance.error)throw workspaceReadError("artifact_source.spanish_provenance",provenance.error,"Spanish source versions could not be verified.");
+    if(provenance.data?.event_payload?.spanishPreparation)data.brand_public_page={...(data.brand_public_page as Record<string,unknown> | undefined),spanish_preparation:provenance.data.event_payload.spanishPreparation};
+  }
   const contactRows = (contacts.data ?? []) as Array<Record<string, unknown>>;
   const plannedUserRows = (plannedUsers.data ?? []) as Array<Record<string, unknown>>;
   const recipientRows = (recipients.data ?? []) as Array<Record<string, unknown>>;

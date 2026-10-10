@@ -26,7 +26,11 @@ function readback(value: unknown, context: Context): ProgramConfiguration {
 export async function getProgramConfiguration(context: Context) {
   const result = await client(context).rpc("rcap_service_get_program_configuration", { p_slug: context.partnerSlug, p_actor: context.authUserId });
   if (result.error) throw workspaceReadError("rcap_service_get_program_configuration", result.error, "Program configuration could not be loaded.");
-  return readback(result.data, context);
+  const configuration=readback(result.data, context);
+  const provenance=await client(context).from("partner_events").select("event_payload").eq("partner_slug",context.partnerSlug).eq("event_type","rcap_spanish_draft_prepared").order("created_at",{ascending:false}).order("id",{ascending:false}).limit(1).maybeSingle();
+  if(provenance.error)throw workspaceReadError("program_configuration.spanish_source",provenance.error,"Spanish source versions could not be verified.");
+  if(provenance.data?.event_payload?.spanishPreparation)configuration.data.brand_public_page={...configuration.data.brand_public_page,spanish_preparation:provenance.data.event_payload.spanishPreparation};
+  return configuration;
 }
 const same = (a: unknown, b: unknown) => JSON.stringify(a ?? null) === JSON.stringify(b ?? null);
 
@@ -51,7 +55,10 @@ export async function saveProgramConfiguration(context: Context, input: { patche
       if (["operating_model", "operator_authority_reference", "external_agreement_applicability", "service_mode"].includes(key) && context.role !== "internal_admin") throw new Phase1OnboardingError("forbidden", "Only a Platform Admin can change operating responsibility.");
       if (!fields.includes(key)) throw new Phase1OnboardingError("forbidden", "This field requires a separate authorized operation.");
     }
-    const validation = validateOnboardingSection(patch.section, { ...stored, ...patch.values }, "draft_save", { allSections, canonicalOperatingFields:true });
+    const editableStored={...stored};
+    // Trusted readback metadata is not part of the editable field contract.
+    delete editableStored.spanish_preparation;
+    const validation = validateOnboardingSection(patch.section, { ...editableStored, ...patch.values }, "draft_save", { allSections, canonicalOperatingFields:true });
     if (!validation.success) throw new Phase1OnboardingError("invalid_input", validation.issues.map(i => i.message).join(" "), { issues: validation.issues });
     const normalized = validation.data as Record<string, unknown>;
     for (const key of Object.keys(patch.values)) {

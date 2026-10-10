@@ -5,6 +5,7 @@ import type { getProgramOperations } from "@/lib/partners/onboarding/program-ope
 import type { ProgramConfiguration } from "@/lib/partners/onboarding/program-configuration";
 import { ArtifactDocumentView } from "@/components/partners/onboarding/ArtifactDocumentView";
 import { CoBrandedPageView } from "@/components/partners/onboarding/CoBrandedPageView";
+import { programGeographyIssue } from "@/lib/partners/onboarding/program-defaults";
 import { ManagedProgramEditor } from "@/components/partners/onboarding/ManagedProgramEditor";
 
 type Operations = Awaited<ReturnType<typeof getProgramOperations>>;
@@ -30,6 +31,7 @@ function nextStep(ops: Operations, materialsCurrent: boolean): NextStep | null {
   const authority = `/internal/partners/onboarding/${ops.identity.partnerSlug}/diagnostics#program-service-authority`;
   const destinations: Record<string, [string, string]> = {
     organization_facts: ["Complete organization details", "#configure-program"],
+    geographic_presentation: ["Correct service area description", "#program-field-service_area_description"],
     program_scope: ["Complete program scope", "#program-field-jurisdictions"],
     support_and_referral_contacts_configured: ["Complete participant support", "#program-field-participant_support_email"],
     operating_authority: ["Review operating authority", "#program-field-operator_authority_reference"],
@@ -45,6 +47,8 @@ function nextStep(ops: Operations, materialsCurrent: boolean): NextStep | null {
   }
   if (["paused", "closed"].includes(view.decision.status)) return { reason: `This program is ${view.decision.status}. Publication requires an active program.`, label: "Review program status", href: `/internal/partners/onboarding/${ops.identity.partnerSlug}/diagnostics` };
   if (ops.identity.policyVersion === "legacy") return { reason: "This workspace retains its existing policy and approvals. Use the current setup workflow to continue; existing contracts and consent remain required.", label: "Use five-step setup", action: "upgrade_policy" };
+  const geographyIssue=programGeographyIssue(view.data);
+  if(geographyIssue)return {reason:geographyIssue,label:"Correct service area description",href:"#program-field-service_area_description"};
   if (!view.decision.setupComplete && view.decision.blockers.length) return requirement(view.decision.blockers[0]);
   if (!materialsCurrent) return { reason: "Generate the missing or outdated materials from your saved program. Current materials and their approvals are preserved.", label: preflight.reviewedVersions.some(version => version.id) ? "Update Materials" : "Generate Materials", action: "prepare" };
   if (ops.canStart && view.reviewToken) return null;
@@ -62,6 +66,7 @@ export function ProgramOperations({ initial, configuration }: { initial: Operati
   const [ops, setOps] = useState(initial);
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState("");
+  const [preparationError, setPreparationError] = useState<string | null>(null);
   const [confirmedReview, setConfirmedReview] = useState<string | null>(null);
   const [configurationDirty, setConfigurationDirty] = useState(false);
   const [configurationSaving, setConfigurationSaving] = useState(false);
@@ -83,41 +88,47 @@ export function ProgramOperations({ initial, configuration }: { initial: Operati
     return material ? [{ ...doc, material }] : [];
   }) : [];
   const materialsCurrent = materials.length === documents.length;
+  const draftMaterials=snapshotCurrent ? documents.flatMap(doc=>{const material=view?.draftMaterials?.find(item=>item.type===doc.type);return material?[{...doc,material}]:[];}) : [];
+  const visibleMaterials=[...materials,...draftMaterials];
   const reviewIdentity = JSON.stringify([ops.identity.workspaceId, view?.version, view?.decision.scopeHash, view?.reviewToken, materials.map(({ material }) => [material.id, material.hash, material.version])]);
   const confirmed = confirmedReview === reviewIdentity;
   const readyForConfirmation = snapshotCurrent && materialsCurrent && Boolean(view?.reviewToken) && ops.canStart;
+  const authoritativeNext=nextStep(ops, materialsCurrent);
   const resolution: NextStep | null = configurationDirty
     ? { reason: "Save your program changes before reviewing materials or starting the program.", label: "Save program changes", href: "#configure-program" }
     : !snapshotCurrent && view
       ? { reason: configurationSaving ? "Saving your program…" : "Checking material versions against the saved program…", label: "Refresh Preview", action: "reload" }
-      : nextStep(ops, materialsCurrent);
+      : preparationError && authoritativeNext?.action === "prepare"
+        ? {reason:preparationError,label:"Retry Update Materials",action:"prepare"}
+        : authoritativeNext;
 
   async function run(action: string) {
     if (!view || (action === "start" && (!readyForConfirmation || !confirmed))) return;
-    setBusy(true); setMessage("");
+    setBusy(true); setMessage(""); setPreparationError(null);
     try {
       const payload = JSON.stringify({ action, version: view.version, scopeHash: view.decision.scopeHash, reviewToken: view.reviewToken, confirmed: action === "upgrade_policy" ? true : confirmed, reason: "Platform Admin confirms current program scope and reviewed materials", expiresAt: ops.preflight?.commercialAuthority?.expires_at });
       if (request.current?.payload !== payload) request.current = { payload, id: crypto.randomUUID() };
       const response = await fetch(`/api/internal/partners/onboarding/phase1/${encodeURIComponent(ops.identity.partnerSlug)}/program`, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ ...JSON.parse(payload), requestId: request.current.id }) });
       const body = await response.json();
+      if(body.operations)setOps(body.operations);
       if (!response.ok || !body.operations) throw new Error(body.error ?? "This operation could not be completed.");
       setOps(body.operations); request.current = null; setConfirmedReview(null);
       const started = body.operations.view?.decision.live;
-      setMessage(started ? "Program is live. Published routing has been verified." : "Program materials and launch conditions have been checked against the saved program.");
+      setMessage(started ? "Program is live. Published routing has been verified." : body.operations.view?.materials.length===2 ? "Ready for your review and confirmation." : "Materials need attention. Complete the next action in Preview.");
       startRefresh(() => router.refresh());
       requestAnimationFrame(() => {
         const target = document.getElementById(started ? "program-dashboard" : "program-materials");
         target?.focus({ preventScroll: true }); target?.scrollIntoView({ behavior: "smooth" });
       });
-    } catch (error) { setMessage(error instanceof Error ? error.message : "Reload and retry."); }
+    } catch (error) { const failure=error instanceof Error ? error.message : "Reload and retry."; if(action==="prepare" || action==="review")setPreparationError(failure);else setMessage(failure); }
     finally { setBusy(false); }
   }
   return <section className="mt-6 space-y-6" aria-label="Program operations">
     <nav className="flex flex-wrap gap-3" aria-label="Program material navigation">
-      {materials.map(doc => <a key={doc.type} className={button} href={`#${doc.id}`} onClick={() => focusSection(doc.id)}>View {doc.title}</a>)}
+      {visibleMaterials.map(doc => <a key={doc.type} className={button} href={`#${doc.id}`} onClick={() => focusSection(doc.id)}>View {doc.title}</a>)}
       <a className={button} href="#program-materials" onClick={() => focusSection("program-materials")}>Preview{live ? " program materials" : " & Start Program"}</a>
     </nav>
-    {configuration ? <ManagedProgramEditor configuration={configuration} onDraftChange={() => { setConfigurationDirty(true); setConfirmedReview(null); setMessage(""); }} onSavingChange={setConfigurationSaving} onSaved={version => { setSavedVersion(version); setConfigurationDirty(false); setConfirmedReview(null); setMessage(""); }} /> : null}
+    {configuration ? <ManagedProgramEditor configuration={configuration} onDraftChange={() => { setConfigurationDirty(true); setConfirmedReview(null); setMessage(""); setPreparationError(null); }} onSavingChange={setConfigurationSaving} onSaved={(version, operations, error) => { setSavedVersion(version); if(operations)setOps(operations); setConfigurationDirty(false); setConfirmedReview(null); setMessage(""); setPreparationError(error??null); }} /> : null}
     {ops.issues.length ? <div role="alert" className="rounded border border-orange p-4">{ops.issues.map(issue => <p key={issue.loader}>{issue.message}</p>)}<button className={button} onClick={() => window.location.reload()}>Reload workspace</button></div> : null}
     <div id="program-dashboard" tabIndex={-1} className="scroll-mt-32 rounded-xl border bg-white p-6"><h2 className="text-2xl font-bold">{live ? "Program dashboard" : "Program status"}</h2>
       <dl className="mt-4 grid gap-5 sm:grid-cols-2" aria-label="Program status">
@@ -130,12 +141,14 @@ export function ProgramOperations({ initial, configuration }: { initial: Operati
     </div>
     <section id="program-materials" tabIndex={-1} className="scroll-mt-32 rounded-xl border bg-white p-6" aria-labelledby="program-materials-heading">
       <h2 id="program-materials-heading" className="text-2xl font-bold">Preview</h2>
+      <p className="mt-3" role="status">{busy || configurationSaving ? "Preparing — saved content and materials are being checked." : preparationError ? "Failed — preparation did not complete." : materialsCurrent ? "Ready — both materials are complete and current." : "Needs attention — materials are not ready for publication."}</p>
       {!live && !materialsCurrent && resolution ? <NextAction step={resolution} pending={pendingOperation} busy={busy} onAction={run} /> : null}
-      {materials.length ? <div className="mt-6 space-y-6" aria-label="Current program preview">{materials.map(({ type, title, id, material }) => <article key={material.id} id={id} tabIndex={-1} className="scroll-mt-32" aria-label={`${title} · Version ${material.version}`} data-material-id={material.id} data-material-version={material.version} data-material-hash={material.hash}>
-        <h3 className="mb-3 text-xl font-bold">{title} · Version {material.version}</h3>
+      {visibleMaterials.length ? <div className="mt-6 space-y-6" aria-label="Current program preview">{visibleMaterials.map(({ type, title, id, material }) => <article key={material.id} id={id} tabIndex={-1} className="scroll-mt-32" aria-label={`${title} · Version ${material.version}`} data-material-id={material.id} data-material-version={material.version} data-material-hash={material.hash}>
+        <h3 className="mb-3 text-xl font-bold">{title} · Version {material.version}{material.issues?.length ? " · Incomplete draft" : ""}</h3>
+        {material.issues?.length ? <p className="mb-3 rounded border p-3">This draft cannot be published. {material.issues.some(issue=>issue.startsWith("Spanish")) ? "Spanish content is incomplete. Update Materials includes automatic Spanish preparation." : material.issues[0]}</p> : type==="co_branded_page_configuration" && view?.data.geography_audience_language_accessibility?.enable_spanish ? <p className="mb-3">Review English and Español. Prepared Spanish drafts are covered by your single final confirmation below.</p> : null}
         {type === "co_branded_page_configuration" && material.document.pagePreview ? <CoBrandedPageView preview={material.document.pagePreview} variant="desktop" logoSrc={material.document.pagePreview.logo.assetId ? `/api/internal/partners/onboarding/phase1/${view!.partnerSlug}/assets/${material.document.pagePreview.logo.assetId}` : null} /> : <ArtifactDocumentView document={material.document} versionNumber={material.version} />}
       </article>)}</div> : null}
-      {!live && materialsCurrent && view ? <section className="mt-6 rounded border p-4" aria-labelledby="final-program-review-heading">
+      {!live && view ? <section className="mt-6 rounded border p-4" aria-labelledby="final-program-review-heading">
         <h3 id="final-program-review-heading" className="text-xl font-bold">Final Review &amp; Start Program</h3>
         {readyForConfirmation ? <>
           <p className="mt-2">Ready for your review and confirmation.</p>
@@ -150,7 +163,7 @@ export function ProgramOperations({ initial, configuration }: { initial: Operati
           <label className="mt-4 flex gap-3"><input aria-label="Confirm operating scope and current materials" aria-describedby="start-program-help" type="checkbox" disabled={pendingOperation} checked={confirmed} onChange={event => setConfirmedReview(event.target.checked ? reviewIdentity : null)} />I confirm the actual operator, authorized jurisdictions, service capabilities and these exact materials. I authorize publication within this scope. This decision does not sign an external agreement, record a payment or create packet funding.</label>
           <p id="start-program-help" className="mt-3">{confirmed ? "Your confirmation is selected. Start Program will publish this reviewed program." : "Confirm the scope and materials above to enable Start Program."}</p>
           <button className={`mt-4 ${button} bg-navy text-white`} disabled={pendingOperation || !confirmed || !ops.canStart} onClick={() => run("start")}>{busy ? "Starting program…" : "Start Program"}</button>
-        </> : resolution ? <NextAction step={resolution} pending={pendingOperation} busy={busy} onAction={run} /> : null}
+        </> : resolution ? materialsCurrent ? <NextAction step={resolution} pending={pendingOperation} busy={busy} onAction={run} /> : <p className="mt-3">Final confirmation requires both complete, current materials. {resolution.reason}</p> : null}
       </section> : null}
     </section>
     <p role="status" className="whitespace-pre-wrap">{message}</p>

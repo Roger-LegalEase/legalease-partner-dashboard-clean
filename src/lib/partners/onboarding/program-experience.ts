@@ -4,10 +4,10 @@ export const PROGRAM_ACTIONS = ["complete_setup", "publish_partner_page", "accep
 export type ProgramAction = typeof PROGRAM_ACTIONS[number];
 export type ProgramRequirement = {key:string;label:string;owner_domain:string;classification:string;passing?:boolean;effective?:boolean;dependency_hash?:string;default_applied?:boolean;exception_id?:string|null};
 export type ProgramDecision = {operatingModel?:"partner_managed"|"legalease_managed";canAuthorizeStart?:boolean;jurisdictions?:string[];serviceMode?:string;policyVersion:string;workspaceId:string;partnerSlug:string;actor:string;role:string;action:ProgramAction;allowed:boolean;requirements:ProgramRequirement[];blockers:ProgramRequirement[];activeExceptions:string[];sourceVersion:number;scopeHash:string;materialsHash:string;authorityId:string|null;setupComplete:boolean;delegated:boolean;configurationComplete:boolean;live:boolean;status:string;primaryNextAction:string};
-export type ProgramMaterial = {type:string;id:string;hash:string;version:number;document:RenderedDocument};
+export type ProgramMaterial = {type:string;id:string;hash:string;version:number;document:RenderedDocument;issues?:string[]};
 export type ProgramExperience = {
  partnerSlug:string;organizationName:string;version:number;data:OnboardingPartnerData;canEdit:boolean;legalIdentityLocked:boolean;
- decision:ProgramDecision;capabilities:Partial<Record<ProgramAction,boolean>>;materials:ProgramMaterial[];reviewToken:string|null;
+ decision:ProgramDecision;capabilities:Partial<Record<ProgramAction,boolean>>;materials:ProgramMaterial[];draftMaterials?:Array<ProgramMaterial & {issues:string[]}>;reviewToken:string|null;
  publicUrl:string|null;commercial:{label:string;screenings:number|null;packets:number|null;expiresAt:string|null};
 };
 export const PROGRAM_STEPS = ["join","organization","program","team","start"] as const;

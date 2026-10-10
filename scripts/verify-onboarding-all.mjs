@@ -75,6 +75,9 @@ const REGISTRY = [
   { file: "test-rcap-signed-agreement-browser.mjs", group: "browser", note: "Hydrated agreement journey using disposable loopback identities and private documents" },
   { file: "test-rcap-real-launch-authority.mjs", group: "local" },
   { file: "test-rcap-real-launch-database.mjs", group: "local" },
+  { file: "test-rcap-spanish-preparation.mjs", group: "local" },
+  { file: "test-rcap-spanish-fresh-browser.mjs", group: "browser", note: "Fresh seven-field recovery using a separately verified provider response in the existing isolated app" },
+  { file: "test-rcap-spanish-launch-browser.mjs", group: "browser", note: "Real loopback bilingual Save-to-Start journey with explicitly injected provider; live provider verification is separate" },
   { file: "test-rcap-real-launch-browser.mjs", group: "browser", note: "Production-equivalent launch only against disposable loopback partners" },
 
   // --- browser: drives a running application -------------------------------------------

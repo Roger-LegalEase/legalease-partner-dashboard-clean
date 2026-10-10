@@ -38,7 +38,7 @@ export async function getProgramOperations(context:InternalOnboardingContext){
  const issues=[experience.issue,launch.issue,decision.issue,history.issue,exceptionHistory.issue,...policies.map(([,result])=>result.issue)].filter((issue)=>issue!==null);
  const policyMap:Record<string,ProgramDecision|null>={publish_partner_page:decision.value,...Object.fromEntries(policies.map(([action,result])=>[action,result.value]))};
  return {identity,view:experience.value,preflight:launch.value,launchDecision:decision.value,policies:policyMap,decisions:history.value,exceptions:exceptionHistory.value,issues,
-  canStart:Boolean(experience.value&&decision.value&&launch.value?.canAuthorizeStart&&experience.value.version===identity.version&&decision.value.sourceVersion===identity.version&&launch.value.workspaceVersion===identity.version)};
+  canStart:Boolean(experience.value?.materials.length===2&&experience.value.reviewToken&&decision.value&&launch.value?.canAuthorizeStart&&experience.value.version===identity.version&&decision.value.sourceVersion===identity.version&&launch.value.workspaceVersion===identity.version)};
 }
 export async function prepareInternalProgram(context:InternalOnboardingContext){
  if((await getProgramWorkspaceIdentity(context)).policyVersion!=="rcap2.2")throw new Phase1OnboardingError("invalid_transition","Choose Use five-step setup explicitly before preparing standard defaults.");
