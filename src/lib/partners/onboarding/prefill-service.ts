@@ -1,3 +1,4 @@
+import { workspaceReadError } from "./workspace-loading";
 import "server-only";
 
 import crypto from "node:crypto";
@@ -274,7 +275,7 @@ export async function getInternalPrefillSnapshot(
       .order("created_at", { ascending: false })
   ]);
   if (batchesResult.error || valuesResult.error) {
-    throw persistenceError("Prefill suggestions could not be loaded.");
+    throw workspaceReadError("partner_onboarding_prefill_values.read", [valuesResult.error, batchesResult.error], "Prefill suggestions could not be loaded.");
   }
 
   const batches = (batchesResult.data ?? []) as BatchRow[];
@@ -1275,7 +1276,7 @@ async function loadCanonicalWorkspace(
     )
     .eq("partner_slug", partnerSlug)
     .maybeSingle();
-  if (workspaceError) throw persistenceError("The onboarding workspace could not be loaded.");
+  if (workspaceError) throw workspaceReadError("prefill.workspace",workspaceError,"The onboarding workspace could not be loaded.");
   if (!workspaceData) return null;
   const workspace = workspaceData as WorkspaceRow;
   if (!workspace.partner_record_id) {
@@ -1364,7 +1365,7 @@ async function loadCanonicalWorkspace(
     pendingResult
   ];
   if (required.some((result) => result.error)) {
-    throw persistenceError("The onboarding workspace could not be loaded.");
+    throw workspaceReadError("prefill.source",required.map(result=>result.error),"The onboarding workspace could not be loaded.");
   }
   const sections = (sectionsResult.data ?? []) as SectionRow[];
   const contacts = (contactsResult.data ?? []) as Array<{

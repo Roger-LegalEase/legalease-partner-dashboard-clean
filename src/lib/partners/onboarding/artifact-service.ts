@@ -1,3 +1,4 @@
+import { workspaceReadError } from "./workspace-loading";
 import { isRcap2Enabled } from "./feature";
 import { artifactGeneratorVersion } from "./artifact-domain";
 import "server-only";
@@ -91,10 +92,7 @@ export async function loadArtifactSourceInput(
     .maybeSingle();
 
   if (workspaceError) {
-    throw new Phase1OnboardingError(
-      "persistence_failed",
-      "Program setup could not be loaded."
-    );
+    throw workspaceReadError("artifact_source.workspace",workspaceError,"Program setup could not be loaded.");
   }
   const workspace = workspaceRow as Record<string, unknown> | null;
   if (!workspace?.partner_record_id) {
@@ -109,7 +107,7 @@ export async function loadArtifactSourceInput(
   const rcapMaterialFingerprints: Record<string,string> = {};
   if (policyVersion === "rcap2.2") await Promise.all(GENERATABLE_ARTIFACT_TYPES.map(async type => {
     const result = await requireAdmin().rpc("rcap_program_material_scope",{p_workspace:workspaceId,p_type:type});
-    if(result.error) throw new Phase1OnboardingError("persistence_failed","Program source could not be verified.");
+    if(result.error) throw workspaceReadError("rcap_program_material_scope",result.error,"Program source could not be verified.");
     rcapMaterialFingerprints[type]=String(result.data);
   }));
   const [
@@ -194,7 +192,7 @@ export async function loadArtifactSourceInput(
   ]);
 
   if ([sections, contacts, plannedUsers, recipients, assets, agreements, partnerRecord, entitlement].some((result) => result.error)) {
-    throw new Phase1OnboardingError("persistence_failed", "Program setup could not be loaded.");
+    throw workspaceReadError("artifact_source.details",[sections, contacts, plannedUsers, recipients, assets, agreements, partnerRecord, entitlement].map(result=>result.error),"Program setup could not be loaded.");
   }
 
   const sectionRows = (sections.data ?? []) as Array<{
@@ -548,7 +546,7 @@ async function buildBoard(options: {
   ]);
 
   if (artifactsResult.error || versionsResult.error || reviewsResult.error) {
-    throw new Phase1OnboardingError("persistence_failed", "Launch-preparation documents could not be loaded.");
+    throw workspaceReadError("artifact_board.read",[artifactsResult.error,versionsResult.error,reviewsResult.error],"Launch-preparation documents could not be loaded.");
   }
 
   const artifacts = (artifactsResult.data ?? []) as ArtifactRow[];
@@ -691,12 +689,13 @@ export async function getInternalArtifactBoard(
  * needs the source — launch readiness does — pays for one read rather than two.
  */
 export async function loadInternalArtifactBoardWithSource(
-  context: InternalOnboardingContext
+  context: InternalOnboardingContext,
+  options: { readOnly?: boolean } = {}
 ): Promise<{ board: ArtifactBoard; source: ArtifactSourceInput }> {
   assertLaunchPrepEnabled();
   const admin = requireAdmin();
   const source = await loadArtifactSourceInput(admin, context.partnerSlug);
-  const ensured = await admin.rpc("rcap_service_ensure_onboarding_artifacts", {
+  const ensured = options.readOnly ? { error: null } : await admin.rpc("rcap_service_ensure_onboarding_artifacts", {
     p_partner_slug: context.partnerSlug,
     p_workspace_id: source.workspace.id,
     p_generatable_types: [...GENERATABLE_ARTIFACT_TYPES]
@@ -708,7 +707,7 @@ export async function loadInternalArtifactBoardWithSource(
     client: admin,
     partnerSlug: context.partnerSlug,
     audience: "internal",
-    persistInvalidation: true,
+    persistInvalidation: !options.readOnly,
     source
   });
   return { board, source };

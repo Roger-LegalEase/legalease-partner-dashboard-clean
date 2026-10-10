@@ -122,5 +122,6 @@ try{
  assert.equal(await sqlClearance(),false);
  console.log('PASS real launch refuses a stale or withdrawn executed document even with a legacy signed flag');
 
+ await (await import("./test-rcap-workspace-recovery.mjs")).testWorkspaceRecovery(db,id);
  await testProgramPolicy(db,id);
 }finally{await db.close();}

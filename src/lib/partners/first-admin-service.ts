@@ -1,3 +1,4 @@
+import { workspaceReadError } from "./onboarding/workspace-loading";
 import "server-only";
 
 import type { User } from "@supabase/supabase-js";
@@ -1566,7 +1567,7 @@ async function requirePartner(supabase: SupabaseAdmin, partnerSlug: string) {
     .eq("partner_slug", partnerSlug)
     .maybeSingle();
   if (error) {
-    throw persistenceReadFailure();
+    throw workspaceReadError("first_admin_access.read",error,"Administrator access data could not be read right now.");
   }
   if (!data) {
     throw new FirstAdminProvisioningError(
@@ -1587,7 +1588,7 @@ async function hasOnboardingWorkspace(
     .eq("partner_slug", partnerSlug)
     .maybeSingle();
   if (error) {
-    throw persistenceReadFailure();
+    throw workspaceReadError("first_admin_access.read",error,"Administrator access data could not be read right now.");
   }
   return Boolean(data);
 }
@@ -1604,7 +1605,7 @@ async function readInvitation(
     .eq("event_type", invitationEventType)
     .maybeSingle();
   if (error) {
-    throw persistenceReadFailure();
+    throw workspaceReadError("first_admin_access.read",error,"Administrator access data could not be read right now.");
   }
   if (!data) return null;
   return parseFirstAdminInvitationPayload(
@@ -1667,7 +1668,7 @@ async function listActivePartnerAdmins(
     .eq("status", "active")
     .limit(3);
   if (error) {
-    throw persistenceReadFailure();
+    throw workspaceReadError("first_admin_access.read",error,"Administrator access data could not be read right now.");
   }
   return (data ?? []) as PartnerUserRow[];
 }
@@ -1684,7 +1685,7 @@ async function findMembershipByAuthUser(
     .eq("auth_user_id", authUserId)
     .maybeSingle();
   if (error) {
-    throw persistenceReadFailure();
+    throw workspaceReadError("first_admin_access.read",error,"Administrator access data could not be read right now.");
   }
   return data as PartnerUserRow | null;
 }
@@ -1732,7 +1733,7 @@ async function listInvitationHistory(
     .order("created_at", { ascending: false })
     .limit(50);
   if (error) {
-    throw persistenceReadFailure();
+    throw workspaceReadError("first_admin_access.read",error,"Administrator access data could not be read right now.");
   }
   return (data ?? []).map((row) => {
     const payload =

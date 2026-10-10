@@ -646,7 +646,8 @@ check("an unchanged readiness read issues no statement", () => {
   const service = read("src/lib/partners/onboarding/launch-readiness-service.ts");
   // Invalidation runs only when drift was observed *and* something standing
   // would actually change.
-  assert.ok(service.includes("if (standing.length)"));
+  assert.ok(service.includes("if (standing.length && !options.readOnly)"));
+  assert.ok(service.includes("if (!options.readOnly) await recordReadinessTransition"));
   // The readiness event is skipped entirely when the state already matches.
   assert.ok(
     service.includes("if (source.workspace.launchReadinessState === state) return;")

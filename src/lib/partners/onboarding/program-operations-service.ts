@@ -4,25 +4,42 @@ import { getSupabaseAdminClient } from "@/lib/supabase/server";
 import type { InternalOnboardingContext } from "./auth-context";
 import { Phase1OnboardingError } from "./errors";
 import { enableProgramPolicy,getProgramExperience,prepareProgramReview,programDecision,recordProgramDecision } from "./program-experience-service";
+import { getProgramWorkspaceIdentity } from "./program-workspace";
+import { recoverWorkspaceLoad, requireWorkspaceLoad, workspaceReadError } from "./workspace-loading";
 import { getLaunchPreflight } from "./launch-preflight";
 import { executeRealLaunch } from "./synthetic-launch-service";
 import { applyKnownProgramFacts,getInternalPrefillSnapshot,savePreparedProgramValue } from "./prefill-service";
 import type { OnboardingSectionKey } from "./types";
 import { getPartnerSupportContact } from "./support-contact";
-import type { ProgramAction } from "./program-experience";
+import type { ProgramAction, ProgramDecision } from "./program-experience";
 export async function getProgramOperations(context:InternalOnboardingContext){
- const [view,preflight,launchDecision]=await Promise.all([getProgramExperience(context),getLaunchPreflight(context),programDecision(context,"publish_partner_page")]);
- const db=getSupabaseAdminClient()!;
- const [decisions,exceptions]=await Promise.all([
-  db.from("partner_onboarding_launch_approvals").select("id,approval_type,decision,recorded_at,policy_details").eq("workspace_id",view.decision.workspaceId).order("recorded_at",{ascending:false}).limit(30),
-  db.from("rcap_launch_exception_events").select("id,kind,grant_id,requirement_keys,requested_action,resolution,reason,expires_at,dependency_hashes").eq("workspace_id",view.decision.workspaceId).eq("policy_version","rcap2.2").order("created_at",{ascending:false}).limit(100)
+ const identity=await requireWorkspaceLoad("operations.identity","getProgramWorkspaceIdentity",()=>getProgramWorkspaceIdentity(context));
+ const [experience,launch,decision]=await Promise.all([
+  recoverWorkspaceLoad("operations.experience","getProgramExperience","Program details are temporarily unavailable. Reload to retry.",()=>getProgramExperience(context)),
+  recoverWorkspaceLoad("operations.preflight","getLaunchPreflight","Launch readiness is unavailable. Preparation remains available; Start program is disabled. Reload to retry.",()=>getLaunchPreflight(context)),
+  recoverWorkspaceLoad("operations.policy","rcap_service_evaluate_program","Program authority could not be verified. Privileged actions are disabled. Reload to retry.",()=>programDecision(context,"publish_partner_page"))
  ]);
- if(decisions.error||exceptions.error)throw new Phase1OnboardingError("persistence_failed","Program decisions could not be loaded.");
- const policies=await Promise.all((["publish_partner_page","publish_clinic","view_reporting"] as const).map(async action=>[action,await programDecision(context,action)] as const));
- return {view,preflight,launchDecision,policies:Object.fromEntries(policies),decisions:decisions.data??[],exceptions:exceptions.data??[]};
+ for(const value of [experience.value?.decision,decision.value])if(value&&(value.workspaceId!==identity.workspaceId||value.partnerSlug!==identity.partnerSlug))throw new Phase1OnboardingError("forbidden","Program identity does not match this workspace.");
+ const db=getSupabaseAdminClient()!;
+ const [history,exceptionHistory]=await Promise.all([
+  recoverWorkspaceLoad("operations.decisions","partner_onboarding_launch_approvals.read","Authorization history is unavailable. Reload to retry.",async()=>{
+   const result=await db.from("partner_onboarding_launch_approvals").select("id,approval_type,decision,recorded_at,policy_details").eq("workspace_id",identity.workspaceId).order("recorded_at",{ascending:false}).limit(30);
+   if(result.error)throw workspaceReadError("partner_onboarding_launch_approvals.read",result.error,"Authorization history is unavailable.");return result.data??[];
+  }),
+  recoverWorkspaceLoad("operations.exceptions","rcap_launch_exception_events.read","Exception history is unavailable. Reload to retry.",async()=>{
+   const result=await db.from("rcap_launch_exception_events").select("id,kind,grant_id,requirement_keys,requested_action,resolution,reason,expires_at,dependency_hashes").eq("workspace_id",identity.workspaceId).eq("policy_version","rcap2.2").order("created_at",{ascending:false}).limit(100);
+   if(result.error)throw workspaceReadError("rcap_launch_exception_events.read",result.error,"Exception history is unavailable.");return result.data??[];
+  })
+ ]);
+ const policies=await Promise.all((["publish_clinic","view_reporting"] as const).map(async action=>[action,await recoverWorkspaceLoad(`operations.policy.${action}`,"rcap_service_evaluate_program","Some business decisions are unavailable. Reload to retry.",()=>programDecision(context,action))] as const));
+ if(launch.value&&(launch.value.workspaceId!==identity.workspaceId||launch.value.partnerSlug!==identity.partnerSlug))throw new Phase1OnboardingError("forbidden","Launch identity does not match this workspace.");
+ const issues=[experience.issue,launch.issue,decision.issue,history.issue,exceptionHistory.issue,...policies.map(([,result])=>result.issue)].filter((issue)=>issue!==null);
+ const policyMap:Record<string,ProgramDecision|null>={publish_partner_page:decision.value,...Object.fromEntries(policies.map(([action,result])=>[action,result.value]))};
+ return {identity,view:experience.value,preflight:launch.value,launchDecision:decision.value,policies:policyMap,decisions:history.value,exceptions:exceptionHistory.value,issues,
+  canStart:Boolean(experience.value&&decision.value&&launch.value?.canAuthorizeStart&&experience.value.version===identity.version&&decision.value.sourceVersion===identity.version&&launch.value.workspaceVersion===identity.version)};
 }
 export async function prepareInternalProgram(context:InternalOnboardingContext){
- await enableProgramPolicy(context);
+ if((await getProgramWorkspaceIdentity(context)).policyVersion!=="rcap2.2")throw new Phase1OnboardingError("invalid_transition","Choose Use five-step setup explicitly before preparing standard defaults.");
  await applyKnownProgramFacts(context,{requestId:randomUUID()});
  let snapshot=await getInternalPrefillSnapshot(context);
  const name=String(snapshot.currentValues?.public_organization_name??snapshot.currentValues?.legal_organization_name??"Your organization");
@@ -44,16 +61,26 @@ export async function prepareInternalProgram(context:InternalOnboardingContext){
 function childRequest(request:string,purpose:string){const h=createHash("sha256").update(`${request}:${purpose}`).digest("hex");return `${h.slice(0,8)}-${h.slice(8,12)}-4${h.slice(13,16)}-8${h.slice(17,20)}-${h.slice(20,32)}`;}
 export async function runProgramOperation(context:InternalOnboardingContext,body:Record<string,unknown>,requestId:string){
  const db=getSupabaseAdminClient()!;
+ if(body.action==="upgrade_policy"){await enableProgramPolicy(context,{confirmed:body.confirmed===true,requestId,expectedVersion:Number(body.version)});return;}
  if(body.action==="prepare"){await prepareInternalProgram(context);return;}
  if(body.action==="review"){await prepareProgramReview(context);return;}
  if(body.action==="start"){
   if(body.confirmed!==true)throw new Phase1OnboardingError("invalid_input","Review the program and its genuine authority before starting.");
+  const identity=await getProgramWorkspaceIdentity(context);
   // The immutable receipt is the recovery authority after a lost response.
   const prior=await db.from("rcap_launch_operation_events").select("snapshot_hash").eq("partner_slug",context.partnerSlug).eq("request_id",requestId).eq("step","prepared").maybeSingle();
   if(prior.error)throw new Phase1OnboardingError("persistence_failed","The previous publication could not be checked.");
   if(prior.data){await executeRealLaunch(context,{requestId,snapshotHash:prior.data.snapshot_hash,confirmed:true});return;}
+  if(body.version!==identity.version)throw new Phase1OnboardingError("revision_conflict","The program changed. Reload before starting.");
+  if(identity.policyVersion==="legacy"){
+   const preflight=await getLaunchPreflight(context);
+   if(!preflight.canLaunch)throw new Phase1OnboardingError("invalid_transition",preflight.heldReason??"The program cannot start yet.");
+   await executeRealLaunch(context,{requestId,snapshotHash:preflight.snapshotHash,confirmed:true});return;
+  }
  }
  const current=await programDecision(context,"publish_partner_page");
+ if(current.policyVersion!=="rcap2.2")throw new Phase1OnboardingError("invalid_transition","This operation requires an explicit five-step policy upgrade.");
+ if(body.action==="start"){const preflight=await getLaunchPreflight(context);if(!preflight.canAuthorizeStart)throw new Phase1OnboardingError("invalid_transition",preflight.heldReason??"Current launch authority is unavailable.");}
  if(body.version!==current.sourceVersion||body.scopeHash!==current.scopeHash)throw new Phase1OnboardingError("revision_conflict","This program changed. Reload and review the current details.");
  if(body.action==="delegate"||body.action==="start"||body.action==="withdraw_delegation"||body.action==="revoke_authority"){
   const type=body.action==="revoke_authority"?"commercial_revocation":body.action==="start"?"legalease_final_review":"standing_launch_authorization";
