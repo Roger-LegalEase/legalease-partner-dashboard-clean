@@ -1,4 +1,4 @@
-import { standardProgramSpanish } from "./program-defaults";
+import { standardProgramSpanish, programGeographyIssue, PROGRAM_JURISDICTIONS, SPANISH_FIELDS, publicCopySource } from "./program-defaults";
 import { artifactGeneratorVersion } from "./artifact-domain";
 import { isReferralFieldActive, referralPolicyExplanation, REFERRAL_ARRANGEMENT_LABELS } from "./referral-policy";
 import {
@@ -56,6 +56,7 @@ export type PagePreviewAsset = {
 };
 
 export type CoBrandedPagePreview = {
+  authorizedJurisdictions?: Array<{code:string;name:string}>;
   spanishEnabled?: boolean;
   spanish?: Partial<Record<"headline"|"subheadline"|"organizationDescription"|"primaryActionLabel"|"participantSupportCopy"|"serviceArea"|"targetAudience",string>>;
   publicName: PagePreviewField;
@@ -1936,6 +1937,7 @@ function configuredField(
   sectionKey: OnboardingSectionKey,
   dataKey: string
 ): PagePreviewField {
+  if (ctx.input.workspace.rcapPolicyVersion === "rcap2.2" && ctx.input.workspace.operatingModel === "legalease_managed") return partnerField(ctx, key, sectionKey, dataKey, text(ctx, sectionKey, dataKey));
   const legalEase = normalizeText(legalEaseValue);
   if (legalEase) return legalEaseField(key, fieldLabel, legalEase);
   return partnerField(ctx, key, sectionKey, dataKey, text(ctx, sectionKey, dataKey));
@@ -1995,14 +1997,27 @@ function languageAvailability(ctx: Ctx): string | null {
  * render from. It publishes nothing: there is no publication call here, no URL
  * is minted, and approving this artifact makes no page live.
  */
+export function programPageIssues(input: ArtifactSourceInput, page?: CoBrandedPagePreview | null): string[] {
+ const issues=Array.isArray(page?.missing)?page.missing.map(item=>item.label):["Participant Page content could not be verified."];
+ const geography=programGeographyIssue(input.data);
+ if(geography)issues.push(geography);
+ if(input.data.geography_audience_language_accessibility?.enable_spanish && Object.keys(SPANISH_FIELDS).some(key=>!page?.spanish?.[key as keyof typeof SPANISH_FIELDS]?.trim()))issues.push("Spanish content is incomplete. Update Materials includes Spanish preparation.");
+ if(input.workspace.operatingModel==="legalease_managed" && page) {
+  if(page.publicName?.value!==input.data.organization_contacts?.public_organization_name || page.programName?.value!==input.data.organization_contacts?.public_program_name)issues.push("Participant Page identity must match the saved organization and program.");
+  for(const key of Object.keys(SPANISH_FIELDS) as Array<keyof typeof SPANISH_FIELDS>)if(page[key]?.value!==publicCopySource(input.data).english[key]){issues.push("Participant Page must be updated to match the saved public copy.");break;}
+ }
+ return [...new Set(issues)];
+}
+
 export function renderCoBrandedPageConfiguration(
   input: ArtifactSourceInput
 ): RenderedDocument {
   const ctx: Ctx = { input, gaps: 0 };
 
   const preview: CoBrandedPagePreview = {
+    authorizedJurisdictions: (input.data.geography_audience_language_accessibility?.jurisdictions??[]).map(code=>({code,name:PROGRAM_JURISDICTIONS[code]??code})),
     spanishEnabled: input.data.geography_audience_language_accessibility?.enable_spanish === true,
-    spanish: input.workspace.operatingModel === "legalease_managed" ? standardProgramSpanish(input.data) : {headline: text(ctx,"brand_public_page","program_headline_es") ?? undefined,subheadline: text(ctx,"brand_public_page","program_subheadline_es") ?? undefined,organizationDescription: text(ctx,"brand_public_page","approved_organization_description_es") ?? undefined,primaryActionLabel: text(ctx,"brand_public_page","primary_cta_label_es") ?? undefined,participantSupportCopy: text(ctx,"brand_public_page","participant_support_copy_es") ?? undefined,serviceArea: text(ctx,"brand_public_page","service_area_es") ?? undefined,targetAudience: text(ctx,"brand_public_page","target_audience_es") ?? undefined},
+    spanish: input.workspace.rcapPolicyVersion === "rcap2.2" ? standardProgramSpanish(input.data) : {headline: text(ctx,"brand_public_page","program_headline_es") ?? undefined,subheadline: text(ctx,"brand_public_page","program_subheadline_es") ?? undefined,organizationDescription: text(ctx,"brand_public_page","approved_organization_description_es") ?? undefined,primaryActionLabel: text(ctx,"brand_public_page","primary_cta_label_es") ?? undefined,participantSupportCopy: text(ctx,"brand_public_page","participant_support_copy_es") ?? undefined,serviceArea: text(ctx,"brand_public_page","service_area_es") ?? undefined,targetAudience: text(ctx,"brand_public_page","target_audience_es") ?? undefined},
     publicName: configuredField(
       ctx,
       "public_name",
@@ -2136,7 +2151,7 @@ export function renderCoBrandedPageConfiguration(
 
   const missing: Array<{ label: string; whereToSet: string }> = [];
   if(input.data.geography_audience_language_accessibility?.enable_spanish) {
-    for(const key of ["headline", "subheadline", "organizationDescription", "primaryActionLabel", "participantSupportCopy", "serviceArea", "targetAudience"] as const) if(!preview.spanish?.[key]) missing.push({label:`Spanish ${key}`,whereToSet:"Program setup → Your page → Spanish page content"});
+    for(const key of ["headline", "subheadline", "organizationDescription", "primaryActionLabel", "participantSupportCopy", "serviceArea", "targetAudience"] as const) if(!preview.spanish?.[key]) missing.push({label:`Spanish ${key}`,whereToSet:"Preview → Update Materials (includes Spanish preparation)"});
   }
   for (const field of [
     preview.publicName,
@@ -2160,6 +2175,8 @@ export function renderCoBrandedPageConfiguration(
       whereToSet: preview.logo.whereToSet
     });
   }
+  const geographyIssue=programGeographyIssue(input.data);
+  if(geographyIssue)missing.push({label:geographyIssue,whereToSet:"Configure program → Service area description"});
   preview.missing = missing;
   ctx.gaps += missing.length;
 

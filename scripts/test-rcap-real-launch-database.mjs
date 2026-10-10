@@ -127,4 +127,5 @@ try{
  await (await import("./test-rcap2-program-configuration.mjs")).testProgramConfiguration(db,id);
  await testProgramPolicy(db,id);
  await (await import('./test-rcap-operating-rights.mjs')).testOperatingRights(db,id);
+ await (await import('./test-rcap-spanish-database.mjs')).testSpanishPreparation(db,id);
 }finally{await db.close();}

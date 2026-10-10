@@ -301,6 +301,8 @@ export type AccessSponsorshipCapacitySectionData = {
 };
 
 export type BrandPublicPageSectionData = {
+  // Written only by the actor-checked preparation RPC, never a browser field.
+  spanish_preparation?: import("./program-defaults").SpanishPreparation;
   program_headline_es?: string;
   program_subheadline_es?: string;
   approved_organization_description_es?: string;

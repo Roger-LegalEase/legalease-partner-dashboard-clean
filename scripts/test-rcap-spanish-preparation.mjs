@@ -1,0 +1,19 @@
+import assert from 'node:assert/strict';import {register} from 'node:module';
+register('./lib/ts-esm-loader.mjs',import.meta.url);
+const {standardProgramSpanish,approvedProgramSpanish,publicCopySource,programGeographyIssue,SPANISH_FIELDS}=await import('../src/lib/partners/onboarding/program-defaults.ts');
+const {validateSpanishDraft}=await import('../src/lib/partners/onboarding/program-spanish-provider.ts');
+const data={organization_contacts:{public_organization_name:'Fictional Recovery',public_program_name:'Fictional Recovery'},program_goals:{service_mode:'screening_only',target_population:'Residents seeking screening.'},geography_audience_language_accessibility:{jurisdictions:['CA'],service_area_description:'California',enable_spanish:true},brand_public_page:{program_headline:'Fictional Recovery screening',program_subheadline:'Screening does not guarantee eligibility.',approved_organization_description:'Fictional Recovery serves California.',primary_cta_label:'Begin screening',participant_support_copy:'Contact help@example.test. No representation is provided.'}};
+const copy={headline:'Evaluación de Fictional Recovery',subheadline:'La evaluación no garantiza la elegibilidad.',organizationDescription:'Fictional Recovery atiende a California.',primaryActionLabel:'Comenzar evaluación',participantSupportCopy:'Contacte con help@example.test. No se proporciona representación.',serviceArea:'California',targetAudience:'Residentes que buscan una evaluación.'};
+validateSpanishDraft(publicCopySource(data),copy,Object.keys(SPANISH_FIELDS));
+for(const [key,value]of Object.entries(copy))data.brand_public_page[SPANISH_FIELDS[key]]=value;
+assert.equal(standardProgramSpanish(data).headline,undefined,'unbound strings do not establish source currency');
+data.brand_public_page.spanish_preparation={source:structuredClone(publicCopySource(data)),copy:structuredClone(copy)};
+assert.deepEqual(standardProgramSpanish(data),copy);
+const edited=structuredClone(data);edited.brand_public_page.program_headline+=' today';assert.equal(standardProgramSpanish(edited).headline,undefined);assert.equal(standardProgramSpanish(edited).subheadline,copy.subheadline);
+for(const enabled of [false,true]){data.geography_audience_language_accessibility.enable_spanish=enabled;assert.deepEqual(standardProgramSpanish(data),copy);}
+const standard=structuredClone(data);standard.brand_public_page.program_headline='Explore your record-clearing options';assert.equal(standardProgramSpanish(standard).headline,approvedProgramSpanish(standard).headline);
+for(const [english,spanish]of [['Free screening for 2 days','Evaluación gratuita durante 3 días'],['Contact help@example.test. No representation is provided.','Contacte con other@example.test. No se proporciona representación.'],['Screening does not guarantee eligibility.','La evaluación garantiza la elegibilidad.'],['Fictional Recovery screening','Otra organización ofrece evaluación'],['Begin screening','Garantizamos la eliminación de antecedentes.'],['Begin screening','Evaluación en Texas']]){
+ const source=publicCopySource(data);source.english.headline=english;assert.throws(()=>validateSpanishDraft(source,{headline:spanish},['headline']));
+}
+assert.equal(programGeographyIssue(data),null);data.geography_audience_language_accessibility.service_area_description='Multi-State';assert.match(programGeographyIssue(data),/California/);data.geography_audience_language_accessibility.jurisdictions=['CA','NY'];assert.equal(programGeographyIssue(data),null);data.geography_audience_language_accessibility.service_area_description='Nationwide';assert.ok(programGeographyIssue(data));
+console.log('PASS approved standards, source-matched reuse, per-field invalidation, Spanish toggle, identity/number/support/limitation/jurisdiction validation and geography discrepancy');

@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "prebuild": "node scripts/check-rcap-spanish-provider.mjs",
     "start": "next start",
     "start:hosted-preview": "VERCEL_ENV=preview VERCEL_TARGET_ENV=preview STRIPE_SECRET_KEY=\"$HOSTED_STRIPE_TEST_SECRET\" STRIPE_WEBHOOK_SECRET=\"$HOSTED_STRIPE_TEST_WEBHOOK_SECRET\" next start",
     "lint": "eslint",

@@ -36,6 +36,7 @@ export function CoBrandedPageView({ preview: sourcePreview, variant, logoSrc, he
         </div><div className="flex flex-wrap items-center gap-3"><span className="rounded-full bg-[#EEF7F6] px-4 py-2 text-xs font-bold text-[#0A6E77]">{es ? "Empiece con una evaluación gratuita" : "Free screening to start"}</span><div role="group" aria-label={es ? "Idioma de la página" : "Page language"} className="flex gap-1">{(["en", ...(spanishAvailable?["es" as const]:[])] as const).map(language => <button key={language} type="button" aria-pressed={locale === language} onClick={() => setLocale(language)} className="inline-flex min-h-11 items-center rounded-md border border-[#C6D5DE] px-3 text-sm font-bold focus-visible:ring-4 focus-visible:ring-teal">{language === "es" ? "Español" : "English"}</button>)}</div></div></div>
       </header>
     </OwnershipGroup>
+    {preview.authorizedJurisdictions?.length ? <p className="border-b px-5 py-3 text-sm" data-authorized-jurisdictions={preview.authorizedJurisdictions.map(j=>j.code).join(",")}>{es ? "Jurisdicciones autorizadas para la evaluación" : "Authorized screening jurisdictions"}: {preview.authorizedJurisdictions.map(j=>j.name).join(", ")}</p> : null}
     <OwnershipGroup enabled={ownershipReview} label="Partner supplied" tone="teal">
       <main>
         <section data-rcap-brand={!preview.showPartnerLogo ? "text" : undefined} className="relative overflow-hidden bg-[#071B33] text-white">
