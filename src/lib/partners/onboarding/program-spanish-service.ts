@@ -44,7 +44,7 @@ export async function prepareProgramSpanish(context: InternalOnboardingContext |
   reserved=true;
  }
  try {
-  if(missing.length)Object.assign(resolved,await draftProgramSpanish(source,missing));
+  if(missing.length)Object.assign(resolved,await draftProgramSpanish(source,missing,requestId));
   const copy=resolved as PublicCopy;
   validateSpanishDraft(source,copy,missing);
   if(keys.some(key=>!copy[key]?.trim()))throw new Phase1OnboardingError("invalid_input","Spanish content is incomplete. Retry Update Materials.");

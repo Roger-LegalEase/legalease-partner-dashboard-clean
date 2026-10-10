@@ -19,5 +19,7 @@ if(process.env.RCAP_VERIFY_SPANISH_PROVIDER==='true') {
  const copy=await draftProgramSpanish(source,Object.keys(source.english));
  if(requests.length!==1 || requests[0].status!==200 || !requests[0].requestId)throw new Error('A genuine OpenAI response receipt is required');
  if(Object.keys(copy).length!==7)throw new Error('Seven actual provider fields are required');
- console.log('RCAP_SPANISH_PROVIDER_VERIFIED '+JSON.stringify({environment:process.env.VERCEL_ENV,sourceSha:process.env.VERCEL_GIT_COMMIT_SHA,requests,model:process.env.RCAP_TRANSLATION_OPENAI_MODEL||'gpt-4.1-mini',source,copy,fields:7,validated:true,store:false,databaseWrites:0,databaseContacted:false,databaseTargetIsProduction:new URL(process.env.NEXT_PUBLIC_SUPABASE_URL||"https://unconfigured.invalid").hostname==="wwtwtsmywnckfkdaqqeg.supabase.co",probe:'real server module executed inside Vercel build environment'}));
+ const {createHash}=await import('node:crypto');
+ // Provider evidence in logs is metadata only, even for synthetic public copy.
+ console.log('RCAP_SPANISH_PROVIDER_VERIFIED '+JSON.stringify({environment:process.env.VERCEL_ENV,sourceSha:process.env.VERCEL_GIT_COMMIT_SHA,requests,model:process.env.RCAP_TRANSLATION_OPENAI_MODEL||'gpt-4.1-mini',sourceHash:createHash('sha256').update(JSON.stringify(source)).digest('hex'),translationHash:createHash('sha256').update(JSON.stringify(copy)).digest('hex'),fields:7,validated:true,store:false,databaseWrites:0,databaseContacted:false,databaseTargetIsProduction:new URL(process.env.NEXT_PUBLIC_SUPABASE_URL||"https://unconfigured.invalid").hostname==="wwtwtsmywnckfkdaqqeg.supabase.co",probe:'real server module executed inside Vercel build environment'}));
 }
