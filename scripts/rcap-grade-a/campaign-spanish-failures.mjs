@@ -13,7 +13,7 @@ checked(await db.rpc('rcap_service_ensure_onboarding_artifacts',{p_partner_slug:
 write('server/spanish-failure-fixture.json',{slug,workspace,actor});
 
 const a=await actorBrowser('admin'),p=a.page,endpoint=origin+'/api/internal/partners/onboarding/phase1/'+slug;
-const modePath=out+'/isolated-failure-mode.json';const modes=[['unavailable',['A-T17'],'provider_request'],['unavailable',['A-T18'],'provider_request'],['schema',['A-T19'],'invalid_schema'],['semantic',['A-T20'],'unsupported_claim']];
+const modePath=out+'/isolated-failure-mode.json';const modes=[['unavailable',['A-T16','A-T17'],'provider_request'],['unavailable',['A-T18'],'provider_request'],['schema',['A-T19'],'invalid_schema'],['semantic',['A-T20'],'unsupported_claim']];
 const artifactRows=()=>db.from('partner_onboarding_artifact_versions').select('id,artifact_id,version_number').eq('workspace_id',workspace).then(checked);
 try{
  for(const artifactType of ['implementation_brief','co_branded_page_configuration']){const r=await a.context.request.post(endpoint+'/artifacts',{headers:{origin},data:{action:'generate',requestId:randomUUID(),payload:{artifactType}}});assert.equal(r.status(),200,await r.text());}
@@ -22,7 +22,7 @@ try{
  await record(a,['A-T24'],['Open existing Summary and incomplete bilingual Page','View Summary','Locate Final Review and precise update action'],'Current Summary and incomplete Page remain visible; final review is present and publication is blocked.',{fixture:slug,versions:before});
  for(const [mode,ids,code]of modes){
   fs.writeFileSync(modePath,JSON.stringify({mode}));
-  const save=mode==='unavailable'&&ids[0]==='A-T17';const response=p.waitForResponse(r=>r.request().method()==='POST'&&r.url().endsWith(save?'/configuration':'/program'));
+  const save=mode==='unavailable'&&ids.includes('A-T17');const response=p.waitForResponse(r=>r.request().method()==='POST'&&r.url().endsWith(save?'/configuration':'/program'));
   await p.getByRole('button',{name:save?'Save program':/^(Retry Update Materials|Update Materials)$/,exact:save}).click();const r=await response,body=await r.json();if(save){assert.equal(r.status(),200);assert.ok(body.preparationError?.includes(code),JSON.stringify(body.preparationError));}else{assert.ok(r.status()>=400);assert.match(body.error,new RegExp(code));}
   await p.getByText('Failed — preparation did not complete.',{exact:true}).waitFor();assert.deepEqual(await artifactRows(),before);assert.equal(await p.getByRole('button',{name:'Start Program',exact:true}).count(),0);assert.equal(await p.getByText('Ready — both materials are complete and current.',{exact:true}).count(),0);
   const readback=checked(await db.rpc('rcap_service_get_program_configuration',{p_slug:slug,p_actor:actor}));assert.deepEqual(readback.data.brand_public_page.program_headline,en.headline);assert.equal(readback.data.brand_public_page.program_headline_es,'');

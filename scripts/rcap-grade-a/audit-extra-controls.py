@@ -3,6 +3,21 @@ import os
 root=pathlib.Path(os.environ['RCAP_CAMPAIGN_DIR'])
 rows=[json.loads(l) for l in (root/'control-ledger.jsonl').read_text().splitlines() if not json.loads(l)['controlId'].startswith('EXTRA-')]
 census=json.loads((root/'controls/retained-census.json').read_text())
+pages=[dict(page, censusEvidence='controls/retained-census.json', sourceIdentity=census['sourceIdentity']) for page in census['pages']]
+expanded=root/'controls/wilma-expanded-census.json'
+if expanded.exists():
+ observed=json.loads(expanded.read_text())
+ pages.extend(dict(page, censusEvidence='controls/wilma-expanded-census.json', sourceIdentity=observed['sourceIdentity']) for page in observed['pages'])
+# These conditional controls appeared only after expanding the panel or receiving a
+# reply. The retained actual-action receipt proves their presence and interaction.
+wilma=root/'controls/wilma.json'
+if wilma.exists():
+ receipt=json.loads(wilma.read_text())
+ proven={label for proof in receipt.get('proofs',[]) if proof.get('result')=='PASS' for label in proof['controls']}
+ conditional=[]
+ if 'Collapse chat' in proven:conditional.append({'tag':'BUTTON','type':'button','name':'Collapse chat','href':None,'disabled':False})
+ if 'Report a Wilma issue' in proven:conditional.append({'tag':'A','type':None,'name':'Report a Wilma issue','href':'/expungement-ai/support?category=wilma','disabled':False})
+ pages.append({'role':'participant','route':'/briefcase/settings','controls':conditional,'censusEvidence':'controls/wilma.json','sourceIdentity':receipt['sourceIdentity']})
 def norm(s):return re.sub(r'[^a-z0-9]+',' ',s.lower()).strip()
 def family(route):
  route=re.sub(r'[0-9a-f]{8}-[0-9a-f-]{27,36}','[id]',route)
@@ -57,13 +72,13 @@ def mapping(page,c):
    if any(norm(x)==n or len(norm(x))>8 and n.startswith(norm(x)+' ') for x in labels):return r['controlId']
  return None
 mapped=[];extra={}
-for page in census['pages']:
+for page in pages:
  for c in page['controls']:
   ident=mapping(page,c)
   observed={**c,'route':page['route'],'actor':page['role']}
   if ident:mapped.append({'controlId':ident,**observed});continue
   name=c['name'];href=c['href'];key=json.dumps([page['role'],family(page['route']),name,family(href) if href else None,c['tag'],c['type']],sort_keys=True)
-  if key not in extra:extra[key]={'controlId':'EXTRA-'+hashlib.sha256(key.encode()).hexdigest()[:10].upper(),'actualRoute':family(page['route']),'actor':page['role'],'currentLabel':name,'type':c['type'],'tag':c['tag'],'href':family(href) if href else None,'disposition':'FAIL','result':'VERIFICATION_PENDING','reason':'Retained control requires individual mapping or browser proof. Observation is not acceptance.','evidence':['controls/retained-census.json'],'sourceIdentity':census['sourceIdentity'],'instances':[]}
+  if key not in extra:extra[key]={'controlId':'EXTRA-'+hashlib.sha256(key.encode()).hexdigest()[:10].upper(),'actualRoute':family(page['route']),'actor':page['role'],'currentLabel':name,'type':c['type'],'tag':c['tag'],'href':family(href) if href else None,'disposition':'FAIL','result':'VERIFICATION_PENDING','reason':'Retained control requires individual mapping or browser proof. Observation is not acceptance.','evidence':[page['censusEvidence']],'censusEvidence':page['censusEvidence'],'sourceIdentity':page['sourceIdentity'],'instances':[]}
   extra[key]['instances'].append(observed)
 (root/'controls/rendered-control-bindings.json').write_text(json.dumps({'sourceIdentity':census['sourceIdentity'],'mapped':mapped,'extraCount':len(extra)},indent=2))
 # Every extra stays separate until an actual proof or explicit disposition is bound.

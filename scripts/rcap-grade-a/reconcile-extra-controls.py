@@ -9,7 +9,7 @@ def read(name):
  return json.loads(p.read_text()) if p.exists() else {'proofs':[]}
 nav=read('extra-navigation');inputs=read('extra-inputs');disclosures=read('extra-disclosures');wilma=read('wilma')
 def proven(row,evidence,reason,disposition='IMPLEMENTED_AND_VERIFIED',result='PASS'):
- row.update(disposition=disposition,result=result,reason=reason,evidence=list(dict.fromkeys(['controls/retained-census.json']+evidence)),reviewedBy='implementation_agent',independentBlindReview=False)
+ row.update(disposition=disposition,result=result,reason=reason,evidence=list(dict.fromkeys([row.get('censusEvidence','controls/retained-census.json')]+evidence)),reviewedBy='implementation_agent',independentBlindReview=False)
 def original(row,id,reason):
  c=controls[id];proven(row,c['evidence'],reason+' Original map control: '+id,'CONSOLIDATED_TO:'+id,c['result'])
 def case(row,id,reason):
@@ -17,6 +17,7 @@ def case(row,id,reason):
  if c['result']=='PASS':proven(row,c['evidence'],reason)
 for r in rows:
  label,actor,route=r['currentLabel'],r['actor'],r['actualRoute']
+ r.update(result='VERIFICATION_PENDING',disposition='FAIL')
  r['reason']='Keep existing control. Actual action verification remains pending; rendered observation is insufficient.'
  # Same shared component control may appear on several pages. Preserve every observed instance.
  for proof in nav['proofs']:
@@ -42,6 +43,12 @@ for r in rows:
  if label in ['English','Español'] and route.startswith('/intake/'):case(r,'U-T05','Keep actual EN/ES intake control; the mobile Spanish code and participant journey preserve selected locale.')
  if label in ['Ask Wilma'] and wilma.get('result')=='PASS':
   proven(r,['controls/wilma.json'],'Keep: actual panel open/close, message submit, deterministic unavailable-provider response and saved report were exercised. This is not genuine Wilma-provider acceptance.')
+ if actor=='participant' and label=='Ask Wilma about next steps' and read('wilma-matter-link').get('result')=='PASS':
+  proven(r,['controls/wilma-matter-link.json'],'Keep: actual matter-specific link opens the panel and focuses its input, including reopening after close with the same URL hash.')
+ if actor=='participant':
+  for proof in wilma.get('proofs',[]):
+   if label in proof['controls'] and proof.get('result') in ['PASS','PASS_FALLBACK_ONLY']:
+    proven(r,['controls/wilma.json'],'Keep: '+proof['action']+'. Message submission proves the protected fallback, not genuine AI output.')
  if label=='Check my options':case(r,'U-T07','Keep existing entry to the actual nationwide screening journey; no extra program admission is performed by navigation audit.')
  if r['result']=='VERIFICATION_PENDING':r['disposition']='FAIL'
 (root/'extra-control-ledger.jsonl').write_text('\n'.join(json.dumps(r) for r in rows)+'\n')

@@ -1,3 +1,4 @@
+import { sha, sourceIdentity, root as campaignRoot } from './campaign-support.mjs';
 // Development investigation through real local controls; not final acceptance.
 import { chromium } from 'playwright';
 import assert from 'node:assert/strict';
@@ -7,12 +8,12 @@ const origin = 'http://127.0.0.1:3100';
 assert.equal(process.env.NEXT_PUBLIC_SUPABASE_URL, 'http://127.0.0.1:54321');
 assert.notEqual(process.env.VERCEL_ENV, 'production');
 const access = JSON.parse(fs.readFileSync('/workspaces/training-modules-09-10/output/rcap-practice-access.json'));
-const resume = process.env.RCAP_RESUME_PARTNER === 'true' ? JSON.parse(fs.readFileSync('artifacts/rcap-grade-a-final/ba81792225d6d82ef57c104061e9d5eb9d7db395/server/partner-development-access.private.json')) : null;
+const resume = process.env.RCAP_RESUME_PARTNER === 'true' ? JSON.parse(fs.readFileSync(`${campaignRoot}/server/partner-development-access.private.json`)) : null;
 const slug = resume?.slug ?? `integrated-partner-${Date.now().toString(36)}`;
 const email = resume?.email ?? `${slug}@example.test`;
 const password = resume?.password ?? `Isolated!9-${randomUUID()}`;
-const folder = 'artifacts/rcap-grade-a-final/ba81792225d6d82ef57c104061e9d5eb9d7db395';
-const receipt = {kind:'DEVELOPMENT_CHECK_NOT_FINAL_ACCEPTANCE',slug,stages:[],result:'RUNNING'};
+const folder = campaignRoot;
+const receipt = {kind:'INTEGRATED_CAMPAIGN_REPLAY',slug,stages:[],result:'RUNNING'};
 const browser = await chromium.launch();
 const admin = await browser.newContext();
 const page = await admin.newPage();
@@ -41,7 +42,7 @@ try {
   const response=await created;
   assert.equal(response.status(),200,JSON.stringify(await response.json()));
   await page.waitForURL(url=>url.pathname===`/internal/partners/onboarding/${slug}`);
-  receipt.stages.push('Created from approved template through application');
+  await captureStage('Created from approved template through application');
   await page.locator('#program-team > summary').click();
   await page.getByRole('button',{name:'Create administrator invitation',exact:true}).click();
   await page.getByRole('button',{name:'Review administrator access',exact:true}).click();
@@ -55,7 +56,7 @@ try {
   const link=/href="([^"]*\/partner\/setup\?token=[^"]+)"/.exec(full.HTML)?.[1];
   assert.ok(link);
   assert.equal(new URL(link).origin,origin);
-  receipt.stages.push('Reviewed invitation delivered to actual isolated Mailpit recipient');
+  await captureStage('Reviewed invitation delivered to actual isolated Mailpit recipient');
   const partner=await browser.newContext();
   active=await partner.newPage();active.setDefaultTimeout(60000);
   await active.goto(link);
@@ -64,7 +65,7 @@ try {
   await active.getByRole('button',{name:'Set password',exact:true}).click();
   await active.waitForURL(url=>url.pathname==='/partner/onboarding');
   fs.writeFileSync(`${folder}/server/partner-development-access.private.json`,JSON.stringify({slug,email,password}),{mode:0o600});
-  receipt.stages.push('Actual invitation claim and password setup established scoped partner membership');
+  await captureStage('Actual invitation claim and password setup established scoped partner membership');
  } else {
   active=await (await browser.newContext()).newPage(); active.setDefaultTimeout(60000);
   await active.goto(`${origin}/sign-in?next=/partner/onboarding`);
@@ -81,7 +82,7 @@ try {
     await active.getByRole('button',{name:action,exact:true}).click();
     await active.getByRole('button',{name:/^\d\s*Join$/}).waitFor();
     await active.waitForFunction(()=>!Array.from(document.querySelectorAll('button')).find(b=>/^1\s*Join$/.test(b.textContent??''))?.disabled);
-    receipt.stages.push(`Completed ${step} through its visible action`);
+    await captureStage(`Completed ${step} through its visible action`);
   }
   await active.getByRole('heading',{name:'Final review & program confirmation',exact:true}).waitFor();
   const view=await active.evaluate(async()=>{const r=await fetch('/api/partners/onboarding/program');return (await r.json()).view;});
@@ -95,7 +96,7 @@ try {
   assert.equal(after.decision.setupComplete,true);
   assert.equal(after.decision.live,false);
   assert.equal(await active.getByRole('link',{name:'Continue setup',exact:true}).count(),0);
-  receipt.stages.push('Exact materials confirmed; dashboard available while genuine commercial authority remains pending');
+  await captureStage('Exact materials confirmed; dashboard available while genuine commercial authority remains pending');
   receipt.materials=after.materials.map(({type,id,version,hash})=>({type,id,version,hash}));
   receipt.result='PASS';
 } catch(error) {
@@ -108,3 +109,5 @@ try {
   console.log(JSON.stringify({result:receipt.result,slug,stages:receipt.stages,error:receipt.error,path:receipt.path}));
   await browser.close();
 }
+
+async function captureStage(observed){receipt.stages.push(observed);const number=receipt.stages.length;const stagePage=active;const dir=`${campaignRoot}/journeys/partner-transition`;fs.mkdirSync(dir,{recursive:true});await stagePage.screenshot({path:dir+'/'+number+'.png',fullPage:true});const controls=await stagePage.locator('button,a[href],input,select,textarea,summary').evaluateAll(nodes=>nodes.filter(e=>e.getClientRects().length).map(e=>({tag:e.tagName,name:e.getAttribute('aria-label')||[...e.labels??[]].map(l=>l.innerText).join(' ').trim()||(e.tagName==='SELECT'?'':e.innerText?.trim())||'',href:e.getAttribute('href'),disabled:e.disabled===true})));fs.writeFileSync(dir+'/'+number+'.json',JSON.stringify({sourceSha:sha,sourceIdentity,observed,route:new URL(stagePage.url()).pathname,controls},null,2));}

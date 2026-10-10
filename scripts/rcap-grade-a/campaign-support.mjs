@@ -17,6 +17,13 @@ export const origin='http://127.0.0.1:3100';
 assert.equal(process.env.NEXT_PUBLIC_SUPABASE_URL,'http://127.0.0.1:54321');
 assert.notEqual(process.env.VERCEL_ENV,'production');
 assert.equal(JSON.parse(fs.readFileSync(`${root}/manifest.json`)).baselineSha,sha);
+const campaignManifest=JSON.parse(fs.readFileSync(`${root}/manifest.json`));
+if(campaignManifest.finalCampaign?.status==='RUNNING') {
+ assert.equal(campaignManifest.finalCampaign.sourceSha,sha);
+ assert.equal(sourceIdentity.cleanTrackedApplication,true,'Final acceptance requires unchanged committed application source');
+ assert.equal(campaignManifest.finalCampaign.applicationTreeSha256,applicationTreeSha256);
+ assert.equal(campaignManifest.finalCampaign.buildId,fs.readFileSync('.next/BUILD_ID','utf8').trim());
+}
 export const owner=JSON.parse(fs.readFileSync('/workspaces/training-modules-09-10/output/rcap-practice-access.json')).owner;
 export const db=createClient(process.env.NEXT_PUBLIC_SUPABASE_URL,process.env.SUPABASE_SERVICE_ROLE_KEY,{auth:{persistSession:false,autoRefreshToken:false}});
 export const checked=r=>{assert.equal(r.error,null,JSON.stringify(r.error));return r.data;};
