@@ -127,7 +127,7 @@ try{
   });
   let prepared;
   await check('Converted program generates current materials and displays the actual preview without partner review',async()=>{
-   const result=await clickMutation('Generate and preview materials','/program');assert.equal(result.status,200,JSON.stringify(result.body));prepared=result.body.operations;
+   const result=await clickMutation(/^(Generate|Update) Materials$/,'/program');assert.equal(result.status,200,JSON.stringify(result.body));prepared=result.body.operations;
    assert.equal(prepared.view.materials.length,2);assert.equal(prepared.canStart,true,JSON.stringify(prepared.launchDecision));
    await page.locator('[aria-label="Current program preview"]').waitFor();
    assert.equal(prepared.launchDecision.operatingModel,'legalease_managed');

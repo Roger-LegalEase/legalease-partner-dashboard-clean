@@ -46,9 +46,9 @@ export async function testWorkspaceRecovery(db,id){
  const {programDecision,prepareProgramDefaults,prepareProgramReview,enableProgramPolicy}=await import('../src/lib/partners/onboarding/program-experience-service.ts');
  const html=element=>renderToStaticMarkup(createElement(LocalizationProvider,null,element));
  const page=()=>AdminPage({params:Promise.resolve({partnerSlug:'signed-fixture'})});
- const startDisabled=value=>assert.match(value,/<button[^>]*disabled=""[^>]*>Start program<\/button>/i);
+ const startUnavailable=value=>{assert.doesNotMatch(value,/<button[^>]*>Start program<\/button>/i);assert.match(value,/aria-label="Next launch step"/);assert.match(value,/>Reload workspace<|>Use five-step setup<|>Complete [^<]+<|>Generate Materials<|>Update Materials</);};
  adminSession();
- let result=await page(),rendered=html(result);assert.match(rendered,/Signed Fixture/);assert.match(rendered,/Manage program clinics/);assert.match(rendered,/Use five-step setup/);startDisabled(rendered);
+ let result=await page(),rendered=html(result);assert.match(rendered,/Signed Fixture/);assert.match(rendered,/Manage program clinics/);assert.match(rendered,/Use five-step setup/);startUnavailable(rendered);
  const legacy=await getProgramOperations(context);assert(legacy.view&&legacy.preflight&&legacy.launchDecision);assert.deepEqual(legacy.issues,[]);assert.equal(legacy.identity.policyVersion,'legacy');
  assert.equal(await snapshot(),before,'legacy SSR and preflight do not mutate setup, policy, approvals, artifacts or money');
  assert(!operations.some(op=>op.operation.startsWith('rpc:')&&!['rcap_service_get_program_configuration','rcap_service_assert_internal_actor','rcap_service_evaluate_program','rcap_program_material_scope','rcap_agreement_clearance'].includes(op.operation.slice(4))));
@@ -78,8 +78,8 @@ export async function testWorkspaceRecovery(db,id){
  const partial=await getProgramOperations(context);assert(partial.view&&partial.preflight);assert.equal(partial.decisions,null);assert(partial.issues.some(i=>i.loader==='operations.decisions'));
  console.log('PASS independent page and nested optional administrative failures retain the valid workspace with recovery actions');
  setWorkspaceFault(query=>query.includes('from public."partner_onboarding_launch_checks"')?{code:'08006'}:null);
- const held=await getProgramOperations(context);assert(held.view);assert.equal(held.preflight,null);assert.equal(held.canStart,false);rendered=html(await page());startDisabled(rendered);assert.match(rendered,/Launch readiness is unavailable/);
- console.log('PASS unavailable legacy launch preflight leaves preparation visible and Start disabled');
+ const held=await getProgramOperations(context);assert(held.view);assert.equal(held.preflight,null);assert.equal(held.canStart,false);rendered=html(await page());startUnavailable(rendered);assert.match(rendered,/Launch readiness is unavailable/);
+ console.log('PASS unavailable legacy launch preflight leaves preparation visible with an actionable reload');
  setWorkspaceFault(query=>query.includes('from public."rcap_launch_exception_events"')?{code:'42501'}:null);
  await assert.rejects(page(),e=>e.code==='forbidden');setWorkspaceFault(null);
  setInternalAuthTestState({});await assert.rejects(page(),e=>e.name==='InternalAuthTestRedirect'&&e.location.startsWith('/sign-in'));await assert.rejects(PartnerPage({searchParams:Promise.resolve({})}),e=>e.name==='InternalAuthTestRedirect');
@@ -96,11 +96,11 @@ export async function testWorkspaceRecovery(db,id){
  const v2Before=await snapshot();
  console.log('PASS policy upgrade requires explicit administrator intent, current version and a durable audit; replay is idempotent');
  const v2=await getProgramOperations(context);assert(v2.view&&v2.preflight&&v2.launchDecision);assert.deepEqual(v2.issues,[]);assert.equal(v2.identity.policyVersion,'rcap2.2');
- rendered=html(await page());assert.match(rendered,/Program status/);startDisabled(rendered);
+ rendered=html(await page());assert.match(rendered,/Program status/);startUnavailable(rendered);
  partnerSession();rendered=html(await PartnerPage({searchParams:Promise.resolve({})}));assert.match(rendered,/Program setup/);assert.doesNotMatch(rendered,/Use five-step setup/);assert.equal(await snapshot(),v2Before);
- adminSession();setWorkspaceFault(query=>query.includes('from public."rcap_launch_operation_events"')?{code:'08006'}:null);const heldV2=await getProgramOperations(context);assert(heldV2.view);assert.equal(heldV2.preflight,null);assert.equal(heldV2.canStart,false);startDisabled(html(await page()));setWorkspaceFault(null);
+ adminSession();setWorkspaceFault(query=>query.includes('from public."rcap_launch_operation_events"')?{code:'08006'}:null);const heldV2=await getProgramOperations(context);assert(heldV2.view);assert.equal(heldV2.preflight,null);assert.equal(heldV2.canStart,false);startUnavailable(html(await page()));setWorkspaceFault(null);
  assert.equal(await snapshot(),v2Before);
- console.log('PASS actual RCAP2 admin and partner server rendering; unavailable preflight disables Start; records and approvals preserved');
+ console.log('PASS actual RCAP2 admin and partner server rendering; unavailable preflight offers reload and prevents Start; records and approvals preserved');
  await db.query("delete from public.partner_onboarding_sections where workspace_id=$1 and section_key in ('geography_audience_language_accessibility','organization_contacts')",[id.workspace]);
  console.log('LIMITATION isolated authenticated SSR is not legitimate authenticated staged-browser verification');
 }

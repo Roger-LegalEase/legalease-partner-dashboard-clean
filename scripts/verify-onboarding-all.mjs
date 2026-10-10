@@ -78,6 +78,7 @@ const REGISTRY = [
   { file: "test-rcap-real-launch-browser.mjs", group: "browser", note: "Production-equivalent launch only against disposable loopback partners" },
 
   // --- browser: drives a running application -------------------------------------------
+  { file: "test-rcap-preview-to-launch-browser.mjs", group: "browser", note: "Real authenticated preview, selective material updates and protected launch using existing isolated programs" },
   { file: "test-rcap-operating-rights-browser.mjs", group: "browser", note: "Existing-workspace operating-model conversion and protected launch against isolated authenticated infrastructure" },
   { file: "capture-rcap-hotfix-acceptance.mjs", group: "browser", note: "loopback-only managed/self-service Chromium and WebKit proof; no successful launch claimed" },
   { file: "capture-rcap-prepared-onboarding-acceptance.mjs", group: "browser",
