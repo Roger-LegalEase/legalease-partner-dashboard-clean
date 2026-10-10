@@ -13,7 +13,7 @@ import { getSupabaseAdminClient } from "@/lib/supabase/server";
  */
 
 export type ScreeningAttribution = {
-  /** True only when the server can see a sponsored RCAP partner session. */
+  /** Program attribution only. Financial sponsorship is checked independently. */
   isPartnerSession: boolean;
   partnerSlug: string | null;
   programId: string | null;

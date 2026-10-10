@@ -336,7 +336,7 @@ check("Normal workspace has one configuration and launch surface with real resol
   assert.doesNotMatch(page,/Phase1InternalReviewPanel|Phase1PrefillPanel|LaunchControl|Phase2AArtifactsPanel/);
   assert.equal((page.match(/<ProgramOperations/g)??[]).length,1);
   assert.match(operations,/!ops.canStart/);
-  for(const id of ["program-materials","program-next-action","program-service-authority"])assert.ok(operations.includes(`id="${id}"`));
+  for(const id of ["program-materials","program-dashboard"])assert.ok(operations.includes(`id="${id}"`));
 });
 
 check("agreement readiness action opens the real review field", () => {
@@ -347,9 +347,9 @@ check("agreement readiness action opens the real review field", () => {
   },"internal");
   const agreement=byKey(result,"agreements_and_procurement_recorded");
   assert.equal(agreement.resolutions?.[0]?.href,
-    "/internal/partners/onboarding/demo-partner#program-service-authority");
+    "/internal/partners/onboarding/demo-partner/diagnostics#program-service-authority");
   assert.equal(agreement.resolutions?.[0]?.canActorResolve,true);
-  const view=read("src/app/internal/partners/onboarding/[partnerSlug]/ProgramOperations.tsx");
+  const view=read("src/app/internal/partners/onboarding/[partnerSlug]/diagnostics/ProgramDiagnostics.tsx");
   assert.match(view,/target.open=true/);
   assert.match(view,/id="program-service-authority"/);
 });

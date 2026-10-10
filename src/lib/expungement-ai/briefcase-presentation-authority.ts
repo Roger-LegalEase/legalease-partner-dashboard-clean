@@ -1,4 +1,5 @@
 import "server-only";
+import { getProgramPacketFunding } from "@/lib/partners/onboarding/program-packet-funding";
 
 import { createHash } from "node:crypto";
 
@@ -303,6 +304,7 @@ export type TrustedBriefcasePresentationSource = {
 type AuthoritativeEvaluation = ReturnType<typeof evaluateAuthoritativeScreeningResult>;
 
 export type BriefcasePresentationDependencies = {
+  readProgramPacketFunding?(partnerSlug:string,jurisdiction:string):Promise<"sponsored"|"consumer"|"unavailable">;
   readClinicDtcAuthorization?(userId: string, itemId: string): Promise<boolean>;
   readCommercialActions?(input: {
     consumerAuthUserId: string;
@@ -385,12 +387,14 @@ export async function decorateBriefcaseItemForPresentationWithDependencies(
   }
 
   trustedSource ??= await dependencies.readTrustedPendingSource(input);
-  const sponsoredSource = trustedSource.ok && trustedSource.value.product === "rcap_partner";
+  const partnerSource=trustedSource.ok && trustedSource.value.product==="rcap_partner";
+  const funding=trustedSource.ok && partnerSource ? await dependencies.readProgramPacketFunding?.(trustedSource.value.partnerSlug!,trustedSource.value.jurisdiction).catch(()=>"unavailable")??"unavailable" : "consumer";
+  const sponsoredSource = partnerSource && funding!=="consumer";
   const capDecision = sponsoredSource && dependencies.readClinicDtcAuthorization
     ? await dependencies.readClinicDtcAuthorization(input.consumerAuthUserId, input.item.id).catch(() => null)
     : false;
   const sponsorCapacityExhausted = capDecision === true;
-  const paymentState = capDecision === null ? "unavailable" : sponsoredSource && !sponsorCapacityExhausted
+  const paymentState = capDecision === null || (funding==="unavailable" && !sponsorCapacityExhausted) ? "unavailable" : sponsoredSource && !sponsorCapacityExhausted
     ? "sponsored"
     : paymentPresentationState(await dependencies.readPaymentAuthority(input.item.id, input.consumerAuthUserId), trustedSource.ok);
   return { ...assembleBriefcasePresentationItem({
@@ -675,6 +679,7 @@ function nonEmpty(value: unknown): value is string {
 }
 
 const DEFAULT_PRESENTATION_DEPENDENCIES: BriefcasePresentationDependencies = {
+  readProgramPacketFunding: getProgramPacketFunding,
   readClinicDtcAuthorization: async (userId, itemId) => (await import("./clinic-packet-funding")).clinicPacketDtcAuthorized(userId, itemId),
   readCommercialActions: async ({ consumerAuthUserId, item, legalAuthority, paymentState }) => {
     const { packetFulfillmentAuthority } = await import("@/lib/expungement-ai/packet-fulfillment-authority");

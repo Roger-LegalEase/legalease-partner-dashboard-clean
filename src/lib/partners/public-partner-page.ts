@@ -16,6 +16,8 @@ type ActivationRow = {
 };
 
 type PublicationRow = {
+  id:string;
+  operating_model?:string;
   status: string | null;
   landing_page_ready: boolean | null;
   internal_approved_at: string | null;
@@ -73,6 +75,11 @@ export async function getAuthoritativelyPublicPartnerRecord(
       const receipt=await supabase.from("rcap_launch_operation_events").select("step,evidence,created_at").eq("partner_slug",slug).eq("operation_id",operation).order("created_at",{ascending:false}).limit(1).maybeSingle();
       if(receipt.error||!receipt.data||(!["complete","public_verified"].includes(receipt.data.step)&&!(receipt.data.step==="publication_staged"&&acceptsRealVerification(slug,operation,verificationToken))))return undefined;
       if(receipt.data.step!=="complete"&&!realLaunchLeaseActive(receipt.data.created_at))return undefined;
+      if (publicationResult.data.operating_model==="legalease_managed" && publicationResult.data.rcap_policy_version==="rcap2.2") {
+        const decision=await supabase.rpc("rcap_program_internal_authority",{p_workspace:publicationResult.data.id});
+        if(decision.error || !decision.data || decision.data!==receipt.data.evidence.operatingDecisionId) return undefined;
+        documentedActivation=true;
+      } else {
       const authority=await supabase.from("rcap_commercial_authorizations").select("*").eq("id",String(receipt.data.evidence.commercialAuthorityId??"")).maybeSingle();
       const row=activationResult.data as ActivationRow & {access_mode:string;stripe_payment_intent_id:string;paid_at:string;payment_amount:number};
       const validAuthority = isRcap2Enabled() && publicationResult.data.rcap_policy_version === "rcap2.2"
@@ -82,6 +89,7 @@ export async function getAuthoritativelyPublicPartnerRecord(
       const document=await supabase.from("partner_onboarding_assets").select("id").eq("id",authority.data.document_id).eq("sha256_hex",authority.data.document_hash).eq("review_status","approved").eq("lifecycle_status","active").maybeSingle();
       if(document.error||!document.data)return undefined;
       documentedActivation=true;
+      }
     }
     const eligible = isPublicPartnerEligible({
       activation: {

@@ -307,6 +307,10 @@ const sectionSchemas = {
     .strict(),
   program_goals: z
     .object({
+      operating_model: z.enum(["partner_managed", "legalease_managed"]).optional(),
+      operator_authority_reference: safeString(1000, "multiline").optional(),
+      external_agreement_applicability: z.enum(["required", "not_applicable"]).optional(),
+      service_mode: z.enum(["screening_only", "participant_paid", "sponsored_packets"]).optional(),
       participation_mode: z.enum(["online", "clinics", "both"]).optional(),
       primary_goal: safeString(
         ONBOARDING_FIELD_LIMITS.longText,
@@ -1004,7 +1008,7 @@ export function validateOnboardingSection<K extends OnboardingSectionKey>(
   mode: OnboardingValidationMode = "draft_save",
   context: OnboardingValidationContext = {}
 ): OnboardingValidationResult<OnboardingSectionDataMap[K]> {
-  const ownershipIssues = inspectTopLevelOwnership(sectionKey, input);
+  const ownershipIssues = inspectTopLevelOwnership(sectionKey, input).filter(issue => !(context.canonicalOperatingFields && sectionKey === "program_goals" && ["operating_model", "operator_authority_reference", "external_agreement_applicability", "service_mode"].includes(issue.fieldKey)));
   const parsed = sectionSchemas[sectionKey].safeParse(input);
 
   if (!parsed.success) {

@@ -22,6 +22,8 @@ export async function getPublicClinicEvent(eventSlug: string): Promise<PublicCli
   if (!result.data) throw new ClinicServiceError("not_found", "This Clinic event is not open.");
   const parent=await db.from("partner_onboarding").select("rcap_policy_version").eq("partner_slug",result.data.partner_slug).maybeSingle();
   if(parent.error)throw new ClinicServiceError("unavailable","Program status could not be verified.");
+  const scope=await db.rpc("rcap_program_screening_jurisdictions",{p_slug:result.data.partner_slug});
+  if(scope.error || !Array.isArray(scope.data) || !scope.data.includes(result.data.jurisdiction)) throw new ClinicServiceError("not_found","This Clinic event is not open in the authorized program scope.");
   if(parent.data?.rcap_policy_version==="rcap2.2"){const active=await db.rpc("rcap_partner_activation_for_launch",{p_slug:result.data.partner_slug});if(active.error||active.data!==true)throw new ClinicServiceError("not_found","This Clinic event is not open.");}
   return mapPublicEvent(result.data);
 }
@@ -102,7 +104,7 @@ export async function getClinicEntryContext(eventSlug: string) {
   const event = await db.from("clinic_events").select("id,partner_slug,public_slug,name,jurisdiction,status")
     .eq("id", redemption.data.event_id).eq("public_slug", normalizeSlug(eventSlug)).eq("status", "published").maybeSingle();
   if (event.error || !event.data) throw new ClinicServiceError("forbidden", "The event entry handoff does not match this Clinic.");
-  return { eventId: String(event.data.id), partnerSlug: String(event.data.partner_slug), eventSlug: String(event.data.public_slug), eventName: String(event.data.name), jurisdiction: event.data.jurisdiction ? String(event.data.jurisdiction) : null };
+  return { entryRedemptionHash: sha256(rawToken), eventId: String(event.data.id), partnerSlug: String(event.data.partner_slug), eventSlug: String(event.data.public_slug), eventName: String(event.data.name), jurisdiction: event.data.jurisdiction ? String(event.data.jurisdiction) : null };
 }
 
 export async function listApprovedClinicStaff(eventId: string) {

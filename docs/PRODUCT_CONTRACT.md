@@ -74,9 +74,48 @@ participant consent, shared-device reset and packet protections remain mandatory
 
 ### Platform Admin and action-scoped authority
 
-One Partner Program surface supports find/create, preparation, genuine commercial
-scope, invitation and Start. Advanced history is optional. Preparation never
-impersonates partner consent or manufactures a signature, payment or entitlement.
+The ordinary Platform Admin sequence is **Configure → Save → Preview → Start Program**
+in one canonical workspace. It contains no legacy section approvals, prefill review,
+duplicate commercial controls or competing launch panels, including collapsed panels.
+Exceptional external arrangements and administrative diagnostics are separate from
+normal operation. Preparation never manufactures a signature, payment, third-party
+consent or entitlement.
+
+Operating responsibility is an authoritative, audited workspace fact:
+**LegalEase-managed** means LegalEase actually operates the program; **partner-managed**
+means an independent organization retains operating responsibility. An administrator
+cannot transfer existing partner membership, contractual or consent rights merely by
+changing this selection. Opening a legacy workspace never changes its policy or setup.
+An explicit authorized operator choice may select the current policy transactionally;
+all prior records and approval evidence remain intact.
+
+For a genuine LegalEase-managed program, the administrator may designate an external
+partner agreement as not applicable. No partner administrator, partner final review,
+procurement document, duplicate commercial approval or arbitrary expiration is required
+merely to authorize LegalEase's own screening operation. The single authenticated final
+confirmation binds operator, authority basis, exact jurisdiction set, service scope,
+Spanish setting and content, material identities/hashes/versions, publication scope,
+policy, actor and timestamp in the existing immutable decision history. The same decision
+is enforced by policy evaluation, publication, participant entry and Clinic Mode.
+Independently required external consent and agreements remain mandatory for partner
+programs. Sponsored packets require actual available funding and atomic capacity;
+participant-paid packets retain information, verification and payment requirements.
+
+Programs may authorize multiple supported screening jurisdictions. Publication binds the
+full set. Participants select their jurisdiction, and both ordinary and access-code claim
+transactions validate it against current published authority before creating a benefited
+session or redeeming a code. Unsupported, revoked and out-of-program jurisdictions fail
+closed. Clinic scope, session attribution and downstream funding preserve the selected
+jurisdiction. A free-screening Clinic needs no packet sponsorship, but still requires
+its genuine event-code redemption, approved staff and current participant consent.
+Screening support does not authorize legal-document fulfillment.
+
+One **Enable Spanish** setting controls the participant-page experience. Standard page
+copy and existing approved legal language provide the bilingual preview; genuinely custom
+claims require their matching translations in one content review. Disabling Spanish
+retains stored translations and English content and adds no English launch requirement.
+Materials regenerate only when their own source changes. Language support never promises
+unavailable legal-document translations.
 
 One server policy contract governs complete_setup, publish_partner_page,
 accept_screenings, issue_sponsored_packet, offer_paid_packet, create_clinic,

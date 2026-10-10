@@ -66,6 +66,7 @@ const event = {
   // own surface, so the fixture has to say which one it is.
   experience: "standard",
   public_slug: "synthetic-a11y-clinic",
+  partner_slug:"synthetic-a11y-program",jurisdiction:"MD",
   name: "Synthetic accessibility clinic",
   starts_at: "2026-09-01T13:00:00.000Z",
   ends_at: "2026-09-01T20:00:00.000Z",
@@ -100,6 +101,9 @@ function matchesFilters(searchParams, row) {
 const stub = http.createServer((request, response) => {
   const requestUrl = new URL(request.url ?? "/", `http://127.0.0.1:${stubPort}`);
   const single = request.headers.accept?.includes("vnd.pgrst.object");
+  if(requestUrl.pathname==="/rest/v1/partner_onboarding" || requestUrl.pathname==="/rest/v1/rpc/rcap_program_screening_jurisdictions") {
+    response.writeHead(200,{"content-type":"application/json"});response.end(requestUrl.pathname.includes('/rpc/') ? '["MD"]' : '[]');return;
+  }
   if (requestUrl.pathname.startsWith("/rest/v1/clinic_events")) {
     if (!matchesFilters(requestUrl.searchParams, event)) {
       // PostgREST answers "no row" rather than "no table". maybeSingle() reads

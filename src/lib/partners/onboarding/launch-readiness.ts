@@ -861,12 +861,12 @@ function resolveLaunchActions(check: LaunchCheckEvaluation, input: LaunchCheckSo
     }
     if (input.source.readOnlyValues.screening_allocation == null) {
       actions.push(result("screening_allocation", "legalease", internal ? "Configure authorized screening allowance" : "LegalEase is configuring your program allowance", null,
-        `${workspace}#program-service-authority`));
+        `${workspace}/diagnostics#program-service-authority`));
       if (!internal) actions[actions.length - 1].actionLabel = "LegalEase is configuring your program allowance";
     }
     const model = text(input.source, "access_sponsorship_capacity", "participant_access_model");
     if (model && input.source.partnerRecord.accessMode && model !== input.source.partnerRecord.accessMode) {
-      actions.push(result("access_source_conflict", "legalease", "Review conflicting access settings", null, `${workspace}#program-service-authority`));
+      actions.push(result("access_source_conflict", "legalease", "Review conflicting access settings", null, `${workspace}/diagnostics#program-service-authority`));
     }
     return actions;
   }
@@ -916,7 +916,7 @@ function resolveLaunchActions(check: LaunchCheckEvaluation, input: LaunchCheckSo
     const pending = Object.entries(statuses).find(([, status]) => !["approved", "waived", "not_applicable"].includes(status));
     const inReview = Object.values(statuses).every(status => ["approved", "submitted", "waived", "not_applicable"].includes(status));
     return [result("section_review", inReview ? "legalease" : "partner", inReview ? "LegalEase is reviewing your setup" : "Continue program setup",
-      pending ? `/partner/onboarding/${encodeURIComponent(pending[0])}` : "/partner/onboarding", `${workspace}#program-next-action`)];
+      pending ? `/partner/onboarding/${encodeURIComponent(pending[0])}` : "/partner/onboarding", `${workspace}#program-dashboard`)];
   }
   if (["artifact_versions_current", "required_artifact_approvals_complete"].includes(check.key)) {
     const needsNew = input.artifacts.some(entry => entry.sourceFreshness === "stale" || entry.currentVersion?.approvalStatus === "superseded");
@@ -926,15 +926,15 @@ function resolveLaunchActions(check: LaunchCheckEvaluation, input: LaunchCheckSo
   if (check.key === "agreements_and_procurement_recorded") {
     return [result("signed_agreement_evidence", "legalease",
       "Review program funding and terms", null,
-      `${workspace}#program-service-authority`)];
+      `${workspace}/diagnostics#program-service-authority`)];
   }
   if (check.key === "commercial_gate_cleared") {
     return [result("commercial_gate", "legalease",
       "Review documented commercial authorization", null,
-      `${workspace}#program-service-authority`)];
+      `${workspace}/diagnostics#program-service-authority`)];
   }
   if (check.determination === "manual") return [result(check.key, check.owner,
     check.key === "partner_launch_approval_received" ? "Review and approve your program" : check.key === "staff_training_completed" ? "Confirm staff training" : "Open final review",
-    `/partner/onboarding/resources#check-${check.key}`, `${workspace}#program-next-action`)];
-  return [result(check.key, "legalease", "Review program funding and terms", null, `${workspace}#program-next-action`)];
+    `/partner/onboarding/resources#check-${check.key}`, `${workspace}#program-dashboard`)];
+  return [result(check.key, "legalease", "Review program funding and terms", null, `${workspace}#program-dashboard`)];
 }

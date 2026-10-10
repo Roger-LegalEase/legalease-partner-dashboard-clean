@@ -971,7 +971,7 @@ export function assertGuidedSubstepContract(): void {
     );
     const canonicalRoots = new Set(
       ONBOARDING_SCHEMA_REGISTRY.filter(
-        (field) => field.sectionKey === sectionKey && !field.parentCollection
+        (field) => field.sectionKey === sectionKey && !field.parentCollection && field.ownership !== "legalease_controlled"
       ).map((field) => guidedFieldRoot(String(field.key)))
     );
     for (const root of canonicalRoots) {

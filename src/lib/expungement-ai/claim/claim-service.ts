@@ -1,4 +1,5 @@
 import "server-only";
+import { getProgramPacketFunding } from "@/lib/partners/onboarding/program-packet-funding";
 
 import { evaluateAuthoritativeScreeningResult } from "@/lib/expungement-ai/authoritative-screening-result";
 import { clampAuthoritativeMatterInput } from "@/lib/expungement-ai/briefcase";
@@ -117,6 +118,7 @@ export async function claimPendingScreeningResult(input: {
 
   const { evaluation, pathwayLabel, packetType, selectedTrackId } = authoritative;
   const isPartnerSession = row.product === "rcap_partner" && Boolean(row.partner_slug);
+  const sponsored = isPartnerSession && await getProgramPacketFunding(row.partner_slug!,row.jurisdiction)==="sponsored";
 
   const saveInput = clampAuthoritativeMatterInput(buildSaveInput({
     userId: input.authenticatedUserId,
@@ -131,7 +133,7 @@ export async function claimPendingScreeningResult(input: {
     selectedTrackId,
     treatmentClassification: evaluation.treatmentClassification ?? null,
     deferralComponentIds: evaluation.deferralComponentIds ?? []
-  }, { isPartnerSession }));
+  }, { isPartnerSession:sponsored }));
 
   saveInput.artifactRefs = {
     ...(saveInput.artifactRefs ?? {}),
@@ -154,7 +156,7 @@ export async function claimPendingScreeningResult(input: {
       pathwayLabel,
       packetType,
       screeningAnswers: row.screening_answers ?? {},
-      isPartnerSession
+      isPartnerSession:sponsored
     })
   };
 

@@ -1,3 +1,4 @@
+import { ProgramEntryLanguage, ProgramEntryText } from "@/components/partners/onboarding/ProgramEntryLanguage";
 import { clinicConsumerContinuation } from "@/lib/expungement-ai/claim/clinic-acquisition";
 import { SponsorCapacityEntryNotice } from "@/components/expungement-ai/SponsorCapacityNotice";
 import { redirect } from "next/navigation";
@@ -50,7 +51,7 @@ export default async function RcapPartnerIntakePage({
   // round-trip and into the screening start so it is not dropped.
   const attribution = extractPartnerAttribution(search);
   const [context, auth] = await Promise.all([
-    resolveRcapPartnerIntakeContext(partnerSlug),
+    resolveRcapPartnerIntakeContext(partnerSlug, typeof search.jurisdiction === "string" ? search.jurisdiction : undefined),
     getRcapBriefcaseAuthState()
   ]);
 
@@ -62,6 +63,13 @@ export default async function RcapPartnerIntakePage({
     );
   }
 
+  if (!context.jurisdiction) return <PageShell><section className="mx-auto max-w-2xl rounded-xl bg-white p-8" data-rcap-intake-partner={context.partnerSlug} data-rcap-access={context.accessMode} data-rcap-jurisdictions={context.jurisdictions.join(",")}>
+    <CoBrandHeader organizationName={context.organizationName} logoUrl={context.logoUrl}/><ProgramEntryLanguage enabled={context.spanishEnabled}/>
+    <h1 className="mt-6 text-2xl font-bold"><ProgramEntryText enabled={context.spanishEnabled} en="Choose where your record is located" es="Elija dónde se encuentra su expediente"/></h1>
+    <p className="mt-3"><ProgramEntryText enabled={context.spanishEnabled} en="Each jurisdiction has its own screening and legal requirements." es="Cada jurisdicción tiene sus propios requisitos legales y de evaluación."/></p>
+    <form className="mt-6" method="GET"><label><ProgramEntryText enabled={context.spanishEnabled} en="Screening jurisdiction" es="Jurisdicción de evaluación"/><select aria-label="Screening jurisdiction" name="jurisdiction" required defaultValue="" className="ml-3 rounded border p-3"><option value="" disabled><ProgramEntryText enabled={context.spanishEnabled} en="Choose a jurisdiction" es="Elija una jurisdicción"/></option>{context.jurisdictions.map(code=><option key={code} value={code}>{stateName(code)}</option>)}</select></label>
+    {Object.entries(attribution).map(([key,value])=><input key={key} type="hidden" name={key} value={value}/>)}<button className="ml-3 rounded bg-navy p-3 text-white" type="submit"><ProgramEntryText enabled={context.spanishEnabled} en="Continue" es="Continuar"/></button></form>
+  </section></PageShell>;
   if (status === "program-full") {
     return (
       <PageShell>
@@ -89,29 +97,28 @@ export default async function RcapPartnerIntakePage({
         event="partner_intake_started"
         meta={{ partner_slug: context.partnerSlug, state: context.jurisdiction, product_surface: "legalease_partner" }}
       />
-      <section className="mx-auto w-full max-w-2xl" data-rcap-intake-partner={context.partnerSlug} data-rcap-access={context.accessMode} data-rcap-jurisdiction={context.jurisdiction}>
-        <CoBrandHeader organizationName={context.organizationName} logoUrl={context.logoUrl} />
+      <section className="mx-auto w-full max-w-2xl" data-rcap-intake-partner={context.partnerSlug} data-rcap-access={context.accessMode} data-rcap-jurisdiction={context.jurisdiction} data-rcap-jurisdictions={context.jurisdictions.join(",")}>
+        <CoBrandHeader organizationName={context.organizationName} logoUrl={context.logoUrl} /><ProgramEntryLanguage enabled={context.spanishEnabled}/>
 
         <div className="mt-6 overflow-hidden rounded-[28px] border border-[#EFE9DD] bg-white/90 shadow-[0_30px_80px_-44px_rgba(11,19,32,0.40)] backdrop-blur">
           <div className="p-7 md:p-10">
             <span className="inline-flex items-center gap-2 rounded-full bg-[#E7F7F4] px-3.5 py-1.5 text-[12px] font-extrabold uppercase tracking-[0.08em] text-[#0B5C54]">
               <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-[#00A99D]" />
-              Partner record-clearing access
+              <ProgramEntryText enabled={context.spanishEnabled} en="Partner record-clearing access" es="Acceso a la eliminación de antecedentes"/>
             </span>
 
             <h1 className="mt-5 text-[30px] font-black leading-[1.12] tracking-[-0.01em] text-[#0B1320] md:text-[40px]">
               {context.organizationName} × LegalEase
             </h1>
             <p className="mt-4 max-w-xl text-[15.5px] leading-7 text-[#475A6E] md:text-[16.5px]">
-              Create a free account to save your answers, access your Briefcase, and receive
-              support through {context.organizationName}. Then start your {state} record-clearing screening.
+              <ProgramEntryText enabled={context.spanishEnabled} en={`Create a free account to save your answers, access your Briefcase, and receive support through ${context.organizationName}. Then start your ${state} record-clearing screening.`} es={`Cree una cuenta gratuita para guardar sus respuestas, acceder a su Briefcase y recibir apoyo de ${context.organizationName}. Luego comience su evaluación de antecedentes de ${state}.`}/>
             </p>
 
             <ul className="mt-6 flex flex-wrap gap-2.5">
-              <TrustChip>Private screening</TrustChip>
+              <TrustChip><ProgramEntryText enabled={context.spanishEnabled} en="Private screening" es="Evaluación privada"/></TrustChip>
               <TrustChip>{state}</TrustChip>
-              <TrustChip tone="teal">No payment required here</TrustChip>
-              <TrustChip>Not legal advice</TrustChip>
+              <TrustChip tone="teal"><ProgramEntryText enabled={context.spanishEnabled} en="No payment required here" es="Aquí no se requiere pago"/></TrustChip>
+              <TrustChip><ProgramEntryText enabled={context.spanishEnabled} en="Not legal advice" es="No es asesoría legal"/></TrustChip>
             </ul>
 
             <ProgramDetails
@@ -133,24 +140,23 @@ export default async function RcapPartnerIntakePage({
                     type="submit"
                     className="inline-flex min-h-[52px] w-full items-center justify-center gap-2 rounded-[16px] bg-[#FF3B00] px-6 py-3.5 text-[16px] font-extrabold text-white shadow-[0_14px_34px_rgba(255,59,0,0.30)] transition hover:bg-[#E63500] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0B1320] focus-visible:ring-offset-2 sm:w-auto sm:min-w-[260px]"
                   >
-                    Start your record-clearing screening
+                    <ProgramEntryText enabled={context.spanishEnabled} en="Start your record-clearing screening" es="Comience su evaluación de antecedentes"/>
                     <span aria-hidden="true">&rarr;</span>
                   </button>
                   <p className="mt-3.5 max-w-lg text-[13.5px] leading-6 text-[#5A6275]">
-                    Your screening happens inside your account so your answers, result, next steps, and
-                    Briefcase stay available even if no packet path is available right now.
+                    <ProgramEntryText enabled={context.spanishEnabled} en="Your screening happens inside your account so your answers, result, next steps, and Briefcase stay available even if no packet path is available right now." es="Su evaluación se guarda en su cuenta. Sus respuestas, resultado, próximos pasos y Briefcase siguen disponibles aunque no haya un paquete disponible en este momento."/>
                   </p>
                 </form>
               ) : (
                 <AccessCodeStartForm context={context} attribution={attribution} codeError={codeError} />
               )
             ) : (
-              <AccountFirstActions partnerSlug={context.partnerSlug} attribution={attribution} />
+              <AccountFirstActions partnerSlug={context.partnerSlug} jurisdiction={context.jurisdiction} attribution={attribution} spanishEnabled={context.spanishEnabled}/>
             )}
           </div>
 
           <div className="border-t border-[#F0ECE3] bg-[#FBF8F2] px-7 py-4 md:px-10">
-            <p className="text-[12px] leading-5 text-[#8A93A6]">{UPL_DISCLAIMER}</p>
+            <p className="text-[12px] leading-5 text-[#8A93A6]"><ProgramEntryText enabled={context.spanishEnabled} en={UPL_DISCLAIMER} es="Expungement.ai no es un bufete de abogados. Esta herramienta no ofrece asesoría legal ni garantiza elegibilidad o resultados. No se garantiza la aprobación del tribunal."/></p>
           </div>
         </div>
       </section>
@@ -158,31 +164,30 @@ export default async function RcapPartnerIntakePage({
   );
 }
 
-function AccountFirstActions({ partnerSlug, attribution }: { partnerSlug: string; attribution: Record<string, string> }) {
+function AccountFirstActions({ partnerSlug, jurisdiction, attribution, spanishEnabled }: { partnerSlug: string; jurisdiction:string; attribution: Record<string, string>; spanishEnabled:boolean }) {
   // Preserve county/UTM/source attribution on the return path so it survives
   // account creation and email verification.
-  const next = appendAttributionQuery(`/intake/${encodeURIComponent(partnerSlug)}`, attribution);
+  const next = appendAttributionQuery(`/intake/${encodeURIComponent(partnerSlug)}?jurisdiction=${encodeURIComponent(jurisdiction)}`, attribution);
   const createHref = `/expungement-ai/sign-in?mode=create&partner=${encodeURIComponent(partnerSlug)}&next=${encodeURIComponent(next)}`;
   const signInHref = `/expungement-ai/sign-in?mode=signin&partner=${encodeURIComponent(partnerSlug)}&next=${encodeURIComponent(next)}`;
   return (
     <div className="mt-8 rounded-[20px] border border-[#EFE9DD] bg-[#FCFAF5] p-4">
-      <h2 className="text-[18px] font-black text-[#0B1320]">Create your free Briefcase</h2>
+      <h2 className="text-[18px] font-black text-[#0B1320]"><ProgramEntryText enabled={spanishEnabled} en="Create your free Briefcase" es="Cree su Briefcase gratuito"/></h2>
       <p className="mt-2 text-[14px] leading-6 text-[#475A6E]">
-        Partner participants sign in before screening so their answers and next steps are saved.
-        Creating an account, verifying email, and completing screening do not count against the partner packet cap.
+        <ProgramEntryText enabled={spanishEnabled} en="Sign in before screening to save your answers and next steps. Creating an account, verifying email, and completing screening do not use sponsored packet funding." es="Inicie sesión antes de la evaluación para guardar sus respuestas y próximos pasos. Crear una cuenta, verificar su correo y completar la evaluación no consume fondos para paquetes patrocinados."/>
       </p>
       <div className="mt-5 flex flex-col gap-3 sm:flex-row">
         <a
           href={createHref}
           className="inline-flex min-h-[52px] items-center justify-center rounded-[16px] bg-[#FF3B00] px-6 py-3.5 text-[15px] font-extrabold text-white shadow-[0_14px_34px_rgba(255,59,0,0.30)] transition hover:bg-[#E63500] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0B1320] focus-visible:ring-offset-2"
         >
-          Start your record-clearing screening
+          <ProgramEntryText enabled={spanishEnabled} en="Start your record-clearing screening" es="Comience su evaluación de antecedentes"/>
         </a>
         <a
           href={signInHref}
           className="inline-flex min-h-[52px] items-center justify-center rounded-[16px] border border-[#D7DEE8] bg-white px-6 py-3.5 text-[15px] font-extrabold text-[#0B1320] transition hover:border-[#CBD5E1] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00A99D] focus-visible:ring-offset-2"
         >
-          Sign in to continue
+          <ProgramEntryText enabled={spanishEnabled} en="Sign in to continue" es="Inicie sesión para continuar"/>
         </a>
       </div>
     </div>
@@ -194,6 +199,8 @@ async function startRcapPartnerScreening(formData: FormData) {
 
   const partnerSlug = String(formData.get("partnerSlug") ?? "");
   const jurisdiction = String(formData.get("jurisdiction") ?? "");
+  const auth=await getRcapBriefcaseAuthState();
+  if(!auth.isAuthenticated) redirect(`/expungement-ai/sign-in?next=${encodeURIComponent(`/intake/${encodeURIComponent(partnerSlug)}?jurisdiction=${encodeURIComponent(jurisdiction)}`)}`);
   const attribution = readAttributionFromFormData(formData);
   const result = await claimRcapPartnerScreeningSession({ partnerSlug, jurisdiction });
 
@@ -218,6 +225,8 @@ async function startRcapPartnerScreeningWithCode(formData: FormData) {
 
   const partnerSlug = String(formData.get("partnerSlug") ?? "");
   const jurisdiction = String(formData.get("jurisdiction") ?? "");
+  const auth=await getRcapBriefcaseAuthState();
+  if(!auth.isAuthenticated) redirect(`/expungement-ai/sign-in?next=${encodeURIComponent(`/intake/${encodeURIComponent(partnerSlug)}?jurisdiction=${encodeURIComponent(jurisdiction)}`)}`);
   const accessCode = String(formData.get("accessCode") ?? "");
   const attribution = readAttributionFromFormData(formData);
 
@@ -234,13 +243,13 @@ async function startRcapPartnerScreeningWithCode(formData: FormData) {
     );
   }
 
-  if (result.reason === "partner_inactive") {
+  if (result.reason === "partner_inactive" || result.reason === "jurisdiction_not_authorized") {
     redirect(`/intake/${encodeURIComponent(partnerSlug)}?status=inactive`);
   }
 
   // Invalid / missing / expired / exhausted code: re-render intake with a clear
   // message and the standard-consumer escape hatch. No partner benefit granted.
-  redirect(`/intake/${encodeURIComponent(partnerSlug)}?status=code_${result.reason}`);
+  redirect(`/intake/${encodeURIComponent(partnerSlug)}?jurisdiction=${encodeURIComponent(jurisdiction)}&status=code_${result.reason}`);
 }
 
 type CodeError = { headline: string; body: string };
@@ -293,7 +302,7 @@ function AccessCodeStartForm({
         ))}
 
         <label htmlFor="accessCode" className="block text-[14px] font-extrabold text-[#0B1320]">
-          {`If you received an access code from ${context.organizationName}, enter it here.`}
+          <ProgramEntryText enabled={context.spanishEnabled} en={`If you received an access code from ${context.organizationName}, enter it here.`} es={`Si recibió un código de acceso de ${context.organizationName}, ingréselo aquí.`}/>
         </label>
         <input
           id="accessCode"
@@ -312,7 +321,7 @@ function AccessCodeStartForm({
             type="submit"
             className="inline-flex min-h-[52px] w-full items-center justify-center gap-2 rounded-[16px] bg-[#FF3B00] px-6 py-3.5 text-[16px] font-extrabold text-white shadow-[0_14px_34px_rgba(255,59,0,0.30)] transition hover:bg-[#E63500] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0B1320] focus-visible:ring-offset-2 sm:w-auto sm:min-w-[260px]"
           >
-            Start your record-clearing screening
+            <ProgramEntryText enabled={context.spanishEnabled} en="Start your record-clearing screening" es="Comience su evaluación de antecedentes"/>
             <span aria-hidden="true">&rarr;</span>
           </button>
         </div>
@@ -328,7 +337,7 @@ function AccessCodeStartForm({
         </p>
       ) : (
         <p className="mt-4 text-[13.5px] leading-6 text-[#5A6275]">
-          You can start without a code, or enter one from {context.organizationName} to join their program.
+          <ProgramEntryText enabled={context.spanishEnabled} en={`You can start without a code, or enter one from ${context.organizationName} to join their program.`} es={`Puede comenzar sin un código o ingresar uno de ${context.organizationName} para unirse a su programa.`}/>
         </p>
       )}
     </div>

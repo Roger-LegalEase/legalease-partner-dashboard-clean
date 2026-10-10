@@ -48,7 +48,7 @@ function verifySourceWiring() {
   const screeningFlow = read("src/components/expungement-ai/screening/ScreeningFlow.tsx");
   const allowlist = read("scripts/rcap-scope-allowlist.mjs");
 
-  assert(page.includes("resolveRcapPartnerIntakeContext(partnerSlug)"), "Partner intake page must resolve partner context on load.");
+  assert(page.includes("resolveRcapPartnerIntakeContext(partnerSlug, typeof search.jurisdiction"), "Partner intake page must resolve partner context on load.");
   assert(page.includes("form action={startRcapPartnerScreening}"), "Partner intake start must require an explicit form action.");
   assert(page.includes("claimRcapPartnerScreeningSession({ partnerSlug, jurisdiction })"), "Start action must call the RPC wrapper.");
   assert(page.includes("This link is not active right now"), "Inactive-link copy is missing.");

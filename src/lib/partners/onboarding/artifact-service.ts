@@ -102,7 +102,9 @@ export async function loadArtifactSourceInput(
     );
   }
   const workspaceId = String(workspace.id);
-  const policyVersion = isRcap2Enabled() ? (await requireAdmin().from("partner_onboarding").select("rcap_policy_version").eq("id",workspaceId).single()).data?.rcap_policy_version : "legacy";
+  const operatingFacts = isRcap2Enabled() ? await requireAdmin().from("partner_onboarding").select("*").eq("id",workspaceId).single() : null;
+  if (operatingFacts?.error) throw new Phase1OnboardingError("persistence_failed", "Program policy is unavailable.");
+  const policyVersion = operatingFacts?.data?.rcap_policy_version ?? "legacy";
 
   const rcapMaterialFingerprints: Record<string,string> = {};
   if (policyVersion === "rcap2.2") await Promise.all(GENERATABLE_ARTIFACT_TYPES.map(async type => {
@@ -287,6 +289,7 @@ export async function loadArtifactSourceInput(
     packetAllocationSourceStatus: packetEntitlement.error ? "unavailable" : packetEntitlement.data ? "available" : "not_configured",
     workspace: {
       rcapPolicyVersion: policyVersion,
+      operatingModel: operatingFacts?.data?.operating_model ?? "partner_managed",
       rcapMaterialFingerprints,
       id: workspaceId,
       partnerSlug,

@@ -1,5 +1,6 @@
 import { clinicPacketDtcAuthorized, reserveClinicPacketFunding } from "@/lib/expungement-ai/clinic-packet-funding";
 import "server-only";
+import { getProgramPacketFunding } from "@/lib/partners/onboarding/program-packet-funding";
 import { readSponsoredChannelContext } from "@/lib/rcap/fulfillment/sponsored-channel-context";
 
 import { createHash } from "node:crypto";
@@ -1260,6 +1261,9 @@ async function requireCurrentPacketSponsorshipAuthority(
   if (source.value.matterId !== matterId) {
     throw new ConsumerPacketSponsorshipAuthorityUnavailableError("protected_partner_matter_mismatch");
   }
+  const funding=await getProgramPacketFunding(source.value.partnerSlug,source.value.jurisdiction);
+  if(funding==="consumer")return {sponsored:false,sourceSessionId:null};
+  if(funding!=="sponsored")throw new ConsumerPacketSponsorshipAuthorityUnavailableError("program_packet_authority_unavailable");
   const idempotencyKey = createHash("sha256")
     .update(`rcap-sponsored-credit/v1\0${source.value.sourceSessionId}\0${item.id}\0${matterId}`)
     .digest("hex");

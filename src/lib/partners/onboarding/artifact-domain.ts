@@ -276,6 +276,7 @@ export type ArtifactSourceInput = {
   agreementEvidenceCurrent?: boolean;
   workspace: {
     rcapPolicyVersion?: string;
+    operatingModel?: "partner_managed" | "legalease_managed";
     rcapMaterialFingerprints?: Record<string,string>;
     id: string;
     partnerSlug: string;
@@ -413,7 +414,16 @@ export function projectArtifactSource(
   const values: Record<string, unknown> = {};
   if (input.workspace.rcapPolicyVersion === "rcap2.2") { values.rcap_standard_policy = "rcap2.2"; values.rcap_dependency_hash = input.workspace.rcapMaterialFingerprints?.[artifactType] ?? null; }
 
+  if(input.workspace.operatingModel === "legalease_managed" && artifactType === "implementation_brief") {
+    const data=input.data;
+    for(const path of ["organization_contacts.legal_organization_name","organization_contacts.public_organization_name","organization_contacts.public_program_name","program_goals.operating_model","program_goals.operator_authority_reference","program_goals.external_agreement_applicability","program_goals.service_mode","program_goals.participation_mode","geography_audience_language_accessibility.jurisdictions","geography_audience_language_accessibility.service_area_description","geography_audience_language_accessibility.enable_spanish","access_sponsorship_capacity.participant_access_model","support_referrals_reporting.participant_support_email","support_referrals_reporting.contested_matter_procedure"]) {
+      const [section,key]=path.split(".");values[path]=(data[section as keyof typeof data] as Record<string,unknown>|undefined)?.[key]??null;
+    }
+    if(data.program_goals?.service_mode==="sponsored_packets") values.packet_credits=input.readOnlyValues.packet_credits??null;
+    return {artifactType,values,hash:hashArtifactSnapshot(values)};
+  }
   for (const field of ONBOARDING_SCHEMA_REGISTRY) {
+    if (["operating_model", "operator_authority_reference", "external_agreement_applicability", "service_mode"].includes(field.dataKey) && input.workspace.operatingModel !== "legalease_managed") continue;
     if (!field.consumers.some((consumer) => consumers.has(consumer))) continue;
     if (field.dataKey === "referral_arrangement" && !input.data.support_referrals_reporting?.referral_arrangement) continue;
     if (field.sectionKey === "support_referrals_reporting" && !isReferralFieldActive(input.data.support_referrals_reporting, field.dataKey)) continue;
@@ -587,5 +597,5 @@ export function detectArtifactDrift(input: {
 }
 
 export function artifactGeneratorVersion(type: ArtifactType, source: ArtifactSourceInput): string {
- return ARTIFACT_GENERATOR_VERSIONS[type] + (source.workspace.rcapPolicyVersion === "rcap2.2" ? "_rcap2" : "");
+ return ARTIFACT_GENERATOR_VERSIONS[type] + (source.workspace.operatingModel === "legalease_managed" ? "_operator_v1" : "") + (source.workspace.rcapPolicyVersion === "rcap2.2" ? "_rcap2" : "");
 }

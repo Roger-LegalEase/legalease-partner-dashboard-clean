@@ -4,7 +4,7 @@ import type { OnboardingSectionKey, OnboardingPartnerData } from "./types";
 // have their own evidence-bearing operations and cannot be written here.
 export const PROGRAM_CONFIGURATION_FIELDS: Partial<Record<OnboardingSectionKey, readonly string[]>> = {
   organization_contacts: ["legal_organization_name", "public_organization_name", "public_program_name", "website", "primary_address", "contacts"],
-  program_goals: ["participation_mode", "target_population"],
+  program_goals: ["operating_model", "operator_authority_reference", "external_agreement_applicability", "service_mode", "participation_mode", "target_population"],
   geography_audience_language_accessibility: ["jurisdictions", "service_area_description", "counties", "primary_language", "enable_spanish"],
   access_sponsorship_capacity: ["participant_access_model"],
   support_referrals_reporting: ["participant_support_email", "referral_arrangement", "contested_matter_procedure"],
@@ -13,6 +13,7 @@ export const PROGRAM_CONFIGURATION_FIELDS: Partial<Record<OnboardingSectionKey, 
 
 export type ProgramPatch = { section: OnboardingSectionKey; values: Record<string, unknown>; base: Record<string, unknown> };
 export type ProgramConfiguration = {
+  operatingModel: "partner_managed" | "legalease_managed";
   workspaceId: string;
   partnerSlug: string;
   version: number;
