@@ -26,7 +26,7 @@ export function ProgramOperations({initial}:{initial:Operations}){
    setOps(body.operations);request.current=null;setConfirmed(false);setMessage(body.operations.view?.decision.live?"Program is live and publication is verified.":"Saved. The current program status is shown below.");router.refresh();
   }catch(e){setMessage(e instanceof Error?e.message:"Please retry.");}finally{setBusy(false);}
  }
- const issues=ops.issues.length?<div role="alert" className="rounded border border-amber-300 bg-amber-50 p-4">{ops.issues.map(issue=><p key={issue.loader}>{issue.message}</p>)}<button className={button} onClick={()=>router.refresh()}>Reload workspace</button></div>:null;
+ const issues=ops.issues.length?<div role="alert" className="rounded border border-amber-300 bg-amber-50 p-4">{ops.issues.map(issue=><p key={issue.loader}>{issue.message}</p>)}<button className={button} onClick={()=>window.location.reload()}>Reload workspace</button></div>:null;
  if(!ops.view)return <section aria-label="Program operations">{issues}<button className={button} disabled>Start program</button></section>;
  const view=ops.view;
  const legacy=ops.identity.policyVersion==="legacy";

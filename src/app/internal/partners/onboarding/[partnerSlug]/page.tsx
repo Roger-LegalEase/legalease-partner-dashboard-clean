@@ -54,7 +54,7 @@ export default async function OnboardingDetailPage({ params }: { params: Promise
     return <main className="mx-auto max-w-6xl px-4 py-10 text-navy">
       <Link className="inline-flex min-h-11 items-center underline" href="/internal/partners/onboarding">All partner programs</Link>
       <h1 className="mt-4 text-3xl font-black">{partner.publicName}</h1><p className="mt-3">Prepare the program, record its genuine service authority, and invite its administrator.</p>
-      {issues.length?<div role="alert" className="mt-6 rounded border border-orange/40 bg-orange/10 p-4"><ul>{issues.map(issue=><li key={issue.loader}>{issue.message}</li>)}</ul><Link className="inline-flex min-h-11 items-center underline" href={`/internal/partners/onboarding/${encodeURIComponent(partnerSlug)}`}>Reload workspace</Link></div>:null}
+      {issues.length?<div role="alert" className="mt-6 rounded border border-orange/40 bg-orange/10 p-4"><ul>{issues.map(issue=><li key={issue.loader}>{issue.message}</li>)}</ul><a className="inline-flex min-h-11 items-center underline" href={`/internal/partners/onboarding/${encodeURIComponent(partnerSlug)}`}>Reload workspace</a></div>:null}
       {prefill?<ManagedProgramEditor key={prefill.workspace?.aggregateVersion} partnerSlug={partnerSlug} snapshot={prefill} compact/>:null}
       {adminAccess?<div className="mt-6"><FirstAdminAccessPanel partner={partner} initialAccess={adminAccess} onboardingEnabled/></div>:null}
       {operations?<ProgramOperations key={identity.version} initial={operations}/>:<button className="mt-6 min-h-11 rounded border px-5 disabled:opacity-50" disabled>Start program</button>}
