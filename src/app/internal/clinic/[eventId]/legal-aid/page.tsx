@@ -5,6 +5,7 @@ import { LegalAidAdminClient } from "@/components/legal-aid/LegalAidAdminClient"
 import { LegalAidShell } from "@/components/legal-aid/LegalAidShell";
 import { absolutePartnerAppUrl } from "@/lib/app-url";
 import { parseEventId } from "@/lib/clinic-mode/validation";
+import { getClinicEventWorkspace } from "@/lib/clinic-mode/service";
 import { listPolicyProfiles, listStaffCandidates, loadProfileTemplate } from "@/lib/legal-aid/admin-service";
 import { getLegalAidBranding } from "@/lib/legal-aid/branding";
 import { getLegalAidEventById } from "@/lib/legal-aid/registration-service";
@@ -25,6 +26,8 @@ export default async function InternalLegalAidAdminPage({ params }: { params: Pr
   const eventId = parseEventId(raw);
   const access = await resolveInternalAdminPageAccess(`/internal/clinic/${eventId}/legal-aid`);
   if (access.kind === "denied") return <InternalAdminDenied title={access.title} body={access.body} email={access.email} />;
+  const workspace = await getClinicEventWorkspace(eventId);
+  if (workspace.event.experience !== "legal_aid" && !workspace.legalAidAvailable) notFound();
   const event = await getLegalAidEventById(eventId);
   if (!event) notFound();
   const branding = getLegalAidBranding(event.partnerSlug);

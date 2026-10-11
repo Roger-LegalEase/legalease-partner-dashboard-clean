@@ -99,7 +99,7 @@ export async function getClinicEntryContext(eventSlug: string) {
   if (!rawToken) throw new ClinicServiceError("forbidden", "Enter the event access code on this device first.");
   const db = requireDatabase();
   const redemption = await db.from("clinic_event_access_redemptions").select("event_id,redeemed_at")
-    .eq("redemption_nonce_hash", sha256(rawToken)).gt("redeemed_at", new Date(Date.now() - 8 * 60 * 60 * 1000).toISOString()).maybeSingle();
+    .eq("redemption_nonce_hash", sha256(rawToken)).is("closed_at", null).gt("redeemed_at", new Date(Date.now() - 8 * 60 * 60 * 1000).toISOString()).maybeSingle();
   if (redemption.error || !redemption.data) throw new ClinicServiceError("forbidden", "The event entry handoff expired.");
   const event = await db.from("clinic_events").select("id,partner_slug,public_slug,name,jurisdiction,status")
     .eq("id", redemption.data.event_id).eq("public_slug", normalizeSlug(eventSlug)).eq("status", "published").maybeSingle();
@@ -121,7 +121,10 @@ export async function listClinicQueue(eventId: string): Promise<ClinicQueueCase[
     p_actor_user_id: actor.authUserId
   });
   if (result.error) throw new ClinicServiceError("unavailable", "Clinic queue is temporarily unavailable.");
+  const materialReadback=result.data?.length ? await requireDatabase().rpc("rcap_clinic_queue_materials",{p_cases:result.data.map((row:{id:string})=>row.id)}) : {data:{},error:null};
+  if(materialReadback.error)throw new ClinicServiceError("unavailable","Current case materials could not be checked. Reload the queue.");
   return (result.data ?? []).map((row: Record<string, unknown>) => ({
+    canMarkResultSaved:materialReadback.data?.[String(row.id)]?.saved===true,canMarkPacketPrepared:materialReadback.data?.[String(row.id)]?.packet===true,
     id: String(row.id), reference: clinicCaseReference(eventId, String(row.id)), eventId: String(row.event_id), participantUserId: String(row.participant_user_id),
     queueStatus: row.queue_status as ClinicQueueCase["queueStatus"], routeDisposition: row.route_disposition as ClinicQueueCase["routeDisposition"],
     jurisdiction: String(row.jurisdiction), courtIdentityVerified: Boolean(row.court_identity_verified),
@@ -145,6 +148,8 @@ export async function transitionClinicQueueCase(eventId: string, caseId: string,
   const result = await db.rpc("clinic_transition_event_case", {
     p_event_id: eventId, p_case_id: caseId, p_actor_user_id: actor.authUserId, p_queue_status: queueStatus
   });
+  if(result.data==="packet_not_prepared")throw new ClinicServiceError("conflict","The participant needs a completed packet for the current verified matter before it can be marked prepared.");
+  if(result.data==="result_not_saved")throw new ClinicServiceError("conflict","The participant must save their result to their own Briefcase before it can be marked saved.");
   if (result.error || result.data !== "updated") throw new ClinicServiceError(result.data === "forbidden" ? "forbidden" : "conflict", "Clinic queue transition was denied.");
   return "updated";
 }

@@ -12,7 +12,7 @@ type PartnerTeamInviteFormProps = {
 type SubmitState =
   | { kind: "idle" }
   | { kind: "submitting" }
-  | { kind: "success"; message: string; email: string; partnerSlug: string; role: "partner_staff" }
+  | { kind: "success"; message: string; email: string; partnerSlug: string; role: "partner_staff"; emailRequired:boolean }
   | { kind: "error"; message: string };
 
 type InviteResponse = {
@@ -25,7 +25,7 @@ type InviteResponse = {
 };
 
 export function PartnerTeamInviteForm({ partnerSlug, partnerName }: PartnerTeamInviteFormProps) {
-  const {locale}=useLocalization(); const t=(en:string,es:string)=>locale==="es"?es:en;
+  const {locale,text}=useLocalization(); const t=(en:string,es:string)=>locale==="es"?es:en;
   const [state, setState] = useState<SubmitState>({ kind: "idle" });
   const isSubmittingRef = useRef(false);
 
@@ -60,7 +60,8 @@ export function PartnerTeamInviteForm({ partnerSlug, partnerName }: PartnerTeamI
           message: result.message ?? successMessage(result.outcome),
           email: result.email ?? payload.email,
           partnerSlug: result.partnerSlug ?? partnerSlug,
-          role: "partner_staff"
+          role: "partner_staff",
+          emailRequired:!(["already_mapped","existing_user_mapped","mapped_existing_user"].includes(result.outcome??""))
         });
         safelyResetForm(form);
         return;
@@ -109,13 +110,13 @@ export function PartnerTeamInviteForm({ partnerSlug, partnerName }: PartnerTeamI
       <div className="grid gap-1.5">
         <span className="text-sm font-black text-navy">{t("Role","Rol")}</span>
         <div className="min-h-11 rounded-md border border-grayWilma-200 bg-grayWilma-100 px-3 py-3 text-sm font-semibold text-grayWilma-700">
-          Partner staff
+          {t("Partner staff","Personal del programa")}
         </div>
       </div>
 
       {state.kind === "success" ? (
         <div className="rounded-md border border-teal/25 bg-teal/10 px-4 py-4 text-sm text-teal">
-          <p className="font-black">{t("Status: Invitation created","Estado: Invitación creada")}</p>
+          <p className="font-black" role="status">{text(state.message)}</p>
           <dl className="mt-3 grid gap-2 text-grayWilma-800">
             <div className="grid gap-0.5">
               <dt className="text-xs font-black uppercase text-grayWilma-600">{t("Email","Correo")}</dt>
@@ -131,15 +132,15 @@ export function PartnerTeamInviteForm({ partnerSlug, partnerName }: PartnerTeamI
             </div>
             <div className="grid gap-0.5">
               <dt className="text-xs font-black uppercase text-grayWilma-600">{t("Next step","Siguiente paso")}</dt>
-              <dd className="font-semibold">{t("Ask the user to check their inbox and set their password.","Pida a la persona que revise su correo y establezca su contraseña.")}</dd>
+              <dd className="font-semibold">{state.emailRequired?t("Ask the user to check their inbox and set their password.","Pida a la persona que revise su correo y establezca su contraseña."):t("This account can sign in to the program. Clinic permissions are assigned separately.","Esta cuenta puede iniciar sesión en el programa. Los permisos de clínica se asignan por separado.")}</dd>
             </div>
           </dl>
-          <p className="sr-only">{state.message}</p>
+
         </div>
       ) : null}
 
       {state.kind === "error" ? (
-        <div className="rounded-md border border-orange/30 bg-orange/10 px-4 py-3 text-sm font-semibold text-orange">{state.message}</div>
+        <div role="alert" className="rounded-md border border-orange/30 bg-orange/10 px-4 py-3 text-sm font-semibold text-orange">{text(state.message)}</div>
       ) : null}
 
       <button

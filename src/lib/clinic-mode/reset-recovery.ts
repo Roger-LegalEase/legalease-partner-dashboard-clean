@@ -4,7 +4,7 @@ export const RECOVERY_COOKIE = "clinic_reset_recovery";
 export const RETENTION_SECONDS = 30 * 24 * 60 * 60;
 const CLOSE_MS = 8 * 60 * 60 * 1000;
 const RECONCILE_MS = 30 * 24 * 60 * 60 * 1000;
-export type Recovery = { version: 1; owner: string; handoff: string; device: string; expires: number; reconcileUntil?: number; retainUntil?: number; issuedAt?: number; staffOnly?: true; empty?: true };
+export type Recovery = { version: 1; owner: string; handoff: string; device: string; expires: number; reconcileUntil?: number; retainUntil?: number; issuedAt?: number; staffOnly?: true; empty?: true; entryOnly?: true };
 export const hash = (value: string) => createHash("sha256").update(value).digest("hex");
 function signature(payload: string) {
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY;

@@ -3,11 +3,11 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useLocalization } from "@/components/expungement-ai/LocalizationProvider";
 
-export function PartnerWorkspaceNav({ launchPrepEnabled, helpHref,programMode=false }: { launchPrepEnabled: boolean; helpHref: string;programMode?:boolean }) {
+export function PartnerWorkspaceNav({ launchPrepEnabled, helpHref,programMode=false,canManage=false,codesEnabled=false }: { launchPrepEnabled: boolean; helpHref: string;programMode?:boolean;canManage?:boolean;codesEnabled?:boolean }) {
   const pathname = usePathname();
   const { locale, setLocale } = useLocalization();
   const es = locale === "es";
-  const links = programMode ? [["/partner/dashboard",es?"Inicio":"Home"],["/partner/participants",es?"Participantes":"Participants"],["/partner/clinic",es?"Clínicas":"Clinics"],["/partner/reporting",es?"Informes":"Reporting"],["/partner/team",es?"Equipo":"Team"],["/partner/settings",es?"Configuración":"Settings"],[helpHref,es?"Ayuda":"Help"]] : [
+  const links = programMode ? [["/partner/dashboard",es?"Inicio":"Home"],["/partner/reporting",es?"Actividad e informes":"Activity & Reporting"],["/partner/clinic",es?"Clínicas":"Clinics"],...(canManage?[["/partner/team",es?"Equipo":"Team"],["/partner/settings",es?"Configuración":"Settings"]]:[]),...(canManage&&codesEnabled?[["/partner/access-codes",es?"Códigos de acceso":"Access codes"]]:[]),[helpHref,es?"Ayuda":"Help"]] : [
     ["/partner/dashboard", es ? "Inicio" : "Home"],
     ["/partner/onboarding", es ? "Configurar programa" : "Program setup"],
     ...(launchPrepEnabled ? [["/partner/onboarding/artifacts#your-page", es ? "Su página" : "Your page"], ["/partner/onboarding/resources", es ? "Lanzamiento y recursos" : "Launch & resources"]] : []),

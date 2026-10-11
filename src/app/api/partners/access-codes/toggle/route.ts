@@ -1,3 +1,4 @@
+import { assertSameOrigin, readBoundedJson, OnboardingRequestError } from "@/lib/partners/onboarding/request-security";
 import { NextRequest, NextResponse } from "next/server";
 import { getSafeRequestId, logSecurityError, logSecurityInfo, logSecurityWarn } from "@/lib/observability/logger";
 import { SessionPartnerError } from "@/lib/partners/session-partner";
@@ -14,8 +15,10 @@ export async function POST(request: NextRequest) {
 
   let body: Record<string, unknown>;
   try {
-    body = (await request.json()) as Record<string, unknown>;
-  } catch {
+    assertSameOrigin(request);
+    body = await readBoundedJson(request);
+  } catch (error) {
+    if(error instanceof OnboardingRequestError)return NextResponse.json({success:false,error:error.message},{status:error.status});
     return NextResponse.json({ success: false, error: "Invalid JSON." }, { status: 400 });
   }
 
@@ -42,7 +45,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ success: true, code });
   } catch (error) {
     if (error instanceof PartnerAccessCodeError) {
-      const status = error.code === "not_found" ? 404 : error.code === "supabase_unconfigured" ? 503 : 500;
+      const status = error.code === "not_found" ? 404 : error.code === "invalid_input" ? 400 : error.code === "supabase_unconfigured" ? 503 : 500;
       logSecurityWarn({ event: "access code toggle failed", route: ROUTE, outcome: error.code, requestId });
       return NextResponse.json({ success: false, error: error.message, code: error.code }, { status });
     }

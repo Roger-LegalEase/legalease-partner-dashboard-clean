@@ -739,25 +739,24 @@ function validateContactDuplicates(
     "contacts",
     contacts
   );
-  const roleEmailPairs = new Set<string>();
+  const roles = new Set<string>();
 
   for (const contact of contacts) {
-    if (!contact.role || !contact.work_email) {
+    if (!contact.role) {
       continue;
     }
-    const pair = `${contact.role}:${contact.work_email.toLowerCase()}`;
-    if (roleEmailPairs.has(pair)) {
+    if (roles.has(contact.role)) {
       issues.push(
         issue(
           "organization_contacts",
-          "contacts[].work_email",
+          "contacts[].role",
           "duplicate",
-          "The same work email may hold different roles, but a role and email pair may appear only once.",
+          "Choose one contact for each role. The same person may hold different roles.",
           contact.stable_row_id
         )
       );
     }
-    roleEmailPairs.add(pair);
+    roles.add(contact.role);
   }
   return issues;
 }

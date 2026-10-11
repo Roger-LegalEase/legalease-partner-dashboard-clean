@@ -1,0 +1,3 @@
+import fs from'node:fs';import{actorBrowser,origin,root,write,sourceIdentity}from'./campaign-support.mjs';
+const {slug}=JSON.parse(fs.readFileSync(root+'/server/existing-account-partner.private.json')),a=await actorBrowser('admin'),p=a.page;
+try{await p.goto(origin+'/internal/partners/onboarding/'+slug);await p.locator('#program-team > summary').click();const link=p.getByRole('link',{name:'Open partner dashboard',exact:true});await link.click();await p.waitForLoadState('networkidle');write('controls/admin-handoff-before.json',{sourceIdentity,route:new URL(p.url()).pathname,text:(await p.locator('body').innerText()).slice(0,1200),result:'OBSERVED'});}finally{await a.browser.close();}

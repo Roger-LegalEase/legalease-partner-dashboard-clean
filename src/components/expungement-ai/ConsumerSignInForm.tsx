@@ -24,7 +24,7 @@ const pendingClaimError = "You are signed in, but we could not save your result 
 type AuthMode = "create" | "signin";
 type PasswordlessState = "idle" | "magic" | "oauth";
 
-export function ConsumerSignInForm() {
+export function ConsumerSignInForm({ googleAvailable = false }: { googleAvailable?: boolean }) {
   const { t: translate, text: localizeText } = useLocalization();
   const handlerReady = useSyncExternalStore(subscribeToReadiness, clientReady, serverNotReady);
   const submission = useRef(false);
@@ -68,6 +68,7 @@ export function ConsumerSignInForm() {
     setPendingClaimFailed(false);
   }
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [claimUnavailable, setClaimUnavailable] = useState(false);
   const [pendingClaimFailure, setPendingClaimFailed] = useState<boolean | null>(null);
   const [captchaToken, setCaptchaToken] = useState("");
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -78,7 +79,8 @@ export function ConsumerSignInForm() {
   const requestParams = new URLSearchParams(locationSearch);
   const { claimToken } = consumerAuthContinuationFrom(requestParams);
   const pendingClaimFailed = pendingClaimFailure ?? (requestParams.get("claimRetry") === "1" && Boolean(claimToken));
-  const displayedError = errorMessage || (pendingClaimFailed && !isSubmitting
+  const terminalClaimFailure = claimUnavailable || requestParams.get("claimUnavailable") === "1";
+  const displayedError = terminalClaimFailure ? translate("signin.claim_unavailable", "This result link is no longer available. Start a new free screening, or return to your Briefcase for results you already saved.") : errorMessage || (pendingClaimFailed && !isSubmitting
     ? translate("signin.pending_claim_error", pendingClaimError)
     : "");
 
@@ -91,6 +93,7 @@ export function ConsumerSignInForm() {
     setErrorMessage("");
     const claimed = await submitClaim(requestContext.claimToken);
     if (!claimed.ok) {
+      setClaimUnavailable([400, 403, 404, 409, 410, 422].includes(claimed.status));
       setPendingClaimFailed(true);
       setIsSubmitting(false);
       return;
@@ -228,7 +231,7 @@ export function ConsumerSignInForm() {
   return (
     <>
       <div data-auth-mode={mode}>
-        <p className="text-xs font-bold uppercase text-[#00A99D]">{translate("signin.account", "Your Expungement.ai account")}</p>
+        <p className="text-xs font-bold uppercase text-[#08786F]">{translate("signin.account", "Your Expungement.ai account")}</p>
         <h1 className="mt-3 text-3xl font-extrabold">
           {createMode ? translate("signin.create_title", "Create your account") : translate("signin.title", "Sign in to continue")}
         </h1>
@@ -240,11 +243,11 @@ export function ConsumerSignInForm() {
       </div>
 
       {displayedError ? (
-        <div className="mt-6 rounded-md border border-[#FF3B00]/30 bg-[#FF3B00]/10 px-4 py-3 text-sm font-semibold text-[#FF3B00]">
+        <div className="mt-6 rounded-md border border-[#C2350A]/30 bg-[#C2350A]/10 px-4 py-3 text-sm font-semibold text-[#A82D08]">
           {localizeText(displayedError)}
-          {pendingClaimFailed && claimToken ? (
+          {terminalClaimFailure ? <div className="mt-3 flex flex-wrap gap-4"><Link className="inline-flex min-h-11 items-center underline" href="/expungement-ai/check">{translate("signin.new_screening", "Start a new free screening")}</Link><Link className="inline-flex min-h-11 items-center underline" href="/briefcase">{translate("signin.saved_results", "Open my Briefcase")}</Link></div> : pendingClaimFailed && claimToken ? (
             <button
-              className="mt-3 block min-h-10 rounded-md bg-[#FF3B00] px-4 py-2 text-sm font-bold text-white disabled:cursor-not-allowed disabled:opacity-60"
+              className="mt-3 block min-h-10 rounded-md bg-[#C2350A] px-4 py-2 text-sm font-bold text-white disabled:cursor-not-allowed disabled:opacity-60"
               data-pending-claim-retry="true"
               disabled={!handlerReady || isSubmitting}
               onClick={() => void runSubmission(finishPendingClaim)}
@@ -306,13 +309,14 @@ export function ConsumerSignInForm() {
             <input
               autoComplete={createMode ? "new-password" : "current-password"}
               className="min-w-0 flex-1 bg-transparent px-3 text-sm text-[#0B1320] outline-none"
+              aria-label={translate("common.password", "Password")}
               name="password"
               required
               type={isPasswordVisible ? "text" : "password"}
             />
             <button
               aria-label={isPasswordVisible ? translate("signin.hide_password", "Hide password") : translate("signin.show_password", "Show password")}
-              className="border-l border-[#ECEFF4] px-3 text-sm font-bold text-[#00A99D] transition hover:bg-[#F4F6FA] hover:text-[#0B1320] disabled:cursor-not-allowed disabled:opacity-60"
+              className="border-l border-[#ECEFF4] px-3 text-sm font-bold text-[#08786F] transition hover:bg-[#F4F6FA] hover:text-[#0B1320] disabled:cursor-not-allowed disabled:opacity-60"
               disabled={!handlerReady || isSubmitting}
               onClick={() => setIsPasswordVisible((visible) => !visible)}
               type="button"
@@ -323,7 +327,7 @@ export function ConsumerSignInForm() {
         </label>
         <TurnstileWidget onTokenChange={setCaptchaToken} />
         <button
-          className="inline-flex min-h-11 items-center justify-center rounded-md bg-[#FF3B00] px-5 text-sm font-bold text-white transition hover:bg-[#E63500] disabled:cursor-not-allowed disabled:opacity-60"
+          className="inline-flex min-h-11 items-center justify-center rounded-md bg-[#C2350A] px-5 text-sm font-bold text-white transition hover:bg-[#A92D08] disabled:cursor-not-allowed disabled:opacity-60"
           disabled={!handlerReady || isSubmitting}
           type="submit"
         >
@@ -348,7 +352,7 @@ export function ConsumerSignInForm() {
         </fieldset>
       </form>
 
-      <div className="my-5 flex items-center gap-3" aria-hidden="true">
+      {googleAvailable ? <><div className="my-5 flex items-center gap-3" aria-hidden="true">
         <span className="h-px flex-1 bg-[#ECEFF4]" />
         <span className="text-xs font-bold uppercase text-[#5A6275]">or</span>
         <span className="h-px flex-1 bg-[#ECEFF4]" />
@@ -360,11 +364,11 @@ export function ConsumerSignInForm() {
         type="button"
       >
         {passwordlessState === "oauth" ? translate("signin.opening_google", "Opening Google...") : translate("signin.continue_google", "Continue with Google")}
-      </button>
+      </button></> : null}
 
       <div className="mt-5 flex flex-col gap-3">
         <button
-          className="text-left text-sm font-semibold text-[#00A99D] hover:text-[#0B1320]"
+          className="text-left text-sm font-semibold text-[#08786F] hover:text-[#0B1320]"
           disabled={!handlerReady || isSubmitting || passwordlessState !== "idle"}
           onClick={() => switchAuthMode(createMode ? "signin" : "create")}
           type="button"
@@ -373,7 +377,7 @@ export function ConsumerSignInForm() {
             ? translate("signin.switch_to_signin", "Already have an account? Sign in")
             : translate("signin.switch_to_create", "New here? Create account")}
         </button>
-        {!createMode ? <Link href={forgotPasswordHref(locationSearch)} className="text-sm font-semibold text-[#00A99D] hover:text-[#0B1320]">
+        {!createMode ? <Link href={forgotPasswordHref(locationSearch)} className="text-sm font-semibold text-[#08786F] hover:text-[#0B1320]">
           {translate("signin.forgot", "Forgot your password?")}
         </Link> : null}
       </div>

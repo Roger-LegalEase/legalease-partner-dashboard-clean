@@ -1,6 +1,7 @@
+import { randomUUID } from "node:crypto";
+import { ProgramEntrySubmit } from "@/components/partners/onboarding/ProgramEntrySubmit";
 import { ProgramEntryLanguage, ProgramEntryText } from "@/components/partners/onboarding/ProgramEntryLanguage";
 import { clinicConsumerContinuation } from "@/lib/expungement-ai/claim/clinic-acquisition";
-import { SponsorCapacityEntryNotice } from "@/components/expungement-ai/SponsorCapacityNotice";
 import { redirect } from "next/navigation";
 import { FunnelBeacon } from "@/components/analytics/FunnelBeacon";
 import {
@@ -47,6 +48,7 @@ export default async function RcapPartnerIntakePage({
 }) {
   const [{ partnerSlug }, search] = await Promise.all([params, searchParams]);
   const status = typeof search.status === "string" ? search.status : "";
+  const requestId=randomUUID();
   // County / UTM / source attribution is optional; carry it through the account
   // round-trip and into the screening start so it is not dropped.
   const attribution = extractPartnerAttribution(search);
@@ -67,13 +69,13 @@ export default async function RcapPartnerIntakePage({
     <CoBrandHeader organizationName={context.organizationName} logoUrl={context.logoUrl}/><ProgramEntryLanguage enabled={context.spanishEnabled}/>
     <h1 className="mt-6 text-2xl font-bold"><ProgramEntryText enabled={context.spanishEnabled} en="Choose where your record is located" es="Elija dónde se encuentra su expediente"/></h1>
     <p className="mt-3"><ProgramEntryText enabled={context.spanishEnabled} en="Each jurisdiction has its own screening and legal requirements." es="Cada jurisdicción tiene sus propios requisitos legales y de evaluación."/></p>
-    <form className="mt-6" method="GET"><label><ProgramEntryText enabled={context.spanishEnabled} en="Screening jurisdiction" es="Jurisdicción de evaluación"/><select aria-label="Screening jurisdiction" name="jurisdiction" required defaultValue="" className="ml-3 rounded border p-3"><option value="" disabled><ProgramEntryText enabled={context.spanishEnabled} en="Choose a jurisdiction" es="Elija una jurisdicción"/></option>{context.jurisdictions.map(code=><option key={code} value={code}>{stateName(code)}</option>)}</select></label>
+    <form className="mt-6" method="GET"><label className="block"><ProgramEntryText enabled={context.spanishEnabled} en="Screening jurisdiction" es="Jurisdicción de evaluación"/><select name="jurisdiction" required defaultValue="" className="mt-2 block min-h-11 w-full rounded border p-3"><option value="" disabled><ProgramEntryText enabled={context.spanishEnabled} en="Choose a jurisdiction" es="Elija una jurisdicción"/></option>{context.jurisdictions.map(code=><option key={code} value={code}>{stateName(code)}</option>)}</select></label>
     {Object.entries(attribution).map(([key,value])=><input key={key} type="hidden" name={key} value={value}/>)}<button className="ml-3 rounded bg-navy p-3 text-white" type="submit"><ProgramEntryText enabled={context.spanishEnabled} en="Continue" es="Continuar"/></button></form>
   </section></PageShell>;
   if (status === "program-full") {
     return (
       <PageShell>
-        <ProgramFullState organizationName={context.organizationName} logoUrl={context.logoUrl} consumerUrl={auth.userId ? clinicConsumerContinuation(auth.userId, context.jurisdiction, `partner:${context.partnerSlug}`) : `/expungement-ai/sign-in?next=${encodeURIComponent(`/intake/${context.partnerSlug}?status=program-full`)}`} />
+        <ProgramFullState spanishEnabled={context.spanishEnabled} organizationName={context.organizationName} logoUrl={context.logoUrl} consumerUrl={auth.userId ? clinicConsumerContinuation(auth.userId, context.jurisdiction, `partner:${context.partnerSlug}`) : `/expungement-ai/screening/${context.jurisdiction.toLowerCase()}`} />
       </PageShell>
     );
   }
@@ -88,7 +90,7 @@ export default async function RcapPartnerIntakePage({
 
   const state = stateName(context.jurisdiction);
   const programName = context.programName ?? `${state} Expungement Workflow`;
-  const serviceArea = context.serviceArea ?? state;
+  const serviceArea = context.jurisdictions.map(stateName).join(", ");
   const codeError = status.startsWith("code_") ? codeErrorMessage(status.slice("code_".length), context) : null;
 
   return (
@@ -111,7 +113,7 @@ export default async function RcapPartnerIntakePage({
               {context.organizationName} × LegalEase
             </h1>
             <p className="mt-4 max-w-xl text-[15.5px] leading-7 text-[#475A6E] md:text-[16.5px]">
-              <ProgramEntryText enabled={context.spanishEnabled} en={`Create a free account to save your answers, access your Briefcase, and receive support through ${context.organizationName}. Then start your ${state} record-clearing screening.`} es={`Cree una cuenta gratuita para guardar sus respuestas, acceder a su Briefcase y recibir apoyo de ${context.organizationName}. Luego comience su evaluación de antecedentes de ${state}.`}/>
+              <ProgramEntryText enabled={context.spanishEnabled} en={`Start your free ${state} screening. After your preliminary result, create an account or sign in to save it in your private Briefcase.`} es={`Comience su evaluación gratuita de ${state}. Después del resultado preliminar, cree una cuenta o inicie sesión para guardarlo en su Briefcase privado.`}/>
             </p>
 
             <ul className="mt-6 flex flex-wrap gap-2.5">
@@ -126,71 +128,33 @@ export default async function RcapPartnerIntakePage({
               program={programName}
               serviceArea={serviceArea}
               screeningState={state}
+              spanishEnabled={context.spanishEnabled}
             />
 
-            {auth.isAuthenticated ? (
-              context.accessMode === "open" ? (
+            {context.accessMode === "open" ? (
                 <form action={startRcapPartnerScreening} className="mt-8">
                   <input type="hidden" name="partnerSlug" value={context.partnerSlug} />
+                  <input type="hidden" name="requestId" value={requestId} />
                   <input type="hidden" name="jurisdiction" value={context.jurisdiction} />
                   {Object.entries(attribution).map(([key, value]) => (
                     <input key={key} type="hidden" name={`attr_${key}`} value={value} />
                   ))}
-                  <button
-                    type="submit"
-                    className="inline-flex min-h-[52px] w-full items-center justify-center gap-2 rounded-[16px] bg-[#FF3B00] px-6 py-3.5 text-[16px] font-extrabold text-white shadow-[0_14px_34px_rgba(255,59,0,0.30)] transition hover:bg-[#E63500] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0B1320] focus-visible:ring-offset-2 sm:w-auto sm:min-w-[260px]"
-                  >
-                    <ProgramEntryText enabled={context.spanishEnabled} en="Start your record-clearing screening" es="Comience su evaluación de antecedentes"/>
-                    <span aria-hidden="true">&rarr;</span>
-                  </button>
+                  <ProgramEntrySubmit spanishEnabled={context.spanishEnabled}/>
                   <p className="mt-3.5 max-w-lg text-[13.5px] leading-6 text-[#5A6275]">
-                    <ProgramEntryText enabled={context.spanishEnabled} en="Your screening happens inside your account so your answers, result, next steps, and Briefcase stay available even if no packet path is available right now." es="Su evaluación se guarda en su cuenta. Sus respuestas, resultado, próximos pasos y Briefcase siguen disponibles aunque no haya un paquete disponible en este momento."/>
+                    <ProgramEntryText enabled={context.spanishEnabled} en="Screening is preliminary. Saving a result requires your own verified account; screening alone creates no matter, payment or packet entitlement." es="La evaluación es preliminar. Para guardar el resultado se requiere su propia cuenta verificada; la evaluación por sí sola no crea un asunto, pago ni derecho a un paquete."/>
                   </p>
                 </form>
               ) : (
-                <AccessCodeStartForm context={context} attribution={attribution} codeError={codeError} />
-              )
-            ) : (
-              <AccountFirstActions partnerSlug={context.partnerSlug} jurisdiction={context.jurisdiction} attribution={attribution} spanishEnabled={context.spanishEnabled}/>
+                <AccessCodeStartForm context={context} attribution={attribution} codeError={codeError} requestId={requestId}/>
             )}
           </div>
 
           <div className="border-t border-[#F0ECE3] bg-[#FBF8F2] px-7 py-4 md:px-10">
-            <p className="text-[12px] leading-5 text-[#8A93A6]"><ProgramEntryText enabled={context.spanishEnabled} en={UPL_DISCLAIMER} es="Expungement.ai no es un bufete de abogados. Esta herramienta no ofrece asesoría legal ni garantiza elegibilidad o resultados. No se garantiza la aprobación del tribunal."/></p>
+            <p className="text-[12px] leading-5 text-[#59667B]"><ProgramEntryText enabled={context.spanishEnabled} en={UPL_DISCLAIMER} es="Expungement.ai no es un bufete de abogados. Esta herramienta no ofrece asesoría legal ni garantiza elegibilidad o resultados. No se garantiza la aprobación del tribunal."/></p>
           </div>
         </div>
       </section>
     </PageShell>
-  );
-}
-
-function AccountFirstActions({ partnerSlug, jurisdiction, attribution, spanishEnabled }: { partnerSlug: string; jurisdiction:string; attribution: Record<string, string>; spanishEnabled:boolean }) {
-  // Preserve county/UTM/source attribution on the return path so it survives
-  // account creation and email verification.
-  const next = appendAttributionQuery(`/intake/${encodeURIComponent(partnerSlug)}?jurisdiction=${encodeURIComponent(jurisdiction)}`, attribution);
-  const createHref = `/expungement-ai/sign-in?mode=create&partner=${encodeURIComponent(partnerSlug)}&next=${encodeURIComponent(next)}`;
-  const signInHref = `/expungement-ai/sign-in?mode=signin&partner=${encodeURIComponent(partnerSlug)}&next=${encodeURIComponent(next)}`;
-  return (
-    <div className="mt-8 rounded-[20px] border border-[#EFE9DD] bg-[#FCFAF5] p-4">
-      <h2 className="text-[18px] font-black text-[#0B1320]"><ProgramEntryText enabled={spanishEnabled} en="Create your free Briefcase" es="Cree su Briefcase gratuito"/></h2>
-      <p className="mt-2 text-[14px] leading-6 text-[#475A6E]">
-        <ProgramEntryText enabled={spanishEnabled} en="Sign in before screening to save your answers and next steps. Creating an account, verifying email, and completing screening do not use sponsored packet funding." es="Inicie sesión antes de la evaluación para guardar sus respuestas y próximos pasos. Crear una cuenta, verificar su correo y completar la evaluación no consume fondos para paquetes patrocinados."/>
-      </p>
-      <div className="mt-5 flex flex-col gap-3 sm:flex-row">
-        <a
-          href={createHref}
-          className="inline-flex min-h-[52px] items-center justify-center rounded-[16px] bg-[#FF3B00] px-6 py-3.5 text-[15px] font-extrabold text-white shadow-[0_14px_34px_rgba(255,59,0,0.30)] transition hover:bg-[#E63500] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0B1320] focus-visible:ring-offset-2"
-        >
-          <ProgramEntryText enabled={spanishEnabled} en="Start your record-clearing screening" es="Comience su evaluación de antecedentes"/>
-        </a>
-        <a
-          href={signInHref}
-          className="inline-flex min-h-[52px] items-center justify-center rounded-[16px] border border-[#D7DEE8] bg-white px-6 py-3.5 text-[15px] font-extrabold text-[#0B1320] transition hover:border-[#CBD5E1] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00A99D] focus-visible:ring-offset-2"
-        >
-          <ProgramEntryText enabled={spanishEnabled} en="Sign in to continue" es="Inicie sesión para continuar"/>
-        </a>
-      </div>
-    </div>
   );
 }
 
@@ -199,10 +163,9 @@ async function startRcapPartnerScreening(formData: FormData) {
 
   const partnerSlug = String(formData.get("partnerSlug") ?? "");
   const jurisdiction = String(formData.get("jurisdiction") ?? "");
-  const auth=await getRcapBriefcaseAuthState();
-  if(!auth.isAuthenticated) redirect(`/expungement-ai/sign-in?next=${encodeURIComponent(`/intake/${encodeURIComponent(partnerSlug)}?jurisdiction=${encodeURIComponent(jurisdiction)}`)}`);
+  const requestId=String(formData.get("requestId")??"");
   const attribution = readAttributionFromFormData(formData);
-  const result = await claimRcapPartnerScreeningSession({ partnerSlug, jurisdiction });
+  const result = await claimRcapPartnerScreeningSession({ partnerSlug, jurisdiction, requestId });
 
   if (result.ok) {
     redirect(
@@ -214,7 +177,7 @@ async function startRcapPartnerScreening(formData: FormData) {
   }
 
   if (result.reason === "capacity_full") {
-    redirect(appendAttributionQuery(`/intake/${encodeURIComponent(partnerSlug)}?status=program-full`, attribution));
+    redirect(appendAttributionQuery(`/intake/${encodeURIComponent(partnerSlug)}?jurisdiction=${encodeURIComponent(jurisdiction)}&status=program-full`, attribution));
   }
 
   redirect(`/intake/${encodeURIComponent(partnerSlug)}?status=inactive`);
@@ -225,14 +188,13 @@ async function startRcapPartnerScreeningWithCode(formData: FormData) {
 
   const partnerSlug = String(formData.get("partnerSlug") ?? "");
   const jurisdiction = String(formData.get("jurisdiction") ?? "");
-  const auth=await getRcapBriefcaseAuthState();
-  if(!auth.isAuthenticated) redirect(`/expungement-ai/sign-in?next=${encodeURIComponent(`/intake/${encodeURIComponent(partnerSlug)}?jurisdiction=${encodeURIComponent(jurisdiction)}`)}`);
+  const requestId=String(formData.get("requestId")??"");
   const accessCode = String(formData.get("accessCode") ?? "");
   const attribution = readAttributionFromFormData(formData);
 
   // The server resolves attribution from the partner's access_mode + code.
   // The browser cannot assert partner benefit.
-  const result = await claimPartnerScreeningSessionWithCode({ partnerSlug, jurisdiction, accessCode });
+  const result = await claimPartnerScreeningSessionWithCode({ partnerSlug, jurisdiction, accessCode, requestId });
 
   if (result.ok) {
     redirect(
@@ -247,19 +209,23 @@ async function startRcapPartnerScreeningWithCode(formData: FormData) {
     redirect(`/intake/${encodeURIComponent(partnerSlug)}?status=inactive`);
   }
 
+  if (result.reason === "capacity_full") redirect(`/intake/${encodeURIComponent(partnerSlug)}?jurisdiction=${encodeURIComponent(jurisdiction)}&status=program-full`);
+
   // Invalid / missing / expired / exhausted code: re-render intake with a clear
   // message and the standard-consumer escape hatch. No partner benefit granted.
   redirect(`/intake/${encodeURIComponent(partnerSlug)}?jurisdiction=${encodeURIComponent(jurisdiction)}&status=code_${result.reason}`);
 }
 
-type CodeError = { headline: string; body: string };
+type CodeError = { headline: string; body: string; headlineEs: string; bodyEs: string };
 
 function codeErrorMessage(reason: string, context: RcapPartnerIntakeContext): CodeError {
   const partner = context.organizationName;
   if (reason === "code_required") {
     return {
       headline: "An access code is required",
-      body: `${partner} uses access codes to protect its sponsored packet allocation. You can enter a code to continue through their program, or continue through the standard Expungement.ai experience.`
+      body: `${partner} requires a code for program entry. A code does not grant packet funding. You can enter a code to continue through their program, or continue through the standard Expungement.ai experience.`,
+      headlineEs: "Se requiere un código de acceso",
+      bodyEs: `${partner} requiere un código para acceder al programa. El código no otorga financiación para paquetes. Puede ingresar un código o continuar con la experiencia estándar de Expungement.ai.`
     };
   }
   const detail: Record<string, string> = {
@@ -268,20 +234,28 @@ function codeErrorMessage(reason: string, context: RcapPartnerIntakeContext): Co
     expired: "That access code has expired.",
     exhausted: "That access code has already been used."
   };
+  const detailEs: Record<string, string> = {
+    invalid: "Este código no es válido para esta organización.", inactive: "Este código no está activo en este momento.",
+    expired: "Este código ha vencido.", exhausted: "Este código ha alcanzado su límite de usos."
+  };
   return {
     headline: "That access code did not work",
-    body: `${detail[reason] ?? detail.invalid} Please check the code or continue through the standard Expungement.ai experience.`
+    body: `${detail[reason] ?? detail.invalid} Please check the code or continue through the standard Expungement.ai experience.`,
+    headlineEs: "El código de acceso no funcionó",
+    bodyEs: `${detailEs[reason] ?? detailEs.invalid} Revise el código o continúe con la experiencia estándar de Expungement.ai.`
   };
 }
 
 function AccessCodeStartForm({
   context,
   attribution,
-  codeError
+  codeError,
+  requestId
 }: {
   context: RcapPartnerIntakeContext;
   attribution: Record<string, string>;
   codeError: CodeError | null;
+  requestId:string;
 }) {
   const required = context.accessMode === "required_code" || context.accessMode === "invite_only";
   const consumerHref = `/expungement-ai/screening/${context.jurisdiction.toLowerCase()}`;
@@ -289,13 +263,14 @@ function AccessCodeStartForm({
     <div className="mt-8">
       {codeError ? (
         <div className="mb-5 rounded-[16px] border border-[#F3C9B8] bg-[#FDF1E8] p-4">
-          <p className="text-[14px] font-black text-[#9A3412]">{codeError.headline}</p>
-          <p className="mt-1.5 text-[13.5px] leading-6 text-[#7C3A1D]">{codeError.body}</p>
+          <p className="text-[14px] font-black text-[#9A3412]" role="alert"><ProgramEntryText enabled={context.spanishEnabled} en={codeError.headline} es={codeError.headlineEs}/></p>
+          <p className="mt-1.5 text-[13.5px] leading-6 text-[#7C3A1D]"><ProgramEntryText enabled={context.spanishEnabled} en={codeError.body} es={codeError.bodyEs}/></p>
         </div>
       ) : null}
 
       <form action={startRcapPartnerScreeningWithCode}>
         <input type="hidden" name="partnerSlug" value={context.partnerSlug} />
+                  <input type="hidden" name="requestId" value={requestId} />
         <input type="hidden" name="jurisdiction" value={context.jurisdiction} />
         {Object.entries(attribution).map(([key, value]) => (
           <input key={key} type="hidden" name={`attr_${key}`} value={value} />
@@ -317,21 +292,16 @@ function AccessCodeStartForm({
         />
 
         <div className="mt-5">
-          <button
-            type="submit"
-            className="inline-flex min-h-[52px] w-full items-center justify-center gap-2 rounded-[16px] bg-[#FF3B00] px-6 py-3.5 text-[16px] font-extrabold text-white shadow-[0_14px_34px_rgba(255,59,0,0.30)] transition hover:bg-[#E63500] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0B1320] focus-visible:ring-offset-2 sm:w-auto sm:min-w-[260px]"
-          >
-            <ProgramEntryText enabled={context.spanishEnabled} en="Start your record-clearing screening" es="Comience su evaluación de antecedentes"/>
-            <span aria-hidden="true">&rarr;</span>
-          </button>
+          <ProgramEntrySubmit spanishEnabled={context.spanishEnabled} code/>
+
         </div>
       </form>
 
       {required ? (
         <p className="mt-4 text-[13.5px] leading-6 text-[#5A6275]">
-          Don&rsquo;t have a code?{" "}
+          <ProgramEntryText enabled={context.spanishEnabled} en="Don’t have a code?" es="¿No tiene un código?"/>{" "}
           <a href={consumerHref} className="font-extrabold text-[#0B5C54] underline underline-offset-2">
-            Continue through the standard Expungement.ai experience
+            <ProgramEntryText enabled={context.spanishEnabled} en="Continue through the standard Expungement.ai experience" es="Continuar con la experiencia estándar de Expungement.ai"/>
           </a>
           .
         </p>
@@ -370,7 +340,7 @@ function CoBrandHeader({ organizationName, logoUrl }: { organizationName: string
       )}
       <span aria-hidden="true" className="text-[15px] font-bold text-[#B9C2CF]">+</span>
       <span className="text-[15px] font-black tracking-[-0.01em] text-[#0B1320]">
-        Expungement<span className="text-[#00A99D]">.ai</span>
+        Expungement<span className="text-[#08786F]">.ai</span>
       </span>
     </div>
   );
@@ -393,28 +363,30 @@ function ProgramDetails({
   partner,
   program,
   serviceArea,
-  screeningState
+  screeningState,
+  spanishEnabled
 }: {
   partner: string;
   program: string;
   serviceArea: string;
   screeningState: string;
+  spanishEnabled: boolean;
 }) {
   const rows: Array<[string, string]> = [
     ["Partner", partner],
     ["Program", program],
-    ["Service area", serviceArea],
+    ["Authorized jurisdictions", serviceArea],
     ["Screening state", screeningState]
   ];
   return (
     <div className="mt-7 rounded-[20px] border border-[#EFE9DD] bg-[#FCFAF5] p-1.5">
-      <p className="px-3.5 pb-1 pt-2.5 text-[11.5px] font-extrabold uppercase tracking-[0.09em] text-[#9A8F79]">
-        Program details
+      <p className="px-3.5 pb-1 pt-2.5 text-[11.5px] font-extrabold uppercase tracking-[0.09em] text-[#6B625B]">
+        <ProgramEntryText enabled={spanishEnabled} en="Program details" es="Detalles del programa"/>
       </p>
       <dl className="grid gap-1.5 sm:grid-cols-2">
         {rows.map(([label, value]) => (
           <div key={label} className="rounded-[14px] bg-white px-3.5 py-3 ring-1 ring-[#F0ECE3]">
-            <dt className="text-[11px] font-bold uppercase tracking-[0.06em] text-[#9AA3B2]">{label}</dt>
+            <dt className="text-[11px] font-bold uppercase tracking-[0.06em] text-[#59667B]"><ProgramEntryText enabled={spanishEnabled} en={label} es={{Partner:"Organización",Program:"Programa","Authorized jurisdictions":"Jurisdicciones autorizadas","Screening state":"Estado de evaluación"}[label] ?? label}/></dt>
             <dd className="mt-1 text-[14.5px] font-black text-[#0B1320]">{value}</dd>
           </div>
         ))}
@@ -423,11 +395,16 @@ function ProgramDetails({
   );
 }
 
-function ProgramFullState({ organizationName, logoUrl, consumerUrl }: { organizationName: string; logoUrl: string | null; consumerUrl: string }) {
+function ProgramFullState({ organizationName, logoUrl, consumerUrl, spanishEnabled }: { organizationName: string; logoUrl: string | null; consumerUrl: string; spanishEnabled: boolean }) {
   return (
     <section className="mx-auto w-full max-w-lg">
       <CoBrandHeader organizationName={organizationName} logoUrl={logoUrl} />
-      <div className="mt-6"><SponsorCapacityEntryNotice consumerUrl={consumerUrl} /></div>
+      <ProgramEntryLanguage enabled={spanishEnabled}/>
+      <div className="mt-6 rounded-2xl border bg-white p-6">
+        <h1 className="text-2xl font-black"><ProgramEntryText enabled={spanishEnabled} en="This program has reached its screening capacity" es="Este programa ha alcanzado su capacidad de evaluación"/></h1>
+        <p role="status" className="mt-4"><ProgramEntryText enabled={spanishEnabled} en="Ask the organization about availability, or continue with free screening through the standard consumer service. Program entry does not grant packet funding." es="Consulte a la organización sobre la disponibilidad o continúe con la evaluación gratuita del servicio estándar. El acceso al programa no otorga financiación para paquetes."/></p>
+        <a href={consumerUrl} className="mt-6 inline-flex min-h-12 items-center rounded-md bg-[#0F1E3D] px-5 py-3 font-bold text-white"><ProgramEntryText enabled={spanishEnabled} en="Continue with standard consumer service" es="Continuar con el servicio estándar"/></a>
+      </div>
     </section>
   );
 }
@@ -437,25 +414,25 @@ function InactiveLinkState() {
     <section className="mx-auto w-full max-w-lg">
       <div className="flex items-center justify-center gap-2 text-center">
         <span className="text-[15px] font-black tracking-[-0.01em] text-[#0B1320]">
-          Expungement<span className="text-[#00A99D]">.ai</span>
+          Expungement<span className="text-[#08786F]">.ai</span>
         </span>
       </div>
+      <ProgramEntryLanguage enabled/>
       <div className="mt-6 rounded-[28px] border border-[#EFE9DD] bg-white/90 p-8 text-center shadow-[0_30px_80px_-44px_rgba(11,19,32,0.40)] backdrop-blur md:p-10">
         <span className="inline-flex items-center gap-2 rounded-full bg-[#EEF2F7] px-3.5 py-1.5 text-[12px] font-extrabold uppercase tracking-[0.08em] text-[#475A6E]">
-          Partner record-clearing access
+          <ProgramEntryText enabled en="Partner record-clearing access" es="Acceso a la eliminación de antecedentes"/>
         </span>
         <h1 className="mt-5 text-[26px] font-black leading-tight text-[#0B1320] md:text-[30px]">
-          This link is not active right now
+          <ProgramEntryText enabled en="This link is not active right now" es="Este enlace no está activo en este momento"/>
         </h1>
         <p className="mx-auto mt-3 max-w-md text-[15px] leading-7 text-[#475A6E]">
-          The partner program link may be paused or unavailable. Please contact the organization that
-          shared it with you.
+          <ProgramEntryText enabled en="The partner program link may be paused or unavailable. Please contact the organization that shared it with you." es="El enlace del programa puede estar pausado o no disponible. Comuníquese con la organización que lo compartió."/>
         </p>
         <a
           href="https://expungement.ai"
-          className="mt-7 inline-flex min-h-[48px] items-center justify-center rounded-[14px] bg-[#FF3B00] px-6 py-3 text-[15px] font-extrabold text-white shadow-[0_12px_30px_rgba(255,59,0,0.28)] transition hover:bg-[#E63500] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0B1320] focus-visible:ring-offset-2"
+          className="mt-7 inline-flex min-h-[48px] items-center justify-center rounded-[14px] bg-[#B94622] px-6 py-3 text-[15px] font-extrabold text-white shadow-[0_12px_30px_rgba(255,59,0,0.28)] transition hover:bg-[#963718] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0B1320] focus-visible:ring-offset-2"
         >
-          Back to Expungement.ai
+          <ProgramEntryText enabled en="Back to Expungement.ai" es="Volver a Expungement.ai"/>
         </a>
       </div>
     </section>

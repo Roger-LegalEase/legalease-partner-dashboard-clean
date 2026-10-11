@@ -1,3 +1,4 @@
+import { assertSameOrigin, readBoundedJson } from "@/lib/partners/onboarding/request-security";
 import { NextRequest, NextResponse } from "next/server";
 import { clinicErrorResponse } from "@/app/api/clinic/error-response";
 import { listClinicFollowUps, saveClinicFollowUp } from "@/lib/clinic-mode/reporting-service";
@@ -22,8 +23,9 @@ export async function GET(_request: NextRequest, { params }: { params: Promise<{
 
 export async function POST(request: NextRequest, { params }: { params: Promise<{ eventId: string }> }) {
   try {
+    assertSameOrigin(request);
     const { eventId } = await params;
-    const input = parseInput(await request.json());
+    const input = parseInput(await readBoundedJson(request));
     const id = await saveClinicFollowUp(parseEventId(eventId), input);
     return NextResponse.json({ success: true, id });
   } catch (error) {
@@ -39,6 +41,7 @@ function parseInput(value: unknown): SaveClinicFollowUpInput {
   const communicationState = String(body.communicationState) as ClinicFollowUp["communicationState"];
   if (!statuses.includes(status) || !communicationStates.includes(communicationState)) throw new Error("invalid follow-up state");
   return {
+    ...(body.requestId ? {requestId:parseEventId(String(body.requestId))} : {}),
     id: body.id ? parseEventId(String(body.id)) : null,
     clinicCaseId: parseEventId(typeof body.clinicCaseId === "string" ? body.clinicCaseId : ""),
     ownerEventStaffId: body.ownerEventStaffId ? parseEventId(String(body.ownerEventStaffId)) : null,

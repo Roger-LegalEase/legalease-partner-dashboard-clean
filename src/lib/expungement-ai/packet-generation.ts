@@ -1,5 +1,6 @@
-import { clinicPacketDtcAuthorized, reserveClinicPacketFunding } from "@/lib/expungement-ai/clinic-packet-funding";
+import { rcapConsumerPacketAuthorized, reserveClinicPacketFunding } from "@/lib/expungement-ai/clinic-packet-funding";
 import "server-only";
+import { getSupabaseAdminClient } from "@/lib/supabase/server";
 import { getProgramPacketFunding } from "@/lib/partners/onboarding/program-packet-funding";
 import { readSponsoredChannelContext } from "@/lib/rcap/fulfillment/sponsored-channel-context";
 
@@ -190,6 +191,7 @@ export type ConsumerPacketStatus = {
   packetStatus: NonNullable<ConsumerBriefcaseItem["packetStatus"]>;
   artifactRefs?: ConsumerPacketArtifactRefs;
   canDownload: boolean;
+  retryable?: boolean;
   renderJobId?: string;
   protectedSponsorship?: {
     sourceSessionId: string;
@@ -417,6 +419,22 @@ export async function getConsumerPacketStatus({
     verification: currentVerification,
     entitlement: sponsorship.sponsored ? sponsorship.entitlement : undefined
   });
+  if (!partnerSponsored) {
+    const db = getSupabaseAdminClient();
+    if (!db) throw new ConsumerPacketArtifactAuthorityUnavailableError("render_status_storage_unavailable");
+    const job = await db.from("packet_render_jobs").select("status,failure_disposition")
+      .eq("consumer_auth_user_id", userId).eq("consumer_briefcase_item_id", item.id)
+      .eq("consumer_verification_hash", currentVerification.hash)
+      .order("created_at", { ascending: false }).limit(1).maybeSingle();
+    if (job.error) throw new ConsumerPacketArtifactAuthorityUnavailableError("render_status_read_failed");
+    if (job.data) return {
+      // Read only: readiness still requires the protected artifact above. A
+      // queue status cannot manufacture a download or a new paid entitlement.
+      packetStatus: ["failed", "cancelled"].includes(job.data.status) ? "failed" : "pending",
+      canDownload: false,
+      retryable: job.data.status === "failed" && job.data.failure_disposition === "retryable"
+    };
+  }
   return { packetStatus: "not_started", canDownload: false };
 }
 
@@ -1253,7 +1271,7 @@ async function requireCurrentPacketSponsorshipAuthority(
   });
   if (!source.ok) throw new ConsumerPacketSponsorshipAuthorityUnavailableError(source.reason);
   if (source.value.product !== "rcap_partner") return { sponsored: false, sourceSessionId: null };
-  if (await clinicPacketDtcAuthorized(userId, item.id)) return { sponsored: false, sourceSessionId: null };
+  if (await rcapConsumerPacketAuthorized(userId, item.id)) return { sponsored: false, sourceSessionId: null };
   if (!source.value.partnerBenefitActive || !source.value.partnerSlug || !source.value.sourceSessionId) {
     throw new ConsumerPacketSponsorshipAuthorityUnavailableError("protected_partner_source_missing");
   }

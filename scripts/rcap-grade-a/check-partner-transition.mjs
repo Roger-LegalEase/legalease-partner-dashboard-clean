@@ -1,0 +1,113 @@
+import { sha, sourceIdentity, root as campaignRoot } from './campaign-support.mjs';
+// Development investigation through real local controls; not final acceptance.
+import { chromium } from 'playwright';
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import { randomUUID } from 'node:crypto';
+const origin = 'http://127.0.0.1:3100';
+assert.equal(process.env.NEXT_PUBLIC_SUPABASE_URL, 'http://127.0.0.1:54321');
+assert.notEqual(process.env.VERCEL_ENV, 'production');
+const access = JSON.parse(fs.readFileSync('/workspaces/training-modules-09-10/output/rcap-practice-access.json'));
+const resume = process.env.RCAP_RESUME_PARTNER === 'true' ? JSON.parse(fs.readFileSync(`${campaignRoot}/server/partner-development-access.private.json`)) : null;
+const slug = resume?.slug ?? `integrated-partner-${Date.now().toString(36)}`;
+const email = resume?.email ?? `${slug}@example.test`;
+const password = resume?.password ?? `Isolated!9-${randomUUID()}`;
+const folder = campaignRoot;
+const receipt = {kind:'INTEGRATED_CAMPAIGN_REPLAY',slug,stages:[],result:'RUNNING'};
+const browser = await chromium.launch();
+const admin = await browser.newContext();
+const page = await admin.newPage();
+page.setDefaultTimeout(60000);
+let active = page;
+try {
+ if (!resume) {
+  await page.goto(`${origin}/sign-in?next=/internal/partners/provisioning/new`);
+  await page.locator('input[type=email]').fill(access.owner.email);
+  await page.locator('input[type=password]').fill(access.owner.password);
+  await page.getByRole('button',{name:/^sign in$/i}).click();
+  await page.waitForURL(url=>url.pathname==='/internal/partners/provisioning/new');
+  await page.getByLabel('Program operator',{exact:true}).selectOption('partner_managed');
+  await page.getByLabel('Public organization name',{exact:true}).fill('Isolated Partner Integration');
+  await page.getByLabel('Legal organization name',{exact:true}).fill('Isolated Partner Integration');
+  await page.getByLabel('Program name',{exact:true}).fill('Partner Bilingual Screening');
+  await page.locator('[name=partnerSlug]').fill(slug);
+  for(const name of ['California','District of Columbia','Virginia']) await page.getByRole('checkbox',{name,exact:true}).check();
+  await page.getByLabel('Enable English and Spanish').check();
+  await page.getByLabel('Administrator name',{exact:true}).fill('Isolated Partner Administrator');
+  await page.getByLabel('Administrator work email',{exact:true}).fill(email);
+  await page.locator('[name=clearanceReason]').fill('Owner-authorized isolated partner workflow development check. No Production records or external delivery.');
+  await page.getByRole('button',{name:'Review program',exact:true}).click();
+  const created=page.waitForResponse(r=>r.url().endsWith('/api/internal/partners/provisioning')&&r.request().method()==='POST');
+  await page.getByRole('button',{name:'Create program',exact:true}).click();
+  const response=await created;
+  assert.equal(response.status(),200,JSON.stringify(await response.json()));
+  await page.waitForURL(url=>url.pathname===`/internal/partners/onboarding/${slug}`);
+  await captureStage('Created from approved template through application');
+  await page.locator('#program-team > summary').click();
+  await page.getByRole('button',{name:'Create administrator invitation',exact:true}).click();
+  await page.getByRole('button',{name:'Review administrator access',exact:true}).click();
+  await page.getByRole('button',{name:'Confirm and create invitation',exact:true}).click();
+  await page.getByRole('button',{name:'Send invitation',exact:true}).click();
+  await page.getByText('Invitation sent through the configured email provider.',{exact:true}).waitFor();
+  const mailbox=await(await fetch('http://127.0.0.1:54324/api/v1/messages')).json();
+  const mail=mailbox.messages.find(message=>message.To.some(to=>to.Address===email));
+  assert.ok(mail,'Actual invitation must reach the local mailbox');
+  const full=await(await fetch(`http://127.0.0.1:54324/api/v1/message/${mail.ID}`)).json();
+  const link=/href="([^"]*\/partner\/setup\?token=[^"]+)"/.exec(full.HTML)?.[1];
+  assert.ok(link);
+  assert.equal(new URL(link).origin,origin);
+  await captureStage('Reviewed invitation delivered to actual isolated Mailpit recipient');
+  const partner=await browser.newContext();
+  active=await partner.newPage();active.setDefaultTimeout(60000);
+  await active.goto(link);
+  await active.getByLabel('New password',{exact:true}).fill(password);
+  await active.getByLabel('Confirm password',{exact:true}).fill(password);
+  await active.getByRole('button',{name:'Set password',exact:true}).click();
+  await active.waitForURL(url=>url.pathname==='/partner/onboarding');
+  fs.writeFileSync(`${folder}/server/partner-development-access.private.json`,JSON.stringify({slug,email,password}),{mode:0o600});
+  await captureStage('Actual invitation claim and password setup established scoped partner membership');
+ } else {
+  active=await (await browser.newContext()).newPage(); active.setDefaultTimeout(60000);
+  await active.goto(`${origin}/sign-in?next=/partner/onboarding`);
+  await active.locator('input[type=email]').fill(email); await active.locator('input[type=password]').fill(password);
+  await active.getByRole('button',{name:/^sign in$/i}).click();
+  await active.waitForURL(url=>url.pathname==='/partner/onboarding');
+ }
+  const before=await active.evaluate(async()=>{const r=await fetch('/api/partners/onboarding/program');return r.json();});
+  assert.equal(before.view.partnerSlug,slug);
+  assert.deepEqual(before.view.permittedJurisdictions,['CA','DC','VA']);
+  for(const step of ['join','organization','program','team']) {
+    await active.getByRole('button',{name:new RegExp(`^\\d\\s*${{join:'Join',organization:'Organization',program:'Program',team:'Team'}[step]}$`)}).click();
+    const action=step==='team'?"I'll do this later":'Continue';
+    await active.getByRole('button',{name:action,exact:true}).click();
+    await active.getByRole('button',{name:/^\d\s*Join$/}).waitFor();
+    await active.waitForFunction(()=>!Array.from(document.querySelectorAll('button')).find(b=>/^1\s*Join$/.test(b.textContent??''))?.disabled);
+    await captureStage(`Completed ${step} through its visible action`);
+  }
+  await active.getByRole('heading',{name:'Final review & program confirmation',exact:true}).waitFor();
+  const view=await active.evaluate(async()=>{const r=await fetch('/api/partners/onboarding/program');return (await r.json()).view;});
+  assert.equal(view.materials.length,2);
+  assert.deepEqual(view.materials.find(m=>m.type==='co_branded_page_configuration').document.pagePreview.missing,[]);
+  assert.ok(view.reviewToken);
+  await active.getByRole('checkbox',{name:/I confirm that the organization/}).check();
+  await active.getByRole('button',{name:'Confirm my program',exact:true}).click();
+  await active.waitForURL(url=>url.pathname==='/partner/dashboard');
+  const after=await active.evaluate(async()=>{const r=await fetch('/api/partners/onboarding/program');return (await r.json()).view;});
+  assert.equal(after.decision.setupComplete,true);
+  assert.equal(after.decision.live,false);
+  assert.equal(await active.getByRole('link',{name:'Continue setup',exact:true}).count(),0);
+  await captureStage('Exact materials confirmed; dashboard available while genuine commercial authority remains pending');
+  receipt.materials=after.materials.map(({type,id,version,hash})=>({type,id,version,hash}));
+  receipt.result='PASS';
+} catch(error) {
+  receipt.result='FAIL';receipt.error=error.message.split('\n')[0];
+  receipt.path=new URL(active.url()).pathname;
+  receipt.visibleText=(await active.locator('body').innerText()).slice(-12000);
+  process.exitCode=1;
+} finally {
+  fs.writeFileSync(`${folder}/server/partner-transition-development.json`,JSON.stringify(receipt,null,2));
+  console.log(JSON.stringify({result:receipt.result,slug,stages:receipt.stages,error:receipt.error,path:receipt.path}));
+  await browser.close();
+}
+
+async function captureStage(observed){receipt.stages.push(observed);const number=receipt.stages.length;const stagePage=active;const dir=`${campaignRoot}/journeys/partner-transition`;fs.mkdirSync(dir,{recursive:true});await stagePage.screenshot({path:dir+'/'+number+'.png',fullPage:true});const controls=await stagePage.locator('button,a[href],input,select,textarea,summary').evaluateAll(nodes=>nodes.filter(e=>e.getClientRects().length).map(e=>({tag:e.tagName,name:e.getAttribute('aria-label')||[...e.labels??[]].map(l=>l.innerText).join(' ').trim()||(e.tagName==='SELECT'?'':e.innerText?.trim())||'',href:e.getAttribute('href'),disabled:e.disabled===true})));fs.writeFileSync(dir+'/'+number+'.json',JSON.stringify({sourceSha:sha,sourceIdentity,observed,route:new URL(stagePage.url()).pathname,controls},null,2));}

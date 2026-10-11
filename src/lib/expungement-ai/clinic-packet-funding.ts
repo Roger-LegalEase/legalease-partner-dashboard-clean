@@ -11,6 +11,16 @@ export async function clinicPacketDtcAuthorized(userId: string, itemId: string):
   return data;
 }
 
+/** Same protected funding interpretation used by payment recording. This is a
+ * read-only classification, never a payment or a sponsored packet entitlement. */
+export async function rcapConsumerPacketAuthorized(userId: string, itemId: string): Promise<boolean> {
+  const db = getSupabaseAdminClient();
+  if (!db) throw new Error("Packet funding authority is unavailable.");
+  const { data, error } = await db.rpc("rcap_consumer_packet_authorized", { p_item: itemId, p_owner: userId });
+  if (error || typeof data !== "boolean") throw new Error("Packet funding authority is unavailable.");
+  return data;
+}
+
 export class SponsorCapacityRequiresCheckoutError extends Error {
   constructor() { super("Sponsor capacity is exhausted. Continue with checkout for this same verified matter."); }
 }

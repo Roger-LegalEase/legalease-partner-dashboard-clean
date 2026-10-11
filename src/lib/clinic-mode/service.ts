@@ -1,6 +1,6 @@
 import "server-only";
 
-import { createHash, randomBytes } from "node:crypto";
+import { createHash, createHmac, randomBytes } from "node:crypto";
 import QRCode from "qrcode";
 import { ClinicServiceError } from "@/lib/clinic-mode/errors";
 import { absolutePartnerAppUrl } from "@/lib/app-url";
@@ -40,25 +40,11 @@ export async function requireClinicPartnerAdmin() {
 /** Program choices come from the same administrator scope as event creation. */
 export async function listClinicPrograms(): Promise<ClinicProgramOption[]> {
   const actor = await requireClinicEventAdministrator();
-  const db = requireDatabase();
-  let query = db.from("partner_records").select("partner_slug,organization_name,partner_name,target_state,state,service_area").order("organization_name");
-  if (actor.kind === "partner") query = query.eq("partner_slug", actor.partnerSlug);
-  const records = await query;
-  if (records.error) throw new ClinicServiceError("unavailable", "Partner programs could not be loaded. Please retry.");
-  if (!records.data?.length) return [];
-  const workspaces = await db.from("partner_onboarding").select("id,partner_slug").in("partner_slug", records.data.map(row => row.partner_slug));
-  if (workspaces.error) throw new ClinicServiceError("unavailable", "Program information could not be loaded. Please retry.");
-  const sections = workspaces.data?.length ? await db.from("partner_onboarding_sections").select("workspace_id,response_data")
-    .in("workspace_id", workspaces.data.map(row => row.id)).eq("section_key", "geography_audience_language_accessibility") : {data: [], error: null};
-  if (sections.error) throw new ClinicServiceError("unavailable", "Program geography could not be loaded. Please retry.");
-  return records.data.map(record => {
-    const workspace = workspaces.data?.find(row => row.partner_slug === record.partner_slug);
-    const data = sections.data?.find(row => row.workspace_id === workspace?.id)?.response_data ?? {};
-    const fallback = record.target_state || record.state;
-    return {slug: record.partner_slug, name: record.organization_name || record.partner_name,
-      geography: typeof data.service_area_description === "string" ? data.service_area_description : record.service_area??"",
-      jurisdictions: Array.isArray(data.jurisdictions) ? data.jurisdictions.filter((value: unknown): value is string => typeof value === "string") : fallback ? [fallback] : []};
-  });
+  const result = await requireDatabase().rpc("rcap_service_clinic_program_options", { p_actor: actor.authUserId });
+  if (result.error || !Array.isArray(result.data) || !result.data.every(row => row && typeof row.slug === "string" && Array.isArray(row.jurisdictions) && typeof row.canCreate === "boolean" && typeof row.canSponsor === "boolean")) {
+    throw new ClinicServiceError("unavailable", "Program permissions could not be loaded. Please retry.");
+  }
+  return result.data as ClinicProgramOption[];
 }
 
 export async function listClinicEvents(): Promise<ClinicEvent[]> {
@@ -81,9 +67,14 @@ export async function listClinicEvents(): Promise<ClinicEvent[]> {
   return (result.data ?? []).map(row => ({...mapEvent(row), staffPermissions: assignments.find(assignment => assignment.event_id === row.id)?.permissions}));
 }
 
-export async function getClinicEventWorkspace(eventId: string): Promise<ClinicEventWorkspace> {
+export async function getClinicEventWorkspace(eventId: string, purpose: "administration" | "follow_up" = "administration"): Promise<ClinicEventWorkspace> {
   const actor = await resolveClinicActor();
   const db = requireDatabase();
+  if (actor.kind === "partner" && actor.role !== "partner_admin") {
+    if (purpose !== "follow_up") throw new ClinicServiceError("forbidden", "Program administrator access is required for event controls.");
+    const permission = await db.rpc("clinic_actor_can_event", { p_event_id: eventId, p_actor_user_id: actor.authUserId, p_permission: "follow_up" });
+    if (permission.error || permission.data !== true) throw new ClinicServiceError("forbidden", "This event requires an approved follow-up assignment.");
+  }
   let eventQuery = db.from("clinic_events").select("*").eq("id", eventId);
   if (actor.kind === "partner") eventQuery = eventQuery.eq("partner_slug", actor.partnerSlug);
   const eventResult = await eventQuery.maybeSingle();
@@ -107,16 +98,22 @@ export async function getClinicEventWorkspace(eventId: string): Promise<ClinicEv
   const members = staffOnly && !staffResult.data?.length ? {data: [], error: null} : await membersQuery;
   if (members.error) throw new ClinicServiceError("unavailable", "The partner team could not be loaded. Please retry.");
   const partner = await db.from("partner_records").select("organization_name,partner_name").eq("partner_slug", event.partnerSlug).maybeSingle();
-  const entryUrl = absolutePartnerAppUrl(`/clinic/${event.publicSlug}`);
+  const legalAid = !staffOnly && event.status === "draft" ? await db.rpc("rcap_program_legal_aid_available", { p_slug: event.partnerSlug }) : null;
+  if (legalAid?.error) throw new ClinicServiceError("unavailable", "Event mode availability could not be checked. Please retry.");
+  const readiness = !staffOnly && ["draft","paused"].includes(event.status) ? await db.rpc("rcap_clinic_open_issue", {p_event:event.id}) : null;
+  if(readiness?.error)throw new ClinicServiceError("unavailable","Event opening conditions could not be checked. Reload to retry.");
+  const entryUrl = absolutePartnerAppUrl(`/clinic/${event.publicSlug}${event.experience === "legal_aid" ? "/register" : ""}`);
   return {
     event,
+    legalAidAvailable: legalAid?.data === true,
+    openingIssue:readiness?.data ? clinicOpeningIssue(String(readiness.data)) : null,
     partnerName: partner.data?.organization_name || partner.data?.partner_name || "Partner program",
     entryUrl,
-    qrDataUrl: await QRCode.toDataURL(entryUrl, { margin: 1, width: 320, errorCorrectionLevel: "M" }),
+    qrDataUrl: staffOnly ? "" : await QRCode.toDataURL(entryUrl, { margin: 1, width: 320, errorCorrectionLevel: "M" }),
     staff: (staffResult.data ?? []).map(mapStaff),
     staffOptions: (members.data ?? []).flatMap(member => member.invited_email ? [{ id: member.id, email: member.invited_email }] : []),
-    accessCodes: (codesResult.data ?? []).map(mapCode),
-    audit: (auditResult.data ?? []).map(mapAudit)
+    accessCodes: staffOnly ? [] : (codesResult.data ?? []).map(mapCode),
+    audit: staffOnly ? [] : (auditResult.data ?? []).map(mapAudit)
   };
 }
 
@@ -177,7 +174,13 @@ export async function setClinicEventStaff(eventId: string, input: SetClinicStaff
 export async function createClinicAccessCode(eventId: string, input: CreateClinicAccessCodeInput) {
   const actor = await requireClinicEventAdministrator();
   await assertEventScope(actor, eventId);
-  const rawCode = `CLINIC-${randomBytes(9).toString("base64url").toUpperCase()}`;
+  // A retry after a lost response returns the original code without storing a
+  // readable secret. Identity includes actor, event and exact requested limits.
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  if (input.requestId && !key) throw new ClinicServiceError("unavailable", "Event code preparation is unavailable. Retry later.");
+  const rawCode = `CLINIC-${input.requestId
+    ? createHmac("sha256", key!).update(JSON.stringify(["clinic-code-v1", actor.authUserId, eventId, input.requestId, input.maxUses, input.startsAt, input.expiresAt])).digest("base64url").slice(0,24).toUpperCase()
+    : randomBytes(9).toString("base64url").toUpperCase()}`;
   const codeHash = createHash("sha256").update(rawCode.normalize("NFKC").trim().toUpperCase()).digest("hex");
   const result = await requireDatabase().rpc("clinic_create_access_code", {
     p_actor_user_id: actor.authUserId,
@@ -223,9 +226,20 @@ function requireDatabase() {
 }
 
 function writeError(message?: string) {
+  if(message?.startsWith("clinic_open_"))return new ClinicServiceError("conflict",clinicOpeningIssue(message.slice("clinic_open_".length)).reason);
+  if (message?.includes("clinic_request_conflict")) return new ClinicServiceError("conflict", "This request already created an event or code with different details. Open the existing event before creating another.");
+  if (message?.includes("clinic_code_inactive")) return new ClinicServiceError("conflict", "The original code is no longer active. Review the event's current codes before creating another.");
   if (message?.includes("forbidden") || message?.includes("cross_tenant")) return new ClinicServiceError("forbidden", "Clinic mutation is not authorized.");
   if (message?.includes("duplicate") || message?.includes("unique")) return new ClinicServiceError("conflict", "A Clinic record with those details already exists.");
   return new ClinicServiceError("unavailable", "The Clinic mutation could not be completed.");
+}
+
+export function clinicOpeningIssue(code:string):NonNullable<ClinicEventWorkspace["openingIssue"]>{
+ if(code==="staff_required")return {reason:"Assign an active team member with Assist participants permission before opening this clinic.",destination:"staff"};
+ if(code==="code_required")return {reason:"Generate an available event access code before opening this clinic. Expired, exhausted or future codes cannot admit participants now.",destination:"codes"};
+ if(code==="event_ended")return {reason:"This event has ended. Create a new clinic with future operating hours.",destination:"clinics"};
+ if(code==="event_full")return {reason:"This event has reached its intake capacity. Create another clinic for additional participants.",destination:"clinics"};
+ return {reason:"The current event could not be verified. Return to Clinics and reload it.",destination:"clinics"};
 }
 
 function mapEvent(row: Record<string, unknown>): ClinicEvent {
@@ -235,6 +249,7 @@ function mapEvent(row: Record<string, unknown>): ClinicEvent {
     locationName: String(row.location_name), geography: String(row.geography), capacity: Number(row.capacity),
     jurisdiction: row.jurisdiction ? String(row.jurisdiction) : null,
     status: row.status as ClinicEventStatus, sponsorshipAllocation: row.sponsorship_allocation === null ? null : Number(row.sponsorship_allocation),
+    experience: row.experience === "legal_aid" ? "legal_aid" : "standard",
     createdAt: String(row.created_at), updatedAt: String(row.updated_at)
   };
 }

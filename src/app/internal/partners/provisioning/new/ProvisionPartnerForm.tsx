@@ -1,437 +1,104 @@
 "use client";
 
-import { useRef, useState, type FormEvent } from "react";
+import Link from "next/link";
+import { useEffect, useRef, useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
-import { AlertTriangle, Building2, CheckCircle2, ShieldCheck } from "lucide-react";
-import { Badge } from "@/components/ui/Badge";
-import { Button } from "@/components/ui/Button";
-import { Card } from "@/components/ui/Card";
-import {
-  buildPartnerProvisioningPreview,
-  partnerPageNameError,
-  validatePartnerProvisioningInput,
-  type PartnerProvisioningPreview
-} from "@/lib/partners/partner-provisioning-domain";
+import { validatePartnerProvisioningInput, partnerPageNameError } from "@/lib/partners/partner-provisioning-domain";
+import { programServiceArea } from "@/lib/partners/onboarding/program-defaults";
+import { JurisdictionPicker } from "@/components/partners/onboarding/JurisdictionPicker";
 
-import { absolutePartnerAppUrl } from "@/lib/app-url";
-
-type Values = {
-  organizationName: string;
-  legalOrganizationName: string;
-  partnerSlug: string;
-  programName: string;
-  programPurpose: string;
-  administratorName: string;
-  administratorEmail: string;
-  clearanceReason: string;
+const control = "mt-2 min-h-11 w-full rounded-lg border bg-white px-3 py-2 font-normal";
+const button = "inline-flex min-h-11 items-center justify-center rounded-lg border px-5 py-3 font-bold disabled:opacity-50";
+const initial = {
+  operatingModel: "", organizationName: "", legalOrganizationName: "", partnerSlug: "", programName: "",
+  programPurpose: "Free record-clearing screening for people in the program service area.",
+  administratorName: "", administratorEmail: "", clearanceReason: "", jurisdictions: [] as string[],
+  enableSpanish: false, website: "", template: "screening-standard-v1"
 };
 
-type ProvisioningResult = {
-  created: boolean;
-  replayed: boolean;
-  partnerSlug: string;
-  organizationName: string;
-  sectionCount: number;
-  milestoneCount: number;
-};
-
-const emptyValues: Values = {
-  organizationName: "",
-  legalOrganizationName: "",
-  partnerSlug: "",
-  programName: "",
-  programPurpose: "",
-  administratorName: "",
-  administratorEmail: "",
-  clearanceReason: ""
-};
-
-/**
- * Three steps, one primary action.
- *
- * The review step exists because provisioning is the one moment where an
- * operator can create a tenant that a partner will later see. Showing exactly
- * what will and will not be created — before the single "Provision" button —
- * is what keeps "provisioned" from reading as "launched".
- */
+/** One reviewed, idempotent creation followed by the canonical Configure workspace. */
 export function ProvisionPartnerForm() {
   const router = useRouter();
-  const [values, setValues] = useState<Values>(emptyValues);
-  const [preview, setPreview] = useState<PartnerProvisioningPreview | null>(null);
-  const [error, setError] = useState<string | null>(null);
+  const [values, setValues] = useState(initial);
+  const [reviewing, setReviewing] = useState(false);
+  const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
-  const [result, setResult] = useState<ProvisioningResult | null>(null);
-  // One key per reviewed request. A retry after a network failure reuses it, so
-  // the retry can only ever return the first outcome.
-  const idempotencyKey = useRef<string | null>(null);
-
-  const pagePrefix = absolutePartnerAppUrl("/p/");
-  const pageNameError = values.partnerSlug ? partnerPageNameError(values.partnerSlug) : "";
-
-  function set<K extends keyof Values>(key: K, value: string) {
-    setValues((current) => ({ ...current, [key]: value }));
-  }
-
+  const request = useRef<{ payload: string; id: string } | null>(null);
+  const inFlight = useRef(false);
+  const created = useRef(false);
+  const heading = useRef<HTMLHeadingElement>(null);
+  useEffect(() => { heading.current?.focus({ preventScroll: true }); }, [reviewing]);
+  const dirty = JSON.stringify(values) !== JSON.stringify(initial);
+  useEffect(() => {
+    if (!dirty) return;
+    const unload = (event: BeforeUnloadEvent) => { if (!created.current) event.preventDefault(); };
+    const navigate = (event: MouseEvent) => {
+      if (created.current || event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+      const link = event.target instanceof Element ? event.target.closest<HTMLAnchorElement>("a[href]") : null;
+      if (!link || link.target === "_blank") return;
+      const next = new URL(link.href, location.href);
+      if (next.origin === location.origin && next.pathname === location.pathname && next.search === location.search) return;
+      if (!window.confirm("Leave without creating this program? Your unsaved details will be discarded.")) { event.preventDefault(); event.stopPropagation(); }
+    };
+    window.addEventListener("beforeunload", unload); document.addEventListener("click", navigate, true);
+    return () => { window.removeEventListener("beforeunload", unload); document.removeEventListener("click", navigate, true); };
+  }, [dirty]);
+  const managed = values.operatingModel === "legalease_managed";
+  const suggestedSlug = (name: string) => name.normalize("NFKD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 100);
+  const set = <K extends keyof typeof initial>(key: K, value: typeof initial[K]) => setValues(previous => {
+    const next = { ...previous, [key]: value };
+    if (key === "organizationName" && typeof value === "string") {
+      if (!previous.programName || previous.programName === `${previous.organizationName} Record Clearing Program`) next.programName = value ? `${value} Record Clearing Program` : "";
+      if (!previous.partnerSlug || previous.partnerSlug === suggestedSlug(previous.organizationName)) next.partnerSlug = suggestedSlug(value);
+      if (!previous.legalOrganizationName || previous.legalOrganizationName === previous.organizationName) next.legalOrganizationName = value;
+    }
+    return next;
+  });
   function review(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    setError(null);
-    const key = idempotencyKey.current ?? crypto.randomUUID();
-    const validated = validatePartnerProvisioningInput({
-      ...values,
-      idempotencyKey: key
-    });
+    event.preventDefault(); setError("");
+    const payload = JSON.stringify(values);
+    if (request.current?.payload !== payload) request.current = { payload, id: crypto.randomUUID() };
+    const validated = validatePartnerProvisioningInput({ ...values, idempotencyKey: request.current.id });
     if (!validated.ok) {
       setError(validated.error);
       const field = event.currentTarget.elements.namedItem(validated.field ?? "");
       if (field instanceof HTMLElement) field.focus();
       return;
     }
-    idempotencyKey.current = key;
-    setPreview(buildPartnerProvisioningPreview(validated.value));
+    setReviewing(true);
   }
-
-  async function provision() {
-    if (!preview || !idempotencyKey.current) return;
-    setBusy(true);
-    setError(null);
+  async function create() {
+    if (!request.current || inFlight.current) return;
+    inFlight.current = true; setBusy(true); setError("");
     try {
-      const response = await fetch("/api/internal/partners/provisioning", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({ ...values, idempotencyKey: idempotencyKey.current })
-      });
-      const data = (await response.json().catch(() => null)) as {
-        ok?: boolean;
-        message?: string;
-        result?: ProvisioningResult;
-      } | null;
-      if (!response.ok || data?.ok !== true || !data.result) {
-        setError(
-          data?.message ??
-            "Provisioning did not complete. Nothing was created."
-        );
-        setBusy(false);
-        return;
-      }
-      setResult(data.result);
-      setBusy(false);
-    } catch {
-      setError(
-        "Provisioning could not be confirmed. Retrying with this same request will not create a second partner."
-      );
-      setBusy(false);
-    }
+      const response = await fetch("/api/internal/partners/provisioning", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ ...values, idempotencyKey: request.current.id }) });
+      const body = await response.json();
+      if (!response.ok || body.ok !== true || !body.result?.partnerSlug) throw new Error(body.message ?? "Creation could not be confirmed. Retry this request to check its original result.");
+      created.current = true;
+      router.push(`/internal/partners/onboarding/${encodeURIComponent(body.result.partnerSlug)}?created=1#configure-program`);
+    } catch (failure) { setError(failure instanceof Error ? failure.message : "Creation could not be confirmed. Retry with this same request; it cannot create a second program."); setBusy(false); }
+    finally { inFlight.current = false; }
   }
-
-  if (result) {
-    return (
-      <Card className="rounded-md p-6" data-provisioning-state="complete">
-        <Badge tone="teal">Provisioned</Badge>
-        <h2 className="mt-4 flex items-center gap-2 text-2xl font-black text-navy">
-          <CheckCircle2 className="h-6 w-6 text-teal" aria-hidden="true" />
-          {result.organizationName} is provisioned
-        </h2>
-        <p className="mt-3 text-sm leading-6 text-grayWilma-700">
-          {result.replayed
-            ? "This request was already processed. The original partner was returned and nothing was created a second time."
-            : `One partner tenant, one program, one onboarding workspace, ${result.sectionCount} onboarding sections, ${result.milestoneCount} implementation milestones, and one private participant page configuration were created.`}
-        </p>
-        <dl className="mt-5 grid gap-2 text-sm sm:grid-cols-2">
-          <ResultState label="Administrator access" value="Not invited" />
-          <ResultState label="Program configuration" value="Not started" />
-          <ResultState label="Publication" value="Private" />
-          <ResultState label="Program activation" value="Inactive" />
-        </dl>
-        <p className="mt-5 text-sm leading-6 text-grayWilma-700">
-          Provisioning is not launch. You can prepare the program now. Request the administrator’s confirmation when the program needs their approval.
-        </p>
-        <div className="mt-6">
-          <Button
-            className="min-h-11"
-            onClick={() =>
-              router.push(
-                `/internal/partners/onboarding/${encodeURIComponent(result.partnerSlug)}`
-              )
-            }
-            type="button"
-          >
-            Continue to program setup
-          </Button>
-        </div>
-      </Card>
-    );
-  }
-
-  if (preview) {
-    return (
-      <Card className="rounded-md p-6" data-provisioning-state="review">
-        <Badge tone="orange">Review before provisioning</Badge>
-        <h2 className="mt-4 text-2xl font-black text-navy">
-          {preview.organizationName}
-        </h2>
-        <dl className="mt-4 grid gap-2 text-sm sm:grid-cols-2">
-          <ResultState label="Legal organization name" value={preview.legalOrganizationName} />
-          <ResultState label="Page address" value={`${pagePrefix}${preview.partnerSlug}`} />
-          <ResultState label="Program name" value={preview.programName} />
-          <ResultState
-            label="First administrator"
-            value={`${preview.administratorName} · ${preview.administratorEmail}`}
-          />
-        </dl>
-
-        {error ? <ErrorNote message={error} /> : null}
-
-        <section className="mt-6 grid gap-5 lg:grid-cols-2">
-          <div>
-            <h3 className="text-sm font-black uppercase tracking-wide text-navy">
-              Records this creates
-            </h3>
-            <ul className="mt-3 grid gap-2 text-sm leading-6 text-grayWilma-700">
-              {preview.recordsCreated.map((record) => (
-                <li key={record.key}>
-                  <span className="font-bold text-navy">{record.label}.</span>{" "}
-                  {record.detail}
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div>
-            <h3 className="text-sm font-black uppercase tracking-wide text-navy">
-              Records this does not create
-            </h3>
-            <ul className="mt-3 grid gap-2 text-sm leading-6 text-grayWilma-700">
-              {preview.recordsNotCreated.map((record) => (
-                <li key={record.key}>
-                  <span className="font-bold text-navy">{record.label}.</span>{" "}
-                  {record.detail}
-                </li>
-              ))}
-            </ul>
-          </div>
-        </section>
-
-        <section className="mt-6 rounded-md border border-grayWilma-200 bg-grayWilma-100 p-4">
-          <h3 className="text-sm font-black uppercase tracking-wide text-navy">
-            State immediately after provisioning
-          </h3>
-          <dl className="mt-3 grid gap-2 text-sm sm:grid-cols-2 lg:grid-cols-3">
-            {preview.initialStates.map((state) => (
-              <ResultState key={state.key} label={state.label} value={state.value} />
-            ))}
-          </dl>
-        </section>
-
-        <p className="mt-5 flex items-start gap-2 text-sm leading-6 text-grayWilma-700">
-          <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-teal" aria-hidden="true" />
-          Provisioning is one operation. If it fails partway, nothing is created.
-          If you submit this same reviewed request twice, the second submission
-          returns the first result instead of creating a second partner.
-        </p>
-
-        <div className="mt-6 flex flex-wrap gap-3">
-          <Button className="min-h-11" disabled={busy} onClick={provision} type="button">
-            {busy ? "Provisioning…" : "Provision partner"}
-          </Button>
-          <button
-            className="min-h-11 rounded-md border border-grayWilma-200 bg-white px-5 py-2 text-sm font-semibold text-navy transition hover:bg-grayWilma-100 disabled:opacity-60"
-            disabled={busy}
-            onClick={() => {
-              setPreview(null);
-              setError(null);
-            }}
-            type="button"
-          >
-            Edit details
-          </button>
-        </div>
-      </Card>
-    );
-  }
-
-  return (
-    <Card className="rounded-md p-6" data-provisioning-state="details">
-      <Badge tone="blue">Partner details</Badge>
-      <h2 className="mt-4 flex items-center gap-2 text-2xl font-black text-navy">
-        <Building2 className="h-6 w-6 text-teal" aria-hidden="true" />
-        Provision a new partner
-      </h2>
-      <p className="mt-3 max-w-3xl text-sm leading-6 text-grayWilma-700">
-        This creates the partner tenant, its program, and its private
-        implementation workspace. It does not invite anyone, publish anything, or
-        activate participant intake.
-      </p>
-      {error ? <ErrorNote message={error} /> : null}
-      <form className="mt-6 grid gap-4 sm:grid-cols-2" noValidate onSubmit={review}>
-        <Field label="Public organization name" required>
-          <input
-            autoComplete="off"
-            className="provision-input"
-            maxLength={200}
-            name="organizationName"
-            onChange={(event) => set("organizationName", event.target.value)}
-            required
-            value={values.organizationName}
-          />
-        </Field>
-        <Field label="Legal organization name" required>
-          <input
-            autoComplete="off"
-            className="provision-input"
-            maxLength={200}
-            name="legalOrganizationName"
-            onChange={(event) => set("legalOrganizationName", event.target.value)}
-            required
-            value={values.legalOrganizationName}
-          />
-        </Field>
-        <Field
-          hint="Enter only the final part, such as fresh-start-network. Do not enter the organization's website."
-          label="Partner page name"
-          required
-        >
-          <span className="flex min-w-0 flex-col gap-1 sm:flex-row sm:items-center">
-            <span className="break-all text-sm text-grayWilma-600">{pagePrefix}</span>
-            <input
-              aria-describedby="partner-page-address partner-page-error"
-              aria-invalid={Boolean(pageNameError)}
-              autoComplete="off"
-              className="provision-input min-w-0 flex-1 font-mono"
-              maxLength={120}
-              name="partnerSlug"
-              onChange={(event) => set("partnerSlug", event.target.value.trim().toLowerCase())}
-              required
-              value={values.partnerSlug}
-            />
-          </span>
-          <span id="partner-page-address" className="mt-1 block break-all text-sm text-grayWilma-700">Resulting address: {pagePrefix}{values.partnerSlug || "your-page-name"}</span>
-          <span id="partner-page-error" role={pageNameError ? "alert" : undefined} className="mt-1 block text-sm text-orange">{pageNameError}</span>
-        </Field>
-        <Field label="Program name" required>
-          <input
-            autoComplete="off"
-            className="provision-input"
-            maxLength={200}
-            name="programName"
-            onChange={(event) => set("programName", event.target.value)}
-            required
-            value={values.programName}
-          />
-        </Field>
-        <Field full label="Program purpose" required>
-          <textarea
-            className="provision-input"
-            maxLength={2000}
-            name="programPurpose"
-            onChange={(event) => set("programPurpose", event.target.value)}
-            required
-            rows={2}
-            value={values.programPurpose}
-          />
-        </Field>
-        <Field label="First administrator name" required>
-          <input
-            autoComplete="off"
-            className="provision-input"
-            maxLength={120}
-            name="administratorName"
-            onChange={(event) => set("administratorName", event.target.value)}
-            required
-            value={values.administratorName}
-          />
-        </Field>
-        <Field
-          hint="Recorded now. The invitation is sent from the administrator access panel afterwards."
-          label="First administrator work email"
-          required
-        >
-          <input
-            autoComplete="off"
-            className="provision-input"
-            maxLength={254}
-            name="administratorEmail"
-            onChange={(event) =>
-              set("administratorEmail", event.target.value.trim().toLowerCase())
-            }
-            required
-            type="email"
-            value={values.administratorEmail}
-          />
-        </Field>
-        <Field
-          full
-          hint="Never shown to the partner. Recorded on the provisioning audit event."
-          label="Authorized internal clearance reason"
-          required
-        >
-          <textarea
-            className="provision-input"
-            maxLength={2000}
-            name="clearanceReason"
-            onChange={(event) => set("clearanceReason", event.target.value)}
-            required
-            rows={2}
-            value={values.clearanceReason}
-          />
-        </Field>
-        <div className="sm:col-span-2">
-          <Button className="min-h-11" type="submit">
-            Review what will be created
-          </Button>
-        </div>
-      </form>
-      <style>{`.provision-input{width:100%;border:1px solid #D7DEE8;border-radius:8px;padding:10px 12px;font-size:14px;min-height:44px;background:#fff}`}</style>
-    </Card>
-  );
-}
-
-function ErrorNote({ message }: { message: string }) {
-  return (
-    <p
-      className="mt-5 flex items-start gap-2 rounded-md border border-orange/30 bg-orange/10 px-4 py-3 text-sm font-semibold text-orange"
-      role="alert"
-    >
-      <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
-      {message}
-    </p>
-  );
-}
-
-function ResultState({ label, value }: { label: string; value: string }) {
-  return (
-    <div>
-      <dt className="text-xs font-black uppercase tracking-wide text-grayWilma-600">
-        {label}
-      </dt>
-      <dd className="text-sm font-semibold text-navy">{value}</dd>
-    </div>
-  );
-}
-
-function Field({
-  children,
-  full,
-  hint,
-  label,
-  required
-}: {
-  children: React.ReactNode;
-  full?: boolean;
-  hint?: string;
-  label: string;
-  required?: boolean;
-}) {
-  return (
-    <label className={`block ${full ? "sm:col-span-2" : ""}`}>
-      <span className="mb-1 block text-xs font-black uppercase tracking-wide text-grayWilma-600">
-        {label}
-        {required ? <span className="text-orange"> *</span> : null}
-      </span>
-      {children}
-      {hint ? (
-        <span className="mt-1 block text-[11px] leading-4 text-grayWilma-600">
-          {hint}
-        </span>
-      ) : null}
-    </label>
-  );
+  const field = (key: "organizationName" | "legalOrganizationName" | "programName" | "website" | "administratorName" | "administratorEmail", label: string, required = false) => <label className="block font-bold">{label}<input name={key} className={control} type={key === "website" ? "url" : key === "administratorEmail" ? "email" : "text"} maxLength={key === "website" ? 2048 : key === "administratorEmail" ? 254 : 200} value={values[key]} required={required} onChange={event => set(key, event.target.value)} /></label>;
+  return <section className="rounded-xl border bg-white p-5 sm:p-8" data-provisioning-state={reviewing ? "review" : "details"}>
+    <h2 ref={heading} tabIndex={-1} className="text-2xl font-bold">{reviewing ? "Review your program" : "Program details"}</h2>
+    {error ? <p role="alert" className="mt-4 rounded border border-orange p-4">{error}</p> : null}
+    {reviewing ? <>
+      <dl className="mt-5 grid gap-4 sm:grid-cols-2">{Object.entries({ Organization: values.organizationName, "Legal identity": values.legalOrganizationName, Program: values.programName, Operator: managed ? "LegalEase" : "Partner-managed", Jurisdictions: programServiceArea(values.jurisdictions), Languages: values.enableSpanish ? "English / Español" : "English", "Starting services": "Screening only", "Starting template": "Approved standard bilingual screening · v1", "Page address": `/p/${values.partnerSlug}`, "Administrator contact": values.administratorEmail ? `${values.administratorName} · ${values.administratorEmail}` : "No external administrator required" }).map(([label, value]) => <div key={label}><dt className="text-sm font-bold">{label}</dt><dd className="mt-1 break-words">{value}</dd></div>)}</dl>
+      <p className="mt-5">Create one private program with these approved defaults, then review its configuration and materials. Invitations, publication, agreements, and packet funding require their actual authorized actions.</p>
+      <div className="mt-6 flex flex-wrap gap-3"><button type="button" className={`${button} bg-navy text-white`} disabled={busy} onClick={create}>{busy ? "Creating program…" : error ? "Retry creation" : "Create program"}</button><button type="button" disabled={busy} className={button} onClick={() => { setReviewing(false); setError(""); }}>Edit details</button><Link className={button} href="/internal/partners/onboarding">Cancel</Link></div>
+    </> : <form onSubmit={review} className="mt-5 space-y-6">
+      <label className="block font-bold">Program operator<select aria-label="Program operator" name="operatingModel" className={control} value={values.operatingModel} required onChange={event => set("operatingModel", event.target.value)}><option value="">Choose the actual operator</option><option value="legalease_managed">LegalEase-managed</option><option value="partner_managed">Partner-managed</option></select></label>
+      <div className="grid gap-5 sm:grid-cols-2">{field("organizationName", "Public organization name", true)}{field("legalOrganizationName", "Legal organization name", true)}{field("programName", "Program name", true)}{field("website", "Organization website (optional)")}
+        <label className="block font-bold sm:col-span-2">Participant page address<input name="partnerSlug" aria-describedby="program-page-help" className={control} value={values.partnerSlug} maxLength={120} required onChange={event => set("partnerSlug", event.target.value.trim().toLowerCase())} /><span id="program-page-help" className="mt-2 block break-words text-sm font-normal">/p/{values.partnerSlug || "your-program"} · {values.partnerSlug ? partnerPageNameError(values.partnerSlug) || "Available for duplicate check on creation." : "Use lowercase letters, numbers, and hyphens."}</span></label>
+      </div>
+      <JurisdictionPicker value={values.jurisdictions} onChange={codes => set("jurisdictions", codes)} />
+      <label className="flex min-h-11 items-center gap-3 font-bold"><input type="checkbox" checked={values.enableSpanish} onChange={event => set("enableSpanish", event.target.checked)} />Enable English and Spanish</label>
+      <section className="rounded-lg bg-slate-50 p-4"><h3 className="font-bold">Approved standard bilingual screening · v1</h3><p className="mt-2 text-sm">Starts with free screening, online participation, open access, standard public messaging, and LegalEase support. Customize these values in Configure. No contacts, memberships, agreements, consent, or packet funding are copied.</p></section>
+      {values.operatingModel && !managed ? <fieldset className="grid gap-5 rounded-lg border p-4 sm:grid-cols-2"><legend className="px-2 font-bold">First Partner Administrator</legend>{field("administratorName", "Administrator name", true)}{field("administratorEmail", "Administrator work email", true)}<p className="text-sm sm:col-span-2">A contact is recorded now. Send the actual invitation from this program when ready.</p></fieldset> : null}
+      <details><summary className="min-h-11 cursor-pointer py-3 font-bold">Program purpose</summary><label className="block font-bold">Purpose<textarea name="programPurpose" className={control} rows={2} maxLength={2000} value={values.programPurpose} onChange={event => set("programPurpose", event.target.value)} /></label></details>
+      <label className="block font-bold">Internal creation reason<textarea name="clearanceReason" className={control} required minLength={10} maxLength={2000} rows={2} value={values.clearanceReason} onChange={event => set("clearanceReason", event.target.value)} /><span className="mt-2 block text-sm font-normal">Record the actual basis for creating this program. This is private audit context.</span></label>
+      <div className="flex flex-wrap gap-3"><button className={`${button} bg-navy text-white`}>Review program</button><Link className={button} href="/internal/partners/onboarding">Cancel</Link></div>
+    </form>}
+  </section>;
 }

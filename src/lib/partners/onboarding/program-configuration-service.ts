@@ -34,7 +34,7 @@ export async function getProgramConfiguration(context: Context) {
 }
 const same = (a: unknown, b: unknown) => JSON.stringify(a ?? null) === JSON.stringify(b ?? null);
 
-export async function saveProgramConfiguration(context: Context, input: { patches: ProgramPatch[]; requestId: string; expectedVersion?: number }) {
+export async function saveProgramConfiguration(context: Context, input: { patches: ProgramPatch[]; requestId: string; expectedVersion?: number; confirmPublicationHold?: boolean }) {
   const db = client(context);
   if (input.expectedVersion !== undefined && (!Number.isSafeInteger(input.expectedVersion) || input.expectedVersion < 1)) throw new Phase1OnboardingError("invalid_input", "Reload the program before saving.");
   const current = await getProgramConfiguration(context);
@@ -54,6 +54,8 @@ export async function saveProgramConfiguration(context: Context, input: { patche
     for (const key of Object.keys(patch.values)) {
       if (["operating_model", "operator_authority_reference", "external_agreement_applicability", "service_mode"].includes(key) && context.role !== "internal_admin") throw new Phase1OnboardingError("forbidden", "Only a Platform Admin can change operating responsibility.");
       if (!fields.includes(key)) throw new Phase1OnboardingError("forbidden", "This field requires a separate authorized operation.");
+      if (key === "primary_cta_label" && !same(stored[key], patch.values[key]) && (typeof patch.values[key] !== "string" || patch.values[key].trim().length > 60)) throw new Phase1OnboardingError("invalid_input", "Keep the participant button label to 60 characters or fewer. Put additional detail in the page description, or choose Start free screening.");
+      if (key === "primary_address" && !same(stored[key], patch.values[key]) && typeof patch.values[key] === "string" && patch.values[key].trim() && !patch.values[key].split("\n")[0].trim()) throw new Phase1OnboardingError("invalid_input", "Start the address with its street address or PO box, or leave the entire optional address blank.");
     }
     const editableStored={...stored};
     // Trusted readback metadata is not part of the editable field contract.
@@ -68,10 +70,11 @@ export async function saveProgramConfiguration(context: Context, input: { patche
   }
   const result = await db.rpc("rcap_service_save_program_configuration", {
     p_slug: context.partnerSlug, p_actor: context.authUserId, p_version: input.expectedVersion ?? current.version,
-    p_changes: changes, p_request: input.requestId
+    p_changes: changes, p_request: input.requestId, p_confirm_publication_hold: input.confirmPublicationHold === true
   });
   if (result.error) {
     const code = result.error.code;
+    if (code === "42501" && result.error.message === "rcap_jurisdiction_scope") throw new Phase1OnboardingError("forbidden", "Choose jurisdictions within this program’s configured scope. Contact LegalEase support to expand the permitted service area.");
     if (code === "42501" && result.error.message === "rcap_external_operating_rights") {
       const labels: Record<string, string> = {
         agreement_evidence: "finalized or executed agreement evidence",
@@ -87,6 +90,7 @@ export async function saveProgramConfiguration(context: Context, input: { patche
     }
     if (code === "PT409" || code === "40001" || code === "23505") throw new Phase1OnboardingError("revision_conflict", "This program changed. Reload before retrying this save.");
     if (code === "42501") throw new Phase1OnboardingError("forbidden", "Your account cannot change these program details or the protected legal identity.");
+    if (code === "55000" && result.error.message === "rcap_publication_hold_confirmation") throw new Phase1OnboardingError("invalid_transition", "Saving changes to a live program requires your confirmation that new participant entry will be held until current materials and publication are reviewed.");
     if (code === "55000") throw new Phase1OnboardingError("invalid_transition", "This program's current state does not permit this configuration change.");
     if (code === "22023") throw new Phase1OnboardingError("invalid_input", "Check the participation mode, jurisdiction and program information.");
     throw workspaceReadError("rcap_service_save_program_configuration", result.error, "Program configuration was not saved. Please retry.");

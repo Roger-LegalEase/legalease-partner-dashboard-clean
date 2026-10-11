@@ -1,3 +1,4 @@
+import { assertSameOrigin, readBoundedJson } from "@/lib/partners/onboarding/request-security";
 import { NextRequest, NextResponse } from "next/server";
 import { createClinicEvent, listClinicEvents } from "@/lib/clinic-mode/service";
 import { parseCreateClinicEvent } from "@/lib/clinic-mode/validation";
@@ -16,7 +17,8 @@ export async function GET() {
 
 export async function POST(request: NextRequest) {
   try {
-    const eventId = await createClinicEvent(parseCreateClinicEvent(await request.json()));
+    assertSameOrigin(request);
+    const eventId = await createClinicEvent(parseCreateClinicEvent(await readBoundedJson(request)));
     return NextResponse.json({ success: true, eventId }, { status: 201 });
   } catch (error) {
     return clinicErrorResponse(error);

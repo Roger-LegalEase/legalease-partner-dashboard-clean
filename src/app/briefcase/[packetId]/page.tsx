@@ -13,6 +13,8 @@ import {
   type BriefcasePresentationItem
 } from "@/lib/expungement-ai/briefcase-presentation-authority";
 import { humanMatterState } from "@/lib/expungement-ai/frontend/briefcase-presentation";
+import { getConsumerPacketStatus } from "@/lib/expungement-ai/packet-generation";
+import { PacketGenerateButton } from "@/components/expungement-ai/PacketGenerateButton";
 
 export const dynamic = "force-dynamic";
 
@@ -34,6 +36,9 @@ export default async function BriefcasePacketPage({
   const factsVerified = item?.verificationStatus === "verified";
   const packetDraftAvailable = item?.packetDraft.status === "available";
   const artifact = item?.artifact.status === "ready" ? item.artifact : null;
+  const paidPreparation = item?.paymentState === "paid" && factsVerified && !artifact && item.commercialActions.generationAllowed
+    ? await getConsumerPacketStatus({ userId: auth.userId, briefcaseItemId: item.id }).catch(() => null)
+    : null;
   const mississippiClinicPacket = sponsored
     && item?.jurisdiction === "MS"
     && item.pathwayId === "non-conviction-expungement-for-dismissal-no-disposition-or-acquittal";
@@ -54,7 +59,7 @@ export default async function BriefcasePacketPage({
           {item.sponsorCapacityExhausted ? <SponsorCapacityNotice paid={item.paymentState === "paid"} /> : null}
           <div className="flex items-start justify-between gap-4">
             <div className="min-w-0">
-              <p className="text-xs font-bold uppercase tracking-[0.08em] text-[#00A99D]">{item.jurisdiction}</p>
+              <p className="text-xs font-bold uppercase tracking-[0.08em] text-[#08786F]">{item.jurisdiction}</p>
               <h1 className="mt-2 text-[24px] font-extrabold tracking-[-0.02em] text-[#0B1320]">{item.title}</h1>
               <p className="mt-2 text-[13px] leading-6 text-[#5A6275]">{item.summary}</p>
             </div>
@@ -77,7 +82,7 @@ export default async function BriefcasePacketPage({
                   <p className="mt-2 text-sm leading-6 text-[#5A6275]">Your packet is covered through your partner program. Complete the packet information and review it before generation.</p>
                 ) : (
                   <>
-                    <p className="mt-2 text-sm leading-6 text-[#5A6275]">Your Briefcase is free. Complete your packet information and pay only when you&apos;re ready to generate your packet.</p>
+                    <p className="mt-2 text-sm leading-6 text-[#5A6275]">{item.paymentState === "paid" ? "Your payment is confirmed for this matter. Preparing or retrying this packet does not require another purchase." : "Your Briefcase is free. Complete your packet information and pay only when you're ready to generate your packet."}</p>
                     {item.paymentState !== "paid" ? <p className="mt-3 text-sm font-bold text-[#0B1320]">$50 one time when you are ready to generate this packet</p> : null}
                   </>
                 )}
@@ -93,27 +98,28 @@ export default async function BriefcasePacketPage({
                 ) : null}
 
                 <div className="mt-6 flex flex-wrap gap-3">
+                  {item.paymentState === "paid" && factsVerified && !artifact && item.commercialActions.generationAllowed ? <PacketGenerateButton briefcaseItemId={item.id} mode="paid_durable" initiallyPreparing={paidPreparation?.packetStatus === "pending"} initiallyFailed={paidPreparation?.packetStatus === "failed"} initiallyRetryable={paidPreparation?.retryable === true} label="Prepare my packet" /> : null}
                   {!artifact && packetDraftAvailable && item.packetProgress === "not_started" ? (
-                    <Link className="inline-flex min-h-11 items-center rounded-[10px] bg-[#FF3B00] px-5 text-sm font-bold text-white" href={`/briefcase/${item.id}/packet-information`}>
+                    <Link className="inline-flex min-h-11 items-center rounded-[10px] bg-[#C2350A] px-5 text-sm font-bold text-white" href={`/briefcase/${item.id}/packet-information`}>
                       {mississippiClinicPacket ? "Continue my Mississippi clinic packet" : "Complete packet information"}
                     </Link>
                   ) : null}
                   {!artifact && packetDraftAvailable && item.packetProgress === "in_progress" ? (
-                    <Link className="inline-flex min-h-11 items-center rounded-[10px] bg-[#FF3B00] px-5 text-sm font-bold text-white" href={`/briefcase/${item.id}/packet-information`}>
+                    <Link className="inline-flex min-h-11 items-center rounded-[10px] bg-[#C2350A] px-5 text-sm font-bold text-white" href={`/briefcase/${item.id}/packet-information`}>
                       {mississippiClinicPacket ? "Continue my Mississippi clinic packet" : "Resume packet information"}
                     </Link>
                   ) : null}
                   {!artifact && packetDraftAvailable && item.packetProgress === "facts_complete" ? (
-                    <Link className="inline-flex min-h-11 items-center rounded-[10px] bg-[#FF3B00] px-5 text-sm font-bold text-white" href={`/briefcase/${item.id}/review`}>
+                    <Link className="inline-flex min-h-11 items-center rounded-[10px] bg-[#C2350A] px-5 text-sm font-bold text-white" href={`/briefcase/${item.id}/review`}>
                       Review packet facts
                     </Link>
                   ) : null}
                   {!artifact && packetDraftAvailable && item.packetProgress === "verified" && factsVerified ? (
-                    <Link className="inline-flex min-h-11 items-center rounded-[10px] bg-[#FF3B00] px-5 text-sm font-bold text-white" href={`/briefcase/${item.id}/review`}>
+                    <Link className="inline-flex min-h-11 items-center rounded-[10px] bg-[#C2350A] px-5 text-sm font-bold text-white" href={`/briefcase/${item.id}/review`}>
                       Review verified facts
                     </Link>
                   ) : null}
-                  <Link className="inline-flex min-h-11 items-center justify-center gap-2 rounded-[10px] border border-[#D9DEE8] px-5 text-sm font-bold text-[#0B1320]" href={`/expungement-ai/support?briefcaseItemId=${encodeURIComponent(item.id)}`}>
+                  <Link className="inline-flex min-h-11 items-center justify-center gap-2 rounded-[10px] border border-[#D9DEE8] px-5 text-sm font-bold text-[#0B1320]" href="#ask-wilma">
                     <MessageCircle className="h-4 w-4" aria-hidden="true" /> Ask Wilma about next steps
                   </Link>
                 </div>
@@ -125,7 +131,7 @@ export default async function BriefcasePacketPage({
         </section>
       ) : item ? (
         <section className="rounded-[16px] border border-[#ECEFF4] bg-white p-6" role="status" aria-live="polite">
-          <p className="text-xs font-bold uppercase text-[#8A93A6]">Details unavailable</p>
+          <p className="text-xs font-bold uppercase text-[#5E687A]">Details unavailable</p>
           <h1 className="mt-3 text-2xl font-extrabold text-[#0B1320]">We could not verify this matter&apos;s saved details.</h1>
           <p className="mt-3 text-sm leading-6 text-[#5A6275]">Refresh the page to try again. No packet, payment, or filing status is shown until the saved authority can be verified.</p>
           <Link className="mt-6 inline-flex min-h-11 items-center rounded-[10px] bg-[#0B1320] px-5 text-sm font-bold text-white" href="/briefcase">Back to Briefcase</Link>
@@ -151,7 +157,7 @@ function SavedResultValue({ item }: { item: BriefcasePresentationItem }) {
       <ol className="mt-3 space-y-3">
         {item.nextSteps.map((step, index) => (
           <li className="flex gap-3 text-sm leading-6 text-[#5A6275]" key={`${step}-${index}`}>
-            <span className="grid h-6 w-6 shrink-0 place-items-center rounded-full border-2 border-[#00A99D] text-xs font-bold text-[#00A99D]">{index + 1}</span>
+            <span className="grid h-6 w-6 shrink-0 place-items-center rounded-full border-2 border-[#00A99D] text-xs font-bold text-[#08786F]">{index + 1}</span>
             <LocalizedRuntimeText text={step} />
           </li>
         ))}

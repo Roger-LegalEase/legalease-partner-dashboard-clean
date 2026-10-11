@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useCallback, useContext, useEffect, useMemo, useSyncExternalStore, type ReactNode } from "react";
+import { createContext, useCallback, useContext, useEffect, useMemo, useState, useSyncExternalStore, type ReactNode } from "react";
 import {
   EXPUNGEMENT_LOCALE_EVENT_NAME,
   EXPUNGEMENT_LOCALE_STORAGE_KEY,
@@ -60,6 +60,18 @@ function subscribeToLocale(onStoreChange: () => void) {
 
 export function useLocalization() {
   return useContext(LocalizationContext);
+}
+
+/** Document language stays inside the private preview, without changing staff preferences. */
+export function PreviewLocalizationProvider({ children }: { children: ReactNode }) {
+  const parent = useLocalization();
+  const [locale, setLocale] = useState(parent.locale);
+  const value = useMemo<LocalizationContextValue>(() => ({
+    locale, setLocale,
+    t: (key, fallback, vars) => t(locale, key, fallback, vars),
+    text: (text, options) => resolveRuntimeText(locale, text, options)
+  }), [locale]);
+  return <LocalizationContext.Provider value={value}><div lang={locale}>{children}</div></LocalizationContext.Provider>;
 }
 
 export function persistExpungementLocale(locale: Locale) {
