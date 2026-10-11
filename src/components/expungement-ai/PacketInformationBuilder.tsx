@@ -1,5 +1,7 @@
 "use client";
 
+import { CA_PROP64_RECOVERY_COPY, CA_PROP64_COMPLETED, caProp64Choice } from "@/lib/expungement-ai/ca-prop64-choices";
+
 import { useEffect, useMemo, useRef, useState } from "react";
 
 import { usePacketDraftNavigation } from "@/components/expungement-ai/usePacketDraftNavigation";
@@ -33,7 +35,7 @@ const contactAnswerText = (answer: AnswerValue | undefined): string => answer ==
 /** Explicit saves; every navigation waits for persistence and canonical conditions. */
 export function PacketInformationBuilder({
   itemId, stateCode, pathwayId, questions: initialQuestions, sections: initialSections = [], initialAnswers,
-  initiallyMissing, initialRevision, initialResumeSectionId = null, initialPendingDerivations = [], initialContactReconciliation = null, initialRecordClarificationIds = [], initialCourtRecordConflict = false, initialAccountEmailSuggestion = null, editingFromReview = false
+  initiallyMissing, initialRevision, initialResumeSectionId = null, initialPendingDerivations = [], initialContactReconciliation = null, initialRecordClarificationIds = [], initialCourtRecordConflict = false, initialAccountEmailSuggestion = null, initialCaProp64Clarification = false, editingFromReview = false
 }: {
   itemId: string;
   stateCode: string;
@@ -49,6 +51,7 @@ export function PacketInformationBuilder({
   initialRecordClarificationIds?: string[];
   initialCourtRecordConflict?: boolean;
   initialAccountEmailSuggestion?: string | null;
+  initialCaProp64Clarification?: boolean;
   editingFromReview?: boolean;
 }) {
   const { locale, text: localizeText } = useLocalization();
@@ -64,6 +67,7 @@ export function PacketInformationBuilder({
   const [pending, setPending] = useState(initialPendingDerivations);
   const [contactReconciliation, setContactReconciliation] = useState(initialContactReconciliation);
   const [courtRecordConflict, setCourtRecordConflict] = useState(initialCourtRecordConflict);
+  const [caProp64Clarification, setCaProp64Clarification] = useState(initialCaProp64Clarification);
   const [accountEmailSuggestion, setAccountEmailSuggestion] = useState(initialAccountEmailSuggestion);
   const accountEmailChoice = useRef<string | null>(null);
   const [accountEmailChoicePending, setAccountEmailChoicePending] = useState(false);
@@ -153,6 +157,7 @@ export function PacketInformationBuilder({
           receipt = payload;
           if (accountEmailChoice.current === submittedAccountEmailChoice) { accountEmailChoice.current = null; setAccountEmailChoicePending(false); }
           setAccountEmailSuggestion(receipt.accountEmailSuggestion ?? null);
+          setCaProp64Clarification(receipt.caProp64Clarification ?? false);
           recordChoices.current = []; setRecordChoicePending(false);
           setRecordClarificationIds(receipt.recordClarificationIds ?? []);
           setCourtRecordConflict(receipt.courtRecordConflict ?? false);
@@ -231,6 +236,7 @@ export function PacketInformationBuilder({
     contactChoice.current = false; setContactChoicePending(false);
     recordChoices.current = []; setRecordChoicePending(false);
     setRouteChanged(recovery.nextAction === "open_matter");
+    setCaProp64Clarification(recovery.caProp64Clarification ?? false);
     const recoveredQuestions = editingFromReview ? recovery.reviewQuestions.filter((question) => initialQuestions.some((initial) => initial.id === question.id)) : recovery.questions;
     moveTo(packetNavigationDestination(screens, screensFor(recoveredQuestions, editingFromReview ? initialSections : recovery.sections), screenIdRef.current, "stay", next));
     setRecovery(null); setSaveError(null); setFailureStatus(null); setSavedAt(null);
@@ -248,10 +254,19 @@ export function PacketInformationBuilder({
     setFieldErrors({});
     const result = await save(screenId, "next");
     if (!result || result.nextAction === "open_matter") return;
+    if (result.caProp64Clarification && (!screen || screenId === "review")) {
+      const steps = screensFor(result.questions, result.sections);
+      moveTo(steps.find((step) => step.questions.some((question) => result.missingInputIds.includes(question.id)))?.id ?? steps[0]?.id ?? "review");
+      return;
+    }
     if (editingFromReview || !screen) { void navigate(result.reviewPath); return; }
     const currentScreens = screensFor(result.questions, result.sections);
     const destination = packetNavigationDestination(screens, currentScreens, screen.id, "next", latest.current);
-    if (destination === "review") void navigate(result.reviewPath);
+    if (destination === "review" && result.caProp64Clarification) {
+      const firstMissing = currentScreens.find((step) => step.questions.some((question) => result.missingInputIds.includes(question.id)));
+      moveTo(firstMissing?.id ?? currentScreens[0]?.id ?? "review");
+      if (result.missingInputIds[0]) focusQuestion(result.missingInputIds[0]);
+    } else if (destination === "review") void navigate(result.reviewPath);
     else {
       moveTo(destination);
       const unanswered = currentScreens.find((step) => step.id === destination)?.questions.filter((question) => blocksContinue(question, latest.current[question.id])) ?? [];
@@ -286,6 +301,12 @@ export function PacketInformationBuilder({
 
   return (
     <div ref={root} data-packet-information-builder="active" className="rounded-[18px] border border-[#ECEFF4] bg-white p-5 shadow-sm md:p-7">
+      {caProp64Clarification ? <div role="status" data-ca-prop64-recovery-warning className="mb-5 rounded border border-amber-300 p-4 text-sm leading-6">
+        <p>{CA_PROP64_RECOVERY_COPY["CA-P64-RECOVERY-WARNING-v1"][locale]}</p>
+        {["currently-serving petition", "completed-sentence application"].includes(caProp64Choice("ca_prop64_branch", answers.ca_prop64_branch) ?? "")
+          && caProp64Choice("ca_prop64_branch", answers.ca_prop64_branch) !== (pathwayId === CA_PROP64_COMPLETED ? "completed-sentence application" : "currently-serving petition")
+          ? <p className="mt-3" data-ca-prop64-route-mismatch>{CA_PROP64_RECOVERY_COPY["CA-P64-ROUTE-MISMATCH-WARNING-v1"][locale]}</p> : null}
+      </div> : null}
       <div className="mb-6 flex items-center justify-between gap-4">
         <p className="text-xs font-bold uppercase tracking-[0.08em] text-[#08786F]">{copy("Packet information", "Información del paquete")}</p>
         {screen ? <p className="text-xs font-semibold text-[#5E687A]">{index + 1} {copy("of", "de")} {screens.length}</p> : null}
@@ -373,7 +394,7 @@ export function PacketInformationBuilder({
         <div className="flex flex-col gap-3 sm:flex-row">
           <button className="min-h-11 rounded-[10px] border px-5 text-sm font-bold disabled:opacity-60" disabled={saving || departing} onClick={() => void save()} type="button">{copy("Save", "Guardar")}</button>
           <button className="min-h-11 rounded-[10px] border px-5 text-sm font-bold disabled:opacity-60" disabled={saving || departing} onClick={() => void leave(`/briefcase/${encodeURIComponent(itemId)}`)} type="button">{copy("Save and leave", "Guardar y salir")}</button>
-          <button className="min-h-11 rounded-[10px] bg-[#C2350A] px-5 text-sm font-bold text-white disabled:opacity-60" disabled={saving || departing || routeChanged} onClick={() => void continueForward()} type="button">{saving ? copy("Saving...", "Guardando...") : !screen || index === screens.length - 1 ? editingFromReview ? copy("Save and return to review", "Guardar y volver a la revisión") : copy("Review packet facts", "Revisar los datos del paquete") : copy("Save and continue", "Guardar y continuar")}</button>
+          <button className="min-h-11 rounded-[10px] bg-[#C2350A] px-5 text-sm font-bold text-white disabled:opacity-60" disabled={saving || departing || routeChanged} onClick={() => void continueForward()} type="button">{saving ? copy("Saving...", "Guardando...") : caProp64Clarification ? copy("Save and continue", "Guardar y continuar") : !screen || index === screens.length - 1 ? editingFromReview ? copy("Save and return to review", "Guardar y volver a la revisión") : copy("Review packet facts", "Revisar los datos del paquete") : copy("Save and continue", "Guardar y continuar")}</button>
         </div>
       </div>
       <button className="mt-5 min-h-11 text-sm font-semibold text-[#08786F] underline disabled:opacity-60" disabled={saving || departing} type="button" onClick={() => void leave(`/briefcase/${encodeURIComponent(itemId)}`)}>{copy("Return to this matter", "Volver a este caso")}</button>

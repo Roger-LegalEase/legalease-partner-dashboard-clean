@@ -1,3 +1,6 @@
+import { readProtectedPacketVerification } from "@/lib/expungement-ai/verification-cas";
+import { caProp64ClarificationModelFor } from "@/lib/expungement-ai/packet-information";
+import { CA_PROP64_CLARIFICATION_COPY } from "@/lib/expungement-ai/ca-prop64-choices";
 import { packetDisplayCopy } from "@/lib/expungement-ai/packet-display-copy";
 import { SponsorCapacityNotice } from "@/components/expungement-ai/SponsorCapacityNotice";
 import Link from "next/link";
@@ -31,6 +34,9 @@ export default async function BriefcasePacketPage({
     consumerAuthUserId: auth.userId,
     item: storedItem
   }) : null;
+  const clarificationRead = storedItem?.state === "CA" && (item?.authorityStatus === "unavailable" || item?.resultCode === "needs_review")
+    ? await readProtectedPacketVerification({ consumerAuthUserId: auth.userId, briefcaseItemId: storedItem.id }) : null;
+  const clarification = clarificationRead?.ok ? caProp64ClarificationModelFor(clarificationRead.value) : null;
   const available = item?.authorityStatus !== "unavailable";
   const sponsored = item?.paymentState === "sponsored";
   const packetMatter = available && (item?.resultCode === "packet_ready" || item?.resultCode === "packet_ready_with_caution");
@@ -55,6 +61,9 @@ export default async function BriefcasePacketPage({
       activeNav="matters"
       breadcrumb={item ? <><Link href="/briefcase/matters" className="hover:text-[#1A1D26]"><LocalizedRuntimeText text={"My matters"} /></Link> / <b className="text-[#1A1D26]">{item.title}</b></> : <b className="text-[#1A1D26]"><LocalizedRuntimeText text={"Matter"} /></b>}
     >
+      {clarification && storedItem ? <p className="mb-5 rounded border border-amber-300 p-4">
+        <Link className="inline-flex min-h-11 items-center font-semibold underline" href={`/briefcase/${storedItem.id}/packet-information`}><LocalizedCopy {...CA_PROP64_CLARIFICATION_COPY.legacy_heading} /></Link>
+      </p> : null}
       {item && item.authorityStatus !== "unavailable" ? (
         <section data-briefcase-matter-id={item.id}>
           {item.sponsorCapacityExhausted ? <SponsorCapacityNotice paid={item.paymentState === "paid"} /> : null}

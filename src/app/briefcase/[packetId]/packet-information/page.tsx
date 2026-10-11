@@ -1,8 +1,10 @@
+import { readProtectedPacketVerification } from "@/lib/expungement-ai/verification-cas";
+import { CA_PROP64_CLARIFICATION_COPY } from "@/lib/expungement-ai/ca-prop64-choices";
 import { packetDisplayCopy } from "@/lib/expungement-ai/packet-display-copy";
 import { LocalizedCopy, LocalizedRuntimeText } from "@/components/expungement-ai/LocalizationProvider";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { editablePacketInputIds, packetAccountEmailSuggestion } from "@/lib/expungement-ai/packet-information";
+import { editablePacketInputIds, packetAccountEmailSuggestion, caProp64ClarificationModelFor } from "@/lib/expungement-ai/packet-information";
 
 import { BriefcaseShell } from "@/components/expungement-ai/BriefcaseShell";
 import { MatterStatusBadge } from "@/components/expungement-ai/BriefcaseViews";
@@ -35,6 +37,8 @@ export default async function PacketInformationPage({
   const model = packetResult && item?.paymentState !== "unavailable" && item?.packetDraft.status === "available"
     ? item.packetDraft
     : null;
+  const protectedRead = !model && storedItem ? await readProtectedPacketVerification({ consumerAuthUserId: auth.userId, briefcaseItemId: storedItem.id }) : null;
+  const clarification = protectedRead?.ok ? caProp64ClarificationModelFor(protectedRead.value) : null;
   const requestedEdit = (await searchParams).edit?.trim();
   const editId = requestedEdit === "social_security_number_last_four" && requiresMcicIdentifierAuthority(item?.jurisdiction ?? "", item?.pathwayId) ? "social_security_number" : requestedEdit;
   if (model && item && editId && !editablePacketInputIds({ ...model, stateCode: item.jurisdiction ?? "", pathwayId: item.pathwayId }).has(editId)) {
@@ -68,7 +72,14 @@ export default async function PacketInformationPage({
       activeNav="matters"
       breadcrumb={item ? <><Link href="/briefcase/matters"><LocalizedRuntimeText text={"My matters"} /></Link> / <Link href={`/briefcase/${item.id}`}>{item.title}</Link> / <b><LocalizedRuntimeText text={"Packet information"} /></b></> : <b><LocalizedRuntimeText text={"Packet information"} /></b>}
     >
-      {item && item.jurisdiction && model ? (
+      {clarification && storedItem ? (
+        <section data-ca-prop64-clarification>
+          <h1 className="text-[26px] font-extrabold text-[#0B1320]"><LocalizedCopy {...CA_PROP64_CLARIFICATION_COPY.legacy_heading} /></h1>
+          <PacketInformationBuilder itemId={storedItem.id} stateCode={clarification.stateCode} pathwayId={clarification.pathwayId}
+            questions={clarification.builderQuestions} initialAnswers={clarification.initialAnswers} initiallyMissing={clarification.missingInputIds}
+            initialRevision={clarification.revision} initialCaProp64Clarification />
+        </section>
+      ) : item && item.jurisdiction && model ? (
         <section>
           <div className="flex flex-wrap items-start justify-between gap-4">
             <div>

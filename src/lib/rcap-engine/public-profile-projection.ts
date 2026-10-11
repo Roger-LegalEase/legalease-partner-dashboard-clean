@@ -1,3 +1,4 @@
+import { CA_PROP64_QUESTIONS } from "@/lib/expungement-ai/ca-prop64-choices";
 import "server-only";
 import { reviewedSpanishQuestion } from "@/lib/expungement-ai/reviewed-question-copy";
 import { normalizeQuestionChoices, exclusiveOptionsFor } from "@/lib/expungement-ai/question-answer-state";
@@ -869,28 +870,7 @@ const WILMA_FACT_QUESTIONS: PublicQuestion[] = [
     doesNotSelectPathway: true,
     options: null
   },
-  {
-    id: "ca_prop64_branch",
-    stage: "timing_and_completion",
-    prompt: "Which California HSC 11361.8 branch applies?",
-    helperText: "currently-serving petition, completed-sentence application, or automatic/background guidance",
-    type: "text_or_unknown",
-    required: false,
-    contextOnly: false,
-    doesNotSelectPathway: true,
-    options: null
-  },
-  {
-    id: "ca_prop64_relief_requested",
-    stage: "timing_and_completion",
-    prompt: "For a completed-sentence HSC 11361.8 application, what relief is requested?",
-    helperText: "dismissal/sealing, redesignation, or not sure",
-    type: "text_or_unknown",
-    required: false,
-    contextOnly: false,
-    doesNotSelectPathway: true,
-    options: null
-  }
+  ...CA_PROP64_QUESTIONS
 ];
 
 const MISSISSIPPI_CORRECTION_FACT_QUESTIONS: PublicQuestion[] = [

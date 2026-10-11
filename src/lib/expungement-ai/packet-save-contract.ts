@@ -16,6 +16,7 @@ export type PacketSaveReceipt = {
   contactReconciliation?: { canUseComponents: boolean } | null;
   recordClarificationIds?: string[];
   courtRecordConflict?: boolean;
+  caProp64Clarification?: boolean;
   accountEmailSuggestion?: string | null;
   resumeSectionId: string | null;
   reviewPath: string;
@@ -41,6 +42,7 @@ const receiptSchema = z.object({
   contactReconciliation: z.object({ canUseComponents: z.boolean() }).strict().nullable().optional(),
   recordClarificationIds: z.array(z.string()).optional(),
   courtRecordConflict: z.boolean().optional(),
+  caProp64Clarification: z.boolean().optional(),
   accountEmailSuggestion: z.string().max(254).regex(/^[^\s@]+@[^\s@]+\.[^\s@]+$/).nullable().optional(),
   resumeSectionId: z.string().nullable(), reviewPath: z.string().regex(/^\/briefcase\/[^/]+\/review$/),
   readyToGenerate: z.boolean(), reviewReason: z.string(),
@@ -54,7 +56,8 @@ export function isPacketSaveReceipt(value: unknown): value is PacketSaveReceipt 
   const unique = (ids: string[]) => new Set(ids).size === ids.length;
   const questionIds = new Set(item.questions.map((question) => question.id));
   const reviewIds = new Set(item.reviewQuestions.map((question) => question.id));
-  return (!item.readyToGenerate || item.missingInputIds.length === 0 && item.pendingDerivations.length === 0 && !item.courtRecordConflict && item.nextAction === "review_packet")
+  return (!item.caProp64Clarification || !item.readyToGenerate && item.nextAction === "continue_packet")
+    && (!item.readyToGenerate || item.missingInputIds.length === 0 && item.pendingDerivations.length === 0 && !item.courtRecordConflict && item.nextAction === "review_packet")
     && unique(item.recordClarificationIds ?? [])
     && (item.recordClarificationIds ?? []).every((id) => item.missingInputIds.includes(id) && reviewIds.has(id) && questionIds.has(id))
     && unique(item.questions.map((question) => question.id))

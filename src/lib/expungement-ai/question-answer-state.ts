@@ -1,3 +1,4 @@
+import { caProp64Choice, isCaProp64ChoiceQuestion } from "@/lib/expungement-ai/ca-prop64-choices";
 import type { ProfileQuestion } from "@/lib/expungement-ai/frontend/contracts";
 
 /** Shared input validation, not legal eligibility. Wire values remain unchanged. */
@@ -50,6 +51,10 @@ export function toggleMultiSelect(values: readonly string[], option: string, exc
 
 export function questionAnswerState(question: QuestionContract, value: unknown, today = new Date().toISOString().slice(0, 10)): QuestionAnswerState {
   if (value === undefined || value === null || value === "") return "unanswered";
+  if (isCaProp64ChoiceQuestion(question)) {
+    const choice = caProp64Choice(question.id, value);
+    return choice === "I am not sure" ? "uncertain" : choice ? "known_valid" : "invalid";
+  }
   const text = scalarAnswerText(value)?.trim();
   const wrappedUnknown = Boolean(value && typeof value === "object" && "unknown" in value && value.unknown === true);
   if (question.type.endsWith("_or_unknown") || question.type === "number_or_range") {
@@ -108,6 +113,7 @@ export function sameKnownQuestionAnswer(question: QuestionContract, left: unknow
   if (question.type === "multi_select" && Array.isArray(left) && Array.isArray(right)) {
     return left.length === right.length && left.every((value) => right.includes(value));
   }
+  if (isCaProp64ChoiceQuestion(question)) return caProp64Choice(question.id, left) === caProp64Choice(question.id, right);
   const leftText = scalarAnswerText(left);
   const rightText = scalarAnswerText(right);
   return leftText !== null && rightText !== null && leftText.trim() === rightText.trim();

@@ -10,6 +10,8 @@ import {
 } from "@/lib/expungement-ai/briefcase-presentation-authority";
 import {
   packetInformationPatch,
+  caProp64ClarificationModelFor,
+  caProp64ClarificationPatch,
   packetAccountEmailSuggestion,
   editablePacketInputIds,
   packetDraftStopReason,
@@ -29,6 +31,11 @@ export const dynamic = "force-dynamic";
 
 const maxPayloadBytes = 60_000;
 
+function ownerEditingModelFor(record: Parameters<typeof protectedPacketInformationModelFor>[0]) {
+  const model = protectedPacketInformationModelFor(record);
+  return model?.packetPlan ? model : caProp64ClarificationModelFor(record) ?? model;
+}
+
 /** Owner-only recovery read. It never merges a stale browser draft or verifies it. */
 export async function GET(request: Request, context: { params: Promise<{ itemId: string }> }) {
   const auth = await getRcapBriefcaseAuthState();
@@ -39,7 +46,7 @@ export async function GET(request: Request, context: { params: Promise<{ itemId:
   if (!item) return NextResponse.json({ ok: false, error: "matter_not_found" }, { status: 404 });
   const authority = await readProtectedPacketVerification({ consumerAuthUserId: auth.userId, briefcaseItemId: item.id });
   if (!authority.ok) return NextResponse.json({ ok: false, error: "protected_verification_unavailable" }, { status: 503 });
-  const model = protectedPacketInformationModelFor(authority.value);
+  const model = ownerEditingModelFor(authority.value);
   if (!model) return NextResponse.json({ ok: false, error: "packet_information_unavailable" }, { status: 409 });
   return NextResponse.json({
     ok: true, revision: authority.value.revision, answers: packetAnswersForOwnerEditing(model.stateCode, model.pathwayId, model.initialAnswers, new Date().toISOString(), new URL(request.url).searchParams.get("editingFact") === "social_security_number" && model.questions.some((question) => question.id === "social_security_number")),
@@ -51,8 +58,9 @@ export async function GET(request: Request, context: { params: Promise<{ itemId:
     accountEmailSuggestion: packetAccountEmailSuggestion(model, auth.userEmail),
     resumeSectionId: item.packetResumeSectionId ?? null,
     reviewPath: `/briefcase/${encodeURIComponent(item.id)}/review`,
+    caProp64Clarification: model.caProp64Clarification ?? false,
     readyToGenerate: model.stage === "ready_to_generate", reviewReason: model.reviewSafety.reason,
-    nextAction: !model.packetPlan || packetDraftStopReason(model) ? "open_matter" : model.missingInputIds.length || model.pendingDerivations.length ? "continue_packet" : "review_packet"
+    nextAction: model.caProp64Clarification ? "continue_packet" : !model.packetPlan || packetDraftStopReason(model) ? "open_matter" : model.missingInputIds.length || model.pendingDerivations.length ? "continue_packet" : "review_packet"
   }, { headers: { "Cache-Control": "private, no-store" } });
 }
 
@@ -100,10 +108,11 @@ export async function POST(
   if (parsed.expectedRevision !== protectedRead.value.revision) {
     return NextResponse.json({ ok: false, error: "revision_conflict" }, { status: 409 });
   }
-  const protectedModel = protectedPacketInformationModelFor(protectedRead.value);
-  if (!protectedModel?.packetPlan) {
+  const protectedModel = ownerEditingModelFor(protectedRead.value);
+  if (!protectedModel?.packetPlan && !protectedModel?.caProp64Clarification) {
     return NextResponse.json({ ok: false, error: "packet_information_unavailable" }, { status: 403 });
   }
+  if (protectedModel.caProp64Clarification && parsed.verify) return NextResponse.json({ ok: false, error: "invalid_packet_answers", invalidFactIds: protectedModel.requiredInputIds }, { status: 422 });
   const sensitiveRoute = requiresMcicIdentifierAuthority(protectedModel.stateCode, protectedModel.pathwayId);
   if (sensitiveRoute && "social_security_number" in parsed.answers
     && !mcicIdentifierAuthority({ ...protectedModel.initialAnswers, ...parsed.answers }, new Date().toISOString()).safe) {
@@ -141,13 +150,14 @@ export async function POST(
     // Incomplete calendar/text drafts are saved for recovery; contradictory
     // categorical sets are rejected by this boundary as well as the control.
     return question && ["multi_select", "single_choice", "yes_no_unsure", "yes_no_prefer_not_to_say"].includes(question.type)
-      && questionAnswerState(question, value) === "invalid";
+      && questionAnswerState(question, value) === "invalid"
+      && !(protectedModel.caProp64Clarification && sameAnswer(value, protectedModel.initialAnswers[id]));
   }).map(([id]) => id);
   if (invalidFactIds.length) {
     return NextResponse.json({ ok: false, error: "invalid_packet_answers", invalidFactIds }, { status: 422 });
   }
 
-  const update = packetInformationPatch({
+  const update = protectedModel.caProp64Clarification ? caProp64ClarificationPatch({ protectedVerification: protectedRead.value, answers: parsed.answers, verify: parsed.verify }) : packetInformationPatch({
     existingItem: item,
     answers: parsed.answers,
     verify: parsed.verify,
@@ -159,7 +169,7 @@ export async function POST(
   if (!update) {
     return NextResponse.json({ ok: false, error: "packet_plan_unavailable" }, { status: 409 });
   }
-  const nextModel = protectedPacketInformationModelFor(update.protectedTransition.nextVerification);
+  const nextModel = ownerEditingModelFor(update.protectedTransition.nextVerification);
   const requestedResume = parsed.resumeSectionId ?? item.packetResumeSectionId ?? null;
   const nextScreens = nextModel ? packetScreensFor(nextModel.builderQuestions, nextModel.builderSections) : [];
   const oldScreens = packetScreensFor(protectedModel.builderQuestions, protectedModel.builderSections);
@@ -177,7 +187,7 @@ export async function POST(
     const conflict = saved.reason === "protected_verification_transition_refused";
     return NextResponse.json({ ok: false, error: conflict ? "revision_conflict" : "save_unavailable" }, { status: conflict ? 409 : 503 });
   }
-  const canonical = protectedPacketInformationModelFor(saved.value);
+  const canonical = ownerEditingModelFor(saved.value);
   if (!canonical) return NextResponse.json({ ok: false, error: "saved_state_unavailable" }, { status: 503 });
   const presentation = await decorateBriefcaseItemForPresentation({ consumerAuthUserId: auth.userId, item });
   return NextResponse.json({
@@ -195,9 +205,10 @@ export async function POST(
     courtRecordConflict: canonical.courtRecordConflict ?? false,
     accountEmailSuggestion: packetAccountEmailSuggestion(canonical, auth.userEmail),
     resumeSectionId,
+    caProp64Clarification: canonical.caProp64Clarification ?? false,
     readyToGenerate: update.readyToGenerate,
     reviewReason: packetDraftStopReason(canonical) ?? update.reviewReason,
-    nextAction: !canonical.packetPlan || canonical.pathwayId !== protectedModel.pathwayId || packetDraftStopReason(canonical)
+    nextAction: canonical.caProp64Clarification ? "continue_packet" : !canonical.packetPlan || canonical.pathwayId !== protectedModel.pathwayId || packetDraftStopReason(canonical)
       ? "open_matter" : canonical.missingInputIds.length || canonical.pendingDerivations.length ? "continue_packet" : "review_packet",
     missingInputIds: canonical.missingInputIds,
     reviewPath: `/briefcase/${encodeURIComponent(item.id)}/review`

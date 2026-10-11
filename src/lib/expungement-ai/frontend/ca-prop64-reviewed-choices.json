@@ -1,0 +1,170 @@
+{
+  "schemaVersion": "ca-prop64-reviewed-choices/v1",
+  "independentCopyReviewSha256": "80795cb4b24cae4517829c02f7649f7c0259629eb8137b6b820094530bffdb14",
+  "questions": [
+    {
+      "id": "ca_prop64_branch",
+      "stage": "timing_and_completion",
+      "prompt": "What is the sentence status for this California marijuana conviction?",
+      "helperText": "Use the sentence status for this case. Form CR-400 has a petition for a sentence still being served and an application for a completed sentence. If you cannot confirm which applies, choose I am not sure. This answer does not decide whether the conviction qualifies.",
+      "type": "single_choice",
+      "required": false,
+      "contextOnly": false,
+      "doesNotSelectPathway": true,
+      "options": [
+        "currently-serving petition",
+        "completed-sentence application",
+        "I am not sure"
+      ],
+      "optionDisplay": {
+        "currently-serving petition": {
+          "label": "Sentence still being served",
+          "translations": {
+            "es": {
+              "label": "La sentencia aún se está cumpliendo"
+            }
+          }
+        },
+        "completed-sentence application": {
+          "label": "Sentence completed",
+          "translations": {
+            "es": {
+              "label": "Sentencia cumplida"
+            }
+          }
+        },
+        "I am not sure": {
+          "label": "I am not sure",
+          "translations": {
+            "es": {
+              "label": "No estoy seguro"
+            }
+          }
+        }
+      },
+      "translations": {
+        "es": {
+          "prompt": "¿Cuál es el estado de cumplimiento de la sentencia de esta condena por marihuana en California?",
+          "helperText": "Use el estado de cumplimiento de la sentencia de este caso. El formulario CR-400 incluye una petición para una sentencia que aún se está cumpliendo y una solicitud para una sentencia ya cumplida. Si no puede confirmar cuál corresponde, elija No estoy seguro. Esta respuesta no determina si la condena reúne los requisitos."
+        }
+      }
+    },
+    {
+      "id": "ca_prop64_relief_requested",
+      "stage": "timing_and_completion",
+      "prompt": "For this completed-sentence application under HSC 11361.8, what are you asking the court to do?",
+      "helperText": "Form CR-400 lists redesignation or dismissal and sealing for a completed sentence. Choose the request you intend to make, or I am not sure. The court decides whether to grant it.",
+      "type": "single_choice",
+      "required": false,
+      "contextOnly": false,
+      "doesNotSelectPathway": true,
+      "options": [
+        "redesignation",
+        "dismissal/sealing",
+        "I am not sure"
+      ],
+      "optionDisplay": {
+        "redesignation": {
+          "label": "Redesignation",
+          "translations": {
+            "es": {
+              "label": "Reclasificación (redesignation)"
+            }
+          }
+        },
+        "dismissal/sealing": {
+          "label": "Dismissal and sealing",
+          "translations": {
+            "es": {
+              "label": "Desestimación y sellado"
+            }
+          }
+        },
+        "I am not sure": {
+          "label": "I am not sure",
+          "translations": {
+            "es": {
+              "label": "No estoy seguro"
+            }
+          }
+        }
+      },
+      "translations": {
+        "es": {
+          "prompt": "En esta solicitud por una sentencia ya cumplida conforme a HSC 11361.8, ¿qué le pide al tribunal?",
+          "helperText": "El formulario CR-400 indica la reclasificación o la desestimación y el sellado para una sentencia ya cumplida. Elija lo que desea solicitar o No estoy seguro. El tribunal decide si lo concede."
+        }
+      }
+    }
+  ],
+  "legacyAllowlist": [
+    {
+      "factId": "ca_prop64_branch",
+      "exactNormalizedInput": "currently-serving petition",
+      "canonicalWire": "currently-serving petition"
+    },
+    {
+      "factId": "ca_prop64_branch",
+      "exactNormalizedInput": "currently serving",
+      "canonicalWire": "currently-serving petition"
+    },
+    {
+      "factId": "ca_prop64_branch",
+      "exactNormalizedInput": "completed-sentence application",
+      "canonicalWire": "completed-sentence application"
+    },
+    {
+      "factId": "ca_prop64_branch",
+      "exactNormalizedInput": "completed sentence",
+      "canonicalWire": "completed-sentence application"
+    },
+    {
+      "factId": "ca_prop64_relief_requested",
+      "exactNormalizedInput": "dismissal/sealing",
+      "canonicalWire": "dismissal/sealing"
+    },
+    {
+      "factId": "ca_prop64_relief_requested",
+      "exactNormalizedInput": "dismissal and sealing",
+      "canonicalWire": "dismissal/sealing"
+    },
+    {
+      "factId": "ca_prop64_relief_requested",
+      "exactNormalizedInput": "redesignation",
+      "canonicalWire": "redesignation"
+    }
+  ],
+  "clarificationCopy": {
+    "legacy_heading": {
+      "en": "Review your saved answer",
+      "es": "Revise su respuesta guardada"
+    },
+    "legacy_explanation": {
+      "en": "Your saved wording does not identify one of the supported choices. Review the saved answer below, then choose the option that accurately describes this case. If you cannot confirm it, choose I am not sure.",
+      "es": "El texto guardado no identifica una de las opciones admitidas. Revise la respuesta guardada a continuación y elija la opción que describa correctamente este caso. Si no puede confirmarla, elija No estoy seguro."
+    },
+    "saved_answer_label": {
+      "en": "Previously saved answer",
+      "es": "Respuesta guardada anteriormente"
+    },
+    "preservation_note": {
+      "en": "Your previous answer will be kept when you save a new choice.",
+      "es": "Su respuesta anterior se conservará cuando guarde una nueva opción."
+    },
+    "ambiguous_scope": {
+      "en": "If more than one choice applies to the records in this case, get help reviewing those records before choosing.",
+      "es": "Si más de una opción corresponde a los registros de este caso, pida ayuda para revisarlos antes de elegir."
+    }
+  },
+  "recoveryCopyReviewSha256": "5325bb037359397ebb977a7ffd8566e8f867997093f8240f9744b2c9c073ef29",
+  "recoveryCopy": {
+    "CA-P64-RECOVERY-WARNING-v1": {
+      "en": "Your saved California result needs clarification. Your earlier answers are preserved. Review the sentence status and, if shown, the requested relief below. Choose “I am not sure” if you cannot confirm an answer. Saving will check the result again. Payment and final verification remain unavailable while this clarification is unresolved.",
+      "es": "El resultado guardado de su caso de California necesita aclaración. Sus respuestas anteriores se conservan. Revise a continuación el estado de cumplimiento de la sentencia y, si aparece, lo que solicita al tribunal. Elija «No estoy seguro» si no puede confirmar una respuesta. Al guardar, se volverá a evaluar el resultado. El pago y la verificación final seguirán sin estar disponibles mientras esta aclaración esté pendiente."
+    },
+    "CA-P64-ROUTE-MISMATCH-WARNING-v1": {
+      "en": "This sentence status does not match the California route saved for this matter. We will keep your answer, but this matter needs further review before payment or final verification.",
+      "es": "Este estado de cumplimiento de la sentencia no coincide con la vía de California guardada para este caso. Conservaremos su respuesta, pero el caso necesita una revisión adicional antes del pago o de la verificación final."
+    }
+  }
+}

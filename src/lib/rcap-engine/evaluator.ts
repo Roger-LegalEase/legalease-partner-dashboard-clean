@@ -1,3 +1,4 @@
+import { caProp64Choice } from "@/lib/expungement-ai/ca-prop64-choices";
 import "server-only";
 
 import crypto from "node:crypto";
@@ -919,22 +920,22 @@ function caRouteSafetyGate(profile: EngineProfile, answers: Record<string, Scree
     }
   }
   if (pathway.id === "prop-64-currently-serving-petition-11361-8" || pathway.id === "prop-64-completed-sentence-application-11361-8") {
-    const branch = answerText(answers.ca_prop64_branch).toLowerCase();
+    const branch = caProp64Choice("ca_prop64_branch", answers.ca_prop64_branch);
     if (!isAffirmative(answers.ca_prop64_qualifying_marijuana_offense)) {
       return reason(jurisdiction, "ca_prop64_qualifying_marijuana_offense_missing_or_not_eligible", "HSC § 11361.8 packet support requires a confirmed qualifying marijuana conviction.", pathway.sourceRef);
     }
     if (!isAffirmative(answers.ca_prop64_lesser_or_no_offense)) {
       return reason(jurisdiction, "ca_prop64_lesser_or_no_offense_missing_or_not_eligible", "HSC § 11361.8 packet support requires confirmation that the offense would be no offense or a lesser offense under Prop 64/AUMA.", pathway.sourceRef);
     }
-    if (pathway.id === "prop-64-currently-serving-petition-11361-8" && !branch.includes("currently")) {
+    if (pathway.id === "prop-64-currently-serving-petition-11361-8" && branch !== "currently-serving petition") {
       return reason(jurisdiction, "ca_prop64_currently_serving_branch_not_confirmed", "The HSC § 11361.8 currently-serving petition branch must be confirmed before packet support opens.", pathway.sourceRef);
     }
     if (pathway.id === "prop-64-completed-sentence-application-11361-8") {
-      if (!branch.includes("completed")) {
+      if (branch !== "completed-sentence application") {
         return reason(jurisdiction, "ca_prop64_completed_sentence_branch_not_confirmed", "The HSC § 11361.8 completed-sentence application branch must be confirmed before packet support opens.", pathway.sourceRef);
       }
-      const requested = answerText(answers.ca_prop64_relief_requested).toLowerCase();
-      if (!/dismiss|seal|redesignat/.test(requested)) {
+      const requested = caProp64Choice("ca_prop64_relief_requested", answers.ca_prop64_relief_requested);
+      if (requested !== "dismissal/sealing" && requested !== "redesignation") {
         return reason(jurisdiction, "ca_prop64_relief_requested_missing", "The completed-sentence HSC § 11361.8 application must confirm dismissal/sealing or redesignation is requested.", pathway.sourceRef);
       }
     }

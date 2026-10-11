@@ -19,6 +19,7 @@
  * are named by it via `aria-labelledby`, with the contextOnly note and error text linked via
  * `aria-describedby`. Errors use `role="alert"`.
  */
+import { caProp64Choice, isCaProp64ChoiceQuestion, CA_PROP64_CLARIFICATION_COPY } from "@/lib/expungement-ai/ca-prop64-choices";
 import type { AnswerValue, ProfileQuestion } from "@/lib/expungement-ai/frontend/contracts";
 import { SensitiveIdentifierField } from "@/components/expungement-ai/screening/fields/SensitiveIdentifierField";
 import { CalendarDateField } from "@/components/expungement-ai/screening/fields/CalendarDateField";
@@ -112,12 +113,22 @@ export function QuestionField({
             : question.options ?? [];
 
       if (options.length === 0) return <MalformedQuestion prompt={promptText} headingLevel={headingLevel} required={!optional} />;
+      const caChoice = stateCode === "CA" && isCaProp64ChoiceQuestion(question);
+      const normalized = caChoice ? caProp64Choice(question.id, value) : null;
+      const unrecognized = caChoice && value !== undefined && value !== null && value !== "" && normalized === null;
+      const caCopy = (key: keyof typeof CA_PROP64_CLARIFICATION_COPY) => CA_PROP64_CLARIFICATION_COPY[key][locale];
 
       return (
         <div className="grid gap-3">
           {heading}
           {helperNode}
           {bannerNode}
+          {unrecognized ? <div className="rounded border border-amber-300 p-3 text-sm" role="status" data-ca-prop64-legacy-answer>
+            <p className="font-semibold">{caCopy("legacy_heading")}</p>
+            <p className="mt-2">{caCopy("legacy_explanation")}</p>
+            <p className="mt-2 whitespace-pre-wrap break-words">{caCopy("saved_answer_label")}: {typeof value === "string" ? value : JSON.stringify(value)}</p>
+            <p className="mt-2">{caCopy("ambiguous_scope")}</p>
+          </div> : null}
           <OptionGroup
             mode="single"
             name={fieldId}
@@ -125,7 +136,7 @@ export function QuestionField({
             optionDisplay={question.optionDisplay}
             questionId={question.id}
             stateCode={stateCode}
-            value={value && typeof value === "object" && "unknown" in value && value.unknown ? "" : scalarAnswerText(value) ?? ""}
+            value={caChoice ? normalized ?? "" : value && typeof value === "object" && "unknown" in value && value.unknown ? "" : scalarAnswerText(value) ?? ""}
             onChange={(next) => onChange(next)}
             ariaLabelledBy={promptId}
             ariaDescribedBy={describedBy}

@@ -1,3 +1,4 @@
+import { CA_PROP64_QUESTIONS, CA_PROP64_COMPLETED, isCaProp64Pathway, caProp64Choice } from "@/lib/expungement-ai/ca-prop64-choices";
 import { recordFactOwnQuestionIds, recordFactConfirmationFor, unresolvedRecordFactConfirmations, recordFactCourtConflict } from "@/lib/expungement-ai/record-fact-clarification";
 import { fullSsnLastFour, requiresMcicIdentifierAuthority } from "@/lib/expungement-ai/sensitive-packet-facts";
 import { reviewedContactRepresentation, contactRepresentationHash, contactRepresentationProvenance, isProvenContactOutput } from "@/lib/expungement-ai/contact-representation";
@@ -139,6 +140,8 @@ export type ProtectedPacketInformationModel = Pick<
   | "verificationContext"
   | "verificationManifest"
 > & {
+  /** Owner correction surface only; never legal/packet/payment authority. */
+  caProp64Clarification?: boolean;
   revision: number;
   prefilledAnswers: Record<string, AnswerValue>;
   packetAnswers: Record<string, AnswerValue>;
@@ -477,7 +480,8 @@ export function packetInformationPatch(input: {
     draftHash: nextDraftHash,
     draftSnapshot: nextDraft
   };
-  const nextModel = protectedPacketInformationModelFor(draftRecord);
+  const evaluatedModel = protectedPacketInformationModelFor(draftRecord);
+  const nextModel = evaluatedModel?.packetPlan ? evaluatedModel : caProp64ClarificationModelFor(draftRecord) ?? evaluatedModel;
   if (!nextModel) return null;
   const review = input.verify === true && nextModel.missingInputIds.length === 0
     ? protectedPacketDraftReviewSafety(nextDraft, now)
@@ -485,15 +489,15 @@ export function packetInformationPatch(input: {
       safe: false,
       reason: nextModel.missingInputIds.length === 0 ? "final_verification_required" : "packet_information_incomplete"
     };
-  const stage: PacketInformationStage = review.safe
+  const stage: PacketInformationStage = !nextModel.packetPlan ? "in_progress" : review.safe
     ? "ready_to_generate"
     : nextModel.missingInputIds.length === 0 && nextModel.pendingDerivations.length === 0 ? "facts_complete" : "in_progress";
   const packetInformation = {
     stage,
-    requiredInputIds: nextModel.requiredInputIds,
+    requiredInputIds: nextDraft.requiredInputIds,
     serverFacts: nextModel.serverFacts,
-    prefilledAnswers: nextModel.prefilledAnswers,
-    answers: nextModel.packetAnswers,
+    prefilledAnswers: nextModel.caProp64Clarification ? answerRecord(nextDraft.prefilledAnswers) : nextModel.prefilledAnswers,
+    answers: nextModel.caProp64Clarification ? answerRecord(nextDraft.packetAnswers) : nextModel.packetAnswers,
     missingInputIds: nextModel.missingInputIds,
     updatedAt: now,
     reviewedAt: review.safe ? now : null,
@@ -615,6 +619,119 @@ function packetVerificationStateForRecord(
  * The participant JSON commercialFlow is a compatibility mirror and is never
  * required after the protected snapshot exists.
  */
+/** Narrow recovery for an authenticated owner's source-valid CA snapshot rejected by the corrected choice gate.
+ * This is deliberately separate from protectedPacketInformationModelFor: no caller may use it as legal authority.
+ */
+export function caProp64ClarificationModelFor(verification: ProtectedPacketVerificationRecord): ProtectedPacketInformationModel | null {
+  const snapshot = protectedAuthoritySnapshotFor(verification);
+  if (!snapshot || !isCaProp64Pathway(snapshot.jurisdiction, snapshot.pathwayId)) return null;
+  const profile = getProfileByJurisdiction(snapshot.jurisdiction);
+  if (!profile || profile.profileVersion !== snapshot.profileVersion
+    || snapshot.profileSourceFingerprint !== (profile.source?.sourceCorpusSha256 ?? null)
+    || snapshot.profileAuthorityFingerprint !== profileAuthorityFingerprint(profile, snapshot.pathwayId)
+    || !canonicalEqual(snapshot.requiredInputIds, snapshot.packetPlan?.requiredInputIds ?? [])
+    || snapshot.packetPlan && !canonicalEqual(snapshot.packetPlan, packetPlanForPathway(profile, snapshot.pathwayId!))) return null;
+  const authoritative = evaluateProtectedPacketFacts(snapshot);
+  const evaluation = authoritative?.evaluation;
+  if (!authoritative || (authoritative.selectedTrackId ?? null) !== snapshot.selectedTrackId
+    || (evaluation?.treatmentClassification ?? null) !== snapshot.treatmentClassification
+    || !canonicalEqual(evaluation?.deferralComponentIds ?? [], snapshot.deferralComponentIds)) return null;
+  const clarificationReasons = new Set(["ca.ca_prop64_currently_serving_branch_not_confirmed", "ca.ca_prop64_completed_sentence_branch_not_confirmed", "ca.ca_prop64_relief_requested_missing"]);
+  const scopedIds = snapshot.pathwayId === CA_PROP64_COMPLETED ? ["ca_prop64_branch", "ca_prop64_relief_requested"] : ["ca_prop64_branch"];
+  if (!evaluation || evaluation.pathwayId !== snapshot.pathwayId || evaluation.resultCode !== "needs_review"
+    || evaluation.paymentAllowed || evaluation.packetPlan || !evaluation.reasons.some((reason) => clarificationReasons.has(reason.code)
+      || reason.code === "ca.source_fact_unknown" && scopedIds.some((id) => reason.text === `${id} is uncertain and requires source review.`))) return null;
+  const questions = CA_PROP64_QUESTIONS.filter((question) => question.id === "ca_prop64_branch" || snapshot.pathwayId === CA_PROP64_COMPLETED)
+    .map((question) => ({ ...toProfileQuestion(question), required: true }));
+  const ids = questions.map((question) => question.id);
+  const screeningAnswers = answerRecordForIds(snapshot.screeningAnswers, new Set(ids));
+  const prefilledAnswers = answerRecordForIds(snapshot.prefilledAnswers, new Set(ids));
+  const packetAnswers = answerRecordForIds(snapshot.packetAnswers, new Set(ids));
+  const initialAnswers = { ...screeningAnswers, ...prefilledAnswers, ...packetAnswers };
+  const missingInputIds = questions.filter((question) => questionAnswerState(question, initialAnswers[question.id]) !== "known_valid").map((question) => question.id);
+  // A supported choice for the other branch is still unresolved for this saved route.
+  const expectedBranch = snapshot.pathwayId === CA_PROP64_COMPLETED ? "completed-sentence application" : "currently-serving petition";
+  if (caProp64Choice("ca_prop64_branch", initialAnswers.ca_prop64_branch) !== expectedBranch && !missingInputIds.includes("ca_prop64_branch")) missingInputIds.push("ca_prop64_branch");
+  return {
+    caProp64Clarification: true, stateCode: snapshot.jurisdiction, pathwayId: snapshot.pathwayId, revision: verification.revision,
+    packetPlan: null, questions, builderQuestions: questions, builderSections: [], initialAnswers, screeningAnswers, prefilledAnswers, packetAnswers,
+    serverFacts: canonicalServerFacts(snapshot.jurisdiction, snapshot.pathwayId), requiredInputIds: ids, missingInputIds, pendingDerivations: [],
+    stage: "in_progress", reviewedAt: null, capturedAt: "capturedAt" in snapshot ? snapshot.capturedAt : snapshot.verifiedAt,
+    verificationSummary: [], verificationContext: [], verificationManifest: { schemaVersion: "expungement-ai/verification-review-manifest/v1", factKeys: [], systemContextKeys: [] },
+    reviewSafety: { safe: false, reason: "ca_prop64_choice_clarification_required" }, expectedComponents: []
+  };
+}
+
+function caProp64AnswerHistory(base: ProtectedPacketAuthoritySnapshot) {
+  const history = [...(base.dependencies.semanticAnswerHistory ?? [])];
+  // Archive both old choice facts from every source map, including values shadowed by another map.
+  for (const source of ["screeningAnswers", "prefilledAnswers", "packetAnswers"] as const) for (const factId of ["ca_prop64_branch", "ca_prop64_relief_requested"]) {
+    if (!(factId in base[source])) continue;
+    const entry = { factId, value: base[source][factId], source, meaning: "ca_prop64_prior_choice_wording" as const,
+      routeKey: `${base.jurisdiction}:${base.pathwayId}`, profileVersion: base.profileVersion,
+      profileSourceFingerprint: base.profileSourceFingerprint, profileAuthorityFingerprint: base.profileAuthorityFingerprint };
+    if (!history.some((priorEntry) => canonicalEqual(priorEntry, entry))) history.push(entry);
+  }
+  return history;
+}
+
+/** Explicit scoped correction only. Original words survive before source precedence is applied; no final attestation. */
+export function caProp64ClarificationPatch(input: {
+  protectedVerification: ProtectedPacketVerificationRecord; answers: Record<string, AnswerValue>; verify?: boolean;
+}): ReturnType<typeof packetInformationPatch> {
+  if (input.verify) return null;
+  const prior = input.protectedVerification;
+  const model = caProp64ClarificationModelFor(prior);
+  const base = protectedAuthoritySnapshotFor(prior);
+  if (!model || !base) return null;
+  const allowed = new Set(model.requiredInputIds);
+  if (Object.keys(input.answers).some((id) => !allowed.has(id))) return null;
+  if (Object.entries(input.answers).some(([id, value]) => questionAnswerState(model.questions.find((question) => question.id === id)!, value) === "invalid" && !canonicalEqual(value, model.initialAnswers[id]))) return null;
+  const maps = { screeningAnswers: answerRecord(base.screeningAnswers), prefilledAnswers: answerRecord(base.prefilledAnswers), packetAnswers: answerRecord(base.packetAnswers) };
+  const history = caProp64AnswerHistory(base);
+  const answerDelta = Object.fromEntries(Object.entries(input.answers).filter(([id, value]) => !canonicalEqual(model.initialAnswers[id], value)
+    && !sameKnownQuestionAnswer(model.questions.find((question) => question.id === id)!, model.initialAnswers[id], value)));
+  // Preserve a current held draft on an unchanged save. An old permissively
+  // evaluated snapshot must still be re-evaluated and invalidated below.
+  if (Object.keys(answerDelta).length === 0 && protectedPacketInformationModelFor(prior)) {
+    const packetInformation = { stage: "in_progress" as const, requiredInputIds: base.requiredInputIds,
+      serverFacts: answerRecord(base.serverFacts), prefilledAnswers: answerRecord(base.prefilledAnswers), answers: answerRecord(base.packetAnswers),
+      missingInputIds: model.missingInputIds, updatedAt: model.capturedAt, reviewedAt: null, reviewSafety: model.reviewSafety };
+    return {
+      patch: { commercialFlow: { packetInformation, verification: prior } },
+      protectedTransition: { expectedPriorHash: prior.status === "verified" ? prior.hash ?? null : null, expectedPriorRevision: prior.revision,
+        answerDelta, packetInformationMetadata: packetInformationMetadata(packetInformation), nextVerification: prior },
+      missingInputIds: model.missingInputIds, readyToGenerate: false, reviewReason: "semantic_noop_preserved"
+    };
+  }
+  maps.packetAnswers = { ...maps.packetAnswers, ...answerDelta };
+  const authoritative = evaluateProtectedPacketFacts({ ...base, ...maps });
+  // Clarification never rewrites the saved pathway hint or selects a replacement route.
+  if (!authoritative || authoritative.evaluation.pathwayId !== base.pathwayId) return null;
+  const now = new Date().toISOString();
+  const seeded = protectedPacketDraftSeedFromAuthoritative({ authoritative, ...maps,
+    dependencies: { ...base.dependencies, semanticAnswerHistory: history }, capturedAt: now });
+  if (!seeded) return null;
+  const nextVerification: ProtectedPacketVerificationRecord = {
+    status: "invalidated", reason: "ca_prop64_choice_clarified_pending_verification", invalidatedAt: now,
+    draftHash: seeded.hash, draftSnapshot: seeded.snapshot, revision: prior.revision + 1
+  };
+  const normal = protectedPacketInformationModelFor(nextVerification);
+  // A truthful clarification can expose a separate legal refusal. Persist that
+  // answer and its held evaluation; it is not a reason to lose the owner's edit.
+  const next = normal?.packetPlan ? normal : caProp64ClarificationModelFor(nextVerification) ?? normal;
+  if (!next) return null;
+  const packetInformation = { stage: !next.packetPlan ? "in_progress" as const : next.stage, requiredInputIds: seeded.snapshot.requiredInputIds,
+    serverFacts: answerRecord(seeded.snapshot.serverFacts), prefilledAnswers: answerRecord(seeded.snapshot.prefilledAnswers), answers: answerRecord(seeded.snapshot.packetAnswers),
+    missingInputIds: next.missingInputIds, updatedAt: now, reviewedAt: null, reviewSafety: { safe: false, reason: next.caProp64Clarification ? "ca_prop64_choice_clarification_required" : next.packetPlan ? "final_verification_required" : next.reviewSafety.reason } };
+  return {
+    patch: { commercialFlow: { packetInformation, verification: nextVerification } },
+    protectedTransition: { expectedPriorHash: prior.status === "verified" ? prior.hash ?? null : null, expectedPriorRevision: prior.revision,
+      answerDelta, packetInformationMetadata: packetInformationMetadata(packetInformation), nextVerification },
+    missingInputIds: next.missingInputIds, readyToGenerate: false, reviewReason: packetInformation.reviewSafety.reason
+  };
+}
+
 export function protectedPacketInformationModelFor(
   verification: ProtectedPacketVerificationRecord
 ): ProtectedPacketInformationModel | null {
@@ -731,7 +848,7 @@ export function protectedPacketInformationModelFor(
     contactReconciliation: questionSurface.collection?.contactReconciliation,
     recordOwnQuestionIds, recordClarificationIds,
     courtRecordConflict: recordFactCourtConflict(`${snapshot.jurisdiction}:${snapshot.pathwayId}`, initialAnswers),
-    stage: currentlyVerified
+    stage: !packetPlan ? "in_progress" : currentlyVerified
       ? "ready_to_generate"
       : missingInputIds.length === 0 && !questionSurface.collection?.pendingDerivations.length ? "facts_complete" : "in_progress",
     reviewedAt: currentlyVerified && "verifiedAt" in snapshot ? snapshot.verifiedAt : null,
@@ -1088,6 +1205,13 @@ function deriveProtectedPacketDraftSnapshot(
   if (!canonicalEqual(currentAuthority.evaluation.packetPlan ?? null, base.packetPlan)) {
     base = reviewedPacketContractSuccessor(base, currentAuthority.evaluation.packetPlan);
     if (!base) return null;
+  }
+  if (isCaProp64Pathway(base.jurisdiction, base.pathwayId)) {
+    const before = { ...base.screeningAnswers, ...base.prefilledAnswers, ...base.packetAnswers };
+    const after = { ...base.screeningAnswers, ...base.prefilledAnswers, ...packetAnswers };
+    if (["ca_prop64_branch", "ca_prop64_relief_requested"].some((id) => !canonicalEqual(before[id], after[id]))) {
+      base = { ...base, dependencies: { ...base.dependencies, semanticAnswerHistory: caProp64AnswerHistory(base) } };
+    }
   }
   const refreshed = refreshedPacketFactMaps(base, { screeningAnswers: answerRecord(base.screeningAnswers),
     prefilledAnswers: answerRecord(base.prefilledAnswers), packetAnswers }, useContactComponents);
