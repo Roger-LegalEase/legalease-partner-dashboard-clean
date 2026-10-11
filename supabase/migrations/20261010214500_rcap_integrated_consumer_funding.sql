@@ -2,26 +2,12 @@
 -- decision for Clinic-cap exhaustion, and recognize explicitly consumer-paid
 -- LegalEase program scope without changing acquisition, ownership or payment.
 begin;
--- Keep the original cap decision separately so its participant-facing notice
--- continues to mean exhausted sponsorship. The old application-facing name
--- remains a compatible consumer-channel check for application rollback.
-do $capacity$
-declare body text;
-begin
- if to_regprocedure('public.clinic_packet_capacity_dtc_authorized(uuid,uuid)') is null then
-  body:=pg_get_functiondef('public.clinic_packet_dtc_authorized(uuid,uuid)'::regprocedure);
-  if strpos(body,'f.funding_mode = ''dtc''')=0 and strpos(body,'f.funding_mode=''dtc''')=0 then
-   raise exception 'unrecognized Clinic capacity authority';
-  end if;
-  execute replace(body,'FUNCTION public.clinic_packet_dtc_authorized(', 'FUNCTION public.clinic_packet_capacity_dtc_authorized(');
- end if;
-end;
-$capacity$;
-revoke all on function public.clinic_packet_capacity_dtc_authorized(uuid,uuid) from public,anon,authenticated;
-grant execute on function public.clinic_packet_capacity_dtc_authorized(uuid,uuid) to service_role;
+-- Preserve the deployed Clinic-cap RPC byte-for-byte. Broadening that legacy
+-- name would let the previous application's Checkout admit new RCAP payments
+-- that its webhook still rejects. Only corrected callers use the new policy.
 create or replace function public.rcap_consumer_packet_authorized(p_item uuid,p_owner uuid)
 returns boolean language sql stable security definer set search_path='' as $authority$
- select public.clinic_packet_capacity_dtc_authorized(p_item,p_owner) or exists (
+ select public.clinic_packet_dtc_authorized(p_item,p_owner) or exists (
   select 1 from public.consumer_briefcase_items i
   join public.consumer_pending_screening_results s on s.pending_id=i.source_pending_result_id
    and s.claimed_matter_id=i.id and s.claimed_user_id=i.user_id and s.status='CLAIMED'
@@ -42,13 +28,6 @@ returns boolean language sql stable security definer set search_path='' as $auth
 $authority$;
 revoke all on function public.rcap_consumer_packet_authorized(uuid,uuid) from public,anon,authenticated;
 grant execute on function public.rcap_consumer_packet_authorized(uuid,uuid) to service_role;
-
-create or replace function public.clinic_packet_dtc_authorized(p_item uuid,p_owner uuid)
-returns boolean language sql stable security definer set search_path='' as $compatibility$
- select public.rcap_consumer_packet_authorized(p_item,p_owner);
-$compatibility$;
-revoke all on function public.clinic_packet_dtc_authorized(uuid,uuid) from public,anon,authenticated;
-grant execute on function public.clinic_packet_dtc_authorized(uuid,uuid) to service_role;
 
 -- All existing owner, exact Checkout binding, amount, provider event, person,
 -- product, verification and duplicate-payment guards remain in this transaction.
