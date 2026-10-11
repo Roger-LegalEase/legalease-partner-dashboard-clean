@@ -17,9 +17,84 @@ import type { RouteCollectionOverride } from "@/lib/expungement-ai/packet-collec
  * every required fact keeps a disposition whatever an override says.
  */
 const OVERRIDES: ReadonlyArray<RouteCollectionOverride> = [
-  // No explicit overrides are registered. Operational unresolved source scope
-  // is retained by packetCollectionFor; a lower-level classification report
-  // without that scope is not proof that all route obligations are resolved.
+  // Exact reviewed render consumers. Unscoped rule references remain protected
+  // from cross-fact materialization; these records establish collection purpose
+  // without adding an eligibility predicate or removing a required fact.
+  {
+    routeKey: "GA:sb-288-misdemeanor-conviction-restriction-and-sealing",
+    classes: {"county": "render_required"},
+    note: "GA-14 reviewed participant packet input; render/venue ownership, not an added eligibility predicate. Original unscoped references exclusion-29 retain materialization protection. Source: data/record-clearing/packet-specifications/GA-sb-288-misdemeanor-conviction-restriction-and-sealing.v1.json/requiredFacts/6; data/record-clearing/legal-design-intake/GA.memo.json/tracks/3/participantInputs/0; data/record-clearing/legal-design-intake/GA.memo.json/tracks/4/participantInputs/0; data/record-clearing/legal-design-intake/GA.memo.json/tracks/4/participantInputs/1"
+  },
+  {
+    routeKey: "GA:restriction-and-sealing-of-a-pardoned-felony",
+    classes: {"county": "render_required"},
+    note: "GA-14 reviewed participant packet input; render/venue ownership, not an added eligibility predicate. Original unscoped references exclusion-29 retain materialization protection. Source: data/record-clearing/packet-specifications/GA-restriction-and-sealing-of-a-pardoned-felony.v1.json/requiredFacts/6; data/record-clearing/legal-design-intake/GA.memo.json/tracks/5/participantInputs/0; data/record-clearing/legal-design-intake/GA.memo.json/tracks/4/participantInputs/0; data/record-clearing/legal-design-intake/GA.memo.json/tracks/4/participantInputs/1"
+  },
+  {
+    routeKey: "MO:general-arrest-charge-plea-trial-or-conviction-expungement-under-rsmo-610-140",
+    classes: {"court": "render_required"},
+    note: "GA-14 reviewed participant packet input; render/venue ownership, not an added eligibility predicate. Original unscoped references exclusion-22, wait-04, wait-05 retain materialization protection. Source: data/record-clearing/legal-design-intake/MO.memo.json/tracks/0/participantInputs/5"
+  },
+  {
+    routeKey: "MO:first-intoxication-related-traffic-or-boating-expungement-under-610-130",
+    classes: {"court": "render_required"},
+    note: "GA-14 reviewed participant packet input; render/venue ownership, not an added eligibility predicate. Original unscoped references exclusion-22, wait-04, wait-05 retain materialization protection. Source: data/record-clearing/legal-design-intake/MO.memo.json/tracks/4/participantInputs/6"
+  },
+  {
+    routeKey: "MO:stolen-or-mistaken-identity-expungement-under-610-145",
+    classes: {"court": "render_required"},
+    note: "GA-14 reviewed participant packet input; render/venue ownership, not an added eligibility predicate. Original unscoped references exclusion-22, wait-04, wait-05 retain materialization protection. Source: data/record-clearing/legal-design-intake/MO.memo.json/tracks/6/participantInputs/11"
+  },
+  {
+    routeKey: "MO:first-minor-in-possession-alcohol-expungement-under-311-326",
+    classes: {"court": "render_required"},
+    note: "GA-14 reviewed participant packet input; render/venue ownership, not an added eligibility predicate. Original unscoped references exclusion-22, wait-04, wait-05 retain materialization protection. Source: data/record-clearing/legal-design-intake/MO.memo.json/tracks/8/participantInputs/5"
+  },
+  {
+    routeKey: "OH:adult-conviction-sealing-or-expungement-under-ohio-rev-code-2953-32",
+    classes: {"court": "render_required"},
+    note: "GA-14 reviewed participant packet input; render/venue ownership, not an added eligibility predicate. Original unscoped references exclusion-01, exclusion-03, exclusion-04, wait-10, wait-11, wait-13 retain materialization protection. Source: data/record-clearing/legal-design-intake/OH.memo.json/tracks/3/participantInputs/2"
+  },
+  {
+    routeKey: "OH:adult-non-conviction-sealing-or-expungement-under-2953-33",
+    classes: {"court": "render_required"},
+    note: "GA-14 reviewed participant packet input; render/venue ownership, not an added eligibility predicate. Original unscoped references exclusion-01, exclusion-03, exclusion-04, wait-10, wait-11, wait-13 retain materialization protection. Source: data/record-clearing/legal-design-intake/OH.memo.json/tracks/0/participantInputs/2"
+  },
+  {
+    routeKey: "OH:marijuana-hashish-possession-expungement-under-2953-321",
+    classes: {"court": "render_required"},
+    note: "GA-14 reviewed participant packet input; render/venue ownership, not an added eligibility predicate. Original unscoped references exclusion-01, exclusion-03, exclusion-04, wait-10, wait-11, wait-13 retain materialization protection. Source: data/record-clearing/legal-design-intake/OH.memo.json/tracks/1/participantInputs/2"
+  },
+  {
+    routeKey: "OH:certain-firearm-carry-conviction-expungement-under-2953-35",
+    classes: {"court": "render_required"},
+    note: "GA-14 reviewed participant packet input; render/venue ownership, not an added eligibility predicate. Original unscoped references exclusion-01, exclusion-03, exclusion-04, wait-10, wait-11, wait-13 retain materialization protection. Source: data/record-clearing/legal-design-intake/OH.memo.json/tracks/4/participantInputs/2"
+  },
+  {
+    routeKey: "TX:expunction-after-acquittal-not-guilty-disposition-chapter-55a",
+    classes: {"arrest_date": "render_required"},
+    note: "GA-14 reviewed participant packet input; render/venue ownership, not an added eligibility predicate. Original unscoped references rule-56-for-arrest-only-expunctions-compute-from-the-arrest-dat, wait-15, wait-21 retain materialization protection. Source: data/record-clearing/legal-design-intake/TX.memo.json/tracks/3/participantInputs/1"
+  },
+  {
+    routeKey: "TX:expunction-for-arrest-with-no-charge-filed-after-the-limitations-period",
+    classes: {"arrest_date": "render_required"},
+    note: "GA-14 reviewed participant packet input; render/venue ownership, not an added eligibility predicate. Original unscoped references rule-56-for-arrest-only-expunctions-compute-from-the-arrest-dat, wait-15, wait-21 retain materialization protection. Source: data/record-clearing/legal-design-intake/TX.memo.json/tracks/2/participantInputs/1; data/record-clearing/legal-design-intake/TX.memo.json/tracks/0/participantInputs/1"
+  },
+  {
+    routeKey: "TX:expunction-after-qualifying-dismissal-or-quash",
+    classes: {"arrest_date": "render_required"},
+    note: "GA-14 reviewed participant packet input; render/venue ownership, not an added eligibility predicate. Original unscoped references rule-56-for-arrest-only-expunctions-compute-from-the-arrest-dat, wait-15, wait-21 retain materialization protection. Source: data/record-clearing/legal-design-intake/TX.memo.json/tracks/1/participantInputs/1"
+  },
+  {
+    routeKey: "TX:expunction-after-pardon-or-actual-innocence-relief",
+    classes: {"arrest_date": "render_required"},
+    note: "GA-14 reviewed participant packet input; render/venue ownership, not an added eligibility predicate. Original unscoped references rule-56-for-arrest-only-expunctions-compute-from-the-arrest-dat, wait-15, wait-21 retain materialization protection. Source: data/record-clearing/legal-design-intake/TX.memo.json/tracks/4/participantInputs/1; data/record-clearing/legal-design-intake/TX.memo.json/tracks/5/participantInputs/1"
+  },
+  {
+    routeKey: "TX:expunction-after-qualifying-class-c-deferred-disposition",
+    classes: {"arrest_date": "render_required"},
+    note: "GA-14 reviewed participant packet input; render/venue ownership, not an added eligibility predicate. Original unscoped references rule-56-for-arrest-only-expunctions-compute-from-the-arrest-dat, wait-15, wait-21 retain materialization protection. Source: data/record-clearing/legal-design-intake/TX.memo.json/tracks/1/participantInputs/1"
+  },
 ];
 
 const BY_ROUTE_KEY = new Map(OVERRIDES.map((override) => [override.routeKey, override]));

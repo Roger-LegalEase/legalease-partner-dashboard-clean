@@ -697,13 +697,18 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
       ? null : carriedValue(factId, available, input.screeningAnswers);
     const carried = candidateCarry && validValue(factId, candidateCarry.value) ? candidateCarry : null;
     if (unresolvedScopeFor(factId) && !decidesRouteFor(factId) && !carried?.sameId) {
+      // A reviewed route-specific document consumer can establish collection
+      // purpose without resolving the source rule as an eligibility predicate.
+      // Keep this before cross-fact carry/derivation: the original unresolved
+      // materialization guard still applies even when the purpose is known.
+      const reviewedRender = overrideClass === "render_required" && Boolean(override?.note?.trim());
       facts.push({
         factId,
-        collection: "unresolved",
-        phase: "prepay_confirmation",
+        collection: reviewedRender ? "render_required" : "unresolved",
+        phase: reviewedRender ? "render" : "prepay_confirmation",
         group,
-        source: "unresolved_route_rule_scope",
-        reason: "a rule references this required fact without an established route consumer; collect it without inferring a value or claiming it decides this route"
+        source: reviewedRender ? "route_override" : "unresolved_route_rule_scope",
+        reason: reviewedRender ? override!.note! : "a rule references this required fact without an established route consumer; collect it without inferring a value or claiming it decides this route"
       });
       continue;
     }

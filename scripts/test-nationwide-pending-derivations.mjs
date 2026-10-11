@@ -9,17 +9,30 @@ const { MS_NONCONVICTION_SCREENING_ANSWERS: screeningAnswers, MS_NONCONVICTION_R
 const profile = getProfileByJurisdiction("MS");
 const plan = packetPlanForPathway(profile, route.pathwayId);
 const resolveMs = (savedAnswers = {}) => packetCollectionFor({ jurisdiction: "MS", pathwayId: route.pathwayId, requiredInputIds: plan.requiredInputIds, serverFacts: { jurisdiction: "MS", pathway_id: route.pathwayId }, screeningAnswers, savedAnswers });
-const originalPending = ["social_security_number_last_four", "court_type", "court_name", "filing_location"];
+// The GA12 record-fact review supersedes the earlier generic court aliases.
+// Keep the legitimate confidential suffix derivation; distinct record facts
+// remain their own controls unless the court type is actually unambiguous.
+const originalPending = ["social_security_number_last_four"];
 const initial = resolveMs();
 for (const id of originalPending) {
   assert.ok(initial.pendingDerivations.some((fact) => fact.factId === id), `${id}: pending is explicit`);
   assert.equal(prepayGateFactIds(initial).includes(id), false, `${id}: no extra participant prompt`);
   assert.equal(initial.derivedFacts[id], undefined);
 }
+for (const id of ["court_type", "court_name", "filing_location"]) {
+  assert.equal(initial.pendingDerivations.some((fact) => fact.factId === id), false);
+  assert.equal(prepayGateFactIds(initial).includes(id), true, `${id}: unresolved record meaning stays a question`);
+  assert.equal(initial.derivedFacts[id], undefined);
+}
 const complete = resolveMs({ social_security_number: "900-12-3456", court: { value: "Synthetic County Circuit Court", unknown: false }, county: { value: "Synthetic County", unknown: false } });
 for (const id of originalPending) {
   assert.equal(complete.pendingDerivations.some((fact) => fact.factId === id), false, `${id}: valid output resolves pending`);
   assert.ok(complete.derivedFacts[id]);
+}
+assert.equal(complete.derivedFacts.court_type, "Circuit Court", "only an unambiguous court category is derived");
+for (const id of ["court_name", "filing_location"]) {
+  assert.equal(complete.derivedFacts[id], undefined, `${id}: broad court/county does not answer the distinct record question`);
+  assert.equal(prepayGateFactIds(complete).includes(id), true);
 }
 for (const social_security_number of ["1234", "000000000", "invalid-but-nonempty", { value: "900123456", unknown: true }]) {
   assert.ok(resolveMs({ social_security_number }).pendingDerivations.some((fact) => fact.factId === "social_security_number_last_four"));
@@ -38,4 +51,4 @@ assert.equal(age("2000-02-29", "2020-03-01").derivedFacts.age_at_offense, "20");
 const changed = resolvePacketCollection({ jurisdiction: "TEST", pathwayId: "structural-only", requiredInputIds: ["court", "court_name"], serverFacts: {}, screeningAnswers: { court: "Synthetic Circuit Court" }, savedAnswers: { court: { value: "Synthetic Circuit Court", unknown: true } } });
 assert.equal(changed.derivedFacts.court_name, undefined);
 assert.ok(changed.pendingDerivations.some((fact) => fact.factId === "court_name"));
-console.log("PASS: all four original pending outputs, valid outputs, malformed/unknown/lost dependencies, calendar arithmetic and no extra aggregate prompts. Protected save/reload acceptance remains separate.");
+console.log("PASS: confidential suffix pending/valid states, distinct record facts, unambiguous court type, malformed/unknown/lost dependencies and calendar arithmetic. Original court aliases are superseded by the reviewed GA12 distinction. Protected save/reload acceptance remains separate.");
