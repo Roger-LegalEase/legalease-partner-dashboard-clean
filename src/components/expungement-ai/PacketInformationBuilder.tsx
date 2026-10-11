@@ -9,6 +9,7 @@ import { useLocalization } from "@/components/expungement-ai/LocalizationProvide
 import type { AnswerValue, ProfileQuestion } from "@/lib/expungement-ai/frontend/contracts";
 import { packetScreensFor as screensFor, packetNavigationDestination, type PacketNavigationIntent } from "@/lib/expungement-ai/packet-navigation";
 import { localizeProfileText } from "@/lib/expungement-ai/localization";
+import { mcicIdentifierAuthority, requiresMcicIdentifierAuthority } from "@/lib/expungement-ai/sensitive-packet-facts";
 import { questionAnswerState } from "@/lib/expungement-ai/question-answer-state";
 import {
   changedPacketAnswers, isPacketSaveReceipt, packetSaveErrorCopy, reconcileSavedAnswers,
@@ -27,11 +28,12 @@ const bilingual = (en: string, es: string): BilingualCopy => ({ en, es });
 
 /** Explicit saves; every navigation waits for persistence and canonical conditions. */
 export function PacketInformationBuilder({
-  itemId, stateCode, questions: initialQuestions, sections: initialSections = [], initialAnswers,
+  itemId, stateCode, pathwayId, questions: initialQuestions, sections: initialSections = [], initialAnswers,
   initiallyMissing, initialRevision, initialResumeSectionId = null, initialPendingDerivations = [], editingFromReview = false
 }: {
   itemId: string;
   stateCode: string;
+  pathwayId?: string | null;
   questions: ProfileQuestion[];
   sections?: PacketBuilderSection[];
   initialAnswers: Record<string, AnswerValue>;
@@ -49,6 +51,7 @@ export function PacketInformationBuilder({
   const [confirmedAnswers, setConfirmedAnswers] = useState(initialAnswers);
   const revision = useRef(initialRevision);
   const [questions, setQuestions] = useState(initialQuestions);
+  const editingSensitiveIdentifier = questions.some((question) => question.id === "social_security_number");
   const [sections, setSections] = useState(initialSections);
   const [pending, setPending] = useState(initialPendingDerivations);
   const [missing, setMissing] = useState(initiallyMissing);
@@ -107,7 +110,7 @@ export function PacketInformationBuilder({
           const submittedRevision = revision.current;
           const response = await fetch(`/api/expungement-ai/briefcase/${encodeURIComponent(itemId)}/packet-information`, {
             method: "POST", headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ answers: changedPacketAnswers(submitted, confirmed.current), expectedRevision: submittedRevision, resumeSectionId: editingFromReview ? null : resumeSectionId, navigationIntent: editingFromReview ? "stay" : navigationIntent })
+            body: JSON.stringify({ answers: changedPacketAnswers(submitted, confirmed.current), expectedRevision: submittedRevision, resumeSectionId: editingFromReview ? null : resumeSectionId, navigationIntent: editingFromReview ? "stay" : navigationIntent, editingFact: editingSensitiveIdentifier ? "social_security_number" : undefined })
           });
           const payload: unknown = await response.json().catch(() => null);
           if (!response.ok || !isPacketSaveReceipt(payload) || payload.revision < submittedRevision || payload.reviewPath !== `/briefcase/${encodeURIComponent(itemId)}/review`) {
@@ -130,8 +133,8 @@ export function PacketInformationBuilder({
           const merged = reconcileSavedAnswers(submitted, latest.current, receipt.answers);
           confirmed.current = receipt.answers; setConfirmedAnswers(receipt.answers); latest.current = merged; revision.current = receipt.revision;
           setAnswers(merged); setMissing(receipt.missingInputIds); setPending(receipt.pendingDerivations);
-          setQuestions(editingFromReview ? receipt.reviewQuestions.filter((question) => question.id === initialQuestions[0]?.id) : receipt.questions);
-          setSections(editingFromReview ? [] : receipt.sections);
+          setQuestions(editingFromReview ? receipt.reviewQuestions.filter((question) => initialQuestions.some((initial) => initial.id === question.id)) : receipt.questions);
+          setSections(editingFromReview ? initialSections : receipt.sections);
           setRouteChanged(receipt.nextAction === "open_matter");
           if (receipt.nextAction === "open_matter") {
             if (Object.keys(changedPacketAnswers(latest.current, confirmed.current)).length) {
@@ -165,7 +168,7 @@ export function PacketInformationBuilder({
   async function loadSavedForComparison() {
     const requestSequence = ++recoverySequence.current;
     try {
-      const response = await fetch(`/api/expungement-ai/briefcase/${encodeURIComponent(itemId)}/packet-information`, { cache: "no-store" });
+      const response = await fetch(`/api/expungement-ai/briefcase/${encodeURIComponent(itemId)}/packet-information${editingSensitiveIdentifier ? "?editingFact=social_security_number" : ""}`, { cache: "no-store" });
       const payload: unknown = await response.json();
       if (requestSequence !== recoverySequence.current) return;
       if (!response.ok || !isPacketSaveReceipt(payload) || payload.revision < revision.current || payload.reviewPath !== `/briefcase/${encodeURIComponent(itemId)}/review`) throw new Error("recovery_unavailable");
@@ -182,12 +185,12 @@ export function PacketInformationBuilder({
     const next = keepDraft ? { ...recovery.answers, ...ownEdits } : recovery.answers;
     confirmed.current = recovery.answers; setConfirmedAnswers(recovery.answers);
     latest.current = next; setAnswers(next); revision.current = recovery.revision;
-    setQuestions(editingFromReview ? recovery.reviewQuestions.filter((question) => question.id === initialQuestions[0]?.id) : recovery.questions);
-    setSections(editingFromReview ? [] : recovery.sections);
+    setQuestions(editingFromReview ? recovery.reviewQuestions.filter((question) => initialQuestions.some((initial) => initial.id === question.id)) : recovery.questions);
+    setSections(editingFromReview ? initialSections : recovery.sections);
     setMissing(recovery.missingInputIds); setPending(recovery.pendingDerivations);
     setRouteChanged(recovery.nextAction === "open_matter");
-    const recoveredQuestions = editingFromReview ? recovery.reviewQuestions.filter((question) => question.id === initialQuestions[0]?.id) : recovery.questions;
-    moveTo(packetNavigationDestination(screens, screensFor(recoveredQuestions, editingFromReview ? [] : recovery.sections), screenIdRef.current, "stay", next));
+    const recoveredQuestions = editingFromReview ? recovery.reviewQuestions.filter((question) => initialQuestions.some((initial) => initial.id === question.id)) : recovery.questions;
+    moveTo(packetNavigationDestination(screens, screensFor(recoveredQuestions, editingFromReview ? initialSections : recovery.sections), screenIdRef.current, "stay", next));
     setRecovery(null); setSaveError(null); setFailureStatus(null); setSavedAt(null);
     // Choosing the saved version is an explicit discard, not an implicit merge.
     // Keeping local changes still requires a new Save with the displayed revision.
@@ -251,7 +254,7 @@ export function PacketInformationBuilder({
         <p className="mt-2 text-sm" data-packet-section-status={statusId}>{statusLabel}</p>
         {screen.section ? <p className="mt-2 text-sm leading-6 text-[#5A6275]">{locale === "es" ? screen.section.translations.es.description : screen.section.description}</p> : null}
         <fieldset disabled={departing} className="mt-6 grid gap-8" aria-labelledby="packet-step-heading">
-          {screen.questions.map((question) => <div key={question.id} data-packet-question={question.id}><QuestionField question={question} stateCode={stateCode} value={answers[question.id]} headingLevel={3} onChange={(value) => {
+          {screen.questions.map((question) => <div key={question.id} data-packet-question={question.id}><QuestionField question={question} stateCode={stateCode} value={answers[question.id]} headingLevel={3} sensitiveInputAllowed={!requiresMcicIdentifierAuthority(stateCode, pathwayId) || mcicIdentifierAuthority(answers, new Date().toISOString()).safe} onChange={(value) => {
             const next = { ...latest.current, [question.id]: value }; latest.current = next; setAnswers(next); setSavedAt(null);
             setFieldErrors((current) => { const remaining = { ...current }; delete remaining[question.id]; return remaining; });
           }} error={fieldErrors[question.id]?.[locale] ?? null} />{question.required && ["uncertain", "declined"].includes(questionAnswerState(question, answers[question.id])) ? <p className="mt-3 text-sm" role="status">{copy("You can continue with other questions. This answer still needs to be resolved before your packet can be prepared.", "Puede continuar con las demás preguntas. Esta respuesta aún debe aclararse antes de preparar su paquete.")}</p> : null}</div>)}

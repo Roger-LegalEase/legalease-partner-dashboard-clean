@@ -20,6 +20,7 @@
  * `aria-describedby`. Errors use `role="alert"`.
  */
 import type { AnswerValue, ProfileQuestion } from "@/lib/expungement-ai/frontend/contracts";
+import { SensitiveIdentifierField } from "@/components/expungement-ai/screening/fields/SensitiveIdentifierField";
 import { CalendarDateField } from "@/components/expungement-ai/screening/fields/CalendarDateField";
 import { exclusiveOptionsFor, scalarAnswerText } from "@/lib/expungement-ai/question-answer-state";
 import { readOrUnknown, type OrUnknownValue } from "@/components/expungement-ai/screening/answers";
@@ -38,7 +39,8 @@ export function QuestionField({
   value,
   onChange,
   error,
-  headingLevel = 1
+  headingLevel = 1,
+  sensitiveInputAllowed = true
 }: {
   question: ProfileQuestion;
   stateCode: string;
@@ -47,6 +49,7 @@ export function QuestionField({
   error?: string | null;
   /** 1 when the question is the screen's own heading, 3 when it sits under a section heading. */
   headingLevel?: 1 | 2 | 3;
+  sensitiveInputAllowed?: boolean;
 }) {
   const { locale, t: translate, text: localizeText } = useLocalization();
   const fieldId = `q-${question.id}`;
@@ -89,6 +92,13 @@ export function QuestionField({
       {localizeText(error)}
     </p>
   ) : null;
+
+  if (question.id === "social_security_number") return <div className="grid gap-3">
+    {heading}{helperNode}{bannerNode}
+    {sensitiveInputAllowed ? <SensitiveIdentifierField id={fieldId} value={scalarAnswerText(value) ?? ""} onChange={onChange} ariaLabelledBy={promptId} ariaDescribedBy={describedBy} invalid={Boolean(error)} />
+      : <p role="status" className="rounded border border-amber-300 p-3 text-sm">{locale === "es" ? "Antes de ingresar un número de Seguro Social, indique el método de entrega aprobado por el tribunal y quién lo confirmó y cuándo. Puede guardar los demás datos mientras obtiene esa confirmación." : "Before entering a Social Security number, provide the court-approved delivery method and who confirmed it and when. You can save other details while obtaining that confirmation."}</p>}
+    {errorNode}
+  </div>;
 
   switch (question.type) {
     case "single_choice":

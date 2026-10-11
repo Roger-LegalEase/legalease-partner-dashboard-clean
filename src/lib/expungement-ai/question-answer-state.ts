@@ -27,6 +27,10 @@ export function scalarAnswerText(value: unknown): string | null {
   return null;
 }
 
+export function isFullSsnFormat(value: string): boolean {
+  return /^(?:\d{9}|\d{3}-\d{2}-\d{4})$/.test(value.trim()) && value.replace(/\D/g, "") !== "000000000";
+}
+
 export function isCalendarDate(value: string): boolean {
   if (!/^\d{4}-\d{2}-\d{2}$/.test(value) || value.startsWith("0000")) return false;
   const parsed = new Date(`${value}T00:00:00.000Z`);
@@ -82,6 +86,7 @@ export function questionAnswerState(question: QuestionContract, value: unknown, 
     case "text":
     case "textarea":
     case "text_or_unknown":
+      if (question.id === "social_security_number" && text) return isFullSsnFormat(text) ? "known_valid" : "invalid";
       return text ? "known_valid" : "unanswered";
     default:
       return "invalid";

@@ -14,6 +14,7 @@
  * layer cannot classify a route-deciding fact as anything else.
  */
 
+import { mcicIdentifierAuthority, fullSsnLastFour } from "@/lib/expungement-ai/sensitive-packet-facts";
 import { NEVADA_176A_ROUTE_KEY, NEVADA_176A_ROUTE_SAFETY_FACT_IDS } from "@/lib/rcap-engine/nevada-176a-branch";
 
 /**
@@ -68,22 +69,6 @@ export function routeHasSafetyGate(jurisdiction: string, pathwayId: string | nul
 
 export const MISSISSIPPI_NONCONVICTION_ROUTE = "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal";
 
-function isoCalendarDateUtc(value: string): number | null {
-  const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value);
-  if (!match) return null;
-  const [, yearText, monthText, dayText] = match;
-  const year = Number(yearText);
-  const month = Number(monthText);
-  const day = Number(dayText);
-  const timestamp = Date.UTC(year, month - 1, day);
-  const roundTrip = new Date(timestamp);
-  return roundTrip.getUTCFullYear() === year
-    && roundTrip.getUTCMonth() === month - 1
-    && roundTrip.getUTCDate() === day
-    ? timestamp
-    : null;
-}
-
 /** Shared pure participant-delivery filing authority. No storage, clock, or renderer dependency. */
 export function mississippiParticipantDeliverySafety(
   facts: Readonly<Record<string, unknown>>,
@@ -106,7 +91,7 @@ export function mississippiParticipantDeliverySafety(
 
   const fullSsnDigits = fact("social_security_number").replace(/\D/g, "");
   const lastFour = fact("social_security_number_last_four").replace(/\D/g, "");
-  if (fullSsnDigits.length !== 9 || lastFour.length !== 4 || !fullSsnDigits.endsWith(lastFour)) {
+  if (!fullSsnLastFour(facts.social_security_number) || fullSsnDigits.length !== 9 || lastFour.length !== 4 || !fullSsnDigits.endsWith(lastFour)) {
     invalid.push("social_security_number does not match social_security_number_last_four");
   }
 
@@ -120,24 +105,7 @@ export function mississippiParticipantDeliverySafety(
   // status stays a filing-readiness task, asked and tracked, never a gate.
 
   if (generationPurpose !== "internal_review") {
-    const method = fact("mcic_identifier_delivery_method");
-    const methodSource = fact("mcic_identifier_method_confirmation_source");
-    const allowedMethods = new Set([
-      "Confidential court-approved MCIC identifier addendum",
-      "Court-approved MCIC identifier sheet",
-      "Court-approved nonpublic certified copy",
-      "Court-approved signed-order identifier channel"
-    ]);
-    if (!allowedMethods.has(method)) {
-      invalid.push("the MCIC identifier-delivery method is not a protected court-approved channel");
-    }
-    const methodSourceMatch =
-      /^Confirmed by (?:the )?[A-Za-z0-9 .,'-]*(?:Court|Clerk)(?:'s Office)? on (\d{4}-\d{2}-\d{2})$/i.exec(methodSource);
-    const methodConfirmedAt = isoCalendarDateUtc(methodSourceMatch?.[1] ?? "");
-    const verifiedTimestamp = new Date(verifiedAt).getTime();
-    if (!methodSourceMatch || methodConfirmedAt === null || !Number.isFinite(verifiedTimestamp) || methodConfirmedAt > verifiedTimestamp) {
-      invalid.push("the court of origin has not confirmed the MCIC identifier-delivery method");
-    }
+    invalid.push(...mcicIdentifierAuthority(facts, verifiedAt).violations);
     // Not the service-address confirmation either. The specification offers
     // "To be confirmed before filing or service" as an answer and gives the
     // certificate an explicit court-confirmation placeholder for exactly that

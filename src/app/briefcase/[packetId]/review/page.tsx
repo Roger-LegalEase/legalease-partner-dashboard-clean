@@ -152,7 +152,7 @@ export default async function PacketAccuracyReviewPage({
             itemId={item.id}
             expectedRevision={model.revision}
             commercialActions={item.commercialActions}
-            verificationAnswers={model.initialAnswers}
+            verificationAnswers={{}}
             initiallyVerified={initiallyVerified}
             canVerify={summary.complete && model.missingInputIds.length === 0 && model.pendingDerivations.length === 0 && reviewSafety.safe}
             packetReady={item.artifact.status === "ready"}

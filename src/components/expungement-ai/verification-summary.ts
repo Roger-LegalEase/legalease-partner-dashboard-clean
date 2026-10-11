@@ -1,3 +1,4 @@
+import { maskedSensitiveAnswer, requiresMcicIdentifierAuthority } from "@/lib/expungement-ai/sensitive-packet-facts";
 import type { AnswerValue } from "@/lib/expungement-ai/frontend/contracts";
 
 type VerificationFactSource = "screeningAnswers" | "prefilledAnswers" | "packetAnswers" | "serverFacts";
@@ -132,9 +133,9 @@ export function verificationSummary(model: {
     key: fact.key,
     id: fact.id,
     label: fact.label,
-    value: displayAnswer(fact.value),
+    value: fact.id === "social_security_number" ? maskedSensitiveAnswer(fact.value) : displayAnswer(fact.value),
     source: fact.source,
-    editId: !fact.systemContext
+    editId: fact.id === "social_security_number_last_four" && requiresMcicIdentifierAuthority(model.stateCode, model.pathwayId) ? "social_security_number" : !fact.systemContext
       && (fact.source === "prefilledAnswers" || fact.source === "packetAnswers")
       && editableIds.has(fact.id)
       ? fact.id

@@ -1,3 +1,4 @@
+import { fullSsnLastFour, requiresMcicIdentifierAuthority } from "@/lib/expungement-ai/sensitive-packet-facts";
 import { answerValueIsKnown, questionAnswerState, normalizeQuestionChoices, sameKnownQuestionAnswer } from "@/lib/expungement-ai/question-answer-state";
 import "server-only";
 
@@ -795,7 +796,10 @@ function builderSectionsFor(
       heading: section.heading,
       description: section.description,
       translations: section.translations,
-      questionIds: section.factIds.filter((factId) => rendered.has(factId))
+      questionIds: section.factIds.filter((factId) => rendered.has(factId)).sort((left, right) => {
+        const priority = (id: string) => id === "mcic_identifier_delivery_method" ? -2 : id === "mcic_identifier_method_confirmation_source" ? -1 : 0;
+        return priority(left) - priority(right);
+      })
     }))
     .filter((section) => section.questionIds.length > 0);
 }
@@ -981,19 +985,32 @@ export function protectedPacketDraftSeedFromAuthoritative(input: {
   const profile = getProfileByJurisdiction(evaluation.jurisdiction);
   if (!profile || profile.profileVersion !== evaluation.profileVersion) return null;
   const packetPlan = evaluation.packetPlan ?? null;
+  const incomingPacketAnswers = { ...(input.packetAnswers ?? {}) };
+  const incomingPrefilled = { ...(input.prefilledAnswers ?? {}) };
+  const incomingScreening = { ...input.screeningAnswers };
+  const freshSsnDerivation = requiresMcicIdentifierAuthority(evaluation.jurisdiction, evaluation.pathwayId)
+    && packetPlan?.requiredInputIds.includes("social_security_number");
+  if (freshSsnDerivation) {
+    const effective = { ...input.screeningAnswers, ...incomingPrefilled, ...incomingPacketAnswers };
+    const lastFour = fullSsnLastFour(effective.social_security_number);
+    delete incomingPacketAnswers.social_security_number_last_four;
+    delete incomingPrefilled.social_security_number_last_four;
+    delete incomingScreening.social_security_number_last_four;
+    if (lastFour) incomingPrefilled.social_security_number_last_four = lastFour;
+  }
   const factMaps = sourceDisjointFactMaps({
-    screeningAnswers: input.screeningAnswers,
+    screeningAnswers: incomingScreening,
     prefilledAnswers: {
       ...carriedForwardPacketAnswers(
         evaluation.jurisdiction,
         evaluation.pathwayId ?? null,
-        input.screeningAnswers,
-        input.packetAnswers ?? {},
+        incomingScreening,
+        incomingPacketAnswers,
         packetPlan?.requiredInputIds
       ),
-      ...(input.prefilledAnswers ?? {})
+      ...incomingPrefilled
     },
-    packetAnswers: input.packetAnswers,
+    packetAnswers: incomingPacketAnswers,
     serverFacts: canonicalServerFacts(evaluation.jurisdiction, evaluation.pathwayId ?? null)
   });
   const snapshot = canonicalize({
@@ -1704,7 +1721,13 @@ function installPacketSpecificationQuestions(
   for (const factId of requiredInputIds) {
     const fact = packetSpecificationFactFor(routeKey, factId);
     if (!fact?.prompt) continue;
-    questions.set(factId, packetQuestionFromSpecification(fact));
+    const question = packetQuestionFromSpecification(fact);
+    if (factId === "social_security_number_last_four" && requiresMcicIdentifierAuthority(jurisdiction, pathwayId)) {
+      question.prompt = "Last four digits calculated from the protected Social Security number";
+      question.helperText = "These digits are calculated from the full number for masked identification. To correct them, edit the protected Social Security number after confirming the court-approved delivery method. Do not enter a second value.";
+      question.translations = { es: { prompt: "Últimos cuatro dígitos calculados a partir del número de Seguro Social protegido", helperText: "Estos dígitos se calculan a partir del número completo para mostrar una identificación parcial. Para corregirlos, edite el número de Seguro Social protegido después de confirmar el método de entrega aprobado por el tribunal. No ingrese un segundo valor." } };
+    }
+    questions.set(factId, question);
   }
 }
 

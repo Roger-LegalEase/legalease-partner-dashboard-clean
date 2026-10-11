@@ -2,6 +2,7 @@ import Link from "next/link";
 
 import { BriefcaseShell } from "@/components/expungement-ai/BriefcaseShell";
 import { MatterStatusBadge } from "@/components/expungement-ai/BriefcaseViews";
+import { packetAnswersForOwnerEditing, requiresMcicIdentifierAuthority } from "@/lib/expungement-ai/sensitive-packet-facts";
 import { packetScreensFor } from "@/lib/expungement-ai/packet-navigation";
 import { PacketInformationBuilder } from "@/components/expungement-ai/PacketInformationBuilder";
 import { requireConsumerBriefcaseSession } from "@/lib/expungement-ai/auth";
@@ -30,14 +31,19 @@ export default async function PacketInformationPage({
   const model = packetResult && item?.paymentState !== "unavailable" && item?.packetDraft.status === "available"
     ? item.packetDraft
     : null;
-  const editId = (await searchParams).edit?.trim();
+  const requestedEdit = (await searchParams).edit?.trim();
+  const editId = requestedEdit === "social_security_number_last_four" && requiresMcicIdentifierAuthority(item?.jurisdiction ?? "", item?.pathwayId) ? "social_security_number" : requestedEdit;
   const displayedQuestions = model
-    ? editId ? model.questions.filter((question) => question.id === editId) : model.builderQuestions
+    ? editId ? model.questions.filter((question) => question.id === editId || editId === "social_security_number" && question.id.startsWith("mcic_identifier_")) : model.builderQuestions
     : [];
   // Sections group the ordinary builder. A single-question edit from the review
   // page is one question on its own screen, exactly as it has always been, so
   // it deliberately carries no section.
-  const displayedSections = model && !editId ? model.builderSections ?? [] : [];
+  const displayedSections = model && editId === "social_security_number" ? [{
+    id: "sensitive_identifier", heading: "Confidential identifier", description: "Confirm the existing court-approved delivery authority before entering the identifier.",
+    translations: { es: { heading: "Identificador confidencial", description: "Confirme la autorización de entrega existente aprobada por el tribunal antes de ingresar el identificador." } },
+    questionIds: ["mcic_identifier_delivery_method", "mcic_identifier_method_confirmation_source", "social_security_number"].filter((id) => displayedQuestions.some((question) => question.id === id))
+  }] : model && !editId ? model.builderSections ?? [] : [];
   const savedSection = storedItem?.packetResumeSectionId;
   const resumeSectionId = typeof savedSection === "string" && (savedSection === "review" || packetScreensFor(displayedQuestions, displayedSections).some((section) => section.id === savedSection)) ? savedSection : null;
 
@@ -73,7 +79,8 @@ export default async function PacketInformationPage({
             itemId={item.id}
             stateCode={item.jurisdiction}
             questions={displayedQuestions}
-            initialAnswers={model.initialAnswers}
+            pathwayId={item.pathwayId}
+            initialAnswers={packetAnswersForOwnerEditing(item.jurisdiction, item.pathwayId, model.initialAnswers, new Date().toISOString(), displayedQuestions.some((question) => question.id === "social_security_number"))}
             sections={displayedSections}
             initiallyMissing={model.missingInputIds}
             initialRevision={model.revision}

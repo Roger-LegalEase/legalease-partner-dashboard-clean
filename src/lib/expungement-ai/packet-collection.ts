@@ -1,3 +1,4 @@
+import { fullSsnLastFour } from "@/lib/expungement-ai/sensitive-packet-facts";
 import { answerValueIsKnown, uncertaintyState, isCalendarDate, questionAnswerState } from "@/lib/expungement-ai/question-answer-state";
 import type { AnswerValue, ProfileQuestion } from "@/lib/expungement-ai/frontend/contracts";
 import type { PacketSpecificationFact, RegisteredSpecification } from "@/lib/rcap/grade-a/packet-specification";
@@ -330,6 +331,7 @@ export type RouteCollectionOverride = {
  * first pattern that accepts a fact wins, so the order is specificity order.
  */
 const SECTION_RULES: ReadonlyArray<{ section: PacketCollectionSectionId; test: RegExp }> = [
+  { section: "about_you", test: /^mcic_identifier_(delivery_method|method_confirmation_source)$/ },
   { section: "required_documents", test: /exhibit|attachment|certified|docket_sheet|recordkeeping|record_source|criminal_history/ },
   { section: "filing_details", test: /prosecut|service_address|service_method|_service_|identifier_delivery|_delivery_method|identifier_method|personal_impact|filing_fee|fee_waiver|narrative|hardship/ },
   { section: "financial_obligations", test: /financial_obligation|restitution|fines|fees_paid|costs_paid/ },
@@ -404,10 +406,7 @@ const DERIVATIONS: Readonly<Record<string, Derivation>> = {
   // separate thing to ask for.
   social_security_number_last_four: {
     from: ["social_security_number"],
-    derive: ({ social_security_number: ssn }) => {
-      const digits = ssn.replace(/\D/g, "");
-      return /^(?:\d{9}|\d{3}-\d{2}-\d{4})$/.test(ssn.trim()) && digits !== "000000000" ? digits.slice(-4) : null;
-    }
+    derive: ({ social_security_number: ssn }) => fullSsnLastFour(ssn)
   },
   // Deliberately NOT derived, though each looks inferable:
   //
@@ -646,7 +645,7 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
 
     // 4. Something the participant has already told us, under this id or a
     //    screening id that carries the same answer.
-    const candidateCarry = input.savedAnswers && factId in input.savedAnswers
+    const candidateCarry = factId === "social_security_number_last_four" && requiredInputIds.includes("social_security_number") || input.savedAnswers && factId in input.savedAnswers
       ? null : carriedValue(factId, available, input.screeningAnswers);
     const carried = candidateCarry && validValue(factId, candidateCarry.value) ? candidateCarry : null;
     if (unresolvedScopeFor(factId) && !decidesRouteFor(factId) && !carried?.sameId) {

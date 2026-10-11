@@ -1,3 +1,4 @@
+import { mcicIdentifierAuthority, packetAnswersForOwnerEditing, requiresMcicIdentifierAuthority } from "@/lib/expungement-ai/sensitive-packet-facts";
 import { NextResponse } from "next/server";
 
 import { getRcapBriefcaseAuthState } from "@/lib/rcap/briefcase/auth";
@@ -27,7 +28,7 @@ export const dynamic = "force-dynamic";
 const maxPayloadBytes = 60_000;
 
 /** Owner-only recovery read. It never merges a stale browser draft or verifies it. */
-export async function GET(_request: Request, context: { params: Promise<{ itemId: string }> }) {
+export async function GET(request: Request, context: { params: Promise<{ itemId: string }> }) {
   const auth = await getRcapBriefcaseAuthState();
   if (!auth.isAuthenticated || !auth.userId) return NextResponse.json({ ok: false, error: "auth_required" }, { status: 401 });
   if (auth.isVerified !== true) return NextResponse.json({ ok: false, error: "verified_account_required" }, { status: 403 });
@@ -39,7 +40,7 @@ export async function GET(_request: Request, context: { params: Promise<{ itemId
   const model = protectedPacketInformationModelFor(authority.value);
   if (!model) return NextResponse.json({ ok: false, error: "packet_information_unavailable" }, { status: 409 });
   return NextResponse.json({
-    ok: true, revision: authority.value.revision, answers: model.initialAnswers,
+    ok: true, revision: authority.value.revision, answers: packetAnswersForOwnerEditing(model.stateCode, model.pathwayId, model.initialAnswers, new Date().toISOString(), new URL(request.url).searchParams.get("editingFact") === "social_security_number" && model.questions.some((question) => question.id === "social_security_number")),
     questions: model.builderQuestions, reviewQuestions: model.questions, sections: model.builderSections,
     missingInputIds: model.missingInputIds, pendingDerivations: model.pendingDerivations,
     resumeSectionId: item.packetResumeSectionId ?? null,
@@ -97,6 +98,15 @@ export async function POST(
   if (!protectedModel?.packetPlan) {
     return NextResponse.json({ ok: false, error: "packet_information_unavailable" }, { status: 403 });
   }
+  const sensitiveRoute = requiresMcicIdentifierAuthority(protectedModel.stateCode, protectedModel.pathwayId);
+  if (sensitiveRoute && "social_security_number" in parsed.answers
+    && !mcicIdentifierAuthority({ ...protectedModel.initialAnswers, ...parsed.answers }, new Date().toISOString()).safe) {
+    return NextResponse.json({ ok: false, error: "sensitive_identifier_prerequisite_required", invalidFactIds: ["mcic_identifier_delivery_method", "mcic_identifier_method_confirmation_source"] }, { status: 422 });
+  }
+  if (sensitiveRoute && "social_security_number_last_four" in parsed.answers
+    && !sameAnswer(parsed.answers.social_security_number_last_four, protectedModel.initialAnswers.social_security_number_last_four)) {
+    return NextResponse.json({ ok: false, error: "derived_identifier_read_only", invalidFactIds: ["social_security_number"] }, { status: 422 });
+  }
   const editableIds = new Set(protectedModel.requiredInputIds.filter((id) => !(id in protectedModel.serverFacts)));
   const questionById = new Map(protectedModel.questions.map((question) => [question.id, question]));
   const invalidFactIds = Object.entries(parsed.answers).filter(([id, value]) => {
@@ -146,7 +156,7 @@ export async function POST(
     commercialActions: presentation.commercialActions,
     itemId: item.id,
     revision: saved.value.revision,
-    answers: canonical.initialAnswers,
+    answers: packetAnswersForOwnerEditing(canonical.stateCode, canonical.pathwayId, canonical.initialAnswers, new Date().toISOString(), parsed.editingSensitiveIdentifier && canonical.questions.some((question) => question.id === "social_security_number")),
     questions: canonical.builderQuestions,
     reviewQuestions: canonical.questions,
     sections: canonical.builderSections,
@@ -158,11 +168,11 @@ export async function POST(
       ? "open_matter" : canonical.missingInputIds.length || canonical.pendingDerivations.length ? "continue_packet" : "review_packet",
     missingInputIds: canonical.missingInputIds,
     reviewPath: `/briefcase/${encodeURIComponent(item.id)}/review`
-  });
+  }, { headers: { "Cache-Control": "private, no-store" } });
 }
 
 async function readBody(request: Request): Promise<
-  { ok: true; answers: Record<string, AnswerValue>; verify: boolean; expectedRevision: number | null; resumeSectionId: string | null; navigationIntent: PacketNavigationIntent }
+  { ok: true; answers: Record<string, AnswerValue>; verify: boolean; expectedRevision: number | null; resumeSectionId: string | null; navigationIntent: PacketNavigationIntent; editingSensitiveIdentifier: boolean }
   | { ok: false }
 > {
   const contentLength = request.headers.get("content-length");
@@ -170,7 +180,7 @@ async function readBody(request: Request): Promise<
   const text = await request.text().catch(() => "");
   if (new TextEncoder().encode(text).length > maxPayloadBytes) return { ok: false };
   try {
-    const body = JSON.parse(text) as { answers?: unknown; verify?: unknown; expectedRevision?: unknown; resumeSectionId?: unknown; navigationIntent?: unknown };
+    const body = JSON.parse(text) as { answers?: unknown; verify?: unknown; expectedRevision?: unknown; resumeSectionId?: unknown; navigationIntent?: unknown; editingFact?: unknown };
     if (!body.answers || typeof body.answers !== "object" || Array.isArray(body.answers)) return { ok: false };
     if (Object.keys(body.answers).some((id) => !/^[a-z][a-z0-9_]*$/.test(id))) return { ok: false };
     if (!Object.values(body.answers).every(validDraftValue)) return { ok: false };
@@ -178,6 +188,7 @@ async function readBody(request: Request): Promise<
       ok: true,
       answers: body.answers as Record<string, AnswerValue>,
       verify: body.verify === true,
+      editingSensitiveIdentifier: body.editingFact === "social_security_number",
       expectedRevision: typeof body.expectedRevision === "number" && Number.isSafeInteger(body.expectedRevision) && body.expectedRevision >= 0 ? body.expectedRevision : null,
       resumeSectionId: typeof body.resumeSectionId === "string" ? body.resumeSectionId : null,
       navigationIntent: body.navigationIntent === "next" || body.navigationIntent === "previous" ? body.navigationIntent : "stay"

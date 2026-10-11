@@ -24,6 +24,7 @@ export function usePacketDraftNavigation(dirty: boolean, save: () => Promise<unk
     const entryIndex = () => (window as Window & { navigation?: EntryNavigation }).navigation?.currentEntry?.index ?? null;
     let guarded = false;
     let guardIndex: number | null = null;
+    let hasPredecessor = false;
     let baseUrl = window.location.href;
     let departure: Promise<void> | null = null;
     let waiting: { kind: "restore" | "release"; resolve: () => void; promise: Promise<void> } | null = null;
@@ -34,7 +35,7 @@ export function usePacketDraftNavigation(dirty: boolean, save: () => Promise<unk
       baseUrl = window.location.href;
       history.replaceState({ ...history.state, legaleasePacketBase: marker }, "", baseUrl);
       history.pushState({ ...history.state, legaleasePacketGuard: marker }, "", baseUrl);
-      guardIndex = entryIndex(); guarded = true;
+      guardIndex = entryIndex(); hasPredecessor = history.length > 2; guarded = true;
     };
     const stepTo = (kind: "restore" | "release") => {
       const current = entryIndex();
@@ -91,7 +92,8 @@ export function usePacketDraftNavigation(dirty: boolean, save: () => Promise<unk
       if (departure) { void traverse("restore"); return; }
       const underlyingDuplicate = isBase();
       const observedTargetIndex = entryIndex();
-      const targetIndex = underlyingDuplicate && guardIndex !== null ? guardIndex - 2 : observedTargetIndex;
+      const observedTarget = underlyingDuplicate && guardIndex !== null ? guardIndex - 2 : observedTargetIndex;
+      const targetIndex = observedTarget !== null && observedTarget >= 0 ? observedTarget : null;
       const targetUrl = window.location.href;
       departure = (async () => {
         await traverse("restore");
@@ -101,7 +103,7 @@ export function usePacketDraftNavigation(dirty: boolean, save: () => Promise<unk
         if (!saved) { setDeparting(false); return; }
         await release();
         const current = entryIndex();
-        if (targetIndex !== null && targetIndex < 0) { setDeparting(false); return; }
+        if (underlyingDuplicate && !hasPredecessor) { setDeparting(false); return; }
         if (targetIndex !== null && current !== null) history.go(targetIndex - current);
         else if (underlyingDuplicate) history.back();
         else router.push(targetUrl); // Older browsers: retain the exact destination URL, never guess a multi-entry delta.
