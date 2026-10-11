@@ -95,6 +95,31 @@ const OVERRIDES: ReadonlyArray<RouteCollectionOverride> = [
     classes: {"arrest_date": "render_required"},
     note: "GA-14 reviewed participant packet input; render/venue ownership, not an added eligibility predicate. Original unscoped references rule-56-for-arrest-only-expunctions-compute-from-the-arrest-dat, wait-15, wait-21 retain materialization protection. Source: data/record-clearing/legal-design-intake/TX.memo.json/tracks/1/participantInputs/1"
   },
+  {
+    routeKey: "MD:adult-non-conviction-expungement-under-crim-proc-10-105",
+    classes: {"county": "render_required"},
+    note: "GA-14 reviewed participant court/county venue input; render ownership, not a county-specific eligibility rule. Original unscoped rule-53-automatic-bar-verify-the-effective-date-for-their-count references retain materialization protection. Source: data/record-clearing/legal-design-intake/MD.memo.json/tracks/1/participantInputs/0; data/record-clearing/legal-design-intake/MD.memo.json/tracks/0/participantInputs/0"
+  },
+  {
+    routeKey: "MD:eligible-conviction-expungement-under-crim-proc-10-110",
+    classes: {"county": "render_required"},
+    note: "GA-14 reviewed participant court/county venue input; render ownership, not a county-specific eligibility rule. Original unscoped rule-53-automatic-bar-verify-the-effective-date-for-their-count references retain materialization protection. Source: data/record-clearing/legal-design-intake/MD.memo.json/tracks/2/participantInputs/0"
+  },
+  {
+    routeKey: "MD:cannabis-specific-expungement",
+    classes: {"county": "render_required"},
+    note: "GA-14 reviewed participant court/county venue input; render ownership, not a county-specific eligibility rule. Original unscoped rule-53-automatic-bar-verify-the-effective-date-for-their-count references retain materialization protection. Source: data/record-clearing/legal-design-intake/MD.memo.json/tracks/3/participantInputs/0"
+  },
+  {
+    routeKey: "MD:second-chance-act-shielding",
+    classes: {"county": "render_required"},
+    note: "GA-14 reviewed participant court/county venue input; render ownership, not a county-specific eligibility rule. Original unscoped rule-53-automatic-bar-verify-the-effective-date-for-their-count references retain materialization protection. Source: data/record-clearing/legal-design-intake/MD.memo.json/tracks/5/participantInputs/0"
+  },
+  {
+    routeKey: "MD:pardoned-conviction-expungement-under-crim-proc-10-105-a-8",
+    classes: {"county": "render_required"},
+    note: "GA-14 reviewed participant court/county venue input; render ownership, not a county-specific eligibility rule. Original unscoped rule-53-automatic-bar-verify-the-effective-date-for-their-count references retain materialization protection. Source: data/record-clearing/legal-design-intake/MD.memo.json/tracks/4/participantInputs/0"
+  },
 ];
 
 const BY_ROUTE_KEY = new Map(OVERRIDES.map((override) => [override.routeKey, override]));
