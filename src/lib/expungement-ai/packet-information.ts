@@ -1,7 +1,7 @@
 import { CA_PROP64_QUESTIONS, CA_PROP64_COMPLETED, isCaProp64Pathway, caProp64Choice } from "@/lib/expungement-ai/ca-prop64-choices";
 import { caProp64RecordQuestions } from "@/lib/expungement-ai/ca-prop64-record-facts";
 import { caProp64RecordAnswerState, CA_PROP64_RECORD_FACT_IDS } from "@/lib/expungement-ai/ca-prop64-record-answer";
-import { isAffirmative, isExplicitUnknownAnswer } from "@/lib/rcap-engine/answer-normalization";
+import { isAffirmative, isNegative, isExplicitUnknownAnswer } from "@/lib/rcap-engine/answer-normalization";
 import { recordFactOwnQuestionIds, recordFactConfirmationFor, unresolvedRecordFactConfirmations, recordFactCourtConflict } from "@/lib/expungement-ai/record-fact-clarification";
 import { fullSsnLastFour, requiresMcicIdentifierAuthority } from "@/lib/expungement-ai/sensitive-packet-facts";
 import { reviewedContactRepresentation, contactRepresentationHash, contactRepresentationProvenance, isProvenContactOutput } from "@/lib/expungement-ai/contact-representation";
@@ -270,7 +270,7 @@ export function packetInformationModelFor(item: ConsumerBriefcaseItem): PacketIn
       if (known && !questions.some((question) => question.id === id)) questions.push({ ...known, required: true, contextOnly: false });
     }
   }
-  questions = questions.map((question) => reviewedPacketQuestion(question, { state: profile.jurisdiction.code, pathwayId, participantOwnsRecord: knownParticipantOwner(questionById, screeningAnswers.ownership_scope) }));
+  questions = questions.map((question) => reviewedPacketQuestion(question, { state: profile.jurisdiction.code, pathwayId, participantOwnsRecord: knownParticipantOwner(questionById, screeningAnswers.ownership_scope), participantHelpingRecord: knownParticipantHelper(questionById, screeningAnswers.ownership_scope) }));
   for (const question of questions) questionById.set(question.id, question);
   const builderQuestions = builderQuestionsFor(questions, collection, requiredInputIds, serverFacts);
   const missingInputIds = missingRequiredInputs(
@@ -989,6 +989,24 @@ export function reviewEditablePacketInputIds(model: Parameters<typeof editablePa
   return reviewIds;
 }
 
+/** Existing completion edits remain correctable when their saved answer holds the route. */
+export function heldCourtCompletionInputIds(model: Parameters<typeof editablePacketInputIds>[0]
+  & Pick<ProtectedPacketInformationModel, "questions" | "packetPlan">, resultCode: string | null): Set<string> {
+  const ids = new Set<string>();
+  if (!model.packetPlan || !["not_yet", "needs_more_info", "needs_review"].includes(resultCode ?? "")) return ids;
+  const allowed = editablePacketInputIds(model);
+  for (const contract of courtCompletionContractsFor(`${model.stateCode}:${model.pathwayId ?? ""}`)) {
+    const id = contract.targetFactId;
+    const question = model.questions.find((candidate) => candidate.id === id);
+    if (!question || !allowed.has(id) || !Object.hasOwn(model.packetAnswers, id)) continue;
+    const value = model.packetAnswers[id];
+    const state = questionAnswerState(question, value);
+    if (state === "uncertain" || isRecord(value) && value.unknown === true
+      || state === "known_valid" && isNegative(answerTextRaw(value))) ids.add(id);
+  }
+  return ids;
+}
+
 /**
  * Packet inputs a route carries forward instead of asking again.
  *
@@ -1126,6 +1144,13 @@ function knownParticipantOwner(questionById: ReadonlyMap<string, ProfileQuestion
     && (value === true || answerTextRaw(value as AnswerValue).trim() === "Yes"));
 }
 
+/** A wording audience only; this does not grant consent, ownership, or access. */
+function knownParticipantHelper(questionById: ReadonlyMap<string, ProfileQuestion>, value: unknown): boolean {
+  const question = questionById.get("ownership_scope");
+  return Boolean(question && questionAnswerState(question, value) === "known_valid"
+    && answerTextRaw(value as AnswerValue).trim() === "I am helping someone complete their own check");
+}
+
 function protectedPacketQuestionSurface(
   profile: NonNullable<ReturnType<typeof getProfileByJurisdiction>>,
   pathwayId: string | null,
@@ -1183,7 +1208,7 @@ function protectedPacketQuestionSurface(
     savedAnswers,
     recordOwnQuestionIds
   });
-  questions = questions.map((question) => reviewedPacketQuestion(question, { state: profile.jurisdiction.code, pathwayId, participantOwnsRecord: knownParticipantOwner(questionById, screeningAnswers.ownership_scope) }));
+  questions = questions.map((question) => reviewedPacketQuestion(question, { state: profile.jurisdiction.code, pathwayId, participantOwnsRecord: knownParticipantOwner(questionById, screeningAnswers.ownership_scope), participantHelpingRecord: knownParticipantHelper(questionById, screeningAnswers.ownership_scope) }));
   for (const question of questions) questionById.set(question.id, question);
   const builderQuestions = builderQuestionsFor(questions, collection, requiredInputIds, serverFacts);
   const builderSections = builderSectionsFor(collection, builderQuestions);

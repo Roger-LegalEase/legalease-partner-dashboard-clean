@@ -4,7 +4,7 @@ import { packetDisplayCopy } from "@/lib/expungement-ai/packet-display-copy";
 import { LocalizedCopy, LocalizedRuntimeText } from "@/components/expungement-ai/LocalizationProvider";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { editablePacketInputIds, packetAccountEmailSuggestion, caProp64ClarificationModelFor } from "@/lib/expungement-ai/packet-information";
+import { editablePacketInputIds, heldCourtCompletionInputIds, packetAccountEmailSuggestion, caProp64ClarificationModelFor } from "@/lib/expungement-ai/packet-information";
 
 import { BriefcaseShell } from "@/components/expungement-ai/BriefcaseShell";
 import { MatterStatusBadge } from "@/components/expungement-ai/BriefcaseViews";
@@ -34,17 +34,22 @@ export default async function PacketInformationPage({
   const sponsored = item?.paymentState === "sponsored";
   const packetResult = item?.authorityStatus !== "unavailable"
     && (item?.resultCode === "packet_ready" || item?.resultCode === "packet_ready_with_caution");
-  const model = packetResult && item?.paymentState !== "unavailable" && item?.packetDraft.status === "available"
+  const correctionIds = item?.authorityStatus === "protected_draft" && item.paymentState !== "unavailable"
+    && item.jurisdiction && item.packetDraft.status === "available"
+    ? heldCourtCompletionInputIds({ ...item.packetDraft, stateCode: item.jurisdiction, pathwayId: item.pathwayId }, item.resultCode) : new Set<string>();
+  const correctingCompletion = !packetResult && correctionIds.size > 0;
+  const model = (packetResult || correctingCompletion) && item?.paymentState !== "unavailable" && item?.packetDraft.status === "available"
     ? item.packetDraft
     : null;
   const protectedRead = !model && storedItem ? await readProtectedPacketVerification({ consumerAuthUserId: auth.userId, briefcaseItemId: storedItem.id }) : null;
   const clarification = protectedRead?.ok ? caProp64ClarificationModelFor(protectedRead.value) : null;
   const requestedEdit = (await searchParams).edit?.trim();
   const editId = requestedEdit === "social_security_number_last_four" && requiresMcicIdentifierAuthority(item?.jurisdiction ?? "", item?.pathwayId) ? "social_security_number" : requestedEdit;
-  if (model && item && editId && !editablePacketInputIds({ ...model, stateCode: item.jurisdiction ?? "", pathwayId: item.pathwayId }).has(editId)) {
+  if (model && item && editId && !(correctingCompletion ? correctionIds : editablePacketInputIds({ ...model, stateCode: item.jurisdiction ?? "", pathwayId: item.pathwayId })).has(editId)) {
     redirect(`/briefcase/${encodeURIComponent(item.id)}/review`);
   }
-  const displayedQuestions = model
+  const displayedQuestions = model && correctingCompletion
+    ? model.questions.filter((question) => correctionIds.has(question.id) && (!editId || question.id === editId)) : model
     ? editId ? model.questions.filter((question) => question.id === editId
       || editId === "social_security_number" && question.id.startsWith("mcic_identifier_")
       || editId === "contact_information" && ["mailing_address", "phone_number", "email_address"].includes(question.id)) : model.builderQuestions
@@ -60,7 +65,7 @@ export default async function PacketInformationPage({
     id: "contact_review", heading: "Review your saved contact details", description: "Complete or correct the separate contact details first.",
     translations: { es: { heading: "Revise sus datos de contacto guardados", description: "Primero complete o corrija los datos de contacto por separado." } },
     questionIds: ["mailing_address", "phone_number", "email_address", "contact_information"].filter((id) => displayedQuestions.some((question) => question.id === id))
-  }] : model && !editId ? model.builderSections ?? [] : [];
+  }] : model && !editId && !correctingCompletion ? model.builderSections ?? [] : [];
   const savedSection = storedItem?.packetResumeSectionId;
   const resumeSectionId = typeof savedSection === "string" && (savedSection === "review" || packetScreensFor(displayedQuestions, displayedSections).some((section) => section.id === savedSection)) ? savedSection : null;
 
@@ -84,19 +89,23 @@ export default async function PacketInformationPage({
           <div className="flex flex-wrap items-start justify-between gap-4">
             <div>
               <p className="text-xs font-bold uppercase tracking-[0.08em] text-[#08786F]">{item.jurisdiction}</p>
-              <h1 className="mt-2 text-[26px] font-extrabold tracking-[-0.02em] text-[#0B1320]"><LocalizedRuntimeText text={"Complete packet information"} /></h1>
+              <h1 className="mt-2 text-[26px] font-extrabold tracking-[-0.02em] text-[#0B1320]">{correctingCompletion
+                ? <LocalizedCopy en="Review saved completion answers" es="Revise las respuestas guardadas sobre el cumplimiento" />
+                : <LocalizedRuntimeText text={"Complete packet information"} />}</h1>
               {item.pathwayLabel ? <p className="mt-2 text-sm font-semibold text-[#475A6E]"><LocalizedCopy {...packetDisplayCopy("route_label", item.jurisdiction, item.pathwayId, item.pathwayLabel)} /></p> : null}
             </div>
             <MatterStatusBadge item={item} />
           </div>
 
           <div className="my-6 rounded-[14px] bg-[#F7F3EC] px-5 py-4 text-sm leading-6 text-[#5A6275]">
-            {sponsored ? (
+            {correctingCompletion ? (
+              <p><LocalizedCopy en="You can correct these saved answers. Your current result remains on hold, and correcting an answer does not complete final verification." es="Puede corregir estas respuestas guardadas. Su resultado actual sigue pendiente y corregir una respuesta no completa la verificación final." /></p>
+            ) : sponsored ? (
               <p><LocalizedRuntimeText text={"Your packet is covered through your partner program. Complete the information below without a consumer payment."} /></p>
             ) : (
               <p><LocalizedRuntimeText text={"Your Briefcase is free. Complete your packet information and pay only when you're ready to generate your packet."} /></p>
             )}
-            <p className="mt-2"><LocalizedRuntimeText text={"Complete the remaining details for this packet. Review what's already here, add anything that is missing, and save your progress anytime."} /></p>
+            {!correctingCompletion ? <p className="mt-2"><LocalizedRuntimeText text={"Complete the remaining details for this packet. Review what's already here, add anything that is missing, and save your progress anytime."} /></p> : null}
           </div>
 
           <PacketInformationBuilder
@@ -114,7 +123,8 @@ export default async function PacketInformationPage({
             initialRecordClarificationIds={model.recordClarificationIds}
             initialCourtRecordConflict={model.courtRecordConflict}
             initialAccountEmailSuggestion={packetAccountEmailSuggestion({ ...model, stateCode: item.jurisdiction, pathwayId: item.pathwayId ?? null }, auth.userEmail)}
-            editingFromReview={Boolean(editId)}
+            initialRouteChanged={correctingCompletion}
+            editingFromReview={Boolean(editId) || correctingCompletion}
           />
         </section>
       ) : (

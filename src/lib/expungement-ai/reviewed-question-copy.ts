@@ -1,6 +1,7 @@
 import "server-only";
 import catalog from "@/lib/expungement-ai/frontend/reviewed-question-spanish.json";
 import participantCatalog from "@/lib/expungement-ai/frontend/reviewed-participant-copy.json";
+import assistedContactCatalog from "@/lib/expungement-ai/frontend/reviewed-assisted-contact-copy.json";
 import sourceCatalog from "@/lib/expungement-ai/frontend/reviewed-source-question-copy.json";
 import type { PublicQuestion } from "@/lib/rcap-engine/contracts";
 
@@ -103,10 +104,23 @@ export function reviewedScreeningQuestion<T extends PublicQuestion>(question: T,
 }
 
 /** Paired EN/ES successor copy, only for the exact reviewed participant wording and route. */
-export function reviewedPacketQuestion<T extends PublicQuestion>(question: T, context: Context & { participantOwnsRecord: boolean }): T {
+export function reviewedPacketQuestion<T extends PublicQuestion>(question: T, context: Context & { participantOwnsRecord: boolean; participantHelpingRecord?: boolean }): T {
   const localized = reviewedSourceQuestion(reviewedSpanishQuestion(question, context), context);
   const multiline = MULTILINE_PACKET_FACTS[`${context.state}:${context.pathwayId}`]?.includes(question.id);
   const translated = multiline && ["text", "text_or_unknown", "textarea"].includes(question.type) ? { ...localized, multiline: true } : localized;
+  if (!context.participantOwnsRecord && context.participantHelpingRecord === true && context.pathwayId) {
+    const routeKey = `${context.state}:${context.pathwayId}`;
+    const routeIndex = assistedContactCatalog.routeKeys.indexOf(routeKey);
+    const descriptor = JSON.stringify([question.id, question.type, question.prompt, question.helperText ?? "", question.options ?? null]);
+    const matches = assistedContactCatalog.entries.filter((entry) =>
+      JSON.stringify([entry.questionId, entry.source.inputType, entry.source.prompt, entry.source.helperText, entry.source.wireOptions]) === descriptor
+      && routeIndex >= 0 && entry.bindings.some((binding) => binding.routeIndex === routeIndex));
+    if (matches.length === 1) {
+      const copy = matches[0].successor;
+      return { ...translated, prompt: copy.en.prompt, helperText: copy.en.helperText,
+        translations: { ...translated.translations, es: { ...translated.translations?.es, prompt: copy.es.prompt, helperText: copy.es.helperText } } };
+    }
+  }
   if (!context.participantOwnsRecord || !context.pathwayId) return translated;
   const routeIndex = participantCatalog.routeKeys.indexOf(`${context.state}:${context.pathwayId}`);
   if (routeIndex < 0) return translated;

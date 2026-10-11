@@ -35,7 +35,7 @@ const contactAnswerText = (answer: AnswerValue | undefined): string => answer ==
 /** Explicit saves; every navigation waits for persistence and canonical conditions. */
 export function PacketInformationBuilder({
   itemId, stateCode, pathwayId, questions: initialQuestions, sections: initialSections = [], initialAnswers,
-  initiallyMissing, initialRevision, initialResumeSectionId = null, initialPendingDerivations = [], initialContactReconciliation = null, initialRecordClarificationIds = [], initialCourtRecordConflict = false, initialAccountEmailSuggestion = null, initialCaProp64Clarification = false, editingFromReview = false
+  initiallyMissing, initialRevision, initialResumeSectionId = null, initialPendingDerivations = [], initialContactReconciliation = null, initialRecordClarificationIds = [], initialCourtRecordConflict = false, initialAccountEmailSuggestion = null, initialCaProp64Clarification = false, initialRouteChanged = false, editingFromReview = false
 }: {
   itemId: string;
   stateCode: string;
@@ -52,6 +52,7 @@ export function PacketInformationBuilder({
   initialCourtRecordConflict?: boolean;
   initialAccountEmailSuggestion?: string | null;
   initialCaProp64Clarification?: boolean;
+  initialRouteChanged?: boolean;
   editingFromReview?: boolean;
 }) {
   const { locale, text: localizeText } = useLocalization();
@@ -88,7 +89,7 @@ export function PacketInformationBuilder({
   const [saveError, setSaveError] = useState<BilingualCopy | null>(null);
   const [failureStatus, setFailureStatus] = useState<number | null>(null);
   const [recovery, setRecovery] = useState<PacketSaveReceipt | null>(null);
-  const [routeChanged, setRouteChanged] = useState(false);
+  const [routeChanged, setRouteChanged] = useState(initialRouteChanged);
   const [saving, setSaving] = useState(false);
   const [savedAt, setSavedAt] = useState<number | null>(null);
   const inflight = useRef<Promise<PacketSaveReceipt | null> | null>(null);

@@ -1,5 +1,5 @@
 import { readProtectedPacketVerification } from "@/lib/expungement-ai/verification-cas";
-import { caProp64ClarificationModelFor } from "@/lib/expungement-ai/packet-information";
+import { caProp64ClarificationModelFor, heldCourtCompletionInputIds } from "@/lib/expungement-ai/packet-information";
 import { CA_PROP64_CLARIFICATION_COPY } from "@/lib/expungement-ai/ca-prop64-choices";
 import { packetDisplayCopy } from "@/lib/expungement-ai/packet-display-copy";
 import { SponsorCapacityNotice } from "@/components/expungement-ai/SponsorCapacityNotice";
@@ -42,6 +42,9 @@ export default async function BriefcasePacketPage({
   const packetMatter = available && (item?.resultCode === "packet_ready" || item?.resultCode === "packet_ready_with_caution");
   const factsVerified = item?.verificationStatus === "verified";
   const packetDraftAvailable = item?.packetDraft.status === "available";
+  const completionCorrectionAvailable = item?.authorityStatus === "protected_draft" && item.paymentState !== "unavailable"
+    && item.jurisdiction && item.packetDraft.status === "available"
+    && heldCourtCompletionInputIds({ ...item.packetDraft, stateCode: item.jurisdiction, pathwayId: item.pathwayId }, item.resultCode).size > 0;
   const artifact = item?.artifact.status === "ready" ? item.artifact : null;
   const paidPreparation = item?.paymentState === "paid" && factsVerified && !artifact && item.commercialActions.generationAllowed
     ? await getConsumerPacketStatus({ userId: auth.userId, briefcaseItemId: item.id }).catch(() => null)
@@ -63,6 +66,9 @@ export default async function BriefcasePacketPage({
     >
       {clarification && storedItem ? <p className="mb-5 rounded border border-amber-300 p-4">
         <Link className="inline-flex min-h-11 items-center font-semibold underline" href={`/briefcase/${storedItem.id}/packet-information`}><LocalizedCopy {...CA_PROP64_CLARIFICATION_COPY.legacy_heading} /></Link>
+      </p> : null}
+      {completionCorrectionAvailable && item ? <p className="mb-5 rounded border border-amber-300 p-4">
+        <Link className="inline-flex min-h-11 items-center font-semibold underline" href={`/briefcase/${item.id}/packet-information`}><LocalizedCopy en="Review saved completion answers" es="Revise las respuestas guardadas sobre el cumplimiento" /></Link>
       </p> : null}
       {item && item.authorityStatus !== "unavailable" ? (
         <section data-briefcase-matter-id={item.id}>

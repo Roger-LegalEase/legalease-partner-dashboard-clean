@@ -3,7 +3,8 @@ import { register } from 'node:module';
 register('./lib/ts-esm-loader.mjs', import.meta.url);
 process.env.RCAP_EVALUATOR_TODAY = '2026-10-11';
 const { protectedPacketDraftSeedFromAuthoritative: seedFor, protectedPacketInformationModelFor: modelFor,
-  editablePacketInputIds, reviewEditablePacketInputIds } = await import('../src/lib/expungement-ai/packet-information.ts');
+  editablePacketInputIds, reviewEditablePacketInputIds, heldCourtCompletionInputIds,
+  packetInformationPatch } = await import('../src/lib/expungement-ai/packet-information.ts');
 const { verificationSummary } = await import('../src/components/expungement-ai/verification-summary.ts');
 const { evaluateAuthoritativeScreeningResult: evaluate } = await import('../src/lib/expungement-ai/authoritative-screening-result.ts');
 const { MS_NONCONVICTION_SCREENING_ANSWERS: screening, MS_NONCONVICTION_ROUTE: route } = await import('./lib/rcap-ms-nonconviction-fixture.mjs');
@@ -44,4 +45,36 @@ assert.equal(reviewEditablePacketInputIds({ ...model, questions: model.questions
 assert.equal(reviewEditablePacketInputIds({ ...model, serverFacts: { ...model.serverFacts, financial_obligations: 'Yes' } }).has('financial_obligations'), false, 'server-owned mutation cannot get a completion edit link');
 assert.equal(reviewEditablePacketInputIds({ ...model, requiredInputIds: model.requiredInputIds.filter(id => id !== 'financial_obligations') }).has('financial_obligations'), false, 'non-required/unowned target cannot gain authorization');
 assert.deepEqual(verificationSummary({ ...model, editableInputIds: [] }).packetAnswers.map(f => f.editId), projected.packetAnswers.map(() => null), 'explicit empty server policy does not fall back to builder');
+for (const value of ['No', 'I am not sure', { unknown: true }]) {
+  const record = { status: 'unverified', reason: 'synthetic', revision: 0, draftHash: seed.hash, draftSnapshot: seed.snapshot };
+  const existingItem = { id: 'synthetic-held-completion', jurisdiction: 'MS', artifactRefs: {} };
+  const held = packetInformationPatch({ existingItem, protectedVerification: record, answers: { financial_obligations: value } });
+  assert.ok(held);
+  const next = held.protectedTransition.nextVerification;
+  const heldModel = modelFor(next);
+  const result = next.draftSnapshot.resultCode;
+  const before = structuredClone(next);
+  assert.ok(['not_yet', 'needs_more_info'].includes(result));
+  assert.deepEqual([...heldCourtCompletionInputIds(heldModel, result)], ['financial_obligations'], JSON.stringify({ value, result,
+    packetPlan: Boolean(heldModel.packetPlan), pathwayId: heldModel.pathwayId,
+    saved: heldModel.packetAnswers.financial_obligations, allowed: editablePacketInputIds(heldModel).has('financial_obligations') }));
+  assert.deepEqual(next, before, 'presentation correction never changes the held authority');
+  const verifyHeld = packetInformationPatch({ existingItem, protectedVerification: next, answers: {}, verify: true });
+  assert.equal(verifyHeld.readyToGenerate, false, 'recovery presentation cannot verify a held answer');
+  const repair = packetInformationPatch({ existingItem, protectedVerification: next, answers: { financial_obligations: 'Yes' } });
+  assert.equal(repair.protectedTransition.nextVerification.draftSnapshot.packetAnswers.financial_obligations, 'Yes', 'existing save contract allows correction');
+  assert.equal(repair.protectedTransition.nextVerification.status, 'unverified', 'correction is not final verification');
+  for (const changed of [
+    { packetPlan: null },
+    { packetAnswers: {} },
+    { packetAnswers: { financial_obligations: 'Yes' } },
+    { packetAnswers: { financial_obligations: 'arbitrary text' } },
+    { questions: heldModel.questions.filter(q => q.id !== 'financial_obligations') },
+    { serverFacts: { ...heldModel.serverFacts, financial_obligations: 'No' } },
+    { requiredInputIds: heldModel.requiredInputIds.filter(id => id !== 'financial_obligations') }
+  ]) assert.equal(heldCourtCompletionInputIds({ ...heldModel, ...changed }, result).size, 0);
+  for (const unrelatedResult of ['packet_ready', 'packet_ready_with_caution', 'guidance_only', null]) {
+    assert.equal(heldCourtCompletionInputIds(heldModel, unrelatedResult).size, 0);
+  }
+}
 console.log('PASS: reused completion review correction, existing control ownership, no unrelated edit expansion, source/system exclusions and unchanged canonical facts. Protected browser correction remains separate.');
