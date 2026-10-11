@@ -45,6 +45,11 @@ export async function POST(request: NextRequest) {
     if (source.error) return resumeConfirmFailure(startedAt);
     if (source.data?.flow_mode === "rcap") {
       assertSameOrigin(request);
+      const clinic = await supabase.from("clinic_assisted_sessions").select("id").eq("screening_session_id", result.session.sessionId).limit(1);
+      if (clinic.error) return resumeConfirmFailure(startedAt);
+      // Preserve the existing Clinic resume/consent path; its sessions never
+      // receive the ordinary anonymous RCAP draft capability.
+      if (clinic.data?.length) return NextResponse.json(result, {headers: ONBOARDING_PRIVATE_RESPONSE_HEADERS});
       const screeningUrl = `/expungement-ai/screening/${encodeURIComponent(result.session.jurisdiction)}?session=${encodeURIComponent(result.session.sessionId)}`;
       const response = NextResponse.json({...result, screeningUrl}, {headers: ONBOARDING_PRIVATE_RESPONSE_HEADERS});
       response.cookies.set(RCAP_DRAFT_COOKIE, sealRcapDraft(result.session.sessionId), rcapDraftCookieOptions);

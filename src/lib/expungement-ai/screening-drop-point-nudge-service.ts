@@ -19,6 +19,7 @@ import { logSecurityWarn } from "@/lib/observability/logger";
 export type ScreeningNudgeStatus = "in_progress" | "resumed" | "completed" | "abandoned";
 
 export type ScreeningNudgeRow = {
+  flow_mode?: string | null;
   session_id: string;
   jurisdiction: string;
   current_question_id: string | null;
@@ -152,7 +153,7 @@ export async function sendScreeningDropPointNudge(
     to: rotated.resume_email_normalized,
     touch,
     dropQuestionId: rotated.last_drop_question ?? rotated.current_question_id,
-    resumeUrl: screeningResumeUrl(rawToken),
+    resumeUrl: screeningResumeUrl(rawToken, rotated.flow_mode),
     optOutUrl: screeningDropPointNudgeOptOutUrl(rawToken)
   });
 
@@ -355,6 +356,7 @@ export class SupabaseScreeningNudgeStorage implements ScreeningNudgeStorage {
 }
 
 const nudgeSelectColumns = [
+  "flow_mode",
   "session_id",
   "jurisdiction",
   "current_question_id",

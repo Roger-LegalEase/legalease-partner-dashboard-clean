@@ -1,6 +1,6 @@
 import "server-only";
 
-import { absoluteExpungementAiUrl } from "@/lib/app-url";
+import { absoluteExpungementAiUrl, absolutePartnerAppUrl } from "@/lib/app-url";
 
 export type ScreeningResumeEmail = {
   to: string;
@@ -46,7 +46,10 @@ export function renderScreeningResumeEmail(input: ScreeningResumeEmail) {
   };
 }
 
-export function screeningResumeUrl(rawToken: string) {
+export function screeningResumeUrl(rawToken: string, storedFlowMode?: string | null) {
+  // These domains may deliberately run different reviewed deployments. Route
+  // by the saved session, never by a submitted origin or product hint.
+  if (storedFlowMode === "rcap") return absolutePartnerAppUrl(`/expungement-ai/screening/resume?token=${encodeURIComponent(rawToken)}`);
   return absoluteExpungementAiUrl(`/screening/resume?token=${encodeURIComponent(rawToken)}`);
 }
 

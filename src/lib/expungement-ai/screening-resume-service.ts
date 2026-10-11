@@ -89,6 +89,7 @@ export type ResumeTokenRotation = {
 };
 
 export type SerializedResumeSession = SerializedScreeningSession & {
+  flowMode?: string | null;
   resumeEmail: string | null;
   resumeEmailNormalized: string | null;
   resumeTokenHash: string | null;
@@ -105,6 +106,7 @@ export type SerializedResumeSession = SerializedScreeningSession & {
 };
 
 type ScreeningSessionRow = {
+  flow_mode?: string | null;
   session_id: string;
   created_at: string;
   updated_at: string;
@@ -151,7 +153,7 @@ export async function saveScreeningResumeLink(
     lastDropQuestion: input.position.lastDropQuestion
   });
   const sentAt = new Date(now).toISOString();
-  await storage.updateResumeDelivery({
+  const delivered = await storage.updateResumeDelivery({
     sessionId: saved.sessionId,
     email: input.email.trim(),
     emailNormalized,
@@ -162,7 +164,7 @@ export async function saveScreeningResumeLink(
     consentTextVersion: resumeConsentTextVersion
   });
 
-  const resumeUrl = screeningResumeUrl(rawToken);
+  const resumeUrl = screeningResumeUrl(rawToken, delivered.flowMode);
   const emailResult = await sendScreeningResumeEmail({ to: emailNormalized, resumeUrl });
   if (!emailResult.ok) {
     throw new Error(resumeEmailSendFailureMessage);
@@ -213,7 +215,7 @@ export async function confirmScreeningResume(
     ok: true,
     message: "Session resumed.",
     session: resumeSessionPayload(rotated),
-    resumeUrl: screeningResumeUrl(rawReplacement)
+    resumeUrl: screeningResumeUrl(rawReplacement, rotated.flowMode)
   };
 }
 
@@ -238,7 +240,7 @@ export async function requestFreshScreeningResumeLink(
     previousTokenGraceExpiresAt: row.resumeTokenHash ? previousTokenGraceExpiry(now) : null,
     rotatedAt: new Date(now).toISOString()
   });
-  const emailResult = await sendScreeningResumeEmail({ to: emailNormalized, resumeUrl: screeningResumeUrl(rawToken) });
+  const emailResult = await sendScreeningResumeEmail({ to: emailNormalized, resumeUrl: screeningResumeUrl(rawToken, row.flowMode) });
   if (!emailResult.ok) {
     return { ok: false as const, message: resumeEmailSendFailureMessage };
   }
@@ -379,6 +381,7 @@ function resumeSessionPayload(row: SerializedResumeSession) {
 
 function rowToSerializedResumeSession(row: ScreeningSessionRow): SerializedResumeSession {
   return {
+    flowMode: row.flow_mode,
     sessionId: row.session_id,
     createdAt: row.created_at,
     updatedAt: row.updated_at,

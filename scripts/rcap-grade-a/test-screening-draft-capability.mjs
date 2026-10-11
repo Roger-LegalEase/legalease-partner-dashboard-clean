@@ -10,3 +10,11 @@ assert.equal(permitsRcapDraft(t,a,now),true);
 for(const [token,id,time] of [[t,b,now],[t,a,now+1800000],[t+'x',a,now],[t.replace(a,b),b,now],[undefined,a,now],['junk',a,now],[t+'.extra',a,now]])assert.equal(permitsRcapDraft(token,id,time),false);
 delete process.env.SUPABASE_SERVICE_ROLE_KEY;assert.equal(permitsRcapDraft(t,a,now),false);assert.throws(()=>sealRcapDraft(a,now));
 console.log('PASS exact session, signature, expiry, malformed/absent cookie and missing signing configuration fail closed');
+
+process.env.NEXT_PUBLIC_LEGALEASE_PARTNER_URL='https://legaleasepartner.com';
+process.env.NEXT_PUBLIC_EXPUNGEMENT_AI_URL='https://expungement.ai';
+const {screeningResumeUrl}=await import('../../src/lib/expungement-ai/screening-resume-email.ts');
+assert.equal(screeningResumeUrl('qa-token','rcap'),'https://legaleasepartner.com/expungement-ai/screening/resume?token=qa-token');
+assert.equal(screeningResumeUrl('qa-token','dtc'),'https://expungement.ai/screening/resume?token=qa-token');
+assert.equal(screeningResumeUrl('qa-token'),'https://expungement.ai/screening/resume?token=qa-token');
+console.log('PASS authoritative RCAP resume origin and unchanged DTC origin');

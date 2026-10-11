@@ -47,9 +47,7 @@ try {
  const sent=p.waitForResponse(r=>r.url().endsWith('/save-resume')&&r.request().method()==='POST');await p.getByRole('button',{name:'Send link',exact:true}).click();assert.equal((await sent).status(),200);
  await p.getByText('Check your email for a saved-progress link.',{exact:true}).waitFor();
  let url;for(let i=0;i<40&&!url;i++){const mail=(await inbox()).find(m=>!beforeMail.has(m.ID)&&m.To.some(t=>t.Address===email));if(mail){const full=await(await fetch('http://127.0.0.1:54324/api/v1/message/'+mail.ID)).json();url=[...full.HTML.matchAll(/href="([^"]+)"/g)].map(m=>m[1].replaceAll('&amp;','&')).find(h=>h.includes('/screening/resume?token='));}if(!url)await new Promise(r=>setTimeout(r,250));}assert.ok(url,'Actual local saved-progress email received');assert.equal(new URL(url).origin,origin);
- // Production Expungement.ai rewrites /screening/* into its app mount. This
- // shared-origin local environment exposes the explicit /expungement-ai mount.
- const localResume=new URL(url);assert.equal(localResume.pathname,'/screening/resume');localResume.pathname='/expungement-ai'+localResume.pathname;url=localResume.toString();
+ assert.equal(new URL(url).pathname,'/expungement-ai/screening/resume','Canonical RCAP email must remain on the RCAP deployment without local rewriting');
  second=await a.browser.newContext();const resumed=await second.newPage();await resumed.goto(url);await resumed.getByLabel('Email',{exact:true}).fill(email);await resumed.getByRole('button',{name:'Resume',exact:true}).click();await resumed.waitForURL(u=>u.pathname.toLowerCase()==='/expungement-ai/screening/ca'&&u.searchParams.get('session')===sessionId);await resumed.locator(`[name="${question}"]`).first().waitFor();await resumed.reload();await resumed.locator(`[name="${question}"]`).first().waitFor();
  assert.deepEqual((await read()).answers,persisted.answers);await second.close();second=null;
  await p.getByRole('dialog').getByRole('button',{name:'Continue',exact:true}).click();
