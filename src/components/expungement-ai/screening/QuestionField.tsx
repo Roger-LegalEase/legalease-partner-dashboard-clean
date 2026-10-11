@@ -165,12 +165,22 @@ export function QuestionField({
     }
 
     case "text":
+    case "textarea":
       return (
         <div className="grid gap-3">
           {heading}
           {helperNode}
           {bannerNode}
-          <input
+          {question.multiline || question.type === "textarea" ? <textarea
+            id={fieldId}
+            rows={6}
+            className="min-h-[144px] w-full resize-y rounded-xl border-[1.5px] border-[#E4E8EF] bg-white px-4 py-3 text-[15.5px] text-[#0B1320] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00A99D]"
+            value={scalarAnswerText(value) ?? ""}
+            onChange={(event) => onChange(event.target.value)}
+            aria-labelledby={promptId}
+            aria-describedby={describedBy}
+            aria-invalid={Boolean(error) || undefined}
+          /> : <input
             id={fieldId}
             className="min-h-[48px] rounded-xl border-[1.5px] border-[#E4E8EF] bg-white px-4 text-[15.5px] text-[#0B1320] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00A99D]"
             type="text"
@@ -179,7 +189,7 @@ export function QuestionField({
             aria-labelledby={promptId}
             aria-describedby={describedBy}
             aria-invalid={Boolean(error) || undefined}
-          />
+          />}
           {errorNode}
         </div>
       );
@@ -195,6 +205,7 @@ export function QuestionField({
           <OrUnknownField
             id={fieldId}
             inputType={config.inputType}
+            multiline={question.multiline}
             unknownLabel={translate(config.unknownKey, config.unknownLabel)}
             placeholder={config.placeholder}
             value={readOrUnknown(value)}

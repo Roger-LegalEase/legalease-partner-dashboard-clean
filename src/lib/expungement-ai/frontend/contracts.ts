@@ -90,6 +90,8 @@ export type ProfileQuestion = {
   stage: string;
   prompt: string;
   helperText?: string;
+  /** Presentation only; preserves the existing canonical answer shape. */
+  multiline?: boolean;
   type: QuestionType;
   required: boolean;
   /**

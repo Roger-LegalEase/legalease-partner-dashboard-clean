@@ -980,7 +980,10 @@ function nyCpl16059SafetyGate(profile: EngineProfile, answers: Record<string, Sc
   if (!answerText(answers.ny_16059_ineligible_offense).trim() || !answerText(answers.ny_16059_sex_offender_registration).trim()) {
     return reason(jurisdiction, "ny_16059_offense_bar_missing", "NY CPL 160.59 offense-exclusion facts must be confirmed before a packet decision.", pathway.sourceRef);
   }
-  if (isAffirmative(answers.ny_16059_pending_charge) || isAffirmative(answers.pending_cases)) {
+  // The broad pending_cases question also covers probation/supervision. Only
+  // the scoped charge fact can establish this charge-specific bar; completion
+  // and timing remain evaluated by their existing separate predicates.
+  if (isAffirmative(answers.ny_16059_pending_charge)) {
     return reason(jurisdiction, "ny_16059_pending_charge_not_eligible", "NY CPL 160.59 does not open while a criminal charge is pending.", pathway.sourceRef);
   }
   if (isAffirmative(answers.ny_16059_post_last_conviction_crime) || isAffirmative(answers.new_convictions_during_waiting_period)) {

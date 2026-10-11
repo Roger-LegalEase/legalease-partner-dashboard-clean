@@ -17,9 +17,9 @@ import type { RouteCollectionOverride } from "@/lib/expungement-ai/packet-collec
  * every required fact keeps a disposition whatever an override says.
  */
 const OVERRIDES: ReadonlyArray<RouteCollectionOverride> = [
-  // No route currently needs one. The generic policy classifies every required
-  // fact of every route with a packet plan; `packet-collection-audit.json`
-  // reports zero unresolved facts, and that report is a release control.
+  // No explicit overrides are registered. Operational unresolved source scope
+  // is retained by packetCollectionFor; a lower-level classification report
+  // without that scope is not proof that all route obligations are resolved.
 ];
 
 const BY_ROUTE_KEY = new Map(OVERRIDES.map((override) => [override.routeKey, override]));

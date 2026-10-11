@@ -73,6 +73,7 @@ export function changedPacketAnswers(current: Record<string, AnswerValue>, saved
 }
 
 export function packetSaveErrorCopy(status: number, code?: string) {
+  if (status === 413) return { en: "This save exceeds the 60 KB limit. Your text remains on this page. Shorten the text you are saving, then try again.", es: "Este guardado supera el límite de 60 KB. Su texto permanece en esta página. Acorte el texto que intenta guardar y vuelva a intentarlo." };
   if (status === 429) return { en: "Too many save attempts. Your changes remain here. Wait a moment, then try again.", es: "Se hicieron demasiados intentos de guardar. Sus cambios permanecen aquí. Espere un momento y vuelva a intentarlo." };
   if (status === 401) return { en: "Your session expired. Sign in again to save. Keep this page open so your unsaved changes remain here.", es: "Su sesión venció. Vuelva a iniciar sesión para guardar. Mantenga esta página abierta para conservar aquí los cambios sin guardar." };
   if (status === 403 && code === "verified_account_required") return { en: "Verify your account email before saving. Your changes remain on this page.", es: "Verifique el correo electrónico de su cuenta antes de guardar. Sus cambios permanecen en esta página." };

@@ -28,4 +28,17 @@ assert.equal(model.builderQuestions.some(q=>q.id==='social_security_number_last_
 const cleared=packet.protectedPacketDraftSeedFromAuthoritative({authoritative,screeningAnswers:{...screening,social_security_number_last_four:'9876'},packetAnswers:{social_security_number:null},dependencies:{commercialFlowVersion:1,entitlementSource:'consumer_payment',productId:'expungement_packet'},capturedAt:at});
 assert.equal(cleared.snapshot.screeningAnswers.social_security_number_last_four,undefined);
 assert.equal(cleared.snapshot.prefilledAnswers.social_security_number_last_four,undefined);
+for(const map of ['screeningAnswers','prefilledAnswers','packetAnswers'])for(const source of [ssn,'', 'invalid']){
+ const legacy=structuredClone(seed.snapshot);delete legacy.prefilledAnswers.social_security_number_last_four;
+ legacy[map].social_security_number_last_four='9999';legacy.packetAnswers.social_security_number=source;
+ const record={status:'unverified',reason:'synthetic-legacy-only',revision:4,draftHash:packet.protectedPacketDraftHash(legacy),draftSnapshot:legacy};
+ const before=packet.protectedPacketInformationModelFor(record);assert.ok(before);assert.equal(before.initialAnswers.social_security_number_last_four,source===ssn?'3456':undefined);
+ const patched=packet.packetInformationPatch({existingItem:{id:'synthetic-legacy-only',state:'MS',artifactRefs:{}},answers:{social_security_number:source},verify:false,protectedVerification:record});
+ assert.ok(patched);assert.equal(patched.protectedTransition.expectedPriorRevision,4);assert.notEqual(patched.protectedTransition.nextVerification.draftHash,record.draftHash);
+ assert.notEqual(patched.protectedTransition.nextVerification.status,'verified');
+ const after=packet.protectedPacketInformationModelFor(patched.protectedTransition.nextVerification);assert.equal(after.initialAnswers.social_security_number_last_four,source===ssn?'3456':undefined);
+ assert.equal(after.initialAnswers.social_security_number,source);
+ const repeated=packet.packetInformationPatch({existingItem:{id:'synthetic-legacy-only',state:'MS',artifactRefs:{}},answers:{social_security_number:source},verify:false,protectedVerification:patched.protectedTransition.nextVerification});
+ assert.equal(repeated.protectedTransition.nextVerification.draftHash,patched.protectedTransition.nextVerification.draftHash);
+}
 console.log('PASS: existing court authority reused; invalid/future/unknown sources refused; unauthorized readback omitted; masked SSR; stale last-four recomputed; derived target has no duplicate prompt. Protected/persistence/document acceptance separate.');

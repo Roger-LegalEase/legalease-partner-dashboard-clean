@@ -63,6 +63,7 @@ export const profileQuestionSchema = z
     stage: z.string().min(1),
     prompt: z.string().min(1),
     helperText: z.string().optional(),
+    multiline: z.boolean().optional(),
     type: z.string().min(1),
     required: z.boolean(),
     contextOnly: z.boolean(),

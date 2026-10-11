@@ -182,6 +182,10 @@ export type RouteFactScope = {
  */
 export function routeDecidingFactScope(profile: EngineProfile, pathway: CompiledPathway): RouteFactScope {
   const factIds = new Set<string>(UNIVERSAL_PREPAY_FACT_IDS);
+  // evaluator.sourceCaution reads prior_relief on every selected route. This is
+  // a result-caution consumer, not a new eligibility bar or uncertainty rule.
+  const sharedCautionFacts = new Set(["prior_relief"]);
+  for (const id of sharedCautionFacts) factIds.add(id);
   const unresolvedRules: RouteFactScope["unresolvedRules"] = [];
   const sections = [
     ["orderedDecisionRules", profile.orderedDecisionRules],
@@ -219,7 +223,7 @@ export function routeDecidingFactScope(profile: EngineProfile, pathway: Compiled
     if (explicitRulePathways(rule).length > 0) continue;
     const fields = new Set<string>();
     collectDecidingFieldIds(rule, fields);
-    const unresolved = [...fields].filter((id) => !UNIVERSAL_PREPAY_FACT_IDS.has(id) && !consumers.has(id));
+    const unresolved = [...fields].filter((id) => !UNIVERSAL_PREPAY_FACT_IDS.has(id) && !sharedCautionFacts.has(id) && !consumers.has(id));
     if (unresolved.length > 0) unresolvedRules.push({
       section,
       ruleId: String((rule as { id?: string })?.id ?? index),

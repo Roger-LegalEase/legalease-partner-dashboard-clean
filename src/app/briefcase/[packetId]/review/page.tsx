@@ -1,5 +1,6 @@
 import { SponsorCapacityNotice } from "@/components/expungement-ai/SponsorCapacityNotice";
 import Link from "next/link";
+import { LocalizedRuntimeText } from "@/components/expungement-ai/LocalizationProvider";
 import { CheckCircle2, FileText, ShieldCheck } from "lucide-react";
 import type { ReactNode } from "react";
 
@@ -195,7 +196,7 @@ function AnswerSection({ title, itemId, rows }: { title: string; itemId: string;
         {rows.map((entry) => (
           <div className="grid gap-2 py-4 sm:grid-cols-[1fr_1fr_auto] sm:items-center" key={entry.key}>
             <dt className="text-sm font-bold text-[#334155]">{entry.label}</dt>
-            <dd className={entry.value === "Missing" ? "text-sm font-semibold text-[#B42318]" : "text-sm text-[#475A6E]"}>{entry.value}</dd>
+            <dd className={`whitespace-pre-wrap break-words ${entry.value === "Missing" ? "text-sm font-semibold text-[#B42318]" : "text-sm text-[#475A6E]"}`}>{entry.id === "social_security_number" && entry.value === "Sensitive value hidden" ? <LocalizedRuntimeText text={entry.value} /> : entry.value}</dd>
             {entry.editId ? (
               <dd><Link className="inline-flex min-h-10 items-center rounded-[10px] border border-[#D9DEE8] px-4 text-sm font-bold text-[#0B1320]" href={`/briefcase/${itemId}/packet-information?edit=${encodeURIComponent(entry.editId)}`}>Edit</Link></dd>
             ) : null}

@@ -10,6 +10,7 @@ import {
 } from "@/lib/expungement-ai/briefcase-presentation-authority";
 import {
   packetInformationPatch,
+  editablePacketInputIds,
   packetDraftStopReason,
   protectedPacketInformationModelFor
 } from "@/lib/expungement-ai/packet-information";
@@ -70,7 +71,7 @@ export async function POST(
 
   const parsed = await readBody(request);
   if (!parsed.ok) {
-    return NextResponse.json({ ok: false, error: "invalid_request" }, { status: 400 });
+    return NextResponse.json({ ok: false, error: parsed.tooLarge ? "packet_save_too_large" : "invalid_request", ...(parsed.tooLarge ? { maximumBytes: maxPayloadBytes } : {}) }, { status: parsed.tooLarge ? 413 : 400 });
   }
 
   let protectedRead = await readProtectedPacketVerification({
@@ -107,7 +108,9 @@ export async function POST(
     && !sameAnswer(parsed.answers.social_security_number_last_four, protectedModel.initialAnswers.social_security_number_last_four)) {
     return NextResponse.json({ ok: false, error: "derived_identifier_read_only", invalidFactIds: ["social_security_number"] }, { status: 422 });
   }
-  const editableIds = new Set(protectedModel.requiredInputIds.filter((id) => !(id in protectedModel.serverFacts)));
+  // A coupled condition/detail patch can retain the participant's draft even
+  // while the detail is inactive. Ownership and readiness remain independent.
+  const editableIds = editablePacketInputIds(protectedModel, true);
   const questionById = new Map(protectedModel.questions.map((question) => [question.id, question]));
   const invalidFactIds = Object.entries(parsed.answers).filter(([id, value]) => {
     if (!editableIds.has(id)) return !sameAnswer(value, protectedModel.initialAnswers[id] ?? protectedModel.serverFacts[id]);
@@ -173,12 +176,12 @@ export async function POST(
 
 async function readBody(request: Request): Promise<
   { ok: true; answers: Record<string, AnswerValue>; verify: boolean; expectedRevision: number | null; resumeSectionId: string | null; navigationIntent: PacketNavigationIntent; editingSensitiveIdentifier: boolean }
-  | { ok: false }
+  | { ok: false; tooLarge?: boolean }
 > {
   const contentLength = request.headers.get("content-length");
-  if (contentLength && Number(contentLength) > maxPayloadBytes) return { ok: false };
+  if (contentLength && Number(contentLength) > maxPayloadBytes) return { ok: false, tooLarge: true };
   const text = await request.text().catch(() => "");
-  if (new TextEncoder().encode(text).length > maxPayloadBytes) return { ok: false };
+  if (new TextEncoder().encode(text).length > maxPayloadBytes) return { ok: false, tooLarge: true };
   try {
     const body = JSON.parse(text) as { answers?: unknown; verify?: unknown; expectedRevision?: unknown; resumeSectionId?: unknown; navigationIntent?: unknown; editingFact?: unknown };
     if (!body.answers || typeof body.answers !== "object" || Array.isArray(body.answers)) return { ok: false };
@@ -200,12 +203,12 @@ async function readBody(request: Request): Promise<
 
 function validDraftValue(value: unknown): boolean {
   if (value === null) return true;
-  if (typeof value === "string") return value.length <= 20_000;
+  if (typeof value === "string") return true;
   if (typeof value === "number") return Number.isFinite(value);
-  if (Array.isArray(value)) return value.length <= 200 && value.every((entry) => typeof entry === "string" && entry.length <= 2_000);
+  if (Array.isArray(value)) return value.every((entry) => typeof entry === "string");
   if (!value || typeof value !== "object") return false;
   const fields = value as Record<string, unknown>;
   return Object.keys(fields).every((key) => key === "value" || key === "unknown")
     && (fields.unknown === undefined || typeof fields.unknown === "boolean")
-    && (fields.value === undefined || fields.value === null || (typeof fields.value === "string" && fields.value.length <= 20_000) || (typeof fields.value === "number" && Number.isFinite(fields.value)));
+    && (fields.value === undefined || fields.value === null || typeof fields.value === "string" || (typeof fields.value === "number" && Number.isFinite(fields.value)));
 }

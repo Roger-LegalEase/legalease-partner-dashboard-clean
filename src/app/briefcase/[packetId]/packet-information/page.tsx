@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { redirect } from "next/navigation";
+import { editablePacketInputIds } from "@/lib/expungement-ai/packet-information";
 
 import { BriefcaseShell } from "@/components/expungement-ai/BriefcaseShell";
 import { MatterStatusBadge } from "@/components/expungement-ai/BriefcaseViews";
@@ -33,6 +35,9 @@ export default async function PacketInformationPage({
     : null;
   const requestedEdit = (await searchParams).edit?.trim();
   const editId = requestedEdit === "social_security_number_last_four" && requiresMcicIdentifierAuthority(item?.jurisdiction ?? "", item?.pathwayId) ? "social_security_number" : requestedEdit;
+  if (model && item && editId && !editablePacketInputIds({ ...model, stateCode: item.jurisdiction ?? "", pathwayId: item.pathwayId }).has(editId)) {
+    redirect(`/briefcase/${encodeURIComponent(item.id)}/review`);
+  }
   const displayedQuestions = model
     ? editId ? model.questions.filter((question) => question.id === editId || editId === "social_security_number" && question.id.startsWith("mcic_identifier_")) : model.builderQuestions
     : [];

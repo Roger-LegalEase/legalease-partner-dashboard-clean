@@ -10,6 +10,7 @@ type CopyEntry = {
 };
 
 export const EXPUNGEMENT_COPY: Record<string, CopyEntry> = {
+  "packet.sensitive_hidden": { en: "Sensitive value hidden", es: "Dato sensible oculto" },
   "screening.question_unavailable_required": { en: "We could not show this required question. Save your progress and try again. This detail is still needed before verification.", es: "No pudimos mostrar esta pregunta obligatoria. Guarde su progreso e inténtelo de nuevo. Este dato sigue siendo necesario antes de la verificación." },
   "screening.question_unavailable_optional": { en: "We could not show this optional question. You can continue without answering it.", es: "No pudimos mostrar esta pregunta opcional. Puede continuar sin responderla." },
   "packet.recovery.0": {"en": "Preparing packet", "es": "Preparando el paquete"},

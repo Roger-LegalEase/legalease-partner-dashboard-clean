@@ -84,6 +84,7 @@ export type PublicQuestion = {
   stage: string;
   prompt: string;
   helperText?: string;
+  multiline?: boolean;
   type: string;
   required: boolean;
   contextOnly?: boolean;

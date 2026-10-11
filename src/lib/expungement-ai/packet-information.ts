@@ -1,4 +1,5 @@
 import { fullSsnLastFour, requiresMcicIdentifierAuthority } from "@/lib/expungement-ai/sensitive-packet-facts";
+import { reviewedPacketQuestion } from "@/lib/expungement-ai/reviewed-question-copy";
 import { answerValueIsKnown, questionAnswerState, normalizeQuestionChoices, sameKnownQuestionAnswer } from "@/lib/expungement-ai/question-answer-state";
 import "server-only";
 
@@ -195,8 +196,9 @@ export function packetInformationModelFor(item: ConsumerBriefcaseItem): PacketIn
       if (!(id in initialAnswers) && id in screeningAnswers) initialAnswers[id] = screeningAnswers[id];
     }
     if (!("offense_category" in initialAnswers) && "offense_level" in initialAnswers) initialAnswers.offense_category = initialAnswers.offense_level;
-    if (!("sentence_completion_date" in initialAnswers) && screeningAnswers.court_requirements_completed) {
-      initialAnswers.sentence_completion_date = answerTextRaw(screeningAnswers.court_requirements_completed) === "yes" ? "Yes" : "No";
+    if (!("sentence_completion_date" in initialAnswers) && answerIsKnown(screeningAnswers.court_requirements_completed)
+      && answerText(screeningAnswers.court_requirements_completed) === "yes") {
+      initialAnswers.sentence_completion_date = "Yes";
     }
     if (!("court_requirements_completed" in initialAnswers) && screeningAnswers.court_requirements_completed) {
       initialAnswers.court_requirements_completed = screeningAnswers.court_requirements_completed;
@@ -249,6 +251,8 @@ export function packetInformationModelFor(item: ConsumerBriefcaseItem): PacketIn
       if (known && !questions.some((question) => question.id === id)) questions.push({ ...known, required: true, contextOnly: false });
     }
   }
+  questions = questions.map((question) => reviewedPacketQuestion(question, { state: profile.jurisdiction.code, pathwayId, participantOwnsRecord: answerTextRaw(screeningAnswers.ownership_scope).toLowerCase() === "yes" }));
+  for (const question of questions) questionById.set(question.id, question);
   const builderQuestions = builderQuestionsFor(questions, collection, requiredInputIds, serverFacts);
   const missingInputIds = missingRequiredInputs(
     collectionGateInputIds(collection, requiredInputIds, serverFacts),
@@ -346,7 +350,7 @@ export function packetInformationPatch(input: {
   const priorProtected = input.protectedVerification;
   const current = protectedPacketInformationModelFor(priorProtected);
   if (!current) return null;
-  const allowedIds = new Set(current.requiredInputIds.filter((id) => !(id in current.serverFacts)));
+  const allowedIds = editablePacketInputIds(current, true);
   const acceptedAnswers = Object.fromEntries(
     Object.entries(input.answers).filter(([id, answer]) => allowedIds.has(id) && isAnswerValue(answer))
   );
@@ -357,10 +361,17 @@ export function packetInformationPatch(input: {
         && !(question && sameKnownQuestionAnswer(question, current.initialAnswers[id], answer));
     })
   );
-  const savedAnswers = { ...answerRecordForIds(current.packetAnswers, allowedIds), ...answerDelta };
+  const storedIds = new Set(current.requiredInputIds.filter((id) => !(id in current.serverFacts)));
+  const savedAnswers = { ...answerRecordForIds(current.packetAnswers, storedIds), ...answerDelta };
   const materialFactChange = Object.keys(answerDelta).length > 0;
+  const priorSnapshot = protectedAuthoritySnapshotFor(priorProtected)!;
+  const freshSensitiveMaps = refreshedSensitiveFactMaps(priorSnapshot.jurisdiction, priorSnapshot.pathwayId, priorSnapshot.requiredInputIds,
+    answerRecord(priorSnapshot.screeningAnswers), answerRecord(priorSnapshot.prefilledAnswers), answerRecord(priorSnapshot.packetAnswers));
+  const derivedRepairRequired = !canonicalEqual(freshSensitiveMaps, {
+    screeningAnswers: priorSnapshot.screeningAnswers, prefilledAnswers: priorSnapshot.prefilledAnswers, packetAnswers: priorSnapshot.packetAnswers
+  });
   const currentVerification = packetVerificationStateForRecord(input.existingItem, priorProtected, true);
-  if (!materialFactChange && (input.verify !== true || currentVerification.status === "verified")) {
+  if (!materialFactChange && !derivedRepairRequired && (input.verify !== true || currentVerification.status === "verified")) {
     const ready = currentVerification.status === "verified";
     const packetInformation = {
       stage: ready ? "ready_to_generate" as const : current.stage,
@@ -394,7 +405,7 @@ export function packetInformationPatch(input: {
     };
   }
   const now = new Date().toISOString();
-  const nextDraft = !materialFactChange && priorProtected.draftSnapshot
+  const nextDraft = !materialFactChange && !derivedRepairRequired && priorProtected.draftSnapshot
     ? priorProtected.draftSnapshot
     : deriveProtectedPacketDraftSnapshot(priorProtected, savedAnswers, now);
   if (!nextDraft) return null;
@@ -574,9 +585,8 @@ export function protectedPacketInformationModelFor(
     packetAnswers,
     serverFacts
   } = sourceDisjointFactMaps({
-    screeningAnswers: snapshot.screeningAnswers,
-    prefilledAnswers: snapshot.prefilledAnswers,
-    packetAnswers: snapshot.packetAnswers,
+    ...refreshedSensitiveFactMaps(snapshot.jurisdiction, snapshot.pathwayId, snapshot.requiredInputIds,
+      answerRecord(snapshot.screeningAnswers), answerRecord(snapshot.prefilledAnswers), answerRecord(snapshot.packetAnswers)),
     serverFacts: snapshot.serverFacts
   });
   const initialAnswers = { ...screeningAnswers, ...prefilledAnswers, ...packetAnswers };
@@ -698,6 +708,15 @@ export function packetCollectionFor(input: {
     baselineCarriedFactIds: baselineCarriedFactIds(`${input.jurisdiction}:${input.pathwayId ?? ""}`),
     override: routeCollectionOverrideFor(`${input.jurisdiction}:${input.pathwayId ?? ""}`)
   });
+}
+
+/** Edit links and direct saves share collection ownership; later/external facts stay in their actual stage. */
+export function editablePacketInputIds(model: Pick<ProtectedPacketInformationModel, "stateCode" | "pathwayId" | "requiredInputIds" | "serverFacts" | "screeningAnswers" | "prefilledAnswers" | "packetAnswers">, includeInactive = false): Set<string> {
+  const collection = packetCollectionFor({ jurisdiction: model.stateCode, pathwayId: model.pathwayId, requiredInputIds: model.requiredInputIds,
+    serverFacts: model.serverFacts, screeningAnswers: model.screeningAnswers, prefilledAnswers: model.prefilledAnswers, savedAnswers: model.packetAnswers });
+  const excluded = new Set(collection?.facts.filter((fact) => ["external_actor", "derived"].includes(fact.collection)
+    || !includeInactive && fact.collection === "conditional" && fact.active === false).map((fact) => fact.factId) ?? []);
+  return new Set(model.requiredInputIds.filter((id) => !(id in model.serverFacts) && !excluded.has(id)));
 }
 
 /**
@@ -885,6 +904,8 @@ function protectedPacketQuestionSurface(
     prefilledAnswers,
     savedAnswers
   });
+  questions = questions.map((question) => reviewedPacketQuestion(question, { state: profile.jurisdiction.code, pathwayId, participantOwnsRecord: answerTextRaw(screeningAnswers.ownership_scope).toLowerCase() === "yes" }));
+  for (const question of questions) questionById.set(question.id, question);
   const builderQuestions = builderQuestionsFor(questions, collection, requiredInputIds, serverFacts);
   const builderSections = builderSectionsFor(collection, builderQuestions);
   return { questionById, questions, builderQuestions, builderSections, collection };
@@ -973,6 +994,19 @@ function deriveProtectedPacketDraftSnapshot(
   })?.snapshot ?? null;
 }
 
+/** Reconcile a computable identifier projection without changing the protected source or its verification. */
+function refreshedSensitiveFactMaps(state: string, pathwayId: string | null, requiredInputIds: string[], screening: Record<string, AnswerValue>, prefilled: Record<string, AnswerValue>, packet: Record<string, AnswerValue>) {
+  const screeningAnswers = { ...screening }, prefilledAnswers = { ...prefilled }, packetAnswers = { ...packet };
+  if (requiresMcicIdentifierAuthority(state, pathwayId) && requiredInputIds.includes("social_security_number")) {
+    const lastFour = fullSsnLastFour({ ...screening, ...prefilled, ...packet }.social_security_number);
+    delete screeningAnswers.social_security_number_last_four;
+    delete prefilledAnswers.social_security_number_last_four;
+    delete packetAnswers.social_security_number_last_four;
+    if (lastFour) prefilledAnswers.social_security_number_last_four = lastFour;
+  }
+  return { screeningAnswers, prefilledAnswers, packetAnswers };
+}
+
 export function protectedPacketDraftSeedFromAuthoritative(input: {
   authoritative: ReturnType<typeof evaluateAuthoritativeScreeningResult>;
   screeningAnswers: Record<string, AnswerValue>;
@@ -985,19 +1019,8 @@ export function protectedPacketDraftSeedFromAuthoritative(input: {
   const profile = getProfileByJurisdiction(evaluation.jurisdiction);
   if (!profile || profile.profileVersion !== evaluation.profileVersion) return null;
   const packetPlan = evaluation.packetPlan ?? null;
-  const incomingPacketAnswers = { ...(input.packetAnswers ?? {}) };
-  const incomingPrefilled = { ...(input.prefilledAnswers ?? {}) };
-  const incomingScreening = { ...input.screeningAnswers };
-  const freshSsnDerivation = requiresMcicIdentifierAuthority(evaluation.jurisdiction, evaluation.pathwayId)
-    && packetPlan?.requiredInputIds.includes("social_security_number");
-  if (freshSsnDerivation) {
-    const effective = { ...input.screeningAnswers, ...incomingPrefilled, ...incomingPacketAnswers };
-    const lastFour = fullSsnLastFour(effective.social_security_number);
-    delete incomingPacketAnswers.social_security_number_last_four;
-    delete incomingPrefilled.social_security_number_last_four;
-    delete incomingScreening.social_security_number_last_four;
-    if (lastFour) incomingPrefilled.social_security_number_last_four = lastFour;
-  }
+  const { screeningAnswers: incomingScreening, prefilledAnswers: incomingPrefilled, packetAnswers: incomingPacketAnswers } = refreshedSensitiveFactMaps(
+    evaluation.jurisdiction, evaluation.pathwayId ?? null, packetPlan?.requiredInputIds ?? [], input.screeningAnswers, input.prefilledAnswers ?? {}, input.packetAnswers ?? {});
   const factMaps = sourceDisjointFactMaps({
     screeningAnswers: incomingScreening,
     prefilledAnswers: {
