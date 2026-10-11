@@ -1,4 +1,6 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
+import { RCAP_DRAFT_COOKIE, sealRcapDraft, rcapDraftCookieOptions } from "@/lib/expungement-ai/rcap-screening-draft";
+import { assertSameOrigin, ONBOARDING_PRIVATE_RESPONSE_HEADERS } from "@/lib/partners/onboarding/request-security";
 import { getSafeRequestId, logSecurityError, logSecurityInfo, logSecurityWarn } from "@/lib/observability/logger";
 import { getSupabaseAdminClient } from "@/lib/supabase/server";
 import { confirmScreeningResume, SupabaseScreeningResumeStorage } from "@/lib/expungement-ai/screening-resume-service";
@@ -9,7 +11,7 @@ import { waitForResumeConfirmFailureFloor } from "@/lib/expungement-ai/screening
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
   const startedAt = Date.now();
   const requestId = getSafeRequestId(request);
   const supabase = getSupabaseAdminClient();
@@ -39,7 +41,16 @@ export async function POST(request: Request) {
     const result = await confirmScreeningResume(new SupabaseScreeningResumeStorage(supabase), { token, email });
     logSecurityInfo({ event: "screening_resume_confirm_complete", route: "/api/expungement-ai/screening/resume/confirm", outcome: result.ok ? "ok" : "generic_failure", requestId });
     if (!result.ok) return resumeConfirmFailure(startedAt);
-    return NextResponse.json(result, { status: 200 });
+    const source = await supabase.from("screening_sessions").select("flow_mode").eq("session_id", result.session.sessionId).maybeSingle();
+    if (source.error) return resumeConfirmFailure(startedAt);
+    if (source.data?.flow_mode === "rcap") {
+      assertSameOrigin(request);
+      const screeningUrl = `/expungement-ai/screening/${encodeURIComponent(result.session.jurisdiction)}?session=${encodeURIComponent(result.session.sessionId)}`;
+      const response = NextResponse.json({...result, screeningUrl}, {headers: ONBOARDING_PRIVATE_RESPONSE_HEADERS});
+      response.cookies.set(RCAP_DRAFT_COOKIE, sealRcapDraft(result.session.sessionId), rcapDraftCookieOptions);
+      return response;
+    }
+    return NextResponse.json(result, { status: 200, headers: ONBOARDING_PRIVATE_RESPONSE_HEADERS });
   } catch (error) {
     logSecurityError({ event: "screening_resume_confirm_failed", route: "/api/expungement-ai/screening/resume/confirm", outcome: "generic_failure", requestId, error });
     return resumeConfirmFailure(startedAt);

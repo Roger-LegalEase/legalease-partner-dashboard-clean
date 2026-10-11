@@ -51,6 +51,26 @@ const { authorizePacketDownload, streamAuthorizedPacket } = await import("../src
 const { consumerPersonMatchKey, consumerMatterIdForItem } = await import("../src/lib/expungement-ai/consumer-identity.ts");
 
 const closureAuth = closureAuthority();
+// This disposable transport fixture exercises the approved Clinic Preview
+// contract. The live release binding now describes the later DTC deployment
+// and has no Clinic deploymentScope. Keep that live authority untouched and
+// use the exact historical inputs from the successful sponsored render run
+// (36211668984). Application/render code, current packet bytes and all refusal
+// assertions below still execute from this checkout. This authorizes no hosted
+// execution, new deployment, or production operation.
+const clinicFixtureSource = "dc5124f99565baac004f1260e351209a4518ccf1";
+for (const [key, file] of [["candidate", "RELEASE_CANDIDATE_BINDING.json"], ["binding", "HOSTED_TOOLS_BINDING.json"]]) {
+  closureAuth[key] = JSON.parse(execFileSync("git", ["show", `${clinicFixtureSource}:data/rcap-grade-a/launch-control/${file}`], { encoding: "utf8" }));
+}
+// The fixture installs the accepted 20260927152649 funding-choice migration.
+// Pin its three replaced definitions instead of the earlier hosted hashes.
+// This override is confined to this test process; the hosted closure checker
+// and its historical receipt remain unchanged. Wrong-hash mutations still fail.
+Object.assign(FUNCTION_HASHES, {
+  finalize_packet_render_job: "ebc0c8693f5ce4e6bab3d75286ac2959",
+  sponsored_packet_render_authority: "585a9c60ef5618785a04bd56dfa15e90",
+  finalize_sponsored_packet_generation_for_route: "f032eaad3fd1b206f62eb6dc155626d9"
+});
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const q = (v) => (v === null || v === undefined ? "null" : `'${String(v).replaceAll("'", "''")}'`);
 const sha = (v) => createHash("sha256").update(v).digest("hex");
@@ -616,7 +636,10 @@ try {
   check('worker finalization has no committed publication authority files',publicationInputs.every(f=>!fs.existsSync(f)));
   const rawFinalize=`select * from public.finalize_packet_render_job(${q(jobId)},${q(input.fencingToken)},${q(input.outputStoragePath)},${q(input.localSha256)},${q(input.localNormalizedSha256)},${q(input.storedSha256)},${q(input.storedNormalizedSha256)},${input.outputByteCount},${input.outputPageCount},${q(input.containerDigest)})`;
   for(const [label,change,expected] of [
-    ['missing entitlement',`delete from partner_packet_entitlement where id=${q(ENTITLEMENT_ID)}`,'unauthorized'],
+    // Remove the disposable dependent reservation inside this rolled-back
+    // negative fixture before removing its entitlement. The accepted funding
+    // migration deliberately prevents deleting a referenced real allocation.
+    ['missing entitlement',`delete from clinic_packet_funding where packet_entitlement_id=${q(ENTITLEMENT_ID)}; delete from partner_packet_entitlement where id=${q(ENTITLEMENT_ID)}`,'unauthorized'],
     ['expired entitlement',`update partner_packet_entitlement set expires_at=now()-interval '1 second' where id=${q(ENTITLEMENT_ID)}`,'unauthorized'],
     ['packet cap reached',`update partner_packet_entitlement set packet_cap=0 where id=${q(ENTITLEMENT_ID)}`,'cap_reached'],
     ['wrong partner id',`update partner_packet_entitlement set partner_id=${q(partnerId)},expires_at=now()+interval '1 day' where id=${q(ENTITLEMENT_ID)}`,'unauthorized']

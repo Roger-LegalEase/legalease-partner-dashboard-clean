@@ -38,7 +38,13 @@ begin
    'jurisdictions',coalesce(s#>'{geography_audience_language_accessibility,jurisdictions}',case when r.fallback is not null then jsonb_build_array(r.fallback) else '[]'::jsonb end),
    'canCreate',case when d is not null then (d->>'allowed')::boolean else r.fallback is not null end,
    'creationIssue',case when d is not null and not (d->>'allowed')::boolean then d#>>'{blockers,0,label}' when d is null and r.fallback is null then 'Configure the program jurisdiction before creating a clinic.' else null end,
-   'canSponsor',coalesce((funding->>'allowed')::boolean,false),
+   -- The retained legacy Clinic form also supports an event limit against an
+   -- existing allocation. Showing that limit creates no packet entitlement;
+   -- allocation, reservation and fulfillment retain their separate guards.
+   'canSponsor',case when r.rcap_policy_version='rcap2.2' then coalesce((funding->>'allowed')::boolean,false)
+     else exists(select 1 from public.partner_packet_entitlement e join public.partner_records pr on pr.id=e.partner_id
+       where pr.partner_slug=r.partner_slug and e.entitlement_scope='sponsored_packets' and e.packet_cap>0
+         and e.effective_at<=now() and (e.expires_at is null or e.expires_at>now())) end,
    'legalAidAvailable',public.rcap_program_legal_aid_available(r.partner_slug)));
  end loop;
  return result;

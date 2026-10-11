@@ -1,4 +1,5 @@
 import { randomUUID } from "node:crypto";
+import { issueRcapDraft } from "@/lib/expungement-ai/rcap-screening-draft";
 import { ProgramEntrySubmit } from "@/components/partners/onboarding/ProgramEntrySubmit";
 import { ProgramEntryLanguage, ProgramEntryText } from "@/components/partners/onboarding/ProgramEntryLanguage";
 import { clinicConsumerContinuation } from "@/lib/expungement-ai/claim/clinic-acquisition";
@@ -168,6 +169,7 @@ async function startRcapPartnerScreening(formData: FormData) {
   const result = await claimRcapPartnerScreeningSession({ partnerSlug, jurisdiction, requestId });
 
   if (result.ok) {
+    await issueRcapDraft(result.sessionId);
     redirect(
       appendAttributionQuery(
         `/expungement-ai/screening/${jurisdiction.toLowerCase()}?session=${result.sessionId}`,
@@ -197,6 +199,7 @@ async function startRcapPartnerScreeningWithCode(formData: FormData) {
   const result = await claimPartnerScreeningSessionWithCode({ partnerSlug, jurisdiction, accessCode, requestId });
 
   if (result.ok) {
+    await issueRcapDraft(result.sessionId);
     redirect(
       appendAttributionQuery(
         `/expungement-ai/screening/${jurisdiction.toLowerCase()}?session=${result.sessionId}`,

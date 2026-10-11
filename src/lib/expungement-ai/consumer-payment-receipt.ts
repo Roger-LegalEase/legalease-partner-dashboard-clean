@@ -165,7 +165,10 @@ async function receiptRowAuthorized(
     || !row.checkout_session_id?.startsWith("cs_")
     || (row.amount_cents! > 0 ? !row.payment_intent_id?.startsWith("pi_") : Boolean(row.payment_intent_id))) return false;
 
-  if (row.source_session_id && await sourceSessionIsSponsored(row.source_session_id)) return false;
+  // Financial history is authorized by the immutable owner-bound Stripe
+  // evidence above, not current RCAP publication or funding eligibility.
+  // Screening attribution never erases an actual paid/refunded receipt; this
+  // read grants neither Checkout nor packet-generation authority.
   // Refunds remove packet-generation authority, not access to the retained
   // financial record. The immutable Stripe identity and server-only bindings
   // above are the separate receipt-history boundary; never call the paid-only
@@ -186,18 +189,6 @@ async function receiptRowAuthorized(
     matterId
   });
   return authority.valid && authority.providerEventId === row.provider_event_id;
-}
-
-async function sourceSessionIsSponsored(sourceSessionId: string): Promise<boolean> {
-  const supabase = getSupabaseAdminClient();
-  if (!supabase) return true;
-  const { data, error } = await supabase
-    .from("screening_sessions")
-    .select("flow_mode, partner_benefit_active, partner_slug")
-    .eq("session_id", sourceSessionId)
-    .maybeSingle<{ flow_mode: string | null; partner_benefit_active: boolean | null; partner_slug: string | null }>();
-  if (error) return true;
-  return data?.flow_mode === "rcap" && data.partner_benefit_active === true && Boolean(data.partner_slug);
 }
 
 function receiptReference(row: ConsumerPaymentReceiptRow, userId: string, expires: number): string {

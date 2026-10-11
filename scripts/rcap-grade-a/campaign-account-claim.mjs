@@ -15,14 +15,14 @@ try{
  await p.locator('input[type=radio],input[type=checkbox]').first().waitFor();
  const answers={ownership_scope:'Yes',jurisdiction_scope:'State or local',case_outcome:'Dismissed, no-billed, nolle prosequi, or not prosecuted',offense_level:'Misdemeanor',possible_pathway_context:'Tool 4 — Arrest-record sealing (PC 851.91; factual innocence PC 851.8)',resolved_timing_bucket:'gt_10_years',court_requirements_completed:'yes',pardon_status:'No',sentence_completion_date:'Yes',state_exclusion_categories:'None of these',pending_cases:'No',financial_obligations:'Yes',criminal_history:'No',record_documents:'Yes'};
  for(let step=0;step<16;step++){
-  await p.locator('input[type=radio],input[type=checkbox]').or(p.getByRole('button',{name:'Save to my Briefcase and continue',exact:true})).first().waitFor();
-  if(await p.getByRole('button',{name:'Save to my Briefcase and continue',exact:true}).count())break;
+  await p.locator('input[type=radio],input[type=checkbox]').or(p.getByRole('button',{name:'Save my result and continue',exact:true})).first().waitFor();
+  if(await p.getByRole('button',{name:'Save my result and continue',exact:true}).count())break;
   const input=p.locator('input[type=radio],input[type=checkbox]').first();await input.waitFor();const name=await input.getAttribute('name');const id=name.replace(/^q-/,'');const options=await p.locator('input[type=radio],input[type=checkbox]').evaluateAll(inputs=>inputs.map(i=>i.value));assert.ok(answers[id],JSON.stringify({unmappedQuestion:id,options}));assert.ok(options.includes(answers[id]),JSON.stringify({id,options,wanted:answers[id]}));
   await p.locator(`input[value=${JSON.stringify(answers[id])}]`).check();result.questions.push(id);await p.getByRole('button',{name:'Continue',exact:true}).click();await p.waitForFunction(old=>document.querySelector('input[type=radio],input[type=checkbox]')?.getAttribute('name')!==old,name);
  }
- await p.getByRole('button',{name:'Save to my Briefcase and continue',exact:true}).waitFor();assert.deepEqual(financial,[]);assert.equal((await context.cookies()).some(c=>c.name.startsWith('sb-')),false);
+ await p.getByRole('button',{name:'Save my result and continue',exact:true}).waitFor();assert.deepEqual(financial,[]);assert.equal((await context.cookies()).some(c=>c.name.startsWith('sb-')),false);
  const pre=await db.from('consumer_briefcase_items').select('id',{count:'exact',head:true}).eq('source_session_id',sessionId);assert.equal(pre.error,null);assert.equal(pre.count,0);result.stages.push('Authorized CA preliminary screening completed anonymously without a durable matter or financial request');
- const claimPath='/api/expungement-ai/screening/pending/claim';await p.getByRole('button',{name:'Save to my Briefcase and continue',exact:true}).click();await p.waitForURL(u=>u.pathname==='/expungement-ai/sign-in');
+ const claimPath='/api/expungement-ai/screening/pending/claim';await p.getByRole('button',{name:'Save my result and continue',exact:true}).click();await p.waitForURL(u=>u.pathname==='/expungement-ai/sign-in');
  const continuation=p.url();fs.writeFileSync(`${root}/server/new-participant-continuation.private.json`,JSON.stringify({continuation,sessionId}),{mode:0o600});
  await p.goto(origin+'/terms');await p.goBack();await p.waitForURL(u=>u.pathname==='/expungement-ai/sign-in');assert.equal(p.url(),continuation);
  await p.getByLabel('Email',{exact:true}).fill(account.email);await p.getByLabel('Password',{exact:true}).fill(account.password);await p.getByRole('button',{name:'Create account and continue',exact:true}).click();

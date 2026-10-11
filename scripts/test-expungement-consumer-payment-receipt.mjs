@@ -287,12 +287,21 @@ for (const override of [
   }), null, `invalid payment evidence must not create a receipt action: ${JSON.stringify(override)}`);
 }
 
-const sponsored = harness(paymentRow({ source_session_id: "sponsored-session" }), { sponsored: true });
+const sponsored = harness(paymentRow({ source_session_id: "sponsored-session", payment_status: "unpaid", payment_authority: null, provider_event_id: null, checkout_session_id: null, payment_intent_id: null }), { sponsored: true });
 assert.equal(await sponsored.receipt.createConsumerPaymentReceiptAction({
   consumerAuthUserId: USER,
   briefcaseItemId: ITEM,
   now: NOW
 }), null, "sponsored matters must not display a consumer receipt without a distinct real consumer payment");
+
+const attributedConsumer = harness(paymentRow({ source_session_id: "rcap-consumer-session" }), { sponsored: true });
+assert.ok(await attributedConsumer.receipt.createConsumerPaymentReceiptAction({ consumerAuthUserId: USER, briefcaseItemId: ITEM, now: NOW }),
+  "RCAP attribution must preserve immutable genuinely paid receipt history regardless of current program or funding eligibility");
+assert.equal(await attributedConsumer.receipt.createConsumerPaymentReceiptAction({ consumerAuthUserId: OTHER_USER, briefcaseItemId: ITEM, now: NOW }), null,
+  "RCAP attribution does not widen receipt ownership");
+attributedConsumer.setRow(paymentRow({ source_session_id: "rcap-consumer-session", payment_authority: null }));
+assert.equal(await attributedConsumer.receipt.createConsumerPaymentReceiptAction({ consumerAuthUserId: USER, briefcaseItemId: ITEM, now: NOW }), null,
+  "RCAP attribution alone is not evidence of payment");
 
 const providerResolved = harness(paymentRow({ receipt_url: null }));
 const providerAction = await providerResolved.receipt.createConsumerPaymentReceiptAction({

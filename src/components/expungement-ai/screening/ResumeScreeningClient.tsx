@@ -18,6 +18,7 @@ type ConfirmResponse = {
     lastDropQuestion: string | null;
   };
   resumeUrl: string | null;
+  screeningUrl?: string;
 };
 
 export function ResumeScreeningClient() {
@@ -45,7 +46,7 @@ export function ResumeScreeningClient() {
       }
       if (result.resumeUrl) window.history.replaceState(null, "", result.resumeUrl);
       window.sessionStorage.setItem("expungement-ai:resume-session", JSON.stringify(result.session));
-      router.push(`/expungement-ai/screening/${encodeURIComponent(result.session.jurisdiction)}`);
+      router.push(result.screeningUrl ?? `/expungement-ai/screening/${encodeURIComponent(result.session.jurisdiction)}`);
     } catch {
       setStatus("failed");
       setMessage(genericMessage);

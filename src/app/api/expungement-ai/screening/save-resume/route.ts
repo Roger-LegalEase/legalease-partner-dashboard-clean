@@ -1,4 +1,7 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
+import { RCAP_DRAFT_COOKIE, authorizedRcapDraft } from "@/lib/expungement-ai/rcap-screening-draft";
+import { getActiveClinicParticipantContext } from "@/lib/clinic-mode/participant-service";
+import { assertSameOrigin } from "@/lib/partners/onboarding/request-security";
 import { getSafeRequestId, logSecurityError, logSecurityInfo, logSecurityWarn } from "@/lib/observability/logger";
 import { getSupabaseAdminClient } from "@/lib/supabase/server";
 import { resumeEmailSendFailureMessage, saveScreeningResumeLink, SupabaseScreeningResumeStorage } from "@/lib/expungement-ai/screening-resume-service";
@@ -11,7 +14,7 @@ export const dynamic = "force-dynamic";
 
 const maxPayloadBytes = 40_000;
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
   const requestId = getSafeRequestId(request);
   const body = await readJson(request);
   if (!body.ok) {
@@ -37,6 +40,21 @@ export async function POST(request: Request) {
   if (!supabase) {
     logSecurityError({ event: "screening_resume_save_unavailable", route: "/api/expungement-ai/screening/save-resume", outcome: "supabase_not_configured", requestId });
     return NextResponse.json({ ok: false, message: "We couldn't save that progress right now." }, { status: 503 });
+  }
+
+  // A URL session UUID must not let a stranger replace a program participant's
+  // resume address/token, then read answers written by their next Continue.
+  if (payload.sessionId) {
+    const existing = await supabase.from("screening_sessions").select("flow_mode,jurisdiction").eq("session_id", payload.sessionId).maybeSingle();
+    if (existing.error) return NextResponse.json({ok: false, message: "Saved progress could not be checked. Please retry."}, {status: 503});
+    if (existing.data?.flow_mode === "rcap") {
+      try {
+        assertSameOrigin(request);
+        const draft = await authorizedRcapDraft(request.cookies.get(RCAP_DRAFT_COOKIE)?.value, payload.sessionId);
+        const clinic = draft ? null : await getActiveClinicParticipantContext();
+        if ((!draft && clinic?.screeningSessionId !== payload.sessionId) || payload.jurisdiction.toUpperCase() !== existing.data.jurisdiction) throw new Error("unavailable");
+      } catch { return NextResponse.json({ok: false, message: "This screening is not available on this device. Open your program or verified saved-progress link."}, {status: 403}); }
+    }
   }
 
   for (const check of [
