@@ -1,5 +1,6 @@
 import { maskedSensitiveAnswer, requiresMcicIdentifierAuthority } from "@/lib/expungement-ai/sensitive-packet-facts";
-import type { AnswerValue } from "@/lib/expungement-ai/frontend/contracts";
+import type { AnswerValue, ProfileQuestion } from "@/lib/expungement-ai/frontend/contracts";
+import { EXPUNGEMENT_COPY, resolveRuntimeText } from "@/lib/expungement-ai/localization";
 
 type VerificationFactSource = "screeningAnswers" | "prefilledAnswers" | "packetAnswers" | "serverFacts";
 type CanonicalVerificationFact = {
@@ -31,6 +32,9 @@ export type VerificationSummaryRow = {
   value: string;
   source: VerificationFactSource;
   editId: string | null;
+  /** Display-only Spanish; canonical labels, values and manifest keys stay intact. */
+  labelEs?: string;
+  valueEs?: string;
 };
 
 export type VerificationContextRow = {
@@ -84,6 +88,7 @@ export function verificationSummary(model: {
   initialAnswers: Record<string, AnswerValue>;
   serverFacts: Record<string, AnswerValue>;
   builderQuestions: Array<{ id: string }>;
+  questions?: Array<ReviewQuestion>;
   verificationSummary?: unknown;
   verificationContext?: unknown;
   verificationManifest?: unknown;
@@ -129,11 +134,14 @@ export function verificationSummary(model: {
     || !sourceFactsMatch(facts, "serverFacts", model.serverFacts)) return null;
 
   const editableIds = new Set(model.builderQuestions.map((question) => question.id));
+  const questionById = new Map(model.questions?.map((question) => [question.id, question]));
   const rows = facts.map((fact): VerificationSummaryRow => ({
     key: fact.key,
     id: fact.id,
     label: fact.label,
-    value: fact.id === "social_security_number" ? maskedSensitiveAnswer(fact.value) : displayAnswer(fact.value),
+    value: fact.id === "social_security_number" ? maskedSensitiveAnswer(fact.value) : displayVerificationAnswer(fact.value,
+      questionById.get(fact.id)?.prompt === fact.label ? questionById.get(fact.id) : undefined),
+    ...reviewAnswerPresentation(fact, questionById.get(fact.id), model.stateCode),
     source: fact.source,
     editId: fact.id === "social_security_number_last_four" && requiresMcicIdentifierAuthority(model.stateCode, model.pathwayId) ? "social_security_number" : !fact.systemContext
       && (fact.source === "prefilledAnswers" || fact.source === "packetAnswers")
@@ -146,7 +154,7 @@ export function verificationSummary(model: {
     ...contextFacts.map((fact) => ({
       key: fact.key,
       label: fact.label,
-      value: displayAnswer(fact.value)
+      value: displayVerificationAnswer(fact.value)
     }))
   ];
 
@@ -249,8 +257,19 @@ function canonicalize(value: unknown): unknown {
   return Object.fromEntries(Object.keys(record).sort().map((key) => [key, canonicalize(record[key])]));
 }
 
-function displayAnswer(value: unknown) {
+export function displayVerificationAnswer(value: unknown, question?: ReviewQuestion) {
   if (value === undefined || value === null || value === "") return "Missing";
+  if (value && typeof value === "object" && !Array.isArray(value) && "unknown" in value && value.unknown === true) return "I’m not sure";
+  if (question && ["single_choice", "multi_select", "yes_no_unsure", "yes_no_prefer_not_to_say"].includes(question.type)) {
+    const options = question.type === "yes_no_unsure" ? ["Yes", "No", "I am not sure"]
+      : question.type === "yes_no_prefer_not_to_say" ? ["Yes", "No", "Prefer not to say"] : question.options ?? [];
+    const scalar = typeof value === "boolean" ? value ? "Yes" : "No"
+      : value && typeof value === "object" && !Array.isArray(value) && "value" in value ? value.value : value;
+    const values = Array.isArray(value) && question.type === "multi_select" ? value : [scalar];
+    if (values.length > 0 && values.every((entry) => typeof entry === "string" && options.includes(entry))) {
+      return values.map((entry) => question.optionDisplay?.[entry as string]?.label ?? entry).join(", ");
+    }
+  }
   if (Array.isArray(value)) return value.length > 0
     ? value.map((entry) => typeof entry === "object" ? JSON.stringify(canonicalize(entry)) : String(entry)).join(", ")
     : "None";
@@ -261,10 +280,43 @@ function displayAnswer(value: unknown) {
     }
     return JSON.stringify(canonicalize(value));
   }
-  const labels: Record<string, string> = {
-    gt_10_years: "More than 10 years ago",
-    yes: "Yes",
-    no: "No"
-  };
-  return labels[String(value)] ?? String(value);
+  return String(value);
+}
+
+type ReviewQuestion = Pick<ProfileQuestion, "id" | "type" | "prompt" | "translations" | "optionDisplay" | "options">;
+
+function exactProfileSpanish(english: string, state: string, id: string, part: string): string {
+  const entry = EXPUNGEMENT_COPY[`profile.${state}.${id}.${part}`];
+  return entry?.en === english ? entry.es ?? english : english;
+}
+
+/** Localize source-bound labels/choices, never names, narratives or quoted record text. */
+export function reviewAnswerPresentation(fact: Pick<CanonicalVerificationFact, "id" | "label" | "value">, question: ReviewQuestion | undefined, state: string): { labelEs?: string; valueEs?: string } {
+  // A same-ID prompt with changed meaning is insufficient translation authority.
+  if (!question || question.id !== fact.id || question.prompt !== fact.label) return {};
+  const labelEs = question.translations?.es?.prompt ?? exactProfileSpanish(question.prompt, state, question.id, "prompt");
+  if (fact.id === "social_security_number") {
+    const masked = maskedSensitiveAnswer(fact.value);
+    return { labelEs, valueEs: masked === "Sensitive value hidden" ? resolveRuntimeText("es", masked) : masked };
+  }
+  const value = fact.value;
+  if (value === null || value === undefined || value === "") return { labelEs, valueEs: resolveRuntimeText("es", "Missing") };
+  if (value && typeof value === "object" && !Array.isArray(value) && "unknown" in value && value.unknown === true) {
+    return { labelEs, valueEs: resolveRuntimeText("es", "I am not sure") };
+  }
+  if (!["single_choice", "multi_select", "yes_no_unsure", "yes_no_prefer_not_to_say"].includes(question.type)) return { labelEs };
+  const options = question.type === "yes_no_unsure" ? ["Yes", "No", "I am not sure"]
+    : question.type === "yes_no_prefer_not_to_say" ? ["Yes", "No", "Prefer not to say"] : question.options ?? [];
+  const scalar = typeof value === "boolean" ? value ? "Yes" : "No"
+    : value && typeof value === "object" && !Array.isArray(value) && "value" in value ? value.value : value;
+  const values = Array.isArray(value) && question.type === "multi_select" ? value : [scalar];
+  if (!values.length) return { labelEs, valueEs: resolveRuntimeText("es", "None") };
+  if (!values.every((entry) => typeof entry === "string" && options.includes(entry))) return { labelEs };
+  return { labelEs, valueEs: values.map((entry) => {
+    const option = entry as string;
+    const display = question.optionDisplay?.[option];
+    return display?.translations?.es?.label ?? (display?.label
+      ? exactProfileSpanish(display.label, state, question.id, `option.${option}.label`)
+      : resolveRuntimeText("es", option));
+  }).join(", ") };
 }

@@ -235,7 +235,7 @@ export function packetInformationModelFor(item: ConsumerBriefcaseItem): PacketIn
     .map((id) => questionById.get(id) ?? fallbackPacketQuestion(id))
     .map((question) => ({ ...question, required: true, contextOnly: false }));
   if (mississippiNonConviction) {
-    const owner = answerTextRaw(screeningAnswers.ownership_scope).toLowerCase() === "yes";
+    const owner = knownParticipantOwner(questionById, screeningAnswers.ownership_scope);
     questions = questions.map((question) => question.id === "pending_cases"
       ? { ...question, prompt: owner ? "Do you currently have any pending criminal charges?" : "Does this person currently have any pending criminal charges?" }
       : question.id === "residency_or_location"
@@ -251,7 +251,7 @@ export function packetInformationModelFor(item: ConsumerBriefcaseItem): PacketIn
       if (known && !questions.some((question) => question.id === id)) questions.push({ ...known, required: true, contextOnly: false });
     }
   }
-  questions = questions.map((question) => reviewedPacketQuestion(question, { state: profile.jurisdiction.code, pathwayId, participantOwnsRecord: answerTextRaw(screeningAnswers.ownership_scope).toLowerCase() === "yes" }));
+  questions = questions.map((question) => reviewedPacketQuestion(question, { state: profile.jurisdiction.code, pathwayId, participantOwnsRecord: knownParticipantOwner(questionById, screeningAnswers.ownership_scope) }));
   for (const question of questions) questionById.set(question.id, question);
   const builderQuestions = builderQuestionsFor(questions, collection, requiredInputIds, serverFacts);
   const missingInputIds = missingRequiredInputs(
@@ -849,6 +849,13 @@ function collectionGateInputIds(
   return prepayGateFactIds(resolution);
 }
 
+/** Wording follows a valid ownership answer, never an uncertain wrapper or guessed consent. */
+function knownParticipantOwner(questionById: ReadonlyMap<string, ProfileQuestion>, value: unknown): boolean {
+  const question = questionById.get("ownership_scope");
+  return Boolean(question && questionAnswerState(question, value) === "known_valid"
+    && (value === true || answerTextRaw(value as AnswerValue).trim() === "Yes"));
+}
+
 function protectedPacketQuestionSurface(
   profile: NonNullable<ReturnType<typeof getProfileByJurisdiction>>,
   pathwayId: string | null,
@@ -870,7 +877,7 @@ function protectedPacketQuestionSurface(
   const mississippiNonConviction = profile.jurisdiction.code === "MS"
     && pathwayId === "non-conviction-expungement-for-dismissal-no-disposition-or-acquittal";
   if (mississippiNonConviction) {
-    const owner = answerTextRaw(screeningAnswers.ownership_scope).toLowerCase() === "yes";
+    const owner = knownParticipantOwner(questionById, screeningAnswers.ownership_scope);
     questions = questions.map((question) => question.id === "pending_cases"
       ? { ...question, prompt: owner ? "Do you currently have any pending criminal charges?" : "Does this person currently have any pending criminal charges?" }
       : question.id === "residency_or_location"
@@ -904,7 +911,7 @@ function protectedPacketQuestionSurface(
     prefilledAnswers,
     savedAnswers
   });
-  questions = questions.map((question) => reviewedPacketQuestion(question, { state: profile.jurisdiction.code, pathwayId, participantOwnsRecord: answerTextRaw(screeningAnswers.ownership_scope).toLowerCase() === "yes" }));
+  questions = questions.map((question) => reviewedPacketQuestion(question, { state: profile.jurisdiction.code, pathwayId, participantOwnsRecord: knownParticipantOwner(questionById, screeningAnswers.ownership_scope) }));
   for (const question of questions) questionById.set(question.id, question);
   const builderQuestions = builderQuestionsFor(questions, collection, requiredInputIds, serverFacts);
   const builderSections = builderSectionsFor(collection, builderQuestions);

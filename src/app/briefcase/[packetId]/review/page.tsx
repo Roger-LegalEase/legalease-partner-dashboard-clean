@@ -1,6 +1,6 @@
 import { SponsorCapacityNotice } from "@/components/expungement-ai/SponsorCapacityNotice";
 import Link from "next/link";
-import { LocalizedRuntimeText } from "@/components/expungement-ai/LocalizationProvider";
+import { LocalizedCopy, LocalizedRuntimeText } from "@/components/expungement-ai/LocalizationProvider";
 import { CheckCircle2, FileText, ShieldCheck } from "lucide-react";
 import type { ReactNode } from "react";
 
@@ -14,6 +14,9 @@ import {
 import { requireConsumerBriefcaseSession } from "@/lib/expungement-ai/auth";
 import { getBriefcaseItem } from "@/lib/expungement-ai/briefcase";
 import { decorateBriefcaseItemForPresentation } from "@/lib/expungement-ai/briefcase-presentation-authority";
+import { getProfileByJurisdiction } from "@/lib/rcap-engine/profile-registry";
+import { projectPublicProfile } from "@/lib/rcap-engine/public-profile-projection";
+import type { ProfileQuestion } from "@/lib/expungement-ai/frontend/contracts";
 
 export const dynamic = "force-dynamic";
 
@@ -35,8 +38,13 @@ export default async function PacketAccuracyReviewPage({
   const model = packetMatter && item?.packetDraft.status === "available" ? item.packetDraft : null;
   const reviewSafety = model?.reviewSafety ?? { safe: false, reason: "matter_missing" };
   const initiallyVerified = item?.verificationStatus === "verified" && reviewSafety.safe;
+  const profile = item?.jurisdiction ? getProfileByJurisdiction(item.jurisdiction) : null;
+  const reviewQuestions = [...new Map([...(profile ? projectPublicProfile(profile).questions : []), ...(model?.questions ?? [])]
+    .map((question) => [question.id, { ...question, options: Array.isArray(question.options)
+      && question.options.every((option): option is string => typeof option === "string") ? question.options : null }])).values()];
   const summary = item && model ? verificationSummary({
     ...model,
+    questions: reviewQuestions,
     stateCode: item.jurisdiction ?? "",
     pathwayId: item.pathwayId
   }) : null;
@@ -50,21 +58,21 @@ export default async function PacketAccuracyReviewPage({
       caseState={item?.jurisdiction ?? undefined}
       briefcaseItemId={item?.id}
       activeNav="matters"
-      breadcrumb={item ? <><Link href="/briefcase/matters">My matters</Link> / <Link href={`/briefcase/${item.id}`}>{item.title}</Link> / <b>Review and confirm</b></> : <b>Review and confirm</b>}
+      breadcrumb={item ? <><Link href="/briefcase/matters"><LocalizedRuntimeText text={"My matters"} /></Link> / <Link href={`/briefcase/${item.id}`}>{item.title}</Link> / <b><LocalizedRuntimeText text={"Review and confirm"} /></b></> : <b><LocalizedRuntimeText text={"Review and confirm"} /></b>}
     >
       {item && model && summary ? (
         <section data-accuracy-review="true">
           {item.sponsorCapacityExhausted ? <SponsorCapacityNotice paid={item.paymentState === "paid"} /> : null}
           <div className="flex flex-wrap items-start justify-between gap-4">
             <div>
-              <p className="text-xs font-bold uppercase tracking-[0.08em] text-[#00A99D]">Packet facts</p>
-              <h1 className="mt-2 text-[26px] font-extrabold tracking-[-0.02em] text-[#0B1320]">Review and verify your packet facts</h1>
+              <p className="text-xs font-bold uppercase tracking-[0.08em] text-[#00A99D]"><LocalizedRuntimeText text={"Packet facts"} /></p>
+              <h1 className="mt-2 text-[26px] font-extrabold tracking-[-0.02em] text-[#0B1320]"><LocalizedRuntimeText text={"Review and verify your packet facts"} /></h1>
               <p className="mt-2 text-sm leading-6 text-[#475A6E]">
-                {sponsored
+                <LocalizedRuntimeText text={sponsored
                   ? "Check each answer before covered generation. Editable packet facts are marked below."
                   : item.paymentState === "paid"
                     ? "Check each answer before preparing the packet. Editable packet facts are marked below."
-                    : "Check each answer before final verification. Editable packet facts are marked below."}
+                    : "Check each answer before final verification. Editable packet facts are marked below."} />
               </p>
             </div>
             <MatterStatusBadge item={item} />
@@ -81,24 +89,22 @@ export default async function PacketAccuracyReviewPage({
 
           {mississippiClinicPacket ? (
             <div className="mt-6 rounded-[16px] border border-[#CFE4DD] bg-[#F3F8F5] p-6">
-              <h2 className="text-base font-bold text-[#0B1320]">Who completes each part</h2>
+              <h2 className="text-base font-bold text-[#0B1320]"><LocalizedRuntimeText text={"Who completes each part"} /></h2>
               <ul className="mt-4 grid gap-2 text-sm leading-6 text-[#475A6E] sm:grid-cols-2">
-                <li><strong>Prefilled by LegalEase</strong> - facts already collected during screening.</li>
-                <li><strong>Confirmed from the participant’s records</strong> - court, case, charge, date, agency, and service facts.</li>
-                <li><strong>Completed by the participant when signing or serving</strong> - signatures, service method, and service dates.</li>
-                <li><strong>Reserved for the prosecutor or court</strong> - approval, findings, entry date, and judicial signature.</li>
+                <li><strong><LocalizedRuntimeText text={"Prefilled by LegalEase"} /></strong>{" "}<LocalizedRuntimeText text={"- facts already collected during screening."} /></li>
+                <li><strong><LocalizedRuntimeText text={"Confirmed from the participant’s records"} /></strong>{" "}<LocalizedRuntimeText text={"- court, case, charge, date, agency, and service facts."} /></li>
+                <li><strong><LocalizedRuntimeText text={"Completed by the participant when signing or serving"} /></strong>{" "}<LocalizedRuntimeText text={"- signatures, service method, and service dates."} /></li>
+                <li><strong><LocalizedRuntimeText text={"Reserved for the prosecutor or court"} /></strong>{" "}<LocalizedRuntimeText text={"- approval, findings, entry date, and judicial signature."} /></li>
               </ul>
             </div>
           ) : null}
 
           <div className="mt-6">
             <ReviewCard title="Details we already have" icon={<ShieldCheck className="h-5 w-5" aria-hidden="true" />}>
-              <p className="text-sm leading-6 text-[#475A6E]" id="verification-context-description">
-                These identify the saved case you are reviewing. Your answers above determine the packet and its requirements.
-              </p>
+              <p className="text-sm leading-6 text-[#475A6E]" id="verification-context-description"><LocalizedRuntimeText text={"These identify the saved case you are reviewing. Your answers above determine the packet and its requirements."} /></p>
               <dl aria-describedby="verification-context-description" className="mt-4 grid gap-3 text-sm">
-                <SummaryLine label="Jurisdiction" value={item.jurisdiction ?? "Unavailable"} />
-                <SummaryLine label="Packet pathway" value={item.pathwayLabel ?? "Saved packet pathway"} />
+                <SummaryLine label="Jurisdiction" value={item.jurisdiction ?? "Unavailable"} translateValue={!item.jurisdiction} />
+                <SummaryLine label="Packet pathway" value={item.pathwayLabel ?? "Saved packet pathway"} translateValue={!item.pathwayLabel} />
               </dl>
             </ReviewCard>
           </div>
@@ -116,11 +122,11 @@ export default async function PacketAccuracyReviewPage({
 
             <ReviewCard title="Filing limitations" icon={<ShieldCheck className="h-5 w-5" aria-hidden="true" />}>
               <ul className="list-disc space-y-2 pl-5 text-sm leading-6 text-[#475A6E]">
-                <li>Expungement.ai prepares self-help documents. It does not file them for you.</li>
-                <li>Court, agency, service, record, and filing fees are separate.</li>
-                <li>The court or agency makes the final decision. Approval is not guaranteed.</li>
-                <li>Review names, dates, court information, and charges against your records before filing.</li>
-                {mississippiClinicPacket ? <li>Stop and get legal help for an ambiguous docket entry, unclear venue, diversion or nonadjudication, a related pending matter, prosecutor refusal, or an immigration concern.</li> : null}
+                <li><LocalizedRuntimeText text={"Expungement.ai prepares self-help documents. It does not file them for you."} /></li>
+                <li><LocalizedRuntimeText text={"Court, agency, service, record, and filing fees are separate."} /></li>
+                <li><LocalizedRuntimeText text={"The court or agency makes the final decision. Approval is not guaranteed."} /></li>
+                <li><LocalizedRuntimeText text={"Review names, dates, court information, and charges against your records before filing."} /></li>
+                {mississippiClinicPacket ? <li><LocalizedRuntimeText text={"Stop and get legal help for an ambiguous docket entry, unclear venue, diversion or nonadjudication, a related pending matter, prosecutor refusal, or an immigration concern."} /></li> : null}
               </ul>
             </ReviewCard>
           </div>
@@ -134,18 +140,16 @@ export default async function PacketAccuracyReviewPage({
           </ReviewCard>
 
           <div className="mt-5 rounded-[16px] border border-[#ECEFF4] bg-white p-6">
-            <h2 className="text-base font-bold text-[#0B1320]">Details to check</h2>
+            <h2 className="text-base font-bold text-[#0B1320]"><LocalizedRuntimeText text={"Details to check"} /></h2>
             {model.missingInputIds.length > 0 || model.pendingDerivations.length > 0 ? (
               <ul className="mt-3 grid gap-2 text-sm text-[#B42318]">
-                {model.missingInputIds.map((id) => <li key={id}>{model.questions.find((question) => question.id === id)?.prompt ?? id}</li>)}
-                {model.pendingDerivations.map((fact) => <li key={`derived-${fact.factId}`}>Check the source answers before this packet detail can be calculated: {fact.inputFactIds.map((id) => model.questions.find((question) => question.id === id)?.prompt ?? "Source answer").join("; ")}</li>)}
+                {model.missingInputIds.map((id) => <li key={id}><QuestionPrompt question={model.questions.find((question) => question.id === id)} /></li>)}
+                {model.pendingDerivations.map((fact) => <li key={`derived-${fact.factId}`}><LocalizedRuntimeText text={"Check the source answers before this packet detail can be calculated:"} />{" "}{fact.inputFactIds.map((id, index) => <span key={id}>{index > 0 ? "; " : ""}<QuestionPrompt question={model.questions.find((question) => question.id === id)} /></span>)}</li>)}
               </ul>
             ) : (
-              <p className="mt-2 text-sm leading-6 text-[#475A6E]">All required information is here. Review the saved answers one more time before continuing.</p>
+              <p className="mt-2 text-sm leading-6 text-[#475A6E]"><LocalizedRuntimeText text={"All required information is here. Review the saved answers one more time before continuing."} /></p>
             )}
-            <Link className="mt-4 inline-flex min-h-10 items-center rounded-[10px] border border-[#D9DEE8] px-4 text-sm font-bold text-[#0B1320]" href={`/briefcase/${item.id}/packet-information`}>
-              Edit packet information
-            </Link>
+            <Link className="mt-4 inline-flex min-h-10 items-center rounded-[10px] border border-[#D9DEE8] px-4 text-sm font-bold text-[#0B1320]" href={`/briefcase/${item.id}/packet-information`}><LocalizedRuntimeText text={"Edit packet information"} /></Link>
           </div>
 
           <PacketVerificationAction
@@ -171,8 +175,8 @@ export default async function PacketAccuracyReviewPage({
           data-packet-draft-status={item?.packetDraft.status ?? ""}
           data-verification-summary={model ? (summary ? "present" : "null") : "no_model"}
         >
-          <h1 className="text-2xl font-extrabold text-[#0B1320]">We can’t review this matter yet.</h1>
-          <Link className="mt-5 inline-flex min-h-11 items-center rounded-[10px] bg-[#0B1320] px-5 text-sm font-bold text-white" href={item ? `/briefcase/${item.id}` : "/briefcase"}>Open matter</Link>
+          <h1 className="text-2xl font-extrabold text-[#0B1320]"><LocalizedRuntimeText text={"We can’t review this matter yet."} /></h1>
+          <Link className="mt-5 inline-flex min-h-11 items-center rounded-[10px] bg-[#0B1320] px-5 text-sm font-bold text-white" href={item ? `/briefcase/${item.id}` : "/briefcase"}><LocalizedRuntimeText text={"Open matter"} /></Link>
         </section>
       )}
     </BriefcaseShell>
@@ -182,7 +186,7 @@ export default async function PacketAccuracyReviewPage({
 function ReviewCard({ title, icon, children }: { title: string; icon: ReactNode; children: ReactNode }) {
   return (
     <div className="rounded-[16px] border border-[#ECEFF4] bg-white p-6">
-      <h2 className="flex items-center gap-2 text-base font-bold text-[#0B1320]">{icon}{title}</h2>
+      <h2 className="flex items-center gap-2 text-base font-bold text-[#0B1320]">{icon}<LocalizedRuntimeText text={title} /></h2>
       <div className="mt-4">{children}</div>
     </div>
   );
@@ -191,14 +195,14 @@ function ReviewCard({ title, icon, children }: { title: string; icon: ReactNode;
 function AnswerSection({ title, itemId, rows }: { title: string; itemId: string; rows: VerificationSummaryRow[] }) {
   return (
     <section className="rounded-[16px] border border-[#ECEFF4] bg-white p-6">
-      <h2 className="text-lg font-extrabold text-[#0B1320]">{title}</h2>
+      <h2 className="text-lg font-extrabold text-[#0B1320]"><LocalizedRuntimeText text={title} /></h2>
       <dl className="mt-4 divide-y divide-[#ECEFF4]">
         {rows.map((entry) => (
           <div className="grid gap-2 py-4 sm:grid-cols-[1fr_1fr_auto] sm:items-center" key={entry.key}>
-            <dt className="text-sm font-bold text-[#334155]">{entry.label}</dt>
-            <dd className={`whitespace-pre-wrap break-words ${entry.value === "Missing" ? "text-sm font-semibold text-[#B42318]" : "text-sm text-[#475A6E]"}`}>{entry.id === "social_security_number" && entry.value === "Sensitive value hidden" ? <LocalizedRuntimeText text={entry.value} /> : entry.value}</dd>
+            <dt className="text-sm font-bold text-[#334155]"><LocalizedCopy en={entry.label} es={entry.labelEs} /></dt>
+            <dd className={`whitespace-pre-wrap break-words ${entry.value === "Missing" ? "text-sm font-semibold text-[#B42318]" : "text-sm text-[#475A6E]"}`}><LocalizedCopy en={entry.value} es={entry.valueEs} /></dd>
             {entry.editId ? (
-              <dd><Link className="inline-flex min-h-10 items-center rounded-[10px] border border-[#D9DEE8] px-4 text-sm font-bold text-[#0B1320]" href={`/briefcase/${itemId}/packet-information?edit=${encodeURIComponent(entry.editId)}`}>Edit</Link></dd>
+              <dd><Link className="inline-flex min-h-10 items-center rounded-[10px] border border-[#D9DEE8] px-4 text-sm font-bold text-[#0B1320]" href={`/briefcase/${itemId}/packet-information?edit=${encodeURIComponent(entry.editId)}`}><LocalizedRuntimeText text={"Edit"} /></Link></dd>
             ) : null}
           </div>
         ))}
@@ -207,6 +211,10 @@ function AnswerSection({ title, itemId, rows }: { title: string; itemId: string;
   );
 }
 
-function SummaryLine({ label, value }: { label: string; value: string }) {
-  return <div className="grid gap-1 sm:grid-cols-[12rem_1fr]"><dt className="font-bold text-[#334155]">{label}</dt><dd className="break-words text-[#475A6E]">{value}</dd></div>;
+function SummaryLine({ label, value, translateValue = true }: { label: string; value: string; translateValue?: boolean }) {
+  return <div className="grid gap-1 sm:grid-cols-[12rem_1fr]"><dt className="font-bold text-[#334155]"><LocalizedRuntimeText text={label} /></dt><dd className="break-words text-[#475A6E]">{translateValue ? <LocalizedRuntimeText text={value} /> : value}</dd></div>;
+}
+
+function QuestionPrompt({ question }: { question?: ProfileQuestion }) {
+  return question ? <LocalizedCopy en={question.prompt} es={question.translations?.es?.prompt} /> : <LocalizedRuntimeText text="Source answer" />;
 }

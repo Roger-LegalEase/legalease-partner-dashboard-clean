@@ -130,6 +130,27 @@
   ],
   "requiredFacts": [
     {
+      "factId": "mailing_address",
+      "use": "defendant mailing address, printed in the primary filing contact paragraph",
+      "inRegistryRequiredInputs": false,
+      "ownership": "participant",
+      "gapNote": "The registry groups this under contact_information; the approved production field map writes the mailing address separately."
+    },
+    {
+      "factId": "phone_number",
+      "use": "defendant telephone number, printed in the primary filing contact paragraph",
+      "inRegistryRequiredInputs": false,
+      "ownership": "participant",
+      "gapNote": "The registry groups this under contact_information; the approved production field map writes the telephone separately."
+    },
+    {
+      "factId": "email_address",
+      "use": "defendant email address, printed in the primary filing contact paragraph",
+      "inRegistryRequiredInputs": false,
+      "ownership": "participant",
+      "gapNote": "The registry groups this under contact_information; the approved production field map writes the email separately."
+    },
+    {
       "factId": "participant_full_legal_name",
       "use": "defendant named in the caption of the motion, proposed order and certificate",
       "inRegistryRequiredInputs": true,
@@ -236,6 +257,9 @@
   ],
   "fieldOwnership": {
     "participantOwnedFacts": [
+      "mailing_address",
+      "phone_number",
+      "email_address",
       "participant_full_legal_name",
       "contact_information",
       "court",
@@ -279,6 +303,7 @@
       "certificate_of_service_judge"
     ],
     "participantCompletesBeforeFilingFields": [
+      "participant_narrative",
       "primary_filing_court",
       "primary_filing_county",
       "primary_filing_case_number",

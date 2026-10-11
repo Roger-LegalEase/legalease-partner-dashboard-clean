@@ -1,3 +1,4 @@
+import { LocalizedRuntimeText } from "@/components/expungement-ai/LocalizationProvider";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { editablePacketInputIds } from "@/lib/expungement-ai/packet-information";
@@ -58,14 +59,14 @@ export default async function PacketInformationPage({
       caseState={item?.jurisdiction ?? undefined}
       briefcaseItemId={item?.id}
       activeNav="matters"
-      breadcrumb={item ? <><Link href="/briefcase/matters">My matters</Link> / <Link href={`/briefcase/${item.id}`}>{item.title}</Link> / <b>Packet information</b></> : <b>Packet information</b>}
+      breadcrumb={item ? <><Link href="/briefcase/matters"><LocalizedRuntimeText text={"My matters"} /></Link> / <Link href={`/briefcase/${item.id}`}>{item.title}</Link> / <b><LocalizedRuntimeText text={"Packet information"} /></b></> : <b><LocalizedRuntimeText text={"Packet information"} /></b>}
     >
       {item && item.jurisdiction && model ? (
         <section>
           <div className="flex flex-wrap items-start justify-between gap-4">
             <div>
               <p className="text-xs font-bold uppercase tracking-[0.08em] text-[#08786F]">{item.jurisdiction}</p>
-              <h1 className="mt-2 text-[26px] font-extrabold tracking-[-0.02em] text-[#0B1320]">Complete packet information</h1>
+              <h1 className="mt-2 text-[26px] font-extrabold tracking-[-0.02em] text-[#0B1320]"><LocalizedRuntimeText text={"Complete packet information"} /></h1>
               {item.pathwayLabel ? <p className="mt-2 text-sm font-semibold text-[#475A6E]">{item.pathwayLabel}</p> : null}
             </div>
             <MatterStatusBadge item={item} />
@@ -73,11 +74,11 @@ export default async function PacketInformationPage({
 
           <div className="my-6 rounded-[14px] bg-[#F7F3EC] px-5 py-4 text-sm leading-6 text-[#5A6275]">
             {sponsored ? (
-              <p>Your packet is covered through your partner program. Complete the information below without a consumer payment.</p>
+              <p><LocalizedRuntimeText text={"Your packet is covered through your partner program. Complete the information below without a consumer payment."} /></p>
             ) : (
-              <p>Your Briefcase is free. Complete your packet information and pay only when you&apos;re ready to generate your packet.</p>
+              <p><LocalizedRuntimeText text={"Your Briefcase is free. Complete your packet information and pay only when you're ready to generate your packet."} /></p>
             )}
-            <p className="mt-2">Complete the remaining details for this packet. Review what&apos;s already here, add anything that is missing, and save your progress anytime.</p>
+            <p className="mt-2"><LocalizedRuntimeText text={"Complete the remaining details for this packet. Review what's already here, add anything that is missing, and save your progress anytime."} /></p>
           </div>
 
           <PacketInformationBuilder
@@ -96,9 +97,9 @@ export default async function PacketInformationPage({
         </section>
       ) : (
         <section className="rounded-[16px] border border-[#ECEFF4] bg-white p-6" role="status" aria-live="polite">
-          <h1 className="text-2xl font-extrabold text-[#0B1320]">Packet information is not available for this matter.</h1>
-          <p className="mt-3 text-sm leading-6 text-[#5A6275]">Open the saved matter to review its result and next steps.</p>
-          <Link className="mt-5 inline-flex min-h-11 items-center rounded-[10px] bg-[#0B1320] px-5 text-sm font-bold text-white" href={item ? `/briefcase/${item.id}` : "/briefcase"}>Open matter</Link>
+          <h1 className="text-2xl font-extrabold text-[#0B1320]"><LocalizedRuntimeText text={"Packet information is not available for this matter."} /></h1>
+          <p className="mt-3 text-sm leading-6 text-[#5A6275]"><LocalizedRuntimeText text={"Open the saved matter to review its result and next steps."} /></p>
+          <Link className="mt-5 inline-flex min-h-11 items-center rounded-[10px] bg-[#0B1320] px-5 text-sm font-bold text-white" href={item ? `/briefcase/${item.id}` : "/briefcase"}><LocalizedRuntimeText text={"Open matter"} /></Link>
         </section>
       )}
     </BriefcaseShell>

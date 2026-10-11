@@ -815,7 +815,7 @@ function composeSection(
     case "caption":
       return [head, ...(section.fields ?? []).map((field): GradeABlock => ({
         kind: "labelled",
-        label: captionLabel(field),
+        label: fill(section.fieldLabels?.[field] ?? captionLabel(field), matter),
         value: fact(matter, field)
       })), { kind: "rule" }];
 
@@ -833,7 +833,18 @@ function composeSection(
         note: section.notarisationRequired === true
           ? "This signature must be notarized."
           : "No notarization is required for this filing."
-      }];
+      }, ...(section.fields ?? [])
+        .filter((field) => field !== "participant_full_legal_name")
+        .map((field): GradeABlock => {
+          const item = fieldItem(field);
+          // Generic labelled blocks cannot draw participant or court blanks.
+          // A future treatment needs an explicit supported document structure.
+          if ("blank" in item && item.blank) {
+            throw new GradeAPacketCompositionError(specification.routeKey, [],
+              `signature field "${field}" requires a blank treatment unsupported by this signature structure.`);
+          }
+          return { kind: "labelled", label: item.label, value: item.value };
+        })];
 
     case "court_signature_block":
       if (presentation === "pleading") {
