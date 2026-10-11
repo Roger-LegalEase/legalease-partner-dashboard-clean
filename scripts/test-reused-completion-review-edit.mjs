@@ -38,6 +38,8 @@ assert.deepEqual(overbroad.context, original.context, 'system contexts do not be
 const withoutLinks = summary => ({ ...summary, packetAnswers: summary.packetAnswers.map(row => ({ ...row, editId: null })) });
 assert.deepEqual(withoutLinks(projected), withoutLinks(original), 'canonical facts, labels, values and manifest context unchanged');
 assert.deepEqual(model, unchanged, 'display projection never mutates authority or answers');
+assert.ok(JSON.stringify(model.verificationContext).includes('courtCompletionImplications'), 'protected authority retains source provenance');
+assert.ok(!JSON.stringify(projected.context).includes('courtCompletionImplications'), 'review display does not export protected provenance');
 assert.equal(reviewEditablePacketInputIds({ ...model, questions: model.questions.filter(q => q.id !== 'financial_obligations') }).has('financial_obligations'), false, 'no link without a control');
 assert.equal(reviewEditablePacketInputIds({ ...model, serverFacts: { ...model.serverFacts, financial_obligations: 'Yes' } }).has('financial_obligations'), false, 'server-owned mutation cannot get a completion edit link');
 assert.equal(reviewEditablePacketInputIds({ ...model, requiredInputIds: model.requiredInputIds.filter(id => id !== 'financial_obligations') }).has('financial_obligations'), false, 'non-required/unowned target cannot gain authorization');

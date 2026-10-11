@@ -143,12 +143,14 @@ begin
     v_draft_display := v_draft_display #- '{dependencies,semanticAnswerHistory}';
     v_draft_display := v_draft_display #- '{dependencies,recordFactConfirmations}';
     v_draft_display := v_draft_display #- '{dependencies,accountContactSources}';
+    v_draft_display := v_draft_display #- '{dependencies,courtCompletionImplications}';
   end if;
   if jsonb_typeof(v_snapshot_display -> 'dependencies') = 'object' then
     v_snapshot_display := v_snapshot_display #- '{dependencies,packetDerivations}';
     v_snapshot_display := v_snapshot_display #- '{dependencies,semanticAnswerHistory}';
     v_snapshot_display := v_snapshot_display #- '{dependencies,recordFactConfirmations}';
     v_snapshot_display := v_snapshot_display #- '{dependencies,accountContactSources}';
+    v_snapshot_display := v_snapshot_display #- '{dependencies,courtCompletionImplications}';
   end if;
   if jsonb_typeof(v_metadata_display -> 'prefilledAnswers') = 'object' then
     v_metadata_display := v_metadata_display #- '{prefilledAnswers,social_security_number}';
