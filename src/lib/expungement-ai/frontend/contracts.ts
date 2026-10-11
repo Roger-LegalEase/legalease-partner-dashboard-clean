@@ -32,9 +32,11 @@
 export const KNOWN_QUESTION_TYPES = [
   "single_choice",
   "multi_select",
+  "date",
   "date_or_unknown",
   "number_or_range",
   "text",
+  "textarea",
   "text_or_unknown",
   "yes_no_unsure",
   "yes_no_prefer_not_to_say"
@@ -114,6 +116,8 @@ export type ProfileQuestion = {
   /** Present (non-empty) only for `single_choice` and `multi_select` in the source data. */
   options: string[] | null;
   /** Optional presentation-only labels keyed by the unchanged option value. */
+  /** Canonical wire values that cannot be combined with another selection. */
+  exclusiveOptions?: string[];
   optionDisplay?: Record<string, {
     label: string;
     helperText?: string;

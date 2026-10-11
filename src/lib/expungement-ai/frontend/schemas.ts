@@ -67,6 +67,7 @@ export const profileQuestionSchema = z
     required: z.boolean(),
     contextOnly: z.boolean(),
     options: z.array(z.string()).nullable(),
+    exclusiveOptions: z.array(z.string()).optional(),
     optionDisplay: z.record(z.string(), z.object({
       label: z.string().min(1),
       helperText: z.string().optional()

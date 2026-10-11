@@ -11,6 +11,8 @@ import { useId } from "react";
 import { useLocalization } from "@/components/expungement-ai/LocalizationProvider";
 import { localizeProfileText, runtimeCopyKeyForText } from "@/lib/expungement-ai/localization";
 
+import { toggleMultiSelect } from "@/lib/expungement-ai/question-answer-state";
+
 type SingleProps = {
   mode: "single";
   options: string[];
@@ -27,6 +29,7 @@ type SingleProps = {
 
 type MultiProps = {
   mode: "multi";
+  exclusiveOptions?: readonly string[];
   options: string[];
   optionDisplay?: OptionDisplayMap;
   value: string[];
@@ -65,9 +68,7 @@ export function OptionGroup(props: OptionGroupProps) {
       props.onChange(option);
       return;
     }
-    const next = props.value.includes(option)
-      ? props.value.filter((item) => item !== option)
-      : [...props.value, option];
+    const next = toggleMultiSelect(props.value, option, props.exclusiveOptions ?? []);
     props.onChange(next);
   }
 

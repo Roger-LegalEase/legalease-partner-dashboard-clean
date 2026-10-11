@@ -1,3 +1,4 @@
+import { answerValueIsKnown, uncertaintyState, isCalendarDate } from "@/lib/expungement-ai/question-answer-state";
 import type { AnswerValue } from "@/lib/expungement-ai/frontend/contracts";
 import type { PacketSpecificationFact, RegisteredSpecification } from "@/lib/rcap/grade-a/packet-specification";
 
@@ -1109,31 +1110,18 @@ function isoDate(text: string): Date | null {
   const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(text.trim());
   if (!match) return null;
   const value = new Date(`${match[0]}T00:00:00.000Z`);
-  return Number.isNaN(value.getTime()) ? null : value;
+  return isCalendarDate(text.trim()) ? value : null;
 }
 
 function isUnknownText(text: string) {
-  const normalized = text.toLowerCase();
-  return normalized === "i am not sure"
-    || normalized === "i'm not sure"
-    || normalized === "not sure"
-    || normalized === "unknown"
-    || normalized === "prefer not to say";
+  return uncertaintyState(text) !== null;
 }
 
 function isAffirmativeText(text: string) {
   return /^(yes|y|true)\b/i.test(text.trim());
 }
 
-function valueIsKnown(value: AnswerValue | undefined): boolean {
-  if (value === null || value === undefined) return false;
-  if (typeof value === "object" && !Array.isArray(value)) {
-    if ((value as { unknown?: boolean }).unknown === true) return false;
-    return valueIsKnown((value as { value?: AnswerValue }).value);
-  }
-  const text = answerString(value);
-  return text.length > 0 && !isUnknownText(text);
-}
+const valueIsKnown = answerValueIsKnown;
 
 function dedupe(values: string[]) {
   return [...new Set(values)];

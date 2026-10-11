@@ -1,4 +1,5 @@
 import "server-only";
+import { normalizeQuestionChoices, exclusiveOptionsFor } from "@/lib/expungement-ai/question-answer-state";
 
 import type { EngineProfile, PublicCaseOutcomeOption, PublicJurisdictionProfile, PublicQuestion } from "@/lib/rcap-engine/contracts";
 import translatedProfiles from "@/lib/expungement-ai/frontend/profiles/all51.json";
@@ -296,12 +297,6 @@ const PACKET_RELEASE_FACT_QUESTIONS: PublicQuestion[] = [
  * value to `null` keeps real choice lists intact while turning malformed/empty options into the
  * correct "no options" signal for text/number/date questions.
  */
-function normalizeQuestionOptions(options: unknown): string[] | null {
-  if (Array.isArray(options) && options.length > 0 && options.every((opt) => typeof opt === "string")) {
-    return options as string[];
-  }
-  return null;
-}
 
 function questionText(question: PublicQuestion) {
   const options = Array.isArray(question.options) ? question.options.join(" ") : "";
@@ -367,7 +362,7 @@ function normalizePublicQuestion(
       ...question,
       lifecyclePhase: "postpay_packet_field",
       stage: "packet_information",
-      options: normalizeQuestionOptions(question.options),
+      ...normalizeQuestionChoices(question.options, question.optionDisplay),
       contextOnly: false,
       doesNotSelectPathway: true
     };
@@ -383,7 +378,7 @@ function normalizePublicQuestion(
       ...question,
       lifecyclePhase: "prepay_timing_gate",
       stage: question.stage,
-      options: normalizeQuestionOptions(question.options),
+      ...normalizeQuestionChoices(question.options, question.optionDisplay),
       required: question.required,
       contextOnly: false,
       doesNotSelectPathway: true
@@ -399,7 +394,7 @@ function normalizePublicQuestion(
     ...question,
     lifecyclePhase,
     stage: PREPAY_PHASES.has(lifecyclePhase) ? question.stage : postpayStageForPhase(lifecyclePhase),
-    options: normalizeQuestionOptions(question.options),
+    ...normalizeQuestionChoices(question.options, question.optionDisplay),
     required: requiredPrepayFact ? true : question.required,
     contextOnly: question.contextOnly === true,
     doesNotSelectPathway: question.contextOnly === true || question.doesNotSelectPathway === true
@@ -1052,6 +1047,8 @@ function toPublicQuestion(question: PublicQuestion): PublicQuestion {
   if (question.doesNotSelectPathway !== undefined) publicQuestion.doesNotSelectPathway = question.doesNotSelectPathway;
   if (question.lifecyclePhase !== undefined) publicQuestion.lifecyclePhase = question.lifecyclePhase;
   if (question.options !== undefined) publicQuestion.options = question.options;
+  const exclusive = exclusiveOptionsFor(question);
+  if (exclusive.length) publicQuestion.exclusiveOptions = [...exclusive];
   if (question.optionDisplay !== undefined) publicQuestion.optionDisplay = toPublicOptionDisplay(question.optionDisplay);
   if (question.translations !== undefined) publicQuestion.translations = toPublicQuestionTranslations(question.translations);
 

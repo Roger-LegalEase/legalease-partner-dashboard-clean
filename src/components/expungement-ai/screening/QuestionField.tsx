@@ -21,7 +21,8 @@
  * `aria-describedby`. Errors use `role="alert"`.
  */
 import type { AnswerValue, ProfileQuestion } from "@/lib/expungement-ai/frontend/contracts";
-import { useState } from "react";
+import { CalendarDateField } from "@/components/expungement-ai/screening/fields/CalendarDateField";
+import { exclusiveOptionsFor } from "@/lib/expungement-ai/question-answer-state";
 import { readOrUnknown, type OrUnknownValue } from "@/components/expungement-ai/screening/answers";
 import { ContextOnlyBanner } from "@/components/expungement-ai/screening/ContextOnlyBanner";
 import { OptionGroup } from "@/components/expungement-ai/screening/fields/OptionGroup";
@@ -101,7 +102,7 @@ export function QuestionField({
             ? YES_NO_PREFER_NOT_OPTIONS
             : question.options ?? [];
 
-      if (options.length === 0) return <MalformedQuestion prompt={promptText} />;
+      if (options.length === 0) return <MalformedQuestion prompt={promptText} headingLevel={headingLevel} required={!optional} />;
 
       return (
         <div className="grid gap-3">
@@ -128,7 +129,7 @@ export function QuestionField({
 
     case "multi_select": {
       const options = question.options ?? [];
-      if (options.length === 0) return <MalformedQuestion prompt={promptText} />;
+      if (options.length === 0) return <MalformedQuestion prompt={promptText} headingLevel={headingLevel} required={!optional} />;
 
       return (
         <div className="grid gap-3">
@@ -137,6 +138,7 @@ export function QuestionField({
           {bannerNode}
           <OptionGroup
             mode="multi"
+            exclusiveOptions={exclusiveOptionsFor(question)}
             name={fieldId}
             options={options}
             optionDisplay={question.optionDisplay}
@@ -197,17 +199,19 @@ export function QuestionField({
       );
     }
 
+    case "date":
     case "date_or_unknown": {
       return (
         <div className="grid gap-3">
           {heading}
           {helperNode}
           {bannerNode}
-          <DateOrUnknownField
+          <CalendarDateField
             id={fieldId}
             value={readOrUnknown(value)}
-            unknownLabel={translate("answer.dont_know_date", "I don't know the date")}
-            onChange={(next: OrUnknownValue) => onChange(next)}
+            unknownLabel={question.type === "date_or_unknown" ? translate("answer.dont_know_date", "I don't know the date") : undefined}
+            birthDate={question.id === "date_of_birth"}
+            onChange={(next: OrUnknownValue) => onChange(question.type === "date" ? next.value ?? "" : next)}
             ariaLabelledBy={promptId}
             ariaDescribedBy={describedBy}
             invalid={Boolean(error)}
@@ -218,9 +222,8 @@ export function QuestionField({
     }
 
     default:
-      // Unknown/unsupported question type: render a calm note. The flow treats this as
-      // non-blocking so a malformed type can never strand the user or fake a result.
-      return <MalformedQuestion prompt={promptText} />;
+      // A required unsupported control stays unresolved; never promise an uncreated review task.
+      return <MalformedQuestion prompt={promptText} headingLevel={headingLevel} required={!optional} />;
   }
 }
 
@@ -228,124 +231,6 @@ const OR_UNKNOWN_CONFIG = {
   text_or_unknown: { inputType: "text" as const, unknownLabel: "I'm not sure", unknownKey: "answer.not_sure", placeholder: undefined },
   number_or_range: { inputType: "number" as const, unknownLabel: "I'm not sure", unknownKey: "answer.not_sure", placeholder: undefined }
 };
-
-function DateOrUnknownField({
-  id,
-  value,
-  unknownLabel,
-  onChange,
-  ariaLabelledBy,
-  ariaDescribedBy,
-  invalid
-}: {
-  id: string;
-  value: OrUnknownValue;
-  unknownLabel: string;
-  onChange: (value: OrUnknownValue) => void;
-  ariaLabelledBy?: string;
-  ariaDescribedBy?: string;
-  invalid?: boolean;
-}) {
-  const parsed = parseIsoDate(value.value);
-  const isUnknown = value.unknown === true;
-  const [draftParts, setDraftParts] = useState<Record<string, DateParts>>({});
-  const parts = parsed ?? draftParts[id] ?? emptyDateParts();
-  const unknownId = `${id}-unknown`;
-  const currentYear = new Date().getFullYear();
-  const years = Array.from({ length: 90 }, (_, index) => currentYear - index);
-
-  function update(part: "month" | "day" | "year", next: string) {
-    const nextParts = {
-      ...parts,
-      [part]: next
-    };
-    setDraftParts((current) => ({ ...current, [id]: nextParts }));
-    const iso = toIsoDate(nextParts.year, nextParts.month, nextParts.day);
-    onChange({ value: iso, unknown: false });
-  }
-
-  return (
-    <div className="grid gap-2">
-      <div className="grid grid-cols-3 gap-2" role="group" aria-labelledby={ariaLabelledBy} aria-describedby={ariaDescribedBy}>
-        <label className="grid gap-1 text-xs font-bold uppercase text-[#5A6275]">
-          Month
-          <select
-            className="min-h-[48px] rounded-xl border-[1.5px] border-[#E4E8EF] bg-white px-3 text-[15px] text-[#0B1320] disabled:bg-[#F2F4F8]"
-            disabled={isUnknown}
-            value={parts.month}
-            onChange={(event) => update("month", event.target.value)}
-            aria-invalid={invalid || undefined}
-          >
-            <option value="">MM</option>
-            {Array.from({ length: 12 }, (_, index) => String(index + 1).padStart(2, "0")).map((month) => <option key={month} value={month}>{month}</option>)}
-          </select>
-        </label>
-        <label className="grid gap-1 text-xs font-bold uppercase text-[#5A6275]">
-          Day
-          <select
-            className="min-h-[48px] rounded-xl border-[1.5px] border-[#E4E8EF] bg-white px-3 text-[15px] text-[#0B1320] disabled:bg-[#F2F4F8]"
-            disabled={isUnknown}
-            value={parts.day}
-            onChange={(event) => update("day", event.target.value)}
-            aria-invalid={invalid || undefined}
-          >
-            <option value="">DD</option>
-            {Array.from({ length: 31 }, (_, index) => String(index + 1).padStart(2, "0")).map((day) => <option key={day} value={day}>{day}</option>)}
-          </select>
-        </label>
-        <label className="grid gap-1 text-xs font-bold uppercase text-[#5A6275]">
-          Year
-          <select
-            className="min-h-[48px] rounded-xl border-[1.5px] border-[#E4E8EF] bg-white px-3 text-[15px] text-[#0B1320] disabled:bg-[#F2F4F8]"
-            disabled={isUnknown}
-            value={parts.year}
-            onChange={(event) => update("year", event.target.value)}
-            aria-invalid={invalid || undefined}
-          >
-            <option value="">YYYY</option>
-            {years.map((year) => <option key={year} value={year}>{year}</option>)}
-          </select>
-        </label>
-      </div>
-      <input id={id} type="hidden" value={value.value ?? ""} readOnly />
-      <label
-        htmlFor={unknownId}
-        className="flex min-h-[44px] cursor-pointer items-center gap-3 rounded-xl border border-[#E4E8EF] bg-[#FBFCFE] px-4 py-2 text-sm font-semibold text-[#5A6275] focus-within:ring-2 focus-within:ring-[#00A99D]"
-      >
-        <input
-          id={unknownId}
-          className="h-5 w-5 shrink-0 accent-[#00A99D]"
-          type="checkbox"
-          checked={isUnknown}
-          onChange={(event) => {
-            setDraftParts((current) => ({ ...current, [id]: emptyDateParts() }));
-            onChange(event.target.checked ? { unknown: true } : { value: "", unknown: false });
-          }}
-        />
-        <span>{unknownLabel}</span>
-      </label>
-    </div>
-  );
-}
-
-type DateParts = { year: string; month: string; day: string };
-
-function emptyDateParts(): DateParts {
-  return { year: "", month: "", day: "" };
-}
-
-function parseIsoDate(value: string | undefined) {
-  const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value ?? "");
-  return match ? { year: match[1], month: match[2], day: match[3] } : null;
-}
-
-function toIsoDate(year: string, month: string, day: string) {
-  if (!/^\d{4}$/.test(year) || !/^\d{2}$/.test(month) || !/^\d{2}$/.test(day)) return "";
-  const date = new Date(`${year}-${month}-${day}T00:00:00.000Z`);
-  if (Number.isNaN(date.getTime())) return "";
-  if (date.getUTCFullYear() !== Number(year) || date.getUTCMonth() + 1 !== Number(month) || date.getUTCDate() !== Number(day)) return "";
-  return `${year}-${month}-${day}`;
-}
 
 function PromptHeading({
   id,
@@ -376,13 +261,16 @@ function PromptHeading({
   );
 }
 
-function MalformedQuestion({ prompt }: { prompt: string }) {
+function MalformedQuestion({ prompt, headingLevel, required }: { prompt: string; headingLevel: 1 | 2 | 3; required: boolean }) {
+  const Heading = headingLevel === 3 ? "h3" : headingLevel === 2 ? "h2" : "h1";
   const { t: translate } = useLocalization();
   return (
     <div className="grid gap-2">
-      <h1 className="text-[19px] font-extrabold leading-[1.3] text-[#0B1320] md:text-[22px]">{prompt}</h1>
+      <Heading className="text-[19px] font-extrabold leading-[1.3] text-[#0B1320] md:text-[22px]">{prompt}</Heading>
       <p className="rounded-xl border border-[#F4D9C7] bg-[#FDF1E8] px-4 py-3 text-[13px] leading-6 text-[#9A3412]">
-        {translate("screening.question_unavailable", "We could not show this question right now. You can continue, and a reviewer will follow up if this detail is needed.")}
+        {required
+          ? translate("screening.question_unavailable_required", "We could not show this required question. Save your progress and try again. This detail is still needed before verification.")
+          : translate("screening.question_unavailable_optional", "We could not show this optional question. You can continue without answering it.")}
       </p>
     </div>
   );

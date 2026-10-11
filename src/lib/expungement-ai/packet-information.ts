@@ -1,3 +1,4 @@
+import { answerValueIsKnown, questionAnswerState, normalizeQuestionChoices } from "@/lib/expungement-ai/question-answer-state";
 import "server-only";
 
 import { createHash } from "node:crypto";
@@ -248,7 +249,8 @@ export function packetInformationModelFor(item: ConsumerBriefcaseItem): PacketIn
   const missingInputIds = missingRequiredInputs(
     collectionGateInputIds(collection, requiredInputIds, serverFacts),
     serverFacts,
-    initialAnswers
+    initialAnswers,
+    new Map(questions.map((question) => [question.id, question]))
   );
   const verificationSummary = verificationSummaryFor(flow, questionById, serverFacts);
   const verificationContext = verificationContextFor(
@@ -293,9 +295,14 @@ export function reviewedPacketInputHash(item: ConsumerBriefcaseItem) {
 export function missingRequiredInputs(
   requiredInputIds: string[],
   serverFacts: Record<string, AnswerValue>,
-  answers: Record<string, AnswerValue>
+  answers: Record<string, AnswerValue>,
+  questionById?: ReadonlyMap<string, ProfileQuestion>
 ) {
-  return requiredInputIds.filter((id) => !answerIsKnown(serverFacts[id]) && !answerIsKnown(answers[id]));
+  return requiredInputIds.filter((id) => {
+    if (answerIsKnown(serverFacts[id])) return false;
+    const question = questionById?.get(id);
+    return question ? questionAnswerState(question, answers[id]) !== "known_valid" : !answerIsKnown(answers[id]);
+  });
 }
 
 export function expectedPacketComponents(plan: PacketPlan | null): string[] {
@@ -581,7 +588,8 @@ export function protectedPacketInformationModelFor(
   const missingInputIds = missingRequiredInputs(
     collectionGateInputIds(questionSurface.collection, requiredInputIds, serverFacts),
     serverFacts,
-    initialAnswers
+    initialAnswers,
+    new Map(questionSurface.questions.map((question) => [question.id, question]))
   );
   const summaryFlow: CommercialFlow = {
     screening: { answers: screeningAnswers },
@@ -1023,6 +1031,7 @@ function protectedPacketDraftReviewSafety(draft: ProtectedPacketAuthoritySnapsho
   }
   const publicProfile = projectPublicProfile(getProfileByJurisdiction(draft.jurisdiction)!);
   const questionById = new Map(allPublicQuestions(publicProfile).map((question) => [question.id, toProfileQuestion(question)]));
+  installPacketSpecificationQuestions(questionById, draft.jurisdiction, draft.pathwayId, draft.requiredInputIds);
   for (const id of draft.requiredInputIds) {
     if (id in draft.serverFacts) continue;
     const validation = validatePacketAnswer(questionById.get(id) ?? fallbackPacketQuestion(id), answers[id]);
@@ -1479,18 +1488,9 @@ function canonicalEqual(left: unknown, right: unknown) {
 }
 
 function validatePacketAnswer(question: ProfileQuestion, value: AnswerValue | undefined) {
-  if (!answerIsKnown(value)) return { safe: false, reason: `invalid_packet_answer:${question.id}` };
-  const text = answerText(value);
-  if (question.type === "date_or_unknown" && !/^\d{4}-\d{2}-\d{2}$/.test(text)) {
-    return { safe: false, reason: `invalid_date:${question.id}` };
-  }
-  if (question.type === "number_or_range" && !/^\d+$/.test(text)) {
-    return { safe: false, reason: `invalid_number:${question.id}` };
-  }
-  if (question.type === "single_choice" && question.options?.length && !question.options.includes(answerTextRaw(value))) {
-    return { safe: false, reason: `invalid_choice:${question.id}` };
-  }
-  return { safe: true, reason: "valid" };
+  const state = questionAnswerState(question, value);
+  return state === "known_valid" ? { safe: true, reason: "valid" }
+    : { safe: false, reason: `invalid_packet_answer:${question.id}` };
 }
 
 function answerTextRaw(value: AnswerValue | undefined) {
@@ -1612,19 +1612,19 @@ function toProfileQuestion(question: PublicQuestion): ProfileQuestion {
     stage: question.stage,
     prompt: question.prompt,
     helperText: question.helperText,
-    type: question.type,
+    type: question.id === "date_of_birth" && ["text", "text_or_unknown"].includes(question.type)
+      ? question.type === "text_or_unknown" ? "date_or_unknown" : "date" : question.type,
     required: question.required,
     contextOnly: question.contextOnly === true,
     lifecyclePhase: question.lifecyclePhase,
-    options: Array.isArray(question.options) && question.options.every((value) => typeof value === "string")
-      ? question.options
-      : null,
-    optionDisplay: question.optionDisplay,
+    ...normalizeQuestionChoices(question.options, question.optionDisplay),
+    exclusiveOptions: question.exclusiveOptions,
     translations: question.translations
   };
 }
 
 const FALLBACK_PACKET_QUESTIONS: Record<string, ProfileQuestion> = {
+  date_of_birth: packetQuestion("date_of_birth", "Date of birth", "date_or_unknown", "Enter the wording from your court or agency record when possible."),
   participant_full_legal_name: packetQuestion("participant_full_legal_name", "What is your full legal name?", "text"),
   contact_information: packetQuestion("contact_information", "What contact information should appear with this matter?", "text", "Include the mailing address, phone number, or email the court form requests."),
   county: packetQuestion("county", "Which county handled this matter?", "text_or_unknown"),
@@ -1664,7 +1664,9 @@ function packetQuestionFromSpecification(fact: PacketSpecificationFact): Profile
   return packetQuestion(
     fact.factId,
     fact.prompt ?? answerLabel(fact.factId),
-    fact.questionType ?? "text",
+    fact.factId === "date_of_birth"
+      ? fact.questionType === "text_or_unknown" ? "date_or_unknown" : "date"
+      : fact.questionType ?? "text",
     fact.helperText,
     fact.options ?? null
   );
@@ -1703,21 +1705,7 @@ function answerRecord(value: unknown): Record<string, AnswerValue> {
   }));
 }
 
-function answerIsKnown(value: unknown): boolean {
-  if (value === null || value === undefined) return false;
-  if (typeof value === "string") {
-    const normalized = value.trim().toLowerCase();
-    return normalized.length > 0
-      && normalized !== "i am not sure"
-      && normalized !== "i'm not sure"
-      && normalized !== "unknown"
-      && normalized !== "prefer not to say";
-  }
-  if (typeof value === "number" || typeof value === "boolean") return true;
-  if (Array.isArray(value)) return value.length > 0 && value.every((entry) => answerIsKnown(entry));
-  if (isRecord(value)) return value.unknown !== true && answerIsKnown(value.value);
-  return false;
-}
+const answerIsKnown = answerValueIsKnown;
 
 function isAnswerValue(value: unknown): value is AnswerValue {
   if (value === null || typeof value === "string" || typeof value === "number") return true;

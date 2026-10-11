@@ -61,6 +61,7 @@ const QUESTION = obj(
     doesNotSelectPathway: leaf,
     lifecyclePhase: leaf,
     options: leaf,
+    exclusiveOptions: arr(leaf),
     optionDisplay: map(
       obj({
         label: leaf,

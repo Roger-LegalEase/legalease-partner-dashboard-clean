@@ -104,6 +104,8 @@ export type PublicQuestion = {
     | "optional_or_later"
     | "guidance_only";
   options?: unknown;
+  /** Canonical wire values that cannot be combined with another selection. */
+  exclusiveOptions?: string[];
   optionDisplay?: Record<string, {
     label: string;
     helperText?: string;
