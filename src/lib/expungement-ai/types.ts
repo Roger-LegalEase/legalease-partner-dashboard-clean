@@ -79,6 +79,7 @@ export type PacketVerificationSnapshot = {
     commercialFlowVersion: number | null;
     entitlementSource: string | null;
     productId: string | null;
+    recordFactConfirmations?: import("@/lib/expungement-ai/record-fact-clarification").RecordFactConfirmations;
     contactRepresentation?: import("@/lib/expungement-ai/contact-representation").ContactRepresentationProvenance;
     semanticAnswerHistory?: Array<{ factId: string; value: unknown; source: "screeningAnswers" | "prefilledAnswers" | "packetAnswers";
       meaning: "ambiguous_victimhood_or_charged_conduct"; routeKey: string; profileVersion: string;

@@ -1,3 +1,4 @@
+import { COURT_RECORD_CONFLICT_COPY } from "@/lib/expungement-ai/record-fact-copy";
 import { SponsorCapacityNotice } from "@/components/expungement-ai/SponsorCapacityNotice";
 import Link from "next/link";
 import { LocalizedCopy, LocalizedRuntimeText } from "@/components/expungement-ai/LocalizationProvider";
@@ -141,12 +142,13 @@ export default async function PacketAccuracyReviewPage({
 
           <div className="mt-5 rounded-[16px] border border-[#ECEFF4] bg-white p-6">
             <h2 className="text-base font-bold text-[#0B1320]"><LocalizedRuntimeText text={"Details to check"} /></h2>
+            {model.courtRecordConflict ? <p data-court-record-conflict className="mt-3 text-sm text-[#B42318]" role="status"><LocalizedCopy {...COURT_RECORD_CONFLICT_COPY} /></p> : null}
             {model.missingInputIds.length > 0 || model.pendingDerivations.length > 0 ? (
               <ul className="mt-3 grid gap-2 text-sm text-[#B42318]">
                 {model.missingInputIds.map((id) => <li key={id}><QuestionPrompt question={model.questions.find((question) => question.id === id)} /></li>)}
                 {model.pendingDerivations.map((fact) => <li key={`derived-${fact.factId}`}><LocalizedRuntimeText text={"Check the source answers before this packet detail can be calculated:"} />{" "}{fact.inputFactIds.map((id, index) => <span key={id}>{index > 0 ? "; " : ""}<QuestionPrompt question={model.questions.find((question) => question.id === id)} /></span>)}</li>)}
               </ul>
-            ) : (
+            ) : !model.courtRecordConflict && (
               <p className="mt-2 text-sm leading-6 text-[#475A6E]"><LocalizedRuntimeText text={"All required information is here. Review the saved answers one more time before continuing."} /></p>
             )}
             <Link className="mt-4 inline-flex min-h-10 items-center rounded-[10px] border border-[#D9DEE8] px-4 text-sm font-bold text-[#0B1320]" href={`/briefcase/${item.id}/packet-information`}><LocalizedRuntimeText text={"Edit packet information"} /></Link>

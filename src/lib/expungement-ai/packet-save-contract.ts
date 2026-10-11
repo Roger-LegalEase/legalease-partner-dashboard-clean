@@ -14,6 +14,8 @@ export type PacketSaveReceipt = {
   missingInputIds: string[];
   pendingDerivations: Array<{ factId: string; inputFactIds: string[] }>;
   contactReconciliation?: { canUseComponents: boolean } | null;
+  recordClarificationIds?: string[];
+  courtRecordConflict?: boolean;
   resumeSectionId: string | null;
   reviewPath: string;
   readyToGenerate: boolean;
@@ -36,6 +38,8 @@ const receiptSchema = z.object({
   missingInputIds: z.array(z.string()),
   pendingDerivations: z.array(z.object({ factId: z.string(), inputFactIds: z.array(z.string()) })),
   contactReconciliation: z.object({ canUseComponents: z.boolean() }).strict().nullable().optional(),
+  recordClarificationIds: z.array(z.string()).optional(),
+  courtRecordConflict: z.boolean().optional(),
   resumeSectionId: z.string().nullable(), reviewPath: z.string().regex(/^\/briefcase\/[^/]+\/review$/),
   readyToGenerate: z.boolean(), reviewReason: z.string(),
   nextAction: z.enum(["continue_packet", "review_packet", "open_matter"])
@@ -48,7 +52,9 @@ export function isPacketSaveReceipt(value: unknown): value is PacketSaveReceipt 
   const unique = (ids: string[]) => new Set(ids).size === ids.length;
   const questionIds = new Set(item.questions.map((question) => question.id));
   const reviewIds = new Set(item.reviewQuestions.map((question) => question.id));
-  return (!item.readyToGenerate || item.missingInputIds.length === 0 && item.pendingDerivations.length === 0 && item.nextAction === "review_packet")
+  return (!item.readyToGenerate || item.missingInputIds.length === 0 && item.pendingDerivations.length === 0 && !item.courtRecordConflict && item.nextAction === "review_packet")
+    && unique(item.recordClarificationIds ?? [])
+    && (item.recordClarificationIds ?? []).every((id) => item.missingInputIds.includes(id) && reviewIds.has(id) && questionIds.has(id))
     && unique(item.questions.map((question) => question.id))
     && unique(item.reviewQuestions.map((question) => question.id))
     && unique(item.sections.map((section) => section.id))

@@ -1,3 +1,4 @@
+import { recordFactOwnQuestionIds, recordFactConfirmationFor, unresolvedRecordFactConfirmations, recordFactCourtConflict } from "@/lib/expungement-ai/record-fact-clarification";
 import { fullSsnLastFour, requiresMcicIdentifierAuthority } from "@/lib/expungement-ai/sensitive-packet-facts";
 import { reviewedContactRepresentation, contactRepresentationHash, contactRepresentationProvenance, isProvenContactOutput } from "@/lib/expungement-ai/contact-representation";
 import { reviewedPacketQuestion } from "@/lib/expungement-ai/reviewed-question-copy";
@@ -105,6 +106,9 @@ export type PacketInformationModel = {
   missingInputIds: string[];
   pendingDerivations: PacketCollectionResolution["pendingDerivations"];
   contactReconciliation?: PacketCollectionResolution["contactReconciliation"];
+  recordOwnQuestionIds?: string[];
+  recordClarificationIds?: string[];
+  courtRecordConflict?: boolean;
   stage: PacketInformationStage;
   updatedAt: string | null;
   reviewedAt: string | null;
@@ -125,6 +129,9 @@ export type ProtectedPacketInformationModel = Pick<
   | "missingInputIds"
   | "pendingDerivations"
   | "contactReconciliation"
+  | "recordOwnQuestionIds"
+  | "recordClarificationIds"
+  | "courtRecordConflict"
   | "stage"
   | "reviewedAt"
   | "verificationSummary"
@@ -349,6 +356,7 @@ export function packetInformationPatch(input: {
   answers: Record<string, AnswerValue>;
   verify?: boolean;
   useContactComponents?: boolean;
+  confirmRecordFacts?: string[];
   /** Service-role protected state read immediately before deriving this transition. */
   protectedVerification: ProtectedPacketVerificationRecord;
   /** Compatibility only. Saving the final fact is never verification. */
@@ -371,7 +379,11 @@ export function packetInformationPatch(input: {
   const storedIds = new Set(current.requiredInputIds.filter((id) => !(id in current.serverFacts)));
   const savedAnswers = { ...answerRecordForIds(current.packetAnswers, storedIds), ...answerDelta };
   const contactChoice = input.useContactComponents === true;
-  const materialFactChange = Object.keys(answerDelta).length > 0 || contactChoice;
+  const confirmations = input.confirmRecordFacts ?? [];
+  if (confirmations.some((id) => !current.recordClarificationIds?.includes(id)
+    || !answerValueIsKnown({ ...current.initialAnswers, ...answerDelta }[id])
+    || questionAnswerState(current.questions.find((question) => question.id === id)!, { ...current.initialAnswers, ...answerDelta }[id]) !== "known_valid")) return null;
+  const materialFactChange = Object.keys(answerDelta).length > 0 || contactChoice || confirmations.length > 0;
   const priorSnapshot = protectedAuthoritySnapshotFor(priorProtected)!;
   const freshSensitiveMaps = refreshedSensitiveFactMaps(priorSnapshot.jurisdiction, priorSnapshot.pathwayId, priorSnapshot.requiredInputIds,
     answerRecord(priorSnapshot.screeningAnswers), answerRecord(priorSnapshot.prefilledAnswers), answerRecord(priorSnapshot.packetAnswers));
@@ -416,7 +428,7 @@ export function packetInformationPatch(input: {
   const now = new Date().toISOString();
   const nextDraft = !materialFactChange && !derivedRepairRequired && canonicalEqual(priorSnapshot.packetPlan, current.packetPlan) && priorProtected.draftSnapshot
     ? priorProtected.draftSnapshot
-    : deriveProtectedPacketDraftSnapshot(priorProtected, savedAnswers, now, contactChoice);
+    : deriveProtectedPacketDraftSnapshot(priorProtected, savedAnswers, now, contactChoice, [...new Set([...Object.keys(answerDelta), ...confirmations])]);
   if (!nextDraft) return null;
   const nextDraftHash = protectedPacketDraftHash(nextDraft);
   const draftRecord: ProtectedPacketVerificationRecord = {
@@ -611,8 +623,11 @@ export function protectedPacketInformationModelFor(
     requiredInputIds,
     serverFacts,
     prefilledAnswers,
-    packetAnswers
+    packetAnswers,
+    [...recordFactOwnQuestionIds(`${snapshot.jurisdiction}:${snapshot.pathwayId}`, initialAnswers, snapshot.dependencies.recordFactConfirmations)]
   );
+  const recordOwnQuestionIds = [...recordFactOwnQuestionIds(`${snapshot.jurisdiction}:${snapshot.pathwayId}`, initialAnswers, snapshot.dependencies.recordFactConfirmations)];
+  const recordClarificationIds = unresolvedRecordFactConfirmations(`${snapshot.jurisdiction}:${snapshot.pathwayId}`, initialAnswers, questionSurface.questionById, snapshot.dependencies.recordFactConfirmations);
   const legacySemanticAnswers = snapshot.dependencies.semanticAnswerHistory?.filter((entry) => entry.factId === "trafficking_status"
     && entry.meaning === "ambiguous_victimhood_or_charged_conduct" && entry.routeKey === `${snapshot.jurisdiction}:${snapshot.pathwayId}`) ?? [];
   const chargedQuestion = questionSurface.questions.find((question) => question.id === MS_CHARGED_CONDUCT_FACT);
@@ -641,6 +656,7 @@ export function protectedPacketInformationModelFor(
     new Map(questionSurface.questions.map((question) => [question.id, question]))
   );
   if (questionSurface.collection?.contactReconciliation && !missingInputIds.includes("contact_information")) missingInputIds.push("contact_information");
+  for (const id of recordClarificationIds) if (!missingInputIds.includes(id)) missingInputIds.push(id);
   const summaryFlow: CommercialFlow = {
     screening: { answers: screeningAnswers },
     packetInformation: {
@@ -676,6 +692,8 @@ export function protectedPacketInformationModelFor(
     missingInputIds,
     pendingDerivations: questionSurface.collection?.pendingDerivations ?? [],
     contactReconciliation: questionSurface.collection?.contactReconciliation,
+    recordOwnQuestionIds, recordClarificationIds,
+    courtRecordConflict: recordFactCourtConflict(`${snapshot.jurisdiction}:${snapshot.pathwayId}`, initialAnswers),
     stage: currentlyVerified
       ? "ready_to_generate"
       : missingInputIds.length === 0 && !questionSurface.collection?.pendingDerivations.length ? "facts_complete" : "in_progress",
@@ -707,6 +725,7 @@ export function packetCollectionFor(input: {
   screeningAnswers: Record<string, AnswerValue>;
   prefilledAnswers?: Record<string, AnswerValue>;
   savedAnswers?: Record<string, AnswerValue>;
+  recordOwnQuestionIds?: string[];
 }): PacketCollectionResolution | null {
   const profile = getProfileByJurisdiction(input.jurisdiction);
   if (!profile) return null;
@@ -739,6 +758,7 @@ export function packetCollectionFor(input: {
     routeDecidingFactIds: decidingFactIds,
     unresolvedRouteFactIds: unresolvedFactIds,
     reviewedContactRepresentation: Boolean(contactContract),
+    recordOwnQuestionIds: new Set([...recordFactOwnQuestionIds(`${input.jurisdiction}:${input.pathwayId}`, { ...input.screeningAnswers, ...input.prefilledAnswers, ...input.savedAnswers }), ...(input.recordOwnQuestionIds ?? [])]),
     // Narrowing confirmation must not synthesize new evaluator inputs. Preserve
     // the accepted materialization guard independently of route identity.
     materializationProtectedFactIds: pathway ? pathwayRelevantFactIds(profile, pathway) : undefined,
@@ -748,9 +768,9 @@ export function packetCollectionFor(input: {
 }
 
 /** Edit links and direct saves share collection ownership; later/external facts stay in their actual stage. */
-export function editablePacketInputIds(model: Pick<ProtectedPacketInformationModel, "stateCode" | "pathwayId" | "requiredInputIds" | "serverFacts" | "screeningAnswers" | "prefilledAnswers" | "packetAnswers">, includeInactive = false): Set<string> {
+export function editablePacketInputIds(model: Pick<ProtectedPacketInformationModel, "stateCode" | "pathwayId" | "requiredInputIds" | "serverFacts" | "screeningAnswers" | "prefilledAnswers" | "packetAnswers" | "recordOwnQuestionIds">, includeInactive = false): Set<string> {
   const collection = packetCollectionFor({ jurisdiction: model.stateCode, pathwayId: model.pathwayId, requiredInputIds: model.requiredInputIds,
-    serverFacts: model.serverFacts, screeningAnswers: model.screeningAnswers, prefilledAnswers: model.prefilledAnswers, savedAnswers: model.packetAnswers });
+    serverFacts: model.serverFacts, screeningAnswers: model.screeningAnswers, prefilledAnswers: model.prefilledAnswers, savedAnswers: model.packetAnswers, recordOwnQuestionIds: model.recordOwnQuestionIds });
   const excluded = new Set(collection?.facts.filter((fact) => ["external_actor", "derived"].includes(fact.collection)
     || !includeInactive && fact.collection === "conditional" && fact.active === false).map((fact) => fact.factId) ?? []);
   return new Set(model.requiredInputIds.filter((id) => !(id in model.serverFacts) && !excluded.has(id)));
@@ -900,7 +920,8 @@ function protectedPacketQuestionSurface(
   requiredInputIds: string[],
   serverFacts: Record<string, AnswerValue>,
   prefilledAnswers: Record<string, AnswerValue> = {},
-  savedAnswers: Record<string, AnswerValue> = {}
+  savedAnswers: Record<string, AnswerValue> = {},
+  recordOwnQuestionIds: string[] = []
 ) {
   const questionById = new Map<string, ProfileQuestion>();
   for (const question of allPublicQuestions(projectPublicProfile(profile))) {
@@ -946,7 +967,8 @@ function protectedPacketQuestionSurface(
     serverFacts,
     screeningAnswers,
     prefilledAnswers,
-    savedAnswers
+    savedAnswers,
+    recordOwnQuestionIds
   });
   questions = questions.map((question) => reviewedPacketQuestion(question, { state: profile.jurisdiction.code, pathwayId, participantOwnsRecord: knownParticipantOwner(questionById, screeningAnswers.ownership_scope) }));
   for (const question of questions) questionById.set(question.id, question);
@@ -1019,7 +1041,8 @@ function deriveProtectedPacketDraftSnapshot(
   verification: ProtectedPacketVerificationRecord,
   packetAnswers: Record<string, AnswerValue>,
   capturedAt: string,
-  useContactComponents = false
+  useContactComponents = false,
+  confirmRecordFacts: string[] = []
 ): ProtectedPacketDraftSnapshot | null {
   let base = protectedAuthoritySnapshotFor(verification);
   if (!base) return null;
@@ -1032,6 +1055,24 @@ function deriveProtectedPacketDraftSnapshot(
   const refreshed = refreshedPacketFactMaps(base, { screeningAnswers: answerRecord(base.screeningAnswers),
     prefilledAnswers: answerRecord(base.prefilledAnswers), packetAnswers }, useContactComponents);
   if (useContactComponents && !refreshed.adopted) return null;
+  const answers = { ...refreshed.maps.screeningAnswers, ...refreshed.maps.prefilledAnswers, ...refreshed.maps.packetAnswers };
+  const routeKey = `${base.jurisdiction}:${base.pathwayId}`;
+  const own = new Set([...recordFactOwnQuestionIds(routeKey, answers, base.dependencies.recordFactConfirmations),
+    ...recordFactOwnQuestionIds(routeKey, { ...base.screeningAnswers, ...base.prefilledAnswers, ...base.packetAnswers }, base.dependencies.recordFactConfirmations)]);
+  const surface = protectedPacketQuestionSurface(getProfileByJurisdiction(base.jurisdiction)!, base.pathwayId,
+    refreshed.maps.screeningAnswers, base.requiredInputIds, answerRecord(base.serverFacts), refreshed.maps.prefilledAnswers, refreshed.maps.packetAnswers, [...own]);
+  for (const id of confirmRecordFacts) {
+    if (!own.has(id)) continue;
+    const marker = recordFactConfirmationFor(routeKey, id, answers, surface.questionById.get(id));
+    const history = [...(base.dependencies.recordFactConfirmations?.[id]?.legacyValues ?? [])];
+    for (const source of ["screeningAnswers", "prefilledAnswers", "packetAnswers"] as const) {
+      if (!(id in base[source])) continue;
+      const entry = { source, value: base[source][id], meaning: "unconfirmed_record_fact" as const, profileVersion: base.profileVersion, routeKey };
+      if (!history.some((old) => canonicalEqual(old, entry))) history.push(entry);
+    }
+    refreshed.dependencies = { ...refreshed.dependencies, recordFactConfirmations: { ...refreshed.dependencies.recordFactConfirmations,
+      [id]: { ...(marker ?? { version: 1, routeKey, status: "unconfirmed" }), ...(history.length ? { legacyValues: history } : {}) } } };
+  }
   const candidate: ProtectedPacketAuthoritySnapshot = { ...base, ...refreshed.maps, dependencies: refreshed.dependencies };
   const authoritative = evaluateProtectedPacketFacts(candidate);
   if (!authoritative) return null;
@@ -1070,14 +1111,16 @@ function refreshedPacketFactMaps(base: PacketDerivationSource, incoming: Partici
   const current = { ...maps.screeningAnswers, ...maps.prefilledAnswers, ...maps.packetAnswers };
   const priorMaps = { screeningAnswers: answerRecord(base.screeningAnswers), prefilledAnswers: answerRecord(base.prefilledAnswers), packetAnswers: answerRecord(base.packetAnswers) };
   const prior = { ...priorMaps.screeningAnswers, ...priorMaps.prefilledAnswers, ...priorMaps.packetAnswers };
-  const withoutTargets = (answers: Record<string, AnswerValue>) => Object.fromEntries(Object.entries(answers).filter(([id]) => !REFRESHABLE_PACKET_DERIVATIONS.includes(id)));
-  const candidates = (source: ParticipantFactMaps) => packetCollectionFor({ jurisdiction: base.jurisdiction, pathwayId: base.pathwayId,
+  const withoutTarget = (answers: Record<string, AnswerValue>, target: string) => Object.fromEntries(Object.entries(answers).filter(([id]) => id !== target));
+  const candidates = (source: ParticipantFactMaps, target: string) => packetCollectionFor({ jurisdiction: base.jurisdiction, pathwayId: base.pathwayId,
     requiredInputIds: base.requiredInputIds, serverFacts: canonicalServerFacts(base.jurisdiction, base.pathwayId),
-    screeningAnswers: withoutTargets(source.screeningAnswers), prefilledAnswers: withoutTargets(source.prefilledAnswers), savedAnswers: withoutTargets(source.packetAnswers) });
-  const nextCandidates = candidates(maps), priorCandidates = candidates(priorMaps);
+    screeningAnswers: withoutTarget(source.screeningAnswers, target), prefilledAnswers: withoutTarget(source.prefilledAnswers, target), savedAnswers: withoutTarget(source.packetAnswers, target) });
   const routeKey = `${base.jurisdiction}:${base.pathwayId ?? ""}`;
   const hash = (value: unknown) => createHash("sha256").update(JSON.stringify(canonicalize(value))).digest("hex");
+  const own = recordFactOwnQuestionIds(routeKey, current, dependencies.recordFactConfirmations);
   for (const id of REFRESHABLE_PACKET_DERIVATIONS) {
+    if (own.has(id)) continue;
+    const nextCandidates = candidates(maps, id), priorCandidates = candidates(priorMaps, id);
     const fact = nextCandidates?.facts.find((entry) => entry.factId === id && entry.derivation);
     if (!fact?.derivation) continue;
     const output = nextCandidates?.derivedFacts[id], retained = current[id];
@@ -1257,6 +1300,10 @@ function protectedPacketDraftReviewSafety(draft: ProtectedPacketAuthoritySnapsho
   const publicProfile = projectPublicProfile(getProfileByJurisdiction(draft.jurisdiction)!);
   const questionById = new Map(allPublicQuestions(publicProfile).map((question) => [question.id, toProfileQuestion(question)]));
   installPacketSpecificationQuestions(questionById, draft.jurisdiction, draft.pathwayId, draft.requiredInputIds);
+  for (const id of draft.requiredInputIds) if (!questionById.has(id)) questionById.set(id, fallbackPacketQuestion(id));
+  const recordOwnQuestionIds = [...recordFactOwnQuestionIds(`${draft.jurisdiction}:${draft.pathwayId}`, answers, draft.dependencies.recordFactConfirmations)];
+  if (recordFactCourtConflict(`${draft.jurisdiction}:${draft.pathwayId}`, answers)) return { safe: false, reason: "court_record_conflict" };
+  if (unresolvedRecordFactConfirmations(`${draft.jurisdiction}:${draft.pathwayId}`, answers, questionById, draft.dependencies.recordFactConfirmations).length) return { safe: false, reason: "record_fact_clarification_required" };
   const collection = packetCollectionFor({
     jurisdiction: draft.jurisdiction,
     pathwayId: draft.pathwayId,
@@ -1264,7 +1311,8 @@ function protectedPacketDraftReviewSafety(draft: ProtectedPacketAuthoritySnapsho
     serverFacts: answerRecord(draft.serverFacts),
     screeningAnswers: answerRecord(draft.screeningAnswers),
     prefilledAnswers: answerRecord(draft.prefilledAnswers),
-    savedAnswers: answerRecord(draft.packetAnswers)
+    savedAnswers: answerRecord(draft.packetAnswers),
+    recordOwnQuestionIds
   });
   if (collection?.pendingDerivations.length) {
     return { safe: false, reason: `pending_packet_derivation:${collection.pendingDerivations[0].factId}` };

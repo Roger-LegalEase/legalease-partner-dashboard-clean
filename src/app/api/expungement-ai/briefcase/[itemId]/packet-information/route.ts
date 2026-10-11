@@ -17,7 +17,7 @@ import {
 import type { AnswerValue } from "@/lib/expungement-ai/frontend/contracts";
 import { packetScreensFor, packetNavigationDestination, type PacketNavigationIntent } from "@/lib/expungement-ai/packet-navigation";
 import { sameAnswer } from "@/lib/expungement-ai/packet-save-contract";
-import { questionAnswerState } from "@/lib/expungement-ai/question-answer-state";
+import { answerValueIsKnown, questionAnswerState } from "@/lib/expungement-ai/question-answer-state";
 import {
   persistProtectedPacketVerification,
   readProtectedPacketVerification
@@ -45,6 +45,8 @@ export async function GET(request: Request, context: { params: Promise<{ itemId:
     questions: model.builderQuestions, reviewQuestions: model.questions, sections: model.builderSections,
     missingInputIds: model.missingInputIds, pendingDerivations: model.pendingDerivations,
     contactReconciliation: model.contactReconciliation ?? null,
+    recordClarificationIds: model.recordClarificationIds ?? [],
+    courtRecordConflict: model.courtRecordConflict ?? false,
     resumeSectionId: item.packetResumeSectionId ?? null,
     reviewPath: `/briefcase/${encodeURIComponent(item.id)}/review`,
     readyToGenerate: model.stage === "ready_to_generate", reviewReason: model.reviewSafety.reason,
@@ -113,6 +115,10 @@ export async function POST(
   // while the detail is inactive. Ownership and readiness remain independent.
   const editableIds = editablePacketInputIds(protectedModel, true);
   const questionById = new Map(protectedModel.questions.map((question) => [question.id, question]));
+  const invalidConfirmationIds = parsed.confirmRecordFacts.filter((id) => !protectedModel.recordClarificationIds?.includes(id)
+    || !questionById.has(id) || questionAnswerState(questionById.get(id)!, { ...protectedModel.initialAnswers, ...parsed.answers }[id]) !== "known_valid"
+    || !answerValueIsKnown({ ...protectedModel.initialAnswers, ...parsed.answers }[id]));
+  if (invalidConfirmationIds.length) return NextResponse.json({ ok: false, error: "record_confirmation_not_available", invalidFactIds: invalidConfirmationIds }, { status: 422 });
   if (parsed.useContactComponents) {
     const proposed = { ...protectedModel.initialAnswers, ...parsed.answers };
     const invalidContactIds = ["mailing_address", "phone_number", "email_address"].filter((id) => {
@@ -139,6 +145,7 @@ export async function POST(
     answers: parsed.answers,
     verify: parsed.verify,
     useContactComponents: parsed.useContactComponents,
+    confirmRecordFacts: parsed.confirmRecordFacts,
     protectedVerification: protectedRead.value
   });
   if (!update) {
@@ -176,6 +183,8 @@ export async function POST(
     sections: canonical.builderSections,
     pendingDerivations: canonical.pendingDerivations,
     contactReconciliation: canonical.contactReconciliation ?? null,
+    recordClarificationIds: canonical.recordClarificationIds ?? [],
+    courtRecordConflict: canonical.courtRecordConflict ?? false,
     resumeSectionId,
     readyToGenerate: update.readyToGenerate,
     reviewReason: packetDraftStopReason(canonical) ?? update.reviewReason,
@@ -187,7 +196,7 @@ export async function POST(
 }
 
 async function readBody(request: Request): Promise<
-  { ok: true; answers: Record<string, AnswerValue>; verify: boolean; useContactComponents: boolean; expectedRevision: number | null; resumeSectionId: string | null; navigationIntent: PacketNavigationIntent; editingSensitiveIdentifier: boolean }
+  { ok: true; answers: Record<string, AnswerValue>; verify: boolean; useContactComponents: boolean; confirmRecordFacts: string[]; expectedRevision: number | null; resumeSectionId: string | null; navigationIntent: PacketNavigationIntent; editingSensitiveIdentifier: boolean }
   | { ok: false; tooLarge?: boolean }
 > {
   const contentLength = request.headers.get("content-length");
@@ -195,7 +204,8 @@ async function readBody(request: Request): Promise<
   const text = await request.text().catch(() => "");
   if (new TextEncoder().encode(text).length > maxPayloadBytes) return { ok: false, tooLarge: true };
   try {
-    const body = JSON.parse(text) as { answers?: unknown; verify?: unknown; useContactComponents?: unknown; expectedRevision?: unknown; resumeSectionId?: unknown; navigationIntent?: unknown; editingFact?: unknown };
+    const body = JSON.parse(text) as { answers?: unknown; verify?: unknown; useContactComponents?: unknown; confirmRecordFacts?: unknown; expectedRevision?: unknown; resumeSectionId?: unknown; navigationIntent?: unknown; editingFact?: unknown };
+    if (body.confirmRecordFacts !== undefined && (!Array.isArray(body.confirmRecordFacts) || body.confirmRecordFacts.length > 5 || body.confirmRecordFacts.some((id) => typeof id !== "string") || new Set(body.confirmRecordFacts).size !== body.confirmRecordFacts.length)) return { ok: false };
     if (!body.answers || typeof body.answers !== "object" || Array.isArray(body.answers)) return { ok: false };
     if (Object.keys(body.answers).some((id) => !/^[a-z][a-z0-9_]*$/.test(id))) return { ok: false };
     if (!Object.values(body.answers).every(validDraftValue)) return { ok: false };
@@ -204,6 +214,7 @@ async function readBody(request: Request): Promise<
       answers: body.answers as Record<string, AnswerValue>,
       verify: body.verify === true,
       useContactComponents: body.useContactComponents === true,
+      confirmRecordFacts: (body.confirmRecordFacts as string[] | undefined) ?? [],
       editingSensitiveIdentifier: body.editingFact === "social_security_number",
       expectedRevision: typeof body.expectedRevision === "number" && Number.isSafeInteger(body.expectedRevision) && body.expectedRevision >= 0 ? body.expectedRevision : null,
       resumeSectionId: typeof body.resumeSectionId === "string" ? body.resumeSectionId : null,

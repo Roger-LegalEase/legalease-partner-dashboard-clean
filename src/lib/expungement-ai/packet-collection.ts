@@ -301,6 +301,8 @@ export type PacketCollectionInput = {
    * baseline already carried it. Anything else is asked.
    */
   baselineCarriedFactIds?: ReadonlySet<string>;
+  /** Original record controls whose meanings cannot safely be inferred from another fact. */
+  recordOwnQuestionIds?: ReadonlySet<string>;
   /** Set only by the exact reviewed route/specification/consumer predicate. */
   reviewedContactRepresentation?: boolean;
   /** Per-route corrections, used only where the generic policy cannot be right. */
@@ -680,6 +682,12 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
           derivation: { state: value ? "valid" : "pending", inputFactIds: [...rule.from] },
           reason: "the reviewed document contract uses these three contact components; the legacy aggregate is their exact representation" });
       }
+      continue;
+    }
+
+    if (input.recordOwnQuestionIds?.has(factId)) {
+      facts.push({ factId, collection: "prepay_confirmation", phase: "prepay_confirmation", group,
+        source: "distinct_record_question_contract", reason: "the original record question has a distinct meaning; preserve its answer and require scoped review when its source changes" });
       continue;
     }
 

@@ -141,10 +141,12 @@ begin
   if jsonb_typeof(v_draft_display -> 'dependencies') = 'object' then
     v_draft_display := v_draft_display #- '{dependencies,packetDerivations}';
     v_draft_display := v_draft_display #- '{dependencies,semanticAnswerHistory}';
+    v_draft_display := v_draft_display #- '{dependencies,recordFactConfirmations}';
   end if;
   if jsonb_typeof(v_snapshot_display -> 'dependencies') = 'object' then
     v_snapshot_display := v_snapshot_display #- '{dependencies,packetDerivations}';
     v_snapshot_display := v_snapshot_display #- '{dependencies,semanticAnswerHistory}';
+    v_snapshot_display := v_snapshot_display #- '{dependencies,recordFactConfirmations}';
   end if;
   if jsonb_typeof(v_metadata_display -> 'prefilledAnswers') = 'object' then
     v_metadata_display := v_metadata_display #- '{prefilledAnswers,social_security_number}';

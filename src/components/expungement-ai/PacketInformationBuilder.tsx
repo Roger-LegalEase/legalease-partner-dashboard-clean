@@ -10,7 +10,8 @@ import type { AnswerValue, ProfileQuestion } from "@/lib/expungement-ai/frontend
 import { packetScreensFor as screensFor, packetNavigationDestination, type PacketNavigationIntent } from "@/lib/expungement-ai/packet-navigation";
 import { localizeProfileText } from "@/lib/expungement-ai/localization";
 import { mcicIdentifierAuthority, requiresMcicIdentifierAuthority } from "@/lib/expungement-ai/sensitive-packet-facts";
-import { questionAnswerState } from "@/lib/expungement-ai/question-answer-state";
+import { COURT_RECORD_CONFLICT_COPY } from "@/lib/expungement-ai/record-fact-copy";
+import { answerValueIsKnown, questionAnswerState } from "@/lib/expungement-ai/question-answer-state";
 import {
   changedPacketAnswers, isPacketSaveReceipt, packetSaveErrorCopy, reconcileSavedAnswers,
   type PacketSaveReceipt
@@ -32,7 +33,7 @@ const contactAnswerText = (answer: AnswerValue | undefined): string => answer ==
 /** Explicit saves; every navigation waits for persistence and canonical conditions. */
 export function PacketInformationBuilder({
   itemId, stateCode, pathwayId, questions: initialQuestions, sections: initialSections = [], initialAnswers,
-  initiallyMissing, initialRevision, initialResumeSectionId = null, initialPendingDerivations = [], initialContactReconciliation = null, editingFromReview = false
+  initiallyMissing, initialRevision, initialResumeSectionId = null, initialPendingDerivations = [], initialContactReconciliation = null, initialRecordClarificationIds = [], initialCourtRecordConflict = false, editingFromReview = false
 }: {
   itemId: string;
   stateCode: string;
@@ -45,6 +46,8 @@ export function PacketInformationBuilder({
   initialResumeSectionId?: string | null;
   initialPendingDerivations?: PacketSaveReceipt["pendingDerivations"];
   initialContactReconciliation?: PacketSaveReceipt["contactReconciliation"];
+  initialRecordClarificationIds?: string[];
+  initialCourtRecordConflict?: boolean;
   editingFromReview?: boolean;
 }) {
   const { locale, text: localizeText } = useLocalization();
@@ -59,6 +62,10 @@ export function PacketInformationBuilder({
   const [sections, setSections] = useState(initialSections);
   const [pending, setPending] = useState(initialPendingDerivations);
   const [contactReconciliation, setContactReconciliation] = useState(initialContactReconciliation);
+  const [courtRecordConflict, setCourtRecordConflict] = useState(initialCourtRecordConflict);
+  const [recordClarificationIds, setRecordClarificationIds] = useState(initialRecordClarificationIds);
+  const recordChoices = useRef<string[]>([]);
+  const [recordChoicePending, setRecordChoicePending] = useState(false);
   const contactChoice = useRef(false);
   const [contactChoicePending, setContactChoicePending] = useState(false);
   const [missing, setMissing] = useState(initiallyMissing);
@@ -83,11 +90,11 @@ export function PacketInformationBuilder({
   const screens = useMemo(() => screensFor(questions, sections), [questions, sections]);
   const index = screens.findIndex((screen) => screen.id === screenId);
   const screen = screens[index];
-  const dirty = contactChoicePending || Object.keys(changedPacketAnswers(answers, confirmedAnswers)).length > 0;
+  const dirty = recordChoicePending || contactChoicePending || Object.keys(changedPacketAnswers(answers, confirmedAnswers)).length > 0;
   const saveRef = useRef<(resume?: string | null) => Promise<PacketSaveReceipt | null>>(async () => null);
   const screenIdRef = useRef(screenId);
   useEffect(() => { screenIdRef.current = screenId; }, [screenId]);
-  const { navigate, departing } = usePacketDraftNavigation(dirty, () => saveRef.current(screenIdRef.current), () => contactChoice.current || Object.keys(changedPacketAnswers(latest.current, confirmed.current)).length > 0);
+  const { navigate, departing } = usePacketDraftNavigation(dirty, () => saveRef.current(screenIdRef.current), () => recordChoices.current.length > 0 || contactChoice.current || Object.keys(changedPacketAnswers(latest.current, confirmed.current)).length > 0);
 
 
   useEffect(() => {
@@ -115,9 +122,10 @@ export function PacketInformationBuilder({
         do {
           const submitted = { ...latest.current };
           const submittedRevision = revision.current;
+          const submittedRecordChoices = [...recordChoices.current];
           const response = await fetch(`/api/expungement-ai/briefcase/${encodeURIComponent(itemId)}/packet-information`, {
             method: "POST", headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ answers: changedPacketAnswers(submitted, confirmed.current), useContactComponents: contactChoice.current, expectedRevision: submittedRevision, resumeSectionId: editingFromReview ? null : resumeSectionId, navigationIntent: editingFromReview ? "stay" : navigationIntent, editingFact: editingSensitiveIdentifier ? "social_security_number" : undefined })
+            body: JSON.stringify({ answers: changedPacketAnswers(submitted, confirmed.current), useContactComponents: contactChoice.current, confirmRecordFacts: submittedRecordChoices, expectedRevision: submittedRevision, resumeSectionId: editingFromReview ? null : resumeSectionId, navigationIntent: editingFromReview ? "stay" : navigationIntent, editingFact: editingSensitiveIdentifier ? "social_security_number" : undefined })
           });
           const payload: unknown = await response.json().catch(() => null);
           if (!response.ok || !isPacketSaveReceipt(payload) || payload.revision < submittedRevision || payload.reviewPath !== `/briefcase/${encodeURIComponent(itemId)}/review`) {
@@ -135,8 +143,14 @@ export function PacketInformationBuilder({
             return null;
           }
           receipt = payload;
+          recordChoices.current = []; setRecordChoicePending(false);
+          setRecordClarificationIds(receipt.recordClarificationIds ?? []);
+          setCourtRecordConflict(receipt.courtRecordConflict ?? false);
           contactChoice.current = false; setContactChoicePending(false);
           setContactReconciliation(receipt.contactReconciliation ?? null);
+          const focusedConfirmation = document.activeElement?.closest("[data-record-clarification]")?.getAttribute("data-record-clarification")
+            ?? (document.activeElement === document.body ? submittedRecordChoices[0] : null);
+          if (focusedConfirmation && !receipt.recordClarificationIds?.includes(focusedConfirmation)) focusQuestion(focusedConfirmation);
           const focusedQuestion = document.activeElement?.closest("[data-packet-question]")?.getAttribute("data-packet-question");
           if (focusedQuestion && !(editingFromReview ? receipt.reviewQuestions : receipt.questions).some((question) => question.id === focusedQuestion)) focusNext.current = true;
           const merged = reconcileSavedAnswers(submitted, latest.current, receipt.answers);
@@ -198,9 +212,12 @@ export function PacketInformationBuilder({
     setSections(editingFromReview ? initialSections : recovery.sections);
     setMissing(recovery.missingInputIds); setPending(recovery.pendingDerivations);
     setContactReconciliation(recovery.contactReconciliation ?? null);
+    setRecordClarificationIds(recovery.recordClarificationIds ?? []);
+    setCourtRecordConflict(recovery.courtRecordConflict ?? false);
     // A conflict after an uncertain save needs a fresh before/after choice;
     // retaining a draft must not silently repeat an adoption against new data.
     contactChoice.current = false; setContactChoicePending(false);
+    recordChoices.current = []; setRecordChoicePending(false);
     setRouteChanged(recovery.nextAction === "open_matter");
     const recoveredQuestions = editingFromReview ? recovery.reviewQuestions.filter((question) => initialQuestions.some((initial) => initial.id === question.id)) : recovery.questions;
     moveTo(packetNavigationDestination(screens, screensFor(recoveredQuestions, editingFromReview ? initialSections : recovery.sections), screenIdRef.current, "stay", next));
@@ -246,9 +263,10 @@ export function PacketInformationBuilder({
     }
     else await leave(`/briefcase/${encodeURIComponent(itemId)}${editingFromReview ? "/review" : ""}`);
   }
-  const displayedAnswerState = (question: ProfileQuestion) => question.id === "contact_information" && contactReconciliation ? "invalid" : questionAnswerState(question, answers[question.id]);
+  const displayedAnswerState = (question: ProfileQuestion) => (question.id === "contact_information" && contactReconciliation || recordClarificationIds.includes(question.id)) ? "invalid" : questionAnswerState(question, answers[question.id]);
   const draftMissing = questions.filter((question) => question.required && displayedAnswerState(question) !== "known_valid").length;
-  const status = screen ? screen.questions.map(displayedAnswerState) : [];
+  const courtSectionNeedsReview = (question: ProfileQuestion) => courtRecordConflict && ["court", "court_name", "court_type"].includes(question.id);
+  const status = screen ? screen.questions.map((question) => courtSectionNeedsReview(question) ? "invalid" : displayedAnswerState(question)) : [];
   const statusId = status.every((value) => value === "known_valid") ? "complete" : status.every((value) => value === "unanswered") ? "not_started" : status.some((value) => ["invalid", "uncertain", "declined"].includes(value)) ? "needs_attention" : "in_progress";
   const statusLabel = status.every((value) => value === "known_valid") ? copy("Complete", "Completo")
     : status.every((value) => value === "unanswered") ? copy("Not started", "Sin empezar")
@@ -260,6 +278,7 @@ export function PacketInformationBuilder({
         <p className="text-xs font-bold uppercase tracking-[0.08em] text-[#08786F]">{copy("Packet information", "Información del paquete")}</p>
         {screen ? <p className="text-xs font-semibold text-[#5E687A]">{index + 1} {copy("of", "de")} {screens.length}</p> : null}
       </div>
+      {courtRecordConflict ? <p data-court-record-conflict role="status" className="mb-5 rounded border border-amber-300 p-4 text-sm">{COURT_RECORD_CONFLICT_COPY[locale]}</p> : null}
       {routeChanged ? <div className="mb-5 rounded border border-amber-300 p-4" role="status"><p>{copy("Your saved answers changed which packet path is available. Review the updated matter before continuing.", "Sus respuestas guardadas cambiaron la vía disponible para el paquete. Revise el caso actualizado antes de continuar.")}</p><a className="mt-2 inline-flex min-h-11 items-center underline" href={`/briefcase/${encodeURIComponent(itemId)}`} target={dirty ? "_blank" : undefined} rel={dirty ? "noopener noreferrer" : undefined}>{dirty ? copy("Open updated matter in a new tab; keep this draft here", "Abrir el caso actualizado en otra pestaña y conservar este borrador aquí") : copy("Open updated matter", "Abrir el caso actualizado")}</a></div> : null}
       <h2 tabIndex={-1} data-packet-step-heading id="packet-step-heading" className="text-xl font-extrabold text-[#0B1320] focus-visible:outline focus-visible:outline-2">
         {screen?.section ? locale === "es" ? screen.section.translations.es.heading : screen.section.heading : screen ? copy("Packet details", "Detalles del paquete") : copy("Review your saved packet information", "Revise la información guardada de su paquete")}
@@ -279,12 +298,16 @@ export function PacketInformationBuilder({
             {!contactReconciliation.canUseComponents ? <p className="mt-3 text-sm" role="status">{copy("Complete or correct the separate contact details first.", "Primero complete o corrija los datos de contacto por separado.")}</p> : null}
             <button type="button" className="mt-3 min-h-11 rounded border px-4 py-2 font-semibold disabled:opacity-50" disabled={saving || !contactReconciliation.canUseComponents} onClick={() => { contactChoice.current = true; setContactChoicePending(true); void save(screenId, "stay"); }}>{copy("Use and save these contact details", "Usar y guardar estos datos de contacto")}</button>
           </div> : <QuestionField question={question} stateCode={stateCode} value={answers[question.id]} headingLevel={3} sensitiveInputAllowed={!requiresMcicIdentifierAuthority(stateCode, pathwayId) || mcicIdentifierAuthority(answers, new Date().toISOString()).safe} onChange={(value) => {
+            recordChoices.current = []; setRecordChoicePending(false);
             const next = { ...latest.current, [question.id]: value }; latest.current = next; setAnswers(next); setSavedAt(null);
             setFieldErrors((current) => { const remaining = { ...current }; delete remaining[question.id]; return remaining; });
-          }} error={fieldErrors[question.id]?.[locale] ?? null} />}{question.required && ["uncertain", "declined"].includes(questionAnswerState(question, answers[question.id])) ? <p className="mt-3 text-sm" role="status">{copy("You can continue with other questions. This answer still needs to be resolved before your packet can be prepared.", "Puede continuar con las demás preguntas. Esta respuesta aún debe aclararse antes de preparar su paquete.")}</p> : null}</div>)}
+          }} error={fieldErrors[question.id]?.[locale] ?? null} />}{recordClarificationIds.includes(question.id) && questionAnswerState(question, answers[question.id]) === "known_valid" && answerValueIsKnown(answers[question.id]) ? <div className="mt-3" data-record-clarification={question.id}>
+            <p className="text-sm" id={`record-clarification-${question.id}`}>{copy("Compare this saved answer with the court record. Keep it if it is correct, or edit it before confirming. We will not replace it automatically.", "Compare esta respuesta guardada con el expediente judicial. Consérvela si es correcta o edítela antes de confirmarla. No la reemplazaremos automáticamente.")}</p>
+            <button type="button" aria-describedby={`record-clarification-${question.id}`} className="mt-3 min-h-11 rounded border px-4 py-2 font-semibold disabled:opacity-50" disabled={saving} onClick={() => { recordChoices.current = [question.id]; setRecordChoicePending(true); void save(screenId, "stay"); }}>{copy("Confirm this answer", "Confirmar esta respuesta")}</button>
+          </div> : null}{question.required && ["uncertain", "declined"].includes(questionAnswerState(question, answers[question.id])) ? <p className="mt-3 text-sm" role="status">{copy("You can continue with other questions. This answer still needs to be resolved before your packet can be prepared.", "Puede continuar con las demás preguntas. Esta respuesta aún debe aclararse antes de preparar su paquete.")}</p> : null}</div>)}
         </fieldset>
       </> : <p className="mt-3 text-sm">{copy("Open Review to check the saved answers and any details still needed before final verification.", "Abra la revisión para comprobar las respuestas guardadas y los detalles que aún falten antes de la verificación final.")}</p>}
-      {!editingFromReview && screens.length > 1 ? <nav aria-label={copy("Packet sections", "Secciones del paquete")} className="mt-5"><label className="text-sm font-semibold" htmlFor="packet-section-select">{copy("Go to a section", "Ir a una sección")}</label><select id="packet-section-select" className="mt-2 block min-h-11 w-full rounded border p-2" value={screenId} disabled={saving || departing} onChange={(event) => moveTo(event.target.value)}>{screens.map((step) => <option key={step.id} value={step.id}>{step.section ? locale === "es" ? step.section.translations.es.heading : step.section.heading : locale === "es" ? step.questions[0]?.translations?.es?.prompt ?? step.questions[0]?.prompt : step.questions[0]?.prompt}{step.questions.some((question) => question.required && displayedAnswerState(question) !== "known_valid") ? copy(" — needs attention", " — necesita atención") : copy(" — complete", " — completo")}</option>)}{screenId === "review" ? <option value="review">{copy("Review", "Revisión")}</option> : null}</select></nav> : null}
+      {!editingFromReview && screens.length > 1 ? <nav aria-label={copy("Packet sections", "Secciones del paquete")} className="mt-5"><label className="text-sm font-semibold" htmlFor="packet-section-select">{copy("Go to a section", "Ir a una sección")}</label><select id="packet-section-select" className="mt-2 block min-h-11 w-full rounded border p-2" value={screenId} disabled={saving || departing} onChange={(event) => moveTo(event.target.value)}>{screens.map((step) => <option key={step.id} value={step.id}>{step.section ? locale === "es" ? step.section.translations.es.heading : step.section.heading : locale === "es" ? step.questions[0]?.translations?.es?.prompt ?? step.questions[0]?.prompt : step.questions[0]?.prompt}{step.questions.some((question) => question.required && (courtSectionNeedsReview(question) || displayedAnswerState(question) !== "known_valid")) ? copy(" — needs attention", " — necesita atención") : copy(" — complete", " — completo")}</option>)}{screenId === "review" ? <option value="review">{copy("Review", "Revisión")}</option> : null}</select></nav> : null}
       <p className="mt-5 rounded-[10px] bg-[#F7F3EC] px-4 py-3 text-sm" aria-live="polite">
         {dirty ? copy(draftMissing === 1 ? "1 displayed answer still needs attention in this draft. Save to update the requirements." : `${draftMissing} displayed answers still need attention in this draft. Save to update the requirements.`, draftMissing === 1 ? "1 respuesta mostrada aún necesita atención en este borrador. Guarde para actualizar los requisitos." : `${draftMissing} respuestas mostradas aún necesitan atención en este borrador. Guarde para actualizar los requisitos.`)
           : copy(missing.length === 1 ? "1 participant detail still needs attention in the saved matter." : `${missing.length} participant details still need attention in the saved matter.`, missing.length === 1 ? "1 detalle del participante aún necesita atención en el caso guardado." : `${missing.length} detalles del participante aún necesitan atención en el caso guardado.`)}

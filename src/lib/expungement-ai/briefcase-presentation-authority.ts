@@ -99,6 +99,9 @@ export type BriefcasePresentationItem = {
       missingInputIds: string[];
       pendingDerivations: ProtectedPacketInformationModel["pendingDerivations"];
       contactReconciliation?: ProtectedPacketInformationModel["contactReconciliation"];
+      recordOwnQuestionIds?: string[];
+      recordClarificationIds?: string[];
+      courtRecordConflict?: boolean;
       questions: ProtectedPacketInformationModel["questions"];
       builderQuestions: ProtectedPacketInformationModel["builderQuestions"];
       /** The Stage 6 sections the builder renders, headings and Spanish included. */
@@ -524,6 +527,8 @@ function presentationDraftForModel(
     missingInputIds: [...model.missingInputIds],
     pendingDerivations: model.pendingDerivations,
     contactReconciliation: model.contactReconciliation,
+    recordOwnQuestionIds: model.recordOwnQuestionIds, recordClarificationIds: model.recordClarificationIds,
+    courtRecordConflict: model.courtRecordConflict,
     questions: model.questions,
     builderQuestions: model.builderQuestions,
     builderSections: model.builderSections,

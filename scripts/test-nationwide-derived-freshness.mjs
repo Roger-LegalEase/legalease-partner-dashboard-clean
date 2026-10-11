@@ -3,54 +3,34 @@ import { register } from 'node:module';
 register('./lib/ts-esm-loader.mjs', import.meta.url);
 const packet = await import('../src/lib/expungement-ai/packet-information.ts');
 const { assertLeafPacketDerivationGraph } = await import('../src/lib/expungement-ai/packet-collection.ts');
+const { recordFactCourtConflict } = await import('../src/lib/expungement-ai/record-fact-clarification.ts');
 const { evaluateAuthoritativeScreeningResult } = await import('../src/lib/expungement-ai/authoritative-screening-result.ts');
 const { MS_NONCONVICTION_SCREENING_ANSWERS: screening, MS_NONCONVICTION_ROUTE: route } = await import('./lib/rcap-ms-nonconviction-fixture.mjs');
-const authoritative = evaluateAuthoritativeScreeningResult({ jurisdiction: 'MS', profileVersion: route.profileVersion, matterId: 'synthetic-derived-freshness', answers: screening });
+const authoritative = evaluateAuthoritativeScreeningResult({ jurisdiction: 'MS', profileVersion: route.profileVersion, matterId: 'synthetic-record-freshness', answers: screening });
 const at = '2026-10-11T12:00:00Z';
 const source = { court: 'Synthetic Circuit Court', county: 'Synthetic County' };
 const seed = (answers = source) => { const s = packet.protectedPacketDraftSeedFromAuthoritative({ authoritative, screeningAnswers: screening, packetAnswers: answers, dependencies: { commercialFlowVersion: 1, entitlementSource: 'consumer_payment', productId: 'expungement_packet' }, capturedAt: at }); assert.ok(s); return { status: 'unverified', reason: 'synthetic-contract-only', revision: 3, draftHash: s.hash, draftSnapshot: s.snapshot }; };
-const patch = (record, answers) => { const p = packet.packetInformationPatch({ existingItem: { id: 'synthetic-derived-freshness', jurisdiction: 'MS', artifactRefs: {} }, answers, protectedVerification: record }); assert.ok(p); return p.protectedTransition.nextVerification; };
+const patch = (record, answers, confirmRecordFacts = []) => { const p = packet.packetInformationPatch({ existingItem: { id: 'synthetic-record-freshness', jurisdiction: 'MS', artifactRefs: {} }, answers, confirmRecordFacts, protectedVerification: record }); assert.ok(p); return p.protectedTransition.nextVerification; };
 const model = r => { const m = packet.protectedPacketInformationModelFor(r); assert.ok(m); return m; };
 let checks = 0;
 const check = (name, fn) => { try { fn(); checks++; } catch (e) { e.message = name + ': ' + e.message; throw e; } };
 check('leaf derivation graph accepted', () => assert.doesNotThrow(() => assertLeafPacketDerivationGraph({a:{from:['x','y']},b:{from:['y']}})));
-for (const graph of [{a:{from:['a']}},{a:{from:['b']},b:{from:['a']}},{a:{from:['b']},b:{from:['x']}}]) check('unsupported cycle/chain fails with explicit contract error',()=>assert.throws(()=>assertLeafPacketDerivationGraph(graph),/packet_derivation_contract_requires_review/));
+for (const graph of [{a:{from:['a']}},{a:{from:['b']},b:{from:['a']}},{a:{from:['b']},b:{from:['x']}}]) check('unsupported cycle/chain explicit error',()=>assert.throws(()=>assertLeafPacketDerivationGraph(graph),/packet_derivation_contract_requires_review/));
 const before = seed();
-const expected = { court_type: 'Circuit Court', court_name: source.court, filing_location: source.county };
-for (const [id, value] of Object.entries(expected)) check(`seed ${id}`, () => { assert.equal(model(before).initialAnswers[id], value); assert.equal(before.draftSnapshot.dependencies.packetDerivations[id].version, 1); });
-const next = patch(before, { court: 'Synthetic Municipal Court', county: 'Changed Synthetic County' });
-for (const [id, value] of Object.entries({court_type:'Municipal Court', court_name:'Synthetic Municipal Court', filing_location:'Changed Synthetic County'})) check(`source edit refreshes ${id}`, () => assert.equal(model(next).initialAnswers[id], value));
-check('single canonical revision, unverified', () => { assert.equal(next.revision, 4); assert.equal(next.status, 'unverified'); });
-check('canonical no-op preserves snapshot/hash/revision', () => { const n = patch(next, {}); assert.deepEqual(n, next); });
-for (const [sourceId, targetIds] of [['court',['court_type','court_name']], ['county',['filing_location']]]) {
-  for (const value of ['', null, { value: source[sourceId], unknown: true }, 'Not sure']) {
-    const r = patch(before, { [sourceId]: value });
-    for (const id of targetIds) check(`lost ${sourceId}/${JSON.stringify(value)} invalidates ${id}`, () => { const m=model(r); assert.equal(m.initialAnswers[id], undefined); assert.ok(m.pendingDerivations.some(f => f.factId === id)); assert.equal(m.stage, 'in_progress'); });
-    const restored=patch(r, {[sourceId]:source[sourceId]});
-    for (const id of targetIds) check(`restored ${sourceId} restores ${id}`, () => assert.equal(model(restored).initialAnswers[id], expected[id]));
-  }
-}
-for (const id of Object.keys(expected)) {
-  const legacy = structuredClone(before);
-  delete legacy.draftSnapshot.dependencies.packetDerivations;
-  legacy.draftSnapshot.prefilledAnswers[id] = { value: expected[id], unknown: false };
-  legacy.draftHash = packet.protectedPacketDraftHash(legacy.draftSnapshot);
-  check(`exact legacy ${id} read/save stays raw`, () => assert.deepEqual(patch(legacy, {}), legacy));
-  const r = patch(legacy, {court:'Synthetic Municipal Court',county:'Changed Synthetic County'});
-  check(`legacy ${id} recomputed with exact raw retention`, () => { const p=r.draftSnapshot.dependencies.packetDerivations[id]; assert.deepEqual(p.legacyValues.find(v=>v.source==='prefilledAnswers').value,{value:expected[id],unknown:false}); assert.notEqual(model(r).initialAnswers[id],expected[id]); });
-  const independent=structuredClone(before);
-  independent.draftSnapshot.prefilledAnswers[id]='Independent prior answer';
-  independent.draftHash=packet.protectedPacketDraftHash(independent.draftSnapshot);
-  check(`changed independent ${id} defeats provenance`, () => assert.equal(model(patch(independent,{court:'Synthetic Municipal Court',county:'Changed Synthetic County'})).initialAnswers[id],'Independent prior answer'));
-  const oldApp=structuredClone(before);
-  oldApp.draftSnapshot.packetAnswers.court='Synthetic Municipal Court';
-  oldApp.draftSnapshot.packetAnswers.county='Changed Synthetic County';
-  oldApp.draftHash=packet.protectedPacketDraftHash(oldApp.draftSnapshot);
-  check(`old-app stale ${id} is unsafe and repaired`, () => { const m=model(oldApp); assert.equal(m.reviewSafety.reason,'stale_packet_derivation'); assert.notEqual(m.initialAnswers[id],expected[id]); const r=patch(oldApp,{}); assert.equal(r.revision,4); assert.notEqual(r.draftHash,oldApp.draftHash); });
-  for (const mutate of [p=>p.routeKey='CA:unreviewed',p=>p.inputFactIds=['unrelated'],p=>p.outputSha256='0'.repeat(64),p=>p.version=2]) {
-    const wrong=structuredClone(oldApp); mutate(wrong.draftSnapshot.dependencies.packetDerivations[id]); wrong.draftHash=packet.protectedPacketDraftHash(wrong.draftSnapshot);
-    check(`mismatched ${id} provenance cannot overwrite`,()=>assert.equal(model(wrong).initialAnswers[id],expected[id]));
-  }
-}
-check('unparseable court invalidates former court type without invention',()=>{ const r=patch(before,{court:'Synthetic tribunal'}); const m=model(r); assert.equal(m.initialAnswers.court_type,undefined); assert.ok(m.pendingDerivations.some(f=>f.factId==='court_type')); });
-console.log(`PASS: ${checks} protected derivation freshness, legacy, invalid-source and provenance checks. Pure synthetic models; no DB or runtime claim.`);
+check('unambiguous four-option court type still carries',()=>assert.equal(model(before).initialAnswers.court_type,'Circuit Court'));
+for (const id of ['court_name','filing_location','charge_classification']) check(id+' is a distinct original record control',()=>{const m=model(before);assert.equal(m.initialAnswers[id],undefined);assert.ok(m.builderQuestions.some(q=>q.id===id));assert.ok(m.missingInputIds.includes(id));assert.ok(!m.pendingDerivations.some(f=>f.factId===id));});
+for(const court of ['Synthetic court','Circuit Court and Municipal Court','Synthetic Youth Court','Moved from another court to Synthetic Circuit Court']) check('ambiguous/unsupported/moved court needs original type '+court,()=>{const m=model(seed({...source,court}));assert.ok(m.builderQuestions.some(q=>q.id==='court_type'));assert.equal(m.initialAnswers.court_type,undefined);});
+const values={court_name:'Synthetic Circuit Court, Division 2',filing_location:'Synthetic County',charge_classification:'Record-specific misdemeanor classification'};
+const legacy=seed({...source,...values});
+check('generic save cannot confirm legacy record values',()=>{assert.deepEqual(patch(legacy,{}),legacy);for(const id of Object.keys(values))assert.ok(model(legacy).missingInputIds.includes(id));});
+let confirmed=legacy;
+for(const id of Object.keys(values)) { const prior=confirmed;confirmed=patch(prior,{},[id]);check(id+' explicit confirmation preserves raw and clears one requirement',()=>{assert.equal(confirmed.revision,prior.revision+1);assert.equal(model(confirmed).initialAnswers[id],values[id]);assert.ok(!model(confirmed).missingInputIds.includes(id));assert.equal(confirmed.draftSnapshot.dependencies.recordFactConfirmations[id].legacyValues[0].value,values[id]);}); }
+check('unchanged confirmed snapshot is no-op',()=>assert.deepEqual(patch(confirmed,{}),confirmed));
+check('unknown source cannot silently overwrite confirmed record values',()=>{const n=patch(confirmed,{court:{unknown:true}}),m=model(n);for(const id of ['court_name','filing_location']){assert.equal(m.initialAnswers[id],values[id]);assert.ok(m.missingInputIds.includes(id));}assert.ok(!m.missingInputIds.includes('charge_classification'));});
+check('municipal location never copied from county',()=>{const r=seed({court:'Synthetic Municipal Court',county:'Synthetic County',court_name:'Synthetic Municipal Court',filing_location:'Synthetic City'});assert.equal(model(r).initialAnswers.filing_location,'Synthetic City');assert.ok(model(r).builderQuestions.some(q=>q.id==='filing_location'));});
+check('fresh entries confirm original fields in their save',()=>{const r=patch(before,values),m=model(r);for(const id of Object.keys(values)){assert.ok(r.draftSnapshot.dependencies.recordFactConfirmations[id]);assert.ok(!m.missingInputIds.includes(id));}});
+for(const value of ['Unsure','Prefer not to say',{unknown:true},''])check('unknown record answer remains missing '+JSON.stringify(value),()=>{const r=patch(confirmed,{court_name:value}),m=model(r);assert.ok(m.missingInputIds.includes('court_name'));assert.equal(m.reviewSafety.safe,false);});
+check('wrapper and trim are semantic no-op',()=>assert.deepEqual(patch(confirmed,{court_name:{value:' '+values.court_name+' ',unknown:false}}),confirmed));
+check('unrelated edit preserves record confirmation',()=>{const r=patch(confirmed,{email_address:'synthetic-changed@example.test'});for(const id of Object.keys(values)){assert.deepEqual(r.draftSnapshot.dependencies.recordFactConfirmations[id],confirmed.draftSnapshot.dependencies.recordFactConfirmations[id]);assert.ok(!model(r).missingInputIds.includes(id));}});
+check('court conflict is distinct from confirmation',()=>{assert.equal(recordFactCourtConflict(route.routeId,{court:'Synthetic Circuit Court',court_name:'Synthetic Municipal Court',court_type:'Municipal Court'}),true);assert.equal(recordFactCourtConflict(route.routeId,{court:'Synthetic Municipal Court',court_name:'Synthetic Municipal Court',court_type:'Municipal Court'}),false);});
+console.log(`PASS: ${checks} protected record controls, scoped confirmation, source freshness, legacy, invalid-source and leaf-graph checks. Pure synthetic models; no DB/document/runtime claim. Supersedes unsafe alias expectations at e60.`);
