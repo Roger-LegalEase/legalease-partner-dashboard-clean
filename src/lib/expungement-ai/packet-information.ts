@@ -99,6 +99,7 @@ export type PacketInformationModel = {
   verificationManifest: PacketVerificationManifest;
   requiredInputIds: string[];
   missingInputIds: string[];
+  pendingDerivations: PacketCollectionResolution["pendingDerivations"];
   stage: PacketInformationStage;
   updatedAt: string | null;
   reviewedAt: string | null;
@@ -117,6 +118,7 @@ export type ProtectedPacketInformationModel = Pick<
   | "serverFacts"
   | "requiredInputIds"
   | "missingInputIds"
+  | "pendingDerivations"
   | "stage"
   | "reviewedAt"
   | "verificationSummary"
@@ -281,6 +283,7 @@ export function packetInformationModelFor(item: ConsumerBriefcaseItem): PacketIn
     verificationManifest,
     requiredInputIds,
     missingInputIds,
+    pendingDerivations: collection?.pendingDerivations ?? [],
     stage: packetInformationStage(progress.stage),
     updatedAt: typeof progress.updatedAt === "string" ? progress.updatedAt : null,
     reviewedAt: typeof progress.reviewedAt === "string" ? progress.reviewedAt : null
@@ -409,7 +412,7 @@ export function packetInformationPatch(input: {
     };
   const stage: PacketInformationStage = review.safe
     ? "ready_to_generate"
-    : nextModel.missingInputIds.length === 0 ? "facts_complete" : "in_progress";
+    : nextModel.missingInputIds.length === 0 && nextModel.pendingDerivations.length === 0 ? "facts_complete" : "in_progress";
   const packetInformation = {
     stage,
     requiredInputIds: nextModel.requiredInputIds,
@@ -606,11 +609,7 @@ export function protectedPacketInformationModelFor(
     factKeys: verificationSummary.map((fact) => fact.key),
     systemContextKeys: verificationContext.map((entry) => entry.key)
   };
-  const isMississippiNonConviction = snapshot.jurisdiction === "MS"
-    && snapshot.pathwayId === "non-conviction-expungement-for-dismissal-no-disposition-or-acquittal";
-  const reviewSafety = verification.status === "verified" && !isMississippiNonConviction
-    ? { safe: true, reason: "authoritative_route_confirmed" }
-    : protectedPacketDraftReviewSafety(snapshot,
+  const reviewSafety = protectedPacketDraftReviewSafety(snapshot,
       "verifiedAt" in snapshot ? snapshot.verifiedAt : new Date().toISOString());
   const currentlyVerified = verification.status === "verified" && reviewSafety.safe;
   return {
@@ -627,9 +626,10 @@ export function protectedPacketInformationModelFor(
     serverFacts,
     requiredInputIds,
     missingInputIds,
+    pendingDerivations: questionSurface.collection?.pendingDerivations ?? [],
     stage: currentlyVerified
       ? "ready_to_generate"
-      : missingInputIds.length === 0 ? "facts_complete" : "in_progress",
+      : missingInputIds.length === 0 && !questionSurface.collection?.pendingDerivations.length ? "facts_complete" : "in_progress",
     reviewedAt: currentlyVerified && "verifiedAt" in snapshot ? snapshot.verifiedAt : null,
     capturedAt: "capturedAt" in snapshot ? snapshot.capturedAt : snapshot.verifiedAt,
     verificationSummary,
@@ -667,6 +667,12 @@ export function packetCollectionFor(input: {
     ...(scope?.factIds ?? []),
     ...routeSafetyGateFactIds(input.jurisdiction, input.pathwayId)
   ]);
+  const questionById = new Map(allPublicQuestions(projectPublicProfile(profile))
+    .map((question) => [question.id, toProfileQuestion(question)]));
+  installPacketSpecificationQuestions(questionById, input.jurisdiction, input.pathwayId, input.requiredInputIds);
+  for (const id of input.requiredInputIds) {
+    if (!questionById.has(id)) questionById.set(id, fallbackPacketQuestion(id));
+  }
   return resolvePacketCollection({
     jurisdiction: input.jurisdiction,
     pathwayId: input.pathwayId,
@@ -675,6 +681,7 @@ export function packetCollectionFor(input: {
     screeningAnswers: input.screeningAnswers,
     prefilledAnswers: input.prefilledAnswers,
     savedAnswers: input.savedAnswers,
+    questionById,
     specification: packetSpecificationFor(`${input.jurisdiction}:${input.pathwayId ?? ""}`) ?? null,
     routeDecidingFactIds: decidingFactIds,
     unresolvedRouteFactIds: new Set(scope?.unresolvedRules.flatMap((rule) => rule.factIds) ?? []),
@@ -1032,8 +1039,23 @@ function protectedPacketDraftReviewSafety(draft: ProtectedPacketAuthoritySnapsho
   const publicProfile = projectPublicProfile(getProfileByJurisdiction(draft.jurisdiction)!);
   const questionById = new Map(allPublicQuestions(publicProfile).map((question) => [question.id, toProfileQuestion(question)]));
   installPacketSpecificationQuestions(questionById, draft.jurisdiction, draft.pathwayId, draft.requiredInputIds);
+  const collection = packetCollectionFor({
+    jurisdiction: draft.jurisdiction,
+    pathwayId: draft.pathwayId,
+    requiredInputIds: draft.requiredInputIds,
+    serverFacts: answerRecord(draft.serverFacts),
+    screeningAnswers: answerRecord(draft.screeningAnswers),
+    prefilledAnswers: answerRecord(draft.prefilledAnswers),
+    savedAnswers: answerRecord(draft.packetAnswers)
+  });
+  if (collection?.pendingDerivations.length) {
+    return { safe: false, reason: `pending_packet_derivation:${collection.pendingDerivations[0].factId}` };
+  }
   for (const id of draft.requiredInputIds) {
     if (id in draft.serverFacts) continue;
+    const disposition = collection?.facts.find((fact) => fact.factId === id);
+    if (disposition?.collection === "external_actor"
+      || (disposition?.collection === "conditional" && disposition.active === false)) continue;
     const validation = validatePacketAnswer(questionById.get(id) ?? fallbackPacketQuestion(id), answers[id]);
     if (!validation.safe) return validation;
   }

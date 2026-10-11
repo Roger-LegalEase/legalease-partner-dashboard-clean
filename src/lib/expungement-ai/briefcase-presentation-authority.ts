@@ -95,6 +95,7 @@ export type BriefcasePresentationItem = {
       serverFacts: Record<string, AnswerValue>;
       requiredInputIds: string[];
       missingInputIds: string[];
+      pendingDerivations: ProtectedPacketInformationModel["pendingDerivations"];
       questions: ProtectedPacketInformationModel["questions"];
       builderQuestions: ProtectedPacketInformationModel["builderQuestions"];
       /** The Stage 6 sections the builder renders, headings and Spanish included. */
@@ -438,7 +439,7 @@ function legalAuthorityFromProtectedVerification(
   const protectedStatus = verificationStatus === "verified" ? "protected_verified" : "protected_draft";
   const packetProgress: BriefcasePresentationItem["packetProgress"] = verificationStatus === "verified"
     ? "verified"
-    : model.missingInputIds.length === 0
+    : model.missingInputIds.length === 0 && model.pendingDerivations.length === 0
       ? "facts_complete"
       : Object.keys(model.packetAnswers).length > 0 ? "in_progress" : "not_started";
   return legalAuthorityFromEvaluation(protectedStatus, authoritative, {
@@ -516,6 +517,7 @@ function presentationDraftForModel(
     serverFacts: model.serverFacts,
     requiredInputIds: [...model.requiredInputIds],
     missingInputIds: [...model.missingInputIds],
+    pendingDerivations: model.pendingDerivations,
     questions: model.questions,
     builderQuestions: model.builderQuestions,
     builderSections: model.builderSections,

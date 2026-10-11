@@ -1,5 +1,5 @@
-import { answerValueIsKnown, uncertaintyState, isCalendarDate } from "@/lib/expungement-ai/question-answer-state";
-import type { AnswerValue } from "@/lib/expungement-ai/frontend/contracts";
+import { answerValueIsKnown, uncertaintyState, isCalendarDate, questionAnswerState } from "@/lib/expungement-ai/question-answer-state";
+import type { AnswerValue, ProfileQuestion } from "@/lib/expungement-ai/frontend/contracts";
 import type { PacketSpecificationFact, RegisteredSpecification } from "@/lib/rcap/grade-a/packet-specification";
 
 /**
@@ -213,6 +213,8 @@ export type ResolvedPacketFact = {
   source: string;
   /** Present for `already_known` and `derived` only. */
   value?: AnswerValue;
+  /** A planned derivation is not a usable output or a second participant prompt. */
+  derivation?: { state: "pending" | "valid"; inputFactIds: string[] };
   /** Present for `external_actor` only: the actor who fills this field, later. */
   actor?: string;
   /** Present for `conditional`: the fact that decides whether this is asked. */
@@ -246,6 +248,7 @@ export type PacketCollectionResolution = {
   filingReadinessItems: string[];
   externalActorFields: Array<{ factId: string; actor: string }>;
   unresolvedRequiredFacts: string[];
+  pendingDerivations: Array<{ factId: string; inputFactIds: string[] }>;
   hardBlockers: Array<{ factId: string; reason: string }>;
 };
 
@@ -271,6 +274,8 @@ export type PacketCollectionInput = {
   savedAnswers?: Record<string, AnswerValue>;
   /** Account/profile facts the participant has already given elsewhere. */
   profileFacts?: Record<string, AnswerValue>;
+  /** Operational input contracts; invalid nonempty values cannot retire a control. */
+  questionById?: ReadonlyMap<string, ProfileQuestion>;
   /** The registered packet specification for this route, where one exists. */
   specification?: RegisteredSpecification | null;
   /** Fact ids the evaluator or a route-safety gate actually reads for this route. */
@@ -401,7 +406,7 @@ const DERIVATIONS: Readonly<Record<string, Derivation>> = {
     from: ["social_security_number"],
     derive: ({ social_security_number: ssn }) => {
       const digits = ssn.replace(/\D/g, "");
-      return digits.length >= 4 ? digits.slice(-4) : null;
+      return /^(?:\d{9}|\d{3}-\d{2}-\d{4})$/.test(ssn.trim()) && digits !== "000000000" ? digits.slice(-4) : null;
     }
   },
   // Deliberately NOT derived, though each looks inferable:
@@ -507,6 +512,7 @@ const GENERIC_CONDITIONS: Readonly<Record<string, string>> = {
 };
 
 const EXTERNAL_ACTOR_BY_OWNERSHIP_KEY: Readonly<Record<string, string>> = {
+  participantCompletesBeforeFilingFields: "participant_before_filing",
   participantAtSigningFields: "participant_at_signing",
   participantAtServiceFields: "participant_at_service",
   notaryOwnedFields: "notary",
@@ -541,6 +547,10 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
   const known: Record<string, AnswerValue> = {};
   const derived: Record<string, AnswerValue> = {};
   const facts: ResolvedPacketFact[] = [];
+  const validValue = (id: string, value: AnswerValue | undefined) => {
+    const question = input.questionById?.get(id);
+    return question ? questionAnswerState(question, value) === "known_valid" : valueIsKnown(value);
+  };
 
   /**
    * Values that make a fact ALREADY KNOWN — that is, known from somewhere
@@ -561,11 +571,13 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
 
   /** Everything resolved so far, for reading a derivation's or a condition's inputs. */
   const resolvedText = (factId: string): string => {
+    const saved = input.savedAnswers?.[factId];
+    // An explicitly edited invalid/unknown answer cannot fall back to an older
+    // valid value and silently feed a calculation or condition.
+    if (input.savedAnswers && factId in input.savedAnswers) return validValue(factId, saved) ? answerString(saved) : "";
     if (factId in derived) return answerString(derived[factId]);
     if (factId in known) return answerString(known[factId]);
-    const saved = input.savedAnswers?.[factId];
-    if (valueIsKnown(saved)) return answerString(saved);
-    return answerString(available[factId]);
+    return validValue(factId, available[factId]) ? answerString(available[factId]) : "";
   };
 
   const requiredInputIds = dedupe(input.requiredInputIds);
@@ -634,7 +646,9 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
 
     // 4. Something the participant has already told us, under this id or a
     //    screening id that carries the same answer.
-    const carried = carriedValue(factId, available, input.screeningAnswers);
+    const candidateCarry = input.savedAnswers && factId in input.savedAnswers
+      ? null : carriedValue(factId, available, input.screeningAnswers);
+    const carried = candidateCarry && validValue(factId, candidateCarry.value) ? candidateCarry : null;
     if (unresolvedScopeFor(factId) && !decidesRouteFor(factId) && !carried?.sameId) {
       facts.push({
         factId,
@@ -715,6 +729,7 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
           group: null,
           source: `derived_from:${derivation.from.join("+")}`,
           value,
+          derivation: { state: "valid", inputFactIds: [...derivation.from] },
           reason: `this fact follows deterministically from ${derivation.from.join(" and ")}`
         });
         continue;
@@ -726,6 +741,7 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
           phase: "derived",
           group: null,
           source: `derived_from:${derivation.from.join("+")}`,
+          derivation: { state: "pending", inputFactIds: [...derivation.from] },
           reason: `this fact follows deterministically from ${derivation.from.join(" and ")},`
             + " which this route collects, so it is computed rather than asked for a second time"
         });
@@ -895,6 +911,9 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
       .filter((fact) => fact.collection === "external_actor")
       .map((fact) => ({ factId: fact.factId, actor: fact.actor ?? "external" })),
     unresolvedRequiredFacts: facts.filter((fact) => fact.collection === "unresolved").map((fact) => fact.factId),
+    pendingDerivations: facts
+      .filter((fact) => fact.derivation?.state === "pending")
+      .map((fact) => ({ factId: fact.factId, inputFactIds: [...fact.derivation!.inputFactIds] })),
     hardBlockers: input.requiredInputIds.length === 0
       ? [{ factId: "*", reason: "the route publishes no required packet inputs" }]
       : []

@@ -528,7 +528,7 @@ export function composeGradeAPacket(
   // exists to prevent.
   const blanks = notSuppliedByPlatform(specification);
   const missing = [...new Set([
-    ...specification.requiredFacts.map((requiredFact) => requiredFact.factId),
+    ...specification.requiredFacts.map((requiredFact) => requiredFact.factId).filter((id) => !blanks.has(id)),
     ...included.flatMap((document) => factsUsedBy(document, blanks))
   ])]
     .filter((id) => fact(matter, id) === "")
