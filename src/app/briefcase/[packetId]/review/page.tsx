@@ -65,7 +65,7 @@ export default async function PacketAccuracyReviewPage({
           {item.sponsorCapacityExhausted ? <SponsorCapacityNotice paid={item.paymentState === "paid"} /> : null}
           <div className="flex flex-wrap items-start justify-between gap-4">
             <div>
-              <p className="text-xs font-bold uppercase tracking-[0.08em] text-[#00A99D]"><LocalizedRuntimeText text={"Packet facts"} /></p>
+              <p className="text-xs font-bold uppercase tracking-[0.08em] text-[#08786F]"><LocalizedRuntimeText text={"Packet facts"} /></p>
               <h1 className="mt-2 text-[26px] font-extrabold tracking-[-0.02em] text-[#0B1320]"><LocalizedRuntimeText text={"Review and verify your packet facts"} /></h1>
               <p className="mt-2 text-sm leading-6 text-[#475A6E]">
                 <LocalizedRuntimeText text={sponsored

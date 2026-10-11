@@ -169,9 +169,9 @@ export function verificationSummary(model: {
 /** History remains in protected authority; generic review context is not an archive viewer. */
 function displayDependencies(value: unknown): unknown {
   if (!value || typeof value !== "object" || Array.isArray(value)) return value;
-  const dependencies = value as Record<string, unknown>;
+  const dependencies = Object.fromEntries(Object.entries(value).filter(([key]) => key !== "packetDerivations"));
   const contact = dependencies.contactRepresentation;
-  if (!contact || typeof contact !== "object" || Array.isArray(contact)) return value;
+  if (!contact || typeof contact !== "object" || Array.isArray(contact)) return dependencies;
   return { ...dependencies, contactRepresentation: Object.fromEntries(Object.entries(contact).filter(([key]) => key !== "legacyAnswers")) };
 }
 

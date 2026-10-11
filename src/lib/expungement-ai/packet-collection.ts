@@ -406,6 +406,15 @@ const USE_RULES: ReadonlyArray<{ collection: PacketCollectionClass; test: RegExp
  */
 type Derivation = { from: string[]; derive: (values: Record<string, string>) => string | null };
 
+/** The reviewed graph reads leaf facts only. Reject new chains/cycles before any value can be trusted. */
+export function assertLeafPacketDerivationGraph(graph: Readonly<Record<string, { from: readonly string[] }>>): void {
+  for (const [factId, rule] of Object.entries(graph)) {
+    if (rule.from.some((inputId) => Object.prototype.hasOwnProperty.call(graph, inputId))) {
+      throw new Error(`packet_derivation_contract_requires_review:${factId}`);
+    }
+  }
+}
+
 const DERIVATIONS: Readonly<Record<string, Derivation>> = {
   // The last four digits are a projection of the number itself, never a
   // separate thing to ask for.
@@ -484,6 +493,7 @@ const DERIVATIONS: Readonly<Record<string, Derivation>> = {
     }
   }
 };
+assertLeafPacketDerivationGraph(DERIVATIONS);
 
 /**
  * Screening ids that already carry a packet fact's answer. This is a naming

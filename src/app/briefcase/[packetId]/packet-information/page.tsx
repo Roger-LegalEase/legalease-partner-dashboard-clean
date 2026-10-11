@@ -40,7 +40,9 @@ export default async function PacketInformationPage({
     redirect(`/briefcase/${encodeURIComponent(item.id)}/review`);
   }
   const displayedQuestions = model
-    ? editId ? model.questions.filter((question) => question.id === editId || editId === "social_security_number" && question.id.startsWith("mcic_identifier_")) : model.builderQuestions
+    ? editId ? model.questions.filter((question) => question.id === editId
+      || editId === "social_security_number" && question.id.startsWith("mcic_identifier_")
+      || editId === "contact_information" && ["mailing_address", "phone_number", "email_address"].includes(question.id)) : model.builderQuestions
     : [];
   // Sections group the ordinary builder. A single-question edit from the review
   // page is one question on its own screen, exactly as it has always been, so
@@ -49,6 +51,10 @@ export default async function PacketInformationPage({
     id: "sensitive_identifier", heading: "Confidential identifier", description: "Confirm the existing court-approved delivery authority before entering the identifier.",
     translations: { es: { heading: "Identificador confidencial", description: "Confirme la autorización de entrega existente aprobada por el tribunal antes de ingresar el identificador." } },
     questionIds: ["mcic_identifier_delivery_method", "mcic_identifier_method_confirmation_source", "social_security_number"].filter((id) => displayedQuestions.some((question) => question.id === id))
+  }] : model && editId === "contact_information" ? [{
+    id: "contact_review", heading: "Review your saved contact details", description: "Complete or correct the separate contact details first.",
+    translations: { es: { heading: "Revise sus datos de contacto guardados", description: "Primero complete o corrija los datos de contacto por separado." } },
+    questionIds: ["mailing_address", "phone_number", "email_address", "contact_information"].filter((id) => displayedQuestions.some((question) => question.id === id))
   }] : model && !editId ? model.builderSections ?? [] : [];
   const savedSection = storedItem?.packetResumeSectionId;
   const resumeSectionId = typeof savedSection === "string" && (savedSection === "review" || packetScreensFor(displayedQuestions, displayedSections).some((section) => section.id === savedSection)) ? savedSection : null;

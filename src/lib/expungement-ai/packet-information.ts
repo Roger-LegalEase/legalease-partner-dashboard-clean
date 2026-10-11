@@ -374,7 +374,7 @@ export function packetInformationPatch(input: {
   const priorSnapshot = protectedAuthoritySnapshotFor(priorProtected)!;
   const freshSensitiveMaps = refreshedSensitiveFactMaps(priorSnapshot.jurisdiction, priorSnapshot.pathwayId, priorSnapshot.requiredInputIds,
     answerRecord(priorSnapshot.screeningAnswers), answerRecord(priorSnapshot.prefilledAnswers), answerRecord(priorSnapshot.packetAnswers));
-  const freshContact = refreshedContactFactMaps(priorSnapshot, freshSensitiveMaps);
+  const freshContact = refreshedPacketFactMaps(priorSnapshot, freshSensitiveMaps);
   const derivedRepairRequired = !canonicalEqual(freshContact.maps, {
     screeningAnswers: priorSnapshot.screeningAnswers, prefilledAnswers: priorSnapshot.prefilledAnswers, packetAnswers: priorSnapshot.packetAnswers
   });
@@ -593,7 +593,7 @@ export function protectedPacketInformationModelFor(
     packetAnswers,
     serverFacts
   } = sourceDisjointFactMaps({
-    ...refreshedContactFactMaps(snapshot, refreshedSensitiveFactMaps(snapshot.jurisdiction, snapshot.pathwayId, snapshot.requiredInputIds,
+    ...refreshedPacketFactMaps(snapshot, refreshedSensitiveFactMaps(snapshot.jurisdiction, snapshot.pathwayId, snapshot.requiredInputIds,
       answerRecord(snapshot.screeningAnswers), answerRecord(snapshot.prefilledAnswers), answerRecord(snapshot.packetAnswers))).maps,
     serverFacts: snapshot.serverFacts
   });
@@ -1001,7 +1001,7 @@ function deriveProtectedPacketDraftSnapshot(
 ): ProtectedPacketDraftSnapshot | null {
   const base = protectedAuthoritySnapshotFor(verification);
   if (!base) return null;
-  const refreshed = refreshedContactFactMaps(base, { screeningAnswers: answerRecord(base.screeningAnswers),
+  const refreshed = refreshedPacketFactMaps(base, { screeningAnswers: answerRecord(base.screeningAnswers),
     prefilledAnswers: answerRecord(base.prefilledAnswers), packetAnswers }, useContactComponents);
   if (useContactComponents && !refreshed.adopted) return null;
   const candidate: ProtectedPacketAuthoritySnapshot = { ...base, ...refreshed.maps, dependencies: refreshed.dependencies };
@@ -1029,6 +1029,57 @@ function refreshedSensitiveFactMaps(state: string, pathwayId: string | null, req
 }
 
 type ParticipantFactMaps = { screeningAnswers: Record<string, AnswerValue>; prefilledAnswers: Record<string, AnswerValue>; packetAnswers: Record<string, AnswerValue> };
+
+/** Existing collection rules only; their route/materialization guards still decide whether each can run. */
+const REFRESHABLE_PACKET_DERIVATIONS = ["court_type", "court_name", "filing_location", "age_at_offense", "offense_category", "charge_classification"];
+
+type PacketDerivationSource = Pick<ProtectedPacketAuthoritySnapshot, "jurisdiction" | "pathwayId" | "profileVersion" | "requiredInputIds" | "dependencies" | "screeningAnswers" | "prefilledAnswers" | "packetAnswers">;
+
+function refreshedPacketFactMaps(base: PacketDerivationSource, incoming: ParticipantFactMaps, adoptContact = false) {
+  const contact = refreshedContactFactMaps(base, incoming, adoptContact);
+  const maps = contact.maps;
+  let dependencies = contact.dependencies;
+  const current = { ...maps.screeningAnswers, ...maps.prefilledAnswers, ...maps.packetAnswers };
+  const priorMaps = { screeningAnswers: answerRecord(base.screeningAnswers), prefilledAnswers: answerRecord(base.prefilledAnswers), packetAnswers: answerRecord(base.packetAnswers) };
+  const prior = { ...priorMaps.screeningAnswers, ...priorMaps.prefilledAnswers, ...priorMaps.packetAnswers };
+  const withoutTargets = (answers: Record<string, AnswerValue>) => Object.fromEntries(Object.entries(answers).filter(([id]) => !REFRESHABLE_PACKET_DERIVATIONS.includes(id)));
+  const candidates = (source: ParticipantFactMaps) => packetCollectionFor({ jurisdiction: base.jurisdiction, pathwayId: base.pathwayId,
+    requiredInputIds: base.requiredInputIds, serverFacts: canonicalServerFacts(base.jurisdiction, base.pathwayId),
+    screeningAnswers: withoutTargets(source.screeningAnswers), prefilledAnswers: withoutTargets(source.prefilledAnswers), savedAnswers: withoutTargets(source.packetAnswers) });
+  const nextCandidates = candidates(maps), priorCandidates = candidates(priorMaps);
+  const routeKey = `${base.jurisdiction}:${base.pathwayId ?? ""}`;
+  const hash = (value: unknown) => createHash("sha256").update(JSON.stringify(canonicalize(value))).digest("hex");
+  for (const id of REFRESHABLE_PACKET_DERIVATIONS) {
+    const fact = nextCandidates?.facts.find((entry) => entry.factId === id && entry.derivation);
+    if (!fact?.derivation) continue;
+    const output = nextCandidates?.derivedFacts[id], retained = current[id];
+    const oldOutput = priorCandidates?.derivedFacts[id];
+    const recorded = dependencies.packetDerivations?.[id];
+    const proven = recorded?.version === 1 && recorded.routeKey === routeKey
+      && canonicalEqual(recorded.inputFactIds, fact.derivation.inputFactIds) && /^[a-f0-9]{64}$/.test(recorded.inputSha256)
+      && retained !== undefined && recorded.outputSha256 === hash(retained);
+    const question = fallbackPacketQuestion(id);
+    const exact = output !== undefined && sameKnownQuestionAnswer(question, retained, output);
+    const previousExact = oldOutput !== undefined && canonicalEqual(retained, prior[id]) && sameKnownQuestionAnswer(question, retained, oldOutput);
+    const absent = retained === undefined || retained === null || retained === "";
+    if (!(absent || proven || previousExact) || exact && !proven) continue;
+    const history = [...(recorded?.legacyValues ?? [])];
+    if (previousExact && !proven && !exact && !absent) for (const source of ["screeningAnswers", "prefilledAnswers", "packetAnswers"] as const) {
+      if (!(id in maps[source])) continue;
+      const entry = { source, value: maps[source][id], meaning: "exact_prior_derived_representation" as const, profileVersion: base.profileVersion, routeKey };
+      if (!history.some((old) => canonicalEqual(old, entry))) history.push(entry);
+    }
+    for (const source of Object.values(maps)) delete source[id];
+    if (output !== undefined) maps.prefilledAnswers[id] = output;
+    // A missing output has explicit pending dependencies, not an invented value.
+    dependencies = { ...dependencies, packetDerivations: { ...dependencies.packetDerivations, [id]: {
+      version: 1, routeKey, inputFactIds: [...fact.derivation.inputFactIds],
+      inputSha256: hash(fact.derivation.inputFactIds.map((sourceId) => current[sourceId] ?? null)), outputSha256: hash(output ?? null),
+      ...(history.length ? { legacyValues: history } : {})
+    } } };
+  }
+  return { ...contact, maps, dependencies };
+}
 
 /** Refresh only a proven representation; independent legacy text stays intact until informed adoption. */
 function refreshedContactFactMaps(base: Pick<ProtectedPacketAuthoritySnapshot, "jurisdiction" | "pathwayId" | "requiredInputIds" | "dependencies" | "screeningAnswers" | "prefilledAnswers" | "packetAnswers">, incoming: ParticipantFactMaps, adopt = false) {
@@ -1103,7 +1154,7 @@ export function protectedPacketDraftSeedFromAuthoritative(input: {
   if (!profile || profile.profileVersion !== evaluation.profileVersion) return null;
   const packetPlan = evaluation.packetPlan ?? null;
   const sensitiveMaps = refreshedSensitiveFactMaps(evaluation.jurisdiction, evaluation.pathwayId ?? null, packetPlan?.requiredInputIds ?? [], input.screeningAnswers, input.prefilledAnswers ?? {}, input.packetAnswers ?? {});
-  const contact = refreshedContactFactMaps({ jurisdiction: evaluation.jurisdiction, pathwayId: evaluation.pathwayId ?? null,
+  const contact = refreshedPacketFactMaps({ jurisdiction: evaluation.jurisdiction, pathwayId: evaluation.pathwayId ?? null, profileVersion: evaluation.profileVersion,
     requiredInputIds: packetPlan?.requiredInputIds ?? [], dependencies: input.dependencies, ...sensitiveMaps }, sensitiveMaps);
   const { screeningAnswers: incomingScreening, prefilledAnswers: incomingPrefilled, packetAnswers: incomingPacketAnswers } = contact.maps;
   const factMaps = sourceDisjointFactMaps({
@@ -1152,7 +1203,7 @@ export function protectedPacketDraftSeedFromAuthoritative(input: {
 
 function protectedPacketDraftReviewSafety(draft: ProtectedPacketAuthoritySnapshot, verifiedAt: string) {
   const originalMaps = { screeningAnswers: answerRecord(draft.screeningAnswers), prefilledAnswers: answerRecord(draft.prefilledAnswers), packetAnswers: answerRecord(draft.packetAnswers) };
-  if (!canonicalEqual(refreshedContactFactMaps(draft, originalMaps).maps, originalMaps)) return { safe: false, reason: "stale_contact_representation" };
+  if (!canonicalEqual(refreshedPacketFactMaps(draft, originalMaps).maps, originalMaps)) return { safe: false, reason: "stale_packet_derivation" };
   const authoritative = evaluateProtectedPacketFacts(draft);
   if (!authoritative) return { safe: false, reason: "authoritative_reevaluation_failed" };
   const { evaluation } = authoritative;

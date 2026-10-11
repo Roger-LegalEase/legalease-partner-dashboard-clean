@@ -80,6 +80,15 @@ export type PacketVerificationSnapshot = {
     entitlementSource: string | null;
     productId: string | null;
     contactRepresentation?: import("@/lib/expungement-ai/contact-representation").ContactRepresentationProvenance;
+    packetDerivations?: Record<string, {
+      version: 1;
+      routeKey: string;
+      inputFactIds: string[];
+      inputSha256: string;
+      outputSha256: string;
+      legacyValues?: Array<{ source: "screeningAnswers" | "prefilledAnswers" | "packetAnswers"; value: unknown;
+        meaning: "exact_prior_derived_representation"; profileVersion: string; routeKey: string }>;
+    }>;
   };
 };
 
