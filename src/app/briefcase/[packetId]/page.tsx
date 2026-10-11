@@ -1,10 +1,11 @@
+import { packetDisplayCopy } from "@/lib/expungement-ai/packet-display-copy";
 import { SponsorCapacityNotice } from "@/components/expungement-ai/SponsorCapacityNotice";
 import Link from "next/link";
 import { Download, MessageCircle } from "lucide-react";
 
 import { BriefcaseShell } from "@/components/expungement-ai/BriefcaseShell";
 import { MatterStatusBadge, MatterStepper } from "@/components/expungement-ai/BriefcaseViews";
-import { LocalizedRuntimeText } from "@/components/expungement-ai/LocalizationProvider";
+import { LocalizedCopy, LocalizedRuntimeText } from "@/components/expungement-ai/LocalizationProvider";
 import { requireConsumerBriefcaseSession } from "@/lib/expungement-ai/auth";
 import { getBriefcaseItem } from "@/lib/expungement-ai/briefcase";
 import {
@@ -52,7 +53,7 @@ export default async function BriefcasePacketPage({
       caseState={item?.jurisdiction ?? undefined}
       briefcaseItemId={item?.id}
       activeNav="matters"
-      breadcrumb={item ? <><Link href="/briefcase/matters" className="hover:text-[#1A1D26]">My matters</Link> / <b className="text-[#1A1D26]">{item.title}</b></> : <b className="text-[#1A1D26]">Matter</b>}
+      breadcrumb={item ? <><Link href="/briefcase/matters" className="hover:text-[#1A1D26]"><LocalizedRuntimeText text={"My matters"} /></Link> / <b className="text-[#1A1D26]">{item.title}</b></> : <b className="text-[#1A1D26]"><LocalizedRuntimeText text={"Matter"} /></b>}
     >
       {item && item.authorityStatus !== "unavailable" ? (
         <section data-briefcase-matter-id={item.id}>
@@ -74,26 +75,26 @@ export default async function BriefcasePacketPage({
             <>
               <div className="mt-6 rounded-[16px] border border-[#ECEFF4] bg-white p-6">
                 <h2 className="text-lg font-extrabold text-[#0B1320]">
-                  {mississippiClinicPacket ? "Your Mississippi clinic packet" : humanMatterState(item)}
+                  <LocalizedRuntimeText text={mississippiClinicPacket ? "Your Mississippi clinic packet" : humanMatterState(item)} />
                 </h2>
                 {!item.commercialActions.fulfillmentAvailable ? (
                   <p className="mt-2 text-sm leading-6 text-[#5A6275]" role="status"><LocalizedRuntimeText text="A packet is not available for this route yet. Your eligibility result and saved information remain available." /></p>
                 ) : sponsored ? (
-                  <p className="mt-2 text-sm leading-6 text-[#5A6275]">Your packet is covered through your partner program. Complete the packet information and review it before generation.</p>
+                  <p className="mt-2 text-sm leading-6 text-[#5A6275]"><LocalizedRuntimeText text={"Your packet is covered through your partner program. Complete the packet information and review it before generation."} /></p>
                 ) : (
                   <>
-                    <p className="mt-2 text-sm leading-6 text-[#5A6275]">{item.paymentState === "paid" ? "Your payment is confirmed for this matter. Preparing or retrying this packet does not require another purchase." : "Your Briefcase is free. Complete your packet information and pay only when you're ready to generate your packet."}</p>
-                    {item.paymentState !== "paid" ? <p className="mt-3 text-sm font-bold text-[#0B1320]">$50 one time when you are ready to generate this packet</p> : null}
+                    <p className="mt-2 text-sm leading-6 text-[#5A6275]"><LocalizedRuntimeText text={item.paymentState === "paid" ? "Your payment is confirmed for this matter. Preparing or retrying this packet does not require another purchase." : "Your Briefcase is free. Complete your packet information and pay only when you're ready to generate your packet."} /></p>
+                    {item.paymentState !== "paid" ? <p className="mt-3 text-sm font-bold text-[#0B1320]"><LocalizedRuntimeText text={"$50 one time when you are ready to generate this packet"} /></p> : null}
                   </>
                 )}
 
                 <ul className="mt-5 grid gap-2 text-sm leading-6 text-[#475A6E]">
-                  {packetComponents.map((component, index) => <li key={`${component}-${index}`}>• {component}</li>)}
+                  {packetComponents.map((component, index) => <li key={`${component}-${index}`}>• <LocalizedCopy {...packetDisplayCopy("expected_packet_component", item.jurisdiction, item.pathwayId, component)} /></li>)}
                 </ul>
 
                 {!artifact && !packetDraftAvailable ? (
                   <p className="mt-5 rounded-[10px] bg-[#F7F3EC] px-4 py-3 text-sm text-[#5A6275]" role="status" aria-live="polite">
-                    Packet information is temporarily unavailable. Refresh this matter before continuing.
+                    <LocalizedRuntimeText text={"Packet information is temporarily unavailable. Refresh this matter before continuing."} />
                   </p>
                 ) : null}
 
@@ -101,26 +102,26 @@ export default async function BriefcasePacketPage({
                   {item.paymentState === "paid" && factsVerified && !artifact && item.commercialActions.generationAllowed ? <PacketGenerateButton briefcaseItemId={item.id} mode="paid_durable" initiallyPreparing={paidPreparation?.packetStatus === "pending"} initiallyFailed={paidPreparation?.packetStatus === "failed"} initiallyRetryable={paidPreparation?.retryable === true} label="Prepare my packet" /> : null}
                   {!artifact && packetDraftAvailable && item.packetProgress === "not_started" ? (
                     <Link className="inline-flex min-h-11 items-center rounded-[10px] bg-[#C2350A] px-5 text-sm font-bold text-white" href={`/briefcase/${item.id}/packet-information`}>
-                      {mississippiClinicPacket ? "Continue my Mississippi clinic packet" : "Complete packet information"}
+                      <LocalizedRuntimeText text={mississippiClinicPacket ? "Continue my Mississippi clinic packet" : "Complete packet information"} />
                     </Link>
                   ) : null}
                   {!artifact && packetDraftAvailable && item.packetProgress === "in_progress" ? (
                     <Link className="inline-flex min-h-11 items-center rounded-[10px] bg-[#C2350A] px-5 text-sm font-bold text-white" href={`/briefcase/${item.id}/packet-information`}>
-                      {mississippiClinicPacket ? "Continue my Mississippi clinic packet" : "Resume packet information"}
+                      <LocalizedRuntimeText text={mississippiClinicPacket ? "Continue my Mississippi clinic packet" : "Resume packet information"} />
                     </Link>
                   ) : null}
                   {!artifact && packetDraftAvailable && item.packetProgress === "facts_complete" ? (
                     <Link className="inline-flex min-h-11 items-center rounded-[10px] bg-[#C2350A] px-5 text-sm font-bold text-white" href={`/briefcase/${item.id}/review`}>
-                      Review packet facts
+                      <LocalizedRuntimeText text={"Review packet facts"} />
                     </Link>
                   ) : null}
                   {!artifact && packetDraftAvailable && item.packetProgress === "verified" && factsVerified ? (
                     <Link className="inline-flex min-h-11 items-center rounded-[10px] bg-[#C2350A] px-5 text-sm font-bold text-white" href={`/briefcase/${item.id}/review`}>
-                      Review verified facts
+                      <LocalizedRuntimeText text={"Review verified facts"} />
                     </Link>
                   ) : null}
                   <Link className="inline-flex min-h-11 items-center justify-center gap-2 rounded-[10px] border border-[#D9DEE8] px-5 text-sm font-bold text-[#0B1320]" href="#ask-wilma">
-                    <MessageCircle className="h-4 w-4" aria-hidden="true" /> Ask Wilma about next steps
+                    <MessageCircle className="h-4 w-4" aria-hidden="true" /> <LocalizedRuntimeText text={"Ask Wilma about next steps"} />
                   </Link>
                 </div>
               </div>
@@ -131,17 +132,17 @@ export default async function BriefcasePacketPage({
         </section>
       ) : item ? (
         <section className="rounded-[16px] border border-[#ECEFF4] bg-white p-6" role="status" aria-live="polite">
-          <p className="text-xs font-bold uppercase text-[#5E687A]">Details unavailable</p>
-          <h1 className="mt-3 text-2xl font-extrabold text-[#0B1320]">We could not verify this matter&apos;s saved details.</h1>
-          <p className="mt-3 text-sm leading-6 text-[#5A6275]">Refresh the page to try again. No packet, payment, or filing status is shown until the saved authority can be verified.</p>
-          <Link className="mt-6 inline-flex min-h-11 items-center rounded-[10px] bg-[#0B1320] px-5 text-sm font-bold text-white" href="/briefcase">Back to Briefcase</Link>
+          <p className="text-xs font-bold uppercase text-[#5E687A]"><LocalizedRuntimeText text={"Details unavailable"} /></p>
+          <h1 className="mt-3 text-2xl font-extrabold text-[#0B1320]"><LocalizedRuntimeText text={"We could not verify this matter's saved details."} /></h1>
+          <p className="mt-3 text-sm leading-6 text-[#5A6275]"><LocalizedRuntimeText text={"Refresh the page to try again. No packet, payment, or filing status is shown until the saved authority can be verified."} /></p>
+          <Link className="mt-6 inline-flex min-h-11 items-center rounded-[10px] bg-[#0B1320] px-5 text-sm font-bold text-white" href="/briefcase"><LocalizedRuntimeText text={"Back to Briefcase"} /></Link>
         </section>
       ) : (
         <section className="rounded-[16px] border border-[#ECEFF4] bg-white p-6">
-          <p className="text-xs font-bold uppercase text-[#E0A93B]">Not found</p>
-          <h1 className="mt-3 text-2xl font-extrabold text-[#0B1320]">We couldn&apos;t find that matter</h1>
-          <p className="mt-3 text-sm leading-6 text-[#5A6275]">This matter is not in your Briefcase.</p>
-          <Link className="mt-6 inline-flex min-h-11 items-center rounded-[10px] bg-[#0B1320] px-5 text-sm font-bold text-white" href="/briefcase">Open Briefcase</Link>
+          <p className="text-xs font-bold uppercase text-[#E0A93B]"><LocalizedRuntimeText text={"Not found"} /></p>
+          <h1 className="mt-3 text-2xl font-extrabold text-[#0B1320]"><LocalizedRuntimeText text={"We couldn't find that matter"} /></h1>
+          <p className="mt-3 text-sm leading-6 text-[#5A6275]"><LocalizedRuntimeText text={"This matter is not in your Briefcase."} /></p>
+          <Link className="mt-6 inline-flex min-h-11 items-center rounded-[10px] bg-[#0B1320] px-5 text-sm font-bold text-white" href="/briefcase"><LocalizedRuntimeText text={"Open Briefcase"} /></Link>
         </section>
       )}
     </BriefcaseShell>
@@ -151,9 +152,9 @@ export default async function BriefcasePacketPage({
 function SavedResultValue({ item }: { item: BriefcasePresentationItem }) {
   return (
     <div className="mt-6 rounded-[16px] border border-[#ECEFF4] bg-white p-6" data-briefcase-guidance-state={humanMatterState(item)}>
-      <h2 className="text-lg font-extrabold text-[#0B1320]">{humanMatterState(item)}</h2>
-      <p className="mt-2 text-sm leading-6 text-[#5A6275]">We saved this result and its state-specific next steps in your free Briefcase. You can return anytime as you gather information or follow the guidance below.</p>
-      <h3 className="mt-5 text-sm font-bold text-[#0B1320]">Your next steps</h3>
+      <h2 className="text-lg font-extrabold text-[#0B1320]"><LocalizedRuntimeText text={humanMatterState(item)} /></h2>
+      <p className="mt-2 text-sm leading-6 text-[#5A6275]"><LocalizedRuntimeText text={"We saved this result and its state-specific next steps in your free Briefcase. You can return anytime as you gather information or follow the guidance below."} /></p>
+      <h3 className="mt-5 text-sm font-bold text-[#0B1320]"><LocalizedRuntimeText text={"Your next steps"} /></h3>
       <ol className="mt-3 space-y-3">
         {item.nextSteps.map((step, index) => (
           <li className="flex gap-3 text-sm leading-6 text-[#5A6275]" key={`${step}-${index}`}>
@@ -163,7 +164,7 @@ function SavedResultValue({ item }: { item: BriefcasePresentationItem }) {
         ))}
       </ol>
       <Link className="mt-5 inline-flex min-h-11 items-center justify-center gap-2 rounded-[10px] border border-[#D9DEE8] px-5 text-sm font-bold text-[#0B1320]" href={`/expungement-ai/support?briefcaseItemId=${encodeURIComponent(item.id)}`}>
-        <MessageCircle className="h-4 w-4" aria-hidden="true" /> Ask Wilma to explain this
+        <MessageCircle className="h-4 w-4" aria-hidden="true" /> <LocalizedRuntimeText text={"Ask Wilma to explain this"} />
       </Link>
     </div>
   );
@@ -183,23 +184,23 @@ function ReadyPacket({
   return (
     <>
       <div className="mt-6 rounded-[16px] border border-[#ECEFF4] bg-white p-6" data-packet-ready="true">
-        <h2 className="text-lg font-extrabold text-[#0B1320]">Packet ready</h2>
+        <h2 className="text-lg font-extrabold text-[#0B1320]"><LocalizedRuntimeText text={"Packet ready"} /></h2>
         <p className="mt-2 text-sm leading-6 text-[#5A6275]">
-          Your private PDF is ready to download and reopen from this matter.
-          {artifact.pageCount ? ` ${artifact.pageCount} pages.` : ""}
+          <LocalizedRuntimeText text={"Your private PDF is ready to download and reopen from this matter."} />
+          {artifact.pageCount ? <>{" "}<LocalizedRuntimeText text={artifact.pageCount === 1 ? "{count} page." : "{count} pages."} vars={{ count: artifact.pageCount }} /></> : ""}
         </p>
         <div className="mt-5 flex flex-wrap gap-3">
           {artifact.documents.map((document) => (
             <a href={document.downloadPath} className="inline-flex min-h-11 items-center gap-2 rounded-[10px] bg-[#0B1320] px-5 text-sm font-bold text-white" key={`${document.kind}:${document.downloadPath}`}>
-              <Download className="h-4 w-4" aria-hidden="true" /> {mississippiClinicPacket ? "Download Mississippi non-conviction expungement packet" : `Download ${document.fileName}`}
+              <Download className="h-4 w-4" aria-hidden="true" /> <LocalizedRuntimeText text={mississippiClinicPacket ? "Download Mississippi non-conviction expungement packet" : "Download {fileName}"} vars={{ fileName: document.fileName }} />
             </a>
           ))}
         </div>
-        <Link href={`/briefcase/${itemId}/review`} className="ml-3 mt-5 inline-flex min-h-11 items-center rounded-[10px] border border-[#D9DEE8] px-5 text-sm font-bold text-[#0B1320]">Review packet information</Link>
+        <Link href={`/briefcase/${itemId}/review`} className="ml-3 mt-5 inline-flex min-h-11 items-center rounded-[10px] border border-[#D9DEE8] px-5 text-sm font-bold text-[#0B1320]"><LocalizedRuntimeText text={"Review packet information"} /></Link>
       </div>
       {nextSteps.length > 0 ? (
         <div className="mt-6 rounded-[16px] border border-[#ECEFF4] bg-white p-6">
-          <h2 className="text-lg font-extrabold text-[#0B1320]">Filing next steps</h2>
+          <h2 className="text-lg font-extrabold text-[#0B1320]"><LocalizedRuntimeText text={"Filing next steps"} /></h2>
           <ol className="mt-4 space-y-3">
             {nextSteps.map((step, index) => <li className="text-sm leading-6 text-[#5A6275]" key={`${step}-${index}`}>{index + 1}. <LocalizedRuntimeText text={step} /></li>)}
           </ol>

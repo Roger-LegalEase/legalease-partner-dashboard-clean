@@ -92,12 +92,7 @@ for (const profile of getAllJurisdictionProfiles()) {
   }
 }
 
-/**
- * Resolved exactly as the nationwide audit resolves it: no participant answers
- * at all. That is the honest worst case -- nothing is carried forward from
- * screening and nothing is derived -- so a fact that reaches the gate here
- * reaches it on every real matter too.
- */
+/** Empty-answer production projection, not a universal maximum or live journey. */
 function resolutionFor(routeKey, profile, pathway, specification) {
   const plan = packetPlanForPathway(profile, pathway.id);
   if (!plan || plan.requiredInputIds.length === 0) return null;
@@ -214,6 +209,7 @@ const ADMITTED_BY_NAME = new Set(["prepay_confirmation", "render_required"]);
 const externallyAcquired = [];
 const notYetProbes = [];
 const gateClassCounts = {};
+const unresolvedCollectionFacts = [];
 const renderProbe = { required: 0, overGated: [], unreachable: [] };
 
 /** Values that satisfy each route's own rules, not merely its fact list. */
@@ -239,6 +235,7 @@ for (const [routeKey, { profile, pathway }] of pathwayByRouteKey) {
   const specification = packetSpecificationFor(routeKey);
   const resolved = resolutionFor(routeKey, profile, pathway, specification ?? null);
   if (!resolved) continue;
+  for (const factId of resolved.resolution.unresolvedRequiredFacts) unresolvedCollectionFacts.push(`${routeKey}|${factId}`);
 
   const gate = new Set(prepayGateFactIds(resolved.resolution));
   const readiness = filingReadinessFactIds(resolved.resolution);
@@ -520,3 +517,6 @@ for (const row of perRoute) {
     ? `    ${row.routeKey}: ${row.note}`
     : `    ${row.routeKey}: ${row.inGate}/${row.participant} in gate, ${row.excused} excused`);
 }
+
+console.log(`  empty-answer unresolved collection facts: ${unresolvedCollectionFacts.length} (GA-14; not a zero-gap claim)`);
+for (const fact of unresolvedCollectionFacts) console.log(`    unresolved: ${fact}`);

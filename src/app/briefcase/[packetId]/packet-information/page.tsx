@@ -1,4 +1,5 @@
-import { LocalizedRuntimeText } from "@/components/expungement-ai/LocalizationProvider";
+import { packetDisplayCopy } from "@/lib/expungement-ai/packet-display-copy";
+import { LocalizedCopy, LocalizedRuntimeText } from "@/components/expungement-ai/LocalizationProvider";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { editablePacketInputIds, packetAccountEmailSuggestion } from "@/lib/expungement-ai/packet-information";
@@ -73,7 +74,7 @@ export default async function PacketInformationPage({
             <div>
               <p className="text-xs font-bold uppercase tracking-[0.08em] text-[#08786F]">{item.jurisdiction}</p>
               <h1 className="mt-2 text-[26px] font-extrabold tracking-[-0.02em] text-[#0B1320]"><LocalizedRuntimeText text={"Complete packet information"} /></h1>
-              {item.pathwayLabel ? <p className="mt-2 text-sm font-semibold text-[#475A6E]">{item.pathwayLabel}</p> : null}
+              {item.pathwayLabel ? <p className="mt-2 text-sm font-semibold text-[#475A6E]"><LocalizedCopy {...packetDisplayCopy("route_label", item.jurisdiction, item.pathwayId, item.pathwayLabel)} /></p> : null}
             </div>
             <MatterStatusBadge item={item} />
           </div>

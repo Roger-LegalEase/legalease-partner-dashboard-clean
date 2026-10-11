@@ -1,3 +1,4 @@
+import { packetDisplayCopy } from "@/lib/expungement-ai/packet-display-copy";
 import { COURT_RECORD_CONFLICT_COPY } from "@/lib/expungement-ai/record-fact-copy";
 import { SponsorCapacityNotice } from "@/components/expungement-ai/SponsorCapacityNotice";
 import Link from "next/link";
@@ -105,7 +106,7 @@ export default async function PacketAccuracyReviewPage({
               <p className="text-sm leading-6 text-[#475A6E]" id="verification-context-description"><LocalizedRuntimeText text={"These identify the saved case you are reviewing. Your answers above determine the packet and its requirements."} /></p>
               <dl aria-describedby="verification-context-description" className="mt-4 grid gap-3 text-sm">
                 <SummaryLine label="Jurisdiction" value={item.jurisdiction ?? "Unavailable"} translateValue={!item.jurisdiction} />
-                <SummaryLine label="Packet pathway" value={item.pathwayLabel ?? "Saved packet pathway"} translateValue={!item.pathwayLabel} />
+                <SummaryLine label="Packet pathway" value={item.pathwayLabel ? <LocalizedCopy {...packetDisplayCopy("route_label", item.jurisdiction, item.pathwayId, item.pathwayLabel)} /> : "Saved packet pathway"} />
               </dl>
             </ReviewCard>
           </div>
@@ -115,7 +116,7 @@ export default async function PacketAccuracyReviewPage({
               <ul className="space-y-2">
                 {model.expectedComponents.map((component) => (
                   <li className="flex gap-2 text-sm leading-6 text-[#475A6E]" key={component}>
-                    <CheckCircle2 className="mt-1 h-4 w-4 shrink-0 text-[#00A99D]" aria-hidden="true" /> {component}
+                    <CheckCircle2 className="mt-1 h-4 w-4 shrink-0 text-[#00A99D]" aria-hidden="true" /> <LocalizedCopy {...packetDisplayCopy("expected_packet_component", item.jurisdiction, item.pathwayId, component)} />
                   </li>
                 ))}
               </ul>
@@ -213,8 +214,8 @@ function AnswerSection({ title, itemId, rows }: { title: string; itemId: string;
   );
 }
 
-function SummaryLine({ label, value, translateValue = true }: { label: string; value: string; translateValue?: boolean }) {
-  return <div className="grid gap-1 sm:grid-cols-[12rem_1fr]"><dt className="font-bold text-[#334155]"><LocalizedRuntimeText text={label} /></dt><dd className="break-words text-[#475A6E]">{translateValue ? <LocalizedRuntimeText text={value} /> : value}</dd></div>;
+function SummaryLine({ label, value, translateValue = true }: { label: string; value: ReactNode; translateValue?: boolean }) {
+  return <div className="grid gap-1 sm:grid-cols-[12rem_1fr]"><dt className="font-bold text-[#334155]"><LocalizedRuntimeText text={label} /></dt><dd className="break-words text-[#475A6E]">{translateValue && typeof value === "string" ? <LocalizedRuntimeText text={value} /> : value}</dd></div>;
 }
 
 function QuestionPrompt({ question }: { question?: ProfileQuestion }) {
