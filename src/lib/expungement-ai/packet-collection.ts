@@ -216,6 +216,8 @@ export type ResolvedPacketFact = {
   value?: AnswerValue;
   /** A planned derivation is not a usable output or a second participant prompt. */
   derivation?: { state: "pending" | "valid"; inputFactIds: string[] };
+  /** A retained independent answer needs one informed replacement, not a silent merge. */
+  reconciliation?: "contact_components";
   /** Present for `external_actor` only: the actor who fills this field, later. */
   actor?: string;
   /** Present for `conditional`: the fact that decides whether this is asked. */
@@ -250,6 +252,7 @@ export type PacketCollectionResolution = {
   externalActorFields: Array<{ factId: string; actor: string }>;
   unresolvedRequiredFacts: string[];
   pendingDerivations: Array<{ factId: string; inputFactIds: string[] }>;
+  contactReconciliation?: { canUseComponents: boolean };
   hardBlockers: Array<{ factId: string; reason: string }>;
 };
 
@@ -298,6 +301,8 @@ export type PacketCollectionInput = {
    * baseline already carried it. Anything else is asked.
    */
   baselineCarriedFactIds?: ReadonlySet<string>;
+  /** Set only by the exact reviewed route/specification/consumer predicate. */
+  reviewedContactRepresentation?: boolean;
   /** Per-route corrections, used only where the generic policy cannot be right. */
   override?: RouteCollectionOverride | null;
 };
@@ -546,6 +551,7 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
   const known: Record<string, AnswerValue> = {};
   const derived: Record<string, AnswerValue> = {};
   const facts: ResolvedPacketFact[] = [];
+  let contactReconciliation: PacketCollectionResolution["contactReconciliation"];
   const validValue = (id: string, value: AnswerValue | undefined) => {
     const question = input.questionById?.get(id);
     return question ? questionAnswerState(question, value) === "known_valid" : valueIsKnown(value);
@@ -640,6 +646,30 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
         source: "route_override",
         reason: override?.note ?? "the route override defers this fact to human classification"
       });
+      continue;
+    }
+
+    // The aggregate is only a representation on these reviewed contracts. All
+    // three participant-owned components remain independently required/editable.
+    if (factId === "contact_information" && input.reviewedContactRepresentation === true
+      && !decidesRouteFor(factId) && !unresolvedScopeFor(factId) && overrideClass !== "prepay_confirmation") {
+      const rule = DERIVATIONS.contact_information;
+      const components = Object.fromEntries(rule.from.map((id) => [id, resolvedText(id)]));
+      const value = rule.from.every((id) => components[id] && !isUnknownText(components[id])) ? rule.derive(components) : null;
+      const retained = input.savedAnswers && factId in input.savedAnswers ? input.savedAnswers[factId] : available[factId];
+      if (retained !== undefined && retained !== null && retained !== ""
+        && (!validValue(factId, retained) || !value || answerString(retained) !== value)) {
+        contactReconciliation = { canUseComponents: value !== null };
+        facts.push({ factId, collection: "prepay_confirmation", phase: "prepay_confirmation", group,
+          source: "legacy_contact_conflict", reconciliation: "contact_components",
+          reason: "the earlier contact answer differs; retain it until the participant explicitly chooses the component values" });
+      } else {
+        if (value) derived[factId] = value;
+        facts.push({ factId, collection: "derived", phase: "derived", group: null,
+          source: "derived_from:mailing_address+phone_number+email_address", ...(value ? { value } : {}),
+          derivation: { state: value ? "valid" : "pending", inputFactIds: [...rule.from] },
+          reason: "the reviewed document contract uses these three contact components; the legacy aggregate is their exact representation" });
+      }
       continue;
     }
 
@@ -913,6 +943,7 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
     pendingDerivations: facts
       .filter((fact) => fact.derivation?.state === "pending")
       .map((fact) => ({ factId: fact.factId, inputFactIds: [...fact.derivation!.inputFactIds] })),
+    ...(contactReconciliation ? { contactReconciliation } : {}),
     hardBlockers: input.requiredInputIds.length === 0
       ? [{ factId: "*", reason: "the route publishes no required packet inputs" }]
       : []

@@ -154,7 +154,7 @@ export function verificationSummary(model: {
     ...contextFacts.map((fact) => ({
       key: fact.key,
       label: fact.label,
-      value: displayVerificationAnswer(fact.value)
+      value: displayVerificationAnswer(fact.key === "dependencies" ? displayDependencies(fact.value) : fact.value)
     }))
   ];
 
@@ -164,6 +164,15 @@ export function verificationSummary(model: {
     screeningAnswers: rows.filter((row) => row.source === "screeningAnswers" && !SYSTEM_FACT_KEYS.has(row.key)),
     packetAnswers: rows.filter((row) => row.source !== "screeningAnswers" && !SYSTEM_FACT_KEYS.has(row.key))
   };
+}
+
+/** History remains in protected authority; generic review context is not an archive viewer. */
+function displayDependencies(value: unknown): unknown {
+  if (!value || typeof value !== "object" || Array.isArray(value)) return value;
+  const dependencies = value as Record<string, unknown>;
+  const contact = dependencies.contactRepresentation;
+  if (!contact || typeof contact !== "object" || Array.isArray(contact)) return value;
+  return { ...dependencies, contactRepresentation: Object.fromEntries(Object.entries(contact).filter(([key]) => key !== "legacyAnswers")) };
 }
 
 function readCanonicalFacts(value: unknown): CanonicalVerificationFact[] | null {

@@ -13,6 +13,7 @@ export type PacketSaveReceipt = {
   sections: PacketInformationSection[];
   missingInputIds: string[];
   pendingDerivations: Array<{ factId: string; inputFactIds: string[] }>;
+  contactReconciliation?: { canUseComponents: boolean } | null;
   resumeSectionId: string | null;
   reviewPath: string;
   readyToGenerate: boolean;
@@ -34,6 +35,7 @@ const receiptSchema = z.object({
   })),
   missingInputIds: z.array(z.string()),
   pendingDerivations: z.array(z.object({ factId: z.string(), inputFactIds: z.array(z.string()) })),
+  contactReconciliation: z.object({ canUseComponents: z.boolean() }).strict().nullable().optional(),
   resumeSectionId: z.string().nullable(), reviewPath: z.string().regex(/^\/briefcase\/[^/]+\/review$/),
   readyToGenerate: z.boolean(), reviewReason: z.string(),
   nextAction: z.enum(["continue_packet", "review_packet", "open_matter"])

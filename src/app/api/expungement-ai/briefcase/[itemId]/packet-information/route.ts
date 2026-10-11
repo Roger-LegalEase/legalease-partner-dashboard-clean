@@ -44,6 +44,7 @@ export async function GET(request: Request, context: { params: Promise<{ itemId:
     ok: true, revision: authority.value.revision, answers: packetAnswersForOwnerEditing(model.stateCode, model.pathwayId, model.initialAnswers, new Date().toISOString(), new URL(request.url).searchParams.get("editingFact") === "social_security_number" && model.questions.some((question) => question.id === "social_security_number")),
     questions: model.builderQuestions, reviewQuestions: model.questions, sections: model.builderSections,
     missingInputIds: model.missingInputIds, pendingDerivations: model.pendingDerivations,
+    contactReconciliation: model.contactReconciliation ?? null,
     resumeSectionId: item.packetResumeSectionId ?? null,
     reviewPath: `/briefcase/${encodeURIComponent(item.id)}/review`,
     readyToGenerate: model.stage === "ready_to_generate", reviewReason: model.reviewSafety.reason,
@@ -112,6 +113,15 @@ export async function POST(
   // while the detail is inactive. Ownership and readiness remain independent.
   const editableIds = editablePacketInputIds(protectedModel, true);
   const questionById = new Map(protectedModel.questions.map((question) => [question.id, question]));
+  if (parsed.useContactComponents) {
+    const proposed = { ...protectedModel.initialAnswers, ...parsed.answers };
+    const invalidContactIds = ["mailing_address", "phone_number", "email_address"].filter((id) => {
+      const question = questionById.get(id);
+      return !question || questionAnswerState(question, proposed[id]) !== "known_valid";
+    });
+    if (!protectedModel.contactReconciliation || invalidContactIds.length) return NextResponse.json({ ok: false,
+      error: "contact_reconciliation_not_available", invalidFactIds: invalidContactIds.length ? invalidContactIds : ["contact_information"] }, { status: 422 });
+  }
   const invalidFactIds = Object.entries(parsed.answers).filter(([id, value]) => {
     if (!editableIds.has(id)) return !sameAnswer(value, protectedModel.initialAnswers[id] ?? protectedModel.serverFacts[id]);
     const question = questionById.get(id);
@@ -128,6 +138,7 @@ export async function POST(
     existingItem: item,
     answers: parsed.answers,
     verify: parsed.verify,
+    useContactComponents: parsed.useContactComponents,
     protectedVerification: protectedRead.value
   });
   if (!update) {
@@ -164,6 +175,7 @@ export async function POST(
     reviewQuestions: canonical.questions,
     sections: canonical.builderSections,
     pendingDerivations: canonical.pendingDerivations,
+    contactReconciliation: canonical.contactReconciliation ?? null,
     resumeSectionId,
     readyToGenerate: update.readyToGenerate,
     reviewReason: packetDraftStopReason(canonical) ?? update.reviewReason,
@@ -175,7 +187,7 @@ export async function POST(
 }
 
 async function readBody(request: Request): Promise<
-  { ok: true; answers: Record<string, AnswerValue>; verify: boolean; expectedRevision: number | null; resumeSectionId: string | null; navigationIntent: PacketNavigationIntent; editingSensitiveIdentifier: boolean }
+  { ok: true; answers: Record<string, AnswerValue>; verify: boolean; useContactComponents: boolean; expectedRevision: number | null; resumeSectionId: string | null; navigationIntent: PacketNavigationIntent; editingSensitiveIdentifier: boolean }
   | { ok: false; tooLarge?: boolean }
 > {
   const contentLength = request.headers.get("content-length");
@@ -183,7 +195,7 @@ async function readBody(request: Request): Promise<
   const text = await request.text().catch(() => "");
   if (new TextEncoder().encode(text).length > maxPayloadBytes) return { ok: false, tooLarge: true };
   try {
-    const body = JSON.parse(text) as { answers?: unknown; verify?: unknown; expectedRevision?: unknown; resumeSectionId?: unknown; navigationIntent?: unknown; editingFact?: unknown };
+    const body = JSON.parse(text) as { answers?: unknown; verify?: unknown; useContactComponents?: unknown; expectedRevision?: unknown; resumeSectionId?: unknown; navigationIntent?: unknown; editingFact?: unknown };
     if (!body.answers || typeof body.answers !== "object" || Array.isArray(body.answers)) return { ok: false };
     if (Object.keys(body.answers).some((id) => !/^[a-z][a-z0-9_]*$/.test(id))) return { ok: false };
     if (!Object.values(body.answers).every(validDraftValue)) return { ok: false };
@@ -191,6 +203,7 @@ async function readBody(request: Request): Promise<
       ok: true,
       answers: body.answers as Record<string, AnswerValue>,
       verify: body.verify === true,
+      useContactComponents: body.useContactComponents === true,
       editingSensitiveIdentifier: body.editingFact === "social_security_number",
       expectedRevision: typeof body.expectedRevision === "number" && Number.isSafeInteger(body.expectedRevision) && body.expectedRevision >= 0 ? body.expectedRevision : null,
       resumeSectionId: typeof body.resumeSectionId === "string" ? body.resumeSectionId : null,

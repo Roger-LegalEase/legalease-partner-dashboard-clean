@@ -130,6 +130,14 @@ begin
       v_snapshot_display := v_snapshot_display #- array[v_answer_map,'social_security_number'];
     end if;
   end loop;
+  -- A superseded contact answer is retained only in protected authority. It
+  -- is historical context, not another active answer or summary field.
+  if jsonb_typeof(v_draft_display #> '{dependencies,contactRepresentation}') = 'object' then
+    v_draft_display := v_draft_display #- '{dependencies,contactRepresentation,legacyAnswers}';
+  end if;
+  if jsonb_typeof(v_snapshot_display #> '{dependencies,contactRepresentation}') = 'object' then
+    v_snapshot_display := v_snapshot_display #- '{dependencies,contactRepresentation,legacyAnswers}';
+  end if;
   if jsonb_typeof(v_metadata_display -> 'prefilledAnswers') = 'object' then
     v_metadata_display := v_metadata_display #- '{prefilledAnswers,social_security_number}';
   end if;

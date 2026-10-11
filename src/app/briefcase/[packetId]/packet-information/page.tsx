@@ -92,6 +92,7 @@ export default async function PacketInformationPage({
             initialRevision={model.revision}
             initialResumeSectionId={resumeSectionId}
             initialPendingDerivations={model.pendingDerivations}
+            initialContactReconciliation={model.contactReconciliation}
             editingFromReview={Boolean(editId)}
           />
         </section>

@@ -25,11 +25,14 @@ export type PacketBuilderSection = {
 };
 type BilingualCopy = { en: string; es: string };
 const bilingual = (en: string, es: string): BilingualCopy => ({ en, es });
+const contactAnswerText = (answer: AnswerValue | undefined): string => answer === undefined || answer === null ? ""
+  : typeof answer === "object" && !Array.isArray(answer) && answer.unknown !== true ? String(answer.value ?? "")
+    : typeof answer === "string" ? answer : JSON.stringify(answer);
 
 /** Explicit saves; every navigation waits for persistence and canonical conditions. */
 export function PacketInformationBuilder({
   itemId, stateCode, pathwayId, questions: initialQuestions, sections: initialSections = [], initialAnswers,
-  initiallyMissing, initialRevision, initialResumeSectionId = null, initialPendingDerivations = [], editingFromReview = false
+  initiallyMissing, initialRevision, initialResumeSectionId = null, initialPendingDerivations = [], initialContactReconciliation = null, editingFromReview = false
 }: {
   itemId: string;
   stateCode: string;
@@ -41,6 +44,7 @@ export function PacketInformationBuilder({
   initialRevision: number;
   initialResumeSectionId?: string | null;
   initialPendingDerivations?: PacketSaveReceipt["pendingDerivations"];
+  initialContactReconciliation?: PacketSaveReceipt["contactReconciliation"];
   editingFromReview?: boolean;
 }) {
   const { locale, text: localizeText } = useLocalization();
@@ -54,6 +58,9 @@ export function PacketInformationBuilder({
   const editingSensitiveIdentifier = questions.some((question) => question.id === "social_security_number");
   const [sections, setSections] = useState(initialSections);
   const [pending, setPending] = useState(initialPendingDerivations);
+  const [contactReconciliation, setContactReconciliation] = useState(initialContactReconciliation);
+  const contactChoice = useRef(false);
+  const [contactChoicePending, setContactChoicePending] = useState(false);
   const [missing, setMissing] = useState(initiallyMissing);
   const [screenId, setScreenId] = useState(() => {
     const screens = screensFor(initialQuestions, initialSections);
@@ -76,11 +83,11 @@ export function PacketInformationBuilder({
   const screens = useMemo(() => screensFor(questions, sections), [questions, sections]);
   const index = screens.findIndex((screen) => screen.id === screenId);
   const screen = screens[index];
-  const dirty = Object.keys(changedPacketAnswers(answers, confirmedAnswers)).length > 0;
+  const dirty = contactChoicePending || Object.keys(changedPacketAnswers(answers, confirmedAnswers)).length > 0;
   const saveRef = useRef<(resume?: string | null) => Promise<PacketSaveReceipt | null>>(async () => null);
   const screenIdRef = useRef(screenId);
   useEffect(() => { screenIdRef.current = screenId; }, [screenId]);
-  const { navigate, departing } = usePacketDraftNavigation(dirty, () => saveRef.current(screenIdRef.current), () => Object.keys(changedPacketAnswers(latest.current, confirmed.current)).length > 0);
+  const { navigate, departing } = usePacketDraftNavigation(dirty, () => saveRef.current(screenIdRef.current), () => contactChoice.current || Object.keys(changedPacketAnswers(latest.current, confirmed.current)).length > 0);
 
 
   useEffect(() => {
@@ -110,7 +117,7 @@ export function PacketInformationBuilder({
           const submittedRevision = revision.current;
           const response = await fetch(`/api/expungement-ai/briefcase/${encodeURIComponent(itemId)}/packet-information`, {
             method: "POST", headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ answers: changedPacketAnswers(submitted, confirmed.current), expectedRevision: submittedRevision, resumeSectionId: editingFromReview ? null : resumeSectionId, navigationIntent: editingFromReview ? "stay" : navigationIntent, editingFact: editingSensitiveIdentifier ? "social_security_number" : undefined })
+            body: JSON.stringify({ answers: changedPacketAnswers(submitted, confirmed.current), useContactComponents: contactChoice.current, expectedRevision: submittedRevision, resumeSectionId: editingFromReview ? null : resumeSectionId, navigationIntent: editingFromReview ? "stay" : navigationIntent, editingFact: editingSensitiveIdentifier ? "social_security_number" : undefined })
           });
           const payload: unknown = await response.json().catch(() => null);
           if (!response.ok || !isPacketSaveReceipt(payload) || payload.revision < submittedRevision || payload.reviewPath !== `/briefcase/${encodeURIComponent(itemId)}/review`) {
@@ -128,6 +135,8 @@ export function PacketInformationBuilder({
             return null;
           }
           receipt = payload;
+          contactChoice.current = false; setContactChoicePending(false);
+          setContactReconciliation(receipt.contactReconciliation ?? null);
           const focusedQuestion = document.activeElement?.closest("[data-packet-question]")?.getAttribute("data-packet-question");
           if (focusedQuestion && !(editingFromReview ? receipt.reviewQuestions : receipt.questions).some((question) => question.id === focusedQuestion)) focusNext.current = true;
           const merged = reconcileSavedAnswers(submitted, latest.current, receipt.answers);
@@ -188,6 +197,10 @@ export function PacketInformationBuilder({
     setQuestions(editingFromReview ? recovery.reviewQuestions.filter((question) => initialQuestions.some((initial) => initial.id === question.id)) : recovery.questions);
     setSections(editingFromReview ? initialSections : recovery.sections);
     setMissing(recovery.missingInputIds); setPending(recovery.pendingDerivations);
+    setContactReconciliation(recovery.contactReconciliation ?? null);
+    // A conflict after an uncertain save needs a fresh before/after choice;
+    // retaining a draft must not silently repeat an adoption against new data.
+    contactChoice.current = false; setContactChoicePending(false);
     setRouteChanged(recovery.nextAction === "open_matter");
     const recoveredQuestions = editingFromReview ? recovery.reviewQuestions.filter((question) => initialQuestions.some((initial) => initial.id === question.id)) : recovery.questions;
     moveTo(packetNavigationDestination(screens, screensFor(recoveredQuestions, editingFromReview ? initialSections : recovery.sections), screenIdRef.current, "stay", next));
@@ -254,10 +267,20 @@ export function PacketInformationBuilder({
         <p className="mt-2 text-sm" data-packet-section-status={statusId}>{statusLabel}</p>
         {screen.section ? <p className="mt-2 text-sm leading-6 text-[#5A6275]">{locale === "es" ? screen.section.translations.es.description : screen.section.description}</p> : null}
         <fieldset disabled={departing} className="mt-6 grid gap-8" aria-labelledby="packet-step-heading">
-          {screen.questions.map((question) => <div key={question.id} data-packet-question={question.id}><QuestionField question={question} stateCode={stateCode} value={answers[question.id]} headingLevel={3} sensitiveInputAllowed={!requiresMcicIdentifierAuthority(stateCode, pathwayId) || mcicIdentifierAuthority(answers, new Date().toISOString()).safe} onChange={(value) => {
+          {screen.questions.map((question) => <div key={question.id} data-packet-question={question.id}>{question.id === "contact_information" && contactReconciliation ? <div>
+            <h3 className="text-lg font-bold">{copy("Review your saved contact details", "Revise sus datos de contacto guardados")}</h3>
+            <p className="mt-2 text-sm">{copy("Review your earlier contact answer alongside your separate mailing address, phone number, and email before choosing which details to use.", "Revise su respuesta anterior sobre los datos de contacto junto con su dirección postal, número de teléfono y correo electrónico por separado antes de elegir qué datos usar.")}</p>
+            <dl className="mt-4 grid gap-2 text-sm">
+              <dt className="font-bold">{copy("Earlier saved answer", "Respuesta guardada anteriormente")}</dt><dd className="whitespace-pre-wrap break-words" data-contact-previous>{contactAnswerText(confirmedAnswers.contact_information)}</dd>
+              <dt className="font-bold">{copy("Address, phone, and email", "Dirección, teléfono y correo electrónico")}</dt><dd className="whitespace-pre-wrap break-words" data-contact-components>{["mailing_address", "phone_number", "email_address"].map((id) => <div key={id}>{contactAnswerText(answers[id])}</div>)}</dd>
+            </dl>
+            <p className="mt-3 text-sm">{copy("This replaces the earlier combined answer when you save. Your separate contact details stay editable.", "Esto reemplaza la respuesta combinada anterior cuando guarde. Sus datos de contacto por separado seguirán siendo editables.")}</p>
+            {!contactReconciliation.canUseComponents ? <p className="mt-3 text-sm" role="status">{copy("Complete or correct the separate contact details first.", "Primero complete o corrija los datos de contacto por separado.")}</p> : null}
+            <button type="button" className="mt-3 min-h-11 rounded border px-4 py-2 font-semibold disabled:opacity-50" disabled={saving || !contactReconciliation.canUseComponents} onClick={() => { contactChoice.current = true; setContactChoicePending(true); void save(screenId, "stay"); }}>{copy("Use and save these contact details", "Usar y guardar estos datos de contacto")}</button>
+          </div> : <QuestionField question={question} stateCode={stateCode} value={answers[question.id]} headingLevel={3} sensitiveInputAllowed={!requiresMcicIdentifierAuthority(stateCode, pathwayId) || mcicIdentifierAuthority(answers, new Date().toISOString()).safe} onChange={(value) => {
             const next = { ...latest.current, [question.id]: value }; latest.current = next; setAnswers(next); setSavedAt(null);
             setFieldErrors((current) => { const remaining = { ...current }; delete remaining[question.id]; return remaining; });
-          }} error={fieldErrors[question.id]?.[locale] ?? null} />{question.required && ["uncertain", "declined"].includes(questionAnswerState(question, answers[question.id])) ? <p className="mt-3 text-sm" role="status">{copy("You can continue with other questions. This answer still needs to be resolved before your packet can be prepared.", "Puede continuar con las demás preguntas. Esta respuesta aún debe aclararse antes de preparar su paquete.")}</p> : null}</div>)}
+          }} error={fieldErrors[question.id]?.[locale] ?? null} />}{question.required && ["uncertain", "declined"].includes(questionAnswerState(question, answers[question.id])) ? <p className="mt-3 text-sm" role="status">{copy("You can continue with other questions. This answer still needs to be resolved before your packet can be prepared.", "Puede continuar con las demás preguntas. Esta respuesta aún debe aclararse antes de preparar su paquete.")}</p> : null}</div>)}
         </fieldset>
       </> : <p className="mt-3 text-sm">{copy("Open Review to check the saved answers and any details still needed before final verification.", "Abra la revisión para comprobar las respuestas guardadas y los detalles que aún falten antes de la verificación final.")}</p>}
       {!editingFromReview && screens.length > 1 ? <nav aria-label={copy("Packet sections", "Secciones del paquete")} className="mt-5"><label className="text-sm font-semibold" htmlFor="packet-section-select">{copy("Go to a section", "Ir a una sección")}</label><select id="packet-section-select" className="mt-2 block min-h-11 w-full rounded border p-2" value={screenId} disabled={saving || departing} onChange={(event) => moveTo(event.target.value)}>{screens.map((step) => <option key={step.id} value={step.id}>{step.section ? locale === "es" ? step.section.translations.es.heading : step.section.heading : locale === "es" ? step.questions[0]?.translations?.es?.prompt ?? step.questions[0]?.prompt : step.questions[0]?.prompt}{step.questions.some((question) => question.required && questionAnswerState(question, answers[question.id]) !== "known_valid") ? copy(" — needs attention", " — necesita atención") : copy(" — complete", " — completo")}</option>)}{screenId === "review" ? <option value="review">{copy("Review", "Revisión")}</option> : null}</select></nav> : null}

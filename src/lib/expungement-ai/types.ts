@@ -79,6 +79,7 @@ export type PacketVerificationSnapshot = {
     commercialFlowVersion: number | null;
     entitlementSource: string | null;
     productId: string | null;
+    contactRepresentation?: import("@/lib/expungement-ai/contact-representation").ContactRepresentationProvenance;
   };
 };
 
