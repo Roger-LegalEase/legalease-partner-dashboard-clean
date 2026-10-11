@@ -20,7 +20,8 @@ export function consumerSpecificationBinding(
   if (!specification || !binding?.trackId || binding.trackId.includes("*")
     || packetSpecificationForTrack(record.routeId, binding.trackId) !== specification
     || specification.jurisdiction !== record.jurisdiction
-    || specification.pathwayId !== record.pathwayId
+    || record.routeId !== `${record.jurisdiction}:${record.pathwayId}`
+    || (specification.pathwayId !== record.pathwayId && !specification.routeKeys?.includes(record.routeId))
     || specification.packetFamily !== record.packetFamilyId
     || (binding.packetFamilyId !== undefined && binding.packetFamilyId !== specification.packetFamily)
     || record.packetCompleteness?.specificationId !== specification.specificationId

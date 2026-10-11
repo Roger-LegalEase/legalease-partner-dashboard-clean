@@ -204,6 +204,7 @@ export const EXPUNGEMENT_COPY: Record<string, CopyEntry> = {
   "legal_aid.participant.61": {"en": "Each signature is tied to the statement's wording and to your answers at the moment you sign. If you change an answer afterwards, you will be asked to sign again.", "es": "Cada firma está vinculada al texto de la declaración y a sus respuestas en el momento de firmar. Si después cambia una respuesta, se le pedirá que vuelva a firmar."},
   "legal_aid.participant.62": {"en": "Save your answers first.", "es": "Guarde sus respuestas primero."},
   "legal_aid.participant.63": {"en": "The signature could not be saved.", "es": "No se pudo guardar la firma."},
+  "legal_aid.participant.statement_not_applicable": {"en": "This statement does not apply to your saved answers. Reload your application and review the statements before signing.", "es": "Esta declaración no corresponde a sus respuestas guardadas. Vuelva a cargar su solicitud y revise las declaraciones antes de firmar."},
   "legal_aid.participant.64": {"en": "Signed by", "es": "Firmado por"},
   "legal_aid.participant.65": {"en": "on", "es": "el"},
   "legal_aid.participant.66": {"en": "drawn signature", "es": "firma dibujada"},

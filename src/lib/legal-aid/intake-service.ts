@@ -153,6 +153,7 @@ export async function signIntakeStatement(input: { intakeId: string; userId: str
     if (result.error.message?.includes("signer_mismatch")) throw new ClinicServiceError("forbidden", "Only the applicant can sign this statement.");
     if (result.error.message?.includes("not_editable")) throw new ClinicServiceError("conflict", "The application is no longer editable.");
     if (result.error.message?.includes("answers_required")) throw new ClinicServiceError("conflict", "Answer the questions before signing.");
+    if (result.error.message?.includes("statement_not_applicable")) throw new ClinicServiceError("conflict", "This statement does not apply to your saved answers. Reload your application and review the statements before signing.");
     throw new ClinicServiceError("unavailable", "The signature could not be saved.");
   }
   return String(result.data);
