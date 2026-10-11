@@ -33,7 +33,7 @@ const contactAnswerText = (answer: AnswerValue | undefined): string => answer ==
 /** Explicit saves; every navigation waits for persistence and canonical conditions. */
 export function PacketInformationBuilder({
   itemId, stateCode, pathwayId, questions: initialQuestions, sections: initialSections = [], initialAnswers,
-  initiallyMissing, initialRevision, initialResumeSectionId = null, initialPendingDerivations = [], initialContactReconciliation = null, initialRecordClarificationIds = [], initialCourtRecordConflict = false, editingFromReview = false
+  initiallyMissing, initialRevision, initialResumeSectionId = null, initialPendingDerivations = [], initialContactReconciliation = null, initialRecordClarificationIds = [], initialCourtRecordConflict = false, initialAccountEmailSuggestion = null, editingFromReview = false
 }: {
   itemId: string;
   stateCode: string;
@@ -48,6 +48,7 @@ export function PacketInformationBuilder({
   initialContactReconciliation?: PacketSaveReceipt["contactReconciliation"];
   initialRecordClarificationIds?: string[];
   initialCourtRecordConflict?: boolean;
+  initialAccountEmailSuggestion?: string | null;
   editingFromReview?: boolean;
 }) {
   const { locale, text: localizeText } = useLocalization();
@@ -63,6 +64,9 @@ export function PacketInformationBuilder({
   const [pending, setPending] = useState(initialPendingDerivations);
   const [contactReconciliation, setContactReconciliation] = useState(initialContactReconciliation);
   const [courtRecordConflict, setCourtRecordConflict] = useState(initialCourtRecordConflict);
+  const [accountEmailSuggestion, setAccountEmailSuggestion] = useState(initialAccountEmailSuggestion);
+  const accountEmailChoice = useRef<string | null>(null);
+  const [accountEmailChoicePending, setAccountEmailChoicePending] = useState(false);
   const [recordClarificationIds, setRecordClarificationIds] = useState(initialRecordClarificationIds);
   const recordChoices = useRef<string[]>([]);
   const [recordChoicePending, setRecordChoicePending] = useState(false);
@@ -90,11 +94,11 @@ export function PacketInformationBuilder({
   const screens = useMemo(() => screensFor(questions, sections), [questions, sections]);
   const index = screens.findIndex((screen) => screen.id === screenId);
   const screen = screens[index];
-  const dirty = recordChoicePending || contactChoicePending || Object.keys(changedPacketAnswers(answers, confirmedAnswers)).length > 0;
+  const dirty = recordChoicePending || contactChoicePending || accountEmailChoicePending || Object.keys(changedPacketAnswers(answers, confirmedAnswers)).length > 0;
   const saveRef = useRef<(resume?: string | null) => Promise<PacketSaveReceipt | null>>(async () => null);
   const screenIdRef = useRef(screenId);
   useEffect(() => { screenIdRef.current = screenId; }, [screenId]);
-  const { navigate, departing } = usePacketDraftNavigation(dirty, () => saveRef.current(screenIdRef.current), () => recordChoices.current.length > 0 || contactChoice.current || Object.keys(changedPacketAnswers(latest.current, confirmed.current)).length > 0);
+  const { navigate, departing } = usePacketDraftNavigation(dirty, () => saveRef.current(screenIdRef.current), () => recordChoices.current.length > 0 || contactChoice.current || accountEmailChoice.current !== null || Object.keys(changedPacketAnswers(latest.current, confirmed.current)).length > 0);
 
 
   useEffect(() => {
@@ -123,14 +127,18 @@ export function PacketInformationBuilder({
           const submitted = { ...latest.current };
           const submittedRevision = revision.current;
           const submittedRecordChoices = [...recordChoices.current];
+          const submittedAccountEmailChoice = accountEmailChoice.current;
           const response = await fetch(`/api/expungement-ai/briefcase/${encodeURIComponent(itemId)}/packet-information`, {
             method: "POST", headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ answers: changedPacketAnswers(submitted, confirmed.current), useContactComponents: contactChoice.current, confirmRecordFacts: submittedRecordChoices, expectedRevision: submittedRevision, resumeSectionId: editingFromReview ? null : resumeSectionId, navigationIntent: editingFromReview ? "stay" : navigationIntent, editingFact: editingSensitiveIdentifier ? "social_security_number" : undefined })
+            body: JSON.stringify({ answers: changedPacketAnswers(submitted, confirmed.current), useContactComponents: contactChoice.current, confirmRecordFacts: submittedRecordChoices, useAccountEmail: submittedAccountEmailChoice !== null && submitted.email_address === submittedAccountEmailChoice, expectedRevision: submittedRevision, resumeSectionId: editingFromReview ? null : resumeSectionId, navigationIntent: editingFromReview ? "stay" : navigationIntent, editingFact: editingSensitiveIdentifier ? "social_security_number" : undefined })
           });
           const payload: unknown = await response.json().catch(() => null);
           if (!response.ok || !isPacketSaveReceipt(payload) || payload.revision < submittedRevision || payload.reviewPath !== `/briefcase/${encodeURIComponent(itemId)}/review`) {
             const failure = payload && typeof payload === "object" ? payload as { error?: string; invalidFactIds?: string[] } : {};
             const message = packetSaveErrorCopy(response.ok ? 0 : response.status, failure.error);
+            if (failure.error === "account_email_suggestion_changed") {
+              accountEmailChoice.current = null; setAccountEmailChoicePending(false); setAccountEmailSuggestion(null);
+            }
             setSaveError(message);
             setFailureStatus(response.ok ? 0 : response.status);
             if (Array.isArray(failure.invalidFactIds)) {
@@ -143,6 +151,8 @@ export function PacketInformationBuilder({
             return null;
           }
           receipt = payload;
+          if (accountEmailChoice.current === submittedAccountEmailChoice) { accountEmailChoice.current = null; setAccountEmailChoicePending(false); }
+          setAccountEmailSuggestion(receipt.accountEmailSuggestion ?? null);
           recordChoices.current = []; setRecordChoicePending(false);
           setRecordClarificationIds(receipt.recordClarificationIds ?? []);
           setCourtRecordConflict(receipt.courtRecordConflict ?? false);
@@ -214,6 +224,8 @@ export function PacketInformationBuilder({
     setContactReconciliation(recovery.contactReconciliation ?? null);
     setRecordClarificationIds(recovery.recordClarificationIds ?? []);
     setCourtRecordConflict(recovery.courtRecordConflict ?? false);
+    setAccountEmailSuggestion(recovery.accountEmailSuggestion ?? null);
+    accountEmailChoice.current = null; setAccountEmailChoicePending(false);
     // A conflict after an uncertain save needs a fresh before/after choice;
     // retaining a draft must not silently repeat an adoption against new data.
     contactChoice.current = false; setContactChoicePending(false);
@@ -299,9 +311,21 @@ export function PacketInformationBuilder({
             <button type="button" className="mt-3 min-h-11 rounded border px-4 py-2 font-semibold disabled:opacity-50" disabled={saving || !contactReconciliation.canUseComponents} onClick={() => { contactChoice.current = true; setContactChoicePending(true); void save(screenId, "stay"); }}>{copy("Use and save these contact details", "Usar y guardar estos datos de contacto")}</button>
           </div> : <QuestionField question={question} stateCode={stateCode} value={answers[question.id]} headingLevel={3} sensitiveInputAllowed={!requiresMcicIdentifierAuthority(stateCode, pathwayId) || mcicIdentifierAuthority(answers, new Date().toISOString()).safe} onChange={(value) => {
             recordChoices.current = []; setRecordChoicePending(false);
+            if (question.id === "email_address") { accountEmailChoice.current = null; setAccountEmailChoicePending(false); }
             const next = { ...latest.current, [question.id]: value }; latest.current = next; setAnswers(next); setSavedAt(null);
             setFieldErrors((current) => { const remaining = { ...current }; delete remaining[question.id]; return remaining; });
-          }} error={fieldErrors[question.id]?.[locale] ?? null} />}{recordClarificationIds.includes(question.id) && questionAnswerState(question, answers[question.id]) === "known_valid" && answerValueIsKnown(answers[question.id]) ? <div className="mt-3" data-record-clarification={question.id}>
+          }} error={fieldErrors[question.id]?.[locale] ?? null} />}{question.id === "email_address" && accountEmailSuggestion && contactAnswerText(answers.email_address) !== accountEmailSuggestion ? <div className="mt-3 rounded border border-[#D8DFE8] p-3 text-sm" data-account-email-suggestion>
+            <p className="font-semibold">{copy("Account email suggestion", "Sugerencia de correo electrónico de su cuenta")}</p>
+            <p className="mt-1 break-words" dir="auto">{accountEmailSuggestion}</p>
+            <p className="mt-2" id="packet-account-email-help">{copy("Use this address only if it is safe to include in this packet. You can edit it before saving. This does not change your account email.", "Use esta dirección solo si es seguro incluirla en este paquete. Puede editarla antes de guardar. Esto no cambia el correo electrónico de su cuenta.")}</p>
+            <button type="button" aria-describedby="packet-account-email-help" disabled={saving} className="mt-3 min-h-11 rounded border px-4 py-2 font-semibold disabled:opacity-50" onClick={() => {
+              accountEmailChoice.current = accountEmailSuggestion; setAccountEmailChoicePending(true);
+              recordChoices.current = []; setRecordChoicePending(false);
+              const next = { ...latest.current, email_address: accountEmailSuggestion }; latest.current = next; setAnswers(next); setSavedAt(null);
+              setFieldErrors((current) => { const remaining = { ...current }; delete remaining.email_address; return remaining; });
+              focusQuestion("email_address");
+            }}>{copy("Use this email in my draft", "Usar este correo electrónico en mi borrador")}</button>
+          </div> : null}{recordClarificationIds.includes(question.id) && questionAnswerState(question, answers[question.id]) === "known_valid" && answerValueIsKnown(answers[question.id]) ? <div className="mt-3" data-record-clarification={question.id}>
             <p className="text-sm" id={`record-clarification-${question.id}`}>{copy("Compare this saved answer with the court record. Keep it if it is correct, or edit it before confirming. We will not replace it automatically.", "Compare esta respuesta guardada con el expediente judicial. Consérvela si es correcta o edítela antes de confirmarla. No la reemplazaremos automáticamente.")}</p>
             <button type="button" aria-describedby={`record-clarification-${question.id}`} className="mt-3 min-h-11 rounded border px-4 py-2 font-semibold disabled:opacity-50" disabled={saving} onClick={() => { recordChoices.current = [question.id]; setRecordChoicePending(true); void save(screenId, "stay"); }}>{copy("Confirm this answer", "Confirmar esta respuesta")}</button>
           </div> : null}{question.required && ["uncertain", "declined"].includes(questionAnswerState(question, answers[question.id])) ? <p className="mt-3 text-sm" role="status">{copy("You can continue with other questions. This answer still needs to be resolved before your packet can be prepared.", "Puede continuar con las demás preguntas. Esta respuesta aún debe aclararse antes de preparar su paquete.")}</p> : null}</div>)}

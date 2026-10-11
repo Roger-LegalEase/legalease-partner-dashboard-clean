@@ -80,6 +80,8 @@ export type PacketVerificationSnapshot = {
     entitlementSource: string | null;
     productId: string | null;
     recordFactConfirmations?: import("@/lib/expungement-ai/record-fact-clarification").RecordFactConfirmations;
+    accountContactSources?: { email_address: { version: 1; source: "same_owner_account_email"; purpose: "this_packet_contact";
+      valueSha256: string; confirmedAt: string; status: "adopted" | "superseded" } };
     contactRepresentation?: import("@/lib/expungement-ai/contact-representation").ContactRepresentationProvenance;
     semanticAnswerHistory?: Array<{ factId: string; value: unknown; source: "screeningAnswers" | "prefilledAnswers" | "packetAnswers";
       meaning: "ambiguous_victimhood_or_charged_conduct"; routeKey: string; profileVersion: string;

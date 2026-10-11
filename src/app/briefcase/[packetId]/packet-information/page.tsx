@@ -1,7 +1,7 @@
 import { LocalizedRuntimeText } from "@/components/expungement-ai/LocalizationProvider";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { editablePacketInputIds } from "@/lib/expungement-ai/packet-information";
+import { editablePacketInputIds, packetAccountEmailSuggestion } from "@/lib/expungement-ai/packet-information";
 
 import { BriefcaseShell } from "@/components/expungement-ai/BriefcaseShell";
 import { MatterStatusBadge } from "@/components/expungement-ai/BriefcaseViews";
@@ -101,6 +101,7 @@ export default async function PacketInformationPage({
             initialContactReconciliation={model.contactReconciliation}
             initialRecordClarificationIds={model.recordClarificationIds}
             initialCourtRecordConflict={model.courtRecordConflict}
+            initialAccountEmailSuggestion={packetAccountEmailSuggestion({ ...model, stateCode: item.jurisdiction, pathwayId: item.pathwayId ?? null }, auth.userEmail)}
             editingFromReview={Boolean(editId)}
           />
         </section>

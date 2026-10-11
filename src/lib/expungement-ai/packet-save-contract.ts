@@ -16,6 +16,7 @@ export type PacketSaveReceipt = {
   contactReconciliation?: { canUseComponents: boolean } | null;
   recordClarificationIds?: string[];
   courtRecordConflict?: boolean;
+  accountEmailSuggestion?: string | null;
   resumeSectionId: string | null;
   reviewPath: string;
   readyToGenerate: boolean;
@@ -40,6 +41,7 @@ const receiptSchema = z.object({
   contactReconciliation: z.object({ canUseComponents: z.boolean() }).strict().nullable().optional(),
   recordClarificationIds: z.array(z.string()).optional(),
   courtRecordConflict: z.boolean().optional(),
+  accountEmailSuggestion: z.string().max(254).regex(/^[^\s@]+@[^\s@]+\.[^\s@]+$/).nullable().optional(),
   resumeSectionId: z.string().nullable(), reviewPath: z.string().regex(/^\/briefcase\/[^/]+\/review$/),
   readyToGenerate: z.boolean(), reviewReason: z.string(),
   nextAction: z.enum(["continue_packet", "review_packet", "open_matter"])
@@ -90,6 +92,7 @@ export function packetSaveErrorCopy(status: number, code?: string) {
   if (status === 409) return { en: "This matter changed in another session. Your changes have not been saved. Keep this page open and open the matter in another tab to compare the saved answers before retrying.", es: "Este caso cambió en otra sesión. Sus cambios no se guardaron. Mantenga esta página abierta y abra el caso en otra pestaña para comparar las respuestas guardadas antes de volver a intentarlo." };
   if (status === 428) return { en: "This page needs to be reopened before it can save. Your changes have not been saved; keep this page open while you reopen the matter in another tab.", es: "Debe volver a abrir esta página para poder guardar. Sus cambios no se guardaron; mantenga esta página abierta mientras vuelve a abrir el caso en otra pestaña." };
   if (status === 400) return { en: "This request could not be saved. Your draft remains here. Reopen this matter in another tab before retrying.", es: "No se pudo guardar esta solicitud. Su borrador permanece aquí. Vuelva a abrir este caso en otra pestaña antes de intentarlo de nuevo." };
+  if (status === 422 && code === "account_email_suggestion_changed") return { en: "The account email suggestion is no longer available for this matter. Your draft is still here. Review the email address in your draft, edit it if needed, then save again.", es: "La sugerencia de correo electrónico de la cuenta ya no está disponible para este caso. Su borrador sigue aquí. Revise la dirección de correo electrónico de su borrador, edítela si es necesario y vuelva a guardar." };
   if (status === 422) return { en: code === "sensitive_identifier_prerequisite_required" ? "Confirm the court-approved identifier delivery method and its source before entering a Social Security number. Your changes have not been saved." : "Some answers could not be saved. Review the marked questions. Your changes remain on this page.", es: code === "sensitive_identifier_prerequisite_required" ? "Confirme el método de entrega de identificadores aprobado por el tribunal y la fuente de esa confirmación antes de ingresar un número de Seguro Social. Sus cambios no se guardaron." : "No se pudieron guardar algunas respuestas. Revise las preguntas señaladas. Sus cambios permanecen en esta página." };
   return { en: "We could not confirm that your changes were saved. Keep this page open and try again when your connection is available.", es: "No pudimos confirmar que se guardaron sus cambios. Mantenga esta página abierta y vuelva a intentarlo cuando tenga conexión." };
 }

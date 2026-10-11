@@ -30,6 +30,7 @@ import {
 import {
   packetSpecificationFactFor,
   packetSpecificationFor,
+  composablePacketSpecificationFor,
   type PacketSpecificationFact
 } from "@/lib/rcap/grade-a/packet-specification";
 import { MISSISSIPPI_NON_CONVICTION_NEUTRAL_FACTS, mississippiParticipantDeliverySafety, routeSafetyGateFactIds } from "@/lib/expungement-ai/packet-route-safety";
@@ -351,12 +352,35 @@ export function expectedPacketComponents(plan: PacketPlan | null): string[] {
   ];
 }
 
+/** A display suggestion, never a fact or a profile-based derivation. Caller has checked exact matter ownership. */
+export function packetAccountEmailSuggestion(model: Pick<PacketInformationModel, "stateCode" | "pathwayId" | "questions" | "screeningAnswers" | "initialAnswers" | "serverFacts" | "requiredInputIds">, accountEmail: string | null | undefined): string | null {
+  const email = accountEmail?.trim();
+  const profile = getProfileByJurisdiction(model.stateCode);
+  if (!email || email.length > 254 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || !profile || !model.pathwayId) return null;
+  const questionById = new Map(allPublicQuestions(projectPublicProfile(profile)).map((question) => [question.id, toProfileQuestion(question)]));
+  if (!knownParticipantOwner(questionById, model.screeningAnswers.ownership_scope)) return null;
+  const specification = composablePacketSpecificationFor(`${model.stateCode}:${model.pathwayId}`);
+  const fact = specification?.requiredFacts.find((fact) => fact.factId === "email_address");
+  const question = model.questions.find((question) => question.id === "email_address");
+  if (!fact || fact.ownership !== "participant" || !specification?.fieldOwnership?.participantOwnedFacts.includes("email_address")
+    || !question || !model.requiredInputIds.includes("email_address") || "email_address" in model.serverFacts
+    || questionAnswerState(question, email) !== "known_valid") return null;
+  const collection = packetCollectionFor({ jurisdiction: model.stateCode, pathwayId: model.pathwayId, requiredInputIds: model.requiredInputIds,
+    serverFacts: model.serverFacts, screeningAnswers: model.screeningAnswers, savedAnswers: model.initialAnswers });
+  const disposition = collection?.facts.find((fact) => fact.factId === "email_address");
+  if (!disposition || ["external_actor", "derived", "unresolved"].includes(disposition.collection)
+    || disposition.collection === "conditional" && disposition.active === false) return null;
+  return email;
+}
+
 export function packetInformationPatch(input: {
   existingItem: ConsumerBriefcaseItem;
   answers: Record<string, AnswerValue>;
   verify?: boolean;
   useContactComponents?: boolean;
   confirmRecordFacts?: string[];
+  /** Server-authenticated owner's email, only after an explicit client adoption request. Never client profile data. */
+  accountEmailSource?: string;
   /** Service-role protected state read immediately before deriving this transition. */
   protectedVerification: ProtectedPacketVerificationRecord;
   /** Compatibility only. Saving the final fact is never verification. */
@@ -380,10 +404,13 @@ export function packetInformationPatch(input: {
   const savedAnswers = { ...answerRecordForIds(current.packetAnswers, storedIds), ...answerDelta };
   const contactChoice = input.useContactComponents === true;
   const confirmations = input.confirmRecordFacts ?? [];
+  const accountEmail = input.accountEmailSource === undefined ? null : packetAccountEmailSuggestion(current, input.accountEmailSource);
+  if (input.accountEmailSource !== undefined && (!accountEmail || !sameKnownQuestionAnswer(
+    current.questions.find((question) => question.id === "email_address")!, accountEmail, { ...current.initialAnswers, ...answerDelta }.email_address))) return null;
   if (confirmations.some((id) => !current.recordClarificationIds?.includes(id)
     || !answerValueIsKnown({ ...current.initialAnswers, ...answerDelta }[id])
     || questionAnswerState(current.questions.find((question) => question.id === id)!, { ...current.initialAnswers, ...answerDelta }[id]) !== "known_valid")) return null;
-  const materialFactChange = Object.keys(answerDelta).length > 0 || contactChoice || confirmations.length > 0;
+  const materialFactChange = Object.keys(answerDelta).length > 0 || contactChoice || confirmations.length > 0 || accountEmail !== null;
   const priorSnapshot = protectedAuthoritySnapshotFor(priorProtected)!;
   const freshSensitiveMaps = refreshedSensitiveFactMaps(priorSnapshot.jurisdiction, priorSnapshot.pathwayId, priorSnapshot.requiredInputIds,
     answerRecord(priorSnapshot.screeningAnswers), answerRecord(priorSnapshot.prefilledAnswers), answerRecord(priorSnapshot.packetAnswers));
@@ -430,6 +457,16 @@ export function packetInformationPatch(input: {
     ? priorProtected.draftSnapshot
     : deriveProtectedPacketDraftSnapshot(priorProtected, savedAnswers, now, contactChoice, [...new Set([...Object.keys(answerDelta), ...confirmations])]);
   if (!nextDraft) return null;
+  if (accountEmail) {
+    nextDraft.dependencies = { ...nextDraft.dependencies, accountContactSources: { email_address: {
+      version: 1, source: "same_owner_account_email", purpose: "this_packet_contact",
+      valueSha256: createHash("sha256").update(accountEmail).digest("hex"), confirmedAt: now, status: "adopted"
+    } } };
+  } else if ("email_address" in answerDelta && nextDraft.dependencies.accountContactSources) {
+    nextDraft.dependencies = { ...nextDraft.dependencies, accountContactSources: { email_address: {
+      ...nextDraft.dependencies.accountContactSources.email_address, status: "superseded"
+    } } };
+  }
   const nextDraftHash = protectedPacketDraftHash(nextDraft);
   const draftRecord: ProtectedPacketVerificationRecord = {
     ...priorProtected,
