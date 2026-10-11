@@ -84,7 +84,7 @@ export type PacketVerificationSnapshot = {
       valueSha256: string; confirmedAt: string; status: "adopted" | "superseded" } };
     contactRepresentation?: import("@/lib/expungement-ai/contact-representation").ContactRepresentationProvenance;
     semanticAnswerHistory?: Array<{ factId: string; value: unknown; source: "screeningAnswers" | "prefilledAnswers" | "packetAnswers";
-      meaning: "ambiguous_victimhood_or_charged_conduct" | "ca_prop64_prior_choice_wording"; routeKey: string; profileVersion: string;
+      meaning: "ambiguous_victimhood_or_charged_conduct" | "ca_prop64_prior_choice_wording" | "ca_prop64_prior_record_detail" | "ca_prop64_prior_completion_answer"; routeKey: string; profileVersion: string;
       profileSourceFingerprint: string | null; profileAuthorityFingerprint: string }>;
     packetDerivations?: Record<string, {
       version: 1;

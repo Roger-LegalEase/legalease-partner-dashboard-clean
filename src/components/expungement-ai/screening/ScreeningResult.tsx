@@ -20,6 +20,7 @@ import {
 import { friendlyMissingFieldLabel, safeUserFacingEngineText } from "@/lib/expungement-ai/missing-fields";
 import { useLocalization } from "@/components/expungement-ai/LocalizationProvider";
 import { routeLabelKeyForState } from "@/lib/expungement-ai/localization";
+import { reviewedResultRouteLabel } from "@/lib/expungement-ai/reviewed-result-copy";
 
 const UPL_DISCLAIMER =
   "Expungement.ai is not a law firm and this is not legal advice. We prepare self-help materials and information; the court or agency makes the final decision. Review everything before filing.";
@@ -168,7 +169,7 @@ export function ScreeningResult({
     : (evaluation.nextSteps ?? []).map((step) => safeUserFacingEngineText(step, { locale }));
   const routeLabelKey = routeLabelKeyForState(stateName, evaluation.pathwayId);
   const routeLabel = evaluation.pathwayLabel
-    ? localizeText(evaluation.pathwayLabel)
+    ? reviewedResultRouteLabel(evaluation.jurisdiction, evaluation.pathwayId, evaluation.pathwayLabel)?.[locale] ?? localizeText(evaluation.pathwayLabel)
     : translate(routeLabelKey, `${stateName} record-clearing`, { state: stateName });
   const isMississippiClinicPacket = hasScreeningSession
     && stateName === "Mississippi"

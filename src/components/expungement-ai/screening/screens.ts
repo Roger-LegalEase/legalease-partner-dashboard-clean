@@ -9,6 +9,7 @@
  * TX 17, NE 20 — each matching that state's question count). So a "screen" here is a single
  * question, ordered by its stage's position then by its original order within the profile.
  */
+import { caProp64RecordQuestion } from "@/lib/expungement-ai/ca-prop64-record-facts";
 import type { AnswerValue, JurisdictionProfile, ProfileQuestion } from "@/lib/expungement-ai/frontend/contracts";
 
 const SOURCE_QUESTION_PREFIX = "source_question";
@@ -52,7 +53,8 @@ export function screensFromQuestionIds(
   for (const questionId of questionIds) {
     if (seen.has(questionId)) continue;
     seen.add(questionId);
-    const question = questionsById.get(questionId);
+    const original = questionsById.get(questionId);
+    const question = original ? caProp64RecordQuestion(profile.jurisdiction.code, original) ?? original : undefined;
     if (!question || question.id.startsWith(SOURCE_QUESTION_PREFIX) || !isPrepayQuestion(question)) continue;
     selected.push(question);
   }
@@ -68,12 +70,15 @@ export function screensFromQuestionIds(
 export function sanitizeAnswersForQuestionIds(
   answers: Record<string, AnswerValue>,
   previousQuestionIds: readonly string[],
-  nextQuestionIds: readonly string[]
+  nextQuestionIds: readonly string[],
+  profile?: JurisdictionProfile
 ): Record<string, AnswerValue> {
   const previouslyRendered = new Set(previousQuestionIds);
   const stillSelected = new Set(nextQuestionIds);
   return Object.fromEntries(Object.entries(answers).filter(([questionId]) => (
     !previouslyRendered.has(questionId) || stillSelected.has(questionId)
+    // These are the same case record facts across CA branches, not branch-only answers.
+    || Boolean(profile?.questions.some((question) => question.id === questionId && caProp64RecordQuestion(profile.jurisdiction.code, question)))
   )));
 }
 

@@ -385,7 +385,7 @@ export function ScreeningFlow({ state, initialSessionId, partnerDisplayName, acq
       return;
     }
     const selectedScreens = screensFromQuestionIds(profile, selectedIds);
-    const sanitizedAnswers = sanitizeAnswersForQuestionIds(answers, screens.map((screen) => screen.id), selectedIds);
+    const sanitizedAnswers = sanitizeAnswersForQuestionIds(answers, screens.map((screen) => screen.id), selectedIds, profile);
     setQuestionIds(selectedIds);
     setAnswers(sanitizedAnswers);
     const currentPosition = selectedScreens.findIndex((screen) => screen.id === question.id);
@@ -447,7 +447,7 @@ export function ScreeningFlow({ state, initialSessionId, partnerDisplayName, acq
         return;
       }
       const selectedScreens = screensFromQuestionIds(profile, selectedIds);
-      const sanitizedAnswers = sanitizeAnswersForQuestionIds(answers, screens.map((screen) => screen.id), selectedIds);
+      const sanitizedAnswers = sanitizeAnswersForQuestionIds(answers, screens.map((screen) => screen.id), selectedIds, profile);
       const matchingIndex = selectedScreens.findIndex((screen) => screen.id === screens[currentIndex]?.id);
       const resumeIndex = matchingIndex >= 0 ? matchingIndex : Math.min(currentIndex, selectedScreens.length - 1);
       const activeQuestion = selectedScreens[resumeIndex];

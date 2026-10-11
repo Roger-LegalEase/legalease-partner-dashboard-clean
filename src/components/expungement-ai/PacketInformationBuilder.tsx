@@ -13,7 +13,7 @@ import { packetScreensFor as screensFor, packetNavigationDestination, type Packe
 import { localizeProfileText } from "@/lib/expungement-ai/localization";
 import { mcicIdentifierAuthority, requiresMcicIdentifierAuthority } from "@/lib/expungement-ai/sensitive-packet-facts";
 import { COURT_RECORD_CONFLICT_COPY } from "@/lib/expungement-ai/record-fact-copy";
-import { answerValueIsKnown, questionAnswerState } from "@/lib/expungement-ai/question-answer-state";
+import { answerValueIsKnown, questionAnswerState, scalarAnswerText } from "@/lib/expungement-ai/question-answer-state";
 import {
   changedPacketAnswers, isPacketSaveReceipt, packetSaveErrorCopy, reconcileSavedAnswers,
   type PacketSaveReceipt
@@ -302,7 +302,11 @@ export function PacketInformationBuilder({
   return (
     <div ref={root} data-packet-information-builder="active" className="rounded-[18px] border border-[#ECEFF4] bg-white p-5 shadow-sm md:p-7">
       {caProp64Clarification ? <div role="status" data-ca-prop64-recovery-warning className="mb-5 rounded border border-amber-300 p-4 text-sm leading-6">
-        <p>{CA_PROP64_RECOVERY_COPY["CA-P64-RECOVERY-WARNING-v1"][locale]}</p>
+        <p>{CA_PROP64_RECOVERY_COPY["CA-P64-RECOVERY-WARNING-v2"][locale]}</p>
+        {pathwayId !== CA_PROP64_COMPLETED && caProp64Choice("ca_prop64_branch", answers.ca_prop64_branch) === "currently-serving petition"
+          && questionAnswerState({ id: "sentence_completion_date", type: "yes_no_unsure" }, answers.sentence_completion_date) === "known_valid"
+          && scalarAnswerText(answers.sentence_completion_date)?.trim().toLowerCase() === "yes"
+          ? <p className="mt-3" data-ca-prop64-completion-conflict>{CA_PROP64_RECOVERY_COPY["CA-P64-SENTENCE-COMPLETION-CONTRADICTION-v1"][locale]}</p> : null}
         {["currently-serving petition", "completed-sentence application"].includes(caProp64Choice("ca_prop64_branch", answers.ca_prop64_branch) ?? "")
           && caProp64Choice("ca_prop64_branch", answers.ca_prop64_branch) !== (pathwayId === CA_PROP64_COMPLETED ? "completed-sentence application" : "currently-serving petition")
           ? <p className="mt-3" data-ca-prop64-route-mismatch>{CA_PROP64_RECOVERY_COPY["CA-P64-ROUTE-MISMATCH-WARNING-v1"][locale]}</p> : null}

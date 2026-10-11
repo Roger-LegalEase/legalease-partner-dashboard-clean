@@ -58,7 +58,9 @@ export function QuestionField({
   const errorId = error ? `${fieldId}-error` : undefined;
   const contextId = question.contextOnly ? `${fieldId}-context` : undefined;
   const helperId = question.helperText ? `${fieldId}-helper` : undefined;
-  const describedBy = [contextId, helperId, errorId].filter(Boolean).join(" ") || undefined;
+  const legacyId = stateCode === "CA" && question.legacyAnswerText !== undefined
+    && (question.answerContract === "ca_prop64_record_fact_v1" || question.id === "sentence_completion_date" && question.type === "yes_no_unsure") ? `${fieldId}-legacy` : undefined;
+  const describedBy = [contextId, helperId, legacyId, errorId].filter(Boolean).join(" ") || undefined;
   const optional = question.contextOnly || !question.required;
   const promptText =
     locale === "es" && question.translations?.es?.prompt
@@ -123,6 +125,9 @@ export function QuestionField({
           {heading}
           {helperNode}
           {bannerNode}
+          {legacyId ? <p id={legacyId} role="status" data-ca-prop64-legacy-completion-answer className="whitespace-pre-wrap break-words rounded border border-amber-300 p-3 text-sm">
+            {CA_PROP64_CLARIFICATION_COPY.saved_answer_label[locale]}: {question.legacyAnswerText}
+          </p> : null}
           {unrecognized ? <div className="rounded border border-amber-300 p-3 text-sm" role="status" data-ca-prop64-legacy-answer>
             <p className="font-semibold">{caCopy("legacy_heading")}</p>
             <p className="mt-2">{caCopy("legacy_explanation")}</p>
@@ -213,6 +218,10 @@ export function QuestionField({
           {heading}
           {helperNode}
           {bannerNode}
+          {legacyId ? <div id={legacyId} role="status" data-ca-prop64-legacy-record-answer className="rounded border border-amber-300 p-3 text-sm">
+            <p>{localizeText("Review the court and charge details for this case before continuing.")}</p>
+            <p className="mt-2 whitespace-pre-wrap break-words">{CA_PROP64_CLARIFICATION_COPY.saved_answer_label[locale]}: {question.legacyAnswerText}</p>
+          </div> : null}
           <OrUnknownField
             id={fieldId}
             inputType={config.inputType}

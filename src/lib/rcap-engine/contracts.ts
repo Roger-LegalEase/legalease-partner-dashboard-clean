@@ -85,6 +85,8 @@ export type PublicQuestion = {
   prompt: string;
   helperText?: string;
   multiline?: boolean;
+  /** Scoped record-input validator; never a legal outcome or answer alias. */
+  answerContract?: "ca_prop64_record_fact_v1";
   type: string;
   required: boolean;
   contextOnly?: boolean;

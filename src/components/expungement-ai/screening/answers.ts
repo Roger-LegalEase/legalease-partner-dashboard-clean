@@ -64,7 +64,7 @@ const UNKNOWN_WIRE_VALUE = "I am not sure";
  * a pure shape transform, not a routing decision.
  */
 export function toScreeningAnswers(
-  answers: Record<string, AnswerValue>
+  answers: Record<string, AnswerValue | boolean>
 ): Record<string, ScreeningAnswerValue> {
   const out: Record<string, ScreeningAnswerValue> = {};
   for (const [id, value] of Object.entries(answers)) {
@@ -74,10 +74,11 @@ export function toScreeningAnswers(
   return out;
 }
 
-function toWireValue(value: AnswerValue | undefined): ScreeningAnswerValue | undefined {
+function toWireValue(value: AnswerValue | boolean | undefined): ScreeningAnswerValue | undefined {
   if (value === undefined || value === null) return undefined;
   if (typeof value === "string") return value.trim() === "" ? undefined : value;
   if (typeof value === "number") return value;
+  if (typeof value === "boolean") return value;
   if (Array.isArray(value)) return value.length > 0 ? value : undefined;
   const orUnknown = readOrUnknown(value);
   if (orUnknown.unknown === true) return UNKNOWN_WIRE_VALUE;

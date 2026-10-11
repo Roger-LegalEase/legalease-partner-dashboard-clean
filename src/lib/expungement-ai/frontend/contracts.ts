@@ -86,12 +86,16 @@ export type FlowStage = {
 };
 
 export type ProfileQuestion = {
+  /** Protected owner recovery display only; never an editable answer or legal fact. */
+  legacyAnswerText?: string;
   id: string;
   stage: string;
   prompt: string;
   helperText?: string;
   /** Presentation only; preserves the existing canonical answer shape. */
   multiline?: boolean;
+  /** Scoped record-input validator; never a legal outcome or answer alias. */
+  answerContract?: "ca_prop64_record_fact_v1";
   type: QuestionType;
   required: boolean;
   /**

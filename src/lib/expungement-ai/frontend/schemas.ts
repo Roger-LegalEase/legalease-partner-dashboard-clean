@@ -64,6 +64,8 @@ export const profileQuestionSchema = z
     prompt: z.string().min(1),
     helperText: z.string().optional(),
     multiline: z.boolean().optional(),
+    answerContract: z.literal("ca_prop64_record_fact_v1").optional(),
+    legacyAnswerText: z.string().optional(),
     type: z.string().min(1),
     required: z.boolean(),
     contextOnly: z.boolean(),
@@ -76,7 +78,11 @@ export const profileQuestionSchema = z
     }).passthrough()).optional(),
     translations: z.object({ es: z.object({ prompt: z.string().optional(), helperText: z.string().optional() }).passthrough().optional() }).passthrough().optional()
   })
-  .passthrough();
+  .passthrough()
+  .refine((question) => !question.answerContract || question.type === "text_or_unknown"
+    && ["court", "charge"].includes(question.id), "Invalid scoped record-answer contract")
+  .refine((question) => question.legacyAnswerText === undefined || question.answerContract === "ca_prop64_record_fact_v1"
+    || question.id === "sentence_completion_date" && question.type === "yes_no_unsure", "Invalid scoped legacy-answer display");
 
 export const jurisdictionProfileSchema = z
   .object({

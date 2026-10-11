@@ -1,3 +1,4 @@
+import { caProp64RecordQuestions } from "@/lib/expungement-ai/ca-prop64-record-facts";
 import type {
   EngineProfile,
   PublicJurisdictionProfile,
@@ -50,6 +51,7 @@ export function selectScreeningQuestionIds(
   const selectedPathway = selectedLabel
     ? profile.pathways.find((pathway) => pathway.label === selectedLabel)
     : undefined;
+  const recordQuestions = new Map(caProp64RecordQuestions(profile, publicProfile.questions, selectedPathway?.id).map((question) => [question.id, question]));
   const stageOrder = new Map(publicProfile.flowStages.map((stage) => [stage.id, stage.order]));
   const pathwayRoutingOrder = publicProfile.flowStages.find((stage) => stage.id === "pathway_routing")?.order
     ?? stageOrder.get(publicProfile.questions.find((question) => question.id === "possible_pathway_context")?.stage ?? "")
@@ -57,8 +59,8 @@ export function selectScreeningQuestionIds(
   const seen = new Set<string>();
 
   return publicProfile.questions
-    .map((question, index) => ({ question, index }))
-    .filter(({ question }) => !lifecycle?.exactPacketFactIds.includes(question.id)
+    .map((question, index) => ({ question: recordQuestions.get(question.id) ?? question, index }))
+    .filter(({ question }) => (!lifecycle?.exactPacketFactIds.includes(question.id) || recordQuestions.has(question.id))
       && !lifecycle?.completionAliasIds.includes(question.id))
     .filter(({ question }) => question.lifecyclePhase?.startsWith("prepay_")
       ?? !["record_readiness", "case_details", "packet_information"].includes(question.stage))

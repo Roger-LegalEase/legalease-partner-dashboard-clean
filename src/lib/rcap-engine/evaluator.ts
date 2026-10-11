@@ -1,4 +1,6 @@
-import { caProp64Choice } from "@/lib/expungement-ai/ca-prop64-choices";
+import { caProp64Choice, CA_PROP64_CURRENT } from "@/lib/expungement-ai/ca-prop64-choices";
+import { caProp64RecordQuestions } from "@/lib/expungement-ai/ca-prop64-record-facts";
+import { caProp64RecordAnswerState } from "@/lib/expungement-ai/ca-prop64-record-answer";
 import "server-only";
 
 import crypto from "node:crypto";
@@ -938,6 +940,13 @@ function caRouteSafetyGate(profile: EngineProfile, answers: Record<string, Scree
       if (requested !== "dismissal/sealing" && requested !== "redesignation") {
         return reason(jurisdiction, "ca_prop64_relief_requested_missing", "The completed-sentence HSC § 11361.8 application must confirm dismissal/sealing or redesignation is requested.", pathway.sourceRef);
       }
+    }
+    if (pathway.id === CA_PROP64_CURRENT && isAffirmative(answers.sentence_completion_date)) {
+      return reason(jurisdiction, "ca_prop64_sentence_status_conflict", "The sentence status and completion answers for this case do not agree. Review both answers before continuing.", pathway.sourceRef);
+    }
+    if (caProp64RecordQuestions(profile, profile.questions, pathway.id)
+      .some((question) => caProp64RecordAnswerState(question.id, answers[question.id]) !== "known_valid")) {
+      return reason(jurisdiction, "ca_prop64_record_details_unconfirmed", "Review the court and charge details for this case before continuing.", pathway.sourceRef);
     }
   }
   return undefined;
@@ -1911,7 +1920,14 @@ function matchCompiledRuleRoute(profile: EngineProfile, publicProfile: PublicJur
 function evaluateCompiledTiming(profile: EngineProfile, answers: Record<string, ScreeningAnswerValue>, rule: CompiledRule, pathway: CompiledPathway): TimingResult {
   const jurisdiction = profile.jurisdiction.code;
   const courtRequirement = answerText(answers[COURT_REQUIREMENTS_FIELD_ID]);
-  if (courtRequirement === "no" || isNegative(answers.sentence_completion_date) || isNegative(answers.financial_obligations) || isAffirmative(answers.pending_cases) || isAffirmative(answers.new_convictions_during_waiting_period)) {
+  // CR-400 item 2a expressly covers a person still serving the sentence.
+  // Only that exact, confirmed branch permits an unfinished sentence; every
+  // other completion, financial, pending-case and special-condition guard stays.
+  const currentProp64Sentence = jurisdiction === "CA" && pathway.id === CA_PROP64_CURRENT
+    && caProp64Choice("ca_prop64_branch", answers.ca_prop64_branch) === "currently-serving petition"
+    && isAffirmative(answers.ca_prop64_qualifying_marijuana_offense)
+    && isAffirmative(answers.ca_prop64_lesser_or_no_offense);
+  if (courtRequirement === "no" || isNegative(answers.sentence_completion_date) && !currentProp64Sentence || isNegative(answers.financial_obligations) || isAffirmative(answers.pending_cases) || isAffirmative(answers.new_convictions_during_waiting_period)) {
     return {
       status: "not_yet",
       reason: reason(jurisdiction, "timing_or_completion_blocker", "This may not be ready yet. Most record-clearing paths require court-ordered requirements to be completed first.", rule.sourceRef)

@@ -1,3 +1,4 @@
+import { reviewedResultText } from "@/lib/expungement-ai/reviewed-result-copy";
 import {RCAP_SPANISH_COPY} from "@/lib/partners/onboarding/rcap-spanish-copy";
 export type Locale = "en" | "es";
 
@@ -1154,6 +1155,8 @@ export function t(locale: Locale, key: string, fallback?: string, vars?: Record<
 }
 
 export function resolveRuntimeText(locale: Locale, text: string, options?: { key?: string; vars?: Record<string, string | number | undefined> }): string {
+  const reviewed = reviewedResultText(text);
+  if (reviewed) return interpolate(reviewed[locale], options?.vars);
   if (locale === "es" && RCAP_SPANISH_COPY[text]) return interpolate(RCAP_SPANISH_COPY[text],options?.vars);
   if (options?.key) return t(locale, options.key, text, options.vars);
   const key = EXACT_ENGLISH_INDEX.get(normalize(text));

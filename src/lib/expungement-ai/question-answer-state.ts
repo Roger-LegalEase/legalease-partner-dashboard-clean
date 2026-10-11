@@ -1,9 +1,11 @@
+import { caProp64RecordAnswerState, CA_PROP64_RECORD_ANSWER_CONTRACT } from "@/lib/expungement-ai/ca-prop64-record-answer";
 import { caProp64Choice, isCaProp64ChoiceQuestion } from "@/lib/expungement-ai/ca-prop64-choices";
 import type { ProfileQuestion } from "@/lib/expungement-ai/frontend/contracts";
 
 /** Shared input validation, not legal eligibility. Wire values remain unchanged. */
 export type QuestionAnswerState = "unanswered" | "invalid" | "known_valid" | "uncertain" | "declined";
 type QuestionContract = Pick<ProfileQuestion, "id" | "type"> & {
+  answerContract?: "ca_prop64_record_fact_v1";
   options?: unknown;
   exclusiveOptions?: readonly string[];
 };
@@ -50,6 +52,9 @@ export function toggleMultiSelect(values: readonly string[], option: string, exc
 }
 
 export function questionAnswerState(question: QuestionContract, value: unknown, today = new Date().toISOString().slice(0, 10)): QuestionAnswerState {
+  if (question.answerContract === CA_PROP64_RECORD_ANSWER_CONTRACT) {
+    return question.type === "text_or_unknown" ? caProp64RecordAnswerState(question.id, value) : "invalid";
+  }
   if (value === undefined || value === null || value === "") return "unanswered";
   if (isCaProp64ChoiceQuestion(question)) {
     const choice = caProp64Choice(question.id, value);
