@@ -24,7 +24,7 @@ import { NEVADA_176A_ROUTE_KEY, NEVADA_176A_ROUTE_SAFETY_FACT_IDS } from "@/lib/
  */
 export const MISSISSIPPI_NON_CONVICTION_NEUTRAL_FACTS: ReadonlyArray<readonly [string, string]> = [
   ["pending_cases", "No"],
-  ["trafficking_status", "No"],
+  ["ms_charged_trafficking_distribution_manufacture", "No"],
   ["prior_relief", "No"],
   ["sentence_completion_date", "Yes"],
   ["financial_obligations", "Yes"],

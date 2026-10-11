@@ -1,4 +1,5 @@
 import "server-only";
+import { reviewedPacketContractSuccessor } from "@/lib/expungement-ai/packet-contract-successors";
 import { getProgramPacketFunding } from "@/lib/partners/onboarding/program-packet-funding";
 
 import { createHash } from "node:crypto";
@@ -433,7 +434,8 @@ function legalAuthorityFromProtectedVerification(
     || (authoritative.selectedTrackId ?? null) !== snapshot.selectedTrackId
     || (evaluation.treatmentClassification ?? null) !== snapshot.treatmentClassification
     || !canonicalEqual(evaluation.deferralComponentIds ?? [], snapshot.deferralComponentIds)
-    || !canonicalEqual(evaluation.packetPlan ?? null, snapshot.packetPlan)) {
+    || !canonicalEqual(evaluation.packetPlan ?? null, snapshot.packetPlan)
+      && !reviewedPacketContractSuccessor(snapshot, evaluation.packetPlan)) {
     return { status: "unavailable", reason: "protected_snapshot_authority_mismatch" };
   }
   const verificationStatus = verification.status === "verified" && !model.reviewSafety.safe

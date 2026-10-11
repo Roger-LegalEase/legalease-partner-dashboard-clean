@@ -80,6 +80,9 @@ export type PacketVerificationSnapshot = {
     entitlementSource: string | null;
     productId: string | null;
     contactRepresentation?: import("@/lib/expungement-ai/contact-representation").ContactRepresentationProvenance;
+    semanticAnswerHistory?: Array<{ factId: string; value: unknown; source: "screeningAnswers" | "prefilledAnswers" | "packetAnswers";
+      meaning: "ambiguous_victimhood_or_charged_conduct"; routeKey: string; profileVersion: string;
+      profileSourceFingerprint: string | null; profileAuthorityFingerprint: string }>;
     packetDerivations?: Record<string, {
       version: 1;
       routeKey: string;

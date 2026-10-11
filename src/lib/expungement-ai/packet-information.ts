@@ -1,6 +1,7 @@
 import { fullSsnLastFour, requiresMcicIdentifierAuthority } from "@/lib/expungement-ai/sensitive-packet-facts";
 import { reviewedContactRepresentation, contactRepresentationHash, contactRepresentationProvenance, isProvenContactOutput } from "@/lib/expungement-ai/contact-representation";
 import { reviewedPacketQuestion } from "@/lib/expungement-ai/reviewed-question-copy";
+import { reviewedPacketContractSuccessor, preserveAmbiguousMsAnswer, MS_CHARGED_CONDUCT_FACT } from "@/lib/expungement-ai/packet-contract-successors";
 import { answerValueIsKnown, questionAnswerState, normalizeQuestionChoices, sameKnownQuestionAnswer } from "@/lib/expungement-ai/question-answer-state";
 import "server-only";
 
@@ -380,7 +381,7 @@ export function packetInformationPatch(input: {
   });
   const currentVerification = packetVerificationStateForRecord(input.existingItem, priorProtected, true);
   if (!materialFactChange && !derivedRepairRequired && (input.verify !== true || currentVerification.status === "verified")) {
-    const ready = currentVerification.status === "verified";
+    const ready = currentVerification.status === "verified" && current.reviewSafety.safe;
     const packetInformation = {
       stage: ready ? "ready_to_generate" as const : current.stage,
       requiredInputIds: current.requiredInputIds,
@@ -413,7 +414,7 @@ export function packetInformationPatch(input: {
     };
   }
   const now = new Date().toISOString();
-  const nextDraft = !materialFactChange && !derivedRepairRequired && priorProtected.draftSnapshot
+  const nextDraft = !materialFactChange && !derivedRepairRequired && canonicalEqual(priorSnapshot.packetPlan, current.packetPlan) && priorProtected.draftSnapshot
     ? priorProtected.draftSnapshot
     : deriveProtectedPacketDraftSnapshot(priorProtected, savedAnswers, now, contactChoice);
   if (!nextDraft) return null;
@@ -568,7 +569,7 @@ function packetVerificationStateForRecord(
 export function protectedPacketInformationModelFor(
   verification: ProtectedPacketVerificationRecord
 ): ProtectedPacketInformationModel | null {
-  const snapshot = protectedAuthoritySnapshotFor(verification);
+  let snapshot = protectedAuthoritySnapshotFor(verification);
   if (!snapshot) return null;
   const profile = getProfileByJurisdiction(snapshot.jurisdiction);
   if (!profile || profile.profileVersion !== snapshot.profileVersion) return null;
@@ -577,6 +578,9 @@ export function protectedPacketInformationModelFor(
   const authoritative = evaluateProtectedPacketFacts(snapshot);
   if (!authoritative) return null;
   const evaluation = authoritative.evaluation;
+  const contractSuccessor = !canonicalEqual(evaluation.packetPlan ?? null, snapshot.packetPlan)
+    ? reviewedPacketContractSuccessor(snapshot, evaluation.packetPlan) : null;
+  if (contractSuccessor) snapshot = contractSuccessor;
   if ((evaluation.pathwayId ?? null) !== snapshot.pathwayId
     || evaluation.resultCode !== snapshot.resultCode
     || evaluation.paymentAllowed !== snapshot.paymentAllowed
@@ -609,6 +613,24 @@ export function protectedPacketInformationModelFor(
     prefilledAnswers,
     packetAnswers
   );
+  const legacySemanticAnswers = snapshot.dependencies.semanticAnswerHistory?.filter((entry) => entry.factId === "trafficking_status"
+    && entry.meaning === "ambiguous_victimhood_or_charged_conduct" && entry.routeKey === `${snapshot.jurisdiction}:${snapshot.pathwayId}`) ?? [];
+  const chargedQuestion = questionSurface.questions.find((question) => question.id === MS_CHARGED_CONDUCT_FACT);
+  if (chargedQuestion && legacySemanticAnswers.length && !Object.prototype.hasOwnProperty.call(snapshot.packetAnswers, chargedQuestion.id)) {
+    const previous = [...new Set(legacySemanticAnswers.map((entry) => {
+      const value = entry.value;
+      return typeof value === "string" || typeof value === "number" ? String(value)
+        : isRecord(value) && value.unknown !== true && (typeof value.value === "string" || typeof value.value === "number") ? String(value.value) : null;
+    }).filter((value): value is string => value !== null))];
+    const note = "We need to clarify this answer because an earlier question may have referred to being a victim of human trafficking. Your earlier answer is saved, but it will not answer this question for you.";
+    const noteEs = "Necesitamos aclarar esta respuesta porque una pregunta anterior pudo haberse referido a ser víctima de trata de personas. Su respuesta anterior está guardada, pero no se usará para responder esta pregunta por usted.";
+    const clarified = { ...chargedQuestion, helperText: `${chargedQuestion.helperText ?? ""}\n\n${note}${previous.length ? `\nEarlier saved answer: ${previous.join(" / ")}` : ""}`,
+      translations: { ...chargedQuestion.translations, es: { ...chargedQuestion.translations?.es,
+        helperText: `${chargedQuestion.translations?.es?.helperText ?? ""}\n\n${noteEs}${previous.length ? `\nRespuesta guardada anteriormente: ${previous.join(" / ")}` : ""}` } } };
+    questionSurface.questions = questionSurface.questions.map((question) => question.id === clarified.id ? clarified : question);
+    questionSurface.builderQuestions = questionSurface.builderQuestions.map((question) => question.id === clarified.id ? clarified : question);
+    questionSurface.questionById.set(clarified.id, clarified);
+  }
   // What the participant still owes, which is what "missing" has always meant.
   // Where the route cannot be resolved this is every required input the server
   // does not own -- the behaviour this line had before the collection policy.
@@ -634,8 +656,8 @@ export function protectedPacketInformationModelFor(
     factKeys: verificationSummary.map((fact) => fact.key),
     systemContextKeys: verificationContext.map((entry) => entry.key)
   };
-  const reviewSafety = protectedPacketDraftReviewSafety(snapshot,
-      "verifiedAt" in snapshot ? snapshot.verifiedAt : new Date().toISOString());
+  const reviewSafety = contractSuccessor ? { safe: false, reason: "packet_contract_clarification_required" }
+    : protectedPacketDraftReviewSafety(snapshot, "verifiedAt" in snapshot ? snapshot.verifiedAt : new Date().toISOString());
   const currentlyVerified = verification.status === "verified" && reviewSafety.safe;
   return {
     stateCode: snapshot.jurisdiction,
@@ -999,8 +1021,14 @@ function deriveProtectedPacketDraftSnapshot(
   capturedAt: string,
   useContactComponents = false
 ): ProtectedPacketDraftSnapshot | null {
-  const base = protectedAuthoritySnapshotFor(verification);
+  let base = protectedAuthoritySnapshotFor(verification);
   if (!base) return null;
+  const currentAuthority = evaluateProtectedPacketFacts(base);
+  if (!currentAuthority) return null;
+  if (!canonicalEqual(currentAuthority.evaluation.packetPlan ?? null, base.packetPlan)) {
+    base = reviewedPacketContractSuccessor(base, currentAuthority.evaluation.packetPlan);
+    if (!base) return null;
+  }
   const refreshed = refreshedPacketFactMaps(base, { screeningAnswers: answerRecord(base.screeningAnswers),
     prefilledAnswers: answerRecord(base.prefilledAnswers), packetAnswers }, useContactComponents);
   if (useContactComponents && !refreshed.adopted) return null;
@@ -1153,9 +1181,14 @@ export function protectedPacketDraftSeedFromAuthoritative(input: {
   const profile = getProfileByJurisdiction(evaluation.jurisdiction);
   if (!profile || profile.profileVersion !== evaluation.profileVersion) return null;
   const packetPlan = evaluation.packetPlan ?? null;
-  const sensitiveMaps = refreshedSensitiveFactMaps(evaluation.jurisdiction, evaluation.pathwayId ?? null, packetPlan?.requiredInputIds ?? [], input.screeningAnswers, input.prefilledAnswers ?? {}, input.packetAnswers ?? {});
+  // Archive ambiguous wire values before source precedence removes overlapping maps.
+  const semantic = preserveAmbiguousMsAnswer({ jurisdiction: evaluation.jurisdiction, pathwayId: evaluation.pathwayId ?? null,
+    requiredInputIds: packetPlan?.requiredInputIds ?? [], profileVersion: evaluation.profileVersion,
+    profileSourceFingerprint: profile.source?.sourceCorpusSha256 ?? null, profileAuthorityFingerprint: profileAuthorityFingerprint(profile, evaluation.pathwayId ?? null),
+    screeningAnswers: input.screeningAnswers, prefilledAnswers: input.prefilledAnswers ?? {}, packetAnswers: input.packetAnswers ?? {}, dependencies: input.dependencies });
+  const sensitiveMaps = refreshedSensitiveFactMaps(evaluation.jurisdiction, evaluation.pathwayId ?? null, packetPlan?.requiredInputIds ?? [], semantic.screeningAnswers, semantic.prefilledAnswers, semantic.packetAnswers);
   const contact = refreshedPacketFactMaps({ jurisdiction: evaluation.jurisdiction, pathwayId: evaluation.pathwayId ?? null, profileVersion: evaluation.profileVersion,
-    requiredInputIds: packetPlan?.requiredInputIds ?? [], dependencies: input.dependencies, ...sensitiveMaps }, sensitiveMaps);
+    requiredInputIds: packetPlan?.requiredInputIds ?? [], dependencies: semantic.dependencies, ...sensitiveMaps }, sensitiveMaps);
   const { screeningAnswers: incomingScreening, prefilledAnswers: incomingPrefilled, packetAnswers: incomingPacketAnswers } = contact.maps;
   const factMaps = sourceDisjointFactMaps({
     screeningAnswers: incomingScreening,
@@ -1198,7 +1231,8 @@ export function protectedPacketDraftSeedFromAuthoritative(input: {
     prefilledAnswers: factMaps.prefilledAnswers,
     dependencies: canonicalize(contact.dependencies)
   }) as ProtectedPacketDraftSnapshot;
-  return { snapshot, hash: protectedPacketDraftHash(snapshot) };
+  const preserved = preserveAmbiguousMsAnswer(snapshot);
+  return { snapshot: preserved, hash: protectedPacketDraftHash(preserved) };
 }
 
 function protectedPacketDraftReviewSafety(draft: ProtectedPacketAuthoritySnapshot, verifiedAt: string) {

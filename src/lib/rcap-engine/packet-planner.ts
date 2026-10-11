@@ -14,6 +14,14 @@ export function packetPlanForPathway(profile: EngineProfile, pathwayId: string):
   const registeredPacketFactIds = packetSpecificationRequiredFactIdsFor(
     `${profile.jurisdiction.code}:${pathwayId}`
   );
+  // This specification used a victimhood identifier for a different, charged-conduct question.
+  // Preserve the old position but never carry its answer into the separated fact.
+  const scopedBaseRequiredInputIds = profile.jurisdiction.code === "MS"
+    && pathwayId === "non-conviction-expungement-for-dismissal-no-disposition-or-acquittal"
+    && registeredPacketFactIds.includes("ms_charged_trafficking_distribution_manufacture")
+    && !registeredPacketFactIds.includes("trafficking_status")
+    ? baseRequiredInputIds.map((id) => id === "trafficking_status" ? "ms_charged_trafficking_distribution_manufacture" : id)
+    : baseRequiredInputIds;
 
   return {
     pathwayId,
@@ -21,7 +29,7 @@ export function packetPlanForPathway(profile: EngineProfile, pathwayId: string):
     formMappingStatus: plan.formMappingStatus,
     sourceFormIds: (plan.formCandidates ?? []).map((candidate) => `${profile.jurisdiction.code}:${candidate.relativePath}:${candidate.sha256}`),
     requiredInputIds: [...new Set([
-      ...baseRequiredInputIds,
+      ...scopedBaseRequiredInputIds,
       ...routedExactPacketFactIds,
       ...registeredPacketFactIds
     ])],
