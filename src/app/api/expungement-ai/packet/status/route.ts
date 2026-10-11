@@ -5,8 +5,10 @@ import {
   ConsumerPacketNotAllowedError,
   ConsumerPacketNotFoundError,
   ConsumerPacketPaymentRequiredError,
+  ConsumerPacketSponsorshipAuthorityUnavailableError,
   getConsumerPacketStatus
 } from "@/lib/expungement-ai/packet-generation";
+import { CurrentPacketVerificationRequiredError } from "@/lib/expungement-ai/packet-information";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -24,6 +26,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({
       packetStatus: status.packetStatus,
       canDownload: status.canDownload,
+      retryable: status.retryable === true,
       artifact: status.artifactRefs && "downloadPath" in status.artifactRefs ? {
         fileName: status.artifactRefs.fileName,
         generatedAt: status.artifactRefs.generatedAt,
@@ -33,6 +36,12 @@ export async function GET(request: NextRequest) {
       briefcaseItemId
     });
   } catch (error) {
+    if (error instanceof CurrentPacketVerificationRequiredError) {
+      return NextResponse.json({ error: "Review and verify your current packet facts before continuing." }, { status: 409 });
+    }
+    if (error instanceof ConsumerPacketSponsorshipAuthorityUnavailableError) {
+      return NextResponse.json({ error: "Packet funding authority could not be verified. Your information and payment remain saved." }, { status: 503 });
+    }
     if (error instanceof ConsumerPacketArtifactAuthorityUnavailableError) {
       return NextResponse.json({ error: "Packet status authority is temporarily unavailable." }, { status: 503 });
     }

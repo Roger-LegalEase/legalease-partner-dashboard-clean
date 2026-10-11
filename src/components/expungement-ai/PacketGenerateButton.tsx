@@ -1,7 +1,8 @@
 "use client";
 
 import { FileText } from "lucide-react";
-import { useState } from "react";
+import Link from "next/link";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useLocalization } from "@/components/expungement-ai/LocalizationProvider";
 import { trackFunnelEvent } from "@/lib/analytics/client";
@@ -9,17 +10,56 @@ import { trackFunnelEvent } from "@/lib/analytics/client";
 export function PacketGenerateButton({
   briefcaseItemId,
   mode,
-  label
+  label,
+  initiallyPreparing = false,
+  initiallyFailed = false,
+  initiallyRetryable = false
 }: {
   briefcaseItemId: string;
   mode: "sponsored_sync" | "paid_durable";
   label?: string;
+  initiallyPreparing?: boolean;
+  initiallyFailed?: boolean;
+  initiallyRetryable?: boolean;
 }) {
   const router = useRouter();
   const { t: translate, text: localizeText } = useLocalization();
-  const [status, setStatus] = useState<"idle" | "submitting" | "preparing" | "error">("idle");
-  const [refusal, setRefusal] = useState<string | null>(null);
+  const [status, setStatus] = useState<"idle" | "submitting" | "preparing" | "error">(initiallyFailed ? "error" : initiallyPreparing ? "preparing" : "idle");
+  const [refusal, setRefusal] = useState<string | null>(initiallyFailed ? initiallyRetryable ? "Packet preparation failed. Your payment is preserved. Retry preparation without another charge." : "Packet preparation needs support. Your payment is preserved." : null);
+  const [retryAllowed, setRetryAllowed] = useState(!initiallyFailed || initiallyRetryable);
+  const [watching, setWatching] = useState(initiallyPreparing || initiallyFailed && initiallyRetryable);
   const durable = mode === "paid_durable";
+
+  useEffect(() => {
+    if (!durable || !watching) return;
+    const controller = new AbortController();
+    let timer: ReturnType<typeof setTimeout>;
+    let checks = 0;
+    async function check() {
+      const response = await fetch(`/api/expungement-ai/packet/status?briefcaseItemId=${encodeURIComponent(briefcaseItemId)}`, { cache: "no-store", signal: controller.signal }).catch(() => null);
+      const body = await response?.json().catch(() => null);
+      if (controller.signal.aborted) return;
+      if (response?.ok && body?.packetStatus === "ready" && body.canDownload === true) {
+        setWatching(false);
+        setStatus("idle");
+        router.push(`/briefcase/${encodeURIComponent(briefcaseItemId)}`);
+        router.refresh();
+        return;
+      }
+      checks++;
+      if (body?.packetStatus === "failed" || !response?.ok || checks >= 60) {
+        setRetryAllowed(body?.packetStatus !== "failed" || body.retryable === true);
+        setRefusal(body?.packetStatus === "failed"
+          ? body.retryable ? "Packet preparation failed. Your payment is preserved. Retry preparation without another charge." : "Packet preparation needs support. Your payment is preserved."
+          : "Your payment is preserved. We could not confirm the completed packet yet. Retry the status check or return to this matter later.");
+        setStatus("error");
+        if (!body?.retryable || checks >= 60) { setWatching(false); return; }
+      }
+      timer = setTimeout(check, 2000);
+    }
+    timer = setTimeout(check, 500);
+    return () => { controller.abort(); clearTimeout(timer); };
+  }, [briefcaseItemId, durable, router, watching]);
 
   async function generate() {
     setStatus("submitting");
@@ -50,6 +90,8 @@ export function PacketGenerateButton({
       // A 202 means durable work was accepted. The worker, not this click,
       // owns the eventual packet-ready transition and generated event.
       setStatus("preparing");
+      setWatching(true);
+      router.push(`/briefcase/${encodeURIComponent(briefcaseItemId)}`);
       router.refresh();
       return;
     }
@@ -59,7 +101,7 @@ export function PacketGenerateButton({
 
   return (
     <div className="mt-4">
-      <button
+      {durable && !retryAllowed ? <Link className="inline-flex min-h-11 items-center rounded-[10px] bg-[#0B1320] px-4 text-sm font-bold text-white" href={`/expungement-ai/support?briefcaseItemId=${encodeURIComponent(briefcaseItemId)}`}>{localizeText("Contact support")}</Link> : <button
         type="button"
         disabled={status === "submitting" || status === "preparing"}
         onClick={() => void generate()}
@@ -67,15 +109,16 @@ export function PacketGenerateButton({
       >
         <FileText className="h-4 w-4" aria-hidden="true" />
         {status === "preparing"
-          ? "Preparing packet"
+          ? localizeText("Preparing packet")
           : status === "submitting"
-            ? (durable ? "Starting packet preparation..." : translate("briefcase.generating_packet", "Generating packet..."))
-            : label ?? translate("briefcase.generate_packet", "Generate my packet")}
-      </button>
+            ? (durable ? localizeText("Starting packet preparation...") : translate("briefcase.generating_packet", "Generating packet..."))
+            : status === "error" && durable ? localizeText("Retry packet preparation") : label ? localizeText(label) : translate("briefcase.generate_packet", "Generate my packet")}
+      </button>}
+      {status === "preparing" ? <p className="mt-2 text-sm" role="status" aria-live="polite">{localizeText("Your payment is confirmed. We are preparing your packet; this page will open it when it is ready.")}</p> : null}
       {status === "error" ? (
         <p className="mt-2 text-[13px] font-semibold text-[#B23036]" role="alert" aria-live="assertive">
           {refusal ? localizeText(refusal) : durable
-            ? "We could not start packet preparation right now. Try again or contact support."
+            ? localizeText("We could not start packet preparation right now. Try again or contact support.")
             : translate("briefcase.generate_error", "We could not generate the packet right now. Try again or contact support.")}
         </p>
       ) : null}

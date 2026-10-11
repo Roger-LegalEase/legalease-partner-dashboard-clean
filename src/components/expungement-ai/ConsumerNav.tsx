@@ -40,7 +40,7 @@ export function ConsumerNav({ variant = "marketing" }: { variant?: ConsumerNavVa
               href="/briefcase"
             >
               <Briefcase className="h-4 w-4" aria-hidden="true" />
-              <span className="hidden sm:inline"><LocalizedText k="briefcase.label" fallback="Briefcase" /></span>
+              <span className="sr-only sm:not-sr-only"><LocalizedText k="briefcase.label" fallback="Briefcase" /></span>
             </Link>
             <AuthControl isAuthenticated={isAuthenticated} light />
           </div>
@@ -66,7 +66,7 @@ export function ConsumerNav({ variant = "marketing" }: { variant?: ConsumerNavVa
           <Link className="inline-flex min-h-10 items-center gap-2 rounded-md px-3 text-sm font-semibold text-white/80 hover:bg-white/10 md:hidden" href="/expungement-ai/support" aria-label="Support">
             <HelpCircle className="h-4 w-4" aria-hidden="true" />
           </Link>
-          <Link className="inline-flex min-h-10 items-center gap-2 rounded-md bg-[#FF3B00] px-4 text-sm font-bold text-white" href="/expungement-ai/start">
+          <Link className="inline-flex min-h-10 items-center gap-2 rounded-md bg-[#C2350A] px-4 text-sm font-bold text-white" href="/expungement-ai/start">
             <Briefcase className="h-4 w-4" aria-hidden="true" />
             <LocalizedText k="nav.start_free" fallback="Check my options" />
           </Link>

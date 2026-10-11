@@ -129,7 +129,7 @@ export function PacketVerificationAction({
       {!verified ? (
         canVerify ? (
           <button
-            className="mt-5 min-h-11 rounded-[10px] bg-[#FF3B00] px-5 text-sm font-bold text-white disabled:cursor-wait disabled:opacity-60"
+            className="mt-5 min-h-11 rounded-[10px] bg-[#C2350A] px-5 text-sm font-bold text-white disabled:cursor-wait disabled:opacity-60"
             disabled={verifying || preparing}
             onClick={() => void verify()}
             type="button"
@@ -148,17 +148,17 @@ export function PacketVerificationAction({
       ) : (
         <div className="mt-5 flex flex-col items-start gap-3 sm:flex-row sm:items-center">
           {nextActions.openPacket ? (
-            <Link className="inline-flex min-h-11 items-center rounded-[10px] bg-[#FF3B00] px-5 text-sm font-bold text-white" href={`/briefcase/${encodeURIComponent(itemId)}`}>
+            <Link className="inline-flex min-h-11 items-center rounded-[10px] bg-[#C2350A] px-5 text-sm font-bold text-white" href={`/briefcase/${encodeURIComponent(itemId)}`}>
               Open my packet
             </Link>
           ) : null}
           {nextActions.generation?.mode === "sponsored_sync" ? (
-            <div className="[&_button]:mt-0 [&_button]:bg-[#FF3B00]">
+            <div className="[&_button]:mt-0 [&_button]:bg-[#C2350A]">
               <PacketGenerateButton briefcaseItemId={itemId} mode="sponsored_sync" label="Prepare clinic packet" />
             </div>
           ) : null}
           {nextActions.generation?.mode === "paid_durable" ? (
-            <div className="[&_button]:mt-0 [&_button]:bg-[#FF3B00]">
+            <div className="[&_button]:mt-0 [&_button]:bg-[#C2350A]">
               <PacketGenerateButton
                 briefcaseItemId={itemId}
                 mode="paid_durable"

@@ -35,6 +35,7 @@ for(const failAt of ['sponsored_entitlement','packet_credit_admission','provider
   '@/lib/expungement-ai/briefcase-presentation-authority':{readTrustedBriefcasePresentationSource:async()=>({ok:true,value:{product:'rcap_partner',partnerBenefitActive:true,partnerSlug:'sponsor',sourceSessionId:'session',matterId:'matter'}})},
   '@/lib/expungement-ai/consumer-identity':{consumerMatterIdForItem:()=> 'matter'},
   '@/lib/expungement-ai/clinic-packet-funding':{clinicPacketDtcAuthorized:async()=>false,reserveClinicPacketFunding:async()=>{reserved++;}},
+  '@/lib/partners/onboarding/program-packet-funding':{getProgramPacketFunding:async()=> 'sponsored'},
   '@/lib/expungement-ai/packet-fulfillment-authority':{assertPacketFulfillmentProven:()=>{}},
   '@/lib/rcap/render/personalized-packet':{isPersonalizedDeliveryRoute:()=>true},
   '@/lib/rcap/render/job-queue':{hasFinalizedPersonalizedRender:async()=>false,enqueueVerifiedSponsoredRender:async()=>{jobs++;}}

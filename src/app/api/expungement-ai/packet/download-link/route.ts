@@ -28,11 +28,10 @@ export async function GET(request: NextRequest) {
   const briefcaseItemId = request.nextUrl.searchParams.get("briefcaseItemId")?.trim() ?? "";
   const grant = await createGrant(session.userId, briefcaseItemId);
   if (!grant) return unavailable();
-  const location = new URL(
-    `/api/expungement-ai/packet/artifacts/${encodeURIComponent(briefcaseItemId)}?grant=${encodeURIComponent(grant.token)}`,
-    request.nextUrl.origin
-  );
-  return new NextResponse(null, { status: 303, headers: { ...privateHeaders(), location: location.toString() } });
+  // Keep the browser on its authenticated public origin. Behind a proxy,
+  // nextUrl.origin can name the internal server and lose the session cookie.
+  const location = `/api/expungement-ai/packet/artifacts/${encodeURIComponent(briefcaseItemId)}?grant=${encodeURIComponent(grant.token)}`;
+  return new NextResponse(null, { status: 303, headers: { ...privateHeaders(), location } });
 }
 
 async function createGrant(userId: string, briefcaseItemId: string) {

@@ -5,6 +5,8 @@
 // The one job here is to say exactly what provisioning will and will not do, in
 // the operator's language, so "provisioned" can never be read as "launched".
 
+import { PROGRAM_JURISDICTIONS } from "./onboarding/program-defaults";
+
 export const PARTNER_PROVISIONING_SCHEMA_VERSION =
   "rcap-partner-provisioning-v1";
 
@@ -18,6 +20,11 @@ export type PartnerProvisioningInput = {
   administratorEmail?: unknown;
   clearanceReason?: unknown;
   idempotencyKey?: unknown;
+  operatingModel?: unknown;
+  jurisdictions?: unknown;
+  enableSpanish?: unknown;
+  website?: unknown;
+  template?: unknown;
 };
 
 export type ValidPartnerProvisioningInput = {
@@ -30,6 +37,11 @@ export type ValidPartnerProvisioningInput = {
   administratorEmail: string;
   clearanceReason: string;
   idempotencyKey: string;
+  operatingModel?: "legalease_managed" | "partner_managed";
+  jurisdictions?: string[];
+  enableSpanish?: boolean;
+  website?: string;
+  template?: "screening-standard-v1";
 };
 
 const slugPattern = /^[a-z0-9](?:[a-z0-9-]{0,118}[a-z0-9])?$/;
@@ -51,6 +63,17 @@ export function validatePartnerProvisioningInput(
   const administratorEmail = text(input.administratorEmail).toLowerCase();
   const clearanceReason = text(input.clearanceReason);
   const idempotencyKey = text(input.idempotencyKey).toLowerCase();
+  const integrated = input.operatingModel !== undefined;
+  if (integrated && !["legalease_managed", "partner_managed"].includes(String(input.operatingModel))) return { ok: false, error: "Choose the actual program operator.", field: "operatingModel" };
+  const jurisdictions = Array.isArray(input.jurisdictions) ? [...new Set(input.jurisdictions)].sort() : [];
+  if (integrated && (!jurisdictions.length || jurisdictions.some(code => typeof code !== "string" || !Object.hasOwn(PROGRAM_JURISDICTIONS, code)))) return { ok: false, error: "Choose the program’s supported jurisdictions.", field: "jurisdictions" };
+  if (integrated && (input.template !== "screening-standard-v1" || typeof input.enableSpanish !== "boolean")) return { ok: false, error: "Choose the approved starting template and language settings.", field: "template" };
+  const website = text(input.website);
+  if (integrated && website) {
+    try { const url = new URL(website); if (!["https:", "http:"].includes(url.protocol) || url.username || url.password || website.length > 2048) throw new Error(); }
+    catch { return { ok: false, error: "Enter a valid organization website or leave it empty.", field: "website" }; }
+  }
+  const needsContact = input.operatingModel !== "legalease_managed" || Boolean(administratorName || administratorEmail);
 
   if (organizationName.length < 2 || organizationName.length > 200) {
     return { ok: false, error: "Enter the public organization name.", field: "organizationName" };
@@ -69,13 +92,13 @@ export function validatePartnerProvisioningInput(
       error: "Describe the program purpose in at least a sentence.", field: "programPurpose"
     };
   }
-  if (administratorName.length < 2 || administratorName.length > 120) {
+  if (needsContact && (administratorName.length < 2 || administratorName.length > 120)) {
     return { ok: false, error: "Enter the administrator’s full name.", field: "administratorName" };
   }
   if (
-    !administratorEmail ||
+    needsContact && (!administratorEmail ||
     administratorEmail.length > 254 ||
-    !emailPattern.test(administratorEmail)
+    !emailPattern.test(administratorEmail))
   ) {
     return { ok: false, error: "Enter a valid administrator work email address.", field: "administratorEmail" };
   }
@@ -101,7 +124,8 @@ export function validatePartnerProvisioningInput(
       administratorName,
       administratorEmail,
       clearanceReason,
-      idempotencyKey
+      idempotencyKey,
+      ...(integrated ? { operatingModel: input.operatingModel as "legalease_managed" | "partner_managed", jurisdictions: jurisdictions as string[], enableSpanish: input.enableSpanish as boolean, website, template: "screening-standard-v1" as const } : {})
     }
   };
 }
@@ -273,7 +297,7 @@ export function provisioningFailureCopy(code: string): string {
     case "not_configured":
       return "Partner provisioning is not configured in this environment.";
     default:
-      return "Provisioning did not complete. Nothing was created. Try again, or contact the RCAP platform lead.";
+      return "Creation could not be confirmed. Retry this same request to check its original result, or contact LegalEase support.";
   }
 }
 

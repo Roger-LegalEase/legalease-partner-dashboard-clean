@@ -9,6 +9,8 @@ type PartnerOption = {
 
 type AddPartnerUserFormProps = {
   partners: PartnerOption[];
+  fixedPartner?: string;
+  staffOnly?: boolean;
 };
 
 type SubmitState =
@@ -26,7 +28,7 @@ type InviteResponse = {
   role?: string;
 };
 
-export function AddPartnerUserForm({ partners }: AddPartnerUserFormProps) {
+export function AddPartnerUserForm({ partners, fixedPartner, staffOnly = false }: AddPartnerUserFormProps) {
   const [state, setState] = useState<SubmitState>({ kind: "idle" });
   const isSubmittingRef = useRef(false);
 
@@ -84,7 +86,7 @@ export function AddPartnerUserForm({ partners }: AddPartnerUserFormProps) {
 
   return (
     <form className="grid gap-5" onSubmit={onSubmit}>
-      <label className="grid gap-1.5">
+      {fixedPartner ? <div><p className="text-sm font-bold">Program</p><p>{partners.find(partner => partner.partnerSlug === fixedPartner)?.label}</p><input type="hidden" name="partnerSlug" value={fixedPartner}/></div> : <label className="grid gap-1.5">
         <span className="text-sm font-black text-navy">Partner</span>
         <select
           className="min-h-11 rounded-md border border-grayWilma-200 bg-white px-3 text-sm font-semibold text-navy shadow-sm outline-none transition focus:border-teal focus:ring-2 focus:ring-teal/25"
@@ -98,7 +100,7 @@ export function AddPartnerUserForm({ partners }: AddPartnerUserFormProps) {
             </option>
           ))}
         </select>
-      </label>
+      </label>}
 
       <label className="grid gap-1.5">
         <span className="text-sm font-black text-navy">Contact email</span>
@@ -123,7 +125,7 @@ export function AddPartnerUserForm({ partners }: AddPartnerUserFormProps) {
         />
       </label>
 
-      <fieldset className="grid gap-2">
+      {staffOnly ? <div><p className="text-sm font-bold">Role: Program staff</p><p className="mt-1 text-sm">Clinic permissions and participant consent are granted separately for each event.</p><input type="hidden" name="role" value="partner_staff"/></div> : <fieldset className="grid gap-2">
         <legend className="text-sm font-black text-navy">Role</legend>
         <label className="flex items-center gap-2 rounded-md border border-grayWilma-200 bg-white px-3 py-3 text-sm font-semibold text-navy">
           <input name="role" required type="radio" value="partner_admin" />
@@ -133,11 +135,11 @@ export function AddPartnerUserForm({ partners }: AddPartnerUserFormProps) {
           <input name="role" required type="radio" value="partner_staff" />
           Partner staff
         </label>
-      </fieldset>
+      </fieldset>}
 
       {state.kind === "success" ? (
         <div className="rounded-md border border-teal/25 bg-teal/10 px-4 py-4 text-sm text-teal">
-          <p className="font-black">Status: Invitation created</p>
+          <p className="font-black" role="status">{state.message}</p>
           <dl className="mt-3 grid gap-2 text-grayWilma-800">
             <div className="grid gap-0.5">
               <dt className="text-xs font-black uppercase text-grayWilma-600">Email</dt>
@@ -156,12 +158,12 @@ export function AddPartnerUserForm({ partners }: AddPartnerUserFormProps) {
               <dd className="font-semibold">Ask the user to check their inbox and set their password.</dd>
             </div>
           </dl>
-          <p className="sr-only">{state.message}</p>
+
         </div>
       ) : null}
 
       {state.kind === "error" ? (
-        <div className="rounded-md border border-orange/30 bg-orange/10 px-4 py-3 text-sm font-semibold text-orange">{state.message}</div>
+        <div role="alert" className="rounded-md border border-orange/30 bg-orange/10 px-4 py-3 text-sm font-semibold text-orange">{state.message}</div>
       ) : null}
 
       <button
@@ -169,7 +171,7 @@ export function AddPartnerUserForm({ partners }: AddPartnerUserFormProps) {
         disabled={state.kind === "submitting" || partners.length === 0}
         type="submit"
       >
-        {state.kind === "submitting" ? "Adding partner user..." : "Send invite and create access"}
+        {state.kind === "submitting" ? "Sending invitation…" : staffOnly ? "Invite program staff" : "Send invite and create access"}
       </button>
     </form>
   );

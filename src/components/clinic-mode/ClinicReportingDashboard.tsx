@@ -10,11 +10,11 @@ export function ClinicReportingDashboard({ report }: { report: ClinicEventReport
       <Metric label="Event entries" value={report.entries} note={`capacity ${report.capacity}`} />
       <Metric label="Clinic cases" value={report.participants} note="aggregate only" />
       <Metric label="Sponsored packets generated" value={report.sponsorship.consumed} note={`${report.sponsorship.reserved} sponsored slots reserved`} />
-      <Metric label="Allocation remaining" value={allocation === null ? "Base allocation" : Math.max(0, allocation - committed)} note={`${report.sponsorship.released} released`} />
+      <Metric label="Allocation remaining" value={allocation === null ? "No event limit set" : Math.max(0, allocation - committed)} note={`${report.sponsorship.released} released`} />
     </section>
     <section className="grid gap-6 lg:grid-cols-3">
       <Breakdown title="Queue" counts={report.queueCounts} />
-      <Breakdown title="Nationwide route" counts={report.routeCounts} />
+      <Breakdown title="Screening route" counts={report.routeCounts} />
       <Breakdown title="Follow-up" counts={report.followUpCounts} />
     </section>
     <section className="rounded-xl border border-[#D9E5DF] bg-[#F3F8F5] p-5"><p className="text-xs font-black uppercase tracking-[0.18em] text-[#127256]"><ClinicText value="Privacy boundary" /></p><h2 className="mt-2 text-xl font-black text-[#0F1E3D]"><ClinicText value="Aggregate event reporting" /></h2><p className="mt-2 max-w-3xl text-sm leading-6 text-[#50635B]"><ClinicText value="This report returns counts only. It contains no participant, account, matter, Briefcase, packet, court, form, upload, or message identity." /></p><p className="mt-4 text-sm font-bold text-[#29453B]">Open incidents: {report.incidents.open} · Resolved/closed: {report.incidents.resolved}</p></section>

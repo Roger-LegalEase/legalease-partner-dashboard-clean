@@ -26,9 +26,9 @@ const SPONSORED_STAGES = DTC_STAGES.filter((stage) => stage.label !== "Payment")
 type PillTone = "teal" | "amber" | "gray" | "green" | "red" | "care";
 
 const PILL_TONE: Record<PillTone, string> = {
-  teal: "text-[#00A99D] bg-[#00A99D]/[0.12]",
+  teal: "text-[#08786F] bg-[#00A99D]/[0.12]",
   amber: "text-[#B97C12] bg-[#E0A93B]/[0.16]",
-  gray: "text-[#8A93A6] bg-[#F0F2F6]",
+  gray: "text-[#5E687A] bg-[#F0F2F6]",
   green: "text-[#1F9D6B] bg-[#3DD598]/[0.16]",
   red: "text-[#B23036] bg-[#E5484D]/[0.12]",
   care: "text-[#5B3FA0] bg-[#F3ECFB]"
@@ -123,7 +123,7 @@ function Stepper({ done, current, className = "", sponsored = false }: { done: n
             ? "border-[#3DD598] bg-[#3DD598] text-white"
             : isCurrent
               ? "border-[#FF3B00] bg-white text-[#FF3B00]"
-              : "border-[#D4DAE4] bg-white text-[#8A93A6]";
+              : "border-[#D4DAE4] bg-white text-[#5E687A]";
           return (
             <li key={label} className="relative flex flex-1 flex-col items-center">
               {i < stages.length - 1 ? (
@@ -132,7 +132,7 @@ function Stepper({ done, current, className = "", sponsored = false }: { done: n
               <span aria-current={isCurrent ? "step" : undefined} className={`relative z-[1] grid h-[19px] w-[19px] place-items-center rounded-full border-2 text-[9px] font-bold ${node}`}>
                 {isDone ? <><Check className="h-3 w-3" strokeWidth={3} aria-hidden="true" /><span className="sr-only">Completed</span></> : i + 1}
               </span>
-              <span className={`mt-1.5 text-center text-[9.5px] ${isDone || isCurrent ? "font-semibold text-[#1A1D26]" : "font-medium text-[#8A93A6]"}`}>
+              <span className={`mt-1.5 text-center text-[9.5px] ${isDone || isCurrent ? "font-semibold text-[#1A1D26]" : "font-medium text-[#5E687A]"}`}>
                 <LocalizedText k={key} fallback={label} />
                 {isCurrent ? <span className="sr-only">, current step</span> : null}
               </span>
@@ -173,10 +173,10 @@ export function BriefcaseAuthGate() {
   return (
     <main className="min-h-screen bg-[#F7F3EC] px-4 py-20 text-[#0B1320]">
       <section className="mx-auto max-w-xl rounded-2xl border border-[#ECEFF4] bg-white p-6">
-        <p className="text-xs font-bold uppercase text-[#00A99D]"><LocalizedText k="briefcase.account_required" fallback="Account required" /></p>
+        <p className="text-xs font-bold uppercase text-[#08786F]"><LocalizedText k="briefcase.account_required" fallback="Account required" /></p>
         <h1 className="mt-3 text-3xl font-extrabold"><LocalizedText k="briefcase.sign_in_title" fallback="Sign in to open your Briefcase" /></h1>
         <p className="mt-3 text-sm leading-6 text-[#5A6275]"><LocalizedText k="briefcase.sign_in_body" fallback="Sign in to see the cases, results, available packets, reminders, payments, and Wilma conversations you chose to save in your Briefcase." /></p>
-        <a className="mt-6 inline-flex min-h-11 items-center rounded-[10px] bg-[#FF3B00] px-5 text-sm font-bold text-white" href="/expungement-ai/sign-in?mode=create&next=/briefcase">
+        <a className="mt-6 inline-flex min-h-11 items-center rounded-[10px] bg-[#C2350A] px-5 text-sm font-bold text-white" href="/expungement-ai/sign-in?mode=create&next=/briefcase">
           <LocalizedText k="signin.create_submit" fallback="Create account and continue" />
         </a>
       </section>
@@ -188,7 +188,7 @@ export function BriefcaseAuthGate() {
 function EmptyBriefcase() {
   return (
     <div className="grid place-items-center px-5 py-16 text-center">
-      <span className="grid h-[88px] w-[88px] place-items-center rounded-full bg-[#F7F3EC] text-[#00A99D]">
+      <span className="grid h-[88px] w-[88px] place-items-center rounded-full bg-[#F7F3EC] text-[#08786F]">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.6} className="h-10 w-10" aria-hidden="true">
           <path d="M3 7h18v13H3zM8 7V4h8v3" />
         </svg>
@@ -197,7 +197,7 @@ function EmptyBriefcase() {
       <p className="mx-auto mt-2 max-w-[42ch] text-[14px] leading-6 text-[#5A6275]">
         <LocalizedText k="briefcase.empty_body" fallback="Answer a few plain questions about your record. It's free, and you'll see possible next steps before paying anything." />
       </p>
-      <Link href="/expungement-ai/check" className="mt-6 inline-flex min-h-12 items-center rounded-[11px] bg-[#FF3B00] px-7 text-[14px] font-bold text-white">
+      <Link href="/expungement-ai/check" className="mt-6 inline-flex min-h-12 items-center rounded-[11px] bg-[#C2350A] px-7 text-[14px] font-bold text-white">
         <LocalizedText k="briefcase.empty_cta" fallback="Start a free screening" />
       </Link>
     </div>
@@ -261,9 +261,9 @@ function pickNextStep(matters: BriefcasePresentationItem[]): NextStep | null {
 function StatCard({ label, value, sub, teal = false }: { label: string; value: number; sub: string; teal?: boolean }) {
   return (
     <div className="rounded-[14px] border border-[#ECEFF4] bg-white px-4 py-4">
-      <p className="text-[10px] font-semibold uppercase tracking-[0.07em] text-[#8A93A6]"><LocalizedRuntimeText text={label} /></p>
-      <p className={`mt-1.5 text-[28px] font-extrabold leading-none ${teal ? "text-[#00A99D]" : "text-[#0B1320]"}`}>{value}</p>
-      <p className="mt-1.5 text-[11px] text-[#8A93A6]"><LocalizedRuntimeText text={sub} /></p>
+      <p className="text-[10px] font-semibold uppercase tracking-[0.07em] text-[#5E687A]"><LocalizedRuntimeText text={label} /></p>
+      <p className={`mt-1.5 text-[28px] font-extrabold leading-none ${teal ? "text-[#08786F]" : "text-[#0B1320]"}`}>{value}</p>
+      <p className="mt-1.5 text-[11px] text-[#5E687A]"><LocalizedRuntimeText text={sub} /></p>
     </div>
   );
 }
@@ -285,7 +285,7 @@ export function BriefcaseOverview({ items, userEmail }: { items: BriefcasePresen
       <h1 className="text-[24px] font-extrabold tracking-[-0.02em] text-[#0B1320]">
         <LocalizedText k="briefcase.welcome_back" fallback="Welcome back" />{name ? `, ${name}` : ""}
       </h1>
-      <p className="mt-1 text-[13px] text-[#8A93A6]">
+      <p className="mt-1 text-[13px] text-[#5E687A]">
         {inProgress.length > 0
           ? <LocalizedText k="briefcase.progress_body" fallback="You have {count} {recordWord} in progress. Here's where things stand." vars={{ count: inProgress.length, recordWord }} />
           : <LocalizedText k="briefcase.stand_body" fallback="Here's where your records stand." />}
@@ -300,7 +300,7 @@ export function BriefcaseOverview({ items, userEmail }: { items: BriefcasePresen
             <h3 className="text-[20px] font-bold"><LocalizedRuntimeText text={next.headline} /></h3>
             <p className="mt-1.5 max-w-[52ch] text-[13px] leading-6 text-white/70"><LocalizedRuntimeText text={next.body} /></p>
           </div>
-          <Link href={next.href} className="inline-flex shrink-0 items-center gap-2 rounded-[11px] bg-[#FF3B00] px-5 py-3 text-[14px] font-bold text-white">
+          <Link href={next.href} className="inline-flex shrink-0 items-center gap-2 rounded-[11px] bg-[#C2350A] px-5 py-3 text-[14px] font-bold text-white">
             <LocalizedRuntimeText text={next.ctaLabel} /> <ArrowRight className="h-4 w-4" strokeWidth={2.4} aria-hidden="true" />
           </Link>
         </div>
@@ -319,7 +319,7 @@ export function BriefcaseOverview({ items, userEmail }: { items: BriefcasePresen
         <StatCard label="Cleared" value={0} sub="So far" />
       </div>
 
-      <SectionHeader title="Your matters" action={<Link href="/briefcase/matters" className="text-[13px] font-semibold text-[#00A99D]"><LocalizedText k="briefcase.view_all" fallback="View all" /></Link>} />
+      <SectionHeader title="Your matters" action={<Link href="/briefcase/matters" className="text-[13px] font-semibold text-[#08786F]"><LocalizedText k="briefcase.view_all" fallback="View all" /></Link>} />
       <div className="grid gap-4 md:grid-cols-2">
         {matters.map((item) => (
           <MatterCard key={item.id} item={item} />
@@ -349,7 +349,7 @@ function MatterCard({ item }: { item: BriefcasePresentationItem }) {
       <div className="mb-4 flex items-start justify-between gap-3">
         <div className="min-w-0">
           <p className="truncate text-[16px] font-bold text-[#0B1320]">{item.title}</p>
-          {subtitle ? <p className="mt-0.5 truncate text-[12px] text-[#8A93A6]">{subtitle}</p> : null}
+          {subtitle ? <p className="mt-0.5 truncate text-[12px] text-[#5E687A]">{subtitle}</p> : null}
         </div>
         <StatusPill label={status.pillLabel} tone={status.pillTone} />
       </div>
@@ -391,7 +391,7 @@ export function MattersView({ items }: { items: BriefcasePresentationItem[] }) {
   return (
     <section>
       <h1 className="text-[24px] font-extrabold tracking-[-0.02em] text-[#0B1320]"><LocalizedText k="briefcase.my_matters" fallback="My matters" /></h1>
-      <p className="mt-1 text-[13px] text-[#8A93A6]"><LocalizedText k="briefcase.my_matters_body" fallback="Each record you check is saved here as its own matter. Open one to see its documents and next steps." /></p>
+      <p className="mt-1 text-[13px] text-[#5E687A]"><LocalizedText k="briefcase.my_matters_body" fallback="Each record you check is saved here as its own matter. Open one to see its documents and next steps." /></p>
       <div className="mt-5 grid gap-4 md:grid-cols-2">
         {matters.map((item) => (
           <MatterCard key={item.id} item={item} />
@@ -407,7 +407,7 @@ export function DocumentsView({ items }: { items: BriefcasePresentationItem[] })
   return (
     <section>
       <h1 className="text-[24px] font-extrabold tracking-[-0.02em] text-[#0B1320]"><LocalizedText k="briefcase.documents" fallback="Documents" /></h1>
-      <p className="mt-1 text-[13px] text-[#8A93A6]"><LocalizedText k="briefcase.documents_body" fallback="Your documents live inside the matter they belong to. Here is every matter that has documents ready." /></p>
+      <p className="mt-1 text-[13px] text-[#5E687A]"><LocalizedText k="briefcase.documents_body" fallback="Your documents live inside the matter they belong to. Here is every matter that has documents ready." /></p>
       <div className="mt-5 space-y-4">
         {unavailableCount > 0 ? (
           <p className="rounded-[14px] border border-[#ECEFF4] bg-white px-5 py-4 text-[13px] text-[#5A6275]" role="status" aria-live="polite">
@@ -487,7 +487,7 @@ export function SettingsView({ items = [], privacyReady = false }: { items?: Bri
   return (
     <section id="profile" className="rounded-[14px] border border-[#ECEFF4] bg-white p-6">
       <h1 className="text-[22px] font-extrabold text-[#0B1320]"><LocalizedText k="briefcase.profile_settings" fallback="Profile and settings" /></h1>
-      <p className="mt-3 text-[14px] leading-6 text-[#5A6275]"><LocalizedText k="briefcase.settings_body" fallback="Your account preferences live here. This pass does not change partner auth, sessions, or billing." /></p>
+      <p className="mt-3 text-[14px] leading-6 text-[#5A6275]"><LocalizedText k="briefcase.settings_body" fallback="Review your payment history, available privacy options, and support for your account." /></p>
       <div className="mt-5 flex flex-wrap gap-3">
         {showConsumerPayments ? (
           <Link className="inline-flex min-h-11 items-center gap-2 rounded-[10px] border border-[#D9DEE8] px-5 text-sm font-bold text-[#0B1320]" href="/briefcase/payments">
@@ -534,7 +534,7 @@ export function BriefcaseItemCard({ item }: { item: BriefcasePresentationItem })
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0">
           <p className="text-[16px] font-bold text-[#0B1320]">{item.title}</p>
-          <p className="mt-0.5 text-[12px] text-[#8A93A6]">{matterSubtitle(item) || item.summary}</p>
+          <p className="mt-0.5 text-[12px] text-[#5E687A]">{matterSubtitle(item) || item.summary}</p>
         </div>
         <StatusPill label={status.pillLabel} tone={status.pillTone} />
       </div>

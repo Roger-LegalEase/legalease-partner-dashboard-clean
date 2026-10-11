@@ -1,0 +1,607 @@
+{
+  "scope": "Development evidence, not final release acceptance",
+  "gaps": [
+    {
+      "gapId": "G-01",
+      "sourceEntry": "G-01",
+      "sourceLine": 1506,
+      "section": "9. As-built versus target: tracked UX gaps and required closure",
+      "contract": [
+        "**P0**",
+        "Production owner Save succeeded but automatic Spanish preparation failed twice; UI only said provider unavailable. `draftProgramSpanish` catches provider/parse/validator errors together.",
+        "Diagnose exact production source using protected instrumentation; stage-specific error handling and successful exact-source end-to-end; no owner retry until server-side proof."
+      ],
+      "status": "RESOLVED_IN_ISOLATED_APPLICATION",
+      "before": "Production owner Save succeeded but automatic Spanish preparation failed twice; UI only said provider unavailable. `draftProgramSpanish` catches provider/parse/validator errors together.",
+      "after": "Exact-source OpenAI executions and persisted seven-field readback pass. Provider, timeout, malformed response and semantic failures remain separately actionable.",
+      "evidence": [
+        "providers/spanish-receipts.json",
+        "providers/published-spanish.png",
+        "journeys/admin/A-T17.json",
+        "journeys/admin/A-T17.png",
+        "journeys/admin/A-T18.json",
+        "journeys/admin/A-T18.png",
+        "journeys/admin/A-T19.json",
+        "journeys/admin/A-T19.png",
+        "journeys/admin/A-T20.json",
+        "journeys/admin/A-T20.png"
+      ],
+      "sourceSha": "c6cf9a8070ae18e795d532c6d85ed205fcba591a",
+      "caseIds": [
+        "A-T16",
+        "A-T17",
+        "A-T18",
+        "A-T19",
+        "A-T20"
+      ],
+      "releaseAcceptance": "NOT_CLAIMED"
+    },
+    {
+      "gapId": "G-02",
+      "sourceEntry": "G-02",
+      "sourceLine": 1507,
+      "section": "9. As-built versus target: tracked UX gaps and required closure",
+      "contract": [
+        "**P0**",
+        "Previously multiple \u201csucceeded\u201d Participant Page versions with missing seven Spanish fields.",
+        "Complete validation *before* marking ready/generating current; no redundant incomplete artifacts; current material readback."
+      ],
+      "status": "RESOLVED_IN_ISOLATED_APPLICATION",
+      "before": "Previously multiple \u201csucceeded\u201d Participant Page versions with missing seven Spanish fields.",
+      "after": "Incomplete bilingual Page is labeled as a draft; Update preserves the current Summary, creates only a complete affected Page, and retries reuse the completed operation.",
+      "evidence": [
+        "journeys/admin/A-T24.json",
+        "journeys/admin/A-T24.png",
+        "journeys/admin/A-T25.json",
+        "journeys/admin/A-T25.png",
+        "journeys/admin/A-T26.json",
+        "journeys/admin/A-T26.png"
+      ],
+      "sourceSha": "c6cf9a8070ae18e795d532c6d85ed205fcba591a",
+      "caseIds": [
+        "A-T24",
+        "A-T25",
+        "A-T26"
+      ],
+      "releaseAcceptance": "NOT_CLAIMED"
+    },
+    {
+      "gapId": "G-03",
+      "sourceEntry": "G-03",
+      "sourceLine": 1508,
+      "section": "9. As-built versus target: tracked UX gaps and required closure",
+      "contract": [
+        "**P0**",
+        "Start section had been hidden if current Participant Page missing; PR #265 now shows blocked Final Review heading, but actual owner launch remains unaccepted.",
+        "Prove actual authenticated current materials \u2192 one confirmation \u2192 enabled action and protected launch in isolated real application, then owner verifies Production."
+      ],
+      "status": "ISOLATED_VERIFIED_PRODUCTION_OWNER_PENDING",
+      "before": "Start section had been hidden if current Participant Page missing; PR #265 now shows blocked Final Review heading, but actual owner launch remains unaccepted.",
+      "after": "One version-bound review and protected idempotent publication pass in the isolated application. Production owner acceptance remains pending an authorized finished release.",
+      "evidence": [
+        "journeys/admin/A-T29.json",
+        "journeys/admin/A-T29.png",
+        "journeys/admin/A-T30.json",
+        "journeys/admin/A-T30.png",
+        "journeys/admin/A-T31_A-T32.json",
+        "journeys/admin/A-T31_A-T32.png"
+      ],
+      "sourceSha": "c6cf9a8070ae18e795d532c6d85ed205fcba591a",
+      "caseIds": [
+        "A-T29",
+        "A-T30",
+        "A-T31",
+        "A-T32"
+      ],
+      "releaseAcceptance": "NOT_CLAIMED"
+    },
+    {
+      "gapId": "G-04",
+      "sourceEntry": "G-04",
+      "sourceLine": 1509,
+      "section": "9. As-built versus target: tracked UX gaps and required closure",
+      "contract": [
+        "**P0**",
+        "External-rights predicate previously counted Partner Admin membership/`not_required` metadata as third-party authority; PR #263 corrected that path.",
+        "Keep regression for legacy test workspace transition to LegalEase-managed without forged consent, preserve genuine external rights."
+      ],
+      "status": "RESOLVED_IN_ISOLATED_APPLICATION",
+      "before": "External-rights predicate previously counted Partner Admin membership/`not_required` metadata as third-party authority; PR #263 corrected that path.",
+      "after": "Membership alone no longer invents third-party operating rights. Actual agreement-protected configuration changes remain refused.",
+      "evidence": [
+        "journeys/admin/A-T06.json",
+        "journeys/admin/A-T06.png",
+        "journeys/admin/A-T08.json",
+        "journeys/admin/A-T08.png",
+        "journeys/admin/A-T09.json",
+        "journeys/admin/A-T09.png"
+      ],
+      "sourceSha": "c6cf9a8070ae18e795d532c6d85ed205fcba591a",
+      "caseIds": [
+        "A-T06",
+        "A-T08",
+        "A-T09"
+      ],
+      "releaseAcceptance": "NOT_CLAIMED"
+    },
+    {
+      "gapId": "G-05",
+      "sourceEntry": "G-05",
+      "sourceLine": 1510,
+      "section": "9. As-built versus target: tracked UX gaps and required closure",
+      "contract": [
+        "**P0**",
+        "Multi-state program permission and screening claim are separate backend boundaries; current policy requires cross-layer consistency.",
+        "Verify both ordinary and access-code sessions against entire effective approved jurisdiction set, and Clinic event state boundary."
+      ],
+      "status": "RESOLVED_IN_ISOLATED_APPLICATION",
+      "before": "Multi-state program permission and screening claim are separate backend boundaries; current policy requires cross-layer consistency.",
+      "after": "Program state sets persist across roles; ordinary/code intake and Clinic assistance enforce their actual scope, including direct-request denials.",
+      "evidence": [
+        "journeys/admin/A-T07_A-T13.json",
+        "journeys/admin/A-T07_A-T13.png",
+        "journeys/partner_admin/P-T06.json",
+        "journeys/partner_admin/P-T06.png",
+        "journeys/participant/U-T04.json",
+        "journeys/participant/U-T04.png",
+        "journeys/participant/U-T05_U-T06.json",
+        "journeys/participant/U-T05_U-T06.png",
+        "journeys/participant/C-T16.json",
+        "journeys/participant/C-T16.png"
+      ],
+      "sourceSha": "c6cf9a8070ae18e795d532c6d85ed205fcba591a",
+      "caseIds": [
+        "A-T13",
+        "P-T06",
+        "U-T04",
+        "U-T05",
+        "C-T16"
+      ],
+      "releaseAcceptance": "NOT_CLAIMED"
+    },
+    {
+      "gapId": "G-06",
+      "sourceEntry": "G-06",
+      "sourceLine": 1511,
+      "section": "9. As-built versus target: tracked UX gaps and required closure",
+      "contract": [
+        "**P1**",
+        "Platform Admin editor exposes a large registry-driven form with many routine and exceptional values.",
+        "Progressive disclosure around operator, geography, services, languages; save once and direct to Preview."
+      ],
+      "status": "RESOLVED_IN_ISOLATED_APPLICATION",
+      "before": "Platform Admin editor exposes a large registry-driven form with many routine and exceptional values.",
+      "after": "Configure uses grouped fields and one canonical Save; its immediate Review Program Materials action opens the authoritative previews.",
+      "evidence": [
+        "journeys/admin/A-T07_A-T13.json",
+        "journeys/admin/A-T07_A-T13.png",
+        "journeys/admin/A-T10_A-T28.json",
+        "journeys/admin/A-T10_A-T28.png"
+      ],
+      "sourceSha": "c6cf9a8070ae18e795d532c6d85ed205fcba591a",
+      "caseIds": [
+        "A-T07",
+        "A-T10",
+        "A-T28"
+      ],
+      "releaseAcceptance": "NOT_CLAIMED"
+    },
+    {
+      "gapId": "G-07",
+      "sourceEntry": "G-07",
+      "sourceLine": 1512,
+      "section": "9. As-built versus target: tracked UX gaps and required closure",
+      "contract": [
+        "**P1**",
+        "Source retains both provisioning/new and onboarding/new creation UIs.",
+        "One canonical creation route, preserve underlying records and aliases, safe redirect other URL."
+      ],
+      "status": "RESOLVED_IN_ISOLATED_APPLICATION",
+      "before": "Source retains both provisioning/new and onboarding/new creation UIs.",
+      "after": "One canonical creation flow retains the old route as a compatibility redirect. Exact creation replay does not duplicate the program.",
+      "evidence": [
+        "journeys/admin/A-T04.json",
+        "journeys/admin/A-T04.png",
+        "journeys/admin/A-T05.json",
+        "journeys/admin/A-T05.png"
+      ],
+      "sourceSha": "c6cf9a8070ae18e795d532c6d85ed205fcba591a",
+      "caseIds": [
+        "A-T04",
+        "A-T05"
+      ],
+      "releaseAcceptance": "NOT_CLAIMED"
+    },
+    {
+      "gapId": "G-08",
+      "sourceEntry": "G-08",
+      "sourceLine": 1513,
+      "section": "9. As-built versus target: tracked UX gaps and required closure",
+      "contract": [
+        "**P1**",
+        "Admin diagnostics has numerous business/agreement forms that visually look like launch prerequisites.",
+        "Clearly advanced-only and directly resolve actual applicable contractual work, not required for LegalEase-managed screening-only."
+      ],
+      "status": "RESOLVED_IN_ISOLATED_APPLICATION",
+      "before": "Admin diagnostics has numerous business/agreement forms that visually look like launch prerequisites.",
+      "after": "Managed screening launches from the workspace. Applicable external arrangements link directly to scoped diagnostics; fake executed agreements are refused.",
+      "evidence": [
+        "journeys/admin/A-T31_A-T32.json",
+        "journeys/admin/A-T31_A-T32.png",
+        "journeys/admin/A-T33.json",
+        "journeys/admin/A-T33.png",
+        "journeys/admin/A-T35.json",
+        "journeys/admin/A-T35.png",
+        "journeys/admin/A-T36.json",
+        "journeys/admin/A-T36.png",
+        "journeys/admin/A-T37.json",
+        "journeys/admin/A-T37.png"
+      ],
+      "sourceSha": "c6cf9a8070ae18e795d532c6d85ed205fcba591a",
+      "caseIds": [
+        "A-T31",
+        "A-T33",
+        "A-T35",
+        "A-T36",
+        "A-T37"
+      ],
+      "releaseAcceptance": "NOT_CLAIMED"
+    },
+    {
+      "gapId": "G-09",
+      "sourceEntry": "G-09",
+      "sourceLine": 1514,
+      "section": "9. As-built versus target: tracked UX gaps and required closure",
+      "contract": [
+        "**P1**",
+        "Partner five-step `ProgramOnboarding` currently offers a one-state picker while Platform Admin supports multistate.",
+        "Allow permitted multistate configuration and truthful readback within partner delegation, server-enforced."
+      ],
+      "status": "RESOLVED_IN_ISOLATED_APPLICATION",
+      "before": "Partner five-step `ProgramOnboarding` currently offers a one-state picker while Platform Admin supports multistate.",
+      "after": "The Partner selects multiple permitted jurisdictions through checkboxes and receives authoritative refresh/readback. Forged jurisdictions are denied.",
+      "evidence": [
+        "journeys/partner_admin/P-T06.json",
+        "journeys/partner_admin/P-T06.png"
+      ],
+      "sourceSha": "c6cf9a8070ae18e795d532c6d85ed205fcba591a",
+      "caseIds": [
+        "P-T06"
+      ],
+      "releaseAcceptance": "NOT_CLAIMED"
+    },
+    {
+      "gapId": "G-10",
+      "sourceEntry": "G-10",
+      "sourceLine": 1515,
+      "section": "9. As-built versus target: tracked UX gaps and required closure",
+      "contract": [
+        "**P1**",
+        "Partner-managed Spanish step CURRENT presents seven required fields.",
+        "One source-matched bilingual preparation/review workflow respecting partner-specific claims and genuine partner sign-off where required."
+      ],
+      "status": "RESOLVED_IN_ISOLATED_APPLICATION",
+      "before": "Partner-managed Spanish step CURRENT presents seven required fields.",
+      "after": "Partner preparation uses real source-matched OpenAI output for custom public copy and approved Spanish for standard fields; no manual seven-field assignment.",
+      "evidence": [
+        "journeys/partner_admin/P-T08.json",
+        "journeys/partner_admin/P-T08.png"
+      ],
+      "sourceSha": "c6cf9a8070ae18e795d532c6d85ed205fcba591a",
+      "caseIds": [
+        "P-T08"
+      ],
+      "releaseAcceptance": "NOT_CLAIMED"
+    },
+    {
+      "gapId": "G-11",
+      "sourceEntry": "G-11",
+      "sourceLine": 1516,
+      "section": "9. As-built versus target: tracked UX gaps and required closure",
+      "contract": [
+        "**P1**",
+        "Partner reporting and participants pages currently reuse aggregate dashboard; legacy reporting says export unavailable.",
+        "Accurate labels, role-safe dedicated views when actually implemented; no fake exports or private Briefcase."
+      ],
+      "status": "RESOLVED_IN_ISOLATED_APPLICATION",
+      "before": "Partner reporting and participants pages currently reuse aggregate dashboard; legacy reporting says export unavailable.",
+      "after": "Activity & Reporting is accurately labeled, tenant-scoped and aggregate-only. It does not advertise a fabricated export or participant-owned Briefcase.",
+      "evidence": [
+        "journeys/partner_admin/P-T16.json",
+        "journeys/partner_admin/P-T16.png",
+        "journeys/partner_admin/P-T19.json",
+        "journeys/partner_admin/P-T19.png"
+      ],
+      "sourceSha": "c6cf9a8070ae18e795d532c6d85ed205fcba591a",
+      "caseIds": [
+        "P-T16",
+        "P-T19"
+      ],
+      "releaseAcceptance": "NOT_CLAIMED"
+    },
+    {
+      "gapId": "G-12",
+      "sourceEntry": "G-12",
+      "sourceLine": 1517,
+      "section": "9. As-built versus target: tracked UX gaps and required closure",
+      "contract": [
+        "**P1**",
+        "Clinic assistance CURRENT label says \u201cnationwide\u201d even for event-fixed state; client-side options may list 50 states.",
+        "Label \u201cStart screening with assistance\u201d; UI options exactly event-authorized; DB rejects extras."
+      ],
+      "status": "RESOLVED_IN_ISOLATED_APPLICATION",
+      "before": "Clinic assistance CURRENT label says \u201cnationwide\u201d even for event-fixed state; client-side options may list 50 states.",
+      "after": "Assisted screening names the actual event jurisdiction and the database refuses any other parent-authorized state.",
+      "evidence": [
+        "server/clinic-integration-development.json",
+        "journeys/clinic-integration/1.json",
+        "journeys/clinic-integration/1.png",
+        "journeys/clinic-integration/4.json",
+        "journeys/clinic-integration/4.png",
+        "journeys/participant/C-T16.json",
+        "journeys/participant/C-T16.png"
+      ],
+      "sourceSha": "c6cf9a8070ae18e795d532c6d85ed205fcba591a",
+      "caseIds": [
+        "C-T03",
+        "C-T14",
+        "C-T16"
+      ],
+      "releaseAcceptance": "NOT_CLAIMED"
+    },
+    {
+      "gapId": "G-13",
+      "sourceEntry": "G-13",
+      "sourceLine": 1518,
+      "section": "9. As-built versus target: tracked UX gaps and required closure",
+      "contract": [
+        "**P1**",
+        "Shared-device reset is complex recovery-sensitive security flow.",
+        "Test server revocation, browser cache/BFCache, next-participant leakage, interrupted reset lock and staff recovery."
+      ],
+      "status": "RESOLVED_IN_ISOLATED_APPLICATION",
+      "before": "Shared-device reset is complex recovery-sensitive security flow.",
+      "after": "Interrupted reset remains locked; actual server revocation, BFCache/back navigation and a second authenticated participant show no previous-participant leakage.",
+      "evidence": [
+        "server/clinic-queue-reset-development.json",
+        "journeys/clinic-queue-reset/4.json",
+        "journeys/clinic-queue-reset/4.png",
+        "journeys/clinic-queue-reset/5.json",
+        "journeys/clinic-queue-reset/5.png"
+      ],
+      "sourceSha": "c6cf9a8070ae18e795d532c6d85ed205fcba591a",
+      "caseIds": [
+        "C-T21",
+        "C-T22",
+        "U-T22",
+        "U-T23"
+      ],
+      "releaseAcceptance": "NOT_CLAIMED"
+    },
+    {
+      "gapId": "G-14",
+      "sourceEntry": "G-14",
+      "sourceLine": 1519,
+      "section": "9. As-built versus target: tracked UX gaps and required closure",
+      "contract": [
+        "**P1**",
+        "Clinic separate legal-aid registration and standard event access-code routes coexist.",
+        "Choose based on explicit event mode, never mix requirements or participant CTA."
+      ],
+      "status": "CONDITIONAL_NOT_OFFERED",
+      "before": "Clinic separate legal-aid registration and standard event access-code routes coexist.",
+      "after": "Standard event/code entry remains separate from specialized legal-aid registration. The inapplicable setup route returns protected 404.",
+      "evidence": [
+        "journeys/clinic_admin/C-T23.json",
+        "journeys/clinic_admin/C-T23.png"
+      ],
+      "sourceSha": "c6cf9a8070ae18e795d532c6d85ed205fcba591a",
+      "caseIds": [
+        "C-T23"
+      ],
+      "releaseAcceptance": "NOT_CLAIMED"
+    },
+    {
+      "gapId": "G-15",
+      "sourceEntry": "G-15",
+      "sourceLine": 1520,
+      "section": "9. As-built versus target: tracked UX gaps and required closure",
+      "contract": [
+        "**P1**",
+        "Intake can be open/code-gated/partner-directed, while code manager lives separately.",
+        "Obvious link to access management only when code mode selected; code lifecycle tied to published program."
+      ],
+      "status": "RESOLVED_IN_ISOLATED_APPLICATION",
+      "before": "Intake can be open/code-gated/partner-directed, while code manager lives separately.",
+      "after": "Access policy uses canonical configuration; actual code lifecycle, publication guards and one-use replay protect the separate access manager.",
+      "evidence": [
+        "journeys/partner_admin/P-T07.json",
+        "journeys/partner_admin/P-T07.png",
+        "journeys/participant/U-T05_U-T06.json",
+        "journeys/participant/U-T05_U-T06.png"
+      ],
+      "sourceSha": "c6cf9a8070ae18e795d532c6d85ed205fcba591a",
+      "caseIds": [
+        "P-T07",
+        "U-T05",
+        "U-T06"
+      ],
+      "releaseAcceptance": "NOT_CLAIMED"
+    },
+    {
+      "gapId": "G-16",
+      "sourceEntry": "G-16",
+      "sourceLine": 1521,
+      "section": "9. As-built versus target: tracked UX gaps and required closure",
+      "contract": [
+        "**P1**",
+        "Events have capacity, optional sponsorship, staff and status controls with distinct services.",
+        "Do not treat capacity as entitlement or creation as opening; one event dashboard and accurate next action."
+      ],
+      "status": "ACCEPTANCE_BLOCKED",
+      "before": "Events have capacity, optional sponsorship, staff and status controls with distinct services.",
+      "after": "Creation stays draft; real event prerequisites and lifecycle apply. Capacity is not funding. Positive funded sponsorship acceptance is blocked by the absence of genuinely funded isolated evidence.",
+      "evidence": [
+        "server/clinic-integration-development.json",
+        "journeys/clinic-integration/1.json",
+        "journeys/clinic-integration/1.png",
+        "journeys/clinic-integration/3.json",
+        "journeys/clinic-integration/3.png",
+        "journeys/clinic-integration/4.json",
+        "journeys/clinic-integration/4.png",
+        "journeys/clinic_admin/C-T08.json",
+        "journeys/clinic_admin/C-T08.png",
+        "journeys/clinic_admin/C-T10.json",
+        "journeys/clinic_admin/C-T10.png",
+        "journeys/admin/U-T17.json",
+        "journeys/admin/U-T17.png"
+      ],
+      "sourceSha": "c6cf9a8070ae18e795d532c6d85ed205fcba591a",
+      "caseIds": [
+        "C-T01",
+        "C-T04",
+        "C-T07",
+        "C-T08",
+        "C-T10",
+        "U-T17"
+      ],
+      "releaseAcceptance": "NOT_CLAIMED"
+    },
+    {
+      "gapId": "G-17",
+      "sourceEntry": "G-17",
+      "sourceLine": 1522,
+      "section": "9. As-built versus target: tracked UX gaps and required closure",
+      "contract": [
+        "**P2**",
+        "Source public CTA can be configured as arbitrarily long text.",
+        "Limit CTA to action-sized copy with preview and suggest concise default."
+      ],
+      "status": "RESOLVED_IN_ISOLATED_APPLICATION",
+      "before": "Source public CTA can be configured as arbitrarily long text.",
+      "after": "The canonical public CTA is action-sized; partner custom translation reuses an approved concise bilingual CTA without silently replacing custom prose.",
+      "evidence": [
+        "journeys/admin/A-T10_A-T28.json",
+        "journeys/admin/A-T10_A-T28.png",
+        "journeys/partner_admin/P-T08.json",
+        "journeys/partner_admin/P-T08.png"
+      ],
+      "sourceSha": "c6cf9a8070ae18e795d532c6d85ed205fcba591a",
+      "caseIds": [
+        "A-T10",
+        "P-T08"
+      ],
+      "releaseAcceptance": "NOT_CLAIMED"
+    },
+    {
+      "gapId": "G-18",
+      "sourceEntry": "G-18",
+      "sourceLine": 1523,
+      "section": "9. As-built versus target: tracked UX gaps and required closure",
+      "contract": [
+        "**P2**",
+        "Large native jurisdiction multiselect is not discoverable, especially with keyboard modifiers.",
+        "Searchable selected-state chips, add/remove controls, true selected-count indicator."
+      ],
+      "status": "RESOLVED_IN_ISOLATED_APPLICATION",
+      "before": "Large native jurisdiction multiselect is not discoverable, especially with keyboard modifiers.",
+      "after": "Jurisdictions use searchable checkboxes and selected-state chips with direct removal; no modifier-key multiselect.",
+      "evidence": [
+        "journeys/admin/A-T07_A-T13.json",
+        "journeys/admin/A-T07_A-T13.png",
+        "journeys/partner_admin/P-T06.json",
+        "journeys/partner_admin/P-T06.png"
+      ],
+      "sourceSha": "c6cf9a8070ae18e795d532c6d85ed205fcba591a",
+      "caseIds": [
+        "A-T13",
+        "P-T06"
+      ],
+      "releaseAcceptance": "NOT_CLAIMED"
+    },
+    {
+      "gapId": "G-19",
+      "sourceEntry": "G-19",
+      "sourceLine": 1524,
+      "section": "9. As-built versus target: tracked UX gaps and required closure",
+      "contract": [
+        "**P2**",
+        "Active dashboard shows status/aggregate counts but limited contextual actions.",
+        "One next action per program state with direct routes; no duplicate setup page."
+      ],
+      "status": "RESOLVED_IN_ISOLATED_APPLICATION",
+      "before": "Active dashboard shows status/aggregate counts but limited contextual actions.",
+      "after": "Live programs open operational destinations; unpublished partner state identifies its actual authority dependency.",
+      "evidence": [
+        "journeys/admin/A-T34.json",
+        "journeys/admin/A-T34.png",
+        "journeys/partner_admin/P-T14.json",
+        "journeys/partner_admin/P-T14.png",
+        "journeys/partner_admin/P-T13_P-T15.json",
+        "journeys/partner_admin/P-T13_P-T15.png"
+      ],
+      "sourceSha": "c6cf9a8070ae18e795d532c6d85ed205fcba591a",
+      "caseIds": [
+        "A-T34",
+        "P-T14",
+        "P-T15"
+      ],
+      "releaseAcceptance": "NOT_CLAIMED"
+    },
+    {
+      "gapId": "G-20",
+      "sourceEntry": "G-20",
+      "sourceLine": 1525,
+      "section": "9. As-built versus target: tracked UX gaps and required closure",
+      "contract": [
+        "**P2**",
+        "Some legacy views and route aliases remain after 2.0.",
+        "Remove normal navigation dependence after data parity verified; keep compatibility and deliberate rollback, not dual products."
+      ],
+      "status": "RESOLVED_IN_ISOLATED_APPLICATION",
+      "before": "Some legacy views and route aliases remain after 2.0.",
+      "after": "Compatibility URLs remain deliberate redirects to one current workspace; retained role navigation reaches distinct, authorized destinations.",
+      "evidence": [
+        "journeys/admin/A-T05.json",
+        "journeys/admin/A-T05.png",
+        "journeys/partner_admin/P-T16.json",
+        "journeys/partner_admin/P-T16.png"
+      ],
+      "sourceSha": "c6cf9a8070ae18e795d532c6d85ed205fcba591a",
+      "caseIds": [
+        "A-T05",
+        "P-T16"
+      ],
+      "releaseAcceptance": "NOT_CLAIMED"
+    },
+    {
+      "gapId": "G-21",
+      "sourceEntry": "G-21",
+      "sourceLine": 1526,
+      "section": "9. As-built versus target: tracked UX gaps and required closure",
+      "contract": [
+        "**P2**",
+        "Owner manually tests signed-in Production; predeployment synthetic provider and controlled browser tests do not prove live Production owner behavior.",
+        "Release record truthfully splits automated acceptance, actual provider probe, hosted routing and owner outcome."
+      ],
+      "status": "ACCEPTANCE_BLOCKED",
+      "before": "Owner manually tests signed-in Production; predeployment synthetic provider and controlled browser tests do not prove live Production owner behavior.",
+      "after": "Evidence separately identifies actual protected OpenAI, actual Stripe TEST, isolated application interactions, simulated provider failures, and unperformed Production owner acceptance. No Production cutover is claimed.",
+      "evidence": [
+        "providers/spanish-receipts.json",
+        "providers/published-spanish.png",
+        "journeys/participant/U-T18_U-T19.json",
+        "journeys/participant/U-T18_U-T19.png",
+        "journeys/admin/U-T17.json",
+        "journeys/admin/U-T17.png"
+      ],
+      "sourceSha": "c6cf9a8070ae18e795d532c6d85ed205fcba591a",
+      "caseIds": [
+        "A-T16",
+        "U-T18",
+        "U-T17"
+      ],
+      "releaseAcceptance": "NOT_CLAIMED"
+    }
+  ]
+}

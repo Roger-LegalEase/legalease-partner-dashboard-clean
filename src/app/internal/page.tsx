@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 const destinations = [
-  ["RCAP Partner Launch Studio", "/internal/partners/onboarding", "Create or resume a partner, prepare its program, and review the actual remaining launch tasks."],
+  ["RCAP Programs", "/internal/partners/onboarding", "Create or open a program, review current materials, and manage launch and clinic operations."],
   ["Partner performance", "/internal/command-center/performance#partners", "Current partner operating records. Outcome reporting remains unavailable until verified."],
   ["DTC performance", "/internal/command-center/performance#dtc", "Consumer conversion sources and their connection status."],
   ["Platform health", "/internal/command-center/performance#health", "Read-only source status. An unavailable source does not indicate a healthy service."],
@@ -13,7 +13,7 @@ const destinations = [
 
 export default function InternalHome() {
   return <main className="mx-auto w-full max-w-6xl px-4 py-10 md:px-6">
-    <p className="font-semibold text-teal">LegalEase operations</p>
+    <p className="font-semibold text-[#08786F]">LegalEase operations</p>
     <h1 className="mt-2 text-4xl font-black">Command Center</h1>
     <p className="mt-4 max-w-2xl text-grayWilma-700">One place to prepare partner programs and find the tools your role permits.</p>
     <nav aria-label="Command Center destinations" className="mt-8 grid gap-4 md:grid-cols-2">

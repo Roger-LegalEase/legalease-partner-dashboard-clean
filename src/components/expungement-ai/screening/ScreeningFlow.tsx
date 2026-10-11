@@ -108,7 +108,7 @@ async function markScreeningSessionCompleted(sessionId: string | undefined) {
   }
 }
 
-export function ScreeningFlow({ state, initialSessionId, partnerDisplayName, acquisitionReceipt }: { state: string; initialSessionId?: string; partnerDisplayName?: string; acquisitionReceipt?: string }) {
+export function ScreeningFlow({ state, initialSessionId, partnerDisplayName, acquisitionReceipt, temporaryContinuity = false }: { state: string; initialSessionId?: string; partnerDisplayName?: string; acquisitionReceipt?: string; temporaryContinuity?: boolean }) {
   const router = useRouter();
   const { t: translate, locale } = useLocalization();
   // Only the server-validated active-benefit session prop enables partner
@@ -136,6 +136,7 @@ export function ScreeningFlow({ state, initialSessionId, partnerDisplayName, acq
   const matterIdRef = useRef<string>(createMatterId());
   const screeningStartTrackedRef = useRef(false);
   const resultViewTrackedRef = useRef(false);
+  const draftVersionRef = useRef<string | null>(null);
 
   useEffect(() => {
     let active = true;
@@ -213,7 +214,18 @@ export function ScreeningFlow({ state, initialSessionId, partnerDisplayName, acq
       resumedFromStorage = Boolean(stored);
     }
 
-    void requestScreeningProgress(load.profile, resumedAnswers).then((selectedIds) => {
+    // Only a server-issued RCAP admission capability enables automatic draft
+    // storage. DTC and Clinic keep their existing resume/consent paths.
+    const restore = temporaryContinuity && effectiveInitialSessionId ? fetch(`/api/expungement-ai/screening/progress?session=${encodeURIComponent(effectiveInitialSessionId)}`, {cache: "no-store"})
+      .then(async response => {
+        if (!response.ok) throw new Error("Temporary screening progress could not be loaded.");
+        const saved = await response.json();
+        resumedAnswers = saved.answers;
+        resumedQuestionId = saved.currentQuestionId;
+        resumedSessionId = effectiveInitialSessionId;
+        draftVersionRef.current = saved.version;
+      }) : Promise.resolve();
+    void restore.then(() => requestScreeningProgress(load.profile, resumedAnswers)).then((selectedIds) => {
       if (!active) return;
       setSelectingQuestions(false);
       if (!selectedIds) {
@@ -234,9 +246,9 @@ export function ScreeningFlow({ state, initialSessionId, partnerDisplayName, acq
         ? selectedScreens.findIndex((screen) => screen.id === resumedQuestionId)
         : 0;
       setCurrentIndex(target >= 0 ? target : 0);
-    });
+    }).catch(() => { if (active) { setSelectingQuestions(false); setSelectionError(true); } });
     return () => { active = false; };
-  }, [load, effectiveInitialSessionId]);
+  }, [load, effectiveInitialSessionId, temporaryContinuity]);
 
   // Move keyboard focus to the active region on each screen/phase change.
   useEffect(() => {
@@ -366,8 +378,8 @@ export function ScreeningFlow({ state, initialSessionId, partnerDisplayName, acq
     setSelectingQuestions(true);
     setSelectionError(false);
     const selectedIds = await requestScreeningProgress(profile, answers);
-    setSelectingQuestions(false);
     if (!selectedIds) {
+      setSelectingQuestions(false);
       setSelectionError(true);
       focusRef.current?.focus();
       return;
@@ -380,6 +392,23 @@ export function ScreeningFlow({ state, initialSessionId, partnerDisplayName, acq
     const nextIndex = currentPosition >= 0
       ? currentPosition + 1
       : selectedScreens.findIndex((screen) => sanitizedAnswers[screen.id] === undefined);
+    if (temporaryContinuity && effectiveInitialSessionId) {
+      const nextQuestion = selectedScreens[nextIndex] ?? selectedScreens.at(-1);
+      const saved = await fetch("/api/expungement-ai/screening/progress", {
+        method: "PUT", headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({sessionId: effectiveInitialSessionId, profileVersion: profile.profileVersion,
+          answers: sanitizedAnswers, currentQuestionId: nextQuestion?.id, version: draftVersionRef.current})
+      }).catch(() => null);
+      const body = await saved?.json().catch(() => null);
+      if (!saved?.ok || typeof body?.version !== "string") {
+        setSelectingQuestions(false);
+        setError(body?.error ?? "Your answers could not be saved. They remain on this page; please retry Continue.");
+        focusRef.current?.focus();
+        return;
+      }
+      draftVersionRef.current = body.version;
+    }
+    setSelectingQuestions(false);
     if (nextIndex >= 0 && nextIndex < selectedScreens.length) {
       setCurrentIndex(nextIndex);
       return;
@@ -536,7 +565,7 @@ export function ScreeningFlow({ state, initialSessionId, partnerDisplayName, acq
             disabled={selectingQuestions}
             className="min-h-[48px] flex-1 rounded-[14px] bg-[#FF3B00] px-6 py-3 text-base font-extrabold text-white shadow-[0_10px_26px_rgba(255,59,0,.28)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0B1320] focus-visible:ring-offset-2 disabled:cursor-wait disabled:opacity-60"
           >
-            {selectingQuestions ? translate("screening.loading_next", "Loading next question...") : translate("common.continue", "Continue")} &rarr;
+            {selectingQuestions ? translate("screening.loading_next", "Loading next question...") : translate("common.continue", "Continue")} <span aria-hidden="true">&rarr;</span>
           </button>
           <button
             type="button"

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { FormEvent, useState } from "react";
+import { FormEvent, useState, useSyncExternalStore } from "react";
 import { KeyRound } from "lucide-react";
 import { TurnstileWidget } from "@/components/auth/TurnstileWidget";
 import { Badge } from "@/components/ui/Badge";
@@ -19,6 +19,13 @@ const successMessage = "If an account exists for that email, we sent password re
 const invalidEmailMessage = "Enter a valid email address.";
 
 export default function ForgotPasswordPage() {
+  const location = useSyncExternalStore(subscribeToLocation, readAuthLocation, () => "");
+  const locationUrl = new URL(location || "http://localhost");
+  const continuation = consumerAuthContinuationFrom(locationUrl.searchParams);
+  const consumer = locationUrl.searchParams.get("product") === "expungement" || isExpungementAiHostname(locationUrl.hostname);
+  const backToSignIn = consumer
+    ? `/expungement-ai/sign-in?${consumerAuthContinuationQuery(continuation, { mode: "signin" })}`
+    : `/sign-in?${consumerAuthContinuationQuery({...continuation, nextPath: locationUrl.searchParams.has("next") ? continuation.nextPath : "/partner/dashboard"})}`;
   const [errorMessage, setErrorMessage] = useState("");
   const [statusMessage, setStatusMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -72,7 +79,7 @@ export default function ForgotPasswordPage() {
             </span>
             <h1 className="mt-5 text-3xl font-black text-navy">Reset your password</h1>
             <p className="mt-3 text-sm leading-6 text-grayWilma-700">
-              Enter the email address approved for your LegalEase partner account.
+              Enter the email address you use for your LegalEase account.
             </p>
           </div>
 
@@ -89,6 +96,7 @@ export default function ForgotPasswordPage() {
           ) : null}
 
           <form className="mt-6 grid gap-4" onSubmit={requestPasswordReset}>
+            <fieldset className="grid gap-4" disabled={!location || isSubmitting}>
             <label className="grid gap-1.5">
               <span className="text-sm font-bold text-navy">Email</span>
               <input
@@ -100,13 +108,14 @@ export default function ForgotPasswordPage() {
               />
             </label>
             <TurnstileWidget onTokenChange={setCaptchaToken} />
-            <Button className="min-h-11" disabled={isSubmitting} type="submit">
+            <Button className="min-h-11" disabled={isSubmitting || !location} type="submit">
               {isSubmitting ? "Sending instructions..." : "Send reset instructions"}
             </Button>
+            </fieldset>
           </form>
 
           <div className="mt-5 text-center">
-            <Link href="/sign-in?next=/partner/dashboard" className="text-sm font-semibold text-teal hover:text-navy">
+            <Link href={backToSignIn} className="text-sm font-semibold text-[#08786F] hover:text-navy">
               Back to sign in
             </Link>
           </div>
@@ -115,6 +124,13 @@ export default function ForgotPasswordPage() {
     </main>
   );
 }
+
+function subscribeToLocation(callback: () => void) {
+  window.addEventListener("popstate", callback);
+  return () => window.removeEventListener("popstate", callback);
+}
+
+function readAuthLocation() { return window.location.href; }
 
 function passwordResetRedirectTo() {
   const params = typeof window !== "undefined" ? new URLSearchParams(window.location.search) : new URLSearchParams();

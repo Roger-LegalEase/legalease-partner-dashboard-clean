@@ -27,8 +27,11 @@
 import { spawnSync } from "node:child_process";
 
 function git(rootDir, args) {
-  const out = spawnSync("git", args, { cwd: rootDir, encoding: "utf8" });
-  return { ok: out.status === 0, stdout: out.stdout ?? "", stderr: out.stderr ?? "" };
+  // The accepted release's path inventory exceeds spawnSync's 1 MiB default.
+  // A bounded larger buffer preserves the complete scope instead of silently
+  // reducing a large branch to its working-tree changes.
+  const out = spawnSync("git", args, { cwd: rootDir, encoding: "utf8", maxBuffer: 64 * 1024 * 1024 });
+  return { ok: out.status === 0 && !out.error, stdout: out.stdout ?? "", stderr: out.error?.message ?? out.stderr ?? "" };
 }
 
 /** The merge base with the default branch, trying the usual names in order. */
@@ -66,6 +69,7 @@ export function changedFilesForScopeGuard({ rootDir, failures = [], envOverride 
   // Working tree. `--short` lines are "XY path"; a rename prints "old -> new"
   // and it is the new path a guard must judge.
   const status = git(rootDir, ["status", "--short"]);
+  if (!status.ok) failures.push(`Could not enumerate working-tree changes: ${status.stderr.trim()}`);
   for (const line of status.stdout.split(/\r?\n/)) {
     const trimmed = line.slice(3).trim();
     if (!trimmed) continue;

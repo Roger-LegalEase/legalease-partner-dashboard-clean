@@ -2,6 +2,8 @@ import { ConsumerPageShell } from "@/components/expungement-ai/ConsumerPageShell
 import { ScreeningFlow } from "@/components/expungement-ai/screening/ScreeningFlow";
 import { isSafeSessionId } from "@/components/expungement-ai/screening/partner-session";
 import { isRcapPartnerScreeningSession } from "@/lib/expungement-ai/briefcase";
+import { cookies } from "next/headers";
+import { RCAP_DRAFT_COOKIE, permitsRcapDraft } from "@/lib/expungement-ai/rcap-screening-draft";
 
 // Always render per-request. The flow's partner vs. DTC mode depends on the ?session= query, which a
 // statically optimized render would not carry — that omission is what made partner mode (Briefcase
@@ -25,6 +27,7 @@ export default async function ScreeningStatePage({
   const initialSessionId = candidateSessionId && await isRcapPartnerScreeningSession(candidateSessionId)
     ? candidateSessionId
     : undefined;
+  const temporaryContinuity = Boolean(initialSessionId && permitsRcapDraft((await cookies()).get(RCAP_DRAFT_COOKIE)?.value, initialSessionId));
 
   // The shell's global Wilma bubble is disabled here so the flow can render a single, phase-aware
   // Wilma surface (questions vs result), avoiding a duplicate bubble.
@@ -33,7 +36,7 @@ export default async function ScreeningStatePage({
   // same ScreeningFlow instance/state.
   return (
     <ConsumerPageShell wilmaContext="check" showWilma={false} headerVariant="app">
-      <ScreeningFlow key={`${state}:${initialSessionId ?? "dtc"}`} state={state} initialSessionId={initialSessionId} acquisitionReceipt={typeof search.acquisition === "string" ? search.acquisition.slice(0, 1500) : undefined} />
+      <ScreeningFlow key={`${state}:${initialSessionId ?? "dtc"}`} state={state} initialSessionId={initialSessionId} temporaryContinuity={temporaryContinuity} acquisitionReceipt={typeof search.acquisition === "string" ? search.acquisition.slice(0, 1500) : undefined} />
     </ConsumerPageShell>
   );
 }

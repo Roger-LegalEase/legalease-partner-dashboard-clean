@@ -123,6 +123,20 @@ try{
  assert.equal(await sqlClearance(),false);
  console.log('PASS real launch refuses a stale or withdrawn executed document even with a legacy signed flag');
 
+ // The application now reads delegated geography on every workspace load.
+ // Apply the actual read function to this historical schema fixture before
+ // testing compatibility; later policy migrations retain their existing order.
+ await db.exec(read('supabase/migrations/20261010190234_rcap_integrated_jurisdiction_scope.sql').split('create or replace function public.rcap_service_save_program_configuration(')[0]+'commit;');
+ // Workspace rendering also reads the actual documented screening allowance.
+ // Load the real read-only helper without applying later claim mutations to
+ // these historical policy fixtures. The complete chain is tested separately.
+ const capacityMigration=read('supabase/migrations/20261010210100_rcap_integrated_screening_retries.sql');
+ const operatingSchema=read('supabase/migrations/20261010023000_rcap_operating_authority.sql');
+ await db.exec(operatingSchema.slice(operatingSchema.indexOf('alter table public.partner_onboarding add column operating_model'),operatingSchema.indexOf(';',operatingSchema.indexOf('alter table public.partner_onboarding add column operating_model'))+1));
+ const capacityStart=capacityMigration.indexOf('create or replace function public.rcap_program_screening_capacity(');
+ const capacityEnd=capacityMigration.indexOf('-- Both protected admission functions');
+ assert.ok(capacityStart>=0&&capacityEnd>capacityStart);
+ await db.exec(capacityMigration.slice(capacityStart,capacityEnd));
  await (await import("./test-rcap-workspace-recovery.mjs")).testWorkspaceRecovery(db,id);
  await (await import("./test-rcap2-program-configuration.mjs")).testProgramConfiguration(db,id);
  await testProgramPolicy(db,id);

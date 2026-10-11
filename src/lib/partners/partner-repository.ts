@@ -808,17 +808,23 @@ export type InternalProvisioningRecord = {
   workspace_status: string | null;
   workspace_updated_at: string | null;
   commercial_gate_status: string | null;
+  program_name?: string | null;
+  operating_model?: string | null;
+  jurisdictions?: string[];
+  service_mode?: string | null;
+  next_action_owner?: string | null;
 };
 
 export async function listInternalProvisioningRecords(): Promise<InternalProvisioningRecord[]> {
   const supabase = getSupabaseAdminClient();
   if (!supabase) throw new Error("Provisioning records are unavailable.");
-  async function readPages(table: string, columns: string) {
+  async function readPages(table: string, columns: string, sections?: string[]) {
     const rows: Record<string, unknown>[] = [];
     let total: number | null = null;
     do {
-      const result = await supabase!.from(table).select(columns, { count: "exact" })
-        .order("id", { ascending: true }).range(rows.length, rows.length + 999);
+      let query = supabase!.from(table).select(columns, { count: "exact" });
+      if (sections) query = query.in("section_key", sections);
+      const result = await query.order("id", { ascending: true }).range(rows.length, rows.length + 999);
       if (result.error || !result.data || result.count === null ||
           (total !== null && total !== result.count)) {
         throw new Error("Provisioning records could not be read. Please retry.");
@@ -831,15 +837,28 @@ export async function listInternalProvisioningRecords(): Promise<InternalProvisi
     } while (rows.length < total);
     return rows;
   }
-  const [partners, workspaces] = await Promise.all([
-    readPages("partner_records", "id,partner_slug,partner_name,organization_name,selected_package_name,payment_status,provisioning_status,assigned_owner,launch_date_target"),
-    readPages("partner_onboarding", "id,partner_slug,status,commercial_gate_status,updated_at")
+  const [partners, workspaces, sections] = await Promise.all([
+    readPages("partner_records", "id,partner_slug,partner_name,organization_name,program_name,selected_package_name,payment_status,provisioning_status,assigned_owner,launch_date_target"),
+    readPages("partner_onboarding", "id,partner_slug,status,commercial_gate_status,updated_at,operating_model,next_action_owner"),
+    readPages("partner_onboarding_sections", "id,workspace_id,section_key,response_data", ["geography_audience_language_accessibility", "program_goals", "organization_contacts"])
   ]);
   const bySlug = new Map(workspaces.map(row => [row.partner_slug, row]));
+  const byWorkspace = new Map<string, Record<string, Record<string, unknown>>>();
+  for (const row of sections) {
+    const id = String(row.workspace_id);
+    const current = byWorkspace.get(id) ?? {};
+    current[String(row.section_key)] = row.response_data as Record<string, unknown>;
+    byWorkspace.set(id, current);
+  }
   return partners.map(row => ({
     ...row,
     workspace_status: bySlug.get(row.partner_slug)?.status ?? null,
     workspace_updated_at: bySlug.get(row.partner_slug)?.updated_at ?? null,
-    commercial_gate_status: bySlug.get(row.partner_slug)?.commercial_gate_status ?? null
+    commercial_gate_status: bySlug.get(row.partner_slug)?.commercial_gate_status ?? null,
+    program_name: byWorkspace.get(String(bySlug.get(row.partner_slug)?.id))?.organization_contacts?.public_program_name ?? row.program_name ?? null,
+    operating_model: bySlug.get(row.partner_slug)?.operating_model ?? null,
+    jurisdictions: byWorkspace.get(String(bySlug.get(row.partner_slug)?.id))?.geography_audience_language_accessibility?.jurisdictions ?? [],
+    service_mode: byWorkspace.get(String(bySlug.get(row.partner_slug)?.id))?.program_goals?.service_mode ?? null,
+    next_action_owner: bySlug.get(row.partner_slug)?.next_action_owner ?? null
   })) as InternalProvisioningRecord[];
 }

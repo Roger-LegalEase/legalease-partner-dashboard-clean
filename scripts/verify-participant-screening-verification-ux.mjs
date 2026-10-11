@@ -192,7 +192,7 @@ requireSource(
     && verificationAction.includes("Packet facts verified and current")
     && verificationAction.includes("Confirm your information before we prepare your packet")
     && verificationAction.includes("Your covered packet remains available in this matter")
-    && verificationAction.includes("Covered packet generation is now available"),
+    && verificationAction.includes("Packet generation is available only after the server confirms this matter can be prepared."),
   "Sponsored review copy must vary across unverified, ready, and generation-available states without consumer commerce language."
 );
 
@@ -206,8 +206,13 @@ if (verificationClientExists) {
     "The verification action must expose a direct, testable branch policy."
   );
   if (typeof packetVerificationActions === "function") {
+    const authorizedGeneration = {
+      fulfillmentAvailable: true,
+      checkoutAllowed: false,
+      generationAllowed: true
+    };
     requireSource(
-      JSON.stringify(packetVerificationActions({ verified: true, packetReady: true, mode: "paid" })) === JSON.stringify({
+      JSON.stringify(packetVerificationActions({ verified: true, packetReady: true, mode: "paid", commercialActions: authorizedGeneration })) === JSON.stringify({
         openPacket: true,
         checkout: false,
         generation: { mode: "paid_durable", label: "Prepare updated packet" }
@@ -215,7 +220,7 @@ if (verificationClientExists) {
       "A currently verified paid matter with an existing artifact must retain Open my packet and Prepare updated packet."
     );
     requireSource(
-      JSON.stringify(packetVerificationActions({ verified: false, packetReady: true, mode: "paid" })) === JSON.stringify({
+      JSON.stringify(packetVerificationActions({ verified: false, packetReady: true, mode: "paid", commercialActions: authorizedGeneration })) === JSON.stringify({
         openPacket: false,
         checkout: false,
         generation: null
@@ -223,17 +228,32 @@ if (verificationClientExists) {
       "A paid ready artifact must not expose open or correction actions before explicit current verification."
     );
     requireSource(
-      JSON.stringify(packetVerificationActions({ verified: true, packetReady: true, mode: "sponsored" })) === JSON.stringify({
+      JSON.stringify(packetVerificationActions({ verified: true, packetReady: true, mode: "sponsored", commercialActions: authorizedGeneration })) === JSON.stringify({
         openPacket: true,
         checkout: false,
         generation: null
       })
-        && JSON.stringify(packetVerificationActions({ verified: true, packetReady: false, mode: "sponsored" })) === JSON.stringify({
+        && JSON.stringify(packetVerificationActions({ verified: true, packetReady: false, mode: "sponsored", commercialActions: authorizedGeneration })) === JSON.stringify({
           openPacket: false,
           checkout: false,
           generation: { mode: "sponsored_sync" }
         }),
       "Sponsored matters must open an existing packet without regenerating it, and generate only when no artifact exists."
+    );
+    for (const mode of ["paid", "sponsored", "consumer"]) {
+      for (const commercialActions of [undefined, {
+        fulfillmentAvailable: true, checkoutAllowed: false, generationAllowed: false
+      }]) {
+        const denied = packetVerificationActions({ verified: true, packetReady: false, mode, commercialActions });
+        requireSource(!denied.openPacket && !denied.checkout && denied.generation === null,
+          `Verified ${mode} facts alone must not grant missing commercial authority.`);
+      }
+    }
+    requireSource(
+      packetVerificationActions({ verified: true, packetReady: false, mode: "consumer",
+        commercialActions: { fulfillmentAvailable: true, checkoutAllowed: true, generationAllowed: false }
+      }).checkout === true,
+      "Consumer checkout must require the explicit current server-owned checkout permission."
     );
   }
   const observed = { body: null, method: null, path: null };
@@ -591,7 +611,8 @@ requireSource(
   reviewPage.includes("verificationSummary({")
     && reviewPage.includes("summary.screeningAnswers")
     && reviewPage.includes("summary.packetAnswers")
-    && reviewPage.includes("summary.context")
+    && reviewPage.includes('value={item.jurisdiction ?? "Unavailable"}')
+    && reviewPage.includes('value={item.pathwayLabel ?? "Saved packet pathway"}')
     && reviewPage.includes("Details we already have")
     && reviewPage.includes("aria-describedby=\"verification-context-description\"")
     && reviewPage.includes("verificationAnswers={model.initialAnswers}")
@@ -628,9 +649,14 @@ requireSource(
 );
 
 const briefcaseSettings = read("src/app/briefcase/settings/page.tsx");
-const decoratedListPages = [briefcaseHome, briefcaseMatters, briefcaseDocuments, briefcasePayments, briefcaseSettings];
+const decoratedListPages = [briefcaseHome, briefcaseMatters, briefcaseDocuments, briefcaseSettings];
+const consumerPresentation = read("src/lib/expungement-ai/briefcase-consumer-presentation.ts");
 requireSource(
   decoratedListPages.every((source) => source.includes("decorateBriefcaseItemsForPresentation"))
+    && briefcasePayments.includes("decorateConsumerBriefcaseItemsForPresentation")
+    && consumerPresentation.includes("await decorateBriefcaseItemForPresentation(input)")
+    && consumerPresentation.includes("await readConsumerPaymentHistory({")
+    && consumerPresentation.includes("consumerAuthUserId: input.consumerAuthUserId, briefcaseItemId: input.item.id")
     && [matterPage, reviewPage, packetInformationPage].every((source) => source.includes("decorateBriefcaseItemForPresentation")),
   "Every production Briefcase list and exact-matter surface must consume Lane B's server-decorated presentation authority."
 );
@@ -700,6 +726,7 @@ const protectedPresentation = {
   verificationStatus: "verified",
   packetProgress: "verified",
   packetDraft: { status: "unavailable" },
+  commercialActions: { fulfillmentAvailable: true, checkoutAllowed: false, generationAllowed: true },
   paymentState: "paid",
   artifact: {
     status: "ready",
@@ -784,6 +811,15 @@ requireSource(
     }) === "Packet facts complete",
   "Protected packet progress must drive resume and final-review status without consulting the writable row mirror."
 );
+requireSource(
+  presentationModule.humanMatterState({
+    ...protectedPresentation,
+    artifact: { status: "absent", canDownload: false, documents: [] },
+    packetDraft: { status: "available" },
+    commercialActions: { fulfillmentAvailable: false, checkoutAllowed: false, generationAllowed: false }
+  }) === "Packet not available yet",
+  "Verified packet facts must not advertise commercial readiness for an unavailable route."
+);
 
 requireSource(
   screeningResult.includes('fallback: "Save to my Briefcase and continue"'),
@@ -828,7 +864,8 @@ requireSource(
 );
 requireSource(
   partnerCommercialBrowser.includes('getByRole("button", { name: "Save to my Briefcase and continue"')
-    && partnerCommercialBrowser.includes("Your packet is covered by your partner program.")
+    && partnerCommercialBrowser.includes('data-partner-context="saved"')
+    && partnerCommercialBrowser.includes("Packet coverage is confirmed before preparation")
     && partnerCommercialBrowser.includes("generationRequests.length === 0")
     && partnerCommercialBrowser.includes('getByRole("button", { name: "Verify and prepare clinic packet"')
     && partnerCommercialBrowser.includes('getByRole("button", { name: "Generate my packet"')
@@ -839,10 +876,12 @@ requireSource(
 );
 requireSource(
   !screeningResult.includes("result.partner_no_pay")
-    && screeningResult.includes("Your packet is covered by your partner program.")
-    && localizationSource.includes('"result.partner_covered"')
-    && localizationSource.includes("Su paquete está cubierto por su programa asociado."),
-  "Sponsored result copy must describe coverage without mentioning consumer payment."
+    && !screeningResult.includes("Your packet is covered by your partner program.")
+    && screeningResult.includes("evaluation.sponsoredPacketAvailable === true")
+    && screeningResult.includes("Your partner program information is saved. Packet coverage is confirmed before preparation.")
+    && localizationSource.includes('"commercial.sponsor_context"')
+    && localizationSource.includes("La cobertura del paquete se confirma antes de prepararlo."),
+  "Partner screening must preserve attribution without promising unverified packet funding, in both languages."
 );
 
 if (failures.length > 0) {

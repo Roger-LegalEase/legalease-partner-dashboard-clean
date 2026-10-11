@@ -16,7 +16,7 @@ export default async function InternalClinicPage({ searchParams }: { searchParam
       <div className="mx-auto max-w-7xl px-4 py-10 md:px-6">
         <header className="mb-7 max-w-4xl">
           <p className="text-xs font-black uppercase tracking-[0.2em] text-[#A8431F]">LegalEase operations</p>
-          <h1 className="mt-3 text-4xl font-black tracking-tight">Nationwide Clinic Mode</h1>
+          <h1 className="mt-3 text-4xl font-black tracking-tight">Clinics</h1>
           <p className="mt-4 max-w-3xl text-sm leading-6 text-[#5C5750]">Create and run clinic events for an authorized partner. Select a program, set the schedule, and choose your team.</p>
         </header>
         <ClinicAdminConsole programs={programs} jurisdictionOptions={ONBOARDING_JURISDICTIONS} events={events} internal partnerSlug={partner} />

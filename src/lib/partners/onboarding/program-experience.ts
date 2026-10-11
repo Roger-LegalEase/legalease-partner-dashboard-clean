@@ -7,6 +7,8 @@ export type ProgramDecision = {operatingModel?:"partner_managed"|"legalease_mana
 export type ProgramMaterial = {type:string;id:string;hash:string;version:number;document:RenderedDocument;issues?:string[]};
 export type ProgramExperience = {
  partnerSlug:string;organizationName:string;version:number;data:OnboardingPartnerData;canEdit:boolean;legalIdentityLocked:boolean;
+ permittedJurisdictions?:string[];
+ publicationNextAction?:{reason:string;href:string;label:string;labelEs:string}|null;
  decision:ProgramDecision;capabilities:Partial<Record<ProgramAction,boolean>>;materials:ProgramMaterial[];draftMaterials?:Array<ProgramMaterial & {issues:string[]}>;reviewToken:string|null;
  publicUrl:string|null;commercial:{label:string;screenings:number|null;packets:number|null;expiresAt:string|null};
 };
@@ -16,6 +18,6 @@ export const STEP_SECTIONS:Record<ProgramStep,OnboardingSectionKey[]> = {join:[]
 export function firstProgramStep(data:OnboardingPartnerData):ProgramStep {
  const org=data.organization_contacts;
  if(!org?.legal_organization_name || !org.public_organization_name || !org.public_program_name) return "organization";
- if(!data.geography_audience_language_accessibility?.jurisdictions?.length || !data.geography_audience_language_accessibility.service_area_description || !data.program_goals?.participation_mode || !data.access_sponsorship_capacity?.participant_access_model) return "program";
+ if(!data.geography_audience_language_accessibility?.jurisdictions?.length || !data.geography_audience_language_accessibility.service_area_description || !data.program_goals?.participation_mode || !data.access_sponsorship_capacity?.participant_access_model || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(data.support_referrals_reporting?.participant_support_email??"") || (data.support_referrals_reporting?.contested_matter_procedure?.trim().length??0)<20) return "program";
  return "start";
 }

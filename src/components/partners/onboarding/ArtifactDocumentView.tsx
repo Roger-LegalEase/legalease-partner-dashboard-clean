@@ -15,7 +15,7 @@ export function ArtifactDocumentView({
   return (
     <article className="rounded-lg border border-grayWilma-200 bg-white px-6 py-7 shadow-sm sm:px-9 sm:py-10">
       <header className="border-b border-grayWilma-200 pb-5">
-        <p className="text-[0.68rem] font-black uppercase tracking-[0.14em] text-orange">
+        <p className="text-[0.68rem] font-black uppercase tracking-[0.14em] text-[#AC320E]">
           LegalEase · Record Clearing Access Program
         </p>
         <h3 className="mt-2 text-2xl font-black leading-tight text-navy sm:text-3xl">
@@ -84,7 +84,7 @@ export function ArtifactDocumentView({
                 return (
                   <p
                     key={index}
-                    className="rounded-md border border-orange/30 bg-orange/10 px-3 py-2 text-sm text-orange"
+                    className="rounded-md border border-orange/30 bg-orange/10 px-3 py-2 text-sm text-[#AC320E]"
                   >
                     <span className="font-bold">Not yet provided: {block.label}.</span>{" "}
                     Set this in {block.whereToSet}.

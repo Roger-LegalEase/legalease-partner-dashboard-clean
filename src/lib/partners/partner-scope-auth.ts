@@ -3,7 +3,7 @@ import "server-only";
 import { resolveSessionPartner, SessionPartnerError } from "@/lib/partners/session-partner";
 
 // Resolves the partner slug the caller is authorized to act on. Partner
-// admins/staff are locked to their own slug (a mismatched requested slug is a
+// administrators are locked to their own slug (a mismatched requested slug is a
 // hard failure, never a silent switch). Internal admins may act on any slug but
 // must name one. This is the app-layer guard against cross-partner access.
 export async function resolveAuthorizedPartnerSlug(
@@ -17,6 +17,10 @@ export async function resolveAuthorizedPartnerSlug(
       throw new SessionPartnerError("partner_identity_invalid", "partnerSlug is required for internal admin actions.");
     }
     return { partnerSlug: requested, isInternalAdmin: true };
+  }
+
+  if (session.role !== "partner_admin") {
+    throw new SessionPartnerError("partner_identity_invalid", "Program administrator access is required to manage access codes.");
   }
 
   if (requested && requested !== session.partnerSlug) {

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useRef, useState, type FormEvent } from "react";
 import { useLocalization } from "@/components/expungement-ai/LocalizationProvider";
 import type { PublicClinicEvent } from "@/lib/clinic-mode/types";
 
@@ -8,17 +8,22 @@ export function ClinicEntryClient({ event, practice = false }: { event: PublicCl
   const { text, locale } = useLocalization();
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
+  const inFlight=useRef(false),request=useRef<{code:string;id:string}|null>(null);
 
   async function enterClinic(formEvent: FormEvent<HTMLFormElement>) {
     formEvent.preventDefault();
+    if(inFlight.current)return;
+    inFlight.current=true;
     setBusy(true);
     setError("");
     const code = String(new FormData(formEvent.currentTarget).get("eventCode") ?? "");
-    const response = await fetch("/api/clinic/entry", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ eventSlug: event.publicSlug, code }) }).catch(() => null);
+    if(request.current?.code!==code)request.current={code,id:crypto.randomUUID()};
+    const response = await fetch("/api/clinic/entry", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ eventSlug: event.publicSlug, code, requestId:request.current.id }) }).catch(() => null);
     const body = await response?.json().catch(() => null) as { error?: string; next?: string } | null;
     if (!response?.ok || !body?.next) {
       setError(body?.error ?? "Clinic entry is temporarily unavailable.");
       setBusy(false);
+      inFlight.current=false;
       return;
     }
     window.location.replace(body.next);

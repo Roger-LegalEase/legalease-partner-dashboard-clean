@@ -12,6 +12,8 @@ const source = baseline ? execFileSync('git', ['show', `${baseline}:${routePath}
 const sha = value => createHash('sha256').update(value).digest('hex');
 export function fixture({ database } = {}) {
   const state = { event:{partner_slug:'tenant-a',id:'event-a',public_slug:'test-clinic',status:'published'}, eventError:false, partner:null, staff:null, actor:null, queries:[], owner: 'participant-a', session: { created_at:new Date().toISOString(), id: 'session-a', event_id:'event-a', participant_user_id: 'participant-a', status: 'active', handoff_token_hash: sha('handoff-a'), device_nonce_hash: sha('device-a') }, rpcError: false, lookupError: false, lostCommit: false, result: 'ended', calls: 0, audits: 0, signoutError: false, authError: false, signouts: 0, signingKey: 'disposable-reset-signing-key' };
+  state.entry = { event_id:'event-a', redeemed_at:new Date().toISOString(), redemption_nonce_hash:sha('entry-a'), reset_binding_supported:true, assisted_session_id:null, closed_at:null, closed_by:null };
+  state.entryClosures = 0;
   const jar = new Map([['clinic_session', 'handoff-a'], ['clinic_device', 'device-a'], ['sb-test', 'auth-a']]);
   const db = database ?? {
     from(table) { const filters = []; const query = { select() { return query; }, contains(key, value) { filters.push([key, value]); return query; }, eq(key, value) { filters.push([key, value]); return query; }, async maybeSingle() {
@@ -19,9 +21,16 @@ export function fixture({ database } = {}) {
       if(table==='partner_users'||table==='clinic_event_staff'){const row=table==='partner_users'?state.partner:state.staff;return {data:row&&filters.every(([k,v])=>Array.isArray(v)?v.every(x=>row[k]?.includes(x)):row[k]===v)?row:null,error:null};}
       if(table==='clinic_events')return {data:state.event,error:state.eventError?{message:'event lookup refused'}:null};
       if (state.lookupError) return { data: null, error: { message: 'lookup refused' } };
+      if(table==='clinic_event_access_redemptions')return {data:state.entry&&filters.every(([k,v])=>state.entry[k]===v)?{...state.entry}:null,error:null};
       return { data: filters.every(([key, value]) => state.session?.[key] === value) ? { ...state.session } : null, error: null };
     } }; return query; },
     async rpc(name, args) {
+      if(name==='clinic_close_unassisted_entry') {
+        const e=state.entry;
+        if(state.rpcError||!e||args.p_entry_hash!==e.redemption_nonce_hash||!e.reset_binding_supported||e.assisted_session_id||e.closed_by&&e.closed_by!==args.p_actor)return {data:null,error:{message:'entry close refused'}};
+        if(!e.closed_at){e.closed_at=new Date().toISOString();e.closed_by=args.p_actor;state.entryClosures++;}
+        return {data:{...e},error:null};
+      }
       assert.equal(name, 'clinic_end_assisted_session'); assert.equal(args.p_session_id, state.session.id); assert.equal(args.p_actor_user_id, state.actor ?? state.session.participant_user_id);
       state.calls++;
       if (state.rpcError) return { data: null, error: { message: 'closure refused' } };

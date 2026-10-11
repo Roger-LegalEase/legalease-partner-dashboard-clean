@@ -182,7 +182,7 @@ export function PacketInformationBuilder({
       <div className="rounded-[16px] border border-[#ECEFF4] bg-white p-6">
         <h2 className="text-xl font-extrabold text-[#0B1320]">Your free screening already has the information we need.</h2>
         <p className="mt-2 text-sm leading-6 text-[#5A6275]">Review your information before continuing.</p>
-        <button className="mt-5 min-h-11 rounded-[10px] bg-[#FF3B00] px-5 text-sm font-bold text-white" onClick={() => void continueForward()} type="button">
+        <button className="mt-5 min-h-11 rounded-[10px] bg-[#C2350A] px-5 text-sm font-bold text-white" onClick={() => void continueForward()} type="button">
           Review packet facts
         </button>
       </div>
@@ -196,10 +196,10 @@ export function PacketInformationBuilder({
   return (
     <div data-packet-information-builder="active" className="rounded-[18px] border border-[#ECEFF4] bg-white p-5 shadow-sm md:p-7">
       <div className="mb-6 flex items-center justify-between gap-4">
-        <p className="text-xs font-bold uppercase tracking-[0.08em] text-[#00A99D]">
+        <p className="text-xs font-bold uppercase tracking-[0.08em] text-[#08786F]">
           {translate("packet.eyebrow", "Packet information")}
         </p>
-        <p className="text-xs font-semibold text-[#8A93A6]">{index + 1} of {screens.length}</p>
+        <p className="text-xs font-semibold text-[#5E687A]">{index + 1} of {screens.length}</p>
       </div>
 
       {screen.section ? (
@@ -263,8 +263,8 @@ export function PacketInformationBuilder({
           disabled={saving}
           onClick={() => {
             setFieldErrors({});
-            if (editingFromReview && index === 0) router.push(`/briefcase/${encodeURIComponent(itemId)}/review`);
-            else setIndex((current) => Math.max(0, current - 1));
+            if (index === 0) router.push(`/briefcase/${encodeURIComponent(itemId)}${editingFromReview ? "/review" : ""}`);
+            else setIndex((current) => current - 1);
           }}
           type="button"
         >
@@ -274,12 +274,12 @@ export function PacketInformationBuilder({
           <button className="min-h-11 rounded-[10px] border border-[#D9DEE8] px-5 text-sm font-bold text-[#0B1320] disabled:opacity-60" disabled={saving} onClick={() => void saveAndLeave()} type="button">
             Save and leave
           </button>
-          <button className="min-h-11 rounded-[10px] bg-[#FF3B00] px-5 text-sm font-bold text-white disabled:opacity-60" disabled={saving} onClick={() => void continueForward()} type="button">
+          <button className="min-h-11 rounded-[10px] bg-[#C2350A] px-5 text-sm font-bold text-white disabled:opacity-60" disabled={saving} onClick={() => void continueForward()} type="button">
             {saving ? "Saving..." : index === screens.length - 1 ? editingFromReview ? "Save and return to review" : "Review packet facts" : "Save and continue"}
           </button>
         </div>
       </div>
-      <Link className="mt-5 inline-block text-sm font-semibold text-[#00A99D]" href={`/briefcase/${encodeURIComponent(itemId)}`}>
+      <Link className="mt-5 inline-block text-sm font-semibold text-[#08786F]" href={`/briefcase/${encodeURIComponent(itemId)}`}>
         Return to this matter
       </Link>
     </div>

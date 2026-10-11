@@ -643,6 +643,16 @@ assert.ok(
   duplicatedContact.issues.some((entry) => entry.code === "duplicate")
 );
 
+// Match the database's one active contact per role constraint before Save.
+const contactRows = [
+  { stable_row_id: "11111111-1111-4111-8111-111111111111", role: "program_operator", work_email: "one@example.org" },
+  { stable_row_id: "22222222-2222-4222-8222-222222222222", role: "program_operator", work_email: "two@example.org" }
+];
+const duplicateRole = validateOnboardingSection("organization_contacts", { contacts: contactRows }, "draft_save");
+assert.equal(duplicateRole.success, false);
+assert.ok(duplicateRole.issues.some(entry => entry.fieldKey === "contacts[].role" && entry.code === "duplicate"));
+assert.equal(validateOnboardingSection("organization_contacts", { contacts: [contactRows[0], { ...contactRows[1], role: "communications_lead", work_email: contactRows[0].work_email }] }, "draft_save").success, true);
+
 const massAssignment = validateOnboardingSection(
   "access_sponsorship_capacity",
   {

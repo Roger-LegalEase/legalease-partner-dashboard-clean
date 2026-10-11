@@ -14,6 +14,8 @@ export function ProgramDiagnostics({initial,documents}:{initial:Operations;docum
  const [reason,setReason]=useState(""),[expires,setExpires]=useState(""),[confirmed,setConfirmed]=useState(false),[keys,setKeys]=useState<string[]>([]),[resolution,setResolution]=useState("not_applicable");
  const [documentId,setDocument]=useState(initial.preflight?.commercialDocuments.length===1?initial.preflight.commercialDocuments[0].id:""),[screenings,setScreenings]=useState(""),[policy,setPolicy]=useState(""),[conditions,setConditions]=useState(""),[termination,setTermination]=useState(""),[agreement,setAgreement]=useState("executed");
  const [kind,setKind]=useState(initial.identity.policyVersion==="legacy"?"sponsored":"screening_only"),[packetId,setPacketId]=useState(""),[packetCap,setPacketCap]=useState("");
+ const [serverSnapshot,setServerSnapshot]=useState(initial);
+ if(initial!==serverSnapshot){setServerSnapshot(initial);if(initial.identity.version>=ops.identity.version)setOps(initial);}
  useEffect(()=>{
   const reveal=()=>{const target=document.getElementById(window.location.hash.slice(1));if(target instanceof HTMLDetailsElement)target.open=true;};
   reveal();window.addEventListener("hashchange",reveal);return()=>window.removeEventListener("hashchange",reveal);
@@ -49,13 +51,14 @@ export function ProgramDiagnostics({initial,documents}:{initial:Operations;docum
   }catch(e){setMessage(e instanceof Error?e.message:"Please retry.");}finally{setBusy(false);}
  }
  const issues=ops.issues.length?<div role="alert" className="rounded border border-amber-300 bg-amber-50 p-4">{ops.issues.map(issue=><p key={issue.loader}>{issue.message}</p>)}<button className={button} onClick={()=>window.location.reload()}>Reload workspace</button></div>:null;
- if(!ops.view)return <section aria-label="Program operations">{issues}<button className={button} disabled>Start program</button></section>;
+ if(!ops.view)return <section aria-label="Program operations">{issues}{!issues?<p role="alert">Program readiness could not be loaded. <button className={button} onClick={()=>window.location.reload()}>Reload workspace</button></p>:null}<a className="underline" href={`/internal/partners/onboarding/${ops.identity.partnerSlug}`}>Return to program workspace</a></section>;
  const view=ops.view;
  const legacy=ops.identity.policyVersion==="legacy";
+ const limitedAuthorityLocked=ops.identity.landingPageReady||["live","closed"].includes(ops.identity.status);
  const authorized=confirmed&&reason.trim().length>=10&&!!expires;
  return <section className="mt-6 space-y-6" aria-label="Program operations">
   {issues}
-  <div className="rounded-xl border bg-white p-6"><h2 className="text-2xl font-bold">Administrative diagnostics</h2><p>Use these tools only for documented external arrangements, exceptions or recovery. Start Program remains in the program workspace.</p>
+  <div className="rounded-xl border bg-white p-6"><h1 className="text-2xl font-bold">Administrative diagnostics</h1><p>Use these tools only for documented external arrangements, exceptions or recovery. Start Program remains in the program workspace.</p>
    <a className="underline" href={`/internal/partners/onboarding/${view.partnerSlug}`}>Return to program workspace</a>
    <label className="mt-4 block">Decision basis<textarea className={control} value={reason} onChange={e=>setReason(e.target.value)}/></label>
    <label className="mt-4 block">Contract or delegation expiration<input type="datetime-local" className={control} value={expires} onChange={e=>setExpires(e.target.value)}/></label>
@@ -76,7 +79,7 @@ export function ProgramDiagnostics({initial,documents}:{initial:Operations;docum
    <h3 className="mt-6 text-lg font-bold">Record service authority</h3>
    <label className="mt-4 block">Service arrangement<select className={control} value={kind} onChange={e=>setKind(e.target.value)}>{!legacy?<option value="screening_only">Screening only</option>:null}<option value="sponsored">Documented sponsorship</option><option value="purchase_order">Approved purchase order</option><option value="verified_paid">Verified payment</option></select></label>
    <label className="mt-4 block">Reviewed supporting document<select className={control} value={documentId} onChange={e=>setDocument(e.target.value)}><option value="">Choose a document</option>{(ops.preflight?.commercialDocuments??[]).map(d=><option key={d.id} value={d.id}>{d.original_filename}</option>)}</select></label>
-   {kind==="screening_only"&&!legacy?<><label className="mt-4 block">Agreement basis<select className={control} value={agreement} onChange={e=>setAgreement(e.target.value)}><option value="executed">Genuine executed agreement</option><option value="not_required">Documented policy does not require an agreement</option></select></label>
+   {kind==="screening_only"&&!legacy?limitedAuthorityLocked?<p className="mt-4">Limited-service authority cannot be replaced while this program is published or closed. <a className="underline" href={`/internal/partners/onboarding/${view.partnerSlug}#configure-program`}>Review the program configuration</a> before changing its service arrangement. Current authority can still be revoked below.</p>:<><label className="mt-4 block">Agreement basis<select className={control} value={agreement} onChange={e=>setAgreement(e.target.value)}><option value="executed">Genuine executed agreement</option><option value="not_required">Documented policy does not require an agreement</option></select></label>
    <label className="mt-4 block">Policy or authority reference<textarea className={control} value={policy} onChange={e=>setPolicy(e.target.value)}/></label>
    <label className="mt-4 block">Effective conditions<textarea className={control} value={conditions} onChange={e=>setConditions(e.target.value)}/></label>
    <label className="mt-4 block">Termination or revocation rule<textarea className={control} value={termination} onChange={e=>setTermination(e.target.value)}/></label>
@@ -91,5 +94,6 @@ export function ProgramDiagnostics({initial,documents}:{initial:Operations;docum
     </details></>}
    {view.decision.authorityId?<button className={`mt-4 ml-3 ${button}`} disabled={busy||!confirmed||reason.trim().length<10} onClick={()=>run("revoke_authority")}>Revoke current service authority</button>:null}
   </details></fieldset>
+  <details className="rounded-xl border bg-white p-6"><summary className="min-h-11 cursor-pointer text-xl font-bold">View audit/history</summary><p className="mt-2">Recorded program decisions remain in the audit history when superseded or revoked.</p><ol className="mt-4 space-y-4">{(ops.decisions??[]).map(d=><li key={d.id} className="break-words border-t pt-3"><p className="font-bold">{d.approval_type.replaceAll("_"," ")} · {d.decision}{d.invalidated_at?" · superseded":""}</p><p>Recorded {new Date(d.recorded_at).toLocaleString()} · Actor {d.reviewer_user_id}</p>{typeof d.policy_details?.scope_hash==="string"?<p className="break-all text-sm">Program scope: {d.policy_details.scope_hash}</p>:null}{typeof d.policy_details?.materials_hash==="string"?<p className="break-all text-sm">Material versions: {d.policy_details.materials_hash}</p>:null}</li>)}</ol>{!ops.decisions?.length?<p className="mt-3">No program review decisions have been recorded.</p>:null}</details>
  </section>;
 }

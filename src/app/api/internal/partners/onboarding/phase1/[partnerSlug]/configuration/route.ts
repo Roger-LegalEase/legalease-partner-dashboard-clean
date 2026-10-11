@@ -18,7 +18,7 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
     const context = await requireInternalOnboardingContext((await params).partnerSlug);
     const body = await readBoundedJson(request);
     if (!Number.isSafeInteger(body.expectedVersion) || Number(body.expectedVersion) < 1) throw new Phase1OnboardingError("invalid_input", "Reload the program before saving.");
-    let configuration = await saveProgramConfiguration(context, { patches: body.patches as ProgramPatch[], requestId: requireRequestId(body.requestId), expectedVersion: Number(body.expectedVersion) });
+    let configuration = await saveProgramConfiguration(context, { patches: body.patches as ProgramPatch[], requestId: requireRequestId(body.requestId), expectedVersion: Number(body.expectedVersion), confirmPublicationHold: body.confirmPublicationHold === true });
     let preparationError: string | null = null;
     if(configuration.policyVersion==="rcap2.2" && !["live","paused","closed"].includes(configuration.status)) {
       try { await prepareInternalProgram(context); }

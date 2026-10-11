@@ -1,3 +1,4 @@
+import { LocalizedRuntimeText as T } from "@/components/expungement-ai/LocalizationProvider";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { logSecurityWarn } from "@/lib/observability/logger";
@@ -7,6 +8,9 @@ import {
   type PartnerAccessCodeAnalytics
 } from "@/lib/partners/partner-access-codes";
 import { PartnerAccessCodesManager } from "./PartnerAccessCodesManager";
+import { isRcap2Enabled } from "@/lib/partners/onboarding/feature";
+import { requirePartnerOnboardingContext } from "@/lib/partners/onboarding/auth-context";
+import { getProgramExperience } from "@/lib/partners/onboarding/program-experience-service";
 
 export const dynamic = "force-dynamic";
 
@@ -32,31 +36,25 @@ export default async function PartnerAccessCodesPage() {
     );
   }
 
+  const program = isRcap2Enabled() ? await getProgramExperience(await requirePartnerOnboardingContext()) : null;
   let analytics: PartnerAccessCodeAnalytics | null = null;
   let loadError: string | null = null;
   try {
     analytics = await getPartnerAccessCodeAnalytics(access.partnerSlug);
   } catch {
-    loadError = "Access code data is temporarily unavailable. You can still create codes below.";
+    loadError = "Access code data is temporarily unavailable. Reload to check existing codes before creating another.";
   }
 
   return (
     <main className="min-h-screen bg-[#f7f8f6] text-[#0F1E3D]">
       <div className="mx-auto max-w-5xl px-4 py-10 md:px-6">
         <div className="mb-6">
-          <Link href="/partner/dashboard" className="text-sm font-semibold text-[#1D9E75] hover:text-[#0F1E3D]">
-            Back to dashboard
-          </Link>
+          <Link href="/partner/dashboard" className="text-sm font-semibold text-[#08786F] hover:text-[#0F1E3D]"> <T text="Back to dashboard" /> </Link>
         </div>
 
         <header className="mb-6">
-          <h1 className="text-3xl font-black">Access codes</h1>
-          <p className="mt-3 max-w-2xl text-sm leading-6 text-[#5C5750]">
-            Access codes help you control who uses your sponsored packet allocation. You can create one shared code,
-            multiple campaign codes, single-use invite codes, or no codes at all. Packet credits are only used when
-            Expungement.ai successfully generates a personalized record-clearing packet &mdash; screenings, account
-            creation, and results without a packet do not use an available packet.
-          </p>
+          <h1 className="text-3xl font-black"><T text="Access codes" /></h1>
+          <p className="mt-3 max-w-2xl text-sm leading-6 text-[#5C5750]"> <T text="Access codes control entry to your program. Use a shared campaign code or a single-use invitation when your access model calls for one. A code does not create packet funding. Sponsored packet services require their own current, funded authorization." /> </p>
         </header>
 
         {loadError ? (
@@ -66,6 +64,7 @@ export default async function PartnerAccessCodesPage() {
         <PartnerAccessCodesManager
           partnerSlug={access.partnerSlug}
           initialAnalytics={analytics}
+          program={program ? { accessMode: program.data.access_sponsorship_capacity?.participant_access_model ?? "open", live: program.decision.live, settingsHref: "/partner/settings?step=program" } : undefined}
         />
       </div>
     </main>

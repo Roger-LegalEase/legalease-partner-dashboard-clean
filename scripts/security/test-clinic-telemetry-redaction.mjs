@@ -24,12 +24,19 @@ const root = process.cwd();
 const ownedDirectory = path.join(root, "src/lib/clinic-mode");
 const read = (relative) => fs.readFileSync(path.join(root, relative), "utf8");
 
-const { projectAuditMetadata } = await import(pathToFileURL(path.join(ownedDirectory, "service.ts")).href);
+const { projectAuditMetadata, clinicOpeningIssue } = await import(pathToFileURL(path.join(ownedDirectory, "service.ts")).href);
 
 verifyNoParticipantFactsEmitted();
 verifyAllowlistMatchesSchema();
 verifyAuditProjection();
 verifyErrorMessagesCarryNoRecordDetail();
+// The event readiness mapper has a closed set of public messages. Arbitrary
+// database detail (including a valid prefix) cannot pass through its fallback.
+const unknown=clinicOpeningIssue("unknown");
+for(const code of ["record PARTICIPANT_SECRET", "staff_required PARTICIPANT_SECRET", "code_required\nPARTICIPANT_SECRET", "<script>PARTICIPANT_SECRET</script>"]) {
+ assert.deepEqual(clinicOpeningIssue(code),unknown);
+ assert.ok(!JSON.stringify(clinicOpeningIssue(code)).includes("PARTICIPANT_SECRET"));
+}
 verifyMutationsAreCaught();
 
 console.log("Clinic telemetry redaction passed: no participant facts emitted from the owned surface, the audit-metadata allowlist matches the mutations that write it, and unknown keys are withheld from the partner console.");
@@ -150,7 +157,7 @@ function verifyErrorMessagesCarryNoRecordDetail() {
     // which the check below confirms is a literal-only channel.
     for (const construction of source.matchAll(/new ClinicServiceError\(\s*[^,]+,\s*([^)]+)\)/gu)) {
       const message = construction[1].trim();
-      assert.ok(/^["'`][^$]*["'`]$/u.test(message) || message === "fallback",
+      assert.ok(/^["'`][^$]*["'`]$/u.test(message) || message === "fallback" || (message.startsWith("clinicOpeningIssue(") && source.includes('new ClinicServiceError("conflict",clinicOpeningIssue(message.slice("clinic_open_".length)).reason)')),
         `${relative} builds a ClinicServiceError message from ${message}; client-visible messages must be fixed strings`);
     }
 

@@ -23,6 +23,7 @@ export type ClinicEvent = {
   jurisdiction: string | null;
   capacity: number;
   status: ClinicEventStatus;
+  experience?: "standard" | "legal_aid";
   sponsorshipAllocation: number | null;
   createdAt: string;
   updatedAt: string;
@@ -57,7 +58,10 @@ export type ClinicAuditEntry = {
   occurredAt: string;
 };
 
-export type ClinicProgramOption = { slug: string; name: string; geography: string; jurisdictions: string[] };
+export type ClinicProgramOption = {
+  slug: string; name: string; geography: string; jurisdictions: string[];
+  canCreate: boolean; creationIssue: string | null; canSponsor: boolean; legalAidAvailable: boolean;
+};
 
 export type ClinicEventWorkspace = {
   partnerName?: string;
@@ -68,6 +72,8 @@ export type ClinicEventWorkspace = {
   staffOptions?: Array<{ id: string; email: string }>;
   accessCodes: ClinicAccessCodeSummary[];
   audit: ClinicAuditEntry[];
+  legalAidAvailable?: boolean;
+  openingIssue?: { reason: string; destination: "staff" | "codes" | "clinics" } | null;
 };
 
 export type CreateClinicEventInput = {
@@ -91,6 +97,7 @@ export type SetClinicStaffInput = {
 };
 
 export type CreateClinicAccessCodeInput = {
+  requestId?: string;
   maxUses: number | null;
   startsAt: string | null;
   expiresAt: string | null;
@@ -111,6 +118,8 @@ export type ClinicParticipantSession = {
 };
 
 export type ClinicQueueCase = {
+  canMarkResultSaved?: boolean;
+  canMarkPacketPrepared?: boolean;
   id: string;
   reference?: string;
   eventId: string;
@@ -139,7 +148,10 @@ export type ClinicFollowUp = {
   updatedAt: string;
 };
 
+export type ClinicFollowUpCase = Pick<ClinicQueueCase,"id"|"jurisdiction"|"queueStatus"|"reference">;
+
 export type SaveClinicFollowUpInput = {
+  requestId?: string;
   id: string | null;
   clinicCaseId: string;
   ownerEventStaffId: string | null;

@@ -94,7 +94,12 @@ export async function POST(request: Request) {
         administratorName: values.administratorName,
         administratorEmail: values.administratorEmail,
         clearanceReason: values.clearanceReason,
-        idempotencyKey: values.idempotencyKey
+        idempotencyKey: values.idempotencyKey,
+        operatingModel: values.operatingModel,
+        jurisdictions: values.jurisdictions,
+        enableSpanish: values.enableSpanish,
+        website: values.website,
+        template: values.template
       }
     });
     logSecurityInfo({

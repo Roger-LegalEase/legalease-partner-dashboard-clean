@@ -68,6 +68,7 @@ export function parseCreateClinicAccessCode(value: unknown): CreateClinicAccessC
     throw new ClinicValidationError("The access code must expire after it starts.");
   }
   return {
+    ...(body.requestId === undefined ? {} : { requestId: uuid(body.requestId, "requestId") }),
     maxUses: nullableInteger(body.maxUses, "maxUses", 1, 100000),
     startsAt,
     expiresAt

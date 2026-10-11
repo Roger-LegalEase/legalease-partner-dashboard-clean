@@ -1,0 +1,2527 @@
+{
+  "evidenceRoot": "artifacts/rcap-grade-a-final/c6cf9a8070ae18e795d532c6d85ed205fcba591a",
+  "scope": "Cumulative development runs across evolving dirty application trees; not final candidate acceptance",
+  "counts": {
+    "PASS": 101,
+    "NOT_RUN": 1,
+    "BLOCKED": 1
+  },
+  "finalCandidateCounts": {
+    "PASS": 0,
+    "FAIL": 0,
+    "BLOCKED": 0,
+    "NOT_RUN": 103
+  },
+  "scenarios": [
+    {
+      "caseId": "A-T01",
+      "sourceLine": 1548,
+      "contract": [
+        "From Command Center click **RCAP Programs**",
+        "One searchable Programs index, no access/route error."
+      ],
+      "actor": "admin",
+      "actions": [
+        "Sign in as Platform Admin",
+        "Click RCAP Programs"
+      ],
+      "observed": "Command Center opens the canonical searchable Programs index.",
+      "evidence": [
+        "journeys/admin/A-T01.json",
+        "journeys/admin/A-T01.png"
+      ],
+      "result": "PASS",
+      "issue": null,
+      "checkpointCategory": "PASS",
+      "categoryNote": null,
+      "finalCandidateResult": "NOT_RUN"
+    },
+    {
+      "caseId": "A-T02",
+      "sourceLine": 1549,
+      "contract": [
+        "Search existing program; click **Open program**",
+        "Opens correct tenant, correct saved status and operator."
+      ],
+      "actor": "admin",
+      "actions": [
+        "Search exact program address",
+        "Open program"
+      ],
+      "observed": "Search opens the correct tenant with saved LegalEase operator and live status.",
+      "evidence": [
+        "journeys/admin/A-T02.json",
+        "journeys/admin/A-T02.png"
+      ],
+      "result": "PASS",
+      "issue": null,
+      "checkpointCategory": "PASS",
+      "categoryNote": null,
+      "finalCandidateResult": "NOT_RUN"
+    },
+    {
+      "caseId": "A-T03",
+      "sourceLine": 1550,
+      "contract": [
+        "Search nonexistent program and clear query",
+        "Useful empty state and restoration, no workspace mutation."
+      ],
+      "actor": "admin",
+      "actions": [
+        "Search a nonexistent program",
+        "Clear filters"
+      ],
+      "observed": "Empty state and clear action restore existing programs without mutation.",
+      "evidence": [
+        "journeys/admin/A-T03.json",
+        "journeys/admin/A-T03.png"
+      ],
+      "result": "PASS",
+      "issue": null,
+      "checkpointCategory": "PASS",
+      "categoryNote": null,
+      "finalCandidateResult": "NOT_RUN"
+    },
+    {
+      "caseId": "A-T04",
+      "sourceLine": 1551,
+      "contract": [
+        "Click **Create program**, enter required name/slug and legalEase operator",
+        "Single canonical workspace created once, duplicate submits return same record."
+      ],
+      "actor": "admin",
+      "actions": [
+        "Create LegalEase-managed program with approved bilingual defaults",
+        "Replay the exact intercepted creation request"
+      ],
+      "observed": "One canonical program is created; retry returns the same receipt.",
+      "evidence": [
+        "journeys/admin/A-T04.json",
+        "journeys/admin/A-T04.png"
+      ],
+      "result": "PASS",
+      "issue": null,
+      "checkpointCategory": "PASS",
+      "categoryNote": null,
+      "finalCandidateResult": "NOT_RUN"
+    },
+    {
+      "caseId": "A-T05",
+      "sourceLine": 1552,
+      "contract": [
+        "Open duplicate creation URL",
+        "Redirect to same canonical creation experience, no duplicate backend."
+      ],
+      "actor": "admin",
+      "actions": [
+        "Open the retained creation alias"
+      ],
+      "observed": "The duplicate URL redirects to the canonical creation form without inserting a program.",
+      "evidence": [
+        "journeys/admin/A-T05.json",
+        "journeys/admin/A-T05.png"
+      ],
+      "result": "PASS",
+      "issue": null,
+      "checkpointCategory": "PASS",
+      "categoryNote": null,
+      "finalCandidateResult": "NOT_RUN"
+    },
+    {
+      "caseId": "A-T06",
+      "sourceLine": 1553,
+      "contract": [
+        "Switch LegalEase-managed to Partner-managed in an unsaved draft",
+        "UI surfaces genuine rights distinction; no rights changed before Save."
+      ],
+      "actor": "admin",
+      "actions": [
+        "Switch operator in unsaved draft",
+        "Read authoritative configuration",
+        "Restore draft operator"
+      ],
+      "observed": "Draft reflects genuine authority distinction without changing saved operating rights.",
+      "evidence": [
+        "journeys/admin/A-T06.json",
+        "journeys/admin/A-T06.png"
+      ],
+      "result": "PASS",
+      "issue": null,
+      "checkpointCategory": "PASS",
+      "categoryNote": null,
+      "finalCandidateResult": "NOT_RUN"
+    },
+    {
+      "caseId": "A-T07",
+      "sourceLine": 1554,
+      "contract": [
+        "Save LegalEase-managed screening-only without external agreement",
+        "Genuine audited operator status persists, agreement not required, no fake signature or sponsorship."
+      ],
+      "actor": "admin",
+      "actions": [
+        "Save program",
+        "Read back saved configuration and current materials",
+        "Refresh selected jurisdictions"
+      ],
+      "observed": "LegalEase screening-only program needs no fabricated agreement or funding; all three jurisdictions persist.",
+      "evidence": [
+        "journeys/admin/A-T07_A-T13.json",
+        "journeys/admin/A-T07_A-T13.png"
+      ],
+      "result": "PASS",
+      "issue": null,
+      "checkpointCategory": "PASS",
+      "categoryNote": null,
+      "finalCandidateResult": "NOT_RUN"
+    },
+    {
+      "caseId": "A-T08",
+      "sourceLine": 1555,
+      "contract": [
+        "Open existing partner with actual executed agreement, attempt unauthorized transfer",
+        "Fails before write and preserves third-party contractual rights."
+      ],
+      "actor": "admin",
+      "actions": [
+        "Attempt to change the operator of an existing isolated agreement-protected workspace",
+        "Save through the actual control",
+        "Read specific refusal",
+        "Read back unchanged canonical state"
+      ],
+      "observed": "Stored executed-agreement and commercial-rights evidence prevents operator transfer before any write. This tests existing isolated records and does not certify fictional signatures as real legal authority.",
+      "evidence": [
+        "journeys/admin/A-T08.json",
+        "journeys/admin/A-T08.png"
+      ],
+      "result": "PASS",
+      "issue": null,
+      "checkpointCategory": "PASS",
+      "categoryNote": null,
+      "finalCandidateResult": "NOT_RUN"
+    },
+    {
+      "caseId": "A-T09",
+      "sourceLine": 1556,
+      "contract": [
+        "Existing partner with membership and `not_required` agreement only",
+        "Permitted documented LegalEase operator change can Save once; no spurious rights failure."
+      ],
+      "actor": "admin",
+      "actions": [
+        "Save LegalEase-managed operating responsibility before any partner approval or agreement",
+        "Read canonical operator and preserved membership"
+      ],
+      "observed": "An actual membership alone does not prevent a documented LegalEase-managed Save.",
+      "evidence": [
+        "journeys/admin/A-T09.json",
+        "journeys/admin/A-T09.png"
+      ],
+      "result": "PASS",
+      "issue": null,
+      "checkpointCategory": "PASS",
+      "categoryNote": null,
+      "finalCandidateResult": "NOT_RUN"
+    },
+    {
+      "caseId": "A-T10",
+      "sourceLine": 1557,
+      "contract": [
+        "Edit organization/public name, Program CTA and support copy, Save",
+        "Changed values read back after hard refresh; unaffected fields intact."
+      ],
+      "actor": "admin",
+      "actions": [
+        "Edit CTA and support copy",
+        "Save",
+        "Review Program Materials",
+        "Refresh persisted fields"
+      ],
+      "observed": "Saved public fields read back unchanged; only the affected Participant Page regenerates and Save links directly to focused Preview.",
+      "evidence": [
+        "journeys/admin/A-T10_A-T28.json",
+        "journeys/admin/A-T10_A-T28.png"
+      ],
+      "result": "PASS",
+      "issue": null,
+      "checkpointCategory": "PASS",
+      "categoryNote": null,
+      "finalCandidateResult": "NOT_RUN"
+    },
+    {
+      "caseId": "A-T11",
+      "sourceLine": 1558,
+      "contract": [
+        "Change legal organization field when identity locked",
+        "Clear reason and authorized correction route, not silent/unexplainable disabled field."
+      ],
+      "actor": "admin",
+      "actions": [
+        "Open existing authority-protected isolated program",
+        "Read identity-lock explanation",
+        "Follow Review legal identity evidence"
+      ],
+      "observed": "The locked legal identity explains its authority and provides the direct evidence review route.",
+      "evidence": [
+        "journeys/admin/A-T11.json",
+        "journeys/admin/A-T11.png"
+      ],
+      "result": "PASS",
+      "issue": null,
+      "checkpointCategory": "PASS",
+      "categoryNote": null,
+      "finalCandidateResult": "NOT_RUN"
+    },
+    {
+      "caseId": "A-T12",
+      "sourceLine": 1559,
+      "contract": [
+        "Add/remove program contact, Save",
+        "Stable row identities; unrelated contacts preserved."
+      ],
+      "actor": "admin",
+      "actions": [
+        "Add two contacts through the collection editor",
+        "Save and read assigned stable IDs",
+        "Remove the first added contact",
+        "Save and refresh"
+      ],
+      "observed": "Contact row identities remain stable and all unaffected contacts are preserved.",
+      "evidence": [
+        "journeys/admin/A-T12.json",
+        "journeys/admin/A-T12.png"
+      ],
+      "result": "PASS",
+      "issue": null,
+      "checkpointCategory": "PASS",
+      "categoryNote": null,
+      "finalCandidateResult": "NOT_RUN"
+    },
+    {
+      "caseId": "A-T13",
+      "sourceLine": 1560,
+      "contract": [
+        "Select CA+DC+VA on multistate UI, Save, refresh",
+        "All three exact codes persist and display as chips/scope, no first-state collapse."
+      ],
+      "actor": "admin",
+      "actions": [
+        "Save program",
+        "Read back saved configuration and current materials",
+        "Refresh selected jurisdictions"
+      ],
+      "observed": "LegalEase screening-only program needs no fabricated agreement or funding; all three jurisdictions persist.",
+      "evidence": [
+        "journeys/admin/A-T07_A-T13.json",
+        "journeys/admin/A-T07_A-T13.png"
+      ],
+      "result": "PASS",
+      "issue": null,
+      "checkpointCategory": "PASS",
+      "categoryNote": null,
+      "finalCandidateResult": "NOT_RUN"
+    },
+    {
+      "caseId": "A-T14",
+      "sourceLine": 1561,
+      "contract": [
+        "Description says Multi-State with only CA",
+        "Explicit mismatch, direct **Use selected jurisdictions** action; no extra states authorized."
+      ],
+      "actor": "admin",
+      "actions": [
+        "Select only California",
+        "Describe scope as Multi-State",
+        "Use selected jurisdictions in description",
+        "Save"
+      ],
+      "observed": "Mismatch is explained and directly corrected without granting any additional jurisdiction.",
+      "evidence": [
+        "journeys/admin/A-T14.json",
+        "journeys/admin/A-T14.png"
+      ],
+      "result": "PASS",
+      "issue": null,
+      "checkpointCategory": "PASS",
+      "categoryNote": null,
+      "finalCandidateResult": "NOT_RUN"
+    },
+    {
+      "caseId": "A-T15",
+      "sourceLine": 1562,
+      "contract": [
+        "Toggle Spanish off/on",
+        "English source unchanged, approved stored Spanish preserved and reused if still source-matched."
+      ],
+      "actor": "admin",
+      "actions": [
+        "Disable Spanish and Save",
+        "Re-enable Spanish and Save"
+      ],
+      "observed": "Stored source-matched Spanish and the original English survive language toggles.",
+      "evidence": [
+        "journeys/admin/A-T15.json",
+        "journeys/admin/A-T15.png"
+      ],
+      "result": "PASS",
+      "issue": null,
+      "checkpointCategory": "PASS",
+      "categoryNote": null,
+      "finalCandidateResult": "NOT_RUN"
+    },
+    {
+      "caseId": "A-T16",
+      "sourceLine": 1563,
+      "contract": [
+        "Save custom English with no Spanish copy",
+        "One automatic preparation operation, no manual seven fields, exact complete readback or typed failure."
+      ],
+      "actor": "admin",
+      "actions": [
+        "Fresh authenticated open",
+        "Save program through application",
+        "Actual OpenAI request in protected Vercel runtime",
+        "Read all seven persisted fields",
+        "View both current material versions",
+        "Confirm and publish in isolation"
+      ],
+      "observed": "One Save prepares and persists all seven exact verified Spanish fields, preserves every English value and legal block, and regenerates only the Participant Page",
+      "evidence": [
+        "providers/spanish-receipts.json",
+        "providers/published-spanish.png"
+      ],
+      "result": "PASS",
+      "issue": null,
+      "checkpointCategory": "PASS",
+      "categoryNote": null,
+      "finalCandidateResult": "NOT_RUN"
+    },
+    {
+      "caseId": "A-T17",
+      "sourceLine": 1564,
+      "contract": [
+        "Save with provider unavailable",
+        "Configuration saved and displayed; materials correctly Failed; no false Ready claim and no incomplete version generated as publishable."
+      ],
+      "actor": "admin",
+      "actions": [
+        "Save program",
+        "Observe specific provider failure",
+        "Read canonical values and artifact versions"
+      ],
+      "observed": "Preparation fails truthfully with provider_request; saved English is retained, no incomplete version is added, and launch stays gated.",
+      "evidence": [
+        "journeys/admin/A-T17.json",
+        "journeys/admin/A-T17.png"
+      ],
+      "result": "PASS",
+      "issue": null,
+      "checkpointCategory": "PASS",
+      "categoryNote": null,
+      "finalCandidateResult": "NOT_RUN"
+    },
+    {
+      "caseId": "A-T18",
+      "sourceLine": 1565,
+      "contract": [
+        "Retry same failed Spanish source without resolving root cause",
+        "No uncontrolled new incomplete artifact versions, no speculative success."
+      ],
+      "actor": "admin",
+      "actions": [
+        "Retry Update Materials",
+        "Observe specific provider failure",
+        "Read canonical values and artifact versions"
+      ],
+      "observed": "Preparation fails truthfully with provider_request; saved English is retained, no incomplete version is added, and launch stays gated.",
+      "evidence": [
+        "journeys/admin/A-T18.json",
+        "journeys/admin/A-T18.png"
+      ],
+      "result": "PASS",
+      "issue": null,
+      "checkpointCategory": "PASS",
+      "categoryNote": null,
+      "finalCandidateResult": "NOT_RUN"
+    },
+    {
+      "caseId": "A-T19",
+      "sourceLine": 1566,
+      "contract": [
+        "Provider returns structurally malformed payload",
+        "Typed safe schema failure; no persisted false-complete language."
+      ],
+      "actor": "admin",
+      "actions": [
+        "Retry Update Materials",
+        "Observe specific provider failure",
+        "Read canonical values and artifact versions"
+      ],
+      "observed": "Preparation fails truthfully with invalid_schema; saved English is retained, no incomplete version is added, and launch stays gated.",
+      "evidence": [
+        "journeys/admin/A-T19.json",
+        "journeys/admin/A-T19.png"
+      ],
+      "result": "PASS",
+      "issue": null,
+      "checkpointCategory": "PASS",
+      "categoryNote": null,
+      "finalCandidateResult": "NOT_RUN"
+    },
+    {
+      "caseId": "A-T20",
+      "sourceLine": 1567,
+      "contract": [
+        "Provider returns semantically invalid translation/unsupported promise",
+        "Field-keyed validation failure; genuine legal restrictions preserved."
+      ],
+      "actor": "admin",
+      "actions": [
+        "Retry Update Materials",
+        "Observe specific provider failure",
+        "Read canonical values and artifact versions"
+      ],
+      "observed": "Preparation fails truthfully with unsupported_claim; saved English is retained, no incomplete version is added, and launch stays gated.",
+      "evidence": [
+        "journeys/admin/A-T20.json",
+        "journeys/admin/A-T20.png"
+      ],
+      "result": "PASS",
+      "issue": null,
+      "checkpointCategory": "PASS",
+      "categoryNote": null,
+      "finalCandidateResult": "NOT_RUN"
+    },
+    {
+      "caseId": "A-T21",
+      "sourceLine": 1568,
+      "contract": [
+        "Prepared translations source changed while provider responds",
+        "Atomic revision conflict; stale draft cannot overwrite newer source."
+      ],
+      "actor": "admin",
+      "actions": [
+        "Start Update Materials",
+        "Save changed English in a second authenticated tab",
+        "Release a held source-valid structured translation",
+        "Read canonical revision and unchanged documents"
+      ],
+      "observed": "The stale translation is rejected; the newer English source remains authoritative and no extra material is generated.",
+      "evidence": [
+        "journeys/admin/A-T21.json",
+        "journeys/admin/A-T21.png"
+      ],
+      "result": "PASS",
+      "issue": null,
+      "checkpointCategory": "PASS",
+      "categoryNote": null,
+      "finalCandidateResult": "NOT_RUN"
+    },
+    {
+      "caseId": "A-T22",
+      "sourceLine": 1569,
+      "contract": [
+        "Two admins edit same program concurrently",
+        "One successful authoritative revision; other receives conflict and preserves draft."
+      ],
+      "actor": "admin",
+      "actions": [
+        "Open two editors",
+        "Save the first edit",
+        "Save stale second edit",
+        "Review latest saved version and choose saved value"
+      ],
+      "observed": "Stale revision is refused, unsaved draft is preserved and the conflict is resolved explicitly.",
+      "evidence": [
+        "journeys/admin/A-T22.json",
+        "journeys/admin/A-T22.png"
+      ],
+      "result": "PASS",
+      "issue": null,
+      "checkpointCategory": "PASS",
+      "categoryNote": null,
+      "finalCandidateResult": "NOT_RUN"
+    },
+    {
+      "caseId": "A-T23",
+      "sourceLine": 1570,
+      "contract": [
+        "Open program with current Program Summary and Page",
+        "Both **View** controls immediate, zero generation writes."
+      ],
+      "actor": "admin",
+      "actions": [
+        "Fresh reload",
+        "Click both View actions",
+        "Switch English/Espa\u00f1ol and Mobile/Desktop"
+      ],
+      "observed": "Both exact current material versions are immediately available; focus moves to each document and preview toggles use the same version.",
+      "evidence": [
+        "journeys/admin/A-T23_A-T27.json",
+        "journeys/admin/A-T23_A-T27.png"
+      ],
+      "result": "PASS",
+      "issue": null,
+      "checkpointCategory": "PASS",
+      "categoryNote": null,
+      "finalCandidateResult": "NOT_RUN"
+    },
+    {
+      "caseId": "A-T24",
+      "sourceLine": 1571,
+      "contract": [
+        "Page draft incomplete; Summary current",
+        "Summary appears, Page visibly incomplete with actionable reason; **Final Review** heading visible but Start gated."
+      ],
+      "actor": "admin",
+      "actions": [
+        "Open existing Summary and incomplete bilingual Page",
+        "View Summary",
+        "Locate Final Review and precise update action"
+      ],
+      "observed": "Current Summary and incomplete Page remain visible; final review is present and publication is blocked.",
+      "evidence": [
+        "journeys/admin/A-T24.json",
+        "journeys/admin/A-T24.png"
+      ],
+      "result": "PASS",
+      "issue": null,
+      "checkpointCategory": "PASS",
+      "categoryNote": null,
+      "finalCandidateResult": "NOT_RUN"
+    },
+    {
+      "caseId": "A-T25",
+      "sourceLine": 1572,
+      "contract": [
+        "Click **Update Materials** when page needs valid new Spanish",
+        "Only page regenerates, actual contents and hashes current; Summary unchanged."
+      ],
+      "actor": "admin",
+      "actions": [
+        "Open preserved incomplete Spanish fixture with its current Summary",
+        "Click Update Materials",
+        "Execute actual OpenAI through protected Vercel runtime",
+        "Read canonical seven fields and exact material fingerprints",
+        "View Spanish document"
+      ],
+      "observed": "The real provider completes all seven source-bound Spanish fields; only the incomplete Participant Page receives a new version.",
+      "evidence": [
+        "journeys/admin/A-T25.json",
+        "journeys/admin/A-T25.png"
+      ],
+      "result": "PASS",
+      "issue": null,
+      "checkpointCategory": "PASS",
+      "categoryNote": null,
+      "finalCandidateResult": "NOT_RUN"
+    },
+    {
+      "caseId": "A-T26",
+      "sourceLine": 1573,
+      "contract": [
+        "Click **Update Materials** with both docs current",
+        "No new versions, provider calls or approval invalidations."
+      ],
+      "actor": "admin",
+      "actions": [
+        "Replay the exact successful browser Update request as a retry",
+        "Refresh current materials",
+        "Read versions and provider request count"
+      ],
+      "observed": "An unchanged Update retry creates no version and makes no provider call. The current workspace offers direct review and confirmation rather than an unnecessary generation button.",
+      "evidence": [
+        "journeys/admin/A-T26.json",
+        "journeys/admin/A-T26.png"
+      ],
+      "result": "PASS",
+      "issue": null,
+      "checkpointCategory": "PASS",
+      "categoryNote": null,
+      "finalCandidateResult": "NOT_RUN"
+    },
+    {
+      "caseId": "A-T27",
+      "sourceLine": 1574,
+      "contract": [
+        "Click **English / Espa\u00f1ol** and Desktop/Mobile preview",
+        "Correct same-version content in both languages and responsive view."
+      ],
+      "actor": "admin",
+      "actions": [
+        "Fresh reload",
+        "Click both View actions",
+        "Switch English/Espa\u00f1ol and Mobile/Desktop"
+      ],
+      "observed": "Both exact current material versions are immediately available; focus moves to each document and preview toggles use the same version.",
+      "evidence": [
+        "journeys/admin/A-T23_A-T27.json",
+        "journeys/admin/A-T23_A-T27.png"
+      ],
+      "result": "PASS",
+      "issue": null,
+      "checkpointCategory": "PASS",
+      "categoryNote": null,
+      "finalCandidateResult": "NOT_RUN"
+    },
+    {
+      "caseId": "A-T28",
+      "sourceLine": 1575,
+      "contract": [
+        "Save affects page only, return to Preview",
+        "Direct navigation/focus, page review invalidated only as required, no lost changes."
+      ],
+      "actor": "admin",
+      "actions": [
+        "Edit CTA and support copy",
+        "Save",
+        "Review Program Materials",
+        "Refresh persisted fields"
+      ],
+      "observed": "Saved public fields read back unchanged; only the affected Participant Page regenerates and Save links directly to focused Preview.",
+      "evidence": [
+        "journeys/admin/A-T10_A-T28.json",
+        "journeys/admin/A-T10_A-T28.png"
+      ],
+      "result": "PASS",
+      "issue": null,
+      "checkpointCategory": "PASS",
+      "categoryNote": null,
+      "finalCandidateResult": "NOT_RUN"
+    },
+    {
+      "caseId": "A-T29",
+      "sourceLine": 1576,
+      "contract": [
+        "Exact current version materials + protected Admin preflight",
+        "Final review lists actual operator, three states, services, languages, versions and one confirmation."
+      ],
+      "actor": "admin",
+      "actions": [
+        "Read Final Review immediately below both materials"
+      ],
+      "observed": "Final review shows operator, full scope, languages, services and exact current versions with one confirmation.",
+      "evidence": [
+        "journeys/admin/A-T29.json",
+        "journeys/admin/A-T29.png"
+      ],
+      "result": "PASS",
+      "issue": null,
+      "checkpointCategory": "PASS",
+      "categoryNote": null,
+      "finalCandidateResult": "NOT_RUN"
+    },
+    {
+      "caseId": "A-T30",
+      "sourceLine": 1577,
+      "contract": [
+        "Check final confirmation then edit a material-affecting field",
+        "Checkbox/reset identity cleared; cannot publish stale review."
+      ],
+      "actor": "admin",
+      "actions": [
+        "Select final confirmation",
+        "Edit public program name",
+        "Save changed configuration"
+      ],
+      "observed": "Editing invalidates the old confirmation; refreshed exact versions require a new confirmation.",
+      "evidence": [
+        "journeys/admin/A-T30.json",
+        "journeys/admin/A-T30.png"
+      ],
+      "result": "PASS",
+      "issue": null,
+      "checkpointCategory": "PASS",
+      "categoryNote": null,
+      "finalCandidateResult": "NOT_RUN"
+    },
+    {
+      "caseId": "A-T31",
+      "sourceLine": 1578,
+      "contract": [
+        "Click **Start Program** in isolated authorized fixture",
+        "Exactly one protected launch; real public route verified; dashboard and shareable link appear."
+      ],
+      "actor": "admin",
+      "actions": [
+        "Confirm exact current versions",
+        "Start Program",
+        "Retry the exact protected publication request"
+      ],
+      "observed": "One authorized publication completes through real public-route verification with no duplicate launch journal.",
+      "evidence": [
+        "journeys/admin/A-T31_A-T32.json",
+        "journeys/admin/A-T31_A-T32.png"
+      ],
+      "result": "PASS",
+      "issue": null,
+      "checkpointCategory": "PASS",
+      "categoryNote": null,
+      "finalCandidateResult": "NOT_RUN"
+    },
+    {
+      "caseId": "A-T32",
+      "sourceLine": 1579,
+      "contract": [
+        "Double click/retry/start across tabs",
+        "One launch operation and no duplicate publication decisions."
+      ],
+      "actor": "admin",
+      "actions": [
+        "Confirm exact current versions",
+        "Start Program",
+        "Retry the exact protected publication request"
+      ],
+      "observed": "One authorized publication completes through real public-route verification with no duplicate launch journal.",
+      "evidence": [
+        "journeys/admin/A-T31_A-T32.json",
+        "journeys/admin/A-T31_A-T32.png"
+      ],
+      "result": "PASS",
+      "issue": null,
+      "checkpointCategory": "PASS",
+      "categoryNote": null,
+      "finalCandidateResult": "NOT_RUN"
+    },
+    {
+      "caseId": "A-T33",
+      "sourceLine": 1580,
+      "contract": [
+        "Backend authority denies Start",
+        "No public activation; one precise resolution action; no fake agreement/funding."
+      ],
+      "actor": "admin",
+      "actions": [
+        "Read final-review section with current materials",
+        "Follow its single specific resolution action",
+        "Attempt the protected Start request with current scope",
+        "Read unchanged publication and approval records"
+      ],
+      "observed": "The UI gives an actual resolution for missing external authority. The backend refuses Start before any launch or approval write.",
+      "evidence": [
+        "journeys/admin/A-T33.json",
+        "journeys/admin/A-T33.png"
+      ],
+      "result": "PASS",
+      "issue": null,
+      "checkpointCategory": "PASS",
+      "categoryNote": null,
+      "finalCandidateResult": "NOT_RUN"
+    },
+    {
+      "caseId": "A-T34",
+      "sourceLine": 1581,
+      "contract": [
+        "Program live then user revisits Configure",
+        "No restart of onboarding, actual dashboard/actions and safe edit path."
+      ],
+      "actor": "admin",
+      "actions": [
+        "Refresh live workspace",
+        "Click Configure"
+      ],
+      "observed": "Live program retains its dashboard and exposes safe editing without restarting onboarding.",
+      "evidence": [
+        "journeys/admin/A-T34.json",
+        "journeys/admin/A-T34.png"
+      ],
+      "result": "PASS",
+      "issue": null,
+      "checkpointCategory": "PASS",
+      "categoryNote": null,
+      "finalCandidateResult": "NOT_RUN"
+    },
+    {
+      "caseId": "A-T35",
+      "sourceLine": 1582,
+      "contract": [
+        "Visit Admin Diagnostics while screening-only",
+        "No effect on authority or materials; ordinary launch still returns to main workspace."
+      ],
+      "actor": "admin",
+      "actions": [
+        "Open screening-only program",
+        "Follow Administrative diagnostics",
+        "Read the same authority and materials"
+      ],
+      "observed": "Reading diagnostics does not change launch authority or document identity.",
+      "evidence": [
+        "journeys/admin/A-T35.json",
+        "journeys/admin/A-T35.png"
+      ],
+      "result": "PASS",
+      "issue": null,
+      "checkpointCategory": "PASS",
+      "categoryNote": null,
+      "finalCandidateResult": "NOT_RUN"
+    },
+    {
+      "caseId": "A-T36",
+      "sourceLine": 1583,
+      "contract": [
+        "Record actual scoped business exception and revoke",
+        "Dependencies/action-specific audit, no general permission bypass."
+      ],
+      "actor": "admin",
+      "actions": [
+        "Record an actual no-outreach business decision for the isolated program",
+        "Read the scoped receipt",
+        "Revoke the same decision",
+        "Read remaining protected requirements"
+      ],
+      "observed": "A scoped business decision and revocation are recorded without granting legal, financial or publication authority.",
+      "evidence": [
+        "journeys/admin/A-T36.json",
+        "journeys/admin/A-T36.png"
+      ],
+      "result": "PASS",
+      "issue": null,
+      "checkpointCategory": "PASS",
+      "categoryNote": null,
+      "finalCandidateResult": "NOT_RUN"
+    },
+    {
+      "caseId": "A-T37",
+      "sourceLine": 1584,
+      "contract": [
+        "Test signed agreement without genuine executed file",
+        "Cannot be recorded as executed; valid `not_required` remains distinct."
+      ],
+      "actor": "admin",
+      "actions": [
+        "Attempt executed agreement with no file or verified signatures",
+        "Observe required field",
+        "Attempt matching malformed protected request"
+      ],
+      "observed": "No executed agreement can be recorded without its required genuine evidence and confirmation.",
+      "evidence": [
+        "journeys/admin/A-T37.json",
+        "journeys/admin/A-T37.png"
+      ],
+      "result": "PASS",
+      "issue": null,
+      "checkpointCategory": "PASS",
+      "categoryNote": null,
+      "finalCandidateResult": "NOT_RUN"
+    },
+    {
+      "caseId": "A-T38",
+      "sourceLine": 1585,
+      "contract": [
+        "Create real invited Partner Administrator",
+        "One reviewed invite/claim, no permission until verified account/membership."
+      ],
+      "actor": "admin",
+      "actions": [
+        "Create partner workspace and reviewed invitation",
+        "Deliver to actual isolated recipient mailbox",
+        "Verify no membership before account authentication",
+        "Read one accepted scoped administrator"
+      ],
+      "observed": "Verified recipient authentication is required before this reviewed invitation grants membership; it grants no agreement, sponsorship or publication.",
+      "evidence": [
+        "journeys/admin/A-T38.json",
+        "journeys/admin/A-T38.png"
+      ],
+      "result": "PASS",
+      "issue": null,
+      "checkpointCategory": "PASS",
+      "categoryNote": null,
+      "finalCandidateResult": "NOT_RUN"
+    },
+    {
+      "caseId": "P-T01",
+      "sourceLine": 1591,
+      "contract": [
+        "Open legitimate first-admin invitation",
+        "Correct organization and recipient, token valid/single use, no credential disclosure."
+      ],
+      "actor": "partner",
+      "actions": [
+        "Open legitimate organization invitation",
+        "Authenticate its exact recipient",
+        "Replay consumed link in a fresh anonymous browser"
+      ],
+      "observed": "The invitation reaches the correct workspace, never exposes credentials and cannot be reused.",
+      "evidence": [
+        "journeys/partner/P-T01.json",
+        "journeys/partner/P-T01.png"
+      ],
+      "result": "PASS",
+      "issue": null,
+      "checkpointCategory": "PASS",
+      "categoryNote": null,
+      "finalCandidateResult": "NOT_RUN"
+    },
+    {
+      "caseId": "P-T02",
+      "sourceLine": 1592,
+      "contract": [
+        "Sign in with account verification interruption",
+        "Returns to exact invite claim/setup step, no second workspace."
+      ],
+      "actor": "partner",
+      "actions": [
+        "Follow replacement invitation for a verified existing account",
+        "Interrupt sign-in by leaving the page",
+        "Return to the preserved invitation continuation",
+        "Sign in normally"
+      ],
+      "observed": "The invitation resumes after interruption and creates exactly one scoped membership and the correct setup workspace.",
+      "evidence": [
+        "journeys/partner/P-T02.json",
+        "journeys/partner/P-T02.png"
+      ],
+      "result": "PASS",
+      "issue": null,
+      "checkpointCategory": "PASS",
+      "categoryNote": null,
+      "finalCandidateResult": "NOT_RUN"
+    },
+    {
+      "caseId": "P-T03",
+      "sourceLine": 1593,
+      "contract": [
+        "Expired/revoked invitation",
+        "Clear request-new-invite path; no active membership."
+      ],
+      "actor": "partner",
+      "actions": [
+        "Open a legitimately issued then revoked invitation",
+        "Read recovery and request-new-invitation contact",
+        "Verify no membership exists"
+      ],
+      "observed": "Revoked setup links cannot create or activate a partner membership.",
+      "evidence": [
+        "journeys/partner/P-T03.json",
+        "journeys/partner/P-T03.png"
+      ],
+      "result": "PASS",
+      "issue": null,
+      "checkpointCategory": "PASS",
+      "categoryNote": null,
+      "finalCandidateResult": "NOT_RUN"
+    },
+    {
+      "caseId": "P-T04",
+      "sourceLine": 1594,
+      "contract": [
+        "Partner Admin Join step",
+        "Already claimed account shown as connected; Continue has no duplicate invitation."
+      ],
+      "actor": "partner_admin",
+      "actions": [
+        "Completed join through its visible action"
+      ],
+      "observed": "Completed join through its visible action",
+      "evidence": [
+        "server/partner-transition-development.json",
+        "journeys/partner-transition/4.json",
+        "journeys/partner-transition/4.png"
+      ],
+      "result": "PASS",
+      "issue": null,
+      "checkpointCategory": "PASS",
+      "categoryNote": null,
+      "finalCandidateResult": "NOT_RUN"
+    },
+    {
+      "caseId": "P-T05",
+      "sourceLine": 1595,
+      "contract": [
+        "Organization step edit/persist",
+        "Autoresume after refresh, legal identity locks preserved."
+      ],
+      "actor": "partner_admin",
+      "actions": [
+        "Open Organization settings",
+        "Edit the website through its actual field",
+        "Wait for authoritative autosave",
+        "Refresh the same step"
+      ],
+      "observed": "Organization edits persist and resume after refresh.",
+      "evidence": [
+        "journeys/partner_admin/P-T05.json",
+        "journeys/partner_admin/P-T05.png"
+      ],
+      "result": "PASS",
+      "issue": null,
+      "checkpointCategory": "PASS",
+      "categoryNote": null,
+      "finalCandidateResult": "NOT_RUN"
+    },
+    {
+      "caseId": "P-T06",
+      "sourceLine": 1596,
+      "contract": [
+        "Program step single-state and delegated multistate cases",
+        "Allowed jurisdictions correct, restricted state cannot be added."
+      ],
+      "actor": "partner_admin",
+      "actions": [
+        "Reduce delegated scope to CA through visible checkboxes",
+        "Refresh and verify selected state",
+        "Attempt disallowed TX through server boundary",
+        "Restore authorized DC and VA through checkboxes"
+      ],
+      "observed": "Partner can select a permitted subset and restore the full delegated scope; the server rejects states outside the grant.",
+      "evidence": [
+        "journeys/partner_admin/P-T06.json",
+        "journeys/partner_admin/P-T06.png"
+      ],
+      "result": "PASS",
+      "issue": null,
+      "checkpointCategory": "PASS",
+      "categoryNote": null,
+      "finalCandidateResult": "NOT_RUN"
+    },
+    {
+      "caseId": "P-T07",
+      "sourceLine": 1597,
+      "contract": [
+        "Participant access selection open/code/invite",
+        "Correct backend entry policy, no extra sponsorship grants."
+      ],
+      "actor": "partner_admin",
+      "actions": [
+        "Select access-code, invitation-only and open policies",
+        "Read each saved server policy",
+        "Refresh selected policy and inspect benefits"
+      ],
+      "observed": "Each entry policy persists; these choices grant neither publication nor sponsored packets.",
+      "evidence": [
+        "journeys/partner_admin/P-T07.json",
+        "journeys/partner_admin/P-T07.png"
+      ],
+      "result": "PASS",
+      "issue": null,
+      "checkpointCategory": "PASS",
+      "categoryNote": null,
+      "finalCandidateResult": "NOT_RUN"
+    },
+    {
+      "caseId": "P-T08",
+      "sourceLine": 1598,
+      "contract": [
+        "Spanish partner-specific custom copy",
+        "One legitimate bilingual content review; no serial seven-field bureaucracy."
+      ],
+      "actor": "partner_admin",
+      "actions": [
+        "Edit the isolated partner\u2019s English public copy and actual public identity through settings",
+        "Keep approved short CTA and CA scope",
+        "Continue to Start and automatically prepare Spanish",
+        "Inspect actual English/Espa\u00f1ol material versions",
+        "Refresh without regeneration"
+      ],
+      "observed": "Actual protected OpenAI prepares five customized public fields; approved Spanish CTA and California are preserved. Both complete materials lead to one exact-version partner confirmation.",
+      "evidence": [
+        "journeys/partner_admin/P-T08.json",
+        "journeys/partner_admin/P-T08.png"
+      ],
+      "result": "PASS",
+      "issue": null,
+      "checkpointCategory": "PASS",
+      "categoryNote": null,
+      "finalCandidateResult": "NOT_RUN"
+    },
+    {
+      "caseId": "P-T09",
+      "sourceLine": 1599,
+      "contract": [
+        "Team step choose **I'll do this later**",
+        "Continues to Start without invented second admin."
+      ],
+      "actor": "partner_admin",
+      "actions": [
+        "Completed team through its visible action"
+      ],
+      "observed": "Completed team through its visible action",
+      "evidence": [
+        "server/partner-transition-development.json",
+        "journeys/partner-transition/7.json",
+        "journeys/partner-transition/7.png"
+      ],
+      "result": "PASS",
+      "issue": null,
+      "checkpointCategory": "PASS",
+      "categoryNote": null,
+      "finalCandidateResult": "NOT_RUN"
+    },
+    {
+      "caseId": "P-T10",
+      "sourceLine": 1600,
+      "contract": [
+        "Invite Partner Staff and verify email",
+        "Actual scoped tenant member; not auto-approved for Clinic tasks."
+      ],
+      "actor": "partner",
+      "actions": [
+        "Partner Administrator opens Team",
+        "Send fixed-role staff invitation",
+        "Read actual isolated SMTP delivery",
+        "Staff claims invitation and sets password",
+        "Verify scoped membership and no implicit Clinic permission"
+      ],
+      "observed": "The partner invitation establishes a verified, tenant-scoped staff account. Event assistance, reporting and code permissions remain unassigned.",
+      "evidence": [
+        "journeys/partner/P-T10.json",
+        "journeys/partner/P-T10.png"
+      ],
+      "result": "PASS",
+      "issue": null,
+      "checkpointCategory": "PASS",
+      "categoryNote": null,
+      "finalCandidateResult": "NOT_RUN"
+    },
+    {
+      "caseId": "P-T11",
+      "sourceLine": 1601,
+      "contract": [
+        "Start step **Prepare my review**, exact checkbox",
+        "Current documents match current inputs; partner factual review recorded once."
+      ],
+      "actor": "partner_admin",
+      "actions": [
+        "Exact materials confirmed; dashboard available while genuine commercial authority remains pending"
+      ],
+      "observed": "Exact materials confirmed; dashboard available while genuine commercial authority remains pending",
+      "evidence": [
+        "server/partner-transition-development.json",
+        "journeys/partner-transition/8.json",
+        "journeys/partner-transition/8.png"
+      ],
+      "result": "PASS",
+      "issue": null,
+      "checkpointCategory": "PASS",
+      "categoryNote": null,
+      "finalCandidateResult": "NOT_RUN"
+    },
+    {
+      "caseId": "P-T12",
+      "sourceLine": 1602,
+      "contract": [
+        "Partner setup complete but commercial terms pending",
+        "Dashboard accessible; no misleading Finish setup loop."
+      ],
+      "actor": "partner_admin",
+      "actions": [
+        "Exact materials confirmed; dashboard available while genuine commercial authority remains pending"
+      ],
+      "observed": "Exact materials confirmed; dashboard available while genuine commercial authority remains pending",
+      "evidence": [
+        "server/partner-transition-development.json",
+        "journeys/partner-transition/8.json",
+        "journeys/partner-transition/8.png"
+      ],
+      "result": "PASS",
+      "issue": null,
+      "checkpointCategory": "PASS",
+      "categoryNote": null,
+      "finalCandidateResult": "NOT_RUN"
+    },
+    {
+      "caseId": "P-T13",
+      "sourceLine": 1603,
+      "contract": [
+        "Standing authorization valid and partner confirms",
+        "One real delegated launch; no redundant Admin click."
+      ],
+      "actor": "partner_admin",
+      "actions": [
+        "Upload and inspect actual isolated screening-policy evidence",
+        "Admin reviews that same private document",
+        "Record only owner-authorized local limited screening authority",
+        "Grant scoped expiring partner delegation",
+        "Partner reviews exact bilingual materials and confirms once",
+        "Click Start my program",
+        "Open the live operational dashboard"
+      ],
+      "observed": "A genuine nonproduction policy receipt supports one delegated protected publication. The partner reaches its live program home without a second Admin launch.",
+      "evidence": [
+        "journeys/partner_admin/P-T13_P-T15.json",
+        "journeys/partner_admin/P-T13_P-T15.png"
+      ],
+      "result": "PASS",
+      "issue": null,
+      "checkpointCategory": "PASS",
+      "categoryNote": null,
+      "finalCandidateResult": "NOT_RUN"
+    },
+    {
+      "caseId": "P-T14",
+      "sourceLine": 1604,
+      "contract": [
+        "No standing authorization",
+        "Partner confirmation saved; only genuinely authorized Platform Admin publishes."
+      ],
+      "actor": "partner_admin",
+      "actions": [
+        "Review current materials and confirm exact partner facts",
+        "Open the operational dashboard",
+        "Read actual unpublished status and direct publication support action"
+      ],
+      "observed": "A current factual confirmation completes partner setup but does not manufacture commercial authority or standing publication delegation.",
+      "evidence": [
+        "journeys/partner_admin/P-T14.json",
+        "journeys/partner_admin/P-T14.png"
+      ],
+      "result": "PASS",
+      "issue": null,
+      "checkpointCategory": "PASS",
+      "categoryNote": null,
+      "finalCandidateResult": "NOT_RUN"
+    },
+    {
+      "caseId": "P-T15",
+      "sourceLine": 1605,
+      "contract": [
+        "Live partner opens `/partner/dashboard`",
+        "Immediate program home, no launch/setup wizard."
+      ],
+      "actor": "partner_admin",
+      "actions": [
+        "Upload and inspect actual isolated screening-policy evidence",
+        "Admin reviews that same private document",
+        "Record only owner-authorized local limited screening authority",
+        "Grant scoped expiring partner delegation",
+        "Partner reviews exact bilingual materials and confirms once",
+        "Click Start my program",
+        "Open the live operational dashboard"
+      ],
+      "observed": "A genuine nonproduction policy receipt supports one delegated protected publication. The partner reaches its live program home without a second Admin launch.",
+      "evidence": [
+        "journeys/partner_admin/P-T13_P-T15.json",
+        "journeys/partner_admin/P-T13_P-T15.png"
+      ],
+      "result": "PASS",
+      "issue": null,
+      "checkpointCategory": "PASS",
+      "categoryNote": null,
+      "finalCandidateResult": "NOT_RUN"
+    },
+    {
+      "caseId": "P-T16",
+      "sourceLine": 1606,
+      "contract": [
+        "Team/Participants/Reporting/Clinics/Settings/Help navigation",
+        "Routes exist, role-respecting, state preserved; reporting truthfully limited where needed."
+      ],
+      "actor": "partner_admin",
+      "actions": [
+        "Follow each role-visible navigation destination",
+        "Verify distinct activity, Clinics, Team and settings routes",
+        "Verify Help destination"
+      ],
+      "observed": "Retained navigation reaches its actual authorized destination; aggregate activity is consolidated and labeled accurately.",
+      "evidence": [
+        "journeys/partner_admin/P-T16.json",
+        "journeys/partner_admin/P-T16.png"
+      ],
+      "result": "PASS",
+      "issue": null,
+      "checkpointCategory": "PASS",
+      "categoryNote": null,
+      "finalCandidateResult": "NOT_RUN"
+    },
+    {
+      "caseId": "P-T17",
+      "sourceLine": 1607,
+      "contract": [
+        "Copy participant link while program not live",
+        "No dead shareable link; clear reason."
+      ],
+      "actor": "partner_admin",
+      "actions": [
+        "Open confirmed but unpublished program dashboard"
+      ],
+      "observed": "No dead public link is offered; the genuine publication requirement has a direct contact action.",
+      "evidence": [
+        "journeys/partner_admin/P-T17.json",
+        "journeys/partner_admin/P-T17.png"
+      ],
+      "result": "PASS",
+      "issue": null,
+      "checkpointCategory": "PASS",
+      "categoryNote": null,
+      "finalCandidateResult": "NOT_RUN"
+    },
+    {
+      "caseId": "P-T18",
+      "sourceLine": 1608,
+      "contract": [
+        "Partner access-code create, disable, reactivate",
+        "Scoped, authorized, server receipt and no granted benefits before actual launch."
+      ],
+      "actor": "partner_admin",
+      "actions": [
+        "Create and disable partner-scoped code",
+        "Attempt reactivation before publication and observe accurate refusal",
+        "Complete authorized delegated publication",
+        "Reactivate code through its actual control",
+        "Read back active status and zero uses"
+      ],
+      "observed": "Code lifecycle respects actual publication: premature reactivation is refused; after authorized launch it succeeds without fabricating a redemption or funding.",
+      "evidence": [
+        "journeys/partner_admin/P-T18.json",
+        "journeys/partner_admin/P-T18.png"
+      ],
+      "result": "PASS",
+      "issue": null,
+      "checkpointCategory": "PASS",
+      "categoryNote": null,
+      "finalCandidateResult": "NOT_RUN"
+    },
+    {
+      "caseId": "P-T19",
+      "sourceLine": 1609,
+      "contract": [
+        "Attempt read another partner's program/participant activity",
+        "Denied at server, no private content in response or cache."
+      ],
+      "actor": "partner_admin",
+      "actions": [
+        "Attempt another program\u2019s protected workspace",
+        "Attempt changing the partner query parameter",
+        "Read authenticated program identity"
+      ],
+      "observed": "The server retains the signed-in tenant and refuses another program\u2019s internal data.",
+      "evidence": [
+        "journeys/partner_admin/P-T19.json",
+        "journeys/partner_admin/P-T19.png"
+      ],
+      "result": "PASS",
+      "issue": null,
+      "checkpointCategory": "PASS",
+      "categoryNote": null,
+      "finalCandidateResult": "NOT_RUN"
+    },
+    {
+      "caseId": "C-T01",
+      "sourceLine": 1615,
+      "contract": [
+        "Admin chooses a specific program and creates draft clinic",
+        "One draft event, correct timezone, inherited scope; no public activation."
+      ],
+      "actor": "clinic_admin",
+      "actions": [
+        "Fresh CA-only draft created through authorized controls; opening is unavailable until real staff and code prerequisites exist"
+      ],
+      "observed": "Fresh CA-only draft created through authorized controls; opening is unavailable until real staff and code prerequisites exist",
+      "evidence": [
+        "server/clinic-integration-development.json",
+        "journeys/clinic-integration/1.json",
+        "journeys/clinic-integration/1.png"
+      ],
+      "result": "PASS",
+      "issue": null,
+      "checkpointCategory": "PASS",
+      "categoryNote": null,
+      "finalCandidateResult": "NOT_RUN"
+    },
+    {
+      "caseId": "C-T02",
+      "sourceLine": 1616,
+      "contract": [
+        "Create with end before start or unsupported jurisdiction",
+        "Inline error, no event record."
+      ],
+      "actor": "clinic_admin",
+      "actions": [
+        "Submit end before start through creation form",
+        "Observe inline error",
+        "Check no event was inserted",
+        "Attempt a state outside parent scope"
+      ],
+      "observed": "Invalid date order and unauthorized jurisdiction are refused before an event is created.",
+      "evidence": [
+        "journeys/clinic_admin/C-T02.json",
+        "journeys/clinic_admin/C-T02.png"
+      ],
+      "result": "PASS",
+      "issue": null,
+      "checkpointCategory": "PASS",
+      "categoryNote": null,
+      "finalCandidateResult": "NOT_RUN"
+    },
+    {
+      "caseId": "C-T03",
+      "sourceLine": 1617,
+      "contract": [
+        "Multi-state parent, event selects one state",
+        "Event participant choices confined to that state."
+      ],
+      "actor": "clinic_admin",
+      "actions": [
+        "Fresh CA-only draft created through authorized controls; opening is unavailable until real staff and code prerequisites exist",
+        "Real code entry and verification email lead to participant consent; CA-only assistance starts and replays idempotently"
+      ],
+      "observed": "Fresh CA-only draft created through authorized controls; opening is unavailable until real staff and code prerequisites exist; Real code entry and verification email lead to participant consent; CA-only assistance starts and replays idempotently",
+      "evidence": [
+        "server/clinic-integration-development.json",
+        "journeys/clinic-integration/1.json",
+        "journeys/clinic-integration/1.png",
+        "journeys/clinic-integration/4.json",
+        "journeys/clinic-integration/4.png"
+      ],
+      "result": "PASS",
+      "issue": null,
+      "checkpointCategory": "PASS",
+      "categoryNote": null,
+      "finalCandidateResult": "NOT_RUN"
+    },
+    {
+      "caseId": "C-T04",
+      "sourceLine": 1618,
+      "contract": [
+        "Screening-only event leaves sponsorship allocation blank",
+        "Can create legitimate screening event without packet funding."
+      ],
+      "actor": "clinic_admin",
+      "actions": [
+        "Fresh CA-only draft created through authorized controls; opening is unavailable until real staff and code prerequisites exist"
+      ],
+      "observed": "Fresh CA-only draft created through authorized controls; opening is unavailable until real staff and code prerequisites exist",
+      "evidence": [
+        "server/clinic-integration-development.json",
+        "journeys/clinic-integration/1.json",
+        "journeys/clinic-integration/1.png"
+      ],
+      "result": "PASS",
+      "issue": null,
+      "checkpointCategory": "PASS",
+      "categoryNote": null,
+      "finalCandidateResult": "NOT_RUN"
+    },
+    {
+      "caseId": "C-T05",
+      "sourceLine": 1619,
+      "contract": [
+        "Save staff member with Assist only",
+        "Queue/reporting/follow-up routes denied without corresponding permission."
+      ],
+      "actor": "clinic_admin",
+      "actions": [
+        "Assist-only assignment does not grant queue, reporting, follow-up or event administration"
+      ],
+      "observed": "Assist-only assignment does not grant queue, reporting, follow-up or event administration",
+      "evidence": [
+        "server/clinic-integration-development.json",
+        "journeys/clinic-integration/2.json",
+        "journeys/clinic-integration/2.png"
+      ],
+      "result": "PASS",
+      "issue": null,
+      "checkpointCategory": "PASS",
+      "categoryNote": null,
+      "finalCandidateResult": "NOT_RUN"
+    },
+    {
+      "caseId": "C-T06",
+      "sourceLine": 1620,
+      "contract": [
+        "Suspend/revoke event staff",
+        "Immediate effect without removing underlying partner membership."
+      ],
+      "actor": "clinic_staff",
+      "actions": [
+        "Reporting contains aggregates; event-staff revocation immediately denies queue, reporting and follow-up without removing membership"
+      ],
+      "observed": "Reporting contains aggregates; event-staff revocation immediately denies queue, reporting and follow-up without removing membership",
+      "evidence": [
+        "server/clinic-queue-reset-development.json",
+        "journeys/clinic-queue-reset/3.json",
+        "journeys/clinic-queue-reset/3.png"
+      ],
+      "result": "PASS",
+      "issue": null,
+      "checkpointCategory": "PASS",
+      "categoryNote": null,
+      "finalCandidateResult": "NOT_RUN"
+    },
+    {
+      "caseId": "C-T07",
+      "sourceLine": 1621,
+      "contract": [
+        "Generate code with limited uses, schedule and expiry",
+        "Event-bound atomic redemption; raw secret shown only at permitted time."
+      ],
+      "actor": "clinic_admin",
+      "actions": [
+        "Event code revealed once; staff and code prerequisites resolve before real Open clinic",
+        "Real code entry and verification email lead to participant consent; CA-only assistance starts and replays idempotently"
+      ],
+      "observed": "Event code revealed once; staff and code prerequisites resolve before real Open clinic; Real code entry and verification email lead to participant consent; CA-only assistance starts and replays idempotently",
+      "evidence": [
+        "server/clinic-integration-development.json",
+        "journeys/clinic-integration/3.json",
+        "journeys/clinic-integration/3.png",
+        "journeys/clinic-integration/4.json",
+        "journeys/clinic-integration/4.png"
+      ],
+      "result": "PASS",
+      "issue": null,
+      "checkpointCategory": "PASS",
+      "categoryNote": null,
+      "finalCandidateResult": "NOT_RUN"
+    },
+    {
+      "caseId": "C-T08",
+      "sourceLine": 1622,
+      "contract": [
+        "Attempt code redemption while event draft/paused/closed",
+        "No participant benefit; code remains appropriately counted/not counted."
+      ],
+      "actor": "clinic_admin",
+      "actions": [
+        "Pause clinic through event controls",
+        "Open its public entry",
+        "Attempt the same entry mutation with an unspent code",
+        "Read redemption counts"
+      ],
+      "observed": "Paused clinics deny entry without consuming the valid code.",
+      "evidence": [
+        "journeys/clinic_admin/C-T08.json",
+        "journeys/clinic_admin/C-T08.png"
+      ],
+      "result": "PASS",
+      "issue": null,
+      "checkpointCategory": "PASS",
+      "categoryNote": null,
+      "finalCandidateResult": "NOT_RUN"
+    },
+    {
+      "caseId": "C-T09",
+      "sourceLine": 1623,
+      "contract": [
+        "Click **Open clinic** with valid event",
+        "Actual event publication and public entry route verified; no second administrative workflow."
+      ],
+      "actor": "clinic_admin",
+      "actions": [
+        "Event code revealed once; staff and code prerequisites resolve before real Open clinic"
+      ],
+      "observed": "Event code revealed once; staff and code prerequisites resolve before real Open clinic",
+      "evidence": [
+        "server/clinic-integration-development.json",
+        "journeys/clinic-integration/3.json",
+        "journeys/clinic-integration/3.png"
+      ],
+      "result": "PASS",
+      "issue": null,
+      "checkpointCategory": "PASS",
+      "categoryNote": null,
+      "finalCandidateResult": "NOT_RUN"
+    },
+    {
+      "caseId": "C-T10",
+      "sourceLine": 1624,
+      "contract": [
+        "Pause/resume/close/archive",
+        "Correct legal transitions, routes and audit, preserve participant-owned data."
+      ],
+      "actor": "clinic_admin",
+      "actions": [
+        "Pause event",
+        "Verify public entry denied",
+        "Resume and verify entry returns",
+        "Close and verify entry denied",
+        "Archive event",
+        "Read canonical lifecycle"
+      ],
+      "observed": "The complete lifecycle persists; closed or archived events cannot accept new participants.",
+      "evidence": [
+        "journeys/clinic_admin/C-T10.json",
+        "journeys/clinic_admin/C-T10.png"
+      ],
+      "result": "PASS",
+      "issue": null,
+      "checkpointCategory": "PASS",
+      "categoryNote": null,
+      "finalCandidateResult": "NOT_RUN"
+    },
+    {
+      "caseId": "C-T11",
+      "sourceLine": 1625,
+      "contract": [
+        "Staff sign in and open assigned event",
+        "Only actual queue/follow-up/report permission links displayed."
+      ],
+      "actor": "clinic_staff",
+      "actions": [
+        "Sign in as assigned staff with assistance only",
+        "Check absence of queue/report/follow-up",
+        "Grant those exact permissions through event controls",
+        "Follow each authorized link"
+      ],
+      "observed": "Staff navigation matches current event permissions and its destinations load under the authenticated assignment.",
+      "evidence": [
+        "journeys/clinic_staff/C-T11.json",
+        "journeys/clinic_staff/C-T11.png"
+      ],
+      "result": "PASS",
+      "issue": null,
+      "checkpointCategory": "PASS",
+      "categoryNote": null,
+      "finalCandidateResult": "NOT_RUN"
+    },
+    {
+      "caseId": "C-T12",
+      "sourceLine": 1626,
+      "contract": [
+        "Participant enters valid event access code",
+        "Event + program + jurisdiction + time/use cap validated."
+      ],
+      "actor": "clinic_admin",
+      "actions": [
+        "Real code entry and verification email lead to participant consent; CA-only assistance starts and replays idempotently"
+      ],
+      "observed": "Real code entry and verification email lead to participant consent; CA-only assistance starts and replays idempotently",
+      "evidence": [
+        "server/clinic-integration-development.json",
+        "journeys/clinic-integration/4.json",
+        "journeys/clinic-integration/4.png"
+      ],
+      "result": "PASS",
+      "issue": null,
+      "checkpointCategory": "PASS",
+      "categoryNote": null,
+      "finalCandidateResult": "NOT_RUN"
+    },
+    {
+      "caseId": "C-T13",
+      "sourceLine": 1627,
+      "contract": [
+        "Event code expired/exhausted/revoked",
+        "Safe precise error and no extra redemption."
+      ],
+      "actor": "participant",
+      "actions": [
+        "Enter the exhausted actual event code",
+        "Observe the server refusal and inline error"
+      ],
+      "observed": "The bounded event code cannot be redeemed again.",
+      "evidence": [
+        "journeys/participant/C-T13.json",
+        "journeys/participant/C-T13.png"
+      ],
+      "result": "PASS",
+      "issue": null,
+      "checkpointCategory": "PASS",
+      "categoryNote": null,
+      "finalCandidateResult": "NOT_RUN"
+    },
+    {
+      "caseId": "C-T14",
+      "sourceLine": 1628,
+      "contract": [
+        "Participant accepts assistance with approved staff",
+        "Actual time-limited consent grant recorded and binds actor+event+scope."
+      ],
+      "actor": "clinic_admin",
+      "actions": [
+        "Real code entry and verification email lead to participant consent; CA-only assistance starts and replays idempotently"
+      ],
+      "observed": "Real code entry and verification email lead to participant consent; CA-only assistance starts and replays idempotently",
+      "evidence": [
+        "server/clinic-integration-development.json",
+        "journeys/clinic-integration/4.json",
+        "journeys/clinic-integration/4.png"
+      ],
+      "result": "PASS",
+      "issue": null,
+      "checkpointCategory": "PASS",
+      "categoryNote": null,
+      "finalCandidateResult": "NOT_RUN"
+    },
+    {
+      "caseId": "C-T15",
+      "sourceLine": 1629,
+      "contract": [
+        "Participant refuses assistance",
+        "No staff access; unassisted path only if allowed."
+      ],
+      "actor": "participant",
+      "actions": [
+        "Leave assistance consent unchecked",
+        "Attempt Start screening",
+        "Observe required consent without server mutation",
+        "Attempt forged missing-consent request"
+      ],
+      "observed": "Declining consent grants no staff assistance; the shared-device End clinic session action remains available.",
+      "evidence": [
+        "journeys/participant/C-T15.json",
+        "journeys/participant/C-T15.png"
+      ],
+      "result": "PASS",
+      "issue": null,
+      "checkpointCategory": "PASS",
+      "categoryNote": null,
+      "finalCandidateResult": "NOT_RUN"
+    },
+    {
+      "caseId": "C-T16",
+      "sourceLine": 1630,
+      "contract": [
+        "Attempt selecting another program state not in event",
+        "Both UI and protected backend reject."
+      ],
+      "actor": "participant",
+      "actions": [
+        "Read event-fixed California scope",
+        "Attempt Virginia assistance despite parent multistate authority"
+      ],
+      "observed": "Event scope remains California. Another parent-program state cannot be used to start this event\u2019s assisted session.",
+      "evidence": [
+        "journeys/participant/C-T16.json",
+        "journeys/participant/C-T16.png"
+      ],
+      "result": "PASS",
+      "issue": null,
+      "checkpointCategory": "PASS",
+      "categoryNote": null,
+      "finalCandidateResult": "NOT_RUN"
+    },
+    {
+      "caseId": "C-T17",
+      "sourceLine": 1631,
+      "contract": [
+        "Staff updates case queue status while permitted",
+        "Event-scoped readback; status cannot create verification/packet entitlement."
+      ],
+      "actor": "clinic_admin",
+      "actions": [
+        "Queue shows actual participant case; attorney review persists; forged packet preparation is denied"
+      ],
+      "observed": "Queue shows actual participant case; attorney review persists; forged packet preparation is denied",
+      "evidence": [
+        "server/clinic-integration-development.json",
+        "journeys/clinic-integration/5.json",
+        "journeys/clinic-integration/5.png"
+      ],
+      "result": "PASS",
+      "issue": null,
+      "checkpointCategory": "PASS",
+      "categoryNote": null,
+      "finalCandidateResult": "NOT_RUN"
+    },
+    {
+      "caseId": "C-T18",
+      "sourceLine": 1632,
+      "contract": [
+        "Staff requests attorney review",
+        "Correct self-help stop and safe handoff; no unauthorized advice."
+      ],
+      "actor": "clinic_admin",
+      "actions": [
+        "Queue shows actual participant case; attorney review persists; forged packet preparation is denied"
+      ],
+      "observed": "Queue shows actual participant case; attorney review persists; forged packet preparation is denied",
+      "evidence": [
+        "server/clinic-integration-development.json",
+        "journeys/clinic-integration/5.json",
+        "journeys/clinic-integration/5.png"
+      ],
+      "result": "PASS",
+      "issue": null,
+      "checkpointCategory": "PASS",
+      "categoryNote": null,
+      "finalCandidateResult": "NOT_RUN"
+    },
+    {
+      "caseId": "C-T19",
+      "sourceLine": 1633,
+      "contract": [
+        "Schedule participant-safe follow-up, then Mark completed",
+        "Consent/assignment enforced; saving is not sending a message; audit retained."
+      ],
+      "actor": "clinic_staff",
+      "actions": [
+        "Follow-up-only permission works independently of queue; actual draft/replay produces one record; completion persists and never claims a message was sent"
+      ],
+      "observed": "Follow-up-only permission works independently of queue; actual draft/replay produces one record; completion persists and never claims a message was sent",
+      "evidence": [
+        "server/clinic-queue-reset-development.json",
+        "journeys/clinic-queue-reset/2.json",
+        "journeys/clinic-queue-reset/2.png"
+      ],
+      "result": "PASS",
+      "issue": null,
+      "checkpointCategory": "PASS",
+      "categoryNote": null,
+      "finalCandidateResult": "NOT_RUN"
+    },
+    {
+      "caseId": "C-T20",
+      "sourceLine": 1634,
+      "contract": [
+        "Open reporting as staff with/without right",
+        "Authorized aggregate counts only; denied without role."
+      ],
+      "actor": "clinic_staff",
+      "actions": [
+        "Reporting contains aggregates; event-staff revocation immediately denies queue, reporting and follow-up without removing membership"
+      ],
+      "observed": "Reporting contains aggregates; event-staff revocation immediately denies queue, reporting and follow-up without removing membership",
+      "evidence": [
+        "server/clinic-queue-reset-development.json",
+        "journeys/clinic-queue-reset/3.json",
+        "journeys/clinic-queue-reset/3.png"
+      ],
+      "result": "PASS",
+      "issue": null,
+      "checkpointCategory": "PASS",
+      "categoryNote": null,
+      "finalCandidateResult": "NOT_RUN"
+    },
+    {
+      "caseId": "C-T21",
+      "sourceLine": 1635,
+      "contract": [
+        "Reset shared device after participant A, log in participant B",
+        "No prior identity, answers, matter, documents, downloads or Back/Forward recovery."
+      ],
+      "actor": "clinic_staff",
+      "actions": [
+        "Interrupted reset stays locked; authenticated retry revokes assistance and clears device state; Back and staff follow-up cannot recover the previous participant",
+        "Participant B signs in on the reset device with fresh consent and unanswered screening; staff sees only the new authorized case; B also resets cleanly"
+      ],
+      "observed": "Interrupted reset stays locked; authenticated retry revokes assistance and clears device state; Back and staff follow-up cannot recover the previous participant; Participant B signs in on the reset device with fresh consent and unanswered screening; staff sees only the new authorized case; B also resets cleanly",
+      "evidence": [
+        "server/clinic-queue-reset-development.json",
+        "journeys/clinic-queue-reset/4.json",
+        "journeys/clinic-queue-reset/4.png",
+        "journeys/clinic-queue-reset/5.json",
+        "journeys/clinic-queue-reset/5.png"
+      ],
+      "result": "PASS",
+      "issue": null,
+      "checkpointCategory": "PASS",
+      "categoryNote": null,
+      "finalCandidateResult": "NOT_RUN"
+    },
+    {
+      "caseId": "C-T22",
+      "sourceLine": 1636,
+      "contract": [
+        "Interrupt reset and trigger recovery",
+        "Locked device until actual server revocation verified."
+      ],
+      "actor": "clinic_staff",
+      "actions": [
+        "Interrupted reset stays locked; authenticated retry revokes assistance and clears device state; Back and staff follow-up cannot recover the previous participant"
+      ],
+      "observed": "Interrupted reset stays locked; authenticated retry revokes assistance and clears device state; Back and staff follow-up cannot recover the previous participant",
+      "evidence": [
+        "server/clinic-queue-reset-development.json",
+        "journeys/clinic-queue-reset/4.json",
+        "journeys/clinic-queue-reset/4.png"
+      ],
+      "result": "PASS",
+      "issue": null,
+      "checkpointCategory": "PASS",
+      "categoryNote": null,
+      "finalCandidateResult": "NOT_RUN"
+    },
+    {
+      "caseId": "C-T23",
+      "sourceLine": 1637,
+      "contract": [
+        "Legal-aid event explicitly chooses registration mode",
+        "Registration/waitlist/Application routes work; standard RCAP event-code flow not mixed in."
+      ],
+      "actor": "clinic_admin",
+      "actions": [
+        "Inspect standard RCAP event for specialized mode controls",
+        "Attempt direct protected legal-aid setup",
+        "Read event mode"
+      ],
+      "observed": "This standard RCAP program does not advertise legal-aid registration; protected setup is unavailable without its separate policy profile.",
+      "evidence": [
+        "journeys/clinic_admin/C-T23.json",
+        "journeys/clinic_admin/C-T23.png"
+      ],
+      "result": "CONDITIONAL_NOT_OFFERED",
+      "issue": "This standard RCAP program does not advertise legal-aid registration; protected setup is unavailable without its separate policy profile.",
+      "checkpointCategory": "NOT_RUN",
+      "categoryNote": "Positive specialized legal-aid journey not offered; protected non-exposure was verified.",
+      "finalCandidateResult": "NOT_RUN"
+    },
+    {
+      "caseId": "U-T01",
+      "sourceLine": 1643,
+      "contract": [
+        "Open live partner page in English/Espa\u00f1ol",
+        "Both approved copy variants accurate; authorized jurisdictions and actual support."
+      ],
+      "actor": "participant",
+      "actions": [
+        "Open actually published bilingual program on mobile WebKit",
+        "Switch Espa\u00f1ol and English",
+        "Read approved California scope and support contact"
+      ],
+      "observed": "Published bilingual content is immediately usable and reflects the current reviewed Page and exact California screening boundary.",
+      "evidence": [
+        "journeys/participant/U-T01.json",
+        "journeys/participant/U-T01.png"
+      ],
+      "result": "PASS",
+      "issue": null,
+      "checkpointCategory": "PASS",
+      "categoryNote": null,
+      "finalCandidateResult": "NOT_RUN"
+    },
+    {
+      "caseId": "U-T02",
+      "sourceLine": 1644,
+      "contract": [
+        "Try public unpublished/draft/paused partner slug",
+        "No enabled new screening, no internal data leaked."
+      ],
+      "actor": "participant",
+      "actions": [
+        "Open unpublished draft public page",
+        "Attempt direct intake for that draft"
+      ],
+      "observed": "Unpublished program entry is denied without exposing configuration or offering a screening start.",
+      "evidence": [
+        "journeys/participant/U-T02.json",
+        "journeys/participant/U-T02.png"
+      ],
+      "result": "PASS",
+      "issue": null,
+      "checkpointCategory": "PASS",
+      "categoryNote": null,
+      "finalCandidateResult": "NOT_RUN"
+    },
+    {
+      "caseId": "U-T03",
+      "sourceLine": 1645,
+      "contract": [
+        "Open multistate partner intake",
+        "State picker only has actual approved set."
+      ],
+      "actor": "participant",
+      "actions": [
+        "Follow published Start free screening",
+        "Open jurisdiction picker"
+      ],
+      "observed": "Participant selection contains only the actual CA, DC and VA program scope.",
+      "evidence": [
+        "journeys/participant/U-T03.json",
+        "journeys/participant/U-T03.png"
+      ],
+      "result": "PASS",
+      "issue": null,
+      "checkpointCategory": "PASS",
+      "categoryNote": null,
+      "finalCandidateResult": "NOT_RUN"
+    },
+    {
+      "caseId": "U-T04",
+      "sourceLine": 1646,
+      "contract": [
+        "Supply unauthorized state in query/server POST",
+        "Database claim denies RCAP benefit even if UI bypassed."
+      ],
+      "actor": "participant",
+      "actions": [
+        "Attempt unsupported Texas URL",
+        "Forge the actual intake form request with Texas and a fresh request ID",
+        "Read absence of a Texas screening claim"
+      ],
+      "observed": "Bypassing the displayed state picker cannot create a program-attributed screening in an unauthorized state.",
+      "evidence": [
+        "journeys/participant/U-T04.json",
+        "journeys/participant/U-T04.png"
+      ],
+      "result": "PASS",
+      "issue": null,
+      "checkpointCategory": "PASS",
+      "categoryNote": null,
+      "finalCandidateResult": "NOT_RUN"
+    },
+    {
+      "caseId": "U-T05",
+      "sourceLine": 1647,
+      "contract": [
+        "Supply valid partner access code",
+        "Atomic bounded claim and attribution."
+      ],
+      "actor": "participant",
+      "actions": [
+        "Code creation and copy preserve actual publication state; identical retry reads one code; narrow-screen layout fits and refresh drops raw code",
+        "Disabled code blocks real intake without use; scoped reactivation allows CA screening; exact request replay consumes one use and creates one temporary session",
+        "Spanish code failure and its direct consumer alternative remain usable at 375 CSS pixels",
+        "Original open-access fixture restored through canonical Save, current-material confirmation and protected launch"
+      ],
+      "observed": "The actual code entry creates one scoped screening session; repeating the captured request consumes exactly one redemption.",
+      "evidence": [
+        "journeys/participant/U-T05_U-T06.json",
+        "journeys/participant/U-T05_U-T06.png"
+      ],
+      "result": "PASS",
+      "issue": null,
+      "checkpointCategory": "PASS",
+      "categoryNote": null,
+      "finalCandidateResult": "NOT_RUN"
+    },
+    {
+      "caseId": "U-T06",
+      "sourceLine": 1648,
+      "contract": [
+        "Retry identical code claim",
+        "One redemption and one screening session, not double used capacity."
+      ],
+      "actor": "participant",
+      "actions": [
+        "Code creation and copy preserve actual publication state; identical retry reads one code; narrow-screen layout fits and refresh drops raw code",
+        "Disabled code blocks real intake without use; scoped reactivation allows CA screening; exact request replay consumes one use and creates one temporary session",
+        "Spanish code failure and its direct consumer alternative remain usable at 375 CSS pixels",
+        "Original open-access fixture restored through canonical Save, current-material confirmation and protected launch"
+      ],
+      "observed": "The actual code entry creates one scoped screening session; repeating the captured request consumes exactly one redemption.",
+      "evidence": [
+        "journeys/participant/U-T05_U-T06.json",
+        "journeys/participant/U-T05_U-T06.png"
+      ],
+      "result": "PASS",
+      "issue": null,
+      "checkpointCategory": "PASS",
+      "categoryNote": null,
+      "finalCandidateResult": "NOT_RUN"
+    },
+    {
+      "caseId": "U-T07",
+      "sourceLine": 1649,
+      "contract": [
+        "Start anonymous screening, complete legal questions",
+        "State-specific preliminary result; no durable matter or payment."
+      ],
+      "actor": "participant",
+      "actions": [
+        "Open published MS program",
+        "Start anonymous screening",
+        "Answer each actual MS question"
+      ],
+      "observed": "Anonymous preliminary result completes without a durable matter or a financial request.",
+      "evidence": [
+        "journeys/participant/U-T07.json",
+        "journeys/participant/U-T07.png"
+      ],
+      "result": "PASS",
+      "issue": null,
+      "checkpointCategory": "PASS",
+      "categoryNote": null,
+      "finalCandidateResult": "NOT_RUN"
+    },
+    {
+      "caseId": "U-T08",
+      "sourceLine": 1650,
+      "contract": [
+        "Save preliminary result \u2192 create account",
+        "Auth continuation returns exact pending result, not generic dashboard."
+      ],
+      "actor": "participant",
+      "actions": [
+        "Complete actual anonymous screening",
+        "Save exact preliminary result",
+        "Interrupt and resume authentication",
+        "Create account and open actual verification email",
+        "Replay exact result claim",
+        "Refresh authenticated matter and verify server owner"
+      ],
+      "observed": "The browser journey and canonical readback agree: actual verified account creation recovers one exact pending result after interrupted authentication.",
+      "evidence": [
+        "journeys/participant/U-T08_U-T10.json",
+        "journeys/participant/U-T08_U-T10.png"
+      ],
+      "result": "PASS",
+      "issue": null,
+      "checkpointCategory": "PASS",
+      "categoryNote": null,
+      "finalCandidateResult": "NOT_RUN"
+    },
+    {
+      "caseId": "U-T09",
+      "sourceLine": 1651,
+      "contract": [
+        "Save preliminary result \u2192 sign in, verify account",
+        "Same exact pending result recovered."
+      ],
+      "actor": "participant",
+      "actions": [
+        "Save preliminary result",
+        "Sign in with verified existing participant",
+        "Retry exact claim",
+        "Refresh owned matter"
+      ],
+      "observed": "Authentication returns to the exact pending result; one owned matter survives retry and refresh.",
+      "evidence": [
+        "journeys/participant/U-T09_U-T11.json",
+        "journeys/participant/U-T09_U-T11.png"
+      ],
+      "result": "PASS",
+      "issue": null,
+      "checkpointCategory": "PASS",
+      "categoryNote": null,
+      "finalCandidateResult": "NOT_RUN"
+    },
+    {
+      "caseId": "U-T10",
+      "sourceLine": 1652,
+      "contract": [
+        "Interrupt auth or password reset",
+        "Resume exact claim or safely expire with clear explanation."
+      ],
+      "actor": "participant",
+      "actions": [
+        "Complete actual anonymous screening",
+        "Save exact preliminary result",
+        "Interrupt and resume authentication",
+        "Create account and open actual verification email",
+        "Replay exact result claim",
+        "Refresh authenticated matter and verify server owner"
+      ],
+      "observed": "The browser journey and canonical readback agree: actual verified account creation recovers one exact pending result after interrupted authentication.",
+      "evidence": [
+        "journeys/participant/U-T08_U-T10.json",
+        "journeys/participant/U-T08_U-T10.png"
+      ],
+      "result": "PASS",
+      "issue": null,
+      "checkpointCategory": "PASS",
+      "categoryNote": null,
+      "finalCandidateResult": "NOT_RUN"
+    },
+    {
+      "caseId": "U-T11",
+      "sourceLine": 1653,
+      "contract": [
+        "Double submit claim and use another browser tab",
+        "One owned matter and Briefcase entry."
+      ],
+      "actor": "participant",
+      "actions": [
+        "Save preliminary result",
+        "Sign in with verified existing participant",
+        "Retry exact claim",
+        "Refresh owned matter"
+      ],
+      "observed": "Authentication returns to the exact pending result; one owned matter survives retry and refresh.",
+      "evidence": [
+        "journeys/participant/U-T09_U-T11.json",
+        "journeys/participant/U-T09_U-T11.png"
+      ],
+      "result": "PASS",
+      "issue": null,
+      "checkpointCategory": "PASS",
+      "categoryNote": null,
+      "finalCandidateResult": "NOT_RUN"
+    },
+    {
+      "caseId": "U-T12",
+      "sourceLine": 1654,
+      "contract": [
+        "User B attempts User A matter",
+        "Denied; no metadata/file leakage."
+      ],
+      "actor": "participant",
+      "actions": [
+        "Sign in as a different verified participant",
+        "Open another participant\u2019s matter",
+        "Attempt its private download"
+      ],
+      "observed": "The other account cannot read matter details or download its artifact.",
+      "evidence": [
+        "journeys/participant/U-T12.json",
+        "journeys/participant/U-T12.png"
+      ],
+      "result": "PASS",
+      "issue": null,
+      "checkpointCategory": "PASS",
+      "categoryNote": null,
+      "finalCandidateResult": "NOT_RUN"
+    },
+    {
+      "caseId": "U-T13",
+      "sourceLine": 1655,
+      "contract": [
+        "Complete packet information and Review & Edit",
+        "Canonical facts, no duplicate fact model, source-aware validation."
+      ],
+      "actor": "participant",
+      "actions": [
+        "Open packet information from owned matter",
+        "Complete real canonical section controls",
+        "Save each section",
+        "Open Review & Edit"
+      ],
+      "observed": "Supported MS packet facts save and read back through the participant builder and review.",
+      "evidence": [
+        "journeys/participant/U-T13.json",
+        "journeys/participant/U-T13.png"
+      ],
+      "result": "PASS",
+      "issue": null,
+      "checkpointCategory": "PASS",
+      "categoryNote": null,
+      "finalCandidateResult": "NOT_RUN"
+    },
+    {
+      "caseId": "U-T14",
+      "sourceLine": 1656,
+      "contract": [
+        "Change material fact after verification",
+        "Correctly invalidates stale verification/render entitlement."
+      ],
+      "actor": "participant",
+      "actions": [
+        "Edit case number through Review & Edit",
+        "Save the actual packet field",
+        "Read invalidated verification",
+        "Attempt stale render"
+      ],
+      "observed": "Changing packet facts invalidates verification and prevents stale generation while preserving the exact existing payment.",
+      "evidence": [
+        "journeys/participant/U-T14.json",
+        "journeys/participant/U-T14.png"
+      ],
+      "result": "PASS",
+      "issue": null,
+      "checkpointCategory": "PASS",
+      "categoryNote": null,
+      "finalCandidateResult": "NOT_RUN"
+    },
+    {
+      "caseId": "U-T15",
+      "sourceLine": 1657,
+      "contract": [
+        "Contested/prosecutor opposition or unsupported case",
+        "Self-help stops and lawful help guidance, no generated unsupported filing."
+      ],
+      "actor": "participant",
+      "actions": [
+        "Open actual published CA screening on mobile WebKit",
+        "Identify the record as federal",
+        "Continue through real scope controls",
+        "Inspect stop guidance and absence of payment/generation"
+      ],
+      "observed": "Unsupported federal scope stops the state self-help flow without a generated filing, payment or durable anonymous matter.",
+      "evidence": [
+        "journeys/participant/U-T15.json",
+        "journeys/participant/U-T15.png"
+      ],
+      "result": "PASS",
+      "issue": null,
+      "checkpointCategory": "PASS",
+      "categoryNote": null,
+      "finalCandidateResult": "NOT_RUN"
+    },
+    {
+      "caseId": "U-T16",
+      "sourceLine": 1658,
+      "contract": [
+        "Screening-only program participant explores packet",
+        "Screening available, no fabricated sponsored entitlement or forced program funding."
+      ],
+      "actor": "participant",
+      "actions": [
+        "Open owned screening-only matter",
+        "Follow Complete packet information",
+        "Inspect current services and payment state",
+        "Attempt generation without verified facts or funded authority",
+        "Read unchanged financial state"
+      ],
+      "observed": "Free screening and saved facts remain usable without packet sponsorship. Exploring packet information grants neither funding nor generation.",
+      "evidence": [
+        "journeys/participant/U-T16.json",
+        "journeys/participant/U-T16.png"
+      ],
+      "result": "PASS",
+      "issue": null,
+      "checkpointCategory": "PASS",
+      "categoryNote": null,
+      "finalCandidateResult": "NOT_RUN"
+    },
+    {
+      "caseId": "U-T17",
+      "sourceLine": 1659,
+      "contract": [
+        "Authenticated matter verified and genuinely funded",
+        "Sponsored packet CTA bound to exact matter with one ledger consumption on first success."
+      ],
+      "actor": "admin",
+      "actions": [
+        "Inspect isolated allocation provenance",
+        "Open actual scoped funding controls",
+        "Confirm there is no reviewed funded allocation for the program"
+      ],
+      "observed": "The isolated database contains only explicitly synthetic sponsored-authority fixtures, not a reviewed funded test allocation. A positive sponsored packet/ledger claim would misrepresent that evidence. No allocation, payment or signature was manufactured.",
+      "evidence": [
+        "journeys/admin/U-T17.json",
+        "journeys/admin/U-T17.png"
+      ],
+      "result": "BLOCKED",
+      "issue": "The isolated database contains only explicitly synthetic sponsored-authority fixtures, not a reviewed funded test allocation. A positive sponsored packet/ledger claim would misrepresent that evidence. No allocation, payment or signature was manufactured.",
+      "checkpointCategory": "BLOCKED",
+      "categoryNote": null,
+      "finalCandidateResult": "NOT_RUN"
+    },
+    {
+      "caseId": "U-T18",
+      "sourceLine": 1660,
+      "contract": [
+        "Consumer-paid case verified ready",
+        "$50 Checkout only at correct stage, one matching matter/payment; no prepayment form collection."
+      ],
+      "actor": "participant",
+      "actions": [
+        "Verify owned packet facts",
+        "Click Pay $50 and generate my packet",
+        "Complete actual Stripe test Checkout",
+        "Read actual provider settlement",
+        "Deliver actual event through signed isolated webhook",
+        "Replay the same provider event",
+        "Return to owned matter"
+      ],
+      "observed": "Stripe confirms one $50 test purchase; the protected webhook records it once and rejects an invalid signature.",
+      "evidence": [
+        "journeys/participant/U-T18_U-T19.json",
+        "journeys/participant/U-T18_U-T19.png"
+      ],
+      "result": "PASS",
+      "issue": null,
+      "checkpointCategory": "PASS",
+      "categoryNote": null,
+      "finalCandidateResult": "NOT_RUN"
+    },
+    {
+      "caseId": "U-T19",
+      "sourceLine": 1661,
+      "contract": [
+        "Retry completed payment return/webhook",
+        "No double payment or second entitlement."
+      ],
+      "actor": "participant",
+      "actions": [
+        "Verify owned packet facts",
+        "Click Pay $50 and generate my packet",
+        "Complete actual Stripe test Checkout",
+        "Read actual provider settlement",
+        "Deliver actual event through signed isolated webhook",
+        "Replay the same provider event",
+        "Return to owned matter"
+      ],
+      "observed": "Stripe confirms one $50 test purchase; the protected webhook records it once and rejects an invalid signature.",
+      "evidence": [
+        "journeys/participant/U-T18_U-T19.json",
+        "journeys/participant/U-T18_U-T19.png"
+      ],
+      "result": "PASS",
+      "issue": null,
+      "checkpointCategory": "PASS",
+      "categoryNote": null,
+      "finalCandidateResult": "NOT_RUN"
+    },
+    {
+      "caseId": "U-T20",
+      "sourceLine": 1662,
+      "contract": [
+        "Renderer fails after payment/entitlement",
+        "Preserved paid/granted status, idempotent retry and no second charge/credit."
+      ],
+      "actor": "participant",
+      "actions": [
+        "Recover the existing failed paid job through Retry packet preparation",
+        "Real worker renders and finalizes the same job after backoff",
+        "Browser polling automatically displays its download (prior capture)",
+        "Refresh the completed matter"
+      ],
+      "observed": "The same failed job recovered on attempt two, with a validated private PDF, automatic browser refresh and the original payment preserved.",
+      "evidence": [
+        "journeys/participant/U-T20.json",
+        "journeys/participant/U-T20.png"
+      ],
+      "result": "PASS",
+      "issue": null,
+      "checkpointCategory": "PASS",
+      "categoryNote": null,
+      "finalCandidateResult": "NOT_RUN"
+    },
+    {
+      "caseId": "U-T21",
+      "sourceLine": 1663,
+      "contract": [
+        "Open/download packet",
+        "Owner revalidated and private short-lived artifact only."
+      ],
+      "actor": "participant",
+      "actions": [
+        "Return to owned paid matter",
+        "Download through visible packet link",
+        "Validate PDF bytes against stored output hash",
+        "Refresh matter"
+      ],
+      "observed": "The real worker PDF is available only through authenticated owner delivery with no-store caching.",
+      "evidence": [
+        "journeys/participant/U-T21.json",
+        "journeys/participant/U-T21.png"
+      ],
+      "result": "PASS",
+      "issue": null,
+      "checkpointCategory": "PASS",
+      "categoryNote": null,
+      "finalCandidateResult": "NOT_RUN"
+    },
+    {
+      "caseId": "U-T22",
+      "sourceLine": 1664,
+      "contract": [
+        "Participant revokes Clinic consent",
+        "Staff immediately loses future authorized views/writes, Briefcase remains theirs."
+      ],
+      "actor": "clinic_staff",
+      "actions": [
+        "Interrupted reset stays locked; authenticated retry revokes assistance and clears device state; Back and staff follow-up cannot recover the previous participant"
+      ],
+      "observed": "Interrupted reset stays locked; authenticated retry revokes assistance and clears device state; Back and staff follow-up cannot recover the previous participant",
+      "evidence": [
+        "server/clinic-queue-reset-development.json",
+        "journeys/clinic-queue-reset/4.json",
+        "journeys/clinic-queue-reset/4.png"
+      ],
+      "result": "PASS",
+      "issue": null,
+      "checkpointCategory": "PASS",
+      "categoryNote": null,
+      "finalCandidateResult": "NOT_RUN"
+    },
+    {
+      "caseId": "U-T23",
+      "sourceLine": 1665,
+      "contract": [
+        "Participant uses same device following reset",
+        "Zero prior participant state, including Back cache/download preview."
+      ],
+      "actor": "clinic_staff",
+      "actions": [
+        "Interrupted reset stays locked; authenticated retry revokes assistance and clears device state; Back and staff follow-up cannot recover the previous participant",
+        "Participant B signs in on the reset device with fresh consent and unanswered screening; staff sees only the new authorized case; B also resets cleanly"
+      ],
+      "observed": "Interrupted reset stays locked; authenticated retry revokes assistance and clears device state; Back and staff follow-up cannot recover the previous participant; Participant B signs in on the reset device with fresh consent and unanswered screening; staff sees only the new authorized case; B also resets cleanly",
+      "evidence": [
+        "server/clinic-queue-reset-development.json",
+        "journeys/clinic-queue-reset/4.json",
+        "journeys/clinic-queue-reset/4.png",
+        "journeys/clinic-queue-reset/5.json",
+        "journeys/clinic-queue-reset/5.png"
+      ],
+      "result": "PASS",
+      "issue": null,
+      "checkpointCategory": "PASS",
+      "categoryNote": null,
+      "finalCandidateResult": "NOT_RUN"
+    }
+  ]
+}

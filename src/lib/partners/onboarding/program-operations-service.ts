@@ -25,7 +25,7 @@ export async function getProgramOperations(context:InternalOnboardingContext){
  const db=getSupabaseAdminClient()!;
  const [history,exceptionHistory]=await Promise.all([
   recoverWorkspaceLoad("operations.decisions","partner_onboarding_launch_approvals.read","Authorization history is unavailable. Reload to retry.",async()=>{
-   const result=await db.from("partner_onboarding_launch_approvals").select("id,approval_type,decision,recorded_at,policy_details").eq("workspace_id",identity.workspaceId).order("recorded_at",{ascending:false}).limit(30);
+   const result=await db.from("partner_onboarding_launch_approvals").select("id,approval_type,decision,recorded_at,reviewer_user_id,invalidated_at,policy_details").eq("workspace_id",identity.workspaceId).order("recorded_at",{ascending:false}).limit(30);
    if(result.error)throw workspaceReadError("partner_onboarding_launch_approvals.read",result.error,"Authorization history is unavailable.");return result.data??[];
   }),
   recoverWorkspaceLoad("operations.exceptions","rcap_launch_exception_events.read","Exception history is unavailable. Reload to retry.",async()=>{

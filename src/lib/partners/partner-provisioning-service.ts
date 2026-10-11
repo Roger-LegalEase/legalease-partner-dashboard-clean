@@ -2,6 +2,8 @@ import "server-only";
 
 import { createHash } from "node:crypto";
 import { getSupabaseAdminClient } from "@/lib/supabase/server";
+import { STANDARD_PROGRAM_COPY, programServiceArea } from "./onboarding/program-defaults";
+import { getPartnerSupportContact } from "./onboarding/support-contact";
 import {
   PARTNER_PROVISIONING_SCHEMA_VERSION,
   validatePartnerProvisioningInput,
@@ -118,8 +120,9 @@ export async function provisionPartner(input: {
     p_clearance_reason: value.clearanceReason,
     p_actor_user_id: input.operatorUserId,
     p_request_id: value.idempotencyKey,
-    p_schema_version: PARTNER_PROVISIONING_SCHEMA_VERSION,
-    p_payload_hash: provisioningPayloadHash(value)
+    p_schema_version: value.operatingModel ? "rcap-program-provisioning-v2" : PARTNER_PROVISIONING_SCHEMA_VERSION,
+    p_payload_hash: provisioningPayloadHash(value),
+    ...(value.operatingModel ? { p_configuration: initialProgramConfiguration(value) } : {})
   });
   if (error) throw provisioningError(error);
 
@@ -127,7 +130,7 @@ export async function provisionPartner(input: {
   if (!row) {
     throw new PartnerProvisioningError(
       "write_failed",
-      "Provisioning did not return a result. Nothing was created."
+      "Creation did not return a result. Retry this same request to check its original outcome."
     );
   }
 
@@ -326,11 +329,25 @@ export function provisioningPayloadHash(
         value.programName,
         value.programPurpose,
         value.administratorName,
-        value.administratorEmail
+        value.administratorEmail,
+        ...(value.operatingModel ? [value.clearanceReason, value.operatingModel, value.jurisdictions, value.enableSpanish, value.website, value.template] : [])
       ]),
       "utf8"
     )
     .digest("hex");
+}
+
+function initialProgramConfiguration(value: ValidPartnerProvisioningInput) {
+  const managed = value.operatingModel === "legalease_managed";
+  const data = {
+    organization_contacts: { legal_organization_name: value.legalOrganizationName, public_organization_name: value.organizationName, public_program_name: value.programName, website: value.website ?? "" },
+    program_goals: { operating_model: value.operatingModel, participation_mode: "online", service_mode: "screening_only", target_population: STANDARD_PROGRAM_COPY.targetAudience[0], ...(managed ? { external_agreement_applicability: "not_applicable", operator_authority_reference: "LegalEase operates this program under its own internal business and publication authority." } : {}) },
+    geography_audience_language_accessibility: { jurisdictions: value.jurisdictions, service_area_description: programServiceArea(value.jurisdictions ?? []), primary_language: "English", enable_spanish: value.enableSpanish },
+    access_sponsorship_capacity: { participant_access_model: "open" },
+    support_referrals_reporting: { participant_support_email: getPartnerSupportContact().email, referral_arrangement: "no_referrals", contested_matter_procedure: "Stop the self-help process for prosecutor objections, contested hearings, or requests for individualized representation. Notify the participant and contact LegalEase support for the appropriate next step. LegalEase does not provide representation." },
+    brand_public_page: { program_headline: STANDARD_PROGRAM_COPY.headline[0], program_subheadline: STANDARD_PROGRAM_COPY.subheadline[0], approved_organization_description: `A record-clearing access program from ${value.organizationName}.`, primary_cta_label: STANDARD_PROGRAM_COPY.primaryActionLabel[0], participant_support_copy: STANDARD_PROGRAM_COPY.participantSupportCopy[0] }
+  };
+  return { template: value.template, patches: Object.entries(data).map(([section, values]) => ({ section, values })) };
 }
 
 function admin(): SupabaseAdmin {
@@ -385,7 +402,7 @@ function provisioningError(error: {
   }
   return new PartnerProvisioningError(
     "write_failed",
-    "Provisioning did not complete. Nothing was created."
+    "Creation could not be confirmed. Retry this same request to check its original outcome."
   );
 }
 

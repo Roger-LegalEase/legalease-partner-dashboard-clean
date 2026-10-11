@@ -16,7 +16,7 @@ const helpTopics = [
 export default async function ExpungementAiSupportPage({
   searchParams
 }: {
-  searchParams?: Promise<{ briefcaseItemId?: string | string[] }>;
+  searchParams?: Promise<{ briefcaseItemId?: string | string[]; category?: string | string[] }>;
 }) {
   const params = (await searchParams) ?? {};
   const briefcaseItemId = Array.isArray(params.briefcaseItemId) ? params.briefcaseItemId[0] : params.briefcaseItemId;
@@ -26,7 +26,7 @@ export default async function ExpungementAiSupportPage({
       <section className="mx-auto max-w-6xl px-4 pb-16 pt-32 md:px-8">
         <div className="grid gap-6 lg:grid-cols-[0.95fr_1.05fr]">
           <div>
-            <p className="text-xs font-bold uppercase text-[#00A99D]">Technical support</p>
+            <p className="text-xs font-bold uppercase text-[#08786F]">Technical support</p>
             <h1 className="mt-3 text-4xl font-extrabold">What do you need help with?</h1>
             <p className="mt-4 text-sm leading-6 text-[#5A6275]">
               Your request will be routed to the LegalEase support team. Support can help with account, payment, receipt, packet access, Briefcase, and technical issues.
@@ -50,7 +50,7 @@ export default async function ExpungementAiSupportPage({
               <Link className="mt-4 inline-flex min-h-10 items-center rounded-md border border-[#D9DEE8] px-4 text-sm font-bold" href="/expungement-ai/contact">Contact page</Link>
             </div>
           </div>
-          <SupportRequestForm briefcaseItemId={briefcaseItemId} routeSubmittedFrom="/expungement-ai/support" />
+          <SupportRequestForm defaultCategory={params.category === "wilma" ? "wilma" : "account_login"} briefcaseItemId={briefcaseItemId} routeSubmittedFrom="/expungement-ai/support" />
         </div>
       </section>
     </ConsumerPageShell>

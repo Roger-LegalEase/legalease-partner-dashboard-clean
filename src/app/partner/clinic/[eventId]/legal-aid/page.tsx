@@ -6,6 +6,7 @@ import { LegalAidShell } from "@/components/legal-aid/LegalAidShell";
 import { absolutePartnerAppUrl } from "@/lib/app-url";
 import { ClinicServiceError } from "@/lib/clinic-mode/errors";
 import { parseEventId } from "@/lib/clinic-mode/validation";
+import { getClinicEventWorkspace } from "@/lib/clinic-mode/service";
 import { listPolicyProfiles, listStaffCandidates, loadProfileTemplate, requireLegalAidAdministrator } from "@/lib/legal-aid/admin-service";
 import { getLegalAidBranding } from "@/lib/legal-aid/branding";
 import { getLegalAidEventById } from "@/lib/legal-aid/registration-service";
@@ -25,6 +26,8 @@ export default async function LegalAidAdminPage({ params }: { params: Promise<{ 
     if (error instanceof ClinicServiceError) return <Denied message={error.message} />;
     throw error;
   }
+  const workspace = await getClinicEventWorkspace(eventId);
+  if (workspace.event.experience !== "legal_aid" && !workspace.legalAidAvailable) notFound();
   const event = await getLegalAidEventById(eventId);
   if (!event) notFound();
   if (actor.kind === "partner" && actor.partnerSlug !== event.partnerSlug) return <Denied message="This clinic belongs to a different organization." />;

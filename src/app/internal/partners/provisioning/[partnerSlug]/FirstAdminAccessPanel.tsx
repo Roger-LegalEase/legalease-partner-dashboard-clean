@@ -608,8 +608,8 @@ export function FirstAdminAccessPanel({
                 {busyAction === "revoke" ? "Revoking…" : "Revoke invitation"}
               </button>
             ) : null}
-            <Link className={secondaryButton} href="/partner/dashboard">
-              Open partner dashboard
+            <Link className={secondaryButton} href={`/internal/partners/onboarding/${encodeURIComponent(partner.partnerSlug)}#program-dashboard`}>
+              Return to program dashboard
             </Link>
           </div>
         ) : null}

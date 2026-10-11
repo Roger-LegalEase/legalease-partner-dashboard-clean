@@ -17,6 +17,8 @@ export async function POST(request: NextRequest) {
   const reason = ["staff_reset", "inactivity", "security_reset", "participant_request"].includes(String(body?.reason)) ? String(body?.reason) : "staff_reset";
   const rawSession = request.cookies.get("clinic_session")?.value;
   const rawDevice = request.cookies.get("clinic_device")?.value;
+  const rawEntry = request.cookies.get("clinic_entry")?.value;
+  const sharedDevice = request.cookies.has("clinic_shared_device");
   const existing = request.cookies.get(RECOVERY_COOKIE)?.value;
   const pending = request.cookies.has("clinic_reset_pending");
   let authenticatedActor: string | null = null;
@@ -47,7 +49,8 @@ export async function POST(request: NextRequest) {
       proof = parseRecovery(existing);
       trusted = authenticRecovery(existing);
       if ((rawSession && hash(rawSession) !== proof.handoff)
-        || (rawDevice && hash(rawDevice) !== proof.device)) {
+        || (rawDevice && hash(rawDevice) !== proof.device)
+        || (proof.entryOnly && rawEntry && hash(rawEntry) !== proof.handoff)) {
         state = "identity_mismatch";
         throw new Error("Wrong participant or handoff");
       }
@@ -65,6 +68,19 @@ export async function POST(request: NextRequest) {
       }
       proof = { ...mintRecovery(String(exact.data.participant_user_id), hash(rawSession), hash(rawDevice)),
         issuedAt, retainUntil: issuedAt + RETENTION_SECONDS * 1000 };
+    } else if (owner && rawEntry && !rawSession && !rawDevice && !sharedDevice && action === "prepare") {
+      // The same entry-row lock also guards assistance creation. Closing an
+      // unused entry cannot race consent or certify an unrelated/lost handoff.
+      const db = getSupabaseAdminClient();
+      if (!db) throw new Error("Database unavailable");
+      const closure = await db.rpc("clinic_close_unassisted_entry", { p_entry_hash: hash(rawEntry), p_actor: owner });
+      if (closure.error || !closure.data?.closed_at) { state = "handoff_identity_required"; throw new Error("Unused entry could not be closed"); }
+      const issuedAt = Date.parse(closure.data.redeemed_at);
+      if (!Number.isFinite(issuedAt)) throw new Error("Entry creation time unavailable");
+      proof = { ...mintRecovery(owner, hash(rawEntry), "0".repeat(64)), entryOnly: true,
+        issuedAt, retainUntil: issuedAt + RETENTION_SECONDS * 1000 };
+      // Its authority comes from the authenticated atomic close above.
+      trusted = true;
     } else if (!owner && (!error || error.name === "AuthSessionMissingError") && !request.cookies.getAll().some(c => c.name.startsWith("sb-")) && !rawSession && !rawDevice && !pending && action === "prepare") {
       // Only an actually clean, anonymous device. A pending marker, missing
       // authenticated handoff or failed auth lookup can never use this branch.
@@ -86,7 +102,32 @@ export async function POST(request: NextRequest) {
       throw new Error("Fresh authentication required");
     }
     let closed = false;
-    if (proof.empty) {
+    if (proof.entryOnly) {
+      if (!trusted || rawSession || rawDevice || sharedDevice || owner && owner !== proof.owner) {
+        state = "identity_mismatch"; throw new Error("Entry recovery does not authorize an assisted handoff");
+      }
+      const db = getSupabaseAdminClient();
+      if (!db) throw new Error("Database unavailable");
+      const entry = await db.from("clinic_event_access_redemptions")
+        .select("event_id,closed_at,closed_by,assisted_session_id,reset_binding_supported,redeemed_at")
+        .eq("redemption_nonce_hash", proof.handoff).eq("closed_by", proof.owner).maybeSingle();
+      if (entry.error || !entry.data?.closed_at || entry.data.assisted_session_id || !entry.data.reset_binding_supported) {
+        state = "lookup_failed"; throw new Error("Exact closed entry unavailable");
+      }
+      const createdAt = Date.parse(entry.data.redeemed_at);
+      if (!Number.isFinite(createdAt)) throw new Error("Entry creation time unavailable");
+      proof = { ...proof, retainUntil: Math.min(retentionDeadline(proof), createdAt + RETENTION_SECONDS * 1000) };
+      completionUntil = retentionDeadline(proof);
+      if (completionUntil <= Date.now()) { expiredLocator = true; state = "handoff_identity_required"; throw new Error("Entry recovery retention ended"); }
+      if (action === "complete") {
+        const event = await db.from("clinic_events").select("public_slug,status").eq("id", entry.data.event_id).maybeSingle();
+        if (event.error) throw new Error("Event entry lookup failed");
+        const slug = event.data?.public_slug;
+        if (event.data?.status === "published" && typeof slug === "string" && slug.length <= 120 && /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug)) cleanEntryPath = `/clinic/${slug}`;
+      }
+      closed = true;
+      state = "entry_closed";
+    } else if (proof.empty) {
       if (owner || rawSession || rawDevice || (existing && (!trusted || !reconcileAuthority))) throw new Error("Invalid empty-device receipt");
       closed = true;
       state = "no_session";
@@ -149,10 +190,10 @@ export async function POST(request: NextRequest) {
     if (action === "prepare") {
       // Do not sign out on preparation, including any failed preparation. Only
       // acknowledge a validated durable proof; browser must receive it first.
-      if ((!existing && !completed) || (!trusted || proof.expires <= Date.now()) && freshOwner || proof.staffOnly && owner) {
+      if ((!existing && (!completed || proof.entryOnly)) || (!trusted || proof.expires <= Date.now()) && freshOwner || proof.staffOnly && owner) {
         const renewed = mintRecovery(proof.owner, proof.handoff, proof.device, proof.empty);
         proof = { ...renewed, issuedAt: proof.issuedAt ?? proof.expires - 8 * 60 * 60 * 1000,
-          retainUntil: retentionDeadline(proof), reconcileUntil: retentionDeadline(proof), ...(proof.staffOnly ? { staffOnly: true as const } : {}) };
+          retainUntil: retentionDeadline(proof), reconcileUntil: retentionDeadline(proof), ...(proof.staffOnly ? { staffOnly: true as const } : {}), ...(proof.entryOnly ? { entryOnly: true as const } : {}) };
         issued = { proof, value: encodeRecovery(proof) };
       }
       prepared = true;

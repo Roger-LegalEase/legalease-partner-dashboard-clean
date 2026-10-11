@@ -1,3 +1,5 @@
+import { randomUUID } from "node:crypto";
+import type { ClinicFollowUpCase } from "./types";
 import "server-only";
 import { clinicCaseReference } from "./case-reference";
 
@@ -32,18 +34,9 @@ export async function getClinicEventReport(eventId: string): Promise<ClinicEvent
     readPages(() => db.from("clinic_packet_reservations").select("clinic_case_id,status").eq("event_id", eventId).order("id"))
   ]);
   if (funding.error || cases.error || reservations.error) throw readError(undefined, "Clinic sponsorship reporting is unavailable.");
-  const itemIds = [...new Set([
-    ...(funding.data ?? []).map(row => String(row.briefcase_item_id)),
-    ...(cases.data ?? []).flatMap(row => row.matter_id ? [String(row.matter_id)] : [])
-  ])];
-  const generated: { briefcase_item_id: string }[] = [];
-  for (let offset = 0; offset < itemIds.length; offset += 100) {
-    const page = await readPages(() => db.from("consumer_packet_artifact_provenance")
-      .select("briefcase_item_id").in("briefcase_item_id", itemIds.slice(offset, offset + 100))
-      .eq("entitlement_source", "partner_sponsorship").order("briefcase_item_id"));
-    if (page.error) throw readError(undefined, "Clinic sponsorship reporting is unavailable.");
-    generated.push(...page.data);
-  }
+  const artifacts=await db.rpc("rcap_service_clinic_generated_packets",{p_event:eventId,p_actor:actorUserId});
+  if(artifacts.error||!Array.isArray(artifacts.data))throw readError(undefined,"Clinic sponsorship reporting is unavailable.");
+  const generated=artifacts.data as Array<{briefcase_item_id:string}>;
   report.sponsorship = { ...report.sponsorship, ...sponsoredReportCounts(
     funding.data ?? [], cases.data ?? [], reservations.data ?? [], generated
   ) };
@@ -69,7 +62,8 @@ export async function saveClinicFollowUp(eventId: string, input: SaveClinicFollo
     p_permission: "follow_up"
   });
   if (access.error || access.data !== true) throw new ClinicServiceError("forbidden", "Event-scoped follow-up access is required.");
-  const result = await db.rpc("clinic_upsert_event_follow_up", {
+  const result = await db.rpc("rcap_service_save_clinic_follow_up", {
+    p_request_id:input.requestId??randomUUID(),
     p_event_id: eventId,
     p_follow_up_id: input.id,
     p_case_id: input.clinicCaseId,
@@ -81,6 +75,8 @@ export async function saveClinicFollowUp(eventId: string, input: SaveClinicFollo
     p_participant_safe_message: input.participantSafeMessage,
     p_internal_notes: input.internalNotes
   });
+  if(result.error?.message.includes("consent_required"))throw new ClinicServiceError("forbidden","Participant consent for this follow-up has ended. Reload the event.");
+  if(result.error?.message.includes("follow_up_changed"))throw new ClinicServiceError("conflict","This follow-up changed. Reload it before marking it completed.");
   if (result.error || typeof result.data !== "string") throw writeError(result.error?.message);
   return result.data;
 }
@@ -223,4 +219,13 @@ async function readPages<T>(query: () => { range: (from: number, to: number) => 
     data.push(...(page.data ?? []));
     if ((page.data?.length ?? 0) < 500) return { data, error: null };
   }
+}
+
+export async function listClinicFollowUpCases(eventId:string):Promise<ClinicFollowUpCase[]>{
+ const actor=await authenticatedUserId();const db=requireDatabase();
+ const permission=await db.rpc("clinic_actor_can_event",{p_event_id:eventId,p_actor_user_id:actor,p_permission:"follow_up"});
+ if(permission.error||permission.data!==true)throw new ClinicServiceError("forbidden","Event-scoped follow-up access is required.");
+ const result=await db.rpc("rcap_service_clinic_follow_up_cases",{p_event:eventId,p_actor:actor});
+ if(result.error||!Array.isArray(result.data))throw new ClinicServiceError("unavailable","Current consented cases could not be checked. Reload the event.");
+ return result.data.map((row:ClinicFollowUpCase)=>({...row,reference:clinicCaseReference(eventId,row.id)}));
 }

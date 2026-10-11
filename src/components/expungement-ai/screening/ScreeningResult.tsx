@@ -50,18 +50,18 @@ const RESULT_EYEBROW_KEYS: Record<ResultCode, string> = {
   hard_stop: "result.cannot_help"
 };
 
-// Partner-mode result lanes. Every lane routes forward into the Briefcase and
-// never shows consumer pricing.
+// This is a preliminary result, including for an authenticated participant.
+// The protected claim still has to create/bind the matter before a Briefcase exists.
 const PARTNER_RESULT_LANES: Record<ResultCode, { key: string; fallback: string }> = {
-  packet_ready: { key: "result.save_briefcase_continue", fallback: "Save to my Briefcase and continue" },
-  packet_ready_with_caution: { key: "result.save_briefcase_continue", fallback: "Save to my Briefcase and continue" },
-  needs_more_info: { key: "result.lane_more_info", fallback: "Continue to my Briefcase" },
-  needs_review: { key: "result.lane_more_info", fallback: "Continue to my Briefcase" },
+  packet_ready: { key: "result.save_matter_continue", fallback: "Save my result and continue" },
+  packet_ready_with_caution: { key: "result.save_matter_continue", fallback: "Save my result and continue" },
+  needs_more_info: { key: "result.save_matter_continue", fallback: "Save my result and continue" },
+  needs_review: { key: "result.save_matter_continue", fallback: "Save my result and continue" },
   guidance_only: { key: "result.lane_next_steps", fallback: "View my next steps" },
   not_covered_yet: { key: "result.lane_next_steps", fallback: "View my next steps" },
-  not_yet: { key: "result.lane_briefcase", fallback: "View my Briefcase" },
-  likely_not_eligible: { key: "result.lane_briefcase", fallback: "View my Briefcase" },
-  hard_stop: { key: "result.lane_briefcase", fallback: "View my Briefcase" }
+  not_yet: { key: "result.save_matter_continue", fallback: "Save my result and continue" },
+  likely_not_eligible: { key: "result.save_matter_continue", fallback: "Save my result and continue" },
+  hard_stop: { key: "result.save_matter_continue", fallback: "Save my result and continue" }
 };
 
 const DTC_RESULT_ACTIONS: Record<ResultCode, { key: string; fallback: string }> = {
@@ -177,6 +177,7 @@ export function ScreeningResult({
 
   return (
     <div className="rounded-[24px] border border-[#ECEFF4] bg-white p-6 shadow-sm md:p-8">
+      {hasScreeningSession ? <p className="mb-3 text-sm font-bold">{locale === "es" ? "Resultado preliminar" : "Preliminary result"}</p> : null}
       <p className={`flex items-center gap-2 text-xs font-extrabold uppercase tracking-[0.08em] ${accent.eyebrow}`}>
         {presentation.icon}
         {translate(RESULT_EYEBROW_KEYS[evaluation.resultCode], presentation.eyebrow)}

@@ -2,8 +2,7 @@ import { ClinicText } from "@/components/clinic-mode/ClinicText";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { ClinicFollowUpConsole } from "@/components/clinic-mode/ClinicFollowUpConsole";
-import { listClinicQueue } from "@/lib/clinic-mode/participant-service";
-import { listClinicFollowUps } from "@/lib/clinic-mode/reporting-service";
+import { listClinicFollowUps, listClinicFollowUpCases } from "@/lib/clinic-mode/reporting-service";
 import { ClinicServiceError, getClinicEventWorkspace, requireClinicPartnerActor } from "@/lib/clinic-mode/service";
 import { parseEventId } from "@/lib/clinic-mode/validation";
 
@@ -23,7 +22,7 @@ export default async function PartnerClinicFollowUpPage({ params }: { params: Pr
           <h1 className="mt-3 text-4xl font-black">{workspace.event.name}</h1>
           <p className="mt-3 max-w-3xl text-sm leading-6 text-[#5C5750]"><ClinicText value="Manage time-bound follow-up without granting staff permanent access to a participant's account or matter." /></p>
         </header>
-        <ClinicFollowUpConsole eventId={eventId} cases={cases} staff={workspace.staff} staffOptions={workspace.staffOptions} initialFollowUps={followUps} />
+        <ClinicFollowUpConsole timezone={workspace.event.timezone} eventId={eventId} cases={cases} staff={workspace.staff} staffOptions={workspace.staffOptions} initialFollowUps={followUps} />
       </div>
     </main>
   );
@@ -35,7 +34,7 @@ async function loadFollowUpPage(params: Promise<{ eventId: string }>) {
     const { eventId: rawEventId } = await params;
     const eventId = parseEventId(rawEventId);
     const followUps = await listClinicFollowUps(eventId);
-    const [workspace, cases] = await Promise.all([getClinicEventWorkspace(eventId), listClinicQueue(eventId).catch(error => {
+    const [workspace, cases] = await Promise.all([getClinicEventWorkspace(eventId, "follow_up"), listClinicFollowUpCases(eventId).catch(error => {
       if (error instanceof ClinicServiceError && error.code === "forbidden") return [];
       throw error;
     })]);
