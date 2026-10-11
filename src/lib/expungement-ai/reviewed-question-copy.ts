@@ -1,6 +1,7 @@
 import "server-only";
 import catalog from "@/lib/expungement-ai/frontend/reviewed-question-spanish.json";
 import participantCatalog from "@/lib/expungement-ai/frontend/reviewed-participant-copy.json";
+import sourceCatalog from "@/lib/expungement-ai/frontend/reviewed-source-question-copy.json";
 import type { PublicQuestion } from "@/lib/rcap-engine/contracts";
 
 type Context = { state: string; pathwayId?: string | null };
@@ -8,6 +9,12 @@ type Entry = (typeof catalog.entries)[number];
 const byDescriptor = new Map<string, Entry[]>();
 type ParticipantEntry = (typeof participantCatalog.entries)[number];
 const participantByDescriptor = new Map<string, ParticipantEntry[]>();
+type SourceEntry = (typeof sourceCatalog.entries)[number];
+const sourceByDescriptor = new Map<string, SourceEntry[]>();
+for (const entry of sourceCatalog.entries) {
+  const key = JSON.stringify(entry.descriptor);
+  sourceByDescriptor.set(key, [...(sourceByDescriptor.get(key) ?? []), entry]);
+}
 for (const entry of participantCatalog.entries) {
   const key = JSON.stringify([entry.questionId, entry.source.inputType, entry.source.prompt, entry.source.helperText, entry.source.wireOptions]);
   participantByDescriptor.set(key, [...(participantByDescriptor.get(key) ?? []), entry]);
@@ -53,9 +60,51 @@ export function reviewedSpanishQuestion<T extends PublicQuestion>(question: T, c
     ...(entry.spanish.optionDisplay.length ? { optionDisplay } : {}) };
 }
 
+/** Reviewed display corrections preserve the question's original answer and applicability contracts. */
+function reviewedSourceQuestion<T extends PublicQuestion>(question: T, context: Context): T {
+  const descriptor = JSON.stringify([
+    question.id, question.type, question.prompt, question.helperText ?? "", question.options ?? null,
+    question.stage ?? null, Object.hasOwn(question, "required") ? ["present", question.required] : ["absent"],
+    Object.hasOwn(question, "contextOnly") ? ["present", question.contextOnly] : ["absent"], question.lifecyclePhase ?? null
+  ]);
+  const surface = context.pathwayId === undefined ? "screening" : "packet_information";
+  const routeKey = context.pathwayId ? `${context.state}:${context.pathwayId}` : null;
+  const matches = (sourceByDescriptor.get(descriptor) ?? []).filter((entry) => entry.scope.some((scope) =>
+    scope.state === context.state && scope.surface === surface && scope.routeKey === routeKey));
+  let reviewed = question;
+  if (matches.length === 1) {
+    const copy = matches[0].successor;
+    reviewed = { ...reviewed, prompt: copy.en.prompt, helperText: copy.en.helperText,
+      translations: { ...reviewed.translations, es: { ...reviewed.translations?.es, prompt: copy.es.prompt, helperText: copy.es.helperText } } };
+  }
+  for (const entry of sourceCatalog.optionEntries) {
+    if (question.id !== entry.questionId || question.type !== entry.inputType || !Array.isArray(question.options)) continue;
+    const options = question.options;
+    const existing = reviewed.optionDisplay?.[entry.wire];
+    if (!existing) continue;
+    const bindings = entry.bindings.filter((binding) => binding.state === context.state
+      && options[binding.index] === entry.wire
+      && existing.label === binding.display.label
+      && (existing.helperText ?? "") === binding.display.helperText
+      && existing.translations?.es?.label === binding.display.translations.es.label
+      && (existing.translations?.es?.helperText ?? "") === binding.display.translations.es.helperText);
+    if (bindings.length !== 1) continue;
+    reviewed = { ...reviewed, optionDisplay: { ...reviewed.optionDisplay, [entry.wire]: {
+      ...existing, label: entry.successor.label, helperText: entry.successor.helperText,
+      translations: { ...existing.translations, es: { ...existing.translations?.es, ...entry.successor.translations.es } }
+    } } };
+  }
+  return reviewed;
+}
+
+/** Shared source-backed wording also applies to existing screening definitions. */
+export function reviewedScreeningQuestion<T extends PublicQuestion>(question: T, context: Context): T {
+  return reviewedSourceQuestion(reviewedSpanishQuestion(question, context), context);
+}
+
 /** Paired EN/ES successor copy, only for the exact reviewed participant wording and route. */
 export function reviewedPacketQuestion<T extends PublicQuestion>(question: T, context: Context & { participantOwnsRecord: boolean }): T {
-  const localized = reviewedSpanishQuestion(question, context);
+  const localized = reviewedSourceQuestion(reviewedSpanishQuestion(question, context), context);
   const multiline = MULTILINE_PACKET_FACTS[`${context.state}:${context.pathwayId}`]?.includes(question.id);
   const translated = multiline && ["text", "text_or_unknown", "textarea"].includes(question.type) ? { ...localized, multiline: true } : localized;
   if (!context.participantOwnsRecord || !context.pathwayId) return translated;

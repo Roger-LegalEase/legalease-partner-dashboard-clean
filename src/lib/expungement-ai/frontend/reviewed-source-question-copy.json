@@ -1,0 +1,2553 @@
+{
+  "schemaVersion": "reviewed-source-question-copy/v1",
+  "proposalSha256": "8d4996be1e539f8bb04cd3bf9e59ba3fad1445c52f8ee46471a94cdc24825314",
+  "independentReviewSha256": "a29c4ffeddb24b4fc0079eb69393f97eb051aad74c09d758eb1d6985e5ae2e88",
+  "scope": "Exact existing public and packet question definitions; display text only. No route selection, wire, requiredness or predicate change. Authority gaps remain unresolved.",
+  "descriptorShape": "[id,type,prompt,helperText,optionsOrNull,stageOrNull,requiredPresenceAndValue,contextOnlyPresenceAndValue,lifecyclePhaseOrNull]",
+  "entries": [
+    {
+      "reviewId": "COPY-GA181920-statutory_exclusion_review",
+      "descriptor": [
+        "statutory_exclusion_review",
+        "text_or_unknown",
+        "Statutory exclusion review",
+        "Enter the wording from your court or agency record when possible.",
+        null,
+        "packet_information",
+        [
+          "present",
+          true
+        ],
+        [
+          "present",
+          false
+        ],
+        "postpay_packet_field"
+      ],
+      "scope": [
+        {
+          "surface": "packet_information",
+          "state": "WY",
+          "routeKey": "WY:felony-conviction-expungement-w-s-7-13-1502"
+        }
+      ],
+      "successor": {
+        "en": {
+          "prompt": "What did you confirm with a lawyer about the exclusions in W.S. § 7-13-1502?",
+          "helperText": "Enter the statement you checked with a lawyer about whether this felony is on the statutory exclusion list. If you have not checked it or cannot confirm the answer, choose the available unsure option. Do not guess the legal classification."
+        },
+        "es": {
+          "prompt": "¿Qué confirmó con un abogado sobre las exclusiones de W.S. § 7-13-1502?",
+          "helperText": "Escriba la declaración que revisó con un abogado sobre si este delito grave está en la lista legal de exclusiones. Si no la ha revisado o no puede confirmar la respuesta, elija la opción disponible para indicar que no lo sabe. No adivine la clasificación jurídica."
+        }
+      },
+      "predicateAuthorityStatus": "UNRESOLVED_SCOPED_AUTHORITY"
+    },
+    {
+      "reviewId": "COPY-GA181920-ca_prop64_qualifying_marijuana_offense",
+      "descriptor": [
+        "ca_prop64_qualifying_marijuana_offense",
+        "yes_no_unsure",
+        "For California HSC 11361.8, is the conviction a qualifying marijuana offense?",
+        "structured fact only; Wilma may help locate record facts but does not decide eligibility",
+        null,
+        "timing_and_completion",
+        [
+          "present",
+          false
+        ],
+        [
+          "present",
+          false
+        ],
+        "prepay_hard_disqualifier"
+      ],
+      "scope": [
+        {
+          "surface": "screening",
+          "state": "CA",
+          "routeKey": null
+        }
+      ],
+      "successor": {
+        "en": {
+          "prompt": "For California HSC 11361.8, is the conviction a qualifying marijuana offense?",
+          "helperText": "Find the conviction and code section in the court record. The code section alone does not confirm that the conviction qualifies under HSC 11361.8. If you cannot confirm whether it qualifies, choose the available unsure option; do not guess."
+        },
+        "es": {
+          "prompt": "Para California HSC 11361.8, ¿la condena es por un delito relacionado con marihuana que cumple los requisitos?",
+          "helperText": "Busque la condena y la sección del código en el expediente judicial. La sección del código por sí sola no confirma que la condena reúna los requisitos de HSC 11361.8. Si no puede confirmar si los reúne, elija la opción disponible para indicar que no lo sabe; no adivine."
+        }
+      },
+      "predicateAuthorityStatus": "UNRESOLVED_SCOPED_AUTHORITY"
+    },
+    {
+      "reviewId": "COPY-GA181920-ca_prop64_qualifying_marijuana_offense",
+      "descriptor": [
+        "ca_prop64_qualifying_marijuana_offense",
+        "yes_no_unsure",
+        "For California HSC 11361.8, is the conviction a qualifying marijuana offense?",
+        "structured fact only; Wilma may help locate record facts but does not decide eligibility",
+        null,
+        "timing_and_completion",
+        [
+          "present",
+          true
+        ],
+        [
+          "present",
+          false
+        ],
+        "prepay_hard_disqualifier"
+      ],
+      "scope": [
+        {
+          "surface": "packet_information",
+          "state": "CA",
+          "routeKey": "CA:prop-64-completed-sentence-application-11361-8"
+        },
+        {
+          "surface": "packet_information",
+          "state": "CA",
+          "routeKey": "CA:prop-64-currently-serving-petition-11361-8"
+        }
+      ],
+      "successor": {
+        "en": {
+          "prompt": "For California HSC 11361.8, is the conviction a qualifying marijuana offense?",
+          "helperText": "Find the conviction and code section in the court record. The code section alone does not confirm that the conviction qualifies under HSC 11361.8. If you cannot confirm whether it qualifies, choose the available unsure option; do not guess."
+        },
+        "es": {
+          "prompt": "Para California HSC 11361.8, ¿la condena es por un delito relacionado con marihuana que cumple los requisitos?",
+          "helperText": "Busque la condena y la sección del código en el expediente judicial. La sección del código por sí sola no confirma que la condena reúna los requisitos de HSC 11361.8. Si no puede confirmar si los reúne, elija la opción disponible para indicar que no lo sabe; no adivine."
+        }
+      },
+      "predicateAuthorityStatus": "UNRESOLVED_SCOPED_AUTHORITY"
+    },
+    {
+      "reviewId": "COPY-GA181920-ca_prop64_lesser_or_no_offense",
+      "descriptor": [
+        "ca_prop64_lesser_or_no_offense",
+        "yes_no_unsure",
+        "For California HSC 11361.8, would the offense be no offense or a lesser offense under Prop 64/AUMA?",
+        "structured fact only; answer no or not sure if the record does not confirm this",
+        null,
+        "timing_and_completion",
+        [
+          "present",
+          false
+        ],
+        [
+          "present",
+          false
+        ],
+        "prepay_soft_confidence"
+      ],
+      "scope": [
+        {
+          "surface": "screening",
+          "state": "CA",
+          "routeKey": null
+        }
+      ],
+      "successor": {
+        "en": {
+          "prompt": "For California HSC 11361.8, would the offense be no offense or a lesser offense under Prop 64/AUMA?",
+          "helperText": "This asks whether the conduct would be no offense or a lesser offense under Prop 64/AUMA, not whether the court has already changed the record. If you cannot confirm that legal effect for this conviction, choose the available unsure option."
+        },
+        "es": {
+          "prompt": "Para California HSC 11361.8, ¿la conducta dejaría de ser un delito o sería un delito de menor gravedad conforme a Prop 64/AUMA?",
+          "helperText": "Esta pregunta se refiere a si la conducta dejaría de ser un delito o sería un delito de menor gravedad conforme a Prop 64/AUMA, no a si el tribunal ya modificó el registro. Si no puede confirmar ese efecto jurídico para esta condena, elija la opción disponible para indicar que no lo sabe."
+        }
+      },
+      "predicateAuthorityStatus": "UNRESOLVED_SCOPED_AUTHORITY"
+    },
+    {
+      "reviewId": "COPY-GA181920-ca_prop64_lesser_or_no_offense",
+      "descriptor": [
+        "ca_prop64_lesser_or_no_offense",
+        "yes_no_unsure",
+        "For California HSC 11361.8, would the offense be no offense or a lesser offense under Prop 64/AUMA?",
+        "structured fact only; answer no or not sure if the record does not confirm this",
+        null,
+        "timing_and_completion",
+        [
+          "present",
+          true
+        ],
+        [
+          "present",
+          false
+        ],
+        "prepay_soft_confidence"
+      ],
+      "scope": [
+        {
+          "surface": "packet_information",
+          "state": "CA",
+          "routeKey": "CA:prop-64-completed-sentence-application-11361-8"
+        },
+        {
+          "surface": "packet_information",
+          "state": "CA",
+          "routeKey": "CA:prop-64-currently-serving-petition-11361-8"
+        }
+      ],
+      "successor": {
+        "en": {
+          "prompt": "For California HSC 11361.8, would the offense be no offense or a lesser offense under Prop 64/AUMA?",
+          "helperText": "This asks whether the conduct would be no offense or a lesser offense under Prop 64/AUMA, not whether the court has already changed the record. If you cannot confirm that legal effect for this conviction, choose the available unsure option."
+        },
+        "es": {
+          "prompt": "Para California HSC 11361.8, ¿la conducta dejaría de ser un delito o sería un delito de menor gravedad conforme a Prop 64/AUMA?",
+          "helperText": "Esta pregunta se refiere a si la conducta dejaría de ser un delito o sería un delito de menor gravedad conforme a Prop 64/AUMA, no a si el tribunal ya modificó el registro. Si no puede confirmar ese efecto jurídico para esta condena, elija la opción disponible para indicar que no lo sabe."
+        }
+      },
+      "predicateAuthorityStatus": "UNRESOLVED_SCOPED_AUTHORITY"
+    },
+    {
+      "reviewId": "COPY-GA181920-dc_offense_severity_group",
+      "descriptor": [
+        "dc_offense_severity_group",
+        "single_choice",
+        "For a DC felony sealing motion, what Offense Severity Group does the record show?",
+        "Packet/payment can open only if the offense is confirmed not to be in Offense Severity Group 1, 2, or 3.",
+        [
+          "Not in Offense Severity Group 1, 2, or 3",
+          "Offense Severity Group 1",
+          "Offense Severity Group 2",
+          "Offense Severity Group 3",
+          "I am not sure"
+        ],
+        "state_specific_eligibility",
+        [
+          "present",
+          false
+        ],
+        [
+          "present",
+          false
+        ],
+        "prepay_soft_confidence"
+      ],
+      "scope": [
+        {
+          "surface": "screening",
+          "state": "DC",
+          "routeKey": null
+        }
+      ],
+      "successor": {
+        "en": {
+          "prompt": "For a DC felony sealing motion, what Offense Severity Group does the record show?",
+          "helperText": "Check the Offense Severity Group shown in the record. Groups 1, 2 and 3 do not qualify for this felony-sealing route. If the group is not clear, choose I am not sure."
+        },
+        "es": {
+          "prompt": "Para una solicitud de sellado de una condena por delito grave en DC, ¿qué Grupo de Gravedad del Delito (Offense Severity Group) muestra el registro?",
+          "helperText": "Revise el grupo de gravedad del delito (Offense Severity Group) que figura en el registro. Los grupos 1, 2 y 3 no reúnen los requisitos de esta vía de sellado de delitos graves. Si el grupo no está claro, elija No estoy seguro."
+        }
+      },
+      "predicateAuthorityStatus": "EXISTING_SOURCE_MEANING_UNCHANGED_NO_NEW_LEGAL_APPROVAL"
+    },
+    {
+      "reviewId": "COPY-GA181920-dc_offense_severity_group",
+      "descriptor": [
+        "dc_offense_severity_group",
+        "single_choice",
+        "For a DC felony sealing motion, what Offense Severity Group does the record show?",
+        "Check the Offense Severity Group shown in the record. Groups 1, 2 and 3 do not qualify for this felony-sealing route. If the group is not clear, choose I am not sure.",
+        [
+          "Not in Offense Severity Group 1, 2, or 3",
+          "Offense Severity Group 1",
+          "Offense Severity Group 2",
+          "Offense Severity Group 3",
+          "I am not sure"
+        ],
+        "state_specific_eligibility",
+        [
+          "present",
+          true
+        ],
+        [
+          "present",
+          false
+        ],
+        "prepay_soft_confidence"
+      ],
+      "scope": [
+        {
+          "surface": "packet_information",
+          "state": "DC",
+          "routeKey": "DC:dc_actual_innocence_expungement_16_803"
+        },
+        {
+          "surface": "packet_information",
+          "state": "DC",
+          "routeKey": "DC:dc_auto_expungement_16_802"
+        },
+        {
+          "surface": "packet_information",
+          "state": "DC",
+          "routeKey": "DC:dc_auto_sealing_16_805"
+        },
+        {
+          "surface": "packet_information",
+          "state": "DC",
+          "routeKey": "DC:dc_juvenile_sealing_16_2335"
+        },
+        {
+          "surface": "packet_information",
+          "state": "DC",
+          "routeKey": "DC:dc_motion_seal_felony_conviction_8yr_16_806"
+        },
+        {
+          "surface": "packet_information",
+          "state": "DC",
+          "routeKey": "DC:dc_motion_seal_misdemeanor_conviction_5yr_16_806"
+        },
+        {
+          "surface": "packet_information",
+          "state": "DC",
+          "routeKey": "DC:dc_motion_seal_nonconviction_16_806"
+        }
+      ],
+      "successor": {
+        "en": {
+          "prompt": "For a DC felony sealing motion, what Offense Severity Group does the record show?",
+          "helperText": "Check the Offense Severity Group shown in the record. Groups 1, 2 and 3 do not qualify for this felony-sealing route. If the group is not clear, choose I am not sure."
+        },
+        "es": {
+          "prompt": "Para una solicitud de sellado de una condena por delito grave en DC, ¿qué Grupo de Gravedad del Delito (Offense Severity Group) muestra el registro?",
+          "helperText": "Revise el grupo de gravedad del delito (Offense Severity Group) que figura en el registro. Los grupos 1, 2 y 3 no reúnen los requisitos de esta vía de sellado de delitos graves. Si el grupo no está claro, elija No estoy seguro."
+        }
+      },
+      "predicateAuthorityStatus": "EXISTING_SOURCE_MEANING_UNCHANGED_NO_NEW_LEGAL_APPROVAL"
+    },
+    {
+      "reviewId": "COPY-GA181920-in_prosecutor_consent_confirmed",
+      "descriptor": [
+        "in_prosecutor_consent_confirmed",
+        "yes_no_unsure",
+        "For Indiana higher-felony expungement, is prosecutor consent confirmed?",
+        "fact collection only for IC 35-38-9 higher-felony tiers",
+        null,
+        "timing_and_completion",
+        [
+          "present",
+          false
+        ],
+        [
+          "present",
+          false
+        ],
+        "prepay_hard_disqualifier"
+      ],
+      "scope": [
+        {
+          "surface": "screening",
+          "state": "IN",
+          "routeKey": null
+        }
+      ],
+      "successor": {
+        "en": {
+          "prompt": "For Indiana higher-felony expungement, is prosecutor consent confirmed?",
+          "helperText": "Use confirmation from the prosecutor or the court record. If consent has not been confirmed, answer No; if you do not know, choose I am not sure."
+        },
+        "es": {
+          "prompt": "Para la eliminación de antecedentes de delitos graves de mayor nivel en Indiana, ¿se ha confirmado el consentimiento de la fiscalía?",
+          "helperText": "Use la confirmación de la fiscalía o del expediente judicial. Si no se ha confirmado el consentimiento, responda No; si no lo sabe, elija No estoy seguro."
+        }
+      },
+      "predicateAuthorityStatus": "EXISTING_SOURCE_MEANING_UNCHANGED_NO_NEW_LEGAL_APPROVAL"
+    },
+    {
+      "reviewId": "COPY-GA181920-ny_16058_treatment_program_completed",
+      "descriptor": [
+        "ny_16058_treatment_program_completed",
+        "yes_no_unsure",
+        "For NY CPL 160.58, does the record confirm Article 220/221 or CPL 410.91 treatment, diversion, or DTAP completion?",
+        "fact collection only; CPL 160.58 is not a standalone three-year route",
+        null,
+        "timing_and_completion",
+        [
+          "present",
+          false
+        ],
+        [
+          "present",
+          false
+        ],
+        "prepay_timing_gate"
+      ],
+      "scope": [
+        {
+          "surface": "screening",
+          "state": "NY",
+          "routeKey": null
+        }
+      ],
+      "successor": {
+        "en": {
+          "prompt": "For NY CPL 160.58, does the record confirm Article 220/221 or CPL 410.91 treatment, diversion, or DTAP completion?",
+          "helperText": "Use the court record of treatment, diversion or DTAP completion. A three-year wait by itself does not establish completion of the required program."
+        },
+        "es": {
+          "prompt": "Para NY CPL 160.58, ¿el registro confirma que se completó el tratamiento, el programa alternativo (diversion) o el programa DTAP conforme a los artículos 220/221 o CPL 410.91?",
+          "helperText": "Use el registro judicial de finalización del tratamiento, programa alternativo (diversion) o DTAP. La espera de tres años por sí sola no demuestra que se haya completado el programa requerido."
+        }
+      },
+      "predicateAuthorityStatus": "EXISTING_SOURCE_MEANING_UNCHANGED_NO_NEW_LEGAL_APPROVAL"
+    },
+    {
+      "reviewId": "COPY-GA181920-ny_16059_total_eligible_convictions",
+      "descriptor": [
+        "ny_16059_total_eligible_convictions",
+        "number_or_range",
+        "For NY CPL 160.59, how many total eligible convictions would be included?",
+        "structured fact only; Wilma may help locate convictions but does not decide eligibility",
+        null,
+        "timing_and_completion",
+        [
+          "present",
+          false
+        ],
+        [
+          "present",
+          false
+        ],
+        "prepay_hard_disqualifier"
+      ],
+      "scope": [
+        {
+          "surface": "screening",
+          "state": "NY",
+          "routeKey": null
+        }
+      ],
+      "successor": {
+        "en": {
+          "prompt": "For NY CPL 160.59, how many total eligible convictions would be included?",
+          "helperText": "Check the court or criminal-history records for the convictions you are asking to seal. Do not assume that every conviction counts as eligible. If you cannot confirm which convictions count, choose the available unsure option."
+        },
+        "es": {
+          "prompt": "Para NY CPL 160.59, ¿cuántas condenas elegibles se incluirían en total?",
+          "helperText": "Revise los expedientes judiciales o registros de antecedentes penales de las condenas que solicita sellar. No dé por hecho que todas las condenas cuentan como elegibles. Si no puede confirmar cuáles cuentan, elija la opción disponible para indicar que no lo sabe."
+        }
+      },
+      "predicateAuthorityStatus": "UNRESOLVED_SCOPED_AUTHORITY"
+    },
+    {
+      "reviewId": "COPY-GA181920-ny_16059_felony_convictions",
+      "descriptor": [
+        "ny_16059_felony_convictions",
+        "number_or_range",
+        "For NY CPL 160.59, how many of those convictions are felonies?",
+        "structured fact only; answer from court or criminal-history records",
+        null,
+        "timing_and_completion",
+        [
+          "present",
+          false
+        ],
+        [
+          "present",
+          false
+        ],
+        "prepay_soft_confidence"
+      ],
+      "scope": [
+        {
+          "surface": "screening",
+          "state": "NY",
+          "routeKey": null
+        }
+      ],
+      "successor": {
+        "en": {
+          "prompt": "For NY CPL 160.59, how many of those convictions are felonies?",
+          "helperText": "Count the convictions in the preceding answer that the court or criminal-history record identifies as felonies."
+        },
+        "es": {
+          "prompt": "Para NY CPL 160.59, ¿cuántas de esas condenas son por delitos graves (felonies)?",
+          "helperText": "Cuente las condenas de la respuesta anterior que el expediente judicial o registro de antecedentes penales identifica como delitos graves."
+        }
+      },
+      "predicateAuthorityStatus": "EXISTING_SOURCE_MEANING_UNCHANGED_NO_NEW_LEGAL_APPROVAL"
+    },
+    {
+      "reviewId": "COPY-GA181920-ny_16059_ineligible_offense",
+      "descriptor": [
+        "ny_16059_ineligible_offense",
+        "yes_no_unsure",
+        "For NY CPL 160.59, does any conviction appear to be a sex offense, Article 263 offense, felony Article 125 offense, violent felony, Class A felony, or ineligible attempt/conspiracy?",
+        "fact collection only; if unsure, route to review before any packet decision",
+        null,
+        "timing_and_completion",
+        [
+          "present",
+          false
+        ],
+        [
+          "present",
+          false
+        ],
+        "prepay_hard_disqualifier"
+      ],
+      "scope": [
+        {
+          "surface": "screening",
+          "state": "NY",
+          "routeKey": null
+        }
+      ],
+      "successor": {
+        "en": {
+          "prompt": "For NY CPL 160.59, does any conviction appear to be a sex offense, Article 263 offense, felony Article 125 offense, violent felony, Class A felony, or ineligible attempt/conspiracy?",
+          "helperText": "Use the offense name and code section in the court record to check the categories in this question. If you cannot confirm the legal category, choose the available unsure option; do not guess."
+        },
+        "es": {
+          "prompt": "Para NY CPL 160.59, ¿alguna condena parece ser por un delito sexual, un delito del artículo 263, un delito grave del artículo 125, un delito grave violento, un delito grave de clase A o una tentativa/conspiración no elegible?",
+          "helperText": "Use el nombre del delito y la sección del código que figuran en el expediente judicial para revisar las categorías de esta pregunta. Si no puede confirmar la categoría jurídica, elija la opción disponible para indicar que no lo sabe; no adivine."
+        }
+      },
+      "predicateAuthorityStatus": "UNRESOLVED_SCOPED_AUTHORITY"
+    },
+    {
+      "reviewId": "COPY-GA181920-ny_16059_sex_offender_registration",
+      "descriptor": [
+        "ny_16059_sex_offender_registration",
+        "yes_no_unsure",
+        "For NY CPL 160.59, does the record require sex-offender registration?",
+        "fact collection only; if unsure, route to review before any packet decision",
+        null,
+        "timing_and_completion",
+        [
+          "present",
+          false
+        ],
+        [
+          "present",
+          false
+        ],
+        "prepay_hard_disqualifier"
+      ],
+      "scope": [
+        {
+          "surface": "screening",
+          "state": "NY",
+          "routeKey": null
+        }
+      ],
+      "successor": {
+        "en": {
+          "prompt": "For NY CPL 160.59, does the record require sex-offender registration?",
+          "helperText": "Check whether the record requires sex-offender registration. If you cannot confirm the requirement, choose I am not sure."
+        },
+        "es": {
+          "prompt": "Para NY CPL 160.59, ¿el registro exige la inscripción como delincuente sexual?",
+          "helperText": "Revise si el registro exige la inscripción en el registro de delincuentes sexuales. Si no puede confirmar ese requisito, elija No estoy seguro."
+        }
+      },
+      "predicateAuthorityStatus": "EXISTING_SOURCE_MEANING_UNCHANGED_NO_NEW_LEGAL_APPROVAL"
+    },
+    {
+      "reviewId": "COPY-GA181920-ny_16059_pending_charge",
+      "descriptor": [
+        "ny_16059_pending_charge",
+        "yes_no_unsure",
+        "For NY CPL 160.59, is any criminal charge currently pending?",
+        "fact collection only; pending charges block the packet route",
+        null,
+        "timing_and_completion",
+        [
+          "present",
+          false
+        ],
+        [
+          "present",
+          false
+        ],
+        "prepay_hard_disqualifier"
+      ],
+      "scope": [
+        {
+          "surface": "screening",
+          "state": "NY",
+          "routeKey": null
+        }
+      ],
+      "successor": {
+        "en": {
+          "prompt": "For NY CPL 160.59, is any criminal charge currently pending?",
+          "helperText": "Answer about criminal charges that are still pending now. If you cannot confirm the current status, choose I am not sure."
+        },
+        "es": {
+          "prompt": "Para NY CPL 160.59, ¿hay algún cargo penal pendiente actualmente?",
+          "helperText": "Responda sobre los cargos penales que siguen pendientes ahora. Si no puede confirmar su estado actual, elija No estoy seguro."
+        }
+      },
+      "predicateAuthorityStatus": "EXISTING_SOURCE_MEANING_UNCHANGED_NO_NEW_LEGAL_APPROVAL"
+    },
+    {
+      "reviewId": "COPY-GA181920-ny_16059_post_last_conviction_crime",
+      "descriptor": [
+        "ny_16059_post_last_conviction_crime",
+        "yes_no_unsure",
+        "For NY CPL 160.59, has there been any crime after the most recent conviction?",
+        "fact collection only; if unsure, route to review before any packet decision",
+        null,
+        "timing_and_completion",
+        [
+          "present",
+          false
+        ],
+        [
+          "present",
+          false
+        ],
+        "prepay_soft_confidence"
+      ],
+      "scope": [
+        {
+          "surface": "screening",
+          "state": "NY",
+          "routeKey": null
+        }
+      ],
+      "successor": {
+        "en": {
+          "prompt": "For NY CPL 160.59, has there been any crime after the most recent conviction?",
+          "helperText": "Answer about the time after your most recent conviction. If you cannot confirm the answer, choose the available unsure option."
+        },
+        "es": {
+          "prompt": "Para NY CPL 160.59, ¿ha habido algún delito después de la condena más reciente?",
+          "helperText": "Responda sobre el período posterior a su condena más reciente. Si no puede confirmar la respuesta, elija la opción disponible para indicar que no lo sabe."
+        }
+      },
+      "predicateAuthorityStatus": "UNRESOLVED_SCOPED_AUTHORITY"
+    },
+    {
+      "reviewId": "COPY-GA181920-ny_16059_prior_sealing",
+      "descriptor": [
+        "ny_16059_prior_sealing",
+        "yes_no_unsure",
+        "For NY CPL 160.59, has a prior sealing cap or prior sealing order been identified?",
+        "fact collection only; if unsure, route to review before any packet decision",
+        null,
+        "timing_and_completion",
+        [
+          "present",
+          false
+        ],
+        [
+          "present",
+          false
+        ],
+        "prepay_soft_confidence"
+      ],
+      "scope": [
+        {
+          "surface": "screening",
+          "state": "NY",
+          "routeKey": null
+        }
+      ],
+      "successor": {
+        "en": {
+          "prompt": "For NY CPL 160.59, has a prior sealing cap or prior sealing order been identified?",
+          "helperText": "Check any earlier sealing orders. If you cannot confirm whether a prior-sealing limit or earlier sealing order has been identified, choose the available unsure option."
+        },
+        "es": {
+          "prompt": "Para NY CPL 160.59, ¿se ha identificado un límite por sellados anteriores o una orden de sellado anterior?",
+          "helperText": "Revise las órdenes de sellado anteriores, si las hay. Si no puede confirmar si se ha identificado un límite por sellados anteriores o una orden de sellado anterior, elija la opción disponible para indicar que no lo sabe."
+        }
+      },
+      "predicateAuthorityStatus": "UNRESOLVED_SCOPED_AUTHORITY"
+    },
+    {
+      "reviewId": "GA17-ND-RECORD-PURPOSE",
+      "descriptor": [
+        "record_type",
+        "single_choice",
+        "What type of record is this?",
+        "",
+        [
+          "Arrest or charge",
+          "Court case",
+          "Conviction",
+          "Juvenile matter",
+          "I am not sure"
+        ],
+        "packet_information",
+        [
+          "present",
+          true
+        ],
+        [
+          "present",
+          false
+        ],
+        "postpay_packet_field"
+      ],
+      "scope": [
+        {
+          "surface": "packet_information",
+          "state": "ND",
+          "routeKey": "ND:first-offense-possession-sealing"
+        }
+      ],
+      "successor": {
+        "en": {
+          "prompt": "What type of record is this?",
+          "helperText": "For this North Dakota request, this question checks whether the record is a conviction record. Check the criminal judgment. Choosing a record type does not confirm that this was your first controlled-substance offense."
+        },
+        "es": {
+          "prompt": "¿Qué tipo de registro es este?",
+          "helperText": "Para esta solicitud de Dakota del Norte, esta pregunta verifica si el registro corresponde a una condena. Revise la sentencia penal. Elegir un tipo de registro no confirma que este haya sido su primer delito relacionado con sustancias controladas."
+        }
+      },
+      "predicateAuthorityStatus": "PURPOSE_CONFIRMED_MENU_OVERLAP_UNRESOLVED"
+    }
+  ],
+  "optionProposalSha256": "c3465422c32fb8390072a005a51990c3f89216ce60e31baa1954c42c6f551163",
+  "optionIndependentReviewSha256": "1f9b0e56a40f9cd69fe0bb882c0a4ac58f9e514cdbf3b3f69192c84058cbb278",
+  "optionEntries": [
+    {
+      "reviewId": "GA17-CO-ARREST-CITATION",
+      "questionId": "case_outcome",
+      "inputType": "single_choice",
+      "wire": "Arrest or citation with no charge filed",
+      "bindings": [
+        {
+          "state": "AR",
+          "index": 0,
+          "display": {
+            "label": "Arrested, but never charged",
+            "helperText": "arrest or citation with no charge filed",
+            "translations": {
+              "es": {
+                "label": "Arrestado, pero nunca acusado",
+                "helperText": "arresto o citación sin cargos presentados"
+              }
+            }
+          }
+        },
+        {
+          "state": "CA",
+          "index": 0,
+          "display": {
+            "label": "Arrested, but never charged",
+            "helperText": "arrest or citation with no charge filed",
+            "translations": {
+              "es": {
+                "label": "Arrestado, pero nunca acusado",
+                "helperText": "arresto o citación sin cargos presentados"
+              }
+            }
+          }
+        },
+        {
+          "state": "CO",
+          "index": 0,
+          "display": {
+            "label": "Arrested, but never charged",
+            "helperText": "arrest or citation with no charge filed",
+            "translations": {
+              "es": {
+                "label": "Arrestado, pero nunca acusado",
+                "helperText": "arresto o citación sin cargos presentados"
+              }
+            }
+          }
+        },
+        {
+          "state": "FL",
+          "index": 0,
+          "display": {
+            "label": "Arrested, but never charged",
+            "helperText": "arrest or citation with no charge filed",
+            "translations": {
+              "es": {
+                "label": "Arrestado, pero nunca acusado",
+                "helperText": "arresto o citación sin cargos presentados"
+              }
+            }
+          }
+        },
+        {
+          "state": "IL",
+          "index": 0,
+          "display": {
+            "label": "Arrested, but never charged",
+            "helperText": "arrest or citation with no charge filed",
+            "translations": {
+              "es": {
+                "label": "Arrestado, pero nunca acusado",
+                "helperText": "arresto o citación sin cargos presentados"
+              }
+            }
+          }
+        },
+        {
+          "state": "ME",
+          "index": 0,
+          "display": {
+            "label": "Arrested, but never charged",
+            "helperText": "arrest or citation with no charge filed",
+            "translations": {
+              "es": {
+                "label": "Arrestado, pero nunca acusado",
+                "helperText": "arresto o citación sin cargos presentados"
+              }
+            }
+          }
+        },
+        {
+          "state": "MN",
+          "index": 0,
+          "display": {
+            "label": "Arrested, but never charged",
+            "helperText": "arrest or citation with no charge filed",
+            "translations": {
+              "es": {
+                "label": "Arrestado, pero nunca acusado",
+                "helperText": "arresto o citación sin cargos presentados"
+              }
+            }
+          }
+        },
+        {
+          "state": "NE",
+          "index": 0,
+          "display": {
+            "label": "Arrested, but never charged",
+            "helperText": "arrest or citation with no charge filed",
+            "translations": {
+              "es": {
+                "label": "Arrestado, pero nunca acusado",
+                "helperText": "arresto o citación sin cargos presentados"
+              }
+            }
+          }
+        },
+        {
+          "state": "NV",
+          "index": 0,
+          "display": {
+            "label": "Arrested, but never charged",
+            "helperText": "arrest or citation with no charge filed",
+            "translations": {
+              "es": {
+                "label": "Arrestado, pero nunca acusado",
+                "helperText": "arresto o citación sin cargos presentados"
+              }
+            }
+          }
+        },
+        {
+          "state": "OR",
+          "index": 0,
+          "display": {
+            "label": "Arrested, but never charged",
+            "helperText": "arrest or citation with no charge filed",
+            "translations": {
+              "es": {
+                "label": "Arrestado, pero nunca acusado",
+                "helperText": "arresto o citación sin cargos presentados"
+              }
+            }
+          }
+        },
+        {
+          "state": "TN",
+          "index": 0,
+          "display": {
+            "label": "Arrested, but never charged",
+            "helperText": "arrest or citation with no charge filed",
+            "translations": {
+              "es": {
+                "label": "Arrestado, pero nunca acusado",
+                "helperText": "arresto o citación sin cargos presentados"
+              }
+            }
+          }
+        },
+        {
+          "state": "TX",
+          "index": 0,
+          "display": {
+            "label": "Arrested, but never charged",
+            "helperText": "arrest or citation with no charge filed",
+            "translations": {
+              "es": {
+                "label": "Arrestado, pero nunca acusado",
+                "helperText": "arresto o citación sin cargos presentados"
+              }
+            }
+          }
+        },
+        {
+          "state": "WY",
+          "index": 0,
+          "display": {
+            "label": "Arrested, but never charged",
+            "helperText": "arrest or citation with no charge filed",
+            "translations": {
+              "es": {
+                "label": "Arrestado, pero nunca acusado",
+                "helperText": "arresto o citación sin cargos presentados"
+              }
+            }
+          }
+        }
+      ],
+      "successor": {
+        "label": "Arrest or citation with no charge filed",
+        "helperText": "The record shows an arrest or a citation, and no charge was filed.",
+        "translations": {
+          "es": {
+            "label": "Arresto o citación sin cargos presentados",
+            "helperText": "El registro muestra un arresto o una citación y que no se presentaron cargos."
+          }
+        }
+      }
+    },
+    {
+      "reviewId": "GA17-CO-PROGRAM",
+      "questionId": "case_outcome",
+      "inputType": "single_choice",
+      "wire": "Diversion, deferred disposition, supervision, or similar program",
+      "bindings": [
+        {
+          "state": "AL",
+          "index": 2,
+          "display": {
+            "label": "Completed a program instead of a conviction",
+            "helperText": "diversion, deferred disposition, supervision, or similar",
+            "translations": {
+              "es": {
+                "label": "Completó un programa en lugar de una condena",
+                "helperText": "diversión, resolución diferida, supervisión o algo similar"
+              }
+            }
+          }
+        },
+        {
+          "state": "CO",
+          "index": 3,
+          "display": {
+            "label": "Completed a program instead of a conviction",
+            "helperText": "diversion, deferred disposition, supervision, or similar",
+            "translations": {
+              "es": {
+                "label": "Completó un programa en lugar de una condena",
+                "helperText": "diversión, resolución diferida, supervisión o algo similar"
+              }
+            }
+          }
+        },
+        {
+          "state": "CT",
+          "index": 2,
+          "display": {
+            "label": "Completed a program instead of a conviction",
+            "helperText": "diversion, deferred disposition, supervision, or similar",
+            "translations": {
+              "es": {
+                "label": "Completó un programa en lugar de una condena",
+                "helperText": "diversión, resolución diferida, supervisión o algo similar"
+              }
+            }
+          }
+        },
+        {
+          "state": "FL",
+          "index": 3,
+          "display": {
+            "label": "Completed a program instead of a conviction",
+            "helperText": "diversion, deferred disposition, supervision, or similar",
+            "translations": {
+              "es": {
+                "label": "Completó un programa en lugar de una condena",
+                "helperText": "diversión, resolución diferida, supervisión o algo similar"
+              }
+            }
+          }
+        },
+        {
+          "state": "GA",
+          "index": 2,
+          "display": {
+            "label": "Completed a program instead of a conviction",
+            "helperText": "diversion, deferred disposition, supervision, or similar",
+            "translations": {
+              "es": {
+                "label": "Completó un programa en lugar de una condena",
+                "helperText": "diversión, resolución diferida, supervisión o algo similar"
+              }
+            }
+          }
+        },
+        {
+          "state": "HI",
+          "index": 1,
+          "display": {
+            "label": "Completed a program instead of a conviction",
+            "helperText": "diversion, deferred disposition, supervision, or similar",
+            "translations": {
+              "es": {
+                "label": "Completó un programa en lugar de una condena",
+                "helperText": "diversión, resolución diferida, supervisión o algo similar"
+              }
+            }
+          }
+        },
+        {
+          "state": "IA",
+          "index": 2,
+          "display": {
+            "label": "Completed a program instead of a conviction",
+            "helperText": "diversion, deferred disposition, supervision, or similar",
+            "translations": {
+              "es": {
+                "label": "Completó un programa en lugar de una condena",
+                "helperText": "diversión, resolución diferida, supervisión o algo similar"
+              }
+            }
+          }
+        },
+        {
+          "state": "IL",
+          "index": 3,
+          "display": {
+            "label": "Completed a program instead of a conviction",
+            "helperText": "diversion, deferred disposition, supervision, or similar",
+            "translations": {
+              "es": {
+                "label": "Completó un programa en lugar de una condena",
+                "helperText": "diversión, resolución diferida, supervisión o algo similar"
+              }
+            }
+          }
+        },
+        {
+          "state": "KS",
+          "index": 0,
+          "display": {
+            "label": "Completed a program instead of a conviction",
+            "helperText": "diversion, deferred disposition, supervision, or similar",
+            "translations": {
+              "es": {
+                "label": "Completó un programa en lugar de una condena",
+                "helperText": "diversión, resolución diferida, supervisión o algo similar"
+              }
+            }
+          }
+        },
+        {
+          "state": "LA",
+          "index": 2,
+          "display": {
+            "label": "Completed a program instead of a conviction",
+            "helperText": "diversion, deferred disposition, supervision, or similar",
+            "translations": {
+              "es": {
+                "label": "Completó un programa en lugar de una condena",
+                "helperText": "diversión, resolución diferida, supervisión o algo similar"
+              }
+            }
+          }
+        },
+        {
+          "state": "MD",
+          "index": 2,
+          "display": {
+            "label": "Completed a program instead of a conviction",
+            "helperText": "diversion, deferred disposition, supervision, or similar",
+            "translations": {
+              "es": {
+                "label": "Completó un programa en lugar de una condena",
+                "helperText": "diversión, resolución diferida, supervisión o algo similar"
+              }
+            }
+          }
+        },
+        {
+          "state": "ME",
+          "index": 3,
+          "display": {
+            "label": "Completed a program instead of a conviction",
+            "helperText": "diversion, deferred disposition, supervision, or similar",
+            "translations": {
+              "es": {
+                "label": "Completó un programa en lugar de una condena",
+                "helperText": "diversión, resolución diferida, supervisión o algo similar"
+              }
+            }
+          }
+        },
+        {
+          "state": "MN",
+          "index": 2,
+          "display": {
+            "label": "Completed a program instead of a conviction",
+            "helperText": "diversion, deferred disposition, supervision, or similar",
+            "translations": {
+              "es": {
+                "label": "Completó un programa en lugar de una condena",
+                "helperText": "diversión, resolución diferida, supervisión o algo similar"
+              }
+            }
+          }
+        },
+        {
+          "state": "MS",
+          "index": 1,
+          "display": {
+            "label": "Completed a program instead of a conviction",
+            "helperText": "diversion, deferred disposition, supervision, or similar",
+            "translations": {
+              "es": {
+                "label": "Completó un programa en lugar de una condena",
+                "helperText": "diversión, resolución diferida, supervisión o algo similar"
+              }
+            }
+          }
+        },
+        {
+          "state": "MT",
+          "index": 1,
+          "display": {
+            "label": "Completed a program instead of a conviction",
+            "helperText": "diversion, deferred disposition, supervision, or similar",
+            "translations": {
+              "es": {
+                "label": "Completó un programa en lugar de una condena",
+                "helperText": "diversión, resolución diferida, supervisión o algo similar"
+              }
+            }
+          }
+        },
+        {
+          "state": "NC",
+          "index": 2,
+          "display": {
+            "label": "Completed a program instead of a conviction",
+            "helperText": "diversion, deferred disposition, supervision, or similar",
+            "translations": {
+              "es": {
+                "label": "Completó un programa en lugar de una condena",
+                "helperText": "diversión, resolución diferida, supervisión o algo similar"
+              }
+            }
+          }
+        },
+        {
+          "state": "NE",
+          "index": 3,
+          "display": {
+            "label": "Completed a program instead of a conviction",
+            "helperText": "diversion, deferred disposition, supervision, or similar",
+            "translations": {
+              "es": {
+                "label": "Completó un programa en lugar de una condena",
+                "helperText": "diversión, resolución diferida, supervisión o algo similar"
+              }
+            }
+          }
+        },
+        {
+          "state": "NM",
+          "index": 2,
+          "display": {
+            "label": "Completed a program instead of a conviction",
+            "helperText": "diversion, deferred disposition, supervision, or similar",
+            "translations": {
+              "es": {
+                "label": "Completó un programa en lugar de una condena",
+                "helperText": "diversión, resolución diferida, supervisión o algo similar"
+              }
+            }
+          }
+        },
+        {
+          "state": "NV",
+          "index": 3,
+          "display": {
+            "label": "Completed a program instead of a conviction",
+            "helperText": "diversion, deferred disposition, supervision, or similar",
+            "translations": {
+              "es": {
+                "label": "Completó un programa en lugar de una condena",
+                "helperText": "diversión, resolución diferida, supervisión o algo similar"
+              }
+            }
+          }
+        },
+        {
+          "state": "NY",
+          "index": 2,
+          "display": {
+            "label": "Completed a program instead of a conviction",
+            "helperText": "diversion, deferred disposition, supervision, or similar",
+            "translations": {
+              "es": {
+                "label": "Completó un programa en lugar de una condena",
+                "helperText": "diversión, resolución diferida, supervisión o algo similar"
+              }
+            }
+          }
+        },
+        {
+          "state": "OH",
+          "index": 2,
+          "display": {
+            "label": "Completed a program instead of a conviction",
+            "helperText": "diversion, deferred disposition, supervision, or similar",
+            "translations": {
+              "es": {
+                "label": "Completó un programa en lugar de una condena",
+                "helperText": "diversión, resolución diferida, supervisión o algo similar"
+              }
+            }
+          }
+        },
+        {
+          "state": "OK",
+          "index": 2,
+          "display": {
+            "label": "Completed a program instead of a conviction",
+            "helperText": "diversion, deferred disposition, supervision, or similar",
+            "translations": {
+              "es": {
+                "label": "Completó un programa en lugar de una condena",
+                "helperText": "diversión, resolución diferida, supervisión o algo similar"
+              }
+            }
+          }
+        },
+        {
+          "state": "RI",
+          "index": 2,
+          "display": {
+            "label": "Completed a program instead of a conviction",
+            "helperText": "diversion, deferred disposition, supervision, or similar",
+            "translations": {
+              "es": {
+                "label": "Completó un programa en lugar de una condena",
+                "helperText": "diversión, resolución diferida, supervisión o algo similar"
+              }
+            }
+          }
+        },
+        {
+          "state": "SC",
+          "index": 2,
+          "display": {
+            "label": "Completed a program instead of a conviction",
+            "helperText": "diversion, deferred disposition, supervision, or similar",
+            "translations": {
+              "es": {
+                "label": "Completó un programa en lugar de una condena",
+                "helperText": "diversión, resolución diferida, supervisión o algo similar"
+              }
+            }
+          }
+        },
+        {
+          "state": "SD",
+          "index": 2,
+          "display": {
+            "label": "Completed a program instead of a conviction",
+            "helperText": "diversion, deferred disposition, supervision, or similar",
+            "translations": {
+              "es": {
+                "label": "Completó un programa en lugar de una condena",
+                "helperText": "diversión, resolución diferida, supervisión o algo similar"
+              }
+            }
+          }
+        },
+        {
+          "state": "TN",
+          "index": 3,
+          "display": {
+            "label": "Completed a program instead of a conviction",
+            "helperText": "diversion, deferred disposition, supervision, or similar",
+            "translations": {
+              "es": {
+                "label": "Completó un programa en lugar de una condena",
+                "helperText": "diversión, resolución diferida, supervisión o algo similar"
+              }
+            }
+          }
+        },
+        {
+          "state": "TX",
+          "index": 3,
+          "display": {
+            "label": "Completed a program instead of a conviction",
+            "helperText": "diversion, deferred disposition, supervision, or similar",
+            "translations": {
+              "es": {
+                "label": "Completó un programa en lugar de una condena",
+                "helperText": "diversión, resolución diferida, supervisión o algo similar"
+              }
+            }
+          }
+        },
+        {
+          "state": "VA",
+          "index": 2,
+          "display": {
+            "label": "Completed a program instead of a conviction",
+            "helperText": "diversion, deferred disposition, supervision, or similar",
+            "translations": {
+              "es": {
+                "label": "Completó un programa en lugar de una condena",
+                "helperText": "diversión, resolución diferida, supervisión o algo similar"
+              }
+            }
+          }
+        },
+        {
+          "state": "WA",
+          "index": 2,
+          "display": {
+            "label": "Completed a program instead of a conviction",
+            "helperText": "diversion, deferred disposition, supervision, or similar",
+            "translations": {
+              "es": {
+                "label": "Completó un programa en lugar de una condena",
+                "helperText": "diversión, resolución diferida, supervisión o algo similar"
+              }
+            }
+          }
+        },
+        {
+          "state": "WV",
+          "index": 2,
+          "display": {
+            "label": "Completed a program instead of a conviction",
+            "helperText": "diversion, deferred disposition, supervision, or similar",
+            "translations": {
+              "es": {
+                "label": "Completó un programa en lugar de una condena",
+                "helperText": "diversión, resolución diferida, supervisión o algo similar"
+              }
+            }
+          }
+        },
+        {
+          "state": "WY",
+          "index": 2,
+          "display": {
+            "label": "Completed a program instead of a conviction",
+            "helperText": "diversion, deferred disposition, supervision, or similar",
+            "translations": {
+              "es": {
+                "label": "Completó un programa en lugar de una condena",
+                "helperText": "diversión, resolución diferida, supervisión o algo similar"
+              }
+            }
+          }
+        }
+      ],
+      "successor": {
+        "label": "Diversion, deferred disposition, supervision, or similar program",
+        "helperText": "Use the program or disposition named in the record. This choice does not by itself confirm that the program was completed.",
+        "translations": {
+          "es": {
+            "label": "Programa alternativo (diversion), resolución diferida, supervisión o programa similar",
+            "helperText": "Use el nombre del programa o de la resolución que figura en el registro. Esta opción por sí sola no confirma que el programa se haya completado."
+          }
+        }
+      }
+    },
+    {
+      "reviewId": "GA17-CO-JUVENILE",
+      "questionId": "case_outcome",
+      "inputType": "single_choice",
+      "wire": "Juvenile adjudication or offense committed as a minor",
+      "bindings": [
+        {
+          "state": "AK",
+          "index": 4,
+          "display": {
+            "label": "It happened when I was a minor",
+            "helperText": "juvenile adjudication or offense as a minor",
+            "translations": {
+              "es": {
+                "label": "Ocurrió cuando era menor de edad",
+                "helperText": "decisión juvenil u ofensa cometida como menor"
+              }
+            }
+          }
+        },
+        {
+          "state": "AL",
+          "index": 6,
+          "display": {
+            "label": "It happened when I was a minor",
+            "helperText": "juvenile adjudication or offense as a minor",
+            "translations": {
+              "es": {
+                "label": "Ocurrió cuando era menor de edad",
+                "helperText": "decisión juvenil u ofensa cometida como menor"
+              }
+            }
+          }
+        },
+        {
+          "state": "CO",
+          "index": 6,
+          "display": {
+            "label": "It happened when I was a minor",
+            "helperText": "juvenile adjudication or offense as a minor",
+            "translations": {
+              "es": {
+                "label": "Ocurrió cuando era menor de edad",
+                "helperText": "decisión juvenil u ofensa cometida como menor"
+              }
+            }
+          }
+        },
+        {
+          "state": "DC",
+          "index": 5,
+          "display": {
+            "label": "It happened when I was a minor",
+            "helperText": "juvenile adjudication or offense as a minor",
+            "translations": {
+              "es": {
+                "label": "Ocurrió cuando era menor de edad",
+                "helperText": "decisión juvenil u ofensa cometida como menor"
+              }
+            }
+          }
+        },
+        {
+          "state": "FL",
+          "index": 5,
+          "display": {
+            "label": "It happened when I was a minor",
+            "helperText": "juvenile adjudication or offense as a minor",
+            "translations": {
+              "es": {
+                "label": "Ocurrió cuando era menor de edad",
+                "helperText": "decisión juvenil u ofensa cometida como menor"
+              }
+            }
+          }
+        },
+        {
+          "state": "HI",
+          "index": 5,
+          "display": {
+            "label": "It happened when I was a minor",
+            "helperText": "juvenile adjudication or offense as a minor",
+            "translations": {
+              "es": {
+                "label": "Ocurrió cuando era menor de edad",
+                "helperText": "decisión juvenil u ofensa cometida como menor"
+              }
+            }
+          }
+        },
+        {
+          "state": "IA",
+          "index": 5,
+          "display": {
+            "label": "It happened when I was a minor",
+            "helperText": "juvenile adjudication or offense as a minor",
+            "translations": {
+              "es": {
+                "label": "Ocurrió cuando era menor de edad",
+                "helperText": "decisión juvenil u ofensa cometida como menor"
+              }
+            }
+          }
+        },
+        {
+          "state": "IL",
+          "index": 7,
+          "display": {
+            "label": "It happened when I was a minor",
+            "helperText": "juvenile adjudication or offense as a minor",
+            "translations": {
+              "es": {
+                "label": "Ocurrió cuando era menor de edad",
+                "helperText": "decisión juvenil u ofensa cometida como menor"
+              }
+            }
+          }
+        },
+        {
+          "state": "IN",
+          "index": 1,
+          "display": {
+            "label": "It happened when I was a minor",
+            "helperText": "juvenile adjudication or offense as a minor",
+            "translations": {
+              "es": {
+                "label": "Ocurrió cuando era menor de edad",
+                "helperText": "decisión juvenil u ofensa cometida como menor"
+              }
+            }
+          }
+        },
+        {
+          "state": "KY",
+          "index": 5,
+          "display": {
+            "label": "It happened when I was a minor",
+            "helperText": "juvenile adjudication or offense as a minor",
+            "translations": {
+              "es": {
+                "label": "Ocurrió cuando era menor de edad",
+                "helperText": "decisión juvenil u ofensa cometida como menor"
+              }
+            }
+          }
+        },
+        {
+          "state": "LA",
+          "index": 6,
+          "display": {
+            "label": "It happened when I was a minor",
+            "helperText": "juvenile adjudication or offense as a minor",
+            "translations": {
+              "es": {
+                "label": "Ocurrió cuando era menor de edad",
+                "helperText": "decisión juvenil u ofensa cometida como menor"
+              }
+            }
+          }
+        },
+        {
+          "state": "MA",
+          "index": 5,
+          "display": {
+            "label": "It happened when I was a minor",
+            "helperText": "juvenile adjudication or offense as a minor",
+            "translations": {
+              "es": {
+                "label": "Ocurrió cuando era menor de edad",
+                "helperText": "decisión juvenil u ofensa cometida como menor"
+              }
+            }
+          }
+        },
+        {
+          "state": "MD",
+          "index": 6,
+          "display": {
+            "label": "It happened when I was a minor",
+            "helperText": "juvenile adjudication or offense as a minor",
+            "translations": {
+              "es": {
+                "label": "Ocurrió cuando era menor de edad",
+                "helperText": "decisión juvenil u ofensa cometida como menor"
+              }
+            }
+          }
+        },
+        {
+          "state": "ME",
+          "index": 5,
+          "display": {
+            "label": "It happened when I was a minor",
+            "helperText": "juvenile adjudication or offense as a minor",
+            "translations": {
+              "es": {
+                "label": "Ocurrió cuando era menor de edad",
+                "helperText": "decisión juvenil u ofensa cometida como menor"
+              }
+            }
+          }
+        },
+        {
+          "state": "MI",
+          "index": 3,
+          "display": {
+            "label": "It happened when I was a minor",
+            "helperText": "juvenile adjudication or offense as a minor",
+            "translations": {
+              "es": {
+                "label": "Ocurrió cuando era menor de edad",
+                "helperText": "decisión juvenil u ofensa cometida como menor"
+              }
+            }
+          }
+        },
+        {
+          "state": "MO",
+          "index": 5,
+          "display": {
+            "label": "It happened when I was a minor",
+            "helperText": "juvenile adjudication or offense as a minor",
+            "translations": {
+              "es": {
+                "label": "Ocurrió cuando era menor de edad",
+                "helperText": "decisión juvenil u ofensa cometida como menor"
+              }
+            }
+          }
+        },
+        {
+          "state": "MS",
+          "index": 5,
+          "display": {
+            "label": "It happened when I was a minor",
+            "helperText": "juvenile adjudication or offense as a minor",
+            "translations": {
+              "es": {
+                "label": "Ocurrió cuando era menor de edad",
+                "helperText": "decisión juvenil u ofensa cometida como menor"
+              }
+            }
+          }
+        },
+        {
+          "state": "ND",
+          "index": 5,
+          "display": {
+            "label": "It happened when I was a minor",
+            "helperText": "juvenile adjudication or offense as a minor",
+            "translations": {
+              "es": {
+                "label": "Ocurrió cuando era menor de edad",
+                "helperText": "decisión juvenil u ofensa cometida como menor"
+              }
+            }
+          }
+        },
+        {
+          "state": "NE",
+          "index": 7,
+          "display": {
+            "label": "It happened when I was a minor",
+            "helperText": "juvenile adjudication or offense as a minor",
+            "translations": {
+              "es": {
+                "label": "Ocurrió cuando era menor de edad",
+                "helperText": "decisión juvenil u ofensa cometida como menor"
+              }
+            }
+          }
+        },
+        {
+          "state": "NJ",
+          "index": 4,
+          "display": {
+            "label": "It happened when I was a minor",
+            "helperText": "juvenile adjudication or offense as a minor",
+            "translations": {
+              "es": {
+                "label": "Ocurrió cuando era menor de edad",
+                "helperText": "decisión juvenil u ofensa cometida como menor"
+              }
+            }
+          }
+        },
+        {
+          "state": "NM",
+          "index": 6,
+          "display": {
+            "label": "It happened when I was a minor",
+            "helperText": "juvenile adjudication or offense as a minor",
+            "translations": {
+              "es": {
+                "label": "Ocurrió cuando era menor de edad",
+                "helperText": "decisión juvenil u ofensa cometida como menor"
+              }
+            }
+          }
+        },
+        {
+          "state": "NV",
+          "index": 7,
+          "display": {
+            "label": "It happened when I was a minor",
+            "helperText": "juvenile adjudication or offense as a minor",
+            "translations": {
+              "es": {
+                "label": "Ocurrió cuando era menor de edad",
+                "helperText": "decisión juvenil u ofensa cometida como menor"
+              }
+            }
+          }
+        },
+        {
+          "state": "OH",
+          "index": 6,
+          "display": {
+            "label": "It happened when I was a minor",
+            "helperText": "juvenile adjudication or offense as a minor",
+            "translations": {
+              "es": {
+                "label": "Ocurrió cuando era menor de edad",
+                "helperText": "decisión juvenil u ofensa cometida como menor"
+              }
+            }
+          }
+        },
+        {
+          "state": "OK",
+          "index": 6,
+          "display": {
+            "label": "It happened when I was a minor",
+            "helperText": "juvenile adjudication or offense as a minor",
+            "translations": {
+              "es": {
+                "label": "Ocurrió cuando era menor de edad",
+                "helperText": "decisión juvenil u ofensa cometida como menor"
+              }
+            }
+          }
+        },
+        {
+          "state": "SC",
+          "index": 6,
+          "display": {
+            "label": "It happened when I was a minor",
+            "helperText": "juvenile adjudication or offense as a minor",
+            "translations": {
+              "es": {
+                "label": "Ocurrió cuando era menor de edad",
+                "helperText": "decisión juvenil u ofensa cometida como menor"
+              }
+            }
+          }
+        },
+        {
+          "state": "SD",
+          "index": 6,
+          "display": {
+            "label": "It happened when I was a minor",
+            "helperText": "juvenile adjudication or offense as a minor",
+            "translations": {
+              "es": {
+                "label": "Ocurrió cuando era menor de edad",
+                "helperText": "decisión juvenil u ofensa cometida como menor"
+              }
+            }
+          }
+        },
+        {
+          "state": "UT",
+          "index": 5,
+          "display": {
+            "label": "It happened when I was a minor",
+            "helperText": "juvenile adjudication or offense as a minor",
+            "translations": {
+              "es": {
+                "label": "Ocurrió cuando era menor de edad",
+                "helperText": "decisión juvenil u ofensa cometida como menor"
+              }
+            }
+          }
+        },
+        {
+          "state": "VT",
+          "index": 4,
+          "display": {
+            "label": "It happened when I was a minor",
+            "helperText": "juvenile adjudication or offense as a minor",
+            "translations": {
+              "es": {
+                "label": "Ocurrió cuando era menor de edad",
+                "helperText": "decisión juvenil u ofensa cometida como menor"
+              }
+            }
+          }
+        },
+        {
+          "state": "WA",
+          "index": 6,
+          "display": {
+            "label": "It happened when I was a minor",
+            "helperText": "juvenile adjudication or offense as a minor",
+            "translations": {
+              "es": {
+                "label": "Ocurrió cuando era menor de edad",
+                "helperText": "decisión juvenil u ofensa cometida como menor"
+              }
+            }
+          }
+        },
+        {
+          "state": "WI",
+          "index": 4,
+          "display": {
+            "label": "It happened when I was a minor",
+            "helperText": "juvenile adjudication or offense as a minor",
+            "translations": {
+              "es": {
+                "label": "Ocurrió cuando era menor de edad",
+                "helperText": "decisión juvenil u ofensa cometida como menor"
+              }
+            }
+          }
+        },
+        {
+          "state": "WV",
+          "index": 6,
+          "display": {
+            "label": "It happened when I was a minor",
+            "helperText": "juvenile adjudication or offense as a minor",
+            "translations": {
+              "es": {
+                "label": "Ocurrió cuando era menor de edad",
+                "helperText": "decisión juvenil u ofensa cometida como menor"
+              }
+            }
+          }
+        },
+        {
+          "state": "WY",
+          "index": 6,
+          "display": {
+            "label": "It happened when I was a minor",
+            "helperText": "juvenile adjudication or offense as a minor",
+            "translations": {
+              "es": {
+                "label": "Ocurrió cuando era menor de edad",
+                "helperText": "decisión juvenil u ofensa cometida como menor"
+              }
+            }
+          }
+        }
+      ],
+      "successor": {
+        "label": "Juvenile adjudication or offense committed as a minor",
+        "helperText": "This choice covers a juvenile adjudication or an offense committed as a minor. It does not by itself establish whether the case was handled in adult court.",
+        "translations": {
+          "es": {
+            "label": "Adjudicación juvenil o delito cometido siendo menor de edad",
+            "helperText": "Esta opción abarca una adjudicación juvenil o un delito cometido siendo menor de edad. Por sí sola no establece si el caso se tramitó en un tribunal de adultos."
+          }
+        }
+      }
+    },
+    {
+      "reviewId": "GA17-CO-OTHER-ADJUDICATION",
+      "questionId": "case_outcome",
+      "inputType": "single_choice",
+      "wire": "Other conviction or adjudication",
+      "bindings": [
+        {
+          "state": "AK",
+          "index": 3,
+          "display": {
+            "label": "Another kind of conviction",
+            "helperText": "other conviction or adjudication",
+            "translations": {
+              "es": {
+                "label": "Otro tipo de condena",
+                "helperText": "otra condena o decisión del tribunal"
+              }
+            }
+          }
+        },
+        {
+          "state": "AL",
+          "index": 5,
+          "display": {
+            "label": "Another kind of conviction",
+            "helperText": "other conviction or adjudication",
+            "translations": {
+              "es": {
+                "label": "Otro tipo de condena",
+                "helperText": "otra condena o decisión del tribunal"
+              }
+            }
+          }
+        },
+        {
+          "state": "AR",
+          "index": 5,
+          "display": {
+            "label": "Another kind of conviction",
+            "helperText": "other conviction or adjudication",
+            "translations": {
+              "es": {
+                "label": "Otro tipo de condena",
+                "helperText": "otra condena o decisión del tribunal"
+              }
+            }
+          }
+        },
+        {
+          "state": "AZ",
+          "index": 2,
+          "display": {
+            "label": "Another kind of conviction",
+            "helperText": "other conviction or adjudication",
+            "translations": {
+              "es": {
+                "label": "Otro tipo de condena",
+                "helperText": "otra condena o decisión del tribunal"
+              }
+            }
+          }
+        },
+        {
+          "state": "CA",
+          "index": 4,
+          "display": {
+            "label": "Another kind of conviction",
+            "helperText": "other conviction or adjudication",
+            "translations": {
+              "es": {
+                "label": "Otro tipo de condena",
+                "helperText": "otra condena o decisión del tribunal"
+              }
+            }
+          }
+        },
+        {
+          "state": "CO",
+          "index": 5,
+          "display": {
+            "label": "Another kind of conviction",
+            "helperText": "other conviction or adjudication",
+            "translations": {
+              "es": {
+                "label": "Otro tipo de condena",
+                "helperText": "otra condena o decisión del tribunal"
+              }
+            }
+          }
+        },
+        {
+          "state": "CT",
+          "index": 4,
+          "display": {
+            "label": "Another kind of conviction",
+            "helperText": "other conviction or adjudication",
+            "translations": {
+              "es": {
+                "label": "Otro tipo de condena",
+                "helperText": "otra condena o decisión del tribunal"
+              }
+            }
+          }
+        },
+        {
+          "state": "DC",
+          "index": 4,
+          "display": {
+            "label": "Another kind of conviction",
+            "helperText": "other conviction or adjudication",
+            "translations": {
+              "es": {
+                "label": "Otro tipo de condena",
+                "helperText": "otra condena o decisión del tribunal"
+              }
+            }
+          }
+        },
+        {
+          "state": "FL",
+          "index": 4,
+          "display": {
+            "label": "Another kind of conviction",
+            "helperText": "other conviction or adjudication",
+            "translations": {
+              "es": {
+                "label": "Otro tipo de condena",
+                "helperText": "otra condena o decisión del tribunal"
+              }
+            }
+          }
+        },
+        {
+          "state": "GA",
+          "index": 5,
+          "display": {
+            "label": "Another kind of conviction",
+            "helperText": "other conviction or adjudication",
+            "translations": {
+              "es": {
+                "label": "Otro tipo de condena",
+                "helperText": "otra condena o decisión del tribunal"
+              }
+            }
+          }
+        },
+        {
+          "state": "HI",
+          "index": 4,
+          "display": {
+            "label": "Another kind of conviction",
+            "helperText": "other conviction or adjudication",
+            "translations": {
+              "es": {
+                "label": "Otro tipo de condena",
+                "helperText": "otra condena o decisión del tribunal"
+              }
+            }
+          }
+        },
+        {
+          "state": "IA",
+          "index": 4,
+          "display": {
+            "label": "Another kind of conviction",
+            "helperText": "other conviction or adjudication",
+            "translations": {
+              "es": {
+                "label": "Otro tipo de condena",
+                "helperText": "otra condena o decisión del tribunal"
+              }
+            }
+          }
+        },
+        {
+          "state": "ID",
+          "index": 2,
+          "display": {
+            "label": "Another kind of conviction",
+            "helperText": "other conviction or adjudication",
+            "translations": {
+              "es": {
+                "label": "Otro tipo de condena",
+                "helperText": "otra condena o decisión del tribunal"
+              }
+            }
+          }
+        },
+        {
+          "state": "IL",
+          "index": 6,
+          "display": {
+            "label": "Another kind of conviction",
+            "helperText": "other conviction or adjudication",
+            "translations": {
+              "es": {
+                "label": "Otro tipo de condena",
+                "helperText": "otra condena o decisión del tribunal"
+              }
+            }
+          }
+        },
+        {
+          "state": "IN",
+          "index": 0,
+          "display": {
+            "label": "Another kind of conviction",
+            "helperText": "other conviction or adjudication",
+            "translations": {
+              "es": {
+                "label": "Otro tipo de condena",
+                "helperText": "otra condena o decisión del tribunal"
+              }
+            }
+          }
+        },
+        {
+          "state": "KS",
+          "index": 2,
+          "display": {
+            "label": "Another kind of conviction",
+            "helperText": "other conviction or adjudication",
+            "translations": {
+              "es": {
+                "label": "Otro tipo de condena",
+                "helperText": "otra condena o decisión del tribunal"
+              }
+            }
+          }
+        },
+        {
+          "state": "KY",
+          "index": 4,
+          "display": {
+            "label": "Another kind of conviction",
+            "helperText": "other conviction or adjudication",
+            "translations": {
+              "es": {
+                "label": "Otro tipo de condena",
+                "helperText": "otra condena o decisión del tribunal"
+              }
+            }
+          }
+        },
+        {
+          "state": "LA",
+          "index": 5,
+          "display": {
+            "label": "Another kind of conviction",
+            "helperText": "other conviction or adjudication",
+            "translations": {
+              "es": {
+                "label": "Otro tipo de condena",
+                "helperText": "otra condena o decisión del tribunal"
+              }
+            }
+          }
+        },
+        {
+          "state": "MA",
+          "index": 4,
+          "display": {
+            "label": "Another kind of conviction",
+            "helperText": "other conviction or adjudication",
+            "translations": {
+              "es": {
+                "label": "Otro tipo de condena",
+                "helperText": "otra condena o decisión del tribunal"
+              }
+            }
+          }
+        },
+        {
+          "state": "MD",
+          "index": 5,
+          "display": {
+            "label": "Another kind of conviction",
+            "helperText": "other conviction or adjudication",
+            "translations": {
+              "es": {
+                "label": "Otro tipo de condena",
+                "helperText": "otra condena o decisión del tribunal"
+              }
+            }
+          }
+        },
+        {
+          "state": "ME",
+          "index": 4,
+          "display": {
+            "label": "Another kind of conviction",
+            "helperText": "other conviction or adjudication",
+            "translations": {
+              "es": {
+                "label": "Otro tipo de condena",
+                "helperText": "otra condena o decisión del tribunal"
+              }
+            }
+          }
+        },
+        {
+          "state": "MI",
+          "index": 2,
+          "display": {
+            "label": "Another kind of conviction",
+            "helperText": "other conviction or adjudication",
+            "translations": {
+              "es": {
+                "label": "Otro tipo de condena",
+                "helperText": "otra condena o decisión del tribunal"
+              }
+            }
+          }
+        },
+        {
+          "state": "MN",
+          "index": 5,
+          "display": {
+            "label": "Another kind of conviction",
+            "helperText": "other conviction or adjudication",
+            "translations": {
+              "es": {
+                "label": "Otro tipo de condena",
+                "helperText": "otra condena o decisión del tribunal"
+              }
+            }
+          }
+        },
+        {
+          "state": "MO",
+          "index": 4,
+          "display": {
+            "label": "Another kind of conviction",
+            "helperText": "other conviction or adjudication",
+            "translations": {
+              "es": {
+                "label": "Otro tipo de condena",
+                "helperText": "otra condena o decisión del tribunal"
+              }
+            }
+          }
+        },
+        {
+          "state": "MS",
+          "index": 4,
+          "display": {
+            "label": "Another kind of conviction",
+            "helperText": "other conviction or adjudication",
+            "translations": {
+              "es": {
+                "label": "Otro tipo de condena",
+                "helperText": "otra condena o decisión del tribunal"
+              }
+            }
+          }
+        },
+        {
+          "state": "MT",
+          "index": 3,
+          "display": {
+            "label": "Another kind of conviction",
+            "helperText": "other conviction or adjudication",
+            "translations": {
+              "es": {
+                "label": "Otro tipo de condena",
+                "helperText": "otra condena o decisión del tribunal"
+              }
+            }
+          }
+        },
+        {
+          "state": "NC",
+          "index": 5,
+          "display": {
+            "label": "Another kind of conviction",
+            "helperText": "other conviction or adjudication",
+            "translations": {
+              "es": {
+                "label": "Otro tipo de condena",
+                "helperText": "otra condena o decisión del tribunal"
+              }
+            }
+          }
+        },
+        {
+          "state": "ND",
+          "index": 4,
+          "display": {
+            "label": "Another kind of conviction",
+            "helperText": "other conviction or adjudication",
+            "translations": {
+              "es": {
+                "label": "Otro tipo de condena",
+                "helperText": "otra condena o decisión del tribunal"
+              }
+            }
+          }
+        },
+        {
+          "state": "NE",
+          "index": 6,
+          "display": {
+            "label": "Another kind of conviction",
+            "helperText": "other conviction or adjudication",
+            "translations": {
+              "es": {
+                "label": "Otro tipo de condena",
+                "helperText": "otra condena o decisión del tribunal"
+              }
+            }
+          }
+        },
+        {
+          "state": "NH",
+          "index": 1,
+          "display": {
+            "label": "Another kind of conviction",
+            "helperText": "other conviction or adjudication",
+            "translations": {
+              "es": {
+                "label": "Otro tipo de condena",
+                "helperText": "otra condena o decisión del tribunal"
+              }
+            }
+          }
+        },
+        {
+          "state": "NJ",
+          "index": 3,
+          "display": {
+            "label": "Another kind of conviction",
+            "helperText": "other conviction or adjudication",
+            "translations": {
+              "es": {
+                "label": "Otro tipo de condena",
+                "helperText": "otra condena o decisión del tribunal"
+              }
+            }
+          }
+        },
+        {
+          "state": "NM",
+          "index": 5,
+          "display": {
+            "label": "Another kind of conviction",
+            "helperText": "other conviction or adjudication",
+            "translations": {
+              "es": {
+                "label": "Otro tipo de condena",
+                "helperText": "otra condena o decisión del tribunal"
+              }
+            }
+          }
+        },
+        {
+          "state": "NV",
+          "index": 6,
+          "display": {
+            "label": "Another kind of conviction",
+            "helperText": "other conviction or adjudication",
+            "translations": {
+              "es": {
+                "label": "Otro tipo de condena",
+                "helperText": "otra condena o decisión del tribunal"
+              }
+            }
+          }
+        },
+        {
+          "state": "NY",
+          "index": 5,
+          "display": {
+            "label": "Another kind of conviction",
+            "helperText": "other conviction or adjudication",
+            "translations": {
+              "es": {
+                "label": "Otro tipo de condena",
+                "helperText": "otra condena o decisión del tribunal"
+              }
+            }
+          }
+        },
+        {
+          "state": "OH",
+          "index": 5,
+          "display": {
+            "label": "Another kind of conviction",
+            "helperText": "other conviction or adjudication",
+            "translations": {
+              "es": {
+                "label": "Otro tipo de condena",
+                "helperText": "otra condena o decisión del tribunal"
+              }
+            }
+          }
+        },
+        {
+          "state": "OK",
+          "index": 5,
+          "display": {
+            "label": "Another kind of conviction",
+            "helperText": "other conviction or adjudication",
+            "translations": {
+              "es": {
+                "label": "Otro tipo de condena",
+                "helperText": "otra condena o decisión del tribunal"
+              }
+            }
+          }
+        },
+        {
+          "state": "OR",
+          "index": 5,
+          "display": {
+            "label": "Another kind of conviction",
+            "helperText": "other conviction or adjudication",
+            "translations": {
+              "es": {
+                "label": "Otro tipo de condena",
+                "helperText": "otra condena o decisión del tribunal"
+              }
+            }
+          }
+        },
+        {
+          "state": "PA",
+          "index": 4,
+          "display": {
+            "label": "Another kind of conviction",
+            "helperText": "other conviction or adjudication",
+            "translations": {
+              "es": {
+                "label": "Otro tipo de condena",
+                "helperText": "otra condena o decisión del tribunal"
+              }
+            }
+          }
+        },
+        {
+          "state": "RI",
+          "index": 5,
+          "display": {
+            "label": "Another kind of conviction",
+            "helperText": "other conviction or adjudication",
+            "translations": {
+              "es": {
+                "label": "Otro tipo de condena",
+                "helperText": "otra condena o decisión del tribunal"
+              }
+            }
+          }
+        },
+        {
+          "state": "SC",
+          "index": 5,
+          "display": {
+            "label": "Another kind of conviction",
+            "helperText": "other conviction or adjudication",
+            "translations": {
+              "es": {
+                "label": "Otro tipo de condena",
+                "helperText": "otra condena o decisión del tribunal"
+              }
+            }
+          }
+        },
+        {
+          "state": "SD",
+          "index": 5,
+          "display": {
+            "label": "Another kind of conviction",
+            "helperText": "other conviction or adjudication",
+            "translations": {
+              "es": {
+                "label": "Otro tipo de condena",
+                "helperText": "otra condena o decisión del tribunal"
+              }
+            }
+          }
+        },
+        {
+          "state": "TN",
+          "index": 6,
+          "display": {
+            "label": "Another kind of conviction",
+            "helperText": "other conviction or adjudication",
+            "translations": {
+              "es": {
+                "label": "Otro tipo de condena",
+                "helperText": "otra condena o decisión del tribunal"
+              }
+            }
+          }
+        },
+        {
+          "state": "TX",
+          "index": 4,
+          "display": {
+            "label": "Another kind of conviction",
+            "helperText": "other conviction or adjudication",
+            "translations": {
+              "es": {
+                "label": "Otro tipo de condena",
+                "helperText": "otra condena o decisión del tribunal"
+              }
+            }
+          }
+        },
+        {
+          "state": "UT",
+          "index": 4,
+          "display": {
+            "label": "Another kind of conviction",
+            "helperText": "other conviction or adjudication",
+            "translations": {
+              "es": {
+                "label": "Otro tipo de condena",
+                "helperText": "otra condena o decisión del tribunal"
+              }
+            }
+          }
+        },
+        {
+          "state": "VA",
+          "index": 5,
+          "display": {
+            "label": "Another kind of conviction",
+            "helperText": "other conviction or adjudication",
+            "translations": {
+              "es": {
+                "label": "Otro tipo de condena",
+                "helperText": "otra condena o decisión del tribunal"
+              }
+            }
+          }
+        },
+        {
+          "state": "VT",
+          "index": 3,
+          "display": {
+            "label": "Another kind of conviction",
+            "helperText": "other conviction or adjudication",
+            "translations": {
+              "es": {
+                "label": "Otro tipo de condena",
+                "helperText": "otra condena o decisión del tribunal"
+              }
+            }
+          }
+        },
+        {
+          "state": "WA",
+          "index": 5,
+          "display": {
+            "label": "Another kind of conviction",
+            "helperText": "other conviction or adjudication",
+            "translations": {
+              "es": {
+                "label": "Otro tipo de condena",
+                "helperText": "otra condena o decisión del tribunal"
+              }
+            }
+          }
+        },
+        {
+          "state": "WI",
+          "index": 3,
+          "display": {
+            "label": "Another kind of conviction",
+            "helperText": "other conviction or adjudication",
+            "translations": {
+              "es": {
+                "label": "Otro tipo de condena",
+                "helperText": "otra condena o decisión del tribunal"
+              }
+            }
+          }
+        },
+        {
+          "state": "WV",
+          "index": 5,
+          "display": {
+            "label": "Another kind of conviction",
+            "helperText": "other conviction or adjudication",
+            "translations": {
+              "es": {
+                "label": "Otro tipo de condena",
+                "helperText": "otra condena o decisión del tribunal"
+              }
+            }
+          }
+        },
+        {
+          "state": "WY",
+          "index": 5,
+          "display": {
+            "label": "Another kind of conviction",
+            "helperText": "other conviction or adjudication",
+            "translations": {
+              "es": {
+                "label": "Otro tipo de condena",
+                "helperText": "otra condena o decisión del tribunal"
+              }
+            }
+          }
+        }
+      ],
+      "successor": {
+        "label": "Other conviction or adjudication",
+        "helperText": "Use the outcome stated in the court record. If you cannot identify it, choose the available unsure option.",
+        "translations": {
+          "es": {
+            "label": "Otra condena o adjudicación",
+            "helperText": "Use el resultado que consta en el expediente judicial. Si no puede identificarlo, elija la opción disponible para indicar que no lo sabe."
+          }
+        }
+      }
+    }
+  ]
+}

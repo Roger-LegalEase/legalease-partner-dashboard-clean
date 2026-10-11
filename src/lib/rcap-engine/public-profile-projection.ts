@@ -1,6 +1,6 @@
 import { CA_PROP64_QUESTIONS } from "@/lib/expungement-ai/ca-prop64-choices";
 import "server-only";
-import { reviewedSpanishQuestion } from "@/lib/expungement-ai/reviewed-question-copy";
+import { reviewedScreeningQuestion } from "@/lib/expungement-ai/reviewed-question-copy";
 import { normalizeQuestionChoices, exclusiveOptionsFor } from "@/lib/expungement-ai/question-answer-state";
 
 import type { EngineProfile, PublicCaseOutcomeOption, PublicJurisdictionProfile, PublicQuestion } from "@/lib/rcap-engine/contracts";
@@ -1142,10 +1142,10 @@ function toPublicJurisdictionProfile(draft: PublicJurisdictionProfile): PublicJu
 export function projectPublicProfile(profile: EngineProfile): PublicJurisdictionProfile {
   const projected = toPublicJurisdictionProfile(buildProfileDraft(profile));
   const context = { state: profile.jurisdiction.code };
-  projected.questions = projected.questions.map((question) => reviewedSpanishQuestion(question, context));
+  projected.questions = projected.questions.map((question) => reviewedScreeningQuestion(question, context));
   const completion = projected.postPaymentPacketCompletion;
   if (completion) for (const questions of Object.values(completion)) {
-    for (let index = 0; index < questions.length; index++) questions[index] = reviewedSpanishQuestion(questions[index], context);
+    for (let index = 0; index < questions.length; index++) questions[index] = reviewedScreeningQuestion(questions[index], context);
   }
   const lifecycle = validateQuestionLifecycleMetadata(profile, [
     ...projected.questions,
