@@ -83,6 +83,7 @@ export type PacketVerificationSnapshot = {
     accountContactSources?: { email_address: { version: 1; source: "same_owner_account_email"; purpose: "this_packet_contact";
       valueSha256: string; confirmedAt: string; status: "adopted" | "superseded" } };
     contactRepresentation?: import("@/lib/expungement-ai/contact-representation").ContactRepresentationProvenance;
+    courtCompletionImplications?: Record<string, import("@/lib/expungement-ai/court-completion-reuse").CourtCompletionImplication>;
     semanticAnswerHistory?: Array<{ factId: string; value: unknown; source: "screeningAnswers" | "prefilledAnswers" | "packetAnswers";
       meaning: "ambiguous_victimhood_or_charged_conduct" | "ca_prop64_prior_choice_wording" | "ca_prop64_prior_record_detail" | "ca_prop64_prior_completion_answer"; routeKey: string; profileVersion: string;
       profileSourceFingerprint: string | null; profileAuthorityFingerprint: string }>;

@@ -5,6 +5,7 @@ import { isAffirmative, isExplicitUnknownAnswer } from "@/lib/rcap-engine/answer
 import { recordFactOwnQuestionIds, recordFactConfirmationFor, unresolvedRecordFactConfirmations, recordFactCourtConflict } from "@/lib/expungement-ai/record-fact-clarification";
 import { fullSsnLastFour, requiresMcicIdentifierAuthority } from "@/lib/expungement-ai/sensitive-packet-facts";
 import { reviewedContactRepresentation, contactRepresentationHash, contactRepresentationProvenance, isProvenContactOutput } from "@/lib/expungement-ai/contact-representation";
+import { courtCompletionContractsFor, refreshCourtCompletionImplications } from "@/lib/expungement-ai/court-completion-reuse";
 import { reviewedPacketQuestion } from "@/lib/expungement-ai/reviewed-question-copy";
 import { reviewedPacketContractSuccessor, preserveAmbiguousMsAnswer, MS_CHARGED_CONDUCT_FACT } from "@/lib/expungement-ai/packet-contract-successors";
 import { answerValueIsKnown, questionAnswerState, normalizeQuestionChoices, sameKnownQuestionAnswer } from "@/lib/expungement-ai/question-answer-state";
@@ -420,7 +421,7 @@ export function packetInformationPatch(input: {
   const priorSnapshot = protectedAuthoritySnapshotFor(priorProtected)!;
   const freshSensitiveMaps = refreshedSensitiveFactMaps(priorSnapshot.jurisdiction, priorSnapshot.pathwayId, priorSnapshot.requiredInputIds,
     answerRecord(priorSnapshot.screeningAnswers), answerRecord(priorSnapshot.prefilledAnswers), answerRecord(priorSnapshot.packetAnswers));
-  const freshContact = refreshedPacketFactMaps(priorSnapshot, freshSensitiveMaps);
+  const freshContact = refreshedProtectedPacketFactMaps(priorSnapshot, freshSensitiveMaps);
   const derivedRepairRequired = !canonicalEqual(freshContact.maps, {
     screeningAnswers: priorSnapshot.screeningAnswers, prefilledAnswers: priorSnapshot.prefilledAnswers, packetAnswers: priorSnapshot.packetAnswers
   });
@@ -799,14 +800,7 @@ export function protectedPacketInformationModelFor(
   const contractSuccessor = !canonicalEqual(evaluation.packetPlan ?? null, snapshot.packetPlan)
     ? reviewedPacketContractSuccessor(snapshot, evaluation.packetPlan) : null;
   if (contractSuccessor) snapshot = contractSuccessor;
-  if ((evaluation.pathwayId ?? null) !== snapshot.pathwayId
-    || evaluation.resultCode !== snapshot.resultCode
-    || evaluation.paymentAllowed !== snapshot.paymentAllowed
-    || (authoritative.packetType ?? null) !== (snapshot.packetType ?? null)
-    || (authoritative.selectedTrackId ?? null) !== snapshot.selectedTrackId
-    || (evaluation.treatmentClassification ?? null) !== snapshot.treatmentClassification
-    || !canonicalEqual(evaluation.deferralComponentIds ?? [], snapshot.deferralComponentIds)
-    || !canonicalEqual(evaluation.packetPlan ?? null, snapshot.packetPlan)) return null;
+  if (!protectedRouteAuthorityMatches(snapshot, authoritative)) return null;
   const packetPlan = readPacketPlan(snapshot.packetPlan);
   if (packetPlan && packetPlan.pathwayId !== snapshot.pathwayId) return null;
   const {
@@ -815,7 +809,7 @@ export function protectedPacketInformationModelFor(
     packetAnswers,
     serverFacts
   } = sourceDisjointFactMaps({
-    ...refreshedPacketFactMaps(snapshot, refreshedSensitiveFactMaps(snapshot.jurisdiction, snapshot.pathwayId, snapshot.requiredInputIds,
+    ...refreshedProtectedPacketFactMaps(snapshot, refreshedSensitiveFactMaps(snapshot.jurisdiction, snapshot.pathwayId, snapshot.requiredInputIds,
       answerRecord(snapshot.screeningAnswers), answerRecord(snapshot.prefilledAnswers), answerRecord(snapshot.packetAnswers))).maps,
     serverFacts: snapshot.serverFacts
   });
@@ -1275,7 +1269,7 @@ function deriveProtectedPacketDraftSnapshot(
       base = { ...base, dependencies: { ...base.dependencies, semanticAnswerHistory: caProp64AnswerHistory(base) } };
     }
   }
-  const refreshed = refreshedPacketFactMaps(base, { screeningAnswers: answerRecord(base.screeningAnswers),
+  const refreshed = refreshedProtectedPacketFactMaps(base, { screeningAnswers: answerRecord(base.screeningAnswers),
     prefilledAnswers: answerRecord(base.prefilledAnswers), packetAnswers }, useContactComponents);
   if (useContactComponents && !refreshed.adopted) return null;
   const answers = { ...refreshed.maps.screeningAnswers, ...refreshed.maps.prefilledAnswers, ...refreshed.maps.packetAnswers };
@@ -1321,6 +1315,75 @@ function refreshedSensitiveFactMaps(state: string, pathwayId: string | null, req
 }
 
 type ParticipantFactMaps = { screeningAnswers: Record<string, AnswerValue>; prefilledAnswers: Record<string, AnswerValue>; packetAnswers: Record<string, AnswerValue> };
+
+function protectedRouteAuthorityMatches(snapshot: ProtectedPacketAuthoritySnapshot, authoritative: NonNullable<ReturnType<typeof evaluateProtectedPacketFacts>>) {
+  const evaluation = authoritative.evaluation;
+  return (evaluation.pathwayId ?? null) === snapshot.pathwayId
+    && evaluation.resultCode === snapshot.resultCode
+    && evaluation.paymentAllowed === snapshot.paymentAllowed
+    && (authoritative.packetType ?? null) === (snapshot.packetType ?? null)
+    && (authoritative.selectedTrackId ?? null) === snapshot.selectedTrackId
+    && (evaluation.treatmentClassification ?? null) === snapshot.treatmentClassification
+    && canonicalEqual(evaluation.deferralComponentIds ?? [], snapshot.deferralComponentIds)
+    && canonicalEqual(evaluation.packetPlan ?? null, snapshot.packetPlan);
+}
+
+/** Reviewed status implications run after authority exists, never in the route selector. */
+function refreshedCourtCompletionFactMaps(base: ProtectedPacketAuthoritySnapshot, incoming: ParticipantFactMaps,
+  dependencies: PacketVerificationSnapshot["dependencies"] = base.dependencies) {
+  const contracts = courtCompletionContractsFor(`${base.jurisdiction}:${base.pathwayId ?? ""}`);
+  if (!contracts.length) return { maps: incoming, dependencies };
+  const marked = contracts.some(contract => dependencies.courtCompletionImplications?.[contract.targetFactId]);
+  if (!marked && (incoming.screeningAnswers.court_requirements_completed !== "yes"
+    || contracts.every(contract => Object.values(incoming).some(map => Object.prototype.hasOwnProperty.call(map, contract.targetFactId))))) return { maps: incoming, dependencies };
+  const profile = getProfileByJurisdiction(base.jurisdiction);
+  if (!profile || profile.profileVersion !== base.profileVersion
+    || base.profileSourceFingerprint !== (profile.source?.sourceCorpusSha256 ?? null)
+    || base.profileAuthorityFingerprint !== profileAuthorityFingerprint(profile, base.pathwayId)) return { maps: incoming, dependencies };
+  const pathway = profile.pathways.find(entry => entry.id === base.pathwayId);
+  const plan = readPacketPlan(base.packetPlan);
+  if (!pathway || !plan || plan.pathwayId !== base.pathwayId
+    || !canonicalEqual(base.requiredInputIds, plan.requiredInputIds)) return { maps: incoming, dependencies };
+  const source = projectPublicProfile(profile).questions.find(question => question.id === "court_requirements_completed");
+  const specification = packetSpecificationFor(`${base.jurisdiction}:${base.pathwayId}`);
+  const scope = routeDecidingFactScope(profile, pathway);
+  const surface = protectedPacketQuestionSurface(profile, base.pathwayId, incoming.screeningAnswers, base.requiredInputIds,
+    answerRecord(base.serverFacts), incoming.prefilledAnswers, incoming.packetAnswers);
+  const hash = contactRepresentationHash;
+  const currentContractIds = new Set(contracts.filter(contract => {
+    const target = surface.questionById.get(contract.targetFactId);
+    const disposition = surface.collection?.facts.find(fact => fact.factId === contract.targetFactId);
+    return source && target && source.id === contract.sourceFactId && target.type === "yes_no_unsure"
+      && base.requiredInputIds.includes(target.id) && disposition?.active !== false
+      && disposition?.collection !== "external_actor" && disposition?.collection !== "unresolved"
+      && !scope.unresolvedRules.some(rule => rule.factIds.includes(target.id))
+      && base.profileVersion === contract.profileVersion && base.profileSourceFingerprint === contract.profileSourceFingerprint
+      && base.profileAuthorityFingerprint === contract.profileAuthorityFingerprint
+      && canonicalEqual(base.requiredInputIds, contract.requiredInputIds)
+      && hash(source) === contract.sourceDescriptorSha256
+      && [contract.targetDescriptorSha256, contract.assistedTargetDescriptorSha256].includes(hash(target))
+      && hash(pathway) === contract.pathwayCanonicalSha256 && hash(base.packetPlan) === contract.expectedPlanCanonicalSha256
+      && (specification?.specificationId ?? null) === contract.registeredSpecificationId
+      && (specification ? hash(specification) : null) === contract.registeredSpecificationCanonicalSha256;
+  }).map(contract => contract.contractId));
+  const original = { screeningAnswers: answerRecord(base.screeningAnswers), prefilledAnswers: answerRecord(base.prefilledAnswers), packetAnswers: answerRecord(base.packetAnswers) };
+  const authority = evaluateProtectedPacketFacts(base);
+  const authorityValue = (value: NonNullable<typeof authority>) => ({ evaluation: value.evaluation, packetType: value.packetType ?? null, selectedTrackId: value.selectedTrackId });
+  const refreshed = refreshCourtCompletionImplications({ contracts, currentContractIds, original, incoming,
+    provenance: dependencies.courtCompletionImplications,
+    authorityUnchanged: maps => {
+      if (!authority || !protectedRouteAuthorityMatches(base, authority)) return false;
+      const next = evaluateProtectedPacketFacts({ ...base, ...maps });
+      return next !== null && protectedRouteAuthorityMatches(base, next) && canonicalEqual(authorityValue(authority), authorityValue(next));
+    } });
+  if (!Object.keys(refreshed.provenance).length && !dependencies.courtCompletionImplications) return { maps: refreshed.maps, dependencies };
+  return { maps: refreshed.maps, dependencies: { ...dependencies, courtCompletionImplications: refreshed.provenance } };
+}
+
+function refreshedProtectedPacketFactMaps(base: ProtectedPacketAuthoritySnapshot, incoming: ParticipantFactMaps, adoptContact = false) {
+  const existing = refreshedPacketFactMaps(base, incoming, adoptContact);
+  return { ...existing, ...refreshedCourtCompletionFactMaps(base, existing.maps, existing.dependencies) };
+}
 
 /** Existing collection rules only; their route/materialization guards still decide whether each can run. */
 const REFRESHABLE_PACKET_DERIVATIONS = ["court_type", "court_name", "filing_location", "age_at_offense", "offense_category", "charge_classification"];
@@ -1497,13 +1560,17 @@ export function protectedPacketDraftSeedFromAuthoritative(input: {
     prefilledAnswers: factMaps.prefilledAnswers,
     dependencies: canonicalize(contact.dependencies)
   }) as ProtectedPacketDraftSnapshot;
-  const preserved = preserveAmbiguousMsAnswer(snapshot);
+  const preservedSource = preserveAmbiguousMsAnswer(snapshot);
+  const completion = refreshedCourtCompletionFactMaps(preservedSource, {
+    screeningAnswers: answerRecord(preservedSource.screeningAnswers), prefilledAnswers: answerRecord(preservedSource.prefilledAnswers), packetAnswers: answerRecord(preservedSource.packetAnswers)
+  });
+  const preserved = { ...preservedSource, ...completion.maps, dependencies: completion.dependencies };
   return { snapshot: preserved, hash: protectedPacketDraftHash(preserved) };
 }
 
 function protectedPacketDraftReviewSafety(draft: ProtectedPacketAuthoritySnapshot, verifiedAt: string) {
   const originalMaps = { screeningAnswers: answerRecord(draft.screeningAnswers), prefilledAnswers: answerRecord(draft.prefilledAnswers), packetAnswers: answerRecord(draft.packetAnswers) };
-  if (!canonicalEqual(refreshedPacketFactMaps(draft, originalMaps).maps, originalMaps)) return { safe: false, reason: "stale_packet_derivation" };
+  if (!canonicalEqual(refreshedProtectedPacketFactMaps(draft, originalMaps).maps, originalMaps)) return { safe: false, reason: "stale_packet_derivation" };
   const authoritative = evaluateProtectedPacketFacts(draft);
   if (!authoritative) return { safe: false, reason: "authoritative_reevaluation_failed" };
   const { evaluation } = authoritative;
