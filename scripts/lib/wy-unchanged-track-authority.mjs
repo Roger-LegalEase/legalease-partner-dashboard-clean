@@ -2,6 +2,8 @@ import { evidenceProducerBytes } from "./noncommercial-evidence-producer-reconci
 // Bounded reconciliation of a sibling-only memo addition. This is no new approval.
 import crypto from 'node:crypto';
 import { derivationReconciledSpecificationSha256 } from './specification-derivation-reconciliation.mjs';
+import { specificationBytesAtDigest } from './artifact-approval-carry-forward.mjs';
+import { questionContractTransitionFor, questionContractSourceSuccessorFor, assertQuestionContractOutputInputs } from '../../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 const hash = bytes => crypto.createHash('sha256').update(bytes).digest('hex');
 const requireProof = (condition, message) => { if (!condition) throw new Error(`WY unchanged-track refusal: ${message}`); };
 export const WY_CONTAINER = Object.freeze({
@@ -64,15 +66,30 @@ export function reconcileWyUnchangedTrack({ familyId, routeId, approvedBytes, cu
    * reconciliation proves, and at no other. With no reconciliation the frozen
    * pin stands and this refuses exactly as before.
    */
+  const currentSpecificationBytes = readBytes(SPECIFICATION_PATH);
+  const questionTransition = questionContractTransitionFor({ routeId, familyId, trackId: c.trackId,
+    specificationPath: SPECIFICATION_PATH, readBytes });
+  const priorSpecificationBytes = questionTransition
+    ? specificationBytesAtDigest(process.cwd(), SPECIFICATION_PATH, questionTransition.row.specification.predecessorSha256)
+    : currentSpecificationBytes;
   const reconciled = derivationReconciledSpecificationSha256({
     familyId: c.familyId, routeId: c.routeId,
     specificationPath: SPECIFICATION_PATH,
-    specificationBytes: readBytes(SPECIFICATION_PATH),
+    specificationBytes: priorSpecificationBytes,
     recordSpecificationSha256: frozenFiles[SPECIFICATION_PATH],
     readBytes
   });
   const admitted = { ...frozenFiles };
   if (reconciled) admitted[SPECIFICATION_PATH] = reconciled.specificationSha256;
+  let questionContractSourceSuccessor = null;
+  if (questionTransition) {
+    assertQuestionContractOutputInputs(readBytes);
+    questionContractSourceSuccessor = questionContractSourceSuccessorFor({ routeId, familyId, trackId: c.trackId,
+      specificationPath: SPECIFICATION_PATH, expectedPriorSha256: admitted[SPECIFICATION_PATH],
+      priorSpecificationBytes, currentSpecificationBytes, readBytes });
+    requireProof(questionContractSourceSuccessor, 'question-contract transition absent');
+    admitted[SPECIFICATION_PATH] = questionContractSourceSuccessor.specificationSha256;
+  }
   for (const [path, sha256] of Object.entries(admitted)) {
     const bytes = path === 'scripts/build-census-v1-wy_fel_1502-set.mjs'
       ? evidenceProducerBytes({familyId, routeId, builderPath:path, readBytes}) : readBytes(path);
@@ -96,6 +113,7 @@ export function reconcileWyUnchangedTrack({ familyId, routeId, approvedBytes, cu
     delta: 'Only wy_traffick_6_2_708 added; all pre-existing tracks and shared memo properties unchanged.',
     unchangedSupportingFiles: { ...admitted },
     specificationDerivationReconciliation: reconciled ?? null,
+    questionContractSourceSuccessor,
     successor: { auditPath, reviewPath, registryPath, lane: 'vf07', verifiedAtBase: 'aefd46f7c', evidenceRowSha256: '68ec092ccbeeed2b5c25fe87aaf03721cba07124e1295a560866b34e40a2d4db' },
     createsApproval: false, changesShippingArtifacts: false,
   };

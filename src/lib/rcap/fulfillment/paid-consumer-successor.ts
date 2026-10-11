@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import crypto from "node:crypto";
+import { questionContractSourceSuccessorFor, QUESTION_CONTRACT_SUCCESSOR_PATH, QUESTION_CONTRACT_OUTPUT_PATH } from "./question-contract-source-successor.mjs";
 
 export const MS_PAID_SUCCESSOR_DECISION_PATH = "data/record-clearing/legal-decisions/2026-09-20-ms-nonconv-paid-consumer-successor-v3.json";
 /**
@@ -125,8 +126,11 @@ export function loadMsPaidConsumerSuccessor(root = process.cwd()) {
 
     // Read the exact evidence bytes at statically identifiable paths. Neither an
     // evidence record nor a loop variable can widen filesystem tracing.
+    const currentSpecificationBytes = fs.readFileSync(path.join(root, "data/record-clearing/packet-specifications/MS-nonconviction-expungement-99-19-71-4.v1.json"));
+    // The signed decision describes its historical endpoint. The exact current
+    // question-contract transition is checked separately before returning.
     const evidenceBytes = new Map<string, Buffer>([
-      [SPECIFICATION, fs.readFileSync(path.join(root, "data/record-clearing/packet-specifications/MS-nonconviction-expungement-99-19-71-4.v1.json"))],
+      [SPECIFICATION, fs.readFileSync(path.join(root, "data/rcap-grade-a/participant-data-rights/question-contract-predecessors/MS-nonconviction-expungement-99-19-71-4.c63e420.json"))],
       [SUPPLEMENTAL_GUIDE, fs.readFileSync(path.join(root, "data/record-clearing/supplemental-guides/MS-nonconviction-expungement-99-19-71-4.v1.json"))],
       [REVIEW_EVIDENCE, fs.readFileSync(path.join(root, "data/rcap-ledger/grade-a/ms-nonconviction-successor-review.evidence.json"))],
       [ARTIFACTS, fs.readFileSync(path.join(root, "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.artifacts.json"))],
@@ -213,12 +217,42 @@ export function loadMsPaidConsumerSuccessor(root = process.cwd()) {
       || historical.packetSpecificationSha256 !== decision.supersedes.specificationSha256
       || decision.historicalApprovalStatus?.artifactBytesStillReproduce !== false) return null;
 
+    // Statically named reads keep this evidence available in the runtime bundle.
+    // Historical approvals are not regenerated or re-labelled as current QA.
+    const sourceEvidence = new Map<string, Buffer>([
+      [QUESTION_CONTRACT_SUCCESSOR_PATH, fs.readFileSync(path.join(root, "data/rcap-grade-a/participant-data-rights/question-contract-source-successor-20261011.json"))],
+      [QUESTION_CONTRACT_OUTPUT_PATH, fs.readFileSync(path.join(root, "data/rcap-grade-a/participant-data-rights/question-contract-output-reproduction-20261011.json"))],
+      [MS_PAID_SUCCESSOR_DECISION_PATH, bytes],
+      [MS_PAID_SUCCESSOR_PRIOR_DECISION_PATH, priorBytes],
+      [MS_PAID_SUCCESSOR_FIRST_DECISION_PATH, firstBytes],
+      ["data/rcap-grade-a/legal-decisions/OWNER_CURRENT_COMMERCIAL_ARTIFACT_APPROVAL_2026-09-20.json", fs.readFileSync(path.join(root, "data/rcap-grade-a/legal-decisions/OWNER_CURRENT_COMMERCIAL_ARTIFACT_APPROVAL_2026-09-20.json"))],
+      ["data/rcap-grade-a/legal-decisions/CURRENT_COMMERCIAL_ARTIFACT_REVIEW_2026-09-20.json", fs.readFileSync(path.join(root, "data/rcap-grade-a/legal-decisions/CURRENT_COMMERCIAL_ARTIFACT_REVIEW_2026-09-20.json"))],
+      ["data/rcap-grade-a/legal-decisions/CURRENT_COMMERCIAL_ARTIFACT_VISUAL_REVIEW_2026-09-20.json", fs.readFileSync(path.join(root, "data/rcap-grade-a/legal-decisions/CURRENT_COMMERCIAL_ARTIFACT_VISUAL_REVIEW_2026-09-20.json"))],
+      ["data/rcap-grade-a/legal-decisions/SPECIFICATION_DERIVATION_RECONCILIATION_2026-09-20.json", fs.readFileSync(path.join(root, "data/rcap-grade-a/legal-decisions/SPECIFICATION_DERIVATION_RECONCILIATION_2026-09-20.json"))],
+      ["data/rcap-grade-a/participant-data-rights/ms-paid-packet-proof-20260920.json", fs.readFileSync(path.join(root, "data/rcap-grade-a/participant-data-rights/ms-paid-packet-proof-20260920.json"))],
+      ["data/rcap-grade-a/participant-data-rights/ms-paid-packet-proof-20260914.json", fs.readFileSync(path.join(root, "data/rcap-grade-a/participant-data-rights/ms-paid-packet-proof-20260914.json"))],
+      ...approved.map(entry => [entry.path, artifactBytes.get(entry.id)!] as [string, Buffer])
+    ]);
+    const questionContractSourceSuccessor = questionContractSourceSuccessorFor({
+      routeId: MS_PAID_SUCCESSOR_ROUTE, familyId: "ms-nonconv-set", trackId: "ms-nonconv", specificationPath: SPECIFICATION,
+      expectedPriorSha256: digest(evidenceBytes.get(SPECIFICATION)!), priorSpecificationBytes: evidenceBytes.get(SPECIFICATION)!,
+      currentSpecificationBytes, readBytes: (file: string) => {
+        const value = sourceEvidence.get(file);
+        if (!value) throw new Error("question_contract_runtime_evidence_not_bundled");
+        return value;
+      }
+    });
+    if (!questionContractSourceSuccessor) return null;
+
     return {
       decisionId: String(decision.decisionId), routeId: MS_PAID_SUCCESSOR_ROUTE,
       jurisdiction: "MS", pathwayId: MS_PAID_SUCCESSOR_ROUTE.slice(3), trackId: "ms-nonconv", packetFamilyId: "ms-nonconv-set",
       decisionPath: MS_PAID_SUCCESSOR_DECISION_PATH, decisionSha256: digest(bytes),
       supersededDecisionPath: MS_PAID_SUCCESSOR_PRIOR_DECISION_PATH, supersededDecisionSha256: digest(priorBytes),
-      specificationPath: SPECIFICATION, specificationSha256: digest(evidenceBytes.get(SPECIFICATION)!),
+      specificationPath: SPECIFICATION, specificationSha256: digest(currentSpecificationBytes),
+      approvedSpecificationSha256: digest(evidenceBytes.get(SPECIFICATION)!),
+      questionContractSourceSuccessor,
+      questionContractChanged: true as const, outputBytesChanged: false as const,
       supplementalGuidePath: SUPPLEMENTAL_GUIDE, supplementalGuideSha256: digest(evidenceBytes.get(SUPPLEMENTAL_GUIDE)!),
       supplementalGuideContentSha256: String(binding.supplementalGuideContentSha256),
       assemblyKind: String(binding.assemblyKind), assemblyVersion: String(binding.assemblyVersion),

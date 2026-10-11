@@ -2,6 +2,8 @@
 import { loadIlArtifactApproval, loadMsArtifactApproval } from "./lib/owner-artifact-approval.mjs";
 import { artifactSuccessorInputs, createArtifactSuccessor, SUCCESSOR_FAMILIES, MS_SUCCESSOR_VERIFICATION } from "./lib/artifact-approval-successor.mjs";
 import { WY_CONTAINER, reconcileWyUnchangedTrack } from './lib/wy-unchanged-track-authority.mjs';
+import { questionContractTransitionFor, questionContractSourceSuccessorFor, assertQuestionContractOutputInputs } from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
+import { specificationBytesAtDigest } from './lib/artifact-approval-carry-forward.mjs';
 import { reconciledSpecificationDigests } from './lib/specification-derivation-reconciliation.mjs';
 // GRADE-A FULFILLMENT AUTHORITY — acceptance gate.
 //
@@ -260,11 +262,28 @@ const RECONCILED_SPECIFICATIONS = reconciledSpecificationDigests(
 
 const EXACT_PRODUCTIZED_EXPECTED = [...FIRST_COHORT_EXPECTED, IL_EXISTING_V2_EXPECTED].map(original => {
   const reconciled = RECONCILED_SPECIFICATIONS.get(original.routeId) ?? null;
-  const expected = reconciled && reconciled.specificationPath === original.specificationPath
+  let expected = reconciled && reconciled.specificationPath === original.specificationPath
     && reconciled.priorSpecificationSha256 === original.specificationSha256
     ? { ...original, specificationSha256: reconciled.currentSpecificationSha256,
         specificationDerivationReconciled: true }
     : original;
+  const readCurrent = rel => fs.readFileSync(path.join(rootDir, rel));
+  const currentBytes = readCurrent(expected.specificationPath);
+  const currentSpec = JSON.parse(currentBytes);
+  const transition = questionContractTransitionFor({ routeId: expected.routeId,
+    familyId: expected.familyId, trackId: currentSpec.trackId,
+    specificationPath: expected.specificationPath, readBytes: readCurrent });
+  if (transition?.row.questionContractChanged) {
+    assertQuestionContractOutputInputs(readCurrent);
+    const technical = questionContractSourceSuccessorFor({ routeId: expected.routeId,
+      familyId: expected.familyId, trackId: currentSpec.trackId,
+      specificationPath: expected.specificationPath, readBytes: readCurrent,
+      expectedPriorSha256: expected.specificationSha256,
+      priorSpecificationBytes: specificationBytesAtDigest(rootDir, expected.specificationPath, expected.specificationSha256),
+      currentSpecificationBytes: currentBytes });
+    expected = { ...expected, specificationSha256: technical.specificationSha256,
+      questionContractSourceSuccessor: technical };
+  }
   if (!SUCCESSOR_FAMILIES.includes(expected.familyId)) return expected;
   const read = rel => fs.readFileSync(path.join(rootDir, rel));
   const approval = expected.familyId === 'ms-misd-addl-set' ? loadMsArtifactApproval(read) : loadIlArtifactApproval(read);
@@ -343,6 +362,7 @@ function finalVerificationProblem(record, expected) {
   if (proof.evidenceDetailRowSha256 !== expectedVerification.evidenceRowSha256) return `evidence detail row digest is ${proof.evidenceDetailRowSha256 ?? "absent"}`;
   if (inputs.contract !== INDEPENDENT_FINAL_VERIFICATION_CONTRACT) return "bound inputs carry a different contract";
   if (inputs.routeId !== expected.routeId || inputs.familyId !== expected.familyId) return "bound inputs carry a different route or family";
+  if (expected.questionContractSourceSuccessor && stableStringify(inputs.questionContractSourceSuccessor) !== stableStringify(expected.questionContractSourceSuccessor)) return 'final verification lacks exact technical question-contract succession';
   if (inputs.packetSpecificationSha256 !== expected.specificationSha256) return "bound inputs carry a different specification digest";
   if (inputs.canonicalArtifactSha256 !== expected.canonicalSha256) return "bound inputs carry a different canonical digest";
   if (inputs.boundaryArtifactSha256 !== expected.boundarySha256) return "bound inputs carry a different boundary digest";
@@ -447,6 +467,7 @@ function codifiedAuthorityProblem(record, expected, options = {}) {
     return "codified-authority evidence binding disagrees with the source-authority proof";
   }
 
+  if (expected.questionContractSourceSuccessor && stableStringify(inputs.questionContractSourceSuccessor) !== stableStringify(expected.questionContractSourceSuccessor)) return 'source authority lacks exact technical question-contract succession';
   const specification = options.specification ?? readJson(expected.specificationPath);
   if (specification.packetFamily !== expected.familyId || !specification.routeKeys?.includes(expected.routeId)) {
     return "packet specification does not enumerate the exact route and family";

@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { readQuestionContractSuccessor, assertQuestionContractOutputInputs } from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import { supersedeFromSpecification } from "./lib/specification-supersession.mjs";
 import { evidenceProducerBytes } from "./lib/noncommercial-evidence-producer-reconciliation.mjs";
 import { createStaticWorkerAuthority, STATIC_AUTHORITY_PATH } from "./lib/worker-static-authority.mjs";
@@ -72,11 +73,22 @@ const SCOPED_ROUTE = (SCOPE_FLAG_INDEX !== -1 ? process.argv[SCOPE_FLAG_INDEX + 
 // CLI scope, not a retirement authority: the registered specification must
 // independently establish historical_only and its dated supersession.
 const OR_RETIREMENT_ROUTE = "OR:set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c";
-if (SCOPED_ROUTE !== null && SCOPED_ROUTE !== OR_RETIREMENT_ROUTE) {
+const QUESTION_CONTRACT_ONLY = SCOPED_ROUTE === "question-contract-successor";
+if (SCOPED_ROUTE !== null && SCOPED_ROUTE !== OR_RETIREMENT_ROUTE && !QUESTION_CONTRACT_ONLY) {
   console.error(`--scope only supports the terminal-retirement route today; received ${SCOPED_ROUTE}`);
   process.exit(2);
 }
 const OR_RETIREMENT_ONLY = SCOPED_ROUTE === OR_RETIREMENT_ROUTE;
+const QUESTION_CONTRACT_ROUTES = QUESTION_CONTRACT_ONLY
+  ? new Set(readQuestionContractSuccessor(rel => fs.readFileSync(path.join(rootDir, rel))).routes.map(row => row.routeId))
+  : new Set();
+const OUTPUT_FLAG = process.argv.indexOf("--output-dir");
+const PREVIEW_DIR = OUTPUT_FLAG >= 0 ? path.resolve(process.argv[OUTPUT_FLAG + 1] ?? "") : null;
+if (PREVIEW_DIR && (!QUESTION_CONTRACT_ONLY || PREVIEW_DIR === rootDir || PREVIEW_DIR.startsWith(rootDir + path.sep))) {
+  throw new Error("--output-dir requires the exact question-contract scope and an external directory");
+}
+if (QUESTION_CONTRACT_ONLY) assertQuestionContractOutputInputs(rel => fs.readFileSync(path.join(rootDir, rel)));
+
 
 const RETIREMENT_DETERMINATION = "data/record-clearing/legal-decisions/2026-09-21-or-set-aside-without-conviction-is-retired-not-unwritten.json";
 const LAUNCH_GRAPH = "data/rcap-ledger/launch-graph.json";
@@ -1104,6 +1116,7 @@ function mississippiClinicCandidateRecord() {
 }
 
 function mississippiPaidConsumerSuccessorRecord() {
+  assertQuestionContractOutputInputs(readEvidenceBytes);
   const approval = loadMsPaidConsumerSuccessor(rootDir);
   if (!approval) {
     /*
@@ -1406,6 +1419,9 @@ function codifiedAuthorityProof({
       }
     ]
   };
+  if (unchangedTrackReconciliation?.questionContractSourceSuccessor) {
+    boundInputs.questionContractSourceSuccessor = unchangedTrackReconciliation.questionContractSourceSuccessor;
+  }
   const boundInputsSha256 = sha256(stableStringify(boundInputs));
 
   return {
@@ -1729,6 +1745,9 @@ function exactProductizedCandidateRecord(definition) {
       lane: verifier.lane
     }
   };
+  if (codifiedSourceAuthority.boundInputs.questionContractSourceSuccessor) {
+    finalVerificationBoundInputs.questionContractSourceSuccessor = codifiedSourceAuthority.boundInputs.questionContractSourceSuccessor;
+  }
   const finalVerificationBoundInputsSha256 = sha256(stableStringify(finalVerificationBoundInputs));
 
   const record = {
@@ -2068,7 +2087,8 @@ const records = (OR_RETIREMENT_ONLY
     ? supersedeFromSpecification(record, packetSpecificationFor(record.routeId), fulfillmentRecordSha256, GENERATOR_ID, changeDate, RETIREMENT_DETERMINATION)
     : structuredClone(record))
   : [
-  ...rows.map(row => {
+  ...(QUESTION_CONTRACT_ONLY ? committedRegistry.records.filter(record => !QUESTION_CONTRACT_ROUTES.has(record.routeId)).map(record => structuredClone(record)) : []),
+  ...(QUESTION_CONTRACT_ONLY ? [] : rows).map(row => {
     const specification = packetSpecificationFor(row.pathwayKey);
     // A retired specification does not need a live successor record. Reuse the
     // predecessor in full so regeneration cannot rewrite historical proof.
@@ -2079,11 +2099,11 @@ const records = (OR_RETIREMENT_ONLY
     );
   }),
   mississippiPaidConsumerSuccessorRecord(),
-  ...EXACT_PRODUCTIZED_ROUTES.map(exactProductizedRecordOrRevocation).filter(Boolean)
+  ...EXACT_PRODUCTIZED_ROUTES.filter(definition => !QUESTION_CONTRACT_ONLY || QUESTION_CONTRACT_ROUTES.has(definition.routeId)).map(exactProductizedRecordOrRevocation).filter(Boolean)
 ]
-  .map(record => record.supersededBy ? record : bindCurrentCommercialArtifact(record))
+  .map(record => record.supersededBy || (QUESTION_CONTRACT_ONLY && !QUESTION_CONTRACT_ROUTES.has(record.routeId)) ? record : bindCurrentCommercialArtifact(record))
   .map(record => {
-    if (record.supersededBy) return record;
+    if (record.supersededBy || (QUESTION_CONTRACT_ONLY && !QUESTION_CONTRACT_ROUTES.has(record.routeId))) return record;
     if (MS_TRACK_CONTAINER.routes.includes(record.routeId) && record.revocation.revoked) {
       record = structuredClone(record);
       const reconciliation = reconcileMsUnchangedTrack({familyId:record.packetFamilyId,routeId:record.routeId,
@@ -2210,7 +2230,7 @@ const allCandidateJurisdictions = [...new Set([
 
 const ownerArtifactApprovals = [loadIlArtifactApproval(readEvidenceBytes), loadMsArtifactApproval(readEvidenceBytes)];
 
-const registry = OR_RETIREMENT_ONLY ? { ...committedRegistry, records } : {
+const registry = OR_RETIREMENT_ONLY || QUESTION_CONTRACT_ONLY ? { ...committedRegistry, records } : {
   schemaVersion: GRADE_A_AUTHORITY_SCHEMA_VERSION,
   generatedBy: "scripts/generate-rcap-grade-a-fulfillment-authority.mjs",
   purpose: "The one canonical controlling registry of Grade-A fulfillment authority records. Only COMPLETE_PACKET_PROVEN authorizes a commercial action; every other state, including the absence of a record, denies.",
@@ -2285,11 +2305,15 @@ for (const record of liveRecords) {
   };
 }
 
-const committedObservation = OR_RETIREMENT_ONLY ? JSON.parse(readGitBlob("HEAD", OBSERVATION_OUT).toString("utf8")) : null;
+const committedObservation = OR_RETIREMENT_ONLY || QUESTION_CONTRACT_ONLY ? JSON.parse(readGitBlob("HEAD", OBSERVATION_OUT).toString("utf8")) : null;
 const observation = OR_RETIREMENT_ONLY ? {
   ...committedObservation,
   routes: Object.fromEntries(Object.entries(committedObservation.routes)
     .filter(([routeId]) => routeId !== OR_RETIREMENT_ROUTE))
+} : QUESTION_CONTRACT_ONLY ? {
+  ...committedObservation,
+  routes: { ...committedObservation.routes,
+    ...Object.fromEntries(Object.entries(observationRoutes).filter(([routeId]) => QUESTION_CONTRACT_ROUTES.has(routeId))) }
 } : {
   schemaVersion: "rcap-grade-a-fulfillment-observation/v1",
   generatedBy: "scripts/generate-rcap-grade-a-fulfillment-authority.mjs",
@@ -2297,6 +2321,31 @@ const observation = OR_RETIREMENT_ONLY ? {
   observedAt: ownerDecision.effectiveDate,
   routes: observationRoutes
 };
+
+if (QUESTION_CONTRACT_ONLY) {
+  assert.equal(QUESTION_CONTRACT_ROUTES.size, 6);
+  for (const routeId of QUESTION_CONTRACT_ROUTES) {
+    assert.equal(records.filter(record => record.routeId === routeId && !record.supersededBy).length, 1,
+      `exact current target record required: ${routeId}`);
+  }
+  const nonTarget = document => ({ ...document,
+    records: document.records.filter(record => !QUESTION_CONTRACT_ROUTES.has(record.routeId)) });
+  assert.deepEqual(nonTarget(registry), nonTarget(committedRegistry), "question-contract scope cannot change unrelated registry data");
+  const otherObservations = document => ({ ...document,
+    routes: Object.fromEntries(Object.entries(document.routes).filter(([routeId]) => !QUESTION_CONTRACT_ROUTES.has(routeId))) });
+  assert.deepEqual(otherObservations(observation), otherObservations(committedObservation), "question-contract scope cannot change unrelated observations");
+}
+if (PREVIEW_DIR) {
+  fs.mkdirSync(PREVIEW_DIR, { recursive: true });
+  for (const [rel, value] of [[REGISTRY_OUT, registry], [OBSERVATION_OUT, observation]]) {
+    fs.writeFileSync(path.join(PREVIEW_DIR, path.basename(rel)), JSON.stringify(value, null, 2) + "\n");
+  }
+  console.log(JSON.stringify({ scope: 'question-contract-successor', routes: [...QUESTION_CONTRACT_ROUTES],
+    previewDirectory: PREVIEW_DIR, applicationFilesWritten: false, nonTargetRegistryUnchanged: true,
+    nonTargetObservationUnchanged: true, projectionAndStaticAuthority: 'derived by actual runtime after local candidate installation; not measured in this preview',
+    publicationInputsEquivalent: !currentPublicationInputs.rebuildRequired }, null, 2));
+  process.exit(0);
+}
 
 // The registry and snapshot must be on disk before the projection is derived,
 // because the projection is produced by the shipped runtime reading them — the
@@ -2377,7 +2426,7 @@ if (loaded.problems.length > 0) {
 
 // Include the latest historical record when a route has no current authority.
 // The native evaluator returns SUPERSEDED with no active missing-proof work.
-const projectionRoutes = [...loaded.history.entries()]
+let projectionRoutes = [...loaded.history.entries()]
   .map(([routeId, history]) => loaded.current.get(routeId) ?? history[0])
   .sort((a, b) => a.routeId.localeCompare(b.routeId))
   .map((record) => {
@@ -2394,6 +2443,14 @@ const projectionRoutes = [...loaded.history.entries()]
       stalenessReasons: decision.stalenessReasons
     };
   });
+
+if (QUESTION_CONTRACT_ONLY) {
+  const previous = JSON.parse(readGitBlob("HEAD", PROJECTION_OUT).toString("utf8"));
+  const currentTargets = projectionRoutes.filter(record => QUESTION_CONTRACT_ROUTES.has(record.routeId));
+  assert.equal(currentTargets.length, 6);
+  projectionRoutes = [...previous.routes.filter(record => !QUESTION_CONTRACT_ROUTES.has(record.routeId)), ...currentTargets]
+    .sort((a,b) => a.routeId.localeCompare(b.routeId));
+}
 
 const projection = {
   schemaVersion: "rcap-grade-a-fulfillment-projection/v1",
@@ -2441,6 +2498,12 @@ if (OR_RETIREMENT_ONLY) {
   assert.deepEqual(staticAuthority, { ...previous,
     entries: previous.entries.filter(entry => entry.record.routeId !== OR_RETIREMENT_ROUTE)
   }, "#60 refuses any non-target worker authority change");
+}
+if (QUESTION_CONTRACT_ONLY) {
+  const previous = JSON.parse(readGitBlob("HEAD", STATIC_AUTHORITY_PATH).toString("utf8"));
+  assert.deepEqual(staticAuthority.entries.filter(entry => !QUESTION_CONTRACT_ROUTES.has(entry.record.routeId)),
+    previous.entries.filter(entry => !QUESTION_CONTRACT_ROUTES.has(entry.record.routeId)),
+    "question-contract scope cannot change unrelated worker authority");
 }
 const staticResult = writeIfNeeded(STATIC_AUTHORITY_PATH, staticAuthority);
 if (CHECK && staticResult.changed) throw new Error(`Regeneration required: ${STATIC_AUTHORITY_PATH}`);

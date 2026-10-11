@@ -39,6 +39,12 @@ export const RUNTIME_AUTHORITY_FILES = Object.freeze([
   'data/record-clearing/supplemental-guides/**',
   'data/rcap-ledger/grade-a/*.json',
   'data/rcap-ledger/grade-a/artifacts/**',
+  // Exact runtime approval/source-successor custody categories. These dynamic
+  // readers accept an explicit root, so Next cannot infer all evidence paths.
+  'data/rcap-grade-a/legal-decisions/*.json',
+  'data/rcap-grade-a/participant-data-rights/question-contract-*.json',
+  'data/rcap-grade-a/participant-data-rights/question-contract-predecessors/*.json',
+  'data/rcap-grade-a/participant-data-rights/*-paid-packet-proof-*.json',
 
 ]);
 

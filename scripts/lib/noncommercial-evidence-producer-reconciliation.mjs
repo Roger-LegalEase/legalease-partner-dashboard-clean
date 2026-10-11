@@ -5,6 +5,7 @@ import assert from 'node:assert/strict';
 import crypto from 'node:crypto';
 import fs from 'node:fs';
 import { execFileSync } from 'node:child_process';
+import { readQuestionContractSuccessor, questionContractSourceSuccessorFor, assertQuestionContractOutputInputs } from '../../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 
 export const CAPTAIN = '4d00a1ffa16965290d55536787dca85981d0fced';
 export const FOOTER_COMMIT = '95ca90ba99de215d35dcbe06ddeb6528c42d8c7a';
@@ -225,12 +226,33 @@ export function assertProducerReconciliation({ proof, familyId, routeId, builder
   footerOnlyBuilderDelta(before, after);
   // Full bytes, not counts: specifications, field maps, track/legal authority,
   // original receipts/approvals and commercial provider publication remain exact.
-  // Every preserved file stays byte-exact EXCEPT the live publication ledger,
-  // whose v1 pin is a historical boundary fact rather than a perpetual one.
+  // The publication ledger and three exactly reviewed question specifications
+  // have separate successor proofs. This historical footer proof is unchanged;
+  // no other preserved file or proof tool may move through those exceptions.
   // It is not waived: assertProviderSuccession proves the historical tuple is
   // still honestly represented and that whatever replaced it proved itself.
+  const questionContractSourceSuccessions = [];
   for (const entry of [...proof.preservedFiles, ...proof.proofTools]) {
     if (entry.path === WORKER_EVIDENCE_PATH) continue;
+    if (proof.preservedFiles.includes(entry)
+      && entry.path.startsWith('data/record-clearing/packet-specifications/')
+      && digest(readBytes(entry.path)) !== entry.sha256) {
+      const succession = readQuestionContractSuccessor(readBytes);
+      const transitions = succession.routes.filter(row => row.specification.path === entry.path
+        && row.specification.predecessorSha256 === entry.sha256);
+      assert.ok(transitions.length > 0 && readGitBlob, `unproved preserved specification change: ${entry.path}`);
+      const priorSpecificationBytes = readGitBlob(succession.predecessorCommit, entry.path);
+      assert.equal(digest(priorSpecificationBytes), entry.sha256, 'historical footer-proof specification mismatch');
+      assertQuestionContractOutputInputs(readBytes);
+      for (const row of transitions) {
+        const successor = questionContractSourceSuccessorFor({ routeId: row.routeId, familyId: row.familyId,
+          trackId: row.trackId, specificationPath: entry.path, expectedPriorSha256: entry.sha256,
+          priorSpecificationBytes, currentSpecificationBytes: readBytes(entry.path), readBytes });
+        assert.ok(successor, 'preserved specification successor absent');
+        questionContractSourceSuccessions.push(successor);
+      }
+      continue;
+    }
     exactFile(entry, readBytes);
   }
   assert.ok(proof.preservedFiles.some(entry => entry.path === WORKER_EVIDENCE_PATH),
@@ -313,7 +335,8 @@ export function assertProducerReconciliation({ proof, familyId, routeId, builder
   }
   return { contract: proof.schemaVersion, path: RECONCILIATION_PATH, sha256: RECONCILIATION_SHA256,
     familyId, routeId, builderPath, priorBuilderSha256: exact.preSha256, currentBuilderSha256: exact.postSha256,
-    createsApproval: false, approvesNewBytes: false, nonCommercialEvidenceProducerSupersession: true };
+    createsApproval: false, approvesNewBytes: false, nonCommercialEvidenceProducerSupersession: true,
+    questionContractSourceSuccessions };
 }
 export function reconcileNoncommercialProducer(input) {
   const readBytes = input.readBytes ?? fs.readFileSync;

@@ -5,6 +5,7 @@ import { loadIlArtifactApproval, loadMsArtifactApproval, REQUIRED_ARTIFACT_OBLIG
 import { carriedForwardSpecificationSha256, specificationBytesAtDigest } from './artifact-approval-carry-forward.mjs';
 import { derivationReconciledSpecificationSha256, reconciledSpecificationDigests } from './specification-derivation-reconciliation.mjs';
 import { bindCurrentCommercialArtifact } from './current-commercial-artifact.mjs';
+import { questionContractTransitionFor, questionContractSourceSuccessorFor, assertQuestionContractOutputInputs } from '../../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 
 // The last pre-approval records are immutable provenance, not current approval.
 export const SUCCESSOR_BASE_SHA = '7cb3133a5ca8a5bac80550cb7bdc0e38d2359ce8';
@@ -66,7 +67,14 @@ export function createArtifactSuccessor({routeId, readBytes, stableStringify, pr
   const {approval, row, detail, raster, artifacts, verification, currentVerifierPath, currentRasterPath} = inputs;
   insist(approval.routeIds.includes(routeId), 'route not named by owner');
   const b = record.evidenceBindings;
-  const specificationBytes = readBytes(b.packetSpecification.path);
+  const currentSpecificationBytes = readBytes(b.packetSpecification.path);
+  const currentSpecification = JSON.parse(currentSpecificationBytes);
+  const questionTransition = questionContractTransitionFor({ routeId, familyId: record.packetFamilyId,
+    trackId: currentSpecification.trackId, specificationPath: b.packetSpecification.path, readBytes });
+  // Prove each historical hop against the endpoint it actually describes.
+  const specificationBytes = questionTransition
+    ? specificationBytesAtDigest(process.cwd(), b.packetSpecification.path, questionTransition.row.specification.predecessorSha256)
+    : currentSpecificationBytes;
   // A specification whose bytes moved is, by default, one whose legal content
   // may have moved, and the successor refuses it. The one exception is a
   // specification whose approved-artifact pins were carried forward on the
@@ -192,7 +200,24 @@ export function createArtifactSuccessor({routeId, readBytes, stableStringify, pr
       b.packetSpecificationCarryForward.approvesComposedOutput = false;
     }
   }
-  const specification = JSON.parse(specificationBytes);
+  let questionContractSourceSuccessor = null;
+  if (questionTransition) {
+    assertQuestionContractOutputInputs(readBytes);
+    questionContractSourceSuccessor = questionContractSourceSuccessorFor({ routeId, familyId: record.packetFamilyId,
+      trackId: currentSpecification.trackId, specificationPath: b.packetSpecification.path,
+      expectedPriorSha256: record.packetSpecification.sha256,
+      priorSpecificationBytes: specificationBytes, currentSpecificationBytes, readBytes });
+    insist(questionContractSourceSuccessor, 'question-contract transition missing');
+    // Keep the old carry-forward/derivation provenance at its original endpoint.
+    // The separately named technical hop supplies the current source pin.
+    const originalRecordPin = carriedForward?.priorSpecificationSha256 ?? record.packetSpecification.sha256;
+    carriedForward = { ...carriedForward, priorSpecificationSha256: originalRecordPin,
+      specificationSha256: questionContractSourceSuccessor.specificationSha256 };
+    record.packetSpecification.sha256 = questionContractSourceSuccessor.specificationSha256;
+    b.packetSpecification.sha256 = questionContractSourceSuccessor.specificationSha256;
+    b.questionContractSourceSuccessor = questionContractSourceSuccessor;
+  }
+  const specification = currentSpecification;
   insist(specification.packetFamily === record.packetFamilyId && specification.routeKeys.includes(routeId), 'specification identity changed');
   insist(digest(readBytes(b.sourceReceipt.path)) === b.sourceReceipt.sha256, 'source receipt changed');
   // Preserve the unchanged source/legal design evidence and its reconciliation.
@@ -222,6 +247,7 @@ export function createArtifactSuccessor({routeId, readBytes, stableStringify, pr
     for (const source of record.officialSources) {
       const inputs = source.boundInputs;
       if (!inputs?.authorityInputs?.some((input) => input.sha256 === carriedForward.specificationSha256)) continue;
+      if (questionContractSourceSuccessor) inputs.questionContractSourceSuccessor = questionContractSourceSuccessor;
       const boundInputsSha256 = digest(stableStringify(inputs));
       for (const key of ['boundInputsSha256', 'sha256', 'expectedSha256', 'installedSha256']) source[key] = boundInputsSha256;
       const binding = b.codifiedAuthority;
@@ -262,6 +288,7 @@ export function createArtifactSuccessor({routeId, readBytes, stableStringify, pr
   record.packetCompleteness.filingFormatArtifact.producedBy.renderer = identity;
   record.visualReview = {state:'passed',pagesReviewed:artifacts.canonical.pageCount,pageCount:artifacts.canonical.pageCount,evidenceSha256:digest(JSON.stringify(raster.rasterReceipt)),reviewedBy:`${raster.rasterReceipt.workflow}#job:${raster.rasterReceipt.jobId}`,reviewedAt:approval.decidedOn};
   const finalInputs = {contract:'rcap-independent-packet-final-verification/v1',routeId,familyId:record.packetFamilyId,packetSpecificationSha256:record.packetSpecification.sha256,canonicalArtifactSha256:artifacts.canonical.sha256,boundaryArtifactSha256:artifacts.boundary.sha256,verifierRegistry:{path:currentVerifierPath,evidenceRowSha256:verification.rowSha256},verifierEvidence:{path:row.evidencePath,evidenceRowSha256:verification.evidenceRowSha256,verifiedAtBase:row.verifiedAtBase,lane:row.lane},artifactApproval:{path:approval.path,sha256:approval.sha256,recordId:approval.recordId}};
+  if (questionContractSourceSuccessor) finalInputs.questionContractSourceSuccessor = questionContractSourceSuccessor;
   const finalHash = digest(stableStringify(finalInputs));
   record.finalVerification = {contract:finalInputs.contract,contractModule:'scripts/lib/artifact-approval-successor.mjs',state:'bound',verifierId:row.lane,boundInputsSha256:finalHash,verifiedAt:detail.verifiedAt ?? `base:${row.verifiedAtBase}`,verifiedAtBase:row.verifiedAtBase,evidencePath:row.evidencePath,evidenceRowSha256:verification.rowSha256,evidenceDetailRowSha256:verification.evidenceRowSha256,boundInputs:finalInputs};
   b.approvedArtifacts = artifacts;
@@ -269,6 +296,22 @@ export function createArtifactSuccessor({routeId, readBytes, stableStringify, pr
   b.rasterReceipt = {path:currentRasterPath,rowSha256:digest(JSON.stringify(raster)),verdict:'RASTER_PASS',workflowRunId:raster.rasterReceipt.workflowRunId,jobId:raster.rasterReceipt.jobId,receiptArtifact:raster.rasterReceipt.receiptArtifact ?? null,canonicalSha256:artifacts.canonical.sha256,boundarySha256:artifacts.boundary.sha256,coversTheWholeFamily:true};
   b.independentVerification = {path:currentVerifierPath,rowSha256:verification.rowSha256,verdict:row.verdict,lane:row.lane,verifiedAtBase:row.verifiedAtBase,evidencePath:row.evidencePath,evidenceDocumentSha256:digest(readBytes(row.evidencePath)),evidenceRowSha256:verification.evidenceRowSha256,boundInputs:{packetSpecificationSha256:record.packetSpecification.sha256,canonicalSha256:artifacts.canonical.sha256,boundarySha256:artifacts.boundary.sha256},boundInputsSha256:finalHash};
   b.currentIndependentReviewReceipt = {path:row.evidencePath,sha256:digest(readBytes(row.evidencePath)),evidenceRowSha256:verification.evidenceRowSha256,base:row.verifiedAtBase,verdict:row.verdict,obligationsMeasured:15,failedObligations:[],unmeasuredObligations:[],currentBuilderSha256:builderHash,currentProductionFieldMapSha256:digest(readBytes(b.productionFieldMap.path)),freshCurrentByteReviewPerformed:true};
+  if (questionContractSourceSuccessor) {
+    const acceptanceScope = {
+      reviewScope: 'historical approved artifact review; current output byte continuity separately proved',
+      historicalSpecificationSha256: questionContractSourceSuccessor.priorSpecificationSha256,
+      currentSpecificationSha256: questionContractSourceSuccessor.specificationSha256,
+      questionContractSourceSuccessor,
+      currentQuestionContractAcceptanceEstablished: false,
+      protectedParticipantAcceptanceEstablished: false
+    };
+    Object.assign(b.currentIndependentReviewReceipt, acceptanceScope, {
+      historicalFreshByteReviewPerformed: true,
+      freshCurrentByteReviewPerformed: false
+    });
+    Object.assign(b.independentVerification, acceptanceScope);
+    Object.assign(record.finalVerification, acceptanceScope);
+  }
   b.provider.deliveryProvider = provider;
   b.provider.deliveryProviderEvidenceSha256 = digest(readBytes(b.provider.deliveryProviderEvidencePath));
   b.provider.artifactProducer.builderSha256 = builderHash;
