@@ -22,6 +22,14 @@ for (const routeKey of routes) {
   }
   const requiredInputIds = spec.requiredFacts.map((fact) => fact.factId);
   const resolution = packetCollectionFor({ jurisdiction: "MS", pathwayId: routeKey.slice(3), requiredInputIds, screeningAnswers: {}, serverFacts: {} });
+  if (routeKey.includes("additional-")) {
+    assert.equal(resolution.facts.find(fact => fact.factId === "section_branch")?.source, "server_route_fact", "the specification owns the statutory branch");
+    for (const includeInactive of [false, true]) for (const packetAnswers of [{}, { section_branch: "synthetic attempted override" }]) {
+      assert.equal(editablePacketInputIds({ stateCode: "MS", pathwayId: routeKey.slice(3), requiredInputIds,
+        serverFacts: {}, screeningAnswers: {}, prefilledAnswers: {}, packetAnswers }, includeInactive).has("section_branch"), false,
+      "a specification-owned server fact is never an owner-edit input, including saved or inactive modes");
+    }
+  }
   for (const id of fields) {
     assert.equal(resolution.facts.find((fact) => fact.factId === id).actor, "participant_before_filing");
     assert.equal(prepayGateFactIds(resolution).includes(id), false);

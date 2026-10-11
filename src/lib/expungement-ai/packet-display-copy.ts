@@ -10,10 +10,12 @@ export function packetDisplayCopy(
   english: string
 ): { en: string; es?: string } {
   if (!jurisdiction || !pathwayId) return { en: english };
-  const reviewed = kind === "route_label" ? reviewedResultRouteLabel(jurisdiction, pathwayId, english) : null;
-  if (reviewed) return reviewed;
   const routeKey = `${jurisdiction}:${pathwayId}`;
   const matches = catalog.entries.filter((entry) => entry.kind === kind
     && entry.english === english && entry.routeKeys.includes(routeKey));
-  return matches.length === 1 ? { en: english, es: matches[0].spanish } : { en: english };
+  if (matches.length === 1) return { en: english, es: matches[0].spanish };
+  // Preserve the packet's existing reviewed wording when screening labels grow.
+  const reviewed = matches.length === 0 && kind === "route_label"
+    ? reviewedResultRouteLabel(jurisdiction, pathwayId, english) : null;
+  return reviewed ?? { en: english };
 }

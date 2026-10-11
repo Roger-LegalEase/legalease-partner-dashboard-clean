@@ -16,6 +16,7 @@ import {
 import { requireConsumerBriefcaseSession } from "@/lib/expungement-ai/auth";
 import { getBriefcaseItem } from "@/lib/expungement-ai/briefcase";
 import { decorateBriefcaseItemForPresentation } from "@/lib/expungement-ai/briefcase-presentation-authority";
+import { reviewEditablePacketInputIds } from "@/lib/expungement-ai/packet-information";
 import { getProfileByJurisdiction } from "@/lib/rcap-engine/profile-registry";
 import { projectPublicProfile } from "@/lib/rcap-engine/public-profile-projection";
 import type { ProfileQuestion } from "@/lib/expungement-ai/frontend/contracts";
@@ -46,6 +47,7 @@ export default async function PacketAccuracyReviewPage({
       && question.options.every((option): option is string => typeof option === "string") ? question.options : null }])).values()];
   const summary = item && model ? verificationSummary({
     ...model,
+    editableInputIds: [...reviewEditablePacketInputIds({ ...model, stateCode: item.jurisdiction ?? "", pathwayId: item.pathwayId })],
     questions: reviewQuestions,
     stateCode: item.jurisdiction ?? "",
     pathwayId: item.pathwayId

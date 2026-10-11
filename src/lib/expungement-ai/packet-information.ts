@@ -971,9 +971,22 @@ export function packetCollectionFor(input: {
 export function editablePacketInputIds(model: Pick<ProtectedPacketInformationModel, "stateCode" | "pathwayId" | "requiredInputIds" | "serverFacts" | "screeningAnswers" | "prefilledAnswers" | "packetAnswers" | "recordOwnQuestionIds">, includeInactive = false): Set<string> {
   const collection = packetCollectionFor({ jurisdiction: model.stateCode, pathwayId: model.pathwayId, requiredInputIds: model.requiredInputIds,
     serverFacts: model.serverFacts, screeningAnswers: model.screeningAnswers, prefilledAnswers: model.prefilledAnswers, savedAnswers: model.packetAnswers, recordOwnQuestionIds: model.recordOwnQuestionIds });
-  const excluded = new Set(collection?.facts.filter((fact) => ["external_actor", "derived"].includes(fact.collection)
+  const excluded = new Set(collection?.facts.filter((fact) => fact.source === "server_route_fact"
+    || ["external_actor", "derived"].includes(fact.collection)
     || !includeInactive && fact.collection === "conditional" && fact.active === false).map((fact) => fact.factId) ?? []);
   return new Set(model.requiredInputIds.filter((id) => !(id in model.serverFacts) && !excluded.has(id)));
+}
+
+/** Reused completion answers leave intake, but retain their existing correction control. */
+export function reviewEditablePacketInputIds(model: Parameters<typeof editablePacketInputIds>[0]
+  & Pick<ProtectedPacketInformationModel, "builderQuestions" | "questions">): Set<string> {
+  const reviewIds = new Set(model.builderQuestions.map((question) => question.id));
+  const allowed = editablePacketInputIds(model);
+  const questionIds = new Set(model.questions.map((question) => question.id));
+  for (const contract of courtCompletionContractsFor(`${model.stateCode}:${model.pathwayId ?? ""}`)) {
+    if (allowed.has(contract.targetFactId) && questionIds.has(contract.targetFactId)) reviewIds.add(contract.targetFactId);
+  }
+  return reviewIds;
 }
 
 /**

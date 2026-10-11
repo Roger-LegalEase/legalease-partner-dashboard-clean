@@ -88,6 +88,8 @@ export function verificationSummary(model: {
   initialAnswers: Record<string, AnswerValue>;
   serverFacts: Record<string, AnswerValue>;
   builderQuestions: Array<{ id: string }>;
+  /** Existing owner edit policy, supplied by the protected server page. */
+  editableInputIds?: readonly string[];
   questions?: Array<ReviewQuestion>;
   verificationSummary?: unknown;
   verificationContext?: unknown;
@@ -133,7 +135,7 @@ export function verificationSummary(model: {
     || !sourceFactsMatch(facts, "packetAnswers", model.packetAnswers)
     || !sourceFactsMatch(facts, "serverFacts", model.serverFacts)) return null;
 
-  const editableIds = new Set(model.builderQuestions.map((question) => question.id));
+  const editableIds = new Set(model.editableInputIds ?? model.builderQuestions.map((question) => question.id));
   const questionById = new Map(model.questions?.map((question) => [question.id, question]));
   const rows = facts.map((fact): VerificationSummaryRow => ({
     key: fact.key,
