@@ -1,4 +1,4 @@
-import { answerValueIsKnown, questionAnswerState, normalizeQuestionChoices } from "@/lib/expungement-ai/question-answer-state";
+import { answerValueIsKnown, questionAnswerState, normalizeQuestionChoices, sameKnownQuestionAnswer } from "@/lib/expungement-ai/question-answer-state";
 import "server-only";
 
 import { createHash } from "node:crypto";
@@ -125,6 +125,7 @@ export type ProtectedPacketInformationModel = Pick<
   | "verificationContext"
   | "verificationManifest"
 > & {
+  revision: number;
   prefilledAnswers: Record<string, AnswerValue>;
   packetAnswers: Record<string, AnswerValue>;
   capturedAt: string;
@@ -349,7 +350,11 @@ export function packetInformationPatch(input: {
     Object.entries(input.answers).filter(([id, answer]) => allowedIds.has(id) && isAnswerValue(answer))
   );
   const answerDelta = Object.fromEntries(
-    Object.entries(acceptedAnswers).filter(([id, answer]) => !canonicalEqual(current.initialAnswers[id], answer))
+    Object.entries(acceptedAnswers).filter(([id, answer]) => {
+      const question = current.questions.find((candidate) => candidate.id === id);
+      return !canonicalEqual(current.initialAnswers[id], answer)
+        && !(question && sameKnownQuestionAnswer(question, current.initialAnswers[id], answer));
+    })
   );
   const savedAnswers = { ...answerRecordForIds(current.packetAnswers, allowedIds), ...answerDelta };
   const materialFactChange = Object.keys(answerDelta).length > 0;
@@ -614,6 +619,7 @@ export function protectedPacketInformationModelFor(
   const currentlyVerified = verification.status === "verified" && reviewSafety.safe;
   return {
     stateCode: snapshot.jurisdiction,
+    revision: verification.revision,
     pathwayId: snapshot.pathwayId,
     packetPlan,
     questions: questionSurface.questions,
@@ -1387,6 +1393,26 @@ export function mississippiNonConvictionPacketSafety(
   return filing.safe
     ? { safe: true, reason: "route_safety_confirmed" }
     : { safe: false, reason: "participant_delivery_facts_require_verification" };
+}
+
+/** A supplied contradiction differs from an unanswered prerequisite. */
+export function packetDraftStopReason(model: Pick<ProtectedPacketInformationModel, "stateCode" | "pathwayId" | "initialAnswers" | "questions">): string | null {
+  if (model.stateCode !== "MS" || model.pathwayId !== "non-conviction-expungement-for-dismissal-no-disposition-or-acquittal") return null;
+  const questions = new Map(model.questions.map((question) => [question.id, question]));
+  for (const [id, expected] of MISSISSIPPI_NON_CONVICTION_NEUTRAL_FACTS) {
+    const question = questions.get(id);
+    if (question && questionAnswerState(question, model.initialAnswers[id]) === "known_valid"
+      && answerText(model.initialAnswers[id]) !== expected.toLowerCase()) return `route_changing_answer:${id}`;
+  }
+  const wording = model.initialAnswers.disposition_record_wording;
+  if (answerIsKnown(wording)) {
+    const probe = mississippiNonConvictionPacketSafety({
+      ...model.initialAnswers,
+      ...Object.fromEntries(MISSISSIPPI_NON_CONVICTION_NEUTRAL_FACTS)
+    });
+    if (probe.reason === "route_changing_answer:disposition_record_wording") return probe.reason;
+  }
+  return null;
 }
 
 type AuthoritativePacketContext =

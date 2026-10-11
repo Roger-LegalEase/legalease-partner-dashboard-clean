@@ -70,8 +70,10 @@ export const profileQuestionSchema = z
     exclusiveOptions: z.array(z.string()).optional(),
     optionDisplay: z.record(z.string(), z.object({
       label: z.string().min(1),
-      helperText: z.string().optional()
-    }).passthrough()).optional()
+      helperText: z.string().optional(),
+      translations: z.object({ es: z.object({ label: z.string().optional(), helperText: z.string().optional() }).passthrough().optional() }).passthrough().optional()
+    }).passthrough()).optional(),
+    translations: z.object({ es: z.object({ prompt: z.string().optional(), helperText: z.string().optional() }).passthrough().optional() }).passthrough().optional()
   })
   .passthrough();
 

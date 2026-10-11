@@ -113,6 +113,8 @@ export type ConsumerBriefcaseItem = {
   createdAt: string;
   summary: string;
   nextSteps: string[];
+  /** Display-only resume anchor, saved atomically with packet progress metadata. */
+  packetResumeSectionId?: string | null;
   paymentAllowed: boolean;
   pathwayLabel?: string;
   packetType?: ExpungementAiEligibilityResult["packetType"];

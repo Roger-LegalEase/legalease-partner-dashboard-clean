@@ -945,6 +945,8 @@ function fallbackItemFromCreateInput(input: CreateConsumerBriefcaseItemInput): C
 
 function rowToBriefcaseItem(row: ConsumerBriefcaseRow): ConsumerBriefcaseItem {
   const summaryText = typeof row.summary_json?.text === "string" ? row.summary_json.text : "Saved Briefcase item.";
+  const flow = row.summary_json?.commercialFlow as { packetInformation?: { resumeSectionId?: unknown } } | undefined;
+  const resume = flow?.packetInformation?.resumeSectionId;
 
   return {
     id: row.id,
@@ -956,6 +958,7 @@ function rowToBriefcaseItem(row: ConsumerBriefcaseRow): ConsumerBriefcaseItem {
     createdAt: row.created_at,
     summary: summaryText,
     nextSteps: Array.isArray(row.next_steps_json) ? row.next_steps_json : [],
+    packetResumeSectionId: typeof resume === "string" && /^[a-z][a-z0-9_]*$/.test(resume) ? resume : null,
     paymentAllowed: row.payment_allowed,
     pathwayLabel: row.pathway_label ?? undefined,
     packetType: row.packet_type ?? undefined,

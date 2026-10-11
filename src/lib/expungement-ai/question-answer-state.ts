@@ -97,6 +97,17 @@ export function answerValueIsKnown(value: unknown): boolean {
   return Boolean(text && !uncertaintyState(text));
 }
 
+/** Equivalent legacy wrappers do not change a known fact or invalidate review. */
+export function sameKnownQuestionAnswer(question: QuestionContract, left: unknown, right: unknown): boolean {
+  if (questionAnswerState(question, left) !== "known_valid" || questionAnswerState(question, right) !== "known_valid") return false;
+  if (question.type === "multi_select" && Array.isArray(left) && Array.isArray(right)) {
+    return left.length === right.length && left.every((value) => right.includes(value));
+  }
+  const leftText = scalarAnswerText(left);
+  const rightText = scalarAnswerText(right);
+  return leftText !== null && rightText !== null && leftText.trim() === rightText.trim();
+}
+
 /** Preserve authored choice values, display labels and Spanish without inventing options. */
 export function normalizeQuestionChoices(options: unknown, existing?: ProfileQuestion["optionDisplay"]): {
   options: string[] | null; optionDisplay?: ProfileQuestion["optionDisplay"];

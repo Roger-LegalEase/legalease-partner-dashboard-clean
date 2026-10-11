@@ -134,9 +134,10 @@ export default async function PacketAccuracyReviewPage({
 
           <div className="mt-5 rounded-[16px] border border-[#ECEFF4] bg-white p-6">
             <h2 className="text-base font-bold text-[#0B1320]">Details to check</h2>
-            {model.missingInputIds.length > 0 ? (
+            {model.missingInputIds.length > 0 || model.pendingDerivations.length > 0 ? (
               <ul className="mt-3 grid gap-2 text-sm text-[#B42318]">
                 {model.missingInputIds.map((id) => <li key={id}>{model.questions.find((question) => question.id === id)?.prompt ?? id}</li>)}
+                {model.pendingDerivations.map((fact) => <li key={`derived-${fact.factId}`}>Check the source answers before this packet detail can be calculated: {fact.inputFactIds.map((id) => model.questions.find((question) => question.id === id)?.prompt ?? "Source answer").join("; ")}</li>)}
               </ul>
             ) : (
               <p className="mt-2 text-sm leading-6 text-[#475A6E]">All required information is here. Review the saved answers one more time before continuing.</p>
@@ -149,10 +150,11 @@ export default async function PacketAccuracyReviewPage({
           <PacketVerificationAction
             key={`${item.paymentState}:${item.verificationStatus}:${item.commercialActions.fulfillmentAvailable}:${item.commercialActions.checkoutAllowed}:${item.commercialActions.generationAllowed}`}
             itemId={item.id}
+            expectedRevision={model.revision}
             commercialActions={item.commercialActions}
             verificationAnswers={model.initialAnswers}
             initiallyVerified={initiallyVerified}
-            canVerify={summary.complete && model.missingInputIds.length === 0 && reviewSafety.safe}
+            canVerify={summary.complete && model.missingInputIds.length === 0 && model.pendingDerivations.length === 0 && reviewSafety.safe}
             packetReady={item.artifact.status === "ready"}
             mode={sponsored ? "sponsored" : item.paymentState === "paid" ? "paid" : "consumer"}
           />

@@ -2,6 +2,7 @@ import Link from "next/link";
 
 import { BriefcaseShell } from "@/components/expungement-ai/BriefcaseShell";
 import { MatterStatusBadge } from "@/components/expungement-ai/BriefcaseViews";
+import { packetScreensFor } from "@/lib/expungement-ai/packet-navigation";
 import { PacketInformationBuilder } from "@/components/expungement-ai/PacketInformationBuilder";
 import { requireConsumerBriefcaseSession } from "@/lib/expungement-ai/auth";
 import { getBriefcaseItem } from "@/lib/expungement-ai/briefcase";
@@ -37,6 +38,8 @@ export default async function PacketInformationPage({
   // page is one question on its own screen, exactly as it has always been, so
   // it deliberately carries no section.
   const displayedSections = model && !editId ? model.builderSections ?? [] : [];
+  const savedSection = storedItem?.packetResumeSectionId;
+  const resumeSectionId = typeof savedSection === "string" && (savedSection === "review" || packetScreensFor(displayedQuestions, displayedSections).some((section) => section.id === savedSection)) ? savedSection : null;
 
   return (
     <BriefcaseShell
@@ -73,6 +76,9 @@ export default async function PacketInformationPage({
             initialAnswers={model.initialAnswers}
             sections={displayedSections}
             initiallyMissing={model.missingInputIds}
+            initialRevision={model.revision}
+            initialResumeSectionId={resumeSectionId}
+            initialPendingDerivations={model.pendingDerivations}
             editingFromReview={Boolean(editId)}
           />
         </section>

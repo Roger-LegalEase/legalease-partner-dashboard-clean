@@ -8,8 +8,7 @@
  * Handles every type observed across the 51 consumer profiles:
  *   single_choice | multi_select | yes_no_unsure | yes_no_prefer_not_to_say
  *   text | text_or_unknown | date_or_unknown | number_or_range
- * Any unknown/future type degrades to a calm, non-blocking fallback (never a crash, never a
- * silently-skipped required answer that fakes a result).
+ * An unsupported required type stays unresolved with an explicit recovery message.
  *
  * Accessibility: the prompt is a real heading, and exactly one heading on a
  * screen is an `<h1>`. On a screening screen that is the question itself. Inside
@@ -22,7 +21,7 @@
  */
 import type { AnswerValue, ProfileQuestion } from "@/lib/expungement-ai/frontend/contracts";
 import { CalendarDateField } from "@/components/expungement-ai/screening/fields/CalendarDateField";
-import { exclusiveOptionsFor } from "@/lib/expungement-ai/question-answer-state";
+import { exclusiveOptionsFor, scalarAnswerText } from "@/lib/expungement-ai/question-answer-state";
 import { readOrUnknown, type OrUnknownValue } from "@/components/expungement-ai/screening/answers";
 import { ContextOnlyBanner } from "@/components/expungement-ai/screening/ContextOnlyBanner";
 import { OptionGroup } from "@/components/expungement-ai/screening/fields/OptionGroup";
@@ -49,7 +48,7 @@ export function QuestionField({
   /** 1 when the question is the screen's own heading, 3 when it sits under a section heading. */
   headingLevel?: 1 | 2 | 3;
 }) {
-  const { locale, t: translate } = useLocalization();
+  const { locale, t: translate, text: localizeText } = useLocalization();
   const fieldId = `q-${question.id}`;
   const promptId = `${fieldId}-prompt`;
   const errorId = error ? `${fieldId}-error` : undefined;
@@ -87,7 +86,7 @@ export function QuestionField({
   ) : null;
   const errorNode = error ? (
     <p id={errorId} role="alert" className="text-[13px] font-semibold text-[#C2410C]">
-      {translate("screening.answer_required", error)}
+      {localizeText(error)}
     </p>
   ) : null;
 
@@ -116,7 +115,7 @@ export function QuestionField({
             optionDisplay={question.optionDisplay}
             questionId={question.id}
             stateCode={stateCode}
-            value={typeof value === "string" ? value : ""}
+            value={value && typeof value === "object" && "unknown" in value && value.unknown ? "" : scalarAnswerText(value) ?? ""}
             onChange={(next) => onChange(next)}
             ariaLabelledBy={promptId}
             ariaDescribedBy={describedBy}
@@ -165,7 +164,7 @@ export function QuestionField({
             id={fieldId}
             className="min-h-[48px] rounded-xl border-[1.5px] border-[#E4E8EF] bg-white px-4 text-[15.5px] text-[#0B1320] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00A99D]"
             type="text"
-            value={typeof value === "string" ? value : ""}
+            value={scalarAnswerText(value) ?? ""}
             onChange={(event) => onChange(event.target.value)}
             aria-labelledby={promptId}
             aria-describedby={describedBy}

@@ -87,6 +87,7 @@ export type BriefcasePresentationItem = {
   packetDraft:
     | {
       status: "available";
+      revision: number;
       capturedAt: string;
       initialAnswers: Record<string, AnswerValue>;
       screeningAnswers: Record<string, AnswerValue>;
@@ -509,6 +510,7 @@ function presentationDraftForModel(
 ): Extract<BriefcasePresentationItem["packetDraft"], { status: "available" }> {
   return {
     status: "available",
+    revision: model.revision,
     capturedAt: model.capturedAt,
     initialAnswers: model.initialAnswers,
     screeningAnswers: model.screeningAnswers,
