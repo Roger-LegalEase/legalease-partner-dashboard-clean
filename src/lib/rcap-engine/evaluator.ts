@@ -758,6 +758,8 @@ function routeIsAdministrativeApplicationPacket(profile: EngineProfile, pathway:
 }
 
 function routeSpecificSafetyGate(profile: EngineProfile, answers: Record<string, ScreeningAnswerValue>, pathway: CompiledPathway): ScreeningReason | undefined {
+  const msRecordClassGate = msFelonyRecordClassSafetyGate(profile, answers, pathway);
+  if (msRecordClassGate) return msRecordClassGate;
   const caGate = caRouteSafetyGate(profile, answers, pathway);
   if (caGate) return caGate;
   const nyGate = nyCpl16059SafetyGate(profile, answers, pathway);
@@ -781,6 +783,23 @@ function routeSpecificSafetyGate(profile: EngineProfile, answers: Record<string,
   const nvSubsection3 = nevada176ASubsection3Gate(profile, answers, pathway);
   if (nvSubsection3) return nvSubsection3;
   return undefined;
+}
+
+/**
+ * LD-MS-01 retains this exact felony-conviction route. The adopted ms-fel track
+ * (legal-design-track-registry.json) covers conviction / felony_conviction.
+ * An optional remedy hint cannot override either of these expressly different
+ * final outcomes. Charge severity is not the final disposition; ambiguous
+ * outcome choices remain subject to the existing review and eligibility gates.
+ * This guard never selects a replacement route or establishes eligibility.
+ */
+function msFelonyRecordClassSafetyGate(profile: EngineProfile, answers: Record<string, ScreeningAnswerValue>, pathway: CompiledPathway): ScreeningReason | undefined {
+  if (profile.jurisdiction.code !== "MS" || pathway.id !== "eligible-felony-conviction-expungement-99-19-71") return undefined;
+  if (answers.case_outcome !== "Dismissed, no-billed, nolle prosequi, or not prosecuted"
+    && answers.case_outcome !== "Misdemeanor conviction") return undefined;
+  return reason("MS", "felony_route_case_outcome_conflict",
+    "The case outcome you entered does not match this felony-conviction option. Review the case outcome or get help confirming which option applies.",
+    "LD-MS-01; legal-design-track-registry:ms-fel:recordTypes,dispositions");
 }
 
 // Nevada NRS 176A.245(3), 176A.265(3) and 176A.295(3): the court may not order

@@ -516,9 +516,12 @@ relief · Required documents · Filing details.
 
 Each section shows one of: Not started · In progress · Complete · Needs attention.
 
-**Autosave must be truthful**: `Saving…` / `Saved` / `Could not save. Try again.`
-Never display "Saved" from a client-side state update before the server confirms
-persistence.
+**Packet save status must be truthful**: typing changes the local draft. Explicit
+Save and packet navigation persist that draft through the protected save path;
+typing alone does not promise persistence. Show `Saving…` / `Saved` / a specific
+save failure with a safe recovery action. Never display "Saved" from a client-side
+state update before the server confirms persistence. A failed navigation save
+keeps the participant's draft available and does not silently discard it.
 
 Known screening facts prefill the packet workflow. Never make the participant
 answer the same question again because the second screen uses different wording.
@@ -799,7 +802,7 @@ need owners, policies, evidence, monitoring, review, and consistent operation.
 | Payments | Server-created checkout; verified webhook; exact matter and amount; idempotency | Webhook verification tests, payment-to-matter reconciliation |
 | Sponsorship | Server-validated sponsor authority; no client-set sponsor status; exactly-once credit use | Credit ledger, reconciliation report, duplicate prevention tests |
 | Processing integrity | Versioned route contract; immutable verification snapshot; form-set hash; artifact validation | Snapshot records, form approvals, render manifests, regression tests |
-| Availability | Autosave; durable jobs; retry queues; monitoring; backups; restore tests | Job metrics, incident alerts, backup and restore evidence |
+| Availability | Acknowledged draft persistence; durable jobs; retry queues; monitoring; backups; restore tests | Save and recovery checks, job metrics, incident alerts, backup and restore evidence |
 | Confidentiality | Private downloads; minimum necessary staff views; no sensitive telemetry | Signed-URL tests, access logs, telemetry schema review |
 | Privacy | Data minimization; consent; retention; deletion; communications preferences | Retention jobs, privacy notices, deletion evidence, consent versions |
 | Change management | Peer review; protected branches; migration review; security tests; rollback | Pull requests, approvals, deployment logs, change tickets |
@@ -1165,7 +1168,7 @@ without implying a packet exists.
 
 **Phase 4 — Rebuild the consumer journey around the exact matter.** Public
 screening; preliminary result; embedded authentication handoff; exact-matter
-landing; packet sections; autosave; Review and Edit; final verification; free
+landing; packet sections; explicit and navigation saves; Review and Edit; final verification; free
 Briefcase messaging.
 
 **Phase 5 — Harden payment, entitlement, rendering, delivery.** Exact-matter
