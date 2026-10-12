@@ -98,7 +98,7 @@ export function PacketInformationBuilder({
   const [savedAt, setSavedAt] = useState<number | null>(null);
   const inflight = useRef<Promise<PacketSaveReceipt | null> | null>(null);
   const root = useRef<HTMLDivElement>(null);
-  const focusNext = useRef(false);
+  const focusNext = useRef(editingFromReview);
   const recoverySequence = useRef(0);
   const screens = useMemo(() => screensFor(questions, sections), [questions, sections]);
   const index = screens.findIndex((screen) => screen.id === screenId);
