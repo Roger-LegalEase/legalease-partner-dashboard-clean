@@ -1,0 +1,651 @@
+import type { PublicQuestion, ScreeningAnswerValue } from "@/lib/rcap-engine/contracts";
+import { isAffirmative, isNegative } from "@/lib/rcap-engine/answer-normalization";
+
+export const NY_16059_ROUTE = "discretionary-conviction-sealing-by-petition-under-cpl-160-59";
+export const NY_16059_SOURCE = "https://www.nysenate.gov/legislation/laws/CPL/160.59";
+type Answers = Record<string, ScreeningAnswerValue>;
+type Decision = { status: "satisfied" | "missing" | "review" | "excluded" | "not_yet"; code?: string; ids?: string[]; eligibleOn?: string; latestPossibleOn?: string; excludedDays?: number };
+const fail = (status: Decision["status"], code: string, ids: string[] = []): Decision => ({ status, code, ids });
+export function ny16059Requested(a: Answers) { return a.ny_16059_request === "petition"; }
+const integer = (v: ScreeningAnswerValue | undefined): number | undefined => {
+  if (typeof v !== "number" && (typeof v !== "string" || !/^\d+$/.test(v))) return undefined;
+  const n = Number(v); return Number.isSafeInteger(n) && n >= 0 ? n : undefined;
+};
+
+/** Record facts for the existing evaluator, not an alternative eligibility engine.
+ * Old eligible-count/cap answers remain raw historical context, never a history
+ * count, an order or evidence that a new application was granted.
+ */
+export function ny16059History(a: Answers): Decision {
+  if (!["Misdemeanor conviction", "Felony conviction"].includes(String(a.case_outcome))) return fail("review", "history_conflict");
+  const ids = ["ny_16059_history_total", "ny_16059_history_felonies", "ny_16059_requested_total", "ny_16059_requested_felonies", "ny_16059_granted_total", "ny_16059_granted_felonies"];
+  const missing = ids.filter(id => integer(a[id]) === undefined);
+  for (const id of ["ny_16059_grouping", "ny_16059_application_status", "ny_16059_16058_grants"]) {
+    const q = NY_16059_QUESTIONS.find(q => q.id === id)!;
+    if (a[id] === "unknown" || !Array.isArray(q.options) || !q.options.includes(String(a[id]))) missing.push(id);
+  }
+  if (missing.length) return fail("missing", "history_missing", missing);
+  const [total, felonies, requested, requestedFelonies, granted, grantedFelonies] = ids.map(id => integer(a[id])!);
+  if (!total || !requested || requested > total || felonies > total || requestedFelonies > requested || requestedFelonies > felonies
+    || granted > total || grantedFelonies > granted || grantedFelonies > felonies
+    || requested + granted > total || requestedFelonies + grantedFelonies > felonies
+    || a.case_outcome === "Felony conviction" && requestedFelonies === 0
+    || a.offense_level === "Felony" && requestedFelonies === 0
+    || a.ny_16059_application_status === "granted" && granted === 0
+    || ["none", "denied", "pending"].includes(String(a.ny_16059_application_status)) && granted > 0) return fail("review", "history_conflict");
+  let requestUnits = requested, requestFelonyUnits = requestedFelonies, historyUnits = total, historyFelonyUnits = felonies;
+  // §1(a) eligible-offense grouping, corroborated by the official statewide
+  // application. A common docket, concurrent sentences or multiple unrelated
+  // events is NOT proof of a single criminal transaction. Connected ventures
+  // require record-specific legal classification; only the explicit single-act
+  // subset is determinable from these facts. Never group an ineligible crime.
+  if (a.ny_16059_grouping === "single_act") {
+    if (!isNegative(a.ny_16059_requested_excluded)) return fail("review", "grouping_review");
+    requestUnits = 1; requestFelonyUnits = requestedFelonies > 0 ? 1 : 0;
+    historyUnits = total - requested + 1;
+    historyFelonyUnits = felonies - requestedFelonies + requestFelonyUnits;
+  } else if (a.ny_16059_grouping !== "separate") return fail("review", "grouping_review");
+  // Every criminal conviction elsewhere in history counts, not only eligible
+  // convictions or those sought in this petition. Vacated/expunged matters are
+  // excluded only when their actual disposition is established by the record.
+  if (historyUnits > 2 || historyFelonyUnits > 1) return fail("excluded", "history_limit");
+  if (requestUnits > 2 || requestFelonyUnits > 1) return fail("excluded", "request_limit");
+  if (granted >= 2 || grantedFelonies >= 1 && requestFelonyUnits > 0 || granted + requestUnits > 2) return fail("excluded", "sealing_capacity");
+  // §3(b) references a maximum under §160.58, whose §2 distinguishes the
+  // treatment convictions from up to three additional prior misdemeanors.
+  // Any grant is NOT automatically the maximum. Exact order review is needed.
+  if (a.ny_16059_16058_grants === "granted") return fail("review", "16058_order_review");
+  return { status: "satisfied" };
+}
+const DAY = 86400000;
+function date(value: ScreeningAnswerValue | undefined, today: string): string | undefined {
+  if (typeof value !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(value)) return undefined;
+  const d = new Date(value + "T00:00:00Z");
+  return Number.isFinite(d.getTime()) && d.toISOString().slice(0, 10) === value && value <= today ? value : undefined;
+}
+const day = (s: string) => new Date(s + "T00:00:00Z").getTime() / DAY;
+function unionDays(intervals: [number, number][]) {
+  let end = -Infinity, days = 0;
+  for (const [start, finish] of intervals.toSorted((a, b) => a[0] - b[0])) { days += Math.max(0, finish - Math.max(start, end)); end = Math.max(end, finish); }
+  return days;
+}
+export function ny16059Clock(a: Answers, today: string): Decision {
+  const supplied = ["sentencing_date", "release_date", "ny_16059_earliest_conviction_date"];
+  const invalid = supplied.filter(id => a[id] !== undefined && !date(a[id], today));
+  if (invalid.length) return fail("missing", "anchor_invalid", invalid);
+  const required = ["sentencing_date", "ny_16059_earliest_conviction_date"];
+  if (isAffirmative(a.ny_16059_sentence_incarceration)) required.push("release_date");
+  const missing = required.filter(id => !date(a[id], today));
+  if (!isAffirmative(a.ny_16059_sentence_incarceration) && !isNegative(a.ny_16059_sentence_incarceration)) missing.push("ny_16059_sentence_incarceration");
+  if (!["none", "released", "current"].includes(String(a.ny_16059_incarceration_history))) missing.push("ny_16059_incarceration_history");
+  if (missing.length) return fail("missing", "clock_missing", missing);
+  const sentence = String(a.sentencing_date), conviction = String(a.ny_16059_earliest_conviction_date), release = a.release_date === undefined ? undefined : String(a.release_date);
+  if (conviction > sentence || isAffirmative(a.ny_16059_sentence_incarceration) && release! < sentence
+    || a.ny_16059_incarceration_history === "none" && (isAffirmative(a.ny_16059_sentence_incarceration) || release !== undefined || Boolean(a.ny_16059_incarceration_periods))) return fail("review", "clock_conflict");
+  if (a.ny_16059_incarceration_history === "current") return fail("not_yet", "incarcerated");
+  const periods: [number, number][] = [];
+  if (a.ny_16059_incarceration_history === "released") {
+    const raw = a.ny_16059_incarceration_periods;
+    if (typeof raw !== "string" || !raw.trim()) return fail("missing", "clock_missing", ["ny_16059_incarceration_periods"]);
+    for (const row of raw.split(/[;\n]+/)) {
+      const parts = row.trim().split(/\s*\/\s*/);
+      const start = date(parts[0], today), end = date(parts[1], today);
+      if (parts.length !== 2 || !start || !end || start > end) return fail("missing", "period_invalid", ["ny_16059_incarceration_periods"]);
+      // Retain supplied pre-conviction periods, but exclude only time after
+      // the earliest requested conviction. Admission inclusive/release exclusive.
+      if (end > conviction) periods.push([Math.max(day(start), day(conviction)), day(end)]);
+    }
+    if (!periods.length) return fail("review", "clock_conflict");
+    if (release && Math.max(...periods.map(p => p[1])) !== day(release)) return fail("review", "clock_conflict");
+  }
+  const anchor = isAffirmative(a.ny_16059_sentence_incarceration) ? release! : sentence;
+  const anniversary = new Date(anchor + "T00:00:00Z");
+  // Preserve the existing calendar-year convention: Feb 29 +10 => March 1.
+  anniversary.setUTCFullYear(anniversary.getUTCFullYear() + 10);
+  const afterAnchor = unionDays(periods.map(([s, e]) => [Math.max(s, day(anchor)), Math.max(e, day(anchor))]));
+  const allPostConviction = unionDays(periods);
+  const iso = (days: number) => new Date(anniversary.getTime() + days * DAY).toISOString().slice(0, 10);
+  const earliest = iso(afterAnchor), latest = iso(allPostConviction);
+  // Retained NY memo and §5's second sentence say all post-conviction time;
+  // the first sentence and official form start at release. Do not guess whether
+  // time already outside the anchored clock must be added again. When this
+  // changes today's outcome, hold only this decision for qualified review.
+  const details = { eligibleOn: earliest, latestPossibleOn: latest, excludedDays: afterAnchor };
+  if (today < earliest) return { ...fail("not_yet", "clock_not_yet"), ...details };
+  if (today < latest) return { ...fail("review", "clock_interpretation"), ...details };
+  return { status: "satisfied", ...details };
+}
+
+export const NY_16059_REASON_COPY: Record<string, [string, string]> = {
+ history_missing: ["Check your complete criminal history, the convictions in this request, and any earlier sealing applications and orders. An old eligible-conviction count does not establish these separate facts.", "Revise todos sus antecedentes penales, las condenas de esta solicitud y las solicitudes y órdenes de sellado anteriores. El recuento anterior de condenas elegibles no establece estos hechos por separado."],
+ history_conflict: ["The history, requested convictions, felony counts or earlier sealing orders do not agree. Check the records before continuing.", "Los antecedentes, las condenas solicitadas, los recuentos de delitos graves o las órdenes de sellado anteriores no concuerdan. Revise los expedientes antes de continuar."],
+ history_limit: ["The complete criminal history exceeds this procedure's two-crime or one-felony limit. This includes convictions outside this sealing request.", "Los antecedentes penales completos superan el límite de dos delitos o un delito grave de este procedimiento. Esto incluye condenas fuera de esta solicitud de sellado."],
+ request_limit: ["This request exceeds the limit of two eligible offenses and no more than one felony.", "Esta solicitud supera el límite de dos delitos elegibles y no más de un delito grave."],
+ grouping_review: ["A shared case number or concurrent sentences do not establish a single criminal transaction. A legal reviewer must check the connected acts and which offenses can be grouped.", "Un número de caso compartido o penas simultáneas no establecen una sola transacción delictiva. Un revisor legal debe examinar los actos relacionados y qué delitos pueden agruparse."],
+ sealing_capacity: ["The convictions already sealed under CPL 160.59 and those requested exceed the remaining statutory capacity.", "Las condenas ya selladas bajo CPL 160.59 y las solicitadas superan la capacidad restante permitida por la ley."],
+ '16058_order_review': ["An order under CPL 160.58 is not automatically the maximum allowed. A legal reviewer must identify the treatment convictions and additional prior misdemeanors sealed before applying CPL 160.59(3)(b).", "Una orden bajo CPL 160.58 no significa automáticamente que se alcanzó el máximo permitido. Un revisor legal debe identificar las condenas del programa de tratamiento y los delitos menores anteriores adicionales sellados antes de aplicar CPL 160.59(3)(b)."],
+ anchor_invalid: ["Check the sentencing and release dates. Each supplied date must be a real calendar date for an event that has already occurred.", "Revise las fechas de la sentencia y de la liberación. Cada fecha proporcionada debe ser una fecha real del calendario de un hecho que ya ocurrió."],
+ clock_missing: ["Check the sentencing, conviction and incarceration records. A broad elapsed-time answer cannot replace the dates and periods needed for this ten-year calculation.", "Revise los registros de sentencia, condena y encarcelamiento. Una respuesta general sobre el tiempo transcurrido no reemplaza las fechas y los períodos necesarios para este cálculo de diez años."],
+ clock_conflict: ["The conviction, sentence, release and incarceration-period answers conflict. Check the records; no release date or missing period can be assumed.", "Las respuestas sobre la condena, la sentencia, la liberación y los períodos de encarcelamiento no concuerdan. Revise los registros; no se puede suponer una fecha de liberación ni un período faltante."],
+ period_invalid: ["Check every incarceration period. Use real admission and release dates, in that order, with no future dates. Keep each period on its own line as YYYY-MM-DD/YYYY-MM-DD.", "Revise cada período de encarcelamiento. Use fechas reales de ingreso y liberación, en ese orden, sin fechas futuras. Escriba cada período en una línea separada como AAAA-MM-DD/AAAA-MM-DD."],
+ incarcerated: ["The incarceration record shows that release has not occurred. Do not estimate a future release date for this calculation.", "El registro de encarcelamiento indica que la liberación aún no ocurrió. No estime una fecha de liberación futura para este cálculo."],
+ clock_not_yet: ["Ten years have not yet elapsed under this procedure after accounting for the applicable anchor and incarceration time.", "Aún no han transcurrido diez años bajo este procedimiento después de considerar la fecha inicial aplicable y el tiempo de encarcelamiento."],
+ clock_interpretation: ["The result depends on how incarceration already covered by the sentencing or release anchor is treated under CPL 160.59(5). A qualified legal reviewer must resolve that calculation before this request can proceed.", "El resultado depende de cómo se trate el encarcelamiento ya comprendido en la fecha inicial de sentencia o liberación bajo CPL 160.59(5). Un revisor legal calificado debe resolver ese cálculo antes de que esta solicitud pueda continuar."]
+};
+export const NY_16059_QUESTIONS: PublicQuestion[] = [
+  {
+    "id": "ny_16059_request",
+    "stage": "timing_and_completion",
+    "prompt": "Which procedure do you want checked for this conviction?",
+    "helperText": "Use the actual records. An application is not a granted order. Keep convictions already sealed separate from convictions now requested. If unsure, choose I am not sure.",
+    "type": "single_choice",
+    "required": false,
+    "contextOnly": false,
+    "doesNotSelectPathway": true,
+    "options": [
+      "petition",
+      "other",
+      "unknown"
+    ],
+    "lifecyclePhase": "prepay_timing_gate",
+    "translations": {
+      "es": {
+        "prompt": "¿Qué procedimiento quiere que se revise para esta condena?",
+        "helperText": "Use los registros reales. Una solicitud no es una orden concedida. Separe las condenas ya selladas de las que solicita ahora. Si tiene dudas, elija No estoy seguro."
+      }
+    },
+    "optionDisplay": {
+      "petition": {
+        "label": "Petition to seal under CPL 160.59",
+        "translations": {
+          "es": {
+            "label": "Solicitud de sellado bajo CPL 160.59"
+          }
+        }
+      },
+      "other": {
+        "label": "Another procedure",
+        "translations": {
+          "es": {
+            "label": "Otro procedimiento"
+          }
+        }
+      },
+      "unknown": {
+        "label": "I am not sure",
+        "translations": {
+          "es": {
+            "label": "No estoy seguro"
+          }
+        }
+      }
+    }
+  },
+  {
+    "id": "ny_16059_history_total",
+    "stage": "timing_and_completion",
+    "prompt": "How many criminal convictions remain on your complete record?",
+    "helperText": "Use the complete record, including sealed convictions and crimes not included in this request. Count individual convictions, not cases. Do not count violations, acquittals or a conviction actually vacated or expunged. If its status is unclear, choose I am not sure.",
+    "type": "number_or_range",
+    "required": false,
+    "contextOnly": false,
+    "doesNotSelectPathway": true,
+    "options": null,
+    "lifecyclePhase": "prepay_timing_gate",
+    "translations": {
+      "es": {
+        "prompt": "¿Cuántas condenas penales permanecen en todos sus antecedentes?",
+        "helperText": "Use todos los antecedentes, incluidas las condenas selladas y los delitos fuera de esta solicitud. Cuente condenas individuales, no casos. No cuente infracciones, absoluciones ni condenas realmente anuladas o expurgadas. Si el estado no está claro, elija No estoy seguro."
+      }
+    }
+  },
+  {
+    "id": "ny_16059_history_felonies",
+    "stage": "timing_and_completion",
+    "prompt": "How many convictions on your complete record are felonies?",
+    "helperText": "Use the complete record, including sealed convictions and crimes not included in this request. Count individual convictions, not cases. Do not count violations, acquittals or a conviction actually vacated or expunged. If its status is unclear, choose I am not sure.",
+    "type": "number_or_range",
+    "required": false,
+    "contextOnly": false,
+    "doesNotSelectPathway": true,
+    "options": null,
+    "lifecyclePhase": "prepay_timing_gate",
+    "translations": {
+      "es": {
+        "prompt": "¿Cuántas condenas de todos sus antecedentes son por delitos graves?",
+        "helperText": "Use todos los antecedentes, incluidas las condenas selladas y los delitos fuera de esta solicitud. Cuente condenas individuales, no casos. No cuente infracciones, absoluciones ni condenas realmente anuladas o expurgadas. Si el estado no está claro, elija No estoy seguro."
+      }
+    }
+  },
+  {
+    "id": "ny_16059_requested_total",
+    "stage": "timing_and_completion",
+    "prompt": "How many individual convictions do you want included in this sealing request?",
+    "helperText": "Use the actual records. An application is not a granted order. Keep convictions already sealed separate from convictions now requested. If unsure, choose I am not sure.",
+    "type": "number_or_range",
+    "required": false,
+    "contextOnly": false,
+    "doesNotSelectPathway": true,
+    "options": null,
+    "lifecyclePhase": "prepay_timing_gate",
+    "translations": {
+      "es": {
+        "prompt": "¿Cuántas condenas individuales quiere incluir en esta solicitud de sellado?",
+        "helperText": "Use los registros reales. Una solicitud no es una orden concedida. Separe las condenas ya selladas de las que solicita ahora. Si tiene dudas, elija No estoy seguro."
+      }
+    }
+  },
+  {
+    "id": "ny_16059_requested_felonies",
+    "stage": "timing_and_completion",
+    "prompt": "How many of the convictions in this request are felonies?",
+    "helperText": "Use the actual records. An application is not a granted order. Keep convictions already sealed separate from convictions now requested. If unsure, choose I am not sure.",
+    "type": "number_or_range",
+    "required": false,
+    "contextOnly": false,
+    "doesNotSelectPathway": true,
+    "options": null,
+    "lifecyclePhase": "prepay_timing_gate",
+    "translations": {
+      "es": {
+        "prompt": "¿Cuántas condenas de esta solicitud son por delitos graves?",
+        "helperText": "Use los registros reales. Una solicitud no es una orden concedida. Separe las condenas ya selladas de las que solicita ahora. Si tiene dudas, elija No estoy seguro."
+      }
+    }
+  },
+  {
+    "id": "ny_16059_grouping",
+    "stage": "timing_and_completion",
+    "prompt": "How are the acts underlying these convictions related?",
+    "helperText": "Use the actual records. An application is not a granted order. Keep convictions already sealed separate from convictions now requested. If unsure, choose I am not sure.",
+    "type": "single_choice",
+    "required": false,
+    "contextOnly": false,
+    "doesNotSelectPathway": true,
+    "options": [
+      "separate",
+      "single_act",
+      "connected",
+      "other_groups",
+      "unknown"
+    ],
+    "lifecyclePhase": "prepay_timing_gate",
+    "translations": {
+      "es": {
+        "prompt": "¿Cómo se relacionan los actos que dieron lugar a estas condenas?",
+        "helperText": "Use los registros reales. Una solicitud no es una orden concedida. Separe las condenas ya selladas de las que solicita ahora. Si tiene dudas, elija No estoy seguro."
+      }
+    },
+    "optionDisplay": {
+      "separate": {
+        "label": "Separate incidents (or only one conviction)",
+        "translations": {
+          "es": {
+            "label": "Incidentes separados (o solo una condena)"
+          }
+        }
+      },
+      "single_act": {
+        "label": "All requested convictions arose from one act; other convictions were separate",
+        "translations": {
+          "es": {
+            "label": "Todas las condenas solicitadas surgieron de un solo acto; las demás fueron separadas"
+          }
+        }
+      },
+      "connected": {
+        "label": "Connected acts in one incident or venture",
+        "translations": {
+          "es": {
+            "label": "Actos relacionados en un incidente o actividad"
+          }
+        }
+      },
+      "other_groups": {
+        "label": "Other convictions also involve related acts",
+        "translations": {
+          "es": {
+            "label": "Otras condenas también incluyen actos relacionados"
+          }
+        }
+      },
+      "unknown": {
+        "label": "I am not sure",
+        "translations": {
+          "es": {
+            "label": "No estoy seguro"
+          }
+        }
+      }
+    }
+  },
+  {
+    "id": "ny_16059_application_status",
+    "stage": "timing_and_completion",
+    "prompt": "What happened to any earlier CPL 160.59 applications?",
+    "helperText": "Use the actual records. An application is not a granted order. Keep convictions already sealed separate from convictions now requested. If unsure, choose I am not sure.",
+    "type": "single_choice",
+    "required": false,
+    "contextOnly": false,
+    "doesNotSelectPathway": true,
+    "options": [
+      "none",
+      "denied",
+      "pending",
+      "granted",
+      "mixed",
+      "unknown"
+    ],
+    "lifecyclePhase": "prepay_timing_gate",
+    "translations": {
+      "es": {
+        "prompt": "¿Qué ocurrió con las solicitudes anteriores bajo CPL 160.59?",
+        "helperText": "Use los registros reales. Una solicitud no es una orden concedida. Separe las condenas ya selladas de las que solicita ahora. Si tiene dudas, elija No estoy seguro."
+      }
+    },
+    "optionDisplay": {
+      "none": {
+        "label": "None filed",
+        "translations": {
+          "es": {
+            "label": "No se presentó ninguna"
+          }
+        }
+      },
+      "denied": {
+        "label": "Denied or withdrawn; none granted",
+        "translations": {
+          "es": {
+            "label": "Denegadas o retiradas; ninguna concedida"
+          }
+        }
+      },
+      "pending": {
+        "label": "Pending; none granted",
+        "translations": {
+          "es": {
+            "label": "Pendientes; ninguna concedida"
+          }
+        }
+      },
+      "granted": {
+        "label": "Granted",
+        "translations": {
+          "es": {
+            "label": "Concedidas"
+          }
+        }
+      },
+      "mixed": {
+        "label": "More than one status",
+        "translations": {
+          "es": {
+            "label": "Más de un estado"
+          }
+        }
+      },
+      "unknown": {
+        "label": "I am not sure",
+        "translations": {
+          "es": {
+            "label": "No estoy seguro"
+          }
+        }
+      }
+    }
+  },
+  {
+    "id": "ny_16059_granted_total",
+    "stage": "timing_and_completion",
+    "prompt": "How many convictions have already been sealed by a CPL 160.59 order?",
+    "helperText": "Use the actual records. An application is not a granted order. Keep convictions already sealed separate from convictions now requested. If unsure, choose I am not sure.",
+    "type": "number_or_range",
+    "required": false,
+    "contextOnly": false,
+    "doesNotSelectPathway": true,
+    "options": null,
+    "lifecyclePhase": "prepay_timing_gate",
+    "translations": {
+      "es": {
+        "prompt": "¿Cuántas condenas ya se sellaron mediante una orden bajo CPL 160.59?",
+        "helperText": "Use los registros reales. Una solicitud no es una orden concedida. Separe las condenas ya selladas de las que solicita ahora. Si tiene dudas, elija No estoy seguro."
+      }
+    }
+  },
+  {
+    "id": "ny_16059_granted_felonies",
+    "stage": "timing_and_completion",
+    "prompt": "How many convictions already sealed under CPL 160.59 are felonies?",
+    "helperText": "Use the actual records. An application is not a granted order. Keep convictions already sealed separate from convictions now requested. If unsure, choose I am not sure.",
+    "type": "number_or_range",
+    "required": false,
+    "contextOnly": false,
+    "doesNotSelectPathway": true,
+    "options": null,
+    "lifecyclePhase": "prepay_timing_gate",
+    "translations": {
+      "es": {
+        "prompt": "¿Cuántas condenas ya selladas bajo CPL 160.59 son por delitos graves?",
+        "helperText": "Use los registros reales. Una solicitud no es una orden concedida. Separe las condenas ya selladas de las que solicita ahora. Si tiene dudas, elija No estoy seguro."
+      }
+    }
+  },
+  {
+    "id": "ny_16059_16058_grants",
+    "stage": "timing_and_completion",
+    "prompt": "Do the records show a granted sealing order under CPL 160.58?",
+    "helperText": "Use the actual records. An application is not a granted order. Keep convictions already sealed separate from convictions now requested. If unsure, choose I am not sure.",
+    "type": "single_choice",
+    "required": false,
+    "contextOnly": false,
+    "doesNotSelectPathway": true,
+    "options": [
+      "none",
+      "granted",
+      "unknown"
+    ],
+    "lifecyclePhase": "prepay_timing_gate",
+    "translations": {
+      "es": {
+        "prompt": "¿Los registros muestran una orden de sellado concedida bajo CPL 160.58?",
+        "helperText": "Use los registros reales. Una solicitud no es una orden concedida. Separe las condenas ya selladas de las que solicita ahora. Si tiene dudas, elija No estoy seguro."
+      }
+    },
+    "optionDisplay": {
+      "none": {
+        "label": "No granted order (including denied or pending applications)",
+        "translations": {
+          "es": {
+            "label": "No hay orden concedida (incluidas solicitudes denegadas o pendientes)"
+          }
+        }
+      },
+      "granted": {
+        "label": "Granted order",
+        "translations": {
+          "es": {
+            "label": "Orden concedida"
+          }
+        }
+      },
+      "unknown": {
+        "label": "I am not sure",
+        "translations": {
+          "es": {
+            "label": "No estoy seguro"
+          }
+        }
+      }
+    }
+  },
+  {
+    "id": "ny_16059_sentence_incarceration",
+    "stage": "timing_and_completion",
+    "prompt": "Did the latest criminal sentence include incarceration, including incarceration with probation?",
+    "helperText": "Use the actual records. An application is not a granted order. Keep convictions already sealed separate from convictions now requested. If unsure, choose I am not sure.",
+    "type": "yes_no_unsure",
+    "required": false,
+    "contextOnly": false,
+    "doesNotSelectPathway": true,
+    "options": null,
+    "lifecyclePhase": "prepay_timing_gate",
+    "translations": {
+      "es": {
+        "prompt": "¿La sentencia penal más reciente incluyó encarcelamiento, incluso junto con libertad condicional?",
+        "helperText": "Use los registros reales. Una solicitud no es una orden concedida. Separe las condenas ya selladas de las que solicita ahora. Si tiene dudas, elija No estoy seguro."
+      }
+    }
+  },
+  {
+    "id": "ny_16059_incarceration_history",
+    "stage": "timing_and_completion",
+    "prompt": "Since the earliest conviction in this request, what incarceration has occurred?",
+    "helperText": "Use the actual records. An application is not a granted order. Keep convictions already sealed separate from convictions now requested. If unsure, choose I am not sure.",
+    "type": "single_choice",
+    "required": false,
+    "contextOnly": false,
+    "doesNotSelectPathway": true,
+    "options": [
+      "none",
+      "released",
+      "current",
+      "unknown"
+    ],
+    "lifecyclePhase": "prepay_timing_gate",
+    "translations": {
+      "es": {
+        "prompt": "¿Qué encarcelamiento ha ocurrido desde la primera condena de esta solicitud?",
+        "helperText": "Use los registros reales. Una solicitud no es una orden concedida. Separe las condenas ya selladas de las que solicita ahora. Si tiene dudas, elija No estoy seguro."
+      }
+    },
+    "optionDisplay": {
+      "none": {
+        "label": "None",
+        "translations": {
+          "es": {
+            "label": "Ninguno"
+          }
+        }
+      },
+      "released": {
+        "label": "All periods ended in release",
+        "translations": {
+          "es": {
+            "label": "Todos los períodos terminaron con la liberación"
+          }
+        }
+      },
+      "current": {
+        "label": "Still incarcerated",
+        "translations": {
+          "es": {
+            "label": "Aún encarcelado"
+          }
+        }
+      },
+      "unknown": {
+        "label": "I am not sure",
+        "translations": {
+          "es": {
+            "label": "No estoy seguro"
+          }
+        }
+      }
+    }
+  },
+  {
+    "id": "ny_16059_earliest_conviction_date",
+    "stage": "timing_and_completion",
+    "prompt": "What is the date of the earliest conviction included in this request?",
+    "helperText": "Use the actual records. An application is not a granted order. Keep convictions already sealed separate from convictions now requested. If unsure, choose I am not sure.",
+    "type": "date_or_unknown",
+    "required": false,
+    "contextOnly": false,
+    "doesNotSelectPathway": true,
+    "options": null,
+    "lifecyclePhase": "prepay_timing_gate",
+    "translations": {
+      "es": {
+        "prompt": "¿Cuál es la fecha de la primera condena incluida en esta solicitud?",
+        "helperText": "Use los registros reales. Una solicitud no es una orden concedida. Separe las condenas ya selladas de las que solicita ahora. Si tiene dudas, elija No estoy seguro."
+      }
+    }
+  },
+  {
+    "id": "ny_16059_incarceration_periods",
+    "stage": "timing_and_completion",
+    "prompt": "What were all admission and release dates for incarceration since that conviction?",
+    "helperText": "Keep each incarceration period on a separate line: YYYY-MM-DD/YYYY-MM-DD. Include overlapping periods and any period already reflected in the release date. Do not estimate missing dates.",
+    "type": "text_or_unknown",
+    "required": false,
+    "contextOnly": false,
+    "doesNotSelectPathway": true,
+    "options": null,
+    "lifecyclePhase": "prepay_timing_gate",
+    "translations": {
+      "es": {
+        "prompt": "¿Cuáles fueron todas las fechas de ingreso y liberación de encarcelamientos desde esa condena?",
+        "helperText": "Escriba cada período en una línea separada: AAAA-MM-DD/AAAA-MM-DD. Incluya períodos superpuestos y cualquier período ya reflejado en la fecha de liberación. No estime fechas faltantes."
+      }
+    }
+  },
+  {
+    "id": "ny_16059_requested_excluded",
+    "stage": "timing_and_completion",
+    "type": "yes_no_unsure",
+    "required": false,
+    "contextOnly": false,
+    "doesNotSelectPathway": true,
+    "lifecyclePhase": "prepay_hard_disqualifier",
+    "prompt": "Does a conviction requested for sealing fall in the CPL 160.59 excluded-offense categories?",
+    "helperText": "Check only convictions in this request against the existing offense list: sex offenses, Article 263, felony Article 125, violent felonies, Class A felonies and excluded felony attempts or conspiracies. Other criminal convictions still count in complete history. If unsure, choose I am not sure.",
+    "options": null,
+    "translations": {
+      "es": {
+        "prompt": "¿Alguna condena que solicita sellar pertenece a las categorías de delitos excluidos de CPL 160.59?",
+        "helperText": "Revise solo las condenas de esta solicitud según la lista de delitos excluidos. Las otras condenas penales aún cuentan en todos los antecedentes. Si tiene dudas, elija No estoy seguro."
+      }
+    }
+  },
+  {
+    "id": "sentencing_date",
+    "stage": "timing_and_completion",
+    "type": "date_or_unknown",
+    "prompt": "When was the sentence imposed on your latest criminal conviction?",
+    "helperText": "Use the actual record date. If unavailable, choose I am not sure; a broad elapsed-time estimate cannot establish this clock.",
+    "required": false,
+    "contextOnly": false,
+    "doesNotSelectPathway": true,
+    "lifecyclePhase": "prepay_timing_gate",
+    "options": null,
+    "translations": {
+      "es": {
+        "prompt": "¿Cuándo se impuso la sentencia de su condena penal más reciente?",
+        "helperText": "Use la fecha real del registro. Si no está disponible, elija No estoy seguro; una estimación general no establece este plazo."
+      }
+    }
+  },
+  {
+    "id": "release_date",
+    "stage": "timing_and_completion",
+    "type": "date_or_unknown",
+    "prompt": "What was your latest release date from incarceration?",
+    "helperText": "Use the actual record date. If unavailable, choose I am not sure; a broad elapsed-time estimate cannot establish this clock.",
+    "required": false,
+    "contextOnly": false,
+    "doesNotSelectPathway": true,
+    "lifecyclePhase": "prepay_timing_gate",
+    "options": null,
+    "translations": {
+      "es": {
+        "prompt": "¿Cuál fue su fecha más reciente de liberación del encarcelamiento?",
+        "helperText": "Use la fecha real del registro. Si no está disponible, elija No estoy seguro; una estimación general no establece este plazo."
+      }
+    }
+  }
+];
+export const NY_16059_FACT_IDS = NY_16059_QUESTIONS.map(q => q.id);
+export const NY_16059_LEGACY_IDS = ["ny_16059_total_eligible_convictions", "ny_16059_felony_convictions", "ny_16059_prior_sealing", "ny_16059_post_last_conviction_crime", "ny_16059_ineligible_offense"];
+
+
+export const NY_16059_TIMING_IDS = ["sentencing_date", "release_date", "ny_16059_earliest_conviction_date"];

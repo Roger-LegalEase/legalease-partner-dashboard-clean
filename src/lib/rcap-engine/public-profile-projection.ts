@@ -1,3 +1,4 @@
+import { NY_16059_FACT_IDS, NY_16059_QUESTIONS, NY_16059_TIMING_IDS } from "@/lib/rcap-engine/new-york-16059-facts";
 import { DE_CONVICTION_FACT_IDS, DE_CONVICTION_QUESTIONS } from "@/lib/rcap-engine/delaware-conviction-rules";
 import { MS_PROGRAM_COMPLETION_FACT_IDS, MS_PROGRAM_COMPLETION_QUESTIONS } from "@/lib/rcap-engine/mississippi-program-completion";
 import { MS_CONDITIONAL_DISCHARGE_FACT_IDS, MS_CONDITIONAL_DISCHARGE_QUESTIONS } from "@/lib/rcap-engine/mississippi-conditional-discharge";
@@ -78,6 +79,7 @@ const STATE_SPECIFIC_PREPAY_WILMA_FACT_IDS: Record<string, Set<string>> = {
     "ms_mip_fine_payment_date"
   ]),
   NY: new Set([
+    ...NY_16059_FACT_IDS,
     "ny_16059_total_eligible_convictions",
     "ny_16059_felony_convictions",
     "ny_16059_ineligible_offense",
@@ -98,6 +100,7 @@ const STATE_SPECIFIC_PREPAY_WILMA_FACT_IDS: Record<string, Set<string>> = {
 // here as an exact birth date in free screening; it is now an approximate
 // threshold prepay and an exact date of birth at final verification only.
 const STATE_SPECIFIC_EXACT_PREPAY_TIMING_FACT_IDS: Record<string, Set<string>> = {
+  NY: new Set(NY_16059_TIMING_IDS),
   MD: new Set(["arrest_date"]),
   MS: new Set([
     "arrest_date",
@@ -1063,6 +1066,7 @@ function withWilmaFactQuestions(
     ? [...WILMA_FACT_QUESTIONS, ...MISSISSIPPI_CORRECTION_FACT_QUESTIONS, ...MS_CONDITIONAL_DISCHARGE_QUESTIONS, ...MS_PROGRAM_COMPLETION_QUESTIONS]
     : profile.jurisdiction.code === "GA" ? [...WILMA_FACT_QUESTIONS, ...GA_FIRST_OFFENDER_QUESTIONS]
     : profile.jurisdiction.code === "IL" ? [...WILMA_FACT_QUESTIONS, ...IL_CANNABIS_QUESTIONS]
+    : profile.jurisdiction.code === "NY" ? [...WILMA_FACT_QUESTIONS, ...NY_16059_QUESTIONS]
     : profile.jurisdiction.code === "KS" ? [...WILMA_FACT_QUESTIONS, ...KS_RECORD_SCOPE_QUESTIONS]
       : WILMA_FACT_QUESTIONS;
   const additions = availableWilmaFactQuestions
@@ -1084,7 +1088,9 @@ function withWilmaFactQuestions(
       withBroadCourtRequirementsGate(dedupeQuestionsById([...baseQuestions, ...additions])),
       pathways
     );
-  const questions = withBroadTimingBucketGate(withAdditions).map(question => profile.jurisdiction.code === "DE" && DE_CONVICTION_FACT_IDS.includes(question.id)
+  const questions = withBroadTimingBucketGate(withAdditions).map(question => profile.jurisdiction.code === "NY" && NY_16059_FACT_IDS.includes(question.id)
+    ? NY_16059_QUESTIONS.find(fact => fact.id === question.id)!
+    : profile.jurisdiction.code === "DE" && DE_CONVICTION_FACT_IDS.includes(question.id)
     ? DE_CONVICTION_QUESTIONS.find(fact => fact.id === question.id)!
     : profile.jurisdiction.code === "DE" && question.id === "case_outcome"
     ? { ...question, options: [...new Set([...(Array.isArray(question.options) ? question.options : []), "Misdemeanor conviction", "Felony conviction", "Other conviction or adjudication", "Juvenile adjudication or offense committed as a minor"])] } : question);

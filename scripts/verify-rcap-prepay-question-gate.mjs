@@ -99,6 +99,7 @@ let officialFormPrepay = 0;
 let narrativePrepay = 0;
 let docketPrepay = 0;
 let exactDatePrepay = 0;
+const necessaryNyTimingDates = new Set();
 let exactPacketFactPrepay = 0;
 let crossRoutePrepay = 0;
 let duplicateSelectedIds = 0;
@@ -151,15 +152,21 @@ for (const profile of profiles) {
       const question = recordQuestions.find(question => question.id === questionId) ?? questionsById.get(questionId);
       assert(Boolean(question), `${code}/${context.contextId}: selected question ${questionId} is missing from the public profile.`);
       if (!question) continue;
-      const isExactDate = question.type === "date_or_unknown";
+      // CPL160.59(5) needs exact anchors to prove its ten-year clock. This
+      // bounded exception is timing eligibility, not permission for packet data.
+      const nyTiming = code === "NY" && context.pathwayId === "discretionary-conviction-sealing-by-petition-under-cpl-160-59"
+        && ["sentencing_date", "release_date", "ny_16059_earliest_conviction_date"].includes(questionId)
+        && question.lifecyclePhase === "prepay_timing_gate" && question.required === false;
+      if (nyTiming) necessaryNyTimingDates.add(questionId);
+      const isExactDate = question.type === "date_or_unknown" && !nyTiming;
       if (isExactDate) selectedExactDates.add(questionId);
       assert(!isExactDate, `${code}/${context.contextId}: exact-date question ${questionId} remains in free screening.`);
       assert(!isCourtOrCaseIdentifier(question), `${code}/${context.contextId}: court/case identifier ${questionId} remains in free screening.`);
-      const isExactPacketFact = profile.questionLifecycle?.exactPacketFactIds.includes(questionId) === true && !recordIds.has(questionId);
+      const isExactPacketFact = profile.questionLifecycle?.exactPacketFactIds.includes(questionId) === true && !recordIds.has(questionId) && !nyTiming;
       if (isExactPacketFact) selectedExactPacketFacts.add(questionId);
       assert(!isExactPacketFact, `${code}/${context.contextId}: exact packet fact ${questionId} remains in free screening.`);
       const routeConsumers = profile.questionLifecycle?.routeConsumers[questionId] ?? [];
-      const leaksAcrossRoute = routeConsumers.length > 0 && !Boolean(context.pathwayId && routeConsumers.includes(context.pathwayId));
+      const leaksAcrossRoute = !nyTiming && routeConsumers.length > 0 && !Boolean(context.pathwayId && routeConsumers.includes(context.pathwayId));
       if (leaksAcrossRoute) selectedCrossRouteQuestions.add(questionId);
       assert(!leaksAcrossRoute, `${code}/${context.contextId}: ${questionId} leaks outside its route consumers.`);
     }
@@ -261,7 +268,8 @@ console.log(`External-document prepay questions: ${externalPrepay}`);
 console.log(`Official-form prepay fields: ${officialFormPrepay}`);
 console.log(`Narrative prepay fields: ${narrativePrepay}`);
 console.log(`Docket/case-number prepay fields: ${docketPrepay}`);
-console.log(`Exact-date prepay fields: ${exactDatePrepay}`);
+console.log(`Unnecessary exact-date prepay fields: ${exactDatePrepay}`);
+console.log(`Source-required NY timing inputs: ${[...necessaryNyTimingDates].sort().join(", ")}`);
 console.log(`Exact packet facts in prepay: ${exactPacketFactPrepay}`);
 console.log(`Cross-route prepay questions: ${crossRoutePrepay}`);
 console.log(`Duplicate selected question IDs: ${duplicateSelectedIds}`);

@@ -1,3 +1,4 @@
+import { ny16059Requested, NY_16059_ROUTE, NY_16059_FACT_IDS, NY_16059_LEGACY_IDS, NY_16059_TIMING_IDS } from "@/lib/rcap-engine/new-york-16059-facts";
 import { deConvictionQuestionApplies, delawareConvictionRoute } from "@/lib/rcap-engine/delaware-conviction-rules";
 import { msProgramCompletionQuestionApplies } from "@/lib/rcap-engine/mississippi-program-completion";
 import { msConditionalDischargeQuestionApplies } from "@/lib/rcap-engine/mississippi-conditional-discharge";
@@ -61,7 +62,7 @@ export function selectScreeningQuestionIds(
     : profile.jurisdiction.code === "IL" ? illinoisCannabisFromAnswers(answers)
     : profile.jurisdiction.code === "KS" ? kansasRecordScopeFromAnswers(answers) : null;
   const deRoute = profile.jurisdiction.code === "DE" ? delawareConvictionRoute(answers) : undefined;
-  const selectedPathway = deRoute ? profile.pathways.find(pathway => pathway.id === deRoute) : programRoute?.status === "selected"
+  const selectedPathway = profile.jurisdiction.code === "NY" && ny16059Requested(answers) ? profile.pathways.find(p => p.id === NY_16059_ROUTE) : deRoute ? profile.pathways.find(pathway => pathway.id === deRoute) : programRoute?.status === "selected"
     ? profile.pathways.find(pathway => pathway.id === programRoute.pathwayId)
     : (programRoute?.status === "clarification" || programRoute?.status === "district_arrest") ? undefined : selectedLabel
     ? profile.pathways.find((pathway) => pathway.label === selectedLabel)
@@ -74,7 +75,10 @@ export function selectScreeningQuestionIds(
   const seen = new Set<string>();
 
   return publicProfile.questions
-    .filter(question => profile.jurisdiction.code !== "NY" || question.id !== "ny_16059_post_last_conviction_crime")
+    .filter(question => profile.jurisdiction.code !== "NY" || !NY_16059_LEGACY_IDS.includes(question.id))
+    .filter(question => profile.jurisdiction.code !== "NY" || !NY_16059_FACT_IDS.includes(question.id) || question.id === "ny_16059_request" || selectedPathway?.id === NY_16059_ROUTE)
+    .filter(question => profile.jurisdiction.code !== "NY" || question.id !== "ny_16059_incarceration_periods" || answers.ny_16059_incarceration_history === "released")
+    .filter(question => profile.jurisdiction.code !== "NY" || question.id !== "release_date" || answers.ny_16059_sentence_incarceration === "Yes")
     .filter(question => profile.jurisdiction.code !== "MS" || question.id !== "ms_program_final_disposition"
       || (["99-15-26", "99-15-101", "41-29-150"].includes(String(answers.ms_program_order))
         && ["completed_and_closed", "completed_without_closure"].includes(String(answers.ms_program_record_status))))
@@ -86,13 +90,14 @@ export function selectScreeningQuestionIds(
     .filter(question => illinoisCannabisQuestionApplies(profile.jurisdiction.code, answers, question.id))
     .filter(question => nevada176AQuestionApplies(profile.jurisdiction.code, selectedPathway?.id, question.id))
     .map((question, index) => ({ question: recordQuestions.get(question.id) ?? question, index }))
-    .filter(({ question }) => (!lifecycle?.exactPacketFactIds.includes(question.id) || recordQuestions.has(question.id))
+    .filter(({ question }) => (!lifecycle?.exactPacketFactIds.includes(question.id) || recordQuestions.has(question.id) || profile.jurisdiction.code === "NY" && selectedPathway?.id === NY_16059_ROUTE && NY_16059_TIMING_IDS.includes(question.id))
       && !lifecycle?.completionAliasIds.includes(question.id))
     .filter(({ question }) => question.lifecyclePhase?.startsWith("prepay_")
       ?? !["record_readiness", "case_details", "packet_information"].includes(question.stage))
     .filter(({ question }) => lifecycle || (stageOrder.get(question.stage) ?? Number.MAX_SAFE_INTEGER) <= pathwayRoutingOrder)
     .filter(({ question }) => {
       const consumers = lifecycle?.routeConsumers[question.id] ?? [];
+      if (profile.jurisdiction.code === "NY" && selectedPathway?.id === NY_16059_ROUTE && NY_16059_TIMING_IDS.includes(question.id)) return true;
       if (consumers.length === 0) return true;
       return Boolean(selectedPathway && consumers.includes(selectedPathway.id));
     })

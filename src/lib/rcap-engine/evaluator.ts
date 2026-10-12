@@ -1,3 +1,4 @@
+import { ny16059Requested, ny16059History, ny16059Clock, NY_16059_ROUTE, NY_16059_SOURCE, NY_16059_REASON_COPY, NY_16059_LEGACY_IDS } from "@/lib/rcap-engine/new-york-16059-facts";
 import { deAdultConviction, delawareConvictionDecision, delawareConvictionRoute, DE_COURT, DE_SBI, DE_SOURCE, DE_REASON_TEXT } from "@/lib/rcap-engine/delaware-conviction-rules";
 import { MS_PROGRAM_COMPLETION_PATHWAYS, msProgramCompletionPredicates } from "@/lib/rcap-engine/mississippi-program-completion";
 import { MS_CONDITIONAL_DISCHARGE_PATHWAY, msConditionalDischargePredicates } from "@/lib/rcap-engine/mississippi-conditional-discharge";
@@ -195,6 +196,14 @@ function evaluateAgainstProfile(profile: EngineProfile, request: ScreeningEvalua
     return result(profile, request, "needs_more_info", [reason(jurisdiction, "missing_required_facts", "Required public screening facts are missing.")], {
       missingQuestionIds
     });
+  }
+
+  if (jurisdiction === "NY" && preselectedPathway?.id === NY_16059_ROUTE) {
+    const history = ny16059History(answers);
+    if (history.status !== "satisfied") return result(profile, request,
+      history.status === "missing" ? "needs_more_info" : history.status === "excluded" ? "likely_not_eligible" : "needs_review",
+      [reason("NY", `ny_16059_${history.code}`, NY_16059_REASON_COPY[history.code!][0], NY_16059_SOURCE)],
+      { pathwayId: NY_16059_ROUTE, missingQuestionIds: history.ids ?? [], paymentAllowed: false });
   }
 
   // Check exact DE adult-conviction predicates before automatic guidance or
@@ -721,6 +730,10 @@ function ambiguityReason(
   const ambiguous = legalFields
     .filter(question => nevada176AQuestionApplies(jurisdiction, selectedPathway?.id, question.id))
     .filter((question) => relevant.has(question.id))
+    // Current NY history/offense/clock gates always require their explicit facts.
+    // Retired ambiguous fields and elapsed buckets remain raw saved context.
+    .filter(question => profile.jurisdiction.code !== "NY" || selectedPathway?.id !== NY_16059_ROUTE
+      || ![...NY_16059_LEGACY_IDS, "resolved_timing_bucket"].includes(question.id))
     .find((question) => isExplicitUnknownAnswer(answers[question.id]));
   if (ambiguous) return reason(jurisdiction, "source_fact_unknown", `${ambiguous.id} is uncertain and requires source review.`);
   return undefined;
@@ -740,6 +753,7 @@ function isPrepaymentQuestion(question: PublicQuestion) {
 }
 
 function selectPathway(profile: EngineProfile, answers: Record<string, ScreeningAnswerValue>) {
+  if (profile.jurisdiction.code === "NY" && ny16059Requested(answers)) return profile.pathways.find(p => p.id === NY_16059_ROUTE);
   if (profile.jurisdiction.code === "DE" && deAdultConviction(answers) && !isAffirmative(answers.pardon_status)) {
     const id = delawareConvictionRoute(answers);
     return profile.pathways.find(pathway => pathway.id === id);
@@ -1113,27 +1127,10 @@ function nyCpl16058SafetyGate(profile: EngineProfile, answers: Record<string, Sc
 function nyCpl16059SafetyGate(profile: EngineProfile, answers: Record<string, ScreeningAnswerValue>, pathway: CompiledPathway): ScreeningReason | undefined {
   if (profile.jurisdiction.code !== "NY" || pathway.id !== "discretionary-conviction-sealing-by-petition-under-cpl-160-59") return undefined;
   const jurisdiction = profile.jurisdiction.code;
-  const totalConvictions = numericAnswer(answers.ny_16059_total_eligible_convictions ?? answers.eligible_conviction_count);
-  if (totalConvictions === undefined || !Number.isInteger(totalConvictions) || totalConvictions < 1) {
-    return reason(jurisdiction, "ny_16059_numerosity_missing", "NY CPL 160.59 requires the total eligible conviction count before a packet decision.", pathway.sourceRef);
-  }
-  if (totalConvictions > 2) {
-    return reason(jurisdiction, "ny_16059_numerosity_not_eligible", "NY CPL 160.59 is limited to no more than two eligible convictions.", pathway.sourceRef);
-  }
-  const felonyConvictions = numericAnswer(answers.ny_16059_felony_convictions);
-  if (felonyConvictions === undefined || !Number.isInteger(felonyConvictions) || felonyConvictions < 0) {
-    return reason(jurisdiction, "ny_16059_felony_count_missing", "NY CPL 160.59 requires the felony conviction count before a packet decision.", pathway.sourceRef);
-  }
-  if (felonyConvictions > totalConvictions) {
-    return reason(jurisdiction, "ny_16059_counts_inconsistent", "The felony count exceeds the total conviction count. Check the case records before continuing.", pathway.sourceRef);
-  }
-  if (felonyConvictions > 1) {
-    return reason(jurisdiction, "ny_16059_felony_count_not_eligible", "NY CPL 160.59 is limited to no more than one felony conviction.", pathway.sourceRef);
-  }
-  if (isAffirmative(answers.ny_16059_ineligible_offense) || isAffirmative(answers.ny_16059_sex_offender_registration)) {
+  if (isAffirmative(answers.ny_16059_requested_excluded) || isAffirmative(answers.ny_16059_sex_offender_registration)) {
     return reason(jurisdiction, "ny_16059_offense_bar_not_eligible", "NY CPL 160.59 excludes sex offenses, Article 263 offenses, felony Article 125 offenses, violent felonies, Class A felonies, ineligible attempts/conspiracies, and records requiring sex-offender registration.", pathway.sourceRef);
   }
-  if (!answerText(answers.ny_16059_ineligible_offense).trim() || !answerText(answers.ny_16059_sex_offender_registration).trim()) {
+  if (!isNegative(answers.ny_16059_requested_excluded) || !isNegative(answers.ny_16059_sex_offender_registration)) {
     return reason(jurisdiction, "ny_16059_offense_bar_missing", "NY CPL 160.59 offense-exclusion facts must be confirmed before a packet decision.", pathway.sourceRef);
   }
   // The broad pending_cases question also covers probation/supervision. Only
@@ -1158,26 +1155,8 @@ function nyCpl16059SafetyGate(profile: EngineProfile, answers: Record<string, Sc
   if (!isNegative(answers.ny_16059_later_conviction_entered)) {
     return reason(jurisdiction, "ny_16059_later_conviction_unconfirmed", "The earlier answer does not establish whether there was a later conviction. Check the disposition and date of the later case before deciding this sealing request.", pathway.sourceRef);
   }
-  if (isAffirmative(answers.ny_16059_prior_sealing)) {
-    // Sections (3)(b)-(c) require the maximum allowed under the identified
-    // sealing law. The legacy combined "cap or order" answer proves neither
-    // the governing section nor the number of convictions previously sealed.
-    return reason(jurisdiction, "ny_16059_prior_sealing_scope_unconfirmed", "A prior sealing order alone does not establish the statutory limit. Check which sealing law the order uses and which convictions it sealed before deciding this request.", pathway.sourceRef);
-  }
-  for (const id of ["ny_16059_pending_charge", "ny_16059_prior_sealing"]) {
-    if (!answerText(answers[id]).trim() || isExplicitUnknownAnswer(answers[id])) {
-      return reason(jurisdiction, `${id}_missing`, "NY CPL 160.59 gate facts must be confirmed before a packet decision.", pathway.sourceRef);
-    }
-  }
+  if (!isNegative(answers.ny_16059_pending_charge)) return reason(jurisdiction, "ny_16059_pending_charge_missing", "NY CPL 160.59 gate facts must be confirmed before a packet decision.", pathway.sourceRef);
   return undefined;
-}
-
-function numericAnswer(value: ScreeningAnswerValue | undefined) {
-  if (typeof value === "number" && Number.isFinite(value)) return value;
-  const text = answerText(value);
-  if (!text.trim()) return undefined;
-  const parsed = Number(text);
-  return Number.isFinite(parsed) ? parsed : undefined;
 }
 
 function dcSafetyGate(profile: EngineProfile, answers: Record<string, ScreeningAnswerValue>, pathway: CompiledPathway): ScreeningReason | undefined {
@@ -1328,22 +1307,11 @@ function specialRouteTiming(profile: EngineProfile, answers: Record<string, Scre
   if (key === "CA:prop-64-currently-serving-petition-11361-8" || key === "CA:prop-64-completed-sentence-application-11361-8") return { status: "satisfied" };
   if (key === "NY:conditional-treatment-sealing-under-cpl-160-58") return { status: "satisfied" };
   if (key === "NY:discretionary-conviction-sealing-by-petition-under-cpl-160-59") {
-    // A supplied anchor is evidence, not a hint that may be normalized or
-    // silently replaced by another date or a broad elapsed-time bucket.
-    const invalidAnchors = ["sentencing_date", "release_date"].filter((id) => {
-      if (answers[id] === undefined) return false;
-      const raw = answerText(answers[id]);
-      const date = parseDateAnswer(answers[id]);
-      return !date || date.toISOString().slice(0, 10) !== raw || date.getTime() > evaluationToday().getTime();
-    });
-    if (invalidAnchors.length > 0) {
-      return {
-        status: "missing_anchor",
-        reason: reason("NY", "ny_16059_anchor_invalid", "Check the sentencing and release dates. Each supplied date must be a real calendar date for an event that has already occurred.", "CPL160.59(5)"),
-        missingQuestionIds: invalidAnchors
-      };
-    }
-    return latestAnchorTiming(profile, answers, rule, pathway, ["sentencing_date", "release_date"], { value: 10, unit: "years", raw: "10 years" }, "NY CPL 160.59 requires ten years from the later of sentencing or release; release captures incarceration tolling when present.");
+    const clock = ny16059Clock(answers, evaluationToday().toISOString().slice(0, 10));
+    if (clock.status === "satisfied") return { status: "satisfied" };
+    const clockReason = reason("NY", `ny_16059_${clock.code}`, NY_16059_REASON_COPY[clock.code!][0], NY_16059_SOURCE);
+    if (clock.status === "missing") return { status: "missing_anchor", reason: clockReason, missingQuestionIds: clock.ids ?? [] };
+    return { status: clock.status === "not_yet" ? "not_yet" : "needs_review", reason: clockReason };
   }
   if (key === "IN:non-conviction-arrest-or-criminal-charge-expungement") {
     return timingFromAnchor(profile, answers, rule, pathway, "arrest_date", { value: 1, unit: "years", raw: "1 year" }, "IC 35-38-9-1 one-year non-conviction wait runs from the arrest, charge, or allegation date.");
