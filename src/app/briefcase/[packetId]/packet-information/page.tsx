@@ -9,7 +9,6 @@ import { editablePacketInputIds, heldCourtCompletionInputIds, packetAccountEmail
 import { BriefcaseShell } from "@/components/expungement-ai/BriefcaseShell";
 import { MatterStatusBadge } from "@/components/expungement-ai/BriefcaseViews";
 import { packetAnswersForOwnerEditing, requiresMcicIdentifierAuthority } from "@/lib/expungement-ai/sensitive-packet-facts";
-import { packetScreensFor } from "@/lib/expungement-ai/packet-navigation";
 import { PacketInformationBuilder } from "@/components/expungement-ai/PacketInformationBuilder";
 import { requireConsumerBriefcaseSession } from "@/lib/expungement-ai/auth";
 import { getBriefcaseItem } from "@/lib/expungement-ai/briefcase";
@@ -67,7 +66,9 @@ export default async function PacketInformationPage({
     questionIds: ["mailing_address", "phone_number", "email_address", "contact_information"].filter((id) => displayedQuestions.some((question) => question.id === id))
   }] : model && !editId && !correctingCompletion ? model.builderSections ?? [] : [];
   const savedSection = storedItem?.packetResumeSectionId;
-  const resumeSectionId = typeof savedSection === "string" && (savedSection === "review" || packetScreensFor(displayedQuestions, displayedSections).some((section) => section.id === savedSection)) ? savedSection : null;
+  // The builder validates the destination against its effective screens and
+  // explains recovery when a previously saved section no longer exists.
+  const resumeSectionId = typeof savedSection === "string" ? savedSection : null;
 
   return (
     <BriefcaseShell

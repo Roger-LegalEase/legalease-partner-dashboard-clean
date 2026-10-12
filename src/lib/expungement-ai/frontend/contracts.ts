@@ -88,6 +88,8 @@ export type FlowStage = {
 export type ProfileQuestion = {
   /** Protected owner recovery display only; never an editable answer or legal fact. */
   legacyAnswerText?: string;
+  /** Safe notice only; incompatible raw values remain in protected storage. */
+  savedAnswerNeedsClarification?: boolean;
   id: string;
   stage: string;
   prompt: string;

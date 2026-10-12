@@ -66,6 +66,7 @@ export const profileQuestionSchema = z
     multiline: z.boolean().optional(),
     answerContract: z.literal("ca_prop64_record_fact_v1").optional(),
     legacyAnswerText: z.string().optional(),
+    savedAnswerNeedsClarification: z.boolean().optional(),
     type: z.string().min(1),
     required: z.boolean(),
     contextOnly: z.boolean(),

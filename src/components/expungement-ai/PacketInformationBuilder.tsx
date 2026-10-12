@@ -85,6 +85,10 @@ export function PacketInformationBuilder({
     return screens.find((screen) => screen.questions.some((question) => initiallyMissing.includes(question.id)
       || initialPendingDerivations.some((fact) => fact.inputFactIds.includes(question.id))))?.id ?? "review";
   });
+  const [resumeFallbackNotice, setResumeFallbackNotice] = useState<"actionable" | "review" | null>(() =>
+    !editingFromReview && typeof initialResumeSectionId === "string" && initialResumeSectionId.trim().length > 0
+      && initialResumeSectionId !== "review" && !screensFor(initialQuestions, initialSections).some((screen) => screen.id === initialResumeSectionId)
+      ? screenId === "review" ? "review" : "actionable" : null);
   const [fieldErrors, setFieldErrors] = useState<Record<string, BilingualCopy>>({});
   const [saveError, setSaveError] = useState<BilingualCopy | null>(null);
   const [failureStatus, setFailureStatus] = useState<number | null>(null);
@@ -112,7 +116,7 @@ export function PacketInformationBuilder({
     root.current?.querySelector<HTMLElement>("[data-packet-step-heading]")?.focus();
   }, [screenId, questions]);
 
-  function moveTo(id: string) { focusNext.current = true; setScreenId(id); setFieldErrors({}); }
+  function moveTo(id: string) { focusNext.current = true; setScreenId(id); setFieldErrors({}); setResumeFallbackNotice(null); }
   function focusQuestion(id: string) {
     requestAnimationFrame(() => {
       const field = root.current?.querySelector<HTMLElement>(`[data-packet-question="${CSS.escape(id)}"] input, [data-packet-question="${CSS.escape(id)}"] select, [data-packet-question="${CSS.escape(id)}"] textarea`);
@@ -321,6 +325,11 @@ export function PacketInformationBuilder({
       <h2 tabIndex={-1} data-packet-step-heading id="packet-step-heading" className="text-xl font-extrabold text-[#0B1320] focus-visible:outline focus-visible:outline-2">
         {screen?.section ? locale === "es" ? screen.section.translations.es.heading : screen.section.heading : screen ? copy("Packet details", "Detalles del paquete") : copy("Review your saved packet information", "Revise la información guardada de su paquete")}
       </h2>
+      {resumeFallbackNotice ? <p role="status" data-packet-resume-fallback className="mt-2 text-sm">
+        {resumeFallbackNotice === "review"
+          ? copy("Your saved section is no longer available. Review your saved answers and any details that still need attention.", "Su sección guardada ya no está disponible. Revise sus respuestas guardadas y los detalles que aún necesiten atención.")
+          : copy("Your saved section is no longer available. We opened a section that needs attention.", "Su sección guardada ya no está disponible. Abrimos una sección que necesita atención.")}
+      </p> : null}
       {screen ? <>
         <p className="mt-2 text-sm" data-packet-section-status={statusId}>{statusLabel}</p>
         {screen.section ? <p className="mt-2 text-sm leading-6 text-[#5A6275]">{locale === "es" ? screen.section.translations.es.description : screen.section.description}</p> : null}

@@ -1,5 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
+import { verifyCurrentQuestionCapabilities } from "./lib/question-capability-verifier.mjs";
 
 const root = process.cwd();
 const failures = [];
@@ -60,6 +61,12 @@ assert(ilScreens.length > 4, `Illinois must use the full profile sequence, found
 for (const raw of ["source_question_", "age_at_offense", "trafficking_status", "pardon_status"]) {
   assert(!ilScreens.some((question) => question.id.startsWith("source_question_")), `Illinois visible screens must filter ${raw}.`);
 }
+
+const questionCapabilities = await verifyCurrentQuestionCapabilities();
+for (const failure of questionCapabilities.failures) {
+  assert(false, `Question capability: ${JSON.stringify(failure)}`);
+}
+console.log(`Question capability verification: ${JSON.stringify(questionCapabilities.counts)}`);
 
 if (failures.length) {
   console.error("Expungement.ai profile screening flow verifier failed:");

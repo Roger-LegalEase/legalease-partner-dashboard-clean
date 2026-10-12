@@ -580,14 +580,15 @@
       "successor": {
         "en": {
           "prompt": "For NY CPL 160.59, is any criminal charge currently pending?",
-          "helperText": "Answer about criminal charges that are still pending now. If you cannot confirm the current status, choose I am not sure."
+          "helperText": "This question is only about criminal charges that are still pending. Being on probation or parole does not by itself mean a criminal charge is pending. If you cannot confirm the current charge status, choose the available unsure option."
         },
         "es": {
           "prompt": "Para NY CPL 160.59, ¿hay algún cargo penal pendiente actualmente?",
-          "helperText": "Responda sobre los cargos penales que siguen pendientes ahora. Si no puede confirmar su estado actual, elija No estoy seguro."
+          "helperText": "Esta pregunta se refiere únicamente a cargos penales que todavía están pendientes. Estar en libertad condicional (probation o parole) no significa por sí solo que haya un cargo penal pendiente. Si no puede confirmar el estado actual de los cargos, elija la opción disponible para indicar que no lo sabe."
         }
       },
-      "predicateAuthorityStatus": "EXISTING_SOURCE_MEANING_UNCHANGED_NO_NEW_LEGAL_APPROVAL"
+      "predicateAuthorityStatus": "EXISTING_SOURCE_MEANING_UNCHANGED_NO_NEW_LEGAL_APPROVAL",
+      "independentReviewSha256": "66c6e73568d3e1c417f8550ca7d2fad38c45f100b896319223f4c733876f8c01"
     },
     {
       "reviewId": "COPY-GA181920-ny_16059_post_last_conviction_crime",
@@ -708,6 +709,45 @@
         }
       },
       "predicateAuthorityStatus": "PURPOSE_CONFIRMED_MENU_OVERLAP_UNRESOLVED"
+    },
+    {
+      "reviewId": "GA12-ND-CATEGORY-DISTINCTION-COPY-V1",
+      "descriptor": [
+        "offense_category",
+        "text_or_unknown",
+        "What category does the court record use for this offense?",
+        "",
+        null,
+        "packet_information",
+        [
+          "present",
+          true
+        ],
+        [
+          "present",
+          false
+        ],
+        "postpay_packet_field"
+      ],
+      "scope": [
+        {
+          "surface": "packet_information",
+          "state": "ND",
+          "routeKey": "ND:first-offense-possession-sealing"
+        }
+      ],
+      "successor": {
+        "en": {
+          "prompt": "What category does the court record use for this offense?",
+          "helperText": "Use the offense category stated in the court record. For this application, this detail is used to confirm whether the record concerns a controlled-substance possession offense. The misdemeanor or felony level is asked separately. If you cannot confirm the category, use the available unsure option."
+        },
+        "es": {
+          "prompt": "¿Qué categoría usa el expediente judicial para este delito?",
+          "helperText": "Use la categoría del delito que figura en el expediente judicial. Para este trámite, este dato se usa para confirmar si el expediente se refiere a un delito de posesión de una sustancia controlada. La clasificación como delito menor (misdemeanor) o delito grave (felony) se pregunta por separado. Si no puede confirmar la categoría, elija la opción disponible para indicar que no lo sabe."
+        }
+      },
+      "predicateAuthorityStatus": "EXISTING_SOURCE_MEANING_UNCHANGED_NO_NEW_LEGAL_APPROVAL",
+      "independentReviewSha256": "66c6e73568d3e1c417f8550ca7d2fad38c45f100b896319223f4c733876f8c01"
     }
   ],
   "optionProposalSha256": "c3465422c32fb8390072a005a51990c3f89216ce60e31baa1954c42c6f551163",

@@ -33,6 +33,42 @@ assert.deepEqual(readOrUnknown({ value: 0 }), { value: "0", unknown: false });
 assert.deepEqual(readOrUnknown({ unexpected: "not an answer" }), { value: undefined, unknown: false });
 assert.deepEqual(toScreeningAnswers({ birth: readOrUnknown("2001-02-03"), count: readOrUnknown(0) }), { birth: "2001-02-03", count: "0" });
 assert.equal(questionAnswerState(q("count", "number_or_range"), 0), "known_valid");
+// Old shapes remain untouched by viewing. Incompatible saved answers are explained,
+// cannot satisfy a required fact, and are never stringified into participant inputs.
+const legacyText = q("legacy_text", "text_or_unknown");
+for (const value of [["old answer"], { value: { nested: "old answer" } }, JSON.parse('{"__proto__":{"value":"old answer"}}'), { value: "old answer", unknown: "false" }]) {
+  const before = JSON.stringify(value);
+  const markup = renderToStaticMarkup(createElement(QuestionField, { question: legacyText, stateCode: "MS", value, onChange() { assert.fail("viewing must not change an answer"); } }));
+  assert.match(markup, /data-saved-answer-clarification/);
+  assert.match(markup, /aria-describedby="q-legacy_text-saved-shape"/);
+  assert.match(markup, /Viewing this page does not change that answer/);
+  assert.doesNotMatch(markup, /\[object Object\]|__proto__|&quot;nested&quot;/);
+  assert.equal(questionAnswerState(legacyText, value), "invalid");
+  assert.deepEqual(missingRequiredInputs([legacyText.id], {}, { [legacyText.id]: value }, new Map([[legacyText.id, legacyText]])), [legacyText.id]);
+  assert.equal(JSON.stringify(value), before);
+}
+for (const value of [undefined, null, "", {}, { unknown: false }, "old answer", 0, { value: 0 }, { unknown: true }, { value: "retained", unknown: true }]) {
+  const markup = renderToStaticMarkup(createElement(QuestionField, { question: legacyText, stateCode: "MS", value, onChange() {} }));
+  assert.doesNotMatch(markup, /data-saved-answer-clarification/);
+}
+const protectedNotice = { ...legacyText, savedAnswerNeedsClarification: true };
+for (const value of [undefined, "new explicit answer", { value: "new explicit answer", unknown: false }]) {
+  const markup = renderToStaticMarkup(createElement(QuestionField, { question: protectedNotice, stateCode: "MS", value, onChange() {} }));
+  assert.match(markup, /data-saved-answer-clarification/);
+  if (value !== undefined) assert.match(markup, /value="new explicit answer"/, "a protected notice must not blank the participant's new draft");
+  assert.doesNotMatch(markup, /\[object Object\]/);
+}
+for (const value of [true, false]) {
+  const markup = renderToStaticMarkup(createElement(QuestionField, { question: q("legacy_choice", "yes_no_unsure"), stateCode: "MS", value, onChange() {} }));
+  assert.match(markup, new RegExp(`checked="" value="${value ? "Yes" : "No"}"`), "historically supported booleans display the accepted choice");
+  assert.doesNotMatch(markup, /data-saved-answer-clarification/);
+}
+const unknownInDateOnly = { value: "2000-02-29", unknown: true };
+const unknownDateMarkup = renderToStaticMarkup(createElement(QuestionField, { question: dob, stateCode: "MO", value: unknownInDateOnly, onChange() {} }));
+assert.match(unknownDateMarkup, /data-saved-answer-clarification/);
+assert.doesNotMatch(unknownDateMarkup, /\sdisabled(?:[=>\s])|choose the unsure option/);
+assert.equal(questionAnswerState(dob, unknownInDateOnly), "invalid");
+assert.deepEqual(unknownInDateOnly, { value: "2000-02-29", unknown: true });
 assert.equal(questionAnswerState(q("explanation", "text"), "I was unsure which office held the record."), "known_valid");
 const exactUncertaintyTokens = ["Unsure", "I am not sure", "I'm not sure", "I’m not sure", "unknown", "Prefer not to say"];
 for (const value of [...exactUncertaintyTokens, { unknown: true }]) {

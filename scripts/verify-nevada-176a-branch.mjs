@@ -619,6 +619,36 @@ if (composedPetition.ok && composedAutomatic.ok) {
   check(blankItems.every((item) => item.label.trim().length > 0), "every printed blank is labelled, so the participant knows what to write");
 }
 
+// The adopted petition prints DOB in this exact signature/contact section.
+// Source: build-census-v1-nv_seal_probation_family-set.mjs, composedBody and
+// its date_of_birth field binding. This structural fixture grants no offer.
+const declaredDobSections = specification.documents.flatMap((document) => document.sections)
+  .filter((section) => section.kind === "pro_se_signature_block" && section.fields?.includes("date_of_birth"));
+check(declaredDobSections.length > 0, "the adopted NV signature section declares DOB");
+check(composedPetition.ok && composedPetition.packet.documents.some((document) => document.blocks.some((block) =>
+  block.kind === "pleading_signature" && block.contactLines?.some((line) => line.includes(petitionFacts.date_of_birth)))),
+  "the declared DOB is actually composed into the petition signature/contact block");
+const dobMatter = (facts) => ({ routeKey: ROUTE_KEY, jurisdiction: JURISDICTION, pathwayId: PATHWAY_ID, facts,
+  verificationHash: "nevada-dob-binding-control", verifiedAt: "2026-09-19T00:00:00.000Z", generationPurpose: "internal_review" });
+const dobFacts = { ...petitionFacts, ...branchFacts(NV.NEVADA_176A_CHARGE_NAMED, NV.NEVADA_176A_DISPOSITION_CONDITIONAL_DISMISSAL) };
+const missingDobFacts = { ...dobFacts }; delete missingDobFacts.date_of_birth;
+let missingDeclaredDobRefused = false;
+try { composeGradeAPacket(specification, dobMatter(missingDobFacts)); }
+catch (error) { missingDeclaredDobRefused = error?.missingFactIds?.includes("date_of_birth") === true; }
+check(missingDeclaredDobRefused, "an absent declared DOB refuses rather than printing an empty signature line");
+// A deliberately nondeclaring section is a negative control: merely having a
+// DOB in the matter must never add it to an unrelated signature block.
+const noDobDeclaration = structuredClone(specification);
+for (const document of noDobDeclaration.documents) for (const section of document.sections) {
+  if (section.kind === "pro_se_signature_block") section.fields = section.fields?.filter((id) => id !== "date_of_birth");
+}
+const firstUndeclared = composeGradeAPacket(noDobDeclaration, dobMatter(dobFacts));
+const changedUndeclared = composeGradeAPacket(noDobDeclaration, dobMatter({ ...dobFacts, date_of_birth: "2000-02-29" }));
+check(JSON.stringify(firstUndeclared.documents) === JSON.stringify(changedUndeclared.documents),
+  "DOB changes cannot affect signature blocks that do not declare DOB");
+check(composedAutomatic.ok && !JSON.stringify(composedAutomatic.packet.documents).includes(petitionFacts.date_of_birth),
+  "the automatic branch still omits the conditional petition and its DOB");
+
 console.log(`\n${failures.length === 0 ? "PASS" : "FAIL"} — ${failures.length} failing check(s)`);
 if (failures.length > 0) {
   for (const failure of failures) console.log(`  - ${failure}`);

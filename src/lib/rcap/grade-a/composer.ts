@@ -208,12 +208,17 @@ function notSuppliedByPlatform(specification: PacketSpecification): ReadonlySet<
   ]);
 }
 
+function includedAssertions(section: PacketSpecificationSection, matter: GradeAMatter) {
+  return (section.assertions ?? []).filter((assertion) =>
+    section.kind !== "pleading_numbered_assertions" || assertion.id !== "personal-impact" || fact(matter, "personal_impact_confirmed") === "Yes");
+}
+
 /** Facts a document actually reads, so a missing-fact refusal names the real cause. */
-function factsUsedBy(document: PacketSpecificationDocument, blanks: ReadonlySet<string>): string[] {
+function factsUsedBy(document: PacketSpecificationDocument, blanks: ReadonlySet<string>, matter: GradeAMatter): string[] {
   const used = new Set<string>();
   for (const section of document.sections) {
     for (const field of section.fields ?? []) if (!blanks.has(field)) used.add(field);
-    for (const assertion of section.assertions ?? []) {
+    for (const assertion of includedAssertions(section, matter)) {
       for (const fact of assertion.facts) used.add(fact);
       for (const [, id] of assertion.text.matchAll(/\{\{([a-z0-9_]+)\}\}/g)) used.add(id);
     }
@@ -527,9 +532,14 @@ export function composeGradeAPacket(
   // participant a partial packet, which is the failure mode this whole gate
   // exists to prevent.
   const blanks = notSuppliedByPlatform(specification);
+  // The specification makes this paragraph optional. Exact No omits its sole
+  // conditional consumer; any other direct document consumer still requires it.
+  const optionalImpactDeclined = specification.routeKey === MISSISSIPPI_NONCONVICTION_ROUTE
+    && fact(matter, "personal_impact_confirmed") === "No";
   const missing = [...new Set([
-    ...specification.requiredFacts.map((requiredFact) => requiredFact.factId).filter((id) => !blanks.has(id)),
-    ...included.flatMap((document) => factsUsedBy(document, blanks))
+    ...specification.requiredFacts.map((requiredFact) => requiredFact.factId).filter((id) => !blanks.has(id)
+      && !(optionalImpactDeclined && id === "personal_impact_statement")),
+    ...included.flatMap((document) => factsUsedBy(document, blanks, matter))
   ])]
     .filter((id) => fact(matter, id) === "")
     .sort();
@@ -666,8 +676,7 @@ function composeSection(
     }
 
     case "pleading_numbered_assertions": {
-      const assertions = (section.assertions ?? []).filter((assertion) =>
-        assertion.id !== "personal-impact" || fact(matter, "personal_impact_confirmed") === "Yes");
+      const assertions = includedAssertions(section, matter);
       const numbered = assertions.map((assertion, index) => ({
         kind: "pleading_paragraph" as const,
         text: fill(assertion.text, matter),
@@ -745,6 +754,7 @@ function composeSection(
         name: fact(matter, "participant_full_legal_name"),
         role: fill(section.body ?? "{{participant_full_legal_name}}, Petitioner, Pro Se", matter),
         contactLines: [
+          ...(section.fields?.includes("date_of_birth") ? [`DATE OF BIRTH: ${fact(matter, "date_of_birth")}`] : []),
           fact(matter, "mailing_address"),
           `Telephone: ${fact(matter, "phone_number")}`,
           `Email: ${fact(matter, "email_address")}`

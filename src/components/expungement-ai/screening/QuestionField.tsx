@@ -23,7 +23,7 @@ import { caProp64Choice, isCaProp64ChoiceQuestion, CA_PROP64_CLARIFICATION_COPY 
 import type { AnswerValue, ProfileQuestion } from "@/lib/expungement-ai/frontend/contracts";
 import { SensitiveIdentifierField } from "@/components/expungement-ai/screening/fields/SensitiveIdentifierField";
 import { CalendarDateField } from "@/components/expungement-ai/screening/fields/CalendarDateField";
-import { exclusiveOptionsFor, scalarAnswerText } from "@/lib/expungement-ai/question-answer-state";
+import { exclusiveOptionsFor, hasIncompatibleAnswerShape, scalarAnswerText } from "@/lib/expungement-ai/question-answer-state";
 import { readOrUnknown, type OrUnknownValue } from "@/components/expungement-ai/screening/answers";
 import { ContextOnlyBanner } from "@/components/expungement-ai/screening/ContextOnlyBanner";
 import { OptionGroup } from "@/components/expungement-ai/screening/fields/OptionGroup";
@@ -37,7 +37,7 @@ const YES_NO_PREFER_NOT_OPTIONS = ["Yes", "No", "Prefer not to say"];
 export function QuestionField({
   question,
   stateCode,
-  value,
+  value: savedValue,
   onChange,
   error,
   headingLevel = 1,
@@ -58,9 +58,14 @@ export function QuestionField({
   const errorId = error ? `${fieldId}-error` : undefined;
   const contextId = question.contextOnly ? `${fieldId}-context` : undefined;
   const helperId = question.helperText ? `${fieldId}-helper` : undefined;
+  const incompatibleShape = hasIncompatibleAnswerShape(question, savedValue);
+  const shapeId = incompatibleShape || question.savedAnswerNeedsClarification ? `${fieldId}-saved-shape` : undefined;
+  // Keep the original in the owner draft; an unsupported shape is never coerced
+  // into a guessed value or allowed to disable the replacement control.
+  const value = incompatibleShape ? undefined : savedValue;
   const legacyId = stateCode === "CA" && question.legacyAnswerText !== undefined
     && (question.answerContract === "ca_prop64_record_fact_v1" || question.id === "sentence_completion_date" && question.type === "yes_no_unsure") ? `${fieldId}-legacy` : undefined;
-  const describedBy = [contextId, helperId, legacyId, errorId].filter(Boolean).join(" ") || undefined;
+  const describedBy = [contextId, helperId, legacyId, shapeId, errorId].filter(Boolean).join(" ") || undefined;
   const optional = question.contextOnly || !question.required;
   const promptText =
     locale === "es" && question.translations?.es?.prompt
@@ -83,7 +88,19 @@ export function QuestionField({
       headingLevel={headingLevel}
     />
   );
-  const bannerNode = question.contextOnly ? <ContextOnlyBanner id={contextId} /> : null;
+  const offersUncertainty = question.type.endsWith("_or_unknown") || question.type === "number_or_range"
+    || question.type === "yes_no_unsure" || question.options?.includes("I am not sure");
+  const bannerNode = <>
+    {question.contextOnly ? <ContextOnlyBanner id={contextId} /> : null}
+    {shapeId ? <p id={shapeId} role="status" data-saved-answer-clarification className="rounded border border-amber-300 p-3 text-sm">
+      {locale === "es"
+        ? "Una respuesta anterior no se puede mostrar aquí. Consulte sus documentos antes de reemplazarla. Ver esta página no cambia esa respuesta."
+        : "An earlier answer cannot be displayed here. Check your records before replacing it. Viewing this page does not change that answer."}
+      {offersUncertainty ? locale === "es"
+        ? " Si no puede confirmar la respuesta, puede elegir la opción para indicar que no lo sabe."
+        : " If you cannot confirm the answer, you can choose the unsure option." : null}
+    </p> : null}
+  </>;
   // TODO(save-and-resume): PR 3 attaches the save affordance near readiness helper copy.
   const helperNode = question.helperText ? (
     <p id={helperId} className="text-[13.5px] leading-6 text-[#5A6275]">
@@ -141,7 +158,8 @@ export function QuestionField({
             optionDisplay={question.optionDisplay}
             questionId={question.id}
             stateCode={stateCode}
-            value={caChoice ? normalized ?? "" : value && typeof value === "object" && "unknown" in value && value.unknown ? "" : scalarAnswerText(value) ?? ""}
+            value={caChoice ? normalized ?? "" : typeof value === "boolean" ? value ? "Yes" : "No"
+              : value && typeof value === "object" && "unknown" in value && value.unknown ? "" : scalarAnswerText(value) ?? ""}
             onChange={(next) => onChange(next)}
             ariaLabelledBy={promptId}
             ariaDescribedBy={describedBy}

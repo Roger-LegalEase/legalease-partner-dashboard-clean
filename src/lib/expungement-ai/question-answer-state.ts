@@ -32,6 +32,28 @@ export function scalarAnswerText(value: unknown): string | null {
   return null;
 }
 
+/** A saved shape that the existing control cannot represent must be clarified, not coerced. */
+export function hasIncompatibleAnswerShape(question: QuestionContract, value: unknown): boolean {
+  if (value === undefined || value === null || value === "") return false;
+  if (question.type === "multi_select") return !Array.isArray(value) || value.some((entry) => typeof entry !== "string");
+  if (Array.isArray(value)) return true;
+  if (typeof value === "boolean") {
+    return !(question.type === "yes_no_unsure" || question.type === "yes_no_prefer_not_to_say"
+      || question.type === "single_choice" && Array.isArray(question.options) && question.options.includes(value ? "Yes" : "No"));
+  }
+  if (typeof value === "number") return !Number.isFinite(value);
+  if (typeof value === "string") return false;
+  if (typeof value !== "object") return true;
+  const prototype = Object.getPrototypeOf(value);
+  if (prototype !== Object.prototype && prototype !== null) return true;
+  const wrapper = value as Record<string, unknown>;
+  return Object.keys(wrapper).some((key) => key !== "value" && key !== "unknown")
+    || wrapper.unknown !== undefined && typeof wrapper.unknown !== "boolean"
+    || wrapper.unknown === true && !question.type.endsWith("_or_unknown") && question.type !== "number_or_range"
+    || wrapper.value !== undefined && wrapper.value !== null && typeof wrapper.value !== "string"
+      && !(typeof wrapper.value === "number" && Number.isFinite(wrapper.value));
+}
+
 export function isFullSsnFormat(value: string): boolean {
   return /^(?:\d{9}|\d{3}-\d{2}-\d{4})$/.test(value.trim()) && value.replace(/\D/g, "") !== "000000000";
 }
@@ -54,6 +76,7 @@ export function toggleMultiSelect(values: readonly string[], option: string, exc
 }
 
 export function questionAnswerState(question: QuestionContract, value: unknown, today = new Date().toISOString().slice(0, 10)): QuestionAnswerState {
+  if (hasIncompatibleAnswerShape(question, value)) return "invalid";
   if (question.answerContract === CA_PROP64_RECORD_ANSWER_CONTRACT) {
     return question.type === "text_or_unknown" ? caProp64RecordAnswerState(question.id, value) : "invalid";
   }
@@ -123,8 +146,10 @@ export function sameKnownQuestionAnswer(question: QuestionContract, left: unknow
     return left.length === right.length && left.every((value) => right.includes(value));
   }
   if (isCaProp64ChoiceQuestion(question)) return caProp64Choice(question.id, left) === caProp64Choice(question.id, right);
-  const leftText = scalarAnswerText(left);
-  const rightText = scalarAnswerText(right);
+  // Boolean equivalence is limited to a control that already accepts that
+  // exact Yes/No choice; the known-valid guards above exclude all other types.
+  const leftText = typeof left === "boolean" ? left ? "Yes" : "No" : scalarAnswerText(left);
+  const rightText = typeof right === "boolean" ? right ? "Yes" : "No" : scalarAnswerText(right);
   return leftText !== null && rightText !== null && leftText.trim() === rightText.trim();
 }
 

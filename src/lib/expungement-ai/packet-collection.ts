@@ -303,6 +303,8 @@ export type PacketCollectionInput = {
   baselineCarriedFactIds?: ReadonlySet<string>;
   /** Original record controls whose meanings cannot safely be inferred from another fact. */
   recordOwnQuestionIds?: ReadonlySet<string>;
+  /** An incompatible protected answer exists; absence in its safe projection is not permission to infer a replacement. */
+  unresolvedSavedFactIds?: ReadonlySet<string>;
   /** Set only by the exact reviewed route/specification/consumer predicate. */
   reviewedContactRepresentation?: boolean;
   /** Per-route corrections, used only where the generic policy cannot be right. */
@@ -588,6 +590,7 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
 
   /** Everything resolved so far, for reading a derivation's or a condition's inputs. */
   const resolvedText = (factId: string): string => {
+    if (input.unresolvedSavedFactIds?.has(factId)) return "";
     const saved = input.savedAnswers?.[factId];
     // An explicitly edited invalid/unknown answer cannot fall back to an older
     // valid value and silently feed a calculation or condition.
@@ -613,6 +616,7 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
     );
 
   for (const factId of requiredInputIds) {
+    const needsSavedAnswerClarification = input.unresolvedSavedFactIds?.has(factId) === true;
     const specFact = factById.get(factId);
     const overrideClass = override?.classes?.[factId];
     const group = sectionFor(factId, override?.groups?.[factId]);
@@ -669,7 +673,7 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
       const components = Object.fromEntries(rule.from.map((id) => [id, resolvedText(id)]));
       const value = rule.from.every((id) => components[id] && !isUnknownText(components[id])) ? rule.derive(components) : null;
       const retained = input.savedAnswers && factId in input.savedAnswers ? input.savedAnswers[factId] : available[factId];
-      if (retained !== undefined && retained !== null && retained !== ""
+      if (needsSavedAnswerClarification || retained !== undefined && retained !== null && retained !== ""
         && (!validValue(factId, retained) || !value || answerString(retained) !== value)) {
         contactReconciliation = { canUseComponents: value !== null };
         facts.push({ factId, collection: "prepay_confirmation", phase: "prepay_confirmation", group,
@@ -693,7 +697,7 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
 
     // 4. Something the participant has already told us, under this id or a
     //    screening id that carries the same answer.
-    const candidateCarry = factId === "social_security_number_last_four" && requiredInputIds.includes("social_security_number") || input.savedAnswers && factId in input.savedAnswers
+    const candidateCarry = needsSavedAnswerClarification || factId === "social_security_number_last_four" && requiredInputIds.includes("social_security_number") || input.savedAnswers && factId in input.savedAnswers
       ? null : carriedValue(factId, available, input.screeningAnswers);
     const carried = candidateCarry && validValue(factId, candidateCarry.value) ? candidateCarry : null;
     if (unresolvedScopeFor(factId) && !decidesRouteFor(factId) && !carried?.sameId) {
@@ -751,7 +755,7 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
     //    its inputs do, and completeness is carried by the inputs, which stay
     //    in the gate. A derivation whose inputs are NOT all collected here
     //    resolves only when it actually can, and otherwise the fact is asked.
-    const derivation = DERIVATIONS[factId];
+    const derivation = needsSavedAnswerClarification ? undefined : DERIVATIONS[factId];
     if (derivation && !mayMaterialize(factId, false)) {
       facts.push({
         factId,
