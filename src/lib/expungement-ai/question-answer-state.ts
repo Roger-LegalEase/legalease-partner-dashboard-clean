@@ -14,7 +14,9 @@ const UNCERTAIN_VALUES = new Set(["i am not sure", "i'm not sure", "not sure", "
 const DECLINED_VALUES = new Set(["prefer not to say"]);
 
 export function uncertaintyState(value: string): "uncertain" | "declined" | null {
-  const token = value.trim().toLowerCase();
+  // Recognize the same exact answer with a typographic apostrophe without
+  // rewriting the saved value or treating uncertainty inside prose as a token.
+  const token = value.trim().toLowerCase().replace(/\u2019/g, "'");
   return UNCERTAIN_VALUES.has(token) ? "uncertain" : DECLINED_VALUES.has(token) ? "declined" : null;
 }
 
@@ -61,10 +63,11 @@ export function questionAnswerState(question: QuestionContract, value: unknown, 
     return choice === "I am not sure" ? "uncertain" : choice ? "known_valid" : "invalid";
   }
   const text = scalarAnswerText(value)?.trim();
+  const exactUncertainty = text ? uncertaintyState(text) : null;
   const wrappedUnknown = Boolean(value && typeof value === "object" && "unknown" in value && value.unknown === true);
   if (question.type.endsWith("_or_unknown") || question.type === "number_or_range") {
     if (wrappedUnknown) return "uncertain";
-    if (text && uncertaintyState(text)) return uncertaintyState(text)!;
+    if (exactUncertainty) return exactUncertainty;
   } else if (wrappedUnknown) return "invalid";
   switch (question.type) {
     case "single_choice":
@@ -96,6 +99,7 @@ export function questionAnswerState(question: QuestionContract, value: unknown, 
     case "text":
     case "textarea":
     case "text_or_unknown":
+      if (exactUncertainty) return exactUncertainty;
       if (question.id === "social_security_number" && text) return isFullSsnFormat(text) ? "known_valid" : "invalid";
       return text ? "known_valid" : "unanswered";
     default:

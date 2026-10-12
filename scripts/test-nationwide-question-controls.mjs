@@ -10,7 +10,10 @@ const { QuestionField } = await import("../src/components/expungement-ai/screeni
 const { getAllJurisdictionProfiles, getProfileByJurisdiction } = await import("../src/lib/rcap-engine/profile-registry.ts");
 const { projectPublicProfile } = await import("../src/lib/rcap-engine/public-profile-projection.ts");
 const { requiredMissingPublicQuestionIds } = await import("../src/lib/rcap-engine/answer-normalization.ts");
-const { missingRequiredInputs } = await import("../src/lib/expungement-ai/packet-information.ts");
+const packet = await import("../src/lib/expungement-ai/packet-information.ts");
+const { missingRequiredInputs } = packet;
+const { evaluateAuthoritativeScreeningResult } = await import("../src/lib/expungement-ai/authoritative-screening-result.ts");
+const { buildMsNonConvictionVerification } = await import("./lib/rcap-ms-nonconviction-fixture.mjs");
 const { southDakotaEscalationStageReached, southDakotaRemedyStillNeeded } = await import("../src/lib/rcap-engine/south-dakota-23a-27-17-escalation.ts");
 
 const q = (id, type, options = null) => ({ id, type, options, prompt: id, stage: "packet_information", required: true, contextOnly: false });
@@ -31,14 +34,51 @@ assert.deepEqual(readOrUnknown({ unexpected: "not an answer" }), { value: undefi
 assert.deepEqual(toScreeningAnswers({ birth: readOrUnknown("2001-02-03"), count: readOrUnknown(0) }), { birth: "2001-02-03", count: "0" });
 assert.equal(questionAnswerState(q("count", "number_or_range"), 0), "known_valid");
 assert.equal(questionAnswerState(q("explanation", "text"), "I was unsure which office held the record."), "known_valid");
-for (const value of ["Unsure", "I am not sure", "unknown", "Prefer not to say", { unknown: true }]) {
+const exactUncertaintyTokens = ["Unsure", "I am not sure", "I'm not sure", "I’m not sure", "unknown", "Prefer not to say"];
+for (const value of [...exactUncertaintyTokens, { unknown: true }]) {
   assert.equal(answerValueIsKnown(value), false);
   assert.deepEqual(missingRequiredInputs(["actual_arrest"], {}, { actual_arrest: value }), ["actual_arrest"]);
+}
+for (const type of ["text", "textarea", "text_or_unknown"]) {
+  const question = q("explanation", type);
+  for (const value of exactUncertaintyTokens) {
+    assert.equal(questionAnswerState(question, value), value === "Prefer not to say" ? "declined" : "uncertain");
+    assert.equal(hasAnswer(question, value), true, "a recorded uncertain answer permits navigation");
+    assert.deepEqual(missingRequiredInputs([question.id], {}, { [question.id]: value }, new Map([[question.id, question]])), [question.id]);
+  }
+  assert.equal(questionAnswerState(question, "I’m not sure which office held the record, but this is the address on it."), "known_valid", "ordinary prose is not an exact uncertainty token");
 }
 assert.equal(answerValueIsKnown("No"), true);
 assert.equal(answerValueIsKnown(0), true);
 assert.equal(questionAnswerState(q("actual_arrest", "single_choice", ["Yes", "No", "Unsure"]), "Unsure"), "uncertain");
 assert.equal(hasAnswer(q("actual_arrest", "single_choice", ["Yes", "No", "Unsure"]), "Unsure"), true, "uncertainty permits navigation without creating knowledge");
+
+// Exercise the verification boundary, not only the field classifier. All data
+// stays in memory; this creates no account, payment, database row or document.
+const fixture = buildMsNonConvictionVerification({
+  ...packet,
+  evaluateAuthoritativeScreeningResult,
+  matterId: "synthetic-question-uncertainty-regression",
+  capturedAt: "2026-10-11T12:00:00.000Z"
+});
+packet.requireCurrentPacketVerificationRecord(fixture.item, fixture.verification);
+for (const id of ["participant_full_legal_name", "mailing_address", "residency_or_location"]) {
+  for (const value of exactUncertaintyTokens) {
+    const edited = packet.packetInformationPatch({ existingItem: fixture.item, answers: { [id]: value }, protectedVerification: fixture.verification });
+    const savedRecord = edited.protectedTransition.nextVerification;
+    const reopened = packet.protectedPacketInformationModelFor(savedRecord);
+    assert.equal(reopened.initialAnswers[id], value, "save/reopen must preserve the exact supplied answer");
+    assert.ok(reopened.missingInputIds.includes(id), `${id} remains unresolved for ${value}`);
+    assert.equal(edited.readyToGenerate, false);
+    assert.throws(() => packet.requireCurrentPacketVerificationRecord(fixture.item, savedRecord));
+    const verify = packet.packetInformationPatch({ existingItem: fixture.item, answers: {}, verify: true, protectedVerification: savedRecord });
+    assert.equal(verify.readyToGenerate, false);
+    assert.notEqual(verify.protectedTransition.nextVerification.status, "verified", "final confirmation cannot turn uncertainty into a known fact");
+    const repaired = packet.packetInformationPatch({ existingItem: fixture.item, answers: { [id]: fixture.answers[id] }, verify: true, protectedVerification: verify.protectedTransition.nextVerification });
+    assert.equal(repaired.readyToGenerate, true, "supplying the known fact permits verification again");
+    packet.requireCurrentPacketVerificationRecord(fixture.item, repaired.protectedTransition.nextVerification);
+  }
+}
 
 let exclusionStates = 0;
 for (const profile of getAllJurisdictionProfiles()) {
