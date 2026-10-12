@@ -56,4 +56,19 @@ for (const id of ['ny_16059_prior_sealing', 'ny_16059_later_conviction_entered',
   const result = evaluate({ [id]: 'I am not sure' });
   assert.equal(result.resultCode, 'needs_review'); assert.equal(result.paymentAllowed, false); checked++;
 }
+// Invalid supplied dates must not roll over or disappear behind a valid
+// sibling anchor / broad bucket. Raw saved answers remain available to repair.
+for (const id of ['sentencing_date', 'release_date']) {
+  for (const value of ['2016-02-30', '2015-02-29', '2010-04-31', '2010-13-01', 'invalid', 'I am not sure', '2099-01-01', '']) {
+    const answers = { ...base, sentencing_date: '2010-01-01', release_date: '2011-01-01', [id]: value };
+    const before = structuredClone(answers);
+    const result = evaluateScreening({ jurisdiction: 'NY', profileVersion: profile.profileVersion, matterId: 'synthetic-ny-anchor', answers });
+    assert.equal(result.resultCode, 'needs_more_info');
+    assert.equal(result.paymentAllowed, false);
+    assert.ok(result.missingQuestionIds.includes(id));
+    assert.ok(result.reasons.some(r => r.code === 'ny.ny_16059_anchor_invalid'));
+    assert.deepEqual(answers, before); checked++;
+  }
+}
+assert.equal(evaluate({ sentencing_date: '2012-02-29', release_date: '2012-03-01' }).resultCode, 'packet_ready_with_caution'); checked++;
 console.log(JSON.stringify({ status: 'PASS', checked, scope: 'CPL 160.59 legacy ambiguity versus actual bars and count integrity; existing positive preserved. Full history, grouping, clock and offense-table corrections remain open.' }));

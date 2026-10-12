@@ -40,6 +40,7 @@ for(const [id,stateName,evaluation]of variants)for(const locale of ['en','es'])f
  const heading=t(locale,'result.packet_includes','What your packet would include');
  check(JSON.stringify(evaluation)===before,id+': original evaluator/authority values unchanged');
  if(evaluation.resultCode==='guidance_only'){check(!markup.includes(heading),id+': guidance has no planned-packet section: '+locale+'/'+hasScreeningSession);check(!markup.includes('$50'),id+': guidance shows no price');}
+ if(id==='petition'&&locale==='es'){check(markup.includes('Nevada utiliza el sellado de antecedentes, no la eliminación de antecedentes.'),'Actual Spanish result includes the remedy explanation in Spanish');check(!markup.includes('Nevada uses record sealing, not expungement.'),'Spanish result does not fall back to English');}
  if(id==='petition'){check(markup.includes(heading),'Held petition retains its planned packet section');if(locale==='en')check(!markup.includes('path for cases that did not end in a conviction'),'Mixed Nevada program route is not described as universally nonconviction');}
  html.push({id,locale,hasScreeningSession,resultCode:evaluation.resultCode,html:markup,sha256:createHash('sha256').update(markup).digest('hex')});
 }

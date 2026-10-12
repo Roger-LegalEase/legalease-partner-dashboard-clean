@@ -1312,6 +1312,21 @@ function specialRouteTiming(profile: EngineProfile, answers: Record<string, Scre
   if (key === "CA:prop-64-currently-serving-petition-11361-8" || key === "CA:prop-64-completed-sentence-application-11361-8") return { status: "satisfied" };
   if (key === "NY:conditional-treatment-sealing-under-cpl-160-58") return { status: "satisfied" };
   if (key === "NY:discretionary-conviction-sealing-by-petition-under-cpl-160-59") {
+    // A supplied anchor is evidence, not a hint that may be normalized or
+    // silently replaced by another date or a broad elapsed-time bucket.
+    const invalidAnchors = ["sentencing_date", "release_date"].filter((id) => {
+      if (answers[id] === undefined) return false;
+      const raw = answerText(answers[id]);
+      const date = parseDateAnswer(answers[id]);
+      return !date || date.toISOString().slice(0, 10) !== raw || date.getTime() > evaluationToday().getTime();
+    });
+    if (invalidAnchors.length > 0) {
+      return {
+        status: "missing_anchor",
+        reason: reason("NY", "ny_16059_anchor_invalid", "Check the sentencing and release dates. Each supplied date must be a real calendar date for an event that has already occurred.", "CPL160.59(5)"),
+        missingQuestionIds: invalidAnchors
+      };
+    }
     return latestAnchorTiming(profile, answers, rule, pathway, ["sentencing_date", "release_date"], { value: 10, unit: "years", raw: "10 years" }, "NY CPL 160.59 requires ten years from the later of sentencing or release; release captures incarceration tolling when present.");
   }
   if (key === "IN:non-conviction-arrest-or-criminal-charge-expungement") {
