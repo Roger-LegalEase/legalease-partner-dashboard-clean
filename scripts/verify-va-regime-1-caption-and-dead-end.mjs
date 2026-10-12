@@ -16,16 +16,20 @@
 // while the two layers disagree. It is deliberately NOT satisfied by hiding the
 // route, which Mission Lock Rule 4 forbids and which check 4 detects.
 //
-// THIS SCRIPT IS EXPECTED TO FAIL TODAY, on check 3, because the defect it
-// describes is open. That is the control working, not a broken test. It is
-// deliberately NOT wired into the npm test chain while it is red: adding it
-// would block unrelated work, and weakening it to green would be the thing the
-// plan forbids — a suite that is green because its checks stopped asking. Add
-// it to the chain when check 3 passes, which happens when either a Grade-A
-// fulfillment record honestly binds the route or the participant-facing claim
-// stops offering it for purchase.
+// The historical witness remains evidence of the original defect. Current
+// acceptance must execute the public API and render its availability fields:
+// legal eligibility alone is no longer a claim that a packet can be bought.
+// False availability and false rendered purchase copy remain failing controls.
 
 import { readFileSync } from 'node:fs';
+import { register } from 'node:module';
+import React from 'react';
+import { renderToStaticMarkup } from 'react-dom/server';
+register('./lib/ts-esm-loader.mjs', import.meta.url);
+const { POST } = await import('../src/app/api/expungement-ai/evaluate/route.ts');
+const { packetFulfillmentAuthority } = await import('../src/lib/expungement-ai/packet-fulfillment-authority.ts');
+const { getCurrentFulfillmentRecord } = await import('../src/lib/rcap/fulfillment/grade-a-registry.ts');
+const { ScreeningResult } = await import('../src/components/expungement-ai/screening/ScreeningResult.tsx');
 
 const ROUTE_KEY = 'VA:regime-1-expungement-available-now';
 const PATHWAY_ID = 'regime-1-expungement-available-now';
@@ -33,7 +37,6 @@ const RECORD = 'data/record-clearing/legal-decisions/2026-09-21-va-regime-1-capt
 const SPEC = 'data/record-clearing/packet-specifications/VA-absolute-pardon-expungement.v1.json';
 const CONTRACT = 'data/record-clearing/legal-decisions/2026-09-20-caption-treatment-contract.json';
 const REGISTRY = 'data/record-clearing/factory-v2-route-registry.json';
-const AUTHORITY = 'data/rcap-grade-a/fulfillment-authority-registry.json';
 const WITNESSES = 'data/rcap-ledger/public-witness-answer-sets.json';
 
 const json = (p) => JSON.parse(readFileSync(p, 'utf8'));
@@ -55,7 +58,7 @@ const rows = Array.isArray(registry) ? registry : (registry.routes ?? Object.val
 const row = rows.find((r) => r?.pathwayKey === ROUTE_KEY);
 const primary = (spec.documents ?? []).find((d) => d.role === 'primary_filing');
 const witness = (witnesses.witnesses ?? []).find((w) => w?.pathwayKey === ROUTE_KEY);
-const hasFulfillmentRecord = readFileSync(AUTHORITY, 'utf8').includes(PATHWAY_ID);
+const hasFulfillmentRecord = Boolean(getCurrentFulfillmentRecord(ROUTE_KEY));
 
 console.log('VA regime-1 — the caption refusal, and the advertised dead end\n');
 
@@ -84,8 +87,8 @@ ok('it is still court-facing (recipient court, participant filing)',
 ok('the upstream state is recorded, whether the specification holds the route or not',
   typeof spec.legalSectionsBound === 'boolean', spec.legalSectionsBound);
 console.log(spec.legalSectionsBound === false
-  ? '            (the specification now refuses to compose, and the evaluator still offers checkout)'
-  : '            (nothing upstream holds it, so the evaluator is the only thing offering it)');
+  ? '            (the specification refuses to compose; current public availability is checked below)'
+  : '            (current public availability is checked against fulfillment authority below)');
 
 console.log('\n2. the caption cannot be written while the case is unestablished');
 const caseMode = primary?.documentContract?.caseMode;
@@ -112,14 +115,40 @@ ok('no captioned companion exists that could make this a supporting page',
 // ---------------------------------------------------------------------------
 // The live product invariant.
 console.log('\n3. a route the commercial authority fails closed is not advertised as purchasable');
-const advertisedPurchasable = witness?.terminalEvaluation?.paymentAllowed === true;
-ok('a Grade-A fulfillment record binds the route, or it is not presented as purchasable',
-  hasFulfillmentRecord || !advertisedPurchasable,
-  { hasFulfillmentRecord, evaluatorPaymentAllowed: witness?.terminalEvaluation?.paymentAllowed,
-    resultCode: witness?.terminalEvaluation?.resultCode });
-console.log(hasFulfillmentRecord
-  ? '            (a record now binds the route; the two layers agree)'
-  : '            (no record binds it; the evaluator must not offer it for purchase)');
+ok('the original witness and its measurement remain available', Boolean(witness?.finalAnswers && witness?.terminalEvaluation));
+const requestBody = { jurisdiction: 'VA', profileVersion: witness.profileVersion,
+  matterId: 'synthetic-va-current-availability', answers: witness.finalAnswers };
+const response = await POST(new Request('http://127.0.0.1/api/expungement-ai/evaluate', {
+  method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(requestBody)
+}));
+ok('the real public evaluation handler accepts the retained answers', response.status === 200, response.status);
+const current = await response.json();
+ok('the current result retains the supported Virginia route', current.pathwayId === PATHWAY_ID, current.pathwayId);
+const consumer = packetFulfillmentAuthority('VA', PATHWAY_ID, 'checkout creation', { trackId: current.selectedTrackId ?? null });
+const sponsored = packetFulfillmentAuthority('VA', PATHWAY_ID, 'sponsored entitlement', { trackId: current.selectedTrackId ?? null });
+ok('consumer availability equals current authority, not record presence or the historical eligibility bit', current.consumerPacketAvailable === consumer.allowed);
+ok('sponsored availability equals current channel authority', current.sponsoredPacketAvailable === sponsored.allowed);
+const render = (evaluation, hasScreeningSession) => renderToStaticMarkup(React.createElement(ScreeningResult, {
+  evaluation, stateName: 'Virginia', questionPromptById: {}, onEditAnswers() {}, onPacketAction() {}, hasScreeningSession
+}));
+const truthfulUnavailable = html => html.includes('A packet is not available for this route yet')
+  && !/\$50|You may be able to prepare an expungement packet|Verify the packet facts before payment/.test(html);
+for (const partner of [false, true]) {
+  const allowed = partner ? sponsored.allowed : consumer.allowed;
+  if (!allowed) {
+    ok(`${partner ? 'partner' : 'DTC'} card states packet unavailability without a purchase claim`, truthfulUnavailable(render(current, partner)));
+    ok(`${partner ? 'partner' : 'DTC'} false-availability mutation is rejected`, !truthfulUnavailable(render({ ...current,
+      consumerPacketAvailable: true, sponsoredPacketAvailable: true, paymentAllowed: true }, partner)));
+  }
+}
+const forged = await POST(new Request('http://127.0.0.1/api/expungement-ai/evaluate', {
+  method: 'POST', headers: { 'content-type': 'application/json' },
+  body: JSON.stringify({ ...requestBody, consumerPacketAvailable: !consumer.allowed, sponsoredPacketAvailable: !sponsored.allowed })
+}));
+const forgedResult = await forged.json();
+ok('client availability assertions cannot change server authority', forged.status === 200
+  && forgedResult.consumerPacketAvailable === consumer.allowed && forgedResult.sponsoredPacketAvailable === sponsored.allowed);
+console.log(`            historical eligibility signal=${witness.terminalEvaluation.paymentAllowed}; current consumer=${consumer.allowed}; current sponsored=${sponsored.allowed}; fulfillment record present=${hasFulfillmentRecord}`);
 // Provenance of the claim, NOT a live equality. Pinning the record's stored
 // measurement to today's value would make this verifier fail the moment the
 // defect is repaired, which is the same freeze mistake as requiring a

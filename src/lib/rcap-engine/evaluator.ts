@@ -1,6 +1,7 @@
 import { caProp64Choice, CA_PROP64_CURRENT } from "@/lib/expungement-ai/ca-prop64-choices";
 import { caProp64RecordQuestions } from "@/lib/expungement-ai/ca-prop64-record-facts";
 import { caProp64RecordAnswerState } from "@/lib/expungement-ai/ca-prop64-record-answer";
+import { mississippiProgramRouteFromAnswers } from "@/lib/rcap-engine/composed-route-selector";
 import "server-only";
 
 import crypto from "node:crypto";
@@ -198,6 +199,13 @@ function evaluateAgainstProfile(profile: EngineProfile, request: ScreeningEvalua
   }
 
   const preselectedPathway = selectPathway(profile, answers);
+  const programRoute = jurisdiction === "MS" ? mississippiProgramRouteFromAnswers(answers) : null;
+  if (programRoute?.status === "clarification") {
+    return result(profile, request, "needs_more_info", [reason(jurisdiction, "program_order_or_closure_missing", "We need the program named in the court order and whether the court has entered the required dismissal or closure. Completing program tasks alone does not establish that the case was closed.", "LD-MS-01")], {
+      missingQuestionIds: programRoute.missingQuestionIds,
+      paymentAllowed: false
+    });
+  }
   const ambiguity = ambiguityReason(profile, publicProfile, answers, preselectedPathway);
   if (ambiguity) {
     return result(profile, request, "needs_review", [ambiguity], {
@@ -635,6 +643,15 @@ function exclusionReason(profile: EngineProfile, answers: Record<string, Screeni
   }
   const selectedExclusions = normalized.filter((value) => !value.includes("none of these"));
   if (selectedExclusions.length > 0) {
+    // These legacy categories do not identify a Delaware statutory exclusion.
+    // In particular, § 4373(b) limits mandatory relief, while § 4374(a)(2)
+    // expressly permits consideration of those misdemeanors after seven years.
+    // The pardon and juvenile mechanisms have separate rules as well. Keep
+    // payment closed until the offense and mechanism are established; do not
+    // turn a broad pre-route answer into a statewide legal denial.
+    if (jurisdiction === "DE") {
+      return reason(jurisdiction, "state_exclusion_scope_unknown", "We need the exact offense and disposition from the court record. Delaware's mandatory, discretionary, pardon and juvenile procedures have different exclusions; this category alone does not establish ineligibility.", "https://delcode.delaware.gov/title11/c043/sc07/index.html");
+    }
     return reason(jurisdiction, "state_exclusion_selected", "A source-defined exclusion or review-required category was selected.");
   }
   return undefined;
@@ -674,6 +691,11 @@ function isPrepaymentQuestion(question: PublicQuestion) {
 }
 
 function selectPathway(profile: EngineProfile, answers: Record<string, ScreeningAnswerValue>) {
+  if (profile.jurisdiction.code === "MS") {
+    const programRoute = mississippiProgramRouteFromAnswers(answers);
+    if (programRoute.status === "selected") return profile.pathways.find(pathway => pathway.id === programRoute.pathwayId);
+    if (programRoute.status === "clarification") return undefined;
+  }
   const context = answerText(answers.possible_pathway_context).toLowerCase();
   if (context) {
     const exactContext = profile.pathways.find((pathway) => normalizeContextMatch(pathway.label) === normalizeContextMatch(context));
@@ -871,11 +893,11 @@ function akCourtViewExclusionSafetyGate(profile: EngineProfile, answers: Record<
 }
 
 // Delaware § 4374 discretionary Superior/Family Court expungement gate (legal signoff 2026-07-01).
-// § 4374 discretionary relief is unavailable for the statutorily excluded offenses (the § 4201(c)
-// violent-felony schedule, § 4373(b)-listed and domestic-violence offenses, and other named § 4372(f)
-// exclusions). The public state_exclusion_categories fact carries those flags; any flagged category
-// fails closed, and an unconfirmed ("I am not sure") answer also fails closed. The § 4375 post-pardon
-// route and the mandatory/automatic § 4373 track are separate pathways and are not sold here.
+// § 4374(b) adds its own exclusions to § 4372(f). Section 4373(b) is the
+// mandatory-track list, not a discretionary exclusion: § 4374(a)(2) addresses
+// its misdemeanors expressly. Broad legacy category answers require exact
+// offense/record review and cannot prove either eligibility or ineligibility.
+// Section 4375 post-pardon and juvenile relief remain separate mechanisms.
 function deSuperiorExpungementSafetyGate(profile: EngineProfile, answers: Record<string, ScreeningAnswerValue>, pathway: CompiledPathway): ScreeningReason | undefined {
   if (profile.jurisdiction.code !== "DE" || pathway.id !== "discretionary-court-expungement-under-11-del-c-4374") return undefined;
   const jurisdiction = profile.jurisdiction.code;
@@ -884,10 +906,10 @@ function deSuperiorExpungementSafetyGate(profile: EngineProfile, answers: Record
     : [answerText(answers.state_exclusion_categories).toLowerCase()];
   const values = raw.filter((value) => value.trim().length > 0);
   if (values.length === 0 || values.some((value) => /not sure|unknown/.test(value)) || isExplicitUnknownAnswer(answers.state_exclusion_categories)) {
-    return reason(jurisdiction, "de_4374_exclusion_unconfirmed", "Delaware § 4374 discretionary expungement requires confirming the offense is not a § 4201(c) violent felony, a § 4373(b)-listed or domestic-violence offense, or another statutorily excluded offense before a packet decision.", pathway.sourceRef);
+    return reason(jurisdiction, "de_4374_exclusion_unconfirmed", "We need the exact offense and disposition to check Delaware §§ 4372(f) and 4374(b). A misdemeanor listed in § 4373(b) may instead be considered under § 4374(a)(2), subject to its seven-year waiting period and other conditions.", pathway.sourceRef);
   }
   if (values.some((value) => !/none of these/.test(value))) {
-    return reason(jurisdiction, "de_4374_excluded_offense_not_eligible", "Delaware § 4374 discretionary expungement excludes § 4201(c) violent felonies, § 4373(b)-listed and domestic-violence offenses, and other statutorily named offenses; those cannot open a discretionary court packet.", pathway.sourceRef);
+    return reason(jurisdiction, "de_4374_exclusion_unconfirmed", "This category alone does not establish a Delaware discretionary exclusion. Check the exact conviction against §§ 4372(f) and 4374(b), and the separate eligibility conditions in § 4374(a), before preparing a packet.", pathway.sourceRef);
   }
   return undefined;
 }

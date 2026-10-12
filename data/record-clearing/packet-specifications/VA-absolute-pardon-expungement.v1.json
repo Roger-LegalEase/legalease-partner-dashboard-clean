@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "specificationId": "va-absolute-pardon-expungement",
-  "specificationVersion": "1.0.0",
+  "specificationVersion": "1.0.1",
   "routeKey": "VA:regime-1-expungement-available-now",
   "jurisdiction": "VA",
   "pathwayId": "regime-1-expungement-available-now",
@@ -24,7 +24,7 @@
     "data/rcap-grade-a/legal-decisions/POST_APPROVAL_CHANGE_AUDIT_2026-09-02.json#va_exp_absolute_pardon-set",
     "https://www.vacourts.gov/static/forms/circuit/cc1472.pdf (official Form CC-1472; identified by the audit workbook Sources tab, not ingested here)"
   ],
-  "specificationNote": "This specification binds the one Virginia runtime route for Va. Code 19.2-392.2(I) and models its two branches separately: the court duty on statutory transmission under 2.2-402, which requires no participant filing, and the participant-initiated petition, which is governed by official Form CC-1472. It does not substitute CC-1473, which is captioned to subsection (A). It previously placed a custom 'Transmittal and Request' in the participant slot; that is superseded by CC-1472 and recorded under supersession. It grants no fulfillment or commercial authority.",
+  "specificationNote": "This specification binds the one Virginia runtime route for Va. Code 19.2-392.2(I) and models its two branches separately: the court duty on statutory transmission under 2.2-402, which requires no participant filing, and the participant-initiated petition, which is governed by official Form CC-1472. It does not substitute CC-1473, which is captioned to subsection (A). It previously placed a custom 'Transmittal and Request' in the participant slot; that is superseded by CC-1472 and recorded under supersession. It grants no fulfillment or commercial authority. October 12, 2026 source correction: CC-1472 instructions (11/15), elements 5-8 and 13, supply the six semantic destinations. They contain no email element; email_address is therefore removed from requiredFacts, while its historical participant ownership and stored values remain preserved. No new official geometry, rendered-placement proof or legal release approval is asserted. Prior content digest: e1d5648c2b9df801ef80466f99fca6b361771f7106144c334f1823994a5bf96c.",
   "statutoryAuthority": {
     "primary": "Va. Code § 19.2-392.2(I); Va. Code § 19.2-392.2(K); Va. Code § 19.2-392.2(L); Va. Code § 2.2-402",
     "sourceUrl": "https://law.lis.virginia.gov/vacode/title19.2/chapter23.1/section19.2-392.2/",
@@ -35,7 +35,8 @@
       "Do not import subsection (D)'s Commonwealth notice period into this route; CC-1472's own service requirement is a copy on the Commonwealth's Attorney, which is a different thing.",
       "Do not represent this packet as obtaining, classifying, or applying for the pardon itself.",
       "Do not make the branch B petition a prerequisite to the branch A court duty.",
-      "Do not state or imply a fee exemption. Subsection (I) contains none, and CC-1472's own checklist says to file with all applicable fees and costs."
+      "Do not state or imply a fee exemption. Subsection (I) contains none, and CC-1472's own checklist says to file with all applicable fees and costs.",
+      "Do not require email for CC-1472: the official instruction inventory has no email destination. Preserve legacy email values without printing them on an invented form line."
     ]
   },
   "sourceIdentities": [
@@ -78,6 +79,13 @@
       "verification": "identified_not_ingested",
       "location": "https://www.vacourts.gov/static/forms/circuit/cc1472.pdf",
       "note": "Identified by the audit workbook's Sources tab and confirmed against the current Virginia Courts CC-1472 instructions. The binary was not readable from this environment, so its geometry is unmeasured and the component refuses until it is ingested."
+    },
+    {
+      "sourceId": "VA-CC-1472-INSTRUCTIONS-20261012",
+      "kind": "official_form_instructions",
+      "verification": "identified_not_ingested",
+      "location": "https://www.vacourts.gov/static/forms/circuit/cc1472inst.pdf",
+      "note": "Official text retrieved through web on 2026-10-12: revision 11/15, preparation elements 1-13 participant/attorney, 14-16 clerk, 17 participant checklist; element 13 is signer address/telephone, with no email field. Direct PDF retrieval returned403; screenshot retrieval404. This establishes semantic ownership only, not current form binary or measured geometry."
     }
   ],
   "requiredFacts": [
@@ -89,48 +97,41 @@
     },
     {
       "factId": "date_of_birth",
-      "use": "requester identity on CC-1472",
+      "use": "CC-1472 element 5: petitioner date of birth; participant or attorney prepares this record-identity fact.",
       "inRegistryRequiredInputs": false,
       "gapNote": "The current approved field map writes this participant-held fact even though the factory-v2 required-input list does not name it separately.",
       "ownership": "participant"
     },
     {
       "factId": "mailing_address",
-      "use": "requester contact block on CC-1472",
+      "use": "CC-1472 element 13: address of the actual signer, with petitioner/attorney role identified. Reuse the participant mailing address only when the participant is the signer; do not substitute a helper address.",
       "inRegistryRequiredInputs": false,
-      "gapNote": "The factory-v2 registry groups this under contact_information; the current approved field map writes the address separately.",
+      "gapNote": "Signer preparation at element 13 is separate from later execution of the signature. The existing participant value is not evidence of attorney identity or contact. No universal eligibility requirement is established.",
       "ownership": "participant"
     },
     {
       "factId": "phone_number",
-      "use": "requester contact block on CC-1472",
+      "use": "CC-1472 element 13: telephone of the actual signer, with petitioner/attorney role identified. Reuse the participant telephone only when the participant is the signer; do not substitute a helper telephone.",
       "inRegistryRequiredInputs": false,
-      "gapNote": "The factory-v2 registry groups this under contact_information; the current approved field map writes the telephone separately.",
-      "ownership": "participant"
-    },
-    {
-      "factId": "email_address",
-      "use": "requester contact block on CC-1472",
-      "inRegistryRequiredInputs": false,
-      "gapNote": "The factory-v2 registry groups this under contact_information; the current approved field map writes the email separately.",
+      "gapNote": "Signer preparation at element 13 is separate from later execution of the signature. The existing participant value is not evidence of attorney identity or contact. No universal eligibility requirement is established.",
       "ownership": "participant"
     },
     {
       "factId": "full_name_at_time_of_arrest",
-      "use": "CC-1472 element 6",
+      "use": "CC-1472 element 6: full name used at arrest, separately from current petitioner name.",
       "inRegistryRequiredInputs": false,
       "ownership": "participant",
       "gapNote": "Required by the official form; not separately named in the factory-v2 required-input list."
     },
     {
       "factId": "charges_to_be_expunged",
-      "use": "CC-1472 element 7, with related case numbers where available",
+      "use": "CC-1472 element 7: specific charges, with related case numbers where available; retain the connection to each charge.",
       "inRegistryRequiredInputs": false,
       "ownership": "participant"
     },
     {
       "factId": "final_disposition_dates_and_courts",
-      "use": "CC-1472 element 8",
+      "use": "CC-1472 element 8: each final disposition date and disposing court; separate from the filing court caption and court street address at elements 2 and 3.",
       "inRegistryRequiredInputs": false,
       "ownership": "participant"
     }
@@ -659,5 +660,5 @@
     ],
     "rule": "CC-1472 elements 14 to 16 (hearing date and time, date of clerk signature, clerk or deputy clerk signature) are prepared by the clerk or deputy clerk. The product never authors them and never prepopulates participant-controlled data into them."
   },
-  "specificationSha256": "e1d5648c2b9df801ef80466f99fca6b361771f7106144c334f1823994a5bf96c"
+  "specificationSha256": "b1ca5efc07c82a3ff81e77c039fb89ca773271cc69946d8c4506197e1da3a3f2"
 }

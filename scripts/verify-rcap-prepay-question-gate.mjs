@@ -9,6 +9,7 @@ const { getAllJurisdictionProfiles } = await import("../src/lib/rcap-engine/prof
 const { projectPublicProfile } = await import("../src/lib/rcap-engine/public-profile-projection.ts");
 const { evaluateScreening } = await import("../src/lib/rcap-engine/evaluator.ts");
 const { selectScreeningQuestionIds } = await import("../src/lib/rcap-engine/screening-question-selection.ts");
+const { caProp64RecordQuestions } = await import("../src/lib/expungement-ai/ca-prop64-record-facts.ts");
 
 const ROOT = path.resolve(".");
 const REPORT_PATH = path.join(ROOT, "data/expungement-ai/reports/prepay-question-load.json");
@@ -110,6 +111,7 @@ for (const profile of profiles) {
   const code = profile.jurisdiction.code;
   const questionsById = new Map(questions.map((question) => [question.id, question]));
   const selectedAcrossContexts = new Set();
+  const effectiveQuestions = new Map(questionsById);
   const selectedExactDates = new Set();
   const selectedExactPacketFacts = new Set();
   const selectedCrossRouteQuestions = new Set();
@@ -117,25 +119,40 @@ for (const profile of profiles) {
   const selectedContextQuestionCounts = [];
 
   for (const context of contexts) {
+    // The existing, source-pinned CA adapter reuses court/charge as record
+    // predicates on exactly two child routes. Inspect the questions actually
+    // selected there, not the unadapted postpay metadata. The adapter itself
+    // refuses changed corpus/rule/question identity; no general exemption.
+    const recordQuestions = caProp64RecordQuestions(profile, questions, context.pathwayId);
+    const recordIds = new Set(recordQuestions.map(question => question.id));
+    if (recordQuestions.length > 0) {
+      assert(code === "CA" && JSON.stringify([...recordIds]) === '["court","charge"]', `${code}/${context.contextId}: unexpected record-predicate exemption.`);
+      let rejectedDrift = false;
+      try {
+        caProp64RecordQuestions({ ...profile, source: { ...profile.source, sourceCorpusSha256: "unverified-source" } }, questions, context.pathwayId);
+      } catch { rejectedDrift = true; }
+      assert(rejectedDrift, `${code}/${context.contextId}: unverified record-predicate source was accepted.`);
+    }
+    for (const question of recordQuestions) effectiveQuestions.set(question.id, question);
     selectorContextsAudited += 1;
     const selectedIds = selectScreeningQuestionIds(profile, publicProfile, context.answers);
     selectedContextQuestionCounts.push(selectedIds.length);
     const uniqueIds = new Set(selectedIds);
     duplicateSelectedIds += selectedIds.length - uniqueIds.size;
     assert(uniqueIds.size === selectedIds.length, `${code}/${context.contextId}: duplicate selected screening question ids.`);
-    if (selectedIds.length > 15 && code !== "NY") {
+    if (selectedIds.length > 15 + recordQuestions.length && code !== "NY") {
       failures.push(`${code}/${context.contextId}: selected prepay count ${selectedIds.length} exceeds hard cap without allowlist reason.`);
     }
     for (const questionId of selectedIds) {
       selectedAcrossContexts.add(questionId);
-      const question = questionsById.get(questionId);
+      const question = recordQuestions.find(question => question.id === questionId) ?? questionsById.get(questionId);
       assert(Boolean(question), `${code}/${context.contextId}: selected question ${questionId} is missing from the public profile.`);
       if (!question) continue;
       const isExactDate = question.type === "date_or_unknown";
       if (isExactDate) selectedExactDates.add(questionId);
       assert(!isExactDate, `${code}/${context.contextId}: exact-date question ${questionId} remains in free screening.`);
       assert(!isCourtOrCaseIdentifier(question), `${code}/${context.contextId}: court/case identifier ${questionId} remains in free screening.`);
-      const isExactPacketFact = profile.questionLifecycle?.exactPacketFactIds.includes(questionId) === true;
+      const isExactPacketFact = profile.questionLifecycle?.exactPacketFactIds.includes(questionId) === true && !recordIds.has(questionId);
       if (isExactPacketFact) selectedExactPacketFacts.add(questionId);
       assert(!isExactPacketFact, `${code}/${context.contextId}: exact packet fact ${questionId} remains in free screening.`);
       const routeConsumers = profile.questionLifecycle?.routeConsumers[questionId] ?? [];
@@ -145,7 +162,7 @@ for (const profile of profiles) {
     }
   }
 
-  const prepay = [...selectedAcrossContexts].map((questionId) => questionsById.get(questionId)).filter(Boolean);
+  const prepay = [...selectedAcrossContexts].map((questionId) => effectiveQuestions.get(questionId)).filter(Boolean);
   const maximumSelectedQuestionCount = Math.max(0, ...selectedContextQuestionCounts);
   exactDatePrepay += selectedExactDates.size;
   exactPacketFactPrepay += selectedExactPacketFacts.size;

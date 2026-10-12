@@ -53,6 +53,8 @@ const STATE_SPECIFIC_PREPAY_WILMA_FACT_IDS: Record<string, Set<string>> = {
   MD: new Set(["arrest_date"]),
   MO: new Set(["mo_at_least_twenty_two"]),
   MS: new Set([
+    "ms_program_order",
+    "ms_program_record_status",
     "disposition_date",
     "arrest_date",
     "ms_last_conviction_date_any_court",
@@ -874,6 +876,42 @@ const WILMA_FACT_QUESTIONS: PublicQuestion[] = [
 ];
 
 const MISSISSIPPI_CORRECTION_FACT_QUESTIONS: PublicQuestion[] = [
+  {
+    id: "ms_program_order", stage: "pathway_routing", type: "single_choice",
+    prompt: "Which program is named in this case's order or written admission request?",
+    helperText: "Read the program or statute from the case record. A completed class or supervision period alone does not identify the court's program. Choose Other or not sure if the record does not identify one of these.",
+    required: false, contextOnly: false, doesNotSelectPathway: false, lifecyclePhase: "prepay_route_splitter",
+    options: ["no_program_order", "99-15-26", "99-15-101", "41-29-150", "other_or_unknown"],
+    optionDisplay: {
+      no_program_order: { label: "No program order or admission request", translations: { es: { label: "No hay orden de programa ni solicitud de admisión" } } },
+      "99-15-26": { label: "Nonadjudication — § 99-15-26", translations: { es: { label: "No adjudicación — sección 99-15-26" } } },
+      "99-15-101": { label: "Pretrial intervention — §§ 99-15-101 through 99-15-127", translations: { es: { label: "Intervención previa al juicio — secciones 99-15-101 a 99-15-127" } } },
+      "41-29-150": { label: "Controlled-substance conditional discharge — § 41-29-150", translations: { es: { label: "Descargo condicional por sustancias controladas — sección 41-29-150" } } },
+      other_or_unknown: { label: "Another program or I am not sure", translations: { es: { label: "Otro programa o no estoy seguro" } } }
+    },
+    translations: { es: {
+      prompt: "¿Qué programa se indica en la orden o solicitud escrita de admisión de este caso?",
+      helperText: "Consulte el programa o la ley que aparece en el expediente. Completar una clase o un período de supervisión no identifica por sí solo el programa judicial. Elija Otro o no estoy seguro si el expediente no identifica uno de estos programas."
+    } }
+  },
+  {
+    id: "ms_program_record_status", stage: "pathway_routing", type: "single_choice",
+    prompt: "What does the case record show about the program and case closure?",
+    helperText: "Use the actual record. Completing tasks is different from a court order dismissing or closing the case. For conditional discharge, confirm both discharge and dismissal.",
+    required: false, contextOnly: false, doesNotSelectPathway: false, lifecyclePhase: "prepay_route_splitter",
+    options: ["active", "completed_and_closed", "completed_without_closure", "revoked_or_unsuccessful", "other_or_unknown"],
+    optionDisplay: {
+      active: { label: "Admission requested or program still active", translations: { es: { label: "Admisión solicitada o programa aún activo" } } },
+      completed_and_closed: { label: "Requirements completed and dismissal or closure entered", translations: { es: { label: "Requisitos cumplidos y desestimación o cierre dictado" } } },
+      completed_without_closure: { label: "Requirements completed, but no dismissal or closure entered", translations: { es: { label: "Requisitos cumplidos, pero sin desestimación ni cierre dictado" } } },
+      revoked_or_unsuccessful: { label: "Program revoked or ended unsuccessfully", translations: { es: { label: "Programa revocado o terminado sin éxito" } } },
+      other_or_unknown: { label: "Another status or I am not sure", translations: { es: { label: "Otro estado o no estoy seguro" } } }
+    },
+    translations: { es: {
+      prompt: "¿Qué indica el expediente sobre el programa y el cierre del caso?",
+      helperText: "Consulte el expediente. Cumplir tareas es diferente de una orden judicial que desestima o cierra el caso. Para el descargo condicional, confirme tanto el descargo como la desestimación."
+    } }
+  },
   {
     id: "ms_last_conviction_date_any_court",
     stage: "timing_and_completion",

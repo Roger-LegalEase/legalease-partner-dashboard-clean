@@ -27,14 +27,24 @@ function aliasPath(specifier) {
   return null;
 }
 
-function requireFor(mocks) {
+function requireFor(mocks, parent) {
   return (specifier) => {
     if (specifier in mocks) return mocks[specifier];
     // `server-only` is a build-time marker with no runtime behaviour to test.
     if (specifier === "server-only" || specifier === "client-only") return {};
     const aliased = aliasPath(specifier);
     if (aliased) return aliased.endsWith(".json") ? require(aliased) : loadTsFile(aliased, mocks);
-    return require(specifier);
+    // A production module's relative imports belong to that module, not this
+    // harness. Preserve real TypeScript dependencies instead of mocking them.
+    if (specifier.startsWith("./") || specifier.startsWith("../")) {
+      const base = path.resolve(path.dirname(parent), specifier);
+      for (const candidate of [base, `${base}.ts`, `${base}.tsx`, path.join(base, "index.ts")]) {
+        if (fs.existsSync(candidate) && fs.statSync(candidate).isFile()) {
+          return /\.tsx?$/.test(candidate) ? loadTsFile(candidate, mocks) : require(candidate);
+        }
+      }
+    }
+    return createRequire(parent)(specifier);
   };
 }
 
@@ -54,7 +64,7 @@ function loadTsFile(resolved, mocks) {
   const compiledFilename = `${resolved}.cjs`;
   mod.filename = compiledFilename;
   mod.paths = Module._nodeModulePaths(path.dirname(resolved));
-  mod.require = requireFor(mocks);
+  mod.require = requireFor(mocks, resolved);
   mod._compile(transpiled, compiledFilename);
   // Only dependencies loaded for real are cached. The module under test is
   // loaded fresh each time, because each case gives it different doubles.

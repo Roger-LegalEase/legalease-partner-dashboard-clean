@@ -38,11 +38,56 @@ export type ComposedRouteSelectorInput = {
 /** Screening answers -> record class. Server-side, so the mapping is auditable. */
 export function dispositionFromAnswers(answers: Record<string, unknown> | undefined): ComposedRouteDisposition {
   const outcome = typeof answers?.case_outcome === "string" ? answers.case_outcome : "";
-  const level = typeof answers?.offense_level === "string" ? answers.offense_level : "";
-  if (!outcome) return "unknown";
-  const convicted = /conviction|adjudication/i.test(outcome) && !/no-billed|nolle|dismiss|acquit|not prosecuted|no charge/i.test(outcome);
-  if (!convicted) return "non_conviction";
-  return /^felony$/i.test(level.trim()) ? "felony_conviction" : "other_conviction";
+  // Charge severity is not the final disposition: a felony charge can end in
+  // a misdemeanor conviction or dismissal. Only an explicit final felony
+  // conviction can reach a track restricted to that record class.
+  switch (outcome.trim().toLowerCase()) {
+    case "felony conviction": return "felony_conviction";
+    case "misdemeanor conviction": return "other_conviction";
+    case "pardoned conviction": return "other_conviction";
+    case "arrest or citation with no charge filed":
+    case "dismissed, no-billed, nolle prosequi, or not prosecuted":
+    case "acquitted or found not guilty": return "non_conviction";
+    // The shared program option says neither which order was entered nor how
+    // it terminated. IL § 5.2(a)(1)(C), for example, treats successful and
+    // unsuccessful supervision differently. Juvenile adjudication and the
+    // combined other-conviction/adjudication answer are also not proof of an
+    // adult conviction. Preserve uncertainty until those facts are supplied.
+    default: return "unknown";
+  }
+}
+
+/** LD-MS-01 separates admission from post-completion relief. The order and
+ * actual closure, not an optional remedy label, identify these existing routes.
+ * This selects a candidate only; all eligibility and commercial gates remain.
+ */
+export function mississippiProgramRouteFromAnswers(answers: Record<string, unknown>):
+  | { status: "not_applicable" }
+  | { status: "clarification"; missingQuestionIds: string[] }
+  | { status: "selected"; pathwayId: string } {
+  const program = answers.ms_program_order;
+  const stage = answers.ms_program_record_status;
+  const routes: Record<string, [string, string]> = {
+    "99-15-26": ["nonadjudication-99-15-26-active-case-admission", "nonadjudication-under-99-15-26"],
+    "99-15-101": ["pretrial-intervention-active-case-admission", "pretrial-intervention-or-diversion-expungement"],
+    "41-29-150": ["controlled-substance-conditional-discharge-active-case-admission", "first-offense-controlled-substance-conditional-discharge-relief"]
+  };
+  if (program === undefined || program === "no_program_order") {
+    return answers.case_outcome === "Diversion, deferred disposition, supervision, or similar program"
+      ? { status: "clarification", missingQuestionIds: ["ms_program_order"] }
+      : { status: "not_applicable" };
+  }
+  if (typeof program !== "string" || !Object.hasOwn(routes, program)) {
+    return { status: "clarification", missingQuestionIds: ["ms_program_order"] };
+  }
+  // A conviction or revocation is not silently reclassified as successful
+  // completion. The exact disposition/order needs clarification first.
+  if (["Misdemeanor conviction", "Felony conviction", "Pardoned conviction"].includes(String(answers.case_outcome))) {
+    return { status: "clarification", missingQuestionIds: ["case_outcome", "ms_program_record_status"] };
+  }
+  if (stage === "active") return { status: "selected", pathwayId: routes[program][0] };
+  if (stage === "completed_and_closed") return { status: "selected", pathwayId: routes[program][1] };
+  return { status: "clarification", missingQuestionIds: ["ms_program_record_status"] };
 }
 
 /**

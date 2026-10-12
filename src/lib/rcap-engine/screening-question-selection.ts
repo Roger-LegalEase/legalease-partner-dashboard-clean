@@ -1,4 +1,5 @@
 import { caProp64RecordQuestions } from "@/lib/expungement-ai/ca-prop64-record-facts";
+import { mississippiProgramRouteFromAnswers } from "@/lib/rcap-engine/composed-route-selector";
 import type {
   EngineProfile,
   PublicJurisdictionProfile,
@@ -48,7 +49,10 @@ export function selectScreeningQuestionIds(
   const selectedLabel = typeof answers.possible_pathway_context === "string"
     ? answers.possible_pathway_context
     : "";
-  const selectedPathway = selectedLabel
+  const programRoute = profile.jurisdiction.code === "MS" ? mississippiProgramRouteFromAnswers(answers) : null;
+  const selectedPathway = programRoute?.status === "selected"
+    ? profile.pathways.find(pathway => pathway.id === programRoute.pathwayId)
+    : programRoute?.status === "clarification" ? undefined : selectedLabel
     ? profile.pathways.find((pathway) => pathway.label === selectedLabel)
     : undefined;
   const recordQuestions = new Map(caProp64RecordQuestions(profile, publicProfile.questions, selectedPathway?.id).map((question) => [question.id, question]));

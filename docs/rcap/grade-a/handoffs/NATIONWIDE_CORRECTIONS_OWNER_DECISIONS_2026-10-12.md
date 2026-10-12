@@ -1,5 +1,8 @@
 # Nationwide corrections: consolidated owner decisions
 
+> Execution status update: the later [active assignments](NATIONWIDE_BLOCKER_RESOLUTION_INPUTS_2026-10-12.md#active-execution-assignments--rogers-continuation-directive-2026-10-12) supersede this historical report’s blanket instruction to await owner definitions. Codex owns all16 remaining corrections; use the current ledger and assignment checkpoint for live status. Historical observations and receipts below are preserved.
+
+
 Draft PR [#268](https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/pull/268), continuing application candidate `13259ebd6a1ae10abccbde59e405e99c79d13110`. This report records the final reconciliation of the 18 previously open findings. It does not replace the controlling surgical correction plan or the existing closure ledger.
 
 **Result: 38 verified findings; 16 external blockers.** The 36 previously verified finding records, 5274 manifestation identities, historical failure receipts, completed Clinic acceptance and GA-49 contact/output evidence are preserved. No application source, financial authority, offer configuration or security/CI safeguard changes in this reconciliation.
