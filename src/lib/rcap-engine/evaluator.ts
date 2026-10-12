@@ -978,6 +978,13 @@ function akCourtViewExclusionSafetyGate(profile: EngineProfile, answers: Record<
 function deSuperiorExpungementSafetyGate(profile: EngineProfile, answers: Record<string, ScreeningAnswerValue>, pathway: CompiledPathway): ScreeningReason | undefined {
   if (profile.jurisdiction.code !== "DE" || pathway.id !== "discretionary-court-expungement-under-11-del-c-4374") return undefined;
   const jurisdiction = profile.jurisdiction.code;
+  // Section4374(a) identifies conviction predicates. A mandatory-eligible
+  // case may be included WITH a discretionary request under (d)(2), but the
+  // broad dismissed/arrest/program answer alone does not establish that
+  // underlying conviction. Prosecutor-initiated (h) is a different actor.
+  if (!["Misdemeanor conviction", "Felony conviction"].includes(answerText(answers.case_outcome))) {
+    return reason(jurisdiction, "de_4374_conviction_scope_unconfirmed", "This answer does not establish the conviction records required for a discretionary request. Review the final outcomes for every case requested, including any conviction supporting a combined petition. A dismissal or program answer alone cannot open this conviction packet; mandatory, pardon and prosecutor-initiated procedures have separate requirements.", "11-Del-C-4374(a),(d)(2),(h);DE.memo:de_discretionary_superior_court,de_discretionary_family_court");
+  }
   const raw = Array.isArray(answers.state_exclusion_categories)
     ? answers.state_exclusion_categories.map((value) => String(value).toLowerCase())
     : [answerText(answers.state_exclusion_categories).toLowerCase()];
@@ -1495,18 +1502,19 @@ function specialRouteTiming(profile: EngineProfile, answers: Record<string, Scre
   if (key === "AK:confidentiality-of-acquittals-and-dismissals-as-22-35-030-administrative-rule-40") {
     return timingFromExactAnchor(profile, answers, rule, pathway, "disposition_date", { value: 60, unit: "days", raw: "60 days" }, "Alaska CourtView exclusion (Form TF-810 · AS 22.35.030 / Admin. R. 40) is available 60 days after the acquittal or dismissal.");
   }
-  // ---- Delaware § 4374 discretionary court expungement (legal signoff 2026-07-01) ----
-  // 11 Del. C. § 4374 discretionary waits from the compiled DE waiting-period rules: a single
-  // misdemeanor not listed in § 4373(b) = 3 years (wait-06); a single nonviolent felony = 7 years
-  // (wait-09), each running from conviction (later of conviction/release/disposition used as the
-  // available anchor). The stricter § 4373(b)-listed (7yr) and multi-case (5yr) sub-tiers are folded
-  // into the exclusion gate; the § 4375 post-pardon no-wait relief is a separate pathway.
+  // ---- Delaware § 4374 discretionary court expungement ----
+  // The statutory anchor is conviction or release from incarceration, whichever
+  // is later; an independently recorded disposition is not either event.
+  // This corrects only the date dependency. The legacy tier resolver below
+  // still needs exact final-conviction, §4373(b) and case-history predicates
+  // for the separate 3/7/7/5-year branches in §4374(a)(1)-(4). Neither the
+  // broad exclusion answer nor charge level proves those predicates.
   if (key === "DE:discretionary-court-expungement-under-11-del-c-4374") {
     const level = `${answerText(answers.offense_level)} ${answerText(answers.case_outcome)} ${answerText(answers.charge)}`.toLowerCase();
     if (/felony/.test(level)) {
-      return latestAnchorTiming(profile, answers, rule, pathway, ["conviction_date", "release_date", "disposition_date"], { value: 7, unit: "years", raw: "7 years" }, "Delaware § 4374 discretionary expungement of a single nonviolent felony requires seven years from conviction or release (later of conviction/release/disposition used as the available anchor).");
+      return latestAnchorTiming(profile, answers, rule, pathway, ["conviction_date", "release_date"], { value: 7, unit: "years", raw: "7 years" }, "Delaware § 4374 discretionary expungement of a single nonviolent felony requires seven years from conviction or release (later of conviction and release).");
     }
-    return latestAnchorTiming(profile, answers, rule, pathway, ["conviction_date", "release_date", "disposition_date"], { value: 3, unit: "years", raw: "3 years" }, "Delaware § 4374 discretionary expungement of a single misdemeanor not listed in § 4373(b) requires three years from conviction (later of conviction/release/disposition used as the available anchor).");
+    return latestAnchorTiming(profile, answers, rule, pathway, ["conviction_date", "release_date"], { value: 3, unit: "years", raw: "3 years" }, "Delaware § 4374 discretionary expungement of a single misdemeanor not listed in § 4373(b) requires three years from conviction or release from incarceration, whichever is later.");
   }
   // ---- Massachusetts § 100A CORI conviction sealing (legal signoff 2026-07-01) ----
   // M.G.L. c. 276 § 100A sealing runs three years (misdemeanor) or seven years (felony) from the later
