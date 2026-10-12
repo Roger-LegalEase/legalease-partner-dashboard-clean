@@ -5,7 +5,7 @@ import crypto from 'node:crypto';
 // below. Runtime callers provide statically traced evidence bytes and retain
 // their existing historical approval, provider and final-verification gates.
 export const QUESTION_CONTRACT_SUCCESSOR_PATH = 'data/rcap-grade-a/participant-data-rights/question-contract-source-successor-20261011.json';
-export const QUESTION_CONTRACT_SUCCESSOR_SHA256 = 'b3ee94754d29084cf1f208b83ed8e4d4b48b36949fe50112c1bf59ce8acb0212';
+export const QUESTION_CONTRACT_SUCCESSOR_SHA256 = '507dc8d70767149628150262b6757205e28a38dca0e2d2bafc23799b168222ac';
 export const QUESTION_CONTRACT_OUTPUT_PATH = 'data/rcap-grade-a/participant-data-rights/question-contract-output-reproduction-20261011.json';
 export const MS_QUESTION_CONTRACT_PREDECESSOR_PATH = 'data/rcap-grade-a/participant-data-rights/question-contract-predecessors/MS-nonconviction-expungement-99-19-71-4.c63e420.json';
 
