@@ -1,3 +1,4 @@
+import { MS_CONDITIONAL_DISCHARGE_FACT_IDS } from "@/lib/rcap-engine/mississippi-conditional-discharge";
 import { KS_RECORD_SCOPE_FACT_IDS } from "@/lib/rcap-engine/kansas-record-scope";
 /**
  * Pure helpers for turning a jurisdiction profile into the ordered consumer screen list.
@@ -90,7 +91,7 @@ export function sanitizeAnswersForQuestionIds(
       && profile.questions.some(question => question.id === questionId))
     || Boolean(profile?.jurisdiction.code === "GA" && GA_FIRST_OFFENDER_FACT_IDS.some(id => id === questionId)
       && profile.questions.some(question => question.id === questionId))
-    || Boolean(profile?.jurisdiction.code === "MS" && questionId === "ms_program_final_disposition"
+    || Boolean(profile?.jurisdiction.code === "MS" && (questionId === "ms_program_final_disposition" || MS_CONDITIONAL_DISCHARGE_FACT_IDS.some(id => id === questionId))
       && profile.questions.some(question => question.id === questionId))
     || Boolean(profile?.jurisdiction.code === "KS" && KS_RECORD_SCOPE_FACT_IDS.some(id => id === questionId)
       && profile.questions.some(question => question.id === questionId))

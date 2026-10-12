@@ -1,3 +1,4 @@
+import { MS_CONDITIONAL_DISCHARGE_FACT_IDS, MS_CONDITIONAL_DISCHARGE_QUESTIONS } from "@/lib/rcap-engine/mississippi-conditional-discharge";
 import { KS_RECORD_SCOPE_FACT_IDS, KS_RECORD_SCOPE_QUESTIONS } from "@/lib/rcap-engine/kansas-record-scope";
 import { CA_PROP64_QUESTIONS } from "@/lib/expungement-ai/ca-prop64-choices";
 import { GA_FIRST_OFFENDER_FACT_IDS, GA_FIRST_OFFENDER_QUESTIONS } from "@/lib/rcap-engine/georgia-first-offender";
@@ -62,6 +63,7 @@ const STATE_SPECIFIC_PREPAY_WILMA_FACT_IDS: Record<string, Set<string>> = {
     "ms_program_order",
     "ms_program_record_status",
     "ms_program_final_disposition",
+    ...MS_CONDITIONAL_DISCHARGE_FACT_IDS,
     "disposition_date",
     "arrest_date",
     "ms_last_conviction_date_any_court",
@@ -1028,7 +1030,7 @@ function withWilmaFactQuestions(
       .map((question) => normalizePublicQuestion(question, profile.jurisdiction.code, "wilma", exactPacketFacts.has(question.id)))
   ];
   const availableWilmaFactQuestions = profile.jurisdiction.code === "MS"
-    ? [...WILMA_FACT_QUESTIONS, ...MISSISSIPPI_CORRECTION_FACT_QUESTIONS]
+    ? [...WILMA_FACT_QUESTIONS, ...MISSISSIPPI_CORRECTION_FACT_QUESTIONS, ...MS_CONDITIONAL_DISCHARGE_QUESTIONS]
     : profile.jurisdiction.code === "GA" ? [...WILMA_FACT_QUESTIONS, ...GA_FIRST_OFFENDER_QUESTIONS]
     : profile.jurisdiction.code === "IL" ? [...WILMA_FACT_QUESTIONS, ...IL_CANNABIS_QUESTIONS]
     : profile.jurisdiction.code === "KS" ? [...WILMA_FACT_QUESTIONS, ...KS_RECORD_SCOPE_QUESTIONS]

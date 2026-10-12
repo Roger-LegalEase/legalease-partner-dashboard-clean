@@ -1,3 +1,4 @@
+import { MS_CONDITIONAL_DISCHARGE_PATHWAY, msConditionalDischargePredicates } from "@/lib/rcap-engine/mississippi-conditional-discharge";
 import { isIndependentPaidFinancialFact } from "@/lib/expungement-ai/court-completion-reuse";
 import { kansasRecordScopeFromAnswers } from "@/lib/rcap-engine/kansas-record-scope";
 import { caProp64Choice, CA_PROP64_CURRENT } from "@/lib/expungement-ai/ca-prop64-choices";
@@ -1347,6 +1348,36 @@ function specialRouteTiming(profile: EngineProfile, answers: Record<string, Scre
   }
   if (key === "TN:pathway-1-free-non-conviction-expunction-under-tenn-code-40-32-101-a-40-32-106") {
     return timingFromAnchor(profile, answers, rule, pathway, "disposition_date", { value: 0, unit: "days", raw: "no wait" }, "Tennessee non-conviction expunction has no five-year wait after dismissal, no true bill, or not guilty disposition.");
+  }
+  if (key === `MS:${MS_CONDITIONAL_DISCHARGE_PATHWAY}`) {
+    // LD-MS-01 / §41-29-150(d)(1)-(2): an event, not an elapsed conviction
+    // clock. Do not let an optional route label establish deferred adjudication,
+    // the qualifying subsection, first use, or discharge AND dismissal.
+    const selected = mississippiProgramRouteFromAnswers(answers);
+    if (selected.status !== "selected" || selected.pathwayId !== pathway.id) {
+      return { status: "missing_anchor", missingQuestionIds: ["ms_program_order", "ms_program_record_status"],
+        reason: reason("MS", "conditional_discharge_record_facts_missing", "Check the conditional-discharge order, completion and final dismissal. A drug charge or finished probation alone does not establish this procedure.", "legal-authority:LD-MS-01;41-29-150(d)") };
+    }
+    const facts = msConditionalDischargePredicates(answers);
+    if (facts.status === "missing") {
+      return { status: "missing_anchor", missingQuestionIds: facts.ids,
+        reason: reason("MS", "conditional_discharge_record_facts_missing", "Check the conditional-discharge order, completion and final dismissal. A drug charge or finished probation alone does not establish this procedure.", "legal-authority:LD-MS-01;41-29-150(d)") };
+    }
+    if (facts.status === "review") {
+      return { status: "needs_review", reason: reason("MS", "conditional_discharge_predicate_conflict", "The recorded subsection, earlier controlled-substance conviction, earlier conditional discharge, or judgment of guilt needs review under this specific procedure. This does not decide whether a different remedy is available.", "legal-authority:LD-MS-01;41-29-150(d)") };
+    }
+    // Anonymous screening can establish an already-entered event. Exact order
+    // dates remain packet facts. If supplied, they must not contradict that
+    // event; a broad timing bucket never substitutes for it.
+    for (const id of ["discharge_date"]) {
+      if (answers[id] !== undefined && answers[id] !== "") {
+        const date = parseDateAnswer(answers[id]);
+        if (!date || date.toISOString().slice(0, 10) !== answerText(answers[id]) || date > evaluationToday()) {
+          return { status: "missing_anchor", missingQuestionIds: [id], reason: reason("MS", "conditional_discharge_event_date_conflict", "The discharge or dismissal date must describe an event that has already occurred. Check the court record before continuing.", "legal-authority:LD-MS-01;41-29-150(d)(2)") };
+        }
+      }
+    }
+    return { status: "satisfied" };
   }
   if (key === "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal") {
     return timingFromAnchor(profile, answers, rule, pathway, "disposition_date", { value: 0, unit: "days", raw: "event-based" }, "MS non-conviction expungement runs from the case ending in dismissal, no disposition, or acquittal.");
