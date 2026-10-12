@@ -817,15 +817,20 @@ function routeSpecificSafetyGate(profile: EngineProfile, answers: Record<string,
 /**
  * LD-MS-01 retains this exact felony-conviction route. The adopted ms-fel track
  * (legal-design-track-registry.json) covers conviction / felony_conviction.
- * An optional remedy hint cannot override either of these expressly different
- * final outcomes. Charge severity is not the final disposition; ambiguous
- * outcome choices remain subject to the existing review and eligibility gates.
+ * An optional remedy hint cannot establish a final felony conviction. Charge
+ * severity is not the final disposition. A pardon, program or combined
+ * conviction/adjudication answer also does not establish that record class.
  * This guard never selects a replacement route or establishes eligibility.
  */
 function msFelonyRecordClassSafetyGate(profile: EngineProfile, answers: Record<string, ScreeningAnswerValue>, pathway: CompiledPathway): ScreeningReason | undefined {
   if (profile.jurisdiction.code !== "MS" || pathway.id !== "eligible-felony-conviction-expungement-99-19-71") return undefined;
-  if (answers.case_outcome !== "Dismissed, no-billed, nolle prosequi, or not prosecuted"
-    && answers.case_outcome !== "Misdemeanor conviction") return undefined;
+  if (answers.case_outcome === "Felony conviction") return undefined;
+  if (!["Dismissed, no-billed, nolle prosequi, or not prosecuted", "Misdemeanor conviction",
+    "Arrest or citation with no charge filed", "Acquitted or found not guilty"].includes(answerText(answers.case_outcome))) {
+    return reason("MS", "felony_route_case_outcome_unconfirmed",
+      "This option requires a final felony conviction in this case. The outcome entered does not confirm that fact. Check the final court record or get help identifying the disposition; the original charge level does not establish a conviction.",
+      "LD-MS-01; legal-design-track-registry:ms-fel:recordTypes,dispositions");
+  }
   return reason("MS", "felony_route_case_outcome_conflict",
     "The case outcome you entered does not match this felony-conviction option. Review the case outcome or get help confirming which option applies.",
     "LD-MS-01; legal-design-track-registry:ms-fel:recordTypes,dispositions");

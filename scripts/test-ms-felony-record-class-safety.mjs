@@ -1,7 +1,17 @@
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { register } from 'node:module';
+import { execFileSync } from 'node:child_process';
+import { pathToFileURL } from 'node:url';
+import ts from 'typescript';
 register('./lib/ts-esm-loader.mjs', import.meta.url);
+if (process.env.RCAP_FELONY_BASELINE) {
+  const file = 'src/lib/rcap-engine/evaluator.ts';
+  const sources = { [pathToFileURL(`${process.cwd()}/${file}`).href]: ts.transpileModule(
+    execFileSync('git', ['show', `${process.env.RCAP_FELONY_BASELINE}:${file}`], { encoding: 'utf8' }),
+    { compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022 } }).outputText };
+  register(`data:text/javascript,${encodeURIComponent('let sources; export function initialize(data) { sources = data; } export async function load(url, context, next) { return url in sources ? { format: "module", source: sources[url], shortCircuit: true } : next(url, context); }')}`, { data: sources });
+}
 process.env.RCAP_EVALUATOR_TODAY = '2026-10-11';
 
 const { evaluateAuthoritativeScreeningResult } = await import('../src/lib/expungement-ai/authoritative-screening-result.ts');
@@ -53,14 +63,28 @@ for (const case_outcome of ['Dismissed, no-billed, nolle prosequi, or not prosec
     negativeCases++;
   }
 }
-// These canonical outcomes do not establish the same contradiction. Preserve
-// the existing legal gates; this check does not certify their eligibility.
+// Ambiguous outcomes are not an established felony conviction. Earlier
+// unknown/program clarification gates may hold them first; none may be positive.
 let otherOutcomeCases = 0;
 for (const case_outcome of publicProfile.questions.find(q => q.id === 'case_outcome').options) {
   if (['Dismissed, no-billed, nolle prosequi, or not prosecuted', 'Misdemeanor conviction'].includes(case_outcome)) continue;
   const result = evaluate({ ...screening, case_outcome, possible_pathway_context: felonyLabel });
   assert.ok(!result.reasons.some(r => r.code === conflictCode));
+  if (case_outcome !== 'Felony conviction') {
+    assert.equal(result.paymentAllowed, false, `Unproven final class: ${case_outcome}`);
+    assert.ok(['needs_review', 'needs_more_info'].includes(result.resultCode));
+    if (case_outcome === 'Other conviction or adjudication' || case_outcome === 'Pardoned conviction') {
+      const reason = result.reasons.find(r => r.code === 'ms.felony_route_case_outcome_unconfirmed');
+      assert.ok(reason);
+      assert.match(reviewedResultText(reason.text).es, /condena final/);
+    }
+  } else {
+    assert.ok(!result.reasons.some(r => r.code === 'ms.felony_route_case_outcome_unconfirmed'));
+    assert.equal(result.resultCode, 'packet_ready_with_caution');
+    assert.equal(result.paymentAllowed, true);
+    assert.ok(result.packetPlan);
+  }
   otherOutcomeCases++;
 }
 assert.deepEqual(evaluate(screening), baseline, 'rejected context cannot mutate the retained route or inputs');
-console.log(JSON.stringify({ status: 'PASS', negativeCases, otherOutcomeCases, retainedNonconvictionPreserved: true, scope: 'Exact two-outcome MS felony safety gate; other outcomes are not approved positive fixtures. No commercial, protected or document-output acceptance claimed.' }));
+console.log(JSON.stringify({ status: 'PASS', negativeCases, otherOutcomeCases, retainedNonconvictionPreserved: true, scope: 'Exact MS final-felony prerequisite; two published contradictory outcomes and ambiguous classes held; retained nonconviction positive preserved. No commercial, protected or document-output acceptance claimed.' }));
