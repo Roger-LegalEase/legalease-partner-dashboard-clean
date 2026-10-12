@@ -1,3 +1,4 @@
+import { KS_RECORD_SCOPE_FACT_IDS, KS_RECORD_SCOPE_QUESTIONS } from "@/lib/rcap-engine/kansas-record-scope";
 import { CA_PROP64_QUESTIONS } from "@/lib/expungement-ai/ca-prop64-choices";
 import { GA_FIRST_OFFENDER_FACT_IDS, GA_FIRST_OFFENDER_QUESTIONS } from "@/lib/rcap-engine/georgia-first-offender";
 import { IL_CANNABIS_FACT_IDS, IL_CANNABIS_QUESTIONS } from "@/lib/rcap-engine/illinois-cannabis-facts";
@@ -44,6 +45,7 @@ const PREPAY_PHASES = new Set<QuestionLifecyclePhase>([
 ]);
 
 const STATE_SPECIFIC_PREPAY_WILMA_FACT_IDS: Record<string, Set<string>> = {
+  KS: new Set(KS_RECORD_SCOPE_FACT_IDS),
   GA: new Set(GA_FIRST_OFFENDER_FACT_IDS),
   IL: new Set(IL_CANNABIS_FACT_IDS),
   CA: new Set([
@@ -1009,6 +1011,7 @@ function withWilmaFactQuestions(
     ? [...WILMA_FACT_QUESTIONS, ...MISSISSIPPI_CORRECTION_FACT_QUESTIONS]
     : profile.jurisdiction.code === "GA" ? [...WILMA_FACT_QUESTIONS, ...GA_FIRST_OFFENDER_QUESTIONS]
     : profile.jurisdiction.code === "IL" ? [...WILMA_FACT_QUESTIONS, ...IL_CANNABIS_QUESTIONS]
+    : profile.jurisdiction.code === "KS" ? [...WILMA_FACT_QUESTIONS, ...KS_RECORD_SCOPE_QUESTIONS]
       : WILMA_FACT_QUESTIONS;
   const additions = availableWilmaFactQuestions
     .filter((question) => !existingIds.has(question.id))

@@ -1,3 +1,4 @@
+import { kansasRecordScopeFromAnswers } from "@/lib/rcap-engine/kansas-record-scope";
 import { caProp64Choice, CA_PROP64_CURRENT } from "@/lib/expungement-ai/ca-prop64-choices";
 import { caProp64RecordQuestions } from "@/lib/expungement-ai/ca-prop64-record-facts";
 import { caProp64RecordAnswerState } from "@/lib/expungement-ai/ca-prop64-record-answer";
@@ -216,6 +217,15 @@ function evaluateAgainstProfile(profile: EngineProfile, request: ScreeningEvalua
       missingQuestionIds: originalFirstOffender.missingQuestionIds,
       paymentAllowed: false
     });
+  }
+  const kansasScope = jurisdiction === "KS" ? kansasRecordScopeFromAnswers(answers) : null;
+  if (kansasScope?.status === "clarification") {
+    return result(profile, request, "needs_more_info", [reason(jurisdiction, "record_court_scope_missing", "Check the law, court, final case outcome and any diversion agreement. A city police arrest, charge level or program admission alone does not establish a municipal conviction or fulfilled diversion.", "KS.memo:ks-12-4516-municipal,ks-12-4516a-municipal-arrest")], {
+      missingQuestionIds: kansasScope.missingQuestionIds, paymentAllowed: false
+    });
+  }
+  if (kansasScope?.status === "district_arrest") {
+    return result(profile, request, "needs_review", [reason(jurisdiction, "district_arrest_route_requires_binding", "This district-court arrest record needs review under the applicable arrest-record procedure. It cannot be substituted into a municipal ordinance packet or a conviction-and-diversion packet.", "KS.memo:ks-22-2410-arrest;KSA22-2410")], { paymentAllowed: false });
   }
   const cannabis = jurisdiction === "IL" ? illinoisCannabisFromAnswers(answers) : null;
   if (cannabis?.status === "clarification") {
@@ -717,6 +727,11 @@ function isPrepaymentQuestion(question: PublicQuestion) {
 }
 
 function selectPathway(profile: EngineProfile, answers: Record<string, ScreeningAnswerValue>) {
+  if (profile.jurisdiction.code === "KS") {
+    const scope = kansasRecordScopeFromAnswers(answers);
+    if (scope.status === "selected") return profile.pathways.find(pathway => pathway.id === scope.pathwayId);
+    if (scope.status === "clarification" || scope.status === "district_arrest") return undefined;
+  }
   if (profile.jurisdiction.code === "IL") {
     const cannabis = illinoisCannabisFromAnswers(answers);
     if (cannabis.status === "selected") return profile.pathways.find(pathway => pathway.id === cannabis.pathwayId);
@@ -816,6 +831,12 @@ function routeIsAdministrativeApplicationPacket(profile: EngineProfile, pathway:
 }
 
 function routeSpecificSafetyGate(profile: EngineProfile, answers: Record<string, ScreeningAnswerValue>, pathway: CompiledPathway): ScreeningReason | undefined {
+  if (profile.jurisdiction.code === "KS") {
+    const scope = kansasRecordScopeFromAnswers(answers);
+    if (scope.status === "selected" && scope.branch === "unfulfilled_diversion") {
+      return reason("KS", "municipal_diversion_not_fulfilled", "The answer says the diversion agreement remains unfulfilled. Do not start a completed-diversion waiting period from admission or arrest. Review the agreement and any specific statutory exception before choosing a filing procedure.", "KSA12-4516(a)(2),(b);KS.memo:ks-12-4516-municipal");
+    }
+  }
   if (profile.jurisdiction.code === "IL" && pathway.id === IL_CANNABIS_PATHWAY) {
     const cannabis = illinoisCannabisFromAnswers(answers);
     if (cannabis.status === "selected" && cannabis.branch === "other_felony") {

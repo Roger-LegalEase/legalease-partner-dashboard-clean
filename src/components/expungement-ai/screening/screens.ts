@@ -1,3 +1,4 @@
+import { KS_RECORD_SCOPE_FACT_IDS } from "@/lib/rcap-engine/kansas-record-scope";
 /**
  * Pure helpers for turning a jurisdiction profile into the ordered consumer screen list.
  *
@@ -89,6 +90,8 @@ export function sanitizeAnswersForQuestionIds(
       && profile.questions.some(question => question.id === questionId))
     || Boolean(profile?.jurisdiction.code === "GA" && GA_FIRST_OFFENDER_FACT_IDS.some(id => id === questionId)
       && profile.questions.some(question => question.id === questionId))
+    || Boolean(profile?.jurisdiction.code === "KS" && KS_RECORD_SCOPE_FACT_IDS.some(id => id === questionId)
+      && profile.questions.some(question => question.id === questionId))
     || Boolean(profile?.jurisdiction.code === "IL" && IL_CANNABIS_FACT_IDS.some(id => id === questionId)
       && profile.questions.some(question => question.id === questionId))
   )));
@@ -108,6 +111,6 @@ export function sanitizeResumedAnswersForQuestionIds(
     answers,
     deriveScreens(profile).map((question) => question.id),
     selectedQuestionIds,
-    ["NV", "GA", "IL"].includes(profile.jurisdiction.code) ? profile : undefined
+    ["NV", "GA", "IL", "KS"].includes(profile.jurisdiction.code) ? profile : undefined
   );
 }

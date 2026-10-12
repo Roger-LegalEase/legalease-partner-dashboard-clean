@@ -1,3 +1,4 @@
+import { kansasRecordScopeFromAnswers, kansasRecordScopeQuestionApplies } from "@/lib/rcap-engine/kansas-record-scope";
 import { caProp64RecordQuestions } from "@/lib/expungement-ai/ca-prop64-record-facts";
 import { mississippiProgramRouteFromAnswers } from "@/lib/rcap-engine/composed-route-selector";
 import { nevada176AQuestionApplies } from "@/lib/rcap-engine/nevada-176a-branch";
@@ -54,10 +55,11 @@ export function selectScreeningQuestionIds(
     : "";
   const programRoute = profile.jurisdiction.code === "MS" ? mississippiProgramRouteFromAnswers(answers)
     : profile.jurisdiction.code === "GA" ? georgiaFirstOffenderFromAnswers(answers)
-    : profile.jurisdiction.code === "IL" ? illinoisCannabisFromAnswers(answers) : null;
+    : profile.jurisdiction.code === "IL" ? illinoisCannabisFromAnswers(answers)
+    : profile.jurisdiction.code === "KS" ? kansasRecordScopeFromAnswers(answers) : null;
   const selectedPathway = programRoute?.status === "selected"
     ? profile.pathways.find(pathway => pathway.id === programRoute.pathwayId)
-    : programRoute?.status === "clarification" ? undefined : selectedLabel
+    : (programRoute?.status === "clarification" || programRoute?.status === "district_arrest") ? undefined : selectedLabel
     ? profile.pathways.find((pathway) => pathway.label === selectedLabel)
     : undefined;
   const recordQuestions = new Map(caProp64RecordQuestions(profile, publicProfile.questions, selectedPathway?.id).map((question) => [question.id, question]));
@@ -68,6 +70,7 @@ export function selectScreeningQuestionIds(
   const seen = new Set<string>();
 
   return publicProfile.questions
+    .filter(question => kansasRecordScopeQuestionApplies(profile.jurisdiction.code, answers, question.id))
     .filter(question => georgiaFirstOffenderQuestionApplies(profile.jurisdiction.code, answers, question.id))
     .filter(question => illinoisCannabisQuestionApplies(profile.jurisdiction.code, answers, question.id))
     .filter(question => nevada176AQuestionApplies(profile.jurisdiction.code, selectedPathway?.id, question.id))
