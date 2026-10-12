@@ -413,6 +413,9 @@ console.log(`RCAP onboarding review layout verifier passed: ${guarantees} guaran
 function loadTsModule(filePath) {
   const resolved = path.resolve(filePath);
   if (moduleCache.has(resolved)) return moduleCache.get(resolved).exports;
+  if (path.extname(resolved) === ".json") {
+    return require(resolved);
+  }
   const transpiled = ts.transpileModule(fs.readFileSync(resolved, "utf8"), {
     compilerOptions: {
       esModuleInterop: true,
