@@ -1,5 +1,7 @@
 "use client";
 
+import { ny16059CustodyRemovalAvailable } from "@/lib/expungement-ai/ny-custody-correction";
+
 import { CA_PROP64_RECOVERY_COPY, CA_PROP64_COMPLETED, caProp64Choice } from "@/lib/expungement-ai/ca-prop64-choices";
 
 import { useEffect, useMemo, useRef, useState } from "react";
@@ -75,6 +77,7 @@ export function PacketInformationBuilder({
   const [recordClarificationIds, setRecordClarificationIds] = useState(initialRecordClarificationIds);
   const recordChoices = useRef<string[]>([]);
   const [recordChoicePending, setRecordChoicePending] = useState(false);
+  const clearCustodyChoice = useRef(false);
   const contactChoice = useRef(false);
   const [contactChoicePending, setContactChoicePending] = useState(false);
   const [missing, setMissing] = useState(initiallyMissing);
@@ -139,7 +142,7 @@ export function PacketInformationBuilder({
           const submittedAccountEmailChoice = accountEmailChoice.current;
           const response = await fetch(`/api/expungement-ai/briefcase/${encodeURIComponent(itemId)}/packet-information`, {
             method: "POST", headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ answers: changedPacketAnswers(submitted, confirmed.current), useContactComponents: contactChoice.current, confirmRecordFacts: submittedRecordChoices, useAccountEmail: submittedAccountEmailChoice !== null && submitted.email_address === submittedAccountEmailChoice, expectedRevision: submittedRevision, resumeSectionId: editingFromReview ? null : resumeSectionId, navigationIntent: editingFromReview ? "stay" : navigationIntent, editingFact: editingSensitiveIdentifier ? "social_security_number" : undefined })
+            body: JSON.stringify({ answers: changedPacketAnswers(submitted, confirmed.current), useContactComponents: contactChoice.current, clearInactiveCustodyFacts: clearCustodyChoice.current, confirmRecordFacts: submittedRecordChoices, useAccountEmail: submittedAccountEmailChoice !== null && submitted.email_address === submittedAccountEmailChoice, expectedRevision: submittedRevision, resumeSectionId: editingFromReview ? null : resumeSectionId, navigationIntent: editingFromReview ? "stay" : navigationIntent, editingFact: editingSensitiveIdentifier ? "social_security_number" : undefined })
           });
           const payload: unknown = await response.json().catch(() => null);
           if (!response.ok || !isPacketSaveReceipt(payload) || payload.revision < submittedRevision || payload.reviewPath !== `/briefcase/${encodeURIComponent(itemId)}/review`) {
@@ -160,13 +163,15 @@ export function PacketInformationBuilder({
             return null;
           }
           receipt = payload;
+          clearCustodyChoice.current = false;
           if (accountEmailChoice.current === submittedAccountEmailChoice) { accountEmailChoice.current = null; setAccountEmailChoicePending(false); }
           setAccountEmailSuggestion(receipt.accountEmailSuggestion ?? null);
           setCaProp64Clarification(receipt.caProp64Clarification ?? false);
           recordChoices.current = []; setRecordChoicePending(false);
           setRecordClarificationIds(receipt.recordClarificationIds ?? []);
           setCourtRecordConflict(receipt.courtRecordConflict ?? false);
-          contactChoice.current = false; setContactChoicePending(false);
+          clearCustodyChoice.current = false;
+    contactChoice.current = false; setContactChoicePending(false);
           setContactReconciliation(receipt.contactReconciliation ?? null);
           const focusedConfirmation = document.activeElement?.closest("[data-record-clarification]")?.getAttribute("data-record-clarification")
             ?? (document.activeElement === document.body ? submittedRecordChoices[0] : null);
@@ -238,6 +243,7 @@ export function PacketInformationBuilder({
     accountEmailChoice.current = null; setAccountEmailChoicePending(false);
     // A conflict after an uncertain save needs a fresh before/after choice;
     // retaining a draft must not silently repeat an adoption against new data.
+    clearCustodyChoice.current = false;
     contactChoice.current = false; setContactChoicePending(false);
     recordChoices.current = []; setRecordChoicePending(false);
     setRouteChanged(recovery.nextAction === "open_matter");
@@ -306,6 +312,14 @@ export function PacketInformationBuilder({
 
   return (
     <div ref={root} data-packet-information-builder="active" className="rounded-[18px] border border-[#ECEFF4] bg-white p-5 shadow-sm md:p-7">
+      {ny16059CustodyRemovalAvailable(stateCode, pathwayId, confirmedAnswers) ? <div className="mb-5 rounded-xl border p-4" data-ny-custody-correction>
+        <p>{copy("You saved that there was no incarceration, but earlier custody dates are still saved. If those dates were entered in error, remove them from this calculation. The earlier entries will remain in your saved history.", "Guardó que no hubo encarcelamiento, pero aún hay fechas anteriores guardadas. Si ingresó esas fechas por error, quítelas de este cálculo. Las entradas anteriores permanecerán en su historial guardado.")}</p>
+        <button type="button" disabled={saving || dirty || departing} className="mt-3 min-h-11 underline disabled:opacity-50"
+          onClick={() => { clearCustodyChoice.current = true; void save().finally(() => { clearCustodyChoice.current = false; }); }}>
+          {copy("Remove earlier custody details from this calculation", "Quitar los datos anteriores de encarcelamiento de este cálculo")}
+        </button>
+        {dirty ? <p>{copy("Save your other changes first.", "Primero guarde los otros cambios.")}</p> : null}
+      </div> : null}
       {caProp64Clarification ? <div role="status" data-ca-prop64-recovery-warning className="mb-5 rounded border border-amber-300 p-4 text-sm leading-6">
         <p>{CA_PROP64_RECOVERY_COPY["CA-P64-RECOVERY-WARNING-v2"][locale]}</p>
         {pathwayId !== CA_PROP64_COMPLETED && caProp64Choice("ca_prop64_branch", answers.ca_prop64_branch) === "currently-serving petition"

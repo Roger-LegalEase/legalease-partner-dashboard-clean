@@ -27,7 +27,7 @@ for (const [id, code] of [
   ['ny_16059_16058_grants', 'ny.ny_16059_16058_order_review'],
   ['ny_16059_post_last_conviction_crime', 'ny.ny_16059_later_conviction_unconfirmed']
 ]) {
-  const result = evaluate({ [id]: id === 'ny_16059_16058_grants' ? 'granted' : 'Yes', ...(id === 'ny_16059_post_last_conviction_crime' ? { ny_16059_later_conviction_entered: undefined } : {}) });
+  const result = evaluate({ ...(id === 'ny_16059_16058_grants' ? {ny_16059_16058_treatment_count:1,ny_16059_16058_additional_count:0} : {}), [id]: id === 'ny_16059_16058_grants' ? 'granted' : 'Yes', ...(id === 'ny_16059_post_last_conviction_crime' ? { ny_16059_later_conviction_entered: undefined } : {}) });
   assert.equal(result.resultCode, 'needs_review');
   assert.equal(result.paymentAllowed, false);
   assert.ok(result.reasons.some(r => r.code === code)); checked++;

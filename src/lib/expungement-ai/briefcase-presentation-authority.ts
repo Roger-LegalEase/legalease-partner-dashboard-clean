@@ -1,3 +1,4 @@
+import { ny16059HeldDetailSuccessor } from "@/lib/expungement-ai/packet-information";
 import "server-only";
 import { reviewedPacketContractSuccessor } from "@/lib/expungement-ai/packet-contract-successors";
 import { getProgramPacketFunding } from "@/lib/partners/onboarding/program-packet-funding";
@@ -431,7 +432,7 @@ function legalAuthorityFromProtectedVerification(
   if (evaluation.jurisdiction !== snapshot.jurisdiction
     || evaluation.profileVersion !== snapshot.profileVersion
     || (evaluation.pathwayId ?? null) !== snapshot.pathwayId
-    || evaluation.resultCode !== snapshot.resultCode
+    || evaluation.resultCode !== snapshot.resultCode && !ny16059HeldDetailSuccessor(snapshot, authoritative)
     || evaluation.paymentAllowed !== snapshot.paymentAllowed
     || (authoritative.packetType ?? null) !== (snapshot.packetType ?? null)
     || (authoritative.selectedTrackId ?? null) !== snapshot.selectedTrackId

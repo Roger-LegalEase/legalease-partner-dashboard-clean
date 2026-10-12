@@ -1,3 +1,5 @@
+import { ny16059CustodyRemovalAvailable } from "@/lib/expungement-ai/ny-custody-correction";
+import { NY_16059_ROUTE } from "@/lib/rcap-engine/new-york-16059-facts";
 import { mcicIdentifierAuthority, packetAnswersForOwnerEditing, requiresMcicIdentifierAuthority } from "@/lib/expungement-ai/sensitive-packet-facts";
 import { NextResponse } from "next/server";
 
@@ -44,7 +46,15 @@ export async function GET(request: Request, context: { params: Promise<{ itemId:
   const { itemId } = await context.params;
   const item = await getBriefcaseItem(auth.userId, itemId);
   if (!item) return NextResponse.json({ ok: false, error: "matter_not_found" }, { status: 404 });
-  const authority = await readProtectedPacketVerification({ consumerAuthUserId: auth.userId, briefcaseItemId: item.id });
+  let authority = await readProtectedPacketVerification({ consumerAuthUserId: auth.userId, briefcaseItemId: item.id });
+  // A newly claimed matter has a trusted server-owned source but no saved
+  // verification row yet. Use the same unverified revision-zero recovery as
+  // POST; a read neither creates a verification nor accepts client answers.
+  if (!authority.ok && authority.reason === "protected_verification_authority_missing") {
+    const trusted = await readTrustedBriefcasePresentationSource({ consumerAuthUserId: auth.userId, item });
+    const seeded = trusted.ok ? protectedPacketVerificationSeedFromTrustedSource(trusted.value) : null;
+    if (seeded) authority = { ok: true, value: seeded.verification };
+  }
   if (!authority.ok) return NextResponse.json({ ok: false, error: "protected_verification_unavailable" }, { status: 503 });
   const model = ownerEditingModelFor(authority.value);
   if (!model) return NextResponse.json({ ok: false, error: "packet_information_unavailable" }, { status: 409 });
@@ -109,10 +119,13 @@ export async function POST(
     return NextResponse.json({ ok: false, error: "revision_conflict" }, { status: 409 });
   }
   const protectedModel = ownerEditingModelFor(protectedRead.value);
-  if (!protectedModel?.packetPlan && !protectedModel?.caProp64Clarification) {
+  if (!protectedModel?.packetPlan && !protectedModel?.caProp64Clarification
+    && !(protectedModel?.stateCode === "NY" && protectedModel.pathwayId === NY_16059_ROUTE)) {
     return NextResponse.json({ ok: false, error: "packet_information_unavailable" }, { status: 403 });
   }
   if (protectedModel.caProp64Clarification && parsed.verify) return NextResponse.json({ ok: false, error: "invalid_packet_answers", invalidFactIds: protectedModel.requiredInputIds }, { status: 422 });
+  if (parsed.clearInactiveCustodyFacts && (!ny16059CustodyRemovalAvailable(protectedModel.stateCode, protectedModel.pathwayId, protectedModel.initialAnswers)
+    || parsed.verify || Object.keys(parsed.answers).length)) return NextResponse.json({ ok: false, error: "custody_correction_not_available" }, { status: 422 });
   const sensitiveRoute = requiresMcicIdentifierAuthority(protectedModel.stateCode, protectedModel.pathwayId);
   if (sensitiveRoute && "social_security_number" in parsed.answers
     && !mcicIdentifierAuthority({ ...protectedModel.initialAnswers, ...parsed.answers }, new Date().toISOString()).safe) {
@@ -162,6 +175,7 @@ export async function POST(
     answers: parsed.answers,
     verify: parsed.verify,
     useContactComponents: parsed.useContactComponents,
+    clearInactiveCustodyFacts: parsed.clearInactiveCustodyFacts,
     confirmRecordFacts: parsed.confirmRecordFacts,
     accountEmailSource: accountEmail ?? undefined,
     protectedVerification: protectedRead.value
@@ -216,7 +230,7 @@ export async function POST(
 }
 
 async function readBody(request: Request): Promise<
-  { ok: true; answers: Record<string, AnswerValue>; verify: boolean; useContactComponents: boolean; useAccountEmail: boolean; confirmRecordFacts: string[]; expectedRevision: number | null; resumeSectionId: string | null; navigationIntent: PacketNavigationIntent; editingSensitiveIdentifier: boolean }
+  { ok: true; answers: Record<string, AnswerValue>; verify: boolean; useContactComponents: boolean; clearInactiveCustodyFacts: boolean; useAccountEmail: boolean; confirmRecordFacts: string[]; expectedRevision: number | null; resumeSectionId: string | null; navigationIntent: PacketNavigationIntent; editingSensitiveIdentifier: boolean }
   | { ok: false; tooLarge?: boolean }
 > {
   const contentLength = request.headers.get("content-length");
@@ -224,7 +238,8 @@ async function readBody(request: Request): Promise<
   const text = await request.text().catch(() => "");
   if (new TextEncoder().encode(text).length > maxPayloadBytes) return { ok: false, tooLarge: true };
   try {
-    const body = JSON.parse(text) as { answers?: unknown; verify?: unknown; useContactComponents?: unknown; useAccountEmail?: unknown; confirmRecordFacts?: unknown; expectedRevision?: unknown; resumeSectionId?: unknown; navigationIntent?: unknown; editingFact?: unknown };
+    const body = JSON.parse(text) as { answers?: unknown; verify?: unknown; useContactComponents?: unknown; clearInactiveCustodyFacts?: unknown; useAccountEmail?: unknown; confirmRecordFacts?: unknown; expectedRevision?: unknown; resumeSectionId?: unknown; navigationIntent?: unknown; editingFact?: unknown };
+    if (body.clearInactiveCustodyFacts !== undefined && typeof body.clearInactiveCustodyFacts !== "boolean") return { ok: false };
     if (body.useAccountEmail !== undefined && typeof body.useAccountEmail !== "boolean") return { ok: false };
     if (body.confirmRecordFacts !== undefined && (!Array.isArray(body.confirmRecordFacts) || body.confirmRecordFacts.length > 5 || body.confirmRecordFacts.some((id) => typeof id !== "string") || new Set(body.confirmRecordFacts).size !== body.confirmRecordFacts.length)) return { ok: false };
     if (!body.answers || typeof body.answers !== "object" || Array.isArray(body.answers)) return { ok: false };
@@ -235,6 +250,7 @@ async function readBody(request: Request): Promise<
       answers: body.answers as Record<string, AnswerValue>,
       verify: body.verify === true,
       useContactComponents: body.useContactComponents === true,
+      clearInactiveCustodyFacts: body.clearInactiveCustodyFacts === true,
       useAccountEmail: body.useAccountEmail === true,
       confirmRecordFacts: (body.confirmRecordFacts as string[] | undefined) ?? [],
       editingSensitiveIdentifier: body.editingFact === "social_security_number",

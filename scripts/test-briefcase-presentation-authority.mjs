@@ -114,6 +114,7 @@ const adapter = loadTsWithMocks("src/lib/expungement-ai/briefcase-presentation-a
   "@/lib/expungement-ai/authoritative-screening-result": { evaluateAuthoritativeScreeningResult: (...args) => defaultEvaluate(...args) },
   "@/lib/expungement-ai/consumer-payment-authority": { consumerPacketPaymentAuthority: (...args) => defaultPaymentRead(...args) },
   "@/lib/expungement-ai/packet-information": {
+    ny16059HeldDetailSuccessor: () => false,
     protectedPacketScreeningAnswers: (snapshot) => ({
       ...snapshot.screeningAnswers,
       ...snapshot.prefilledAnswers,

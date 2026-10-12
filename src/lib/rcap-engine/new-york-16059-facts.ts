@@ -4,7 +4,7 @@ import { isAffirmative, isNegative } from "@/lib/rcap-engine/answer-normalizatio
 export const NY_16059_ROUTE = "discretionary-conviction-sealing-by-petition-under-cpl-160-59";
 export const NY_16059_SOURCE = "https://www.nysenate.gov/legislation/laws/CPL/160.59";
 type Answers = Record<string, ScreeningAnswerValue>;
-type Decision = { status: "satisfied" | "missing" | "review" | "excluded" | "not_yet"; code?: string; ids?: string[]; eligibleOn?: string; latestPossibleOn?: string; excludedDays?: number };
+type Decision = { status: "satisfied" | "missing" | "review" | "excluded" | "not_yet"; code?: string; ids?: string[]; eligibleOn?: string; latestPossibleOn?: string; excludedDays?: number; allPostConvictionDays?: number; anchor?: string };
 const fail = (status: Decision["status"], code: string, ids: string[] = []): Decision => ({ status, code, ids });
 export function ny16059Requested(a: Answers) { return a.ny_16059_request === "petition"; }
 const integer = (v: ScreeningAnswerValue | undefined): number | undefined => {
@@ -39,6 +39,18 @@ export function ny16059History(a: Answers): Decision {
   // events is NOT proof of a single criminal transaction. Connected ventures
   // require record-specific legal classification; only the explicit single-act
   // subset is determinable from these facts. Never group an ineligible crime.
+  if (["connected", "other_groups"].includes(String(a.ny_16059_grouping))) {
+    const missing = NY_16059_TRANSACTION_IDS.filter(id => !isAffirmative(a[id]) && !isNegative(a[id]));
+    if (missing.length) return fail("missing", "grouping_facts_missing", missing);
+    if (isAffirmative(a.ny_16059_transaction_shared_docket_only)
+      && (isAffirmative(a.ny_16059_transaction_time_circumstance) || isAffirmative(a.ny_16059_transaction_integral_purpose))) {
+      return fail("review", "grouping_facts_conflict");
+    }
+    // Collect the §40.10(2) alternatives and §40.10(1) victim dimension for
+    // record-specific review. These participant facts are not a legal signature
+    // and never authorize collapsing the unresolved connected-venture counts.
+    return fail("review", "grouping_review");
+  }
   if (a.ny_16059_grouping === "single_act") {
     if (!isNegative(a.ny_16059_requested_excluded)) return fail("review", "grouping_review");
     requestUnits = 1; requestFelonyUnits = requestedFelonies > 0 ? 1 : 0;
@@ -54,7 +66,17 @@ export function ny16059History(a: Answers): Decision {
   // §3(b) references a maximum under §160.58, whose §2 distinguishes the
   // treatment convictions from up to three additional prior misdemeanors.
   // Any grant is NOT automatically the maximum. Exact order review is needed.
-  if (a.ny_16059_16058_grants === "granted") return fail("review", "16058_order_review");
+  if (a.ny_16059_16058_grants === "granted") {
+    const missing = NY_16059_ORDER_IDS.filter(id => integer(a[id]) === undefined);
+    if (missing.length) return fail("missing", "16058_components_missing", missing);
+    const treatment = integer(a.ny_16059_16058_treatment_count)!;
+    const additional = integer(a.ny_16059_16058_additional_count)!;
+    if (!treatment || additional > 3) return fail("review", "16058_components_conflict");
+    // §160.58(1)-(2): treatment conviction(s) and up to three additional prior
+    // eligible misdemeanors. Neither a partial order nor three additional
+    // entries independently establishes the §160.59(3)(b) interpretation.
+    return fail("review", "16058_order_review");
+  }
   return { status: "satisfied" };
 }
 const DAY = 86400000;
@@ -110,13 +132,24 @@ export function ny16059Clock(a: Answers, today: string): Decision {
   // the first sentence and official form start at release. Do not guess whether
   // time already outside the anchored clock must be added again. When this
   // changes today's outcome, hold only this decision for qualified review.
-  const details = { eligibleOn: earliest, latestPossibleOn: latest, excludedDays: afterAnchor };
+  const details = { eligibleOn: earliest, latestPossibleOn: latest, excludedDays: afterAnchor, allPostConvictionDays: allPostConviction, anchor };
   if (today < earliest) return { ...fail("not_yet", "clock_not_yet"), ...details };
   if (today < latest) return { ...fail("review", "clock_interpretation"), ...details };
   return { status: "satisfied", ...details };
 }
 
+export const NY_16059_ORDER_IDS = ["ny_16059_16058_treatment_count", "ny_16059_16058_additional_count"];
+export const NY_16059_TRANSACTION_IDS = ["ny_16059_transaction_time_circumstance", "ny_16059_transaction_integral_purpose", "ny_16059_transaction_shared_docket_only", "ny_16059_transaction_multiple_victims"];
+export function ny16059QuestionApplies(a: Answers, id: string): boolean {
+  if (NY_16059_ORDER_IDS.includes(id)) return a.ny_16059_16058_grants === "granted";
+  if (NY_16059_TRANSACTION_IDS.includes(id)) return ["connected", "other_groups"].includes(String(a.ny_16059_grouping));
+  return true;
+}
 export const NY_16059_REASON_COPY: Record<string, [string, string]> = {
+ '16058_components_missing': ["Check the entered CPL 160.58 order: count treatment-related convictions separately from additional earlier misdemeanors. A pending or denied application is not an entered order.", "Revise la orden concedida bajo CPL 160.58: cuente por separado las condenas relacionadas con el tratamiento y los delitos menores anteriores adicionales. Una solicitud pendiente o denegada no es una orden concedida."],
+ '16058_components_conflict': ["The order components do not agree with the CPL 160.58 treatment-conviction and additional-misdemeanor structure. Check the actual order with a legal reviewer.", "Los componentes de la orden no concuerdan con la estructura de condenas de tratamiento y delitos menores adicionales de CPL 160.58. Revise la orden real con un revisor legal."],
+ grouping_facts_missing: ["Check how the acts were connected in time, circumstances and criminal purpose, whether the only connection is a shared docket or sentence, and whether multiple victims were involved.", "Revise cómo se relacionaron los actos en tiempo, circunstancias y propósito delictivo, si la única conexión es un expediente o sentencia compartidos y si hubo varias víctimas."],
+ grouping_facts_conflict: ["The answers describe both a factual connection and only a shared docket or sentence. Check the underlying acts before asking for transaction review.", "Las respuestas describen tanto una conexión entre los hechos como únicamente un expediente o sentencia compartidos. Revise los actos antes de solicitar la revisión de la transacción."],
  history_missing: ["Check your complete criminal history, the convictions in this request, and any earlier sealing applications and orders. An old eligible-conviction count does not establish these separate facts.", "Revise todos sus antecedentes penales, las condenas de esta solicitud y las solicitudes y órdenes de sellado anteriores. El recuento anterior de condenas elegibles no establece estos hechos por separado."],
  history_conflict: ["The history, requested convictions, felony counts or earlier sealing orders do not agree. Check the records before continuing.", "Los antecedentes, las condenas solicitadas, los recuentos de delitos graves o las órdenes de sellado anteriores no concuerdan. Revise los expedientes antes de continuar."],
  history_limit: ["The complete criminal history exceeds this procedure's two-crime or one-felony limit. This includes convictions outside this sealing request.", "Los antecedentes penales completos superan el límite de dos delitos o un delito grave de este procedimiento. Esto incluye condenas fuera de esta solicitud de sellado."],
@@ -133,6 +166,114 @@ export const NY_16059_REASON_COPY: Record<string, [string, string]> = {
  clock_interpretation: ["The result depends on how incarceration already covered by the sentencing or release anchor is treated under CPL 160.59(5). A qualified legal reviewer must resolve that calculation before this request can proceed.", "El resultado depende de cómo se trate el encarcelamiento ya comprendido en la fecha inicial de sentencia o liberación bajo CPL 160.59(5). Un revisor legal calificado debe resolver ese cálculo antes de que esta solicitud pueda continuar."]
 };
 export const NY_16059_QUESTIONS: PublicQuestion[] = [
+{
+  "id": "ny_16059_16058_treatment_count",
+  "stage": "timing_and_completion",
+  "prompt": "How many treatment-related convictions did the entered CPL 160.58 order seal?",
+  "helperText": "Use the actual records. If the facts are unclear, choose I am not sure. These answers do not replace legal review.",
+  "type": "number_or_range",
+  "required": false,
+  "contextOnly": false,
+  "doesNotSelectPathway": true,
+  "options": null,
+  "lifecyclePhase": "prepay_timing_gate",
+  "translations": {
+    "es": {
+      "prompt": "¿Cuántas condenas relacionadas con el tratamiento selló la orden concedida bajo CPL 160.58?",
+      "helperText": "Use los registros reales. Si los hechos no están claros, elija No estoy seguro. Estas respuestas no reemplazan la revisión legal."
+    }
+  }
+},
+{
+  "id": "ny_16059_16058_additional_count",
+  "stage": "timing_and_completion",
+  "prompt": "How many additional earlier eligible misdemeanors did that order seal, apart from the treatment convictions?",
+  "helperText": "Use the actual records. If the facts are unclear, choose I am not sure. These answers do not replace legal review.",
+  "type": "number_or_range",
+  "required": false,
+  "contextOnly": false,
+  "doesNotSelectPathway": true,
+  "options": null,
+  "lifecyclePhase": "prepay_timing_gate",
+  "translations": {
+    "es": {
+      "prompt": "¿Cuántos delitos menores elegibles anteriores adicionales selló esa orden, aparte de las condenas del tratamiento?",
+      "helperText": "Use los registros reales. Si los hechos no están claros, elija No estoy seguro. Estas respuestas no reemplazan la revisión legal."
+    }
+  }
+},
+{
+  "id": "ny_16059_transaction_time_circumstance",
+  "stage": "timing_and_completion",
+  "prompt": "Were the acts closely connected in both time and circumstances as one criminal incident?",
+  "helperText": "Use the actual records. If the facts are unclear, choose I am not sure. These answers do not replace legal review.",
+  "type": "yes_no_unsure",
+  "required": false,
+  "contextOnly": false,
+  "doesNotSelectPathway": true,
+  "options": null,
+  "lifecyclePhase": "prepay_timing_gate",
+  "translations": {
+    "es": {
+      "prompt": "¿Estuvieron los actos estrechamente relacionados en tiempo y circunstancias como un solo incidente delictivo?",
+      "helperText": "Use los registros reales. Si los hechos no están claros, elija No estoy seguro. Estas respuestas no reemplazan la revisión legal."
+    }
+  }
+},
+{
+  "id": "ny_16059_transaction_integral_purpose",
+  "stage": "timing_and_completion",
+  "prompt": "Were the acts integral parts of one criminal venture with a closely connected purpose or objective?",
+  "helperText": "Use the actual records. If the facts are unclear, choose I am not sure. These answers do not replace legal review.",
+  "type": "yes_no_unsure",
+  "required": false,
+  "contextOnly": false,
+  "doesNotSelectPathway": true,
+  "options": null,
+  "lifecyclePhase": "prepay_timing_gate",
+  "translations": {
+    "es": {
+      "prompt": "¿Fueron los actos partes integrales de una sola actividad delictiva con un propósito u objetivo estrechamente relacionado?",
+      "helperText": "Use los registros reales. Si los hechos no están claros, elija No estoy seguro. Estas respuestas no reemplazan la revisión legal."
+    }
+  }
+},
+{
+  "id": "ny_16059_transaction_shared_docket_only",
+  "stage": "timing_and_completion",
+  "prompt": "Is the only connection a shared case number, date, court or sentence, rather than the acts themselves?",
+  "helperText": "Use the actual records. If the facts are unclear, choose I am not sure. These answers do not replace legal review.",
+  "type": "yes_no_unsure",
+  "required": false,
+  "contextOnly": false,
+  "doesNotSelectPathway": true,
+  "options": null,
+  "lifecyclePhase": "prepay_timing_gate",
+  "translations": {
+    "es": {
+      "prompt": "¿Es la única conexión un número de caso, fecha, tribunal o sentencia compartidos, en lugar de los actos mismos?",
+      "helperText": "Use los registros reales. Si los hechos no están claros, elija No estoy seguro. Estas respuestas no reemplazan la revisión legal."
+    }
+  }
+},
+{
+  "id": "ny_16059_transaction_multiple_victims",
+  "stage": "timing_and_completion",
+  "prompt": "Did the acts cause death, injury, loss or other consequences to more than one victim?",
+  "helperText": "Use the actual records. If the facts are unclear, choose I am not sure. These answers do not replace legal review.",
+  "type": "yes_no_unsure",
+  "required": false,
+  "contextOnly": false,
+  "doesNotSelectPathway": true,
+  "options": null,
+  "lifecyclePhase": "prepay_timing_gate",
+  "translations": {
+    "es": {
+      "prompt": "¿Causaron los actos muerte, lesiones, pérdidas u otras consecuencias a más de una víctima?",
+      "helperText": "Use los registros reales. Si los hechos no están claros, elija No estoy seguro. Estas respuestas no reemplazan la revisión legal."
+    }
+  }
+},
   {
     "id": "ny_16059_request",
     "stage": "timing_and_completion",
@@ -441,6 +582,8 @@ export const NY_16059_QUESTIONS: PublicQuestion[] = [
     "doesNotSelectPathway": true,
     "options": [
       "none",
+      "denied",
+      "pending",
       "granted",
       "unknown"
     ],
@@ -452,6 +595,8 @@ export const NY_16059_QUESTIONS: PublicQuestion[] = [
       }
     },
     "optionDisplay": {
+      "denied": { "label": "Denied or withdrawn; no entered order", "translations": { "es": { "label": "Denegada o retirada; no hay orden concedida" } } },
+      "pending": { "label": "Pending; no entered order", "translations": { "es": { "label": "Pendiente; no hay orden concedida" } } },
       "none": {
         "label": "No granted order (including denied or pending applications)",
         "translations": {

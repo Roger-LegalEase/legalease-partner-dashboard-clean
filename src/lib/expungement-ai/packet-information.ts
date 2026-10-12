@@ -1,3 +1,5 @@
+import { ny16059CustodyRemovalAvailable } from "@/lib/expungement-ai/ny-custody-correction";
+import { NY_16059_FACT_IDS, NY_16059_ROUTE, ny16059QuestionApplies, ny16059History } from "@/lib/rcap-engine/new-york-16059-facts";
 import { CA_PROP64_QUESTIONS, CA_PROP64_COMPLETED, isCaProp64Pathway, caProp64Choice } from "@/lib/expungement-ai/ca-prop64-choices";
 import { caProp64RecordQuestions } from "@/lib/expungement-ai/ca-prop64-record-facts";
 import { caProp64RecordAnswerState, CA_PROP64_RECORD_FACT_IDS } from "@/lib/expungement-ai/ca-prop64-record-answer";
@@ -386,6 +388,7 @@ export function packetInformationPatch(input: {
   answers: Record<string, AnswerValue>;
   verify?: boolean;
   useContactComponents?: boolean;
+  clearInactiveCustodyFacts?: boolean;
   confirmRecordFacts?: string[];
   /** Server-authenticated owner's email, only after an explicit client adoption request. Never client profile data. */
   accountEmailSource?: string;
@@ -408,8 +411,12 @@ export function packetInformationPatch(input: {
         && !(question && sameKnownQuestionAnswer(question, current.initialAnswers[id], answer));
     })
   );
-  const storedIds = new Set(current.requiredInputIds.filter((id) => !(id in current.serverFacts)));
+  const storedIds = new Set([...current.requiredInputIds.filter((id) => !(id in current.serverFacts)), ...ny16059CorrectionIds(current, true),
+    ...(current.stateCode === "NY" && current.pathwayId === NY_16059_ROUTE ? Object.keys(current.packetAnswers) : [])]);
   const savedAnswers = { ...answerRecordForIds(current.packetAnswers, storedIds), ...answerDelta };
+  const clearCustody = input.clearInactiveCustodyFacts === true;
+  if (clearCustody && (!ny16059CustodyRemovalAvailable(current.stateCode, current.pathwayId, current.initialAnswers)
+    || Object.keys(answerDelta).length || input.verify === true)) return null;
   const contactChoice = input.useContactComponents === true;
   const confirmations = input.confirmRecordFacts ?? [];
   const accountEmail = input.accountEmailSource === undefined ? null : packetAccountEmailSuggestion(current, input.accountEmailSource);
@@ -418,7 +425,7 @@ export function packetInformationPatch(input: {
   if (confirmations.some((id) => !current.recordClarificationIds?.includes(id)
     || !answerValueIsKnown({ ...current.initialAnswers, ...answerDelta }[id])
     || questionAnswerState(current.questions.find((question) => question.id === id)!, { ...current.initialAnswers, ...answerDelta }[id]) !== "known_valid")) return null;
-  const materialFactChange = Object.keys(answerDelta).length > 0 || contactChoice || confirmations.length > 0 || accountEmail !== null;
+  const materialFactChange = clearCustody || Object.keys(answerDelta).length > 0 || contactChoice || confirmations.length > 0 || accountEmail !== null;
   const priorSnapshot = protectedAuthoritySnapshotFor(priorProtected)!;
   const legacy = protectedLegacyAnswerProjection(priorSnapshot);
   const freshSensitiveMaps = refreshedSensitiveFactMaps(priorSnapshot.jurisdiction, priorSnapshot.pathwayId, priorSnapshot.requiredInputIds,
@@ -464,7 +471,7 @@ export function packetInformationPatch(input: {
   const now = new Date().toISOString();
   const nextDraft = !materialFactChange && !derivedRepairRequired && canonicalEqual(priorSnapshot.packetPlan, current.packetPlan) && priorProtected.draftSnapshot
     ? priorProtected.draftSnapshot
-    : deriveProtectedPacketDraftSnapshot(priorProtected, savedAnswers, now, contactChoice, [...new Set([...Object.keys(answerDelta), ...confirmations])], new Set(Object.keys(answerDelta)));
+    : deriveProtectedPacketDraftSnapshot(priorProtected, savedAnswers, now, contactChoice, [...new Set([...Object.keys(answerDelta), ...confirmations])], new Set(Object.keys(answerDelta)), clearCustody);
   if (!nextDraft) return null;
   if (accountEmail) {
     nextDraft.dependencies = { ...nextDraft.dependencies, accountContactSources: { email_address: {
@@ -787,6 +794,15 @@ export function caProp64ClarificationPatch(input: {
   };
 }
 
+/** A held result may require new factual details; this never grants readiness. */
+export function ny16059HeldDetailSuccessor(snapshot: ProtectedPacketAuthoritySnapshot, authoritative: NonNullable<ReturnType<typeof evaluateProtectedPacketFacts>>): boolean {
+  const evaluation = authoritative.evaluation;
+  return snapshot.jurisdiction === "NY" && snapshot.pathwayId === NY_16059_ROUTE
+    && snapshot.resultCode === "needs_review" && evaluation.resultCode === "needs_more_info"
+    && !snapshot.paymentAllowed && !evaluation.paymentAllowed && !snapshot.packetPlan && !evaluation.packetPlan
+    && ["16058_components_missing", "grouping_facts_missing"].includes(ny16059History(toScreeningAnswers(answerRecord({ ...snapshot.screeningAnswers, ...snapshot.prefilledAnswers, ...snapshot.packetAnswers }))).code ?? "");
+}
+
 export function protectedPacketInformationModelFor(
   verification: ProtectedPacketVerificationRecord
 ): ProtectedPacketInformationModel | null {
@@ -802,6 +818,11 @@ export function protectedPacketInformationModelFor(
   const contractSuccessor = !canonicalEqual(evaluation.packetPlan ?? null, snapshot.packetPlan)
     ? reviewedPacketContractSuccessor(snapshot, evaluation.packetPlan) : null;
   if (contractSuccessor) snapshot = contractSuccessor;
+  if (!protectedRouteAuthorityMatches(snapshot, authoritative) && ny16059HeldDetailSuccessor(snapshot, authoritative)) {
+    // Newly required details may tighten an old held result. Keep all protected
+    // maps and dependencies; this read grants no readiness or verification.
+    snapshot = { ...snapshot, resultCode: evaluation.resultCode };
+  }
   if (!protectedRouteAuthorityMatches(snapshot, authoritative)) return null;
   const packetPlan = readPacketPlan(snapshot.packetPlan);
   if (packetPlan && packetPlan.pathwayId !== snapshot.pathwayId) return null;
@@ -977,6 +998,17 @@ export function packetCollectionFor(input: {
 }
 
 /** Edit links and direct saves share collection ownership; later/external facts stay in their actual stage. */
+/** Eligibility corrections are distinct from document-required fields. They use
+ * the existing protected revision/hash transition and never change the plan. */
+function ny16059CorrectionIds(model: { stateCode: string; pathwayId: string | null; screeningAnswers: Record<string, AnswerValue>; prefilledAnswers: Record<string, AnswerValue>; packetAnswers: Record<string, AnswerValue> }, includeInactive = false): string[] {
+  if (model.stateCode !== "NY" || model.pathwayId !== NY_16059_ROUTE) return [];
+  const answers = toScreeningAnswers({ ...model.screeningAnswers, ...model.prefilledAnswers, ...model.packetAnswers });
+  return [...NY_16059_FACT_IDS.filter(id => id !== "ny_16059_request"), "ny_16059_later_conviction_entered", "ny_16059_undisposed_arrest", "ny_16059_pending_charge", "ny_16059_sex_offender_registration"]
+    .filter(id => includeInactive || ny16059QuestionApplies(answers, id)
+      && (id !== "release_date" || answers.ny_16059_sentence_incarceration === "Yes")
+      && (id !== "ny_16059_incarceration_periods" || answers.ny_16059_incarceration_history === "released"));
+}
+
 export function editablePacketInputIds(model: Pick<ProtectedPacketInformationModel, "stateCode" | "pathwayId" | "requiredInputIds" | "serverFacts" | "screeningAnswers" | "prefilledAnswers" | "packetAnswers" | "recordOwnQuestionIds" | "questions">, includeInactive = false): Set<string> {
   const collection = packetCollectionFor({ jurisdiction: model.stateCode, pathwayId: model.pathwayId, requiredInputIds: model.requiredInputIds,
     serverFacts: model.serverFacts, screeningAnswers: model.screeningAnswers, prefilledAnswers: model.prefilledAnswers, savedAnswers: model.packetAnswers, recordOwnQuestionIds: model.recordOwnQuestionIds,
@@ -984,13 +1016,13 @@ export function editablePacketInputIds(model: Pick<ProtectedPacketInformationMod
   const excluded = new Set(collection?.facts.filter((fact) => fact.source === "server_route_fact"
     || ["external_actor", "derived"].includes(fact.collection)
     || !includeInactive && fact.collection === "conditional" && fact.active === false).map((fact) => fact.factId) ?? []);
-  return new Set(model.requiredInputIds.filter((id) => !(id in model.serverFacts) && !excluded.has(id)));
+  return new Set([...model.requiredInputIds.filter((id) => !(id in model.serverFacts) && !excluded.has(id)), ...ny16059CorrectionIds(model, includeInactive)]);
 }
 
 /** Reused completion answers leave intake, but retain their existing correction control. */
 export function reviewEditablePacketInputIds(model: Parameters<typeof editablePacketInputIds>[0]
   & Pick<ProtectedPacketInformationModel, "builderQuestions" | "questions">): Set<string> {
-  const reviewIds = new Set(model.builderQuestions.map((question) => question.id));
+  const reviewIds = new Set([...model.builderQuestions.map((question) => question.id), ...ny16059CorrectionIds(model)]);
   const allowed = editablePacketInputIds(model);
   const questionIds = new Set(model.questions.map((question) => question.id));
   for (const contract of courtCompletionContractsFor(`${model.stateCode}:${model.pathwayId ?? ""}`)) {
@@ -1013,6 +1045,16 @@ export function heldCourtCompletionInputIds(model: Parameters<typeof editablePac
     const state = questionAnswerState(question, value);
     if (state === "uncertain" || isRecord(value) && value.unknown === true
       || state === "known_valid" && isNegative(answerTextRaw(value))) ids.add(id);
+  }
+  return ids;
+}
+
+/** Preserve the existing completion correction, and keep NY factual corrections
+ * reachable after a saved edit puts the route into review or exclusion. */
+export function heldPacketCorrectionInputIds(model: Parameters<typeof heldCourtCompletionInputIds>[0], resultCode: string | null): Set<string> {
+  const ids = heldCourtCompletionInputIds(model, resultCode);
+  if (["not_yet", "needs_more_info", "needs_review", "likely_not_eligible"].includes(resultCode ?? "")) {
+    for (const id of ny16059CorrectionIds(model)) ids.add(id);
   }
   return ids;
 }
@@ -1206,6 +1248,11 @@ function protectedPacketQuestionSurface(
       }
     }
   }
+  const correctionIds = ny16059CorrectionIds({ stateCode: profile.jurisdiction.code, pathwayId, screeningAnswers, prefilledAnswers, packetAnswers: savedAnswers });
+  for (const id of correctionIds) {
+    const question = questionById.get(id);
+    if (question && !questions.some(q => q.id === id)) questions.push({ ...question, required: false, contextOnly: false });
+  }
   // Which of these the builder actually asks, and in what grouping, is the
   // collection policy's decision. A fact leaves the builder only by ceasing to
   // be the participant's to answer, and a fact that could not be carried
@@ -1346,7 +1393,8 @@ function deriveProtectedPacketDraftSnapshot(
   capturedAt: string,
   useContactComponents = false,
   confirmRecordFacts: string[] = [],
-  explicitChangedIds: ReadonlySet<string> = new Set()
+  explicitChangedIds: ReadonlySet<string> = new Set(),
+  clearInactiveCustodyFacts = false
 ): ProtectedPacketDraftSnapshot | null {
   let base = protectedAuthoritySnapshotFor(verification);
   if (!base) return null;
@@ -1355,6 +1403,23 @@ function deriveProtectedPacketDraftSnapshot(
   if (!canonicalEqual(currentAuthority.evaluation.packetPlan ?? null, base.packetPlan)) {
     base = reviewedPacketContractSuccessor(base, currentAuthority.evaluation.packetPlan);
     if (!base) return null;
+  }
+  if (clearInactiveCustodyFacts) {
+    const history = [...(base.dependencies.semanticAnswerHistory ?? [])];
+    base = { ...base, screeningAnswers: { ...base.screeningAnswers }, prefilledAnswers: { ...base.prefilledAnswers }, packetAnswers: { ...base.packetAnswers } };
+    packetAnswers = { ...packetAnswers };
+    for (const factId of ["release_date", "ny_16059_incarceration_periods"]) {
+      for (const source of ["screeningAnswers", "prefilledAnswers", "packetAnswers"] as const) {
+        if (!Object.prototype.hasOwnProperty.call(base[source], factId)) continue;
+        const entry = { factId, value: base[source][factId], source, meaning: "ny_16059_custody_entered_in_error" as const,
+          routeKey: `${base.jurisdiction}:${base.pathwayId}`, profileVersion: base.profileVersion,
+          profileSourceFingerprint: base.profileSourceFingerprint, profileAuthorityFingerprint: base.profileAuthorityFingerprint };
+        if (!history.some(old => canonicalEqual(old, entry))) history.push(entry);
+        delete base[source][factId];
+      }
+      delete packetAnswers[factId];
+    }
+    base.dependencies = { ...base.dependencies, semanticAnswerHistory: history };
   }
   if (isCaProp64Pathway(base.jurisdiction, base.pathwayId)) {
     const before = { ...base.screeningAnswers, ...base.prefilledAnswers, ...base.packetAnswers };

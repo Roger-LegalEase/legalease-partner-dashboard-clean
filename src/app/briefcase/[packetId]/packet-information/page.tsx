@@ -4,7 +4,7 @@ import { packetDisplayCopy } from "@/lib/expungement-ai/packet-display-copy";
 import { LocalizedCopy, LocalizedRuntimeText } from "@/components/expungement-ai/LocalizationProvider";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { editablePacketInputIds, heldCourtCompletionInputIds, packetAccountEmailSuggestion, caProp64ClarificationModelFor } from "@/lib/expungement-ai/packet-information";
+import { editablePacketInputIds, heldPacketCorrectionInputIds, packetAccountEmailSuggestion, caProp64ClarificationModelFor } from "@/lib/expungement-ai/packet-information";
 
 import { BriefcaseShell } from "@/components/expungement-ai/BriefcaseShell";
 import { MatterStatusBadge } from "@/components/expungement-ai/BriefcaseViews";
@@ -35,7 +35,7 @@ export default async function PacketInformationPage({
     && (item?.resultCode === "packet_ready" || item?.resultCode === "packet_ready_with_caution");
   const correctionIds = item?.authorityStatus === "protected_draft" && item.paymentState !== "unavailable"
     && item.jurisdiction && item.packetDraft.status === "available"
-    ? heldCourtCompletionInputIds({ ...item.packetDraft, stateCode: item.jurisdiction, pathwayId: item.pathwayId }, item.resultCode) : new Set<string>();
+    ? heldPacketCorrectionInputIds({ ...item.packetDraft, stateCode: item.jurisdiction, pathwayId: item.pathwayId }, item.resultCode) : new Set<string>();
   const correctingCompletion = !packetResult && correctionIds.size > 0;
   const model = (packetResult || correctingCompletion) && item?.paymentState !== "unavailable" && item?.packetDraft.status === "available"
     ? item.packetDraft
@@ -91,7 +91,7 @@ export default async function PacketInformationPage({
             <div>
               <p className="text-xs font-bold uppercase tracking-[0.08em] text-[#08786F]">{item.jurisdiction}</p>
               <h1 className="mt-2 text-[26px] font-extrabold tracking-[-0.02em] text-[#0B1320]">{correctingCompletion
-                ? <LocalizedCopy en="Review saved completion answers" es="Revise las respuestas guardadas sobre el cumplimiento" />
+                ? <LocalizedCopy en={item.jurisdiction === "NY" ? "Review saved eligibility answers" : "Review saved completion answers"} es={item.jurisdiction === "NY" ? "Revise las respuestas guardadas sobre la elegibilidad" : "Revise las respuestas guardadas sobre el cumplimiento"} />
                 : <LocalizedRuntimeText text={"Complete packet information"} />}</h1>
               {item.pathwayLabel ? <p className="mt-2 text-sm font-semibold text-[#475A6E]"><LocalizedCopy {...packetDisplayCopy("route_label", item.jurisdiction, item.pathwayId, item.pathwayLabel)} /></p> : null}
             </div>
@@ -109,7 +109,16 @@ export default async function PacketInformationPage({
             {!correctingCompletion ? <p className="mt-2"><LocalizedRuntimeText text={"Complete the remaining details for this packet. Review what's already here, add anything that is missing, and save your progress anytime."} /></p> : null}
           </div>
 
+          {correctingCompletion && item.jurisdiction === "NY" ? <nav className="mb-6 grid gap-2" aria-labelledby="eligibility-correction-heading">
+            <p id="eligibility-correction-heading" className="font-semibold"><LocalizedCopy en="Choose an answer to correct" es="Elija una respuesta para corregir" /></p>
+            {model.questions.filter(question => correctionIds.has(question.id)).map(question => <Link
+              key={question.id} className="inline-flex min-h-11 items-center underline"
+              href={`/briefcase/${encodeURIComponent(item.id)}/packet-information?edit=${encodeURIComponent(question.id)}`}>
+              <LocalizedRuntimeText text={question.prompt} />
+            </Link>)}
+          </nav> : null}
           <PacketInformationBuilder
+            key={`${item.id}:${editId ?? "all"}`}
             itemId={item.id}
             stateCode={item.jurisdiction}
             questions={displayedQuestions}

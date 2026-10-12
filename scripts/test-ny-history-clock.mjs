@@ -47,12 +47,12 @@ run('two-requested',{ny_16059_history_total:2,ny_16059_requested_total:2},'packe
 run('single-act-eligible-group',{ny_16059_history_total:3,ny_16059_requested_total:3,ny_16059_grouping:'single_act'},'packet_ready_with_caution');
 run('single-act-two-felonies',{case_outcome:'Felony conviction',offense_level:'Felony',ny_16059_history_total:2,ny_16059_history_felonies:2,ny_16059_requested_total:2,ny_16059_requested_felonies:2,ny_16059_grouping:'single_act'},'packet_ready_with_caution');
 run('same-act-ineligible-not-grouped',{ny_16059_history_total:3,ny_16059_requested_total:3,ny_16059_grouping:'single_act',ny_16059_requested_excluded:'Yes'},'needs_review');
-for(const grouping of ['connected','other_groups'])run(`grouping-${grouping}`,{ny_16059_grouping:grouping},'needs_review');
+for(const grouping of ['connected','other_groups'])run(`grouping-${grouping}`,{ny_16059_grouping:grouping,ny_16059_transaction_time_circumstance:'Yes',ny_16059_transaction_integral_purpose:'No',ny_16059_transaction_shared_docket_only:'No',ny_16059_transaction_multiple_victims:'No'},'needs_review');
 for(const status of ['none','denied','pending','mixed'])run(`application-${status}`,{ny_16059_application_status:status},'packet_ready_with_caution');
 run('one-prior-order-remaining',{ny_16059_history_total:2,ny_16059_granted_total:1,ny_16059_application_status:'granted',ny_16059_prior_sealing:'Yes'},'packet_ready_with_caution');
 run('prior-felony-misdemeanor-request',{ny_16059_history_total:2,ny_16059_history_felonies:1,ny_16059_granted_total:1,ny_16059_granted_felonies:1,ny_16059_application_status:'granted'},'packet_ready_with_caution');
 run('exhausted',{ny_16059_history_total:3,ny_16059_granted_total:2,ny_16059_application_status:'granted'},'likely_not_eligible');
-run('16058-grant-needs-order-review',{ny_16059_16058_grants:'granted'},'needs_review');
+run('16058-grant-needs-order-review',{ny_16059_16058_grants:'granted',ny_16059_16058_treatment_count:1,ny_16059_16058_additional_count:0},'needs_review');
 for(const patch of [{ny_16059_requested_total:0},{ny_16059_requested_total:2},{ny_16059_requested_felonies:1},{ny_16059_granted_total:1},{ny_16059_application_status:'granted'},{case_outcome:'Felony conviction',offense_level:'Felony'}])run(`contradiction-${JSON.stringify(patch)}`,patch,'needs_review');
 for(const id of ['ny_16059_history_total','ny_16059_history_felonies','ny_16059_requested_total','ny_16059_requested_felonies','ny_16059_granted_total','ny_16059_granted_felonies'])for(const value of [undefined,-1,0.5,'I am not sure','not a count',''])run(`count-${id}-${value}`,{[id]:value},'needs_more_info');
 for(const id of ['ny_16059_grouping','ny_16059_application_status','ny_16059_16058_grants'])for(const value of [undefined,'unknown'])run(`missing-${id}-${value}`,{[id]:value},'needs_more_info');
