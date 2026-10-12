@@ -163,6 +163,8 @@ export type GuideDocumentDetail = {
   documentId: string;
   copies: string | null;
   instruction: GuideField;
+  /** Guide display only; bind the translation to the actual court title. */
+  titleTranslation?: { sourceTitle: string; textEs: string };
 };
 
 export type SupplementalGuide = {

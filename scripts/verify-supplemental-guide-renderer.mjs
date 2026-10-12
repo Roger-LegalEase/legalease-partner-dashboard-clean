@@ -19,6 +19,7 @@
  *     none of its own.
  */
 import { register } from "node:module";
+import { MS_NONCONVICTION_PACKET_ANSWERS } from "./lib/rcap-ms-nonconviction-fixture.mjs";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
@@ -171,7 +172,18 @@ function recordedFixtureMatter(routeKey) {
     } catch { /* a malformed fixture is not this control's subject */ }
   }
   const delivery = candidates.find((fixture) => fixture.generationPurpose === "participant_delivery");
-  return delivery ?? candidates[0] ?? null;
+  const selected = delivery ?? candidates[0] ?? null;
+  if (selected && routeKey === "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal"
+    && selected.facts.ms_charged_trafficking_distribution_manufacture === undefined) {
+    // The historical specimen predates the charged-conduct clarification.
+    // Extend this synthetic test with the independently stated current fixture
+    // fact; never infer it from the old survivor/victimhood trafficking_status.
+    // The recorded fixture and all of its identifier/channel facts stay intact.
+    return { ...selected, facts: { ...selected.facts,
+      ms_charged_trafficking_distribution_manufacture: MS_NONCONVICTION_PACKET_ANSWERS.ms_charged_trafficking_distribution_manufacture
+    } };
+  }
+  return selected;
 }
 
 for (const guide of guides) {
@@ -407,6 +419,19 @@ for (const guide of guides) {
   const anySpanish = [...(guide.overview ?? []), ...(guide.nextSteps ?? []),
     ...(guide.filingChecklist ?? []), ...(guide.feesAndCosts ?? [])].every((entry) => entry.textEs?.trim());
   const stopsEs = guide.stopConditionsEs ?? {};
+  const translatedDetail = guide.documentDetails?.find(detail => detail.titleTranslation
+    && documents.some(document => document.documentId === detail.documentId));
+  if (translatedDetail) {
+    for (const fault of ["sourceTitle", "textEs"]) {
+      const changed = structuredClone(guide);
+      const detail = changed.documentDetails.find(detail => detail.documentId === translatedDetail.documentId);
+      detail.titleTranslation[fault] = fault === "textEs" ? "" : "UNREVIEWED COURT TITLE";
+      let failed = false;
+      try { await renderSupplementalGuidePdf(changed, { variant: "full", locale: "es", stops, documents, matter, stopsEs }); }
+      catch (error) { failed = /Spanish document title/.test(error.message); }
+      check(failed, `${where}: a ${fault} mutation cannot use the bound Spanish document title`);
+    }
+  }
   let refused = null;
   let spanishPdf = null;
   try {

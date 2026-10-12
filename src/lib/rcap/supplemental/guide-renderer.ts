@@ -614,8 +614,14 @@ function drawFilingChecklist(sheet: Sheet, guide: SupplementalGuide, options: Gu
       [w.colDocument, w.colSigned, w.colCopies, w.colAttach],
       documents.map((document) => {
         const detail = details.get(document.documentId);
+        const translatedTitle = detail?.titleTranslation;
+        if (sheet.locale === "es" && translatedTitle
+          && (translatedTitle.sourceTitle !== document.title || !translatedTitle.textEs.trim())) {
+          throw new SupplementalGuideRenderError(guide.routeKey,
+            `the Spanish document title for ${document.documentId} does not match the current court-facing title`);
+        }
         return [
-          document.title,
+          sheet.locale === "es" && translatedTitle ? translatedTitle.textEs : document.title,
           "[   ]",
           detail?.copies ?? "-",
           fieldText(sheet, detail?.instruction ?? null, guide.routeKey, `the filing instruction for ${document.documentId}`)

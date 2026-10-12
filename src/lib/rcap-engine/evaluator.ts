@@ -1012,15 +1012,18 @@ function nyCpl16059SafetyGate(profile: EngineProfile, answers: Record<string, Sc
   if (profile.jurisdiction.code !== "NY" || pathway.id !== "discretionary-conviction-sealing-by-petition-under-cpl-160-59") return undefined;
   const jurisdiction = profile.jurisdiction.code;
   const totalConvictions = numericAnswer(answers.ny_16059_total_eligible_convictions ?? answers.eligible_conviction_count);
-  if (totalConvictions === undefined) {
+  if (totalConvictions === undefined || !Number.isInteger(totalConvictions) || totalConvictions < 1) {
     return reason(jurisdiction, "ny_16059_numerosity_missing", "NY CPL 160.59 requires the total eligible conviction count before a packet decision.", pathway.sourceRef);
   }
   if (totalConvictions > 2) {
     return reason(jurisdiction, "ny_16059_numerosity_not_eligible", "NY CPL 160.59 is limited to no more than two eligible convictions.", pathway.sourceRef);
   }
   const felonyConvictions = numericAnswer(answers.ny_16059_felony_convictions);
-  if (felonyConvictions === undefined) {
+  if (felonyConvictions === undefined || !Number.isInteger(felonyConvictions) || felonyConvictions < 0) {
     return reason(jurisdiction, "ny_16059_felony_count_missing", "NY CPL 160.59 requires the felony conviction count before a packet decision.", pathway.sourceRef);
+  }
+  if (felonyConvictions > totalConvictions) {
+    return reason(jurisdiction, "ny_16059_counts_inconsistent", "The felony count exceeds the total conviction count. Check the case records before continuing.", pathway.sourceRef);
   }
   if (felonyConvictions > 1) {
     return reason(jurisdiction, "ny_16059_felony_count_not_eligible", "NY CPL 160.59 is limited to no more than one felony conviction.", pathway.sourceRef);
@@ -1037,11 +1040,20 @@ function nyCpl16059SafetyGate(profile: EngineProfile, answers: Record<string, Sc
   if (isAffirmative(answers.ny_16059_pending_charge)) {
     return reason(jurisdiction, "ny_16059_pending_charge_not_eligible", "NY CPL 160.59 does not open while a criminal charge is pending.", pathway.sourceRef);
   }
-  if (isAffirmative(answers.ny_16059_post_last_conviction_crime) || isAffirmative(answers.new_convictions_during_waiting_period)) {
-    return reason(jurisdiction, "ny_16059_post_last_conviction_crime_not_eligible", "NY CPL 160.59 requires no crime after the last conviction before the packet decision.", pathway.sourceRef);
+  if (isAffirmative(answers.new_convictions_during_waiting_period)) {
+    return reason(jurisdiction, "ny_16059_post_last_conviction_crime_not_eligible", "NY CPL 160.59 bars a later criminal conviction after the last conviction for which sealing is requested.", pathway.sourceRef);
+  }
+  // The legacy question asked about any "crime", not a later conviction
+  // under CPL 160.59(3)(f). Preserve that answer without inventing an
+  // adjudication. A pending arrest/charge is a distinct statutory predicate.
+  if (isAffirmative(answers.ny_16059_post_last_conviction_crime)) {
+    return reason(jurisdiction, "ny_16059_later_conviction_unconfirmed", "The earlier answer does not establish whether there was a later conviction. Check the disposition and date of the later case before deciding this sealing request.", pathway.sourceRef);
   }
   if (isAffirmative(answers.ny_16059_prior_sealing)) {
-    return reason(jurisdiction, "ny_16059_prior_sealing_cap_not_eligible", "NY CPL 160.59 prior-sealing caps must be clear before a packet decision.", pathway.sourceRef);
+    // Sections (3)(b)-(c) require the maximum allowed under the identified
+    // sealing law. The legacy combined "cap or order" answer proves neither
+    // the governing section nor the number of convictions previously sealed.
+    return reason(jurisdiction, "ny_16059_prior_sealing_scope_unconfirmed", "A prior sealing order alone does not establish the statutory limit. Check which sealing law the order uses and which convictions it sealed before deciding this request.", pathway.sourceRef);
   }
   for (const id of ["ny_16059_pending_charge", "ny_16059_post_last_conviction_crime", "ny_16059_prior_sealing"]) {
     if (!answerText(answers[id]).trim() || isExplicitUnknownAnswer(answers[id])) {
