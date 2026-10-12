@@ -107,12 +107,18 @@ let defaultPaymentRead = async () => ({ valid: false, reason: "default_payment_n
 let defaultEvaluate = () => { throw new Error("default_evaluator_not_configured"); };
 
 const adapter = loadTsWithMocks("src/lib/expungement-ai/briefcase-presentation-authority.ts", {
+  "@/lib/expungement-ai/packet-contract-successors": { reviewedPacketContractSuccessor: () => null },
   "@/lib/partners/onboarding/program-packet-funding": { getProgramPacketFunding: async()=>"unavailable" },
   "server-only": {},
   "@/components/expungement-ai/screening/answers": { toScreeningAnswers: (answers) => answers },
   "@/lib/expungement-ai/authoritative-screening-result": { evaluateAuthoritativeScreeningResult: (...args) => defaultEvaluate(...args) },
   "@/lib/expungement-ai/consumer-payment-authority": { consumerPacketPaymentAuthority: (...args) => defaultPaymentRead(...args) },
   "@/lib/expungement-ai/packet-information": {
+    protectedPacketScreeningAnswers: (snapshot) => ({
+      ...snapshot.screeningAnswers,
+      ...snapshot.prefilledAnswers,
+      ...snapshot.packetAnswers
+    }),
     protectedPacketDraftSeedFromAuthoritative: ({ screeningAnswers, capturedAt }) => ({
       hash: "e".repeat(64),
       snapshot: {
@@ -142,6 +148,7 @@ const adapter = loadTsWithMocks("src/lib/expungement-ai/briefcase-presentation-a
         serverFacts: { jurisdiction: "PA", pathway_id: protectedAuthority.pathwayId },
         requiredInputIds: ["case_outcome"],
         missingInputIds: [],
+        pendingDerivations: [],
         questions: [],
         builderQuestions: [],
         verificationSummary: [],
@@ -565,6 +572,7 @@ durableSourceRow.source_linkage_sha256 = digest({
 });
 let protectedSourceRow = durableSourceRow;
 const sourceAdapter = loadTsWithMocks("src/lib/expungement-ai/briefcase-presentation-authority.ts", {
+  "@/lib/expungement-ai/packet-contract-successors": { reviewedPacketContractSuccessor: () => null },
   "@/lib/partners/onboarding/program-packet-funding": { getProgramPacketFunding: async()=>"unavailable" },
   "server-only": {},
   "@/components/expungement-ai/screening/answers": { toScreeningAnswers: (answers) => answers },

@@ -1295,7 +1295,8 @@ function participantMapArguments(maps: ParticipantFactMaps): [Record<string, Ans
   return [maps.screeningAnswers, maps.prefilledAnswers, maps.packetAnswers];
 }
 
-function evaluateProtectedPacketFacts(snapshot: ProtectedPacketAuthoritySnapshot) {
+/** Reuse the protected answer interpretation when presenting a saved matter. */
+export function protectedPacketScreeningAnswers(snapshot: ProtectedPacketAuthoritySnapshot) {
   const profile = getProfileByJurisdiction(snapshot.jurisdiction);
   if (!profile || profile.profileVersion !== snapshot.profileVersion) return null;
   const projected = protectedLegacyAnswerProjection(snapshot).maps;
@@ -1310,6 +1311,12 @@ function evaluateProtectedPacketFacts(snapshot: ProtectedPacketAuthoritySnapshot
       }
     }
   }
+  return answers;
+}
+
+function evaluateProtectedPacketFacts(snapshot: ProtectedPacketAuthoritySnapshot) {
+  const answers = protectedPacketScreeningAnswers(snapshot);
+  if (!answers) return null;
   try {
     return evaluateAuthoritativeScreeningResult({
       jurisdiction: snapshot.jurisdiction,

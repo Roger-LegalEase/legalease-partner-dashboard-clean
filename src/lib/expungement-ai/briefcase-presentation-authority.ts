@@ -26,10 +26,10 @@ import { getSupabaseAdminClient } from "@/lib/supabase/server";
 import type { ScreeningAnswerValue } from "@/lib/rcap-engine/contracts";
 import { InvalidAnswerError } from "@/lib/rcap-engine/evaluator";
 import type { AnswerValue } from "@/lib/expungement-ai/frontend/contracts";
-import { toScreeningAnswers } from "@/components/expungement-ai/screening/answers";
 import {
   protectedPacketInformationModelFor,
   protectedPacketDraftSeedFromAuthoritative,
+  protectedPacketScreeningAnswers,
   type ProtectedPacketInformationModel
 } from "@/lib/expungement-ai/packet-information";
 
@@ -571,11 +571,12 @@ function legalAuthorityFromEvaluation(
 }
 
 function evaluateProtectedPresentationSnapshot(
-  snapshot: Parameters<typeof screeningAnswersForProtectedSnapshot>[0] & { jurisdiction: string; profileVersion: string },
+  snapshot: Parameters<typeof protectedPacketScreeningAnswers>[0],
   matterId: string,
   evaluate: BriefcasePresentationDependencies["evaluateAuthoritative"]
 ): AuthoritativeEvaluation | null {
-  const answers = screeningAnswersForProtectedSnapshot(snapshot);
+  const answers = protectedPacketScreeningAnswers(snapshot);
+  if (!answers) return null;
   try {
     return evaluate({ jurisdiction: snapshot.jurisdiction, profileVersion: snapshot.profileVersion, matterId, answers });
   } catch (error) {
@@ -587,18 +588,6 @@ function evaluateProtectedPresentationSnapshot(
       return null;
     }
   }
-}
-
-function screeningAnswersForProtectedSnapshot(snapshot: {
-  screeningAnswers: Record<string, unknown>;
-  prefilledAnswers: Record<string, unknown>;
-  packetAnswers: Record<string, unknown>;
-}): Record<string, ScreeningAnswerValue> {
-  return toScreeningAnswers({
-    ...snapshot.screeningAnswers,
-    ...snapshot.prefilledAnswers,
-    ...snapshot.packetAnswers
-  } as Record<string, AnswerValue>);
 }
 
 function evaluationPacketProgress(
