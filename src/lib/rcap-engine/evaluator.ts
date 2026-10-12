@@ -262,6 +262,13 @@ function evaluateAgainstProfile(profile: EngineProfile, request: ScreeningEvalua
       paymentAllowed: false
     });
   }
+  const activeProgramReferral = preselectedPathway ? activeProgramReferralReason(profile, answers, preselectedPathway) : undefined;
+  if (preselectedPathway && activeProgramReferral) {
+    return result(profile, request, "needs_review", [activeProgramReferral], {
+      pathwayId: preselectedPathway.id,
+      paymentAllowed: false
+    });
+  }
   const preProductGuidance = preselectedPathway ? productGuidanceReason(profile, answers, preselectedPathway) : undefined;
   if (preselectedPathway && preProductGuidance) {
     const plan = packetPlanForPathway(profile, preselectedPathway.id);
@@ -1649,6 +1656,26 @@ function missingProductFactIds(profile: EngineProfile, answers: Record<string, S
   if (!answerText(answers.wi_expungement_ordered_at_sentencing).trim()) missing.push("wi_expungement_ordered_at_sentencing");
   if (!answerText(answers.wi_no_probation_jail_prison).trim()) missing.push("wi_no_probation_jail_prison");
   return missing;
+}
+
+function activeProgramReferralReason(profile: EngineProfile, answers: Record<string, ScreeningAnswerValue>, pathway: CompiledPathway): ScreeningReason | undefined {
+  const jurisdiction = profile.jurisdiction.code;
+  const legalContract = legalRouteContract(jurisdiction, pathway.id);
+  // LD-MS-01 keeps active-case admission separate from post-completion
+  // expungement. Only the fact-selected route and its exact compiled guidance
+  // rule can take this branch; an optional remedy label cannot authorize it.
+  const programRoute = jurisdiction === "MS" ? mississippiProgramRouteFromAnswers(answers) : null;
+  if (programRoute?.status === "selected" && programRoute.pathwayId === pathway.id
+    && answers.ms_program_record_status === "active"
+    && legalContract?.outcomeMode === "referral" && legalContract.stage === "active_case_admission"
+    && profile.orderedDecisionRules?.some(rule => rule.when?.backendPathwayId === pathway.id
+      && rule.sourceRef === "legal-authority:LD-MS-01"
+      && rule.stage === "pathway_routing"
+      && rule.then?.suggestedResultCode === "guidance_only"
+      && rule.then?.frontendAction === "save_state_guidance_no_checkout")) {
+    return reason(jurisdiction, "active_program_admission_referral", "This case is still in the program or admission stage. Discuss the active case with your lawyer or the program office. Admission is discretionary; this result does not establish admission eligibility, successful completion, dismissal, or expungement. No expungement packet opens at this stage.", "legal-authority:LD-MS-01");
+  }
+  return undefined;
 }
 
 function productGuidanceReason(profile: EngineProfile, answers: Record<string, ScreeningAnswerValue>, pathway: CompiledPathway): ScreeningReason | undefined {

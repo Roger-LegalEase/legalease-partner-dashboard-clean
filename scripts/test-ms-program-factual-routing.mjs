@@ -24,11 +24,28 @@ const cases = [
 ];
 let checked = 0;
 const outcomes = [];
+// The existing legal contract calls active-case admission an attorney referral.
+// Its compiled guidance rule must not become a packet or a completion clock.
+for (const [ms_program_order, stage, pathwayId] of cases.filter(row => row[1] === 'active')) {
+  const answers = { ...facts, ms_program_order, ms_program_record_status: stage,
+    court_requirements_completed: 'no', sentence_completion_date: 'No', pending_cases: 'Yes' };
+  const actual = evaluate(answers);
+  assert.equal(actual.resultCode, 'needs_review');
+  assert.equal(actual.pathwayId, pathwayId);
+  assert.equal(actual.paymentAllowed, false);
+  assert.ok(actual.reasons.some(r => r.code === 'ms.active_program_admission_referral'));
+  checked++;
+}
 try {
   for (const [ms_program_order, ms_program_record_status, pathwayId] of cases) {
     const answers = { ...facts, ms_program_order, ms_program_record_status };
     const expected = evaluate(answers);
     assert.equal(expected.pathwayId, pathwayId);
+    if (ms_program_record_status === 'active') {
+      assert.equal(expected.resultCode, 'needs_review');
+      assert.equal(expected.paymentAllowed, false);
+      assert.ok(expected.reasons.some(r => r.code === 'ms.active_program_admission_referral'));
+    }
     const expectedQuestions = selectScreeningQuestionIds(profile, projectPublicProfile(profile), answers);
     assert.ok(expectedQuestions.includes('ms_program_order'));
     assert.ok(expectedQuestions.includes('ms_program_record_status'));
@@ -47,6 +64,23 @@ try {
 } finally {
   profile.pathways = originalPathways;
   profile.orderedDecisionRules = originalRules;
+}
+for (const [ms_program_order, stage, pathwayId] of cases.filter(row => row[1] === 'active')) {
+  const answers = { ...facts, ms_program_order, ms_program_record_status: stage };
+  for (const mutation of ['source', 'action', 'missing']) {
+    try {
+      profile.orderedDecisionRules = originalRules.flatMap(rule => {
+        if (rule.when?.backendPathwayId !== pathwayId) return [rule];
+        if (mutation === 'missing') return [];
+        return [{ ...rule, ...(mutation === 'source' ? { sourceRef: 'unverified-source' }
+          : { then: { ...rule.then, frontendAction: 'unverified-action' } }) }];
+      });
+      const result = evaluate(answers);
+      assert.equal(result.paymentAllowed, false);
+      assert.ok(!result.reasons.some(r => r.code === 'ms.active_program_admission_referral'));
+      checked++;
+    } finally { profile.orderedDecisionRules = originalRules; }
+  }
 }
 for (const ms_program_order of ['99-15-26', '99-15-101', '41-29-150']) {
   for (const ms_program_record_status of [undefined, 'completed_without_closure', 'revoked_or_unsuccessful', 'other_or_unknown']) {
