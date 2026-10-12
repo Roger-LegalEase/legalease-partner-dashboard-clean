@@ -124,6 +124,11 @@ function packetSubheading(stateName: string, evaluation: ScreeningEvaluation, ro
 }
 
 function packetWhyText(stateName: string, evaluation: ScreeningEvaluation, routeLabel: string) {
+  // This family includes both conditional dismissal and a conviction set aside.
+  // Its route name cannot establish a particular person's final disposition.
+  if (evaluation.pathwayId === "probation-or-specialty-court-dismissal-set-aside-sealing" && evaluation.jurisdiction === "NV") {
+    return "Nevada uses record sealing, not expungement.";
+  }
   if (isNonConvictionPathway(evaluation)) {
     return `Your answers match a ${routeLabel} path for cases that did not end in a conviction.`;
   }
@@ -265,7 +270,7 @@ export function ScreeningResult({
         </Section>
       ) : null}
 
-      {evaluation.packetPlan ? <PacketPlanSummary plan={evaluation.packetPlan} routeLabel={routeLabel} packetAvailable={packetAvailable} /> : null}
+      {evaluation.packetPlan && evaluation.resultCode !== "guidance_only" ? <PacketPlanSummary plan={evaluation.packetPlan} routeLabel={routeLabel} packetAvailable={packetAvailable} /> : null}
 
       {showPacketAction && !hasScreeningSession ? (
         <div className="mt-6 rounded-xl border border-[#E7F7F4] bg-[#F4FBFA] px-4 py-3">
