@@ -70,6 +70,9 @@ export function selectScreeningQuestionIds(
   const seen = new Set<string>();
 
   return publicProfile.questions
+    .filter(question => profile.jurisdiction.code !== "MS" || question.id !== "ms_program_final_disposition"
+      || (["99-15-26", "99-15-101", "41-29-150"].includes(String(answers.ms_program_order))
+        && ["completed_and_closed", "completed_without_closure"].includes(String(answers.ms_program_record_status))))
     .filter(question => kansasRecordScopeQuestionApplies(profile.jurisdiction.code, answers, question.id))
     .filter(question => georgiaFirstOffenderQuestionApplies(profile.jurisdiction.code, answers, question.id))
     .filter(question => illinoisCannabisQuestionApplies(profile.jurisdiction.code, answers, question.id))

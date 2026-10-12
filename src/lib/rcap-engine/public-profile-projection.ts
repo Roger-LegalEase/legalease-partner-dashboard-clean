@@ -61,6 +61,7 @@ const STATE_SPECIFIC_PREPAY_WILMA_FACT_IDS: Record<string, Set<string>> = {
   MS: new Set([
     "ms_program_order",
     "ms_program_record_status",
+    "ms_program_final_disposition",
     "disposition_date",
     "arrest_date",
     "ms_last_conviction_date_any_court",
@@ -916,6 +917,25 @@ const MISSISSIPPI_CORRECTION_FACT_QUESTIONS: PublicQuestion[] = [
     translations: { es: {
       prompt: "¿Qué indica el expediente sobre el programa y el cierre del caso?",
       helperText: "Consulte el expediente. Cumplir tareas es diferente de una orden judicial que desestima o cierra el caso. Para el descargo condicional, confirme tanto el descargo como la desestimación."
+    } }
+  },
+  {
+    id: "ms_program_final_disposition", stage: "pathway_routing", type: "single_choice",
+    prompt: "After completing the program, what does this case's final court record show?",
+    helperText: "Copy the actual disposition, not the program's expected result. Discharge and dismissal are separate events. If there is no recorded disposition, say so; do not treat that as a dismissal.",
+    required: false, contextOnly: false, doesNotSelectPathway: false, lifecyclePhase: "prepay_route_splitter",
+    options: ["dismissed_and_closed", "charges_dropped", "no_disposition", "discharged_and_dismissed", "discharged_only", "other_or_unknown"],
+    optionDisplay: {
+      dismissed_and_closed: { label: "The case was dismissed and closed", translations: { es: { label: "El caso fue desestimado y cerrado" } } },
+      charges_dropped: { label: "The charges were dropped", translations: { es: { label: "Se retiraron los cargos" } } },
+      no_disposition: { label: "There is no disposition recorded", translations: { es: { label: "No hay una resolución registrada" } } },
+      discharged_and_dismissed: { label: "Both conditional discharge and dismissal were entered", translations: { es: { label: "Se dictaron tanto el descargo condicional como la desestimación" } } },
+      discharged_only: { label: "A discharge was entered, but no dismissal", translations: { es: { label: "Se dictó un descargo, pero no una desestimación" } } },
+      other_or_unknown: { label: "Another result or I am not sure", translations: { es: { label: "Otro resultado o no estoy seguro" } } }
+    },
+    translations: { es: {
+      prompt: "Después de completar el programa, ¿qué indica el expediente judicial final de este caso?",
+      helperText: "Copie la resolución real, no el resultado esperado del programa. El descargo y la desestimación son actos distintos. Si no hay una resolución registrada, indíquelo; no lo trate como una desestimación."
     } }
   },
   {

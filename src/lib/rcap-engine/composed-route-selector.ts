@@ -86,7 +86,23 @@ export function mississippiProgramRouteFromAnswers(answers: Record<string, unkno
     return { status: "clarification", missingQuestionIds: ["case_outcome", "ms_program_record_status"] };
   }
   if (stage === "active") return { status: "selected", pathwayId: routes[program][0] };
+  const finalDisposition = answers.ms_program_final_disposition;
+  if (finalDisposition !== undefined) {
+    const expected = program === "99-15-26" ? ["dismissed_and_closed"]
+      : program === "99-15-101" ? ["dismissed_and_closed", "charges_dropped", "no_disposition"]
+        : ["discharged_and_dismissed"];
+    if (!expected.includes(String(finalDisposition))) {
+      return { status: "clarification", missingQuestionIds: ["ms_program_final_disposition"] };
+    }
+  }
   if (stage === "completed_and_closed") return { status: "selected", pathwayId: routes[program][1] };
+  // Section99-15-123(3) includes no disposition after completion. That is
+  // distinct from a missing required dismissal under99-15-26 or41-29-150.
+  // A generic "no closure" answer cannot establish which event occurred.
+  if (program === "99-15-101" && stage === "completed_without_closure"
+    && (finalDisposition === "no_disposition" || finalDisposition === "charges_dropped")) {
+    return { status: "selected", pathwayId: routes[program][1] };
+  }
   return { status: "clarification", missingQuestionIds: ["ms_program_record_status"] };
 }
 
