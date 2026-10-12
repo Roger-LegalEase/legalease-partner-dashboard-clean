@@ -1,5 +1,6 @@
 import { caProp64RecordQuestions } from "@/lib/expungement-ai/ca-prop64-record-facts";
 import { mississippiProgramRouteFromAnswers } from "@/lib/rcap-engine/composed-route-selector";
+import { nevada176AQuestionApplies } from "@/lib/rcap-engine/nevada-176a-branch";
 import type {
   EngineProfile,
   PublicJurisdictionProfile,
@@ -63,6 +64,7 @@ export function selectScreeningQuestionIds(
   const seen = new Set<string>();
 
   return publicProfile.questions
+    .filter(question => nevada176AQuestionApplies(profile.jurisdiction.code, selectedPathway?.id, question.id))
     .map((question, index) => ({ question: recordQuestions.get(question.id) ?? question, index }))
     .filter(({ question }) => (!lifecycle?.exactPacketFactIds.includes(question.id) || recordQuestions.has(question.id))
       && !lifecycle?.completionAliasIds.includes(question.id))

@@ -10,6 +10,7 @@
  * question, ordered by its stage's position then by its original order within the profile.
  */
 import { caProp64RecordQuestion } from "@/lib/expungement-ai/ca-prop64-record-facts";
+import { NEVADA_176A_ROUTE_SAFETY_FACT_IDS } from "@/lib/rcap-engine/nevada-176a-branch";
 import type { AnswerValue, JurisdictionProfile, ProfileQuestion } from "@/lib/expungement-ai/frontend/contracts";
 
 const SOURCE_QUESTION_PREFIX = "source_question";
@@ -79,6 +80,11 @@ export function sanitizeAnswersForQuestionIds(
     !previouslyRendered.has(questionId) || stillSelected.has(questionId)
     // These are the same case record facts across CA branches, not branch-only answers.
     || Boolean(profile?.questions.some((question) => question.id === questionId && caProp64RecordQuestion(profile.jurisdiction.code, question)))
+    // NV charge and program-disposition facts still describe the same record
+    // when a sibling remedy is selected. Keep their independent raw answers;
+    // route-scoped evaluation decides whether they are currently relevant.
+    || Boolean(profile?.jurisdiction.code === "NV" && NEVADA_176A_ROUTE_SAFETY_FACT_IDS.includes(questionId)
+      && profile.questions.some(question => question.id === questionId))
   )));
 }
 
@@ -95,6 +101,7 @@ export function sanitizeResumedAnswersForQuestionIds(
   return sanitizeAnswersForQuestionIds(
     answers,
     deriveScreens(profile).map((question) => question.id),
-    selectedQuestionIds
+    selectedQuestionIds,
+    profile.jurisdiction.code === "NV" ? profile : undefined
   );
 }

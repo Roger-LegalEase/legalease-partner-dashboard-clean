@@ -21,6 +21,7 @@ import {
   NEVADA_176A_SUBSECTION_3_BARRED_TEXT,
   NEVADA_176A_SUBSECTION_3_UNRESOLVED_TEXT,
   NEVADA_176A_UNRESOLVED_BRANCH_TEXT,
+  nevada176AQuestionApplies,
   nevada176ABranch,
   nevada176ASubsection3
 } from "@/lib/rcap-engine/nevada-176a-branch";
@@ -180,7 +181,9 @@ function evaluateAgainstProfile(profile: EngineProfile, request: ScreeningEvalua
   if (hardStop) return result(profile, request, "hard_stop", [hardStop]);
 
   const publicProfile = projectPublicProfile(profile);
-  const missingQuestionIds = requiredMissingPublicQuestionIds(publicProfile, answers);
+  const preselectedPathway = selectPathway(profile, answers);
+  const missingQuestionIds = requiredMissingPublicQuestionIds(publicProfile, answers)
+    .filter(id => nevada176AQuestionApplies(jurisdiction, preselectedPathway?.id, id));
   if (missingQuestionIds.length > 0) {
     return result(profile, request, "needs_more_info", [reason(jurisdiction, "missing_required_facts", "Required public screening facts are missing.")], {
       missingQuestionIds
@@ -198,7 +201,6 @@ function evaluateAgainstProfile(profile: EngineProfile, request: ScreeningEvalua
     });
   }
 
-  const preselectedPathway = selectPathway(profile, answers);
   const programRoute = jurisdiction === "MS" ? mississippiProgramRouteFromAnswers(answers) : null;
   if (programRoute?.status === "clarification") {
     return result(profile, request, "needs_more_info", [reason(jurisdiction, "program_order_or_closure_missing", "We need the program named in the court order and whether the court has entered the required dismissal or closure. Completing program tasks alone does not establish that the case was closed.", "LD-MS-01")], {
@@ -678,6 +680,7 @@ function ambiguityReason(
   const legalFields = publicProfile.questions.filter((question) => question.contextOnly !== true && isPrepaymentQuestion(question));
   const relevant = relevantFactIds(profile, selectedPathway);
   const ambiguous = legalFields
+    .filter(question => nevada176AQuestionApplies(jurisdiction, selectedPathway?.id, question.id))
     .filter((question) => relevant.has(question.id))
     .find((question) => isExplicitUnknownAnswer(answers[question.id]));
   if (ambiguous) return reason(jurisdiction, "source_fact_unknown", `${ambiguous.id} is uncertain and requires source review.`);
