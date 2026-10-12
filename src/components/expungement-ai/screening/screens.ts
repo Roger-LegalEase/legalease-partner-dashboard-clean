@@ -1,3 +1,4 @@
+import { DE_CONVICTION_FACT_IDS } from "@/lib/rcap-engine/delaware-conviction-rules";
 import { MS_PROGRAM_COMPLETION_FACT_IDS } from "@/lib/rcap-engine/mississippi-program-completion";
 import { MS_CONDITIONAL_DISCHARGE_FACT_IDS } from "@/lib/rcap-engine/mississippi-conditional-discharge";
 import { KS_RECORD_SCOPE_FACT_IDS } from "@/lib/rcap-engine/kansas-record-scope";
@@ -94,6 +95,7 @@ export function sanitizeAnswersForQuestionIds(
       && profile.questions.some(question => question.id === questionId))
     || Boolean(profile?.jurisdiction.code === "NY" && ["ny_16059_post_last_conviction_crime", "ny_16059_later_conviction_entered", "ny_16059_undisposed_arrest"].includes(questionId)
       && profile.questions.some(question => question.id === questionId))
+    || Boolean(profile?.jurisdiction.code === "DE" && DE_CONVICTION_FACT_IDS.includes(questionId) && profile.questions.some(question => question.id === questionId))
     || Boolean(profile?.jurisdiction.code === "MS" && (questionId === "ms_program_final_disposition" || MS_PROGRAM_COMPLETION_FACT_IDS.some(id => id === questionId) || MS_CONDITIONAL_DISCHARGE_FACT_IDS.some(id => id === questionId))
       && profile.questions.some(question => question.id === questionId))
     || Boolean(profile?.jurisdiction.code === "KS" && KS_RECORD_SCOPE_FACT_IDS.some(id => id === questionId)
@@ -117,6 +119,6 @@ export function sanitizeResumedAnswersForQuestionIds(
     answers,
     deriveScreens(profile).map((question) => question.id),
     selectedQuestionIds,
-    ["NV", "GA", "IL", "KS", "MS"].includes(profile.jurisdiction.code) ? profile : undefined
+    ["NV", "GA", "IL", "KS", "MS", "DE"].includes(profile.jurisdiction.code) ? profile : undefined
   );
 }

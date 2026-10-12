@@ -1,3 +1,4 @@
+import { deConvictionQuestionApplies, delawareConvictionRoute } from "@/lib/rcap-engine/delaware-conviction-rules";
 import { msProgramCompletionQuestionApplies } from "@/lib/rcap-engine/mississippi-program-completion";
 import { msConditionalDischargeQuestionApplies } from "@/lib/rcap-engine/mississippi-conditional-discharge";
 import { kansasRecordScopeFromAnswers, kansasRecordScopeQuestionApplies } from "@/lib/rcap-engine/kansas-record-scope";
@@ -59,7 +60,8 @@ export function selectScreeningQuestionIds(
     : profile.jurisdiction.code === "GA" ? georgiaFirstOffenderFromAnswers(answers)
     : profile.jurisdiction.code === "IL" ? illinoisCannabisFromAnswers(answers)
     : profile.jurisdiction.code === "KS" ? kansasRecordScopeFromAnswers(answers) : null;
-  const selectedPathway = programRoute?.status === "selected"
+  const deRoute = profile.jurisdiction.code === "DE" ? delawareConvictionRoute(answers) : undefined;
+  const selectedPathway = deRoute ? profile.pathways.find(pathway => pathway.id === deRoute) : programRoute?.status === "selected"
     ? profile.pathways.find(pathway => pathway.id === programRoute.pathwayId)
     : (programRoute?.status === "clarification" || programRoute?.status === "district_arrest") ? undefined : selectedLabel
     ? profile.pathways.find((pathway) => pathway.label === selectedLabel)
@@ -76,6 +78,7 @@ export function selectScreeningQuestionIds(
     .filter(question => profile.jurisdiction.code !== "MS" || question.id !== "ms_program_final_disposition"
       || (["99-15-26", "99-15-101", "41-29-150"].includes(String(answers.ms_program_order))
         && ["completed_and_closed", "completed_without_closure"].includes(String(answers.ms_program_record_status))))
+    .filter(question => deConvictionQuestionApplies(profile.jurisdiction.code, answers, question.id))
     .filter(question => msProgramCompletionQuestionApplies(profile.jurisdiction.code, answers, question.id))
     .filter(question => msConditionalDischargeQuestionApplies(profile.jurisdiction.code, answers, question.id))
     .filter(question => kansasRecordScopeQuestionApplies(profile.jurisdiction.code, answers, question.id))

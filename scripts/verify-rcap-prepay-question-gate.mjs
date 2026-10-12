@@ -36,6 +36,9 @@ function answerFor(question, profile) {
   if (id === "offense_level") return "Misdemeanor";
   if (id === "possible_pathway_context") return question.options?.[0] ?? profile.pathways[0]?.label ?? "I am not sure";
   if (id === "state_exclusion_categories") return ["None of these"];
+  // These scoped DE questions have stable wire values, not the legacy label
+  // "None of these". Use explicit uncertainty; this is not an eligibility fixture.
+  if (profile.jurisdiction.code === "DE" && id.startsWith("de_") && question.type === "multi_select") return ["unknown"];
   if (/pending|new_convictions|sex_offender|ineligible|prior_sealing|identity_error|trafficking|pardon/.test(id)) return "No";
   if (/qualifying|lesser_or_no|special_preconditions|court_order|ordered_at_sentencing|no_probation|treatment_program|prosecutor_consent/.test(id)) return "Yes";
   if (/total_eligible_convictions|felony_convictions|count/.test(id)) return 1;

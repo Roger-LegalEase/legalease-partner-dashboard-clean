@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { DE_CONVICTION_BASE } from './lib/de-conviction-fixture.mjs';
 import fs from 'node:fs';
 import { register } from 'node:module';
 import { pathToFileURL } from 'node:url';
@@ -18,18 +19,18 @@ const p = getProfileByJurisdiction('DE');
 const route = p.pathways.find(p => p.id === 'discretionary-court-expungement-under-11-del-c-4374');
 const rule = { id: 'synthetic-anchor-isolation', sourceRef: '11-Del-C-4374(a)(1)-(4)', when: {}, then: {} };
 let checked = 0;
-// This tests anchor dependency only, not eligibility or the still-incomplete
-// 3/5/7-year tier selection. Both source dates are known independently here.
+// Preserve the original anchor assertions with explicit current qualifying
+// facts. Exact tier/exclusion boundaries live in test-de-conviction-predicates.
 for (const [case_outcome, offense_level] of process.argv.includes('--replay-only') ? [] : [['Misdemeanor conviction','Misdemeanor'],['Felony conviction','Felony']]) {
   for (const disposition_date of ['2026-10-11', '2000-01-01', 'I am not sure', undefined]) {
-    const facts = { case_outcome, offense_level, conviction_date: '2001-01-01', release_date: '2002-02-02', disposition_date };
+    const facts = { ...DE_CONVICTION_BASE, case_outcome, offense_level, de_case_scope: offense_level === 'Felony' ? 'one_felony' : 'one_misdemeanors', de_incarceration: 'released', conviction_date: '2001-01-01', release_date: '2002-02-02', disposition_date };
     assert.equal(specialRouteTiming(p, facts, rule, route).status, 'satisfied', 'A later unrelated disposition is not the statutory conviction/release anchor'); checked++;
     for (const latest of ['conviction_date','release_date']) {
       assert.equal(specialRouteTiming(p, { ...facts, [latest]: '2026-10-11' }, rule, route).status, 'not_yet'); checked++;
     }
   }
   // Generic disposition alone never establishes either statutory event.
-  const genericOnly = specialRouteTiming(p, { case_outcome, offense_level, disposition_date: '2000-01-01' }, rule, route);
+  const genericOnly = specialRouteTiming(p, { ...DE_CONVICTION_BASE, case_outcome, offense_level, de_case_scope: offense_level === 'Felony' ? 'one_felony' : 'one_misdemeanors', conviction_date: undefined, disposition_date: '2000-01-01' }, rule, route);
   assert.notEqual(genericOnly.status, 'satisfied'); checked++;
 }
 const witnesses = JSON.parse(fs.readFileSync('data/rcap-ledger/public-witness-answer-sets.json')).witnesses.filter(w => w.jurisdiction === 'DE');
@@ -53,4 +54,4 @@ if (!process.argv.includes('--replay-only')) {
     assert.ok(!r.reasons.some(r=>r.code==='de.de_4374_conviction_scope_unconfirmed')); checked++;
   }
 }
-console.log(JSON.stringify({status:process.argv.includes('--replay-only')?'REPLAY_ONLY':'PASS',checked,legacyActual:actual,scope:'Exact conviction/release date dependency and nonconviction-record guard. Historical broad witnesses are not positive legal acceptance. Exact tier, case-history, exclusions and broad resolved-bucket meaning remain open.'}));
+console.log(JSON.stringify({status:process.argv.includes('--replay-only')?'REPLAY_ONLY':'PASS',checked,legacyActual:actual,scope:'Exact conviction/release date dependency and nonconviction-record guard. Historical broad witnesses are not positive legal acceptance. Exact conviction tiers and exceptions are tested separately with current source facts.'}));

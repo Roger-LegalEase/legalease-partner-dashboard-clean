@@ -1,3 +1,4 @@
+import { deAdultConviction, delawareConvictionDecision, delawareConvictionRoute, DE_COURT, DE_SBI, DE_SOURCE, DE_REASON_TEXT } from "@/lib/rcap-engine/delaware-conviction-rules";
 import { MS_PROGRAM_COMPLETION_PATHWAYS, msProgramCompletionPredicates } from "@/lib/rcap-engine/mississippi-program-completion";
 import { MS_CONDITIONAL_DISCHARGE_PATHWAY, msConditionalDischargePredicates } from "@/lib/rcap-engine/mississippi-conditional-discharge";
 import { isIndependentPaidFinancialFact } from "@/lib/expungement-ai/court-completion-reuse";
@@ -196,7 +197,16 @@ function evaluateAgainstProfile(profile: EngineProfile, request: ScreeningEvalua
     });
   }
 
-  const exclusion = exclusionReason(profile, answers);
+  // Check exact DE adult-conviction predicates before automatic guidance or
+  // broad legacy categories can swallow a statutory exception or wrong tier.
+  const deDecision = jurisdiction === "DE" ? delawareConvictionDecision(answers, evaluationToday().toISOString().slice(0, 10)) : null;
+  if (deDecision && !["not_applicable", "satisfied"].includes(deDecision.status)) {
+    const code = deDecision.status === "missing" ? "needs_more_info" : deDecision.status === "excluded" ? "likely_not_eligible" : deDecision.status === "not_yet" ? "not_yet" : "needs_review";
+    return result(profile, request, code, [reason("DE", deDecision.code!, DE_REASON_TEXT[deDecision.code!], DE_SOURCE)], {
+      ...(preselectedPathway ? { pathwayId: preselectedPathway.id } : {}), missingQuestionIds: deDecision.ids ?? [], paymentAllowed: false
+    });
+  }
+  const exclusion = deDecision?.status === "satisfied" ? undefined : exclusionReason(profile, answers);
   if (exclusion) return result(profile, request, exclusion.code.endsWith("unknown") ? "needs_review" : "likely_not_eligible", [exclusion]);
 
   const unknownDateQuestionIds = requiredUnknownPublicDateQuestionIds(publicProfile, answers);
@@ -730,6 +740,10 @@ function isPrepaymentQuestion(question: PublicQuestion) {
 }
 
 function selectPathway(profile: EngineProfile, answers: Record<string, ScreeningAnswerValue>) {
+  if (profile.jurisdiction.code === "DE" && deAdultConviction(answers) && !isAffirmative(answers.pardon_status)) {
+    const id = delawareConvictionRoute(answers);
+    return profile.pathways.find(pathway => pathway.id === id);
+  }
   if (profile.jurisdiction.code === "KS") {
     const scope = kansasRecordScopeFromAnswers(answers);
     if (scope.status === "selected") return profile.pathways.find(pathway => pathway.id === scope.pathwayId);
@@ -981,6 +995,7 @@ function akCourtViewExclusionSafetyGate(profile: EngineProfile, answers: Record<
 function deSuperiorExpungementSafetyGate(profile: EngineProfile, answers: Record<string, ScreeningAnswerValue>, pathway: CompiledPathway): ScreeningReason | undefined {
   if (profile.jurisdiction.code !== "DE" || pathway.id !== "discretionary-court-expungement-under-11-del-c-4374") return undefined;
   const jurisdiction = profile.jurisdiction.code;
+  if (delawareConvictionRoute(answers) === DE_COURT && delawareConvictionDecision(answers, evaluationToday().toISOString().slice(0, 10)).status === "satisfied") return undefined;
   // Section4374(a) identifies conviction predicates. A mandatory-eligible
   // case may be included WITH a discretionary request under (d)(2), but the
   // broad dismissed/arrest/program answer alone does not establish that
@@ -1586,19 +1601,14 @@ function specialRouteTiming(profile: EngineProfile, answers: Record<string, Scre
   if (key === "AK:confidentiality-of-acquittals-and-dismissals-as-22-35-030-administrative-rule-40") {
     return timingFromExactAnchor(profile, answers, rule, pathway, "disposition_date", { value: 60, unit: "days", raw: "60 days" }, "Alaska CourtView exclusion (Form TF-810 · AS 22.35.030 / Admin. R. 40) is available 60 days after the acquittal or dismissal.");
   }
-  // ---- Delaware § 4374 discretionary court expungement ----
-  // The statutory anchor is conviction or release from incarceration, whichever
-  // is later; an independently recorded disposition is not either event.
-  // This corrects only the date dependency. The legacy tier resolver below
-  // still needs exact final-conviction, §4373(b) and case-history predicates
-  // for the separate 3/7/7/5-year branches in §4374(a)(1)-(4). Neither the
-  // broad exclusion answer nor charge level proves those predicates.
-  if (key === "DE:discretionary-court-expungement-under-11-del-c-4374") {
-    const level = `${answerText(answers.offense_level)} ${answerText(answers.case_outcome)} ${answerText(answers.charge)}`.toLowerCase();
-    if (/felony/.test(level)) {
-      return latestAnchorTiming(profile, answers, rule, pathway, ["conviction_date", "release_date"], { value: 7, unit: "years", raw: "7 years" }, "Delaware § 4374 discretionary expungement of a single nonviolent felony requires seven years from conviction or release (later of conviction and release).");
-    }
-    return latestAnchorTiming(profile, answers, rule, pathway, ["conviction_date", "release_date"], { value: 3, unit: "years", raw: "3 years" }, "Delaware § 4374 discretionary expungement of a single misdemeanor not listed in § 4373(b) requires three years from conviction or release from incarceration, whichever is later.");
+  // Delaware's exact mechanism, history and exclusions establish the tier.
+  // Preserve the conviction/release dependency; generic disposition/buckets
+  // are never substitutes for these independently named source anchors.
+  if (profile.jurisdiction.code === "DE" && [DE_COURT, DE_SBI].includes(pathway.id)) {
+    const de = delawareConvictionDecision(answers, evaluationToday().toISOString().slice(0, 10));
+    if (de.status === "satisfied") return { status: "satisfied" };
+    if (de.status === "missing") return { status: "missing_anchor", missingQuestionIds: de.ids ?? [], reason: reason("DE", de.code!, DE_REASON_TEXT[de.code!], DE_SOURCE) };
+    if (de.status !== "not_applicable") return { status: de.status === "not_yet" ? "not_yet" : "needs_review", reason: reason("DE", de.code!, DE_REASON_TEXT[de.code!], DE_SOURCE) };
   }
   // ---- Massachusetts § 100A CORI conviction sealing (legal signoff 2026-07-01) ----
   // M.G.L. c. 276 § 100A sealing runs three years (misdemeanor) or seven years (felony) from the later
@@ -2060,6 +2070,13 @@ const TIMING_BUCKET_WINDOWS: Record<string, TimingBucketWindow> = {
 function matchCompiledRuleRoute(profile: EngineProfile, publicProfile: PublicJurisdictionProfile, answers: Record<string, ScreeningAnswerValue>): RouteMatch {
   const jurisdiction = profile.jurisdiction.code;
   const selectedPathway = selectPathway(profile, answers);
+  // Complete DE factual predicates select the exact retained route rule;
+  // broad source prose and array ordering cannot select a different result.
+  if (jurisdiction === "DE" && selectedPathway && delawareConvictionRoute(answers) === selectedPathway.id
+    && delawareConvictionDecision(answers, evaluationToday().toISOString().slice(0, 10)).status === "satisfied") {
+    const exact = profile.orderedDecisionRules.find(rule => rule.id === `route-${selectedPathway.id}` && rule.when.backendPathwayId === selectedPathway.id);
+    if (exact) return { ok: true, deterministic: true, rule: exact, pathway: selectedPathway };
+  }
   const requestedPathwayContext = answerText(answers.possible_pathway_context).trim();
   if (requestedPathwayContext && !selectedPathway) {
     return {
@@ -2161,6 +2178,13 @@ function matchCompiledRuleRoute(profile: EngineProfile, publicProfile: PublicJur
 
 function evaluateCompiledTiming(profile: EngineProfile, answers: Record<string, ScreeningAnswerValue>, rule: CompiledRule, pathway: CompiledPathway): TimingResult {
   const jurisdiction = profile.jurisdiction.code;
+  // The DE decision has already checked current supervision, restitution,
+  // court relief and the precise pending/history statutory exceptions. Do not
+  // apply the older blanket Yes/No gates again and erase those exceptions.
+  if (jurisdiction === "DE" && delawareConvictionRoute(answers) === pathway.id) {
+    const exact = specialRouteTiming(profile, answers, rule, pathway);
+    if (exact) return exact;
+  }
   const courtRequirement = answerText(answers[COURT_REQUIREMENTS_FIELD_ID]);
   // CR-400 item 2a expressly covers a person still serving the sentence.
   // Only that exact, confirmed branch permits an unfinished sentence; every

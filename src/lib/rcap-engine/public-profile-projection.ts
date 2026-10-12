@@ -1,3 +1,4 @@
+import { DE_CONVICTION_FACT_IDS, DE_CONVICTION_QUESTIONS } from "@/lib/rcap-engine/delaware-conviction-rules";
 import { MS_PROGRAM_COMPLETION_FACT_IDS, MS_PROGRAM_COMPLETION_QUESTIONS } from "@/lib/rcap-engine/mississippi-program-completion";
 import { MS_CONDITIONAL_DISCHARGE_FACT_IDS, MS_CONDITIONAL_DISCHARGE_QUESTIONS } from "@/lib/rcap-engine/mississippi-conditional-discharge";
 import { KS_RECORD_SCOPE_FACT_IDS, KS_RECORD_SCOPE_QUESTIONS } from "@/lib/rcap-engine/kansas-record-scope";
@@ -47,6 +48,7 @@ const PREPAY_PHASES = new Set<QuestionLifecyclePhase>([
 ]);
 
 const STATE_SPECIFIC_PREPAY_WILMA_FACT_IDS: Record<string, Set<string>> = {
+  DE: new Set(DE_CONVICTION_FACT_IDS),
   KS: new Set(KS_RECORD_SCOPE_FACT_IDS),
   GA: new Set(GA_FIRST_OFFENDER_FACT_IDS),
   IL: new Set(IL_CANNABIS_FACT_IDS),
@@ -1055,7 +1057,9 @@ function withWilmaFactQuestions(
     ...PACKET_RELEASE_FACT_QUESTIONS.filter((question) => packetReleaseFactIds.has(question.id) && !existingIds.has(question.id))
       .map((question) => normalizePublicQuestion(question, profile.jurisdiction.code, "wilma", exactPacketFacts.has(question.id)))
   ];
-  const availableWilmaFactQuestions = profile.jurisdiction.code === "MS"
+  const availableWilmaFactQuestions = profile.jurisdiction.code === "DE"
+    ? [...WILMA_FACT_QUESTIONS.filter(question => !DE_CONVICTION_FACT_IDS.includes(question.id)), ...DE_CONVICTION_QUESTIONS]
+    : profile.jurisdiction.code === "MS"
     ? [...WILMA_FACT_QUESTIONS, ...MISSISSIPPI_CORRECTION_FACT_QUESTIONS, ...MS_CONDITIONAL_DISCHARGE_QUESTIONS, ...MS_PROGRAM_COMPLETION_QUESTIONS]
     : profile.jurisdiction.code === "GA" ? [...WILMA_FACT_QUESTIONS, ...GA_FIRST_OFFENDER_QUESTIONS]
     : profile.jurisdiction.code === "IL" ? [...WILMA_FACT_QUESTIONS, ...IL_CANNABIS_QUESTIONS]
@@ -1080,7 +1084,10 @@ function withWilmaFactQuestions(
       withBroadCourtRequirementsGate(dedupeQuestionsById([...baseQuestions, ...additions])),
       pathways
     );
-  const questions = withBroadTimingBucketGate(withAdditions);
+  const questions = withBroadTimingBucketGate(withAdditions).map(question => profile.jurisdiction.code === "DE" && DE_CONVICTION_FACT_IDS.includes(question.id)
+    ? DE_CONVICTION_QUESTIONS.find(fact => fact.id === question.id)!
+    : profile.jurisdiction.code === "DE" && question.id === "case_outcome"
+    ? { ...question, options: [...new Set([...(Array.isArray(question.options) ? question.options : []), "Misdemeanor conviction", "Felony conviction", "Other conviction or adjudication", "Juvenile adjudication or offense committed as a minor"])] } : question);
   return {
     ...profile,
     postPaymentPacketCompletion: postPaymentPacketCompletion(questions),
