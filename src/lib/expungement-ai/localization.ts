@@ -1169,7 +1169,10 @@ export function runtimeCopyKeyForText(text: string) {
   return EXACT_ENGLISH_INDEX.get(normalize(text)) ?? `runtime.${slugify(text).slice(0, 80)}`;
 }
 
-export function localizeProfileText(locale: Locale, text: string, meta: { state?: string; questionId?: string; part?: string }) {
+export function localizeProfileText(locale: Locale, text: string, meta: { state?: string; questionId?: string; part?: string; stage?: string }) {
+  // Packet copy is resolved from its route contract, including reviewed translations.
+  // A screening key for the same fact must not replace its document instructions.
+  if (meta.stage === "packet_information") return text;
   const key = `profile.${meta.state ?? "all"}.${meta.questionId ?? "unknown"}.${meta.part ?? "text"}`;
   return t(locale, key, text);
 }

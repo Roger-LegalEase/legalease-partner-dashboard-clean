@@ -70,12 +70,12 @@ export function QuestionField({
   const promptText =
     locale === "es" && question.translations?.es?.prompt
       ? question.translations.es.prompt
-      : localizeProfileText(locale, question.prompt, { state: stateCode, questionId: question.id, part: "prompt" });
+      : localizeProfileText(locale, question.prompt, { state: stateCode, questionId: question.id, part: "prompt", stage: question.stage });
   const helperText =
     locale === "es" && question.translations?.es?.helperText
       ? question.translations.es.helperText
       : question.helperText
-        ? localizeProfileText(locale, question.helperText, { state: stateCode, questionId: question.id, part: "helper" })
+        ? localizeProfileText(locale, question.helperText, { state: stateCode, questionId: question.id, part: "helper", stage: question.stage })
         : "";
 
   const heading = (
