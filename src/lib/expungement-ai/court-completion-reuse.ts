@@ -27,6 +27,16 @@ export function courtCompletionContractsFor(routeKey: string): CourtCompletionCo
   return catalog.contracts.filter(contract => contract.routeKey === routeKey);
 }
 
+/** Paid-only legacy facts stay independent. A broad completion Yes plus a
+ * paid No needs clarification; it cannot prove either payment or a legal
+ * exception. Exact route/question wording prevents a paid-or-satisfied field
+ * from being silently reinterpreted under this contract.
+ */
+export function isIndependentPaidFinancialFact(routeKey: string, question: { id: string; prompt: string; helperText?: string | null } | undefined): boolean {
+  return Boolean(question && catalog.independentPaidFactContracts.some(contract => contract.routeKey === routeKey
+    && contract.factId === question.id && contract.prompt === question.prompt && contract.helperText === question.helperText));
+}
+
 /**
  * The caller validates the protected row and exact current source contracts.
  * Markers remain inside that owner/matter's hashed CAS snapshot. They are never

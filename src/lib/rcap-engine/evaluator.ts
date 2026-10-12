@@ -1,3 +1,4 @@
+import { isIndependentPaidFinancialFact } from "@/lib/expungement-ai/court-completion-reuse";
 import { kansasRecordScopeFromAnswers } from "@/lib/rcap-engine/kansas-record-scope";
 import { caProp64Choice, CA_PROP64_CURRENT } from "@/lib/expungement-ai/ca-prop64-choices";
 import { caProp64RecordQuestions } from "@/lib/expungement-ai/ca-prop64-record-facts";
@@ -2091,10 +2092,19 @@ function evaluateCompiledTiming(profile: EngineProfile, answers: Record<string, 
   // exact candidate still reaches the source-contract review below, not payment.
   const cannabisNonfinancialComplete = cannabis?.status === "selected" && cannabis.branch === "conviction"
     && answers.il_cannabis_nonfinancial_complete === "yes";
-  if (courtRequirement === "no" || isNegative(answers.sentence_completion_date) && !currentProp64Sentence || isNegative(answers.financial_obligations) && !cannabisNonfinancialComplete || isAffirmative(answers.pending_cases) || isAffirmative(answers.new_convictions_during_waiting_period)) {
+  const unpaidFinancialAnswer = isNegative(answers.financial_obligations) && !cannabisNonfinancialComplete;
+  const paymentMeaningNeedsClarification = unpaidFinancialAnswer && courtRequirement === "yes"
+    && isIndependentPaidFinancialFact(routeKey(profile, pathway), profile.questions.find(question => question.id === "financial_obligations"));
+  if (courtRequirement === "no" || isNegative(answers.sentence_completion_date) && !currentProp64Sentence || unpaidFinancialAnswer && !paymentMeaningNeedsClarification || isAffirmative(answers.pending_cases) || isAffirmative(answers.new_convictions_during_waiting_period)) {
     return {
       status: "not_yet",
       reason: reason(jurisdiction, "timing_or_completion_blocker", "This may not be ready yet. Most record-clearing paths require court-ordered requirements to be completed first.", rule.sourceRef)
+    };
+  }
+  if (paymentMeaningNeedsClarification) {
+    return {
+      status: "needs_review",
+      reason: reason(jurisdiction, "payment_and_completion_meaning_unconfirmed", "You reported that court requirements are complete but that not all amounts were paid. Check whether any amount was waived, changed, converted to a civil judgment, or remains unpaid, including restitution. Keep the payment answer as recorded; completing requirements does not by itself prove payment or a legal exception.", rule.sourceRef)
     };
   }
   if (courtRequirement === "not_sure" || isExplicitUnknownAnswer(answers.sentence_completion_date) || isExplicitUnknownAnswer(answers.financial_obligations) && !cannabisNonfinancialComplete) {

@@ -154,11 +154,11 @@ export const PACKET_COLLECTION_SECTIONS: ReadonlyArray<{
   {
     id: "financial_obligations",
     heading: "Financial obligations",
-    description: "Whether the fines, fees, costs and restitution on this case are paid or waived.",
+    description: "Payments, remaining balances and any court orders changing financial requirements.",
     translations: {
       es: {
         heading: "Obligaciones económicas",
-        description: "Si las multas, cuotas, costos y restitución de este caso están pagados o exonerados."
+        description: "Pagos, saldos pendientes y cualquier orden judicial que modifique los requisitos económicos."
       }
     }
   },
