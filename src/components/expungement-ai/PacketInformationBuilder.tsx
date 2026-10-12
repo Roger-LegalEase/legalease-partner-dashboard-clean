@@ -264,7 +264,7 @@ export function PacketInformationBuilder({
       moveTo(steps.find((step) => step.questions.some((question) => result.missingInputIds.includes(question.id)))?.id ?? steps[0]?.id ?? "review");
       return;
     }
-    if (editingFromReview || !screen) { void navigate(result.reviewPath); return; }
+    if (editingFromReview || !screen) { void navigate(`${result.reviewPath}${editingFromReview ? "#packet-review-heading" : ""}`); return; }
     const currentScreens = screensFor(result.questions, result.sections);
     const destination = packetNavigationDestination(screens, currentScreens, screen.id, "next", latest.current);
     if (destination === "review" && result.caProp64Clarification) {
@@ -293,7 +293,7 @@ export function PacketInformationBuilder({
         moveTo(packetNavigationDestination(screens, active, screenId, "previous", latest.current));
       }
     }
-    else await leave(`/briefcase/${encodeURIComponent(itemId)}${editingFromReview ? "/review" : ""}`);
+    else await leave(`/briefcase/${encodeURIComponent(itemId)}${editingFromReview ? "/review#packet-review-heading" : ""}`);
   }
   const displayedAnswerState = (question: ProfileQuestion) => (question.id === "contact_information" && contactReconciliation || recordClarificationIds.includes(question.id)) ? "invalid" : questionAnswerState(question, answers[question.id]);
   const draftMissing = questions.filter((question) => question.required && displayedAnswerState(question) !== "known_valid").length;
