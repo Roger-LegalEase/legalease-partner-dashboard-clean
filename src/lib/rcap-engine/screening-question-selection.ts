@@ -71,6 +71,7 @@ export function selectScreeningQuestionIds(
   const seen = new Set<string>();
 
   return publicProfile.questions
+    .filter(question => profile.jurisdiction.code !== "NY" || question.id !== "ny_16059_post_last_conviction_crime")
     .filter(question => profile.jurisdiction.code !== "MS" || question.id !== "ms_program_final_disposition"
       || (["99-15-26", "99-15-101", "41-29-150"].includes(String(answers.ms_program_order))
         && ["completed_and_closed", "completed_without_closure"].includes(String(answers.ms_program_record_status))))

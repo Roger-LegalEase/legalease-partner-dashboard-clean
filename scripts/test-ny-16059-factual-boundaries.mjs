@@ -11,8 +11,8 @@ const base = { ...witness.finalAnswers, possible_pathway_context: pathway.label,
   case_outcome: 'Misdemeanor conviction', offense_level: 'Misdemeanor',
   ny_16059_total_eligible_convictions: 1, ny_16059_felony_convictions: 0,
   ny_16059_ineligible_offense: 'No', ny_16059_sex_offender_registration: 'No',
-  ny_16059_pending_charge: 'No', ny_16059_post_last_conviction_crime: 'No',
-  ny_16059_prior_sealing: 'No', new_convictions_during_waiting_period: 'No', resolved_timing_bucket: 'gt_10_years' };
+  ny_16059_pending_charge: 'No', ny_16059_undisposed_arrest: 'No', ny_16059_post_last_conviction_crime: 'No',
+  ny_16059_prior_sealing: 'No', ny_16059_later_conviction_entered: 'No', new_convictions_during_waiting_period: 'No', resolved_timing_bucket: 'gt_10_years' };
 const evaluate = change => evaluateScreening({ jurisdiction: 'NY', profileVersion: profile.profileVersion, matterId: 'synthetic-ny-boundary', answers: { ...base, ...change } });
 let checked = 0;
 // Preserve the accepted candidate outcome. This is evaluator scope only, not
@@ -26,7 +26,7 @@ for (const [id, code] of [
   ['ny_16059_prior_sealing', 'ny.ny_16059_prior_sealing_scope_unconfirmed'],
   ['ny_16059_post_last_conviction_crime', 'ny.ny_16059_later_conviction_unconfirmed']
 ]) {
-  const result = evaluate({ [id]: 'Yes' });
+  const result = evaluate({ [id]: 'Yes', ...(id === 'ny_16059_post_last_conviction_crime' ? { ny_16059_later_conviction_entered: undefined } : {}) });
   assert.equal(result.resultCode, 'needs_review');
   assert.equal(result.paymentAllowed, false);
   assert.ok(result.reasons.some(r => r.code === code)); checked++;
@@ -52,7 +52,7 @@ for (const change of [
   const result = evaluate(change);
   assert.equal(result.resultCode, 'likely_not_eligible'); assert.equal(result.paymentAllowed, false); checked++;
 }
-for (const id of ['ny_16059_prior_sealing', 'ny_16059_post_last_conviction_crime', 'ny_16059_ineligible_offense']) {
+for (const id of ['ny_16059_prior_sealing', 'ny_16059_later_conviction_entered', 'ny_16059_ineligible_offense']) {
   const result = evaluate({ [id]: 'I am not sure' });
   assert.equal(result.resultCode, 'needs_review'); assert.equal(result.paymentAllowed, false); checked++;
 }

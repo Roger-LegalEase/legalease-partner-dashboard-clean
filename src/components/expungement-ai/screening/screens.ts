@@ -91,6 +91,8 @@ export function sanitizeAnswersForQuestionIds(
       && profile.questions.some(question => question.id === questionId))
     || Boolean(profile?.jurisdiction.code === "GA" && GA_FIRST_OFFENDER_FACT_IDS.some(id => id === questionId)
       && profile.questions.some(question => question.id === questionId))
+    || Boolean(profile?.jurisdiction.code === "NY" && ["ny_16059_post_last_conviction_crime", "ny_16059_later_conviction_entered", "ny_16059_undisposed_arrest"].includes(questionId)
+      && profile.questions.some(question => question.id === questionId))
     || Boolean(profile?.jurisdiction.code === "MS" && (questionId === "ms_program_final_disposition" || MS_CONDITIONAL_DISCHARGE_FACT_IDS.some(id => id === questionId))
       && profile.questions.some(question => question.id === questionId))
     || Boolean(profile?.jurisdiction.code === "KS" && KS_RECORD_SCOPE_FACT_IDS.some(id => id === questionId)

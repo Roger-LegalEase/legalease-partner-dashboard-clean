@@ -79,7 +79,9 @@ const STATE_SPECIFIC_PREPAY_WILMA_FACT_IDS: Record<string, Set<string>> = {
     "ny_16059_ineligible_offense",
     "ny_16059_sex_offender_registration",
     "ny_16059_pending_charge",
+    "ny_16059_undisposed_arrest",
     "ny_16059_post_last_conviction_crime",
+    "ny_16059_later_conviction_entered",
     "ny_16059_prior_sealing",
     "ny_16058_treatment_program_completed"
   ]),
@@ -805,6 +807,17 @@ const WILMA_FACT_QUESTIONS: PublicQuestion[] = [
     options: null
   },
   {
+    id: "ny_16059_undisposed_arrest", stage: "timing_and_completion",
+    prompt: "Do you have an arrest that is still unresolved, even if no charge has been filed?",
+    helperText: "Check the current status of the arrest. This is separate from a pending charge and from probation or supervision after a resolved case. Choose I am not sure if you cannot confirm its status.",
+    type: "yes_no_unsure", required: false, contextOnly: false, doesNotSelectPathway: true,
+    lifecyclePhase: "prepay_route_splitter", options: null,
+    translations: { es: {
+      prompt: "¿Tiene algún arresto que siga sin resolverse, aunque no se haya presentado un cargo?",
+      helperText: "Consulte el estado actual del arresto. Esto es distinto de un cargo pendiente y de la libertad condicional o supervisión después de un caso resuelto. Elija No estoy seguro si no puede confirmar su estado."
+    } }
+  },
+  {
     id: "ny_16059_pending_charge",
     stage: "timing_and_completion",
     prompt: "For NY CPL 160.59, is any criminal charge currently pending?",
@@ -816,13 +829,24 @@ const WILMA_FACT_QUESTIONS: PublicQuestion[] = [
     options: null
   },
   {
+    id: "ny_16059_later_conviction_entered", stage: "timing_and_completion",
+    prompt: "After the judgment was entered for the most recent conviction you want sealed, were you convicted of another crime?",
+    helperText: "Compare the conviction dates in the court records, even if the conduct happened earlier. An arrest, accusation or pending charge alone is not a conviction. If you cannot confirm the later case's result, choose I am not sure.",
+    type: "yes_no_unsure", required: false, contextOnly: false, doesNotSelectPathway: true,
+    lifecyclePhase: "prepay_route_splitter", options: null,
+    translations: { es: {
+      prompt: "Después de que se dictó la sentencia de la condena más reciente que quiere sellar, ¿fue condenado por otro delito?",
+      helperText: "Compare las fechas de las condenas en los expedientes judiciales, incluso si la conducta ocurrió antes. Un arresto, una acusación o un cargo pendiente por sí solo no es una condena. Si no puede confirmar el resultado del caso posterior, elija No estoy seguro."
+    } }
+  },
+  {
     id: "ny_16059_post_last_conviction_crime",
     stage: "timing_and_completion",
     prompt: "For NY CPL 160.59, has there been any crime after the most recent conviction?",
     helperText: "fact collection only; if unsure, route to review before any packet decision",
     type: "yes_no_unsure",
     required: false,
-    contextOnly: false,
+    contextOnly: true,
     doesNotSelectPathway: true,
     options: null
   },
