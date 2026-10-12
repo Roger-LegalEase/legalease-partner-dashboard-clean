@@ -12,6 +12,7 @@
 import { caProp64RecordQuestion } from "@/lib/expungement-ai/ca-prop64-record-facts";
 import { NEVADA_176A_ROUTE_SAFETY_FACT_IDS } from "@/lib/rcap-engine/nevada-176a-branch";
 import { GA_FIRST_OFFENDER_FACT_IDS } from "@/lib/rcap-engine/georgia-first-offender";
+import { IL_CANNABIS_FACT_IDS } from "@/lib/rcap-engine/illinois-cannabis-facts";
 import type { AnswerValue, JurisdictionProfile, ProfileQuestion } from "@/lib/expungement-ai/frontend/contracts";
 
 const SOURCE_QUESTION_PREFIX = "source_question";
@@ -88,6 +89,8 @@ export function sanitizeAnswersForQuestionIds(
       && profile.questions.some(question => question.id === questionId))
     || Boolean(profile?.jurisdiction.code === "GA" && GA_FIRST_OFFENDER_FACT_IDS.some(id => id === questionId)
       && profile.questions.some(question => question.id === questionId))
+    || Boolean(profile?.jurisdiction.code === "IL" && IL_CANNABIS_FACT_IDS.some(id => id === questionId)
+      && profile.questions.some(question => question.id === questionId))
   )));
 }
 
@@ -105,6 +108,6 @@ export function sanitizeResumedAnswersForQuestionIds(
     answers,
     deriveScreens(profile).map((question) => question.id),
     selectedQuestionIds,
-    ["NV", "GA"].includes(profile.jurisdiction.code) ? profile : undefined
+    ["NV", "GA", "IL"].includes(profile.jurisdiction.code) ? profile : undefined
   );
 }

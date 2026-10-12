@@ -3,6 +3,7 @@ import { caProp64RecordQuestions } from "@/lib/expungement-ai/ca-prop64-record-f
 import { caProp64RecordAnswerState } from "@/lib/expungement-ai/ca-prop64-record-answer";
 import { mississippiProgramRouteFromAnswers } from "@/lib/rcap-engine/composed-route-selector";
 import { georgiaFirstOffenderFromAnswers } from "@/lib/rcap-engine/georgia-first-offender";
+import { illinoisCannabisFromAnswers, IL_CANNABIS_PATHWAY } from "@/lib/rcap-engine/illinois-cannabis-facts";
 import "server-only";
 
 import crypto from "node:crypto";
@@ -213,6 +214,13 @@ function evaluateAgainstProfile(profile: EngineProfile, request: ScreeningEvalua
   if (originalFirstOffender?.status === "clarification") {
     return result(profile, request, "needs_more_info", [reason(jurisdiction, "original_first_offender_facts_missing", "Check whether the original sentence imposed First Offender treatment, its current status, and the sentencing or discharge date requested. Completing a program or requesting retroactive treatment does not establish those facts.", "LD-GA-01; GA.memo:ga-fo-*; HB162:sections3-4")], {
       missingQuestionIds: originalFirstOffender.missingQuestionIds,
+      paymentAllowed: false
+    });
+  }
+  const cannabis = jurisdiction === "IL" ? illinoisCannabisFromAnswers(answers) : null;
+  if (cannabis?.status === "clarification") {
+    return result(profile, request, "needs_more_info", [reason(jurisdiction, "cannabis_record_facts_missing", "Check the cannabis statute, final case outcome and requested next step. A charge level or completed program alone does not establish a qualifying conviction; nonfinancial completion is separate from money paid.", "IL.memo:il-cannabis-auto,il-cannabis-vacate;20-ILCS-2630/5.2(i)")], {
+      missingQuestionIds: cannabis.missingQuestionIds,
       paymentAllowed: false
     });
   }
@@ -709,6 +717,11 @@ function isPrepaymentQuestion(question: PublicQuestion) {
 }
 
 function selectPathway(profile: EngineProfile, answers: Record<string, ScreeningAnswerValue>) {
+  if (profile.jurisdiction.code === "IL") {
+    const cannabis = illinoisCannabisFromAnswers(answers);
+    if (cannabis.status === "selected") return profile.pathways.find(pathway => pathway.id === cannabis.pathwayId);
+    if (cannabis.status === "clarification") return undefined;
+  }
   if (profile.jurisdiction.code === "GA") {
     const firstOffender = georgiaFirstOffenderFromAnswers(answers, evaluationToday().toISOString().slice(0, 10));
     if (firstOffender.status === "selected") return profile.pathways.find(pathway => pathway.id === firstOffender.pathwayId);
@@ -803,6 +816,15 @@ function routeIsAdministrativeApplicationPacket(profile: EngineProfile, pathway:
 }
 
 function routeSpecificSafetyGate(profile: EngineProfile, answers: Record<string, ScreeningAnswerValue>, pathway: CompiledPathway): ScreeningReason | undefined {
+  if (profile.jurisdiction.code === "IL" && pathway.id === IL_CANNABIS_PATHWAY) {
+    const cannabis = illinoisCannabisFromAnswers(answers);
+    if (cannabis.status === "selected" && cannabis.branch === "other_felony") {
+      return reason("IL", "cannabis_conviction_class_outside_motion", "The cannabis motion covers misdemeanor and Class 4 felony convictions. The class entered is outside that motion's scope. Review the final record and other available remedies; this is not a denial of every record-clearing option.", "20-ILCS-2630/5.2(i)(3);IL.memo:il-cannabis-vacate");
+    }
+    if (cannabis.status === "selected" && answers.il_cannabis_next_step === "status_check") {
+      return reason("IL", "cannabis_status_check_requires_record_review", "Checking whether this cannabis record was already cleared does not request a motion to set aside a conviction. Review the current criminal-history record and the applicable automatic or pardon process. This result does not confirm that expungement occurred or open a filing packet.", "IL.memo:il-cannabis-auto;20-ILCS-2630/5.2(i)");
+    }
+  }
   if (profile.jurisdiction.code === "GA") {
     const firstOffender = georgiaFirstOffenderFromAnswers(answers, evaluationToday().toISOString().slice(0, 10));
     if (firstOffender.status === "selected" && firstOffender.pathwayId === pathway.id && firstOffender.branch === "revoked") {
@@ -2034,13 +2056,19 @@ function evaluateCompiledTiming(profile: EngineProfile, answers: Record<string, 
     && caProp64Choice("ca_prop64_branch", answers.ca_prop64_branch) === "currently-serving petition"
     && isAffirmative(answers.ca_prop64_qualifying_marijuana_offense)
     && isAffirmative(answers.ca_prop64_lesser_or_no_offense);
-  if (courtRequirement === "no" || isNegative(answers.sentence_completion_date) && !currentProp64Sentence || isNegative(answers.financial_obligations) || isAffirmative(answers.pending_cases) || isAffirmative(answers.new_convictions_during_waiting_period)) {
+  const cannabis = jurisdiction === "IL" && pathway.id === IL_CANNABIS_PATHWAY ? illinoisCannabisFromAnswers(answers) : null;
+  // §5.2(i)(3) and the adopted il-cannabis-vacate contract distinguish money
+  // from nonfinancial completion. Never rewrite an unpaid answer as paid. This
+  // exact candidate still reaches the source-contract review below, not payment.
+  const cannabisNonfinancialComplete = cannabis?.status === "selected" && cannabis.branch === "conviction"
+    && answers.il_cannabis_nonfinancial_complete === "yes";
+  if (courtRequirement === "no" || isNegative(answers.sentence_completion_date) && !currentProp64Sentence || isNegative(answers.financial_obligations) && !cannabisNonfinancialComplete || isAffirmative(answers.pending_cases) || isAffirmative(answers.new_convictions_during_waiting_period)) {
     return {
       status: "not_yet",
       reason: reason(jurisdiction, "timing_or_completion_blocker", "This may not be ready yet. Most record-clearing paths require court-ordered requirements to be completed first.", rule.sourceRef)
     };
   }
-  if (courtRequirement === "not_sure" || isExplicitUnknownAnswer(answers.sentence_completion_date) || isExplicitUnknownAnswer(answers.financial_obligations)) {
+  if (courtRequirement === "not_sure" || isExplicitUnknownAnswer(answers.sentence_completion_date) || isExplicitUnknownAnswer(answers.financial_obligations) && !cannabisNonfinancialComplete) {
     return {
       status: "missing_anchor",
       reason: reason(jurisdiction, "court_requirements_unknown", "We need one more detail before we can prepare the right packet.", rule.sourceRef),
@@ -2052,6 +2080,12 @@ function evaluateCompiledTiming(profile: EngineProfile, answers: Record<string, 
       status: "needs_review",
       reason: reason(jurisdiction, "special_preconditions_unconfirmed", "We need one more detail before we can prepare the right packet.", rule.sourceRef)
     };
+  }
+  if (cannabis?.status === "selected" && cannabis.branch === "conviction") {
+    if (answers.il_cannabis_nonfinancial_complete === "no") {
+      return { status: "not_yet", reason: reason(jurisdiction, "cannabis_nonfinancial_conditions_incomplete", "The cannabis motion requires completion of the nonfinancial sentence and conditions. The answer says a nonfinancial requirement remains; paying a balance alone does not complete it.", "20-ILCS-2630/5.2(i)(3);IL.memo:il-cannabis-vacate") };
+    }
+    return { status: "needs_review", reason: reason(jurisdiction, "cannabis_motion_source_contract_review", "The record may fit the separate cannabis-conviction motion. Unpaid financial obligations alone do not establish that its nonfinancial completion requirement is unmet. The applicable form and route still require review before a packet can be prepared.", "20-ILCS-2630/5.2(i)(3);IL.memo:il-cannabis-vacate;LD-IL-02") };
   }
   if (profile.jurisdiction.code === "WI" && pathway.id === "adult-conviction-expungement-under-wis-stat-973-015") {
     return { status: "satisfied" };

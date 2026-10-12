@@ -1,5 +1,6 @@
 import { CA_PROP64_QUESTIONS } from "@/lib/expungement-ai/ca-prop64-choices";
 import { GA_FIRST_OFFENDER_FACT_IDS, GA_FIRST_OFFENDER_QUESTIONS } from "@/lib/rcap-engine/georgia-first-offender";
+import { IL_CANNABIS_FACT_IDS, IL_CANNABIS_QUESTIONS } from "@/lib/rcap-engine/illinois-cannabis-facts";
 import "server-only";
 import { reviewedScreeningQuestion } from "@/lib/expungement-ai/reviewed-question-copy";
 import { normalizeQuestionChoices, exclusiveOptionsFor } from "@/lib/expungement-ai/question-answer-state";
@@ -44,6 +45,7 @@ const PREPAY_PHASES = new Set<QuestionLifecyclePhase>([
 
 const STATE_SPECIFIC_PREPAY_WILMA_FACT_IDS: Record<string, Set<string>> = {
   GA: new Set(GA_FIRST_OFFENDER_FACT_IDS),
+  IL: new Set(IL_CANNABIS_FACT_IDS),
   CA: new Set([
     "ca_prop64_qualifying_marijuana_offense",
     "ca_prop64_lesser_or_no_offense",
@@ -1006,6 +1008,7 @@ function withWilmaFactQuestions(
   const availableWilmaFactQuestions = profile.jurisdiction.code === "MS"
     ? [...WILMA_FACT_QUESTIONS, ...MISSISSIPPI_CORRECTION_FACT_QUESTIONS]
     : profile.jurisdiction.code === "GA" ? [...WILMA_FACT_QUESTIONS, ...GA_FIRST_OFFENDER_QUESTIONS]
+    : profile.jurisdiction.code === "IL" ? [...WILMA_FACT_QUESTIONS, ...IL_CANNABIS_QUESTIONS]
       : WILMA_FACT_QUESTIONS;
   const additions = availableWilmaFactQuestions
     .filter((question) => !existingIds.has(question.id))

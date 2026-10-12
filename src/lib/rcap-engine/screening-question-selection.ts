@@ -2,6 +2,7 @@ import { caProp64RecordQuestions } from "@/lib/expungement-ai/ca-prop64-record-f
 import { mississippiProgramRouteFromAnswers } from "@/lib/rcap-engine/composed-route-selector";
 import { nevada176AQuestionApplies } from "@/lib/rcap-engine/nevada-176a-branch";
 import { georgiaFirstOffenderFromAnswers, georgiaFirstOffenderQuestionApplies } from "@/lib/rcap-engine/georgia-first-offender";
+import { illinoisCannabisFromAnswers, illinoisCannabisQuestionApplies } from "@/lib/rcap-engine/illinois-cannabis-facts";
 import type {
   EngineProfile,
   PublicJurisdictionProfile,
@@ -52,7 +53,8 @@ export function selectScreeningQuestionIds(
     ? answers.possible_pathway_context
     : "";
   const programRoute = profile.jurisdiction.code === "MS" ? mississippiProgramRouteFromAnswers(answers)
-    : profile.jurisdiction.code === "GA" ? georgiaFirstOffenderFromAnswers(answers) : null;
+    : profile.jurisdiction.code === "GA" ? georgiaFirstOffenderFromAnswers(answers)
+    : profile.jurisdiction.code === "IL" ? illinoisCannabisFromAnswers(answers) : null;
   const selectedPathway = programRoute?.status === "selected"
     ? profile.pathways.find(pathway => pathway.id === programRoute.pathwayId)
     : programRoute?.status === "clarification" ? undefined : selectedLabel
@@ -67,6 +69,7 @@ export function selectScreeningQuestionIds(
 
   return publicProfile.questions
     .filter(question => georgiaFirstOffenderQuestionApplies(profile.jurisdiction.code, answers, question.id))
+    .filter(question => illinoisCannabisQuestionApplies(profile.jurisdiction.code, answers, question.id))
     .filter(question => nevada176AQuestionApplies(profile.jurisdiction.code, selectedPathway?.id, question.id))
     .map((question, index) => ({ question: recordQuestions.get(question.id) ?? question, index }))
     .filter(({ question }) => (!lifecycle?.exactPacketFactIds.includes(question.id) || recordQuestions.has(question.id))
