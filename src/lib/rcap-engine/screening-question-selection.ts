@@ -1,6 +1,7 @@
 import { caProp64RecordQuestions } from "@/lib/expungement-ai/ca-prop64-record-facts";
 import { mississippiProgramRouteFromAnswers } from "@/lib/rcap-engine/composed-route-selector";
 import { nevada176AQuestionApplies } from "@/lib/rcap-engine/nevada-176a-branch";
+import { georgiaFirstOffenderFromAnswers, georgiaFirstOffenderQuestionApplies } from "@/lib/rcap-engine/georgia-first-offender";
 import type {
   EngineProfile,
   PublicJurisdictionProfile,
@@ -50,7 +51,8 @@ export function selectScreeningQuestionIds(
   const selectedLabel = typeof answers.possible_pathway_context === "string"
     ? answers.possible_pathway_context
     : "";
-  const programRoute = profile.jurisdiction.code === "MS" ? mississippiProgramRouteFromAnswers(answers) : null;
+  const programRoute = profile.jurisdiction.code === "MS" ? mississippiProgramRouteFromAnswers(answers)
+    : profile.jurisdiction.code === "GA" ? georgiaFirstOffenderFromAnswers(answers) : null;
   const selectedPathway = programRoute?.status === "selected"
     ? profile.pathways.find(pathway => pathway.id === programRoute.pathwayId)
     : programRoute?.status === "clarification" ? undefined : selectedLabel
@@ -64,6 +66,7 @@ export function selectScreeningQuestionIds(
   const seen = new Set<string>();
 
   return publicProfile.questions
+    .filter(question => georgiaFirstOffenderQuestionApplies(profile.jurisdiction.code, answers, question.id))
     .filter(question => nevada176AQuestionApplies(profile.jurisdiction.code, selectedPathway?.id, question.id))
     .map((question, index) => ({ question: recordQuestions.get(question.id) ?? question, index }))
     .filter(({ question }) => (!lifecycle?.exactPacketFactIds.includes(question.id) || recordQuestions.has(question.id))

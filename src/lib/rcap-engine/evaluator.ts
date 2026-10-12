@@ -2,6 +2,7 @@ import { caProp64Choice, CA_PROP64_CURRENT } from "@/lib/expungement-ai/ca-prop6
 import { caProp64RecordQuestions } from "@/lib/expungement-ai/ca-prop64-record-facts";
 import { caProp64RecordAnswerState } from "@/lib/expungement-ai/ca-prop64-record-answer";
 import { mississippiProgramRouteFromAnswers } from "@/lib/rcap-engine/composed-route-selector";
+import { georgiaFirstOffenderFromAnswers } from "@/lib/rcap-engine/georgia-first-offender";
 import "server-only";
 
 import crypto from "node:crypto";
@@ -205,6 +206,13 @@ function evaluateAgainstProfile(profile: EngineProfile, request: ScreeningEvalua
   if (programRoute?.status === "clarification") {
     return result(profile, request, "needs_more_info", [reason(jurisdiction, "program_order_or_closure_missing", "We need the program named in the court order and whether the court has entered the required dismissal or closure. Completing program tasks alone does not establish that the case was closed.", "LD-MS-01")], {
       missingQuestionIds: programRoute.missingQuestionIds,
+      paymentAllowed: false
+    });
+  }
+  const originalFirstOffender = jurisdiction === "GA" ? georgiaFirstOffenderFromAnswers(answers, evaluationToday().toISOString().slice(0, 10)) : null;
+  if (originalFirstOffender?.status === "clarification") {
+    return result(profile, request, "needs_more_info", [reason(jurisdiction, "original_first_offender_facts_missing", "Check whether the original sentence imposed First Offender treatment, its current status, and the sentencing or discharge date requested. Completing a program or requesting retroactive treatment does not establish those facts.", "LD-GA-01; GA.memo:ga-fo-*; HB162:sections3-4")], {
+      missingQuestionIds: originalFirstOffender.missingQuestionIds,
       paymentAllowed: false
     });
   }
@@ -701,6 +709,11 @@ function isPrepaymentQuestion(question: PublicQuestion) {
 }
 
 function selectPathway(profile: EngineProfile, answers: Record<string, ScreeningAnswerValue>) {
+  if (profile.jurisdiction.code === "GA") {
+    const firstOffender = georgiaFirstOffenderFromAnswers(answers, evaluationToday().toISOString().slice(0, 10));
+    if (firstOffender.status === "selected") return profile.pathways.find(pathway => pathway.id === firstOffender.pathwayId);
+    if (firstOffender.status === "clarification") return undefined;
+  }
   if (profile.jurisdiction.code === "MS") {
     const programRoute = mississippiProgramRouteFromAnswers(answers);
     if (programRoute.status === "selected") return profile.pathways.find(pathway => pathway.id === programRoute.pathwayId);
@@ -790,6 +803,12 @@ function routeIsAdministrativeApplicationPacket(profile: EngineProfile, pathway:
 }
 
 function routeSpecificSafetyGate(profile: EngineProfile, answers: Record<string, ScreeningAnswerValue>, pathway: CompiledPathway): ScreeningReason | undefined {
+  if (profile.jurisdiction.code === "GA") {
+    const firstOffender = georgiaFirstOffenderFromAnswers(answers, evaluationToday().toISOString().slice(0, 10));
+    if (firstOffender.status === "selected" && firstOffender.pathwayId === pathway.id && firstOffender.branch === "revoked") {
+      return reason("GA", "original_first_offender_revoked", "The record says the First Offender sentence was revoked and guilt was adjudicated. The original First Offender restriction and sealing procedure cannot be treated as a successful discharge. Get help reviewing the final order and any other available procedure.", "HB162:section3:42-8-62.1(c),(g); GA.memo:ga-fo-*");
+    }
+  }
   const msRecordClassGate = msFelonyRecordClassSafetyGate(profile, answers, pathway);
   if (msRecordClassGate) return msRecordClassGate;
   const caGate = caRouteSafetyGate(profile, answers, pathway);
