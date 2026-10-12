@@ -20,7 +20,7 @@ node scripts/verify-packet-build-environment.mjs \
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**.
- Captain observed `PACKET_BUILD_ENVIRONMENT_READY: 14/14` for this family against the then-current roster of 14; the roster has grown since, so expect the number above and not that one.
+ Captain's historical observation was `14/14` for this family against the then-current roster of 14. The current gate requires every registered applicable check to pass.
 
 ## Never run these
 
