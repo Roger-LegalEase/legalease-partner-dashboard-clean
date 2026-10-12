@@ -1012,6 +1012,94 @@
         "purpose": "Court identity for participant preparation; no residence, agency, or earlier-court alias."
       },
       "reviewStatus": "IMPLEMENTED_SOURCE_COMPARISON_INDEPENDENT_LANGUAGE_AND_OUTPUT_REVIEW_PENDING"
+    },
+    {
+      "reviewId": "GA14-GA16-RECORD-COURT-610.140-20261012",
+      "descriptor": [
+        "court",
+        "text",
+        "Which court or agency handled the case?",
+        "",
+        null,
+        "case_details",
+        [
+          "present",
+          true
+        ],
+        [
+          "present",
+          false
+        ],
+        "postpay_official_form_field"
+      ],
+      "scope": [
+        {
+          "surface": "packet_information",
+          "state": "MO",
+          "routeKey": "MO:general-arrest-charge-plea-trial-or-conviction-expungement-under-rsmo-610-140"
+        }
+      ],
+      "successor": {
+        "en": {
+          "prompt": "Which court is named in the existing charge or case record?",
+          "helperText": "Enter the court shown on the record. If no court is identified, use the unknown option instead of guessing. Filing venue is a separate question: for a charged case, section 610.140(2) names a court where you were charged or found guilty; for an arrest without a charge, subsection (7) names a court with jurisdiction in the county of arrest. Do not substitute your current residence or the arresting agency for a court."
+        },
+        "es": {
+          "prompt": "¿Qué tribunal figura en el registro de los cargos o en el expediente existente?",
+          "helperText": "Indique el tribunal que aparece en el registro. Si no se identifica ningún tribunal, use la opción de respuesta desconocida en vez de adivinar. El tribunal donde se presenta la petición es una cuestión aparte: para un caso con cargos, la sección 610.140(2) indica un tribunal donde se presentaron los cargos o se le declaró culpable; para un arresto sin cargos, el apartado (7) indica un tribunal competente del condado del arresto. No sustituya el tribunal por su residencia actual ni por la agencia que efectuó el arresto."
+        }
+      },
+      "predicateAuthorityStatus": "SOURCE_BACKED_RECORD_ORIGIN_CLARIFICATION_NO_VENUE_MAPPING_OR_ELIGIBILITY_CHANGE",
+      "source": {
+        "url": "https://revisor.mo.gov/main/OneSection.aspx?section=610.140",
+        "checkedOn": "2026-10-12",
+        "purpose": "Original record court identity remains distinct from conditional filing venue; no legacy answer is assigned a new venue meaning."
+      },
+      "reviewStatus": "IMPLEMENTED_SOURCE_COMPARISON_INDEPENDENT_LANGUAGE_AND_OUTPUT_REVIEW_PENDING"
+    },
+    {
+      "reviewId": "GA14-GA16-RECORD-COURT-2953.32-20261012",
+      "descriptor": [
+        "court",
+        "text",
+        "Which court or agency handled the case?",
+        "",
+        null,
+        "case_details",
+        [
+          "present",
+          true
+        ],
+        [
+          "present",
+          false
+        ],
+        "postpay_official_form_field"
+      ],
+      "scope": [
+        {
+          "surface": "packet_information",
+          "state": "OH",
+          "routeKey": "OH:adult-conviction-sealing-or-expungement-under-ohio-rev-code-2953-32"
+        }
+      ],
+      "successor": {
+        "en": {
+          "prompt": "Which court sentenced you in the existing conviction case?",
+          "helperText": "Copy the sentencing court from the conviction record, including its state or federal district. Keep that court identity separate from where you will apply: section 2953.32(B)(1) uses the sentencing court for an Ohio conviction, but a court of common pleas for a conviction in another state or a federal court. This answer does not select that filing court or establish eligibility."
+        },
+        "es": {
+          "prompt": "¿Qué tribunal dictó su sentencia en el caso de la condena existente?",
+          "helperText": "Copie del registro de la condena el tribunal que dictó la sentencia, incluido su estado o distrito federal. Distinga ese tribunal del tribunal donde presentará la solicitud: la sección 2953.32(B)(1) indica el tribunal que dictó la sentencia para una condena de Ohio, pero un tribunal de causas comunes (court of common pleas) para una condena de otro estado o de un tribunal federal. Esta respuesta no selecciona ese tribunal de presentación ni establece la elegibilidad."
+        }
+      },
+      "predicateAuthorityStatus": "SOURCE_BACKED_RECORD_ORIGIN_CLARIFICATION_NO_VENUE_MAPPING_OR_ELIGIBILITY_CHANGE",
+      "source": {
+        "url": "https://codes.ohio.gov/ohio-revised-code/section-2953.32",
+        "checkedOn": "2026-10-12",
+        "purpose": "Original record court identity remains distinct from conditional filing venue; no legacy answer is assigned a new venue meaning."
+      },
+      "reviewStatus": "IMPLEMENTED_SOURCE_COMPARISON_INDEPENDENT_LANGUAGE_AND_OUTPUT_REVIEW_PENDING"
     }
   ],
   "optionProposalSha256": "c3465422c32fb8390072a005a51990c3f89216ce60e31baa1954c42c6f551163",

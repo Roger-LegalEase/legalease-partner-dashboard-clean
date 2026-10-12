@@ -2062,7 +2062,7 @@ function evaluateCompiledTiming(profile: EngineProfile, answers: Record<string, 
     return { status: "not_applicable" };
   }
 
-  const anchorId = chooseTimingAnchor(rule, pathway, answers, selectedWaitingRule);
+  const anchorId = chooseTimingAnchor(rule, pathway, answers, selectedWaitingRule, jurisdiction);
   if (!anchorId) {
     if (!packetLikePathway(profile, pathway)) return { status: "not_applicable" };
     // The rule's own text does not name an anchor this evaluator recognises, so
@@ -2538,9 +2538,22 @@ function durationDays(duration: CompiledDuration | undefined) {
   return duration.value * 366;
 }
 
-function chooseTimingAnchor(rule: CompiledRule, pathway: CompiledPathway, answers: Record<string, ScreeningAnswerValue>, waitingRule?: SelectedWaitingRule) {
+function chooseTimingAnchor(rule: CompiledRule, pathway: CompiledPathway, answers: Record<string, ScreeningAnswerValue>, waitingRule?: SelectedWaitingRule, jurisdiction?: string) {
+  // The adopted TX memo anchors nondisclosure to discharge/dismissal or
+  // sentence/supervision completion. The legacy compiled summaries interleave
+  // Chapter 55A arrest-based expunction prose. Neither that prose nor a saved
+  // arrest answer may turn arrest into a nondisclosure clock. This removes only
+  // the invalid fallback; it does not establish a subtype, duration or completion.
+  const excludesArrest = jurisdiction === "TX" && [
+    "automatic-nondisclosure-for-qualifying-nonviolent-misdemeanor-deferred-adjudication-411-07",
+    "petitioned-nondisclosure-after-completed-deferred-adjudication-411-0725",
+    "petitioned-nondisclosure-for-an-eligible-conviction-411-0735",
+    "first-offense-dwi-nondisclosure"
+  ].includes(pathway.id);
+  const permittedAnchor = (field: string) => !excludesArrest || field !== "arrest_date";
   const configured = [rule.when?.timingAnchorFactId, ...(rule.when?.timingAnchorAlternateFactIds ?? [])]
     .filter((field): field is string => typeof field === "string" && field.length > 0)
+    .filter(permittedAnchor)
     .filter((field) => answerText(answers[field]).trim() !== "");
   if (configured.length > 0) {
     const dated = configured
@@ -2572,7 +2585,7 @@ function chooseTimingAnchor(rule: CompiledRule, pathway: CompiledPathway, answer
     "conviction_date",
     "probation_parole_supervision_end_date"
   ];
-  return preferred.find((field) => answerText(answers[field]).trim() !== "");
+  return preferred.find((field) => permittedAnchor(field) && answerText(answers[field]).trim() !== "");
 }
 
 function parseDateAnswer(value: ScreeningAnswerValue | undefined) {
