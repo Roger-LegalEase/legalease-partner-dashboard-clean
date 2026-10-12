@@ -1,3 +1,4 @@
+import { MS_PROGRAM_COMPLETION_PATHWAYS, msProgramCompletionPredicates } from "@/lib/rcap-engine/mississippi-program-completion";
 import { MS_CONDITIONAL_DISCHARGE_PATHWAY, msConditionalDischargePredicates } from "@/lib/rcap-engine/mississippi-conditional-discharge";
 import { isIndependentPaidFinancialFact } from "@/lib/expungement-ai/court-completion-reuse";
 import { kansasRecordScopeFromAnswers } from "@/lib/rcap-engine/kansas-record-scope";
@@ -1370,6 +1371,35 @@ function specialRouteTiming(profile: EngineProfile, answers: Record<string, Scre
   }
   if (key === "TN:pathway-1-free-non-conviction-expunction-under-tenn-code-40-32-101-a-40-32-106") {
     return timingFromAnchor(profile, answers, rule, pathway, "disposition_date", { value: 0, unit: "days", raw: "no wait" }, "Tennessee non-conviction expunction has no five-year wait after dismissal, no true bill, or not guilty disposition.");
+  }
+  if (profile.jurisdiction.code === "MS" && Object.hasOwn(MS_PROGRAM_COMPLETION_PATHWAYS, pathway.id)) {
+    const selected = mississippiProgramRouteFromAnswers(answers);
+    const source = pathway.id === "nonadjudication-under-99-15-26" ? "LD-MS-01;99-15-26(4)-(5)" : "LD-MS-01;99-15-123(1)-(3)";
+    const facts = msProgramCompletionPredicates(pathway.id, answers);
+    if (selected.status !== "selected" || selected.pathwayId !== pathway.id || facts.status === "missing") {
+      return { status: "missing_anchor", missingQuestionIds: facts.status === "missing" ? facts.ids : ["ms_program_order", "ms_program_record_status"],
+        reason: reason("MS", "program_completion_event_missing", "Check the program order, successful completion, final case disposition, and arrest and release record. A program name or elapsed time alone does not establish the completed event.", source) };
+    }
+    if (facts.status === "review") {
+      return { status: "needs_review", reason: reason("MS", "program_arrest_release_conflict", "This procedure requires an arrest and release in the case. Check the recorded answer before continuing; this does not decide whether another remedy is available.", source) };
+    }
+    // Dates can corroborate a completed event; they cannot replace it. Do not
+    // require an invented disposition date on the statutory no-disposition limb.
+    const dates = new Map<string, Date>();
+    for (const id of ["ms_program_completion_date", "ms_program_disposition_date"]) {
+      if (answers[id] === undefined || answers[id] === "") continue;
+      const date = parseDateAnswer(answers[id]);
+      if (!date || date.toISOString().slice(0, 10) !== answerText(answers[id]) || date > evaluationToday()) {
+        return { status: "missing_anchor", missingQuestionIds: [id], reason: reason("MS", "program_completion_date_invalid", "Check the supplied program completion or disposition date. It must be a real calendar date for an event that has already occurred.", source) };
+      }
+      dates.set(id, date);
+    }
+    const completion = dates.get("ms_program_completion_date"), disposition = dates.get("ms_program_disposition_date");
+    if (answers.ms_program_final_disposition === "no_disposition" && disposition
+      || completion && disposition && disposition < completion) {
+      return { status: "needs_review", reason: reason("MS", "program_completion_dates_conflict", "The recorded dates or disposition conflict. Check the completion and case records; do not substitute a date for a disposition that was never entered.", source) };
+    }
+    return { status: "satisfied" };
   }
   if (key === `MS:${MS_CONDITIONAL_DISCHARGE_PATHWAY}`) {
     // LD-MS-01 / §41-29-150(d)(1)-(2): an event, not an elapsed conviction

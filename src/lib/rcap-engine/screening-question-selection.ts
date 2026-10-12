@@ -1,3 +1,4 @@
+import { msProgramCompletionQuestionApplies } from "@/lib/rcap-engine/mississippi-program-completion";
 import { msConditionalDischargeQuestionApplies } from "@/lib/rcap-engine/mississippi-conditional-discharge";
 import { kansasRecordScopeFromAnswers, kansasRecordScopeQuestionApplies } from "@/lib/rcap-engine/kansas-record-scope";
 import { caProp64RecordQuestions } from "@/lib/expungement-ai/ca-prop64-record-facts";
@@ -75,6 +76,7 @@ export function selectScreeningQuestionIds(
     .filter(question => profile.jurisdiction.code !== "MS" || question.id !== "ms_program_final_disposition"
       || (["99-15-26", "99-15-101", "41-29-150"].includes(String(answers.ms_program_order))
         && ["completed_and_closed", "completed_without_closure"].includes(String(answers.ms_program_record_status))))
+    .filter(question => msProgramCompletionQuestionApplies(profile.jurisdiction.code, answers, question.id))
     .filter(question => msConditionalDischargeQuestionApplies(profile.jurisdiction.code, answers, question.id))
     .filter(question => kansasRecordScopeQuestionApplies(profile.jurisdiction.code, answers, question.id))
     .filter(question => georgiaFirstOffenderQuestionApplies(profile.jurisdiction.code, answers, question.id))
