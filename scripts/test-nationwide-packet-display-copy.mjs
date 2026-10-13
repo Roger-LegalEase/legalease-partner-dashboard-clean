@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {register} from 'node:module';
 register('./lib/ts-esm-loader.mjs',import.meta.url);
-const {packetDisplayCopy}=await import('../src/lib/expungement-ai/packet-display-copy.ts');
+const {packetDisplayCopy,packetMatterTitleCopy}=await import('../src/lib/expungement-ai/packet-display-copy.ts');
 const {resolveRuntimeText}=await import('../src/lib/expungement-ai/localization.ts');
 const {reviewedPacketQuestion}=await import('../src/lib/expungement-ai/reviewed-question-copy.ts');
 const catalog=JSON.parse(readFileSync('src/lib/expungement-ai/frontend/reviewed-packet-display-copy.json'));
@@ -15,7 +15,16 @@ for(const entry of catalog.entries){
   eq(packetDisplayCopy(entry.kind,null,pathway,entry.english),{en:entry.english});
  }
 }
-for(const name of ['Yes.pdf','My matters.pdf','Calle Peña {count}.pdf','not_sure.pdf']){
+const routeEntries = [...catalog.entries.filter(e=>e.kind==='route_label').flatMap(e=>e.routeKeys.map(key=>{const [jurisdiction,pathwayId]=key.split(':');return {jurisdiction,pathwayId,title:e.english,es:e.spanish};})), ...JSON.parse(readFileSync('src/lib/expungement-ai/frontend/reviewed-result-display-copy.json')).entries.filter(e=>e.kind==='route_display_label').map(e=>({jurisdiction:e.jurisdiction,pathwayId:e.pathwayId,title:e.originalEnglish,es:e.es}))];
+for(const route of routeEntries){
+ const item={...route,pathwayLabel:route.title,authorityStatus:'protected_draft'};const before=JSON.stringify(item);
+ for(const authorityStatus of ['protected_draft','protected_verified','trusted_source'])eq(packetMatterTitleCopy({...item,authorityStatus}),packetDisplayCopy('route_label',route.jurisdiction,route.pathwayId,route.title),'only existing exact route copy is reused');
+ eq(packetMatterTitleCopy({...item,authorityStatus:'unavailable'}),{en:route.title},'unavailable authority does not localize claimed route');
+ for(const title of ['My own title '+route.title,route.title+' ', 'Calle Peña {count}', '<script>literal</script>'])eq(packetMatterTitleCopy({...item,title}),{en:title},'other title remains literal');
+ for(const changes of [{jurisdiction:null},{pathwayId:null},{pathwayId:'not-a-reviewed-route'},{pathwayLabel:null},{pathwayLabel:'different label'}])eq(packetMatterTitleCopy({...item,...changes}),{en:route.title},'missing/mismatched identity preserves original');
+ eq(JSON.stringify(item),before,'display lookup does not mutate facts or authority');
+}
+for(const name of ['Yes.pdf' ,'My matters.pdf','Calle Peña {count}.pdf','not_sure.pdf']){
  eq(resolveRuntimeText('es','Download {fileName}',{vars:{fileName:name}}),'Descargar '+name,'filename must remain verbatim including braces');
  eq(resolveRuntimeText('en','Download {fileName}',{vars:{fileName:name}}),'Download '+name);
 }

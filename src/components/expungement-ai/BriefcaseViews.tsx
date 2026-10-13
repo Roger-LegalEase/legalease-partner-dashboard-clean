@@ -1,11 +1,12 @@
 import Link from "next/link";
+import { packetMatterTitleCopy } from "@/lib/expungement-ai/packet-display-copy";
 import { ArrowRight, Check, CreditCard, Download, LifeBuoy, ShieldCheck } from "lucide-react";
 import type { ReactNode } from "react";
 import { WilmaBubble } from "@/components/expungement-ai/WilmaBubble";
 import type { ConsumerPaymentHistoryItem } from "@/lib/expungement-ai/briefcase-consumer-presentation";
 import type { BriefcasePresentationItem } from "@/lib/expungement-ai/briefcase-presentation-authority";
 import { humanMatterState, matterCareState, type MatterCareState } from "@/lib/expungement-ai/frontend/briefcase-presentation";
-import { LocalizedRuntimeText, LocalizedText } from "@/components/expungement-ai/LocalizationProvider";
+import { LocalizedCopy, LocalizedRuntimeText, LocalizedText } from "@/components/expungement-ai/LocalizationProvider";
 
 /* ------------------------------------------------------------------ */
 /* Status + stepper model (presentation only; reads engine status)     */
@@ -348,7 +349,7 @@ function MatterCard({ item }: { item: BriefcasePresentationItem }) {
     >
       <div className="mb-4 flex items-start justify-between gap-3">
         <div className="min-w-0">
-          <p className="truncate text-[16px] font-bold text-[#0B1320]">{item.title}</p>
+          <p className="truncate text-[16px] font-bold text-[#0B1320]"><LocalizedCopy {...packetMatterTitleCopy(item)} /></p>
           {subtitle ? <p className="mt-0.5 truncate text-[12px] text-[#5E687A]">{subtitle}</p> : null}
         </div>
         <StatusPill label={status.pillLabel} tone={status.pillTone} />
@@ -459,7 +460,7 @@ export function PaymentsView({ items }: { items: ConsumerPaymentHistoryItem[] })
                     ? <LocalizedText k="payment.no_charge" fallback="No charge" />
                     : <LocalizedText k="payment.paid" fallback="paid" />}
               </p>
-              <p className="mt-1 text-[#5A6275]">{item.title}</p>
+              <p className="mt-1 text-[#5A6275]"><LocalizedCopy {...packetMatterTitleCopy(item)} /></p>
               <p className="mt-1 text-[#5A6275]"><LocalizedText k="briefcase.packet_label" fallback="Packet" />: {item.artifact.status === "ready" ? "ready" : "not ready"}</p>
               {item.paymentHistory!.receipt ? (
                 <a className="mt-3 inline-flex min-h-11 items-center rounded-[10px] border border-[#D9DEE8] bg-white px-4 text-sm font-bold text-[#0B1320]" href={item.paymentHistory!.receipt.actionPath}>
@@ -533,7 +534,7 @@ export function BriefcaseItemCard({ item }: { item: BriefcasePresentationItem })
     >
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0">
-          <p className="text-[16px] font-bold text-[#0B1320]">{item.title}</p>
+          <p className="text-[16px] font-bold text-[#0B1320]"><LocalizedCopy {...packetMatterTitleCopy(item)} /></p>
           <p className="mt-0.5 text-[12px] text-[#5E687A]">{matterSubtitle(item) || item.summary}</p>
         </div>
         <StatusPill label={status.pillLabel} tone={status.pillTone} />

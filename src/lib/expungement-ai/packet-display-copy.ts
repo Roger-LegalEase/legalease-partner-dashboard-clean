@@ -1,4 +1,5 @@
 import "server-only";
+import type { BriefcasePresentationItem } from "@/lib/expungement-ai/briefcase-presentation-authority";
 import { reviewedResultRouteLabel } from "@/lib/expungement-ai/reviewed-result-copy";
 import catalog from "@/lib/expungement-ai/frontend/reviewed-packet-display-copy.json";
 
@@ -18,4 +19,14 @@ export function packetDisplayCopy(
   const reviewed = matches.length === 0 && kind === "route_label"
     ? reviewedResultRouteLabel(jurisdiction, pathwayId, english) : null;
   return reviewed ?? { en: english };
+}
+
+/** Translate generated route titles only; preserve other titles exactly. */
+export function packetMatterTitleCopy(item: Pick<BriefcasePresentationItem,
+  "authorityStatus" | "title" | "pathwayLabel" | "jurisdiction" | "pathwayId"
+>): { en: string; es?: string } {
+  if (item.authorityStatus === "unavailable" || item.title !== item.pathwayLabel) {
+    return { en: item.title };
+  }
+  return packetDisplayCopy("route_label", item.jurisdiction, item.pathwayId, item.title);
 }

@@ -1,4 +1,4 @@
-import { packetDisplayCopy } from "@/lib/expungement-ai/packet-display-copy";
+import { packetDisplayCopy, packetMatterTitleCopy } from "@/lib/expungement-ai/packet-display-copy";
 import { COURT_RECORD_CONFLICT_COPY } from "@/lib/expungement-ai/record-fact-copy";
 import { SponsorCapacityNotice } from "@/components/expungement-ai/SponsorCapacityNotice";
 import Link from "next/link";
@@ -62,7 +62,7 @@ export default async function PacketAccuracyReviewPage({
       caseState={item?.jurisdiction ?? undefined}
       briefcaseItemId={item?.id}
       activeNav="matters"
-      breadcrumb={item ? <><Link href="/briefcase/matters"><LocalizedRuntimeText text={"My matters"} /></Link> / <Link href={`/briefcase/${item.id}`}>{item.title}</Link> / <b><LocalizedRuntimeText text={"Review and confirm"} /></b></> : <b><LocalizedRuntimeText text={"Review and confirm"} /></b>}
+      breadcrumb={item ? <><Link href="/briefcase/matters"><LocalizedRuntimeText text={"My matters"} /></Link> / <Link href={`/briefcase/${item.id}`}><LocalizedCopy {...packetMatterTitleCopy(item)} /></Link> / <b><LocalizedRuntimeText text={"Review and confirm"} /></b></> : <b><LocalizedRuntimeText text={"Review and confirm"} /></b>}
     >
       {item && model && summary ? (
         <section data-accuracy-review="true">

@@ -2,7 +2,7 @@ import { msExactTimingQuestionIds } from "@/lib/rcap-engine/mississippi-exact-ti
 import { readProtectedPacketVerification } from "@/lib/expungement-ai/verification-cas";
 import { caProp64ClarificationModelFor, factualPathwayCorrectionIds, heldPacketCorrectionInputIds } from "@/lib/expungement-ai/packet-information";
 import { CA_PROP64_CLARIFICATION_COPY } from "@/lib/expungement-ai/ca-prop64-choices";
-import { packetDisplayCopy } from "@/lib/expungement-ai/packet-display-copy";
+import { packetDisplayCopy, packetMatterTitleCopy } from "@/lib/expungement-ai/packet-display-copy";
 import { SponsorCapacityNotice } from "@/components/expungement-ai/SponsorCapacityNotice";
 import Link from "next/link";
 import { Download, MessageCircle } from "lucide-react";
@@ -66,7 +66,7 @@ export default async function BriefcasePacketPage({
       caseState={item?.jurisdiction ?? undefined}
       briefcaseItemId={item?.id}
       activeNav="matters"
-      breadcrumb={item ? <><Link href="/briefcase/matters" className="hover:text-[#1A1D26]"><LocalizedRuntimeText text={"My matters"} /></Link> / <b className="text-[#1A1D26]">{item.title}</b></> : <b className="text-[#1A1D26]"><LocalizedRuntimeText text={"Matter"} /></b>}
+      breadcrumb={item ? <><Link href="/briefcase/matters" className="hover:text-[#1A1D26]"><LocalizedRuntimeText text={"My matters"} /></Link> / <b className="text-[#1A1D26]"><LocalizedCopy {...packetMatterTitleCopy(item)} /></b></> : <b className="text-[#1A1D26]"><LocalizedRuntimeText text={"Matter"} /></b>}
     >
       {clarification && storedItem && !completionCorrectionAvailable ? <p className="mb-5 rounded border border-amber-300 p-4">
         <Link className="inline-flex min-h-11 items-center font-semibold underline" href={`/briefcase/${storedItem.id}/packet-information`}><LocalizedCopy {...CA_PROP64_CLARIFICATION_COPY.legacy_heading} /></Link>
@@ -80,7 +80,7 @@ export default async function BriefcasePacketPage({
           <div className="flex items-start justify-between gap-4">
             <div className="min-w-0">
               <p className="text-xs font-bold uppercase tracking-[0.08em] text-[#08786F]">{item.jurisdiction}</p>
-              <h1 className="mt-2 text-[24px] font-extrabold tracking-[-0.02em] text-[#0B1320]">{item.title}</h1>
+              <h1 className="mt-2 text-[24px] font-extrabold tracking-[-0.02em] text-[#0B1320]"><LocalizedCopy {...packetMatterTitleCopy(item)} /></h1>
               <p className="mt-2 text-[13px] leading-6 text-[#5A6275]"><LocalizedRuntimeText text={item.summary ?? ""} /></p>
             </div>
             <MatterStatusBadge item={item} />
