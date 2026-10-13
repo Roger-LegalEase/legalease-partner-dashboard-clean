@@ -1,5 +1,6 @@
-import { NY_16059_FACT_IDS, NY_16059_LEGACY_IDS } from "@/lib/rcap-engine/new-york-16059-facts";
-import { DE_CONVICTION_FACT_IDS } from "@/lib/rcap-engine/delaware-conviction-rules";
+import { CA_PROP64_FACT_IDS, CA_PROP64_LEGACY_IDS } from "@/lib/rcap-engine/california-prop64-facts";
+import { NY_16059_FACT_IDS, NY_16059_LEGACY_IDS } from "@/lib/rcap-engine/new-york-16059-questions";
+import { DE_CONVICTION_FACT_IDS } from "@/lib/rcap-engine/delaware-conviction-questions";
 import { MS_PROGRAM_COMPLETION_FACT_IDS } from "@/lib/rcap-engine/mississippi-program-completion";
 import { MS_CONDITIONAL_DISCHARGE_FACT_IDS } from "@/lib/rcap-engine/mississippi-conditional-discharge";
 import { KS_RECORD_SCOPE_FACT_IDS } from "@/lib/rcap-engine/kansas-record-scope";
@@ -87,6 +88,8 @@ export function sanitizeAnswersForQuestionIds(
     !previouslyRendered.has(questionId) || stillSelected.has(questionId)
     // These are the same case record facts across CA branches, not branch-only answers.
     || Boolean(profile?.questions.some((question) => question.id === questionId && caProp64RecordQuestion(profile.jurisdiction.code, question)))
+    || Boolean(profile?.jurisdiction.code === "CA" && [...CA_PROP64_FACT_IDS, ...CA_PROP64_LEGACY_IDS, "ca_prop64_branch", "ca_prop64_relief_requested"].includes(questionId)
+      && profile.questions.some(question => question.id === questionId))
     // NV charge and program-disposition facts still describe the same record
     // when a sibling remedy is selected. Keep their independent raw answers;
     // route-scoped evaluation decides whether they are currently relevant.
@@ -120,6 +123,6 @@ export function sanitizeResumedAnswersForQuestionIds(
     answers,
     deriveScreens(profile).map((question) => question.id),
     selectedQuestionIds,
-    ["NV", "GA", "IL", "KS", "MS", "DE", "NY"].includes(profile.jurisdiction.code) ? profile : undefined
+    ["CA", "NV", "GA", "IL", "KS", "MS", "DE", "NY"].includes(profile.jurisdiction.code) ? profile : undefined
   );
 }

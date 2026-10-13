@@ -64,7 +64,7 @@ export const profileQuestionSchema = z
     prompt: z.string().min(1),
     helperText: z.string().optional(),
     multiline: z.boolean().optional(),
-    answerContract: z.literal("ca_prop64_record_fact_v1").optional(),
+    answerContract: z.enum(["ca_prop64_record_fact_v1", "ca_prop64_decimal_grams_v1"]).optional(),
     legacyAnswerText: z.string().optional(),
     savedAnswerNeedsClarification: z.boolean().optional(),
     type: z.string().min(1),
@@ -80,8 +80,10 @@ export const profileQuestionSchema = z
     translations: z.object({ es: z.object({ prompt: z.string().optional(), helperText: z.string().optional() }).passthrough().optional() }).passthrough().optional()
   })
   .passthrough()
-  .refine((question) => !question.answerContract || question.type === "text_or_unknown"
-    && ["court", "charge"].includes(question.id), "Invalid scoped record-answer contract")
+  .refine((question) => !question.answerContract || question.answerContract === "ca_prop64_record_fact_v1" && question.type === "text_or_unknown"
+    && ["court", "charge"].includes(question.id)
+    || question.answerContract === "ca_prop64_decimal_grams_v1" && question.type === "number_or_range"
+      && ["ca_prop64_flower_grams", "ca_prop64_concentrate_grams"].includes(question.id), "Invalid scoped answer contract")
   .refine((question) => question.legacyAnswerText === undefined || question.answerContract === "ca_prop64_record_fact_v1"
     || question.id === "sentence_completion_date" && question.type === "yes_no_unsure", "Invalid scoped legacy-answer display");
 

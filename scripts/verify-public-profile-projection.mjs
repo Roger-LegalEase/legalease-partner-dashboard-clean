@@ -60,6 +60,7 @@ const QUESTION = obj(
     contextOnly: leaf,
     doesNotSelectPathway: leaf,
     lifecyclePhase: leaf,
+    answerContract: leaf,
     options: leaf,
     exclusiveOptions: arr(leaf),
     optionDisplay: map(
@@ -210,7 +211,13 @@ for (const code of EXPECTED_CODES) {
 // ---------------------------------------------------------------------------------------------
 for (const profile of profiles) {
   const code = profile.jurisdiction.code;
-  const wire = JSON.stringify(projectPublicProfile(profile));
+  const projected = projectPublicProfile(profile);
+  for (const question of projected.questions.filter(q => q.answerContract !== undefined)) {
+    assert(code === "CA" && question.type === "number_or_range"
+      && ["ca_prop64_flower_grams", "ca_prop64_concentrate_grams"].includes(question.id)
+      && question.answerContract === "ca_prop64_decimal_grams_v1", `${code}: unapproved scoped public answer contract`);
+  }
+  const wire = JSON.stringify(projected);
 
   assert(
     !wire.includes("copyGuardrails"),

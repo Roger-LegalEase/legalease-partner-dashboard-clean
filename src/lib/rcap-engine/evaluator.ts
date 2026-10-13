@@ -1,3 +1,5 @@
+import { caProp64Facts, caProp64Pathway, caProp64ApplicationRequested, CA_PROP64_SOURCE, CA_PROP64_REASON_COPY, CA_PROP64_PROCEDURE_COPY, CA_PROP64_LEGACY_IDS } from "@/lib/rcap-engine/california-prop64-facts";
+import { isCaProp64Pathway, CA_PROP64_COMPLETED } from "@/lib/expungement-ai/ca-prop64-choices";
 import { ny16059Requested, ny16059History, ny16059Clock, NY_16059_ROUTE, NY_16059_SOURCE, NY_16059_REASON_COPY, NY_16059_LEGACY_IDS } from "@/lib/rcap-engine/new-york-16059-facts";
 import { deAdultConviction, delawareConvictionDecision, delawareConvictionRoute, DE_COURT, DE_SBI, DE_SOURCE, DE_REASON_TEXT } from "@/lib/rcap-engine/delaware-conviction-rules";
 import { MS_PROGRAM_COMPLETION_PATHWAYS, msProgramCompletionPredicates } from "@/lib/rcap-engine/mississippi-program-completion";
@@ -206,6 +208,13 @@ function evaluateAgainstProfile(profile: EngineProfile, request: ScreeningEvalua
       { pathwayId: NY_16059_ROUTE, missingQuestionIds: history.ids ?? [], paymentAllowed: false });
   }
 
+  const caDecision = jurisdiction === "CA" && (isCaProp64Pathway(jurisdiction, preselectedPathway?.id) || caProp64ApplicationRequested(answers))
+    ? caProp64Facts(answers, evaluationToday().toISOString().slice(0, 10)) : null;
+  if (caDecision && caDecision.status !== "satisfied") return result(profile, request,
+    caDecision.status === "missing" ? "needs_more_info" : "needs_review",
+    [reason("CA", `ca_prop64_${caDecision.code}`, CA_PROP64_REASON_COPY[caDecision.code!][0], CA_PROP64_SOURCE)],
+    { ...(preselectedPathway ? { pathwayId: preselectedPathway.id } : {}), missingQuestionIds: caDecision.ids, paymentAllowed: false });
+
   // Check exact DE adult-conviction predicates before automatic guidance or
   // broad legacy categories can swallow a statutory exception or wrong tier.
   const deDecision = jurisdiction === "DE" ? delawareConvictionDecision(answers, evaluationToday().toISOString().slice(0, 10)) : null;
@@ -215,7 +224,7 @@ function evaluateAgainstProfile(profile: EngineProfile, request: ScreeningEvalua
       ...(preselectedPathway ? { pathwayId: preselectedPathway.id } : {}), missingQuestionIds: deDecision.ids ?? [], paymentAllowed: false
     });
   }
-  const exclusion = deDecision?.status === "satisfied" ? undefined : exclusionReason(profile, answers);
+  const exclusion = deDecision?.status === "satisfied" || caDecision?.status === "satisfied" ? undefined : exclusionReason(profile, answers);
   if (exclusion) return result(profile, request, exclusion.code.endsWith("unknown") ? "needs_review" : "likely_not_eligible", [exclusion]);
 
   const unknownDateQuestionIds = requiredUnknownPublicDateQuestionIds(publicProfile, answers);
@@ -734,6 +743,8 @@ function ambiguityReason(
     // Retired ambiguous fields and elapsed buckets remain raw saved context.
     .filter(question => profile.jurisdiction.code !== "NY" || selectedPathway?.id !== NY_16059_ROUTE
       || ![...NY_16059_LEGACY_IDS, "resolved_timing_bucket"].includes(question.id))
+    .filter(question => !isCaProp64Pathway(jurisdiction, selectedPathway?.id)
+      || ![...CA_PROP64_LEGACY_IDS, "state_exclusion_categories", "resolved_timing_bucket", "pending_cases", "new_convictions_during_waiting_period", "financial_obligations", "court_requirements_completed"].includes(question.id))
     .find((question) => isExplicitUnknownAnswer(answers[question.id]));
   if (ambiguous) return reason(jurisdiction, "source_fact_unknown", `${ambiguous.id} is uncertain and requires source review.`);
   return undefined;
@@ -753,6 +764,8 @@ function isPrepaymentQuestion(question: PublicQuestion) {
 }
 
 function selectPathway(profile: EngineProfile, answers: Record<string, ScreeningAnswerValue>) {
+  if (profile.jurisdiction.code === "CA" && caProp64Pathway(answers)) return profile.pathways.find(p => p.id === caProp64Pathway(answers));
+  if (profile.jurisdiction.code === "CA" && caProp64ApplicationRequested(answers)) return undefined;
   if (profile.jurisdiction.code === "NY" && ny16059Requested(answers)) return profile.pathways.find(p => p.id === NY_16059_ROUTE);
   if (profile.jurisdiction.code === "DE" && deAdultConviction(answers) && !isAffirmative(answers.pardon_status)) {
     const id = delawareConvictionRoute(answers);
@@ -1080,12 +1093,6 @@ function caRouteSafetyGate(profile: EngineProfile, answers: Record<string, Scree
   }
   if (pathway.id === "prop-64-currently-serving-petition-11361-8" || pathway.id === "prop-64-completed-sentence-application-11361-8") {
     const branch = caProp64Choice("ca_prop64_branch", answers.ca_prop64_branch);
-    if (!isAffirmative(answers.ca_prop64_qualifying_marijuana_offense)) {
-      return reason(jurisdiction, "ca_prop64_qualifying_marijuana_offense_missing_or_not_eligible", "HSC § 11361.8 packet support requires a confirmed qualifying marijuana conviction.", pathway.sourceRef);
-    }
-    if (!isAffirmative(answers.ca_prop64_lesser_or_no_offense)) {
-      return reason(jurisdiction, "ca_prop64_lesser_or_no_offense_missing_or_not_eligible", "HSC § 11361.8 packet support requires confirmation that the offense would be no offense or a lesser offense under Prop 64/AUMA.", pathway.sourceRef);
-    }
     if (pathway.id === "prop-64-currently-serving-petition-11361-8" && branch !== "currently-serving petition") {
       return reason(jurisdiction, "ca_prop64_currently_serving_branch_not_confirmed", "The HSC § 11361.8 currently-serving petition branch must be confirmed before packet support opens.", pathway.sourceRef);
     }
@@ -1098,7 +1105,8 @@ function caRouteSafetyGate(profile: EngineProfile, answers: Record<string, Scree
         return reason(jurisdiction, "ca_prop64_relief_requested_missing", "The completed-sentence HSC § 11361.8 application must confirm dismissal/sealing or redesignation is requested.", pathway.sourceRef);
       }
     }
-    if (pathway.id === CA_PROP64_CURRENT && isAffirmative(answers.sentence_completion_date)) {
+    if (pathway.id === CA_PROP64_CURRENT && isAffirmative(answers.sentence_completion_date)
+      || pathway.id === CA_PROP64_COMPLETED && isNegative(answers.sentence_completion_date)) {
       return reason(jurisdiction, "ca_prop64_sentence_status_conflict", "The sentence status and completion answers for this case do not agree. Review both answers before continuing.", pathway.sourceRef);
     }
     if (caProp64RecordQuestions(profile, profile.questions, pathway.id)
@@ -1879,7 +1887,8 @@ function result(
     userLabel: labelForResult(resultCode),
     reasons,
     missingQuestionIds: overrides.missingQuestionIds ?? [],
-    cautions: overrides.cautions ?? [],
+    cautions: [...(overrides.cautions ?? []), ...(isCaProp64Pathway(profile.jurisdiction.code, overrides.pathwayId)
+      ? [CA_PROP64_PROCEDURE_COPY[overrides.pathwayId === CA_PROP64_CURRENT ? "current" : "completed"][0]] : [])],
     nextSteps: nextStepsForResult(resultCode),
     paymentAllowed,
     ...(overrides.pathwayId ? { pathwayId: overrides.pathwayId } : {}),
@@ -2045,6 +2054,15 @@ function matchCompiledRuleRoute(profile: EngineProfile, publicProfile: PublicJur
     const exact = profile.orderedDecisionRules.find(rule => rule.id === `route-${selectedPathway.id}` && rule.when.backendPathwayId === selectedPathway.id);
     if (exact) return { ok: true, deterministic: true, rule: exact, pathway: selectedPathway };
   }
+  // Exact conduct facts satisfy the legacy rule predicates; participant legal
+  // self-certifications are neither required nor synthesized into saved answers.
+  if (selectedPathway && isCaProp64Pathway(jurisdiction, selectedPathway.id)
+    && caProp64Facts(answers, evaluationToday().toISOString().slice(0, 10)).status === "satisfied") {
+    const exact = profile.orderedDecisionRules.find(rule => rule.id === `route-${selectedPathway.id}`
+      && rule.when.backendPathwayId === selectedPathway.id && rule.candidatePathwayIds?.length === 1
+      && rule.candidatePathwayIds[0] === selectedPathway.id);
+    if (exact) return { ok: true, deterministic: true, rule: exact, pathway: selectedPathway };
+  }
   const requestedPathwayContext = answerText(answers.possible_pathway_context).trim();
   if (requestedPathwayContext && !selectedPathway) {
     return {
@@ -2153,14 +2171,12 @@ function evaluateCompiledTiming(profile: EngineProfile, answers: Record<string, 
     const exact = specialRouteTiming(profile, answers, rule, pathway);
     if (exact) return exact;
   }
+  // §11361.8 has no generic paid-balance, pending-case or later-conviction
+  // waiting gate. Conduct and sentence-branch contradictions are checked above.
+  // The serving public-safety decision remains with the court.
+  if (isCaProp64Pathway(jurisdiction, pathway.id)
+    && caProp64Facts(answers, evaluationToday().toISOString().slice(0, 10)).status === "satisfied") return { status: "satisfied" };
   const courtRequirement = answerText(answers[COURT_REQUIREMENTS_FIELD_ID]);
-  // CR-400 item 2a expressly covers a person still serving the sentence.
-  // Only that exact, confirmed branch permits an unfinished sentence; every
-  // other completion, financial, pending-case and special-condition guard stays.
-  const currentProp64Sentence = jurisdiction === "CA" && pathway.id === CA_PROP64_CURRENT
-    && caProp64Choice("ca_prop64_branch", answers.ca_prop64_branch) === "currently-serving petition"
-    && isAffirmative(answers.ca_prop64_qualifying_marijuana_offense)
-    && isAffirmative(answers.ca_prop64_lesser_or_no_offense);
   const cannabis = jurisdiction === "IL" && pathway.id === IL_CANNABIS_PATHWAY ? illinoisCannabisFromAnswers(answers) : null;
   // §5.2(i)(3) and the adopted il-cannabis-vacate contract distinguish money
   // from nonfinancial completion. Never rewrite an unpaid answer as paid. This
@@ -2170,7 +2186,7 @@ function evaluateCompiledTiming(profile: EngineProfile, answers: Record<string, 
   const unpaidFinancialAnswer = isNegative(answers.financial_obligations) && !cannabisNonfinancialComplete;
   const paymentMeaningNeedsClarification = unpaidFinancialAnswer && courtRequirement === "yes"
     && isIndependentPaidFinancialFact(routeKey(profile, pathway), profile.questions.find(question => question.id === "financial_obligations"));
-  if (courtRequirement === "no" || isNegative(answers.sentence_completion_date) && !currentProp64Sentence || unpaidFinancialAnswer && !paymentMeaningNeedsClarification || isAffirmative(answers.pending_cases) || isAffirmative(answers.new_convictions_during_waiting_period)) {
+  if (courtRequirement === "no" || isNegative(answers.sentence_completion_date) || unpaidFinancialAnswer && !paymentMeaningNeedsClarification || isAffirmative(answers.pending_cases) || isAffirmative(answers.new_convictions_during_waiting_period)) {
     return {
       status: "not_yet",
       reason: reason(jurisdiction, "timing_or_completion_blocker", "This may not be ready yet. Most record-clearing paths require court-ordered requirements to be completed first.", rule.sourceRef)

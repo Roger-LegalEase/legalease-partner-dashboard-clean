@@ -1,3 +1,5 @@
+import { CA_PROP64_FACT_IDS, CA_PROP64_FACT_QUESTIONS } from "@/lib/rcap-engine/california-prop64-facts";
+import { isCaProp64QuantityQuestion, CA_PROP64_QUANTITY_CONTRACT } from "@/lib/expungement-ai/ca-prop64-quantity";
 import { NY_16059_FACT_IDS, NY_16059_QUESTIONS, NY_16059_TIMING_IDS } from "@/lib/rcap-engine/new-york-16059-facts";
 import { DE_CONVICTION_FACT_IDS, DE_CONVICTION_QUESTIONS } from "@/lib/rcap-engine/delaware-conviction-rules";
 import { MS_PROGRAM_COMPLETION_FACT_IDS, MS_PROGRAM_COMPLETION_QUESTIONS } from "@/lib/rcap-engine/mississippi-program-completion";
@@ -54,6 +56,7 @@ const STATE_SPECIFIC_PREPAY_WILMA_FACT_IDS: Record<string, Set<string>> = {
   GA: new Set(GA_FIRST_OFFENDER_FACT_IDS),
   IL: new Set(IL_CANNABIS_FACT_IDS),
   CA: new Set([
+    ...CA_PROP64_FACT_IDS,
     "ca_prop64_qualifying_marijuana_offense",
     "ca_prop64_lesser_or_no_offense",
     "ca_prop64_branch",
@@ -100,6 +103,7 @@ const STATE_SPECIFIC_PREPAY_WILMA_FACT_IDS: Record<string, Set<string>> = {
 // here as an exact birth date in free screening; it is now an approximate
 // threshold prepay and an exact date of birth at final verification only.
 const STATE_SPECIFIC_EXACT_PREPAY_TIMING_FACT_IDS: Record<string, Set<string>> = {
+  CA: new Set(["ca_prop64_offense_date"]),
   NY: new Set(NY_16059_TIMING_IDS),
   MD: new Set(["arrest_date"]),
   MS: new Set([
@@ -1064,6 +1068,7 @@ function withWilmaFactQuestions(
     ? [...WILMA_FACT_QUESTIONS.filter(question => !DE_CONVICTION_FACT_IDS.includes(question.id)), ...DE_CONVICTION_QUESTIONS]
     : profile.jurisdiction.code === "MS"
     ? [...WILMA_FACT_QUESTIONS, ...MISSISSIPPI_CORRECTION_FACT_QUESTIONS, ...MS_CONDITIONAL_DISCHARGE_QUESTIONS, ...MS_PROGRAM_COMPLETION_QUESTIONS]
+    : profile.jurisdiction.code === "CA" ? [...WILMA_FACT_QUESTIONS, ...CA_PROP64_FACT_QUESTIONS]
     : profile.jurisdiction.code === "GA" ? [...WILMA_FACT_QUESTIONS, ...GA_FIRST_OFFENDER_QUESTIONS]
     : profile.jurisdiction.code === "IL" ? [...WILMA_FACT_QUESTIONS, ...IL_CANNABIS_QUESTIONS]
     : profile.jurisdiction.code === "NY" ? [...WILMA_FACT_QUESTIONS, ...NY_16059_QUESTIONS]
@@ -1088,7 +1093,9 @@ function withWilmaFactQuestions(
       withBroadCourtRequirementsGate(dedupeQuestionsById([...baseQuestions, ...additions])),
       pathways
     );
-  const questions = withBroadTimingBucketGate(withAdditions).map(question => profile.jurisdiction.code === "NY" && NY_16059_FACT_IDS.includes(question.id)
+  const questions = withBroadTimingBucketGate(withAdditions).map(question => profile.jurisdiction.code === "CA" && CA_PROP64_FACT_IDS.includes(question.id)
+    ? CA_PROP64_FACT_QUESTIONS.find(fact => fact.id === question.id)!
+    : profile.jurisdiction.code === "NY" && NY_16059_FACT_IDS.includes(question.id)
     ? NY_16059_QUESTIONS.find(fact => fact.id === question.id)!
     : profile.jurisdiction.code === "DE" && DE_CONVICTION_FACT_IDS.includes(question.id)
     ? DE_CONVICTION_QUESTIONS.find(fact => fact.id === question.id)!
@@ -1135,6 +1142,7 @@ function toPublicQuestion(question: PublicQuestion): PublicQuestion {
   if (question.contextOnly !== undefined) publicQuestion.contextOnly = question.contextOnly;
   if (question.doesNotSelectPathway !== undefined) publicQuestion.doesNotSelectPathway = question.doesNotSelectPathway;
   if (question.lifecyclePhase !== undefined) publicQuestion.lifecyclePhase = question.lifecyclePhase;
+  if (isCaProp64QuantityQuestion(question)) publicQuestion.answerContract = CA_PROP64_QUANTITY_CONTRACT;
   if (question.options !== undefined) publicQuestion.options = question.options;
   const exclusive = exclusiveOptionsFor(question);
   if (exclusive.length) publicQuestion.exclusiveOptions = [...exclusive];

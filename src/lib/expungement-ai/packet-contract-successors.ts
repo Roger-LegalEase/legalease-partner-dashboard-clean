@@ -17,13 +17,13 @@ export function reviewedPacketContractSuccessor<T extends Snapshot>(snapshot: T,
   const routeKey = `${snapshot.jurisdiction}:${snapshot.pathwayId}`;
   const reviewed = (contracts.routes as Record<string, (typeof contracts.routes)[keyof typeof contracts.routes]>)[routeKey];
   const specification = packetSpecificationFor(routeKey);
-  if (!reviewed || !currentPlan || !specification || !snapshot.packetPlan || !Array.isArray(snapshot.requiredInputIds) || snapshot.profileVersion !== reviewed.profileVersion
+  if (!reviewed || !currentPlan || !snapshot.packetPlan || !Array.isArray(snapshot.requiredInputIds) || snapshot.profileVersion !== reviewed.profileVersion
     || snapshot.profileSourceFingerprint !== reviewed.profileSourceFingerprint
     || snapshot.profileAuthorityFingerprint !== reviewed.profileAuthorityFingerprint
     || hash(snapshot.packetPlan) !== reviewed.previousPlanSha256
     || hash(snapshot.requiredInputIds) !== reviewed.previousRequiredIdsSha256
     || hash(currentPlan) !== reviewed.currentPlanSha256
-    || hash(specification) !== reviewed.currentSpecificationSha256) return null;
+    || hash(specification ?? null) !== reviewed.currentSpecificationSha256) return null;
   return preserveAmbiguousMsAnswer({ ...snapshot, packetPlan: { ...currentPlan }, requiredInputIds: [...currentPlan.requiredInputIds] });
 }
 

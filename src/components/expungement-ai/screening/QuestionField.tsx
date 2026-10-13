@@ -28,6 +28,7 @@ import { readOrUnknown, type OrUnknownValue } from "@/components/expungement-ai/
 import { ContextOnlyBanner } from "@/components/expungement-ai/screening/ContextOnlyBanner";
 import { OptionGroup } from "@/components/expungement-ai/screening/fields/OptionGroup";
 import { OrUnknownField } from "@/components/expungement-ai/screening/fields/OrUnknownField";
+import { isCaProp64QuantityQuestion } from "@/lib/expungement-ai/ca-prop64-quantity";
 import { useLocalization } from "@/components/expungement-ai/LocalizationProvider";
 import { localizeProfileText } from "@/lib/expungement-ai/localization";
 
@@ -243,6 +244,7 @@ export function QuestionField({
           <OrUnknownField
             id={fieldId}
             inputType={config.inputType}
+            decimal={isCaProp64QuantityQuestion(question)}
             multiline={question.multiline}
             unknownLabel={translate(config.unknownKey, config.unknownLabel)}
             placeholder={config.placeholder}

@@ -1,3 +1,4 @@
+import { caProp64Pathway, caProp64Section, caProp64QuestionApplies, caProp64ApplicationRequested } from "@/lib/rcap-engine/california-prop64-facts";
 import { ny16059QuestionApplies, ny16059Requested, NY_16059_ROUTE, NY_16059_FACT_IDS, NY_16059_LEGACY_IDS, NY_16059_TIMING_IDS } from "@/lib/rcap-engine/new-york-16059-facts";
 import { deConvictionQuestionApplies, delawareConvictionRoute } from "@/lib/rcap-engine/delaware-conviction-rules";
 import { msProgramCompletionQuestionApplies } from "@/lib/rcap-engine/mississippi-program-completion";
@@ -62,9 +63,10 @@ export function selectScreeningQuestionIds(
     : profile.jurisdiction.code === "IL" ? illinoisCannabisFromAnswers(answers)
     : profile.jurisdiction.code === "KS" ? kansasRecordScopeFromAnswers(answers) : null;
   const deRoute = profile.jurisdiction.code === "DE" ? delawareConvictionRoute(answers) : undefined;
-  const selectedPathway = profile.jurisdiction.code === "NY" && ny16059Requested(answers) ? profile.pathways.find(p => p.id === NY_16059_ROUTE) : deRoute ? profile.pathways.find(pathway => pathway.id === deRoute) : programRoute?.status === "selected"
+  const caRoute = profile.jurisdiction.code === "CA" ? caProp64Pathway(answers) : undefined;
+  const selectedPathway = caRoute ? profile.pathways.find(p => p.id === caRoute) : profile.jurisdiction.code === "NY" && ny16059Requested(answers) ? profile.pathways.find(p => p.id === NY_16059_ROUTE) : deRoute ? profile.pathways.find(pathway => pathway.id === deRoute) : programRoute?.status === "selected"
     ? profile.pathways.find(pathway => pathway.id === programRoute.pathwayId)
-    : (programRoute?.status === "clarification" || programRoute?.status === "district_arrest") ? undefined : selectedLabel
+    : (programRoute?.status === "clarification" || programRoute?.status === "district_arrest" || profile.jurisdiction.code === "CA" && caProp64ApplicationRequested(answers)) ? undefined : selectedLabel
     ? profile.pathways.find((pathway) => pathway.label === selectedLabel)
     : undefined;
   const recordQuestions = new Map(caProp64RecordQuestions(profile, publicProfile.questions, selectedPathway?.id).map((question) => [question.id, question]));
@@ -75,6 +77,7 @@ export function selectScreeningQuestionIds(
   const seen = new Set<string>();
 
   return publicProfile.questions
+    .filter(question => profile.jurisdiction.code !== "CA" || caProp64QuestionApplies(answers, question.id))
     .filter(question => profile.jurisdiction.code !== "NY" || ny16059QuestionApplies(answers, question.id))
     .filter(question => profile.jurisdiction.code !== "NY" || !NY_16059_LEGACY_IDS.includes(question.id))
     .filter(question => profile.jurisdiction.code !== "NY" || !NY_16059_FACT_IDS.includes(question.id) || question.id === "ny_16059_request" || selectedPathway?.id === NY_16059_ROUTE)
@@ -99,6 +102,9 @@ export function selectScreeningQuestionIds(
     .filter(({ question }) => {
       const consumers = lifecycle?.routeConsumers[question.id] ?? [];
       if (profile.jurisdiction.code === "NY" && selectedPathway?.id === NY_16059_ROUTE && NY_16059_TIMING_IDS.includes(question.id)) return true;
+      if (profile.jurisdiction.code === "CA" && question.id === "ca_prop64_branch"
+        && ["11357", "11358", "11359", "11360", "11362.1"].includes(caProp64Section(answers) ?? "")
+        && caProp64ApplicationRequested(answers)) return true;
       if (consumers.length === 0) return true;
       return Boolean(selectedPathway && consumers.includes(selectedPathway.id));
     })

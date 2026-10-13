@@ -1,11 +1,12 @@
 import { caProp64RecordAnswerState, CA_PROP64_RECORD_ANSWER_CONTRACT } from "@/lib/expungement-ai/ca-prop64-record-answer";
 import { caProp64Choice, isCaProp64ChoiceQuestion } from "@/lib/expungement-ai/ca-prop64-choices";
+import { isCaProp64QuantityQuestion, isCaProp64GramText } from "@/lib/expungement-ai/ca-prop64-quantity";
 import type { ProfileQuestion } from "@/lib/expungement-ai/frontend/contracts";
 
 /** Shared input validation, not legal eligibility. Wire values remain unchanged. */
 export type QuestionAnswerState = "unanswered" | "invalid" | "known_valid" | "uncertain" | "declined";
 type QuestionContract = Pick<ProfileQuestion, "id" | "type"> & {
-  answerContract?: "ca_prop64_record_fact_v1";
+  answerContract?: ProfileQuestion["answerContract"];
   options?: unknown;
   exclusiveOptions?: readonly string[];
 };
@@ -118,7 +119,8 @@ export function questionAnswerState(question: QuestionContract, value: unknown, 
       if (!isCalendarDate(text) || (question.id === "date_of_birth" && text > today)) return "invalid";
       return "known_valid";
     case "number_or_range":
-      return !text ? "unanswered" : /^\d+$/.test(text) && Number.isSafeInteger(Number(text)) ? "known_valid" : "invalid";
+      return !text ? "unanswered" : (isCaProp64QuantityQuestion(question) ? isCaProp64GramText(text)
+        : /^\d+$/.test(text) && Number.isSafeInteger(Number(text))) ? "known_valid" : "invalid";
     case "text":
     case "textarea":
     case "text_or_unknown":

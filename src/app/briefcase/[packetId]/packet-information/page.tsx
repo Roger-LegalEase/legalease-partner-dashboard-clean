@@ -91,7 +91,7 @@ export default async function PacketInformationPage({
             <div>
               <p className="text-xs font-bold uppercase tracking-[0.08em] text-[#08786F]">{item.jurisdiction}</p>
               <h1 className="mt-2 text-[26px] font-extrabold tracking-[-0.02em] text-[#0B1320]">{correctingCompletion
-                ? <LocalizedCopy en={item.jurisdiction === "NY" ? "Review saved eligibility answers" : "Review saved completion answers"} es={item.jurisdiction === "NY" ? "Revise las respuestas guardadas sobre la elegibilidad" : "Revise las respuestas guardadas sobre el cumplimiento"} />
+                ? <LocalizedCopy en={["NY", "CA"].includes(item.jurisdiction) ? "Review saved eligibility answers" : "Review saved completion answers"} es={["NY", "CA"].includes(item.jurisdiction) ? "Revise las respuestas guardadas sobre la elegibilidad" : "Revise las respuestas guardadas sobre el cumplimiento"} />
                 : <LocalizedRuntimeText text={"Complete packet information"} />}</h1>
               {item.pathwayLabel ? <p className="mt-2 text-sm font-semibold text-[#475A6E]"><LocalizedCopy {...packetDisplayCopy("route_label", item.jurisdiction, item.pathwayId, item.pathwayLabel)} /></p> : null}
             </div>
@@ -109,7 +109,7 @@ export default async function PacketInformationPage({
             {!correctingCompletion ? <p className="mt-2"><LocalizedRuntimeText text={"Complete the remaining details for this packet. Review what's already here, add anything that is missing, and save your progress anytime."} /></p> : null}
           </div>
 
-          {correctingCompletion && item.jurisdiction === "NY" ? <nav className="mb-6 grid gap-2" aria-labelledby="eligibility-correction-heading">
+          {correctingCompletion && ["NY", "CA"].includes(item.jurisdiction) ? <nav className="mb-6 grid gap-2" aria-labelledby="eligibility-correction-heading">
             <p id="eligibility-correction-heading" className="font-semibold"><LocalizedCopy en="Choose an answer to correct" es="Elija una respuesta para corregir" /></p>
             {model.questions.filter(question => correctionIds.has(question.id)).map(question => <Link
               key={question.id} className="inline-flex min-h-11 items-center underline"

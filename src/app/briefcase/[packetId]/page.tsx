@@ -64,11 +64,11 @@ export default async function BriefcasePacketPage({
       activeNav="matters"
       breadcrumb={item ? <><Link href="/briefcase/matters" className="hover:text-[#1A1D26]"><LocalizedRuntimeText text={"My matters"} /></Link> / <b className="text-[#1A1D26]">{item.title}</b></> : <b className="text-[#1A1D26]"><LocalizedRuntimeText text={"Matter"} /></b>}
     >
-      {clarification && storedItem ? <p className="mb-5 rounded border border-amber-300 p-4">
+      {clarification && storedItem && !completionCorrectionAvailable ? <p className="mb-5 rounded border border-amber-300 p-4">
         <Link className="inline-flex min-h-11 items-center font-semibold underline" href={`/briefcase/${storedItem.id}/packet-information`}><LocalizedCopy {...CA_PROP64_CLARIFICATION_COPY.legacy_heading} /></Link>
       </p> : null}
       {completionCorrectionAvailable && item ? <p className="mb-5 rounded border border-amber-300 p-4">
-        <Link className="inline-flex min-h-11 items-center font-semibold underline" href={`/briefcase/${item.id}/packet-information`}><LocalizedCopy en={item.jurisdiction === "NY" ? "Review saved eligibility answers" : "Review saved completion answers"} es={item.jurisdiction === "NY" ? "Revise las respuestas guardadas sobre la elegibilidad" : "Revise las respuestas guardadas sobre el cumplimiento"} /></Link>
+        <Link className="inline-flex min-h-11 items-center font-semibold underline" href={`/briefcase/${item.id}/packet-information`}><LocalizedCopy en={["NY", "CA"].includes(item.jurisdiction ?? "") ? "Review saved eligibility answers" : "Review saved completion answers"} es={["NY", "CA"].includes(item.jurisdiction ?? "") ? "Revise las respuestas guardadas sobre la elegibilidad" : "Revise las respuestas guardadas sobre el cumplimiento"} /></Link>
       </p> : null}
       {item && item.authorityStatus !== "unavailable" ? (
         <section data-briefcase-matter-id={item.id}>

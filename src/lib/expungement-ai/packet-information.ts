@@ -1,3 +1,4 @@
+import { CA_PROP64_FACT_IDS, CA_PROP64_FACT_QUESTIONS, CA_PROP64_REASON_COPY, caProp64ActiveFactIds } from "@/lib/rcap-engine/california-prop64-facts";
 import { ny16059CustodyRemovalAvailable } from "@/lib/expungement-ai/ny-custody-correction";
 import { NY_16059_FACT_IDS, NY_16059_ROUTE, ny16059QuestionApplies, ny16059History } from "@/lib/rcap-engine/new-york-16059-facts";
 import { CA_PROP64_QUESTIONS, CA_PROP64_COMPLETED, isCaProp64Pathway, caProp64Choice } from "@/lib/expungement-ai/ca-prop64-choices";
@@ -411,7 +412,7 @@ export function packetInformationPatch(input: {
         && !(question && sameKnownQuestionAnswer(question, current.initialAnswers[id], answer));
     })
   );
-  const storedIds = new Set([...current.requiredInputIds.filter((id) => !(id in current.serverFacts)), ...ny16059CorrectionIds(current, true),
+  const storedIds = new Set([...current.requiredInputIds.filter((id) => !(id in current.serverFacts)), ...routeFactualCorrectionIds(current, true),
     ...(current.stateCode === "NY" && current.pathwayId === NY_16059_ROUTE ? Object.keys(current.packetAnswers) : [])]);
   const savedAnswers = { ...answerRecordForIds(current.packetAnswers, storedIds), ...answerDelta };
   const clearCustody = input.clearInactiveCustodyFacts === true;
@@ -636,9 +637,10 @@ function packetVerificationStateForRecord(
  * This is deliberately separate from protectedPacketInformationModelFor: no caller may use it as legal authority.
  */
 export function caProp64ClarificationModelFor(verification: ProtectedPacketVerificationRecord): ProtectedPacketInformationModel | null {
-  const snapshot = protectedAuthoritySnapshotFor(verification);
+  let snapshot = protectedAuthoritySnapshotFor(verification);
   if (!snapshot || !isCaProp64Pathway(snapshot.jurisdiction, snapshot.pathwayId)) return null;
   const profile = getProfileByJurisdiction(snapshot.jurisdiction);
+  if (profile) snapshot = reviewedPacketContractSuccessor(snapshot, packetPlanForPathway(profile, snapshot.pathwayId!)) ?? snapshot;
   if (!profile || profile.profileVersion !== snapshot.profileVersion
     || snapshot.profileSourceFingerprint !== (profile.source?.sourceCorpusSha256 ?? null)
     || snapshot.profileAuthorityFingerprint !== profileAuthorityFingerprint(profile, snapshot.pathwayId)
@@ -650,21 +652,28 @@ export function caProp64ClarificationModelFor(verification: ProtectedPacketVerif
     || (evaluation?.treatmentClassification ?? null) !== snapshot.treatmentClassification
     || !canonicalEqual(evaluation?.deferralComponentIds ?? [], snapshot.deferralComponentIds)) return null;
   const clarificationReasons = new Set(["ca.ca_prop64_currently_serving_branch_not_confirmed", "ca.ca_prop64_completed_sentence_branch_not_confirmed", "ca.ca_prop64_relief_requested_missing",
-    "ca.ca_prop64_record_details_unconfirmed", "ca.ca_prop64_sentence_status_conflict"]);
+    "ca.ca_prop64_record_details_unconfirmed", "ca.ca_prop64_sentence_status_conflict",
+    ...Object.keys(CA_PROP64_REASON_COPY).map(code => `ca.ca_prop64_${code}`)]);
   const scopedIds = snapshot.pathwayId === CA_PROP64_COMPLETED ? ["ca_prop64_branch", "ca_prop64_relief_requested"] : ["ca_prop64_branch", "sentence_completion_date"];
-  if (!evaluation || evaluation.pathwayId !== snapshot.pathwayId || evaluation.resultCode !== "needs_review"
+  if (!evaluation || evaluation.pathwayId !== snapshot.pathwayId || !["needs_review", "needs_more_info"].includes(evaluation.resultCode)
     || evaluation.paymentAllowed || evaluation.packetPlan || !evaluation.reasons.some((reason) => clarificationReasons.has(reason.code)
       || reason.code === "ca.source_fact_unknown" && scopedIds.some((id) => reason.text === `${id} is uncertain and requires source review.`))) return null;
-  const questions = CA_PROP64_QUESTIONS.filter((question) => question.id === "ca_prop64_branch" || snapshot.pathwayId === CA_PROP64_COMPLETED)
+  const allAnswers = { ...answerRecord(snapshot.screeningAnswers), ...answerRecord(snapshot.prefilledAnswers), ...answerRecord(snapshot.packetAnswers) };
+  const activeFacts = caProp64ActiveFactIds(allAnswers);
+  const questions = [...CA_PROP64_QUESTIONS.filter((question) => question.id === "ca_prop64_branch" || snapshot.pathwayId === CA_PROP64_COMPLETED),
+    ...CA_PROP64_FACT_QUESTIONS.filter(question => activeFacts.includes(question.id))]
     .map((question) => ({ ...toProfileQuestion(question), required: true }));
   questions.push(...caProp64RecordQuestions(profile, profile.questions, snapshot.pathwayId).map(toProfileQuestion));
-  const allAnswers = { ...answerRecord(snapshot.screeningAnswers), ...answerRecord(snapshot.prefilledAnswers), ...answerRecord(snapshot.packetAnswers) };
+  for (const id of ["offense_level", "case_outcome"]) {
+    const fact = allPublicQuestions(projectPublicProfile(profile)).find(question => question.id === id);
+    if (fact) questions.push({ ...toProfileQuestion(fact), required: true });
+  }
   // Preserve the existing completion fact; do not infer or rewrite it from the
   // selected branch. A same-case contradiction needs an explicit owner edit.
-  const completionConflict = snapshot.pathwayId !== CA_PROP64_COMPLETED
-    && isAffirmative(toScreeningAnswers(allAnswers).sentence_completion_date);
-  const completionUnknown = snapshot.pathwayId !== CA_PROP64_COMPLETED
-    && isExplicitUnknownAnswer(toScreeningAnswers(allAnswers).sentence_completion_date);
+  const completionConflict = snapshot.pathwayId === CA_PROP64_COMPLETED
+    ? isNegative(toScreeningAnswers(allAnswers).sentence_completion_date)
+    : isAffirmative(toScreeningAnswers(allAnswers).sentence_completion_date);
+  const completionUnknown = isExplicitUnknownAnswer(toScreeningAnswers(allAnswers).sentence_completion_date);
   if (completionConflict || completionUnknown) {
     const completion = allPublicQuestions(projectPublicProfile(profile)).find((question) => question.id === "sentence_completion_date");
     if (!completion) return null;
@@ -705,12 +714,12 @@ export function caProp64ClarificationModelFor(verification: ProtectedPacketVerif
   };
 }
 
-function caProp64AnswerHistory(base: ProtectedPacketAuthoritySnapshot) {
+function caProp64AnswerHistory(base: ProtectedPacketAuthoritySnapshot, changedIds: ReadonlySet<string>) {
   const history = [...(base.dependencies.semanticAnswerHistory ?? [])];
   // Preserve the exact old values, including malformed and shadowed facts.
-  for (const source of ["screeningAnswers", "prefilledAnswers", "packetAnswers"] as const) for (const factId of ["ca_prop64_branch", "ca_prop64_relief_requested", ...CA_PROP64_RECORD_FACT_IDS, "sentence_completion_date"]) {
+  for (const source of ["screeningAnswers", "prefilledAnswers", "packetAnswers"] as const) for (const factId of new Set(["ca_prop64_branch", "ca_prop64_relief_requested", ...CA_PROP64_RECORD_FACT_IDS, "sentence_completion_date", ...changedIds])) {
     if (!(factId in base[source])) continue;
-    const meaning = factId === "sentence_completion_date" ? "ca_prop64_prior_completion_answer" as const
+    const meaning = CA_PROP64_FACT_IDS.includes(factId) ? "ca_prop64_prior_conduct_answer" as const : factId === "sentence_completion_date" ? "ca_prop64_prior_completion_answer" as const
       : CA_PROP64_RECORD_FACT_IDS.some((id) => id === factId) ? "ca_prop64_prior_record_detail" as const : "ca_prop64_prior_choice_wording" as const;
     const entry = { factId, value: base[source][factId], source, meaning,
       routeKey: `${base.jurisdiction}:${base.pathwayId}`, profileVersion: base.profileVersion,
@@ -720,10 +729,10 @@ function caProp64AnswerHistory(base: ProtectedPacketAuthoritySnapshot) {
   return history;
 }
 
-/** Seeding's generic normalization must not reinterpret an unchanged legacy record fact. */
+/** Seeding must preserve every untouched source value, including inactive and unrecognized raw facts. */
 function preserveUnchangedCaRecordFacts<T extends ProtectedPacketAuthoritySnapshot>(next: T, prior: ProtectedPacketAuthoritySnapshot, changedIds: ReadonlySet<string>): T {
   const maps = { screeningAnswers: { ...next.screeningAnswers }, prefilledAnswers: { ...next.prefilledAnswers }, packetAnswers: { ...next.packetAnswers } };
-  for (const id of CA_PROP64_RECORD_FACT_IDS) {
+  for (const id of new Set([...Object.keys(prior.screeningAnswers), ...Object.keys(prior.prefilledAnswers), ...Object.keys(prior.packetAnswers)])) {
     if (changedIds.has(id)) continue;
     for (const source of ["screeningAnswers", "prefilledAnswers", "packetAnswers"] as const) {
       delete maps[source][id];
@@ -746,7 +755,7 @@ export function caProp64ClarificationPatch(input: {
   if (Object.keys(input.answers).some((id) => !allowed.has(id))) return null;
   if (Object.entries(input.answers).some(([id, value]) => questionAnswerState(model.questions.find((question) => question.id === id)!, value) === "invalid" && !canonicalEqual(value, model.initialAnswers[id]))) return null;
   const maps = { screeningAnswers: answerRecord(base.screeningAnswers), prefilledAnswers: answerRecord(base.prefilledAnswers), packetAnswers: answerRecord(base.packetAnswers) };
-  const history = caProp64AnswerHistory(base);
+  const history = caProp64AnswerHistory(base, new Set(Object.keys(input.answers)));
   const answerDelta = Object.fromEntries(Object.entries(input.answers).filter(([id, value]) => !canonicalEqual(model.initialAnswers[id], value)
     && !sameKnownQuestionAnswer(model.questions.find((question) => question.id === id)!, model.initialAnswers[id], value)));
   // Preserve a current held draft on an unchanged save. An old permissively
@@ -1000,7 +1009,13 @@ export function packetCollectionFor(input: {
 /** Edit links and direct saves share collection ownership; later/external facts stay in their actual stage. */
 /** Eligibility corrections are distinct from document-required fields. They use
  * the existing protected revision/hash transition and never change the plan. */
-function ny16059CorrectionIds(model: { stateCode: string; pathwayId: string | null; screeningAnswers: Record<string, AnswerValue>; prefilledAnswers: Record<string, AnswerValue>; packetAnswers: Record<string, AnswerValue> }, includeInactive = false): string[] {
+function routeFactualCorrectionIds(model: { stateCode: string; pathwayId: string | null; screeningAnswers: Record<string, AnswerValue>; prefilledAnswers: Record<string, AnswerValue>; packetAnswers: Record<string, AnswerValue> }, includeInactive = false): string[] {
+  if (isCaProp64Pathway(model.stateCode, model.pathwayId)) {
+    const answers = { ...model.screeningAnswers, ...model.prefilledAnswers, ...model.packetAnswers };
+    return [...(includeInactive ? CA_PROP64_FACT_IDS : caProp64ActiveFactIds(answers)),
+      "offense_level", "case_outcome", "court", "charge", "ca_prop64_branch", "sentence_completion_date",
+      ...(model.pathwayId === CA_PROP64_COMPLETED ? ["ca_prop64_relief_requested"] : [])];
+  }
   if (model.stateCode !== "NY" || model.pathwayId !== NY_16059_ROUTE) return [];
   const answers = toScreeningAnswers({ ...model.screeningAnswers, ...model.prefilledAnswers, ...model.packetAnswers });
   return [...NY_16059_FACT_IDS.filter(id => id !== "ny_16059_request"), "ny_16059_later_conviction_entered", "ny_16059_undisposed_arrest", "ny_16059_pending_charge", "ny_16059_sex_offender_registration"]
@@ -1016,13 +1031,13 @@ export function editablePacketInputIds(model: Pick<ProtectedPacketInformationMod
   const excluded = new Set(collection?.facts.filter((fact) => fact.source === "server_route_fact"
     || ["external_actor", "derived"].includes(fact.collection)
     || !includeInactive && fact.collection === "conditional" && fact.active === false).map((fact) => fact.factId) ?? []);
-  return new Set([...model.requiredInputIds.filter((id) => !(id in model.serverFacts) && !excluded.has(id)), ...ny16059CorrectionIds(model, includeInactive)]);
+  return new Set([...model.requiredInputIds.filter((id) => !(id in model.serverFacts) && !excluded.has(id)), ...routeFactualCorrectionIds(model, includeInactive)]);
 }
 
 /** Reused completion answers leave intake, but retain their existing correction control. */
 export function reviewEditablePacketInputIds(model: Parameters<typeof editablePacketInputIds>[0]
   & Pick<ProtectedPacketInformationModel, "builderQuestions" | "questions">): Set<string> {
-  const reviewIds = new Set([...model.builderQuestions.map((question) => question.id), ...ny16059CorrectionIds(model)]);
+  const reviewIds = new Set([...model.builderQuestions.map((question) => question.id), ...routeFactualCorrectionIds(model)]);
   const allowed = editablePacketInputIds(model);
   const questionIds = new Set(model.questions.map((question) => question.id));
   for (const contract of courtCompletionContractsFor(`${model.stateCode}:${model.pathwayId ?? ""}`)) {
@@ -1054,7 +1069,7 @@ export function heldCourtCompletionInputIds(model: Parameters<typeof editablePac
 export function heldPacketCorrectionInputIds(model: Parameters<typeof heldCourtCompletionInputIds>[0], resultCode: string | null): Set<string> {
   const ids = heldCourtCompletionInputIds(model, resultCode);
   if (["not_yet", "needs_more_info", "needs_review", "likely_not_eligible"].includes(resultCode ?? "")) {
-    for (const id of ny16059CorrectionIds(model)) ids.add(id);
+    for (const id of routeFactualCorrectionIds(model)) ids.add(id);
   }
   return ids;
 }
@@ -1248,7 +1263,7 @@ function protectedPacketQuestionSurface(
       }
     }
   }
-  const correctionIds = ny16059CorrectionIds({ stateCode: profile.jurisdiction.code, pathwayId, screeningAnswers, prefilledAnswers, packetAnswers: savedAnswers });
+  const correctionIds = routeFactualCorrectionIds({ stateCode: profile.jurisdiction.code, pathwayId, screeningAnswers, prefilledAnswers, packetAnswers: savedAnswers });
   for (const id of correctionIds) {
     const question = questionById.get(id);
     if (question && !questions.some(q => q.id === id)) questions.push({ ...question, required: false, contextOnly: false });
@@ -1424,8 +1439,8 @@ function deriveProtectedPacketDraftSnapshot(
   if (isCaProp64Pathway(base.jurisdiction, base.pathwayId)) {
     const before = { ...base.screeningAnswers, ...base.prefilledAnswers, ...base.packetAnswers };
     const after = { ...base.screeningAnswers, ...base.prefilledAnswers, ...packetAnswers };
-    if (["ca_prop64_branch", "ca_prop64_relief_requested", ...CA_PROP64_RECORD_FACT_IDS, "sentence_completion_date"].some((id) => !canonicalEqual(before[id], after[id]))) {
-      base = { ...base, dependencies: { ...base.dependencies, semanticAnswerHistory: caProp64AnswerHistory(base) } };
+    if (["ca_prop64_branch", "ca_prop64_relief_requested", ...CA_PROP64_RECORD_FACT_IDS, "sentence_completion_date", ...CA_PROP64_FACT_IDS].some((id) => !canonicalEqual(before[id], after[id]))) {
+      base = { ...base, dependencies: { ...base.dependencies, semanticAnswerHistory: caProp64AnswerHistory(base, explicitChangedIds) } };
     }
   }
   const legacy = protectedLegacyAnswerProjection(base);
@@ -1462,7 +1477,10 @@ function deriveProtectedPacketDraftSnapshot(
   })?.snapshot;
   if (!seeded) return null;
   const history = archiveExplicitLegacyShapeReplacements(seeded.dependencies.semanticAnswerHistory, legacy.inspection, replacedLegacyIds);
-  const preserved = preserveProtectedLegacyShapes(seeded, legacy.inspection, replacedLegacyIds);
+  const shapesPreserved = preserveProtectedLegacyShapes(seeded, legacy.inspection, replacedLegacyIds);
+  const preserved = isCaProp64Pathway(base.jurisdiction, base.pathwayId)
+    ? preserveUnchangedCaRecordFacts(shapesPreserved, base, new Set([...explicitChangedIds, ...confirmRecordFacts]))
+    : shapesPreserved;
   return { ...preserved, dependencies: history.length
     ? { ...preserved.dependencies, semanticAnswerHistory: history } : preserved.dependencies };
 }

@@ -20,6 +20,7 @@ export function OrUnknownField({
   ariaLabelledBy,
   ariaDescribedBy,
   invalid,
+  decimal = false,
   multiline = false
 }: {
   id: string;
@@ -31,6 +32,7 @@ export function OrUnknownField({
   ariaLabelledBy?: string;
   ariaDescribedBy?: string;
   invalid?: boolean;
+  decimal?: boolean;
   multiline?: boolean;
 }) {
   const isUnknown = value.unknown === true;
@@ -53,7 +55,8 @@ export function OrUnknownField({
         id={id}
         className="min-h-[48px] rounded-xl border-[1.5px] border-[#E4E8EF] bg-white px-4 text-[15.5px] text-[#0B1320] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00A99D] disabled:cursor-not-allowed disabled:bg-[#F2F4F8] disabled:text-[#8A93A6]"
         type={inputType}
-        inputMode={inputType === "number" ? "numeric" : undefined}
+        inputMode={inputType === "number" ? decimal ? "decimal" : "numeric" : undefined}
+        step={inputType === "number" && decimal ? "any" : undefined}
         placeholder={placeholder}
         value={value.value ?? ""}
         disabled={isUnknown}
