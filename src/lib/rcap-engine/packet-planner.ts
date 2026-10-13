@@ -1,6 +1,7 @@
 import "server-only";
 import { isCaProp64Pathway } from "@/lib/expungement-ai/ca-prop64-choices";
 import { CA_PROP64_LEGACY_IDS } from "@/lib/rcap-engine/california-prop64-facts";
+import { CA_PROP64_CAPTION_FACT_IDS } from "@/lib/expungement-ai/ca-prop64-caption-facts";
 
 import type { EngineProfile, ScreeningPacketPlan } from "@/lib/rcap-engine/contracts";
 import { packetSpecificationRequiredFactIdsFor } from "@/lib/rcap/grade-a/packet-specification";
@@ -33,7 +34,8 @@ export function packetPlanForPathway(profile: EngineProfile, pathwayId: string):
     requiredInputIds: [...new Set([
       ...scopedBaseRequiredInputIds,
       ...routedExactPacketFactIds,
-      ...registeredPacketFactIds
+      ...registeredPacketFactIds,
+      ...(isCaProp64Pathway(profile.jurisdiction.code, pathwayId) ? CA_PROP64_CAPTION_FACT_IDS : [])
     ])].filter(id => !isCaProp64Pathway(profile.jurisdiction.code, pathwayId) || !CA_PROP64_LEGACY_IDS.includes(id)),
     sourceRuleRefs: plan.sourceRuleRefs ?? [],
     packetReadyWhen: plan.packetReadyWhen ?? []

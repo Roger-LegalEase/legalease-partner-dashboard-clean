@@ -1,4 +1,5 @@
 import { msExactCalendarDate, msExactTimingQuestionIds } from "@/lib/rcap-engine/mississippi-exact-timing";
+import { CA_PROP64_CAPTION_QUESTIONS } from "@/lib/expungement-ai/ca-prop64-caption-facts";
 import { GA_FIRST_OFFENDER_FACT_IDS, GA_ORIGINAL_FIRST_OFFENDER_PATHWAY, georgiaFirstOffenderQuestionApplies } from "@/lib/rcap-engine/georgia-first-offender";
 import { IL_CANNABIS_FACT_IDS, IL_CANNABIS_PATHWAY, illinoisCannabisQuestionApplies } from "@/lib/rcap-engine/illinois-cannabis-facts";
 import { pathwayExcludedByKnownFacts } from "@/lib/rcap-engine/factual-pathway-exclusions";
@@ -648,6 +649,8 @@ function packetVerificationStateForRecord(
 export function caProp64ClarificationModelFor(verification: ProtectedPacketVerificationRecord): ProtectedPacketInformationModel | null {
   let snapshot = protectedAuthoritySnapshotFor(verification);
   if (!snapshot || !isCaProp64Pathway(snapshot.jurisdiction, snapshot.pathwayId)) return null;
+  if (!canonicalEqual(snapshot.serverFacts, canonicalServerFacts(snapshot.jurisdiction, snapshot.pathwayId))) return null;
+  if (!canonicalEqual(snapshot.packetFamilyIdentifiers, { mode: snapshot.packetPlan?.mode ?? null, sourceFormIds: snapshot.packetPlan?.sourceFormIds ?? [] })) return null;
   const profile = getProfileByJurisdiction(snapshot.jurisdiction);
   if (profile) snapshot = reviewedPacketContractSuccessor(snapshot, packetPlanForPathway(profile, snapshot.pathwayId!)) ?? snapshot;
   if (!profile || profile.profileVersion !== snapshot.profileVersion
@@ -913,6 +916,9 @@ export function protectedPacketInformationModelFor(
 ): ProtectedPacketInformationModel | null {
   let snapshot = protectedAuthoritySnapshotFor(verification);
   if (!snapshot) return null;
+  if (isCaProp64Pathway(snapshot.jurisdiction, snapshot.pathwayId)
+    && (!canonicalEqual(snapshot.serverFacts, canonicalServerFacts(snapshot.jurisdiction, snapshot.pathwayId))
+      || !canonicalEqual(snapshot.packetFamilyIdentifiers, { mode: snapshot.packetPlan?.mode ?? null, sourceFormIds: snapshot.packetPlan?.sourceFormIds ?? [] }))) return null;
   const profile = getProfileByJurisdiction(snapshot.jurisdiction);
   if (!profile || profile.profileVersion !== snapshot.profileVersion) return null;
   if (snapshot.profileSourceFingerprint !== (profile.source?.sourceCorpusSha256 ?? null)
@@ -2645,6 +2651,9 @@ function installPacketSpecificationQuestions(
     questions.set(factId, question);
   }
   if (isCaProp64Pathway(jurisdiction, pathwayId)) {
+    for (const question of CA_PROP64_CAPTION_QUESTIONS) {
+      if (requiredInputIds.includes(question.id)) questions.set(question.id, structuredClone(question));
+    }
     const profile = getProfileByJurisdiction(jurisdiction);
     if (!profile) throw new Error("California Proposition 64 profile unavailable.");
     for (const question of caProp64RecordQuestions(profile, [...questions.values()] as PublicQuestion[], pathwayId)) {

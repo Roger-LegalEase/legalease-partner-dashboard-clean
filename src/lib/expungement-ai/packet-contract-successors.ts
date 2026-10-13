@@ -1,4 +1,5 @@
 import "server-only";
+import { caProp64CaptionPlanSuccessor, caProp64PriorCaptionPlan } from "@/lib/expungement-ai/ca-prop64-caption-successor";
 import contracts from "@/lib/expungement-ai/reviewed-packet-contract-successors.json";
 import { contactRepresentationHash as hash } from "@/lib/expungement-ai/contact-representation";
 import { packetSpecificationFor } from "@/lib/rcap/grade-a/packet-specification";
@@ -14,6 +15,17 @@ const MS_ROUTE = "MS:non-conviction-expungement-for-dismissal-no-disposition-or-
 
 /** Original hashes are validated by the caller first. This is a read projection, never a database migration. */
 export function reviewedPacketContractSuccessor<T extends Snapshot>(snapshot: T, currentPlan: ScreeningPacketPlan | undefined): T | null {
+  const caption = caProp64CaptionPlanSuccessor(snapshot, currentPlan);
+  if (caption) return caption;
+  const priorCaptionPlan = caProp64PriorCaptionPlan(currentPlan);
+  if (priorCaptionPlan) {
+    const prior = previousPacketContractSuccessor(snapshot, priorCaptionPlan);
+    return prior ? caProp64CaptionPlanSuccessor(prior, currentPlan) : null;
+  }
+  return previousPacketContractSuccessor(snapshot, currentPlan);
+}
+
+function previousPacketContractSuccessor<T extends Snapshot>(snapshot: T, currentPlan: ScreeningPacketPlan | undefined): T | null {
   const routeKey = `${snapshot.jurisdiction}:${snapshot.pathwayId}`;
   const reviewed = (contracts.routes as Record<string, (typeof contracts.routes)[keyof typeof contracts.routes]>)[routeKey];
   const specification = packetSpecificationFor(routeKey);
