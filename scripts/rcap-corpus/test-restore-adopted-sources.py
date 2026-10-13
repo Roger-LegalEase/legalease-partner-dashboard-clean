@@ -20,6 +20,40 @@ def pin(data):
 
 
 class RestorationTests(unittest.TestCase):
+    def test_transient_origin_errors_retry_same_original_then_verify(self):
+        url = "https://court.example/original.pdf"
+        data = b"exact original"
+        with patch.object(restore.urllib.request, "build_opener") as opener, patch.object(restore.time, "sleep") as sleep:
+            request = opener.return_value.open
+            request.side_effect = [restore.urllib.error.HTTPError(url, code, "origin unavailable", {}, None) for code in (521, 522)] + [io.BytesIO(data)]
+            self.assertEqual(restore.verify(restore.download(url, len(data)), pin(data)), data)
+            self.assertEqual([call.args[0].full_url for call in request.call_args_list], [url] * 3)
+            self.assertEqual([call.args[0] for call in sleep.call_args_list], [1, 2])
+
+    def test_origin_retries_exhaust_without_source_install_or_url_disclosure(self):
+        url = "https://court.example/original.pdf?private=secret"
+        with patch.object(restore.urllib.request, "build_opener") as opener, patch.object(restore.time, "sleep"):
+            opener.return_value.open.side_effect = restore.urllib.error.HTTPError(url, 522, "secret", {}, None)
+            with self.assertRaisesRegex(restore.Refused, "^HTTP 522$"):
+                restore.download(url, 20)
+            self.assertEqual(opener.return_value.open.call_count, 3)
+
+    def test_access_denial_is_not_retried(self):
+        with patch.object(restore.urllib.request, "build_opener") as opener, patch.object(restore.time, "sleep") as sleep:
+            opener.return_value.open.side_effect = restore.urllib.error.HTTPError("https://court.example/a", 403, "denied", {}, None)
+            with self.assertRaisesRegex(restore.Refused, "^HTTP 403$"):
+                restore.download("https://court.example/a", 20)
+            self.assertEqual(opener.return_value.open.call_count, 1)
+            sleep.assert_not_called()
+
+    def test_successful_wrong_bytes_are_not_retried_or_accepted(self):
+        with patch.object(restore.urllib.request, "build_opener") as opener, patch.object(restore.time, "sleep") as sleep:
+            opener.return_value.open.return_value = io.BytesIO(b"wrong")
+            with self.assertRaisesRegex(restore.Refused, "SHA-256 mismatch"):
+                restore.verify(restore.download("https://court.example/a", 5), pin(b"right"))
+            self.assertEqual(opener.return_value.open.call_count, 1)
+            sleep.assert_not_called()
+
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory()
         self.addCleanup(self.temp.cleanup)

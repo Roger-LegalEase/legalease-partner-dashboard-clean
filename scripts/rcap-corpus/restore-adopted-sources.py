@@ -17,6 +17,7 @@ from pathlib import Path, PurePosixPath
 import stat
 import subprocess
 import sys
+import time
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -56,16 +57,25 @@ def download(url, limit, token=None, accept=None):
         headers["Authorization"] = "Bearer " + token
     if accept:
         headers["Accept"] = accept
-    try:
-        with urllib.request.build_opener(SafeRedirect()).open(
-            urllib.request.Request(url, headers=headers), timeout=90
-        ) as response:
-            data = response.read(limit + 1)
-    except urllib.error.HTTPError as error:
-        raise Refused(f"HTTP {error.code}") from None
-    except (urllib.error.URLError, TimeoutError):
-        # URLs in transport exceptions can contain signed download credentials.
-        raise Refused("transport unavailable") from None
+    for attempt in range(3):
+        try:
+            with urllib.request.build_opener(SafeRedirect()).open(
+                urllib.request.Request(url, headers=headers), timeout=90
+            ) as response:
+                data = response.read(limit + 1)
+            break
+        except urllib.error.HTTPError as error:
+            # Actual ND court origin failures in CI: retry the same original
+            # URL, never a replacement or changed identity. Integrity failures
+            # and access denials are not retried.
+            if error.code in (502, 503, 504, 521, 522) and attempt < 2:
+                error.close()
+                time.sleep(attempt + 1)
+                continue
+            raise Refused(f"HTTP {error.code}") from None
+        except (urllib.error.URLError, TimeoutError):
+            # URLs in transport exceptions can contain signed credentials.
+            raise Refused("transport unavailable") from None
     if len(data) > limit:
         raise Refused("response exceeds pinned size limit")
     return data
