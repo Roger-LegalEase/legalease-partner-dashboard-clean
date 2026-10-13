@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "a53bad89e8b783b8a83db53ad95a83c8a7b84ad9",
+  "generatedAtCommit": "54a37a0f8a2f576e079122a5505ea1626084b458",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -1270,21 +1270,6 @@
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-10T15:26:44.014Z"
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "az_certificate_second_chance-set",
-      "familyId": "az_certificate_second_chance-set",
-      "itemId": null,
-      "familyIds": [
-        "az_certificate_second_chance-set"
-      ],
-      "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VF05",
-      "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -3708,21 +3693,6 @@
       "released": true,
       "releasedAt": "2026-09-14T20:59:30.755Z",
       "releaseReason": "Accepted current complete packet; no reread owed. Selected committed evidence: data/rcap-grade-a/packet-factory-24h/vffl1/rows-vffl1-fl-juvenile-diversion-original-final-20260912.json"
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "fl-sealing-set",
-      "familyId": "fl-sealing-set",
-      "itemId": null,
-      "familyIds": [
-        "fl-sealing-set"
-      ],
-      "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VF04",
-      "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -6399,21 +6369,6 @@
         "me-seal-gen-set"
       ],
       "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VF06",
-      "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "me-seal-gen-set",
-      "familyId": "me-seal-gen-set",
-      "itemId": null,
-      "familyIds": [
-        "me-seal-gen-set"
-      ],
-      "sourceId": null,
       "operation": "packet-build",
       "lane": "PF07",
       "laneKind": "packet-build",
@@ -7172,21 +7127,6 @@
         "nc_145_5_misdemeanor-set"
       ],
       "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VF10",
-      "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "nc_145_5_misdemeanor-set",
-      "familyId": "nc_145_5_misdemeanor-set",
-      "itemId": null,
-      "familyIds": [
-        "nc_145_5_misdemeanor-set"
-      ],
-      "sourceId": null,
       "operation": "packet-build",
       "lane": "PF07",
       "laneKind": "packet-build",
@@ -7314,21 +7254,6 @@
       "released": true,
       "releasedAt": "2026-09-10T11:23:28.318Z",
       "releaseReason": "The lane was a local worker agent in this container and has returned; no process holds this grant. Released by the Captain so the family can be dispatched again. A release accepts, rejects and supersedes nothing."
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "nc_auto_146_a4_agency_followup-set",
-      "familyId": "nc_auto_146_a4_agency_followup-set",
-      "itemId": null,
-      "familyIds": [
-        "nc_auto_146_a4_agency_followup-set"
-      ],
-      "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VF01",
-      "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -15996,7 +15921,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "dd674805a8b5e425c9e7b9c1f47ba9bf0ba54ddc204afee1a6cb61f7cae5e911",
+  "claimsDigest": "74099d5ddefb175faca9260365c52a27462bcf98dfb58d7c7bbeb635531378a2",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -74088,6 +74013,46 @@
       "operation": "independent-verification",
       "lane": "VF01",
       "withdrawnAt": "2026-09-15T00:18:54Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "az_certificate_second_chance-set",
+      "operation": "independent-verification",
+      "lane": "VF05",
+      "withdrawnAt": "2026-10-13T20:42:57Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "fl-sealing-set",
+      "operation": "independent-verification",
+      "lane": "VF04",
+      "withdrawnAt": "2026-10-13T20:42:57Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "me-seal-gen-set",
+      "operation": "independent-verification",
+      "lane": "VF06",
+      "withdrawnAt": "2026-10-13T20:42:57Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "nc_145_5_misdemeanor-set",
+      "operation": "independent-verification",
+      "lane": "VF10",
+      "withdrawnAt": "2026-10-13T20:42:57Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "nc_auto_146_a4_agency_followup-set",
+      "operation": "independent-verification",
+      "lane": "VF01",
+      "withdrawnAt": "2026-10-13T20:42:57Z",
       "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
     }
   ]

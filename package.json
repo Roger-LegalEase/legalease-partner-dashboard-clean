@@ -355,7 +355,8 @@
     "rcap:verify-lane-f-commercial-admission": "node scripts/verify-rcap-lane-f-commercial-admission.mjs",
     "clinic:verify-security": "node scripts/security/test-clinic-participant-ownership-denials.mjs && node scripts/security/test-clinic-anonymous-and-tenant-denials.mjs && node scripts/security/test-clinic-shared-device-reset.mjs && node scripts/security/test-clinic-telemetry-redaction.mjs && node scripts/security/test-clinic-mobile-accessibility.mjs && node scripts/security/test-clinic-hosted-acceptance-runner.mjs",
     "rcap:verify-acceptance-receipt-agreement": "node scripts/verify-acceptance-receipt-agreement.mjs",
-    "rcap:integrate-packet-factory": "node scripts/grade-a-packet-factory-24h/integrate.mjs"
+    "rcap:integrate-packet-factory": "node scripts/grade-a-packet-factory-24h/integrate.mjs",
+    "clinic:acceptance": "node scripts/verify-onboarding-all.mjs --group=clinic"
   },
   "dependencies": {
     "@supabase/ssr": "^0.10.3",

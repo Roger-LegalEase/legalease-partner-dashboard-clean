@@ -25,6 +25,12 @@ const { resolveRuntimeText, t } = await import('../src/lib/expungement-ai/locali
 const { MS_NONCONVICTION_SCREENING_ANSWERS } = await import('./lib/rcap-ms-nonconviction-fixture.mjs');
 const profile = getProfileByJurisdiction('MS'), pub = projectPublicProfile(profile);
 const rows = [], renders = [], checks = [], check = (pass, message) => checks.push({ pass: Boolean(pass), message });
+for (const order of [undefined, "no_program_order", "other_or_unknown"]) {
+  check(!selectScreeningQuestionIds(profile, pub, {...MS_NONCONVICTION_SCREENING_ANSWERS, ms_program_order: order}).includes("ms_program_record_status"), "No program status requested without an identified program");
+}
+for (const order of ["99-15-26", "99-15-101", "41-29-150"]) {
+  check(selectScreeningQuestionIds(profile, pub, {...MS_NONCONVICTION_SCREENING_ANSWERS, ms_program_order: order}).includes("ms_program_record_status"), "Identified program still requests actual status");
+}
 const evaluate = answers => evaluateAuthoritativeScreeningResult({ jurisdiction: 'MS', profileVersion: profile.profileVersion, matterId: 'synthetic-ms-completed-program', answers }).evaluation;
 const surfaces = ['checkout creation', 'consumer payment authority', 'sponsored entitlement', 'packet generation', 'packet credit consumption', 'participant delivery'];
 const programs = [['99-15-26', 'nonadjudication-under-99-15-26'], ['99-15-101', 'pretrial-intervention-or-diversion-expungement']];

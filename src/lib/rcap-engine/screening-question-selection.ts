@@ -108,6 +108,8 @@ export function selectScreeningQuestionIds(
     .filter(question => profile.jurisdiction.code !== "NY" || !NY_16059_FACT_IDS.includes(question.id) || question.id === "ny_16059_request" || selectedPathway?.id === NY_16059_ROUTE)
     .filter(question => profile.jurisdiction.code !== "NY" || question.id !== "ny_16059_incarceration_periods" || answers.ny_16059_incarceration_history === "released")
     .filter(question => profile.jurisdiction.code !== "NY" || question.id !== "release_date" || answers.ny_16059_sentence_incarceration === "Yes")
+    .filter(question => profile.jurisdiction.code !== "MS" || question.id !== "ms_program_record_status"
+      || ["99-15-26", "99-15-101", "41-29-150"].includes(String(answers.ms_program_order)))
     .filter(question => profile.jurisdiction.code !== "MS" || question.id !== "ms_program_final_disposition"
       || (["99-15-26", "99-15-101", "41-29-150"].includes(String(answers.ms_program_order))
         && ["completed_and_closed", "completed_without_closure"].includes(String(answers.ms_program_record_status))))
