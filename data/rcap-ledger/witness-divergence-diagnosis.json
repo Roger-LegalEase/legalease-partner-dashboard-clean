@@ -19,7 +19,7 @@
     "evaluatorToday": "2026-07-01",
     "randomness": "none",
     "routeSelectingEnumerationBound": 240,
-    "combosTried": 267
+    "combosTried": 410
   },
   "passes": {
     "baseline": "the committed first-option rule in data/rcap-ledger/public-witness-answer-sets.json",
@@ -28,20 +28,48 @@
   "baselineWasWrongAboutItself": "The baseline rule answered resolved_timing_bucket with the first option, lt_1_year — the least clearable value in the list — so every route with a waiting period failed closed on an anchor it could never satisfy. Those were witness defects, not evaluator defects. Reporting them as runtime bugs would have sent Session A after roughly 92 patches that do not exist.",
   "totals": {
     "pathways": 267,
-    "correct_pathway": 267,
+    "correct_pathway": 262,
+    "wrong_path": 2,
+    "non_converging": 3,
     "baselineOutcomes": {
-      "correct_pathway": 267
+      "correct_pathway": 261,
+      "non_converging": 6
     },
-    "correctedByFixtureAlone": 0,
-    "failing": 0,
+    "correctedByFixtureAlone": 1,
+    "failing": 5,
     "clusters": 0,
-    "unclustered": 0,
+    "unclustered": 5,
     "clusterPartitionSumsToFailing": true,
     "requestedQuestionsNotProjected": [],
     "jurisdictionsAskedForAnUnprojectedQuestion": []
   },
   "clusters": [],
-  "unclusteredFailures": [],
+  "unclusteredFailures": [
+    {
+      "pathwayKey": "CA:prop-64-completed-sentence-application-11361-8",
+      "reasonCodes": [
+        "ca_prop64_sentence_status_conflict"
+      ]
+    },
+    {
+      "pathwayKey": "GA:restriction-and-sealing-of-a-pardoned-felony",
+      "reasonCodes": [
+        "original_first_offender_active_pre2026"
+      ]
+    },
+    {
+      "pathwayKey": "MS:first-offense-controlled-substance-conditional-discharge-relief",
+      "reasonCodes": []
+    },
+    {
+      "pathwayKey": "MS:nonadjudication-under-99-15-26",
+      "reasonCodes": []
+    },
+    {
+      "pathwayKey": "MS:pretrial-intervention-or-diversion-expungement",
+      "reasonCodes": []
+    }
+  ],
   "records": [
     {
       "pathwayKey": "AK:confidentiality-of-acquittals-and-dismissals-as-22-35-030-administrative-rule-40",
@@ -440,22 +468,90 @@
       "pathwayId": "prop-64-completed-sentence-application-11361-8",
       "pathwayLabel": "HSC § 11361.8 completed-sentence marijuana dismissal/sealing or redesignation application",
       "sessionADisposition": "family_bridge_missing_no_family",
-      "outcome": "correct_pathway",
-      "reachedBy": {
-        "case_outcome": "Arrest or citation with no charge filed",
-        "offense_level": "Misdemeanor"
-      },
-      "baselineOutcome": "correct_pathway",
-      "correctedByFixtureAlone": false,
-      "terminalEvaluation": {
-        "resultCode": "likely_not_eligible",
-        "pathwayId": "prop-64-completed-sentence-application-11361-8",
-        "paymentAllowed": false,
+      "outcome": "wrong_path",
+      "baselineOutcome": "non_converging",
+      "combosTried": 24,
+      "diagnosis": {
+        "intendedPathway": "prop-64-completed-sentence-application-11361-8",
+        "actualPathway": [
+          "prop-64-currently-serving-petition-11361-8"
+        ],
+        "actualResultCodes": [
+          "needs_review"
+        ],
+        "firstDivergence": "the evaluator settled on prop-64-currently-serving-petition-11361-8 with resultCode needs_review while the participant was steered at prop-64-completed-sentence-application-11361-8",
+        "missingDifferentiatingQuestion": [
+          "offense_category"
+        ],
+        "repeatedMissingFact": [
+          {
+            "questionId": "case_outcome",
+            "timesRequested": 2
+          }
+        ],
+        "waitingRuleFailure": null,
+        "answerVocabularyMismatch": null,
+        "pathwayPriorityConflict": {
+          "intendedRuleBestPriority": 86,
+          "outrankedBy": [
+            {
+              "id": "rule-68-certain-offenses-are-statutorily-ineligible-for-1203-4-",
+              "priority": 20,
+              "candidatePathwayIds": [
+                "tool-1-dismissal-set-aside",
+                "tool-3-petition-based-felony-sealing",
+                "tool-2-automatic-relief",
+                "tool-5-proposition-64-marijuana-relief"
+              ]
+            },
+            {
+              "id": "rule-69-a-person-currently-charged-with-on-probation-for-or-ser",
+              "priority": 20,
+              "candidatePathwayIds": [
+                "tool-1-dismissal-set-aside",
+                "tool-5-proposition-64-marijuana-relief",
+                "tool-3-petition-based-felony-sealing",
+                "tool-2-automatic-relief"
+              ]
+            },
+            {
+              "id": "rule-47-tool-matter-remedy-waiting-period-notes",
+              "priority": 50,
+              "candidatePathwayIds": [
+                "tool-4-arrest-record-sealing",
+                "tool-3-petition-based-felony-sealing",
+                "tool-2-automatic-relief"
+              ]
+            },
+            {
+              "id": "rule-64-for-arrest-only-matters-there-is-usually-no-waiting-per",
+              "priority": 50,
+              "candidatePathwayIds": [
+                "tool-5-proposition-64-marijuana-relief",
+                "tool-4-arrest-record-sealing",
+                "tool-2-automatic-relief"
+              ]
+            },
+            {
+              "id": "rule-06-tool-2-automatic-relief-pc-851-93-arrests-1203-425-conv",
+              "priority": 60,
+              "candidatePathwayIds": [
+                "tool-2-automatic-relief",
+                "tool-5-proposition-64-marijuana-relief",
+                "tool-3-petition-based-felony-sealing",
+                "tool-4-arrest-record-sealing"
+              ]
+            }
+          ]
+        },
+        "requestedQuestionsNotProjected": [],
         "reasonCodes": [
-          "ca.ca_prop64_qualifying_marijuana_offense_missing_or_not_eligible"
+          "ca.ca_prop64_sentence_status_conflict"
+        ],
+        "normalizedReasonCodes": [
+          "ca_prop64_sentence_status_conflict"
         ]
-      },
-      "combosTried": 1
+      }
     },
     {
       "pathwayKey": "CA:prop-64-currently-serving-petition-11361-8",
@@ -465,20 +561,20 @@
       "sessionADisposition": "family_bridge_missing_no_family",
       "outcome": "correct_pathway",
       "reachedBy": {
-        "case_outcome": "Arrest or citation with no charge filed",
-        "offense_level": "Misdemeanor"
+        "case_outcome": "Felony conviction",
+        "offense_level": "Felony"
       },
-      "baselineOutcome": "correct_pathway",
-      "correctedByFixtureAlone": false,
+      "baselineOutcome": "non_converging",
+      "correctedByFixtureAlone": true,
       "terminalEvaluation": {
-        "resultCode": "likely_not_eligible",
+        "resultCode": "needs_review",
         "pathwayId": "prop-64-currently-serving-petition-11361-8",
         "paymentAllowed": false,
         "reasonCodes": [
-          "ca.ca_prop64_qualifying_marijuana_offense_missing_or_not_eligible"
+          "ca.ca_prop64_sentence_status_conflict"
         ]
       },
-      "combosTried": 1
+      "combosTried": 14
     },
     {
       "pathwayKey": "CA:tool-1-dismissal-set-aside",
@@ -801,11 +897,11 @@
       "baselineOutcome": "correct_pathway",
       "correctedByFixtureAlone": false,
       "terminalEvaluation": {
-        "resultCode": "packet_ready",
+        "resultCode": "needs_review",
         "pathwayId": "discretionary-court-expungement-under-11-del-c-4374",
-        "paymentAllowed": true,
+        "paymentAllowed": false,
         "reasonCodes": [
-          "de.compiled_rule_match.rule-28-agencies-cannot-see-it-on-public-sources-mandatory-and-"
+          "de.de_4374_conviction_scope_unconfirmed"
         ]
       },
       "combosTried": 1
@@ -977,22 +1073,51 @@
       "pathwayId": "restriction-and-sealing-of-a-pardoned-felony",
       "pathwayLabel": "Restriction and sealing of a pardoned felony",
       "sessionADisposition": "family_bridge_missing_no_family",
-      "outcome": "correct_pathway",
-      "reachedBy": {
-        "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
-        "offense_level": "Misdemeanor"
-      },
-      "baselineOutcome": "correct_pathway",
-      "correctedByFixtureAlone": false,
-      "terminalEvaluation": {
-        "resultCode": "needs_review",
-        "pathwayId": "restriction-and-sealing-of-a-pardoned-felony",
-        "paymentAllowed": false,
+      "outcome": "wrong_path",
+      "baselineOutcome": "non_converging",
+      "combosTried": 21,
+      "diagnosis": {
+        "intendedPathway": "restriction-and-sealing-of-a-pardoned-felony",
+        "actualPathway": [
+          "youthful-first-offender-restriction-route"
+        ],
+        "actualResultCodes": [
+          "needs_review"
+        ],
+        "firstDivergence": "the evaluator settled on youthful-first-offender-restriction-route with resultCode needs_review while the participant was steered at restriction-and-sealing-of-a-pardoned-felony",
+        "missingDifferentiatingQuestion": [
+          "record_type",
+          "offense_category",
+          "residency_or_location"
+        ],
+        "repeatedMissingFact": [
+          {
+            "questionId": "case_outcome",
+            "timesRequested": 2
+          }
+        ],
+        "waitingRuleFailure": null,
+        "answerVocabularyMismatch": null,
+        "pathwayPriorityConflict": {
+          "intendedRuleBestPriority": 20,
+          "outrankedBy": [
+            {
+              "id": "route-retroactive-first-offender-treatment-under-42-8-66",
+              "priority": 10,
+              "candidatePathwayIds": [
+                "retroactive-first-offender-treatment-under-42-8-66"
+              ]
+            }
+          ]
+        },
+        "requestedQuestionsNotProjected": [],
         "reasonCodes": [
-          "ga.route_gate_pending_lawrence_review"
+          "ga.original_first_offender_active_pre2026"
+        ],
+        "normalizedReasonCodes": [
+          "original_first_offender_active_pre2026"
         ]
-      },
-      "combosTried": 1
+      }
     },
     {
       "pathwayKey": "GA:retroactive-first-offender-treatment-under-42-8-66",
@@ -1717,11 +1842,11 @@
       "baselineOutcome": "correct_pathway",
       "correctedByFixtureAlone": false,
       "terminalEvaluation": {
-        "resultCode": "guidance_only",
+        "resultCode": "needs_more_info",
         "pathwayId": "municipal-arrest-record-expungement-under-12-4516a",
         "paymentAllowed": false,
         "reasonCodes": [
-          "ks.guidance_only_no_user_filed_court_petition"
+          "ks.route_identified_packet_not_yet_available"
         ]
       },
       "combosTried": 1
@@ -2867,11 +2992,11 @@
       "baselineOutcome": "correct_pathway",
       "correctedByFixtureAlone": false,
       "terminalEvaluation": {
-        "resultCode": "packet_ready_with_caution",
+        "resultCode": "needs_review",
         "pathwayId": "eligible-felony-conviction-expungement-99-19-71",
-        "paymentAllowed": true,
+        "paymentAllowed": false,
         "reasonCodes": [
-          "ms.compiled_rule_match.route-eligible-felony-conviction-expungement-99-19-71"
+          "ms.felony_route_case_outcome_conflict"
         ]
       },
       "combosTried": 1
@@ -2905,22 +3030,92 @@
       "pathwayId": "first-offense-controlled-substance-conditional-discharge-relief",
       "pathwayLabel": "First-offense controlled-substance conditional-discharge relief",
       "sessionADisposition": "approved_by_decision_owner",
-      "outcome": "correct_pathway",
-      "reachedBy": {
-        "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
-        "offense_level": "Misdemeanor"
-      },
-      "baselineOutcome": "correct_pathway",
-      "correctedByFixtureAlone": false,
-      "terminalEvaluation": {
-        "resultCode": "needs_review",
-        "pathwayId": "first-offense-controlled-substance-conditional-discharge-relief",
-        "paymentAllowed": false,
-        "reasonCodes": [
-          "ms.waiting_rule_not_executed"
-        ]
-      },
-      "combosTried": 1
+      "outcome": "non_converging",
+      "baselineOutcome": "non_converging",
+      "combosTried": 30,
+      "diagnosis": {
+        "intendedPathway": "first-offense-controlled-substance-conditional-discharge-relief",
+        "actualPathway": null,
+        "actualResultCodes": [],
+        "firstDivergence": "the exchange never settled on a terminal evaluation",
+        "missingDifferentiatingQuestion": [
+          "charge",
+          "court",
+          "record_type",
+          "offense_category",
+          "disposition_date",
+          "prior_relief"
+        ],
+        "repeatedMissingFact": [
+          {
+            "questionId": "ms_program_order",
+            "timesRequested": 2
+          },
+          {
+            "questionId": "ms_program_record_status",
+            "timesRequested": 2
+          }
+        ],
+        "waitingRuleFailure": null,
+        "answerVocabularyMismatch": null,
+        "pathwayPriorityConflict": {
+          "intendedRuleBestPriority": 50,
+          "outrankedBy": [
+            {
+              "id": "rule-24-a-person-is-not-eligible-for-general-felony-conviction-",
+              "priority": 20,
+              "candidatePathwayIds": [
+                "human-trafficking-survivor-vacatur-and-expungement",
+                "minor-in-possession-underage-alcohol-expungement",
+                "first-offense-dui-expungement",
+                "eligible-felony-conviction-expungement-99-19-71"
+              ]
+            },
+            {
+              "id": "rule-14-mississippi-also-has-a-separate-discretionary-pathway-f",
+              "priority": 30,
+              "candidatePathwayIds": [
+                "additional-justice-or-municipal-court-misdemeanor-relief",
+                "minor-in-possession-underage-alcohol-expungement",
+                "first-offense-dui-expungement",
+                "first-offender-nontraffic-misdemeanor-conviction-expungement-99-19-71-1"
+              ]
+            },
+            {
+              "id": "rule-54-potential-discretionary-expungement-under-9-11-15-or-21",
+              "priority": 30,
+              "candidatePathwayIds": [
+                "additional-justice-or-municipal-court-misdemeanor-relief",
+                "eligible-felony-conviction-expungement-99-19-71",
+                "minor-in-possession-underage-alcohol-expungement",
+                "human-trafficking-survivor-vacatur-and-expungement"
+              ]
+            },
+            {
+              "id": "rule-63-potential-survivor-relief-effective-july-1-2026-under-a",
+              "priority": 30,
+              "candidatePathwayIds": [
+                "human-trafficking-survivor-vacatur-and-expungement",
+                "eligible-felony-conviction-expungement-99-19-71",
+                "nonadjudication-under-99-15-26"
+              ]
+            },
+            {
+              "id": "rule-85-additional-justice-municipal-misdemeanors-discretionary",
+              "priority": 30,
+              "candidatePathwayIds": [
+                "additional-justice-or-municipal-court-misdemeanor-relief",
+                "minor-in-possession-underage-alcohol-expungement",
+                "first-offense-dui-expungement",
+                "first-offender-nontraffic-misdemeanor-conviction-expungement-99-19-71-1"
+              ]
+            }
+          ]
+        },
+        "requestedQuestionsNotProjected": [],
+        "reasonCodes": [],
+        "normalizedReasonCodes": []
+      }
     },
     {
       "pathwayKey": "MS:first-offense-dui-expungement",
@@ -3066,22 +3261,77 @@
       "pathwayId": "nonadjudication-under-99-15-26",
       "pathwayLabel": "Nonadjudication under § 99-15-26",
       "sessionADisposition": "family_bridge_missing_no_track",
-      "outcome": "correct_pathway",
-      "reachedBy": {
-        "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
-        "offense_level": "Misdemeanor"
-      },
-      "baselineOutcome": "correct_pathway",
-      "correctedByFixtureAlone": false,
-      "terminalEvaluation": {
-        "resultCode": "needs_review",
-        "pathwayId": "nonadjudication-under-99-15-26",
-        "paymentAllowed": false,
-        "reasonCodes": [
-          "ms.waiting_rule_not_executed"
-        ]
-      },
-      "combosTried": 1
+      "outcome": "non_converging",
+      "baselineOutcome": "non_converging",
+      "combosTried": 30,
+      "diagnosis": {
+        "intendedPathway": "nonadjudication-under-99-15-26",
+        "actualPathway": null,
+        "actualResultCodes": [],
+        "firstDivergence": "the exchange never settled on a terminal evaluation",
+        "missingDifferentiatingQuestion": [
+          "prior_relief",
+          "offense_category"
+        ],
+        "repeatedMissingFact": [
+          {
+            "questionId": "ms_program_order",
+            "timesRequested": 2
+          },
+          {
+            "questionId": "ms_program_record_status",
+            "timesRequested": 2
+          }
+        ],
+        "waitingRuleFailure": null,
+        "answerVocabularyMismatch": null,
+        "pathwayPriorityConflict": {
+          "intendedRuleBestPriority": 30,
+          "outrankedBy": [
+            {
+              "id": "rule-24-a-person-is-not-eligible-for-general-felony-conviction-",
+              "priority": 20,
+              "candidatePathwayIds": [
+                "human-trafficking-survivor-vacatur-and-expungement",
+                "minor-in-possession-underage-alcohol-expungement",
+                "first-offense-dui-expungement",
+                "eligible-felony-conviction-expungement-99-19-71"
+              ]
+            },
+            {
+              "id": "route-controlled-substance-conditional-discharge-active-case-admission",
+              "priority": 10,
+              "candidatePathwayIds": [
+                "controlled-substance-conditional-discharge-active-case-admission"
+              ]
+            },
+            {
+              "id": "route-human-trafficking-survivor-vacatur-97-3-54-6-5",
+              "priority": 10,
+              "candidatePathwayIds": [
+                "human-trafficking-survivor-vacatur-97-3-54-6-5"
+              ]
+            },
+            {
+              "id": "route-human-trafficking-survivor-expungement-97-3-54-6-6",
+              "priority": 10,
+              "candidatePathwayIds": [
+                "human-trafficking-survivor-expungement-97-3-54-6-6"
+              ]
+            },
+            {
+              "id": "route-intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4",
+              "priority": 10,
+              "candidatePathwayIds": [
+                "intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4"
+              ]
+            }
+          ]
+        },
+        "requestedQuestionsNotProjected": [],
+        "reasonCodes": [],
+        "normalizedReasonCodes": []
+      }
     },
     {
       "pathwayKey": "MS:pretrial-intervention-or-diversion-expungement",
@@ -3089,22 +3339,92 @@
       "pathwayId": "pretrial-intervention-or-diversion-expungement",
       "pathwayLabel": "Pretrial intervention or diversion expungement",
       "sessionADisposition": "family_bridge_missing_no_family",
-      "outcome": "correct_pathway",
-      "reachedBy": {
-        "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
-        "offense_level": "Misdemeanor"
-      },
-      "baselineOutcome": "correct_pathway",
-      "correctedByFixtureAlone": false,
-      "terminalEvaluation": {
-        "resultCode": "needs_review",
-        "pathwayId": "pretrial-intervention-or-diversion-expungement",
-        "paymentAllowed": false,
-        "reasonCodes": [
-          "ms.waiting_rule_not_executed"
-        ]
-      },
-      "combosTried": 1
+      "outcome": "non_converging",
+      "baselineOutcome": "non_converging",
+      "combosTried": 30,
+      "diagnosis": {
+        "intendedPathway": "pretrial-intervention-or-diversion-expungement",
+        "actualPathway": null,
+        "actualResultCodes": [],
+        "firstDivergence": "the exchange never settled on a terminal evaluation",
+        "missingDifferentiatingQuestion": [
+          "charge",
+          "court",
+          "record_type",
+          "offense_category",
+          "disposition_date",
+          "prior_relief"
+        ],
+        "repeatedMissingFact": [
+          {
+            "questionId": "ms_program_order",
+            "timesRequested": 2
+          },
+          {
+            "questionId": "ms_program_record_status",
+            "timesRequested": 2
+          }
+        ],
+        "waitingRuleFailure": null,
+        "answerVocabularyMismatch": null,
+        "pathwayPriorityConflict": {
+          "intendedRuleBestPriority": 50,
+          "outrankedBy": [
+            {
+              "id": "rule-24-a-person-is-not-eligible-for-general-felony-conviction-",
+              "priority": 20,
+              "candidatePathwayIds": [
+                "human-trafficking-survivor-vacatur-and-expungement",
+                "minor-in-possession-underage-alcohol-expungement",
+                "first-offense-dui-expungement",
+                "eligible-felony-conviction-expungement-99-19-71"
+              ]
+            },
+            {
+              "id": "rule-14-mississippi-also-has-a-separate-discretionary-pathway-f",
+              "priority": 30,
+              "candidatePathwayIds": [
+                "additional-justice-or-municipal-court-misdemeanor-relief",
+                "minor-in-possession-underage-alcohol-expungement",
+                "first-offense-dui-expungement",
+                "first-offender-nontraffic-misdemeanor-conviction-expungement-99-19-71-1"
+              ]
+            },
+            {
+              "id": "rule-54-potential-discretionary-expungement-under-9-11-15-or-21",
+              "priority": 30,
+              "candidatePathwayIds": [
+                "additional-justice-or-municipal-court-misdemeanor-relief",
+                "eligible-felony-conviction-expungement-99-19-71",
+                "minor-in-possession-underage-alcohol-expungement",
+                "human-trafficking-survivor-vacatur-and-expungement"
+              ]
+            },
+            {
+              "id": "rule-63-potential-survivor-relief-effective-july-1-2026-under-a",
+              "priority": 30,
+              "candidatePathwayIds": [
+                "human-trafficking-survivor-vacatur-and-expungement",
+                "eligible-felony-conviction-expungement-99-19-71",
+                "nonadjudication-under-99-15-26"
+              ]
+            },
+            {
+              "id": "rule-85-additional-justice-municipal-misdemeanors-discretionary",
+              "priority": 30,
+              "candidatePathwayIds": [
+                "additional-justice-or-municipal-court-misdemeanor-relief",
+                "minor-in-possession-underage-alcohol-expungement",
+                "first-offense-dui-expungement",
+                "first-offender-nontraffic-misdemeanor-conviction-expungement-99-19-71-1"
+              ]
+            }
+          ]
+        },
+        "requestedQuestionsNotProjected": [],
+        "reasonCodes": [],
+        "normalizedReasonCodes": []
+      }
     },
     {
       "pathwayKey": "MS:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59",
@@ -3879,11 +4199,11 @@
       "baselineOutcome": "correct_pathway",
       "correctedByFixtureAlone": false,
       "terminalEvaluation": {
-        "resultCode": "needs_review",
+        "resultCode": "likely_not_eligible",
         "pathwayId": "probation-or-specialty-court-dismissal-set-aside-sealing",
         "paymentAllowed": false,
         "reasonCodes": [
-          "nv.waiting_rule_not_executed"
+          "nv.nv_176a_subsection_3_not_eligible"
         ]
       },
       "combosTried": 1
@@ -3998,7 +4318,7 @@
         "pathwayId": "discretionary-conviction-sealing-by-petition-under-cpl-160-59",
         "paymentAllowed": false,
         "reasonCodes": [
-          "ny.ny_16059_numerosity_missing"
+          "ny.ny_16059_history_conflict"
         ]
       },
       "combosTried": 1

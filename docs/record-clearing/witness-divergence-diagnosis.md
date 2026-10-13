@@ -4,9 +4,9 @@ All **267** intended-paid pathways from Session A's canonical graph (`2107414b68
 
 | Outcome | Pathways |
 |---|---|
-| `correct_pathway` | 267 |
-| `wrong_path` | 0 |
-| `non_converging` | 0 |
+| `correct_pathway` | 262 |
+| `wrong_path` | 2 |
+| `non_converging` | 3 |
 
 ## The baseline was wrong about itself
 
@@ -14,7 +14,7 @@ The committed witness answered `resolved_timing_bucket` with the **first** optio
 `lt_1_year` — the least clearable value in a list ordered shortest to longest. Every route
 carrying a waiting period therefore failed closed on an anchor it could never satisfy.
 
-**0** pathways move from wrong-path to correct once the witness answers like a
+**1** pathways move from wrong-path to correct once the witness answers like a
 genuinely clearable record. Those were never runtime defects, and reporting them as such
 would have sent Session A after patches that do not exist.
 
@@ -27,10 +27,11 @@ a cluster means "fix this and these are done".
 
 | Cluster | Pathways | Jurisdictions |
 |---|---|---|
+| _(unclustered)_ | 5 | — |
 
 ## Fixtures
 
-`data/rcap-ledger/public-witness-fixtures.json` carries **267** replayable fixtures — every
+`data/rcap-ledger/public-witness-fixtures.json` carries **262** replayable fixtures — every
 pathway the existing runtime already reaches, with the exact answers and the terminal
 result each must produce. A regression shows up as a fixture failure rather than a lost route.
 

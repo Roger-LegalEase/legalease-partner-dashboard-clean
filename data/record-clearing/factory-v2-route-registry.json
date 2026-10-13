@@ -20,7 +20,7 @@
     },
     "publicWitnessAnswerSets": {
       "path": "data/rcap-ledger/public-witness-answer-sets.json",
-      "sha256": "20ae5e20b591d6a043a4de6aa416552d7f2dbb61603153c8892d307d94b55ce9"
+      "sha256": "c89035dff41631ff30e40b991ac5854891a8c53bef9ddb5d29caff039faf0f7e"
     },
     "sellablePathwayClosure": {
       "path": "data/rcap-ledger/sellable-pathway-closure.json",
@@ -37,17 +37,18 @@
   "admissionIsNotSelection": "Admitted means the factory may build the route. Selected means the resolver chose it, after every suppression ahead of the factory branch had its turn. The launch graph reports selection.",
   "totals": {
     "intendedPaidPathways": 267,
-    "factoryV2Admitted": 178,
-    "notAdmitted": 89,
+    "factoryV2Admitted": 175,
+    "notAdmitted": 92,
     "reasonsItIsNotAdmitted": {
       "sourceOrApprovedComposedDocument": 21,
       "exactPacketSet+packetSpecification+sourceOrApprovedComposedDocument": 31,
+      "deterministicFixture": 3,
       "legacy_generator_owns_this_jurisdiction": 36,
       "routeNotRetired": 1
     },
     "ownerApprovedLegalDesign": 96,
-    "paymentAllowedAtTheEvaluator": 28,
-    "publicWitnessReachesItsOwnPathway": 267
+    "paymentAllowedAtTheEvaluator": 26,
+    "publicWitnessReachesItsOwnPathway": 261
   },
   "routes": [
     {
@@ -1087,12 +1088,16 @@
       "profileVersion": "2026-06-19-source-conversion-1",
       "requiredInputIds": [
         "ca_prop64_branch",
-        "ca_prop64_lesser_or_no_offense",
-        "ca_prop64_qualifying_marijuana_offense",
+        "ca_prop64_court_address",
+        "ca_prop64_court_case_number",
+        "ca_prop64_filer_contact",
+        "ca_prop64_filer_representation",
+        "ca_prop64_filing_court_county",
         "ca_prop64_relief_requested",
         "case_outcome",
         "charge",
-        "court"
+        "court",
+        "participant_full_legal_name"
       ],
       "componentCount": 3,
       "officialFormIds": [
@@ -1107,17 +1112,19 @@
         "packetSpecification": true,
         "requiredParticipantFields": true,
         "sourceOrApprovedComposedDocument": true,
-        "deterministicFixture": true,
+        "deterministicFixture": false,
         "routeNotRetired": true
       },
-      "unmetBuildInputs": [],
-      "factoryV2Resolves": true,
+      "unmetBuildInputs": [
+        "deterministicFixture"
+      ],
+      "factoryV2Resolves": false,
       "legacyGeneratorOwnsThisJurisdiction": false,
       "separateGates": {
         "ownerApprovedLegalDesign": false,
         "ownerLegalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
         "paymentAllowedAtTheEvaluator": false,
-        "publicWitnessReachesThisPathway": true,
+        "publicWitnessReachesThisPathway": false,
         "closureCategory": "paid_packet_intended",
         "openBlockerIds": []
       }
@@ -1137,11 +1144,15 @@
       "profileVersion": "2026-06-19-source-conversion-1",
       "requiredInputIds": [
         "ca_prop64_branch",
-        "ca_prop64_lesser_or_no_offense",
-        "ca_prop64_qualifying_marijuana_offense",
+        "ca_prop64_court_address",
+        "ca_prop64_court_case_number",
+        "ca_prop64_filer_contact",
+        "ca_prop64_filer_representation",
+        "ca_prop64_filing_court_county",
         "case_outcome",
         "charge",
-        "court"
+        "court",
+        "participant_full_legal_name"
       ],
       "componentCount": 3,
       "officialFormIds": [
@@ -1156,17 +1167,19 @@
         "packetSpecification": true,
         "requiredParticipantFields": true,
         "sourceOrApprovedComposedDocument": true,
-        "deterministicFixture": true,
+        "deterministicFixture": false,
         "routeNotRetired": true
       },
-      "unmetBuildInputs": [],
-      "factoryV2Resolves": true,
+      "unmetBuildInputs": [
+        "deterministicFixture"
+      ],
+      "factoryV2Resolves": false,
       "legacyGeneratorOwnsThisJurisdiction": false,
       "separateGates": {
         "ownerApprovedLegalDesign": false,
         "ownerLegalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
         "paymentAllowedAtTheEvaluator": false,
-        "publicWitnessReachesThisPathway": true,
+        "publicWitnessReachesThisPathway": false,
         "closureCategory": "paid_packet_intended",
         "openBlockerIds": []
       }
@@ -1973,7 +1986,7 @@
       "separateGates": {
         "ownerApprovedLegalDesign": false,
         "ownerLegalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
-        "paymentAllowedAtTheEvaluator": true,
+        "paymentAllowedAtTheEvaluator": false,
         "publicWitnessReachesThisPathway": true,
         "closureCategory": "paid_packet_intended",
         "openBlockerIds": []
@@ -2436,7 +2449,11 @@
         "court",
         "criminal_history",
         "disposition_date",
+        "email_address",
+        "ga_pardon_date",
+        "ga_pardoned_offense_section",
         "jurisdiction",
+        "mailing_address",
         "offense_category",
         "offense_level",
         "otn",
@@ -2445,6 +2462,7 @@
         "participant_narrative",
         "pathway_id",
         "pending_cases",
+        "phone_number",
         "prior_relief",
         "prosecuting_authority",
         "record_type",
@@ -2461,17 +2479,19 @@
         "packetSpecification": true,
         "requiredParticipantFields": true,
         "sourceOrApprovedComposedDocument": true,
-        "deterministicFixture": true,
+        "deterministicFixture": false,
         "routeNotRetired": true
       },
-      "unmetBuildInputs": [],
-      "factoryV2Resolves": true,
+      "unmetBuildInputs": [
+        "deterministicFixture"
+      ],
+      "factoryV2Resolves": false,
       "legacyGeneratorOwnsThisJurisdiction": false,
       "separateGates": {
         "ownerApprovedLegalDesign": false,
         "ownerLegalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
         "paymentAllowedAtTheEvaluator": false,
-        "publicWitnessReachesThisPathway": true,
+        "publicWitnessReachesThisPathway": false,
         "closureCategory": "paid_packet_intended",
         "openBlockerIds": [
           "gate_build",
@@ -2570,7 +2590,9 @@
         "court",
         "criminal_history",
         "disposition_date",
+        "email_address",
         "jurisdiction",
+        "mailing_address",
         "offense_category",
         "offense_level",
         "otn",
@@ -2579,6 +2601,7 @@
         "participant_narrative",
         "pathway_id",
         "pending_cases",
+        "phone_number",
         "prior_relief",
         "prosecuting_authority",
         "record_type",
@@ -3720,13 +3743,16 @@
         "court",
         "date_of_birth",
         "disposition_date",
+        "email_address",
         "identity_theft_report_and_mismatched_identifiers",
         "jurisdiction",
+        "mailing_address",
         "offense_category",
         "offense_level",
         "pardon_status",
         "participant_full_legal_name",
         "pathway_id",
+        "phone_number",
         "record_type",
         "residency_or_location",
         "sentence_completion_date",
@@ -7276,10 +7302,12 @@
         "court",
         "date_of_birth",
         "disposition_date",
+        "email_address",
         "financial_obligations",
         "judge_signature",
         "jurisdiction",
         "last_conviction_any_court_date",
+        "mailing_address",
         "offense_category",
         "offense_level",
         "order_entry_date",
@@ -7287,6 +7315,7 @@
         "participant_full_legal_name",
         "pathway_id",
         "pending_cases",
+        "phone_number",
         "prior_relief",
         "prosecuting_authority",
         "prosecutor_address",
@@ -7350,10 +7379,12 @@
         "court",
         "date_of_birth",
         "disposition_date",
+        "email_address",
         "financial_obligations",
         "judge_signature",
         "jurisdiction",
         "last_conviction_any_court_date",
+        "mailing_address",
         "offense_category",
         "offense_level",
         "order_entry_date",
@@ -7361,6 +7392,7 @@
         "participant_full_legal_name",
         "pathway_id",
         "pending_cases",
+        "phone_number",
         "prior_relief",
         "prosecuting_authority",
         "prosecutor_address",
@@ -7451,7 +7483,7 @@
       "separateGates": {
         "ownerApprovedLegalDesign": false,
         "ownerLegalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
-        "paymentAllowedAtTheEvaluator": true,
+        "paymentAllowedAtTheEvaluator": false,
         "publicWitnessReachesThisPathway": true,
         "closureCategory": "paid_packet_intended",
         "openBlockerIds": []
@@ -7483,9 +7515,11 @@
         "court",
         "date_of_birth",
         "disposition_date",
+        "email_address",
         "financial_obligations",
         "first_offender_status",
         "jurisdiction",
+        "mailing_address",
         "nontraffic_classification",
         "offense_category",
         "offense_date",
@@ -7495,6 +7529,7 @@
         "participant_full_legal_name",
         "pathway_id",
         "pending_cases",
+        "phone_number",
         "prior_relief",
         "prosecuting_authority",
         "prosecuting_authority_address",
@@ -7574,17 +7609,19 @@
         "packetSpecification": true,
         "requiredParticipantFields": true,
         "sourceOrApprovedComposedDocument": true,
-        "deterministicFixture": true,
+        "deterministicFixture": false,
         "routeNotRetired": true
       },
-      "unmetBuildInputs": [],
+      "unmetBuildInputs": [
+        "deterministicFixture"
+      ],
       "factoryV2Resolves": false,
       "legacyGeneratorOwnsThisJurisdiction": true,
       "separateGates": {
         "ownerApprovedLegalDesign": true,
         "ownerLegalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
         "paymentAllowedAtTheEvaluator": false,
-        "publicWitnessReachesThisPathway": true,
+        "publicWitnessReachesThisPathway": false,
         "closureCategory": "paid_packet_intended",
         "openBlockerIds": []
       }
@@ -7939,6 +7976,7 @@
         "mailing_address",
         "mcic_identifier_delivery_method",
         "mcic_identifier_method_confirmation_source",
+        "ms_charged_trafficking_distribution_manufacture",
         "name_used_at_arrest",
         "nonadjudication_or_diversion",
         "offense_category",
@@ -7964,8 +8002,7 @@
         "sex",
         "social_security_number",
         "social_security_number_last_four",
-        "statutory_disposition_category",
-        "trafficking_status"
+        "statutory_disposition_category"
       ],
       "componentCount": 5,
       "officialFormIds": [],
@@ -8030,13 +8067,14 @@
         "packetSpecification": false,
         "requiredParticipantFields": true,
         "sourceOrApprovedComposedDocument": false,
-        "deterministicFixture": true,
+        "deterministicFixture": false,
         "routeNotRetired": true
       },
       "unmetBuildInputs": [
         "exactPacketSet",
         "packetSpecification",
-        "sourceOrApprovedComposedDocument"
+        "sourceOrApprovedComposedDocument",
+        "deterministicFixture"
       ],
       "factoryV2Resolves": false,
       "legacyGeneratorOwnsThisJurisdiction": true,
@@ -8044,7 +8082,7 @@
         "ownerApprovedLegalDesign": false,
         "ownerLegalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
         "paymentAllowedAtTheEvaluator": false,
-        "publicWitnessReachesThisPathway": true,
+        "publicWitnessReachesThisPathway": false,
         "closureCategory": "paid_packet_intended",
         "openBlockerIds": []
       }
@@ -8092,17 +8130,19 @@
         "packetSpecification": true,
         "requiredParticipantFields": true,
         "sourceOrApprovedComposedDocument": true,
-        "deterministicFixture": true,
+        "deterministicFixture": false,
         "routeNotRetired": true
       },
-      "unmetBuildInputs": [],
+      "unmetBuildInputs": [
+        "deterministicFixture"
+      ],
       "factoryV2Resolves": false,
       "legacyGeneratorOwnsThisJurisdiction": true,
       "separateGates": {
         "ownerApprovedLegalDesign": false,
         "ownerLegalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
         "paymentAllowedAtTheEvaluator": false,
-        "publicWitnessReachesThisPathway": true,
+        "publicWitnessReachesThisPathway": false,
         "closureCategory": "paid_packet_intended",
         "openBlockerIds": []
       }
@@ -10481,6 +10521,30 @@
         "criminal_history",
         "disposition_date",
         "jurisdiction",
+        "ny_16059_additional_case_numbers",
+        "ny_16059_additional_case_reconciliation",
+        "ny_16059_additional_cases",
+        "ny_16059_applicant_statement",
+        "ny_16059_case_alias",
+        "ny_16059_case_alias_names",
+        "ny_16059_court_direction_basis",
+        "ny_16059_court_direction_cases",
+        "ny_16059_court_direction_confirmation",
+        "ny_16059_court_direction_date_reference",
+        "ny_16059_court_direction_instruction",
+        "ny_16059_court_direction_issuer",
+        "ny_16059_covered_case_records",
+        "ny_16059_filing_case_id",
+        "ny_16059_first_case_numbers",
+        "ny_16059_future_application",
+        "ny_16059_future_case_numbers",
+        "ny_16059_future_court",
+        "ny_16059_future_sealing_records",
+        "ny_16059_nysid_known",
+        "ny_16059_nysid_number",
+        "ny_16059_other_filing_court_county",
+        "ny_16059_other_filing_court_name",
+        "ny_16059_prior_sealing_records",
         "offense_category",
         "offense_level",
         "participant_full_legal_name",
@@ -16294,8 +16358,10 @@
         "court",
         "date_of_birth",
         "disposition_date",
+        "email_address",
         "financial_obligations",
         "jurisdiction",
+        "mailing_address",
         "offense_category",
         "offense_level",
         "other_felony_history",
@@ -16303,6 +16369,7 @@
         "participant_full_legal_name",
         "pathway_id",
         "pending_cases",
+        "phone_number",
         "prior_relief",
         "sentence_completion_date",
         "service_details",
