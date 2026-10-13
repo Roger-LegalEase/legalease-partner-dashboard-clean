@@ -32,11 +32,15 @@ test('scope cannot conceal an actual core regression',()=>{
  assert.throws(()=>conditionalFamilyScope(ownerScope,q.families));
 });
 test('no decision supplies no exclusion',()=>assert.equal(conditionalFamilyScope(null,masterQueue.families).size,0));
-test('CI establishes corpus before convergence, exports binding, and stops on first failed generator',()=>{
+test('CI establishes corpus before convergence and gates later checks on aggregate generator results',()=>{
  const w=fs.readFileSync('.github/workflows/rcap-source-conveyor-ready.yml','utf8');
  assert.ok(w.indexOf('id: corpus_environment')<w.indexOf('id: convergence'));
  assert.match(w,/requireMasterLibraryEnvironment/);assert.match(w,/>> "\$GITHUB_ENV"/);
- assert.match(w,/id: convergence\n        run: \|\n          set -euo pipefail/);
+ const convergence=w.split('id: convergence\n')[1]?.split('\n      - name:')[0];
+ assert.ok(convergence);
+ assert.match(convergence,/GENERATOR_SOURCE_AUDIT_DIR: \$\{\{ runner.temp \}\}\/generator-source-preflight\/reads/);
+ assert.match(convergence,/run: \|\n          set -euo pipefail\n          node scripts\/rcap-corpus\/check-generator-convergence\.mjs/);
+ assert.doesNotMatch(convergence,/continue-on-error|\|\| true/);
  assert.match(w,/secrets.SOURCE_CORPUS_READ_TOKEN/);
 });
 
