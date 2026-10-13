@@ -1,5 +1,6 @@
-/** Logical source map from the retained official August2026 text extraction.
- * No widget, geometry, binary hash or approval is inferred from this map. */
+/** Logical August2026 component map. The additive owner-source receipt below
+ * identifies separate paper/fillable candidates; it grants no runtime byte,
+ * widget-write, source-currentness or qualified approval. */
 export const NY_CURRENT_COMPONENTS = [
   { id: "checklist", pages: [1], actor: "applicant", stage: "task_tracking", obligations: ["Actual service, filing and copy retention remain later acts; preparation does not complete them."] },
   { id: "eligibility_overview", pages: [2], actor: "applicant_and_qualified_reviewer", stage: "eligibility_review", obligations: ["Printed assertions do not replace source-grounded eligibility or qualified legal decisions."] },
@@ -17,5 +18,15 @@ export const NY_CURRENT_SOURCE_CONTEXT = {
   url: "https://webfiles.nycourts.gov/public/2026-08/cpl160.59sealingapplication.pdf",
   retainedOfficialTextSha256: "b518e6367e66dc7a26392110ff9c795f4f3470d656e5a96af599c5bcec1b9289",
   binarySha256: null, sourceVerified: false, widgetBindings: null, qualifiedApproval: null,
-  historicalGeometryReusable: false
+  historicalGeometryReusable: false,
+  candidateCustody: {
+    receipt: "data/rcap-grade-a/source-custody/court-source-handoff-20261013/source-receipt.json",
+    acquisition: "owner_supplied_archive",
+    runtimeByteVerificationRequired: true,
+    hostedByteEquivalence: "NOT_VERIFIED",
+    paper: { sha256: "4285ecff7baeed3acac3124cb16cf20b209259af1833e4a48967e6c1a61cec33", byteLength: 283880, widgetCount: 0,
+      mapping: "data/rcap-grade-a/source-custody/court-source-handoff-20261013/ny-2026-08-paper-mapping.json" },
+    fillable: { sha256: "633f06e1481d9c1a4b3ec987770eff577ac1147afeb3de0661b15c3ce659bccf", byteLength: 10689138, widgetCount: 84,
+      mapping: "data/rcap-grade-a/source-custody/court-source-handoff-20261013/ny-2026-08-fillable-mapping.json" }
+  }
 } as const;
