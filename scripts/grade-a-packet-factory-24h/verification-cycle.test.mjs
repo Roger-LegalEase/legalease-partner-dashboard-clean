@@ -1,5 +1,6 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
+import fs from 'node:fs';
 import {changedAcceptanceCycle,retainedVerificationLaneCount} from './verification-cycle.mjs';
 
 const previous={familyId:'accepted-family',state:'COMPLETE_PACKET_PROVEN'};
@@ -33,4 +34,16 @@ test('released or completed work cannot keep elastic capacity alive',()=>{
 });
 test('exceptional captain grants stay off-roster without being reassigned',()=>{
   assert.equal(retainedVerificationLaneCount(8,12,[{...live,lane:'VF44'}],[{familyId:'pending',state:'VERIFYING'}]),8);
+});
+
+test('generator capacity guard accepts only the independently derived retained roster',()=>{
+ const source=fs.readFileSync(new URL('./generate.mjs',import.meta.url),'utf8');
+ const guard=source.slice(source.indexOf('for (const e of ELASTICITY) {'),source.indexOf('if (problems.length) {',source.indexOf('for (const e of ELASTICITY) {')));
+ const run=new Function('ELASTICITY','assignments','PF_LANES','VF_LANES','problems',guard);
+ const elasticity=[{id:'verification',triggered:false,creates:['VF09','VF10','VF11','VF12'],lanesWithout:8,measured:17}];
+ const assignments=Array.from({length:12},(_,i)=>({assignmentId:`VF${String(i+1).padStart(2,'0')}`,lane:'independent-verification'}));
+ const count=retainedVerificationLaneCount(8,12,[live],[{familyId:'pending',state:'VERIFY_PENDING'}]);
+ const good=[];run(elasticity,assignments,16,count,good);assert.deepEqual(good,[]);
+ const lost=[];run(elasticity,assignments.slice(0,8),16,count,lost);assert.equal(lost.length,1);
+ const idle=[];run(elasticity,assignments,16,8,idle);assert.equal(idle.length,1);
 });

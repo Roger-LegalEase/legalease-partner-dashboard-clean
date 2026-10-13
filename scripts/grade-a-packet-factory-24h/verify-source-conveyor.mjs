@@ -12,6 +12,7 @@
  * asserted, not assumed.
  */
 import fs from "node:fs";
+import {retainedVerificationLaneCount} from "./verification-cycle.mjs";
 import {effectivePacketLaneCount, livePacketLaneByFamily} from "./pf-lane-retention.mjs";
 import path from "node:path";
 import { execFileSync } from "node:child_process";
@@ -308,6 +309,7 @@ function run() {
   // C19. Elastic capacity that is triggered must exist, not merely be recorded.
   const elasticProblems = [];
   const retainedPacketLanes = effectivePacketLaneCount(16, livePacketLaneByFamily(read(`${DIR}/claim-ledger.json`).claims));
+  const retainedVerifierLanes = retainedVerificationLaneCount(8,12,read(`${DIR}/claim-ledger.json`).claims,master.families);
   for (const e of ci.elasticCapacity?.thresholds ?? []) {
     const present = e.creates.filter((id) => active.assignments.some((x) => x.assignmentId === id));
     if (e.triggered && present.length !== e.creates.length) {
@@ -326,7 +328,8 @@ function run() {
      */
     const idleElastic = present.filter((id) => {
       const lane = active.assignments.find((x) => x.assignmentId === id);
-      const retainedByLiveGrant = /^PF[0-9]+$/.test(id) && Number(id.slice(2)) <= retainedPacketLanes;
+      const retainedByLiveGrant = /^PF[0-9]+$/.test(id) && Number(id.slice(2)) <= retainedPacketLanes
+        || /^VF[0-9]+$/.test(id) && Number(id.slice(2)) <= retainedVerifierLanes;
       return (lane?.items ?? []).length === 0 && !retainedByLiveGrant;
     });
     if (!e.triggered && idleElastic.length > 0) {

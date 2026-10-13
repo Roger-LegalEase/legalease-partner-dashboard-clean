@@ -4188,6 +4188,7 @@ for (const e of ELASTICITY) {
     : assignments.filter((a) => e.creates.includes(a.assignmentId)).length;
   const expected = e.id === "build"
     ? PF_LANES - e.lanesWithout
+    : e.id === "verification" ? VF_LANES - e.lanesWithout
     : e.triggered ? e.creates.length : 0;
   if (have !== expected) problems.push(`${e.id} capacity requires ${expected} extra lane(s) at ${e.measured}, but ${have} exist`);
 }
