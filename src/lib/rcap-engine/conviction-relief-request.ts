@@ -78,7 +78,11 @@ export function convictionReliefRequest(profile: EngineProfile, answers: Answers
     if (answers.pardon_status === "No" || answers.pardon_status === false) return { status: "review", code: "conviction_scope" };
     if (answers.pardon_status !== "Yes" && answers.pardon_status !== true) return missing("pardon_status");
     if (answers.case_outcome === "Pardoned conviction" || answers.case_outcome === "Other conviction or adjudication") return missing("case_outcome");
-    if (answers.case_outcome !== "Felony conviction") return { status: "review", code: "conviction_scope" };
+    // GA-02, owner-relayed counsel adoption (2026-10-13): §35-3-37(j)(7)
+    // applies to a pardoned offense, not only a felony. Preserve the historical
+    // route identifier and all downstream factual/commercial gates. Selection
+    // is not proof of a qualifying Board pardon or of the remaining conditions.
+    if (!exactChoice(answers.case_outcome, ["Felony conviction", "Misdemeanor conviction"])) return { status: "review", code: "conviction_scope" };
     return selected("restriction-and-sealing-of-a-pardoned-felony");
   }
   if (request === "status_check" && state === "IL") return selected("clean-slate-automatic-sealing");
@@ -130,7 +134,7 @@ const program: Option = ["program_record", "Review the outcome of supervision, p
 const other: Option = ["other_help", "I want help with a different situation", "Quiero ayuda con otra situación"];
 const requestOptions: Record<string, Option[]> = {
   MS: [["conviction_record", "Ask to clear an existing conviction", "Pedir que se elimine una condena existente"], ["dui_record", "Ask about clearing a DUI conviction", "Consultar sobre eliminar una condena por conducir bajo la influencia"], ["underage_alcohol_record", "Ask about clearing an underage alcohol conviction", "Consultar sobre eliminar una condena por alcohol siendo menor de edad"], laterOrder, program, other, unknown],
-  GA: [["conviction_record", "Ask to restrict access to an existing conviction record", "Pedir que se restrinja el acceso al registro de una condena existente"], ["retroactive_treatment", "Ask for First Offender treatment that was not originally imposed", "Pedir tratamiento de First Offender que no se dispuso originalmente"], ["pardon_record", "Ask to restrict a felony record after a pardon", "Pedir que se restrinja un registro por delito grave después de un indulto"], laterOrder, ["mixed_charges", "Ask about a separate dismissed or acquitted charge in the same case", "Consultar sobre otro cargo desestimado o del que fue absuelto en el mismo caso"], program, other, unknown],
+  GA: [["conviction_record", "Ask to restrict access to an existing conviction record", "Pedir que se restrinja el acceso al registro de una condena existente"], ["retroactive_treatment", "Ask for First Offender treatment that was not originally imposed", "Pedir tratamiento de First Offender que no se dispuso originalmente"], ["pardon_record", "Ask to restrict a conviction record after a pardon", "Pedir que se restrinja el registro de una condena después de un indulto"], laterOrder, ["mixed_charges", "Ask about a separate dismissed or acquitted charge in the same case", "Consultar sobre otro cargo desestimado o del que fue absuelto en el mismo caso"], program, other, unknown],
   IL: [["conviction_record", "Ask the court to seal an existing conviction record", "Pedir al tribunal que selle el registro de una condena existente"], laterOrder, program, ["status_check", "Check the automatic sealing process", "Consultar el proceso de sellado automático"], other, unknown]
 };
 

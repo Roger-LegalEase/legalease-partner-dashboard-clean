@@ -6,7 +6,7 @@ const { getProfileByJurisdiction } = await import('../src/lib/rcap-engine/profil
 const { projectPublicProfile } = await import('../src/lib/rcap-engine/public-profile-projection.ts');
 const { evaluateScreening } = await import('../src/lib/rcap-engine/evaluator.ts');
 const { selectScreeningQuestionIds } = await import('../src/lib/rcap-engine/screening-question-selection.ts');
-const { convictionReliefQuestions, CONVICTION_RELIEF_COPY } = await import('../src/lib/rcap-engine/conviction-relief-request.ts');
+const { convictionReliefRequest, convictionReliefQuestions, CONVICTION_RELIEF_COPY } = await import('../src/lib/rcap-engine/conviction-relief-request.ts');
 const { parseJurisdictionProfile } = await import('../src/lib/expungement-ai/frontend/schemas.ts');
 const { sanitizeAnswersForQuestionIds, sanitizeResumedAnswersForQuestionIds } = await import('../src/components/expungement-ai/screening/screens.ts');
 const { resolveRuntimeText } = await import('../src/lib/expungement-ai/localization.ts');
@@ -72,8 +72,26 @@ for (const state of ['MS', 'GA', 'IL']) {
   check(state + '/actual-handler', response.status === 200 && !body.pathwayId && !body.paymentAllowed && body.missingQuestionIds.includes(helpId));
   if (state === 'GA') for (const outcome of ['Pardoned conviction', 'Other conviction or adjudication', 'Misdemeanor conviction', 'Felony conviction']) {
     const a = { ...answers, case_outcome: outcome, ga_record_help: 'pardon_record', pardon_status: 'Yes' }, r = evaluate(a);
-    check('GA/pardon-class/' + outcome, outcome === 'Felony conviction' ? r.pathwayId === 'restriction-and-sealing-of-a-pardoned-felony'
-      : !r.pathwayId && !r.paymentAllowed && (outcome === 'Misdemeanor conviction' ? r.resultCode === 'needs_review' : r.missingQuestionIds.includes('case_outcome')));
+    check('GA/pardon-class/' + outcome, ['Felony conviction', 'Misdemeanor conviction'].includes(outcome) ? r.pathwayId === 'restriction-and-sealing-of-a-pardoned-felony'
+      : !r.pathwayId && !r.paymentAllowed && r.missingQuestionIds.includes('case_outcome'));
+  }
+  if (state === 'GA') {
+    for (const outcome of ['Misdemeanor conviction', 'Felony conviction']) for (const severity of ['Felony', 'Misdemeanor', 'I am not sure']) {
+      for (const pardon of ['Yes', true, 'No', false, 'I am not sure', undefined, ['Yes']]) {
+        const a = { ...answers, case_outcome: outcome, offense_level: severity, ga_record_help: 'pardon_record', pardon_status: pardon };
+        const before = structuredClone(a), selection = convictionReliefRequest(p, a), r = evaluate(a);
+        const prefix = `GA/adopted-pardon/${outcome}/${severity}/${JSON.stringify(pardon)}`;
+        check(prefix + '/class-does-not-narrow-statute', selection.status === (pardon === 'Yes' || pardon === true ? 'selected' : pardon === 'No' || pardon === false ? 'review' : 'clarification'));
+        check(prefix + '/raw-preserved', same(a, before));
+        check(prefix + '/no-commercial-promotion', !r.paymentAllowed);
+      }
+    }
+    const request = pub.questions.find(q => q.id === 'ga_record_help').optionDisplay.pardon_record;
+    check('GA/pardon-request-no-felony-limit', !/felony/i.test(request.label) && !/delito grave/i.test(request.translations.es.label));
+    const a = { ...answers, case_outcome: 'Misdemeanor conviction', ga_record_help: 'pardon_record', pardon_status: 'Yes' };
+    const response = await POST(new Request('http://localhost/api/expungement-ai/evaluate', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ jurisdiction: state, profileVersion: p.profileVersion, matterId: 'synthetic-ga02-misdemeanor', answers: a }) }));
+    const body = await response.json();
+    check('GA/pardon-misdemeanor-actual-handler', response.status === 200 && body.pathwayId === 'restriction-and-sealing-of-a-pardoned-felony' && !body.paymentAllowed);
   }
   if (state === 'IL') for (const later of ['vacated', 'reversed', 'none', 'dismissed', 'unknown', ['vacated']]) {
     const a = { ...answers, il_record_help: 'later_order', il_later_order: later }, r = evaluate(a);
