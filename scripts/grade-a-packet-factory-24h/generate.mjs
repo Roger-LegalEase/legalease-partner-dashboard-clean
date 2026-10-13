@@ -4514,7 +4514,7 @@ const promptFor = (a) => {
   return p.join("\n");
 };
 
-const OUT = makeEmitter({ root: ROOT, check: CHECK, label: "packet factory 24h" });
+const OUT = makeEmitter({ root: ROOT, check: CHECK, label: "packet factory 24h", candidateDirectory: process.env.FACTORY_CANDIDATE_DIR || null });
 
 /* Queue writes; flush after the destruction guard. See the guard below. */
 const PENDING_EMITS = [];

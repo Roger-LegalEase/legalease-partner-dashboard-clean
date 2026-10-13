@@ -100,6 +100,7 @@ jobs:
       - name: Check committed convergence and bounded source, repair and coverage contracts
         env:
           GENERATOR_SOURCE_AUDIT_DIR: ${{ runner.temp }}/generator-source-preflight/reads
+          FACTORY_CANDIDATE_DIR: ${{ runner.temp }}/factory-convergence-candidate
         run: |
           set -euo pipefail
           out="$RUNNER_TEMP/factory-validation"
@@ -145,6 +146,14 @@ jobs:
           assert report['completeFactoryMutationSuite'],'Incomplete mutation coverage'
           assert clean,'Validation changed the checkout'
           PY
+      - name: Preserve divergent factory metadata for review
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: factory-convergence-candidate-${{ github.run_id }}
+          path: ${{ runner.temp }}/factory-convergence-candidate/
+          retention-days: 14
+          if-no-files-found: ignore
       - name: Preserve generator source preflight evidence
         if: always()
         uses: actions/upload-artifact@v4
