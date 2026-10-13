@@ -16,6 +16,7 @@ import {
   caProp64ClarificationPatch,
   packetAccountEmailSuggestion,
   editablePacketInputIds,
+  heldPacketCorrectionInputIds,
   packetDraftStopReason,
   protectedPacketInformationModelFor
 } from "@/lib/expungement-ai/packet-information";
@@ -119,11 +120,15 @@ export async function POST(
     return NextResponse.json({ ok: false, error: "revision_conflict" }, { status: 409 });
   }
   const protectedModel = ownerEditingModelFor(protectedRead.value);
+  const savedResult = protectedRead.value.status === "verified" ? protectedRead.value.snapshot?.resultCode : protectedRead.value.draftSnapshot?.resultCode;
+  const financialCorrection = protectedModel && heldPacketCorrectionInputIds(protectedModel, savedResult ?? null).has("financial_obligations");
   if (!protectedModel?.packetPlan && !protectedModel?.caProp64Clarification
+    && !financialCorrection
     && !(protectedModel?.stateCode === "NY" && protectedModel.pathwayId === NY_16059_ROUTE)) {
     return NextResponse.json({ ok: false, error: "packet_information_unavailable" }, { status: 403 });
   }
   if (protectedModel.caProp64Clarification && parsed.verify) return NextResponse.json({ ok: false, error: "invalid_packet_answers", invalidFactIds: protectedModel.requiredInputIds }, { status: 422 });
+  if (!protectedModel.packetPlan && financialCorrection && parsed.verify) return NextResponse.json({ ok: false, error: "invalid_packet_answers", invalidFactIds: ["financial_obligations"] }, { status: 422 });
   if (parsed.clearInactiveCustodyFacts && (!ny16059CustodyRemovalAvailable(protectedModel.stateCode, protectedModel.pathwayId, protectedModel.initialAnswers)
     || parsed.verify || Object.keys(parsed.answers).length)) return NextResponse.json({ ok: false, error: "custody_correction_not_available" }, { status: 422 });
   const sensitiveRoute = requiresMcicIdentifierAuthority(protectedModel.stateCode, protectedModel.pathwayId);

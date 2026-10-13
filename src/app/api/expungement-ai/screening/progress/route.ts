@@ -11,6 +11,7 @@ import type { ScreeningAnswerValue } from "@/lib/rcap-engine/contracts";
 import { getProfileByJurisdiction } from "@/lib/rcap-engine/profile-registry";
 import { projectPublicProfile } from "@/lib/rcap-engine/public-profile-projection";
 import { selectScreeningQuestionIds } from "@/lib/rcap-engine/screening-question-selection";
+import { questionAnswerState } from "@/lib/expungement-ai/question-answer-state";
 
 export const dynamic = "force-dynamic";
 const privateHeaders = ONBOARDING_PRIVATE_RESPONSE_HEADERS;
@@ -39,8 +40,18 @@ export async function PUT(request: NextRequest) {
     if (!profile || body.profileVersion !== profile.profileVersion || !body.answers || typeof body.answers !== "object" || Array.isArray(body.answers))
       return NextResponse.json({error: "The screening questions changed. Reload before continuing."}, {status: 409, headers: privateHeaders});
     const answers = serializeScreeningAnswers(body.answers as Record<string, AnswerValue>);
-    const ids = selectScreeningQuestionIds(profile, projectPublicProfile(profile), toScreeningAnswers(deserializeScreeningAnswers(answers)));
-    if (typeof body.currentQuestionId !== "string" || !ids.includes(body.currentQuestionId) || Object.keys(answers).some(id => !ids.includes(id)))
+    const publicProfile = projectPublicProfile(profile);
+    const ids = selectScreeningQuestionIds(profile, publicProfile, toScreeningAnswers(deserializeScreeningAnswers(answers)));
+    // A saved unresolved completion answer leaves the correction screen plan
+    // once explicitly answered. Keep that existing case fact; this permits no
+    // new hidden fields and grants no session or matter authority.
+    const retainedCompletionIds = new Set(publicProfile.questions.filter(question =>
+      ["financial_obligations", "sentence_completion_date"].includes(question.id)
+      && question.type === "yes_no_unsure"
+      && Object.prototype.hasOwnProperty.call(draft.row.answers ?? {}, question.id)
+      && questionAnswerState(question, answers[question.id]) === "known_valid").map(question => question.id));
+    if (typeof body.currentQuestionId !== "string" || !ids.includes(body.currentQuestionId)
+      || Object.keys(answers).some(id => !ids.includes(id) && !retainedCompletionIds.has(id)))
       return NextResponse.json({error: "The saved answers do not match these screening questions."}, {status: 400, headers: privateHeaders});
     // An exact retry is a read, including a lost-response retry. A different
     // tab's update cannot silently overwrite the saved draft.

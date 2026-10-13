@@ -279,7 +279,9 @@ function evaluateAgainstProfile(profile: EngineProfile, request: ScreeningEvalua
   }
   const ambiguity = ambiguityReason(profile, publicProfile, answers, preselectedPathway);
   if (ambiguity) {
-    return result(profile, request, "needs_review", [ambiguity], {
+    const financialUnknown = ambiguity.text === "financial_obligations is uncertain and requires source review.";
+    return result(profile, request, "needs_review", [financialUnknown ? { ...ambiguity, text: FINANCIAL_CLARIFICATION_TEXT } : ambiguity], {
+      ...(financialUnknown ? { missingQuestionIds: ["financial_obligations"] } : {}),
       ...(preselectedPathway ? { pathwayId: preselectedPathway.id } : {})
     });
   }
@@ -1904,12 +1906,16 @@ function result(
     missingQuestionIds: overrides.missingQuestionIds ?? [],
     cautions: [...(overrides.cautions ?? []), ...(isCaProp64Pathway(profile.jurisdiction.code, overrides.pathwayId)
       ? [CA_PROP64_PROCEDURE_COPY[overrides.pathwayId === CA_PROP64_CURRENT ? "current" : "completed"][0]] : [])],
-    nextSteps: nextStepsForResult(resultCode),
+    nextSteps: overrides.missingQuestionIds?.includes("financial_obligations")
+      ? [FINANCIAL_CLARIFICATION_TEXT, FINANCIAL_OTHER_QUESTIONS_TEXT] : nextStepsForResult(resultCode),
     paymentAllowed,
     ...(overrides.pathwayId ? { pathwayId: overrides.pathwayId } : {}),
     ...(overrides.packetPlan ? { packetPlan: overrides.packetPlan } : {})
   };
 }
+
+const FINANCIAL_CLARIFICATION_TEXT = "Review your saved answer about court-ordered financial obligations. Keep an unsure answer if you do not know, and update it when you have the information.";
+const FINANCIAL_OTHER_QUESTIONS_TEXT = "Also review any other questions marked as needing more information.";
 
 function labelForResult(resultCode: ScreeningResultCode) {
   const labels: Record<ScreeningResultCode, string> = {
@@ -2213,11 +2219,17 @@ function evaluateCompiledTiming(profile: EngineProfile, answers: Record<string, 
       reason: reason(jurisdiction, "payment_and_completion_meaning_unconfirmed", "You reported that court requirements are complete but that not all amounts were paid. Check whether any amount was waived, changed, converted to a civil judgment, or remains unpaid, including restitution. Keep the payment answer as recorded; completing requirements does not by itself prove payment or a legal exception.", rule.sourceRef)
     };
   }
-  if (courtRequirement === "not_sure" || isExplicitUnknownAnswer(answers.sentence_completion_date) || isExplicitUnknownAnswer(answers.financial_obligations) && !cannabisNonfinancialComplete) {
+  const unresolvedCompletionIds = [
+    ...(courtRequirement === "not_sure" ? [COURT_REQUIREMENTS_FIELD_ID] : []),
+    ...(isExplicitUnknownAnswer(answers.sentence_completion_date) ? ["sentence_completion_date"] : []),
+    ...(isExplicitUnknownAnswer(answers.financial_obligations) && !cannabisNonfinancialComplete ? ["financial_obligations"] : [])
+  ];
+  if (unresolvedCompletionIds.length) {
     return {
       status: "missing_anchor",
-      reason: reason(jurisdiction, "court_requirements_unknown", "We need one more detail before we can prepare the right packet.", rule.sourceRef),
-      missingQuestionIds: [COURT_REQUIREMENTS_FIELD_ID]
+      reason: reason(jurisdiction, "court_requirements_unknown", unresolvedCompletionIds.includes("financial_obligations")
+        ? FINANCIAL_CLARIFICATION_TEXT : "We need one more detail before we can prepare the right packet.", rule.sourceRef),
+      missingQuestionIds: unresolvedCompletionIds
     };
   }
   if (isNegative(answers.special_preconditions_confirmed) || isExplicitUnknownAnswer(answers.special_preconditions_confirmed)) {

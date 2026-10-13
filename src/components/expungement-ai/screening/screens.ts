@@ -33,6 +33,11 @@ function isPrepayQuestion(question: ProfileQuestion) {
   return !POSTPAY_STAGES.has(question.stage);
 }
 
+function isCompletionStatusQuestion(question: ProfileQuestion) {
+  return ["financial_obligations", "sentence_completion_date"].includes(question.id)
+    && question.type === "yes_no_unsure";
+}
+
 /** Ordered consumer question screens for a profile. */
 export function deriveScreens(profile: JurisdictionProfile): ProfileQuestion[] {
   const stageOrder = new Map(profile.flowStages.map((stage) => [stage.id, stage.order]));
@@ -64,7 +69,8 @@ export function screensFromQuestionIds(
     seen.add(questionId);
     const original = questionsById.get(questionId);
     const question = original ? caProp64RecordQuestion(profile.jurisdiction.code, original) ?? original : undefined;
-    if (!question || question.id.startsWith(SOURCE_QUESTION_PREFIX) || !isPrepayQuestion(question)) continue;
+    if (!question || question.id.startsWith(SOURCE_QUESTION_PREFIX)
+      || (!isPrepayQuestion(question) && !isCompletionStatusQuestion(question))) continue;
     selected.push(question);
   }
 
@@ -86,6 +92,9 @@ export function sanitizeAnswersForQuestionIds(
   const stillSelected = new Set(nextQuestionIds);
   return Object.fromEntries(Object.entries(answers).filter(([questionId]) => (
     !previouslyRendered.has(questionId) || stillSelected.has(questionId)
+    // A corrected completion answer may disappear from the correction plan;
+    // it remains a fact of this case and must survive that transition.
+    || Boolean(profile?.questions.some(question => question.id === questionId && isCompletionStatusQuestion(question)))
     // These are the same case record facts across CA branches, not branch-only answers.
     || Boolean(profile?.questions.some((question) => question.id === questionId && caProp64RecordQuestion(profile.jurisdiction.code, question)))
     || Boolean(profile?.jurisdiction.code === "CA" && [...CA_PROP64_FACT_IDS, ...CA_PROP64_LEGACY_IDS, "ca_prop64_branch", "ca_prop64_relief_requested"].includes(questionId)

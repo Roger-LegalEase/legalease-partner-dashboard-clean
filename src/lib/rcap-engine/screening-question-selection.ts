@@ -10,6 +10,7 @@ import { nevada176AQuestionApplies } from "@/lib/rcap-engine/nevada-176a-branch"
 import { georgiaFirstOffenderFromAnswers, georgiaFirstOffenderQuestionApplies } from "@/lib/rcap-engine/georgia-first-offender";
 import { illinoisCannabisFromAnswers, illinoisCannabisQuestionApplies } from "@/lib/rcap-engine/illinois-cannabis-facts";
 import { isIndependentPaidFinancialFact } from "@/lib/expungement-ai/court-completion-fact-meaning";
+import { questionAnswerState } from "@/lib/expungement-ai/question-answer-state";
 import type {
   EngineProfile,
   PublicJurisdictionProfile,
@@ -76,6 +77,20 @@ export function selectScreeningQuestionIds(
     ?? stageOrder.get(publicProfile.questions.find((question) => question.id === "possible_pathway_context")?.stage ?? "")
     ?? Number.NEGATIVE_INFINITY;
   const seen = new Set<string>();
+  // Reuse absent or compatible completion aliases. A supplied unresolved or
+  // negative answer must remain reachable when the result asks for correction.
+  const completionCorrections = new Set(publicProfile.questions.filter(question => {
+    // Some compiled profiles expose these status controls after payment without
+    // listing them in completionAliasIds. Their supplied uncertainty still
+    // participates in the screening evaluator's court-completion decision.
+    const completionStatus = ["financial_obligations", "sentence_completion_date"].includes(question.id)
+      && question.type === "yes_no_unsure";
+    if (!lifecycle?.completionAliasIds.includes(question.id) && !completionStatus) return false;
+    const value = answers[question.id];
+    if (value === undefined || value === null || value === "") return false;
+    return questionAnswerState(question, value) !== "known_valid"
+      || value === false || typeof value === "string" && value.trim().toLowerCase() === "no";
+  }).map(question => question.id));
 
   return publicProfile.questions
     .filter(question => profile.jurisdiction.code !== "CA" || caProp64QuestionApplies(answers, question.id))
@@ -95,12 +110,13 @@ export function selectScreeningQuestionIds(
     .filter(question => illinoisCannabisQuestionApplies(profile.jurisdiction.code, answers, question.id))
     .filter(question => nevada176AQuestionApplies(profile.jurisdiction.code, selectedPathway?.id, question.id))
     .map((question, index) => ({ question: recordQuestions.get(question.id) ?? question, index }))
-    .filter(({ question }) => (!lifecycle?.exactPacketFactIds.includes(question.id) || recordQuestions.has(question.id) || profile.jurisdiction.code === "NY" && selectedPathway?.id === NY_16059_ROUTE && NY_16059_TIMING_IDS.includes(question.id))
+    .filter(({ question }) => (!lifecycle?.exactPacketFactIds.includes(question.id) || completionCorrections.has(question.id) || recordQuestions.has(question.id) || profile.jurisdiction.code === "NY" && selectedPathway?.id === NY_16059_ROUTE && NY_16059_TIMING_IDS.includes(question.id))
       && (!lifecycle?.completionAliasIds.includes(question.id)
+        || completionCorrections.has(question.id)
         || (selectedPathway ? [selectedPathway] : profile.pathways).some(pathway =>
           isIndependentPaidFinancialFact(`${profile.jurisdiction.code}:${pathway.id}`, profile.questions.find(q => q.id === question.id)))))
-    .filter(({ question }) => question.lifecyclePhase?.startsWith("prepay_")
-      ?? !["record_readiness", "case_details", "packet_information"].includes(question.stage))
+    .filter(({ question }) => completionCorrections.has(question.id) || (question.lifecyclePhase?.startsWith("prepay_")
+      ?? !["record_readiness", "case_details", "packet_information"].includes(question.stage)))
     .filter(({ question }) => lifecycle || (stageOrder.get(question.stage) ?? Number.MAX_SAFE_INTEGER) <= pathwayRoutingOrder)
     .filter(({ question }) => {
       const consumers = lifecycle?.routeConsumers[question.id] ?? [];
