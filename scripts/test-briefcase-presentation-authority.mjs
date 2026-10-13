@@ -17,10 +17,12 @@ register("./lib/ts-esm-loader.mjs", import.meta.url);
 // actual implementation instead of leaving unresolved aliases or fake results.
 const timing = await import("../src/lib/rcap-engine/mississippi-exact-timing.ts");
 const convictionRelief = await import("../src/lib/rcap-engine/conviction-relief-request.ts");
+const arkansasRecordOrigin = await import("../src/lib/rcap-engine/arkansas-record-origin.ts");
+const georgiaFirstOffender = await import("../src/lib/rcap-engine/georgia-first-offender.ts");
 const packetInformation = await import("../src/lib/expungement-ai/packet-information.ts");
 const continuations = Object.fromEntries([
   "financialAnswerHeldSuccessor", "msTimingAnswerHeldSuccessor",
-  "factualPathwayHeldSuccessor", "convictionFallbackHeldSuccessor"
+  "factualPathwayHeldSuccessor", "convictionFallbackHeldSuccessor", "arkansasRecordOriginHeldSuccessor"
 ].map(name => [name, packetInformation[name]]));
 
 class MockInvalidAnswerError extends Error {
@@ -34,6 +36,8 @@ function loadTsWithMocks(relPath, mocks = {}) {
   mocks = {
     "@/lib/rcap-engine/mississippi-exact-timing": timing,
     "@/lib/rcap-engine/conviction-relief-request": convictionRelief,
+    "@/lib/rcap-engine/arkansas-record-origin": arkansasRecordOrigin,
+    "@/lib/rcap-engine/georgia-first-offender": georgiaFirstOffender,
     ...mocks,
     "@/lib/expungement-ai/packet-information": {
       ...continuations, ...mocks["@/lib/expungement-ai/packet-information"]
