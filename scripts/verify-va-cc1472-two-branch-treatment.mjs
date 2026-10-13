@@ -29,6 +29,7 @@ function adoptedTreatment(s){
  assert.ok(s.documents.every(d=>d.officialFormId===null&&d.outputStrategy!=='official_pdf_fill'));
  assert.ok(!s.participantChecklist.some(c=>c.requiredBeforeFiling));
  assert.deepEqual(s.fieldOwnership.participantAtSigningFields,[]);
+ assert.deepEqual(s.fieldOwnership.participantAtServiceFields,[],'no current CC-1472 participant service binding');
  assert.equal(s.serviceAndNotice.serviceRequired,'unestablished');
  assert.equal(s.feeAndWaiver.feeIdentified,false);
  assert.equal(s.feeAndWaiver.feeExemptionEstablished,false);
@@ -38,6 +39,9 @@ check(()=>assert.throws(()=>adoptedTreatment(historical),/unsupported CC-1472 pe
 check(()=>assert.deepEqual(spec.historicalSupersededSpecification.record,historical));
 check(()=>assert.deepEqual(spec.artifactBinding.fixtures,historical.artifactBinding.fixtures));
 check(()=>assert.deepEqual(spec.supersession.priorBinding,historical.supersession.priorBinding));
+check(()=>assert.deepEqual(spec.fieldOwnership.retainedHistoricalParticipantAtServiceFields,historical.fieldOwnership.participantAtServiceFields));
+const currentServiceMutation=structuredClone(spec);currentServiceMutation.fieldOwnership.participantAtServiceFields=historical.fieldOwnership.participantAtServiceFields;
+check(()=>assert.throws(()=>adoptedTreatment(currentServiceMutation),/no current CC-1472 participant service binding/));
 check(()=>assert.equal(spec.artifactBinding.artifactStatus,'HISTORICAL_EVIDENCE_ONLY'));
 for(const fixture of spec.artifactBinding.fixtures){
  const bytes=fs.readFileSync(fixture.file);
