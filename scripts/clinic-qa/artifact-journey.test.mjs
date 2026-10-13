@@ -1,7 +1,7 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
-import {artifactCases,startArtifactEvidence,protectedArtifactPath,alteredGrantPath,exactArtifactResponse,privateDenialResponse,artifactDenial,artifactAfterDeviceReset,artifactCleanupIds,sponsoredArtifactPath,applyArtifactMode,acceptRealArtifact,artifactGrantAndRevisionCases,artifactActorCases} from './artifact-journey.mjs';
+import {artifactCases,startArtifactEvidence,protectedArtifactPath,alteredGrantPath,exactArtifactResponse,privateDenialResponse,artifactDenial,artifactAfterDeviceReset,artifactCleanupIds,sponsoredArtifactPath,applyArtifactMode,acceptRealArtifact,artifactGrantAndRevisionCases,artifactActorCases,shouldAwaitArtifactStatus} from './artifact-journey.mjs';
 import {assertApplicationBindingsEqual} from './source-bindings.mjs';
 import {loadTsWithMocks} from '../test-expungement-checkout-guards.mjs';
 
@@ -78,6 +78,16 @@ test('sponsored mode records conditional consumer grant cases with contract refe
   assert(evidence.cases.filter(row=>row.status==='NOT_APPLICABLE').every(row=>row.basis.includes('sponsored-packet.ts')));
   assert.equal(evidence.cases.find(row=>row.id==='wrong-job-denied').status,'NOT_RUN');
   assert.equal(evidence.cases.find(row=>row.id==='stale-verification-denied').status,'NOT_RUN');
+});
+test('actual sponsored enqueue and not_started status remain pending until real finalized provenance appears',()=>{
+  const actualSequence=[{packetStatus:'not_started',canDownload:false},{packetStatus:'not_started',canDownload:false},
+    {packetStatus:'ready',canDownload:true,artifact:{downloadPath:sponsoredPath}}];
+  assert.deepEqual(actualSequence.map(status=>shouldAwaitArtifactStatus({generationHttp:200,generationPacketStatus:'generating',status,deadlineExpired:false})),[true,true,false]);
+});
+test('readiness polling never turns refusal, failure or timeout into success',()=>{
+  const base={generationHttp:200,generationPacketStatus:'generating',status:{packetStatus:'not_started',canDownload:false},deadlineExpired:false};
+  for(const changed of [{generationHttp:403},{generationPacketStatus:null},{status:{packetStatus:'failed',canDownload:false}},{deadlineExpired:true}])
+    assert.equal(shouldAwaitArtifactStatus({...base,...changed}),false);
 });
 test('actual sponsored schema orchestration uses protected job bytes and never invokes consumer grants',async()=>{
   const requests=[];const fixture={actors:[{id:owner}],known:new Set([item]),partnerId,origin:'http://127.0.0.1:3139',program:'qa-synthetic',

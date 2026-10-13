@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import {execFileSync} from 'node:child_process';
 import {createHash, randomBytes, randomUUID} from 'node:crypto';
 import {createClient} from '@supabase/supabase-js';
+import {sponsoredCounterRestoration} from './sponsored-cleanup.mjs';
 
 const hash = value => createHash('sha256').update(JSON.stringify(value)).digest('hex');
 const literal = value => "'" + String(value).replaceAll("'", "''") + "'";
@@ -43,6 +44,7 @@ export async function createClinicFixture(env = process.env) {
   const run = `clinic-qa-${randomUUID()}`;
   const known = new Set([run]);
   const actors = [];
+  const allocationIds=new Set();
   // Snapshot row data stays in memory. Reports contain hashes/counts only, never
   // passwords, refresh tokens, existing participant data or service credentials.
   const tables = json(`select jsonb_agg(format('%I.%I',schemaname,tablename) order by schemaname,tablename) from pg_tables where schemaname in ('public','auth');`);
@@ -64,7 +66,7 @@ export async function createClinicFixture(env = process.env) {
         packet_cap:4,overage_enabled:false,overage_cap:0,pause_at_cap:true,
         contract_note:`${run}: owner-authorized temporary simulated QA allocation; no payment or production authority`,
         expires_at:new Date(Date.now()+3600000).toISOString()}).select('id').single());
-      known.add(row.id);
+      known.add(row.id);allocationIds.add(row.id);
       return {status:'CREATED_SYNTHETIC_ONLY',cap:4,paymentCreated:false};
     },
     async user(label, role, slug=program) {
@@ -97,7 +99,8 @@ export async function createClinicFixture(env = process.env) {
     async cleanup() {
       // First collect the exact run-owned delta, including transitive FK rows.
       // Any unrelated added/changed/deleted row refuses cleanup rather than
-      // overwriting concurrent work. Baseline rows are never deleted/restored.
+      // overwriting concurrent work. Only the independently attributed synthetic
+      // program counter may be restored using a whole-row compare-and-swap.
       const stored=json(`select coalesce(jsonb_agg(to_jsonb(o) order by id),'[]') from storage.objects o;`);
       assert(storageBaseline.every(old=>stored.some(row=>hash(row)===hash(old))),'Pre-existing storage metadata changed');
       const newObjects=stored.filter(row=>!storageBaseline.some(old=>old.id===row.id));
@@ -107,10 +110,12 @@ export async function createClinicFixture(env = process.env) {
       }
       assert.equal(hash(json(`select coalesce(jsonb_agg(to_jsonb(o) order by id),'[]') from storage.objects o;`)),hash(storageBaseline),'Private object baseline restored');
       const after=snapshot(),added=[];
+      const counter=sponsoredCounterRestoration({before:baseline,after,program,partnerId:partner.id,
+        actorIds:new Set(actors.filter(actor=>actor.label.startsWith('participant-')).map(actor=>actor.id)),knownIds:known,allocationIds});
       for(const table of tables){
         const old=new Set(baseline[table].map(hash)),now=new Set(after[table].map(hash));
-        assert(baseline[table].every(row=>now.has(hash(row))),`Cleanup refused: pre-existing ${table} rows changed`);
-        for(const row of after[table])if(!old.has(hash(row)))added.push({table,row});
+        assert(baseline[table].every(row=>now.has(hash(row))||(counter?.table===table&&hash(row)===hash(counter.before))),`Cleanup refused: pre-existing ${table} rows changed`);
+        for(const row of after[table])if(!old.has(hash(row))&&!(counter?.table===table&&hash(row)===hash(counter.after)))added.push({table,row});
       }
       const approved=new Set();let progress=true;
       while(progress){progress=false;for(const entry of added){if(approved.has(entry))continue;
@@ -127,10 +132,16 @@ export async function createClinicFixture(env = process.env) {
       // transaction. Append-only audit triggers are bypassed ONLY for teardown;
       // all measured operations above retain ordinary RLS and triggers.
       const statements=added.map(({table,row})=>`delete from ${table} t where to_jsonb(t)=${literal(JSON.stringify(row))}::jsonb;`);
-      sql(`begin; set local session_replication_role=replica; ${statements.join('\n')} commit;`);
+      const restoreCounter=counter?`do $clinic_counter_cleanup$ declare affected bigint; begin
+        update public.partner_entitlement pe set screenings_used=${counter.before.screenings_used},updated_at=${literal(counter.before.updated_at)}
+        where pe.partner_slug=${literal(program)} and to_jsonb(pe)=${literal(JSON.stringify(counter.after))}::jsonb;
+        get diagnostics affected=row_count;
+        if affected<>1 then raise exception 'Clinic program counter compare-and-swap refused'; end if;
+        end $clinic_counter_cleanup$;`:'';
+      sql(`begin; set local session_replication_role=replica; ${restoreCounter} ${statements.join('\n')} commit;`);
       assert.equal(hash(authorizationSchema()),schemaSha256,'Clinic authorization schema unchanged during measured run');
       const restored=snapshot();assert.equal(hash(restored),beforeHash,'Exact public/Auth row baseline restoration');
-      return {status:'PASS',removedRows:added.length,baselineSha256:beforeHash,restoredSha256:hash(restored),identitiesRemoved:actors.length,privateObjectsRemoved:newObjects.length,storageBaselineSha256:hash(storageBaseline)};
+      return {status:'PASS',removedRows:added.length,baselineSha256:beforeHash,restoredSha256:hash(restored),identitiesRemoved:actors.length,privateObjectsRemoved:newObjects.length,storageBaselineSha256:hash(storageBaseline),programCounterRestoration:counter?{status:'RESTORED',delta:counter.delta,proofSha256:counter.proofSha256}:{status:'NOT_NEEDED'}};
     }
   };
   return fixture;

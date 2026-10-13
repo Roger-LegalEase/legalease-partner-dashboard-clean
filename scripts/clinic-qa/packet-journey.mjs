@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {createHash} from 'node:crypto';
-import {startArtifactEvidence,acceptRealArtifact,artifactDenial} from './artifact-journey.mjs';
+import {startArtifactEvidence,acceptRealArtifact,artifactDenial,shouldAwaitArtifactStatus} from './artifact-journey.mjs';
 import {MS_NONCONVICTION_SCREENING_ANSWERS,MS_NONCONVICTION_PACKET_ANSWERS} from '../lib/rcap-ms-nonconviction-fixture.mjs';
 
 const originals=JSON.parse(fs.readFileSync(new URL('./ga22-original-manifestations.json',import.meta.url))).manifestations;
@@ -128,7 +128,8 @@ export async function packetJourney({fixture,participant,session,locale,check,re
       if(statusResponse.status()!==200)delivery.status='OWNER_STATUS_REQUEST_FAILED';
       assert.equal(statusResponse.status(),200,`Owner packet status refused (HTTP ${statusResponse.status()})`);
       statusBody=await statusResponse.json();
-      if(statusBody.canDownload||!generation.ok()||statusBody.packetStatus!=='generating'||Date.now()>=deadline)break;
+      if(!shouldAwaitArtifactStatus({generationHttp:generation.status(),generationPacketStatus:generated.packetStatus,
+        status:statusBody,deadlineExpired:Date.now()>=deadline}))break;
       await new Promise(resolve=>setTimeout(resolve,1000));
     } while(true);
     delivery.statusHttp=statusResponse.status();delivery.canDownload=statusBody.canDownload===true;

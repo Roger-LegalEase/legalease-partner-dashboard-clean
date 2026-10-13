@@ -87,6 +87,14 @@ export function applyArtifactMode(evidence,mode) {
     row.basis=mode==='sponsored'?'src/lib/rcap/render/sponsored-packet.ts:finalizeSponsoredRenderArtifact and src/app/api/rcap/packets/[jobId]/download/route.ts: authenticated job delivery uses no consumer grant':
       'src/app/api/expungement-ai/packet/artifacts/[itemId]/route.ts: consumer grant binds the item; wrong-item-token case applies';}
 }
+export function shouldAwaitArtifactStatus({generationHttp,generationPacketStatus,status,deadlineExpired}) {
+  // getConsumerPacketStatus returns not_started while a sponsored job has no
+  // finalized provenance. The successful enqueue response supplies the fact
+  // that a real job was requested; neither signal alone invents readiness.
+  return [200,202].includes(generationHttp)&&generationPacketStatus==='generating'
+    &&status.canDownload!==true&&['not_started','pending','generating'].includes(status.packetStatus)
+    &&!deadlineExpired;
+}
 export async function acceptRealArtifact({fixture,context,matterId,ownerId,downloadPath,session,evidence,check}) {
   uuid(matterId);uuid(ownerId);
   assert(fixture.actors.some(actor=>actor.id===ownerId)&&fixture.known.has(matterId),'Only run-owned artifacts');

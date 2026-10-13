@@ -40,10 +40,18 @@ not close GA-22 automatically or represent a local run as CI evidence.
 For harness-only checks, run:
 
 ```sh
-node --test scripts/clinic-qa/artifact-journey.test.mjs scripts/clinic-qa/fixture.test.mjs scripts/clinic-qa/generation-refusal.test.mjs
+node --test scripts/clinic-qa/artifact-journey.test.mjs scripts/clinic-qa/fixture.test.mjs scripts/clinic-qa/generation-refusal.test.mjs scripts/clinic-qa/sponsored-cleanup.test.mjs
 ```
 
 Those predicate/refusal tests never establish real authenticated artifact
 acceptance. A missing publication or CI transport authorization must be resolved
 through the existing exact-candidate process; this runner neither publishes a
 worker nor exposes the database or fabricates a successful render job.
+
+Real sponsored finalization increments the existing synthetic program counter.
+Cleanup compensates only an exact, bounded included-credit delta corroborated
+by new run-owned finalized jobs, temporary-allocation credits, provenance,
+analytics and finalization audit receipts. Other fields and overage must remain
+unchanged. Restoration uses a whole-row compare-and-swap in the teardown
+transaction; any unrelated or unaccounted change refuses restoration. Until a
+real artifact is generated, this compensation path remains NOT_RUN.
