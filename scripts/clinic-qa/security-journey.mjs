@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import {artifactDenial} from './artifact-journey.mjs';
 
 /** Only run-owned state is conditioned by setup credentials. Every measured
  * denial is an ordinary authenticated application or PostgREST request. */
@@ -19,6 +20,7 @@ export async function securityJourney({fixture,event,owned,staff,otherStaff,outs
 
     await fixture.assign(event,selected,['queue']);
     try {
+      await artifactDenial({item,context:item.selectedHelper.context,id:'no-assist-staff-denied',check});
       const denied=await row();
       const api=await item.selectedHelper.context.request.get(queuePath);
       check(`${prefix}-selected-staff-assist-permission-removed-rls`,!denied.error&&denied.data.length===0);
@@ -32,6 +34,7 @@ export async function securityJourney({fixture,event,owned,staff,otherStaff,outs
     check(`${prefix}-authorized-staff-queue-page`,await item.selectedHelper.page.getByRole('combobox').count()>0);
     await fixture.assign(event,selected,['assist','queue'],'suspended');
     try {
+      await artifactDenial({item,context:item.selectedHelper.context,id:'suspended-staff-denied',check});
       const denied=await row();
       const api=await item.selectedHelper.context.request.get(queuePath);
       check(`${prefix}-suspended-staff-rls-denied`,!denied.error&&denied.data.length===0);
@@ -47,6 +50,7 @@ export async function securityJourney({fixture,event,owned,staff,otherStaff,outs
     assert(fixture.actors.some(actor=>actor.id===item.actor.id),'Expiry conditioning is limited to run-created participants');
     fixture.sql(`update clinic_assisted_sessions set started_at=now()-interval '2 minutes',expires_at=now()-interval '1 second' where id='${item.session.id}' and participant_user_id='${item.actor.id}';`);
     try {
+      await artifactDenial({item,context:item.selectedHelper.context,id:'expired-consent-staff-denied',check});
       const denied=await row();
       const api=await item.selectedHelper.context.request.get(queuePath);
       check(`${prefix}-expired-consent-rls-denied`,!denied.error&&denied.data.length===0);

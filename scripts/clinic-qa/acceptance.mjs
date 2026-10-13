@@ -9,19 +9,23 @@ import {chromium} from 'playwright';
 import {createClinicFixture} from './fixture.mjs';
 import {packetJourney} from './packet-journey.mjs';
 import {securityJourney} from './security-journey.mjs';
+import {artifactActorCases,artifactAfterConsentRevocation,artifactGrantAndRevisionCases} from './artifact-journey.mjs';
+import {applicationBinding,assertApplicationBindingsEqual} from './source-bindings.mjs';
 
 const output=path.resolve(process.env.CLINIC_QA_OUTPUT ?? 'private/clinic-qa');
 const root=process.cwd();
+const applicationRoot=path.resolve(process.env.CLINIC_QA_APPLICATION_ROOT??root);
 if(output.startsWith(root+path.sep))execFileSync('git',['check-ignore',output],{stdio:'pipe'});
 fs.mkdirSync(output,{recursive:true,mode:0o700});
 const evidence=path.join(output,`acceptance-${Date.now()}-${randomUUID()}.json`);
-const report={schemaVersion:1,sourceSha:execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),checks:[],bindings:{},cleanup:{status:'NOT_RUN'},closure:'NOT_ACCEPTED'};
-for(const file of ['src/app/api/expungement-ai/packet/generate/route.ts','supabase/migrations/20260925134704_canonical_consumer_presentation_matter.sql','scripts/clinic-qa/fixture.mjs','scripts/clinic-qa/acceptance.mjs','scripts/clinic-qa/packet-journey.mjs','scripts/clinic-qa/security-journey.mjs','src/lib/expungement-ai/frontend/reviewed-question-spanish.json','scripts/clinic-qa/ga22-original-manifestations.json','src/lib/clinic-mode/participant-service.ts','src/app/api/clinic/events/[eventId]/queue/route.ts','supabase/migrations/20261013130000_clinic_participant_consent_scope.sql','src/components/clinic-mode/ClinicAssistanceClient.tsx','src/lib/expungement-ai/frontend/reviewed-assisted-contact-copy.json'])report.bindings[file]=createHash('sha256').update(fs.readFileSync(file)).digest('hex');
+const report={schemaVersion:1,sourceSha:execFileSync('git',['rev-parse','HEAD'],{cwd:applicationRoot,encoding:'utf8'}).trim(),runnerSourceSha:execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),checks:[],bindings:{},cleanup:{status:'NOT_RUN'},closure:'NOT_ACCEPTED'};
+for(const file of ['src/app/api/expungement-ai/packet/generate/route.ts','supabase/migrations/20260925134704_canonical_consumer_presentation_matter.sql','scripts/clinic-qa/fixture.mjs','scripts/clinic-qa/artifact-journey.mjs','scripts/clinic-qa/source-bindings.mjs','scripts/clinic-qa/acceptance.mjs','scripts/clinic-qa/packet-journey.mjs','scripts/clinic-qa/security-journey.mjs','src/lib/expungement-ai/frontend/reviewed-question-spanish.json','scripts/clinic-qa/ga22-original-manifestations.json','src/lib/clinic-mode/participant-service.ts','src/app/api/clinic/events/[eventId]/queue/route.ts','supabase/migrations/20261013130000_clinic_participant_consent_scope.sql','src/components/clinic-mode/ClinicAssistanceClient.tsx','src/lib/expungement-ai/frontend/reviewed-assisted-contact-copy.json'])report.bindings[file]=createHash('sha256').update(fs.readFileSync(file)).digest('hex');
 // Bind the actual working application as well as HEAD: retained unrelated drafts
 // must never be mistaken for the committed candidate's tested bytes.
-const applicationFiles=execFileSync('git',['ls-files','--cached','--others','--exclude-standard','-z','src'],{encoding:'utf8'}).split('\0').filter(Boolean).sort();
-const applicationDigest=()=>createHash('sha256').update(JSON.stringify(applicationFiles.map(file=>[file,createHash('sha256').update(fs.readFileSync(file)).digest('hex')]))).digest('hex');
-report.applicationTreeSha256=applicationDigest();
+const initialApplication=applicationBinding(applicationRoot);
+assertApplicationBindingsEqual(applicationBinding(root),initialApplication);
+report.applicationTreeSha256=initialApplication.sha256;
+report.applicationSourceFileCount=initialApplication.files.length;
 for(const file of execFileSync('git',['diff','--name-only','HEAD','--','src'],{encoding:'utf8'}).trim().split('\n').filter(Boolean))report.bindings[file]=createHash('sha256').update(fs.readFileSync(file)).digest('hex');
 function check(id,condition){report.checks.push({id,status:condition?'PASS':'FAIL'});console.log(condition?'PASS':'FAIL',id);return condition;}
 const fixture=await createClinicFixture();report.environment=fixture.identity;
@@ -65,6 +69,7 @@ try{
   const identity=await staffDb.from('partner_users').select('partner_slug,role,status').eq('auth_user_id',staff.id).single();
   check('authenticated-staff-program-role',!identity.error&&identity.data.partner_slug===fixture.program&&identity.data.role==='partner_staff'&&identity.data.status==='active');
   const queueOnlyDb=await userDatabase(queueOnly);
+  const queueOnlyBrowser=await login(queueOnly);
   const otherStaffDb=await userDatabase(otherStaff);
   const outsider=await login(outsiderActor);
   const outsiderDb=await userDatabase(outsiderActor);
@@ -123,6 +128,7 @@ try{
     check(`${locale}-fresh-login-recovers-saved-correction`,await fresh.page.locator('[data-packet-question=participant_full_legal_name] input').first().inputValue()==='Synthetic Clinic Corrected');
     await fresh.context.close();
   }
+  await artifactActorCases({owned,outsider,unauthorized,queueOnlyContext:queueOnlyBrowser.context,browser,fixture,check});
   await securityJourney({fixture,event,owned,staff,otherStaff,outsider,outsiderDb,check});
   const firstDb=await userDatabase(participants[0]);
   const cross=await firstDb.from('clinic_cases').select('id').eq('id',owned[1].caseId);
@@ -136,12 +142,15 @@ try{
     check(`${locale}-revoked-consent-rls-denied`,!revoked.error&&revoked.data.length===0);
     const queue=await item.selectedHelper.context.request.get(`/api/clinic/events/${event.id}/queue`);
     check(`${locale}-revoked-consent-api-denied`,queue.ok()&&!(await queue.json()).cases.some(c=>c.id===item.caseId));
+    await artifactAfterConsentRevocation({item,fixture,check});
+    await artifactGrantAndRevisionCases({fixture,item,check});
   }
 }catch(error){
   // Deliberately avoid dumping request bodies, tokens, email addresses or HTML.
   report.failure={name:error.name,stage:'acceptance',code:'ACCEPTANCE_DID_NOT_COMPLETE'};
   let diagnostic=String(error.message).split('\n')[0];
   for(const actor of fixture.actors)for(const secret of [actor.password,actor.email])diagnostic=diagnostic.replaceAll(secret,'[redacted]');
+  diagnostic=diagnostic.replace(/([?&]grant=)[^&\s]+/g,'$1[redacted]');
   report.failure.diagnostic=diagnostic.slice(0,200);
   console.error('Clinic QA acceptance failed:',error.name,report.failure.diagnostic);
 }finally{
@@ -150,10 +159,11 @@ try{
   try{report.cleanup=await fixture.cleanup();console.log('PASS exact baseline cleanup');}
   catch(error){report.cleanup={status:'FAIL',errorName:error.name,errorSha256:createHash('sha256').update(String(error.message)).digest('hex')};console.error('Clinic QA cleanup needs attention');}
   report.sourceBindingsUnchanged=Object.entries(report.bindings).every(([file,digest])=>createHash('sha256').update(fs.readFileSync(file)).digest('hex')===digest);
-  check('source-bindings-stable-through-acceptance',report.sourceBindingsUnchanged&&applicationDigest()===report.applicationTreeSha256);
+  check('source-bindings-stable-through-acceptance',report.sourceBindingsUnchanged&&applicationBinding(applicationRoot).sha256===report.applicationTreeSha256&&applicationBinding(root).sha256===report.applicationTreeSha256);
   check('browser-runtime-errors-absent',!report.browserErrors?.length&&!report.browserClose);
   report.status=report.failure||report.checks.some(check=>check.status==='FAIL')||report.cleanup.status!=='PASS'?'FAIL':'PARTIAL';
-  report.remaining=['owner-positive-private-artifact-denial','independent-current-source-acceptance','authenticated-CI-environment-binding'];
+  report.remaining=['independent-current-source-acceptance','authenticated-CI-environment-binding'];
+  if(report.artifactAcceptance?.length!==2||report.artifactAcceptance.some(item=>item.status!=='PASS'))report.remaining.unshift('owner-positive-private-artifact-denial');
   fs.writeFileSync(evidence,JSON.stringify(report,null,2)+'\n',{flag:'wx',mode:0o600});
   console.log('Evidence:',evidence);
 }

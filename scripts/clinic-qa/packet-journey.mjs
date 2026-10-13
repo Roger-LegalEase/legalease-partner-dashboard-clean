@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {createHash} from 'node:crypto';
+import {startArtifactEvidence,acceptRealArtifact,artifactDenial} from './artifact-journey.mjs';
 import {MS_NONCONVICTION_SCREENING_ANSWERS,MS_NONCONVICTION_PACKET_ANSWERS} from '../lib/rcap-ms-nonconviction-fixture.mjs';
 
 const originals=JSON.parse(fs.readFileSync(new URL('./ga22-original-manifestations.json',import.meta.url))).manifestations;
@@ -11,6 +12,8 @@ const reviewed=JSON.parse(fs.readFileSync(new URL('../../src/lib/expungement-ai/
 export async function packetJourney({fixture,participant,session,locale,check,report,helperContext}) {
   assert.equal(fixture.jurisdiction,'MS','Use the jurisdiction-specific accepted journey adapter');
   const {context,page}=participant;
+  const artifactEvidence=startArtifactEvidence(report,locale);
+  let artifact;
   const answers={...MS_NONCONVICTION_SCREENING_ANSWERS,...MS_NONCONVICTION_PACKET_ANSWERS,
     ownership_scope:copy.canonicalHelperWire,ms_program_order:'no_program_order',state_exclusion_categories:'None of these',criminal_history:'No',record_documents:'Yes',pardon_status:'No'};
   const saveResult=page.getByRole('button',{name:/^(Save my result and continue|Guardar mi resultado y continuar)$/});
@@ -116,17 +119,16 @@ export async function packetJourney({fixture,participant,session,locale,check,re
     delivery.generationHttp=generation.status();delivery.packetStatus=generated.packetStatus??null;
     delivery.refusal=generated.resultCode??generated.denialCode??generated.outcome??null;
     const owner=await context.request.get(`/api/expungement-ai/packet/download-link?briefcaseItemId=${matterId}`,{maxRedirects:0});
+    assert([303,404].includes(owner.status()),'Unexpected owner artifact endpoint failure');
     delivery.ownerHttp=owner.status();
     if(owner.status()===303) {
-      const target=owner.headers().location;
-      const ownerBytes=await context.request.get(target);
-      const denied=await helperContext.request.get(target);
-      delivery.status=ownerBytes.ok()&&[403,404].includes(denied.status())?'PASS':'FAIL';
-      check(`${locale}-owner-positive-private-artifact-staff-denial`,delivery.status==='PASS');
+      artifact=await acceptRealArtifact({fixture,context,matterId,ownerId:session.participant_user_id,response:owner,evidence:artifactEvidence,check});
+      await artifactDenial({item:{artifact,matterId,actor:{id:session.participant_user_id},context},context:helperContext,id:'staff-owner-artifact-denied',check});
+      delivery.status='ARTIFACT_AVAILABLE_ACCEPTANCE_IN_PROGRESS';
     } else delivery.status='BLOCKED_NO_OWNER_DOWNLOAD';
   } else delivery.status='BLOCKED_NOT_VERIFIED';
   const download=await helperContext.request.get(`/api/expungement-ai/packet/download-link?briefcaseItemId=${matterId}`,{maxRedirects:0});
   check(`${locale}-staff-unavailable-download-link-refused`,download.status()===404&&/no-store/.test(download.headers()['cache-control']??''));
   await page.goto(`/clinic/${(await fixture.admin.from('clinic_events').select('public_slug').eq('id',session.event_id).single()).data.public_slug}/screening/ms`,{waitUntil:'networkidle'});
-  return {matterId,api};
+  return {matterId,api,artifact};
 }
