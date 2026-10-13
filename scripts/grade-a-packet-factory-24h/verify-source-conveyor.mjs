@@ -476,7 +476,19 @@ function run() {
   const releasedUnresolved = master.families.filter((f) => f.state === "SOURCE_READY" && unresolvedFamilies.has(f.familyId));
   if (releasedUnresolved.length) promptProblems.push(`${releasedUnresolved.length} released family/families retain unresolved sources`);
   const readyText = fs.existsSync(path.join(ROOT, READY_WORKFLOW)) ? fs.readFileSync(path.join(ROOT, READY_WORKFLOW), "utf8") : "";
-  for (const required of ["generate.mjs --check", "generate-source-conveyor.mjs --check", "generate-washington-repair.mjs --check", "verify.mjs --mutations", "verify-source-conveyor.mjs --mutations", "rcap-plan-source-acquisition-batch.mjs", "git diff --check", "git status --porcelain"]) if (!readyText.includes(required)) promptProblems.push(`readiness workflow omits ${required}`);
+  // Convergence now runs through the guarded five-entry runner. Follow that
+  // executable dependency instead of requiring obsolete inline shell commands.
+  const convergencePath = "scripts/rcap-corpus/check-generator-convergence.mjs";
+  if (!/^\s*node scripts\/rcap-corpus\/check-generator-convergence\.mjs\s*$/m.test(readyText)) promptProblems.push("readiness workflow omits guarded generator convergence");
+  const convergenceText = fs.readFileSync(path.join(ROOT, convergencePath), "utf8");
+  const convergenceManifest = read("data/rcap-grade-a/source-custody/generator-preflight-20261013/manifest.json");
+  for (const name of ["generate", "generate-source-conveyor", "generate-washington-repair", "generate-source-relationship-registry", "generate-raster-workflow-bindings"]) {
+    if (!convergenceManifest.entrypoints?.includes(`scripts/grade-a-packet-factory-24h/${name}.mjs`)) promptProblems.push(`guarded convergence omits ${name}`);
+  }
+  for (const required of ["for (const entry of manifest.entrypoints)", "spawnSync(process.execPath,[entry,'--check']", "auditResults(out)", "process.exitCode=result.status==='PASS'?0:1"]) {
+    if (!convergenceText.includes(required)) promptProblems.push(`guarded convergence lost execution/refusal contract: ${required}`);
+  }
+  for (const required of ["verify.mjs --mutations", "verify-source-conveyor.mjs --mutations", "rcap-plan-source-acquisition-batch.mjs", "git diff --check", "git status --porcelain"]) if (!readyText.includes(required)) promptProblems.push(`readiness workflow omits ${required}`);
   if (!/name:\s*RCAP Source Conveyor/.test(readyText) || !/^\s{2}READY_TO_RUN:/m.test(readyText)) promptProblems.push("commit-bound check name is absent");
   check("C20", "source prompts and READY_TO_RUN gate are executable and fail closed", promptProblems.length === 0,
     `${promptProblems.length} problem(s): ${promptProblems.slice(0, 3).join(" | ")}`);
@@ -608,6 +620,7 @@ if (MUTATIONS) {
     { on: "active", id: "C20", name: "a URL-less ACQ item is caught", mutate: (j) => { const a=j.assignments.find(x=>x.assignmentId==="ACQ01"); a.items=["synthetic::url-less"]; a.itemDetails=[{itemId:"synthetic::url-less",familyIds:["synthetic"]}]; return j; } },
     { on: "active", id: "C20", name: "a receipt-less PROMO item is caught", mutate: (j) => { const a=j.assignments.find(x=>x.assignmentId==="PROMO01"); a.items=["synthetic::promo"]; a.itemDetails=[{itemId:"synthetic::promo",familyIds:["synthetic"]}]; return j; } },
     { on: "ready", id: "C20", name: "omitting a required readiness verifier is caught", mutateText: (t) => t.replace("verify-source-conveyor.mjs --mutations", "verify-source-conveyor.mjs --disabled") },
+    { on: "ready", id: "C20", name: "omitting guarded generator convergence is caught", mutateText: (t) => t.replace("node scripts/rcap-corpus/check-generator-convergence.mjs", "node scripts/rcap-corpus/check-generator-convergence.mjs --disabled") },
     /* Positive control. A refusal that fires on an untouched dispatch would
      * make every mutation above meaningless, so one case changes something
      * real and irrelevant and requires the checks to still pass. */
