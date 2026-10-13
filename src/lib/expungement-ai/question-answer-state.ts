@@ -1,7 +1,7 @@
 import { CA_CONTACT_CONTRACT, CA_CONTACT_IDS, parseCaContact, caContactAnswerState } from "@/lib/expungement-ai/ca-prop64-contact-answer";
 import { nyPacketTextAnswerState, NY_PACKET_TEXT_CONTRACT } from "@/lib/expungement-ai/ny-16059-packet-facts";
 import { NY_CASE_RECORDS_ID, NY_CASE_RECORDS_CONTRACT, NY_STATEMENT_ID, NY_STATEMENT_CONTRACT, parseNyCourtCaseRecords, nyCourtCaseRecordsState, nyApplicantStatementState } from "@/lib/expungement-ai/ny-16059-case-records";
-import { NY_CASE_COURT_TEXT_CONTRACT, NY_OTHER_COURT_NAME, NY_OTHER_COURT_COUNTY, nyCaseCourtTextState } from "@/lib/expungement-ai/ny-16059-case-questions";
+import { NY_CASE_COURT_TEXT_CONTRACT, NY_OTHER_COURT_NAME, NY_OTHER_COURT_COUNTY, NY_COURT_DIRECTION_TEXT_IDS, nyCaseCourtTextState } from "@/lib/expungement-ai/ny-16059-case-questions";
 import { caProp64RecordAnswerState, CA_PROP64_RECORD_ANSWER_CONTRACT } from "@/lib/expungement-ai/ca-prop64-record-answer";
 import { caProp64CaptionAnswerState, CA_PROP64_CAPTION_ANSWER_CONTRACT } from "@/lib/expungement-ai/ca-prop64-caption-answer";
 import { caProp64Choice, isCaProp64ChoiceQuestion } from "@/lib/expungement-ai/ca-prop64-choices";
@@ -89,7 +89,7 @@ export function questionAnswerState(question: QuestionContract, value: unknown, 
   if (question.answerContract === CA_CONTACT_CONTRACT) return question.type === "filing_contact" && CA_CONTACT_IDS.includes(question.id) ? caContactAnswerState(question.id, value, question.contactContext) : "invalid";
   if (question.answerContract === NY_CASE_RECORDS_CONTRACT) return question.id === NY_CASE_RECORDS_ID && question.type === "court_case_records" ? nyCourtCaseRecordsState(value, today) : "invalid";
   if (question.answerContract === NY_STATEMENT_CONTRACT) return question.id === NY_STATEMENT_ID && question.type === "text_or_unknown" ? nyApplicantStatementState(value) : "invalid";
-  if (question.answerContract === NY_CASE_COURT_TEXT_CONTRACT) return [NY_OTHER_COURT_NAME, NY_OTHER_COURT_COUNTY].includes(question.id) && question.type === "text_or_unknown" ? nyCaseCourtTextState(value) : "invalid";
+  if (question.answerContract === NY_CASE_COURT_TEXT_CONTRACT) return [NY_OTHER_COURT_NAME, NY_OTHER_COURT_COUNTY, ...NY_COURT_DIRECTION_TEXT_IDS].includes(question.id) && question.type === "text_or_unknown" ? nyCaseCourtTextState(value) : "invalid";
   if (question.answerContract === NY_PACKET_TEXT_CONTRACT) return question.type === "text_or_unknown" ? nyPacketTextAnswerState(question.id, value) : "invalid";
   if (question.answerContract === CA_PROP64_CAPTION_ANSWER_CONTRACT) {
     return question.type === "text_or_unknown" ? caProp64CaptionAnswerState(question.id, value) : "invalid";

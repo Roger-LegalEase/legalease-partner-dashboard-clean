@@ -5,7 +5,8 @@ import { questionAnswerState } from "@/lib/expungement-ai/question-answer-state"
 import { isNy16059Packet, NY_PACKET_QUESTIONS, NY_PACKET_CONDITIONS } from "@/lib/expungement-ai/ny-16059-packet-facts";
 import { NY_CURRENT_COMPONENTS, NY_CURRENT_SOURCE_CONTEXT } from "@/lib/expungement-ai/ny-16059-current-components";
 import { NY_CASE_RECORDS_ID, NY_STATEMENT_ID, parseNyCourtCaseRecords } from "@/lib/expungement-ai/ny-16059-case-records";
-import { NY_CASE_RECONCILIATION_ID, NY_FILING_CASE_ID, NY_OTHER_COURT_NAME, NY_OTHER_COURT_COUNTY, nyCaseAssociationIssues } from "@/lib/expungement-ai/ny-16059-case-questions";
+import { NY_CASE_RECONCILIATION_ID, NY_FILING_CASE_ID, NY_OTHER_COURT_NAME, NY_OTHER_COURT_COUNTY, NY_VENUE_FACT_IDS, nyCaseAssociationIssues } from "@/lib/expungement-ai/ny-16059-case-questions";
+import { nyFilingVenueComparison } from "@/lib/expungement-ai/ny-16059-filing-venue";
 import type { ProtectedPacketVerificationRecord } from "@/lib/expungement-ai/verification-cas";
 
 /** Caller must obtain this record through authenticated owner/custody access.
@@ -78,6 +79,9 @@ export function ny16059ProtectedDocumentPreparation(record: ProtectedPacketVerif
       courtName: filingCase?.courtName ?? (differentCourt ? owned(NY_OTHER_COURT_NAME)?.value ?? null : null),
       courtCounty: filingCase?.courtCounty ?? (differentCourt ? owned(NY_OTHER_COURT_COUNTY)?.value ?? null : null),
       courtEvidence: differentCourt ? { name: rawOwned(NY_OTHER_COURT_NAME), county: rawOwned(NY_OTHER_COURT_COUNTY) } : caseEvidence,
+      comparison: records ? nyFilingVenueComparison(records) : null,
+      directionReview: differentCourt ? { status: "unresolved_source_and_assignment_review" as const,
+        facts: Object.fromEntries(NY_VENUE_FACT_IDS.map(id => [id, rawOwned(id)])), sourceAccepted: false as const } : null,
       legallyReviewed: false as const
     },
     applicantStatement: { evidence: statement, text: statement?.answerState === "known_valid" ? statement.value : null, signed: null, dated: null, affirmed: null },

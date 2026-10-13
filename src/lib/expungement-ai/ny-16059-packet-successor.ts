@@ -1,17 +1,18 @@
 import "server-only";
 import { contactRepresentationHash as hash } from "@/lib/expungement-ai/contact-representation";
 import { isNy16059Packet, NY_PACKET_FACT_IDS } from "@/lib/expungement-ai/ny-16059-packet-facts";
-import { NY_CASE_FACT_IDS } from "@/lib/expungement-ai/ny-16059-case-questions";
+import { NY_CASE_FACT_IDS, NY_VENUE_FACT_IDS } from "@/lib/expungement-ai/ny-16059-case-questions";
 import type { PacketVerificationSnapshot } from "@/lib/expungement-ai/types";
 import type { ProtectedPacketDraftSnapshot } from "@/lib/expungement-ai/verification-cas";
 import type { ScreeningPacketPlan } from "@/lib/rcap-engine/contracts";
 
 const priorContracts = [
   { plan: "1bee8cc16edfc95d402d21ca181767764f2c6e10ea49c7599936932cf62f7c3e", required: "aacc22f3100df5ba2cecf4391128023ac3d4a9456e55cd044ad085338e666f71", added: [...NY_PACKET_FACT_IDS, ...NY_CASE_FACT_IDS] },
-  { plan: "d1dcc737857aa816c64f57579939f3dd43d1b5344ddab70d6b37fbb303783295", required: "21d5444c04de91a947652d7b3e4bf7e8afeef3563c3077a4eca68ed032dbedba", added: NY_CASE_FACT_IDS }
+  { plan: "d1dcc737857aa816c64f57579939f3dd43d1b5344ddab70d6b37fbb303783295", required: "21d5444c04de91a947652d7b3e4bf7e8afeef3563c3077a4eca68ed032dbedba", added: NY_CASE_FACT_IDS },
+  { plan: "933c81fe00ce50c664a40efe3b8af2a7d40ecfa156b8bb9f2a5d6e9bfe0481f0", required: "44d6c28c10973e82c729046817a3abb5ab07703e3c751d17239830303bac9083", added: NY_VENUE_FACT_IDS }
 ];
 
-/** Exact fafc82a40 and f330ca64a prior plans. The existing protected reader validates record
+/** Exact fafc82a40, f330ca64a and 20b2f0adc prior plans. The existing protected reader validates record
  * hashes and current authority; this only projects newly missing packet facts. */
 export function ny16059PacketPlanSuccessor<T extends PacketVerificationSnapshot | ProtectedPacketDraftSnapshot>(snapshot: T, plan: ScreeningPacketPlan | undefined): T | null {
   if (!isNy16059Packet(snapshot.jurisdiction, snapshot.pathwayId) || !plan || plan.pathwayId !== snapshot.pathwayId

@@ -1,6 +1,6 @@
 "use client";
 
-import { nyCasePreparationQuestions, nyCaseAssociationIssues, NY_CASE_RECONCILIATION_ID, NY_FILING_CASE_ID } from "@/lib/expungement-ai/ny-16059-case-questions";
+import { nyCasePreparationQuestions, nyCaseAssociationIssues, NY_CASE_RECONCILIATION_ID, NY_COURT_DIRECTION_CONFIRMATION_ID, NY_FILING_CASE_ID } from "@/lib/expungement-ai/ny-16059-case-questions";
 import { isNy16059Packet } from "@/lib/expungement-ai/ny-16059-packet-facts";
 import { CA_CONTACT_IDS, formatCaContact } from "@/lib/expungement-ai/ca-prop64-contact-answer";
 import { isCaProp64Pathway } from "@/lib/expungement-ai/ca-prop64-choices";
@@ -421,8 +421,11 @@ export function PacketInformationBuilder({
           const display = (answer: unknown): string => {
             if (isCaProp64Pathway(stateCode, pathwayId ?? null) && CA_CONTACT_IDS.includes(id)) return formatCaContact(id, answer, locale);
             if (isNy16059Packet(stateCode, pathwayId ?? null) && id === NY_CASE_RECORDS_ID) return formatNyCourtCaseRecords(answer, locale);
-            if (isCaProp64Pathway(stateCode, pathwayId ?? null) && CA_CONTACT_IDS.includes(id)) return formatCaContact(id, answer, locale);
-            if (isNy16059Packet(stateCode, pathwayId ?? null) && [NY_CASE_RECONCILIATION_ID, NY_FILING_CASE_ID].includes(id) && typeof answer === "string" && !question?.options?.includes(answer)) return copy("Review this choice against the current case list", "Revise esta selección con la lista actual de casos");
+            if (isNy16059Packet(stateCode, pathwayId ?? null) && [NY_CASE_RECONCILIATION_ID, NY_COURT_DIRECTION_CONFIRMATION_ID, NY_FILING_CASE_ID].includes(id)) {
+              if (answer && typeof answer === "object" && !Array.isArray(answer) && (answer as { unknown?: unknown }).unknown === true) return copy("Unsure", "No estoy seguro/a");
+              const scalar = answer && typeof answer === "object" && !Array.isArray(answer) ? (answer as { value?: unknown }).value : answer;
+              return typeof scalar === "string" && question?.options?.includes(scalar) ? label(scalar) : copy("Review this choice against the current case list", "Revise esta selección con la lista actual de casos");
+            }
             if (/social_security|ssn/i.test(id)) return copy("Sensitive value hidden", "Dato sensible oculto");
             if (answer === null || answer === undefined) return copy("Unanswered", "Sin responder");
             if (Array.isArray(answer)) return answer.map((value) => label(String(value))).join(", ");

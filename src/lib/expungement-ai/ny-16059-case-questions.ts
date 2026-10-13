@@ -2,13 +2,21 @@ import type { ProfileQuestion } from "@/lib/expungement-ai/frontend/contracts";
 import { NY_CASE_RECORDS_ID, NY_CASE_RECORDS_CONTRACT, NY_STATEMENT_ID, NY_STATEMENT_CONTRACT, parseNyCourtCaseRecords, nyCourtCaseRecordsState, nyApplicantStatementState } from "@/lib/expungement-ai/ny-16059-case-records";
 import { nyPacketTextAnswerState } from "@/lib/expungement-ai/ny-16059-packet-facts";
 import { nyClassificationAnswerCurrent } from "@/lib/expungement-ai/ny-16059-case-classification";
+import { nyFilingVenueComparison } from "@/lib/expungement-ai/ny-16059-filing-venue";
+import { nyStatutoryClassCoherent } from "@/lib/expungement-ai/ny-16059-statutory-class";
 
 export const NY_CASE_COURT_TEXT_CONTRACT = "ny_16059_case_court_text_v1" as const;
 export const NY_FILING_CASE_ID = "ny_16059_filing_case_id";
 export const NY_OTHER_COURT_NAME = "ny_16059_other_filing_court_name";
 export const NY_OTHER_COURT_COUNTY = "ny_16059_other_filing_court_county";
 export const NY_CASE_RECONCILIATION_ID = "ny_16059_additional_case_reconciliation";
-export const NY_CASE_FACT_IDS = [NY_CASE_RECORDS_ID, NY_FILING_CASE_ID, NY_OTHER_COURT_NAME, NY_OTHER_COURT_COUNTY, NY_STATEMENT_ID, NY_CASE_RECONCILIATION_ID];
+export const NY_PRE_VENUE_CASE_FACT_IDS = [NY_CASE_RECORDS_ID, NY_FILING_CASE_ID, NY_OTHER_COURT_NAME, NY_OTHER_COURT_COUNTY, NY_STATEMENT_ID, NY_CASE_RECONCILIATION_ID];
+export const NY_COURT_DIRECTION_TEXT_IDS = ["ny_16059_court_direction_issuer", "ny_16059_court_direction_date_reference", "ny_16059_court_direction_instruction"];
+export const NY_COURT_DIRECTION_CASES_ID = "ny_16059_court_direction_cases";
+export const NY_COURT_DIRECTION_BASIS_ID = "ny_16059_court_direction_basis";
+export const NY_COURT_DIRECTION_CONFIRMATION_ID = "ny_16059_court_direction_confirmation";
+export const NY_VENUE_FACT_IDS = [NY_COURT_DIRECTION_BASIS_ID, ...NY_COURT_DIRECTION_TEXT_IDS, NY_COURT_DIRECTION_CASES_ID, NY_COURT_DIRECTION_CONFIRMATION_ID];
+export const NY_CASE_FACT_IDS = [...NY_PRE_VENUE_CASE_FACT_IDS, ...NY_VENUE_FACT_IDS];
 const question = (id: string, type: string, prompt: string, helperText: string, esPrompt: string, esHelper: string): ProfileQuestion => ({
   id, type, stage: "packet_information", contextOnly: false, required: true, options: null, prompt, helperText,
   translations: { es: { prompt: esPrompt, helperText: esHelper } }
@@ -35,6 +43,22 @@ export function nyCasePreparationQuestions(answers: Readonly<Record<string, unkn
   }]));
   filing.optionDisplay.different_court = { label: "A different filing court", translations: { es: { label: "Otro tribunal para presentar la solicitud" } } };
   filing.optionDisplay.unknown = { label: "I am not sure", translations: { es: { label: "No estoy seguro" } } };
+  const directionBasis = question(NY_COURT_DIRECTION_BASIS_ID, "single_choice", "Why is the filing court different from the recorded conviction courts?",
+    "Record the actual reason for review. Court assignment after filing and the court where an application is first filed are separate matters. A saved explanation does not approve the destination.",
+    "¿Por qué el tribunal de presentación es distinto de los tribunales de las condenas?", "Indique el motivo real para su revisión. La asignación después de presentar una solicitud y el tribunal donde se presenta inicialmente son cuestiones distintas. Guardar una explicación no aprueba el destino.");
+  const bases = { court_direction: ["An actual court instruction or order", "Una instrucción u orden real del tribunal"], same_court_name: ["Another name for the same court", "Otro nombre del mismo tribunal"], other: ["Another reason", "Otro motivo"], unknown: ["I am not sure", "No estoy seguro"] };
+  directionBasis.options = Object.keys(bases);
+  directionBasis.optionDisplay = Object.fromEntries(Object.entries(bases).map(([value, labels]) => [value, { label: labels[0], translations: { es: { label: labels[1] } } }]));
+  const directionCases = question(NY_COURT_DIRECTION_CASES_ID, "multi_select", "Which recorded cases does that instruction or explanation concern?", "Select the actual case entries. Keep the other case records; this selection does not combine cases or establish a legal conviction count.",
+    "¿A qué casos registrados se refiere esa instrucción o explicación?", "Seleccione las entradas de los casos reales. Conserve los demás expedientes; esta selección no combina casos ni establece un número legal de condenas.");
+  directionCases.options = records.map(record => `case:${record.id}`);
+  directionCases.optionDisplay = Object.fromEntries(records.map(record => [`case:${record.id}`, filing.optionDisplay![`case:${record.id}`]]));
+  const directionConfirmation = question(NY_COURT_DIRECTION_CONFIRMATION_ID, "single_choice", "Have you reviewed this destination and its supporting information against the current cases?",
+    "Confirm only what you have recorded, including any unknown details. This sends no request to a court and does not approve the destination. Review again if the destination, instruction or cases change.",
+    "¿Ha revisado este destino y sus datos de respaldo con los casos actuales?", "Confirme solo lo que ha registrado, incluidos los detalles desconocidos. Esto no envía una solicitud a un tribunal ni aprueba el destino. Revise de nuevo si cambian el destino, la instrucción o los casos.");
+  const directionToken = nyCourtDirectionConfirmation(answers);
+  directionConfirmation.options = [...(directionToken ? [directionToken] : []), "unknown"];
+  directionConfirmation.optionDisplay = { ...(directionToken ? { [directionToken]: { label: "I reviewed these saved facts for review", translations: { es: { label: "Revisé estos datos guardados para su revisión" } } } } : {}), unknown: { label: "I still need to check", translations: { es: { label: "Todavía necesito revisarlo" } } } };
   const reconciliation = question(NY_CASE_RECONCILIATION_ID, "single_choice", "Have you matched every saved additional-case number to the case cards?",
     `Review the earlier additional-case text against all the cards. Correct either answer if anything is missing or wrong. Saved additional-case text: ${held("ny_16059_additional_case_numbers") ?? "Not recorded"}`,
     "¿Ha asociado cada número guardado de los casos adicionales con las tarjetas de los casos?",
@@ -58,6 +82,15 @@ export function nyCasePreparationQuestions(answers: Readonly<Record<string, unkn
       "¿Cómo se llama el otro tribunal que recibirá esta solicitud?", "Use el destino real de presentación. Mantenga sin cambios los tribunales que atendieron los casos incluidos."), answerContract: NY_CASE_COURT_TEXT_CONTRACT },
     { ...question(NY_OTHER_COURT_COUNTY, "text_or_unknown", "Which county is that filing court in?", "This is the filing court's county, not your home county or an assumed prosecutor's location.",
       "¿En qué condado está ese tribunal?", "Se trata del condado del tribunal donde se presentará la solicitud, no de su condado de residencia ni de una ubicación supuesta del fiscal."), answerContract: NY_CASE_COURT_TEXT_CONTRACT },
+    directionBasis,
+    { ...question(NY_COURT_DIRECTION_TEXT_IDS[0], "text_or_unknown", "Who gave the court instruction, or what source identifies the same court?", "Record the issuing court and the person's name or role, or identify the source of the court-name explanation. Do not invent an issuer if there was no instruction.",
+      "¿Quién dio la instrucción del tribunal, o qué fuente identifica al mismo tribunal?", "Indique el tribunal emisor y el nombre o cargo de la persona, o identifique la fuente de la explicación del nombre del tribunal. No invente un emisor si no hubo una instrucción."), answerContract: NY_CASE_COURT_TEXT_CONTRACT },
+    { ...question(NY_COURT_DIRECTION_TEXT_IDS[1], "text_or_unknown", "What is the date and reference of that instruction or source?", "Record the date and order, case, letter or source reference that actually exists. If unavailable, save I am not sure for review. No upload or new court order is required to save this preparation.",
+      "¿Cuál es la fecha y referencia de esa instrucción o fuente?", "Indique la fecha y la referencia de la orden, caso, carta o fuente que realmente exista. Si no dispone de ella, guarde No estoy seguro para revisión. No se exige cargar un documento ni obtener una orden nueva para guardar esta preparación."), answerContract: NY_CASE_COURT_TEXT_CONTRACT },
+    { ...question(NY_COURT_DIRECTION_TEXT_IDS[2], "text_or_unknown", "What exactly does the court instruction or source say about the destination?", "Keep the actual wording and explain how it concerns the cases selected below. This is evidence for review, not permission to choose an unrelated court.",
+      "¿Qué dice exactamente la instrucción o fuente sobre el destino?", "Conserve el texto real y explique cómo se refiere a los casos seleccionados a continuación. Esto constituye información para revisión, no permiso para elegir un tribunal ajeno."), answerContract: NY_CASE_COURT_TEXT_CONTRACT },
+    directionCases,
+    directionConfirmation,
     { ...question(NY_STATEMENT_ID, "text_or_unknown", "Why are you asking the court to seal these convictions?", "Write your own reasons. Keep your paragraphs. Supporting documents do not replace this statement. Saving text does not sign, date or affirm it.",
       "¿Por qué solicita al tribunal que selle estas condenas?", "Escriba sus propios motivos. Conserve sus párrafos. Los documentos de apoyo no reemplazan esta declaración. Guardar el texto no lo firma, fecha ni afirma."), answerContract: NY_STATEMENT_CONTRACT, multiline: true },
     reconciliation
@@ -150,10 +183,52 @@ export function nyCaseAssociationIssues(answers: Readonly<Record<string, unknown
     en: "A covered case lists a release after the saved latest release date. Review the release dates and incarceration history before continuing.",
     es: "Un caso incluido indica una liberación posterior a la última fecha de liberación guardada. Revise las fechas de liberación y los antecedentes de encarcelamiento antes de continuar." });
   const filing = scalar(NY_FILING_CASE_ID);
+  const venue = nyFilingVenueComparison(records);
+  if (convictions.some(conviction => nyStatutoryClassCoherent(conviction) && nyClassificationAnswerCurrent(conviction, "excluded")
+    && conviction.classification!.excluded.value.length && !conviction.classification!.excluded.value.includes("unknown")
+    && (conviction.statutoryClass!.value === "felony_a") !== conviction.classification!.excluded.value.includes("class_a_felony"))) issues.push({ id: NY_CASE_RECORDS_ID, code: "statutory_class_a_category_conflict",
+    en: "The specific class and the class A felony exclusion answer disagree for a conviction. CPL 160.59 excludes class A felonies. Review both answers against the record; neither answer has been replaced automatically.",
+    es: "La clase específica y la respuesta sobre la exclusión de delitos graves de clase A no coinciden para una condena. CPL 160.59 excluye los delitos graves de clase A. Revise ambas respuestas con el expediente; ninguna se ha reemplazado automáticamente." });
+  if (venue.conflictingClassConvictionIds.length) issues.push({ id: NY_CASE_RECORDS_ID, code: "statutory_class_conflict",
+    en: "A specific offense class disagrees with the felony or misdemeanor answer. Review both declarations against that conviction's record.",
+    es: "Una clase específica no coincide con la respuesta de delito grave o menor. Revise ambas declaraciones con el expediente de esa condena." });
+  if (venue.missingClassConvictionIds.length) issues.push({ id: NY_CASE_RECORDS_ID, code: "filing_class_detail_required",
+    en: "The cases involve different courts. Record the specific offense classes needed to compare their filing destinations; a general felony or misdemeanor answer is not enough for these competing convictions.",
+    es: "Los casos corresponden a tribunales distintos. Indique las clases específicas necesarias para comparar los destinos de presentación; una respuesta general de delito grave o menor no basta para estas condenas." });
+  if (venue.reviewReason) issues.push({ id: NY_FILING_CASE_ID, code: "filing_comparison_review_required",
+    en: "The recorded classes leave more than one possible court and do not establish the comparison needed to choose between them. Keep the recorded facts for review; do not change a class or date merely to select a court.",
+    es: "Las clases registradas dejan más de un tribunal posible y no establecen la comparación necesaria para elegir entre ellos. Conserve los datos registrados para revisión; no cambie una clase o fecha solo para seleccionar un tribunal." });
+  if (typeof filing === "string" && filing.startsWith("case:") && records.some(record => `case:${record.id}` === filing)
+    && venue.candidateCaseIds.length && !venue.candidateCaseIds.some(id => `case:${id}` === filing)) issues.push({ id: NY_FILING_CASE_ID, code: "filing_destination_conflict",
+    en: "The chosen court conflicts with the recorded offense classes or conviction dates under the form's Where To File instructions. Review the destination and case facts. If an actual court instruction identifies a different destination, record it using A different filing court for review.",
+    es: "El tribunal elegido no coincide con las clases de delitos o fechas de condena registradas según las instrucciones del formulario sobre dónde presentar la solicitud. Revise el destino y los datos de los casos. Si una instrucción real del tribunal indica otro destino, regístrela mediante Otro tribunal para revisión." });
+  if (filing === "different_court") issues.push({ id: NY_FILING_CASE_ID, code: "filing_direction_review_required",
+    en: "The different destination and its instruction or explanation need review. You can save the destination and supporting facts and continue preparing the other information. An explanation alone does not resolve a conflicting filing court.",
+    es: "El destino distinto y su instrucción o explicación necesitan revisión. Puede guardar el destino y los datos de respaldo y seguir preparando la demás información. Una explicación por sí sola no resuelve un tribunal de presentación contradictorio." });
+  if (filing === "different_court" && (!nyCourtDirectionConfirmation(answers) || scalar(NY_COURT_DIRECTION_CONFIRMATION_ID) !== nyCourtDirectionConfirmation(answers))) issues.push({ id: NY_COURT_DIRECTION_CONFIRMATION_ID, code: "filing_direction_scope_review",
+    en: "Review the saved direction or explanation against this destination and the current case records. A previous confirmation does not apply after those facts change.",
+    es: "Revise la instrucción o explicación guardada con este destino y los expedientes actuales. Una confirmación anterior no se aplica después de que cambien esos datos." });
   if (typeof filing === "string" && filing.startsWith("case:") && !records.some(record => `case:${record.id}` === filing)) issues.push({ id: NY_FILING_CASE_ID, code: "filing_case_removed",
     en: "The case previously chosen for the filing court is no longer in this list. Choose the intended filing court again.",
     es: "El caso elegido anteriormente para el tribunal de presentación ya no está en esta lista. Vuelva a elegir el tribunal donde desea presentar la solicitud." });
   return issues;
+}
+
+/** Owner review of exact saved facts, including uncertainty. Not a legal
+ * approval. Reorder is harmless; every case/fact edit requires another review. */
+export function nyCourtDirectionConfirmation(answers: Readonly<Record<string, unknown>>) {
+  if (answers[NY_FILING_CASE_ID] !== "different_court") return null;
+  const records = parseNyCourtCaseRecords(answers[NY_CASE_RECORDS_ID]);
+  const selected = answers[NY_COURT_DIRECTION_CASES_ID];
+  if (!records?.length || !Array.isArray(selected) || !selected.length || new Set(selected).size !== selected.length
+    || !selected.every(value => typeof value === "string" && records.some(record => `case:${record.id}` === value))) return null;
+  const ids = [NY_OTHER_COURT_NAME, NY_OTHER_COURT_COUNTY, NY_COURT_DIRECTION_BASIS_ID, ...NY_COURT_DIRECTION_TEXT_IDS];
+  if (ids.some(id => !Object.hasOwn(answers, id))) return null;
+  // JSON/JSONB object-key order is not an owner fact. Keep every value and
+  // nested array order exact, including unknown flags and answer wrappers.
+  const canonical = (value: unknown): unknown => Array.isArray(value) ? value.map(canonical)
+    : value && typeof value === "object" ? Object.fromEntries(Object.keys(value).sort().map(key => [key, canonical((value as Record<string, unknown>)[key])])) : value;
+  return `reviewed:${JSON.stringify(canonical({ facts: Object.fromEntries(ids.map(id => [id, answers[id]])), cases: [...records].sort((a, b) => a.id < b.id ? -1 : a.id > b.id ? 1 : 0), selected: [...selected].sort() }))}`;
 }
 
 /** Exact comparison token, not a signature or source/legal approval. Sorting only

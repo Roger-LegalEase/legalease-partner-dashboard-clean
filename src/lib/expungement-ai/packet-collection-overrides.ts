@@ -1,5 +1,5 @@
 import { NY_PACKET_ROUTE, NY_PACKET_FACT_IDS, NY_PACKET_CONDITIONS } from "@/lib/expungement-ai/ny-16059-packet-facts";
-import { NY_CASE_FACT_IDS, NY_CASE_RECONCILIATION_ID, NY_FILING_CASE_ID, NY_OTHER_COURT_NAME, NY_OTHER_COURT_COUNTY } from "@/lib/expungement-ai/ny-16059-case-questions";
+import { NY_CASE_FACT_IDS, NY_CASE_RECONCILIATION_ID, NY_FILING_CASE_ID, NY_OTHER_COURT_NAME, NY_OTHER_COURT_COUNTY, NY_VENUE_FACT_IDS } from "@/lib/expungement-ai/ny-16059-case-questions";
 import type { RouteCollectionOverride } from "@/lib/expungement-ai/packet-collection";
 
 /**
@@ -20,8 +20,8 @@ import type { RouteCollectionOverride } from "@/lib/expungement-ai/packet-collec
  */
 const OVERRIDES: ReadonlyArray<RouteCollectionOverride> = [
   { routeKey: `NY:${NY_PACKET_ROUTE}`, classes: Object.fromEntries([...NY_PACKET_FACT_IDS, ...NY_CASE_FACT_IDS].map(id => [id, "render_required" as const])),
-    conditions: { ...NY_PACKET_CONDITIONS, [NY_CASE_RECONCILIATION_ID]: "ny_16059_additional_cases", [NY_OTHER_COURT_NAME]: NY_FILING_CASE_ID, [NY_OTHER_COURT_COUNTY]: NY_FILING_CASE_ID },
-    conditionValues: { [NY_OTHER_COURT_NAME]: "different_court", [NY_OTHER_COURT_COUNTY]: "different_court" },
+    conditions: { ...NY_PACKET_CONDITIONS, [NY_CASE_RECONCILIATION_ID]: "ny_16059_additional_cases", [NY_OTHER_COURT_NAME]: NY_FILING_CASE_ID, [NY_OTHER_COURT_COUNTY]: NY_FILING_CASE_ID, ...Object.fromEntries(NY_VENUE_FACT_IDS.map(id => [id, NY_FILING_CASE_ID])) },
+    conditionValues: { [NY_OTHER_COURT_NAME]: "different_court", [NY_OTHER_COURT_COUNTY]: "different_court", ...Object.fromEntries(NY_VENUE_FACT_IDS.map(id => [id, "different_court"])) },
     note: "Exact NY current/pro-se instructions items2,3,5,11: actual covered case identifiers, case-used names, known NYSID and separate future CPL160.58/160.59 intent. Packet preparation only; no broad count, identifier, alias or prior-application inference. Source custody/current revision and qualified review remain separate." },
   // Exact reviewed render consumers. Unscoped rule references remain protected
   // from cross-fact materialization; these records establish collection purpose

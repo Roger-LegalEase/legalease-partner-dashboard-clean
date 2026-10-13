@@ -93,7 +93,7 @@ export const profileQuestionSchema = z
     || question.answerContract === "ca_prop64_contacts_v1" && question.type === "filing_contact" && ["ca_prop64_filer_contact", "ca_prop64_court_address"].includes(question.id)
     || question.answerContract === "ny_16059_case_records_v2" && question.id === "ny_16059_covered_case_records" && question.type === "court_case_records"
     || question.answerContract === "ny_16059_applicant_statement_v1" && question.id === "ny_16059_applicant_statement" && question.type === "text_or_unknown" && question.multiline === true
-    || question.answerContract === "ny_16059_case_court_text_v1" && ["ny_16059_other_filing_court_name", "ny_16059_other_filing_court_county"].includes(question.id) && question.type === "text_or_unknown", "Invalid scoped answer contract")
+    || question.answerContract === "ny_16059_case_court_text_v1" && ["ny_16059_other_filing_court_name", "ny_16059_other_filing_court_county", "ny_16059_court_direction_issuer", "ny_16059_court_direction_date_reference", "ny_16059_court_direction_instruction"].includes(question.id) && question.type === "text_or_unknown", "Invalid scoped answer contract")
   .refine(question => !question.contactContext || question.answerContract === "ca_prop64_contacts_v1" && question.type === "filing_contact" && ["ca_prop64_filer_contact", "ca_prop64_court_address"].includes(question.id), "Invalid contact context")
   .refine(question => !question.caseRecordReferences || question.answerContract === "ny_16059_case_records_v2" && question.id === "ny_16059_covered_case_records" && question.type === "court_case_records", "Invalid case references")
   .refine((question) => question.legacyAnswerText === undefined || question.answerContract === "ca_prop64_record_fact_v1"

@@ -1,6 +1,8 @@
 import { CA_CONTACT_IDS, CA_CONTACT_CONTRACT, formatCaContact } from "@/lib/expungement-ai/ca-prop64-contact-answer";
-import { NY_CASE_RECONCILIATION_ID, NY_FILING_CASE_ID } from "@/lib/expungement-ai/ny-16059-case-questions";
-import { NY_CASE_RECORDS_ID, NY_CASE_RECORDS_CONTRACT, formatNyCourtCaseRecords } from "@/lib/expungement-ai/ny-16059-case-records";
+import { NY_CASE_RECONCILIATION_ID, NY_COURT_DIRECTION_CONFIRMATION_ID, NY_FILING_CASE_ID, NY_OTHER_COURT_NAME, NY_OTHER_COURT_COUNTY, NY_VENUE_FACT_IDS } from "@/lib/expungement-ai/ny-16059-case-questions";
+import { NY_CASE_RECORDS_ID, NY_CASE_RECORDS_CONTRACT, formatNyCourtCaseRecords, parseNyCourtCaseRecords } from "@/lib/expungement-ai/ny-16059-case-records";
+import { isNy16059Packet } from "@/lib/expungement-ai/ny-16059-packet-facts";
+import { questionAnswerState, scalarAnswerText } from "@/lib/expungement-ai/question-answer-state";
 import { maskedSensitiveAnswer, requiresMcicIdentifierAuthority } from "@/lib/expungement-ai/sensitive-packet-facts";
 import type { AnswerValue, ProfileQuestion } from "@/lib/expungement-ai/frontend/contracts";
 import { EXPUNGEMENT_COPY, resolveRuntimeText } from "@/lib/expungement-ai/localization";
@@ -154,6 +156,17 @@ export function verificationSummary(model: {
       ? fact.id
       : null
   }));
+  const filingQuestion = questionById.get(NY_FILING_CASE_ID);
+  const filingAnswer = facts.find(fact => fact.id === NY_FILING_CASE_ID)?.value;
+  const cases = parseNyCourtCaseRecords(facts.find(fact => fact.id === NY_CASE_RECORDS_ID)?.value);
+  if (isNy16059Packet(model.stateCode, model.pathwayId) && filingQuestion
+    && questionAnswerState(filingQuestion, filingAnswer) === "known_valid" && cases?.some(record => `case:${record.id}` === scalarAnswerText(filingAnswer))) {
+    for (const row of rows) if ([NY_OTHER_COURT_NAME, NY_OTHER_COURT_COUNTY, ...NY_VENUE_FACT_IDS].includes(row.id)) {
+      const priorEn = row.value, priorEs = row.valueEs ?? priorEn;
+      row.value = `Saved from an earlier different-court choice; not used for the current filing destination. ${priorEn}`;
+      row.valueEs = `Guardado de una selección anterior de otro tribunal; no se usa para el destino de presentación actual. ${priorEs}`;
+    }
+  }
   const contextRows: VerificationContextRow[] = [
     ...rows.filter((row) => SYSTEM_FACT_KEYS.has(row.key)).map(({ key, label, value }) => ({ key, label, value })),
     ...contextFacts.map((fact) => ({
@@ -286,7 +299,7 @@ export function displayVerificationAnswer(value: unknown, question?: ReviewQuest
       return values.map((entry) => question.optionDisplay?.[entry as string]?.label ?? entry).join(", ");
     }
   }
-  if (question && [NY_CASE_RECONCILIATION_ID, NY_FILING_CASE_ID].includes(question.id)) return "Review this choice against the current case list";
+  if (question && [NY_CASE_RECONCILIATION_ID, NY_COURT_DIRECTION_CONFIRMATION_ID, NY_FILING_CASE_ID].includes(question.id)) return "Review this choice against the current case list";
   if (Array.isArray(value)) return value.length > 0
     ? value.map((entry) => typeof entry === "object" ? JSON.stringify(canonicalize(entry)) : String(entry)).join(", ")
     : "None";
@@ -330,7 +343,7 @@ export function reviewAnswerPresentation(fact: Pick<CanonicalVerificationFact, "
     : value && typeof value === "object" && !Array.isArray(value) && "value" in value ? value.value : value;
   const values = Array.isArray(value) && question.type === "multi_select" ? value : [scalar];
   if (!values.length) return { labelEs, valueEs: resolveRuntimeText("es", "None") };
-  if (!values.every((entry) => typeof entry === "string" && options.includes(entry))) return [NY_CASE_RECONCILIATION_ID, NY_FILING_CASE_ID].includes(question.id) ? { labelEs, valueEs: "Revise esta selección con la lista actual de casos" } : { labelEs };
+  if (!values.every((entry) => typeof entry === "string" && options.includes(entry))) return [NY_CASE_RECONCILIATION_ID, NY_COURT_DIRECTION_CONFIRMATION_ID, NY_FILING_CASE_ID].includes(question.id) ? { labelEs, valueEs: "Revise esta selección con la lista actual de casos" } : { labelEs };
   return { labelEs, valueEs: values.map((entry) => {
     const option = entry as string;
     const display = question.optionDisplay?.[option];
