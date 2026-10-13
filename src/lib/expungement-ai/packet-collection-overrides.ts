@@ -1,3 +1,4 @@
+import { NY_PACKET_ROUTE, NY_PACKET_FACT_IDS, NY_PACKET_CONDITIONS } from "@/lib/expungement-ai/ny-16059-packet-facts";
 import type { RouteCollectionOverride } from "@/lib/expungement-ai/packet-collection";
 
 /**
@@ -17,6 +18,9 @@ import type { RouteCollectionOverride } from "@/lib/expungement-ai/packet-collec
  * every required fact keeps a disposition whatever an override says.
  */
 const OVERRIDES: ReadonlyArray<RouteCollectionOverride> = [
+  { routeKey: `NY:${NY_PACKET_ROUTE}`, classes: Object.fromEntries(NY_PACKET_FACT_IDS.map(id => [id, "render_required" as const])),
+    conditions: NY_PACKET_CONDITIONS,
+    note: "Exact NY current/pro-se instructions items2,3,5,11: actual covered case identifiers, case-used names, known NYSID and separate future CPL160.58/160.59 intent. Packet preparation only; no broad count, identifier, alias or prior-application inference. Source custody/current revision and qualified review remain separate." },
   // Exact reviewed render consumers. Unscoped rule references remain protected
   // from cross-fact materialization; these records establish collection purpose
   // without adding an eligibility predicate or removing a required fact.

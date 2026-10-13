@@ -1,3 +1,4 @@
+import { isNy16059Packet, NY_PACKET_FACT_IDS } from "@/lib/expungement-ai/ny-16059-packet-facts";
 import "server-only";
 import { isCaProp64Pathway } from "@/lib/expungement-ai/ca-prop64-choices";
 import { CA_PROP64_LEGACY_IDS } from "@/lib/rcap-engine/california-prop64-facts";
@@ -35,7 +36,8 @@ export function packetPlanForPathway(profile: EngineProfile, pathwayId: string):
       ...scopedBaseRequiredInputIds,
       ...routedExactPacketFactIds,
       ...registeredPacketFactIds,
-      ...(isCaProp64Pathway(profile.jurisdiction.code, pathwayId) ? CA_PROP64_CAPTION_FACT_IDS : [])
+      ...(isCaProp64Pathway(profile.jurisdiction.code, pathwayId) ? CA_PROP64_CAPTION_FACT_IDS : []),
+      ...(isNy16059Packet(profile.jurisdiction.code, pathwayId) ? NY_PACKET_FACT_IDS : [])
     ])].filter(id => !isCaProp64Pathway(profile.jurisdiction.code, pathwayId) || !CA_PROP64_LEGACY_IDS.includes(id)),
     sourceRuleRefs: plan.sourceRuleRefs ?? [],
     packetReadyWhen: plan.packetReadyWhen ?? []

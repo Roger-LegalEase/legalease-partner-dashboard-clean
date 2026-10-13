@@ -1,3 +1,4 @@
+import { isNy16059Packet, NY_PACKET_QUESTIONS, NY_PACKET_FACT_IDS } from "@/lib/expungement-ai/ny-16059-packet-facts";
 import convictionFallbackPrior from "@/lib/expungement-ai/conviction-fallback-prior-contracts.json";
 import { convictionReliefRequest, convictionReliefQuestionApplies, convictionReliefQuestions, isAdultConvictionAnswer } from "@/lib/rcap-engine/conviction-relief-request";
 import { msExactCalendarDate, msExactTimingQuestionIds } from "@/lib/rcap-engine/mississippi-exact-timing";
@@ -944,7 +945,7 @@ export function protectedPacketInformationModelFor(
 ): ProtectedPacketInformationModel | null {
   let snapshot = protectedAuthoritySnapshotFor(verification);
   if (!snapshot) return null;
-  if (isCaProp64Pathway(snapshot.jurisdiction, snapshot.pathwayId)
+  if ((isCaProp64Pathway(snapshot.jurisdiction, snapshot.pathwayId) || isNy16059Packet(snapshot.jurisdiction, snapshot.pathwayId))
     && (!canonicalEqual(snapshot.serverFacts, canonicalServerFacts(snapshot.jurisdiction, snapshot.pathwayId))
       || !canonicalEqual(snapshot.packetFamilyIdentifiers, { mode: snapshot.packetPlan?.mode ?? null, sourceFormIds: snapshot.packetPlan?.sourceFormIds ?? [] }))) return null;
   const profile = getProfileByJurisdiction(snapshot.jurisdiction);
@@ -1564,6 +1565,9 @@ function participantMapArguments(maps: ParticipantFactMaps): [Record<string, Ans
 export function protectedPacketScreeningAnswers(snapshot: ProtectedPacketAuthoritySnapshot) {
   const profile = getProfileByJurisdiction(snapshot.jurisdiction);
   if (!profile || profile.profileVersion !== snapshot.profileVersion) return null;
+  if (isNy16059Packet(snapshot.jurisdiction, snapshot.pathwayId)
+    && (!canonicalEqual(snapshot.serverFacts, canonicalServerFacts(snapshot.jurisdiction, snapshot.pathwayId))
+      || !canonicalEqual(snapshot.packetFamilyIdentifiers, { mode: snapshot.packetPlan?.mode ?? null, sourceFormIds: snapshot.packetPlan?.sourceFormIds ?? [] }))) return null;
   const legacy = protectedLegacyAnswerProjection(snapshot);
   const projected = legacy.maps;
   const answers = toScreeningAnswers({ ...projected.screeningAnswers, ...projected.prefilledAnswers, ...projected.packetAnswers });
@@ -1627,6 +1631,9 @@ function deriveProtectedPacketDraftSnapshot(
   if (!currentAuthority) return null;
   const originalBase = base;
   const factualIds = [...factualPathwayCorrectionIds(base.jurisdiction, base.pathwayId, { ...base.screeningAnswers, ...base.prefilledAnswers, ...base.packetAnswers }, true), ...msExactTimingQuestionIds(base.jurisdiction, base.pathwayId, { ...base.screeningAnswers, ...base.prefilledAnswers, ...base.packetAnswers }, true)];
+  if (isNy16059Packet(base.jurisdiction, base.pathwayId)) factualIds.push(...NY_PACKET_FACT_IDS,
+    ...routeFactualCorrectionIds({ stateCode: base.jurisdiction, pathwayId: base.pathwayId,
+      screeningAnswers: answerRecord(base.screeningAnswers), prefilledAnswers: answerRecord(base.prefilledAnswers), packetAnswers: answerRecord(base.packetAnswers) }, true));
   if (!canonicalEqual(currentAuthority.evaluation.packetPlan ?? null, base.packetPlan)) {
     base = factualPathwayHeldSuccessor(base, currentAuthority) ?? convictionFallbackHeldSuccessor(base, currentAuthority) ?? reviewedPacketContractSuccessor(base, currentAuthority.evaluation.packetPlan);
     if (!base) return null;
@@ -2683,6 +2690,9 @@ function installPacketSpecificationQuestions(
       question.translations = { es: { prompt: "Últimos cuatro dígitos calculados a partir del número de Seguro Social protegido", helperText: "Estos dígitos se calculan a partir del número completo para mostrar una identificación parcial. Para corregirlos, edite el número de Seguro Social protegido después de confirmar el método de entrega aprobado por el tribunal. No ingrese un segundo valor." } };
     }
     questions.set(factId, question);
+  }
+  if (isNy16059Packet(jurisdiction, pathwayId)) for (const question of NY_PACKET_QUESTIONS) {
+    if (requiredInputIds.includes(question.id)) questions.set(question.id, structuredClone(question));
   }
   if (isCaProp64Pathway(jurisdiction, pathwayId)) {
     for (const question of CA_PROP64_CAPTION_QUESTIONS) {

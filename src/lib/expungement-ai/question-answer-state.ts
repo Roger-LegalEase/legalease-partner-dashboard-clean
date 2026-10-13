@@ -1,3 +1,4 @@
+import { nyPacketTextAnswerState, NY_PACKET_TEXT_CONTRACT } from "@/lib/expungement-ai/ny-16059-packet-facts";
 import { caProp64RecordAnswerState, CA_PROP64_RECORD_ANSWER_CONTRACT } from "@/lib/expungement-ai/ca-prop64-record-answer";
 import { caProp64CaptionAnswerState, CA_PROP64_CAPTION_ANSWER_CONTRACT } from "@/lib/expungement-ai/ca-prop64-caption-answer";
 import { caProp64Choice, isCaProp64ChoiceQuestion } from "@/lib/expungement-ai/ca-prop64-choices";
@@ -79,6 +80,7 @@ export function toggleMultiSelect(values: readonly string[], option: string, exc
 
 export function questionAnswerState(question: QuestionContract, value: unknown, today = new Date().toISOString().slice(0, 10)): QuestionAnswerState {
   if (hasIncompatibleAnswerShape(question, value)) return "invalid";
+  if (question.answerContract === NY_PACKET_TEXT_CONTRACT) return question.type === "text_or_unknown" ? nyPacketTextAnswerState(question.id, value) : "invalid";
   if (question.answerContract === CA_PROP64_CAPTION_ANSWER_CONTRACT) {
     return question.type === "text_or_unknown" ? caProp64CaptionAnswerState(question.id, value) : "invalid";
   }

@@ -86,7 +86,7 @@ export type PublicQuestion = {
   helperText?: string;
   multiline?: boolean;
   /** Scoped record-input validator; never a legal outcome or answer alias. */
-  answerContract?: "ca_prop64_record_fact_v1" | "ca_prop64_decimal_grams_v1" | "ca_prop64_caption_fact_v1";
+  answerContract?: "ca_prop64_record_fact_v1" | "ca_prop64_decimal_grams_v1" | "ca_prop64_caption_fact_v1" | "ny_16059_packet_text_v1";
   type: string;
   required: boolean;
   contextOnly?: boolean;
