@@ -20,6 +20,8 @@
  * `aria-describedby`. Errors use `role="alert"`.
  */
 import { SealingHistoryField } from "@/components/expungement-ai/screening/fields/SealingHistoryField";
+import { FutureApplicationsField } from "./fields/FutureApplicationsField";
+import { NY_FUTURE_ID, NY_FUTURE_CONTRACT } from "@/lib/expungement-ai/ny-16059-future-applications";
 import { NY_SEALING_HISTORY_ID, NY_SEALING_HISTORY_CONTRACT } from "@/lib/expungement-ai/ny-16059-sealing-history";
 import { FilingContactFields } from "@/components/expungement-ai/screening/fields/FilingContactFields";
 import { CA_CONTACT_IDS, CA_CONTACT_CONTRACT } from "@/lib/expungement-ai/ca-prop64-contact-answer";
@@ -135,6 +137,9 @@ export function QuestionField({
     case "filing_contact":
       if (stateCode !== "CA" || !CA_CONTACT_IDS.includes(question.id) || question.answerContract !== CA_CONTACT_CONTRACT || !question.contactContext) return <MalformedQuestion prompt={promptText} headingLevel={headingLevel} required={!optional} />;
       return <div className="grid gap-3">{heading}{helperNode}{bannerNode}<FilingContactFields id={fieldId} factId={question.id} value={savedValue} context={question.contactContext} onChange={onChange} ariaLabelledBy={promptId} ariaDescribedBy={describedBy} />{errorNode}</div>;
+    case "future_applications":
+      if (stateCode !== "NY" || question.id !== NY_FUTURE_ID || question.answerContract !== NY_FUTURE_CONTRACT) return <MalformedQuestion prompt={promptText} headingLevel={headingLevel} required={!optional} />;
+      return <div className="grid gap-3">{heading}{helperNode}{bannerNode}<FutureApplicationsField id={fieldId} value={savedValue} references={question.futureApplicationReferences} onChange={onChange} ariaLabelledBy={promptId} ariaDescribedBy={describedBy} />{errorNode}</div>;
     case "sealing_history":
       if (stateCode !== "NY" || question.id !== NY_SEALING_HISTORY_ID || question.answerContract !== NY_SEALING_HISTORY_CONTRACT) return <MalformedQuestion prompt={promptText} headingLevel={headingLevel} required={!optional} />;
       return <div className="grid gap-3">{heading}{helperNode}{bannerNode}<SealingHistoryField id={fieldId} value={savedValue} knownPriorApplication={question.prior16058ApplicationKnown} onChange={onChange} ariaLabelledBy={promptId} ariaDescribedBy={describedBy} />{errorNode}</div>;

@@ -27,7 +27,10 @@ function ownedFieldResolver(preparation: Preparation) {
   const conditionValues = Object.fromEntries(Object.entries(held.conditions).map(([id, condition]) => [id, condition.value]));
   return (declaration: Declaration) => {
     const factId = direct[`${declaration.documentId}/${declaration.field}`];
-    const fact = factId ? held.availableFacts[factId] : null;
+    const futureField = factId === "ny_16059_future_court" || factId === "ny_16059_future_case_numbers";
+    const future = held.futureApplications;
+    const singleFutureCase = future.complete && future.applications?.length === 1 && future.applications[0].cases.length === 1 ? future.applications[0].cases[0] : null;
+    const fact = futureField ? singleFutureCase ? { factId: "ny_16059_future_sealing_records" } : null : factId ? held.availableFacts[factId] : null;
     return {
       conditionValues,
       factAvailable: !!fact,

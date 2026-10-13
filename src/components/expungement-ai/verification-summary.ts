@@ -1,3 +1,4 @@
+import { NY_FUTURE_ID, NY_FUTURE_CONTRACT, formatNyFutureApplications, nyFutureIntent } from "@/lib/expungement-ai/ny-16059-future-applications";
 import { NY_SEALING_HISTORY_ID, NY_SEALING_HISTORY_CONTRACT, formatNySealingHistory } from "@/lib/expungement-ai/ny-16059-sealing-history";
 import { CA_CONTACT_IDS, CA_CONTACT_CONTRACT, formatCaContact } from "@/lib/expungement-ai/ca-prop64-contact-answer";
 import { NY_CASE_RECONCILIATION_ID, NY_COURT_DIRECTION_CONFIRMATION_ID, NY_FILING_CASE_ID, NY_OTHER_COURT_NAME, NY_OTHER_COURT_COUNTY, NY_VENUE_FACT_IDS } from "@/lib/expungement-ai/ny-16059-case-questions";
@@ -168,6 +169,13 @@ export function verificationSummary(model: {
       row.valueEs = `Guardado de una selección anterior de otro tribunal; no se usa para el destino de presentación actual. ${priorEs}`;
     }
   }
+  if (isNy16059Packet(model.stateCode, model.pathwayId) && nyFutureIntent(Object.fromEntries(facts.map(fact => [fact.id, fact.value]))) === false) {
+    for (const row of rows) if ([NY_FUTURE_ID, "ny_16059_future_case_numbers", "ny_16059_future_court"].includes(row.id)) {
+      const priorEn = row.value, priorEs = row.valueEs ?? priorEn;
+      row.value = `Saved from earlier future plans; not used while your current intention is No. ${priorEn}`;
+      row.valueEs = `Guardado de planes futuros anteriores; no se usa mientras su intención actual sea No. ${priorEs}`;
+    }
+  }
   const contextRows: VerificationContextRow[] = [
     ...rows.filter((row) => SYSTEM_FACT_KEYS.has(row.key)).map(({ key, label, value }) => ({ key, label, value })),
     ...contextFacts.map((fact) => ({
@@ -286,6 +294,7 @@ function canonicalize(value: unknown): unknown {
 }
 
 export function displayVerificationAnswer(value: unknown, question?: ReviewQuestion) {
+  if (question?.id === NY_FUTURE_ID && question.type === "future_applications" && question.answerContract === NY_FUTURE_CONTRACT) return formatNyFutureApplications(value, "en", question.futureApplicationReferences);
   if (question?.id === NY_SEALING_HISTORY_ID && question.type === "sealing_history" && question.answerContract === NY_SEALING_HISTORY_CONTRACT) return formatNySealingHistory(value, "en", question.prior16058ApplicationKnown);
   if (question && CA_CONTACT_IDS.includes(question.id) && question.type === "filing_contact" && question.answerContract === CA_CONTACT_CONTRACT) return formatCaContact(question.id, value, "en");
   if (question?.id === NY_CASE_RECORDS_ID && question.type === "court_case_records" && question.answerContract === NY_CASE_RECORDS_CONTRACT) return formatNyCourtCaseRecords(value, "en");
@@ -315,7 +324,7 @@ export function displayVerificationAnswer(value: unknown, question?: ReviewQuest
   return String(value);
 }
 
-type ReviewQuestion = Pick<ProfileQuestion, "id" | "type" | "prompt" | "translations" | "optionDisplay" | "options" | "answerContract" | "prior16058ApplicationKnown">;
+type ReviewQuestion = Pick<ProfileQuestion, "id" | "type" | "prompt" | "translations" | "optionDisplay" | "options" | "answerContract" | "prior16058ApplicationKnown" | "futureApplicationReferences">;
 
 function exactProfileSpanish(english: string, state: string, id: string, part: string): string {
   const entry = EXPUNGEMENT_COPY[`profile.${state}.${id}.${part}`];
@@ -333,6 +342,7 @@ export function reviewAnswerPresentation(fact: Pick<CanonicalVerificationFact, "
   }
   const value = fact.value;
   if (state === "CA" && CA_CONTACT_IDS.includes(fact.id) && question.type === "filing_contact" && question.answerContract === CA_CONTACT_CONTRACT) return { labelEs, valueEs: formatCaContact(fact.id, value, "es") };
+  if (state === "NY" && fact.id === NY_FUTURE_ID && question.type === "future_applications" && question.answerContract === NY_FUTURE_CONTRACT) return { labelEs, valueEs: formatNyFutureApplications(value, "es", question.futureApplicationReferences) };
   if (state === "NY" && fact.id === NY_SEALING_HISTORY_ID && question.type === "sealing_history" && question.answerContract === NY_SEALING_HISTORY_CONTRACT) return { labelEs, valueEs: formatNySealingHistory(value, "es", question.prior16058ApplicationKnown) };
   if (state === "NY" && fact.id === NY_CASE_RECORDS_ID && question.type === "court_case_records" && question.answerContract === NY_CASE_RECORDS_CONTRACT) return { labelEs, valueEs: formatNyCourtCaseRecords(value, "es") };
   if (value === null || value === undefined || value === "") return { labelEs, valueEs: resolveRuntimeText("es", "Missing") };

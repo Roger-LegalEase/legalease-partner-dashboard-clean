@@ -3,6 +3,7 @@ import fs from 'node:fs';
 import { register } from 'node:module';
 register('./lib/ts-esm-loader.mjs', import.meta.url);
 const { ny16059OwnedCompletionDiagnostic: diagnose } = await import('../src/lib/expungement-ai/ny-16059-owned-completion.ts');
+const F=await import('../src/lib/expungement-ai/ny-16059-future-applications.ts');
 const P = await import('../src/lib/expungement-ai/packet-information.ts');
 const { createNyCompletionVerifier } = await import('./rcap-packet-completeness/ny-16059-source-conditions.mjs');
 const base='data/rcap-all50/overlays/census-v1/ny/ny-160-59-petition-set--official-pdf-fill';
@@ -14,12 +15,14 @@ const item={id:'synthetic-ny-owned-completion',jurisdiction:'NY',artifactRefs:{}
 const patch=(record,answers)=>P.packetInformationPatch({existingItem:item,protectedVerification:record,answers})?.protectedTransition.nextVerification;
 const keys=['ny_16059_additional_cases','ny_16059_case_alias','ny_16059_nysid_known','ny_16059_future_application'];
 const details={ny_16059_first_case_numbers:'000001',ny_16059_additional_case_numbers:'Case B: 000002; Case C: 000003',ny_16059_case_alias_names:'Synthetic Alex Example',ny_16059_nysid_number:'00123456X',ny_16059_future_case_numbers:'000004 / SCI-0004',ny_16059_future_court:'Synthetic Albany County Court'};
+const savedFutureCase={...F.emptyNyFutureCase('owned-first'),source:'saved_future'};savedFutureCase.savedReview=F.nyFutureCaseReview(F.nyFutureReferences(details),savedFutureCase);
+const futureFacts={[F.NY_FUTURE_ID]:F.encodeNyFutureApplications({version:F.NY_FUTURE_CONTRACT,applications:[{id:'owned-future',laws:['16059'],cases:[savedFutureCase]}]})};
 const known=new Set(['NY-CPL-160.59-PRO-SE-PACKET/AKAs','NY-CPL-160.59-PRO-SE-PACKET/NYSID','NY-CPL-160.59-APPLICATION/Court_Name','NY-CPL-160.59-PRO-SE-PACKET/Court Name 3','NY-CPL-160.59-PRO-SE-PACKET/Case Number 3']);
 const touched=new Set(['NY-CPL-160.59-APPLICATION/Docket_Indictment_SCI_Number_2','NY-CPL-160.59-APPLICATION/Court_Name_2','NY-CPL-160.59-APPLICATION/Conviction_Charge_2','NY-CPL-160.59-APPLICATION/Law_Section_Subsection_2','NY-CPL-160.59-APPLICATION/Conviction_Date_2','NY-CPL-160.59-APPLICATION/Sentence_Date_2','NY-CPL-160.59-APPLICATION/Sentence_Term_2','NY-CPL-160.59-APPLICATION/Release_Date_2','NY-CPL-160.59-PRO-SE-PACKET/Case Number 2','NY-CPL-160.59-PRO-SE-PACKET/Court Name 2','NY-CPL-160.59-PRO-SE-PACKET/AKAs','NY-CPL-160.59-PRO-SE-PACKET/NYSID','NY-CPL-160.59-APPLICATION/Court_Name','NY-CPL-160.59-APPLICATION/Conviction_Date','NY-CPL-160.59-APPLICATION/Sentence_Date','NY-CPL-160.59-PRO-SE-PACKET/Case Number 3','NY-CPL-160.59-PRO-SE-PACKET/Court Name 3']);
 for(const example of fixture.rows){
  const old=example.verifiedRecord;
  for(const value of ['No','Yes','I am not sure']){
-  const record=patch(old,{...Object.fromEntries(keys.map(k=>[k,value])),...(value==='Yes'?details:{ny_16059_first_case_numbers:'000001'})});
+  const record=patch(old,{...Object.fromEntries(keys.map(k=>[k,value])),...(value==='Yes'?{...details,...futureFacts}:{ny_16059_first_case_numbers:'000001'})});
   check(`${example.variant}/${value}/patch`,!!record);if(!record)continue;
   const before=structuredClone(record),result=diagnose(item.id,record),prefix=`${example.variant}/${value}`;
   check(`${prefix}/68rows`,result?.rows.length===68);

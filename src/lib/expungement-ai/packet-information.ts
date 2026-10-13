@@ -1,3 +1,4 @@
+import { NY_FUTURE_ID, NY_FUTURE_FACT_IDS } from "@/lib/expungement-ai/ny-16059-future-applications";
 import { isNy16059Packet, NY_PACKET_QUESTIONS, NY_PACKET_FACT_IDS } from "@/lib/expungement-ai/ny-16059-packet-facts";
 import { NY_CASE_FACT_IDS, NY_HISTORY_FACT_IDS, nyCasePreparationQuestions, nyCaseAssociationIssues } from "@/lib/expungement-ai/ny-16059-case-questions";
 import convictionFallbackPrior from "@/lib/expungement-ai/conviction-fallback-prior-contracts.json";
@@ -1230,7 +1231,7 @@ function routeFactualCorrectionIds(model: { stateCode: string; pathwayId: string
   // exposes existing answers plus the source-specific prior-order facts needed
   // to resolve held history review. It never restores a plan or an approval.
   return [...eligibility, ...(model.requiredInputIds?.length === 0
-    ? [...NY_PACKET_FACT_IDS, ...NY_CASE_FACT_IDS].filter(id => Object.hasOwn(facts, id) || NY_HISTORY_FACT_IDS.includes(id)) : [])];
+    ? [...NY_PACKET_FACT_IDS, ...NY_CASE_FACT_IDS].filter(id => Object.hasOwn(facts, id) || NY_HISTORY_FACT_IDS.includes(id) || NY_FUTURE_FACT_IDS.includes(id)) : [])];
 }
 
 export function editablePacketInputIds(model: Pick<ProtectedPacketInformationModel, "stateCode" | "pathwayId" | "requiredInputIds" | "serverFacts" | "screeningAnswers" | "prefilledAnswers" | "packetAnswers" | "recordOwnQuestionIds" | "questions">, includeInactive = false): Set<string> {
@@ -1580,6 +1581,7 @@ function protectedLegacyAnswerProjection(snapshot: LegacyAnswerSource) {
     // explicit replacement. Its strict answer contract still refuses readiness;
     // factual history archives the entire original value on explicit save.
     && !(isCaProp64Pathway(snapshot.jurisdiction, snapshot.pathwayId) && CA_CONTACT_IDS.includes(question.id) && question.type === "filing_contact" && question.answerContract === CA_CONTACT_CONTRACT)
+    && !(isNy16059Packet(snapshot.jurisdiction, snapshot.pathwayId) && question.id === NY_FUTURE_ID && question.type === "future_applications" && question.answerContract === "ny_16059_future_applications_v1")
     && !(isNy16059Packet(snapshot.jurisdiction, snapshot.pathwayId) && question.id === "ny_16059_prior_sealing_records" && question.type === "sealing_history" && question.answerContract === "ny_16059_sealing_history_v1")
     && !(isNy16059Packet(snapshot.jurisdiction, snapshot.pathwayId) && question.id === "ny_16059_covered_case_records"
       && question.type === "court_case_records" && question.answerContract === "ny_16059_case_records_v2"));
@@ -2730,7 +2732,7 @@ function installPacketSpecificationQuestions(
     if (requiredInputIds.includes(question.id) || Object.hasOwn(answers, question.id)) questions.set(question.id, structuredClone(question));
   }
   if (isNy16059Packet(jurisdiction, pathwayId)) for (const question of nyCasePreparationQuestions(answers)) {
-    if (requiredInputIds.includes(question.id) || Object.hasOwn(answers, question.id) || !requiredInputIds.length && NY_HISTORY_FACT_IDS.includes(question.id)) questions.set(question.id, question);
+    if (requiredInputIds.includes(question.id) || Object.hasOwn(answers, question.id) || !requiredInputIds.length && [...NY_HISTORY_FACT_IDS, ...NY_FUTURE_FACT_IDS].includes(question.id)) questions.set(question.id, question);
   }
   if (isCaProp64Pathway(jurisdiction, pathwayId)) {
     for (const question of caProp64ContactQuestions(answers)) {

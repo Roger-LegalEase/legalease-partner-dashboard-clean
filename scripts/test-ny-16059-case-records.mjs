@@ -2,6 +2,13 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {register} from 'node:module';
 register('./lib/ts-esm-loader.mjs',import.meta.url);
+const F = await import('../src/lib/expungement-ai/ny-16059-future-applications.ts');
+const futureFixture = answers => {
+ if (F.nyFutureIntent(answers) !== true) return {};
+ const c = { ...F.emptyNyFutureCase('future-case'), source: 'saved_future' };
+ c.savedReview = F.nyFutureCaseReview(F.nyFutureReferences(answers), c);
+ return { [F.NY_FUTURE_ID]: F.encodeNyFutureApplications({ version: F.NY_FUTURE_CONTRACT, applications: [{ id: 'future-application', laws: ['16059'], cases: [c] }] }) };
+};
 const H = await import('../src/lib/expungement-ai/ny-16059-sealing-history.ts');
 const noPriorSealingRecords = { [H.NY_SEALING_HISTORY_ID]: H.encodeNySealingHistory({ ...H.emptyNySealingHistory(), prior16058Application: 'no' }) };
 const P=await import('../src/lib/expungement-ai/packet-information.ts');
@@ -27,7 +34,7 @@ for(const row of fixture.rows){
  check(prefix+'/all six case facts remain editable',Q.NY_CASE_FACT_IDS.every(id=>model.questions.some(q=>q.id===id)&&P.editablePacketInputIds(model,true).has(id)));
  const snapshot=old.snapshot;const answers={...snapshot.screeningAnswers,...snapshot.prefilledAnswers,...snapshot.packetAnswers};const first=typeof answers.ny_16059_first_case_numbers==='string'?answers.ny_16059_first_case_numbers:answers.ny_16059_first_case_numbers.value;
  const cases=[{...makeCase('first',first),priorCaseReference:'first'},makeCase('second','0002'),makeCase('third','0003')];
- let current=patch(old,{...noPriorSealingRecords,[R.NY_CASE_RECORDS_ID]:R.encodeNyCourtCaseRecords(cases),[Q.NY_FILING_CASE_ID]:'case:second',[R.NY_STATEMENT_ID]:{value:'My own reasons.\n\nA separate paragraph.',unknown:false},ny_16059_additional_cases:'Yes',ny_16059_additional_case_numbers:'Second 0002; Third 0003'});
+ let current=patch(old,{...noPriorSealingRecords,...futureFixture(answers),[R.NY_CASE_RECORDS_ID]:R.encodeNyCourtCaseRecords(cases),[Q.NY_FILING_CASE_ID]:'case:second',[R.NY_STATEMENT_ID]:{value:'My own reasons.\n\nA separate paragraph.',unknown:false},ny_16059_additional_cases:'Yes',ny_16059_additional_case_numbers:'Second 0002; Third 0003'});
  check(prefix+'/structured save',!!current);if(!current)continue;
  let m=P.protectedPacketInformationModelFor(current),p=prepare(current);
  check(prefix+'/inventory requires explicit confirmation',m.missingInputIds.includes(Q.NY_CASE_RECONCILIATION_ID));

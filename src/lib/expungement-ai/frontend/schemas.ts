@@ -66,7 +66,8 @@ export const profileQuestionSchema = z
     multiline: z.boolean().optional(),
     contactContext: z.object({ representation: z.string(), defendantName: z.string(), county: z.string() }).strict().optional(),
     prior16058ApplicationKnown: z.literal(true).optional(),
-    answerContract: z.enum(["ny_16059_sealing_history_v1", "ca_prop64_contacts_v1", "ca_prop64_record_fact_v1", "ca_prop64_decimal_grams_v1", "ca_prop64_caption_fact_v1", "ny_16059_packet_text_v1", "ny_16059_case_records_v2", "ny_16059_applicant_statement_v1", "ny_16059_case_court_text_v1"]).optional(),
+    futureApplicationReferences: z.object({ caseNumbers: z.string().optional(), courtName: z.string().optional(), reviewToken: z.string().optional() }).strict().optional(),
+    answerContract: z.enum(["ny_16059_future_applications_v1", "ny_16059_sealing_history_v1", "ca_prop64_contacts_v1", "ca_prop64_record_fact_v1", "ca_prop64_decimal_grams_v1", "ca_prop64_caption_fact_v1", "ny_16059_packet_text_v1", "ny_16059_case_records_v2", "ny_16059_applicant_statement_v1", "ny_16059_case_court_text_v1"]).optional(),
     caseRecordReferences: z.object({ firstCaseNumbers: z.string().optional(), additionalCaseNumbers: z.string().optional() }).strict().optional(),
     legacyAnswerText: z.string().optional(),
     savedAnswerNeedsClarification: z.boolean().optional(),
@@ -92,11 +93,13 @@ export const profileQuestionSchema = z
     || question.answerContract === "ny_16059_packet_text_v1" && question.type === "text_or_unknown"
       && ["ny_16059_first_case_numbers", "ny_16059_additional_case_numbers", "ny_16059_case_alias_names", "ny_16059_nysid_number", "ny_16059_future_case_numbers", "ny_16059_future_court"].includes(question.id)
     || question.answerContract === "ca_prop64_contacts_v1" && question.type === "filing_contact" && ["ca_prop64_filer_contact", "ca_prop64_court_address"].includes(question.id)
+    || question.answerContract === "ny_16059_future_applications_v1" && question.id === "ny_16059_future_sealing_records" && question.type === "future_applications"
     || question.answerContract === "ny_16059_sealing_history_v1" && question.id === "ny_16059_prior_sealing_records" && question.type === "sealing_history"
     || question.answerContract === "ny_16059_case_records_v2" && question.id === "ny_16059_covered_case_records" && question.type === "court_case_records"
     || question.answerContract === "ny_16059_applicant_statement_v1" && question.id === "ny_16059_applicant_statement" && question.type === "text_or_unknown" && question.multiline === true
     || question.answerContract === "ny_16059_case_court_text_v1" && ["ny_16059_other_filing_court_name", "ny_16059_other_filing_court_county", "ny_16059_court_direction_issuer", "ny_16059_court_direction_date_reference", "ny_16059_court_direction_instruction"].includes(question.id) && question.type === "text_or_unknown", "Invalid scoped answer contract")
   .refine(question => !question.contactContext || question.answerContract === "ca_prop64_contacts_v1" && question.type === "filing_contact" && ["ca_prop64_filer_contact", "ca_prop64_court_address"].includes(question.id), "Invalid contact context")
+  .refine(question => !question.futureApplicationReferences || question.answerContract === "ny_16059_future_applications_v1" && question.id === "ny_16059_future_sealing_records" && question.type === "future_applications", "Invalid future application context")
   .refine(question => !question.prior16058ApplicationKnown || question.answerContract === "ny_16059_sealing_history_v1" && question.id === "ny_16059_prior_sealing_records" && question.type === "sealing_history", "Invalid application context")
   .refine(question => !question.caseRecordReferences || question.answerContract === "ny_16059_case_records_v2" && question.id === "ny_16059_covered_case_records" && question.type === "court_case_records", "Invalid case references")
   .refine((question) => question.legacyAnswerText === undefined || question.answerContract === "ca_prop64_record_fact_v1"

@@ -1,3 +1,4 @@
+import { NY_FUTURE_FACT_IDS } from "@/lib/expungement-ai/ny-16059-future-applications";
 import "server-only";
 import { contactRepresentationHash as hash } from "@/lib/expungement-ai/contact-representation";
 import { isNy16059Packet, NY_PACKET_FACT_IDS } from "@/lib/expungement-ai/ny-16059-packet-facts";
@@ -9,11 +10,12 @@ import type { ScreeningPacketPlan } from "@/lib/rcap-engine/contracts";
 const priorContracts = [
   { plan: "1bee8cc16edfc95d402d21ca181767764f2c6e10ea49c7599936932cf62f7c3e", required: "aacc22f3100df5ba2cecf4391128023ac3d4a9456e55cd044ad085338e666f71", added: [...NY_PACKET_FACT_IDS, ...NY_CASE_FACT_IDS] },
   { plan: "d1dcc737857aa816c64f57579939f3dd43d1b5344ddab70d6b37fbb303783295", required: "21d5444c04de91a947652d7b3e4bf7e8afeef3563c3077a4eca68ed032dbedba", added: NY_CASE_FACT_IDS },
-  { plan: "933c81fe00ce50c664a40efe3b8af2a7d40ecfa156b8bb9f2a5d6e9bfe0481f0", required: "44d6c28c10973e82c729046817a3abb5ab07703e3c751d17239830303bac9083", added: [...NY_VENUE_FACT_IDS, ...NY_HISTORY_FACT_IDS] },
-  { plan: "172997a20958da013b7e22df3193d730f1510456d750c5a50d00f4599cd4f3f4", required: "8029d27da1d77bdcec8b869645068dde2089f0106f420395720443178df601b7", added: NY_HISTORY_FACT_IDS }
+  { plan: "933c81fe00ce50c664a40efe3b8af2a7d40ecfa156b8bb9f2a5d6e9bfe0481f0", required: "44d6c28c10973e82c729046817a3abb5ab07703e3c751d17239830303bac9083", added: [...NY_VENUE_FACT_IDS, ...NY_HISTORY_FACT_IDS, ...NY_FUTURE_FACT_IDS] },
+  { plan: "172997a20958da013b7e22df3193d730f1510456d750c5a50d00f4599cd4f3f4", required: "8029d27da1d77bdcec8b869645068dde2089f0106f420395720443178df601b7", added: [...NY_HISTORY_FACT_IDS, ...NY_FUTURE_FACT_IDS] },
+  { plan: "1b01005ab7508c92d4b51e64e2a473822d454075e81e4e53ec9e0b0f57fc5466", required: "70c9603afd7c3dc525a5c7773953fbc738e84f04c2e6534e22a5548f11dfb408", added: NY_FUTURE_FACT_IDS }
 ];
 
-/** Exact fafc82a40, f330ca64a 20b2f0adc and 826036ad9 prior plans. The existing protected reader validates record
+/** Exact fafc82a40, f330ca64a 20b2f0adc 826036ad9 and 1842db25e prior plans. The existing protected reader validates record
  * hashes and current authority; this only projects newly missing packet facts. */
 export function ny16059PacketPlanSuccessor<T extends PacketVerificationSnapshot | ProtectedPacketDraftSnapshot>(snapshot: T, plan: ScreeningPacketPlan | undefined): T | null {
   if (!isNy16059Packet(snapshot.jurisdiction, snapshot.pathwayId) || !plan || plan.pathwayId !== snapshot.pathwayId

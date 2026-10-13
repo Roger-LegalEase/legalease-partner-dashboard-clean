@@ -1,3 +1,4 @@
+import { NY_FUTURE_ID, parseNyFutureApplications, nyFutureApplicationsState, nyFutureApplicationsIssues, nyFutureReferences } from "@/lib/expungement-ai/ny-16059-future-applications";
 import { NY_SEALING_HISTORY_ID, parseNySealingHistory, nySealingHistoryIssues, nyKnownPrior16058Application } from "@/lib/expungement-ai/ny-16059-sealing-history";
 import "server-only";
 import { contactRepresentationHash as hash } from "@/lib/expungement-ai/contact-representation";
@@ -56,6 +57,22 @@ export function ny16059ProtectedDocumentPreparation(record: ProtectedPacketVerif
     const gate = NY_PACKET_CONDITIONS[question.id];
     return (!gate || choice(gate).value !== false) && !owned(question.id);
   }).map(question => question.id);
+  const futureEvidence = rawOwned(NY_FUTURE_ID);
+  const future = parseNyFutureApplications(futureEvidence?.raw);
+  const futureReferences = nyFutureReferences(model.initialAnswers);
+  const futureIssues = nyFutureApplicationsIssues(model.initialAnswers);
+  const futureApplications = {
+    intention: conditions.future_sealing_application_intended,
+    evidence: futureEvidence,
+    active: conditions.future_sealing_application_intended.value === true,
+    complete: conditions.future_sealing_application_intended.value === true && nyFutureApplicationsState(futureEvidence?.raw) === "known_valid" && !futureIssues.length,
+    applications: future?.applications.map(application => ({ ...structuredClone(application), cases: application.cases.map(entry => ({ ...structuredClone(entry),
+      resolvedCaseNumbers: entry.source === "saved_future" ? futureReferences.caseNumbers ?? null : entry.caseNumbers,
+      resolvedCourtName: entry.source === "saved_future" ? futureReferences.courtName ?? null : entry.courtName,
+      sourceEvidence: entry.source === "saved_future" ? { caseNumbers: rawOwned("ny_16059_future_case_numbers"), courtName: rawOwned("ny_16059_future_court") } : { record: futureEvidence }
+    })), eligibilityReviewed: false as const, filed: null })) ?? null,
+    associationIssues: futureIssues, printedRowAssignments: null, legallyReviewed: false as const
+  };
   const prior16059 = owned("ny_16059_application_status");
   const sealingHistoryEvidence = rawOwned(NY_SEALING_HISTORY_ID);
   const sealingHistory = parseNySealingHistory(sealingHistoryEvidence?.raw);
@@ -96,7 +113,7 @@ export function ny16059ProtectedDocumentPreparation(record: ProtectedPacketVerif
     schemaVersion: "ny-16059/protected-document-preparation/v1" as const,
     pathwayId: model.pathwayId, revision: model.revision, recordHash,
     source: structuredClone(NY_CURRENT_SOURCE_CONTEXT), logicalComponents: structuredClone(NY_CURRENT_COMPONENTS),
-    conditions, availableFacts, missingFactIds, casePreparation,
+    conditions, availableFacts, missingFactIds, casePreparation, futureApplications,
     priorApplications: { cpl16059: priorApplication(prior16059, true), cpl16058: {
       occurred: sealingHistory?.prior16058Application === "yes" ? true : sealingHistory?.prior16058Application === "no" ? false : knownPrior16058Application ? true : null,
       evidence: sealingHistory && ["yes", "no"].includes(sealingHistory.prior16058Application) ? sealingHistoryEvidence : knownPrior16058Application ? prior16058Evidence : sealingHistoryEvidence, attachmentIncluded: null } },

@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import { register } from 'node:module';
 register('./lib/ts-esm-loader.mjs', import.meta.url);
+const F = await import('../src/lib/expungement-ai/ny-16059-future-applications.ts');
 const H = await import('../src/lib/expungement-ai/ny-16059-sealing-history.ts');
 const P = await import('../src/lib/expungement-ai/packet-information.ts');
 const Q = await import('../src/lib/expungement-ai/ny-16059-case-questions.ts');
@@ -24,7 +25,13 @@ for (const f of fixtures.fixtures) {
   if (prefix === '16058_denied' || prefix === '16058_pending') { h.prior16058Application = ''; h.applications = [app('app-1', '16058', prefix.endsWith('denied') ? 'withdrawn' : 'pending')]; }
   if (prefix.startsWith('16059_')) h.applications = prefix === '16059_mixed' ? [app('app-1', '16059', 'denied'), app('app-2', '16059', 'pending')] : [app('app-1', '16059', prefix.endsWith('denied') ? 'denied' : 'pending')];
   if (prefix === '16058_entered_order') h.orders = [order('16058')];
-  const saved = patch(f.record, answer(h)), current = saved && model(saved);
+  const addedFutureFacts = {};
+  if (prefix === 'future_yes_without_statute') {
+    const c = { ...F.emptyNyFutureCase('future-case'), source: 'saved_future' };
+    c.savedReview = F.nyFutureCaseReview(F.nyFutureReferences(m.initialAnswers), c);
+    addedFutureFacts[F.NY_FUTURE_ID] = F.encodeNyFutureApplications({ version: F.NY_FUTURE_CONTRACT, applications: [{ id: 'future-app', laws: ['16059'], cases: [c] }] });
+  }
+  const saved = patch(f.record, { ...answer(h), ...addedFutureFacts }), current = saved && model(saved);
   check(prefix + '/actual facts can save', !!current && equal(current.initialAnswers[H.NY_SEALING_HISTORY_ID], H.encodeNySealingHistory(h)));
   check(prefix + '/original raw records preserved', equal(current.initialAnswers.ny_16059_covered_case_records, m.initialAnswers.ny_16059_covered_case_records));
   const projection = prepare(saved);
