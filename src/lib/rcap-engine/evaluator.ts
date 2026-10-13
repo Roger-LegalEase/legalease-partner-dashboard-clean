@@ -1,3 +1,4 @@
+import { convictionReliefRequest, convictionOutcomeCompatible, CONVICTION_RELIEF_COPY, CONVICTION_RELIEF_SOURCE } from "@/lib/rcap-engine/conviction-relief-request";
 import { MS_EXACT_TIMING_FACT_IDS, MS_TIMING_MISSING_TEXT, MS_TIMING_MULTIPLE_MISSING_TEXT, msExactCalendarDate } from "@/lib/rcap-engine/mississippi-exact-timing";
 import { pathwayFromContext } from "@/lib/rcap-engine/pathway-context";
 import { caProp64Facts, caProp64Pathway, caProp64ApplicationRequested, CA_PROP64_SOURCE, CA_PROP64_REASON_COPY, CA_PROP64_PROCEDURE_COPY, CA_PROP64_LEGACY_IDS } from "@/lib/rcap-engine/california-prop64-facts";
@@ -280,6 +281,14 @@ function evaluateAgainstProfile(profile: EngineProfile, request: ScreeningEvalua
       missingQuestionIds: cannabis.missingQuestionIds,
       paymentAllowed: false
     });
+  }
+  const reliefRequest = convictionReliefRequest(profile, answers);
+  if (reliefRequest.status === "clarification" || reliefRequest.status === "review") {
+    const code = reliefRequest.status === "clarification" ? "missing" : reliefRequest.code;
+    return result(profile, request, reliefRequest.status === "clarification" ? "needs_more_info" : "needs_review",
+      [reason(jurisdiction, `conviction_relief_${code}`, CONVICTION_RELIEF_COPY[code][0], CONVICTION_RELIEF_SOURCE)], {
+        missingQuestionIds: reliefRequest.status === "clarification" ? reliefRequest.missingQuestionIds : [], paymentAllowed: false
+      });
   }
   const ambiguity = ambiguityReason(profile, publicProfile, answers, preselectedPathway);
   if (ambiguity) {
@@ -809,13 +818,17 @@ function selectPathway(profile: EngineProfile, answers: Record<string, Screening
     if (programRoute.status === "selected") return profile.pathways.find(pathway => pathway.id === programRoute.pathwayId);
     if (programRoute.status === "clarification") return undefined;
   }
+  const reliefRequest = convictionReliefRequest(profile, answers);
+  if (reliefRequest.status === "selected") return profile.pathways.find(pathway => pathway.id === reliefRequest.pathwayId);
+  if (reliefRequest.status !== "not_applicable") return undefined;
   const context = answerText(answers.possible_pathway_context).toLowerCase();
   if (context) {
     const requested = pathwayFromContext(profile, context);
-    return requested && !pathwayExcludedByKnownFacts(profile.jurisdiction.code, answers, requested.id) ? requested : undefined;
+    return requested && !pathwayExcludedByKnownFacts(profile.jurisdiction.code, answers, requested.id) && convictionOutcomeCompatible(profile.jurisdiction.code, answers, requested.id) ? requested : undefined;
   }
 
-  const candidates = profile.pathways.filter(pathway => !pathwayExcludedByKnownFacts(profile.jurisdiction.code, answers, pathway.id));
+  const candidates = profile.pathways.filter(pathway => !pathwayExcludedByKnownFacts(profile.jurisdiction.code, answers, pathway.id)
+    && convictionOutcomeCompatible(profile.jurisdiction.code, answers, pathway.id));
   const outcome = answerText(answers.case_outcome).toLowerCase();
   const automatic = candidates.find((pathway) => /automatic|clean slate|no-filing/i.test(`${pathway.label} ${pathway.summary}`));
   if (/automatic|clean slate/.test(context) && automatic) return automatic;
@@ -1899,6 +1912,8 @@ function result(
   overrides: Partial<ScreeningEvaluation> = {}
 ): ScreeningEvaluation {
   const paymentAllowed = overrides.paymentAllowed === true && (resultCode === "packet_ready" || resultCode === "packet_ready_with_caution");
+  const convictionRequestReason = reasons.find(item => Object.keys(CONVICTION_RELIEF_COPY)
+    .some(code => item.code === `${profile.jurisdiction.code.toLowerCase()}.conviction_relief_${code}`));
   return {
     jurisdiction: profile.jurisdiction.code,
     profileVersion: profile.profileVersion,
@@ -1909,7 +1924,7 @@ function result(
     missingQuestionIds: overrides.missingQuestionIds ?? [],
     cautions: [...(overrides.cautions ?? []), ...(isCaProp64Pathway(profile.jurisdiction.code, overrides.pathwayId)
       ? [CA_PROP64_PROCEDURE_COPY[overrides.pathwayId === CA_PROP64_CURRENT ? "current" : "completed"][0]] : [])],
-    nextSteps: overrides.missingQuestionIds?.includes("financial_obligations")
+    nextSteps: convictionRequestReason ? [convictionRequestReason.text] : overrides.missingQuestionIds?.includes("financial_obligations")
       ? [FINANCIAL_CLARIFICATION_TEXT, FINANCIAL_OTHER_QUESTIONS_TEXT] : nextStepsForResult(resultCode),
     paymentAllowed,
     ...(overrides.pathwayId ? { pathwayId: overrides.pathwayId } : {}),
@@ -2082,6 +2097,13 @@ function matchCompiledRuleRoute(profile: EngineProfile, publicProfile: PublicJur
         : reason(jurisdiction, "pathway_context_not_matched", "The selected pathway context did not match a deterministic compiled pathway before a packet decision.")
     };
   }
+  // This boundary also applies to singleton/backend compiled fallbacks. A
+  // compiled broad outcome token cannot bypass the factual request above.
+  const reliefRequest = convictionReliefRequest(profile, answers);
+  if (reliefRequest.status === "clarification" || reliefRequest.status === "review") return {
+    ok: false, resultCode: "needs_review",
+    reason: reason(jurisdiction, "conviction_relief_missing", CONVICTION_RELIEF_COPY.missing[0], CONVICTION_RELIEF_SOURCE)
+  };
   const publicQuestionIds = new Set(publicProfile.questions.map((question) => question.id));
   const outcome = normalizeCaseOutcome(answers.case_outcome);
   const exactRouteRules = selectedPathway
@@ -2090,6 +2112,8 @@ function matchCompiledRuleRoute(profile: EngineProfile, publicProfile: PublicJur
   const matchedRules = [...(profile.orderedDecisionRules ?? [])]
     .filter(rule => !(rule.candidatePathwayIds?.length === 1 && rule.candidatePathwayIds.some(id => pathwayExcludedByKnownFacts(jurisdiction, answers, id)))
       && !(typeof rule.when.backendPathwayId === "string" && pathwayExcludedByKnownFacts(jurisdiction, answers, rule.when.backendPathwayId)))
+    .filter(rule => !(rule.candidatePathwayIds?.length === 1 && !convictionOutcomeCompatible(jurisdiction, answers, rule.candidatePathwayIds[0]))
+      && !(typeof rule.when.backendPathwayId === "string" && !convictionOutcomeCompatible(jurisdiction, answers, rule.when.backendPathwayId)))
     .filter((rule) => resultCodeIsKnown(rule.then?.suggestedResultCode))
     .filter((rule) => !["likely_not_eligible", "not_yet", "guidance_only"].includes(rule.then?.suggestedResultCode ?? ""))
     .filter((rule) => !String(rule.sourceRef ?? "").includes("exclusions:"))
@@ -2372,7 +2396,8 @@ function pathwayFromRule(profile: EngineProfile, rule: CompiledRule, answers: Re
   const candidates = rule.candidatePathwayIds ?? [];
   if (candidates.length !== 1) return undefined;
   return profile.pathways.find((pathway) => pathway.id === candidates[0]
-    && !pathwayExcludedByKnownFacts(profile.jurisdiction.code, answers, pathway.id));
+    && !pathwayExcludedByKnownFacts(profile.jurisdiction.code, answers, pathway.id)
+    && convictionOutcomeCompatible(profile.jurisdiction.code, answers, pathway.id));
 }
 
 function compiledRuleRelevantToPathway(rule: CompiledRule, pathway: CompiledPathway) {

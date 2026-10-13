@@ -1,3 +1,4 @@
+import { convictionReliefRequest, convictionReliefQuestionApplies, convictionOutcomeCompatible } from "@/lib/rcap-engine/conviction-relief-request";
 import { pathwayFromContext } from "@/lib/rcap-engine/pathway-context";
 import { MS_EXACT_TIMING_FACT_IDS, msExactTimingQuestionIds } from "@/lib/rcap-engine/mississippi-exact-timing";
 import { caProp64Pathway, caProp64Section, caProp64QuestionApplies, caProp64ApplicationRequested } from "@/lib/rcap-engine/california-prop64-facts";
@@ -69,11 +70,12 @@ export function selectScreeningQuestionIds(
     : profile.jurisdiction.code === "KS" ? kansasRecordScopeFromAnswers(answers) : null;
   const deRoute = profile.jurisdiction.code === "DE" ? delawareConvictionRoute(answers) : undefined;
   const caRoute = profile.jurisdiction.code === "CA" ? caProp64Pathway(answers) : undefined;
-  const selectedPathway = caRoute ? profile.pathways.find(p => p.id === caRoute) : profile.jurisdiction.code === "NY" && ny16059Requested(answers) ? profile.pathways.find(p => p.id === NY_16059_ROUTE) : deRoute ? profile.pathways.find(pathway => pathway.id === deRoute) : programRoute?.status === "selected"
+  const reliefRequest = convictionReliefRequest(profile, answers);
+  const selectedPathway = reliefRequest.status === "selected" ? profile.pathways.find(p => p.id === reliefRequest.pathwayId) : reliefRequest.status !== "not_applicable" ? undefined : caRoute ? profile.pathways.find(p => p.id === caRoute) : profile.jurisdiction.code === "NY" && ny16059Requested(answers) ? profile.pathways.find(p => p.id === NY_16059_ROUTE) : deRoute ? profile.pathways.find(pathway => pathway.id === deRoute) : programRoute?.status === "selected"
     ? profile.pathways.find(pathway => pathway.id === programRoute.pathwayId)
     : (programRoute?.status === "clarification" || programRoute?.status === "district_arrest" || programRoute?.status === "district_review" || profile.jurisdiction.code === "CA" && caProp64ApplicationRequested(answers)) ? undefined : selectedLabel
     ? profile.jurisdiction.code === "MS" ? pathwayFromContext(profile, selectedLabel) : profile.pathways.find((pathway) => pathway.label === selectedLabel
-      && !pathwayExcludedByKnownFacts(profile.jurisdiction.code, answers, pathway.id))
+      && !pathwayExcludedByKnownFacts(profile.jurisdiction.code, answers, pathway.id) && convictionOutcomeCompatible(profile.jurisdiction.code, answers, pathway.id))
     : undefined;
   const msTimingIds = new Set(msExactTimingQuestionIds(profile.jurisdiction.code, selectedPathway?.id, answers));
   const recordQuestions = new Map(caProp64RecordQuestions(profile, publicProfile.questions, selectedPathway?.id).map((question) => [question.id, question]));
@@ -98,6 +100,7 @@ export function selectScreeningQuestionIds(
   }).map(question => question.id));
 
   return publicProfile.questions
+    .filter(question => convictionReliefQuestionApplies(profile, answers, question.id))
     .filter(question => profile.jurisdiction.code !== "MS" || !MS_EXACT_TIMING_FACT_IDS.some(id => id === question.id) || msTimingIds.has(question.id))
     .filter(question => profile.jurisdiction.code !== "CA" || caProp64QuestionApplies(answers, question.id))
     .filter(question => profile.jurisdiction.code !== "NY" || ny16059QuestionApplies(answers, question.id))

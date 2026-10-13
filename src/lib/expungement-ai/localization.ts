@@ -1,3 +1,4 @@
+import { CONVICTION_RELIEF_COPY } from "@/lib/rcap-engine/conviction-relief-request";
 import { reviewedResultText } from "@/lib/expungement-ai/reviewed-result-copy";
 import {RCAP_SPANISH_COPY} from "@/lib/partners/onboarding/rcap-spanish-copy";
 export type Locale = "en" | "es";
@@ -1155,6 +1156,8 @@ export function t(locale: Locale, key: string, fallback?: string, vars?: Record<
 }
 
 export function resolveRuntimeText(locale: Locale, text: string, options?: { key?: string; vars?: Record<string, string | number | undefined> }): string {
+  const draft = Object.values(CONVICTION_RELIEF_COPY).find(([en]) => en === text);
+  if (draft) return interpolate(draft[locale === "es" ? 1 : 0], options?.vars);
   const reviewed = reviewedResultText(text);
   if (reviewed) return interpolate(reviewed[locale], options?.vars);
   if (locale === "es" && RCAP_SPANISH_COPY[text]) return interpolate(RCAP_SPANISH_COPY[text],options?.vars);

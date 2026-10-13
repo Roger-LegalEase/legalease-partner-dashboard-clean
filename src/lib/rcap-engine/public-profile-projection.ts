@@ -1,3 +1,4 @@
+import { convictionReliefQuestions } from "@/lib/rcap-engine/conviction-relief-request";
 import { CA_PROP64_FACT_IDS, CA_PROP64_FACT_QUESTIONS } from "@/lib/rcap-engine/california-prop64-facts";
 import { isCaProp64QuantityQuestion, CA_PROP64_QUANTITY_CONTRACT } from "@/lib/expungement-ai/ca-prop64-quantity";
 import { NY_16059_FACT_IDS, NY_16059_QUESTIONS, NY_16059_TIMING_IDS } from "@/lib/rcap-engine/new-york-16059-facts";
@@ -53,8 +54,8 @@ const PREPAY_PHASES = new Set<QuestionLifecyclePhase>([
 const STATE_SPECIFIC_PREPAY_WILMA_FACT_IDS: Record<string, Set<string>> = {
   DE: new Set(DE_CONVICTION_FACT_IDS),
   KS: new Set(KS_RECORD_SCOPE_FACT_IDS),
-  GA: new Set(GA_FIRST_OFFENDER_FACT_IDS),
-  IL: new Set(IL_CANNABIS_FACT_IDS),
+  GA: new Set([...GA_FIRST_OFFENDER_FACT_IDS, ...convictionReliefQuestions("GA").map(q => q.id)]),
+  IL: new Set([...IL_CANNABIS_FACT_IDS, ...convictionReliefQuestions("IL").map(q => q.id)]),
   CA: new Set([
     ...CA_PROP64_FACT_IDS,
     "ca_prop64_qualifying_marijuana_offense",
@@ -67,6 +68,7 @@ const STATE_SPECIFIC_PREPAY_WILMA_FACT_IDS: Record<string, Set<string>> = {
   MD: new Set(["arrest_date"]),
   MO: new Set(["mo_at_least_twenty_two"]),
   MS: new Set([
+    ...convictionReliefQuestions("MS").map(q => q.id),
     "ms_program_order",
     "ms_program_record_status",
     "ms_program_final_disposition",
@@ -1118,7 +1120,7 @@ function withWilmaFactQuestions(
     : profile.jurisdiction.code === "NY" ? [...WILMA_FACT_QUESTIONS, ...NY_16059_QUESTIONS]
     : profile.jurisdiction.code === "KS" ? [...WILMA_FACT_QUESTIONS, ...KS_RECORD_SCOPE_QUESTIONS]
       : WILMA_FACT_QUESTIONS;
-  const additions = availableWilmaFactQuestions
+  const additions = [...availableWilmaFactQuestions, ...convictionReliefQuestions(profile.jurisdiction.code)]
     .filter((question) => !existingIds.has(question.id))
     .map((question) => normalizePublicQuestion(question, profile.jurisdiction.code, "wilma", exactPacketFacts.has(question.id)));
   const baseQuestions = withCompletePathwayContextOptions(

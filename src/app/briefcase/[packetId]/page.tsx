@@ -1,6 +1,6 @@
 import { msExactTimingQuestionIds } from "@/lib/rcap-engine/mississippi-exact-timing";
 import { readProtectedPacketVerification } from "@/lib/expungement-ai/verification-cas";
-import { caProp64ClarificationModelFor, heldPacketCorrectionInputIds } from "@/lib/expungement-ai/packet-information";
+import { caProp64ClarificationModelFor, factualPathwayCorrectionIds, heldPacketCorrectionInputIds } from "@/lib/expungement-ai/packet-information";
 import { CA_PROP64_CLARIFICATION_COPY } from "@/lib/expungement-ai/ca-prop64-choices";
 import { packetDisplayCopy } from "@/lib/expungement-ai/packet-display-copy";
 import { SponsorCapacityNotice } from "@/components/expungement-ai/SponsorCapacityNotice";
@@ -40,7 +40,8 @@ export default async function BriefcasePacketPage({
   const clarification = clarificationRead?.ok ? caProp64ClarificationModelFor(clarificationRead.value) : null;
   const available = item?.authorityStatus !== "unavailable";
   const eligibilityCorrection = ["NY", "CA", "IL", "GA"].includes(item?.jurisdiction ?? "")
-    || item?.packetDraft.status === "available" && msExactTimingQuestionIds(item.jurisdiction ?? "", item.pathwayId, item.packetDraft.initialAnswers).length > 0;
+    || item?.packetDraft.status === "available" && (msExactTimingQuestionIds(item.jurisdiction ?? "", item.pathwayId, item.packetDraft.initialAnswers).length > 0
+      || factualPathwayCorrectionIds(item.jurisdiction ?? "", item.pathwayId, item.packetDraft.initialAnswers).length > 0);
   const sponsored = item?.paymentState === "sponsored";
   const packetMatter = available && (item?.resultCode === "packet_ready" || item?.resultCode === "packet_ready_with_caution");
   const factsVerified = item?.verificationStatus === "verified";

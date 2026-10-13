@@ -1,3 +1,4 @@
+import { convictionReliefQuestions } from "@/lib/rcap-engine/conviction-relief-request";
 import { MS_EXACT_TIMING_FACT_IDS } from "@/lib/rcap-engine/mississippi-exact-timing";
 import { CA_PROP64_FACT_IDS, CA_PROP64_LEGACY_IDS } from "@/lib/rcap-engine/california-prop64-facts";
 import { NY_16059_FACT_IDS, NY_16059_LEGACY_IDS } from "@/lib/rcap-engine/new-york-16059-questions";
@@ -93,6 +94,7 @@ export function sanitizeAnswersForQuestionIds(
   const stillSelected = new Set(nextQuestionIds);
   return Object.fromEntries(Object.entries(answers).filter(([questionId]) => (
     !previouslyRendered.has(questionId) || stillSelected.has(questionId)
+    || Boolean(profile && convictionReliefQuestions(profile.jurisdiction.code).some(q => q.id === questionId))
     // A corrected completion answer may disappear from the correction plan;
     // it remains a fact of this case and must survive that transition.
     || Boolean(profile?.questions.some(question => question.id === questionId && isCompletionStatusQuestion(question)))

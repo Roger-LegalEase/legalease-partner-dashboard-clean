@@ -602,3 +602,811 @@ Question module SHA256: `61cd6a76435112f22f9dc617d942c67b3e1fc5ee178d5d2deca5577
 | ca_prop64_filer_representation | Who is filing this petition or application? This identifies the party or attorney for this filing, not a lawyer who handled an earlier case. Choices: self_represented = The defendant, without an attorney; attorney = An attorney representing the defendant; unknown = I am not sure | ¿Quién presenta esta petición o solicitud? Esto identifica a la parte o al abogado para esta presentación, no a un abogado que atendió un caso anterior. Opciones: self_represented = El acusado, sin abogado; attorney = Un abogado que representa al acusado; unknown = No estoy seguro |
 
 Remaining30structured contact/court-address obligations, actual service, signatures and judicial decisions remain separately owned; no later task becomes a purchase prerequisite merely because a form contains it. Adult restricted/prior-relief predicates, juvenile forms, current-source decisions, full/court-only assembly, protected runtime fulfillment/delivery and qualified legal/language/QA acceptance remain active. NY original/current source custody, trusted applicability, current-form renderer and delivery also remain active. Continue the already-owned GA21 concrete empty-hint/alternative-election defects and every other active16 requirement. All38 verified findings and original5274manifestations/594dispositions are preserved. No Production, merge or deployment.
+
+
+### GA21-CONVICTION-REQUEST-01 — qualified source and EN/ES decision request
+
+Pending review. Candidate module `src/lib/rcap-engine/conviction-relief-request.ts` SHA256 `072aed2b11be0da5d20eb2c8ef223ed347926cb2415d1450219e5e8dafc0a292`. This matches the module binding in the retained independent request; all ten literal questions and six reason pairs are unchanged. No approval is claimed.
+
+Owners: qualified state legal reviewers and qualified bilingual legal-language reviewer. For each decision below, approve the exact scope and copy or supply a source-backed correction. Record reviewer identity, qualifications, date, exact source/copy hashes and decision in the existing approval mechanism. Engineering will apply corrections and independently replay affected journeys. Current-primary MS/IL access and source qualification remain pending.
+
+1. **All three states / source scope** — Collect requested work separately from legal eligibility; preserve original conviction, prior election and raw provenance. A nonconviction menu label or compiled convicted_other token is not proof of dismissal or acquittal. Decision requested: Approve or correct the exact question and option meanings below and identify any requested work omitted from the existing state scope. Review dispositions remain actively owned implementation, not accepted support. Source: Existing retained source matrix and exact state tracks.
+
+2. **MS first misdemeanor and additional lower-court misdemeanors** — Use actual final misdemeanor judgment. Distinguish nontraffic, DUI and other traffic. First-offender candidate requires affirmative factual absence of other convictions and prior conviction expungement; other traffic may proceed only to the named justice/municipal candidate, retaining the separate DUI exclusion and driving-record distinction. Decision requested: Confirm scope of any conviction in any jurisdiction, prior conviction expungement, and the overlap between first and additional misdemeanor procedures. Specify the participant election or facts needed when more than one procedure is available; no automatic legal preference is approved. Confirm exact current official provisions and source dates. Existing fine/payment, last-conviction-any-court clock, court identity, exclusions and authority remain required before readiness. Source: MS.memo.json /tracks/1 ms-misd-1st and /tracks/3 ms-misd-addl; retained §§99-19-71(1),9-11-15(3),21-23-7(6). Current-primary request remains pending.
+
+3. **MS broad Other and pardoned records** — Ask actual final record class rather than infer misdemeanor/felony from arrest charge, broad Other or a pardon. Preserve existing program selectors and all exact timing predicates. Decision requested: Confirm final class question semantics and sufficient source-owned record facts before candidate admission. Resolve later-order and program-specific procedures without converting the original conviction to nonconviction. Source: MS retained tracks ms-nonconv,ms-fel and program sources already held.
+
+4. **GA retroactive treatment** — An explicit request for originally omitted First Offender treatment is an election only. Original-treatment No is preserved and never itself elects retroactive relief. Decision requested: Confirm exact factual conditions, historical statutory periods, required prosecutor consent at filing, and source-grounded collection. Silence is not consent. Legal eligibility must not be participant self-certification. Source: GA.memo.json /tracks/14 ga-rfo;42-8-66.
+
+5. **GA pardon and ordinary conviction** — A pardon answer does not identify conviction class. Require actual felony class for the pardoned-felony candidate; broad Pardoned or Other must ask final class. A known misdemeanor with a pardon is not silently treated as a felony. Decision requested: Confirm the source distinction and literal participant copy; specify source-supported alternative procedure for an actual misdemeanor or unresolved class. Existing GA misdemeanor exclusions, completion and prior-use conditions remain owed. Source: GA retained ga-misd-j4 and pardoned-felony tracks.
+
+6. **GA later order and mixed dispositions** — Keep vacatur/reversal order separate from finality after appeal and retrial status. Keep each charge and final disposition separate in a mixed case. Decision requested: Approve or correct exact factual collection for §35-3-37(j)(2) finality and two-year retrial condition and §35-3-37(j)(1) separate felony/misdemeanor relationship. Do not ask the participant to certify not-lesser-included as a legal conclusion or turn a limitations period into a wait. Source: GA.memo.json /tracks/6 ga-felony-j1 and /tracks/8 ga-vacated-j2.
+
+7. **IL later-order, supervision and probation** — An actual vacating or reversing order can identify the existing adult nonconviction candidate while retaining the original conviction. Later dismissal, no order and unknown order are not silently equivalent. Completed program alone establishes no dismissal. Decision requested: Confirm exact source distinctions and appropriate factual collection for satisfactory supervision versus revocation, qualifying probation statute/termination, and any required vacating judgment. Current candidate holds program requests for review; this is not completion of the supported procedure. Source: IL.memo.json /tracks/0 il-exp-nonconv, /tracks/1 il-exp-supervision, /tracks/2 il-exp-qualprob; retained5.2(b)(1)(i),(ii).
+
+8. **English and Spanish exact participant copy** — Use the exact ten question objects and six paired reason messages attached to this request; canonical wire values remain unchanged. Decision requested: Qualified bilingual legal reviewer must approve or provide corrected prompt, helper, option and reason text for each ID. In particular review probation/libertad condicional, set aside/anular/dejar sin efecto, sealing/sellado and restriction/restricción. Approval must identify reviewer, qualifications, scope, exact source/copy hashes and date. Source: Attached literal candidate question and reason text; no bilingual approval inferred from engineering/browser tests.
+
+The literal question objects, including all canonical values, prompts, helpers and EN/ES option labels:
+
+<details><summary>Ten exact question objects</summary>
+
+```json
+[
+  {
+    "state": "MS",
+    "question": {
+      "id": "ms_record_help",
+      "stage": "pathway_routing",
+      "type": "single_choice",
+      "required": false,
+      "contextOnly": false,
+      "doesNotSelectPathway": false,
+      "lifecyclePhase": "prepay_route_splitter",
+      "prompt": "What would you like help with for this record?",
+      "helperText": "Choose the help you want, not whether you qualify. We check the case facts separately. A later court order or a separate charge can have a different outcome from the original conviction.",
+      "options": [
+        "conviction_record",
+        "dui_record",
+        "underage_alcohol_record",
+        "later_order",
+        "program_record",
+        "other_help",
+        "unknown"
+      ],
+      "optionDisplay": {
+        "conviction_record": {
+          "label": "Ask to clear an existing conviction",
+          "translations": {
+            "es": {
+              "label": "Pedir que se elimine una condena existente"
+            }
+          }
+        },
+        "dui_record": {
+          "label": "Ask about clearing a DUI conviction",
+          "translations": {
+            "es": {
+              "label": "Consultar sobre eliminar una condena por conducir bajo la influencia"
+            }
+          }
+        },
+        "underage_alcohol_record": {
+          "label": "Ask about clearing an underage alcohol conviction",
+          "translations": {
+            "es": {
+              "label": "Consultar sobre eliminar una condena por alcohol siendo menor de edad"
+            }
+          }
+        },
+        "later_order": {
+          "label": "Review a later court order that changed the conviction",
+          "translations": {
+            "es": {
+              "label": "Revisar una orden judicial posterior que cambió la condena"
+            }
+          }
+        },
+        "program_record": {
+          "label": "Review the outcome of supervision, probation or another program",
+          "translations": {
+            "es": {
+              "label": "Revisar el resultado de supervisión, libertad condicional u otro programa"
+            }
+          }
+        },
+        "other_help": {
+          "label": "I want help with a different situation",
+          "translations": {
+            "es": {
+              "label": "Quiero ayuda con otra situación"
+            }
+          }
+        },
+        "unknown": {
+          "label": "I am not sure",
+          "translations": {
+            "es": {
+              "label": "No estoy seguro"
+            }
+          }
+        }
+      },
+      "translations": {
+        "es": {
+          "prompt": "¿En qué desea ayuda con este expediente?",
+          "helperText": "Elija la ayuda que desea, no si cumple los requisitos. Revisamos los hechos del caso por separado. Una orden judicial posterior u otro cargo pueden tener un resultado distinto al de la condena original."
+        }
+      }
+    }
+  },
+  {
+    "state": "MS",
+    "question": {
+      "id": "ms_later_order",
+      "stage": "pathway_routing",
+      "type": "single_choice",
+      "required": false,
+      "contextOnly": false,
+      "doesNotSelectPathway": false,
+      "lifecyclePhase": "prepay_route_splitter",
+      "prompt": "What did the later court order do to this conviction?",
+      "helperText": "Use the actual order. Completing a sentence, receiving a pardon or asking for relief is not itself an order vacating or reversing a conviction. The original answer is retained.",
+      "options": [
+        "vacated",
+        "reversed",
+        "dismissed",
+        "none",
+        "other",
+        "unknown"
+      ],
+      "optionDisplay": {
+        "vacated": {
+          "label": "The court vacated or set aside the conviction",
+          "translations": {
+            "es": {
+              "label": "El tribunal anuló o dejó sin efecto la condena"
+            }
+          }
+        },
+        "reversed": {
+          "label": "An appellate court reversed the conviction",
+          "translations": {
+            "es": {
+              "label": "Un tribunal de apelaciones revocó la condena"
+            }
+          }
+        },
+        "dismissed": {
+          "label": "The court dismissed the case after the conviction",
+          "translations": {
+            "es": {
+              "label": "El tribunal desestimó el caso después de la condena"
+            }
+          }
+        },
+        "none": {
+          "label": "No later order changed the conviction",
+          "translations": {
+            "es": {
+              "label": "Ninguna orden posterior cambió la condena"
+            }
+          }
+        },
+        "other": {
+          "label": "Another kind of order",
+          "translations": {
+            "es": {
+              "label": "Otro tipo de orden"
+            }
+          }
+        },
+        "unknown": {
+          "label": "I am not sure",
+          "translations": {
+            "es": {
+              "label": "No estoy seguro"
+            }
+          }
+        }
+      },
+      "translations": {
+        "es": {
+          "prompt": "¿Qué hizo la orden judicial posterior respecto de esta condena?",
+          "helperText": "Use la orden real. Cumplir una sentencia, recibir un indulto o pedir una medida no equivale por sí solo a una orden que anule o revoque una condena. Se conserva la respuesta original."
+        }
+      }
+    }
+  },
+  {
+    "state": "MS",
+    "question": {
+      "id": "ms_conviction_traffic",
+      "stage": "pathway_routing",
+      "type": "single_choice",
+      "required": false,
+      "contextOnly": false,
+      "doesNotSelectPathway": false,
+      "lifecyclePhase": "prepay_route_splitter",
+      "prompt": "What kind of offense is the final misdemeanor conviction for?",
+      "helperText": "Use the final judgment, including any amended offense. Do not use the original arrest charge.",
+      "options": [
+        "nontraffic",
+        "dui",
+        "other_traffic",
+        "unknown"
+      ],
+      "optionDisplay": {
+        "nontraffic": {
+          "label": "An offense other than a traffic violation",
+          "translations": {
+            "es": {
+              "label": "Un delito que no es una infracción de tránsito"
+            }
+          }
+        },
+        "dui": {
+          "label": "Driving under the influence (DUI)",
+          "translations": {
+            "es": {
+              "label": "Conducir bajo la influencia (DUI)"
+            }
+          }
+        },
+        "other_traffic": {
+          "label": "Another traffic violation",
+          "translations": {
+            "es": {
+              "label": "Otra infracción de tránsito"
+            }
+          }
+        },
+        "unknown": {
+          "label": "I am not sure",
+          "translations": {
+            "es": {
+              "label": "No estoy seguro"
+            }
+          }
+        }
+      },
+      "translations": {
+        "es": {
+          "prompt": "¿Por qué tipo de delito es la condena final por delito menor?",
+          "helperText": "Use la sentencia final, incluido cualquier delito modificado. No use el cargo original del arresto."
+        }
+      }
+    }
+  },
+  {
+    "state": "MS",
+    "question": {
+      "id": "ms_other_convictions",
+      "stage": "pathway_routing",
+      "type": "single_choice",
+      "required": false,
+      "contextOnly": false,
+      "doesNotSelectPathway": false,
+      "lifecyclePhase": "prepay_route_splitter",
+      "prompt": "Have you had any other conviction, in any court or jurisdiction?",
+      "helperText": "Include convictions in other states and courts. Do not leave out a conviction just because its record was later cleared.",
+      "options": [
+        "yes",
+        "no",
+        "unknown"
+      ],
+      "optionDisplay": {
+        "yes": {
+          "label": "Yes",
+          "translations": {
+            "es": {
+              "label": "Sí"
+            }
+          }
+        },
+        "no": {
+          "label": "No",
+          "translations": {
+            "es": {
+              "label": "No"
+            }
+          }
+        },
+        "unknown": {
+          "label": "I am not sure",
+          "translations": {
+            "es": {
+              "label": "No estoy seguro"
+            }
+          }
+        }
+      },
+      "translations": {
+        "es": {
+          "prompt": "¿Ha tenido alguna otra condena, en cualquier tribunal o jurisdicción?",
+          "helperText": "Incluya condenas de otros estados y tribunales. No omita una condena solo porque sus antecedentes fueron eliminados después."
+        }
+      }
+    }
+  },
+  {
+    "state": "MS",
+    "question": {
+      "id": "ms_prior_conviction_expungement",
+      "stage": "pathway_routing",
+      "type": "single_choice",
+      "required": false,
+      "contextOnly": false,
+      "doesNotSelectPathway": false,
+      "lifecyclePhase": "prepay_route_splitter",
+      "prompt": "Has any conviction of yours been expunged before?",
+      "helperText": "A previous expungement remains relevant to the first-offender question. This asks about an actual previous conviction expungement, not an application that is still pending.",
+      "options": [
+        "yes",
+        "no",
+        "unknown"
+      ],
+      "optionDisplay": {
+        "yes": {
+          "label": "Yes",
+          "translations": {
+            "es": {
+              "label": "Sí"
+            }
+          }
+        },
+        "no": {
+          "label": "No",
+          "translations": {
+            "es": {
+              "label": "No"
+            }
+          }
+        },
+        "unknown": {
+          "label": "I am not sure",
+          "translations": {
+            "es": {
+              "label": "No estoy seguro"
+            }
+          }
+        }
+      },
+      "translations": {
+        "es": {
+          "prompt": "¿Se ha eliminado antes alguna condena suya?",
+          "helperText": "Una eliminación anterior sigue siendo pertinente para la cuestión de una primera condena. Se pregunta por la eliminación real de una condena anterior, no por una solicitud pendiente."
+        }
+      }
+    }
+  },
+  {
+    "state": "MS",
+    "question": {
+      "id": "ms_conviction_court",
+      "stage": "pathway_routing",
+      "type": "single_choice",
+      "required": false,
+      "contextOnly": false,
+      "doesNotSelectPathway": false,
+      "lifecyclePhase": "prepay_route_splitter",
+      "prompt": "Which court entered the misdemeanor conviction you want cleared?",
+      "helperText": "Use the court named on the judgment. Your home city or county and the arresting agency do not establish which court entered the conviction.",
+      "options": [
+        "justice",
+        "municipal",
+        "county",
+        "circuit",
+        "unknown"
+      ],
+      "optionDisplay": {
+        "justice": {
+          "label": "Justice court",
+          "translations": {
+            "es": {
+              "label": "Tribunal de justicia (Justice Court)"
+            }
+          }
+        },
+        "municipal": {
+          "label": "Municipal court",
+          "translations": {
+            "es": {
+              "label": "Tribunal municipal"
+            }
+          }
+        },
+        "county": {
+          "label": "County court",
+          "translations": {
+            "es": {
+              "label": "Tribunal del condado (County Court)"
+            }
+          }
+        },
+        "circuit": {
+          "label": "Circuit court",
+          "translations": {
+            "es": {
+              "label": "Tribunal de circuito"
+            }
+          }
+        },
+        "unknown": {
+          "label": "I am not sure",
+          "translations": {
+            "es": {
+              "label": "No estoy seguro"
+            }
+          }
+        }
+      },
+      "translations": {
+        "es": {
+          "prompt": "¿Qué tribunal dictó la condena por delito menor que desea eliminar?",
+          "helperText": "Use el tribunal nombrado en la sentencia. Su ciudad o condado de residencia y la agencia que hizo el arresto no establecen qué tribunal dictó la condena."
+        }
+      }
+    }
+  },
+  {
+    "state": "GA",
+    "question": {
+      "id": "ga_record_help",
+      "stage": "pathway_routing",
+      "type": "single_choice",
+      "required": false,
+      "contextOnly": false,
+      "doesNotSelectPathway": false,
+      "lifecyclePhase": "prepay_route_splitter",
+      "prompt": "What would you like help with for this record?",
+      "helperText": "Choose the help you want, not whether you qualify. We check the case facts separately. A later court order or a separate charge can have a different outcome from the original conviction.",
+      "options": [
+        "conviction_record",
+        "retroactive_treatment",
+        "pardon_record",
+        "later_order",
+        "mixed_charges",
+        "program_record",
+        "other_help",
+        "unknown"
+      ],
+      "optionDisplay": {
+        "conviction_record": {
+          "label": "Ask to restrict access to an existing conviction record",
+          "translations": {
+            "es": {
+              "label": "Pedir que se restrinja el acceso al registro de una condena existente"
+            }
+          }
+        },
+        "retroactive_treatment": {
+          "label": "Ask for First Offender treatment that was not originally imposed",
+          "translations": {
+            "es": {
+              "label": "Pedir tratamiento de First Offender que no se dispuso originalmente"
+            }
+          }
+        },
+        "pardon_record": {
+          "label": "Ask to restrict a felony record after a pardon",
+          "translations": {
+            "es": {
+              "label": "Pedir que se restrinja un registro por delito grave después de un indulto"
+            }
+          }
+        },
+        "later_order": {
+          "label": "Review a later court order that changed the conviction",
+          "translations": {
+            "es": {
+              "label": "Revisar una orden judicial posterior que cambió la condena"
+            }
+          }
+        },
+        "mixed_charges": {
+          "label": "Ask about a separate dismissed or acquitted charge in the same case",
+          "translations": {
+            "es": {
+              "label": "Consultar sobre otro cargo desestimado o del que fue absuelto en el mismo caso"
+            }
+          }
+        },
+        "program_record": {
+          "label": "Review the outcome of supervision, probation or another program",
+          "translations": {
+            "es": {
+              "label": "Revisar el resultado de supervisión, libertad condicional u otro programa"
+            }
+          }
+        },
+        "other_help": {
+          "label": "I want help with a different situation",
+          "translations": {
+            "es": {
+              "label": "Quiero ayuda con otra situación"
+            }
+          }
+        },
+        "unknown": {
+          "label": "I am not sure",
+          "translations": {
+            "es": {
+              "label": "No estoy seguro"
+            }
+          }
+        }
+      },
+      "translations": {
+        "es": {
+          "prompt": "¿En qué desea ayuda con este expediente?",
+          "helperText": "Elija la ayuda que desea, no si cumple los requisitos. Revisamos los hechos del caso por separado. Una orden judicial posterior u otro cargo pueden tener un resultado distinto al de la condena original."
+        }
+      }
+    }
+  },
+  {
+    "state": "GA",
+    "question": {
+      "id": "ga_later_order",
+      "stage": "pathway_routing",
+      "type": "single_choice",
+      "required": false,
+      "contextOnly": false,
+      "doesNotSelectPathway": false,
+      "lifecyclePhase": "prepay_route_splitter",
+      "prompt": "What did the later court order do to this conviction?",
+      "helperText": "Use the actual order. Completing a sentence, receiving a pardon or asking for relief is not itself an order vacating or reversing a conviction. The original answer is retained.",
+      "options": [
+        "vacated",
+        "reversed",
+        "dismissed",
+        "none",
+        "other",
+        "unknown"
+      ],
+      "optionDisplay": {
+        "vacated": {
+          "label": "The court vacated or set aside the conviction",
+          "translations": {
+            "es": {
+              "label": "El tribunal anuló o dejó sin efecto la condena"
+            }
+          }
+        },
+        "reversed": {
+          "label": "An appellate court reversed the conviction",
+          "translations": {
+            "es": {
+              "label": "Un tribunal de apelaciones revocó la condena"
+            }
+          }
+        },
+        "dismissed": {
+          "label": "The court dismissed the case after the conviction",
+          "translations": {
+            "es": {
+              "label": "El tribunal desestimó el caso después de la condena"
+            }
+          }
+        },
+        "none": {
+          "label": "No later order changed the conviction",
+          "translations": {
+            "es": {
+              "label": "Ninguna orden posterior cambió la condena"
+            }
+          }
+        },
+        "other": {
+          "label": "Another kind of order",
+          "translations": {
+            "es": {
+              "label": "Otro tipo de orden"
+            }
+          }
+        },
+        "unknown": {
+          "label": "I am not sure",
+          "translations": {
+            "es": {
+              "label": "No estoy seguro"
+            }
+          }
+        }
+      },
+      "translations": {
+        "es": {
+          "prompt": "¿Qué hizo la orden judicial posterior respecto de esta condena?",
+          "helperText": "Use la orden real. Cumplir una sentencia, recibir un indulto o pedir una medida no equivale por sí solo a una orden que anule o revoque una condena. Se conserva la respuesta original."
+        }
+      }
+    }
+  },
+  {
+    "state": "IL",
+    "question": {
+      "id": "il_record_help",
+      "stage": "pathway_routing",
+      "type": "single_choice",
+      "required": false,
+      "contextOnly": false,
+      "doesNotSelectPathway": false,
+      "lifecyclePhase": "prepay_route_splitter",
+      "prompt": "What would you like help with for this record?",
+      "helperText": "Choose the help you want, not whether you qualify. We check the case facts separately. A later court order or a separate charge can have a different outcome from the original conviction.",
+      "options": [
+        "conviction_record",
+        "later_order",
+        "program_record",
+        "status_check",
+        "other_help",
+        "unknown"
+      ],
+      "optionDisplay": {
+        "conviction_record": {
+          "label": "Ask the court to seal an existing conviction record",
+          "translations": {
+            "es": {
+              "label": "Pedir al tribunal que selle el registro de una condena existente"
+            }
+          }
+        },
+        "later_order": {
+          "label": "Review a later court order that changed the conviction",
+          "translations": {
+            "es": {
+              "label": "Revisar una orden judicial posterior que cambió la condena"
+            }
+          }
+        },
+        "program_record": {
+          "label": "Review the outcome of supervision, probation or another program",
+          "translations": {
+            "es": {
+              "label": "Revisar el resultado de supervisión, libertad condicional u otro programa"
+            }
+          }
+        },
+        "status_check": {
+          "label": "Check the automatic sealing process",
+          "translations": {
+            "es": {
+              "label": "Consultar el proceso de sellado automático"
+            }
+          }
+        },
+        "other_help": {
+          "label": "I want help with a different situation",
+          "translations": {
+            "es": {
+              "label": "Quiero ayuda con otra situación"
+            }
+          }
+        },
+        "unknown": {
+          "label": "I am not sure",
+          "translations": {
+            "es": {
+              "label": "No estoy seguro"
+            }
+          }
+        }
+      },
+      "translations": {
+        "es": {
+          "prompt": "¿En qué desea ayuda con este expediente?",
+          "helperText": "Elija la ayuda que desea, no si cumple los requisitos. Revisamos los hechos del caso por separado. Una orden judicial posterior u otro cargo pueden tener un resultado distinto al de la condena original."
+        }
+      }
+    }
+  },
+  {
+    "state": "IL",
+    "question": {
+      "id": "il_later_order",
+      "stage": "pathway_routing",
+      "type": "single_choice",
+      "required": false,
+      "contextOnly": false,
+      "doesNotSelectPathway": false,
+      "lifecyclePhase": "prepay_route_splitter",
+      "prompt": "What did the later court order do to this conviction?",
+      "helperText": "Use the actual order. Completing a sentence, receiving a pardon or asking for relief is not itself an order vacating or reversing a conviction. The original answer is retained.",
+      "options": [
+        "vacated",
+        "reversed",
+        "dismissed",
+        "none",
+        "other",
+        "unknown"
+      ],
+      "optionDisplay": {
+        "vacated": {
+          "label": "The court vacated or set aside the conviction",
+          "translations": {
+            "es": {
+              "label": "El tribunal anuló o dejó sin efecto la condena"
+            }
+          }
+        },
+        "reversed": {
+          "label": "An appellate court reversed the conviction",
+          "translations": {
+            "es": {
+              "label": "Un tribunal de apelaciones revocó la condena"
+            }
+          }
+        },
+        "dismissed": {
+          "label": "The court dismissed the case after the conviction",
+          "translations": {
+            "es": {
+              "label": "El tribunal desestimó el caso después de la condena"
+            }
+          }
+        },
+        "none": {
+          "label": "No later order changed the conviction",
+          "translations": {
+            "es": {
+              "label": "Ninguna orden posterior cambió la condena"
+            }
+          }
+        },
+        "other": {
+          "label": "Another kind of order",
+          "translations": {
+            "es": {
+              "label": "Otro tipo de orden"
+            }
+          }
+        },
+        "unknown": {
+          "label": "I am not sure",
+          "translations": {
+            "es": {
+              "label": "No estoy seguro"
+            }
+          }
+        }
+      },
+      "translations": {
+        "es": {
+          "prompt": "¿Qué hizo la orden judicial posterior respecto de esta condena?",
+          "helperText": "Use la orden real. Cumplir una sentencia, recibir un indulto o pedir una medida no equivale por sí solo a una orden que anule o revoque una condena. Se conserva la respuesta original."
+        }
+      }
+    }
+  }
+]
+```
+
+</details>
+
+<details><summary>Six exact EN/ES reason pairs</summary>
+
+```json
+{
+  "missing": [
+    "Check the requested case fact or tell us what help you want. An optional pathway hint does not establish a later court order or choose another procedure for you.",
+    "Revise el dato del caso solicitado o indique en qué desea ayuda. Una pista opcional sobre una vía no establece una orden judicial posterior ni elige otro procedimiento por usted."
+  ],
+  "other_help": [
+    "Your request needs a review of the record and the help you want. No other procedure has been selected for you, and this does not decide whether another remedy is available.",
+    "Su solicitud requiere revisar el expediente y la ayuda que desea. No se ha elegido otro procedimiento por usted y esto no determina si hay otra medida disponible."
+  ],
+  "later_order": [
+    "The later order and its effect on this record need review. The original conviction answer remains part of the record; it is not automatically changed to a dismissal or acquittal.",
+    "La orden posterior y su efecto en este expediente requieren revisión. La respuesta sobre la condena original sigue formando parte del registro; no se cambia automáticamente a una desestimación o absolución."
+  ],
+  "program_record": [
+    "The program order, its completion and the court's final disposition must be checked separately. A program request does not establish that a conviction was dismissed or set aside.",
+    "La orden del programa, su cumplimiento y la resolución final del tribunal deben revisarse por separado. Una solicitud relacionada con un programa no establece que una condena haya sido desestimada o dejada sin efecto."
+  ],
+  "mixed_charges": [
+    "This request concerns a separate charge in a case with more than one outcome. Each charge, its final disposition and its relationship to the other charges need review before selecting the procedure.",
+    "Esta solicitud se refiere a un cargo distinto en un caso con más de un resultado. Cada cargo, su resolución final y su relación con los otros cargos requieren revisión antes de elegir el procedimiento."
+  ],
+  "conviction_scope": [
+    "The facts entered do not establish the requested conviction procedure. Review the final judgment, offense and court; this is not a denial of every record-clearing option.",
+    "Los datos ingresados no establecen el procedimiento solicitado para la condena. Revise la sentencia final, el delito y el tribunal; esto no rechaza todas las opciones para limpiar los antecedentes."
+  ]
+}
+```
+
+</details>
+
+Program, mixed-charge and later-order collection remains unfinished engineering, actively owned under GA21. This request does not dispose of those requirements. Existing source authority, eligibility, timing, court, exclusions, payment, packet, delivery and qualified acceptance remain required. All sixteen findings stay active. No Production, merge or deployment.
+
+
+### Conviction request correction — engineering checkpoint 2026-10-13
+
+Missing or misleading optional pathway hints and a compiled singleton no longer turn the reproduced MS/GA/IL adult conviction records into nonconviction procedures. Ten conditional questions separate the requested work from actual record facts. Existing MS program, GA original First Offender and IL cannabis selectors remain intact. Other traffic is not excluded from the separate MS lower-court candidate by importing the first-offender nontraffic restriction; actual DUI, court, timing and source restrictions remain separate. Georgia pardon relief requires an actual felony class. A route candidate is not source, legal, financial or fulfillment approval.
+
+The exact prior-contract reader covers 81 genuine pinned706dfe818 snapshots across all four adult conviction values, omitted/empty/misleading hints and retained earlier state facts. Packet Information and Briefcase use the same narrowly checked held successor. Reads do not mutate old data; explicit edits preserve raw maps and semantic history, increment revisions and require fresh verification. The actual browser caught a missing Briefcase presentation consumer and the independent progress test caught refusal of already-stored inactive state facts; both were corrected. The actual owner review also exposed an incorrect waiting-date next step; the evaluator and Briefcase now preserve all six exact requested-relief explanations in English and Spanish. Only identical stored values may survive an inactive branch. New/changed hidden values, arbitrary fields, stale revisions and wrong owners remain denied.
+
+Evidence: ga21-independent-residual-20261013/FALLBACK-CHECKPOINT-v1.json. Root4098 checks and independent500 routing/projection,625 protected/presentation,27 simulated admission/storage-boundary checks plus103 guidance checks pass; the latter are explicitly not actual database evidence. Final-source public ENES six journeys begin with new request facts unanswered. Actual ordinary-owner ENES for each state and actual RCAP draft admission/save/return exercise the server and isolated database, with source hashes and exact business-table restoration. Original failed tests and environment/harness failures remain retained. Affected MS/GA/IL, legacy, CA and NY regressions, typecheck and scoped lint pass. The new test runs in onboarding CI.
+
+Qualified decision request GA21-CONVICTION-REQUEST-01 is issued at https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/pull/268#issuecomment-6138773175 with exact ten questions, six reason pairs and eight decisions. Every approval remains pending. Program-record, mixed-charge and later-order holds still require actual event/charge/order collection and source predicates; they are unfinished engineering, not completed support or external-only blocks. MS first/additional overlap, current source, legal/ENES review, all existing statutory/financial/court/authority gates, packet assembly and authorized delivery remain active. NY trusted applicability/current source components and CA remaining contact/source/juvenile/fulfillment work continue under the same ledger. All38 verified findings,5274 manifestations and594 assertions remain preserved; all16 open findings remain IN_PROGRESS. No Production, merge or deployment.
+
+Prior706dfe818 CI: onboarding38347498406, worker38347498384 and runtime38347498385 passed. Source Conveyor38347498399 failed at the same pinned private-release token boundary; the existing custodian request remains active, with no reset or fabricated credential.
