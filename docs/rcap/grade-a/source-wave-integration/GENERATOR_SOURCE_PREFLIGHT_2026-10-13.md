@@ -50,3 +50,10 @@ positive verifies both Ohio court downloads and idempotent installation. Full
 local convergence remains dependent on the unmounted local Master/adoption inputs;
 fresh CI is the integration verdict. New source-reading code changes require a
 reviewed inventory update rather than an unverified automatic hash refresh.
+
+Fresh CI verified all 77 required sources and eight process-read receipts.
+The derived inventory is excluded from both URL evidence sweeps: copying a
+locator supplies no independent corroboration. Two actual-sweep regression
+cases enforce this, including the original echo defect as a negative control.
+The acquisition manifest evidence summary is reconciled with existing court
+records; entries, original identities and authority remain unchanged.

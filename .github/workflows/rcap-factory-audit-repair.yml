@@ -91,7 +91,9 @@ jobs:
         run: python3 scripts/rcap-corpus/test-oh-exact-font.py
       - name: Generator source preflight guard regressions
         id: generator_source_controls
-        run: python3 scripts/rcap-corpus/test-generator-sources.py
+        run: |
+          python3 scripts/rcap-corpus/test-generator-sources.py
+          node --test scripts/rcap-corpus/test-generator-source-corroboration.mjs
       - name: Restore and preflight complete generator source inventory
         id: generator_sources
         run: python3 scripts/rcap-corpus/restore-generator-sources.py --report "$RUNNER_TEMP/generator-source-preflight/report.json"
