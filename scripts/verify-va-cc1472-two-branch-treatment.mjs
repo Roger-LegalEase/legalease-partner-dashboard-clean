@@ -4,7 +4,6 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {createHash} from 'node:crypto';
-import {execFileSync} from 'node:child_process';
 import {register} from 'node:module';
 register('./lib/ts-esm-loader.mjs',import.meta.url);
 const {specificationDocumentRefusals,documentContractFor}=await import('../src/lib/rcap/grade-a/document-contract.ts');
@@ -12,7 +11,9 @@ const {packetSpecificationFor,composablePacketSpecificationFor,packetSpecificati
 const {renderPreflight}=await import('../src/lib/expungement-ai/render-preflight.ts');
 const SPEC='data/record-clearing/packet-specifications/VA-absolute-pardon-expungement.v1.json';
 const spec=JSON.parse(fs.readFileSync(SPEC));
-const historical=JSON.parse(execFileSync('git',['show','38e5f204fa5c3151ee73af58301a2a3772791a49:'+SPEC],{encoding:'utf8'}));
+// Full predecessor bytes are retained in the tracked specification; no remote
+// or local-worker Git history is needed for this check.
+const historical=spec.historicalSupersededSpecification.record;
 const canonical=v=>Array.isArray(v)?v.map(canonical):v&&typeof v==='object'?Object.fromEntries(Object.keys(v).sort().map(k=>[k,canonical(v[k])])):v;
 let checks=0;const check=fn=>{fn();checks++;};
 function adoptedTreatment(s){
@@ -48,7 +49,10 @@ for(const fixture of spec.artifactBinding.fixtures){
  check(()=>assert.equal(bytes.length,fixture.byteLength));
  check(()=>assert.equal(createHash('sha256').update(bytes).digest('hex'),fixture.sha256));
 }
-check(()=>assert.equal(spec.historicalSupersededSpecification.priorFileSha256,createHash('sha256').update(execFileSync('git',['show','38e5f204fa5c3151ee73af58301a2a3772791a49:'+SPEC])).digest('hex')));
+check(()=>assert.equal(spec.historicalSupersededSpecification.priorFileSha256,'6b420997ef1c3638f80694e95ec2a9d35e8695962808f91ae305b409960d7a9c'));
+check(()=>assert.equal(createHash('sha256').update(JSON.stringify(historical,null,2)+'\n').digest('hex'),'6b420997ef1c3638f80694e95ec2a9d35e8695962808f91ae305b409960d7a9c'));
+const oldContent={...historical};delete oldContent.specificationSha256;
+check(()=>assert.equal(createHash('sha256').update(JSON.stringify(canonical(oldContent))).digest('hex'),'b1ca5efc07c82a3ff81e77c039fb89ca773271cc69946d8c4506197e1da3a3f2'));
 const without={...spec};delete without.specificationSha256;
 check(()=>assert.equal(spec.specificationSha256,createHash('sha256').update(JSON.stringify(canonical(without))).digest('hex')));
 const registered=packetSpecificationFor(spec.routeKey);

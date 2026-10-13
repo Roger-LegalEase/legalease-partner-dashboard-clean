@@ -1,7 +1,6 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {createHash} from 'node:crypto';
-import {execFileSync} from 'node:child_process';
 const FILE='data/record-clearing/legal-design-packet-set-manifests.json';
 const TARGET='va_exp_absolute_pardon-set';
 const manifest=JSON.parse(fs.readFileSync(FILE));
@@ -45,10 +44,15 @@ for(const [id,factId]of Object.entries(ids)){
 }
 check(()=>assert.equal(entry.procedureAdoption.originalFactDispositions.length,7));
 check(()=>assert.equal(entry.procedureAdoption.relatedContactObligation,'GA15-DECLARED_COMPONENT_PURPOSE_CURRENT_OFFICIAL_OUTPUT_UNBOUND'));
-const historical=JSON.parse(execFileSync('git',['show','38e5f204fa5c3151ee73af58301a2a3772791a49:'+FILE],{encoding:'utf8',maxBuffer:16*1024*1024}));
-check(()=>assert.deepEqual(manifest.packetSets.filter(s=>s.packetSetId!==TARGET),historical.packetSets.filter(s=>s.packetSetId!==TARGET)));
-check(()=>assert.deepEqual(manifest.factoryV2RouteMigrations,historical.factoryV2RouteMigrations));
-check(()=>assert.throws(()=>assertMechanism(historical.packetSets.find(s=>s.packetSetId===TARGET)),/does not establish a participant petition/));
+// Pinned before-change identities require only tracked checkout bytes, not a
+// worker-local Git object (fresh CI may have a shallow history).
+const sha=v=>createHash('sha256').update(JSON.stringify(v)).digest('hex');
+check(()=>assert.equal(sha(manifest.packetSets.filter(s=>s.packetSetId!==TARGET)),'7d6fcd8b39c8d03b4855b742a454f875fb352e5ca97e53d344c74b7a85aaed2e'));
+check(()=>assert.equal(sha(manifest.factoryV2RouteMigrations),'c6cd3a19ccceec2bbf793c017fb0f162db303de3ca0095a0adeb0b9601a14e83'));
+const predecessor=structuredClone(entry);
+predecessor.components[0].outputStrategy='official_pdf_fill';
+predecessor.components[0].officialFormId='CC-1472';
+check(()=>assert.throws(()=>assertMechanism(predecessor),/does not establish a participant petition/));
 for(const form of ['CC-1472','CC-1473','CC-1474A']){
  const mutated=structuredClone(entry);mutated.components[0].officialFormId=form;mutated.components[0].outputStrategy='official_pdf_fill';
  check(()=>assert.throws(()=>assertMechanism(mutated),/does not establish a participant petition/));
