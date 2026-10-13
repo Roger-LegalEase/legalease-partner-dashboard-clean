@@ -29,6 +29,8 @@ import { loadAppearanceSemantics, dispositionsForFamily }
   from "./rcap-official-forms/rcap-appearance-semantics.mjs";
 import { stampDeterministic } from "./rcap-official-forms/rcap-deterministic-pdf-date.mjs";
 import { strokedRectangles } from "./lib/pdf-stroked-boxes.mjs";
+import { CA_PROP64_FAMILY, CA_PROP64_COMPLETION_OBLIGATIONS, caProp64RefusalDisposition, caProp64ParticipantInstructions }
+  from "./lib/ca-prop64-form-ownership.mjs";
 import {
   CA17_FAMILY_ID,
   CA17_COURT_CAPTION_COMPLETION,
@@ -1583,6 +1585,8 @@ function caFinalizerCensus(formCensus) {
 function caRefusalDisposition(source, field, {
   familyId = null, formNumber = null, measuredMc031Labels = false,
 } = {}) {
+  const prop64 = caProp64RefusalDisposition(field, { familyId, formNumber });
+  if (prop64) return prop64;
   const subject = `${field.name} ${field.tooltip ?? ""}`;
   const pushButton = field.fieldType === "/Btn" && field.flags?.includes("pushButton") === true;
   const markControl = field.fieldType === "/Btn" && !pushButton;
@@ -1990,6 +1994,7 @@ function caMapAndCensus(familyId, config, bridge) {
       },
       dispositionVocabulary: "rcap-packet-completeness/closed-blank-dispositions",
       requiredBeforeFilingCount: refusals.filter((row) => row.requiredBeforeFiling === true).length,
+      ...(familyId === CA_PROP64_FAMILY ? { completionObligations: CA_PROP64_COMPLETION_OBLIGATIONS } : {}),
     },
   };
 }
@@ -2886,6 +2891,10 @@ function caParticipantInstructions(familyId, config, fieldMap) {
   if (familyId === CA17_FAMILY_ID) return ca17ParticipantInstructions();
   const guidance = CA_PARTICIPANT_GUIDANCE[familyId];
   assert.ok(guidance, `${familyId}: no participant guidance is configured`);
+  if (familyId === CA_PROP64_FAMILY) return caProp64ParticipantInstructions(config, fieldMap, {
+    stopConditions: caRegistryStopConditionSection(config, guidance),
+    heldGuidance: caHeldGuidanceSections(familyId, config, guidance),
+  });
   const companionNames = config.formNumbers
     .filter((formNumber) => formNumber !== config.primaryForm)
     .map((formNumber) => `${formNumber} (${CA_FORMS[formNumber].officialTitle ?? CA_FORMS[formNumber].role.replace(/_/g, " ")})`);
@@ -6328,6 +6337,23 @@ async function selfTest(requestedFamily = FIRST_FAMILY) {
       "WEST production rastering must not launch Chromium");
   }
   console.log(`SELF_TEST_OK ${requestedFamily}`);
+}
+
+// Read-only entrypoint for a guidance/ownership correction. It never invokes
+// buildCa, regenerates reviewed PDFs, clears approvals, or promotes a route.
+export function caProp64CompletionInstructionsForReview(fieldMap) {
+  assert.equal(fieldMap.familyId, CA_PROP64_FAMILY);
+  return caParticipantInstructions(CA_PROP64_FAMILY, requireFamily(CA_PROP64_FAMILY), fieldMap);
+}
+
+export function caProp64CompletionMetadataForReview(census) {
+  assert.equal(census.familyId, CA_PROP64_FAMILY);
+  for (const document of census.documents)
+    assert.equal(document.pinnedOfficialSha256, CA_FORMS[document.formNumber]?.sha256,
+      `${document.formNumber}: source pin changed`);
+  return caMapAndCensus(CA_PROP64_FAMILY, requireFamily(CA_PROP64_FAMILY), {
+    forms: Object.fromEntries(census.documents.map((document) => [document.formNumber, document])),
+  });
 }
 
 export async function runWestFamilyCli(familyId) {
