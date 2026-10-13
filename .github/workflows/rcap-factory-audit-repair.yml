@@ -90,6 +90,8 @@ jobs:
       - name: Ohio font restoration guard regressions
         id: oh_font_controls
         run: python3 scripts/rcap-corpus/test-oh-exact-font.py
+      - name: Verify new acceptance-cycle dispatch regression guards
+        run: node --test scripts/grade-a-packet-factory-24h/verification-cycle.test.mjs
       - name: Generator source preflight guard regressions
         id: generator_source_controls
         run: |
