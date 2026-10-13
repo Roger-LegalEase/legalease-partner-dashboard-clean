@@ -1,3 +1,4 @@
+import { AR_RECORD_ORIGIN_ID, AR_RECORD_ORIGIN_SOURCE, AR_RECORD_ORIGIN_COPY, arkansasRecordOrigin, arkansasRecordOriginApplies } from "@/lib/rcap-engine/arkansas-record-origin";
 import { GA_PARDON_ROUTE, GA_PARDON_COPY, GA_PARDON_SOURCE, georgiaPardonFacts } from "@/lib/rcap-engine/georgia-pardon-facts";
 import { convictionReliefRequest, convictionOutcomeCompatible, CONVICTION_RELIEF_COPY, CONVICTION_RELIEF_SOURCE } from "@/lib/rcap-engine/conviction-relief-request";
 import { MS_EXACT_TIMING_FACT_IDS, MS_TIMING_MISSING_TEXT, MS_TIMING_MULTIPLE_MISSING_TEXT, msExactCalendarDate } from "@/lib/rcap-engine/mississippi-exact-timing";
@@ -191,6 +192,21 @@ export function evaluationHash(evaluation: ScreeningEvaluation, answers: Record<
 }
 
 function evaluateAgainstProfile(profile: EngineProfile, request: ScreeningEvaluationRequest): ScreeningEvaluation {
+  const evaluated = evaluateProfileRules(profile, request);
+  if (!evaluated.pathwayId || !arkansasRecordOriginApplies(profile.jurisdiction.code, evaluated.pathwayId)
+    || ["hard_stop", "likely_not_eligible"].includes(evaluated.resultCode)) return evaluated;
+  const origin = arkansasRecordOrigin(request.answers);
+  if (origin === "arkansas") return evaluated;
+  const code = origin === "unknown" ? "unknown" : "outside";
+  const text = AR_RECORD_ORIGIN_COPY[code][0];
+  // Tighten only the record-origin predicate. Preserve the existing route,
+  // source/form plan and all independent legal/fulfillment holds.
+  return { ...evaluated, resultCode: code === "unknown" ? "needs_more_info" : "likely_not_eligible",
+    reasons: [reason("AR", `record_origin_${code}`, text, AR_RECORD_ORIGIN_SOURCE)],
+    missingQuestionIds: code === "unknown" ? [AR_RECORD_ORIGIN_ID] : [], nextSteps: [text], paymentAllowed: false };
+}
+
+function evaluateProfileRules(profile: EngineProfile, request: ScreeningEvaluationRequest): ScreeningEvaluation {
   const answers = request.answers;
   const jurisdiction = profile.jurisdiction.code;
   const hardStop = hardStopReason(profile, answers);

@@ -1,3 +1,4 @@
+import { AR_RECORD_ORIGIN_ID } from "@/lib/rcap-engine/arkansas-record-origin";
 import { convictionReliefQuestions } from "@/lib/rcap-engine/conviction-relief-request";
 import { MS_EXACT_TIMING_FACT_IDS } from "@/lib/rcap-engine/mississippi-exact-timing";
 import { CA_PROP64_FACT_IDS, CA_PROP64_LEGACY_IDS } from "@/lib/rcap-engine/california-prop64-facts";
@@ -108,6 +109,7 @@ export function sanitizeAnswersForQuestionIds(
     // route-scoped evaluation decides whether they are currently relevant.
     || Boolean(profile?.jurisdiction.code === "NV" && NEVADA_176A_ROUTE_SAFETY_FACT_IDS.includes(questionId)
       && profile.questions.some(question => question.id === questionId))
+    || Boolean(profile?.jurisdiction.code === "AR" && [AR_RECORD_ORIGIN_ID, "residency_or_location", "court", "county_or_filing_location"].includes(questionId))
     || Boolean(profile?.jurisdiction.code === "GA" && [...GA_FIRST_OFFENDER_FACT_IDS, ...GA_PARDON_FACT_IDS].some(id => id === questionId)
       && profile.questions.some(question => question.id === questionId))
     || Boolean(profile?.jurisdiction.code === "NY" && [...NY_16059_FACT_IDS, ...NY_16059_LEGACY_IDS, "ny_16059_later_conviction_entered", "ny_16059_undisposed_arrest", "sentencing_date", "release_date"].includes(questionId)
@@ -136,6 +138,6 @@ export function sanitizeResumedAnswersForQuestionIds(
     answers,
     deriveScreens(profile).map((question) => question.id),
     selectedQuestionIds,
-    ["CA", "NV", "GA", "IL", "KS", "MS", "DE", "NY"].includes(profile.jurisdiction.code) ? profile : undefined
+    ["AR", "CA", "NV", "GA", "IL", "KS", "MS", "DE", "NY"].includes(profile.jurisdiction.code) ? profile : undefined
   );
 }

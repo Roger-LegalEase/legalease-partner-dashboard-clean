@@ -1,3 +1,4 @@
+import { AR_RECORD_ORIGIN_ID, AR_RECORD_ORIGIN_QUESTION } from "@/lib/rcap-engine/arkansas-record-origin";
 import { GA_PARDON_FACT_IDS, GA_PARDON_QUESTIONS, GA_PARDON_LABEL, GA_PARDON_OLD_LABEL } from "@/lib/rcap-engine/georgia-pardon-facts";
 import { convictionReliefQuestions } from "@/lib/rcap-engine/conviction-relief-request";
 import { CA_PROP64_FACT_IDS, CA_PROP64_FACT_QUESTIONS } from "@/lib/rcap-engine/california-prop64-facts";
@@ -53,6 +54,7 @@ const PREPAY_PHASES = new Set<QuestionLifecyclePhase>([
 ]);
 
 const STATE_SPECIFIC_PREPAY_WILMA_FACT_IDS: Record<string, Set<string>> = {
+  AR: new Set([AR_RECORD_ORIGIN_ID]),
   DE: new Set(DE_CONVICTION_FACT_IDS),
   KS: new Set(KS_RECORD_SCOPE_FACT_IDS),
   GA: new Set([...GA_PARDON_FACT_IDS, ...GA_FIRST_OFFENDER_FACT_IDS, ...convictionReliefQuestions("GA").map(q => q.id)]),
@@ -1115,6 +1117,7 @@ function withWilmaFactQuestions(
     ? [...WILMA_FACT_QUESTIONS.filter(question => !DE_CONVICTION_FACT_IDS.includes(question.id)), ...DE_CONVICTION_QUESTIONS]
     : profile.jurisdiction.code === "MS"
     ? [...WILMA_FACT_QUESTIONS, ...MISSISSIPPI_CORRECTION_FACT_QUESTIONS, ...MS_CONDITIONAL_DISCHARGE_QUESTIONS, ...MS_PROGRAM_COMPLETION_QUESTIONS]
+    : profile.jurisdiction.code === "AR" ? [...WILMA_FACT_QUESTIONS, AR_RECORD_ORIGIN_QUESTION]
     : profile.jurisdiction.code === "CA" ? [...WILMA_FACT_QUESTIONS, ...CA_PROP64_FACT_QUESTIONS]
     : profile.jurisdiction.code === "GA" ? [...WILMA_FACT_QUESTIONS, ...GA_FIRST_OFFENDER_QUESTIONS, ...GA_PARDON_QUESTIONS]
     : profile.jurisdiction.code === "IL" ? [...WILMA_FACT_QUESTIONS, ...IL_CANNABIS_QUESTIONS]

@@ -1,3 +1,4 @@
+import { AR_RECORD_ORIGIN_ID, arkansasRecordOrigin, arkansasRecordOriginApplies } from "@/lib/rcap-engine/arkansas-record-origin";
 import { NY_FUTURE_ID, NY_FUTURE_FACT_IDS } from "@/lib/expungement-ai/ny-16059-future-applications";
 import { isNy16059Packet, NY_PACKET_QUESTIONS, NY_PACKET_FACT_IDS } from "@/lib/expungement-ai/ny-16059-packet-facts";
 import { NY_CASE_FACT_IDS, NY_HISTORY_FACT_IDS, nyCasePreparationQuestions, nyCaseAssociationIssues } from "@/lib/expungement-ai/ny-16059-case-questions";
@@ -886,6 +887,28 @@ export function msTimingAnswerHeldSuccessor(snapshot: ProtectedPacketAuthoritySn
   return atCapture !== null && protectedRouteAuthorityMatches(snapshot, atCapture);
 }
 
+/** An absent original origin answer is not an Arkansas answer. Prove the
+ * exact previous held tuple with the former unqualified interpretation only
+ * for comparison; never persist that hypothetical answer or grant readiness. */
+export function arkansasRecordOriginHeldSuccessor(snapshot: ProtectedPacketAuthoritySnapshot, authoritative: NonNullable<ReturnType<typeof evaluateProtectedPacketFacts>>): ProtectedPacketDraftSnapshot | null {
+  const evaluation = authoritative.evaluation;
+  const maps = { ...snapshot.screeningAnswers, ...snapshot.prefilledAnswers, ...snapshot.packetAnswers };
+  if (!snapshot.pathwayId || !arkansasRecordOriginApplies(snapshot.jurisdiction, snapshot.pathwayId)
+    || Object.hasOwn(maps, AR_RECORD_ORIGIN_ID) || snapshot.paymentAllowed
+    || !["not_covered_yet", "guidance_only", "needs_review"].includes(snapshot.resultCode ?? "")
+    || evaluation.resultCode !== "needs_more_info" || evaluation.paymentAllowed
+    || evaluation.reasons.length !== 1 || evaluation.reasons[0].code !== "ar.record_origin_unknown"
+    || !canonicalEqual(evaluation.missingQuestionIds, [AR_RECORD_ORIGIN_ID])
+    || !protectedRouteAuthorityMatches({ ...snapshot, resultCode: evaluation.resultCode, paymentAllowed: false,
+      packetType: authoritative.packetType ?? null }, authoritative)) return null;
+  const previous = evaluateProtectedPacketFacts({ ...snapshot, packetAnswers: { ...snapshot.packetAnswers, [AR_RECORD_ORIGIN_ID]: "arkansas" } });
+  if (previous === null || !protectedRouteAuthorityMatches(snapshot, previous)) return null;
+  const seeded = protectedPacketDraftSeedFromAuthoritative({ authoritative, screeningAnswers: answerRecord(snapshot.screeningAnswers),
+    prefilledAnswers: answerRecord(snapshot.prefilledAnswers), packetAnswers: answerRecord(snapshot.packetAnswers), dependencies: snapshot.dependencies,
+    capturedAt: "capturedAt" in snapshot ? snapshot.capturedAt : snapshot.verifiedAt });
+  return seeded ? preserveUnchangedProtectedFacts(seeded.snapshot, snapshot, new Set()) : null;
+}
+
 /** Exact pre-correction contracts at bd4f9715b. This proves historical held
  * ownership only; the contradicted plan is never carried into current authority. */
 export function factualPathwayHeldSuccessor(snapshot: ProtectedPacketAuthoritySnapshot, authoritative: NonNullable<ReturnType<typeof evaluateProtectedPacketFacts>>): ProtectedPacketDraftSnapshot | null {
@@ -952,7 +975,7 @@ export function protectedPacketInformationModelFor(
 ): ProtectedPacketInformationModel | null {
   let snapshot = protectedAuthoritySnapshotFor(verification);
   if (!snapshot) return null;
-  if ((isCaProp64Pathway(snapshot.jurisdiction, snapshot.pathwayId) || isNy16059Packet(snapshot.jurisdiction, snapshot.pathwayId))
+  if ((isCaProp64Pathway(snapshot.jurisdiction, snapshot.pathwayId) || isNy16059Packet(snapshot.jurisdiction, snapshot.pathwayId) || arkansasRecordOriginApplies(snapshot.jurisdiction, snapshot.pathwayId))
     && (!canonicalEqual(snapshot.serverFacts, canonicalServerFacts(snapshot.jurisdiction, snapshot.pathwayId))
       || !canonicalEqual(snapshot.packetFamilyIdentifiers, { mode: snapshot.packetPlan?.mode ?? null, sourceFormIds: snapshot.packetPlan?.sourceFormIds ?? [] }))) return null;
   const profile = getProfileByJurisdiction(snapshot.jurisdiction);
@@ -962,7 +985,7 @@ export function protectedPacketInformationModelFor(
   const authoritative = evaluateProtectedPacketFacts(snapshot);
   if (!authoritative) return null;
   const evaluation = authoritative.evaluation;
-  const factualSuccessor = factualPathwayHeldSuccessor(snapshot, authoritative) ?? convictionFallbackHeldSuccessor(snapshot, authoritative);
+  const factualSuccessor = factualPathwayHeldSuccessor(snapshot, authoritative) ?? convictionFallbackHeldSuccessor(snapshot, authoritative) ?? arkansasRecordOriginHeldSuccessor(snapshot, authoritative);
   if (factualSuccessor) snapshot = factualSuccessor;
   const contractSuccessor = !canonicalEqual(evaluation.packetPlan ?? null, snapshot.packetPlan)
     ? reviewedPacketContractSuccessor(snapshot, evaluation.packetPlan) : null;
@@ -1005,7 +1028,7 @@ export function protectedPacketInformationModelFor(
   );
   questionSurface.questions = legacyShapeQuestionMetadata(questionSurface.questions, legacy.inspection.effectiveInvalidIds);
   questionSurface.builderQuestions = legacyShapeQuestionMetadata(questionSurface.builderQuestions, legacy.inspection.effectiveInvalidIds);
-  if (!packetPlan) for (const id of factualPathwayCorrectionIds(snapshot.jurisdiction, snapshot.pathwayId, initialAnswers)) {
+  if (!packetPlan || arkansasRecordOriginApplies(snapshot.jurisdiction, snapshot.pathwayId)) for (const id of factualPathwayCorrectionIds(snapshot.jurisdiction, snapshot.pathwayId, initialAnswers)) {
     const question = questionSurface.questions.find(candidate => candidate.id === id);
     if (question && !questionSurface.builderQuestions.some(candidate => candidate.id === id)) questionSurface.builderQuestions.push(question);
   }
@@ -1039,6 +1062,8 @@ export function protectedPacketInformationModelFor(
     initialAnswers,
     new Map(questionSurface.questions.map((question) => [question.id, question]))
   );
+  if (arkansasRecordOriginApplies(snapshot.jurisdiction, snapshot.pathwayId) && arkansasRecordOrigin(initialAnswers) === "unknown"
+    && !missingInputIds.includes(AR_RECORD_ORIGIN_ID)) missingInputIds.push(AR_RECORD_ORIGIN_ID);
   const nyCaseIssues = isNy16059Packet(snapshot.jurisdiction, snapshot.pathwayId) ? nyCaseAssociationIssues(initialAnswers) : [];
   for (const issue of nyCaseIssues) {
     if (!missingInputIds.includes(issue.id)) missingInputIds.push(issue.id);
@@ -1197,6 +1222,7 @@ export function factualPathwayCorrectionIds(state: string, pathway: string | nul
     ? [...convictionReliefQuestions(state).filter(q => includeInactive || convictionReliefQuestionApplies(profile, answers, q.id)).map(q => q.id),
       "case_outcome", ...(state === "GA" ? ["ga_original_first_offender", "pardon_status"] : [])] : [];
 
+  if (arkansasRecordOriginApplies(state, pathway)) return [...extra, AR_RECORD_ORIGIN_ID];
   if (state === "GA" && (pathway === GA_PARDON_ROUTE || georgiaPardonRequested(answers, pathway))) {
     return [...extra, ...GA_PARDON_FACT_IDS.filter(id => includeInactive || georgiaPardonQuestionApplies(state, answers, id, pathway)), "pending_cases", "case_outcome"];
   }
