@@ -19,6 +19,7 @@ export function ny16059GuidanceCondition(documentId, field) {
     ? "The retained six-page instruction does not say if known; the current and retained pro-se instructions do. Resolve the form revision before using this blank; never invent a NYSID."
     : "Supply the NYSID if known; do not invent a number.";
   if (documentId === "NY-CPL-160.59-COD-REQUEST") {
+    if (field === "AKA(s)") return "Use an actual applicable alias of the defendant. This is a record fact, not a signature or signing date. Never invent an alias.";
     if (["CourtAddress", "CourtCityStateZip"].includes(field)) return "Use the actual court address, not your home address.";
     if (["IDVNumber", "ArrestNumber", "OrderofProtectionNumber", "CertificateofDispositionNumber", "CriminalJusticeTrackingNumber(CJTN)", "ComplaintNumber", "TicketNumber", "NYSIDNumber", "PartialDocketNumber", "DMVIDNumber", "ArrestDateRangeEnd", "IncidentDateRangeEnd", "Other"].includes(field))
       return "The request asks for any case identifiers if known. Supply applicable known details; a range end applies only when providing a range, not an exact date. Keep arrest and incident dates distinct. Every listed identifier is not required.";
@@ -30,7 +31,9 @@ export function ny16059GuidanceCondition(documentId, field) {
     if (["Release_Date_1", "Release_Date_2"].includes(field)) return "Use the actual release date only when the applicable sentence involved incarceration; do not invent release for a noncustodial sentence or substitute probation/parole completion. A second-row release also requires an actual second covered case.";
     if (/^Attachment_(?:[4-9]|10)$/.test(field)) return "List an additional attachment only when actually included. Optional supporting evidence does not require filling every numbered line.";
     if (["Court_Name", "Conviction_Date", "Sentence_Date"].includes(field)) return "This row concerns a separate future sealing application; complete it only if you actually intend that application.";
-    if (["County_of", "Address_of_Person_Serving", "Date_of_Service", "Documents_in_Support", "Address_of_DA_1", "Address_of_DA_2"].includes(field))
+    if (field === "County_of") return "Use the actual venue of the service affidavit. Do not substitute the applicant's residence or the prosecuting county without evidence.";
+    if (field === "Address_of_DA_2") return "Use the second address line only for actual required recipient-address content. A second printed line does not establish a second prosecutor; keep the real service recipient and event distinct.";
+    if (["Address_of_Person_Serving", "Date_of_Service", "Documents_in_Support", "Address_of_DA_1", "Address_of_DA_2"].includes(field))
       return "The actual server records only applicable recipients, documents and completed service. Additional recipient/address space is used only when needed.";
     if (["Law_Section_Subsection_1", "Sentence_Date_1", "Sentence_Term_1"].includes(field)) return "Copy the applicable first case's exact conviction section and sentence facts from its record; never substitute another event or another case.";
   }
@@ -38,6 +41,7 @@ export function ny16059GuidanceCondition(documentId, field) {
     if (["Case Number 2", "Court Name 2"].includes(field)) return "Complete this row only for an additional case included in this application.";
     if (["Case Number 3", "Court Name 3"].includes(field)) return "Complete this future-application row only if you intend to ask to seal that separate case later.";
     if (/^Document (?:[3-9]|10)$/.test(field)) return "List an additional document only when actually included; optional evidence does not make every numbered attachment line mandatory.";
+    if (field === "Serve the prosecutor") return "The applicant or actual server performs service; the prosecutor is the recipient. Check this task only after actual service, never merely because papers were prepared.";
     if (field === "Complete the affidavit of service") return "This is a task checkbox. Complete proof after actual service only when stamped in-person proof does not satisfy the source instructions.";
     if (field === "Keep copies for your records") return "This is a reminder to retain copies after filing, not a missing personal fact or a purchase prerequisite.";
     if (["Type of Service", "Server Name", "Server Address", "Service Date"].includes(field)) return "The person who actually serves supplies the actual method, identity, address and date after service; do not infer them from the applicant's contact information.";
@@ -58,9 +62,9 @@ export function ny16059ParticipantGuidance(config, fieldMaps, heldButNotPrinted 
     .map(row => {
       const condition = ny16059GuidanceCondition(document.documentId, row.field);
       assert.ok(condition, `${document.documentId}/${row.field}: new requirement needs source review`);
-      return { document: document.documentId, label: row.effectiveLabel ?? row.field, condition };
+      return { document: document.documentId, label: (row.effectiveLabel ?? row.field) + (row.effectiveLabel && row.effectiveLabel !== row.field ? ` (${row.field})` : ""), condition };
     }));
-  assert.equal(rows.length, 66, "NY source condition inventory changed; review the affected requirement");
+  assert.equal(rows.length, 68, "NY source condition inventory changed; review the affected requirement");
   const escape = value => String(value).replace(/\|/g, "\\|").replace(/\s+/g, " ").trim();
   const groups = [...new Map(rows.map(row => [`${row.document}|${row.condition}`, { document: row.document,
     labels: rows.filter(other => other.document === row.document && other.condition === row.condition).map(other => other.label), condition: row.condition }])).values()];
@@ -84,7 +88,7 @@ export function ny16059ParticipantGuidance(config, fieldMaps, heldButNotPrinted 
     + `The retained compiled profile records no separate CPL 160.59 motion filing fee. That profile entry is not a new current fee approval. The July 2024 certificate-of-disposition request states $5 outside New York City and $10 in the five boroughs; ask the court about accepted payment methods and applicable fee-exempt or poor-person-order treatment. Do not mark a court-use fee, identity or authorization box yourself. A record-request charge is separate from a motion filing fee. Do not add a universal notary charge to the current affirmation packet.\n\n`
     + `On a certificate request, identify the actual requester. The defendant provides photo ID; a defendant's agent provides the defendant's written authorization. The sealed-case option applies to a defendant or agent who requests it. Name an agency only if actually represented, and choose the actual mail or pickup delivery preference. Do not borrow the defendant's contact details for another requester or mark the court's receipt/verification boxes.\n\n`
     + `## When the retained blanks apply\n\n`
-    + `The earlier field inventory labelled these blanks as required before filing. Their source conditions differ. This table corrects that guidance; the typed completeness consumer and current-form bindings remain independently owned work. Never fill an inapplicable blank just to complete a checklist.\n\n`
+    + `The earlier field inventory labelled these blanks as required before filing. Their source conditions differ. The typed declarations preserve these distinct obligations. The completeness consumer requires exact original source bytes and trusted applicability facts; neither missing source custody nor an unknown condition earns a blank exception. Current-form bindings and source-verified conditional acceptance remain independently owned work. Never fill an inapplicable blank just to complete a checklist.\n\n`
     + `| Retained form | Printed fields | Condition and actor |\n| --- | --- | --- |\n${table}\n\n`
     + (heldButNotPrinted.length ? `The build also reports ${heldButNotPrinted.length} held-but-unprinted entries. Resolve those exact entries in the existing actual-writes report; this guide does not excuse missing known facts.\n\n` : "")
     + `## Where self-help ends\n\n${help}\n\n`

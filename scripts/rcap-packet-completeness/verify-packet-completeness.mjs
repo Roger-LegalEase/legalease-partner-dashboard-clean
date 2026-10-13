@@ -26,6 +26,7 @@ import { fileURLToPath } from "node:url";
 import { BLANK_DISPOSITIONS, PASS_COUNTERS, RESULT_CLASSES, REFUSAL_CLASSES, classifyField, classifyBlank, rowKeyOf } from "./completeness-contract.mjs";
 import { hasDeclaredMoPacketSet } from "./mo-declared-packet-discovery.mjs";
 import { verifyParticipantLaterCompletionSourceStage } from "./nj-participant-later-completion.mjs";
+import { createNyCompletionVerifier, nyCompletionInventoryProblems } from "./ny-16059-source-conditions.mjs";
 import { createCaProp64ActorVerifier, caProp64ActorInventoryProblems } from "./ca-prop64-source-actors.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
@@ -100,6 +101,8 @@ const normalizeRow = (row, document = null) => ({
   role: row.role ?? null,
   owner: row.owner ?? null,
   sourceActorEvidence: row.sourceActorEvidence ?? null,
+  ...(row.nyCompletion && ["NY-CPL-160.59-APPLICATION", "NY-CPL-160.59-COD-REQUEST", "NY-CPL-160.59-PRO-SE-PACKET"].includes(row.documentId ?? document)
+    ? { nyCompletion: structuredClone(row.nyCompletion) } : {}),
   ...(row.completionActor && [
     "CA-CR-400-PROP-64-PETITION-APPLICATION",
     "CA-CR-401-PROP-64-PROOF-OF-SERVICE",
@@ -412,6 +415,7 @@ export function auditPreparedInputs(dir, familyId, inputs = null) {
   }
 
   for (const {counter, ...detail} of gaPre2013ActorInventoryProblems(familyId, fieldMap)) note(counter, detail);
+  for (const {counter, ...detail} of nyCompletionInventoryProblems(familyId, fieldMap, census)) note(counter, detail);
   for (const {counter, ...detail} of caProp64ActorInventoryProblems(familyId, fieldMap, census)) note(counter, detail);
 
   // ---- what the platform actually holds for this family --------------------------
@@ -471,6 +475,8 @@ export function auditPreparedInputs(dir, familyId, inputs = null) {
   const verifyActor = createGaPre2013ActorVerifier({root: ROOT, directory: dir, familyId, fieldMap, census, receipt, rendered});
   const verifyCaActor = createCaProp64ActorVerifier({familyId, fieldMap, census, receipt, instructions,
     sourceRoot: process.env.MASTER_LIBRARY_SOURCE_DIR});
+  const verifyNyCompletion = createNyCompletionVerifier({ familyId, fieldMap, census, receipt, instructions,
+    sourceRoot: process.env.MASTER_LIBRARY_SOURCE_DIR });
   const sourceActorMeasurements = [];
   const sourceStageMeasurements = [];
   for (const blank of blanks) {
@@ -489,7 +495,7 @@ export function auditPreparedInputs(dir, familyId, inputs = null) {
     const actor = verifyActor(blank);
     const caActor = verifyCaActor(blank, declared);
     if (actor?.verified && !sourceActorMeasurements.some(m => m.sourceSha256 === actor.sourceSha256)) sourceActorMeasurements.push(actor);
-    const verdict = caActor ?? (actor?.verified === true
+    const verdict = verifyNyCompletion(blank, declared) ?? caActor ?? (actor?.verified === true
       ? {disposition: "PROTECTED_FIELD", fieldClass: "EXACT_SOURCE_OFFICIAL_ACTOR", basis: actor.basis}
       : actor?.verified === false
         ? {disposition: "UNCLASSIFIED_BLANK", fieldClass: "EXACT_SOURCE_OFFICIAL_ACTOR", basis: actor.failure}

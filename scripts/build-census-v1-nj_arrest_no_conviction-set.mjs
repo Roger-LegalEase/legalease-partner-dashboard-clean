@@ -8,6 +8,7 @@
 // never commercial or runtime authority.
 
 import assert from "node:assert/strict";
+import { applyNyCompletionDeclarations } from "./lib/ny-16059-completion-conditions.mjs";
 import { ny16059ParticipantGuidance } from "./lib/ny-16059-participant-guidance.mjs";
 import crypto from "node:crypto";
 import fs from "node:fs";
@@ -7003,6 +7004,9 @@ async function buildOfficialUnsafe(familyId, config) {
       ctmStrokedGeometry: census.ctmStrokedGeometry, fields: census.fields,
     })),
   });
+  if (config.ny16059CurrentSourceGuidance === true) {
+    fieldMaps.splice(0, fieldMaps.length, ...applyNyCompletionDeclarations(config, fieldMaps));
+  }
   writeJson(`${out}/production-field-map.json`, {
     schemaVersion: "rcap-production-field-map/v1", familyId,
     commercialAuthority: false, runtimeSelectable: false,

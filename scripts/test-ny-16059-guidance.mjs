@@ -29,8 +29,12 @@ for (const [document, field, condition] of [
   ["PRO-SE-PACKET", "Server Name", /person who actually serves/],
   ["PRO-SE-PACKET", "Service Date", /after service/],
   ["APPLICATION", "Date_of_Service", /actual server/],
+  ["APPLICATION", "County_of", /actual venue.*Do not substitute/],
+  ["APPLICATION", "Address_of_DA_2", /second printed line does not establish a second prosecutor/],
+  ["COD-REQUEST", "AKA(s)", /record fact, not a signature/],
+  ["PRO-SE-PACKET", "Serve the prosecutor", /actual server.*prosecutor is the recipient/],
 ]) matches(ny16059GuidanceCondition(`NY-CPL-160.59-${document}`, field), condition, field);
-for (const doc of map.documents) for (const field of doc.fields.filter(row => row.blankTreatment === "REQUIRED_BEFORE_FILING")) {
+for (const doc of map.documents) for (const field of doc.fields.filter(row => ny16059GuidanceCondition(doc.documentId, row.field) !== null)) {
   const condition = ny16059GuidanceCondition(doc.documentId, field.field);
   equal(typeof condition,"string",`${field.field}: requirement remains owned`);
   equal(guide.includes(condition),true,`${field.field}: condition reaches actual guide`);

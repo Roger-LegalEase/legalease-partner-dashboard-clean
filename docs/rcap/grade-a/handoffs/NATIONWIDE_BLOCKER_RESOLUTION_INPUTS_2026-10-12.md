@@ -554,3 +554,23 @@ Request custody: `ms-last-conviction-date-independent-20261013/INDEPENDENT-MS-LE
 Scoped suffix: `The source-specific waiting period runs until {YYYY-MM-DD}.` / `El período de espera específico de esta vía termina el {YYYY-MM-DD}.` Only the five exact waiting-reason prefixes may use it; the date must remain unchanged.
 
 No statewide or nationwide completion: all16 findings remain IN_PROGRESS. Continue NY current-form/typed-consumer and protected-delivery obligations, CA remaining source/juvenile/known-fact bindings, MS factual routing and actual assisted acceptance, DE97downstream appearances and every original association/offer/fulfillment obligation. Current Source Conveyor run38340763791 still requires the existing custodian access request; no replacement credentials or Production actions are authorized by this checkpoint.
+
+
+### New York typed source conditions — 2026-10-13
+
+The retained CPL160.59 family now carries exact typed source conditions, actor, stage and event identity for all66 previously blanket-required rows and two actor errors. An alias is case data; serving the prosecutor is an applicant/actual-server task. First-case section and sentence facts remain unconditional preparation obligations. Second-case rows, actual attachments, certificate requests, additional address lines and actual service events retain their separate conditions. Unknown is never treated as No. Signing, service and record acquisition remain at their proper stage and do not become purchase gates.
+
+The producer and real completeness reader retain these declarations. The exact-family verifier detects missing or forged declarations and changed source census/geometry, reads authentic source bytes before accepting source proof, and preserves known available facts as writing obligations. No trusted case/alias/service applicability adapter exists yet, so conditional acceptance remains unresolved even after source custody is restored. The source-present success path remains unexecuted until authentic originals arrive; neither serialized flags nor rendered fixtures substitute for them.
+
+Evidence: `ny-residual-20261012/NY-TYPED-CHECKPOINT-v1.json`:927 root typed checks,202 guide checks,1040 affected CA consumer regression checks, and2744 independent checks pass. All148 field geometries, writing decisions and fact bindings,59 other family artifacts and897 neighboring NJ/MO normalized fields are preserved. The independent actual one-family audit uses an existing real CA source root solely to satisfy bootstrap and still returns FAIL_MISSING_PREFILLS with68 unresolved blanks. The generic EXACT currentness label only identifies historical receipt hashes; it is not source custody or current-form approval. No corpus-wide run or packet-completeness PASS is claimed.
+
+Existing request NY-SOURCE-CURRENT-01 remains the single source-custody request. Its four original pins are reproduced below to make fulfillment reviewable; the exact archive paths remain in this family's source-receipt.json. Supply authentic originals through approved custody, plus the separately requested August2026 paper/fillable14-page revision. Preserve historical sources; do not replace them with current bytes under old hashes. Codex then owns source-positive independent tests, trusted fact integration, current-form geometry/renderer and actual protected delivery; qualified reviewers own legal, language and final QA decisions. Existing NY-SOURCE-CURRENT-02 and the three substantive New York decisions remain unanswered.
+
+| Original document | Bytes | SHA256 |
+|---|---:|---|
+| NY-CPL-160.59-APPLICATION | 1234105 | 73a5eeaf73ed647b9cf6ae786823aaa3cf8b3a7e483ea4aad154d7c2275caae4 |
+| NY-CPL-160.59-COD-REQUEST | 198814 | 68b14570db220ed79aac13a20161ddf807357dc888e524e08a1c17d410762774 |
+| NY-CPL-160.59-PRO-SE-PACKET | 519607 | cf22b8ea0cb8661c8e3f17cc0f16e6b95ca889f1e994e3772dfaf867b6da0298 |
+| NY-CPL-160.59-SEAL-VERIFICATION | 79928 | 76c0c54ed0a80c8b5b5fddd64e2087b31f9615d5ebe7524ead803352fba3cca3 |
+
+All16 findings remain actively owned and IN_PROGRESS. The prior38 verified findings and original manifestations/dispositions are preserved. Next executable document work checks the remaining CA known-value/source bindings while NY source, adapter, renderer and acceptance obligations remain active. No Production, merge or deployment.
