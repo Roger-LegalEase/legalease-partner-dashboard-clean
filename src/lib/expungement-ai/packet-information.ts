@@ -1319,6 +1319,12 @@ export function heldCourtCompletionInputIds(model: Parameters<typeof editablePac
  * reachable after a saved edit puts the route into review or exclusion. */
 export function heldPacketCorrectionInputIds(model: Parameters<typeof heldCourtCompletionInputIds>[0], resultCode: string | null): Set<string> {
   const ids = heldCourtCompletionInputIds(model, resultCode);
+  // These Arkansas guidance holds still own an explicit record-origin fact.
+  // Keep that correction reachable without opening other guidance inputs or
+  // changing the route's packet, verification or commercial authority.
+  if (arkansasRecordOriginApplies(model.stateCode, model.pathwayId)
+    && ["guidance_only", "not_covered_yet"].includes(resultCode ?? "")
+    && editablePacketInputIds(model).has(AR_RECORD_ORIGIN_ID)) ids.add(AR_RECORD_ORIGIN_ID);
   if (["not_yet", "needs_more_info", "needs_review", "likely_not_eligible"].includes(resultCode ?? "")) {
     for (const id of routeFactualCorrectionIds(model)) {
       if (id === "financial_obligations") {
