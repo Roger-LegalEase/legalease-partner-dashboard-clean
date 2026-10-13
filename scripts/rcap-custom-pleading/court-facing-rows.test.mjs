@@ -5,6 +5,7 @@ import { createHash } from 'node:crypto';
 import { execFileSync } from 'node:child_process';
 import { createRequire } from 'node:module';
 import { courtFacingRows } from './court-facing-rows.mjs';
+import { WA_ACCEPTED_RENDERER, verifyWaAcceptedRenderer } from './wa-sud-accepted-renderer.mjs';
 import { sanitizePdfText as sharedSanitize } from './composed-family-host.mjs';
 import { stripMarkdownEmphasis } from './composed-page-markdown.mjs';
 import { createTokenSplitter, fitsByFontMetrics } from './split-token.mjs';
@@ -57,10 +58,16 @@ function functions(source, file) {
 }
 const paths = execFileSync('git', ['ls-files','scripts'], {encoding:'utf8'}).trim().split('\n').filter(p => p.endsWith('.mjs'));
 const hosts = [];
+let acceptedUnchangedHosts = 0;
 for (const file of paths) {
   const source = fs.readFileSync(file,'utf8');
   const current = functions(source,file);
   if (!current.renderComposedPdf) continue;
+  if (file === WA_ACCEPTED_RENDERER) {
+    verifyWaAcceptedRenderer(source);
+    acceptedUnchangedHosts++;
+    continue;
+  }
   const oldSource = execFileSync('git',['show',`${baseline}:${file}`],{encoding:'utf8',maxBuffer:10e6});
   const old = functions(oldSource,file);
   // AST-normalize only the one wrapper; every other byte in the renderer stays identical.
@@ -75,7 +82,8 @@ for (const file of paths) {
   assert.equal(restoredSource, oldSource, `${file}: all non-composed code, including official PDF filling, must be unchanged`);
   hosts.push({file,current,old});
 }
-assert.ok(hosts.length >= 98);
+assert.equal(acceptedUnchangedHosts, 1);
+assert.ok(hosts.length + acceptedUnchangedHosts >= 98);
 const deps = {PDFDocument,StandardFonts,rgb,stampDeterministic,stripMarkdownEmphasis,createTokenSplitter,fitsByFontMetrics,assert,courtFacingRows,KEEP_ON_ONE_PAGE:'\uE000PAGE-BREAK\uE000'};
 const compile = f => {
   const render = new Function(...Object.keys(deps),`${f.constants}\n${f.helpers}\n${f.sanitizePdfText}\n${f.renderComposedPdf}\nreturn ${f.rendererName ?? "renderComposedPdf"};`)(...Object.values(deps));

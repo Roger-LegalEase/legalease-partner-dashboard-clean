@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-require-imports -- CommonJS preload for Node --require. */
 // Observe the unchanged generators. Every private source read must have been
 // inventoried and must match its pin, even if an adapter catches the refusal.
 const fs = require('node:fs');
