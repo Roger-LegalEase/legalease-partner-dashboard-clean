@@ -1,7 +1,7 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
-import {artifactCases,startArtifactEvidence,protectedArtifactPath,alteredGrantPath,exactArtifactResponse,privateDenialResponse,artifactDenial} from './artifact-journey.mjs';
+import {artifactCases,startArtifactEvidence,protectedArtifactPath,alteredGrantPath,exactArtifactResponse,privateDenialResponse,artifactDenial,artifactAfterDeviceReset} from './artifact-journey.mjs';
 import {assertApplicationBindingsEqual} from './source-bindings.mjs';
 
 // Harness predicate tests only. These do not constitute authenticated artifact
@@ -11,7 +11,7 @@ const expected={byteLength:bytes.length,sha256:createHash('sha256').update(bytes
 const headers={'cache-control':'private, no-store, max-age=0','content-type':'application/pdf'};
 test('unavailable real artifact leaves every original artifact obligation explicitly NOT_RUN',()=>{
   const report={};const evidence=startArtifactEvidence(report,'en');
-  assert.equal(evidence.status,'NOT_RUN');assert.equal(evidence.cases.length,19);
+  assert.equal(evidence.status,'NOT_RUN');assert.equal(evidence.cases.length,20);
   assert.deepEqual(evidence.cases.map(row=>row.id),artifactCases);
   assert(evidence.cases.every(row=>row.status==='NOT_RUN'));
   assert(!JSON.stringify(report).includes('PASS'));
@@ -72,6 +72,34 @@ test('a current grant with wrong owner bytes cannot produce a passing wrong-acto
     id:'wrong-participant-denied',check:()=>{throw new Error('Must not record success');}}),/Exact issued grant/);
   assert.equal(negativeCalls,0);assert.deepEqual(evidence.controls,[{forCase:'wrong-participant-denied',status:'FAIL'}]);
   assert(evidence.cases.every(row=>row.status==='NOT_RUN'));
+});
+test('device-reset artifact replay requires fresh ordinary owner login and current bytes before the signed-out denial',async()=>{
+  const report={};const evidence=startArtifactEvidence(report,'en');const order=[];
+  const old={request:{get:async()=>{order.push('signed-out-request');return {status:()=>401,headers:()=>headers,body:async()=>Buffer.from('{"code":"not_authenticated"}')};}}};
+  let ownerCalls=0;
+  const fresh={close:async()=>order.push('fresh-context-closed'),request:{get:async()=>{
+    ownerCalls++;
+    if(ownerCalls===1){order.push('fresh-owner-grant');return {status:()=>303,headers:()=>({location:`/api/expungement-ai/packet/artifacts/${item}?grant=${token}`})};}
+    if(ownerCalls===2){order.push('fresh-owner-bytes');return {status:()=>200,headers:()=>headers,body:async()=>bytes};}
+    // Stop this harness-only case after its independently measured reset
+    // sequence. The actual later journey must also retain its positive control.
+    order.push('later-control-refused');return {status:()=>401};
+  }}};
+  const actor={id:item};
+  await assert.rejects(()=>artifactAfterDeviceReset({item:{matterId:item,actor,locale:'en',context:old,
+    selectedHelper:{context:old},artifact:{origin:'http://127.0.0.1:3139',evidence,expected}},fixture:{origin:'http://127.0.0.1:3139'},
+    check:()=>{},login:async(receivedActor,locale)=>{assert.equal(receivedActor,actor);assert.equal(locale,'en');order.push('ordinary-login');return {context:fresh};}}),/Current owner authority/);
+  assert.deepEqual(order,['ordinary-login','fresh-owner-grant','fresh-owner-bytes','signed-out-request','signed-out-request','later-control-refused','fresh-context-closed']);
+  assert.equal(evidence.cases.find(row=>row.id==='reset-signed-out-replay-denied').status,'PASS');
+  assert.equal(evidence.cases.find(row=>row.id==='revoked-consent-owner-retains-artifact').status,'NOT_RUN');
+});
+test('device-reset artifact branch refuses a still-signed-out owner login before measuring any denial',async()=>{
+  const report={};const evidence=startArtifactEvidence(report,'en');let deniedCalls=0,closed=false;
+  const old={request:{get:async()=>{deniedCalls++;throw new Error('No denial without an owner positive control');}}};
+  const fresh={close:async()=>{closed=true;},request:{get:async()=>({status:()=>401})}};
+  await assert.rejects(()=>artifactAfterDeviceReset({item:{matterId:item,actor:{id:item},locale:'en',context:old,
+    artifact:{origin:'http://127.0.0.1:3139',evidence,expected}},fixture:{},check:()=>{},login:async()=>({context:fresh})}),/Current owner authority/);
+  assert.equal(deniedCalls,0);assert.equal(closed,true);assert(evidence.cases.every(row=>row.status==='NOT_RUN'));
 });
 for(const [name,location] of [
   ['cross-origin redirect',`https://example.test/api/expungement-ai/packet/artifacts/${item}?grant=${token}`],

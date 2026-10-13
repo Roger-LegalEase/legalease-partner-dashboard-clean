@@ -9,7 +9,7 @@ import {chromium} from 'playwright';
 import {createClinicFixture} from './fixture.mjs';
 import {packetJourney} from './packet-journey.mjs';
 import {securityJourney} from './security-journey.mjs';
-import {artifactActorCases,artifactAfterConsentRevocation,artifactGrantAndRevisionCases} from './artifact-journey.mjs';
+import {artifactActorCases,artifactAfterDeviceReset} from './artifact-journey.mjs';
 import {applicationBinding,assertApplicationBindingsEqual} from './source-bindings.mjs';
 
 const output=path.resolve(process.env.CLINIC_QA_OUTPUT ?? 'private/clinic-qa');
@@ -142,8 +142,7 @@ try{
     check(`${locale}-revoked-consent-rls-denied`,!revoked.error&&revoked.data.length===0);
     const queue=await item.selectedHelper.context.request.get(`/api/clinic/events/${event.id}/queue`);
     check(`${locale}-revoked-consent-api-denied`,queue.ok()&&!(await queue.json()).cases.some(c=>c.id===item.caseId));
-    await artifactAfterConsentRevocation({item,fixture,check});
-    await artifactGrantAndRevisionCases({fixture,item,check});
+    await artifactAfterDeviceReset({item,fixture,check,login});
   }
 }catch(error){
   // Deliberately avoid dumping request bodies, tokens, email addresses or HTML.

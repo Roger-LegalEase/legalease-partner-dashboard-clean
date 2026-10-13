@@ -6,7 +6,7 @@ import {createHash} from 'node:crypto';
 export const artifactCases = [
   'owner-provenance-and-exact-bytes','owner-repeat-download','staff-owner-artifact-denied',
   'wrong-participant-denied','wrong-program-denied','unassigned-staff-denied',
-  'queue-only-staff-denied','signed-out-replay-denied','missing-token-denied',
+  'queue-only-staff-denied','signed-out-replay-denied','reset-signed-out-replay-denied','missing-token-denied',
   'altered-token-denied','wrong-item-token-denied','no-assist-staff-denied',
   'suspended-staff-denied','expired-consent-staff-denied',
   'revoked-consent-staff-denied','revoked-consent-owner-retains-artifact',
@@ -103,7 +103,7 @@ async function exactOwnerControl(item,target,caseId) {
   (item.artifact.evidence.controls??=[]).push({forCase:caseId,status:passed?'PASS':'FAIL'});
   assert(passed,'Exact issued grant must deliver current owner bytes before its negative condition');
 }
-export async function artifactDenial({item,context,id,check,includeLink=true,target,ownerControl=true}) {
+export async function artifactDenial({item,context,id,check,includeLink=true,target,ownerControl=true,expectedStatuses=[401,403,404]}) {
   if(!item.artifact)return;
   if(ownerControl)await ownerPositiveControl(item,id);
   const selectedTarget=typeof target==='function'?target(item.artifact.target):target??item.artifact.target;
@@ -112,9 +112,24 @@ export async function artifactDenial({item,context,id,check,includeLink=true,tar
   let pass=true;
   for(const path of paths){
     const response=await context.request.get(path,{maxRedirects:0,headers:{'cache-control':'no-cache'}});
-    pass=privateDenialResponse(response.status(),response.headers(),await response.body())&&pass;
+    pass=expectedStatuses.includes(response.status())&&privateDenialResponse(response.status(),response.headers(),await response.body())&&pass;
   }
   record(item.artifact.evidence,check,id,pass);
+}
+export async function artifactAfterDeviceReset({item,fixture,check,login}) {
+  if(!item.artifact)return;
+  // Normal shared-device reset explicitly signs the participant out. A fresh
+  // ordinary owner login obtains and proves a current grant before replaying
+  // that same handle in the reset context; expiry cannot explain the denial.
+  const returning=await login(item.actor,item.locale,`/briefcase/${item.matterId}/packet-information`);
+  const resumed={...item,...returning};
+  try {
+    const target=await ownerPositiveControl(resumed,'reset-signed-out-replay-denied');
+    await artifactDenial({item:resumed,context:item.context,id:'reset-signed-out-replay-denied',check,
+      target,ownerControl:false,expectedStatuses:[401]});
+    await artifactAfterConsentRevocation({item:resumed,fixture,check});
+    await artifactGrantAndRevisionCases({fixture,item:resumed,check});
+  } finally { await returning.context.close(); }
 }
 export async function artifactActorCases({owned,outsider,unauthorized,queueOnlyContext,browser,fixture,check}) {
   const anonymous=await browser.newContext({baseURL:fixture.origin});
