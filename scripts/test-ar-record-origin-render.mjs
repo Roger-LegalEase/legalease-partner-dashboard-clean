@@ -13,7 +13,11 @@ register(`data:text/javascript,${encodeURIComponent('let d;export function initi
 const {LocalizationContext}=await import('../src/components/expungement-ai/LocalizationProvider.tsx');
 const {QuestionField}=await import('../src/components/expungement-ai/screening/QuestionField.tsx');
 const {t,resolveRuntimeText}=await import('../src/lib/expungement-ai/localization.ts');
-const {AR_RECORD_ORIGIN_QUESTION:q}=await import('../src/lib/rcap-engine/arkansas-record-origin.ts');
+const {AR_RECORD_ORIGIN_QUESTION:q,AR_RECORD_ORIGIN_COPY}=await import('../src/lib/rcap-engine/arkansas-record-origin.ts');
+for(const [en,es] of Object.values(AR_RECORD_ORIGIN_COPY)) {
+ assert.equal(resolveRuntimeText('en',en),en);
+ assert.equal(resolveRuntimeText('es',en),es,'The actual result surface must localize record-origin guidance');
+}
 const rows=[];
 for(const locale of ['en','es']) for(const answer of [...q.options,undefined]) {
  const value={locale,setLocale:()=>{},t:(key,fallback,vars)=>t(locale,key,fallback,vars),text:(text,options)=>resolveRuntimeText(locale,text,options)};

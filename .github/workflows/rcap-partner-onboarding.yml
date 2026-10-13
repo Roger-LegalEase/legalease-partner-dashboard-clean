@@ -45,7 +45,7 @@ jobs:
         run: npm run typecheck
 
       - name: Verify Clinic acceptance harness controls
-        run: node --test scripts/clinic-qa/artifact-journey.test.mjs scripts/clinic-qa/fixture.test.mjs scripts/clinic-qa/generation-refusal.test.mjs
+        run: node --test scripts/clinic-qa/artifact-journey.test.mjs scripts/clinic-qa/fixture.test.mjs scripts/clinic-qa/generation-refusal.test.mjs scripts/test-private-download-denial.mjs
 
       - name: Install PDF text verification dependency
         run: |
@@ -56,6 +56,8 @@ jobs:
 
       - name: Verify nationwide correction boundaries
         run: |
+          node scripts/test-ar-record-origin.mjs
+          node scripts/test-ar-record-origin-render.mjs
           node scripts/test-composed-route-final-disposition.mjs
           node scripts/test-ms-exact-timing-recovery.mjs
           node scripts/test-ms-program-factual-routing.mjs
