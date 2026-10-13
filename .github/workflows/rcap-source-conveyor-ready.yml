@@ -57,6 +57,8 @@ permissions:
 jobs:
   READY_TO_RUN:
     runs-on: ubuntu-latest
+    env:
+      PYTHONDONTWRITEBYTECODE: "1"
     steps:
       - uses: actions/checkout@v4
         with:
@@ -120,6 +122,12 @@ jobs:
       - name: South Carolina runtime successor guards
         id: sc_runtime_controls
         run: node scripts/grade-a-packet-factory-24h/test-sc-runtime-successor.mjs --current
+      - name: Install PDF inspection dependency
+        id: pdf_inspection
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends poppler-utils
+          pdfinfo -v
       - name: Generator convergence
         id: convergence
         run: |
@@ -158,8 +166,8 @@ jobs:
         run: |
           git diff --check
           test -z "$(git status --porcelain)"
-      # Rendering is checked in the raster workflow, not this dependency-free
-      # source-conveyor job. These are the same source-lane contract checks.
+      # PDF inspection above checks existing source/output page counts. Rendering
+      # remains in the raster workflow; source lanes do not require rasterization.
       - name: A source-lane preflight requires no rasterizer
         id: source_preflight
         run: |

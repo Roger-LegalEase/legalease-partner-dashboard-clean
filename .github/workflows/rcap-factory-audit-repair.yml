@@ -24,6 +24,8 @@ concurrency:
 jobs:
   validate:
     runs-on: ubuntu-latest
+    env:
+      PYTHONDONTWRITEBYTECODE: "1"
     timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
@@ -85,7 +87,8 @@ jobs:
           out="$RUNNER_TEMP/factory-validation"
           mkdir -p "$out"
           test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
-          test -z "$(git status --porcelain)"
+          git status --porcelain > "$out/pre-convergence-worktree.txt"
+          test ! -s "$out/pre-convergence-worktree.txt" || { cat "$out/pre-convergence-worktree.txt"; exit 1; }
           for script in generate generate-source-conveyor generate-washington-repair generate-source-relationship-registry; do
             node "scripts/grade-a-packet-factory-24h/$script.mjs" --check > "$out/$script-check.log" 2>&1 || { tail -60 "$out/$script-check.log"; exit 1; }
           done
