@@ -1,0 +1,1208 @@
+{
+  "schemaVersion": "rcap-sc-runtime-independent-replay/v1",
+  "mode": "current",
+  "baselineCommit": "20d26d6a3bd74521f7f400ca27d98f307fb8d7b6",
+  "status": "PASS",
+  "recordCount": 10,
+  "localeBundleCount": 20,
+  "consumerBindings": [
+    {
+      "path": "src/lib/rcap/documents/guidance-packet-registry.ts",
+      "sha256": "721e952d504a6c7f68af2ec30e186ee4fab36ce632304353f4735d0e25fc2d55",
+      "byteLength": 57601
+    },
+    {
+      "path": "src/lib/rcap/documents/packet-route-resolver.ts",
+      "sha256": "e8599f3b8a1e01e3f8f1a62bc1591e82423c12defee10ac870a1b7c75849ed93",
+      "byteLength": 41921
+    },
+    {
+      "path": "src/lib/rcap/render/job-contract.ts",
+      "sha256": "62cf308ca2802aeca04ad2867f624dc95ef5cc2c804b0ce399c66c41f1288990",
+      "byteLength": 25368
+    },
+    {
+      "path": "src/lib/expungement-ai/payment-adapter.ts",
+      "sha256": "d98b3c793e06787be6cca46374c177ecb1dc16d3c9f4a7be044f307bbf5f10aa",
+      "byteLength": 67392
+    }
+  ],
+  "checks": 160,
+  "failed": [],
+  "rows": [
+    {
+      "trackId": "sc_aep",
+      "savedGuidanceExact": true,
+      "bothLocaleBundlesExact": true,
+      "route": {
+        "routeKind": "exact_supported_deferral",
+        "jurisdiction": "SC",
+        "pathwayId": "",
+        "rendererKind": "none",
+        "sellable": false,
+        "creditConsumable": false,
+        "reason": "sc_aep is served by a complete_guidance treatment awaiting independent review: no packet is prepared, promised or sold for this route.",
+        "exactDeferralTrackId": "sc_aep",
+        "treatmentReviewState": "pending_independent_review",
+        "availability": "LEGAL_HOLD"
+      },
+      "renderSpecRefused": true,
+      "claimedWorkerRenderRefused": true,
+      "paymentPlaceholderDisabled": true,
+      "checkoutRefused": true,
+      "deliveryRefused": true,
+      "creditRefused": true,
+      "checkout": {
+        "name": "ConsumerCheckoutNotAllowedError",
+        "message": "Consumer checkout is not allowed for terminal_treatment_candidate."
+      },
+      "delivery": {
+        "name": "PacketFulfillmentNotProvenError",
+        "message": "participant delivery refused: SC:synthetic-sc-pathway cannot prove it delivers the packet it promises (missing fulfillment record)."
+      },
+      "commercialDenials": {
+        "consumer_checkout": {
+          "name": "CommercialAdmissionDeniedError",
+          "message": "consumer_checkout refused (fulfillment_no_record): consumer_checkout is denied: No Grade-A fulfillment record binds SC:sc_aep; a route nobody has written a record for fails closed."
+        },
+        "sponsored_entitlement": {
+          "name": "CommercialAdmissionDeniedError",
+          "message": "sponsored_entitlement refused (fulfillment_no_record): sponsored_entitlement is denied: No Grade-A fulfillment record binds SC:sc_aep; a route nobody has written a record for fails closed."
+        },
+        "packet_credit_admission": {
+          "name": "CommercialAdmissionDeniedError",
+          "message": "packet_credit_admission refused (fulfillment_no_record): packet_credit_admission is denied: No Grade-A fulfillment record binds SC:sc_aep; a route nobody has written a record for fails closed."
+        },
+        "generation_admission": {
+          "name": "CommercialAdmissionDeniedError",
+          "message": "generation_admission refused (fulfillment_no_record): generation_admission is denied: No Grade-A fulfillment record binds SC:sc_aep; a route nobody has written a record for fails closed."
+        },
+        "provider_dispatch": {
+          "name": "CommercialAdmissionDeniedError",
+          "message": "provider_dispatch refused (fulfillment_no_record): provider_dispatch is denied: No Grade-A fulfillment record binds SC:sc_aep; a route nobody has written a record for fails closed."
+        }
+      }
+    },
+    {
+      "trackId": "sc_conditional_discharge_44_53_450",
+      "savedGuidanceExact": true,
+      "bothLocaleBundlesExact": true,
+      "route": {
+        "routeKind": "exact_supported_deferral",
+        "jurisdiction": "SC",
+        "pathwayId": "",
+        "rendererKind": "none",
+        "sellable": false,
+        "creditConsumable": false,
+        "reason": "sc_conditional_discharge_44_53_450 is served by a complete_guidance treatment awaiting independent review: no packet is prepared, promised or sold for this route.",
+        "exactDeferralTrackId": "sc_conditional_discharge_44_53_450",
+        "treatmentReviewState": "pending_independent_review",
+        "availability": "LEGAL_HOLD"
+      },
+      "renderSpecRefused": true,
+      "claimedWorkerRenderRefused": true,
+      "paymentPlaceholderDisabled": true,
+      "checkoutRefused": true,
+      "deliveryRefused": true,
+      "creditRefused": true,
+      "checkout": {
+        "name": "ConsumerCheckoutNotAllowedError",
+        "message": "Consumer checkout is not allowed for terminal_treatment_candidate."
+      },
+      "delivery": {
+        "name": "PacketFulfillmentNotProvenError",
+        "message": "participant delivery refused: SC:synthetic-sc-pathway cannot prove it delivers the packet it promises (missing fulfillment record)."
+      },
+      "commercialDenials": {
+        "consumer_checkout": {
+          "name": "CommercialAdmissionDeniedError",
+          "message": "consumer_checkout refused (fulfillment_no_record): consumer_checkout is denied: No Grade-A fulfillment record binds SC:sc_conditional_discharge_44_53_450; a route nobody has written a record for fails closed."
+        },
+        "sponsored_entitlement": {
+          "name": "CommercialAdmissionDeniedError",
+          "message": "sponsored_entitlement refused (fulfillment_no_record): sponsored_entitlement is denied: No Grade-A fulfillment record binds SC:sc_conditional_discharge_44_53_450; a route nobody has written a record for fails closed."
+        },
+        "packet_credit_admission": {
+          "name": "CommercialAdmissionDeniedError",
+          "message": "packet_credit_admission refused (fulfillment_no_record): packet_credit_admission is denied: No Grade-A fulfillment record binds SC:sc_conditional_discharge_44_53_450; a route nobody has written a record for fails closed."
+        },
+        "generation_admission": {
+          "name": "CommercialAdmissionDeniedError",
+          "message": "generation_admission refused (fulfillment_no_record): generation_admission is denied: No Grade-A fulfillment record binds SC:sc_conditional_discharge_44_53_450; a route nobody has written a record for fails closed."
+        },
+        "provider_dispatch": {
+          "name": "CommercialAdmissionDeniedError",
+          "message": "provider_dispatch refused (fulfillment_no_record): provider_dispatch is denied: No Grade-A fulfillment record binds SC:sc_conditional_discharge_44_53_450; a route nobody has written a record for fails closed."
+        }
+      }
+    },
+    {
+      "trackId": "sc_tep",
+      "savedGuidanceExact": true,
+      "bothLocaleBundlesExact": true,
+      "route": {
+        "routeKind": "exact_supported_deferral",
+        "jurisdiction": "SC",
+        "pathwayId": "",
+        "rendererKind": "none",
+        "sellable": false,
+        "creditConsumable": false,
+        "reason": "sc_tep is served by a complete_guidance treatment awaiting independent review: no packet is prepared, promised or sold for this route.",
+        "exactDeferralTrackId": "sc_tep",
+        "treatmentReviewState": "pending_independent_review",
+        "availability": "LEGAL_HOLD"
+      },
+      "renderSpecRefused": true,
+      "claimedWorkerRenderRefused": true,
+      "paymentPlaceholderDisabled": true,
+      "checkoutRefused": true,
+      "deliveryRefused": true,
+      "creditRefused": true,
+      "checkout": {
+        "name": "ConsumerCheckoutNotAllowedError",
+        "message": "Consumer checkout is not allowed for terminal_treatment_candidate."
+      },
+      "delivery": {
+        "name": "PacketFulfillmentNotProvenError",
+        "message": "participant delivery refused: SC:synthetic-sc-pathway cannot prove it delivers the packet it promises (missing fulfillment record)."
+      },
+      "commercialDenials": {
+        "consumer_checkout": {
+          "name": "CommercialAdmissionDeniedError",
+          "message": "consumer_checkout refused (fulfillment_no_record): consumer_checkout is denied: No Grade-A fulfillment record binds SC:sc_tep; a route nobody has written a record for fails closed."
+        },
+        "sponsored_entitlement": {
+          "name": "CommercialAdmissionDeniedError",
+          "message": "sponsored_entitlement refused (fulfillment_no_record): sponsored_entitlement is denied: No Grade-A fulfillment record binds SC:sc_tep; a route nobody has written a record for fails closed."
+        },
+        "packet_credit_admission": {
+          "name": "CommercialAdmissionDeniedError",
+          "message": "packet_credit_admission refused (fulfillment_no_record): packet_credit_admission is denied: No Grade-A fulfillment record binds SC:sc_tep; a route nobody has written a record for fails closed."
+        },
+        "generation_admission": {
+          "name": "CommercialAdmissionDeniedError",
+          "message": "generation_admission refused (fulfillment_no_record): generation_admission is denied: No Grade-A fulfillment record binds SC:sc_tep; a route nobody has written a record for fails closed."
+        },
+        "provider_dispatch": {
+          "name": "CommercialAdmissionDeniedError",
+          "message": "provider_dispatch refused (fulfillment_no_record): provider_dispatch is denied: No Grade-A fulfillment record binds SC:sc_tep; a route nobody has written a record for fails closed."
+        }
+      }
+    },
+    {
+      "trackId": "sc_17_1_40_general_sessions",
+      "savedGuidanceExact": true,
+      "bothLocaleBundlesExact": true,
+      "route": {
+        "routeKind": "exact_supported_deferral",
+        "jurisdiction": "SC",
+        "pathwayId": "",
+        "rendererKind": "none",
+        "sellable": false,
+        "creditConsumable": false,
+        "reason": "sc_17_1_40_general_sessions is served by a complete_guidance treatment awaiting independent review: no packet is prepared, promised or sold for this route.",
+        "exactDeferralTrackId": "sc_17_1_40_general_sessions",
+        "treatmentReviewState": "pending_independent_review",
+        "availability": "LEGAL_HOLD"
+      },
+      "renderSpecRefused": true,
+      "claimedWorkerRenderRefused": true,
+      "paymentPlaceholderDisabled": true,
+      "checkoutRefused": true,
+      "deliveryRefused": true,
+      "creditRefused": true,
+      "checkout": {
+        "name": "ConsumerCheckoutNotAllowedError",
+        "message": "Consumer checkout is not allowed for terminal_treatment_candidate."
+      },
+      "delivery": {
+        "name": "PacketFulfillmentNotProvenError",
+        "message": "participant delivery refused: SC:synthetic-sc-pathway cannot prove it delivers the packet it promises (missing fulfillment record)."
+      },
+      "commercialDenials": {
+        "consumer_checkout": {
+          "name": "CommercialAdmissionDeniedError",
+          "message": "consumer_checkout refused (fulfillment_no_record): consumer_checkout is denied: No Grade-A fulfillment record binds SC:sc_17_1_40_general_sessions; a route nobody has written a record for fails closed."
+        },
+        "sponsored_entitlement": {
+          "name": "CommercialAdmissionDeniedError",
+          "message": "sponsored_entitlement refused (fulfillment_no_record): sponsored_entitlement is denied: No Grade-A fulfillment record binds SC:sc_17_1_40_general_sessions; a route nobody has written a record for fails closed."
+        },
+        "packet_credit_admission": {
+          "name": "CommercialAdmissionDeniedError",
+          "message": "packet_credit_admission refused (fulfillment_no_record): packet_credit_admission is denied: No Grade-A fulfillment record binds SC:sc_17_1_40_general_sessions; a route nobody has written a record for fails closed."
+        },
+        "generation_admission": {
+          "name": "CommercialAdmissionDeniedError",
+          "message": "generation_admission refused (fulfillment_no_record): generation_admission is denied: No Grade-A fulfillment record binds SC:sc_17_1_40_general_sessions; a route nobody has written a record for fails closed."
+        },
+        "provider_dispatch": {
+          "name": "CommercialAdmissionDeniedError",
+          "message": "provider_dispatch refused (fulfillment_no_record): provider_dispatch is denied: No Grade-A fulfillment record binds SC:sc_17_1_40_general_sessions; a route nobody has written a record for fails closed."
+        }
+      }
+    },
+    {
+      "trackId": "sc_17_1_65_handgun",
+      "savedGuidanceExact": true,
+      "bothLocaleBundlesExact": true,
+      "route": {
+        "routeKind": "exact_supported_deferral",
+        "jurisdiction": "SC",
+        "pathwayId": "",
+        "rendererKind": "none",
+        "sellable": false,
+        "creditConsumable": false,
+        "reason": "sc_17_1_65_handgun is served by a complete_guidance treatment awaiting independent review: no packet is prepared, promised or sold for this route.",
+        "exactDeferralTrackId": "sc_17_1_65_handgun",
+        "treatmentReviewState": "pending_independent_review",
+        "availability": "LEGAL_HOLD"
+      },
+      "renderSpecRefused": true,
+      "claimedWorkerRenderRefused": true,
+      "paymentPlaceholderDisabled": true,
+      "checkoutRefused": true,
+      "deliveryRefused": true,
+      "creditRefused": true,
+      "checkout": {
+        "name": "ConsumerCheckoutNotAllowedError",
+        "message": "Consumer checkout is not allowed for terminal_treatment_candidate."
+      },
+      "delivery": {
+        "name": "PacketFulfillmentNotProvenError",
+        "message": "participant delivery refused: SC:synthetic-sc-pathway cannot prove it delivers the packet it promises (missing fulfillment record)."
+      },
+      "commercialDenials": {
+        "consumer_checkout": {
+          "name": "CommercialAdmissionDeniedError",
+          "message": "consumer_checkout refused (fulfillment_no_record): consumer_checkout is denied: No Grade-A fulfillment record binds SC:sc_17_1_65_handgun; a route nobody has written a record for fails closed."
+        },
+        "sponsored_entitlement": {
+          "name": "CommercialAdmissionDeniedError",
+          "message": "sponsored_entitlement refused (fulfillment_no_record): sponsored_entitlement is denied: No Grade-A fulfillment record binds SC:sc_17_1_65_handgun; a route nobody has written a record for fails closed."
+        },
+        "packet_credit_admission": {
+          "name": "CommercialAdmissionDeniedError",
+          "message": "packet_credit_admission refused (fulfillment_no_record): packet_credit_admission is denied: No Grade-A fulfillment record binds SC:sc_17_1_65_handgun; a route nobody has written a record for fails closed."
+        },
+        "generation_admission": {
+          "name": "CommercialAdmissionDeniedError",
+          "message": "generation_admission refused (fulfillment_no_record): generation_admission is denied: No Grade-A fulfillment record binds SC:sc_17_1_65_handgun; a route nobody has written a record for fails closed."
+        },
+        "provider_dispatch": {
+          "name": "CommercialAdmissionDeniedError",
+          "message": "provider_dispatch refused (fulfillment_no_record): provider_dispatch is denied: No Grade-A fulfillment record binds SC:sc_17_1_65_handgun; a route nobody has written a record for fails closed."
+        }
+      }
+    },
+    {
+      "trackId": "sc_22_5_910",
+      "savedGuidanceExact": true,
+      "bothLocaleBundlesExact": true,
+      "route": {
+        "routeKind": "exact_supported_deferral",
+        "jurisdiction": "SC",
+        "pathwayId": "",
+        "rendererKind": "none",
+        "sellable": false,
+        "creditConsumable": false,
+        "reason": "sc_22_5_910 is served by a complete_guidance treatment awaiting independent review: no packet is prepared, promised or sold for this route.",
+        "exactDeferralTrackId": "sc_22_5_910",
+        "treatmentReviewState": "pending_independent_review",
+        "availability": "LEGAL_HOLD"
+      },
+      "renderSpecRefused": true,
+      "claimedWorkerRenderRefused": true,
+      "paymentPlaceholderDisabled": true,
+      "checkoutRefused": true,
+      "deliveryRefused": true,
+      "creditRefused": true,
+      "checkout": {
+        "name": "ConsumerCheckoutNotAllowedError",
+        "message": "Consumer checkout is not allowed for terminal_treatment_candidate."
+      },
+      "delivery": {
+        "name": "PacketFulfillmentNotProvenError",
+        "message": "participant delivery refused: SC:synthetic-sc-pathway cannot prove it delivers the packet it promises (missing fulfillment record)."
+      },
+      "commercialDenials": {
+        "consumer_checkout": {
+          "name": "CommercialAdmissionDeniedError",
+          "message": "consumer_checkout refused (fulfillment_no_record): consumer_checkout is denied: No Grade-A fulfillment record binds SC:sc_22_5_910; a route nobody has written a record for fails closed."
+        },
+        "sponsored_entitlement": {
+          "name": "CommercialAdmissionDeniedError",
+          "message": "sponsored_entitlement refused (fulfillment_no_record): sponsored_entitlement is denied: No Grade-A fulfillment record binds SC:sc_22_5_910; a route nobody has written a record for fails closed."
+        },
+        "packet_credit_admission": {
+          "name": "CommercialAdmissionDeniedError",
+          "message": "packet_credit_admission refused (fulfillment_no_record): packet_credit_admission is denied: No Grade-A fulfillment record binds SC:sc_22_5_910; a route nobody has written a record for fails closed."
+        },
+        "generation_admission": {
+          "name": "CommercialAdmissionDeniedError",
+          "message": "generation_admission refused (fulfillment_no_record): generation_admission is denied: No Grade-A fulfillment record binds SC:sc_22_5_910; a route nobody has written a record for fails closed."
+        },
+        "provider_dispatch": {
+          "name": "CommercialAdmissionDeniedError",
+          "message": "provider_dispatch refused (fulfillment_no_record): provider_dispatch is denied: No Grade-A fulfillment record binds SC:sc_22_5_910; a route nobody has written a record for fails closed."
+        }
+      }
+    },
+    {
+      "trackId": "sc_22_5_920_yoa",
+      "savedGuidanceExact": true,
+      "bothLocaleBundlesExact": true,
+      "route": {
+        "routeKind": "exact_supported_deferral",
+        "jurisdiction": "SC",
+        "pathwayId": "",
+        "rendererKind": "none",
+        "sellable": false,
+        "creditConsumable": false,
+        "reason": "sc_22_5_920_yoa is served by a complete_guidance treatment awaiting independent review: no packet is prepared, promised or sold for this route.",
+        "exactDeferralTrackId": "sc_22_5_920_yoa",
+        "treatmentReviewState": "pending_independent_review",
+        "availability": "LEGAL_HOLD"
+      },
+      "renderSpecRefused": true,
+      "claimedWorkerRenderRefused": true,
+      "paymentPlaceholderDisabled": true,
+      "checkoutRefused": true,
+      "deliveryRefused": true,
+      "creditRefused": true,
+      "checkout": {
+        "name": "ConsumerCheckoutNotAllowedError",
+        "message": "Consumer checkout is not allowed for terminal_treatment_candidate."
+      },
+      "delivery": {
+        "name": "PacketFulfillmentNotProvenError",
+        "message": "participant delivery refused: SC:synthetic-sc-pathway cannot prove it delivers the packet it promises (missing fulfillment record)."
+      },
+      "commercialDenials": {
+        "consumer_checkout": {
+          "name": "CommercialAdmissionDeniedError",
+          "message": "consumer_checkout refused (fulfillment_no_record): consumer_checkout is denied: No Grade-A fulfillment record binds SC:sc_22_5_920_yoa; a route nobody has written a record for fails closed."
+        },
+        "sponsored_entitlement": {
+          "name": "CommercialAdmissionDeniedError",
+          "message": "sponsored_entitlement refused (fulfillment_no_record): sponsored_entitlement is denied: No Grade-A fulfillment record binds SC:sc_22_5_920_yoa; a route nobody has written a record for fails closed."
+        },
+        "packet_credit_admission": {
+          "name": "CommercialAdmissionDeniedError",
+          "message": "packet_credit_admission refused (fulfillment_no_record): packet_credit_admission is denied: No Grade-A fulfillment record binds SC:sc_22_5_920_yoa; a route nobody has written a record for fails closed."
+        },
+        "generation_admission": {
+          "name": "CommercialAdmissionDeniedError",
+          "message": "generation_admission refused (fulfillment_no_record): generation_admission is denied: No Grade-A fulfillment record binds SC:sc_22_5_920_yoa; a route nobody has written a record for fails closed."
+        },
+        "provider_dispatch": {
+          "name": "CommercialAdmissionDeniedError",
+          "message": "provider_dispatch refused (fulfillment_no_record): provider_dispatch is denied: No Grade-A fulfillment record binds SC:sc_22_5_920_yoa; a route nobody has written a record for fails closed."
+        }
+      }
+    },
+    {
+      "trackId": "sc_22_5_930_drug",
+      "savedGuidanceExact": true,
+      "bothLocaleBundlesExact": true,
+      "route": {
+        "routeKind": "exact_supported_deferral",
+        "jurisdiction": "SC",
+        "pathwayId": "",
+        "rendererKind": "none",
+        "sellable": false,
+        "creditConsumable": false,
+        "reason": "sc_22_5_930_drug is served by a complete_guidance treatment awaiting independent review: no packet is prepared, promised or sold for this route.",
+        "exactDeferralTrackId": "sc_22_5_930_drug",
+        "treatmentReviewState": "pending_independent_review",
+        "availability": "LEGAL_HOLD"
+      },
+      "renderSpecRefused": true,
+      "claimedWorkerRenderRefused": true,
+      "paymentPlaceholderDisabled": true,
+      "checkoutRefused": true,
+      "deliveryRefused": true,
+      "creditRefused": true,
+      "checkout": {
+        "name": "ConsumerCheckoutNotAllowedError",
+        "message": "Consumer checkout is not allowed for terminal_treatment_candidate."
+      },
+      "delivery": {
+        "name": "PacketFulfillmentNotProvenError",
+        "message": "participant delivery refused: SC:synthetic-sc-pathway cannot prove it delivers the packet it promises (missing fulfillment record)."
+      },
+      "commercialDenials": {
+        "consumer_checkout": {
+          "name": "CommercialAdmissionDeniedError",
+          "message": "consumer_checkout refused (fulfillment_no_record): consumer_checkout is denied: No Grade-A fulfillment record binds SC:sc_22_5_930_drug; a route nobody has written a record for fails closed."
+        },
+        "sponsored_entitlement": {
+          "name": "CommercialAdmissionDeniedError",
+          "message": "sponsored_entitlement refused (fulfillment_no_record): sponsored_entitlement is denied: No Grade-A fulfillment record binds SC:sc_22_5_930_drug; a route nobody has written a record for fails closed."
+        },
+        "packet_credit_admission": {
+          "name": "CommercialAdmissionDeniedError",
+          "message": "packet_credit_admission refused (fulfillment_no_record): packet_credit_admission is denied: No Grade-A fulfillment record binds SC:sc_22_5_930_drug; a route nobody has written a record for fails closed."
+        },
+        "generation_admission": {
+          "name": "CommercialAdmissionDeniedError",
+          "message": "generation_admission refused (fulfillment_no_record): generation_admission is denied: No Grade-A fulfillment record binds SC:sc_22_5_930_drug; a route nobody has written a record for fails closed."
+        },
+        "provider_dispatch": {
+          "name": "CommercialAdmissionDeniedError",
+          "message": "provider_dispatch refused (fulfillment_no_record): provider_dispatch is denied: No Grade-A fulfillment record binds SC:sc_22_5_930_drug; a route nobody has written a record for fails closed."
+        }
+      }
+    },
+    {
+      "trackId": "sc_34_11_90e_check",
+      "savedGuidanceExact": true,
+      "bothLocaleBundlesExact": true,
+      "route": {
+        "routeKind": "exact_supported_deferral",
+        "jurisdiction": "SC",
+        "pathwayId": "",
+        "rendererKind": "none",
+        "sellable": false,
+        "creditConsumable": false,
+        "reason": "sc_34_11_90e_check is served by a complete_guidance treatment awaiting independent review: no packet is prepared, promised or sold for this route.",
+        "exactDeferralTrackId": "sc_34_11_90e_check",
+        "treatmentReviewState": "pending_independent_review",
+        "availability": "LEGAL_HOLD"
+      },
+      "renderSpecRefused": true,
+      "claimedWorkerRenderRefused": true,
+      "paymentPlaceholderDisabled": true,
+      "checkoutRefused": true,
+      "deliveryRefused": true,
+      "creditRefused": true,
+      "checkout": {
+        "name": "ConsumerCheckoutNotAllowedError",
+        "message": "Consumer checkout is not allowed for terminal_treatment_candidate."
+      },
+      "delivery": {
+        "name": "PacketFulfillmentNotProvenError",
+        "message": "participant delivery refused: SC:synthetic-sc-pathway cannot prove it delivers the packet it promises (missing fulfillment record)."
+      },
+      "commercialDenials": {
+        "consumer_checkout": {
+          "name": "CommercialAdmissionDeniedError",
+          "message": "consumer_checkout refused (fulfillment_no_record): consumer_checkout is denied: No Grade-A fulfillment record binds SC:sc_34_11_90e_check; a route nobody has written a record for fails closed."
+        },
+        "sponsored_entitlement": {
+          "name": "CommercialAdmissionDeniedError",
+          "message": "sponsored_entitlement refused (fulfillment_no_record): sponsored_entitlement is denied: No Grade-A fulfillment record binds SC:sc_34_11_90e_check; a route nobody has written a record for fails closed."
+        },
+        "packet_credit_admission": {
+          "name": "CommercialAdmissionDeniedError",
+          "message": "packet_credit_admission refused (fulfillment_no_record): packet_credit_admission is denied: No Grade-A fulfillment record binds SC:sc_34_11_90e_check; a route nobody has written a record for fails closed."
+        },
+        "generation_admission": {
+          "name": "CommercialAdmissionDeniedError",
+          "message": "generation_admission refused (fulfillment_no_record): generation_admission is denied: No Grade-A fulfillment record binds SC:sc_34_11_90e_check; a route nobody has written a record for fails closed."
+        },
+        "provider_dispatch": {
+          "name": "CommercialAdmissionDeniedError",
+          "message": "provider_dispatch refused (fulfillment_no_record): provider_dispatch is denied: No Grade-A fulfillment record binds SC:sc_34_11_90e_check; a route nobody has written a record for fails closed."
+        }
+      }
+    },
+    {
+      "trackId": "sc_56_5_750f",
+      "savedGuidanceExact": true,
+      "bothLocaleBundlesExact": true,
+      "route": {
+        "routeKind": "exact_supported_deferral",
+        "jurisdiction": "SC",
+        "pathwayId": "",
+        "rendererKind": "none",
+        "sellable": false,
+        "creditConsumable": false,
+        "reason": "sc_56_5_750f is served by a complete_guidance treatment awaiting independent review: no packet is prepared, promised or sold for this route.",
+        "exactDeferralTrackId": "sc_56_5_750f",
+        "treatmentReviewState": "pending_independent_review",
+        "availability": "LEGAL_HOLD"
+      },
+      "renderSpecRefused": true,
+      "claimedWorkerRenderRefused": true,
+      "paymentPlaceholderDisabled": true,
+      "checkoutRefused": true,
+      "deliveryRefused": true,
+      "creditRefused": true,
+      "checkout": {
+        "name": "ConsumerCheckoutNotAllowedError",
+        "message": "Consumer checkout is not allowed for terminal_treatment_candidate."
+      },
+      "delivery": {
+        "name": "PacketFulfillmentNotProvenError",
+        "message": "participant delivery refused: SC:synthetic-sc-pathway cannot prove it delivers the packet it promises (missing fulfillment record)."
+      },
+      "commercialDenials": {
+        "consumer_checkout": {
+          "name": "CommercialAdmissionDeniedError",
+          "message": "consumer_checkout refused (fulfillment_no_record): consumer_checkout is denied: No Grade-A fulfillment record binds SC:sc_56_5_750f; a route nobody has written a record for fails closed."
+        },
+        "sponsored_entitlement": {
+          "name": "CommercialAdmissionDeniedError",
+          "message": "sponsored_entitlement refused (fulfillment_no_record): sponsored_entitlement is denied: No Grade-A fulfillment record binds SC:sc_56_5_750f; a route nobody has written a record for fails closed."
+        },
+        "packet_credit_admission": {
+          "name": "CommercialAdmissionDeniedError",
+          "message": "packet_credit_admission refused (fulfillment_no_record): packet_credit_admission is denied: No Grade-A fulfillment record binds SC:sc_56_5_750f; a route nobody has written a record for fails closed."
+        },
+        "generation_admission": {
+          "name": "CommercialAdmissionDeniedError",
+          "message": "generation_admission refused (fulfillment_no_record): generation_admission is denied: No Grade-A fulfillment record binds SC:sc_56_5_750f; a route nobody has written a record for fails closed."
+        },
+        "provider_dispatch": {
+          "name": "CommercialAdmissionDeniedError",
+          "message": "provider_dispatch refused (fulfillment_no_record): provider_dispatch is denied: No Grade-A fulfillment record binds SC:sc_56_5_750f; a route nobody has written a record for fails closed."
+        }
+      }
+    }
+  ],
+  "assertions": [
+    {
+      "id": "sc_aep/saved-guidance",
+      "pass": true
+    },
+    {
+      "id": "sc_aep/both-accepted-locales",
+      "pass": true
+    },
+    {
+      "id": "sc_aep/accepted-application-route",
+      "pass": true
+    },
+    {
+      "id": "sc_aep/guidance-only",
+      "pass": true
+    },
+    {
+      "id": "sc_aep/all-runtime-suppressions",
+      "pass": true
+    },
+    {
+      "id": "sc_aep/renderSpecRefused",
+      "pass": true
+    },
+    {
+      "id": "sc_aep/paymentPlaceholderDisabled",
+      "pass": true
+    },
+    {
+      "id": "sc_aep/checkoutRefused",
+      "pass": true
+    },
+    {
+      "id": "sc_aep/deliveryRefused",
+      "pass": true
+    },
+    {
+      "id": "sc_aep/creditRefused",
+      "pass": true
+    },
+    {
+      "id": "sc_aep/claimed-worker-render-denied",
+      "pass": true
+    },
+    {
+      "id": "sc_aep/consumer_checkout-commercial-denied",
+      "pass": true
+    },
+    {
+      "id": "sc_aep/sponsored_entitlement-commercial-denied",
+      "pass": true
+    },
+    {
+      "id": "sc_aep/packet_credit_admission-commercial-denied",
+      "pass": true
+    },
+    {
+      "id": "sc_aep/generation_admission-commercial-denied",
+      "pass": true
+    },
+    {
+      "id": "sc_aep/provider_dispatch-commercial-denied",
+      "pass": true
+    },
+    {
+      "id": "sc_conditional_discharge_44_53_450/saved-guidance",
+      "pass": true
+    },
+    {
+      "id": "sc_conditional_discharge_44_53_450/both-accepted-locales",
+      "pass": true
+    },
+    {
+      "id": "sc_conditional_discharge_44_53_450/accepted-application-route",
+      "pass": true
+    },
+    {
+      "id": "sc_conditional_discharge_44_53_450/guidance-only",
+      "pass": true
+    },
+    {
+      "id": "sc_conditional_discharge_44_53_450/all-runtime-suppressions",
+      "pass": true
+    },
+    {
+      "id": "sc_conditional_discharge_44_53_450/renderSpecRefused",
+      "pass": true
+    },
+    {
+      "id": "sc_conditional_discharge_44_53_450/paymentPlaceholderDisabled",
+      "pass": true
+    },
+    {
+      "id": "sc_conditional_discharge_44_53_450/checkoutRefused",
+      "pass": true
+    },
+    {
+      "id": "sc_conditional_discharge_44_53_450/deliveryRefused",
+      "pass": true
+    },
+    {
+      "id": "sc_conditional_discharge_44_53_450/creditRefused",
+      "pass": true
+    },
+    {
+      "id": "sc_conditional_discharge_44_53_450/claimed-worker-render-denied",
+      "pass": true
+    },
+    {
+      "id": "sc_conditional_discharge_44_53_450/consumer_checkout-commercial-denied",
+      "pass": true
+    },
+    {
+      "id": "sc_conditional_discharge_44_53_450/sponsored_entitlement-commercial-denied",
+      "pass": true
+    },
+    {
+      "id": "sc_conditional_discharge_44_53_450/packet_credit_admission-commercial-denied",
+      "pass": true
+    },
+    {
+      "id": "sc_conditional_discharge_44_53_450/generation_admission-commercial-denied",
+      "pass": true
+    },
+    {
+      "id": "sc_conditional_discharge_44_53_450/provider_dispatch-commercial-denied",
+      "pass": true
+    },
+    {
+      "id": "sc_tep/saved-guidance",
+      "pass": true
+    },
+    {
+      "id": "sc_tep/both-accepted-locales",
+      "pass": true
+    },
+    {
+      "id": "sc_tep/accepted-application-route",
+      "pass": true
+    },
+    {
+      "id": "sc_tep/guidance-only",
+      "pass": true
+    },
+    {
+      "id": "sc_tep/all-runtime-suppressions",
+      "pass": true
+    },
+    {
+      "id": "sc_tep/renderSpecRefused",
+      "pass": true
+    },
+    {
+      "id": "sc_tep/paymentPlaceholderDisabled",
+      "pass": true
+    },
+    {
+      "id": "sc_tep/checkoutRefused",
+      "pass": true
+    },
+    {
+      "id": "sc_tep/deliveryRefused",
+      "pass": true
+    },
+    {
+      "id": "sc_tep/creditRefused",
+      "pass": true
+    },
+    {
+      "id": "sc_tep/claimed-worker-render-denied",
+      "pass": true
+    },
+    {
+      "id": "sc_tep/consumer_checkout-commercial-denied",
+      "pass": true
+    },
+    {
+      "id": "sc_tep/sponsored_entitlement-commercial-denied",
+      "pass": true
+    },
+    {
+      "id": "sc_tep/packet_credit_admission-commercial-denied",
+      "pass": true
+    },
+    {
+      "id": "sc_tep/generation_admission-commercial-denied",
+      "pass": true
+    },
+    {
+      "id": "sc_tep/provider_dispatch-commercial-denied",
+      "pass": true
+    },
+    {
+      "id": "sc_17_1_40_general_sessions/saved-guidance",
+      "pass": true
+    },
+    {
+      "id": "sc_17_1_40_general_sessions/both-accepted-locales",
+      "pass": true
+    },
+    {
+      "id": "sc_17_1_40_general_sessions/accepted-application-route",
+      "pass": true
+    },
+    {
+      "id": "sc_17_1_40_general_sessions/guidance-only",
+      "pass": true
+    },
+    {
+      "id": "sc_17_1_40_general_sessions/all-runtime-suppressions",
+      "pass": true
+    },
+    {
+      "id": "sc_17_1_40_general_sessions/renderSpecRefused",
+      "pass": true
+    },
+    {
+      "id": "sc_17_1_40_general_sessions/paymentPlaceholderDisabled",
+      "pass": true
+    },
+    {
+      "id": "sc_17_1_40_general_sessions/checkoutRefused",
+      "pass": true
+    },
+    {
+      "id": "sc_17_1_40_general_sessions/deliveryRefused",
+      "pass": true
+    },
+    {
+      "id": "sc_17_1_40_general_sessions/creditRefused",
+      "pass": true
+    },
+    {
+      "id": "sc_17_1_40_general_sessions/claimed-worker-render-denied",
+      "pass": true
+    },
+    {
+      "id": "sc_17_1_40_general_sessions/consumer_checkout-commercial-denied",
+      "pass": true
+    },
+    {
+      "id": "sc_17_1_40_general_sessions/sponsored_entitlement-commercial-denied",
+      "pass": true
+    },
+    {
+      "id": "sc_17_1_40_general_sessions/packet_credit_admission-commercial-denied",
+      "pass": true
+    },
+    {
+      "id": "sc_17_1_40_general_sessions/generation_admission-commercial-denied",
+      "pass": true
+    },
+    {
+      "id": "sc_17_1_40_general_sessions/provider_dispatch-commercial-denied",
+      "pass": true
+    },
+    {
+      "id": "sc_17_1_65_handgun/saved-guidance",
+      "pass": true
+    },
+    {
+      "id": "sc_17_1_65_handgun/both-accepted-locales",
+      "pass": true
+    },
+    {
+      "id": "sc_17_1_65_handgun/accepted-application-route",
+      "pass": true
+    },
+    {
+      "id": "sc_17_1_65_handgun/guidance-only",
+      "pass": true
+    },
+    {
+      "id": "sc_17_1_65_handgun/all-runtime-suppressions",
+      "pass": true
+    },
+    {
+      "id": "sc_17_1_65_handgun/renderSpecRefused",
+      "pass": true
+    },
+    {
+      "id": "sc_17_1_65_handgun/paymentPlaceholderDisabled",
+      "pass": true
+    },
+    {
+      "id": "sc_17_1_65_handgun/checkoutRefused",
+      "pass": true
+    },
+    {
+      "id": "sc_17_1_65_handgun/deliveryRefused",
+      "pass": true
+    },
+    {
+      "id": "sc_17_1_65_handgun/creditRefused",
+      "pass": true
+    },
+    {
+      "id": "sc_17_1_65_handgun/claimed-worker-render-denied",
+      "pass": true
+    },
+    {
+      "id": "sc_17_1_65_handgun/consumer_checkout-commercial-denied",
+      "pass": true
+    },
+    {
+      "id": "sc_17_1_65_handgun/sponsored_entitlement-commercial-denied",
+      "pass": true
+    },
+    {
+      "id": "sc_17_1_65_handgun/packet_credit_admission-commercial-denied",
+      "pass": true
+    },
+    {
+      "id": "sc_17_1_65_handgun/generation_admission-commercial-denied",
+      "pass": true
+    },
+    {
+      "id": "sc_17_1_65_handgun/provider_dispatch-commercial-denied",
+      "pass": true
+    },
+    {
+      "id": "sc_22_5_910/saved-guidance",
+      "pass": true
+    },
+    {
+      "id": "sc_22_5_910/both-accepted-locales",
+      "pass": true
+    },
+    {
+      "id": "sc_22_5_910/accepted-application-route",
+      "pass": true
+    },
+    {
+      "id": "sc_22_5_910/guidance-only",
+      "pass": true
+    },
+    {
+      "id": "sc_22_5_910/all-runtime-suppressions",
+      "pass": true
+    },
+    {
+      "id": "sc_22_5_910/renderSpecRefused",
+      "pass": true
+    },
+    {
+      "id": "sc_22_5_910/paymentPlaceholderDisabled",
+      "pass": true
+    },
+    {
+      "id": "sc_22_5_910/checkoutRefused",
+      "pass": true
+    },
+    {
+      "id": "sc_22_5_910/deliveryRefused",
+      "pass": true
+    },
+    {
+      "id": "sc_22_5_910/creditRefused",
+      "pass": true
+    },
+    {
+      "id": "sc_22_5_910/claimed-worker-render-denied",
+      "pass": true
+    },
+    {
+      "id": "sc_22_5_910/consumer_checkout-commercial-denied",
+      "pass": true
+    },
+    {
+      "id": "sc_22_5_910/sponsored_entitlement-commercial-denied",
+      "pass": true
+    },
+    {
+      "id": "sc_22_5_910/packet_credit_admission-commercial-denied",
+      "pass": true
+    },
+    {
+      "id": "sc_22_5_910/generation_admission-commercial-denied",
+      "pass": true
+    },
+    {
+      "id": "sc_22_5_910/provider_dispatch-commercial-denied",
+      "pass": true
+    },
+    {
+      "id": "sc_22_5_920_yoa/saved-guidance",
+      "pass": true
+    },
+    {
+      "id": "sc_22_5_920_yoa/both-accepted-locales",
+      "pass": true
+    },
+    {
+      "id": "sc_22_5_920_yoa/accepted-application-route",
+      "pass": true
+    },
+    {
+      "id": "sc_22_5_920_yoa/guidance-only",
+      "pass": true
+    },
+    {
+      "id": "sc_22_5_920_yoa/all-runtime-suppressions",
+      "pass": true
+    },
+    {
+      "id": "sc_22_5_920_yoa/renderSpecRefused",
+      "pass": true
+    },
+    {
+      "id": "sc_22_5_920_yoa/paymentPlaceholderDisabled",
+      "pass": true
+    },
+    {
+      "id": "sc_22_5_920_yoa/checkoutRefused",
+      "pass": true
+    },
+    {
+      "id": "sc_22_5_920_yoa/deliveryRefused",
+      "pass": true
+    },
+    {
+      "id": "sc_22_5_920_yoa/creditRefused",
+      "pass": true
+    },
+    {
+      "id": "sc_22_5_920_yoa/claimed-worker-render-denied",
+      "pass": true
+    },
+    {
+      "id": "sc_22_5_920_yoa/consumer_checkout-commercial-denied",
+      "pass": true
+    },
+    {
+      "id": "sc_22_5_920_yoa/sponsored_entitlement-commercial-denied",
+      "pass": true
+    },
+    {
+      "id": "sc_22_5_920_yoa/packet_credit_admission-commercial-denied",
+      "pass": true
+    },
+    {
+      "id": "sc_22_5_920_yoa/generation_admission-commercial-denied",
+      "pass": true
+    },
+    {
+      "id": "sc_22_5_920_yoa/provider_dispatch-commercial-denied",
+      "pass": true
+    },
+    {
+      "id": "sc_22_5_930_drug/saved-guidance",
+      "pass": true
+    },
+    {
+      "id": "sc_22_5_930_drug/both-accepted-locales",
+      "pass": true
+    },
+    {
+      "id": "sc_22_5_930_drug/accepted-application-route",
+      "pass": true
+    },
+    {
+      "id": "sc_22_5_930_drug/guidance-only",
+      "pass": true
+    },
+    {
+      "id": "sc_22_5_930_drug/all-runtime-suppressions",
+      "pass": true
+    },
+    {
+      "id": "sc_22_5_930_drug/renderSpecRefused",
+      "pass": true
+    },
+    {
+      "id": "sc_22_5_930_drug/paymentPlaceholderDisabled",
+      "pass": true
+    },
+    {
+      "id": "sc_22_5_930_drug/checkoutRefused",
+      "pass": true
+    },
+    {
+      "id": "sc_22_5_930_drug/deliveryRefused",
+      "pass": true
+    },
+    {
+      "id": "sc_22_5_930_drug/creditRefused",
+      "pass": true
+    },
+    {
+      "id": "sc_22_5_930_drug/claimed-worker-render-denied",
+      "pass": true
+    },
+    {
+      "id": "sc_22_5_930_drug/consumer_checkout-commercial-denied",
+      "pass": true
+    },
+    {
+      "id": "sc_22_5_930_drug/sponsored_entitlement-commercial-denied",
+      "pass": true
+    },
+    {
+      "id": "sc_22_5_930_drug/packet_credit_admission-commercial-denied",
+      "pass": true
+    },
+    {
+      "id": "sc_22_5_930_drug/generation_admission-commercial-denied",
+      "pass": true
+    },
+    {
+      "id": "sc_22_5_930_drug/provider_dispatch-commercial-denied",
+      "pass": true
+    },
+    {
+      "id": "sc_34_11_90e_check/saved-guidance",
+      "pass": true
+    },
+    {
+      "id": "sc_34_11_90e_check/both-accepted-locales",
+      "pass": true
+    },
+    {
+      "id": "sc_34_11_90e_check/accepted-application-route",
+      "pass": true
+    },
+    {
+      "id": "sc_34_11_90e_check/guidance-only",
+      "pass": true
+    },
+    {
+      "id": "sc_34_11_90e_check/all-runtime-suppressions",
+      "pass": true
+    },
+    {
+      "id": "sc_34_11_90e_check/renderSpecRefused",
+      "pass": true
+    },
+    {
+      "id": "sc_34_11_90e_check/paymentPlaceholderDisabled",
+      "pass": true
+    },
+    {
+      "id": "sc_34_11_90e_check/checkoutRefused",
+      "pass": true
+    },
+    {
+      "id": "sc_34_11_90e_check/deliveryRefused",
+      "pass": true
+    },
+    {
+      "id": "sc_34_11_90e_check/creditRefused",
+      "pass": true
+    },
+    {
+      "id": "sc_34_11_90e_check/claimed-worker-render-denied",
+      "pass": true
+    },
+    {
+      "id": "sc_34_11_90e_check/consumer_checkout-commercial-denied",
+      "pass": true
+    },
+    {
+      "id": "sc_34_11_90e_check/sponsored_entitlement-commercial-denied",
+      "pass": true
+    },
+    {
+      "id": "sc_34_11_90e_check/packet_credit_admission-commercial-denied",
+      "pass": true
+    },
+    {
+      "id": "sc_34_11_90e_check/generation_admission-commercial-denied",
+      "pass": true
+    },
+    {
+      "id": "sc_34_11_90e_check/provider_dispatch-commercial-denied",
+      "pass": true
+    },
+    {
+      "id": "sc_56_5_750f/saved-guidance",
+      "pass": true
+    },
+    {
+      "id": "sc_56_5_750f/both-accepted-locales",
+      "pass": true
+    },
+    {
+      "id": "sc_56_5_750f/accepted-application-route",
+      "pass": true
+    },
+    {
+      "id": "sc_56_5_750f/guidance-only",
+      "pass": true
+    },
+    {
+      "id": "sc_56_5_750f/all-runtime-suppressions",
+      "pass": true
+    },
+    {
+      "id": "sc_56_5_750f/renderSpecRefused",
+      "pass": true
+    },
+    {
+      "id": "sc_56_5_750f/paymentPlaceholderDisabled",
+      "pass": true
+    },
+    {
+      "id": "sc_56_5_750f/checkoutRefused",
+      "pass": true
+    },
+    {
+      "id": "sc_56_5_750f/deliveryRefused",
+      "pass": true
+    },
+    {
+      "id": "sc_56_5_750f/creditRefused",
+      "pass": true
+    },
+    {
+      "id": "sc_56_5_750f/claimed-worker-render-denied",
+      "pass": true
+    },
+    {
+      "id": "sc_56_5_750f/consumer_checkout-commercial-denied",
+      "pass": true
+    },
+    {
+      "id": "sc_56_5_750f/sponsored_entitlement-commercial-denied",
+      "pass": true
+    },
+    {
+      "id": "sc_56_5_750f/packet_credit_admission-commercial-denied",
+      "pass": true
+    },
+    {
+      "id": "sc_56_5_750f/generation_admission-commercial-denied",
+      "pass": true
+    },
+    {
+      "id": "sc_56_5_750f/provider_dispatch-commercial-denied",
+      "pass": true
+    }
+  ],
+  "commercialRoutesOpened": 0,
+  "limits": "Pure runtime gates and preserved EN/ES projection replay; no live provider, database, authenticated UI, new legal or human language approval."
+}

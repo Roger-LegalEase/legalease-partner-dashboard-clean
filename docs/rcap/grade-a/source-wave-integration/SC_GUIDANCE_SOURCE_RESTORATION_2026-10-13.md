@@ -43,3 +43,23 @@ after PDF recovery is the stale guidance-packet-registry binding. No approval
 hash is rolled forward, guidance requirement removed or commercial authority
 changed. The next exact-commit CI result is recorded in the existing private
 `sc-guidance-source-restoration-20261013` evidence directory.
+
+
+## Runtime binding successor and factory environment
+
+The original four consumer pins exactly match Git commit `20d26d6a3bd74521f7f400ca27d98f307fb8d7b6`. Their October 13 successors changed for these reasons:
+
+| Consumer | Change since accepted source | SC verification |
+| --- | --- | --- |
+| guidance-packet-registry.ts | Confines component evidence paths to the declared repository locations. | All ten saved guidance records and twenty locale bundles remain exact. |
+| packet-route-resolver.ts | Literal traceable JSON reads and a claimed-worker reconstruction entry point. | All ten original route objects remain exact; neither application nor claimed worker gains rendering authority. |
+| job-contract.ts | Direct-artifact storage paths and claimed-worker routing purpose. | Both job-spec entry modes refuse all ten guidance tracks. |
+| payment-adapter.ts | Shared checkout, readiness, recovery, catalog and promotion handling. | SC placeholders stay disabled; checkout, delivery, credit and commercial entry gates refuse. |
+
+`SC_GUIDANCE_RUNTIME_SUCCESSOR_2026-10-13.json` supplements the original admission using the existing independent-review semantics. It binds an independently authored review and actual baseline/current replay results. The original legal/content approval, admission, measurements and runtime hashes remain unchanged. The loader checks historical consumer blobs against those original pins, current consumers and reviewed dependencies against the successor receipt, and all ten exact route objects and twenty bundle identities. The generator retains the original content-approval references; the supplemental receipt supplies current technical runtime proof. No new legal, language or commercial approval is represented.
+
+Independent replay passed 150 baseline and 160 current assertions. Successor controls passed 45 checks including actual admission; source-restoration guards passed 10; readiness-summary controls passed 110. The baseline replay substitutes precisely the four historical consumer blobs while using current shared dependencies; it is not a reconstructed historical deployment.
+
+Factory `validate` previously failed before generator work because neither Master Library environment binding existed. Its workflow now reuses the Source Conveyor's pinned corpus bootstrap, explicit `MASTER_LIBRARY_SOURCE_DIR` / `RCAP_BUNDLE_EXTRACT` validation and exact adopted/SC restoration steps before convergence. It also replays all ten SC guidance routes. Existing generator, clean-worktree, mutation and integrity requirements remain enforced.
+
+The local full generator refuses because this Codespace has no mounted Master Library. No substitute root was supplied and no source recovery was repeated. Fresh CI supplies the already-authorized exact library; actual CI outcomes are recorded in the existing private checkpoint and closure matrix.

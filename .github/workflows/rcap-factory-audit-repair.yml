@@ -5,10 +5,16 @@ on:
     paths:
       - .github/workflows/rcap-factory-audit-repair.yml
       - scripts/grade-a-packet-factory-24h/**
+      - scripts/rcap-corpus/**
+      - scripts/lib/corpus-index-paths.mjs
+      - data/rcap-grade-a/legal-decisions/SC_GUIDANCE_RUNTIME_SUCCESSOR_2026-10-13.json
   pull_request:
     paths:
       - .github/workflows/rcap-factory-audit-repair.yml
       - scripts/grade-a-packet-factory-24h/**
+      - scripts/rcap-corpus/**
+      - scripts/lib/corpus-index-paths.mjs
+      - data/rcap-grade-a/legal-decisions/SC_GUIDANCE_RUNTIME_SUCCESSOR_2026-10-13.json
       - data/rcap-grade-a/packet-factory-24h/**
 permissions:
   contents: read
@@ -34,6 +40,45 @@ jobs:
           npm ci --ignore-scripts --no-audit --no-fund
           sudo apt-get update -qq
           sudo apt-get install -y --no-install-recommends poppler-utils
+      - name: Establish verified corpus environment
+        id: corpus_environment
+        env:
+          GH_TOKEN: ${{ secrets.SOURCE_CORPUS_READ_TOKEN }}
+        run: |
+          set -euo pipefail
+          corpus="$GITHUB_WORKSPACE/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1"
+          if [ ! -d "$corpus" ]; then
+            test -n "$GH_TOKEN" || { echo "CORPUS_ENVIRONMENT_REFUSED: SOURCE_CORPUS_READ_TOKEN must read the pinned private source-artifacts release"; exit 1; }
+            bash scripts/rcap-corpus/bootstrap-private-corpus.sh
+          fi
+          export MASTER_LIBRARY_SOURCE_DIR="$corpus"
+          export RCAP_BUNDLE_EXTRACT="$corpus"
+          node --input-type=module -e 'import { requireMasterLibraryEnvironment } from "./scripts/lib/corpus-index-paths.mjs"; requireMasterLibraryEnvironment({repoRoot:process.cwd()});'
+          printf 'MASTER_LIBRARY_SOURCE_DIR=%s\nRCAP_BUNDLE_EXTRACT=%s\n' "$corpus" "$corpus" >> "$GITHUB_ENV"
+      - name: Adopted-source restoration guard regressions
+        id: adoption_controls
+        run: PYTHONDONTWRITEBYTECODE=1 python3 scripts/rcap-corpus/test-restore-adopted-sources.py
+      - name: Restore exact adopted source bytes
+        id: adopted_sources
+        env:
+          GH_TOKEN: ${{ secrets.SOURCE_CORPUS_READ_TOKEN }}
+          SOURCE_ADOPTION_BUNDLE_REPOSITORY: ${{ vars.SOURCE_ADOPTION_BUNDLE_REPOSITORY }}
+          SOURCE_ADOPTION_BUNDLE_RELEASE_TAG: ${{ vars.SOURCE_ADOPTION_BUNDLE_RELEASE_TAG }}
+        run: |
+          set -euo pipefail
+          python3 scripts/rcap-corpus/restore-adopted-sources.py
+          node --input-type=module -e 'import { loadUserSourceAdoption, AZ_ATTACHMENT_ADOPTION_PATH } from "./scripts/grade-a-packet-factory-24h/user-source-adoption.mjs"; loadUserSourceAdoption(process.cwd()); loadUserSourceAdoption(process.cwd(), {recordPath: AZ_ATTACHMENT_ADOPTION_PATH});'
+      - name: South Carolina source restoration guard regressions
+        id: sc_source_controls
+        run: PYTHONDONTWRITEBYTECODE=1 python3 scripts/rcap-corpus/test-sc-guidance-sources.py
+      - name: Restore South Carolina guidance private sources
+        id: sc_sources
+        run: python3 scripts/rcap-corpus/restore-sc-guidance-sources.py
+      - name: South Carolina runtime successor guards
+        id: sc_runtime_controls
+        run: node scripts/grade-a-packet-factory-24h/test-sc-runtime-successor.mjs --current
+      - name: Replay all ten South Carolina guidance routes
+        run: node scripts/grade-a-packet-factory-24h/review-sc-runtime-binding.mjs
       - name: Check committed convergence and bounded source, repair and coverage contracts
         run: |
           set -euo pipefail

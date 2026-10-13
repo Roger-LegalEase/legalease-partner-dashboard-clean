@@ -2,6 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import crypto from "node:crypto";
 import assert from "node:assert/strict";
+import { loadScRuntimeSuccessor } from "./sc-runtime-successor.mjs";
 
 const FAMILY = "rcap-sc-custom-pleading";
 const ADMISSION = "data/rcap-grade-a/legal-decisions/SC_SOLICITOR_GUIDANCE_ADMISSION_2026-09-14.json";
@@ -12,10 +13,14 @@ export function loadScReviewedGuidance(root, refusals) {
   const file = path.join(root, ADMISSION);
   if (!fs.existsSync(file)) return null;
   const admission = JSON.parse(fs.readFileSync(file, "utf8"));
+  const successor = loadScRuntimeSuccessor(root);
   const bound = (ref) => {
     assert.ok(ref && typeof ref.path === "string" && !path.isAbsolute(ref.path)
       && !ref.path.split("/").includes(".."), "SC: invalid evidence path");
-    const bytes = fs.readFileSync(path.join(root, ref.path));
+    // The predecessor approval keeps its exact historical bytes. A successor
+    // independently binds current consumers before these four historical pins
+    // may be read; all remaining evidence still binds the current checkout.
+    const bytes = successor?.historicalConsumer(ref) ?? fs.readFileSync(path.join(root, ref.path));
     assert.equal(crypto.createHash("sha256").update(bytes).digest("hex"), ref.sha256, `SC: stale ${ref.path}`);
     assert.equal(bytes.length, ref.byteLength, `SC: byte length ${ref.path}`);
     return bytes;

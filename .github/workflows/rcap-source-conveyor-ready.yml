@@ -117,6 +117,9 @@ jobs:
       - name: Restore South Carolina guidance private sources
         id: sc_sources
         run: python3 scripts/rcap-corpus/restore-sc-guidance-sources.py
+      - name: South Carolina runtime successor guards
+        id: sc_runtime_controls
+        run: node scripts/grade-a-packet-factory-24h/test-sc-runtime-successor.mjs --current
       - name: Generator convergence
         id: convergence
         run: |
