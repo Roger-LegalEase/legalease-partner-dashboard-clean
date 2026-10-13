@@ -64,6 +64,17 @@ if(process.argv[1]&&path.resolve(process.argv[1])===fileURLToPath(import.meta.ur
     fs.writeFileSync(path.join(out,'successor-convergence.log'),(result.stdout??'')+(result.stderr??''),{flag:'wx'});
     report.candidateConvergence=result.status===0&&!result.error?'PASS':'FAIL';
     assert.equal(result.status,0,'Generated successor did not converge');
+    // A converged candidate can still violate dispatch/acceptance contracts.
+    // Run all existing normal checks before calling it ready for review. These
+    // diagnostics never turn the original failed CI check into a passing one.
+    report.candidateChecks=[];
+    for(const name of ['verify','verify-source-conveyor','verify-acq-promo-handoff','verify-lane-contracts','verify-source-relationship-model']) {
+      const entry=`scripts/grade-a-packet-factory-24h/${name}.mjs`;
+      const checked=spawnSync(process.execPath,[entry],{cwd:root,env:process.env,encoding:'utf8',timeout:300000,maxBuffer:2**26});
+      fs.writeFileSync(path.join(out,`${name}.log`),(checked.stdout??'')+(checked.stderr??''),{flag:'wx'});
+      report.candidateChecks.push({entry,exitCode:checked.status,status:checked.status===0&&!checked.error?'PASS':'FAIL'});
+    }
+    assert(report.candidateChecks.every(check=>check.status==='PASS'),'Generated successor violates an existing acceptance contract');
     report.status='READY_FOR_INDEPENDENT_METADATA_REVIEW';
   } finally {
     fs.writeFileSync(path.join(out,'receipt.json'),JSON.stringify(report,null,2)+'\n',{flag:'wx'});
