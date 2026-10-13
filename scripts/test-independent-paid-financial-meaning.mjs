@@ -12,6 +12,8 @@ register(`data:text/javascript,${encodeURIComponent('let sources; export functio
 process.env.RCAP_EVALUATOR_TODAY='2026-10-12';
 const {evaluateCompiledTiming}=await import('../src/lib/rcap-engine/evaluator.ts');
 const {getProfileByJurisdiction}=await import('../src/lib/rcap-engine/profile-registry.ts');
+const {projectPublicProfile}=await import('../src/lib/rcap-engine/public-profile-projection.ts');
+const {selectScreeningQuestionIds}=await import('../src/lib/rcap-engine/screening-question-selection.ts');
 const {isIndependentPaidFinancialFact,courtCompletionContractsFor}=await import('../src/lib/expungement-ai/court-completion-reuse.ts');
 const catalog=JSON.parse(fs.readFileSync('src/lib/expungement-ai/reviewed-court-completion-contracts.json'));
 const rule={id:'synthetic-money-meaning',sourceRef:'synthetic-control-not-legal-eligibility',when:{},then:{}};
@@ -21,6 +23,8 @@ for(const contract of catalog.independentPaidFactContracts){
  const p=getProfileByJurisdiction(contract.routeKey.slice(0,2)),route=p.pathways.find(p=>p.id===contract.routeKey.slice(3));
  const question=p.questions.find(q=>q.id===contract.factId);
  assert.ok(route);assert.ok(isIndependentPaidFinancialFact(contract.routeKey,question));checked+=2;
+ const selected=selectScreeningQuestionIds(p,projectPublicProfile(p),{possible_pathway_context:route.label});
+ assert.ok(selected.includes(contract.factId),contract.routeKey+': independent paid fact must not be hidden as a completion alias');checked++;
  const answers=structuredClone(completed),before=structuredClone(answers),result=evaluateCompiledTiming(p,answers,rule,route);
  assert.equal(result.status,'needs_review',contract.routeKey+': satisfaction versus payment needs clarification, not an inferred wait');
  assert.ok(result.reason.code.endsWith('.payment_and_completion_meaning_unconfirmed'));

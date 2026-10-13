@@ -251,9 +251,21 @@ function evaluateAgainstProfile(profile: EngineProfile, request: ScreeningEvalua
   }
   const kansasScope = jurisdiction === "KS" ? kansasRecordScopeFromAnswers(answers) : null;
   if (kansasScope?.status === "clarification") {
-    return result(profile, request, "needs_more_info", [reason(jurisdiction, "record_court_scope_missing", "Check the law, court, final case outcome and any diversion agreement. A city police arrest, charge level or program admission alone does not establish a municipal conviction or fulfilled diversion.", "KS.memo:ks-12-4516-municipal,ks-12-4516a-municipal-arrest")], {
+    return result(profile, request, "needs_more_info", [reason(jurisdiction, "record_court_scope_missing", ["district_state_law", "municipal_appealed_to_district"].includes(String(answers.ks_record_court_scope)) ? "Check the requested detail about the law, court, final case outcome and the help you want. A city police arrest, charge level, program admission or optional legal-name hint does not establish the procedure. Record facts are checked separately from your request." : "Check the law, court, final case outcome and any diversion agreement. A city police arrest, charge level or program admission alone does not establish a municipal conviction or fulfilled diversion.", "KS.memo;KSA21-6614(a),(b),(f),(i);22-4908(i);12-4516;12-4516a")], {
       missingQuestionIds: kansasScope.missingQuestionIds, paymentAllowed: false
     });
+  }
+  if (kansasScope?.status === "district_review") {
+    const text = {
+      appeal_scope: "This municipal case was appealed to district court. The district-court procedure and form must match that appeal; the original municipal packet or an unrelated district procedure cannot substitute. The source provides for the district clerk to send an expungement order to municipal court, but the applicable filing details still need review.",
+      program_record: "The arrangement entered is not a diversion agreement. A generic program or deferred-disposition answer cannot establish the district-court diversion procedure. Review the actual agreement or order and its final disposition.",
+      registration_only: "You asked about ending registration without also requesting expungement. Those are separate requests. The combined record-clearing route cannot stand in for your request; the registration-only procedure and delivery scope need review.",
+      registration_basis: "The registration record entered does not establish drug-only registration. The drug-offender registration procedure cannot be assumed for another category, mixed obligations or no current duty. Review the actual registration orders and the relief requested.",
+      specialty_program: "The answers do not establish completed requirements of a specialty court established under K.S.A. 20-173. Ordinary treatment or diversion cannot substitute. Review the actual program record and other record-clearing options.",
+      coercion_record: "The final statute entered is not K.S.A. 21-6419 or former K.S.A. 21-3512. The prostitution-specific coercion procedure cannot be established by the optional menu or a general description. Review the final record and other available procedures.",
+      coercion_acts: "This request needs a private review of the circumstances and the applicable procedure. No account of coercion or supporting evidence will be invented, and this result does not deny every record-clearing option."
+    }[kansasScope.code];
+    return result(profile, request, "needs_review", [reason("KS", `district_${kansasScope.code}_review`, text, "KS.memo;KSA21-6614(a)(3),(b),(f);22-4908(a),(i)")], { paymentAllowed: false });
   }
   if (kansasScope?.status === "district_arrest") {
     return result(profile, request, "needs_review", [reason(jurisdiction, "district_arrest_route_requires_binding", "This district-court arrest record needs review under the applicable arrest-record procedure. It cannot be substituted into a municipal ordinance packet or a conviction-and-diversion packet.", "KS.memo:ks-22-2410-arrest;KSA22-2410")], { paymentAllowed: false });
@@ -774,7 +786,7 @@ function selectPathway(profile: EngineProfile, answers: Record<string, Screening
   if (profile.jurisdiction.code === "KS") {
     const scope = kansasRecordScopeFromAnswers(answers);
     if (scope.status === "selected") return profile.pathways.find(pathway => pathway.id === scope.pathwayId);
-    if (scope.status === "clarification" || scope.status === "district_arrest") return undefined;
+    if (scope.status === "clarification" || scope.status === "district_arrest" || scope.status === "district_review") return undefined;
   }
   if (profile.jurisdiction.code === "IL") {
     const cannabis = illinoisCannabisFromAnswers(answers);
@@ -877,6 +889,9 @@ function routeIsAdministrativeApplicationPacket(profile: EngineProfile, pathway:
 function routeSpecificSafetyGate(profile: EngineProfile, answers: Record<string, ScreeningAnswerValue>, pathway: CompiledPathway): ScreeningReason | undefined {
   if (profile.jurisdiction.code === "KS") {
     const scope = kansasRecordScopeFromAnswers(answers);
+    if (scope.status === "selected" && scope.branch === "district_unfulfilled_diversion") {
+      return reason("KS", "district_diversion_not_fulfilled", "The district-court diversion agreement remains unfulfilled. Admission, another program's completion or a municipal agreement does not start this completed-diversion clock. Review the agreement and any applicable alternative procedure.", "KSA21-6614(a)(2);KS.memo:ks-21-6614-diversion");
+    }
     if (scope.status === "selected" && scope.branch === "unfulfilled_diversion") {
       return reason("KS", "municipal_diversion_not_fulfilled", "The answer says the diversion agreement remains unfulfilled. Do not start a completed-diversion waiting period from admission or arrest. Review the agreement and any specific statutory exception before choosing a filing procedure.", "KSA12-4516(a)(2),(b);KS.memo:ks-12-4516-municipal");
     }

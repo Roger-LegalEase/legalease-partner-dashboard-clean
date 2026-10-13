@@ -9,6 +9,7 @@ import { mississippiProgramRouteFromAnswers } from "@/lib/rcap-engine/composed-r
 import { nevada176AQuestionApplies } from "@/lib/rcap-engine/nevada-176a-branch";
 import { georgiaFirstOffenderFromAnswers, georgiaFirstOffenderQuestionApplies } from "@/lib/rcap-engine/georgia-first-offender";
 import { illinoisCannabisFromAnswers, illinoisCannabisQuestionApplies } from "@/lib/rcap-engine/illinois-cannabis-facts";
+import { isIndependentPaidFinancialFact } from "@/lib/expungement-ai/court-completion-fact-meaning";
 import type {
   EngineProfile,
   PublicJurisdictionProfile,
@@ -66,7 +67,7 @@ export function selectScreeningQuestionIds(
   const caRoute = profile.jurisdiction.code === "CA" ? caProp64Pathway(answers) : undefined;
   const selectedPathway = caRoute ? profile.pathways.find(p => p.id === caRoute) : profile.jurisdiction.code === "NY" && ny16059Requested(answers) ? profile.pathways.find(p => p.id === NY_16059_ROUTE) : deRoute ? profile.pathways.find(pathway => pathway.id === deRoute) : programRoute?.status === "selected"
     ? profile.pathways.find(pathway => pathway.id === programRoute.pathwayId)
-    : (programRoute?.status === "clarification" || programRoute?.status === "district_arrest" || profile.jurisdiction.code === "CA" && caProp64ApplicationRequested(answers)) ? undefined : selectedLabel
+    : (programRoute?.status === "clarification" || programRoute?.status === "district_arrest" || programRoute?.status === "district_review" || profile.jurisdiction.code === "CA" && caProp64ApplicationRequested(answers)) ? undefined : selectedLabel
     ? profile.pathways.find((pathway) => pathway.label === selectedLabel)
     : undefined;
   const recordQuestions = new Map(caProp64RecordQuestions(profile, publicProfile.questions, selectedPathway?.id).map((question) => [question.id, question]));
@@ -95,7 +96,9 @@ export function selectScreeningQuestionIds(
     .filter(question => nevada176AQuestionApplies(profile.jurisdiction.code, selectedPathway?.id, question.id))
     .map((question, index) => ({ question: recordQuestions.get(question.id) ?? question, index }))
     .filter(({ question }) => (!lifecycle?.exactPacketFactIds.includes(question.id) || recordQuestions.has(question.id) || profile.jurisdiction.code === "NY" && selectedPathway?.id === NY_16059_ROUTE && NY_16059_TIMING_IDS.includes(question.id))
-      && !lifecycle?.completionAliasIds.includes(question.id))
+      && (!lifecycle?.completionAliasIds.includes(question.id)
+        || (selectedPathway ? [selectedPathway] : profile.pathways).some(pathway =>
+          isIndependentPaidFinancialFact(`${profile.jurisdiction.code}:${pathway.id}`, profile.questions.find(q => q.id === question.id)))))
     .filter(({ question }) => question.lifecyclePhase?.startsWith("prepay_")
       ?? !["record_readiness", "case_details", "packet_information"].includes(question.stage))
     .filter(({ question }) => lifecycle || (stageOrder.get(question.stage) ?? Number.MAX_SAFE_INTEGER) <= pathwayRoutingOrder)

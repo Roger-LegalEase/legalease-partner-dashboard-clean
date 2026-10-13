@@ -812,6 +812,21 @@ export function ny16059HeldDetailSuccessor(snapshot: ProtectedPacketAuthoritySna
     && ["16058_components_missing", "grouping_facts_missing"].includes(ny16059History(toScreeningAnswers(answerRecord({ ...snapshot.screeningAnswers, ...snapshot.prefilledAnswers, ...snapshot.packetAnswers }))).code ?? "");
 }
 
+/** Recover a prior permissive financial-shape result without granting authority. */
+export function financialAnswerHeldSuccessor(snapshot: ProtectedPacketAuthoritySnapshot, authoritative: NonNullable<ReturnType<typeof evaluateProtectedPacketFacts>>): boolean {
+  const evaluation = authoritative.evaluation;
+  if (!["packet_ready", "packet_ready_with_caution"].includes(snapshot.resultCode ?? "")
+    || evaluation.resultCode !== "needs_more_info" || evaluation.paymentAllowed
+    || !evaluation.reasons.some(entry => entry.code.endsWith(".court_requirements_unknown"))
+    || !protectedRouteAuthorityMatches({ ...snapshot, resultCode: evaluation.resultCode, paymentAllowed: false }, authoritative)) return false;
+  const legacy = protectedLegacyAnswerProjection(snapshot);
+  if (!legacy.inspection.effectiveInvalidIds.includes("financial_obligations")) return false;
+  // Require the exact former interpretation too; unrelated result/authority
+  // mismatches are not a financial-answer successor.
+  const previous = evaluateProtectedPacketFacts({ ...snapshot, ...legacy.maps });
+  return previous !== null && protectedRouteAuthorityMatches(snapshot, previous);
+}
+
 export function protectedPacketInformationModelFor(
   verification: ProtectedPacketVerificationRecord
 ): ProtectedPacketInformationModel | null {
@@ -831,6 +846,9 @@ export function protectedPacketInformationModelFor(
     // Newly required details may tighten an old held result. Keep all protected
     // maps and dependencies; this read grants no readiness or verification.
     snapshot = { ...snapshot, resultCode: evaluation.resultCode };
+  }
+  if (!protectedRouteAuthorityMatches(snapshot, authoritative) && financialAnswerHeldSuccessor(snapshot, authoritative)) {
+    snapshot = { ...snapshot, resultCode: evaluation.resultCode, paymentAllowed: false };
   }
   if (!protectedRouteAuthorityMatches(snapshot, authoritative)) return null;
   const packetPlan = readPacketPlan(snapshot.packetPlan);
@@ -1055,7 +1073,15 @@ export function heldCourtCompletionInputIds(model: Parameters<typeof editablePac
   for (const contract of courtCompletionContractsFor(`${model.stateCode}:${model.pathwayId ?? ""}`)) {
     const id = contract.targetFactId;
     const question = model.questions.find((candidate) => candidate.id === id);
-    if (!question || !allowed.has(id) || !Object.hasOwn(model.packetAnswers, id)) continue;
+    if (!question || !allowed.has(id)) continue;
+    // Incompatible saved values are intentionally absent from the display maps.
+    // The protected question metadata retains the existing owner's correction
+    // obligation without putting the malformed value back into a control.
+    if (question.savedAnswerNeedsClarification === true && !Object.hasOwn(model.packetAnswers, id)) {
+      ids.add(id);
+      continue;
+    }
+    if (!Object.hasOwn(model.packetAnswers, id)) continue;
     const value = model.packetAnswers[id];
     const state = questionAnswerState(question, value);
     if (state === "uncertain" || isRecord(value) && value.unknown === true
@@ -1361,8 +1387,15 @@ function participantMapArguments(maps: ParticipantFactMaps): [Record<string, Ans
 export function protectedPacketScreeningAnswers(snapshot: ProtectedPacketAuthoritySnapshot) {
   const profile = getProfileByJurisdiction(snapshot.jurisdiction);
   if (!profile || profile.profileVersion !== snapshot.profileVersion) return null;
-  const projected = protectedLegacyAnswerProjection(snapshot).maps;
+  const legacy = protectedLegacyAnswerProjection(snapshot);
+  const projected = legacy.maps;
   const answers = toScreeningAnswers({ ...projected.screeningAnswers, ...projected.prefilledAnswers, ...projected.packetAnswers });
+  // A malformed saved payment answer is unresolved, not an absent optional
+  // fact. Preserve its raw value and correction metadata, while preventing
+  // omission from bypassing the existing financial-completion check.
+  if (legacy.inspection.effectiveInvalidIds.includes("financial_obligations")) {
+    answers.financial_obligations = "I am not sure";
+  }
   if (isCaProp64Pathway(snapshot.jurisdiction, snapshot.pathwayId)) {
     const raw = { ...snapshot.screeningAnswers, ...snapshot.prefilledAnswers, ...snapshot.packetAnswers };
     for (const question of caProp64RecordQuestions(profile, profile.questions, snapshot.pathwayId)) {
@@ -1466,7 +1499,8 @@ function deriveProtectedPacketDraftSnapshot(
     refreshed.dependencies = { ...refreshed.dependencies, recordFactConfirmations: { ...refreshed.dependencies.recordFactConfirmations,
       [id]: { ...(marker ?? { version: 1, routeKey, status: "unconfirmed" }), ...(history.length ? { legacyValues: history } : {}) } } };
   }
-  const candidate: ProtectedPacketAuthoritySnapshot = { ...base, ...refreshed.maps, dependencies: refreshed.dependencies };
+  const candidate: ProtectedPacketAuthoritySnapshot = { ...base,
+    ...preserveProtectedLegacyShapes(refreshed.maps, legacy.inspection, replacedLegacyIds), dependencies: refreshed.dependencies };
   const authoritative = evaluateProtectedPacketFacts(candidate);
   if (!authoritative) return null;
   const seeded = protectedPacketDraftSeedFromAuthoritative({

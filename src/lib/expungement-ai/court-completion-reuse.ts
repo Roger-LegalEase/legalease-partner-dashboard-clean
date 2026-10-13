@@ -2,6 +2,7 @@ import "server-only";
 import catalog from "@/lib/expungement-ai/reviewed-court-completion-contracts.json";
 import { contactRepresentationHash as hash } from "@/lib/expungement-ai/contact-representation";
 import type { AnswerValue } from "@/lib/expungement-ai/frontend/contracts";
+export { isIndependentPaidFinancialFact } from "@/lib/expungement-ai/court-completion-fact-meaning";
 
 export type CourtCompletionContract = (typeof catalog.contracts)[number];
 export type CourtCompletionImplication = {
@@ -25,16 +26,6 @@ const mapNames = ["screeningAnswers", "prefilledAnswers", "packetAnswers"] as co
 const owns = (object: object, id: string) => Object.prototype.hasOwnProperty.call(object, id);
 export function courtCompletionContractsFor(routeKey: string): CourtCompletionContract[] {
   return catalog.contracts.filter(contract => contract.routeKey === routeKey);
-}
-
-/** Paid-only legacy facts stay independent. A broad completion Yes plus a
- * paid No needs clarification; it cannot prove either payment or a legal
- * exception. Exact route/question wording prevents a paid-or-satisfied field
- * from being silently reinterpreted under this contract.
- */
-export function isIndependentPaidFinancialFact(routeKey: string, question: { id: string; prompt: string; helperText?: string | null } | undefined): boolean {
-  return Boolean(question && catalog.independentPaidFactContracts.some(contract => contract.routeKey === routeKey
-    && contract.factId === question.id && contract.prompt === question.prompt && contract.helperText === question.helperText));
 }
 
 /**

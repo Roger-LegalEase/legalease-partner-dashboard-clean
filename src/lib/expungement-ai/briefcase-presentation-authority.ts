@@ -1,4 +1,4 @@
-import { ny16059HeldDetailSuccessor } from "@/lib/expungement-ai/packet-information";
+import { financialAnswerHeldSuccessor, ny16059HeldDetailSuccessor } from "@/lib/expungement-ai/packet-information";
 import "server-only";
 import { reviewedPacketContractSuccessor } from "@/lib/expungement-ai/packet-contract-successors";
 import { getProgramPacketFunding } from "@/lib/partners/onboarding/program-packet-funding";
@@ -429,11 +429,12 @@ function legalAuthorityFromProtectedVerification(
   const authoritative = evaluateProtectedPresentationSnapshot(snapshot, itemId, evaluate);
   if (!authoritative) return { status: "unavailable", reason: "protected_snapshot_reevaluation_failed" };
   const evaluation = authoritative.evaluation;
+  const financialSuccessor = financialAnswerHeldSuccessor(snapshot, authoritative);
   if (evaluation.jurisdiction !== snapshot.jurisdiction
     || evaluation.profileVersion !== snapshot.profileVersion
     || (evaluation.pathwayId ?? null) !== snapshot.pathwayId
-    || evaluation.resultCode !== snapshot.resultCode && !ny16059HeldDetailSuccessor(snapshot, authoritative)
-    || evaluation.paymentAllowed !== snapshot.paymentAllowed
+    || evaluation.resultCode !== snapshot.resultCode && !ny16059HeldDetailSuccessor(snapshot, authoritative) && !financialSuccessor
+    || evaluation.paymentAllowed !== snapshot.paymentAllowed && !financialSuccessor
     || (authoritative.packetType ?? null) !== (snapshot.packetType ?? null)
     || (authoritative.selectedTrackId ?? null) !== snapshot.selectedTrackId
     || (evaluation.treatmentClassification ?? null) !== snapshot.treatmentClassification

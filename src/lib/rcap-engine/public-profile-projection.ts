@@ -437,6 +437,50 @@ function dedupeQuestionsById(questions: PublicQuestion[]) {
   });
 }
 
+// Existing EN/ES display vocabulary for newly reachable Kansas outcomes.
+const KS_ADDITIONAL_OUTCOME_DISPLAY = {
+  "Misdemeanor conviction": {
+    "label": "Convicted of a misdemeanor",
+    "helperText": "a less serious conviction",
+    "translations": {
+      "es": {
+        "label": "Condenado por un delito menor",
+        "helperText": "una condena menos grave"
+      }
+    }
+  },
+  "Arrest or citation with no charge filed": {
+    "label": "Arrest or citation with no charge filed",
+    "helperText": "The record shows an arrest or a citation, and no charge was filed.",
+    "translations": {
+      "es": {
+        "label": "Arresto o citación sin cargos presentados",
+        "helperText": "El registro muestra un arresto o una citación y que no se presentaron cargos."
+      }
+    }
+  },
+  "Dismissed, no-billed, nolle prosequi, or not prosecuted": {
+    "label": "The case was dropped or thrown out",
+    "helperText": "dismissed, no-billed, nolle prosequi, or not prosecuted",
+    "translations": {
+      "es": {
+        "label": "El caso fue retirado o desestimado",
+        "helperText": "desestimado, no acusado, retirado por la fiscalía o no procesado"
+      }
+    }
+  },
+  "Acquitted or found not guilty": {
+    "label": "Found not guilty",
+    "helperText": "acquitted or found not guilty",
+    "translations": {
+      "es": {
+        "label": "Fue declarado no culpable",
+        "helperText": "absuelto o declarado no culpable"
+      }
+    }
+  }
+};
+
 /**
  * The evaluator's waiting-period gate falls back to `resolved_timing_bucket`
  * whenever it has no exact anchor date, and it names that id in
@@ -1099,6 +1143,8 @@ function withWilmaFactQuestions(
     ? NY_16059_QUESTIONS.find(fact => fact.id === question.id)!
     : profile.jurisdiction.code === "DE" && DE_CONVICTION_FACT_IDS.includes(question.id)
     ? DE_CONVICTION_QUESTIONS.find(fact => fact.id === question.id)!
+    : profile.jurisdiction.code === "KS" && question.id === "case_outcome"
+    ? { ...question, options: [...new Set([...(Array.isArray(question.options) ? question.options : []), ...Object.keys(KS_ADDITIONAL_OUTCOME_DISPLAY)])], optionDisplay: { ...question.optionDisplay, ...KS_ADDITIONAL_OUTCOME_DISPLAY } }
     : profile.jurisdiction.code === "DE" && question.id === "case_outcome"
     ? { ...question, options: [...new Set([...(Array.isArray(question.options) ? question.options : []), "Misdemeanor conviction", "Felony conviction", "Other conviction or adjudication", "Juvenile adjudication or offense committed as a minor"])] } : question);
   return {

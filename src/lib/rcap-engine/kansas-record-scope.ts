@@ -1,10 +1,11 @@
 import type { PublicQuestion } from "@/lib/rcap-engine/contracts";
+import { kansasDistrictFromAnswers, kansasDistrictQuestionApplies, KS_DISTRICT_FACT_IDS, KS_DISTRICT_QUESTIONS, type KansasDistrictSelection } from "@/lib/rcap-engine/kansas-district-facts";
 
 export const KS_MUNICIPAL_CONVICTION = "municipal-conviction-or-diversion-expungement-under-12-4516";
 export const KS_MUNICIPAL_ARREST = "municipal-arrest-record-expungement-under-12-4516a";
-export const KS_RECORD_SCOPE_FACT_IDS = ["ks_record_court_scope", "ks_diversion_fulfilled"] as const;
+export const KS_RECORD_SCOPE_FACT_IDS = ["ks_record_court_scope", "ks_diversion_fulfilled", ...KS_DISTRICT_FACT_IDS] as const;
 type Answers = Record<string, unknown>;
-type Selection = { status: "not_applicable" }
+type Selection = KansasDistrictSelection | { status: "not_applicable" }
   | { status: "clarification"; missingQuestionIds: string[] }
   | { status: "district_arrest" }
   | { status: "selected"; pathwayId: string; branch: "conviction" | "fulfilled_diversion" | "unfulfilled_diversion" | "arrest" };
@@ -18,14 +19,14 @@ type Selection = { status: "not_applicable" }
 export function kansasRecordScopeFromAnswers(answers: Answers): Selection {
   const scope = answers.ks_record_court_scope;
   if (scope === undefined) return { status: "not_applicable" }; // Preserve legacy answers; do not infer a court.
-  if (!["municipal_ordinance", "district_state_law", "municipal_appealed_to_district"].includes(String(scope))) {
+  if (typeof scope !== "string" || !["municipal_ordinance", "district_state_law", "municipal_appealed_to_district"].includes(scope)) {
     return { status: "clarification", missingQuestionIds: ["ks_record_court_scope"] };
   }
   const outcome = answers.case_outcome;
-  const arrest = ["Arrest or citation with no charge filed", "Dismissed, no-billed, nolle prosequi, or not prosecuted", "Acquitted or found not guilty"].includes(String(outcome));
+  const arrest = ["Arrest or citation with no charge filed", "Dismissed, no-billed, nolle prosequi, or not prosecuted", "Acquitted or found not guilty"].includes(typeof outcome === "string" ? outcome : "");
   if (scope !== "municipal_ordinance") {
     if (arrest) return { status: "district_arrest" };
-    return { status: "not_applicable" }; // Other district discriminators remain separate work.
+    return kansasDistrictFromAnswers(answers);
   }
   if (arrest) return { status: "selected", pathwayId: KS_MUNICIPAL_ARREST, branch: "arrest" };
   if (outcome === "Misdemeanor conviction") return { status: "selected", pathwayId: KS_MUNICIPAL_CONVICTION, branch: "conviction" };
@@ -42,6 +43,7 @@ export function kansasRecordScopeFromAnswers(answers: Answers): Selection {
 }
 
 export function kansasRecordScopeQuestionApplies(jurisdiction: string, answers: Answers, id: string): boolean {
+  if (jurisdiction === "KS" && !kansasDistrictQuestionApplies(answers, id)) return false;
   return jurisdiction !== "KS" || id !== "ks_diversion_fulfilled"
     || (answers.ks_record_court_scope === "municipal_ordinance"
       && answers.case_outcome === "Diversion, deferred disposition, supervision, or similar program");
@@ -81,5 +83,6 @@ export const KS_RECORD_SCOPE_QUESTIONS: PublicQuestion[] = [
       prompt: "¿Tiene este caso municipal un acuerdo de desvío cuyos términos haya cumplido?",
       helperText: "Revise el acuerdo y el registro de cumplimiento. La admisión a un programa o completar una tarea no demuestra que se haya cumplido el acuerdo de desvío. No sustituya la fecha de cumplimiento por la fecha de arresto."
     } }
-  }
+  },
+  ...KS_DISTRICT_QUESTIONS
 ];

@@ -54,7 +54,12 @@ for (const value of ['No', 'I am not sure', { unknown: true }]) {
   const heldModel = modelFor(next);
   const result = next.draftSnapshot.resultCode;
   const before = structuredClone(next);
-  assert.ok(['not_yet', 'needs_more_info'].includes(result));
+  assert.equal(result, value === 'No' ? 'not_yet' : 'needs_more_info', 'explicit payment uncertainty cannot become packet-ready');
+  assert.deepEqual(next.draftSnapshot.packetAnswers.financial_obligations, value, 'raw saved answer remains unchanged');
+  if (typeof value === 'object') {
+    assert.equal(Object.hasOwn(heldModel.packetAnswers, 'financial_obligations'), false, 'incompatible raw value stays outside display maps');
+    assert.equal(heldModel.questions.find(q => q.id === 'financial_obligations').savedAnswerNeedsClarification, true, 'protected metadata retains correction ownership');
+  }
   assert.deepEqual([...heldCourtCompletionInputIds(heldModel, result)], ['financial_obligations'], JSON.stringify({ value, result,
     packetPlan: Boolean(heldModel.packetPlan), pathwayId: heldModel.pathwayId,
     saved: heldModel.packetAnswers.financial_obligations, allowed: editablePacketInputIds(heldModel).has('financial_obligations') }));
@@ -66,7 +71,7 @@ for (const value of ['No', 'I am not sure', { unknown: true }]) {
   assert.equal(repair.protectedTransition.nextVerification.status, 'unverified', 'correction is not final verification');
   for (const changed of [
     { packetPlan: null },
-    { packetAnswers: {} },
+    { packetAnswers: {}, questions: heldModel.questions.map(q => ({ ...q, savedAnswerNeedsClarification: false })) },
     { packetAnswers: { financial_obligations: 'Yes' } },
     { packetAnswers: { financial_obligations: 'arbitrary text' } },
     { questions: heldModel.questions.filter(q => q.id !== 'financial_obligations') },
