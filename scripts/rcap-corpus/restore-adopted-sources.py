@@ -2,7 +2,7 @@
 """Restore exact adopted sources, never source updates or replacement PDFs.
 
 Private upload bytes come only from the original checksum-pinned custody ZIP,
-mirrored in the existing private source-artifacts release. Official downloads
+supplied locally or through an explicitly configured private release. Official downloads
 are accepted only when BOTH length and SHA-256 match the adoption record.
 Nothing is installed until every required source has been verified. Existing
 files are verified, never overwritten. No private bytes or tokens are logged.
@@ -12,6 +12,7 @@ import hashlib
 import io
 import json
 import os
+import re
 from pathlib import Path, PurePosixPath
 import stat
 import subprocess
@@ -25,8 +26,6 @@ ROOT = Path(__file__).resolve().parents[2]
 ADOPTION = "data/rcap-grade-a/source-wave-integration/SOURCE_USER_UPLOAD_ADOPTION_2026-09-11.json"
 AZ_ADOPTION = "data/rcap-grade-a/source-wave-integration/SOURCE_AZ_R260001_ATTACHMENT_ADOPTION_2026-09-11.json"
 CUSTODY = "data/rcap-grade-a/source-custody/user-upload-20260911/manifest.json"
-PRIVATE_REPO = "Roger-LegalEase/legalease-source-artifacts"
-PRIVATE_TAG = "source-corpus-2026-08-28"
 OFFICIAL_URLS = {
     "official-form:JDF-613": "https://www.coloradojudicial.gov/sites/default/files/2024-08/JDF613.pdf",
     "official-form:JDF-492": "https://www.coloradojudicial.gov/sites/default/files/2024-08/JDF492.pdf",
@@ -130,15 +129,21 @@ def read_bundle(data, custody):
 def private_bundle(custody, local_zip=None):
     if local_zip:
         return read_bundle(Path(local_zip).read_bytes(), custody)
+    repository = os.environ.get("SOURCE_ADOPTION_BUNDLE_REPOSITORY", "")
+    tag = os.environ.get("SOURCE_ADOPTION_BUNDLE_RELEASE_TAG", "")
+    if not repository or not tag:
+        raise Refused("original custody ZIP transport not configured; source custodian must supply an approved private repository and release tag")
+    if not re.fullmatch(r"[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+", repository):
+        raise Refused("invalid private custody repository locator")
     token = os.environ.get("GH_TOKEN")
     if not token:
         raise Refused("SOURCE_CORPUS_READ_TOKEN is required for the private custody mirror")
-    api = "https://api.github.com/repos/" + PRIVATE_REPO
+    api = "https://api.github.com/repos/" + repository
     # Prevent a future visibility change from silently making this a public custody.
     repo = json.loads(download(api, 100_000, token, "application/vnd.github+json"))
     if repo.get("private") is not True:
-        raise Refused("source-artifacts repository is not private")
-    release = json.loads(download(api + "/releases/tags/" + PRIVATE_TAG, 1_000_000, token, "application/vnd.github+json"))
+        raise Refused("source custody repository is not private")
+    release = json.loads(download(api + "/releases/tags/" + urllib.parse.quote(tag, safe=""), 1_000_000, token, "application/vnd.github+json"))
     bundle = custody["bundle"]
     assets = [a for a in release.get("assets", []) if a["name"] == bundle["fileName"]]
     if len(assets) != 1 or assets[0].get("size") != bundle["byteLength"]:

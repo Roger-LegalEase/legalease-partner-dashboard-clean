@@ -103,6 +103,8 @@ jobs:
         id: adopted_sources
         env:
           GH_TOKEN: ${{ secrets.SOURCE_CORPUS_READ_TOKEN }}
+          SOURCE_ADOPTION_BUNDLE_REPOSITORY: ${{ vars.SOURCE_ADOPTION_BUNDLE_REPOSITORY }}
+          SOURCE_ADOPTION_BUNDLE_RELEASE_TAG: ${{ vars.SOURCE_ADOPTION_BUNDLE_RELEASE_TAG }}
         run: |
           set -euo pipefail
           python3 scripts/rcap-corpus/restore-adopted-sources.py

@@ -139,13 +139,21 @@ class RestorationTests(unittest.TestCase):
             restore.download("https://example.test/source", 100, token="synthetic-test-token")
 
     def test_private_mirror_must_be_private_and_pinned(self):
-        with patch.dict(restore.os.environ, {"GH_TOKEN": "synthetic-test-token"}):
+        with patch.dict(restore.os.environ, {"GH_TOKEN": "synthetic-test-token", "SOURCE_ADOPTION_BUNDLE_REPOSITORY": "synthetic/private", "SOURCE_ADOPTION_BUNDLE_RELEASE_TAG": "original"}):
             with patch.object(restore, "download", return_value=b'{"private":false}'):
                 with self.assertRaisesRegex(restore.Refused, "not private"):
                     restore.private_bundle({"bundle": {}})
             with patch.object(restore, "download", side_effect=[b'{"private":true}', b'{"assets":[]}']):
                 with self.assertRaisesRegex(restore.Refused, "mirror missing"):
                     restore.private_bundle({"bundle": {"fileName": "original.zip", "byteLength": 20}})
+
+    def test_unconfigured_or_invalid_custody_locator_never_contacts_network(self):
+        with patch.dict(restore.os.environ, {}, clear=True), patch.object(restore, "download", side_effect=AssertionError("network should not run")):
+            with self.assertRaisesRegex(restore.Refused, "transport not configured"):
+                restore.private_bundle({"bundle": {}})
+            restore.os.environ.update(SOURCE_ADOPTION_BUNDLE_REPOSITORY="owner/repo/../other", SOURCE_ADOPTION_BUNDLE_RELEASE_TAG="tag")
+            with self.assertRaisesRegex(restore.Refused, "invalid private"):
+                restore.private_bundle({"bundle": {}})
 
 
 if __name__ == "__main__":
