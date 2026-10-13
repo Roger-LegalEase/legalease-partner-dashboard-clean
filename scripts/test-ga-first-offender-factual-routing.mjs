@@ -103,12 +103,12 @@ for (const id of GA_FIRST_OFFENDER_FACT_IDS) {
   assert.equal(q.lifecyclePhase, 'prepay_route_splitter'); checked++;
   for (const value of q.options ?? []) { assert.ok(q.optionDisplay[value].translations.es.label); checked++; }
 }
-// Both the original four unrelated candidates and the legacy unresolved original
-// candidate keep their prior authority. Retained witnesses are preservation only,
-// not source-coherent eligibility or protected acceptance evidence.
+// Unrelated candidates retain their prior treatment. The adopted GA-02 rule
+// requires an explicit conviction class for the legacy generic pardon witness;
+// it cannot infer felony from the historical internal route identifier.
 const expected = {
   'non-conviction-record-restriction-through-the-agency-prosecutor-process': ['guidance_only', 'ga.guidance_only_no_user_filed_court_petition'],
-  'restriction-and-sealing-of-a-pardoned-felony': ['needs_review', 'ga.route_gate_pending_lawrence_review'],
+  'restriction-and-sealing-of-a-pardoned-felony': ['needs_more_info', 'ga.pardon_classification'],
   'retroactive-first-offender-treatment-under-42-8-66': ['needs_more_info', 'ga.route_identified_packet_not_yet_available'],
   'sb-288-misdemeanor-conviction-restriction-and-sealing': ['needs_review', 'ga.waiting_rule_not_executed'],
   'youthful-first-offender-restriction-route': ['needs_review', 'ga.route_presentation_conflicts_with_its_contract']
@@ -116,5 +116,9 @@ const expected = {
 for (const w of witnesses) {
   const r = evaluate(w.finalAnswers), id = w.pathwayKey.slice(3);
   assert.equal(r.pathwayId, id); assert.equal(r.resultCode, expected[id][0]); assert.equal(r.reasons[0].code, expected[id][1]); assert.equal(r.paymentAllowed, false); checked++;
+  if (id === 'restriction-and-sealing-of-a-pardoned-felony') {
+    assert.deepEqual(r.missingQuestionIds, ['case_outcome']);
+    assert.equal(r.packetPlan, undefined); checked += 2;
+  }
 }
 console.log(JSON.stringify({ status: 'PASS', checked, outcomes, scope: 'Original GA First Offender candidate routing, seven stage/date boundaries, clarification, persistence and old candidate preservation. No composed-track, legal approval, packet, consent, payment or release acceptance.' }));

@@ -55,8 +55,12 @@ export const GA_PARDON_QUESTIONS: PublicQuestion[] = [
 ];
 export const GA_PARDON_FACT_IDS = GA_PARDON_QUESTIONS.map(q => q.id);
 export function georgiaPardonRequested(a: Record<string, unknown>, pathway?: string | null) {
+  // The factual route outranks an optional historical label. In particular,
+  // an established First Offender journey must not gain pardon questions.
+  if (pathway) return pathway === GA_PARDON_ROUTE;
   return a.ga_record_help === "pardon_record" || a.ga_record_help === undefined &&
-    (pathway === GA_PARDON_ROUTE || [GA_PARDON_ROUTE, GA_PARDON_OLD_LABEL, GA_PARDON_LABEL.en].includes(String(a.possible_pathway_context)));
+    a.ga_original_first_offender !== "yes" &&
+    [GA_PARDON_ROUTE, GA_PARDON_OLD_LABEL, GA_PARDON_LABEL.en].includes(String(a.possible_pathway_context));
 }
 export function georgiaPardonQuestionApplies(state: string, a: Record<string, unknown>, id: string, pathway?: string | null) {
   if (state !== "GA" || !GA_PARDON_FACT_IDS.includes(id)) return true;
