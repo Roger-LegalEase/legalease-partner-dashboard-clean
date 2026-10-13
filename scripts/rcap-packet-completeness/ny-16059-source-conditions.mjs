@@ -2,7 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { createHash } from "node:crypto";
 import { isDeepStrictEqual } from "node:util";
-import { NY_COMPLETION_FAMILY, nyCompletionDeclaration } from "../lib/ny-16059-completion-conditions.mjs";
+import { NY_COMPLETION_FAMILY, nyCompletionDeclaration, nyCompletionApplicability } from "../lib/ny-16059-completion-conditions.mjs";
 import { NY_16059_HELD_SOURCES, NY_16059_ROUTE } from "../lib/ny-16059-participant-guidance.mjs";
 
 const fieldPins = Object.freeze({
@@ -54,10 +54,16 @@ export function nyCompletionInventoryProblems(familyId, fieldMap, census) {
 }
 
 /** Reads actual source bytes when available. No serialized proof flag or
- * applicability context is authoritative. The current family has no adapter
- * proving case/alias/service applicability from protected owned facts, so those
- * conditional rows stay unresolved even after source custody is restored. */
-export function createNyCompletionVerifier({ familyId, fieldMap, census, receipt, instructions, sourceRoot }) {
+ * applicability context is authoritative. resolveOwnedField is an in-process
+ * server callback, constructed only after the caller's existing owner read.
+ * The callback type is not authentication. The CLI supplies no callback, and
+ * fixture PDFs never become owner-rendered artifacts through this diagnostic.
+ * @param {{ familyId: string, fieldMap: any, census: any, receipt: any,
+ * instructions: string, sourceRoot?: string,
+ * resolveOwnedField?: ((declaration: {documentId: string, field: string, condition: string[]}) =>
+ * {conditionValues: Record<string, boolean | null>, factAvailable: boolean, factIds: string[]}) | null }} options
+ */
+export function createNyCompletionVerifier({ familyId, fieldMap, census, receipt, instructions, sourceRoot, resolveOwnedField = null }) {
   const inventory = nyCompletionInventoryProblems(familyId, fieldMap, census);
   const measured = new Map();
   return (blank, declared) => {
@@ -77,7 +83,17 @@ export function createNyCompletionVerifier({ familyId, fieldMap, census, receipt
       || declared.requiredBeforeFiling !== row.requiredBeforeFiling || declared.routeDetermined !== false) {
       return fail("INVALID_DECLARATION", "Exact field identity, geometry or typed reader transport changed.");
     }
-    if (declared.factAvailable === true || row.factAvailable === true) return { ...base,
+    let owned = null;
+    if (typeof resolveOwnedField === "function") {
+      try { owned = resolveOwnedField(structuredClone(expected)); } catch { /* An unavailable owner read grants nothing. */ }
+    }
+    const applicability = owned && owned.conditionValues && typeof owned.conditionValues === "object"
+      ? nyCompletionApplicability(expected, owned.conditionValues) : "unknown";
+    // Metadata is diagnostic. Source custody and exact disclosure still precede
+    // any accepted blank. Raw answers and personal values stay out of this row.
+    base.ownedApplicability = applicability;
+    base.ownedFactIds = Array.isArray(owned?.factIds) ? owned.factIds.filter(id => typeof id === "string") : [];
+    if (declared.factAvailable === true || row.factAvailable === true || owned?.factAvailable === true) return { ...base,
       disposition: "KNOWN_FACT_NOT_WRITTEN", proofState: "KNOWN_VALUE_STILL_OWED",
       basis: "A conditional or actor declaration never excuses an actual available owned fact. Its correct destination remains owed." };
     try {
@@ -99,10 +115,15 @@ export function createNyCompletionVerifier({ familyId, fieldMap, census, receipt
     if (!instructions.includes(blank.name) || !instructions.includes(expected.conditionDescription)) {
       return fail("DISCLOSURE_UNRESOLVED", "Exact source field and applicability/actor obligation are not disclosed.");
     }
-    if (expected.condition.length) return { ...base, sourceVerified: true,
-      disposition: "UNCLASSIFIED_BLANK", proofState: expected.condition.includes("source_revision_review")
-        ? "SOURCE_REVISION_UNRESOLVED" : "OWNED_APPLICABILITY_UNRESOLVED",
-      basis: "Source custody does not prove this owner's condition. No trusted protected-fact adapter is bound; supplied context or verified flags cannot excuse this blank." };
+    if (expected.condition.length) {
+      if (applicability === "inactive") return { ...base, sourceVerified: true, applicabilityVerified: true,
+        disposition: "NOT_APPLICABLE_ON_THIS_ROUTE", proofState: "SOURCE_AND_OWNED_CONDITION_INACTIVE",
+        basis: "Exact source, field and disclosure plus this owner's explicit condition establish that this field is inactive. Remaining case facts and later acts are unchanged." };
+      return { ...base, sourceVerified: true, applicabilityVerified: applicability === "active",
+        disposition: "UNCLASSIFIED_BLANK", proofState: expected.condition.includes("source_revision_review")
+          ? "SOURCE_REVISION_UNRESOLVED" : applicability === "active" ? "APPLICABLE_FACT_STILL_OWED" : "OWNED_APPLICABILITY_UNRESOLVED",
+        basis: "An active or unknown owner condition does not excuse an unwritten field. Serialized context and proof flags confer no authority." };
+    }
     return { ...base, sourceVerified: true, applicabilityVerified: true,
       disposition: "REQUIRED_BEFORE_FILING", proofState: "UNCONDITIONAL_PREPARATION_FACT",
       basis: "Exact source, field and disclosure identify an unavailable first-case preparation fact; a second case is not required for this obligation." };

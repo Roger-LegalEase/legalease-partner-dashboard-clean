@@ -1,5 +1,6 @@
 import { ny16059CustodyRemovalAvailable } from "@/lib/expungement-ai/ny-custody-correction";
 import { ny16059ProtectedDocumentPreparation } from "@/lib/expungement-ai/ny-16059-document-preparation";
+import { ny16059OwnedCompletionDiagnostic } from "@/lib/expungement-ai/ny-16059-owned-completion";
 import { NY_16059_ROUTE } from "@/lib/rcap-engine/new-york-16059-facts";
 import { mcicIdentifierAuthority, packetAnswersForOwnerEditing, requiresMcicIdentifierAuthority } from "@/lib/expungement-ai/sensitive-packet-facts";
 import { NextResponse } from "next/server";
@@ -73,6 +74,7 @@ export async function GET(request: Request, context: { params: Promise<{ itemId:
     reviewPath: `/briefcase/${encodeURIComponent(item.id)}/review`,
     caProp64Clarification: model.caProp64Clarification ?? false,
     ny16059Preparation: ny16059ProtectedDocumentPreparation(authority.value),
+    ny16059Completion: ny16059OwnedCompletionDiagnostic(item.id, authority.value),
     readyToGenerate: model.stage === "ready_to_generate", reviewReason: model.reviewSafety.reason,
     nextAction: model.caProp64Clarification ? "continue_packet" : !model.packetPlan || packetDraftStopReason(model) ? "open_matter" : model.missingInputIds.length || model.pendingDerivations.length ? "continue_packet" : "review_packet"
   }, { headers: { "Cache-Control": "private, no-store" } });
