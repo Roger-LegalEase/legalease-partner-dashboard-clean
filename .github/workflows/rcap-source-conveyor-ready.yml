@@ -13,6 +13,9 @@ on:
       - scripts/rcap-corpus/*adopted-sources.py
       - scripts/rcap-corpus/*sc-guidance-sources.py
       - scripts/rcap-corpus/*oh-exact-font.py
+      - scripts/rcap-corpus/*generator-source*
+      - scripts/rcap-corpus/check-generator-convergence.mjs
+      - data/rcap-grade-a/source-custody/generator-preflight-20261013/**
       - data/record-clearing/legal-decisions/2026-09-14-nc-146-core-and-conditional-dna-scope.json
       - scripts/verify-packet-build-environment.mjs
       - scripts/rcap-*.mjs
@@ -37,6 +40,9 @@ on:
       - scripts/rcap-corpus/*adopted-sources.py
       - scripts/rcap-corpus/*sc-guidance-sources.py
       - scripts/rcap-corpus/*oh-exact-font.py
+      - scripts/rcap-corpus/*generator-source*
+      - scripts/rcap-corpus/check-generator-convergence.mjs
+      - data/rcap-grade-a/source-custody/generator-preflight-20261013/**
       - data/record-clearing/legal-decisions/2026-09-14-nc-146-core-and-conditional-dna-scope.json
       - scripts/verify-packet-build-environment.mjs
       - scripts/rcap-*.mjs
@@ -136,15 +142,19 @@ jobs:
       - name: Ohio font restoration guard regressions
         id: oh_font_controls
         run: python3 scripts/rcap-corpus/test-oh-exact-font.py
+      - name: Generator source preflight guard regressions
+        id: generator_source_controls
+        run: python3 scripts/rcap-corpus/test-generator-sources.py
+      - name: Restore and preflight complete generator source inventory
+        id: generator_sources
+        run: python3 scripts/rcap-corpus/restore-generator-sources.py --report "$RUNNER_TEMP/generator-source-preflight/report.json"
       - name: Generator convergence
         id: convergence
+        env:
+          GENERATOR_SOURCE_AUDIT_DIR: ${{ runner.temp }}/generator-source-preflight/reads
         run: |
           set -euo pipefail
-          node scripts/grade-a-packet-factory-24h/generate-source-relationship-registry.mjs --check
-          node scripts/grade-a-packet-factory-24h/generate-raster-workflow-bindings.mjs --check
-          node scripts/grade-a-packet-factory-24h/generate.mjs --check
-          node scripts/grade-a-packet-factory-24h/generate-source-conveyor.mjs --check
-          node scripts/grade-a-packet-factory-24h/generate-washington-repair.mjs --check
+          node scripts/rcap-corpus/check-generator-convergence.mjs
       - name: Factory checks
         id: factory_checks
         run: node scripts/grade-a-packet-factory-24h/verify.mjs
@@ -210,6 +220,14 @@ jobs:
         id: lane_mutations
         run: node scripts/grade-a-packet-factory-24h/verify-lane-contracts.mjs --mutations
       # Report after ALL checks. Skipped or absent is NOT_RUN, never PASS.
+      - name: Preserve generator source preflight evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: generator-source-preflight-${{ github.job }}-${{ github.run_id }}
+          path: ${{ runner.temp }}/generator-source-preflight/
+          retention-days: 14
+          if-no-files-found: warn
       - name: READY_TO_RUN summary
         if: always()
         env:

@@ -6,6 +6,7 @@ on:
       - .github/workflows/rcap-factory-audit-repair.yml
       - scripts/grade-a-packet-factory-24h/**
       - scripts/rcap-corpus/**
+      - data/rcap-grade-a/source-custody/generator-preflight-20261013/**
       - scripts/lib/corpus-index-paths.mjs
       - data/rcap-grade-a/legal-decisions/SC_GUIDANCE_RUNTIME_SUCCESSOR_2026-10-13.json
   pull_request:
@@ -13,6 +14,7 @@ on:
       - .github/workflows/rcap-factory-audit-repair.yml
       - scripts/grade-a-packet-factory-24h/**
       - scripts/rcap-corpus/**
+      - data/rcap-grade-a/source-custody/generator-preflight-20261013/**
       - scripts/lib/corpus-index-paths.mjs
       - data/rcap-grade-a/legal-decisions/SC_GUIDANCE_RUNTIME_SUCCESSOR_2026-10-13.json
       - data/rcap-grade-a/packet-factory-24h/**
@@ -87,7 +89,15 @@ jobs:
       - name: Ohio font restoration guard regressions
         id: oh_font_controls
         run: python3 scripts/rcap-corpus/test-oh-exact-font.py
+      - name: Generator source preflight guard regressions
+        id: generator_source_controls
+        run: python3 scripts/rcap-corpus/test-generator-sources.py
+      - name: Restore and preflight complete generator source inventory
+        id: generator_sources
+        run: python3 scripts/rcap-corpus/restore-generator-sources.py --report "$RUNNER_TEMP/generator-source-preflight/report.json"
       - name: Check committed convergence and bounded source, repair and coverage contracts
+        env:
+          GENERATOR_SOURCE_AUDIT_DIR: ${{ runner.temp }}/generator-source-preflight/reads
         run: |
           set -euo pipefail
           out="$RUNNER_TEMP/factory-validation"
@@ -95,9 +105,7 @@ jobs:
           test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
           git status --porcelain > "$out/pre-convergence-worktree.txt"
           test ! -s "$out/pre-convergence-worktree.txt" || { cat "$out/pre-convergence-worktree.txt"; exit 1; }
-          for script in generate generate-source-conveyor generate-washington-repair generate-source-relationship-registry; do
-            node "scripts/grade-a-packet-factory-24h/$script.mjs" --check > "$out/$script-check.log" 2>&1 || { tail -60 "$out/$script-check.log"; exit 1; }
-          done
+          node scripts/rcap-corpus/check-generator-convergence.mjs
           node scripts/grade-a-packet-factory-24h/test-source-readiness-constraints.mjs --generated | tee "$out/source-controls.log"
           node scripts/grade-a-packet-factory-24h/test-conditional-raster-documents.mjs --generated | tee "$out/conditional-controls.log"
           node scripts/grade-a-packet-factory-24h/test-bounded-repair-authorization.mjs | tee "$out/bounded-repair-controls.log"
@@ -135,6 +143,14 @@ jobs:
           assert report['completeFactoryMutationSuite'],'Incomplete mutation coverage'
           assert clean,'Validation changed the checkout'
           PY
+      - name: Preserve generator source preflight evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: generator-source-preflight-${{ github.job }}-${{ github.run_id }}
+          path: ${{ runner.temp }}/generator-source-preflight/
+          retention-days: 14
+          if-no-files-found: warn
       - uses: actions/upload-artifact@v4
         if: always()
         with:
