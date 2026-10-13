@@ -88,8 +88,31 @@ function failures({ packet, graph, witness }) {
       `${record.pathwayKey}: legal status ${legal.status} is neither ${APPROVED} nor ${PENDING}`);
     if (legal.status === APPROVED) {
       fail(decisionRecorded, `${record.pathwayKey}: approved with no owner decision recorded in the packet`);
-      fail(APPROVED_BASES.has(legal.basis),
+      const adoptedVirginia = legal.basis === "owner_relayed_counsel_adopted_modified_procedure";
+      fail(APPROVED_BASES.has(legal.basis) || adoptedVirginia,
         `${record.pathwayKey}: approved on basis ${legal.basis}, which is not one the owner's decision supports`);
+      if (adoptedVirginia) {
+        const decision = legal.currentProcedureDecision;
+        const set = record.packetFamilyBridge.packetSets?.find(s => s.packetSetId === "va_exp_absolute_pardon-set");
+        const adoption = set?.procedureAdoption;
+        fail(record.pathwayKey === "VA:regime-1-expungement-available-now",
+          "VA-01 adoption may apply only to its exact Virginia route");
+        for (const row of [decision, adoption]) {
+          fail(row?.decisionId === "VA-01" && row?.disposition === "MODIFY"
+            && row?.registerSha256 === "4ffc56d4cc8dfa9b882f64ad51f49be815704fe20009ee7425b429418b54ead2"
+            && row?.evidenceKind === "owner_relayed_counsel_adoption" && row?.appliesThrough === "2026-11-30",
+          "VA-01 requires the exact adopted register, modified treatment and owner-relayed evidence kind");
+        }
+        fail(legal.historicalOwnerDecision?.recordId === packet.ownerLegalDecision?.record?.recordId
+          && Boolean(legal.historicalOwnerDecision?.recordId)
+          && legal.historicalOwnerDecision?.appliesToCurrentDocument === false,
+        "VA-01 must retain historical approval ancestry without promoting it to current document approval");
+        fail(legal.documentAcceptance === "NOT_VERIFIED" && adoption?.documentAcceptance === "NOT_VERIFIED"
+          && adoption?.participantPetitionEstablished === false && set?.packetSetCompleteness?.state === "incomplete",
+        "VA-01 current document acceptance must remain unverified while the implementation instrument is unbound");
+        fail(set?.components?.every(c => c.officialFormId === null && c.outputStrategy === "process_guidance") === true,
+          "VA-01 cannot select an unestablished petition or substitute form");
+      }
       if (legal.basis === "owner_approved_packet_family") {
         const source = graphByKeyForLegal.get(record.pathwayKey);
         fail(source?.legalStatus === APPROVED && (source?.ownerApprovedFamilies ?? []).length > 0,
@@ -190,7 +213,14 @@ if (MUTATIONS) {
     ["a pathway left unclassified", (d) => { d.packet.records[0].registryClassification = { kind: "unknown", statement: "" }; }],
     ["the witness declared random", (d) => { d.witness.determinism.randomness = "seeded"; }],
     ["a witness result quietly rewritten in the packet", (d) => { d.packet.records[0].publicWitness.landedOnThisPathway = !d.packet.records[0].publicWitness.landedOnThisPathway; }],
-    ["the packet claiming it creates an approval", (d) => { d.packet.createsApproval = true; }]
+    ["the packet claiming it creates an approval", (d) => { d.packet.createsApproval = true; }],
+    ["VA adoption changed to a different register", (d) => { d.packet.records.find(r => r.pathwayKey === "VA:regime-1-expungement-available-now").ownerApprovedLegal.currentProcedureDecision.registerSha256 = "0".repeat(64); }],
+    ["VA modification falsely recorded as blanket approval", (d) => { d.packet.records.find(r => r.pathwayKey === "VA:regime-1-expungement-available-now").ownerApprovedLegal.currentProcedureDecision.disposition = "APPROVE"; }],
+    ["owner-relayed adoption changed into an invented direct signature", (d) => { d.packet.records.find(r => r.pathwayKey === "VA:regime-1-expungement-available-now").ownerApprovedLegal.currentProcedureDecision.evidenceKind = "attorney_signed"; }],
+    ["VA adopted basis copied onto another route", (d) => { d.packet.records[0].ownerApprovedLegal = structuredClone(d.packet.records.find(r => r.pathwayKey === "VA:regime-1-expungement-available-now").ownerApprovedLegal); }],
+    ["VA current document falsely marked verified", (d) => { d.packet.records.find(r => r.pathwayKey === "VA:regime-1-expungement-available-now").ownerApprovedLegal.documentAcceptance = "VERIFIED"; }],
+    ["VA historical ancestry discarded", (d) => { delete d.packet.records.find(r => r.pathwayKey === "VA:regime-1-expungement-available-now").ownerApprovedLegal.historicalOwnerDecision; }],
+    ["VA ordinary form substituted", (d) => { d.packet.records.find(r => r.pathwayKey === "VA:regime-1-expungement-available-now").packetFamilyBridge.packetSets[0].components[0].officialFormId = "CC-1473"; }]
   ];
   let undetected = 0;
   for (const [label, mutate] of mutations) {

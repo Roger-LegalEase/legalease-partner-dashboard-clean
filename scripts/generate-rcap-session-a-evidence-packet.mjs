@@ -207,6 +207,27 @@ function ownerApprovedLegalStatus({ pathway, sets, trackIds, jurisdictionBound, 
     ? `${ownerDecisionRecord.decisionOwner} under ${ownerDecisionRecord.recordId}, effective ${ownerDecisionRecord.effectiveDate}`
     : null;
 
+  // A later adopted modification applies only to this exact procedure. Preserve
+  // the August record as ancestry; it cannot certify an unestablished form.
+  const adopted = sets.find(set => set.packetSetId === "va_exp_absolute_pardon-set")?.procedureAdoption;
+  if (pathway.pathwayKey === "VA:regime-1-expungement-available-now"
+      && adopted?.decisionId === "VA-01"
+      && adopted.registerSha256 === "4ffc56d4cc8dfa9b882f64ad51f49be815704fe20009ee7425b429418b54ead2") {
+    return {
+      status: OWNER_APPROVED,
+      basis: "owner_relayed_counsel_adopted_modified_procedure",
+      escalationRequired: false,
+      currentProcedureDecision: {
+        decisionId: adopted.decisionId, disposition: adopted.disposition,
+        evidenceKind: adopted.evidenceKind, registerSha256: adopted.registerSha256,
+        appliesThrough: adopted.appliesThrough
+      },
+      historicalOwnerDecision: { recordId: ownerDecisionRecord?.recordId ?? null, appliesToCurrentDocument: false },
+      documentAcceptance: adopted.documentAcceptance,
+      statement: "Owner-relayed counsel adoption of VA-01 approves the modified statutory Secretary-to-circuit-court implementation mechanism. The current role of CC-1472 is unestablished; neither CC-1473 nor CC-1474A is substituted. Actual receiving-court implementation documents, field destinations and rendered output remain unverified where needed. Historical August approval is preserved as ancestry, not carried forward as document acceptance."
+    };
+  }
+
   if (!ownerDecisionRecord) {
     return {
       status: OWNER_PENDING,
@@ -292,6 +313,7 @@ for (const pathway of graph.pathways) {
       packetSetId: s.packetSetId,
       trackId: s.trackId,
       version: s.version,
+      ...(s.procedureAdoption ? { procedureAdoption: s.procedureAdoption, packetSetCompleteness: s.packetSetCompleteness } : {}),
       components: (s.components ?? []).map((c) => ({
         componentId: c.componentId,
         role: c.role,
@@ -478,7 +500,7 @@ const packet = {
         approved: true,
         result: OWNER_APPROVED,
         record: ownerDecisionRecord,
-        note: "There is no counsel queue. The decision owner approved the existing legal designs, the completed outputs, the exception set and the application of those approved designs across the intended-paid corpus. No signature or separate counsel artifact is required or represented.",
+        note: "This preserves the historical owner decision for its recorded scope. Later adopted procedure modifications are stated on the affected pathway and do not carry this historical approval forward onto an unestablished document. No attorney identity, signature or separate counsel artifact is invented.",
         escalateOnly: SUBSTANTIVE_LEGAL_CHOICES,
         missingAdoptionMetadataIsNotAnEscalation:
           "Missing EXT-ADOPT-01 family metadata is not a new legal decision where the all-497 legal-design packet-set manifest already defines the treatment."
@@ -561,10 +583,14 @@ function md() {
   l.push("## 5 — Owner-approved legal status");
   l.push("");
   l.push(ownerDecisionRecord
-    ? `Approved by **${ownerDecisionRecord.decisionOwner}** under \`${ownerDecisionRecord.recordId}\`, effective ${ownerDecisionRecord.effectiveDate}. There is no counsel queue here: the existing legal designs, the completed outputs, the exception set and the application of those approved designs across the intended-paid corpus are all approved, and no signature or separate counsel artifact is required.`
+    ? `Approved by **${ownerDecisionRecord.decisionOwner}** under \`${ownerDecisionRecord.recordId}\`, effective ${ownerDecisionRecord.effectiveDate}. This historical decision remains evidence for its recorded scope. Later adopted modifications are stated on the affected pathway; historical approval does not certify an unestablished successor document.`
     : "No approved `owner_legal_decision` entry exists in the authorization queue, so every pathway reads back `owner_approval_pending`.");
   l.push("");
   l.push(`**${ownerApproved.length}** of ${records.length} pathways carry owner-approved legal status.`);
+  for (const row of records.filter(r => r.ownerApprovedLegal.basis === "owner_relayed_counsel_adopted_modified_procedure")) {
+    l.push("");
+    l.push(`**${row.pathwayKey}:** ${row.ownerApprovedLegal.statement}`);
+  }
   l.push("");
   l.push("| Basis | Pathways |");
   l.push("|---|---|");

@@ -23,7 +23,7 @@
       "path": "data/record-clearing/legal-design-packet-set-manifests.json",
       "source": "working_tree",
       "ref": null,
-      "sha256": "9034e44d95da99cc5f2bc14db11d8a4dee049b0f229c9410b098e30c427043b4"
+      "sha256": "08dddbcd7ad3145497c4ad9f7a85cc903e1124654630af34803e96aa65d0cf51"
     },
     "trackSourceRelationships": {
       "path": "data/record-clearing/legal-design-track-source-relationships.json",
@@ -41,7 +41,7 @@
       "path": "data/rcap-ledger/public-witness-answer-sets.json",
       "source": "working_tree",
       "ref": null,
-      "sha256": "20ae5e20b591d6a043a4de6aa416552d7f2dbb61603153c8892d307d94b55ce9"
+      "sha256": "c89035dff41631ff30e40b991ac5854891a8c53bef9ddb5d29caff039faf0f7e"
     },
     "problematicPdfRegister": {
       "path": "data/rcap-all50/problematic-pdf-register.json",
@@ -80,16 +80,17 @@
     "pathwaysWithCompletedOutputEvidence": 71,
     "ownerApprovedLegal": 232,
     "ownerApprovalBases": {
-      "owner_approved_existing_legal_design_packet_set": 157,
+      "owner_approved_existing_legal_design_packet_set": 156,
       "owner_approved_packet_family": 70,
       "registry_gap_no_track": 35,
-      "owner_approved_exception_annex": 5
+      "owner_approved_exception_annex": 5,
+      "owner_relayed_counsel_adopted_modified_procedure": 1
     },
     "escalationsToTheDecisionOwner": 0,
     "publicWitness": {
-      "settled": 267,
-      "landedOnTheirOwnPathway": 267,
-      "paymentAllowedAtTheEvaluator": 28
+      "settled": 261,
+      "landedOnTheirOwnPathway": 261,
+      "paymentAllowedAtTheEvaluator": 26
     }
   },
   "packetFamilyBridgeReconciliation": {
@@ -102,7 +103,7 @@
     },
     "importedBridge": {
       "path": "data/record-clearing/legal-design-packet-set-manifests.json",
-      "sha256": "9034e44d95da99cc5f2bc14db11d8a4dee049b0f229c9410b098e30c427043b4",
+      "sha256": "08dddbcd7ad3145497c4ad9f7a85cc903e1124654630af34803e96aa65d0cf51",
       "trackCount": 497,
       "scope": "every registry track"
     },
@@ -156,7 +157,7 @@
         "approving a substantive legal change listed in requiresANewDecisionOwnerDecision"
       ]
     },
-    "note": "There is no counsel queue. The decision owner approved the existing legal designs, the completed outputs, the exception set and the application of those approved designs across the intended-paid corpus. No signature or separate counsel artifact is required or represented.",
+    "note": "This preserves the historical owner decision for its recorded scope. Later adopted procedure modifications are stated on the affected pathway and do not carry this historical approval forward onto an unestablished document. No attorney identity, signature or separate counsel artifact is invented.",
     "escalateOnly": [
       "changing the remedy offered",
       "changing eligibility logic",
@@ -2126,8 +2127,8 @@
           "resolved_timing_bucket": "gt_10_years",
           "possible_pathway_context": "Situation A — Non-convictions (§§ 16-90-1409, 1410)"
         },
-        "rounds": 2,
-        "finalAnswerCount": 14,
+        "rounds": 3,
+        "finalAnswerCount": 15,
         "terminalEvaluation": {
           "resultCode": "not_covered_yet",
           "pathwayId": "situation-a-non-convictions",
@@ -2341,8 +2342,8 @@
           "resolved_timing_bucket": "gt_10_years",
           "possible_pathway_context": "Situation B — Misdemeanor convictions (§ 16-90-1405)"
         },
-        "rounds": 2,
-        "finalAnswerCount": 14,
+        "rounds": 3,
+        "finalAnswerCount": 15,
         "terminalEvaluation": {
           "resultCode": "guidance_only",
           "pathwayId": "situation-b-misdemeanor-convictions",
@@ -2548,8 +2549,8 @@
           "resolved_timing_bucket": "gt_10_years",
           "possible_pathway_context": "Situation C — Felony convictions (§§ 16-90-1406, 1407)"
         },
-        "rounds": 2,
-        "finalAnswerCount": 14,
+        "rounds": 3,
+        "finalAnswerCount": 15,
         "terminalEvaluation": {
           "resultCode": "needs_review",
           "pathwayId": "situation-c-felony-convictions",
@@ -3703,22 +3704,11 @@
           "resolved_timing_bucket": "gt_10_years",
           "possible_pathway_context": "HSC § 11361.8 completed-sentence marijuana dismissal/sealing or redesignation application"
         },
-        "rounds": 2,
-        "finalAnswerCount": 14,
-        "terminalEvaluation": {
-          "resultCode": "likely_not_eligible",
-          "pathwayId": "prop-64-completed-sentence-application-11361-8",
-          "pathwayLabel": "HSC § 11361.8 completed-sentence marijuana dismissal/sealing or redesignation application",
-          "paymentAllowed": false,
-          "treatmentClassification": null,
-          "selectedTrackId": null,
-          "reasonCodes": [
-            "ca.ca_prop64_qualifying_marijuana_offense_missing_or_not_eligible"
-          ],
-          "missingQuestionIds": []
-        },
-        "landedOnThisPathway": true,
-        "error": null,
+        "rounds": 7,
+        "finalAnswerCount": 23,
+        "terminalEvaluation": null,
+        "landedOnThisPathway": false,
+        "error": "Required facts remain unresolved under these exact synthetic premises.",
         "answerSetRef": "data/rcap-ledger/public-witness-answer-sets.json#witnesses[pathwayKey=CA:prop-64-completed-sentence-application-11361-8]"
       },
       "ownerApprovedLegal": {
@@ -3923,22 +3913,11 @@
           "resolved_timing_bucket": "gt_10_years",
           "possible_pathway_context": "HSC § 11361.8 currently-serving marijuana resentencing/redesignation petition"
         },
-        "rounds": 2,
-        "finalAnswerCount": 14,
-        "terminalEvaluation": {
-          "resultCode": "likely_not_eligible",
-          "pathwayId": "prop-64-currently-serving-petition-11361-8",
-          "pathwayLabel": "HSC § 11361.8 currently-serving marijuana resentencing/redesignation petition",
-          "paymentAllowed": false,
-          "treatmentClassification": null,
-          "selectedTrackId": null,
-          "reasonCodes": [
-            "ca.ca_prop64_qualifying_marijuana_offense_missing_or_not_eligible"
-          ],
-          "missingQuestionIds": []
-        },
-        "landedOnThisPathway": true,
-        "error": null,
+        "rounds": 7,
+        "finalAnswerCount": 23,
+        "terminalEvaluation": null,
+        "landedOnThisPathway": false,
+        "error": "Required facts remain unresolved under these exact synthetic premises.",
         "answerSetRef": "data/rcap-ledger/public-witness-answer-sets.json#witnesses[pathwayKey=CA:prop-64-currently-serving-petition-11361-8]"
       },
       "ownerApprovedLegal": {
@@ -6781,14 +6760,14 @@
         "rounds": 2,
         "finalAnswerCount": 14,
         "terminalEvaluation": {
-          "resultCode": "packet_ready",
+          "resultCode": "needs_review",
           "pathwayId": "discretionary-court-expungement-under-11-del-c-4374",
           "pathwayLabel": "Discretionary court expungement under 11 Del. C. § 4374",
-          "paymentAllowed": true,
+          "paymentAllowed": false,
           "treatmentClassification": null,
           "selectedTrackId": null,
           "reasonCodes": [
-            "de.compiled_rule_match.rule-28-agencies-cannot-see-it-on-public-sources-mandatory-and-"
+            "de.de_4374_conviction_scope_unconfirmed"
           ],
           "missingQuestionIds": []
         },
@@ -8645,22 +8624,11 @@
           "resolved_timing_bucket": "gt_10_years",
           "possible_pathway_context": "Restriction and sealing of a pardoned felony"
         },
-        "rounds": 2,
+        "rounds": 3,
         "finalAnswerCount": 16,
-        "terminalEvaluation": {
-          "resultCode": "needs_review",
-          "pathwayId": "restriction-and-sealing-of-a-pardoned-felony",
-          "pathwayLabel": "Restriction and sealing of a pardoned felony",
-          "paymentAllowed": false,
-          "treatmentClassification": null,
-          "selectedTrackId": null,
-          "reasonCodes": [
-            "ga.route_gate_pending_lawrence_review"
-          ],
-          "missingQuestionIds": []
-        },
-        "landedOnThisPathway": true,
-        "error": null,
+        "terminalEvaluation": null,
+        "landedOnThisPathway": false,
+        "error": "Required facts remain unresolved under these exact synthetic premises.",
         "answerSetRef": "data/rcap-ledger/public-witness-answer-sets.json#witnesses[pathwayKey=GA:restriction-and-sealing-of-a-pardoned-felony]"
       },
       "ownerApprovedLegal": {
@@ -16496,14 +16464,14 @@
         "rounds": 2,
         "finalAnswerCount": 13,
         "terminalEvaluation": {
-          "resultCode": "guidance_only",
+          "resultCode": "needs_more_info",
           "pathwayId": "municipal-arrest-record-expungement-under-12-4516a",
           "pathwayLabel": "Municipal arrest record expungement",
           "paymentAllowed": false,
           "treatmentClassification": null,
           "selectedTrackId": null,
           "reasonCodes": [
-            "ks.guidance_only_no_user_filed_court_petition"
+            "ks.route_identified_packet_not_yet_available"
           ],
           "missingQuestionIds": []
         },
@@ -29628,14 +29596,14 @@
         "rounds": 2,
         "finalAnswerCount": 12,
         "terminalEvaluation": {
-          "resultCode": "packet_ready_with_caution",
+          "resultCode": "needs_review",
           "pathwayId": "eligible-felony-conviction-expungement-99-19-71",
           "pathwayLabel": "Eligible felony-conviction expungement (§ 99-19-71)",
-          "paymentAllowed": true,
+          "paymentAllowed": false,
           "treatmentClassification": null,
           "selectedTrackId": null,
           "reasonCodes": [
-            "ms.compiled_rule_match.route-eligible-felony-conviction-expungement-99-19-71"
+            "ms.felony_route_case_outcome_conflict"
           ],
           "missingQuestionIds": []
         },
@@ -30253,22 +30221,11 @@
           "resolved_timing_bucket": "gt_10_years",
           "possible_pathway_context": "First-offense controlled-substance conditional-discharge relief"
         },
-        "rounds": 2,
-        "finalAnswerCount": 12,
-        "terminalEvaluation": {
-          "resultCode": "needs_review",
-          "pathwayId": "first-offense-controlled-substance-conditional-discharge-relief",
-          "pathwayLabel": "First-offense controlled-substance conditional-discharge relief",
-          "paymentAllowed": false,
-          "treatmentClassification": null,
-          "selectedTrackId": null,
-          "reasonCodes": [
-            "ms.waiting_rule_not_executed"
-          ],
-          "missingQuestionIds": []
-        },
-        "landedOnThisPathway": true,
-        "error": null,
+        "rounds": 4,
+        "finalAnswerCount": 14,
+        "terminalEvaluation": null,
+        "landedOnThisPathway": false,
+        "error": "Required facts remain unresolved under these exact synthetic premises.",
         "answerSetRef": "data/rcap-ledger/public-witness-answer-sets.json#witnesses[pathwayKey=MS:first-offense-controlled-substance-conditional-discharge-relief]"
       },
       "ownerApprovedLegal": {
@@ -31596,22 +31553,11 @@
           "resolved_timing_bucket": "gt_10_years",
           "possible_pathway_context": "Nonadjudication under § 99-15-26"
         },
-        "rounds": 2,
-        "finalAnswerCount": 12,
-        "terminalEvaluation": {
-          "resultCode": "needs_review",
-          "pathwayId": "nonadjudication-under-99-15-26",
-          "pathwayLabel": "Nonadjudication under § 99-15-26",
-          "paymentAllowed": false,
-          "treatmentClassification": null,
-          "selectedTrackId": null,
-          "reasonCodes": [
-            "ms.waiting_rule_not_executed"
-          ],
-          "missingQuestionIds": []
-        },
-        "landedOnThisPathway": true,
-        "error": null,
+        "rounds": 4,
+        "finalAnswerCount": 16,
+        "terminalEvaluation": null,
+        "landedOnThisPathway": false,
+        "error": "Required facts remain unresolved under these exact synthetic premises.",
         "answerSetRef": "data/rcap-ledger/public-witness-answer-sets.json#witnesses[pathwayKey=MS:nonadjudication-under-99-15-26]"
       },
       "ownerApprovedLegal": {
@@ -31887,22 +31833,11 @@
           "resolved_timing_bucket": "gt_10_years",
           "possible_pathway_context": "Pretrial intervention or diversion expungement"
         },
-        "rounds": 2,
-        "finalAnswerCount": 12,
-        "terminalEvaluation": {
-          "resultCode": "needs_review",
-          "pathwayId": "pretrial-intervention-or-diversion-expungement",
-          "pathwayLabel": "Pretrial intervention or diversion expungement",
-          "paymentAllowed": false,
-          "treatmentClassification": null,
-          "selectedTrackId": null,
-          "reasonCodes": [
-            "ms.waiting_rule_not_executed"
-          ],
-          "missingQuestionIds": []
-        },
-        "landedOnThisPathway": true,
-        "error": null,
+        "rounds": 4,
+        "finalAnswerCount": 16,
+        "terminalEvaluation": null,
+        "landedOnThisPathway": false,
+        "error": "Required facts remain unresolved under these exact synthetic premises.",
         "answerSetRef": "data/rcap-ledger/public-witness-answer-sets.json#witnesses[pathwayKey=MS:pretrial-intervention-or-diversion-expungement]"
       },
       "ownerApprovedLegal": {
@@ -40787,16 +40722,16 @@
           "possible_pathway_context": "Probation or specialty-court dismissal / set-aside sealing"
         },
         "rounds": 2,
-        "finalAnswerCount": 14,
+        "finalAnswerCount": 17,
         "terminalEvaluation": {
-          "resultCode": "needs_review",
+          "resultCode": "likely_not_eligible",
           "pathwayId": "probation-or-specialty-court-dismissal-set-aside-sealing",
           "pathwayLabel": "Probation or specialty-court dismissal / set-aside sealing",
           "paymentAllowed": false,
           "treatmentClassification": null,
           "selectedTrackId": null,
           "reasonCodes": [
-            "nv.waiting_rule_not_executed"
+            "nv.nv_176a_subsection_3_not_eligible"
           ],
           "missingQuestionIds": []
         },
@@ -41846,7 +41781,7 @@
           "treatmentClassification": null,
           "selectedTrackId": null,
           "reasonCodes": [
-            "ny.ny_16059_numerosity_missing"
+            "ny.ny_16059_history_conflict"
           ],
           "missingQuestionIds": []
         },
@@ -61499,13 +61434,114 @@
           {
             "packetSetId": "va_exp_absolute_pardon-set",
             "trackId": "va_exp_absolute_pardon",
-            "version": "1.0.0",
+            "version": "1.1.0",
+            "procedureAdoption": {
+              "decisionId": "VA-01",
+              "disposition": "MODIFY",
+              "evidenceKind": "owner_relayed_counsel_adoption",
+              "registerName": "LegalEase_Legal_Decision_Review_2026-10-13(1).md",
+              "registerSha256": "4ffc56d4cc8dfa9b882f64ad51f49be815704fe20009ee7425b429418b54ead2",
+              "supersededRegisterSha256": "3e3ddd73cdda6463c7c3cecb98aa4a7219de4ae05c89d5273bd3fe490bec5131",
+              "authority": [
+                "Va. Code 19.2-392.2(I)",
+                "Va. Code 2.2-402(E)"
+              ],
+              "appliesThrough": "2026-11-30",
+              "mechanism": {
+                "transmissionActor": "Secretary of the Commonwealth",
+                "implementationActor": "receiving circuit court",
+                "policeTransmissionActor": "court/clerk"
+              },
+              "participantPetitionEstablished": false,
+              "documentAcceptance": "NOT_VERIFIED",
+              "historicalApprovalScope": "Historical August owner decisions and prior source/output receipts remain ancestry. They are not approval of the current unestablished CC-1472 role or a newly substituted form. No attorney identity, qualification or signature is inferred.",
+              "englishCopy": "An absolute pardon based on innocence follows a different process from an ordinary dismissal or acquittal petition. We need the pardon and case information to confirm that the court has carried out that process.",
+              "sourceLimits": [
+                "CC-1472 current role or retirement remains unestablished.",
+                "CC-1473 revision 07/26 is the subsection (A) acquittal/dismissal petition and is not a subsection (I) substitute.",
+                "CC-1474A concerns access to an already expunged record; it is not an absolute-pardon substitute.",
+                "The separately published December 1, 2026 statutory version is not the rule adopted for this review."
+              ],
+              "remainingSourceRequirement": "Where implementation or correction needs a document, obtain and verify the actual receiving circuit court’s implementation instrument and instructions for the covered pardon/case; establish exact identity, actors, field destinations and output acceptance. Do not select a substitute form.",
+              "relatedContactObligation": "GA15-DECLARED_COMPONENT_PURPOSE_CURRENT_OFFICIAL_OUTPUT_UNBOUND",
+              "originalFactDispositions": [
+                {
+                  "assertionId": "FAIL-1d5c156e9080d8e0c10c",
+                  "factId": "date_of_birth",
+                  "disposition": "No mandatory birth-date field is established by VA-01; retain known identity history without asserting a CC-1472 destination.",
+                  "officialFormDestination": null,
+                  "participantPetitionRequired": false,
+                  "historicalRawAnswerPreserved": true,
+                  "actualOutputAcceptance": "NOT_VERIFIED"
+                },
+                {
+                  "assertionId": "FAIL-c51b156e4e789fb5258d",
+                  "factId": "mailing_address",
+                  "disposition": "Retain independent safe-contact history; actual recipient/actor and address requirement depend on the verified implementation instrument, not an assumed petitioner contact block.",
+                  "officialFormDestination": null,
+                  "participantPetitionRequired": false,
+                  "historicalRawAnswerPreserved": true,
+                  "actualOutputAcceptance": "NOT_VERIFIED"
+                },
+                {
+                  "assertionId": "FAIL-7741ca998d4ebc329173",
+                  "factId": "phone_number",
+                  "disposition": "Retain the independent telephone answer; VA-01 does not establish mandatory telephone collection or an official field.",
+                  "officialFormDestination": null,
+                  "participantPetitionRequired": false,
+                  "historicalRawAnswerPreserved": true,
+                  "actualOutputAcceptance": "NOT_VERIFIED"
+                },
+                {
+                  "assertionId": "FAIL-71980e94e226f0150146",
+                  "factId": "email_address",
+                  "disposition": "No mandatory email or official destination is established; do not turn a historical combined contact answer into required email.",
+                  "officialFormDestination": null,
+                  "participantPetitionRequired": false,
+                  "historicalRawAnswerPreserved": true,
+                  "actualOutputAcceptance": "NOT_VERIFIED"
+                },
+                {
+                  "assertionId": "FAIL-e37b5260716f7f609b94",
+                  "factId": "full_name_at_time_of_arrest",
+                  "disposition": "Preserve historical name independently for accurate case/identity reconciliation; no blanket new sworn petition or specific official field is established.",
+                  "officialFormDestination": null,
+                  "participantPetitionRequired": false,
+                  "historicalRawAnswerPreserved": true,
+                  "actualOutputAcceptance": "NOT_VERIFIED"
+                },
+                {
+                  "assertionId": "FAIL-4ff4dbb566801032326a",
+                  "factId": "charges_to_be_expunged",
+                  "disposition": "Identify the actual offenses and cases covered by the pardon; bind any implementation or correction output only to a verified receiving-court instrument.",
+                  "officialFormDestination": null,
+                  "participantPetitionRequired": false,
+                  "historicalRawAnswerPreserved": true,
+                  "actualOutputAcceptance": "NOT_VERIFIED"
+                },
+                {
+                  "assertionId": "FAIL-3219c8b753dcf9bfb9f2",
+                  "factId": "final_disposition_dates_and_courts",
+                  "disposition": "Retain actual disposition and conviction-court facts separately; confirm proper court receipt and implementation without inventing an ordinary petition venue or official field.",
+                  "officialFormDestination": null,
+                  "participantPetitionRequired": false,
+                  "historicalRawAnswerPreserved": true,
+                  "actualOutputAcceptance": "NOT_VERIFIED"
+                }
+              ]
+            },
+            "packetSetCompleteness": {
+              "state": "incomplete",
+              "basis": "VA-01 adopts the statutory implementation mechanism, not an ordinary petition. The actual receiving-court implementation instrument, participant field destinations and output acceptance remain unverified where that instrument is needed. This does not withdraw supported relief or turn a missing document into a permanent unsupported route.",
+              "recordedBy": "Existing PR #268 implementation of owner-relayed counsel adoption",
+              "recordedOn": "2026-10-13"
+            },
             "components": [
               {
                 "componentId": "va_exp_absolute_pardon-primary-filing-1",
-                "role": "primary_filing",
+                "role": "status_verification_instructions",
                 "requirement": "required",
-                "outputStrategy": "custom_pleading",
+                "outputStrategy": "process_guidance",
                 "officialFormId": null,
                 "officialSourceUrl": null
               },
@@ -61519,98 +61555,37 @@
               },
               {
                 "componentId": "va_exp_absolute_pardon-filing-instructions-3",
-                "role": "filing_instructions",
+                "role": "followup_checklist",
                 "requirement": "required",
                 "outputStrategy": "process_guidance",
                 "officialFormId": null,
                 "officialSourceUrl": null
               }
             ],
-            "requiredBeforeFiling": [
-              "Obtain Certified copy of the absolute pardon. Ask the Secretary of the Commonwealth for a certified copy of the pardon. Whether it is absolute, and whether it recites that the crime was one you did not commit, is what § 19.2-392.2(I) turns on.",
-              "Check your answer to \"Does the pardon document say it is an absolute pardon, and does it say it is for a crime you did not commit?\" against Certified copy of the absolute pardon, and correct the packet if they disagree.",
-              "Obtain The circuit court case file, or the district court record held by that locality's circuit court. Ask the clerk of the circuit court of the locality where the case was disposed of for the case papers. District court charges are handled by that locality's circuit court, so that is where to ask even for a general district court charge.",
-              "Check your answer to \"How did the case end, and on what date?\" against The circuit court case file, or the district court record held by that locality's circuit court, and correct the packet if they disagree.",
-              "Obtain The participant's own Virginia criminal history record from the CCRE. Request your own copy from the CCRE for the fee they charge. This is a different thing from the court's copy: you must separately ask the CCRE to forward a copy electronically to the circuit court as part of the petition. The Norfolk clerk's guidance is that the case is established with the court first and the State Police request comes second, so the sequence matters.",
-              "Check your answer to \"How did the case end, and on what date?\" against The participant's own Virginia criminal history record from the CCRE, and correct the packet if they disagree.",
-              "Signature — Transmittal and request, signature block.",
-              "Case number and caption styling — Transmittal and request, caption.",
-              "The participant signs the transmittal and request.",
-              "none stated in § 19.2-392.2(I)."
-            ],
+            "requiredBeforeFiling": [],
             "participantActionRequired": [
               {
                 "kind": "obtain_document",
-                "description": "Obtain Certified copy of the absolute pardon. Ask the Secretary of the Commonwealth for a certified copy of the pardon. Whether it is absolute, and whether it recites that the crime was one you did not commit, is what § 19.2-392.2(I) turns on.",
+                "description": "Obtain the actual absolute pardon and confirm that it concerns a crime the person did not commit.",
                 "obtainedFrom": "Office of the Secretary of the Commonwealth",
-                "requirement": "required",
-                "requiredBeforeFiling": true
-              },
-              {
-                "kind": "confirm_answer",
-                "description": "Check your answer to \"Does the pardon document say it is an absolute pardon, and does it say it is for a crime you did not commit?\" against Certified copy of the absolute pardon, and correct the packet if they disagree.",
-                "requirement": "required",
-                "requiredBeforeFiling": true
-              },
-              {
-                "kind": "obtain_document",
-                "description": "Obtain The circuit court case file, or the district court record held by that locality's circuit court. Ask the clerk of the circuit court of the locality where the case was disposed of for the case papers. District court charges are handled by that locality's circuit court, so that is where to ask even for a general district court charge.",
-                "obtainedFrom": "Clerk of the circuit court of the county or city where the case was disposed of",
-                "requirement": "required",
-                "requiredBeforeFiling": true
-              },
-              {
-                "kind": "confirm_answer",
-                "description": "Check your answer to \"How did the case end, and on what date?\" against The circuit court case file, or the district court record held by that locality's circuit court, and correct the packet if they disagree.",
-                "requirement": "required",
-                "requiredBeforeFiling": true
-              },
-              {
-                "kind": "obtain_document",
-                "description": "Obtain The participant's own Virginia criminal history record from the CCRE. Request your own copy from the CCRE for the fee they charge. This is a different thing from the court's copy: you must separately ask the CCRE to forward a copy electronically to the circuit court as part of the petition. The Norfolk clerk's guidance is that the case is established with the court first and the State Police request comes second, so the sequence matters.",
-                "obtainedFrom": "Virginia State Police, Central Criminal Records Exchange",
-                "requirement": "required",
-                "requiredBeforeFiling": true
-              },
-              {
-                "kind": "confirm_answer",
-                "description": "Check your answer to \"How did the case end, and on what date?\" against The participant's own Virginia criminal history record from the CCRE, and correct the packet if they disagree.",
-                "requirement": "required",
-                "requiredBeforeFiling": true
-              },
-              {
-                "kind": "complete_field",
-                "description": "Signature — Transmittal and request, signature block.",
-                "requirement": "required",
-                "requiredBeforeFiling": true
-              },
-              {
-                "kind": "complete_field",
-                "description": "Case number and caption styling — Transmittal and request, caption.",
-                "requirement": "required",
-                "requiredBeforeFiling": true
-              },
-              {
-                "kind": "sign",
-                "description": "The participant signs the transmittal and request.",
-                "requirement": "required",
-                "requiredBeforeFiling": true
-              },
-              {
-                "kind": "pay_fee",
-                "description": "none stated in § 19.2-392.2(I).",
-                "requirement": "required",
-                "requiredBeforeFiling": true
-              },
-              {
-                "kind": "serve_party",
-                "description": "none prescribed.",
                 "requirement": "required",
                 "requiredBeforeFiling": false
               },
               {
-                "kind": "file",
-                "description": "Send the transmittal and request, with the certified pardon, to the clerk of the circuit court of the locality of conviction.",
+                "kind": "confirm_answer",
+                "description": "Identify the offenses and cases covered by the pardon, the conviction court and accurate case identifiers; preserve discrepancies for correction.",
+                "requirement": "required",
+                "requiredBeforeFiling": false
+              },
+              {
+                "kind": "confirm_answer",
+                "description": "Confirm the proper receiving circuit court and the status of the Secretary of the Commonwealth’s transmission and the court’s receipt and implementation. The Secretary transmits the pardon; the circuit court carries out expungement. Transmission to State Police remains a court/clerk act.",
+                "requirement": "required",
+                "requiredBeforeFiling": false
+              },
+              {
+                "kind": "confirm_answer",
+                "description": "If implementation is missing or inaccurate, supply the pardon and accurate case information for implementation or correction. Verify the receiving court’s actual implementation document and instructions where needed before assigning any participant signature, contact field, fee or service step.",
                 "requirement": "required",
                 "requiredBeforeFiling": false
               }
@@ -61693,12 +61668,21 @@
       },
       "ownerApprovedLegal": {
         "status": "approved_by_decision_owner",
-        "basis": "owner_approved_existing_legal_design_packet_set",
+        "basis": "owner_relayed_counsel_adopted_modified_procedure",
         "escalationRequired": false,
-        "packetSetIds": [
-          "va_exp_absolute_pardon-set"
-        ],
-        "statement": "Every track on this pathway carries an exact legal-design packet set (va_exp_absolute_pardon-set). Roger Roman under auth-2026-08-19-owner-legal-approval-completed-output, effective 2026-08-19 approved applying the existing approved designs across the intended-paid corpus, and missing EXT-ADOPT-01 family metadata is not a new substantive legal choice where the all-497 manifest already defines the treatment. VA additionally carries 1 bound family in EXT-ADOPT-01."
+        "currentProcedureDecision": {
+          "decisionId": "VA-01",
+          "disposition": "MODIFY",
+          "evidenceKind": "owner_relayed_counsel_adoption",
+          "registerSha256": "4ffc56d4cc8dfa9b882f64ad51f49be815704fe20009ee7425b429418b54ead2",
+          "appliesThrough": "2026-11-30"
+        },
+        "historicalOwnerDecision": {
+          "recordId": "auth-2026-08-19-owner-legal-approval-completed-output",
+          "appliesToCurrentDocument": false
+        },
+        "documentAcceptance": "NOT_VERIFIED",
+        "statement": "Owner-relayed counsel adoption of VA-01 approves the modified statutory Secretary-to-circuit-court implementation mechanism. The current role of CC-1472 is unestablished; neither CC-1473 nor CC-1474A is substituted. Actual receiving-court implementation documents, field destinations and rendered output remain unverified where needed. Historical August approval is preserved as ancestry, not carried forward as document acceptance."
       }
     },
     {
