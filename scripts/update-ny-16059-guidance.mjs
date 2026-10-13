@@ -1,0 +1,10 @@
+import fs from "node:fs";
+import assert from "node:assert/strict";
+import { ny16059InstructionsForReview } from "./build-census-v1-nj_arrest_no_conviction-set.mjs";
+const directory = "data/rcap-all50/overlays/census-v1/ny/ny-160-59-petition-set--official-pdf-fill";
+const map = JSON.parse(fs.readFileSync(`${directory}/production-field-map.json`, "utf8"));
+const guide = ny16059InstructionsForReview(map);
+const output = `${directory}/participant-instructions.md`;
+if (process.argv.includes("--write")) fs.writeFileSync(output, guide);
+else assert.equal(fs.readFileSync(output, "utf8"), guide, "NY guide is not reproduced by the current source-scoped producer");
+console.log(JSON.stringify({ status: "PASS", mode: process.argv.includes("--write") ? "ONE_GUIDE_ONLY" : "CHECK", sourcePdfsRegenerated: 0, approvalRecordsChanged: 0 }));
