@@ -5,19 +5,21 @@ import { conditionalFamilyScope, NC_SCOPE_PATH, NC_SUPPLEMENT } from './conditio
 import { reconcileReleaseEvidence } from './reconcile-release-evidence.mjs';
 import { applyNationalReleaseControl } from './apply-national-release-control.mjs';
 const ownerScope=JSON.parse(fs.readFileSync(NC_SCOPE_PATH));
-const masterQueue=JSON.parse(fs.readFileSync('data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json'));
+// Positive and mutation controls use the exact historical scope, not a moving nationwide queue.
+const masterQueue=JSON.parse(fs.readFileSync(new URL('./fixtures/nc-conditional-scope.json',import.meta.url)));
+const currentQueue=JSON.parse(fs.readFileSync('data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json'));
 test('bound optional supplement cannot consume a required slot or borrow core packet PASS',()=>{
  const before=JSON.stringify(masterQueue);
  const r=reconcileReleaseEvidence({masterQueue,ownerScope});
  const f=r.families.find(f=>f.familyId===NC_SUPPLEMENT);
  assert.equal(f.launchRequired,false);assert.equal(f.terminal,false);
  assert.equal(f.conditionalScope.packetComplete,false);
- assert.equal(r.counts.launchRequired,345);assert.equal(r.counts.terminal,345);
+ assert.equal(r.counts.launchRequired,2);assert.equal(r.counts.terminal,2);
  assert.equal(r.counts.conditionalSupplemental,1);
  assert.ok(!r.gaps.some(g=>g.familyId===NC_SUPPLEMENT));
  assert.ok(r.supplementalGaps.some(g=>g.familyId===NC_SUPPLEMENT && g.dimension==='terminal_treatment'));
  const doc=applyNationalReleaseControl({lineage:{}},{families:r.families,releaseReconciliation:r},masterQueue);
- assert.equal(doc.packetFamilies.total,346);assert.equal(doc.packetFamilies.launchRequired,345);
+ assert.equal(doc.packetFamilies.total,3);assert.equal(doc.packetFamilies.launchRequired,2);
  assert.equal(doc.packetFamilies.byDisposition.SOURCE_READY??0,0);
  assert.equal(doc.goHold.decision,'HOLD');assert.equal(JSON.stringify(masterQueue),before);
 });
@@ -47,4 +49,10 @@ test('CI establishes corpus before convergence and gates later checks on aggrega
 test('changed supplement verdict requires fresh scope reconciliation',()=>{
  const q=structuredClone(masterQueue);q.families.find(f=>f.familyId===NC_SUPPLEMENT).state='COMPLETE_PACKET_PROVEN';
  assert.throws(()=>conditionalFamilyScope(ownerScope,q.families));
+});
+
+test('current queue scope still refuses any nonterminal core; fixture never grants current acceptance',()=>{
+ const cores=['nc_146_dismissal_petition-set','nc_146_acquittal_petition-set'];
+ if(cores.some(id=>currentQueue.families.find(f=>f.familyId===id)?.state!=='COMPLETE_PACKET_PROVEN'))assert.throws(()=>conditionalFamilyScope(ownerScope,currentQueue.families),/nonterminal core/);
+ else assert.equal(conditionalFamilyScope(ownerScope,currentQueue.families).size,1);
 });

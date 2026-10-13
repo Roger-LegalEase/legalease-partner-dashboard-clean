@@ -96,11 +96,12 @@ jobs:
         id: generator_source_controls
         run: |
           python3 scripts/rcap-corpus/test-generator-sources.py
-          node --test scripts/rcap-corpus/test-generator-source-corroboration.mjs
+          node --test scripts/rcap-corpus/test-generator-source-corroboration.mjs scripts/rcap-corpus/test-generated-successor.mjs
       - name: Restore and preflight complete generator source inventory
         id: generator_sources
         run: python3 scripts/rcap-corpus/restore-generator-sources.py --report "$RUNNER_TEMP/generator-source-preflight/report.json"
-      - name: Check committed convergence and bounded source, repair and coverage contracts
+      - name: Check committed generator convergence
+        id: convergence
         env:
           GENERATOR_SOURCE_AUDIT_DIR: ${{ runner.temp }}/generator-source-preflight/reads
           FACTORY_CANDIDATE_DIR: ${{ runner.temp }}/factory-convergence-candidate
@@ -112,6 +113,10 @@ jobs:
           git status --porcelain > "$out/pre-convergence-worktree.txt"
           test ! -s "$out/pre-convergence-worktree.txt" || { cat "$out/pre-convergence-worktree.txt"; exit 1; }
           node scripts/rcap-corpus/check-generator-convergence.mjs
+      - name: Check bounded source, repair and coverage contracts
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/factory-validation"
           node scripts/grade-a-packet-factory-24h/test-source-readiness-constraints.mjs --generated | tee "$out/source-controls.log"
           node scripts/grade-a-packet-factory-24h/test-conditional-raster-documents.mjs --generated | tee "$out/conditional-controls.log"
           node scripts/grade-a-packet-factory-24h/test-bounded-repair-authorization.mjs | tee "$out/bounded-repair-controls.log"
@@ -142,13 +147,27 @@ jobs:
           terminal={'COMPLETE_PACKET_PROVEN','GUIDANCE_READY','HANDOFF_READY','OUT_OF_SCOPE'}
           log=out/'verify-mutations.log';text=log.read_text() if log.exists() else ''
           clean=subprocess.check_output(['git','status','--porcelain'])==b''
-          report={'runId':os.environ['GITHUB_RUN_ID'],'checkedCommit':os.environ['GITHUB_SHA'],'recordedAt':datetime.datetime.now(datetime.timezone.utc).isoformat(),'results':results,'states':dict(collections.Counter(f['state'] for f in master['families'])),'terminalFamilies':sum(f['state'] in terminal for f in master['families']),'denominator':len(master['families']),'completeFactoryMutationSuite':'every mutated file restored byte-for-byte: true' in text and not re.search(r'\b(MISSED|OVER-CAUGHT|UNPROVABLE)\b',text),'negativeCasesCaught':len(re.findall(r'^  detected',text,re.M)),'positiveCasesPassed':len(re.findall(r'^  stayed green',text,re.M)),'cleanWorktree':clean,'packetRebuilds':0,'branchWrites':0,'newApprovals':0,'productionTouched':False}
+          report={'runId':os.environ['GITHUB_RUN_ID'],'checkedCommit':os.environ['FACTORY_APPLICATION_SHA'],'recordedAt':datetime.datetime.now(datetime.timezone.utc).isoformat(),'results':results,'states':dict(collections.Counter(f['state'] for f in master['families'])),'terminalFamilies':sum(f['state'] in terminal for f in master['families']),'denominator':len(master['families']),'completeFactoryMutationSuite':'every mutated file restored byte-for-byte: true' in text and not re.search(r'\b(MISSED|OVER-CAUGHT|UNPROVABLE)\b',text),'negativeCasesCaught':len(re.findall(r'^  detected',text,re.M)),'positiveCasesPassed':len(re.findall(r'^  stayed green',text,re.M)),'cleanWorktree':clean,'packetRebuilds':0,'branchWrites':0,'newApprovals':0,'productionTouched':False}
           (out/'results.json').write_text(json.dumps(report,indent=2)+'\n')
           print(json.dumps(report,indent=2))
           assert len(results)==10 and all(r['status']=='PASS' and r['worktreeRestored'] for r in results),'A validation suite failed'
           assert report['completeFactoryMutationSuite'],'Incomplete mutation coverage'
           assert clean,'Validation changed the checkout'
           PY
+      - name: Capture complete generated successor after failed convergence
+        if: failure() && steps.convergence.outcome == 'failure'
+        env:
+          GENERATOR_SOURCE_AUDIT_DIR: ${{ runner.temp }}/generator-source-preflight/reads
+          GENERATED_SUCCESSOR_DIR: ${{ runner.temp }}/factory-generated-successor
+        run: node scripts/rcap-corpus/capture-generated-successor.mjs
+      - name: Preserve complete generated successor for independent review
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: factory-generated-successor-${{ github.run_id }}
+          path: ${{ runner.temp }}/factory-generated-successor/
+          retention-days: 14
+          if-no-files-found: ignore
       - name: Preserve divergent factory metadata for review
         if: always()
         uses: actions/upload-artifact@v4
