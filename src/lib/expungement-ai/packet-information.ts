@@ -1,3 +1,6 @@
+import { GA_FIRST_OFFENDER_FACT_IDS, GA_ORIGINAL_FIRST_OFFENDER_PATHWAY, georgiaFirstOffenderQuestionApplies } from "@/lib/rcap-engine/georgia-first-offender";
+import { IL_CANNABIS_FACT_IDS, IL_CANNABIS_PATHWAY, illinoisCannabisQuestionApplies } from "@/lib/rcap-engine/illinois-cannabis-facts";
+import { pathwayExcludedByKnownFacts } from "@/lib/rcap-engine/factual-pathway-exclusions";
 import { CA_PROP64_FACT_IDS, CA_PROP64_FACT_QUESTIONS, CA_PROP64_REASON_COPY, caProp64ActiveFactIds } from "@/lib/rcap-engine/california-prop64-facts";
 import { ny16059CustodyRemovalAvailable } from "@/lib/expungement-ai/ny-custody-correction";
 import { NY_16059_FACT_IDS, NY_16059_ROUTE, ny16059QuestionApplies, ny16059History } from "@/lib/rcap-engine/new-york-16059-facts";
@@ -417,7 +420,7 @@ export function packetInformationPatch(input: {
     ...(current.stateCode === "NY" && current.pathwayId === NY_16059_ROUTE ? Object.keys(current.packetAnswers) : [])]);
   // Losing a packet plan does not discard the owner's other saved packet facts.
   // They remain protected while the one existing financial fact is corrected.
-  const retainedFinancialAnswers = !current.packetPlan && routeFactualCorrectionIds(current).includes("financial_obligations")
+  const retainedFinancialAnswers = !current.packetPlan && routeFactualCorrectionIds(current).length > 0
     ? answerRecord(protectedAuthoritySnapshotFor(priorProtected)?.packetAnswers) : undefined;
   const savedAnswers = { ...retainedFinancialAnswers, ...answerRecordForIds(current.packetAnswers, storedIds), ...answerDelta };
   const clearCustody = input.clearInactiveCustodyFacts === true;
@@ -832,6 +835,41 @@ export function financialAnswerHeldSuccessor(snapshot: ProtectedPacketAuthorityS
   return previous !== null && protectedRouteAuthorityMatches(snapshot, previous);
 }
 
+/** Exact pre-correction contracts at bd4f9715b. This proves historical held
+ * ownership only; the contradicted plan is never carried into current authority. */
+export function factualPathwayHeldSuccessor(snapshot: ProtectedPacketAuthoritySnapshot, authoritative: NonNullable<ReturnType<typeof evaluateProtectedPacketFacts>>): ProtectedPacketDraftSnapshot | null {
+  const historical = snapshot.jurisdiction === "IL" ? {
+    route: "cannabis-specific-automatic-or-petition-expungement", type: "official_pdf_overlay",
+    source: "aa34523e3b643b32124db5d83973622f37082f2d112b3e32ef55912258a7e630",
+    authority: "fd2f928d24a4d0d56fd8ff5abda2e8a865d1c164a43d448cbf32fd7225af52d0"
+  } : snapshot.jurisdiction === "GA" ? {
+    route: "youthful-first-offender-restriction-route", type: "custom_pleading",
+    source: "2e9c9d5f9ad17fefb315d71b4336f0ffd2de6c1b614453cd06abd45f06cf2812",
+    authority: "203fdfa7f45347041d9aba3acacddd8e0ae02c7349256c1c3ba6c2bdb3a191ef"
+  } : null;
+  const profile = getProfileByJurisdiction(snapshot.jurisdiction);
+  const evaluation = authoritative.evaluation;
+  if (!historical || !profile || snapshot.pathwayId !== historical.route
+    || snapshot.profileVersion !== "2026-06-19-source-conversion-1" || profile.profileVersion !== snapshot.profileVersion
+    || snapshot.profileSourceFingerprint !== historical.source || profile.source?.sourceCorpusSha256 !== historical.source
+    || snapshot.profileAuthorityFingerprint !== historical.authority || profileAuthorityFingerprint(profile, historical.route) !== historical.authority
+    || snapshot.resultCode !== "needs_review" || snapshot.paymentAllowed || snapshot.packetType !== historical.type
+    || snapshot.selectedTrackId !== null || snapshot.treatmentClassification !== null || !canonicalEqual(snapshot.deferralComponentIds, [])
+    || !pathwayExcludedByKnownFacts(snapshot.jurisdiction, protectedPacketScreeningAnswers(snapshot) ?? {}, historical.route)
+    || evaluation.jurisdiction !== snapshot.jurisdiction || evaluation.profileVersion !== snapshot.profileVersion
+    || evaluation.resultCode !== "needs_review" || evaluation.pathwayId || evaluation.packetPlan || evaluation.paymentAllowed
+    || authoritative.packetType || authoritative.selectedTrackId || evaluation.treatmentClassification || evaluation.deferralComponentIds?.length
+    || evaluation.reasons.length !== 1 || evaluation.reasons[0].code !== `${snapshot.jurisdiction.toLowerCase()}.pathway_conflicts_with_saved_fact`) return null;
+  const plan = packetPlanForPathway(profile, historical.route);
+  if (!plan || !canonicalEqual(snapshot.packetPlan, plan) || !canonicalEqual(snapshot.requiredInputIds, plan.requiredInputIds)
+    || !canonicalEqual(snapshot.packetFamilyIdentifiers, { mode: plan.mode, sourceFormIds: plan.sourceFormIds })
+    || !canonicalEqual(snapshot.serverFacts, canonicalServerFacts(snapshot.jurisdiction, historical.route))) return null;
+  const seeded = protectedPacketDraftSeedFromAuthoritative({ authoritative, screeningAnswers: answerRecord(snapshot.screeningAnswers),
+    prefilledAnswers: answerRecord(snapshot.prefilledAnswers), packetAnswers: answerRecord(snapshot.packetAnswers), dependencies: snapshot.dependencies,
+    capturedAt: "capturedAt" in snapshot ? snapshot.capturedAt : snapshot.verifiedAt });
+  return seeded ? preserveUnchangedProtectedFacts(seeded.snapshot, snapshot, new Set()) : null;
+}
+
 export function protectedPacketInformationModelFor(
   verification: ProtectedPacketVerificationRecord
 ): ProtectedPacketInformationModel | null {
@@ -844,6 +882,8 @@ export function protectedPacketInformationModelFor(
   const authoritative = evaluateProtectedPacketFacts(snapshot);
   if (!authoritative) return null;
   const evaluation = authoritative.evaluation;
+  const factualSuccessor = factualPathwayHeldSuccessor(snapshot, authoritative);
+  if (factualSuccessor) snapshot = factualSuccessor;
   const contractSuccessor = !canonicalEqual(evaluation.packetPlan ?? null, snapshot.packetPlan)
     ? reviewedPacketContractSuccessor(snapshot, evaluation.packetPlan) : null;
   if (contractSuccessor) snapshot = contractSuccessor;
@@ -885,6 +925,10 @@ export function protectedPacketInformationModelFor(
   );
   questionSurface.questions = legacyShapeQuestionMetadata(questionSurface.questions, legacy.inspection.effectiveInvalidIds);
   questionSurface.builderQuestions = legacyShapeQuestionMetadata(questionSurface.builderQuestions, legacy.inspection.effectiveInvalidIds);
+  if (!packetPlan) for (const id of factualPathwayCorrectionIds(snapshot.jurisdiction, snapshot.pathwayId, initialAnswers)) {
+    const question = questionSurface.questions.find(candidate => candidate.id === id);
+    if (question && !questionSurface.builderQuestions.some(candidate => candidate.id === id)) questionSurface.builderQuestions.push(question);
+  }
   for (const question of questionSurface.questions) questionSurface.questionById.set(question.id, question);
   const recordOwnQuestionIds = [...recordFactOwnQuestionIds(`${snapshot.jurisdiction}:${snapshot.pathwayId}`, initialAnswers, snapshot.dependencies.recordFactConfirmations)];
   const recordClarificationIds = unresolvedRecordFactConfirmations(`${snapshot.jurisdiction}:${snapshot.pathwayId}`, initialAnswers, questionSurface.questionById, snapshot.dependencies.recordFactConfirmations);
@@ -1044,6 +1088,20 @@ export function packetCollectionFor(input: {
 /** Edit links and direct saves share collection ownership; later/external facts stay in their actual stage. */
 /** Eligibility corrections are distinct from document-required fields. They use
  * the existing protected revision/hash transition and never change the plan. */
+/** Existing route facts remain editable through an exclusion and subsequent
+ * clarification. A saved fact identifies its control, never a replacement route. */
+export function factualPathwayCorrectionIds(state: string, pathway: string | null, answers: Record<string, unknown>, includeInactive = false): string[] {
+  if (state === "GA" && (pathway === GA_ORIGINAL_FIRST_OFFENDER_PATHWAY || pathway === null && Object.hasOwn(answers, "ga_original_first_offender"))) {
+    return [...GA_FIRST_OFFENDER_FACT_IDS.filter(id => includeInactive || georgiaFirstOffenderQuestionApplies(state, answers, id)),
+      ...(answers.ga_original_first_offender === "yes" ? ["case_outcome"] : [])];
+  }
+  if (state === "IL" && (pathway === IL_CANNABIS_PATHWAY || pathway === null && Object.hasOwn(answers, "il_cannabis_next_step"))) {
+    return [...IL_CANNABIS_FACT_IDS.filter(id => includeInactive || illinoisCannabisQuestionApplies(state, answers, id)),
+      ...(["status_check", "vacate_conviction"].includes(String(answers.il_cannabis_next_step)) ? ["case_outcome"] : [])];
+  }
+  return [];
+}
+
 function routeFactualCorrectionIds(model: { stateCode: string; pathwayId: string | null; screeningAnswers: Record<string, AnswerValue>; prefilledAnswers: Record<string, AnswerValue>; packetAnswers: Record<string, AnswerValue> }, includeInactive = false): string[] {
   if (isCaProp64Pathway(model.stateCode, model.pathwayId)) {
     const answers = { ...model.screeningAnswers, ...model.prefilledAnswers, ...model.packetAnswers };
@@ -1051,10 +1109,11 @@ function routeFactualCorrectionIds(model: { stateCode: string; pathwayId: string
       "offense_level", "case_outcome", "court", "charge", "ca_prop64_branch", "sentence_completion_date",
       ...(model.pathwayId === CA_PROP64_COMPLETED ? ["ca_prop64_relief_requested"] : [])];
   }
+  const factual = factualPathwayCorrectionIds(model.stateCode, model.pathwayId, { ...model.screeningAnswers, ...model.prefilledAnswers, ...model.packetAnswers }, includeInactive);
   const profile = getProfileByJurisdiction(model.stateCode);
   const financial = model.pathwayId && isIndependentPaidFinancialFact(`${model.stateCode}:${model.pathwayId}`,
     profile?.questions.find(question => question.id === "financial_obligations")) ? ["financial_obligations"] : [];
-  if (model.stateCode !== "NY" || model.pathwayId !== NY_16059_ROUTE) return financial;
+  if (model.stateCode !== "NY" || model.pathwayId !== NY_16059_ROUTE) return [...financial, ...factual];
   const answers = toScreeningAnswers({ ...model.screeningAnswers, ...model.prefilledAnswers, ...model.packetAnswers });
   return [...financial, ...NY_16059_FACT_IDS.filter(id => id !== "ny_16059_request"), "ny_16059_later_conviction_entered", "ny_16059_undisposed_arrest", "ny_16059_pending_charge", "ny_16059_sex_offender_registration"]
     .filter(id => includeInactive || ny16059QuestionApplies(answers, id)
@@ -1069,7 +1128,8 @@ export function editablePacketInputIds(model: Pick<ProtectedPacketInformationMod
   const excluded = new Set(collection?.facts.filter((fact) => fact.source === "server_route_fact"
     || ["external_actor", "derived"].includes(fact.collection)
     || !includeInactive && fact.collection === "conditional" && fact.active === false).map((fact) => fact.factId) ?? []);
-  const corrections = routeFactualCorrectionIds(model, includeInactive).filter(id => id !== "financial_obligations"
+  const factualIds = factualPathwayCorrectionIds(model.stateCode, model.pathwayId, { ...model.screeningAnswers, ...model.prefilledAnswers, ...model.packetAnswers }, includeInactive);
+  const corrections = routeFactualCorrectionIds(model, includeInactive).filter(id => id !== "financial_obligations" && !factualIds.includes(id)
     || !(id in model.serverFacts) && !excluded.has(id) && model.questions.some(question => question.id === id));
   return new Set([...model.requiredInputIds.filter((id) => !(id in model.serverFacts) && !excluded.has(id)), ...corrections]);
 }
@@ -1479,9 +1539,22 @@ function deriveProtectedPacketDraftSnapshot(
   if (!base) return null;
   const currentAuthority = evaluateProtectedPacketFacts(base);
   if (!currentAuthority) return null;
+  const originalBase = base;
+  const factualIds = factualPathwayCorrectionIds(base.jurisdiction, base.pathwayId, { ...base.screeningAnswers, ...base.prefilledAnswers, ...base.packetAnswers }, true);
   if (!canonicalEqual(currentAuthority.evaluation.packetPlan ?? null, base.packetPlan)) {
-    base = reviewedPacketContractSuccessor(base, currentAuthority.evaluation.packetPlan);
+    base = factualPathwayHeldSuccessor(base, currentAuthority) ?? reviewedPacketContractSuccessor(base, currentAuthority.evaluation.packetPlan);
     if (!base) return null;
+  }
+  if (factualIds.some(id => explicitChangedIds.has(id))) {
+    const history = [...(base.dependencies.semanticAnswerHistory ?? [])];
+    for (const factId of factualIds.filter(id => explicitChangedIds.has(id))) for (const source of ["screeningAnswers", "prefilledAnswers", "packetAnswers"] as const) {
+      if (!Object.hasOwn(originalBase[source], factId)) continue;
+      const entry = { factId, value: originalBase[source][factId], source, meaning: "prior_factual_pathway_answer" as const,
+        routeKey: `${originalBase.jurisdiction}:${originalBase.pathwayId}`, profileVersion: originalBase.profileVersion,
+        profileSourceFingerprint: originalBase.profileSourceFingerprint, profileAuthorityFingerprint: originalBase.profileAuthorityFingerprint };
+      if (!history.some(old => canonicalEqual(old, entry))) history.push(entry);
+    }
+    base = { ...base, dependencies: { ...base.dependencies, semanticAnswerHistory: history } };
   }
   if (clearInactiveCustodyFacts) {
     const history = [...(base.dependencies.semanticAnswerHistory ?? [])];
@@ -1546,7 +1619,7 @@ function deriveProtectedPacketDraftSnapshot(
   const preserveFinancialFacts = (!base.packetPlan || explicitChangedIds.has("financial_obligations"))
     && isIndependentPaidFinancialFact(`${base.jurisdiction}:${base.pathwayId}`,
     getProfileByJurisdiction(base.jurisdiction)?.questions.find(question => question.id === "financial_obligations"));
-  const preserved = isCaProp64Pathway(base.jurisdiction, base.pathwayId) || preserveFinancialFacts
+  const preserved = isCaProp64Pathway(base.jurisdiction, base.pathwayId) || preserveFinancialFacts || factualIds.length > 0
     ? preserveUnchangedProtectedFacts(shapesPreserved, base, new Set([...explicitChangedIds, ...confirmRecordFacts]))
     : shapesPreserved;
   return { ...preserved, dependencies: history.length

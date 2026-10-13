@@ -11,6 +11,7 @@ import { georgiaFirstOffenderFromAnswers, georgiaFirstOffenderQuestionApplies } 
 import { illinoisCannabisFromAnswers, illinoisCannabisQuestionApplies } from "@/lib/rcap-engine/illinois-cannabis-facts";
 import { isIndependentPaidFinancialFact } from "@/lib/expungement-ai/court-completion-fact-meaning";
 import { questionAnswerState } from "@/lib/expungement-ai/question-answer-state";
+import { pathwayExcludedByKnownFacts } from "@/lib/rcap-engine/factual-pathway-exclusions";
 import type {
   EngineProfile,
   PublicJurisdictionProfile,
@@ -69,7 +70,8 @@ export function selectScreeningQuestionIds(
   const selectedPathway = caRoute ? profile.pathways.find(p => p.id === caRoute) : profile.jurisdiction.code === "NY" && ny16059Requested(answers) ? profile.pathways.find(p => p.id === NY_16059_ROUTE) : deRoute ? profile.pathways.find(pathway => pathway.id === deRoute) : programRoute?.status === "selected"
     ? profile.pathways.find(pathway => pathway.id === programRoute.pathwayId)
     : (programRoute?.status === "clarification" || programRoute?.status === "district_arrest" || programRoute?.status === "district_review" || profile.jurisdiction.code === "CA" && caProp64ApplicationRequested(answers)) ? undefined : selectedLabel
-    ? profile.pathways.find((pathway) => pathway.label === selectedLabel)
+    ? profile.pathways.find((pathway) => pathway.label === selectedLabel
+      && !pathwayExcludedByKnownFacts(profile.jurisdiction.code, answers, pathway.id))
     : undefined;
   const recordQuestions = new Map(caProp64RecordQuestions(profile, publicProfile.questions, selectedPathway?.id).map((question) => [question.id, question]));
   const stageOrder = new Map(publicProfile.flowStages.map((stage) => [stage.id, stage.order]));

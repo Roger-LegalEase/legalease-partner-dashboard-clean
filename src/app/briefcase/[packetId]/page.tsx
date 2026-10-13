@@ -42,7 +42,7 @@ export default async function BriefcasePacketPage({
   const packetMatter = available && (item?.resultCode === "packet_ready" || item?.resultCode === "packet_ready_with_caution");
   const factsVerified = item?.verificationStatus === "verified";
   const packetDraftAvailable = item?.packetDraft.status === "available";
-  const completionCorrectionAvailable = item?.authorityStatus === "protected_draft" && item.paymentState !== "unavailable"
+  const completionCorrectionAvailable = item?.authorityStatus === "protected_draft"
     && item.jurisdiction && item.packetDraft.status === "available"
     && heldPacketCorrectionInputIds({ ...item.packetDraft, stateCode: item.jurisdiction, pathwayId: item.pathwayId }, item.resultCode).size > 0;
   const artifact = item?.artifact.status === "ready" ? item.artifact : null;
@@ -68,7 +68,7 @@ export default async function BriefcasePacketPage({
         <Link className="inline-flex min-h-11 items-center font-semibold underline" href={`/briefcase/${storedItem.id}/packet-information`}><LocalizedCopy {...CA_PROP64_CLARIFICATION_COPY.legacy_heading} /></Link>
       </p> : null}
       {completionCorrectionAvailable && item ? <p className="mb-5 rounded border border-amber-300 p-4">
-        <Link className="inline-flex min-h-11 items-center font-semibold underline" href={`/briefcase/${item.id}/packet-information`}><LocalizedCopy en={["NY", "CA"].includes(item.jurisdiction ?? "") ? "Review saved eligibility answers" : "Review saved completion answers"} es={["NY", "CA"].includes(item.jurisdiction ?? "") ? "Revise las respuestas guardadas sobre la elegibilidad" : "Revise las respuestas guardadas sobre el cumplimiento"} /></Link>
+        <Link className="inline-flex min-h-11 items-center font-semibold underline" href={`/briefcase/${item.id}/packet-information`}><LocalizedCopy en={["NY", "CA", "IL", "GA"].includes(item.jurisdiction ?? "") ? "Review saved eligibility answers" : "Review saved completion answers"} es={["NY", "CA", "IL", "GA"].includes(item.jurisdiction ?? "") ? "Revise las respuestas guardadas sobre la elegibilidad" : "Revise las respuestas guardadas sobre el cumplimiento"} /></Link>
       </p> : null}
       {item && item.authorityStatus !== "unavailable" ? (
         <section data-briefcase-matter-id={item.id}>
@@ -77,7 +77,7 @@ export default async function BriefcasePacketPage({
             <div className="min-w-0">
               <p className="text-xs font-bold uppercase tracking-[0.08em] text-[#08786F]">{item.jurisdiction}</p>
               <h1 className="mt-2 text-[24px] font-extrabold tracking-[-0.02em] text-[#0B1320]">{item.title}</h1>
-              <p className="mt-2 text-[13px] leading-6 text-[#5A6275]">{item.summary}</p>
+              <p className="mt-2 text-[13px] leading-6 text-[#5A6275]"><LocalizedRuntimeText text={item.summary ?? ""} /></p>
             </div>
             <MatterStatusBadge item={item} />
           </div>

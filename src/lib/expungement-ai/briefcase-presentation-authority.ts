@@ -1,4 +1,4 @@
-import { financialAnswerHeldSuccessor, ny16059HeldDetailSuccessor } from "@/lib/expungement-ai/packet-information";
+import { factualPathwayHeldSuccessor, financialAnswerHeldSuccessor, ny16059HeldDetailSuccessor } from "@/lib/expungement-ai/packet-information";
 import "server-only";
 import { reviewedPacketContractSuccessor } from "@/lib/expungement-ai/packet-contract-successors";
 import { getProgramPacketFunding } from "@/lib/partners/onboarding/program-packet-funding";
@@ -422,13 +422,14 @@ function legalAuthorityFromProtectedVerification(
 ): BriefcaseLegalPresentationAuthority {
   const model = protectedPacketInformationModelFor(verification);
   if (!model) return { status: "unavailable", reason: "protected_packet_draft_invalid" };
-  const snapshot = verification.status === "verified"
+  let snapshot = verification.status === "verified"
     ? verification.snapshot
     : verification.draftSnapshot;
   if (!snapshot) return { status: "unavailable", reason: "protected_packet_draft_missing" };
   const authoritative = evaluateProtectedPresentationSnapshot(snapshot, itemId, evaluate);
   if (!authoritative) return { status: "unavailable", reason: "protected_snapshot_reevaluation_failed" };
   const evaluation = authoritative.evaluation;
+  snapshot = factualPathwayHeldSuccessor(snapshot, authoritative) ?? snapshot;
   const financialSuccessor = financialAnswerHeldSuccessor(snapshot, authoritative);
   if (evaluation.jurisdiction !== snapshot.jurisdiction
     || evaluation.profileVersion !== snapshot.profileVersion
@@ -448,7 +449,7 @@ function legalAuthorityFromProtectedVerification(
   const protectedStatus = verificationStatus === "verified" ? "protected_verified" : "protected_draft";
   const packetProgress: BriefcasePresentationItem["packetProgress"] = verificationStatus === "verified"
     ? "verified"
-    : model.missingInputIds.length === 0 && model.pendingDerivations.length === 0
+    : !model.packetPlan ? "in_progress" : model.missingInputIds.length === 0 && model.pendingDerivations.length === 0
       ? "facts_complete"
       : Object.keys(model.packetAnswers).length > 0 ? "in_progress" : "not_started";
   return legalAuthorityFromEvaluation(protectedStatus, authoritative, {
@@ -560,7 +561,7 @@ function legalAuthorityFromEvaluation(
     resultCode: evaluation.resultCode,
     pathwayId: evaluation.pathwayId ?? null,
     pathwayLabel: authoritative.pathwayLabel,
-    summary: evaluation.userLabel,
+    summary: evaluation.reasons.find(reason => ["il.pathway_conflicts_with_saved_fact", "ga.pathway_conflicts_with_saved_fact"].includes(reason.code))?.text ?? evaluation.userLabel,
     nextSteps: stringArray(evaluation.nextSteps),
     checklist: stringArray(packetPlan?.packetReadyWhen),
     packetType: authoritative.packetType ?? null,

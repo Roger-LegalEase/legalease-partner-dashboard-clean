@@ -12,6 +12,7 @@ import {
 } from "@/lib/expungement-ai/briefcase-presentation-authority";
 import {
   packetInformationPatch,
+  factualPathwayCorrectionIds,
   caProp64ClarificationModelFor,
   caProp64ClarificationPatch,
   packetAccountEmailSuggestion,
@@ -120,13 +121,16 @@ export async function POST(
     return NextResponse.json({ ok: false, error: "revision_conflict" }, { status: 409 });
   }
   const protectedModel = ownerEditingModelFor(protectedRead.value);
+  if (!protectedModel) return NextResponse.json({ ok: false, error: "packet_information_unavailable" }, { status: 403 });
   const savedResult = protectedRead.value.status === "verified" ? protectedRead.value.snapshot?.resultCode : protectedRead.value.draftSnapshot?.resultCode;
+  const factualCorrectionIds = protectedModel ? factualPathwayCorrectionIds(protectedModel.stateCode, protectedModel.pathwayId, protectedModel.initialAnswers) : [];
   const financialCorrection = protectedModel && heldPacketCorrectionInputIds(protectedModel, savedResult ?? null).has("financial_obligations");
   if (!protectedModel?.packetPlan && !protectedModel?.caProp64Clarification
-    && !financialCorrection
+    && !financialCorrection && !factualCorrectionIds.length
     && !(protectedModel?.stateCode === "NY" && protectedModel.pathwayId === NY_16059_ROUTE)) {
     return NextResponse.json({ ok: false, error: "packet_information_unavailable" }, { status: 403 });
   }
+  if (!protectedModel.packetPlan && factualCorrectionIds.length && parsed.verify) return NextResponse.json({ ok: false, error: "invalid_packet_answers", invalidFactIds: factualCorrectionIds }, { status: 422 });
   if (protectedModel.caProp64Clarification && parsed.verify) return NextResponse.json({ ok: false, error: "invalid_packet_answers", invalidFactIds: protectedModel.requiredInputIds }, { status: 422 });
   if (!protectedModel.packetPlan && financialCorrection && parsed.verify) return NextResponse.json({ ok: false, error: "invalid_packet_answers", invalidFactIds: ["financial_obligations"] }, { status: 422 });
   if (parsed.clearInactiveCustodyFacts && (!ny16059CustodyRemovalAvailable(protectedModel.stateCode, protectedModel.pathwayId, protectedModel.initialAnswers)

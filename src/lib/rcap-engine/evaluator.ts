@@ -12,6 +12,7 @@ import { caProp64RecordAnswerState } from "@/lib/expungement-ai/ca-prop64-record
 import { mississippiProgramRouteFromAnswers } from "@/lib/rcap-engine/composed-route-selector";
 import { georgiaFirstOffenderFromAnswers } from "@/lib/rcap-engine/georgia-first-offender";
 import { illinoisCannabisFromAnswers, IL_CANNABIS_PATHWAY } from "@/lib/rcap-engine/illinois-cannabis-facts";
+import { pathwayExcludedByKnownFacts, FACTUAL_PATHWAY_EXCLUSION_COPY } from "@/lib/rcap-engine/factual-pathway-exclusions";
 import "server-only";
 
 import crypto from "node:crypto";
@@ -807,40 +808,39 @@ function selectPathway(profile: EngineProfile, answers: Record<string, Screening
   }
   const context = answerText(answers.possible_pathway_context).toLowerCase();
   if (context) {
-    const exactContext = profile.pathways.find((pathway) => normalizeContextMatch(pathway.label) === normalizeContextMatch(context));
-    if (exactContext) return exactContext;
-
-    const byStatuteNumber = profile.pathways.find((pathway) => numericContextMatch(context, `${pathway.id} ${pathway.label} ${pathway.summary}`));
-    if (byStatuteNumber) return byStatuteNumber;
-
-    const byContext = profile.pathways.find((pathway) => contextTokenMatch(context, pathway.label) || contextTokenMatch(context, pathway.summary));
-    if (byContext) return byContext;
-
-    return undefined;
+    const requested = pathwayFromContext(profile, context);
+    return requested && !pathwayExcludedByKnownFacts(profile.jurisdiction.code, answers, requested.id) ? requested : undefined;
   }
 
+  const candidates = profile.pathways.filter(pathway => !pathwayExcludedByKnownFacts(profile.jurisdiction.code, answers, pathway.id));
   const outcome = answerText(answers.case_outcome).toLowerCase();
-  const automatic = profile.pathways.find((pathway) => /automatic|clean slate|no-filing/i.test(`${pathway.label} ${pathway.summary}`));
+  const automatic = candidates.find((pathway) => /automatic|clean slate|no-filing/i.test(`${pathway.label} ${pathway.summary}`));
   if (/automatic|clean slate/.test(context) && automatic) return automatic;
 
-  const nonConviction = profile.pathways.find((pathway) => /non[- ]conviction|dismiss|acquit|arrest/i.test(`${pathway.label} ${pathway.summary}`));
+  const nonConviction = candidates.find((pathway) => /non[- ]conviction|dismiss|acquit|arrest/i.test(`${pathway.label} ${pathway.summary}`));
   if (/dismiss|acquit|no charge|not prosecuted|arrest/.test(outcome) && nonConviction) return nonConviction;
 
-  const juvenile = profile.pathways.find((pathway) => /juvenile|minor/i.test(`${pathway.label} ${pathway.summary}`));
+  const juvenile = candidates.find((pathway) => /juvenile|minor/i.test(`${pathway.label} ${pathway.summary}`));
   if (/juvenile|minor/.test(outcome) && juvenile) return juvenile;
 
   // A pardoned conviction is still a conviction by token, so the pardon branch
   // must run before the generic conviction branch or MD pardon participants
   // land on the first "non-conviction"-labeled pathway (label token overlap).
   if (profile.jurisdiction.code === "MD" && /pardon/.test(outcome)) {
-    const pardoned = profile.pathways.find((pathway) => /pardon/i.test(pathway.label));
+    const pardoned = candidates.find((pathway) => /pardon/i.test(pathway.label));
     if (pardoned) return pardoned;
   }
 
-  const conviction = profile.pathways.find((pathway) => /conviction|misdemeanor|felony/i.test(`${pathway.label} ${pathway.summary}`));
+  const conviction = candidates.find((pathway) => /conviction|misdemeanor|felony/i.test(`${pathway.label} ${pathway.summary}`));
   if (/conviction|misdemeanor|felony/.test(outcome) && conviction) return conviction;
 
   return undefined;
+}
+
+function pathwayFromContext(profile: EngineProfile, context: string) {
+  return profile.pathways.find(pathway => normalizeContextMatch(pathway.label) === normalizeContextMatch(context))
+    ?? profile.pathways.find(pathway => numericContextMatch(context, `${pathway.id} ${pathway.label} ${pathway.summary}`))
+    ?? profile.pathways.find(pathway => contextTokenMatch(context, pathway.label) || contextTokenMatch(context, pathway.summary));
 }
 
 function sourceCaution(profile: EngineProfile, answers: Record<string, ScreeningAnswerValue>, pathwayId: string) {
@@ -2086,10 +2086,14 @@ function matchCompiledRuleRoute(profile: EngineProfile, publicProfile: PublicJur
   }
   const requestedPathwayContext = answerText(answers.possible_pathway_context).trim();
   if (requestedPathwayContext && !selectedPathway) {
+    const requested = pathwayFromContext(profile, requestedPathwayContext.toLowerCase());
+    const excluded = requested && pathwayExcludedByKnownFacts(jurisdiction, answers, requested.id);
     return {
       ok: false,
       resultCode: "needs_review",
-      reason: reason(jurisdiction, "pathway_context_not_matched", "The selected pathway context did not match a deterministic compiled pathway before a packet decision.")
+      reason: excluded && (jurisdiction === "IL" || jurisdiction === "GA")
+        ? reason(jurisdiction, "pathway_conflicts_with_saved_fact", FACTUAL_PATHWAY_EXCLUSION_COPY[jurisdiction])
+        : reason(jurisdiction, "pathway_context_not_matched", "The selected pathway context did not match a deterministic compiled pathway before a packet decision.")
     };
   }
   const publicQuestionIds = new Set(publicProfile.questions.map((question) => question.id));
@@ -2098,6 +2102,8 @@ function matchCompiledRuleRoute(profile: EngineProfile, publicProfile: PublicJur
     ? [...(profile.orderedDecisionRules ?? [])].filter((rule) => compiledRouteRuleMatchesPathway(rule, selectedPathway))
     : [];
   const matchedRules = [...(profile.orderedDecisionRules ?? [])]
+    .filter(rule => !(rule.candidatePathwayIds?.length === 1 && rule.candidatePathwayIds.some(id => pathwayExcludedByKnownFacts(jurisdiction, answers, id)))
+      && !(typeof rule.when.backendPathwayId === "string" && pathwayExcludedByKnownFacts(jurisdiction, answers, rule.when.backendPathwayId)))
     .filter((rule) => resultCodeIsKnown(rule.then?.suggestedResultCode))
     .filter((rule) => !["likely_not_eligible", "not_yet", "guidance_only"].includes(rule.then?.suggestedResultCode ?? ""))
     .filter((rule) => !String(rule.sourceRef ?? "").includes("exclusions:"))
@@ -2148,7 +2154,7 @@ function matchCompiledRuleRoute(profile: EngineProfile, publicProfile: PublicJur
     (rule.priority ?? Number.MAX_SAFE_INTEGER) === (first.priority ?? Number.MAX_SAFE_INTEGER)
     && safeResultRank(rule.then?.suggestedResultCode) === safeResultRank(first.then?.suggestedResultCode)
   );
-  const selected = selectedPathway ?? pathwayFromRule(profile, first);
+  const selected = selectedPathway ?? pathwayFromRule(profile, first, answers);
   if (!selected) {
     return {
       ok: false,
@@ -2376,10 +2382,11 @@ function caseOutcomeMatches(caseOutcomes: string[], outcome: string) {
   return caseOutcomes.length === 0 || caseOutcomes.includes(outcome);
 }
 
-function pathwayFromRule(profile: EngineProfile, rule: CompiledRule) {
+function pathwayFromRule(profile: EngineProfile, rule: CompiledRule, answers: Record<string, ScreeningAnswerValue>) {
   const candidates = rule.candidatePathwayIds ?? [];
   if (candidates.length !== 1) return undefined;
-  return profile.pathways.find((pathway) => pathway.id === candidates[0]);
+  return profile.pathways.find((pathway) => pathway.id === candidates[0]
+    && !pathwayExcludedByKnownFacts(profile.jurisdiction.code, answers, pathway.id));
 }
 
 function compiledRuleRelevantToPathway(rule: CompiledRule, pathway: CompiledPathway) {
