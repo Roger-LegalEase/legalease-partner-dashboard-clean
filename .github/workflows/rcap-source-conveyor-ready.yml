@@ -67,17 +67,18 @@ jobs:
     runs-on: ubuntu-latest
     env:
       PYTHONDONTWRITEBYTECODE: "1"
+      FACTORY_APPLICATION_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ github.sha }}
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
           # The ancestry gate requires the real commit graph, not a shallow clone.
           fetch-depth: 0
       - uses: actions/setup-node@v4
         with: { node-version: 22 }
       - name: Prove exact checked-out commit
         id: exact_commit
-        run: test "$(git rev-parse HEAD)" = "${GITHUB_SHA}"
+        run: test "$(git rev-parse HEAD)" = "${FACTORY_APPLICATION_SHA}"
       - name: Syntax checks
         id: syntax
         run: |
