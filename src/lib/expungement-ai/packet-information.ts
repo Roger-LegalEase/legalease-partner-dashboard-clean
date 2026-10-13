@@ -3,7 +3,9 @@ import { NY_CASE_FACT_IDS, nyCasePreparationQuestions, nyCaseAssociationIssues }
 import convictionFallbackPrior from "@/lib/expungement-ai/conviction-fallback-prior-contracts.json";
 import { convictionReliefRequest, convictionReliefQuestionApplies, convictionReliefQuestions, isAdultConvictionAnswer } from "@/lib/rcap-engine/conviction-relief-request";
 import { msExactCalendarDate, msExactTimingQuestionIds } from "@/lib/rcap-engine/mississippi-exact-timing";
-import { CA_PROP64_CAPTION_QUESTIONS } from "@/lib/expungement-ai/ca-prop64-caption-facts";
+import { caProp64ContactQuestions } from "@/lib/expungement-ai/ca-prop64-contact-questions";
+import { CA_CONTACT_IDS, CA_CONTACT_CONTRACT } from "@/lib/expungement-ai/ca-prop64-contact-answer";
+import { CA_PROP64_CAPTION_QUESTIONS, CA_PROP64_CAPTION_FACT_IDS } from "@/lib/expungement-ai/ca-prop64-caption-facts";
 import { GA_FIRST_OFFENDER_FACT_IDS, GA_ORIGINAL_FIRST_OFFENDER_PATHWAY, georgiaFirstOffenderQuestionApplies } from "@/lib/rcap-engine/georgia-first-offender";
 import { IL_CANNABIS_FACT_IDS, IL_CANNABIS_PATHWAY, illinoisCannabisQuestionApplies } from "@/lib/rcap-engine/illinois-cannabis-facts";
 import { pathwayExcludedByKnownFacts } from "@/lib/rcap-engine/factual-pathway-exclusions";
@@ -1209,7 +1211,8 @@ function routeFactualCorrectionIds(model: { stateCode: string; pathwayId: string
     const answers = { ...model.screeningAnswers, ...model.prefilledAnswers, ...model.packetAnswers };
     return [...(includeInactive ? CA_PROP64_FACT_IDS : caProp64ActiveFactIds(answers)),
       "offense_level", "case_outcome", "court", "charge", "ca_prop64_branch", "sentence_completion_date",
-      ...(model.pathwayId === CA_PROP64_COMPLETED ? ["ca_prop64_relief_requested"] : [])];
+      ...(model.pathwayId === CA_PROP64_COMPLETED ? ["ca_prop64_relief_requested"] : []),
+      ...(model.requiredInputIds?.length === 0 ? [...CA_PROP64_CAPTION_FACT_IDS, ...CA_CONTACT_IDS].filter(id => Object.hasOwn(answers, id)) : [])];
   }
   const facts = { ...model.screeningAnswers, ...model.prefilledAnswers, ...model.packetAnswers };
   const factual = [...factualPathwayCorrectionIds(model.stateCode, model.pathwayId, facts, includeInactive), ...msExactTimingQuestionIds(model.stateCode, model.pathwayId, facts, includeInactive)];
@@ -1575,6 +1578,7 @@ function protectedLegacyAnswerProjection(snapshot: LegacyAnswerSource) {
     // This exact controlled editor can show the original malformed string[] for
     // explicit replacement. Its strict answer contract still refuses readiness;
     // factual history archives the entire original value on explicit save.
+    && !(isCaProp64Pathway(snapshot.jurisdiction, snapshot.pathwayId) && CA_CONTACT_IDS.includes(question.id) && question.type === "filing_contact" && question.answerContract === CA_CONTACT_CONTRACT)
     && !(isNy16059Packet(snapshot.jurisdiction, snapshot.pathwayId) && question.id === "ny_16059_covered_case_records"
       && question.type === "court_case_records" && question.answerContract === "ny_16059_case_records_v2"));
   const inspection = inspectProtectedLegacyShapes(snapshot, snapshot, questions);
@@ -1695,7 +1699,7 @@ function deriveProtectedPacketDraftSnapshot(
   if (isCaProp64Pathway(base.jurisdiction, base.pathwayId)) {
     const before = { ...base.screeningAnswers, ...base.prefilledAnswers, ...base.packetAnswers };
     const after = { ...base.screeningAnswers, ...base.prefilledAnswers, ...packetAnswers };
-    if (["ca_prop64_branch", "ca_prop64_relief_requested", ...CA_PROP64_RECORD_FACT_IDS, "sentence_completion_date", ...CA_PROP64_FACT_IDS].some((id) => !canonicalEqual(before[id], after[id]))) {
+    if (["ca_prop64_branch", "ca_prop64_relief_requested", ...CA_PROP64_RECORD_FACT_IDS, "sentence_completion_date", ...CA_PROP64_FACT_IDS, ...CA_PROP64_CAPTION_FACT_IDS, ...CA_CONTACT_IDS].some((id) => !canonicalEqual(before[id], after[id]))) {
       base = { ...base, dependencies: { ...base.dependencies, semanticAnswerHistory: caProp64AnswerHistory(base, explicitChangedIds) } };
     }
   }
@@ -2671,6 +2675,7 @@ function toProfileQuestion(question: PublicQuestion): ProfileQuestion {
     contextOnly: question.contextOnly === true,
     lifecyclePhase: question.lifecyclePhase,
     answerContract: question.answerContract,
+    contactContext: question.contactContext,
     ...normalizeQuestionChoices(question.options, question.optionDisplay),
     exclusiveOptions: question.exclusiveOptions,
     translations: question.translations
@@ -2726,8 +2731,11 @@ function installPacketSpecificationQuestions(
     if (requiredInputIds.includes(question.id) || Object.hasOwn(answers, question.id)) questions.set(question.id, question);
   }
   if (isCaProp64Pathway(jurisdiction, pathwayId)) {
+    for (const question of caProp64ContactQuestions(answers)) {
+      if (requiredInputIds.includes(question.id) || Object.hasOwn(answers, question.id)) questions.set(question.id, question);
+    }
     for (const question of CA_PROP64_CAPTION_QUESTIONS) {
-      if (requiredInputIds.includes(question.id)) questions.set(question.id, structuredClone(question));
+      if (requiredInputIds.includes(question.id) || Object.hasOwn(answers, question.id)) questions.set(question.id, structuredClone(question));
     }
     const profile = getProfileByJurisdiction(jurisdiction);
     if (!profile) throw new Error("California Proposition 64 profile unavailable.");

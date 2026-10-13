@@ -1,4 +1,5 @@
 import "server-only";
+import { caProp64ContactPlanSuccessor, caProp64PriorContactPlan } from "@/lib/expungement-ai/ca-prop64-contact-successor";
 import { ny16059PacketPlanSuccessor } from "@/lib/expungement-ai/ny-16059-packet-successor";
 import { caProp64CaptionPlanSuccessor, caProp64PriorCaptionPlan } from "@/lib/expungement-ai/ca-prop64-caption-successor";
 import contracts from "@/lib/expungement-ai/reviewed-packet-contract-successors.json";
@@ -16,6 +17,16 @@ const MS_ROUTE = "MS:non-conviction-expungement-for-dismissal-no-disposition-or-
 
 /** Original hashes are validated by the caller first. This is a read projection, never a database migration. */
 export function reviewedPacketContractSuccessor<T extends Snapshot>(snapshot: T, currentPlan: ScreeningPacketPlan | undefined): T | null {
+  const contact = caProp64ContactPlanSuccessor(snapshot, currentPlan);
+  if (contact) return contact;
+  const priorContactPlan = caProp64PriorContactPlan(currentPlan);
+  if (priorContactPlan) {
+    const previous = beforeContactContractSuccessor(snapshot, priorContactPlan);
+    return previous ? caProp64ContactPlanSuccessor(previous, currentPlan) : null;
+  }
+  return beforeContactContractSuccessor(snapshot, currentPlan);
+}
+function beforeContactContractSuccessor<T extends Snapshot>(snapshot: T, currentPlan: ScreeningPacketPlan | undefined): T | null {
   const nyPreparation = ny16059PacketPlanSuccessor(snapshot, currentPlan);
   if (nyPreparation) return nyPreparation;
   const caption = caProp64CaptionPlanSuccessor(snapshot, currentPlan);

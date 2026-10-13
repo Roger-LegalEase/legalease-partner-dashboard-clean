@@ -19,6 +19,8 @@
  * are named by it via `aria-labelledby`, with the contextOnly note and error text linked via
  * `aria-describedby`. Errors use `role="alert"`.
  */
+import { FilingContactFields } from "@/components/expungement-ai/screening/fields/FilingContactFields";
+import { CA_CONTACT_IDS, CA_CONTACT_CONTRACT } from "@/lib/expungement-ai/ca-prop64-contact-answer";
 import { caProp64Choice, isCaProp64ChoiceQuestion, CA_PROP64_CLARIFICATION_COPY } from "@/lib/expungement-ai/ca-prop64-choices";
 import type { AnswerValue, ProfileQuestion } from "@/lib/expungement-ai/frontend/contracts";
 import { SensitiveIdentifierField } from "@/components/expungement-ai/screening/fields/SensitiveIdentifierField";
@@ -127,6 +129,9 @@ export function QuestionField({
   </div>;
 
   switch (question.type) {
+    case "filing_contact":
+      if (stateCode !== "CA" || !CA_CONTACT_IDS.includes(question.id) || question.answerContract !== CA_CONTACT_CONTRACT || !question.contactContext) return <MalformedQuestion prompt={promptText} headingLevel={headingLevel} required={!optional} />;
+      return <div className="grid gap-3">{heading}{helperNode}{bannerNode}<FilingContactFields id={fieldId} factId={question.id} value={savedValue} context={question.contactContext} onChange={onChange} ariaLabelledBy={promptId} ariaDescribedBy={describedBy} />{errorNode}</div>;
     case "court_case_records":
       if (stateCode !== "NY" || question.id !== NY_CASE_RECORDS_ID || question.answerContract !== NY_CASE_RECORDS_CONTRACT) return <MalformedQuestion prompt={promptText} headingLevel={headingLevel} required={!optional} />;
       return <div className="grid gap-3">{heading}{helperNode}{bannerNode}

@@ -6360,7 +6360,7 @@ export function caProp64CompletionMetadataForReview(census) {
 // A successor review goes into a fresh directory. Existing official sources,
 // fixture PDFs, rasters, field maps and approvals are never reset or rewritten.
 // This uses the same transport, finalizer and saved-byte verifier as buildCa.
-export async function renderCaProp64CaptionReview({ sourcePaths, outputDirectory, facts, variantId, recordSection }) {
+export async function renderCaProp64CaptionReview({ sourcePaths, outputDirectory, facts, variantId, recordSection, absentContactFactIds }) {
   const sourceFiles = ["scripts/build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs", "scripts/lib/ca-prop64-caption-bindings.mjs"];
   const sourceCodeSha256 = Object.fromEntries(sourceFiles.map(file => [file, sha256(fs.readFileSync(abs(file)))]));
   assert.ok(path.isAbsolute(outputDirectory), "review output must be absolute");
@@ -6369,7 +6369,7 @@ export async function renderCaProp64CaptionReview({ sourcePaths, outputDirectory
   assert.ok(destination !== reviewedDirectory && !destination.startsWith(reviewedDirectory + path.sep), "preserve reviewed artifacts");
   assert.equal(fs.existsSync(destination), false, "review destination must be new; no overwrite");
   const config = requireFamily(CA_PROP64_FAMILY);
-  const held = caProp64CaptionBindings({ familyId: CA_PROP64_FAMILY, facts });
+  const held = caProp64CaptionBindings({ familyId: CA_PROP64_FAMILY, facts, absentContactFactIds });
   const variant = structuredClone(routeControlForFamily(CA_PROP64_FAMILY, variantId));
   const sectionIndex = ["11357", "11358", "11359", "11360", "11362.1"].indexOf(recordSection);
   assert.ok(recordSection === undefined || sectionIndex >= 0, "unresolved record section cannot select a control");

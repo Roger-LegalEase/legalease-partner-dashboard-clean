@@ -1,4 +1,6 @@
 import "server-only";
+import { caProp64ContactQuestions, caProp64ContactFacts } from "@/lib/expungement-ai/ca-prop64-contact-questions";
+import { questionAnswerState } from "@/lib/expungement-ai/question-answer-state";
 import { caProp64CaptionFacts } from "@/lib/expungement-ai/ca-prop64-caption-facts";
 import { protectedPacketInformationModelFor } from "@/lib/expungement-ai/packet-information";
 import { caProp64Choice, CA_PROP64_COMPLETED, CA_PROP64_CURRENT } from "@/lib/expungement-ai/ca-prop64-choices";
@@ -24,12 +26,15 @@ export function caProp64ProtectedDocumentPreparation(record: ProtectedPacketVeri
   if (!variantId) return null;
   const resolved = caProp64Section(answers);
   const recordSection = resolved && ["11357", "11358", "11359", "11360", "11362.1"].includes(resolved) ? resolved : undefined;
+  const contact = caProp64ContactFacts(model.initialAnswers);
   return {
     schemaVersion: "ca-prop64/protected-document-preparation/v1" as const,
     pathwayId: model.pathwayId, revision: model.revision, capturedAt: model.capturedAt,
-    facts: caption.facts, missingCaptionFactIds: caption.missing,
+    facts: { ...caption.facts, ...contact.facts }, missingCaptionFactIds: caption.missing,
+    missingContactFactIds: caProp64ContactQuestions(model.initialAnswers).filter(q => questionAnswerState(q, model.initialAnswers[q.id]) !== "known_valid").map(q => q.id),
+    absentContactFactIds: contact.absent, unresolvedOptionalContactFactIds: contact.unresolvedOptional,
     variantId, recordSection, sectionResolution: resolved ?? null,
     generationAllowed: false as const, reviewOnly: true as const,
-    remainingRequirements: ["Structured filer and court contacts", "Source-bound completion review", "Qualified source, legal, language and output acceptance", "Authorized fulfillment and protected delivery"]
+    remainingRequirements: ["Complete applicable filer and court contacts", "Source-bound completion review", "Qualified source, legal, language and output acceptance", "Authorized fulfillment and protected delivery"]
   };
 }

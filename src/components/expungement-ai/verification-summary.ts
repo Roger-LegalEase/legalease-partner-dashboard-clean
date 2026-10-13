@@ -1,3 +1,4 @@
+import { CA_CONTACT_IDS, CA_CONTACT_CONTRACT, formatCaContact } from "@/lib/expungement-ai/ca-prop64-contact-answer";
 import { NY_CASE_RECONCILIATION_ID, NY_FILING_CASE_ID } from "@/lib/expungement-ai/ny-16059-case-questions";
 import { NY_CASE_RECORDS_ID, NY_CASE_RECORDS_CONTRACT, formatNyCourtCaseRecords } from "@/lib/expungement-ai/ny-16059-case-records";
 import { maskedSensitiveAnswer, requiresMcicIdentifierAuthority } from "@/lib/expungement-ai/sensitive-packet-facts";
@@ -271,6 +272,7 @@ function canonicalize(value: unknown): unknown {
 }
 
 export function displayVerificationAnswer(value: unknown, question?: ReviewQuestion) {
+  if (question && CA_CONTACT_IDS.includes(question.id) && question.type === "filing_contact" && question.answerContract === CA_CONTACT_CONTRACT) return formatCaContact(question.id, value, "en");
   if (question?.id === NY_CASE_RECORDS_ID && question.type === "court_case_records" && question.answerContract === NY_CASE_RECORDS_CONTRACT) return formatNyCourtCaseRecords(value, "en");
   if (value === undefined || value === null || value === "") return "Missing";
   if (value && typeof value === "object" && !Array.isArray(value) && "unknown" in value && value.unknown === true) return "I’m not sure";
@@ -315,6 +317,7 @@ export function reviewAnswerPresentation(fact: Pick<CanonicalVerificationFact, "
     return { labelEs, valueEs: masked === "Sensitive value hidden" ? resolveRuntimeText("es", masked) : masked };
   }
   const value = fact.value;
+  if (state === "CA" && CA_CONTACT_IDS.includes(fact.id) && question.type === "filing_contact" && question.answerContract === CA_CONTACT_CONTRACT) return { labelEs, valueEs: formatCaContact(fact.id, value, "es") };
   if (state === "NY" && fact.id === NY_CASE_RECORDS_ID && question.type === "court_case_records" && question.answerContract === NY_CASE_RECORDS_CONTRACT) return { labelEs, valueEs: formatNyCourtCaseRecords(value, "es") };
   if (value === null || value === undefined || value === "") return { labelEs, valueEs: resolveRuntimeText("es", "Missing") };
   if (value && typeof value === "object" && !Array.isArray(value) && "unknown" in value && value.unknown === true) {

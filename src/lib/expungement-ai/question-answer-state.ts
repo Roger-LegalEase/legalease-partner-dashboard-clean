@@ -1,3 +1,4 @@
+import { CA_CONTACT_CONTRACT, CA_CONTACT_IDS, parseCaContact, caContactAnswerState } from "@/lib/expungement-ai/ca-prop64-contact-answer";
 import { nyPacketTextAnswerState, NY_PACKET_TEXT_CONTRACT } from "@/lib/expungement-ai/ny-16059-packet-facts";
 import { NY_CASE_RECORDS_ID, NY_CASE_RECORDS_CONTRACT, NY_STATEMENT_ID, NY_STATEMENT_CONTRACT, parseNyCourtCaseRecords, nyCourtCaseRecordsState, nyApplicantStatementState } from "@/lib/expungement-ai/ny-16059-case-records";
 import { NY_CASE_COURT_TEXT_CONTRACT, NY_OTHER_COURT_NAME, NY_OTHER_COURT_COUNTY, nyCaseCourtTextState } from "@/lib/expungement-ai/ny-16059-case-questions";
@@ -11,6 +12,7 @@ import type { ProfileQuestion } from "@/lib/expungement-ai/frontend/contracts";
 export type QuestionAnswerState = "unanswered" | "invalid" | "known_valid" | "uncertain" | "declined";
 type QuestionContract = Pick<ProfileQuestion, "id" | "type"> & {
   answerContract?: ProfileQuestion["answerContract"];
+  contactContext?: ProfileQuestion["contactContext"];
   options?: unknown;
   exclusiveOptions?: readonly string[];
 };
@@ -40,6 +42,7 @@ export function scalarAnswerText(value: unknown): string | null {
 /** A saved shape that the existing control cannot represent must be clarified, not coerced. */
 export function hasIncompatibleAnswerShape(question: QuestionContract, value: unknown): boolean {
   if (value === undefined || value === null || value === "") return false;
+  if (question.type === "filing_contact") return !CA_CONTACT_IDS.includes(question.id) || question.answerContract !== CA_CONTACT_CONTRACT || !(Array.isArray(value) && value.length === 0 || parseCaContact(question.id, value));
   if (question.type === "court_case_records") return question.id !== NY_CASE_RECORDS_ID || question.answerContract !== NY_CASE_RECORDS_CONTRACT || parseNyCourtCaseRecords(value) === null;
   if (question.type === "multi_select") return !Array.isArray(value) || value.some((entry) => typeof entry !== "string");
   if (Array.isArray(value)) return true;
@@ -83,6 +86,7 @@ export function toggleMultiSelect(values: readonly string[], option: string, exc
 
 export function questionAnswerState(question: QuestionContract, value: unknown, today = new Date().toISOString().slice(0, 10)): QuestionAnswerState {
   if (hasIncompatibleAnswerShape(question, value)) return "invalid";
+  if (question.answerContract === CA_CONTACT_CONTRACT) return question.type === "filing_contact" && CA_CONTACT_IDS.includes(question.id) ? caContactAnswerState(question.id, value, question.contactContext) : "invalid";
   if (question.answerContract === NY_CASE_RECORDS_CONTRACT) return question.id === NY_CASE_RECORDS_ID && question.type === "court_case_records" ? nyCourtCaseRecordsState(value, today) : "invalid";
   if (question.answerContract === NY_STATEMENT_CONTRACT) return question.id === NY_STATEMENT_ID && question.type === "text_or_unknown" ? nyApplicantStatementState(value) : "invalid";
   if (question.answerContract === NY_CASE_COURT_TEXT_CONTRACT) return [NY_OTHER_COURT_NAME, NY_OTHER_COURT_COUNTY].includes(question.id) && question.type === "text_or_unknown" ? nyCaseCourtTextState(value) : "invalid";
@@ -156,6 +160,7 @@ export function answerValueIsKnown(value: unknown): boolean {
 /** Equivalent legacy wrappers do not change a known fact or invalidate review. */
 export function sameKnownQuestionAnswer(question: QuestionContract, left: unknown, right: unknown): boolean {
   if (questionAnswerState(question, left) !== "known_valid" || questionAnswerState(question, right) !== "known_valid") return false;
+  if (question.answerContract === CA_CONTACT_CONTRACT) return JSON.stringify(left) === JSON.stringify(right);
   if (question.answerContract === NY_CASE_RECORDS_CONTRACT) return JSON.stringify(left) === JSON.stringify(right);
   if (question.type === "multi_select" && Array.isArray(left) && Array.isArray(right)) {
     return left.length === right.length && left.every((value) => right.includes(value));

@@ -17,7 +17,7 @@ export function caProp64HeldText(value) {
   return typeof value === "string" && value.trim() && !/^unknown$/i.test(value.trim()) && !/[\x00-\x1f\x7f]/.test(value) ? value : undefined;
 }
 
-export function caProp64CaptionBindings({ familyId, facts }) {
+export function caProp64CaptionBindings({ familyId, facts, absentContactFactIds = [] }) {
   if (familyId !== "ca-prop64-set") return null;
   const role = caProp64HeldText(facts["filer.representation"]);
   const actor = role === "self_represented" ? "participant" : role === "attorney" ? "attorney" : null;
@@ -25,7 +25,7 @@ export function caProp64CaptionBindings({ familyId, facts }) {
   const missing = [];
   const bind = (form, field, factId) => {
     if (caProp64HeldText(facts[factId]) !== undefined) mappings[form][field] = factId;
-    else missing.push({ formNumber: form, fieldName: field, factId, status: "MISSING_HELD_FACT_APPLICABILITY_REVIEW" });
+    else if (!(Array.isArray(absentContactFactIds) && absentContactFactIds.includes(factId) && /^(participant|attorney)\.(fax|email|firm)$/.test(factId))) missing.push({ formNumber: form, fieldName: field, factId, status: "MISSING_HELD_FACT_APPLICABILITY_REVIEW" });
   };
   for (const form of forms) {
     const prefix = captions[form];
@@ -43,6 +43,7 @@ export function caProp64CaptionBindings({ familyId, facts }) {
       if (actor) bind(form, name, `${actor}.${component}`);
       else missing.push({ formNumber: form, fieldName: name, factId: "filer.representation", status: "UNRESOLVED_FILER_ACTOR" });
     }
+    if (actor === "participant" && caProp64HeldText(facts["participant.represented_party"]) === "Self-represented") bind(form, `${prefix}.AttyPartyInfo[0].AttyFor[0]`, "participant.represented_party");
     if (actor === "attorney") {
       for (const [field, component] of Object.entries({ AttyBarNo: "bar_number", AttyFirm: "firm", AttyFor: "represented_party" }))
         bind(form, `${prefix}.AttyPartyInfo[0].${field}[0]`, `attorney.${component}`);

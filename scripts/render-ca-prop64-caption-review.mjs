@@ -17,6 +17,9 @@ const preparationFiles = [
   "scripts/render-ca-prop64-caption-review.mjs",
   "src/lib/expungement-ai/ca-prop64-document-preparation.ts",
   "src/lib/expungement-ai/ca-prop64-caption-facts.ts",
+  "src/lib/expungement-ai/ca-prop64-contact-answer.ts",
+  "src/lib/expungement-ai/ca-prop64-contact-questions.ts",
+  "src/lib/expungement-ai/ca-prop64-contact-successor.ts",
   "src/lib/expungement-ai/ca-prop64-caption-answer.ts",
   "src/lib/expungement-ai/ca-prop64-caption-successor.ts",
   "src/lib/expungement-ai/packet-information.ts",
@@ -29,7 +32,7 @@ const preparationHashes = () => Object.fromEntries(preparationFiles.map(file =>
   [file, createHash("sha256").update(fs.readFileSync(file)).digest("hex")]));
 const preparationSource = input.protectedRecordFile ? preparationHashes() : null;
 if (input.protectedRecordFile) {
-  for (const key of ["facts", "variantId", "recordAnswers"]) assert.equal(input[key], undefined, `protected preparation cannot override ${key}`);
+  for (const key of ["facts", "variantId", "recordAnswers", "absentContactFactIds"]) assert.equal(input[key], undefined, `protected preparation cannot override ${key}`);
   const { caProp64ProtectedDocumentPreparation } = await import("../src/lib/expungement-ai/ca-prop64-document-preparation.ts");
   const recordBytes = fs.readFileSync(input.protectedRecordFile);
   preparation = caProp64ProtectedDocumentPreparation(JSON.parse(recordBytes));
@@ -40,7 +43,7 @@ if (input.protectedRecordFile) {
 const resolved = preparation ? preparation.sectionResolution : caProp64Section(input.recordAnswers ?? {});
 const section = ["11357", "11358", "11359", "11360", "11362.1"].includes(resolved) ? resolved : undefined;
 const report = await renderCaProp64CaptionReview({ ...input,
-  ...(preparation ? { facts: preparation.facts, variantId: preparation.variantId } : {}), recordSection: section });
+  ...(preparation ? { facts: preparation.facts, variantId: preparation.variantId, absentContactFactIds: preparation.absentContactFactIds } : {}), recordSection: section });
 if (preparation) {
   assert.deepEqual(preparationHashes(), preparationSource, "protected preparation source changed during rendering");
   fs.writeFileSync(`${input.outputDirectory}/protected-preparation.json`, JSON.stringify({ ...preparation, sourceCodeSha256: preparationSource }, null, 2) + "\n", { flag: "wx" });
