@@ -118,14 +118,29 @@ export async function packetJourney({fixture,participant,session,locale,check,re
     }
     delivery.generationHttp=generation.status();delivery.packetStatus=generated.packetStatus??null;
     delivery.refusal=generated.resultCode??generated.denialCode??generated.outcome??null;
-    const owner=await context.request.get(`/api/expungement-ai/packet/download-link?briefcaseItemId=${matterId}`,{maxRedirects:0});
-    assert([303,404].includes(owner.status()),'Unexpected owner artifact endpoint failure');
-    delivery.ownerHttp=owner.status();
-    if(owner.status()===303) {
-      artifact=await acceptRealArtifact({fixture,context,matterId,ownerId:session.participant_user_id,response:owner,evidence:artifactEvidence,check});
+    // Read the same participant-facing status used by the application. A
+    // sponsored job exposes its real RCAP download path, not a DTC grant URL.
+    const deadline=Date.now()+60000;
+    let statusBody,statusResponse;
+    do {
+      statusResponse=await context.request.get(`/api/expungement-ai/packet/status?briefcaseItemId=${matterId}`,{maxRedirects:0});
+      delivery.statusHttp=statusResponse.status();
+      if(statusResponse.status()!==200)delivery.status='OWNER_STATUS_REQUEST_FAILED';
+      assert.equal(statusResponse.status(),200,`Owner packet status refused (HTTP ${statusResponse.status()})`);
+      statusBody=await statusResponse.json();
+      if(statusBody.canDownload||!generation.ok()||statusBody.packetStatus!=='generating'||Date.now()>=deadline)break;
+      await new Promise(resolve=>setTimeout(resolve,1000));
+    } while(true);
+    delivery.statusHttp=statusResponse.status();delivery.canDownload=statusBody.canDownload===true;
+    delivery.finalPacketStatus=statusBody.packetStatus??null;
+    if(statusBody.packetStatus==='failed')check(`${locale}-actual-render-completed-without-failure`,false);
+    if(statusBody.canDownload){
+      assert.equal(typeof statusBody.artifact?.downloadPath,'string','Ready status must expose its actual protected download path');
+      artifact=await acceptRealArtifact({fixture,context,matterId,ownerId:session.participant_user_id,
+        downloadPath:statusBody.artifact.downloadPath,session,evidence:artifactEvidence,check});
       await artifactDenial({item:{artifact,matterId,actor:{id:session.participant_user_id},context},context:helperContext,id:'staff-owner-artifact-denied',check});
       delivery.status='ARTIFACT_AVAILABLE_ACCEPTANCE_IN_PROGRESS';
-    } else delivery.status='BLOCKED_NO_OWNER_DOWNLOAD';
+    } else delivery.status='BLOCKED_NO_OWNER_ARTIFACT';
   } else delivery.status='BLOCKED_NOT_VERIFIED';
   const download=await helperContext.request.get(`/api/expungement-ai/packet/download-link?briefcaseItemId=${matterId}`,{maxRedirects:0});
   check(`${locale}-staff-unavailable-download-link-refused`,download.status()===404&&/no-store/.test(download.headers()['cache-control']??''));

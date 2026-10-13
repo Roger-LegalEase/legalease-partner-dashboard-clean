@@ -56,7 +56,7 @@ export async function createClinicFixture(env = process.env) {
     'rls',(select jsonb_agg(jsonb_build_object('table',relname,'enabled',relrowsecurity,'forced',relforcerowsecurity) order by relname) from pg_class where relnamespace='public'::regnamespace and relname like 'clinic_%' and relkind='r'));`);
   const schemaSha256=hash(authorizationSchema());
   const rpc = async(name,params) => checked(await admin.rpc(name,params));
-  const fixture = {origin,supabaseUrl,program,jurisdiction,run,actors,admin,sql,checked,rpc,known,
+  const fixture = {origin,supabaseUrl,program,partnerId:partner.id,jurisdiction,run,actors,admin,sql,checked,rpc,known,
     identity:{database,container,origin,supabaseUrl,programHash:hash(program),baselineSha256:beforeHash,authorizationSchemaSha256:schemaSha256},
     async simulatedAllocation() {
       assert.equal(env.CLINIC_QA_SIMULATED_ALLOCATION,'owner-authorized-run-scoped','Separate synthetic allocation authorization is required');

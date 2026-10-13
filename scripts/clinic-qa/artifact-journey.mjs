@@ -7,7 +7,7 @@ export const artifactCases = [
   'owner-provenance-and-exact-bytes','owner-repeat-download','staff-owner-artifact-denied',
   'wrong-participant-denied','wrong-program-denied','unassigned-staff-denied',
   'queue-only-staff-denied','signed-out-replay-denied','reset-signed-out-replay-denied','missing-token-denied',
-  'altered-token-denied','wrong-item-token-denied','no-assist-staff-denied',
+  'altered-token-denied','wrong-item-token-denied','wrong-job-denied','no-assist-staff-denied',
   'suspended-staff-denied','expired-consent-staff-denied',
   'revoked-consent-staff-denied','revoked-consent-owner-retains-artifact',
   'expired-grant-denied','revoked-grant-denied','stale-verification-denied'
@@ -27,7 +27,7 @@ function record(evidence,check,id,pass) {
   const row=evidence.cases.find(row=>row.id===id);assert(row,'Known original artifact acceptance case');
   row.status=pass?'PASS':'FAIL';check(`${evidence.locale}-artifact-${id}`,pass);
   evidence.status=evidence.cases.some(row=>row.status==='FAIL')?'FAIL':
-    evidence.cases.every(row=>row.status==='PASS')?'PASS':'PARTIAL';
+    evidence.cases.every(row=>['PASS','NOT_APPLICABLE'].includes(row.status))?'PASS':'PARTIAL';
 }
 export function protectedArtifactPath(location, origin, matterId) {
   const url=new URL(location,origin);
@@ -49,63 +49,92 @@ export function exactArtifactResponse(status, headers, bytes, expected) {
     && digest(bytes)===expected.sha256;
 }
 export function privateDenialResponse(status, headers, bytes) {
-  if(![401,403,404].includes(status)||!privateHeaders(headers)||bytes.subarray(0,5).toString()==='%PDF-')return false;
+  if(![401,403,404,409].includes(status)||!privateHeaders(headers)||bytes.subarray(0,5).toString()==='%PDF-')return false;
   try {
     const body=JSON.parse(bytes.toString());
     return !Object.keys(body).some(key=>/artifact|storage|grant|download|token|path|url/i.test(key))
       && !/packet-artifacts\/|\/storage\/v1\/|https?:\/\//i.test(JSON.stringify(body));
   } catch { return false; }
 }
-export function artifactCleanupIds({ownerId,matterId,provenance,job}) {
+export function artifactCleanupIds({ownerId,matterId,provenance,job,partnerId}) {
   uuid(provenance.render_job_id);uuid(provenance.matter_id);
   assert.equal(provenance.consumer_auth_user_id,ownerId,'Provenance must belong to the run-created owner');
-  assert.equal(job.consumer_auth_user_id,ownerId,'Job must belong to the run-created owner');
-  assert.equal(job.consumer_briefcase_item_id,matterId,'Job must belong to the run-created item');
+  const sponsored=job.partner_id!=null;
+  if(sponsored){
+    uuid(partnerId);assert.equal(job.partner_id,partnerId,'Sponsored job must match the actual fixture program');
+    assert.equal(job.consumer_auth_user_id,null,'Sponsored job cannot borrow consumer identity');
+    assert.equal(job.consumer_briefcase_item_id,null,'Sponsored job cannot borrow consumer item');
+  }
+  assert.equal(sponsored?job.sponsored_consumer_auth_user_id:job.consumer_auth_user_id,ownerId,'Job must belong to the run-created owner');
+  assert.equal(sponsored?job.sponsored_consumer_briefcase_item_id:job.consumer_briefcase_item_id,matterId,'Job must belong to the run-created item');
   assert.equal(job.matter_id,provenance.matter_id,'Provenance and job must identify the same matter');
   assert.match(job.output_sha256,/^[a-f0-9]{64}$/);
-  assert.equal(job.output_storage_path,`packet-artifacts/consumer/${provenance.matter_id}/${provenance.render_job_id}/${job.output_sha256}.pdf`,
+  assert.equal(job.output_storage_path,`packet-artifacts/${job.partner_id??'consumer'}/${provenance.matter_id}/${provenance.render_job_id}/${job.output_sha256}.pdf`,
     'Only the canonical exact-job storage path acquires cleanup ownership');
   return [provenance.matter_id,provenance.render_job_id];
 }
-export async function acceptRealArtifact({fixture,context,matterId,ownerId,response,evidence,check}) {
+export function sponsoredArtifactPath(location,origin,jobId) {
+  uuid(jobId);const url=new URL(location,origin);
+  assert.equal(url.origin,origin,'Sponsored artifact must remain on the authenticated origin');
+  assert.equal(url.pathname,`/api/rcap/packets/${jobId}/download`,'Exact sponsored job download path required');
+  assert(!url.search&&!url.hash&&!url.username&&!url.password,'Sponsored artifact path has no grant or storage parameters');
+  return url.pathname;
+}
+export function applyArtifactMode(evidence,mode) {
+  assert(['sponsored','consumer'].includes(mode));evidence.mode=mode;
+  const ids=mode==='sponsored'?['missing-token-denied','altered-token-denied','wrong-item-token-denied','expired-grant-denied','revoked-grant-denied']:['wrong-job-denied'];
+  for(const id of ids){const row=evidence.cases.find(row=>row.id===id);row.status='NOT_APPLICABLE';
+    row.basis=mode==='sponsored'?'src/lib/rcap/render/sponsored-packet.ts:finalizeSponsoredRenderArtifact and src/app/api/rcap/packets/[jobId]/download/route.ts: authenticated job delivery uses no consumer grant':
+      'src/app/api/expungement-ai/packet/artifacts/[itemId]/route.ts: consumer grant binds the item; wrong-item-token case applies';}
+}
+export async function acceptRealArtifact({fixture,context,matterId,ownerId,downloadPath,session,evidence,check}) {
   uuid(matterId);uuid(ownerId);
   assert(fixture.actors.some(actor=>actor.id===ownerId)&&fixture.known.has(matterId),'Only run-owned artifacts');
-  const target=protectedArtifactPath(response.headers().location,fixture.origin,matterId);
-  // Administrative reads corroborate provenance; they never fetch or authorize
-  // measured bytes. Only the ordinary authenticated owner request does that.
+  // Read-only corroboration never fetches/authorizes the measured PDF bytes.
   const provenance=fixture.checked(await fixture.admin.from('consumer_packet_artifact_provenance')
-    .select('consumer_auth_user_id,matter_id,render_job_id,verification_hash,artifact,revision')
+    .select('consumer_auth_user_id,matter_id,render_job_id,verification_hash,entitlement_source,artifact,revision')
     .eq('briefcase_item_id',matterId).single());
   const job=fixture.checked(await fixture.admin.from('packet_render_jobs')
-    .select('consumer_auth_user_id,consumer_briefcase_item_id,matter_id,consumer_verification_hash,status,delivery_eligibility,accounting_result,output_sha256,output_byte_count,output_storage_path')
+    .select('partner_id,route_id,consumer_auth_user_id,consumer_briefcase_item_id,matter_id,consumer_verification_hash,sponsored_consumer_auth_user_id,sponsored_consumer_briefcase_item_id,sponsored_verification_hash,sponsored_route_key,sponsored_session_id,sponsored_clinic_event_id,status,delivery_eligibility,accounting_result,output_sha256,output_byte_count,output_storage_path')
     .eq('id',provenance.render_job_id).single());
-  const metadataValid=provenance.consumer_auth_user_id===ownerId&&job.consumer_auth_user_id===ownerId
-    &&job.consumer_briefcase_item_id===matterId&&job.matter_id===provenance.matter_id
-    &&job.consumer_verification_hash===provenance.verification_hash
+  const sponsored=job.partner_id!=null;
+  const scoped=sponsored?job.partner_id===fixture.partnerId&&job.consumer_auth_user_id===null&&job.consumer_briefcase_item_id===null
+    &&job.sponsored_consumer_auth_user_id===ownerId&&job.sponsored_consumer_briefcase_item_id===matterId
+    &&job.sponsored_verification_hash===provenance.verification_hash&&job.sponsored_route_key===job.route_id
+    &&job.sponsored_session_id===session.screening_session_id&&job.sponsored_clinic_event_id===session.event_id
+    &&provenance.entitlement_source==='partner_sponsorship'
+    &&provenance.artifact?.provider==='rcap_grade_a_composer_v1'&&provenance.artifact?.source==='grade_a_packet_specification':
+    job.consumer_auth_user_id===ownerId&&job.consumer_briefcase_item_id===matterId&&job.consumer_verification_hash===provenance.verification_hash
+    &&provenance.entitlement_source==='consumer_payment'&&provenance.artifact?.provider==='rcap_durable_render_v1'&&provenance.artifact?.source==='verified_render_job';
+  const metadataValid=scoped&&provenance.consumer_auth_user_id===ownerId&&job.matter_id===provenance.matter_id
     &&['artifact_validated','delivered'].includes(job.status)&&job.delivery_eligibility==='eligible'
     &&['zero_charge','consumed','already_consumed','overage_consumed'].includes(job.accounting_result)
-    &&provenance.artifact?.source==='verified_render_job'&&provenance.artifact?.provider==='rcap_durable_render_v1'
-    &&provenance.artifact.renderJobId===provenance.render_job_id
+    &&provenance.artifact.renderJobId===provenance.render_job_id&&provenance.artifact.downloadPath===downloadPath
     &&provenance.artifact.artifactSha256===job.output_sha256&&provenance.artifact.storagePath===job.output_storage_path
     &&/^[a-f0-9]{64}$/.test(job.output_sha256)&&Number.isInteger(job.output_byte_count)&&job.output_byte_count>0;
-  // Existing cleanup removes only run-owned objects. Canonical consumer paths
-  // contain derived matter/job IDs, so acquire these exact IDs from validated
-  // owner provenance before downloading; even a byte-integrity failure can then
-  // clean its own new object without touching any baseline object.
-  if(metadataValid)for(const id of artifactCleanupIds({ownerId,matterId,provenance,job}))fixture.known.add(id);
+  assert(metadataValid,'Actual artifact must match exact program/owner/session/job/provenance');
+  for(const id of artifactCleanupIds({ownerId,matterId,provenance,job,partnerId:fixture.partnerId}))fixture.known.add(id);
+  const mode=sponsored?'sponsored':'consumer';let target;
+  if(sponsored)target=sponsoredArtifactPath(downloadPath,fixture.origin,provenance.render_job_id);
+  else {
+    assert.equal(downloadPath,`/api/expungement-ai/packet/download-link?briefcaseItemId=${matterId}`);
+    const grant=await context.request.get(downloadPath,{maxRedirects:0});
+    assert.equal(grant.status(),303,'Actual consumer owner grant required');assert(privateHeaders(grant.headers()));
+    target=protectedArtifactPath(grant.headers().location,fixture.origin,matterId);
+  }
   const expected={sha256:job.output_sha256,byteLength:job.output_byte_count};
   const bytesResponse=await context.request.get(target,{maxRedirects:0});
-  const bytes=await bytesResponse.body();
-  const pass=metadataValid&&privateHeaders(response.headers())&&exactArtifactResponse(bytesResponse.status(),bytesResponse.headers(),bytes,expected);
+  const pass=exactArtifactResponse(bytesResponse.status(),bytesResponse.headers(),await bytesResponse.body(),expected);
   record(evidence,check,'owner-provenance-and-exact-bytes',pass);
   assert(pass,'Actual owner PDF must match independently read finalized job/provenance');
+  applyArtifactMode(evidence,mode);
   evidence.reason=null;evidence.identity={...expected,renderJobIdSha256:digest(provenance.render_job_id),revision:provenance.revision};
   const repeated=await context.request.get(target,{maxRedirects:0});
   record(evidence,check,'owner-repeat-download',exactArtifactResponse(repeated.status(),repeated.headers(),await repeated.body(),expected));
-  // Neither the opaque grant nor the object path is serialized in evidence.
-  return {target,matterId,ownerId,expected,evidence,origin:fixture.origin};
+  return {target,matterId,ownerId,expected,evidence,mode,jobId:provenance.render_job_id,origin:fixture.origin,program:fixture.program};
 }
 async function ownerPositiveControl(item,caseId) {
+  if(item.artifact.mode==='sponsored'){await exactOwnerControl(item,item.artifact.target,caseId);return item.artifact.target;}
   const grant=await item.context.request.get(`/api/expungement-ai/packet/download-link?briefcaseItemId=${item.matterId}`,{maxRedirects:0});
   assert.equal(grant.status(),303,'Current owner authority is required before testing a denial');
   const target=protectedArtifactPath(grant.headers().location,item.artifact.origin,item.matterId);
@@ -119,16 +148,17 @@ async function exactOwnerControl(item,target,caseId) {
   (item.artifact.evidence.controls??=[]).push({forCase:caseId,status:passed?'PASS':'FAIL'});
   assert(passed,'Exact issued grant must deliver current owner bytes before its negative condition');
 }
-export async function artifactDenial({item,context,id,check,includeLink=true,target,ownerControl=true,expectedStatuses=[401,403,404]}) {
+export async function artifactDenial({item,context,id,check,includeLink=true,target,ownerControl=true,expectedStatuses=[401,403,404],expectedCodes}) {
   if(!item.artifact)return;
   if(ownerControl)await ownerPositiveControl(item,id);
   const selectedTarget=typeof target==='function'?target(item.artifact.target):target??item.artifact.target;
   const paths=[selectedTarget];
-  if(includeLink)paths.push(`/api/expungement-ai/packet/download-link?briefcaseItemId=${item.matterId}&participantId=${item.actor.id}`);
+  if(includeLink)paths.push(item.artifact.mode==='sponsored'?`${selectedTarget}?participantId=${item.actor.id}&partnerSlug=${item.artifact.program}`:`/api/expungement-ai/packet/download-link?briefcaseItemId=${item.matterId}&participantId=${item.actor.id}`);
   let pass=true;
   for(const path of paths){
     const response=await context.request.get(path,{maxRedirects:0,headers:{'cache-control':'no-cache'}});
-    pass=expectedStatuses.includes(response.status())&&privateDenialResponse(response.status(),response.headers(),await response.body())&&pass;
+    const body=await response.body();let code=null;try{code=JSON.parse(body).code;}catch{}
+    pass=expectedStatuses.includes(response.status())&&(!expectedCodes||expectedCodes.includes(code))&&privateDenialResponse(response.status(),response.headers(),body)&&pass;
   }
   record(item.artifact.evidence,check,id,pass);
 }
@@ -156,6 +186,17 @@ export async function artifactActorCases({owned,outsider,unauthorized,queueOnlyC
       for(const [id,context] of [['wrong-participant-denied',other.context],['wrong-program-denied',outsider.context],
         ['unassigned-staff-denied',unauthorized.context],['queue-only-staff-denied',queueOnlyContext],['signed-out-replay-denied',anonymous]])
         await artifactDenial({item,context,id,check});
+      if(item.artifact.mode==='sponsored'){
+        if(other.artifact?.mode!=='sponsored'){
+          item.artifact.evidence.cases.find(row=>row.id==='wrong-job-denied').reason='OTHER_PARTICIPANT_REAL_ARTIFACT_UNAVAILABLE';
+          continue;
+        }
+        // This negative requests B's job as A, so B must positively fetch that
+        // exact current artifact first. A's unrelated artifact is no control.
+        const target=await ownerPositiveControl(other,'wrong-job-target-owner-control');
+        (item.artifact.evidence.controls??=[]).push({forCase:'wrong-job-denied',targetOwner:'other-participant',status:'PASS'});
+        await artifactDenial({item,context:item.context,id:'wrong-job-denied',check,includeLink:false,target,ownerControl:false});
+      } else {
       await artifactDenial({item,context:item.context,id:'missing-token-denied',check,includeLink:false,
         target:target=>{const url=new URL(target,fixture.origin);url.searchParams.delete('grant');return url.pathname+url.search;}});
       await artifactDenial({item,context:item.context,id:'altered-token-denied',check,includeLink:false,target:target=>alteredGrantPath(target,fixture.origin)});
@@ -165,16 +206,15 @@ export async function artifactActorCases({owned,outsider,unauthorized,queueOnlyC
         tampered.searchParams.set('participantId',item.actor.id);tampered.searchParams.set('partnerSlug',fixture.program);
         return tampered.pathname+tampered.search;
       }});
+      }
     }
   } finally { await anonymous.close(); }
 }
-export async function artifactAfterConsentRevocation({item,fixture,check}) {
+export async function artifactAfterConsentRevocation({item,check}) {
   if(!item.artifact)return;
   await artifactDenial({item,context:item.selectedHelper.context,id:'revoked-consent-staff-denied',check});
-  const grant=await item.context.request.get(`/api/expungement-ai/packet/download-link?briefcaseItemId=${item.matterId}`,{maxRedirects:0});
-  assert.equal(grant.status(),303,'Ending assistance does not remove owner download authority');
-  item.artifact.target=protectedArtifactPath(grant.headers().location,fixture.origin,item.matterId);
-  const response=await item.context.request.get(item.artifact.target,{maxRedirects:0});
+  const target=await ownerPositiveControl(item,'revoked-consent-owner-retains-artifact');
+  const response=await item.context.request.get(target,{maxRedirects:0});
   record(item.artifact.evidence,check,'revoked-consent-owner-retains-artifact',
     exactArtifactResponse(response.status(),response.headers(),await response.body(),item.artifact.expected));
 }
@@ -191,6 +231,7 @@ export async function artifactGrantAndRevisionCases({fixture,item,check}) {
       .eq('consumer_auth_user_id',actor.id).eq('briefcase_item_id',matterId).eq('token_hash',tokenHash).single());
     uuid(grant.id);return {target,grant};
   }
+  if(artifact.mode!=='sponsored'){
   const expired=await freshGrant();
   await exactOwnerControl(item,expired.target,'expired-grant-denied');
   // Run-owned setup only, no system clock change or fabricated grant. The
@@ -201,10 +242,12 @@ export async function artifactGrantAndRevisionCases({fixture,item,check}) {
   await exactOwnerControl(item,revoked.target,'revoked-grant-denied');
   assert.equal(await fixture.rpc('revoke_consumer_artifact_download_grant',{p_consumer_auth_user_id:actor.id,p_briefcase_item_id:matterId,p_grant_id:revoked.grant.id}),true);
   await artifactDenial({item,context,id:'revoked-grant-denied',check,includeLink:false,target:revoked.target,ownerControl:false});
+  }
   const current=await context.request.get(item.api);assert.equal(current.status(),200);const model=await current.json();
   await ownerPositiveControl(item,'stale-verification-denied');
   const corrected=await context.request.post(item.api,{data:{expectedRevision:model.revision,answers:{participant_full_legal_name:'Synthetic Clinic Artifact Correction'}}});
   assert.equal(corrected.status(),200,'Real owner material correction required');
   assert.equal((await corrected.json()).readyToGenerate,false,'Correction invalidates verification');
-  await artifactDenial({item,context,id:'stale-verification-denied',check,target:artifact.target,ownerControl:false});
+  await artifactDenial({item,context,id:'stale-verification-denied',check,target:artifact.target,ownerControl:false,
+    expectedStatuses:artifact.mode==='sponsored'?[409]:[404],expectedCodes:artifact.mode==='sponsored'?['verification_not_current','verification_binding_mismatch']:undefined});
 }

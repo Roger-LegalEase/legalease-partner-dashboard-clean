@@ -17,7 +17,12 @@ worktree, set `CLINIC_QA_APPLICATION_ROOT` to that application's actual checkout
 the runner refuses differing application source bytes and records both commits.
 
 Artifact acceptance uses only a packet created by the real owner generation
-path. It compares the actual protected PDF with finalized job/provenance hashes
+path. It follows the actual owner status response and protected provenance:
+sponsored Clinic packets use the authenticated RCAP job endpoint and exact
+partner namespace; DTC packets use their existing consumer grant endpoint.
+Consumer-only grant cases are NOT_APPLICABLE only after the sponsored binding
+is proved, with exact contract references retained. Wrong-job, ownership,
+consent, session and stale-verification cases remain required for Clinic. It compares the actual protected PDF with finalized job/provenance hashes
 and length, tests ownership and role denials, and tests grant and verification
 invalidation. After shared-device reset, the owner signs in afresh and proves a current
 artifact handle before that same handle is denied in the old signed-out context. Grant tokens and storage locations stay in memory. Privileged
@@ -25,7 +30,7 @@ operations only provision/condition run-created fixture state, corroborate
 provenance read-only, or clean up; measured downloads always use ordinary user
 sessions. Existing funding, publication, source and consent gates remain intact.
 
-If generation cannot produce that genuine artifact, each of the 20 artifact
+If generation cannot produce that genuine artifact, each of the 21 artifact
 cases per locale is `NOT_RUN`. Existing unavailable-link denials do not satisfy
 artifact-access acceptance. Exit 2 and `PARTIAL` mean required acceptance remains;
 exit 1 means a check, execution or cleanup failed. Independent review and the

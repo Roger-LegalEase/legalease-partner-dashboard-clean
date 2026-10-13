@@ -1,8 +1,9 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
-import {artifactCases,startArtifactEvidence,protectedArtifactPath,alteredGrantPath,exactArtifactResponse,privateDenialResponse,artifactDenial,artifactAfterDeviceReset,artifactCleanupIds} from './artifact-journey.mjs';
+import {artifactCases,startArtifactEvidence,protectedArtifactPath,alteredGrantPath,exactArtifactResponse,privateDenialResponse,artifactDenial,artifactAfterDeviceReset,artifactCleanupIds,sponsoredArtifactPath,applyArtifactMode,acceptRealArtifact,artifactGrantAndRevisionCases,artifactActorCases} from './artifact-journey.mjs';
 import {assertApplicationBindingsEqual} from './source-bindings.mjs';
+import {loadTsWithMocks} from '../test-expungement-checkout-guards.mjs';
 
 // Harness predicate tests only. These do not constitute authenticated artifact
 // acceptance and do not populate the live journey report with successful cases.
@@ -11,7 +12,7 @@ const expected={byteLength:bytes.length,sha256:createHash('sha256').update(bytes
 const headers={'cache-control':'private, no-store, max-age=0','content-type':'application/pdf'};
 test('unavailable real artifact leaves every original artifact obligation explicitly NOT_RUN',()=>{
   const report={};const evidence=startArtifactEvidence(report,'en');
-  assert.equal(evidence.status,'NOT_RUN');assert.equal(evidence.cases.length,20);
+  assert.equal(evidence.status,'NOT_RUN');assert.equal(evidence.cases.length,21);
   assert.deepEqual(evidence.cases.map(row=>row.id),artifactCases);
   assert(evidence.cases.every(row=>row.status==='NOT_RUN'));
   assert(!JSON.stringify(report).includes('PASS'));
@@ -34,12 +35,95 @@ const owner='22222222-2222-4222-8222-222222222222',derivedMatter='33333333-3333-
 const provenance={render_job_id:jobId,matter_id:derivedMatter,consumer_auth_user_id:owner};
 const job={consumer_auth_user_id:owner,consumer_briefcase_item_id:item,matter_id:derivedMatter,output_sha256:expected.sha256,
   output_storage_path:`packet-artifacts/consumer/${derivedMatter}/${jobId}/${expected.sha256}.pdf`};
+const partnerId='55555555-5555-4555-8555-555555555555',eventId='66666666-6666-4666-8666-666666666666',sessionId='77777777-7777-4777-8777-777777777777';
+const sponsoredJob={...job,partner_id:partnerId,consumer_auth_user_id:null,consumer_briefcase_item_id:null,
+  sponsored_consumer_auth_user_id:owner,sponsored_consumer_briefcase_item_id:item,
+  sponsored_verification_hash:'a'.repeat(64),route_id:'MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal',
+  sponsored_route_key:'MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal',sponsored_session_id:sessionId,sponsored_clinic_event_id:eventId,
+  status:'artifact_validated',delivery_eligibility:'eligible',accounting_result:'consumed',output_byte_count:bytes.length,
+  output_storage_path:`packet-artifacts/${partnerId}/${derivedMatter}/${jobId}/${expected.sha256}.pdf`};
+const sponsoredPath=`/api/rcap/packets/${jobId}/download`;
+const sponsoredProvenance={...provenance,revision:1,verification_hash:'a'.repeat(64),entitlement_source:'partner_sponsorship',
+  artifact:{provider:'rcap_grade_a_composer_v1',source:'grade_a_packet_specification',renderJobId:jobId,
+    artifactSha256:expected.sha256,storagePath:sponsoredJob.output_storage_path,downloadPath:sponsoredPath}};
 test('exact owner/job provenance supplies derived IDs needed by existing object cleanup',()=>{
   assert.deepEqual(artifactCleanupIds({ownerId:owner,matterId:item,provenance,job}),[derivedMatter,jobId]);
 });
 for(const [name,changed] of [['other owner',{consumer_auth_user_id:item}],['other item',{consumer_briefcase_item_id:owner}],
   ['other matter',{matter_id:owner}],['other storage path',{output_storage_path:'packet-artifacts/consumer/unrelated.pdf'}]])
   test(`cleanup ownership rejects ${name}`,()=>assert.throws(()=>artifactCleanupIds({ownerId:owner,matterId:item,provenance,job:{...job,...changed}})));
+test('sponsored cleanup uses exact run program namespace and sponsored owner/item fields',()=>{
+  assert.deepEqual(artifactCleanupIds({ownerId:owner,matterId:item,provenance,job:sponsoredJob,partnerId}),[derivedMatter,jobId]);
+});
+test('cleanup paths match the actual job-contract builder for both identity modes',()=>{
+  const contract=loadTsWithMocks('src/lib/rcap/render/job-contract.ts',{
+    '@/lib/rcap/documents/packet-route-resolver':{},'@/lib/rcap/documents/packet-document-renderer':{},
+    '@/lib/rcap-engine/profile-registry':{},'@/../data/record-clearing/legal-decisions/route-ratification-registry.json':{routes:[]}
+  });
+  for(const actual of [job,sponsoredJob])assert.equal(contract.buildArtifactStoragePath({partnerId:actual.partner_id??null,
+    matterId:derivedMatter,jobId,outputSha256:expected.sha256}),actual.output_storage_path);
+});
+for(const [name,changed] of [['wrong partner',{partner_id:owner}],['consumer path',{output_storage_path:job.output_storage_path}],
+  ['wrong sponsored owner',{sponsored_consumer_auth_user_id:item}],['wrong sponsored item',{sponsored_consumer_briefcase_item_id:owner}],
+  ['mixed identity modes',{consumer_auth_user_id:owner}]])
+  test(`sponsored cleanup rejects ${name}`,()=>assert.throws(()=>artifactCleanupIds({ownerId:owner,matterId:item,provenance,job:{...sponsoredJob,...changed},partnerId})));
+test('sponsored endpoint accepts only the exact authenticated job route',()=>{
+  assert.equal(sponsoredArtifactPath(sponsoredPath,'http://127.0.0.1:3139',jobId),sponsoredPath);
+  for(const wrong of [sponsoredPath+'?grant=unused',sponsoredPath.replace(jobId,owner),'https://example.test'+sponsoredPath])
+    assert.throws(()=>sponsoredArtifactPath(wrong,'http://127.0.0.1:3139',jobId));
+});
+test('sponsored mode records conditional consumer grant cases with contract references while preserving Clinic obligations',()=>{
+  const evidence=startArtifactEvidence({},'en');applyArtifactMode(evidence,'sponsored');
+  assert.equal(evidence.cases.filter(row=>row.status==='NOT_APPLICABLE').length,5);
+  assert(evidence.cases.filter(row=>row.status==='NOT_APPLICABLE').every(row=>row.basis.includes('sponsored-packet.ts')));
+  assert.equal(evidence.cases.find(row=>row.id==='wrong-job-denied').status,'NOT_RUN');
+  assert.equal(evidence.cases.find(row=>row.id==='stale-verification-denied').status,'NOT_RUN');
+});
+test('actual sponsored schema orchestration uses protected job bytes and never invokes consumer grants',async()=>{
+  const requests=[];const fixture={actors:[{id:owner}],known:new Set([item]),partnerId,origin:'http://127.0.0.1:3139',program:'qa-synthetic',
+    checked:result=>result.data,admin:{from:table=>({select(){return this;},eq(){return this;},single:async()=>({data:table==='packet_render_jobs'?sponsoredJob:sponsoredProvenance})})}};
+  let verified=true;
+  const context={request:{get:async path=>{
+    requests.push(path);
+    if(path===`/api/expungement-ai/briefcase/${item}/packet-information`)return {status:()=>200,json:async()=>({revision:1})};
+    assert.equal(path.split('?')[0],sponsoredPath,'Only the actual sponsored download path is used');
+    return {status:()=>verified?200:409,headers:()=>headers,body:async()=>verified?bytes:Buffer.from('{"code":"verification_not_current"}')};
+  },post:async path=>{assert.equal(path,`/api/expungement-ai/briefcase/${item}/packet-information`);verified=false;return {status:()=>200,json:async()=>({readyToGenerate:false})};}}};
+  const evidence=startArtifactEvidence({},'en');const artifact=await acceptRealArtifact({fixture,context,matterId:item,ownerId:owner,
+    downloadPath:sponsoredPath,session:{screening_session_id:sessionId,event_id:eventId},evidence,check:(_id,pass)=>assert(pass)});
+  assert.equal(artifact.mode,'sponsored');assert(fixture.known.has(jobId));assert(fixture.known.has(derivedMatter));
+  await artifactGrantAndRevisionCases({fixture,item:{matterId:item,actor:{id:owner},api:`/api/expungement-ai/briefcase/${item}/packet-information`,context,artifact},check:(_id,pass)=>assert(pass)});
+  assert(requests.every(path=>!path.includes('download-link')&&!path.includes('grant=')));
+  assert.equal(evidence.cases.find(row=>row.id==='stale-verification-denied').status,'PASS');
+});
+test('wrong sponsored job denial proves that exact job through its own owner immediately beforehand',async()=>{
+  const otherJob='88888888-8888-4888-8888-888888888888',otherPath=`/api/rcap/packets/${otherJob}/download`;
+  const order=[];
+  const actorContext=(label,ownPath)=>({request:{get:async path=>{
+    const ok=path.split('?')[0]===ownPath;order.push({label,path,status:ok?200:404});
+    return {status:()=>ok?200:404,headers:()=>headers,body:async()=>ok?bytes:Buffer.from('{"error":"not_found"}')};
+  }}});
+  const contextA=actorContext('A',sponsoredPath),contextB=actorContext('B',otherPath),outsider=actorContext('outsider',null);
+  const owned=[{context:contextA,actor:{id:owner},matterId:item,locale:'en',artifact:{mode:'sponsored',target:sponsoredPath,expected,
+    evidence:startArtifactEvidence({},'en')}},{context:contextB,actor:{id:owner},matterId:item,locale:'es',artifact:{mode:'sponsored',target:otherPath,expected,evidence:startArtifactEvidence({},'es')}}];
+  await artifactActorCases({owned,outsider:{context:outsider},unauthorized:{context:outsider},queueOnlyContext:outsider,
+    browser:{newContext:async()=>({...outsider,close:async()=>{}})},fixture:{origin:'http://127.0.0.1:3139'},check:(_id,pass)=>assert(pass)});
+  for(const [label,path,ownerLabel] of [['A',otherPath,'B'],['B',sponsoredPath,'A']]){
+    const exactPairs=order.filter((row,index)=>row.label===label&&row.path===path&&row.status===404
+      &&order[index-1]?.label===ownerLabel&&order[index-1]?.path===path&&order[index-1]?.status===200);
+    assert(exactPairs.length>0,'Target owner positive must immediately precede wrong-job request');
+  }
+});
+for(const [name,changed] of [['wrong event',{sponsored_clinic_event_id:owner}],['wrong screening session',{sponsored_session_id:owner}],
+  ['wrong verification',{sponsored_verification_hash:'b'.repeat(64)}],['wrong route',{sponsored_route_key:'wrong'}]])
+  test(`sponsored orchestration refuses ${name} before any owner download`,async()=>{
+    const fixture={actors:[{id:owner}],known:new Set([item]),partnerId,origin:'http://127.0.0.1:3139',
+      checked:r=>r.data,admin:{from:table=>({select(){return this;},eq(){return this;},single:async()=>({data:table==='packet_render_jobs'?{...sponsoredJob,...changed}:sponsoredProvenance})})}};
+    let requests=0;
+    await assert.rejects(()=>acceptRealArtifact({fixture,context:{request:{get:async()=>{requests++;throw new Error('No unbound download');}}},
+      matterId:item,ownerId:owner,downloadPath:sponsoredPath,session:{screening_session_id:sessionId,event_id:eventId},evidence:startArtifactEvidence({},'en'),check:()=>{}}),/exact program\/owner\/session/);
+    assert.equal(requests,0);assert.equal(fixture.known.size,1);
+  });
 test('actual same-origin opaque grant path is kept only as an in-memory handle',()=>{
   const path=`/api/expungement-ai/packet/artifacts/${item}?grant=${token}`;
   assert.equal(protectedArtifactPath(path,'http://127.0.0.1:3139',item),path);
