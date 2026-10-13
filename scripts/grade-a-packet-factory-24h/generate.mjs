@@ -17,7 +17,7 @@
  * conveyor is for, and it is reported rather than smoothed.
  */
 import { onlyReviewBoundReportChanged } from "./review-bound-report-currentness.mjs";
-import { changedAcceptanceCycle } from "./verification-cycle.mjs";
+import { changedAcceptanceCycle, retainedVerificationLaneCount } from "./verification-cycle.mjs";
 import { assessWaSudCustomMapping } from "./wa-sud-custom-mapping.mjs";
 import { visualOnlyRasterPending } from "./visual-only-raster-pending.mjs";
 import { applyUnresolvedSourceConstraints } from "./source-readiness-constraints.mjs";
@@ -3132,7 +3132,7 @@ const ELASTICITY = [
     creates: ["PF17", "PF18", "PF19", "PF20", "PF21", "PF22", "PF23", "PF24"] }
 ];
 const laneCount = (id) => { const e = ELASTICITY.find((x) => x.id === id); return e.triggered ? e.lanesWith : e.lanesWithout; };
-const VF_LANES = laneCount("verification");
+
 const FIX_LANES = laneCount("repair");
 let packetClaimsForPacking = [];
 try {
@@ -3140,6 +3140,7 @@ try {
     fs.readFileSync(path.join(ROOT, `${OUT_DIR}/claim-ledger.json`), "utf8")
   ).claims ?? [];
 } catch { /* no ledger yet */ }
+const VF_LANES = retainedVerificationLaneCount(laneCount("verification"), VF_LANES_ELASTIC, packetClaimsForPacking, families);
 const livePacketLane = livePacketLaneByFamily(packetClaimsForPacking);
 const PF_LANES = effectivePacketLaneCount(laneCount("build"), livePacketLane);
 
