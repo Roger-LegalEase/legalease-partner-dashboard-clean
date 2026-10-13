@@ -44,6 +44,9 @@ jobs:
       - name: Typecheck
         run: npm run typecheck
 
+      - name: Verify Clinic acceptance harness controls
+        run: node --test scripts/clinic-qa/artifact-journey.test.mjs scripts/clinic-qa/fixture.test.mjs scripts/clinic-qa/generation-refusal.test.mjs
+
       - name: Install PDF text verification dependency
         run: |
           if ! command -v pdftotext >/dev/null 2>&1; then
