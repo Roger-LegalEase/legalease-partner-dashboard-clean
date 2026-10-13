@@ -1,7 +1,7 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
-import {artifactCases,startArtifactEvidence,protectedArtifactPath,alteredGrantPath,exactArtifactResponse,privateDenialResponse,artifactDenial,artifactAfterDeviceReset} from './artifact-journey.mjs';
+import {artifactCases,startArtifactEvidence,protectedArtifactPath,alteredGrantPath,exactArtifactResponse,privateDenialResponse,artifactDenial,artifactAfterDeviceReset,artifactCleanupIds} from './artifact-journey.mjs';
 import {assertApplicationBindingsEqual} from './source-bindings.mjs';
 
 // Harness predicate tests only. These do not constitute authenticated artifact
@@ -30,6 +30,16 @@ for(const [name,status,actualHeaders,body,identity] of [
   ['wrong MIME type',200,{...headers,'content-type':'text/html'},bytes,expected]
 ])test(`owner artifact rejects ${name}`,()=>assert.equal(exactArtifactResponse(status,actualHeaders,body,identity),false));
 const item='11111111-1111-4111-8111-111111111111',token='a'.repeat(43);
+const owner='22222222-2222-4222-8222-222222222222',derivedMatter='33333333-3333-4333-8333-333333333333',jobId='44444444-4444-4444-8444-444444444444';
+const provenance={render_job_id:jobId,matter_id:derivedMatter,consumer_auth_user_id:owner};
+const job={consumer_auth_user_id:owner,consumer_briefcase_item_id:item,matter_id:derivedMatter,output_sha256:expected.sha256,
+  output_storage_path:`packet-artifacts/consumer/${derivedMatter}/${jobId}/${expected.sha256}.pdf`};
+test('exact owner/job provenance supplies derived IDs needed by existing object cleanup',()=>{
+  assert.deepEqual(artifactCleanupIds({ownerId:owner,matterId:item,provenance,job}),[derivedMatter,jobId]);
+});
+for(const [name,changed] of [['other owner',{consumer_auth_user_id:item}],['other item',{consumer_briefcase_item_id:owner}],
+  ['other matter',{matter_id:owner}],['other storage path',{output_storage_path:'packet-artifacts/consumer/unrelated.pdf'}]])
+  test(`cleanup ownership rejects ${name}`,()=>assert.throws(()=>artifactCleanupIds({ownerId:owner,matterId:item,provenance,job:{...job,...changed}})));
 test('actual same-origin opaque grant path is kept only as an in-memory handle',()=>{
   const path=`/api/expungement-ai/packet/artifacts/${item}?grant=${token}`;
   assert.equal(protectedArtifactPath(path,'http://127.0.0.1:3139',item),path);

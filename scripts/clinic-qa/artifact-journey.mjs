@@ -56,6 +56,17 @@ export function privateDenialResponse(status, headers, bytes) {
       && !/packet-artifacts\/|\/storage\/v1\/|https?:\/\//i.test(JSON.stringify(body));
   } catch { return false; }
 }
+export function artifactCleanupIds({ownerId,matterId,provenance,job}) {
+  uuid(provenance.render_job_id);uuid(provenance.matter_id);
+  assert.equal(provenance.consumer_auth_user_id,ownerId,'Provenance must belong to the run-created owner');
+  assert.equal(job.consumer_auth_user_id,ownerId,'Job must belong to the run-created owner');
+  assert.equal(job.consumer_briefcase_item_id,matterId,'Job must belong to the run-created item');
+  assert.equal(job.matter_id,provenance.matter_id,'Provenance and job must identify the same matter');
+  assert.match(job.output_sha256,/^[a-f0-9]{64}$/);
+  assert.equal(job.output_storage_path,`packet-artifacts/consumer/${provenance.matter_id}/${provenance.render_job_id}/${job.output_sha256}.pdf`,
+    'Only the canonical exact-job storage path acquires cleanup ownership');
+  return [provenance.matter_id,provenance.render_job_id];
+}
 export async function acceptRealArtifact({fixture,context,matterId,ownerId,response,evidence,check}) {
   uuid(matterId);uuid(ownerId);
   assert(fixture.actors.some(actor=>actor.id===ownerId)&&fixture.known.has(matterId),'Only run-owned artifacts');
@@ -77,6 +88,11 @@ export async function acceptRealArtifact({fixture,context,matterId,ownerId,respo
     &&provenance.artifact.renderJobId===provenance.render_job_id
     &&provenance.artifact.artifactSha256===job.output_sha256&&provenance.artifact.storagePath===job.output_storage_path
     &&/^[a-f0-9]{64}$/.test(job.output_sha256)&&Number.isInteger(job.output_byte_count)&&job.output_byte_count>0;
+  // Existing cleanup removes only run-owned objects. Canonical consumer paths
+  // contain derived matter/job IDs, so acquire these exact IDs from validated
+  // owner provenance before downloading; even a byte-integrity failure can then
+  // clean its own new object without touching any baseline object.
+  if(metadataValid)for(const id of artifactCleanupIds({ownerId,matterId,provenance,job}))fixture.known.add(id);
   const expected={sha256:job.output_sha256,byteLength:job.output_byte_count};
   const bytesResponse=await context.request.get(target,{maxRedirects:0});
   const bytes=await bytesResponse.body();
