@@ -1204,7 +1204,7 @@ export function factualPathwayCorrectionIds(state: string, pathway: string | nul
   return extra;
 }
 
-function routeFactualCorrectionIds(model: { stateCode: string; pathwayId: string | null; screeningAnswers: Record<string, AnswerValue>; prefilledAnswers: Record<string, AnswerValue>; packetAnswers: Record<string, AnswerValue> }, includeInactive = false): string[] {
+function routeFactualCorrectionIds(model: { stateCode: string; pathwayId: string | null; requiredInputIds?: string[]; screeningAnswers: Record<string, AnswerValue>; prefilledAnswers: Record<string, AnswerValue>; packetAnswers: Record<string, AnswerValue> }, includeInactive = false): string[] {
   if (isCaProp64Pathway(model.stateCode, model.pathwayId)) {
     const answers = { ...model.screeningAnswers, ...model.prefilledAnswers, ...model.packetAnswers };
     return [...(includeInactive ? CA_PROP64_FACT_IDS : caProp64ActiveFactIds(answers)),
@@ -1218,10 +1218,15 @@ function routeFactualCorrectionIds(model: { stateCode: string; pathwayId: string
     profile?.questions.find(question => question.id === "financial_obligations")) ? ["financial_obligations"] : [];
   if (model.stateCode !== "NY" || model.pathwayId !== NY_16059_ROUTE) return [...financial, ...factual];
   const answers = toScreeningAnswers({ ...model.screeningAnswers, ...model.prefilledAnswers, ...model.packetAnswers });
-  return [...financial, ...NY_16059_FACT_IDS.filter(id => id !== "ny_16059_request"), "ny_16059_later_conviction_entered", "ny_16059_undisposed_arrest", "ny_16059_pending_charge", "ny_16059_sex_offender_registration"]
+  const eligibility = [...financial, ...NY_16059_FACT_IDS.filter(id => id !== "ny_16059_request"), "ny_16059_later_conviction_entered", "ny_16059_undisposed_arrest", "ny_16059_pending_charge", "ny_16059_sex_offender_registration"]
     .filter(id => includeInactive || ny16059QuestionApplies(answers, id)
       && (id !== "release_date" || answers.ny_16059_sentence_incarceration === "Yes")
       && (id !== "ny_16059_incarceration_periods" || answers.ny_16059_incarceration_history === "released"));
+  // A truthful adverse eligibility answer can remove the packet plan. Saved
+  // case details still belong to this owner and must remain correctable. This
+  // exposes existing answers only; it neither adds intake nor restores a plan.
+  return [...eligibility, ...(model.requiredInputIds?.length === 0
+    ? [...NY_PACKET_FACT_IDS, ...NY_CASE_FACT_IDS].filter(id => Object.hasOwn(facts, id)) : [])];
 }
 
 export function editablePacketInputIds(model: Pick<ProtectedPacketInformationModel, "stateCode" | "pathwayId" | "requiredInputIds" | "serverFacts" | "screeningAnswers" | "prefilledAnswers" | "packetAnswers" | "recordOwnQuestionIds" | "questions">, includeInactive = false): Set<string> {
@@ -1483,7 +1488,7 @@ function protectedPacketQuestionSurface(
       }
     }
   }
-  const correctionIds = routeFactualCorrectionIds({ stateCode: profile.jurisdiction.code, pathwayId, screeningAnswers, prefilledAnswers, packetAnswers: savedAnswers });
+  const correctionIds = routeFactualCorrectionIds({ stateCode: profile.jurisdiction.code, pathwayId, requiredInputIds, screeningAnswers, prefilledAnswers, packetAnswers: savedAnswers });
   for (const id of correctionIds) {
     const question = questionById.get(id);
     if (question && !questions.some(q => q.id === id)) questions.push({ ...question, required: false, contextOnly: false });
@@ -1571,7 +1576,7 @@ function protectedLegacyAnswerProjection(snapshot: LegacyAnswerSource) {
     // explicit replacement. Its strict answer contract still refuses readiness;
     // factual history archives the entire original value on explicit save.
     && !(isNy16059Packet(snapshot.jurisdiction, snapshot.pathwayId) && question.id === "ny_16059_covered_case_records"
-      && question.type === "court_case_records" && question.answerContract === "ny_16059_case_records_v1"));
+      && question.type === "court_case_records" && question.answerContract === "ny_16059_case_records_v2"));
   const inspection = inspectProtectedLegacyShapes(snapshot, snapshot, questions);
   const maps = { screeningAnswers: answerRecord(inspection.projected.screeningAnswers),
     prefilledAnswers: answerRecord(inspection.projected.prefilledAnswers), packetAnswers: answerRecord(inspection.projected.packetAnswers) };
@@ -2715,10 +2720,10 @@ function installPacketSpecificationQuestions(
     questions.set(factId, question);
   }
   if (isNy16059Packet(jurisdiction, pathwayId)) for (const question of NY_PACKET_QUESTIONS) {
-    if (requiredInputIds.includes(question.id)) questions.set(question.id, structuredClone(question));
+    if (requiredInputIds.includes(question.id) || Object.hasOwn(answers, question.id)) questions.set(question.id, structuredClone(question));
   }
   if (isNy16059Packet(jurisdiction, pathwayId)) for (const question of nyCasePreparationQuestions(answers)) {
-    if (requiredInputIds.includes(question.id)) questions.set(question.id, question);
+    if (requiredInputIds.includes(question.id) || Object.hasOwn(answers, question.id)) questions.set(question.id, question);
   }
   if (isCaProp64Pathway(jurisdiction, pathwayId)) {
     for (const question of CA_PROP64_CAPTION_QUESTIONS) {

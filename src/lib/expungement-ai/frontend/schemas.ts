@@ -64,7 +64,7 @@ export const profileQuestionSchema = z
     prompt: z.string().min(1),
     helperText: z.string().optional(),
     multiline: z.boolean().optional(),
-    answerContract: z.enum(["ca_prop64_record_fact_v1", "ca_prop64_decimal_grams_v1", "ca_prop64_caption_fact_v1", "ny_16059_packet_text_v1", "ny_16059_case_records_v1", "ny_16059_applicant_statement_v1", "ny_16059_case_court_text_v1"]).optional(),
+    answerContract: z.enum(["ca_prop64_record_fact_v1", "ca_prop64_decimal_grams_v1", "ca_prop64_caption_fact_v1", "ny_16059_packet_text_v1", "ny_16059_case_records_v2", "ny_16059_applicant_statement_v1", "ny_16059_case_court_text_v1"]).optional(),
     caseRecordReferences: z.object({ firstCaseNumbers: z.string().optional(), additionalCaseNumbers: z.string().optional() }).strict().optional(),
     legacyAnswerText: z.string().optional(),
     savedAnswerNeedsClarification: z.boolean().optional(),
@@ -89,10 +89,10 @@ export const profileQuestionSchema = z
       && ["participant_full_legal_name", "ca_prop64_court_case_number", "ca_prop64_filing_court_county"].includes(question.id)
     || question.answerContract === "ny_16059_packet_text_v1" && question.type === "text_or_unknown"
       && ["ny_16059_first_case_numbers", "ny_16059_additional_case_numbers", "ny_16059_case_alias_names", "ny_16059_nysid_number", "ny_16059_future_case_numbers", "ny_16059_future_court"].includes(question.id)
-    || question.answerContract === "ny_16059_case_records_v1" && question.id === "ny_16059_covered_case_records" && question.type === "court_case_records"
+    || question.answerContract === "ny_16059_case_records_v2" && question.id === "ny_16059_covered_case_records" && question.type === "court_case_records"
     || question.answerContract === "ny_16059_applicant_statement_v1" && question.id === "ny_16059_applicant_statement" && question.type === "text_or_unknown" && question.multiline === true
     || question.answerContract === "ny_16059_case_court_text_v1" && ["ny_16059_other_filing_court_name", "ny_16059_other_filing_court_county"].includes(question.id) && question.type === "text_or_unknown", "Invalid scoped answer contract")
-  .refine(question => !question.caseRecordReferences || question.answerContract === "ny_16059_case_records_v1" && question.id === "ny_16059_covered_case_records" && question.type === "court_case_records", "Invalid case references")
+  .refine(question => !question.caseRecordReferences || question.answerContract === "ny_16059_case_records_v2" && question.id === "ny_16059_covered_case_records" && question.type === "court_case_records", "Invalid case references")
   .refine((question) => question.legacyAnswerText === undefined || question.answerContract === "ca_prop64_record_fact_v1"
     || question.id === "sentence_completion_date" && question.type === "yes_no_unsure", "Invalid scoped legacy-answer display");
 

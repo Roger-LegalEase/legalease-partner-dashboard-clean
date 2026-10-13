@@ -1,7 +1,8 @@
+import { isNyConvictionClassification, nyClassificationComplete, nyClassificationAnswerCurrent, NY_RECORD_CLASS_LABELS, NY_EXCLUDED_CATEGORY_LABELS, type NyConvictionClassification } from "@/lib/expungement-ai/ny-16059-case-classification";
 /** Packet preparation transport. An actual court case is not a legal conviction
  * group or a printed form row. No value here proves attachment or execution. */
 export const NY_CASE_RECORDS_ID = "ny_16059_covered_case_records";
-export const NY_CASE_RECORDS_CONTRACT = "ny_16059_case_records_v1" as const;
+export const NY_CASE_RECORDS_CONTRACT = "ny_16059_case_records_v2" as const;
 export const NY_STATEMENT_ID = "ny_16059_applicant_statement";
 export const NY_STATEMENT_CONTRACT = "ny_16059_applicant_statement_v1" as const;
 
@@ -17,6 +18,7 @@ export type NyConvictionRecord = {
   charge: string;
   section: string;
   grade: string;
+  classification?: NyConvictionClassification;
   convictionDate: string;
   sentences: NySentenceEvent[];
 };
@@ -71,7 +73,7 @@ export function parseNyCourtCaseRecords(raw: unknown): NyCourtCaseRecord[] | nul
     caseIds.add(value.id);
     if (value.priorCaseReference === "first" && ++firstReferences > 1) return null;
     for (const conviction of value.convictions) {
-      if (!exactObject(conviction, convictionKeys) || !stableId(conviction.id) || convictionIds.has(conviction.id)
+      if (!(exactObject(conviction, convictionKeys) || exactObject(conviction, [...convictionKeys, "classification"]) && isNyConvictionClassification(conviction.classification)) || !stableId(conviction.id) || convictionIds.has(conviction.id)
         || !line(conviction.charge) || !line(conviction.section) || !line(conviction.grade)
         || !line(conviction.convictionDate) || !Array.isArray(conviction.sentences)) return null;
       convictionIds.add(conviction.id);
@@ -108,7 +110,7 @@ export function nyCourtCaseRecordsState(raw: unknown, today = new Date().toISOSt
       && sentence.releases.every(release => pastDate(release.releaseDate) && release.releaseDate >= sentence.sentenceDate);
   };
   const completeConviction = (conviction: NyConvictionRecord) =>
-    [conviction.charge, conviction.section, conviction.grade].every(value => !uncertain(value)) && pastDate(conviction.convictionDate)
+    [conviction.charge, conviction.section, conviction.grade].every(value => !uncertain(value)) && nyClassificationComplete(conviction) && pastDate(conviction.convictionDate)
     && conviction.sentences.length > 0 && conviction.sentences.every(sentence => completeSentence(sentence, conviction.convictionDate));
   const complete = cases.every(record =>
     [record.caseNumbers, record.courtName, record.courtCounty].every(value => !uncertain(value))
@@ -156,6 +158,8 @@ export function formatNyCourtCaseRecords(raw: unknown, locale: "en" | "es") {
     ...(record.priorCaseReference === "first" ? [es ? "Asociado con el primer caso guardado." : "Associated with the saved first case."] : []),
     ...record.convictions.flatMap((conviction, convictionIndex) => [
       `${es ? "Condena" : "Conviction"} ${convictionIndex + 1}: ${text(conviction.charge)}; ${text(conviction.section)}; ${text(conviction.grade)}; ${es ? "fecha" : "date"}: ${text(conviction.convictionDate)}`,
+      `${es ? "Clasificación según el expediente" : "Record classification"}: ${conviction.classification && nyClassificationAnswerCurrent(conviction, "recordClass") ? NY_RECORD_CLASS_LABELS[conviction.classification.recordClass.value][locale] : es ? "Revisar la respuesta para el texto actual del expediente" : "Review the answer for the current record text"}`,
+      `${es ? "Categorías excluidas" : "Excluded categories"}: ${conviction.classification && nyClassificationAnswerCurrent(conviction, "excluded") && conviction.classification.excluded.value.length ? conviction.classification.excluded.value.map(value => NY_EXCLUDED_CATEGORY_LABELS[value][locale]).join("; ") : es ? "Revisar la respuesta para el texto actual del expediente" : "Review the answer for the current record text"}`,
       ...conviction.sentences.flatMap((sentence, sentenceIndex) => [
         `${es ? "Sentencia" : "Sentence event"} ${sentenceIndex + 1}: ${text(sentence.sentenceDate)}; ${text(sentence.sentenceTerms)}`,
         `${es ? "Encarcelamiento posterior a la sentencia" : "Post-sentence incarceration"}: ${sentence.postSentenceCustody === "yes" ? es ? "Sí" : "Yes" : sentence.postSentenceCustody === "no" ? "No" : text(sentence.postSentenceCustody)}`,

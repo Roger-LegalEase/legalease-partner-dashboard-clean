@@ -117,7 +117,9 @@ export default async function PacketInformationPage({
             {model.questions.filter(question => correctionIds.has(question.id)).map(question => <Link
               key={question.id} className="inline-flex min-h-11 items-center underline"
               href={`/briefcase/${encodeURIComponent(item.id)}/packet-information?edit=${encodeURIComponent(question.id)}`}>
-              <LocalizedRuntimeText text={question.prompt} />
+              {question.translations?.es?.prompt
+                ? <LocalizedCopy en={question.prompt} es={question.translations.es.prompt} />
+                : <LocalizedRuntimeText text={question.prompt} />}
             </Link>)}
           </nav> : null}
           <PacketInformationBuilder

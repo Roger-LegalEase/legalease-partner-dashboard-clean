@@ -1,6 +1,7 @@
 "use client";
 
 import { useLocalization } from "@/components/expungement-ai/LocalizationProvider";
+import { NyConvictionClassificationFields } from "@/components/expungement-ai/screening/fields/NyConvictionClassificationFields";
 import { parseNyCourtCaseRecords, encodeNyCourtCaseRecords, emptyNyCourtCaseRecord, emptyNyConvictionRecord, emptyNySentenceEvent,
   type NyCourtCaseRecord, type NyConvictionRecord, type NySentenceEvent } from "@/lib/expungement-ai/ny-16059-case-records";
 
@@ -73,6 +74,7 @@ export function CourtCaseRecordsField({ id, value, onChange, firstCaseNumbers, a
         <RecordText id={`${id}-${conviction.id}-charge`} label={es ? "Delito tal como aparece en el expediente" : "Offense as shown in the record"} value={conviction.charge} change={charge => updateConviction(record, conviction.id, { charge })} es={es} />
         <RecordText id={`${id}-${conviction.id}-section`} label={es ? "Ley, sección y subsección exactas" : "Exact law, section and subsection"} value={conviction.section} change={section => updateConviction(record, conviction.id, { section })} es={es} />
         <RecordText id={`${id}-${conviction.id}-grade`} label={es ? "Nivel o clase del delito según el expediente" : "Offense level or class shown in the record"} value={conviction.grade} change={grade => updateConviction(record, conviction.id, { grade })} es={es} />
+        <NyConvictionClassificationFields id={`${id}-${conviction.id}`} conviction={conviction} es={es} onChange={classification => updateConviction(record, conviction.id, { classification })} />
         <RecordText id={`${id}-${conviction.id}-date`} label={es ? "Fecha de esta condena" : "Date of this conviction"} value={conviction.convictionDate} change={convictionDate => updateConviction(record, conviction.id, { convictionDate })} es={es} date />
         {conviction.sentences.map((sentence, sentenceIndex) => <fieldset key={sentence.id} className="grid gap-3 rounded-lg bg-[#F8FAFC] p-3">
           <legend className="px-2 font-semibold">{es ? "Sentencia" : "Sentence event"} {sentenceIndex + 1}</legend>

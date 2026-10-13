@@ -5,6 +5,7 @@ register('./lib/ts-esm-loader.mjs',import.meta.url);
 const P=await import('../src/lib/expungement-ai/packet-information.ts');
 const R=await import('../src/lib/expungement-ai/ny-16059-case-records.ts');
 const Q=await import('../src/lib/expungement-ai/ny-16059-case-questions.ts');
+const C=await import('../src/lib/expungement-ai/ny-16059-case-classification.ts');
 const {ny16059ProtectedDocumentPreparation:prepare}=await import('../src/lib/expungement-ai/ny-16059-document-preparation.ts');
 const {verificationSummary,displayVerificationAnswer}=await import('../src/components/expungement-ai/verification-summary.ts');
 const {questionAnswerState}=await import('../src/lib/expungement-ai/question-answer-state.ts');
@@ -12,7 +13,9 @@ const fixture=JSON.parse(fs.readFileSync(new URL('./fixtures/ny-16059-pre-case-r
 const checks=[];const check=(id,pass)=>checks.push({id,pass:!!pass});const same=(a,b)=>{try{assert.deepEqual(a,b);return true;}catch{return false;}};
 const item={id:'synthetic-ny-case-records',jurisdiction:'NY',artifactRefs:{}};
 const patch=(record,answers,verify=false)=>P.packetInformationPatch({existingItem:item,protectedVerification:record,answers,verify})?.protectedTransition.nextVerification;
-const makeCase=(id,number)=>({...R.emptyNyCourtCaseRecord(id),caseNumbers:number,courtName:'Synthetic '+id+' Court',courtCounty:'Synthetic '+id+' County',certificateStatus:'request_needed',convictions:[{...R.emptyNyConvictionRecord(id+'-offense'),charge:'Synthetic offense',section:'Synthetic section',grade:'Misdemeanor',convictionDate:'2009-12-01',sentences:[{...R.emptyNySentenceEvent(id+'-sentence'),sentenceDate:'2010-01-01',sentenceTerms:'Synthetic sentence\nSecond paragraph',postSentenceCustody:'no'}]}]});
+const makeCase=(id,number)=>{const record=({...R.emptyNyCourtCaseRecord(id),caseNumbers:number,courtName:'Synthetic '+id+' Court',courtCounty:'Synthetic '+id+' County',certificateStatus:'request_needed',convictions:[{...R.emptyNyConvictionRecord(id+'-offense'),charge:'Synthetic offense',section:'Synthetic section',grade:'Misdemeanor',convictionDate:'2009-12-01',sentences:[{...R.emptyNySentenceEvent(id+'-sentence'),sentenceDate:'2010-01-01',sentenceTerms:'Synthetic sentence\nSecond paragraph',postSentenceCustody:'no'}]}]});
+ for(const conviction of record.convictions){conviction.classification=C.withNyClassificationAnswer(conviction,'recordClass','misdemeanor');conviction.classification=C.withNyClassificationAnswer(conviction,'excluded',['none']);}
+ return record;};
 for(const row of fixture.rows){
  const old=structuredClone(row.verifiedRecord),model=P.protectedPacketInformationModelFor(old),prefix=row.variant;
  check(prefix+'/genuine previous verification remains readable',model&&model.stage!=='ready_to_generate'&&!model.reviewSafety.safe);

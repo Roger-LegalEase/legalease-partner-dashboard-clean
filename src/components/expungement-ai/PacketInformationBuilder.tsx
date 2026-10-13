@@ -344,7 +344,7 @@ export function PacketInformationBuilder({
         <p className="text-xs font-bold uppercase tracking-[0.08em] text-[#08786F]">{copy("Packet information", "Información del paquete")}</p>
         {screen ? <p className="text-xs font-semibold text-[#5E687A]">{index + 1} {copy("of", "de")} {screens.length}</p> : null}
       </div>
-      {nyCaseIssues.map(issue => <p key={issue.code} role="status" className="mb-5 rounded border border-amber-300 p-4 text-sm">{issue[locale]}</p>)}
+      {nyCaseIssues.map(issue => <p key={`${issue.id}:${issue.code}`} role="status" className="mb-5 rounded border border-amber-300 p-4 text-sm">{issue[locale]}</p>)}
       {courtRecordConflict ? <p data-court-record-conflict role="status" className="mb-5 rounded border border-amber-300 p-4 text-sm">{COURT_RECORD_CONFLICT_COPY[locale]}</p> : null}
       {routeChanged ? <div className="mb-5 rounded border border-amber-300 p-4" role="status"><p>{copy("Your saved answers changed which packet path is available. Review the updated matter before continuing.", "Sus respuestas guardadas cambiaron la vía disponible para el paquete. Revise el caso actualizado antes de continuar.")}</p><a className="mt-2 inline-flex min-h-11 items-center underline" href={`/briefcase/${encodeURIComponent(itemId)}`} target={dirty ? "_blank" : undefined} rel={dirty ? "noopener noreferrer" : undefined}>{dirty ? copy("Open updated matter in a new tab; keep this draft here", "Abrir el caso actualizado en otra pestaña y conservar este borrador aquí") : copy("Open updated matter", "Abrir el caso actualizado")}</a></div> : null}
       <h2 tabIndex={-1} data-packet-step-heading id="packet-step-heading" className="text-xl font-extrabold text-[#0B1320] focus-visible:outline focus-visible:outline-2">

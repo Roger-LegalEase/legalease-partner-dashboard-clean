@@ -1,6 +1,7 @@
 import type { ProfileQuestion } from "@/lib/expungement-ai/frontend/contracts";
 import { NY_CASE_RECORDS_ID, NY_CASE_RECORDS_CONTRACT, NY_STATEMENT_ID, NY_STATEMENT_CONTRACT, parseNyCourtCaseRecords, nyCourtCaseRecordsState, nyApplicantStatementState } from "@/lib/expungement-ai/ny-16059-case-records";
 import { nyPacketTextAnswerState } from "@/lib/expungement-ai/ny-16059-packet-facts";
+import { nyClassificationAnswerCurrent } from "@/lib/expungement-ai/ny-16059-case-classification";
 
 export const NY_CASE_COURT_TEXT_CONTRACT = "ny_16059_case_court_text_v1" as const;
 export const NY_FILING_CASE_ID = "ny_16059_filing_case_id";
@@ -76,7 +77,7 @@ export function nyCaseAssociationIssues(answers: Readonly<Record<string, unknown
   if (!records?.length) return issues;
   const scalar = (id: string) => {
     const raw = answers[id];
-    return typeof raw === "string" ? raw : raw && typeof raw === "object" && !Array.isArray(raw) && (raw as { unknown?: unknown }).unknown !== true ? (raw as { value?: unknown }).value : undefined;
+    return typeof raw === "string" || typeof raw === "number" || typeof raw === "boolean" ? raw : raw && typeof raw === "object" && !Array.isArray(raw) && (raw as { unknown?: unknown }).unknown !== true ? (raw as { value?: unknown }).value : undefined;
   };
   const first = scalar("ny_16059_first_case_numbers");
   if (nyPacketTextAnswerState("ny_16059_first_case_numbers", answers.ny_16059_first_case_numbers) === "known_valid") {
@@ -95,6 +96,36 @@ export function nyCaseAssociationIssues(answers: Readonly<Record<string, unknown
     return Number.isFinite(date.getTime()) && date.toISOString().slice(0, 10) === value && value <= new Date().toISOString().slice(0, 10);
   };
   const convictions = records.flatMap(record => record.convictions);
+  const classes = convictions.filter(conviction => nyClassificationAnswerCurrent(conviction, "recordClass"));
+  const felony = classes.some(conviction => conviction.classification!.recordClass.value === "felony");
+  for (const id of ["ny_16059_history_felonies", "ny_16059_requested_felonies"]) {
+    if (felony && (scalar(id) === 0 || typeof scalar(id) === "string" && /^0+$/.test(scalar(id) as string))) issues.push({ id, code: "declared_felony_conflict",
+      en: `An included conviction is identified as a felony, but the saved ${id === "ny_16059_history_felonies" ? "complete-history" : "requested-conviction"} felony count is zero. Review that conviction's classification and the earlier count; correct the answer that is wrong. No cases or convictions are grouped automatically.`,
+      es: `Una condena incluida está identificada como delito grave, pero el número guardado de delitos graves ${id === "ny_16059_history_felonies" ? "en todos sus antecedentes" : "en esta solicitud"} es cero. Revise la clasificación de esa condena y el número anterior; corrija la respuesta incorrecta. No se agrupan casos ni condenas automáticamente.` });
+  }
+  const excluded = convictions.filter(conviction => nyClassificationAnswerCurrent(conviction, "excluded"));
+  const actualCategories = excluded.flatMap(conviction => conviction.classification!.excluded.value).filter(value => value !== "none" && value !== "unknown");
+  // Match the existing evaluator's accepted negative spellings, without
+  // changing the saved value or importing its server-only module into the editor.
+  const no = (id: string) => {
+    const value = scalar(id);
+    const text = typeof value === "string" ? value.trim().toLowerCase() : value === false ? "false" : "";
+    return text === "no" || text === "false" || text.startsWith("no,");
+  };
+  if (actualCategories.length && no("ny_16059_requested_excluded")) issues.push({ id: "ny_16059_requested_excluded", code: "declared_exclusion_conflict",
+    en: "An included conviction has an excluded category selected, but the saved answer says none of the requested convictions is excluded. Review both answers against the record and correct the answer that is wrong.",
+    es: "Una condena incluida tiene seleccionada una categoría excluida, pero la respuesta guardada dice que ninguna condena solicitada está excluida. Revise ambas respuestas con el expediente y corrija la respuesta incorrecta." });
+  if (actualCategories.includes("registration_6c") && no("ny_16059_sex_offender_registration")) issues.push({ id: "ny_16059_sex_offender_registration", code: "declared_registration_conflict",
+    en: "A conviction is marked as requiring sex-offender registration, but the saved registration answer is No. Review both answers against the registration record; do not assume that a completed sentence ended registration.",
+    es: "Una condena está marcada como sujeta a inscripción en el registro de delincuentes sexuales, pero la respuesta guardada sobre la inscripción es No. Revise ambas respuestas con el registro; no suponga que cumplir la sentencia terminó la obligación de inscribirse." });
+  if (classes.some(conviction => conviction.classification!.recordClass.value === "violation")) issues.push({ id: NY_CASE_RECORDS_ID, code: "declared_noncrime_request",
+    en: "An included record is classified as a violation rather than a misdemeanor or felony. Review its classification and whether it belongs in this CPL 160.59 conviction application. The record has not been removed or assigned to another procedure.",
+    es: "Un expediente incluido está clasificado como infracción (violation), en lugar de delito menor o grave. Revise su clasificación y si corresponde a esta solicitud de condenas bajo CPL 160.59. No se ha eliminado el expediente ni asignado a otro procedimiento." });
+  const felonyOnly = new Set(["article_125_felony", "violent_felony_70_02", "class_a_felony", "article_105_ineligible_felony", "ineligible_felony_attempt"]);
+  if (classes.some(conviction => ["misdemeanor", "violation"].includes(conviction.classification!.recordClass.value)
+    && nyClassificationAnswerCurrent(conviction, "excluded") && conviction.classification!.excluded.value.some(value => felonyOnly.has(value)))) issues.push({ id: NY_CASE_RECORDS_ID, code: "declared_class_category_conflict",
+    en: "A conviction's classification disagrees with a selected category that applies only to felonies. Review both answers for that conviction; no classification is inferred from the offense text.",
+    es: "La clasificación de una condena no coincide con una categoría seleccionada que solo corresponde a delitos graves. Revise ambas respuestas de esa condena; no se deduce la clasificación del texto del delito." });
   const convictionDates = convictions.map(conviction => conviction.convictionDate).filter(validDate);
   const earliest = scalar("ny_16059_earliest_conviction_date");
   const knownInventory = nyCourtCaseRecordsState(answers[NY_CASE_RECORDS_ID]) === "known_valid"
