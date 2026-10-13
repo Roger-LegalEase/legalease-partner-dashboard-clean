@@ -2,6 +2,8 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import { register } from 'node:module';
 register('./lib/ts-esm-loader.mjs', import.meta.url);
+const H = await import('../src/lib/expungement-ai/ny-16059-sealing-history.ts');
+const noPriorSealingRecords = { [H.NY_SEALING_HISTORY_ID]: H.encodeNySealingHistory({ ...H.emptyNySealingHistory(), prior16058Application: 'no' }) };
 const P = await import('../src/lib/expungement-ai/packet-information.ts');
 const R = await import('../src/lib/expungement-ai/ny-16059-case-records.ts');
 const C = await import('../src/lib/expungement-ai/ny-16059-case-classification.ts');
@@ -33,7 +35,7 @@ for (const row of fixture.rows) {
  const level=id.includes('literal-felony')||id.includes('literal-excluded')?'felony':id.includes('literal-violation')?'violation':'misdemeanor';
  const categories=id.includes('literal-excluded')?['article_125_felony','class_a_felony']:['none'];
  const records=classify(structuredClone(original),level,categories), wire=R.encodeNyCourtCaseRecords(records);
- const current=patch(old,{[R.NY_CASE_RECORDS_ID]:wire}); const model=P.protectedPacketInformationModelFor(current);
+ const current=patch(old,{...noPriorSealingRecords,[R.NY_CASE_RECORDS_ID]:wire}); const model=P.protectedPacketInformationModelFor(current);
  check(id+'/declarations saved without parsing original record text',same(current.draftSnapshot.packetAnswers[R.NY_CASE_RECORDS_ID],wire));
  check(id+'/original full array retained in history',current.draftSnapshot.dependencies.semanticAnswerHistory.some(e=>e.factId===R.NY_CASE_RECORDS_ID&&same(e.value,m.initialAnswers[R.NY_CASE_RECORDS_ID])));
  check(id+'/preparation grants no source or legal authority',prepare(current)?.generationAllowed===false&&prepare(current)?.casePreparation.legalConvictionGroupCount===null);

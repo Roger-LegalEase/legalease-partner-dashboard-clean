@@ -2,6 +2,8 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import { register } from 'node:module';
 register('./lib/ts-esm-loader.mjs', import.meta.url);
+const H = await import('../src/lib/expungement-ai/ny-16059-sealing-history.ts');
+const noPriorSealingRecords = { [H.NY_SEALING_HISTORY_ID]: H.encodeNySealingHistory({ ...H.emptyNySealingHistory(), prior16058Application: 'no' }) };
 const P = await import('../src/lib/expungement-ai/packet-information.ts');
 const R = await import('../src/lib/expungement-ai/ny-16059-case-records.ts');
 const C = await import('../src/lib/expungement-ai/ny-16059-case-classification.ts');
@@ -25,15 +27,16 @@ const exactClasses = records => {
 for (const fixture of fixtures.fixtures) {
   const old = structuredClone(fixture.record), before = structuredClone(old), prefix = fixture.id;
   check(prefix + '/genuine engine predecessor retained', old.status === 'verified' && fixtures.head === '20b2f0adc3b893f948bbe3dadcb39b740e2742a9');
-  const current = model(old);
+  const tested = patch(old, noPriorSealingRecords);
+  const current = model(tested);
   check(prefix + '/predecessor remains owner readable', !!current && same(old, before));
   check(prefix + '/all prior raw case facts reach editor', same(current.initialAnswers[R.NY_CASE_RECORDS_ID], old.snapshot.packetAnswers[R.NY_CASE_RECORDS_ID]));
   check(prefix + '/new facts remain editable', Q.NY_VENUE_FACT_IDS.every(id => P.editablePacketInputIds(current, true).has(id)));
-  if (prefix !== 'same_case_changed_court_after_verified') check(prefix + '/same counterexample cannot verify', !current.reviewSafety.safe && patch(old, {}, true)?.status !== 'verified');
+  if (prefix !== 'same_case_changed_court_after_verified') check(prefix + '/same counterexample cannot verify', !current.reviewSafety.safe && patch(tested, {}, true)?.status !== 'verified');
   if (prefix === 'equal_class_older_court') {
     check(prefix + '/raw grade never parsed into class', current.nyCaseIssues.some(issue => issue.code === 'filing_class_detail_required') && cases(old).every(record => !record.convictions[0].statutoryClass));
     const classified = exactClasses(cases(old)), wire = R.encodeNyCourtCaseRecords(classified);
-    const wrong = patch(old, { [R.NY_CASE_RECORDS_ID]: wire });
+    const wrong = patch(tested, { [R.NY_CASE_RECORDS_ID]: wire });
     check(prefix + '/exact same classes expose earlier court contradiction', model(wrong).nyCaseIssues.some(issue => issue.code === 'filing_destination_conflict') && patch(wrong, {}, true)?.status !== 'verified');
     const correct = patch(wrong, { [Q.NY_FILING_CASE_ID]: 'case:second' });
     check(prefix + '/correct latest conviction court permits explicit verification', model(correct).reviewSafety.safe && patch(correct, {}, true)?.status === 'verified');
@@ -46,16 +49,16 @@ for (const fixture of fixtures.fixtures) {
   }
   if (prefix === 'felony_recent_misdemeanor_court') {
     check(prefix + '/broad felony proves wrong misdemeanor destination', current.nyCaseIssues.some(issue => issue.code === 'filing_destination_conflict'));
-    const correct = patch(old, { [Q.NY_FILING_CASE_ID]: 'case:first' });
+    const correct = patch(tested, { [Q.NY_FILING_CASE_ID]: 'case:first' });
     check(prefix + '/single felony court needs no redundant letter class', !model(correct).nyCaseIssues.some(issue => issue.code === 'filing_class_detail_required') && patch(correct, {}, true)?.status === 'verified');
   }
-  if (prefix === 'same_case_changed_court_after_verified') check(prefix + '/single actual court remains supported', patch(old, {}, true)?.status === 'verified');
+  if (prefix === 'same_case_changed_court_after_verified') check(prefix + '/single actual court remains supported', patch(tested, {}, true)?.status === 'verified');
   if (prefix === 'single_unrelated_court') {
     const directionFacts = { [Q.NY_COURT_DIRECTION_BASIS_ID]: 'court_direction', [Q.NY_COURT_DIRECTION_TEXT_IDS[0]]: { value: 'Synthetic clerk of Albany City Court', unknown: false },
       [Q.NY_COURT_DIRECTION_TEXT_IDS[1]]: { value: '2026-10-01; synthetic letter reference 123', unknown: false },
       [Q.NY_COURT_DIRECTION_TEXT_IDS[2]]: { value: 'Synthetic instruction to submit the identified application at the named destination.', unknown: false },
       [Q.NY_COURT_DIRECTION_CASES_ID]: ['case:first'] };
-    let directed = patch(old, directionFacts);
+    let directed = patch(tested, directionFacts);
     const token = Q.nyCourtDirectionConfirmation(model(directed).initialAnswers);
     check(prefix + '/exact saved direction can be acknowledged', typeof token === 'string' && token.startsWith('reviewed:'));
     const reorderedFacts = structuredClone(model(directed).initialAnswers);

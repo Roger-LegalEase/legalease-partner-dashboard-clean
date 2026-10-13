@@ -1,3 +1,4 @@
+import { NY_SEALING_HISTORY_ID, NY_SEALING_HISTORY_CONTRACT, nySealingHistoryIssues, nyKnownPrior16058Application } from "@/lib/expungement-ai/ny-16059-sealing-history";
 import type { ProfileQuestion } from "@/lib/expungement-ai/frontend/contracts";
 import { NY_CASE_RECORDS_ID, NY_CASE_RECORDS_CONTRACT, NY_STATEMENT_ID, NY_STATEMENT_CONTRACT, parseNyCourtCaseRecords, nyCourtCaseRecordsState, nyApplicantStatementState } from "@/lib/expungement-ai/ny-16059-case-records";
 import { nyPacketTextAnswerState } from "@/lib/expungement-ai/ny-16059-packet-facts";
@@ -16,7 +17,8 @@ export const NY_COURT_DIRECTION_CASES_ID = "ny_16059_court_direction_cases";
 export const NY_COURT_DIRECTION_BASIS_ID = "ny_16059_court_direction_basis";
 export const NY_COURT_DIRECTION_CONFIRMATION_ID = "ny_16059_court_direction_confirmation";
 export const NY_VENUE_FACT_IDS = [NY_COURT_DIRECTION_BASIS_ID, ...NY_COURT_DIRECTION_TEXT_IDS, NY_COURT_DIRECTION_CASES_ID, NY_COURT_DIRECTION_CONFIRMATION_ID];
-export const NY_CASE_FACT_IDS = [...NY_PRE_VENUE_CASE_FACT_IDS, ...NY_VENUE_FACT_IDS];
+export const NY_HISTORY_FACT_IDS = [NY_SEALING_HISTORY_ID];
+export const NY_CASE_FACT_IDS = [...NY_PRE_VENUE_CASE_FACT_IDS, ...NY_VENUE_FACT_IDS, ...NY_HISTORY_FACT_IDS];
 const question = (id: string, type: string, prompt: string, helperText: string, esPrompt: string, esHelper: string): ProfileQuestion => ({
   id, type, stage: "packet_information", contextOnly: false, required: true, options: null, prompt, helperText,
   translations: { es: { prompt: esPrompt, helperText: esHelper } }
@@ -71,6 +73,8 @@ export function nyCasePreparationQuestions(answers: Readonly<Record<string, unkn
   reconciliation.options = [...(confirmation ? [confirmation] : []), "unknown"];
   reconciliation.optionDisplay = { ...(confirmation ? { [confirmation]: { label: "I reviewed the saved numbers and every additional case is listed correctly", translations: { es: { label: "Revisé los números guardados y todos los casos adicionales están enumerados correctamente" } } } } : {}), unknown: { label: "I still need to check", translations: { es: { label: "Todavía necesito revisarlo" } } } };
   return [
+    { ...question(NY_SEALING_HISTORY_ID, "sealing_history", "Review earlier sealing applications and entered orders", "Keep applications under CPL 160.58 and CPL 160.59 separate from the orders actually entered. Reuse your saved application and granted-order answers, and correct any disagreement. Missing copies can be obtained later; saving these facts does not attach or sign documents.",
+      "Revise las solicitudes de sellado anteriores y las órdenes concedidas", "Mantenga separadas las solicitudes bajo CPL 160.58 y CPL 160.59 de las órdenes realmente concedidas. Use sus respuestas guardadas y corrija cualquier discrepancia. Las copias faltantes pueden obtenerse después; guardar estos datos no adjunta ni firma documentos."), answerContract: NY_SEALING_HISTORY_CONTRACT, ...(nyKnownPrior16058Application(answers) ? { prior16058ApplicationKnown: true as const } : {}) },
     { ...question(NY_CASE_RECORDS_ID, "court_case_records", "Review each court case covered by this application",
       "Keep each actual case with its court, convictions, sentence events and certificate information. Include every case even if related cases may be counted together. Do not copy a date from another case or from probation or parole completion.",
       "Revise cada caso judicial incluido en esta solicitud", "Mantenga cada caso real con su tribunal, condenas, sentencias e información del certificado. Incluya todos los casos aunque algunos relacionados puedan contarse juntos. No copie fechas de otro caso ni de la finalización de la libertad condicional o supervisada."),
@@ -105,7 +109,7 @@ export function nyCaseCourtTextState(raw: unknown) {
 
 /** Reconcile actual saved identities, never infer legal conviction groups from cards. */
 export function nyCaseAssociationIssues(answers: Readonly<Record<string, unknown>>) {
-  const issues: Array<{ id: string; code: string; en: string; es: string }> = [];
+  const issues: Array<{ id: string; code: string; en: string; es: string }> = nySealingHistoryIssues(answers);
   const records = parseNyCourtCaseRecords(answers[NY_CASE_RECORDS_ID]);
   if (!records?.length) return issues;
   const scalar = (id: string) => {

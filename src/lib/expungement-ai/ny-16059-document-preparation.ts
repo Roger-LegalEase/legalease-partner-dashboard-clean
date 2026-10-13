@@ -1,3 +1,4 @@
+import { NY_SEALING_HISTORY_ID, parseNySealingHistory, nySealingHistoryIssues, nyKnownPrior16058Application } from "@/lib/expungement-ai/ny-16059-sealing-history";
 import "server-only";
 import { contactRepresentationHash as hash } from "@/lib/expungement-ai/contact-representation";
 import { protectedPacketInformationModelFor } from "@/lib/expungement-ai/packet-information";
@@ -55,7 +56,11 @@ export function ny16059ProtectedDocumentPreparation(record: ProtectedPacketVerif
     const gate = NY_PACKET_CONDITIONS[question.id];
     return (!gate || choice(gate).value !== false) && !owned(question.id);
   }).map(question => question.id);
-  const prior16059 = owned("ny_16059_application_status"), prior16058 = owned("ny_16059_16058_grants");
+  const prior16059 = owned("ny_16059_application_status");
+  const sealingHistoryEvidence = rawOwned(NY_SEALING_HISTORY_ID);
+  const sealingHistory = parseNySealingHistory(sealingHistoryEvidence?.raw);
+  const prior16058Evidence = rawOwned("ny_16059_16058_grants");
+  const knownPrior16058Application = (!sealingHistory || sealingHistory.prior16058Application === "") && prior16058Evidence && nyKnownPrior16058Application({ ny_16059_16058_grants: prior16058Evidence.raw });
   const priorApplication = (evidence: typeof prior16059, noneMeansNoApplication: boolean) => ({
     occurred: typeof evidence?.value === "string" && ["denied", "pending", "granted", "mixed"].includes(evidence.value) ? true
       : noneMeansNoApplication && evidence?.value === "none" ? false : null,
@@ -92,7 +97,13 @@ export function ny16059ProtectedDocumentPreparation(record: ProtectedPacketVerif
     pathwayId: model.pathwayId, revision: model.revision, recordHash,
     source: structuredClone(NY_CURRENT_SOURCE_CONTEXT), logicalComponents: structuredClone(NY_CURRENT_COMPONENTS),
     conditions, availableFacts, missingFactIds, casePreparation,
-    priorApplications: { cpl16059: priorApplication(prior16059, true), cpl16058: priorApplication(prior16058, false) },
+    priorApplications: { cpl16059: priorApplication(prior16059, true), cpl16058: {
+      occurred: sealingHistory?.prior16058Application === "yes" ? true : sealingHistory?.prior16058Application === "no" ? false : knownPrior16058Application ? true : null,
+      evidence: sealingHistory && ["yes", "no"].includes(sealingHistory.prior16058Application) ? sealingHistoryEvidence : knownPrior16058Application ? prior16058Evidence : sealingHistoryEvidence, attachmentIncluded: null } },
+    priorSealingRecords: { evidence: sealingHistoryEvidence,
+      applications: sealingHistory?.applications.map(application => ({ ...structuredClone(application), attachmentIncluded: null })) ?? null,
+      enteredOrders: sealingHistory?.orders.map(order => ({ ...structuredClone(order), sourceAccepted: false as const, legallyReviewed: false as const })) ?? null,
+      associationIssues: nySealingHistoryIssues(model.initialAnswers), legalCapacity: null, attachmentIncluded: null },
     unresolvedConditions: ["any_alias_exists", "defendant_alias_exists", "source_revision_review", "covered_vtl_conviction",
       "first_case_postsentence_incarceration", "second_case_postsentence_incarceration", "new_certificate_request_needed",
       "arrest_date_is_range", "incident_date_is_range", "source_specific_attachments", "actual_service", "actual_filing", "actual_copy_retention"],

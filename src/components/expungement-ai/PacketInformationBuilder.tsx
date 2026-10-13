@@ -1,5 +1,6 @@
 "use client";
 
+import { NY_SEALING_HISTORY_ID, formatNySealingHistory } from "@/lib/expungement-ai/ny-16059-sealing-history";
 import { nyCasePreparationQuestions, nyCaseAssociationIssues, NY_CASE_RECONCILIATION_ID, NY_COURT_DIRECTION_CONFIRMATION_ID, NY_FILING_CASE_ID } from "@/lib/expungement-ai/ny-16059-case-questions";
 import { isNy16059Packet } from "@/lib/expungement-ai/ny-16059-packet-facts";
 import { CA_CONTACT_IDS, formatCaContact } from "@/lib/expungement-ai/ca-prop64-contact-answer";
@@ -420,6 +421,7 @@ export function PacketInformationBuilder({
           };
           const display = (answer: unknown): string => {
             if (isCaProp64Pathway(stateCode, pathwayId ?? null) && CA_CONTACT_IDS.includes(id)) return formatCaContact(id, answer, locale);
+            if (isNy16059Packet(stateCode, pathwayId ?? null) && id === NY_SEALING_HISTORY_ID) return formatNySealingHistory(answer, locale, question?.prior16058ApplicationKnown);
             if (isNy16059Packet(stateCode, pathwayId ?? null) && id === NY_CASE_RECORDS_ID) return formatNyCourtCaseRecords(answer, locale);
             if (isNy16059Packet(stateCode, pathwayId ?? null) && [NY_CASE_RECONCILIATION_ID, NY_COURT_DIRECTION_CONFIRMATION_ID, NY_FILING_CASE_ID].includes(id)) {
               if (answer && typeof answer === "object" && !Array.isArray(answer) && (answer as { unknown?: unknown }).unknown === true) return copy("Unsure", "No estoy seguro/a");
