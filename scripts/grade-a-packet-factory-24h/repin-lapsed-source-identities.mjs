@@ -318,7 +318,7 @@ const packetManifestAdapter = {
       throw new Refusal(`the ${side} packet manifest has an unsupported schema`);
     }
     const allowed = new Set(["packetSetId", "trackId", "jurisdiction", "version", "components",
-      "participantActionRequired", "requiredBeforeFiling", "packetSetCompleteness", "factoryV2RouteProductization"]);
+      "participantActionRequired", "requiredBeforeFiling", "packetSetCompleteness", "factoryV2RouteProductization", "procedureAdoption"]);
     const byId = new Map();
     for (const entry of doc.packetSets) {
       if (!entry || typeof entry.packetSetId !== "string" || !entry.packetSetId
