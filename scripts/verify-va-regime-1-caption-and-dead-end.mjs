@@ -56,29 +56,38 @@ const registry = json(REGISTRY);
 const witnesses = json(WITNESSES);
 const rows = Array.isArray(registry) ? registry : (registry.routes ?? Object.values(registry).find(Array.isArray) ?? []);
 const row = rows.find((r) => r?.pathwayKey === ROUTE_KEY);
-const primary = (spec.documents ?? []).find((d) => d.role === 'primary_filing');
+const primary = (spec.documents ?? []).find((d) => d.role === 'implementation_instrument');
+const historicalPrimary = spec.historicalSupersededSpecification?.record?.documents?.find(d => d.role === 'primary_filing');
 const witness = (witnesses.witnesses ?? []).find((w) => w?.pathwayKey === ROUTE_KEY);
 const hasFulfillmentRecord = Boolean(getCurrentFulfillmentRecord(ROUTE_KEY));
 
 console.log('VA regime-1 — the caption refusal, and the advertised dead end\n');
 
-console.log('1. the route and its primary filing are still what this record read');
+console.log('1. the historical petition is preserved; adopted VA-01 does not establish a current participant petition');
 ok('the route is still registered', Boolean(row));
-ok('the specification still carries a primary_filing', Boolean(primary));
-// Brought forward on 2026-09-22. This read "still a custom pleading with no
-// official form", which was true when the dead end was found and stopped being
-// true when D-012 bound CC-1472. The product moved; the check had not. What the
-// finding actually needs is that the primary filing is court-facing and cannot
-// compose today, whichever instrument it now names -- so it is stated that way.
-ok('its primary filing still cannot compose, whether as a custom pleading or an unmapped official form',
-  primary?.outputStrategy === 'custom_pleading'
-    ? (row?.officialFormIds ?? []).length === 0
-    : primary?.outputStrategy === 'official_pdf_fill' && spec.legalSectionsBound === false,
-  { strategy: primary?.outputStrategy, forms: row?.officialFormIds, legalSectionsBound: spec.legalSectionsBound });
-ok('it is still court-facing (recipient court, participant filing)',
-  primary?.documentContract?.recipient === 'court'
-  && primary?.documentContract?.instrumentClass === 'participant_filing',
-  primary?.documentContract?.recipient);
+ok('the previously recorded primary filing remains historical evidence', Boolean(historicalPrimary));
+const currentProcedureUnbound = candidate => candidate.procedureAdoption?.decisionId === 'VA-01'
+  && candidate.procedureAdoption?.disposition === 'MODIFY'
+  && candidate.procedureAdoption?.evidenceKind === 'owner_relayed_counsel_adoption'
+  && candidate.procedureAdoption?.registerSha256 === '4ffc56d4cc8dfa9b882f64ad51f49be815704fe20009ee7425b429418b54ead2'
+  && candidate.procedureAdoption?.participantPetitionEstablished === false
+  && candidate.procedureAdoption?.documentAcceptance === 'NOT_VERIFIED'
+  && candidate.legalSectionsBound === false
+  && candidate.documents?.length > 0
+  && candidate.documents.every(d => d.role !== 'primary_filing'
+    && d.outputStrategy === 'process_guidance' && !d.officialFormId);
+ok('the adopted current procedure selects no unestablished petition or substitute form', currentProcedureUnbound(spec));
+ok('the receiving-court instrument has no invented participant actor or caption', Boolean(primary)
+  && primary.documentContract?.recipient === 'unresolved'
+  && primary.documentContract?.instrumentClass === 'unresolved');
+for (const change of [
+  s => { s.documents[0].role = 'primary_filing'; },
+  s => { s.documents[0].officialFormId = 'CC-1473'; },
+  s => { s.procedureAdoption.documentAcceptance = 'VERIFIED'; }
+]) {
+  const mutated = structuredClone(spec); change(mutated);
+  ok('unsupported current petition, substitute or approval mutation is refused', !currentProcedureUnbound(mutated));
+}
 // Also brought forward. The original point was that nothing upstream held the
 // route, so the evaluator was the only thing offering it. D-012 added an
 // upstream gate, and that does not weaken the finding -- it sharpens it: the
@@ -93,7 +102,7 @@ console.log(spec.legalSectionsBound === false
 console.log('\n2. the caption cannot be written while the case is unestablished');
 const caseMode = primary?.documentContract?.caseMode;
 const caption = primary?.documentContract?.captionTreatment ?? null;
-const caseResolved = caseMode !== 'unresolved';
+const caseResolved = typeof caseMode === 'string' && caseMode !== 'unresolved';
 ok('caseMode is resolved from source, or no caption is asserted',
   caseResolved || caption === null || caption === 'unresolved',
   { caseMode, captionTreatment: caption });
@@ -102,8 +111,8 @@ console.log(caseResolved
   : '            (the case is still unestablished, so the refusal is correct)');
 if (!caseResolved) {
   ok('the specification still records WHY the case is unestablished',
-    /does not say which case this is filed into/i.test(
-      String(primary?.documentContract?.unresolvedReasons?.caseMode ?? '')));
+    /actual receiving-court implementation instrument.*has not been source-bound/i.test(
+      String(primary?.documentContract?.unresolvedReasons?.instrumentClass ?? '')));
 }
 ok('the contract still forbids inferring a caption from presentation',
   /Nothing is inferred from presentation/.test(contract.theContract?.derivedOnlyWhereASourceFieldStatesIt ?? ''));
