@@ -14,13 +14,14 @@
 // evaluator returned. That is the participant's route through the public guided
 // check, written down.
 //
-// This changes no runtime and decides nothing. It records what the deployed
-// evaluator does today.
+// This changes no runtime and decides nothing. It records what the current local
+// evaluator does under these synthetic premises.
 
 process.env.RCAP_EVALUATOR_TODAY = process.env.RCAP_EVALUATOR_TODAY ?? "2026-07-01";
 
 import fs from "node:fs";
 import path from "node:path";
+import { createHash } from "node:crypto";
 import { register } from "node:module";
 import { fileURLToPath } from "node:url";
 
@@ -38,9 +39,9 @@ const { evaluateAuthoritativeScreeningResult } = await import("../src/lib/expung
 const closure = JSON.parse(fs.readFileSync(path.join(rootDir, "data/rcap-ledger/sellable-pathway-closure.json"), "utf8"));
 const intended = closure.pathways.filter((p) => p.category === "paid_packet_intended");
 
-// The answers a genuinely clearable record gives. Pinned so a pathway is never
-// recorded unreachable because of a disqualifier nobody chose deliberately.
-// Same constant the route-reachability report uses, so the two agree.
+// Historical generic synthetic premises, not facts of a real participant and
+// not a promise that every legal route fits this record. Keep their unresolved
+// counterexamples; source-bound variants below are explicitly separate.
 const CLEAR_RECORD = {
   ownership_scope: "Yes",
   jurisdiction_scope: "State or local",
@@ -72,6 +73,53 @@ const ANSWER_RULE = {
   fallback: "unknown"
 };
 
+// These six additional factual examples come from existing targeted tests.
+// They do not replace the historical generic record or turn missing facts into
+// real participant facts. Expected outcomes are separate from observed results.
+const CA_CONDUCT_PREMISE = {
+  case_outcome: "Felony conviction", offense_level: "Felony", charge: "HSC11357", court: "California trial court",
+  ca_prop64_record_section: "11357", ca_prop64_next_step: "apply",
+  ca_prop64_offense_date: "2000-01-01", ca_prop64_age_at_offense: 21,
+  ca_prop64_court_type: "adult", ca_prop64_existing_relief: "none",
+  ca_prop64_substance: "flower", ca_prop64_flower_grams: 28.5,
+  ca_prop64_possession_context: "ordinary"
+};
+const MS_COMPLETED_PROGRAM_PREMISE = {
+  case_outcome: "Diversion, deferred disposition, supervision, or similar program",
+  ms_program_record_status: "completed_and_closed", ms_program_final_disposition: "dismissed_and_closed",
+  court_requirements_completed: "yes", ms_program_arrest_release: "arrested_and_released"
+};
+const SOURCE_BOUND_PREMISES = {
+  "CA:prop-64-currently-serving-petition-11361-8": {
+    references: ["scripts/test-ca-prop64-integration.mjs", "scripts/fixtures/ca-prop64-protected-baseline/currently-serving.json", "src/lib/rcap-engine/california-prop64-facts.ts"],
+    facts: { ...CA_CONDUCT_PREMISE, sentence_completion_date: "No", ca_prop64_branch: "currently-serving petition", ca_prop64_relief_requested: "dismissal and sealing" },
+    expectedResultCodes: ["packet_ready_with_caution"]
+  },
+  "CA:prop-64-completed-sentence-application-11361-8": {
+    references: ["scripts/test-ca-prop64-integration.mjs", "scripts/fixtures/ca-prop64-protected-baseline/completed.json", "src/lib/rcap-engine/california-prop64-facts.ts"],
+    facts: { ...CA_CONDUCT_PREMISE, sentence_completion_date: "Yes", ca_prop64_branch: "completed-sentence application", ca_prop64_relief_requested: "dismissal/sealing" },
+    expectedResultCodes: ["packet_ready"]
+  },
+  "GA:restriction-and-sealing-of-a-pardoned-felony": {
+    references: ["scripts/test-ga-pardon-facts.mjs", "src/lib/rcap-engine/georgia-pardon-facts.ts"],
+    facts: { case_outcome: "Misdemeanor conviction", offense_level: "Misdemeanor", ga_original_first_offender: "no", ga_record_help: "pardon_record", pardon_status: "Yes", ga_board_pardon: "yes", ga_pardon_date: "2021-01-02", ga_pardoned_offense_section: "16-8-14(a)", ga_convictions_since_pardon: "none", ga_pardon_pending_charges: "no" },
+    expectedResultCodes: ["needs_review"]
+  },
+  "MS:nonadjudication-under-99-15-26": {
+    references: ["scripts/test-ms-program-completion-events.mjs", "src/lib/rcap-engine/mississippi-program-completion.ts"],
+    facts: { ...MS_COMPLETED_PROGRAM_PREMISE, ms_program_order: "99-15-26" }, expectedResultCodes: ["packet_ready_with_caution"]
+  },
+  "MS:pretrial-intervention-or-diversion-expungement": {
+    references: ["scripts/test-ms-program-completion-events.mjs", "src/lib/rcap-engine/mississippi-program-completion.ts"],
+    facts: { ...MS_COMPLETED_PROGRAM_PREMISE, ms_program_order: "99-15-101" }, expectedResultCodes: ["packet_ready_with_caution"]
+  },
+  "MS:first-offense-controlled-substance-conditional-discharge-relief": {
+    references: ["scripts/test-ms-conditional-discharge-event.mjs", "src/lib/rcap-engine/mississippi-conditional-discharge.ts"],
+    facts: { ...MS_COMPLETED_PROGRAM_PREMISE, ms_program_order: "41-29-150", ms_program_final_disposition: "discharged_and_dismissed", ms_drug_subsection: "41-29-139(c)", ms_prior_drug_conviction: "no", ms_prior_conditional_discharge: "no", ms_adjudication_deferred: "yes", discharge_date: "2012-06-01" },
+    expectedResultCodes: ["packet_ready", "packet_ready_with_caution", "needs_review"]
+  }
+};
+
 function questionIndex(profile) {
   const index = new Map();
   (function walk(node) {
@@ -100,11 +148,17 @@ function answerFor(question, id) {
   return "unknown";
 }
 
-/** One participant driven to a terminal evaluation, with the whole exchange kept. */
-function converge(state, profile, questions, seedAnswers) {
+/** One synthetic input exchange, settled or explicitly unresolved, kept in full. */
+function converge(state, profile, questions, seedAnswers, explicitPremises = {}) {
   const answers = { ...seedAnswers };
   const transcript = [];
+  let lastEvaluation = null;
+  const seenAnswers = new Set();
   for (let round = 0; round < 24; round += 1) {
+    const answerState = JSON.stringify(Object.entries(answers).sort(([a], [b]) => a.localeCompare(b)));
+    if (seenAnswers.has(answerState)) return { answers, transcript, evaluation: null, unresolvedEvaluation: lastEvaluation,
+      convergenceStatus: "unresolved_repeated_answer_state", error: "Synthetic answers returned to a previously unresolved state." };
+    seenAnswers.add(answerState);
     let evaluation;
     try {
       evaluation = evaluateAuthoritativeScreeningResult({
@@ -115,23 +169,48 @@ function converge(state, profile, questions, seedAnswers) {
       }).evaluation;
     } catch (error) {
       if (!error?.invalidQuestionIds?.length) {
-        return { answers, transcript, evaluation: null, error: String(error?.message ?? error) };
+        return { answers, transcript, evaluation: null, unresolvedEvaluation: lastEvaluation, convergenceStatus: "evaluation_error", error: String(error?.message ?? error) };
       }
       // Packet-completion fields are not evaluator questions; drop exactly those.
       for (const id of error.invalidQuestionIds) delete answers[id];
       transcript.push({ round, droppedAsNotEvaluatorQuestions: [...error.invalidQuestionIds].sort() });
       continue;
     }
+    lastEvaluation = evaluation;
     const missing = [...(evaluation.missingQuestionIds ?? [])].sort();
     if (missing.length === 0) return { answers, transcript, evaluation, error: null };
-    const supplied = {};
-    for (const id of missing) {
-      answers[id] = answerFor(questions.get(id), id);
-      supplied[id] = answers[id];
-    }
+    const supplied = Object.fromEntries(missing.map(id => [id, Object.hasOwn(explicitPremises, id) ? explicitPremises[id] : answerFor(questions.get(id), id)]));
+    const changed = missing.some(id => JSON.stringify(answers[id]) !== JSON.stringify(supplied[id]));
     transcript.push({ round, requested: missing, supplied });
+    if (!changed) return { answers, transcript, evaluation: null, unresolvedEvaluation: evaluation,
+      convergenceStatus: "unresolved_unchanged_answers", error: "Required facts remain unresolved under these exact synthetic premises." };
+    Object.assign(answers, supplied);
   }
-  return { answers, transcript, evaluation: null, error: "did not settle in 24 rounds" };
+  return { answers, transcript, evaluation: null, unresolvedEvaluation: lastEvaluation,
+    convergenceStatus: "unresolved_iteration_limit", error: "did not settle in 24 rounds" };
+}
+
+function unresolvedFields(run) {
+  return run.error ? {
+    convergenceStatus: run.convergenceStatus,
+    unresolvedEvaluation: run.unresolvedEvaluation ?? null
+  } : {};
+}
+function sourceBoundWitness(entry, profile, questions, seedAnswers) {
+  const premise = SOURCE_BOUND_PREMISES[entry.pathwayKey];
+  if (!premise) return {};
+  const seed = { ...seedAnswers, ...premise.facts };
+  const run = converge(entry.jurisdiction, profile, questions, seed, premise.facts);
+  return { sourceBoundSyntheticWitness: {
+    kind: "new_synthetic_factual_example_not_historical_or_participant_evidence",
+    references: premise.references.map(file => ({ file, sha256: createHash("sha256").update(fs.readFileSync(path.join(rootDir, file))).digest("hex") })),
+    explicitPremises: premise.facts,
+    expectedTreatment: { pathwayId: entry.pathwayId, resultCodes: premise.expectedResultCodes, qualification: "Existing targeted legal-rule expectation; this does not establish a current commercial offer, document acceptance or authenticated delivery." },
+    seedAnswers: seed, rounds: run.transcript, finalAnswers: Object.fromEntries(Object.entries(run.answers).sort(([a], [b]) => a.localeCompare(b))),
+    convergenceStatus: run.convergenceStatus ?? (run.evaluation ? "settled_observation" : "evaluation_error"),
+    actualEvaluation: run.evaluation ?? run.unresolvedEvaluation ?? null,
+    error: run.error
+  } };
 }
 
 const byJurisdiction = new Map();
@@ -187,6 +266,9 @@ for (const [code, entries] of [...byJurisdiction.entries()].sort()) {
         }
         : null,
       landedOnThisPathway: run.evaluation?.pathwayId === entry.pathwayId,
+      ...unresolvedFields(run),
+      ...(code === "AR" ? { syntheticOriginPremise: { value: run.answers.ar_record_origin ?? null, basis: "The generic first-option rule supplies an explicit Arkansas origin for this NEW synthetic example. It is not inferred from a historical State/local, residence or venue answer; old missing-origin witnesses remain separate." } } : {}),
+      ...sourceBoundWitness(entry, profile, questions, seedAnswers),
       error: run.error
     });
   }
@@ -207,10 +289,12 @@ const packet = {
     clearRecord: CLEAR_RECORD,
     note: "Re-running this generator on the same commit reproduces this file byte for byte. --check proves it."
   },
-  changesNothing: "Records what the deployed public evaluator does today. No runtime change, no classification, no approval.",
+  changesNothing: "Records the current local evaluator under explicit synthetic premises. No hosted observation, participant fact, runtime change, classification, approval or commercial authority is established.",
   totals: {
     pathways: witnesses.length,
     settledOnATerminalEvaluation: settled.length,
+    unresolvedPathways: witnesses.filter(w => w.convergenceStatus).length,
+    additionalSourceBoundSyntheticWitnesses: witnesses.filter(w => w.sourceBoundSyntheticWitness).length,
     landedOnTheirOwnPathway: landed.length,
     terminalResultCodes: resultCodes,
     paymentAllowedAtTheEvaluator: settled.filter((w) => w.terminalEvaluation.paymentAllowed).length

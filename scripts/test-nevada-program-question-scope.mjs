@@ -23,6 +23,9 @@ const evaluate=answers=>evaluateScreening({jurisdiction:'NV',profileVersion:prof
 let checked=0;const outcomes=[];
 for(const witness of witnesses){
  const own=witness.pathwayKey===NV.NEVADA_176A_ROUTE_KEY,answers=structuredClone(witness.finalAnswers);
+ // Missing-fact ownership is an explicit test premise, independent of the new
+ // generated synthetic witness's supplied 176A answers and valid refusal.
+ if(own) for(const id of ids) delete answers[id];
  const before=JSON.stringify(answers);const actual=evaluate(answers);const questions=selectScreeningQuestionIds(profile,pub,answers);
  if(own){
   assert.equal(actual.resultCode,'needs_more_info');assert.equal(actual.paymentAllowed,false);

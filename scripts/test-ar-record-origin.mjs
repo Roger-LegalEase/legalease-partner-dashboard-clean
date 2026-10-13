@@ -15,7 +15,13 @@ const {default: predecessors}=await import('./test-ar-record-origin-fixtures.mjs
 const checks = [], check = (id, pass) => checks.push({ id, pass: !!pass });
 const same = (a,b) => { try { assert.deepEqual(a,b); return true; } catch { return false; } };
 const profile = getProfileByJurisdiction('AR'), pub = projectPublicProfile(profile), parsed = parseJurisdictionProfile(pub);
-const witnesses = JSON.parse(fs.readFileSync('data/rcap-ledger/public-witness-answer-sets.json')).witnesses;
+// These controls deliberately exercise an unanswered origin. The generated new
+// synthetic example may explicitly supply one; it is not a legacy fixture.
+const witnesses = JSON.parse(fs.readFileSync('data/rcap-ledger/public-witness-answer-sets.json')).witnesses.map(w => {
+ const missingOrigin = { ...w, finalAnswers: { ...w.finalAnswers } };
+ delete missingOrigin.finalAnswers.ar_record_origin;
+ return missingOrigin;
+});
 check('strict-public-schema', parsed.ok);
 const question = pub.questions.find(q => q.id === A.AR_RECORD_ORIGIN_ID);
 check('explicit-origin-control', question?.type === 'single_choice');
