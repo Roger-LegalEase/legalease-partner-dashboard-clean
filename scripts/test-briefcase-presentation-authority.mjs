@@ -4,13 +4,24 @@ import assert from "node:assert/strict";
 import fs from "node:fs";
 import Module from "node:module";
 import path from "node:path";
-import { createRequire } from "node:module";
+import { createRequire, register } from "node:module";
 import { createHash } from "node:crypto";
 import { fileURLToPath } from "node:url";
 
 const require = createRequire(import.meta.url);
 const ts = require("typescript");
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+register("./lib/ts-esm-loader.mjs", import.meta.url);
+// Presentation now imports these source-owned copy and recovery helpers. Keep
+// the boundary fixtures below, but load their new pure dependencies from the
+// actual implementation instead of leaving unresolved aliases or fake results.
+const timing = await import("../src/lib/rcap-engine/mississippi-exact-timing.ts");
+const convictionRelief = await import("../src/lib/rcap-engine/conviction-relief-request.ts");
+const packetInformation = await import("../src/lib/expungement-ai/packet-information.ts");
+const continuations = Object.fromEntries([
+  "financialAnswerHeldSuccessor", "msTimingAnswerHeldSuccessor",
+  "factualPathwayHeldSuccessor", "convictionFallbackHeldSuccessor"
+].map(name => [name, packetInformation[name]]));
 
 class MockInvalidAnswerError extends Error {
   constructor(invalidQuestionIds) {
@@ -20,6 +31,14 @@ class MockInvalidAnswerError extends Error {
 }
 
 function loadTsWithMocks(relPath, mocks = {}) {
+  mocks = {
+    "@/lib/rcap-engine/mississippi-exact-timing": timing,
+    "@/lib/rcap-engine/conviction-relief-request": convictionRelief,
+    ...mocks,
+    "@/lib/expungement-ai/packet-information": {
+      ...continuations, ...mocks["@/lib/expungement-ai/packet-information"]
+    }
+  };
   const resolved = path.join(root, relPath);
   const transpiled = ts.transpileModule(fs.readFileSync(resolved, "utf8"), {
     compilerOptions: {
@@ -135,7 +154,7 @@ const adapter = loadTsWithMocks("src/lib/expungement-ai/briefcase-presentation-a
       : ({
         stateCode: "PA",
         pathwayId: protectedAuthority.pathwayId,
-        packetPlan: null,
+        packetPlan: (verification.status === "verified" ? verification.snapshot : verification.draftSnapshot)?.packetPlan ?? null,
         initialAnswers: (verification.status === "verified" ? verification.snapshot : verification.draftSnapshot)
           ? {
             ...(verification.status === "verified" ? verification.snapshot : verification.draftSnapshot).screeningAnswers,
@@ -474,6 +493,40 @@ assert.deepEqual(invalidatedRuntime.packetDraft.prefilledAnswers, {}, "invalidat
 assert.deepEqual(invalidatedRuntime.packetDraft.packetAnswers, { participant_full_legal_name: "Protected Person" }, "invalidated protected presentation preserves extra packet-only facts for fail-closed validation");
 assert.equal(forbiddenFallbackReads, 1, "an invalidated legal result stays protected while payment mode independently checks current source authority");
 assert.equal(invalidatedRuntime.artifact.status, "absent");
+
+// A held snapshot really without a plan remains in progress. The complete-fact
+// fixture above must not hide this boundary by returning a plan unconditionally.
+const heldSnapshot = {
+  ...protectedVerification.snapshot,
+  schemaVersion: "expungement-ai/protected-packet-draft/v1",
+  capturedAt: "2026-08-26T00:25:00.000Z",
+  resultCode: "likely_not_eligible", paymentAllowed: false,
+  packetPlan: null, requiredInputIds: [], packetType: null, selectedTrackId: null,
+  packetFamilyIdentifiers: { mode: null, sourceFormIds: [] }
+};
+const heldEvaluation = {
+  ...authoritativeEvaluation, packetType: null, selectedTrackId: null,
+  evaluation: { ...authoritativeEvaluation.evaluation,
+    resultCode: "likely_not_eligible", paymentAllowed: false,
+    packetPlan: undefined, selectedTrackId: null }
+};
+const heldRuntime = await adapter.decorateBriefcaseItemForPresentationWithDependencies({
+  consumerAuthUserId: "11111111-1111-4111-8111-111111111111", item
+}, {
+  readProtectedVerification: async () => ({ ok: true, value: {
+    status: "invalidated", reason: "facts_changed", revision: 5,
+    draftHash: "d".repeat(64), draftSnapshot: heldSnapshot
+  } }),
+  readProtectedArtifact: async () => ({ ok: true, value: null }),
+  readPaymentAuthority: async () => ({ valid: false, reason: "no_authority_row" }),
+  readTrustedPendingSource: async () => ({ ok: false, reason: "not_needed" }),
+  evaluateAuthoritative: () => heldEvaluation
+});
+assert.equal(heldRuntime.authorityStatus, "protected_draft", "held facts keep their protected owner context");
+assert.equal(heldRuntime.packetProgress, "in_progress", "no plan cannot mean complete packet facts");
+assert.equal(heldRuntime.packetDraft.status, "available", "the held owner draft remains readable");
+assert.equal(heldRuntime.packetDraft.packetPlan, null, "the draft does not manufacture a packet plan");
+assert.equal(heldRuntime.commercialActions.checkoutAllowed, false, "the held result grants no checkout authority");
 
 const legacyArtifactPayload = {
   provider: "rcap_legacy_mississippi",
