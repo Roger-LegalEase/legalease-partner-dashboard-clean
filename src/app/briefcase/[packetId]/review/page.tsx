@@ -145,6 +145,7 @@ export default async function PacketAccuracyReviewPage({
 
           <div className="mt-5 rounded-[16px] border border-[#ECEFF4] bg-white p-6">
             <h2 className="text-base font-bold text-[#0B1320]"><LocalizedRuntimeText text={"Details to check"} /></h2>
+            {model.nyCaseIssues?.map(issue => <p key={issue.code} className="mt-3 text-sm text-[#B42318]" role="status"><LocalizedCopy en={issue.en} es={issue.es} /></p>)}
             {model.courtRecordConflict ? <p data-court-record-conflict className="mt-3 text-sm text-[#B42318]" role="status"><LocalizedCopy {...COURT_RECORD_CONFLICT_COPY} /></p> : null}
             {model.missingInputIds.length > 0 || model.pendingDerivations.length > 0 ? (
               <ul className="mt-3 grid gap-2 text-sm text-[#B42318]">

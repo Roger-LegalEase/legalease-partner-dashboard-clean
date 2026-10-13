@@ -1,3 +1,5 @@
+import { NY_CASE_RECONCILIATION_ID, NY_FILING_CASE_ID } from "@/lib/expungement-ai/ny-16059-case-questions";
+import { NY_CASE_RECORDS_ID, NY_CASE_RECORDS_CONTRACT, formatNyCourtCaseRecords } from "@/lib/expungement-ai/ny-16059-case-records";
 import { maskedSensitiveAnswer, requiresMcicIdentifierAuthority } from "@/lib/expungement-ai/sensitive-packet-facts";
 import type { AnswerValue, ProfileQuestion } from "@/lib/expungement-ai/frontend/contracts";
 import { EXPUNGEMENT_COPY, resolveRuntimeText } from "@/lib/expungement-ai/localization";
@@ -269,6 +271,7 @@ function canonicalize(value: unknown): unknown {
 }
 
 export function displayVerificationAnswer(value: unknown, question?: ReviewQuestion) {
+  if (question?.id === NY_CASE_RECORDS_ID && question.type === "court_case_records" && question.answerContract === NY_CASE_RECORDS_CONTRACT) return formatNyCourtCaseRecords(value, "en");
   if (value === undefined || value === null || value === "") return "Missing";
   if (value && typeof value === "object" && !Array.isArray(value) && "unknown" in value && value.unknown === true) return "I’m not sure";
   if (question && ["single_choice", "multi_select", "yes_no_unsure", "yes_no_prefer_not_to_say"].includes(question.type)) {
@@ -281,6 +284,7 @@ export function displayVerificationAnswer(value: unknown, question?: ReviewQuest
       return values.map((entry) => question.optionDisplay?.[entry as string]?.label ?? entry).join(", ");
     }
   }
+  if (question && [NY_CASE_RECONCILIATION_ID, NY_FILING_CASE_ID].includes(question.id)) return "Review this choice against the current case list";
   if (Array.isArray(value)) return value.length > 0
     ? value.map((entry) => typeof entry === "object" ? JSON.stringify(canonicalize(entry)) : String(entry)).join(", ")
     : "None";
@@ -294,7 +298,7 @@ export function displayVerificationAnswer(value: unknown, question?: ReviewQuest
   return String(value);
 }
 
-type ReviewQuestion = Pick<ProfileQuestion, "id" | "type" | "prompt" | "translations" | "optionDisplay" | "options">;
+type ReviewQuestion = Pick<ProfileQuestion, "id" | "type" | "prompt" | "translations" | "optionDisplay" | "options" | "answerContract">;
 
 function exactProfileSpanish(english: string, state: string, id: string, part: string): string {
   const entry = EXPUNGEMENT_COPY[`profile.${state}.${id}.${part}`];
@@ -311,6 +315,7 @@ export function reviewAnswerPresentation(fact: Pick<CanonicalVerificationFact, "
     return { labelEs, valueEs: masked === "Sensitive value hidden" ? resolveRuntimeText("es", masked) : masked };
   }
   const value = fact.value;
+  if (state === "NY" && fact.id === NY_CASE_RECORDS_ID && question.type === "court_case_records" && question.answerContract === NY_CASE_RECORDS_CONTRACT) return { labelEs, valueEs: formatNyCourtCaseRecords(value, "es") };
   if (value === null || value === undefined || value === "") return { labelEs, valueEs: resolveRuntimeText("es", "Missing") };
   if (value && typeof value === "object" && !Array.isArray(value) && "unknown" in value && value.unknown === true) {
     return { labelEs, valueEs: resolveRuntimeText("es", "I am not sure") };
@@ -322,7 +327,7 @@ export function reviewAnswerPresentation(fact: Pick<CanonicalVerificationFact, "
     : value && typeof value === "object" && !Array.isArray(value) && "value" in value ? value.value : value;
   const values = Array.isArray(value) && question.type === "multi_select" ? value : [scalar];
   if (!values.length) return { labelEs, valueEs: resolveRuntimeText("es", "None") };
-  if (!values.every((entry) => typeof entry === "string" && options.includes(entry))) return { labelEs };
+  if (!values.every((entry) => typeof entry === "string" && options.includes(entry))) return [NY_CASE_RECONCILIATION_ID, NY_FILING_CASE_ID].includes(question.id) ? { labelEs, valueEs: "Revise esta selección con la lista actual de casos" } : { labelEs };
   return { labelEs, valueEs: values.map((entry) => {
     const option = entry as string;
     const display = question.optionDisplay?.[option];

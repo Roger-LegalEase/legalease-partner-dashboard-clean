@@ -31,6 +31,9 @@ import { OrUnknownField } from "@/components/expungement-ai/screening/fields/OrU
 import { isCaProp64QuantityQuestion } from "@/lib/expungement-ai/ca-prop64-quantity";
 import { useLocalization } from "@/components/expungement-ai/LocalizationProvider";
 import { localizeProfileText } from "@/lib/expungement-ai/localization";
+import { CourtCaseRecordsField } from "@/components/expungement-ai/screening/fields/CourtCaseRecordsField";
+import { NY_CASE_RECONCILIATION_ID, NY_FILING_CASE_ID } from "@/lib/expungement-ai/ny-16059-case-questions";
+import { NY_CASE_RECORDS_ID, NY_CASE_RECORDS_CONTRACT } from "@/lib/expungement-ai/ny-16059-case-records";
 
 const YES_NO_UNSURE_OPTIONS = ["Yes", "No", "I am not sure"];
 const YES_NO_PREFER_NOT_OPTIONS = ["Yes", "No", "Prefer not to say"];
@@ -92,6 +95,8 @@ export function QuestionField({
   const offersUncertainty = question.type.endsWith("_or_unknown") || question.type === "number_or_range"
     || question.type === "yes_no_unsure" || question.options?.includes("I am not sure");
   const bannerNode = <>
+    {stateCode === "NY" && [NY_CASE_RECONCILIATION_ID, NY_FILING_CASE_ID].includes(question.id) && typeof savedValue === "string" && savedValue && !question.options?.includes(savedValue) ? <p role="status" className="rounded border border-amber-300 p-3 text-sm">{locale === "es" ? "La selección anterior ya no coincide con la lista actual de casos. Revísela y vuelva a elegir. La respuesta anterior permanece guardada hasta que guarde el cambio." : "The earlier choice no longer matches the current case list. Review it and choose again. The earlier answer stays saved until you save the change."}</p> : null}
+
     {question.contextOnly ? <ContextOnlyBanner id={contextId} /> : null}
     {shapeId ? <p id={shapeId} role="status" data-saved-answer-clarification className="rounded border border-amber-300 p-3 text-sm">
       {locale === "es"
@@ -122,6 +127,13 @@ export function QuestionField({
   </div>;
 
   switch (question.type) {
+    case "court_case_records":
+      if (stateCode !== "NY" || question.id !== NY_CASE_RECORDS_ID || question.answerContract !== NY_CASE_RECORDS_CONTRACT) return <MalformedQuestion prompt={promptText} headingLevel={headingLevel} required={!optional} />;
+      return <div className="grid gap-3">{heading}{helperNode}{bannerNode}
+        <CourtCaseRecordsField id={fieldId} value={savedValue} onChange={onChange}
+          firstCaseNumbers={question.caseRecordReferences?.firstCaseNumbers} additionalCaseNumbers={question.caseRecordReferences?.additionalCaseNumbers}
+          ariaLabelledBy={promptId} ariaDescribedBy={describedBy} />{errorNode}
+      </div>;
     case "single_choice":
     case "yes_no_unsure":
     case "yes_no_prefer_not_to_say": {

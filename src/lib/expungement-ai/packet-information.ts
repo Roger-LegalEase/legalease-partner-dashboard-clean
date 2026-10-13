@@ -1,4 +1,5 @@
 import { isNy16059Packet, NY_PACKET_QUESTIONS, NY_PACKET_FACT_IDS } from "@/lib/expungement-ai/ny-16059-packet-facts";
+import { NY_CASE_FACT_IDS, nyCasePreparationQuestions, nyCaseAssociationIssues } from "@/lib/expungement-ai/ny-16059-case-questions";
 import convictionFallbackPrior from "@/lib/expungement-ai/conviction-fallback-prior-contracts.json";
 import { convictionReliefRequest, convictionReliefQuestionApplies, convictionReliefQuestions, isAdultConvictionAnswer } from "@/lib/rcap-engine/conviction-relief-request";
 import { msExactCalendarDate, msExactTimingQuestionIds } from "@/lib/rcap-engine/mississippi-exact-timing";
@@ -128,6 +129,7 @@ export type PacketInformationModel = {
   recordOwnQuestionIds?: string[];
   recordClarificationIds?: string[];
   courtRecordConflict?: boolean;
+  nyCaseIssues?: ReturnType<typeof nyCaseAssociationIssues>;
   stage: PacketInformationStage;
   updatedAt: string | null;
   reviewedAt: string | null;
@@ -151,6 +153,7 @@ export type ProtectedPacketInformationModel = Pick<
   | "recordOwnQuestionIds"
   | "recordClarificationIds"
   | "courtRecordConflict"
+  | "nyCaseIssues"
   | "stage"
   | "reviewedAt"
   | "verificationSummary"
@@ -260,7 +263,7 @@ export function packetInformationModelFor(item: ConsumerBriefcaseItem): PacketIn
   for (const question of allPublicQuestions(publicProfile)) {
     questionById.set(question.id, toProfileQuestion(question));
   }
-  installPacketSpecificationQuestions(questionById, profile.jurisdiction.code, pathwayId, requiredInputIds);
+  installPacketSpecificationQuestions(questionById, profile.jurisdiction.code, pathwayId, requiredInputIds, initialAnswers);
 
   let questions = requiredInputIds
     .filter((id) => !(id in serverFacts))
@@ -1032,6 +1035,18 @@ export function protectedPacketInformationModelFor(
     initialAnswers,
     new Map(questionSurface.questions.map((question) => [question.id, question]))
   );
+  const nyCaseIssues = isNy16059Packet(snapshot.jurisdiction, snapshot.pathwayId) ? nyCaseAssociationIssues(initialAnswers) : [];
+  for (const issue of nyCaseIssues) {
+    if (!missingInputIds.includes(issue.id)) missingInputIds.push(issue.id);
+    const originalQuestion = questionSurface.questionById.get(issue.id);
+    if (originalQuestion) {
+      const question = { ...originalQuestion, required: true, contextOnly: false };
+      questionSurface.questionById.set(issue.id, question);
+      questionSurface.questions = questionSurface.questions.map(candidate => candidate.id === issue.id ? question : candidate);
+      if (!questionSurface.builderQuestions.some(candidate => candidate.id === issue.id)) questionSurface.builderQuestions.push(question);
+      else questionSurface.builderQuestions = questionSurface.builderQuestions.map(candidate => candidate.id === issue.id ? question : candidate);
+    }
+  }
   if (questionSurface.collection?.contactReconciliation && !missingInputIds.includes("contact_information")) missingInputIds.push("contact_information");
   if (!packetPlan && routeFactualCorrectionIds({ stateCode: snapshot.jurisdiction, pathwayId: snapshot.pathwayId,
     screeningAnswers, prefilledAnswers, packetAnswers }).includes("financial_obligations")) {
@@ -1089,6 +1104,7 @@ export function protectedPacketInformationModelFor(
     pendingDerivations: questionSurface.collection?.pendingDerivations ?? [],
     contactReconciliation: questionSurface.collection?.contactReconciliation,
     recordOwnQuestionIds, recordClarificationIds,
+    nyCaseIssues,
     courtRecordConflict: recordFactCourtConflict(`${snapshot.jurisdiction}:${snapshot.pathwayId}`, initialAnswers),
     stage: !packetPlan ? "in_progress" : currentlyVerified
       ? "ready_to_generate"
@@ -1138,7 +1154,7 @@ export function packetCollectionFor(input: {
     requiredInputIds: input.requiredInputIds, decidingFactIds, unresolvedFactIds });
   const questionById = new Map(allPublicQuestions(projectPublicProfile(profile))
     .map((question) => [question.id, toProfileQuestion(question)]));
-  installPacketSpecificationQuestions(questionById, input.jurisdiction, input.pathwayId, input.requiredInputIds);
+  installPacketSpecificationQuestions(questionById, input.jurisdiction, input.pathwayId, input.requiredInputIds, { ...input.screeningAnswers, ...input.prefilledAnswers, ...input.savedAnswers });
   for (const id of input.requiredInputIds) {
     if (!questionById.has(id)) questionById.set(id, fallbackPacketQuestion(id));
   }
@@ -1439,7 +1455,7 @@ function protectedPacketQuestionSurface(
   for (const question of allPublicQuestions(projectPublicProfile(profile))) {
     questionById.set(question.id, toProfileQuestion(question));
   }
-  installPacketSpecificationQuestions(questionById, profile.jurisdiction.code, pathwayId, requiredInputIds);
+  installPacketSpecificationQuestions(questionById, profile.jurisdiction.code, pathwayId, requiredInputIds, { ...screeningAnswers, ...prefilledAnswers, ...savedAnswers });
   let questions = requiredInputIds
     .filter((id) => !(id in serverFacts))
     .map((id) => questionById.get(id) ?? fallbackPacketQuestion(id))
@@ -1535,7 +1551,7 @@ function protectedLegacyAnswerProjection(snapshot: LegacyAnswerSource) {
   if (profile) for (const question of allPublicQuestions(projectPublicProfile(profile))) {
     questionById.set(question.id, toProfileQuestion(question));
   }
-  installPacketSpecificationQuestions(questionById, snapshot.jurisdiction, snapshot.pathwayId, snapshot.requiredInputIds);
+  installPacketSpecificationQuestions(questionById, snapshot.jurisdiction, snapshot.pathwayId, snapshot.requiredInputIds, { ...snapshot.screeningAnswers, ...snapshot.prefilledAnswers, ...snapshot.packetAnswers });
   for (const id of snapshot.requiredInputIds) if (!questionById.has(id)) questionById.set(id, fallbackPacketQuestion(id));
   const serverFacts = canonicalServerFacts(snapshot.jurisdiction, snapshot.pathwayId);
   // Ownership classification only. These normalized values are not evaluated
@@ -1550,7 +1566,12 @@ function protectedLegacyAnswerProjection(snapshot: LegacyAnswerSource) {
   if (snapshot.requiredInputIds.includes("social_security_number")) excluded.add("social_security_number_last_four");
   const questions = [...questionById.values()].filter(question => !(question.id in serverFacts) && !excluded.has(question.id)
     // CA's stricter record contracts retain their existing recovery/history.
-    && !(isCaProp64Pathway(snapshot.jurisdiction, snapshot.pathwayId) && CA_PROP64_RECORD_FACT_IDS.some(id => id === question.id)));
+    && !(isCaProp64Pathway(snapshot.jurisdiction, snapshot.pathwayId) && CA_PROP64_RECORD_FACT_IDS.some(id => id === question.id))
+    // This exact controlled editor can show the original malformed string[] for
+    // explicit replacement. Its strict answer contract still refuses readiness;
+    // factual history archives the entire original value on explicit save.
+    && !(isNy16059Packet(snapshot.jurisdiction, snapshot.pathwayId) && question.id === "ny_16059_covered_case_records"
+      && question.type === "court_case_records" && question.answerContract === "ny_16059_case_records_v1"));
   const inspection = inspectProtectedLegacyShapes(snapshot, snapshot, questions);
   const maps = { screeningAnswers: answerRecord(inspection.projected.screeningAnswers),
     prefilledAnswers: answerRecord(inspection.projected.prefilledAnswers), packetAnswers: answerRecord(inspection.projected.packetAnswers) };
@@ -1631,7 +1652,7 @@ function deriveProtectedPacketDraftSnapshot(
   if (!currentAuthority) return null;
   const originalBase = base;
   const factualIds = [...factualPathwayCorrectionIds(base.jurisdiction, base.pathwayId, { ...base.screeningAnswers, ...base.prefilledAnswers, ...base.packetAnswers }, true), ...msExactTimingQuestionIds(base.jurisdiction, base.pathwayId, { ...base.screeningAnswers, ...base.prefilledAnswers, ...base.packetAnswers }, true)];
-  if (isNy16059Packet(base.jurisdiction, base.pathwayId)) factualIds.push(...NY_PACKET_FACT_IDS,
+  if (isNy16059Packet(base.jurisdiction, base.pathwayId)) factualIds.push(...NY_PACKET_FACT_IDS, ...NY_CASE_FACT_IDS,
     ...routeFactualCorrectionIds({ stateCode: base.jurisdiction, pathwayId: base.pathwayId,
       screeningAnswers: answerRecord(base.screeningAnswers), prefilledAnswers: answerRecord(base.prefilledAnswers), packetAnswers: answerRecord(base.packetAnswers) }, true));
   if (!canonicalEqual(currentAuthority.evaluation.packetPlan ?? null, base.packetPlan)) {
@@ -2015,9 +2036,10 @@ function protectedPacketDraftReviewSafety(draft: ProtectedPacketAuthoritySnapsho
   }
   const publicProfile = projectPublicProfile(getProfileByJurisdiction(draft.jurisdiction)!);
   const questionById = new Map(allPublicQuestions(publicProfile).map((question) => [question.id, toProfileQuestion(question)]));
-  installPacketSpecificationQuestions(questionById, draft.jurisdiction, draft.pathwayId, draft.requiredInputIds);
+  installPacketSpecificationQuestions(questionById, draft.jurisdiction, draft.pathwayId, draft.requiredInputIds, answers);
   for (const id of draft.requiredInputIds) if (!questionById.has(id)) questionById.set(id, fallbackPacketQuestion(id));
   const recordOwnQuestionIds = [...recordFactOwnQuestionIds(`${draft.jurisdiction}:${draft.pathwayId}`, answers, draft.dependencies.recordFactConfirmations)];
+  if (isNy16059Packet(draft.jurisdiction, draft.pathwayId) && nyCaseAssociationIssues(answers).length) return { safe: false, reason: "ny_case_association_required" };
   if (recordFactCourtConflict(`${draft.jurisdiction}:${draft.pathwayId}`, answers)) return { safe: false, reason: "court_record_conflict" };
   if (unresolvedRecordFactConfirmations(`${draft.jurisdiction}:${draft.pathwayId}`, answers, questionById, draft.dependencies.recordFactConfirmations).length) return { safe: false, reason: "record_fact_clarification_required" };
   const collection = packetCollectionFor({
@@ -2677,7 +2699,8 @@ function installPacketSpecificationQuestions(
   questions: Map<string, ProfileQuestion>,
   jurisdiction: string,
   pathwayId: string | null,
-  requiredInputIds: string[]
+  requiredInputIds: string[],
+  answers: Readonly<Record<string, unknown>> = {}
 ) {
   const routeKey = `${jurisdiction}:${pathwayId ?? ""}`;
   for (const factId of requiredInputIds) {
@@ -2693,6 +2716,9 @@ function installPacketSpecificationQuestions(
   }
   if (isNy16059Packet(jurisdiction, pathwayId)) for (const question of NY_PACKET_QUESTIONS) {
     if (requiredInputIds.includes(question.id)) questions.set(question.id, structuredClone(question));
+  }
+  if (isNy16059Packet(jurisdiction, pathwayId)) for (const question of nyCasePreparationQuestions(answers)) {
+    if (requiredInputIds.includes(question.id)) questions.set(question.id, question);
   }
   if (isCaProp64Pathway(jurisdiction, pathwayId)) {
     for (const question of CA_PROP64_CAPTION_QUESTIONS) {

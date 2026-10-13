@@ -1,5 +1,8 @@
 "use client";
 
+import { nyCasePreparationQuestions, nyCaseAssociationIssues, NY_CASE_RECONCILIATION_ID, NY_FILING_CASE_ID } from "@/lib/expungement-ai/ny-16059-case-questions";
+import { isNy16059Packet } from "@/lib/expungement-ai/ny-16059-packet-facts";
+import { NY_CASE_RECORDS_ID, formatNyCourtCaseRecords } from "@/lib/expungement-ai/ny-16059-case-records";
 import { ny16059CustodyRemovalAvailable } from "@/lib/expungement-ai/ny-custody-correction";
 
 import { CA_PROP64_RECOVERY_COPY, CA_PROP64_COMPLETED, caProp64Choice } from "@/lib/expungement-ai/ca-prop64-choices";
@@ -64,7 +67,14 @@ export function PacketInformationBuilder({
   const confirmed = useRef(initialAnswers);
   const [confirmedAnswers, setConfirmedAnswers] = useState(initialAnswers);
   const revision = useRef(initialRevision);
-  const [questions, setQuestions] = useState(initialQuestions);
+  const [savedQuestions, setQuestions] = useState(initialQuestions);
+  const questions = useMemo(() => {
+    if (!isNy16059Packet(stateCode, pathwayId ?? null)) return savedQuestions;
+    const current = new Map(nyCasePreparationQuestions(answers).map(question => [question.id, question]));
+    return savedQuestions.map(question => current.has(question.id) ? { ...question, ...current.get(question.id) } : question);
+  }, [savedQuestions, answers, stateCode, pathwayId]);
+  const nyCaseIssues = isNy16059Packet(stateCode, pathwayId ?? null) ? nyCaseAssociationIssues(answers) : [];
+
   const editingSensitiveIdentifier = questions.some((question) => question.id === "social_security_number");
   const [sections, setSections] = useState(initialSections);
   const [pending, setPending] = useState(initialPendingDerivations);
@@ -301,7 +311,7 @@ export function PacketInformationBuilder({
     }
     else await leave(`/briefcase/${encodeURIComponent(itemId)}${editingFromReview ? "/review#packet-review-heading" : ""}`);
   }
-  const displayedAnswerState = (question: ProfileQuestion) => (question.id === "contact_information" && contactReconciliation || recordClarificationIds.includes(question.id)) ? "invalid" : questionAnswerState(question, answers[question.id]);
+  const displayedAnswerState = (question: ProfileQuestion) => (question.id === "contact_information" && contactReconciliation || recordClarificationIds.includes(question.id) || nyCaseIssues.some(issue => issue.id === question.id)) ? "invalid" : questionAnswerState(question, answers[question.id]);
   const draftMissing = questions.filter((question) => question.required && displayedAnswerState(question) !== "known_valid").length;
   const courtSectionNeedsReview = (question: ProfileQuestion) => courtRecordConflict && ["court", "court_name", "court_type"].includes(question.id);
   const status = screen ? screen.questions.map((question) => courtSectionNeedsReview(question) ? "invalid" : displayedAnswerState(question)) : [];
@@ -334,6 +344,7 @@ export function PacketInformationBuilder({
         <p className="text-xs font-bold uppercase tracking-[0.08em] text-[#08786F]">{copy("Packet information", "Información del paquete")}</p>
         {screen ? <p className="text-xs font-semibold text-[#5E687A]">{index + 1} {copy("of", "de")} {screens.length}</p> : null}
       </div>
+      {nyCaseIssues.map(issue => <p key={issue.code} role="status" className="mb-5 rounded border border-amber-300 p-4 text-sm">{issue[locale]}</p>)}
       {courtRecordConflict ? <p data-court-record-conflict role="status" className="mb-5 rounded border border-amber-300 p-4 text-sm">{COURT_RECORD_CONFLICT_COPY[locale]}</p> : null}
       {routeChanged ? <div className="mb-5 rounded border border-amber-300 p-4" role="status"><p>{copy("Your saved answers changed which packet path is available. Review the updated matter before continuing.", "Sus respuestas guardadas cambiaron la vía disponible para el paquete. Revise el caso actualizado antes de continuar.")}</p><a className="mt-2 inline-flex min-h-11 items-center underline" href={`/briefcase/${encodeURIComponent(itemId)}`} target={dirty ? "_blank" : undefined} rel={dirty ? "noopener noreferrer" : undefined}>{dirty ? copy("Open updated matter in a new tab; keep this draft here", "Abrir el caso actualizado en otra pestaña y conservar este borrador aquí") : copy("Open updated matter", "Abrir el caso actualizado")}</a></div> : null}
       <h2 tabIndex={-1} data-packet-step-heading id="packet-step-heading" className="text-xl font-extrabold text-[#0B1320] focus-visible:outline focus-visible:outline-2">
@@ -406,6 +417,8 @@ export function PacketInformationBuilder({
             return option ? locale === "es" ? option.translations?.es?.label ?? localizeProfileText(locale, option.label, { state: stateCode, questionId: id, part: `option.${value}.label` }) : option.label : localizeText(value);
           };
           const display = (answer: unknown): string => {
+            if (isNy16059Packet(stateCode, pathwayId ?? null) && id === NY_CASE_RECORDS_ID) return formatNyCourtCaseRecords(answer, locale);
+            if (isNy16059Packet(stateCode, pathwayId ?? null) && [NY_CASE_RECONCILIATION_ID, NY_FILING_CASE_ID].includes(id) && typeof answer === "string" && !question?.options?.includes(answer)) return copy("Review this choice against the current case list", "Revise esta selección con la lista actual de casos");
             if (/social_security|ssn/i.test(id)) return copy("Sensitive value hidden", "Dato sensible oculto");
             if (answer === null || answer === undefined) return copy("Unanswered", "Sin responder");
             if (Array.isArray(answer)) return answer.map((value) => label(String(value))).join(", ");
@@ -413,7 +426,7 @@ export function PacketInformationBuilder({
             const value = typeof answer === "object" ? String((answer as { value?: unknown }).value ?? "") : String(answer);
             return question && ["single_choice", "yes_no_unsure", "yes_no_prefer_not_to_say"].includes(question.type) ? label(value) : value;
           };
-          return <div key={id}><dt className="font-bold">{locale === "es" ? question?.translations?.es?.prompt ?? question?.prompt : question?.prompt}</dt><dd className="break-words text-sm">{copy("Your draft: ", "Su borrador: ")}{display(value)}</dd><dd className="break-words text-sm">{copy("Saved answer: ", "Respuesta guardada: ")}{display(recovery.answers[id])}</dd></div>;
+          return <div key={id}><dt className="font-bold">{locale === "es" ? question?.translations?.es?.prompt ?? question?.prompt : question?.prompt}</dt><dd className="whitespace-pre-wrap break-words text-sm">{copy("Your draft: ", "Su borrador: ")}{display(value)}</dd><dd className="whitespace-pre-wrap break-words text-sm">{copy("Saved answer: ", "Respuesta guardada: ")}{display(recovery.answers[id])}</dd></div>;
         })}</dl>
         <div className="mt-4 flex flex-wrap gap-3"><button className="min-h-11 rounded border px-3" type="button" onClick={() => acceptRecovery(true)}>{copy("Keep my draft to save", "Conservar mi borrador para guardarlo")}</button><button className="min-h-11 rounded border px-3" type="button" onClick={() => acceptRecovery(false)}>{copy("Discard my draft and use saved answers", "Descartar mi borrador y usar las respuestas guardadas")}</button></div>
       </div> : null}

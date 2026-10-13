@@ -221,7 +221,7 @@ export type ResolvedPacketFact = {
   /** Present for `external_actor` only: the actor who fills this field, later. */
   actor?: string;
   /** Present for `conditional`: the fact that decides whether this is asked. */
-  condition?: { factId: string; satisfiedWhen: "affirmative" };
+  condition?: { factId: string; satisfiedWhen: "affirmative" | "equals"; value?: string };
   /** For a conditional fact, whether the condition currently makes it relevant. */
   active?: boolean;
   /** Why this fact landed in this class. Carried into the audit artifact. */
@@ -247,7 +247,7 @@ export type PacketCollectionResolution = {
   prepayQuestions: string[];
   renderQuestions: string[];
   groupedParticipantSections: PacketCollectionSection[];
-  conditionalQuestions: Array<{ factId: string; condition: { factId: string; satisfiedWhen: "affirmative" }; active: boolean }>;
+  conditionalQuestions: Array<{ factId: string; condition: { factId: string; satisfiedWhen: "affirmative" | "equals"; value?: string }; active: boolean }>;
   filingReadinessItems: string[];
   externalActorFields: Array<{ factId: string; actor: string }>;
   unresolvedRequiredFacts: string[];
@@ -322,6 +322,7 @@ export type RouteCollectionOverride = {
   classes?: Record<string, PacketCollectionClass>;
   groups?: Record<string, PacketCollectionSectionId>;
   conditions?: Record<string, string>;
+  conditionValues?: Record<string, string>;
   /** Facts a human must classify. They resolve as `unresolved`, never as asked-by-default. */
   needsHumanClassification?: string[];
 };
@@ -810,16 +811,18 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
     const conditionFactId = override?.conditions?.[factId] ?? GENERIC_CONDITIONS[factId];
     if (conditionFactId && requiredInputIds.includes(conditionFactId)) {
       const gate = resolvedText(conditionFactId);
-      const active = gate.length === 0 || isAffirmativeText(gate);
+      const expected = override?.conditionValues?.[factId];
+      const active = gate.length === 0 || (expected === undefined ? isAffirmativeText(gate) : gate === expected);
       facts.push({
         factId,
         collection: "conditional",
         phase: active ? "render" : "known",
         group: active ? group : null,
         source: `conditional_on:${conditionFactId}`,
-        condition: { factId: conditionFactId, satisfiedWhen: "affirmative" },
+        condition: expected === undefined ? { factId: conditionFactId, satisfiedWhen: "affirmative" }
+          : { factId: conditionFactId, satisfiedWhen: "equals", value: expected },
         active,
-        reason: active
+        reason: expected !== undefined ? `asked only when ${conditionFactId} is ${expected}; currently ${active ? "active" : "inactive"}` : active
           ? `asked only while ${conditionFactId} is affirmative, which it currently is or is not yet answered`
           : `${conditionFactId} is not affirmative, so this fact does not apply to this matter`
       });

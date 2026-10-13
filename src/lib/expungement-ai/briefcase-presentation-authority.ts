@@ -105,6 +105,7 @@ export type BriefcasePresentationItem = {
       recordOwnQuestionIds?: string[];
       recordClarificationIds?: string[];
       courtRecordConflict?: boolean;
+      nyCaseIssues?: Array<{ id: string; code: string; en: string; es: string }>;
       questions: ProtectedPacketInformationModel["questions"];
       builderQuestions: ProtectedPacketInformationModel["builderQuestions"];
       /** The Stage 6 sections the builder renders, headings and Spanish included. */
@@ -535,6 +536,7 @@ function presentationDraftForModel(
     contactReconciliation: model.contactReconciliation,
     recordOwnQuestionIds: model.recordOwnQuestionIds, recordClarificationIds: model.recordClarificationIds,
     courtRecordConflict: model.courtRecordConflict,
+    nyCaseIssues: model.nyCaseIssues,
     questions: model.questions,
     builderQuestions: model.builderQuestions,
     builderSections: model.builderSections,

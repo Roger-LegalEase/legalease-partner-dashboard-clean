@@ -4,6 +4,8 @@ import { protectedPacketInformationModelFor } from "@/lib/expungement-ai/packet-
 import { questionAnswerState } from "@/lib/expungement-ai/question-answer-state";
 import { isNy16059Packet, NY_PACKET_QUESTIONS, NY_PACKET_CONDITIONS } from "@/lib/expungement-ai/ny-16059-packet-facts";
 import { NY_CURRENT_COMPONENTS, NY_CURRENT_SOURCE_CONTEXT } from "@/lib/expungement-ai/ny-16059-current-components";
+import { NY_CASE_RECORDS_ID, NY_STATEMENT_ID, parseNyCourtCaseRecords } from "@/lib/expungement-ai/ny-16059-case-records";
+import { NY_CASE_RECONCILIATION_ID, NY_FILING_CASE_ID, NY_OTHER_COURT_NAME, NY_OTHER_COURT_COUNTY, nyCaseAssociationIssues } from "@/lib/expungement-ai/ny-16059-case-questions";
 import type { ProtectedPacketVerificationRecord } from "@/lib/expungement-ai/verification-cas";
 
 /** Caller must obtain this record through authenticated owner/custody access.
@@ -15,7 +17,7 @@ export function ny16059ProtectedDocumentPreparation(record: ProtectedPacketVerif
   const snapshot = record.status === "verified" ? record.snapshot : record.draftSnapshot;
   if (!snapshot) return null;
   const recordHash = record.status === "verified" ? record.hash : record.draftHash;
-  function owned(id: string) {
+  function rawOwned(id: string) {
     const question = model!.questions.find(candidate => candidate.id === id);
     const sources = ["packetAnswers", "prefilledAnswers", "screeningAnswers"] as const;
     const source = sources.find(key => Object.hasOwn(model![key], id));
@@ -23,9 +25,13 @@ export function ny16059ProtectedDocumentPreparation(record: ProtectedPacketVerif
     const raw = model![source][id];
     // A display normalization or derived value is not raw owner evidence.
     if (!Object.hasOwn(snapshot![source], id) || hash(snapshot![source][id]) !== hash(raw)) return null;
-    if (questionAnswerState(question, raw) !== "known_valid") return null;
+
     const value = raw && typeof raw === "object" && !Array.isArray(raw) ? raw.value : raw;
-    return { factId: id, source, raw: structuredClone(raw), value, revision: model!.revision, recordHash };
+    return { factId: id, source, raw: structuredClone(raw), value: structuredClone(value), answerState: questionAnswerState(question, raw), revision: model!.revision, recordHash };
+  }
+  function owned(id: string) {
+    const evidence = rawOwned(id);
+    return evidence?.answerState === "known_valid" ? evidence : null;
   }
   function choice(id: string) {
     const evidence = owned(id);
@@ -54,16 +60,39 @@ export function ny16059ProtectedDocumentPreparation(record: ProtectedPacketVerif
       : noneMeansNoApplication && evidence?.value === "none" ? false : null,
     evidence, attachmentIncluded: null
   });
+  const caseEvidence = rawOwned(NY_CASE_RECORDS_ID);
+  const records = caseEvidence ? parseNyCourtCaseRecords(caseEvidence.raw) : null;
+  const filingEvidence = owned(NY_FILING_CASE_ID);
+  const filingCase = records?.find(entry => `case:${entry.id}` === filingEvidence?.value);
+  const differentCourt = filingEvidence?.value === "different_court";
+  const statement = rawOwned(NY_STATEMENT_ID);
+  const casePreparation = {
+    evidence: caseEvidence,
+    records: records?.map(entry => ({ ...structuredClone(entry), certificateAttachmentIncluded: null })) ?? null,
+    associationIssues: nyCaseAssociationIssues(model.initialAnswers),
+    additionalCaseReconciliation: choice("ny_16059_additional_cases").value === true ? owned(NY_CASE_RECONCILIATION_ID) : null,
+    legalConvictionGroupCount: null,
+    filingDestination: {
+      selectionEvidence: filingEvidence,
+      caseId: filingCase?.id ?? null,
+      courtName: filingCase?.courtName ?? (differentCourt ? owned(NY_OTHER_COURT_NAME)?.value ?? null : null),
+      courtCounty: filingCase?.courtCounty ?? (differentCourt ? owned(NY_OTHER_COURT_COUNTY)?.value ?? null : null),
+      courtEvidence: differentCourt ? { name: rawOwned(NY_OTHER_COURT_NAME), county: rawOwned(NY_OTHER_COURT_COUNTY) } : caseEvidence,
+      legallyReviewed: false as const
+    },
+    applicantStatement: { evidence: statement, text: statement?.answerState === "known_valid" ? statement.value : null, signed: null, dated: null, affirmed: null },
+    printedRowAssignments: null, widgetBindings: null
+  };
   return {
     schemaVersion: "ny-16059/protected-document-preparation/v1" as const,
     pathwayId: model.pathwayId, revision: model.revision, recordHash,
     source: structuredClone(NY_CURRENT_SOURCE_CONTEXT), logicalComponents: structuredClone(NY_CURRENT_COMPONENTS),
-    conditions, availableFacts, missingFactIds,
+    conditions, availableFacts, missingFactIds, casePreparation,
     priorApplications: { cpl16059: priorApplication(prior16059, true), cpl16058: priorApplication(prior16058, false) },
     unresolvedConditions: ["any_alias_exists", "defendant_alias_exists", "source_revision_review", "covered_vtl_conviction",
       "first_case_postsentence_incarceration", "second_case_postsentence_incarceration", "new_certificate_request_needed",
       "arrest_date_is_range", "incident_date_is_range", "source_specific_attachments", "actual_service", "actual_filing", "actual_copy_retention"],
-    remainingRequirements: ["Each actual covered court and filing destination", "Case-specific sentence/release and offense facts",
+    remainingRequirements: ["Complete and reconcile actual covered cases and filing destination", "Complete case-specific sentence/release and offense facts",
       "Per-case certificate or explanation and actual attachments", "Required applicant statement", "Exact authentic source bytes and widget bindings",
       "Qualified source, legal, bilingual and output acceptance", "Actual signatures/service/filing by the responsible actors", "Authorized generation and protected delivery"],
     sourceVerified: false as const, conditionalBlankAcceptance: false as const,
