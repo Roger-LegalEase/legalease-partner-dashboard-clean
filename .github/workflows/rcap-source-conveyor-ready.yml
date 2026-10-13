@@ -11,6 +11,7 @@ on:
       - scripts/lib/corpus-index-paths.mjs
       - scripts/rcap-corpus/bootstrap-private-corpus.sh
       - scripts/rcap-corpus/*adopted-sources.py
+      - scripts/rcap-corpus/*sc-guidance-sources.py
       - data/record-clearing/legal-decisions/2026-09-14-nc-146-core-and-conditional-dna-scope.json
       - scripts/verify-packet-build-environment.mjs
       - scripts/rcap-*.mjs
@@ -33,6 +34,7 @@ on:
       - scripts/lib/corpus-index-paths.mjs
       - scripts/rcap-corpus/bootstrap-private-corpus.sh
       - scripts/rcap-corpus/*adopted-sources.py
+      - scripts/rcap-corpus/*sc-guidance-sources.py
       - data/record-clearing/legal-decisions/2026-09-14-nc-146-core-and-conditional-dna-scope.json
       - scripts/verify-packet-build-environment.mjs
       - scripts/rcap-*.mjs
@@ -109,6 +111,12 @@ jobs:
           set -euo pipefail
           python3 scripts/rcap-corpus/restore-adopted-sources.py
           node --input-type=module -e 'import { loadUserSourceAdoption, AZ_ATTACHMENT_ADOPTION_PATH } from "./scripts/grade-a-packet-factory-24h/user-source-adoption.mjs"; loadUserSourceAdoption(process.cwd()); loadUserSourceAdoption(process.cwd(), {recordPath: AZ_ATTACHMENT_ADOPTION_PATH});'
+      - name: South Carolina source restoration guard regressions
+        id: sc_source_controls
+        run: PYTHONDONTWRITEBYTECODE=1 python3 scripts/rcap-corpus/test-sc-guidance-sources.py
+      - name: Restore South Carolina guidance private sources
+        id: sc_sources
+        run: python3 scripts/rcap-corpus/restore-sc-guidance-sources.py
       - name: Generator convergence
         id: convergence
         run: |
