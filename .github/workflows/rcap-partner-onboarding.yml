@@ -44,6 +44,13 @@ jobs:
       - name: Typecheck
         run: npm run typecheck
 
+      - name: Install PDF text verification dependency
+        run: |
+          if ! command -v pdftotext >/dev/null 2>&1; then
+            sudo apt-get update
+            sudo apt-get install -y --no-install-recommends poppler-utils
+          fi
+
       - name: Verify nationwide correction boundaries
         run: |
           node scripts/test-composed-route-final-disposition.mjs
@@ -59,6 +66,7 @@ jobs:
           node scripts/test-il-ga-protected-exclusion-recovery.mjs
           node scripts/test-conviction-relief-request.mjs
           node scripts/test-ga-pardon-facts.mjs
+          node scripts/test-ga-pardon-packet-label.mjs
           node scripts/test-ks-municipal-factual-boundaries.mjs
           node scripts/test-ks-district-factual-routing.mjs
           node scripts/test-ny-16059-factual-boundaries.mjs

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "specificationId": "ga-restriction-and-sealing-of-a-pardoned-felony",
-  "specificationVersion": "1.0.0",
+  "specificationVersion": "1.1.0",
   "obligationRouteKey": "obligation:track-pathway:GA:ga-pardon-j7:restriction-and-sealing-of-a-pardoned-felony",
   "routeKey": "GA:restriction-and-sealing-of-a-pardoned-felony",
   "routeKeys": [
@@ -9,7 +9,7 @@
   ],
   "jurisdiction": "GA",
   "pathwayId": "restriction-and-sealing-of-a-pardoned-felony",
-  "pathwayLabel": "Restriction and sealing of a pardoned felony",
+  "pathwayLabel": "Restriction and sealing of a pardoned conviction",
   "packetFamily": "ga-pardon-j7-set",
   "packetFamilyLabel": "Petition to Restrict Access to Criminal History Record Information Following a Pardon",
   "trackId": "ga-pardon-j7",
@@ -45,7 +45,7 @@
     "data/rcap-all50/overlays/census-v1/ga/ga-pardon-j7-set--custom-pleading/participant-instructions.md",
     "data/rcap-grade-a/legal-decisions/OWNER_BATCH_ADOPTION_2026-09-02.json#OWN-ADOPT-2026-09-02-BATCH-53"
   ],
-  "specificationNote": "This specification gives the already-compiled Georgia pardoned-conviction restriction route its route-scoped artifact identity. It binds only the existing six-component census-v1 family and the canonical and boundary hashes OWN-ADOPT-2026-09-02-BATCH-53 adopted for it. Every legal statement below is copied from the family's committed legal-design track and the adopted shipping artifacts; none is new. It creates no fulfillment record, no post-approval audit verdict, and grants no checkout, delivery, or production authority.",
+  "specificationNote": "This specification gives the already-compiled Georgia pardoned-conviction restriction route its route-scoped artifact identity. It binds only the existing six-component census-v1 family and the canonical and boundary hashes OWN-ADOPT-2026-09-02-BATCH-53 adopted for it. Every legal statement below is copied from the family's committed legal-design track and the adopted shipping artifacts; none is new. It creates no fulfillment record, no post-approval audit verdict, and grants no checkout, delivery, or production authority. Version 1.1.0 maps the participant-confirmed ga_pardoned_offense_section and ga_pardon_date to the existing primary-filing case-fact destinations and uses a conviction-neutral display label under adopted GA-02. All legal text, third-party/signature/service/narrative blanks, source identities and original approvedArtifacts remain unchanged. The historical adoption applies only within its recorded original scope; this engineering mapping does not create successor document, technical, visual, delivery or commercial approval.",
   "approvedArtifacts": [
     {
       "fixture": "canonical",
@@ -231,6 +231,18 @@
       "use": "how each recipient was actually served: certified mail, e-filing or hand delivery, confirmed with the clerk before filing",
       "inRegistryRequiredInputs": false,
       "ownership": "participant"
+    },
+    {
+      "factId": "ga_pardoned_offense_section",
+      "use": "Exact final offense/subsection copied from the conviction record; primary petition case facts.",
+      "inRegistryRequiredInputs": false,
+      "ownership": "participant"
+    },
+    {
+      "factId": "ga_pardon_date",
+      "use": "Actual Board pardon date copied from the certificate; primary petition case facts.",
+      "inRegistryRequiredInputs": false,
+      "ownership": "participant"
     }
   ],
   "finalVerificationRequirements": [
@@ -259,7 +271,9 @@
       "pending_cases",
       "participant_narrative",
       "prosecuting_authority",
-      "service_method"
+      "service_method",
+      "ga_pardoned_offense_section",
+      "ga_pardon_date"
     ],
     "serverOwnedRouteFacts": [
       "jurisdiction",
@@ -293,8 +307,6 @@
       "primary_filing_case_number",
       "primary_filing_otn",
       "primary_filing_blank_1",
-      "primary_filing_blank_2",
-      "primary_filing_blank_3",
       "primary_filing_blank_4",
       "primary_filing_blank_5",
       "primary_filing_blank_6",
@@ -387,26 +399,26 @@
           "heading": "Exact O.C.G.A. Code section of the conviction that was pardoned:",
           "kind": "pleading_identity_list",
           "fields": [
-            "primary_filing_blank_2"
+            "ga_pardoned_offense_section"
           ],
           "fieldLabels": {
-            "primary_filing_blank_2": "Exact O.C.G.A. Code section of the conviction that was pardoned:"
+            "ga_pardoned_offense_section": "Exact O.C.G.A. Code section of the conviction that was pardoned:"
           },
           "fieldTreatments": {
-            "primary_filing_blank_2": "ruled_blank"
+            "ga_pardoned_offense_section": "value"
           }
         },
         {
           "heading": "Date the State Board of Pardons and Paroles granted the pardon:",
           "kind": "pleading_identity_list",
           "fields": [
-            "primary_filing_blank_3"
+            "ga_pardon_date"
           ],
           "fieldLabels": {
-            "primary_filing_blank_3": "Date the State Board of Pardons and Paroles granted the pardon:"
+            "ga_pardon_date": "Date the State Board of Pardons and Paroles granted the pardon:"
           },
           "fieldTreatments": {
-            "primary_filing_blank_3": "ruled_blank"
+            "ga_pardon_date": "value"
           }
         },
         {
@@ -1311,5 +1323,5 @@
       "requiredBeforeFiling": true
     }
   ],
-  "specificationSha256": "729491718a762587ccd261e66b31abf5fa24180347c4bea92983326c022f2054"
+  "specificationSha256": "3c7a3faa4330d786697a6154ea768e0a4ccbc2926742af8dd4c1b57dac10ece5"
 }

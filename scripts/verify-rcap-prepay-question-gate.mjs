@@ -110,6 +110,18 @@ function isCourtOrCaseIdentifier(question) {
   return /docket|case[ _-]?(?:identifier|number)|cause number|arrest number/.test(text);
 }
 
+// Adopted GA-02 asks whether the specified Board pardon exists. Referring the
+// participant to their certificate is not an upload/acquisition checklist.
+// Pin this exact factual control, not every question mentioning a certificate.
+function isGeorgiaBoardPardonPredicate(code, question) {
+  return code === "GA" && question.id === "ga_board_pardon"
+    && question.type === "single_choice" && question.required === false
+    && question.lifecyclePhase === "prepay_route_splitter"
+    && JSON.stringify(question.options) === '["yes","no","unknown"]'
+    && question.prompt === "Did the Georgia Board of Pardons and Paroles grant a pardon for this conviction? A pardon does not by itself guarantee that the record can be restricted."
+    && question.helperText === "Check the actual pardon certificate. An application, restoration of rights or another kind of relief does not establish a Board pardon for this conviction.";
+}
+
 const profiles = getAllJurisdictionProfiles();
 const report = fs.existsSync(REPORT_PATH) ? JSON.parse(fs.readFileSync(REPORT_PATH, "utf8")) : null;
 const routeMetadata = fs.existsSync(METADATA_PATH) ? JSON.parse(fs.readFileSync(METADATA_PATH, "utf8")).routes ?? {} : {};
@@ -213,7 +225,20 @@ for (const profile of profiles) {
   }
 
   const prepayText = prepay.map((question) => `${question.id} ${question.prompt ?? ""} ${question.helperText ?? ""}`.toLowerCase());
-  externalPrepay += prepayText.filter((text) => /patch|psp|sbi|chr\/scope|criminal[- ]history report|fingerprint|certificate|certified disposition|judgment of conviction|discharge paperwork|agency letter/.test(text)).length;
+  externalPrepay += prepay.filter((question, index) =>
+    !isGeorgiaBoardPardonPredicate(code, question)
+    && /patch|psp|sbi|chr\/scope|criminal[- ]history report|fingerprint|certificate|certified disposition|judgment of conviction|discharge paperwork|agency letter/.test(prepayText[index])).length;
+  if (code === "GA") {
+    const boardPardon = prepay.find(question => question.id === "ga_board_pardon");
+    assert(boardPardon && isGeorgiaBoardPardonPredicate(code, boardPardon), "GA: adopted Board-pardon predicate must remain a factual yes/no/unknown control.");
+    for (const mutation of [{ id: "pardon_certificate" }, { type: "file" }, { required: true },
+      { lifecyclePhase: "postpay_external_document" }, { options: ["yes", "no"] },
+      { prompt: "Upload the pardon certificate before checkout." },
+      { helperText: `${boardPardon?.helperText} Obtain and upload a certified copy before continuing.` }]) {
+      assert(!isGeorgiaBoardPardonPredicate(code, { ...boardPardon, ...mutation }), "GA: external-document/predicate drift must not receive the factual-control exception.");
+    }
+    assert(!isGeorgiaBoardPardonPredicate("VA", boardPardon ?? {}), "The Board-pardon exception cannot apply outside Georgia.");
+  }
   officialFormPrepay += prepay.filter((question) => question.lifecyclePhase === "postpay_official_form_field").length;
   narrativePrepay += prepay.filter((question) => question.lifecyclePhase === "postpay_narrative" || /hardship|rehabilitation|manifest injustice|substantial justice|statement/.test(normalized(question.prompt))).length;
   docketPrepay += prepayText.filter((text) => /docket|case number|case_identifier|case_number/.test(text)).length;

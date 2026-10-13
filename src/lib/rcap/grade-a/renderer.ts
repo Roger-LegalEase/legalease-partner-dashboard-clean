@@ -1051,8 +1051,18 @@ function drawProvenanceFooter(
   pageBreak(cursor, document);
   kicker(cursor, document, fonts, "About this packet");
   title(cursor, document, fonts, packet.packetFamilyLabel);
-  labelled(cursor, document, fonts, "Route", packet.routeKey, layout);
-  labelled(cursor, document, fonts, "Packet specification", `${packet.specificationId} v${packet.specificationVersion}`, layout);
+  // GA-02 permits a qualifying pardoned misdemeanor as well as a felony.
+  // The retained wire/specification IDs contain "pardoned-felony"; printing
+  // them on the participant's provenance page misstates that classification.
+  // Version and protected verification still identify the exact packet; the
+  // original route and specification IDs remain in its server-side contract.
+  if (packet.routeKey === "GA:restriction-and-sealing-of-a-pardoned-felony"
+    && packet.packetFamily === "ga-pardon-j7-set") {
+    labelled(cursor, document, fonts, "Packet version", packet.specificationVersion, layout);
+  } else {
+    labelled(cursor, document, fonts, "Route", packet.routeKey, layout);
+    labelled(cursor, document, fonts, "Packet specification", `${packet.specificationId} v${packet.specificationVersion}`, layout);
+  }
   labelled(cursor, document, fonts, "Prepared from verification", packet.verificationHash, layout);
   paragraph(cursor, document, fonts,
     "This packet was prepared from the answers you confirmed at final verification. If any of those answers change, "
