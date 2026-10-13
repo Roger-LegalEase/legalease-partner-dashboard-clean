@@ -10,6 +10,7 @@ on:
       - scripts/grade-a-launch-control/reconcile-release-evidence.mjs
       - scripts/lib/corpus-index-paths.mjs
       - scripts/rcap-corpus/bootstrap-private-corpus.sh
+      - scripts/rcap-corpus/*adopted-sources.py
       - data/record-clearing/legal-decisions/2026-09-14-nc-146-core-and-conditional-dna-scope.json
       - scripts/verify-packet-build-environment.mjs
       - scripts/rcap-*.mjs
@@ -31,6 +32,7 @@ on:
       - scripts/grade-a-launch-control/reconcile-release-evidence.mjs
       - scripts/lib/corpus-index-paths.mjs
       - scripts/rcap-corpus/bootstrap-private-corpus.sh
+      - scripts/rcap-corpus/*adopted-sources.py
       - data/record-clearing/legal-decisions/2026-09-14-nc-146-core-and-conditional-dna-scope.json
       - scripts/verify-packet-build-environment.mjs
       - scripts/rcap-*.mjs
@@ -72,8 +74,7 @@ jobs:
       - name: Workflow YAML validation
         id: yaml
         run: ruby -e 'require "yaml"; Dir[".github/workflows/*.yml"].each { |f| YAML.parse_file(f) }'
-      # A checkout has no ignored corpus. Restore only the pinned Master Library;
-      # this does not provide Nationwide or the later private custody supplements.
+      # The pinned Master Library is separate from the later adopted supplements.
       - name: Establish verified corpus environment
         id: corpus_environment
         env:
@@ -95,6 +96,17 @@ jobs:
       - name: Acquisition requires explicit dispatch
         id: manual_acquisition
         run: node scripts/grade-a-packet-factory-24h/test-manual-acquisition.mjs
+      - name: Adopted-source restoration guard regressions
+        id: adoption_controls
+        run: PYTHONDONTWRITEBYTECODE=1 python3 scripts/rcap-corpus/test-restore-adopted-sources.py
+      - name: Restore exact adopted source bytes
+        id: adopted_sources
+        env:
+          GH_TOKEN: ${{ secrets.SOURCE_CORPUS_READ_TOKEN }}
+        run: |
+          set -euo pipefail
+          python3 scripts/rcap-corpus/restore-adopted-sources.py
+          node --input-type=module -e 'import { loadUserSourceAdoption, AZ_ATTACHMENT_ADOPTION_PATH } from "./scripts/grade-a-packet-factory-24h/user-source-adoption.mjs"; loadUserSourceAdoption(process.cwd()); loadUserSourceAdoption(process.cwd(), {recordPath: AZ_ATTACHMENT_ADOPTION_PATH});'
       - name: Generator convergence
         id: convergence
         run: |
