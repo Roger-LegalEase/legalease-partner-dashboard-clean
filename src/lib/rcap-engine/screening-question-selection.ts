@@ -1,3 +1,4 @@
+import { georgiaPardonQuestionApplies } from "@/lib/rcap-engine/georgia-pardon-facts";
 import { convictionReliefRequest, convictionReliefQuestionApplies, convictionOutcomeCompatible } from "@/lib/rcap-engine/conviction-relief-request";
 import { pathwayFromContext } from "@/lib/rcap-engine/pathway-context";
 import { MS_EXACT_TIMING_FACT_IDS, msExactTimingQuestionIds } from "@/lib/rcap-engine/mississippi-exact-timing";
@@ -74,7 +75,7 @@ export function selectScreeningQuestionIds(
   const selectedPathway = reliefRequest.status === "selected" ? profile.pathways.find(p => p.id === reliefRequest.pathwayId) : reliefRequest.status !== "not_applicable" ? undefined : caRoute ? profile.pathways.find(p => p.id === caRoute) : profile.jurisdiction.code === "NY" && ny16059Requested(answers) ? profile.pathways.find(p => p.id === NY_16059_ROUTE) : deRoute ? profile.pathways.find(pathway => pathway.id === deRoute) : programRoute?.status === "selected"
     ? profile.pathways.find(pathway => pathway.id === programRoute.pathwayId)
     : (programRoute?.status === "clarification" || programRoute?.status === "district_arrest" || programRoute?.status === "district_review" || profile.jurisdiction.code === "CA" && caProp64ApplicationRequested(answers)) ? undefined : selectedLabel
-    ? profile.jurisdiction.code === "MS" ? pathwayFromContext(profile, selectedLabel) : profile.pathways.find((pathway) => pathway.label === selectedLabel
+    ? ["MS", "GA"].includes(profile.jurisdiction.code) ? pathwayFromContext(profile, selectedLabel) : profile.pathways.find((pathway) => pathway.label === selectedLabel
       && !pathwayExcludedByKnownFacts(profile.jurisdiction.code, answers, pathway.id) && convictionOutcomeCompatible(profile.jurisdiction.code, answers, pathway.id))
     : undefined;
   const msTimingIds = new Set(msExactTimingQuestionIds(profile.jurisdiction.code, selectedPathway?.id, answers));
@@ -117,6 +118,7 @@ export function selectScreeningQuestionIds(
     .filter(question => msProgramCompletionQuestionApplies(profile.jurisdiction.code, answers, question.id))
     .filter(question => msConditionalDischargeQuestionApplies(profile.jurisdiction.code, answers, question.id))
     .filter(question => kansasRecordScopeQuestionApplies(profile.jurisdiction.code, answers, question.id))
+    .filter(question => georgiaPardonQuestionApplies(profile.jurisdiction.code, answers, question.id, selectedPathway?.id))
     .filter(question => georgiaFirstOffenderQuestionApplies(profile.jurisdiction.code, answers, question.id))
     .filter(question => illinoisCannabisQuestionApplies(profile.jurisdiction.code, answers, question.id))
     .filter(question => nevada176AQuestionApplies(profile.jurisdiction.code, selectedPathway?.id, question.id))

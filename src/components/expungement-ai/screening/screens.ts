@@ -19,6 +19,7 @@ import { KS_RECORD_SCOPE_FACT_IDS } from "@/lib/rcap-engine/kansas-record-scope"
  */
 import { caProp64RecordQuestion } from "@/lib/expungement-ai/ca-prop64-record-facts";
 import { NEVADA_176A_ROUTE_SAFETY_FACT_IDS } from "@/lib/rcap-engine/nevada-176a-branch";
+import { GA_PARDON_FACT_IDS } from "@/lib/rcap-engine/georgia-pardon-facts";
 import { GA_FIRST_OFFENDER_FACT_IDS } from "@/lib/rcap-engine/georgia-first-offender";
 import { IL_CANNABIS_FACT_IDS } from "@/lib/rcap-engine/illinois-cannabis-facts";
 import type { AnswerValue, JurisdictionProfile, ProfileQuestion } from "@/lib/expungement-ai/frontend/contracts";
@@ -107,7 +108,7 @@ export function sanitizeAnswersForQuestionIds(
     // route-scoped evaluation decides whether they are currently relevant.
     || Boolean(profile?.jurisdiction.code === "NV" && NEVADA_176A_ROUTE_SAFETY_FACT_IDS.includes(questionId)
       && profile.questions.some(question => question.id === questionId))
-    || Boolean(profile?.jurisdiction.code === "GA" && GA_FIRST_OFFENDER_FACT_IDS.some(id => id === questionId)
+    || Boolean(profile?.jurisdiction.code === "GA" && [...GA_FIRST_OFFENDER_FACT_IDS, ...GA_PARDON_FACT_IDS].some(id => id === questionId)
       && profile.questions.some(question => question.id === questionId))
     || Boolean(profile?.jurisdiction.code === "NY" && [...NY_16059_FACT_IDS, ...NY_16059_LEGACY_IDS, "ny_16059_later_conviction_entered", "ny_16059_undisposed_arrest", "sentencing_date", "release_date"].includes(questionId)
       && profile.questions.some(question => question.id === questionId))

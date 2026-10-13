@@ -1,3 +1,4 @@
+import { GA_PARDON_FACT_IDS, GA_PARDON_QUESTIONS, GA_PARDON_LABEL, GA_PARDON_OLD_LABEL } from "@/lib/rcap-engine/georgia-pardon-facts";
 import { convictionReliefQuestions } from "@/lib/rcap-engine/conviction-relief-request";
 import { CA_PROP64_FACT_IDS, CA_PROP64_FACT_QUESTIONS } from "@/lib/rcap-engine/california-prop64-facts";
 import { isCaProp64QuantityQuestion, CA_PROP64_QUANTITY_CONTRACT } from "@/lib/expungement-ai/ca-prop64-quantity";
@@ -54,7 +55,7 @@ const PREPAY_PHASES = new Set<QuestionLifecyclePhase>([
 const STATE_SPECIFIC_PREPAY_WILMA_FACT_IDS: Record<string, Set<string>> = {
   DE: new Set(DE_CONVICTION_FACT_IDS),
   KS: new Set(KS_RECORD_SCOPE_FACT_IDS),
-  GA: new Set([...GA_FIRST_OFFENDER_FACT_IDS, ...convictionReliefQuestions("GA").map(q => q.id)]),
+  GA: new Set([...GA_PARDON_FACT_IDS, ...GA_FIRST_OFFENDER_FACT_IDS, ...convictionReliefQuestions("GA").map(q => q.id)]),
   IL: new Set([...IL_CANNABIS_FACT_IDS, ...convictionReliefQuestions("IL").map(q => q.id)]),
   CA: new Set([
     ...CA_PROP64_FACT_IDS,
@@ -539,7 +540,7 @@ function withCompletePathwayContextOptions(questions: PublicQuestion[], pathways
     if (question.id !== "possible_pathway_context") return question;
     const options: string[] = Array.isArray(question.options) ? question.options.filter((option): option is string => typeof option === "string") : [];
     if (options.length === 0) return question;
-    const covered = (label: string) => options.some((option) => option === label || option.includes(label));
+    const covered = (label: string) => label === GA_PARDON_LABEL.en && options.includes(GA_PARDON_OLD_LABEL) || options.some((option) => option === label || option.includes(label));
     const missing = pathways.map((pathway) => pathway.label).filter((label) => label.trim() !== "" && !covered(label));
     if (missing.length === 0) return question;
     const lastIsNoneOfThese = options.length > 0 && /^none of these/i.test(options[options.length - 1]);
@@ -1115,7 +1116,7 @@ function withWilmaFactQuestions(
     : profile.jurisdiction.code === "MS"
     ? [...WILMA_FACT_QUESTIONS, ...MISSISSIPPI_CORRECTION_FACT_QUESTIONS, ...MS_CONDITIONAL_DISCHARGE_QUESTIONS, ...MS_PROGRAM_COMPLETION_QUESTIONS]
     : profile.jurisdiction.code === "CA" ? [...WILMA_FACT_QUESTIONS, ...CA_PROP64_FACT_QUESTIONS]
-    : profile.jurisdiction.code === "GA" ? [...WILMA_FACT_QUESTIONS, ...GA_FIRST_OFFENDER_QUESTIONS]
+    : profile.jurisdiction.code === "GA" ? [...WILMA_FACT_QUESTIONS, ...GA_FIRST_OFFENDER_QUESTIONS, ...GA_PARDON_QUESTIONS]
     : profile.jurisdiction.code === "IL" ? [...WILMA_FACT_QUESTIONS, ...IL_CANNABIS_QUESTIONS]
     : profile.jurisdiction.code === "NY" ? [...WILMA_FACT_QUESTIONS, ...NY_16059_QUESTIONS]
     : profile.jurisdiction.code === "KS" ? [...WILMA_FACT_QUESTIONS, ...KS_RECORD_SCOPE_QUESTIONS]
@@ -1139,7 +1140,9 @@ function withWilmaFactQuestions(
       withBroadCourtRequirementsGate(dedupeQuestionsById([...baseQuestions, ...additions])),
       pathways
     );
-  const questions = withBroadTimingBucketGate(withAdditions).map(question => profile.jurisdiction.code === "CA" && CA_PROP64_FACT_IDS.includes(question.id)
+  const questions = withBroadTimingBucketGate(withAdditions).map(question => profile.jurisdiction.code === "GA" && question.id === "possible_pathway_context"
+    ? { ...question, optionDisplay: { ...question.optionDisplay, ...Object.fromEntries([GA_PARDON_OLD_LABEL, GA_PARDON_LABEL.en].map(value => [value, { label: GA_PARDON_LABEL.en, translations: { es: { label: GA_PARDON_LABEL.es } } }])) } }
+    : profile.jurisdiction.code === "CA" && CA_PROP64_FACT_IDS.includes(question.id)
     ? CA_PROP64_FACT_QUESTIONS.find(fact => fact.id === question.id)!
     : profile.jurisdiction.code === "NY" && NY_16059_FACT_IDS.includes(question.id)
     ? NY_16059_QUESTIONS.find(fact => fact.id === question.id)!

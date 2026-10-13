@@ -1,8 +1,10 @@
+import { GA_PARDON_ROUTE, GA_PARDON_OLD_LABEL, GA_PARDON_LABEL } from "@/lib/rcap-engine/georgia-pardon-facts";
 import type { EngineProfile } from "@/lib/rcap-engine/contracts";
 
 /** Existing optional-hint interpretation shared by screening and evaluation. */
 export function pathwayFromContext(profile: EngineProfile, context: string) {
   context = context.toLowerCase();
+  if (profile.jurisdiction.code === "GA" && [GA_PARDON_ROUTE, GA_PARDON_OLD_LABEL, GA_PARDON_LABEL.en].some(value => normalizeContextMatch(value) === normalizeContextMatch(context))) return profile.pathways.find(p => p.id === GA_PARDON_ROUTE);
   return profile.pathways.find(pathway => normalizeContextMatch(pathway.label) === normalizeContextMatch(context))
     ?? profile.pathways.find(pathway => numericContextMatch(context, `${pathway.id} ${pathway.label} ${pathway.summary}`))
     ?? profile.pathways.find(pathway => contextTokenMatch(context, pathway.label) || contextTokenMatch(context, pathway.summary));

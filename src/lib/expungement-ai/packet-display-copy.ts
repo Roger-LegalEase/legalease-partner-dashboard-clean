@@ -1,3 +1,4 @@
+import { georgiaPardonDisplay } from "@/lib/rcap-engine/georgia-pardon-facts";
 import "server-only";
 import type { BriefcasePresentationItem } from "@/lib/expungement-ai/briefcase-presentation-authority";
 import { reviewedResultRouteLabel } from "@/lib/expungement-ai/reviewed-result-copy";
@@ -10,6 +11,8 @@ export function packetDisplayCopy(
   pathwayId: string | null | undefined,
   english: string
 ): { en: string; es?: string } {
+  const adopted = kind === "route_label" ? georgiaPardonDisplay(jurisdiction, pathwayId, english) : null;
+  if (adopted) return adopted;
   if (!jurisdiction || !pathwayId) return { en: english };
   const routeKey = `${jurisdiction}:${pathwayId}`;
   const matches = catalog.entries.filter((entry) => entry.kind === kind

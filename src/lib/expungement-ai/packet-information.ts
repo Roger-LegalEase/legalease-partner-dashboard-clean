@@ -2,6 +2,7 @@ import { NY_FUTURE_ID, NY_FUTURE_FACT_IDS } from "@/lib/expungement-ai/ny-16059-
 import { isNy16059Packet, NY_PACKET_QUESTIONS, NY_PACKET_FACT_IDS } from "@/lib/expungement-ai/ny-16059-packet-facts";
 import { NY_CASE_FACT_IDS, NY_HISTORY_FACT_IDS, nyCasePreparationQuestions, nyCaseAssociationIssues } from "@/lib/expungement-ai/ny-16059-case-questions";
 import convictionFallbackPrior from "@/lib/expungement-ai/conviction-fallback-prior-contracts.json";
+import { GA_PARDON_ROUTE, GA_PARDON_FACT_IDS, georgiaPardonQuestionApplies, georgiaPardonRequested } from "@/lib/rcap-engine/georgia-pardon-facts";
 import { convictionReliefRequest, convictionReliefQuestionApplies, convictionReliefQuestions, isAdultConvictionAnswer } from "@/lib/rcap-engine/conviction-relief-request";
 import { msExactCalendarDate, msExactTimingQuestionIds } from "@/lib/rcap-engine/mississippi-exact-timing";
 import { caProp64ContactQuestions } from "@/lib/expungement-ai/ca-prop64-contact-questions";
@@ -1196,6 +1197,9 @@ export function factualPathwayCorrectionIds(state: string, pathway: string | nul
     ? [...convictionReliefQuestions(state).filter(q => includeInactive || convictionReliefQuestionApplies(profile, answers, q.id)).map(q => q.id),
       "case_outcome", ...(state === "GA" ? ["ga_original_first_offender", "pardon_status"] : [])] : [];
 
+  if (state === "GA" && (pathway === GA_PARDON_ROUTE || georgiaPardonRequested(answers, pathway))) {
+    return [...extra, ...GA_PARDON_FACT_IDS.filter(id => includeInactive || georgiaPardonQuestionApplies(state, answers, id, pathway)), "pending_cases", "case_outcome"];
+  }
   if (state === "GA" && (pathway === GA_ORIGINAL_FIRST_OFFENDER_PATHWAY || pathway === null && Object.hasOwn(answers, "ga_original_first_offender"))) {
     return [...extra, ...GA_FIRST_OFFENDER_FACT_IDS.filter(id => includeInactive || georgiaFirstOffenderQuestionApplies(state, answers, id)),
       ...(answers.ga_original_first_offender === "yes" ? ["case_outcome"] : [])];

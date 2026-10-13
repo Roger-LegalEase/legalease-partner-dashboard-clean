@@ -1,3 +1,4 @@
+import { GA_PARDON_ROUTE, GA_PARDON_COPY, GA_PARDON_SOURCE, georgiaPardonFacts } from "@/lib/rcap-engine/georgia-pardon-facts";
 import { convictionReliefRequest, convictionOutcomeCompatible, CONVICTION_RELIEF_COPY, CONVICTION_RELIEF_SOURCE } from "@/lib/rcap-engine/conviction-relief-request";
 import { MS_EXACT_TIMING_FACT_IDS, MS_TIMING_MISSING_TEXT, MS_TIMING_MULTIPLE_MISSING_TEXT, msExactCalendarDate } from "@/lib/rcap-engine/mississippi-exact-timing";
 import { pathwayFromContext } from "@/lib/rcap-engine/pathway-context";
@@ -203,6 +204,13 @@ function evaluateAgainstProfile(profile: EngineProfile, request: ScreeningEvalua
     return result(profile, request, "needs_more_info", [reason(jurisdiction, "missing_required_facts", "Required public screening facts are missing.")], {
       missingQuestionIds
     });
+  }
+
+  if (jurisdiction === "GA" && preselectedPathway?.id === GA_PARDON_ROUTE) {
+    const facts = georgiaPardonFacts(answers, evaluationToday().toISOString().slice(0, 10));
+    return result(profile, request, facts.status === "missing" ? "needs_more_info" : facts.status === "excluded" ? "likely_not_eligible" : "needs_review",
+      [reason("GA", `pardon_${facts.code}`, GA_PARDON_COPY[facts.code][0], GA_PARDON_SOURCE)],
+      { pathwayId: GA_PARDON_ROUTE, missingQuestionIds: facts.ids, paymentAllowed: false });
   }
 
   if (jurisdiction === "NY" && preselectedPathway?.id === NY_16059_ROUTE) {
@@ -1924,7 +1932,7 @@ function result(
   const paymentAllowed = overrides.paymentAllowed === true && (resultCode === "packet_ready" || resultCode === "packet_ready_with_caution");
   const convictionRequestReason = reasons.find(item => Object.keys(CONVICTION_RELIEF_COPY)
     .some(code => item.code === `${profile.jurisdiction.code.toLowerCase()}.conviction_relief_${code}`));
-  const specificNextStep = convictionRequestReason ?? reasons.find(isGeorgiaFirstOffenderGuidance);
+  const specificNextStep = convictionRequestReason ?? reasons.find(item => Object.entries(GA_PARDON_COPY).some(([code, [text]]) => item.code === `ga.pardon_${code}` && item.text === text)) ?? reasons.find(isGeorgiaFirstOffenderGuidance);
   return {
     jurisdiction: profile.jurisdiction.code,
     profileVersion: profile.profileVersion,
