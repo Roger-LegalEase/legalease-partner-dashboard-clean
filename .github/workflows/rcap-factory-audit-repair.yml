@@ -41,7 +41,7 @@ jobs:
           set -euo pipefail
           npm ci --ignore-scripts --no-audit --no-fund
           sudo apt-get update -qq
-          sudo apt-get install -y --no-install-recommends poppler-utils
+          sudo apt-get install -y --no-install-recommends poppler-utils cabextract
       - name: Establish verified corpus environment
         id: corpus_environment
         env:
@@ -81,6 +81,12 @@ jobs:
         run: node scripts/grade-a-packet-factory-24h/test-sc-runtime-successor.mjs --current
       - name: Replay all ten South Carolina guidance routes
         run: node scripts/grade-a-packet-factory-24h/review-sc-runtime-binding.mjs
+      - name: Restore exact Ohio Arial from original package
+        id: oh_font
+        run: python3 scripts/rcap-corpus/restore-oh-exact-font.py
+      - name: Ohio font restoration guard regressions
+        id: oh_font_controls
+        run: python3 scripts/rcap-corpus/test-oh-exact-font.py
       - name: Check committed convergence and bounded source, repair and coverage contracts
         run: |
           set -euo pipefail
