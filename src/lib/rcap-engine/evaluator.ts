@@ -1,3 +1,5 @@
+import { MS_EXACT_TIMING_FACT_IDS, MS_TIMING_MISSING_TEXT, MS_TIMING_MULTIPLE_MISSING_TEXT, msExactCalendarDate } from "@/lib/rcap-engine/mississippi-exact-timing";
+import { pathwayFromContext } from "@/lib/rcap-engine/pathway-context";
 import { caProp64Facts, caProp64Pathway, caProp64ApplicationRequested, CA_PROP64_SOURCE, CA_PROP64_REASON_COPY, CA_PROP64_PROCEDURE_COPY, CA_PROP64_LEGACY_IDS } from "@/lib/rcap-engine/california-prop64-facts";
 import { isCaProp64Pathway, CA_PROP64_COMPLETED } from "@/lib/expungement-ai/ca-prop64-choices";
 import { ny16059Requested, ny16059History, ny16059Clock, NY_16059_ROUTE, NY_16059_SOURCE, NY_16059_REASON_COPY, NY_16059_LEGACY_IDS } from "@/lib/rcap-engine/new-york-16059-facts";
@@ -16,6 +18,7 @@ import { pathwayExcludedByKnownFacts, FACTUAL_PATHWAY_EXCLUSION_COPY } from "@/l
 import "server-only";
 
 import crypto from "node:crypto";
+import { AsyncLocalStorage } from "node:async_hooks";
 import { answerText, isAffirmative, isExplicitUnknownAnswer, isNegative, requiredMissingPublicQuestionIds, validatePublicAnswerQuestionIds } from "@/lib/rcap-engine/answer-normalization";
 import type { EngineProfile, PublicJurisdictionProfile, PublicQuestion, ScreeningAnswerValue, ScreeningEvaluation, ScreeningEvaluationRequest, ScreeningReason, ScreeningResultCode } from "@/lib/rcap-engine/contracts";
 import { assertProfileVersion, getProfileByJurisdiction } from "@/lib/rcap-engine/profile-registry";
@@ -837,11 +840,6 @@ function selectPathway(profile: EngineProfile, answers: Record<string, Screening
   return undefined;
 }
 
-function pathwayFromContext(profile: EngineProfile, context: string) {
-  return profile.pathways.find(pathway => normalizeContextMatch(pathway.label) === normalizeContextMatch(context))
-    ?? profile.pathways.find(pathway => numericContextMatch(context, `${pathway.id} ${pathway.label} ${pathway.summary}`))
-    ?? profile.pathways.find(pathway => contextTokenMatch(context, pathway.label) || contextTokenMatch(context, pathway.summary));
-}
 
 function sourceCaution(profile: EngineProfile, answers: Record<string, ScreeningAnswerValue>, pathwayId: string) {
   const pathway = profile.pathways.find((candidate) => candidate.id === pathwayId);
@@ -1443,7 +1441,7 @@ function specialRouteTiming(profile: EngineProfile, answers: Record<string, Scre
     return timingFromAnchor(profile, answers, rule, pathway, "disposition_date", { value: 0, unit: "days", raw: "event-based" }, "MS non-conviction expungement runs from the case ending in dismissal, no disposition, or acquittal.");
   }
   if (key === "MS:additional-justice-or-municipal-court-misdemeanor-relief") {
-    return timingFromExactAnchor(profile, answers, rule, pathway, "ms_last_conviction_date_any_court", { value: 2, unit: "years", raw: "2 years" }, "Miss. Code Ann. § 99-19-71(5) requires two years from the participant's last conviction in any court.");
+    return timingFromExactAnchor(profile, answers, rule, pathway, "ms_last_conviction_date_any_court", { value: 2, unit: "years", raw: "2 years" }, "Miss. Code Ann. §§ 9-11-15(3) and 21-23-7(6) use two years from the participant's last conviction in any court for the corresponding lower-court route.");
   }
   if (key === "MS:first-offense-dui-expungement") {
     return timingFromExactAnchor(profile, answers, rule, pathway, "ms_successful_sentence_completion_date", { value: 5, unit: "years", raw: "5 years" }, "Miss. Code Ann. § 63-11-30 requires five years from successful completion of every term and condition of the DUI sentence.");
@@ -1667,13 +1665,18 @@ function latestAnchorTiming(profile: EngineProfile, answers: Record<string, Scre
   return timingFromAnchor(profile, syntheticAnswers, rule, pathway, latest.id, duration, text);
 }
 
+function parseExactTimingAnchor(profile: EngineProfile, answers: Record<string, ScreeningAnswerValue>, id: string) {
+  return profile.jurisdiction.code === "MS" && MS_EXACT_TIMING_FACT_IDS.some(fact => fact === id)
+    ? msExactCalendarDate(answerText(answers[id])) : parseDateAnswer(answers[id]);
+}
+
 function latestExactAnchorTiming(profile: EngineProfile, answers: Record<string, ScreeningAnswerValue>, rule: CompiledRule, pathway: CompiledPathway, anchorIds: string[], duration: CompiledDuration, text: string): TimingResult {
   const askable = answerableAnchorIds(profile, anchorIds);
-  const missing = askable.filter((id) => !parseDateAnswer(answers[id]));
+  const missing = askable.filter((id) => !parseExactTimingAnchor(profile, answers, id));
   if (missing.length > 0) {
     return {
       status: "missing_anchor",
-      reason: reason(profile.jurisdiction.code, "waiting_anchor_missing", `The exact ${missing.join(", ")} value is needed before the source-specific waiting period can be evaluated.`, rule.sourceRef ?? pathway.sourceRef),
+      reason: reason(profile.jurisdiction.code, "waiting_anchor_missing", (profile.jurisdiction.code === "MS" && missing.every(id => MS_TIMING_MISSING_TEXT[id]) ? missing.length === 1 ? MS_TIMING_MISSING_TEXT[missing[0]] : MS_TIMING_MULTIPLE_MISSING_TEXT : `The exact ${missing.join(", ")} value is needed before the source-specific waiting period can be evaluated.`), rule.sourceRef ?? pathway.sourceRef),
       missingQuestionIds: missing
     };
   }
@@ -1684,7 +1687,7 @@ function latestExactAnchorTiming(profile: EngineProfile, answers: Record<string,
     };
   }
   const latest = anchorIds
-    .map((id) => ({ id, date: parseDateAnswer(answers[id]) as Date }))
+    .map((id) => ({ id, date: parseExactTimingAnchor(profile, answers, id) as Date }))
     .sort((a, b) => b.date.getTime() - a.date.getTime())[0];
   return timingFromExactAnchor(profile, answers, rule, pathway, latest.id, duration, text);
 }
@@ -1698,11 +1701,11 @@ function timingFromExactAnchor(profile: EngineProfile, answers: Record<string, S
       reason: reason(jurisdiction, "waiting_anchor_not_publicly_askable", `The source-specific waiting period runs from ${anchorId}, and this exact anchor is not publicly askable.`, rule.sourceRef ?? pathway.sourceRef)
     };
   }
-  const anchor = parseDateAnswer(answers[anchorId]);
+  const anchor = parseExactTimingAnchor(profile, answers, anchorId);
   if (!anchor) {
     return {
       status: "missing_anchor",
-      reason: reason(jurisdiction, "waiting_anchor_missing", `The exact ${anchorId} value is needed before the source-specific waiting period can be evaluated.`, rule.sourceRef ?? pathway.sourceRef),
+      reason: reason(jurisdiction, "waiting_anchor_missing", (profile.jurisdiction.code === "MS" && MS_TIMING_MISSING_TEXT[anchorId] || `The exact ${anchorId} value is needed before the source-specific waiting period can be evaluated.`), rule.sourceRef ?? pathway.sourceRef),
       missingQuestionIds: [anchorId]
     };
   }
@@ -1958,23 +1961,6 @@ function reason(jurisdiction: string, suffix: string, text: string, sourceRef?: 
   };
 }
 
-function contextTokenMatch(context: string, value: string) {
-  const stopwords = new Set(["pathway", "record", "records", "sealing", "expungement", "erasure", "petition", "relief", "compiled", "source"]);
-  if (numericContextMatch(context, value)) return true;
-  const tokens = value.toLowerCase().split(/[^a-z0-9]+/).filter((token) => token.length > 4 && !stopwords.has(token));
-  return tokens.some((token) => context.includes(token));
-}
-
-function numericContextMatch(context: string, value: string) {
-  const numericTokens = value.toLowerCase().match(/\b\d{2,}(?:-\d+)?\b/g) ?? [];
-  return numericTokens
-    .filter((token) => token.includes("-") || token.replace(/\D/g, "").length >= 3)
-    .some((token) => context.includes(token));
-}
-
-function normalizeContextMatch(value: string) {
-  return value.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim().replace(/\s+/g, " ");
-}
 
 type CompiledRule = EngineProfile["orderedDecisionRules"][number];
 type CompiledPathway = EngineProfile["pathways"][number];
@@ -2867,6 +2853,18 @@ function looksLikeProduction() {
   return nodeEnv.startsWith("prod") || vercelEnv.startsWith("prod");
 }
 
+const historicalEvaluationClock = new AsyncLocalStorage<number>();
+
+/** Server-owned snapshot compatibility proof only. The current eligibility
+ * result is always evaluated outside this scope. Never accepts a request clock,
+ * never changes process.env, and cannot leak a date into another owner's read. */
+export function compareAtProtectedSnapshotTime<T>(timestamp: unknown, compare: () => T): T | null {
+  if (typeof timestamp !== "string") return null;
+  const saved = new Date(timestamp);
+  if (!Number.isFinite(saved.getTime()) || saved.toISOString().replace(".000Z", "Z") !== timestamp.replace(".000Z", "Z") || saved.getTime() > evaluationToday().getTime()) return null;
+  return historicalEvaluationClock.run(saved.getTime(), compare);
+}
+
 function evaluationToday() {
   const pinned = process.env.RCAP_EVALUATOR_TODAY;
   if (pinned && looksLikeProduction()) {
@@ -2874,7 +2872,7 @@ function evaluationToday() {
       "RCAP_EVALUATOR_TODAY is set in a production environment. It pins the evaluator's idea of today for deterministic tests, and honouring it here would decide waiting periods against a frozen date. Unset it; production uses the authoritative clock."
     );
   }
-  return new Date(pinned ? `${pinned}T00:00:00.000Z` : Date.now());
+  return new Date(historicalEvaluationClock.getStore() ?? (pinned ? `${pinned}T00:00:00.000Z` : Date.now()));
 }
 
 function addDuration(date: Date, value: number, unit: string) {

@@ -1,3 +1,4 @@
+import { msExactTimingQuestionIds } from "@/lib/rcap-engine/mississippi-exact-timing";
 import { readProtectedPacketVerification } from "@/lib/expungement-ai/verification-cas";
 import { CA_PROP64_CLARIFICATION_COPY } from "@/lib/expungement-ai/ca-prop64-choices";
 import { packetDisplayCopy } from "@/lib/expungement-ai/packet-display-copy";
@@ -30,6 +31,8 @@ export default async function PacketInformationPage({
     consumerAuthUserId: auth.userId,
     item: storedItem
   }) : null;
+  const eligibilityCorrection = ["NY", "CA", "IL", "GA"].includes(item?.jurisdiction ?? "")
+    || item?.packetDraft.status === "available" && msExactTimingQuestionIds(item.jurisdiction ?? "", item.pathwayId, item.packetDraft.initialAnswers).length > 0;
   const sponsored = item?.paymentState === "sponsored";
   const packetResult = item?.authorityStatus !== "unavailable"
     && (item?.resultCode === "packet_ready" || item?.resultCode === "packet_ready_with_caution");
@@ -91,7 +94,7 @@ export default async function PacketInformationPage({
             <div>
               <p className="text-xs font-bold uppercase tracking-[0.08em] text-[#08786F]">{item.jurisdiction}</p>
               <h1 className="mt-2 text-[26px] font-extrabold tracking-[-0.02em] text-[#0B1320]">{correctingCompletion
-                ? <LocalizedCopy en={["NY", "CA", "IL", "GA"].includes(item.jurisdiction) ? "Review saved eligibility answers" : "Review saved completion answers"} es={["NY", "CA", "IL", "GA"].includes(item.jurisdiction) ? "Revise las respuestas guardadas sobre la elegibilidad" : "Revise las respuestas guardadas sobre el cumplimiento"} />
+                ? <LocalizedCopy en={eligibilityCorrection ? "Review saved eligibility answers" : "Review saved completion answers"} es={eligibilityCorrection ? "Revise las respuestas guardadas sobre la elegibilidad" : "Revise las respuestas guardadas sobre el cumplimiento"} />
                 : <LocalizedRuntimeText text={"Complete packet information"} />}</h1>
               {item.pathwayLabel ? <p className="mt-2 text-sm font-semibold text-[#475A6E]"><LocalizedCopy {...packetDisplayCopy("route_label", item.jurisdiction, item.pathwayId, item.pathwayLabel)} /></p> : null}
             </div>
@@ -109,7 +112,7 @@ export default async function PacketInformationPage({
             {!correctingCompletion ? <p className="mt-2"><LocalizedRuntimeText text={"Complete the remaining details for this packet. Review what's already here, add anything that is missing, and save your progress anytime."} /></p> : null}
           </div>
 
-          {correctingCompletion && ["NY", "CA", "IL", "GA"].includes(item.jurisdiction) ? <nav className="mb-6 grid gap-2" aria-labelledby="eligibility-correction-heading">
+          {correctingCompletion && eligibilityCorrection ? <nav className="mb-6 grid gap-2" aria-labelledby="eligibility-correction-heading">
             <p id="eligibility-correction-heading" className="font-semibold"><LocalizedCopy en="Choose an answer to correct" es="Elija una respuesta para corregir" /></p>
             {model.questions.filter(question => correctionIds.has(question.id)).map(question => <Link
               key={question.id} className="inline-flex min-h-11 items-center underline"

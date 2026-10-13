@@ -1,3 +1,5 @@
+import { pathwayFromContext } from "@/lib/rcap-engine/pathway-context";
+import { MS_EXACT_TIMING_FACT_IDS, msExactTimingQuestionIds } from "@/lib/rcap-engine/mississippi-exact-timing";
 import { caProp64Pathway, caProp64Section, caProp64QuestionApplies, caProp64ApplicationRequested } from "@/lib/rcap-engine/california-prop64-facts";
 import { ny16059QuestionApplies, ny16059Requested, NY_16059_ROUTE, NY_16059_FACT_IDS, NY_16059_LEGACY_IDS, NY_16059_TIMING_IDS } from "@/lib/rcap-engine/new-york-16059-facts";
 import { deConvictionQuestionApplies, delawareConvictionRoute } from "@/lib/rcap-engine/delaware-conviction-rules";
@@ -70,9 +72,10 @@ export function selectScreeningQuestionIds(
   const selectedPathway = caRoute ? profile.pathways.find(p => p.id === caRoute) : profile.jurisdiction.code === "NY" && ny16059Requested(answers) ? profile.pathways.find(p => p.id === NY_16059_ROUTE) : deRoute ? profile.pathways.find(pathway => pathway.id === deRoute) : programRoute?.status === "selected"
     ? profile.pathways.find(pathway => pathway.id === programRoute.pathwayId)
     : (programRoute?.status === "clarification" || programRoute?.status === "district_arrest" || programRoute?.status === "district_review" || profile.jurisdiction.code === "CA" && caProp64ApplicationRequested(answers)) ? undefined : selectedLabel
-    ? profile.pathways.find((pathway) => pathway.label === selectedLabel
+    ? profile.jurisdiction.code === "MS" ? pathwayFromContext(profile, selectedLabel) : profile.pathways.find((pathway) => pathway.label === selectedLabel
       && !pathwayExcludedByKnownFacts(profile.jurisdiction.code, answers, pathway.id))
     : undefined;
+  const msTimingIds = new Set(msExactTimingQuestionIds(profile.jurisdiction.code, selectedPathway?.id, answers));
   const recordQuestions = new Map(caProp64RecordQuestions(profile, publicProfile.questions, selectedPathway?.id).map((question) => [question.id, question]));
   const stageOrder = new Map(publicProfile.flowStages.map((stage) => [stage.id, stage.order]));
   const pathwayRoutingOrder = publicProfile.flowStages.find((stage) => stage.id === "pathway_routing")?.order
@@ -95,6 +98,7 @@ export function selectScreeningQuestionIds(
   }).map(question => question.id));
 
   return publicProfile.questions
+    .filter(question => profile.jurisdiction.code !== "MS" || !MS_EXACT_TIMING_FACT_IDS.some(id => id === question.id) || msTimingIds.has(question.id))
     .filter(question => profile.jurisdiction.code !== "CA" || caProp64QuestionApplies(answers, question.id))
     .filter(question => profile.jurisdiction.code !== "NY" || ny16059QuestionApplies(answers, question.id))
     .filter(question => profile.jurisdiction.code !== "NY" || !NY_16059_LEGACY_IDS.includes(question.id))
@@ -112,7 +116,7 @@ export function selectScreeningQuestionIds(
     .filter(question => illinoisCannabisQuestionApplies(profile.jurisdiction.code, answers, question.id))
     .filter(question => nevada176AQuestionApplies(profile.jurisdiction.code, selectedPathway?.id, question.id))
     .map((question, index) => ({ question: recordQuestions.get(question.id) ?? question, index }))
-    .filter(({ question }) => (!lifecycle?.exactPacketFactIds.includes(question.id) || completionCorrections.has(question.id) || recordQuestions.has(question.id) || profile.jurisdiction.code === "NY" && selectedPathway?.id === NY_16059_ROUTE && NY_16059_TIMING_IDS.includes(question.id))
+    .filter(({ question }) => (!lifecycle?.exactPacketFactIds.includes(question.id) || msTimingIds.has(question.id) || completionCorrections.has(question.id) || recordQuestions.has(question.id) || profile.jurisdiction.code === "NY" && selectedPathway?.id === NY_16059_ROUTE && NY_16059_TIMING_IDS.includes(question.id))
       && (!lifecycle?.completionAliasIds.includes(question.id)
         || completionCorrections.has(question.id)
         || (selectedPathway ? [selectedPathway] : profile.pathways).some(pathway =>
@@ -122,6 +126,7 @@ export function selectScreeningQuestionIds(
     .filter(({ question }) => lifecycle || (stageOrder.get(question.stage) ?? Number.MAX_SAFE_INTEGER) <= pathwayRoutingOrder)
     .filter(({ question }) => {
       const consumers = lifecycle?.routeConsumers[question.id] ?? [];
+      if (msTimingIds.has(question.id)) return true;
       if (profile.jurisdiction.code === "NY" && selectedPathway?.id === NY_16059_ROUTE && NY_16059_TIMING_IDS.includes(question.id)) return true;
       if (profile.jurisdiction.code === "CA" && question.id === "ca_prop64_branch"
         && ["11357", "11358", "11359", "11360", "11362.1"].includes(caProp64Section(answers) ?? "")

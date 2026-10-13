@@ -1,3 +1,4 @@
+import { msExactTimingQuestionIds } from "@/lib/rcap-engine/mississippi-exact-timing";
 import { readProtectedPacketVerification } from "@/lib/expungement-ai/verification-cas";
 import { caProp64ClarificationModelFor, heldPacketCorrectionInputIds } from "@/lib/expungement-ai/packet-information";
 import { CA_PROP64_CLARIFICATION_COPY } from "@/lib/expungement-ai/ca-prop64-choices";
@@ -38,6 +39,8 @@ export default async function BriefcasePacketPage({
     ? await readProtectedPacketVerification({ consumerAuthUserId: auth.userId, briefcaseItemId: storedItem.id }) : null;
   const clarification = clarificationRead?.ok ? caProp64ClarificationModelFor(clarificationRead.value) : null;
   const available = item?.authorityStatus !== "unavailable";
+  const eligibilityCorrection = ["NY", "CA", "IL", "GA"].includes(item?.jurisdiction ?? "")
+    || item?.packetDraft.status === "available" && msExactTimingQuestionIds(item.jurisdiction ?? "", item.pathwayId, item.packetDraft.initialAnswers).length > 0;
   const sponsored = item?.paymentState === "sponsored";
   const packetMatter = available && (item?.resultCode === "packet_ready" || item?.resultCode === "packet_ready_with_caution");
   const factsVerified = item?.verificationStatus === "verified";
@@ -68,7 +71,7 @@ export default async function BriefcasePacketPage({
         <Link className="inline-flex min-h-11 items-center font-semibold underline" href={`/briefcase/${storedItem.id}/packet-information`}><LocalizedCopy {...CA_PROP64_CLARIFICATION_COPY.legacy_heading} /></Link>
       </p> : null}
       {completionCorrectionAvailable && item ? <p className="mb-5 rounded border border-amber-300 p-4">
-        <Link className="inline-flex min-h-11 items-center font-semibold underline" href={`/briefcase/${item.id}/packet-information`}><LocalizedCopy en={["NY", "CA", "IL", "GA"].includes(item.jurisdiction ?? "") ? "Review saved eligibility answers" : "Review saved completion answers"} es={["NY", "CA", "IL", "GA"].includes(item.jurisdiction ?? "") ? "Revise las respuestas guardadas sobre la elegibilidad" : "Revise las respuestas guardadas sobre el cumplimiento"} /></Link>
+        <Link className="inline-flex min-h-11 items-center font-semibold underline" href={`/briefcase/${item.id}/packet-information`}><LocalizedCopy en={eligibilityCorrection ? "Review saved eligibility answers" : "Review saved completion answers"} es={eligibilityCorrection ? "Revise las respuestas guardadas sobre la elegibilidad" : "Revise las respuestas guardadas sobre el cumplimiento"} /></Link>
       </p> : null}
       {item && item.authorityStatus !== "unavailable" ? (
         <section data-briefcase-matter-id={item.id}>

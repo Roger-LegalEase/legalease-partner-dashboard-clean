@@ -1,3 +1,4 @@
+import { msExactCalendarDate, msExactTimingQuestionIds } from "@/lib/rcap-engine/mississippi-exact-timing";
 import { GA_FIRST_OFFENDER_FACT_IDS, GA_ORIGINAL_FIRST_OFFENDER_PATHWAY, georgiaFirstOffenderQuestionApplies } from "@/lib/rcap-engine/georgia-first-offender";
 import { IL_CANNABIS_FACT_IDS, IL_CANNABIS_PATHWAY, illinoisCannabisQuestionApplies } from "@/lib/rcap-engine/illinois-cannabis-facts";
 import { pathwayExcludedByKnownFacts } from "@/lib/rcap-engine/factual-pathway-exclusions";
@@ -32,7 +33,7 @@ import { packetPlanForPathway } from "@/lib/rcap-engine/packet-planner";
 import { projectPublicProfile } from "@/lib/rcap-engine/public-profile-projection";
 import type { PublicQuestion } from "@/lib/rcap-engine/contracts";
 import { evaluateAuthoritativeScreeningResult } from "@/lib/expungement-ai/authoritative-screening-result";
-import { InvalidAnswerError } from "@/lib/rcap-engine/evaluator";
+import { compareAtProtectedSnapshotTime, InvalidAnswerError } from "@/lib/rcap-engine/evaluator";
 import { toScreeningAnswers } from "@/components/expungement-ai/screening/answers";
 import {
   readProtectedPacketVerification,
@@ -835,6 +836,43 @@ export function financialAnswerHeldSuccessor(snapshot: ProtectedPacketAuthorityS
   return previous !== null && protectedRouteAuthorityMatches(snapshot, previous);
 }
 
+/** Prove the former calendar-rollover interpretation before tightening a saved
+ * MS result into a nonpayable hold. This hypothetical comparison never rewrites the owner's date. */
+export function msTimingAnswerHeldSuccessor(snapshot: ProtectedPacketAuthoritySnapshot, authoritative: NonNullable<ReturnType<typeof evaluateProtectedPacketFacts>>): boolean {
+  const evaluation = authoritative.evaluation;
+  if (snapshot.jurisdiction !== "MS" || !["needs_review", "not_yet", "packet_ready", "packet_ready_with_caution"].includes(snapshot.resultCode ?? "")
+    || evaluation.resultCode !== "needs_more_info" || evaluation.paymentAllowed
+    || !evaluation.reasons.some(reason => reason.code === "ms.waiting_anchor_missing")
+    || !protectedRouteAuthorityMatches({ ...snapshot, resultCode: evaluation.resultCode, paymentAllowed: false }, authoritative)) return false;
+  const profile = getProfileByJurisdiction(snapshot.jurisdiction);
+  const plan = snapshot.pathwayId && profile ? packetPlanForPathway(profile, snapshot.pathwayId) : null;
+  if (!profile || !plan || snapshot.profileVersion !== profile.profileVersion
+    || snapshot.profileSourceFingerprint !== (profile.source?.sourceCorpusSha256 ?? null)
+    || snapshot.profileAuthorityFingerprint !== profileAuthorityFingerprint(profile, snapshot.pathwayId)
+    || !canonicalEqual(snapshot.packetPlan, plan) || !canonicalEqual(snapshot.requiredInputIds, plan.requiredInputIds)
+    || !canonicalEqual(snapshot.packetFamilyIdentifiers, { mode: plan.mode, sourceFormIds: plan.sourceFormIds })
+    || !canonicalEqual(snapshot.serverFacts, canonicalServerFacts(snapshot.jurisdiction, snapshot.pathwayId))) return false;
+  const answers = protectedPacketScreeningAnswers(snapshot);
+  if (!answers) return false;
+  const normalized: Record<string, AnswerValue> = {};
+  for (const id of msExactTimingQuestionIds("MS", snapshot.pathwayId, answers)) {
+    const raw = answers[id];
+    if (id === "ms_mip_fine_imposed" || msExactCalendarDate(raw) || typeof raw !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(raw)) continue;
+    const former = new Date(`${raw}T00:00:00.000Z`);
+    if (Number.isFinite(former.getTime())) normalized[id] = former.toISOString().slice(0, 10);
+  }
+  if (!Object.keys(normalized).length || !evaluation.missingQuestionIds.length
+    || evaluation.missingQuestionIds.some(id => !Object.hasOwn(normalized, id))) return false;
+  const normalizedSnapshot = { ...snapshot, packetAnswers: { ...snapshot.packetAnswers, ...normalized } };
+  const previous = evaluateProtectedPacketFacts(normalizedSnapshot);
+  if (previous !== null && protectedRouteAuthorityMatches(snapshot, previous)) return true;
+  // A previously unelapsed wait may have expired since capture. Reproduce the
+  // exact former tuple at its trusted saved time; current authority stays held.
+  const capturedAt = "capturedAt" in snapshot ? snapshot.capturedAt : snapshot.verifiedAt;
+  const atCapture = compareAtProtectedSnapshotTime(capturedAt, () => evaluateProtectedPacketFacts(normalizedSnapshot));
+  return atCapture !== null && protectedRouteAuthorityMatches(snapshot, atCapture);
+}
+
 /** Exact pre-correction contracts at bd4f9715b. This proves historical held
  * ownership only; the contradicted plan is never carried into current authority. */
 export function factualPathwayHeldSuccessor(snapshot: ProtectedPacketAuthoritySnapshot, authoritative: NonNullable<ReturnType<typeof evaluateProtectedPacketFacts>>): ProtectedPacketDraftSnapshot | null {
@@ -892,7 +930,7 @@ export function protectedPacketInformationModelFor(
     // maps and dependencies; this read grants no readiness or verification.
     snapshot = { ...snapshot, resultCode: evaluation.resultCode };
   }
-  if (!protectedRouteAuthorityMatches(snapshot, authoritative) && financialAnswerHeldSuccessor(snapshot, authoritative)) {
+  if (!protectedRouteAuthorityMatches(snapshot, authoritative) && (financialAnswerHeldSuccessor(snapshot, authoritative) || msTimingAnswerHeldSuccessor(snapshot, authoritative))) {
     snapshot = { ...snapshot, resultCode: evaluation.resultCode, paymentAllowed: false };
   }
   if (!protectedRouteAuthorityMatches(snapshot, authoritative)) return null;
@@ -971,6 +1009,13 @@ export function protectedPacketInformationModelFor(
         questionSurface.builderQuestions.push(financial);
       }
     }
+  }
+  for (const id of msExactTimingQuestionIds(snapshot.jurisdiction, snapshot.pathwayId, toScreeningAnswers(initialAnswers))) {
+    const question = questionSurface.questionById.get(id);
+    const valid = id === "ms_mip_fine_imposed" ? question && questionAnswerState(question, initialAnswers[id]) === "known_valid"
+      : msExactCalendarDate(toScreeningAnswers(initialAnswers)[id]);
+    if (!valid && !missingInputIds.includes(id)) missingInputIds.push(id);
+    if (question && (!valid || !packetPlan) && !questionSurface.builderQuestions.some(candidate => candidate.id === id)) questionSurface.builderQuestions.push(question);
   }
   for (const id of recordClarificationIds) if (!missingInputIds.includes(id)) missingInputIds.push(id);
   const summaryFlow: CommercialFlow = {
@@ -1109,7 +1154,8 @@ function routeFactualCorrectionIds(model: { stateCode: string; pathwayId: string
       "offense_level", "case_outcome", "court", "charge", "ca_prop64_branch", "sentence_completion_date",
       ...(model.pathwayId === CA_PROP64_COMPLETED ? ["ca_prop64_relief_requested"] : [])];
   }
-  const factual = factualPathwayCorrectionIds(model.stateCode, model.pathwayId, { ...model.screeningAnswers, ...model.prefilledAnswers, ...model.packetAnswers }, includeInactive);
+  const facts = { ...model.screeningAnswers, ...model.prefilledAnswers, ...model.packetAnswers };
+  const factual = [...factualPathwayCorrectionIds(model.stateCode, model.pathwayId, facts, includeInactive), ...msExactTimingQuestionIds(model.stateCode, model.pathwayId, facts, includeInactive)];
   const profile = getProfileByJurisdiction(model.stateCode);
   const financial = model.pathwayId && isIndependentPaidFinancialFact(`${model.stateCode}:${model.pathwayId}`,
     profile?.questions.find(question => question.id === "financial_obligations")) ? ["financial_obligations"] : [];
@@ -1128,7 +1174,7 @@ export function editablePacketInputIds(model: Pick<ProtectedPacketInformationMod
   const excluded = new Set(collection?.facts.filter((fact) => fact.source === "server_route_fact"
     || ["external_actor", "derived"].includes(fact.collection)
     || !includeInactive && fact.collection === "conditional" && fact.active === false).map((fact) => fact.factId) ?? []);
-  const factualIds = factualPathwayCorrectionIds(model.stateCode, model.pathwayId, { ...model.screeningAnswers, ...model.prefilledAnswers, ...model.packetAnswers }, includeInactive);
+  const factualIds = [...factualPathwayCorrectionIds(model.stateCode, model.pathwayId, { ...model.screeningAnswers, ...model.prefilledAnswers, ...model.packetAnswers }, includeInactive), ...msExactTimingQuestionIds(model.stateCode, model.pathwayId, { ...model.screeningAnswers, ...model.prefilledAnswers, ...model.packetAnswers }, includeInactive)];
   const corrections = routeFactualCorrectionIds(model, includeInactive).filter(id => id !== "financial_obligations" && !factualIds.includes(id)
     || !(id in model.serverFacts) && !excluded.has(id) && model.questions.some(question => question.id === id));
   return new Set([...model.requiredInputIds.filter((id) => !(id in model.serverFacts) && !excluded.has(id)), ...corrections]);
@@ -1540,7 +1586,7 @@ function deriveProtectedPacketDraftSnapshot(
   const currentAuthority = evaluateProtectedPacketFacts(base);
   if (!currentAuthority) return null;
   const originalBase = base;
-  const factualIds = factualPathwayCorrectionIds(base.jurisdiction, base.pathwayId, { ...base.screeningAnswers, ...base.prefilledAnswers, ...base.packetAnswers }, true);
+  const factualIds = [...factualPathwayCorrectionIds(base.jurisdiction, base.pathwayId, { ...base.screeningAnswers, ...base.prefilledAnswers, ...base.packetAnswers }, true), ...msExactTimingQuestionIds(base.jurisdiction, base.pathwayId, { ...base.screeningAnswers, ...base.prefilledAnswers, ...base.packetAnswers }, true)];
   if (!canonicalEqual(currentAuthority.evaluation.packetPlan ?? null, base.packetPlan)) {
     base = factualPathwayHeldSuccessor(base, currentAuthority) ?? reviewedPacketContractSuccessor(base, currentAuthority.evaluation.packetPlan);
     if (!base) return null;

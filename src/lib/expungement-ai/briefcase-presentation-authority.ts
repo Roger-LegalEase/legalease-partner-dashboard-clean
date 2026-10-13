@@ -1,4 +1,5 @@
-import { factualPathwayHeldSuccessor, financialAnswerHeldSuccessor, ny16059HeldDetailSuccessor } from "@/lib/expungement-ai/packet-information";
+import { MS_TIMING_MISSING_TEXT, MS_TIMING_MULTIPLE_MISSING_TEXT } from "@/lib/rcap-engine/mississippi-exact-timing";
+import { msTimingAnswerHeldSuccessor, factualPathwayHeldSuccessor, financialAnswerHeldSuccessor, ny16059HeldDetailSuccessor } from "@/lib/expungement-ai/packet-information";
 import "server-only";
 import { reviewedPacketContractSuccessor } from "@/lib/expungement-ai/packet-contract-successors";
 import { getProgramPacketFunding } from "@/lib/partners/onboarding/program-packet-funding";
@@ -431,11 +432,12 @@ function legalAuthorityFromProtectedVerification(
   const evaluation = authoritative.evaluation;
   snapshot = factualPathwayHeldSuccessor(snapshot, authoritative) ?? snapshot;
   const financialSuccessor = financialAnswerHeldSuccessor(snapshot, authoritative);
+  const timingSuccessor = msTimingAnswerHeldSuccessor(snapshot, authoritative);
   if (evaluation.jurisdiction !== snapshot.jurisdiction
     || evaluation.profileVersion !== snapshot.profileVersion
     || (evaluation.pathwayId ?? null) !== snapshot.pathwayId
-    || evaluation.resultCode !== snapshot.resultCode && !ny16059HeldDetailSuccessor(snapshot, authoritative) && !financialSuccessor
-    || evaluation.paymentAllowed !== snapshot.paymentAllowed && !financialSuccessor
+    || evaluation.resultCode !== snapshot.resultCode && !ny16059HeldDetailSuccessor(snapshot, authoritative) && !financialSuccessor && !timingSuccessor
+    || evaluation.paymentAllowed !== snapshot.paymentAllowed && !financialSuccessor && !timingSuccessor
     || (authoritative.packetType ?? null) !== (snapshot.packetType ?? null)
     || (authoritative.selectedTrackId ?? null) !== snapshot.selectedTrackId
     || (evaluation.treatmentClassification ?? null) !== snapshot.treatmentClassification
@@ -561,7 +563,7 @@ function legalAuthorityFromEvaluation(
     resultCode: evaluation.resultCode,
     pathwayId: evaluation.pathwayId ?? null,
     pathwayLabel: authoritative.pathwayLabel,
-    summary: evaluation.reasons.find(reason => ["il.pathway_conflicts_with_saved_fact", "ga.pathway_conflicts_with_saved_fact"].includes(reason.code))?.text ?? evaluation.userLabel,
+    summary: evaluation.reasons.find(reason => ["il.pathway_conflicts_with_saved_fact", "ga.pathway_conflicts_with_saved_fact"].includes(reason.code) || reason.code === "ms.waiting_anchor_missing" && [...Object.values(MS_TIMING_MISSING_TEXT), MS_TIMING_MULTIPLE_MISSING_TEXT].includes(reason.text))?.text ?? evaluation.userLabel,
     nextSteps: stringArray(evaluation.nextSteps),
     checklist: stringArray(packetPlan?.packetReadyWhen),
     packetType: authoritative.packetType ?? null,

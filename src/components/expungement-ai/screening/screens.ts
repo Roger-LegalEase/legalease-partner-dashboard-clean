@@ -1,3 +1,4 @@
+import { MS_EXACT_TIMING_FACT_IDS } from "@/lib/rcap-engine/mississippi-exact-timing";
 import { CA_PROP64_FACT_IDS, CA_PROP64_LEGACY_IDS } from "@/lib/rcap-engine/california-prop64-facts";
 import { NY_16059_FACT_IDS, NY_16059_LEGACY_IDS } from "@/lib/rcap-engine/new-york-16059-questions";
 import { DE_CONVICTION_FACT_IDS } from "@/lib/rcap-engine/delaware-conviction-questions";
@@ -109,7 +110,7 @@ export function sanitizeAnswersForQuestionIds(
     || Boolean(profile?.jurisdiction.code === "NY" && [...NY_16059_FACT_IDS, ...NY_16059_LEGACY_IDS, "ny_16059_later_conviction_entered", "ny_16059_undisposed_arrest", "sentencing_date", "release_date"].includes(questionId)
       && profile.questions.some(question => question.id === questionId))
     || Boolean(profile?.jurisdiction.code === "DE" && DE_CONVICTION_FACT_IDS.includes(questionId) && profile.questions.some(question => question.id === questionId))
-    || Boolean(profile?.jurisdiction.code === "MS" && (questionId === "ms_program_final_disposition" || MS_PROGRAM_COMPLETION_FACT_IDS.some(id => id === questionId) || MS_CONDITIONAL_DISCHARGE_FACT_IDS.some(id => id === questionId))
+    || Boolean(profile?.jurisdiction.code === "MS" && (questionId === "ms_program_final_disposition" || MS_EXACT_TIMING_FACT_IDS.some(id => id === questionId) || MS_PROGRAM_COMPLETION_FACT_IDS.some(id => id === questionId) || MS_CONDITIONAL_DISCHARGE_FACT_IDS.some(id => id === questionId))
       && profile.questions.some(question => question.id === questionId))
     || Boolean(profile?.jurisdiction.code === "KS" && KS_RECORD_SCOPE_FACT_IDS.some(id => id === questionId)
       && profile.questions.some(question => question.id === questionId))

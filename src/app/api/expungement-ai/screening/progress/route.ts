@@ -1,3 +1,4 @@
+import { MS_EXACT_TIMING_FACT_IDS } from "@/lib/rcap-engine/mississippi-exact-timing";
 import { NextRequest, NextResponse } from "next/server";
 import { isDeepStrictEqual } from "node:util";
 import { createHash } from "node:crypto";
@@ -50,8 +51,12 @@ export async function PUT(request: NextRequest) {
       && question.type === "yes_no_unsure"
       && Object.prototype.hasOwnProperty.call(draft.row.answers ?? {}, question.id)
       && questionAnswerState(question, answers[question.id]) === "known_valid").map(question => question.id));
+    const retainedTimingIds = new Set(publicProfile.questions.filter(question => profile.jurisdiction.code === "MS"
+      && MS_EXACT_TIMING_FACT_IDS.some(id => id === question.id)
+      && Object.hasOwn(draft.row.answers ?? {}, question.id)
+      && isDeepStrictEqual(answers[question.id], draft.row.answers[question.id])).map(question => question.id));
     if (typeof body.currentQuestionId !== "string" || !ids.includes(body.currentQuestionId)
-      || Object.keys(answers).some(id => !ids.includes(id) && !retainedCompletionIds.has(id)))
+      || Object.keys(answers).some(id => !ids.includes(id) && !retainedCompletionIds.has(id) && !retainedTimingIds.has(id)))
       return NextResponse.json({error: "The saved answers do not match these screening questions."}, {status: 400, headers: privateHeaders});
     // An exact retry is a read, including a lost-response retry. A different
     // tab's update cannot silently overwrite the saved draft.

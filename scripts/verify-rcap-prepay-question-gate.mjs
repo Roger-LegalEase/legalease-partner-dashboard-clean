@@ -72,6 +72,24 @@ function allCompletionGroups(publicProfile) {
   ];
 }
 
+// Independent bounded expectation: these existing timing gates are needed by
+// the evaluator before it can decide whether the statutory wait has elapsed.
+const msTimingCases = [
+  { pathwayId: 'additional-justice-or-municipal-court-misdemeanor-relief', expected: ['ms_last_conviction_date_any_court'], answers: {} },
+  { pathwayId: 'first-offense-dui-expungement', expected: ['ms_successful_sentence_completion_date'], answers: {} },
+  { pathwayId: 'minor-in-possession-underage-alcohol-expungement', expected: ['ms_mip_dismissal_or_discharge_date'], answers: {case_outcome: 'Dismissed / not prosecuted'} },
+  { pathwayId: 'minor-in-possession-underage-alcohol-expungement', expected: ['ms_mip_fine_imposed'], answers: {case_outcome: 'Misdemeanor conviction'} },
+  { pathwayId: 'minor-in-possession-underage-alcohol-expungement', expected: ['ms_mip_fine_imposed', 'ms_mip_sentence_completion_date'], answers: {case_outcome: 'Misdemeanor conviction', ms_mip_fine_imposed: 'No'} },
+  { pathwayId: 'minor-in-possession-underage-alcohol-expungement', expected: ['ms_mip_fine_imposed', 'ms_mip_sentence_completion_date', 'ms_mip_fine_payment_date'], answers: {case_outcome: 'Misdemeanor conviction', ms_mip_fine_imposed: 'Yes'} }
+];
+const msTimingIds = new Set(msTimingCases.flatMap(row => row.expected));
+function expectedMsTiming(context) {
+  const matching = msTimingCases.filter(row => row.pathwayId === context.pathwayId);
+  if (matching.length === 1) return matching[0].expected;
+  if (!matching.length) return [];
+  if (/dismiss|acquit|discharge/i.test(context.answers.case_outcome ?? '')) return matching[0].expected;
+  return matching.find(row => row.answers.ms_mip_fine_imposed === context.answers.ms_mip_fine_imposed && !row.answers.case_outcome?.includes('Dismissed'))?.expected ?? [];
+}
 function screeningContexts(profile) {
   return [
     { contextId: "empty", pathwayId: null, answers: {} },
@@ -79,7 +97,11 @@ function screeningContexts(profile) {
       contextId: pathway.id,
       pathwayId: pathway.id,
       answers: { possible_pathway_context: pathway.label }
-    }))
+    })),
+    ...(profile.jurisdiction.code === 'MS' ? msTimingCases.map((row, index) => ({
+      contextId: 'exact-timing-' + index, pathwayId: row.pathwayId,
+      answers: {possible_pathway_context: profile.pathways.find(pathway => pathway.id === row.pathwayId).label, ...row.answers}
+    })) : [])
   ];
 }
 
@@ -100,6 +122,7 @@ let narrativePrepay = 0;
 let docketPrepay = 0;
 let exactDatePrepay = 0;
 const necessaryNyTimingDates = new Set();
+const necessaryMsTimingFacts = new Set();
 let exactPacketFactPrepay = 0;
 let crossRoutePrepay = 0;
 let duplicateSelectedIds = 0;
@@ -141,6 +164,8 @@ for (const profile of profiles) {
     selectorContextsAudited += 1;
     const selectedIds = selectScreeningQuestionIds(profile, publicProfile, context.answers);
     selectedContextQuestionCounts.push(selectedIds.length);
+    const expectedTiming = code === 'MS' ? expectedMsTiming(context) : [];
+    if (code === 'MS') assert(JSON.stringify(selectedIds.filter(id => msTimingIds.has(id)).sort()) === JSON.stringify([...expectedTiming].sort()), `${code}/${context.contextId}: exact timing controls differ from independent branch expectation.`);
     const uniqueIds = new Set(selectedIds);
     duplicateSelectedIds += selectedIds.length - uniqueIds.size;
     assert(uniqueIds.size === selectedIds.length, `${code}/${context.contextId}: duplicate selected screening question ids.`);
@@ -158,15 +183,19 @@ for (const profile of profiles) {
         && ["sentencing_date", "release_date", "ny_16059_earliest_conviction_date"].includes(questionId)
         && question.lifecyclePhase === "prepay_timing_gate" && question.required === false;
       if (nyTiming) necessaryNyTimingDates.add(questionId);
-      const isExactDate = question.type === "date_or_unknown" && !nyTiming;
+      const msTiming = code === 'MS' && expectedTiming.includes(questionId)
+        && question.lifecyclePhase === (questionId === 'ms_mip_fine_imposed' ? 'prepay_soft_confidence' : 'prepay_timing_gate') && question.required === false
+        && question.type === (questionId === 'ms_mip_fine_imposed' ? 'yes_no_unsure' : 'date_or_unknown');
+      if (msTiming) necessaryMsTimingFacts.add(questionId);
+      const isExactDate = question.type === "date_or_unknown" && !nyTiming && !msTiming;
       if (isExactDate) selectedExactDates.add(questionId);
       assert(!isExactDate, `${code}/${context.contextId}: exact-date question ${questionId} remains in free screening.`);
       assert(!isCourtOrCaseIdentifier(question), `${code}/${context.contextId}: court/case identifier ${questionId} remains in free screening.`);
-      const isExactPacketFact = profile.questionLifecycle?.exactPacketFactIds.includes(questionId) === true && !recordIds.has(questionId) && !nyTiming;
+      const isExactPacketFact = profile.questionLifecycle?.exactPacketFactIds.includes(questionId) === true && !recordIds.has(questionId) && !nyTiming && !msTiming;
       if (isExactPacketFact) selectedExactPacketFacts.add(questionId);
       assert(!isExactPacketFact, `${code}/${context.contextId}: exact packet fact ${questionId} remains in free screening.`);
       const routeConsumers = profile.questionLifecycle?.routeConsumers[questionId] ?? [];
-      const leaksAcrossRoute = !nyTiming && routeConsumers.length > 0 && !Boolean(context.pathwayId && routeConsumers.includes(context.pathwayId));
+      const leaksAcrossRoute = !nyTiming && !msTiming && routeConsumers.length > 0 && !Boolean(context.pathwayId && routeConsumers.includes(context.pathwayId));
       if (leaksAcrossRoute) selectedCrossRouteQuestions.add(questionId);
       assert(!leaksAcrossRoute, `${code}/${context.contextId}: ${questionId} leaks outside its route consumers.`);
     }
@@ -213,6 +242,7 @@ for (const profile of profiles) {
 
 const metadataValues = Object.values(routeMetadata);
 const paidMetadata = metadataValues.filter((route) => route.paymentProductEligible === true);
+assert(necessaryMsTimingFacts.size === 6, 'All six existing MS timing controls must be tested.');
 assert(paBefore >= 30, `PA before count should reflect the audited high-friction baseline; got ${paBefore}.`);
 assert(paAfter <= 12, `PA prepayment count should be <=12 after projection fix; got ${paAfter}.`);
 assert(paAfter < paBefore, `PA prepayment count did not reduce (${paBefore} -> ${paAfter}).`);
@@ -270,6 +300,7 @@ console.log(`Narrative prepay fields: ${narrativePrepay}`);
 console.log(`Docket/case-number prepay fields: ${docketPrepay}`);
 console.log(`Unnecessary exact-date prepay fields: ${exactDatePrepay}`);
 console.log(`Source-required NY timing inputs: ${[...necessaryNyTimingDates].sort().join(", ")}`);
+console.log(`Source-required MS timing inputs: ${[...necessaryMsTimingFacts].sort().join(", ")}`);
 console.log(`Exact packet facts in prepay: ${exactPacketFactPrepay}`);
 console.log(`Cross-route prepay questions: ${crossRoutePrepay}`);
 console.log(`Duplicate selected question IDs: ${duplicateSelectedIds}`);
