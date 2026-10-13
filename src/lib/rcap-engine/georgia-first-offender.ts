@@ -1,6 +1,32 @@
 import type { PublicQuestion } from "@/lib/rcap-engine/contracts";
 
 export const GA_ORIGINAL_FIRST_OFFENDER_PATHWAY = "youthful-first-offender-restriction-route";
+// HB 162 §§ 3–4, effective July 1, 2026. Draft EN/ES guidance only;
+// qualified legal/language review and packet-contract correction remain open.
+export const GA_FIRST_OFFENDER_GUIDANCE = {
+  active_pre2026: [
+    "Your answers describe an active First Offender sentence imposed before July 1, 2026. The petition procedure uses the court that imposed that sentence. Check the sentencing record and whether a restriction and sealing order already exists. We cannot prepare a packet for this branch yet.",
+    "Sus respuestas describen una sentencia de First Offender todavía activa, impuesta antes del 1 de julio de 2026. El procedimiento de petición corresponde al tribunal que impuso esa sentencia. Consulte el documento de la sentencia y si ya existe una orden de restricción y sellado. Todavía no podemos preparar un paquete para este procedimiento."
+  ],
+  discharged_pre2026: [
+    "Your answers describe exoneration and discharge under the First Offender Act before July 1, 2026. The petition procedure uses the court that granted that discharge. Check the discharge record and whether a restriction and sealing order already exists. We cannot prepare a packet for this branch yet.",
+    "Sus respuestas describen una exoneración y un descargo conforme a la Ley First Offender anteriores al 1 de julio de 2026. El procedimiento de petición corresponde al tribunal que concedió ese descargo. Consulte el documento del descargo y si ya existe una orden de restricción y sellado. Todavía no podemos preparar un paquete para este procedimiento."
+  ],
+  sentencing_post2026: [
+    "Your answers describe a First Offender sentence imposed on or after July 1, 2026. The court must order restriction and sealing at sentencing. Check with the sentencing court whether the order was entered and carried out. This result does not confirm that your records are sealed. We cannot prepare a packet for this branch yet.",
+    "Sus respuestas describen una sentencia de First Offender impuesta el 1 de julio de 2026 o después. El tribunal debe ordenar la restricción y el sellado al dictar la sentencia. Consulte con el tribunal que dictó la sentencia si la orden se emitió y se cumplió. Este resultado no confirma que sus expedientes estén sellados. Todavía no podemos preparar un paquete para este procedimiento."
+  ],
+  discharged_post2026: [
+    "Your answers describe exoneration and discharge under the First Offender Act on or after July 1, 2026. The law provides for restriction and sealing upon exoneration and discharge. Check with the court that granted the discharge whether the required steps were completed. This result does not confirm that your records are sealed. We cannot prepare a packet for this branch yet.",
+    "Sus respuestas describen una exoneración y un descargo conforme a la Ley First Offender el 1 de julio de 2026 o después. La ley dispone la restricción y el sellado tras la exoneración y el descargo. Consulte con el tribunal que concedió el descargo si se completaron los pasos exigidos. Este resultado no confirma que sus expedientes estén sellados. Todavía no podemos preparar un paquete para este procedimiento."
+  ]
+} as const;
+
+export function isGeorgiaFirstOffenderGuidance(reason: { code: string; text: string }): boolean {
+  return Object.entries(GA_FIRST_OFFENDER_GUIDANCE).some(([branch, [text]]) =>
+    reason.code === `ga.original_first_offender_${branch}` && reason.text === text);
+}
+
 export const GA_FIRST_OFFENDER_FACT_IDS = [
   "ga_original_first_offender", "ga_first_offender_status",
   "ga_first_offender_sentence_date", "ga_first_offender_discharge_date"

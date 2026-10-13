@@ -13,7 +13,7 @@ import { caProp64Choice, CA_PROP64_CURRENT } from "@/lib/expungement-ai/ca-prop6
 import { caProp64RecordQuestions } from "@/lib/expungement-ai/ca-prop64-record-facts";
 import { caProp64RecordAnswerState } from "@/lib/expungement-ai/ca-prop64-record-answer";
 import { mississippiProgramRouteFromAnswers } from "@/lib/rcap-engine/composed-route-selector";
-import { georgiaFirstOffenderFromAnswers } from "@/lib/rcap-engine/georgia-first-offender";
+import { georgiaFirstOffenderFromAnswers, GA_ORIGINAL_FIRST_OFFENDER_PATHWAY, GA_FIRST_OFFENDER_GUIDANCE, isGeorgiaFirstOffenderGuidance } from "@/lib/rcap-engine/georgia-first-offender";
 import { illinoisCannabisFromAnswers, IL_CANNABIS_PATHWAY } from "@/lib/rcap-engine/illinois-cannabis-facts";
 import { pathwayExcludedByKnownFacts, FACTUAL_PATHWAY_EXCLUSION_COPY } from "@/lib/rcap-engine/factual-pathway-exclusions";
 import "server-only";
@@ -339,7 +339,7 @@ function evaluateAgainstProfile(profile: EngineProfile, request: ScreeningEvalua
       paymentAllowed: false
     });
   }
-  const preConflict = preselectedPathway ? presentationConflictReason(profile, preselectedPathway) : undefined;
+  const preConflict = preselectedPathway ? presentationConflictReason(profile, preselectedPathway, answers) : undefined;
   if (preselectedPathway && preConflict) {
     const plan = packetPlanForPathway(profile, preselectedPathway.id);
     return result(profile, request, "needs_review", [preConflict], {
@@ -441,7 +441,7 @@ function evaluateAgainstProfile(profile: EngineProfile, request: ScreeningEvalua
       paymentAllowed: false
     });
   }
-  const presentationConflict = presentationConflictReason(profile, pathway);
+  const presentationConflict = presentationConflictReason(profile, pathway, answers);
   if (presentationConflict) {
     const plan = packetPlanForPathway(profile, pathway.id);
     return result(profile, request, "needs_review", [presentationConflict], {
@@ -1273,8 +1273,18 @@ function packetCorrectionReason(profile: EngineProfile, pathway: CompiledPathway
   );
 }
 
-function presentationConflictReason(profile: EngineProfile, pathway: CompiledPathway): ScreeningReason | undefined {
+function presentationConflictReason(profile: EngineProfile, pathway: CompiledPathway, answers: Record<string, ScreeningAnswerValue>): ScreeningReason | undefined {
   if (!PRESENTATION_CONFLICT_ROUTE_KEYS.has(`${profile.jurisdiction.code}:${pathway.id}`)) return undefined;
+  if (profile.jurisdiction.code === "GA" && pathway.id === GA_ORIGINAL_FIRST_OFFENDER_PATHWAY) {
+    const selected = georgiaFirstOffenderFromAnswers(answers, evaluationToday().toISOString().slice(0, 10));
+    if (selected.status === "selected" && selected.branch !== "revoked") {
+      return reason("GA", `original_first_offender_${selected.branch}`, GA_FIRST_OFFENDER_GUIDANCE[selected.branch][0],
+        selected.branch === "active_pre2026" ? "O.C.G.A. § 42-8-62.1(c); HB 162 § 3 (2026)"
+          : selected.branch === "sentencing_post2026" ? "O.C.G.A. § 42-8-62.1(b); HB 162 § 3 (2026)"
+          : selected.branch === "discharged_pre2026" ? "O.C.G.A. § 42-8-62.2(c); HB 162 § 4 (2026)"
+          : "O.C.G.A. § 42-8-62.2(b), (e)–(f); HB 162 § 4 (2026)");
+    }
+  }
   return reason(
     profile.jurisdiction.code,
     "route_presentation_conflicts_with_its_contract",
@@ -1914,6 +1924,7 @@ function result(
   const paymentAllowed = overrides.paymentAllowed === true && (resultCode === "packet_ready" || resultCode === "packet_ready_with_caution");
   const convictionRequestReason = reasons.find(item => Object.keys(CONVICTION_RELIEF_COPY)
     .some(code => item.code === `${profile.jurisdiction.code.toLowerCase()}.conviction_relief_${code}`));
+  const specificNextStep = convictionRequestReason ?? reasons.find(isGeorgiaFirstOffenderGuidance);
   return {
     jurisdiction: profile.jurisdiction.code,
     profileVersion: profile.profileVersion,
@@ -1924,7 +1935,7 @@ function result(
     missingQuestionIds: overrides.missingQuestionIds ?? [],
     cautions: [...(overrides.cautions ?? []), ...(isCaProp64Pathway(profile.jurisdiction.code, overrides.pathwayId)
       ? [CA_PROP64_PROCEDURE_COPY[overrides.pathwayId === CA_PROP64_CURRENT ? "current" : "completed"][0]] : [])],
-    nextSteps: convictionRequestReason ? [convictionRequestReason.text] : overrides.missingQuestionIds?.includes("financial_obligations")
+    nextSteps: specificNextStep ? [specificNextStep.text] : overrides.missingQuestionIds?.includes("financial_obligations")
       ? [FINANCIAL_CLARIFICATION_TEXT, FINANCIAL_OTHER_QUESTIONS_TEXT] : nextStepsForResult(resultCode),
     paymentAllowed,
     ...(overrides.pathwayId ? { pathwayId: overrides.pathwayId } : {}),

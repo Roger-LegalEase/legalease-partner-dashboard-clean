@@ -1,5 +1,6 @@
 import { MS_TIMING_MISSING_TEXT, MS_TIMING_MULTIPLE_MISSING_TEXT } from "@/lib/rcap-engine/mississippi-exact-timing";
 import { CONVICTION_RELIEF_COPY } from "@/lib/rcap-engine/conviction-relief-request";
+import { isGeorgiaFirstOffenderGuidance } from "@/lib/rcap-engine/georgia-first-offender";
 import { convictionFallbackHeldSuccessor, msTimingAnswerHeldSuccessor, factualPathwayHeldSuccessor, financialAnswerHeldSuccessor, ny16059HeldDetailSuccessor } from "@/lib/expungement-ai/packet-information";
 import "server-only";
 import { reviewedPacketContractSuccessor } from "@/lib/expungement-ai/packet-contract-successors";
@@ -568,7 +569,7 @@ function legalAuthorityFromEvaluation(
     resultCode: evaluation.resultCode,
     pathwayId: evaluation.pathwayId ?? null,
     pathwayLabel: authoritative.pathwayLabel,
-    summary: convictionRequestReason?.text ?? evaluation.reasons.find(reason => ["il.pathway_conflicts_with_saved_fact", "ga.pathway_conflicts_with_saved_fact"].includes(reason.code) || reason.code === "ms.waiting_anchor_missing" && [...Object.values(MS_TIMING_MISSING_TEXT), MS_TIMING_MULTIPLE_MISSING_TEXT].includes(reason.text))?.text ?? evaluation.userLabel,
+    summary: convictionRequestReason?.text ?? evaluation.reasons.find(isGeorgiaFirstOffenderGuidance)?.text ?? evaluation.reasons.find(reason => ["il.pathway_conflicts_with_saved_fact", "ga.pathway_conflicts_with_saved_fact"].includes(reason.code) || reason.code === "ms.waiting_anchor_missing" && [...Object.values(MS_TIMING_MISSING_TEXT), MS_TIMING_MULTIPLE_MISSING_TEXT].includes(reason.text))?.text ?? evaluation.userLabel,
     nextSteps: stringArray(evaluation.nextSteps),
     checklist: stringArray(packetPlan?.packetReadyWhen),
     packetType: authoritative.packetType ?? null,
