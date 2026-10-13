@@ -5,7 +5,7 @@ import { packetDisplayCopy, packetMatterTitleCopy } from "@/lib/expungement-ai/p
 import { LocalizedCopy, LocalizedRuntimeText } from "@/components/expungement-ai/LocalizationProvider";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { editablePacketInputIds, heldPacketCorrectionInputIds, packetAccountEmailSuggestion, caProp64ClarificationModelFor } from "@/lib/expungement-ai/packet-information";
+import { editablePacketInputIds, factualPathwayCorrectionIds, heldPacketCorrectionInputIds, packetAccountEmailSuggestion, caProp64ClarificationModelFor } from "@/lib/expungement-ai/packet-information";
 
 import { BriefcaseShell } from "@/components/expungement-ai/BriefcaseShell";
 import { MatterStatusBadge } from "@/components/expungement-ai/BriefcaseViews";
@@ -32,7 +32,8 @@ export default async function PacketInformationPage({
     item: storedItem
   }) : null;
   const eligibilityCorrection = ["NY", "CA", "IL", "GA"].includes(item?.jurisdiction ?? "")
-    || item?.packetDraft.status === "available" && msExactTimingQuestionIds(item.jurisdiction ?? "", item.pathwayId, item.packetDraft.initialAnswers).length > 0;
+    || item?.packetDraft.status === "available" && (msExactTimingQuestionIds(item.jurisdiction ?? "", item.pathwayId, item.packetDraft.initialAnswers).length > 0
+      || factualPathwayCorrectionIds(item.jurisdiction ?? "", item.pathwayId, item.packetDraft.initialAnswers).length > 0);
   const sponsored = item?.paymentState === "sponsored";
   const packetResult = item?.authorityStatus !== "unavailable"
     && (item?.resultCode === "packet_ready" || item?.resultCode === "packet_ready_with_caution");

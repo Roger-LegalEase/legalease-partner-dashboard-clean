@@ -4,6 +4,8 @@ import fixtures from './test-ar-record-origin-fixtures.mjs';
 register('./lib/ts-esm-loader.mjs', import.meta.url);
 const { decorateBriefcaseItemForPresentationWithDependencies: decorate } = await import('../src/lib/expungement-ai/briefcase-presentation-authority.ts');
 const { evaluateAuthoritativeScreeningResult: evaluate } = await import('../src/lib/expungement-ai/authoritative-screening-result.ts');
+const { AR_RECORD_ORIGIN_COPY } = await import('../src/lib/rcap-engine/arkansas-record-origin.ts');
+const { resolveRuntimeText } = await import('../src/lib/expungement-ai/localization.ts');
 const { heldPacketCorrectionInputIds, packetInformationPatch, protectedPacketDraftHash, protectedPacketInformationModelFor } = await import('../src/lib/expungement-ai/packet-information.ts');
 let checks = 0;
 function check(condition, message) { assert.ok(condition, message); checks++; }
@@ -32,6 +34,11 @@ for (const row of fixtures.rows) {
     check(patch?.protectedTransition?.nextVerification && !patch.readyToGenerate, `${row.route}/${origin}: explicit correction preserves hold`);
     const saved = await present(patch.protectedTransition.nextVerification);
     check(saved.authorityStatus === 'protected_draft' && heldPacketCorrectionInputIds({ ...saved.packetDraft, stateCode: saved.jurisdiction, pathwayId: saved.pathwayId }, saved.resultCode).has('ar_record_origin'), `${row.route}/${origin}: correction stays reachable after save`);
+    const copy = origin === 'unknown' ? AR_RECORD_ORIGIN_COPY.unknown : origin !== 'arkansas' ? AR_RECORD_ORIGIN_COPY.outside : null;
+    if (copy) {
+      check(saved.summary === copy[0], `${row.route}/${origin}: actual English origin explanation remains visible through guidance holds`);
+      check(resolveRuntimeText('es', saved.summary) === copy[1], `${row.route}/${origin}: exact Spanish origin explanation`);
+    }
   }
   for (const state of ['MS', 'CA', 'NY']) for (const resultCode of ['guidance_only', 'not_covered_yet']) {
     check(!heldPacketCorrectionInputIds({ ...pageModel, stateCode: state }, resultCode).has('ar_record_origin'), `${row.route}/${state}/${resultCode}: no unrelated guidance activation`);
