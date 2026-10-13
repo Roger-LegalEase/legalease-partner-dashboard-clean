@@ -1,7 +1,7 @@
 import { MS_TIMING_MISSING_TEXT, MS_TIMING_MULTIPLE_MISSING_TEXT } from "@/lib/rcap-engine/mississippi-exact-timing";
 import { CONVICTION_RELIEF_COPY } from "@/lib/rcap-engine/conviction-relief-request";
 import { isGeorgiaFirstOffenderGuidance } from "@/lib/rcap-engine/georgia-first-offender";
-import { convictionFallbackHeldSuccessor, msTimingAnswerHeldSuccessor, factualPathwayHeldSuccessor, financialAnswerHeldSuccessor, ny16059HeldDetailSuccessor } from "@/lib/expungement-ai/packet-information";
+import { arkansasRecordOriginHeldSuccessor, convictionFallbackHeldSuccessor, msTimingAnswerHeldSuccessor, factualPathwayHeldSuccessor, financialAnswerHeldSuccessor, ny16059HeldDetailSuccessor } from "@/lib/expungement-ai/packet-information";
 import "server-only";
 import { reviewedPacketContractSuccessor } from "@/lib/expungement-ai/packet-contract-successors";
 import { getProgramPacketFunding } from "@/lib/partners/onboarding/program-packet-funding";
@@ -433,7 +433,7 @@ function legalAuthorityFromProtectedVerification(
   const authoritative = evaluateProtectedPresentationSnapshot(snapshot, itemId, evaluate);
   if (!authoritative) return { status: "unavailable", reason: "protected_snapshot_reevaluation_failed" };
   const evaluation = authoritative.evaluation;
-  snapshot = factualPathwayHeldSuccessor(snapshot, authoritative) ?? convictionFallbackHeldSuccessor(snapshot, authoritative) ?? snapshot;
+  snapshot = arkansasRecordOriginHeldSuccessor(snapshot, authoritative) ?? factualPathwayHeldSuccessor(snapshot, authoritative) ?? convictionFallbackHeldSuccessor(snapshot, authoritative) ?? snapshot;
   const financialSuccessor = financialAnswerHeldSuccessor(snapshot, authoritative);
   const timingSuccessor = msTimingAnswerHeldSuccessor(snapshot, authoritative);
   if (evaluation.jurisdiction !== snapshot.jurisdiction
