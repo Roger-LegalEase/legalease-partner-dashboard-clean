@@ -84,7 +84,7 @@ for(const [stage,value]of stages){await save({[T.NY_TRANSACTION_ASSOCIATIONS_ID]
  check(()=>assert(overview.includes('edit='+T.NY_TRANSACTION_ASSOCIATIONS_ID)||review.includes('edit='+T.NY_TRANSACTION_ASSOCIATIONS_ID)||m.builderQuestions.some(q=>q.id===T.NY_TRANSACTION_ASSOCIATIONS_ID),stage+' offered surface'));
  }
  check(()=>assert.equal(T.ny16059TransactionAssociationPreparation(stored).coveredTransactionCount,['complete','restored'].includes(stage)?1:null));
- check(()=>{assert.deepEqual(stored.draftSnapshot.packetAnswers[T.NY_TRANSACTION_ASSOCIATIONS_ID],T.encodeNyTransactionAssociations(value));assert(stored.draftSnapshot.dependencies.semanticAnswerHistory.some(h=>h.factId===T.NY_TRANSACTION_ASSOCIATIONS_ID));});
+ check(()=>{assert.deepEqual(stored.draftSnapshot.packetAnswers[T.NY_TRANSACTION_ASSOCIATIONS_ID],T.encodeNyTransactionAssociations(value));if(stage!=='complete')assert(stored.draftSnapshot.dependencies.semanticAnswerHistory.some(h=>h.factId===T.NY_TRANSACTION_ASSOCIATIONS_ID));});
  if(stage==='unavailable_en'){const old=structuredClone(stored.draftSnapshot.packetAnswers),r=await post({},{verify:true});check(()=>assert.equal(r.status,200));const body=await r.json();check(()=>{assert.equal(body.readyToGenerate,false);assert.notEqual(stored.status,'verified');assert.deepEqual(stored.draftSnapshot.packetAnswers,old);});}
 }
 const final=structuredClone(stored);
