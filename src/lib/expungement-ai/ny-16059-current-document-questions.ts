@@ -1,7 +1,7 @@
 import type { ProfileQuestion } from "@/lib/expungement-ai/frontend/contracts";
 import { isNy16059Packet } from "@/lib/expungement-ai/ny-16059-packet-facts";
 
-/** Exact applicant-owned fields on source pages 10 and 12. Existing generic
+/** Exact applicant-owned fields on source pages 10, 12, 13 and 14. Existing generic
  * date/text-or-unknown validation and raw answer shapes are retained. These
  * descriptors neither split aggregate contact prose nor adopt account data. */
 export const NY_CURRENT_DOCUMENT_CONTACT_SOURCE = {
@@ -14,12 +14,13 @@ export const NY_CURRENT_DOCUMENT_PARTICIPANT_FIELDS = [
   { id: "street_address", field: "Appplicant Street Address", pages: [10, 12], optional: false },
   { id: "city_state_zip", field: "Applicant City State Zip", pages: [10, 12], optional: false },
   { id: "phone_number", field: "ApplicantPhone", pages: [10, 12], optional: false },
-  { id: "email_address", field: "ApplicantEmail", pages: [10, 12], optional: true }
+  { id: "email_address", field: "ApplicantEmail", pages: [10, 12], optional: true },
+  { id: "participant_full_legal_name", field: "ApplicantName", pages: [10, 12, 13, 14], optional: false }
 ] as const;
 export type NyCurrentDocumentParticipantFieldId = typeof NY_CURRENT_DOCUMENT_PARTICIPANT_FIELDS[number]["id"];
 const descriptor = (id: NyCurrentDocumentParticipantFieldId, prompt: string, helperText: string, esPrompt: string, esHelper: string): ProfileQuestion => ({
   id, stage: "packet_information", type: id === "date_of_birth" ? "date_or_unknown" : "text_or_unknown",
-  required: id !== "email_address", contextOnly: false, lifecyclePhase: "postpay_official_form_field", options: null,
+  required: id !== "email_address", contextOnly: false, lifecyclePhase: id === "participant_full_legal_name" ? "postpay_packet_field" : "postpay_official_form_field", options: null,
   prompt, helperText, translations: { es: { prompt: esPrompt, helperText: esHelper } }
 });
 const DESCRIPTORS = [
@@ -42,12 +43,18 @@ const DESCRIPTORS = [
   descriptor("email_address", "What email address, if any, does the applicant want to provide on this application?",
     "Email is optional. The form says that if an email address is provided, a copy of the court's decision will be emailed to it. An account email is not selected automatically, and providing this address does not certify service or sign an affirmation.",
     "¿Qué dirección de correo electrónico, si alguna, desea proporcionar la persona solicitante en esta solicitud?",
-    "El correo electrónico es opcional. El formulario indica que, si se proporciona una dirección, se enviará a ella una copia de la decisión del tribunal. No se selecciona automáticamente el correo de una cuenta, y proporcionar esta dirección no certifica una notificación ni firma una afirmación.")
+    "El correo electrónico es opcional. El formulario indica que, si se proporciona una dirección, se enviará a ella una copia de la decisión del tribunal. No se selecciona automáticamente el correo de una cuenta, y proporcionar esta dirección no certifica una notificación ni firma una afirmación."),
+  descriptor("participant_full_legal_name", "What is the applicant's full legal name?",
+    "Enter the applicant's full legal name for this application. Names used in a covered case are collected separately. This fills the applicant name fields; it does not sign or affirm any document.",
+    "¿Cuál es el nombre legal completo de la persona solicitante?",
+    "Ingrese el nombre legal completo de la persona solicitante para esta solicitud. Los nombres utilizados en un caso incluido se recopilan por separado. Este dato completa los campos del nombre de la persona solicitante; no firma ni afirma ningún documento.")
 ];
 
-/** Return only the five exact fields for merging by ID. Already supplied valid
+/** Return only the exact source fields for merging by ID. Already supplied valid
  * descriptors are reused once, with missing Spanish copy supplied. An existing
  * incompatible contract is reported, never silently overwritten or duplicated.
+ * The existing generic text name alone gains the same explicit unknown control
+ * as the other applicant fields; its saved scalar/wrapper values stay intact.
  * Caller must keep these as document-completion facts, not eligibility gates. */
 export function ny16059CurrentDocumentQuestions(stateCode: string, pathwayId: string | null, existing: readonly ProfileQuestion[] = []) {
   if (!isNy16059Packet(stateCode, pathwayId)) return null;
@@ -56,9 +63,10 @@ export function ny16059CurrentDocumentQuestions(stateCode: string, pathwayId: st
     const supplied = existing.filter(q => q.id === target.id), first = supplied[0];
     if (supplied.length > 1 && supplied.some(q => JSON.stringify(q) !== JSON.stringify(first))) { descriptorIssues.push({ id: target.id, code: "conflicting_existing_descriptors" }); continue; }
     if (first) {
-      if (first.type !== target.type || first.answerContract || first.contextOnly || first.stage !== "packet_information"
+      const genericName = target.id === "participant_full_legal_name" && first.type === "text";
+      if ((first.type !== target.type && !genericName) || first.answerContract || first.contextOnly || first.stage !== "packet_information"
         || target.id === "email_address" && first.required) { descriptorIssues.push({ id: target.id, code: "existing_descriptor_needs_explicit_reconciliation" }); continue; }
-      questions.push({ ...structuredClone(first), translations: { ...structuredClone(first.translations), es: { ...target.translations!.es, ...structuredClone(first.translations?.es) } } });
+      questions.push({ ...structuredClone(first), type: target.type, translations: { ...structuredClone(first.translations), es: { ...target.translations!.es, ...structuredClone(first.translations?.es) } } });
       reusedIds.push(target.id);
     } else { questions.push(structuredClone(target)); addedIds.push(target.id); }
   }
