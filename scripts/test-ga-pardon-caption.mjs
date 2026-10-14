@@ -1,10 +1,19 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {register} from 'node:module';
+import {pathToFileURL} from 'node:url';
+import path from 'node:path';
+import ts from 'typescript';
 register('./lib/ts-esm-loader.mjs',import.meta.url);
 const C=await import('../src/lib/expungement-ai/ga-pardon-caption.ts');
 const R=await import('../src/lib/expungement-ai/record-fact-clarification.ts');
 const {reviewedPacketQuestion}=await import('../src/lib/expungement-ai/reviewed-question-copy.ts');
+// Expose the real pure question builder only in this process. No successful
+// authorization response, verification tuple or database function is mocked.
+const surfaceFile=path.resolve('src/lib/expungement-ai/packet-information.ts');
+const surfaceSource=fs.readFileSync(surfaceFile,'utf8');assert.ok(surfaceSource.includes('function protectedPacketQuestionSurface('));
+const surfaceModule=ts.transpileModule(surfaceSource+'\nexport { protectedPacketQuestionSurface as questionSurfaceForTest };',{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022}}).outputText;
+register(`data:text/javascript,${encodeURIComponent('let d;export function initialize(data){d=data}export async function load(url,ctx,next){return url===d.url?{format:"module",source:d.source,shortCircuit:true}:next(url,ctx)}')}`,{data:{url:pathToFileURL(surfaceFile).href,source:surfaceModule}});
 const P=await import('../src/lib/expungement-ai/packet-information.ts');
 const {getProfileByJurisdiction}=await import('../src/lib/rcap-engine/profile-registry.ts');
 const {projectPublicProfile}=await import('../src/lib/rcap-engine/public-profile-projection.ts');
@@ -50,6 +59,30 @@ check('existing historical held matter remains readable',()=>assert.ok(model));
 check('held matter has no document collection burden',()=>assert.ok(!model.recordClarificationIds.length&&!model.builderQuestions.some(q=>questions.has(q.id))));
 check('held matter retains generation refusal',()=>assert.ok(!model.packetPlan&&!model.reviewSafety.safe));
 check('protected historical maps unchanged',()=>assert.deepEqual(historical,historicalBefore));
+check('document facts do not expand court confirmation inputs',()=>assert.deepEqual(Object.keys(C.GA_PARDON_CAPTION_INPUTS),['court','county']));
+for(const expected of C.GA_PARDON_DOCUMENT_QUESTIONS){
+ const id=expected.id;
+ const fallback={id,stage:'packet_information',type:'text_or_unknown',required:true,contextOnly:false,lifecyclePhase:'postpay_packet_field',options:null,prompt:P.answerLabel(id),helperText:'Enter the wording from your court or agency record when possible.'};
+ const original=structuredClone(fallback);
+ check(id+' actual fallback descriptor receives paired document wording',()=>assert.deepEqual(C.gaPardonCaptionQuestion(fallback,route),{...fallback,...expected}));
+ check(id+' original fallback object preserved',()=>assert.deepEqual(fallback,original));
+ check(id+' unrelated route retains original fallback object',()=>assert.equal(C.gaPardonCaptionQuestion(fallback,'GA:other'),fallback));
+ for(const patch of [{type:'text'},{prompt:'Different future meaning'},{helperText:'Different source instruction'},{stage:'screening'},{required:false},{contextOnly:true},{options:['New choice']},{lifecyclePhase:'prepay_route_splitter'},{translations:{es:{prompt:'Existing independent source wording'}}}]){
+  const changed={...fallback,...patch};
+  check(id+' changed source descriptor is not overwritten '+JSON.stringify(patch),()=>assert.equal(C.gaPardonCaptionQuestion(changed,route),changed));
+ }
+ check(id+' replacement remains stable on repeated presentation',()=>assert.deepEqual(reviewedPacketQuestion(expected,{state:'GA',pathwayId:pathway,participantOwnsRecord:true}),expected));
+ check(id+' creates no record confirmation marker',()=>assert.equal(R.recordFactConfirmationFor(route,id,{[id]:'Own factual response'},expected),null));
+ for(const ownership of ['Yes','I am helping someone complete their own check','I am not sure']){
+  const sourceAnswers={ownership_scope:ownership},copy=structuredClone(sourceAnswers);
+  const surface=P.questionSurfaceForTest(getProfileByJurisdiction('GA'),pathway,sourceAnswers,['case_number','participant_narrative'],{jurisdiction:'GA',pathway_id:pathway});
+  const q=surface.builderQuestions.find(q=>q.id===id);
+  check(id+' actual protected builder includes question for '+ownership,()=>assert.ok(q));
+  check(id+' actual protected builder EN+ES for '+ownership,()=>{assert.equal(q.prompt,expected.prompt);assert.deepEqual(q.translations,expected.translations);});
+  check(id+' actual protected builder preserves own-account multiline for '+ownership,()=>assert.equal(q.multiline,expected.multiline));
+  check(id+' ownership inputs never changed '+ownership,()=>assert.deepEqual(sourceAnswers,copy));
+ }
+}
 const report={status:'PASS',checks:checks.length,details:checks,scope:'Source-defined caption meaning, exact confirmation invalidation, EN/ES packet controls and preserved actual historical held authority. No authenticated caption save or protected generation claimed.'};
 if(process.argv[2])fs.writeFileSync(process.argv[2],JSON.stringify(report,null,2)+'\n',{flag:'wx'});
 console.log(JSON.stringify({status:report.status,checks:report.checks}));
