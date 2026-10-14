@@ -33,7 +33,10 @@ export function reviewedContactRepresentation(input: {
   unresolvedFactIds: ReadonlySet<string>;
 }): ContactRepresentationContract | null {
   const routeKey = `${input.profile.jurisdiction.code}:${input.pathwayId ?? ""}`;
-  const reviewed = (contracts.routes as Record<string, { specificationId: string; contractSha256: string }>)[routeKey];
+  const reviewed = (contracts.routes as Record<string, {
+    specificationId: string; contractSha256: string;
+    equivalentContactSuccessors?: Array<{ specificationVersion: string; contractSha256: string }>;
+  }>)[routeKey];
   const spec = input.specification;
   if (!reviewed || !spec || !spec.requiredFacts || !("fieldOwnership" in spec) || spec.specificationId !== reviewed.specificationId
     || input.decidingFactIds.has("contact_information") || input.unresolvedFactIds.has("contact_information")
@@ -46,7 +49,15 @@ export function reviewedContactRepresentation(input: {
   const contract = { specificationId: spec.specificationId, packetFamily: spec.packetFamily,
     requiredFacts: spec.requiredFacts.filter((fact) => ["contact_information", ...CONTACT_COMPONENT_IDS].includes(fact.factId)),
     fieldOwnership: spec.fieldOwnership, documents: spec.documents };
-  return contactRepresentationHash(contract) === reviewed.contractSha256 ? { routeKey, contractSha256: reviewed.contractSha256 } : null;
+  const currentHash = contactRepresentationHash(contract);
+  // A reviewed document successor may change unrelated case/caption sections
+  // while preserving every contact consumer, owner and condition. Match its
+  // exact full contract; retain the original representation identity so saved
+  // provenance does not become invalid merely because those sections changed.
+  const exactReviewedContract = currentHash === reviewed.contractSha256
+    || reviewed.equivalentContactSuccessors?.some(successor =>
+      successor.specificationVersion === spec.specificationVersion && successor.contractSha256 === currentHash);
+  return exactReviewedContract ? { routeKey, contractSha256: reviewed.contractSha256 } : null;
 }
 
 export function contactRepresentationProvenance(contract: ContactRepresentationContract, answers: Record<string, AnswerValue>, output: AnswerValue, previous?: ContactRepresentationProvenance): ContactRepresentationProvenance {

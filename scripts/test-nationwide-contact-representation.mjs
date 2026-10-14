@@ -8,7 +8,7 @@ const { packetPlanForPathway } = await import('../src/lib/rcap-engine/packet-pla
 const { packetSpecificationFor } = await import('../src/lib/rcap/grade-a/packet-specification.ts');
 const { routeDecidingFactScope } = await import('../src/lib/rcap-engine/route-fact-relevance.ts');
 const { routeSafetyGateFactIds } = await import('../src/lib/expungement-ai/packet-route-safety.ts');
-const { reviewedContactRepresentation, contactRepresentationHash } = await import('../src/lib/expungement-ai/contact-representation.ts');
+const { reviewedContactRepresentation, contactRepresentationHash, isProvenContactOutput } = await import('../src/lib/expungement-ai/contact-representation.ts');
 const contracts = JSON.parse(readFileSync(new URL('../src/lib/expungement-ai/reviewed-contact-contracts.json', import.meta.url)));
 const components = { mailing_address: ' 100 Synthetic Way\nTest City ', phone_number: ' 202-555-0134 ', email_address: ' synthetic@example.test ' };
 const aggregate = '100 Synthetic Way\nTest City | 202-555-0134 | synthetic@example.test';
@@ -21,6 +21,26 @@ for (const routeKey of Object.keys(contracts.routes)) {
   const args = { profile, pathwayId, specification, requiredInputIds: plan.requiredInputIds, decidingFactIds: new Set([...scope.factIds, ...routeSafetyGateFactIds(state, pathwayId)]), unresolvedFactIds: new Set(scope.unresolvedRules.flatMap(r => r.factIds)) };
   const resolve = (savedAnswers = {}, prefilledAnswers = {}) => packet.packetCollectionFor({ jurisdiction: state, pathwayId, requiredInputIds: plan.requiredInputIds, serverFacts: {}, screeningAnswers: {}, savedAnswers, prefilledAnswers });
   check(`${routeKey}: exact contract`, () => assert.ok(reviewedContactRepresentation(args)));
+  if (routeKey === 'GA:restriction-and-sealing-of-a-pardoned-felony') {
+    const originalContractSha256 = 'faeedb29aac46968a94ad0c7501e60f1b959fc65f167b8cf24d24f68ad5fe024';
+    const originalProvenance = { version: 1, routeKey, contractSha256: originalContractSha256,
+      inputSha256: contactRepresentationHash(Object.values(components)), outputSha256: contactRepresentationHash(aggregate) };
+    check('GA successor retains original contact representation identity', () => assert.equal(reviewedContactRepresentation(args).contractSha256, originalContractSha256));
+    check('GA successor recognizes original saved provenance without rewriting it', () => {
+      const before = structuredClone(originalProvenance);
+      assert.equal(isProvenContactOutput(reviewedContactRepresentation(args), aggregate, originalProvenance), true);
+      assert.deepEqual(originalProvenance, before);
+    });
+    check('GA successor does not trust a changed saved aggregate', () => assert.equal(isProvenContactOutput(reviewedContactRepresentation(args), 'Independent earlier contact text', originalProvenance), false));
+    check('GA successor rejects an unreviewed specification version', () => {
+      const changed = structuredClone(args); changed.specification.specificationVersion = 'unreviewed';
+      assert.equal(reviewedContactRepresentation(changed), null);
+    });
+    check('GA successor rejects a changed document condition', () => {
+      const changed = structuredClone(args); changed.specification.documents[0].includeWhen = 'different_condition';
+      assert.equal(reviewedContactRepresentation(changed), null);
+    });
+  }
   check(`${routeKey}: pending without fourth prompt`, () => { const r = resolve(); assert.ok(r.pendingDerivations.some(f => f.factId === 'contact_information')); assert.ok(!r.prepayQuestions.includes('contact_information')); });
   check(`${routeKey}: complete components`, () => { const r = resolve(components); assert.equal(r.derivedFacts.contact_information, aggregate); assert.ok(!r.contactReconciliation); });
   check(`${routeKey}: exact legacy wrapper`, () => assert.equal(resolve({ ...components, contact_information: { value: aggregate, unknown: false } }).derivedFacts.contact_information, aggregate));
