@@ -2,6 +2,7 @@ import "server-only";
 import { contactRepresentationHash as hash } from "@/lib/expungement-ai/contact-representation";
 import { ny16059ProtectedDocumentPreparation } from "@/lib/expungement-ai/ny-16059-document-preparation";
 import { protectedPacketInformationModelFor } from "@/lib/expungement-ai/packet-information";
+import { NY_SEALING_HISTORY_ID, parseNySealingHistory } from "@/lib/expungement-ai/ny-16059-sealing-history";
 import { questionAnswerState } from "@/lib/expungement-ai/question-answer-state";
 import type { ProtectedPacketVerificationRecord } from "@/lib/expungement-ai/verification-cas";
 
@@ -105,9 +106,24 @@ export function ny16059CurrentDocumentInputs(record: ProtectedPacketVerification
     add(11, "Case Number Docket Indictment or SCI NumberRow1", "See intended application inventory", ["ny_16059_future_sealing_records"]);
     add(11, "Court NameRow1", "See each intended case's court", ["ny_16059_future_sealing_records"]);
   }
-  for (const a of prepared.priorSealingRecords.applications ?? []) continuation(`prior:${a.id}`, "Earlier filed application - distinct from granted order", [`Application: ${a.id}`, `Law: CPL ${a.law}`, `Case number(s): ${a.caseNumbers}`, `Court: ${a.courtName}`, `Outcome: ${a.outcome}`, a.outcomeDetails, `Copy status: ${a.copyStatus}`, a.copyExplanation].filter(Boolean).join("\n"));
-  for (const o of prepared.priorSealingRecords.enteredOrders ?? []) continuation(`order:${o.id}`, "Earlier order - not proof of an applicant filing", [`Order: ${o.id}`, `Law: CPL ${o.law}`, `Court: ${o.courtName}`, `Reference: ${o.reference}`, `Entered date: ${o.enteredDate}`, `Current status: ${o.currentStatus}`, o.statusDetails, ...o.convictions.flatMap(c => [`Case ${c.id}: ${c.caseNumbers}; court: ${c.courtName}`, `Offense: ${c.charge}; section: ${c.section}; grade: ${c.grade}; role: ${c.role}`])].filter(Boolean).join("\n"));
-  const priorConflict = conflicted("ny_16059_application_status") || conflicted("ny_16059_prior_sealing_records") || conflicted("ny_16059_16058_grants");
+  // Resolve each protected copy before emitting any historical detail. A disputed
+  // entry does not erase another application's or order's unambiguous history.
+  const prior59Conflict = conflicted("ny_16059_application_status");
+  const priorHistoryConflict = conflicted(NY_SEALING_HISTORY_ID);
+  const prior58Conflict = conflicted("ny_16059_16058_grants");
+  const historyCopies = (["packetAnswers", "prefilledAnswers", "screeningAnswers"] as const)
+    .filter(key => Object.hasOwn(snapshot[key], NY_SEALING_HISTORY_ID))
+    .map(key => parseNySealingHistory(snapshot[key][NY_SEALING_HISTORY_ID]));
+  function historyEntrySafe(kind: "applications" | "orders", entry: { id: string; law: string }) {
+    const rawEntry = Object.fromEntries(Object.entries(entry).filter(([key]) => !["attachmentIncluded", "sourceAccepted", "legallyReviewed"].includes(key)));
+    const disputed = (entry.law === "16059" && prior59Conflict) || (entry.law === "16058" && prior58Conflict)
+      || !historyCopies.length || historyCopies.some(copy => !copy || hash(copy[kind].find(other => other.id === entry.id) ?? null) !== hash(rawEntry));
+    if (disputed) unresolved.push(`conflicting_prior_history_entry:${kind}:${entry.id}`);
+    return !disputed;
+  }
+  for (const a of (prepared.priorSealingRecords.applications ?? []).filter(a => historyEntrySafe("applications", a))) continuation(`prior:${a.id}`, "Earlier filed application - distinct from granted order", [`Application: ${a.id}`, `Law: CPL ${a.law}`, `Case number(s): ${a.caseNumbers}`, `Court: ${a.courtName}`, `Outcome: ${a.outcome}`, a.outcomeDetails, `Copy status: ${a.copyStatus}`, a.copyExplanation].filter(Boolean).join("\n"));
+  for (const o of (prepared.priorSealingRecords.enteredOrders ?? []).filter(o => historyEntrySafe("orders", o))) continuation(`order:${o.id}`, "Earlier order - not proof of an applicant filing", [`Order: ${o.id}`, `Law: CPL ${o.law}`, `Court: ${o.courtName}`, `Reference: ${o.reference}`, `Entered date: ${o.enteredDate}`, `Current status: ${o.currentStatus}`, o.statusDetails, ...o.convictions.flatMap(c => [`Case ${c.id}: ${c.caseNumbers}; court: ${c.courtName}`, `Offense: ${c.charge}; section: ${c.section}; grade: ${c.grade}; role: ${c.role}`])].filter(Boolean).join("\n"));
+  const priorConflict = prior59Conflict || priorHistoryConflict || prior58Conflict;
   const prior59 = priorConflict ? null : prepared.priorApplications.cpl16059.occurred, prior58 = priorConflict ? null : prepared.priorApplications.cpl16058.occurred;
   const selections = [
     ...(prior59 === true || prior58 === true ? [{ page: 11, field: "HaveOrNotAnother", state: "Have", factIds: ["ny_16059_prior_sealing_records", "ny_16059_application_status"] }]

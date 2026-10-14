@@ -42,6 +42,24 @@ for(const value of [{value:'Residual unknown',unknown:true},{value:'Invented kno
 const futureDetails={ny_16059_future_application:'Yes',ny_16059_future_case_numbers:'00004-F',ny_16059_future_court:'Albany City Court'};const fc={...F.emptyNyFutureCase('future-case'),source:'saved_future'};fc.savedReview=F.nyFutureCaseReview(F.nyFutureReferences(futureDetails),fc);
 const future=patch(many,{...futureDetails,[F.NY_FUTURE_ID]:F.encodeNyFutureApplications({version:F.NY_FUTURE_CONTRACT,applications:[{id:'future-app',laws:['16059'],cases:[fc,{...F.emptyNyFutureCase('other-future'),caseNumbers:'00005-G',courtName:'Kings Criminal Court'}]}]})});
 check(()=>{const v=map(future).continuations.find(c=>c.id==='future:future-app');assert(v.text.includes('00004-F')&&v.text.includes('00005-G'));assert.deepEqual(v.caseIds,['future-case','other-future']);assert.equal(v.execution,'unsigned_undated_unaffirmed');});
+// Real protected transitions first; disagreement is then supplied as a second
+// intact protected source copy, never manufactured by rewriting the chosen row.
+const priorHistory={...H.emptyNySealingHistory(),prior16058Application:'yes',applications:[
+ {...H.emptyNyPriorApplication('past'),law:'16059',courtName:'Albany City Court',caseNumbers:'OLD-ONE',outcome:'denied',copyStatus:'available'},
+ {...H.emptyNyPriorApplication('unrelated'),law:'16058',courtName:'Kings Criminal Court',caseNumbers:'UNCHANGED-58',outcome:'denied',copyStatus:'available'}],orders:[
+ {...H.emptyNyPriorOrder('past-order'),law:'16059',courtName:'Albany City Court',reference:'ORDER-ORIGINAL',enteredDate:'2019-01-01',currentStatus:'sealed',convictions:[{...H.emptyNySealedConviction('sealed-one'),caseNumbers:'SEALED-01',courtName:'Albany City Court',charge:'Petit larceny',section:'PL155.25',grade:'Misdemeanor',role:'16059'}]}]};
+const withPrior=patch(current,{ny_16059_application_status:'denied',ny_16059_16058_grants:'denied',[H.NY_SEALING_HISTORY_ID]:H.encodeNySealingHistory(priorHistory)});assert(withPrior);
+for(const [label,mutate,withheld,retained] of [
+ ['application',h=>h.applications[0].caseNumbers='DISPUTED-TWO',['prior:past'],['prior:unrelated','order:past-order']],
+ ['order',h=>h.orders[0].reference='DISPUTED-ORDER',['order:past-order'],['prior:past','prior:unrelated']],
+ ['missing-entry',h=>h.applications.shift(),['prior:past'],['prior:unrelated','order:past-order']],
+ ['unknown-history',()=>null,['prior:past','prior:unrelated','order:past-order'],[]]
+])check(()=>{const bad=structuredClone(withPrior),other=structuredClone(priorHistory);const result=mutate(other);bad.draftSnapshot.prefilledAnswers[H.NY_SEALING_HISTORY_ID]=result===null?{unknown:true}:H.encodeNySealingHistory(other);bad.draftHash=P.protectedPacketDraftHash(bad.draftSnapshot);const untouched=structuredClone(bad),m=map(bad);assert(m,label);for(const id of withheld)assert(!m.continuations.some(c=>c.id===id),label+id);for(const id of retained)assert(m.continuations.some(c=>c.id===id),label+id);assert(!m.selections.some(s=>s.field==='HaveOrNotAnother'));assert(m.conflictingOwnedFactIds.includes(H.NY_SEALING_HISTORY_ID));assert(m.unresolved.some(s=>s.startsWith('conflicting_prior_history_entry:')));assert.deepEqual(bad,untouched);});
+for(const[id,value,withheld,retained]of [
+ ['ny_16059_application_status','none',['prior:past','order:past-order'],['prior:unrelated']],
+ ['ny_16059_16058_grants','none',['prior:unrelated'],['prior:past','order:past-order']]
+])check(()=>{const bad=structuredClone(withPrior);bad.draftSnapshot.prefilledAnswers[id]=value;bad.draftHash=P.protectedPacketDraftHash(bad.draftSnapshot);const untouched=structuredClone(bad),m=map(bad);for(const entry of withheld)assert(!m.continuations.some(c=>c.id===entry));for(const entry of retained)assert(m.continuations.some(c=>c.id===entry));assert(m.conflictingOwnedFactIds.includes(id));assert(!m.selections.some(s=>s.field==='HaveOrNotAnother'));assert.deepEqual(bad,untouched);});
+check(()=>{const same=structuredClone(withPrior);same.draftSnapshot.prefilledAnswers[H.NY_SEALING_HISTORY_ID]=H.encodeNySealingHistory(priorHistory);same.draftHash=P.protectedPacketDraftHash(same.draftSnapshot);assert.deepEqual(map(same).continuations,map(withPrior).continuations);});
 const longText=Array.from({length:90},(_,i)=>`Statement paragraph ${i+1}: I describe my own work, family responsibilities and education accurately.`).join('\n\n');
 const long=patch(future,{[R.NY_STATEMENT_ID]:{value:longText,unknown:false}});
 if(process.argv.includes('--inputs-only')){console.log(JSON.stringify({status:'PASS_NY_CURRENT_DOCUMENT_INPUTS',checks}));process.exit(0);}
