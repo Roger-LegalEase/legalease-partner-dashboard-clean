@@ -73,8 +73,9 @@ export type CaProp64ReviewAssemblyOptions = {
   variant: GuideVariant; locale: GuideLocale;
   componentReportPath: string; componentReportSha256: string; readBytes: ReadBytes;
 };
-export async function validateCaProp64ReviewComponents(prepared: CaProp64ReviewPreparation, options: CaProp64ReviewAssemblyOptions) {
-  assert.equal(preparations.get(prepared), hash(JSON.stringify(prepared)), "CA review preparation was not validated or was changed");
+export async function validateCaProp64ReviewComponents(inputPrepared: CaProp64ReviewPreparation, inputOptions: CaProp64ReviewAssemblyOptions) {
+  assert.equal(preparations.get(inputPrepared), hash(JSON.stringify(inputPrepared)), "CA review preparation was not validated or was changed");
+  const prepared = structuredClone(inputPrepared), options = { ...inputOptions };
   assert(["full", "court_only"].includes(options.variant), "Explicit CA assembly variant required");
   assert(["en", "es"].includes(options.locale), "Explicit CA delivery locale required");
   const raw = options.readBytes(options.componentReportPath);
@@ -110,7 +111,7 @@ export async function validateCaProp64ReviewComponents(prepared: CaProp64ReviewP
     assert.deepEqual([...selected].sort(), [...expectedSelections].sort(), "No inferred CA waiver, service act or court finding");
     assert.equal(artifact.selectionReport?.selectionsRefused.length ?? 0, 0);
     assert.equal(artifact.formState.acroFormPresent, false); assert.equal(artifact.formState.xfaPresent, false);
-    const bytes = options.readBytes(artifact.outputFile);
+    const bytes = Uint8Array.from(options.readBytes(artifact.outputFile));
     assert.equal(hash(bytes), artifact.sha256); assert.equal(bytes.length, artifact.byteLength);
     const pdf = await PDFDocument.load(bytes, { updateMetadata: false });
     assert.equal(pdf.getPageCount(), contract.pages); assert.equal(artifact.pageCount, contract.pages);
@@ -121,8 +122,10 @@ export async function validateCaProp64ReviewComponents(prepared: CaProp64ReviewP
   return { documents, report };
 }
 
-export async function renderCaProp64ReviewAssembly(prepared: CaProp64ReviewPreparation, options: CaProp64ReviewAssemblyOptions) {
-  const { documents } = await validateCaProp64ReviewComponents(prepared, options);
+export async function renderCaProp64ReviewAssembly(inputPrepared: CaProp64ReviewPreparation, inputOptions: CaProp64ReviewAssemblyOptions) {
+  assert.equal(preparations.get(inputPrepared), hash(JSON.stringify(inputPrepared)), "CA review preparation was not validated or was changed");
+  const prepared = structuredClone(inputPrepared), options = { ...inputOptions };
+  const { documents } = await validateCaProp64ReviewComponents(inputPrepared, options);
   const packet = await PDFDocument.create(), coverage: Array<{ documentId: string; fromPage: number; throughPage: number; filedWithCourt: boolean; sha256: string }> = [];
   async function append(documentId: string, bytes: Uint8Array, filedWithCourt: boolean) {
     const component = await PDFDocument.load(bytes, { updateMetadata: false });

@@ -17,6 +17,13 @@ const directory=process.argv[2],output=process.argv[3],mappingOnly=process.argv.
 assert(directory&&path.isAbsolute(directory),'existing CA contact evidence directory required');
 const specFile='data/record-clearing/packet-specifications/drafts/CA-prop64-adult-review.v1.json',guideFile='data/record-clearing/supplemental-guides/drafts/CA-prop64-adult-review.v1.json';
 const spec=readJson(specFile),guide=readJson(guideFile),baseline=readJson(path.join(directory,'CONTACT-RENDER-BASELINE-v1.json'));
+if(process.argv.includes('--mutation-only')){
+ const baselinePath=process.argv[process.argv.indexOf('--mutation-only')+1],accepted=readJson(baselinePath).artifacts.find(a=>a.name==='completed-self_represented-full-en');assert(accepted);
+ const record=readJson(accepted.sourceRecordPath),prepared=prepare(record,readBytes),report=readJson(accepted.componentReport.path);let mutated=false;
+ const options={variant:'full',locale:'en',componentReportPath:accepted.componentReport.path,componentReportSha256:accepted.componentReport.sha256,readBytes:file=>{const bytes=readBytes(file);if(!mutated&&file===report.artifacts[0].outputFile){mutated=true;queueMicrotask(()=>{prepared.facts['participant.full_legal_name']='MUTATED AFTER VALIDATION';prepared.capturedAt='1990-01-01T00:00:00.000Z';options.locale='es';options.variant='court_only';options.readBytes=()=>Buffer.from('mutated reader');bytes.fill(0);});}return bytes;}};
+ const actual=await render(prepared,options);assert(mutated);assert.equal(actual.sha256,accepted.sha256);assert.equal(actual.locale,'en');assert.equal(actual.variant,'full');assert.equal(hash(readBytes(accepted.file)),accepted.sha256);await assert.rejects(()=>validate(prepared,{...options,readBytes}));
+ console.log(JSON.stringify({status:'PASS_ADULT_ASYNC_CALLER_MUTATION',baselineOutput:accepted.sha256,allStoredOutputsUntouched:true,transportRerun:false,finalizerRerun:false,sourceHash:hash(readBytes('src/lib/rcap/render/ca-prop64-review-assembly.ts'))}));process.exit(0);
+}
 const checks=[],fixtures=[];
 const successorIndex=process.argv.indexOf('--es-successor-of');
 const predecessor=successorIndex>=0?readJson(process.argv[successorIndex+1]):null;
