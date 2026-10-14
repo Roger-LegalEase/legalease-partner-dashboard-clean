@@ -14,6 +14,18 @@ const {renderMontanaDeferredDocumentReview:render}=await import('../src/lib/rcap
 const {MT_DEFERRED_CURRENT_DOCUMENT_CONTRACT:contract,montanaDeferredDocumentInputs:map}=await import('../src/lib/expungement-ai/mt-deferred-document-inputs.ts');
 const {FIXTURES,OUTPUT,COMPONENTS}=await import('./build-census-v1-mt_deferred_dismissal-set.mjs');
 const sha=b=>createHash('sha256').update(b).digest('hex'),read=p=>JSON.parse(fs.readFileSync(p));
+// Isolated provenance regression; keep original artifacts read-only and do not
+// repeat an owner journey or the accepted stage campaign.
+if(process.argv.includes('--contract-mutation-only')){
+ const file=process.env.MT_RETAINED_OWNER_RECORD,artifact=process.env.MT_RETAINED_OWNER_ARTIFACT;
+ assert(file&&artifact,'Exact retained protected record and artifact are required');
+ const saved=read(file),before=structuredClone(saved),current={profile:getProfileByJurisdiction('MT'),profileAuthorityFingerprint:saved.draft.profileAuthorityFingerprint,contract:structuredClone(contract)};
+ const originalHash=sha(JSON.stringify(current.contract)),pending=render(saved.draft,current);
+ current.contract.track.untrustedMutation='caller changed after content binding';
+ const mutatedHash=sha(JSON.stringify(current.contract)),result=await pending;
+ assert.notEqual(mutatedHash,originalHash);assert.equal(result.contractSha256,originalHash);assert(result.bytes.equals(fs.readFileSync(artifact)));assert.deepEqual(saved,before);
+ console.log(JSON.stringify({status:'PASS_ASYNC_CONTRACT_PROVENANCE',originalHash,mutatedHash,returned:result.contractSha256,retainedArtifactBytesIdentical:true,newArtifactsWritten:0}));process.exit(0);
+}
 // Reuse only a completed authenticated owner's protected records. No database,
 // browser, source fixture installation or generation/delivery authorization.
 if(process.argv.includes('--owner-es-successors')){

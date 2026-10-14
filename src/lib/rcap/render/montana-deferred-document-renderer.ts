@@ -31,6 +31,7 @@ export async function renderMontanaDeferredDocumentReview(
 ) {
   const mapping = montanaDeferredDocumentInputs(snapshot, current);
   requireValue(mapping.status === "mapped_for_review", "MT document facts or source review remain unresolved");
+  const contractSha256 = hash(JSON.stringify(current.contract));
   const instructionLocale = options.instructionLocale ?? "en";
   requireValue(instructionLocale === "en" || instructionLocale === "es", "Unsupported MT instruction language");
   // Bind all content before the first await; later caller mutation cannot mix
@@ -125,6 +126,6 @@ export async function renderMontanaDeferredDocumentReview(
   if (instructionLocale === "es") text("BORRADOR EN ESPAÑOL: pendiente de revisión lingüística calificada. Los escritos judiciales y el formulario oficial permanecen en inglés.");
   for (const paragraph of instructions.paragraphs) text(paragraph[instructionLocale]);
   const bytes = Buffer.from(await pdf.save({ useObjectStreams: false }));
-  return { bytes, mapping, pages, writes, blanks, sourceBinding, contractSha256: hash(JSON.stringify(current.contract)), inputSha256: hash(JSON.stringify({ inputs: mapping.inputs, inputSources: mapping.inputSources })),
+  return { bytes, mapping, pages, writes, blanks, sourceBinding, contractSha256, inputSha256: hash(JSON.stringify({ inputs: mapping.inputs, inputSources: mapping.inputSources })),
     artifactSha256: hash(bytes), instructionLocale, instructionLanguageStatus: instructions.languageStatus[instructionLocale], instructionSource: instructions.source, instructionTextSha256: instructionLocale === "es" ? instructions.spanishDraftSha256 : instructions.englishTextSha256, qualifiedSpanishApproval: false as const, generationAllowed: false as const, paymentAllowed: false as const, verificationAuthority: false as const, admissionGranted: false as const };
 }
