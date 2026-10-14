@@ -1,3 +1,5 @@
+import { dcInnocenceLocationIsContext, DC_LEGACY_LOCATION } from "@/lib/rcap-engine/dc-innocence-location-context";
+import { getProfileByJurisdiction } from "@/lib/rcap-engine/profile-registry";
 import { isKsMunicipalContact } from "@/lib/expungement-ai/ks-municipal-contact";
 import { maineNonconvictionQuestionApplies } from "@/lib/rcap-engine/maine-nonconviction-facts";
 import { louisianaAutomationStatusQuestionApplies } from "@/lib/rcap-engine/louisiana-automation-status";
@@ -615,7 +617,11 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
     return validValue(factId, available[factId]) ? answerString(available[factId]) : "";
   };
 
-  const requiredInputIds = dedupe(input.requiredInputIds);
+  const dcLocationContext = input.jurisdiction === "DC"
+    && dcInnocenceLocationIsContext(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
+  const retainedDcLocation = dcLocationContext && [input.screeningAnswers, input.prefilledAnswers, input.savedAnswers, input.profileFacts]
+    .some(answers => answers && Object.hasOwn(answers, DC_LEGACY_LOCATION));
+  const requiredInputIds = dedupe([...input.requiredInputIds, ...(retainedDcLocation ? [DC_LEGACY_LOCATION] : [])]);
   const decidesRouteFor = (factId: string) => input.routeDecidingFactIds?.has(factId) === true;
   const unresolvedScopeFor = (factId: string) => input.unresolvedRouteFactIds?.has(factId) === true;
   const baselineCarried = input.baselineCarriedFactIds ?? new Set<string>();
@@ -732,6 +738,15 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
         actor: actor ?? "external",
         reason: `the specification assigns this field to ${actor ?? "an external actor"}`
       });
+      continue;
+    }
+
+    if (factId === DC_LEGACY_LOCATION && dcLocationContext && !overrideClass && !needsHuman.has(factId)
+      && !decidesRouteFor(factId) && !unresolvedScopeFor(factId)) {
+      facts.push({ factId, collection: "conditional", phase: retainedDcLocation ? "render" : "known",
+        group: retainedDcLocation ? group : null, active: retainedDcLocation,
+        ...(retainedDcLocation ? { optional: true } : {}), source: "dc_fixed_caption_location_context",
+        reason: "The motion has a fixed court caption and separate mailing and prosecutor-service facts; an earlier generic location remains optional editable context, never a document value." });
       continue;
     }
 

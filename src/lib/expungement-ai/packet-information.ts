@@ -1,3 +1,4 @@
+import { dcInnocenceLocationIsContext, DC_LEGACY_LOCATION } from "@/lib/rcap-engine/dc-innocence-location-context";
 import { KS_MUNICIPAL_CONTACT_FIELDS, KS_MUNICIPAL_CONTACT_IDS, KS_MUNICIPAL_CONTACT_SOURCE, isKsMunicipalContact, ksMunicipalContactQuestions, ksMunicipalContactInputs } from "@/lib/expungement-ai/ks-municipal-contact";
 import { CT_CLEAN_SLATE_CONTACT_FIELDS, CT_CLEAN_SLATE_CONTACT_IDS, CT_CLEAN_SLATE_CONTACT_SOURCE, isCtCleanSlateContact, ctCleanSlateContactQuestions, ctCleanSlateContactInputs } from "@/lib/expungement-ai/ct-clean-slate-contact";
 import { akCourtviewContactQuestions, akCourtviewContactIds, akCourtviewContactAnswerState, isAkCourtviewContact, AK_TF810_CONTACT_FIELDS } from "@/lib/expungement-ai/ak-courtview-contact";
@@ -266,6 +267,15 @@ export function packetInformationModelFor(item: ConsumerBriefcaseItem): PacketIn
       requiredInputIds: screening.packetPlan.requiredInputIds.filter(id => id !== "county") };
     if (currentPlan && canonicalEqual(candidate, currentPlan)) requiredInputIds = currentPlan.requiredInputIds;
   }
+  if (pathwayId && screening.pathwayId === pathwayId
+    && dcInnocenceLocationIsContext(profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`))
+    && isRecord(screening.packetPlan) && Array.isArray(screening.packetPlan.requiredInputIds)
+    && screening.packetPlan.requiredInputIds.filter(id => id === DC_LEGACY_LOCATION).length === 1) {
+    const currentPlan = packetPlanForPathway(profile, pathwayId);
+    const candidate = { ...screening.packetPlan,
+      requiredInputIds: screening.packetPlan.requiredInputIds.filter(id => id !== DC_LEGACY_LOCATION) };
+    if (currentPlan && canonicalEqual(candidate, currentPlan)) requiredInputIds = currentPlan.requiredInputIds;
+  }
   const serverFacts = canonicalServerFacts(profile.jurisdiction.code, pathwayId);
   const screeningAnswers = answerRecord(screening.answers);
   const prefilledAnswers = answerRecord(progress.prefilledAnswers);
@@ -338,6 +348,8 @@ export function packetInformationModelFor(item: ConsumerBriefcaseItem): PacketIn
       if (known && !questions.some((question) => question.id === id)) questions.push({ ...known, required: true, contextOnly: false });
     }
   }
+  if (collection?.facts.some(fact => fact.factId === DC_LEGACY_LOCATION && fact.source === "dc_fixed_caption_location_context" && fact.optional)
+    && !questions.some(question => question.id === DC_LEGACY_LOCATION)) questions.push(fallbackPacketQuestion(DC_LEGACY_LOCATION));
   questions = questions.map((question) => reviewedPacketQuestion(question, { state: profile.jurisdiction.code, pathwayId, participantOwnsRecord: knownParticipantOwner(questionById, screeningAnswers.ownership_scope), participantHelpingRecord: knownParticipantHelper(questionById, screeningAnswers.ownership_scope) }));
   for (const question of questions) questionById.set(question.id, question);
   const builderQuestions = builderQuestionsFor(questions, collection, requiredInputIds, serverFacts);
@@ -1480,6 +1492,13 @@ export function protectedPacketInformationModelFor(
       ...participantMapArguments(legacy.maps))).maps,
     serverFacts: snapshot.serverFacts
   });
+  // Malformed historical context stays in the protected raw maps. Expose the
+  // existing optional repair control as uncertain, never stringify an object.
+  if (dcInnocenceLocationIsContext(profile, snapshot.pathwayId, packetSpecificationFor(`${snapshot.jurisdiction}:${snapshot.pathwayId}`))
+    && [snapshot.screeningAnswers, snapshot.prefilledAnswers, snapshot.packetAnswers].some(map => Object.hasOwn(map, DC_LEGACY_LOCATION))
+    && ![screeningAnswers, prefilledAnswers, packetAnswers].some(map => Object.hasOwn(map, DC_LEGACY_LOCATION))) {
+    packetAnswers[DC_LEGACY_LOCATION] = { unknown: true };
+  }
   const initialAnswers = { ...screeningAnswers, ...prefilledAnswers, ...packetAnswers };
   const requiredInputIds = stringArray(snapshot.requiredInputIds);
   if (!canonicalEqual(requiredInputIds, packetPlan?.requiredInputIds ?? [])) return null;
@@ -1864,6 +1883,8 @@ export function factualPathwayCorrectionIds(state: string, pathway: string | nul
     ? [...convictionReliefQuestions(state).filter(q => includeInactive || convictionReliefQuestionApplies(profile, answers, q.id)).map(q => q.id),
       "case_outcome", ...(state === "GA" ? ["ga_original_first_offender", "pardon_status"] : [])] : [];
 
+  if (dcInnocenceLocationIsContext(profile, pathway, packetSpecificationFor(`${state}:${pathway}`))
+    && Object.hasOwn(answers, DC_LEGACY_LOCATION)) return [...extra, DC_LEGACY_LOCATION];
   if (profile && ctCleanSlateContactContract(profile, pathway)) return [...extra, ...CT_CLEAN_SLATE_CONTACT_IDS];
   if (profile && ksMunicipalContactContract(profile, pathway)) return [...extra, ...KS_MUNICIPAL_CONTACT_IDS];
   if (isAkCourtviewContact(state, pathway)) return [...extra, ...akCourtviewContactIds(state, pathway, answers, includeInactive)];
@@ -2285,6 +2306,8 @@ function protectedPacketQuestionSurface(
     recordOwnQuestionIds,
     unresolvedSavedFactIds
   });
+  if (collection?.facts.some(fact => fact.factId === DC_LEGACY_LOCATION && fact.source === "dc_fixed_caption_location_context" && fact.optional)
+    && !questions.some(question => question.id === DC_LEGACY_LOCATION)) questions.push(fallbackPacketQuestion(DC_LEGACY_LOCATION));
   questions = questions.map((question) => reviewedPacketQuestion(question, { state: profile.jurisdiction.code, pathwayId, participantOwnsRecord: knownParticipantOwner(questionById, screeningAnswers.ownership_scope), participantHelpingRecord: knownParticipantHelper(questionById, screeningAnswers.ownership_scope) }));
   for (const question of questions) questionById.set(question.id, question);
   const builderQuestions = builderQuestionsFor(questions, collection, requiredInputIds, serverFacts);
@@ -2627,18 +2650,21 @@ function deriveProtectedPacketDraftSnapshot(
   const preserved = isCaProp64Pathway(base.jurisdiction, base.pathwayId) || preserveFinancialFacts || factualIds.length > 0
     ? preserveUnchangedProtectedFacts(shapesPreserved, base, new Set([...explicitChangedIds, ...confirmRecordFacts]))
     : shapesPreserved;
-  // The reviewed agency successor removes an inherited collection dependency,
-  // not the participant's saved context. Do not turn it into a form/agency fact.
-  if (base.pathwayId && isGeorgiaAgencyWithoutCounty(currentAuthority.profile, base.pathwayId)
+  // These exact source-bound successors remove inherited collection dependencies,
+  // not saved context. Never turn the old value into a form or agency fact.
+  const retainedContextId = base.pathwayId && isGeorgiaAgencyWithoutCounty(currentAuthority.profile, base.pathwayId) ? "county"
+    : dcInnocenceLocationIsContext(currentAuthority.profile, base.pathwayId,
+      packetSpecificationFor(`${base.jurisdiction}:${base.pathwayId}`)) ? DC_LEGACY_LOCATION : null;
+  if (retainedContextId
     && base.profileVersion === currentAuthority.profile.profileVersion
     && base.profileSourceFingerprint === (currentAuthority.profile.source?.sourceCorpusSha256 ?? null)
     && base.profileAuthorityFingerprint === profileAuthorityFingerprint(currentAuthority.profile, base.pathwayId)
     && canonicalEqual(base.packetPlan, currentAuthority.evaluation.packetPlan ?? null)
-    && !explicitChangedIds.has("county") && !confirmRecordFacts.includes("county")) {
+    && !explicitChangedIds.has(retainedContextId) && !confirmRecordFacts.includes(retainedContextId)) {
     for (const source of ["screeningAnswers", "prefilledAnswers", "packetAnswers"] as const) {
       preserved[source] = { ...preserved[source] };
-      delete preserved[source].county;
-      if (Object.hasOwn(base[source], "county")) preserved[source].county = base[source].county;
+      delete preserved[source][retainedContextId];
+      if (Object.hasOwn(base[source], retainedContextId)) preserved[source][retainedContextId] = base[source][retainedContextId];
     }
   }
   return preserveNySeparateDeclaration(verification, { ...preserved, dependencies: history.length

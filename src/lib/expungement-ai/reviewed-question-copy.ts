@@ -1,3 +1,5 @@
+import { getProfileByJurisdiction } from "@/lib/rcap-engine/profile-registry";
+import { dcInnocenceLocationQuestion } from "@/lib/rcap-engine/dc-innocence-location-context";
 import "server-only";
 import catalog from "@/lib/expungement-ai/frontend/reviewed-question-spanish.json";
 import participantCatalog from "@/lib/expungement-ai/frontend/reviewed-participant-copy.json";
@@ -108,6 +110,11 @@ export function reviewedScreeningQuestion<T extends PublicQuestion>(question: T,
 
 /** Paired EN/ES successor copy, only for the exact reviewed participant wording and route. */
 export function reviewedPacketQuestion<T extends PublicQuestion>(question: T, context: Context & { participantOwnsRecord: boolean; participantHelpingRecord?: boolean }): T {
+  if (question.id === "residency_or_location" && context.state === "DC") {
+    const location = dcInnocenceLocationQuestion(question, getProfileByJurisdiction(context.state), context.pathwayId ?? null,
+      packetSpecificationFor(`${context.state}:${context.pathwayId ?? ""}`));
+    if (location !== question) return location;
+  }
   const caption = gaPardonCaptionQuestion(question, `${context.state}:${context.pathwayId ?? ""}`);
   if (caption !== question) return caption;
   if (question.id === "offense_category") {

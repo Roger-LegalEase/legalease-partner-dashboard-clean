@@ -11,7 +11,8 @@ import { CA_PROP64_CAPTION_FACT_IDS } from "@/lib/expungement-ai/ca-prop64-capti
 
 import type { EngineProfile, ScreeningPacketPlan } from "@/lib/rcap-engine/contracts";
 import { isGeorgiaAgencyWithoutCounty } from "@/lib/rcap-engine/georgia-agency-county-context";
-import { packetSpecificationRequiredFactIdsFor } from "@/lib/rcap/grade-a/packet-specification";
+import { dcInnocenceLocationIsContext, DC_LEGACY_LOCATION } from "@/lib/rcap-engine/dc-innocence-location-context";
+import { packetSpecificationFor, packetSpecificationRequiredFactIdsFor } from "@/lib/rcap/grade-a/packet-specification";
 
 export type CompiledScreeningPacketPlan = ScreeningPacketPlan & { packetReadyWhen: string[] };
 
@@ -51,6 +52,9 @@ export function packetPlanForPathway(profile: EngineProfile, pathwayId: string):
   const georgiaAgencyWithoutCounty = isGeorgiaAgencyWithoutCounty(profile, pathwayId)
     && !registeredPacketFactIds.includes("county");
 
+  const dcLocationIsContext = dcInnocenceLocationIsContext(profile, pathwayId,
+    packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`));
+
   const montanaDeferredWithoutMmrtaForm = isMontanaDeferredWithoutMmrtaForm(profile, pathwayId);
   const missouriClosureWithoutIdentityForm = isMissouriClosureGuidanceWithoutIdentityForm(profile, pathwayId);
   const maineNonconvictionWithoutCr218 = isMaineNonconvictionGuidanceWithoutCr218(profile, pathwayId);
@@ -67,7 +71,8 @@ export function packetPlanForPathway(profile: EngineProfile, pathwayId: string):
       ...(isCaProp64Pathway(profile.jurisdiction.code, pathwayId) ? [...CA_PROP64_CAPTION_FACT_IDS, ...CA_CONTACT_IDS] : []),
       ...(isNy16059Packet(profile.jurisdiction.code, pathwayId) ? [...NY_PACKET_FACT_IDS, ...NY_CASE_FACT_IDS] : [])
     ])].filter(id => (!isCaProp64Pathway(profile.jurisdiction.code, pathwayId) || !CA_PROP64_LEGACY_IDS.includes(id))
-      && (!(marylandAutomaticWithoutCounty || georgiaAgencyWithoutCounty) || id !== "county")),
+      && (!(marylandAutomaticWithoutCounty || georgiaAgencyWithoutCounty) || id !== "county")
+      && (!dcLocationIsContext || id !== DC_LEGACY_LOCATION)),
     sourceRuleRefs: plan.sourceRuleRefs ?? [],
     packetReadyWhen: plan.packetReadyWhen ?? []
   };
