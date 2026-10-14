@@ -316,6 +316,7 @@ export type PacketCollectionInput = {
   /** Set only by the exact adopted MO status/source contract, never participant data. */
   missouriClosureStatusOnly?: boolean;
   missouriMarijuanaStatusOnly?: boolean;
+  montanaDeferredFinancialFacts?: boolean;
   /** Per-route corrections, used only where the generic policy cannot be right. */
   override?: RouteCollectionOverride | null;
 };
@@ -659,6 +660,13 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
       continue;
     }
 
+    if (input.montanaDeferredFinancialFacts === true && input.jurisdiction === "MT"
+      && input.pathwayId === "deferred-sentence-dismissal-or-confidentiality-route" && factId === "financial_obligations") {
+      facts.push({ factId, collection: "conditional", phase: "known", group: null,
+        source: "mt_deferred_current_order_financial_facts", active: false,
+        reason: "Exact deferred-order facts use the current court-order financial status; the historical paid-only answer remains preserved." });
+      continue;
+    }
     if (input.missouriMarijuanaStatusOnly === true && input.jurisdiction === "MO"
       && input.pathwayId === "marijuana-expungement-under-missouri-constitution-article-xiv" && factId === "financial_obligations") {
       facts.push({ factId, collection: "conditional", phase: "known", group: null,

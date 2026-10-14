@@ -3654,6 +3654,906 @@
         "moduleManifestSha256": "a14e7fa0e0c1dce8059dd6feb2d8a376bf65eacff125600af72fce6626671fdb",
         "fsInputManifestSha256": "33d154c1e772aeef3e648b4830404760e2f7badf8ff327e565eeb4ca497b8f0c"
       }
+    },
+    {
+      "id": "MT-deferred-order-financial-witness-20261014",
+      "originalQuestionRecordIds": [
+        "Q-881219f601f85edb6881"
+      ],
+      "status": "ENGINEERING_IN_PROGRESS_NO_ACCEPTANCE_CLAIM",
+      "routeKey": "MT:deferred-sentence-dismissal-or-confidentiality-route",
+      "source": "MT.memo:mt_deferred_dismissal;LD-MT-01;MCA46-18-204",
+      "freshBaselineReproduction": {
+        "base": {
+          "age_at_offense": "30",
+          "case_outcome": "Diversion, deferred disposition, supervision, or similar program",
+          "court_requirements_completed": "yes",
+          "financial_obligations": "Yes",
+          "jurisdiction_scope": "State or local",
+          "new_convictions_during_waiting_period": "No",
+          "offense_level": "Misdemeanor",
+          "ownership_scope": "Yes",
+          "pardon_status": "No",
+          "pending_cases": "No",
+          "possible_pathway_context": "Deferred-sentence dismissal or confidentiality route",
+          "prior_relief": "Yes",
+          "record_documents": "Yes",
+          "resolved_timing_bucket": "gt_10_years",
+          "sentence_completion_date": "Yes",
+          "special_preconditions_confirmed": "Yes",
+          "discharge_date": "2020-01-01"
+        },
+        "rows": [
+          {
+            "hinted": true,
+            "financial": "Yes",
+            "result": "guidance_only",
+            "path": "deferred-sentence-dismissal-or-confidentiality-route",
+            "missing": [],
+            "payment": false,
+            "reasons": [
+              {
+                "code": "mt.guidance_only_no_user_filed_court_petition",
+                "text": "This route is guidance-only because it is automatic, board/portal-based, prosecutor/agency-only, or otherwise not a user-filed court petition/motion/pleading.",
+                "sourceRef": "section:389-399; section:185-203; section:204-228; section:229-269; section:400-421; section:270-318; section:362-367; summary:400-421"
+              }
+            ],
+            "sourceForms": [
+              "MT:LegalEase Montana/form-a.docx:968f68c78ce0d421b3751244bfcbd01c309eb7cea26027845b5e5dc6dbdb003d"
+            ],
+            "financialSelected": true,
+            "protected": true,
+            "financialQuestion": true,
+            "financialBuilder": false,
+            "record": {
+              "status": "unverified",
+              "reason": "synthetic",
+              "revision": 0,
+              "draftHash": "9f38eaef20b2f28e62c0b8672a21131b98ea72987d6c4679a92175aff9643b04",
+              "draftSnapshot": {
+                "capturedAt": "2026-10-14T00:00:00Z",
+                "deferralComponentIds": [],
+                "dependencies": {},
+                "jurisdiction": "MT",
+                "packetAnswers": {},
+                "packetFamilyIdentifiers": {
+                  "mode": "automatic_relief_verification_and_guidance",
+                  "sourceFormIds": [
+                    "MT:LegalEase Montana/form-a.docx:968f68c78ce0d421b3751244bfcbd01c309eb7cea26027845b5e5dc6dbdb003d"
+                  ]
+                },
+                "packetPlan": {
+                  "formMappingStatus": "source_candidate_identified",
+                  "mode": "automatic_relief_verification_and_guidance",
+                  "packetReadyWhen": [
+                    "backend result is packet_ready or packet_ready_with_caution",
+                    "every source-defined pathway fact is answered",
+                    "all waiting and completion conditions are satisfied",
+                    "no exclusion, ambiguity, or required-review flag remains",
+                    "the selected form revision and filing location pass source-freshness checks"
+                  ],
+                  "pathwayId": "deferred-sentence-dismissal-or-confidentiality-route",
+                  "requiredInputIds": [
+                    "age_at_offense",
+                    "case_outcome",
+                    "charge",
+                    "contact_information",
+                    "county",
+                    "court",
+                    "criminal_history",
+                    "disposition_date",
+                    "financial_obligations",
+                    "jurisdiction",
+                    "offense_category",
+                    "offense_level",
+                    "pardon_status",
+                    "participant_full_legal_name",
+                    "pathway_id",
+                    "pending_cases",
+                    "prior_relief",
+                    "record_type",
+                    "residency_or_location",
+                    "sentence_completion_date"
+                  ],
+                  "sourceFormIds": [
+                    "MT:LegalEase Montana/form-a.docx:968f68c78ce0d421b3751244bfcbd01c309eb7cea26027845b5e5dc6dbdb003d"
+                  ],
+                  "sourceRuleRefs": [
+                    "section:389-399",
+                    "section:185-203",
+                    "section:204-228",
+                    "section:229-269",
+                    "section:400-421",
+                    "section:270-318",
+                    "section:362-367",
+                    "summary:400-421",
+                    "corpus-unit:13",
+                    "corpus-unit:16",
+                    "corpus-unit:17",
+                    "corpus-unit:79",
+                    "corpus-unit:91",
+                    "corpus-unit:111",
+                    "corpus-unit:183",
+                    "corpus-unit:191",
+                    "decision_tree:229-269"
+                  ]
+                },
+                "packetType": "guidance_packet",
+                "pathwayId": "deferred-sentence-dismissal-or-confidentiality-route",
+                "paymentAllowed": false,
+                "prefilledAnswers": {
+                  "age_at_offense": "30",
+                  "case_outcome": "Diversion, deferred disposition, supervision, or similar program",
+                  "financial_obligations": "Yes",
+                  "offense_level": "Misdemeanor",
+                  "pardon_status": "No",
+                  "pending_cases": "No",
+                  "prior_relief": "Yes",
+                  "sentence_completion_date": "Yes"
+                },
+                "profileAuthorityFingerprint": "d6ea2cb9d87223ce1da5999f41e54b0e655d519606230b1af5fcd2ce8817c75c",
+                "profileSourceFingerprint": "a415dd4d99328420d5b3c632c62da96ea554f371ce2f93cd00be7af5c6790395",
+                "profileVersion": "2026-06-19-source-conversion-1",
+                "requiredInputIds": [
+                  "age_at_offense",
+                  "case_outcome",
+                  "charge",
+                  "contact_information",
+                  "county",
+                  "court",
+                  "criminal_history",
+                  "disposition_date",
+                  "financial_obligations",
+                  "jurisdiction",
+                  "offense_category",
+                  "offense_level",
+                  "pardon_status",
+                  "participant_full_legal_name",
+                  "pathway_id",
+                  "pending_cases",
+                  "prior_relief",
+                  "record_type",
+                  "residency_or_location",
+                  "sentence_completion_date"
+                ],
+                "resultCode": "guidance_only",
+                "schemaVersion": "expungement-ai/protected-packet-draft/v1",
+                "screeningAnswers": {
+                  "court_requirements_completed": "yes",
+                  "discharge_date": "2020-01-01",
+                  "jurisdiction_scope": "State or local",
+                  "new_convictions_during_waiting_period": "No",
+                  "ownership_scope": "Yes",
+                  "possible_pathway_context": "Deferred-sentence dismissal or confidentiality route",
+                  "record_documents": "Yes",
+                  "resolved_timing_bucket": "gt_10_years",
+                  "special_preconditions_confirmed": "Yes"
+                },
+                "selectedTrackId": null,
+                "serverFacts": {
+                  "jurisdiction": "MT",
+                  "pathway_id": "deferred-sentence-dismissal-or-confidentiality-route"
+                },
+                "treatmentClassification": null
+              }
+            }
+          },
+          {
+            "hinted": true,
+            "financial": "No",
+            "result": "guidance_only",
+            "path": "deferred-sentence-dismissal-or-confidentiality-route",
+            "missing": [],
+            "payment": false,
+            "reasons": [
+              {
+                "code": "mt.guidance_only_no_user_filed_court_petition",
+                "text": "This route is guidance-only because it is automatic, board/portal-based, prosecutor/agency-only, or otherwise not a user-filed court petition/motion/pleading.",
+                "sourceRef": "section:389-399; section:185-203; section:204-228; section:229-269; section:400-421; section:270-318; section:362-367; summary:400-421"
+              }
+            ],
+            "sourceForms": [
+              "MT:LegalEase Montana/form-a.docx:968f68c78ce0d421b3751244bfcbd01c309eb7cea26027845b5e5dc6dbdb003d"
+            ],
+            "financialSelected": true,
+            "protected": true,
+            "financialQuestion": true,
+            "financialBuilder": false,
+            "record": {
+              "status": "unverified",
+              "reason": "synthetic",
+              "revision": 0,
+              "draftHash": "b63fdc4a266decec1847bea02f5378405ca7e13de51cced95e74dea768cb11d1",
+              "draftSnapshot": {
+                "capturedAt": "2026-10-14T00:00:00Z",
+                "deferralComponentIds": [],
+                "dependencies": {},
+                "jurisdiction": "MT",
+                "packetAnswers": {},
+                "packetFamilyIdentifiers": {
+                  "mode": "automatic_relief_verification_and_guidance",
+                  "sourceFormIds": [
+                    "MT:LegalEase Montana/form-a.docx:968f68c78ce0d421b3751244bfcbd01c309eb7cea26027845b5e5dc6dbdb003d"
+                  ]
+                },
+                "packetPlan": {
+                  "formMappingStatus": "source_candidate_identified",
+                  "mode": "automatic_relief_verification_and_guidance",
+                  "packetReadyWhen": [
+                    "backend result is packet_ready or packet_ready_with_caution",
+                    "every source-defined pathway fact is answered",
+                    "all waiting and completion conditions are satisfied",
+                    "no exclusion, ambiguity, or required-review flag remains",
+                    "the selected form revision and filing location pass source-freshness checks"
+                  ],
+                  "pathwayId": "deferred-sentence-dismissal-or-confidentiality-route",
+                  "requiredInputIds": [
+                    "age_at_offense",
+                    "case_outcome",
+                    "charge",
+                    "contact_information",
+                    "county",
+                    "court",
+                    "criminal_history",
+                    "disposition_date",
+                    "financial_obligations",
+                    "jurisdiction",
+                    "offense_category",
+                    "offense_level",
+                    "pardon_status",
+                    "participant_full_legal_name",
+                    "pathway_id",
+                    "pending_cases",
+                    "prior_relief",
+                    "record_type",
+                    "residency_or_location",
+                    "sentence_completion_date"
+                  ],
+                  "sourceFormIds": [
+                    "MT:LegalEase Montana/form-a.docx:968f68c78ce0d421b3751244bfcbd01c309eb7cea26027845b5e5dc6dbdb003d"
+                  ],
+                  "sourceRuleRefs": [
+                    "section:389-399",
+                    "section:185-203",
+                    "section:204-228",
+                    "section:229-269",
+                    "section:400-421",
+                    "section:270-318",
+                    "section:362-367",
+                    "summary:400-421",
+                    "corpus-unit:13",
+                    "corpus-unit:16",
+                    "corpus-unit:17",
+                    "corpus-unit:79",
+                    "corpus-unit:91",
+                    "corpus-unit:111",
+                    "corpus-unit:183",
+                    "corpus-unit:191",
+                    "decision_tree:229-269"
+                  ]
+                },
+                "packetType": "guidance_packet",
+                "pathwayId": "deferred-sentence-dismissal-or-confidentiality-route",
+                "paymentAllowed": false,
+                "prefilledAnswers": {
+                  "age_at_offense": "30",
+                  "case_outcome": "Diversion, deferred disposition, supervision, or similar program",
+                  "financial_obligations": "No",
+                  "offense_level": "Misdemeanor",
+                  "pardon_status": "No",
+                  "pending_cases": "No",
+                  "prior_relief": "Yes",
+                  "sentence_completion_date": "Yes"
+                },
+                "profileAuthorityFingerprint": "d6ea2cb9d87223ce1da5999f41e54b0e655d519606230b1af5fcd2ce8817c75c",
+                "profileSourceFingerprint": "a415dd4d99328420d5b3c632c62da96ea554f371ce2f93cd00be7af5c6790395",
+                "profileVersion": "2026-06-19-source-conversion-1",
+                "requiredInputIds": [
+                  "age_at_offense",
+                  "case_outcome",
+                  "charge",
+                  "contact_information",
+                  "county",
+                  "court",
+                  "criminal_history",
+                  "disposition_date",
+                  "financial_obligations",
+                  "jurisdiction",
+                  "offense_category",
+                  "offense_level",
+                  "pardon_status",
+                  "participant_full_legal_name",
+                  "pathway_id",
+                  "pending_cases",
+                  "prior_relief",
+                  "record_type",
+                  "residency_or_location",
+                  "sentence_completion_date"
+                ],
+                "resultCode": "guidance_only",
+                "schemaVersion": "expungement-ai/protected-packet-draft/v1",
+                "screeningAnswers": {
+                  "court_requirements_completed": "yes",
+                  "discharge_date": "2020-01-01",
+                  "jurisdiction_scope": "State or local",
+                  "new_convictions_during_waiting_period": "No",
+                  "ownership_scope": "Yes",
+                  "possible_pathway_context": "Deferred-sentence dismissal or confidentiality route",
+                  "record_documents": "Yes",
+                  "resolved_timing_bucket": "gt_10_years",
+                  "special_preconditions_confirmed": "Yes"
+                },
+                "selectedTrackId": null,
+                "serverFacts": {
+                  "jurisdiction": "MT",
+                  "pathway_id": "deferred-sentence-dismissal-or-confidentiality-route"
+                },
+                "treatmentClassification": null
+              }
+            }
+          },
+          {
+            "hinted": true,
+            "financial": "I am not sure",
+            "result": "needs_review",
+            "path": "deferred-sentence-dismissal-or-confidentiality-route",
+            "missing": [
+              "financial_obligations"
+            ],
+            "payment": false,
+            "reasons": [
+              {
+                "code": "mt.source_fact_unknown",
+                "text": "Review your saved answer about court-ordered financial obligations. Keep an unsure answer if you do not know, and update it when you have the information."
+              }
+            ],
+            "financialSelected": true,
+            "protected": true,
+            "financialQuestion": true,
+            "financialBuilder": true,
+            "record": {
+              "status": "unverified",
+              "reason": "synthetic",
+              "revision": 0,
+              "draftHash": "52b4af3227615d20bb849374d790c391bef7dc77ea246ce652004bee90f83df6",
+              "draftSnapshot": {
+                "capturedAt": "2026-10-14T00:00:00Z",
+                "deferralComponentIds": [],
+                "dependencies": {},
+                "jurisdiction": "MT",
+                "packetAnswers": {},
+                "packetFamilyIdentifiers": {
+                  "mode": null,
+                  "sourceFormIds": []
+                },
+                "packetPlan": null,
+                "packetType": null,
+                "pathwayId": "deferred-sentence-dismissal-or-confidentiality-route",
+                "paymentAllowed": false,
+                "prefilledAnswers": {
+                  "age_at_offense": "30",
+                  "case_outcome": "Diversion, deferred disposition, supervision, or similar program",
+                  "offense_level": "Misdemeanor",
+                  "pardon_status": "No",
+                  "pending_cases": "No",
+                  "prior_relief": "Yes",
+                  "sentence_completion_date": "Yes"
+                },
+                "profileAuthorityFingerprint": "d6ea2cb9d87223ce1da5999f41e54b0e655d519606230b1af5fcd2ce8817c75c",
+                "profileSourceFingerprint": "a415dd4d99328420d5b3c632c62da96ea554f371ce2f93cd00be7af5c6790395",
+                "profileVersion": "2026-06-19-source-conversion-1",
+                "requiredInputIds": [],
+                "resultCode": "needs_review",
+                "schemaVersion": "expungement-ai/protected-packet-draft/v1",
+                "screeningAnswers": {
+                  "court_requirements_completed": "yes",
+                  "discharge_date": "2020-01-01",
+                  "financial_obligations": "I am not sure",
+                  "jurisdiction_scope": "State or local",
+                  "new_convictions_during_waiting_period": "No",
+                  "ownership_scope": "Yes",
+                  "possible_pathway_context": "Deferred-sentence dismissal or confidentiality route",
+                  "record_documents": "Yes",
+                  "resolved_timing_bucket": "gt_10_years",
+                  "special_preconditions_confirmed": "Yes"
+                },
+                "selectedTrackId": null,
+                "serverFacts": {
+                  "jurisdiction": "MT",
+                  "pathway_id": "deferred-sentence-dismissal-or-confidentiality-route"
+                },
+                "treatmentClassification": null
+              }
+            }
+          },
+          {
+            "hinted": true,
+            "financial": "absent",
+            "result": "needs_more_info",
+            "path": null,
+            "missing": [
+              "financial_obligations"
+            ],
+            "payment": false,
+            "reasons": [
+              {
+                "code": "mt.missing_required_facts",
+                "text": "Required public screening facts are missing."
+              }
+            ],
+            "financialSelected": true,
+            "protected": true,
+            "financialQuestion": false,
+            "financialBuilder": false,
+            "record": {
+              "status": "unverified",
+              "reason": "synthetic",
+              "revision": 0,
+              "draftHash": "7b341929b698ffc0daa3fa980452195a1d140c1c2274894e8eb57af22d234e07",
+              "draftSnapshot": {
+                "capturedAt": "2026-10-14T00:00:00Z",
+                "deferralComponentIds": [],
+                "dependencies": {},
+                "jurisdiction": "MT",
+                "packetAnswers": {},
+                "packetFamilyIdentifiers": {
+                  "mode": null,
+                  "sourceFormIds": []
+                },
+                "packetPlan": null,
+                "packetType": null,
+                "pathwayId": null,
+                "paymentAllowed": false,
+                "prefilledAnswers": {},
+                "profileAuthorityFingerprint": "fa71f837ff7586bd3096aa9e9f818411ab2aad7be651e228b818a5b436654a4c",
+                "profileSourceFingerprint": "a415dd4d99328420d5b3c632c62da96ea554f371ce2f93cd00be7af5c6790395",
+                "profileVersion": "2026-06-19-source-conversion-1",
+                "requiredInputIds": [],
+                "resultCode": "needs_more_info",
+                "schemaVersion": "expungement-ai/protected-packet-draft/v1",
+                "screeningAnswers": {
+                  "age_at_offense": "30",
+                  "case_outcome": "Diversion, deferred disposition, supervision, or similar program",
+                  "court_requirements_completed": "yes",
+                  "discharge_date": "2020-01-01",
+                  "jurisdiction_scope": "State or local",
+                  "new_convictions_during_waiting_period": "No",
+                  "offense_level": "Misdemeanor",
+                  "ownership_scope": "Yes",
+                  "pardon_status": "No",
+                  "pending_cases": "No",
+                  "possible_pathway_context": "Deferred-sentence dismissal or confidentiality route",
+                  "prior_relief": "Yes",
+                  "record_documents": "Yes",
+                  "resolved_timing_bucket": "gt_10_years",
+                  "sentence_completion_date": "Yes",
+                  "special_preconditions_confirmed": "Yes"
+                },
+                "selectedTrackId": null,
+                "serverFacts": {
+                  "jurisdiction": "MT"
+                },
+                "treatmentClassification": null
+              }
+            }
+          },
+          {
+            "hinted": false,
+            "financial": "Yes",
+            "result": "needs_review",
+            "path": "misdemeanor-conviction-expungement-under-mont-code-46-18-1104",
+            "missing": [],
+            "payment": false,
+            "reasons": [
+              {
+                "code": "mt.waiting_rule_not_executed",
+                "text": "The source-specific waiting period needs review before a packet decision.",
+                "sourceRef": "packet_logic:319-361"
+              }
+            ],
+            "sourceForms": [],
+            "financialSelected": true,
+            "protected": true,
+            "financialQuestion": true,
+            "financialBuilder": false,
+            "record": {
+              "status": "unverified",
+              "reason": "synthetic",
+              "revision": 0,
+              "draftHash": "55f7f68c44e4902a71f9d1ecbe6dd29330d1c06eeca7895f484a9c3ea4f73c4a",
+              "draftSnapshot": {
+                "capturedAt": "2026-10-14T00:00:00Z",
+                "deferralComponentIds": [],
+                "dependencies": {},
+                "jurisdiction": "MT",
+                "packetAnswers": {},
+                "packetFamilyIdentifiers": {
+                  "mode": "state_specific_custom_packet_from_source_rules",
+                  "sourceFormIds": []
+                },
+                "packetPlan": {
+                  "formMappingStatus": "custom_or_manual_mapping_required",
+                  "mode": "state_specific_custom_packet_from_source_rules",
+                  "packetReadyWhen": [
+                    "backend result is packet_ready or packet_ready_with_caution",
+                    "every source-defined pathway fact is answered",
+                    "all waiting and completion conditions are satisfied",
+                    "no exclusion, ambiguity, or required-review flag remains",
+                    "the selected form revision and filing location pass source-freshness checks"
+                  ],
+                  "pathwayId": "misdemeanor-conviction-expungement-under-mont-code-46-18-1104",
+                  "requiredInputIds": [
+                    "age_at_offense",
+                    "case_outcome",
+                    "charge",
+                    "contact_information",
+                    "county",
+                    "court",
+                    "criminal_history",
+                    "disposition_date",
+                    "financial_obligations",
+                    "jurisdiction",
+                    "offense_category",
+                    "offense_level",
+                    "pardon_status",
+                    "participant_full_legal_name",
+                    "pathway_id",
+                    "pending_cases",
+                    "prior_relief",
+                    "record_type",
+                    "residency_or_location",
+                    "sentence_completion_date"
+                  ],
+                  "sourceFormIds": [],
+                  "sourceRuleRefs": [
+                    "section:51-76",
+                    "section:400-421",
+                    "corpus-unit:191",
+                    "summary:400-421",
+                    "corpus-unit:28"
+                  ]
+                },
+                "packetType": "custom_pleading",
+                "pathwayId": "misdemeanor-conviction-expungement-under-mont-code-46-18-1104",
+                "paymentAllowed": false,
+                "prefilledAnswers": {
+                  "age_at_offense": "30",
+                  "case_outcome": "Diversion, deferred disposition, supervision, or similar program",
+                  "financial_obligations": "Yes",
+                  "offense_level": "Misdemeanor",
+                  "pardon_status": "No",
+                  "pending_cases": "No",
+                  "prior_relief": "Yes",
+                  "sentence_completion_date": "Yes"
+                },
+                "profileAuthorityFingerprint": "1f77489aaa16827c01c4041d7064a1f3f8a37ba879ad573017ac163107800a9a",
+                "profileSourceFingerprint": "a415dd4d99328420d5b3c632c62da96ea554f371ce2f93cd00be7af5c6790395",
+                "profileVersion": "2026-06-19-source-conversion-1",
+                "requiredInputIds": [
+                  "age_at_offense",
+                  "case_outcome",
+                  "charge",
+                  "contact_information",
+                  "county",
+                  "court",
+                  "criminal_history",
+                  "disposition_date",
+                  "financial_obligations",
+                  "jurisdiction",
+                  "offense_category",
+                  "offense_level",
+                  "pardon_status",
+                  "participant_full_legal_name",
+                  "pathway_id",
+                  "pending_cases",
+                  "prior_relief",
+                  "record_type",
+                  "residency_or_location",
+                  "sentence_completion_date"
+                ],
+                "resultCode": "needs_review",
+                "schemaVersion": "expungement-ai/protected-packet-draft/v1",
+                "screeningAnswers": {
+                  "court_requirements_completed": "yes",
+                  "discharge_date": "2020-01-01",
+                  "jurisdiction_scope": "State or local",
+                  "new_convictions_during_waiting_period": "No",
+                  "ownership_scope": "Yes",
+                  "record_documents": "Yes",
+                  "resolved_timing_bucket": "gt_10_years",
+                  "special_preconditions_confirmed": "Yes"
+                },
+                "selectedTrackId": null,
+                "serverFacts": {
+                  "jurisdiction": "MT",
+                  "pathway_id": "misdemeanor-conviction-expungement-under-mont-code-46-18-1104"
+                },
+                "treatmentClassification": null
+              }
+            }
+          },
+          {
+            "hinted": false,
+            "financial": "No",
+            "result": "needs_review",
+            "path": "misdemeanor-conviction-expungement-under-mont-code-46-18-1104",
+            "missing": [],
+            "payment": false,
+            "reasons": [
+              {
+                "code": "mt.payment_and_completion_meaning_unconfirmed",
+                "text": "You reported that court requirements are complete but that not all amounts were paid. Check whether any amount was waived, changed, converted to a civil judgment, or remains unpaid, including restitution. Keep the payment answer as recorded; completing requirements does not by itself prove payment or a legal exception.",
+                "sourceRef": "packet_logic:319-361"
+              }
+            ],
+            "sourceForms": [],
+            "financialSelected": true,
+            "protected": true,
+            "financialQuestion": true,
+            "financialBuilder": false,
+            "record": {
+              "status": "unverified",
+              "reason": "synthetic",
+              "revision": 0,
+              "draftHash": "31a000ea24b1817bdc11ad5e8c454ec641ee5f3d256ee51b065f879b36124bbb",
+              "draftSnapshot": {
+                "capturedAt": "2026-10-14T00:00:00Z",
+                "deferralComponentIds": [],
+                "dependencies": {},
+                "jurisdiction": "MT",
+                "packetAnswers": {},
+                "packetFamilyIdentifiers": {
+                  "mode": "state_specific_custom_packet_from_source_rules",
+                  "sourceFormIds": []
+                },
+                "packetPlan": {
+                  "formMappingStatus": "custom_or_manual_mapping_required",
+                  "mode": "state_specific_custom_packet_from_source_rules",
+                  "packetReadyWhen": [
+                    "backend result is packet_ready or packet_ready_with_caution",
+                    "every source-defined pathway fact is answered",
+                    "all waiting and completion conditions are satisfied",
+                    "no exclusion, ambiguity, or required-review flag remains",
+                    "the selected form revision and filing location pass source-freshness checks"
+                  ],
+                  "pathwayId": "misdemeanor-conviction-expungement-under-mont-code-46-18-1104",
+                  "requiredInputIds": [
+                    "age_at_offense",
+                    "case_outcome",
+                    "charge",
+                    "contact_information",
+                    "county",
+                    "court",
+                    "criminal_history",
+                    "disposition_date",
+                    "financial_obligations",
+                    "jurisdiction",
+                    "offense_category",
+                    "offense_level",
+                    "pardon_status",
+                    "participant_full_legal_name",
+                    "pathway_id",
+                    "pending_cases",
+                    "prior_relief",
+                    "record_type",
+                    "residency_or_location",
+                    "sentence_completion_date"
+                  ],
+                  "sourceFormIds": [],
+                  "sourceRuleRefs": [
+                    "section:51-76",
+                    "section:400-421",
+                    "corpus-unit:191",
+                    "summary:400-421",
+                    "corpus-unit:28"
+                  ]
+                },
+                "packetType": "custom_pleading",
+                "pathwayId": "misdemeanor-conviction-expungement-under-mont-code-46-18-1104",
+                "paymentAllowed": false,
+                "prefilledAnswers": {
+                  "age_at_offense": "30",
+                  "case_outcome": "Diversion, deferred disposition, supervision, or similar program",
+                  "financial_obligations": "No",
+                  "offense_level": "Misdemeanor",
+                  "pardon_status": "No",
+                  "pending_cases": "No",
+                  "prior_relief": "Yes",
+                  "sentence_completion_date": "Yes"
+                },
+                "profileAuthorityFingerprint": "1f77489aaa16827c01c4041d7064a1f3f8a37ba879ad573017ac163107800a9a",
+                "profileSourceFingerprint": "a415dd4d99328420d5b3c632c62da96ea554f371ce2f93cd00be7af5c6790395",
+                "profileVersion": "2026-06-19-source-conversion-1",
+                "requiredInputIds": [
+                  "age_at_offense",
+                  "case_outcome",
+                  "charge",
+                  "contact_information",
+                  "county",
+                  "court",
+                  "criminal_history",
+                  "disposition_date",
+                  "financial_obligations",
+                  "jurisdiction",
+                  "offense_category",
+                  "offense_level",
+                  "pardon_status",
+                  "participant_full_legal_name",
+                  "pathway_id",
+                  "pending_cases",
+                  "prior_relief",
+                  "record_type",
+                  "residency_or_location",
+                  "sentence_completion_date"
+                ],
+                "resultCode": "needs_review",
+                "schemaVersion": "expungement-ai/protected-packet-draft/v1",
+                "screeningAnswers": {
+                  "court_requirements_completed": "yes",
+                  "discharge_date": "2020-01-01",
+                  "jurisdiction_scope": "State or local",
+                  "new_convictions_during_waiting_period": "No",
+                  "ownership_scope": "Yes",
+                  "record_documents": "Yes",
+                  "resolved_timing_bucket": "gt_10_years",
+                  "special_preconditions_confirmed": "Yes"
+                },
+                "selectedTrackId": null,
+                "serverFacts": {
+                  "jurisdiction": "MT",
+                  "pathway_id": "misdemeanor-conviction-expungement-under-mont-code-46-18-1104"
+                },
+                "treatmentClassification": null
+              }
+            }
+          },
+          {
+            "hinted": false,
+            "financial": "I am not sure",
+            "result": "needs_review",
+            "path": null,
+            "missing": [
+              "financial_obligations"
+            ],
+            "payment": false,
+            "reasons": [
+              {
+                "code": "mt.source_fact_unknown",
+                "text": "Review your saved answer about court-ordered financial obligations. Keep an unsure answer if you do not know, and update it when you have the information."
+              }
+            ],
+            "financialSelected": true,
+            "protected": true,
+            "financialQuestion": false,
+            "financialBuilder": false,
+            "record": {
+              "status": "unverified",
+              "reason": "synthetic",
+              "revision": 0,
+              "draftHash": "35cf899afd6e92aaa7832c9cb2bc196fcd17cdca94f303aef2e538859f163e56",
+              "draftSnapshot": {
+                "capturedAt": "2026-10-14T00:00:00Z",
+                "deferralComponentIds": [],
+                "dependencies": {},
+                "jurisdiction": "MT",
+                "packetAnswers": {},
+                "packetFamilyIdentifiers": {
+                  "mode": null,
+                  "sourceFormIds": []
+                },
+                "packetPlan": null,
+                "packetType": null,
+                "pathwayId": null,
+                "paymentAllowed": false,
+                "prefilledAnswers": {},
+                "profileAuthorityFingerprint": "fa71f837ff7586bd3096aa9e9f818411ab2aad7be651e228b818a5b436654a4c",
+                "profileSourceFingerprint": "a415dd4d99328420d5b3c632c62da96ea554f371ce2f93cd00be7af5c6790395",
+                "profileVersion": "2026-06-19-source-conversion-1",
+                "requiredInputIds": [],
+                "resultCode": "needs_review",
+                "schemaVersion": "expungement-ai/protected-packet-draft/v1",
+                "screeningAnswers": {
+                  "age_at_offense": "30",
+                  "case_outcome": "Diversion, deferred disposition, supervision, or similar program",
+                  "court_requirements_completed": "yes",
+                  "discharge_date": "2020-01-01",
+                  "financial_obligations": "I am not sure",
+                  "jurisdiction_scope": "State or local",
+                  "new_convictions_during_waiting_period": "No",
+                  "offense_level": "Misdemeanor",
+                  "ownership_scope": "Yes",
+                  "pardon_status": "No",
+                  "pending_cases": "No",
+                  "prior_relief": "Yes",
+                  "record_documents": "Yes",
+                  "resolved_timing_bucket": "gt_10_years",
+                  "sentence_completion_date": "Yes",
+                  "special_preconditions_confirmed": "Yes"
+                },
+                "selectedTrackId": null,
+                "serverFacts": {
+                  "jurisdiction": "MT"
+                },
+                "treatmentClassification": null
+              }
+            }
+          },
+          {
+            "hinted": false,
+            "financial": "absent",
+            "result": "needs_more_info",
+            "path": null,
+            "missing": [
+              "financial_obligations"
+            ],
+            "payment": false,
+            "reasons": [
+              {
+                "code": "mt.missing_required_facts",
+                "text": "Required public screening facts are missing."
+              }
+            ],
+            "financialSelected": true,
+            "protected": true,
+            "financialQuestion": false,
+            "financialBuilder": false,
+            "record": {
+              "status": "unverified",
+              "reason": "synthetic",
+              "revision": 0,
+              "draftHash": "5a9c7142f6c6c3321c7df9a0f42f955efa4f5c706d0fe6354eb7fc850a82b51c",
+              "draftSnapshot": {
+                "capturedAt": "2026-10-14T00:00:00Z",
+                "deferralComponentIds": [],
+                "dependencies": {},
+                "jurisdiction": "MT",
+                "packetAnswers": {},
+                "packetFamilyIdentifiers": {
+                  "mode": null,
+                  "sourceFormIds": []
+                },
+                "packetPlan": null,
+                "packetType": null,
+                "pathwayId": null,
+                "paymentAllowed": false,
+                "prefilledAnswers": {},
+                "profileAuthorityFingerprint": "fa71f837ff7586bd3096aa9e9f818411ab2aad7be651e228b818a5b436654a4c",
+                "profileSourceFingerprint": "a415dd4d99328420d5b3c632c62da96ea554f371ce2f93cd00be7af5c6790395",
+                "profileVersion": "2026-06-19-source-conversion-1",
+                "requiredInputIds": [],
+                "resultCode": "needs_more_info",
+                "schemaVersion": "expungement-ai/protected-packet-draft/v1",
+                "screeningAnswers": {
+                  "age_at_offense": "30",
+                  "case_outcome": "Diversion, deferred disposition, supervision, or similar program",
+                  "court_requirements_completed": "yes",
+                  "discharge_date": "2020-01-01",
+                  "jurisdiction_scope": "State or local",
+                  "new_convictions_during_waiting_period": "No",
+                  "offense_level": "Misdemeanor",
+                  "ownership_scope": "Yes",
+                  "pardon_status": "No",
+                  "pending_cases": "No",
+                  "prior_relief": "Yes",
+                  "record_documents": "Yes",
+                  "resolved_timing_bucket": "gt_10_years",
+                  "sentence_completion_date": "Yes",
+                  "special_preconditions_confirmed": "Yes"
+                },
+                "selectedTrackId": null,
+                "serverFacts": {
+                  "jurisdiction": "MT"
+                },
+                "treatmentClassification": null
+              }
+            }
+          }
+        ],
+        "classification": "FRESH_GIT_PINNED_BASELINE_REPRODUCTION_NOT_PRIOR_CAPTURE",
+        "sourceCommit": "717ac315bfa46bd8520bbc793d3066e0e7634a25",
+        "moduleTraceSha256": "6f83e611e62779950acefeefe0445faef2c329acef90f3dea5d75b5ccb47ad3d",
+        "directSourceInputTraceSha256": "33d154c1e772aeef3e648b4830404760e2f7badf8ff327e565eeb4ca497b8f0c"
+      }
     }
   ]
 }

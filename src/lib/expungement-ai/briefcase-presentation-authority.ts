@@ -3,7 +3,7 @@ import { CONVICTION_RELIEF_COPY } from "@/lib/rcap-engine/conviction-relief-requ
 import { AR_RECORD_ORIGIN_COPY } from "@/lib/rcap-engine/arkansas-record-origin";
 import { KS_REGISTRATION_ROUTE, KS_REGISTRATION_REVIEW_COPY } from "@/lib/rcap-engine/kansas-district-facts";
 import { isGeorgiaFirstOffenderGuidance } from "@/lib/rcap-engine/georgia-first-offender";
-import { louisianaAutomationStatusHeldSuccessor, maineNonconvictionDraftSuccessor, missouriMarijuanaDraftSuccessor, missouriClosureDraftSuccessor, nebraskaAcquittalHeldSuccessor, kansasRegistrationHeldSuccessor, arkansasRecordOriginHeldSuccessor, convictionFallbackHeldSuccessor, msTimingAnswerHeldSuccessor, factualPathwayHeldSuccessor, financialAnswerHeldSuccessor, ny16059HeldDetailSuccessor } from "@/lib/expungement-ai/packet-information";
+import { louisianaAutomationStatusHeldSuccessor, maineNonconvictionDraftSuccessor, missouriMarijuanaDraftSuccessor, montanaDeferredDraftSuccessor, missouriClosureDraftSuccessor, nebraskaAcquittalHeldSuccessor, kansasRegistrationHeldSuccessor, arkansasRecordOriginHeldSuccessor, convictionFallbackHeldSuccessor, msTimingAnswerHeldSuccessor, factualPathwayHeldSuccessor, financialAnswerHeldSuccessor, ny16059HeldDetailSuccessor } from "@/lib/expungement-ai/packet-information";
 import "server-only";
 import { reviewedPacketContractSuccessor } from "@/lib/expungement-ai/packet-contract-successors";
 import { getProgramPacketFunding } from "@/lib/partners/onboarding/program-packet-funding";
@@ -437,7 +437,7 @@ function legalAuthorityFromProtectedVerification(
   const authoritative = evaluateProtectedPresentationSnapshot(snapshot, itemId, evaluate);
   if (!authoritative) return { status: "unavailable", reason: "protected_snapshot_reevaluation_failed" };
   const evaluation = authoritative.evaluation;
-  snapshot = missouriMarijuanaDraftSuccessor(snapshot, authoritative) ?? missouriClosureDraftSuccessor(snapshot, authoritative) ?? maineNonconvictionDraftSuccessor(snapshot, authoritative) ?? louisianaAutomationStatusHeldSuccessor(snapshot, authoritative) ?? nebraskaAcquittalHeldSuccessor(snapshot, authoritative) ?? kansasRegistrationHeldSuccessor(snapshot, authoritative) ?? arkansasRecordOriginHeldSuccessor(snapshot, authoritative) ?? factualPathwayHeldSuccessor(snapshot, authoritative) ?? convictionFallbackHeldSuccessor(snapshot, authoritative) ?? snapshot;
+  snapshot = montanaDeferredDraftSuccessor(snapshot, authoritative) ?? missouriMarijuanaDraftSuccessor(snapshot, authoritative) ?? missouriClosureDraftSuccessor(snapshot, authoritative) ?? maineNonconvictionDraftSuccessor(snapshot, authoritative) ?? louisianaAutomationStatusHeldSuccessor(snapshot, authoritative) ?? nebraskaAcquittalHeldSuccessor(snapshot, authoritative) ?? kansasRegistrationHeldSuccessor(snapshot, authoritative) ?? arkansasRecordOriginHeldSuccessor(snapshot, authoritative) ?? factualPathwayHeldSuccessor(snapshot, authoritative) ?? convictionFallbackHeldSuccessor(snapshot, authoritative) ?? snapshot;
   const financialSuccessor = financialAnswerHeldSuccessor(snapshot, authoritative);
   const timingSuccessor = msTimingAnswerHeldSuccessor(snapshot, authoritative);
   if (evaluation.jurisdiction !== snapshot.jurisdiction

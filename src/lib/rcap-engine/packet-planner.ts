@@ -1,3 +1,4 @@
+import { isMontanaDeferredWithoutMmrtaForm } from "@/lib/rcap-engine/montana-deferred-facts";
 import { isMissouriClosureGuidanceWithoutIdentityForm } from "@/lib/rcap-engine/missouri-closed-record-facts";
 import { isMaineNonconvictionGuidanceWithoutCr218 } from "@/lib/rcap-engine/maine-nonconviction-facts";
 import { isNy16059Packet, NY_PACKET_FACT_IDS } from "@/lib/expungement-ai/ny-16059-packet-facts";
@@ -50,14 +51,15 @@ export function packetPlanForPathway(profile: EngineProfile, pathwayId: string):
   const georgiaAgencyWithoutCounty = isGeorgiaAgencyWithoutCounty(profile, pathwayId)
     && !registeredPacketFactIds.includes("county");
 
+  const montanaDeferredWithoutMmrtaForm = isMontanaDeferredWithoutMmrtaForm(profile, pathwayId);
   const missouriClosureWithoutIdentityForm = isMissouriClosureGuidanceWithoutIdentityForm(profile, pathwayId);
   const maineNonconvictionWithoutCr218 = isMaineNonconvictionGuidanceWithoutCr218(profile, pathwayId);
 
   return {
     pathwayId,
     mode: plan.mode,
-    formMappingStatus: maineNonconvictionWithoutCr218 || missouriClosureWithoutIdentityForm ? "not_required" : plan.formMappingStatus,
-    sourceFormIds: (maineNonconvictionWithoutCr218 || missouriClosureWithoutIdentityForm ? [] : plan.formCandidates ?? []).map((candidate) => `${profile.jurisdiction.code}:${candidate.relativePath}:${candidate.sha256}`),
+    formMappingStatus: maineNonconvictionWithoutCr218 || missouriClosureWithoutIdentityForm || montanaDeferredWithoutMmrtaForm ? "not_required" : plan.formMappingStatus,
+    sourceFormIds: (maineNonconvictionWithoutCr218 || missouriClosureWithoutIdentityForm || montanaDeferredWithoutMmrtaForm ? [] : plan.formCandidates ?? []).map((candidate) => `${profile.jurisdiction.code}:${candidate.relativePath}:${candidate.sha256}`),
     requiredInputIds: [...new Set([
       ...scopedBaseRequiredInputIds,
       ...routedExactPacketFactIds,

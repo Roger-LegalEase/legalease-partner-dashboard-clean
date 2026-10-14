@@ -1,3 +1,4 @@
+import { montanaDeferredFacts, MT_DEFERRED_COPY, MT_DEFERRED_SOURCE } from "@/lib/rcap-engine/montana-deferred-facts";
 import { missouriMarijuanaStatusDecision, MO_MARIJUANA_COPY, MO_MARIJUANA_STATUS_SOURCE } from "@/lib/rcap-engine/missouri-marijuana-status-facts";
 import { missouriClosedRecordQuestionApplies } from "@/lib/rcap-engine/missouri-closed-record-facts";
 import { georgiaPardonPetitionPlan } from "@/lib/expungement-ai/ga-pardon-petition-readiness";
@@ -221,6 +222,26 @@ function evaluateProfileRules(profile: EngineProfile, request: ScreeningEvaluati
 
   const publicProfile = projectPublicProfile(profile);
   const preselectedPathway = selectPathway(profile, answers);
+  const mtDeferred = jurisdiction === "MT" ? montanaDeferredFacts(profile, preselectedPathway?.id, answers) : null;
+  if (mtDeferred && mtDeferred.context !== "not_applicable" && preselectedPathway) {
+    const contextIds = [
+      ...(typeof answers.ownership_scope === "string" && ["Yes", "I am helping someone complete their own check"].includes(answers.ownership_scope) ? [] : ["ownership_scope"]),
+      ...(answers.jurisdiction_scope === "State or local" ? [] : ["jurisdiction_scope"])
+    ];
+    if (contextIds.length) return result(profile, request,
+      contextIds.some(id => answers[id] === undefined || answers[id] === null || answers[id] === "") ? "needs_more_info" : "needs_review",
+      [reason("MT", "deferred_context_missing", MT_DEFERRED_COPY.context_missing[0], MT_DEFERRED_SOURCE)],
+      { missingQuestionIds: contextIds, paymentAllowed: false });
+    const guidance = ["existing_order_followup", "felony_statutory_request_context", "misdemeanor_discretionary_request_context"].includes(mtDeferred.context);
+    const resultCode = guidance ? "guidance_only" : mtDeferred.context === "term_not_terminated" ? "not_yet"
+      : mtDeferred.context === "facts_unresolved" && mtDeferred.ids.some(id => answers[id] === undefined || answers[id] === "") ? "needs_more_info" : "needs_review";
+    const plan = guidance ? packetPlanForPathway(profile, preselectedPathway.id) : undefined;
+    return result(profile, request, resultCode,
+      [reason("MT", `deferred_${mtDeferred.context}`, MT_DEFERRED_COPY[mtDeferred.context][0], MT_DEFERRED_SOURCE)],
+      { pathwayId: preselectedPathway.id, missingQuestionIds: guidance ? [] : mtDeferred.ids,
+        ...(plan ? { packetPlan: plan } : {}), paymentAllowed: false });
+  }
+
   // Exact selected Article XIV status contract: custody and original record
   // facts decide guidance/referral, never the generic payment-completion gate.
   // Ownership and jurisdiction must already be explicit; hard stops ran above.

@@ -1,3 +1,4 @@
+import { montanaDeferredFactApplies, montanaDeferredLegacyFinancialApplies } from "@/lib/rcap-engine/montana-deferred-facts";
 import { missouriMarijuanaFactApplies, missouriMarijuanaStatusQuestionApplies } from "@/lib/rcap-engine/missouri-marijuana-status-facts";
 import { missouriClosedRecordQuestionApplies } from "@/lib/rcap-engine/missouri-closed-record-facts";
 import { maineNonconvictionQuestionApplies, ME_NONCONVICTION_ROUTE } from "@/lib/rcap-engine/maine-nonconviction-facts";
@@ -113,6 +114,8 @@ export function selectScreeningQuestionIds(
   }).map(question => question.id));
 
   return publicProfile.questions
+    .filter(question => montanaDeferredFactApplies(profile, selectedPathway?.id, answers, question.id))
+    .filter(question => montanaDeferredLegacyFinancialApplies(profile, selectedPathway?.id, answers, question.id))
     .filter(question => missouriMarijuanaFactApplies(profile, selectedPathway?.id, answers, question.id))
     .filter(question => missouriMarijuanaStatusQuestionApplies(profile.jurisdiction.code, selectedPathway?.id, answers, question.id, profile))
     .filter(question => missouriClosedRecordQuestionApplies(profile.jurisdiction.code, selectedPathway?.id, answers, question.id, profile))

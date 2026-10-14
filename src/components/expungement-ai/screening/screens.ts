@@ -1,3 +1,4 @@
+import { MT_DEFERRED_FACT_IDS } from "@/lib/rcap-engine/montana-deferred-facts";
 import { MO_MARIJUANA_FACT_IDS } from "@/lib/rcap-engine/missouri-marijuana-status-facts";
 import { AR_RECORD_ORIGIN_ID } from "@/lib/rcap-engine/arkansas-record-origin";
 import { convictionReliefQuestions } from "@/lib/rcap-engine/conviction-relief-request";
@@ -120,6 +121,8 @@ export function sanitizeAnswersForQuestionIds(
       && profile.questions.some(question => question.id === questionId))
     || Boolean(profile?.jurisdiction.code === "KS" && KS_RECORD_SCOPE_FACT_IDS.some(id => id === questionId)
       && profile.questions.some(question => question.id === questionId))
+    || Boolean(profile?.jurisdiction.code === "MT" && MT_DEFERRED_FACT_IDS.includes(questionId)
+      && profile.questions.some(question => question.id === questionId))
     || Boolean(profile?.jurisdiction.code === "MO" && MO_MARIJUANA_FACT_IDS.includes(questionId)
       && profile.questions.some(question => question.id === questionId))
     || Boolean(profile?.jurisdiction.code === "IL" && IL_CANNABIS_FACT_IDS.some(id => id === questionId)
@@ -141,6 +144,6 @@ export function sanitizeResumedAnswersForQuestionIds(
     answers,
     deriveScreens(profile).map((question) => question.id),
     selectedQuestionIds,
-    ["AR", "CA", "NV", "GA", "IL", "KS", "MS", "DE", "NY", "NE", "LA", "ME", "MO"].includes(profile.jurisdiction.code) ? profile : undefined
+    ["AR", "CA", "NV", "GA", "IL", "KS", "MS", "DE", "NY", "NE", "LA", "ME", "MO", "MT"].includes(profile.jurisdiction.code) ? profile : undefined
   );
 }
