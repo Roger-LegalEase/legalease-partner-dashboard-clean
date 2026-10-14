@@ -47,7 +47,7 @@ type Source = { documentId: string; sourcePath: string; sourceSha256: string; de
 type Artifact = { documentId: string; instance: number; file: string; sha256: string; pages: number;
   written: Array<{ field: string; value: string | boolean; sourceFactId: string }>;
   reservedFields: string[]; selectedControls: string[]; sourceFieldCount: number;
-  textObserved: boolean; reservedFieldsPreserved: boolean; selectionInkObserved: boolean; sourceInkOutsideWritesPreserved: boolean;
+  textObserved: boolean; reservedFieldsPreserved: boolean; selectionInkObserved: boolean; sourceInkOutsideWritesPreserved: boolean; sourceViewerChromeRemoved: boolean;
   finalizerOptions: { detachNestedControlFields: boolean; suppressSynthesizedAppearances: boolean } };
 type ComponentReport = { reviewOnly: boolean; generationAllowed: boolean; runtimeSelectable: boolean;
   protectedGenerationEstablished: boolean; recordSha256: string; mappingSha256: string;
@@ -87,7 +87,7 @@ export async function validateCaProp64JuvenileReviewComponents(prepared: Prepara
     assert.deepEqual(artifact.reservedFields, spec.fields.filter(f => !written.has(f.field)).map(f => f.field));
     assert.equal(artifact.sourceFieldCount, spec.fields.length);
     assert.deepEqual([...artifact.selectedControls].sort(), writes.filter(w => w.value === true).map(w => w.field).sort());
-    assert(artifact.textObserved && artifact.reservedFieldsPreserved && artifact.selectionInkObserved && artifact.sourceInkOutsideWritesPreserved);
+    assert(artifact.textObserved && artifact.reservedFieldsPreserved && artifact.selectionInkObserved && artifact.sourceInkOutsideWritesPreserved && artifact.sourceViewerChromeRemoved);
     assert.deepEqual(artifact.finalizerOptions, { detachNestedControlFields: true, suppressSynthesizedAppearances: true });
     const bytes = options.readBytes(artifact.file); assert.equal(hash(bytes), artifact.sha256);
     const pdf = await PDFDocument.load(bytes, { updateMetadata: false });
