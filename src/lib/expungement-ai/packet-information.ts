@@ -1,3 +1,4 @@
+import { akCourtviewContactQuestions, akCourtviewContactIds, isAkCourtviewContact, AK_TF810_CONTACT_FIELDS } from "@/lib/expungement-ai/ak-courtview-contact";
 import { caProp64JuvenilePreparationScope } from "@/lib/expungement-ai/ca-prop64-juvenile-document-preparation";
 import { caProp64JuvenileDocumentQuestions, caProp64JuvenileAdditionalCount } from "@/lib/expungement-ai/ca-prop64-juvenile-document-questions";
 import { montanaDeferredDocumentInputs, montanaDeferredAliasDisplay, MT_DEFERRED_PARTICIPANT_ALIASES, MT_DEFERRED_CURRENT_DOCUMENT_CONTRACT } from "@/lib/expungement-ai/mt-deferred-document-inputs";
@@ -1533,6 +1534,12 @@ export function protectedPacketInformationModelFor(
     && !missingInputIds.includes(AR_RECORD_ORIGIN_ID)) missingInputIds.push(AR_RECORD_ORIGIN_ID);
   // Current source completion facts do not alter the evaluator's route/result
   // or stored plan. Optional email is never a missing preparation prerequisite.
+  const activeAkIds = new Set(akCourtviewContactIds(snapshot.jurisdiction, snapshot.pathwayId, initialAnswers));
+  for (const field of AK_TF810_CONTACT_FIELDS) {
+    const question = questionSurface.questionById.get(field.id);
+    if (activeAkIds.has(field.id) && !field.optional && question && questionAnswerState(question, initialAnswers[field.id]) !== "known_valid"
+      && !missingInputIds.includes(field.id)) missingInputIds.push(field.id);
+  }
   if (isNy16059Packet(snapshot.jurisdiction, snapshot.pathwayId)) for (const field of NY_CURRENT_DOCUMENT_PARTICIPANT_FIELDS) {
     const question = questionSurface.questionById.get(field.id);
     if (!field.optional && question && questionAnswerState(question, initialAnswers[field.id]) !== "known_valid"
@@ -1801,6 +1808,7 @@ export function factualPathwayCorrectionIds(state: string, pathway: string | nul
     ? [...convictionReliefQuestions(state).filter(q => includeInactive || convictionReliefQuestionApplies(profile, answers, q.id)).map(q => q.id),
       "case_outcome", ...(state === "GA" ? ["ga_original_first_offender", "pardon_status"] : [])] : [];
 
+  if (isAkCourtviewContact(state, pathway)) return [...extra, ...akCourtviewContactIds(state, pathway, answers, includeInactive)];
   if (arkansasRecordOriginApplies(state, pathway)) return [...extra, AR_RECORD_ORIGIN_ID];
   if (profile && state === "MT" && isMontanaDeferredContract(profile, pathway)) return [...extra, ...MT_DEFERRED_FACT_IDS.filter(id => includeInactive || montanaDeferredFactApplies(profile, pathway, answers, id)), "case_outcome"];
   if (profile && state === "MO" && isMissouriMarijuanaStatusContract(profile, pathway)) return [...extra, ...MO_MARIJUANA_FACT_IDS.filter(id => includeInactive || missouriMarijuanaFactApplies(profile, pathway, answers, id)), "case_outcome"];
@@ -2223,6 +2231,19 @@ function protectedPacketQuestionSurface(
   for (const question of questions) questionById.set(question.id, question);
   const builderQuestions = builderQuestionsFor(questions, collection, requiredInputIds, serverFacts);
   const builderSections = builderSectionsFor(collection, builderQuestions);
+  const currentAk = akCourtviewContactQuestions(profile.jurisdiction.code, pathwayId, { ...screeningAnswers, ...prefilledAnswers, ...savedAnswers });
+  if (currentAk.length) {
+    for (const descriptor of currentAk) {
+      const index = questions.findIndex(question => question.id === descriptor.id);
+      if (index >= 0) questions[index] = descriptor; else questions.push(descriptor);
+      questionById.set(descriptor.id, descriptor);
+      if (!builderQuestions.some(question => question.id === descriptor.id)) builderQuestions.push(descriptor);
+    }
+    builderSections.push({ id: "ak_tf810_requester_contact", heading: "Contact details for a TF-810 request",
+      description: "Only for a case still appearing on CourtView. These answers do not establish a legal ground or authorize filing. Email is optional and permits court-document delivery.",
+      translations: { es: { heading: "Datos de contacto para una solicitud TF-810", description: "Solo para un caso que todavía aparece en CourtView. Estas respuestas no establecen un fundamento legal ni autorizan la presentación. El correo electrónico es opcional y permite el envío de documentos judiciales." } },
+      questionIds: currentAk.map(question => question.id) });
+  }
   const currentNy = ny16059CurrentDocumentQuestions(profile.jurisdiction.code, pathwayId, [...questionById.values()]);
   if (currentNy) {
     for (const supplied of currentNy.questions) {
@@ -3540,6 +3561,7 @@ function installPacketSpecificationQuestions(
     const question = nyTransactionAssociationsQuestion(answers.ny_16059_covered_case_records);
     questions.set(question.id, question);
   }
+  for (const question of akCourtviewContactQuestions(jurisdiction, pathwayId, answers, true)) questions.set(question.id, question);
   const currentNy = ny16059CurrentDocumentQuestions(jurisdiction, pathwayId, [...questions.values()]);
   if (currentNy) for (const question of currentNy.questions) questions.set(question.id, question);
   if (isNy16059Packet(jurisdiction, pathwayId)) for (const question of NY_PACKET_QUESTIONS) {
