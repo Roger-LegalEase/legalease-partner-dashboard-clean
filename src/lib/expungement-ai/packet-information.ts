@@ -40,7 +40,7 @@ import type {
 } from "@/lib/expungement-ai/types";
 import type { AnswerValue, PacketPlan, ProfileQuestion } from "@/lib/expungement-ai/frontend/contracts";
 import { getProfileByJurisdiction } from "@/lib/rcap-engine/profile-registry";
-import { packetPlanForPathway } from "@/lib/rcap-engine/packet-planner";
+import { isMarylandAutomaticWithoutCounty, packetPlanForPathway } from "@/lib/rcap-engine/packet-planner";
 import { projectPublicProfile } from "@/lib/rcap-engine/public-profile-projection";
 import type { PublicQuestion } from "@/lib/rcap-engine/contracts";
 import { evaluateAuthoritativeScreeningResult } from "@/lib/expungement-ai/authoritative-screening-result";
@@ -217,11 +217,22 @@ export function packetInformationModelFor(item: ConsumerBriefcaseItem): PacketIn
   const screening = isRecord(flow.screening) ? flow.screening : {};
   const progress = isRecord(flow.packetInformation) ? flow.packetInformation : {};
   const packetPlan = readPacketPlan(screening.packetPlan);
-  const requiredInputIds = packetPlan?.requiredInputIds
+  let requiredInputIds = packetPlan?.requiredInputIds
     ?? stringArray(progress.requiredInputIds);
   const pathwayId = typeof screening.pathwayId === "string"
     ? screening.pathwayId
     : packetPlan?.pathwayId ?? null;
+  // A former automatic MD plan inherited one unrelated county input. This is
+  // collection compatibility only: retain the stored plan, authority and raw
+  // answers. Any other plan difference still requires its existing review.
+  if (pathwayId && screening.pathwayId === pathwayId && isMarylandAutomaticWithoutCounty(profile, pathwayId)
+    && isRecord(screening.packetPlan) && Array.isArray(screening.packetPlan.requiredInputIds)
+    && screening.packetPlan.requiredInputIds.filter(id => id === "county").length === 1) {
+    const currentPlan = packetPlanForPathway(profile, pathwayId);
+    const candidate = { ...screening.packetPlan,
+      requiredInputIds: screening.packetPlan.requiredInputIds.filter(id => id !== "county") };
+    if (currentPlan && canonicalEqual(candidate, currentPlan)) requiredInputIds = currentPlan.requiredInputIds;
+  }
   const serverFacts = canonicalServerFacts(profile.jurisdiction.code, pathwayId);
   const screeningAnswers = answerRecord(screening.answers);
   const prefilledAnswers = answerRecord(progress.prefilledAnswers);

@@ -11,6 +11,16 @@ import { packetSpecificationRequiredFactIdsFor } from "@/lib/rcap/grade-a/packet
 
 export type CompiledScreeningPacketPlan = ScreeningPacketPlan & { packetReadyWhen: string[] };
 
+export function isMarylandAutomaticWithoutCounty(profile: EngineProfile, pathwayId: string): boolean {
+  const pathway = profile.pathways.find((candidate) => candidate.id === pathwayId) as
+    { automatic?: unknown; filingRequired?: unknown; routeType?: unknown } | undefined;
+  const plan = profile.packetGenerator.pathways.find((candidate) => candidate.pathwayId === pathwayId);
+  return profile.jurisdiction.code === "MD"
+    && pathwayId === "automatic-expungement-under-crim-proc-10-105-1"
+    && pathway?.automatic === true && pathway.filingRequired === false && pathway.routeType === "automatic"
+    && plan?.mode === "automatic_relief_verification_and_guidance" && plan.formMappingStatus === "not_required";
+}
+
 export function packetPlanForPathway(profile: EngineProfile, pathwayId: string): CompiledScreeningPacketPlan | undefined {
   const plan = profile.packetGenerator.pathways.find((candidate) => candidate.pathwayId === pathwayId);
   if (!plan) return undefined;
@@ -28,17 +38,12 @@ export function packetPlanForPathway(profile: EngineProfile, pathwayId: string):
     && !registeredPacketFactIds.includes("trafficking_status")
     ? baseRequiredInputIds.map((id) => id === "trafficking_status" ? "ms_charged_trafficking_distribution_manufacture" : id)
     : baseRequiredInputIds;
-  const pathway = profile.pathways.find((candidate) => candidate.id === pathwayId) as
-    { automatic?: unknown; filingRequired?: unknown; routeType?: unknown } | undefined;
   // MD.memo md_10105_1_automatic: statewide, no venue or participant filing.
   // Crim. Proc. § 10-105.1(b)-(d) assigns expungement and notices to the court.
   // The inherited county input came from an unscoped probation-violation rule
   // (rule-53), not this automatic route. Correct only its runtime dependency;
   // keep the compiled source and every saved county answer intact.
-  const marylandAutomaticWithoutCounty = profile.jurisdiction.code === "MD"
-    && pathwayId === "automatic-expungement-under-crim-proc-10-105-1"
-    && pathway?.automatic === true && pathway.filingRequired === false && pathway.routeType === "automatic"
-    && plan.mode === "automatic_relief_verification_and_guidance" && plan.formMappingStatus === "not_required";
+  const marylandAutomaticWithoutCounty = isMarylandAutomaticWithoutCounty(profile, pathwayId);
 
   return {
     pathwayId,

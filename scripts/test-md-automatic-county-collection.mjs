@@ -81,3 +81,55 @@ for (const [field, value] of [['mode', 'official_pdf_overlay'], ['formMappingSta
   assert(packetPlanForPathway(changed, pathwayId).requiredInputIds.includes('county'), `${field}: never extend the automatic exception to a filing plan`);
 }
 console.log('PASS: MD source-bound automatic route removes county from real EN/ES model and gate; saved history, sibling filing inputs, guidance-only posture and changed-source guards preserved');
+// Exact historical contract compatibility: the old global list differs only
+// by the county input. Keep the old plan as history; collection alone changes.
+const legacyPlan = structuredClone(plan);
+legacyPlan.requiredInputIds.splice(profile.packetGenerator.requiredInputs.indexOf('county'), 0, 'county');
+const legacy = itemWith({ county: { value: 'Condado guardado', status: 'historical' } }, { county: 'Earlier screening county' });
+legacy.artifactRefs.commercialFlow.screening.packetPlan = legacyPlan;
+legacy.artifactRefs.commercialFlow.packetInformation.prefilledAnswers = { county: { value: 'Prefilled county', source: 'original' } };
+const legacyBefore = JSON.stringify(legacy);
+const legacyModel = packetInformationModelFor(legacy);
+assert(!legacyModel.requiredInputIds.includes('county'));
+assert(!legacyModel.missingInputIds.includes('county'));
+assert(!legacyModel.questions.some(q => q.id === 'county'));
+assert(!legacyModel.builderQuestions.some(q => q.id === 'county'));
+assert(!legacyModel.builderSections.some(s => s.questionIds.includes('county')));
+assert.deepEqual(legacyModel.initialAnswers.county, legacy.artifactRefs.commercialFlow.packetInformation.answers.county);
+assert.equal(legacyModel.screeningAnswers.county, 'Earlier screening county');
+assert.deepEqual(legacyModel.packetPlan, legacyPlan, 'collection compatibility never upgrades stored plan authority');
+assert.equal(JSON.stringify(legacy), legacyBefore, 'all raw maps, plan, result and payment flags remain byte-for-byte unchanged');
+for (const maps of [
+  { answers: {}, prefilledAnswers: {}, screeningAnswers: {} },
+  { answers: {}, prefilledAnswers: { county: { value: 'Prefilled county', source: 'original' } }, screeningAnswers: {} },
+]) {
+  const old = itemWith(maps.answers, maps.screeningAnswers);
+  old.artifactRefs.commercialFlow.screening.packetPlan = structuredClone(legacyPlan);
+  old.artifactRefs.commercialFlow.packetInformation.prefilledAnswers = maps.prefilledAnswers;
+  const before = JSON.stringify(old);
+  const model = packetInformationModelFor(old);
+  assert(!model.missingInputIds.includes('county'), 'even an unanswered historical county cannot block the automatic route');
+  assert(!model.builderQuestions.some(q => q.id === 'county'));
+  assert.deepEqual(model.initialAnswers.county, maps.prefilledAnswers.county);
+  assert.equal(JSON.stringify(old), before);
+}
+for (const [name, alter] of [
+  ['wrong jurisdiction', item => { item.state = 'KS'; }],
+  ['different screening route', item => { item.artifactRefs.commercialFlow.screening.pathwayId = filing.id; }],
+  ['different plan route', item => { item.artifactRefs.commercialFlow.screening.packetPlan.pathwayId = filing.id; }],
+  ['duplicate county', item => { item.artifactRefs.commercialFlow.screening.packetPlan.requiredInputIds.push('county'); }],
+  ['extra required fact', item => { item.artifactRefs.commercialFlow.screening.packetPlan.requiredInputIds.push('unreviewed_fact'); }],
+  ['different forms', item => { item.artifactRefs.commercialFlow.screening.packetPlan.sourceFormIds.push('unreviewed:form'); }],
+  ['different source reference', item => { item.artifactRefs.commercialFlow.screening.packetPlan.sourceRuleRefs.push('unreviewed:source'); }],
+  ['different readiness', item => { item.artifactRefs.commercialFlow.screening.packetPlan.packetReadyWhen.push('unreviewed readiness'); }],
+  ['unknown plan property', item => { item.artifactRefs.commercialFlow.screening.packetPlan.unreviewedProperty = true; }],
+  ['different mode', item => { item.artifactRefs.commercialFlow.screening.packetPlan.mode = 'custom_pleading'; }],
+  ['different mapping', item => { item.artifactRefs.commercialFlow.screening.packetPlan.formMappingStatus = 'mapped'; }],
+]) {
+  const incompatible = structuredClone(legacy);
+  alter(incompatible);
+  const before = JSON.stringify(incompatible);
+  assert(packetInformationModelFor(incompatible).requiredInputIds.includes('county'), `${name}: no broad historical-plan migration`);
+  assert.equal(JSON.stringify(incompatible), before, `${name}: preserve raw history`);
+}
+console.log('PASS: exact historical MD county-only plan compatibility; raw answers/plan/authority preserved and 11 unrelated contract changes refused');
