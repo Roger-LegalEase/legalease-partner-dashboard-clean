@@ -51,16 +51,17 @@ for(const [branch,role,additionalCount]of cohorts){
   const textWrites=written.filter(w=>typeof w.value==='string'),facts=Object.fromEntries(textWrites.map((w,i)=>['juvenile.value_'+i,w.value])),explicitMappings=Object.fromEntries(textWrites.map((w,i)=>[w.field,'juvenile.value_'+i]));
   const variant={variantId:name+'-'+documentId+'-'+instance,routeKey:'CA:'+prepared.mapping.pathwayId,textControls:{},controlFacts:{},selections:written.filter(w=>w.value===true).map(w=>{const f=formCensus.fields.find(f=>f.name===w.field);const states=f.widgets.flatMap(w=>w.onStates??[]).filter(s=>s!=='Off');assert.equal(new Set(states).size,1);return{fieldName:w.field,onState:states[0]};})};
   const census=bridge.caFinalizerCensus(formCensus);
-  const result=await bridge.finalizeCaPrimaryFixture({formCensus,variant,officialOptions:{sourceBytes:read(derived.derivedPath),expectedSha256:derived.derivedSha256,census,facts,explicitMappings,unwritableFields:census.filter(f=>!Object.hasOwn(explicitMappings,f.name)).map(f=>({field:f.name})),captionOnly:false,documentAcceptsFill:true,documentTextLines:[],maxFontSize:9,minFontSize:6,title:documentId,appearanceDispositions:new Map()}});
+  const result=await bridge.finalizeCaPrimaryFixture({formCensus,variant,officialOptions:{sourceBytes:read(derived.derivedPath),expectedSha256:derived.derivedSha256,census,facts,explicitMappings,unwritableFields:census.filter(f=>!Object.hasOwn(explicitMappings,f.name)).map(f=>({field:f.name})),captionOnly:false,documentAcceptsFill:true,documentTextLines:[],maxFontSize:9,minFontSize:6,title:documentId,detachNestedControlFields:true,suppressSynthesizedAppearances:true,appearanceDispositions:new Map()}});
   const file=path.join(dir,`${documentId}-${instance}.pdf`);fs.writeFileSync(file,result.bytes,{flag:'wx'});
   const text=execFileSync('pdftotext',['-layout',file,'-'],{encoding:'utf8'}),selected=result.selectionReport.selections.map(s=>s.control);
+  check(name+' source viewer UI absent '+documentId+instance,()=>assert.ok(!/Print this form|Save this form|Clear this form/.test(text)));
   check(name+' exact written fields '+documentId+instance,()=>assert.deepEqual(result.report.written.map(w=>w.field).sort(),textWrites.map(w=>w.field).sort()));
   for(const w of textWrites)check(name+' printed '+w.sourceFactId+' '+documentId+instance,()=>assert.ok(normalize(text).includes(normalize(w.value))));
   const selectionProof=bridge.proveStatutorySelectionsFromOutput({outputSegments:await bridge.strokedLineSegmentsFromBytes(result.bytes),formCensus,variant,selectionReport:result.selectionReport,label:name+'/'+documentId+'/'+instance});
   const reserved=contract.fields.filter(f=>!written.some(w=>w.field===f.field)).map(f=>f.field);
   check(name+' reserved fields refused '+documentId+instance,()=>{for(const field of reserved)assert.ok(result.report.refused.some(r=>r.field===field));});
   const pdf=await PDFDocument.load(result.bytes,{updateMetadata:false});check(name+' static final form '+documentId+instance,()=>{assert.equal(pdf.getForm().getFields().length,0);assert(!pdf.catalog.has(PDFName.of('OpenAction')));assert(pdf.getPages().every(p=>(p.node.Annots()?.size()??0)===0));});
-  const art={documentId,instance,file,sha256:hash(result.bytes),pages:pdf.getPageCount(),written,reservedFields:reserved,selectedControls:selected,sourceFieldCount:contract.fields.length,textObserved:true,reservedFieldsPreserved:true,selectionInkObserved:true};reportArtifacts.push(art);components.push(art);
+  const art={documentId,instance,file,sha256:hash(result.bytes),pages:pdf.getPageCount(),written,reservedFields:reserved,selectedControls:selected,sourceFieldCount:contract.fields.length,textObserved:true,reservedFieldsPreserved:true,selectionInkObserved:true,sourceInkOutsideWritesPreserved:true,finalizerOptions:{detachNestedControlFields:true,suppressSynthesizedAppearances:true}};reportArtifacts.push(art);components.push(art);
   fs.writeFileSync(path.join(dir,`${documentId}-${instance}-finalizer.json`),JSON.stringify({report:result.report,selectionProof,sourceFidelity:derived,sourceWrites:written},null,2)+'\n',{flag:'wx'});
   for(let p=1;p<=pdf.getPageCount();p++)raster(file,p,path.join(dir,`${documentId}-${instance}-page-${p}`));
   const reservedPixels=[];
@@ -75,6 +76,15 @@ for(const [branch,role,additionalCount]of cohorts){
     reservedPixels.push({field:field.name,page,rect,sha256:hash(a)});
    }
   }
+  const sourceInk=[];
+  for(let page=1;page<=pdf.getPageCount();page++){
+   const original=path.join(output,`${documentId}-source-${page}.png`),current=path.join(dir,`${documentId}-${instance}-page-${page}.png`),a=await sharp(original).removeAlpha().raw().toBuffer({resolveWithObject:true}),b=await sharp(current).removeAlpha().raw().toBuffer({resolveWithObject:true});assert.deepEqual(a.info,b.info);
+   const allowed=formCensus.fields.filter(f=>written.some(w=>w.field===f.name)||contract.fields.find(c=>c.field===f.name)?.actor==='source_ui_removed_at_finalization').flatMap(f=>f.widgets.filter(w=>w.pageIndex===page-1).map(w=>w.rect));
+   const {width,height,channels}=a.info,scale=90/72,rects=allowed.map(([x0,y0,x1,y1])=>({x0:Math.floor(x0*scale)-2,x1:Math.ceil(x1*scale)+2,y0:Math.floor(height-y1*scale)-2,y1:Math.ceil(height-y0*scale)+2}));let differences=0;
+   for(let y=0;y<height;y++)for(let x=0;x<width;x++){if(rects.some(r=>x>=r.x0&&x<=r.x1&&y>=r.y0&&y<=r.y1))continue;const offset=(y*width+x)*channels;for(let c=0;c<channels;c++)if(a.data[offset+c]!==b.data[offset+c]){differences++;break;}}
+   check(name+' unchanged source ink outside explicit writes/UI '+documentId+instance+page,()=>assert.equal(differences,0));sourceInk.push({page,sourceImageSha256:hash(read(original)),currentImageSha256:hash(read(current)),allowedRectangles:rects,differentPixelsOutsideAllowed: differences});
+  }
+  fs.writeFileSync(path.join(dir,`${documentId}-${instance}-source-ink.json`),JSON.stringify(sourceInk,null,2)+'\n',{flag:'wx'});
   fs.writeFileSync(path.join(dir,`${documentId}-${instance}-reserved-pixels.json`),JSON.stringify(reservedPixels,null,2)+'\n',{flag:'wx'});
  }
  const report={reviewOnly:true,generationAllowed:false,runtimeSelectable:false,protectedGenerationEstablished:false,recordSha256:prepared.recordSha256,mappingSha256:hash(JSON.stringify(prepared.mapping)),sourceInputs:prepared.sourceInputs,sources:transport.derivatives.map(d=>({documentId:d.formNumber,sourcePath:sources[d.formNumber],sourceSha256:spec.documents.find(s=>s.documentId===d.formNumber).sourceSha256,derivedSha256:d.derivedSha256,sourceUnchanged:d.sourceUnchanged,sourceGeometryUnchanged:d.comparison.pageGeometryIdentical,sourceFieldsUnchanged:d.comparison.enhancedTerminalSemanticsIdentical,sourceXfaUnchanged:d.comparison.officialXfa.sha256===d.comparison.derivedXfa.sha256})),artifacts:reportArtifacts};
