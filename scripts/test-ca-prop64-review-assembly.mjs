@@ -75,10 +75,10 @@ if(predecessor){
  const pdf=await PDFDocument.load(oversized);check('oversized checklist actually creates continuation pages',()=>assert.ok(pdf.getPageCount()>4));
  const oversizedPages=execFileSync('pdftotext',['-layout','-','-'],{input:oversized,encoding:'utf8'}).split('\f');
  check('oversized group preserves every complete item on one page',()=>{for(const entry of synthetic.filingChecklist)assert.equal(oversizedPages.filter(page=>normalize(page).includes(normalize(entry.text))).length,1);});
- synthetic.filingChecklist=[{...synthetic.filingChecklist[0],text:'Long source paragraph. '.repeat(500)}];
+ synthetic.filingChecklist=[{...synthetic.filingChecklist[0],text:'ZetaLong QrxSource ZyxParagraph. '.repeat(500)}];
  const longItem=await renderSupplementalGuidePdf(synthetic,{...options,keepFilingChecklistItemsTogether:true});
  const longText=execFileSync('pdftotext',['-layout','-','-'],{input:longItem,encoding:'utf8'});
- check('single over-page item preserves every word across page chrome without truncation',()=>{for(const word of ['Long','source','paragraph'])assert.equal((longText.match(new RegExp('\\b'+word+'\\b','g'))||[]).length,500);});
+ check('single over-page item preserves every word across page chrome without truncation',()=>{for(const word of ['ZetaLong','QrxSource','ZyxParagraph'])assert.equal((longText.match(new RegExp('\\b'+word+'\\b','g'))||[]).length,500);});
 }
 assert(output&&path.isAbsolute(output)&&!fs.existsSync(output),'fresh external output required');assert(!path.resolve(output).startsWith(fs.realpathSync('.')+path.sep));fs.mkdirSync(output,{recursive:true});
 const artifacts=predecessor?predecessor.artifacts.filter(a=>a.locale!=='es'):[],pixels=[];
