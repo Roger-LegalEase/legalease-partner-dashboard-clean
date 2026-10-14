@@ -77,6 +77,10 @@ export default async function BriefcasePacketPage({
       {completionCorrectionAvailable && item ? <p className="mb-5 rounded border border-amber-300 p-4">
         <Link className="inline-flex min-h-11 items-center font-semibold underline" href={`/briefcase/${item.id}/packet-information`}><LocalizedCopy en={nonconvictionGuidanceCorrection ? "Review saved case answers" : eligibilityCorrection ? "Review saved eligibility answers" : "Review saved completion answers"} es={nonconvictionGuidanceCorrection ? "Revise las respuestas guardadas sobre el caso" : eligibilityCorrection ? "Revise las respuestas guardadas sobre la elegibilidad" : "Revise las respuestas guardadas sobre el cumplimiento"} /></Link>
       </p> : null}
+      {item?.packetDraft.status === "available" && item.packetDraft.gaPardonPreparationAvailable ? <p className="mb-5 rounded border border-slate-300 p-4">
+        <Link className="inline-flex min-h-11 items-center font-semibold underline" href={`/briefcase/${item.id}/packet-information?preparation=ga-pardon`}><LocalizedCopy en="Prepare your petition information" es="Prepare la información para su petición" /></Link>
+        <span className="block text-sm"><LocalizedCopy en="Save your case details and your own account of how the record has affected you. The court decides the petition; document generation is not available yet." es="Guarde los datos de su caso y su propio relato de cómo le ha afectado el expediente. El tribunal decide la petición; la generación de documentos aún no está disponible." /></span>
+      </p> : null}
       {item && item.authorityStatus !== "unavailable" ? (
         <section data-briefcase-matter-id={item.id}>
           {item.sponsorCapacityExhausted ? <SponsorCapacityNotice paid={item.paymentState === "paid"} /> : null}

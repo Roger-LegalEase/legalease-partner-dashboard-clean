@@ -21,7 +21,8 @@ import {
   editablePacketInputIds,
   heldPacketCorrectionInputIds,
   packetDraftStopReason,
-  protectedPacketInformationModelFor
+  protectedPacketInformationModelFor,
+  gaPardonPreparationModelFor
 } from "@/lib/expungement-ai/packet-information";
 import type { AnswerValue } from "@/lib/expungement-ai/frontend/contracts";
 import { packetScreensFor, packetNavigationDestination, type PacketNavigationIntent } from "@/lib/expungement-ai/packet-navigation";
@@ -37,7 +38,8 @@ export const dynamic = "force-dynamic";
 
 const maxPayloadBytes = 60_000;
 
-function ownerEditingModelFor(record: Parameters<typeof protectedPacketInformationModelFor>[0]) {
+function ownerEditingModelFor(record: Parameters<typeof protectedPacketInformationModelFor>[0], preparation = false) {
+  if (preparation) return gaPardonPreparationModelFor(record);
   const model = protectedPacketInformationModelFor(record);
   return model?.packetPlan ? model : caProp64ClarificationModelFor(record) ?? model;
 }
@@ -60,7 +62,7 @@ export async function GET(request: Request, context: { params: Promise<{ itemId:
     if (seeded) authority = { ok: true, value: seeded.verification };
   }
   if (!authority.ok) return NextResponse.json({ ok: false, error: "protected_verification_unavailable" }, { status: 503 });
-  const model = ownerEditingModelFor(authority.value);
+  const model = ownerEditingModelFor(authority.value, new URL(request.url).searchParams.get("preparation") === "ga-pardon");
   if (!model) return NextResponse.json({ ok: false, error: "packet_information_unavailable" }, { status: 409 });
   return NextResponse.json({
     ok: true, revision: authority.value.revision, answers: packetAnswersForOwnerEditing(model.stateCode, model.pathwayId, model.initialAnswers, new Date().toISOString(), new URL(request.url).searchParams.get("editingFact") === "social_security_number" && model.questions.some((question) => question.id === "social_security_number")),
@@ -125,8 +127,10 @@ export async function POST(
   if (parsed.expectedRevision !== protectedRead.value.revision) {
     return NextResponse.json({ ok: false, error: "revision_conflict" }, { status: 409 });
   }
-  const protectedModel = ownerEditingModelFor(protectedRead.value);
+  const preparation = new URL(request.url).searchParams.get("preparation") === "ga-pardon";
+  const protectedModel = ownerEditingModelFor(protectedRead.value, preparation);
   if (!protectedModel) return NextResponse.json({ ok: false, error: "packet_information_unavailable" }, { status: 403 });
+  if (preparation && parsed.verify) return NextResponse.json({ ok: false, error: "preparation_only" }, { status: 422 });
   // Match the page's validated successor instead of the historical draft result.
   // This controls owner corrections only; verification and commercial holds remain.
   const savedResult = protectedModel.resultCode;
@@ -190,6 +194,7 @@ export async function POST(
     existingItem: item,
     answers: parsed.answers,
     verify: parsed.verify,
+    gaPardonPreparation: preparation,
     useContactComponents: parsed.useContactComponents,
     clearInactiveCustodyFacts: parsed.clearInactiveCustodyFacts,
     confirmRecordFacts: parsed.confirmRecordFacts,
@@ -199,7 +204,7 @@ export async function POST(
   if (!update) {
     return NextResponse.json({ ok: false, error: "packet_plan_unavailable" }, { status: 409 });
   }
-  const nextModel = ownerEditingModelFor(update.protectedTransition.nextVerification);
+  const nextModel = ownerEditingModelFor(update.protectedTransition.nextVerification, preparation) ?? ownerEditingModelFor(update.protectedTransition.nextVerification);
   const requestedResume = parsed.resumeSectionId ?? item.packetResumeSectionId ?? null;
   const nextScreens = nextModel ? packetScreensFor(nextModel.builderQuestions, nextModel.builderSections) : [];
   const oldScreens = packetScreensFor(protectedModel.builderQuestions, protectedModel.builderSections);
@@ -217,7 +222,7 @@ export async function POST(
     const conflict = saved.reason === "protected_verification_transition_refused";
     return NextResponse.json({ ok: false, error: conflict ? "revision_conflict" : "save_unavailable" }, { status: conflict ? 409 : 503 });
   }
-  const canonical = ownerEditingModelFor(saved.value);
+  const canonical = ownerEditingModelFor(saved.value, preparation) ?? ownerEditingModelFor(saved.value);
   if (!canonical) return NextResponse.json({ ok: false, error: "saved_state_unavailable" }, { status: 503 });
   const presentation = await decorateBriefcaseItemForPresentation({ consumerAuthUserId: auth.userId, item });
   return NextResponse.json({

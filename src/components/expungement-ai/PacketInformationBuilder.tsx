@@ -44,7 +44,7 @@ const contactAnswerText = (answer: AnswerValue | undefined): string => answer ==
 /** Explicit saves; every navigation waits for persistence and canonical conditions. */
 export function PacketInformationBuilder({
   itemId, stateCode, pathwayId, questions: initialQuestions, sections: initialSections = [], initialAnswers,
-  initiallyMissing, initialRevision, initialResumeSectionId = null, initialPendingDerivations = [], initialContactReconciliation = null, initialRecordClarificationIds = [], initialCourtRecordConflict = false, initialAccountEmailSuggestion = null, initialCaProp64Clarification = false, initialRouteChanged = false, editingFromReview = false, returnToMatterAfterCorrection = false
+  initiallyMissing, initialRevision, initialResumeSectionId = null, initialPendingDerivations = [], initialContactReconciliation = null, initialRecordClarificationIds = [], initialCourtRecordConflict = false, initialAccountEmailSuggestion = null, initialCaProp64Clarification = false, initialRouteChanged = false, editingFromReview = false, returnToMatterAfterCorrection = false, gaPardonPreparation = false
 }: {
   itemId: string;
   stateCode: string;
@@ -65,6 +65,7 @@ export function PacketInformationBuilder({
   editingFromReview?: boolean;
   /** Exact guidance correction returns to its available matter, not packet review. */
   returnToMatterAfterCorrection?: boolean;
+  gaPardonPreparation?: boolean;
 }) {
   const { locale, text: localizeText } = useLocalization();
   const copy = (en: string, es: string) => locale === "es" ? es : en;
@@ -156,7 +157,7 @@ export function PacketInformationBuilder({
           const submittedRevision = revision.current;
           const submittedRecordChoices = [...recordChoices.current];
           const submittedAccountEmailChoice = accountEmailChoice.current;
-          const response = await fetch(`/api/expungement-ai/briefcase/${encodeURIComponent(itemId)}/packet-information`, {
+          const response = await fetch(`/api/expungement-ai/briefcase/${encodeURIComponent(itemId)}/packet-information${gaPardonPreparation ? "?preparation=ga-pardon" : ""}`, {
             method: "POST", headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ answers: changedPacketAnswers(submitted, confirmed.current), useContactComponents: contactChoice.current, clearInactiveCustodyFacts: clearCustodyChoice.current, confirmRecordFacts: submittedRecordChoices, useAccountEmail: submittedAccountEmailChoice !== null && submitted.email_address === submittedAccountEmailChoice, expectedRevision: submittedRevision, resumeSectionId: editingFromReview ? null : resumeSectionId, navigationIntent: editingFromReview ? "stay" : navigationIntent, editingFact: editingSensitiveIdentifier ? "social_security_number" : undefined })
           });
@@ -232,7 +233,7 @@ export function PacketInformationBuilder({
   async function loadSavedForComparison() {
     const requestSequence = ++recoverySequence.current;
     try {
-      const response = await fetch(`/api/expungement-ai/briefcase/${encodeURIComponent(itemId)}/packet-information${editingSensitiveIdentifier ? "?editingFact=social_security_number" : ""}`, { cache: "no-store" });
+      const response = await fetch(`/api/expungement-ai/briefcase/${encodeURIComponent(itemId)}/packet-information${gaPardonPreparation ? "?preparation=ga-pardon" : editingSensitiveIdentifier ? "?editingFact=social_security_number" : ""}`, { cache: "no-store" });
       const payload: unknown = await response.json();
       if (requestSequence !== recoverySequence.current) return;
       if (!response.ok || !isPacketSaveReceipt(payload) || payload.revision < revision.current || payload.reviewPath !== `/briefcase/${encodeURIComponent(itemId)}/review`) throw new Error("recovery_unavailable");

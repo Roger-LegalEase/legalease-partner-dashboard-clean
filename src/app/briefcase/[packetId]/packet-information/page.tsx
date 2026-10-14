@@ -14,6 +14,9 @@ import { PacketInformationBuilder } from "@/components/expungement-ai/PacketInfo
 import { requireConsumerBriefcaseSession } from "@/lib/expungement-ai/auth";
 import { getBriefcaseItem } from "@/lib/expungement-ai/briefcase";
 import { decorateBriefcaseItemForPresentation } from "@/lib/expungement-ai/briefcase-presentation-authority";
+import { protectedPacketVerificationSeedFromTrustedSource, readTrustedBriefcasePresentationSource } from "@/lib/expungement-ai/briefcase-presentation-authority";
+
+import { gaPardonPreparationModelFor } from "@/lib/expungement-ai/packet-information";
 
 export const dynamic = "force-dynamic";
 
@@ -22,7 +25,7 @@ export default async function PacketInformationPage({
   searchParams
 }: {
   params: Promise<{ packetId: string }>;
-  searchParams: Promise<{ edit?: string }>;
+  searchParams: Promise<{ edit?: string; preparation?: string }>;
 }) {
   const { packetId } = await params;
   const auth = await requireConsumerBriefcaseSession(`/briefcase/${packetId}/packet-information`);
@@ -31,6 +34,18 @@ export default async function PacketInformationPage({
     consumerAuthUserId: auth.userId,
     item: storedItem
   }) : null;
+  const search = await searchParams;
+  const preparing = search.preparation === "ga-pardon";
+  let preparationModel = null;
+  if (preparing && storedItem) {
+    let read = await readProtectedPacketVerification({ consumerAuthUserId: auth.userId, briefcaseItemId: storedItem.id });
+    if (!read.ok && read.reason === "protected_verification_authority_missing") {
+      const source = await readTrustedBriefcasePresentationSource({ consumerAuthUserId: auth.userId, item: storedItem });
+      const seed = source.ok ? protectedPacketVerificationSeedFromTrustedSource(source.value) : null;
+      if (seed) read = { ok: true, value: seed.verification };
+    }
+    preparationModel = read.ok ? gaPardonPreparationModelFor(read.value) : null;
+  }
   const nonconvictionGuidanceCorrection = item?.authorityStatus === "protected_draft"
     && item.jurisdiction && item.packetDraft.status === "available"
     && isNebraskaNonconvictionGuidanceCorrection({ ...item.packetDraft, stateCode: item.jurisdiction, pathwayId: item.pathwayId }, item.resultCode);
@@ -44,22 +59,22 @@ export default async function PacketInformationPage({
   const correctionIds = item?.authorityStatus === "protected_draft"
     && item.jurisdiction && item.packetDraft.status === "available"
     ? heldPacketCorrectionInputIds({ ...item.packetDraft, stateCode: item.jurisdiction, pathwayId: item.pathwayId }, item.resultCode) : new Set<string>();
-  const correctingCompletion = !packetResult && correctionIds.size > 0;
+  const correctingCompletion = !preparing && !packetResult && correctionIds.size > 0;
   // These protected NE correction surfaces return to the current matter, even
   // when an explicit uncertainty truthfully leaves its legal route unresolved.
   const nebraskaMatterCorrection = correctingCompletion && item?.authorityStatus === "protected_draft"
     && item.jurisdiction === "NE" && item.packetDraft.status === "available"
     && (item.pathwayId === "automatic-nonconviction-sealing"
       || item.pathwayId === null && (item.packetDraft.heldFactualCorrectionIds?.length ?? 0) > 0);
-  const model = (correctingCompletion || packetResult && item?.paymentState !== "unavailable") && item?.packetDraft.status === "available"
+  const model = preparing ? preparationModel : (correctingCompletion || packetResult && item?.paymentState !== "unavailable") && item?.packetDraft.status === "available"
     ? item.packetDraft
     : null;
   const protectedRead = !model && storedItem ? await readProtectedPacketVerification({ consumerAuthUserId: auth.userId, briefcaseItemId: storedItem.id }) : null;
   const clarification = protectedRead?.ok ? caProp64ClarificationModelFor(protectedRead.value) : null;
-  const requestedEdit = (await searchParams).edit?.trim();
+  const requestedEdit = search.edit?.trim();
   const editId = requestedEdit === "social_security_number_last_four" && requiresMcicIdentifierAuthority(item?.jurisdiction ?? "", item?.pathwayId) ? "social_security_number" : requestedEdit;
   if (model && item && editId && !(correctingCompletion ? correctionIds : editablePacketInputIds({ ...model, stateCode: item.jurisdiction ?? "", pathwayId: item.pathwayId })).has(editId)) {
-    redirect(`/briefcase/${encodeURIComponent(item.id)}/review`);
+    redirect(preparing ? `/briefcase/${encodeURIComponent(item.id)}/packet-information?preparation=ga-pardon` : `/briefcase/${encodeURIComponent(item.id)}/review`);
   }
   const displayedQuestions = model && correctingCompletion
     ? model.questions.filter((question) => correctionIds.has(question.id) && (!editId || question.id === editId)) : model
@@ -104,7 +119,7 @@ export default async function PacketInformationPage({
           <div className="flex flex-wrap items-start justify-between gap-4">
             <div>
               <p className="text-xs font-bold uppercase tracking-[0.08em] text-[#08786F]">{item.jurisdiction}</p>
-              <h1 className="mt-2 text-[26px] font-extrabold tracking-[-0.02em] text-[#0B1320]">{correctingCompletion
+              <h1 className="mt-2 text-[26px] font-extrabold tracking-[-0.02em] text-[#0B1320]">{preparing ? <LocalizedCopy en="Prepare your petition information" es="Prepare la información para su petición" /> : correctingCompletion
                 ? <LocalizedCopy en={nonconvictionGuidanceCorrection ? "Review saved case answers" : eligibilityCorrection ? "Review saved eligibility answers" : "Review saved completion answers"} es={nonconvictionGuidanceCorrection ? "Revise las respuestas guardadas sobre el caso" : eligibilityCorrection ? "Revise las respuestas guardadas sobre la elegibilidad" : "Revise las respuestas guardadas sobre el cumplimiento"} />
                 : <LocalizedRuntimeText text={"Complete packet information"} />}</h1>
               {item.pathwayLabel ? <p className="mt-2 text-sm font-semibold text-[#475A6E]"><LocalizedCopy {...packetDisplayCopy("route_label", item.jurisdiction, item.pathwayId, item.pathwayLabel)} /></p> : null}
@@ -113,7 +128,7 @@ export default async function PacketInformationPage({
           </div>
 
           <div className="my-6 rounded-[14px] bg-[#F7F3EC] px-5 py-4 text-sm leading-6 text-[#5A6275]">
-            {nonconvictionGuidanceCorrection ? (
+            {preparing ? <p><LocalizedCopy en="Choose a detail to save or correct. Describe the harm to you using your own facts. The court decides the petition. You can save your progress; a packet is not yet available to download." es="Elija un dato para guardarlo o corregirlo. Describa el perjuicio que ha sufrido usando sus propios hechos. El tribunal decide la petición. Puede guardar su progreso; el paquete aún no está disponible para descargar." /></p> : nonconvictionGuidanceCorrection ? (
               <p><LocalizedCopy en="You can correct the saved case answers used for this guidance. Saving an answer does not verify your facts, confirm that your record is sealed, or make a court packet available." es="Puede corregir las respuestas guardadas sobre el caso que se usan para esta orientación. Guardar una respuesta no verifica sus datos, no confirma que su expediente esté sellado ni habilita un paquete judicial." /></p>
             ) : correctingCompletion ? (
               <p><LocalizedCopy en="You can correct these saved answers. Your current result remains on hold, and correcting an answer does not complete final verification." es="Puede corregir estas respuestas guardadas. Su resultado actual sigue pendiente y corregir una respuesta no completa la verificación final." /></p>
@@ -122,7 +137,7 @@ export default async function PacketInformationPage({
             ) : (
               <p><LocalizedRuntimeText text={"Your Briefcase is free. Complete your packet information and pay only when you're ready to generate your packet."} /></p>
             )}
-            {!correctingCompletion ? <p className="mt-2"><LocalizedRuntimeText text={"Complete the remaining details for this packet. Review what's already here, add anything that is missing, and save your progress anytime."} /></p> : null}
+            {!correctingCompletion && !preparing ? <p className="mt-2"><LocalizedRuntimeText text={"Complete the remaining details for this packet. Review what's already here, add anything that is missing, and save your progress anytime."} /></p> : null}
           </div>
 
           {correctingCompletion && eligibilityCorrection ? <nav className="mb-6 grid gap-2" aria-labelledby="eligibility-correction-heading">
@@ -135,8 +150,14 @@ export default async function PacketInformationPage({
                 : <LocalizedRuntimeText text={question.prompt} />}
             </Link>)}
           </nav> : null}
-          <PacketInformationBuilder
-            key={`${item.id}:${editId ?? "all"}`}
+          {preparing ? <nav className="mb-6 grid gap-2" aria-labelledby="ga-preparation-choices">
+            <p id="ga-preparation-choices" className="font-semibold"><LocalizedCopy en="Choose a petition detail" es="Elija un dato de la petición" /></p>
+            {model.questions.map(question => <Link key={question.id} className="inline-flex min-h-11 items-center underline" href={`/briefcase/${encodeURIComponent(item.id)}/packet-information?preparation=ga-pardon&edit=${encodeURIComponent(question.id)}`}>
+              {question.translations?.es?.prompt ? <LocalizedCopy en={question.prompt} es={question.translations.es.prompt} /> : <LocalizedRuntimeText text={question.prompt} />}
+            </Link>)}
+          </nav> : null}
+          {!preparing || editId ? <PacketInformationBuilder
+            key={`${item.id}:${editId ?? "all"}:${preparing ? "preparation" : "ordinary"}`}
             itemId={item.id}
             stateCode={item.jurisdiction}
             questions={displayedQuestions}
@@ -152,9 +173,10 @@ export default async function PacketInformationPage({
             initialCourtRecordConflict={model.courtRecordConflict}
             initialAccountEmailSuggestion={packetAccountEmailSuggestion({ ...model, stateCode: item.jurisdiction, pathwayId: item.pathwayId ?? null }, auth.userEmail)}
             initialRouteChanged={correctingCompletion && !nebraskaMatterCorrection}
-            returnToMatterAfterCorrection={Boolean(nebraskaMatterCorrection)}
+            returnToMatterAfterCorrection={preparing || Boolean(nebraskaMatterCorrection)}
+            gaPardonPreparation={preparing}
             editingFromReview={Boolean(editId) || correctingCompletion}
-          />
+          /> : null}
         </section>
       ) : (
         <section className="rounded-[16px] border border-[#ECEFF4] bg-white p-6" role="status" aria-live="polite">

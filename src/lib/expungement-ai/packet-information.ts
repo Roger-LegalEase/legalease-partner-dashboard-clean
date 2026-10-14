@@ -23,6 +23,7 @@ import { caProp64RecordQuestions } from "@/lib/expungement-ai/ca-prop64-record-f
 import { caProp64RecordAnswerState, CA_PROP64_RECORD_FACT_IDS } from "@/lib/expungement-ai/ca-prop64-record-answer";
 import { isAffirmative, isNegative, isExplicitUnknownAnswer } from "@/lib/rcap-engine/answer-normalization";
 import { recordFactOwnQuestionIds, recordFactConfirmationFor, unresolvedRecordFactConfirmations, recordFactCourtConflict } from "@/lib/expungement-ai/record-fact-clarification";
+import { georgiaPardonPreparationFactIds } from "@/lib/expungement-ai/ga-pardon-preparation";
 import { fullSsnLastFour, requiresMcicIdentifierAuthority } from "@/lib/expungement-ai/sensitive-packet-facts";
 import { reviewedContactRepresentation, contactRepresentationHash, contactRepresentationProvenance, isProvenContactOutput } from "@/lib/expungement-ai/contact-representation";
 import { courtCompletionContractsFor, refreshCourtCompletionImplications } from "@/lib/expungement-ai/court-completion-reuse";
@@ -175,6 +176,9 @@ export type ProtectedPacketInformationModel = Pick<
   caProp64Clarification?: boolean;
   /** Original factual controls recovered from validated protected history only. */
   heldFactualCorrectionIds?: string[];
+  gaPardonPreparationAvailable?: boolean;
+  /** Explicit preparation editor only; never additions to the protected plan. */
+  gaPardonPreparationFactIds?: string[];
   revision: number;
   prefilledAnswers: Record<string, AnswerValue>;
   packetAnswers: Record<string, AnswerValue>;
@@ -426,6 +430,7 @@ export function packetInformationPatch(input: {
   existingItem: ConsumerBriefcaseItem;
   answers: Record<string, AnswerValue>;
   verify?: boolean;
+  gaPardonPreparation?: boolean;
   useContactComponents?: boolean;
   clearInactiveCustodyFacts?: boolean;
   confirmRecordFacts?: string[];
@@ -437,8 +442,9 @@ export function packetInformationPatch(input: {
   reviewed?: boolean;
 }) {
   const priorProtected = input.protectedVerification;
-  const current = protectedPacketInformationModelFor(priorProtected);
+  const current = input.gaPardonPreparation ? gaPardonPreparationModelFor(priorProtected) : protectedPacketInformationModelFor(priorProtected);
   if (!current) return null;
+  if (input.gaPardonPreparation && input.verify) return null;
   const allowedIds = editablePacketInputIds(current, true);
   const acceptedAnswers = Object.fromEntries(
     Object.entries(input.answers).filter(([id, answer]) => allowedIds.has(id) && isAnswerValue(answer))
@@ -514,7 +520,7 @@ export function packetInformationPatch(input: {
   const now = new Date().toISOString();
   const nextDraft = !materialFactChange && !derivedRepairRequired && canonicalEqual(priorSnapshot.packetPlan, current.packetPlan) && priorProtected.draftSnapshot
     ? priorProtected.draftSnapshot
-    : deriveProtectedPacketDraftSnapshot(priorProtected, savedAnswers, now, contactChoice, [...new Set([...Object.keys(answerDelta), ...confirmations])], new Set(Object.keys(answerDelta)), clearCustody);
+    : deriveProtectedPacketDraftSnapshot(priorProtected, savedAnswers, now, contactChoice, [...new Set([...Object.keys(answerDelta), ...confirmations])], new Set(Object.keys(answerDelta)), clearCustody, input.gaPardonPreparation === true);
   if (!nextDraft) return null;
   if (accountEmail) {
     nextDraft.dependencies = { ...nextDraft.dependencies, accountContactSources: { email_address: {
@@ -536,7 +542,7 @@ export function packetInformationPatch(input: {
     draftHash: nextDraftHash,
     draftSnapshot: nextDraft
   };
-  const evaluatedModel = protectedPacketInformationModelFor(draftRecord);
+  const evaluatedModel = input.gaPardonPreparation ? gaPardonPreparationModelFor(draftRecord) ?? protectedPacketInformationModelFor(draftRecord) : protectedPacketInformationModelFor(draftRecord);
   const nextModel = evaluatedModel?.packetPlan ? evaluatedModel : caProp64ClarificationModelFor(draftRecord) ?? evaluatedModel;
   if (!nextModel) return null;
   const review = input.verify === true && nextModel.missingInputIds.length === 0
@@ -1280,9 +1286,13 @@ export function protectedPacketInformationModelFor(
   const reviewSafety = contractSuccessor ? { safe: false, reason: "packet_contract_clarification_required" }
     : protectedPacketDraftReviewSafety(snapshot, "verifiedAt" in snapshot ? snapshot.verifiedAt : new Date().toISOString());
   const currentlyVerified = verification.status === "verified" && reviewSafety.safe;
+  const gaPreparation = snapshot.jurisdiction === "GA" && snapshot.pathwayId === GA_PARDON_ROUTE
+    && canonicalEqual(snapshot.serverFacts, canonicalServerFacts("GA", GA_PARDON_ROUTE))
+    ? georgiaPardonPreparationFactIds(snapshot, { profile, profileAuthorityFingerprint: profileAuthorityFingerprint(profile, snapshot.pathwayId), today: new Date().toISOString().slice(0, 10) }) : null;
   return {
     resultCode: snapshot.resultCode,
     ...(heldFactualCorrectionIds.length ? { heldFactualCorrectionIds } : {}),
+    ...(gaPreparation ? { gaPardonPreparationAvailable: true } : {}),
     stateCode: snapshot.jurisdiction,
     revision: verification.revision,
     pathwayId: snapshot.pathwayId,
@@ -1316,6 +1326,31 @@ export function protectedPacketInformationModelFor(
 }
 
 type ProtectedPacketAuthoritySnapshot = PacketVerificationSnapshot | ProtectedPacketDraftSnapshot;
+
+/** Explicit participant-directed editing only; the held plan and its required
+ * inputs remain unchanged. This surface cannot verify or generate a packet. */
+export function gaPardonPreparationModelFor(verification: ProtectedPacketVerificationRecord): ProtectedPacketInformationModel | null {
+  const model = protectedPacketInformationModelFor(verification);
+  const snapshot = protectedAuthoritySnapshotFor(verification);
+  if (!model?.gaPardonPreparationAvailable || !snapshot) return null;
+  const profile = getProfileByJurisdiction(snapshot.jurisdiction)!;
+  const scope = georgiaPardonPreparationFactIds(snapshot, { profile,
+    profileAuthorityFingerprint: profileAuthorityFingerprint(profile, snapshot.pathwayId), today: new Date().toISOString().slice(0, 10) });
+  if (!scope) return null;
+  const ids = [...scope.requiredFactIds, ...scope.optionalFactIds];
+  const surface = protectedPacketQuestionSurface(profile, snapshot.pathwayId, model.screeningAnswers, ids,
+    model.serverFacts, model.prefilledAnswers, model.packetAnswers, model.recordOwnQuestionIds ?? []);
+  const questions = surface.questions.filter(question => ids.includes(question.id));
+  const questionById = new Map(questions.map(question => [question.id, question]));
+  const recordClarificationIds = unresolvedRecordFactConfirmations(`${snapshot.jurisdiction}:${snapshot.pathwayId}`,
+    model.initialAnswers, questionById, snapshot.dependencies.recordFactConfirmations);
+  return { ...model, gaPardonPreparationFactIds: ids,
+    questions, builderQuestions: questions, builderSections: [], recordClarificationIds,
+    missingInputIds: [...new Set([...missingRequiredInputs(scope.requiredFactIds, model.serverFacts, model.initialAnswers, questionById), ...recordClarificationIds])],
+    pendingDerivations: [], stage: "in_progress", reviewedAt: null,
+    reviewSafety: { safe: false, reason: "participant_document_preparation_only" }
+  };
+}
 
 /**
  * Resolve one route's required facts to their collection classes.
@@ -1435,7 +1470,8 @@ function routeFactualCorrectionIds(model: { stateCode: string; pathwayId: string
     ? [...NY_PACKET_FACT_IDS, ...NY_CASE_FACT_IDS].filter(id => Object.hasOwn(facts, id) || NY_HISTORY_FACT_IDS.includes(id) || NY_FUTURE_FACT_IDS.includes(id)) : [])];
 }
 
-export function editablePacketInputIds(model: Pick<ProtectedPacketInformationModel, "stateCode" | "pathwayId" | "requiredInputIds" | "serverFacts" | "screeningAnswers" | "prefilledAnswers" | "packetAnswers" | "recordOwnQuestionIds" | "questions" | "heldFactualCorrectionIds">, includeInactive = false): Set<string> {
+export function editablePacketInputIds(model: Pick<ProtectedPacketInformationModel, "stateCode" | "pathwayId" | "requiredInputIds" | "serverFacts" | "screeningAnswers" | "prefilledAnswers" | "packetAnswers" | "recordOwnQuestionIds" | "questions" | "heldFactualCorrectionIds" | "gaPardonPreparationFactIds">, includeInactive = false): Set<string> {
+  if (model.gaPardonPreparationFactIds) return new Set(model.gaPardonPreparationFactIds.filter(id => !(id in model.serverFacts)));
   const collection = packetCollectionFor({ jurisdiction: model.stateCode, pathwayId: model.pathwayId, requiredInputIds: model.requiredInputIds,
     serverFacts: model.serverFacts, screeningAnswers: model.screeningAnswers, prefilledAnswers: model.prefilledAnswers, savedAnswers: model.packetAnswers, recordOwnQuestionIds: model.recordOwnQuestionIds,
     unresolvedSavedFactIds: model.questions.filter(question => question.savedAnswerNeedsClarification).map(question => question.id) });
@@ -1888,15 +1924,19 @@ function deriveProtectedPacketDraftSnapshot(
   useContactComponents = false,
   confirmRecordFacts: string[] = [],
   explicitChangedIds: ReadonlySet<string> = new Set(),
-  clearInactiveCustodyFacts = false
+  clearInactiveCustodyFacts = false,
+  gaPardonPreparation = false
 ): ProtectedPacketDraftSnapshot | null {
   let base = protectedAuthoritySnapshotFor(verification);
   if (!base) return null;
   const currentAuthority = evaluateProtectedPacketFacts(base);
   if (!currentAuthority) return null;
   const originalBase = base;
+  const gaPreparationIds = gaPardonPreparation ? gaPardonPreparationModelFor(verification)?.gaPardonPreparationFactIds : undefined;
+  if (gaPardonPreparation && !gaPreparationIds) return null;
   base = louisianaAutomationStatusHeldSuccessor(base, currentAuthority) ?? nebraskaAcquittalHeldSuccessor(base, currentAuthority) ?? kansasRegistrationHeldSuccessor(base, currentAuthority) ?? base;
   const factualIds = [...factualPathwayCorrectionIds(base.jurisdiction, base.pathwayId, { ...base.screeningAnswers, ...base.prefilledAnswers, ...base.packetAnswers }, true), ...msExactTimingQuestionIds(base.jurisdiction, base.pathwayId, { ...base.screeningAnswers, ...base.prefilledAnswers, ...base.packetAnswers }, true), ...nebraskaUnselectedCorrectionIds(base)];
+  if (gaPreparationIds) factualIds.push(...gaPreparationIds);
   if (isNy16059Packet(base.jurisdiction, base.pathwayId)) factualIds.push(...NY_PACKET_FACT_IDS, ...NY_CASE_FACT_IDS,
     ...routeFactualCorrectionIds({ stateCode: base.jurisdiction, pathwayId: base.pathwayId,
       screeningAnswers: answerRecord(base.screeningAnswers), prefilledAnswers: answerRecord(base.prefilledAnswers), packetAnswers: answerRecord(base.packetAnswers) }, true));
@@ -1949,7 +1989,7 @@ function deriveProtectedPacketDraftSnapshot(
   const own = new Set([...recordFactOwnQuestionIds(routeKey, answers, base.dependencies.recordFactConfirmations),
     ...recordFactOwnQuestionIds(routeKey, { ...base.screeningAnswers, ...base.prefilledAnswers, ...base.packetAnswers }, base.dependencies.recordFactConfirmations)]);
   const surface = protectedPacketQuestionSurface(getProfileByJurisdiction(base.jurisdiction)!, base.pathwayId,
-    refreshed.maps.screeningAnswers, base.requiredInputIds, answerRecord(base.serverFacts), refreshed.maps.prefilledAnswers, refreshed.maps.packetAnswers, [...own], [...blockedLegacyFacts]);
+    refreshed.maps.screeningAnswers, gaPreparationIds ?? base.requiredInputIds, answerRecord(base.serverFacts), refreshed.maps.prefilledAnswers, refreshed.maps.packetAnswers, [...own], [...blockedLegacyFacts]);
   for (const id of confirmRecordFacts) {
     if (!own.has(id)) continue;
     const marker = recordFactConfirmationFor(routeKey, id, answers, surface.questionById.get(id));

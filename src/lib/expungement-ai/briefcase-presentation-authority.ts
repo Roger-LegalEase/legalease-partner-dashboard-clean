@@ -109,6 +109,7 @@ export type BriefcasePresentationItem = {
       recordClarificationIds?: string[];
       courtRecordConflict?: boolean;
       heldFactualCorrectionIds?: string[];
+      gaPardonPreparationAvailable?: boolean;
       nyCaseIssues?: Array<{ id: string; code: string; en: string; es: string }>;
       questions: ProtectedPacketInformationModel["questions"];
       builderQuestions: ProtectedPacketInformationModel["builderQuestions"];
@@ -543,6 +544,7 @@ function presentationDraftForModel(
     nyCaseIssues: model.nyCaseIssues,
     questions: model.questions,
     ...(model.heldFactualCorrectionIds?.length ? { heldFactualCorrectionIds: model.heldFactualCorrectionIds } : {}),
+    ...(model.gaPardonPreparationAvailable ? { gaPardonPreparationAvailable: true } : {}),
     builderQuestions: model.builderQuestions,
     builderSections: model.builderSections,
     verificationSummary: model.verificationSummary,
