@@ -85,6 +85,8 @@ export type GradeABlock =
       defendantRole?: string;
       caseNumber: string;
       title: string;
+      continuationTitle?: string;
+      wrapCourtLines?: boolean;
     }
   | { kind: "pleading_paragraph"; text: string; number?: string }
   | {
@@ -651,6 +653,8 @@ function composeSection(
           caseNumber: blanks.has(contract.caseNumber) ? "" : fact(matter, contract.caseNumber),
           caseNumberBlank: blanks.has(contract.caseNumber),
           ...(contract.caseNumberInstruction ? { caseNumberInstruction: contract.caseNumberInstruction } : {}),
+          ...(contract.continuationTitle ? { continuationTitle: contract.continuationTitle } : {}),
+          ...(contract.wrapCourtLines ? { wrapCourtLines: true } : {}),
           title: contract.documentTitle ?? section.heading
         }];
       }

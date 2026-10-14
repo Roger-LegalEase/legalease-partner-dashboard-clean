@@ -124,7 +124,7 @@ export function prepareBoundPersonalizedPacket(input: PersonalizedInput, binding
       ? ((answer as {unknown?: boolean}).unknown === true ? undefined : (answer as {value?: unknown}).value) : answer;
     if (typeof value === "string" || typeof value === "number") facts[factId] = String(value);
   }
-  // Exact protected values replace only the two already-mapped destinations.
+  // Exact protected values fill only the declared participant-fact destinations.
   // Missing, unknown or conflicting GA values refuse before composition.
   if (gaFacts) Object.assign(facts, gaFacts);
   const packet = composeParticipantDeliveryPacket(specification, {

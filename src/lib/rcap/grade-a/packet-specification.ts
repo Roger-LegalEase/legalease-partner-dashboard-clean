@@ -139,6 +139,10 @@ export type PacketSpecificationSection = {
     caseNumber: string;
     caseNumberInstruction?: string;
     documentTitle?: string;
+    /** Short component identification for continuation pages; full first-page title stays intact. */
+    continuationTitle?: string;
+    /** Wrap participant-supplied court lines within the pleading margins. */
+    wrapCourtLines?: boolean;
   };
   fieldValueTemplates?: Record<string, string>;
   assertions?: Array<{ id: string; text: string; facts: string[] }>;

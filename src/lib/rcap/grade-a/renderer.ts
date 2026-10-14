@@ -327,7 +327,7 @@ function drawPleadingDocument(
   const context: PleadingContext = {
     court: caption?.court ?? "",
     caseNumber: caption?.caseNumber ?? "",
-    title: caption?.title ?? entry.title,
+    title: caption?.continuationTitle ?? caption?.title ?? entry.title,
     pageNumber: 1,
     confidential: false
   };
@@ -381,6 +381,15 @@ function drawPleadingCaption(
     // The adopted caption takes more than one court line. Each is drawn as its
     // own line: prefix, a rule where the participant writes the value, suffix.
     for (const line of block.courtLines) {
+      if (block.wrapCourtLines && !line.blank) {
+        const text = [line.prefix, line.value?.toUpperCase(), line.suffix].filter(Boolean).join(" ");
+        for (const wrapped of wrap(sanitize(text), fonts.pleadingBold, PLEADING_BODY_SIZE, PLEADING_CONTENT_WIDTH)) {
+          ensurePleading(cursor, document, fonts, context, PLEADING_LEADING);
+          cursor.page.drawText(wrapped, { x: PLEADING_MARGIN, y: cursor.y, size: PLEADING_BODY_SIZE, font: fonts.pleadingBold, color: INK });
+          cursor.y -= PLEADING_LEADING;
+        }
+        continue;
+      }
       let x = PLEADING_MARGIN;
       if (line.prefix) {
         cursor.page.drawText(sanitize(line.prefix), { x, y: cursor.y, size: PLEADING_BODY_SIZE, font: fonts.pleadingBold, color: INK });

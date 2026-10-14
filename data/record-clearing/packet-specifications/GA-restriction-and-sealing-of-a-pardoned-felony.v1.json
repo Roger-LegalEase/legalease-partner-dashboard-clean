@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "specificationId": "ga-restriction-and-sealing-of-a-pardoned-felony",
-  "specificationVersion": "1.1.0",
+  "specificationVersion": "1.2.0",
   "obligationRouteKey": "obligation:track-pathway:GA:ga-pardon-j7:restriction-and-sealing-of-a-pardoned-felony",
   "routeKey": "GA:restriction-and-sealing-of-a-pardoned-felony",
   "routeKeys": [
@@ -45,7 +45,7 @@
     "data/rcap-all50/overlays/census-v1/ga/ga-pardon-j7-set--custom-pleading/participant-instructions.md",
     "data/rcap-grade-a/legal-decisions/OWNER_BATCH_ADOPTION_2026-09-02.json#OWN-ADOPT-2026-09-02-BATCH-53"
   ],
-  "specificationNote": "This specification gives the already-compiled Georgia pardoned-conviction restriction route its route-scoped artifact identity. It binds only the existing six-component census-v1 family and the canonical and boundary hashes OWN-ADOPT-2026-09-02-BATCH-53 adopted for it. Every legal statement below is copied from the family's committed legal-design track and the adopted shipping artifacts; none is new. It creates no fulfillment record, no post-approval audit verdict, and grants no checkout, delivery, or production authority. Version 1.1.0 maps the participant-confirmed ga_pardoned_offense_section and ga_pardon_date to the existing primary-filing case-fact destinations and uses a conviction-neutral display label under adopted GA-02. All legal text, third-party/signature/service/narrative blanks, source identities and original approvedArtifacts remain unchanged. The historical adoption applies only within its recorded original scope; this engineering mapping does not create successor document, technical, visual, delivery or commercial approval.",
+  "specificationNote": "This specification gives the already-compiled Georgia pardoned-conviction restriction route its route-scoped artifact identity. It binds only the existing six-component census-v1 family and the canonical and boundary hashes OWN-ADOPT-2026-09-02-BATCH-53 adopted for it. Every legal statement below is copied from the family's committed legal-design track and the adopted shipping artifacts; none is new. It creates no fulfillment record, no post-approval audit verdict, and grants no checkout, delivery, or production authority. Version 1.1.0 maps the participant-confirmed ga_pardoned_offense_section and ga_pardon_date to the existing primary-filing case-fact destinations and uses a conviction-neutral display label under adopted GA-02. That version retained all legal text, third-party/signature/service/narrative blanks, source identities and original approvedArtifacts. The historical adoption applies only within its recorded original scope; this engineering mapping does not create successor document, technical, visual, delivery or commercial approval. October 14 GA-02 participant-fact mapping successor: reuse the protected convicting-court name and level, county, existing case number, arrest date and participant-authored harm narrative at their existing source-supported destinations. Court findings, operative order blanks, signatures and actual service completion remain reserved. Historical approved PDF identities are preserved as ancestry, not approval of these new personalized outputs.",
   "approvedArtifacts": [
     {
       "fixture": "canonical",
@@ -301,25 +301,11 @@
       "certificate_of_service_judge"
     ],
     "participantCompletesBeforeFilingFields": [
-      "participant_narrative",
-      "primary_filing_court",
-      "primary_filing_county",
-      "primary_filing_case_number",
       "primary_filing_otn",
-      "primary_filing_blank_1",
-      "primary_filing_blank_4",
-      "primary_filing_blank_5",
-      "primary_filing_blank_6",
-      "proposed_order_court",
-      "proposed_order_county",
-      "proposed_order_case_number",
       "proposed_order_otn",
       "proposed_order_blank_1",
       "proposed_order_blank_2",
       "proposed_order_blank_3",
-      "certificate_of_service_court",
-      "certificate_of_service_county",
-      "certificate_of_service_case_number",
       "certificate_of_service_otn",
       "certificate_of_service_blank_1",
       "certificate_of_service_blank_2",
@@ -344,16 +330,16 @@
           "heading": "Caption",
           "kind": "pleading_caption",
           "fields": [
-            "primary_filing_court",
-            "primary_filing_county",
-            "primary_filing_case_number",
+            "court",
+            "county",
+            "case_number",
             "primary_filing_otn",
             "primary_filing_judge"
           ],
           "fieldTreatments": {
-            "primary_filing_court": "ruled_blank",
-            "primary_filing_county": "ruled_blank",
-            "primary_filing_case_number": "ruled_blank",
+            "court": "value",
+            "county": "value",
+            "case_number": "value",
             "primary_filing_otn": "ruled_blank",
             "primary_filing_judge": "court_owned_space"
           },
@@ -361,20 +347,22 @@
             "courtLines": [
               {
                 "prefix": "IN THE",
-                "field": "primary_filing_court",
-                "suffix": "COURT OF"
+                "field": "court",
+                "suffix": ""
               },
               {
                 "prefix": "",
-                "field": "primary_filing_county",
+                "field": "county",
                 "suffix": "COUNTY, STATE OF GEORGIA"
               }
             ],
             "courtInstruction": "COURT AND COUNTY NAMED IN THE CAPTION - THE COURT IN WHICH THE CONVICTION OCCURRED, AND ITS COUNTY (STATE, SUPERIOR, MAGISTRATE, PROBATE OR MUNICIPAL; YOUR OWN CASE PAPERS NAME BOTH, AND THE INSTRUCTIONS PAGE SAYS WHO CAN CONFIRM THEM)",
             "matterTitle": "STATE OF GEORGIA,\nv.\n{{participant_full_legal_name}}, Defendant.",
-            "caseNumber": "primary_filing_case_number",
+            "caseNumber": "case_number",
             "caseNumberLabel": "CASE NO.:",
-            "documentTitle": "PETITION TO RESTRICT ACCESS TO CRIMINAL HISTORY RECORD INFORMATION FOLLOWING PARDON\n(O.C.G.A. § 35-3-37(j)(7))"
+            "documentTitle": "PETITION TO RESTRICT ACCESS TO CRIMINAL HISTORY RECORD INFORMATION FOLLOWING PARDON\n(O.C.G.A. § 35-3-37(j)(7))",
+            "continuationTitle": "PETITION FOLLOWING PARDON",
+            "wrapCourtLines": true
           }
         },
         {
@@ -386,13 +374,13 @@
           "heading": "Date of arrest in this case:",
           "kind": "pleading_identity_list",
           "fields": [
-            "primary_filing_blank_1"
+            "arrest_date"
           ],
           "fieldLabels": {
-            "primary_filing_blank_1": "Date of arrest in this case:"
+            "arrest_date": "Date of arrest in this case:"
           },
           "fieldTreatments": {
-            "primary_filing_blank_1": "ruled_blank"
+            "arrest_date": "value"
           }
         },
         {
@@ -425,19 +413,13 @@
           "heading": "Your own statement of what has changed and how this record has been a ",
           "kind": "pleading_identity_list",
           "fields": [
-            "primary_filing_blank_4",
-            "primary_filing_blank_5",
-            "primary_filing_blank_6"
+            "participant_narrative"
           ],
           "fieldLabels": {
-            "primary_filing_blank_4": "Your own statement of what has changed and how this record has been a barrier (state only what you know first-hand; nothing on these lines is written for you):",
-            "primary_filing_blank_5": "Your own statement of what has changed and how this record h (continued)",
-            "primary_filing_blank_6": "Your own statement of what has changed and how this record h (continued)"
+            "participant_narrative": "Your own statement of what has changed and how this record has been a barrier (state only what you know first-hand; nothing on these lines is written for you):"
           },
           "fieldTreatments": {
-            "primary_filing_blank_4": "ruled_blank",
-            "primary_filing_blank_5": "ruled_blank",
-            "primary_filing_blank_6": "ruled_blank"
+            "participant_narrative": "value"
           }
         },
         {
@@ -486,16 +468,16 @@
           "heading": "Caption",
           "kind": "pleading_caption",
           "fields": [
-            "proposed_order_court",
-            "proposed_order_county",
-            "proposed_order_case_number",
+            "court",
+            "county",
+            "case_number",
             "proposed_order_otn",
             "proposed_order_judge"
           ],
           "fieldTreatments": {
-            "proposed_order_court": "ruled_blank",
-            "proposed_order_county": "ruled_blank",
-            "proposed_order_case_number": "ruled_blank",
+            "court": "value",
+            "county": "value",
+            "case_number": "value",
             "proposed_order_otn": "ruled_blank",
             "proposed_order_judge": "court_owned_space"
           },
@@ -503,20 +485,22 @@
             "courtLines": [
               {
                 "prefix": "IN THE",
-                "field": "proposed_order_court",
-                "suffix": "COURT OF"
+                "field": "court",
+                "suffix": ""
               },
               {
                 "prefix": "",
-                "field": "proposed_order_county",
+                "field": "county",
                 "suffix": "COUNTY, STATE OF GEORGIA"
               }
             ],
             "courtInstruction": "COURT AND COUNTY NAMED IN THE CAPTION - THE COURT IN WHICH THE CONVICTION OCCURRED, AND ITS COUNTY (STATE, SUPERIOR, MAGISTRATE, PROBATE OR MUNICIPAL; YOUR OWN CASE PAPERS NAME BOTH, AND THE INSTRUCTIONS PAGE SAYS WHO CAN CONFIRM THEM)",
             "matterTitle": "STATE OF GEORGIA,\nv.\n{{participant_full_legal_name}}, Defendant.",
-            "caseNumber": "proposed_order_case_number",
+            "caseNumber": "case_number",
             "caseNumberLabel": "CASE NO.:",
-            "documentTitle": "PROPOSED ORDER RESTRICTING ACCESS TO CRIMINAL HISTORY RECORD INFORMATION\n(O.C.G.A. § 35-3-37(j)(7))"
+            "documentTitle": "PROPOSED ORDER RESTRICTING ACCESS TO CRIMINAL HISTORY RECORD INFORMATION\n(O.C.G.A. § 35-3-37(j)(7))",
+            "continuationTitle": "PROPOSED ORDER",
+            "wrapCourtLines": true
           }
         },
         {
@@ -609,16 +593,16 @@
           "heading": "Caption",
           "kind": "pleading_caption",
           "fields": [
-            "certificate_of_service_court",
-            "certificate_of_service_county",
-            "certificate_of_service_case_number",
+            "court",
+            "county",
+            "case_number",
             "certificate_of_service_otn",
             "certificate_of_service_judge"
           ],
           "fieldTreatments": {
-            "certificate_of_service_court": "ruled_blank",
-            "certificate_of_service_county": "ruled_blank",
-            "certificate_of_service_case_number": "ruled_blank",
+            "court": "value",
+            "county": "value",
+            "case_number": "value",
             "certificate_of_service_otn": "ruled_blank",
             "certificate_of_service_judge": "court_owned_space"
           },
@@ -626,20 +610,22 @@
             "courtLines": [
               {
                 "prefix": "IN THE",
-                "field": "certificate_of_service_court",
-                "suffix": "COURT OF"
+                "field": "court",
+                "suffix": ""
               },
               {
                 "prefix": "",
-                "field": "certificate_of_service_county",
+                "field": "county",
                 "suffix": "COUNTY, STATE OF GEORGIA"
               }
             ],
             "courtInstruction": "COURT AND COUNTY NAMED IN THE CAPTION - THE COURT IN WHICH THE CONVICTION OCCURRED, AND ITS COUNTY (STATE, SUPERIOR, MAGISTRATE, PROBATE OR MUNICIPAL; YOUR OWN CASE PAPERS NAME BOTH, AND THE INSTRUCTIONS PAGE SAYS WHO CAN CONFIRM THEM)",
             "matterTitle": "STATE OF GEORGIA,\nv.\n{{participant_full_legal_name}}, Defendant.",
-            "caseNumber": "certificate_of_service_case_number",
+            "caseNumber": "case_number",
             "caseNumberLabel": "CASE NO.:",
-            "documentTitle": "CERTIFICATE OF SERVICE"
+            "documentTitle": "CERTIFICATE OF SERVICE",
+            "continuationTitle": "CERTIFICATE OF SERVICE",
+            "wrapCourtLines": true
           }
         },
         {
@@ -1323,5 +1309,5 @@
       "requiredBeforeFiling": true
     }
   ],
-  "specificationSha256": "3c7a3faa4330d786697a6154ea768e0a4ccbc2926742af8dd4c1b57dac10ece5"
+  "specificationSha256": "75ccdf5a48c9ee30b0e4cf197edcd4e6ad967a9425470ed96bc47cb974cfb061"
 }

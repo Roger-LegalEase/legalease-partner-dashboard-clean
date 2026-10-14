@@ -26,13 +26,15 @@ const facts = Object.fromEntries(spec.requiredFacts.map(({ factId }) => [factId,
 facts.participant_full_legal_name = 'Synthetic Casey Pardon';
 facts.ga_pardoned_offense_section = '16-8-14(a)';
 facts.ga_pardon_date = '2021-01-02';
+Object.assign(facts,{court:'Municipal Court',county:'Clarke',case_number:'2020-CR-0042',arrest_date:'2019-01-05',participant_narrative:'I was denied a warehouse job because of this record.'});
+const mappedIds=['ga_pardoned_offense_section','ga_pardon_date','court','county','case_number','arrest_date','participant_narrative'];
 const verificationHash = 'a'.repeat(64);
 const matter = {
   routeKey: route, jurisdiction: 'GA', pathwayId: spec.pathwayId, facts,
   verificationHash, verifiedAt: '2026-10-13T00:00:00.000Z', generationPurpose: 'internal_review'
 };
 const packet = composeParticipantDeliveryPacket(spec, matter);
-for (const id of ['ga_pardoned_offense_section', 'ga_pardon_date']) {
+for (const id of mappedIds) {
   for (const value of [undefined, '', '   ', { value: facts[id], unknown: true }]) {
     assert.throws(() => composeParticipantDeliveryPacket(spec, { ...matter, facts: { ...facts, [id]: value } }),
       /required fact\(s\) are missing or blank/, `${id}: missing or unnormalized facts cannot be printed`);
@@ -54,7 +56,7 @@ try {
     const text = execFileSync('pdftotext', ['-layout', file, '-'], { encoding: 'utf8' });
     assert.ok(!/pardoned[- ]felony|restriction-and-sealing-of-a-pardoned-felony/i.test(text), `${variant}: legacy internal identifier must not misclassify the participant's conviction`);
     assert.ok(text.includes('Following Pardon') || text.includes('Following a Pardon'));
-    for (const id of ['ga_pardoned_offense_section', 'ga_pardon_date']) assert.ok(text.includes(facts[id]), `${variant}: ${id} reaches the petition`);
+    for (const id of mappedIds) assert.ok(text.replace(/\s+/g,' ').includes(['court','county'].includes(id)?facts[id].toUpperCase():facts[id]), `${variant}: ${id} reaches the petition`);
     if (variant === 'full') {
       assert.ok(text.includes(verificationHash), 'Protected verification provenance is retained');
       assert.ok(text.includes(spec.specificationVersion), 'Packet version is retained');
@@ -68,7 +70,7 @@ try {
     assert.equal(createHash('sha256').update(bytes).digest('hex'), artifact.sha256);
     assert.equal(bytes.length, artifact.byteLength);
   }
-  console.log(JSON.stringify({ status: 'PASS', receipts, scope: 'Actual GA petition offense/date mappings and provenance-page copy; protected blanks and original artifacts unchanged. No protected delivery or new legal approval.' }));
+  console.log(JSON.stringify({ status: 'PASS', receipts, scope: 'Actual GA participant fact mappings and provenance-page copy; protected blanks and original artifacts unchanged. No protected delivery or new legal approval.' }));
 } finally {
   if (!process.argv[2]) fs.rmSync(directory, { recursive: true });
 }
