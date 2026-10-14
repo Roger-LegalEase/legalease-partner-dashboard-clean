@@ -13,7 +13,26 @@ const equal = (actual, expected, label) => { assert.deepEqual(actual, expected, 
 const fresh = caProp64CompletionMetadataForReview(census);
 equal(fresh.fieldMap, map, "actual shared factory reproduces committed map without rendering");
 equal(fresh.documents, census.documents, "actual shared factory reproduces all field dispositions and geometry");
-equal(caProp64CompletionInstructionsForReview(map), instructions, "instructions use current map");
+// The retained instructions belong to the accepted three-write fixture. The
+// structured-contact successor changes exactly these two explanatory passages;
+// preserve that artifact and require every other actor/source instruction verbatim.
+const instructionSuccessors = [
+  [
+    "The current field map writes exactly 3 fields: `matter.county` on CR-400, `matter.case_number` on CR-400, `participant.full_legal_name` on CR-400. It does not fill date of birth, other contact details or every recorded offense fact. Remaining known facts must be bound through a reviewed successor; this guide does not claim they were printed.",
+    "This source-bound field map writes 3 fields: `matter.county` on CR-400, `matter.case_number` on CR-400, `participant.full_legal_name` on CR-400. Only the facts mapped above are filled. Known filer and court contacts may be supplied by the structured-contact successor; inspect the exact accompanying map and printed forms. Date of birth, unknown facts, service events, signatures and court decisions are not inferred.",
+  ],
+  [
+    "The current fixtures leave this form unchanged.",
+    "The structured-contact successor fills only its known neutral caption; the court-owned body remains blank.",
+  ],
+];
+let expectedCurrentInstructions = instructions;
+for (const [retained, current] of instructionSuccessors) {
+  equal(expectedCurrentInstructions.split(retained).length, 2, "exact retained passage occurs once");
+  expectedCurrentInstructions = expectedCurrentInstructions.replace(retained, current);
+}
+const currentInstructions = caProp64CompletionInstructionsForReview(map);
+equal(currentInstructions, expectedCurrentInstructions, "current source-bound instructions preserve all other accepted actor duties");
 equal([map.generationAllowed, map.runtimeSelectable, map.commercialRoutesOpened], [false, false, 0]);
 equal(map.writes.map((row) => row.factId).sort(), ["matter.case_number", "matter.county", "participant.full_legal_name"]);
 equal(map.selections.length, 4);
