@@ -61,13 +61,9 @@ export function evaluateAuthoritativeScreeningResult(input: {
       ...firstPass,
       pathwayId: selection.configuration.pathwayId,
       pathwayLabel: selection.configuration.label,
-      // Identity is not eligibility. Preserve missing factual predicates and
-      // every current authority hold; never use the retired generic plan.
-      resultCode: firstPass.missingQuestionIds.length ? "needs_more_info" : "needs_review",
-      userLabel: OR_DISPOSITION_COPY.held[0],
-      paymentAllowed: false, packetPlan: undefined, selectedTrackId: selection.trackId,
-      reasons: [...firstPass.reasons.filter(reason => reason.code !== "or.waiting_rule_not_executed"), { code: "or.current_configuration_held", text: OR_DISPOSITION_COPY.held_reason[0] }],
-      cautions: [...firstPass.cautions, OR_DISPOSITION_COPY.caution[0]], nextSteps: [OR_DISPOSITION_COPY.next[0]]
+      // The current source-specific evaluator has checked the applicable
+      // disposition facts. Selection still cannot install a plan or authority.
+      paymentAllowed: false, packetPlan: undefined, selectedTrackId: selection.trackId
     }
     : selection.status === "configuration_clarification"
     ? {

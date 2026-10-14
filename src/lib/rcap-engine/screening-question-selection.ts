@@ -1,4 +1,4 @@
-import { oregonDispositionQuestionApplies } from "@/lib/rcap-engine/oregon-disposition-identity";
+import { oregonDispositionQuestionApplies, oregonDispositionLegacyQuestionApplies } from "@/lib/rcap-engine/oregon-disposition-identity";
 import { montanaDeferredFactApplies, montanaDeferredLegacyFinancialApplies } from "@/lib/rcap-engine/montana-deferred-facts";
 import { missouriMarijuanaFactApplies, missouriMarijuanaStatusQuestionApplies } from "@/lib/rcap-engine/missouri-marijuana-status-facts";
 import { missouriClosedRecordQuestionApplies } from "@/lib/rcap-engine/missouri-closed-record-facts";
@@ -116,6 +116,7 @@ export function selectScreeningQuestionIds(
 
   return publicProfile.questions
     .filter(question => oregonDispositionQuestionApplies(profile.jurisdiction.code, answers, question.id))
+    .filter(question => oregonDispositionLegacyQuestionApplies(profile, answers, question.id))
     .filter(question => montanaDeferredFactApplies(profile, selectedPathway?.id, answers, question.id))
     .filter(question => montanaDeferredLegacyFinancialApplies(profile, selectedPathway?.id, answers, question.id))
     .filter(question => missouriMarijuanaFactApplies(profile, selectedPathway?.id, answers, question.id))

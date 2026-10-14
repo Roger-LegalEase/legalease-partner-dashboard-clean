@@ -1,3 +1,4 @@
+import { oregonDispositionFilingFacts, OR_DISPOSITION_COPY } from "@/lib/rcap-engine/oregon-disposition-identity";
 import { montanaDeferredFacts, MT_DEFERRED_COPY, MT_DEFERRED_SOURCE } from "@/lib/rcap-engine/montana-deferred-facts";
 import { missouriMarijuanaStatusDecision, MO_MARIJUANA_COPY, MO_MARIJUANA_STATUS_SOURCE } from "@/lib/rcap-engine/missouri-marijuana-status-facts";
 import { missouriClosedRecordQuestionApplies } from "@/lib/rcap-engine/missouri-closed-record-facts";
@@ -22,7 +23,7 @@ import { KS_REGISTRATION_ROUTE, KS_REGISTRATION_SOURCE, KS_REGISTRATION_REVIEW_C
 import { caProp64Choice, CA_PROP64_CURRENT } from "@/lib/expungement-ai/ca-prop64-choices";
 import { caProp64RecordQuestions } from "@/lib/expungement-ai/ca-prop64-record-facts";
 import { caProp64RecordAnswerState } from "@/lib/expungement-ai/ca-prop64-record-answer";
-import { mississippiProgramRouteFromAnswers } from "@/lib/rcap-engine/composed-route-selector";
+import { mississippiProgramRouteFromAnswers, selectComposedRoute } from "@/lib/rcap-engine/composed-route-selector";
 import { georgiaFirstOffenderFromAnswers, GA_ORIGINAL_FIRST_OFFENDER_PATHWAY, GA_FIRST_OFFENDER_GUIDANCE, isGeorgiaFirstOffenderGuidance } from "@/lib/rcap-engine/georgia-first-offender";
 import { illinoisCannabisFromAnswers, IL_CANNABIS_PATHWAY } from "@/lib/rcap-engine/illinois-cannabis-facts";
 import { pathwayExcludedByKnownFacts, FACTUAL_PATHWAY_EXCLUSION_COPY } from "@/lib/rcap-engine/factual-pathway-exclusions";
@@ -222,6 +223,35 @@ function evaluateProfileRules(profile: EngineProfile, request: ScreeningEvaluati
 
   const publicProfile = projectPublicProfile(profile);
   const preselectedPathway = selectPathway(profile, answers);
+  const oregon = jurisdiction === "OR" ? selectComposedRoute({
+    jurisdiction, pathwayId: preselectedPathway?.id,
+    oregonDispositionSource: { profileVersion: profile.profileVersion,
+      sourceFingerprint: profile.source?.sourceCorpusSha256 ?? "", answers }
+  }) : null;
+  if (oregon?.status === "held_configuration" || oregon?.status === "configuration_clarification") {
+    const currentPath = oregon.status === "held_configuration" ? oregon.configuration.pathwayId : undefined;
+    const held = (code: ScreeningResultCode, reasonCode: string, text: string, ids: string[] = []) => ({
+      ...result(profile, request, code, [reason("OR", reasonCode, text, "OR-disposition-configurations.v1;LWD-2026-08-29-OR-SUBSECTION")],
+        { pathwayId: currentPath, missingQuestionIds: ids, paymentAllowed: false, cautions: [OR_DISPOSITION_COPY.caution[0]] }),
+      userLabel: text, nextSteps: [text]
+    });
+    if (oregon.status === "configuration_clarification") return held("needs_more_info", "disposition_configuration_uncertain", OR_DISPOSITION_COPY.clarify[0], oregon.missingQuestionIds);
+    // Keep the exact existing category guard. It is a preliminary review, not
+    // proof of the statutory offense predicates, and never a new statewide ban.
+    if (!Array.isArray(answers.state_exclusion_categories) || !answers.state_exclusion_categories.length) {
+      return held("needs_more_info", "missing_required_facts", "Required public screening facts are missing.", ["state_exclusion_categories"]);
+    }
+    const excluded = exclusionReason(profile, answers);
+    if (excluded) return { ...held("needs_review", "disposition_exclusion_review", excluded.text, ["state_exclusion_categories"]), reasons: [excluded] };
+    if (answers.pending_cases !== "No") return held(answers.pending_cases === "Yes" ? "needs_review" : "needs_more_info", "disposition_pending_review", OR_DISPOSITION_COPY.pending[0], ["pending_cases"]);
+    const facts = oregonDispositionFilingFacts(answers, evaluationToday().toISOString().slice(0, 10));
+    const text = facts.code === "disposition_facts_supported" ? OR_DISPOSITION_COPY.supported[0]
+      : facts.code === "identity" ? OR_DISPOSITION_COPY.clarify[0] : OR_DISPOSITION_COPY[facts.code][0];
+    const code = facts.status === "missing" ? "needs_more_info" : facts.status === "not_yet" ? "not_yet" : "needs_review";
+    // Source-specific disposition facts replace only the retired generic
+    // conviction-clock path. Packet/case facts and actual authority are separate.
+    return held(code, `disposition_${facts.code}`, text, facts.ids);
+  }
   const mtDeferred = jurisdiction === "MT" ? montanaDeferredFacts(profile, preselectedPathway?.id, answers) : null;
   if (mtDeferred && mtDeferred.context !== "not_applicable" && preselectedPathway) {
     const contextIds = [

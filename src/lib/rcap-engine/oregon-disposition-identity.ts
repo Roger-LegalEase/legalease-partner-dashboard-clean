@@ -9,6 +9,13 @@ export const OR_DISPOSITION_SOURCE = {
   configurationSha256: "8de1133bce33edc0a43c1f620b5d49fd69bc9f6566fef52c0853e449b367ebad"
 } as const;
 export const OR_DISPOSITION_COPY = {
+  declination: ["Confirm whether the prosecutor decided not to file charges. No filed court case alone does not establish that decision.", "Confirme si la fiscalía decidió no presentar cargos. La ausencia de un caso judicial por sí sola no establece esa decisión."],
+  declination_date: ["Confirm the actual date of the prosecutor's decision not to file charges. The arrest date and a general elapsed-time answer do not replace it.", "Confirme la fecha real de la decisión de la fiscalía de no presentar cargos. La fecha del arresto y una respuesta general sobre el tiempo transcurrido no la sustituyen."],
+  future_date: ["The decision date is in the future. Check the record and correct the date or keep it unknown.", "La fecha de la decisión está en el futuro. Revise el expediente y corrija la fecha o indique que no la sabe."],
+  sixty_days: ["The 60-day period after the prosecutor's decision not to file charges has not finished. This result does not authorize filing.", "Aún no ha terminado el período de 60 días desde la decisión de la fiscalía de no presentar cargos. Este resultado no autoriza la presentación al tribunal."],
+  no_conviction_scope: ["Confirm whether every record included in this request ended without a conviction. A conviction cannot be included in this acquittal or dismissal configuration.", "Confirme si todos los antecedentes incluidos en esta solicitud terminaron sin una condena. No puede incluir una condena en esta configuración de absolución o desestimación."],
+  supported: ["The stated disposition and timing facts are supported. Filing details and packet availability still need to be resolved; this is not a finding that relief will be granted.", "Los datos indicados sobre el resultado y los plazos están respaldados. Aún deben resolverse los detalles para la presentación y la disponibilidad del paquete; esto no determina que se concederá el alivio solicitado."],
+  pending: ["Clarify any pending case before preparing this request. This answer alone does not establish whether the requested records qualify.", "Aclare cualquier caso pendiente antes de preparar esta solicitud. Esta respuesta por sí sola no establece si los antecedentes solicitados reúnen los requisitos."],
   held: ["This Oregon record has a distinct set-aside route. More review is needed before a filing packet can be prepared.", "Este expediente de Oregon tiene una vía específica para anular antecedentes. Se necesita más revisión antes de preparar un paquete para presentar al tribunal."],
   held_reason: ["The record identifies a current disposition-specific configuration; remaining filing facts and packet authorization are unresolved.", "El expediente identifica una configuración vigente para ese resultado; quedan sin resolver otros hechos necesarios para la presentación y la autorización del paquete."],
   caution: ["Identifying this route does not establish eligibility, waive the Oregon State Police step, or authorize a filing packet.", "Identificar esta vía no establece que reúna los requisitos, no elimina el trámite ante la Policía Estatal de Oregon ni autoriza un paquete para presentar al tribunal."],
@@ -97,7 +104,93 @@ export function oregonDispositionIdentity(answers: Readonly<Record<string, unkno
   return { status: "clarification", ids: explicit === "acquittal" ? ["case_outcome", OR_DISPOSITION_ID] : [OR_DISPOSITION_ID] };
 }
 export function oregonDispositionQuestionApplies(jurisdiction: string, answers: Record<string, unknown>, id: string): boolean {
-  if (id !== OR_DISPOSITION_ID) return true;
+  if (!OR_DISPOSITION_FACT_IDS.includes(id)) return true;
   if (jurisdiction !== "OR") return false;
-  return scalar(answers.case_outcome) === GROUPED || oregonDispositionIdentity(answers).status === "clarification";
+  const identity = oregonDispositionIdentity(answers);
+  if (id === OR_DISPOSITION_ID) return scalar(answers.case_outcome) === GROUPED || identity.status === "clarification";
+  if (identity.status !== "identified") return false;
+  const neverCharged = identity.configuration.configurationId === OR_DISPOSITION_CONFIGURATIONS.never_charged.configurationId;
+  if (id === OR_NO_CONVICTION_SCOPE_ID) return !neverCharged;
+  return neverCharged && (id !== OR_DECLINATION_DATE_ID || answers[OR_DECLINATION_ID] === "yes");
+}
+
+/** Exact remaining disposition predicates in the retained current configuration.
+ * Court existence is already established by the explicit acquittal or filed-
+ * charge dismissal answer. Neither sentence completion nor a conviction clock
+ * proves these facts. Case/court identifiers remain document facts. */
+export const OR_DECLINATION_ID = "or_prosecutor_elected_not_to_proceed";
+export const OR_DECLINATION_DATE_ID = "or_prosecutor_declination_date";
+export const OR_NO_CONVICTION_SCOPE_ID = "or_no_conviction_in_scope";
+export const OR_DISPOSITION_FACT_IDS = [OR_DISPOSITION_ID, OR_DECLINATION_ID, OR_DECLINATION_DATE_ID, OR_NO_CONVICTION_SCOPE_ID];
+const yesNo = [
+  ["yes", "Yes", "Sí"], ["no", "No", "No"], ["unknown", "I am not sure", "No estoy seguro"]
+];
+function factQuestion(id: string, prompt: string, es: string, helperText: string, esHelp: string, date = false): PublicQuestion {
+  return { id, stage: "pathway_routing", type: date ? "date_or_unknown" : "single_choice", required: false,
+    contextOnly: false, doesNotSelectPathway: true, lifecyclePhase: date ? "prepay_timing_gate" : "prepay_route_splitter",
+    prompt, helperText, options: date ? null : yesNo.map(([value]) => value),
+    ...(!date ? { optionDisplay: Object.fromEntries(yesNo.map(([value,label,es]) => [value,{label,translations:{es:{label:es}}}])) } : {}),
+    translations: { es: { prompt: es, helperText: esHelp } } };
+}
+OR_DISPOSITION_QUESTIONS.push(
+  factQuestion(OR_DECLINATION_ID,
+    "Has the prosecutor said they will not file charges for this arrest or citation?",
+    "¿La fiscalía ha indicado que no presentará cargos por este arresto o citación?",
+    "No court case by itself does not establish the prosecutor's decision. Use the actual notice or record of that decision, or keep an unsure answer.",
+    "La ausencia de un caso judicial por sí sola no establece la decisión de la fiscalía. Use el aviso o registro de esa decisión, o indique que no está seguro."),
+  factQuestion(OR_DECLINATION_DATE_ID,
+    "On what date did the prosecutor say they would not file charges?",
+    "¿En qué fecha indicó la fiscalía que no presentaría cargos?",
+    "Use the date of the prosecutor's decision, not the arrest date or the date you checked the record. This date is used to check the 60-day period for a record with no charges filed.",
+    "Use la fecha de la decisión de la fiscalía, no la del arresto ni la fecha en que consultó el expediente. Esta fecha se usa para comprobar el período de 60 días para un expediente sin cargos presentados.", true),
+  factQuestion(OR_NO_CONVICTION_SCOPE_ID,
+    "Do all records you want to include in this request end without a conviction?",
+    "¿Todos los antecedentes que desea incluir en esta solicitud terminaron sin una condena?",
+    "Check each charge included in this request. This acquittal or dismissal configuration cannot include a conviction; other convictions have their own rules.",
+    "Revise cada acusación incluida en esta solicitud. Esta configuración de absolución o desestimación no puede incluir una condena; otras condenas tienen sus propias reglas.")
+);
+function exactDate(value: unknown): string | null {
+  const raw = value && typeof value === "object" && !Array.isArray(value)
+    ? (value as Record<string, unknown>).unknown === false && Object.keys(value).every(key => key === "unknown" || key === "value")
+      ? (value as Record<string, unknown>).value : undefined
+    : value;
+  if (typeof raw !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(raw)) return null;
+  const date = new Date(`${raw}T00:00:00.000Z`);
+  return Number.isFinite(date.getTime()) && date.toISOString().slice(0, 10) === raw ? raw : null;
+}
+export function oregonDispositionFilingFacts(answers: Readonly<Record<string, unknown>>, today: string): {
+  status: "not_applicable" | "missing" | "review" | "not_yet" | "supported";
+  code: "identity" | "declination" | "declination_date" | "future_date" | "sixty_days" | "no_conviction_scope" | "disposition_facts_supported";
+  ids: string[]; filingDate?: string;
+} {
+  const identity = oregonDispositionIdentity(answers);
+  if (identity.status === "not_applicable") return { status: "not_applicable", code: "identity", ids: [] };
+  if (identity.status === "clarification") return { status: "missing", code: "identity", ids: identity.ids };
+  if (identity.configuration.configurationId !== OR_DISPOSITION_CONFIGURATIONS.never_charged.configurationId) {
+    const answer = answers[OR_NO_CONVICTION_SCOPE_ID];
+    if (answer !== "yes") return { status: answer === "no" ? "review" : "missing", code: "no_conviction_scope", ids: [OR_NO_CONVICTION_SCOPE_ID] };
+    return { status: "supported", code: "disposition_facts_supported", ids: [] };
+  }
+  const declined = answers[OR_DECLINATION_ID];
+  if (declined !== "yes") return { status: declined === "no" ? "not_yet" : "missing", code: "declination", ids: [OR_DECLINATION_ID] };
+  const date = exactDate(answers[OR_DECLINATION_DATE_ID]);
+  if (!date || !exactDate(today)) return { status: "missing", code: "declination_date", ids: [OR_DECLINATION_DATE_ID] };
+  if (date > today) return { status: "review", code: "future_date", ids: [OR_DECLINATION_DATE_ID] };
+  const eligible = new Date(`${date}T00:00:00.000Z`); eligible.setUTCDate(eligible.getUTCDate() + 60);
+  const filingDate = eligible.toISOString().slice(0, 10);
+  return filingDate > today ? { status: "not_yet", code: "sixty_days", ids: [], filingDate }
+    : { status: "supported", code: "disposition_facts_supported", ids: [], filingDate };
+}
+
+export function oregonDispositionLegacyQuestionApplies(
+  profile: { jurisdiction: { code: string }; profileVersion: string; source?: { sourceCorpusSha256?: string } },
+  answers: Record<string, unknown>, id: string
+): boolean {
+  if (!["resolved_timing_bucket", "sentence_completion_date", "court_requirements_completed", "financial_obligations"].includes(id)) return true;
+  if (profile.jurisdiction.code !== "OR" || profile.profileVersion !== OR_DISPOSITION_SOURCE.profileVersion
+    || profile.source?.sourceCorpusSha256 !== OR_DISPOSITION_SOURCE.sourceFingerprint) return true;
+  // A court-charge disposition or a never-charged arrest has no conviction
+  // sentence-completion clock in these three adopted configurations. Existing
+  // answers remain untouched and apply again when the record context changes.
+  return oregonDispositionIdentity(answers).status !== "identified";
 }

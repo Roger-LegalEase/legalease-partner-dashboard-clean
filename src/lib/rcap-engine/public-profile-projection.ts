@@ -1,4 +1,4 @@
-import { OR_DISPOSITION_QUESTIONS, OR_DISPOSITION_SOURCE, OR_DISPOSITION_ID } from "@/lib/rcap-engine/oregon-disposition-identity";
+import { OR_DISPOSITION_QUESTIONS, OR_DISPOSITION_SOURCE, OR_DISPOSITION_FACT_IDS } from "@/lib/rcap-engine/oregon-disposition-identity";
 import { MT_DEFERRED_FACT_IDS, MT_DEFERRED_QUESTIONS } from "@/lib/rcap-engine/montana-deferred-facts";
 import { MO_MARIJUANA_FACT_IDS, MO_MARIJUANA_STATUS_QUESTIONS } from "@/lib/rcap-engine/missouri-marijuana-status-facts";
 import { AR_RECORD_ORIGIN_ID, AR_RECORD_ORIGIN_QUESTION } from "@/lib/rcap-engine/arkansas-record-origin";
@@ -74,7 +74,7 @@ const STATE_SPECIFIC_PREPAY_WILMA_FACT_IDS: Record<string, Set<string>> = {
   MD: new Set(["arrest_date"]),
   MO: new Set(["mo_at_least_twenty_two", ...MO_MARIJUANA_FACT_IDS]),
   MT: new Set(MT_DEFERRED_FACT_IDS),
-  OR: new Set([OR_DISPOSITION_ID]),
+  OR: new Set(OR_DISPOSITION_FACT_IDS),
   MS: new Set([
     ...convictionReliefQuestions("MS").map(q => q.id),
     "ms_program_order",
