@@ -1,3 +1,5 @@
+import { oregonDispositionConfigurationSourceMatches } from "@/lib/rcap-engine/composed-route-selector";
+import { OR_DISPOSITION_SOURCE, OR_DISPOSITION_CONFIGURATIONS, OR_DISPOSITION_FACT_IDS, oregonDispositionIdentity, oregonDispositionQuestionApplies } from "@/lib/rcap-engine/oregon-disposition-identity";
 import { ND_FIRST_OFFENSE_FAMILY, ND_FIRST_OFFENSE_CONTACT_FIELDS, ND_FIRST_OFFENSE_CONTACT_IDS, isNdFirstOffenseFamily, ndFirstOffenseContactQuestions, ndFirstOffenseFamilyInputs } from "@/lib/expungement-ai/nd-first-offense-family-inputs";
 import { dcInnocenceLocationIsContext, DC_LEGACY_LOCATION } from "@/lib/rcap-engine/dc-innocence-location-context";
 import { KS_MUNICIPAL_CONTACT_FIELDS, KS_MUNICIPAL_CONTACT_IDS, KS_MUNICIPAL_CONTACT_SOURCE, isKsMunicipalContact, ksMunicipalContactQuestions, ksMunicipalContactInputs } from "@/lib/expungement-ai/ks-municipal-contact";
@@ -1076,6 +1078,77 @@ export function kansasRegistrationHeldSuccessor(snapshot: ProtectedPacketAuthori
   return seeded ? preserveUnchangedProtectedFacts(seeded.snapshot, snapshot, new Set()) : null;
 }
 
+/** Only an elapsed, previously proven OR sixty-day hold may refresh its result.
+ * The authoritative saved-time comparison proves the former tuple; the current
+ * result still has no packet, payment, verification or fulfillment authority. */
+export function oregonDispositionTimingHeldSuccessor(snapshot: ProtectedPacketAuthoritySnapshot,
+  authoritative: NonNullable<ReturnType<typeof evaluateProtectedPacketFacts>>): boolean {
+  const profile = getProfileByJurisdiction("OR"), evaluation = authoritative.evaluation;
+  if (!profile || !oregonDispositionConfigurationSourceMatches(profile.profileVersion, profile.source?.sourceCorpusSha256)
+    || snapshot.jurisdiction !== "OR" || snapshot.pathwayId !== OR_DISPOSITION_CONFIGURATIONS.never_charged.pathwayId
+    || snapshot.profileVersion !== profile.profileVersion || snapshot.profileSourceFingerprint !== profile.source?.sourceCorpusSha256
+    || snapshot.profileAuthorityFingerprint !== profileAuthorityFingerprint(profile, snapshot.pathwayId)
+    || snapshot.resultCode !== "not_yet" || snapshot.paymentAllowed || snapshot.packetPlan !== null
+    || snapshot.packetType !== null || snapshot.requiredInputIds.length !== 0
+    || !canonicalEqual(snapshot.serverFacts, canonicalServerFacts("OR", snapshot.pathwayId))
+    || !canonicalEqual(snapshot.packetFamilyIdentifiers, { mode: null, sourceFormIds: [] })
+    || evaluation.resultCode !== "needs_review" || evaluation.reasons.length !== 1
+    || evaluation.reasons[0].code !== "or.disposition_disposition_facts_supported"
+    || !protectedRouteAuthorityMatches({ ...snapshot, resultCode: evaluation.resultCode }, authoritative)) return false;
+  const capturedAt = "capturedAt" in snapshot ? snapshot.capturedAt : snapshot.verifiedAt;
+  const prior = compareAtProtectedSnapshotTime(capturedAt, () => evaluateProtectedPacketFacts(snapshot));
+  return prior !== null && prior.evaluation.reasons.length === 1
+    && prior.evaluation.reasons[0].code === "or.disposition_sixty_days"
+    && protectedRouteAuthorityMatches(snapshot, prior);
+}
+
+/** Exact published098 predecessor reproduction: the public OR profile omitted
+ * its required exclusion descriptor, leaving these nonconviction records at a
+ * null route. This projects only that nonpayable, no-plan source shape. It is
+ * not authority for an arbitrary retired-route plan or a captured owner record.
+ * Reads/no-ops retain original bytes; an explicit correction uses normal history.
+ */
+export function oregonDispositionDraftSuccessor(snapshot: ProtectedPacketAuthoritySnapshot,
+  authoritative: NonNullable<ReturnType<typeof evaluateProtectedPacketFacts>>): ProtectedPacketDraftSnapshot | null {
+  const profile = getProfileByJurisdiction("OR"), evaluation = authoritative.evaluation;
+  if (!profile || !oregonDispositionConfigurationSourceMatches(profile.profileVersion, profile.source?.sourceCorpusSha256)
+    || snapshot.schemaVersion !== "expungement-ai/protected-packet-draft/v1"
+    || snapshot.jurisdiction !== "OR" || snapshot.pathwayId !== null
+    || snapshot.profileVersion !== OR_DISPOSITION_SOURCE.profileVersion || profile.profileVersion !== snapshot.profileVersion
+    || snapshot.profileSourceFingerprint !== OR_DISPOSITION_SOURCE.sourceFingerprint
+    || profile.source?.sourceCorpusSha256 !== snapshot.profileSourceFingerprint
+    || snapshot.profileAuthorityFingerprint !== "d5ec711228fb53641c040ea7cea781cb9230f555645027c1ad23b97c7b286308"
+    || snapshot.profileAuthorityFingerprint !== profileAuthorityFingerprint(profile, null)
+    || snapshot.resultCode !== "needs_more_info" || snapshot.paymentAllowed || snapshot.selectedTrackId !== null
+    || snapshot.packetPlan !== null || snapshot.packetType !== null || snapshot.treatmentClassification !== null
+    || !canonicalEqual(snapshot.requiredInputIds, []) || !canonicalEqual(snapshot.deferralComponentIds, [])
+    || !canonicalEqual(snapshot.serverFacts, canonicalServerFacts("OR", null))
+    || !canonicalEqual(snapshot.packetFamilyIdentifiers, { mode: null, sourceFormIds: [] })
+    || evaluation.jurisdiction !== "OR" || evaluation.profileVersion !== snapshot.profileVersion
+    || !["needs_more_info", "needs_review"].includes(evaluation.resultCode)
+    || evaluation.paymentAllowed || evaluation.packetPlan || authoritative.packetType
+    || evaluation.treatmentClassification || evaluation.deferralComponentIds?.length) return null;
+  const maps = [snapshot.screeningAnswers, snapshot.prefilledAnswers, snapshot.packetAnswers];
+  if (maps.some(map => [...OR_DISPOSITION_FACT_IDS, "state_exclusion_categories"].some(id => Object.hasOwn(map, id)))) return null;
+  const raw = { ...snapshot.screeningAnswers, ...snapshot.prefilledAnswers, ...snapshot.packetAnswers };
+  if (!["Yes", "I am helping someone complete their own check"].includes(String(raw.ownership_scope))
+    || raw.jurisdiction_scope !== "State or local"
+    || !["Arrest or citation with no charge filed", "Acquitted or found not guilty", "Dismissed, no-billed, nolle prosequi, or not prosecuted"].includes(String(raw.case_outcome))) return null;
+  // No precedence choice can establish a route from conflicting protected copies.
+  for (const id of ["ownership_scope", "jurisdiction_scope", "case_outcome"]) {
+    const values = maps.filter(map => Object.hasOwn(map, id)).map(map => map[id]);
+    if (values.some(value => typeof value !== "string" || !canonicalEqual(value, values[0]))) return null;
+  }
+  const identity = oregonDispositionIdentity(raw);
+  if (identity.status === "identified") {
+    if (evaluation.pathwayId !== identity.configuration.pathwayId || authoritative.selectedTrackId !== identity.configuration.trackId) return null;
+  } else if (identity.status !== "clarification" || evaluation.pathwayId || authoritative.selectedTrackId) return null;
+  const seeded = protectedPacketDraftSeedFromAuthoritative({ authoritative,
+    screeningAnswers: answerRecord(snapshot.screeningAnswers), prefilledAnswers: answerRecord(snapshot.prefilledAnswers),
+    packetAnswers: answerRecord(snapshot.packetAnswers), dependencies: snapshot.dependencies, capturedAt: snapshot.capturedAt });
+  return seeded ? preserveUnchangedProtectedFacts(seeded.snapshot, snapshot, new Set()) : null;
+}
+
 /** Fresh exact717 reproduction: recover only the old Montana deferred guidance or
  * financial hold into a actual deferred-order clarification. No old map is rewritten and no
  * eligibility, form, payment or verification authority is added. */
@@ -1386,6 +1459,28 @@ function nebraskaUnselectedCorrectionIds(snapshot: ProtectedPacketAuthoritySnaps
   return prior ? ["case_outcome", "age_at_offense"] : [];
 }
 
+function oregonUnselectedCorrectionIds(snapshot: ProtectedPacketAuthoritySnapshot): string[] {
+  if (snapshot.jurisdiction !== "OR" || snapshot.pathwayId !== null
+    || !["needs_more_info", "needs_review"].includes(snapshot.resultCode ?? "")
+    || snapshot.paymentAllowed || snapshot.packetPlan !== null || snapshot.packetType !== null
+    || snapshot.requiredInputIds.length !== 0) return [];
+  const profile = getProfileByJurisdiction("OR");
+  if (!profile || !oregonDispositionConfigurationSourceMatches(profile.profileVersion, profile.source?.sourceCorpusSha256)
+    || snapshot.profileVersion !== OR_DISPOSITION_SOURCE.profileVersion
+    || snapshot.profileSourceFingerprint !== OR_DISPOSITION_SOURCE.sourceFingerprint
+    || profile.source?.sourceCorpusSha256 !== snapshot.profileSourceFingerprint
+    || snapshot.profileAuthorityFingerprint !== profileAuthorityFingerprint(profile, null)) return [];
+  const prior = snapshot.dependencies.semanticAnswerHistory?.some(entry =>
+    entry.meaning === "prior_factual_pathway_answer" && entry.factId === "case_outcome"
+    && ["screeningAnswers", "prefilledAnswers", "packetAnswers"].includes(entry.source)
+    && entry.profileVersion === profile.profileVersion && entry.profileSourceFingerprint === snapshot.profileSourceFingerprint
+    && Object.values(OR_DISPOSITION_CONFIGURATIONS).some(config => entry.routeKey === `OR:${config.pathwayId}`
+      && entry.profileAuthorityFingerprint === profileAuthorityFingerprint(profile, config.pathwayId)));
+  // History offers a correction to an unknown current outcome; it never selects
+  // the old route or substitutes an old answer for the owner's current answer.
+  return prior ? ["case_outcome"] : [];
+}
+
 function missouriUnselectedCorrectionIds(snapshot: ProtectedPacketAuthoritySnapshot): string[] {
   if (snapshot.jurisdiction !== "MO" || snapshot.pathwayId !== null
     || !["needs_more_info", "needs_review"].includes(snapshot.resultCode ?? "")
@@ -1439,6 +1534,8 @@ export function protectedPacketInformationModelFor(
 ): ProtectedPacketInformationModel | null {
   let snapshot = protectedAuthoritySnapshotFor(verification);
   if (!snapshot) return null;
+  const orAuthority = snapshot.jurisdiction === "OR" && snapshot.pathwayId === null ? evaluateProtectedPacketFacts(snapshot) : null;
+  if (orAuthority) snapshot = oregonDispositionDraftSuccessor(snapshot, orAuthority) ?? snapshot;
   const mtAuthority = snapshot.jurisdiction === "MT" && [MT_DEFERRED_ROUTE, null].includes(snapshot.pathwayId)
     ? evaluateProtectedPacketFacts(snapshot) : null;
   if (mtAuthority) snapshot = montanaDeferredDraftSuccessor(snapshot, mtAuthority) ?? snapshot;
@@ -1479,7 +1576,7 @@ export function protectedPacketInformationModelFor(
     // maps and dependencies; this read grants no readiness or verification.
     snapshot = { ...snapshot, resultCode: evaluation.resultCode };
   }
-  if (!protectedRouteAuthorityMatches(snapshot, authoritative) && (financialAnswerHeldSuccessor(snapshot, authoritative) || msTimingAnswerHeldSuccessor(snapshot, authoritative))) {
+  if (!protectedRouteAuthorityMatches(snapshot, authoritative) && (financialAnswerHeldSuccessor(snapshot, authoritative) || msTimingAnswerHeldSuccessor(snapshot, authoritative) || oregonDispositionTimingHeldSuccessor(snapshot, authoritative))) {
     snapshot = { ...snapshot, resultCode: evaluation.resultCode, paymentAllowed: false };
   }
   if (!protectedRouteAuthorityMatches(snapshot, authoritative)) return null;
@@ -1506,7 +1603,7 @@ export function protectedPacketInformationModelFor(
   const initialAnswers = { ...screeningAnswers, ...prefilledAnswers, ...packetAnswers };
   const requiredInputIds = stringArray(snapshot.requiredInputIds);
   if (!canonicalEqual(requiredInputIds, packetPlan?.requiredInputIds ?? [])) return null;
-  const heldFactualCorrectionIds = [...missouriUnselectedCorrectionIds(snapshot), ...maineUnselectedCorrectionIds(snapshot), ...nebraskaUnselectedCorrectionIds(snapshot), ...louisianaUnselectedCorrectionIds(snapshot)];
+  const heldFactualCorrectionIds = [...oregonUnselectedCorrectionIds(snapshot), ...missouriUnselectedCorrectionIds(snapshot), ...maineUnselectedCorrectionIds(snapshot), ...nebraskaUnselectedCorrectionIds(snapshot), ...louisianaUnselectedCorrectionIds(snapshot)];
   const questionSurface = protectedPacketQuestionSurface(
     profile,
     snapshot.pathwayId,
@@ -1916,6 +2013,13 @@ export function factualPathwayCorrectionIds(state: string, pathway: string | nul
     ? [...convictionReliefQuestions(state).filter(q => includeInactive || convictionReliefQuestionApplies(profile, answers, q.id)).map(q => q.id),
       "case_outcome", ...(state === "GA" ? ["ga_original_first_offender", "pardon_status"] : [])] : [];
 
+  if (profile && state === "OR" && oregonDispositionConfigurationSourceMatches(profile.profileVersion, profile.source?.sourceCorpusSha256)
+    && (pathway === null || Object.values(OR_DISPOSITION_CONFIGURATIONS).some(config => config.pathwayId === pathway))
+    && (pathway !== null || oregonDispositionIdentity(answers).status !== "not_applicable"
+      || OR_DISPOSITION_FACT_IDS.some(id => Object.hasOwn(answers, id)))) {
+    return [...extra, "case_outcome", "pending_cases", "state_exclusion_categories",
+      ...OR_DISPOSITION_FACT_IDS.filter(id => includeInactive || oregonDispositionQuestionApplies(state, answers, id))];
+  }
   if (dcInnocenceLocationIsContext(profile, pathway, packetSpecificationFor(`${state}:${pathway}`))
     && Object.hasOwn(answers, DC_LEGACY_LOCATION)) return [...extra, DC_LEGACY_LOCATION];
   if (profile && ndFirstOffenseFamilyContract(profile, pathway)) return [...extra, ...ND_FIRST_OFFENSE_CONTACT_IDS,
@@ -1958,6 +2062,7 @@ function routeFactualCorrectionIds(model: { stateCode: string; pathwayId: string
   const factual = [...factualPathwayCorrectionIds(model.stateCode, model.pathwayId, facts, includeInactive), ...msExactTimingQuestionIds(model.stateCode, model.pathwayId, facts, includeInactive), ...(model.heldFactualCorrectionIds ?? [])];
   const profile = getProfileByJurisdiction(model.stateCode);
   const financial = model.pathwayId
+    && !(model.stateCode === "OR" && Object.values(OR_DISPOSITION_CONFIGURATIONS).some(config => config.pathwayId === model.pathwayId))
     && (includeInactive || nebraskaNonconvictionQuestionApplies(model.stateCode, model.pathwayId, facts, "financial_obligations")
       && louisianaAutomationStatusQuestionApplies(model.stateCode, model.pathwayId, "financial_obligations")
       && maineNonconvictionQuestionApplies(model.stateCode, model.pathwayId, facts, "financial_obligations")
@@ -2590,8 +2695,8 @@ function deriveProtectedPacketDraftSnapshot(
   if (mtDeferredPreparation && !mtPreparationIds) return null;
   const caJuvenileIds = caJuvenilePreparation ? caProp64JuvenilePreparationModelFor(verification)?.caJuvenilePreparationFactIds : undefined;
   if (caJuvenilePreparation && !caJuvenileIds) return null;
-  base = montanaDeferredDraftSuccessor(base, currentAuthority) ?? missouriMarijuanaDraftSuccessor(base, currentAuthority) ?? missouriClosureDraftSuccessor(base, currentAuthority) ?? maineNonconvictionDraftSuccessor(base, currentAuthority) ?? louisianaAutomationStatusHeldSuccessor(base, currentAuthority) ?? nebraskaAcquittalHeldSuccessor(base, currentAuthority) ?? kansasRegistrationHeldSuccessor(base, currentAuthority) ?? base;
-  const factualIds = [...factualPathwayCorrectionIds(base.jurisdiction, base.pathwayId, { ...base.screeningAnswers, ...base.prefilledAnswers, ...base.packetAnswers }, true), ...msExactTimingQuestionIds(base.jurisdiction, base.pathwayId, { ...base.screeningAnswers, ...base.prefilledAnswers, ...base.packetAnswers }, true), ...missouriUnselectedCorrectionIds(base), ...maineUnselectedCorrectionIds(base), ...nebraskaUnselectedCorrectionIds(base), ...louisianaUnselectedCorrectionIds(base)];
+  base = oregonDispositionDraftSuccessor(base, currentAuthority) ?? montanaDeferredDraftSuccessor(base, currentAuthority) ?? missouriMarijuanaDraftSuccessor(base, currentAuthority) ?? missouriClosureDraftSuccessor(base, currentAuthority) ?? maineNonconvictionDraftSuccessor(base, currentAuthority) ?? louisianaAutomationStatusHeldSuccessor(base, currentAuthority) ?? nebraskaAcquittalHeldSuccessor(base, currentAuthority) ?? kansasRegistrationHeldSuccessor(base, currentAuthority) ?? base;
+  const factualIds = [...factualPathwayCorrectionIds(base.jurisdiction, base.pathwayId, { ...base.screeningAnswers, ...base.prefilledAnswers, ...base.packetAnswers }, true), ...msExactTimingQuestionIds(base.jurisdiction, base.pathwayId, { ...base.screeningAnswers, ...base.prefilledAnswers, ...base.packetAnswers }, true), ...oregonUnselectedCorrectionIds(base), ...missouriUnselectedCorrectionIds(base), ...maineUnselectedCorrectionIds(base), ...nebraskaUnselectedCorrectionIds(base), ...louisianaUnselectedCorrectionIds(base)];
   if (gaPreparationIds) factualIds.push(...gaPreparationIds);
   if (mtPreparationIds) factualIds.push(...mtPreparationIds);
   if (caJuvenileIds) factualIds.push(...caJuvenileIds);

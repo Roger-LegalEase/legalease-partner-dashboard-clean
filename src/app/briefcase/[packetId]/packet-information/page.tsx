@@ -1,3 +1,4 @@
+import { OR_DISPOSITION_CONFIGURATIONS } from "@/lib/rcap-engine/oregon-disposition-identity";
 import { ND_FIRST_OFFENSE_CONTACT_IDS, isNdFirstOffenseFamily } from "@/lib/expungement-ai/nd-first-offense-family-inputs";
 import { isKsMunicipalContact, KS_MUNICIPAL_CONTACT_IDS } from "@/lib/expungement-ai/ks-municipal-contact";
 import { isCtCleanSlateContact, CT_CLEAN_SLATE_CONTACT_IDS } from "@/lib/expungement-ai/ct-clean-slate-contact";
@@ -69,6 +70,11 @@ export default async function PacketInformationPage({
   const ndContactCorrection = item?.authorityStatus === "protected_draft" && item.jurisdiction
     && item.packetDraft.status === "available" && isNdFirstOffenseFamily(item.jurisdiction, item.pathwayId)
     && ND_FIRST_OFFENSE_CONTACT_IDS.every(id => factualPathwayCorrectionIds(item.jurisdiction ?? "", item.pathwayId, item.packetDraft.status === "available" ? item.packetDraft.initialAnswers : {}).includes(id));
+  const orDispositionCorrection = item?.authorityStatus === "protected_draft" && item.jurisdiction === "OR"
+    && item.packetDraft.status === "available"
+    && (item.pathwayId === null || Object.values(OR_DISPOSITION_CONFIGURATIONS).some(config => config.pathwayId === item.pathwayId))
+    && (factualPathwayCorrectionIds("OR", item.pathwayId, item.packetDraft.initialAnswers).includes("case_outcome")
+      || item.packetDraft.heldFactualCorrectionIds?.includes("case_outcome"));
   const eligibilityCorrection = Boolean(savedCaseGuidanceCorrection) || ["NY", "CA", "IL", "GA"].includes(item?.jurisdiction ?? "")
     || item?.packetDraft.status === "available" && (msExactTimingQuestionIds(item.jurisdiction ?? "", item.pathwayId, item.packetDraft.initialAnswers).length > 0
       || factualPathwayCorrectionIds(item.jurisdiction ?? "", item.pathwayId, item.packetDraft.initialAnswers).length > 0
@@ -84,7 +90,7 @@ export default async function PacketInformationPage({
   // when an explicit uncertainty truthfully leaves its legal route unresolved.
   const savedCaseMatterCorrection = correctingCompletion && item?.authorityStatus === "protected_draft"
     && item.packetDraft.status === "available"
-    && (ctContactCorrection || ksContactCorrection || ndContactCorrection || item.jurisdiction === "NE" && (item.pathwayId === "automatic-nonconviction-sealing"
+    && (ctContactCorrection || ksContactCorrection || ndContactCorrection || orDispositionCorrection || item.jurisdiction === "NE" && (item.pathwayId === "automatic-nonconviction-sealing"
       || item.pathwayId === null && (item.packetDraft.heldFactualCorrectionIds?.length ?? 0) > 0)
       || item.jurisdiction === "MT" && item.pathwayId === "deferred-sentence-dismissal-or-confidentiality-route"
       || item.jurisdiction === "MO" && (item.pathwayId === "closed-record-outcome-under-rsmo-610-105" || item.pathwayId === "marijuana-expungement-under-missouri-constitution-article-xiv"

@@ -168,15 +168,21 @@ const AUTHORITATIVE_TRACK_BY_PATHWAY: ReadonlyMap<string, AuthoritativeTrack> = 
   }]
 ]);
 
+/** Shared read-only source guard for current OR selection and protected correction.
+ * It validates the retained configuration bytes; it grants no route or authority. */
+export function oregonDispositionConfigurationSourceMatches(profileVersion: string, sourceFingerprint: string | null | undefined): boolean {
+  return profileVersion === OR_DISPOSITION_SOURCE.profileVersion
+    && sourceFingerprint === OR_DISPOSITION_SOURCE.sourceFingerprint
+    && createHash("sha256").update(JSON.stringify(oregonConfigurations)).digest("hex") === OR_DISPOSITION_SOURCE.configurationSha256;
+}
+
 export function selectComposedRoute(input: ComposedRouteSelectorInput): ComposedRouteSelection {
   const jurisdiction = String(input.jurisdiction ?? "").trim().toUpperCase();
   const pathwayId = String(input.pathwayId ?? "").trim();
   if (jurisdiction === "OR" && (!pathwayId || pathwayId === OR_RETIRED_NONCONVICTION_PATH
     || Object.values(OR_DISPOSITION_CONFIGURATIONS).some(config => config.pathwayId === pathwayId))) {
     const source = input.oregonDispositionSource;
-    if (!source || source.profileVersion !== OR_DISPOSITION_SOURCE.profileVersion
-      || source.sourceFingerprint !== OR_DISPOSITION_SOURCE.sourceFingerprint
-      || createHash("sha256").update(JSON.stringify(oregonConfigurations)).digest("hex") !== OR_DISPOSITION_SOURCE.configurationSha256) {
+    if (!source || !oregonDispositionConfigurationSourceMatches(source.profileVersion, source.sourceFingerprint)) {
       return { status: "no_composed_route", trackId: null };
     }
     // The normal evaluator validates the public IDs first. An exact local case
