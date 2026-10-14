@@ -1,6 +1,4 @@
 import type { ProfileQuestion } from "@/lib/expungement-ai/frontend/contracts";
-import type { getProfileByJurisdiction } from "@/lib/rcap-engine/profile-registry";
-import { contactRepresentationHash } from "@/lib/expungement-ai/contact-representation";
 
 /** Existing JD-CR-202 defendant fields, not a new packet family or legal gate. */
 export const CT_CLEAN_SLATE_ROUTE = "petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202";
@@ -23,10 +21,6 @@ export const CT_CLEAN_SLATE_CONTACT_IDS = CT_CLEAN_SLATE_CONTACT_FIELDS.map(fiel
 export function isCtCleanSlateContact(state: string, pathwayId: string | null) {
   return state === "CT" && pathwayId === CT_CLEAN_SLATE_ROUTE;
 }
-export function ctCleanSlateContactContract(profile: NonNullable<ReturnType<typeof getProfileByJurisdiction>>, pathwayId: string | null) {
-  return isCtCleanSlateContact(profile.jurisdiction.code, pathwayId)
-    && contactRepresentationHash(profile) === CT_CLEAN_SLATE_CONTACT_SOURCE.profileSha256;
-}
 const NON_FACTS = new Set(["unknown", "i am not sure", "not sure", "no estoy seguro", "none", "ninguno", "ninguna", "unavailable", "not available", "no disponible", "confidential", "confidencial", "no address", "no mailing address", "sin dirección", "sin dirección postal", "no tengo dirección", "no phone", "no phone number", "no telephone", "sin teléfono", "no tengo teléfono", "no email", "no email address", "sin correo electrónico", "no tengo correo electrónico"]);
 export function ctCleanSlateContactText(raw: unknown): string | null {
   if (raw && typeof raw === "object" && !Array.isArray(raw)) {
@@ -35,6 +29,19 @@ export function ctCleanSlateContactText(raw: unknown): string | null {
     raw = entry.value;
   }
   return typeof raw === "string" && raw.trim() && !NON_FACTS.has(raw.trim().toLocaleLowerCase("en-US")) ? raw : null;
+}
+/** The existing client status uses the same strict source decoder as mapping. */
+export function ctCleanSlateContactAnswerState(state: string, pathwayId: string | null, id: string, raw: unknown,
+  generic: "unanswered" | "invalid" | "known_valid" | "uncertain" | "declined") {
+  return isCtCleanSlateContact(state, pathwayId) && CT_CLEAN_SLATE_CONTACT_IDS.some(fieldId => fieldId === id)
+    && generic === "known_valid" && ctCleanSlateContactText(raw) === null ? "invalid" : generic;
+}
+function sameRawContact(left: unknown, right: unknown): boolean {
+  if (Object.is(left, right)) return true;
+  if (!left || !right || typeof left !== "object" || typeof right !== "object" || Array.isArray(left) !== Array.isArray(right)) return false;
+  const a = Object.keys(left).sort(), b = Object.keys(right).sort();
+  return a.length === b.length && a.every((key, index) => key === b[index]
+    && sameRawContact((left as Record<string, unknown>)[key], (right as Record<string, unknown>)[key]));
 }
 const question = (id: string, prompt: string, helperText: string, es: string, esHelper: string): ProfileQuestion => ({
   id, stage: "packet_information", type: "text_or_unknown", required: true, contextOnly: false,
@@ -86,7 +93,7 @@ export function ctCleanSlateContactInputs(snapshot: {
     if (raw.length < 2) return false;
     const first = ctCleanSlateContactText(raw[0]);
     return !raw.every(value => first !== null ? ctCleanSlateContactText(value) === first
-      : contactRepresentationHash(value) === contactRepresentationHash(raw[0]));
+      : sameRawContact(value, raw[0]));
   }).map(field => field.id);
   return { source: CT_CLEAN_SLATE_CONTACT_SOURCE, writes, conflictingIds,
     unresolvedIds: CT_CLEAN_SLATE_CONTACT_FIELDS.filter(field => !writes.some(write => write.factId === field.id)).map(field => field.id),

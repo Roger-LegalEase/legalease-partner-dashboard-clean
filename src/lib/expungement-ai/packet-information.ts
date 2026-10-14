@@ -1,4 +1,4 @@
-import { CT_CLEAN_SLATE_CONTACT_FIELDS, CT_CLEAN_SLATE_CONTACT_IDS, ctCleanSlateContactContract, ctCleanSlateContactQuestions, ctCleanSlateContactInputs } from "@/lib/expungement-ai/ct-clean-slate-contact";
+import { CT_CLEAN_SLATE_CONTACT_FIELDS, CT_CLEAN_SLATE_CONTACT_IDS, CT_CLEAN_SLATE_CONTACT_SOURCE, isCtCleanSlateContact, ctCleanSlateContactQuestions, ctCleanSlateContactInputs } from "@/lib/expungement-ai/ct-clean-slate-contact";
 import { akCourtviewContactQuestions, akCourtviewContactIds, akCourtviewContactAnswerState, isAkCourtviewContact, AK_TF810_CONTACT_FIELDS } from "@/lib/expungement-ai/ak-courtview-contact";
 import { caProp64JuvenilePreparationScope } from "@/lib/expungement-ai/ca-prop64-juvenile-document-preparation";
 import { caProp64JuvenileDocumentQuestions, caProp64JuvenileAdditionalCount } from "@/lib/expungement-ai/ca-prop64-juvenile-document-questions";
@@ -1762,6 +1762,12 @@ export function caProp64JuvenilePreparationModelFor(verification: ProtectedPacke
  * It returns null only where the route itself cannot be read, which every
  * caller treats as it always has: fail closed, ask everything.
  */
+/** Server-only exact profile guard; the shared contact decoder carries no authority. */
+export function ctCleanSlateContactContract(profile: NonNullable<ReturnType<typeof getProfileByJurisdiction>>, pathwayId: string | null) {
+  return isCtCleanSlateContact(profile.jurisdiction.code, pathwayId)
+    && contactRepresentationHash(profile) === CT_CLEAN_SLATE_CONTACT_SOURCE.profileSha256;
+}
+
 export function packetCollectionFor(input: {
   jurisdiction: string;
   pathwayId: string | null;
