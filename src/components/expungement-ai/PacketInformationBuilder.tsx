@@ -4,6 +4,7 @@ import { NY_FUTURE_ID, formatNyFutureApplications } from "@/lib/expungement-ai/n
 import { NY_SEALING_HISTORY_ID, formatNySealingHistory } from "@/lib/expungement-ai/ny-16059-sealing-history";
 import { nyCasePreparationQuestions, nyCaseAssociationIssues, NY_CASE_RECONCILIATION_ID, NY_COURT_DIRECTION_CONFIRMATION_ID, NY_FILING_CASE_ID } from "@/lib/expungement-ai/ny-16059-case-questions";
 import { isNy16059Packet } from "@/lib/expungement-ai/ny-16059-packet-facts";
+import { caProp64JuvenileAdditionalCount } from "@/lib/expungement-ai/ca-prop64-juvenile-document-questions";
 import { CA_CONTACT_IDS, formatCaContact } from "@/lib/expungement-ai/ca-prop64-contact-answer";
 import { isCaProp64Pathway } from "@/lib/expungement-ai/ca-prop64-choices";
 import { NY_CASE_RECORDS_ID, formatNyCourtCaseRecords } from "@/lib/expungement-ai/ny-16059-case-records";
@@ -334,7 +335,12 @@ export function PacketInformationBuilder({
     }
     else await leave(`/briefcase/${encodeURIComponent(itemId)}${editingFromReview && !returnToMatterAfterCorrection ? "/review#packet-review-heading" : ""}`);
   }
-  const displayedAnswerState = (question: ProfileQuestion) => (question.id === "contact_information" && contactReconciliation || recordClarificationIds.includes(question.id) || nyCaseIssues.some(issue => issue.id === question.id)) ? "invalid" : questionAnswerState(question, answers[question.id]);
+  const displayedAnswerState = (question: ProfileQuestion) => {
+    if (question.id === "contact_information" && contactReconciliation || recordClarificationIds.includes(question.id) || nyCaseIssues.some(issue => issue.id === question.id)) return "invalid";
+    const state = questionAnswerState(question, answers[question.id]);
+    return caJuvenilePreparation && question.id === "ca_prop64_juvenile_additional_count" && state === "known_valid"
+      && caProp64JuvenileAdditionalCount(answers[question.id]) === undefined ? "invalid" : state;
+  };
   const draftMissing = questions.filter((question) => question.required && displayedAnswerState(question) !== "known_valid").length;
   const courtSectionNeedsReview = (question: ProfileQuestion) => courtRecordConflict && ["court", "court_name", "court_type"].includes(question.id);
   const status = screen ? screen.questions.map((question) => courtSectionNeedsReview(question) ? "invalid" : displayedAnswerState(question)) : [];
