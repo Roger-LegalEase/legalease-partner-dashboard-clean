@@ -108,6 +108,7 @@ export type BriefcasePresentationItem = {
       recordOwnQuestionIds?: string[];
       recordClarificationIds?: string[];
       courtRecordConflict?: boolean;
+      heldFactualCorrectionIds?: string[];
       nyCaseIssues?: Array<{ id: string; code: string; en: string; es: string }>;
       questions: ProtectedPacketInformationModel["questions"];
       builderQuestions: ProtectedPacketInformationModel["builderQuestions"];
@@ -541,6 +542,7 @@ function presentationDraftForModel(
     courtRecordConflict: model.courtRecordConflict,
     nyCaseIssues: model.nyCaseIssues,
     questions: model.questions,
+    ...(model.heldFactualCorrectionIds?.length ? { heldFactualCorrectionIds: model.heldFactualCorrectionIds } : {}),
     builderQuestions: model.builderQuestions,
     builderSections: model.builderSections,
     verificationSummary: model.verificationSummary,

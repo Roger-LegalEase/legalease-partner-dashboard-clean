@@ -31,6 +31,19 @@ export function nebraskaMissingFinancialCorrectionPathway(
     && knownAdultAge(answers.age_at_offense);
 }
 
+/** Correction access only: both existing adult nonconviction outcomes retain
+ * their own saved facts. This does not waive dismissal's financial review. */
+export function nebraskaAdultNonconvictionCorrectionApplies(
+  jurisdiction: string,
+  pathwayId: string | null | undefined,
+  answers: Record<string, unknown>
+): boolean {
+  return jurisdiction === "NE" && pathwayId === "automatic-nonconviction-sealing"
+    && (answers.case_outcome === "Acquitted or found not guilty"
+      || answers.case_outcome === "Dismissed, no-billed, nolle prosequi, or not prosecuted")
+    && knownAdultAge(answers.age_at_offense);
+}
+
 function knownAdultAge(value: unknown): boolean {
   let rawAge = value;
   // The actual number-or-unknown control saves this explicit known wrapper.

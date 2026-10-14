@@ -1,4 +1,4 @@
-import { nebraskaNonconvictionQuestionApplies } from "@/lib/rcap-engine/nebraska-nonconviction-facts";
+import { nebraskaNonconvictionQuestionApplies, nebraskaAdultNonconvictionCorrectionApplies, nebraskaMissingFinancialCorrectionPathway } from "@/lib/rcap-engine/nebraska-nonconviction-facts";
 import { AR_RECORD_ORIGIN_ID, arkansasRecordOrigin, arkansasRecordOriginApplies } from "@/lib/rcap-engine/arkansas-record-origin";
 import { KS_REGISTRATION_ROUTE } from "@/lib/rcap-engine/kansas-district-facts";
 import { NY_FUTURE_ID, NY_FUTURE_FACT_IDS } from "@/lib/expungement-ai/ny-16059-future-applications";
@@ -171,6 +171,8 @@ export type ProtectedPacketInformationModel = Pick<
   resultCode: ProtectedPacketDraftSnapshot["resultCode"];
   /** Owner correction surface only; never legal/packet/payment authority. */
   caProp64Clarification?: boolean;
+  /** Original factual controls recovered from validated protected history only. */
+  heldFactualCorrectionIds?: string[];
   revision: number;
   prefilledAnswers: Record<string, AnswerValue>;
   packetAnswers: Record<string, AnswerValue>;
@@ -1059,6 +1061,30 @@ export function nebraskaAcquittalHeldSuccessor(snapshot: ProtectedPacketAuthorit
   return seeded ? preserveUnchangedProtectedFacts(seeded.snapshot, snapshot, new Set()) : null;
 }
 
+function nebraskaUnselectedCorrectionIds(snapshot: ProtectedPacketAuthoritySnapshot): string[] {
+  if (snapshot.jurisdiction !== "NE" || snapshot.pathwayId !== null
+    || !["needs_more_info", "needs_review"].includes(snapshot.resultCode ?? "")
+    || snapshot.paymentAllowed || snapshot.packetPlan !== null || snapshot.packetType !== null
+    || snapshot.requiredInputIds.length !== 0) return [];
+  const profile = getProfileByJurisdiction("NE");
+  if (!profile || snapshot.profileVersion !== profile.profileVersion
+    || snapshot.profileSourceFingerprint !== profile.source?.sourceCorpusSha256
+    || snapshot.profileAuthorityFingerprint !== profileAuthorityFingerprint(profile, null)) return [];
+  const route = "automatic-nonconviction-sealing";
+  const priorAuthority = profileAuthorityFingerprint(profile, route);
+  const history = snapshot.dependencies.semanticAnswerHistory;
+  const prior = Array.isArray(history) && history.some(entry =>
+    isRecord(entry) && ["screeningAnswers", "prefilledAnswers", "packetAnswers"].includes(entry.source)
+    && profile.questions.some(question => question.id === entry.factId && questionAnswerState(question, entry.value) === "known_valid")
+    && entry.meaning === "prior_factual_pathway_answer" && ["case_outcome", "age_at_offense"].includes(entry.factId)
+    && entry.routeKey === `NE:${route}` && entry.profileVersion === profile.profileVersion
+    && entry.profileSourceFingerprint === profile.source?.sourceCorpusSha256
+    && entry.profileAuthorityFingerprint === priorAuthority);
+  // A former protected route establishes correction provenance, not a current
+  // route. Never populate optional pathway hints or change the held evaluation.
+  return prior ? ["case_outcome", "age_at_offense"] : [];
+}
+
 export function protectedPacketInformationModelFor(
   verification: ProtectedPacketVerificationRecord
 ): ProtectedPacketInformationModel | null {
@@ -1110,6 +1136,7 @@ export function protectedPacketInformationModelFor(
   const initialAnswers = { ...screeningAnswers, ...prefilledAnswers, ...packetAnswers };
   const requiredInputIds = stringArray(snapshot.requiredInputIds);
   if (!canonicalEqual(requiredInputIds, packetPlan?.requiredInputIds ?? [])) return null;
+  const heldFactualCorrectionIds = nebraskaUnselectedCorrectionIds(snapshot);
   const questionSurface = protectedPacketQuestionSurface(
     profile,
     snapshot.pathwayId,
@@ -1119,7 +1146,8 @@ export function protectedPacketInformationModelFor(
     prefilledAnswers,
     packetAnswers,
     [...recordFactOwnQuestionIds(`${snapshot.jurisdiction}:${snapshot.pathwayId}`, initialAnswers, snapshot.dependencies.recordFactConfirmations)],
-    legacy.inspection.effectiveInvalidIds
+    legacy.inspection.effectiveInvalidIds,
+    heldFactualCorrectionIds
   );
   questionSurface.questions = legacyShapeQuestionMetadata(questionSurface.questions, legacy.inspection.effectiveInvalidIds);
   questionSurface.builderQuestions = legacyShapeQuestionMetadata(questionSurface.builderQuestions, legacy.inspection.effectiveInvalidIds);
@@ -1212,6 +1240,7 @@ export function protectedPacketInformationModelFor(
   const currentlyVerified = verification.status === "verified" && reviewSafety.safe;
   return {
     resultCode: snapshot.resultCode,
+    ...(heldFactualCorrectionIds.length ? { heldFactualCorrectionIds } : {}),
     stateCode: snapshot.jurisdiction,
     revision: verification.revision,
     pathwayId: snapshot.pathwayId,
@@ -1334,7 +1363,7 @@ export function factualPathwayCorrectionIds(state: string, pathway: string | nul
   return extra;
 }
 
-function routeFactualCorrectionIds(model: { stateCode: string; pathwayId: string | null; requiredInputIds?: string[]; screeningAnswers: Record<string, AnswerValue>; prefilledAnswers: Record<string, AnswerValue>; packetAnswers: Record<string, AnswerValue> }, includeInactive = false): string[] {
+function routeFactualCorrectionIds(model: { stateCode: string; pathwayId: string | null; requiredInputIds?: string[]; screeningAnswers: Record<string, AnswerValue>; prefilledAnswers: Record<string, AnswerValue>; packetAnswers: Record<string, AnswerValue>; heldFactualCorrectionIds?: string[] }, includeInactive = false): string[] {
   if (isCaProp64Pathway(model.stateCode, model.pathwayId)) {
     const answers = { ...model.screeningAnswers, ...model.prefilledAnswers, ...model.packetAnswers };
     return [...(includeInactive ? CA_PROP64_FACT_IDS : caProp64ActiveFactIds(answers)),
@@ -1343,7 +1372,7 @@ function routeFactualCorrectionIds(model: { stateCode: string; pathwayId: string
       ...(model.requiredInputIds?.length === 0 ? [...CA_PROP64_CAPTION_FACT_IDS, ...CA_CONTACT_IDS].filter(id => Object.hasOwn(answers, id)) : [])];
   }
   const facts = { ...model.screeningAnswers, ...model.prefilledAnswers, ...model.packetAnswers };
-  const factual = [...factualPathwayCorrectionIds(model.stateCode, model.pathwayId, facts, includeInactive), ...msExactTimingQuestionIds(model.stateCode, model.pathwayId, facts, includeInactive)];
+  const factual = [...factualPathwayCorrectionIds(model.stateCode, model.pathwayId, facts, includeInactive), ...msExactTimingQuestionIds(model.stateCode, model.pathwayId, facts, includeInactive), ...(model.heldFactualCorrectionIds ?? [])];
   const profile = getProfileByJurisdiction(model.stateCode);
   const financial = model.pathwayId
     && (includeInactive || nebraskaNonconvictionQuestionApplies(model.stateCode, model.pathwayId, facts, "financial_obligations"))
@@ -1363,7 +1392,7 @@ function routeFactualCorrectionIds(model: { stateCode: string; pathwayId: string
     ? [...NY_PACKET_FACT_IDS, ...NY_CASE_FACT_IDS].filter(id => Object.hasOwn(facts, id) || NY_HISTORY_FACT_IDS.includes(id) || NY_FUTURE_FACT_IDS.includes(id)) : [])];
 }
 
-export function editablePacketInputIds(model: Pick<ProtectedPacketInformationModel, "stateCode" | "pathwayId" | "requiredInputIds" | "serverFacts" | "screeningAnswers" | "prefilledAnswers" | "packetAnswers" | "recordOwnQuestionIds" | "questions">, includeInactive = false): Set<string> {
+export function editablePacketInputIds(model: Pick<ProtectedPacketInformationModel, "stateCode" | "pathwayId" | "requiredInputIds" | "serverFacts" | "screeningAnswers" | "prefilledAnswers" | "packetAnswers" | "recordOwnQuestionIds" | "questions" | "heldFactualCorrectionIds">, includeInactive = false): Set<string> {
   const collection = packetCollectionFor({ jurisdiction: model.stateCode, pathwayId: model.pathwayId, requiredInputIds: model.requiredInputIds,
     serverFacts: model.serverFacts, screeningAnswers: model.screeningAnswers, prefilledAnswers: model.prefilledAnswers, savedAnswers: model.packetAnswers, recordOwnQuestionIds: model.recordOwnQuestionIds,
     unresolvedSavedFactIds: model.questions.filter(question => question.savedAnswerNeedsClarification).map(question => question.id) });
@@ -1416,22 +1445,23 @@ export function heldCourtCompletionInputIds(model: Parameters<typeof editablePac
 
 /** Preserve the existing completion correction, and keep NY factual corrections
  * reachable after a saved edit puts the route into review or exclusion. */
-export function isNebraskaAcquittalGuidanceCorrection(model: Parameters<typeof heldCourtCompletionInputIds>[0], resultCode: string | null): boolean {
+export function isNebraskaNonconvictionGuidanceCorrection(model: Parameters<typeof heldCourtCompletionInputIds>[0], resultCode: string | null): boolean {
   const profile = getProfileByJurisdiction("NE");
   return resultCode === "guidance_only" && model.stateCode === "NE"
     && model.pathwayId === "automatic-nonconviction-sealing" && Boolean(profile)
     && canonicalEqual(model.packetPlan, packetPlanForPathway(profile!, model.pathwayId))
-    && !nebraskaNonconvictionQuestionApplies(model.stateCode, model.pathwayId,
-      { ...model.screeningAnswers, ...model.prefilledAnswers, ...model.packetAnswers }, "financial_obligations");
+    && nebraskaAdultNonconvictionCorrectionApplies(model.stateCode, model.pathwayId,
+      { ...model.screeningAnswers, ...model.prefilledAnswers, ...model.packetAnswers });
 }
 
 export function heldPacketCorrectionInputIds(model: Parameters<typeof heldCourtCompletionInputIds>[0], resultCode: string | null): Set<string> {
   const ids = heldCourtCompletionInputIds(model, resultCode);
-  // The exact nonpayable acquittal guidance still relies on these two saved
-  // facts. Correcting them neither reactivates payment nor verifies a packet.
-  if (isNebraskaAcquittalGuidanceCorrection(model, resultCode)) {
+  // Exact nonpayable adult nonconviction guidance retains its factual controls.
+  // Acquittal's inactive financial answer remains excluded by collection policy;
+  // dismissal's active payment answer stays independently correctable.
+  if (isNebraskaNonconvictionGuidanceCorrection(model, resultCode)) {
     const allowed = editablePacketInputIds(model);
-    for (const id of ["case_outcome", "age_at_offense"]) {
+    for (const id of ["case_outcome", "age_at_offense", "financial_obligations"]) {
       if (allowed.has(id) && model.questions.some(question => question.id === id)) ids.add(id);
     }
   }
@@ -1448,7 +1478,10 @@ export function heldPacketCorrectionInputIds(model: Parameters<typeof heldCourtC
         const value = { ...model.screeningAnswers, ...model.prefilledAnswers, ...model.packetAnswers }[id];
         if (!question || id in model.serverFacts || !editablePacketInputIds(model).has(id)
           || !(question.savedAnswerNeedsClarification || questionAnswerState(question, value) === "uncertain"
-            || isNegative(answerTextRaw(value)))) continue;
+            || isNegative(answerTextRaw(value))
+            || resultCode === "needs_more_info" && questionAnswerState(question, value) === "unanswered"
+              && nebraskaMissingFinancialCorrectionPathway(model.stateCode, model.pathwayId,
+                { ...model.screeningAnswers, ...model.prefilledAnswers, ...model.packetAnswers }, ["financial_obligations"]))) continue;
       }
       ids.add(id);
     }
@@ -1613,7 +1646,8 @@ function protectedPacketQuestionSurface(
   prefilledAnswers: Record<string, AnswerValue> = {},
   savedAnswers: Record<string, AnswerValue> = {},
   recordOwnQuestionIds: string[] = [],
-  unresolvedSavedFactIds: readonly string[] = []
+  unresolvedSavedFactIds: readonly string[] = [],
+  heldFactualCorrectionIds: string[] = []
 ) {
   const questionById = new Map<string, ProfileQuestion>();
   for (const question of allPublicQuestions(projectPublicProfile(profile))) {
@@ -1647,7 +1681,7 @@ function protectedPacketQuestionSurface(
       }
     }
   }
-  const correctionIds = routeFactualCorrectionIds({ stateCode: profile.jurisdiction.code, pathwayId, requiredInputIds, screeningAnswers, prefilledAnswers, packetAnswers: savedAnswers });
+  const correctionIds = routeFactualCorrectionIds({ stateCode: profile.jurisdiction.code, pathwayId, requiredInputIds, screeningAnswers, prefilledAnswers, packetAnswers: savedAnswers, heldFactualCorrectionIds });
   for (const id of correctionIds) {
     const question = questionById.get(id);
     if (question && !questions.some(q => q.id === id)) questions.push({ ...question, required: false, contextOnly: false });
@@ -1819,7 +1853,7 @@ function deriveProtectedPacketDraftSnapshot(
   if (!currentAuthority) return null;
   const originalBase = base;
   base = nebraskaAcquittalHeldSuccessor(base, currentAuthority) ?? kansasRegistrationHeldSuccessor(base, currentAuthority) ?? base;
-  const factualIds = [...factualPathwayCorrectionIds(base.jurisdiction, base.pathwayId, { ...base.screeningAnswers, ...base.prefilledAnswers, ...base.packetAnswers }, true), ...msExactTimingQuestionIds(base.jurisdiction, base.pathwayId, { ...base.screeningAnswers, ...base.prefilledAnswers, ...base.packetAnswers }, true)];
+  const factualIds = [...factualPathwayCorrectionIds(base.jurisdiction, base.pathwayId, { ...base.screeningAnswers, ...base.prefilledAnswers, ...base.packetAnswers }, true), ...msExactTimingQuestionIds(base.jurisdiction, base.pathwayId, { ...base.screeningAnswers, ...base.prefilledAnswers, ...base.packetAnswers }, true), ...nebraskaUnselectedCorrectionIds(base)];
   if (isNy16059Packet(base.jurisdiction, base.pathwayId)) factualIds.push(...NY_PACKET_FACT_IDS, ...NY_CASE_FACT_IDS,
     ...routeFactualCorrectionIds({ stateCode: base.jurisdiction, pathwayId: base.pathwayId,
       screeningAnswers: answerRecord(base.screeningAnswers), prefilledAnswers: answerRecord(base.prefilledAnswers), packetAnswers: answerRecord(base.packetAnswers) }, true));

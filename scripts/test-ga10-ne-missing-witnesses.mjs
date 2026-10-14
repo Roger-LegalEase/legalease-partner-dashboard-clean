@@ -272,6 +272,8 @@ assert.equal(historicalPresentation.packetDraft.status, 'available');
 assert.equal(historicalPresentation.verificationStatus, 'unverified');
 assert.equal(Object.values(historicalPresentation.commercialActions).some(Boolean), false);
 assert.equal(JSON.stringify(historical), historicalBytes);
+const fullOwnerSequence = [];
+const uncertainOwnerSequence = [];
 for (const financial of ['No', 'I am not sure', undefined]) {
   const answers = { ...heldSnapshot.screeningAnswers, ...heldSnapshot.prefilledAnswers, financial_obligations: financial };
   const authoritative = evaluate({ jurisdiction: 'NE', profileVersion: p.profileVersion, matterId: pageItem.id, answers });
@@ -304,7 +306,36 @@ for (const financial of ['No', 'I am not sure', undefined]) {
       assert(!paired.some(e => /result remains on hold|pay only when/.test(e.props.en)));
     }
   }
-  const dismissed = P.packetInformationPatch({ existingItem: pageItem, protectedVerification: record, answers: { case_outcome: 'Dismissed, no-billed, nolle prosequi, or not prosecuted' } });
+  let sequenced = record;
+  for (const [answers, verify] of [[{ age_at_offense: { value: '31', unknown: false } }, false], [{ age_at_offense: { value: '30', unknown: false } }, false], [{}, true]]) {
+    const patch = P.packetInformationPatch({ existingItem: pageItem, protectedVerification: sequenced, answers, verify });
+    assert(patch); assert.equal(patch.readyToGenerate, false);
+    sequenced = JSON.parse(JSON.stringify(patch.protectedTransition.nextVerification));
+  }
+  assert.equal(sequenced.status, 'invalidated', 'the actual verify attempt never grants authority');
+  for (const [id, value, restore] of [
+    ['age_at_offense', { value: '', unknown: true }, { value: '30', unknown: false }],
+    ['age_at_offense', { value: '', unknown: false }, { value: '30', unknown: false }],
+    ['case_outcome', 'I am not sure', 'Acquitted or found not guilty']
+  ]) {
+    const original = JSON.stringify(sequenced);
+    const patch = P.packetInformationPatch({ existingItem: pageItem, protectedVerification: sequenced, answers: { [id]: value } });
+    assert.equal(JSON.stringify(sequenced), original);
+    const held = patch?.protectedTransition.nextVerification ?? sequenced;
+    if (patch) { assert.equal(patch.readyToGenerate, false); assert.notEqual(held.status, 'verified'); }
+    const presentation = await present(held);
+    let builder;
+    try { builder = (await pageFor(presentation, id)).find(e => e.type?.name === 'PacketInformationBuilder'); } catch { /* Retain the exact before failure for this control. */ }
+    const restored = P.packetInformationPatch({ existingItem: pageItem, protectedVerification: held, answers: { [id]: restore } });
+    uncertainOwnerSequence.push({ financial: financial ?? 'absent', id, value, saveAccepted: Boolean(patch), result: presentation.resultCode,
+      builderAvailable: Boolean(builder?.props.questions.some(q => q.id === id)), restorationAccepted: Boolean(restored) });
+    if (restored) {
+      assert.equal(restored.readyToGenerate, false);
+      const restoredView = await present(restored.protectedTransition.nextVerification);
+      uncertainOwnerSequence[uncertainOwnerSequence.length - 1].restoredResult = restoredView.resultCode;
+    }
+  }
+  const dismissed = P.packetInformationPatch({ existingItem: pageItem, protectedVerification: sequenced, answers: { case_outcome: 'Dismissed, no-billed, nolle prosequi, or not prosecuted' } });
   assert(dismissed); const changed = dismissed.protectedTransition.nextVerification, changedModel = P.protectedPacketInformationModelFor(changed);
   assert(changedModel); assert(P.reviewEditablePacketInputIds(changedModel).has('financial_obligations'));
   assert.equal(changedModel.pathwayId, adultRoute);
@@ -315,14 +346,125 @@ for (const financial of ['No', 'I am not sure', undefined]) {
     assert(P.heldPacketCorrectionInputIds(changedModel, changedModel.resultCode).has('case_outcome'));
   }
   assert.equal(changedModel.initialAnswers.financial_obligations, financial);
+  const changedPresentation = await present(changed);
+  const surfaces = [];
+  for (const edit of ['financial_obligations', 'age_at_offense', 'case_outcome']) {
+    let builder = null;
+    try { builder = (await pageFor(changedPresentation, edit)).find(e => e.type?.name === 'PacketInformationBuilder'); } catch { /* The before correction redirects unavailable controls. */ }
+    if (builder) { assert.equal(builder.props.initialRouteChanged, false); assert.equal(builder.props.returnToMatterAfterCorrection, true); }
+    surfaces.push({ edit, builderAvailable: Boolean(builder?.props.questions.some(q => q.id === edit)), raw: builder?.props.initialAnswers.financial_obligations });
+  }
+  fullOwnerSequence.push({ financial: financial ?? 'absent', result: changedPresentation.resultCode, status: changed.status, surfaces });
+  let financialCorrection = changed;
+  for (const value of ['I am not sure', 'No']) {
+    const edit = P.packetInformationPatch({ existingItem: pageItem, protectedVerification: financialCorrection, answers: { financial_obligations: value } });
+    assert(edit); assert.equal(edit.readyToGenerate, false);
+    financialCorrection = JSON.parse(JSON.stringify(edit.protectedTransition.nextVerification));
+    assert.notEqual(financialCorrection.status, 'verified');
+    const savedPresentation = await present(financialCorrection);
+    assert.equal(Object.values(savedPresentation.commercialActions).some(Boolean), false);
+    const savedBuilder = (await pageFor(savedPresentation, 'financial_obligations')).find(e => e.type?.name === 'PacketInformationBuilder');
+    assert(savedBuilder?.props.questions.some(q => q.id === 'financial_obligations'));
+    assert.equal(savedBuilder.props.initialAnswers.financial_obligations, value);
+    assert.equal(savedBuilder.props.initialAnswers.case_outcome, 'Dismissed, no-billed, nolle prosequi, or not prosecuted');
+    for (const locale of ['en', 'es']) {
+      const localized = { locale, setLocale() {}, t: (key, fallback, vars) => t(locale, key, fallback, vars), text: (s, options) => resolveRuntimeText(locale, s, options) };
+      const html = renderToStaticMarkup(React.createElement(AppRouterContext.Provider, { value: { push() {} } },
+        React.createElement(LocalizationContext.Provider, { value: localized }, savedBuilder)));
+      assert(html.includes('data-packet-question="financial_obligations"'));
+      assert.equal((html.match(/type="radio"/g) ?? []).length, 3);
+    }
+  }
   const restored = P.packetInformationPatch({ existingItem: pageItem, protectedVerification: changed, answers: { case_outcome: 'Acquitted or found not guilty' } });
   assert(restored); const restoredModel = P.protectedPacketInformationModelFor(restored.protectedTransition.nextVerification);
   assert(!P.reviewEditablePacketInputIds(restoredModel).has('financial_obligations'));
   assert.equal(restoredModel.initialAnswers.financial_obligations, financial);
   assert.equal(restored.readyToGenerate, false);
+  const restoredPresentation = await present(restored.protectedTransition.nextVerification);
+  const restoredPage = await pageFor(restoredPresentation, 'case_outcome');
+  assert(restoredPage.some(e => e.type?.name === 'PacketInformationBuilder' && e.props.questions.some(q => q.id === 'case_outcome')));
+  assert(!restoredPage.some(e => typeof e.props.href === 'string' && e.props.href.includes('financial_obligations')));
 }
+// Optional pathway hints are never provenance: these are fresh, genuine seeds
+// without the hint, followed by ordinary protected edits and saved reloads.
+const noHintHistoryCases = [], rejectedHistoryCases = [];
+let heldWithoutHint;
+for (const financial of ['No', 'I am not sure', undefined]) {
+  const answers = { ...heldSnapshot.screeningAnswers, ...heldSnapshot.prefilledAnswers, financial_obligations: financial };
+  delete answers.possible_pathway_context;
+  const authoritative = evaluate({ jurisdiction: 'NE', profileVersion: p.profileVersion, matterId: pageItem.id, answers });
+  const seed = P.protectedPacketDraftSeedFromAuthoritative({ authoritative, screeningAnswers: answers, dependencies: {}, capturedAt: '2026-10-14T00:00:00Z' });
+  assert.equal(seed.snapshot.resultCode, 'guidance_only');
+  const record = { status: 'unverified', reason: 'synthetic-guidance-no-hint', revision: 0, draftHash: seed.hash, draftSnapshot: seed.snapshot };
+  for (const [id, value, restore] of [
+    ['age_at_offense', { value: '', unknown: true }, { value: '30', unknown: false }],
+    ['age_at_offense', { value: '', unknown: false }, { value: '30', unknown: false }],
+    ['case_outcome', 'I am not sure', 'Acquitted or found not guilty']
+  ]) {
+    const patch = P.packetInformationPatch({ existingItem: pageItem, protectedVerification: record, answers: { [id]: value } });
+    assert(patch); const held = JSON.parse(JSON.stringify(patch.protectedTransition.nextVerification));
+    const bytes = JSON.stringify(held), model = P.protectedPacketInformationModelFor(held);
+    assert(model); assert.equal(model.packetPlan, null);
+    if (model.pathwayId === null) assert.deepEqual(model.heldFactualCorrectionIds, ['case_outcome', 'age_at_offense']);
+    if (model.pathwayId === null) assert.deepEqual([...P.heldPacketCorrectionInputIds(model, model.resultCode)].sort(), ['age_at_offense', 'case_outcome']);
+    assert.equal(model.initialAnswers.possible_pathway_context, undefined);
+    assert.equal(held.draftSnapshot.paymentAllowed, false);
+    assert.equal(Object.hasOwn(held.draftSnapshot, 'heldFactualCorrectionIds'), false, 'projection is not persisted authority');
+    const view = await present(held);
+    assert.equal(view.authorityStatus, 'protected_draft'); assert.notEqual(view.verificationStatus, 'verified');
+    assert.equal(Object.values(view.commercialActions).some(Boolean), false);
+    for (const edit of ['case_outcome', 'age_at_offense']) {
+      const page = await pageFor(view, edit);
+      assert(page.some(e => e.type?.name === 'PacketInformationBuilder' && e.props.questions.some(q => q.id === edit)));
+      assert(page.some(e => typeof e.props.href === 'string' && e.props.href.endsWith('?edit=' + edit)));
+      if (model.pathwayId === null) assert(!page.some(e => typeof e.props.href === 'string' && e.props.href.includes('financial_obligations')));
+      const builder = page.find(e => e.type?.name === 'PacketInformationBuilder');
+      assert.equal(builder.props.initialRouteChanged, false);
+      assert.equal(builder.props.returnToMatterAfterCorrection, true);
+      for (const locale of ['en', 'es']) {
+        const value = { locale, setLocale() {}, t: (key, fallback, vars) => t(locale, key, fallback, vars), text: (s, options) => resolveRuntimeText(locale, s, options) };
+        const html = renderToStaticMarkup(React.createElement(AppRouterContext.Provider, { value: { push() {} } },
+          React.createElement(LocalizationContext.Provider, { value }, builder)));
+        const label = locale === 'es' ? 'Guardar y volver al caso' : 'Save and return to matter';
+        const button = html.match(new RegExp('<button[^>]*>' + label + '</button>'))?.[0];
+        assert(button && !button.includes('disabled='), 'held correction has enabled save-and-return in ' + locale);
+        assert(!html.includes('Your saved answers changed which packet path') && !html.includes('Sus respuestas guardadas cambiaron la vía'));
+      }
+    }
+    const restored = P.packetInformationPatch({ existingItem: pageItem, protectedVerification: held, answers: { [id]: restore } });
+    assert(restored); assert.equal(restored.readyToGenerate, false);
+    const restoredView = await present(restored.protectedTransition.nextVerification);
+    assert.equal(restoredView.resultCode, 'guidance_only');
+    assert.equal(Object.values(restoredView.commercialActions).some(Boolean), false);
+    assert.equal(JSON.stringify(held), bytes, 'all protected source maps and history unchanged by projection and restore');
+    noHintHistoryCases.push({ financial: financial ?? 'absent', id, value, result: view.resultCode, path: model.pathwayId, restored: restoredView.resultCode });
+    if (model.pathwayId === null) heldWithoutHint = held;
+  }
+}
+for (const [name, change] of [
+  ['absent history', s => { delete s.dependencies.semanticAnswerHistory; }],
+  ['empty history', s => { s.dependencies.semanticAnswerHistory = []; }],
+  ...Object.entries({ routeKey: 'NE:juvenile-automatic-sealing', profileVersion: 'wrong', profileSourceFingerprint: 'wrong',
+    profileAuthorityFingerprint: 'wrong', meaning: 'legacy', factId: 'financial_obligations', source: 'serverFacts', value: { unknown: false, extra: 'malformed' } })
+    .map(([key, value]) => ['wrong prior ' + key, s => { s.dependencies.semanticAnswerHistory = s.dependencies.semanticAnswerHistory.map(entry => ({ ...entry, [key]: value })); }]),
+  ...['profileVersion', 'profileSourceFingerprint', 'profileAuthorityFingerprint'].map(key => ['wrong current ' + key, s => { s[key] = 'wrong'; }])
+]) {
+  const altered = structuredClone(heldWithoutHint); change(altered.draftSnapshot);
+  altered.draftHash = P.protectedPacketDraftHash(altered.draftSnapshot);
+  const model = P.protectedPacketInformationModelFor(altered);
+  assert.equal(model?.heldFactualCorrectionIds?.length ?? 0, 0, name);
+  if (model) assert.equal(P.heldPacketCorrectionInputIds(model, model.resultCode).size, 0, name);
+  const view = await present(altered);
+  let builder; try { builder = (await pageFor(view, 'case_outcome')).find(e => e.type?.name === 'PacketInformationBuilder'); } catch { /* Explicitly refused edit. */ }
+  assert.equal(Boolean(builder), false, name + ' must not expose correction from unsupported history');
+  rejectedHistoryCases.push(name);
+}
+const unavailableSequenceControls = fullOwnerSequence.flatMap(row => row.surfaces.filter(surface => !surface.builderAvailable).map(surface => ({ financial: row.financial, result: row.result, edit: surface.edit })));
+assert.deepEqual(unavailableSequenceControls, [], 'full verified-refusal then dismissal sequence keeps actual correction controls reachable: ' + JSON.stringify(unavailableSequenceControls));
+const uncertainFailures = uncertainOwnerSequence.filter(row => !row.builderAvailable || !row.restorationAccepted || row.restoredResult !== 'guidance_only');
+assert.deepEqual(uncertainFailures, [], 'unknown/cleared predicate stays correctable: ' + JSON.stringify(uncertainFailures));
 for (const patch of [{ stateCode: 'KS' }, { pathwayId: 'juvenile-automatic-sealing' }, { packetPlan: null }, { packetPlan: { ...historicalModel.packetPlan, sourceFormIds: ['invented'] } }, { prefilledAnswers: { ...historicalModel.prefilledAnswers, age_at_offense: { unknown: true } } }]) {
-  assert.equal(P.isNebraskaAcquittalGuidanceCorrection({ ...historicalModel, ...patch }, 'guidance_only'), false);
+  assert.equal(P.isNebraskaNonconvictionGuidanceCorrection({ ...historicalModel, ...patch }, 'guidance_only'), false);
 }
 for (const name of ['profileSourceFingerprint', 'profileAuthorityFingerprint', 'profileVersion']) {
   const altered = structuredClone(historical); altered.draftSnapshot[name] = 'changed'; altered.draftHash = P.protectedPacketDraftHash(altered.draftSnapshot);
@@ -330,6 +472,16 @@ for (const name of ['profileSourceFingerprint', 'profileAuthorityFingerprint', '
 }
 assert.equal((await present(tampered)).authorityStatus, 'unavailable');
 const { nebraskaMissingFinancialCorrectionPathway } = await import('../src/lib/rcap-engine/nebraska-nonconviction-facts.ts');
+const { nebraskaAdultNonconvictionCorrectionApplies } = await import('../src/lib/rcap-engine/nebraska-nonconviction-facts.ts');
+for (const outcome of ['Acquitted or found not guilty', 'Dismissed, no-billed, nolle prosequi, or not prosecuted']) {
+  const answers = { case_outcome: outcome, age_at_offense: { value: '30', unknown: false } };
+  assert(nebraskaAdultNonconvictionCorrectionApplies('NE', adultRoute, answers));
+  for (const patch of [{ case_outcome: [outcome] }, { case_outcome: { value: outcome, unknown: false } }, { case_outcome: 'I am not sure' }, { age_at_offense: { value: '30', unknown: true } }, { age_at_offense: 17 }]) {
+    assert.equal(nebraskaAdultNonconvictionCorrectionApplies('NE', adultRoute, { ...answers, ...patch }), false);
+  }
+  assert.equal(nebraskaAdultNonconvictionCorrectionApplies('KS', adultRoute, answers), false);
+  assert.equal(nebraskaAdultNonconvictionCorrectionApplies('NE', 'juvenile-automatic-sealing', answers), false);
+}
 const dismissedFacts = { ...heldSnapshot.screeningAnswers, ...heldSnapshot.prefilledAnswers,
   case_outcome: 'Dismissed, no-billed, nolle prosequi, or not prosecuted', financial_obligations: undefined };
 assert(nebraskaMissingFinancialCorrectionPathway('NE', adultRoute, dismissedFacts, ['financial_obligations']));
@@ -380,6 +532,7 @@ console.log('PASS: actual NE presentation/page builder exposes age and dispositi
 
 const receipt = { scope: subgroup.id, status: 'PASS_BOUNDED_ENGINEERING_ONLY', rows, renders,
   ownerCorrectionConsumers: { status: 'PASS_PURE_CONSUMERS',
+    fullOwnerSequence, uncertainOwnerSequence, noHintHistoryCases, rejectedHistoryCases,
     surfaces: ['actual protected presentation', 'actual server page correction links and builder props', 'EN/ES builder SSR', 'actual continue/back event handlers'],
     cases: ['No/unknown/missing financial history', 'fresh and exact historical draft', 'age and disposition correction controls', 'dismissal restores financial correction and acquittal hides it', 'missing financial hold retains exact known route', 'source mismatch denial', 'unchanged sibling navigation'],
     authenticatedOwnerAcceptance: 'NOT_RUN_BY_THIS_TEST' },
