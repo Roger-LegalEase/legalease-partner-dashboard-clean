@@ -1,3 +1,4 @@
+import { maineNonconvictionQuestionApplies } from "@/lib/rcap-engine/maine-nonconviction-facts";
 import { louisianaAutomationStatusQuestionApplies } from "@/lib/rcap-engine/louisiana-automation-status";
 import { nebraskaNonconvictionQuestionApplies } from "@/lib/rcap-engine/nebraska-nonconviction-facts";
 import { georgiaPardonCategoryIsContext } from "@/lib/expungement-ai/ga-pardon-category-context";
@@ -652,6 +653,15 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
       facts.push({ factId, collection: "conditional", phase: "known", group: null,
         source: "ne_adult_acquittal_no_financial_predicate", active: false,
         reason: "The exact adult acquittal automatic route has no financial predicate; the saved payment answer is retained without inference." });
+      continue;
+    }
+
+    if (!maineNonconvictionQuestionApplies(input.jurisdiction, input.pathwayId, {
+      case_outcome: resolvedText("case_outcome"), age_at_offense: resolvedText("age_at_offense")
+    }, factId)) {
+      facts.push({ factId, collection: "conditional", phase: "known", group: null,
+        source: "me_adult_acquittal_no_financial_predicate", active: false,
+        reason: "The adult acquittal record-information guidance has no financial predicate; the original payment answer is retained without inference." });
       continue;
     }
 

@@ -1,3 +1,4 @@
+import { maineNonconvictionQuestionApplies, maineMissingFinancialCorrectionPathway } from "@/lib/rcap-engine/maine-nonconviction-facts";
 import { louisianaAutomationStatusQuestionApplies } from "@/lib/rcap-engine/louisiana-automation-status";
 import { nebraskaNonconvictionQuestionApplies, nebraskaMissingFinancialCorrectionPathway } from "@/lib/rcap-engine/nebraska-nonconviction-facts";
 import { AR_RECORD_ORIGIN_ID, AR_RECORD_ORIGIN_SOURCE, AR_RECORD_ORIGIN_COPY, arkansasRecordOrigin, arkansasRecordOriginApplies } from "@/lib/rcap-engine/arkansas-record-origin";
@@ -219,12 +220,14 @@ function evaluateProfileRules(profile: EngineProfile, request: ScreeningEvaluati
   const preselectedPathway = selectPathway(profile, answers);
   const missingQuestionIds = requiredMissingPublicQuestionIds(publicProfile, answers)
     .filter(id => nevada176AQuestionApplies(jurisdiction, preselectedPathway?.id, id))
+    .filter(id => maineNonconvictionQuestionApplies(jurisdiction, preselectedPathway?.id, answers, id))
     .filter(id => nebraskaNonconvictionQuestionApplies(jurisdiction, preselectedPathway?.id, answers, id))
     .filter(id => louisianaAutomationStatusQuestionApplies(jurisdiction, preselectedPathway?.id, id));
   if (missingQuestionIds.length > 0) {
     return result(profile, request, "needs_more_info", [reason(jurisdiction, "missing_required_facts", "Required public screening facts are missing.")], {
       missingQuestionIds,
       ...(nebraskaMissingFinancialCorrectionPathway(jurisdiction, preselectedPathway?.id, answers, missingQuestionIds)
+        || maineMissingFinancialCorrectionPathway(jurisdiction, preselectedPathway?.id, answers, missingQuestionIds)
         ? { pathwayId: preselectedPathway!.id } : {})
     });
   }
@@ -803,6 +806,7 @@ function ambiguityReason(
   const relevant = relevantFactIds(profile, selectedPathway);
   const ambiguous = legalFields
     .filter(question => nevada176AQuestionApplies(jurisdiction, selectedPathway?.id, question.id))
+    .filter(question => maineNonconvictionQuestionApplies(jurisdiction, selectedPathway?.id, answers, question.id))
     .filter(question => nebraskaNonconvictionQuestionApplies(jurisdiction, selectedPathway?.id, answers, question.id))
     .filter(question => louisianaAutomationStatusQuestionApplies(jurisdiction, selectedPathway?.id, question.id))
     .filter((question) => relevant.has(question.id))

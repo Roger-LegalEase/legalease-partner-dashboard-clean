@@ -1,3 +1,4 @@
+import { maineNonconvictionQuestionApplies, ME_NONCONVICTION_ROUTE } from "@/lib/rcap-engine/maine-nonconviction-facts";
 import { louisianaAutomationStatusQuestionApplies } from "@/lib/rcap-engine/louisiana-automation-status";
 import { nebraskaNonconvictionQuestionApplies } from "@/lib/rcap-engine/nebraska-nonconviction-facts";
 import { AR_RECORD_ORIGIN_ID, arkansasRecordOriginApplies } from "@/lib/rcap-engine/arkansas-record-origin";
@@ -81,6 +82,12 @@ export function selectScreeningQuestionIds(
     ? ["MS", "GA"].includes(profile.jurisdiction.code) ? pathwayFromContext(profile, selectedLabel) : profile.pathways.find((pathway) => pathway.label === selectedLabel
       && !pathwayExcludedByKnownFacts(profile.jurisdiction.code, answers, pathway.id) && convictionOutcomeCompatible(profile.jurisdiction.code, answers, pathway.id))
     : undefined;
+  // An optional route hint is not required to recognize an adult acquittal's
+  // irrelevant payment question. This scopes collection only, never a route.
+  const maineFinancialQuestionPathway = selectedPathway?.id
+    ?? (profile.jurisdiction.code === "ME" && !selectedLabel
+      && !maineNonconvictionQuestionApplies("ME", ME_NONCONVICTION_ROUTE, answers, "financial_obligations")
+      ? ME_NONCONVICTION_ROUTE : undefined);
   const msTimingIds = new Set(msExactTimingQuestionIds(profile.jurisdiction.code, selectedPathway?.id, answers));
   const recordQuestions = new Map(caProp64RecordQuestions(profile, publicProfile.questions, selectedPathway?.id).map((question) => [question.id, question]));
   const stageOrder = new Map(publicProfile.flowStages.map((stage) => [stage.id, stage.order]));
@@ -104,6 +111,7 @@ export function selectScreeningQuestionIds(
   }).map(question => question.id));
 
   return publicProfile.questions
+    .filter(question => maineNonconvictionQuestionApplies(profile.jurisdiction.code, maineFinancialQuestionPathway, answers, question.id))
     .filter(question => nebraskaNonconvictionQuestionApplies(profile.jurisdiction.code, selectedPathway?.id, answers, question.id))
     .filter(question => louisianaAutomationStatusQuestionApplies(profile.jurisdiction.code, selectedPathway?.id, question.id))
     .filter(question => question.id !== AR_RECORD_ORIGIN_ID || arkansasRecordOriginApplies(profile.jurisdiction.code, selectedPathway?.id))
