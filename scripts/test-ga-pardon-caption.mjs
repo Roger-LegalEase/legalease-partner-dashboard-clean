@@ -12,7 +12,7 @@ const {reviewedPacketQuestion}=await import('../src/lib/expungement-ai/reviewed-
 // authorization response, verification tuple or database function is mocked.
 const surfaceFile=path.resolve('src/lib/expungement-ai/packet-information.ts');
 const surfaceSource=fs.readFileSync(surfaceFile,'utf8');assert.ok(surfaceSource.includes('function protectedPacketQuestionSurface('));
-const surfaceModule=ts.transpileModule(surfaceSource+'\nexport { protectedPacketQuestionSurface as questionSurfaceForTest };',{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022}}).outputText;
+const surfaceModule=ts.transpileModule(surfaceSource+'\nexport { protectedPacketQuestionSurface as questionSurfaceForTest, validatePacketAnswer as validatePacketAnswerForTest };',{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022}}).outputText;
 register(`data:text/javascript,${encodeURIComponent('let d;export function initialize(data){d=data}export async function load(url,ctx,next){return url===d.url?{format:"module",source:d.source,shortCircuit:true}:next(url,ctx)}')}`,{data:{url:pathToFileURL(surfaceFile).href,source:surfaceModule}});
 const P=await import('../src/lib/expungement-ai/packet-information.ts');
 const {getProfileByJurisdiction}=await import('../src/lib/rcap-engine/profile-registry.ts');
@@ -75,13 +75,33 @@ for(const expected of C.GA_PARDON_DOCUMENT_QUESTIONS){
  check(id+' creates no record confirmation marker',()=>assert.equal(R.recordFactConfirmationFor(route,id,{[id]:'Own factual response'},expected),null));
  for(const ownership of ['Yes','I am helping someone complete their own check','I am not sure']){
   const sourceAnswers={ownership_scope:ownership},copy=structuredClone(sourceAnswers);
-  const surface=P.questionSurfaceForTest(getProfileByJurisdiction('GA'),pathway,sourceAnswers,['case_number','participant_narrative'],{jurisdiction:'GA',pathway_id:pathway});
+  const surface=P.questionSurfaceForTest(getProfileByJurisdiction('GA'),pathway,sourceAnswers,['otn','case_number','participant_narrative'],{jurisdiction:'GA',pathway_id:pathway});
   const q=surface.builderQuestions.find(q=>q.id===id);
   check(id+' actual protected builder includes question for '+ownership,()=>assert.ok(q));
   check(id+' actual protected builder EN+ES for '+ownership,()=>{assert.equal(q.prompt,expected.prompt);assert.deepEqual(q.translations,expected.translations);});
   check(id+' actual protected builder preserves own-account multiline for '+ownership,()=>assert.equal(q.multiline,expected.multiline));
   check(id+' ownership inputs never changed '+ownership,()=>assert.deepEqual(sourceAnswers,copy));
  }
+}
+const {prepayGateFactIds,renderGateFactIds,resolvePacketCollection}=await import('../src/lib/expungement-ai/packet-collection.ts');
+const {packetSpecificationFor}=await import('../src/lib/rcap/grade-a/packet-specification.ts');
+for(const value of [undefined,null,'','unknown',{unknown:true},'OTN 12345',{value:'OTN 12345',unknown:false}]){
+ const saved=value===undefined?{}:{otn:value},raw=JSON.stringify(saved);
+ const surface=P.questionSurfaceForTest(getProfileByJurisdiction('GA'),pathway,{},['otn','case_number'],{jurisdiction:'GA',pathway_id:pathway},{},saved);
+ check('optional OTN visible and editable '+JSON.stringify(value),()=>assert.equal(surface.builderQuestions.find(q=>q.id==='otn')?.required,false));
+ check('optional OTN excluded from payment and render gates '+JSON.stringify(value),()=>{assert.ok(!prepayGateFactIds(surface.collection).includes('otn'));assert.ok(!renderGateFactIds(surface.collection).includes('otn'));});
+ check('existing required case number still gated '+JSON.stringify(value),()=>assert.ok(prepayGateFactIds(surface.collection).includes('case_number')));
+ check('optional OTN protected validation accepts unknown or known '+JSON.stringify(value),()=>assert.equal(P.validatePacketAnswerForTest(surface.questionById.get('otn'),value,true).safe,true));
+ check('optional OTN preserves actual saved raw value '+JSON.stringify(value),()=>assert.equal(JSON.stringify(saved),raw));
+}
+for(const value of [undefined,'unknown',{unknown:true}])check('optional validation permission is never inferred '+JSON.stringify(value),()=>assert.equal(P.validatePacketAnswerForTest(C.GA_PARDON_DOCUMENT_QUESTIONS.find(q=>q.id==='otn'),value).safe,false));
+for(const value of [7,[],{},true,{value:'OTN'},{value:7,unknown:false},{value:'OTN',unknown:'false'}])check('optional malformed answer still fails safety '+JSON.stringify(value),()=>assert.equal(P.validatePacketAnswerForTest(C.GA_PARDON_DOCUMENT_QUESTIONS.find(q=>q.id==='otn'),value,true).safe,false));
+for(const kind of ['value','template','route_predicate','unresolved_route']){
+ const specification=structuredClone(packetSpecificationFor(route));
+ if(kind==='value')specification.documents[0].sections.push({heading:'Must print',kind:'pleading_identity_list',fields:['otn'],fieldTreatments:{otn:'value'}});
+ if(kind==='template')specification.documents[0].sections.push({heading:'Must print',kind:'pleading_paragraph',body:'Required OTN {{otn}}'});
+ const collection=resolvePacketCollection({jurisdiction:'GA',pathwayId:pathway,requiredInputIds:['otn'],serverFacts:{},screeningAnswers:{},specification,...(kind==='route_predicate'?{routeDecidingFactIds:new Set(['otn'])}:{}),...(kind==='unresolved_route'?{unresolvedRouteFactIds:new Set(['otn'])}:{})});
+ check('optional declaration never waives '+kind+' collection gate',()=>assert.ok(prepayGateFactIds(collection).includes('otn')));
 }
 const report={status:'PASS',checks:checks.length,details:checks,scope:'Source-defined caption meaning, exact confirmation invalidation, EN/ES packet controls and preserved actual historical held authority. No authenticated caption save or protected generation claimed.'};
 if(process.argv[2])fs.writeFileSync(process.argv[2],JSON.stringify(report,null,2)+'\n',{flag:'wx'});

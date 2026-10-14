@@ -1471,13 +1471,15 @@ function builderQuestionsFor(
   if (!collection) return questions.filter((question) => requiredOfParticipant.has(question.id));
 
   const owed = new Set(prepayGateFactIds(collection));
+  const optional = new Set(collection.facts.filter(fact => fact.optional === true).map(fact => fact.factId));
   const order = new Map<string, number>();
   let position = 0;
   for (const section of collection.groupedParticipantSections) {
     for (const factId of section.factIds) order.set(factId, position++);
   }
   return questions
-    .filter((question) => owed.has(question.id))
+    .filter((question) => owed.has(question.id) || optional.has(question.id))
+    .map(question => optional.has(question.id) ? { ...question, required: false } : question)
     .sort((left, right) => (order.get(left.id) ?? Number.MAX_SAFE_INTEGER) - (order.get(right.id) ?? Number.MAX_SAFE_INTEGER));
 }
 
@@ -2168,7 +2170,7 @@ function protectedPacketDraftReviewSafety(draft: ProtectedPacketAuthoritySnapsho
     const disposition = collection?.facts.find((fact) => fact.factId === id);
     if (disposition?.collection === "external_actor"
       || (disposition?.collection === "conditional" && disposition.active === false)) continue;
-    const validation = validatePacketAnswer(questionById.get(id) ?? fallbackPacketQuestion(id), answers[id]);
+    const validation = validatePacketAnswer(questionById.get(id) ?? fallbackPacketQuestion(id), answers[id], disposition?.optional === true);
     if (!validation.safe) return validation;
   }
   return { safe: true, reason: "authoritative_route_confirmed" };
@@ -2552,8 +2554,12 @@ function authoritativePacketContext(
     ...answerRecord(packetInformation.answers),
     ...answerOverride
   };
+  const collection = packetCollectionFor({ jurisdiction: model.stateCode, pathwayId: model.pathwayId,
+    requiredInputIds: model.requiredInputIds, serverFacts: model.serverFacts,
+    screeningAnswers: model.screeningAnswers, savedAnswers: answers });
   for (const question of model.questions) {
-    const validation = validatePacketAnswer(question, answers[question.id]);
+    const optional = collection?.facts.find(fact => fact.factId === question.id)?.optional === true;
+    const validation = validatePacketAnswer(question, answers[question.id], optional);
     if (!validation.safe) return { safe: false, reason: validation.reason };
   }
 
@@ -2641,9 +2647,13 @@ function canonicalEqual(left: unknown, right: unknown) {
   return JSON.stringify(canonicalize(left)) === JSON.stringify(canonicalize(right));
 }
 
-function validatePacketAnswer(question: ProfileQuestion, value: AnswerValue | undefined) {
+function validatePacketAnswer(question: ProfileQuestion, value: AnswerValue | undefined, sourceOptional = false) {
   const state = questionAnswerState(question, value);
-  return state === "known_valid" ? { safe: true, reason: "valid" }
+  if (sourceOptional && value !== undefined && value !== null && typeof value !== "string"
+    && !(isRecord(value) && (value.unknown === true || value.unknown === false && typeof value.value === "string"))) {
+    return { safe: false, reason: `invalid_packet_answer:${question.id}` };
+  }
+  return state === "known_valid" || sourceOptional && (state === "unanswered" || state === "uncertain") ? { safe: true, reason: "valid" }
     : { safe: false, reason: `invalid_packet_answer:${question.id}` };
 }
 

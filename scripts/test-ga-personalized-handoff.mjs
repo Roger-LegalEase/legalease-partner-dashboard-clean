@@ -21,7 +21,7 @@ const specFile='data/record-clearing/packet-specifications/GA-restriction-and-se
 const spec=packetSpecificationFor(route),facts=Object.fromEntries(spec.requiredFacts.map(r=>[r.factId,'Synthetic '+r.factId]));
 facts.participant_full_legal_name='Synthetic Casey Pardon';facts.ga_pardoned_offense_section='16-8-14(a)';facts.ga_pardon_date='2021-01-02';
 Object.assign(facts,{court:'Municipal Court',county:'Clarke',case_number:'2020-CR-0042',arrest_date:'2019-01-05',participant_narrative:'I was denied a warehouse job because of this record.'});
-const mappedIds=['ga_pardoned_offense_section','ga_pardon_date','court','county','case_number','arrest_date','participant_narrative'];
+const mappedIds=['otn','ga_pardoned_offense_section','ga_pardon_date','court','county','case_number','arrest_date','participant_narrative'];
 const screening={...facts};delete screening.ga_pardoned_offense_section;delete screening.ga_pardon_date;
 const snapshot={jurisdiction:'GA',pathwayId:route.slice(3),verifiedAt:'2026-10-13T00:00:00.000Z',selectedTrackId:'ga-pardon-j7',screeningAnswers:screening,prefilledAnswers:{},packetAnswers:{ga_pardoned_offense_section:{value:facts.ga_pardoned_offense_section,unknown:false},ga_pardon_date:{value:facts.ga_pardon_date,unknown:false}},serverFacts:{}};
 snapshot.dependencies={recordFactConfirmations:Object.fromEntries(GA_PARDON_CAPTION_QUESTIONS.map(q=>[q.id,recordFactConfirmationFor(route,q.id,facts,q)]))};
@@ -48,7 +48,7 @@ for(const field of ['screeningAnswers','prefilledAnswers','packetAnswers','serve
 }
 const equiv=structuredClone(snapshot);equiv.screeningAnswers.ga_pardoned_offense_section='O.C.G.A. § 16–8–14 (a)';
 check('equivalent exact citation representations retain corrected value',()=>assert.deepEqual(gaPardonDocumentFacts(equiv),expected));
-for(const key of Object.keys(expected)){
+for(const key of Object.keys(expected).filter(key=>key!=='otn')){
  for(const value of [undefined,null,'','  ','unknown','I am not sure',{},[],7,true,{value:expected[key]},{value:expected[key],unknown:true},{value:7,unknown:false},{value:expected[key],unknown:'false'}]){
   const s=structuredClone(snapshot);delete s.screeningAnswers[key];if(value===undefined)delete s.packetAnswers[key];else s.packetAnswers[key]=value;
   check(key+' refuses '+JSON.stringify(value),()=>assert.throws(()=>gaPardonDocumentFacts(s),/document fact missing or unknown/));
@@ -106,18 +106,18 @@ const packet=composeParticipantDeliveryPacket(spec,{...matter,facts:currentFacts
 // Source destinations come from the preserved production field map, not a
 // reconstructed answer key derived from the changed specification.
 const fieldMap=JSON.parse(fs.readFileSync('data/rcap-all50/overlays/census-v1/ga/ga-pardon-j7-set--custom-pleading/production-field-map.json','utf8'));
-for(const source of ['primary_filing.caption_court_and_county','primary_filing.case_number','primary_filing.arrest_date','primary_filing.participant_narrative'])
+for(const source of ['proposed_order.order_otn','proposed_order.order_arrest_date','primary_filing.caption_court_and_county','primary_filing.case_number','primary_filing.arrest_date','primary_filing.participant_narrative'])
  check('preserved source destination '+source,()=>assert.ok(fieldMap.requiredBeforeFiling.some(f=>f.field===source)));
 const captioned=packet.documents.filter(d=>['primary_filing','proposed_order','certificate_of_service'].includes(d.documentId));
 check('all three filing captions checked',()=>assert.equal(captioned.length,3));
 for(const doc of captioned){
- check(doc.documentId+' receives exact convicting court/county/case',()=>{for(const key of ['court','county','case_number'])assert.ok(JSON.stringify(doc).includes(facts[key]));});
+ check(doc.documentId+' receives exact convicting court/county/case',()=>{for(const key of ['court','county','case_number','otn'])assert.ok(JSON.stringify(doc).includes(facts[key]));});
  if(doc.documentId!=='primary_filing')check(doc.documentId+' does not receive participant harm narrative',()=>assert.ok(!JSON.stringify(doc).includes(facts.participant_narrative)));
 }
 if(process.env.GA_DOCUMENT_BASELINE){
  const baselineSpec=JSON.parse(execFileSync('git',['show',process.env.GA_DOCUMENT_BASELINE+':'+specFile],{encoding:'utf8'}));
  const baselinePacket=composeParticipantDeliveryPacket(baselineSpec,{...matter,facts:currentFacts});
- check('absent optional caption fields do not enter canonical blocks',()=>assert.ok(!/continuationTitle|wrapCourtLines/.test(JSON.stringify(baselinePacket))));
+ check('absent optional caption fields do not enter canonical blocks',()=>assert.ok(!/continuationTitle|wrapCourtLines|optionalIdentifier/.test(JSON.stringify(baselinePacket))));
  for(const [variant,digest] of Object.entries({full:'e759181f1545952696e971fecffb44fc7022d2f02b8b36977c3fc631401fad2e',court_only:'9be84efff72b4f7482df1a35982022296480c82e725a4316328cd5607efe5e22'})){
   const bytes=await renderGradeAPacketPdf(baselinePacket,{variant});
   check('unchanged default renderer preserves accepted '+variant+' bytes',()=>assert.equal(hash(bytes),digest));
@@ -128,32 +128,74 @@ if(process.env.GA_DOCUMENT_BASELINE){
 for(const [key,next] of Object.entries({arrest_date:'2019-01-06',ga_pardon_date:'2021-01-03',ga_pardoned_offense_section:'16-8-14(b)',participant_narrative:'I was denied housing because of this record.'})){
  const corrected=composeParticipantDeliveryPacket(spec,{...matter,facts:{...currentFacts,[key]:next}});
  const beforeDocs=new Map(packet.documents.map(d=>[d.documentId,d]));
- check('explicit '+key+' correction affects only its primary filing destination',()=>{
+ check('explicit '+key+' correction affects only source-defined document destinations',()=>{
   assert.notDeepEqual(corrected.documents.find(d=>d.documentId==='primary_filing'),beforeDocs.get('primary_filing'));
-  for(const doc of corrected.documents.filter(d=>d.documentId!=='primary_filing'))assert.deepEqual(doc,beforeDocs.get(doc.documentId));
+  for(const doc of corrected.documents.filter(d=>d.documentId!=='primary_filing')){if(key==='arrest_date'&&doc.documentId==='proposed_order'){assert.notDeepEqual(doc,beforeDocs.get(doc.documentId));assert.ok(JSON.stringify(doc).includes(next));}else assert.deepEqual(doc,beforeDocs.get(doc.documentId));}
   const changed=JSON.stringify(corrected.documents.find(d=>d.documentId==='primary_filing'));
   assert.ok(changed.includes(next));assert.ok(!changed.includes(currentFacts[key]));
  });
 }
 const protectedFacts={...currentFacts};for(const key of [...spec.fieldOwnership.participantCompletesBeforeFilingFields,...spec.fieldOwnership.courtOwnedFields,...spec.fieldOwnership.participantAtSigningFields,...spec.fieldOwnership.participantAtServiceFields])protectedFacts[key]='PROTECTED_MUST_REMAIN_BLANK';
 check('actual composer keeps all reserved facts blank',()=>assert.ok(!JSON.stringify(composeParticipantDeliveryPacket(spec,{...matter,facts:protectedFacts})).includes('PROTECTED_MUST_REMAIN_BLANK')));
+const noOtnSnapshot=structuredClone(snapshot);delete noOtnSnapshot.screeningAnswers.otn;
+for(const value of [undefined,null,'','unknown','I am not sure',{unknown:true},{value:'stale OTN',unknown:true}]){
+ const sample=structuredClone(noOtnSnapshot);if(value!==undefined)sample.packetAnswers.otn=value;
+ const raw=JSON.stringify(sample);
+ check('optional OTN remains omitted for '+JSON.stringify(value),()=>assert.ok(!Object.hasOwn(gaPardonDocumentFacts(sample),'otn')));
+ check('optional OTN raw answer preserved '+JSON.stringify(value),()=>assert.equal(JSON.stringify(sample),raw));
+}
+for(const value of [7,true,[],{}, {value:'OTN 123'}, {value:7,unknown:false}]){
+ const sample=structuredClone(noOtnSnapshot);sample.packetAnswers.otn=value;
+ check('malformed OTN refuses '+JSON.stringify(value),()=>assert.throws(()=>gaPardonDocumentFacts(sample),/OTN invalid/));
+ check('actual preparation rejects malformed optional OTN '+JSON.stringify(value),()=>assert.throws(()=>prepareBoundPersonalizedPacket({...input,snapshot:sample},binding),/OTN invalid/));
+}
+for(const value of ['different OTN',{unknown:true},'unknown']){
+ const sample=structuredClone(snapshot);sample.packetAnswers.otn=value;
+ check('optional OTN conflicting protected maps refuse '+JSON.stringify(value),()=>assert.throws(()=>gaPardonDocumentFacts(sample),/OTN conflict/));
+}
+const wrappedOtn=structuredClone(noOtnSnapshot);wrappedOtn.packetAnswers.otn={value:'OTN 12345',unknown:false};
+check('optional OTN explicit known wrapper preserved',()=>assert.equal(gaPardonDocumentFacts(wrappedOtn).otn,'OTN 12345'));
+const noOtnFacts={...currentFacts};delete noOtnFacts.otn;
+const noOtnPacket=composeParticipantDeliveryPacket(spec,{...matter,facts:noOtnFacts});
+check('unknown OTN composes all original components',()=>assert.deepEqual(noOtnPacket.documents.map(d=>d.documentId),packet.documents.map(d=>d.documentId)));
+check('known OTN reaches source order identifier',()=>assert.ok(JSON.stringify(packet.documents.find(d=>d.documentId==='proposed_order')).includes(currentFacts.otn)));
+check('unknown OTN is a participant blank',()=>assert.ok(noOtnPacket.documents.find(d=>d.documentId==='proposed_order').blocks.some(b=>b.items?.some(i=>i.label.startsWith('OTN of the case')&&i.blank&&i.completedBy==='participant'))));
+for(const consumer of ['value','template','field_template','assertion']){
+ const guarded=structuredClone(spec),sections=guarded.documents.find(d=>d.documentId==='primary_filing').sections;
+ sections.push(consumer==='value'?{heading:'Mandatory counterexample',kind:'pleading_identity_list',fields:['otn'],fieldTreatments:{otn:'value'}}:consumer==='field_template'?{heading:'Mandatory counterexample',kind:'pleading_identity_list',fields:['case_number'],fieldValueTemplates:{case_number:'Mandatory OTN {{otn}}'}}:consumer==='template'?{heading:'Mandatory counterexample',kind:'pleading_paragraph',body:'Mandatory OTN: {{otn}}'}:{heading:'Mandatory counterexample',kind:'pleading_numbered_assertions',assertions:[{id:'mandatory-otn',text:'Mandatory OTN: {{otn}}',facts:['otn']}]});
+ check('optional declaration never waives mandatory '+consumer+' consumer',()=>assert.throws(()=>composeParticipantDeliveryPacket(guarded,{...matter,facts:noOtnFacts}),/required fact/));
+}
+const undeclared=structuredClone(spec);delete undeclared.requiredFacts.find(f=>f.factId==='otn').requiredForGeneration;
+check('optional presentation requires explicit source permission',()=>assert.throws(()=>composeParticipantDeliveryPacket(undeclared,{...matter,facts:currentFacts}),/no source-declared generation permission|Optional caption identifier lacks source permission/));
 const renders=[];
+function inspectOrderGrouping(text,variant){const pages=text.split('\f');check(variant+' court execution rule and judge label share one page',()=>assert.ok(pages.some(page=>page.includes('SO ORDERED, this')&&page.includes('JUDGE, COURT NAMED IN THE CAPTION'))));}
+
 for(const variant of ['full','court_only']){
  const bytes=await renderGradeAPacketPdf(packet,{variant}),file=path.join(output,variant+'.pdf');fs.writeFileSync(file,bytes,{flag:'wx'});
  const text=execFileSync('pdftotext',['-layout',file,'-'],{encoding:'utf8'});
+ inspectOrderGrouping(text,variant);
  for(const [key,value] of Object.entries(expected))check(variant+' supplied fact '+key,()=>assert.ok(text.replace(/\s+/g,' ').includes(['court','county'].includes(key)?value.toUpperCase():value)));
  check(variant+' no duplicated court label',()=>assert.ok(!text.includes('COURT COURT')));
  check(variant+' no felony-only label/internal wire',()=>assert.ok(!/pardoned[- ]felony|restriction-and-sealing-of-a-pardoned-felony/i.test(text)));
  check(variant+' no protected sentinel',()=>assert.ok(!text.includes('PROTECTED_MUST_REMAIN_BLANK')));
  renders.push({variant,file,sha256:hash(bytes),byteLength:bytes.length});
 }
+for(const variant of ['full','court_only']){
+ const bytes=await renderGradeAPacketPdf(noOtnPacket,{variant}),file=path.join(output,'unknown-otn-'+variant+'.pdf');fs.writeFileSync(file,bytes,{flag:'wx'});
+ const text=execFileSync('pdftotext',['-layout',file,'-'],{encoding:'utf8'});
+ inspectOrderGrouping(text,'unknown OTN '+variant);
+ check(variant+' unknown OTN stays blank in actual PDF',()=>assert.ok(!text.includes(currentFacts.otn)&&!text.includes('undefined')&&!text.includes('null')));
+ check(variant+' order arrest date still prints when OTN unknown',()=>assert.ok(text.includes(currentFacts.arrest_date)));
+ renders.push({variant:'unknown-otn-'+variant,file,sha256:hash(bytes),byteLength:bytes.length});
+}
 // Boundary values are participant-authored; the renderer may wrap, never
 // truncate, invent a legal narrative or put it into a judge/service block.
-const boundaryFacts={...currentFacts,court:'Municipal Court of the City of a Synthetic Municipality with a Long Record Caption',participant_narrative:'Me negaron un trabajo por este expediente. '+Array.from({length:35},(_,i)=>`Este es mi relato personal número ${i+1}.`).join(' ')+' FIN DE MI RELATO.'};
+const boundaryFacts={...currentFacts,otn:'GA-OTN-'+Array.from({length:12},(_,i)=>'SYNTHETIC'+i).join('-'),court:'Municipal Court of the City of a Synthetic Municipality with a Long Record Caption',participant_narrative:'Me negaron un trabajo por este expediente. '+Array.from({length:35},(_,i)=>`Este es mi relato personal número ${i+1}.`).join(' ')+' FIN DE MI RELATO.'};
 const boundaryPacket=composeParticipantDeliveryPacket(spec,{...matter,facts:boundaryFacts});
 for(const variant of ['full','court_only']){
  const bytes=await renderGradeAPacketPdf(boundaryPacket,{variant}),file=path.join(output,'boundary-es-'+variant+'.pdf');fs.writeFileSync(file,bytes,{flag:'wx'});
  const text=execFileSync('pdftotext',['-layout',file,'-'],{encoding:'utf8'}).replace(/\s+/g,' ');
+ check(variant+' complete long optional OTN survives',()=>assert.ok(text.replace(/\s+/g,'').includes(boundaryFacts.otn)));
  check(variant+' complete long court caption survives',()=>assert.ok(text.includes(('IN THE '+boundaryFacts.court).toUpperCase())));
  check(variant+' participant Spanish narrative preserved without invented translation',()=>assert.ok(text.includes(boundaryFacts.participant_narrative)));
  check(variant+' short continuation identifies component',()=>assert.ok(text.includes('PETITION FOLLOWING PARDON')));

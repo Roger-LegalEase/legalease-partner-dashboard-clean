@@ -126,7 +126,10 @@ export function prepareBoundPersonalizedPacket(input: PersonalizedInput, binding
   }
   // Exact protected values fill only the declared participant-fact destinations.
   // Missing, unknown or conflicting GA values refuse before composition.
-  if (gaFacts) Object.assign(facts, gaFacts);
+  if (gaFacts) {
+    delete facts.otn;
+    Object.assign(facts, gaFacts);
+  }
   const packet = composeParticipantDeliveryPacket(specification, {
     routeKey: routeId, jurisdiction: snapshot.jurisdiction, pathwayId: snapshot.pathwayId ?? "",
     facts, verificationHash: input.verificationHash, verifiedAt: snapshot.verifiedAt

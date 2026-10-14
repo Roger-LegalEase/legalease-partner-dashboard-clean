@@ -220,6 +220,8 @@ export type ResolvedPacketFact = {
   reconciliation?: "contact_components";
   /** Present for `external_actor` only: the actor who fills this field, later. */
   actor?: string;
+  /** Source permits an unknown participant value without blocking generation. */
+  optional?: true;
   /** Present for `conditional`: the fact that decides whether this is asked. */
   condition?: { factId: string; satisfiedWhen: "affirmative" | "equals"; value?: string };
   /** For a conditional fact, whether the condition currently makes it relevant. */
@@ -666,6 +668,23 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
       continue;
     }
 
+    // Only an explicit source declaration can make a visible participant
+    // control optional. A route predicate or mandatory document consumer wins.
+    const mandatoryConsumer = specFact?.requiredForGeneration === false && input.specification?.documents.some(document => (document.sections ?? []).some(section =>
+      (section.fields?.includes(factId) && section.fieldTreatments?.[factId] !== "value_or_ruled_blank")
+      || JSON.stringify(section).includes(`{{${factId}}}`)
+      || section.assertions?.some(assertion => assertion.facts.includes(factId))
+      || section.captionContract?.court === factId || section.captionContract?.caseNumber === factId
+      || section.captionContract?.courtLines?.some(line => line.field === factId)));
+    if (specFact?.requiredForGeneration === false && specFact.ownership === "participant"
+      && !mandatoryConsumer && !decidesRouteFor(factId) && !unresolvedScopeFor(factId)
+      && !input.materializationProtectedFactIds?.has(factId) && !overrideClass) {
+      facts.push({ factId, collection: "conditional", phase: "render", group, optional: true,
+        source: "packet_specification_optional_generation",
+        reason: "the source permits an unknown value; the participant may supply or edit it without blocking generation" });
+      continue;
+    }
+
     // The aggregate is only a representation on these reviewed contracts. All
     // three participant-owned components remain independently required/editable.
     if (factId === "contact_information" && input.reviewedContactRepresentation === true
@@ -1055,7 +1074,7 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
  */
 export function prepayGateFactIds(resolution: PacketCollectionResolution): string[] {
   return resolution.facts
-    .filter((fact) => participantOwesFact(fact))
+    .filter((fact) => participantOwesFact(fact) && fact.optional !== true)
     .map((fact) => fact.factId);
 }
 

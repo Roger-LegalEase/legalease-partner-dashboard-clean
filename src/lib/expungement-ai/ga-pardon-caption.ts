@@ -37,6 +37,16 @@ export const GA_PARDON_CAPTION_QUESTIONS: PublicQuestion[] = [
 // contract. These questions do not add screening facts or attestation markers.
 export const GA_PARDON_DOCUMENT_QUESTIONS: PublicQuestion[] = [
   {
+    id: "otn", stage: "packet_information", type: "text_or_unknown",
+    required: false, contextOnly: false, lifecyclePhase: "postpay_packet_field", options: null,
+    prompt: "If known, what is the GCIC Offender Tracking Number (OTN) for this case?",
+    helperText: "Copy the OTN from the Georgia criminal history report. Leave it unknown if you do not have it; the packet can be generated with a blank for later completion. Do not substitute a court case number.",
+    translations: { es: {
+      prompt: "Si lo sabe, ¿cuál es el número de seguimiento de infractores (OTN) de GCIC para este caso?",
+      helperText: "Copie el OTN del informe de antecedentes penales de Georgia. Déjelo como desconocido si no lo tiene; el paquete puede generarse con un espacio en blanco para completarlo después. No lo sustituya por un número de caso judicial."
+    } }
+  },
+  {
     id: "case_number", stage: "packet_information", type: "text_or_unknown",
     required: true, contextOnly: false, lifecyclePhase: "postpay_packet_field", options: null,
     prompt: "What is the case number of the criminal case in which this conviction was entered?",
@@ -61,7 +71,7 @@ export const GA_PARDON_DOCUMENT_QUESTIONS: PublicQuestion[] = [
 export function gaPardonCaptionQuestion<T extends PublicQuestion>(question: T, routeKey: string): T {
   if (routeKey !== GA_PARDON_CAPTION_ROUTE) return question;
   const documentQuestion = GA_PARDON_DOCUMENT_QUESTIONS.find(candidate => candidate.id === question.id);
-  const fallbackPrompts: Record<string, string> = { case_number: "Case number", participant_narrative: "Participant narrative" };
+  const fallbackPrompts: Record<string, string> = { otn: "Otn", case_number: "Case number", participant_narrative: "Participant narrative" };
   if (documentQuestion && question.stage === "packet_information" && question.type === "text_or_unknown"
     && question.prompt === fallbackPrompts[question.id]
     && question.helperText === "Enter the wording from your court or agency record when possible."

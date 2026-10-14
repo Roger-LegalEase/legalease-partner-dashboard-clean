@@ -77,6 +77,7 @@ export type GradeABlock =
       /** Whether the party line is drawn above the cause number or below it. */
       captionOrder?: "case_number_first" | "matter_title_first";
       caseNumberInstruction?: string;
+      optionalIdentifier?: { label: string; value: string; blank: boolean };
       caseNumberBlank?: boolean;
       plaintiff: string;
       defendant: string;
@@ -93,6 +94,7 @@ export type GradeABlock =
       kind: "pleading_identity_list";
       introduction?: string;
       number?: string;
+      keepWithNext?: boolean;
       /**
        * `blank` marks a value the participant writes on the printed page. The
        * renderer draws a line for it instead of a value, and the composer never
@@ -219,13 +221,16 @@ function includedAssertions(section: PacketSpecificationSection, matter: GradeAM
 function factsUsedBy(document: PacketSpecificationDocument, blanks: ReadonlySet<string>, matter: GradeAMatter): string[] {
   const used = new Set<string>();
   for (const section of document.sections) {
-    for (const field of section.fields ?? []) if (!blanks.has(field)) used.add(field);
+    for (const field of section.fields ?? []) if (!blanks.has(field) && section.fieldTreatments?.[field] !== "value_or_ruled_blank") used.add(field);
     for (const assertion of includedAssertions(section, matter)) {
       for (const fact of assertion.facts) used.add(fact);
       for (const [, id] of assertion.text.matchAll(/\{\{([a-z0-9_]+)\}\}/g)) used.add(id);
     }
     for (const [, id] of (section.body ?? "").matchAll(/\{\{([a-z0-9_]+)\}\}/g)) used.add(id);
     for (const [, id] of (section.jurat ?? "").matchAll(/\{\{([a-z0-9_]+)\}\}/g)) used.add(id);
+    for (const template of Object.values(section.fieldValueTemplates ?? {})) {
+      for (const [, id] of template.matchAll(/\{\{([a-z0-9_]+)\}\}/g)) used.add(id);
+    }
   }
   return [...used].sort();
 }
@@ -539,7 +544,7 @@ export function composeGradeAPacket(
   const optionalImpactDeclined = specification.routeKey === MISSISSIPPI_NONCONVICTION_ROUTE
     && fact(matter, "personal_impact_confirmed") === "No";
   const missing = [...new Set([
-    ...specification.requiredFacts.map((requiredFact) => requiredFact.factId).filter((id) => !blanks.has(id)
+    ...specification.requiredFacts.filter((requiredFact) => requiredFact.requiredForGeneration !== false).map((requiredFact) => requiredFact.factId).filter((id) => !blanks.has(id)
       && !(optionalImpactDeclined && id === "personal_impact_statement")),
     ...included.flatMap((document) => factsUsedBy(document, blanks, matter))
   ])]
@@ -616,6 +621,13 @@ function composeSection(
     const label = fill(section.fieldLabels?.[field] ?? captionLabel(field), matter);
     const treatment = section.fieldTreatments?.[field]
       ?? (blanks.has(field) ? undefined : "value");
+    if (treatment === "value_or_ruled_blank") {
+      if (!specification.requiredFacts.some(entry => entry.factId === field && entry.requiredForGeneration === false)) {
+        throw new GradeAPacketCompositionError(specification.routeKey, [], `Optional field "${field}" has no source-declared generation permission`);
+      }
+      return fact(matter, field) ? { label, value: fact(matter, field) }
+        : { label, value: "", blank: true, completedBy: "participant" as const };
+    }
     if (treatment === "ruled_blank") return { label, value: "", blank: true, completedBy: "participant" as const };
     if (treatment === "court_owned_space") return { label, value: "", blank: true, completedBy: "court" as const };
     if (treatment === "value") {
@@ -633,6 +645,10 @@ function composeSection(
     case "pleading_caption": {
       const contract = section.captionContract;
       if (contract) {
+        if (contract.optionalIdentifier && (!contract.courtLines?.length
+          || !specification.requiredFacts.some(entry => entry.factId === contract.optionalIdentifier!.field && entry.requiredForGeneration === false))) {
+          throw new GradeAPacketCompositionError(specification.routeKey, [], "Optional caption identifier lacks source permission or supported caption structure");
+        }
         return [{
           kind: "pleading_caption",
           court: blanks.has(contract.court) ? "" : fact(matter, contract.court),
@@ -653,6 +669,11 @@ function composeSection(
           caseNumber: blanks.has(contract.caseNumber) ? "" : fact(matter, contract.caseNumber),
           caseNumberBlank: blanks.has(contract.caseNumber),
           ...(contract.caseNumberInstruction ? { caseNumberInstruction: contract.caseNumberInstruction } : {}),
+          ...(contract.optionalIdentifier ? { optionalIdentifier: {
+            label: contract.optionalIdentifier.label,
+            value: fact(matter, contract.optionalIdentifier.field),
+            blank: !fact(matter, contract.optionalIdentifier.field)
+          } } : {}),
           ...(contract.continuationTitle ? { continuationTitle: contract.continuationTitle } : {}),
           ...(contract.wrapCourtLines ? { wrapCourtLines: true } : {}),
           title: contract.documentTitle ?? section.heading
@@ -744,6 +765,7 @@ function composeSection(
         ...standalone,
         {
           kind: "pleading_identity_list",
+          ...(section.keepWithNext ? { keepWithNext: true } : {}),
           introduction: introduces && "text" in introduces ? introduces.text : "",
           number,
           items: (section.fields ?? []).map(fieldItem)

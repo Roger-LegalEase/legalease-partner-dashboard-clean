@@ -6,7 +6,7 @@ import type { PacketVerificationSnapshot } from "@/lib/expungement-ai/types";
 
 export const GA_PERSONALIZED_DELIVERY_ROUTE = `GA:${GA_PARDON_ROUTE}`;
 const FACT_IDS = ["ga_pardoned_offense_section", "ga_pardon_date", "court", "county", "case_number", "arrest_date", "participant_narrative"] as const;
-type DocumentFacts = Record<(typeof FACT_IDS)[number], string>;
+type DocumentFacts = Record<(typeof FACT_IDS)[number], string> & { otn?: string };
 
 /** Source-supported participant facts carried to the GA pleading. This validates
  * known protected values, not eligibility, verification or fulfillment authority.
@@ -68,5 +68,24 @@ export function gaPardonDocumentFacts(snapshot: Pick<PacketVerificationSnapshot,
     snapshot.dependencies?.recordFactConfirmations).length) {
     throw new Error("Georgia pardon document convicting court caption is not confirmed");
   }
+  // The source permits an unknown OTN. Preserve raw answers in the snapshot;
+  // only a consistent known string may become this identifying order field.
+  const otns: string[] = [];
+  let unknownOtn = false;
+  for (const map of [snapshot.screeningAnswers, snapshot.prefilledAnswers, snapshot.packetAnswers, snapshot.serverFacts]) {
+    if (!Object.hasOwn(map, "otn")) continue;
+    const raw = map.otn;
+    if (raw === null || raw === undefined || raw === "" || typeof raw === "string" && (!raw.trim() || uncertaintyState(raw))
+      || raw && typeof raw === "object" && !Array.isArray(raw) && (raw as { unknown?: unknown }).unknown === true) {
+      unknownOtn = true;
+      continue;
+    }
+    const value = raw && typeof raw === "object" && !Array.isArray(raw) && (raw as { unknown?: unknown }).unknown === false
+      ? (raw as { value?: unknown }).value : raw;
+    if (typeof value !== "string" || !value.trim() || uncertaintyState(value)) throw new Error("Georgia pardon document OTN invalid");
+    otns.push(value);
+  }
+  if (otns.length && (unknownOtn || otns.some(value => value !== otns[0]))) throw new Error("Georgia pardon document OTN conflict");
+  if (otns.length) facts.otn = otns[otns.length - 1];
   return facts;
 }

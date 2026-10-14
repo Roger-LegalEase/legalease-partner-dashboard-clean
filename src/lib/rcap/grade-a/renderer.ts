@@ -334,7 +334,18 @@ function drawPleadingDocument(
   cursor.y = PAGE_HEIGHT - PLEADING_MARGIN;
   drawPleadingFooter(cursor.page, fonts, context);
 
-  for (const block of entry.blocks) {
+  for (const [index, block] of entry.blocks.entries()) {
+    const next = entry.blocks[index + 1];
+    if (block.kind === "pleading_identity_list" && block.keepWithNext && next?.kind === "pleading_paragraph") {
+      // Source-scoped grouping: the ruled execution line and its actor label
+      // are one structure, even when optional case identifiers add a line.
+      const lines = (text: string, indent = 0) => wrap(sanitize(text), fonts.pleadingBody, PLEADING_BODY_SIZE, PLEADING_CONTENT_WIDTH - indent).length;
+      const height = (block.number ? 24 : 0) + (block.introduction ? lines(block.introduction, 36) * PLEADING_LEADING + 8 : 0)
+        + block.items.reduce((sum, item) => sum + lines(`(a) ${item.label} ${item.value}`, 24) * PLEADING_LEADING
+          + (item.blank ? fonts.pleadingBody.heightAtSize(PLEADING_BODY_SIZE) + 16 : 3), 0)
+        + 8 + Math.max(40, lines(next.text, 36) * PLEADING_LEADING + 9);
+      ensurePleading(cursor, document, fonts, context, height);
+    }
     switch (block.kind) {
       case "pleading_caption":
         drawPleadingCaption(cursor, document, fonts, context, block);
@@ -456,6 +467,22 @@ function drawPleadingCaption(
         cursor.page, fonts.pleadingBody, sanitize(`(${block.caseNumberInstruction})`), 9,
         PLEADING_CONTENT_WIDTH, cursor.y, 11
       );
+    }
+    if (block.optionalIdentifier) {
+      const identifier = block.optionalIdentifier;
+      if (identifier.blank) {
+        ensurePleading(cursor, document, fonts, context, PLEADING_LEADING);
+        cursor.page.drawText(sanitize(identifier.label), { x: PLEADING_MARGIN, y: cursor.y, size: 12, font: fonts.pleadingBold, color: INK });
+        const start = PLEADING_MARGIN + fonts.pleadingBold.widthOfTextAtSize(`${sanitize(identifier.label)} `, 12);
+        cursor.page.drawLine({ start: { x: start, y: cursor.y - 2 }, end: { x: start + 240, y: cursor.y - 2 }, thickness: 0.75, color: INK });
+        cursor.y -= PLEADING_LEADING;
+      } else {
+        for (const line of wrap(sanitize(`${identifier.label} ${identifier.value}`), fonts.pleadingBold, 12, PLEADING_CONTENT_WIDTH)) {
+          ensurePleading(cursor, document, fonts, context, PLEADING_LEADING);
+          cursor.page.drawText(line, { x: PLEADING_MARGIN, y: cursor.y, size: 12, font: fonts.pleadingBold, color: INK });
+          cursor.y -= PLEADING_LEADING;
+        }
+      }
     }
     cursor.y -= 14;
     if (!matterFirst && block.matterTitle) {
