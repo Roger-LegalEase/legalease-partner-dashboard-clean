@@ -42,6 +42,7 @@ import type {
 import type { AnswerValue, PacketPlan, ProfileQuestion } from "@/lib/expungement-ai/frontend/contracts";
 import { getProfileByJurisdiction } from "@/lib/rcap-engine/profile-registry";
 import { isMarylandAutomaticWithoutCounty, packetPlanForPathway } from "@/lib/rcap-engine/packet-planner";
+import { isGeorgiaAgencyWithoutCounty } from "@/lib/rcap-engine/georgia-agency-county-context";
 import { projectPublicProfile } from "@/lib/rcap-engine/public-profile-projection";
 import type { PublicQuestion } from "@/lib/rcap-engine/contracts";
 import { evaluateAuthoritativeScreeningResult } from "@/lib/expungement-ai/authoritative-screening-result";
@@ -225,10 +226,12 @@ export function packetInformationModelFor(item: ConsumerBriefcaseItem): PacketIn
   const pathwayId = typeof screening.pathwayId === "string"
     ? screening.pathwayId
     : packetPlan?.pathwayId ?? null;
-  // A former automatic MD plan inherited one unrelated county input. This is
-  // collection compatibility only: retain the stored plan, authority and raw
-  // answers. Any other plan difference still requires its existing review.
-  if (pathwayId && screening.pathwayId === pathwayId && isMarylandAutomaticWithoutCounty(profile, pathwayId)
+  // These exact former MD automatic / GA agency plans inherited one unrelated
+  // participant county input. This is collection compatibility only: retain
+  // the stored plan, authority and raw answers. A prosecutor's GA Section Three
+  // county is still theirs to complete. Other plan differences need review.
+  if (pathwayId && screening.pathwayId === pathwayId
+    && (isMarylandAutomaticWithoutCounty(profile, pathwayId) || isGeorgiaAgencyWithoutCounty(profile, pathwayId))
     && isRecord(screening.packetPlan) && Array.isArray(screening.packetPlan.requiredInputIds)
     && screening.packetPlan.requiredInputIds.filter(id => id === "county").length === 1) {
     const currentPlan = packetPlanForPathway(profile, pathwayId);

@@ -97,6 +97,55 @@ for (const [name, change] of [
   assert(packetPlanForPathway(changed, id).requiredInputIds.includes('county'), name);
 }
 
+// Historical plans differ ONLY by the inherited county input. The stored plan
+// remains evidence; do not migrate it, its authority, or any raw answer map.
+const legacyPlan = { ...plan, requiredInputIds: [...profile.packetGenerator.requiredInputs] };
+for (const maps of [
+  { answers: {}, prefilledAnswers: {}, screeningAnswers: {} },
+  { answers: { county: 'Fulton' }, prefilledAnswers: {}, screeningAnswers: {} },
+  { answers: { county: { unknown: true } }, prefilledAnswers: {}, screeningAnswers: {} },
+  { answers: {}, prefilledAnswers: { county: { value: 'Condado de DeKalb', source: 'historical' } }, screeningAnswers: {} },
+  { answers: { county: 'Saved county' }, prefilledAnswers: { county: 'Prefilled county' }, screeningAnswers: { county: 'Screening county' } },
+]) {
+  const item = itemWith(maps.answers, maps.screeningAnswers);
+  item.artifactRefs.commercialFlow.screening.packetPlan = structuredClone(legacyPlan);
+  item.artifactRefs.commercialFlow.packetInformation.prefilledAnswers = maps.prefilledAnswers;
+  const raw = JSON.stringify(item);
+  const model = packetInformationModelFor(item);
+  assert.deepEqual(model.requiredInputIds, plan.requiredInputIds);
+  assert(!model.missingInputIds.includes('county'));
+  assert(!model.questions.some(q => q.id === 'county'), 'historical EN/ES question retired only on this exact plan');
+  assert(!model.builderQuestions.some(q => q.id === 'county'));
+  assert(!model.builderSections.some(s => s.questionIds.includes('county')));
+  assert.deepEqual(model.initialAnswers.county, maps.answers.county ?? maps.prefilledAnswers.county);
+  assert.deepEqual(model.screeningAnswers.county, maps.screeningAnswers.county);
+  assert.deepEqual(model.packetPlan, legacyPlan, 'stored plan is never silently upgraded');
+  assert.equal(model.initialAnswers.arrestingAgency, undefined);
+  assert.equal(model.initialAnswers.court, undefined);
+  assert.equal(JSON.stringify(item), raw);
+}
+const legacy = itemWith({ county: { value: 'Condado guardado', source: 'historical' } });
+legacy.artifactRefs.commercialFlow.screening.packetPlan = structuredClone(legacyPlan);
+const siblingId = profile.pathways.find(p => p.id !== id).id;
+for (const [name, alter] of [
+  ['wrong jurisdiction', item => { item.state = 'MD'; }],
+  ['different screening route', item => { item.artifactRefs.commercialFlow.screening.pathwayId = siblingId; }],
+  ['different plan route', item => { item.artifactRefs.commercialFlow.screening.packetPlan.pathwayId = siblingId; }],
+  ['duplicate county', item => { item.artifactRefs.commercialFlow.screening.packetPlan.requiredInputIds.push('county'); }],
+  ['extra required fact', item => { item.artifactRefs.commercialFlow.screening.packetPlan.requiredInputIds.push('unreviewed_fact'); }],
+  ['changed forms', item => { item.artifactRefs.commercialFlow.screening.packetPlan.sourceFormIds.push('unreviewed:form'); }],
+  ['changed source epoch', item => { item.artifactRefs.commercialFlow.screening.packetPlan.sourceRuleRefs.push('unreviewed:source'); }],
+  ['changed readiness', item => { item.artifactRefs.commercialFlow.screening.packetPlan.packetReadyWhen.push('unreviewed'); }],
+  ['unknown property', item => { item.artifactRefs.commercialFlow.screening.packetPlan.unreviewedProperty = true; }],
+  ['changed mode', item => { item.artifactRefs.commercialFlow.screening.packetPlan.mode = 'official_pdf_overlay'; }],
+  ['changed mapping', item => { item.artifactRefs.commercialFlow.screening.packetPlan.formMappingStatus = 'mapped'; }],
+]) {
+  const changed = structuredClone(legacy); alter(changed);
+  const raw = JSON.stringify(changed);
+  assert(packetInformationModelFor(changed).requiredInputIds.includes('county'), name);
+  assert.equal(JSON.stringify(changed), raw, name + ': preserve all history');
+}
+
 // Execute the ORIGINAL export function and ORIGINAL validator section 2 on
 // exactly this fixture, in memory. Never run their nationwide entrypoints or
 // overwrite accepted reports. The loader changes only selection/export bounds.
@@ -142,4 +191,4 @@ const proof = { obligation: 'GA14-GA-EXACT_OFFICIAL_FORM_NO_PARTICIPANT_COUNTY_F
   scope: 'Collection dependency only; no route eligibility, official form bytes, actor ownership, protected generation or commercial authority changed.' };
 const output = process.argv.indexOf('--receipt');
 if (output >= 0) fs.writeFileSync(process.argv[output + 1], JSON.stringify(proof, null, 2) + '\n', { flag: 'wx' });
-console.log('PASS: exact GA agency county dependency, saved answers, EN/ES model, sibling counties, source-change guards and original resolver/export/validator fixture');
+console.log('PASS: exact GA agency county dependency and historical-plan compatibility; saved answers, EN/ES model, sibling counties, source-change guards and original resolver/export/validator fixture');
