@@ -11,6 +11,28 @@ register('./lib/ts-esm-loader.mjs',import.meta.url);
 const {prepareCaProp64JuvenileReviewAssembly:prepare,renderCaProp64JuvenileReviewAssembly:render,validateCaProp64JuvenileReviewComponents:validate}=await import('../src/lib/rcap/render/ca-prop64-juvenile-review-assembly.ts');
 const {packetInformationPatch,protectedPacketDraftHash}=await import('../src/lib/expungement-ai/packet-information.ts');
 const hash=b=>createHash('sha256').update(b).digest('hex'),read=f=>fs.readFileSync(f),json=f=>JSON.parse(read(f)),normalize=s=>s.replace(/\s+/g,' ').trim();
+const existingIndex=process.argv.indexOf('--validate-existing');
+if(existingIndex>=0){
+ const resultPath=process.argv[existingIndex+1],prior=json(resultPath),root=path.dirname(resultPath),cohort='completed-attorney';
+ const snapshot=json(path.join(root,cohort,'prospective-preparation.json')),priorReport=json(path.join(root,cohort,'component-report.json'));
+ const sourceBytes=Object.fromEntries(priorReport.sources.map(s=>[s.documentId,read(s.sourcePath)]));
+ const expected=prior.artifacts.find(a=>path.basename(path.dirname(a.file))===cohort&&a.variant==='full'&&a.locale==='en');assert(expected);
+ const prepared=prepare(snapshot.record,sourceBytes,read),reportPath=path.join(root,cohort,'component-report.json');
+ // Synthetic current-source mutation control, not a rewritten actual report or
+ // a new output approval. All existing component bytes remain immutable.
+ const currentReport={...priorReport,sourceInputs:prepared.sourceInputs},reportBytes=Buffer.from(JSON.stringify(currentReport));
+ let mutated=false;
+ const options={variant:'full',locale:'en',reportPath,reportSha256:hash(reportBytes),readBytes:file=>{
+  if(file===reportPath)return reportBytes;
+  const bytes=read(file);
+  if(!mutated&&file===priorReport.artifacts[0].file){mutated=true;queueMicrotask(()=>{prepared.mapping.facts['participant.full_legal_name']='MUTATED AFTER VALIDATION';prepared.mapping.capturedAt='1990-01-01T00:00:00.000Z';options.locale='es';options.variant='court_only';options.readBytes=()=>Buffer.from('mutated reader');bytes.fill(0);});}
+  return bytes;
+ }};
+ const rendered=await render(prepared,options);assert(mutated);assert.equal(rendered.locale,'en');assert.equal(rendered.variant,'full');assert.equal(rendered.sha256,expected.sha256);assert.equal(hash(read(expected.file)),expected.sha256);
+ await assert.rejects(()=>validate(prepared,{...options,readBytes:read}));
+ for(const [key,value]of [['locale',undefined],['locale','fr'],['variant',undefined],['variant','other']]){const fresh=prepare(snapshot.record,sourceBytes,read);await assert.rejects(()=>validate(fresh,{variant:'full',locale:'en',reportPath,reportSha256:hash(reportBytes),readBytes:f=>f===reportPath?reportBytes:read(f),[key]:value}));}
+ console.log(JSON.stringify({status:'PASS_ASYNC_CALLER_MUTATION_AND_EXPLICIT_SCOPE',storedOutputsUnchanged:true,transportRerun:false,finalizerRerun:false,baselineOutput:expected.sha256,sourceHash:hash(read('src/lib/rcap/render/ca-prop64-juvenile-review-assembly.ts'))}));process.exit(0);
+}
 const evidence=process.argv[2],output=process.argv[3],polishIndex=process.argv.indexOf('--polish-of');
 const predecessor=polishIndex<0?null:json(process.argv[polishIndex+1]),predecessorRoot=predecessor?path.dirname(process.argv[polishIndex+1]):null;
 if(predecessor)for(const a of [...predecessor.artifacts,...predecessor.components])assert.equal(hash(read(a.file)),a.sha256);

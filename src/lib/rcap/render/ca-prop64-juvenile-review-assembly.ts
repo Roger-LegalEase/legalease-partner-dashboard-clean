@@ -54,8 +54,9 @@ type ComponentReport = { reviewOnly: boolean; generationAllowed: boolean; runtim
   sourceInputs: Record<string, string>; sources: Source[]; artifacts: Artifact[] };
 type Options = { variant: GuideVariant; locale: GuideLocale; reportPath: string; reportSha256: string; readBytes: ReadBytes };
 
-export async function validateCaProp64JuvenileReviewComponents(prepared: Preparation, options: Options) {
-  assert.equal(preparations.get(prepared), hash(JSON.stringify(prepared)), "Juvenile preparation changed or was not validated");
+export async function validateCaProp64JuvenileReviewComponents(inputPrepared: Preparation, inputOptions: Options) {
+  assert.equal(preparations.get(inputPrepared), hash(JSON.stringify(inputPrepared)), "Juvenile preparation changed or was not validated");
+  const prepared = structuredClone(inputPrepared), options = { ...inputOptions };
   assert(["full", "court_only"].includes(options.variant), "Explicit juvenile assembly variant required");
   assert(["en", "es"].includes(options.locale), "Explicit juvenile assembly locale required");
   for (const [file, sha] of Object.entries(prepared.sourceInputs)) assert.equal(hash(options.readBytes(file)), sha, "Juvenile source changed: " + file);
@@ -89,7 +90,7 @@ export async function validateCaProp64JuvenileReviewComponents(prepared: Prepara
     assert.deepEqual([...artifact.selectedControls].sort(), writes.filter(w => w.value === true).map(w => w.field).sort());
     assert(artifact.textObserved && artifact.reservedFieldsPreserved && artifact.selectionInkObserved && artifact.sourceInkOutsideWritesPreserved && artifact.sourceViewerChromeRemoved);
     assert.deepEqual(artifact.finalizerOptions, { detachNestedControlFields: true, suppressSynthesizedAppearances: true });
-    const bytes = options.readBytes(artifact.file); assert.equal(hash(bytes), artifact.sha256);
+    const bytes = Uint8Array.from(options.readBytes(artifact.file)); assert.equal(hash(bytes), artifact.sha256);
     const pdf = await PDFDocument.load(bytes, { updateMetadata: false });
     assert.equal(pdf.getPageCount(), spec.pages); assert.equal(artifact.pages, spec.pages);
     assert(!pdf.catalog.has(PDFName.of("OpenAction")));
@@ -100,8 +101,10 @@ export async function validateCaProp64JuvenileReviewComponents(prepared: Prepara
   return documents;
 }
 
-export async function renderCaProp64JuvenileReviewAssembly(prepared: Preparation, options: Options) {
-  const documents = await validateCaProp64JuvenileReviewComponents(prepared, options), packet = await PDFDocument.create();
+export async function renderCaProp64JuvenileReviewAssembly(inputPrepared: Preparation, inputOptions: Options) {
+  assert.equal(preparations.get(inputPrepared), hash(JSON.stringify(inputPrepared)), "Juvenile preparation changed or was not validated");
+  const prepared = structuredClone(inputPrepared), options = { ...inputOptions };
+  const documents = await validateCaProp64JuvenileReviewComponents(inputPrepared, options), packet = await PDFDocument.create();
   const coverage: Array<{ documentId: string; instance: number; fromPage: number; throughPage: number; filedWithCourt: boolean; sha256: string }> = [];
   async function append(documentId: string, instance: number, bytes: Uint8Array, filedWithCourt: boolean) {
     const pdf = await PDFDocument.load(bytes, { updateMetadata: false }), fromPage = packet.getPageCount() + 1;
