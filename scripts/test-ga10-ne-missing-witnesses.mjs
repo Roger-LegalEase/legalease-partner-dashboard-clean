@@ -48,7 +48,7 @@ for (const [index, routeKey] of subgroup.routeKeys.entries()) {
     court_requirements_completed: 'yes', pending_cases: 'No', sentence_completion_date: 'Yes',
     special_preconditions_confirmed: 'Yes', new_convictions_during_waiting_period: 'No', record_documents: 'Yes',
     resolved_timing_bucket: '5_to_10_years', age_at_offense: juvenile ? 15 : 30, pardon_status: 'No', identity_error: 'No' };
-  for (const [name, financial, completion] of [['paid', 'Yes', 'yes'], ['unpaid', 'No', 'no'], ['partly_paid', 'No', 'no'], ['waived_not_paid_hypothesis', 'No', 'yes'], ['unknown', 'I am not sure', 'yes']]) {
+  for (const [name, financial, completion] of [['paid', 'Yes', 'yes'], ['unpaid', 'No', 'no'], ['partly_paid', 'No', 'no'], ['waived_not_paid_hypothesis', 'No', 'yes'], ['unknown', 'I am not sure', 'yes'], ...(!juvenile ? [['not_asked', undefined, 'yes']] : [])]) {
     const answers = { ...base, financial_obligations: financial, court_requirements_completed: completion };
     const before = JSON.stringify(answers);
     const actual = evaluate({ jurisdiction: 'NE', profileVersion: p.profileVersion, matterId: 'synthetic-ga10-ne', answers });
@@ -69,6 +69,17 @@ for (const [index, routeKey] of subgroup.routeKeys.entries()) {
     const priorBytes = JSON.stringify(prior), model = P.protectedPacketInformationModelFor(JSON.parse(priorBytes));
     assert(model);
     assert.equal(model.initialAnswers.financial_obligations, financial);
+    if (!juvenile) {
+      const collection = P.packetCollectionFor({ jurisdiction: 'NE', pathwayId: route, requiredInputIds: model.requiredInputIds,
+        serverFacts: model.serverFacts, screeningAnswers: model.screeningAnswers, prefilledAnswers: model.prefilledAnswers, savedAnswers: model.packetAnswers });
+      const disposition = collection.facts.find(f => f.factId === q.id);
+      assert.equal(disposition?.collection, 'conditional', 'retained financial fact has an explicit inactive disposition');
+      assert.equal(disposition?.active, false);
+      assert(!model.builderQuestions.some(q => q.id === 'financial_obligations'));
+      assert(!model.missingInputIds.includes('financial_obligations'));
+      assert(!P.reviewEditablePacketInputIds(model).has('financial_obligations'), 'inactive financial fact has no stale review edit link');
+      assert(P.editablePacketInputIds(model, true).has('financial_obligations'), 'explicit historical correction remains supported');
+    }
     assert(!seed.snapshot.dependencies.courtCompletionImplications?.financial_obligations);
     let state = prior;
     for (const value of ['I am not sure', 'No']) {
@@ -83,6 +94,16 @@ for (const [index, routeKey] of subgroup.routeKeys.entries()) {
       assert.equal(nextModel.initialAnswers.court_requirements_completed, completion);
     }
     assert.equal(JSON.stringify(prior), priorBytes);
+    if (!juvenile && name === 'waived_not_paid_hypothesis') {
+      const changed = P.packetInformationPatch({ existingItem: { id: 'synthetic-ga10-ne', jurisdiction: 'NE', artifactRefs: {} },
+        protectedVerification: state, answers: { case_outcome: 'Dismissed, no-billed, nolle prosequi, or not prosecuted' } });
+      assert(changed, 'actual protected disposition correction accepted');
+      const restored = P.protectedPacketInformationModelFor(changed.protectedTransition.nextVerification);
+      assert(restored);
+      assert.equal(restored.initialAnswers.financial_obligations, 'No');
+      assert(P.reviewEditablePacketInputIds(restored).has('financial_obligations'), 'history review control reappears after actual protected disposition change');
+      assert.notEqual(changed.readyToGenerate, true);
+    }
     for (const locale of ['en', 'es']) {
       const value = { locale, setLocale() {}, t: (key, fallback, vars) => t(locale, key, fallback, vars), text: (s, options) => resolveRuntimeText(locale, s, options) };
       const html = renderToStaticMarkup(React.createElement(LocalizationContext.Provider, { value }, React.createElement(QuestionField, { question: q, stateCode: 'NE', value: financial, onChange() {} })));
@@ -127,9 +148,9 @@ assert(nebraskaNonconvictionQuestionApplies('NE', adultRoute, facts, 'court_requ
 console.log('PASS: exact NE adult-acquittal gate; unknown age/disposition, siblings and all independent facts retained; hidden No/unknown survive and reappear');
 
 const receipt = { scope: subgroup.id, status: 'PASS_BOUNDED_ENGINEERING_ONLY', rows, renders,
-  remaining: ['Protected collector must adopt the same source-bound inactive control; authenticated acceptance remains outstanding.',
+  remaining: ['Authenticated owner acceptance remains outstanding; this receipt uses real pure protected functions without a database.',
     'Jurisdiction-specific qualification, waiver and restitution legal effect remain unverified.',
     'Juvenile source contract is an adult-package routing node; this is not juvenile fulfillment acceptance.',
     'Authenticated owner journeys and qualified language review remain NOT_RUN.'] };
 if (process.argv[2]) fs.writeFileSync(process.argv[2], JSON.stringify(receipt, null, 2) + '\n');
-console.log(`PASS bounded engineering: ${rows.length} original NE witness variants, protected edit/reload and ${renders.length} EN/ES renders; protected collector and authenticated acceptance remain open`);
+console.log(`PASS bounded engineering: ${rows.length} original NE witness variants, protected edit/reload and ${renders.length} EN/ES renders; authenticated acceptance remains open`);

@@ -1,3 +1,4 @@
+import { nebraskaNonconvictionQuestionApplies } from "@/lib/rcap-engine/nebraska-nonconviction-facts";
 import { fullSsnLastFour } from "@/lib/expungement-ai/sensitive-packet-facts";
 import { answerValueIsKnown, uncertaintyState, isCalendarDate, questionAnswerState } from "@/lib/expungement-ai/question-answer-state";
 import type { AnswerValue, ProfileQuestion } from "@/lib/expungement-ai/frontend/contracts";
@@ -637,6 +638,18 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
         value,
         reason: "the server owns this route fact; it is never asked"
       });
+      continue;
+    }
+
+    // §29-3523(3)(c)(iii), (7) has no payment predicate for an adult
+    // acquittal's automatic record process. Keep the raw answer as history;
+    // its inactive disposition supplies no paid/waived value or authority.
+    if (!nebraskaNonconvictionQuestionApplies(input.jurisdiction, input.pathwayId, {
+      case_outcome: resolvedText("case_outcome"), age_at_offense: resolvedText("age_at_offense")
+    }, factId)) {
+      facts.push({ factId, collection: "conditional", phase: "known", group: null,
+        source: "ne_adult_acquittal_no_financial_predicate", active: false,
+        reason: "The exact adult acquittal automatic route has no financial predicate; the saved payment answer is retained without inference." });
       continue;
     }
 

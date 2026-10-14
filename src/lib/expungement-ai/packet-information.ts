@@ -1,3 +1,4 @@
+import { nebraskaNonconvictionQuestionApplies } from "@/lib/rcap-engine/nebraska-nonconviction-facts";
 import { AR_RECORD_ORIGIN_ID, arkansasRecordOrigin, arkansasRecordOriginApplies } from "@/lib/rcap-engine/arkansas-record-origin";
 import { KS_REGISTRATION_ROUTE } from "@/lib/rcap-engine/kansas-district-facts";
 import { NY_FUTURE_ID, NY_FUTURE_FACT_IDS } from "@/lib/expungement-ai/ny-16059-future-applications";
@@ -1304,7 +1305,9 @@ function routeFactualCorrectionIds(model: { stateCode: string; pathwayId: string
   const facts = { ...model.screeningAnswers, ...model.prefilledAnswers, ...model.packetAnswers };
   const factual = [...factualPathwayCorrectionIds(model.stateCode, model.pathwayId, facts, includeInactive), ...msExactTimingQuestionIds(model.stateCode, model.pathwayId, facts, includeInactive)];
   const profile = getProfileByJurisdiction(model.stateCode);
-  const financial = model.pathwayId && isIndependentPaidFinancialFact(`${model.stateCode}:${model.pathwayId}`,
+  const financial = model.pathwayId
+    && (includeInactive || nebraskaNonconvictionQuestionApplies(model.stateCode, model.pathwayId, facts, "financial_obligations"))
+    && isIndependentPaidFinancialFact(`${model.stateCode}:${model.pathwayId}`,
     profile?.questions.find(question => question.id === "financial_obligations")) ? ["financial_obligations"] : [];
   if (model.stateCode !== "NY" || model.pathwayId !== NY_16059_ROUTE) return [...financial, ...factual];
   const answers = toScreeningAnswers({ ...model.screeningAnswers, ...model.prefilledAnswers, ...model.packetAnswers });
