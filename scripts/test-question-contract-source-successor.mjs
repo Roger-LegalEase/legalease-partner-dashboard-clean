@@ -13,7 +13,7 @@ const sha = bytes => crypto.createHash('sha256').update(bytes).digest('hex');
 const receipt = readQuestionContractSuccessor(readBytes);
 let checks = 0;
 const check = (label, fn) => { try { fn(); checks++; } catch (error) { error.message = `${label}: ${error.message}`; throw error; } };
-check('current output continuity retains all 105 observed inputs', () => assert.equal(assertQuestionContractOutputInputs(readBytes).inputCount, 105));
+check('current output continuity retains all 111 observed inputs', () => assert.equal(assertQuestionContractOutputInputs(readBytes).inputCount, 111));
 for (const row of receipt.routes) {
   const input = {
     routeId: row.routeId, familyId: row.familyId, trackId: row.trackId,

@@ -68,7 +68,7 @@ function checkedProof(receipt, readBytes) {
 // The original immutable source transition and its owner/review ancestry remain
 // unchanged. Only build-time freshness uses this separately pinned reproduction.
 export const QUESTION_CONTRACT_CONTINUITY_PATH = 'data/rcap-grade-a/participant-data-rights/question-contract-output-continuity-20261013.json';
-export const QUESTION_CONTRACT_CONTINUITY_SHA256 = '2b1b68055e3e29b1d0e4598f6d5ff0dd4120ff375697d12ba317858bb630ffb6';
+export const QUESTION_CONTRACT_CONTINUITY_SHA256 = 'fbcf3509c89e67f2e10551d21c6e4b093b2793cd64356ac31edaa8138e1ea927';
 export const QUESTION_CONTRACT_CURRENT_OUTPUT_PATH = 'data/rcap-grade-a/participant-data-rights/question-contract-output-reproduction-20261013.json';
 
 /** Exposed below the immutable byte pins for non-vacuous semantic controls. */
@@ -109,9 +109,9 @@ export function assertQuestionContractOutputContinuity({ continuity, proof, read
     for (const artifact of current.artifacts) insist(sha(readBytes(artifact.historical.path)) === artifact.sha256, 'approved output bytes moved');
   }
   for (const evidence of receipt.preservedEvidence) insist(sha(readBytes(evidence.path)) === evidence.sha256, `historical evidence changed: ${evidence.path}`);
-  insist(Array.isArray(proof.sources) && proof.sources.length === 105 && continuity.currentSourceCount === 105
+  insist(Array.isArray(proof.sources) && proof.sources.length === 111 && continuity.currentSourceCount === 111
     && historical.sources.length === 88 && continuity.preservedSourceCount === 88
-    && new Set(proof.sources.map(input => input.file)).size === 105, 'current output source inventory');
+    && new Set(proof.sources.map(input => input.file)).size === 111, 'current output source inventory');
   const before = new Map(historical.sources.map(input => [input.file, input.sha256]));
   const after = new Map(proof.sources.map(input => [input.file, input.sha256]));
   insist([...before.keys()].every(file => after.has(file)), 'historical source omitted');
