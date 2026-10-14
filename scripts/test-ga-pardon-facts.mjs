@@ -51,7 +51,7 @@ for(const outcome of ['Misdemeanor conviction','Felony conviction']) {
  check(outcome+'/kept',same(a,before));check(outcome+'/no-sale',!r.paymentAllowed&&!r.packetPlan);
 }
 for(const q of G.GA_PARDON_QUESTIONS) {
- const conditional = {ga_pardon_assault_rape_intent:{ga_pardoned_offense_section:'16-5-21(a)(1)'},ga_pardon_imprisonment_under14:{ga_pardoned_offense_section:'16-5-41'},ga_pardon_imprisonment_own_child:{ga_pardoned_offense_section:'16-5-41',ga_pardon_imprisonment_under14:'yes'},ga_pardon_sexual_battery_repeat:{ga_pardoned_offense_section:'16-6-22.1'}}[q.id]??{};
+ const conditional = {ga_pardon_statutory_rape_age:{ga_pardoned_offense_section:'16-6-3'},ga_post_pardon_traffic_jurisdictions:{ga_convictions_since_pardon:'traffic_only',ga_post_pardon_traffic_records:'Saved traffic record'},ga_post_pardon_traffic_citations:{ga_convictions_since_pardon:'traffic_only',ga_post_pardon_traffic_jurisdictions:'all_georgia',ga_post_pardon_traffic_records:'Saved traffic record'},ga_pardon_assault_rape_intent:{ga_pardoned_offense_section:'16-5-21(a)(1)'},ga_pardon_imprisonment_under14:{ga_pardoned_offense_section:'16-5-41'},ga_pardon_imprisonment_own_child:{ga_pardoned_offense_section:'16-5-41',ga_pardon_imprisonment_under14:'yes'},ga_pardon_sexual_battery_repeat:{ga_pardoned_offense_section:'16-6-22.1'}}[q.id]??{};
  const a={...complete,...conditional,[q.id]:q.options?.[0]??(q.type==='date_or_unknown'?'2021-01-02':'16-8-14(a)')};
  check(q.id+'/bilingual',pub.questions.some(x=>x.id===q.id&&x.translations?.es?.prompt));
  if(parsed.ok) {
@@ -60,7 +60,7 @@ for(const q of G.GA_PARDON_QUESTIONS) {
  }
  check(q.id+'/correction-control',P.factualPathwayCorrectionIds('GA',G.GA_PARDON_ROUTE,a,true).includes(q.id));
  for(const invalid of [undefined,null,{},[],['yes'],true,7,'unknown']) {
-  const answers={...complete,...conditional,ga_convictions_since_pardon:q.id==='ga_post_pardon_traffic_records'?'traffic_only':'none',[q.id]:invalid};
+  const answers={...complete,...conditional,ga_convictions_since_pardon:q.id.startsWith('ga_post_pardon_traffic_')?'traffic_only':'none',[q.id]:invalid};
   const d=G.georgiaPardonFacts(answers,'2026-10-13');check(q.id+'/invalid/'+JSON.stringify(invalid),d.status==='missing'&&d.ids.includes(q.id));
  }
 }
@@ -74,6 +74,7 @@ for(const a of [base,complete,{...complete,ga_convictions_since_pardon:'traffic_
 }
 for(const [code,[en,es]] of Object.entries(G.GA_PARDON_COPY)) check(code+'/spanish-reason',resolveRuntimeText('es',en)===es);
 for(const [id,section,other] of [
+ ['ga_pardon_statutory_rape_age','16-6-3',{}],
  ['ga_pardon_assault_rape_intent','16-5-21(a)(1)',{}],
  ['ga_pardon_imprisonment_under14','16-5-41',{}],
  ['ga_pardon_imprisonment_own_child','16-5-41',{ga_pardon_imprisonment_under14:'yes'}],
@@ -102,7 +103,9 @@ const offenseCases = [
   [section,'Felony conviction',{},'excluded_offense'],[section,'Misdemeanor conviction',{},'exception_review']]),
  ...['16-6-2(d)','16-6-4(b)(2)','16-6-4(d)(2)','16-6-5(c)'].flatMap(section=>[
   [section,'Misdemeanor conviction',{},'court_review'],[section,'Felony conviction',{},'offense_class_conflict']]),
- ...['16-6-3','16-6-5.1','16-12-100'].map(section=>[section,'Felony conviction',{},'exception_review']),
+ ['16-6-3','Felony conviction',{},'missing'],
+ ['16-6-5.1','Felony conviction',{},'exception_review'],
+ ['16-12-100','Felony conviction',{},'excluded_offense'],
  ['16-6-22','Felony conviction',{},'excluded_offense'],
  ['16-6-22','Misdemeanor conviction',{},'offense_class_conflict'],
  ['16-5-21','Misdemeanor conviction',{ga_pardon_assault_rape_intent:'yes'},'offense_class_conflict'],
@@ -120,8 +123,38 @@ for(const [section,case_outcome,extra,expected] of offenseCases) {
  check(id+'/no-commercial-authority',!r.paymentAllowed&&!r.packetPlan);
  check(id+'/result',r.resultCode===(expected==='excluded_offense'?'likely_not_eligible':expected==='missing'?'needs_more_info':'needs_review'));
 }
-check('traffic-exception-not-inferred',G.georgiaPardonFacts({...complete,ga_convictions_since_pardon:'traffic_only',ga_post_pardon_traffic_records:'Traffic in another state'},'2026-10-13').code==='record_review');
+// Independent source expectations: adopted GA-02; official O.C.G.A. 2025
+// Title17 pp130–131 §17-10-6.2(a), Title16 pp185–186 §16-6-5.1(f)–(g),
+// enacted SB288 §35-3-37(a)(4),(j)(7); Title40 Art9 vs Art15.
+const completionCases = [
+ ['statutory-under21',{ga_pardoned_offense_section:'16-6-3',case_outcome:'Felony conviction',ga_pardon_statutory_rape_age:'under21'},'court_review'],
+ ['statutory-21',{ga_pardoned_offense_section:'16-6-3',case_outcome:'Felony conviction',ga_pardon_statutory_rape_age:'21_or_older'},'excluded_offense'],
+ ['statutory-unknown',{ga_pardoned_offense_section:'16-6-3',case_outcome:'Felony conviction',ga_pardon_statutory_rape_age:'unknown'},'missing'],
+ ...['16-6-5.1(f)(1)','16-6-5.1(f)(2)(B)','16-6-5.1(g)(1)','16-6-5.1(g)(3)'].map(section=>[section,{ga_pardoned_offense_section:section,case_outcome:'Felony conviction'},'excluded_offense']),
+ ...['16-6-5.1(f)(2)(A)','16-6-5.1(g)(2)','16-12-100(c)','16-12-100(f)(2)','16-12-100(f)(3)'].flatMap(section=>[
+  [section+'/misdemeanor',{ga_pardoned_offense_section:section},'court_review'],
+  [section+'/conflicting-felony',{ga_pardoned_offense_section:section,case_outcome:'Felony conviction'},'offense_class_conflict']]),
+ ['exploitation-felony',{ga_pardoned_offense_section:'16-12-100(b)(8)',case_outcome:'Felony conviction'},'excluded_offense'],
+ ['exploitation-unresolved-misdemeanor',{ga_pardoned_offense_section:'16-12-100(b)(8)'},'exception_review'],
+ ['improper-contact-unresolved',{ga_pardoned_offense_section:'16-6-5.1(g)'},'exception_review'],
+ ...[
+  ['40-6-181','court_review_traffic'],['O.C.G.A. § 40-6-181(b)(2); 40-6-180','court_review_traffic'],
+  ['40-6-391(a)(1)','later_conviction'],['40-6-390; 40-6-181','later_conviction'],
+  ['40-6-181; unknown','record_review'],['40-6-181 (not convicted)','record_review'],
+  ['40-6-181(z)','record_review'],['40-6-180(a)','record_review'],['40-99-999','record_review'],['40-6-391.1','record_review']
+ ].map(([citations,expected])=>['traffic/'+citations,{ga_convictions_since_pardon:'traffic_only',ga_post_pardon_traffic_records:'Original saved record text remains unchanged',ga_post_pardon_traffic_jurisdictions:'all_georgia',ga_post_pardon_traffic_citations:citations},expected]),
+ ['foreign-traffic',{ga_convictions_since_pardon:'traffic_only',ga_post_pardon_traffic_records:'Foreign traffic conviction',ga_post_pardon_traffic_jurisdictions:'other_jurisdiction'},'record_review'],
+ ['historical-traffic-needs-explicit-facts',{ga_convictions_since_pardon:'traffic_only',ga_post_pardon_traffic_records:'Georgia speeding 40-6-181 in2022'},'missing']
+];
+for(const [id,patch,expected] of completionCases) {
+ const a={...complete,...patch}, before=structuredClone(a), d=G.georgiaPardonFacts(a,'2026-10-13'), r=evaluate(a);
+ check('completion/'+id+'/source-expectation',d.code===expected);
+ check('completion/'+id+'/saved-answer-preservation',same(a,before));
+ check('completion/'+id+'/visible',r.missingQuestionIds.every(id=>selectScreeningQuestionIds(p,pub,a).includes(id)));
+ check('completion/'+id+'/no-sale',!r.paymentAllowed&&!r.packetPlan);
+}
+check('traffic-exception-not-inferred',G.georgiaPardonFacts({...complete,ga_convictions_since_pardon:'traffic_only',ga_post_pardon_traffic_records:'Traffic in another state',ga_post_pardon_traffic_jurisdictions:'other_jurisdiction'},'2026-10-13').code==='record_review');
 check('stale-conditional-facts-not-applied',G.georgiaPardonFacts({...complete,ga_pardon_assault_rape_intent:'yes',ga_pardon_sexual_battery_repeat:'yes'},'2026-10-13').code==='court_review');
-const report={status:checks.every(c=>c.pass)?'PASS':'FAIL',checks:checks.length,failed:checks.filter(c=>!c.pass),details:checks,limits:['No qualified Spanish acceptance, record-specific exceptions/traffic and document acceptance remain outstanding, no authenticated result asserted by this suite.']};
+const report={status:checks.every(c=>c.pass)?'PASS':'FAIL',checks:checks.length,failed:checks.filter(c=>!c.pass),details:checks,limits:['No qualified Spanish acceptance; foreign or unmatched traffic citations and unresolved disposition subsections require record review; document acceptance remains separate, no authenticated result asserted by this suite.']};
 if(process.argv[2])fs.writeFileSync(process.argv[2],JSON.stringify(report,null,2)+'\n',{flag:'wx'});
 console.log(JSON.stringify({status:report.status,checks:report.checks,failed:report.failed},null,2));assert.equal(report.failed.length,0);
