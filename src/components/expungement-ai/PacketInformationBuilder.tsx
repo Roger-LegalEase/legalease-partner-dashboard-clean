@@ -1,5 +1,7 @@
 "use client";
 
+import { akCourtviewContactAnswerState } from "@/lib/expungement-ai/ak-courtview-contact";
+
 import { NY_FUTURE_ID, formatNyFutureApplications } from "@/lib/expungement-ai/ny-16059-future-applications";
 import { NY_SEALING_HISTORY_ID, formatNySealingHistory } from "@/lib/expungement-ai/ny-16059-sealing-history";
 import { nyCasePreparationQuestions, nyCaseAssociationIssues, NY_CASE_RECONCILIATION_ID, NY_COURT_DIRECTION_CONFIRMATION_ID, NY_FILING_CASE_ID } from "@/lib/expungement-ai/ny-16059-case-questions";
@@ -338,7 +340,7 @@ export function PacketInformationBuilder({
   }
   const displayedAnswerState = (question: ProfileQuestion) => {
     if (question.id === "contact_information" && contactReconciliation || recordClarificationIds.includes(question.id) || nyCaseIssues.some(issue => issue.id === question.id)) return "invalid";
-    const state = questionAnswerState(question, answers[question.id]);
+    const state = akCourtviewContactAnswerState(stateCode, pathwayId ?? null, question.id, answers[question.id], questionAnswerState(question, answers[question.id]));
     return caJuvenilePreparation && question.id === "ca_prop64_juvenile_additional_count" && state === "known_valid"
       && caProp64JuvenileAdditionalCount(answers[question.id]) === undefined ? "invalid" : state;
   };

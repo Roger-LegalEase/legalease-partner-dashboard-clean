@@ -30,6 +30,25 @@ function knownText(raw: unknown): string | null {
   }
   return typeof raw === "string" && raw.trim() && !/^(?:unknown|i am not sure|not sure|no estoy seguro)$/i.test(raw.trim()) ? raw : null;
 }
+// Exact standalone non-facts only: never inspect substrings, infer an address,
+// require court approval for ordinary contact facts, or rewrite saved answers.
+const UNAVAILABLE_CONTACT = ["unavailable", "not available", "no disponible", "confidential", "confidencial"];
+const NON_CONTACT_FACTS: Record<string, ReadonlySet<string>> = {
+  ak_tf810_contact_address: new Set([...UNAVAILABLE_CONTACT, "no address", "no mailing address", "sin dirección", "sin dirección postal", "no tengo dirección"]),
+  ak_tf810_contact_phone: new Set([...UNAVAILABLE_CONTACT, "no phone", "no phone number", "no telephone", "no telephone number", "sin teléfono", "sin número de teléfono", "no tengo teléfono"]),
+  ak_tf810_contact_email: new Set([...UNAVAILABLE_CONTACT, "none", "no email", "no email address", "ninguno", "ninguna", "sin correo electrónico", "no tengo correo electrónico"])
+};
+export function akCourtviewContactText(id: string, raw: unknown): string | null {
+  const value = knownText(raw);
+  return value !== null && !NON_CONTACT_FACTS[id]?.has(value.trim().toLocaleLowerCase("en-US")) ? value : null;
+}
+export function akCourtviewContactAnswerState(
+  state: string, pathwayId: string | null, id: string, raw: unknown,
+  generic: "unanswered" | "invalid" | "known_valid" | "uncertain" | "declined"
+) {
+  return isAkCourtviewContact(state, pathwayId) && Object.hasOwn(NON_CONTACT_FACTS, id)
+    && generic === "known_valid" && akCourtviewContactText(id, raw) === null ? "invalid" : generic;
+}
 export function akCourtviewContactIds(state: string, pathwayId: string | null, answers: Record<string, unknown>, includeInactive = false): string[] {
   if (!isAkCourtviewContact(state, pathwayId)) return [];
   return includeInactive || knownText(answers[AK_TF810_PUBLIC_ID]) === "Yes" ? [...AK_TF810_CONTACT_IDS] : [AK_TF810_PUBLIC_ID];
@@ -84,7 +103,7 @@ export function akCourtviewContactInputs(snapshot: {
   };
   if (read(AK_TF810_PUBLIC_ID) !== "Yes") return null;
   const writes = AK_TF810_CONTACT_FIELDS.flatMap(field => {
-    const value = read(field.id);
+    const value = akCourtviewContactText(field.id, read(field.id));
     return value === null ? [] : [{ factId: field.id, documentId: "TF-810", field: field.field, participantKey: field.participantKey, value }];
   });
   return { source: AK_TF810_CONTACT_SOURCE, writes,

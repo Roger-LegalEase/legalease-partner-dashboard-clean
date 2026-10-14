@@ -1,4 +1,4 @@
-import { akCourtviewContactQuestions, akCourtviewContactIds, isAkCourtviewContact, AK_TF810_CONTACT_FIELDS } from "@/lib/expungement-ai/ak-courtview-contact";
+import { akCourtviewContactQuestions, akCourtviewContactIds, akCourtviewContactAnswerState, isAkCourtviewContact, AK_TF810_CONTACT_FIELDS } from "@/lib/expungement-ai/ak-courtview-contact";
 import { caProp64JuvenilePreparationScope } from "@/lib/expungement-ai/ca-prop64-juvenile-document-preparation";
 import { caProp64JuvenileDocumentQuestions, caProp64JuvenileAdditionalCount } from "@/lib/expungement-ai/ca-prop64-juvenile-document-questions";
 import { montanaDeferredDocumentInputs, montanaDeferredAliasDisplay, MT_DEFERRED_PARTICIPANT_ALIASES, MT_DEFERRED_CURRENT_DOCUMENT_CONTRACT } from "@/lib/expungement-ai/mt-deferred-document-inputs";
@@ -1537,7 +1537,7 @@ export function protectedPacketInformationModelFor(
   const activeAkIds = new Set(akCourtviewContactIds(snapshot.jurisdiction, snapshot.pathwayId, initialAnswers));
   for (const field of AK_TF810_CONTACT_FIELDS) {
     const question = questionSurface.questionById.get(field.id);
-    if (activeAkIds.has(field.id) && !field.optional && question && questionAnswerState(question, initialAnswers[field.id]) !== "known_valid"
+    if (activeAkIds.has(field.id) && !field.optional && question && akCourtviewContactAnswerState(snapshot.jurisdiction, snapshot.pathwayId, field.id, initialAnswers[field.id], questionAnswerState(question, initialAnswers[field.id])) !== "known_valid"
       && !missingInputIds.includes(field.id)) missingInputIds.push(field.id);
   }
   if (isNy16059Packet(snapshot.jurisdiction, snapshot.pathwayId)) for (const field of NY_CURRENT_DOCUMENT_PARTICIPANT_FIELDS) {
