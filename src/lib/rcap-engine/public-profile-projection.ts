@@ -1,3 +1,4 @@
+import { MO_MARIJUANA_FACT_IDS, MO_MARIJUANA_STATUS_QUESTIONS } from "@/lib/rcap-engine/missouri-marijuana-status-facts";
 import { AR_RECORD_ORIGIN_ID, AR_RECORD_ORIGIN_QUESTION } from "@/lib/rcap-engine/arkansas-record-origin";
 import { GA_PARDON_FACT_IDS, GA_PARDON_QUESTIONS, GA_PARDON_LABEL, GA_PARDON_OLD_LABEL } from "@/lib/rcap-engine/georgia-pardon-facts";
 import { convictionReliefQuestions } from "@/lib/rcap-engine/conviction-relief-request";
@@ -69,7 +70,7 @@ const STATE_SPECIFIC_PREPAY_WILMA_FACT_IDS: Record<string, Set<string>> = {
   HI: new Set(["hi_court_order_confirmed"]),
   IN: new Set(["in_prosecutor_consent_confirmed"]),
   MD: new Set(["arrest_date"]),
-  MO: new Set(["mo_at_least_twenty_two"]),
+  MO: new Set(["mo_at_least_twenty_two", ...MO_MARIJUANA_FACT_IDS]),
   MS: new Set([
     ...convictionReliefQuestions("MS").map(q => q.id),
     "ms_program_order",
@@ -1123,6 +1124,7 @@ function withWilmaFactQuestions(
     : profile.jurisdiction.code === "IL" ? [...WILMA_FACT_QUESTIONS, ...IL_CANNABIS_QUESTIONS]
     : profile.jurisdiction.code === "NY" ? [...WILMA_FACT_QUESTIONS, ...NY_16059_QUESTIONS]
     : profile.jurisdiction.code === "KS" ? [...WILMA_FACT_QUESTIONS, ...KS_RECORD_SCOPE_QUESTIONS]
+    : profile.jurisdiction.code === "MO" ? [...WILMA_FACT_QUESTIONS, ...MO_MARIJUANA_STATUS_QUESTIONS]
       : WILMA_FACT_QUESTIONS;
   const additions = [...availableWilmaFactQuestions, ...convictionReliefQuestions(profile.jurisdiction.code)]
     .filter((question) => !existingIds.has(question.id))

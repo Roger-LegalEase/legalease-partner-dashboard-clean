@@ -1,3 +1,4 @@
+import { missouriMarijuanaStatusDecision, MO_MARIJUANA_COPY, MO_MARIJUANA_STATUS_SOURCE } from "@/lib/rcap-engine/missouri-marijuana-status-facts";
 import { missouriClosedRecordQuestionApplies } from "@/lib/rcap-engine/missouri-closed-record-facts";
 import { georgiaPardonPetitionPlan } from "@/lib/expungement-ai/ga-pardon-petition-readiness";
 import { maineNonconvictionQuestionApplies, maineMissingFinancialCorrectionPathway } from "@/lib/rcap-engine/maine-nonconviction-facts";
@@ -220,6 +221,23 @@ function evaluateProfileRules(profile: EngineProfile, request: ScreeningEvaluati
 
   const publicProfile = projectPublicProfile(profile);
   const preselectedPathway = selectPathway(profile, answers);
+  // Exact selected Article XIV status contract: custody and original record
+  // facts decide guidance/referral, never the generic payment-completion gate.
+  // Ownership and jurisdiction must already be explicit; hard stops ran above.
+  const moMarijuana = jurisdiction === "MO"
+    && typeof answers.ownership_scope === "string"
+    && ["Yes", "I am helping someone complete their own check"].includes(answers.ownership_scope)
+    && answers.jurisdiction_scope === "State or local"
+    ? missouriMarijuanaStatusDecision(profile, preselectedPathway?.id, answers) : null;
+  if (moMarijuana && preselectedPathway) {
+    const text = MO_MARIJUANA_COPY[moMarijuana.code][0];
+    const plan = moMarijuana.status === "guidance" ? packetPlanForPathway(profile, preselectedPathway.id) : undefined;
+    return result(profile, request, moMarijuana.status === "missing" ? "needs_more_info" : moMarijuana.status === "review" ? "needs_review" : "guidance_only",
+      [reason("MO", `marijuana_${moMarijuana.code}`, text, MO_MARIJUANA_STATUS_SOURCE)],
+      { pathwayId: preselectedPathway.id, missingQuestionIds: moMarijuana.ids,
+        ...(plan ? { packetPlan: plan } : {}), paymentAllowed: false });
+  }
+
   const missingQuestionIds = requiredMissingPublicQuestionIds(publicProfile, answers)
     .filter(id => nevada176AQuestionApplies(jurisdiction, preselectedPathway?.id, id))
     .filter(id => missouriClosedRecordQuestionApplies(jurisdiction, preselectedPathway?.id, answers, id, profile))

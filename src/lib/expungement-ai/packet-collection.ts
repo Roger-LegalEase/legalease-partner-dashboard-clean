@@ -315,6 +315,7 @@ export type PacketCollectionInput = {
   reviewedContactRepresentation?: boolean;
   /** Set only by the exact adopted MO status/source contract, never participant data. */
   missouriClosureStatusOnly?: boolean;
+  missouriMarijuanaStatusOnly?: boolean;
   /** Per-route corrections, used only where the generic policy cannot be right. */
   override?: RouteCollectionOverride | null;
 };
@@ -655,6 +656,14 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
       facts.push({ factId, collection: "conditional", phase: "known", group: null,
         source: "ne_adult_acquittal_no_financial_predicate", active: false,
         reason: "The exact adult acquittal automatic route has no financial predicate; the saved payment answer is retained without inference." });
+      continue;
+    }
+
+    if (input.missouriMarijuanaStatusOnly === true && input.jurisdiction === "MO"
+      && input.pathwayId === "marijuana-expungement-under-missouri-constitution-article-xiv" && factId === "financial_obligations") {
+      facts.push({ factId, collection: "conditional", phase: "known", group: null,
+        source: "mo_article_xiv_nonincarcerated_status_no_financial_predicate", active: false,
+        reason: "The exact nonincarcerated Article XIV status branch has no financial predicate; the original answer is retained without inference." });
       continue;
     }
 

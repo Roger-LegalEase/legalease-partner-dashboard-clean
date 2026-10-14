@@ -1,3 +1,4 @@
+import { MO_MARIJUANA_FACT_IDS } from "@/lib/rcap-engine/missouri-marijuana-status-facts";
 import { AR_RECORD_ORIGIN_ID } from "@/lib/rcap-engine/arkansas-record-origin";
 import { convictionReliefQuestions } from "@/lib/rcap-engine/conviction-relief-request";
 import { MS_EXACT_TIMING_FACT_IDS } from "@/lib/rcap-engine/mississippi-exact-timing";
@@ -118,6 +119,8 @@ export function sanitizeAnswersForQuestionIds(
     || Boolean(profile?.jurisdiction.code === "MS" && (questionId === "ms_program_final_disposition" || MS_EXACT_TIMING_FACT_IDS.some(id => id === questionId) || MS_PROGRAM_COMPLETION_FACT_IDS.some(id => id === questionId) || MS_CONDITIONAL_DISCHARGE_FACT_IDS.some(id => id === questionId))
       && profile.questions.some(question => question.id === questionId))
     || Boolean(profile?.jurisdiction.code === "KS" && KS_RECORD_SCOPE_FACT_IDS.some(id => id === questionId)
+      && profile.questions.some(question => question.id === questionId))
+    || Boolean(profile?.jurisdiction.code === "MO" && MO_MARIJUANA_FACT_IDS.includes(questionId)
       && profile.questions.some(question => question.id === questionId))
     || Boolean(profile?.jurisdiction.code === "IL" && IL_CANNABIS_FACT_IDS.some(id => id === questionId)
       && profile.questions.some(question => question.id === questionId))

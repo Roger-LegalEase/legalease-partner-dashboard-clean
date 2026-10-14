@@ -1,3 +1,4 @@
+import { MO_MARIJUANA_STATUS_ROUTE, MO_MARIJUANA_CUSTODY_FACT, MO_MARIJUANA_FACT_IDS, missouriMarijuanaFactApplies, missouriMarijuanaStatusQuestionApplies, isMissouriMarijuanaStatusContract } from "@/lib/rcap-engine/missouri-marijuana-status-facts";
 import { missouriClosedRecordQuestionApplies, isMissouriClosureGuidanceWithoutIdentityForm, MO_CLOSED_RECORD_ROUTE } from "@/lib/rcap-engine/missouri-closed-record-facts";
 import { maineNonconvictionQuestionApplies, maineNonconvictionCorrectionApplies, maineMissingFinancialCorrectionPathway, isMaineNonconvictionGuidanceWithoutCr218, ME_NONCONVICTION_ROUTE } from "@/lib/rcap-engine/maine-nonconviction-facts";
 import { louisianaAutomationStatusQuestionApplies, LA_AUTOMATION_STATUS_ROUTE } from "@/lib/rcap-engine/louisiana-automation-status";
@@ -1037,6 +1038,49 @@ export function kansasRegistrationHeldSuccessor(snapshot: ProtectedPacketAuthori
   return seeded ? preserveUnchangedProtectedFacts(seeded.snapshot, snapshot, new Set()) : null;
 }
 
+/** Fresh exact bfc reproduction: recover only the old Article XIV guidance or
+ * financial hold into a custody clarification. No old map is rewritten and no
+ * eligibility, form, payment or verification authority is added. */
+export function missouriMarijuanaDraftSuccessor(snapshot: ProtectedPacketAuthoritySnapshot,
+  authoritative: NonNullable<ReturnType<typeof evaluateProtectedPacketFacts>>): ProtectedPacketDraftSnapshot | null {
+  const profile = getProfileByJurisdiction("MO"), route = MO_MARIJUANA_STATUS_ROUTE, evaluation = authoritative.evaluation;
+  if (!profile || !isMissouriMarijuanaStatusContract(profile, route)
+    || snapshot.schemaVersion !== "expungement-ai/protected-packet-draft/v1" || snapshot.jurisdiction !== "MO"
+    || ![route, null].includes(snapshot.pathwayId) || snapshot.profileVersion !== profile.profileVersion
+    || snapshot.profileSourceFingerprint !== profile.source?.sourceCorpusSha256
+    || snapshot.profileAuthorityFingerprint !== (snapshot.pathwayId === route
+      ? "3172d53e1953eb6fa5f2bd2a09f1e18df8b1a92aa77753748d02cbc2914bde76"
+      : "548cc539e137295ac70787377765a3aa271eefc6b3fce30a9f78df2c01eb0ba4")
+    || snapshot.profileAuthorityFingerprint !== profileAuthorityFingerprint(profile, snapshot.pathwayId)
+    || snapshot.paymentAllowed || snapshot.selectedTrackId !== null || snapshot.treatmentClassification !== null
+    || !canonicalEqual(snapshot.deferralComponentIds, [])
+    || !canonicalEqual(snapshot.serverFacts, canonicalServerFacts("MO", snapshot.pathwayId))
+    || evaluation.jurisdiction !== "MO" || evaluation.profileVersion !== snapshot.profileVersion
+    || evaluation.pathwayId !== route || evaluation.resultCode !== "needs_more_info" || evaluation.paymentAllowed
+    || evaluation.packetPlan || authoritative.packetType || authoritative.selectedTrackId
+    || evaluation.treatmentClassification || evaluation.deferralComponentIds?.length
+    || !canonicalEqual(evaluation.missingQuestionIds, [MO_MARIJUANA_CUSTODY_FACT])
+    || evaluation.reasons.length !== 1 || evaluation.reasons[0].code !== "mo.marijuana_custody_missing") return null;
+  const answers = protectedPacketScreeningAnswers(snapshot);
+  if (!answers || MO_MARIJUANA_FACT_IDS.some(id => Object.hasOwn(answers, id))) return null;
+  if (snapshot.resultCode === "guidance_only") {
+    const plan = packetPlanForPathway(profile, route);
+    if (snapshot.pathwayId !== route || snapshot.packetType !== "guidance_packet" || !plan
+      || !canonicalEqual(snapshot.packetPlan, plan) || !canonicalEqual(snapshot.requiredInputIds, plan.requiredInputIds)
+      || !canonicalEqual(snapshot.packetFamilyIdentifiers, { mode: plan.mode, sourceFormIds: plan.sourceFormIds })) return null;
+  } else {
+    const unknown = snapshot.pathwayId === route && snapshot.resultCode === "needs_review" && isExplicitUnknownAnswer(answers.financial_obligations);
+    const missing = snapshot.pathwayId === null && snapshot.resultCode === "needs_more_info" && !Object.hasOwn(answers, "financial_obligations");
+    if ((!unknown && !missing) || snapshot.packetPlan !== null || snapshot.packetType !== null
+      || !canonicalEqual(snapshot.requiredInputIds, [])
+      || !canonicalEqual(snapshot.packetFamilyIdentifiers, { mode: null, sourceFormIds: [] })) return null;
+  }
+  const seeded = protectedPacketDraftSeedFromAuthoritative({ authoritative,
+    screeningAnswers: answerRecord(snapshot.screeningAnswers), prefilledAnswers: answerRecord(snapshot.prefilledAnswers),
+    packetAnswers: answerRecord(snapshot.packetAnswers), dependencies: snapshot.dependencies, capturedAt: snapshot.capturedAt });
+  return seeded ? preserveUnchangedProtectedFacts(seeded.snapshot, snapshot, new Set()) : null;
+}
+
 /** Fresh exact-575237025 reproduction, not a captured prior production record. Only
  * the exact nonpayable mistaken-identity plan or status-only financial hold may project current guidance.
  * Reads and semantic no-ops leave the original protected record untouched. */
@@ -1311,6 +1355,9 @@ export function protectedPacketInformationModelFor(
 ): ProtectedPacketInformationModel | null {
   let snapshot = protectedAuthoritySnapshotFor(verification);
   if (!snapshot) return null;
+  const moMarijuanaAuthority = snapshot.jurisdiction === "MO" && [MO_MARIJUANA_STATUS_ROUTE, null].includes(snapshot.pathwayId)
+    ? evaluateProtectedPacketFacts(snapshot) : null;
+  if (moMarijuanaAuthority) snapshot = missouriMarijuanaDraftSuccessor(snapshot, moMarijuanaAuthority) ?? snapshot;
   const moAuthority = snapshot.jurisdiction === "MO" && [MO_CLOSED_RECORD_ROUTE, null].includes(snapshot.pathwayId)
     ? evaluateProtectedPacketFacts(snapshot) : null;
   if (moAuthority) snapshot = missouriClosureDraftSuccessor(snapshot, moAuthority) ?? snapshot;
@@ -1585,6 +1632,7 @@ export function packetCollectionFor(input: {
     unresolvedRouteFactIds: unresolvedFactIds,
     reviewedContactRepresentation: Boolean(contactContract),
     missouriClosureStatusOnly: isMissouriClosureGuidanceWithoutIdentityForm(profile, input.pathwayId ?? ""),
+    missouriMarijuanaStatusOnly: !missouriMarijuanaStatusQuestionApplies(input.jurisdiction, input.pathwayId, { ...input.screeningAnswers, ...input.prefilledAnswers, ...input.savedAnswers }, "financial_obligations", profile),
     recordOwnQuestionIds: new Set([...recordFactOwnQuestionIds(`${input.jurisdiction}:${input.pathwayId}`, { ...input.screeningAnswers, ...input.prefilledAnswers, ...input.savedAnswers }), ...(input.recordOwnQuestionIds ?? [])]),
     // Narrowing confirmation must not synthesize new evaluator inputs. Preserve
     // the accepted materialization guard independently of route identity.
@@ -1607,6 +1655,7 @@ export function factualPathwayCorrectionIds(state: string, pathway: string | nul
       "case_outcome", ...(state === "GA" ? ["ga_original_first_offender", "pardon_status"] : [])] : [];
 
   if (arkansasRecordOriginApplies(state, pathway)) return [...extra, AR_RECORD_ORIGIN_ID];
+  if (profile && state === "MO" && isMissouriMarijuanaStatusContract(profile, pathway)) return [...extra, ...MO_MARIJUANA_FACT_IDS.filter(id => includeInactive || missouriMarijuanaFactApplies(profile, pathway, answers, id)), "case_outcome"];
   if (state === "MO" && pathway === MO_CLOSED_RECORD_ROUTE) return [...extra, "case_outcome"];
   if (state === "ME" && pathway === ME_NONCONVICTION_ROUTE) return [...extra, "case_outcome", "age_at_offense"];
   if (state === "LA" && pathway === LA_AUTOMATION_STATUS_ROUTE) return [...extra, "case_outcome"];
@@ -1640,7 +1689,8 @@ function routeFactualCorrectionIds(model: { stateCode: string; pathwayId: string
     && (includeInactive || nebraskaNonconvictionQuestionApplies(model.stateCode, model.pathwayId, facts, "financial_obligations")
       && louisianaAutomationStatusQuestionApplies(model.stateCode, model.pathwayId, "financial_obligations")
       && maineNonconvictionQuestionApplies(model.stateCode, model.pathwayId, facts, "financial_obligations")
-      && missouriClosedRecordQuestionApplies(model.stateCode, model.pathwayId, facts, "financial_obligations", profile ?? undefined))
+      && missouriClosedRecordQuestionApplies(model.stateCode, model.pathwayId, facts, "financial_obligations", profile ?? undefined)
+      && missouriMarijuanaStatusQuestionApplies(model.stateCode, model.pathwayId, facts, "financial_obligations", profile ?? undefined))
     && isIndependentPaidFinancialFact(`${model.stateCode}:${model.pathwayId}`,
     profile?.questions.find(question => question.id === "financial_obligations")) ? ["financial_obligations"] : [];
   if (model.stateCode !== "NY" || model.pathwayId !== NY_16059_ROUTE) return [...financial, ...factual];
@@ -1731,6 +1781,13 @@ export function isNebraskaNonconvictionGuidanceCorrection(model: Parameters<type
 
 /** Status guidance retains its original disposition correction, without granting
  * filing, verification, payment or automated-request authority. */
+export function isMissouriMarijuanaGuidanceCorrection(model: Parameters<typeof heldCourtCompletionInputIds>[0], resultCode: string | null): boolean {
+  const profile = getProfileByJurisdiction("MO");
+  return resultCode === "guidance_only" && model.stateCode === "MO" && Boolean(profile)
+    && isMissouriMarijuanaStatusContract(profile!, model.pathwayId)
+    && canonicalEqual(model.packetPlan, packetPlanForPathway(profile!, model.pathwayId!));
+}
+
 export function isMissouriClosureGuidanceCorrection(model: Parameters<typeof heldCourtCompletionInputIds>[0], resultCode: string | null): boolean {
   const profile = getProfileByJurisdiction("MO");
   return resultCode === "guidance_only" && model.stateCode === "MO"
@@ -1748,6 +1805,10 @@ export function isLouisianaAutomationStatusGuidanceCorrection(model: Parameters<
 
 export function heldPacketCorrectionInputIds(model: Parameters<typeof heldCourtCompletionInputIds>[0], resultCode: string | null): Set<string> {
   const ids = heldCourtCompletionInputIds(model, resultCode);
+  if (isMissouriMarijuanaGuidanceCorrection(model, resultCode)) {
+    const allowed = editablePacketInputIds(model);
+    for (const id of routeFactualCorrectionIds(model)) if (id !== "financial_obligations" && allowed.has(id) && model.questions.some(q => q.id === id)) ids.add(id);
+  }
   if ((isLouisianaAutomationStatusGuidanceCorrection(model, resultCode) || isMissouriClosureGuidanceCorrection(model, resultCode))
     && editablePacketInputIds(model).has("case_outcome")
     && model.questions.some(question => question.id === "case_outcome")) ids.add("case_outcome");
@@ -2152,7 +2213,7 @@ function deriveProtectedPacketDraftSnapshot(
   const originalBase = base;
   const gaPreparationIds = gaPardonPreparation ? gaPardonPreparationModelFor(verification)?.gaPardonPreparationFactIds : undefined;
   if (gaPardonPreparation && !gaPreparationIds) return null;
-  base = missouriClosureDraftSuccessor(base, currentAuthority) ?? maineNonconvictionDraftSuccessor(base, currentAuthority) ?? louisianaAutomationStatusHeldSuccessor(base, currentAuthority) ?? nebraskaAcquittalHeldSuccessor(base, currentAuthority) ?? kansasRegistrationHeldSuccessor(base, currentAuthority) ?? base;
+  base = missouriMarijuanaDraftSuccessor(base, currentAuthority) ?? missouriClosureDraftSuccessor(base, currentAuthority) ?? maineNonconvictionDraftSuccessor(base, currentAuthority) ?? louisianaAutomationStatusHeldSuccessor(base, currentAuthority) ?? nebraskaAcquittalHeldSuccessor(base, currentAuthority) ?? kansasRegistrationHeldSuccessor(base, currentAuthority) ?? base;
   const factualIds = [...factualPathwayCorrectionIds(base.jurisdiction, base.pathwayId, { ...base.screeningAnswers, ...base.prefilledAnswers, ...base.packetAnswers }, true), ...msExactTimingQuestionIds(base.jurisdiction, base.pathwayId, { ...base.screeningAnswers, ...base.prefilledAnswers, ...base.packetAnswers }, true), ...missouriUnselectedCorrectionIds(base), ...maineUnselectedCorrectionIds(base), ...nebraskaUnselectedCorrectionIds(base), ...louisianaUnselectedCorrectionIds(base)];
   if (gaPreparationIds) factualIds.push(...gaPreparationIds);
   if (isNy16059Packet(base.jurisdiction, base.pathwayId)) factualIds.push(...NY_PACKET_FACT_IDS, ...NY_CASE_FACT_IDS,

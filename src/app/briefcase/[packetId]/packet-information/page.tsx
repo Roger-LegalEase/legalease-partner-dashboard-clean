@@ -5,7 +5,7 @@ import { packetDisplayCopy, packetMatterTitleCopy } from "@/lib/expungement-ai/p
 import { LocalizedCopy, LocalizedRuntimeText } from "@/components/expungement-ai/LocalizationProvider";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { editablePacketInputIds, factualPathwayCorrectionIds, heldPacketCorrectionInputIds, isNebraskaNonconvictionGuidanceCorrection, isLouisianaAutomationStatusGuidanceCorrection, isMaineNonconvictionGuidanceCorrection, isMissouriClosureGuidanceCorrection, packetAccountEmailSuggestion, caProp64ClarificationModelFor } from "@/lib/expungement-ai/packet-information";
+import { editablePacketInputIds, factualPathwayCorrectionIds, heldPacketCorrectionInputIds, isNebraskaNonconvictionGuidanceCorrection, isLouisianaAutomationStatusGuidanceCorrection, isMaineNonconvictionGuidanceCorrection, isMissouriClosureGuidanceCorrection, isMissouriMarijuanaGuidanceCorrection, packetAccountEmailSuggestion, caProp64ClarificationModelFor } from "@/lib/expungement-ai/packet-information";
 
 import { BriefcaseShell } from "@/components/expungement-ai/BriefcaseShell";
 import { MatterStatusBadge } from "@/components/expungement-ai/BriefcaseViews";
@@ -51,7 +51,8 @@ export default async function PacketInformationPage({
     && (isNebraskaNonconvictionGuidanceCorrection({ ...item.packetDraft, stateCode: item.jurisdiction, pathwayId: item.pathwayId }, item.resultCode)
       || isLouisianaAutomationStatusGuidanceCorrection({ ...item.packetDraft, stateCode: item.jurisdiction, pathwayId: item.pathwayId }, item.resultCode)
       || isMaineNonconvictionGuidanceCorrection({ ...item.packetDraft, stateCode: item.jurisdiction, pathwayId: item.pathwayId }, item.resultCode)
-      || isMissouriClosureGuidanceCorrection({ ...item.packetDraft, stateCode: item.jurisdiction, pathwayId: item.pathwayId }, item.resultCode));
+      || isMissouriClosureGuidanceCorrection({ ...item.packetDraft, stateCode: item.jurisdiction, pathwayId: item.pathwayId }, item.resultCode)
+      || isMissouriMarijuanaGuidanceCorrection({ ...item.packetDraft, stateCode: item.jurisdiction, pathwayId: item.pathwayId }, item.resultCode));
   const eligibilityCorrection = Boolean(savedCaseGuidanceCorrection) || ["NY", "CA", "IL", "GA"].includes(item?.jurisdiction ?? "")
     || item?.packetDraft.status === "available" && (msExactTimingQuestionIds(item.jurisdiction ?? "", item.pathwayId, item.packetDraft.initialAnswers).length > 0
       || factualPathwayCorrectionIds(item.jurisdiction ?? "", item.pathwayId, item.packetDraft.initialAnswers).length > 0
@@ -69,7 +70,7 @@ export default async function PacketInformationPage({
     && item.packetDraft.status === "available"
     && (item.jurisdiction === "NE" && (item.pathwayId === "automatic-nonconviction-sealing"
       || item.pathwayId === null && (item.packetDraft.heldFactualCorrectionIds?.length ?? 0) > 0)
-      || item.jurisdiction === "MO" && (item.pathwayId === "closed-record-outcome-under-rsmo-610-105"
+      || item.jurisdiction === "MO" && (item.pathwayId === "closed-record-outcome-under-rsmo-610-105" || item.pathwayId === "marijuana-expungement-under-missouri-constitution-article-xiv"
         || item.pathwayId === null && item.packetDraft.heldFactualCorrectionIds?.includes("case_outcome"))
       || item.jurisdiction === "ME" && (item.pathwayId === "adult-non-conviction-record-relief"
         || item.pathwayId === null && (item.packetDraft.heldFactualCorrectionIds?.length ?? 0) > 0)
