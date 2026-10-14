@@ -64,6 +64,7 @@ export const profileQuestionSchema = z
     prompt: z.string().min(1),
     helperText: z.string().optional(),
     multiline: z.boolean().optional(),
+    clearEarlierReleaseDate: z.literal(true).optional(),
     contactContext: z.object({ representation: z.string(), defendantName: z.string(), county: z.string() }).strict().optional(),
     prior16058ApplicationKnown: z.literal(true).optional(),
     futureApplicationReferences: z.object({ caseNumbers: z.string().optional(), courtName: z.string().optional(), reviewToken: z.string().optional() }).strict().optional(),
@@ -100,6 +101,7 @@ export const profileQuestionSchema = z
     || question.answerContract === "ny_16059_case_records_v2" && question.id === "ny_16059_covered_case_records" && question.type === "court_case_records"
     || question.answerContract === "ny_16059_applicant_statement_v1" && question.id === "ny_16059_applicant_statement" && question.type === "text_or_unknown" && question.multiline === true
     || question.answerContract === "ny_16059_case_court_text_v1" && ["ny_16059_other_filing_court_name", "ny_16059_other_filing_court_county", "ny_16059_court_direction_issuer", "ny_16059_court_direction_date_reference", "ny_16059_court_direction_instruction"].includes(question.id) && question.type === "text_or_unknown", "Invalid scoped answer contract")
+  .refine(question => !question.clearEarlierReleaseDate || question.id === "release_date" && question.type === "date_or_unknown" && question.required === false, "Invalid earlier-release-date correction display")
   .refine(question => !question.contactContext || question.answerContract === "ca_prop64_contacts_v1" && question.type === "filing_contact" && ["ca_prop64_filer_contact", "ca_prop64_court_address"].includes(question.id), "Invalid contact context")
   .refine(question => !question.futureApplicationReferences || question.answerContract === "ny_16059_future_applications_v1" && question.id === "ny_16059_future_sealing_records" && question.type === "future_applications", "Invalid future application context")
   .refine(question => !question.prior16058ApplicationKnown || question.answerContract === "ny_16059_sealing_history_v1" && question.id === "ny_16059_prior_sealing_records" && question.type === "sealing_history", "Invalid application context")

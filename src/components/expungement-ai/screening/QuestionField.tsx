@@ -311,6 +311,13 @@ export function QuestionField({
             ariaDescribedBy={describedBy}
             invalid={Boolean(error)}
           />
+          {stateCode === "DE" && question.id === "release_date" && question.type === "date_or_unknown"
+            && question.required === false && question.clearEarlierReleaseDate === true ? (
+              <button type="button" className="min-h-[44px] rounded border px-3 py-2 text-left font-semibold underline focus-visible:outline focus-visible:outline-2"
+                data-de-clear-earlier-release-date onClick={() => onChange({ value: "", unknown: false })}>
+                {locale === "es" ? "Borrar la fecha anterior de puesta en libertad" : "Clear earlier release date"}
+              </button>
+            ) : null}
           {errorNode}
         </div>
       );

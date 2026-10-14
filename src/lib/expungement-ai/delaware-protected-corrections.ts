@@ -26,13 +26,33 @@ export function delawareProtectedCorrectionIds(profile: EngineProfile | undefine
   const adult = typeof answers.case_outcome === "string" && deAdultConviction(answers);
   const facts = DE_CONVICTION_FACT_IDS.filter(id => includeInactive
     ? Object.hasOwn(answers, id) || adult
-    : adult && deConvictionQuestionApplies("DE", answers, id));
+    : adult && (deConvictionQuestionApplies("DE", answers, id)
+      || id === "release_date" && hasEarlierReleaseDateForNever(answers)));
   return [...existing, ...facts];
 }
 
+function hasEarlierReleaseDateForNever(answers: Record<string, unknown>): boolean {
+  if (answers.de_incarceration !== "never" || !Object.hasOwn(answers, "release_date")) return false;
+  const raw = answers.release_date;
+  if (typeof raw === "string") return raw !== "";
+  if (!raw || typeof raw !== "object" || Array.isArray(raw)) return false;
+  const value = raw as Record<string, unknown>;
+  return value.unknown === true || typeof value.value === "string" && value.value !== "";
+}
+
 export function delawareProtectedExclusionQuestion<T extends ProfileQuestion>(question: T,
-  profile: EngineProfile | undefined, pathwayId: string | null): T {
-  if (question.id !== "state_exclusion_categories" || !delawareProtectedCorrectionContract(profile, pathwayId)) return question;
+  profile: EngineProfile | undefined, pathwayId: string | null, answers: Record<string, unknown> = {}): T {
+  if (!delawareProtectedCorrectionContract(profile, pathwayId)) return question;
+  if (question.id === "release_date" && typeof answers.case_outcome === "string" && deAdultConviction(answers)
+    && hasEarlierReleaseDateForNever(answers)) return { ...question, required: false,
+      clearEarlierReleaseDate: true,
+      prompt: "Review your earlier release date",
+      helperText: "You now say there was no incarceration, but an earlier release-date answer is still saved. If that date was entered in error, clear the earlier date and save. Its original value stays in your saved history. If the release did occur, correct the incarceration answer instead. Uncertainty or conflicting facts still require review.",
+      translations: { ...question.translations, es: { ...question.translations?.es,
+        prompt: "Revise la fecha de puesta en libertad guardada anteriormente",
+        helperText: "Ahora indica que no hubo encarcelamiento, pero aún está guardada una respuesta anterior sobre la fecha de puesta en libertad. Si ingresó esa fecha por error, borre la fecha anterior y guarde. El valor original permanece en su historial guardado. Si sí hubo puesta en libertad, corrija la respuesta sobre el encarcelamiento. La incertidumbre o los datos contradictorios aún requieren revisión."
+      } } };
+  if (question.id !== "state_exclusion_categories") return question;
   return { ...question,
     helperText: "This earlier category answer does not by itself establish eligibility or an exclusion. Delaware's mandatory, discretionary, pardon and juvenile procedures have different rules. Keep your actual answer or mark uncertainty; use the separate record questions where offered. An unresolved offense or procedure still needs review.",
     translations: { ...question.translations, es: { ...question.translations?.es,

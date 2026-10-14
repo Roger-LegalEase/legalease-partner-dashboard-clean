@@ -99,6 +99,8 @@ export type ProfileQuestion = {
   stage: string;
   prompt: string;
   helperText?: string;
+  /** Protected DE historical-date correction UI only; existing date answer shape is unchanged. */
+  clearEarlierReleaseDate?: true;
   /** Presentation only; preserves the existing canonical answer shape. */
   multiline?: boolean;
   /** Scoped record-input validator; never a legal outcome or answer alias. */
