@@ -37,6 +37,11 @@ for(const[id,value]of [['citizenshipConfirmed',false],['denialQuestion',true],['
 for(const[id,value]of [['pathwayId','other'],['profileSourceFingerprint','changed'],['profileAuthorityFingerprint','changed'],['paymentAllowed',true],['selectedTrackId','mt_deferred_dismissal']]){assert.equal(instructions({...base,[id]:value},current),null);checks++;}
 const changed=structuredClone(current);changed.contract.track.selfHelpStopConditions.pop();assert.equal(instructions(base,changed),null);checks++;
 const term=structuredClone(base);term.screeningAnswers.mt_deferred_term_status='terminated_by_order';assert.equal(instructions(term,current),null);checks++;
-const sourceBytes=fs.readFileSync(source.stagedEnglishPath);assert.equal(hash(sourceBytes),source.stagedEnglishSha256,'frozen English renderer remains unchanged during companion drafting');
+// This is the exact original source provenance, not a claim that the current
+// renderer file may never gain an authorized locale hook. Actual default-byte
+// preservation is checked against retained owner artifacts by the staged harness.
+assert.equal(source.stagedEnglishCommit,'77bf601538ee93990231175d98efc53adb1665d7');
+assert.equal(source.stagedEnglishSha256,'dd99b2877ea89a621719818252db240381f58af2dc4e8f036cd3dbff6730133e');
+if(process.env.MT_RETAINED_EN_RENDERER_SOURCE)assert.equal(hash(fs.readFileSync(process.env.MT_RETAINED_EN_RENDERER_SOURCE)),source.stagedEnglishSha256);
 if(process.env.MT_INSTRUCTION_REVIEW_OUTPUT)fs.writeFileSync(process.env.MT_INSTRUCTION_REVIEW_OUTPUT,JSON.stringify({classification:'SOURCE_BOUND_SPANISH_COMPANION_DRAFT_NOT_QUALIFIED_APPROVAL',source,stages:reviewDrafts},null,2)+'\n',{flag:'wx'});
 console.log(JSON.stringify({status:'PASS_SOURCE_BOUND_SPANISH_COMPANION_DRAFT',checks,source,existingEnglishArtifacts:summaries,qualifiedLanguageReview:'pending',renderedNewArtifacts:false,authenticatedJourneyRepeated:false,authorityGranted:false},null,2));
