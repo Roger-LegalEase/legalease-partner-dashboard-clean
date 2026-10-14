@@ -1,12 +1,12 @@
 #!/usr/bin/env node
 // Evidence-bound local acceptance: use the existing preserved candidate; no rendering.
 import assert from 'node:assert/strict';import fs from 'node:fs';import os from 'node:os';import path from 'node:path';import {execFileSync,spawnSync} from 'node:child_process';import {createHash} from 'node:crypto';
-import {prepareGaCurrentOutputHandoff,assertGaCurrentOutputCandidateScope,assertGaParticipantAssemblyReviewScope,GA_CURRENT_OUTPUT_CANDIDATE_SHA256,GA_PARTICIPANT_ASSEMBLY_REVIEW_SHA256,GA_PARTICIPANT_BOUNDARY_REVIEW_SHA256,assertGaParticipantBoundaryReviewScope} from './lib/ga-pardon-current-output-handoff.mjs';
+import {prepareGaCurrentOutputHandoff,assertGaCurrentOutputCandidateScope,assertGaParticipantAssemblyReviewScope,GA_CURRENT_OUTPUT_CANDIDATE_SHA256,GA_PARTICIPANT_ASSEMBLY_REVIEW_SHA256,GA_PARTICIPANT_BOUNDARY_REVIEW_SHA256,assertGaParticipantBoundaryReviewScope,GA_ASSEMBLY_SOURCE_REVIEW_SHA256,assertGaAssemblySourceApplicabilityScope} from './lib/ga-pardon-current-output-handoff.mjs';
 const candidatePath=process.argv[process.argv.indexOf('--candidate')+1];assert(process.argv.includes('--candidate')&&candidatePath,'pass --candidate with the existing preserved receipt');
 const root=process.cwd(),readBytes=file=>fs.readFileSync(path.resolve(root,file)),candidate=JSON.parse(readBytes(candidatePath));
 const sourceSha=execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),hash=b=>createHash('sha256').update(b).digest('hex');
 const input={candidatePath,candidateSha256:GA_CURRENT_OUTPUT_CANDIDATE_SHA256,readBytes,sourceSha};let count=0;
-const predecessorSource=execFileSync('git',['show','13ab6dd7fdddfe1e42e33a67a2c243c15e65dafa:scripts/lib/ga-pardon-current-output-handoff.mjs'],{encoding:'utf8'}).replace("from 'pdf-lib'",'from '+JSON.stringify(import.meta.resolve('pdf-lib')));
+const predecessorSource=execFileSync('git',['show','66bc28f58f66ca3ba1e88e2fd7a852db71ce65ce:scripts/lib/ga-pardon-current-output-handoff.mjs'],{encoding:'utf8'}).replace("from 'pdf-lib'",'from '+JSON.stringify(import.meta.resolve('pdf-lib')));
 const predecessor=await import('data:text/javascript;base64,'+Buffer.from(predecessorSource).toString('base64'));
 const valid=await prepareGaCurrentOutputHandoff(input);assert.equal(valid.artifacts.outputs.length,6);assert.equal(valid.artifacts.packetBytesChanged,true);assert.equal(valid.canonicalRecord,null);assert.equal(valid.workerAdmission,null);assert.equal(valid.outputLegalApproval.state,'not_recorded');assert.equal(valid.finalVerification.state,'unbound');assert.equal(valid.opensRoute,false);assert.equal(valid.paymentAllowed,false);count++;
 assert.equal(valid.outputLegalApproval.requiredAction,candidate.approvalDependency.preciseReviewRequest);count++;
@@ -35,6 +35,58 @@ assert.notEqual(spawnSync(process.execPath,args.filter(v=>!['--scope','ga-pardon
 const internal=[...args];internal[internal.length-1]=root;assert.notEqual(spawnSync(process.execPath,internal,{stdio:'pipe'}).status,0,'no repository output');count++;
 const link=path.join(temporary,'repository-link');fs.symlinkSync(root,link);const linked=[...args];linked[linked.length-1]=link;assert.notEqual(spawnSync(process.execPath,linked,{stdio:'pipe'}).status,0,'no symlink into repository');count++;
 assert.deepEqual(Object.fromEntries(authorityPaths.map(p=>[p,hash(readBytes(p))])),before);count++;
+if(process.argv.includes('--assembly-source-review')){
+ assert(process.argv.includes('--assembly-review')&&process.argv.includes('--boundary-review'));
+ const value=name=>process.argv[process.argv.indexOf(name)+1];
+ const assemblySourceReviewPath=value('--assembly-source-review'),review=JSON.parse(readBytes(assemblySourceReviewPath));
+ const proof=JSON.parse(readBytes(review.sourceApplicability.path));
+ const extendedInput={...input,assemblyReviewPath:value('--assembly-review'),assemblyReviewSha256:GA_PARTICIPANT_ASSEMBLY_REVIEW_SHA256,
+  boundaryReviewPath:value('--boundary-review'),boundaryReviewSha256:GA_PARTICIPANT_BOUNDARY_REVIEW_SHA256,
+  assemblySourceReviewPath,assemblySourceReviewSha256:GA_ASSEMBLY_SOURCE_REVIEW_SHA256};
+ const extended=await prepareGaCurrentOutputHandoff(extendedInput);
+ const oldInput={...extendedInput,assemblySourceReviewPath:undefined,assemblySourceReviewSha256:undefined};
+ await assert.rejects(()=>prepareGaCurrentOutputHandoff(oldInput),'no implicit source waiver');count++;
+ const historicalInput={...oldInput,readBytes:p=>p===proof.changedInput.path?readBytes(proof.changedInput.priorBytes):readBytes(p)};
+ const historical=await prepareGaCurrentOutputHandoff(historicalInput);
+ assert.deepEqual(historical,await predecessor.prepareGaCurrentOutputHandoff(historicalInput),'legacy five mode remains identical on its historical source bytes');count++;
+ const withoutApplicability=structuredClone(extended);
+ delete withoutApplicability.participantAssemblies.sourceApplicability;delete withoutApplicability.sourceSpecificationProvider.participantAssemblies.sourceApplicability;
+ withoutApplicability.finalVerification.preparedTechnicalInputsSha256=historical.finalVerification.preparedTechnicalInputsSha256;
+ assert.deepEqual(withoutApplicability,historical,'only explicit technical source applicability and its binding digest change');count++;
+ assert.notEqual(extended.finalVerification.preparedTechnicalInputsSha256,historical.finalVerification.preparedTechnicalInputsSha256);count++;
+ assert.equal(extended.participantAssemblies.outputs.length,5);assert.equal(extended.outputLegalApproval.state,'not_recorded');assert.equal(extended.finalVerification.state,'unbound');
+ for(const key of ['canonicalRecord','workerAdmission'])assert.equal(extended[key],null);
+ for(const key of ['createsApproval','createsRegistryRecord','opensRoute','paymentAllowed','productionAuthorized'])assert.equal(extended[key],false);count++;
+ const protectedPaths=[assemblySourceReviewPath,review.sourceApplicability.path,...review.sourceEvidence.map(x=>x.file),...Object.keys(proof.sourceBindings),...proof.preservedParticipantAssemblies.map(x=>x.path),...review.originalReviews.map(x=>x.file)];
+ for(const file of protectedPaths){
+  await assert.rejects(()=>prepareGaCurrentOutputHandoff({...extendedInput,readBytes:p=>p===file?Buffer.concat([readBytes(p),Buffer.from('changed')]):readBytes(p)}));count++;
+  await assert.rejects(()=>prepareGaCurrentOutputHandoff({...extendedInput,readBytes:p=>{if(p===file)throw Error('missing exact source applicability evidence');return readBytes(p);}}));count++;
+ }
+ for(const change of [{assemblySourceReviewPath:undefined},{assemblySourceReviewSha256:undefined},{assemblySourceReviewSha256:'0'.repeat(64)},
+  {boundaryReviewPath:undefined,boundaryReviewSha256:undefined},{assemblyReviewPath:undefined,assemblyReviewSha256:undefined},
+  {readBytes:p=>p===proof.changedInput.path?readBytes(proof.changedInput.priorBytes):readBytes(p)}]){
+  await assert.rejects(()=>prepareGaCurrentOutputHandoff({...extendedInput,...change}));count++;
+ }
+ for(const change of [
+  (r,p)=>r.status='approved',(r,p)=>p.status='APPROVED',(r,p)=>p.route='GA:other',(r,p)=>p.trackId='ga-seal-m',
+  (r,p)=>r.allowedSourceChanges.push({...r.allowedSourceChanges[0]}),(r,p)=>r.allowedSourceChanges[0].afterSha256='0'.repeat(64),
+  (r,p)=>p.changedInput.originalSha256='0'.repeat(64),(r,p)=>p.changedInput.path='unrelated.ts',
+  (r,p)=>delete p.sourceBindings['scripts/test-ga-participant-assembly-boundaries.mjs'],(r,p)=>p.sourceBindings['other.ts']={originalSha256:'0'.repeat(64),currentSha256:'0'.repeat(64)},
+  (r,p)=>p.sourceBindings['src/lib/rcap/render/participant-packet-assembly.ts'].currentSha256='0'.repeat(64),
+  (r,p)=>p.preservedParticipantAssemblies.pop(),(r,p)=>p.preservedParticipantAssemblies[1]=p.preservedParticipantAssemblies[0],
+  (r,p)=>p.proof.gaCallerOmitsNewOption=false,(r,p)=>p.proof.onlyTwoChangedRegions=false,
+  (r,p)=>p.authority.createsApproval=true,(r,p)=>p.authority.paymentAllowed=true]){
+  const r=structuredClone(review),p=structuredClone(proof);change(r,p);assert.throws(()=>assertGaAssemblySourceApplicabilityScope(r,p));count++;
+ }
+ const output=fs.mkdtempSync(path.join(os.tmpdir(),'ga-source-applicability-handoff-test-'));
+ const cli=[...args];cli[cli.length-1]=output;cli.push('--assembly-review',extendedInput.assemblyReviewPath,'--assembly-review-sha256',GA_PARTICIPANT_ASSEMBLY_REVIEW_SHA256,
+  '--boundary-review',extendedInput.boundaryReviewPath,'--boundary-review-sha256',GA_PARTICIPANT_BOUNDARY_REVIEW_SHA256,
+  '--assembly-source-review',assemblySourceReviewPath,'--assembly-source-review-sha256',GA_ASSEMBLY_SOURCE_REVIEW_SHA256);
+ execFileSync(process.execPath,cli,{stdio:'pipe'});assert.deepEqual(JSON.parse(fs.readFileSync(path.join(output,'ga-pardon-current-output-handoff.json'))),extended);count++;
+ for(const omitted of ['--assembly-source-review','--assembly-source-review-sha256']){const incomplete=[...cli],i=incomplete.indexOf(omitted);incomplete.splice(i,2);assert.notEqual(spawnSync(process.execPath,incomplete,{stdio:'pipe'}).status,0);count++;}
+ assert.deepEqual(Object.fromEntries(authorityPaths.map(p=>[p,hash(readBytes(p))])),before);count++;
+ console.log(JSON.stringify({status:'PASS',checks:count,scope:'Exact independently reviewed default-source transition; five preserved assemblies, old modes unchanged on original bytes; no approval/admission',renderingPerformed:false,approvalOrRegistryChanged:false,evidenceDirectory:output}));process.exit(0);
+}
 if(process.argv.includes('--assembly-review')){
  const assemblyReviewPath=process.argv[process.argv.indexOf('--assembly-review')+1];
  const assemblyReviewSha256=GA_PARTICIPANT_ASSEMBLY_REVIEW_SHA256;

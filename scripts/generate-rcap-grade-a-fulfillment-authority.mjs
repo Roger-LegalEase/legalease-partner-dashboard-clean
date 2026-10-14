@@ -81,6 +81,9 @@ if (SCOPED_ROUTE === "ga-pardon-current-output-handoff") {
   const assemblyReviewSha256 = argument("--assembly-review-sha256");
   const boundaryReviewPath = argument("--boundary-review");
   const boundaryReviewSha256 = argument("--boundary-review-sha256");
+  const assemblySourceReviewPath = argument("--assembly-source-review");
+  const assemblySourceReviewSha256 = argument("--assembly-source-review-sha256");
+  assert(Boolean(assemblySourceReviewPath) === Boolean(assemblySourceReviewSha256), "GA source applicability requires both explicit review arguments");
   assert(Boolean(boundaryReviewPath) === Boolean(boundaryReviewSha256), "GA boundary handoff requires both explicit review arguments");
   assert(Boolean(assemblyReviewPath) === Boolean(assemblyReviewSha256), "GA assembly handoff requires both explicit review arguments");
   assert(SCOPE_FLAG_INDEX >= 0 && CHECK && candidatePath && candidateSha256 && outputArgument,
@@ -91,7 +94,7 @@ if (SCOPED_ROUTE === "ga-pardon-current-output-handoff") {
   const physicalOutput = path.resolve(fs.realpathSync(existingParent), path.relative(existingParent, output));
   assert(physicalOutput !== rootDir && !physicalOutput.startsWith(rootDir + path.sep), "GA handoff output must be external to the repository");
   const { prepareGaCurrentOutputHandoff } = await import("./lib/ga-pardon-current-output-handoff.mjs");
-  const handoff = await prepareGaCurrentOutputHandoff({ candidatePath, candidateSha256, assemblyReviewPath, assemblyReviewSha256, boundaryReviewPath, boundaryReviewSha256,
+  const handoff = await prepareGaCurrentOutputHandoff({ candidatePath, candidateSha256, assemblyReviewPath, assemblyReviewSha256, boundaryReviewPath, boundaryReviewSha256, assemblySourceReviewPath, assemblySourceReviewSha256,
     readBytes: file => fs.readFileSync(path.resolve(rootDir, file)),
     sourceSha: execFileSync("git", ["rev-parse", "HEAD"], { cwd: rootDir, encoding: "utf8" }).trim() });
   fs.mkdirSync(output, { recursive: true });

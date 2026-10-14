@@ -7,6 +7,11 @@ export const GA_CURRENT_OUTPUT_ROUTE='GA:restriction-and-sealing-of-a-pardoned-f
 export const GA_CURRENT_OUTPUT_CANDIDATE_SHA256='81aefc047db52af8a2ad5e0bd0bc7a49eb09d0ebbe8fc19e7be21cfd75a75328';
 export const GA_PARTICIPANT_ASSEMBLY_REVIEW_SHA256='38604f06f2bc7996507d49269796322c5688539f935916e8ab95b4a897c4580e';
 export const GA_PARTICIPANT_BOUNDARY_REVIEW_SHA256='284f34c6d8124132e2e0526dd7f8b0aeda90e77265b2659b8a69e50104e7c82d';
+export const GA_ASSEMBLY_SOURCE_REVIEW_SHA256='3513ad6af7816c176509e709ce173ab4e019f72fbc272f28cff1f66047f6fa10';
+const GA_GUIDE_PATH='src/lib/rcap/supplemental/guide-renderer.ts';
+const GA_GUIDE_BEFORE='f41c58f8c24d24b68ab8d2ea1d895961239d3298cc671347965e116a7e50374f';
+const GA_GUIDE_AFTER='ad50f8fcc2061153af51556b625eaa83f571cf6b54b49af5fc369cf2ba06e7b6';
+const GA_SOURCE_APPLICABILITY_SHA256='b0e1a1cd37898e87d381185f97e5e9585d56609435c3f7df6e405c151d2eb718';
 const hash=bytes=>createHash('sha256').update(bytes).digest('hex');
 const variants=['full','court_only','unknown-otn-full','unknown-otn-court_only','boundary-es-full','boundary-es-court_only'];
 const overlay='data/rcap-all50/overlays/census-v1/ga/ga-pardon-j7-set--custom-pleading/';
@@ -27,6 +32,46 @@ const assemblySourcePaths=[
  'src/lib/rcap/supplemental/guide-renderer.ts','src/lib/rcap/supplemental/guide-registry.ts','src/lib/rcap/render/personalized-packet.ts',
  'data/record-clearing/supplemental-guides/GA-restriction-and-sealing-of-a-pardoned-felony.v1.json'
 ];
+/** One reviewed default-branch source transition, not a general hash waiver. */
+export function assertGaAssemblySourceApplicabilityScope(review,proof){
+ assert.equal(review.status,'PASS_EXACT_GA_DEFAULT_GUIDE_SOURCE_APPLICABILITY');
+ assert.equal(proof.status,'PREPARED_GA_DEFAULT_GUIDE_SOURCE_APPLICABILITY_NOT_APPROVAL');
+ assert.equal(proof.route,GA_CURRENT_OUTPUT_ROUTE);assert.equal(proof.trackId,'ga-pardon-j7');
+ assert.deepEqual(review.allowedSourceChanges,[{path:GA_GUIDE_PATH,beforeSha256:GA_GUIDE_BEFORE,afterSha256:GA_GUIDE_AFTER}]);
+ assert.equal(proof.changedInput.path,GA_GUIDE_PATH);assert.equal(proof.changedInput.originalSha256,GA_GUIDE_BEFORE);assert.equal(proof.changedInput.currentSha256,GA_GUIDE_AFTER);
+ assert.deepEqual(Object.keys(proof.sourceBindings).sort(),[...assemblySourcePaths,'scripts/test-ga-participant-assembly-boundaries.mjs'].sort());
+ for(const [file,value]of Object.entries(proof.sourceBindings)){
+  if(file===GA_GUIDE_PATH){assert.deepEqual(value,{originalSha256:GA_GUIDE_BEFORE,currentSha256:GA_GUIDE_AFTER});}
+  else{assert.equal(value.originalSha256,value.currentSha256);assert.equal(review.preservedSourceHashes[file],value.currentSha256);}
+ }
+ assert.equal(Object.keys(review.preservedSourceHashes).length,15);
+ assert.equal(proof.preservedParticipantAssemblies.length,5);assert.equal(new Set(proof.preservedParticipantAssemblies.map(a=>a.path)).size,5);
+ assert.equal(proof.proof.gaCallerOmitsNewOption,true);assert.equal(proof.proof.onlyTwoChangedRegions,true);
+ assert.equal(proof.proof.removingNewOptionAndRestoringExactOldChecklistLoopReconstructsPriorBytes,true);
+ assert.deepEqual(proof.authority,{createsApproval:false,createsRegistryRecord:false,protectedGenerationEstablished:false,authorizedDeliveryEstablished:false,paymentAllowed:false});
+}
+function assemblySourceApplicability({assemblySourceReviewPath,assemblySourceReviewSha256,assemblyReviewPath,boundaryReviewPath,readBytes}){
+ assert.equal(assemblySourceReviewSha256,GA_ASSEMBLY_SOURCE_REVIEW_SHA256,'unreviewed assembly source applicability');
+ const bytes=readBytes(assemblySourceReviewPath);assert.equal(hash(bytes),assemblySourceReviewSha256,'source applicability review changed');
+ const review=JSON.parse(bytes);assert.equal(review.sourceApplicability.sha256,GA_SOURCE_APPLICABILITY_SHA256);
+ const proofBytes=readBytes(review.sourceApplicability.path);assert.equal(hash(proofBytes),GA_SOURCE_APPLICABILITY_SHA256,'source applicability evidence changed');
+ const proof=JSON.parse(proofBytes);assertGaAssemblySourceApplicabilityScope(review,proof);
+ assert.deepEqual(review.originalReviews,[{file:assemblyReviewPath,sha256:GA_PARTICIPANT_ASSEMBLY_REVIEW_SHA256},{file:boundaryReviewPath,sha256:GA_PARTICIPANT_BOUNDARY_REVIEW_SHA256}]);
+ for(const source of review.sourceEvidence)assert.equal(hash(readBytes(source.file)),source.sha256,'default source proof bytes changed');
+ for(const [file,value]of Object.entries(proof.sourceBindings))assert.equal(hash(readBytes(file)),value.currentSha256,'changed applicability input: '+file);
+ for(const a of proof.preservedParticipantAssemblies){const bytes=readBytes(a.path);assert.equal(hash(bytes),a.sha256);assert.equal(bytes.length,a.byteLength);}
+ return {scope:'Exact unchanged default guide behavior for five preserved GA participant assemblies; original render source pins remain historical',
+  independentReview:{path:assemblySourceReviewPath,sha256:assemblySourceReviewSha256},sourceApplicability:review.sourceApplicability,
+  sourceInputs:proof.sourceBindings,changedInput:review.allowedSourceChanges[0],preservedParticipantAssemblies:proof.preservedParticipantAssemblies,
+  createsApproval:false,protectedGenerationEstablished:false,authorizedDeliveryEstablished:false};
+}
+function assertAssemblySourceInputs(bindings,readBytes,applicability){
+ for(const [file,sha256]of Object.entries(bindings)){
+  const current=applicability?.sourceInputs[file];
+  if(applicability)assert.equal(current?.originalSha256,sha256,'original assembly source binding changed: '+file);
+  assert.equal(hash(readBytes(file)),current?.currentSha256??sha256,'changed assembly input: '+file);
+ }
+}
 /** Exact independently reviewed synthetic assembly scope, never an approval. */
 export function assertGaParticipantAssemblyReviewScope(review,actual){
  assert.equal(review.status,'PASS_BOUNDED_INDEPENDENT_GA_PRODUCTION_ASSEMBLY_MAPPING_AND_PAGINATION');
@@ -46,13 +91,13 @@ export function assertGaParticipantAssemblyReviewScope(review,actual){
  }
  assert.equal(actual.translationProvenance.status,'SOURCE_PARALLEL_DRAFT_INDEPENDENT_LANGUAGE_REVIEW_PENDING');
 }
-async function participantAssemblyHandoff({assemblyReviewPath,assemblyReviewSha256,readBytes,candidate}){
+async function participantAssemblyHandoff({assemblyReviewPath,assemblyReviewSha256,readBytes,candidate,applicability}){
  assert.equal(assemblyReviewSha256,GA_PARTICIPANT_ASSEMBLY_REVIEW_SHA256,'unreviewed participant assembly evidence');
  const reviewBytes=readBytes(assemblyReviewPath);assert.equal(hash(reviewBytes),assemblyReviewSha256,'assembly independent review bytes changed');
  const review=JSON.parse(reviewBytes),actualBytes=readBytes(review.actualRenderEvidence.path);
  assert.equal(hash(actualBytes),review.actualRenderEvidence.sha256,'assembly execution evidence changed');
  const actual=JSON.parse(actualBytes);assertGaParticipantAssemblyReviewScope(review,actual);
- for(const [file,sha256] of Object.entries(actual.sourceBindings))assert.equal(hash(readBytes(file)),sha256,'changed assembly input: '+file);
+ assertAssemblySourceInputs(actual.sourceBindings,readBytes,applicability);
  const guidePath=assemblySourcePaths.at(-1),guide=JSON.parse(readBytes(guidePath));
  assert.equal(guide.routeKey,GA_CURRENT_OUTPUT_ROUTE);assert.deepEqual(guide.translationProvenance,actual.translationProvenance);
  const original=candidate.currentOutputCandidates.map(({variant,file,sha256,byteLength})=>({variant,file,sha256,byteLength}));
@@ -108,13 +153,13 @@ export function assertGaParticipantBoundaryReviewScope(review,actual){
  assert.equal(actual.translationProvenance.status,'SOURCE_PARALLEL_DRAFT_INDEPENDENT_LANGUAGE_REVIEW_PENDING');
  assert.deepEqual(review.translationProvenance,actual.translationProvenance);
 }
-async function participantBoundaryHandoff({boundaryReviewPath,boundaryReviewSha256,readBytes,candidate,known}){
+async function participantBoundaryHandoff({boundaryReviewPath,boundaryReviewSha256,readBytes,candidate,known,applicability}){
  assert.equal(boundaryReviewSha256,GA_PARTICIPANT_BOUNDARY_REVIEW_SHA256,'unreviewed participant boundary evidence');
  const reviewBytes=readBytes(boundaryReviewPath);assert.equal(hash(reviewBytes),boundaryReviewSha256,'boundary independent review bytes changed');
  const review=JSON.parse(reviewBytes),actualBytes=readBytes(review.actualRenderEvidence.file);
  assert.equal(hash(actualBytes),review.actualRenderEvidence.sha256,'boundary execution evidence changed');
  const actual=JSON.parse(actualBytes);assertGaParticipantBoundaryReviewScope(review,actual);
- for(const [file,sha256]of Object.entries(actual.sourceBindings))assert.equal(hash(readBytes(file)),sha256,'changed boundary assembly input: '+file);
+ assertAssemblySourceInputs(actual.sourceBindings,readBytes,applicability);
  assert.deepEqual(actual.preservedKnownAssemblyReceipt,{file:known.executionEvidence.path,sha256:known.executionEvidence.sha256});
  const knownBytes=readBytes(actual.preservedKnownAssemblyReceipt.file);assert.equal(hash(knownBytes),actual.preservedKnownAssemblyReceipt.sha256);
  const knownExecution=JSON.parse(knownBytes);
@@ -159,7 +204,9 @@ export function assertGaCurrentOutputCandidateScope(candidate){
  assert.deepEqual(candidate.originalAdoptedArtifacts.map(entry=>entry.fixture).sort(),['boundary','canonical']);
  assert.equal(candidate.existingEvidence.length,6,'all existing scoped independent evidence required');
 }
-export async function prepareGaCurrentOutputHandoff({candidatePath,candidateSha256,readBytes,sourceSha,assemblyReviewPath,assemblyReviewSha256,boundaryReviewPath,boundaryReviewSha256}){
+export async function prepareGaCurrentOutputHandoff({candidatePath,candidateSha256,readBytes,sourceSha,assemblyReviewPath,assemblyReviewSha256,boundaryReviewPath,boundaryReviewSha256,assemblySourceReviewPath,assemblySourceReviewSha256}){
+ assert.equal(Boolean(assemblySourceReviewPath),Boolean(assemblySourceReviewSha256),'source review path and pin must be supplied together');
+ assert(!assemblySourceReviewPath||boundaryReviewPath,'source applicability requires all five reviewed assemblies');
  assert.equal(Boolean(assemblyReviewPath),Boolean(assemblyReviewSha256),'assembly review path and pin must be supplied together');
  assert.equal(Boolean(boundaryReviewPath),Boolean(boundaryReviewSha256),'boundary review path and pin must be supplied together');
  assert(!boundaryReviewPath||assemblyReviewPath,'boundary assemblies require the preserved known-assembly review');
@@ -192,8 +239,13 @@ export async function prepareGaCurrentOutputHandoff({candidatePath,candidateSha2
   if(artifact.variant)outputs.push({id:artifact.variant,path:artifact.file,sha256:artifact.sha256,byteLength:b.length,pageCount:artifact.pageCount});
  }
  assert(outputs.every(output=>!candidate.originalAdoptedArtifacts.some(old=>old.sha256===output.sha256)),'changed outputs cannot borrow original fixture approval');
- let participantAssemblies=assemblyReviewPath?await participantAssemblyHandoff({assemblyReviewPath,assemblyReviewSha256,readBytes,candidate}):null;
- if(boundaryReviewPath)participantAssemblies=await participantBoundaryHandoff({boundaryReviewPath,boundaryReviewSha256,readBytes,candidate,known:participantAssemblies});
+ const applicability=assemblySourceReviewPath?assemblySourceApplicability({assemblySourceReviewPath,assemblySourceReviewSha256,assemblyReviewPath,boundaryReviewPath,readBytes}):null;
+ let participantAssemblies=assemblyReviewPath?await participantAssemblyHandoff({assemblyReviewPath,assemblyReviewSha256,readBytes,candidate,applicability}):null;
+ if(boundaryReviewPath)participantAssemblies=await participantBoundaryHandoff({boundaryReviewPath,boundaryReviewSha256,readBytes,candidate,known:participantAssemblies,applicability});
+ if(applicability){
+  assert.deepEqual(participantAssemblies.outputs.map(a=>({path:a.path,sha256:a.sha256,byteLength:a.byteLength,pages:a.pageCount,locale:a.locale})),applicability.preservedParticipantAssemblies);
+  participantAssemblies={...participantAssemblies,sourceApplicability:applicability};
+ }
  const binding={routeId:GA_CURRENT_OUTPUT_ROUTE,trackId:'ga-pardon-j7',packetFamilyId:'ga-pardon-j7-set',specificationPath:source.specificationFile,specificationFileSha256:source.specificationFileSha256,specificationContentSha256:source.semanticSpecificationSha256,provider:{id:source.provider,version:source.providerVersion,publishedExecutionEstablished:false},sourceInputs:source.explicitBoundInputs.map(({path,sha256})=>({path,sha256})),outputs,...(participantAssemblies?{participantAssemblies}: {})};
  return {
   status:'PREPARED_CURRENT_OUTPUT_HANDOFF_HELD',kind:'technical_productization_handoff',sourceSha,
