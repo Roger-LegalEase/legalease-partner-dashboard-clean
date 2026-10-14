@@ -1130,6 +1130,30 @@ function nebraskaUnselectedCorrectionIds(snapshot: ProtectedPacketAuthoritySnaps
   return prior ? ["case_outcome", "age_at_offense"] : [];
 }
 
+function louisianaUnselectedCorrectionIds(snapshot: ProtectedPacketAuthoritySnapshot): string[] {
+  if (snapshot.jurisdiction !== "LA" || snapshot.pathwayId !== null
+    || !["needs_more_info", "needs_review"].includes(snapshot.resultCode ?? "")
+    || snapshot.paymentAllowed || snapshot.packetPlan !== null || snapshot.packetType !== null
+    || snapshot.requiredInputIds.length !== 0) return [];
+  const profile = getProfileByJurisdiction("LA");
+  if (!profile || snapshot.profileVersion !== profile.profileVersion
+    || snapshot.profileSourceFingerprint !== profile.source?.sourceCorpusSha256
+    || snapshot.profileAuthorityFingerprint !== profileAuthorityFingerprint(profile, null)) return [];
+  const route = LA_AUTOMATION_STATUS_ROUTE;
+  const priorAuthority = profileAuthorityFingerprint(profile, route);
+  const history = snapshot.dependencies.semanticAnswerHistory;
+  const prior = Array.isArray(history) && history.some(entry =>
+    isRecord(entry) && ["screeningAnswers", "prefilledAnswers", "packetAnswers"].includes(entry.source)
+    && profile.questions.some(question => question.id === entry.factId && questionAnswerState(question, entry.value) === "known_valid")
+    && entry.meaning === "prior_factual_pathway_answer" && entry.factId === "case_outcome"
+    && entry.routeKey === `LA:${route}` && entry.profileVersion === profile.profileVersion
+    && entry.profileSourceFingerprint === profile.source?.sourceCorpusSha256
+    && entry.profileAuthorityFingerprint === priorAuthority);
+  // A former protected route establishes correction provenance, not a current
+  // route. Never populate optional pathway hints or change the held evaluation.
+  return prior ? ["case_outcome"] : [];
+}
+
 export function protectedPacketInformationModelFor(
   verification: ProtectedPacketVerificationRecord
 ): ProtectedPacketInformationModel | null {
@@ -1184,7 +1208,7 @@ export function protectedPacketInformationModelFor(
   const initialAnswers = { ...screeningAnswers, ...prefilledAnswers, ...packetAnswers };
   const requiredInputIds = stringArray(snapshot.requiredInputIds);
   if (!canonicalEqual(requiredInputIds, packetPlan?.requiredInputIds ?? [])) return null;
-  const heldFactualCorrectionIds = nebraskaUnselectedCorrectionIds(snapshot);
+  const heldFactualCorrectionIds = [...nebraskaUnselectedCorrectionIds(snapshot), ...louisianaUnselectedCorrectionIds(snapshot)];
   const questionSurface = protectedPacketQuestionSurface(
     profile,
     snapshot.pathwayId,
@@ -1425,6 +1449,7 @@ export function factualPathwayCorrectionIds(state: string, pathway: string | nul
       "case_outcome", ...(state === "GA" ? ["ga_original_first_offender", "pardon_status"] : [])] : [];
 
   if (arkansasRecordOriginApplies(state, pathway)) return [...extra, AR_RECORD_ORIGIN_ID];
+  if (state === "LA" && pathway === LA_AUTOMATION_STATUS_ROUTE) return [...extra, "case_outcome"];
   if (state === "NE" && pathway === "automatic-nonconviction-sealing") return [...extra, "case_outcome", "age_at_offense"];
   if (state === "GA" && (pathway === GA_PARDON_ROUTE || georgiaPardonRequested(answers, pathway))) {
     return [...extra, ...GA_PARDON_FACT_IDS.filter(id => includeInactive || georgiaPardonQuestionApplies(state, answers, id, pathway)), "pending_cases", "case_outcome"];
@@ -1533,8 +1558,20 @@ export function isNebraskaNonconvictionGuidanceCorrection(model: Parameters<type
       { ...model.screeningAnswers, ...model.prefilledAnswers, ...model.packetAnswers });
 }
 
+/** Status guidance retains its original disposition correction, without granting
+ * filing, verification, payment or automated-request authority. */
+export function isLouisianaAutomationStatusGuidanceCorrection(model: Parameters<typeof heldCourtCompletionInputIds>[0], resultCode: string | null): boolean {
+  const profile = getProfileByJurisdiction("LA");
+  return resultCode === "guidance_only" && model.stateCode === "LA"
+    && model.pathwayId === LA_AUTOMATION_STATUS_ROUTE && Boolean(profile)
+    && canonicalEqual(model.packetPlan, packetPlanForPathway(profile!, model.pathwayId));
+}
+
 export function heldPacketCorrectionInputIds(model: Parameters<typeof heldCourtCompletionInputIds>[0], resultCode: string | null): Set<string> {
   const ids = heldCourtCompletionInputIds(model, resultCode);
+  if (isLouisianaAutomationStatusGuidanceCorrection(model, resultCode)
+    && editablePacketInputIds(model).has("case_outcome")
+    && model.questions.some(question => question.id === "case_outcome")) ids.add("case_outcome");
   // Exact nonpayable adult nonconviction guidance retains its factual controls.
   // Acquittal's inactive financial answer remains excluded by collection policy;
   // dismissal's active payment answer stays independently correctable.
@@ -1935,7 +1972,7 @@ function deriveProtectedPacketDraftSnapshot(
   const gaPreparationIds = gaPardonPreparation ? gaPardonPreparationModelFor(verification)?.gaPardonPreparationFactIds : undefined;
   if (gaPardonPreparation && !gaPreparationIds) return null;
   base = louisianaAutomationStatusHeldSuccessor(base, currentAuthority) ?? nebraskaAcquittalHeldSuccessor(base, currentAuthority) ?? kansasRegistrationHeldSuccessor(base, currentAuthority) ?? base;
-  const factualIds = [...factualPathwayCorrectionIds(base.jurisdiction, base.pathwayId, { ...base.screeningAnswers, ...base.prefilledAnswers, ...base.packetAnswers }, true), ...msExactTimingQuestionIds(base.jurisdiction, base.pathwayId, { ...base.screeningAnswers, ...base.prefilledAnswers, ...base.packetAnswers }, true), ...nebraskaUnselectedCorrectionIds(base)];
+  const factualIds = [...factualPathwayCorrectionIds(base.jurisdiction, base.pathwayId, { ...base.screeningAnswers, ...base.prefilledAnswers, ...base.packetAnswers }, true), ...msExactTimingQuestionIds(base.jurisdiction, base.pathwayId, { ...base.screeningAnswers, ...base.prefilledAnswers, ...base.packetAnswers }, true), ...nebraskaUnselectedCorrectionIds(base), ...louisianaUnselectedCorrectionIds(base)];
   if (gaPreparationIds) factualIds.push(...gaPreparationIds);
   if (isNy16059Packet(base.jurisdiction, base.pathwayId)) factualIds.push(...NY_PACKET_FACT_IDS, ...NY_CASE_FACT_IDS,
     ...routeFactualCorrectionIds({ stateCode: base.jurisdiction, pathwayId: base.pathwayId,

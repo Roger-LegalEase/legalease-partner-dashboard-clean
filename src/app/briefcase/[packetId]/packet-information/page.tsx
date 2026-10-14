@@ -5,7 +5,7 @@ import { packetDisplayCopy, packetMatterTitleCopy } from "@/lib/expungement-ai/p
 import { LocalizedCopy, LocalizedRuntimeText } from "@/components/expungement-ai/LocalizationProvider";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { editablePacketInputIds, factualPathwayCorrectionIds, heldPacketCorrectionInputIds, isNebraskaNonconvictionGuidanceCorrection, packetAccountEmailSuggestion, caProp64ClarificationModelFor } from "@/lib/expungement-ai/packet-information";
+import { editablePacketInputIds, factualPathwayCorrectionIds, heldPacketCorrectionInputIds, isNebraskaNonconvictionGuidanceCorrection, isLouisianaAutomationStatusGuidanceCorrection, packetAccountEmailSuggestion, caProp64ClarificationModelFor } from "@/lib/expungement-ai/packet-information";
 
 import { BriefcaseShell } from "@/components/expungement-ai/BriefcaseShell";
 import { MatterStatusBadge } from "@/components/expungement-ai/BriefcaseViews";
@@ -46,10 +46,11 @@ export default async function PacketInformationPage({
     }
     preparationModel = read.ok ? gaPardonPreparationModelFor(read.value) : null;
   }
-  const nonconvictionGuidanceCorrection = item?.authorityStatus === "protected_draft"
+  const savedCaseGuidanceCorrection = item?.authorityStatus === "protected_draft"
     && item.jurisdiction && item.packetDraft.status === "available"
-    && isNebraskaNonconvictionGuidanceCorrection({ ...item.packetDraft, stateCode: item.jurisdiction, pathwayId: item.pathwayId }, item.resultCode);
-  const eligibilityCorrection = Boolean(nonconvictionGuidanceCorrection) || ["NY", "CA", "IL", "GA"].includes(item?.jurisdiction ?? "")
+    && (isNebraskaNonconvictionGuidanceCorrection({ ...item.packetDraft, stateCode: item.jurisdiction, pathwayId: item.pathwayId }, item.resultCode)
+      || isLouisianaAutomationStatusGuidanceCorrection({ ...item.packetDraft, stateCode: item.jurisdiction, pathwayId: item.pathwayId }, item.resultCode));
+  const eligibilityCorrection = Boolean(savedCaseGuidanceCorrection) || ["NY", "CA", "IL", "GA"].includes(item?.jurisdiction ?? "")
     || item?.packetDraft.status === "available" && (msExactTimingQuestionIds(item.jurisdiction ?? "", item.pathwayId, item.packetDraft.initialAnswers).length > 0
       || factualPathwayCorrectionIds(item.jurisdiction ?? "", item.pathwayId, item.packetDraft.initialAnswers).length > 0
       || (item.packetDraft.heldFactualCorrectionIds?.length ?? 0) > 0);
@@ -60,12 +61,14 @@ export default async function PacketInformationPage({
     && item.jurisdiction && item.packetDraft.status === "available"
     ? heldPacketCorrectionInputIds({ ...item.packetDraft, stateCode: item.jurisdiction, pathwayId: item.pathwayId }, item.resultCode) : new Set<string>();
   const correctingCompletion = !preparing && !packetResult && correctionIds.size > 0;
-  // These protected NE correction surfaces return to the current matter, even
+  // These protected NE and LA correction surfaces return to the current matter, even
   // when an explicit uncertainty truthfully leaves its legal route unresolved.
-  const nebraskaMatterCorrection = correctingCompletion && item?.authorityStatus === "protected_draft"
-    && item.jurisdiction === "NE" && item.packetDraft.status === "available"
-    && (item.pathwayId === "automatic-nonconviction-sealing"
-      || item.pathwayId === null && (item.packetDraft.heldFactualCorrectionIds?.length ?? 0) > 0);
+  const savedCaseMatterCorrection = correctingCompletion && item?.authorityStatus === "protected_draft"
+    && item.packetDraft.status === "available"
+    && (item.jurisdiction === "NE" && (item.pathwayId === "automatic-nonconviction-sealing"
+      || item.pathwayId === null && (item.packetDraft.heldFactualCorrectionIds?.length ?? 0) > 0)
+      || item.jurisdiction === "LA" && (item.pathwayId === "automated-expungement-status-verification-art-985-2"
+        || item.pathwayId === null && item.packetDraft.heldFactualCorrectionIds?.includes("case_outcome")));
   const model = preparing ? preparationModel : (correctingCompletion || packetResult && item?.paymentState !== "unavailable") && item?.packetDraft.status === "available"
     ? item.packetDraft
     : null;
@@ -120,7 +123,7 @@ export default async function PacketInformationPage({
             <div>
               <p className="text-xs font-bold uppercase tracking-[0.08em] text-[#08786F]">{item.jurisdiction}</p>
               <h1 className="mt-2 text-[26px] font-extrabold tracking-[-0.02em] text-[#0B1320]">{preparing ? <LocalizedCopy en="Prepare your petition information" es="Prepare la información para su petición" /> : correctingCompletion
-                ? <LocalizedCopy en={nonconvictionGuidanceCorrection ? "Review saved case answers" : eligibilityCorrection ? "Review saved eligibility answers" : "Review saved completion answers"} es={nonconvictionGuidanceCorrection ? "Revise las respuestas guardadas sobre el caso" : eligibilityCorrection ? "Revise las respuestas guardadas sobre la elegibilidad" : "Revise las respuestas guardadas sobre el cumplimiento"} />
+                ? <LocalizedCopy en={savedCaseGuidanceCorrection ? "Review saved case answers" : eligibilityCorrection ? "Review saved eligibility answers" : "Review saved completion answers"} es={savedCaseGuidanceCorrection ? "Revise las respuestas guardadas sobre el caso" : eligibilityCorrection ? "Revise las respuestas guardadas sobre la elegibilidad" : "Revise las respuestas guardadas sobre el cumplimiento"} />
                 : <LocalizedRuntimeText text={"Complete packet information"} />}</h1>
               {item.pathwayLabel ? <p className="mt-2 text-sm font-semibold text-[#475A6E]"><LocalizedCopy {...packetDisplayCopy("route_label", item.jurisdiction, item.pathwayId, item.pathwayLabel)} /></p> : null}
             </div>
@@ -128,8 +131,8 @@ export default async function PacketInformationPage({
           </div>
 
           <div className="my-6 rounded-[14px] bg-[#F7F3EC] px-5 py-4 text-sm leading-6 text-[#5A6275]">
-            {preparing ? <p><LocalizedCopy en="Choose a detail to save or correct. Describe the harm to you using your own facts. The court decides the petition. You can save your progress; a packet is not yet available to download." es="Elija un dato para guardarlo o corregirlo. Describa el perjuicio que ha sufrido usando sus propios hechos. El tribunal decide la petición. Puede guardar su progreso; el paquete aún no está disponible para descargar." /></p> : nonconvictionGuidanceCorrection ? (
-              <p><LocalizedCopy en="You can correct the saved case answers used for this guidance. Saving an answer does not verify your facts, confirm that your record is sealed, or make a court packet available." es="Puede corregir las respuestas guardadas sobre el caso que se usan para esta orientación. Guardar una respuesta no verifica sus datos, no confirma que su expediente esté sellado ni habilita un paquete judicial." /></p>
+            {preparing ? <p><LocalizedCopy en="Choose a detail to save or correct. Describe the harm to you using your own facts. The court decides the petition. You can save your progress; a packet is not yet available to download." es="Elija un dato para guardarlo o corregirlo. Describa el perjuicio que ha sufrido usando sus propios hechos. El tribunal decide la petición. Puede guardar su progreso; el paquete aún no está disponible para descargar." /></p> : savedCaseGuidanceCorrection ? (
+              <p><LocalizedCopy en={item.jurisdiction === "LA" ? "You can correct the saved case answers used for this guidance. Saving an answer does not verify your facts, submit an automated expungement request, or make a court packet available." : "You can correct the saved case answers used for this guidance. Saving an answer does not verify your facts, confirm that your record is sealed, or make a court packet available."} es={item.jurisdiction === "LA" ? "Puede corregir las respuestas guardadas sobre el caso que se usan para esta orientación. Guardar una respuesta no verifica sus datos, no presenta una solicitud de eliminación automatizada ni habilita un paquete judicial." : "Puede corregir las respuestas guardadas sobre el caso que se usan para esta orientación. Guardar una respuesta no verifica sus datos, no confirma que su expediente esté sellado ni habilita un paquete judicial."} /></p>
             ) : correctingCompletion ? (
               <p><LocalizedCopy en="You can correct these saved answers. Your current result remains on hold, and correcting an answer does not complete final verification." es="Puede corregir estas respuestas guardadas. Su resultado actual sigue pendiente y corregir una respuesta no completa la verificación final." /></p>
             ) : sponsored ? (
@@ -172,8 +175,8 @@ export default async function PacketInformationPage({
             initialRecordClarificationIds={model.recordClarificationIds}
             initialCourtRecordConflict={model.courtRecordConflict}
             initialAccountEmailSuggestion={packetAccountEmailSuggestion({ ...model, stateCode: item.jurisdiction, pathwayId: item.pathwayId ?? null }, auth.userEmail)}
-            initialRouteChanged={correctingCompletion && !nebraskaMatterCorrection}
-            returnToMatterAfterCorrection={preparing || Boolean(nebraskaMatterCorrection)}
+            initialRouteChanged={correctingCompletion && !savedCaseMatterCorrection}
+            returnToMatterAfterCorrection={preparing || Boolean(savedCaseMatterCorrection)}
             gaPardonPreparation={preparing}
             editingFromReview={Boolean(editId) || correctingCompletion}
           /> : null}
