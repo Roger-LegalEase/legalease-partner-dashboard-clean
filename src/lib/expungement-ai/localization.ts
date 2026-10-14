@@ -1246,6 +1246,8 @@ function resolveSpanishPattern(text: string, vars?: Record<string, string | numb
   if (normalized === "You're ready to file") return "Está listo para presentar";
   const readyPacket = normalized.match(/^Your packet for (.+) is ready\. We'll show you exactly where to take it and what to expect\.$/);
   if (readyPacket) return `Su paquete para ${readyPacket[1]} está listo. Le mostraremos exactamente dónde llevarlo y qué esperar.`;
+  const readyWithSteps = normalized.match(/^Your packet for (.+) is ready with filing next steps\.$/);
+  if (readyWithSteps) return `Su paquete para ${readyWithSteps[1]} está listo con los próximos pasos para presentarlo.`;
   if (normalized === "Show me how to file") return "Mostrar cómo presentar";
   if (normalized === "Your case is with the court") return "Su caso está con el tribunal";
   const filed = normalized.match(/^(.+) is filed and waiting on a decision\. There's nothing to do right now\. We'll help you keep track\.$/);

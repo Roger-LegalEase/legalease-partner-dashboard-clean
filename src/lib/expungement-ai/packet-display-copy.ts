@@ -1,7 +1,8 @@
 import { georgiaPardonDisplay } from "@/lib/rcap-engine/georgia-pardon-facts";
 import "server-only";
 import type { BriefcasePresentationItem } from "@/lib/expungement-ai/briefcase-presentation-authority";
-import { reviewedResultRouteLabel } from "@/lib/expungement-ai/reviewed-result-copy";
+import { reviewedResultRouteLabel, reviewedResultText } from "@/lib/expungement-ai/reviewed-result-copy";
+import { interpolate, resolveRuntimeText } from "@/lib/expungement-ai/localization";
 import catalog from "@/lib/expungement-ai/frontend/reviewed-packet-display-copy.json";
 
 /** Display metadata only: both the authoritative route and original text must match. */
@@ -32,4 +33,42 @@ export function packetMatterTitleCopy(item: Pick<BriefcasePresentationItem,
     return { en: item.title };
   }
   return packetDisplayCopy("route_label", item.jurisdiction, item.pathwayId, item.title);
+}
+
+type MatterDisplayIdentity = Pick<BriefcasePresentationItem,
+  "authorityStatus" | "title" | "pathwayLabel" | "jurisdiction" | "pathwayId" | "createdAt" | "summary"
+>;
+
+export function packetMatterSummaryCopy(item: Pick<MatterDisplayIdentity, "authorityStatus" | "summary">): { en: string; es?: string } {
+  const en = item.summary ?? "";
+  const reviewed = item.authorityStatus === "unavailable" ? null : reviewedResultText(en);
+  return reviewed ? { en, es: reviewed.es } : { en };
+}
+
+/** Translate only the exact generated route label; dates and saved text stay literal. */
+export function packetMatterSubtitleCopy(item: MatterDisplayIdentity): { en: string; es?: string } {
+  const date = new Date(item.createdAt);
+  const year = Number.isNaN(date.getTime()) ? null : String(date.getFullYear());
+  const label = item.authorityStatus === "unavailable" ? { en: item.pathwayLabel ?? "" }
+    : packetDisplayCopy("route_label", item.jurisdiction, item.pathwayId, item.pathwayLabel ?? "");
+  const en = [item.jurisdiction, label.en, year].filter(Boolean).join(", ");
+  return en ? { en, es: [item.jurisdiction, label.es ?? label.en, year].filter(Boolean).join(", ") }
+    : packetMatterSummaryCopy(item);
+}
+
+type MatterSentenceTemplate =
+  | "Finish your {title} check"
+  | "Your packet for {title} is ready with filing next steps."
+  | "{title} is filed and waiting on a decision. There's nothing to do right now. We'll help you keep track."
+  | "We saved step-by-step guidance for {title}. Open it whenever you're ready."
+  | "Open {title} ({where}) to review what we found and what you can do next.";
+
+/** Localize the fixed sentence before inserting protected metadata or literal user text. */
+export function packetMatterSentenceCopy(item: MatterDisplayIdentity, template: MatterSentenceTemplate): { en: string; es: string } {
+  const title = packetMatterTitleCopy(item);
+  const where = packetMatterSubtitleCopy({ ...item, summary: null });
+  return {
+    en: interpolate(template, { title: title.en, where: where.en || item.jurisdiction || "saved matter" }),
+    es: interpolate(resolveRuntimeText("es", template), { title: title.es ?? title.en, where: where.es || where.en || item.jurisdiction || "saved matter" })
+  };
 }
