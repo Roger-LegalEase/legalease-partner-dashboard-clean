@@ -33,7 +33,7 @@ check('actual current v4 proof validates three exact approved outputs',()=>{
   const actual=load();assert.equal(actual.proof.schemaVersion,'rcap-ms-paid-packet-proof/v4');
   assert.equal(actual.proof.results.length,3);assert.deepEqual(actual.proof.results,prior.results);
   assert.deepEqual(actual.proof.ownerDecision,prior.ownerDecision);
-  assert.equal(actual.proof.outputContinuity.inputCount,113);
+  assert.equal(actual.proof.outputContinuity.inputCount,118);
   assert.equal(actual.proof.currentProtectedJourneyEstablished,false);
 });
 for(const [file,reason] of [[MS_PAID_PACKET_PROOF_PREDECESSOR,/October 11 historical proof changed/],[MS_PAID_PACKET_PROOF_20260920,/September 20 historical proof changed|historical evidence changed/],[MS_PAID_PACKET_PROOF_RETIRED,/September 14 historical proof changed|historical evidence changed/]]){
@@ -43,6 +43,8 @@ const mutations={
  'removed output continuity':p=>delete p.outputContinuity,
  'borrowed old output proof':p=>{p.outputContinuity.path=p.outputContinuity.historicalOutput.path;},
  'invented current count':p=>{p.outputContinuity.inputCount=88;},
+ 'lost previous output continuity':p=>{delete p.outputContinuity.previousContinuity;},
+ 'lost previous output reproduction':p=>{delete p.outputContinuity.previousOutput;},
  'altered predecessor pin':p=>{p.supersededProof.sha256='0'.repeat(64);},
  'lost earliest predecessor':p=>delete p.inputs[MS_PAID_PACKET_PROOF_RETIRED],
  'lost immediate predecessor':p=>delete p.inputs[MS_PAID_PACKET_PROOF_PREDECESSOR],

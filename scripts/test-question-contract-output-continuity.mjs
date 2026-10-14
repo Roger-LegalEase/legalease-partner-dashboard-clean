@@ -6,6 +6,7 @@ import {
   readQuestionContractSuccessor, questionContractSourceSuccessorFor,
   QUESTION_CONTRACT_CONTINUITY_PATH, QUESTION_CONTRACT_CONTINUITY_SHA256,
   QUESTION_CONTRACT_CURRENT_OUTPUT_PATH, QUESTION_CONTRACT_SUCCESSOR_PATH,
+  QUESTION_CONTRACT_PREVIOUS_CONTINUITY_PATH, QUESTION_CONTRACT_PREVIOUS_OUTPUT_PATH,
   QUESTION_CONTRACT_OUTPUT_PATH, MS_QUESTION_CONTRACT_PREDECESSOR_PATH
 } from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 
@@ -20,19 +21,26 @@ function check(name, run) { try { run(); checks++; } catch (error) { error.messa
 const validate = (c = continuity, p = proof, read = readBytes) => assertQuestionContractOutputContinuity({ continuity: c, proof: p, readBytes: read });
 check('exact executed successor validates complete current inventory', () => {
   const actual = assertQuestionContractOutputInputs(readBytes);
-  assert.equal(actual.inputCount, 113);
+  assert.equal(actual.inputCount, 118);
   assert.equal(actual.path, QUESTION_CONTRACT_CURRENT_OUTPUT_PATH);
   assert.equal(actual.sha256, sha(readBytes(QUESTION_CONTRACT_CURRENT_OUTPUT_PATH)));
   assert.equal(actual.continuity.sha256, QUESTION_CONTRACT_CONTINUITY_SHA256);
   assert.deepEqual(actual.historicalOutput, continuity.historicalOutput);
+  assert.deepEqual(actual.previousContinuity, continuity.previousContinuity);
+  assert.deepEqual(actual.previousOutput, continuity.previousOutput);
 });
 check('all original observed dependencies retained, with added imports', () => {
   assert.equal(historical.sources.length, 88);
-  assert.equal(proof.sources.length, 113);
-  assert.equal(continuity.addedSourcePaths.length, 25);
+  assert.equal(proof.sources.length, 118);
+  assert.equal(continuity.addedSourcePaths.length, 30);
+  const previous = JSON.parse(readBytes(QUESTION_CONTRACT_PREVIOUS_OUTPUT_PATH));
+  assert.equal(previous.sources.length, 113);
+  assert.equal(continuity.previousAddedSourcePaths.length, 5);
+  assert.equal(continuity.previousSourceTransitions.length, 5);
+  for (const source of previous.sources) assert.ok(proof.sources.some(input => input.file === source.file));
   for (const source of historical.sources) assert.ok(proof.sources.some(input => input.file === source.file));
 });
-for (const path of [QUESTION_CONTRACT_CONTINUITY_PATH, QUESTION_CONTRACT_CURRENT_OUTPUT_PATH, QUESTION_CONTRACT_SUCCESSOR_PATH, QUESTION_CONTRACT_OUTPUT_PATH]) {
+for (const path of [QUESTION_CONTRACT_CONTINUITY_PATH, QUESTION_CONTRACT_CURRENT_OUTPUT_PATH, QUESTION_CONTRACT_SUCCESSOR_PATH, QUESTION_CONTRACT_OUTPUT_PATH, QUESTION_CONTRACT_PREVIOUS_CONTINUITY_PATH, QUESTION_CONTRACT_PREVIOUS_OUTPUT_PATH]) {
   check(`tampered pinned evidence refused: ${path}`, () => assert.throws(() => assertQuestionContractOutputInputs(file => file === path ? Buffer.from('{}') : readBytes(file)), /bytes changed/));
   check(`missing pinned evidence refuses, never falls back: ${path}`, () => assert.throws(() => assertQuestionContractOutputInputs(file => {
     if (file === path) throw new Error('deliberately missing pinned evidence');
@@ -43,6 +51,12 @@ const continuityMutations = {
   'wrong identity': [c => { c.recordId = 'other'; }, /continuity identity/],
   'wrong historical receipt': [c => { c.historicalSuccessor.sha256 = '0'.repeat(64); }, /continuity ancestry/],
   'wrong historical output': [c => { c.historicalOutput.sha256 = '0'.repeat(64); }, /continuity ancestry/],
+  'wrong previous continuity': [c => { c.previousContinuity.sha256 = '0'.repeat(64); }, /previous continuity ancestry/],
+  'wrong previous output': [c => { c.previousOutput.sha256 = '0'.repeat(64); }, /previous continuity ancestry/],
+  'reduced previous inventory': [c => { c.previousSourceCount--; }, /source inventory/],
+  'omitted previous transition': [c => { c.previousSourceTransitions.pop(); }, /undeclared previous source transition/],
+  'fabricated previous transition': [c => { c.previousSourceTransitions[0].beforeSha256 = '0'.repeat(64); }, /undeclared previous source transition/],
+  'omitted previous addition': [c => { c.previousAddedSourcePaths.pop(); }, /undeclared previous source transition/],
   'unlisted successor path': [c => { c.currentOutput.path = 'other'; }, /current output path/],
   'wrong candidate': [c => { c.reproducedCodeSha = '0'.repeat(40); }, /candidate drift/],
   'reduced inventory': [c => { c.currentSourceCount = 103; }, /source inventory/],
@@ -80,6 +94,15 @@ const proofMutations = {
 for (const key of ['approvalGranted', 'commercialAuthorityGranted', 'productionAuthorized', 'protectedJourneyProven']) proofMutations[`output overclaims ${key}`] = [p => { p[key] = true; }, /proof scope/];
 for (const [name, [mutate, reason]] of Object.entries(proofMutations)) check(name, () => {
   const p = structuredClone(proof); mutate(p); assert.throws(() => validate(continuity, p), reason);
+});
+check('an October 13 addition cannot disappear behind a revised transition list', () => {
+  const c = structuredClone(continuity), p = structuredClone(proof);
+  const prior = JSON.parse(readBytes(QUESTION_CONTRACT_PREVIOUS_OUTPUT_PATH));
+  const originalPaths = new Set(historical.sources.map(input => input.file));
+  const removed = prior.sources.find(input => !originalPaths.has(input.file)).file;
+  p.sources.find(input => input.file === removed).file = 'invented';
+  c.addedSourcePaths = c.addedSourcePaths.filter(file => file !== removed).concat('invented').sort();
+  assert.throws(() => validate(c, p), /previous source omitted/);
 });
 for (const input of proof.sources) check(`current input cannot drift: ${input.file}`, () => assert.throws(() => assertQuestionContractOutputInputs(file => file === input.file ? Buffer.from('deliberately changed source') : readBytes(file)), /stale output input|specification moved|approved output bytes moved|historical evidence changed/));
 for (const evidence of receipt.preservedEvidence) check(`historical evidence remains bound: ${evidence.path}`, () => assert.throws(() => validate(continuity, proof, file => file === evidence.path ? Buffer.from('changed history') : readBytes(file)), /historical evidence changed/));

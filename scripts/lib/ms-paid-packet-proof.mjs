@@ -41,6 +41,7 @@ export const MS_PROOF_OBSERVED_INPUTS=[
   "data/record-clearing/packet-specifications/MS-nonconviction-expungement-99-19-71-4.v1.json",
   "data/record-clearing/packet-specifications/ND-first-offense-possession-sealing.v1.json",
   "data/record-clearing/packet-specifications/NV-probation-specialty-court-dismissal-set-aside-sealing.v1.json",
+  "data/record-clearing/packet-specifications/OR-disposition-configurations.v1.json",
   "data/record-clearing/packet-specifications/OR-set-aside-without-conviction.v1.json",
   "data/record-clearing/packet-specifications/SD-suspended-imposition-of-sentence-sealing.v1.json",
   "data/record-clearing/packet-specifications/VA-absolute-pardon-expungement.v1.json",
@@ -58,8 +59,10 @@ export const MS_PROOF_OBSERVED_INPUTS=[
   "scripts/lib/il-prostitution-j-vacate-composition.mjs",
   "scripts/lib/ms-paid-packet-proof.mjs",
   "scripts/lib/ms-successor-review-matter.mjs",
+  "scripts/lib/nd-first-offense-possession-composition.mjs",
   "scripts/lib/rcap-ephemeral-pg.mjs",
   "scripts/lib/server-only-shim.mjs",
+  "scripts/rcap-custom-pleading/court-facing-rows.mjs",
   "src/components/expungement-ai/screening/answers.ts",
   "src/lib/expungement-ai/ak-courtview-contact.ts",
   "src/lib/expungement-ai/authoritative-screening-result.ts",
@@ -95,6 +98,7 @@ export const MS_PROOF_OBSERVED_INPUTS=[
   "src/lib/expungement-ai/localization.ts",
   "src/lib/expungement-ai/mt-deferred-document-inputs.ts",
   "src/lib/expungement-ai/mt-deferred-document-questions.ts",
+  "src/lib/expungement-ai/nd-first-offense-family-inputs.ts",
   "src/lib/expungement-ai/ny-16059-case-classification.ts",
   "src/lib/expungement-ai/ny-16059-case-questions.ts",
   "src/lib/expungement-ai/ny-16059-case-records.ts",
@@ -169,6 +173,7 @@ export const MS_PROOF_OBSERVED_INPUTS=[
   "src/lib/rcap-engine/nevada-176a-branch.ts",
   "src/lib/rcap-engine/new-york-16059-facts.ts",
   "src/lib/rcap-engine/new-york-16059-questions.ts",
+  "src/lib/rcap-engine/oregon-disposition-identity.ts",
   "src/lib/rcap-engine/packet-planner.ts",
   "src/lib/rcap-engine/pathway-context.ts",
   "src/lib/rcap-engine/profile-registry.ts",
@@ -191,6 +196,7 @@ export const MS_PROOF_OBSERVED_INPUTS=[
   "src/lib/rcap/grade-a/composer.ts",
   "src/lib/rcap/grade-a/document-contract.ts",
   "src/lib/rcap/grade-a/families/il-prostitution-j-vacate-set.ts",
+  "src/lib/rcap/grade-a/families/nd-first-offense-possession-set.ts",
   "src/lib/rcap/grade-a/packet-specification.ts",
   "src/lib/rcap/grade-a/participant-packet.ts",
   "src/lib/rcap/grade-a/renderer.ts",
@@ -262,13 +268,13 @@ export function loadMsPaidPacketProof({readBytes=file=>fs.readFileSync(file), st
   assert.equal(proof.syntheticScenario.factId,'ms_charged_trafficking_distribution_manufacture');
   assert.equal(proof.syntheticScenario.value,'No');
   assert.equal(proof.syntheticScenario.inferredFromLegacyAnswer,false);
-  for(const required of [proof.outputContinuity.path,proof.outputContinuity.continuity.path,MS_PAID_PACKET_PROOF_20260920,MS_PAID_PACKET_PROOF_RETIRED,QUESTION_CONTRACT_SUCCESSOR_PATH, QUESTION_CONTRACT_OUTPUT_PATH, MS_QUESTION_CONTRACT_PREDECESSOR_PATH, MS_PAID_PACKET_PROOF_PREDECESSOR, proof.generatedBy,approval.decisionPath,approval.supersededDecisionPath,approval.specificationPath,approval.supplementalGuidePath,approval.reviewEvidencePath,approval.historicalApprovalPath,'src/lib/rcap/render/participant-packet-assembly.ts','src/lib/rcap/fulfillment/final-verification-contract.ts'])assert.ok(proof.inputs[required],`missing proof input ${required}`);
+  for(const required of [proof.outputContinuity.path,proof.outputContinuity.continuity.path,proof.outputContinuity.previousContinuity.path,proof.outputContinuity.previousOutput.path,MS_PAID_PACKET_PROOF_20260920,MS_PAID_PACKET_PROOF_RETIRED,QUESTION_CONTRACT_SUCCESSOR_PATH, QUESTION_CONTRACT_OUTPUT_PATH, MS_QUESTION_CONTRACT_PREDECESSOR_PATH, MS_PAID_PACKET_PROOF_PREDECESSOR, proof.generatedBy,approval.decisionPath,approval.supersededDecisionPath,approval.specificationPath,approval.supplementalGuidePath,approval.reviewEvidencePath,approval.historicalApprovalPath,'src/lib/rcap/render/participant-packet-assembly.ts','src/lib/rcap/fulfillment/final-verification-contract.ts'])assert.ok(proof.inputs[required],`missing proof input ${required}`);
   const outputBytes=readBytes(proof.outputContinuity.path);
   assert.equal(hash(outputBytes),proof.outputContinuity.sha256,'current output inventory proof changed');
   const currentOutput=JSON.parse(outputBytes);
   assertMsObservedExecution(proof);
   const requiredInventory=[...new Set([...Object.keys(predecessor.inputs),...currentOutput.sources.map(input=>input.file),
-    proof.outputContinuity.path,proof.outputContinuity.continuity.path,MS_PAID_PACKET_PROOF_PREDECESSOR,...MS_PROOF_EXECUTION_INPUTS,...MS_PROOF_OBSERVED_INPUTS])].sort();
+    proof.outputContinuity.path,proof.outputContinuity.continuity.path,proof.outputContinuity.previousContinuity.path,proof.outputContinuity.previousOutput.path,MS_PAID_PACKET_PROOF_PREDECESSOR,...MS_PROOF_EXECUTION_INPUTS,...MS_PROOF_OBSERVED_INPUTS])].sort();
   assert.deepEqual(Object.keys(proof.inputs).sort(),requiredInventory,'incomplete or undeclared MS proof input inventory');
   for(const [file,expected] of Object.entries(proof.inputs))assert.equal(hash(readBytes(file)),expected,`stale MS packet proof: ${file}`);
   const source=proof.sourceAuthority;
