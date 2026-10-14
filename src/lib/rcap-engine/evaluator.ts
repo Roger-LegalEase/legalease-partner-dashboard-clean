@@ -11,6 +11,7 @@ import { MS_PROGRAM_COMPLETION_PATHWAYS, msProgramCompletionPredicates } from "@
 import { MS_CONDITIONAL_DISCHARGE_PATHWAY, msConditionalDischargePredicates } from "@/lib/rcap-engine/mississippi-conditional-discharge";
 import { isIndependentPaidFinancialFact } from "@/lib/expungement-ai/court-completion-reuse";
 import { kansasRecordScopeFromAnswers } from "@/lib/rcap-engine/kansas-record-scope";
+import { KS_REGISTRATION_ROUTE, KS_REGISTRATION_SOURCE, KS_REGISTRATION_REVIEW_COPY } from "@/lib/rcap-engine/kansas-district-facts";
 import { caProp64Choice, CA_PROP64_CURRENT } from "@/lib/expungement-ai/ca-prop64-choices";
 import { caProp64RecordQuestions } from "@/lib/expungement-ai/ca-prop64-record-facts";
 import { caProp64RecordAnswerState } from "@/lib/expungement-ai/ca-prop64-record-answer";
@@ -323,6 +324,13 @@ function evaluateProfileRules(profile: EngineProfile, request: ScreeningEvaluati
     });
   }
 
+  if (jurisdiction === "KS" && preselectedPathway?.id === KS_REGISTRATION_ROUTE) {
+    // KS-02: a petition, with unproved statutory facts; neither automatic relief
+    // nor a payment/waiver finding may be inferred from the broad old answers.
+    return result(profile, request, "needs_review", [reason("KS", "registration_statutory_facts_review", KS_REGISTRATION_REVIEW_COPY[0], KS_REGISTRATION_SOURCE)], {
+      pathwayId: KS_REGISTRATION_ROUTE, paymentAllowed: false
+    });
+  }
   const preRouteSafetyGate = preselectedPathway ? routeSpecificSafetyGate(profile, answers, preselectedPathway) : undefined;
   if (preselectedPathway && preRouteSafetyGate) {
     const code = preRouteSafetyGate.code.endsWith("not_eligible") ? "likely_not_eligible" : "needs_review";

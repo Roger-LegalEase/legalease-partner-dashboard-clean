@@ -1,4 +1,29 @@
-import type { PublicQuestion } from "@/lib/rcap-engine/contracts";
+import type { EngineProfile, PublicQuestion } from "@/lib/rcap-engine/contracts";
+
+export const KS_REGISTRATION_ROUTE = "drug-registration-relief-coordination";
+export const KS_REGISTRATION_SOURCE = "KS-02:2026-10-13;KSA22-4908(a),(i)";
+// Adopted KS-02 establishes the petition procedure, not these missing statutory
+// findings or an approved final document. ES remains source-grounded draft copy.
+export const KS_REGISTRATION_REVIEW_COPY = [
+  "Ending drug-offender registration requires a court petition. This combined request also needs independent expungement eligibility. We still need to review the registration period, excluded time, other convictions, treatment, safety facts and any out-of-state duty. Payment or a completed-sentence answer alone does not establish these requirements.",
+  "Poner fin a la inscripción como delincuente por drogas requiere una petición judicial. Esta solicitud combinada también requiere cumplir de forma independiente los requisitos para eliminar antecedentes. Aún debemos revisar el período de inscripción, el tiempo excluido, otras condenas, el tratamiento, los factores de seguridad y cualquier obligación de otro estado. El pago o una respuesta que indique que se cumplió la sentencia no demuestra por sí solo estos requisitos."
+] as const;
+
+/** Correct one adopted procedure without rewriting the retained source corpus,
+ * inventing a form binding, or granting rendering/payment authority. */
+export function withKansasRegistrationProcedure(profile: EngineProfile): EngineProfile {
+  if (profile.jurisdiction.code !== "KS") return profile;
+  return { ...profile,
+    pathways: profile.pathways.map(p => p.id !== KS_REGISTRATION_ROUTE ? p : {
+      ...p, automatic: false, filingRequired: true, routeType: "court_filing",
+      summary: "Drug-offender registration relief requires a court petition under K.S.A. 22-4908. Expungement is a separate request that may be combined when independently eligible.",
+      suggestedResultCode: "needs_review", frontendBranch: { ...(p as { frontendBranch?: Record<string, unknown> }).frontendBranch, matchedResult: "needs_review", paymentAllowed: false }
+    }),
+    packetGenerator: { ...profile.packetGenerator, pathways: profile.packetGenerator.pathways.map(p => p.pathwayId !== KS_REGISTRATION_ROUTE ? p : {
+      ...p, mode: "state_specific_custom_packet_from_source_rules", formMappingStatus: "custom_or_manual_mapping_required"
+    }) }
+  };
+}
 
 export const KS_DISTRICT_FACT_IDS = [
   "ks_district_request", "ks_district_program_record", "ks_district_diversion_fulfilled", "ks_specialty_program_basis",

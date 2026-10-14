@@ -2,6 +2,7 @@ import { GA_PARDON_COPY } from "@/lib/rcap-engine/georgia-pardon-facts";
 import { AR_RECORD_ORIGIN_COPY } from "@/lib/rcap-engine/arkansas-record-origin";
 import { CONVICTION_RELIEF_COPY } from "@/lib/rcap-engine/conviction-relief-request";
 import { GA_FIRST_OFFENDER_GUIDANCE } from "@/lib/rcap-engine/georgia-first-offender";
+import { KS_REGISTRATION_REVIEW_COPY } from "@/lib/rcap-engine/kansas-district-facts";
 import { reviewedResultText } from "@/lib/expungement-ai/reviewed-result-copy";
 import {RCAP_SPANISH_COPY} from "@/lib/partners/onboarding/rcap-spanish-copy";
 export type Locale = "en" | "es";
@@ -1162,7 +1163,7 @@ export function t(locale: Locale, key: string, fallback?: string, vars?: Record<
 }
 
 export function resolveRuntimeText(locale: Locale, text: string, options?: { key?: string; vars?: Record<string, string | number | undefined> }): string {
-  const draft = [...Object.values(GA_PARDON_COPY), ...Object.values(AR_RECORD_ORIGIN_COPY), ...Object.values(CONVICTION_RELIEF_COPY), ...Object.values(GA_FIRST_OFFENDER_GUIDANCE)].find(([en]) => en === text);
+  const draft = [...Object.values(GA_PARDON_COPY), ...Object.values(AR_RECORD_ORIGIN_COPY), ...Object.values(CONVICTION_RELIEF_COPY), ...Object.values(GA_FIRST_OFFENDER_GUIDANCE), KS_REGISTRATION_REVIEW_COPY].find(([en]) => en === text);
   if (draft) return interpolate(draft[locale === "es" ? 1 : 0], options?.vars);
   const reviewed = reviewedResultText(text);
   if (reviewed) return interpolate(reviewed[locale], options?.vars);

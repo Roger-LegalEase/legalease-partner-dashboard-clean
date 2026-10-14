@@ -1,4 +1,5 @@
 import { AR_RECORD_ORIGIN_ID, arkansasRecordOrigin, arkansasRecordOriginApplies } from "@/lib/rcap-engine/arkansas-record-origin";
+import { KS_REGISTRATION_ROUTE } from "@/lib/rcap-engine/kansas-district-facts";
 import { NY_FUTURE_ID, NY_FUTURE_FACT_IDS } from "@/lib/expungement-ai/ny-16059-future-applications";
 import { isNy16059Packet, NY_PACKET_QUESTIONS, NY_PACKET_FACT_IDS } from "@/lib/expungement-ai/ny-16059-packet-facts";
 import { NY_CASE_FACT_IDS, NY_HISTORY_FACT_IDS, nyCasePreparationQuestions, nyCaseAssociationIssues } from "@/lib/expungement-ai/ny-16059-case-questions";
@@ -970,11 +971,52 @@ export function convictionFallbackHeldSuccessor(snapshot: ProtectedPacketAuthori
   return seeded ? preserveUnchangedProtectedFacts(seeded.snapshot, snapshot, new Set()) : null;
 }
 
+/** Exact source-valid held KS tuples captured at 5b233b03. The adopted petition
+ * correction withdraws the old automatic plan, never the participant's answers.
+ * Only a draft successor is produced; historical verified authority is refused. */
+export function kansasRegistrationHeldSuccessor(snapshot: ProtectedPacketAuthoritySnapshot,
+  authoritative: NonNullable<ReturnType<typeof evaluateProtectedPacketFacts>>): ProtectedPacketDraftSnapshot | null {
+  const profile = getProfileByJurisdiction("KS"), evaluation = authoritative.evaluation;
+  if (!profile || snapshot.schemaVersion !== "expungement-ai/protected-packet-draft/v1"
+    || snapshot.jurisdiction !== "KS" || snapshot.pathwayId !== KS_REGISTRATION_ROUTE
+    || snapshot.profileVersion !== "2026-06-19-source-conversion-1" || profile.profileVersion !== snapshot.profileVersion
+    || snapshot.profileSourceFingerprint !== "c0bbc9c540a680f360113b8aee2ee5ac0f19ffda4958c8f3974366f68c150362"
+    || profile.source?.sourceCorpusSha256 !== snapshot.profileSourceFingerprint
+    || snapshot.profileAuthorityFingerprint !== "94be04b0a5c3a7649364e162c8186c460604e3f4a2787aa15c5519d712a8c89b"
+    || snapshot.paymentAllowed || snapshot.selectedTrackId !== null || snapshot.treatmentClassification !== null
+    || !canonicalEqual(snapshot.deferralComponentIds, [])
+    || !canonicalEqual(snapshot.serverFacts, canonicalServerFacts("KS", KS_REGISTRATION_ROUTE))
+    || evaluation.jurisdiction !== "KS" || evaluation.profileVersion !== snapshot.profileVersion
+    || evaluation.pathwayId !== KS_REGISTRATION_ROUTE || evaluation.resultCode !== "needs_review" || evaluation.paymentAllowed
+    || evaluation.packetPlan || authoritative.packetType || authoritative.selectedTrackId
+    || evaluation.treatmentClassification || evaluation.deferralComponentIds?.length
+    || evaluation.reasons.length !== 1
+    || !["ks.registration_statutory_facts_review", "ks.source_fact_unknown"].includes(evaluation.reasons[0].code)) return null;
+  const financialUnknown = evaluation.reasons[0].code === "ks.source_fact_unknown";
+  if (financialUnknown && !canonicalEqual(evaluation.missingQuestionIds, ["financial_obligations"])) return null;
+  if (snapshot.resultCode === "guidance_only") {
+    if (financialUnknown || snapshot.packetType !== "guidance_packet" || !snapshot.packetPlan
+      || createHash("sha256").update(JSON.stringify(canonicalize(snapshot.packetPlan))).digest("hex") !== "178b92b19f90dd10f9a5421df83fba006e4da8ee0b9382e94252d2d92b3bac95"
+      || !canonicalEqual(snapshot.requiredInputIds, snapshot.packetPlan.requiredInputIds)
+      || !canonicalEqual(snapshot.packetFamilyIdentifiers, { mode: "automatic_relief_verification_and_guidance", sourceFormIds: [] })) return null;
+  } else if (snapshot.resultCode !== "needs_review" || !financialUnknown || snapshot.packetType !== null || snapshot.packetPlan !== null
+    || !canonicalEqual(snapshot.requiredInputIds, [])
+    || !canonicalEqual(snapshot.packetFamilyIdentifiers, { mode: null, sourceFormIds: [] })) return null;
+  const seeded = protectedPacketDraftSeedFromAuthoritative({ authoritative,
+    screeningAnswers: answerRecord(snapshot.screeningAnswers), prefilledAnswers: answerRecord(snapshot.prefilledAnswers),
+    packetAnswers: answerRecord(snapshot.packetAnswers), dependencies: snapshot.dependencies,
+    capturedAt: snapshot.capturedAt });
+  return seeded ? preserveUnchangedProtectedFacts(seeded.snapshot, snapshot, new Set()) : null;
+}
+
 export function protectedPacketInformationModelFor(
   verification: ProtectedPacketVerificationRecord
 ): ProtectedPacketInformationModel | null {
   let snapshot = protectedAuthoritySnapshotFor(verification);
   if (!snapshot) return null;
+  const ksAuthority = snapshot.jurisdiction === "KS" && snapshot.pathwayId === KS_REGISTRATION_ROUTE
+    ? evaluateProtectedPacketFacts(snapshot) : null;
+  if (ksAuthority) snapshot = kansasRegistrationHeldSuccessor(snapshot, ksAuthority) ?? snapshot;
   if ((isCaProp64Pathway(snapshot.jurisdiction, snapshot.pathwayId) || isNy16059Packet(snapshot.jurisdiction, snapshot.pathwayId) || arkansasRecordOriginApplies(snapshot.jurisdiction, snapshot.pathwayId))
     && (!canonicalEqual(snapshot.serverFacts, canonicalServerFacts(snapshot.jurisdiction, snapshot.pathwayId))
       || !canonicalEqual(snapshot.packetFamilyIdentifiers, { mode: snapshot.packetPlan?.mode ?? null, sourceFormIds: snapshot.packetPlan?.sourceFormIds ?? [] }))) return null;
@@ -1700,6 +1742,7 @@ function deriveProtectedPacketDraftSnapshot(
   const currentAuthority = evaluateProtectedPacketFacts(base);
   if (!currentAuthority) return null;
   const originalBase = base;
+  base = kansasRegistrationHeldSuccessor(base, currentAuthority) ?? base;
   const factualIds = [...factualPathwayCorrectionIds(base.jurisdiction, base.pathwayId, { ...base.screeningAnswers, ...base.prefilledAnswers, ...base.packetAnswers }, true), ...msExactTimingQuestionIds(base.jurisdiction, base.pathwayId, { ...base.screeningAnswers, ...base.prefilledAnswers, ...base.packetAnswers }, true)];
   if (isNy16059Packet(base.jurisdiction, base.pathwayId)) factualIds.push(...NY_PACKET_FACT_IDS, ...NY_CASE_FACT_IDS,
     ...routeFactualCorrectionIds({ stateCode: base.jurisdiction, pathwayId: base.pathwayId,
