@@ -1841,7 +1841,7 @@ export function ndFirstOffenseFamilyContract(profile: NonNullable<ReturnType<typ
   return isNdFirstOffenseFamily(profile.jurisdiction.code, pathwayId)
     && contactRepresentationHash(profile) === ND_FIRST_OFFENSE_FAMILY.profileSha256
     && [ND_FIRST_OFFENSE_FAMILY.legacySpecificationCanonicalSha256, ND_FIRST_OFFENSE_FAMILY.successorSpecificationCanonicalSha256]
-      .includes(contactRepresentationHash(specification));
+      .some(hash => hash === contactRepresentationHash(specification));
 }
 
 export function packetCollectionFor(input: {
