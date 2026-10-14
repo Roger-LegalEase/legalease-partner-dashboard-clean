@@ -5,6 +5,8 @@ import assistedContactCatalog from "@/lib/expungement-ai/frontend/reviewed-assis
 import sourceCatalog from "@/lib/expungement-ai/frontend/reviewed-source-question-copy.json";
 import type { PublicQuestion } from "@/lib/rcap-engine/contracts";
 import { gaPardonCaptionQuestion } from "@/lib/expungement-ai/ga-pardon-caption";
+import { gaPardonCategoryQuestion } from "@/lib/expungement-ai/ga-pardon-category-context";
+import { packetSpecificationFor } from "@/lib/rcap/grade-a/packet-specification";
 
 type Context = { state: string; pathwayId?: string | null };
 type Entry = (typeof catalog.entries)[number];
@@ -108,6 +110,11 @@ export function reviewedScreeningQuestion<T extends PublicQuestion>(question: T,
 export function reviewedPacketQuestion<T extends PublicQuestion>(question: T, context: Context & { participantOwnsRecord: boolean; participantHelpingRecord?: boolean }): T {
   const caption = gaPardonCaptionQuestion(question, `${context.state}:${context.pathwayId ?? ""}`);
   if (caption !== question) return caption;
+  if (question.id === "offense_category") {
+    const category = gaPardonCategoryQuestion(question, context.state, context.pathwayId ?? null,
+      packetSpecificationFor(`${context.state}:${context.pathwayId ?? ""}`) ?? null);
+    if (category !== question) return category;
+  }
   const localized = reviewedSourceQuestion(reviewedSpanishQuestion(question, context), context);
   const multiline = MULTILINE_PACKET_FACTS[`${context.state}:${context.pathwayId}`]?.includes(question.id);
   const translated = multiline && ["text", "text_or_unknown", "textarea"].includes(question.type) ? { ...localized, multiline: true } : localized;

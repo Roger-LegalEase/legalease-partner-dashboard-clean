@@ -1,4 +1,5 @@
 import { nebraskaNonconvictionQuestionApplies } from "@/lib/rcap-engine/nebraska-nonconviction-facts";
+import { georgiaPardonCategoryIsContext } from "@/lib/expungement-ai/ga-pardon-category-context";
 import { fullSsnLastFour } from "@/lib/expungement-ai/sensitive-packet-facts";
 import { answerValueIsKnown, uncertaintyState, isCalendarDate, questionAnswerState } from "@/lib/expungement-ai/question-answer-state";
 import type { AnswerValue, ProfileQuestion } from "@/lib/expungement-ai/frontend/contracts";
@@ -665,6 +666,20 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
         actor: actor ?? "external",
         reason: `the specification assigns this field to ${actor ?? "an external actor"}`
       });
+      continue;
+    }
+
+    // GA-02 replaced a broad category inference with exact conviction and
+    // exception questions. Retain every old category answer without making
+    // a new participant answer a gate, or deriving it from offense_level.
+    if (factId === "offense_category" && !overrideClass && !needsHuman.has(factId)
+      && georgiaPardonCategoryIsContext(input.jurisdiction, input.pathwayId, specification)) {
+      const retained = [input.screeningAnswers, input.prefilledAnswers, input.savedAnswers, input.profileFacts]
+        .some(answers => answers && Object.prototype.hasOwnProperty.call(answers, factId));
+      facts.push({ factId, collection: "conditional", phase: retained ? "render" : "known",
+        group: retained ? group : null, active: retained, ...(retained ? { optional: true } : {}),
+        source: "ga_pardon_exact_record_category_context",
+        reason: "The exact final citation and specific statutory facts decide this pardon route; an earlier independent category remains optional editable context, never a derived legal classification." });
       continue;
     }
 
