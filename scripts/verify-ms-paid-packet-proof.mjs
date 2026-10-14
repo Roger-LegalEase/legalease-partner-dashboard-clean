@@ -15,7 +15,7 @@ import { createHash } from 'node:crypto';
 import { execFileSync } from 'node:child_process';
 import { register } from 'node:module';
 import { PDFDocument } from 'pdf-lib';
-import { MS_PAID_PACKET_PROOF, MS_PAID_PACKET_PROOF_PREDECESSOR, loadMsPaidPacketProof } from './lib/ms-paid-packet-proof.mjs';
+import { MS_PAID_PACKET_PROOF, MS_PAID_PACKET_PROOF_PREDECESSOR, MS_PAID_PACKET_PROOF_20260920, MS_PAID_PACKET_PROOF_RETIRED, loadMsPaidPacketProof } from './lib/ms-paid-packet-proof.mjs';
 import { QUESTION_CONTRACT_SUCCESSOR_PATH, QUESTION_CONTRACT_OUTPUT_PATH, MS_QUESTION_CONTRACT_PREDECESSOR_PATH, assertQuestionContractOutputInputs } from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import { startEphemeralPg } from './lib/rcap-ephemeral-pg.mjs';
 import { MS_SUCCESSOR_REVIEW_OUTPUTS, msSuccessorReviewMatter } from './lib/ms-successor-review-matter.mjs';
@@ -32,16 +32,21 @@ const sha = value => createHash('sha256').update(value).digest('hex');
 const inputs = {};
 const read = file => { const bytes=fs.readFileSync(file); inputs[file]=sha(bytes); return bytes; };
 const json = file => JSON.parse(read(file));
+const outputFlag=process.argv.indexOf('--output');
+const out=outputFlag>=0?path.resolve(process.argv[outputFlag+1]??''):MS_PAID_PACKET_PROOF;
+if(outputFlag>=0)assert.ok(!out.startsWith(path.resolve('.')+path.sep),'preview output must be outside source tree');
+if(process.argv.includes('--write')||outputFlag>=0)assert.ok(!fs.existsSync(out),'refusing to overwrite an existing proof');
 const approval = loadMsPaidConsumerSuccessor(); assert.ok(approval, 'exact owner approval refused');
 assert.equal(approval.packetContentsChanged, true, 'this proof measures the changed packet set');
 read(approval.decisionPath); read(approval.supersededDecisionPath);
-assertQuestionContractOutputInputs(read);
+const outputContinuity=assertQuestionContractOutputInputs(read);
 const successor=json(QUESTION_CONTRACT_SUCCESSOR_PATH);
 const outputProof=json(QUESTION_CONTRACT_OUTPUT_PATH);
 read(MS_QUESTION_CONTRACT_PREDECESSOR_PATH);
 for(const entry of successor.preservedEvidence)read(entry.path);
 for(const entry of outputProof.sources)read(entry.file);
 const predecessorProofBytes=read(MS_PAID_PACKET_PROOF_PREDECESSOR);
+read(MS_PAID_PACKET_PROOF_20260920); read(MS_PAID_PACKET_PROOF_RETIRED);
 const spec = json(approval.specificationPath);
 assert.equal(spec.routeKey, approval.routeId); assert.equal(spec.trackId,'ms-nonconv'); assert.equal(spec.packetSetId,'ms-nonconv-set');
 assert.equal(spec.legalSectionsBound,true);
@@ -171,15 +176,13 @@ function bindTree(dir){for(const entry of fs.readdirSync(dir,{withFileTypes:true
 bindTree('src/lib/rcap/grade-a');
 bindTree('src/lib/rcap/supplemental');
 for(const file of ['scripts/verify-ms-paid-packet-proof.mjs','scripts/lib/ms-paid-packet-proof.mjs','scripts/lib/ms-successor-review-matter.mjs','src/lib/rcap/render/participant-packet-assembly.ts','src/lib/rcap/render/personalized-packet.ts','src/lib/expungement-ai/packet-information.ts','src/lib/expungement-ai/verification-cas.ts','src/lib/rcap/fulfillment/final-verification-contract.ts','src/lib/rcap/fulfillment/paid-consumer-successor.ts','src/lib/rcap/fulfillment/question-contract-source-successor.mjs'])read(file);
-const proof={schemaVersion:'rcap-ms-paid-packet-proof/v3',generatedBy:'scripts/verify-ms-paid-packet-proof.mjs',sourceSha:execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),routeId:approval.routeId,trackId:spec.trackId,packetFamilyId:spec.packetFamily,ownerDecision:approval,
+const proof={schemaVersion:'rcap-ms-paid-packet-proof/v4',generatedBy:'scripts/verify-ms-paid-packet-proof.mjs',sourceSha:execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),routeId:approval.routeId,trackId:spec.trackId,packetFamilyId:spec.packetFamily,ownerDecision:approval,
   assemblyIdentity:{assemblyKind:approval.assemblyKind,assemblyVersion:approval.assemblyVersion,supplementalGuidePath:approval.supplementalGuidePath,supplementalGuideSha256:approval.supplementalGuideSha256,supplementalGuideContentSha256:approval.supplementalGuideContentSha256,assembledThrough:'src/lib/rcap/render/participant-packet-assembly.ts'},
-  supersededProof:{path:MS_PAID_PACKET_PROOF_PREDECESSOR,sha256:sha(predecessorProofBytes),artifactBytesStillReproduce:true,resolvedBy:'exact_question_contract_source_successor'},
+  supersededProof:{path:MS_PAID_PACKET_PROOF_PREDECESSOR,sha256:sha(predecessorProofBytes),artifactBytesStillReproduce:true,resolvedBy:'exact_current_output_continuity'},
+  outputContinuity,
   questionContractSourceSuccessor:approval.questionContractSourceSuccessor,syntheticScenario,routeSafetySyntheticAdditions,chargedConductSafetyControls,currentProtectedJourneyEstablished:false,productionAuthorized:false,
   sourceAuthority:{boundInputs:sourceInputs,boundInputsSha256:sourceHash},results,unapprovedDeterminismControls:unapproved,inputs,scope:'Local exact approved packet/assembly/source-authority verification only; no hosted acceptance, publication, participant delivery, new legal review or Production authority.'};
-const outputFlag=process.argv.indexOf('--output');
-const out=outputFlag>=0?path.resolve(process.argv[outputFlag+1]??''):MS_PAID_PACKET_PROOF;
-if(outputFlag>=0)assert.ok(!out.startsWith(path.resolve('.')+path.sep),'preview output must be outside source tree');
 const bytes=Buffer.from(JSON.stringify(proof,null,2)+'\n');
 loadMsPaidPacketProof({readBytes:file=>file===MS_PAID_PACKET_PROOF?bytes:fs.readFileSync(file),stableStringify,approval});
-if(process.argv.includes('--write')||outputFlag>=0)fs.writeFileSync(out,bytes);
+if(process.argv.includes('--write')||outputFlag>=0)fs.writeFileSync(out,bytes,{flag:'wx'});
 console.log(JSON.stringify({routeId:proof.routeId,artifacts:results.map(r=>({id:r.id,variant:r.variant,locale:r.locale,pages:r.pageCount,sha256:r.artifactSha256,verificationHash:r.verificationBoundInputsSha256})),sourceAuthorityHash:sourceHash,postgresRoundTrip:'PASS',negativeBindingControls:results.reduce((t,r)=>t+r.negativeBindingControls,0),unapprovedDeterminismControls:unapproved.length,chargedConductSafetyControls:chargedConductSafetyControls.length,proofWritten:process.argv.includes('--write')||outputFlag>=0,proofPath:out},null,2));

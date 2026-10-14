@@ -5,16 +5,17 @@ import { assertQuestionContractOutputInputs, QUESTION_CONTRACT_SUCCESSOR_PATH, Q
 /** Current source/output proof. Both older proof generations are immutable:
  * 20260920 retains its approved output bytes, while 20260914 remains retired
  * through that predecessor's original guide-supersession record. */
-export const MS_PAID_PACKET_PROOF='data/rcap-grade-a/participant-data-rights/ms-paid-packet-proof-20261011.json';
-export const MS_PAID_PACKET_PROOF_PREDECESSOR='data/rcap-grade-a/participant-data-rights/ms-paid-packet-proof-20260920.json';
+export const MS_PAID_PACKET_PROOF='data/rcap-grade-a/participant-data-rights/ms-paid-packet-proof-20261013.json';
+export const MS_PAID_PACKET_PROOF_PREDECESSOR='data/rcap-grade-a/participant-data-rights/ms-paid-packet-proof-20261011.json';
+export const MS_PAID_PACKET_PROOF_20260920='data/rcap-grade-a/participant-data-rights/ms-paid-packet-proof-20260920.json';
 export const MS_PAID_PACKET_PROOF_RETIRED='data/rcap-grade-a/participant-data-rights/ms-paid-packet-proof-20260914.json';
 /** The approved artifacts, by the ids the owner decision names them under. */
 export const MS_APPROVED_ARTIFACT_IDS=['full-en','full-es','court-only'];
 const hash=b=>crypto.createHash('sha256').update(b).digest('hex');
 export function loadMsPaidPacketProof({readBytes=file=>fs.readFileSync(file), stableStringify, approval}) {
   const bytes=readBytes(MS_PAID_PACKET_PROOF); const proof=JSON.parse(bytes);
-  assert.equal(proof.schemaVersion,'rcap-ms-paid-packet-proof/v3');
-  assertQuestionContractOutputInputs(readBytes);
+  assert.equal(proof.schemaVersion,'rcap-ms-paid-packet-proof/v4');
+  assert.deepEqual(proof.outputContinuity,assertQuestionContractOutputInputs(readBytes));
   assert.deepEqual(proof.questionContractSourceSuccessor, approval.questionContractSourceSuccessor);
   assert.equal(proof.currentProtectedJourneyEstablished, false);
   assert.equal(proof.productionAuthorized, false);
@@ -30,18 +31,28 @@ export function loadMsPaidPacketProof({readBytes=file=>fs.readFileSync(file), st
   assert.equal(assembly.supplementalGuideSha256,approval.supplementalGuideSha256);
   assert.equal(assembly.supplementalGuideContentSha256,approval.supplementalGuideContentSha256);
   assert.equal(assembly.assembledThrough,'src/lib/rcap/render/participant-packet-assembly.ts');
-  // Keep both historical generations intact. The immediate predecessor's
-  // output bytes still reproduce; its questionnaire inputs are superseded.
-  assert.equal(proof.supersededProof.path,MS_PAID_PACKET_PROOF_PREDECESSOR);
+  // The executed current reproduction advances technical input freshness only.
+  // All three immutable historical generations, output and approval semantics stay.
   const predecessorBytes=readBytes(MS_PAID_PACKET_PROOF_PREDECESSOR);
-  assert.equal(hash(predecessorBytes),proof.supersededProof.sha256);
+  assert.equal(hash(predecessorBytes),'887235f1a16fd593646421a1cf35a040effe3bd976fab2d4d90491a86dbfe5d6','October 11 historical proof changed');
   const predecessor=JSON.parse(predecessorBytes);
-  assert.equal(predecessor.schemaVersion,'rcap-ms-paid-packet-proof/v2');
-  assert.equal(proof.supersededProof.artifactBytesStillReproduce,true);
-  assert.equal(proof.supersededProof.resolvedBy,'exact_question_contract_source_successor');
-  assert.equal(predecessor.supersededProof.path,MS_PAID_PACKET_PROOF_RETIRED);
-  assert.equal(predecessor.supersededProof.decisionSha256,approval.supersededDecisionSha256);
-  assert.equal(predecessor.supersededProof.artifactBytesStillReproduce,false);
+  assert.equal(predecessor.schemaVersion,'rcap-ms-paid-packet-proof/v3');
+  assert.deepEqual(proof.supersededProof,{path:MS_PAID_PACKET_PROOF_PREDECESSOR,sha256:hash(predecessorBytes),artifactBytesStillReproduce:true,resolvedBy:'exact_current_output_continuity'});
+  assert.equal(predecessor.supersededProof.path,MS_PAID_PACKET_PROOF_20260920);
+  assert.equal(predecessor.supersededProof.artifactBytesStillReproduce,true);
+  assert.equal(predecessor.supersededProof.resolvedBy,'exact_question_contract_source_successor');
+  const septemberBytes=readBytes(MS_PAID_PACKET_PROOF_20260920);
+  assert.equal(hash(septemberBytes),'fb27167b98f3d024b76daa4a9fea88a776177a26c949bb6728c3efc2667adef9','September 20 historical proof changed');
+  assert.equal(predecessor.supersededProof.sha256,hash(septemberBytes));
+  const september=JSON.parse(septemberBytes);
+  assert.equal(september.schemaVersion,'rcap-ms-paid-packet-proof/v2');
+  assert.equal(september.supersededProof.path,MS_PAID_PACKET_PROOF_RETIRED);
+  assert.equal(september.supersededProof.decisionSha256,approval.supersededDecisionSha256);
+  assert.equal(september.supersededProof.artifactBytesStillReproduce,false);
+  assert.equal(hash(readBytes(MS_PAID_PACKET_PROOF_RETIRED)),'1a3454cb515003281c33f196b16c788fd3b9c5e18692829169794a5b686f183c','September 14 historical proof changed');
+  assert.deepEqual(Object.keys(proof).sort(),[...Object.keys(predecessor),'outputContinuity'].sort(),'unlisted proof fields');
+  for(const key of Object.keys(predecessor).filter(key=>!['schemaVersion','sourceSha','inputs','supersededProof'].includes(key)))
+    assert.deepEqual(proof[key],predecessor[key],`historical packet meaning changed: ${key}`);
   assert.equal(proof.chargedConductSafetyControls.length,4);
   assert.deepEqual(proof.chargedConductSafetyControls.map(c=>c.scenario).sort(),['absent','legacy_only','unknown','yes']);
   assert.ok(proof.chargedConductSafetyControls.every(c=>c.refused===true
@@ -51,7 +62,7 @@ export function loadMsPaidPacketProof({readBytes=file=>fs.readFileSync(file), st
   assert.equal(proof.syntheticScenario.factId,'ms_charged_trafficking_distribution_manufacture');
   assert.equal(proof.syntheticScenario.value,'No');
   assert.equal(proof.syntheticScenario.inferredFromLegacyAnswer,false);
-  for(const required of [QUESTION_CONTRACT_SUCCESSOR_PATH, QUESTION_CONTRACT_OUTPUT_PATH, MS_QUESTION_CONTRACT_PREDECESSOR_PATH, MS_PAID_PACKET_PROOF_PREDECESSOR, proof.generatedBy,approval.decisionPath,approval.supersededDecisionPath,approval.specificationPath,approval.supplementalGuidePath,approval.reviewEvidencePath,approval.historicalApprovalPath,'src/lib/rcap/render/participant-packet-assembly.ts','src/lib/rcap/fulfillment/final-verification-contract.ts'])assert.ok(proof.inputs[required],`missing proof input ${required}`);
+  for(const required of [proof.outputContinuity.path,proof.outputContinuity.continuity.path,MS_PAID_PACKET_PROOF_20260920,MS_PAID_PACKET_PROOF_RETIRED,QUESTION_CONTRACT_SUCCESSOR_PATH, QUESTION_CONTRACT_OUTPUT_PATH, MS_QUESTION_CONTRACT_PREDECESSOR_PATH, MS_PAID_PACKET_PROOF_PREDECESSOR, proof.generatedBy,approval.decisionPath,approval.supersededDecisionPath,approval.specificationPath,approval.supplementalGuidePath,approval.reviewEvidencePath,approval.historicalApprovalPath,'src/lib/rcap/render/participant-packet-assembly.ts','src/lib/rcap/fulfillment/final-verification-contract.ts'])assert.ok(proof.inputs[required],`missing proof input ${required}`);
   for(const [file,expected] of Object.entries(proof.inputs))assert.equal(hash(readBytes(file)),expected,`stale MS packet proof: ${file}`);
   const source=proof.sourceAuthority;
   assert.deepEqual(source.boundInputs.questionContractSourceSuccessor, approval.questionContractSourceSuccessor);
