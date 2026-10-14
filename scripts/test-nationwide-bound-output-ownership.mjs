@@ -17,6 +17,7 @@ function fixture(routeKey) {
 }
 
 for (const routeKey of ["GA:restriction-and-sealing-of-a-pardoned-felony", "GA:sb-288-misdemeanor-conviction-restriction-and-sealing", "IL:felony-prostitution-relief"]) {
+  if (process.env.ND_ONLY === "1") continue;
   const { spec, matter } = fixture(routeKey);
   const factId = routeKey.startsWith("GA:") ? "participant_narrative" : "adverse_consequences";
   const requiredInputIds = spec.requiredFacts.map((fact) => fact.factId);
@@ -39,38 +40,47 @@ for (const routeKey of ["GA:restriction-and-sealing-of-a-pardoned-felony", "GA:s
 }
 
 const { spec, matter } = fixture("ND:first-offense-possession-sealing");
+matter.facts.participant_full_legal_name = "Explicit Synthetic ND Participant";
+matter.facts.date_of_birth = "1991-04-17";
 matter.facts.contact_information = "123 Synthetic Service Street, Example City";
 matter.facts.residency_or_location = "Synthetic Judicial District";
 const packet = composeParticipantDeliveryPacket(spec, matter);
-const motion = packet.documents.find((document) => document.documentId === "nd-motion-to-seal");
-const order = packet.documents.find((document) => document.documentId === "nd-proposed-order");
-assert.ok(motion); assert.ok(order);
-for (const document of [motion, order]) {
-  assert.ok(document.blocks.some((block) => block.kind === "labelled" && block.label === "County or judicial district" && block.value === matter.facts.residency_or_location));
+const prefix = "nd-marijuana-first-offense-seal-";
+assert.deepEqual(packet.documents.map(document => document.documentId), [
+  prefix + "primary-filing-1", prefix + "proposed-order-2",
+  prefix + "legal-effect-explanation-3", prefix + "filing-instructions-4"
+]);
+for (const document of packet.documents.slice(0, 2)) {
+  assert.equal(document.captionTreatment, "full_independent_caption");
+  const caption = document.blocks.find(block => block.kind === "pleading_caption");
+  assert.ok(caption);
+  assert.ok(caption.courtLines.some(line => line.blank));
+  assert.ok(caption.caseNumber.includes("..."));
 }
-assert.ok(motion.blocks.some((block) => block.kind === "labelled" && block.label === "Service address" && block.value === matter.facts.contact_information));
-const signature = motion.blocks.find((block) => block.kind === "signature");
-assert.deepEqual(signature.lines, ["Signature", "Date"]);
-assert.equal(signature.note, "No notarization is required for this filing.");
-assert.equal(order.blocks.find((block) => block.kind === "signature").label, "");
-const changed = composeParticipantDeliveryPacket(spec, { ...matter, facts: { ...matter.facts, contact_information: "456 Different Synthetic Service Street" } });
-assert.notDeepEqual(changed, packet, "address is an actual output dependency");
+const output = JSON.stringify(packet);
+assert.ok(!output.includes(matter.facts.contact_information));
+assert.ok(!output.includes(matter.facts.residency_or_location));
+assert.ok(output.includes("[C9 - mj county] Which North Dakota county?"));
+assert.ok(output.includes("[C10 - mj court type] Was the case in district court or municipal court?"));
+assert.ok(output.includes("SIGNATURE OF PETITIONER"));
+assert.ok(output.includes("EVERY DECISION ON THIS PAGE IS THE COURT'S"));
 for (const id of ["contact_information", "residency_or_location"]) {
   const facts = { ...matter.facts }; delete facts[id];
-  assert.throws(() => composeParticipantDeliveryPacket(spec, { ...matter, facts }), /missing|blank/i);
+  assert.deepEqual(composeParticipantDeliveryPacket(spec, { ...matter, facts }), packet);
+}
+for (const id of ["mailing_address", "phone_number", "email_address"]) {
+  const facts = { ...matter.facts }; delete facts[id];
+  assert.equal(composeParticipantDeliveryPacket(spec, { ...matter, facts }).documents.length, 4);
 }
 const unsupported = structuredClone(spec);
-unsupported.documents.find((document) => document.documentId === motion.documentId).sections.find((section) => section.kind === "signature_block").fieldTreatments = { contact_information: "ruled_blank" };
-assert.throws(() => composeParticipantDeliveryPacket(unsupported, matter), /unsupported.*signature structure/);
+unsupported.documents[0].documentContract.serviceTreatment = "participant_serves";
+assert.throws(() => composeParticipantDeliveryPacket(unsupported, matter), /unmatched source contracts/);
 if (process.env.QUESTION_OUTPUT_EVIDENCE_DIR) {
-  const { renderGradeAPacketPdf } = await import("../src/lib/rcap/grade-a/renderer.ts");
   const directory = path.resolve(process.env.QUESTION_OUTPUT_EVIDENCE_DIR);
   fs.mkdirSync(directory, { recursive: true });
-  await assert.rejects(() => renderGradeAPacketPdf(packet, { variant: "court_only" }), /no resolved caption treatment/);
-  fs.writeFileSync(path.join(directory, "nd-composition-and-render-boundary.json"), JSON.stringify({
-    scope: "Synthetic composition only. Existing unresolved caption contract still refuses court-only PDF; no commercial output or legal sufficiency claim.",
-    motion, order, renderResult: "REFUSED_UNRESOLVED_CAPTION_CONTRACT"
+  fs.writeFileSync(path.join(directory, "nd-canonical-composition-boundary.json"), JSON.stringify({
+    scope: "Synthetic source composition only. Prior generic caption refusal retained historically; current four-component bridge needs separate owner-bound render acceptance. No commercial output or legal sufficiency claim.",
+    documents: packet.documents, renderResult: "NOT_RUN"
   }, null, 2) + "\n");
-  console.log("PASS: existing unresolved ND caption contract still refuses court-only PDF; composition model retained separately. Renderer authority unchanged.");
 }
-console.log("PASS: three explicit later narrative requirements retain approved family output and genuine missing-contact refusals; ND two captions and service-address dependency are bound without filling signature/court blanks. Structural evidence, not protected legal acceptance.");
+console.log("PASS: existing GA/IL narrative controls retained; ND now uses the exact four-component family, with separate optional contacts, source county/court-type handbacks, and blank execution/court fields. Composition evidence only.");

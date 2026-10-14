@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "specificationId": "nd-first-offense-possession-sealing",
-  "specificationVersion": "1.0.0",
+  "specificationVersion": "1.1.0",
   "routeKey": "ND:first-offense-possession-sealing",
   "jurisdiction": "ND",
   "pathwayId": "first-offense-possession-sealing",
@@ -13,7 +13,7 @@
   "packetSetVersion": "1.0.0",
   "profileId": "ND",
   "profileVersion": "2026-06-19-source-conversion-1",
-  "specificationNote": "This specification is the exact statement of what the packet contains. It is versioned and hashed, and the fulfillment record names the hash, so a change to the packet's contents cannot happen without changing what the commercial gate is vouching for. Every rule below is drawn from the compiled North Dakota profile's extracted rules and from the owner-approved packet-set manifest nd-marijuana-first-offense-seal-set; nothing here is inferred from another state or another chapter.",
+  "specificationNote": "The existing adopted nd-marijuana-first-offense-seal family supplies these four component objects and their text. The shared composition module is mechanically extracted from the retained census builder; no family rebuild or new legal approval is asserted. Distinct participant contact destinations replace legacy service-address prose. County and court type remain the exact source record blanks completed before filing; no county/district or service/mailing alias is inferred. This source-to-consumer correction grants no commercial, verification, generation or delivery authority.",
   "statutoryAuthority": {
     "primary": "N.D.C.C. ch. 19-03.1 (controlled substances), first-offense possession sealing provision",
     "sourceUrl": "https://ndlegis.gov/cencode/t19c03-1.pdf",
@@ -43,86 +43,141 @@
       "verification": "present_in_repository",
       "location": "data/record-clearing/legal-design-packet-set-manifests.json",
       "note": "Owner-approved legal design. Decision record auth-2026-08-19-owner-legal-approval-completed-output."
+    },
+    {
+      "sourceId": "rcap-nd-custom-pleading:canonical-four-components",
+      "kind": "retained_component_contract",
+      "verification": "present_in_repository",
+      "location": "scripts/lib/nd-first-offense-possession-composition.mjs",
+      "note": "Original four component object SHA256 4e056d141aec82d01da81c8a9e4fd7e4e1726b7398c9b13942ba9df91cd9be2b; exact original census SPEC and fixture body hashes verified without rebuilding."
+    },
+    {
+      "sourceId": "auth-2026-08-19-owner-legal-approval-completed-output",
+      "kind": "existing_completed_output_approval",
+      "verification": "present_in_repository",
+      "location": "data/rcap-ledger/completed-output-counsel-manifest.json",
+      "note": "Existing rcap-nd-custom-pleading entry; no renewed approval or admission."
+    },
+    {
+      "sourceId": "EXT-ADOPT-01-standing-external-counsel-adoption",
+      "kind": "existing_family_adoption",
+      "verification": "present_in_repository",
+      "location": "data/record-clearing/template-families/EXT-ADOPT-01-standing-external-counsel-adoption.json"
+    },
+    {
+      "sourceId": "rcap-nd-custom-pleading:production-field-map",
+      "kind": "existing_actor_owned_destinations",
+      "verification": "present_in_repository",
+      "location": "data/rcap-all50/overlays/census-v1/nd/rcap-nd-custom-pleading--custom-pleading/production-field-map.json",
+      "note": "Exact SHA256 299d785562fe77ba5ffe310a8afbd7c377dd3384e7954ccb67d1839b213f5000. Contact writes are optional; all ten record questions remain participant-before-filing handbacks."
     }
   ],
   "requiredFacts": [
     {
       "factId": "participant_full_legal_name",
-      "use": "caption and signature block",
-      "inRegistryRequiredInputs": true
+      "use": "petitioner identity in the existing four adopted components",
+      "inRegistryRequiredInputs": true,
+      "ownership": "participant"
     },
     {
-      "factId": "contact_information",
-      "use": "signature block service address",
-      "inRegistryRequiredInputs": true
-    },
-    {
-      "factId": "court",
-      "use": "caption — the court that entered the judgment",
-      "inRegistryRequiredInputs": true
-    },
-    {
-      "factId": "residency_or_location",
-      "use": "caption — county or judicial district",
-      "inRegistryRequiredInputs": true
-    },
-    {
-      "factId": "case_number",
-      "use": "caption — the existing criminal case this motion is filed in",
+      "factId": "date_of_birth",
+      "use": "petitioner date of birth on the existing primary filing",
       "inRegistryRequiredInputs": false,
-      "gapNote": "case_number is NOT among the registry's requiredInputIds for this route, and a motion filed in an existing criminal case cannot be captioned without it. It is required here and is collected at packet information. This gap is recorded rather than papered over."
+      "ownership": "participant"
     },
     {
-      "factId": "charge",
-      "use": "the offense as the court record words it",
-      "inRegistryRequiredInputs": true
-    },
-    {
-      "factId": "offense_category",
-      "use": "confirming the offense is a controlled-substance possession offense",
-      "inRegistryRequiredInputs": true
-    },
-    {
-      "factId": "offense_level",
-      "use": "confirming the offense level on the record",
-      "inRegistryRequiredInputs": true
-    },
-    {
-      "factId": "record_type",
-      "use": "confirming this is a conviction record",
-      "inRegistryRequiredInputs": true
-    },
-    {
-      "factId": "case_outcome",
-      "use": "confirming a guilty plea or guilty finding with judgment entered",
-      "inRegistryRequiredInputs": true
-    },
-    {
-      "factId": "disposition_date",
-      "use": "the date the court entered the judgment of guilt — the statutory anchor",
-      "inRegistryRequiredInputs": true
-    },
-    {
-      "factId": "nd_charged_quantity",
-      "use": "the quantity charged, which is an element of eligibility under the one-ounce / two-gram limit",
+      "factId": "mailing_address",
+      "use": "participant mailing address; not service address",
       "inRegistryRequiredInputs": false,
-      "gapNote": "Named by the packet-set manifest as a confirm_answer step. Collected at packet information; recollection is expressly not enough."
+      "ownership": "participant",
+      "requiredForGeneration": false,
+      "gapNote": "Optional separate participant-owned source destination. Unknown/unavailable stays blank, never an eligibility or universal intake prerequisite."
     },
     {
-      "factId": "nd_first_offense_confirmation",
-      "use": "the participant's confirmation that this was a first controlled-substance offense — an element the statute requires",
+      "factId": "phone_number",
+      "use": "participant telephone",
       "inRegistryRequiredInputs": false,
-      "gapNote": "Neither the registry's requiredInputIds nor the packet-set manifest's participantActionRequired list names a first-offense confirmation, yet the motion has to assert first-offense status to the court because the statute makes it an element. Asserting an element with no fact behind it is the defect; collecting the fact is the fix. This gap in the approved design is recorded here and belongs in the next legal-design review of this route."
+      "ownership": "participant",
+      "requiredForGeneration": false,
+      "gapNote": "Optional separate participant-owned source destination. Unknown/unavailable stays blank, never an eligibility or universal intake prerequisite."
     },
     {
-      "factId": "criminal_history",
-      "use": "whether any further controlled-substance conviction followed, and when",
-      "inRegistryRequiredInputs": true
+      "factId": "email_address",
+      "use": "participant email explicitly supplied for this matter",
+      "inRegistryRequiredInputs": false,
+      "ownership": "participant",
+      "requiredForGeneration": false,
+      "gapNote": "Optional separate participant-owned source destination. Unknown/unavailable stays blank, never an eligibility or universal intake prerequisite."
     },
     {
-      "factId": "prior_relief",
-      "use": "whether sealing or similar relief was already granted for another record",
-      "inRegistryRequiredInputs": true
+      "factId": "mjJudgmentDate",
+      "use": "On what date did the court enter the judgment of guilt?",
+      "inRegistryRequiredInputs": false,
+      "ownership": "participant",
+      "gapNote": "Existing source REQUIRED_BEFORE_FILING blank; participant supplies from the record, never a new intake gate or inferred alias."
+    },
+    {
+      "factId": "mjOffenceDate",
+      "use": "On what date did the offence occur?",
+      "inRegistryRequiredInputs": false,
+      "ownership": "participant",
+      "gapNote": "Existing source REQUIRED_BEFORE_FILING blank; participant supplies from the record, never a new intake gate or inferred alias."
+    },
+    {
+      "factId": "mjSubstance",
+      "use": "Was the charge marijuana or tetrahydrocannabinol?",
+      "inRegistryRequiredInputs": false,
+      "ownership": "participant",
+      "gapNote": "Existing source REQUIRED_BEFORE_FILING blank; participant supplies from the record, never a new intake gate or inferred alias."
+    },
+    {
+      "factId": "mjQuantity",
+      "use": "What quantity was charged?",
+      "inRegistryRequiredInputs": false,
+      "ownership": "participant",
+      "gapNote": "Existing source REQUIRED_BEFORE_FILING blank; participant supplies from the record, never a new intake gate or inferred alias."
+    },
+    {
+      "factId": "mjFirstOffence",
+      "use": "Was this your first offence of this kind?",
+      "inRegistryRequiredInputs": false,
+      "ownership": "participant",
+      "gapNote": "Existing source REQUIRED_BEFORE_FILING blank; participant supplies from the record, never a new intake gate or inferred alias."
+    },
+    {
+      "factId": "mjSubsequentConviction",
+      "use": "Have you been convicted of any further violation of North Dakota's controlled substances chapter since, and if so when?",
+      "inRegistryRequiredInputs": false,
+      "ownership": "participant",
+      "gapNote": "Existing source REQUIRED_BEFORE_FILING blank; participant supplies from the record, never a new intake gate or inferred alias."
+    },
+    {
+      "factId": "mjOtherCharges",
+      "use": "Were there any other charges in the same case besides the marijuana or THC possession?",
+      "inRegistryRequiredInputs": false,
+      "ownership": "participant",
+      "gapNote": "Existing source REQUIRED_BEFORE_FILING blank; participant supplies from the record, never a new intake gate or inferred alias."
+    },
+    {
+      "factId": "mjCaseNumber",
+      "use": "What is the case number?",
+      "inRegistryRequiredInputs": false,
+      "ownership": "participant",
+      "gapNote": "Existing source REQUIRED_BEFORE_FILING blank; participant supplies from the record, never a new intake gate or inferred alias."
+    },
+    {
+      "factId": "mjCounty",
+      "use": "Which North Dakota county?",
+      "inRegistryRequiredInputs": false,
+      "ownership": "participant",
+      "gapNote": "Existing source REQUIRED_BEFORE_FILING blank; participant supplies from the record, never a new intake gate or inferred alias."
+    },
+    {
+      "factId": "mjCourtType",
+      "use": "Was the case in district court or municipal court?",
+      "inRegistryRequiredInputs": false,
+      "ownership": "participant",
+      "gapNote": "Existing source REQUIRED_BEFORE_FILING blank; participant supplies from the record, never a new intake gate or inferred alias."
     }
   ],
   "finalVerificationRequirements": [
@@ -135,134 +190,18 @@
   ],
   "documents": [
     {
-      "documentId": "nd-cover-and-contents",
-      "role": "cover_and_contents",
-      "title": "Your North Dakota Sealing Packet",
+      "documentId": "nd-marijuana-first-offense-seal-primary-filing-1",
+      "role": "primary_filing",
+      "title": "Petition - Ask a North Dakota court to seal a first marijuana possession conviction",
       "order": 1,
       "outputStrategy": "custom_pleading",
-      "requirement": "required",
-      "sections": [
-        {
-          "heading": "What this packet is",
-          "kind": "static",
-          "body": "This packet asks the court that entered your judgment to seal the court record of a first-offense marijuana or THC possession case under North Dakota Century Code chapter 19-03.1. Under that chapter the court must seal the record on motion when the conditions are met, so this is a motion asking for something the statute requires rather than a request for the court's discretion."
-        },
-        {
-          "heading": "What is in it",
-          "kind": "contents_list"
-        },
-        {
-          "heading": "What you still have to do",
-          "kind": "participant_checklist_summary"
-        },
-        {
-          "heading": "What this packet is not",
-          "kind": "static",
-          "body": "This packet is not legal advice and it is not a filing service. It is prepared from the facts you gave and from the statute; you file it yourself. It does not use North Dakota's general sealing chapter 12-60.1, which has its own waiting periods and its own burden of proof, and it is not the Summary Pardon Application administered by the Pardon Advisory Board."
-        }
-      ],
-      "documentContract": {
-        "instrumentClass": "participant_guidance",
-        "preparedBy": "participant",
-        "signer": "none",
-        "recipient": "participant",
-        "formApplicability": "custom_document_permitted",
-        "caseMode": "existing_case",
-        "executionType": "none",
-        "serviceTreatment": "no_service",
-        "orderTreatment": "no_proposed_order",
-        "privacyTreatment": "no_sensitive_identifiers",
-        "localVariant": "unresolved",
-        "unresolvedReasons": {
-          "localVariant": "no source read states whether a local form or practice controls this component."
-        }
-      }
-    },
-    {
-      "documentId": "nd-motion-to-seal",
-      "role": "primary_filing",
-      "title": "Motion to Seal Court Record — First-Offense Possession",
-      "order": 2,
-      "outputStrategy": "custom_pleading",
+      "presentation": "pleading",
       "requirement": "required",
       "manifestComponentId": "nd-marijuana-first-offense-seal-primary-filing-1",
-      "sections": [
-        {
-          "heading": "Caption",
-          "kind": "caption",
-          "fieldLabels": {
-            "residency_or_location": "County or judicial district"
-          },
-          "fields": [
-            "court",
-            "residency_or_location",
-            "case_number",
-            "participant_full_legal_name"
-          ]
-        },
-        {
-          "heading": "Motion",
-          "kind": "static",
-          "body": "The defendant moves the court to seal the court record in this case under North Dakota Century Code chapter 19-03.1, which requires the court to seal the record on motion where the conditions below are met."
-        },
-        {
-          "heading": "Grounds",
-          "kind": "grounds",
-          "assertions": [
-            {
-              "id": "guilt-entered",
-              "text": "The defendant pleaded guilty or was found guilty in this case and judgment was entered on {{disposition_date}}.",
-              "facts": [
-                "disposition_date",
-                "case_outcome"
-              ]
-            },
-            {
-              "id": "first-offense",
-              "text": "This was a first offense involving possession of a controlled substance: {{nd_first_offense_confirmation}}",
-              "facts": [
-                "nd_first_offense_confirmation",
-                "record_type",
-                "prior_relief"
-              ]
-            },
-            {
-              "id": "quantity",
-              "text": "The quantity charged was {{nd_charged_quantity}}, which is within the statutory limit of one ounce or less of marijuana or two grams or less of THC.",
-              "facts": [
-                "nd_charged_quantity",
-                "charge",
-                "offense_category"
-              ]
-            },
-            {
-              "id": "no-subsequent",
-              "text": "The defendant has not been convicted of a further violation of North Dakota's controlled substances chapter within two years of the judgment entered in this case.",
-              "facts": [
-                "criminal_history"
-              ]
-            }
-          ]
-        },
-        {
-          "heading": "Relief requested",
-          "kind": "static",
-          "body": "The defendant asks the court to order the court record in this case sealed. Once sealed under chapter 19-03.1 the court record may not be opened, even by court order."
-        },
-        {
-          "heading": "Signature",
-          "kind": "signature_block",
-          "fieldLabels": {
-            "contact_information": "Service address"
-          },
-          "fields": [
-            "participant_full_legal_name",
-            "contact_information"
-          ],
-          "notarizationRequired": false
-        }
-      ],
+      "sections": [],
       "documentContract": {
+        "captionTreatment": "full_independent_caption",
+        "captionTreatmentEvidence": "Retained adopted canonical PDF SHA256 2fd78d8919dedfbdc062f180ade3769ed019c10e76bc1bc615f3f090e4e49522, component nd-marijuana-first-offense-seal-primary-filing-1; exact source body/caption and blanks in shared component contract.",
         "instrumentClass": "participant_filing",
         "preparedBy": "participant",
         "signer": "participant",
@@ -270,55 +209,28 @@
         "formApplicability": "custom_document_permitted",
         "caseMode": "existing_case",
         "executionType": "signature",
-        "serviceTreatment": "participant_serves",
+        "serviceTreatment": "no_service",
         "orderTreatment": "no_proposed_order",
         "privacyTreatment": "no_sensitive_identifiers",
         "localVariant": "unresolved",
         "unresolvedReasons": {
-          "localVariant": "no source read states whether a local form or practice controls this component."
+          "localVariant": "No new local-form or local-practice authority is supplied by this existing-family consumer connection."
         }
       }
     },
     {
-      "documentId": "nd-proposed-order",
+      "documentId": "nd-marijuana-first-offense-seal-proposed-order-2",
       "role": "proposed_order",
-      "title": "Proposed Order Sealing Court Record",
-      "order": 3,
+      "title": "Proposed Order - Ask a North Dakota court to seal a first marijuana possession conviction",
+      "order": 2,
       "outputStrategy": "custom_pleading",
+      "presentation": "pleading",
       "requirement": "conditional",
-      "conditionDescription": "Advisable by analogy to Chapter 12-60.1 practice; the subsection does not require one.",
       "manifestComponentId": "nd-marijuana-first-offense-seal-proposed-order-2",
-      "includeWhen": "always_unless_participant_declines",
-      "sections": [
-        {
-          "heading": "Caption",
-          "kind": "caption",
-          "fieldLabels": {
-            "residency_or_location": "County or judicial district"
-          },
-          "fields": [
-            "court",
-            "residency_or_location",
-            "case_number",
-            "participant_full_legal_name"
-          ]
-        },
-        {
-          "heading": "Order",
-          "kind": "static",
-          "body": "The defendant's motion to seal the court record under North Dakota Century Code chapter 19-03.1 having been considered, and the court finding the statutory conditions met, IT IS ORDERED that the court record in this case is sealed."
-        },
-        {
-          "heading": "Why this is included",
-          "kind": "static",
-          "body": "Chapter 19-03.1 does not require a proposed order. One is included because it is the ordinary practice under North Dakota's general sealing chapter and it gives the court a document to sign. This is an analogy to that practice, not a requirement imported from it."
-        },
-        {
-          "heading": "Signature lines",
-          "kind": "court_signature_block"
-        }
-      ],
+      "sections": [],
       "documentContract": {
+        "captionTreatment": "full_independent_caption",
+        "captionTreatmentEvidence": "Retained adopted canonical PDF SHA256 2fd78d8919dedfbdc062f180ade3769ed019c10e76bc1bc615f3f090e4e49522, component nd-marijuana-first-offense-seal-proposed-order-2; exact source body/caption and blanks in shared component contract.",
         "instrumentClass": "proposed_order",
         "preparedBy": "participant",
         "signer": "judge",
@@ -326,41 +238,30 @@
         "formApplicability": "custom_document_permitted",
         "caseMode": "existing_case",
         "executionType": "signature",
-        "serviceTreatment": "participant_serves",
+        "serviceTreatment": "no_service",
         "orderTreatment": "submits_proposed_order",
         "privacyTreatment": "no_sensitive_identifiers",
         "localVariant": "unresolved",
         "unresolvedReasons": {
-          "localVariant": "no source read states whether a local form or practice controls this component."
+          "localVariant": "No new local-form or local-practice authority is supplied by this existing-family consumer connection."
         }
-      }
+      },
+      "conditionDescription": "Advisable by analogy to Chapter 12-60.1 practice; the subsection does not require one.",
+      "includeWhen": "always_unless_participant_declines"
     },
     {
-      "documentId": "nd-legal-effect",
+      "documentId": "nd-marijuana-first-offense-seal-legal-effect-explanation-3",
       "role": "legal_effect_explanation",
       "title": "What sealing does, and what it does not do",
-      "order": 4,
+      "order": 3,
       "outputStrategy": "process_guidance",
+      "presentation": "guidance",
       "requirement": "required",
       "manifestComponentId": "nd-marijuana-first-offense-seal-legal-effect-explanation-3",
-      "sections": [
-        {
-          "heading": "What the order does",
-          "kind": "static",
-          "body": "A sealing order under chapter 19-03.1 seals the court record in this case. The statute is unusually strong on this point: once sealed, the court record may not be opened even by court order."
-        },
-        {
-          "heading": "What it does not reach",
-          "kind": "static",
-          "body": "The order is directed at the court record. It does not by itself change records held by other agencies, and it is not a pardon. If you need a criminal-history record corrected as well, that is a separate request to the agency that holds it."
-        },
-        {
-          "heading": "This is not the general sealing chapter",
-          "kind": "static",
-          "body": "North Dakota's general criminal-record sealing chapter, 12-60.1, uses waiting periods of three years for a misdemeanor and five for a felony, a clear-and-convincing burden, and a hearing no earlier than forty-five days after filing. None of that applies here. Chapter 19-03.1 makes sealing mandatory on motion when its own conditions are met."
-        }
-      ],
+      "sections": [],
       "documentContract": {
+        "captionTreatment": "not_applicable",
+        "captionTreatmentEvidence": "Retained adopted canonical PDF SHA256 2fd78d8919dedfbdc062f180ade3769ed019c10e76bc1bc615f3f090e4e49522, component nd-marijuana-first-offense-seal-legal-effect-explanation-3; exact source body/caption and blanks in shared component contract.",
         "instrumentClass": "participant_guidance",
         "preparedBy": "participant",
         "signer": "none",
@@ -373,52 +274,23 @@
         "privacyTreatment": "no_sensitive_identifiers",
         "localVariant": "unresolved",
         "unresolvedReasons": {
-          "localVariant": "no source read states whether a local form or practice controls this component."
+          "localVariant": "No new local-form or local-practice authority is supplied by this existing-family consumer connection."
         }
       }
     },
     {
-      "documentId": "nd-filing-and-next-steps",
-      "role": "filing_and_next_steps",
-      "title": "Filing this packet, and what happens next",
-      "order": 5,
+      "documentId": "nd-marijuana-first-offense-seal-filing-instructions-4",
+      "role": "filing_instructions",
+      "title": "Filing Instructions - Ask a North Dakota court to seal a first marijuana possession conviction",
+      "order": 4,
       "outputStrategy": "process_guidance",
+      "presentation": "guidance",
       "requirement": "required",
-      "sections": [
-        {
-          "heading": "Where this goes",
-          "kind": "filing_destination"
-        },
-        {
-          "heading": "The filing fee",
-          "kind": "fee_and_waiver"
-        },
-        {
-          "heading": "Who has to be served",
-          "kind": "service_and_notice"
-        },
-        {
-          "heading": "How many copies",
-          "kind": "copy_requirements"
-        },
-        {
-          "heading": "After you file",
-          "kind": "post_filing_timeline"
-        },
-        {
-          "heading": "If there is a hearing or an objection",
-          "kind": "hearing_and_objection_stops"
-        },
-        {
-          "heading": "Your checklist",
-          "kind": "participant_checklist"
-        },
-        {
-          "heading": "Documents to attach",
-          "kind": "attachments"
-        }
-      ],
+      "manifestComponentId": "nd-marijuana-first-offense-seal-filing-instructions-4",
+      "sections": [],
       "documentContract": {
+        "captionTreatment": "not_applicable",
+        "captionTreatmentEvidence": "Retained adopted canonical PDF SHA256 2fd78d8919dedfbdc062f180ade3769ed019c10e76bc1bc615f3f090e4e49522, component nd-marijuana-first-offense-seal-filing-instructions-4; exact source body/caption and blanks in shared component contract.",
         "instrumentClass": "participant_guidance",
         "preparedBy": "participant",
         "signer": "none",
@@ -431,7 +303,7 @@
         "privacyTreatment": "no_sensitive_identifiers",
         "localVariant": "unresolved",
         "unresolvedReasons": {
-          "localVariant": "no source read states whether a local form or practice controls this component."
+          "localVariant": "No new local-form or local-practice authority is supplied by this existing-family consumer connection."
         }
       }
     }
@@ -572,5 +444,55 @@
       "text": "File the motion in the existing criminal case with the clerk of court.",
       "requiredBeforeFiling": false
     }
-  ]
+  ],
+  "fieldOwnership": {
+    "participantOwnedFacts": [
+      "participant_full_legal_name",
+      "date_of_birth",
+      "mailing_address",
+      "phone_number",
+      "email_address",
+      "mjJudgmentDate",
+      "mjOffenceDate",
+      "mjSubstance",
+      "mjQuantity",
+      "mjFirstOffence",
+      "mjSubsequentConviction",
+      "mjOtherCharges",
+      "mjCaseNumber",
+      "mjCounty",
+      "mjCourtType"
+    ],
+    "serverOwnedRouteFacts": [
+      "jurisdiction",
+      "pathway_id",
+      "route_key",
+      "packet_family"
+    ],
+    "participantAtSigningFields": [
+      "nd-marijuana-first-offense-seal-primary-filing-1.petition_signature",
+      "nd-marijuana-first-offense-seal-primary-filing-1.petition_signature_date"
+    ],
+    "participantAtServiceFields": [],
+    "participantCompletesBeforeFilingFields": [
+      "mjJudgmentDate",
+      "mjOffenceDate",
+      "mjSubstance",
+      "mjQuantity",
+      "mjFirstOffence",
+      "mjSubsequentConviction",
+      "mjOtherCharges",
+      "mjCaseNumber",
+      "mjCounty",
+      "mjCourtType"
+    ],
+    "prosecutorOwnedFields": [],
+    "courtOwnedFields": [
+      "nd-marijuana-first-offense-seal-primary-filing-1.case_number",
+      "nd-marijuana-first-offense-seal-proposed-order-2.order_case_number",
+      "nd-marijuana-first-offense-seal-proposed-order-2.order_decision",
+      "nd-marijuana-first-offense-seal-proposed-order-2.order_signing_line",
+      "nd-marijuana-first-offense-seal-proposed-order-2.order_date"
+    ]
+  }
 }
