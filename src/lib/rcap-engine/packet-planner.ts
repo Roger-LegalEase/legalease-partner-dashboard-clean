@@ -7,6 +7,7 @@ import { CA_CONTACT_IDS } from "@/lib/expungement-ai/ca-prop64-contact-answer";
 import { CA_PROP64_CAPTION_FACT_IDS } from "@/lib/expungement-ai/ca-prop64-caption-facts";
 
 import type { EngineProfile, ScreeningPacketPlan } from "@/lib/rcap-engine/contracts";
+import { isGeorgiaAgencyWithoutCounty } from "@/lib/rcap-engine/georgia-agency-county-context";
 import { packetSpecificationRequiredFactIdsFor } from "@/lib/rcap/grade-a/packet-specification";
 
 export type CompiledScreeningPacketPlan = ScreeningPacketPlan & { packetReadyWhen: string[] };
@@ -44,6 +45,8 @@ export function packetPlanForPathway(profile: EngineProfile, pathwayId: string):
   // (rule-53), not this automatic route. Correct only its runtime dependency;
   // keep the compiled source and every saved county answer intact.
   const marylandAutomaticWithoutCounty = isMarylandAutomaticWithoutCounty(profile, pathwayId);
+  const georgiaAgencyWithoutCounty = isGeorgiaAgencyWithoutCounty(profile, pathwayId)
+    && !registeredPacketFactIds.includes("county");
 
   return {
     pathwayId,
@@ -57,7 +60,7 @@ export function packetPlanForPathway(profile: EngineProfile, pathwayId: string):
       ...(isCaProp64Pathway(profile.jurisdiction.code, pathwayId) ? [...CA_PROP64_CAPTION_FACT_IDS, ...CA_CONTACT_IDS] : []),
       ...(isNy16059Packet(profile.jurisdiction.code, pathwayId) ? [...NY_PACKET_FACT_IDS, ...NY_CASE_FACT_IDS] : [])
     ])].filter(id => (!isCaProp64Pathway(profile.jurisdiction.code, pathwayId) || !CA_PROP64_LEGACY_IDS.includes(id))
-      && (!marylandAutomaticWithoutCounty || id !== "county")),
+      && (!(marylandAutomaticWithoutCounty || georgiaAgencyWithoutCounty) || id !== "county")),
     sourceRuleRefs: plan.sourceRuleRefs ?? [],
     packetReadyWhen: plan.packetReadyWhen ?? []
   };
