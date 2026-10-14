@@ -126,7 +126,18 @@
     "exactRouteFamilyInputs": {
       "queue": {
         "path": "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
-        "sha256": "d50322d61bc1700f92dffe9b3e2311aa4a9b02fb63e5d77bb3a5ad6accbd7033"
+        "identityProjection": "exact CA family identity only; excludes generated dependencies, states and verdicts",
+        "identityProjectionFields": [
+          "familyId",
+          "jurisdiction",
+          "implementationStrategy",
+          "routeKeys",
+          "packetComponents",
+          "forms",
+          "instrumentKinds",
+          "sourceHashes"
+        ],
+        "identityProjectionSha256": "1ea9bf1e6204e12088ed8fdecfcfc0cd6bb99f4e19d01a3ac2ed4d76b721cc9c"
       },
       "manifests": {
         "path": "data/record-clearing/legal-design-packet-set-manifests.json",

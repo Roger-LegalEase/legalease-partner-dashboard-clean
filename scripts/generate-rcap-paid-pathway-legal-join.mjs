@@ -29,7 +29,7 @@
 //
 //   node scripts/generate-rcap-paid-pathway-legal-join.mjs [--check]
 
-import { caProp64FamilyBridge, CA_PROP64_BRIDGE_INPUTS, CA_PROP64_ROUTES } from "./lib/ca-prop64-family-bridge.mjs";
+import { caProp64FamilyBridge, caProp64QueueIdentity, CA_PROP64_BRIDGE_INPUTS, CA_PROP64_ROUTES } from "./lib/ca-prop64-family-bridge.mjs";
 import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
@@ -308,7 +308,11 @@ const ledger = {
     trackToFamilyScope: familyMap.scope?.lane ?? "unknown",
     tracksWithAFamilyBridge: familyByTrack.size,
     adoptedFamilyProofsRead: proofGates.size,
-    exactRouteFamilyInputs: Object.fromEntries(Object.entries(CA_PROP64_BRIDGE_INPUTS).map(([key, file]) => [key, { path: file, sha256: sha256(file) }])),
+    exactRouteFamilyInputs: Object.fromEntries(Object.entries(CA_PROP64_BRIDGE_INPUTS).map(([key, file]) => [key, key === "queue"
+      ? { path: file, identityProjection: "exact CA family identity only; excludes generated dependencies, states and verdicts",
+          identityProjectionFields: ["familyId", "jurisdiction", "implementationStrategy", "routeKeys", "packetComponents", "forms", "instrumentKinds", "sourceHashes"],
+          identityProjectionSha256: crypto.createHash("sha256").update(JSON.stringify(caProp64QueueIdentity(caFamilyInputs.queue))).digest("hex") }
+      : { path: file, sha256: sha256(file) }])),
     exactRouteFamilyScope: CA_PROP64_ROUTES,
     note: "Adopted packet proofs and the lane-D map retain their existing scope. The exact two CA Prop64 adult routes additionally reuse matching canonical family, component, source and held product-wiring identities. This evidence link creates no approval, fixture, runtime admission or commercial authority; unjoined routes remain bridge-missing."
   },

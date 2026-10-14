@@ -65,3 +65,15 @@ export function caProp64FamilyBridge(route, { queue, manifests, wiring }) {
   }
   return CA_PROP64_FAMILY;
 }
+
+/** Stable crosscheck only: never hash the generated queue's downstream inputs,
+ * status, verdicts or unrelated families back into its upstream legal join. */
+export function caProp64QueueIdentity(queue) {
+  if (!Array.isArray(queue?.families)) return null;
+  const matches = queue.families.filter(row => row?.familyId === CA_PROP64_FAMILY);
+  if (matches.length !== 1) return null;
+  const row = matches[0];
+  return Object.fromEntries(['familyId', 'jurisdiction', 'implementationStrategy',
+    'routeKeys', 'packetComponents', 'forms', 'instrumentKinds', 'sourceHashes']
+    .map(key => [key, row[key]]));
+}

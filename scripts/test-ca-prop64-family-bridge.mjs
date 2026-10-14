@@ -2,6 +2,7 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import { register } from 'node:module';
+import { execFileSync } from 'node:child_process';
 import { caProp64FamilyBridge, CA_PROP64_BRIDGE_INPUTS, CA_PROP64_ROUTES } from './lib/ca-prop64-family-bridge.mjs';
 const read = p => JSON.parse(fs.readFileSync(p, 'utf8'));
 const inputs = Object.fromEntries(Object.entries(CA_PROP64_BRIDGE_INPUTS).map(([k, p]) => [k, read(p)]));
@@ -61,3 +62,36 @@ for (const key of CA_PROP64_ROUTES) {
   equal(factoryV2RouteFor('CA', key.slice(3), 'ca-prop64'), null);
 }
 console.log(`PASS ${checks} CA existing-family identity and noncommercial-boundary checks (AT-GA-49; shared GA-14/15/16 identity only).`);
+
+// Exercise the actual generator without writes. Downstream fingerprint churn
+// must converge to identical upstream bytes; it must not be re-hashed here.
+const dryGenerator = mutate => {
+  const program = `import fs from 'node:fs';
+const read=fs.readFileSync;
+fs.readFileSync=function(file,...args){
+ const bytes=read(file,...args);
+ if(String(file).endsWith('/data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json')){
+  const value=JSON.parse(String(bytes));
+  (${mutate})(value);
+  return JSON.stringify(value);
+ }
+ return bytes;
+};
+fs.writeFileSync=function(file,value){
+ if(!String(file).endsWith('/data/rcap-ledger/paid-pathway-legal-join.json'))throw Error('unexpected write');
+ process.stdout.write(value);
+};
+console.log=()=>{};
+await import('./scripts/generate-rcap-paid-pathway-legal-join.mjs');`;
+  return execFileSync(process.execPath, ['--input-type=module', '-e', program], {encoding:'utf8'});
+};
+const canonical = fs.readFileSync('data/rcap-ledger/paid-pathway-legal-join.json','utf8');
+equal(dryGenerator('queue => {}'), canonical);
+for(const mutate of [
+ 'queue => { queue.inputs={census:{sha256:"new downstream fingerprint"}}; queue.sourceFingerprint="new"; }',
+ 'queue => { const row=queue.families.find(r=>r.familyId==="ca-prop64-set"); row.state="unrelated status"; row.selectedIndependentVerdict=null; }',
+ 'queue => { queue.families.push({familyId:"unrelated-existing-family",state:"changed"}); queue.byState={changed:123}; }'
+]) equal(dryGenerator(mutate), canonical);
+const drift = JSON.parse(dryGenerator('queue => { queue.families.find(r=>r.familyId==="ca-prop64-set").sourceHashes[0].sha256="0".repeat(64); }'));
+for(const key of CA_PROP64_ROUTES) equal(drift.pathways.find(r=>r.pathwayKey===key).familyBridgePresent, false);
+console.log(`PASS ${checks} including actual generator dependency-direction/convergence controls; no generator writes.`);
