@@ -20,7 +20,7 @@ function check(name, run) { try { run(); checks++; } catch (error) { error.messa
 const validate = (c = continuity, p = proof, read = readBytes) => assertQuestionContractOutputContinuity({ continuity: c, proof: p, readBytes: read });
 check('exact executed successor validates complete current inventory', () => {
   const actual = assertQuestionContractOutputInputs(readBytes);
-  assert.equal(actual.inputCount, 111);
+  assert.equal(actual.inputCount, 112);
   assert.equal(actual.path, QUESTION_CONTRACT_CURRENT_OUTPUT_PATH);
   assert.equal(actual.sha256, sha(readBytes(QUESTION_CONTRACT_CURRENT_OUTPUT_PATH)));
   assert.equal(actual.continuity.sha256, QUESTION_CONTRACT_CONTINUITY_SHA256);
@@ -28,8 +28,8 @@ check('exact executed successor validates complete current inventory', () => {
 });
 check('all original observed dependencies retained, with added imports', () => {
   assert.equal(historical.sources.length, 88);
-  assert.equal(proof.sources.length, 111);
-  assert.equal(continuity.addedSourcePaths.length, 23);
+  assert.equal(proof.sources.length, 112);
+  assert.equal(continuity.addedSourcePaths.length, 24);
   for (const source of historical.sources) assert.ok(proof.sources.some(input => input.file === source.file));
 });
 for (const path of [QUESTION_CONTRACT_CONTINUITY_PATH, QUESTION_CONTRACT_CURRENT_OUTPUT_PATH, QUESTION_CONTRACT_SUCCESSOR_PATH, QUESTION_CONTRACT_OUTPUT_PATH]) {

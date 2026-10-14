@@ -147,6 +147,7 @@ export const MS_PROOF_OBSERVED_INPUTS=[
   "src/lib/rcap-engine/mississippi-program-completion.ts",
   "src/lib/rcap-engine/missouri-closed-record-facts.ts",
   "src/lib/rcap-engine/missouri-marijuana-status-facts.ts",
+  "src/lib/rcap-engine/montana-deferred-facts.ts",
   "src/lib/rcap-engine/nebraska-nonconviction-facts.ts",
   "src/lib/rcap-engine/nevada-176a-branch.ts",
   "src/lib/rcap-engine/new-york-16059-facts.ts",
