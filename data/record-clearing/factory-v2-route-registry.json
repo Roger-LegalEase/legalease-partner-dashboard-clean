@@ -8,11 +8,11 @@
   "inputs": {
     "canonicalGraph": {
       "path": "data/rcap-ledger/paid-pathway-legal-join.json",
-      "sha256": "2107414b68900c64f1858a0d3cbe8592a6f01f3d354a2b5b9ff5586c82ecd8f4"
+      "sha256": "184444d20e5f78c57a31062e1e0d3624b34c6ebd51c4d040266740b031a40abf"
     },
     "packetSetManifests": {
       "path": "data/record-clearing/legal-design-packet-set-manifests.json",
-      "sha256": "177d5d131b066827e8ae030715edb28ca6729060b60d7865cd2d67ed76f556f0"
+      "sha256": "08dddbcd7ad3145497c4ad9f7a85cc903e1124654630af34803e96aa65d0cf51"
     },
     "legalAuthorityRoutes": {
       "path": "src/lib/legal-authority/routes/single-routes.json",
@@ -20,7 +20,7 @@
     },
     "publicWitnessAnswerSets": {
       "path": "data/rcap-ledger/public-witness-answer-sets.json",
-      "sha256": "c89035dff41631ff30e40b991ac5854891a8c53bef9ddb5d29caff039faf0f7e"
+      "sha256": "a30fb0a5ed8819bc3d947d81cd32c1f4afd93ce9ee734d4f43b9cec890ac1022"
     },
     "sellablePathwayClosure": {
       "path": "data/rcap-ledger/sellable-pathway-closure.json",
@@ -37,14 +37,15 @@
   "admissionIsNotSelection": "Admitted means the factory may build the route. Selected means the resolver chose it, after every suppression ahead of the factory branch had its turn. The launch graph reports selection.",
   "totals": {
     "intendedPaidPathways": 267,
-    "factoryV2Admitted": 175,
-    "notAdmitted": 92,
+    "factoryV2Admitted": 174,
+    "notAdmitted": 93,
     "reasonsItIsNotAdmitted": {
       "sourceOrApprovedComposedDocument": 21,
       "exactPacketSet+packetSpecification+sourceOrApprovedComposedDocument": 31,
       "deterministicFixture": 3,
       "legacy_generator_owns_this_jurisdiction": 36,
-      "routeNotRetired": 1
+      "routeNotRetired": 1,
+      "exactPacketSet+sourceOrApprovedComposedDocument": 1
     },
     "ownerApprovedLegalDesign": 96,
     "paymentAllowedAtTheEvaluator": 26,
@@ -1084,7 +1085,9 @@
       "packetSetIds": [
         "ca-prop64-set"
       ],
-      "packetFamilies": [],
+      "packetFamilies": [
+        "ca-prop64-set"
+      ],
       "profileVersion": "2026-06-19-source-conversion-1",
       "requiredInputIds": [
         "ca_prop64_branch",
@@ -1140,7 +1143,9 @@
       "packetSetIds": [
         "ca-prop64-set"
       ],
-      "packetFamilies": [],
+      "packetFamilies": [
+        "ca-prop64-set"
+      ],
       "profileVersion": "2026-06-19-source-conversion-1",
       "requiredInputIds": [
         "ca_prop64_branch",
@@ -2379,7 +2384,6 @@
         "case_outcome",
         "charge",
         "contact_information",
-        "county",
         "court",
         "criminal_history",
         "disposition_date",
@@ -14697,21 +14701,22 @@
         "trafficking_status"
       ],
       "componentCount": 3,
-      "officialFormIds": [
-        "CC-1472"
-      ],
+      "officialFormIds": [],
       "buildInputs": {
         "authoritativeProfile": true,
         "authoritativePathway": true,
-        "exactPacketSet": true,
+        "exactPacketSet": false,
         "packetSpecification": true,
         "requiredParticipantFields": true,
-        "sourceOrApprovedComposedDocument": true,
+        "sourceOrApprovedComposedDocument": false,
         "deterministicFixture": true,
         "routeNotRetired": true
       },
-      "unmetBuildInputs": [],
-      "factoryV2Resolves": true,
+      "unmetBuildInputs": [
+        "exactPacketSet",
+        "sourceOrApprovedComposedDocument"
+      ],
+      "factoryV2Resolves": false,
       "legacyGeneratorOwnsThisJurisdiction": false,
       "separateGates": {
         "ownerApprovedLegalDesign": false,
