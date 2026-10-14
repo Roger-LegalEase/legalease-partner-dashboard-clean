@@ -1,3 +1,4 @@
+import { isKsMunicipalContact } from "@/lib/expungement-ai/ks-municipal-contact";
 import { maineNonconvictionQuestionApplies } from "@/lib/rcap-engine/maine-nonconviction-facts";
 import { louisianaAutomationStatusQuestionApplies } from "@/lib/rcap-engine/louisiana-automation-status";
 import { nebraskaNonconvictionQuestionApplies } from "@/lib/rcap-engine/nebraska-nonconviction-facts";
@@ -315,6 +316,7 @@ export type PacketCollectionInput = {
   reviewedContactRepresentation?: boolean;
   /** Server-checked exact JD-CR-202 profile; does not change any legal predicate. */
   ctCleanSlateSeparateContact?: boolean;
+  ksMunicipalSeparateContact?: boolean;
   /** Set only by the exact adopted MO status/source contract, never participant data. */
   missouriClosureStatusOnly?: boolean;
   missouriMarijuanaStatusOnly?: boolean;
@@ -656,6 +658,14 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
       facts.push({ factId, collection: "conditional", phase: "known", group: null, active: false,
         source: "ct_jdcr202_separate_defendant_contact_fields",
         reason: "JD-CR-202 has separate defendant address, phone and email fields. The earlier aggregate remains history, is never parsed, and is not an eligibility predicate." });
+      continue;
+    }
+
+    if (input.ksMunicipalSeparateContact === true && isKsMunicipalContact(input.jurisdiction, input.pathwayId)
+      && factId === "contact_information" && !input.routeDecidingFactIds?.has(factId) && !input.unresolvedRouteFactIds?.has(factId)) {
+      facts.push({ factId, collection: "conditional", phase: "known", group: null, active: false,
+        source: "ks_municipal_separate_petitioner_contact_fields",
+        reason: "The existing municipal pleading map has separate petitioner address, phone and email fields. The earlier aggregate remains history, is never parsed, and is not an eligibility predicate." });
       continue;
     }
 
