@@ -1,5 +1,6 @@
 import "server-only";
 import { contactRepresentationHash as hash } from "@/lib/expungement-ai/contact-representation";
+import { ny16059TransactionAssociationPreparation, parseNyTransactionAssociations, nyTransactionQuestionApplies } from "@/lib/expungement-ai/ny-16059-transaction-associations";
 import { ny16059ProtectedDocumentPreparation } from "@/lib/expungement-ai/ny-16059-document-preparation";
 import { protectedPacketInformationModelFor } from "@/lib/expungement-ai/packet-information";
 import { NY_SEALING_HISTORY_ID, parseNySealingHistory } from "@/lib/expungement-ai/ny-16059-sealing-history";
@@ -67,17 +68,46 @@ export function ny16059CurrentDocumentInputs(record: ProtectedPacketVerification
   const nysidDisposition = !conflicted("ny_16059_nysid_known") && !conflicted("ny_16059_nysid_number") && prepared.conditions.nysid_known.value === true && typeof nysid?.value === "string" ? "known_exact_identifier" : "not_supplied_follow_receiving_court_instructions";
   const caseConflict = conflicted("ny_16059_covered_case_records"), destinationConflict = conflicted("ny_16059_filing_case_id");
   const cases = caseConflict ? [] : prepared.casePreparation.records ?? [], caseIds = cases.map(c => c.id), destination = prepared.casePreparation.filingDestination;
+  const transactions = caseConflict ? null : ny16059TransactionAssociationPreparation(record);
+  const printedRowAssignments = transactions?.status === "covered_associations_supported" && transactions.groups.length <= 2
+    ? transactions.groups.map((group, index) => ({ row: index + 1, groupId: group.id, basis: group.basis,
+      caseIds: group.caseIds, members: group.members.map(member => ({ caseId: member.caseId, convictionId: member.convictionId })) })) : [];
   for (const page of [10, 13]) {
     add(page, "CriminalCourtName", caseConflict || destinationConflict ? null : destination.courtName, ["ny_16059_filing_case_id"], destination.caseId ? [destination.caseId] : []);
     add(page, "CourtCounty", caseConflict || destinationConflict ? null : destination.courtCounty, ["ny_16059_filing_case_id"], destination.caseId ? [destination.caseId] : []);
-    if (cases.length === 1) {
+    if (printedRowAssignments.length && transactions) {
+      for (const row of printedRowAssignments) {
+        const group = transactions.groups.find(group => group.id === row.groupId)!;
+        const ownCases = group.caseIds.map(caseId => cases.find(c => c.id === caseId)!);
+        add(page, `5 Case Number Docket Indictment or SCI NumberRow${row.row}`, ownCases.map(c => c.caseNumbers).join("; "), ["ny_16059_covered_case_records", "ny_16059_transaction_associations"], row.caseIds);
+        add(page, `6 Court NameRow${row.row}`, ownCases.map(c => c.courtName).join("; "), ["ny_16059_covered_case_records", "ny_16059_transaction_associations"], row.caseIds);
+      }
+    } else if (cases.length === 1 && cases[0].convictions.length === 1) {
       add(page, "5 Case Number Docket Indictment or SCI NumberRow1", cases[0].caseNumbers, ["ny_16059_covered_case_records"], caseIds);
       add(page, "6 Court NameRow1", cases[0].courtName, ["ny_16059_covered_case_records"], caseIds);
-    } else if (cases.length > 1) {
+    } else if (cases.length) {
       add(page, "5 Case Number Docket Indictment or SCI NumberRow1", "See identified case inventory", ["ny_16059_covered_case_records"], caseIds);
       add(page, "6 Court NameRow1", "See each case's own court", ["ny_16059_covered_case_records"], caseIds);
       unresolved.push("transaction_grouping_and_printed_row_allocation");
     }
+  }
+  for (const row of printedRowAssignments) {
+    const group = transactions!.groups.find(group => group.id === row.groupId)!;
+    const savedGroup = parseNyTransactionAssociations(transactions!.rawAssociations[0])?.groups.find(g => g.id === group.id);
+    continuation(`transaction:${group.id}`, `Conviction group ${row.row} — case and record associations`, [
+      `Printed row: ${row.row}`, ...group.members.flatMap(member => [
+        `Case: ${member.record.caseNumbers}; Court: ${member.record.courtName}; County: ${member.record.courtCounty}`,
+        `Conviction: ${member.record.charge}; Section: ${member.record.section}; Date: ${member.record.convictionDate}`,
+        ...(group.members.length > 1 ? [`Conduct: ${member.conductStart} through ${member.conductEnd}`, member.conductDescription,
+          `Charging record: ${member.chargingRecordReference}`, `Disposition record: ${member.dispositionRecordReference}`] : [])
+      ]), ...(group.members.length > 1 ? [
+        `Connection described: ${group.basis === "time_and_circumstance" ? "Acts together in time and circumstances" : "Integral parts of one criminal venture"}`,
+        ...(savedGroup ? [savedGroup.relationshipDescription,
+          ...(nyTransactionQuestionApplies(savedGroup, "interveningConduct") ? [savedGroup.interveningConduct, `Intervening record: ${savedGroup.interveningRecordReference}`] : []),
+          `Victim context: ${savedGroup.victims}`, ...(savedGroup.victims !== "none" ? [savedGroup.victimRelationship] : [])] : []),
+        transactions!.rawAssociations.length ? "The saved association facts remain participant-supplied, not a certification of the underlying records." : "Separate incidents were explicitly declared for these unchanged records."
+      ] : [])
+    ].join("\n"), row.caseIds);
   }
   for (const c of cases) {
     const lines = [`Case number(s): ${c.caseNumbers}`, `Court: ${c.courtName}`, `County: ${c.courtCounty}`];
@@ -133,7 +163,7 @@ export function ny16059CurrentDocumentInputs(record: ProtectedPacketVerification
   const serviceObligations = [...new Set(cases.map(c => c.courtCounty).filter(Boolean))].map(county => ({ county, caseIds: cases.filter(c => c.courtCounty === county).map(c => c.id), actualRecipient: null, actualServer: null, servicePerformed: null, receivedStamp: null, signature: null, affirmationDate: null, status: "recipient_and_actual_service_unresolved" as const }));
   return { schemaVersion: "ny-16059/current-document-review-inputs/v1" as const, source: structuredClone(NY_CURRENT_REVIEW_SOURCE),
     recordHash: prepared.recordHash, revision: prepared.revision, writes, selections, continuations, serviceObligations, caseIds,
-    nysidDisposition, missingFactIds: [...prepared.missingFactIds], unresolved: [...new Set([...unresolved, ...[...unresolvedSourceFacts].map(id => `conflicting_owned_fact:${id}`)])],
+    printedRowAssignments, nysidDisposition, missingFactIds: [...prepared.missingFactIds], unresolved: [...new Set([...unresolved, ...[...unresolvedSourceFacts].map(id => `conflicting_owned_fact:${id}`)])],
     conflictingOwnedFactIds: [...unresolvedSourceFacts],
     sourceFactHash: hash({ writes, selections, continuations, serviceObligations }), prepared,
     participantFieldAvailability: Object.fromEntries(["participant_full_legal_name", "date_of_birth", "street_address", "city_state_zip", "phone_number", "email_address"].map(id => [id, participant(id) === null ? "not_available_as_unambiguous_owned_fact" : "known_owned_fact"])),

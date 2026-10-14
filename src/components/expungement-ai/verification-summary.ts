@@ -1,3 +1,4 @@
+import { NY_TRANSACTION_ASSOCIATIONS_ID, NY_TRANSACTION_ASSOCIATIONS_VERSION, formatNyTransactionAssociations } from "@/lib/expungement-ai/ny-16059-transaction-facts";
 import { NY_FUTURE_ID, NY_FUTURE_CONTRACT, formatNyFutureApplications, nyFutureIntent } from "@/lib/expungement-ai/ny-16059-future-applications";
 import { NY_SEALING_HISTORY_ID, NY_SEALING_HISTORY_CONTRACT, formatNySealingHistory } from "@/lib/expungement-ai/ny-16059-sealing-history";
 import { CA_CONTACT_IDS, CA_CONTACT_CONTRACT, formatCaContact } from "@/lib/expungement-ai/ca-prop64-contact-answer";
@@ -297,6 +298,7 @@ export function displayVerificationAnswer(value: unknown, question?: ReviewQuest
   if (question?.id === NY_FUTURE_ID && question.type === "future_applications" && question.answerContract === NY_FUTURE_CONTRACT) return formatNyFutureApplications(value, "en", question.futureApplicationReferences);
   if (question?.id === NY_SEALING_HISTORY_ID && question.type === "sealing_history" && question.answerContract === NY_SEALING_HISTORY_CONTRACT) return formatNySealingHistory(value, "en", question.prior16058ApplicationKnown);
   if (question && CA_CONTACT_IDS.includes(question.id) && question.type === "filing_contact" && question.answerContract === CA_CONTACT_CONTRACT) return formatCaContact(question.id, value, "en");
+  if (question?.id === NY_TRANSACTION_ASSOCIATIONS_ID && question.type === "transaction_associations" && question.answerContract === NY_TRANSACTION_ASSOCIATIONS_VERSION) return formatNyTransactionAssociations(value, "en");
   if (question?.id === NY_CASE_RECORDS_ID && question.type === "court_case_records" && question.answerContract === NY_CASE_RECORDS_CONTRACT) return formatNyCourtCaseRecords(value, "en");
   if (value === undefined || value === null || value === "") return "Missing";
   if (value && typeof value === "object" && !Array.isArray(value) && "unknown" in value && value.unknown === true) return "I’m not sure";
@@ -344,6 +346,7 @@ export function reviewAnswerPresentation(fact: Pick<CanonicalVerificationFact, "
   if (state === "CA" && CA_CONTACT_IDS.includes(fact.id) && question.type === "filing_contact" && question.answerContract === CA_CONTACT_CONTRACT) return { labelEs, valueEs: formatCaContact(fact.id, value, "es") };
   if (state === "NY" && fact.id === NY_FUTURE_ID && question.type === "future_applications" && question.answerContract === NY_FUTURE_CONTRACT) return { labelEs, valueEs: formatNyFutureApplications(value, "es", question.futureApplicationReferences) };
   if (state === "NY" && fact.id === NY_SEALING_HISTORY_ID && question.type === "sealing_history" && question.answerContract === NY_SEALING_HISTORY_CONTRACT) return { labelEs, valueEs: formatNySealingHistory(value, "es", question.prior16058ApplicationKnown) };
+  if (state === "NY" && fact.id === NY_TRANSACTION_ASSOCIATIONS_ID && question.type === "transaction_associations" && question.answerContract === NY_TRANSACTION_ASSOCIATIONS_VERSION) return { labelEs, valueEs: formatNyTransactionAssociations(value, "es") };
   if (state === "NY" && fact.id === NY_CASE_RECORDS_ID && question.type === "court_case_records" && question.answerContract === NY_CASE_RECORDS_CONTRACT) return { labelEs, valueEs: formatNyCourtCaseRecords(value, "es") };
   if (value === null || value === undefined || value === "") return { labelEs, valueEs: resolveRuntimeText("es", "Missing") };
   if (value && typeof value === "object" && !Array.isArray(value) && "unknown" in value && value.unknown === true) {

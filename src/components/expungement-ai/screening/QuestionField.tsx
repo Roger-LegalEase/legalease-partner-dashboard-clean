@@ -19,6 +19,8 @@
  * are named by it via `aria-labelledby`, with the contextOnly note and error text linked via
  * `aria-describedby`. Errors use `role="alert"`.
  */
+import { NyTransactionAssociationsField } from "@/components/expungement-ai/screening/fields/NyTransactionAssociationsField";
+import { NY_TRANSACTION_ASSOCIATIONS_ID, NY_TRANSACTION_ASSOCIATIONS_VERSION } from "@/lib/expungement-ai/ny-16059-transaction-facts";
 import { SealingHistoryField } from "@/components/expungement-ai/screening/fields/SealingHistoryField";
 import { FutureApplicationsField } from "./fields/FutureApplicationsField";
 import { NY_FUTURE_ID, NY_FUTURE_CONTRACT } from "@/lib/expungement-ai/ny-16059-future-applications";
@@ -145,6 +147,9 @@ export function QuestionField({
     case "sealing_history":
       if (stateCode !== "NY" || question.id !== NY_SEALING_HISTORY_ID || question.answerContract !== NY_SEALING_HISTORY_CONTRACT) return <MalformedQuestion prompt={promptText} headingLevel={headingLevel} required={!optional} />;
       return <div className="grid gap-3">{heading}{helperNode}{bannerNode}<SealingHistoryField id={fieldId} value={savedValue} knownPriorApplication={question.prior16058ApplicationKnown} onChange={onChange} ariaLabelledBy={promptId} ariaDescribedBy={describedBy} />{errorNode}</div>;
+    case "transaction_associations":
+      if (stateCode !== "NY" || question.id !== NY_TRANSACTION_ASSOCIATIONS_ID || question.answerContract !== NY_TRANSACTION_ASSOCIATIONS_VERSION) return <MalformedQuestion prompt={promptText} headingLevel={headingLevel} required={!optional} />;
+      return <div className="grid gap-3">{heading}{helperNode}{bannerNode}<NyTransactionAssociationsField id={fieldId} value={savedValue} caseRecords={question.transactionCaseRecords} onChange={onChange} aria-labelledby={promptId} aria-describedby={describedBy} />{errorNode}</div>;
     case "court_case_records":
       if (stateCode !== "NY" || question.id !== NY_CASE_RECORDS_ID || question.answerContract !== NY_CASE_RECORDS_CONTRACT) return <MalformedQuestion prompt={promptText} headingLevel={headingLevel} required={!optional} />;
       return <div className="grid gap-3">{heading}{helperNode}{bannerNode}

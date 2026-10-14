@@ -12,7 +12,8 @@ import { AR_RECORD_ORIGIN_ID, arkansasRecordOrigin, arkansasRecordOriginApplies 
 import { KS_REGISTRATION_ROUTE } from "@/lib/rcap-engine/kansas-district-facts";
 import { NY_FUTURE_ID, NY_FUTURE_FACT_IDS } from "@/lib/expungement-ai/ny-16059-future-applications";
 import { ny16059CurrentDocumentQuestions, NY_CURRENT_DOCUMENT_PARTICIPANT_FIELDS } from "@/lib/expungement-ai/ny-16059-current-document-questions";
-import { preserveNySeparateDeclaration } from "@/lib/expungement-ai/ny-16059-transaction-associations";
+import { NY_TRANSACTION_ASSOCIATIONS_ID, nyTransactionAssociationsQuestion, nyTransactionFactsFromAnswers } from "@/lib/expungement-ai/ny-16059-transaction-facts";
+import { preserveNySeparateDeclaration, nyProtectedTransactionInputIssues } from "@/lib/expungement-ai/ny-16059-transaction-associations";
 import { isNy16059Packet, NY_PACKET_QUESTIONS, NY_PACKET_FACT_IDS } from "@/lib/expungement-ai/ny-16059-packet-facts";
 import { NY_CASE_FACT_IDS, NY_HISTORY_FACT_IDS, nyCasePreparationQuestions, nyCaseAssociationIssues } from "@/lib/expungement-ai/ny-16059-case-questions";
 import convictionFallbackPrior from "@/lib/expungement-ai/conviction-fallback-prior-contracts.json";
@@ -1537,6 +1538,11 @@ export function protectedPacketInformationModelFor(
     if (!field.optional && question && questionAnswerState(question, initialAnswers[field.id]) !== "known_valid"
       && !missingInputIds.includes(field.id)) missingInputIds.push(field.id);
   }
+  if (isNy16059Packet(snapshot.jurisdiction, snapshot.pathwayId)
+    && (["connected", "other_groups"].includes(String(initialAnswers.ny_16059_grouping)) || Object.hasOwn(initialAnswers, NY_TRANSACTION_ASSOCIATIONS_ID))) {
+    const facts = nyTransactionFactsFromAnswers(toScreeningAnswers(initialAnswers));
+    if ((!facts.complete || nyProtectedTransactionInputIssues(snapshot).length) && !missingInputIds.includes(NY_TRANSACTION_ASSOCIATIONS_ID)) missingInputIds.push(NY_TRANSACTION_ASSOCIATIONS_ID);
+  }
   const nyCaseIssues = isNy16059Packet(snapshot.jurisdiction, snapshot.pathwayId) ? nyCaseAssociationIssues(initialAnswers) : [];
   for (const issue of nyCaseIssues) {
     if (!missingInputIds.includes(issue.id)) missingInputIds.push(issue.id);
@@ -1846,7 +1852,8 @@ function routeFactualCorrectionIds(model: { stateCode: string; pathwayId: string
   // case details still belong to this owner and must remain correctable. This
   // exposes existing answers plus the source-specific prior-order facts needed
   // to resolve held history review. It never restores a plan or an approval.
-  return [...eligibility, ...NY_CURRENT_DOCUMENT_PARTICIPANT_FIELDS.map(field => field.id), ...(model.requiredInputIds?.length === 0
+  return [...eligibility, ...NY_CURRENT_DOCUMENT_PARTICIPANT_FIELDS.map(field => field.id),
+    ...(["connected", "other_groups"].includes(String(answers.ny_16059_grouping)) || Object.hasOwn(facts, NY_TRANSACTION_ASSOCIATIONS_ID) ? [NY_TRANSACTION_ASSOCIATIONS_ID] : []), ...(model.requiredInputIds?.length === 0
     ? [...NY_PACKET_FACT_IDS, ...NY_CASE_FACT_IDS].filter(id => Object.hasOwn(facts, id) || NY_HISTORY_FACT_IDS.includes(id) || NY_FUTURE_FACT_IDS.includes(id)) : [])];
 }
 
@@ -2230,6 +2237,10 @@ function protectedPacketQuestionSurface(
       translations: { es: { heading: "Datos de la persona solicitante para el formulario judicial actual", description: "Estos datos completan la solicitud; no determinan la elegibilidad. El correo electrónico es opcional." } },
       questionIds: currentNy.questions.map(question => question.id) });
   }
+  if (isNy16059Packet(profile.jurisdiction.code, pathwayId)) {
+    const question = questionById.get(NY_TRANSACTION_ASSOCIATIONS_ID);
+    if (question && !builderQuestions.some(q => q.id === question.id)) builderQuestions.push(question);
+  }
   return { questionById, questions, builderQuestions, builderSections, collection };
 }
 
@@ -2332,6 +2343,11 @@ export function protectedPacketScreeningAnswers(snapshot: ProtectedPacketAuthori
         answers[question.id] = "I am not sure";
       }
     }
+  }
+  if (nyProtectedTransactionInputIssues(snapshot).length) {
+    // Only the evaluation projection becomes unresolved. Preserve all original
+    // map copies and server-linked history for an explicit owner correction.
+    answers[NY_TRANSACTION_ASSOCIATIONS_ID] = [];
   }
   return answers;
 }
@@ -2451,6 +2467,12 @@ function deriveProtectedPacketDraftSnapshot(
     if (["ca_prop64_branch", "ca_prop64_relief_requested", ...CA_PROP64_RECORD_FACT_IDS, "sentence_completion_date", ...CA_PROP64_FACT_IDS, ...CA_PROP64_CAPTION_FACT_IDS, ...CA_CONTACT_IDS].some((id) => !canonicalEqual(before[id], after[id]))) {
       base = { ...base, dependencies: { ...base.dependencies, semanticAnswerHistory: caProp64AnswerHistory(base, explicitChangedIds) } };
     }
+  }
+  if (isNy16059Packet(base.jurisdiction, base.pathwayId) && explicitChangedIds.has(NY_TRANSACTION_ASSOCIATIONS_ID)
+    && base.dependencies.ny16059SeparateDeclaration) {
+    base = { ...base, dependencies: { ...base.dependencies, ny16059SeparateDeclaration: {
+      ...base.dependencies.ny16059SeparateDeclaration, supersededByAnswerSha256: contactRepresentationHash(packetAnswers[NY_TRANSACTION_ASSOCIATIONS_ID])
+    } } };
   }
   const legacy = protectedLegacyAnswerProjection(base);
   const replacedLegacyIds = new Set([...explicitChangedIds, ...(useContactComponents ? ["contact_information"] : [])]);
@@ -3512,6 +3534,11 @@ function installPacketSpecificationQuestions(
       question.translations = { es: { prompt: "Últimos cuatro dígitos calculados a partir del número de Seguro Social protegido", helperText: "Estos dígitos se calculan a partir del número completo para mostrar una identificación parcial. Para corregirlos, edite el número de Seguro Social protegido después de confirmar el método de entrega aprobado por el tribunal. No ingrese un segundo valor." } };
     }
     questions.set(factId, question);
+  }
+  if (isNy16059Packet(jurisdiction, pathwayId)
+    && (["connected", "other_groups"].includes(String(answers.ny_16059_grouping)) || Object.hasOwn(answers, NY_TRANSACTION_ASSOCIATIONS_ID))) {
+    const question = nyTransactionAssociationsQuestion(answers.ny_16059_covered_case_records);
+    questions.set(question.id, question);
   }
   const currentNy = ny16059CurrentDocumentQuestions(jurisdiction, pathwayId, [...questions.values()]);
   if (currentNy) for (const question of currentNy.questions) questions.set(question.id, question);

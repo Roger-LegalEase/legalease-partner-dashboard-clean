@@ -93,6 +93,8 @@ export type PacketVerificationSnapshot = {
       version: 1; routeKey: string; profileVersion: string;
       profileSourceFingerprint: string | null; profileAuthorityFingerprint: string;
       priorSnapshotHash: string; coveredUniverseHash: string; answerSha256: string;
+      /** Explicit owner replacement retains this old provenance as history. */
+      supersededByAnswerSha256?: string;
       rawAnswerCopies: Array<{ source: "screeningAnswers" | "prefilledAnswers" | "packetAnswers"; raw: unknown }>;
       basis: "explicit_separate_incidents_with_unchanged_covered_universe";
     };

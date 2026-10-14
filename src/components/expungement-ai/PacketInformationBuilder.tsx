@@ -7,6 +7,7 @@ import { isNy16059Packet } from "@/lib/expungement-ai/ny-16059-packet-facts";
 import { caProp64JuvenileAdditionalCount } from "@/lib/expungement-ai/ca-prop64-juvenile-document-questions";
 import { CA_CONTACT_IDS, formatCaContact } from "@/lib/expungement-ai/ca-prop64-contact-answer";
 import { isCaProp64Pathway } from "@/lib/expungement-ai/ca-prop64-choices";
+import { NY_TRANSACTION_ASSOCIATIONS_ID, formatNyTransactionAssociations } from "@/lib/expungement-ai/ny-16059-transaction-facts";
 import { NY_CASE_RECORDS_ID, formatNyCourtCaseRecords } from "@/lib/expungement-ai/ny-16059-case-records";
 import { ny16059CustodyRemovalAvailable } from "@/lib/expungement-ai/ny-custody-correction";
 
@@ -460,6 +461,7 @@ export function PacketInformationBuilder({
             if (isCaProp64Pathway(stateCode, pathwayId ?? null) && CA_CONTACT_IDS.includes(id)) return formatCaContact(id, answer, locale, caJuvenilePreparation);
             if (isNy16059Packet(stateCode, pathwayId ?? null) && id === NY_FUTURE_ID) return formatNyFutureApplications(answer, locale, question?.futureApplicationReferences);
             if (isNy16059Packet(stateCode, pathwayId ?? null) && id === NY_SEALING_HISTORY_ID) return formatNySealingHistory(answer, locale, question?.prior16058ApplicationKnown);
+            if (isNy16059Packet(stateCode, pathwayId ?? null) && id === NY_TRANSACTION_ASSOCIATIONS_ID) return formatNyTransactionAssociations(answer, locale);
             if (isNy16059Packet(stateCode, pathwayId ?? null) && id === NY_CASE_RECORDS_ID) return formatNyCourtCaseRecords(answer, locale);
             if (isNy16059Packet(stateCode, pathwayId ?? null) && [NY_CASE_RECONCILIATION_ID, NY_COURT_DIRECTION_CONFIRMATION_ID, NY_FILING_CASE_ID].includes(id)) {
               if (answer && typeof answer === "object" && !Array.isArray(answer) && (answer as { unknown?: unknown }).unknown === true) return copy("Unsure", "No estoy seguro/a");

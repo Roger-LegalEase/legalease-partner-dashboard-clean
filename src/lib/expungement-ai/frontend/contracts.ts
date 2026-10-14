@@ -32,6 +32,7 @@
 export const KNOWN_QUESTION_TYPES = [
   "filing_contact",
   "court_case_records",
+  "transaction_associations",
   "sealing_history",
   "future_applications",
   "single_choice",
@@ -104,7 +105,8 @@ export type ProfileQuestion = {
   contactContext?: { representation: string; defendantName: string; county: string };
   prior16058ApplicationKnown?: true;
   futureApplicationReferences?: { caseNumbers?: string; courtName?: string; reviewToken?: string };
-  answerContract?: "ny_16059_future_applications_v1" | "ny_16059_sealing_history_v1" | "ca_prop64_contacts_v1" | "ca_prop64_record_fact_v1" | "ca_prop64_decimal_grams_v1" | "ca_prop64_caption_fact_v1" | "ny_16059_packet_text_v1" | "ny_16059_case_records_v2" | "ny_16059_applicant_statement_v1" | "ny_16059_case_court_text_v1";
+  answerContract?: "ny_16059_transaction_associations_v1" | "ny_16059_future_applications_v1" | "ny_16059_sealing_history_v1" | "ca_prop64_contacts_v1" | "ca_prop64_record_fact_v1" | "ca_prop64_decimal_grams_v1" | "ca_prop64_caption_fact_v1" | "ny_16059_packet_text_v1" | "ny_16059_case_records_v2" | "ny_16059_applicant_statement_v1" | "ny_16059_case_court_text_v1";
+  transactionCaseRecords?: string[];
   caseRecordReferences?: { firstCaseNumbers?: string; additionalCaseNumbers?: string };
   type: QuestionType;
   required: boolean;

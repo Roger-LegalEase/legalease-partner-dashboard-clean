@@ -1,3 +1,4 @@
+import { NY_TRANSACTION_ASSOCIATIONS_ID, nyTransactionFactsFromAnswers } from "@/lib/expungement-ai/ny-16059-transaction-facts";
 import { NY_16059_QUESTIONS } from "@/lib/rcap-engine/new-york-16059-questions";
 export { NY_16059_QUESTIONS, NY_16059_FACT_IDS, NY_16059_LEGACY_IDS, NY_16059_TIMING_IDS } from "@/lib/rcap-engine/new-york-16059-questions";
 import type { ScreeningAnswerValue } from "@/lib/rcap-engine/contracts";
@@ -36,24 +37,29 @@ export function ny16059History(a: Answers): Decision {
     || a.ny_16059_application_status === "granted" && granted === 0
     || ["none", "denied", "pending"].includes(String(a.ny_16059_application_status)) && granted > 0) return fail("review", "history_conflict");
   let requestUnits = requested, requestFelonyUnits = requestedFelonies, historyUnits = total, historyFelonyUnits = felonies;
-  // §1(a) eligible-offense grouping, corroborated by the official statewide
-  // application. A common docket, concurrent sentences or multiple unrelated
-  // events is NOT proof of a single criminal transaction. Connected ventures
-  // require record-specific legal classification; only the explicit single-act
-  // subset is determinable from these facts. Never group an ineligible crime.
+  // The adopted NY-03 ordinary transaction test uses the same exact record
+  // associations as protected collection. A generic conclusion never supplies
+  // these predicates or groups convictions outside the covered record universe.
   if (["connected", "other_groups"].includes(String(a.ny_16059_grouping))) {
-    const missing = NY_16059_TRANSACTION_IDS.filter(id => !isAffirmative(a[id]) && !isNegative(a[id]));
-    if (missing.length) return fail("missing", "grouping_facts_missing", missing);
-    if (isAffirmative(a.ny_16059_transaction_shared_docket_only)
-      && (isAffirmative(a.ny_16059_transaction_time_circumstance) || isAffirmative(a.ny_16059_transaction_integral_purpose))) {
-      return fail("review", "grouping_facts_conflict");
+    const facts = nyTransactionFactsFromAnswers(a);
+    if (Object.hasOwn(a, NY_TRANSACTION_ASSOCIATIONS_ID)) {
+      if (!facts.complete || ["case_outcome", "ny_16059_grouping", "ny_16059_application_status", "ny_16059_16058_grants"].some(id => typeof a[id] !== "string")
+        || a.ny_16059_requested_excluded !== "No"
+        || isAffirmative(a.ny_16059_transaction_shared_docket_only)) return fail("review", "grouping_record_facts_unresolved", [NY_TRANSACTION_ASSOCIATIONS_ID]);
+      // "Other groups" expressly includes convictions outside this request.
+      // Covered-only facts cannot allocate that unrecorded part of the history.
+      if (a.ny_16059_grouping === "other_groups" && requested !== total) return fail("review", "grouping_other_history_unresolved", [NY_TRANSACTION_ASSOCIATIONS_ID]);
+      requestUnits = facts.coveredTransactionCount!; requestFelonyUnits = facts.coveredFelonyTransactionCount!;
+      historyUnits = total - requested + requestUnits;
+      historyFelonyUnits = felonies - requestedFelonies + requestFelonyUnits;
+    } else {
+      const missing = NY_16059_TRANSACTION_IDS.filter(id => !isAffirmative(a[id]) && !isNegative(a[id]));
+      if (missing.length) return fail("missing", "grouping_facts_missing", missing);
+      if (isAffirmative(a.ny_16059_transaction_shared_docket_only)
+        && (isAffirmative(a.ny_16059_transaction_time_circumstance) || isAffirmative(a.ny_16059_transaction_integral_purpose))) return fail("review", "grouping_facts_conflict");
+      return fail("review", "grouping_review");
     }
-    // Collect the §40.10(2) alternatives and §40.10(1) victim dimension for
-    // record-specific review. These participant facts are not a legal signature
-    // and never authorize collapsing the unresolved connected-venture counts.
-    return fail("review", "grouping_review");
-  }
-  if (a.ny_16059_grouping === "single_act") {
+  } else if (a.ny_16059_grouping === "single_act") {
     if (!isNegative(a.ny_16059_requested_excluded)) return fail("review", "grouping_review");
     requestUnits = 1; requestFelonyUnits = requestedFelonies > 0 ? 1 : 0;
     historyUnits = total - requested + 1;
@@ -150,6 +156,8 @@ export function ny16059QuestionApplies(a: Answers, id: string): boolean {
 export const NY_16059_REASON_COPY: Record<string, [string, string]> = {
  '16058_components_missing': ["Check the entered CPL 160.58 order: count treatment-related convictions separately from additional earlier misdemeanors. A pending or denied application is not an entered order.", "Revise la orden concedida bajo CPL 160.58: cuente por separado las condenas relacionadas con el tratamiento y los delitos menores anteriores adicionales. Una solicitud pendiente o denegada no es una orden concedida."],
  '16058_components_conflict': ["The order components do not agree with the CPL 160.58 treatment-conviction and additional-misdemeanor structure. Check the actual order with a legal reviewer.", "Los componentes de la orden no concuerdan con la estructura de condenas de tratamiento y delitos menores adicionales de CPL 160.58. Revise la orden real con un revisor legal."],
+ grouping_record_facts_unresolved: ["Review the exact conviction members, acts, record references and any disputed or excluded facts in the saved groups. Their connection is not yet established.", "Revise las condenas exactas, los actos, las referencias del expediente y los datos controvertidos o excluidos de los grupos guardados. Su conexión aún no se ha establecido."],
+ grouping_other_history_unresolved: ["The saved groups cover only the requested convictions. The related acts in the rest of the history still need their actual records and associations.", "Los grupos guardados abarcan solo las condenas solicitadas. Los actos relacionados del resto del historial aún necesitan sus registros y asociaciones reales."],
  grouping_facts_missing: ["Check how the acts were connected in time, circumstances and criminal purpose, whether the only connection is a shared docket or sentence, and whether multiple victims were involved.", "Revise cómo se relacionaron los actos en tiempo, circunstancias y propósito delictivo, si la única conexión es un expediente o sentencia compartidos y si hubo varias víctimas."],
  grouping_facts_conflict: ["The answers describe both a factual connection and only a shared docket or sentence. Check the underlying acts before asking for transaction review.", "Las respuestas describen tanto una conexión entre los hechos como únicamente un expediente o sentencia compartidos. Revise los actos antes de solicitar la revisión de la transacción."],
  history_missing: ["Check your complete criminal history, the convictions in this request, and any earlier sealing applications and orders. An old eligible-conviction count does not establish these separate facts.", "Revise todos sus antecedentes penales, las condenas de esta solicitud y las solicitudes y órdenes de sellado anteriores. El recuento anterior de condenas elegibles no establece estos hechos por separado."],
