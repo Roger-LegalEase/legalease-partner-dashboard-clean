@@ -1,4 +1,5 @@
 import { dcInnocenceLocationIsContext, DC_LEGACY_LOCATION } from "@/lib/rcap-engine/dc-innocence-location-context";
+import { ndFirstOffenseRecordIsContext, ND_LEGACY_RECORD_TYPE } from "@/lib/expungement-ai/nd-first-offense-record-context";
 import { getProfileByJurisdiction } from "@/lib/rcap-engine/profile-registry";
 import { isKsMunicipalContact } from "@/lib/expungement-ai/ks-municipal-contact";
 import { maineNonconvictionQuestionApplies } from "@/lib/rcap-engine/maine-nonconviction-facts";
@@ -621,6 +622,8 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
 
   const dcLocationContext = input.jurisdiction === "DC"
     && dcInnocenceLocationIsContext(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
+  const ndRecordContext = input.jurisdiction === "ND"
+    && ndFirstOffenseRecordIsContext(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
   const retainedDcLocation = dcLocationContext && [input.screeningAnswers, input.prefilledAnswers, input.savedAnswers, input.profileFacts]
     .some(answers => answers && Object.hasOwn(answers, DC_LEGACY_LOCATION));
   const requiredInputIds = dedupe([...input.requiredInputIds, ...(retainedDcLocation ? [DC_LEGACY_LOCATION] : [])]);
@@ -752,6 +755,16 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
         actor: actor ?? "external",
         reason: `the specification assigns this field to ${actor ?? "an external actor"}`
       });
+      continue;
+    }
+
+    if (factId === ND_LEGACY_RECORD_TYPE && ndRecordContext && !overrideClass && !needsHuman.has(factId)) {
+      const retained = [input.screeningAnswers, input.prefilledAnswers, input.savedAnswers, input.profileFacts]
+        .some(answers => answers && Object.hasOwn(answers, factId));
+      facts.push({ factId, collection: "conditional", phase: retained ? "render" : "known",
+        group: retained ? group : null, active: retained, ...(retained ? { optional: true } : {}),
+        source: "nd_first_offense_record_type_history",
+        reason: "The exact adopted four-component packet does not consume the inherited record-type menu. An earlier independent answer remains optional history; no answer, disposition or eligibility is inferred." });
       continue;
     }
 

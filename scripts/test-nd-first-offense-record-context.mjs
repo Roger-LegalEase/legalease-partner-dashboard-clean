@@ -1,0 +1,77 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import {createHash} from 'node:crypto';
+import {register} from 'node:module';
+import {pathToFileURL} from 'node:url';
+import ts from 'typescript';
+const root=process.cwd(), file=p=>root+'/'+p, load=p=>import(pathToFileURL(file(p)).href);
+register(pathToFileURL(file('scripts/lib/ts-esm-loader.mjs')));
+const compile=(name,source)=>register('data:text/javascript,'+encodeURIComponent('let d;export function initialize(x){d=x}export async function load(u,c,n){return u===d.url?{format:"module",source:d.source,shortCircuit:true}:n(u,c)}'),{data:{url:pathToFileURL(name).href,source:ts.transpileModule(source,{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022,jsx:ts.JsxEmit.ReactJSX}}).outputText}});
+const loc=file('src/components/expungement-ai/LocalizationProvider.tsx');compile(loc,fs.readFileSync(loc,'utf8')+'\nexport {LocalizationContext};');
+const {default:React}=await import('react'),{renderToStaticMarkup}=await import('react-dom/server');
+const {LocalizationContext}=await import(pathToFileURL(loc).href);
+const {t,resolveRuntimeText}=await load('src/lib/expungement-ai/localization.ts');
+const {AppRouterContext}=await import(pathToFileURL(fs.realpathSync(file('node_modules/next/dist/shared/lib/app-router-context.shared-runtime.js'))).href);
+const P=await load('src/lib/expungement-ai/packet-information.ts');
+const {PacketInformationBuilder}=await load('src/components/expungement-ai/PacketInformationBuilder.tsx');
+const C=await load('src/lib/expungement-ai/nd-first-offense-family-inputs.ts');
+const {getProfileByJurisdiction}=await load('src/lib/rcap-engine/profile-registry.ts');
+const {evaluateAuthoritativeScreeningResult:evaluate}=await load('src/lib/expungement-ai/authoritative-screening-result.ts');
+const {decorateBriefcaseItemForPresentationWithDependencies:decorate}=await load('src/lib/expungement-ai/briefcase-presentation-authority.ts');
+const {resolvePacketCollection}=await load('src/lib/expungement-ai/packet-collection.ts');
+const route=C.ND_FIRST_OFFENSE_FAMILY.route,ids=C.ND_FIRST_OFFENSE_CONTACT_FIELDS.map(field=>field.id);
+const witness=JSON.parse(fs.readFileSync(file('data/rcap-ledger/public-witness-fixtures.json'))).fixtures.find(row=>row.pathwayKey==='ND:'+route);
+const legacy='Earlier contact prose retained as history';
+const sourceAnswers={...witness.answers,contact_information:legacy,residency_or_location:'Earlier judicial district answer'};
+const authoritative=evaluate({jurisdiction:'ND',profileVersion:witness.profileVersion,matterId:'synthetic-nd-contact',answers:witness.answers});
+const seed=P.protectedPacketDraftSeedFromAuthoritative({authoritative,screeningAnswers:sourceAnswers,dependencies:{},capturedAt:'2026-10-14T00:00:00.000Z'});assert(seed);
+const original={status:'unverified',reason:'synthetic_current_source_witness',revision:0,draftHash:seed.hash,draftSnapshot:seed.snapshot};
+let stored=structuredClone(original),owner='synthetic-nd-owner';
+const item={id:'synthetic-nd-contact',jurisdiction:'ND',artifactRefs:{}};
+const snap=()=>stored.draftSnapshot??stored.snapshot,model=()=>P.protectedPacketInformationModelFor(stored);
+let checks=0;const check=(name,fn)=>{try{fn();checks++}catch(error){error.message=name+': '+error.message;throw error}};
+const values={mailing_address:{value:'42 Exact Mailing Street, Unit 7',unknown:false},phone_number:{value:'+1 785 555 0101 ext 04',unknown:false},email_address:{value:'Exact.Local+ND@Example.TEST',unknown:false}};
+const present=()=>decorate({consumerAuthUserId:'synthetic-nd-owner',item},{readProtectedArtifact:async()=>({ok:true,value:null}),readProtectedVerification:async()=>({ok:true,value:stored}),readTrustedPendingSource:async()=>({ok:true,value:{jurisdiction:'ND',profileVersion:(original.draftSnapshot??original.snapshot).profileVersion,matterId:item.id,answers:(original.draftSnapshot??original.snapshot).screeningAnswers,product:'expungement_ai_dtc',sourceSessionId:'synthetic-transport-only',claimedAt:'2026-10-14T00:00:00.000Z',partnerBenefitActive:false,partnerSlug:null}}),readPaymentAuthority:async()=>({valid:false,reason:'unpaid'}),evaluateAuthoritative:evaluate,readCommercialActions:async()=>({fulfillmentAvailable:false,checkoutAllowed:false,generationAllowed:false})});
+globalThis.__ndFamilyTransport={requireConsumerBriefcaseSession:async()=>({userId:owner}),getRcapBriefcaseAuthState:async()=>({isAuthenticated:true,isVerified:true,userId:owner}),getBriefcaseItem:async(user,id)=>user==='synthetic-nd-owner'&&id===item.id?item:null,readProtectedPacketVerification:async()=>({ok:true,value:stored}),decorateBriefcaseItemForPresentation:present,persistProtectedPacketVerification:async({transition})=>{assert.equal(transition.expectedPriorRevision,stored.revision);stored=structuredClone(transition.nextVerification);return{ok:true,value:stored}},protectedPacketVerificationSeedFromTrustedSource:()=>{throw Error('no substitute seed')},readTrustedBriefcasePresentationSource:()=>{throw Error('no substitute source')}};
+const substitute=(source,bindings,module)=>{const regex=new RegExp('import \\{\\s*'+bindings.join(',\\s*')+'\\s*\\} from "'+module+'";');assert(regex.test(source),module);return source.replace(regex,bindings.map(b=>'const '+b+'=(...args:unknown[])=>(globalThis as any).__ndFamilyTransport.'+b+'(...args);').join('\n'));};
+const page=async(path,correction=false)=>{const name=file(path);let source=fs.readFileSync(name,'utf8');source=source.replace(/import \{\s*decorateBriefcaseItemForPresentation,\s*type BriefcasePresentationArtifact,\s*type BriefcasePresentationItem\s*\} from "@\/lib\/expungement-ai\/briefcase-presentation-authority";/,'import { decorateBriefcaseItemForPresentation } from "@/lib/expungement-ai/briefcase-presentation-authority";');source=source.replace('import { BriefcaseShell } from "@/components/expungement-ai/BriefcaseShell";','const BriefcaseShell=({children}:any)=>children;');for(const[b,m]of [['requireConsumerBriefcaseSession','auth'],['getBriefcaseItem','briefcase'],['decorateBriefcaseItemForPresentation','briefcase-presentation-authority'],...(correction?[['readProtectedPacketVerification','verification-cas']]:[])])source=substitute(source,[b],'@/lib/expungement-ai/'+m);compile(name,source);return(await import(pathToFileURL(name).href)).default;};
+const Matter=await page('src/app/briefcase/[packetId]/page.tsx');
+const Review=await page('src/app/briefcase/[packetId]/review/page.tsx'),Edit=await page('src/app/briefcase/[packetId]/packet-information/page.tsx',true);
+const apiFile=file('src/app/api/expungement-ai/briefcase/[itemId]/packet-information/route.ts');let source=fs.readFileSync(apiFile,'utf8');for(const[b,m]of [[['getRcapBriefcaseAuthState'],'@/lib/rcap/briefcase/auth'],[['getBriefcaseItem'],'@/lib/expungement-ai/briefcase'],[['decorateBriefcaseItemForPresentation','protectedPacketVerificationSeedFromTrustedSource','readTrustedBriefcasePresentationSource'],'@/lib/expungement-ai/briefcase-presentation-authority'],[['persistProtectedPacketVerification','readProtectedPacketVerification'],'@/lib/expungement-ai/verification-cas']])source=substitute(source,b,m);compile(apiFile,source);const API=await import(pathToFileURL(apiFile).href);
+const params=Promise.resolve({packetId:item.id}),context={params:Promise.resolve({itemId:item.id})},url='http://local.test/api/expungement-ai/briefcase/'+item.id+'/packet-information';
+const post=(answers,extra={},query='')=>API.POST(new Request(url+query,{method:'POST',body:JSON.stringify({expectedRevision:stored.revision,answers,...extra})}),context);
+const save=async answers=>{const response=await post(answers);assert.equal(response.status,200);const body=await response.json();assert.equal(body.readyToGenerate,false);assert(Object.values(body.commercialActions).every(x=>x===false));return body;};
+const html=(tree,locale)=>renderToStaticMarkup(React.createElement(AppRouterContext.Provider,{value:{push(){},replace(){},refresh(){}}},React.createElement(LocalizationContext.Provider,{value:{locale,setLocale(){},t:(key,fallback,vars)=>t(locale,key,fallback,vars),text:(text,opts)=>resolveRuntimeText(locale,text,opts)}},tree)));
+const nodes=(e,out=[])=>{if(!e||typeof e!=='object')return out;if(Array.isArray(e)){for(const x of e)nodes(x,out);return out;}if(e.props){out.push(e);nodes(e.props.children,out);}return out;};
+
+const H=await load('src/lib/expungement-ai/nd-first-offense-record-context.ts');
+const {packetSpecificationFor}=await load('src/lib/rcap/grade-a/packet-specification.ts');
+const spec=packetSpecificationFor('ND:'+route),profile=getProfileByJurisdiction('ND'),id=H.ND_LEGACY_RECORD_TYPE;
+const shape=s=>({pathwayId:s.pathwayId,resultCode:s.resultCode,paymentAllowed:s.paymentAllowed,selectedTrackId:s.selectedTrackId,packetPlan:s.packetPlan,requiredInputIds:s.requiredInputIds});
+const baselineShape=shape(original.draftSnapshot);
+const assign=(map,raw)=>{stored=structuredClone(original);stored.draftSnapshot[map][id]=raw;stored.draftHash=P.protectedPacketDraftHash(snap());};
+check('only exact adopted successor supports the historical-context policy',()=>{assert(H.ndFirstOffenseRecordIsContext(profile,route,spec));assert(!H.ndFirstOffenseRecordIsContext(profile,'general-conviction-sealing-under-n-d-c-c-chapter-12-60-1',spec));assert(!H.ndFirstOffenseRecordIsContext(getProfileByJurisdiction('KS'),route,spec));});
+for(const mutate of [p=>p.profileVersion='changed',p=>p.source.sourceCorpusSha256='changed',p=>p.questions.push({id}),p=>p.pathways.find(x=>x.id===route).triggerFields.push('new_consumer')])check('changed profile refuses exact exception',()=>{const p=structuredClone(profile);mutate(p);assert(!H.ndFirstOffenseRecordIsContext(p,route,spec));});
+for(const mutate of [s=>s.requiredFacts.push({factId:id}),s=>s.documents[0].includeWhen='new_condition',s=>s.trackId='other',s=>s.sourceIdentities.pop()])check('new document/source consumer refuses',()=>{const s=structuredClone(spec);mutate(s);assert(!H.ndFirstOffenseRecordIsContext(profile,route,s));});
+check('absent legacy answer is neither asked nor filled and no plan ID is removed',()=>{assert(!model().builderQuestions.some(q=>q.id===id));assert(!model().missingInputIds.includes(id));assert(!P.heldPacketCorrectionInputIds(model(),snap().resultCode).has(id));assert(snap().requiredInputIds.includes(id));for(const map of ['screeningAnswers','prefilledAnswers','packetAnswers'])assert(!Object.hasOwn(snap()[map],id));assert.deepEqual(shape(snap()),baselineShape);});
+let before=structuredClone(stored),response=await post({[id]:'Conviction'});check('existing explicit inactive-answer save remains participant-owned, without authority change',()=>{assert.equal(response.status,200);assert.equal(snap().packetAnswers[id],'Conviction');assert.deepEqual(shape(snap()),baselineShape);assert(!model().missingInputIds.includes(id));assert.equal(model().builderQuestions.find(q=>q.id===id)?.required,false);});
+stored=before;
+const originalOptions=['Arrest or charge','Court case','Conviction','Juvenile matter','I am not sure'];
+for(const map of ['screeningAnswers','prefilledAnswers','packetAnswers'])for(const raw of [...originalOptions,'Court case / conviction',null,{value:'Court case',unknown:true},['Court case','Conviction']]){
+ assign(map,raw);const prior=structuredClone(stored),m=model();
+ check('independent retained value stays optional with correction reachable '+map+':'+JSON.stringify(raw),()=>{assert(m);const q=m.builderQuestions.find(q=>q.id===id);assert(q);assert.equal(q.required,false);assert.deepEqual(q.options,originalOptions);assert(!m.missingInputIds.includes(id));assert(P.heldPacketCorrectionInputIds(m,snap().resultCode).has(id));assert.deepEqual(snap()[map][id],raw);assert.deepEqual(shape(snap()),baselineShape);});
+ const noop=P.packetInformationPatch({existingItem:item,answers:{},protectedVerification:stored});check('read/no-op preserve complete typed original '+map+':'+JSON.stringify(raw),()=>{assert(noop);assert.deepEqual(noop.protectedTransition.nextVerification,prior);assert.deepEqual(stored,prior);});
+}
+assign('packetAnswers','Court case');
+for(const locale of ['en','es']){
+ const tree=await Edit({params,searchParams:Promise.resolve({edit:id})}),builder=nodes(tree).find(n=>n.type===PacketInformationBuilder);check('actual held editor includes optional original history '+locale,()=>{assert(builder);const q=builder.props.questions.find(q=>q.id===id);assert(q);assert.equal(q.required,false);assert.equal(builder.props.returnToMatterAfterCorrection,true);assert.equal(builder.props.initialRouteChanged,false);const markup=html(React.createElement(PacketInformationBuilder,{...builder.props,questions:[q],initialAnswers:{[id]:'Court case'},initiallyMissing:[]}),locale);assert(markup.includes(locale==='es'?'historial opcional':'optional history'));assert(markup.includes(locale==='es'?'categorías pueden coincidir':'labels can overlap'));assert(!markup.includes('disabled=""'));});
+}
+assign('prefilledAnswers',{value:'Earlier Court case',unknown:true});stored.draftSnapshot.packetAnswers[id]='Juvenile matter';stored.draftHash=P.protectedPacketDraftHash(snap());before=structuredClone(stored);
+await save({});check('actual no-op preserves conflicting typed copies byte-for-byte',()=>assert.deepEqual(stored,before));
+await save({mailing_address:{value:'Explicit synthetic contact update',unknown:false}});check('ordinary unrelated material save retains each conflicting raw copy and authority',()=>{for(const map of ['screeningAnswers','prefilledAnswers','packetAnswers'])assert.deepEqual(snap()[map][id],before.draftSnapshot[map][id]);assert.deepEqual(shape(snap()),baselineShape);});
+const conflictBefore=structuredClone(stored);await save({[id]:'Court case'});check('explicit historical correction archives prior source values without inferring a conviction',()=>{assert.equal(snap().packetAnswers[id],'Court case');assert.deepEqual(shape(snap()),baselineShape);for(const map of ['prefilledAnswers','packetAnswers'])assert(snap().dependencies.semanticAnswerHistory.some(h=>h.factId===id&&h.source===map&&JSON.stringify(h.value)===JSON.stringify(conflictBefore.draftSnapshot[map][id])));assert(!model().missingInputIds.includes(id));assert.notEqual(stored.status,'verified');});
+const stable=structuredClone(stored);
+for(const [answers,extra,query,status]of [[{[id]:'Conviction'},{expectedRevision:0},'',409],[{[id]:'Conviction'},{},'?preparation=mt-deferred',403]]){response=await post(answers,extra,query);check('unchanged transport refusal '+status,()=>{assert.equal(response.status,status);assert.deepEqual(stored,stable);});}
+owner='another-owner';response=await API.GET(new Request(url),context);check('other owner GET refuses unchanged',()=>{assert.equal(response.status,404);assert.deepEqual(stored,stable)});response=await post({[id]:'Conviction'});check('other owner correction refuses unchanged',()=>{assert.equal(response.status,404);assert.deepEqual(stored,stable)});owner='synthetic-nd-owner';
+for(const p of profile.pathways.filter(p=>p.id!==route))check('all sibling correction IDs unchanged '+p.id,()=>assert(!P.factualPathwayCorrectionIds('ND',p.id,{record_type:'Court case'},true).includes(id)));
+console.log(JSON.stringify({status:'PASS_ND_EXACT_RECORD_CONTEXT',checks,noDatabase:true,noRender:true,noOwnerJourneyClaim:true,originalQuestion:'Q-003cc2b98811955e705a'}));

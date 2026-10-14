@@ -1,3 +1,4 @@
+import { ND_LEGACY_RECORD_TYPE, ndFirstOffenseRecordIsContext, ndFirstOffenseRecordContextQuestion } from "@/lib/expungement-ai/nd-first-offense-record-context";
 import { oregonDispositionConfigurationSourceMatches } from "@/lib/rcap-engine/composed-route-selector";
 import { OR_DISPOSITION_SOURCE, OR_DISPOSITION_CONFIGURATIONS, OR_DISPOSITION_FACT_IDS, oregonDispositionIdentity, oregonDispositionQuestionApplies } from "@/lib/rcap-engine/oregon-disposition-identity";
 import { ND_FIRST_OFFENSE_FAMILY, ND_FIRST_OFFENSE_CONTACT_FIELDS, ND_FIRST_OFFENSE_CONTACT_IDS, isNdFirstOffenseFamily, ndFirstOffenseContactQuestions, ndFirstOffenseFamilyInputs } from "@/lib/expungement-ai/nd-first-offense-family-inputs";
@@ -354,6 +355,7 @@ export function packetInformationModelFor(item: ConsumerBriefcaseItem): PacketIn
   if (collection?.facts.some(fact => fact.factId === DC_LEGACY_LOCATION && fact.source === "dc_fixed_caption_location_context" && fact.optional)
     && !questions.some(question => question.id === DC_LEGACY_LOCATION)) questions.push(fallbackPacketQuestion(DC_LEGACY_LOCATION));
   questions = questions.map((question) => reviewedPacketQuestion(question, { state: profile.jurisdiction.code, pathwayId, participantOwnsRecord: knownParticipantOwner(questionById, screeningAnswers.ownership_scope), participantHelpingRecord: knownParticipantHelper(questionById, screeningAnswers.ownership_scope) }));
+  questions = questions.map(question => ndFirstOffenseRecordContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
   for (const question of questions) questionById.set(question.id, question);
   const builderQuestions = builderQuestionsFor(questions, collection, requiredInputIds, serverFacts);
   const missingInputIds = missingRequiredInputs(
@@ -1600,6 +1602,13 @@ export function protectedPacketInformationModelFor(
     && ![screeningAnswers, prefilledAnswers, packetAnswers].some(map => Object.hasOwn(map, DC_LEGACY_LOCATION))) {
     packetAnswers[DC_LEGACY_LOCATION] = { unknown: true };
   }
+  if (ndFirstOffenseRecordIsContext(profile, snapshot.pathwayId, packetSpecificationFor(`${snapshot.jurisdiction}:${snapshot.pathwayId}`))
+    && [snapshot.screeningAnswers, snapshot.prefilledAnswers, snapshot.packetAnswers].some(map => Object.hasOwn(map, ND_LEGACY_RECORD_TYPE))
+    && ![screeningAnswers, prefilledAnswers, packetAnswers].some(map => Object.hasOwn(map, ND_LEGACY_RECORD_TYPE))) {
+    // Display-only uncertainty exposes the existing historical correction.
+    // The original typed value stays in its protected map on read/no-op.
+    packetAnswers[ND_LEGACY_RECORD_TYPE] = { unknown: true };
+  }
   const initialAnswers = { ...screeningAnswers, ...prefilledAnswers, ...packetAnswers };
   const requiredInputIds = stringArray(snapshot.requiredInputIds);
   if (!canonicalEqual(requiredInputIds, packetPlan?.requiredInputIds ?? [])) return null;
@@ -2023,6 +2032,8 @@ export function factualPathwayCorrectionIds(state: string, pathway: string | nul
   if (dcInnocenceLocationIsContext(profile, pathway, packetSpecificationFor(`${state}:${pathway}`))
     && Object.hasOwn(answers, DC_LEGACY_LOCATION)) return [...extra, DC_LEGACY_LOCATION];
   if (profile && ndFirstOffenseFamilyContract(profile, pathway)) return [...extra, ...ND_FIRST_OFFENSE_CONTACT_IDS,
+    ...(ndFirstOffenseRecordIsContext(profile, pathway, packetSpecificationFor(`${state}:${pathway}`))
+      && Object.hasOwn(answers, ND_LEGACY_RECORD_TYPE) ? [ND_LEGACY_RECORD_TYPE] : []),
     // Ordinary explicit corrections to saved legacy context retain their raw
     // history, without offering those obsolete purposes as active intake.
     ...(includeInactive ? ["contact_information", "residency_or_location"].filter(id => Object.hasOwn(answers, id)) : [])];
@@ -2451,6 +2462,7 @@ function protectedPacketQuestionSurface(
   if (collection?.facts.some(fact => fact.factId === DC_LEGACY_LOCATION && fact.source === "dc_fixed_caption_location_context" && fact.optional)
     && !questions.some(question => question.id === DC_LEGACY_LOCATION)) questions.push(fallbackPacketQuestion(DC_LEGACY_LOCATION));
   questions = questions.map((question) => reviewedPacketQuestion(question, { state: profile.jurisdiction.code, pathwayId, participantOwnsRecord: knownParticipantOwner(questionById, screeningAnswers.ownership_scope), participantHelpingRecord: knownParticipantHelper(questionById, screeningAnswers.ownership_scope) }));
+  questions = questions.map(question => ndFirstOffenseRecordContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
   for (const question of questions) questionById.set(question.id, question);
   const builderQuestions = builderQuestionsFor(questions, collection, requiredInputIds, serverFacts);
   const builderSections = builderSectionsFor(collection, builderQuestions);
