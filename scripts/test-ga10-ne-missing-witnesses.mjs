@@ -147,6 +147,82 @@ assert(nebraskaNonconvictionQuestionApplies('KS', adultRoute, facts, q.id));
 assert(nebraskaNonconvictionQuestionApplies('NE', adultRoute, facts, 'court_requirements_completed'));
 console.log('PASS: exact NE adult-acquittal gate; unknown age/disposition, siblings and all independent facts retained; hidden No/unknown survive and reappear');
 
+// Reconstructed now by executing exact a74 source, not a historical capture.
+const reproduction = subgroup.freshBaselineReproduction;
+assert.equal(reproduction.classification, 'FRESH_EXACT_BASELINE_REPRODUCTION_NOT_PRIOR_CAPTURE');
+assert.equal(reproduction.sourceCommit, 'a74db0ac9ef7bac434d6c21033d31981ad4cef8c');
+assert.deepEqual(reproduction.beforeReasonCodes, ['ne.source_fact_unknown']);
+assert.equal(reproduction.baselineModelAvailable, true);
+const historical = structuredClone(reproduction.record), historicalBytes = JSON.stringify(historical);
+const heldSnapshot = historical.draftSnapshot;
+const currentAuthority = evaluate({ jurisdiction: 'NE', profileVersion: p.profileVersion, matterId: 'synthetic-ne-a74-held-reproduction',
+  answers: { ...heldSnapshot.screeningAnswers, ...heldSnapshot.prefilledAnswers, ...heldSnapshot.packetAnswers } });
+const successor = P.nebraskaAcquittalHeldSuccessor(heldSnapshot, currentAuthority);
+assert(successor);
+assert.equal(successor.resultCode, 'guidance_only');
+assert.equal(successor.paymentAllowed, false);
+for (const map of ['screeningAnswers', 'prefilledAnswers', 'packetAnswers']) assert.deepEqual(successor[map], heldSnapshot[map]);
+assert.deepEqual(successor.dependencies, heldSnapshot.dependencies);
+assert.equal(successor.capturedAt, heldSnapshot.capturedAt);
+const withInactiveHistory = structuredClone(heldSnapshot);
+withInactiveHistory.packetAnswers.retired_financial_note = { value: 'Synthetic prior wording', unknown: false };
+const preservedHistory = P.nebraskaAcquittalHeldSuccessor(withInactiveHistory, currentAuthority);
+assert(preservedHistory);
+assert.deepEqual(preservedHistory.packetAnswers.retired_financial_note, withInactiveHistory.packetAnswers.retired_financial_note);
+
+const historicalModel = P.protectedPacketInformationModelFor(historical);
+assert(historicalModel);
+assert.equal(historicalModel.initialAnswers.financial_obligations, 'I am not sure');
+assert.equal(historicalModel.reviewSafety.safe, false);
+assert(!historicalModel.builderQuestions.some(q => q.id === 'financial_obligations'));
+for (const financial of ['I am not sure', 'No']) {
+  const patch = P.packetInformationPatch({ existingItem: { id: 'synthetic-ne-a74-held-reproduction', jurisdiction: 'NE', artifactRefs: {} },
+    protectedVerification: historical, answers: { financial_obligations: financial } });
+  assert(patch);
+  assert.equal(patch.protectedTransition.nextVerification.status, 'unverified');
+  assert.equal(patch.readyToGenerate, false);
+  const loaded = P.protectedPacketInformationModelFor(JSON.parse(JSON.stringify(patch.protectedTransition.nextVerification)));
+  assert(loaded);
+  assert.equal(loaded.initialAnswers.financial_obligations, financial);
+  assert.equal(loaded.reviewSafety.safe, false);
+}
+assert.equal(JSON.stringify(historical), historicalBytes);
+for (const [name, change] of [
+  ['different state', s => { s.jurisdiction = 'KS'; }],
+  ['different route', s => { s.pathwayId = 'juvenile-automatic-sealing'; }],
+  ['different profile version', s => { s.profileVersion += '-changed'; }],
+  ['different source', s => { s.profileSourceFingerprint = 'changed'; }],
+  ['different authority', s => { s.profileAuthorityFingerprint = 'changed'; }],
+  ['different result', s => { s.resultCode = 'not_yet'; }],
+  ['payment permission', s => { s.paymentAllowed = true; }],
+  ['different packet type', s => { s.packetType = 'custom_pleading'; }],
+  ['invented old plan', s => { s.packetPlan = successor.packetPlan; }],
+  ['different old required inputs', s => { s.requiredInputIds = ['financial_obligations']; }],
+  ['different old family', s => { s.packetFamilyIdentifiers.mode = 'custom_pleading'; }],
+  ['different server facts', s => { s.serverFacts.pathway_id = 'other'; }],
+  ['selected track', s => { s.selectedTrackId = 'other'; }],
+  ['treatment', s => { s.treatmentClassification = 'other'; }],
+  ['deferrals', s => { s.deferralComponentIds = ['other']; }],
+  ['verified schema', s => { s.schemaVersion = 'expungement-ai/final-verification/v1'; }],
+  ['known payment was not prior uncertainty', s => { s.screeningAnswers.financial_obligations = 'No'; }],
+  ['different disposition', s => { s.prefilledAnswers.case_outcome = 'Misdemeanor conviction'; }],
+  ['unknown age', s => { s.prefilledAnswers.age_at_offense = 'I am not sure'; }],
+]) {
+  const incompatible = structuredClone(heldSnapshot); change(incompatible);
+  assert.equal(P.nebraskaAcquittalHeldSuccessor(incompatible, currentAuthority), null, name);
+}
+const otherUnknown = structuredClone(heldSnapshot);
+otherUnknown.prefilledAnswers.pending_cases = 'I am not sure';
+const heldAuthority = evaluate({ jurisdiction: 'NE', profileVersion: p.profileVersion, matterId: 'synthetic-other-hold',
+  answers: { ...otherUnknown.screeningAnswers, ...otherUnknown.prefilledAnswers } });
+assert.equal(P.nebraskaAcquittalHeldSuccessor(otherUnknown, heldAuthority), null, 'an independent current uncertainty cannot be bypassed');
+const noAuthority = structuredClone(currentAuthority); noAuthority.evaluation.paymentAllowed = true;
+assert.equal(P.nebraskaAcquittalHeldSuccessor(heldSnapshot, noAuthority), null, 'never inherit a payment permission');
+const changedPlan = structuredClone(currentAuthority); changedPlan.evaluation.packetPlan.sourceFormIds.push('new-form');
+assert.equal(P.nebraskaAcquittalHeldSuccessor(heldSnapshot, changedPlan), null, 'unreviewed current forms fail closed');
+const tampered = structuredClone(historical); tampered.draftSnapshot.screeningAnswers.financial_obligations = 'No';
+assert.equal(P.protectedPacketInformationModelFor(tampered), null, 'hash protection still refuses a changed stored record');
+console.log('PASS: fresh exact-baseline held draft recovers without changing history or granting authority; incompatible source, tuple, facts and forms refused');
 const receipt = { scope: subgroup.id, status: 'PASS_BOUNDED_ENGINEERING_ONLY', rows, renders,
   remaining: ['Authenticated owner acceptance remains outstanding; this receipt uses real pure protected functions without a database.',
     'Jurisdiction-specific qualification, waiver and restitution legal effect remain unverified.',

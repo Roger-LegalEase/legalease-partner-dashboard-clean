@@ -1023,6 +1023,42 @@ export function kansasRegistrationHeldSuccessor(snapshot: ProtectedPacketAuthori
   return seeded ? preserveUnchangedProtectedFacts(seeded.snapshot, snapshot, new Set()) : null;
 }
 
+/** Fresh exact-a74 reproduction established this prior financial-only hold.
+ * Restore the current guidance draft and raw history, never verified authority. */
+export function nebraskaAcquittalHeldSuccessor(snapshot: ProtectedPacketAuthoritySnapshot,
+  authoritative: NonNullable<ReturnType<typeof evaluateProtectedPacketFacts>>): ProtectedPacketDraftSnapshot | null {
+  const route = "automatic-nonconviction-sealing";
+  const profile = getProfileByJurisdiction("NE"), evaluation = authoritative.evaluation;
+  if (!profile || snapshot.schemaVersion !== "expungement-ai/protected-packet-draft/v1"
+    || snapshot.jurisdiction !== "NE" || snapshot.pathwayId !== route
+    || snapshot.profileVersion !== "2026-06-19-source-conversion-1" || profile.profileVersion !== snapshot.profileVersion
+    || snapshot.profileSourceFingerprint !== "348743ce6772f30a06c98e56c29662bee0794763e76e43687804f8eb4d6534bd"
+    || profile.source?.sourceCorpusSha256 !== snapshot.profileSourceFingerprint
+    || snapshot.profileAuthorityFingerprint !== "6f59f9b5c4d857dfbee66a541d10ae9580f100ac036c50708e8c0fddeacfdb45"
+    || profileAuthorityFingerprint(profile, route) !== snapshot.profileAuthorityFingerprint
+    || snapshot.resultCode !== "needs_review" || snapshot.paymentAllowed
+    || snapshot.packetType !== null || snapshot.packetPlan !== null || !canonicalEqual(snapshot.requiredInputIds, [])
+    || !canonicalEqual(snapshot.packetFamilyIdentifiers, { mode: null, sourceFormIds: [] })
+    || snapshot.selectedTrackId !== null || snapshot.treatmentClassification !== null || !canonicalEqual(snapshot.deferralComponentIds, [])
+    || !canonicalEqual(snapshot.serverFacts, canonicalServerFacts("NE", route))
+    || evaluation.jurisdiction !== "NE" || evaluation.profileVersion !== snapshot.profileVersion
+    || evaluation.pathwayId !== route || evaluation.resultCode !== "guidance_only" || evaluation.paymentAllowed
+    || authoritative.packetType !== "guidance_packet" || authoritative.selectedTrackId
+    || evaluation.treatmentClassification || evaluation.deferralComponentIds?.length
+    || evaluation.reasons.length !== 1 || evaluation.reasons[0].code !== "ne.guidance_only_no_user_filed_court_petition"
+    || !canonicalEqual(evaluation.missingQuestionIds, [])
+    || !canonicalEqual(evaluation.packetPlan, packetPlanForPathway(profile, route))
+    || evaluation.packetPlan?.mode !== "automatic_relief_verification_and_guidance"
+    || evaluation.packetPlan.formMappingStatus !== "not_required" || evaluation.packetPlan.sourceFormIds.length !== 0) return null;
+  const answers = protectedPacketScreeningAnswers(snapshot);
+  if (!answers || !isExplicitUnknownAnswer(answers.financial_obligations)
+    || nebraskaNonconvictionQuestionApplies("NE", route, answers, "financial_obligations")) return null;
+  const seeded = protectedPacketDraftSeedFromAuthoritative({ authoritative,
+    screeningAnswers: answerRecord(snapshot.screeningAnswers), prefilledAnswers: answerRecord(snapshot.prefilledAnswers),
+    packetAnswers: answerRecord(snapshot.packetAnswers), dependencies: snapshot.dependencies, capturedAt: snapshot.capturedAt });
+  return seeded ? preserveUnchangedProtectedFacts(seeded.snapshot, snapshot, new Set()) : null;
+}
+
 export function protectedPacketInformationModelFor(
   verification: ProtectedPacketVerificationRecord
 ): ProtectedPacketInformationModel | null {
@@ -1031,6 +1067,9 @@ export function protectedPacketInformationModelFor(
   const ksAuthority = snapshot.jurisdiction === "KS" && snapshot.pathwayId === KS_REGISTRATION_ROUTE
     ? evaluateProtectedPacketFacts(snapshot) : null;
   if (ksAuthority) snapshot = kansasRegistrationHeldSuccessor(snapshot, ksAuthority) ?? snapshot;
+  const neAuthority = snapshot.jurisdiction === "NE" && snapshot.pathwayId === "automatic-nonconviction-sealing"
+    ? evaluateProtectedPacketFacts(snapshot) : null;
+  if (neAuthority) snapshot = nebraskaAcquittalHeldSuccessor(snapshot, neAuthority) ?? snapshot;
   if ((isCaProp64Pathway(snapshot.jurisdiction, snapshot.pathwayId) || isNy16059Packet(snapshot.jurisdiction, snapshot.pathwayId) || arkansasRecordOriginApplies(snapshot.jurisdiction, snapshot.pathwayId))
     && (!canonicalEqual(snapshot.serverFacts, canonicalServerFacts(snapshot.jurisdiction, snapshot.pathwayId))
       || !canonicalEqual(snapshot.packetFamilyIdentifiers, { mode: snapshot.packetPlan?.mode ?? null, sourceFormIds: snapshot.packetPlan?.sourceFormIds ?? [] }))) return null;
@@ -1761,7 +1800,7 @@ function deriveProtectedPacketDraftSnapshot(
   const currentAuthority = evaluateProtectedPacketFacts(base);
   if (!currentAuthority) return null;
   const originalBase = base;
-  base = kansasRegistrationHeldSuccessor(base, currentAuthority) ?? base;
+  base = nebraskaAcquittalHeldSuccessor(base, currentAuthority) ?? kansasRegistrationHeldSuccessor(base, currentAuthority) ?? base;
   const factualIds = [...factualPathwayCorrectionIds(base.jurisdiction, base.pathwayId, { ...base.screeningAnswers, ...base.prefilledAnswers, ...base.packetAnswers }, true), ...msExactTimingQuestionIds(base.jurisdiction, base.pathwayId, { ...base.screeningAnswers, ...base.prefilledAnswers, ...base.packetAnswers }, true)];
   if (isNy16059Packet(base.jurisdiction, base.pathwayId)) factualIds.push(...NY_PACKET_FACT_IDS, ...NY_CASE_FACT_IDS,
     ...routeFactualCorrectionIds({ stateCode: base.jurisdiction, pathwayId: base.pathwayId,
