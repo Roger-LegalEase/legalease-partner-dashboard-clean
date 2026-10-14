@@ -313,6 +313,8 @@ export type PacketCollectionInput = {
   unresolvedSavedFactIds?: ReadonlySet<string>;
   /** Set only by the exact reviewed route/specification/consumer predicate. */
   reviewedContactRepresentation?: boolean;
+  /** Server-checked exact JD-CR-202 profile; does not change any legal predicate. */
+  ctCleanSlateSeparateContact?: boolean;
   /** Set only by the exact adopted MO status/source contract, never participant data. */
   missouriClosureStatusOnly?: boolean;
   missouriMarijuanaStatusOnly?: boolean;
@@ -645,6 +647,15 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
         value,
         reason: "the server owns this route fact; it is never asked"
       });
+      continue;
+    }
+
+    if (input.ctCleanSlateSeparateContact === true && input.jurisdiction === "CT"
+      && input.pathwayId === "petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202"
+      && factId === "contact_information" && !input.routeDecidingFactIds?.has(factId) && !input.unresolvedRouteFactIds?.has(factId)) {
+      facts.push({ factId, collection: "conditional", phase: "known", group: null, active: false,
+        source: "ct_jdcr202_separate_defendant_contact_fields",
+        reason: "JD-CR-202 has separate defendant address, phone and email fields. The earlier aggregate remains history, is never parsed, and is not an eligibility predicate." });
       continue;
     }
 

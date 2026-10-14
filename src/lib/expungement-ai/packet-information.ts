@@ -1,3 +1,4 @@
+import { CT_CLEAN_SLATE_CONTACT_FIELDS, CT_CLEAN_SLATE_CONTACT_IDS, ctCleanSlateContactContract, ctCleanSlateContactQuestions, ctCleanSlateContactInputs } from "@/lib/expungement-ai/ct-clean-slate-contact";
 import { akCourtviewContactQuestions, akCourtviewContactIds, akCourtviewContactAnswerState, isAkCourtviewContact, AK_TF810_CONTACT_FIELDS } from "@/lib/expungement-ai/ak-courtview-contact";
 import { caProp64JuvenilePreparationScope } from "@/lib/expungement-ai/ca-prop64-juvenile-document-preparation";
 import { caProp64JuvenileDocumentQuestions, caProp64JuvenileAdditionalCount } from "@/lib/expungement-ai/ca-prop64-juvenile-document-questions";
@@ -1533,7 +1534,27 @@ export function protectedPacketInformationModelFor(
   if (arkansasRecordOriginApplies(snapshot.jurisdiction, snapshot.pathwayId) && arkansasRecordOrigin(initialAnswers) === "unknown"
     && !missingInputIds.includes(AR_RECORD_ORIGIN_ID)) missingInputIds.push(AR_RECORD_ORIGIN_ID);
   // Current source completion facts do not alter the evaluator's route/result
-  // or stored plan. Optional email is never a missing preparation prerequisite.
+  // or stored plan.
+  const ctContact = ctCleanSlateContactInputs(snapshot);
+  if (ctContact) for (const field of CT_CLEAN_SLATE_CONTACT_FIELDS) {
+    if (ctContact.unresolvedIds.includes(field.id) && !missingInputIds.includes(field.id)) missingInputIds.push(field.id);
+    if (ctContact.conflictingIds.includes(field.id)) {
+      // Read-time projection only. An explicit replacement is the ordinary
+      // semantic-history transition; neither read nor no-op chooses a copy.
+      delete initialAnswers[field.id];
+      const originalQuestion = questionSurface.questionById.get(field.id);
+      if (originalQuestion) {
+        const question = { ...originalQuestion, savedAnswerNeedsClarification: true,
+          helperText: `${originalQuestion.helperText ?? ""}\nSaved copies disagree. Enter the correct current detail explicitly. Original answers remain saved in your history.`,
+          translations: { ...originalQuestion.translations, es: { ...originalQuestion.translations?.es,
+            helperText: `${originalQuestion.translations?.es?.helperText ?? ""}\nLas copias guardadas no coinciden. Ingrese expresamente el dato actual correcto. Las respuestas originales se conservan en su historial.` } } };
+        questionSurface.questionById.set(field.id, question);
+        questionSurface.questions = questionSurface.questions.map(q => q.id === field.id ? question : q);
+        questionSurface.builderQuestions = questionSurface.builderQuestions.map(q => q.id === field.id ? question : q);
+      }
+    }
+  }
+  // TF-810 explicitly makes email optional; it is never a missing input.
   const activeAkIds = new Set(akCourtviewContactIds(snapshot.jurisdiction, snapshot.pathwayId, initialAnswers));
   for (const field of AK_TF810_CONTACT_FIELDS) {
     const question = questionSurface.questionById.get(field.id);
@@ -1784,6 +1805,8 @@ export function packetCollectionFor(input: {
     routeDecidingFactIds: decidingFactIds,
     unresolvedRouteFactIds: unresolvedFactIds,
     reviewedContactRepresentation: Boolean(contactContract),
+    ctCleanSlateSeparateContact: ctCleanSlateContactContract(profile, input.pathwayId)
+      && !decidingFactIds.has("contact_information") && !unresolvedFactIds.has("contact_information"),
     missouriClosureStatusOnly: isMissouriClosureGuidanceWithoutIdentityForm(profile, input.pathwayId ?? ""),
     montanaDeferredFinancialFacts: !montanaDeferredLegacyFinancialApplies(profile, input.pathwayId, { ...input.screeningAnswers, ...input.prefilledAnswers, ...input.savedAnswers }, "financial_obligations"),
     missouriMarijuanaStatusOnly: !missouriMarijuanaStatusQuestionApplies(input.jurisdiction, input.pathwayId, { ...input.screeningAnswers, ...input.prefilledAnswers, ...input.savedAnswers }, "financial_obligations", profile),
@@ -1808,6 +1831,7 @@ export function factualPathwayCorrectionIds(state: string, pathway: string | nul
     ? [...convictionReliefQuestions(state).filter(q => includeInactive || convictionReliefQuestionApplies(profile, answers, q.id)).map(q => q.id),
       "case_outcome", ...(state === "GA" ? ["ga_original_first_offender", "pardon_status"] : [])] : [];
 
+  if (profile && ctCleanSlateContactContract(profile, pathway)) return [...extra, ...CT_CLEAN_SLATE_CONTACT_IDS];
   if (isAkCourtviewContact(state, pathway)) return [...extra, ...akCourtviewContactIds(state, pathway, answers, includeInactive)];
   if (arkansasRecordOriginApplies(state, pathway)) return [...extra, AR_RECORD_ORIGIN_ID];
   if (profile && state === "MT" && isMontanaDeferredContract(profile, pathway)) return [...extra, ...MT_DEFERRED_FACT_IDS.filter(id => includeInactive || montanaDeferredFactApplies(profile, pathway, answers, id)), "case_outcome"];
@@ -2231,6 +2255,22 @@ function protectedPacketQuestionSurface(
   for (const question of questions) questionById.set(question.id, question);
   const builderQuestions = builderQuestionsFor(questions, collection, requiredInputIds, serverFacts);
   const builderSections = builderSectionsFor(collection, builderQuestions);
+  if (ctCleanSlateContactContract(profile, pathwayId)) {
+    const descriptors = ctCleanSlateContactQuestions({ ...screeningAnswers, ...prefilledAnswers, ...savedAnswers });
+    for (const descriptor of descriptors) {
+      const index = questions.findIndex(question => question.id === descriptor.id);
+      if (index >= 0) questions[index] = descriptor; else questions.push(descriptor);
+      questionById.set(descriptor.id, descriptor);
+      if (!builderQuestions.some(question => question.id === descriptor.id)) builderQuestions.push(descriptor);
+    }
+    const legacy = questions.find(question => question.id === "contact_information");
+    if (legacy) { legacy.required = false; legacy.contextOnly = true; legacy.prompt = "Earlier contact answer (history only)";
+      legacy.translations = { es: { prompt: "Respuesta de contacto anterior (solo historial)" } }; }
+    builderSections.push({ id: "ct_jdcr202_defendant_contact", heading: "Defendant contact details for JD-CR-202",
+      description: "These details complete existing form fields; they do not decide eligibility. Earlier contact text is retained as history.",
+      translations: { es: { heading: "Datos de contacto de la persona acusada para JD-CR-202", description: "Estos datos completan campos existentes del formulario; no determinan la elegibilidad. El texto de contacto anterior se conserva como historial." } },
+      questionIds: descriptors.map(question => question.id) });
+  }
   const currentAk = akCourtviewContactQuestions(profile.jurisdiction.code, pathwayId, { ...screeningAnswers, ...prefilledAnswers, ...savedAnswers });
   if (currentAk.length) {
     for (const descriptor of currentAk) {
@@ -3561,6 +3601,8 @@ function installPacketSpecificationQuestions(
     const question = nyTransactionAssociationsQuestion(answers.ny_16059_covered_case_records);
     questions.set(question.id, question);
   }
+  const ctProfile = jurisdiction === "CT" ? getProfileByJurisdiction("CT") : null;
+  if (ctProfile && ctCleanSlateContactContract(ctProfile, pathwayId)) for (const question of ctCleanSlateContactQuestions(answers)) questions.set(question.id, question);
   for (const question of akCourtviewContactQuestions(jurisdiction, pathwayId, answers, true)) questions.set(question.id, question);
   const currentNy = ny16059CurrentDocumentQuestions(jurisdiction, pathwayId, [...questions.values()]);
   if (currentNy) for (const question of currentNy.questions) questions.set(question.id, question);
