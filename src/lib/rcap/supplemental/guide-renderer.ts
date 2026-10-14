@@ -111,6 +111,8 @@ export type GuideRenderOptions = {
   stops?: ReadonlyArray<GuideStopCondition>;
   /** Spanish for the stop conditions, keyed by situation. */
   stopsEs?: Readonly<Record<string, { situation: string; whatItMeans: string }>>;
+  /** Keep an explicitly selected route's help conditions and explanations together. */
+  keepStopConditionsTogether?: boolean;
   verifiedAt?: string;
   /**
    * Render without the brand asset instead of refusing.
@@ -694,9 +696,7 @@ function drawFeesAndCosts(sheet: Sheet, guide: SupplementalGuide, options: Guide
 function drawStopConditions(sheet: Sheet, guide: SupplementalGuide, options: GuideRenderOptions) {
   const blocking = (options.stops ?? []).filter((stop) => stop.stopAndGetHelp);
   if (blocking.length === 0) return;
-  ensure(sheet, LINE * 5);
-  smallLabel(sheet, sheet.words.stops);
-  for (const stop of blocking) {
+  const localized = blocking.map((stop) => {
     let situation = stop.situation;
     let meaning = stop.whatItMeans;
     if (sheet.locale === "es") {
@@ -710,6 +710,24 @@ function drawStopConditions(sheet: Sheet, guide: SupplementalGuide, options: Gui
       situation = translated.situation;
       meaning = translated.whatItMeans;
     }
+    return { situation, meaning };
+  });
+  // Match paragraph's actual font, indent, wrapping and trailing gaps. The
+  // existing defaults retain their pagination. The GA pleading explicitly
+  // opts in after its measured guide split a warning from its explanation.
+  const itemHeight = ({ situation, meaning }: { situation: string; meaning: string }) =>
+    wrap(sanitize(`- ${situation}`), sheet.fonts.body, BODY, CONTENT_WIDTH - 6 - RIGHT_INSET).length * LINE + 1
+    + wrap(sanitize(meaning), sheet.fonts.italic, BODY - 0.5, CONTENT_WIDTH - 18 - RIGHT_INSET).length * LINE + 5;
+  const pageCapacity = PAGE_HEIGHT - MARGIN - 76 - (MARGIN + 34);
+  const groupHeight = LINE + 8 - 6 + localized.reduce((height, stop) => height + itemHeight(stop), 0);
+  const groupFits = options.keepStopConditionsTogether === true && groupHeight <= pageCapacity;
+  ensure(sheet, groupFits ? groupHeight : LINE * 5);
+  smallLabel(sheet, sheet.words.stops);
+  for (const stop of localized) {
+    if (options.keepStopConditionsTogether && !groupFits && itemHeight(stop) <= pageCapacity) {
+      ensure(sheet, itemHeight(stop));
+    }
+    const { situation, meaning } = stop;
     paragraph(sheet, `- ${situation}`, { indent: 6, gap: 1 });
     paragraph(sheet, meaning, { indent: 18, font: sheet.fonts.italic, color: MUTED, size: BODY - 0.5 });
   }
