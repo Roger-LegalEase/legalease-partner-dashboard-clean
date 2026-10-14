@@ -130,7 +130,9 @@ export async function prepareGaCurrentOutputHandoff({candidatePath,candidateSha2
   ...(participantAssemblies?{participantAssemblies}: {}),
   independentTechnicalReview:{scope:review.status,evidence:candidate.existingEvidence,limits:review.limits},
   originalAdoptedArtifacts:candidate.originalAdoptedArtifacts,
-  outputLegalApproval:{state:'not_recorded',requiredAction:candidate.approvalDependency.preciseReviewRequest,originalRecordId:candidate.approvalDependency.originalRecordId,originalPinsApplyToCurrentOutputs:false},
+  outputLegalApproval:{state:'not_recorded',requiredAction:participantAssemblies
+   ? 'Review the two exact known-OTN participant-assembly candidates, participant-full-en and participant-full-es, separately from the six preserved court/compositor boundary outputs. Record the recognized adoption decision for the accepted exact hashes and the qualified Spanish-language outcome or retained condition. The six boundary outputs alone do not cover these two participant bundles. This technical handoff grants no output approval, canonical admission, protected verification, payment or delivery authority.'
+   : candidate.approvalDependency.preciseReviewRequest,originalRecordId:candidate.approvalDependency.originalRecordId,originalPinsApplyToCurrentOutputs:false},
   finalVerification:{state:'unbound',preparedTechnicalInputsSha256:hash(JSON.stringify(binding)),reason:'Technical fixture evidence is not a final protected verification, current output adoption, worker execution or delivered-output acceptance.'},
   canonicalRecord:null,workerAdmission:null,createsApproval:false,createsRegistryRecord:false,opensRoute:false,paymentAllowed:false,productionAuthorized:false,
   remaining:['Recognized adoption of the exact changed output set and any uncovered language/legal conditions','Complete applicable independent filing-grade and final-verification evidence','Canonical and worker admission only after original evidence obligations pass','Genuine protected generation and authorized owner delivery acceptance; publication remains separately prohibited']

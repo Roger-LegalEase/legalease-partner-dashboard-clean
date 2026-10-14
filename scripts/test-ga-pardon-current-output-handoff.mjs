@@ -7,6 +7,7 @@ const root=process.cwd(),readBytes=file=>fs.readFileSync(path.resolve(root,file)
 const sourceSha=execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),hash=b=>createHash('sha256').update(b).digest('hex');
 const input={candidatePath,candidateSha256:GA_CURRENT_OUTPUT_CANDIDATE_SHA256,readBytes,sourceSha};let count=0;
 const valid=await prepareGaCurrentOutputHandoff(input);assert.equal(valid.artifacts.outputs.length,6);assert.equal(valid.artifacts.packetBytesChanged,true);assert.equal(valid.canonicalRecord,null);assert.equal(valid.workerAdmission,null);assert.equal(valid.outputLegalApproval.state,'not_recorded');assert.equal(valid.finalVerification.state,'unbound');assert.equal(valid.opensRoute,false);assert.equal(valid.paymentAllowed,false);count++;
+assert.equal(valid.outputLegalApproval.requiredAction,candidate.approvalDependency.preciseReviewRequest);count++;
 for(const entry of [...candidate.sourceSpecificationProvider.explicitBoundInputs,...candidate.currentOutputCandidates,...candidate.existingEvidence,...candidate.originalAdoptedArtifacts,...['OWNER_BATCH_ADOPTION_2026-09-02.json','POST_APPROVAL_CHANGE_AUDIT_2026-09-02.json'].map(file=>({path:'data/rcap-grade-a/legal-decisions/'+file}))]){
  const file=entry.path??entry.file;
  await assert.rejects(()=>prepareGaCurrentOutputHandoff({...input,readBytes:p=>p===file?Buffer.concat([readBytes(p),Buffer.from('\nchanged')]):readBytes(p)}));count++;
@@ -45,6 +46,8 @@ if(process.argv.includes('--assembly-review')){
  assert.equal(extended.outputLegalApproval.state,'not_recorded');assert.equal(extended.finalVerification.state,'unbound');
  assert.notEqual(extended.finalVerification.preparedTechnicalInputsSha256,valid.finalVerification.preparedTechnicalInputsSha256);
  assert.deepEqual(extended.sourceSpecificationProvider.participantAssemblies,extended.participantAssemblies);count++;
+ assert.notEqual(extended.outputLegalApproval.requiredAction,valid.outputLegalApproval.requiredAction);
+ for(const text of ['two exact known-OTN participant-assembly candidates','participant-full-en and participant-full-es','separately from the six preserved court/compositor boundary outputs','qualified Spanish-language outcome or retained condition','grants no output approval'])assert.ok(extended.outputLegalApproval.requiredAction.includes(text));count++;
  for(const file of [assemblyReviewPath,review.actualRenderEvidence.path,review.pixelEvidence.path,...Object.keys(review.sourceHashes),...review.outputs.map(output=>output.file)]){
   await assert.rejects(()=>prepareGaCurrentOutputHandoff({...extendedInput,readBytes:p=>p===file?Buffer.concat([readBytes(p),Buffer.from('\nchanged')]):readBytes(p)}));count++;
  }
