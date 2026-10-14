@@ -78,9 +78,12 @@ jobs:
           node scripts/test-ga-personalized-handoff.mjs "$RUNNER_TEMP/ga-personalized-handoff"
           node scripts/test-ga-personalized-dispatch.mjs
           node scripts/test-question-contract-output-continuity.mjs
+          node scripts/test-ms-paid-packet-output-continuity.mjs
+          node scripts/test-ms-paid-packet-proof.mjs --proof-only
           node scripts/verify-personalized-route-refusal.mjs
           node scripts/test-ks-municipal-factual-boundaries.mjs
           node scripts/test-ks-district-factual-routing.mjs
+          node scripts/test-ga10-missing-witnesses.mjs
           node scripts/test-ny-16059-factual-boundaries.mjs
           node scripts/test-ny-16059-guidance.mjs
           node scripts/test-ny-16059-typed-completion.mjs
