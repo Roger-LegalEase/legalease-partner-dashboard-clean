@@ -79,6 +79,7 @@ export const MS_PROOF_OBSERVED_INPUTS=[
   "src/lib/expungement-ai/conviction-fallback-prior-contracts.json",
   "src/lib/expungement-ai/court-completion-fact-meaning.ts",
   "src/lib/expungement-ai/court-completion-reuse.ts",
+  "src/lib/expungement-ai/ct-clean-slate-contact.ts",
   "src/lib/expungement-ai/frontend/ca-prop64-reviewed-choices.json",
   "src/lib/expungement-ai/frontend/profiles/all51.json",
   "src/lib/expungement-ai/frontend/reviewed-assisted-contact-copy.json",

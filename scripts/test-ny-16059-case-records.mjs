@@ -48,6 +48,13 @@ for(const row of fixture.rows){
  const custody=structuredClone(cases);custody[1].convictions[0].sentences[0].postSentenceCustody='yes';custody[1].convictions[0].sentences[0].releases=[{id:'release-new',releaseDate:'2010-02-01'}];const custodyConflict=patch(current,{[R.NY_CASE_RECORDS_ID]:R.encodeNyCourtCaseRecords(custody)});check(prefix+'/covered custody contradicts none history',P.protectedPacketInformationModelFor(custodyConflict).nyCaseIssues.some(i=>i.code==='incarceration_history_conflict'));
  const token=Q.nyAdditionalCaseConfirmation(m.initialAnswers);check(prefix+'/affirmative option exact inventory',m.questions.find(q=>q.id===Q.NY_CASE_RECONCILIATION_ID).options.includes(token));
  current=patch(current,{[Q.NY_CASE_RECONCILIATION_ID]:token});m=P.protectedPacketInformationModelFor(current);
+ // The retained pre-case fixture predates the current source-owned caption
+ // fields. Declare new synthetic facts explicitly; do not rewrite that fixture
+ // or bypass the document-completion hold to test case verification.
+ check(prefix+'/old fixture still lacks current caption facts',same(m.missingInputIds,['date_of_birth','street_address','city_state_zip','phone_number']));
+ check(prefix+'/missing caption facts prevent final verification',patch(current,{},true)?.status!=='verified');
+ current=patch(current,{date_of_birth:{value:'1980-02-03',unknown:false},street_address:{value:'123 Synthetic Example Street',unknown:false},city_state_zip:{value:'Albany, NY 12207',unknown:false},phone_number:{value:'202-555-0101',unknown:false}});m=P.protectedPacketInformationModelFor(current);
+ check(prefix+'/retained pre-case fixture unchanged',same(old,row.verifiedRecord));
  check(prefix+'/complete draft can be reviewed',m.missingInputIds.length===0&&m.reviewSafety.safe);
  const verified=patch(current,{},true);check(prefix+'/actual final verification after correction',verified?.status==='verified'&&P.protectedPacketInformationModelFor(verified).stage==='ready_to_generate');
  const summary=verificationSummary({...m,editableInputIds:[...P.editablePacketInputIds(m,true)]});check(prefix+'/canonical summary readable',!!summary);if(summary){const row=summary.packetAnswers.find(r=>r.id===R.NY_CASE_RECORDS_ID);check(prefix+'/EN human-readable case summary',row?.value.includes('Court case 3: 0003')&&!row.value.includes('"priorCaseReference"'));check(prefix+'/ES human-readable case summary',row?.valueEs.includes('Caso judicial 3: 0003'));check(prefix+'/confirmation token not display',!summary.packetAnswers.find(r=>r.id===Q.NY_CASE_RECONCILIATION_ID).value.includes('confirmed:'));}
