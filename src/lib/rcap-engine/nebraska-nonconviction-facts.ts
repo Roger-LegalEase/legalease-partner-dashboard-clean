@@ -14,15 +14,33 @@ export function nebraskaNonconvictionQuestionApplies(
   if (questionId !== "financial_obligations" || jurisdiction !== "NE"
     || pathwayId !== "automatic-nonconviction-sealing"
     || answers.case_outcome !== "Acquitted or found not guilty") return true;
-  let rawAge = answers.age_at_offense;
+  return !knownAdultAge(answers.age_at_offense);
+}
+
+/** Keep a missing-payment correction on its already selected factual route.
+ * This preserves only routing context, never a plan, eligibility or payment. */
+export function nebraskaMissingFinancialCorrectionPathway(
+  jurisdiction: string,
+  pathwayId: string | null | undefined,
+  answers: Record<string, unknown>,
+  missingQuestionIds: string[]
+): boolean {
+  return jurisdiction === "NE" && pathwayId === "automatic-nonconviction-sealing"
+    && answers.case_outcome === "Dismissed, no-billed, nolle prosequi, or not prosecuted"
+    && missingQuestionIds.length === 1 && missingQuestionIds[0] === "financial_obligations"
+    && knownAdultAge(answers.age_at_offense);
+}
+
+function knownAdultAge(value: unknown): boolean {
+  let rawAge = value;
   // The actual number-or-unknown control saves this explicit known wrapper.
   // Unknown or malformed wrappers never supply an adult-age assumption.
   if (rawAge && typeof rawAge === "object" && !Array.isArray(rawAge)) {
     const wrapped = rawAge as Record<string, unknown>;
-    if (wrapped.unknown !== false || Object.keys(wrapped).some(key => !["value", "unknown"].includes(key))) return true;
+    if (wrapped.unknown !== false || Object.keys(wrapped).some(key => !["value", "unknown"].includes(key))) return false;
     rawAge = wrapped.value;
   }
   const age = typeof rawAge === "number" ? rawAge
     : typeof rawAge === "string" && /^\d+$/.test(rawAge.trim()) ? Number(rawAge) : NaN;
-  return !Number.isSafeInteger(age) || age < 18;
+  return Number.isSafeInteger(age) && age >= 18;
 }

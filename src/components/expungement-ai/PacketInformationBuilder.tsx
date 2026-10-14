@@ -44,7 +44,7 @@ const contactAnswerText = (answer: AnswerValue | undefined): string => answer ==
 /** Explicit saves; every navigation waits for persistence and canonical conditions. */
 export function PacketInformationBuilder({
   itemId, stateCode, pathwayId, questions: initialQuestions, sections: initialSections = [], initialAnswers,
-  initiallyMissing, initialRevision, initialResumeSectionId = null, initialPendingDerivations = [], initialContactReconciliation = null, initialRecordClarificationIds = [], initialCourtRecordConflict = false, initialAccountEmailSuggestion = null, initialCaProp64Clarification = false, initialRouteChanged = false, editingFromReview = false
+  initiallyMissing, initialRevision, initialResumeSectionId = null, initialPendingDerivations = [], initialContactReconciliation = null, initialRecordClarificationIds = [], initialCourtRecordConflict = false, initialAccountEmailSuggestion = null, initialCaProp64Clarification = false, initialRouteChanged = false, editingFromReview = false, returnToMatterAfterCorrection = false
 }: {
   itemId: string;
   stateCode: string;
@@ -63,6 +63,8 @@ export function PacketInformationBuilder({
   initialCaProp64Clarification?: boolean;
   initialRouteChanged?: boolean;
   editingFromReview?: boolean;
+  /** Exact guidance correction returns to its available matter, not packet review. */
+  returnToMatterAfterCorrection?: boolean;
 }) {
   const { locale, text: localizeText } = useLocalization();
   const copy = (en: string, es: string) => locale === "es" ? es : en;
@@ -278,7 +280,9 @@ export function PacketInformationBuilder({
     }
     setFieldErrors({});
     const result = await save(screenId, "next");
-    if (!result || result.nextAction === "open_matter") return;
+    if (!result) return;
+    if (returnToMatterAfterCorrection) { void navigate(`/briefcase/${encodeURIComponent(itemId)}`); return; }
+    if (result.nextAction === "open_matter") return;
     if (result.caProp64Clarification && (!screen || screenId === "review")) {
       const steps = screensFor(result.questions, result.sections);
       moveTo(steps.find((step) => step.questions.some((question) => result.missingInputIds.includes(question.id)))?.id ?? steps[0]?.id ?? "review");
@@ -313,7 +317,7 @@ export function PacketInformationBuilder({
         moveTo(packetNavigationDestination(screens, active, screenId, "previous", latest.current));
       }
     }
-    else await leave(`/briefcase/${encodeURIComponent(itemId)}${editingFromReview ? "/review#packet-review-heading" : ""}`);
+    else await leave(`/briefcase/${encodeURIComponent(itemId)}${editingFromReview && !returnToMatterAfterCorrection ? "/review#packet-review-heading" : ""}`);
   }
   const displayedAnswerState = (question: ProfileQuestion) => (question.id === "contact_information" && contactReconciliation || recordClarificationIds.includes(question.id) || nyCaseIssues.some(issue => issue.id === question.id)) ? "invalid" : questionAnswerState(question, answers[question.id]);
   const draftMissing = questions.filter((question) => question.required && displayedAnswerState(question) !== "known_valid").length;
@@ -350,7 +354,7 @@ export function PacketInformationBuilder({
       </div>
       {nyCaseIssues.map(issue => <p key={`${issue.id}:${issue.code}`} role="status" className="mb-5 rounded border border-amber-300 p-4 text-sm">{issue[locale]}</p>)}
       {courtRecordConflict ? <p data-court-record-conflict role="status" className="mb-5 rounded border border-amber-300 p-4 text-sm">{COURT_RECORD_CONFLICT_COPY[locale]}</p> : null}
-      {routeChanged ? <div className="mb-5 rounded border border-amber-300 p-4" role="status"><p>{copy("Your saved answers changed which packet path is available. Review the updated matter before continuing.", "Sus respuestas guardadas cambiaron la vía disponible para el paquete. Revise el caso actualizado antes de continuar.")}</p><a className="mt-2 inline-flex min-h-11 items-center underline" href={`/briefcase/${encodeURIComponent(itemId)}`} target={dirty ? "_blank" : undefined} rel={dirty ? "noopener noreferrer" : undefined}>{dirty ? copy("Open updated matter in a new tab; keep this draft here", "Abrir el caso actualizado en otra pestaña y conservar este borrador aquí") : copy("Open updated matter", "Abrir el caso actualizado")}</a></div> : null}
+      {routeChanged ? <div className="mb-5 rounded border border-amber-300 p-4" role="status"><p>{returnToMatterAfterCorrection ? copy("Your answers were saved. Open the updated matter to review the result and next steps.", "Se guardaron sus respuestas. Abra el caso actualizado para revisar el resultado y los próximos pasos.") : copy("Your saved answers changed which packet path is available. Review the updated matter before continuing.", "Sus respuestas guardadas cambiaron la vía disponible para el paquete. Revise el caso actualizado antes de continuar.")}</p><a className="mt-2 inline-flex min-h-11 items-center underline" href={`/briefcase/${encodeURIComponent(itemId)}`} target={dirty ? "_blank" : undefined} rel={dirty ? "noopener noreferrer" : undefined}>{dirty ? copy("Open updated matter in a new tab; keep this draft here", "Abrir el caso actualizado en otra pestaña y conservar este borrador aquí") : copy("Open updated matter", "Abrir el caso actualizado")}</a></div> : null}
       <h2 tabIndex={-1} data-packet-step-heading id="packet-step-heading" className="text-xl font-extrabold text-[#0B1320] focus-visible:outline focus-visible:outline-2">
         {screen?.section ? locale === "es" ? screen.section.translations.es.heading : screen.section.heading : screen ? copy("Packet details", "Detalles del paquete") : copy("Review your saved packet information", "Revise la información guardada de su paquete")}
       </h2>
@@ -446,7 +450,7 @@ export function PacketInformationBuilder({
         <div className="flex flex-col gap-3 sm:flex-row">
           <button className="min-h-11 rounded-[10px] border px-5 text-sm font-bold disabled:opacity-60" disabled={saving || departing} onClick={() => void save()} type="button">{copy("Save", "Guardar")}</button>
           <button className="min-h-11 rounded-[10px] border px-5 text-sm font-bold disabled:opacity-60" disabled={saving || departing} onClick={() => void leave(`/briefcase/${encodeURIComponent(itemId)}`)} type="button">{copy("Save and leave", "Guardar y salir")}</button>
-          <button className="min-h-11 rounded-[10px] bg-[#C2350A] px-5 text-sm font-bold text-white disabled:opacity-60" disabled={saving || departing || routeChanged} onClick={() => void continueForward()} type="button">{saving ? copy("Saving...", "Guardando...") : caProp64Clarification ? copy("Save and continue", "Guardar y continuar") : !screen || index === screens.length - 1 ? editingFromReview ? copy("Save and return to review", "Guardar y volver a la revisión") : copy("Review packet facts", "Revisar los datos del paquete") : copy("Save and continue", "Guardar y continuar")}</button>
+          <button className="min-h-11 rounded-[10px] bg-[#C2350A] px-5 text-sm font-bold text-white disabled:opacity-60" disabled={saving || departing || routeChanged} onClick={() => void continueForward()} type="button">{saving ? copy("Saving...", "Guardando...") : returnToMatterAfterCorrection ? copy("Save and return to matter", "Guardar y volver al caso") : caProp64Clarification ? copy("Save and continue", "Guardar y continuar") : !screen || index === screens.length - 1 ? editingFromReview ? copy("Save and return to review", "Guardar y volver a la revisión") : copy("Review packet facts", "Revisar los datos del paquete") : copy("Save and continue", "Guardar y continuar")}</button>
         </div>
       </div>
       <button className="mt-5 min-h-11 text-sm font-semibold text-[#08786F] underline disabled:opacity-60" disabled={saving || departing} type="button" onClick={() => void leave(`/briefcase/${encodeURIComponent(itemId)}`)}>{copy("Return to this matter", "Volver a este caso")}</button>

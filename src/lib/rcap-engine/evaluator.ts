@@ -1,4 +1,4 @@
-import { nebraskaNonconvictionQuestionApplies } from "@/lib/rcap-engine/nebraska-nonconviction-facts";
+import { nebraskaNonconvictionQuestionApplies, nebraskaMissingFinancialCorrectionPathway } from "@/lib/rcap-engine/nebraska-nonconviction-facts";
 import { AR_RECORD_ORIGIN_ID, AR_RECORD_ORIGIN_SOURCE, AR_RECORD_ORIGIN_COPY, arkansasRecordOrigin, arkansasRecordOriginApplies } from "@/lib/rcap-engine/arkansas-record-origin";
 import { GA_PARDON_ROUTE, GA_PARDON_COPY, GA_PARDON_SOURCE, georgiaPardonFacts } from "@/lib/rcap-engine/georgia-pardon-facts";
 import { convictionReliefRequest, convictionOutcomeCompatible, CONVICTION_RELIEF_COPY, CONVICTION_RELIEF_SOURCE } from "@/lib/rcap-engine/conviction-relief-request";
@@ -221,7 +221,9 @@ function evaluateProfileRules(profile: EngineProfile, request: ScreeningEvaluati
     .filter(id => nebraskaNonconvictionQuestionApplies(jurisdiction, preselectedPathway?.id, answers, id));
   if (missingQuestionIds.length > 0) {
     return result(profile, request, "needs_more_info", [reason(jurisdiction, "missing_required_facts", "Required public screening facts are missing.")], {
-      missingQuestionIds
+      missingQuestionIds,
+      ...(nebraskaMissingFinancialCorrectionPathway(jurisdiction, preselectedPathway?.id, answers, missingQuestionIds)
+        ? { pathwayId: preselectedPathway!.id } : {})
     });
   }
 

@@ -223,7 +223,166 @@ assert.equal(P.nebraskaAcquittalHeldSuccessor(heldSnapshot, changedPlan), null, 
 const tampered = structuredClone(historical); tampered.draftSnapshot.screeningAnswers.financial_obligations = 'No';
 assert.equal(P.protectedPacketInformationModelFor(tampered), null, 'hash protection still refuses a changed stored record');
 console.log('PASS: fresh exact-baseline held draft recovers without changing history or granting authority; incompatible source, tuple, facts and forms refused');
+
+// Real presentation and server-page consumer. Only transport reads are supplied;
+// this is a pure test, never authentication or database acceptance.
+const { decorateBriefcaseItemForPresentationWithDependencies: decorate } = await import('../src/lib/expungement-ai/briefcase-presentation-authority.ts');
+const pageItem = { id: 'synthetic-ne-owner-guidance', jurisdiction: 'NE', artifactRefs: {} };
+async function present(record) {
+  return decorate({ consumerAuthUserId: 'synthetic-ne-owner', item: pageItem }, {
+    readProtectedArtifact: async () => ({ ok: true, value: null }),
+    readProtectedVerification: async () => ({ ok: true, value: record }),
+    readTrustedPendingSource: async () => ({ ok: false, reason: 'synthetic_absent' }),
+    readPaymentAuthority: async () => ({ valid: false, reason: 'unpaid' }),
+    evaluateAuthoritative: evaluate,
+    readCommercialActions: async () => ({ fulfillmentAvailable: false, checkoutAllowed: false, generationAllowed: false })
+  });
+}
+const pageFile = process.cwd() + '/src/app/briefcase/[packetId]/packet-information/page.tsx';
+let pageSource = fs.readFileSync(pageFile, 'utf8');
+// Font setup is a Next build concern; retain the page's complete child tree.
+pageSource = pageSource.replace('import { BriefcaseShell } from "@/components/expungement-ai/BriefcaseShell";', 'const BriefcaseShell = ({ children }: any) => children;');
+for (const [binding, module] of [['requireConsumerBriefcaseSession', 'auth'], ['getBriefcaseItem', 'briefcase'], ['decorateBriefcaseItemForPresentation', 'briefcase-presentation-authority']]) {
+  const original = 'import { ' + binding + ' } from "@/lib/expungement-ai/' + module + '";';
+  assert(pageSource.includes(original));
+  pageSource = pageSource.replace(original, 'const ' + binding + ' = (...args: unknown[]) => (globalThis as any).__nePageTransport.' + binding + '(...args);');
+}
+const compiledPage = ts.transpileModule(pageSource, { compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022, jsx: ts.JsxEmit.ReactJSX } }).outputText;
+register('data:text/javascript,' + encodeURIComponent('let d;export function initialize(data){d=data}export async function load(u,c,n){return u===d.url?{format:"module",source:d.source,shortCircuit:true}:n(u,c)}'), { data: { url: pathToFileURL(pageFile).href, source: compiledPage } });
+const { default: Page } = await import(pathToFileURL(pageFile).href);
+const { AppRouterContext } = await import(pathToFileURL(process.cwd() + '/node_modules/next/dist/shared/lib/app-router-context.shared-runtime.js').href);
+function nodes(element, result = []) {
+  if (!element || typeof element !== 'object') return result;
+  if (Array.isArray(element)) { for (const child of element) nodes(child, result); return result; }
+  if (element.props) { result.push(element); nodes(element.props.children, result); }
+  return result;
+}
+async function pageFor(presentation, edit) {
+  globalThis.__nePageTransport = {
+    requireConsumerBriefcaseSession: async () => ({ userId: 'synthetic-ne-owner', userEmail: 'owner@example.test' }),
+    getBriefcaseItem: async () => pageItem,
+    decorateBriefcaseItemForPresentation: async () => presentation
+  };
+  return nodes(await Page({ params: Promise.resolve({ packetId: pageItem.id }), searchParams: Promise.resolve({ edit }) }));
+}
+const historicalPresentation = await present(historical);
+assert.equal(historicalPresentation.authorityStatus, 'protected_draft');
+assert.equal(historicalPresentation.resultCode, 'guidance_only');
+assert.equal(historicalPresentation.packetDraft.status, 'available');
+assert.equal(historicalPresentation.verificationStatus, 'unverified');
+assert.equal(Object.values(historicalPresentation.commercialActions).some(Boolean), false);
+assert.equal(JSON.stringify(historical), historicalBytes);
+for (const financial of ['No', 'I am not sure', undefined]) {
+  const answers = { ...heldSnapshot.screeningAnswers, ...heldSnapshot.prefilledAnswers, financial_obligations: financial };
+  const authoritative = evaluate({ jurisdiction: 'NE', profileVersion: p.profileVersion, matterId: pageItem.id, answers });
+  const seed = P.protectedPacketDraftSeedFromAuthoritative({ authoritative, screeningAnswers: answers, dependencies: {}, capturedAt: '2026-10-14T00:00:00Z' });
+  const record = { status: 'unverified', reason: 'synthetic-guidance', revision: 0, draftHash: seed.hash, draftSnapshot: seed.snapshot };
+  for (const current of [record, historical]) {
+    const presentation = await present(current), model = P.protectedPacketInformationModelFor(current);
+    assert.deepEqual([...P.heldPacketCorrectionInputIds(model, presentation.resultCode)].sort(), ['age_at_offense', 'case_outcome']);
+    for (const edit of ['age_at_offense', 'case_outcome']) {
+      const elements = await pageFor(presentation, edit);
+      const builder = elements.find(e => e.type?.name === 'PacketInformationBuilder');
+      assert(builder, 'actual server page creates correction builder');
+      assert.deepEqual(builder.props.questions.map(q => q.id), [edit]);
+      assert.equal(builder.props.initialRouteChanged, false, 'opening guidance is not a route change');
+      assert.equal(builder.props.returnToMatterAfterCorrection, true);
+      if (financial === 'No' && current === record) for (const locale of ['en', 'es']) {
+        const value = { locale, setLocale() {}, t: (key, fallback, vars) => t(locale, key, fallback, vars), text: (s, options) => resolveRuntimeText(locale, s, options) };
+        const markup = renderToStaticMarkup(React.createElement(AppRouterContext.Provider, { value: { push() {} } },
+          React.createElement(LocalizationContext.Provider, { value }, builder)));
+        assert(markup.includes(locale === 'es' ? 'Guardar y volver al caso' : 'Save and return to matter'));
+        assert(!markup.includes('Your saved answers changed which packet path') && !markup.includes('Sus respuestas guardadas cambiaron la vía'));
+        assert(markup.includes('data-packet-question="' + edit + '"'));
+      }
+      const links = elements.filter(e => typeof e.props.href === 'string').map(e => e.props.href);
+      for (const id of ['case_outcome', 'age_at_offense']) assert(links.some(href => href.endsWith('?edit=' + id)), 'actual correction navigation retains each predicate');
+      assert(!links.some(href => href.includes('financial_obligations')));
+      const paired = elements.filter(e => typeof e.props.en === 'string' && typeof e.props.es === 'string');
+      assert(paired.some(e => e.props.en === 'Review saved case answers' && e.props.es === 'Revise las respuestas guardadas sobre el caso'));
+      assert(paired.some(e => e.props.en.includes('used for this guidance') && e.props.es.includes('se usan para esta orientación')));
+      assert(!paired.some(e => /result remains on hold|pay only when/.test(e.props.en)));
+    }
+  }
+  const dismissed = P.packetInformationPatch({ existingItem: pageItem, protectedVerification: record, answers: { case_outcome: 'Dismissed, no-billed, nolle prosequi, or not prosecuted' } });
+  assert(dismissed); const changed = dismissed.protectedTransition.nextVerification, changedModel = P.protectedPacketInformationModelFor(changed);
+  assert(changedModel); assert(P.reviewEditablePacketInputIds(changedModel).has('financial_obligations'));
+  assert.equal(changedModel.pathwayId, adultRoute);
+  if (financial === undefined) {
+    assert.equal(changedModel.resultCode, 'needs_more_info');
+    assert.equal(changed.draftSnapshot.paymentAllowed, false);
+    assert.equal(changed.draftSnapshot.packetPlan, null);
+    assert(P.heldPacketCorrectionInputIds(changedModel, changedModel.resultCode).has('case_outcome'));
+  }
+  assert.equal(changedModel.initialAnswers.financial_obligations, financial);
+  const restored = P.packetInformationPatch({ existingItem: pageItem, protectedVerification: changed, answers: { case_outcome: 'Acquitted or found not guilty' } });
+  assert(restored); const restoredModel = P.protectedPacketInformationModelFor(restored.protectedTransition.nextVerification);
+  assert(!P.reviewEditablePacketInputIds(restoredModel).has('financial_obligations'));
+  assert.equal(restoredModel.initialAnswers.financial_obligations, financial);
+  assert.equal(restored.readyToGenerate, false);
+}
+for (const patch of [{ stateCode: 'KS' }, { pathwayId: 'juvenile-automatic-sealing' }, { packetPlan: null }, { packetPlan: { ...historicalModel.packetPlan, sourceFormIds: ['invented'] } }, { prefilledAnswers: { ...historicalModel.prefilledAnswers, age_at_offense: { unknown: true } } }]) {
+  assert.equal(P.isNebraskaAcquittalGuidanceCorrection({ ...historicalModel, ...patch }, 'guidance_only'), false);
+}
+for (const name of ['profileSourceFingerprint', 'profileAuthorityFingerprint', 'profileVersion']) {
+  const altered = structuredClone(historical); altered.draftSnapshot[name] = 'changed'; altered.draftHash = P.protectedPacketDraftHash(altered.draftSnapshot);
+  assert.equal((await present(altered)).authorityStatus, 'unavailable', 'presentation never upgrades altered historical source');
+}
+assert.equal((await present(tampered)).authorityStatus, 'unavailable');
+const { nebraskaMissingFinancialCorrectionPathway } = await import('../src/lib/rcap-engine/nebraska-nonconviction-facts.ts');
+const dismissedFacts = { ...heldSnapshot.screeningAnswers, ...heldSnapshot.prefilledAnswers,
+  case_outcome: 'Dismissed, no-billed, nolle prosequi, or not prosecuted', financial_obligations: undefined };
+assert(nebraskaMissingFinancialCorrectionPathway('NE', adultRoute, dismissedFacts, ['financial_obligations']));
+for (const [state, route, answers, missing] of [
+  ['KS', adultRoute, dismissedFacts, ['financial_obligations']],
+  ['NE', 'juvenile-automatic-sealing', dismissedFacts, ['financial_obligations']],
+  ['NE', null, dismissedFacts, ['financial_obligations']],
+  ['NE', adultRoute, { ...dismissedFacts, age_at_offense: 17 }, ['financial_obligations']],
+  ['NE', adultRoute, { ...dismissedFacts, age_at_offense: { value: '30', unknown: true } }, ['financial_obligations']],
+  ['NE', adultRoute, { ...dismissedFacts, case_outcome: 'I am not sure' }, ['financial_obligations']],
+  ['NE', adultRoute, dismissedFacts, ['financial_obligations', 'case_outcome']],
+  ['NE', adultRoute, dismissedFacts, ['age_at_offense']]
+]) assert.equal(nebraskaMissingFinancialCorrectionPathway(state, route, answers, missing), false);
+for (const patch of [{ age_at_offense: undefined }, { age_at_offense: 'I am not sure' }, { case_outcome: undefined }, { case_outcome: 'I am not sure' }]) {
+  const actual = evaluate({ jurisdiction: 'NE', profileVersion: p.profileVersion, matterId: pageItem.id, answers: { ...dismissedFacts, ...patch } });
+  assert.equal(actual.evaluation.pathwayId ?? null, null, 'unknown route predicate does not acquire correction routing context');
+  assert.equal(actual.evaluation.paymentAllowed, false);
+}
+delete globalThis.__nePageTransport;
+// Execute the actual component event-handler bodies with controlled successful
+// save receipts; no duplicate navigation implementation or browser/DB claim.
+const builderSource = fs.readFileSync('src/components/expungement-ai/PacketInformationBuilder.tsx', 'utf8');
+const forwardBody = builderSource.slice(builderSource.indexOf('  async function continueForward()'), builderSource.indexOf('  async function leave('));
+const backBody = builderSource.slice(builderSource.indexOf('  async function back()'), builderSource.indexOf('  const displayedAnswerState'));
+assert(forwardBody.startsWith('  async function continueForward()'));
+assert(backBody.startsWith('  async function back()'));
+async function navigationFor(returnToMatterAfterCorrection, result, event) {
+  const destinations = [], cleared = [];
+  const bindings = { returnToMatterAfterCorrection, itemId: pageItem.id,
+    screen: { id: 'case_outcome', questions: [] }, screenId: 'case_outcome',
+    screens: [{ id: 'case_outcome', questions: [] }], index: 0,
+    latest: { current: {} }, confirmed: { current: {} }, inflight: { current: null },
+    editingFromReview: true, blocksContinue: () => false, setFieldErrors: value => cleared.push(value),
+    save: async () => result, navigate: destination => destinations.push(destination),
+    leave: async destination => destinations.push(destination), changedPacketAnswers: () => ({}) };
+  const actions = new Function(...Object.keys(bindings), forwardBody + backBody + '\nreturn { continueForward, back };')(...Object.values(bindings));
+  await actions[event](); return destinations;
+}
+for (const receipt of [{ nextAction: 'open_matter', reviewPath: '/forbidden-review' }, { nextAction: 'review', reviewPath: '/forbidden-review' }]) {
+  assert.deepEqual(await navigationFor(true, receipt, 'continueForward'), ['/briefcase/' + pageItem.id]);
+}
+assert.deepEqual(await navigationFor(true, null, 'continueForward'), [], 'failed save never navigates or discards');
+assert.deepEqual(await navigationFor(true, {}, 'back'), ['/briefcase/' + pageItem.id]);
+assert.deepEqual(await navigationFor(false, { nextAction: 'open_matter' }, 'continueForward'), [], 'other held routes keep prior guard');
+assert.deepEqual(await navigationFor(false, { nextAction: 'review', reviewPath: '/existing-review' }, 'continueForward'), ['/existing-review#packet-review-heading']);
+assert.deepEqual(await navigationFor(false, {}, 'back'), ['/briefcase/' + pageItem.id + '/review#packet-review-heading']);
+console.log('PASS: actual NE presentation/page builder exposes age and disposition corrections, preserves history, rejects altered source and grants no packet/payment authority');
+
 const receipt = { scope: subgroup.id, status: 'PASS_BOUNDED_ENGINEERING_ONLY', rows, renders,
+  ownerCorrectionConsumers: { status: 'PASS_PURE_CONSUMERS',
+    surfaces: ['actual protected presentation', 'actual server page correction links and builder props', 'EN/ES builder SSR', 'actual continue/back event handlers'],
+    cases: ['No/unknown/missing financial history', 'fresh and exact historical draft', 'age and disposition correction controls', 'dismissal restores financial correction and acquittal hides it', 'missing financial hold retains exact known route', 'source mismatch denial', 'unchanged sibling navigation'],
+    authenticatedOwnerAcceptance: 'NOT_RUN_BY_THIS_TEST' },
   remaining: ['Authenticated owner acceptance remains outstanding; this receipt uses real pure protected functions without a database.',
     'Jurisdiction-specific qualification, waiver and restitution legal effect remain unverified.',
     'Juvenile source contract is an adult-package routing node; this is not juvenile fulfillment acceptance.',

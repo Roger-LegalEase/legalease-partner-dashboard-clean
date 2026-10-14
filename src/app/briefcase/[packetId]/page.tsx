@@ -1,6 +1,6 @@
 import { msExactTimingQuestionIds } from "@/lib/rcap-engine/mississippi-exact-timing";
 import { readProtectedPacketVerification } from "@/lib/expungement-ai/verification-cas";
-import { caProp64ClarificationModelFor, factualPathwayCorrectionIds, heldPacketCorrectionInputIds } from "@/lib/expungement-ai/packet-information";
+import { caProp64ClarificationModelFor, factualPathwayCorrectionIds, heldPacketCorrectionInputIds, isNebraskaAcquittalGuidanceCorrection } from "@/lib/expungement-ai/packet-information";
 import { CA_PROP64_CLARIFICATION_COPY } from "@/lib/expungement-ai/ca-prop64-choices";
 import { packetDisplayCopy, packetMatterTitleCopy } from "@/lib/expungement-ai/packet-display-copy";
 import { SponsorCapacityNotice } from "@/components/expungement-ai/SponsorCapacityNotice";
@@ -49,6 +49,8 @@ export default async function BriefcasePacketPage({
   const completionCorrectionAvailable = item?.authorityStatus === "protected_draft"
     && item.jurisdiction && item.packetDraft.status === "available"
     && heldPacketCorrectionInputIds({ ...item.packetDraft, stateCode: item.jurisdiction, pathwayId: item.pathwayId }, item.resultCode).size > 0;
+  const acquittalGuidanceCorrection = completionCorrectionAvailable && item?.jurisdiction && item.packetDraft.status === "available"
+    && isNebraskaAcquittalGuidanceCorrection({ ...item.packetDraft, stateCode: item.jurisdiction, pathwayId: item.pathwayId }, item.resultCode);
   const artifact = item?.artifact.status === "ready" ? item.artifact : null;
   const paidPreparation = item?.paymentState === "paid" && factsVerified && !artifact && item.commercialActions.generationAllowed
     ? await getConsumerPacketStatus({ userId: auth.userId, briefcaseItemId: item.id }).catch(() => null)
@@ -72,7 +74,7 @@ export default async function BriefcasePacketPage({
         <Link className="inline-flex min-h-11 items-center font-semibold underline" href={`/briefcase/${storedItem.id}/packet-information`}><LocalizedCopy {...CA_PROP64_CLARIFICATION_COPY.legacy_heading} /></Link>
       </p> : null}
       {completionCorrectionAvailable && item ? <p className="mb-5 rounded border border-amber-300 p-4">
-        <Link className="inline-flex min-h-11 items-center font-semibold underline" href={`/briefcase/${item.id}/packet-information`}><LocalizedCopy en={eligibilityCorrection ? "Review saved eligibility answers" : "Review saved completion answers"} es={eligibilityCorrection ? "Revise las respuestas guardadas sobre la elegibilidad" : "Revise las respuestas guardadas sobre el cumplimiento"} /></Link>
+        <Link className="inline-flex min-h-11 items-center font-semibold underline" href={`/briefcase/${item.id}/packet-information`}><LocalizedCopy en={acquittalGuidanceCorrection ? "Review saved case answers" : eligibilityCorrection ? "Review saved eligibility answers" : "Review saved completion answers"} es={acquittalGuidanceCorrection ? "Revise las respuestas guardadas sobre el caso" : eligibilityCorrection ? "Revise las respuestas guardadas sobre la elegibilidad" : "Revise las respuestas guardadas sobre el cumplimiento"} /></Link>
       </p> : null}
       {item && item.authorityStatus !== "unavailable" ? (
         <section data-briefcase-matter-id={item.id}>

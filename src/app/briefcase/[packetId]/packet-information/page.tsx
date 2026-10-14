@@ -5,7 +5,7 @@ import { packetDisplayCopy, packetMatterTitleCopy } from "@/lib/expungement-ai/p
 import { LocalizedCopy, LocalizedRuntimeText } from "@/components/expungement-ai/LocalizationProvider";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { editablePacketInputIds, factualPathwayCorrectionIds, heldPacketCorrectionInputIds, packetAccountEmailSuggestion, caProp64ClarificationModelFor } from "@/lib/expungement-ai/packet-information";
+import { editablePacketInputIds, factualPathwayCorrectionIds, heldPacketCorrectionInputIds, isNebraskaAcquittalGuidanceCorrection, packetAccountEmailSuggestion, caProp64ClarificationModelFor } from "@/lib/expungement-ai/packet-information";
 
 import { BriefcaseShell } from "@/components/expungement-ai/BriefcaseShell";
 import { MatterStatusBadge } from "@/components/expungement-ai/BriefcaseViews";
@@ -31,7 +31,10 @@ export default async function PacketInformationPage({
     consumerAuthUserId: auth.userId,
     item: storedItem
   }) : null;
-  const eligibilityCorrection = ["NY", "CA", "IL", "GA"].includes(item?.jurisdiction ?? "")
+  const acquittalGuidanceCorrection = item?.authorityStatus === "protected_draft"
+    && item.jurisdiction && item.packetDraft.status === "available"
+    && isNebraskaAcquittalGuidanceCorrection({ ...item.packetDraft, stateCode: item.jurisdiction, pathwayId: item.pathwayId }, item.resultCode);
+  const eligibilityCorrection = Boolean(acquittalGuidanceCorrection) || ["NY", "CA", "IL", "GA"].includes(item?.jurisdiction ?? "")
     || item?.packetDraft.status === "available" && (msExactTimingQuestionIds(item.jurisdiction ?? "", item.pathwayId, item.packetDraft.initialAnswers).length > 0
       || factualPathwayCorrectionIds(item.jurisdiction ?? "", item.pathwayId, item.packetDraft.initialAnswers).length > 0);
   const sponsored = item?.paymentState === "sponsored";
@@ -95,7 +98,7 @@ export default async function PacketInformationPage({
             <div>
               <p className="text-xs font-bold uppercase tracking-[0.08em] text-[#08786F]">{item.jurisdiction}</p>
               <h1 className="mt-2 text-[26px] font-extrabold tracking-[-0.02em] text-[#0B1320]">{correctingCompletion
-                ? <LocalizedCopy en={eligibilityCorrection ? "Review saved eligibility answers" : "Review saved completion answers"} es={eligibilityCorrection ? "Revise las respuestas guardadas sobre la elegibilidad" : "Revise las respuestas guardadas sobre el cumplimiento"} />
+                ? <LocalizedCopy en={acquittalGuidanceCorrection ? "Review saved case answers" : eligibilityCorrection ? "Review saved eligibility answers" : "Review saved completion answers"} es={acquittalGuidanceCorrection ? "Revise las respuestas guardadas sobre el caso" : eligibilityCorrection ? "Revise las respuestas guardadas sobre la elegibilidad" : "Revise las respuestas guardadas sobre el cumplimiento"} />
                 : <LocalizedRuntimeText text={"Complete packet information"} />}</h1>
               {item.pathwayLabel ? <p className="mt-2 text-sm font-semibold text-[#475A6E]"><LocalizedCopy {...packetDisplayCopy("route_label", item.jurisdiction, item.pathwayId, item.pathwayLabel)} /></p> : null}
             </div>
@@ -103,7 +106,9 @@ export default async function PacketInformationPage({
           </div>
 
           <div className="my-6 rounded-[14px] bg-[#F7F3EC] px-5 py-4 text-sm leading-6 text-[#5A6275]">
-            {correctingCompletion ? (
+            {acquittalGuidanceCorrection ? (
+              <p><LocalizedCopy en="You can correct the saved case answers used for this guidance. Saving an answer does not verify your facts, confirm that your record is sealed, or make a court packet available." es="Puede corregir las respuestas guardadas sobre el caso que se usan para esta orientación. Guardar una respuesta no verifica sus datos, no confirma que su expediente esté sellado ni habilita un paquete judicial." /></p>
+            ) : correctingCompletion ? (
               <p><LocalizedCopy en="You can correct these saved answers. Your current result remains on hold, and correcting an answer does not complete final verification." es="Puede corregir estas respuestas guardadas. Su resultado actual sigue pendiente y corregir una respuesta no completa la verificación final." /></p>
             ) : sponsored ? (
               <p><LocalizedRuntimeText text={"Your packet is covered through your partner program. Complete the information below without a consumer payment."} /></p>
@@ -139,7 +144,8 @@ export default async function PacketInformationPage({
             initialRecordClarificationIds={model.recordClarificationIds}
             initialCourtRecordConflict={model.courtRecordConflict}
             initialAccountEmailSuggestion={packetAccountEmailSuggestion({ ...model, stateCode: item.jurisdiction, pathwayId: item.pathwayId ?? null }, auth.userEmail)}
-            initialRouteChanged={correctingCompletion}
+            initialRouteChanged={correctingCompletion && !acquittalGuidanceCorrection}
+            returnToMatterAfterCorrection={Boolean(acquittalGuidanceCorrection)}
             editingFromReview={Boolean(editId) || correctingCompletion}
           />
         </section>

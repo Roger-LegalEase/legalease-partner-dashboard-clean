@@ -1319,6 +1319,7 @@ export function factualPathwayCorrectionIds(state: string, pathway: string | nul
       "case_outcome", ...(state === "GA" ? ["ga_original_first_offender", "pardon_status"] : [])] : [];
 
   if (arkansasRecordOriginApplies(state, pathway)) return [...extra, AR_RECORD_ORIGIN_ID];
+  if (state === "NE" && pathway === "automatic-nonconviction-sealing") return [...extra, "case_outcome", "age_at_offense"];
   if (state === "GA" && (pathway === GA_PARDON_ROUTE || georgiaPardonRequested(answers, pathway))) {
     return [...extra, ...GA_PARDON_FACT_IDS.filter(id => includeInactive || georgiaPardonQuestionApplies(state, answers, id, pathway)), "pending_cases", "case_outcome"];
   }
@@ -1415,8 +1416,25 @@ export function heldCourtCompletionInputIds(model: Parameters<typeof editablePac
 
 /** Preserve the existing completion correction, and keep NY factual corrections
  * reachable after a saved edit puts the route into review or exclusion. */
+export function isNebraskaAcquittalGuidanceCorrection(model: Parameters<typeof heldCourtCompletionInputIds>[0], resultCode: string | null): boolean {
+  const profile = getProfileByJurisdiction("NE");
+  return resultCode === "guidance_only" && model.stateCode === "NE"
+    && model.pathwayId === "automatic-nonconviction-sealing" && Boolean(profile)
+    && canonicalEqual(model.packetPlan, packetPlanForPathway(profile!, model.pathwayId))
+    && !nebraskaNonconvictionQuestionApplies(model.stateCode, model.pathwayId,
+      { ...model.screeningAnswers, ...model.prefilledAnswers, ...model.packetAnswers }, "financial_obligations");
+}
+
 export function heldPacketCorrectionInputIds(model: Parameters<typeof heldCourtCompletionInputIds>[0], resultCode: string | null): Set<string> {
   const ids = heldCourtCompletionInputIds(model, resultCode);
+  // The exact nonpayable acquittal guidance still relies on these two saved
+  // facts. Correcting them neither reactivates payment nor verifies a packet.
+  if (isNebraskaAcquittalGuidanceCorrection(model, resultCode)) {
+    const allowed = editablePacketInputIds(model);
+    for (const id of ["case_outcome", "age_at_offense"]) {
+      if (allowed.has(id) && model.questions.some(question => question.id === id)) ids.add(id);
+    }
+  }
   // These Arkansas guidance holds still own an explicit record-origin fact.
   // Keep that correction reachable without opening other guidance inputs or
   // changing the route's packet, verification or commercial authority.
