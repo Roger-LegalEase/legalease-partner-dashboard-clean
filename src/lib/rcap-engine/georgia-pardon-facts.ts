@@ -34,6 +34,28 @@ export function georgiaConvictionCitation(value: unknown) {
   const match = /^(?:(?:O\.?C\.?G\.?A\.?|Georgia Code)\s*)?(?:§\s*)?(\d{1,2}-\d{1,2}-\d{1,3}(?:\.\d+)?)(\s*(?:\([a-zA-Z0-9.]+\)\s*)*)$/i.exec(normalized);
   return match ? { section: match[1], subsection: match[2].replace(/\s/g, "").toLowerCase() } : null;
 }
+// Only source-established offense/punishment citations enter a section-specific
+// decision. Other real provisions may be definitions or procedural clauses;
+// an unrecognized suffix is retained for review, never silently discarded.
+const GA_PARDON_MATCHED_SUBSECTIONS: Record<string, readonly string[]> = {
+  "16-5-1": ["", "(a)", "(c)", "(d)", "(e)(1)", "(e)(2)"],
+  "16-8-41": ["", "(a)", "(b)", "(c)(1)"],
+  "16-5-40": ["", "(a)", "(d)(1)", "(d)(2)", "(d)(3)", "(d)(4)"],
+  "16-6-1": ["", "(a)", "(a)(1)", "(a)(2)", "(b)"],
+  "16-6-22.2": ["", "(b)", "(c)"],
+  "16-5-21": ["", "(a)", "(a)(1)", "(a)(2)", "(a)(3)", "(a)(4)", "(b)"],
+  "16-5-41": ["", "(a)", "(b)", "(c)"],
+  "16-6-22.1": ["", "(b)", "(c)", "(d)", "(e)"],
+  "16-6-22": ["", "(a)", "(a)(1)", "(a)(2)", "(a)(3)", "(a)(4)", "(a)(5)", "(a)(6)", "(b)"],
+  "16-6-2": ["", "(a)", "(a)(1)", "(a)(2)", "(b)(1)", "(b)(2)", "(d)"],
+  "16-6-4": ["", "(a)", "(a.1)", "(b)(1)", "(b)(2)", "(c)", "(d)(1)", "(d)(2)"],
+  "16-6-5": ["", "(a)", "(b)", "(c)"],
+  "16-6-3": ["", "(a)", "(b)", "(c)"],
+  "16-12-100": ["", "(b)", "(b)(1)", "(b)(2)", "(b)(3)", "(b)(4)", "(b)(5)", "(b)(6)", "(b)(7)", "(b)(8)", "(c)", "(f)(1)", "(f)(2)", "(f)(3)"]
+};
+function georgiaPardonCitationMatched(citation: ReturnType<typeof georgiaConvictionCitation>) {
+  return citation !== null && (!GA_PARDON_MATCHED_SUBSECTIONS[citation.section] || GA_PARDON_MATCHED_SUBSECTIONS[citation.section].includes(citation.subsection));
+}
 function question(id: string, prompt: string, helperText: string, esPrompt: string, esHelper: string, options: Option[] | null, type = "single_choice"): PublicQuestion {
   return { id, stage: "pathway_routing", type, required: false, contextOnly: false,
     doesNotSelectPathway: true, lifecyclePhase: "prepay_route_splitter", prompt, helperText,
@@ -77,7 +99,8 @@ export function georgiaPardonQuestionApplies(state: string, a: Record<string, un
   const citation = rawCitation && typeof rawCitation === "object" && !Array.isArray(rawCitation)
     ? ((rawCitation as {unknown?: unknown}).unknown === false ? (rawCitation as {value?: unknown}).value : undefined)
     : rawCitation;
-  const section = georgiaConvictionCitation(citation)?.section;
+  const parsedCitation = georgiaConvictionCitation(citation);
+  const section = georgiaPardonCitationMatched(parsedCitation) ? parsedCitation?.section : undefined;
   if (["ga_pardon_statutory_rape_age", "ga_pardon_statutory_rape_conviction_age"].includes(id)) return section === "16-6-3";
   if (id === "ga_pardon_assault_rape_intent") return section === "16-5-21";
   if (id === "ga_pardon_imprisonment_under14") return section === "16-5-41";
@@ -107,13 +130,15 @@ type Decision = { status: "missing" | "review" | "excluded"; code: keyof typeof 
 /** Source: https://www.legis.ga.gov/api/document/docs/default-source/joint-features-document-library/t17-(v15)-pdf.pdf pp130–131;
  * https://www.legis.ga.gov/api/document/docs/default-source/joint-features-document-library/t16-ch1-6-(v14)-pdf.pdf pp185–186;
  * https://www.legis.ga.gov/api/document/docs/default-source/joint-features-document-library/t16-ch12-17-(v14b)-2024-pdf.pdf pp99–100.
+ * Base offense citations: https://www.legis.ga.gov/api/document/docs/default-source/joint-features-document-library/t16-ch1-6-(v14)-2019-pdf.pdf;
+ * https://www.legis.ga.gov/api/document/docs/default-source/joint-features-document-library/t16-ch7-11-(v14a)-2018-pdf.pdf §16-8-41.
  * Adopted GA-02, O.C.G.A. 17-10-6.1(a), 17-10-6.2(a).
  * Exact record exceptions stay separate from a court's sentencing departure.
  * A mismatch never rewrites the participant's original conviction class.
  */
 export function georgiaPardonOffense(a: Record<string, unknown>): "not_listed" | "excluded" | "exception_review" | "citation_review" | "offense_class_conflict" | "statutory_age_review" {
   const citation = georgiaConvictionCitation(a.ga_pardoned_offense_section);
-  if (!citation) return "citation_review";
+  if (!georgiaPardonCitationMatched(citation) || !citation) return "citation_review";
   const { section, subsection } = citation;
   const felony = a.case_outcome === "Felony conviction";
   const misdemeanor = a.case_outcome === "Misdemeanor conviction";
@@ -145,7 +170,10 @@ export function georgiaPardonOffense(a: Record<string, unknown>): "not_listed" |
   // Match the actual disposition's punishment subsection. Broad labels and
   // historical subsection (f)(2), revised in 2021, do not resolve its exception.
   if (section === "16-6-5.1") {
-    if (["(f)(2)(a)", "(g)(2)"].includes(subsection)) return misdemeanor ? "not_listed" : "offense_class_conflict";
+    // These exempt sentencing/punishment, while §17-10-6.2(a)(7) does
+    // not expressly except them from its definition. Keep the bounded legal
+    // interpretation open rather than infer a pardon-procedure exception.
+    if (["(f)(2)(a)", "(g)(2)"].includes(subsection)) return misdemeanor ? "exception_review" : "offense_class_conflict";
     if (["(f)(1)", "(f)(2)(b)", "(g)(1)", "(g)(3)"].includes(subsection)) return felonyExclusion;
     return "exception_review";
   }
@@ -170,8 +198,17 @@ export function georgiaPardonTraffic(a: Record<string, unknown>): "nonserious" |
   const entries = a.ga_post_pardon_traffic_citations.split(/[,;\n]/).map(s => georgiaConvictionCitation(s));
   if (!entries.length || entries.some(c => !c)) return "review";
   // Article15 prohibitions, excluding procedural/evidentiary/forfeiture sections.
-  const serious = ["40-6-390", "40-6-390.1", "40-6-391", "40-6-393", "40-6-393.1", "40-6-394", "40-6-395", "40-6-397"];
-  if (entries.some(c => c && serious.includes(c.section))) return "serious";
+  const serious: Record<string, readonly string[]> = {
+    "40-6-390": ["", "(a)", "(b)"],
+    "40-6-390.1": ["", "(a)", "(a)(1)", "(a)(2)", "(a)(3)", "(a)(4)"],
+    "40-6-391": ["", "(a)", "(a)(1)", "(a)(2)", "(a)(3)", "(a)(4)", "(a)(5)", "(a)(6)"],
+    "40-6-393": ["", "(a)", "(b)", "(c)", "(d)"],
+    "40-6-393.1": ["", "(b)(1)", "(b)(2)", "(c)(1)", "(c)(2)"],
+    "40-6-394": ["", "(b)", "(c)"],
+    "40-6-395": ["", "(a)", "(b)(1)"],
+    "40-6-397": ["", "(a)", "(b)"]
+  };
+  if (entries.some(c => c && serious[c.section]?.includes(c.subsection))) return "serious";
   const speedSubsections = ["", "(a)", "(b)", "(b)(1)", "(b)(1.1)", "(b)(2)", "(b)(3)", "(b)(4)", "(b)(5)", "(c)"];
   return entries.every(c => c && (c.section === "40-6-180" && c.subsection === "" || c.section === "40-6-181" && speedSubsections.includes(c.subsection))) ? "nonserious" : "review";
 }

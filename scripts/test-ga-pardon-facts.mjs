@@ -130,20 +130,23 @@ for(const [section,case_outcome,extra,expected] of offenseCases) {
 const completionCases = [
  ['statutory-under21',{ga_pardoned_offense_section:'16-6-3',case_outcome:'Felony conviction',ga_pardon_statutory_rape_age:'under21',ga_pardon_statutory_rape_conviction_age:'under21'},'court_review'],
  ['statutory-21',{ga_pardoned_offense_section:'16-6-3',case_outcome:'Felony conviction',ga_pardon_statutory_rape_age:'21_or_older',ga_pardon_statutory_rape_conviction_age:'21_or_older'},'excluded_offense'],
+ ...['16-6-3(z)','16-6-3(a)(99)','16-12-100(z)','16-12-100(b)(99)','16-12-100(f)(3)(z)',
+ '16-5-1(z)','16-8-41(z)','16-5-40(z)','16-6-1(z)','16-6-22.2(z)','16-5-21(z)','16-5-41(z)','16-6-22.1(z)','16-6-22(z)','16-6-2(z)','16-6-4(z)','16-6-5(z)'].map(section=>['unknown-subsection/'+section,{ga_pardoned_offense_section:section,case_outcome:'Felony conviction',ga_pardon_statutory_rape_age:'under21',ga_pardon_statutory_rape_conviction_age:'under21'},'citation_review']),
+ ...['16-5-1(a)','16-8-41(a)','16-5-40(a)','16-6-1(a)(2)','16-6-22.2(b)','16-6-22(a)(1)','16-12-100(b)(1)'].map(section=>['known-offense-subsection/'+section,{ga_pardoned_offense_section:section,case_outcome:'Felony conviction'},'excluded_offense']),
  ['statutory-crossed21',{ga_pardoned_offense_section:'16-6-3',case_outcome:'Felony conviction',ga_pardon_statutory_rape_age:'under21',ga_pardon_statutory_rape_conviction_age:'21_or_older'},'statutory_age_review'],
  ['statutory-contradictory-age',{ga_pardoned_offense_section:'16-6-3',case_outcome:'Felony conviction',ga_pardon_statutory_rape_age:'21_or_older',ga_pardon_statutory_rape_conviction_age:'under21'},'statutory_age_review'],
  ['statutory-subsection-conflict',{ga_pardoned_offense_section:'16-6-3(c)',ga_pardon_statutory_rape_age:'21_or_older',ga_pardon_statutory_rape_conviction_age:'21_or_older'},'offense_class_conflict'],
  ['statutory-unknown',{ga_pardoned_offense_section:'16-6-3',case_outcome:'Felony conviction',ga_pardon_statutory_rape_age:'unknown',ga_pardon_statutory_rape_conviction_age:'unknown'},'statutory_age_review'],
  ...['16-6-5.1(f)(1)','16-6-5.1(f)(2)(B)','16-6-5.1(g)(1)','16-6-5.1(g)(3)'].map(section=>[section,{ga_pardoned_offense_section:section,case_outcome:'Felony conviction'},'excluded_offense']),
  ...['16-6-5.1(f)(2)(A)','16-6-5.1(g)(2)','16-12-100(c)','16-12-100(f)(2)','16-12-100(f)(3)'].flatMap(section=>[
-  [section+'/misdemeanor',{ga_pardoned_offense_section:section},'court_review'],
+  [section+'/misdemeanor',{ga_pardoned_offense_section:section},section.startsWith('16-6-5.1')?'exception_review':'court_review'],
   [section+'/conflicting-felony',{ga_pardoned_offense_section:section,case_outcome:'Felony conviction'},'offense_class_conflict']]),
  ['exploitation-felony',{ga_pardoned_offense_section:'16-12-100(b)(8)',case_outcome:'Felony conviction'},'excluded_offense'],
  ['exploitation-unresolved-misdemeanor',{ga_pardoned_offense_section:'16-12-100(b)(8)'},'exception_review'],
  ['improper-contact-unresolved',{ga_pardoned_offense_section:'16-6-5.1(g)'},'exception_review'],
  ...[
   ['40-6-181','court_review_traffic'],['O.C.G.A. § 40-6-181(b)(2); 40-6-180','court_review_traffic'],
-  ['40-6-391(a)(1)','later_conviction'],['40-6-390; 40-6-181','later_conviction'],
+  ['40-6-391(z)','record_review'],['40-6-391(a)(99)','record_review'],['40-6-394(a)','record_review'],['40-6-393.1(a)','record_review'],['40-6-391(a)(1)','later_conviction'],['40-6-390; 40-6-181','later_conviction'],
   ['40-6-181; unknown','record_review'],['40-6-181 (not convicted)','record_review'],
   ['40-6-181(z)','record_review'],['40-6-180(a)','record_review'],['40-99-999','record_review'],['40-6-391.1','record_review']
  ].map(([citations,expected])=>['traffic/'+citations,{ga_convictions_since_pardon:'traffic_only',ga_post_pardon_traffic_records:'Original saved record text remains unchanged',ga_post_pardon_traffic_jurisdictions:'all_georgia',ga_post_pardon_traffic_citations:citations},expected]),
