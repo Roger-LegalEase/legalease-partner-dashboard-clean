@@ -9,6 +9,7 @@ const { evaluateAuthoritativeScreeningResult: evaluate } = await import('../src/
 const { getProfileByJurisdiction } = await import('../src/lib/rcap-engine/profile-registry.ts');
 const { projectPublicProfile } = await import('../src/lib/rcap-engine/public-profile-projection.ts');
 const packet = JSON.parse(fs.readFileSync('data/rcap-ledger/public-witness-answer-sets.json'));
+const orPredecessor = JSON.parse(fs.readFileSync('scripts/fixtures/or-disposition-witness-predecessor.json'));
 const changed = new Set([
   'AR:situation-a-non-convictions', 'AR:situation-b-misdemeanor-convictions', 'AR:situation-c-felony-convictions',
   'CA:prop-64-completed-sentence-application-11361-8', 'CA:prop-64-currently-serving-petition-11361-8',
@@ -58,9 +59,24 @@ function requireUnresolved(w) {
 check(()=>assert.equal(packet.witnesses.length,267));
 check(()=>assert.equal(new Set(packet.witnesses.map(w=>w.pathwayKey)).size,267));
 check(()=>assert.equal(packet.witnesses.filter(w=>changed.has(w.pathwayKey)).length,14));
-// Pinned before-change digest of all 253 unrelated historical rows. This bounded
-// correction must not silently rewrite another witness or its prior identity.
-check(()=>assert.equal(sha(JSON.stringify(packet.witnesses.filter(w=>!changed.has(w.pathwayKey)))),'dd48f2daa2b68b38926d3d619c91b92833db494fe5d63ae4f31218c1c5c2dba2'));
+// Preserve the original 253-row digest. The later source-governed OR bridge
+// changes exactly its retired-route witness; retain that exact historical row
+// for this original comparison and independently check its current successor.
+// No new digest can hide drift in any of the other 252 rows.
+const orKey = 'OR:set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c';
+check(()=>assert.equal(orPredecessor.witness.pathwayKey,orKey));
+check(()=>assert.equal(sha(JSON.stringify(packet.witnesses.filter(w=>!changed.has(w.pathwayKey)).map(w=>w.pathwayKey===orKey?orPredecessor.witness:w))),'dd48f2daa2b68b38926d3d619c91b92833db494fe5d63ae4f31218c1c5c2dba2'));
+const orWitness = packet.witnesses.find(w=>w.pathwayKey===orKey);
+check(()=>assert.ok(orWitness));
+const orCurrent = replay(orWitness,orWitness.finalAnswers);
+check(()=>assert.deepEqual(projection(orCurrent),orWitness.terminalEvaluation));
+check(()=>assert.equal(orCurrent.pathwayId,'set-aside-of-a-citation-or-arrest-with-no-accusatory-instrument-under-ors-137-225-1-c'));
+check(()=>assert.equal(orCurrent.selectedTrackId,'or_arrest_no_charges'));
+check(()=>assert.equal(orCurrent.resultCode,'needs_review'));
+check(()=>assert.equal(orCurrent.paymentAllowed,false));
+check(()=>assert.equal(orCurrent.packetPlan,undefined));
+check(()=>assert.equal(orWitness.landedOnThisPathway,false));
+check(()=>assert.ok(!orCurrent.reasons.some(r=>r.code==='or.waiting_rule_not_executed')));
 const unresolved = packet.witnesses.filter(w=>w.convergenceStatus);
 check(()=>assert.equal(unresolved.length,6));
 check(()=>assert.equal(packet.totals.unresolvedPathways,6));
@@ -114,4 +130,4 @@ check(()=>assert.equal(old.transcript.length,24));
 check(()=>assert.throws(()=>assert.ok(old.transcript.length<8,'no unchanged-answer churn'),/no unchanged-answer churn/));
 check(()=>assert.equal(old.evaluation,null));
 check(()=>assert.equal(packet.totals.additionalSourceBoundSyntheticWitnesses,6));
-console.log(JSON.stringify({status:'PASS',checks,changedRoutes:14,unchangedHistoricalRoutes:253,unresolvedGenericWitnesses:6,sourceBoundSyntheticWitnesses:6,limits:'Local actual evaluator replay and mutation controls; not hosted, authenticated, document or offered-scope acceptance.'},null,2));
+console.log(JSON.stringify({status:'PASS',checks,changedRoutes:15,originalChangedRouteCohort:14,currentOrSuccessors:1,unchangedHistoricalRoutes:252,originalHistoricalDigestRows:253,unresolvedGenericWitnesses:6,sourceBoundSyntheticWitnesses:6,limits:'Local actual evaluator replay and mutation controls; not hosted, authenticated, document or offered-scope acceptance. Original253-row digest retains the exact historical OR row; its current successor is separately checked.'},null,2));

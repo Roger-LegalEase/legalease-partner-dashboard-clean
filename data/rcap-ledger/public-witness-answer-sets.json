@@ -38,7 +38,7 @@
     "settledOnATerminalEvaluation": 261,
     "unresolvedPathways": 6,
     "additionalSourceBoundSyntheticWitnesses": 6,
-    "landedOnTheirOwnPathway": 261,
+    "landedOnTheirOwnPathway": 260,
     "terminalResultCodes": {
       "packet_ready_with_caution": 33,
       "guidance_only": 90,
@@ -17538,6 +17538,24 @@
             "case_outcome": "Arrest or citation with no charge filed",
             "offense_level": "Misdemeanor"
           }
+        },
+        {
+          "round": 2,
+          "requested": [
+            "or_prosecutor_elected_not_to_proceed"
+          ],
+          "supplied": {
+            "or_prosecutor_elected_not_to_proceed": "yes"
+          }
+        },
+        {
+          "round": 3,
+          "requested": [
+            "or_prosecutor_declination_date"
+          ],
+          "supplied": {
+            "or_prosecutor_declination_date": "2012-06-01"
+          }
         }
       ],
       "finalAnswers": {
@@ -17547,6 +17565,8 @@
         "jurisdiction_scope": "State or local",
         "new_convictions_during_waiting_period": "No",
         "offense_level": "Misdemeanor",
+        "or_prosecutor_declination_date": "2012-06-01",
+        "or_prosecutor_elected_not_to_proceed": "yes",
         "ownership_scope": "Yes",
         "pending_cases": "No",
         "possible_pathway_context": "Set-aside of arrests or charges without conviction under ORS 137.225(1)(c)",
@@ -17560,17 +17580,17 @@
       },
       "terminalEvaluation": {
         "resultCode": "needs_review",
-        "pathwayId": "set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
-        "pathwayLabel": "Set-aside of arrests or charges without conviction under ORS 137.225(1)(c)",
+        "pathwayId": "set-aside-of-a-citation-or-arrest-with-no-accusatory-instrument-under-ors-137-225-1-c",
+        "pathwayLabel": "Set aside an arrest or citation with no court charge filed",
         "paymentAllowed": false,
         "treatmentClassification": null,
-        "selectedTrackId": null,
+        "selectedTrackId": "or_arrest_no_charges",
         "reasonCodes": [
-          "or.waiting_rule_not_executed"
+          "or.disposition_disposition_facts_supported"
         ],
         "missingQuestionIds": []
       },
-      "landedOnThisPathway": true,
+      "landedOnThisPathway": false,
       "error": null
     },
     {
