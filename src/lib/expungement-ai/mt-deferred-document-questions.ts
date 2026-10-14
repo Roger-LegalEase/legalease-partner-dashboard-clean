@@ -29,6 +29,7 @@ const court = [
   text("caseNumber", "What is the original criminal case number on the deferred-sentence order?", "¿Cuál es el número del caso penal original que figura en la orden de sentencia aplazada?"),
   choice("pleaOrVerdict", "Does the record show a guilty plea, a no-contest plea, or a guilty verdict?", "¿El expediente indica una declaración de culpabilidad, una declaración de no oposición o un veredicto de culpabilidad?", [["guilty", "Guilty plea", "Declaración de culpabilidad"], ["nolo contendere", "No-contest plea", "Declaración de no oposición"], ["verdict", "Guilty verdict", "Veredicto de culpabilidad"], ["unknown", "I am not sure", "No estoy seguro"]]),
   text("sentencingDate", "On what date did the court defer imposition of sentence?", "¿En qué fecha aplazó el tribunal la imposición de la sentencia?", "date_or_unknown"),
+  text("terminationOrderDate", "On what date did the court enter the order terminating the remaining deferral time?", "¿En qué fecha dictó el tribunal la orden que terminó el tiempo restante del aplazamiento?", "date_or_unknown"),
   text("prosecutingOffice", "What prosecuting office handled this original criminal case?", "¿Qué fiscalía llevó este caso penal original?"),
   text("prosecutorAddress", "What current mailing address did you confirm for that prosecuting office?", "¿Qué dirección postal actual confirmó para esa fiscalía?"),
   text("prosecutorEmail", "What email address identifies that prosecuting office?", "¿Qué dirección de correo electrónico identifica a esa fiscalía?"),
@@ -42,7 +43,7 @@ const court = [
 export const MT_DEFERRED_DOCUMENT_QUESTION_IDS = [...common, ...court].map(q => q.id);
 export function montanaDeferredDocumentQuestions(profile: EngineProfile, answers: Record<string, unknown>, stage: "court_motion" | "doj_after_order" | null, includeInactive = false): ProfileQuestion[] {
   const sourceQuestions = MT_DEFERRED_QUESTIONS.filter(q => includeInactive || stage === "court_motion" && q.id === "mt_deferred_revocation_petition" || montanaDeferredFactApplies(profile, MT_DEFERRED_ROUTE, answers, q.id)).map(q => ({ ...q, contextOnly: false, required: false, options: Array.isArray(q.options) ? q.options.filter((value): value is string => typeof value === "string") : null }));
-  return [...sourceQuestions, ...(stage || includeInactive ? common : []), ...(stage === "court_motion" || includeInactive ? court : [])];
+  return [...sourceQuestions, ...(stage || includeInactive ? common.filter(q => includeInactive || stage === "doj_after_order" || !["dateOfBirth", "arrestDate"].includes(q.id)) : []), ...(stage === "court_motion" || includeInactive ? court.filter(q => includeInactive || q.id !== "terminationOrderDate" || answers.mt_deferred_term_status === "terminated_by_order") : [])];
 }
 
 const reviewCopy: Record<string, { en: string; es: string }> = {
@@ -55,7 +56,6 @@ const reviewCopy: Record<string, { en: string; es: string }> = {
   denial_of_charge_question_requires_qualified_advice: { en: "Get qualified advice before denying or omitting this charge. This process does not establish permission to deny it.", es: "Obtenga asesoramiento calificado antes de negar u omitir este cargo. Este proceso no establece autorización para negarlo." },
   current_conditions_or_financial_orders_unresolved: { en: "The current court conditions or financial orders remain unresolved. Do not allege that all conditions were completed.", es: "Las condiciones judiciales o las órdenes financieras vigentes siguen sin resolverse. No afirme que se cumplieron todas las condiciones." },
   deferral_period_not_terminated: { en: "The deferral period is still running. This completed-deferral motion cannot allege that the period ended.", es: "El período de aplazamiento continúa. Esta moción posterior al cumplimiento no puede afirmar que el período terminó." },
-  court_terminated_remaining_time_requires_distinct_allegation: { en: "Keep the order terminating the remaining time for review. Any motion must describe that actual order rather than claim that the full period expired.", es: "Conserve la orden que terminó el tiempo restante para su revisión. Toda moción debe describir esa orden real en lugar de afirmar que venció todo el período." }
 };
 export function montanaDeferredDocumentReviewNotices(reasons: string[]): Array<{ en: string; es: string }> {
   return reasons.map(reason => reviewCopy[reason] ?? (reason.startsWith("conflicting_protected_fact:")

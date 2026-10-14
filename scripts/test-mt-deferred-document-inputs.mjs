@@ -42,8 +42,8 @@ for (const fixture of FIXTURES) check(`existing renderer contract ${fixture.fixt
  const snapshot = snapshotFor(fixture), original = structuredClone(snapshot), result = map(snapshot, current);
  assert.equal(result.status, 'mapped_for_review'); assert.equal(result.stage, 'court_motion');
  assert.deepEqual(result.componentIds, [components[0], components[1], components[2], components[4]]);
- assert.deepEqual(validateFixture({ ...result.inputs, syntheticFixture: true }), validateFixture(fixture));
- for (const key of [...REQUIRED_INPUTS, ...identityFields, ...Object.keys(flags).filter(k => k !== 'revocationConfirmedByClerk'), 'chargeClass', 'alreadyDismissed', 'recordConfirmed']) assert.deepEqual(result.inputs[key], fixture[key], key);
+ assert.deepEqual(validateFixture({ ...fixture, ...result.inputs, syntheticFixture: true }), validateFixture(fixture));
+ for (const key of [...REQUIRED_INPUTS, ...identityFields, ...Object.keys(flags).filter(k => k !== 'revocationConfirmedByClerk'), 'chargeClass', 'alreadyDismissed', 'recordConfirmed']) if (!["dateOfBirth", "arrestDate"].includes(key)) assert.deepEqual(result.inputs[key], fixture[key], key);
  assert.deepEqual(snapshot, original); closed(result);
 });
 for (const financial of ['paid', 'waived_by_order', 'none_ordered']) for (const historical of ['Yes', 'No', 'I am not sure', undefined]) check(`explicit financial order ${financial}/${historical}`, () => {
@@ -61,15 +61,22 @@ for (const [id, value, reason] of [
  ['citizenshipConfirmed', false, 'noncitizen_requires_qualified_advice'],
  ['denialQuestion', true, 'denial_of_charge_question_requires_qualified_advice'],
  ['mt_deferred_financial_order_status', 'balance_remaining', 'current_conditions_or_financial_orders_unresolved'],
- ['mt_deferred_term_status', 'terminated_by_order', 'court_terminated_remaining_time_requires_distinct_allegation'],
  ['mt_deferred_term_status', 'still_running', 'deferral_period_not_terminated'],
 ]) check(`source stop ${id}`, () => { const s = snapshotFor(); (id.startsWith('mt_') ? s.screeningAnswers : s.packetAnswers)[id] = value; const r = map(s, current); assert.equal(r.status, 'source_review'); assert(r.reviewReasons.includes(reason)); closed(r); });
+check('actual prior termination order is distinct from expiration or a new request', () => {
+ const s=snapshotFor();s.screeningAnswers.mt_deferred_term_status='terminated_by_order';assert.equal(map(s,current).status,'needs_facts');assert(map(s,current).missingFactIds.includes('terminationOrderDate'));
+ for(const invalid of [undefined,'',{value:'',unknown:true},'2025-02-30']){s.packetAnswers.terminationOrderDate=invalid;assert.equal(map(s,current).status,'needs_facts');}
+ for(const date of ['2020-01-01','2030-01-01']){s.packetAnswers.terminationOrderDate=date;assert.equal(map(s,current).status,'source_review');}
+ s.packetAnswers.terminationOrderDate={value:'2024-05-06',unknown:false};const original=structuredClone(s),r=map(s,current);assert.equal(r.status,'mapped_for_review');assert.equal(r.inputs.deferralPeriodExpired,false);assert.equal(r.inputs.deferralTerminatedByOrder,true);assert.equal(r.inputs.terminationOrderDate,'05/06/2024');assert.deepEqual(s,original);closed(r);
+ for(const capturedAt of ['', 'not-a-date','2026-02-30T00:00:00Z']){const invalid={...s,capturedAt};assert.equal(map(invalid,current).status,'not_applicable');}
+ s.packetAnswers.earlyTermination=true;assert(map(s,current).reviewReasons.includes('seeking_early_termination'));
+});
 check('misdemeanor status guidance is not clerk-confirmed document allegation', () => {
  const s = snapshotFor(FIXTURES[1]); s.screeningAnswers.mt_deferred_revocation_petition = 'yes';
  assert.equal(map(s, current).status, 'source_review'); s.screeningAnswers.mt_deferred_revocation_petition = 'no'; delete s.packetAnswers.revocationConfirmedByClerk;
  const r = map(s, current); assert.equal(r.status, 'needs_facts'); assert(!Object.hasOwn(r.inputs, 'revocationPetitionFiled'));
 });
-for (const id of [...identityFields, ...Object.keys(flags), ...Object.keys(sourceFacts)]) check(`no default ${id}`, () => {
+for (const id of [...identityFields.filter(id => !["dateOfBirth", "arrestDate"].includes(id)), ...Object.keys(flags), ...Object.keys(sourceFacts)]) check(`no default ${id}`, () => {
  for (const missing of [undefined, '', 'unknown', [], {}, { value: 'invented', unknown: true }]) {
   const s = snapshotFor(), store = id.startsWith('mt_') ? s.screeningAnswers : s.packetAnswers;
   if (missing === undefined) delete store[id]; else store[id] = missing;
@@ -77,17 +84,19 @@ for (const id of [...identityFields, ...Object.keys(flags), ...Object.keys(sourc
  }
 });
 check('known wrappers and calendar dates', () => {
- const s = snapshotFor(); s.packetAnswers.dateOfBirth = { value: '1991-04-17', unknown: false };
+ const s = snapshotFor(); s.screeningAnswers.mt_deferred_dismissal_order='yes'; s.packetAnswers.dateOfBirth = { value: '1991-04-17', unknown: false };
  assert.equal(map(s, current).inputs.dateOfBirth, '04/17/1991');
  for (const value of ['1991-02-29', '02/30/2000', '2020-13-01', '04/17/91', 'tomorrow']) { s.packetAnswers.dateOfBirth = value; assert.equal(map(s, current).status, 'needs_facts'); }
  s.packetAnswers.dateOfBirth = { value: '1991-04-17', unknown: false, confirmed: true }; assert.equal(map(s, current).status, 'needs_facts');
 });
-check('chronology refuses contradictory dates without rewriting history', () => {
- for (const [key, value] of [['dateOfBirth','2022-01-01'], ['arrestDate','2022-01-01'], ['sentencingDate','2020-01-01']]) {
-  const s = snapshotFor(); s.packetAnswers[key] = value; const original = structuredClone(s);
-  const r = map(s, current); assert.equal(r.status, 'source_review'); assert(r.reviewReasons.some(reason => reason.startsWith('contradictory_date_order:'))); assert.deepEqual(s, original);
- }
- const s = snapshotFor(); s.screeningAnswers.mt_deferred_dismissal_order='yes'; s.packetAnswers.dateOfBirth='2022-01-01'; assert.equal(map(s,current).status,'source_review');
+check('chronology applies only to actually consumed stage dates', () => {
+ const s=snapshotFor(); s.packetAnswers.dateOfBirth='2030-01-01';s.packetAnswers.arrestDate='2022-01-01';
+ assert.equal(map(s,current).status,'mapped_for_review');assert(!Object.hasOwn(map(s,current).inputs,'dateOfBirth'));assert(!Object.hasOwn(map(s,current).inputs,'arrestDate'));
+ s.screeningAnswers.mt_deferred_dismissal_order='yes';const original=structuredClone(s);assert.equal(map(s,current).status,'source_review');assert.deepEqual(s,original);
+});
+check('court never gates on DOJ-only dates; DOJ collects both later', () => {
+ const s=snapshotFor();delete s.packetAnswers.dateOfBirth;delete s.packetAnswers.arrestDate;assert.equal(map(s,current).status,'mapped_for_review');
+ s.screeningAnswers.mt_deferred_dismissal_order='yes';const m=map(s,current);assert.equal(m.status,'needs_facts');assert(m.missingFactIds.includes('dateOfBirth'));assert(m.missingFactIds.includes('arrestDate'));
 });
 check('conflicting maps retain raw source history and refuse inference', () => {
  const s = snapshotFor(); s.prefilledAnswers.fullName = 'Different Name'; const old = structuredClone(s);
@@ -118,9 +127,9 @@ check('source-bound participant aliases preserve exact values and actor ownershi
  const s=snapshotFor(), aliases={fullName:'participant_full_legal_name',dateOfBirth:'date_of_birth',mailingAddress:'mailing_address',phone:'phone_number',email:'email_address'};
  for(const[id,alias]of Object.entries(aliases)){s.prefilledAnswers[alias]=s.packetAnswers[id];delete s.packetAnswers[id];}
  const original=structuredClone(s),r=map(s,current);assert.equal(r.status,'mapped_for_review');
- for(const[id,alias]of Object.entries(aliases)){assert.equal(r.inputs[id],FIXTURES[0][id]);assert.deepEqual(r.inputSources[id],[alias]);}
+ for(const[id,alias]of Object.entries(aliases)){if(id==='dateOfBirth'){assert(!Object.hasOwn(r.inputs,id));continue;}assert.equal(r.inputs[id],FIXTURES[0][id]);assert.deepEqual(r.inputSources[id],[alias]);}
  assert.deepEqual(s,original);s.packetAnswers.prosecutorEmail='Different.Prosecutor@example.test';assert.equal(map(s,current).inputs.email,FIXTURES[0].email);
- for(const[id,alias]of Object.entries(aliases)){const c=structuredClone(s);c.packetAnswers[id]=id==='dateOfBirth'?'1992-04-17':'Conflicting supplied fact';assert(map(c,current).reviewReasons.includes('conflicting_protected_fact:'+id));}
+ for(const[id,alias]of Object.entries(aliases)){const c=structuredClone(s);c.packetAnswers[id]=id==='dateOfBirth'?'1992-04-17':'Conflicting supplied fact';if(id==='dateOfBirth')c.screeningAnswers.mt_deferred_dismissal_order='yes';assert(map(c,current).reviewReasons.includes('conflicting_protected_fact:'+id));}
 });
 const artifacts = { 'fixtures/canonical.pdf':'7352688df07d1181b2f584bb00909f1b785c570e330e855856088946daa098ac', 'fixtures/boundary.pdf':'b2b116487cb07d3ceb3fe44d223faa56732ccd43c0b98c70d309bbfc69ac852f', 'fixtures/verdict-justice.pdf':'158ba02a7934cdf9c9cf74748f108d1d86461ab77e3c59e69472d9c93c0a871b', 'source-derived/doj-unfilled.pdf':'8aa6d7dc6382ba163a8d7bf2d1afc754059c4bd6e3bc951d0a51e2a00920fddc' };
 for (const [file, sha] of Object.entries(artifacts)) check(`retained accepted bytes ${file}`, () => assert.equal(hash(fs.readFileSync(`${OUTPUT}/${file}`)), sha));

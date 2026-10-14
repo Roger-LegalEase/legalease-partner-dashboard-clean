@@ -14,7 +14,7 @@ const SET_SHA256 = "40763d419d972c695d1b4d0ddc538ff6973277eea3449eb38e453942bfcb
 const AUTHORITY_SHA256 = "d6ea2cb9d87223ce1da5999f41e54b0e655d519606230b1af5fcd2ce8817c75c";
 const digest = (value: unknown) => createHash("sha256").update(JSON.stringify(value) ?? "").digest("hex");
 
-type Snapshot = Pick<ProtectedPacketDraftSnapshot, "schemaVersion" | "jurisdiction" | "pathwayId" | "profileVersion" | "profileSourceFingerprint" | "profileAuthorityFingerprint" | "paymentAllowed" | "selectedTrackId" | "screeningAnswers" | "prefilledAnswers" | "packetAnswers">;
+type Snapshot = Pick<ProtectedPacketDraftSnapshot, "schemaVersion" | "capturedAt" | "jurisdiction" | "pathwayId" | "profileVersion" | "profileSourceFingerprint" | "profileAuthorityFingerprint" | "paymentAllowed" | "selectedTrackId" | "screeningAnswers" | "prefilledAnswers" | "packetAnswers">;
 export type MontanaDeferredDocumentContract = {
   /** Exact server-loaded adopted track and packet-set objects; not request data. */
   track: unknown;
@@ -61,9 +61,10 @@ export function montanaDeferredAliasDisplay(snapshot: Pick<Snapshot, "screeningA
   }
   return projected;
 }
-const COMMON_FIELDS = ["fullName", "dateOfBirth", "mailingAddress", "phone", "email", "chargeName", "arrestDate"];
+const COMMON_FIELDS = ["fullName", "mailingAddress", "phone", "email", "chargeName"];
+const DOJ_FIELDS = ["dateOfBirth", "arrestDate"];
 const COURT_FIELDS = ["sentencingCourtLevel", "courtName", "sentencingCounty", "caseNumber", "pleaOrVerdict", "sentencingDate", "prosecutingOffice", "prosecutorAddress", "prosecutorEmail"];
-const DATES = new Set(["dateOfBirth", "arrestDate", "sentencingDate"]);
+const DATES = new Set(["dateOfBirth", "arrestDate", "sentencingDate", "terminationOrderDate"]);
 const UNKNOWN = /^(unknown|i am not sure|not sure)$/i;
 function knownValue(raw: unknown): unknown {
   if (raw && typeof raw === "object" && !Array.isArray(raw)) {
@@ -155,14 +156,14 @@ export function montanaDeferredDocumentInputs(snapshot: Snapshot, current: {
     if (denial === true) out.reviewReasons.push("denial_of_charge_question_requires_qualified_advice");
     if (citizen !== undefined) put("citizenshipConfirmed", citizen, "citizenshipConfirmed");
     if (denial !== undefined) put("denialQuestion", denial, "denialQuestion");
-    for (const id of [...COMMON_FIELDS, ...(out.stage === "court_motion" ? COURT_FIELDS : [])]) {
+    for (const id of [...COMMON_FIELDS, ...(out.stage === "court_motion" ? COURT_FIELDS : DOJ_FIELDS)]) {
       const value = answer(id);
       if (typeof value !== "string" || !value.trim() || UNKNOWN.test(value.trim())) { missing.add(id); continue; }
       const text = DATES.has(id) ? printedDate(value) : value;
       if (!text) { missing.add(id); continue; }
       put(id, text, id);
     }
-    const dateOrder = ["dateOfBirth", "arrestDate", ...(out.stage === "court_motion" ? ["sentencingDate"] : [])];
+    const dateOrder = out.stage === "doj_after_order" ? ["dateOfBirth", "arrestDate"] : [];
     const isoDate = (value: string) => `${value.slice(6)}-${value.slice(0, 2)}-${value.slice(3, 5)}`;
     for (let index = 1; index < dateOrder.length; index++) {
       const before = out.inputs[dateOrder[index - 1]], after = out.inputs[dateOrder[index]];
@@ -176,10 +177,22 @@ export function montanaDeferredDocumentInputs(snapshot: Snapshot, current: {
       const term = choice("mt_deferred_term_status", ["expired", "terminated_by_order", "still_running"]);
       if (term === "expired") put("deferralPeriodExpired", true, "mt_deferred_term_status");
       if (term === "still_running") out.reviewReasons.push("deferral_period_not_terminated");
-      // Existing accepted output explicitly alleges an expired period. An
-      // existing early-termination order is legally distinct and must not be
-      // encoded as expiration just to fit those already accepted PDF bytes.
-      if (term === "terminated_by_order") out.reviewReasons.push("court_terminated_remaining_time_requires_distinct_allegation");
+      if (term === "terminated_by_order") {
+        const rawDate = answer("terminationOrderDate");
+        if (typeof snapshot.capturedAt !== "string" || !/^\d{4}-\d{2}-\d{2}T/.test(snapshot.capturedAt) || !Number.isFinite(Date.parse(snapshot.capturedAt)) || !printedDate(snapshot.capturedAt.slice(0, 10))) return { ...out, status: "not_applicable", inputs: {}, inputSources: {}, componentIds: [] };
+        const orderDate = typeof rawDate === "string" ? printedDate(rawDate) : null;
+        if (!orderDate) missing.add("terminationOrderDate");
+        else {
+          const sentencingDate = out.inputs.sentencingDate;
+          if (typeof sentencingDate === "string" && isoDate(orderDate) < isoDate(sentencingDate)
+            || isoDate(orderDate) > snapshot.capturedAt.slice(0, 10)) out.reviewReasons.push("contradictory_date_order:sentencingDate:terminationOrderDate");
+          put("terminationOrderDate", orderDate, "terminationOrderDate");
+          put("deferralTerminatedByOrder", true, "mt_deferred_term_status", "terminationOrderDate");
+          // This is an existing order, not an allegation that the full period
+          // expired and not a request for the court to terminate it now.
+          put("deferralPeriodExpired", false, "mt_deferred_term_status");
+        }
+      }
       const conditions = choice("mt_deferred_conditions_status", ["yes", "no"]);
       const money = choice("mt_deferred_financial_order_status", ["paid", "waived_by_order", "none_ordered", "balance_remaining"]);
       if (conditions === "no" || money === "balance_remaining") out.reviewReasons.push("current_conditions_or_financial_orders_unresolved");
