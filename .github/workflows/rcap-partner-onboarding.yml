@@ -29,6 +29,9 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
 
+      - name: Fetch pinned Georgia assembly comparison baseline
+        run: git fetch --no-tags --depth=1 origin 8af7a0641c8ff7ad126c40b1333994737e76dbe7
+
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
