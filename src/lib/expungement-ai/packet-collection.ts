@@ -319,6 +319,8 @@ export type PacketCollectionInput = {
   /** Server-checked exact JD-CR-202 profile; does not change any legal predicate. */
   ctCleanSlateSeparateContact?: boolean;
   ksMunicipalSeparateContact?: boolean;
+  /** Exact current ND profile/source family; historical service/caption prose is not a canonical fact. */
+  ndFirstOffenseSourceOwnedInputs?: boolean;
   /** Set only by the exact adopted MO status/source contract, never participant data. */
   missouriClosureStatusOnly?: boolean;
   missouriMarijuanaStatusOnly?: boolean;
@@ -655,6 +657,18 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
         value,
         reason: "the server owns this route fact; it is never asked"
       });
+      continue;
+    }
+
+    if (input.ndFirstOffenseSourceOwnedInputs === true && input.jurisdiction === "ND"
+      && input.pathwayId === "first-offense-possession-sealing"
+      && ["contact_information", "residency_or_location"].includes(factId)
+      && !input.routeDecidingFactIds?.has(factId) && !input.unresolvedRouteFactIds?.has(factId)) {
+      facts.push({ factId, collection: "conditional", phase: "known", group: null, active: false,
+        source: "nd_first_offense_existing_family_owned_destinations",
+        reason: factId === "contact_information"
+          ? "The adopted first-offense motion has separate optional participant contact destinations, with no service duty stated by the subsection. Earlier service-address prose remains history and is not treated as mailing address."
+          : "The adopted motion has distinct county and court-type blanks for completion before filing. Earlier county-or-district prose remains history; it supplies neither fact and creates no new intake gate." });
       continue;
     }
 

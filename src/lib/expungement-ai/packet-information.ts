@@ -1,3 +1,4 @@
+import { ND_FIRST_OFFENSE_FAMILY, ND_FIRST_OFFENSE_CONTACT_FIELDS, ND_FIRST_OFFENSE_CONTACT_IDS, isNdFirstOffenseFamily, ndFirstOffenseContactQuestions, ndFirstOffenseFamilyInputs } from "@/lib/expungement-ai/nd-first-offense-family-inputs";
 import { dcInnocenceLocationIsContext, DC_LEGACY_LOCATION } from "@/lib/rcap-engine/dc-innocence-location-context";
 import { KS_MUNICIPAL_CONTACT_FIELDS, KS_MUNICIPAL_CONTACT_IDS, KS_MUNICIPAL_CONTACT_SOURCE, isKsMunicipalContact, ksMunicipalContactQuestions, ksMunicipalContactInputs } from "@/lib/expungement-ai/ks-municipal-contact";
 import { CT_CLEAN_SLATE_CONTACT_FIELDS, CT_CLEAN_SLATE_CONTACT_IDS, CT_CLEAN_SLATE_CONTACT_SOURCE, isCtCleanSlateContact, ctCleanSlateContactQuestions, ctCleanSlateContactInputs } from "@/lib/expungement-ai/ct-clean-slate-contact";
@@ -1594,6 +1595,26 @@ export function protectedPacketInformationModelFor(
       }
     }
   }
+  const ndContact = ndFirstOffenseFamilyContract(profile, snapshot.pathwayId) ? ndFirstOffenseFamilyInputs(snapshot) : null;
+  if (ndContact) for (const field of ND_FIRST_OFFENSE_CONTACT_FIELDS) {
+    // The approved map defines destinations, not a universal contact triple.
+    // Unknown or absent modes remain unprinted without creating intake gates.
+    if (ndContact.conflictingIds.includes(field.id)) {
+      // Read-time projection only. An explicit replacement is the ordinary
+      // semantic-history transition; neither read nor no-op chooses a copy.
+      delete initialAnswers[field.id];
+      const originalQuestion = questionSurface.questionById.get(field.id);
+      if (originalQuestion) {
+        const question = { ...originalQuestion, savedAnswerNeedsClarification: true,
+          helperText: `${originalQuestion.helperText ?? ""}\nSaved copies disagree. Enter the correct current detail explicitly. Original answers remain saved in your history.`,
+          translations: { ...originalQuestion.translations, es: { ...originalQuestion.translations?.es,
+            helperText: `${originalQuestion.translations?.es?.helperText ?? ""}\nLas copias guardadas no coinciden. Ingrese expresamente el dato actual correcto. Las respuestas originales se conservan en su historial.` } } };
+        questionSurface.questionById.set(field.id, question);
+        questionSurface.questions = questionSurface.questions.map(q => q.id === field.id ? question : q);
+        questionSurface.builderQuestions = questionSurface.builderQuestions.map(q => q.id === field.id ? question : q);
+      }
+    }
+  }
   // TF-810 explicitly makes email optional; it is never a missing input.
   const activeAkIds = new Set(akCourtviewContactIds(snapshot.jurisdiction, snapshot.pathwayId, initialAnswers));
   for (const field of AK_TF810_CONTACT_FIELDS) {
@@ -1812,6 +1833,13 @@ export function ksMunicipalContactContract(profile: NonNullable<ReturnType<typeo
     && contactRepresentationHash(profile) === KS_MUNICIPAL_CONTACT_SOURCE.profileSha256;
 }
 
+export function ndFirstOffenseFamilyContract(profile: NonNullable<ReturnType<typeof getProfileByJurisdiction>>, pathwayId: string | null,
+  specification = packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId ?? ""}`)) {
+  return isNdFirstOffenseFamily(profile.jurisdiction.code, pathwayId)
+    && contactRepresentationHash(profile) === ND_FIRST_OFFENSE_FAMILY.profileSha256
+    && contactRepresentationHash(specification) === ND_FIRST_OFFENSE_FAMILY.legacySpecificationCanonicalSha256;
+}
+
 export function packetCollectionFor(input: {
   jurisdiction: string;
   pathwayId: string | null;
@@ -1855,6 +1883,7 @@ export function packetCollectionFor(input: {
     routeDecidingFactIds: decidingFactIds,
     unresolvedRouteFactIds: unresolvedFactIds,
     reviewedContactRepresentation: Boolean(contactContract),
+    ndFirstOffenseSourceOwnedInputs: ndFirstOffenseFamilyContract(profile, input.pathwayId),
     ctCleanSlateSeparateContact: ctCleanSlateContactContract(profile, input.pathwayId)
       && !decidingFactIds.has("contact_information") && !unresolvedFactIds.has("contact_information"),
     ksMunicipalSeparateContact: ksMunicipalContactContract(profile, input.pathwayId)
@@ -1885,6 +1914,10 @@ export function factualPathwayCorrectionIds(state: string, pathway: string | nul
 
   if (dcInnocenceLocationIsContext(profile, pathway, packetSpecificationFor(`${state}:${pathway}`))
     && Object.hasOwn(answers, DC_LEGACY_LOCATION)) return [...extra, DC_LEGACY_LOCATION];
+  if (profile && ndFirstOffenseFamilyContract(profile, pathway)) return [...extra, ...ND_FIRST_OFFENSE_CONTACT_IDS,
+    // Ordinary explicit corrections to saved legacy context retain their raw
+    // history, without offering those obsolete purposes as active intake.
+    ...(includeInactive ? ["contact_information", "residency_or_location"].filter(id => Object.hasOwn(answers, id)) : [])];
   if (profile && ctCleanSlateContactContract(profile, pathway)) return [...extra, ...CT_CLEAN_SLATE_CONTACT_IDS];
   if (profile && ksMunicipalContactContract(profile, pathway)) return [...extra, ...KS_MUNICIPAL_CONTACT_IDS];
   if (isAkCourtviewContact(state, pathway)) return [...extra, ...akCourtviewContactIds(state, pathway, answers, includeInactive)];
@@ -2342,6 +2375,24 @@ function protectedPacketQuestionSurface(
     builderSections.push({ id: "ks_municipal_petitioner_contact", heading: "Petitioner contact details for the municipal petition",
       description: "These details complete existing form fields; they do not decide eligibility. Earlier contact text is retained as history.",
       translations: { es: { heading: "Datos de contacto de la persona solicitante para la petición municipal", description: "Estos datos completan campos existentes del formulario; no determinan la elegibilidad. El texto de contacto anterior se conserva como historial." } },
+      questionIds: descriptors.map(question => question.id) });
+  }
+  if (ndFirstOffenseFamilyContract(profile, pathwayId)) {
+    const descriptors = ndFirstOffenseContactQuestions({ ...screeningAnswers, ...prefilledAnswers, ...savedAnswers });
+    for (const descriptor of descriptors) {
+      const index = questions.findIndex(question => question.id === descriptor.id);
+      if (index >= 0) questions[index] = descriptor; else questions.push(descriptor);
+      questionById.set(descriptor.id, descriptor);
+      if (!builderQuestions.some(question => question.id === descriptor.id)) builderQuestions.push(descriptor);
+    }
+    for (const id of ["contact_information", "residency_or_location"]) {
+      const legacy = questions.find(question => question.id === id);
+      if (legacy) { legacy.required = false; legacy.contextOnly = true; legacy.prompt = id === "contact_information" ? "Earlier contact answer (history only)" : "Earlier location answer (history only)";
+        legacy.translations = { es: { prompt: id === "contact_information" ? "Respuesta de contacto anterior (solo historial)" : "Respuesta de ubicación anterior (solo historial)" } }; }
+    }
+    builderSections.push({ id: "nd_first_offense_participant_contact", heading: "Participant contact details for the first-offense possession motion",
+      description: "These details complete existing form fields; they do not decide eligibility. Earlier contact text is retained as history.",
+      translations: { es: { heading: "Datos de contacto para la moción por una primera infracción de posesión", description: "Estos datos completan campos existentes del formulario; no determinan la elegibilidad. El texto de contacto anterior se conserva como historial." } },
       questionIds: descriptors.map(question => question.id) });
   }
   const currentAk = akCourtviewContactQuestions(profile.jurisdiction.code, pathwayId, { ...screeningAnswers, ...prefilledAnswers, ...savedAnswers });
@@ -3679,6 +3730,8 @@ function installPacketSpecificationQuestions(
   }
   const ctProfile = jurisdiction === "CT" ? getProfileByJurisdiction("CT") : null;
   if (ctProfile && ctCleanSlateContactContract(ctProfile, pathwayId)) for (const question of ctCleanSlateContactQuestions(answers)) questions.set(question.id, question);
+  const ndProfile = jurisdiction === "ND" ? getProfileByJurisdiction("ND") : null;
+  if (ndProfile && ndFirstOffenseFamilyContract(ndProfile, pathwayId)) for (const question of ndFirstOffenseContactQuestions(answers)) questions.set(question.id, question);
   const ksProfile = jurisdiction === "KS" ? getProfileByJurisdiction("KS") : null;
   if (ksProfile && ksMunicipalContactContract(ksProfile, pathwayId)) for (const question of ksMunicipalContactQuestions(answers)) questions.set(question.id, question);
   for (const question of akCourtviewContactQuestions(jurisdiction, pathwayId, answers, true)) questions.set(question.id, question);
