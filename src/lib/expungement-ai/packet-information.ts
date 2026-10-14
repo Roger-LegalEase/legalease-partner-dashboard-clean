@@ -11,6 +11,8 @@ import { nebraskaNonconvictionQuestionApplies, nebraskaAdultNonconvictionCorrect
 import { AR_RECORD_ORIGIN_ID, arkansasRecordOrigin, arkansasRecordOriginApplies } from "@/lib/rcap-engine/arkansas-record-origin";
 import { KS_REGISTRATION_ROUTE } from "@/lib/rcap-engine/kansas-district-facts";
 import { NY_FUTURE_ID, NY_FUTURE_FACT_IDS } from "@/lib/expungement-ai/ny-16059-future-applications";
+import { ny16059CurrentDocumentQuestions, NY_CURRENT_DOCUMENT_PARTICIPANT_FIELDS } from "@/lib/expungement-ai/ny-16059-current-document-questions";
+import { preserveNySeparateDeclaration } from "@/lib/expungement-ai/ny-16059-transaction-associations";
 import { isNy16059Packet, NY_PACKET_QUESTIONS, NY_PACKET_FACT_IDS } from "@/lib/expungement-ai/ny-16059-packet-facts";
 import { NY_CASE_FACT_IDS, NY_HISTORY_FACT_IDS, nyCasePreparationQuestions, nyCaseAssociationIssues } from "@/lib/expungement-ai/ny-16059-case-questions";
 import convictionFallbackPrior from "@/lib/expungement-ai/conviction-fallback-prior-contracts.json";
@@ -1528,6 +1530,13 @@ export function protectedPacketInformationModelFor(
   );
   if (arkansasRecordOriginApplies(snapshot.jurisdiction, snapshot.pathwayId) && arkansasRecordOrigin(initialAnswers) === "unknown"
     && !missingInputIds.includes(AR_RECORD_ORIGIN_ID)) missingInputIds.push(AR_RECORD_ORIGIN_ID);
+  // Current source completion facts do not alter the evaluator's route/result
+  // or stored plan. Optional email is never a missing preparation prerequisite.
+  if (isNy16059Packet(snapshot.jurisdiction, snapshot.pathwayId)) for (const field of NY_CURRENT_DOCUMENT_PARTICIPANT_FIELDS) {
+    const question = questionSurface.questionById.get(field.id);
+    if (!field.optional && question && questionAnswerState(question, initialAnswers[field.id]) !== "known_valid"
+      && !missingInputIds.includes(field.id)) missingInputIds.push(field.id);
+  }
   const nyCaseIssues = isNy16059Packet(snapshot.jurisdiction, snapshot.pathwayId) ? nyCaseAssociationIssues(initialAnswers) : [];
   for (const issue of nyCaseIssues) {
     if (!missingInputIds.includes(issue.id)) missingInputIds.push(issue.id);
@@ -1837,7 +1846,7 @@ function routeFactualCorrectionIds(model: { stateCode: string; pathwayId: string
   // case details still belong to this owner and must remain correctable. This
   // exposes existing answers plus the source-specific prior-order facts needed
   // to resolve held history review. It never restores a plan or an approval.
-  return [...eligibility, ...(model.requiredInputIds?.length === 0
+  return [...eligibility, ...NY_CURRENT_DOCUMENT_PARTICIPANT_FIELDS.map(field => field.id), ...(model.requiredInputIds?.length === 0
     ? [...NY_PACKET_FACT_IDS, ...NY_CASE_FACT_IDS].filter(id => Object.hasOwn(facts, id) || NY_HISTORY_FACT_IDS.includes(id) || NY_FUTURE_FACT_IDS.includes(id)) : [])];
 }
 
@@ -2207,6 +2216,20 @@ function protectedPacketQuestionSurface(
   for (const question of questions) questionById.set(question.id, question);
   const builderQuestions = builderQuestionsFor(questions, collection, requiredInputIds, serverFacts);
   const builderSections = builderSectionsFor(collection, builderQuestions);
+  const currentNy = ny16059CurrentDocumentQuestions(profile.jurisdiction.code, pathwayId, [...questionById.values()]);
+  if (currentNy) {
+    for (const supplied of currentNy.questions) {
+      const descriptor = { ...supplied, required: supplied.id !== "email_address" };
+      const index = questions.findIndex(question => question.id === descriptor.id);
+      if (index >= 0) questions[index] = descriptor; else questions.push(descriptor);
+      questionById.set(descriptor.id, descriptor);
+      if (!builderQuestions.some(question => question.id === descriptor.id)) builderQuestions.push(descriptor);
+    }
+    builderSections.push({ id: "ny_current_applicant_details", heading: "Applicant details for the current court form",
+      description: "These facts complete the application; they do not determine eligibility. Email is optional.",
+      translations: { es: { heading: "Datos de la persona solicitante para el formulario judicial actual", description: "Estos datos completan la solicitud; no determinan la elegibilidad. El correo electrónico es opcional." } },
+      questionIds: currentNy.questions.map(question => question.id) });
+  }
   return { questionById, questions, builderQuestions, builderSections, collection };
 }
 
@@ -2485,8 +2508,8 @@ function deriveProtectedPacketDraftSnapshot(
       if (Object.hasOwn(base[source], "county")) preserved[source].county = base[source].county;
     }
   }
-  return { ...preserved, dependencies: history.length
-    ? { ...preserved.dependencies, semanticAnswerHistory: history } : preserved.dependencies };
+  return preserveNySeparateDeclaration(verification, { ...preserved, dependencies: history.length
+    ? { ...preserved.dependencies, semanticAnswerHistory: history } : preserved.dependencies });
 }
 
 /** Reconcile a computable identifier projection without changing the protected source or its verification. */
@@ -3490,6 +3513,8 @@ function installPacketSpecificationQuestions(
     }
     questions.set(factId, question);
   }
+  const currentNy = ny16059CurrentDocumentQuestions(jurisdiction, pathwayId, [...questions.values()]);
+  if (currentNy) for (const question of currentNy.questions) questions.set(question.id, question);
   if (isNy16059Packet(jurisdiction, pathwayId)) for (const question of NY_PACKET_QUESTIONS) {
     if (requiredInputIds.includes(question.id) || Object.hasOwn(answers, question.id)) questions.set(question.id, structuredClone(question));
   }

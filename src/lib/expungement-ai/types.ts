@@ -87,6 +87,15 @@ export type PacketVerificationSnapshot = {
     semanticAnswerHistory?: Array<{ factId: string; value: unknown; source: "screeningAnswers" | "prefilledAnswers" | "packetAnswers";
       meaning: "ambiguous_victimhood_or_charged_conduct" | "ca_prop64_prior_choice_wording" | "ca_prop64_prior_record_detail" | "ca_prop64_prior_completion_answer" | "ca_prop64_prior_conduct_answer" | "prior_answer_for_shape_clarification" | "ny_16059_custody_entered_in_error" | "prior_factual_pathway_answer"; routeKey: string; profileVersion: string;
       profileSourceFingerprint: string | null; profileAuthorityFingerprint: string }>;
+    /** Server-derived linkage of an explicit NY separate-incidents answer to
+     * the unchanged covered convictions. This grants no legal authority. */
+    ny16059SeparateDeclaration?: {
+      version: 1; routeKey: string; profileVersion: string;
+      profileSourceFingerprint: string | null; profileAuthorityFingerprint: string;
+      priorSnapshotHash: string; coveredUniverseHash: string; answerSha256: string;
+      rawAnswerCopies: Array<{ source: "screeningAnswers" | "prefilledAnswers" | "packetAnswers"; raw: unknown }>;
+      basis: "explicit_separate_incidents_with_unchanged_covered_universe";
+    };
     packetDerivations?: Record<string, {
       version: 1;
       routeKey: string;
