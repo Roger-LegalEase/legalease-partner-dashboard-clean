@@ -95,6 +95,7 @@ export type GradeABlock =
       introduction?: string;
       number?: string;
       keepWithNext?: boolean;
+      listMarker?: "none";
       /**
        * `blank` marks a value the participant writes on the printed page. The
        * renderer draws a line for it instead of a value, and the composer never
@@ -766,6 +767,7 @@ function composeSection(
         {
           kind: "pleading_identity_list",
           ...(section.keepWithNext ? { keepWithNext: true } : {}),
+          ...(section.listMarker ? { listMarker: section.listMarker } : {}),
           introduction: introduces && "text" in introduces ? introduces.text : "",
           number,
           items: (section.fields ?? []).map(fieldItem)

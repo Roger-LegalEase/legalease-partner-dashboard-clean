@@ -167,8 +167,10 @@ for(const consumer of ['value','template','field_template','assertion']){
 }
 const undeclared=structuredClone(spec);delete undeclared.requiredFacts.find(f=>f.factId==='otn').requiredForGeneration;
 check('optional presentation requires explicit source permission',()=>assert.throws(()=>composeParticipantDeliveryPacket(undeclared,{...matter,facts:currentFacts}),/no source-declared generation permission|Optional caption identifier lacks source permission/));
+const hostSource=fs.readFileSync('scripts/build-census-v1-ga-host.mjs','utf8');
+for(const sourceLabel of ['OTN of the case (needed for this order to be actionable by GCIC):','Date of arrest identified in this order:'])check('preserved host exact unlettered label '+sourceLabel,()=>assert.ok(hostSource.includes('L.push("'+sourceLabel+'")')));
 const renders=[];
-function inspectOrderGrouping(text,variant){const pages=text.split('\f');check(variant+' court execution rule and judge label share one page',()=>assert.ok(pages.some(page=>page.includes('SO ORDERED, this')&&page.includes('JUDGE, COURT NAMED IN THE CAPTION'))));}
+function inspectOrderGrouping(text,variant){check(variant+' no invented lettered case fields',()=>assert.ok(!/\([a-z]\)\s+(?:OTN of the case|Date of arrest|SO ORDERED|Exact O\.C\.G\.A\.|Your own statement|NAME AND MAILING ADDRESS|OFFICE OF THE CLERK|Method used to serve)/.test(text)));const pages=text.split('\f');check(variant+' court execution rule and judge label share one page',()=>assert.ok(pages.some(page=>page.includes('SO ORDERED, this')&&page.includes('JUDGE, COURT NAMED IN THE CAPTION'))));}
 
 for(const variant of ['full','court_only']){
  const bytes=await renderGradeAPacketPdf(packet,{variant}),file=path.join(output,variant+'.pdf');fs.writeFileSync(file,bytes,{flag:'wx'});
@@ -195,6 +197,7 @@ const boundaryPacket=composeParticipantDeliveryPacket(spec,{...matter,facts:boun
 for(const variant of ['full','court_only']){
  const bytes=await renderGradeAPacketPdf(boundaryPacket,{variant}),file=path.join(output,'boundary-es-'+variant+'.pdf');fs.writeFileSync(file,bytes,{flag:'wx'});
  const text=execFileSync('pdftotext',['-layout',file,'-'],{encoding:'utf8'}).replace(/\s+/g,' ');
+ inspectOrderGrouping(execFileSync('pdftotext',['-layout',file,'-'],{encoding:'utf8'}),'boundary '+variant);
  check(variant+' complete long optional OTN survives',()=>assert.ok(text.replace(/\s+/g,'').includes(boundaryFacts.otn)));
  check(variant+' complete long court caption survives',()=>assert.ok(text.includes(('IN THE '+boundaryFacts.court).toUpperCase())));
  check(variant+' participant Spanish narrative preserved without invented translation',()=>assert.ok(text.includes(boundaryFacts.participant_narrative)));

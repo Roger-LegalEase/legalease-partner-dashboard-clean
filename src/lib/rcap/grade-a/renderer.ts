@@ -341,7 +341,7 @@ function drawPleadingDocument(
       // are one structure, even when optional case identifiers add a line.
       const lines = (text: string, indent = 0) => wrap(sanitize(text), fonts.pleadingBody, PLEADING_BODY_SIZE, PLEADING_CONTENT_WIDTH - indent).length;
       const height = (block.number ? 24 : 0) + (block.introduction ? lines(block.introduction, 36) * PLEADING_LEADING + 8 : 0)
-        + block.items.reduce((sum, item) => sum + lines(`(a) ${item.label} ${item.value}`, 24) * PLEADING_LEADING
+        + block.items.reduce((sum, item) => sum + lines(`${block.listMarker === "none" ? "" : "(a) "}${item.label} ${item.value}`, 24) * PLEADING_LEADING
           + (item.blank ? fonts.pleadingBody.heightAtSize(PLEADING_BODY_SIZE) + 16 : 3), 0)
         + 8 + Math.max(40, lines(next.text, 36) * PLEADING_LEADING + 9);
       ensurePleading(cursor, document, fonts, context, height);
@@ -696,19 +696,19 @@ function drawPleadingIdentityList(
    */
   const label = (text: string) => (/[.:?!]$/.test(text.trim()) ? text.trim() : `${text.trim()}:`);
   block.items.forEach((item, index) => {
-    const letter = String.fromCharCode(97 + index);
+    const marker = block.listMarker === "none" ? "" : `(${String.fromCharCode(97 + index)}) `;
     if (item.blank) {
       // A value the participant writes on the page. The label is printed and a
       // line is drawn for it, the same way a signature line is drawn: printing
       // "(a) Case number: " with nothing after it reads as a value the packet
       // failed to supply, and a line reads as the instruction it is.
-      drawPleadingText(cursor, document, fonts, context, `(${letter}) ${label(item.label)}`, { indent: 24 });
+      drawPleadingText(cursor, document, fonts, context, `${marker}${label(item.label)}`, { indent: 24 });
       cursor.y -= 6;
       drawBlankLine(cursor, fonts, 320);
       cursor.y -= 3;
       return;
     }
-    drawPleadingText(cursor, document, fonts, context, `(${letter}) ${label(item.label)} ${item.value}`, { indent: 24 });
+    drawPleadingText(cursor, document, fonts, context, `${marker}${label(item.label)} ${item.value}`, { indent: 24 });
     cursor.y -= 3;
   });
   cursor.y -= 8;

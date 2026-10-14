@@ -108,6 +108,8 @@ export type PacketSpecificationSection = {
   headingPresentation?: "printed" | "internal";
   /** Keep this ruled identity block with the following signature label. */
   keepWithNext?: boolean;
+  /** Omit alphabetical markers where the source lists unnumbered field labels. */
+  listMarker?: "none";
   /**
    * The label above a signature block's date rule, where the adopted page
    * rules one. Absent where the page has only a signature line.
