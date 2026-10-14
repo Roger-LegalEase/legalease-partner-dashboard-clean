@@ -18,6 +18,9 @@ assert(directory&&path.isAbsolute(directory),'existing CA contact evidence direc
 const specFile='data/record-clearing/packet-specifications/drafts/CA-prop64-adult-review.v1.json',guideFile='data/record-clearing/supplemental-guides/drafts/CA-prop64-adult-review.v1.json';
 const spec=readJson(specFile),guide=readJson(guideFile),baseline=readJson(path.join(directory,'CONTACT-RENDER-BASELINE-v1.json'));
 const checks=[],fixtures=[];
+const successorIndex=process.argv.indexOf('--es-successor-of');
+const predecessor=successorIndex>=0?readJson(process.argv[successorIndex+1]):null;
+if(predecessor){assert.equal(predecessor.status,'PASS_BOUNDED_REVIEW_ASSEMBLY');assert.equal(predecessor.artifacts.length,12);for(const a of predecessor.artifacts)assert.equal(hash(readBytes(a.file)),a.sha256);}
 function check(name,fn){fn();checks.push(name);}
 function preserved(){for(const [file,sha]of Object.entries(baseline.artifacts))assert.equal(hash(readBytes(file)),sha,'original prior artifact '+file);for(const f of fixtures)for(const a of f.report.artifacts)assert.equal(hash(readBytes(a.outputFile)),a.sha256);}
 for(const name of ['completed-self_represented','completed-attorney','currently-serving-self_represented','currently-serving-attorney']){
@@ -51,10 +54,37 @@ check('actual neutral caption successor described honestly',()=>{assert.ok(updat
 const missingTranslation=structuredClone(guide);delete missingTranslation.nextSteps[0].textEs;
 await assert.rejects(()=>renderSupplementalGuidePdf(missingTranslation,{locale:'es',verifiedAt:fixtures[0].prepared.capturedAt}),/no Spanish text/);checks.push('missing consequential Spanish translation refuses');
 if(mappingOnly){console.log(JSON.stringify({status:'PASS',checks:checks.length,scope:'Pure protected preparation/component bindings and refusals only; no new PDF rendered',preservedComponentPdfs:12,preservedPriorArtifacts:Object.keys(baseline.artifacts).length}));process.exit(0);}
+// This isolated synthetic layout probe compares the actual prior renderer; it
+// does not regenerate any accepted participant packet or official component.
+if(predecessor){
+ const {transpileModule,ModuleKind,ScriptTarget}=await import('typescript');
+ const {pathToFileURL}=await import('node:url');
+ const oldSource=execFileSync('git',['show','a707569c3:src/lib/rcap/supplemental/guide-renderer.ts'],{encoding:'utf8'})
+  .replace('"../grade-a/renderer"',JSON.stringify(pathToFileURL(path.resolve('src/lib/rcap/grade-a/renderer.ts')).href))
+  .replace('from "pdf-lib"','from '+JSON.stringify(import.meta.resolve('pdf-lib')));
+ const compiled=transpileModule(oldSource,{compilerOptions:{module:ModuleKind.ESNext,target:ScriptTarget.ES2022}}).outputText;
+ const oldRenderer=(await import('data:text/javascript;base64,'+Buffer.from(compiled).toString('base64'))).renderSupplementalGuidePdf;
+ const synthetic=structuredClone(guide);synthetic.routeKey='CA:isolated-layout-probe';
+ const options={locale:'en',verifiedAt:'2026-10-13T00:00:00.000Z',matter:{preparedFor:'Synthetic layout probe'}};
+ const original=await oldRenderer(synthetic,options),current=await renderSupplementalGuidePdf(synthetic,options),disabled=await renderSupplementalGuidePdf(synthetic,{...options,keepFilingChecklistItemsTogether:false});
+ check('synthetic omitted and false defaults exactly match prior renderer bytes',()=>{assert.equal(hash(current),hash(original));assert.equal(hash(disabled),hash(original));});
+ const {PDFDocument}=await import('pdf-lib');
+ synthetic.filingChecklist=Array.from({length:35},(_,i)=>({text:`Checklist item ${i}: `+'Preserve the complete source paragraph. '.repeat(5),textEs:'Conserve todo el texto.',provenance:{kind:'authoritative_source',cite:'isolated layout probe'}}));
+ const oversized=await renderSupplementalGuidePdf(synthetic,{...options,keepFilingChecklistItemsTogether:true});
+ check('oversized checklist preserves readable multi-page fallback',()=>assert.ok(oversized.length));
+ const pdf=await PDFDocument.load(oversized);check('oversized checklist actually creates continuation pages',()=>assert.ok(pdf.getPageCount()>4));
+ const oversizedPages=execFileSync('pdftotext',['-layout','-','-'],{input:oversized,encoding:'utf8'}).split('\f');
+ check('oversized group preserves every complete item on one page',()=>{for(const entry of synthetic.filingChecklist)assert.equal(oversizedPages.filter(page=>normalize(page).includes(normalize(entry.text))).length,1);});
+ synthetic.filingChecklist=[{...synthetic.filingChecklist[0],text:'Long source paragraph. '.repeat(500)}];
+ const longItem=await renderSupplementalGuidePdf(synthetic,{...options,keepFilingChecklistItemsTogether:true});
+ const longText=execFileSync('pdftotext',['-layout','-','-'],{input:longItem,encoding:'utf8'});
+ check('single over-page item preserves every phrase without truncation',()=>assert.equal((longText.match(/Long source paragraph\./g)||[]).length,500));
+}
 assert(output&&path.isAbsolute(output)&&!fs.existsSync(output),'fresh external output required');assert(!path.resolve(output).startsWith(fs.realpathSync('.')+path.sep));fs.mkdirSync(output,{recursive:true});
-const artifacts=[],pixels=[];
+const artifacts=predecessor?predecessor.artifacts.filter(a=>a.locale!=='es'):[],pixels=[];
+const combinations=predecessor?[['full','es']]:[['full','en'],['full','es'],['court_only','en']];
 function raster(file,page,prefix){execFileSync('pdftoppm',['-f',String(page),'-l',String(page),'-singlefile','-r','96','-png',file,prefix]);return hash(readBytes(prefix+'.png'));}
-for(const f of fixtures)for(const [variant,locale]of [['full','en'],['full','es'],['court_only','en']]){
+for(const f of fixtures)for(const [variant,locale]of combinations){
  const assembled=await render(f.prepared,{...f.options,variant,locale}),name=f.name+'-'+variant+'-'+locale,file=path.join(output,name+'.pdf');
  fs.writeFileSync(file,assembled.bytes,{flag:'wx'});const text=execFileSync('pdftotext',['-layout',file,'-'],{encoding:'utf8'});fs.writeFileSync(file.replace(/\.pdf$/,'.txt'),text,{flag:'wx'});const pages=text.split('\f').filter(x=>x.trim());
  check(name+' page count',()=>assert.equal(pages.length,assembled.pages));
@@ -62,6 +92,7 @@ for(const f of fixtures)for(const [variant,locale]of [['full','en'],['full','es'
  const guideCoverage=assembled.coverage.find(c=>c.documentId==='participant-guide');
  check(name+' full versus court-only boundary',()=>{assert.equal(Boolean(guideCoverage),variant==='full');if(variant==='court_only'){assert.equal(pages.length,4);assert.ok(!text.includes('KEEP FOR YOUR RECORDS')&&!text.includes('CONSERVE ESTE DOCUMENTO'));}else{assert.ok(pages[0].includes(locale==='es'?'Su paquete para limpiar antecedentes':'Your record-clearing packet'));assert.ok(normalize(pages[0]).includes(f.prepared.facts['participant.full_legal_name']));assert.ok(normalize(pages[0]).includes(f.prepared.facts['matter.case_number']));assert.ok(normalize(pages[0]).includes('Yolo'));}});
  if(variant==='full'){
+  if(predecessor)check(name+' every checklist item remains whole on one page',()=>{for(const entry of guide.filingChecklist){const expected=normalize(locale==='es'?entry.textEs:entry.text);assert.equal(pages.filter(page=>normalize(page).includes(expected)).length,1);}});
   check(name+' actual guide optional RAP and source actor guidance',()=>{assert.ok(normalize(text).includes(locale==='es'?'CR-400 indica expresamente que no es obligatorio':'CR-400 expressly says this is not required'));assert.ok(text.includes('CR-402'));});
   for(let page=1;page<=guideCoverage.throughPage;page++)raster(file,page,path.join(output,name+'-guide-'+page));
  }
@@ -78,5 +109,5 @@ for(const f of fixtures)for(const [variant,locale]of [['full','en'],['full','es'
 }
 preserved();
 const sourcePaths=[specFile,guideFile,'src/lib/rcap/render/ca-prop64-review-assembly.ts','scripts/test-ca-prop64-review-assembly.mjs','src/lib/expungement-ai/ca-prop64-document-preparation.ts','src/lib/expungement-ai/ca-prop64-caption-facts.ts','src/lib/expungement-ai/ca-prop64-contact-questions.ts','src/lib/expungement-ai/ca-prop64-contact-answer.ts','src/lib/expungement-ai/packet-information.ts','src/lib/rcap/supplemental/guide-renderer.ts','src/lib/rcap/supplemental/guide-contract.ts',...Object.keys(spec.sourceInputs)];
-const receipt={status:'PASS_BOUNDED_REVIEW_ASSEMBLY',sourceCommit:execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),checks:checks.length,details:checks,artifacts,pixels,sourceBindings:Object.fromEntries(sourcePaths.map(p=>[p,hash(readBytes(p))])),preservedPriorArtifacts:baseline.artifacts,preservedComponents:fixtures.flatMap(f=>f.report.artifacts.map(a=>({file:a.outputFile,sha256:a.sha256,formNumber:a.formNumber}))),translationProvenance:guide.translationProvenance,limits:['Held review consumer only; no runtime registry, canonical admission, protected generation, worker execution, authorized delivery, payment or filing-ready claim.','Adult current-serving/completed branches and two filer roles only; juvenile sources and specific contact accommodations remain separate work.','Source-bound draft guide and exact output bytes require applicable independent and qualified legal/language/output review.','Original owner campaign is reused, not reexecuted; new outputs consume the original protected records and source-finalizer evidence.']};
+const receipt={status:'PASS_BOUNDED_REVIEW_ASSEMBLY',sourceCommit:execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),checks:checks.length,details:checks,artifacts,pixels,sourceBindings:Object.fromEntries(sourcePaths.map(p=>[p,hash(readBytes(p))])),preservedPriorArtifacts:baseline.artifacts,preservedComponents:fixtures.flatMap(f=>f.report.artifacts.map(a=>({file:a.outputFile,sha256:a.sha256,formNumber:a.formNumber}))),translationProvenance:guide.translationProvenance,predecessor:predecessor?{file:process.argv[successorIndex+1],sha256:hash(readBytes(process.argv[successorIndex+1])),reusedArtifacts:8,newArtifacts:4,reason:'Spanish checklist orphan pagination; exact source paragraphs grouped without copy/font changes'}:null,limits:['Held review consumer only; no runtime registry, canonical admission, protected generation, worker execution, authorized delivery, payment or filing-ready claim.','Adult current-serving/completed branches and two filer roles only; juvenile sources and specific contact accommodations remain separate work.','Source-bound draft guide and exact output bytes require applicable independent and qualified legal/language/output review.','Original owner campaign is reused, not reexecuted; new outputs consume the original protected records and source-finalizer evidence.']};
 fs.writeFileSync(path.join(output,'RESULTS.json'),JSON.stringify(receipt,null,2)+'\n',{flag:'wx'});console.log(JSON.stringify({status:receipt.status,checks:receipt.checks,artifacts:artifacts.map(a=>({name:a.name,sha256:a.sha256,pages:a.pages})),pixelComparisons:pixels.length}));

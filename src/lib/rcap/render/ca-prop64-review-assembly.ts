@@ -135,6 +135,7 @@ export async function renderCaProp64ReviewAssembly(prepared: CaProp64ReviewPrepa
     const date = new Date(prepared.capturedAt); assert(Number.isFinite(date.getTime()));
     const guideBytes = await renderSupplementalGuidePdf(guide, {
       locale: options.locale, variant: "full", verifiedAt: prepared.capturedAt,
+      keepFilingChecklistItemsTogether: true,
       matter: { preparedFor: prepared.facts["participant.full_legal_name"], preparedOn: date.toLocaleDateString(options.locale === "es" ? "es-US" : "en-US", { year: "numeric", month: "long", day: "numeric", timeZone: "UTC" }),
         jurisdiction: "CA", courtOrAgency: `Superior Court of California, County of ${prepared.facts["matter.county"]}`,
         caseOrMatter: prepared.facts["matter.case_number"], remedy: options.locale === "es" ? prepared.branch.titleEs : prepared.branch.title },

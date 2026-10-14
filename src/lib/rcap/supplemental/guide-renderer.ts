@@ -113,6 +113,8 @@ export type GuideRenderOptions = {
   stopsEs?: Readonly<Record<string, { situation: string; whatItMeans: string }>>;
   /** Keep an explicitly selected route's help conditions and explanations together. */
   keepStopConditionsTogether?: boolean;
+  /** Opt-in layout for a source-bound checklist; ordinary route bytes stay unchanged. */
+  keepFilingChecklistItemsTogether?: boolean;
   verifiedAt?: string;
   /**
    * Render without the brand asset instead of refusing.
@@ -633,8 +635,22 @@ function drawFilingChecklist(sheet: Sheet, guide: SupplementalGuide, options: Gu
     );
   }
 
-  for (const entry of guide.filingChecklist ?? []) {
-    paragraph(sheet, `- ${fieldText(sheet, entry, guide.routeKey, "a Filing Checklist entry")}`, { indent: 6 });
+  const entries = (guide.filingChecklist ?? []).map(entry =>
+    `- ${fieldText(sheet, entry, guide.routeKey, "a Filing Checklist entry")}`);
+  // Use paragraph's exact body font, indent, wrap width and trailing gap.
+  // Preserve the full group when it fits; oversized groups fall back to whole
+  // items, and an item taller than a page retains ordinary readable wrapping.
+  const itemHeight = (value: string) =>
+    wrap(sanitize(value), sheet.fonts.body, BODY, CONTENT_WIDTH - 6 - RIGHT_INSET).length * LINE + 5;
+  const pageCapacity = PAGE_HEIGHT - MARGIN - 76 - (MARGIN + 34);
+  const groupHeight = entries.reduce((height, entry) => height + itemHeight(entry), 0);
+  const groupFits = options.keepFilingChecklistItemsTogether === true && groupHeight <= pageCapacity;
+  if (groupFits) ensure(sheet, groupHeight);
+  for (const entry of entries) {
+    if (options.keepFilingChecklistItemsTogether && !groupFits && itemHeight(entry) <= pageCapacity) {
+      ensure(sheet, itemHeight(entry));
+    }
+    paragraph(sheet, entry, { indent: 6 });
   }
 }
 
