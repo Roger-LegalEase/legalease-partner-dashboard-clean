@@ -611,5 +611,31 @@
         }
       }
     ]
-  }
+  },
+  "additionalSubgroups": [
+    {
+      "id": "NE-automatic-guidance-financial-witnesses-20261014",
+      "originalQuestionRecordIds": [
+        "Q-08211f73b12e0d8146c0",
+        "Q-d9d263c29ca203e718c8"
+      ],
+      "routeKeys": [
+        "NE:automatic-nonconviction-sealing",
+        "NE:juvenile-automatic-sealing"
+      ],
+      "sourceReferences": [
+        "data/record-clearing/legal-design-intake/NE.memo.json#ne-nonconviction-auto",
+        "data/record-clearing/legal-design-intake/NE.memo.json#ne-juvenile-sealing-routing",
+        "https://nebraskalegislature.gov/laws/statutes.php?statute=29-3523",
+        "https://nebraskalegislature.gov/laws/statutes.php?statute=43-2,108.03"
+      ],
+      "syntheticPremise": true,
+      "semantics": "Literal paid No remains No despite broad completion yes. Paid, partly paid, and waived-but-not-paid examples do not establish any waiver, restitution satisfaction, or entitlement. Juvenile node is routing-only under the existing adult-package scope.",
+      "authenticatedAcceptance": "NOT_RUN",
+      "legalFinancialEffect": "NOT_VERIFIED",
+      "qualifiedLanguageReview": "NOT_RUN",
+      "predecessorBehavior": "The predecessor adult automatic acquittal candidate held solely on an unknown financial answer; the retained source contract has no financial predicate. That prior behavior is a defect, not accepted legal behavior.",
+      "boundedCorrection": "For the exact adult automatic nonconviction candidate with a known adult age and canonical acquittal, financial uncertainty is not a routing or collection predicate. Other outcomes, unknown ages, juvenile and sibling routes are unchanged; raw financial history survives."
+    }
+  ]
 }

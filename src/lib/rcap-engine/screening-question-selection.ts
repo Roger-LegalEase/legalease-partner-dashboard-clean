@@ -1,3 +1,4 @@
+import { nebraskaNonconvictionQuestionApplies } from "@/lib/rcap-engine/nebraska-nonconviction-facts";
 import { AR_RECORD_ORIGIN_ID, arkansasRecordOriginApplies } from "@/lib/rcap-engine/arkansas-record-origin";
 import { georgiaPardonQuestionApplies } from "@/lib/rcap-engine/georgia-pardon-facts";
 import { convictionReliefRequest, convictionReliefQuestionApplies, convictionOutcomeCompatible } from "@/lib/rcap-engine/conviction-relief-request";
@@ -102,6 +103,7 @@ export function selectScreeningQuestionIds(
   }).map(question => question.id));
 
   return publicProfile.questions
+    .filter(question => nebraskaNonconvictionQuestionApplies(profile.jurisdiction.code, selectedPathway?.id, answers, question.id))
     .filter(question => question.id !== AR_RECORD_ORIGIN_ID || arkansasRecordOriginApplies(profile.jurisdiction.code, selectedPathway?.id))
     .filter(question => convictionReliefQuestionApplies(profile, answers, question.id))
     .filter(question => profile.jurisdiction.code !== "MS" || !MS_EXACT_TIMING_FACT_IDS.some(id => id === question.id) || msTimingIds.has(question.id))
