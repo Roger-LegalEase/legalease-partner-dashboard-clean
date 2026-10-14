@@ -10,16 +10,24 @@
  */
 import fs from 'node:fs';
 import path from 'node:path';
+import os from 'node:os';
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 import { execFileSync } from 'node:child_process';
 import { register } from 'node:module';
 import { PDFDocument } from 'pdf-lib';
-import { MS_PAID_PACKET_PROOF, MS_PAID_PACKET_PROOF_PREDECESSOR, MS_PAID_PACKET_PROOF_20260920, MS_PAID_PACKET_PROOF_RETIRED, MS_PROOF_EXECUTION_INPUTS, loadMsPaidPacketProof } from './lib/ms-paid-packet-proof.mjs';
-import { QUESTION_CONTRACT_SUCCESSOR_PATH, QUESTION_CONTRACT_OUTPUT_PATH, MS_QUESTION_CONTRACT_PREDECESSOR_PATH, assertQuestionContractOutputInputs } from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
-import { startEphemeralPg } from './lib/rcap-ephemeral-pg.mjs';
-import { MS_SUCCESSOR_REVIEW_OUTPUTS, msSuccessorReviewMatter } from './lib/ms-successor-review-matter.mjs';
+const executionHead=execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim();
 register('./lib/ts-esm-loader.mjs', import.meta.url);
+// Observe only modules actually loaded by this process, before any local
+// verifier dependency is imported. Preserve the trace beside isolated output.
+const observedDirectory=fs.mkdtempSync(path.join(os.tmpdir(),'ms-paid-proof-imports-'));
+const observedLog=path.join(observedDirectory,'modules.jsonl');fs.writeFileSync(observedLog,'');
+const observer=`import fs from 'node:fs';import path from 'node:path';import {fileURLToPath} from 'node:url';import crypto from 'node:crypto';let d;export function initialize(data){d=data}export async function load(url,context,next){let entry;if(url.startsWith('file:')){const file=fileURLToPath(url);if(file.startsWith(d.root+path.sep)&&!file.startsWith(d.root+path.sep+'node_modules'+path.sep)&&/\\.(?:[cm]?js|tsx?|json)$/.test(file)){entry={file:path.relative(d.root,file),sha256:crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex')};}}const result=await next(url,context);if(entry)fs.appendFileSync(d.log,JSON.stringify(entry)+'\\n');return result}`;
+register(`data:text/javascript,${encodeURIComponent(observer)}`,{data:{root:process.cwd(),log:observedLog}});
+const { MS_PAID_PACKET_PROOF, MS_PAID_PACKET_PROOF_PREDECESSOR, MS_PAID_PACKET_PROOF_20260920, MS_PAID_PACKET_PROOF_RETIRED, MS_PROOF_EXECUTION_INPUTS, MS_PROOF_OBSERVED_INPUTS, loadMsPaidPacketProof } = await import('./lib/ms-paid-packet-proof.mjs');
+const { QUESTION_CONTRACT_SUCCESSOR_PATH, QUESTION_CONTRACT_OUTPUT_PATH, MS_QUESTION_CONTRACT_PREDECESSOR_PATH, assertQuestionContractOutputInputs } = await import('../src/lib/rcap/fulfillment/question-contract-source-successor.mjs');
+const { startEphemeralPg } = await import('./lib/rcap-ephemeral-pg.mjs');
+const { MS_SUCCESSOR_REVIEW_OUTPUTS, msSuccessorReviewMatter } = await import('./lib/ms-successor-review-matter.mjs');
 const { loadMsPaidConsumerSuccessor } = await import('../src/lib/rcap/fulfillment/paid-consumer-successor.ts');
 const { MISSISSIPPI_NON_CONVICTION_NEUTRAL_FACTS } = await import('../src/lib/expungement-ai/packet-route-safety.ts');
 const { mississippiNonConvictionPacketSafety } = await import('../src/lib/expungement-ai/packet-information.ts');
@@ -29,6 +37,21 @@ const { specificationCaseIdentifierFactId } = await import('../src/lib/rcap/grad
 const { stableStringify } = await import('../src/lib/rcap/fulfillment/grade-a-registry.ts');
 const { finalVerificationBoundInputsSha256 } = await import('../src/lib/rcap/fulfillment/final-verification-contract.ts');
 const sha = value => createHash('sha256').update(value).digest('hex');
+function observedModules(){
+  const modules=new Map();
+  for(const line of fs.readFileSync(observedLog,'utf8').trim().split('\n').filter(Boolean)){
+    const entry=JSON.parse(line);assert.ok(!modules.has(entry.file)||modules.get(entry.file)===entry.sha256,'loaded module drift: '+entry.file);
+    assert.equal(sha(fs.readFileSync(entry.file)),entry.sha256,'observed module changed: '+entry.file);modules.set(entry.file,entry.sha256);
+  }
+  return [...modules].sort(([a],[b])=>a.localeCompare(b)).map(([file,sha256])=>({file,sha256}));
+}
+const importsOnly=process.argv.indexOf('--observe-imports');
+if(importsOnly>=0){
+  const output=path.resolve(process.argv[importsOnly+1]??'');assert.ok(!output.startsWith(path.resolve('.')+path.sep),'observed imports must stay outside source tree');
+  fs.writeFileSync(output,JSON.stringify({kind:'actual_module_load_observation',databaseStarted:false,modules:observedModules()},null,2)+'\n',{flag:'wx'});
+  console.log('Observed actual verifier imports without database execution: '+output);process.exit(0);
+}
+
 const inputs = {};
 const read = file => { const bytes=fs.readFileSync(file); inputs[file]=sha(bytes); return bytes; };
 const json = file => JSON.parse(read(file));
@@ -177,10 +200,14 @@ bindTree('src/lib/rcap/grade-a');
 bindTree('src/lib/rcap/supplemental');
 for(const file of MS_PROOF_EXECUTION_INPUTS)read(file);
 for(const file of ['scripts/verify-ms-paid-packet-proof.mjs','scripts/lib/ms-paid-packet-proof.mjs','scripts/lib/ms-successor-review-matter.mjs','src/lib/rcap/render/participant-packet-assembly.ts','src/lib/rcap/render/personalized-packet.ts','src/lib/expungement-ai/packet-information.ts','src/lib/expungement-ai/verification-cas.ts','src/lib/rcap/fulfillment/final-verification-contract.ts','src/lib/rcap/fulfillment/paid-consumer-successor.ts','src/lib/rcap/fulfillment/question-contract-source-successor.mjs'])read(file);
-const proof={schemaVersion:'rcap-ms-paid-packet-proof/v4',generatedBy:'scripts/verify-ms-paid-packet-proof.mjs',sourceSha:execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),routeId:approval.routeId,trackId:spec.trackId,packetFamilyId:spec.packetFamily,ownerDecision:approval,
+assert.equal(execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),executionHead,'verifier candidate changed during execution');
+const observed=observedModules();assert.deepEqual(observed.map(entry=>entry.file).sort(),[...MS_PROOF_OBSERVED_INPUTS].sort(),'actual verifier imports differ from reviewed observed inventory');
+for(const entry of observed)read(entry.file);
+const proof={schemaVersion:'rcap-ms-paid-packet-proof/v4',generatedBy:'scripts/verify-ms-paid-packet-proof.mjs',sourceSha:executionHead,routeId:approval.routeId,trackId:spec.trackId,packetFamilyId:spec.packetFamily,ownerDecision:approval,
   assemblyIdentity:{assemblyKind:approval.assemblyKind,assemblyVersion:approval.assemblyVersion,supplementalGuidePath:approval.supplementalGuidePath,supplementalGuideSha256:approval.supplementalGuideSha256,supplementalGuideContentSha256:approval.supplementalGuideContentSha256,assembledThrough:'src/lib/rcap/render/participant-packet-assembly.ts'},
   supersededProof:{path:MS_PAID_PACKET_PROOF_PREDECESSOR,sha256:sha(predecessorProofBytes),artifactBytesStillReproduce:true,resolvedBy:'exact_current_output_continuity'},
   outputContinuity,
+  observedExecution:{kind:"actual_local_module_loads",modules:observed},
   questionContractSourceSuccessor:approval.questionContractSourceSuccessor,syntheticScenario,routeSafetySyntheticAdditions,chargedConductSafetyControls,currentProtectedJourneyEstablished:false,productionAuthorized:false,
   sourceAuthority:{boundInputs:sourceInputs,boundInputsSha256:sourceHash},results,unapprovedDeterminismControls:unapproved,inputs,scope:'Local exact approved packet/assembly/source-authority verification only; no hosted acceptance, publication, participant delivery, new legal review or Production authority.'};
 const bytes=Buffer.from(JSON.stringify(proof,null,2)+'\n');

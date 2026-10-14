@@ -3,9 +3,22 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
+import { createHash } from 'node:crypto';
 import { register } from 'node:module';
 import { loadMsPaidPacketProof, MS_PAID_PACKET_PROOF, MS_PAID_PACKET_PROOF_PREDECESSOR,
-  MS_PAID_PACKET_PROOF_20260920, MS_PAID_PACKET_PROOF_RETIRED, MS_PROOF_EXECUTION_INPUTS } from './lib/ms-paid-packet-proof.mjs';
+  MS_PAID_PACKET_PROOF_20260920, MS_PAID_PACKET_PROOF_RETIRED, MS_PROOF_EXECUTION_INPUTS, MS_PROOF_OBSERVED_INPUTS, assertMsObservedExecution } from './lib/ms-paid-packet-proof.mjs';
+// Pure provenance controls, not an output reproduction or database witness.
+function observedInventoryControls(candidate){
+  assertMsObservedExecution(candidate);
+  const mutations=[p=>delete p.observedExecution,p=>p.observedExecution.modules.pop(),p=>p.observedExecution.modules.push(p.observedExecution.modules[0]),p=>{p.observedExecution.modules[0].sha256='0'.repeat(64);},p=>{p.observedExecution.modules[0].file='scripts/invented-unexecuted-source.mjs';},p=>{delete p.inputs[p.observedExecution.modules[0].file];},p=>{p.observedExecution.modules[0].unexecuted=true;}];
+  for(const mutate of mutations){const p=structuredClone(candidate);mutate(p);assert.throws(()=>assertMsObservedExecution(p),assert.AssertionError);}
+  return mutations.length+1;
+}
+if(process.argv.includes('--observed-controls-only')){
+  const modules=MS_PROOF_OBSERVED_INPUTS.map(file=>({file,sha256:createHash('sha256').update(fs.readFileSync(file)).digest('hex')}));
+  const count=observedInventoryControls({observedExecution:{kind:'actual_local_module_loads',modules},inputs:Object.fromEntries(modules.map(entry=>[entry.file,entry.sha256]))});
+  console.log(`PASS: ${count} observed-import schema/tamper/omission controls; no packet reproduction claimed.`);process.exit(0);
+}
 register('./lib/ts-esm-loader.mjs',import.meta.url);
 const { loadMsPaidConsumerSuccessor }=await import('../src/lib/rcap/fulfillment/paid-consumer-successor.ts');
 const { stableStringify }=await import('../src/lib/rcap/fulfillment/grade-a-registry.ts');
@@ -15,6 +28,7 @@ const prior=JSON.parse(fs.readFileSync(MS_PAID_PACKET_PROOF_PREDECESSOR));
 const load=(candidate=proof,override)=>loadMsPaidPacketProof({approval,stableStringify,readBytes:file=>file===MS_PAID_PACKET_PROOF?Buffer.from(JSON.stringify(candidate)):override?.file===file?override.bytes:fs.readFileSync(file)});
 let checks=0;
 function check(name,fn){try{fn();checks++;}catch(error){error.message=`${name}: ${error.message}`;throw error;}}
+check('actual observed module inventory refuses omission, drift and invention',()=>assert.equal(observedInventoryControls(proof),8));
 check('actual current v4 proof validates three exact approved outputs',()=>{
   const actual=load();assert.equal(actual.proof.schemaVersion,'rcap-ms-paid-packet-proof/v4');
   assert.equal(actual.proof.results.length,3);assert.deepEqual(actual.proof.results,prior.results);

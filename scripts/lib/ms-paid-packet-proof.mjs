@@ -15,7 +15,169 @@ export const MS_APPROVED_ARTIFACT_IDS=['full-en','full-es','court-only'];
 // output inputs and the immutable predecessor's complete inventory.
 export const MS_PROOF_EXECUTION_INPUTS=['scripts/lib/rcap-ephemeral-pg.mjs','scripts/lib/ts-esm-loader.mjs',
   'scripts/lib/server-only-shim.mjs','scripts/lib/next-server-esm-bridge.mjs','package.json','package-lock.json'];
+// Exact import paths observed by the actual verifier imports-only probe;
+// the full execution must reproduce this set before emitting a current proof.
+export const MS_PROOF_OBSERVED_INPUTS=[
+  "data/rcap-ledger/packet-correction-required.json",
+  "data/rcap-ledger/route-kind-adjudications.json",
+  "data/rcap-ledger/route-presentation-conflicts.json",
+  "data/record-clearing/legal-decisions/route-ratification-registry.json",
+  "data/record-clearing/packet-specifications/CT-petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202.v1.json",
+  "data/record-clearing/packet-specifications/DC-actual-innocence-expungement.v1.json",
+  "data/record-clearing/packet-specifications/DC-correct-misattributed-arrest.v1.json",
+  "data/record-clearing/packet-specifications/GA-restriction-and-sealing-of-a-pardoned-felony.v1.json",
+  "data/record-clearing/packet-specifications/GA-sb-288-misdemeanor-conviction-restriction-and-sealing.v1.json",
+  "data/record-clearing/packet-specifications/IL-criminal-identity-theft-mistaken-identity-relief.v1.json",
+  "data/record-clearing/packet-specifications/IL-felony-prostitution-relief.v1.json",
+  "data/record-clearing/packet-specifications/KS-municipal-arrest-record-expungement-under-12-4516a.v1.json",
+  "data/record-clearing/packet-specifications/KS-municipal-conviction-or-diversion-expungement-under-12-4516.v1.json",
+  "data/record-clearing/packet-specifications/MS-additional-misdemeanor-relief.v1.json",
+  "data/record-clearing/packet-specifications/MS-first-offender-nontraffic-misdemeanor-conviction-expungement-99-19-71-1.v1.json",
+  "data/record-clearing/packet-specifications/MS-nonconviction-expungement-99-19-71-4.v1.json",
+  "data/record-clearing/packet-specifications/ND-first-offense-possession-sealing.v1.json",
+  "data/record-clearing/packet-specifications/NV-probation-specialty-court-dismissal-set-aside-sealing.v1.json",
+  "data/record-clearing/packet-specifications/OR-set-aside-without-conviction.v1.json",
+  "data/record-clearing/packet-specifications/SD-suspended-imposition-of-sentence-sealing.v1.json",
+  "data/record-clearing/packet-specifications/VA-absolute-pardon-expungement.v1.json",
+  "data/record-clearing/packet-specifications/WY-felony-conviction-expungement.v1.json",
+  "data/record-clearing/supplemental-guides/DC-actual-innocence-expungement.v1.json",
+  "data/record-clearing/supplemental-guides/GA-restriction-and-sealing-of-a-pardoned-felony.v1.json",
+  "data/record-clearing/supplemental-guides/GA-sb-288-misdemeanor-conviction-restriction-and-sealing.v1.json",
+  "data/record-clearing/supplemental-guides/IL-criminal-identity-theft-mistaken-identity-relief.v1.json",
+  "data/record-clearing/supplemental-guides/IL-felony-prostitution-relief.v1.json",
+  "data/record-clearing/supplemental-guides/MS-additional-misdemeanor-relief.v1.json",
+  "data/record-clearing/supplemental-guides/MS-first-offender-nontraffic-misdemeanor-conviction-expungement-99-19-71-1.v1.json",
+  "data/record-clearing/supplemental-guides/MS-nonconviction-expungement-99-19-71-4.v1.json",
+  "data/record-clearing/supplemental-guides/WY-felony-conviction-expungement.v1.json",
+  "scripts/lib/il-prostitution-j-vacate-composition.mjs",
+  "scripts/lib/ms-paid-packet-proof.mjs",
+  "scripts/lib/ms-successor-review-matter.mjs",
+  "scripts/lib/rcap-ephemeral-pg.mjs",
+  "scripts/lib/server-only-shim.mjs",
+  "src/components/expungement-ai/screening/answers.ts",
+  "src/lib/expungement-ai/authoritative-screening-result.ts",
+  "src/lib/expungement-ai/ca-prop64-caption-answer.ts",
+  "src/lib/expungement-ai/ca-prop64-caption-facts.ts",
+  "src/lib/expungement-ai/ca-prop64-caption-successor.ts",
+  "src/lib/expungement-ai/ca-prop64-choices.ts",
+  "src/lib/expungement-ai/ca-prop64-contact-answer.ts",
+  "src/lib/expungement-ai/ca-prop64-contact-questions.ts",
+  "src/lib/expungement-ai/ca-prop64-contact-successor.ts",
+  "src/lib/expungement-ai/ca-prop64-quantity.ts",
+  "src/lib/expungement-ai/ca-prop64-record-answer.ts",
+  "src/lib/expungement-ai/ca-prop64-record-facts.ts",
+  "src/lib/expungement-ai/contact-representation.ts",
+  "src/lib/expungement-ai/conviction-fallback-prior-contracts.json",
+  "src/lib/expungement-ai/court-completion-fact-meaning.ts",
+  "src/lib/expungement-ai/court-completion-reuse.ts",
+  "src/lib/expungement-ai/frontend/ca-prop64-reviewed-choices.json",
+  "src/lib/expungement-ai/frontend/profiles/all51.json",
+  "src/lib/expungement-ai/frontend/reviewed-assisted-contact-copy.json",
+  "src/lib/expungement-ai/frontend/reviewed-participant-copy.json",
+  "src/lib/expungement-ai/frontend/reviewed-question-spanish.json",
+  "src/lib/expungement-ai/frontend/reviewed-result-display-copy.json",
+  "src/lib/expungement-ai/frontend/reviewed-source-question-copy.json",
+  "src/lib/expungement-ai/ga-pardon-caption.ts",
+  "src/lib/expungement-ai/localization.ts",
+  "src/lib/expungement-ai/ny-16059-case-classification.ts",
+  "src/lib/expungement-ai/ny-16059-case-questions.ts",
+  "src/lib/expungement-ai/ny-16059-case-records.ts",
+  "src/lib/expungement-ai/ny-16059-filing-venue.ts",
+  "src/lib/expungement-ai/ny-16059-future-applications.ts",
+  "src/lib/expungement-ai/ny-16059-packet-facts.ts",
+  "src/lib/expungement-ai/ny-16059-packet-successor.ts",
+  "src/lib/expungement-ai/ny-16059-sealing-history.ts",
+  "src/lib/expungement-ai/ny-16059-statutory-class.ts",
+  "src/lib/expungement-ai/ny-custody-correction.ts",
+  "src/lib/expungement-ai/packet-collection-overrides.ts",
+  "src/lib/expungement-ai/packet-collection.ts",
+  "src/lib/expungement-ai/packet-contract-successors.ts",
+  "src/lib/expungement-ai/packet-information.ts",
+  "src/lib/expungement-ai/packet-route-safety.ts",
+  "src/lib/expungement-ai/protected-legacy-answers.ts",
+  "src/lib/expungement-ai/question-answer-state.ts",
+  "src/lib/expungement-ai/record-fact-clarification.ts",
+  "src/lib/expungement-ai/reviewed-contact-contracts.json",
+  "src/lib/expungement-ai/reviewed-court-completion-contracts.json",
+  "src/lib/expungement-ai/reviewed-packet-contract-successors.json",
+  "src/lib/expungement-ai/reviewed-question-copy.ts",
+  "src/lib/expungement-ai/reviewed-result-copy.ts",
+  "src/lib/expungement-ai/sensitive-packet-facts.ts",
+  "src/lib/expungement-ai/verification-cas.ts",
+  "src/lib/legal-authority/authority.json",
+  "src/lib/legal-authority/conditions.ts",
+  "src/lib/legal-authority/index.ts",
+  "src/lib/legal-authority/resolve-route.ts",
+  "src/lib/legal-authority/routes/mississippi.json",
+  "src/lib/legal-authority/routes/national-report-2026-08-28.json",
+  "src/lib/legal-authority/routes/national-report-batch-b.json",
+  "src/lib/legal-authority/routes/national-report-batch-c.json",
+  "src/lib/legal-authority/routes/p0.json",
+  "src/lib/legal-authority/routes/route-splits.json",
+  "src/lib/legal-authority/routes/single-routes.json",
+  "src/lib/legal-authority/types.ts",
+  "src/lib/partners/onboarding/rcap-spanish-copy.ts",
+  "src/lib/rcap-engine/answer-normalization.ts",
+  "src/lib/rcap-engine/arkansas-record-origin.ts",
+  "src/lib/rcap-engine/california-prop64-facts.ts",
+  "src/lib/rcap-engine/component-deferral-clamp.ts",
+  "src/lib/rcap-engine/composed-route-selector.ts",
+  "src/lib/rcap-engine/conviction-relief-request.ts",
+  "src/lib/rcap-engine/delaware-conviction-questions.ts",
+  "src/lib/rcap-engine/delaware-conviction-rules.ts",
+  "src/lib/rcap-engine/evaluator.ts",
+  "src/lib/rcap-engine/expungement-ai-adapter.ts",
+  "src/lib/rcap-engine/factual-pathway-exclusions.ts",
+  "src/lib/rcap-engine/georgia-first-offender.ts",
+  "src/lib/rcap-engine/georgia-pardon-facts.ts",
+  "src/lib/rcap-engine/illinois-cannabis-facts.ts",
+  "src/lib/rcap-engine/kansas-district-facts.ts",
+  "src/lib/rcap-engine/kansas-record-scope.ts",
+  "src/lib/rcap-engine/mississippi-conditional-discharge.ts",
+  "src/lib/rcap-engine/mississippi-exact-timing.ts",
+  "src/lib/rcap-engine/mississippi-program-completion.ts",
+  "src/lib/rcap-engine/nebraska-nonconviction-facts.ts",
+  "src/lib/rcap-engine/nevada-176a-branch.ts",
+  "src/lib/rcap-engine/new-york-16059-facts.ts",
+  "src/lib/rcap-engine/new-york-16059-questions.ts",
+  "src/lib/rcap-engine/packet-planner.ts",
+  "src/lib/rcap-engine/pathway-context.ts",
+  "src/lib/rcap-engine/profile-registry.ts",
+  "src/lib/rcap-engine/public-profile-projection.ts",
+  "src/lib/rcap-engine/route-fact-relevance.ts",
+  "src/lib/rcap-engine/screening-question-selection.ts",
+  "src/lib/rcap-engine/south-dakota-23a-27-17-escalation.ts",
+  "src/lib/rcap-engine/unavailable-packet-routes.ts",
+  "src/lib/rcap/documents/guidance-packet-registry.ts",
+  "src/lib/rcap/fulfillment/final-verification-contract.ts",
+  "src/lib/rcap/fulfillment/grade-a-authority.ts",
+  "src/lib/rcap/fulfillment/grade-a-packet-proof.ts",
+  "src/lib/rcap/fulfillment/grade-a-registry.ts",
+  "src/lib/rcap/fulfillment/grade-a-request-context.ts",
+  "src/lib/rcap/fulfillment/paid-consumer-successor.ts",
+  "src/lib/rcap/fulfillment/question-contract-source-successor.mjs",
+  "src/lib/rcap/grade-a/composer.ts",
+  "src/lib/rcap/grade-a/document-contract.ts",
+  "src/lib/rcap/grade-a/families/il-prostitution-j-vacate-set.ts",
+  "src/lib/rcap/grade-a/packet-specification.ts",
+  "src/lib/rcap/grade-a/participant-packet.ts",
+  "src/lib/rcap/grade-a/renderer.ts",
+  "src/lib/rcap/render/participant-packet-assembly.ts",
+  "src/lib/rcap/supplemental/guide-registry.ts",
+  "src/lib/rcap/supplemental/guide-renderer.ts",
+  "src/lib/supabase/server.ts"
+];
 const hash=b=>crypto.createHash('sha256').update(b).digest('hex');
+export function assertMsObservedExecution(proof) {
+  assert.equal(proof.observedExecution?.kind,'actual_local_module_loads','missing observed execution inventory');
+  assert.ok(Array.isArray(proof.observedExecution.modules),'missing observed modules');
+  assert.deepEqual(proof.observedExecution.modules.map(entry=>entry.file).sort(),[...MS_PROOF_OBSERVED_INPUTS].sort(),'missing or unexecuted observed module');
+  for(const entry of proof.observedExecution.modules){
+    assert.deepEqual(Object.keys(entry).sort(),['file','sha256'],'unlisted observed module attributes');
+    assert.match(entry.sha256,/^[a-f0-9]{64}$/,'invalid observed module hash');
+    assert.equal(proof.inputs[entry.file],entry.sha256,'observed module hash mismatch');
+  }
+}
 export function loadMsPaidPacketProof({readBytes=file=>fs.readFileSync(file), stableStringify, approval}) {
   const bytes=readBytes(MS_PAID_PACKET_PROOF); const proof=JSON.parse(bytes);
   assert.equal(proof.schemaVersion,'rcap-ms-paid-packet-proof/v4');
@@ -54,7 +216,7 @@ export function loadMsPaidPacketProof({readBytes=file=>fs.readFileSync(file), st
   assert.equal(september.supersededProof.decisionSha256,approval.supersededDecisionSha256);
   assert.equal(september.supersededProof.artifactBytesStillReproduce,false);
   assert.equal(hash(readBytes(MS_PAID_PACKET_PROOF_RETIRED)),'1a3454cb515003281c33f196b16c788fd3b9c5e18692829169794a5b686f183c','September 14 historical proof changed');
-  assert.deepEqual(Object.keys(proof).sort(),[...Object.keys(predecessor),'outputContinuity'].sort(),'unlisted proof fields');
+  assert.deepEqual(Object.keys(proof).sort(),[...Object.keys(predecessor),'outputContinuity','observedExecution'].sort(),'unlisted proof fields');
   for(const key of Object.keys(predecessor).filter(key=>!['schemaVersion','sourceSha','inputs','supersededProof'].includes(key)))
     assert.deepEqual(proof[key],predecessor[key],`historical packet meaning changed: ${key}`);
   assert.equal(proof.chargedConductSafetyControls.length,4);
@@ -70,8 +232,9 @@ export function loadMsPaidPacketProof({readBytes=file=>fs.readFileSync(file), st
   const outputBytes=readBytes(proof.outputContinuity.path);
   assert.equal(hash(outputBytes),proof.outputContinuity.sha256,'current output inventory proof changed');
   const currentOutput=JSON.parse(outputBytes);
+  assertMsObservedExecution(proof);
   const requiredInventory=[...new Set([...Object.keys(predecessor.inputs),...currentOutput.sources.map(input=>input.file),
-    proof.outputContinuity.path,proof.outputContinuity.continuity.path,MS_PAID_PACKET_PROOF_PREDECESSOR,...MS_PROOF_EXECUTION_INPUTS])].sort();
+    proof.outputContinuity.path,proof.outputContinuity.continuity.path,MS_PAID_PACKET_PROOF_PREDECESSOR,...MS_PROOF_EXECUTION_INPUTS,...MS_PROOF_OBSERVED_INPUTS])].sort();
   assert.deepEqual(Object.keys(proof.inputs).sort(),requiredInventory,'incomplete or undeclared MS proof input inventory');
   for(const [file,expected] of Object.entries(proof.inputs))assert.equal(hash(readBytes(file)),expected,`stale MS packet proof: ${file}`);
   const source=proof.sourceAuthority;
