@@ -6,7 +6,7 @@ import packetSets from "../../../data/record-clearing/legal-design-packet-set-ma
 import { protectedPacketInformationModelFor } from "@/lib/expungement-ai/packet-information";
 import { isCaProp64Pathway } from "@/lib/expungement-ai/ca-prop64-choices";
 import { caProp64ContactFacts } from "@/lib/expungement-ai/ca-prop64-contact-questions";
-import { caProp64JuvenileDocumentQuestions, CA_JUVENILE_SECTIONS } from "@/lib/expungement-ai/ca-prop64-juvenile-document-questions";
+import { caProp64JuvenileDocumentQuestions, caProp64JuvenileAdditionalCount, CA_JUVENILE_SECTIONS } from "@/lib/expungement-ai/ca-prop64-juvenile-document-questions";
 import type { ProtectedPacketVerificationRecord } from "@/lib/expungement-ai/verification-cas";
 const digest = (x: unknown) => createHash("sha256").update(JSON.stringify(x)).digest("hex");
 const bytesHash = (x: Uint8Array) => createHash("sha256").update(x).digest("hex");
@@ -130,8 +130,8 @@ export function caProp64JuvenileDocumentPreparation(record: ProtectedPacketVerif
   if (additionalScope === "separate") review.add("separate_JV744_required_for_other_case_or_remedy");
   let additionalCount = 0;
   if (additionalScope === "same_case_remedy") {
-    const count = answer("ca_prop64_juvenile_additional_count");
-    if (typeof count !== "number" || !Number.isSafeInteger(count) || count < 1) missing.add("ca_prop64_juvenile_additional_count");
+    const count = caProp64JuvenileAdditionalCount(answer("ca_prop64_juvenile_additional_count"));
+    if (count === undefined) missing.add("ca_prop64_juvenile_additional_count");
     else additionalCount = count;
   }
   const suppliedIndexes = [...new Set(maps.flatMap(m => Object.keys(m)).flatMap(id => { const found = /^ca_prop64_juvenile_additional_(\d+)_(conduct_date|date|sections)$/.exec(id); return found ? [Number(found[1])] : []; }))].filter(index => Number.isSafeInteger(index) && index >= 1 && index <= additionalCount).sort((a, b) => a - b);

@@ -35,11 +35,23 @@ export const CA_PROP64_JUVENILE_DOCUMENT_QUESTIONS: readonly ProfileQuestion[] =
   choice("ca_prop64_juvenile_interpreter", "If there is a hearing, will you need an interpreter?", "Si hay una audiencia, ¿necesitará un intérprete?", [["yes", "Yes", "Sí"], ["no", "No", "No"]], false),
   text("ca_prop64_juvenile_interpreter_language", "What language do you need the interpreter to use?", "¿En qué idioma necesita al intérprete?", "Use the requested hearing language. The language of this guide does not select an interpreter.", "Indique el idioma solicitado para la audiencia. El idioma de esta guía no selecciona un intérprete.")
 ];
+/** The existing number control stores a decimal string inside a raw wrapper.
+ * Interpret only an exact positive integer; preserve the original saved shape. */
+export function caProp64JuvenileAdditionalCount(raw: unknown): number | undefined {
+  if (raw && typeof raw === "object" && !Array.isArray(raw)) {
+    const wrapper = raw as Record<string, unknown>;
+    if (Object.keys(wrapper).some(key => key !== "value" && key !== "unknown")
+      || wrapper.unknown === true || wrapper.unknown !== undefined && wrapper.unknown !== false) return;
+    raw = wrapper.value;
+  }
+  const count = typeof raw === "number" ? raw : typeof raw === "string" && /^[0-9]+$/.test(raw) ? Number(raw) : NaN;
+  return Number.isSafeInteger(count) && count > 0 ? count : undefined;
+}
 export function caProp64JuvenileDocumentQuestions(answers: Readonly<Record<string, unknown>>, includeInactive = false): ProfileQuestion[] {
   const scalar = (id: string) => { const x = answers[id]; return x && typeof x === "object" && !Array.isArray(x) ? (x as { unknown?: unknown; value?: unknown }).unknown === true ? undefined : (x as { value?: unknown }).value : x; };
   const additional = scalar("ca_prop64_juvenile_additional_scope") === "same_case_remedy";
-  const count = scalar("ca_prop64_juvenile_additional_count");
-  const total = additional && typeof count === "number" && Number.isSafeInteger(count) && count > 0 ? count : 0;
+  const count = caProp64JuvenileAdditionalCount(answers.ca_prop64_juvenile_additional_count);
+  const total = additional ? count ?? 0 : 0;
   // Retain every existing row for correction, including unknown or malformed
   // answers; offer at most one additional source attachment of empty rows.
   // A declared count alone must not allocate an unbounded array.
