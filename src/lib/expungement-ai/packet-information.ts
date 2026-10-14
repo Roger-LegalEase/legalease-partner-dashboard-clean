@@ -2541,6 +2541,14 @@ function protectedPacketQuestionSurface(
       if (legacy) { legacy.required = false; legacy.contextOnly = true; legacy.prompt = id === "contact_information" ? "Earlier contact answer (history only)" : "Earlier location answer (history only)";
         legacy.translations = { es: { prompt: id === "contact_information" ? "Respuesta de contacto anterior (solo historial)" : "Respuesta de ubicación anterior (solo historial)" } }; }
     }
+    // The source-owned contact section is their single navigation owner.
+    // Generic collection may already include these optional fields in an
+    // earlier section of the current protected question surface.
+    const contactIds = new Set(descriptors.map(question => question.id));
+    const retainedSections = builderSections.map(section => ({ ...section,
+      questionIds: section.questionIds.filter(id => !contactIds.has(id))
+    })).filter(section => section.questionIds.length > 0);
+    builderSections.splice(0, builderSections.length, ...retainedSections);
     builderSections.push({ id: "nd_first_offense_participant_contact", heading: "Participant contact details for the first-offense possession motion",
       description: "These details complete existing form fields; they do not decide eligibility. Earlier contact text is retained as history.",
       translations: { es: { heading: "Datos de contacto para la moción por una primera infracción de posesión", description: "Estos datos completan campos existentes del formulario; no determinan la elegibilidad. El texto de contacto anterior se conserva como historial." } },
