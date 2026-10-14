@@ -1,4 +1,5 @@
 import { missouriClosedRecordQuestionApplies } from "@/lib/rcap-engine/missouri-closed-record-facts";
+import { georgiaPardonPetitionPlan } from "@/lib/expungement-ai/ga-pardon-petition-readiness";
 import { maineNonconvictionQuestionApplies, maineMissingFinancialCorrectionPathway } from "@/lib/rcap-engine/maine-nonconviction-facts";
 import { louisianaAutomationStatusQuestionApplies } from "@/lib/rcap-engine/louisiana-automation-status";
 import { nebraskaNonconvictionQuestionApplies, nebraskaMissingFinancialCorrectionPathway } from "@/lib/rcap-engine/nebraska-nonconviction-facts";
@@ -236,6 +237,10 @@ function evaluateProfileRules(profile: EngineProfile, request: ScreeningEvaluati
 
   if (jurisdiction === "GA" && preselectedPathway?.id === GA_PARDON_ROUTE) {
     const facts = georgiaPardonFacts(answers, evaluationToday().toISOString().slice(0, 10));
+    const petitionPlan = georgiaPardonPetitionPlan(profile, answers, evaluationToday());
+    if (petitionPlan) return result(profile, request, "packet_ready_with_caution",
+      [reason("GA", `pardon_${facts.code}`, GA_PARDON_COPY[facts.code][0], GA_PARDON_SOURCE)],
+      { pathwayId: GA_PARDON_ROUTE, packetPlan: petitionPlan, paymentAllowed: true });
     return result(profile, request, facts.status === "missing" ? "needs_more_info" : facts.status === "excluded" ? "likely_not_eligible" : "needs_review",
       [reason("GA", `pardon_${facts.code}`, GA_PARDON_COPY[facts.code][0], GA_PARDON_SOURCE)],
       { pathwayId: GA_PARDON_ROUTE, missingQuestionIds: facts.ids, paymentAllowed: false });
