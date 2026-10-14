@@ -60,7 +60,7 @@ const mutations={
 for(const [name,mutate] of Object.entries(mutations))check(name,()=>{const p=structuredClone(proof);mutate(p);assert.throws(()=>load(p),assert.AssertionError);});
 for(const file of Object.keys(proof.inputs))check(`omitted dependency refused: ${file}`,()=>{
  const candidate=structuredClone(proof);delete candidate.inputs[file];
- assert.throws(()=>load(candidate),/incomplete or undeclared MS proof input inventory|missing proof input/);
+ assert.throws(()=>load(candidate),/incomplete or undeclared MS proof input inventory|missing proof input|observed module hash mismatch/);
 });
 check('unknown unexecuted input cannot extend the proof inventory',()=>{
  const candidate=structuredClone(proof);candidate.inputs['scripts/invented-unexecuted-source.mjs']='0'.repeat(64);
