@@ -915,6 +915,7 @@ export const EXPUNGEMENT_COPY: Record<string, CopyEntry> = {
   "briefcase.profile": { en: "Profile", es: "Perfil" },
   "briefcase.settings": { en: "Settings", es: "Configuración" },
   "briefcase.new_check": { en: "New screening", es: "Nueva evaluación" },
+  "briefcase.your_next_step": { en: "Your next step", es: "Su próximo paso" },
   "briefcase.guidance_saved": { en: "Next steps saved", es: "Próximos pasos guardados" },
   "briefcase.more_information": { en: "We need a little more information", es: "Necesitamos un poco más de información" },
   "briefcase.wait_before_next_step": { en: "You may need to wait before taking the next step", es: "Es posible que deba esperar antes de dar el siguiente paso" },
