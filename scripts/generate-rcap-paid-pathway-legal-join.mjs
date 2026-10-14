@@ -29,6 +29,7 @@
 //
 //   node scripts/generate-rcap-paid-pathway-legal-join.mjs [--check]
 
+import { caProp64FamilyBridge, CA_PROP64_BRIDGE_INPUTS, CA_PROP64_ROUTES } from "./lib/ca-prop64-family-bridge.mjs";
 import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
@@ -66,6 +67,7 @@ const closure = read("data/rcap-ledger/sellable-pathway-closure.json");
 const crosswalk = read("data/rcap-ledger/track-pathway-crosswalk.json");
 const familyMap = read("data/rcap-codex/d-track-terminalization/track-family-map.json");
 const continuity = read("data/rcap-codex/d-adoption-continuity/track-adoption.json");
+const caFamilyInputs = Object.fromEntries(Object.entries(CA_PROP64_BRIDGE_INPUTS).map(([key, file]) => [key, read(file)]));
 const reconciliation = read("data/rcap-all50/review-artifacts/d-adoption-reconciliation.json");
 
 // ---------------------------------------------------------------------------
@@ -96,9 +98,9 @@ for (const track of crosswalk.registryTracks ?? []) {
 }
 
 // ---------------------------------------------------------------------------
-// track -> packet family. The D map is the only track-to-family bridge in this
-// repository, and it covers lane D only, so most tracks resolve to nothing.
-// That absence is reported, never guessed around.
+// track -> packet family. Preserve the adopted proof and D-map bridges.
+// The exact CA route-scoped bridge below reuses its existing canonical factory
+// identities; absence or drift is reported, never guessed around.
 // ---------------------------------------------------------------------------
 const proofGates = new Map();
 const familyByTrack = new Map();
@@ -147,7 +149,8 @@ for (const pathway of paid) {
   const key = `${pathway.jurisdiction}:${pathway.pathwayId}`;
   const tracks = tracksByPathway.get(key) ?? [];
   const trackIds = tracks.map((t) => t.registryTrackId);
-  const families = [...new Set(trackIds.flatMap((id) => [...(familyByTrack.get(id) ?? [])]))];
+  const caFamily = caProp64FamilyBridge({ pathwayKey: key, jurisdiction: pathway.jurisdiction, registryTrackIds: trackIds }, caFamilyInputs);
+  const families = [...new Set([...trackIds.flatMap((id) => [...(familyByTrack.get(id) ?? [])]), ...(caFamily ? [caFamily] : [])])];
   const bound = families.map((f) => boundByFamily.get(f)).filter(Boolean);
 
   const hasLegalActionRequired = (pathway.openBlockers ?? []).some((b) => b.id === "legal_action_required");
@@ -305,7 +308,9 @@ const ledger = {
     trackToFamilyScope: familyMap.scope?.lane ?? "unknown",
     tracksWithAFamilyBridge: familyByTrack.size,
     adoptedFamilyProofsRead: proofGates.size,
-    note: "The only track-to-family bridge in this repository covers lane D. A pathway whose tracks are outside it cannot be joined to a counsel record here, and is reported as bridge-missing rather than as covered or as a new review."
+    exactRouteFamilyInputs: Object.fromEntries(Object.entries(CA_PROP64_BRIDGE_INPUTS).map(([key, file]) => [key, { path: file, sha256: sha256(file) }])),
+    exactRouteFamilyScope: CA_PROP64_ROUTES,
+    note: "Adopted packet proofs and the lane-D map retain their existing scope. The exact two CA Prop64 adult routes additionally reuse matching canonical family, component, source and held product-wiring identities. This evidence link creates no approval, fixture, runtime admission or commercial authority; unjoined routes remain bridge-missing."
   },
   intendedPaidPathways: rows.length,
   counts,
