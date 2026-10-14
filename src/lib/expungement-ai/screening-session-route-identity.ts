@@ -66,7 +66,12 @@ export async function resolveSessionRouteIdentity(
     return { status: "identity_unavailable", jurisdiction, trackId: null };
   }
 
-  const selection = selectComposedRoute({ jurisdiction, pathwayId });
+  const selection = selectComposedRoute({ jurisdiction, pathwayId,
+    ...(jurisdiction === "GA" ? { georgiaPardonSource: {
+      profileVersion: profile.profileVersion, sourceFingerprint: profile.source?.sourceCorpusSha256 ?? "",
+      today: new Date().toISOString().slice(0, 10), answers: data.answers ?? {}
+    } } : {})
+  });
   if (selection.status === "identity_unavailable") {
     return { status: "identity_unavailable", jurisdiction, trackId: null };
   }

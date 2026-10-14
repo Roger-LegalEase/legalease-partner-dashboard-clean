@@ -31,7 +31,7 @@ check('actual protected held seed gains only a preparation scope', () => {
  assert.deepEqual(result.captionConfirmationFactIds, ['court', 'county']);
  assert.equal(result.purpose, 'participant_document_preparation'); assert.equal(JSON.stringify(snapshot), before);
  assert.equal(snapshot.resultCode, 'needs_review'); assert.equal(snapshot.paymentAllowed, false);
- assert.equal(snapshot.packetPlan, null); assert.equal(snapshot.selectedTrackId, null); assert.deepEqual(snapshot.requiredInputIds, []);
+ assert.equal(snapshot.packetPlan, null); assert.equal(snapshot.selectedTrackId, 'ga-pardon-j7'); assert.deepEqual(snapshot.requiredInputIds, []);
 });
 for (const [key, value] of [['jurisdiction', 'MS'], ['pathwayId', 'sealing-court-records'], ['profileVersion', 'other'], ['profileSourceFingerprint', '0'.repeat(64)], ['profileAuthorityFingerprint', '0'.repeat(64)], ['resultCode', 'packet_ready'], ['resultCode', 'likely_not_eligible'], ['paymentAllowed', true], ['packetPlan', {}], ['selectedTrackId', 'ga-seal-m']]) {
  check('refuse changed protected identity ' + key + '/' + String(value), () => assert.equal(scope({ ...snapshot, [key]: value }, current), null));
@@ -102,6 +102,13 @@ check('real application and worker admission remain refused', () => {
  assert.equal(workerStaticPacketBinding('GA:' + GA_PARDON_ROUTE, 'ga-pardon-j7'), null);
 });
 const record = { status: 'unverified', reason: 'pure-preparation-test', revision: 0, draftHash: seed.hash, draftSnapshot: snapshot };
+check('historical null track remains a readable preparation draft without mutation', () => {
+ const historical=structuredClone(record);historical.draftSnapshot.selectedTrackId=null;historical.draftHash=P.protectedPacketDraftHash(historical.draftSnapshot);
+ const before=JSON.stringify(historical);assert(scope(historical.draftSnapshot,current));assert(P.gaPardonPreparationModelFor(historical));assert.equal(JSON.stringify(historical),before);
+ const noop=P.packetInformationPatch({existingItem:{id:'ga-preparation-pure',artifactRefs:{}},protectedVerification:historical,answers:{}});assert(noop);assert.equal(noop.protectedTransition.nextVerification.draftHash,historical.draftHash);assert.deepEqual(noop.protectedTransition.nextVerification.draftSnapshot,historical.draftSnapshot);
+ const saved=P.packetInformationPatch({existingItem:{id:'ga-preparation-pure',artifactRefs:{}},protectedVerification:historical,gaPardonPreparation:true,answers:{participant_narrative:'Saved from the original null-track draft'}});assert(saved);assert.equal(saved.protectedTransition.nextVerification.draftSnapshot.selectedTrackId,'ga-pardon-j7');assert.equal(saved.readyToGenerate,false);
+ for(const [key,value]of [['selectedTrackId','ga-seal-m'],['profileSourceFingerprint','0'.repeat(64)],['profileAuthorityFingerprint','0'.repeat(64)]]){const invalid=structuredClone(historical);invalid.draftSnapshot[key]=value;invalid.draftHash=P.protectedPacketDraftHash(invalid.draftSnapshot);assert.equal(P.gaPardonPreparationModelFor(invalid),null);}
+});
 check('ordinary protected held model does not gain document questions', () => {
  const normal = P.protectedPacketInformationModelFor(record);
  assert.equal(normal.gaPardonPreparationAvailable, true);
@@ -136,7 +143,7 @@ check('actual protected preparation save retains nonpayable held authority and r
  const data={court:'Municipal Court',county:'Clarke',case_number:'2020-CR-0042',arrest_date:'2019-01-05',participant_narrative:'The record prevented me from taking a warehouse job.',otn:{unknown:true,value:''}};
  saved=P.packetInformationPatch({existingItem:{id:'ga-preparation-pure',artifactRefs:{}},protectedVerification:record,gaPardonPreparation:true,answers:data});
  assert(saved); const next=saved.protectedTransition.nextVerification.draftSnapshot;
- assert.equal(next.resultCode,'needs_review');assert.equal(next.paymentAllowed,false);assert.equal(next.packetPlan,null);assert.equal(next.selectedTrackId,null);assert.deepEqual(next.requiredInputIds,[]);
+ assert.equal(next.resultCode,'needs_review');assert.equal(next.paymentAllowed,false);assert.equal(next.packetPlan,null);assert.equal(next.selectedTrackId,'ga-pardon-j7');assert.deepEqual(next.requiredInputIds,[]);
  for(const [id,value]of Object.entries(data))assert.deepEqual(next.packetAnswers[id],value,id);
  assert.equal(saved.readyToGenerate,false);
 });

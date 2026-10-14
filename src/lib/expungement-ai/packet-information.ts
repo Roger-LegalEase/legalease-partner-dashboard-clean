@@ -2077,13 +2077,31 @@ function refreshedSensitiveFactMaps(state: string, pathwayId: string | null, req
 
 type ParticipantFactMaps = { screeningAnswers: Record<string, AnswerValue>; prefilledAnswers: Record<string, AnswerValue>; packetAnswers: Record<string, AnswerValue> };
 
+/** The reviewed GA selector adds an identity to an already-held, source-valid
+ * pardon draft. A read must not rewrite its raw answers or create verification.
+ * This exception cannot select a sibling, repair conflicting facts, or open a plan.
+ */
+function georgiaPardonHeldTrackCompatible(snapshot: ProtectedPacketAuthoritySnapshot, authoritative: NonNullable<ReturnType<typeof evaluateProtectedPacketFacts>>) {
+  return snapshot.jurisdiction === "GA" && snapshot.pathwayId === GA_PARDON_ROUTE
+    && snapshot.selectedTrackId === null && authoritative.selectedTrackId === "ga-pardon-j7"
+    && snapshot.resultCode === "needs_review" && snapshot.paymentAllowed === false
+    && snapshot.packetPlan === null && canonicalEqual(snapshot.requiredInputIds, [])
+    && canonicalEqual(snapshot.serverFacts, canonicalServerFacts(snapshot.jurisdiction, snapshot.pathwayId))
+    && canonicalEqual(snapshot.packetFamilyIdentifiers, { mode: null, sourceFormIds: [] })
+    && georgiaPardonPreparationFactIds(snapshot, {
+      profile: authoritative.profile,
+      profileAuthorityFingerprint: profileAuthorityFingerprint(authoritative.profile, snapshot.pathwayId),
+      today: new Date().toISOString().slice(0, 10)
+    }) !== null;
+}
+
 function protectedRouteAuthorityMatches(snapshot: ProtectedPacketAuthoritySnapshot, authoritative: NonNullable<ReturnType<typeof evaluateProtectedPacketFacts>>) {
   const evaluation = authoritative.evaluation;
   return (evaluation.pathwayId ?? null) === snapshot.pathwayId
     && evaluation.resultCode === snapshot.resultCode
     && evaluation.paymentAllowed === snapshot.paymentAllowed
     && (authoritative.packetType ?? null) === (snapshot.packetType ?? null)
-    && (authoritative.selectedTrackId ?? null) === snapshot.selectedTrackId
+    && ((authoritative.selectedTrackId ?? null) === snapshot.selectedTrackId || georgiaPardonHeldTrackCompatible(snapshot, authoritative))
     && (evaluation.treatmentClassification ?? null) === snapshot.treatmentClassification
     && canonicalEqual(evaluation.deferralComponentIds ?? [], snapshot.deferralComponentIds)
     && canonicalEqual(evaluation.packetPlan ?? null, snapshot.packetPlan);

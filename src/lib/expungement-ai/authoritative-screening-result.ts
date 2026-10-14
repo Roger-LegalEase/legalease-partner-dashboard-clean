@@ -37,13 +37,19 @@ export function evaluateAuthoritativeScreeningResult(input: {
   };
 
   const firstPass = evaluateExpungementAiMatter(request);
+  const selectedProfile = getProfileByJurisdiction(firstPass.jurisdiction);
   const selection = selectComposedRoute({
     jurisdiction: firstPass.jurisdiction,
     pathwayId: firstPass.pathwayId ?? null,
     // Derived from the answers the server just evaluated, so a track whose
     // adopted record covers only one record class cannot be reached by a
     // participant whose record is a different one.
-    disposition: dispositionFromAnswers(input.answers as Record<string, unknown> | undefined)
+    disposition: dispositionFromAnswers(input.answers as Record<string, unknown> | undefined),
+    ...(firstPass.jurisdiction === "GA" && selectedProfile ? { georgiaPardonSource: {
+      profileVersion: selectedProfile.profileVersion,
+      sourceFingerprint: selectedProfile.source?.sourceCorpusSha256 ?? "",
+      today: new Date().toISOString().slice(0, 10), answers: input.answers
+    } } : {})
   });
 
   const evaluation: ScreeningEvaluation = selection.status === "identity_unavailable"

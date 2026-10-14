@@ -1,4 +1,5 @@
 import "server-only";
+import { GA_PARDON_ROUTE, GA_PARDON_SOURCE, GA_PARDON_FACT_IDS, georgiaPardonFacts } from "@/lib/rcap-engine/georgia-pardon-facts";
 
 /**
  * The single authority on which composed-route track a screening evaluation is
@@ -33,6 +34,11 @@ export type ComposedRouteSelectorInput = {
   pathwayId?: string | null;
   /** Server-derived from the evaluated answers. Never accepted from a client. */
   disposition?: ComposedRouteDisposition;
+  /** Registry identity plus answers already evaluated on the server. Never a requested track. */
+  georgiaPardonSource?: {
+    profileVersion: string; sourceFingerprint: string; today: string;
+    answers: Readonly<Record<string, unknown>>;
+  };
 };
 
 /** Screening answers -> record class. Server-side, so the mapping is auditable. */
@@ -158,6 +164,31 @@ export function selectComposedRoute(input: ComposedRouteSelectorInput): Composed
   const jurisdiction = String(input.jurisdiction ?? "").trim().toUpperCase();
   const pathwayId = String(input.pathwayId ?? "").trim();
   if (!jurisdiction || !pathwayId) return { status: "no_composed_route", trackId: null };
+
+  if (jurisdiction === "GA" && pathwayId === GA_PARDON_ROUTE) {
+    // GA.memo distinguishes ga-pardon-j7 from ga-seal-m despite their shared
+    // historical pathway. Only explicit pardon-record intent and established
+    // GA02 predicates identify this candidate. Selection grants no entitlement
+    // or court balancing result; absent/uncertain facts keep their current hold.
+    const source = input.georgiaPardonSource;
+    if (!source || source.profileVersion !== "2026-06-19-source-conversion-1"
+      || source.sourceFingerprint !== "2e9c9d5f9ad17fefb315d71b4336f0ffd2de6c1b614453cd06abd45f06cf2812"
+      || GA_PARDON_SOURCE !== "GA-02:2026-10-13;GA.memo:ga-pardon-j7;OCGA35-3-37(j)(7)") return { status: "no_composed_route", trackId: null };
+    const date = new Date(`${source.today}T00:00:00.000Z`);
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(source.today) || !Number.isFinite(date.getTime())
+      || date.toISOString().slice(0, 10) !== source.today) return { status: "no_composed_route", trackId: null };
+    const answers: Record<string, unknown> = {};
+    for (const id of ["case_outcome", "pending_cases", "ga_record_help", ...GA_PARDON_FACT_IDS]) {
+      const raw = source.answers[id];
+      const wrapper = raw && typeof raw === "object" && !Array.isArray(raw) ? raw as Record<string, unknown> : null;
+      answers[id] = wrapper ? wrapper.unknown === false ? wrapper.value : undefined : raw;
+    }
+    if (answers.ga_record_help !== "pardon_record") return { status: "no_composed_route", trackId: null };
+    const decision = georgiaPardonFacts(answers, source.today);
+    if (decision.status !== "review" || decision.ids.length
+      || !["court_review", "court_review_traffic"].includes(decision.code)) return { status: "no_composed_route", trackId: null };
+    return { status: "selected", trackId: "ga-pardon-j7" };
+  }
 
   const mapped = AUTHORITATIVE_TRACK_BY_PATHWAY.get(`${jurisdiction}:${pathwayId}`);
   if (!mapped) return { status: "no_composed_route", trackId: null };
