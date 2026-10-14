@@ -1,3 +1,4 @@
+import { oregonContactContract, oregonContactQuestions } from "@/lib/expungement-ai/oregon-disposition-contact";
 import { ND_LEGACY_RECORD_TYPE, ndFirstOffenseRecordIsContext, ndFirstOffenseRecordContextQuestion } from "@/lib/expungement-ai/nd-first-offense-record-context";
 import { oregonDispositionConfigurationSourceMatches } from "@/lib/rcap-engine/composed-route-selector";
 import { OR_DISPOSITION_SOURCE, OR_DISPOSITION_CONFIGURATIONS, OR_DISPOSITION_FACT_IDS, oregonDispositionIdentity, oregonDispositionQuestionApplies } from "@/lib/rcap-engine/oregon-disposition-identity";
@@ -2027,7 +2028,8 @@ export function factualPathwayCorrectionIds(state: string, pathway: string | nul
     && (pathway !== null || oregonDispositionIdentity(answers).status !== "not_applicable"
       || OR_DISPOSITION_FACT_IDS.some(id => Object.hasOwn(answers, id)))) {
     return [...extra, "case_outcome", "pending_cases", "state_exclusion_categories",
-      ...OR_DISPOSITION_FACT_IDS.filter(id => includeInactive || oregonDispositionQuestionApplies(state, answers, id))];
+      ...OR_DISPOSITION_FACT_IDS.filter(id => includeInactive || oregonDispositionQuestionApplies(state, answers, id)),
+      ...(oregonContactContract(profile, pathway) ? oregonContactQuestions(answers, includeInactive).map(q => q.id) : [])];
   }
   if (dcInnocenceLocationIsContext(profile, pathway, packetSpecificationFor(`${state}:${pathway}`))
     && Object.hasOwn(answers, DC_LEGACY_LOCATION)) return [...extra, DC_LEGACY_LOCATION];
@@ -2514,6 +2516,19 @@ function protectedPacketQuestionSurface(
     builderSections.push({ id: "nd_first_offense_participant_contact", heading: "Participant contact details for the first-offense possession motion",
       description: "These details complete existing form fields; they do not decide eligibility. Earlier contact text is retained as history.",
       translations: { es: { heading: "Datos de contacto para la moción por una primera infracción de posesión", description: "Estos datos completan campos existentes del formulario; no determinan la elegibilidad. El texto de contacto anterior se conserva como historial." } },
+      questionIds: descriptors.map(question => question.id) });
+  }
+  if (oregonContactContract(profile, pathwayId)) {
+    const descriptors = oregonContactQuestions({ ...screeningAnswers, ...prefilledAnswers, ...savedAnswers });
+    for (const descriptor of descriptors) {
+      const index = questions.findIndex(question => question.id === descriptor.id);
+      if (index >= 0) questions[index] = descriptor; else questions.push(descriptor);
+      questionById.set(descriptor.id, descriptor);
+      if (!builderQuestions.some(question => question.id === descriptor.id)) builderQuestions.push(descriptor);
+    }
+    builderSections.push({ id: "or_disposition_contact_preparation", heading: "Optional contact details for Oregon forms",
+      description: "Keep the court form and separate OSP request distinct. These answers do not decide eligibility or authorize a packet. Earlier contact and location answers remain unchanged.",
+      translations: { es: { heading: "Datos de contacto opcionales para formularios de Oregon", description: "Mantenga separados el formulario judicial y la solicitud a OSP. Estas respuestas no determinan la elegibilidad ni autorizan un paquete. Las respuestas anteriores de contacto y ubicación se conservan sin cambios." } },
       questionIds: descriptors.map(question => question.id) });
   }
   const currentAk = akCourtviewContactQuestions(profile.jurisdiction.code, pathwayId, { ...screeningAnswers, ...prefilledAnswers, ...savedAnswers });
@@ -3851,6 +3866,8 @@ function installPacketSpecificationQuestions(
   }
   const ctProfile = jurisdiction === "CT" ? getProfileByJurisdiction("CT") : null;
   if (ctProfile && ctCleanSlateContactContract(ctProfile, pathwayId)) for (const question of ctCleanSlateContactQuestions(answers)) questions.set(question.id, question);
+  const orProfile = jurisdiction === "OR" ? getProfileByJurisdiction("OR") : null;
+  if (orProfile && oregonContactContract(orProfile, pathwayId)) for (const question of oregonContactQuestions(answers, true)) questions.set(question.id, question);
   const ndProfile = jurisdiction === "ND" ? getProfileByJurisdiction("ND") : null;
   if (ndProfile && ndFirstOffenseFamilyContract(ndProfile, pathwayId)) for (const question of ndFirstOffenseContactQuestions(answers)) questions.set(question.id, question);
   const ksProfile = jurisdiction === "KS" ? getProfileByJurisdiction("KS") : null;
