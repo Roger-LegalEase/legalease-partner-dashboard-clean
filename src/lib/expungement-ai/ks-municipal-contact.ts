@@ -52,12 +52,12 @@ function sameRawContact(left: unknown, right: unknown): boolean {
     && sameRawContact((left as Record<string, unknown>)[key], (right as Record<string, unknown>)[key]));
 }
 const question = (id: string, prompt: string, helperText: string, es: string, esHelper: string): ProfileQuestion => ({
-  id, stage: "packet_information", type: "text_or_unknown", required: true, contextOnly: false,
-  lifecyclePhase: "postpay_official_form_field", options: null, prompt, helperText,
+  id, stage: "packet_information", type: "text_or_unknown", required: false, contextOnly: false,
+  lifecyclePhase: "postpay_packet_field", options: null, prompt, helperText,
   translations: { es: { prompt: es, helperText: esHelper } }
 });
-const LOCAL_SCOPE = "These details are for the existing municipal petition contact block, not the court, prosecutor or an attorney. Confirm the city’s current form and process; a local form or different charter ordinance still requires its own review. These answers do not establish eligibility, authorize filing or certify service.";
-const LOCAL_SCOPE_ES = "Estos datos son para el bloque de contacto de la petición municipal existente, no para el tribunal, la fiscalía ni un abogado. Confirme el formulario y el proceso actuales de la ciudad; un formulario local o una ordenanza municipal diferente aún requieren su propia revisión. Estas respuestas no establecen la elegibilidad, no autorizan la presentación ni certifican una notificación.";
+const LOCAL_SCOPE = "You can leave an unavailable contact method unanswered here. These details are for the existing municipal petition contact block, not the court, prosecutor or an attorney. Confirm the city’s current form and process; a local form or different charter ordinance still requires its own review. These answers do not establish eligibility, authorize filing or certify service.";
+const LOCAL_SCOPE_ES = "Aquí puede dejar sin responder un medio de contacto que no esté disponible. Estos datos son para el bloque de contacto de la petición municipal existente, no para el tribunal, la fiscalía ni un abogado. Confirme el formulario y el proceso actuales de la ciudad; un formulario local o una ordenanza municipal diferente aún requieren su propia revisión. Estas respuestas no establecen la elegibilidad, no autorizan la presentación ni certifican una notificación.";
 const QUESTIONS = [
   question("mailing_address", "What mailing address should appear for the petitioner on the municipal petition?",
     "Enter the petitioner’s actual mailing address, including any apartment or unit. If unavailable, confidential or unknown, save that answer and check the receiving municipal court’s completion instructions. " + LOCAL_SCOPE,
@@ -107,7 +107,8 @@ export function ksMunicipalContactInputs(snapshot: {
   }).map(field => field.id);
   return { source: KS_MUNICIPAL_CONTACT_SOURCE, writes, conflictingIds,
     unresolvedIds: KS_MUNICIPAL_CONTACT_FIELDS.filter(field => !writes.some(write => write.factId === field.id)).map(field => field.id),
-    meaning: "petitioner_owned_municipal_contact_completion" as const, qualifiedSpanishReview: "pending" as const,
+    meaning: "petitioner_owned_municipal_contact_completion" as const,
+    universallyRequiredContactIds: [] as string[], qualifiedSpanishReview: "pending" as const,
     localFormOrCharterApproved: false as const, routeSelectedByContact: false as const, aggregateContactParsed: false as const, accountEmailAdopted: false as const,
     generationAllowed: false as const, deliveryAllowed: false as const, admissionGranted: false as const };
 }

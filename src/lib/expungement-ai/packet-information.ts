@@ -1557,7 +1557,8 @@ export function protectedPacketInformationModelFor(
   }
   const ksContact = ksMunicipalContactInputs(snapshot);
   if (ksContact) for (const field of KS_MUNICIPAL_CONTACT_FIELDS) {
-    if (ksContact.unresolvedIds.includes(field.id) && !missingInputIds.includes(field.id)) missingInputIds.push(field.id);
+    // The approved map defines destinations, not a universal contact triple.
+    // Unknown or absent modes remain unprinted without creating intake gates.
     if (ksContact.conflictingIds.includes(field.id)) {
       // Read-time projection only. An explicit replacement is the ordinary
       // semantic-history transition; neither read nor no-op chooses a copy.
