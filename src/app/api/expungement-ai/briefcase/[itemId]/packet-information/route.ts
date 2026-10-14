@@ -1,3 +1,4 @@
+import { MT_DEFERRED_DOCUMENT_QUESTION_IDS } from "@/lib/expungement-ai/mt-deferred-document-questions";
 import { ny16059CustodyRemovalAvailable } from "@/lib/expungement-ai/ny-custody-correction";
 import { ny16059ProtectedDocumentPreparation } from "@/lib/expungement-ai/ny-16059-document-preparation";
 import { ny16059OwnedCompletionDiagnostic } from "@/lib/expungement-ai/ny-16059-owned-completion";
@@ -22,6 +23,7 @@ import {
   heldPacketCorrectionInputIds,
   packetDraftStopReason,
   protectedPacketInformationModelFor,
+  montanaDeferredPreparationModelFor,
   gaPardonPreparationModelFor
 } from "@/lib/expungement-ai/packet-information";
 import type { AnswerValue } from "@/lib/expungement-ai/frontend/contracts";
@@ -38,8 +40,9 @@ export const dynamic = "force-dynamic";
 
 const maxPayloadBytes = 60_000;
 
-function ownerEditingModelFor(record: Parameters<typeof protectedPacketInformationModelFor>[0], preparation = false) {
-  if (preparation) return gaPardonPreparationModelFor(record);
+function ownerEditingModelFor(record: Parameters<typeof protectedPacketInformationModelFor>[0], preparation: string | null = null) {
+  if (preparation === "mt-deferred") return montanaDeferredPreparationModelFor(record);
+  if (preparation === "ga-pardon") return gaPardonPreparationModelFor(record);
   const model = protectedPacketInformationModelFor(record);
   return model?.packetPlan ? model : caProp64ClarificationModelFor(record) ?? model;
 }
@@ -62,7 +65,7 @@ export async function GET(request: Request, context: { params: Promise<{ itemId:
     if (seeded) authority = { ok: true, value: seeded.verification };
   }
   if (!authority.ok) return NextResponse.json({ ok: false, error: "protected_verification_unavailable" }, { status: 503 });
-  const model = ownerEditingModelFor(authority.value, new URL(request.url).searchParams.get("preparation") === "ga-pardon");
+  const model = ownerEditingModelFor(authority.value, new URL(request.url).searchParams.get("preparation"));
   if (!model) return NextResponse.json({ ok: false, error: "packet_information_unavailable" }, { status: 409 });
   return NextResponse.json({
     ok: true, revision: authority.value.revision, answers: packetAnswersForOwnerEditing(model.stateCode, model.pathwayId, model.initialAnswers, new Date().toISOString(), new URL(request.url).searchParams.get("editingFact") === "social_security_number" && model.questions.some((question) => question.id === "social_security_number")),
@@ -127,10 +130,10 @@ export async function POST(
   if (parsed.expectedRevision !== protectedRead.value.revision) {
     return NextResponse.json({ ok: false, error: "revision_conflict" }, { status: 409 });
   }
-  const preparation = new URL(request.url).searchParams.get("preparation") === "ga-pardon";
+  const preparation = new URL(request.url).searchParams.get("preparation");
   const protectedModel = ownerEditingModelFor(protectedRead.value, preparation);
   if (!protectedModel) return NextResponse.json({ ok: false, error: "packet_information_unavailable" }, { status: 403 });
-  if (preparation && parsed.verify) return NextResponse.json({ ok: false, error: "preparation_only" }, { status: 422 });
+  if (["ga-pardon", "mt-deferred"].includes(preparation ?? "") && parsed.verify) return NextResponse.json({ ok: false, error: "preparation_only" }, { status: 422 });
   // Match the page's validated successor instead of the historical draft result.
   // This controls owner corrections only; verification and commercial holds remain.
   const savedResult = protectedModel.resultCode;
@@ -194,7 +197,8 @@ export async function POST(
     existingItem: item,
     answers: parsed.answers,
     verify: parsed.verify,
-    gaPardonPreparation: preparation,
+    gaPardonPreparation: preparation === "ga-pardon",
+    mtDeferredPreparation: preparation === "mt-deferred",
     useContactComponents: parsed.useContactComponents,
     clearInactiveCustodyFacts: parsed.clearInactiveCustodyFacts,
     confirmRecordFacts: parsed.confirmRecordFacts,
@@ -265,7 +269,12 @@ async function readBody(request: Request): Promise<
     if (body.useAccountEmail !== undefined && typeof body.useAccountEmail !== "boolean") return { ok: false };
     if (body.confirmRecordFacts !== undefined && (!Array.isArray(body.confirmRecordFacts) || body.confirmRecordFacts.length > 5 || body.confirmRecordFacts.some((id) => typeof id !== "string") || new Set(body.confirmRecordFacts).size !== body.confirmRecordFacts.length)) return { ok: false };
     if (!body.answers || typeof body.answers !== "object" || Array.isArray(body.answers)) return { ok: false };
-    if (Object.keys(body.answers).some((id) => !/^[a-z][a-z0-9_]*$/.test(id))) return { ok: false };
+    // The adopted MT composed contract has exact camelCase fact IDs. Accept
+    // only that finite namespace on its explicit preparation request; the
+    // protected owner model and editable-ID checks still decide every write.
+    const mtPreparation = new URL(request.url).searchParams.get("preparation") === "mt-deferred";
+    if (Object.keys(body.answers).some((id) => !/^[a-z][a-z0-9_]*$/.test(id)
+      && !(mtPreparation && MT_DEFERRED_DOCUMENT_QUESTION_IDS.includes(id)))) return { ok: false };
     if (!Object.values(body.answers).every(validDraftValue)) return { ok: false };
     return {
       ok: true,

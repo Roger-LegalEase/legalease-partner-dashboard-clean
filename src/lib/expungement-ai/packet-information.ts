@@ -1,3 +1,5 @@
+import { montanaDeferredDocumentInputs, montanaDeferredAliasDisplay, MT_DEFERRED_PARTICIPANT_ALIASES, MT_DEFERRED_CURRENT_DOCUMENT_CONTRACT } from "@/lib/expungement-ai/mt-deferred-document-inputs";
+import { montanaDeferredDocumentQuestions, montanaDeferredDocumentReviewNotices } from "@/lib/expungement-ai/mt-deferred-document-questions";
 import { MT_DEFERRED_ROUTE, MT_DEFERRED_FACT_IDS, montanaDeferredFactApplies, montanaDeferredLegacyFinancialApplies, isMontanaDeferredContract } from "@/lib/rcap-engine/montana-deferred-facts";
 import { MO_MARIJUANA_STATUS_ROUTE, MO_MARIJUANA_CUSTODY_FACT, MO_MARIJUANA_FACT_IDS, missouriMarijuanaFactApplies, missouriMarijuanaStatusQuestionApplies, isMissouriMarijuanaStatusContract } from "@/lib/rcap-engine/missouri-marijuana-status-facts";
 import { missouriClosedRecordQuestionApplies, isMissouriClosureGuidanceWithoutIdentityForm, MO_CLOSED_RECORD_ROUTE } from "@/lib/rcap-engine/missouri-closed-record-facts";
@@ -181,6 +183,11 @@ export type ProtectedPacketInformationModel = Pick<
   /** Original factual controls recovered from validated protected history only. */
   heldFactualCorrectionIds?: string[];
   gaPardonPreparationAvailable?: boolean;
+  mtDeferredPreparationAvailable?: boolean;
+  mtDeferredPreparationFactIds?: string[];
+  mtDeferredPreparationActiveFactIds?: string[];
+  mtDeferredPreparationReviewRequired?: boolean;
+  mtDeferredPreparationNotices?: Array<{ en: string; es: string }>;
   /** Explicit preparation editor only; never additions to the protected plan. */
   gaPardonPreparationFactIds?: string[];
   revision: number;
@@ -435,6 +442,7 @@ export function packetInformationPatch(input: {
   answers: Record<string, AnswerValue>;
   verify?: boolean;
   gaPardonPreparation?: boolean;
+  mtDeferredPreparation?: boolean;
   useContactComponents?: boolean;
   clearInactiveCustodyFacts?: boolean;
   confirmRecordFacts?: string[];
@@ -446,9 +454,10 @@ export function packetInformationPatch(input: {
   reviewed?: boolean;
 }) {
   const priorProtected = input.protectedVerification;
-  const current = input.gaPardonPreparation ? gaPardonPreparationModelFor(priorProtected) : protectedPacketInformationModelFor(priorProtected);
+  if (input.gaPardonPreparation && input.mtDeferredPreparation) return null;
+  const current = input.mtDeferredPreparation ? montanaDeferredPreparationModelFor(priorProtected) : input.gaPardonPreparation ? gaPardonPreparationModelFor(priorProtected) : protectedPacketInformationModelFor(priorProtected);
   if (!current) return null;
-  if (input.gaPardonPreparation && input.verify) return null;
+  if ((input.gaPardonPreparation || input.mtDeferredPreparation) && input.verify) return null;
   const allowedIds = editablePacketInputIds(current, true);
   const acceptedAnswers = Object.fromEntries(
     Object.entries(input.answers).filter(([id, answer]) => allowedIds.has(id) && isAnswerValue(answer))
@@ -460,7 +469,7 @@ export function packetInformationPatch(input: {
         && !(question && sameKnownQuestionAnswer(question, current.initialAnswers[id], answer));
     })
   );
-  const storedIds = new Set([...current.requiredInputIds.filter((id) => !(id in current.serverFacts)), ...routeFactualCorrectionIds(current, true),
+  const storedIds = new Set([...current.requiredInputIds.filter((id) => !(id in current.serverFacts)), ...routeFactualCorrectionIds(current, true), ...(current.mtDeferredPreparationFactIds ?? []),
     ...(current.stateCode === "NY" && current.pathwayId === NY_16059_ROUTE ? Object.keys(current.packetAnswers) : [])]);
   // Losing a packet plan does not discard the owner's other saved packet facts.
   // They remain protected while the one existing financial fact is corrected.
@@ -524,7 +533,7 @@ export function packetInformationPatch(input: {
   const now = new Date().toISOString();
   const nextDraft = !materialFactChange && !derivedRepairRequired && canonicalEqual(priorSnapshot.packetPlan, current.packetPlan) && priorProtected.draftSnapshot
     ? priorProtected.draftSnapshot
-    : deriveProtectedPacketDraftSnapshot(priorProtected, savedAnswers, now, contactChoice, [...new Set([...Object.keys(answerDelta), ...confirmations])], new Set(Object.keys(answerDelta)), clearCustody, input.gaPardonPreparation === true);
+    : deriveProtectedPacketDraftSnapshot(priorProtected, savedAnswers, now, contactChoice, [...new Set([...Object.keys(answerDelta), ...confirmations])], new Set(Object.keys(answerDelta)), clearCustody, input.gaPardonPreparation === true, input.mtDeferredPreparation === true);
   if (!nextDraft) return null;
   if (accountEmail) {
     nextDraft.dependencies = { ...nextDraft.dependencies, accountContactSources: { email_address: {
@@ -546,7 +555,7 @@ export function packetInformationPatch(input: {
     draftHash: nextDraftHash,
     draftSnapshot: nextDraft
   };
-  const evaluatedModel = input.gaPardonPreparation ? gaPardonPreparationModelFor(draftRecord) ?? protectedPacketInformationModelFor(draftRecord) : protectedPacketInformationModelFor(draftRecord);
+  const evaluatedModel = input.mtDeferredPreparation ? montanaDeferredPreparationModelFor(draftRecord) ?? protectedPacketInformationModelFor(draftRecord) : input.gaPardonPreparation ? gaPardonPreparationModelFor(draftRecord) ?? protectedPacketInformationModelFor(draftRecord) : protectedPacketInformationModelFor(draftRecord);
   const nextModel = evaluatedModel?.packetPlan ? evaluatedModel : caProp64ClarificationModelFor(draftRecord) ?? evaluatedModel;
   if (!nextModel) return null;
   const review = input.verify === true && nextModel.missingInputIds.length === 0
@@ -1571,6 +1580,7 @@ export function protectedPacketInformationModelFor(
     resultCode: snapshot.resultCode,
     ...(heldFactualCorrectionIds.length ? { heldFactualCorrectionIds } : {}),
     ...(gaPreparation ? { gaPardonPreparationAvailable: true } : {}),
+    ...(snapshot.schemaVersion === "expungement-ai/protected-packet-draft/v1" && montanaDeferredDocumentInputs(snapshot, { profile, profileAuthorityFingerprint: profileAuthorityFingerprint(profile, snapshot.pathwayId), contract: MT_DEFERRED_CURRENT_DOCUMENT_CONTRACT }).status !== "not_applicable" ? { mtDeferredPreparationAvailable: true } : {}),
     stateCode: snapshot.jurisdiction,
     revision: verification.revision,
     pathwayId: snapshot.pathwayId,
@@ -1628,6 +1638,32 @@ export function gaPardonPreparationModelFor(verification: ProtectedPacketVerific
     pendingDerivations: [], stage: "in_progress", reviewedAt: null,
     reviewSafety: { safe: false, reason: "participant_document_preparation_only" }
   };
+}
+
+/** Explicit document preparation retains the original nonpayable route and all
+ * owner/CAS checks. No prepared fact changes the evaluator's legal authority. */
+export function montanaDeferredPreparationModelFor(verification: ProtectedPacketVerificationRecord): ProtectedPacketInformationModel | null {
+  const model = protectedPacketInformationModelFor(verification);
+  let snapshot = protectedAuthoritySnapshotFor(verification);
+  if (!model?.mtDeferredPreparationAvailable || !snapshot || snapshot.schemaVersion !== "expungement-ai/protected-packet-draft/v1") return null;
+  const currentAuthority = evaluateProtectedPacketFacts(snapshot);
+  if (!currentAuthority) return null;
+  snapshot = montanaDeferredDraftSuccessor(snapshot, currentAuthority) ?? snapshot;
+  if (snapshot.schemaVersion !== "expungement-ai/protected-packet-draft/v1") return null;
+  const profile = getProfileByJurisdiction("MT")!;
+  const mapping = montanaDeferredDocumentInputs(snapshot, { profile, profileAuthorityFingerprint: profileAuthorityFingerprint(profile, snapshot.pathwayId), contract: MT_DEFERRED_CURRENT_DOCUMENT_CONTRACT });
+  if (mapping.status === "not_applicable") return null;
+  const allQuestions = montanaDeferredDocumentQuestions(profile, model.initialAnswers, mapping.stage, true);
+  const questions = montanaDeferredDocumentQuestions(profile, model.initialAnswers, mapping.stage);
+  return { ...model, mtDeferredPreparationFactIds: allQuestions.map(question => question.id),
+    mtDeferredPreparationActiveFactIds: questions.map(question => question.id),
+    questions: allQuestions, builderQuestions: questions, builderSections: [],
+    recordClarificationIds: mapping.reviewReasons.filter(reason => reason.startsWith("conflicting_protected_fact:")).map(reason => reason.slice("conflicting_protected_fact:".length)),
+    initialAnswers: { ...model.initialAnswers, ...answerRecord(montanaDeferredAliasDisplay(snapshot)) },
+    mtDeferredPreparationReviewRequired: mapping.status === "source_review",
+    mtDeferredPreparationNotices: montanaDeferredDocumentReviewNotices(mapping.reviewReasons),
+    missingInputIds: mapping.missingFactIds, pendingDerivations: [], stage: "in_progress", reviewedAt: null,
+    reviewSafety: { safe: false, reason: "participant_document_preparation_only" } };
 }
 
 /**
@@ -1760,7 +1796,8 @@ function routeFactualCorrectionIds(model: { stateCode: string; pathwayId: string
     ? [...NY_PACKET_FACT_IDS, ...NY_CASE_FACT_IDS].filter(id => Object.hasOwn(facts, id) || NY_HISTORY_FACT_IDS.includes(id) || NY_FUTURE_FACT_IDS.includes(id)) : [])];
 }
 
-export function editablePacketInputIds(model: Pick<ProtectedPacketInformationModel, "stateCode" | "pathwayId" | "requiredInputIds" | "serverFacts" | "screeningAnswers" | "prefilledAnswers" | "packetAnswers" | "recordOwnQuestionIds" | "questions" | "heldFactualCorrectionIds" | "gaPardonPreparationFactIds">, includeInactive = false): Set<string> {
+export function editablePacketInputIds(model: Pick<ProtectedPacketInformationModel, "stateCode" | "pathwayId" | "requiredInputIds" | "serverFacts" | "screeningAnswers" | "prefilledAnswers" | "packetAnswers" | "recordOwnQuestionIds" | "questions" | "heldFactualCorrectionIds" | "gaPardonPreparationFactIds" | "mtDeferredPreparationFactIds" | "mtDeferredPreparationActiveFactIds">, includeInactive = false): Set<string> {
+  if (model.mtDeferredPreparationFactIds) return new Set((includeInactive ? model.mtDeferredPreparationFactIds : model.mtDeferredPreparationActiveFactIds ?? []).filter(id => !(id in model.serverFacts)));
   if (model.gaPardonPreparationFactIds) return new Set(model.gaPardonPreparationFactIds.filter(id => !(id in model.serverFacts)));
   const collection = packetCollectionFor({ jurisdiction: model.stateCode, pathwayId: model.pathwayId, requiredInputIds: model.requiredInputIds,
     serverFacts: model.serverFacts, screeningAnswers: model.screeningAnswers, prefilledAnswers: model.prefilledAnswers, savedAnswers: model.packetAnswers, recordOwnQuestionIds: model.recordOwnQuestionIds,
@@ -2264,7 +2301,8 @@ function deriveProtectedPacketDraftSnapshot(
   confirmRecordFacts: string[] = [],
   explicitChangedIds: ReadonlySet<string> = new Set(),
   clearInactiveCustodyFacts = false,
-  gaPardonPreparation = false
+  gaPardonPreparation = false,
+  mtDeferredPreparation = false
 ): ProtectedPacketDraftSnapshot | null {
   let base = protectedAuthoritySnapshotFor(verification);
   if (!base) return null;
@@ -2273,9 +2311,12 @@ function deriveProtectedPacketDraftSnapshot(
   const originalBase = base;
   const gaPreparationIds = gaPardonPreparation ? gaPardonPreparationModelFor(verification)?.gaPardonPreparationFactIds : undefined;
   if (gaPardonPreparation && !gaPreparationIds) return null;
+  const mtPreparationIds = mtDeferredPreparation ? montanaDeferredPreparationModelFor(verification)?.mtDeferredPreparationFactIds : undefined;
+  if (mtDeferredPreparation && !mtPreparationIds) return null;
   base = montanaDeferredDraftSuccessor(base, currentAuthority) ?? missouriMarijuanaDraftSuccessor(base, currentAuthority) ?? missouriClosureDraftSuccessor(base, currentAuthority) ?? maineNonconvictionDraftSuccessor(base, currentAuthority) ?? louisianaAutomationStatusHeldSuccessor(base, currentAuthority) ?? nebraskaAcquittalHeldSuccessor(base, currentAuthority) ?? kansasRegistrationHeldSuccessor(base, currentAuthority) ?? base;
   const factualIds = [...factualPathwayCorrectionIds(base.jurisdiction, base.pathwayId, { ...base.screeningAnswers, ...base.prefilledAnswers, ...base.packetAnswers }, true), ...msExactTimingQuestionIds(base.jurisdiction, base.pathwayId, { ...base.screeningAnswers, ...base.prefilledAnswers, ...base.packetAnswers }, true), ...missouriUnselectedCorrectionIds(base), ...maineUnselectedCorrectionIds(base), ...nebraskaUnselectedCorrectionIds(base), ...louisianaUnselectedCorrectionIds(base)];
   if (gaPreparationIds) factualIds.push(...gaPreparationIds);
+  if (mtPreparationIds) factualIds.push(...mtPreparationIds);
   if (isNy16059Packet(base.jurisdiction, base.pathwayId)) factualIds.push(...NY_PACKET_FACT_IDS, ...NY_CASE_FACT_IDS,
     ...routeFactualCorrectionIds({ stateCode: base.jurisdiction, pathwayId: base.pathwayId,
       screeningAnswers: answerRecord(base.screeningAnswers), prefilledAnswers: answerRecord(base.prefilledAnswers), packetAnswers: answerRecord(base.packetAnswers) }, true));
@@ -2283,9 +2324,9 @@ function deriveProtectedPacketDraftSnapshot(
     base = factualPathwayHeldSuccessor(base, currentAuthority) ?? convictionFallbackHeldSuccessor(base, currentAuthority) ?? reviewedPacketContractSuccessor(base, currentAuthority.evaluation.packetPlan);
     if (!base) return null;
   }
-  if (factualIds.some(id => explicitChangedIds.has(id))) {
+  if (factualIds.some(id => explicitChangedIds.has(id) || mtPreparationIds && confirmRecordFacts.includes(id))) {
     const history = [...(base.dependencies.semanticAnswerHistory ?? [])];
-    for (const factId of factualIds.filter(id => explicitChangedIds.has(id))) for (const source of ["screeningAnswers", "prefilledAnswers", "packetAnswers"] as const) {
+    for (const factId of factualIds.filter(id => explicitChangedIds.has(id) || mtPreparationIds && confirmRecordFacts.includes(id))) for (const source of ["screeningAnswers", "prefilledAnswers", "packetAnswers"] as const) {
       if (!Object.hasOwn(originalBase[source], factId)) continue;
       const entry = { factId, value: originalBase[source][factId], source, meaning: "prior_factual_pathway_answer" as const,
         routeKey: `${originalBase.jurisdiction}:${originalBase.pathwayId}`, profileVersion: originalBase.profileVersion,
@@ -2293,6 +2334,26 @@ function deriveProtectedPacketDraftSnapshot(
       if (!history.some(old => canonicalEqual(old, entry))) history.push(entry);
     }
     base = { ...base, dependencies: { ...base.dependencies, semanticAnswerHistory: history } };
+  }
+  if (mtPreparationIds) {
+    const changedAliases = Object.entries(MT_DEFERRED_PARTICIPANT_ALIASES).filter(([id]) => explicitChangedIds.has(id) || confirmRecordFacts.includes(id));
+    if (changedAliases.length) {
+      const history = [...(base.dependencies.semanticAnswerHistory ?? [])];
+      base = { ...base, screeningAnswers: { ...base.screeningAnswers }, prefilledAnswers: { ...base.prefilledAnswers }, packetAnswers: { ...base.packetAnswers } };
+      packetAnswers = { ...packetAnswers };
+      for (const [, alias] of changedAliases) for (const source of ["screeningAnswers", "prefilledAnswers", "packetAnswers"] as const) {
+        if (!Object.hasOwn(originalBase[source], alias)) continue;
+        const entry = { factId: alias, value: originalBase[source][alias], source, meaning: "prior_factual_pathway_answer" as const,
+          routeKey: `${originalBase.jurisdiction}:${originalBase.pathwayId}`, profileVersion: originalBase.profileVersion,
+          profileSourceFingerprint: originalBase.profileSourceFingerprint, profileAuthorityFingerprint: originalBase.profileAuthorityFingerprint };
+        if (!history.some(old => canonicalEqual(old, entry))) history.push(entry);
+        delete base[source][alias];
+        delete packetAnswers[alias];
+        // The newly supplied owned fact remains the sole current value. The
+        // original alias survives exactly in protected semantic history.
+      }
+      base.dependencies = { ...base.dependencies, semanticAnswerHistory: history };
+    }
   }
   if (clearInactiveCustodyFacts) {
     const history = [...(base.dependencies.semanticAnswerHistory ?? [])];

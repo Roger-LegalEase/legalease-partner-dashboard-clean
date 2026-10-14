@@ -86,6 +86,10 @@ export default async function BriefcasePacketPage({
         <Link className="inline-flex min-h-11 items-center font-semibold underline" href={`/briefcase/${item.id}/packet-information?preparation=ga-pardon`}><LocalizedCopy en="Prepare your petition information" es="Prepare la información para su petición" /></Link>
         <span className="block text-sm"><LocalizedCopy en="Save your case details and your own account of how the record has affected you. The court decides the petition; document generation is not available yet." es="Guarde los datos de su caso y su propio relato de cómo le ha afectado el expediente. El tribunal decide la petición; la generación de documentos aún no está disponible." /></span>
       </p> : null}
+      {item?.packetDraft.status === "available" && item.packetDraft.mtDeferredPreparationAvailable ? <p className="mb-5 rounded border border-slate-300 p-4">
+        <Link className="inline-flex min-h-11 items-center font-semibold underline" href={`/briefcase/${item.id}/packet-information?preparation=mt-deferred`}><LocalizedCopy en="Prepare your deferred-sentence document details" es="Prepare los datos de sus documentos de sentencia aplazada" /></Link>
+        <span className="block text-sm"><LocalizedCopy en="Save facts from your case records for the appropriate court or DOJ step. Saving does not establish relief or authorize document generation, signing or filing." es="Guarde los datos de los expedientes de su caso para el paso correspondiente ante el tribunal o el Departamento de Justicia. Guardar no establece que se haya concedido una medida ni autoriza generar, firmar o presentar documentos." /></span>
+      </p> : null}
       {item && item.authorityStatus !== "unavailable" ? (
         <section data-briefcase-matter-id={item.id}>
           {item.sponsorCapacityExhausted ? <SponsorCapacityNotice paid={item.paymentState === "paid"} /> : null}

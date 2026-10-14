@@ -1,4 +1,6 @@
 import "server-only";
+import mtMemo from "../../../data/record-clearing/legal-design-intake/MT.memo.json";
+import packetSets from "../../../data/record-clearing/legal-design-packet-set-manifests.json";
 import { createHash } from "node:crypto";
 import type { EngineProfile } from "@/lib/rcap-engine/contracts";
 import type { ProtectedPacketDraftSnapshot } from "@/lib/expungement-ai/verification-cas";
@@ -19,6 +21,11 @@ export type MontanaDeferredDocumentContract = {
   packetSet: unknown;
   dojSourceSha256: string;
 };
+export const MT_DEFERRED_CURRENT_DOCUMENT_CONTRACT: MontanaDeferredDocumentContract = {
+  track: mtMemo.tracks.find(track => track.trackId === "mt_deferred_dismissal"),
+  packetSet: packetSets.packetSets.find(set => set.packetSetId === MT_DEFERRED_DOCUMENT_FAMILY),
+  dojSourceSha256: MT_DEFERRED_DOJ_SOURCE_SHA256
+};
 export type MontanaDeferredDocumentMapping = {
   status: "not_applicable" | "needs_facts" | "source_review" | "mapped_for_review";
   stage: "court_motion" | "doj_after_order" | null;
@@ -35,6 +42,25 @@ export type MontanaDeferredDocumentMapping = {
   verificationAuthority: false;
 };
 
+/** Exact participant-owned meaning pairs. No aggregate contact parsing, actor
+ * substitution, name folding, phone inference or email case normalization. */
+export const MT_DEFERRED_PARTICIPANT_ALIASES: Record<string, string> = {
+  fullName: "participant_full_legal_name", dateOfBirth: "date_of_birth",
+  mailingAddress: "mailing_address", phone: "phone_number", email: "email_address"
+};
+export function montanaDeferredAliasDisplay(snapshot: Pick<Snapshot, "screeningAnswers" | "prefilledAnswers" | "packetAnswers">): Record<string, unknown> {
+  const maps = [snapshot.screeningAnswers, snapshot.prefilledAnswers, snapshot.packetAnswers];
+  const projected: Record<string, unknown> = {};
+  for (const [id, alias] of Object.entries(MT_DEFERRED_PARTICIPANT_ALIASES)) {
+    if (maps.some(map => Object.hasOwn(map, id))) continue;
+    const supplied = maps.filter(map => Object.hasOwn(map, alias)).map(map => map[alias]);
+    if (!supplied.length) continue;
+    const values = supplied.map(knownValue);
+    if (values.every(value => typeof value === "string" && value.trim() && !UNKNOWN.test(value.trim()))
+      && values.every(value => sameDocumentValue(id, value, values[0]))) projected[id] = supplied[0];
+  }
+  return projected;
+}
 const COMMON_FIELDS = ["fullName", "dateOfBirth", "mailingAddress", "phone", "email", "chargeName", "arrestDate"];
 const COURT_FIELDS = ["sentencingCourtLevel", "courtName", "sentencingCounty", "caseNumber", "pleaOrVerdict", "sentencingDate", "prosecutingOffice", "prosecutorAddress", "prosecutorEmail"];
 const DATES = new Set(["dateOfBirth", "arrestDate", "sentencingDate"]);
@@ -54,6 +80,15 @@ function printedDate(value: string): string | null {
   if (!year) return null;
   const stamp = `${year}-${month}-${day}`, parsed = new Date(`${stamp}T00:00:00.000Z`);
   return Number.isFinite(parsed.getTime()) && parsed.toISOString().slice(0, 10) === stamp ? `${month}/${day}/${year}` : null;
+}
+
+function sameDocumentValue(id: string, a: unknown, b: unknown): boolean {
+  if (Object.is(a, b)) return true;
+  if (DATES.has(id) && typeof a === "string" && typeof b === "string") {
+    const first = printedDate(a), second = printedDate(b);
+    return first !== null && first === second;
+  }
+  return JSON.stringify(a) === JSON.stringify(b);
 }
 
 /** Pure document mapping after existing protected-record integrity and current
@@ -82,12 +117,15 @@ export function montanaDeferredDocumentInputs(snapshot: Snapshot, current: {
     || contract.dojSourceSha256 !== MT_DEFERRED_DOJ_SOURCE_SHA256) return out;
   out.status = "needs_facts";
   const missing = new Set<string>(), conflicts = new Set<string>();
+  const suppliedKeys = new Map<string, string[]>();
   const answer = (id: string): unknown => {
-    const supplied = [snapshot.screeningAnswers, snapshot.prefilledAnswers, snapshot.packetAnswers]
-      .filter(map => Object.hasOwn(map, id)).map(map => knownValue(map[id]));
+    const keys = [id, ...(MT_DEFERRED_PARTICIPANT_ALIASES[id] ? [MT_DEFERRED_PARTICIPANT_ALIASES[id]] : [])];
+    const supplied = keys.flatMap(key => [snapshot.screeningAnswers, snapshot.prefilledAnswers, snapshot.packetAnswers]
+      .filter(map => Object.hasOwn(map, key)).map(map => ({ key, value: knownValue(map[key]) })));
     if (!supplied.length) return undefined;
-    if (supplied.some(value => JSON.stringify(value) !== JSON.stringify(supplied[0]))) { conflicts.add(id); return undefined; }
-    return supplied[0];
+    suppliedKeys.set(id, [...new Set(supplied.map(entry => entry.key))]);
+    if (supplied.some(entry => !sameDocumentValue(id, entry.value, supplied[0].value))) { conflicts.add(id); return undefined; }
+    return supplied[0].value;
   };
   const choice = (id: string, options: readonly string[]): string | undefined => {
     const value = answer(id);
@@ -95,11 +133,12 @@ export function montanaDeferredDocumentInputs(snapshot: Snapshot, current: {
     return value;
   };
   const flag = (id: string): boolean | undefined => {
-    const value = answer(id);
+    const raw = answer(id);
+    const value = raw === "Yes" ? true : raw === "No" ? false : raw;
     if (typeof value !== "boolean") { missing.add(id); return undefined; }
     return value;
   };
-  const put = (key: string, value: string | boolean, ...sources: string[]) => { out.inputs[key] = value; out.inputSources[key] = sources; };
+  const put = (key: string, value: string | boolean, ...sources: string[]) => { out.inputs[key] = value; out.inputSources[key] = [...new Set(sources.flatMap(source => suppliedKeys.get(source) ?? [source]))]; };
   const order = choice("mt_deferred_order_type", ["deferred", "suspended", "other"]);
   if (order && order !== "deferred") out.reviewReasons.push("not_a_deferred_imposition");
   const dismissed = choice("mt_deferred_dismissal_order", ["yes", "no"]);
