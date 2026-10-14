@@ -1,5 +1,5 @@
 import "server-only";
-import { GA_PARDON_ROUTE, GA_PARDON_SOURCE, GA_PARDON_FACT_IDS, georgiaPardonFacts } from "@/lib/rcap-engine/georgia-pardon-facts";
+import { GA_PARDON_ROUTE, GA_PARDON_SOURCE, GA_PARDON_FACT_IDS, georgiaPardonFacts, georgiaPardonQuestionApplies } from "@/lib/rcap-engine/georgia-pardon-facts";
 
 /**
  * The single authority on which composed-route track a screening evaluation is
@@ -184,6 +184,14 @@ export function selectComposedRoute(input: ComposedRouteSelectorInput): Composed
       answers[id] = wrapper ? wrapper.unknown === false ? wrapper.value : undefined : raw;
     }
     if (answers.ga_record_help !== "pardon_record") return { status: "no_composed_route", trackId: null };
+    for (const id of ["case_outcome", "pending_cases", ...GA_PARDON_FACT_IDS]) {
+      if (!Object.hasOwn(source.answers, id) || !georgiaPardonQuestionApplies("GA", answers, id, GA_PARDON_ROUTE)) continue;
+      const value = answers[id];
+      if (id === "pending_cases" && typeof value === "boolean") continue;
+      if (typeof value !== "string" || !value.trim() || /^(unknown|i am not sure)$/i.test(value.trim())) {
+        return { status: "no_composed_route", trackId: null };
+      }
+    }
     const decision = georgiaPardonFacts(answers, source.today);
     if (decision.status !== "review" || decision.ids.length
       || !["court_review", "court_review_traffic"].includes(decision.code)) return { status: "no_composed_route", trackId: null };
