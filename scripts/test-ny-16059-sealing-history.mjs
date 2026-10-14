@@ -13,6 +13,20 @@ const checks = [], check = (id, pass) => checks.push({ id, pass: !!pass });
 const equal = (a, b) => { try { assert.deepEqual(a, b); return true; } catch { return false; } };
 const model = r => P.protectedPacketInformationModelFor(r);
 const patch = (record, answers, verify = false) => P.packetInformationPatch({ existingItem: { id: 'synthetic-history', jurisdiction: 'NY', artifactRefs: {} }, protectedVerification: record, answers, verify })?.protectedTransition.nextVerification;
+// Retained predecessor fixtures predate these source-owned caption fields.
+// Supply explicit new synthetic facts through the ordinary protected transition;
+// do not rewrite old snapshots or weaken their verification hold.
+const supplyCurrentCaptionFacts = (record, prefix) => {
+ const facts = {date_of_birth:{value:'1980-02-03',unknown:false},street_address:{value:'123 Synthetic Example Street',unknown:false},city_state_zip:{value:'Albany, NY 12207',unknown:false},phone_number:{value:'202-555-0101',unknown:false}};
+ const ids = Object.keys(facts), before = structuredClone(record), missing = P.protectedPacketInformationModelFor(record).missingInputIds;
+ check(prefix+'/old fixture lacks exactly the four current caption facts', equal(missing.filter(id=>ids.includes(id)).sort(), [...ids].sort()));
+ check(prefix+'/missing caption facts cannot reuse final verification', patch(record,{},true)?.status !== 'verified');
+ const saved = patch(record,facts), current = P.protectedPacketInformationModelFor(saved);
+ check(prefix+'/explicit caption save preserves other missing obligations', equal(current.missingInputIds, missing.filter(id=>!ids.includes(id))));
+ check(prefix+'/explicit caption save records each new fact', ids.every(id=>equal(saved.draftSnapshot.packetAnswers[id],facts[id])));
+ check(prefix+'/caption transition leaves historical record unchanged', equal(record,before));
+ return saved;
+};
 const app = (id, law, outcome) => ({ ...H.emptyNyPriorApplication(id), law, outcome, courtName: 'Albany City Court', caseNumbers: '0001-2009', copyStatus: 'request_needed' });
 const order = law => ({ ...H.emptyNyPriorOrder('order-1'), law, courtName: 'Albany County Court', reference: 'Earlier actual order123', enteredDate: '2016-02-29', currentStatus: 'sealed', convictions: [{ ...H.emptyNySealedConviction('sealed-1'), caseNumbers: 'earlier-2000', courtName: 'Albany City Court', charge: 'Synthetic conviction', section: 'PL synthetic', grade: 'AM', role: law === '16058' ? 'treatment' : '16059' }] });
 const answer = h => ({ [H.NY_SEALING_HISTORY_ID]: H.encodeNySealingHistory(h) });
@@ -31,7 +45,7 @@ for (const f of fixtures.fixtures) {
     c.savedReview = F.nyFutureCaseReview(F.nyFutureReferences(m.initialAnswers), c);
     addedFutureFacts[F.NY_FUTURE_ID] = F.encodeNyFutureApplications({ version: F.NY_FUTURE_CONTRACT, applications: [{ id: 'future-app', laws: ['16059'], cases: [c] }] });
   }
-  const saved = patch(f.record, { ...answer(h), ...addedFutureFacts }), current = saved && model(saved);
+  const saved = supplyCurrentCaptionFacts(patch(f.record, { ...answer(h), ...addedFutureFacts }), prefix), current = saved && model(saved);
   check(prefix + '/actual facts can save', !!current && equal(current.initialAnswers[H.NY_SEALING_HISTORY_ID], H.encodeNySealingHistory(h)));
   check(prefix + '/original raw records preserved', equal(current.initialAnswers.ny_16059_covered_case_records, m.initialAnswers.ny_16059_covered_case_records));
   const projection = prepare(saved);

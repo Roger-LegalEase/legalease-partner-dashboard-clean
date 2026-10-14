@@ -21,6 +21,20 @@ const checks = [], check = (id, pass) => checks.push({ id, pass: !!pass });
 const same = (a,b) => { try { assert.deepEqual(a,b); return true; } catch { return false; } };
 const item = { id: 'synthetic-classification', jurisdiction: 'NY', artifactRefs: {} };
 const patch = (record, answers, verify=false) => P.packetInformationPatch({existingItem:item, protectedVerification:record, answers, verify})?.protectedTransition.nextVerification;
+// Retained predecessor fixtures predate these source-owned caption fields.
+// Supply explicit new synthetic facts through the ordinary protected transition;
+// do not rewrite old snapshots or weaken their verification hold.
+const supplyCurrentCaptionFacts = (record, prefix) => {
+ const facts = {date_of_birth:{value:'1980-02-03',unknown:false},street_address:{value:'123 Synthetic Example Street',unknown:false},city_state_zip:{value:'Albany, NY 12207',unknown:false},phone_number:{value:'202-555-0101',unknown:false}};
+ const ids = Object.keys(facts), before = structuredClone(record), missing = P.protectedPacketInformationModelFor(record).missingInputIds;
+ check(prefix+'/old fixture lacks exactly the four current caption facts', same(missing.filter(id=>ids.includes(id)).sort(), [...ids].sort()));
+ check(prefix+'/missing caption facts cannot reuse final verification', patch(record,{},true)?.status !== 'verified');
+ const saved = patch(record,facts), current = P.protectedPacketInformationModelFor(saved);
+ check(prefix+'/explicit caption save preserves other missing obligations', same(current.missingInputIds, missing.filter(id=>!ids.includes(id))));
+ check(prefix+'/explicit caption save records each new fact', ids.every(id=>same(saved.draftSnapshot.packetAnswers[id],facts[id])));
+ check(prefix+'/caption transition leaves historical record unchanged', same(record,before));
+ return saved;
+};
 const classify = (records, level='misdemeanor', categories=['none']) => {
  for (const record of records) for (const conviction of record.convictions) {
   conviction.classification = C.withNyClassificationAnswer(conviction,'recordClass',level);
@@ -42,7 +56,7 @@ for (const row of fixture.rows) {
  const level=id.includes('literal-felony')||id.includes('literal-excluded')?'felony':id.includes('literal-violation')?'violation':'misdemeanor';
  const categories=id.includes('literal-excluded')?['article_125_felony','class_a_felony']:['none'];
  const records=classify(structuredClone(original),level,categories), wire=R.encodeNyCourtCaseRecords(records);
- const current=patch(old,{...noPriorSealingRecords,...futureFixture(m.initialAnswers),[R.NY_CASE_RECORDS_ID]:wire}); const model=P.protectedPacketInformationModelFor(current);
+ let current=patch(old,{...noPriorSealingRecords,...futureFixture(m.initialAnswers),[R.NY_CASE_RECORDS_ID]:wire}); let model=P.protectedPacketInformationModelFor(current);
  check(id+'/declarations saved without parsing original record text',same(current.draftSnapshot.packetAnswers[R.NY_CASE_RECORDS_ID],wire));
  check(id+'/original full array retained in history',current.draftSnapshot.dependencies.semanticAnswerHistory.some(e=>e.factId===R.NY_CASE_RECORDS_ID&&same(e.value,m.initialAnswers[R.NY_CASE_RECORDS_ID])));
  check(id+'/preparation grants no source or legal authority',prepare(current)?.generationAllowed===false&&prepare(current)?.casePreparation.legalConvictionGroupCount===null);
@@ -51,6 +65,7 @@ for (const row of fixture.rows) {
  if(level==='violation')check(id+'/violation stays review without record deletion',model.nyCaseIssues.some(i=>i.code==='declared_noncrime_request')&&same(prepare(current).casePreparation.records.map(({certificateAttachmentIncluded,...r})=>r),records));
  if(level!=='misdemeanor')check(id+'/inconsistent declarations cannot verify',patch(current,{},true)?.status!=='verified');
  else {
+  current=supplyCurrentCaptionFacts(current,id);model=P.protectedPacketInformationModelFor(current);
   check(id+'/coherent actual declarations allow final fact review',model.reviewSafety.safe&&model.missingInputIds.length===0);
   check(id+'/explicit final verification succeeds',patch(current,{},true)?.status==='verified');
   for(const field of ['charge','section','grade','id']) {
