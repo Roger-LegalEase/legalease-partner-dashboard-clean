@@ -94,14 +94,17 @@ export function caProp64JuvenileDocumentPreparation(record: ProtectedPacketVerif
     for (const [suffix, fact] of Object.entries(bindings)) put(documentId, suffix, facts[fact], fact);
   }
   put("JV-744", "TextField4[0]", name, "ca_prop64_juvenile_full_name");put("JV-744", "TextField4[1]", birth, "ca_prop64_juvenile_date_of_birth");
-  const findings: Array<{ date: string; sections: string[] }> = [];
+  const findings: Array<{ date: string; conductDate: string; ageAtConduct: number; sections: string[] }> = [];
   const readFinding = (index: number) => {
     const prefix = index ? `ca_prop64_juvenile_additional_${index}` : "ca_prop64_juvenile_finding", when = dated(prefix + "_date"), raw = answer(prefix + "_sections");
     const sections = Array.isArray(raw) && raw.length > 0 && new Set(raw).size === raw.length && raw.every(x => typeof x === "string" && CA_JUVENILE_SECTIONS.includes(x as typeof CA_JUVENILE_SECTIONS[number])) ? raw as string[] : undefined;
     if (!sections) missing.add(prefix + "_sections");
-    if (when && offense && when < offense) review.add("adjudication_precedes_conduct:" + index);
+    const conduct = index === 0 ? offense : dated(prefix + "_conduct_date");
+    const years = conduct && birth ? Number(conduct.slice(0, 4)) - Number(birth.slice(0, 4)) - (conduct.slice(5) < birth.slice(5) ? 1 : 0) : undefined;
+    if (conduct && birth && (conduct < birth || years === undefined || years < 0 || years >= 18)) review.add("finding_conduct_not_under_18:" + index);
+    if (when && conduct && when < conduct) review.add("adjudication_precedes_conduct:" + index);
     if (when && birth && when < birth) review.add("adjudication_precedes_birth:" + index);
-    if (when && sections) findings.push({ date: when, sections });
+    if (when && sections && conduct && years !== undefined && years >= 0 && years < 18 && conduct >= birth!) findings.push({ date: when, conductDate: conduct, ageAtConduct: years, sections });
     return { when, sections, prefix };
   };
   const primary = readFinding(0);
@@ -115,7 +118,7 @@ export function caProp64JuvenileDocumentPreparation(record: ProtectedPacketVerif
     if (typeof count !== "number" || !Number.isSafeInteger(count) || count < 1) missing.add("ca_prop64_juvenile_additional_count");
     else additionalCount = count;
   }
-  const suppliedIndexes = [...new Set(maps.flatMap(m => Object.keys(m)).flatMap(id => { const found = /^ca_prop64_juvenile_additional_(\d+)_(date|sections)$/.exec(id); return found ? [Number(found[1])] : []; }))].filter(index => Number.isSafeInteger(index) && index >= 1 && index <= additionalCount).sort((a, b) => a - b);
+  const suppliedIndexes = [...new Set(maps.flatMap(m => Object.keys(m)).flatMap(id => { const found = /^ca_prop64_juvenile_additional_(\d+)_(conduct_date|date|sections)$/.exec(id); return found ? [Number(found[1])] : []; }))].filter(index => Number.isSafeInteger(index) && index >= 1 && index <= additionalCount).sort((a, b) => a - b);
   if (suppliedIndexes.length < additionalCount) missing.add("ca_prop64_juvenile_additional_findings");
   for (const index of suppliedIndexes) {
     const finding = readFinding(index), slot = (index - 1) % spec.attachmentRows, instance = Math.floor((index - 1) / spec.attachmentRows);
@@ -133,7 +136,7 @@ export function caProp64JuvenileDocumentPreparation(record: ProtectedPacketVerif
   const uniqueWrites = sourceWrites.filter((item, i) => sourceWrites.findIndex(other => other.documentId === item.documentId && other.instance === item.instance && other.field === item.field) === i);
   return { schemaVersion: "ca-prop64/juvenile-document-preparation/v1", reviewOnly: true, status: conflicts.size || review.size ? "source_review" : missing.size ? "needs_facts" : "mapped_for_review",
     pathwayId: model.pathwayId, revision: model.revision, capturedAt: model.capturedAt, originalResultCode: model.resultCode,
-    facts, findings, sourceWrites: conflicts.size || review.size ? [] : uniqueWrites, missingFactIds: [...missing], conflictingFactIds: [...conflicts], reviewReasons: [...review],
+    facts, findings, sourceWrites: conflicts.size || review.size || missing.size ? [] : uniqueWrites, missingFactIds: [...missing], conflictingFactIds: [...conflicts], reviewReasons: [...review],
     attachmentCount: Math.ceil(additionalCount / 6), serviceActor: representation ? spec.serviceActors[representation as "attorney" | "self_represented"] : null,
     questions: caProp64JuvenileDocumentQuestions(model.initialAnswers), sourceDocuments: spec.documents.map(({ documentId, sourceSha256 }) => ({ documentId, sourceSha256 })),
     generationAllowed: false, paymentAllowed: false, verificationAuthority: false, authorizedDeliveryEstablished: false,

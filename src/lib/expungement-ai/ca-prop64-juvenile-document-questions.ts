@@ -13,7 +13,7 @@ export const CA_JUVENILE_SECTIONS = ["11357", "11358", "11359", "11360"] as cons
  * Row indexes identify findings, not count numbers inferred from a case label. */
 export function caProp64JuvenileFindingQuestions(index: number): ProfileQuestion[] {
   const prefix = index === 0 ? "ca_prop64_juvenile_finding" : `ca_prop64_juvenile_additional_${index}`;
-  return [text(`${prefix}_date`, "On what date did the juvenile court make this finding?", "¿En qué fecha emitió el tribunal de menores esta determinación?", "Copy the adjudication date from the court record, not the arrest, offense or sentencing date.", "Copie la fecha de adjudicación del expediente judicial, no la fecha del arresto, de los hechos ni de la sentencia.", "date_or_unknown"),
+  return [...(index === 0 ? [] : [text(`${prefix}_conduct_date`, "On what date did the conduct for this additional finding occur?", "¿En qué fecha ocurrieron los hechos de esta determinación adicional?", "Use the actual conduct date for this finding, not its adjudication date or the primary finding’s date. JV-744A states that you were under 18 for each listed offense. If the date or age is unresolved, keep this finding unresolved.", "Use la fecha real de los hechos de esta determinación, no la fecha de adjudicación ni la de la determinación principal. JV-744A afirma que tenía menos de 18 años en cada delito indicado. Si la fecha o la edad no se han resuelto, mantenga esta determinación sin resolver.", "date_or_unknown")]), text(`${prefix}_date`, "On what date did the juvenile court make this finding?", "¿En qué fecha emitió el tribunal de menores esta determinación?", "Copy the adjudication date from the court record, not the arrest, offense or sentencing date.", "Copie la fecha de adjudicación del expediente judicial, no la fecha del arresto, de los hechos ni de la sentencia.", "date_or_unknown"),
     { ...text(`${prefix}_sections`, "Which marijuana sections did the court find violated in this finding?", "¿Qué secciones sobre marihuana determinó el tribunal que se infringieron?", "Select every applicable section shown for this finding. Do not infer a section from the packet name.", "Seleccione cada sección que figure en esta determinación. No deduzca una sección del nombre del paquete.", "multi_select"), options: [...CA_JUVENILE_SECTIONS] }];
 }
 export const CA_PROP64_JUVENILE_DOCUMENT_QUESTIONS: readonly ProfileQuestion[] = [
@@ -40,7 +40,7 @@ export function caProp64JuvenileDocumentQuestions(answers: Readonly<Record<strin
   // answers; offer at most one additional source attachment of empty rows.
   // A declared count alone must not allocate an unbounded array.
   const existing = new Set(Object.keys(answers).flatMap(id => {
-    const match = /^ca_prop64_juvenile_additional_(\d+)_(date|sections)$/.exec(id);
+    const match = /^ca_prop64_juvenile_additional_(\d+)_(conduct_date|date|sections)$/.exec(id);
     const index = match ? Number(match[1]) : 0;
     return Number.isSafeInteger(index) && index > 0 && index <= total ? [index] : [];
   }));
