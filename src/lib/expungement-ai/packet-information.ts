@@ -2149,6 +2149,20 @@ function deriveProtectedPacketDraftSnapshot(
   const preserved = isCaProp64Pathway(base.jurisdiction, base.pathwayId) || preserveFinancialFacts || factualIds.length > 0
     ? preserveUnchangedProtectedFacts(shapesPreserved, base, new Set([...explicitChangedIds, ...confirmRecordFacts]))
     : shapesPreserved;
+  // The reviewed agency successor removes an inherited collection dependency,
+  // not the participant's saved context. Do not turn it into a form/agency fact.
+  if (base.pathwayId && isGeorgiaAgencyWithoutCounty(currentAuthority.profile, base.pathwayId)
+    && base.profileVersion === currentAuthority.profile.profileVersion
+    && base.profileSourceFingerprint === (currentAuthority.profile.source?.sourceCorpusSha256 ?? null)
+    && base.profileAuthorityFingerprint === profileAuthorityFingerprint(currentAuthority.profile, base.pathwayId)
+    && canonicalEqual(base.packetPlan, currentAuthority.evaluation.packetPlan ?? null)
+    && !explicitChangedIds.has("county") && !confirmRecordFacts.includes("county")) {
+    for (const source of ["screeningAnswers", "prefilledAnswers", "packetAnswers"] as const) {
+      preserved[source] = { ...preserved[source] };
+      delete preserved[source].county;
+      if (Object.hasOwn(base[source], "county")) preserved[source].county = base[source].county;
+    }
+  }
   return { ...preserved, dependencies: history.length
     ? { ...preserved.dependencies, semanticAnswerHistory: history } : preserved.dependencies };
 }
