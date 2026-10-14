@@ -1,5 +1,5 @@
 import { caProp64JuvenilePreparationScope } from "@/lib/expungement-ai/ca-prop64-juvenile-document-preparation";
-import { caProp64JuvenileDocumentQuestions } from "@/lib/expungement-ai/ca-prop64-juvenile-document-questions";
+import { caProp64JuvenileDocumentQuestions, caProp64JuvenileAdditionalCount } from "@/lib/expungement-ai/ca-prop64-juvenile-document-questions";
 import { montanaDeferredDocumentInputs, montanaDeferredAliasDisplay, MT_DEFERRED_PARTICIPANT_ALIASES, MT_DEFERRED_CURRENT_DOCUMENT_CONTRACT } from "@/lib/expungement-ai/mt-deferred-document-inputs";
 import { montanaDeferredDocumentQuestions, montanaDeferredDocumentReviewNotices } from "@/lib/expungement-ai/mt-deferred-document-questions";
 import { MT_DEFERRED_ROUTE, MT_DEFERRED_FACT_IDS, montanaDeferredFactApplies, montanaDeferredLegacyFinancialApplies, isMontanaDeferredContract } from "@/lib/rcap-engine/montana-deferred-facts";
@@ -1704,7 +1704,9 @@ export function caProp64JuvenilePreparationModelFor(verification: ProtectedPacke
   return { ...model, caJuvenilePreparationFactIds: allQuestions.map(q => q.id),
     caJuvenilePreparationActiveFactIds: questions.map(q => q.id), questions: allQuestions,
     builderQuestions: questions, builderSections: [], recordClarificationIds: conflicts,
-    missingInputIds: questions.filter(q => q.required && questionAnswerState(q, model.initialAnswers[q.id]) !== "known_valid").map(q => q.id),
+    missingInputIds: questions.filter(q => q.required && (q.id === "ca_prop64_juvenile_additional_count"
+      ? caProp64JuvenileAdditionalCount(model.initialAnswers[q.id]) === undefined
+      : questionAnswerState(q, model.initialAnswers[q.id]) !== "known_valid")).map(q => q.id),
     pendingDerivations: [], stage: "in_progress", reviewedAt: null,
     reviewSafety: { safe: false, reason: "participant_document_preparation_only" } };
 }

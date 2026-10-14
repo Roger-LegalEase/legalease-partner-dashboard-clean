@@ -184,14 +184,16 @@ async function countControlRegression(){
  const base=JSON.parse(fs.readFileSync(path.join(b,'juvenile-review-assembly-prospective-v3/completed-self_represented/prospective-preparation.json'))).record;
  let cases=0;for(const count of [1,'1','01',{value:'1',unknown:false},{value:1,unknown:false}]){
   const before=structuredClone(base),first=packetInformationPatch({protectedVerification:before,answers:{ca_prop64_juvenile_additional_scope:'same_case_remedy',ca_prop64_juvenile_additional_count:count},caJuvenilePreparation:true});assert(first);let r=first.protectedTransition.nextVerification;
-  assert(ownerModel(r).builderQuestions.some(q=>q.id==='ca_prop64_juvenile_additional_1_conduct_date'));assert.deepEqual(r.draftSnapshot.packetAnswers.ca_prop64_juvenile_additional_count,count);
+  assert(ownerModel(r).builderQuestions.some(q=>q.id==='ca_prop64_juvenile_additional_1_conduct_date'));assert(!ownerModel(r).missingInputIds.includes('ca_prop64_juvenile_additional_count'));assert.deepEqual(r.draftSnapshot.packetAnswers.ca_prop64_juvenile_additional_count,count);
   r=packetInformationPatch({protectedVerification:r,answers:{ca_prop64_juvenile_additional_1_conduct_date:{value:'2000-02-01',unknown:false},ca_prop64_juvenile_additional_1_date:{value:'2000-03-01',unknown:false},ca_prop64_juvenile_additional_1_sections:['11360']},caJuvenilePreparation:true}).protectedTransition.nextVerification;
   assert.equal(prepare(r,sources).status,'mapped_for_review');assert.equal(prepare(r,sources).findings.length,2);assert.equal(r.draftSnapshot.paymentAllowed,false);assert.equal(r.hash,undefined);assert.equal(r.snapshot,undefined);cases++;
  }
  for(const count of ['',0,-1,'1-2','1.5','1e3','9007199254740992',{value:'1',unknown:true},{value:'1',extra:true},['1']]){
   const r=structuredClone(base);r.draftSnapshot.packetAnswers.ca_prop64_juvenile_additional_scope='same_case_remedy';r.draftSnapshot.packetAnswers.ca_prop64_juvenile_additional_count=count;r.draftHash=protectedPacketDraftHash(r.draftSnapshot);
-  assert(!ownerModel(r).builderQuestions.some(q=>q.id==='ca_prop64_juvenile_additional_1_conduct_date'));assert(prepare(r,sources).missingFactIds.includes('ca_prop64_juvenile_additional_count'));assert.equal(prepare(r,sources).sourceWrites.length,0);assert.deepEqual(r.draftSnapshot.packetAnswers.ca_prop64_juvenile_additional_count,count);cases++;
+  assert(!ownerModel(r).builderQuestions.some(q=>q.id==='ca_prop64_juvenile_additional_1_conduct_date'));assert(ownerModel(r).missingInputIds.includes('ca_prop64_juvenile_additional_count'));assert(prepare(r,sources).missingFactIds.includes('ca_prop64_juvenile_additional_count'));assert.equal(prepare(r,sources).sourceWrites.length,0);assert.deepEqual(r.draftSnapshot.packetAnswers.ca_prop64_juvenile_additional_count,count);
+  r.draftSnapshot.packetAnswers.ca_prop64_juvenile_additional_scope='none';r.draftHash=protectedPacketDraftHash(r.draftSnapshot);assert(!ownerModel(r).missingInputIds.includes('ca_prop64_juvenile_additional_count'));assert(!ownerModel(r).builderQuestions.some(q=>q.id==='ca_prop64_juvenile_additional_count'));assert.deepEqual(r.draftSnapshot.packetAnswers.ca_prop64_juvenile_additional_count,count);cases++;
  }
+ const countQuestion=questions({ca_prop64_juvenile_additional_scope:'same_case_remedy'}).find(q=>q.id==='ca_prop64_juvenile_additional_count');assert.match(countQuestion.helperText,/positive whole number, not a range or fraction/);assert.match(countQuestion.translations.es.helperText,/entero positivo, no un intervalo ni una fracción/);
  console.log(JSON.stringify({status:'PASS_JUVENILE_ACTUAL_NUMBER_CONTROL_SHAPES',cases,rawPreserved:true,noAuthority:true,databaseAccess:false}));
 }
 await countControlRegression();
