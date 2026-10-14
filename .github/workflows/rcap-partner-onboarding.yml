@@ -32,6 +32,9 @@ jobs:
       - name: Fetch pinned Georgia assembly comparison baseline
         run: git fetch --no-tags --depth=1 origin 8af7a0641c8ff7ad126c40b1333994737e76dbe7
 
+      - name: Fetch pinned DC protected-save comparison baseline
+        run: git fetch --no-tags --depth=1 origin 0983b7fc34d8fa9299b71d4d8775634d0e4007c2
+
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
@@ -94,6 +97,7 @@ jobs:
           node scripts/test-ms-paid-packet-proof.mjs --proof-only
           node scripts/verify-personalized-route-refusal.mjs
           node scripts/test-ks-municipal-factual-boundaries.mjs
+          node scripts/test-ks-municipal-contact.mjs
           node scripts/test-ks-district-factual-routing.mjs
           node scripts/test-ga10-missing-witnesses.mjs
           node scripts/test-ga10-ne-missing-witnesses.mjs
@@ -131,6 +135,7 @@ jobs:
           node scripts/test-ca-prop64-family-bridge.mjs
           node scripts/test-ak-courtview-contact.mjs
           node scripts/test-ct-clean-slate-contact.mjs
+          node scripts/test-dc-innocence-location-context.mjs
           node scripts/test-packet-initial-save-revision.mjs
           node scripts/test-tx-nondisclosure-arrest-anchor.mjs
           node scripts/test-nevada-program-question-scope.mjs
