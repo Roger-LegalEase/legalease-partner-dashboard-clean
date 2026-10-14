@@ -50,6 +50,7 @@ export const GA_PARDON_QUESTIONS: PublicQuestion[] = [
   question("ga_post_pardon_traffic_jurisdictions", "Were all of your traffic convictions since the pardon under Georgia state law?", "Use each final conviction record. A city ordinance or another state's law needs a separate comparison; do not classify the offense as serious or nonserious.", "¿Todas sus condenas de tránsito desde el indulto fueron conforme a la ley estatal de Georgia?", "Consulte cada documento de condena final. Una ordenanza municipal o la ley de otro estado requiere una comparación por separado; no clasifique la infracción como grave o no grave.", [["all_georgia", "All were under Georgia state law", "Todas fueron conforme a la ley estatal de Georgia"], ["other_jurisdiction", "At least one was under another law", "Al menos una fue conforme a otra ley"], unknown]),
   question("ga_post_pardon_traffic_citations", "What exact Georgia Code sections and subsections cover every traffic conviction since the pardon?", "Copy every final conviction citation, separated by commas or semicolons, including repeated convictions. For example: 40-6-181(b)(2). Keep offense names and dates in the traffic records answer. Do not omit a conviction because you consider it minor.", "¿Qué secciones y subsecciones exactas del Código de Georgia corresponden a todas sus condenas de tránsito desde el indulto?", "Copie cada referencia de condena final, separada por comas o puntos y coma, incluidas las condenas repetidas. Por ejemplo: 40-6-181(b)(2). Mantenga los nombres de las infracciones y las fechas en la respuesta sobre los antecedentes de tránsito. No omita una condena por considerarla menor.", null, "text_or_unknown"),
   question("ga_pardon_statutory_rape_age", "How old were you when the statutory-rape offense happened?", "Use your age at the time of that offense, not your current age or age when the pardon was granted. Do not enter the other person's name or date of birth.", "¿Qué edad tenía cuando ocurrió el delito de relaciones sexuales con una persona menor de la edad legal de consentimiento (statutory rape)?", "Use su edad en el momento de ese delito, no su edad actual ni su edad cuando se concedió el indulto. No ingrese el nombre ni la fecha de nacimiento de la otra persona.", [["under21", "Under 21", "Menos de 21 años"], ["21_or_older", "21 or older", "21 años o más"], unknown]),
+  question("ga_pardon_statutory_rape_conviction_age", "How old were you when the final statutory-rape conviction was entered?", "Use your age on the final conviction date. Keep your separate answer about your age when the offense happened; these dates can differ.", "¿Qué edad tenía cuando se registró la condena final por statutory rape?", "Use su edad en la fecha de la condena final. Mantenga su respuesta separada sobre su edad cuando ocurrió el delito; estas fechas pueden ser diferentes.", [["under21", "Under 21", "Menos de 21 años"], ["21_or_older", "21 or older", "21 años o más"], unknown]),
   question("ga_pardon_pending_charges", "Are any criminal charges currently pending against you?", "Include charges in any jurisdiction. A pardon of this conviction does not resolve a different pending charge.", "¿Tiene actualmente algún cargo penal pendiente?", "Incluya cargos en cualquier jurisdicción. El indulto de esta condena no resuelve otro cargo pendiente.", yesNo),
   question("ga_pardon_assault_rape_intent", "Does the final aggravated-assault conviction include intent to rape?", "Use the final conviction record, not an earlier allegation. Other forms of aggravated assault are not automatically this sexual-offense exclusion.", "¿La condena final por agresión agravada incluye la intención de violar?", "Use el documento de la condena final, no una alegación anterior. Otras formas de agresión agravada no constituyen automáticamente esta exclusión por delito sexual.", yesNo),
   question("ga_pardon_imprisonment_under14", "Was the person held in the false-imprisonment offense under age 14?", "Use the person's age at the time of that offense. Do not enter the person's name or birth date.", "¿La persona retenida en el delito de privación ilegal de libertad era menor de 14 años?", "Use la edad de la persona en el momento del delito. No ingrese su nombre ni su fecha de nacimiento.", yesNo),
@@ -77,7 +78,7 @@ export function georgiaPardonQuestionApplies(state: string, a: Record<string, un
     ? ((rawCitation as {unknown?: unknown}).unknown === false ? (rawCitation as {value?: unknown}).value : undefined)
     : rawCitation;
   const section = georgiaConvictionCitation(citation)?.section;
-  if (id === "ga_pardon_statutory_rape_age") return section === "16-6-3";
+  if (["ga_pardon_statutory_rape_age", "ga_pardon_statutory_rape_conviction_age"].includes(id)) return section === "16-6-3";
   if (id === "ga_pardon_assault_rape_intent") return section === "16-5-21";
   if (id === "ga_pardon_imprisonment_under14") return section === "16-5-41";
   if (id === "ga_pardon_imprisonment_own_child") return section === "16-5-41" && a.ga_pardon_imprisonment_under14 === "yes";
@@ -92,6 +93,7 @@ export const GA_PARDON_COPY = {
   exception_review: ["This offense has a specific age, subsection or other exception that the supplied conviction record does not yet resolve. Review the exact final disposition and exception before continuing; a broad offense label does not establish exclusion or eligibility.", "Este delito tiene una excepción específica de edad, subsección u otra condición que el documento de condena proporcionado aún no resuelve. Revise la resolución final exacta y la excepción antes de continuar; una etiqueta general del delito no establece exclusión ni elegibilidad."],
   offense_class_conflict: ["The reported conviction class conflicts with the supplied offense or exception citation. Check the final disposition and explicitly correct the class or Code section. Neither saved answer has been discarded.", "La clase de condena indicada contradice la referencia proporcionada al delito o a la excepción. Consulte la resolución final y corrija expresamente la clase o la sección del Código. No se ha descartado ninguna respuesta guardada."],
   court_review: ["The reported conviction does not match the listed offense exclusions, and you reported no later convictions or pending charges. The court still decides whether the harm to you clearly outweighs the public interest in access to the record. This screening is not a court finding or authorization to buy or generate a packet.", "La condena indicada no corresponde a las exclusiones de delitos enumeradas, y usted indicó que no tiene condenas posteriores ni cargos pendientes. El tribunal aún debe decidir si el perjuicio para usted supera claramente el interés público en el acceso al expediente. Esta evaluación no es una decisión judicial ni una autorización para comprar o generar un paquete."],
+  statutory_age_review: ["The saved ages at the offense and final conviction do not resolve this statutory-rape exclusion. Review both dates and ages before applying the age-21 rule. Neither answer has been discarded, and no exclusion or exception has been inferred.", "Las edades guardadas en el momento del delito y de la condena final no resuelven esta exclusión por statutory rape. Revise ambas fechas y edades antes de aplicar la regla de los 21 años. No se ha descartado ninguna respuesta ni se ha inferido una exclusión o excepción."],
   court_review_traffic: ["The reported conviction does not match the listed offense exclusions. The supplied Georgia traffic citations fall within the nonserious traffic exception, and you reported no pending charges. The court still decides whether the harm to you clearly outweighs the public interest in access to the record. This screening is not a court finding or authorization to buy or generate a packet.", "La condena indicada no corresponde a las exclusiones de delitos enumeradas. Las referencias de tránsito de Georgia proporcionadas corresponden a la excepción para infracciones de tránsito no graves, y usted indicó que no tiene cargos pendientes. El tribunal aún debe decidir si el perjuicio para usted supera claramente el interés público en el acceso al expediente. Esta evaluación no es una decisión judicial ni una autorización para comprar o generar un paquete."],
   classification: ["Check the final conviction record and correct how the case ended. Both misdemeanor and felony convictions may be considered under this pardon procedure; a generic pardon label does not identify the conviction class.", "Consulte el documento de la condena final y corrija cómo terminó el caso. Tanto las condenas por delitos menores como por delitos graves pueden considerarse conforme a este procedimiento de indulto; una etiqueta general de indulto no identifica la clase de condena."],
   missing: ["Check the requested facts from the Board pardon and conviction records. The saved generic pardon answer does not establish a Board pardon, its date or the conditions for this procedure.", "Revise los datos solicitados en los documentos del indulto de la Junta y de la condena. La respuesta general guardada sobre un indulto no establece un indulto de la Junta, su fecha ni las condiciones de este procedimiento."],
@@ -109,7 +111,7 @@ type Decision = { status: "missing" | "review" | "excluded"; code: keyof typeof 
  * Exact record exceptions stay separate from a court's sentencing departure.
  * A mismatch never rewrites the participant's original conviction class.
  */
-export function georgiaPardonOffense(a: Record<string, unknown>): "not_listed" | "excluded" | "exception_review" | "citation_review" | "offense_class_conflict" {
+export function georgiaPardonOffense(a: Record<string, unknown>): "not_listed" | "excluded" | "exception_review" | "citation_review" | "offense_class_conflict" | "statutory_age_review" {
   const citation = georgiaConvictionCitation(a.ga_pardoned_offense_section);
   if (!citation) return "citation_review";
   const { section, subsection } = citation;
@@ -130,10 +132,15 @@ export function georgiaPardonOffense(a: Record<string, unknown>): "not_listed" |
     if (felony) return "excluded";
     return "exception_review";
   }
-  // §17-10-6.2(a)(4) uses the offender's age, not the offense label alone.
+  // §17-10-6.2(a)(4) names age21 but the retrieved authorities do not
+  // resolve an offense-before21/conviction-after21 case. Collect both actual
+  // ages; do not silently pick a date or infer the missing answer.
   if (section === "16-6-3") {
-    if (subsection === "(c)") return misdemeanor && a.ga_pardon_statutory_rape_age === "under21" ? "not_listed" : "offense_class_conflict";
-    return a.ga_pardon_statutory_rape_age === "21_or_older" ? felonyExclusion : a.ga_pardon_statutory_rape_age === "under21" ? "not_listed" : "exception_review";
+    const offenseAge = a.ga_pardon_statutory_rape_age;
+    const convictionAge = a.ga_pardon_statutory_rape_conviction_age;
+    if (offenseAge !== convictionAge || !["under21", "21_or_older"].includes(String(offenseAge))) return "statutory_age_review";
+    if (subsection === "(c)") return misdemeanor && offenseAge === "under21" ? "not_listed" : "offense_class_conflict";
+    return offenseAge === "21_or_older" ? felonyExclusion : "not_listed";
   }
   // Match the actual disposition's punishment subsection. Broad labels and
   // historical subsection (f)(2), revised in 2021, do not resolve its exception.
@@ -179,6 +186,7 @@ export function georgiaPardonFacts(a: Record<string, unknown>, today: string): D
   // context labels. Do not reselect it using the raw, historical label.
   const missing = GA_PARDON_QUESTIONS.filter(q => georgiaPardonQuestionApplies("GA", a, q.id, GA_PARDON_ROUTE)).filter(q => {
     const v = a[q.id];
+    if (["ga_pardon_statutory_rape_age", "ga_pardon_statutory_rape_conviction_age"].includes(q.id) && v === "unknown") return false;
     if (Array.isArray(q.options)) return typeof v !== "string" || !q.options.includes(v) || v === "unknown";
     if (typeof v !== "string" || !v.trim() || /^(unknown|i am not sure)$/i.test(v.trim())) return true;
     if (q.type !== "date_or_unknown") return false;
@@ -193,6 +201,7 @@ export function georgiaPardonFacts(a: Record<string, unknown>, today: string): D
   if (a.ga_pardon_pending_charges === "yes") return fail("excluded", "pending");
   const offense = georgiaPardonOffense(a);
   if (offense === "excluded") return fail("excluded", "excluded_offense");
+  if (offense === "statutory_age_review") return fail("review", offense, ["ga_pardon_statutory_rape_age", "ga_pardon_statutory_rape_conviction_age"]);
   if (offense !== "not_listed") return fail("review", offense, ["ga_pardoned_offense_section", "case_outcome"]);
   if (a.ga_convictions_since_pardon === "traffic_only") {
     const traffic = georgiaPardonTraffic(a);
