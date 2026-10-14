@@ -6,7 +6,7 @@ const candidatePath=process.argv[process.argv.indexOf('--candidate')+1];assert(p
 const root=process.cwd(),readBytes=file=>fs.readFileSync(path.resolve(root,file)),candidate=JSON.parse(readBytes(candidatePath));
 const sourceSha=execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),hash=b=>createHash('sha256').update(b).digest('hex');
 const input={candidatePath,candidateSha256:GA_CURRENT_OUTPUT_CANDIDATE_SHA256,readBytes,sourceSha};let count=0;
-const predecessorSource=execFileSync('git',['show','71752931e54a2d643c3d92420620feb7037d3cd0:scripts/lib/ga-pardon-current-output-handoff.mjs'],{encoding:'utf8'}).replace("from 'pdf-lib'",'from '+JSON.stringify(import.meta.resolve('pdf-lib')));
+const predecessorSource=execFileSync('git',['show','13ab6dd7fdddfe1e42e33a67a2c243c15e65dafa:scripts/lib/ga-pardon-current-output-handoff.mjs'],{encoding:'utf8'}).replace("from 'pdf-lib'",'from '+JSON.stringify(import.meta.resolve('pdf-lib')));
 const predecessor=await import('data:text/javascript;base64,'+Buffer.from(predecessorSource).toString('base64'));
 const valid=await prepareGaCurrentOutputHandoff(input);assert.equal(valid.artifacts.outputs.length,6);assert.equal(valid.artifacts.packetBytesChanged,true);assert.equal(valid.canonicalRecord,null);assert.equal(valid.workerAdmission,null);assert.equal(valid.outputLegalApproval.state,'not_recorded');assert.equal(valid.finalVerification.state,'unbound');assert.equal(valid.opensRoute,false);assert.equal(valid.paymentAllowed,false);count++;
 assert.equal(valid.outputLegalApproval.requiredAction,candidate.approvalDependency.preciseReviewRequest);count++;
