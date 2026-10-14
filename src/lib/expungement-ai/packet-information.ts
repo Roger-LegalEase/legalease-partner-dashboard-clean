@@ -1,3 +1,4 @@
+import { delawareProtectedCorrectionContract, delawareProtectedCorrectionIds, delawareProtectedExclusionQuestion } from "@/lib/expungement-ai/delaware-protected-corrections";
 import { OR_CONTACT_IDS, oregonContactContract, oregonContactQuestions, oregonContactInputs, oregonContactConflictingIds } from "@/lib/expungement-ai/oregon-disposition-contact";
 import { ND_LEGACY_RECORD_TYPE, ndFirstOffenseRecordIsContext, ndFirstOffenseRecordContextQuestion } from "@/lib/expungement-ai/nd-first-offense-record-context";
 import { oregonDispositionConfigurationSourceMatches } from "@/lib/rcap-engine/composed-route-selector";
@@ -357,6 +358,7 @@ export function packetInformationModelFor(item: ConsumerBriefcaseItem): PacketIn
     && !questions.some(question => question.id === DC_LEGACY_LOCATION)) questions.push(fallbackPacketQuestion(DC_LEGACY_LOCATION));
   questions = questions.map((question) => reviewedPacketQuestion(question, { state: profile.jurisdiction.code, pathwayId, participantOwnsRecord: knownParticipantOwner(questionById, screeningAnswers.ownership_scope), participantHelpingRecord: knownParticipantHelper(questionById, screeningAnswers.ownership_scope) }));
   questions = questions.map(question => ndFirstOffenseRecordContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
+  questions = questions.map(question => delawareProtectedExclusionQuestion(question, profile, pathwayId));
   for (const question of questions) questionById.set(question.id, question);
   const builderQuestions = builderQuestionsFor(questions, collection, requiredInputIds, serverFacts);
   const missingInputIds = missingRequiredInputs(
@@ -2040,6 +2042,7 @@ export function packetCollectionFor(input: {
  * clarification. A saved fact identifies its control, never a replacement route. */
 export function factualPathwayCorrectionIds(state: string, pathway: string | null, answers: Record<string, unknown>, includeInactive = false): string[] {
   const profile = getProfileByJurisdiction(state);
+  if (state === "DE") return delawareProtectedCorrectionIds(profile ?? undefined, pathway, answers, includeInactive);
   const relief = profile ? convictionReliefRequest(profile, answers) : null;
   const extra = profile && relief && relief.status !== "not_applicable"
     ? [...convictionReliefQuestions(state).filter(q => includeInactive || convictionReliefQuestionApplies(profile, answers, q.id)).map(q => q.id),
@@ -2234,6 +2237,11 @@ export function isLouisianaAutomationStatusGuidanceCorrection(model: Parameters<
 
 export function heldPacketCorrectionInputIds(model: Parameters<typeof heldCourtCompletionInputIds>[0], resultCode: string | null): Set<string> {
   const ids = heldCourtCompletionInputIds(model, resultCode);
+  if (resultCode === "guidance_only" && model.stateCode === "DE"
+    && model.pathwayId !== null && delawareProtectedCorrectionContract(getProfileByJurisdiction("DE"), model.pathwayId)) {
+    const allowed = editablePacketInputIds(model);
+    for (const id of routeFactualCorrectionIds(model)) if (allowed.has(id) && model.questions.some(q => q.id === id)) ids.add(id);
+  }
   if (isMissouriMarijuanaGuidanceCorrection(model, resultCode) || isMontanaDeferredGuidanceCorrection(model, resultCode)) {
     const allowed = editablePacketInputIds(model);
     for (const id of routeFactualCorrectionIds(model)) if (id !== "financial_obligations" && allowed.has(id) && model.questions.some(q => q.id === id)) ids.add(id);
@@ -2493,6 +2501,7 @@ function protectedPacketQuestionSurface(
     && !questions.some(question => question.id === DC_LEGACY_LOCATION)) questions.push(fallbackPacketQuestion(DC_LEGACY_LOCATION));
   questions = questions.map((question) => reviewedPacketQuestion(question, { state: profile.jurisdiction.code, pathwayId, participantOwnsRecord: knownParticipantOwner(questionById, screeningAnswers.ownership_scope), participantHelpingRecord: knownParticipantHelper(questionById, screeningAnswers.ownership_scope) }));
   questions = questions.map(question => ndFirstOffenseRecordContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
+  questions = questions.map(question => delawareProtectedExclusionQuestion(question, profile, pathwayId));
   for (const question of questions) questionById.set(question.id, question);
   const builderQuestions = builderQuestionsFor(questions, collection, requiredInputIds, serverFacts);
   const builderSections = builderSectionsFor(collection, builderQuestions);
