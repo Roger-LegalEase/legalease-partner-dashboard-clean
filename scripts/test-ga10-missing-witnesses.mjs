@@ -87,6 +87,13 @@ for (const [name, financial, completion] of scenarios) {
     check(`${name}/specific statutory hold`, a.evaluation.reasons[0].code, 'ks.registration_statutory_facts_review');
     check(`${name}/EN adopted petition meaning`, a.evaluation.reasons[0].text, KS_REGISTRATION_REVIEW_COPY[0]);
     check(`${name}/ES exact draft binding`, resolveRuntimeText('es', a.evaluation.reasons[0].text), KS_REGISTRATION_REVIEW_COPY[1]);
+  } else {
+    // FINANCIAL-CLARIFICATION-01 is retained engineering copy, not a new
+    // translation or independent language approval. The browser must use it.
+    check(`${name}/retained EN clarification`, a.evaluation.reasons[0].text,
+      'Review your saved answer about court-ordered financial obligations. Keep an unsure answer if you do not know, and update it when you have the information.');
+    check(`${name}/retained ES clarification`, resolveRuntimeText('es', a.evaluation.reasons[0].text),
+      'Revise su respuesta guardada sobre las obligaciones económicas ordenadas por el tribunal. Mantenga una respuesta de duda si no lo sabe y actualícela cuando tenga la información.');
   }
   check(`${name}/input unchanged`, answers, before);
   const selected = selectScreeningQuestionIds(p, pub, answers);
@@ -193,9 +200,17 @@ for (const { name, record } of inventory.syntheticPredecessorCapture.records) {
   check(`${name}/old raw financial retained`, model?.initialAnswers.financial_obligations, Object.assign({}, ...maps.map(k => old[k])).financial_obligations);
   check(`${name}/old revision retained on read`, model?.revision, record.revision);
   check(`${name}/old automatic plan withdrawn`, model?.packetPlan ?? null, null);
+  check(`${name}/API correction uses current held result`, model?.resultCode, 'needs_review');
+  if (model && ['No', 'I am not sure'].includes(model.initialAnswers.financial_obligations)) {
+    check(`${name}/current model exposes held financial correction`, P.heldPacketCorrectionInputIds(model, model.resultCode).has('financial_obligations'), true);
+  }
   const actual = await present(record);
   check(`${name}/full presentation keeps recovery`, [actual.authorityStatus, actual.packetDraft.status], ['protected_draft', 'available']);
   check(`${name}/current held result`, actual.resultCode, 'needs_review');
+  if (name !== 'unknown') {
+    check(`${name}/saved matter explains adopted petition distinction`, actual.summary, KS_REGISTRATION_REVIEW_COPY[0]);
+    check(`${name}/saved matter Spanish petition distinction`, resolveRuntimeText('es', actual.summary), KS_REGISTRATION_REVIEW_COPY[1]);
+  }
   check(`${name}/no verified or commercial presentation`, actual.verificationStatus === 'verified' || Object.values(actual.commercialActions).some(Boolean), false);
   check(`${name}/read preserves historical record`, JSON.stringify(record), before);
   const patch = P.packetInformationPatch({ existingItem: { id: 'synthetic-ks-matter', jurisdiction: 'KS', artifactRefs: {} },

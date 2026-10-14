@@ -127,7 +127,9 @@ export async function POST(
   }
   const protectedModel = ownerEditingModelFor(protectedRead.value);
   if (!protectedModel) return NextResponse.json({ ok: false, error: "packet_information_unavailable" }, { status: 403 });
-  const savedResult = protectedRead.value.status === "verified" ? protectedRead.value.snapshot?.resultCode : protectedRead.value.draftSnapshot?.resultCode;
+  // Match the page's validated successor instead of the historical draft result.
+  // This controls owner corrections only; verification and commercial holds remain.
+  const savedResult = protectedModel.resultCode;
   const factualCorrectionIds = protectedModel ? factualPathwayCorrectionIds(protectedModel.stateCode, protectedModel.pathwayId, protectedModel.initialAnswers) : [];
   const financialCorrection = protectedModel && heldPacketCorrectionInputIds(protectedModel, savedResult ?? null).has("financial_obligations");
   if (!protectedModel?.packetPlan && !protectedModel?.caProp64Clarification

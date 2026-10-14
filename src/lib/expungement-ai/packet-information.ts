@@ -166,6 +166,8 @@ export type ProtectedPacketInformationModel = Pick<
   | "verificationContext"
   | "verificationManifest"
 > & {
+  /** Validated current result, including a narrowly admitted held successor. */
+  resultCode: ProtectedPacketDraftSnapshot["resultCode"];
   /** Owner correction surface only; never legal/packet/payment authority. */
   caProp64Clarification?: boolean;
   revision: number;
@@ -729,7 +731,7 @@ export function caProp64ClarificationModelFor(verification: ProtectedPacketVerif
   if (expectedBranch === "currently-serving petition" && caProp64Choice("ca_prop64_branch", initialAnswers.ca_prop64_branch) === expectedBranch
     && completionConflict && !missingInputIds.includes("sentence_completion_date")) missingInputIds.push("sentence_completion_date");
   return {
-    caProp64Clarification: true, stateCode: snapshot.jurisdiction, pathwayId: snapshot.pathwayId, revision: verification.revision,
+    caProp64Clarification: true, resultCode: evaluation.resultCode, stateCode: snapshot.jurisdiction, pathwayId: snapshot.pathwayId, revision: verification.revision,
     packetPlan: null, questions, builderQuestions: questions, builderSections: [], initialAnswers, screeningAnswers, prefilledAnswers, packetAnswers,
     serverFacts: canonicalServerFacts(snapshot.jurisdiction, snapshot.pathwayId), requiredInputIds: ids, missingInputIds, pendingDerivations: [],
     stage: "in_progress", reviewedAt: null, capturedAt: "capturedAt" in snapshot ? snapshot.capturedAt : snapshot.verifiedAt,
@@ -1158,6 +1160,7 @@ export function protectedPacketInformationModelFor(
     : protectedPacketDraftReviewSafety(snapshot, "verifiedAt" in snapshot ? snapshot.verifiedAt : new Date().toISOString());
   const currentlyVerified = verification.status === "verified" && reviewSafety.safe;
   return {
+    resultCode: snapshot.resultCode,
     stateCode: snapshot.jurisdiction,
     revision: verification.revision,
     pathwayId: snapshot.pathwayId,
