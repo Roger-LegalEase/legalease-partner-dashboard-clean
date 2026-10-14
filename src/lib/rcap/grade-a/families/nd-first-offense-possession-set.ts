@@ -5,6 +5,8 @@ import { contactRepresentationHash } from "@/lib/expungement-ai/contact-represen
 import { ND_FIRST_OFFENSE_FAMILY, ndFirstOffenseContactText } from "@/lib/expungement-ai/nd-first-offense-family-inputs";
 import { ND_FIRST_OFFENSE_COMPONENTS, ND_FIRST_OFFENSE_COMPONENT_IDS, ndFirstOffenseBody } from "../../../../../scripts/lib/nd-first-offense-possession-composition.mjs";
 
+import { courtFacingRows } from "../../../../../scripts/rcap-custom-pleading/court-facing-rows.mjs";
+
 const ROUTE = "ND:first-offense-possession-sealing";
 const PARTICIPANT = {
   participant_full_legal_name: "participant.full_legal_name",
@@ -66,7 +68,9 @@ function composeNdFirstOffenseComponents(specification: PacketSpecification, mat
     const court = isCourtFacing(contract);
     const bodyText = ndFirstOffenseBody(component.id, facts);
     componentBodies.push({ componentId: component.id, title: component.title, body: bodyText });
-    const lines = bodyText.split("\n");
+    // Apply the existing family renderer's exact metadata-ink rule. Source
+    // bodies stay immutable; the route identifier remains in evidence only.
+    const lines = bodyText.split("\n").flatMap(courtFacingRows((line: string) => [line]));
     let blocks: GradeABlock[];
     if (court) {
       // The source's caption occupies body lines 0–10. Its exact labels and
