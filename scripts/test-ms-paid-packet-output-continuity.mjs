@@ -5,7 +5,7 @@ import path from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { register } from 'node:module';
 import { loadMsPaidPacketProof, MS_PAID_PACKET_PROOF, MS_PAID_PACKET_PROOF_PREDECESSOR,
-  MS_PAID_PACKET_PROOF_20260920, MS_PAID_PACKET_PROOF_RETIRED } from './lib/ms-paid-packet-proof.mjs';
+  MS_PAID_PACKET_PROOF_20260920, MS_PAID_PACKET_PROOF_RETIRED, MS_PROOF_EXECUTION_INPUTS } from './lib/ms-paid-packet-proof.mjs';
 register('./lib/ts-esm-loader.mjs',import.meta.url);
 const { loadMsPaidConsumerSuccessor }=await import('../src/lib/rcap/fulfillment/paid-consumer-successor.ts');
 const { stableStringify }=await import('../src/lib/rcap/fulfillment/grade-a-registry.ts');
@@ -44,6 +44,18 @@ const mutations={
  'invented new authority':p=>{p.newCommercialApproval=true;}
 };
 for(const [name,mutate] of Object.entries(mutations))check(name,()=>{const p=structuredClone(proof);mutate(p);assert.throws(()=>load(p),assert.AssertionError);});
+for(const file of Object.keys(proof.inputs))check(`omitted dependency refused: ${file}`,()=>{
+ const candidate=structuredClone(proof);delete candidate.inputs[file];
+ assert.throws(()=>load(candidate),/incomplete or undeclared MS proof input inventory|missing proof input/);
+});
+check('unknown unexecuted input cannot extend the proof inventory',()=>{
+ const candidate=structuredClone(proof);candidate.inputs['scripts/invented-unexecuted-source.mjs']='0'.repeat(64);
+ assert.throws(()=>load(candidate),/incomplete or undeclared MS proof input inventory/);
+});
+for(const file of MS_PROOF_EXECUTION_INPUTS)check(`execution helper or lockfile remains source-bound: ${file}`,()=>{
+ assert.ok(proof.inputs[file]);
+ assert.throws(()=>load(proof,{file,bytes:Buffer.from('changed execution dependency')}),/stale MS packet proof|stale output input/);
+});
 for(const file of ['scripts/lib/ms-paid-packet-proof.mjs','scripts/verify-ms-paid-packet-proof.mjs','src/lib/rcap/render/participant-packet-assembly.ts','src/lib/rcap/fulfillment/final-verification-contract.ts'])check(`current exact implementation remains pinned ${file}`,()=>assert.throws(()=>load(proof,{file,bytes:Buffer.concat([fs.readFileSync(file),Buffer.from('\n')])}),/stale MS packet proof|stale output input/));
 check('proof generator refuses existing private output before any PostgreSQL',()=>{
  const dir=fs.mkdtempSync(path.join(os.tmpdir(),'ms-proof-write-guard-'));

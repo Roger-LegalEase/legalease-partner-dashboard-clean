@@ -11,6 +11,10 @@ export const MS_PAID_PACKET_PROOF_20260920='data/rcap-grade-a/participant-data-r
 export const MS_PAID_PACKET_PROOF_RETIRED='data/rcap-grade-a/participant-data-rights/ms-paid-packet-proof-20260914.json';
 /** The approved artifacts, by the ids the owner decision names them under. */
 export const MS_APPROVED_ARTIFACT_IDS=['full-en','full-es','court-only'];
+// Actual verifier and loader execution dependencies, in addition to observed
+// output inputs and the immutable predecessor's complete inventory.
+export const MS_PROOF_EXECUTION_INPUTS=['scripts/lib/rcap-ephemeral-pg.mjs','scripts/lib/ts-esm-loader.mjs',
+  'scripts/lib/server-only-shim.mjs','scripts/lib/next-server-esm-bridge.mjs','package.json','package-lock.json'];
 const hash=b=>crypto.createHash('sha256').update(b).digest('hex');
 export function loadMsPaidPacketProof({readBytes=file=>fs.readFileSync(file), stableStringify, approval}) {
   const bytes=readBytes(MS_PAID_PACKET_PROOF); const proof=JSON.parse(bytes);
@@ -63,6 +67,12 @@ export function loadMsPaidPacketProof({readBytes=file=>fs.readFileSync(file), st
   assert.equal(proof.syntheticScenario.value,'No');
   assert.equal(proof.syntheticScenario.inferredFromLegacyAnswer,false);
   for(const required of [proof.outputContinuity.path,proof.outputContinuity.continuity.path,MS_PAID_PACKET_PROOF_20260920,MS_PAID_PACKET_PROOF_RETIRED,QUESTION_CONTRACT_SUCCESSOR_PATH, QUESTION_CONTRACT_OUTPUT_PATH, MS_QUESTION_CONTRACT_PREDECESSOR_PATH, MS_PAID_PACKET_PROOF_PREDECESSOR, proof.generatedBy,approval.decisionPath,approval.supersededDecisionPath,approval.specificationPath,approval.supplementalGuidePath,approval.reviewEvidencePath,approval.historicalApprovalPath,'src/lib/rcap/render/participant-packet-assembly.ts','src/lib/rcap/fulfillment/final-verification-contract.ts'])assert.ok(proof.inputs[required],`missing proof input ${required}`);
+  const outputBytes=readBytes(proof.outputContinuity.path);
+  assert.equal(hash(outputBytes),proof.outputContinuity.sha256,'current output inventory proof changed');
+  const currentOutput=JSON.parse(outputBytes);
+  const requiredInventory=[...new Set([...Object.keys(predecessor.inputs),...currentOutput.sources.map(input=>input.file),
+    proof.outputContinuity.path,proof.outputContinuity.continuity.path,MS_PAID_PACKET_PROOF_PREDECESSOR,...MS_PROOF_EXECUTION_INPUTS])].sort();
+  assert.deepEqual(Object.keys(proof.inputs).sort(),requiredInventory,'incomplete or undeclared MS proof input inventory');
   for(const [file,expected] of Object.entries(proof.inputs))assert.equal(hash(readBytes(file)),expected,`stale MS packet proof: ${file}`);
   const source=proof.sourceAuthority;
   assert.deepEqual(source.boundInputs.questionContractSourceSuccessor, approval.questionContractSourceSuccessor);

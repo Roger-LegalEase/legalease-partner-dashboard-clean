@@ -15,7 +15,7 @@ import { createHash } from 'node:crypto';
 import { execFileSync } from 'node:child_process';
 import { register } from 'node:module';
 import { PDFDocument } from 'pdf-lib';
-import { MS_PAID_PACKET_PROOF, MS_PAID_PACKET_PROOF_PREDECESSOR, MS_PAID_PACKET_PROOF_20260920, MS_PAID_PACKET_PROOF_RETIRED, loadMsPaidPacketProof } from './lib/ms-paid-packet-proof.mjs';
+import { MS_PAID_PACKET_PROOF, MS_PAID_PACKET_PROOF_PREDECESSOR, MS_PAID_PACKET_PROOF_20260920, MS_PAID_PACKET_PROOF_RETIRED, MS_PROOF_EXECUTION_INPUTS, loadMsPaidPacketProof } from './lib/ms-paid-packet-proof.mjs';
 import { QUESTION_CONTRACT_SUCCESSOR_PATH, QUESTION_CONTRACT_OUTPUT_PATH, MS_QUESTION_CONTRACT_PREDECESSOR_PATH, assertQuestionContractOutputInputs } from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import { startEphemeralPg } from './lib/rcap-ephemeral-pg.mjs';
 import { MS_SUCCESSOR_REVIEW_OUTPUTS, msSuccessorReviewMatter } from './lib/ms-successor-review-matter.mjs';
@@ -175,6 +175,7 @@ assert.equal(results.find(r=>r.variant==='court_only').guideAssembled,false,'the
 function bindTree(dir){for(const entry of fs.readdirSync(dir,{withFileTypes:true})){const file=path.join(dir,entry.name); if(entry.isDirectory())bindTree(file);else if(file.endsWith('.ts'))read(file);}}
 bindTree('src/lib/rcap/grade-a');
 bindTree('src/lib/rcap/supplemental');
+for(const file of MS_PROOF_EXECUTION_INPUTS)read(file);
 for(const file of ['scripts/verify-ms-paid-packet-proof.mjs','scripts/lib/ms-paid-packet-proof.mjs','scripts/lib/ms-successor-review-matter.mjs','src/lib/rcap/render/participant-packet-assembly.ts','src/lib/rcap/render/personalized-packet.ts','src/lib/expungement-ai/packet-information.ts','src/lib/expungement-ai/verification-cas.ts','src/lib/rcap/fulfillment/final-verification-contract.ts','src/lib/rcap/fulfillment/paid-consumer-successor.ts','src/lib/rcap/fulfillment/question-contract-source-successor.mjs'])read(file);
 const proof={schemaVersion:'rcap-ms-paid-packet-proof/v4',generatedBy:'scripts/verify-ms-paid-packet-proof.mjs',sourceSha:execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),routeId:approval.routeId,trackId:spec.trackId,packetFamilyId:spec.packetFamily,ownerDecision:approval,
   assemblyIdentity:{assemblyKind:approval.assemblyKind,assemblyVersion:approval.assemblyVersion,supplementalGuidePath:approval.supplementalGuidePath,supplementalGuideSha256:approval.supplementalGuideSha256,supplementalGuideContentSha256:approval.supplementalGuideContentSha256,assembledThrough:'src/lib/rcap/render/participant-packet-assembly.ts'},
