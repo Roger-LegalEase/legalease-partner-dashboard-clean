@@ -68,7 +68,7 @@ function checkedProof(receipt, readBytes) {
 // The original immutable source transition and its owner/review ancestry remain
 // unchanged. Only build-time freshness uses this separately pinned reproduction.
 export const QUESTION_CONTRACT_CONTINUITY_PATH = 'data/rcap-grade-a/participant-data-rights/question-contract-output-continuity-20261013.json';
-export const QUESTION_CONTRACT_CONTINUITY_SHA256 = '868f13cfa48f142614f1a8eaf407e3d429b949429b86ca88706905eef310443f';
+export const QUESTION_CONTRACT_CONTINUITY_SHA256 = 'f394d6a0fe6f740d04819be972540560eef42e5b10a8bc6bfdd464e8e68d326f';
 export const QUESTION_CONTRACT_CURRENT_OUTPUT_PATH = 'data/rcap-grade-a/participant-data-rights/question-contract-output-reproduction-20261013.json';
 
 /** Exposed below the immutable byte pins for non-vacuous semantic controls. */
