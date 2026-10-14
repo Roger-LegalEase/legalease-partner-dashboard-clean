@@ -313,6 +313,8 @@ export type PacketCollectionInput = {
   unresolvedSavedFactIds?: ReadonlySet<string>;
   /** Set only by the exact reviewed route/specification/consumer predicate. */
   reviewedContactRepresentation?: boolean;
+  /** Set only by the exact adopted MO status/source contract, never participant data. */
+  missouriClosureStatusOnly?: boolean;
   /** Per-route corrections, used only where the generic policy cannot be right. */
   override?: RouteCollectionOverride | null;
 };
@@ -653,6 +655,14 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
       facts.push({ factId, collection: "conditional", phase: "known", group: null,
         source: "ne_adult_acquittal_no_financial_predicate", active: false,
         reason: "The exact adult acquittal automatic route has no financial predicate; the saved payment answer is retained without inference." });
+      continue;
+    }
+
+    if (input.missouriClosureStatusOnly === true && input.jurisdiction === "MO"
+      && input.pathwayId === "closed-record-outcome-under-rsmo-610-105" && factId === "financial_obligations") {
+      facts.push({ factId, collection: "conditional", phase: "known", group: null,
+        source: "mo_closure_status_no_financial_predicate", active: false,
+        reason: "The adopted selected Missouri closure-status guidance has no financial predicate; the original payment answer is retained without inference." });
       continue;
     }
 

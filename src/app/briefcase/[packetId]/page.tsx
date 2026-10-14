@@ -1,6 +1,6 @@
 import { msExactTimingQuestionIds } from "@/lib/rcap-engine/mississippi-exact-timing";
 import { readProtectedPacketVerification } from "@/lib/expungement-ai/verification-cas";
-import { caProp64ClarificationModelFor, factualPathwayCorrectionIds, heldPacketCorrectionInputIds, isNebraskaNonconvictionGuidanceCorrection, isLouisianaAutomationStatusGuidanceCorrection, isMaineNonconvictionGuidanceCorrection } from "@/lib/expungement-ai/packet-information";
+import { caProp64ClarificationModelFor, factualPathwayCorrectionIds, heldPacketCorrectionInputIds, isNebraskaNonconvictionGuidanceCorrection, isLouisianaAutomationStatusGuidanceCorrection, isMaineNonconvictionGuidanceCorrection, isMissouriClosureGuidanceCorrection } from "@/lib/expungement-ai/packet-information";
 import { CA_PROP64_CLARIFICATION_COPY } from "@/lib/expungement-ai/ca-prop64-choices";
 import { packetDisplayCopy, packetMatterTitleCopy } from "@/lib/expungement-ai/packet-display-copy";
 import { SponsorCapacityNotice } from "@/components/expungement-ai/SponsorCapacityNotice";
@@ -53,7 +53,8 @@ export default async function BriefcasePacketPage({
   const savedCaseGuidanceCorrection = completionCorrectionAvailable && item?.jurisdiction && item.packetDraft.status === "available"
     && (isNebraskaNonconvictionGuidanceCorrection({ ...item.packetDraft, stateCode: item.jurisdiction, pathwayId: item.pathwayId }, item.resultCode)
       || isLouisianaAutomationStatusGuidanceCorrection({ ...item.packetDraft, stateCode: item.jurisdiction, pathwayId: item.pathwayId }, item.resultCode)
-      || isMaineNonconvictionGuidanceCorrection({ ...item.packetDraft, stateCode: item.jurisdiction, pathwayId: item.pathwayId }, item.resultCode));
+      || isMaineNonconvictionGuidanceCorrection({ ...item.packetDraft, stateCode: item.jurisdiction, pathwayId: item.pathwayId }, item.resultCode)
+      || isMissouriClosureGuidanceCorrection({ ...item.packetDraft, stateCode: item.jurisdiction, pathwayId: item.pathwayId }, item.resultCode));
   const artifact = item?.artifact.status === "ready" ? item.artifact : null;
   const paidPreparation = item?.paymentState === "paid" && factsVerified && !artifact && item.commercialActions.generationAllowed
     ? await getConsumerPacketStatus({ userId: auth.userId, briefcaseItemId: item.id }).catch(() => null)

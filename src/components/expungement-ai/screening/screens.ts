@@ -138,6 +138,6 @@ export function sanitizeResumedAnswersForQuestionIds(
     answers,
     deriveScreens(profile).map((question) => question.id),
     selectedQuestionIds,
-    ["AR", "CA", "NV", "GA", "IL", "KS", "MS", "DE", "NY", "NE", "LA", "ME"].includes(profile.jurisdiction.code) ? profile : undefined
+    ["AR", "CA", "NV", "GA", "IL", "KS", "MS", "DE", "NY", "NE", "LA", "ME", "MO"].includes(profile.jurisdiction.code) ? profile : undefined
   );
 }

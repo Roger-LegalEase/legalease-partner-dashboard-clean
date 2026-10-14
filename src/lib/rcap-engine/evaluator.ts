@@ -1,3 +1,4 @@
+import { missouriClosedRecordQuestionApplies } from "@/lib/rcap-engine/missouri-closed-record-facts";
 import { maineNonconvictionQuestionApplies, maineMissingFinancialCorrectionPathway } from "@/lib/rcap-engine/maine-nonconviction-facts";
 import { louisianaAutomationStatusQuestionApplies } from "@/lib/rcap-engine/louisiana-automation-status";
 import { nebraskaNonconvictionQuestionApplies, nebraskaMissingFinancialCorrectionPathway } from "@/lib/rcap-engine/nebraska-nonconviction-facts";
@@ -220,6 +221,7 @@ function evaluateProfileRules(profile: EngineProfile, request: ScreeningEvaluati
   const preselectedPathway = selectPathway(profile, answers);
   const missingQuestionIds = requiredMissingPublicQuestionIds(publicProfile, answers)
     .filter(id => nevada176AQuestionApplies(jurisdiction, preselectedPathway?.id, id))
+    .filter(id => missouriClosedRecordQuestionApplies(jurisdiction, preselectedPathway?.id, answers, id, profile))
     .filter(id => maineNonconvictionQuestionApplies(jurisdiction, preselectedPathway?.id, answers, id))
     .filter(id => nebraskaNonconvictionQuestionApplies(jurisdiction, preselectedPathway?.id, answers, id))
     .filter(id => louisianaAutomationStatusQuestionApplies(jurisdiction, preselectedPathway?.id, id));
@@ -806,6 +808,7 @@ function ambiguityReason(
   const relevant = relevantFactIds(profile, selectedPathway);
   const ambiguous = legalFields
     .filter(question => nevada176AQuestionApplies(jurisdiction, selectedPathway?.id, question.id))
+    .filter(question => missouriClosedRecordQuestionApplies(jurisdiction, selectedPathway?.id, answers, question.id, profile))
     .filter(question => maineNonconvictionQuestionApplies(jurisdiction, selectedPathway?.id, answers, question.id))
     .filter(question => nebraskaNonconvictionQuestionApplies(jurisdiction, selectedPathway?.id, answers, question.id))
     .filter(question => louisianaAutomationStatusQuestionApplies(jurisdiction, selectedPathway?.id, question.id))

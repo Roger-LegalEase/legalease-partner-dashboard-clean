@@ -1,3 +1,4 @@
+import { missouriClosedRecordQuestionApplies, isMissouriClosureGuidanceWithoutIdentityForm, MO_CLOSED_RECORD_ROUTE } from "@/lib/rcap-engine/missouri-closed-record-facts";
 import { maineNonconvictionQuestionApplies, maineNonconvictionCorrectionApplies, maineMissingFinancialCorrectionPathway, isMaineNonconvictionGuidanceWithoutCr218, ME_NONCONVICTION_ROUTE } from "@/lib/rcap-engine/maine-nonconviction-facts";
 import { louisianaAutomationStatusQuestionApplies, LA_AUTOMATION_STATUS_ROUTE } from "@/lib/rcap-engine/louisiana-automation-status";
 import { nebraskaNonconvictionQuestionApplies, nebraskaAdultNonconvictionCorrectionApplies, nebraskaMissingFinancialCorrectionPathway } from "@/lib/rcap-engine/nebraska-nonconviction-facts";
@@ -1036,6 +1037,57 @@ export function kansasRegistrationHeldSuccessor(snapshot: ProtectedPacketAuthori
   return seeded ? preserveUnchangedProtectedFacts(seeded.snapshot, snapshot, new Set()) : null;
 }
 
+/** Fresh exact-575237025 reproduction, not a captured prior production record. Only
+ * the exact nonpayable mistaken-identity plan or status-only financial hold may project current guidance.
+ * Reads and semantic no-ops leave the original protected record untouched. */
+export function missouriClosureDraftSuccessor(snapshot: ProtectedPacketAuthoritySnapshot,
+  authoritative: NonNullable<ReturnType<typeof evaluateProtectedPacketFacts>>): ProtectedPacketDraftSnapshot | null {
+  const route = MO_CLOSED_RECORD_ROUTE;
+  const profile = getProfileByJurisdiction("MO"), evaluation = authoritative.evaluation;
+  if (!profile || snapshot.schemaVersion !== "expungement-ai/protected-packet-draft/v1"
+    || snapshot.jurisdiction !== "MO" || ![route, null].includes(snapshot.pathwayId)
+    || snapshot.profileVersion !== "2026-06-19-source-conversion-1" || profile.profileVersion !== snapshot.profileVersion
+    || snapshot.profileSourceFingerprint !== "ddb1a8ea6c0d878f5a81d59e2a7e32cd7927436e9fb6fee8e8e8629ba7c62304"
+    || profile.source?.sourceCorpusSha256 !== snapshot.profileSourceFingerprint
+    || snapshot.profileAuthorityFingerprint !== (snapshot.pathwayId === route
+      ? "028ee32dc68172d23dcd0a871354a6c8175ac3ca38cc58a01179ec7cdb5f7252"
+      : "548cc539e137295ac70787377765a3aa271eefc6b3fce30a9f78df2c01eb0ba4")
+    || profileAuthorityFingerprint(profile, snapshot.pathwayId) !== snapshot.profileAuthorityFingerprint
+    || snapshot.paymentAllowed || snapshot.selectedTrackId !== null || snapshot.treatmentClassification !== null
+    || !canonicalEqual(snapshot.deferralComponentIds, [])
+    || !canonicalEqual(snapshot.serverFacts, canonicalServerFacts("MO", snapshot.pathwayId))
+    || !isMissouriClosureGuidanceWithoutIdentityForm(profile, route)
+    || evaluation.jurisdiction !== "MO" || evaluation.profileVersion !== snapshot.profileVersion
+    || evaluation.pathwayId !== route || evaluation.resultCode !== "guidance_only" || evaluation.paymentAllowed
+    || authoritative.packetType !== "guidance_packet" || authoritative.selectedTrackId
+    || evaluation.treatmentClassification || evaluation.deferralComponentIds?.length
+    || evaluation.reasons.length !== 1 || evaluation.reasons[0].code !== "mo.lawrence_hold_guidance_only"
+    || !canonicalEqual(evaluation.missingQuestionIds, [])
+    || !canonicalEqual(evaluation.packetPlan, packetPlanForPathway(profile, route))) return null;
+  const answers = protectedPacketScreeningAnswers(snapshot);
+  if (!answers) return null;
+  if (snapshot.resultCode === "guidance_only") {
+    const priorPlan = { ...evaluation.packetPlan!, formMappingStatus: "source_candidate_identified",
+      sourceFormIds: ["MO:LegalEase Missouri/petition-for-expungement-mistaken-identity.pdf:5f4fecf410664cc725e298e2d96f3aa0448acaa800dc559e548f8f2e38a3f9f8"] };
+    if (snapshot.pathwayId !== route || snapshot.packetType !== "guidance_packet"
+      || !canonicalEqual(snapshot.packetPlan, priorPlan) || !canonicalEqual(snapshot.requiredInputIds, priorPlan.requiredInputIds)
+      || !canonicalEqual(snapshot.packetFamilyIdentifiers, { mode: priorPlan.mode, sourceFormIds: priorPlan.sourceFormIds })) return null;
+  } else {
+    if (missouriClosedRecordQuestionApplies("MO", route, answers, "financial_obligations", profile)) return null;
+    const exactUnknown = snapshot.pathwayId === route && snapshot.resultCode === "needs_review"
+      && isExplicitUnknownAnswer(answers.financial_obligations);
+    const exactMissing = snapshot.pathwayId === null && snapshot.resultCode === "needs_more_info"
+      && !Object.hasOwn(answers, "financial_obligations");
+    if ((!exactUnknown && !exactMissing) || snapshot.packetType !== null || snapshot.packetPlan !== null
+      || !canonicalEqual(snapshot.requiredInputIds, [])
+      || !canonicalEqual(snapshot.packetFamilyIdentifiers, { mode: null, sourceFormIds: [] })) return null;
+  }
+  const seeded = protectedPacketDraftSeedFromAuthoritative({ authoritative,
+    screeningAnswers: answerRecord(snapshot.screeningAnswers), prefilledAnswers: answerRecord(snapshot.prefilledAnswers),
+    packetAnswers: answerRecord(snapshot.packetAnswers), dependencies: snapshot.dependencies, capturedAt: snapshot.capturedAt });
+  return seeded ? preserveUnchangedProtectedFacts(seeded.snapshot, snapshot, new Set()) : null;
+}
+
 /** Fresh exact-f20 reproduction, not a captured prior production record. Only
  * the exact nonpayable CR-218 plan or acquittal financial hold may project current guidance.
  * Reads and semantic no-ops leave the original protected record untouched. */
@@ -1206,6 +1258,30 @@ function nebraskaUnselectedCorrectionIds(snapshot: ProtectedPacketAuthoritySnaps
   return prior ? ["case_outcome", "age_at_offense"] : [];
 }
 
+function missouriUnselectedCorrectionIds(snapshot: ProtectedPacketAuthoritySnapshot): string[] {
+  if (snapshot.jurisdiction !== "MO" || snapshot.pathwayId !== null
+    || !["needs_more_info", "needs_review"].includes(snapshot.resultCode ?? "")
+    || snapshot.paymentAllowed || snapshot.packetPlan !== null || snapshot.packetType !== null
+    || snapshot.requiredInputIds.length !== 0) return [];
+  const profile = getProfileByJurisdiction("MO");
+  if (!profile || !isMissouriClosureGuidanceWithoutIdentityForm(profile, MO_CLOSED_RECORD_ROUTE) || snapshot.profileVersion !== profile.profileVersion
+    || snapshot.profileSourceFingerprint !== profile.source?.sourceCorpusSha256
+    || snapshot.profileAuthorityFingerprint !== profileAuthorityFingerprint(profile, null)) return [];
+  const route = MO_CLOSED_RECORD_ROUTE;
+  const priorAuthority = profileAuthorityFingerprint(profile, route);
+  const history = snapshot.dependencies.semanticAnswerHistory;
+  const prior = Array.isArray(history) && history.some(entry =>
+    isRecord(entry) && ["screeningAnswers", "prefilledAnswers", "packetAnswers"].includes(entry.source)
+    && profile.questions.some(question => question.id === entry.factId && questionAnswerState(question, entry.value) === "known_valid")
+    && entry.meaning === "prior_factual_pathway_answer" && entry.factId === "case_outcome"
+    && entry.routeKey === `MO:${route}` && entry.profileVersion === profile.profileVersion
+    && entry.profileSourceFingerprint === profile.source?.sourceCorpusSha256
+    && entry.profileAuthorityFingerprint === priorAuthority);
+  // A former protected route establishes correction provenance, not a current
+  // route. Never populate optional pathway hints or change the held evaluation.
+  return prior ? ["case_outcome"] : [];
+}
+
 function louisianaUnselectedCorrectionIds(snapshot: ProtectedPacketAuthoritySnapshot): string[] {
   if (snapshot.jurisdiction !== "LA" || snapshot.pathwayId !== null
     || !["needs_more_info", "needs_review"].includes(snapshot.resultCode ?? "")
@@ -1235,6 +1311,9 @@ export function protectedPacketInformationModelFor(
 ): ProtectedPacketInformationModel | null {
   let snapshot = protectedAuthoritySnapshotFor(verification);
   if (!snapshot) return null;
+  const moAuthority = snapshot.jurisdiction === "MO" && [MO_CLOSED_RECORD_ROUTE, null].includes(snapshot.pathwayId)
+    ? evaluateProtectedPacketFacts(snapshot) : null;
+  if (moAuthority) snapshot = missouriClosureDraftSuccessor(snapshot, moAuthority) ?? snapshot;
   const meAuthority = snapshot.jurisdiction === "ME" ? evaluateProtectedPacketFacts(snapshot) : null;
   if (meAuthority) snapshot = maineNonconvictionDraftSuccessor(snapshot, meAuthority) ?? snapshot;
   const ksAuthority = snapshot.jurisdiction === "KS" && snapshot.pathwayId === KS_REGISTRATION_ROUTE
@@ -1286,7 +1365,7 @@ export function protectedPacketInformationModelFor(
   const initialAnswers = { ...screeningAnswers, ...prefilledAnswers, ...packetAnswers };
   const requiredInputIds = stringArray(snapshot.requiredInputIds);
   if (!canonicalEqual(requiredInputIds, packetPlan?.requiredInputIds ?? [])) return null;
-  const heldFactualCorrectionIds = [...maineUnselectedCorrectionIds(snapshot), ...nebraskaUnselectedCorrectionIds(snapshot), ...louisianaUnselectedCorrectionIds(snapshot)];
+  const heldFactualCorrectionIds = [...missouriUnselectedCorrectionIds(snapshot), ...maineUnselectedCorrectionIds(snapshot), ...nebraskaUnselectedCorrectionIds(snapshot), ...louisianaUnselectedCorrectionIds(snapshot)];
   const questionSurface = protectedPacketQuestionSurface(
     profile,
     snapshot.pathwayId,
@@ -1505,6 +1584,7 @@ export function packetCollectionFor(input: {
     routeDecidingFactIds: decidingFactIds,
     unresolvedRouteFactIds: unresolvedFactIds,
     reviewedContactRepresentation: Boolean(contactContract),
+    missouriClosureStatusOnly: isMissouriClosureGuidanceWithoutIdentityForm(profile, input.pathwayId ?? ""),
     recordOwnQuestionIds: new Set([...recordFactOwnQuestionIds(`${input.jurisdiction}:${input.pathwayId}`, { ...input.screeningAnswers, ...input.prefilledAnswers, ...input.savedAnswers }), ...(input.recordOwnQuestionIds ?? [])]),
     // Narrowing confirmation must not synthesize new evaluator inputs. Preserve
     // the accepted materialization guard independently of route identity.
@@ -1527,6 +1607,7 @@ export function factualPathwayCorrectionIds(state: string, pathway: string | nul
       "case_outcome", ...(state === "GA" ? ["ga_original_first_offender", "pardon_status"] : [])] : [];
 
   if (arkansasRecordOriginApplies(state, pathway)) return [...extra, AR_RECORD_ORIGIN_ID];
+  if (state === "MO" && pathway === MO_CLOSED_RECORD_ROUTE) return [...extra, "case_outcome"];
   if (state === "ME" && pathway === ME_NONCONVICTION_ROUTE) return [...extra, "case_outcome", "age_at_offense"];
   if (state === "LA" && pathway === LA_AUTOMATION_STATUS_ROUTE) return [...extra, "case_outcome"];
   if (state === "NE" && pathway === "automatic-nonconviction-sealing") return [...extra, "case_outcome", "age_at_offense"];
@@ -1558,7 +1639,8 @@ function routeFactualCorrectionIds(model: { stateCode: string; pathwayId: string
   const financial = model.pathwayId
     && (includeInactive || nebraskaNonconvictionQuestionApplies(model.stateCode, model.pathwayId, facts, "financial_obligations")
       && louisianaAutomationStatusQuestionApplies(model.stateCode, model.pathwayId, "financial_obligations")
-      && maineNonconvictionQuestionApplies(model.stateCode, model.pathwayId, facts, "financial_obligations"))
+      && maineNonconvictionQuestionApplies(model.stateCode, model.pathwayId, facts, "financial_obligations")
+      && missouriClosedRecordQuestionApplies(model.stateCode, model.pathwayId, facts, "financial_obligations", profile ?? undefined))
     && isIndependentPaidFinancialFact(`${model.stateCode}:${model.pathwayId}`,
     profile?.questions.find(question => question.id === "financial_obligations")) ? ["financial_obligations"] : [];
   if (model.stateCode !== "NY" || model.pathwayId !== NY_16059_ROUTE) return [...financial, ...factual];
@@ -1649,6 +1731,14 @@ export function isNebraskaNonconvictionGuidanceCorrection(model: Parameters<type
 
 /** Status guidance retains its original disposition correction, without granting
  * filing, verification, payment or automated-request authority. */
+export function isMissouriClosureGuidanceCorrection(model: Parameters<typeof heldCourtCompletionInputIds>[0], resultCode: string | null): boolean {
+  const profile = getProfileByJurisdiction("MO");
+  return resultCode === "guidance_only" && model.stateCode === "MO"
+    && model.pathwayId === MO_CLOSED_RECORD_ROUTE && Boolean(profile)
+    && isMissouriClosureGuidanceWithoutIdentityForm(profile!, MO_CLOSED_RECORD_ROUTE)
+    && canonicalEqual(model.packetPlan, packetPlanForPathway(profile!, model.pathwayId));
+}
+
 export function isLouisianaAutomationStatusGuidanceCorrection(model: Parameters<typeof heldCourtCompletionInputIds>[0], resultCode: string | null): boolean {
   const profile = getProfileByJurisdiction("LA");
   return resultCode === "guidance_only" && model.stateCode === "LA"
@@ -1658,7 +1748,7 @@ export function isLouisianaAutomationStatusGuidanceCorrection(model: Parameters<
 
 export function heldPacketCorrectionInputIds(model: Parameters<typeof heldCourtCompletionInputIds>[0], resultCode: string | null): Set<string> {
   const ids = heldCourtCompletionInputIds(model, resultCode);
-  if (isLouisianaAutomationStatusGuidanceCorrection(model, resultCode)
+  if ((isLouisianaAutomationStatusGuidanceCorrection(model, resultCode) || isMissouriClosureGuidanceCorrection(model, resultCode))
     && editablePacketInputIds(model).has("case_outcome")
     && model.questions.some(question => question.id === "case_outcome")) ids.add("case_outcome");
   // Exact nonpayable adult nonconviction guidance retains its factual controls.
@@ -2062,8 +2152,8 @@ function deriveProtectedPacketDraftSnapshot(
   const originalBase = base;
   const gaPreparationIds = gaPardonPreparation ? gaPardonPreparationModelFor(verification)?.gaPardonPreparationFactIds : undefined;
   if (gaPardonPreparation && !gaPreparationIds) return null;
-  base = maineNonconvictionDraftSuccessor(base, currentAuthority) ?? louisianaAutomationStatusHeldSuccessor(base, currentAuthority) ?? nebraskaAcquittalHeldSuccessor(base, currentAuthority) ?? kansasRegistrationHeldSuccessor(base, currentAuthority) ?? base;
-  const factualIds = [...factualPathwayCorrectionIds(base.jurisdiction, base.pathwayId, { ...base.screeningAnswers, ...base.prefilledAnswers, ...base.packetAnswers }, true), ...msExactTimingQuestionIds(base.jurisdiction, base.pathwayId, { ...base.screeningAnswers, ...base.prefilledAnswers, ...base.packetAnswers }, true), ...maineUnselectedCorrectionIds(base), ...nebraskaUnselectedCorrectionIds(base), ...louisianaUnselectedCorrectionIds(base)];
+  base = missouriClosureDraftSuccessor(base, currentAuthority) ?? maineNonconvictionDraftSuccessor(base, currentAuthority) ?? louisianaAutomationStatusHeldSuccessor(base, currentAuthority) ?? nebraskaAcquittalHeldSuccessor(base, currentAuthority) ?? kansasRegistrationHeldSuccessor(base, currentAuthority) ?? base;
+  const factualIds = [...factualPathwayCorrectionIds(base.jurisdiction, base.pathwayId, { ...base.screeningAnswers, ...base.prefilledAnswers, ...base.packetAnswers }, true), ...msExactTimingQuestionIds(base.jurisdiction, base.pathwayId, { ...base.screeningAnswers, ...base.prefilledAnswers, ...base.packetAnswers }, true), ...missouriUnselectedCorrectionIds(base), ...maineUnselectedCorrectionIds(base), ...nebraskaUnselectedCorrectionIds(base), ...louisianaUnselectedCorrectionIds(base)];
   if (gaPreparationIds) factualIds.push(...gaPreparationIds);
   if (isNy16059Packet(base.jurisdiction, base.pathwayId)) factualIds.push(...NY_PACKET_FACT_IDS, ...NY_CASE_FACT_IDS,
     ...routeFactualCorrectionIds({ stateCode: base.jurisdiction, pathwayId: base.pathwayId,

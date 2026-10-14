@@ -1,3 +1,4 @@
+import { missouriClosedRecordQuestionApplies } from "@/lib/rcap-engine/missouri-closed-record-facts";
 import { maineNonconvictionQuestionApplies, ME_NONCONVICTION_ROUTE } from "@/lib/rcap-engine/maine-nonconviction-facts";
 import { louisianaAutomationStatusQuestionApplies } from "@/lib/rcap-engine/louisiana-automation-status";
 import { nebraskaNonconvictionQuestionApplies } from "@/lib/rcap-engine/nebraska-nonconviction-facts";
@@ -111,6 +112,7 @@ export function selectScreeningQuestionIds(
   }).map(question => question.id));
 
   return publicProfile.questions
+    .filter(question => missouriClosedRecordQuestionApplies(profile.jurisdiction.code, selectedPathway?.id, answers, question.id, profile))
     .filter(question => maineNonconvictionQuestionApplies(profile.jurisdiction.code, maineFinancialQuestionPathway, answers, question.id))
     .filter(question => nebraskaNonconvictionQuestionApplies(profile.jurisdiction.code, selectedPathway?.id, answers, question.id))
     .filter(question => louisianaAutomationStatusQuestionApplies(profile.jurisdiction.code, selectedPathway?.id, question.id))
