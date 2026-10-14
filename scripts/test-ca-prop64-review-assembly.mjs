@@ -59,7 +59,7 @@ if(mappingOnly){console.log(JSON.stringify({status:'PASS',checks:checks.length,s
 if(predecessor){
  const {transpileModule,ModuleKind,ScriptTarget}=await import('typescript');
  const {pathToFileURL}=await import('node:url');
- const oldSource=execFileSync('git',['show','a707569c3:src/lib/rcap/supplemental/guide-renderer.ts'],{encoding:'utf8'})
+ const oldSource=execFileSync('git',['show','66bc28f58f66ca3ba1e88e2fd7a852db71ce65ce:src/lib/rcap/supplemental/guide-renderer.ts'],{encoding:'utf8'})
   .replace('"../grade-a/renderer"',JSON.stringify(pathToFileURL(path.resolve('src/lib/rcap/grade-a/renderer.ts')).href))
   .replace('from "pdf-lib"','from '+JSON.stringify(import.meta.resolve('pdf-lib')));
  const compiled=transpileModule(oldSource,{compilerOptions:{module:ModuleKind.ESNext,target:ScriptTarget.ES2022}}).outputText;
