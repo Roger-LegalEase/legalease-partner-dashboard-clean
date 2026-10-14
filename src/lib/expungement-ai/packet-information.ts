@@ -1,3 +1,4 @@
+import { louisianaAutomationStatusQuestionApplies, LA_AUTOMATION_STATUS_ROUTE } from "@/lib/rcap-engine/louisiana-automation-status";
 import { nebraskaNonconvictionQuestionApplies, nebraskaAdultNonconvictionCorrectionApplies, nebraskaMissingFinancialCorrectionPathway } from "@/lib/rcap-engine/nebraska-nonconviction-facts";
 import { AR_RECORD_ORIGIN_ID, arkansasRecordOrigin, arkansasRecordOriginApplies } from "@/lib/rcap-engine/arkansas-record-origin";
 import { KS_REGISTRATION_ROUTE } from "@/lib/rcap-engine/kansas-district-facts";
@@ -1064,6 +1065,41 @@ export function nebraskaAcquittalHeldSuccessor(snapshot: ProtectedPacketAuthorit
   return seeded ? preserveUnchangedProtectedFacts(seeded.snapshot, snapshot, new Set()) : null;
 }
 
+/** Exact predecessor recovery for operational status guidance; never activation. */
+export function louisianaAutomationStatusHeldSuccessor(snapshot: ProtectedPacketAuthoritySnapshot,
+  authoritative: NonNullable<ReturnType<typeof evaluateProtectedPacketFacts>>): ProtectedPacketDraftSnapshot | null {
+  const route = LA_AUTOMATION_STATUS_ROUTE;
+  const profile = getProfileByJurisdiction("LA"), evaluation = authoritative.evaluation;
+  if (!profile || snapshot.schemaVersion !== "expungement-ai/protected-packet-draft/v1"
+    || snapshot.jurisdiction !== "LA" || snapshot.pathwayId !== route
+    || snapshot.profileVersion !== "2026-06-19-source-conversion-1" || profile.profileVersion !== snapshot.profileVersion
+    || snapshot.profileSourceFingerprint !== "aa83d703e56d1ee4964a1cb360a32e226d13feb58c24522eea9ade21517f0ff5"
+    || profile.source?.sourceCorpusSha256 !== snapshot.profileSourceFingerprint
+    || snapshot.profileAuthorityFingerprint !== "dfbbb05f57ebc95472146cf367a8a625facbaa1f2a68eb9bdc772c7016522bcc"
+    || profileAuthorityFingerprint(profile, route) !== snapshot.profileAuthorityFingerprint
+    || snapshot.resultCode !== "needs_review" || snapshot.paymentAllowed
+    || snapshot.packetType !== null || snapshot.packetPlan !== null || !canonicalEqual(snapshot.requiredInputIds, [])
+    || !canonicalEqual(snapshot.packetFamilyIdentifiers, { mode: null, sourceFormIds: [] })
+    || snapshot.selectedTrackId !== null || snapshot.treatmentClassification !== null || !canonicalEqual(snapshot.deferralComponentIds, [])
+    || !canonicalEqual(snapshot.serverFacts, canonicalServerFacts("LA", route))
+    || evaluation.jurisdiction !== "LA" || evaluation.profileVersion !== snapshot.profileVersion
+    || evaluation.pathwayId !== route || evaluation.resultCode !== "guidance_only" || evaluation.paymentAllowed
+    || authoritative.packetType !== "guidance_packet" || authoritative.selectedTrackId
+    || evaluation.treatmentClassification || evaluation.deferralComponentIds?.length
+    || evaluation.reasons.length !== 1 || evaluation.reasons[0].code !== "la.guidance_only_no_user_filed_court_petition"
+    || !canonicalEqual(evaluation.missingQuestionIds, [])
+    || !canonicalEqual(evaluation.packetPlan, packetPlanForPathway(profile, route))
+    || evaluation.packetPlan?.mode !== "automatic_relief_verification_and_guidance"
+    || evaluation.packetPlan.formMappingStatus !== "not_required" || evaluation.packetPlan.sourceFormIds.length !== 0) return null;
+  const answers = protectedPacketScreeningAnswers(snapshot);
+  if (!answers || !isExplicitUnknownAnswer(answers.financial_obligations)
+    || louisianaAutomationStatusQuestionApplies("LA", route, "financial_obligations")) return null;
+  const seeded = protectedPacketDraftSeedFromAuthoritative({ authoritative,
+    screeningAnswers: answerRecord(snapshot.screeningAnswers), prefilledAnswers: answerRecord(snapshot.prefilledAnswers),
+    packetAnswers: answerRecord(snapshot.packetAnswers), dependencies: snapshot.dependencies, capturedAt: snapshot.capturedAt });
+  return seeded ? preserveUnchangedProtectedFacts(seeded.snapshot, snapshot, new Set()) : null;
+}
+
 function nebraskaUnselectedCorrectionIds(snapshot: ProtectedPacketAuthoritySnapshot): string[] {
   if (snapshot.jurisdiction !== "NE" || snapshot.pathwayId !== null
     || !["needs_more_info", "needs_review"].includes(snapshot.resultCode ?? "")
@@ -1096,6 +1132,9 @@ export function protectedPacketInformationModelFor(
   const ksAuthority = snapshot.jurisdiction === "KS" && snapshot.pathwayId === KS_REGISTRATION_ROUTE
     ? evaluateProtectedPacketFacts(snapshot) : null;
   if (ksAuthority) snapshot = kansasRegistrationHeldSuccessor(snapshot, ksAuthority) ?? snapshot;
+  const laAuthority = snapshot.jurisdiction === "LA" && snapshot.pathwayId === LA_AUTOMATION_STATUS_ROUTE
+    ? evaluateProtectedPacketFacts(snapshot) : null;
+  if (laAuthority) snapshot = louisianaAutomationStatusHeldSuccessor(snapshot, laAuthority) ?? snapshot;
   const neAuthority = snapshot.jurisdiction === "NE" && snapshot.pathwayId === "automatic-nonconviction-sealing"
     ? evaluateProtectedPacketFacts(snapshot) : null;
   if (neAuthority) snapshot = nebraskaAcquittalHeldSuccessor(snapshot, neAuthority) ?? snapshot;
@@ -1378,7 +1417,8 @@ function routeFactualCorrectionIds(model: { stateCode: string; pathwayId: string
   const factual = [...factualPathwayCorrectionIds(model.stateCode, model.pathwayId, facts, includeInactive), ...msExactTimingQuestionIds(model.stateCode, model.pathwayId, facts, includeInactive), ...(model.heldFactualCorrectionIds ?? [])];
   const profile = getProfileByJurisdiction(model.stateCode);
   const financial = model.pathwayId
-    && (includeInactive || nebraskaNonconvictionQuestionApplies(model.stateCode, model.pathwayId, facts, "financial_obligations"))
+    && (includeInactive || nebraskaNonconvictionQuestionApplies(model.stateCode, model.pathwayId, facts, "financial_obligations")
+      && louisianaAutomationStatusQuestionApplies(model.stateCode, model.pathwayId, "financial_obligations"))
     && isIndependentPaidFinancialFact(`${model.stateCode}:${model.pathwayId}`,
     profile?.questions.find(question => question.id === "financial_obligations")) ? ["financial_obligations"] : [];
   if (model.stateCode !== "NY" || model.pathwayId !== NY_16059_ROUTE) return [...financial, ...factual];
@@ -1855,7 +1895,7 @@ function deriveProtectedPacketDraftSnapshot(
   const currentAuthority = evaluateProtectedPacketFacts(base);
   if (!currentAuthority) return null;
   const originalBase = base;
-  base = nebraskaAcquittalHeldSuccessor(base, currentAuthority) ?? kansasRegistrationHeldSuccessor(base, currentAuthority) ?? base;
+  base = louisianaAutomationStatusHeldSuccessor(base, currentAuthority) ?? nebraskaAcquittalHeldSuccessor(base, currentAuthority) ?? kansasRegistrationHeldSuccessor(base, currentAuthority) ?? base;
   const factualIds = [...factualPathwayCorrectionIds(base.jurisdiction, base.pathwayId, { ...base.screeningAnswers, ...base.prefilledAnswers, ...base.packetAnswers }, true), ...msExactTimingQuestionIds(base.jurisdiction, base.pathwayId, { ...base.screeningAnswers, ...base.prefilledAnswers, ...base.packetAnswers }, true), ...nebraskaUnselectedCorrectionIds(base)];
   if (isNy16059Packet(base.jurisdiction, base.pathwayId)) factualIds.push(...NY_PACKET_FACT_IDS, ...NY_CASE_FACT_IDS,
     ...routeFactualCorrectionIds({ stateCode: base.jurisdiction, pathwayId: base.pathwayId,

@@ -1,3 +1,4 @@
+import { louisianaAutomationStatusQuestionApplies } from "@/lib/rcap-engine/louisiana-automation-status";
 import { nebraskaNonconvictionQuestionApplies } from "@/lib/rcap-engine/nebraska-nonconviction-facts";
 import { georgiaPardonCategoryIsContext } from "@/lib/expungement-ai/ga-pardon-category-context";
 import { fullSsnLastFour } from "@/lib/expungement-ai/sensitive-packet-facts";
@@ -651,6 +652,13 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
       facts.push({ factId, collection: "conditional", phase: "known", group: null,
         source: "ne_adult_acquittal_no_financial_predicate", active: false,
         reason: "The exact adult acquittal automatic route has no financial predicate; the saved payment answer is retained without inference." });
+      continue;
+    }
+
+    if (!louisianaAutomationStatusQuestionApplies(input.jurisdiction, input.pathwayId, factId)) {
+      facts.push({ factId, collection: "conditional", phase: "known", group: null,
+        source: "la_985_2_operationally_gated_status_guidance", active: false,
+        reason: "Payment is not required to read the operationally gated status guidance; the original financial answer is retained without inference." });
       continue;
     }
 
