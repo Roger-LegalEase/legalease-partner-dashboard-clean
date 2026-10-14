@@ -225,11 +225,16 @@ function evaluateProfileRules(profile: EngineProfile, request: ScreeningEvaluati
   // facts decide guidance/referral, never the generic payment-completion gate.
   // Ownership and jurisdiction must already be explicit; hard stops ran above.
   const moMarijuana = jurisdiction === "MO"
-    && typeof answers.ownership_scope === "string"
-    && ["Yes", "I am helping someone complete their own check"].includes(answers.ownership_scope)
-    && answers.jurisdiction_scope === "State or local"
     ? missouriMarijuanaStatusDecision(profile, preselectedPathway?.id, answers) : null;
   if (moMarijuana && preselectedPathway) {
+    const unresolvedContext = [
+      ...(typeof answers.ownership_scope === "string" && ["Yes", "I am helping someone complete their own check"].includes(answers.ownership_scope) ? [] : ["ownership_scope"]),
+      ...(answers.jurisdiction_scope === "State or local" ? [] : ["jurisdiction_scope"])
+    ];
+    if (unresolvedContext.length) return result(profile, request,
+      unresolvedContext.some(id => answers[id] === undefined || answers[id] === null || answers[id] === "") ? "needs_more_info" : "needs_review",
+      [reason("MO", "marijuana_context_missing", MO_MARIJUANA_COPY.context_missing[0], MO_MARIJUANA_STATUS_SOURCE)],
+      { missingQuestionIds: unresolvedContext, paymentAllowed: false });
     const text = MO_MARIJUANA_COPY[moMarijuana.code][0];
     const plan = moMarijuana.status === "guidance" ? packetPlanForPathway(profile, preselectedPathway.id) : undefined;
     return result(profile, request, moMarijuana.status === "missing" ? "needs_more_info" : moMarijuana.status === "review" ? "needs_review" : "guidance_only",

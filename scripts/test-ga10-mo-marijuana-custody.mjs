@@ -152,6 +152,11 @@ const subgroup=JSON.parse(fs.readFileSync('data/rcap-grade-a/question-correction
 const base={...subgroup.freshBaselineReproduction.base,...supplied};
 const run=answers=>evaluate({jurisdiction:'MO',profileVersion:profile.profileVersion,matterId:'synthetic-mo-xiv-consumer',answers});
 const recordFor=answers=>{const seed=P.protectedPacketDraftSeedFromAuthoritative({authoritative:run(answers),screeningAnswers:answers,dependencies:{},capturedAt:'2026-10-14T00:00:00Z'});assert(seed);return{revision:0,status:'unverified',draftSnapshot:seed.snapshot,draftHash:seed.hash}};
+const contextGuards=[];
+for(const id of ['ownership_scope','jurisdiction_scope'])for(const value of [undefined,'',{},[],[id==='ownership_scope'?'Yes':'State or local'],{value:id==='ownership_scope'?'Yes':'State or local',unknown:false},'I am not sure'])for(const custodyValue of [undefined,'unknown','incarceration_and_supervision_complete']){
+ const answers={...base,[id]:value,[fact]:custodyValue};if(value===undefined)delete answers[id];if(custodyValue===undefined)delete answers[fact];
+ const a=run(answers).evaluation;assert(['needs_more_info','needs_review'].includes(a.resultCode),id+JSON.stringify(value));assert.equal(a.paymentAllowed,false);assert.equal(a.packetPlan,undefined);assert.equal(a.pathwayId,undefined);assert(a.missingQuestionIds.includes(id));contextGuards.push({id,value,custodyValue,result:a.resultCode});
+}
 const current=[];
 for(const financial of ['Yes','No','I am not sure',undefined])for(const custody of ['incarceration_and_supervision_complete','incarcerated','probation_or_parole','unknown','']){
  const answers={...base,[fact]:custody,financial_obligations:financial};if(financial===undefined)delete answers.financial_obligations;
@@ -278,4 +283,4 @@ for(const finance of ['No','I am not sure',undefined]){
   ownerSequences.push({finance:finance??'absent',id,value,ENES:true,actualHandlerRestore:true});
  }
 }
-console.log(JSON.stringify({status:'PASS_MO_ARTICLE_XIV_CONSUMERS',current,historical,ownerSequences:ownerSequences.length,historicalHandler,rejectedHistorical,sourceCases,remaining:['Independent acceptance','Authenticated owner acceptance','Qualified language acceptance']}));
+console.log(JSON.stringify({status:'PASS_MO_ARTICLE_XIV_CONSUMERS',current,historical,ownerSequences:ownerSequences.length,contextGuards:contextGuards.length,historicalHandler,rejectedHistorical,sourceCases,remaining:['Independent acceptance','Authenticated owner acceptance','Qualified language acceptance']}));
