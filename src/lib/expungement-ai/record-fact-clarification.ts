@@ -3,6 +3,7 @@ import { contactRepresentationHash as hash } from "@/lib/expungement-ai/contact-
 import { packetSpecificationFor } from "@/lib/rcap/grade-a/packet-specification";
 import { questionAnswerState, scalarAnswerText, uncertaintyState, answerValueIsKnown } from "@/lib/expungement-ai/question-answer-state";
 import type { ProfileQuestion, AnswerValue } from "@/lib/expungement-ai/frontend/contracts";
+import { GA_PARDON_CAPTION_ROUTE, GA_PARDON_CAPTION_INPUTS, GA_PARDON_CAPTION_QUESTIONS } from "@/lib/expungement-ai/ga-pardon-caption";
 
 const ROUTE = "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal";
 export const RECORD_FACT_INPUTS: Readonly<Record<string, readonly string[]>> = {
@@ -19,6 +20,10 @@ export type RecordFactConfirmation = {
 };
 export type RecordFactConfirmations = Record<string, RecordFactConfirmation>;
 
+function recordFactInputs(routeKey: string): Readonly<Record<string, readonly string[]>> {
+  return routeKey === GA_PARDON_CAPTION_ROUTE ? GA_PARDON_CAPTION_INPUTS : routeKey === ROUTE ? RECORD_FACT_INPUTS : {};
+}
+
 function knownText(value: unknown): string | null {
   if (value && typeof value === "object" && !Array.isArray(value) && (value as { unknown?: boolean }).unknown === true) return null;
   const text = scalarAnswerText(value)?.trim();
@@ -34,6 +39,7 @@ export function unambiguousMsCourtType(value: unknown): string | null {
 
 /** These original controls retain distinct record meanings; no broad charge/county/name substitution. */
 export function recordFactOwnQuestionIds(routeKey: string, answers: Readonly<Record<string, unknown>>, recorded?: RecordFactConfirmations): Set<string> {
+  if (routeKey === GA_PARDON_CAPTION_ROUTE) return new Set(Object.keys(GA_PARDON_CAPTION_INPUTS));
   if (routeKey !== ROUTE) return new Set();
   const own = new Set(["court_name", "filing_location", "charge_classification"]);
   const courtType = unambiguousMsCourtType(answers.court), captionType = unambiguousMsCourtType(answers.court_name);
@@ -55,23 +61,42 @@ function answerMeaning(value: unknown): unknown {
 }
 
 function semanticContract(routeKey: string, factId: string): string | null {
-  if (routeKey !== ROUTE || !(factId in RECORD_FACT_INPUTS)) return null;
+  const inputs = recordFactInputs(routeKey);
+  if (!(factId in inputs)) return null;
   const specification = packetSpecificationFor(routeKey);
   const fact = specification?.requiredFacts?.find((entry) => entry.factId === factId);
   // offense_category is the established scoped public packet question, not a specification alias.
   if (!fact && factId !== "offense_category") return null;
-  return hash({ version: 1, routeKey, factId, inputFactIds: RECORD_FACT_INPUTS[factId],
+  return hash({ version: 1, routeKey, factId, inputFactIds: inputs[factId],
+    ...(routeKey === GA_PARDON_CAPTION_ROUTE ? { questionContract: GA_PARDON_CAPTION_QUESTIONS.find(question => question.id === factId) } : {}),
     meaning: fact ? { factId: fact.factId, use: fact.use, ownership: fact.ownership, questionType: fact.questionType, options: fact.options } : { factId: "offense_category", meaning: "MS baseline charge category; independently differing record answer requires review" } });
 }
 export function recordFactConfirmationFor(routeKey: string, factId: string, answers: Readonly<Record<string, unknown>>, question: ProfileQuestion | undefined): RecordFactConfirmation | null {
   const contractSha256 = semanticContract(routeKey, factId);
+  if (routeKey === GA_PARDON_CAPTION_ROUTE) {
+    const expected = GA_PARDON_CAPTION_QUESTIONS.find(candidate => candidate.id === factId);
+    if (!expected || !question || question.id !== factId || question.type !== expected.type
+      || question.prompt !== expected.prompt || question.helperText !== expected.helperText
+      || question.stage !== expected.stage || question.lifecyclePhase !== expected.lifecyclePhase
+      || question.translations?.es?.prompt !== expected.translations?.es?.prompt
+      || question.translations?.es?.helperText !== expected.translations?.es?.helperText
+      || question.required !== expected.required || question.contextOnly !== expected.contextOnly
+      || question.options !== null) return null;
+    const raw = answers[factId];
+    const value = raw && typeof raw === "object" && !Array.isArray(raw) && (raw as { unknown?: unknown }).unknown === false
+      ? (raw as { value?: unknown }).value : raw;
+    if (typeof value !== "string" || !value.trim()) return null;
+  }
   if (!contractSha256 || !question || !answerValueIsKnown(answers[factId]) || questionAnswerState(question, answers[factId] as AnswerValue) !== "known_valid") return null;
   return { version: 1, routeKey, status: "confirmed", contractSha256,
-    inputSha256: hash(RECORD_FACT_INPUTS[factId].map((id) => [id, answerMeaning(answers[id])])), valueSha256: hash(answerMeaning(answers[factId])) };
+    inputSha256: hash(recordFactInputs(routeKey)[factId].map((id) => [id, answerMeaning(answers[id])])), valueSha256: hash(answerMeaning(answers[factId])) };
 }
 export function unresolvedRecordFactConfirmations(routeKey: string, answers: Readonly<Record<string, unknown>>, questions: ReadonlyMap<string, ProfileQuestion>, recorded?: RecordFactConfirmations): string[] {
   const unresolved: string[] = [];
   for (const id of recordFactOwnQuestionIds(routeKey, answers, recorded)) {
+    // A held Georgia result has no packet plan. Do not collect caption facts
+    // before a document preparation surface actually requires these fields.
+    if (routeKey === GA_PARDON_CAPTION_ROUTE && questions.get(id)?.stage !== "packet_information") continue;
     const current = recordFactConfirmationFor(routeKey, id, answers, questions.get(id));
     if (!current) { unresolved.push(id); continue; } // One requirement per original fact, including an unknown/invalid draft.
     const prior = recorded?.[id];

@@ -4,6 +4,7 @@ import participantCatalog from "@/lib/expungement-ai/frontend/reviewed-participa
 import assistedContactCatalog from "@/lib/expungement-ai/frontend/reviewed-assisted-contact-copy.json";
 import sourceCatalog from "@/lib/expungement-ai/frontend/reviewed-source-question-copy.json";
 import type { PublicQuestion } from "@/lib/rcap-engine/contracts";
+import { gaPardonCaptionQuestion } from "@/lib/expungement-ai/ga-pardon-caption";
 
 type Context = { state: string; pathwayId?: string | null };
 type Entry = (typeof catalog.entries)[number];
@@ -105,6 +106,8 @@ export function reviewedScreeningQuestion<T extends PublicQuestion>(question: T,
 
 /** Paired EN/ES successor copy, only for the exact reviewed participant wording and route. */
 export function reviewedPacketQuestion<T extends PublicQuestion>(question: T, context: Context & { participantOwnsRecord: boolean; participantHelpingRecord?: boolean }): T {
+  const caption = gaPardonCaptionQuestion(question, `${context.state}:${context.pathwayId ?? ""}`);
+  if (caption !== question) return caption;
   const localized = reviewedSourceQuestion(reviewedSpanishQuestion(question, context), context);
   const multiline = MULTILINE_PACKET_FACTS[`${context.state}:${context.pathwayId}`]?.includes(question.id);
   const translated = multiline && ["text", "text_or_unknown", "textarea"].includes(question.type) ? { ...localized, multiline: true } : localized;
