@@ -1,8 +1,13 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
+import fs from 'node:fs';
+import os from 'node:os';
+import path from 'node:path';
+import {execFileSync} from 'node:child_process';
+import {CANONICAL_WORKER_INPUTS,FIXED_FILE_INPUTS,createWorkerInputPlan} from '../rcap-hosted-acceptance-worker-input-plan.mjs';
 import {artifactCases,startArtifactEvidence,protectedArtifactPath,alteredGrantPath,exactArtifactResponse,privateDenialResponse,artifactDenial,artifactAfterDeviceReset,artifactCleanupIds,sponsoredArtifactPath,applyArtifactMode,acceptRealArtifact,artifactGrantAndRevisionCases,artifactActorCases,shouldAwaitArtifactStatus} from './artifact-journey.mjs';
-import {assertApplicationBindingsEqual} from './source-bindings.mjs';
+import {assertApplicationBindingsEqual,assertArtifactWorkerBinding,artifactWorkerBinding} from './source-bindings.mjs';
 import {loadTsWithMocks} from '../test-expungement-checkout-guards.mjs';
 
 // Harness predicate tests only. These do not constitute authenticated artifact
@@ -10,9 +15,62 @@ import {loadTsWithMocks} from '../test-expungement-checkout-guards.mjs';
 const bytes=Buffer.from('%PDF-1.7\nSynthetic harness bytes, never fulfillment proof.');
 const expected={byteLength:bytes.length,sha256:createHash('sha256').update(bytes).digest('hex')};
 const headers={'cache-control':'private, no-store, max-age=0','content-type':'application/pdf'};
+const sourceSha='b'.repeat(40),workerDigest='sha256:'+'c'.repeat(64),fingerprint='sha256:'+'d'.repeat(64);
+function workerFixture() {
+  const publication={sourceSha,immutableRegistryDigest:workerDigest,imageRepository:'ghcr.io/roger-legalease/rcap-render-worker',
+    workflowConclusion:'success',runtimeAccepted:true,workerInputFingerprint:fingerprint,
+    imageAcceptance:{runId:1,conclusion:'success',readOnly:true,sourceSha,tag:sourceSha,digest:workerDigest}};
+  const publicationBytes=Buffer.from(JSON.stringify(publication));
+  return {publicationBytes,job:{container_digest:workerDigest,renderer_kind:'packet_document_v1',renderer_version:'1.0.0'},
+    observation:{externalPublication:{sourceSha,immutableRegistryDigest:workerDigest,workflowConclusion:'success',currentInputsEquivalent:true,
+      evidenceSha256:createHash('sha256').update(publicationBytes).digest('hex')},
+      provider:{providerId:publication.imageRepository,imageDigest:workerDigest,rendererKind:'packet_document_v1',rendererVersion:'1.0.0'}},
+    plan:{acceptedSourceSha:sourceSha,acceptedDigest:workerDigest,candidateSha:'e'.repeat(40),rebuildRequired:false,
+      changedPaths:[],missingCanonicalInputs:[],aggregateInputSha256:fingerprint}};
+}
+test('worker provenance accepts a later application commit only with equal canonical published inputs',()=>{
+  const binding=assertArtifactWorkerBinding(workerFixture());
+  assert.equal(binding.sourceSha,sourceSha);assert.equal(binding.containerDigest,workerDigest);
+  assert.equal(binding.workerInputFingerprint,fingerprint);
+});
+for(const [name,mutate] of [
+  ['missing finalized digest',x=>delete x.job.container_digest],
+  ['local uncontainerized worker',x=>x.job.container_digest='local:fixture'],
+  ['different published image',x=>x.job.container_digest='sha256:'+'a'.repeat(64)],
+  ['wrong renderer kind',x=>x.job.renderer_kind='official_pdf_overlay_v1'],
+  ['wrong renderer version',x=>x.job.renderer_version='0.0.0'],
+  ['missing route observation',x=>x.observation=null],
+  ['different receipt bytes',x=>x.publicationBytes=Buffer.concat([x.publicationBytes,Buffer.from('\n')])],
+  ['unaccepted current inputs',x=>x.observation.externalPublication.currentInputsEquivalent=false],
+  ['different observed source',x=>x.observation.externalPublication.sourceSha='a'.repeat(40)],
+  ['different observed digest',x=>x.observation.externalPublication.immutableRegistryDigest='sha256:'+'a'.repeat(64)],
+  ['different provider digest',x=>x.observation.provider.imageDigest='sha256:'+'a'.repeat(64)],
+  ['different provider identity',x=>x.observation.provider.providerId='unreviewed'],
+  ['different recomputed source',x=>x.plan.acceptedSourceSha='a'.repeat(40)],
+  ['different recomputed digest',x=>x.plan.acceptedDigest='sha256:'+'a'.repeat(64)],
+  ['rebuild required',x=>x.plan.rebuildRequired=true],
+  ['changed canonical input',x=>x.plan.changedPaths=['src/changed.ts']],
+  ['missing canonical input',x=>x.plan.missingCanonicalInputs=['src']],
+  ['changed source fingerprint',x=>x.plan.aggregateInputSha256='sha256:'+'a'.repeat(64)]
+])test(`worker provenance refuses ${name}`,()=>{const fixture=workerFixture();mutate(fixture);assert.throws(()=>assertArtifactWorkerBinding(fixture));});
+for(const [name,mutate] of [
+  ['failed publication',p=>p.workflowConclusion='failure'],
+  ['image not accepted',p=>p.runtimeAccepted=false],
+  ['missing image acceptance',p=>delete p.imageAcceptance],
+  ['failed image acceptance',p=>p.imageAcceptance.conclusion='failure'],
+  ['other accepted source',p=>p.imageAcceptance.sourceSha='a'.repeat(40)],
+  ['other accepted digest',p=>p.imageAcceptance.digest='sha256:'+'a'.repeat(64)],
+  ['other accepted tag',p=>p.imageAcceptance.tag='latest'],
+  ['missing acceptance run',p=>delete p.imageAcceptance.runId]
+])test(`worker provenance refuses ${name} even with rehashed observation`,()=>{
+  const fixture=workerFixture(),publication=JSON.parse(fixture.publicationBytes);mutate(publication);
+  fixture.publicationBytes=Buffer.from(JSON.stringify(publication));
+  fixture.observation.externalPublication.evidenceSha256=createHash('sha256').update(fixture.publicationBytes).digest('hex');
+  assert.throws(()=>assertArtifactWorkerBinding(fixture));
+});
 test('unavailable real artifact leaves every original artifact obligation explicitly NOT_RUN',()=>{
   const report={};const evidence=startArtifactEvidence(report,'en');
-  assert.equal(evidence.status,'NOT_RUN');assert.equal(evidence.cases.length,21);
+  assert.equal(evidence.status,'NOT_RUN');assert.equal(evidence.cases.length,22);
   assert.deepEqual(evidence.cases.map(row=>row.id),artifactCases);
   assert(evidence.cases.every(row=>row.status==='NOT_RUN'));
   assert(!JSON.stringify(report).includes('PASS'));
@@ -37,6 +95,7 @@ const job={consumer_auth_user_id:owner,consumer_briefcase_item_id:item,matter_id
   output_storage_path:`packet-artifacts/consumer/${derivedMatter}/${jobId}/${expected.sha256}.pdf`};
 const partnerId='55555555-5555-4555-8555-555555555555',eventId='66666666-6666-4666-8666-666666666666',sessionId='77777777-7777-4777-8777-777777777777';
 const sponsoredJob={...job,partner_id:partnerId,consumer_auth_user_id:null,consumer_briefcase_item_id:null,
+  container_digest:workerDigest,renderer_kind:'packet_document_v1',renderer_version:'1.0.0',
   sponsored_consumer_auth_user_id:owner,sponsored_consumer_briefcase_item_id:item,
   sponsored_verification_hash:'a'.repeat(64),route_id:'MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal',
   sponsored_route_key:'MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal',sponsored_session_id:sessionId,sponsored_clinic_event_id:eventId,
@@ -100,11 +159,24 @@ test('actual sponsored schema orchestration uses protected job bytes and never i
     return {status:()=>verified?200:409,headers:()=>headers,body:async()=>verified?bytes:Buffer.from('{"code":"verification_not_current"}')};
   },post:async path=>{assert.equal(path,`/api/expungement-ai/briefcase/${item}/packet-information`);verified=false;return {status:()=>200,json:async()=>({readyToGenerate:false})};}}};
   const evidence=startArtifactEvidence({},'en');const artifact=await acceptRealArtifact({fixture,context,matterId:item,ownerId:owner,
-    downloadPath:sponsoredPath,session:{screening_session_id:sessionId,event_id:eventId},evidence,check:(_id,pass)=>assert(pass)});
+    downloadPath:sponsoredPath,session:{screening_session_id:sessionId,event_id:eventId},evidence,check:(_id,pass)=>assert(pass),
+    readWorkerBinding:actual=>assertArtifactWorkerBinding({...workerFixture(),job:actual})});
   assert.equal(artifact.mode,'sponsored');assert(fixture.known.has(jobId));assert(fixture.known.has(derivedMatter));
   await artifactGrantAndRevisionCases({fixture,item:{matterId:item,actor:{id:owner},api:`/api/expungement-ai/briefcase/${item}/packet-information`,context,artifact},check:(_id,pass)=>assert(pass)});
   assert(requests.every(path=>!path.includes('download-link')&&!path.includes('grant=')));
   assert.equal(evidence.cases.find(row=>row.id==='stale-verification-denied').status,'PASS');
+});
+test('wrong finalized worker blocks owner acceptance while retaining exact cleanup ownership',async()=>{
+  const actual={...sponsoredJob,container_digest:'local:unpublished'};
+  const fixture={actors:[{id:owner}],known:new Set([item]),partnerId,origin:'http://127.0.0.1:3139',program:'qa-synthetic',
+    checked:result=>result.data,admin:{from:table=>({select(){return this;},eq(){return this;},single:async()=>({data:table==='packet_render_jobs'?actual:sponsoredProvenance})})}};
+  let requests=0;const evidence=startArtifactEvidence({},'en');
+  await assert.rejects(acceptRealArtifact({fixture,context:{request:{get(){requests++;throw Error('No owner fetch permitted');}}},
+    matterId:item,ownerId:owner,downloadPath:sponsoredPath,session:{screening_session_id:sessionId,event_id:eventId},evidence,
+    check:()=>{},readWorkerBinding:job=>assertArtifactWorkerBinding({...workerFixture(),job})}),/current accepted worker digest/);
+  assert.equal(requests,0);assert(fixture.known.has(jobId)&&fixture.known.has(derivedMatter));
+  assert.equal(evidence.cases.find(row=>row.id==='current-worker-source-provenance').status,'FAIL');
+  assert.equal(evidence.cases.find(row=>row.id==='owner-provenance-and-exact-bytes').status,'NOT_RUN');
 });
 test('wrong sponsored job denial proves that exact job through its own owner immediately beforehand',async()=>{
   const otherJob='88888888-8888-4888-8888-888888888888',otherPath=`/api/rcap/packets/${otherJob}/download`;
@@ -223,3 +295,40 @@ for(const [name,status,actualHeaders,body] of [
   ['grant field leak',404,headers,Buffer.from('{"token":"private"}')],
   ['non JSON failure',404,headers,Buffer.from('server failure')]
 ])test(`artifact denial rejects ${name}`,()=>assert.equal(privateDenialResponse(status,actualHeaders,body),false));
+
+test('actual Git input comparison permits receipt successors and refuses committed, dirty, staged and untracked runtime drift',()=>{
+  const root=fs.mkdtempSync(path.join(os.tmpdir(),'clinic-worker-binding-'));
+  const git=(...args)=>execFileSync('git',args,{cwd:root,encoding:'utf8',stdio:'pipe'}).trim();
+  const write=(file,bytes)=>{fs.mkdirSync(path.dirname(path.join(root,file)),{recursive:true});fs.writeFileSync(path.join(root,file),bytes);};
+  const commit=()=>git('-c','user.name=Clinic QA','-c','user.email=clinic-qa@example.test','commit','-m','Synthetic binding fixture');
+  try {
+    git('init');
+    for(const input of CANONICAL_WORKER_INPUTS)write(FIXED_FILE_INPUTS.has(input)?input:input+'/fixture.txt','synthetic\n');
+    write('deploy/rcap-render-worker/Dockerfile','FROM scratch\nCOPY src /src\n');
+    git('add','--',...CANONICAL_WORKER_INPUTS);commit();
+    const sourceSha=git('rev-parse','HEAD'),digest='sha256:'+'c'.repeat(64),route='MS:synthetic-test';
+    const plan=createWorkerInputPlan({rootDir:root,acceptedSourceSha:sourceSha,acceptedDigest:digest,candidateSha:sourceSha});
+    const publication={sourceSha,immutableRegistryDigest:digest,imageRepository:'ghcr.io/roger-legalease/rcap-render-worker',
+      workflowConclusion:'success',runtimeAccepted:true,workerInputFingerprint:plan.aggregateInputSha256,
+      imageAcceptance:{runId:1,conclusion:'success',readOnly:true,sourceSha,tag:sourceSha,digest}};
+    const publicationBytes=JSON.stringify(publication);
+    const observation={externalPublication:{sourceSha,immutableRegistryDigest:digest,workflowConclusion:'success',currentInputsEquivalent:true,
+      evidenceSha256:createHash('sha256').update(publicationBytes).digest('hex')},
+      provider:{providerId:publication.imageRepository,imageDigest:digest,rendererKind:'packet_document_v1',rendererVersion:'1.0.0'}};
+    const publicationPath='data/rcap-render/worker-publication-evidence.json',observationPath='data/rcap-grade-a/fulfillment-observation-snapshot.json';
+    write(publicationPath,publicationBytes);write(observationPath,JSON.stringify({routes:{[route]:observation}}));
+    git('add','--',publicationPath,observationPath);commit();
+    assert.notEqual(git('rev-parse','HEAD'),sourceSha,'Receipt commit intentionally follows image source');
+    const job={route_id:route,container_digest:digest,renderer_kind:'packet_document_v1',renderer_version:'1.0.0'};
+    assert.equal(artifactWorkerBinding(job,root).sourceSha,sourceSha);
+    write('src/fixture.txt','changed\n');
+    assert.throws(()=>artifactWorkerBinding(job,root),/Uncommitted worker input changes/);
+    git('add','--','src/fixture.txt');
+    assert.throws(()=>artifactWorkerBinding(job,root),/Uncommitted worker input changes/);
+    write('src/fixture.txt','synthetic\n');git('add','--','src/fixture.txt');
+    write('src/addition.txt','new runtime input\n');
+    assert.throws(()=>artifactWorkerBinding(job,root),/Untracked worker inputs/);
+    git('add','--','src/addition.txt');commit();
+    assert.throws(()=>artifactWorkerBinding(job,root),/Published worker inputs differ/);
+  } finally { fs.rmSync(root,{recursive:true,force:true}); }
+});

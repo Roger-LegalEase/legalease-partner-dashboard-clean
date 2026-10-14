@@ -1,10 +1,11 @@
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
+import {artifactWorkerBinding} from './source-bindings.mjs';
 
 // These are measured against an artifact created by the real owner generation
 // path. An unavailable artifact leaves each applicable case NOT_RUN, never PASS.
 export const artifactCases = [
-  'owner-provenance-and-exact-bytes','owner-repeat-download','staff-owner-artifact-denied',
+  'owner-provenance-and-exact-bytes','current-worker-source-provenance','owner-repeat-download','staff-owner-artifact-denied',
   'wrong-participant-denied','wrong-program-denied','unassigned-staff-denied',
   'queue-only-staff-denied','signed-out-replay-denied','reset-signed-out-replay-denied','missing-token-denied',
   'altered-token-denied','wrong-item-token-denied','wrong-job-denied','no-assist-staff-denied',
@@ -95,7 +96,7 @@ export function shouldAwaitArtifactStatus({generationHttp,generationPacketStatus
     &&status.canDownload!==true&&['not_started','pending','generating'].includes(status.packetStatus)
     &&!deadlineExpired;
 }
-export async function acceptRealArtifact({fixture,context,matterId,ownerId,downloadPath,session,evidence,check}) {
+export async function acceptRealArtifact({fixture,context,matterId,ownerId,downloadPath,session,evidence,check,readWorkerBinding=artifactWorkerBinding}) {
   uuid(matterId);uuid(ownerId);
   assert(fixture.actors.some(actor=>actor.id===ownerId)&&fixture.known.has(matterId),'Only run-owned artifacts');
   // Read-only corroboration never fetches/authorizes the measured PDF bytes.
@@ -103,7 +104,7 @@ export async function acceptRealArtifact({fixture,context,matterId,ownerId,downl
     .select('consumer_auth_user_id,matter_id,render_job_id,verification_hash,entitlement_source,artifact,revision')
     .eq('briefcase_item_id',matterId).single());
   const job=fixture.checked(await fixture.admin.from('packet_render_jobs')
-    .select('partner_id,route_id,consumer_auth_user_id,consumer_briefcase_item_id,matter_id,consumer_verification_hash,sponsored_consumer_auth_user_id,sponsored_consumer_briefcase_item_id,sponsored_verification_hash,sponsored_route_key,sponsored_session_id,sponsored_clinic_event_id,status,delivery_eligibility,accounting_result,output_sha256,output_byte_count,output_storage_path')
+    .select('partner_id,route_id,consumer_auth_user_id,consumer_briefcase_item_id,matter_id,consumer_verification_hash,sponsored_consumer_auth_user_id,sponsored_consumer_briefcase_item_id,sponsored_verification_hash,sponsored_route_key,sponsored_session_id,sponsored_clinic_event_id,status,delivery_eligibility,accounting_result,output_sha256,output_byte_count,output_storage_path,container_digest,renderer_kind,renderer_version')
     .eq('id',provenance.render_job_id).single());
   const sponsored=job.partner_id!=null;
   const scoped=sponsored?job.partner_id===fixture.partnerId&&job.consumer_auth_user_id===null&&job.consumer_briefcase_item_id===null
@@ -122,6 +123,13 @@ export async function acceptRealArtifact({fixture,context,matterId,ownerId,downl
     &&/^[a-f0-9]{64}$/.test(job.output_sha256)&&Number.isInteger(job.output_byte_count)&&job.output_byte_count>0;
   assert(metadataValid,'Actual artifact must match exact program/owner/session/job/provenance');
   for(const id of artifactCleanupIds({ownerId,matterId,provenance,job,partnerId:fixture.partnerId}))fixture.known.add(id);
+  try {
+    evidence.worker=readWorkerBinding(job);
+    record(evidence,check,'current-worker-source-provenance',true);
+  } catch(error) {
+    record(evidence,check,'current-worker-source-provenance',false);
+    throw error;
+  }
   const mode=sponsored?'sponsored':'consumer';let target;
   if(sponsored)target=sponsoredArtifactPath(downloadPath,fixture.origin,provenance.render_job_id);
   else {
