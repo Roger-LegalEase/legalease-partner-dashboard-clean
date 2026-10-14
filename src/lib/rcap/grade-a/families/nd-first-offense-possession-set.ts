@@ -27,6 +27,25 @@ function dateOfBirth(value: unknown): string | null {
     && date.getTime() <= Date.now() ? value : null;
 }
 
+/** Keep each exact source question with both of its existing answer lines.
+ * Reuse the renderer's measured list-plus-existing-blank-paragraph grouping; no new
+ * renderer option or inferred record fact is introduced. */
+function handbackBlocks(lines: string[]): GradeABlock[] {
+  const blocks: GradeABlock[] = [];
+  for (let index = 0; index < lines.length; index++) {
+    const line = lines[index];
+    if (/^\[C(?:[1-9]|10) - mj [^\]]+\] /.test(line)
+      && lines[index + 1] === ".".repeat(84) && lines[index + 2] === ".".repeat(84)
+      && lines[index + 3] === "") {
+      blocks.push({ kind: "pleading_identity_list", introduction: line,
+        listMarker: "none", keepWithNext: true,
+        items: [{ label: lines[index + 1], value: "" }, { label: lines[index + 2], value: "" }] });
+      index += 2;
+    } else blocks.push({ kind: "pleading_paragraph", text: line });
+  }
+  return blocks;
+}
+
 /**
  * The retained four-component family, connected to the existing participant
  * composer. This supplies no eligibility, verification or delivery authority.
@@ -86,7 +105,7 @@ function composeNdFirstOffenseComponents(specification: PacketSpecification, mat
           caseNumberLabel: body[6], caseNumber: ".".repeat(26),
           plaintiff: "", defendant: facts["participant.full_legal_name"],
           defendantRole: "PETITIONER.", title: body[9], continuationTitle: document.title },
-        ...body.slice(11).map(text => ({ kind: "pleading_paragraph" as const, text }))
+        ...handbackBlocks(body.slice(11))
       ];
     } else {
       blocks = lines.map(text => ({ kind: "paragraph" as const, text }));
