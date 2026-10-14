@@ -51,7 +51,8 @@ export function QuestionField({
   onChange,
   error,
   headingLevel = 1,
-  sensitiveInputAllowed = true
+  sensitiveInputAllowed = true,
+  caJuvenilePreparation = false
 }: {
   question: ProfileQuestion;
   stateCode: string;
@@ -61,6 +62,7 @@ export function QuestionField({
   /** 1 when the question is the screen's own heading, 3 when it sits under a section heading. */
   headingLevel?: 1 | 2 | 3;
   sensitiveInputAllowed?: boolean;
+  caJuvenilePreparation?: boolean;
 }) {
   const { locale, t: translate, text: localizeText } = useLocalization();
   const fieldId = `q-${question.id}`;
@@ -136,7 +138,7 @@ export function QuestionField({
   switch (question.type) {
     case "filing_contact":
       if (stateCode !== "CA" || !CA_CONTACT_IDS.includes(question.id) || question.answerContract !== CA_CONTACT_CONTRACT || !question.contactContext) return <MalformedQuestion prompt={promptText} headingLevel={headingLevel} required={!optional} />;
-      return <div className="grid gap-3">{heading}{helperNode}{bannerNode}<FilingContactFields id={fieldId} factId={question.id} value={savedValue} context={question.contactContext} onChange={onChange} ariaLabelledBy={promptId} ariaDescribedBy={describedBy} />{errorNode}</div>;
+      return <div className="grid gap-3">{heading}{helperNode}{bannerNode}<FilingContactFields caJuvenilePreparation={caJuvenilePreparation} id={fieldId} factId={question.id} value={savedValue} context={question.contactContext} onChange={onChange} ariaLabelledBy={promptId} ariaDescribedBy={describedBy} />{errorNode}</div>;
     case "future_applications":
       if (stateCode !== "NY" || question.id !== NY_FUTURE_ID || question.answerContract !== NY_FUTURE_CONTRACT) return <MalformedQuestion prompt={promptText} headingLevel={headingLevel} required={!optional} />;
       return <div className="grid gap-3">{heading}{helperNode}{bannerNode}<FutureApplicationsField id={fieldId} value={savedValue} references={question.futureApplicationReferences} onChange={onChange} ariaLabelledBy={promptId} ariaDescribedBy={describedBy} />{errorNode}</div>;

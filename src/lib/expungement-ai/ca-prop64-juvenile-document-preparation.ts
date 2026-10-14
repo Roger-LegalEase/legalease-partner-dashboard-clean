@@ -25,9 +25,25 @@ function date(raw: unknown, today: string): string | undefined {
   const d = new Date(raw + "T00:00:00.000Z");
   return Number.isFinite(d.getTime()) && d.toISOString().slice(0, 10) === raw && raw <= today ? raw : undefined;
 }
+/** Collection scope only, after the caller has verified the protected source and
+ * current route authority. It grants no plan, verification or document authority. */
+export function caProp64JuvenilePreparationScope(snapshot: ProtectedPacketVerificationRecord["draftSnapshot"]) {
+  if (!snapshot || snapshot.schemaVersion !== "expungement-ai/protected-packet-draft/v1"
+    || !isCaProp64Pathway(snapshot.jurisdiction, snapshot.pathwayId)
+    || snapshot.resultCode !== "needs_review" || snapshot.paymentAllowed !== false
+    || snapshot.packetPlan !== null || snapshot.selectedTrackId !== null
+    || digest(caMemo.tracks.find(t => t.trackId === "ca-prop64")) !== spec.sourceContract.trackSha256
+    || digest(packetSets.packetSets.find(s => s.packetSetId === "ca-prop64-set")) !== spec.sourceContract.packetSetSha256) return false;
+  const maps = [snapshot.screeningAnswers, snapshot.prefilledAnswers, snapshot.packetAnswers];
+  return [["ca_prop64_court_type", "juvenile"], ["ca_prop64_next_step", "apply"]].every(([id, expected]) => {
+    const values = maps.filter(m => Object.hasOwn(m, id)).map(m => value(m[id]));
+    return values.length > 0 && values.every(v => v === expected);
+  });
+}
+
 /** A held source mapper after the existing protected model's integrity/source
- * check. The caller still needs an authorized record read. These prospective
- * fact IDs are not owner-editable until the separate protected consumer is wired.
+ * check. The caller still needs an authorized record read. Only the explicit
+ * juvenile preparation surface may edit these document facts.
  * It never changes the current juvenile legal result, plan or verification. */
 export function caProp64JuvenileDocumentPreparation(record: ProtectedPacketVerificationRecord,
   officialSources: Readonly<Record<string, Uint8Array>>) {

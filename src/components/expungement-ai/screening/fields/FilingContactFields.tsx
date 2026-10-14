@@ -12,7 +12,8 @@ function ContactText({ id, label, value, change, es }: { id: string; label: stri
     {value === "unknown" ? <span role="status">{es ? "No estoy seguro" : "I am not sure"}</span> : null}</div>;
 }
 /** Controlled editor: mounting never rewrites saved facts or their binding. */
-export function FilingContactFields({ id, factId, value, context, onChange, ariaLabelledBy, ariaDescribedBy }: {
+export function FilingContactFields({ id, factId, value, context, onChange, ariaLabelledBy, ariaDescribedBy, caJuvenilePreparation = false }: {
+  caJuvenilePreparation?: boolean;
   id: string; factId: string; value: unknown; context: CaContactContext; onChange: (value: string[]) => void; ariaLabelledBy: string; ariaDescribedBy?: string;
 }) {
   const { locale } = useLocalization(), es = locale === "es";
@@ -26,14 +27,14 @@ export function FilingContactFields({ id, factId, value, context, onChange, aria
   const current = caContactCurrent(contact, context);
   const roleChanged = contact.kind === "filer" && contact.representation !== context.representation;
   if (!current) return <div role="group" aria-labelledby={ariaLabelledBy} className="grid gap-3">
-    <p role="status">{es ? "Confirme primero el presentante, el nombre del acusado y el condado del tribunal. Los datos anteriores no se asignarán automáticamente a otra persona o tribunal." : "First confirm the filer, defendant name, and court county. Earlier details will not automatically be assigned to another person or court."}</p>
-    {parsed ? <><pre className="whitespace-pre-wrap rounded border p-3">{formatCaContact(factId, value, locale)}</pre>
+    <p role="status">{caJuvenilePreparation ? es ? "Confirme primero el presentante, el nombre del solicitante y el condado del tribunal. Los datos anteriores no se asignarán automáticamente a otra persona o tribunal." : "First confirm the filer, applicant name, and court county. Earlier details will not automatically be assigned to another person or court." : es ? "Confirme primero el presentante, el nombre del acusado y el condado del tribunal. Los datos anteriores no se asignarán automáticamente a otra persona o tribunal." : "First confirm the filer, defendant name, and court county. Earlier details will not automatically be assigned to another person or court."}</p>
+    {parsed ? <><pre className="whitespace-pre-wrap rounded border p-3">{formatCaContact(factId, value, locale, caJuvenilePreparation)}</pre>
       <button type="button" className={buttonClass} disabled={!caContactCurrent(emptyCaContact(factId, context), context)} onClick={() => save(roleChanged ? emptyCaContact(factId, context) : contact.kind === "filer" ? { ...contact, representation: context.representation, defendantName: context.defendantName } : { ...contact, county: context.county })}>
         {roleChanged ? es ? "Ingresar los datos del presentante actual" : "Enter details for the current filer" : es ? "Revisé estos datos para el nombre o tribunal actual" : "I reviewed these details for the current name or court"}</button></> : null}</div>;
   const update = (key: string, v: string | CaOptionalContact) => save({ ...contact, [key]: v });
   const textFields = contact.kind === "filer" ? [...(contact.representation === "attorney" ? ["attorneyName", "barNumber"] : []), "street", "city", "state", "zip", "phone"] : ["street", "cityStateZip"];
   return <div role="group" aria-labelledby={ariaLabelledBy} aria-describedby={ariaDescribedBy} className="grid gap-4">
-    <p className="text-sm">{factId === CA_FILER_CONTACT ? `${options[context.representation]?.[locale] ?? context.representation}: ${context.defendantName}` : `${labels.county[locale]}: ${context.county}`}</p>
+    <p className="text-sm">{factId === CA_FILER_CONTACT ? `${caJuvenilePreparation && context.representation === "self_represented" ? es ? "El solicitante, sin abogado" : "The applicant, without an attorney" : caJuvenilePreparation && context.representation === "attorney" ? es ? "Un abogado que representa al solicitante" : "An attorney representing the applicant" : options[context.representation]?.[locale] ?? context.representation}: ${context.defendantName}` : `${labels.county[locale]}: ${context.county}`}</p>
     {textFields.map(key => <ContactText key={key} id={`${id}-${key}`} label={labels[key][locale]} value={String(contact[key as keyof CaContact] ?? "")} change={v => update(key, v)} es={es} />)}
     {contact.kind === "filer" ? (["fax", "email", ...(contact.representation === "attorney" ? ["firm"] : [])] as Array<"fax" | "email" | "firm">).map(key => <fieldset className="grid gap-2 rounded border p-3" key={key}>
       <legend>{labels[key][locale]}</legend><label className="sr-only" htmlFor={`${id}-${key}-status`}>{labels[key][locale]}</label>

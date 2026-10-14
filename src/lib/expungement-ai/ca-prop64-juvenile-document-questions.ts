@@ -13,8 +13,12 @@ export const CA_JUVENILE_SECTIONS = ["11357", "11358", "11359", "11360"] as cons
  * Row indexes identify findings, not count numbers inferred from a case label. */
 export function caProp64JuvenileFindingQuestions(index: number): ProfileQuestion[] {
   const prefix = index === 0 ? "ca_prop64_juvenile_finding" : `ca_prop64_juvenile_additional_${index}`;
-  return [...(index === 0 ? [] : [text(`${prefix}_conduct_date`, "On what date did the conduct for this additional finding occur?", "¿En qué fecha ocurrieron los hechos de esta determinación adicional?", "Use the actual conduct date for this finding, not its adjudication date or the primary finding’s date. JV-744A states that you were under 18 for each listed offense. If the date or age is unresolved, keep this finding unresolved.", "Use la fecha real de los hechos de esta determinación, no la fecha de adjudicación ni la de la determinación principal. JV-744A afirma que tenía menos de 18 años en cada delito indicado. Si la fecha o la edad no se han resuelto, mantenga esta determinación sin resolver.", "date_or_unknown")]), text(`${prefix}_date`, "On what date did the juvenile court make this finding?", "¿En qué fecha emitió el tribunal de menores esta determinación?", "Copy the adjudication date from the court record, not the arrest, offense or sentencing date.", "Copie la fecha de adjudicación del expediente judicial, no la fecha del arresto, de los hechos ni de la sentencia.", "date_or_unknown"),
+  const questions: ProfileQuestion[] = [...(index === 0 ? [] : [text(`${prefix}_conduct_date`, "On what date did the conduct for this additional finding occur?", "¿En qué fecha ocurrieron los hechos de esta determinación adicional?", "Use the actual conduct date for this finding, not its adjudication date or the primary finding’s date. JV-744A states that you were under 18 for each listed offense. If the date or age is unresolved, keep this finding unresolved.", "Use la fecha real de los hechos de esta determinación, no la fecha de adjudicación ni la de la determinación principal. JV-744A afirma que tenía menos de 18 años en cada delito indicado. Si la fecha o la edad no se han resuelto, mantenga esta determinación sin resolver.", "date_or_unknown")]), text(`${prefix}_date`, "On what date did the juvenile court make this finding?", "¿En qué fecha emitió el tribunal de menores esta determinación?", "Copy the adjudication date from the court record, not the arrest, offense or sentencing date.", "Copie la fecha de adjudicación del expediente judicial, no la fecha del arresto, de los hechos ni de la sentencia.", "date_or_unknown"),
     { ...text(`${prefix}_sections`, "Which marijuana sections did the court find violated in this finding?", "¿Qué secciones sobre marihuana determinó el tribunal que se infringieron?", "Select every applicable section shown for this finding. Do not infer a section from the packet name.", "Seleccione cada sección que figure en esta determinación. No deduzca una sección del nombre del paquete.", "multi_select"), options: [...CA_JUVENILE_SECTIONS] }];
+  return index === 0 ? questions : questions.map(question => ({ ...question,
+    prompt: `Additional finding ${index}: ${question.prompt}`,
+    translations: { es: { ...question.translations!.es!, prompt: `Determinación adicional ${index}: ${question.translations!.es!.prompt}` } }
+  }));
 }
 export const CA_PROP64_JUVENILE_DOCUMENT_QUESTIONS: readonly ProfileQuestion[] = [
   text("ca_prop64_juvenile_case_name", "What exact case name or short title appears on the juvenile court record?", "¿Qué nombre de caso o título abreviado exacto figura en el expediente del tribunal de menores?", "Copy the actual caption. Do not create an In re caption from a person's name.", "Copie el encabezado real. No cree un título In re a partir del nombre de una persona."),
@@ -31,7 +35,7 @@ export const CA_PROP64_JUVENILE_DOCUMENT_QUESTIONS: readonly ProfileQuestion[] =
   choice("ca_prop64_juvenile_interpreter", "If there is a hearing, will you need an interpreter?", "Si hay una audiencia, ¿necesitará un intérprete?", [["yes", "Yes", "Sí"], ["no", "No", "No"]], false),
   text("ca_prop64_juvenile_interpreter_language", "What language do you need the interpreter to use?", "¿En qué idioma necesita al intérprete?", "Use the requested hearing language. The language of this guide does not select an interpreter.", "Indique el idioma solicitado para la audiencia. El idioma de esta guía no selecciona un intérprete.")
 ];
-export function caProp64JuvenileDocumentQuestions(answers: Readonly<Record<string, unknown>>): ProfileQuestion[] {
+export function caProp64JuvenileDocumentQuestions(answers: Readonly<Record<string, unknown>>, includeInactive = false): ProfileQuestion[] {
   const scalar = (id: string) => { const x = answers[id]; return x && typeof x === "object" && !Array.isArray(x) ? (x as { unknown?: unknown; value?: unknown }).unknown === true ? undefined : (x as { value?: unknown }).value : x; };
   const additional = scalar("ca_prop64_juvenile_additional_scope") === "same_case_remedy";
   const count = scalar("ca_prop64_juvenile_additional_count");
@@ -42,14 +46,14 @@ export function caProp64JuvenileDocumentQuestions(answers: Readonly<Record<strin
   const existing = new Set(Object.keys(answers).flatMap(id => {
     const match = /^ca_prop64_juvenile_additional_(\d+)_(conduct_date|date|sections)$/.exec(id);
     const index = match ? Number(match[1]) : 0;
-    return Number.isSafeInteger(index) && index > 0 && index <= total ? [index] : [];
+    return Number.isSafeInteger(index) && index > 0 && (includeInactive || index <= total) ? [index] : [];
   }));
   let next = 1;
   for (let added = 0; added < 6 && next <= total; next++) {
     if (!existing.has(next)) { existing.add(next); added++; }
   }
   const rows = [...existing].sort((a, b) => a - b);
-  return [...CA_PROP64_JUVENILE_DOCUMENT_QUESTIONS.filter(q => q.id !== "ca_prop64_juvenile_additional_count" || additional)
-    .filter(q => q.id !== "ca_prop64_juvenile_interpreter_language" || scalar("ca_prop64_juvenile_interpreter") === "yes"),
+  return [...CA_PROP64_JUVENILE_DOCUMENT_QUESTIONS.filter(q => includeInactive || q.id !== "ca_prop64_juvenile_additional_count" || additional)
+    .filter(q => includeInactive || q.id !== "ca_prop64_juvenile_interpreter_language" || scalar("ca_prop64_juvenile_interpreter") === "yes"),
     ...rows.flatMap(index => caProp64JuvenileFindingQuestions(index))];
 }

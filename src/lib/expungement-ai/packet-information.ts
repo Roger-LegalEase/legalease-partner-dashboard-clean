@@ -1,3 +1,5 @@
+import { caProp64JuvenilePreparationScope } from "@/lib/expungement-ai/ca-prop64-juvenile-document-preparation";
+import { caProp64JuvenileDocumentQuestions } from "@/lib/expungement-ai/ca-prop64-juvenile-document-questions";
 import { montanaDeferredDocumentInputs, montanaDeferredAliasDisplay, MT_DEFERRED_PARTICIPANT_ALIASES, MT_DEFERRED_CURRENT_DOCUMENT_CONTRACT } from "@/lib/expungement-ai/mt-deferred-document-inputs";
 import { montanaDeferredDocumentQuestions, montanaDeferredDocumentReviewNotices } from "@/lib/expungement-ai/mt-deferred-document-questions";
 import { MT_DEFERRED_ROUTE, MT_DEFERRED_FACT_IDS, montanaDeferredFactApplies, montanaDeferredLegacyFinancialApplies, isMontanaDeferredContract } from "@/lib/rcap-engine/montana-deferred-facts";
@@ -184,6 +186,9 @@ export type ProtectedPacketInformationModel = Pick<
   heldFactualCorrectionIds?: string[];
   gaPardonPreparationAvailable?: boolean;
   mtDeferredPreparationAvailable?: boolean;
+  caJuvenilePreparationAvailable?: boolean;
+  caJuvenilePreparationFactIds?: string[];
+  caJuvenilePreparationActiveFactIds?: string[];
   mtDeferredPreparationFactIds?: string[];
   mtDeferredPreparationActiveFactIds?: string[];
   mtDeferredPreparationReviewRequired?: boolean;
@@ -443,6 +448,7 @@ export function packetInformationPatch(input: {
   verify?: boolean;
   gaPardonPreparation?: boolean;
   mtDeferredPreparation?: boolean;
+  caJuvenilePreparation?: boolean;
   useContactComponents?: boolean;
   clearInactiveCustodyFacts?: boolean;
   confirmRecordFacts?: string[];
@@ -454,10 +460,10 @@ export function packetInformationPatch(input: {
   reviewed?: boolean;
 }) {
   const priorProtected = input.protectedVerification;
-  if (input.gaPardonPreparation && input.mtDeferredPreparation) return null;
-  const current = input.mtDeferredPreparation ? montanaDeferredPreparationModelFor(priorProtected) : input.gaPardonPreparation ? gaPardonPreparationModelFor(priorProtected) : protectedPacketInformationModelFor(priorProtected);
+  if ([input.gaPardonPreparation, input.mtDeferredPreparation, input.caJuvenilePreparation].filter(Boolean).length > 1) return null;
+  const current = input.caJuvenilePreparation ? caProp64JuvenilePreparationModelFor(priorProtected) : input.mtDeferredPreparation ? montanaDeferredPreparationModelFor(priorProtected) : input.gaPardonPreparation ? gaPardonPreparationModelFor(priorProtected) : protectedPacketInformationModelFor(priorProtected);
   if (!current) return null;
-  if ((input.gaPardonPreparation || input.mtDeferredPreparation) && input.verify) return null;
+  if ((input.gaPardonPreparation || input.mtDeferredPreparation || input.caJuvenilePreparation) && input.verify) return null;
   const allowedIds = editablePacketInputIds(current, true);
   const acceptedAnswers = Object.fromEntries(
     Object.entries(input.answers).filter(([id, answer]) => allowedIds.has(id) && isAnswerValue(answer))
@@ -469,7 +475,7 @@ export function packetInformationPatch(input: {
         && !(question && sameKnownQuestionAnswer(question, current.initialAnswers[id], answer));
     })
   );
-  const storedIds = new Set([...current.requiredInputIds.filter((id) => !(id in current.serverFacts)), ...routeFactualCorrectionIds(current, true), ...(current.mtDeferredPreparationFactIds ?? []),
+  const storedIds = new Set([...current.requiredInputIds.filter((id) => !(id in current.serverFacts)), ...routeFactualCorrectionIds(current, true), ...(current.mtDeferredPreparationFactIds ?? []), ...(current.caJuvenilePreparationFactIds ?? []),
     ...(current.stateCode === "NY" && current.pathwayId === NY_16059_ROUTE ? Object.keys(current.packetAnswers) : [])]);
   // Losing a packet plan does not discard the owner's other saved packet facts.
   // They remain protected while the one existing financial fact is corrected.
@@ -533,7 +539,7 @@ export function packetInformationPatch(input: {
   const now = new Date().toISOString();
   const nextDraft = !materialFactChange && !derivedRepairRequired && canonicalEqual(priorSnapshot.packetPlan, current.packetPlan) && priorProtected.draftSnapshot
     ? priorProtected.draftSnapshot
-    : deriveProtectedPacketDraftSnapshot(priorProtected, savedAnswers, now, contactChoice, [...new Set([...Object.keys(answerDelta), ...confirmations])], new Set(Object.keys(answerDelta)), clearCustody, input.gaPardonPreparation === true, input.mtDeferredPreparation === true);
+    : deriveProtectedPacketDraftSnapshot(priorProtected, savedAnswers, now, contactChoice, [...new Set([...Object.keys(answerDelta), ...confirmations])], new Set(Object.keys(answerDelta)), clearCustody, input.gaPardonPreparation === true, input.mtDeferredPreparation === true, input.caJuvenilePreparation === true);
   if (!nextDraft) return null;
   if (accountEmail) {
     nextDraft.dependencies = { ...nextDraft.dependencies, accountContactSources: { email_address: {
@@ -555,7 +561,7 @@ export function packetInformationPatch(input: {
     draftHash: nextDraftHash,
     draftSnapshot: nextDraft
   };
-  const evaluatedModel = input.mtDeferredPreparation ? montanaDeferredPreparationModelFor(draftRecord) ?? protectedPacketInformationModelFor(draftRecord) : input.gaPardonPreparation ? gaPardonPreparationModelFor(draftRecord) ?? protectedPacketInformationModelFor(draftRecord) : protectedPacketInformationModelFor(draftRecord);
+  const evaluatedModel = input.caJuvenilePreparation ? caProp64JuvenilePreparationModelFor(draftRecord) ?? protectedPacketInformationModelFor(draftRecord) : input.mtDeferredPreparation ? montanaDeferredPreparationModelFor(draftRecord) ?? protectedPacketInformationModelFor(draftRecord) : input.gaPardonPreparation ? gaPardonPreparationModelFor(draftRecord) ?? protectedPacketInformationModelFor(draftRecord) : protectedPacketInformationModelFor(draftRecord);
   const nextModel = evaluatedModel?.packetPlan ? evaluatedModel : caProp64ClarificationModelFor(draftRecord) ?? evaluatedModel;
   if (!nextModel) return null;
   const review = input.verify === true && nextModel.missingInputIds.length === 0
@@ -1580,6 +1586,7 @@ export function protectedPacketInformationModelFor(
     resultCode: snapshot.resultCode,
     ...(heldFactualCorrectionIds.length ? { heldFactualCorrectionIds } : {}),
     ...(gaPreparation ? { gaPardonPreparationAvailable: true } : {}),
+    ...(snapshot.schemaVersion === "expungement-ai/protected-packet-draft/v1" && caProp64JuvenilePreparationScope(snapshot) ? { caJuvenilePreparationAvailable: true } : {}),
     ...(snapshot.schemaVersion === "expungement-ai/protected-packet-draft/v1" && montanaDeferredDocumentInputs(snapshot, { profile, profileAuthorityFingerprint: profileAuthorityFingerprint(profile, snapshot.pathwayId), contract: MT_DEFERRED_CURRENT_DOCUMENT_CONTRACT }).status !== "not_applicable" ? { mtDeferredPreparationAvailable: true } : {}),
     stateCode: snapshot.jurisdiction,
     revision: verification.revision,
@@ -1663,6 +1670,42 @@ export function montanaDeferredPreparationModelFor(verification: ProtectedPacket
     mtDeferredPreparationReviewRequired: mapping.status === "source_review",
     mtDeferredPreparationNotices: montanaDeferredDocumentReviewNotices(mapping.reviewReasons),
     missingInputIds: mapping.missingFactIds, pendingDerivations: [], stage: "in_progress", reviewedAt: null,
+    reviewSafety: { safe: false, reason: "participant_document_preparation_only" } };
+}
+
+/** Juvenile source facts are explicitly requested by the owner. The ordinary
+ * held route stays unchanged, and this surface cannot verify a filing packet. */
+export function caProp64JuvenilePreparationModelFor(verification: ProtectedPacketVerificationRecord): ProtectedPacketInformationModel | null {
+  const model = protectedPacketInformationModelFor(verification);
+  const snapshot = protectedAuthoritySnapshotFor(verification);
+  if (!model?.caJuvenilePreparationAvailable || !snapshot || snapshot.schemaVersion !== "expungement-ai/protected-packet-draft/v1"
+    || !caProp64JuvenilePreparationScope(snapshot)) return null;
+  const contextQuestions = CA_PROP64_CAPTION_QUESTIONS.map(question => question.id === "participant_full_legal_name" ? { ...question,
+    prompt: "Whose full name should the filing-contact declaration identify for this juvenile request?",
+    helperText: "Enter the actual applicant's name explicitly. A saved adult-case or account name is not a substitute for confirming this juvenile filing context.",
+    translations: { es: { prompt: "¿Qué nombre completo debe identificar la declaración de contacto de esta solicitud de menores?", helperText: "Indique expresamente el nombre real del solicitante. Un nombre guardado de un caso de adultos o de la cuenta no sustituye la confirmación del contexto de esta presentación de menores." } }
+  } : question.id === "ca_prop64_court_case_number" ? { ...question,
+    prompt: "Which juvenile case number should the filing-contact declaration identify?",
+    helperText: "Enter this juvenile case number explicitly. It must agree with the case number you separately supply for JV-744.",
+    translations: { es: { prompt: "¿Qué número de caso de menores debe identificar la declaración de contacto?", helperText: "Indique expresamente este número de caso de menores. Debe coincidir con el número que proporcione por separado para JV-744." } }
+  } : question.id === "ca_prop64_filer_representation" ? { ...question,
+    optionDisplay: { ...question.optionDisplay,
+      self_represented: { label: "The applicant, without an attorney", translations: { es: { label: "El solicitante, sin abogado" } } },
+      attorney: { label: "An attorney representing the applicant", translations: { es: { label: "Un abogado que representa al solicitante" } } } }
+  } : question);
+  const context = [...contextQuestions, ...caProp64ContactQuestions(model.initialAnswers)];
+  const questions = [...caProp64JuvenileDocumentQuestions(model.initialAnswers), ...context];
+  const allQuestions = [...caProp64JuvenileDocumentQuestions(model.initialAnswers, true), ...context];
+  const conflicts = allQuestions.filter(question => {
+    const found = [snapshot.screeningAnswers, snapshot.prefilledAnswers, snapshot.packetAnswers]
+      .filter(map => Object.hasOwn(map, question.id)).map(map => map[question.id]);
+    return found.some(raw => !canonicalEqual(raw, found[0]));
+  }).map(question => question.id);
+  return { ...model, caJuvenilePreparationFactIds: allQuestions.map(q => q.id),
+    caJuvenilePreparationActiveFactIds: questions.map(q => q.id), questions: allQuestions,
+    builderQuestions: questions, builderSections: [], recordClarificationIds: conflicts,
+    missingInputIds: questions.filter(q => q.required && questionAnswerState(q, model.initialAnswers[q.id]) !== "known_valid").map(q => q.id),
+    pendingDerivations: [], stage: "in_progress", reviewedAt: null,
     reviewSafety: { safe: false, reason: "participant_document_preparation_only" } };
 }
 
@@ -1796,7 +1839,8 @@ function routeFactualCorrectionIds(model: { stateCode: string; pathwayId: string
     ? [...NY_PACKET_FACT_IDS, ...NY_CASE_FACT_IDS].filter(id => Object.hasOwn(facts, id) || NY_HISTORY_FACT_IDS.includes(id) || NY_FUTURE_FACT_IDS.includes(id)) : [])];
 }
 
-export function editablePacketInputIds(model: Pick<ProtectedPacketInformationModel, "stateCode" | "pathwayId" | "requiredInputIds" | "serverFacts" | "screeningAnswers" | "prefilledAnswers" | "packetAnswers" | "recordOwnQuestionIds" | "questions" | "heldFactualCorrectionIds" | "gaPardonPreparationFactIds" | "mtDeferredPreparationFactIds" | "mtDeferredPreparationActiveFactIds">, includeInactive = false): Set<string> {
+export function editablePacketInputIds(model: Pick<ProtectedPacketInformationModel, "stateCode" | "pathwayId" | "requiredInputIds" | "serverFacts" | "screeningAnswers" | "prefilledAnswers" | "packetAnswers" | "recordOwnQuestionIds" | "questions" | "heldFactualCorrectionIds" | "gaPardonPreparationFactIds" | "mtDeferredPreparationFactIds" | "mtDeferredPreparationActiveFactIds" | "caJuvenilePreparationFactIds" | "caJuvenilePreparationActiveFactIds">, includeInactive = false): Set<string> {
+  if (model.caJuvenilePreparationFactIds) return new Set((includeInactive ? model.caJuvenilePreparationFactIds : model.caJuvenilePreparationActiveFactIds ?? []).filter(id => !(id in model.serverFacts)));
   if (model.mtDeferredPreparationFactIds) return new Set((includeInactive ? model.mtDeferredPreparationFactIds : model.mtDeferredPreparationActiveFactIds ?? []).filter(id => !(id in model.serverFacts)));
   if (model.gaPardonPreparationFactIds) return new Set(model.gaPardonPreparationFactIds.filter(id => !(id in model.serverFacts)));
   const collection = packetCollectionFor({ jurisdiction: model.stateCode, pathwayId: model.pathwayId, requiredInputIds: model.requiredInputIds,
@@ -2302,7 +2346,8 @@ function deriveProtectedPacketDraftSnapshot(
   explicitChangedIds: ReadonlySet<string> = new Set(),
   clearInactiveCustodyFacts = false,
   gaPardonPreparation = false,
-  mtDeferredPreparation = false
+  mtDeferredPreparation = false,
+  caJuvenilePreparation = false
 ): ProtectedPacketDraftSnapshot | null {
   let base = protectedAuthoritySnapshotFor(verification);
   if (!base) return null;
@@ -2313,10 +2358,13 @@ function deriveProtectedPacketDraftSnapshot(
   if (gaPardonPreparation && !gaPreparationIds) return null;
   const mtPreparationIds = mtDeferredPreparation ? montanaDeferredPreparationModelFor(verification)?.mtDeferredPreparationFactIds : undefined;
   if (mtDeferredPreparation && !mtPreparationIds) return null;
+  const caJuvenileIds = caJuvenilePreparation ? caProp64JuvenilePreparationModelFor(verification)?.caJuvenilePreparationFactIds : undefined;
+  if (caJuvenilePreparation && !caJuvenileIds) return null;
   base = montanaDeferredDraftSuccessor(base, currentAuthority) ?? missouriMarijuanaDraftSuccessor(base, currentAuthority) ?? missouriClosureDraftSuccessor(base, currentAuthority) ?? maineNonconvictionDraftSuccessor(base, currentAuthority) ?? louisianaAutomationStatusHeldSuccessor(base, currentAuthority) ?? nebraskaAcquittalHeldSuccessor(base, currentAuthority) ?? kansasRegistrationHeldSuccessor(base, currentAuthority) ?? base;
   const factualIds = [...factualPathwayCorrectionIds(base.jurisdiction, base.pathwayId, { ...base.screeningAnswers, ...base.prefilledAnswers, ...base.packetAnswers }, true), ...msExactTimingQuestionIds(base.jurisdiction, base.pathwayId, { ...base.screeningAnswers, ...base.prefilledAnswers, ...base.packetAnswers }, true), ...missouriUnselectedCorrectionIds(base), ...maineUnselectedCorrectionIds(base), ...nebraskaUnselectedCorrectionIds(base), ...louisianaUnselectedCorrectionIds(base)];
   if (gaPreparationIds) factualIds.push(...gaPreparationIds);
   if (mtPreparationIds) factualIds.push(...mtPreparationIds);
+  if (caJuvenileIds) factualIds.push(...caJuvenileIds);
   if (isNy16059Packet(base.jurisdiction, base.pathwayId)) factualIds.push(...NY_PACKET_FACT_IDS, ...NY_CASE_FACT_IDS,
     ...routeFactualCorrectionIds({ stateCode: base.jurisdiction, pathwayId: base.pathwayId,
       screeningAnswers: answerRecord(base.screeningAnswers), prefilledAnswers: answerRecord(base.prefilledAnswers), packetAnswers: answerRecord(base.packetAnswers) }, true));
@@ -2324,9 +2372,9 @@ function deriveProtectedPacketDraftSnapshot(
     base = factualPathwayHeldSuccessor(base, currentAuthority) ?? convictionFallbackHeldSuccessor(base, currentAuthority) ?? reviewedPacketContractSuccessor(base, currentAuthority.evaluation.packetPlan);
     if (!base) return null;
   }
-  if (factualIds.some(id => explicitChangedIds.has(id) || mtPreparationIds && confirmRecordFacts.includes(id))) {
+  if (factualIds.some(id => explicitChangedIds.has(id) || (mtPreparationIds || caJuvenileIds) && confirmRecordFacts.includes(id))) {
     const history = [...(base.dependencies.semanticAnswerHistory ?? [])];
-    for (const factId of factualIds.filter(id => explicitChangedIds.has(id) || mtPreparationIds && confirmRecordFacts.includes(id))) for (const source of ["screeningAnswers", "prefilledAnswers", "packetAnswers"] as const) {
+    for (const factId of factualIds.filter(id => explicitChangedIds.has(id) || (mtPreparationIds || caJuvenileIds) && confirmRecordFacts.includes(id))) for (const source of ["screeningAnswers", "prefilledAnswers", "packetAnswers"] as const) {
       if (!Object.hasOwn(originalBase[source], factId)) continue;
       const entry = { factId, value: originalBase[source][factId], source, meaning: "prior_factual_pathway_answer" as const,
         routeKey: `${originalBase.jurisdiction}:${originalBase.pathwayId}`, profileVersion: originalBase.profileVersion,

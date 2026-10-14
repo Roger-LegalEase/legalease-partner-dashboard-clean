@@ -44,7 +44,7 @@ const contactAnswerText = (answer: AnswerValue | undefined): string => answer ==
 /** Explicit saves; every navigation waits for persistence and canonical conditions. */
 export function PacketInformationBuilder({
   itemId, stateCode, pathwayId, questions: initialQuestions, sections: initialSections = [], initialAnswers,
-  initiallyMissing, initialRevision, initialResumeSectionId = null, initialPendingDerivations = [], initialContactReconciliation = null, initialRecordClarificationIds = [], initialCourtRecordConflict = false, initialAccountEmailSuggestion = null, initialCaProp64Clarification = false, initialRouteChanged = false, editingFromReview = false, returnToMatterAfterCorrection = false, gaPardonPreparation = false, mtDeferredPreparation = false
+  initiallyMissing, initialRevision, initialResumeSectionId = null, initialPendingDerivations = [], initialContactReconciliation = null, initialRecordClarificationIds = [], initialCourtRecordConflict = false, initialAccountEmailSuggestion = null, initialCaProp64Clarification = false, initialRouteChanged = false, editingFromReview = false, returnToMatterAfterCorrection = false, gaPardonPreparation = false, mtDeferredPreparation = false, caJuvenilePreparation = false
 }: {
   itemId: string;
   stateCode: string;
@@ -67,6 +67,7 @@ export function PacketInformationBuilder({
   returnToMatterAfterCorrection?: boolean;
   gaPardonPreparation?: boolean;
   mtDeferredPreparation?: boolean;
+  caJuvenilePreparation?: boolean;
 }) {
   const { locale, text: localizeText } = useLocalization();
   const copy = (en: string, es: string) => locale === "es" ? es : en;
@@ -93,6 +94,18 @@ export function PacketInformationBuilder({
   const accountEmailChoice = useRef<string | null>(null);
   const [accountEmailChoicePending, setAccountEmailChoicePending] = useState(false);
   const [recordClarificationIds, setRecordClarificationIds] = useState(initialRecordClarificationIds);
+  function juvenileContactReuse(targetId: string): string | null {
+    if (!caJuvenilePreparation) return null;
+    const sourceId = targetId === "participant_full_legal_name" ? "ca_prop64_juvenile_full_name"
+      : targetId === "ca_prop64_court_case_number" ? "ca_prop64_juvenile_case_number" : null;
+    if (!sourceId || recordClarificationIds.includes(sourceId)) return null;
+    const raw = answers[sourceId];
+    const value = raw && typeof raw === "object" && !Array.isArray(raw)
+      && Object.keys(raw).every(key => key === "value" || key === "unknown") && raw.unknown !== true
+      && (raw.unknown === undefined || raw.unknown === false) ? raw.value : raw;
+    return typeof value === "string" && value.trim() && !/[\x00-\x1f\x7f]/.test(value)
+      && answerValueIsKnown(raw) ? value : null;
+  }
   const recordChoices = useRef<string[]>([]);
   const [recordChoicePending, setRecordChoicePending] = useState(false);
   const clearCustodyChoice = useRef(false);
@@ -158,7 +171,7 @@ export function PacketInformationBuilder({
           const submittedRevision = revision.current;
           const submittedRecordChoices = [...recordChoices.current];
           const submittedAccountEmailChoice = accountEmailChoice.current;
-          const response = await fetch(`/api/expungement-ai/briefcase/${encodeURIComponent(itemId)}/packet-information${mtDeferredPreparation ? "?preparation=mt-deferred" : gaPardonPreparation ? "?preparation=ga-pardon" : ""}`, {
+          const response = await fetch(`/api/expungement-ai/briefcase/${encodeURIComponent(itemId)}/packet-information${caJuvenilePreparation ? "?preparation=ca-prop64-juvenile" : mtDeferredPreparation ? "?preparation=mt-deferred" : gaPardonPreparation ? "?preparation=ga-pardon" : ""}`, {
             method: "POST", headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ answers: changedPacketAnswers(submitted, confirmed.current), useContactComponents: contactChoice.current, clearInactiveCustodyFacts: clearCustodyChoice.current, confirmRecordFacts: submittedRecordChoices, useAccountEmail: submittedAccountEmailChoice !== null && submitted.email_address === submittedAccountEmailChoice, expectedRevision: submittedRevision, resumeSectionId: editingFromReview ? null : resumeSectionId, navigationIntent: editingFromReview ? "stay" : navigationIntent, editingFact: editingSensitiveIdentifier ? "social_security_number" : undefined })
           });
@@ -234,7 +247,7 @@ export function PacketInformationBuilder({
   async function loadSavedForComparison() {
     const requestSequence = ++recoverySequence.current;
     try {
-      const response = await fetch(`/api/expungement-ai/briefcase/${encodeURIComponent(itemId)}/packet-information${mtDeferredPreparation ? "?preparation=mt-deferred" : gaPardonPreparation ? "?preparation=ga-pardon" : editingSensitiveIdentifier ? "?editingFact=social_security_number" : ""}`, { cache: "no-store" });
+      const response = await fetch(`/api/expungement-ai/briefcase/${encodeURIComponent(itemId)}/packet-information${caJuvenilePreparation ? "?preparation=ca-prop64-juvenile" : mtDeferredPreparation ? "?preparation=mt-deferred" : gaPardonPreparation ? "?preparation=ga-pardon" : editingSensitiveIdentifier ? "?editingFact=social_security_number" : ""}`, { cache: "no-store" });
       const payload: unknown = await response.json();
       if (requestSequence !== recoverySequence.current) return;
       if (!response.ok || !isPacketSaveReceipt(payload) || payload.revision < revision.current || payload.reviewPath !== `/briefcase/${encodeURIComponent(itemId)}/review`) throw new Error("recovery_unavailable");
@@ -379,12 +392,22 @@ export function PacketInformationBuilder({
             <p className="mt-3 text-sm">{copy("This replaces the earlier combined answer when you save. Your separate contact details stay editable.", "Esto reemplaza la respuesta combinada anterior cuando guarde. Sus datos de contacto por separado seguirán siendo editables.")}</p>
             {!contactReconciliation.canUseComponents ? <p className="mt-3 text-sm" role="status">{copy("Complete or correct the separate contact details first.", "Primero complete o corrija los datos de contacto por separado.")}</p> : null}
             <button type="button" className="mt-3 min-h-11 rounded border px-4 py-2 font-semibold disabled:opacity-50" disabled={saving || !contactReconciliation.canUseComponents} onClick={() => { contactChoice.current = true; setContactChoicePending(true); void save(screenId, "stay"); }}>{copy("Use and save these contact details", "Usar y guardar estos datos de contacto")}</button>
-          </div> : <QuestionField question={question} stateCode={stateCode} value={answers[question.id]} headingLevel={3} sensitiveInputAllowed={!requiresMcicIdentifierAuthority(stateCode, pathwayId) || mcicIdentifierAuthority(answers, new Date().toISOString()).safe} onChange={(value) => {
+          </div> : <QuestionField question={question} stateCode={stateCode} caJuvenilePreparation={caJuvenilePreparation} value={answers[question.id]} headingLevel={3} sensitiveInputAllowed={!requiresMcicIdentifierAuthority(stateCode, pathwayId) || mcicIdentifierAuthority(answers, new Date().toISOString()).safe} onChange={(value) => {
             recordChoices.current = []; setRecordChoicePending(false);
             if (question.id === "email_address") { accountEmailChoice.current = null; setAccountEmailChoicePending(false); }
             const next = { ...latest.current, [question.id]: value }; latest.current = next; setAnswers(next); setSavedAt(null);
             setFieldErrors((current) => { const remaining = { ...current }; delete remaining[question.id]; return remaining; });
-          }} error={fieldErrors[question.id]?.[locale] ?? null} />}{question.id === "email_address" && accountEmailSuggestion && contactAnswerText(answers.email_address) !== accountEmailSuggestion ? <div className="mt-3 rounded border border-[#D8DFE8] p-3 text-sm" data-account-email-suggestion>
+          }} error={fieldErrors[question.id]?.[locale] ?? null} />}{juvenileContactReuse(question.id) !== null ? <div className="mt-3 rounded border border-[#D8DFE8] p-3 text-sm" data-juvenile-contact-reuse={question.id}>
+            <p>{copy("You already entered this value for JV-744. Reuse it for the filing-contact declaration only if it identifies this same juvenile request. Your earlier answer stays in your saved history.", "Ya indicó este dato para JV-744. Reutilícelo en la declaración de contacto solo si identifica esta misma solicitud de menores. Su respuesta anterior permanece en el historial guardado.")}</p>
+            <p className="mt-2 break-words font-semibold" dir="auto">{juvenileContactReuse(question.id)}</p>
+            <button type="button" className="mt-3 min-h-11 rounded border px-4 py-2 font-semibold disabled:opacity-50" disabled={saving} onClick={() => {
+              const reused = juvenileContactReuse(question.id); if (reused === null) return;
+              recordChoices.current = []; setRecordChoicePending(false);
+              const next = { ...latest.current, [question.id]: reused }; latest.current = next; setAnswers(next); setSavedAt(null);
+              setFieldErrors(current => { const remaining = { ...current }; delete remaining[question.id]; return remaining; });
+              void save(screenId, "stay");
+            }}>{question.id === "participant_full_legal_name" ? copy("Use and save the name I entered for JV-744", "Usar y guardar el nombre que indiqué para JV-744") : copy("Use and save the case number I entered for JV-744", "Usar y guardar el número de caso que indiqué para JV-744")}</button>
+          </div> : null}{question.id === "email_address" && accountEmailSuggestion && contactAnswerText(answers.email_address) !== accountEmailSuggestion ? <div className="mt-3 rounded border border-[#D8DFE8] p-3 text-sm" data-account-email-suggestion>
             <p className="font-semibold">{copy("Account email suggestion", "Sugerencia de correo electrónico de su cuenta")}</p>
             <p className="mt-1 break-words" dir="auto">{accountEmailSuggestion}</p>
             <p className="mt-2" id="packet-account-email-help">{copy("Use this address only if it is safe to include in this packet. You can edit it before saving. This does not change your account email.", "Use esta dirección solo si es seguro incluirla en este paquete. Puede editarla antes de guardar. Esto no cambia el correo electrónico de su cuenta.")}</p>
@@ -396,7 +419,7 @@ export function PacketInformationBuilder({
               focusQuestion("email_address");
             }}>{copy("Use this email in my draft", "Usar este correo electrónico en mi borrador")}</button>
           </div> : null}{recordClarificationIds.includes(question.id) && questionAnswerState(question, answers[question.id]) === "known_valid" && answerValueIsKnown(answers[question.id]) ? <div className="mt-3" data-record-clarification={question.id}>
-            <p className="text-sm" id={`record-clarification-${question.id}`}>{mtDeferredPreparation ? copy("Compare these saved details with your current records. Keep the displayed answer if it is correct, or edit it before confirming. The previous values will remain in your saved history.", "Compare estos datos guardados con sus expedientes actuales. Conserve la respuesta mostrada si es correcta o edítela antes de confirmarla. Los valores anteriores permanecerán en su historial guardado.") : copy("Compare this saved answer with the court record. Keep it if it is correct, or edit it before confirming. We will not replace it automatically.", "Compare esta respuesta guardada con el expediente judicial. Consérvela si es correcta o edítela antes de confirmarla. No la reemplazaremos automáticamente.")}</p>
+            <p className="text-sm" id={`record-clarification-${question.id}`}>{(mtDeferredPreparation || caJuvenilePreparation) ? copy("Compare these saved details with your current records. Keep the displayed answer if it is correct, or edit it before confirming. The previous values will remain in your saved history.", "Compare estos datos guardados con sus expedientes actuales. Conserve la respuesta mostrada si es correcta o edítela antes de confirmarla. Los valores anteriores permanecerán en su historial guardado.") : copy("Compare this saved answer with the court record. Keep it if it is correct, or edit it before confirming. We will not replace it automatically.", "Compare esta respuesta guardada con el expediente judicial. Consérvela si es correcta o edítela antes de confirmarla. No la reemplazaremos automáticamente.")}</p>
             <button type="button" aria-describedby={`record-clarification-${question.id}`} className="mt-3 min-h-11 rounded border px-4 py-2 font-semibold disabled:opacity-50" disabled={saving} onClick={() => { recordChoices.current = [question.id]; setRecordChoicePending(true); void save(screenId, "stay"); }}>{copy("Confirm this answer", "Confirmar esta respuesta")}</button>
           </div> : null}{question.required && ["uncertain", "declined"].includes(questionAnswerState(question, answers[question.id])) ? <p className="mt-3 text-sm" role="status">{copy("You can continue with other questions. This answer still needs to be resolved before your packet can be prepared.", "Puede continuar con las demás preguntas. Esta respuesta aún debe aclararse antes de preparar su paquete.")}</p> : null}</div>)}
         </fieldset>
@@ -427,7 +450,7 @@ export function PacketInformationBuilder({
             return option ? locale === "es" ? option.translations?.es?.label ?? localizeProfileText(locale, option.label, { state: stateCode, questionId: id, part: `option.${value}.label` }) : option.label : localizeText(value);
           };
           const display = (answer: unknown): string => {
-            if (isCaProp64Pathway(stateCode, pathwayId ?? null) && CA_CONTACT_IDS.includes(id)) return formatCaContact(id, answer, locale);
+            if (isCaProp64Pathway(stateCode, pathwayId ?? null) && CA_CONTACT_IDS.includes(id)) return formatCaContact(id, answer, locale, caJuvenilePreparation);
             if (isNy16059Packet(stateCode, pathwayId ?? null) && id === NY_FUTURE_ID) return formatNyFutureApplications(answer, locale, question?.futureApplicationReferences);
             if (isNy16059Packet(stateCode, pathwayId ?? null) && id === NY_SEALING_HISTORY_ID) return formatNySealingHistory(answer, locale, question?.prior16058ApplicationKnown);
             if (isNy16059Packet(stateCode, pathwayId ?? null) && id === NY_CASE_RECORDS_ID) return formatNyCourtCaseRecords(answer, locale);

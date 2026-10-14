@@ -24,6 +24,7 @@ import {
   packetDraftStopReason,
   protectedPacketInformationModelFor,
   montanaDeferredPreparationModelFor,
+  caProp64JuvenilePreparationModelFor,
   gaPardonPreparationModelFor
 } from "@/lib/expungement-ai/packet-information";
 import type { AnswerValue } from "@/lib/expungement-ai/frontend/contracts";
@@ -41,6 +42,7 @@ export const dynamic = "force-dynamic";
 const maxPayloadBytes = 60_000;
 
 function ownerEditingModelFor(record: Parameters<typeof protectedPacketInformationModelFor>[0], preparation: string | null = null) {
+  if (preparation === "ca-prop64-juvenile") return caProp64JuvenilePreparationModelFor(record);
   if (preparation === "mt-deferred") return montanaDeferredPreparationModelFor(record);
   if (preparation === "ga-pardon") return gaPardonPreparationModelFor(record);
   const model = protectedPacketInformationModelFor(record);
@@ -133,13 +135,13 @@ export async function POST(
   const preparation = new URL(request.url).searchParams.get("preparation");
   const protectedModel = ownerEditingModelFor(protectedRead.value, preparation);
   if (!protectedModel) return NextResponse.json({ ok: false, error: "packet_information_unavailable" }, { status: 403 });
-  if (["ga-pardon", "mt-deferred"].includes(preparation ?? "") && parsed.verify) return NextResponse.json({ ok: false, error: "preparation_only" }, { status: 422 });
+  if (["ga-pardon", "mt-deferred", "ca-prop64-juvenile"].includes(preparation ?? "") && parsed.verify) return NextResponse.json({ ok: false, error: "preparation_only" }, { status: 422 });
   // Match the page's validated successor instead of the historical draft result.
   // This controls owner corrections only; verification and commercial holds remain.
   const savedResult = protectedModel.resultCode;
   const factualCorrectionIds = protectedModel ? [...factualPathwayCorrectionIds(protectedModel.stateCode, protectedModel.pathwayId, protectedModel.initialAnswers), ...(protectedModel.heldFactualCorrectionIds ?? [])] : [];
   const financialCorrection = protectedModel && heldPacketCorrectionInputIds(protectedModel, savedResult ?? null).has("financial_obligations");
-  if (!protectedModel?.packetPlan && !protectedModel?.caProp64Clarification
+  if (!protectedModel?.packetPlan && !protectedModel?.caProp64Clarification && !protectedModel?.caJuvenilePreparationFactIds
     && !financialCorrection && !factualCorrectionIds.length
     && !(protectedModel?.stateCode === "NY" && protectedModel.pathwayId === NY_16059_ROUTE)) {
     return NextResponse.json({ ok: false, error: "packet_information_unavailable" }, { status: 403 });
@@ -198,6 +200,7 @@ export async function POST(
     answers: parsed.answers,
     verify: parsed.verify,
     gaPardonPreparation: preparation === "ga-pardon",
+    caJuvenilePreparation: preparation === "ca-prop64-juvenile",
     mtDeferredPreparation: preparation === "mt-deferred",
     useContactComponents: parsed.useContactComponents,
     clearInactiveCustodyFacts: parsed.clearInactiveCustodyFacts,

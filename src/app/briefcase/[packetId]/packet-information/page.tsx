@@ -16,7 +16,7 @@ import { getBriefcaseItem } from "@/lib/expungement-ai/briefcase";
 import { decorateBriefcaseItemForPresentation } from "@/lib/expungement-ai/briefcase-presentation-authority";
 import { protectedPacketVerificationSeedFromTrustedSource, readTrustedBriefcasePresentationSource } from "@/lib/expungement-ai/briefcase-presentation-authority";
 
-import { gaPardonPreparationModelFor, montanaDeferredPreparationModelFor } from "@/lib/expungement-ai/packet-information";
+import { gaPardonPreparationModelFor, montanaDeferredPreparationModelFor, caProp64JuvenilePreparationModelFor } from "@/lib/expungement-ai/packet-information";
 
 export const dynamic = "force-dynamic";
 
@@ -35,9 +35,10 @@ export default async function PacketInformationPage({
     item: storedItem
   }) : null;
   const search = await searchParams;
+  const preparingJuvenile = search.preparation === "ca-prop64-juvenile";
   const preparingMt = search.preparation === "mt-deferred";
-  const preparing = search.preparation === "ga-pardon" || preparingMt;
-  const preparationKey = preparingMt ? "mt-deferred" : "ga-pardon";
+  const preparing = search.preparation === "ga-pardon" || preparingMt || preparingJuvenile;
+  const preparationKey = preparingJuvenile ? "ca-prop64-juvenile" : preparingMt ? "mt-deferred" : "ga-pardon";
   let preparationModel = null;
   if (preparing && storedItem) {
     let read = await readProtectedPacketVerification({ consumerAuthUserId: auth.userId, briefcaseItemId: storedItem.id });
@@ -46,7 +47,7 @@ export default async function PacketInformationPage({
       const seed = source.ok ? protectedPacketVerificationSeedFromTrustedSource(source.value) : null;
       if (seed) read = { ok: true, value: seed.verification };
     }
-    preparationModel = read.ok ? preparingMt ? montanaDeferredPreparationModelFor(read.value) : gaPardonPreparationModelFor(read.value) : null;
+    preparationModel = read.ok ? preparingJuvenile ? caProp64JuvenilePreparationModelFor(read.value) : preparingMt ? montanaDeferredPreparationModelFor(read.value) : gaPardonPreparationModelFor(read.value) : null;
   }
   const savedCaseGuidanceCorrection = item?.authorityStatus === "protected_draft"
     && item.jurisdiction && item.packetDraft.status === "available"
@@ -133,7 +134,7 @@ export default async function PacketInformationPage({
           <div className="flex flex-wrap items-start justify-between gap-4">
             <div>
               <p className="text-xs font-bold uppercase tracking-[0.08em] text-[#08786F]">{item.jurisdiction}</p>
-              <h1 className="mt-2 text-[26px] font-extrabold tracking-[-0.02em] text-[#0B1320]">{preparingMt ? <LocalizedCopy en="Prepare your deferred-sentence document details" es="Prepare los datos de sus documentos de sentencia aplazada" /> : preparing ? <LocalizedCopy en="Prepare your petition information" es="Prepare la información para su petición" /> : correctingCompletion
+              <h1 className="mt-2 text-[26px] font-extrabold tracking-[-0.02em] text-[#0B1320]">{preparingJuvenile ? <LocalizedCopy en="Prepare your juvenile court details" es="Prepare los datos de su solicitud al tribunal de menores" /> : preparingMt ? <LocalizedCopy en="Prepare your deferred-sentence document details" es="Prepare los datos de sus documentos de sentencia aplazada" /> : preparing ? <LocalizedCopy en="Prepare your petition information" es="Prepare la información para su petición" /> : correctingCompletion
                 ? <LocalizedCopy en={savedCaseGuidanceCorrection ? "Review saved case answers" : eligibilityCorrection ? "Review saved eligibility answers" : "Review saved completion answers"} es={savedCaseGuidanceCorrection ? "Revise las respuestas guardadas sobre el caso" : eligibilityCorrection ? "Revise las respuestas guardadas sobre la elegibilidad" : "Revise las respuestas guardadas sobre el cumplimiento"} />
                 : <LocalizedRuntimeText text={"Complete packet information"} />}</h1>
               {item.pathwayLabel ? <p className="mt-2 text-sm font-semibold text-[#475A6E]"><LocalizedCopy {...packetDisplayCopy("route_label", item.jurisdiction, item.pathwayId, item.pathwayLabel)} /></p> : null}
@@ -142,7 +143,7 @@ export default async function PacketInformationPage({
           </div>
 
           <div className="my-6 rounded-[14px] bg-[#F7F3EC] px-5 py-4 text-sm leading-6 text-[#5A6275]">
-            {preparingMt ? <p><LocalizedCopy en="Save details from your actual case records. A motion to the sentencing court and a DOJ request after an actual dismissal order are separate steps. Saving these details does not confirm relief, sign or file documents, or make a packet available to download. Uncertainty, a local court form, or a need for legal advice requires review before any document can be used." es="Guarde los datos de los expedientes reales de su caso. Una moción al tribunal que dictó la sentencia y una solicitud al Departamento de Justicia después de una orden real de desestimación son pasos distintos. Guardar estos datos no confirma que se haya concedido una medida, no firma ni presenta documentos y no habilita un paquete para descargar. La incertidumbre, un formulario judicial local o la necesidad de asesoramiento jurídico requieren revisión antes de usar cualquier documento." /></p> : preparing ? <p><LocalizedCopy en="Choose a detail to save or correct. Describe the harm to you using your own facts. The court decides the petition. You can save your progress; a packet is not yet available to download." es="Elija un dato para guardarlo o corregirlo. Describa el perjuicio que ha sufrido usando sus propios hechos. El tribunal decide la petición. Puede guardar su progreso; el paquete aún no está disponible para descargar." /></p> : savedCaseGuidanceCorrection ? (
+            {preparingJuvenile ? <p><LocalizedCopy en="Use the actual juvenile court record. Enter the conduct date and adjudication date separately for each finding. Different cases or remedies need separate requests. Optional hearing choices and waivers are yours to make. You can save progress; no document is signed, filed or available to download." es="Use el expediente real del tribunal de menores. Indique por separado la fecha de los hechos y la fecha de adjudicación de cada determinación. Los casos o alivios diferentes necesitan solicitudes separadas. Las opciones de audiencia y las renuncias opcionales le corresponden a usted. Puede guardar su progreso; no se firma ni presenta ningún documento y no hay documentos disponibles para descargar." /></p> : preparingMt ? <p><LocalizedCopy en="Save details from your actual case records. A motion to the sentencing court and a DOJ request after an actual dismissal order are separate steps. Saving these details does not confirm relief, sign or file documents, or make a packet available to download. Uncertainty, a local court form, or a need for legal advice requires review before any document can be used." es="Guarde los datos de los expedientes reales de su caso. Una moción al tribunal que dictó la sentencia y una solicitud al Departamento de Justicia después de una orden real de desestimación son pasos distintos. Guardar estos datos no confirma que se haya concedido una medida, no firma ni presenta documentos y no habilita un paquete para descargar. La incertidumbre, un formulario judicial local o la necesidad de asesoramiento jurídico requieren revisión antes de usar cualquier documento." /></p> : preparing ? <p><LocalizedCopy en="Choose a detail to save or correct. Describe the harm to you using your own facts. The court decides the petition. You can save your progress; a packet is not yet available to download." es="Elija un dato para guardarlo o corregirlo. Describa el perjuicio que ha sufrido usando sus propios hechos. El tribunal decide la petición. Puede guardar su progreso; el paquete aún no está disponible para descargar." /></p> : savedCaseGuidanceCorrection ? (
               <p><LocalizedCopy en={item.jurisdiction === "LA" ? "You can correct the saved case answers used for this guidance. Saving an answer does not verify your facts, submit an automated expungement request, or make a court packet available." : "You can correct the saved case answers used for this guidance. Saving an answer does not verify your facts, confirm that your record is sealed, or make a court packet available."} es={item.jurisdiction === "LA" ? "Puede corregir las respuestas guardadas sobre el caso que se usan para esta orientación. Guardar una respuesta no verifica sus datos, no presenta una solicitud de eliminación automatizada ni habilita un paquete judicial." : "Puede corregir las respuestas guardadas sobre el caso que se usan para esta orientación. Guardar una respuesta no verifica sus datos, no confirma que su expediente esté sellado ni habilita un paquete judicial."} /></p>
             ) : correctingCompletion ? (
               <p><LocalizedCopy en="You can correct these saved answers. Your current result remains on hold, and correcting an answer does not complete final verification." es="Puede corregir estas respuestas guardadas. Su resultado actual sigue pendiente y corregir una respuesta no completa la verificación final." /></p>
@@ -167,8 +168,8 @@ export default async function PacketInformationPage({
             </Link>)}
           </nav> : null}
           {preparing ? <nav className="mb-6 grid gap-2" aria-labelledby="ga-preparation-choices">
-            <p id="ga-preparation-choices" className="font-semibold"><LocalizedCopy en={preparingMt ? "Choose a document detail" : "Choose a petition detail"} es={preparingMt ? "Elija un dato del documento" : "Elija un dato de la petición"} /></p>
-            {(preparingMt ? model.builderQuestions : model.questions).map(question => <Link key={question.id} className="inline-flex min-h-11 items-center underline" href={`/briefcase/${encodeURIComponent(item.id)}/packet-information?preparation=${preparationKey}&edit=${encodeURIComponent(question.id)}`}>
+            <p id="ga-preparation-choices" className="font-semibold"><LocalizedCopy en={(preparingMt || preparingJuvenile) ? "Choose a document detail" : "Choose a petition detail"} es={(preparingMt || preparingJuvenile) ? "Elija un dato del documento" : "Elija un dato de la petición"} /></p>
+            {((preparingMt || preparingJuvenile) ? model.builderQuestions : model.questions).map(question => <Link key={question.id} className="inline-flex min-h-11 items-center underline" href={`/briefcase/${encodeURIComponent(item.id)}/packet-information?preparation=${preparationKey}&edit=${encodeURIComponent(question.id)}`}>
               {question.translations?.es?.prompt ? <LocalizedCopy en={question.prompt} es={question.translations.es.prompt} /> : <LocalizedRuntimeText text={question.prompt} />}
             </Link>)}
           </nav> : null}
@@ -190,7 +191,8 @@ export default async function PacketInformationPage({
             initialAccountEmailSuggestion={packetAccountEmailSuggestion({ ...model, stateCode: item.jurisdiction, pathwayId: item.pathwayId ?? null }, auth.userEmail)}
             initialRouteChanged={correctingCompletion && !savedCaseMatterCorrection}
             returnToMatterAfterCorrection={preparing || Boolean(savedCaseMatterCorrection)}
-            gaPardonPreparation={preparing && !preparingMt}
+            gaPardonPreparation={preparing && !preparingMt && !preparingJuvenile}
+            caJuvenilePreparation={preparingJuvenile}
             mtDeferredPreparation={preparingMt}
             editingFromReview={Boolean(editId) || correctingCompletion}
           /> : null}

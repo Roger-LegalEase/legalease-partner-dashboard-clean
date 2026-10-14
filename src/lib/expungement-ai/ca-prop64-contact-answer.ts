@@ -77,7 +77,7 @@ export const CA_CONTACT_OPTION_LABELS: Record<string, { en: string; es: string }
   same: { en: "Same as the street address", es: "La misma dirección" }, distinct: { en: "A different mailing address", es: "Una dirección postal diferente" },
   self_represented: { en: "The defendant, without an attorney", es: "El acusado, sin abogado" }, attorney: { en: "An attorney representing the defendant", es: "Un abogado que representa al acusado" }
 };
-export function formatCaContact(id: string, raw: unknown, locale: "en" | "es"): string {
+export function formatCaContact(id: string, raw: unknown, locale: "en" | "es", juvenile = false): string {
   const v = parseCaContact(id, raw); if (!v) return locale === "es" ? "Respuesta guardada que necesita aclaración" : "Saved answer needs clarification";
   const retained = locale === "es" ? "Guardado, no se usará ni imprimirá" : "Saved, will not be used or printed";
   return Object.entries(v).filter(([key, value]) => {
@@ -86,13 +86,15 @@ export function formatCaContact(id: string, raw: unknown, locale: "en" | "es"): 
       || v.kind === "court" && key === "mailingAddress" && v.mailingRelationship !== "distinct";
     return !inactive || Boolean(typeof value === "string" ? value.trim() : value.value.trim());
   }).map(([key, value]) => {
-    const label = CA_CONTACT_LABELS[key]?.[locale] ?? key;
+    const label = juvenile && key === "defendantName" ? locale === "es" ? "Solicitante" : "Applicant" : CA_CONTACT_LABELS[key]?.[locale] ?? key;
     const inactive = v.kind === "filer" && v.representation !== "attorney" && ["attorneyName", "barNumber", "firm"].includes(key)
       || v.kind === "court" && key === "mailingAddress" && v.mailingRelationship !== "distinct";
     // Only enum fields translate. A person's literal name, address or number
     // must survive even when it happens to match an enum token.
     const text = typeof value === "string"
-      ? ["representation", "mailingRelationship"].includes(key) ? CA_CONTACT_OPTION_LABELS[value]?.[locale] ?? value : value
+      ? juvenile && key === "representation" && value === "self_represented" ? locale === "es" ? "El solicitante, sin abogado" : "The applicant, without an attorney"
+        : juvenile && key === "representation" && value === "attorney" ? locale === "es" ? "Un abogado que representa al solicitante" : "An attorney representing the applicant"
+        : ["representation", "mailingRelationship"].includes(key) ? CA_CONTACT_OPTION_LABELS[value]?.[locale] ?? value : value
       : `${CA_CONTACT_OPTION_LABELS[value.status][locale]}${value.value ? value.status === "known" ? ` (${value.value})` : `; ${retained}: ${value.value}` : ""}`;
     return `${label}: ${inactive ? `${retained}: ` : ""}${text || CA_CONTACT_OPTION_LABELS[""][locale]}`;
   }).join("\n");
