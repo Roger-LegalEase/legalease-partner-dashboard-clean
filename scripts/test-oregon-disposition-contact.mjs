@@ -47,6 +47,39 @@ const nodes=(e,out=[])=>{if(!e||typeof e!=='object')return out;if(Array.isArray(
 const C=await load('src/lib/expungement-ai/oregon-disposition-contact.ts');
 const map=JSON.parse(fs.readFileSync(file(C.OR_CONTACT_SOURCE.mapPath)));
 const projected=()=>C.oregonContactInputs(snap());
+const D=await load('src/lib/expungement-ai/oregon-disposition-contact-answer.ts');
+const {questionAnswerState}=await load('src/lib/expungement-ai/question-answer-state.ts');
+const textIds=C.OR_CONTACT_IDS.filter(id=>id!=='or_osp_address_choice');
+for(const raw of ['unavailable','not available','no disponible','no lo sé','none','confidential','sin dirección postal'])for(const id of textIds){
+ const value={value:raw,unknown:false},q=C.oregonContactQuestions({or_osp_address_choice:'different'},true).find(q=>q.id===id);
+ check('exact nonfact decoder/status '+id+'/'+raw,()=>{assert.equal(D.oregonContactKnownText(value),null);assert.equal(D.oregonContactAnswerState('OR',route,id,value,questionAnswerState(q,value)),'invalid');});
+}
+for(const raw of ['42 Not Available Lane','100 Unknown Avenue','None Such Road','confidential@example.test'])check('real literal containing an unresolved word stays exact '+raw,()=>{
+ assert.equal(D.oregonContactKnownText({value:raw,unknown:false}),raw);assert.equal(D.oregonContactAnswerState('OR',route,textIds[0],{value:raw,unknown:false},'known_valid'),'known_valid');
+});
+for(const raw of [{unknown:true},{value:'previous address',unknown:true},{value:'',unknown:false},undefined,[],{value:'x',unknown:false,other:true}])check('generic uncertain/blank/invalid shapes preserved '+JSON.stringify(raw),()=>{
+ const q=C.oregonContactQuestions({})[0],generic=questionAnswerState(q,raw);assert.equal(D.oregonContactKnownText(raw),null);assert.equal(D.oregonContactAnswerState('OR',route,q.id,raw,generic),generic);
+});
+for(const [state,path,id] of [['AK',route,textIds[0]],['OR',H.OR_RETIRED_NONCONVICTION_PATH,textIds[0]],['OR',route,'contact_information'],['OR',route,'or_osp_address_choice']])check('unrelated display states unchanged '+state+'/'+path+'/'+id,()=>assert.equal(D.oregonContactAnswerState(state,path,id,{value:'unavailable',unknown:false},'known_valid'),'known_valid'));
+await save({or_ojd_mailing_street:{value:'42 Maple Street',unknown:false},or_ojd_mailing_city_state_zip:{value:'Portland, OR 97205',unknown:false},or_osp_address_choice:'same'});
+for(const raw of ['unavailable','no disponible','not available','no lo sé']){
+ await save({or_ojd_mailing_street:{value:raw,unknown:false}});
+ check('actual ordinary save preserves unresolved raw without source writes '+raw,()=>{assert.deepEqual(snap().packetAnswers.or_ojd_mailing_street,{value:raw,unknown:false});assert(!projected().writes.some(w=>w.inputIds.includes('or_ojd_mailing_street')));assert(!model().requiredInputIds.includes('or_ojd_mailing_street'));assert(!model().missingInputIds.includes('or_ojd_mailing_street'));assert.equal(snap().packetPlan,null);});
+ for(const locale of ['en','es']){
+  const editor=await Edit({params,searchParams:Promise.resolve({locale,edit:'or_ojd_mailing_street'})}),body=html(editor,locale);
+  check('actual Builder does not claim complete unresolved fact '+locale+'/'+raw,()=>{assert(body.includes('data-packet-section-status="needs_attention"'));assert(body.includes(locale==='es'?'Necesita atención':'Needs attention'));assert(!body.includes('data-packet-section-status="complete"'));assert(body.includes(raw));});
+ }
+}
+for(const [value,status]of [[{unknown:true},'needs_attention'],[{value:'',unknown:false},'not_started'],[{value:'42 Not Available Lane',unknown:false},'complete']]){
+ await save({or_ojd_mailing_street:value});
+ for(const locale of ['en','es']){
+  const body=html(await Edit({params,searchParams:Promise.resolve({locale,edit:'or_ojd_mailing_street'})}),locale);
+  check('actual literal/blank/unknown status remains exact '+locale+'/'+status,()=>assert(body.includes('data-packet-section-status="'+status+'"')));
+ }
+}
+check('explicit correction retains unresolved raw history without requiring it as a fact',()=>assert(snap().dependencies.semanticAnswerHistory.some(h=>h.factId==='or_ojd_mailing_street'&&h.value?.value==='no lo sé')));
+stored=structuredClone(original);
+if(process.argv.includes('--unresolved-only')){console.log(`PASS ${checks} exact OR unresolved decoder/actual-handler/ENES Builder controls; no DB or render`);process.exit(0);}
 check('exact retained map bytes and current source guards',()=>{
  assert.equal(createHash('sha256').update(fs.readFileSync(file(C.OR_CONTACT_SOURCE.mapPath))).digest('hex'),C.OR_CONTACT_SOURCE.mapSha256);
  assert(C.oregonContactContract(getProfileByJurisdiction('OR'),route));

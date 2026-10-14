@@ -3,6 +3,8 @@ import { contactRepresentationHash } from "@/lib/expungement-ai/contact-represen
 import fieldMap from "../../../data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/production-field-map.json";
 import { oregonDispositionConfigurationSourceMatches } from "@/lib/rcap-engine/composed-route-selector";
 import { OR_DISPOSITION_CONFIGURATIONS, OR_DISPOSITION_SOURCE, oregonDispositionIdentity } from "@/lib/rcap-engine/oregon-disposition-identity";
+import { OR_CONTACT_IDS, oregonContactKnownText as known } from "@/lib/expungement-ai/oregon-disposition-contact-answer";
+export { OR_CONTACT_IDS } from "@/lib/expungement-ai/oregon-disposition-contact-answer";
 
 /** GA15 Q-f7d146243ddbc9e69709: explicit facts for existing destinations.
  * The shared OJD source does not merge the three legal configurations. These
@@ -15,7 +17,6 @@ export const OR_CONTACT_SOURCE = {
   ospSourceSha256: "a523a9ffc3eb0cc35d89e1c81df8eafcd703cf1ffdb4237a0106b72e1e793ac6",
   authorityFingerprint: "4de3e6f42cc1a5ec00f213a3721a714e3853a464285699319a82ddb8be223f39"
 } as const;
-export const OR_CONTACT_IDS = ["or_ojd_mailing_street", "or_ojd_mailing_city_state_zip", "or_ojd_email", "or_osp_address_choice", "or_osp_mailing_street", "or_osp_mailing_city_state_zip"] as const;
 export function oregonContactContract(profile: { jurisdiction: { code: string }; profileVersion: string; source?: { sourceCorpusSha256?: string } }, pathwayId: string | null, map: unknown = fieldMap) {
   return profile.jurisdiction.code === "OR"
     && Object.values(OR_DISPOSITION_CONFIGURATIONS).some(c => c.pathwayId === pathwayId)
@@ -75,14 +76,6 @@ export function oregonContactQuestions(answers: Readonly<Record<string, unknown>
     }
     return question;
   });
-}
-function known(raw: unknown): string | null {
-  if (raw && typeof raw === "object" && !Array.isArray(raw)) {
-    const entry = raw as Record<string, unknown>;
-    if (entry.unknown !== false || Object.keys(entry).some(k => k !== "value" && k !== "unknown")) return null;
-    raw = entry.value;
-  }
-  return typeof raw === "string" && raw.trim() && !/^(unknown|not sure|i am not sure|no estoy seguro|none|ninguno|ninguna|unavailable|no disponible|confidential|confidencial)$/i.test(raw.trim()) ? raw : null;
 }
 export function oregonContactInputs(snapshot: {
   jurisdiction: string; pathwayId: string | null; selectedTrackId: string | null;

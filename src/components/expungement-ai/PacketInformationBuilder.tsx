@@ -4,6 +4,7 @@ import { ctCleanSlateContactAnswerState } from "@/lib/expungement-ai/ct-clean-sl
 import { ndFirstOffenseContactAnswerState } from "@/lib/expungement-ai/nd-first-offense-family-inputs";
 import { ksMunicipalContactAnswerState } from "@/lib/expungement-ai/ks-municipal-contact";
 import { akCourtviewContactAnswerState } from "@/lib/expungement-ai/ak-courtview-contact";
+import { oregonContactAnswerState } from "@/lib/expungement-ai/oregon-disposition-contact-answer";
 
 import { NY_FUTURE_ID, formatNyFutureApplications } from "@/lib/expungement-ai/ny-16059-future-applications";
 import { NY_SEALING_HISTORY_ID, formatNySealingHistory } from "@/lib/expungement-ai/ny-16059-sealing-history";
@@ -343,8 +344,8 @@ export function PacketInformationBuilder({
   }
   const displayedAnswerState = (question: ProfileQuestion) => {
     if (question.id === "contact_information" && contactReconciliation || recordClarificationIds.includes(question.id) || nyCaseIssues.some(issue => issue.id === question.id)) return "invalid";
-    const state = ndFirstOffenseContactAnswerState(stateCode, pathwayId ?? null, question.id, answers[question.id], ksMunicipalContactAnswerState(stateCode, pathwayId ?? null, question.id, answers[question.id], ctCleanSlateContactAnswerState(stateCode, pathwayId ?? null, question.id, answers[question.id],
-      akCourtviewContactAnswerState(stateCode, pathwayId ?? null, question.id, answers[question.id], questionAnswerState(question, answers[question.id])))));
+    const state = oregonContactAnswerState(stateCode, pathwayId ?? null, question.id, answers[question.id], ndFirstOffenseContactAnswerState(stateCode, pathwayId ?? null, question.id, answers[question.id], ksMunicipalContactAnswerState(stateCode, pathwayId ?? null, question.id, answers[question.id], ctCleanSlateContactAnswerState(stateCode, pathwayId ?? null, question.id, answers[question.id],
+      akCourtviewContactAnswerState(stateCode, pathwayId ?? null, question.id, answers[question.id], questionAnswerState(question, answers[question.id]))))));
     return caJuvenilePreparation && question.id === "ca_prop64_juvenile_additional_count" && state === "known_valid"
       && caProp64JuvenileAdditionalCount(answers[question.id]) === undefined ? "invalid" : state;
   };
