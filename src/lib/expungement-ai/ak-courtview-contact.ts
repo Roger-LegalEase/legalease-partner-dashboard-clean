@@ -32,7 +32,7 @@ function knownText(raw: unknown): string | null {
 }
 // Exact standalone non-facts only: never inspect substrings, infer an address,
 // require court approval for ordinary contact facts, or rewrite saved answers.
-const UNAVAILABLE_CONTACT = ["unavailable", "not available", "no disponible", "confidential", "confidencial"];
+const UNAVAILABLE_CONTACT = ["none", "ninguno", "ninguna", "unavailable", "not available", "no disponible", "confidential", "confidencial"];
 const NON_CONTACT_FACTS: Record<string, ReadonlySet<string>> = {
   ak_tf810_contact_address: new Set([...UNAVAILABLE_CONTACT, "no address", "no mailing address", "sin dirección", "sin dirección postal", "no tengo dirección"]),
   ak_tf810_contact_phone: new Set([...UNAVAILABLE_CONTACT, "no phone", "no phone number", "no telephone", "no telephone number", "sin teléfono", "sin número de teléfono", "no tengo teléfono"]),

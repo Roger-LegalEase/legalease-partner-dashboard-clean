@@ -35,8 +35,8 @@ for(const raw of [{unknown:true},{value:'Yes',unknown:true},['Yes'],{value:'Yes'
 for(const source of ['screeningAnswers','prefilledAnswers'])for(const f of fields)check('conflicting source '+source+'/'+f.id,()=>{const x=structuredClone(snap());x[source][f.id]='conflicting value';assert(!C.akCourtviewContactInputs(x).writes.some(w=>w.factId===f.id));});
 for(const key of ['profileSourceFingerprint','profileAuthorityFingerprint'])check('protected model refuses stale '+key,()=>{const x=structuredClone(stored);x.draftSnapshot[key]='0'.repeat(64);x.draftHash=P.protectedPacketDraftHash(x.draftSnapshot);assert.equal(P.protectedPacketInformationModelFor(x),null)});
 const unavailable = [
- ['ak_tf810_contact_address',['unavailable','not available','confidential','no disponible','confidencial','no address','no mailing address','sin dirección','sin dirección postal','no tengo dirección']],
- ['ak_tf810_contact_phone',['unavailable','not available','confidential','no disponible','confidencial','no phone','no phone number','no telephone','no telephone number','sin teléfono','sin número de teléfono','no tengo teléfono']],
+ ['ak_tf810_contact_address',['none','ninguno','ninguna','unavailable','not available','confidential','no disponible','confidencial','no address','no mailing address','sin dirección','sin dirección postal','no tengo dirección']],
+ ['ak_tf810_contact_phone',['none','ninguno','ninguna','unavailable','not available','confidential','no disponible','confidencial','no phone','no phone number','no telephone','no telephone number','sin teléfono','sin número de teléfono','no tengo teléfono']],
  ['ak_tf810_contact_email',['unavailable','no disponible','confidential','confidencial','none','no email','no email address','ninguno','ninguna','sin correo electrónico','no tengo correo electrónico']]
 ];
 for(const[id,tokens]of unavailable)for(const token of tokens)for(const raw of [token,{value:token,unknown:false}])check('exact non-fact preserved '+id+'/'+JSON.stringify(raw),()=>{
