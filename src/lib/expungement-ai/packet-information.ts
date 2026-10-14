@@ -1,4 +1,4 @@
-import { oregonContactContract, oregonContactQuestions } from "@/lib/expungement-ai/oregon-disposition-contact";
+import { OR_CONTACT_IDS, oregonContactContract, oregonContactQuestions, oregonContactInputs, oregonContactConflictingIds } from "@/lib/expungement-ai/oregon-disposition-contact";
 import { ND_LEGACY_RECORD_TYPE, ndFirstOffenseRecordIsContext, ndFirstOffenseRecordContextQuestion } from "@/lib/expungement-ai/nd-first-offense-record-context";
 import { oregonDispositionConfigurationSourceMatches } from "@/lib/rcap-engine/composed-route-selector";
 import { OR_DISPOSITION_SOURCE, OR_DISPOSITION_CONFIGURATIONS, OR_DISPOSITION_FACT_IDS, oregonDispositionIdentity, oregonDispositionQuestionApplies } from "@/lib/rcap-engine/oregon-disposition-identity";
@@ -1725,6 +1725,28 @@ export function protectedPacketInformationModelFor(
       }
     }
   }
+  const orContact = oregonContactInputs(snapshot);
+  if (orContact?.conflictingIds.length) {
+    // A read cannot choose between saved copies. Blank only disputed display
+    // values so an explicit replacement uses ordinary semantic history.
+    for (const id of orContact.conflictingIds) delete initialAnswers[id];
+    const activeIds = new Set(oregonContactQuestions(initialAnswers, false, orContact.conflictingIds).map(q => q.id));
+    for (const descriptor of oregonContactQuestions(initialAnswers, true, orContact.conflictingIds)) {
+      const original = questionSurface.questionById.get(descriptor.id);
+      if (!original) continue;
+      const question = { ...original, helperText: descriptor.helperText, translations: descriptor.translations };
+      if (orContact.conflictingIds.includes(question.id)) {
+        question.savedAnswerNeedsClarification = true;
+        question.helperText += "\nSaved copies disagree. Enter the correct current detail explicitly. Original answers remain saved in your history.";
+        question.translations = { ...question.translations, es: { ...question.translations?.es,
+          helperText: `${question.translations?.es?.helperText ?? ""}\nLas copias guardadas no coinciden. Ingrese expresamente el dato actual correcto. Las respuestas originales se conservan en su historial.` } };
+      }
+      questionSurface.questionById.set(question.id, question);
+      questionSurface.questions = questionSurface.questions.map(q => q.id === question.id ? question : q);
+      questionSurface.builderQuestions = questionSurface.builderQuestions.map(q => q.id === question.id ? question : q);
+    }
+    questionSurface.builderQuestions = questionSurface.builderQuestions.filter(q => !(OR_CONTACT_IDS as readonly string[]).includes(q.id) || activeIds.has(q.id));
+  }
   // TF-810 explicitly makes email optional; it is never a missing input.
   const activeAkIds = new Set(akCourtviewContactIds(snapshot.jurisdiction, snapshot.pathwayId, initialAnswers));
   for (const field of AK_TF810_CONTACT_FIELDS) {
@@ -2112,7 +2134,13 @@ export function editablePacketInputIds(model: Pick<ProtectedPacketInformationMod
   const factualIds = [...factualPathwayCorrectionIds(model.stateCode, model.pathwayId, { ...model.screeningAnswers, ...model.prefilledAnswers, ...model.packetAnswers }, includeInactive), ...msExactTimingQuestionIds(model.stateCode, model.pathwayId, { ...model.screeningAnswers, ...model.prefilledAnswers, ...model.packetAnswers }, includeInactive)];
   const corrections = routeFactualCorrectionIds(model, includeInactive).filter(id => id !== "financial_obligations" && !factualIds.includes(id)
     || !(id in model.serverFacts) && !excluded.has(id) && model.questions.some(question => question.id === id));
-  return new Set([...model.requiredInputIds.filter((id) => !(id in model.serverFacts) && !excluded.has(id)), ...corrections]);
+  const orProfile = model.stateCode === "OR" ? getProfileByJurisdiction("OR") : null;
+  const activeOrContact = orProfile && oregonContactContract(orProfile, model.pathwayId)
+    ? new Set(oregonContactQuestions({ ...model.screeningAnswers, ...model.prefilledAnswers, ...model.packetAnswers }, includeInactive,
+      [...oregonContactConflictingIds([model.screeningAnswers, model.prefilledAnswers, model.packetAnswers]),
+        ...model.questions.filter(q => q.savedAnswerNeedsClarification).map(q => q.id)]).map(q => q.id)) : null;
+  return new Set([...model.requiredInputIds.filter((id) => !(id in model.serverFacts) && !excluded.has(id)), ...corrections]
+    .filter(id => !activeOrContact || !(OR_CONTACT_IDS as readonly string[]).includes(id) || activeOrContact.has(id)));
 }
 
 /** Reused completion answers leave intake, but retain their existing correction control. */

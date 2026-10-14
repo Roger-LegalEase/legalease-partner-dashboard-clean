@@ -20,9 +20,11 @@ export function oregonContactKnownText(raw: unknown): string | null {
 }
 export function oregonContactAnswerState(
   state: string, pathwayId: string | null, id: string, raw: unknown,
-  generic: "unanswered" | "invalid" | "known_valid" | "uncertain" | "declined"
+  generic: "unanswered" | "invalid" | "known_valid" | "uncertain" | "declined",
+  savedAnswerNeedsClarification = false
 ) {
-  return state === "OR" && Object.values(OR_DISPOSITION_CONFIGURATIONS).some(c => c.pathwayId === pathwayId)
-    && OR_CONTACT_IDS.some(candidate => candidate === id && candidate !== "or_osp_address_choice")
+  if (state !== "OR" || !Object.values(OR_DISPOSITION_CONFIGURATIONS).some(c => c.pathwayId === pathwayId)
+    || !OR_CONTACT_IDS.some(candidate => candidate === id)) return generic;
+  return savedAnswerNeedsClarification || id !== "or_osp_address_choice"
     && generic === "known_valid" && oregonContactKnownText(raw) === null ? "invalid" : generic;
 }

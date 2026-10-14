@@ -345,7 +345,7 @@ export function PacketInformationBuilder({
   const displayedAnswerState = (question: ProfileQuestion) => {
     if (question.id === "contact_information" && contactReconciliation || recordClarificationIds.includes(question.id) || nyCaseIssues.some(issue => issue.id === question.id)) return "invalid";
     const state = oregonContactAnswerState(stateCode, pathwayId ?? null, question.id, answers[question.id], ndFirstOffenseContactAnswerState(stateCode, pathwayId ?? null, question.id, answers[question.id], ksMunicipalContactAnswerState(stateCode, pathwayId ?? null, question.id, answers[question.id], ctCleanSlateContactAnswerState(stateCode, pathwayId ?? null, question.id, answers[question.id],
-      akCourtviewContactAnswerState(stateCode, pathwayId ?? null, question.id, answers[question.id], questionAnswerState(question, answers[question.id]))))));
+      akCourtviewContactAnswerState(stateCode, pathwayId ?? null, question.id, answers[question.id], questionAnswerState(question, answers[question.id]))))), question.savedAnswerNeedsClarification);
     return caJuvenilePreparation && question.id === "ca_prop64_juvenile_additional_count" && state === "known_valid"
       && caProp64JuvenileAdditionalCount(answers[question.id]) === undefined ? "invalid" : state;
   };

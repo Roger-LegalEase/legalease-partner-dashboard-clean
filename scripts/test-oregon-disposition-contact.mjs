@@ -49,6 +49,7 @@ const map=JSON.parse(fs.readFileSync(file(C.OR_CONTACT_SOURCE.mapPath)));
 const projected=()=>C.oregonContactInputs(snap());
 const D=await load('src/lib/expungement-ai/oregon-disposition-contact-answer.ts');
 const {questionAnswerState}=await load('src/lib/expungement-ai/question-answer-state.ts');
+if(!process.argv.includes('--conflict-only')){
 const textIds=C.OR_CONTACT_IDS.filter(id=>id!=='or_osp_address_choice');
 for(const raw of ['unavailable','not available','no disponible','no lo sé','none','confidential','sin dirección postal'])for(const id of textIds){
  const value={value:raw,unknown:false},q=C.oregonContactQuestions({or_osp_address_choice:'different'},true).find(q=>q.id===id);
@@ -80,6 +81,43 @@ for(const [value,status]of [[{unknown:true},'needs_attention'],[{value:'',unknow
 check('explicit correction retains unresolved raw history without requiring it as a fact',()=>assert(snap().dependencies.semanticAnswerHistory.some(h=>h.factId==='or_ojd_mailing_street'&&h.value?.value==='no lo sé')));
 stored=structuredClone(original);
 if(process.argv.includes('--unresolved-only')){console.log(`PASS ${checks} exact OR unresolved decoder/actual-handler/ENES Builder controls; no DB or render`);process.exit(0);}
+}
+const {changedPacketAnswers}=await load('src/lib/expungement-ai/packet-save-contract.ts');
+for(const id of ['or_ojd_mailing_street','or_ojd_mailing_city_state_zip','or_ojd_email','or_osp_mailing_street','or_osp_mailing_city_state_zip']){
+ stored=structuredClone(original);
+ Object.assign(snap().packetAnswers,{or_ojd_mailing_street:{value:'Current Street',unknown:false},or_ojd_mailing_city_state_zip:{value:'Portland, OR 97205',unknown:false},or_osp_address_choice:'different',or_osp_mailing_street:{value:'Agency Street',unknown:false},or_osp_mailing_city_state_zip:{value:'Salem, OR 97301',unknown:false}});
+ const prior={value:'Earlier saved '+id,unknown:false},chosen={value:'Current saved '+id,unknown:false};
+ snap().prefilledAnswers[id]=prior;snap().packetAnswers[id]=chosen;stored.draftHash=P.protectedPacketDraftHash(snap());
+ const before=structuredClone(stored),m=model();
+ check('conflicting optional value is withheld without destructive read '+id,()=>{assert.deepEqual(stored,before);assert.equal(m.initialAnswers[id],undefined);assert(m.questions.find(q=>q.id===id).savedAnswerNeedsClarification);assert(!m.requiredInputIds.includes(id));assert(!m.missingInputIds.includes(id));assert(projected().conflictingIds.includes(id));assert(!projected().writes.some(w=>w.inputIds.includes(id)));});
+ for(const locale of ['en','es']){
+  const editor=await Edit({params,searchParams:Promise.resolve({locale,edit:id})}),body=html(editor,locale);
+  check('actual conflict edit requests explicit replacement '+locale+'/'+id,()=>{assert(body.includes(locale==='es'?'Las copias guardadas no coinciden':'Saved copies disagree'));assert(body.includes('data-packet-section-status="needs_attention"'));});
+ }
+ const reuse=m.questions.find(q=>q.id==='or_osp_address_choice');
+ check('reuse helper never presents a disputed address as unambiguous '+id,()=>{if(id.startsWith('or_ojd_mailing_')){assert(!reuse.helperText.includes('Court-form address entered:'));assert(!reuse.translations.es.helperText.includes('Dirección ingresada para el formulario judicial:'));}});
+ let r=await post({});check('actual no-op retains every conflicting raw copy '+id,()=>{assert.equal(r.status,200);assert.deepEqual(stored,before)});
+ const delta=changedPacketAnswers({...m.initialAnswers,[id]:chosen},m.initialAnswers);
+ check('explicit same-precedence-value replacement is a real UI delta '+id,()=>assert.deepEqual(delta,{[id]:chosen}));
+ await save(delta);
+ check('ordinary replacement resolves source value and archives both originals '+id,()=>{assert(!projected().conflictingIds.includes(id));assert(projected().writes.some(w=>w.inputIds.includes(id)&&w.value.includes(chosen.value)));assert.deepEqual(snap().packetAnswers[id],chosen);assert(!Object.hasOwn(snap().prefilledAnswers,id));for(const value of [prior,chosen])assert(snap().dependencies.semanticAnswerHistory.some(h=>h.factId===id&&h.value?.value===value.value&&h.value?.unknown===value.unknown));assert.equal(snap().packetPlan,null);});
+}
+stored=structuredClone(original);Object.assign(snap().packetAnswers,{or_ojd_mailing_street:{value:'Court Street',unknown:false},or_ojd_mailing_city_state_zip:{value:'Portland, OR 97205',unknown:false},or_osp_address_choice:'different',or_osp_mailing_street:{value:'Agency Street',unknown:false},or_osp_mailing_city_state_zip:{value:'Salem, OR 97301',unknown:false}});snap().prefilledAnswers.or_osp_address_choice='same';stored.draftHash=P.protectedPacketDraftHash(snap());
+check('disputed agency choice does not activate a precedence-selected different-address branch',()=>{assert.equal(model().initialAnswers.or_osp_address_choice,undefined);assert(!model().builderQuestions.some(q=>q.id==='or_osp_mailing_street'));assert(!P.editablePacketInputIds(model()).has('or_osp_mailing_street'));assert(!projected().writes.some(w=>w.document==='OR-OSP-SET-ASIDE-CCH'));});
+const inactiveResponse=await post({or_osp_mailing_street:{value:'Saved inactive replacement',unknown:false}});
+check('actual handler preserves an inactive draft without activating agency output',()=>{assert.equal(inactiveResponse.status,200);assert.deepEqual(snap().packetAnswers.or_osp_mailing_street,{value:'Saved inactive replacement',unknown:false});assert(!projected().writes.some(w=>w.document==='OR-OSP-SET-ASIDE-CCH'));assert(!model().builderQuestions.some(q=>q.id==='or_osp_mailing_street'));assert(P.editablePacketInputIds(model(),true).has('or_osp_mailing_street'));});
+const choiceDelta=changedPacketAnswers({...model().initialAnswers,or_osp_address_choice:'different'},model().initialAnswers);await save(choiceDelta);
+check('explicit agency choice correction restores retained different address without alias',()=>{assert(P.editablePacketInputIds(model()).has('or_osp_mailing_street'));assert.equal(projected().writes.find(w=>w.document==='OR-OSP-SET-ASIDE-CCH').value,'Saved inactive replacement, Salem, OR 97301');assert(snap().dependencies.semanticAnswerHistory.some(h=>h.factId==='or_osp_address_choice'&&h.value==='same'));});
+for(const [left,right,conflict]of [['Same Street',{value:'Same Street',unknown:false},false],[{unknown:true},{value:'Same Street',unknown:false},true],[{value:'Same Street',unknown:true},{value:'Same Street',unknown:false},true],[{unknown:true},{unknown:true},false],[{value:'Same Street',unknown:false,extra:true},{value:'Same Street',unknown:false},true]])check('exact typed source-copy comparison '+JSON.stringify([left,right]),()=>assert.equal(C.oregonContactConflictingIds([{or_ojd_mailing_street:left},{or_ojd_mailing_street:right}]).includes('or_ojd_mailing_street'),conflict));
+for(const raw of [{unknown:true},{value:'Current Street',unknown:true},{value:'Current Street',unknown:false,extra:true}]){
+ stored=structuredClone(original);snap().screeningAnswers.or_ojd_mailing_street=raw;snap().packetAnswers.or_ojd_mailing_street={value:'Current Street',unknown:false};stored.draftHash=P.protectedPacketDraftHash(snap());
+ const old=structuredClone(stored),m=model();
+ check('typed disagreement is withheld by actual model '+JSON.stringify(raw),()=>{assert.equal(m.initialAnswers.or_ojd_mailing_street,undefined);assert(m.questions.find(q=>q.id==='or_ojd_mailing_street').savedAnswerNeedsClarification);assert(!projected().writes.some(w=>w.factId==='participant.street_address'));assert.deepEqual(stored,old);});
+ await save(changedPacketAnswers({...m.initialAnswers,or_ojd_mailing_street:{value:'Current Street',unknown:false}},m.initialAnswers));
+ check('explicit typed-disagreement repair retains exact raw history '+JSON.stringify(raw),()=>{assert.equal(projected().writes.find(w=>w.factId==='participant.street_address').value,'Current Street');const entry=snap().dependencies.semanticAnswerHistory.find(h=>h.factId==='or_ojd_mailing_street'&&h.source==='screeningAnswers');assert.deepEqual(entry.value,raw);});
+}
+stored=structuredClone(original);
+if(process.argv.includes('--conflict-only')){console.log(`PASS ${checks} OR protected conflict/source/actual-handler/ENES controls; no DB or render`);process.exit(0);}
 check('exact retained map bytes and current source guards',()=>{
  assert.equal(createHash('sha256').update(fs.readFileSync(file(C.OR_CONTACT_SOURCE.mapPath))).digest('hex'),C.OR_CONTACT_SOURCE.mapSha256);
  assert(C.oregonContactContract(getProfileByJurisdiction('OR'),route));

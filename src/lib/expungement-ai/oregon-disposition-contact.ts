@@ -62,13 +62,23 @@ const QUESTIONS: ProfileQuestion[] = [
     "¿Qué ciudad, estado y código postal corresponden a esa dirección postal para OSP?",
     "Estos datos se combinan con la dirección postal para OSP en su único campo de dirección postal.")
 ];
-export function oregonContactQuestions(answers: Readonly<Record<string, unknown>>, includeInactive = false): ProfileQuestion[] {
+export function oregonContactConflictingIds(maps: readonly Readonly<Record<string, unknown>>[]): string[] {
+  return OR_CONTACT_IDS.filter(id => {
+    const raw = maps.filter(map => Object.hasOwn(map, id)).map(map => map[id]);
+    if (raw.length < 2) return false;
+    const first = known(raw[0]);
+    return !raw.every(value => first !== null ? known(value) === first
+      : contactRepresentationHash(value) === contactRepresentationHash(raw[0]));
+  });
+}
+export function oregonContactQuestions(answers: Readonly<Record<string, unknown>>, includeInactive = false, conflictingIds: readonly string[] = []): ProfileQuestion[] {
+  const undisputed = Object.fromEntries(Object.entries(answers).filter(([id]) => !conflictingIds.includes(id)));
   const differentAddressIds: readonly string[] = OR_CONTACT_IDS.slice(4);
   return QUESTIONS.filter(q => includeInactive || !differentAddressIds.includes(q.id)
-    || answers.or_osp_address_choice === "different").map(original => {
+    || undisputed.or_osp_address_choice === "different").map(original => {
     const question = structuredClone(original);
     if (question.id === "or_osp_address_choice") {
-      const address = OR_CONTACT_IDS.slice(0, 2).map(id => known(answers[id]));
+      const address = OR_CONTACT_IDS.slice(0, 2).map(id => known(undisputed[id]));
       if (address.every(value => value !== null)) {
         question.helperText += `\nCourt-form address entered: ${address.join(", ")}`;
         question.translations!.es!.helperText += `\nDirección ingresada para el formulario judicial: ${address.join(", ")}`;
@@ -108,6 +118,6 @@ export function oregonContactInputs(snapshot: {
   if (address.length === 2 && address.every(v => v !== null)) writes.push({ document: "OR-OSP-SET-ASIDE-CCH",
     field: "Street, City, State, Zip code", factId: "participant.city_state_zip", inputIds: [...addressIds], value: address.join(", ") });
   return { source: OR_CONTACT_SOURCE, configuration: identity.configuration, profileSource: OR_DISPOSITION_SOURCE,
-    writes, separateAgencyAddressChoice: choice, generationAllowed: false as const, deliveryAllowed: false as const, admissionGranted: false as const,
+    writes, conflictingIds: oregonContactConflictingIds(maps), separateAgencyAddressChoice: choice, generationAllowed: false as const, deliveryAllowed: false as const, admissionGranted: false as const,
     limitations: ["Phone fields remain the existing participant handbacks.", "Prosecutor service, signatures and actual mailing are not supplied.", "Acquittal retains its own configuration; no dismissed-case artifact is substituted."] };
 }
