@@ -58,6 +58,14 @@ const oneOf = (v: unknown, values: readonly string[]) => typeof v === "string" &
 const known = (v: string) => Boolean(v.trim()) && !["unknown", "unsure", "not sure", "i am not sure", "no sé", "no se", "no estoy seguro", "no estoy segura", "prefer not to say"].includes(v.trim().toLowerCase());
 const calendar = (v: string) => /^\d{4}-\d{2}-\d{2}$/.test(v) && !v.startsWith("0000") && Number.isFinite(Date.parse(v + "T00:00:00Z")) && new Date(v + "T00:00:00Z").toISOString().slice(0, 10) === v;
 const bindingKeys = ["caseNumbers", "courtName", "courtCounty", "charge", "section", "grade", "convictionDate"];
+// Only explicit unavailable-reference answers are unresolved here. Do not infer
+// document availability from an arbitrary narrative or alter its saved wording.
+const unavailableRecordReferences = new Set([
+  "unavailable", "record unavailable", "records unavailable", "not available", "not provided",
+  "no disponible", "no está disponible", "no esta disponible", "registros no disponibles",
+  "expediente no disponible", "expedientes no disponibles", "documento no disponible"
+]);
+const knownRecordReference = (v: string) => known(v) && !unavailableRecordReferences.has(v.trim().toLowerCase().replace(/[.]$/, ""));
 const memberKeys = ["caseId", "convictionId", "record", "conductStart", "conductEnd", "conductDescription", "chargingRecordReference", "dispositionRecordReference"];
 const groupKeys = ["id", "members", "timeCircumstance", "purposeRelation", "relationshipDescription", "interveningConduct", "interveningRecordReference", "sharedProceedingOnly", "victims", "victimRelationship", "recordSupport", "disputed"];
 /** Same canonical string[] transport as the existing protected case editors.
@@ -118,7 +126,7 @@ export function nyTransactionGroupFacts(cases: readonly NyCourtCaseRecord[], ass
       if (g.members.length > 1) {
         if (!calendar(m.conductStart) || !calendar(m.conductEnd)) add("conduct_dates_unresolved", g.id, m);
         else if (m.conductStart > m.conductEnd || m.conductEnd > v.convictionDate) add("conduct_dates_conflict", g.id, m);
-        if (![m.conductDescription, m.chargingRecordReference, m.dispositionRecordReference].every(known)) add("member_conduct_or_record_reference_missing", g.id, m);
+        if (!known(m.conductDescription) || !knownRecordReference(m.chargingRecordReference) || !knownRecordReference(m.dispositionRecordReference)) add("member_conduct_or_record_reference_missing", g.id, m);
       }
     }
     // This is a request for missing connection facts, not a same-day legal
@@ -126,7 +134,7 @@ export function nyTransactionGroupFacts(cases: readonly NyCourtCaseRecord[], ass
     // unaccounted calendar date needs its actual continuing-conduct record;
     // the independent integral-venture alternative does not require continuity.
     const gap = conductDateGap(g.members);
-    const incidentSupported = g.timeCircumstance === "one_incident" && (!gap || [g.interveningConduct, g.interveningRecordReference].every(known));
+    const incidentSupported = g.timeCircumstance === "one_incident" && (!gap || known(g.interveningConduct) && knownRecordReference(g.interveningRecordReference));
     // One member does not need a same-transaction allegation. Inactive details
     // remain in rawAssociations; they neither manufacture nor obstruct a union.
     if (g.members.length > 1) {
@@ -213,11 +221,24 @@ export function nyTransactionAssociationsQuestion(caseRecords?: unknown): Profil
     transactionCaseRecords: parseNyCourtCaseRecords(caseRecords) ? structuredClone(caseRecords as string[]) : [] };
 }
 
-export function nyTransactionAnswerState(raw: unknown): "unanswered" | "invalid" | "known_valid" {
+export function nyTransactionAnswerState(raw: unknown, caseRecords?: unknown, today = new Date().toISOString().slice(0, 10)): "unanswered" | "invalid" | "uncertain" | "known_valid" {
   if (raw === undefined || raw === null || raw === "" || Array.isArray(raw) && raw.length === 0) return "unanswered";
   const parsed = parseNyTransactionAssociations(raw);
-  // Saveable structural facts are distinct from a supported legal association.
-  return !parsed ? "invalid" : parsed.groups.length ? "known_valid" : "unanswered";
+  if (!parsed) return "invalid";
+  if (!parsed.groups.length) return "unanswered";
+  const cases = parseNyCourtCaseRecords(caseRecords);
+  if (!cases?.length) return "uncertain";
+  // Known adverse answers can be complete facts while still requiring legal
+  // review. Unknown/missing/inconsistent input must not show a Complete badge.
+  const incomplete = nyTransactionGroupFacts(cases, parsed, today).issues.some(issue => {
+    if (["excluded_offense_retained_for_review", "noncriminal_disposition_requires_separate_review", "contested_transaction", "shared_proceeding_is_not_transaction"].includes(issue.code)) return false;
+    const group = parsed.groups.find(g => g.id === issue.groupId);
+    if (issue.code === "transaction_not_supported_by_record_facts" && group && ["recollection_only", "unavailable"].includes(group.recordSupport)) return false;
+    if (issue.code === "no_supported_transaction_alternative" && group?.timeCircumstance === "separate_incidents"
+      && ["common_purpose_only", "unrelated"].includes(group.purposeRelation)) return false;
+    return true;
+  });
+  return incomplete ? "uncertain" : "known_valid";
 }
 export function formatNyTransactionAssociations(raw: unknown, locale: "en" | "es") {
   const parsed = parseNyTransactionAssociations(raw), es = locale === "es";

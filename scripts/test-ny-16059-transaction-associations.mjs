@@ -94,6 +94,15 @@ check(()=>{const mapped=map(corrected);assert(mapped);assert.equal(mapped.printe
 
 console.log(JSON.stringify({status:'PASS_NY03_ASSOCIATIONS_AND_PRESERVATION',checks,retainedOwnerBindings,originalDecision:'NY-03',legacyConclusionStillHeld:ny16059History(beforeAnswers),sharedConsumerChanged:true,scope:"existing NY03 source predicates, protected collection and document mapping",authenticatedRuns:0,wholeHistoryClearance:false,qualifiedSpanishReview:'pending'}));
 
+for(const field of ['chargingRecordReference','dispositionRecordReference'])for(const value of ['unavailable','records unavailable','no disponible','No está disponible.'])check(()=>{
+ const a=structuredClone(associations);a.groups[0].members[0][field]=value;const raw=T.encodeNyTransactionAssociations(a),m=result(a);
+ assert.equal(m.coveredTransactionCount,null);assert(m.issues.some(i=>i.code==='member_conduct_or_record_reference_missing'));
+ assert.equal(ny16059History({...currentAnswers,[T.NY_TRANSACTION_ASSOCIATIONS_ID]:raw}).code,'grouping_record_facts_unresolved');
+ assert.equal(T.nyTransactionAnswerState(raw,R.encodeNyCourtCaseRecords(cases)),'uncertain');assert.deepEqual(m.rawAssociations[0],raw);
+});
+check(()=>{const a=structuredClone(associations);a.groups[0].members[0].chargingRecordReference='Unavailable Records hearing transcript, page 2';assert.equal(result(a).coveredTransactionCount,2);});
+check(()=>{const a=structuredClone(associations);a.groups[0].members[1].conductStart='2009-01-03';a.groups[0].members[1].conductEnd='2009-01-03';a.groups[0].interveningConduct='The record describes continuous restraint throughout the intervening date.';a.groups[0].interveningRecordReference='no disponible';assert(result(a).issues.some(i=>i.code==='intervening_conduct_record_connection_missing'));a.groups[0].purposeRelation='integral_parts';assert.equal(result(a).coveredTransactionCount,2);});
+
 // Actual EN/ES QuestionField output and controlled editor events, no browser/DB.
 const {pathToFileURL}=await import('node:url'),{default:ts}=await import('typescript');
 const locFile=process.cwd()+'/src/components/expungement-ai/LocalizationProvider.tsx';
@@ -158,3 +167,17 @@ response=await post({[R.NY_CASE_RECORDS_ID]:R.encodeNyCourtCaseRecords(cases)});
 for(const[extra,code]of [[{expectedRevision:0},409]]){const before=structuredClone(stored),count=writes;response=await post({},extra);check(()=>{assert.equal(response.status,code);assert.deepEqual(stored,before);assert.equal(writes,count);});}
 requestOwner='other-owner';const beforeDenial=structuredClone(stored),beforeWrites=writes;response=await post({[T.NY_TRANSACTION_ASSOCIATIONS_ID]:[]});check(()=>{assert.equal(response.status,404);assert.deepEqual(stored,beforeDenial);assert.equal(writes,beforeWrites);});requestOwner='ny-owner';
 console.log(JSON.stringify({status:'PASS_NY03_ACTUAL_OWNER_HANDLER_SEAM',checks,actualAuthentication:false,databaseRuns:0,browserRuns:0,newAuthority:false,remainingOtherHistoryScope:'Related convictions outside covered cases require their actual records, never inferred.'}));
+
+// The real builder status must distinguish complete facts from missing facts;
+// known adverse answers remain complete answers, never a legal grant.
+const{PacketInformationBuilder}=await import('../src/components/expungement-ai/PacketInformationBuilder.tsx');
+const{AppRouterContext}=await import(pathToFileURL(fs.realpathSync('node_modules/next/dist/shared/lib/app-router-context.shared-runtime.js')).href);
+let displayCases=0;
+for(const locale of ['en','es'])for(const variant of ['complete','unknown','missing_acts','stale_member','known_disputed']){
+ const a=structuredClone(associations);if(variant==='unknown')a.groups[0].recordSupport='unknown';if(variant==='missing_acts')a.groups[0].members[0].conductDescription='';if(variant==='stale_member')a.groups[0].members[0].record.caseNumbers+='-changed';if(variant==='known_disputed')a.groups[0].disputed='yes';
+ const value=T.encodeNyTransactionAssociations(a),expected=['complete','known_disputed'].includes(variant)?'complete':'needs_attention';
+ const html=renderToStaticMarkup(React.createElement(AppRouterContext.Provider,{value:{push(){}}},React.createElement(LocalizationContext.Provider,{value:{locale,setLocale(){},t:(key,fallback,vars)=>t(locale,key,fallback,vars),text:(text,options)=>resolveRuntimeText(locale,text,options)}},React.createElement(PacketInformationBuilder,{itemId:item.id,stateCode:'NY',pathwayId:seed.draftSnapshot.pathwayId,questions:[descriptor],initialAnswers:{[descriptor.id]:value},initiallyMissing:expected==='complete'?[]:[descriptor.id],initialRevision:1,initialResumeSectionId:descriptor.id}))));
+ check(()=>assert(html.includes('data-packet-section-status="'+expected+'"'),variant+'/'+locale));displayCases++;
+ if(variant==='known_disputed')assert.equal(ny16059History({...currentAnswers,[descriptor.id]:value}).code,'grouping_record_facts_unresolved');
+}
+console.log(JSON.stringify({status:'PASS_NY03_ACTUAL_BUILDER_FACT_STATUS',checks,displayCases,noLegalGrantFromKnownAdverseFacts:true,databaseRuns:0,browserRuns:0}));

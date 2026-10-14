@@ -17,6 +17,7 @@ type QuestionContract = Pick<ProfileQuestion, "id" | "type"> & {
   answerContract?: ProfileQuestion["answerContract"];
   contactContext?: ProfileQuestion["contactContext"];
   prior16058ApplicationKnown?: true;
+  transactionCaseRecords?: ProfileQuestion["transactionCaseRecords"];
   options?: unknown;
   exclusiveOptions?: readonly string[];
 };
@@ -96,7 +97,7 @@ export function questionAnswerState(question: QuestionContract, value: unknown, 
   if (question.answerContract === CA_CONTACT_CONTRACT) return question.type === "filing_contact" && CA_CONTACT_IDS.includes(question.id) ? caContactAnswerState(question.id, value, question.contactContext) : "invalid";
   if (question.answerContract === NY_FUTURE_CONTRACT) return question.id === NY_FUTURE_ID && question.type === "future_applications" ? nyFutureApplicationsState(value) : "invalid";
   if (question.answerContract === NY_SEALING_HISTORY_CONTRACT) return question.id === NY_SEALING_HISTORY_ID && question.type === "sealing_history" ? nySealingHistoryState(value, today, question.prior16058ApplicationKnown) : "invalid";
-  if (question.answerContract === NY_TRANSACTION_ASSOCIATIONS_VERSION) return question.id === NY_TRANSACTION_ASSOCIATIONS_ID && question.type === "transaction_associations" ? nyTransactionAnswerState(value) : "invalid";
+  if (question.answerContract === NY_TRANSACTION_ASSOCIATIONS_VERSION) return question.id === NY_TRANSACTION_ASSOCIATIONS_ID && question.type === "transaction_associations" ? nyTransactionAnswerState(value, question.transactionCaseRecords, today) : "invalid";
   if (question.answerContract === NY_CASE_RECORDS_CONTRACT) return question.id === NY_CASE_RECORDS_ID && question.type === "court_case_records" ? nyCourtCaseRecordsState(value, today) : "invalid";
   if (question.answerContract === NY_STATEMENT_CONTRACT) return question.id === NY_STATEMENT_ID && question.type === "text_or_unknown" ? nyApplicantStatementState(value) : "invalid";
   if (question.answerContract === NY_CASE_COURT_TEXT_CONTRACT) return [NY_OTHER_COURT_NAME, NY_OTHER_COURT_COUNTY, ...NY_COURT_DIRECTION_TEXT_IDS].includes(question.id) && question.type === "text_or_unknown" ? nyCaseCourtTextState(value) : "invalid";
