@@ -402,7 +402,8 @@ export function PacketInformationBuilder({
             <p className="mt-2 break-words font-semibold" dir="auto">{juvenileContactReuse(question.id)}</p>
             <button type="button" className="mt-3 min-h-11 rounded border px-4 py-2 font-semibold disabled:opacity-50" disabled={saving} onClick={() => {
               const reused = juvenileContactReuse(question.id); if (reused === null) return;
-              recordChoices.current = []; setRecordChoicePending(false);
+              recordChoices.current = recordClarificationIds.includes(question.id) ? [question.id] : [];
+              setRecordChoicePending(recordChoices.current.length > 0);
               const next = { ...latest.current, [question.id]: reused }; latest.current = next; setAnswers(next); setSavedAt(null);
               setFieldErrors(current => { const remaining = { ...current }; delete remaining[question.id]; return remaining; });
               void save(screenId, "stay");
