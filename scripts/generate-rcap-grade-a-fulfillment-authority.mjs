@@ -77,6 +77,9 @@ if (SCOPED_ROUTE === "ga-pardon-current-output-handoff") {
   const candidatePath = argument("--candidate");
   const candidateSha256 = argument("--candidate-sha256");
   const outputArgument = argument("--output-dir");
+  const assemblyReviewPath = argument("--assembly-review");
+  const assemblyReviewSha256 = argument("--assembly-review-sha256");
+  assert(Boolean(assemblyReviewPath) === Boolean(assemblyReviewSha256), "GA assembly handoff requires both explicit review arguments");
   assert(SCOPE_FLAG_INDEX >= 0 && CHECK && candidatePath && candidateSha256 && outputArgument,
     "GA handoff requires --check --candidate --candidate-sha256 --output-dir; no registry-writing mode");
   const output = path.resolve(outputArgument);
@@ -85,13 +88,14 @@ if (SCOPED_ROUTE === "ga-pardon-current-output-handoff") {
   const physicalOutput = path.resolve(fs.realpathSync(existingParent), path.relative(existingParent, output));
   assert(physicalOutput !== rootDir && !physicalOutput.startsWith(rootDir + path.sep), "GA handoff output must be external to the repository");
   const { prepareGaCurrentOutputHandoff } = await import("./lib/ga-pardon-current-output-handoff.mjs");
-  const handoff = await prepareGaCurrentOutputHandoff({ candidatePath, candidateSha256,
+  const handoff = await prepareGaCurrentOutputHandoff({ candidatePath, candidateSha256, assemblyReviewPath, assemblyReviewSha256,
     readBytes: file => fs.readFileSync(path.resolve(rootDir, file)),
     sourceSha: execFileSync("git", ["rev-parse", "HEAD"], { cwd: rootDir, encoding: "utf8" }).trim() });
   fs.mkdirSync(output, { recursive: true });
   const destination = path.join(output, "ga-pardon-current-output-handoff.json");
   fs.writeFileSync(destination, JSON.stringify(handoff, null, 2) + "\n", { flag: "wx" });
   console.log(JSON.stringify({ status: handoff.status, outputs: handoff.artifacts.outputs.length, output: destination,
+    participantAssemblyOutputs: handoff.participantAssemblies?.outputs.length ?? 0,
     createsApproval: false, createsRegistryRecord: false, finalVerification: handoff.finalVerification.state }));
   process.exit(0);
 }
