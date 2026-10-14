@@ -12,6 +12,7 @@ export const ND_FIRST_OFFENSE_FAMILY = {
   approvalId: "auth-2026-08-19-owner-legal-approval-completed-output",
   adoptionId: "EXT-ADOPT-01-standing-external-counsel-adoption",
   legacySpecificationCanonicalSha256: "c221c7d4f735d15526a1f5ac97b85055556f4b0c6ef1b2cf8327ce87af42f2f7",
+  successorSpecificationCanonicalSha256: "936bdd8fd99b721414deb9d266d61913e7d22bc6cdfcff88befe4b03b90214dc",
   profileSha256: "02161fac85c2f585313ccdfaa9b91bc58054646a4356e2d486b5d7acc20f322f",
   profileVersion: "2026-06-19-source-conversion-1",
   profileSourceFingerprint: "c205813b263764fe44648ba577d91e8fadb52b55974b7fe154495bbff1b8ede7",

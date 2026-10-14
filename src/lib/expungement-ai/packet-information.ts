@@ -445,6 +445,9 @@ export function packetAccountEmailSuggestion(model: Pick<PacketInformationModel,
   const email = accountEmail?.trim();
   const profile = getProfileByJurisdiction(model.stateCode);
   if (!email || email.length > 254 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || !profile || !model.pathwayId) return null;
+  // The exact ND collector continues to ask for the participant's own
+  // matter-specific contact. A document-contract successor adds no account source.
+  if (ndFirstOffenseFamilyContract(profile, model.pathwayId)) return null;
   const questionById = new Map(allPublicQuestions(projectPublicProfile(profile)).map((question) => [question.id, toProfileQuestion(question)]));
   if (!knownParticipantOwner(questionById, model.screeningAnswers.ownership_scope)) return null;
   const specification = composablePacketSpecificationFor(`${model.stateCode}:${model.pathwayId}`);
@@ -1837,7 +1840,8 @@ export function ndFirstOffenseFamilyContract(profile: NonNullable<ReturnType<typ
   specification = packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId ?? ""}`)) {
   return isNdFirstOffenseFamily(profile.jurisdiction.code, pathwayId)
     && contactRepresentationHash(profile) === ND_FIRST_OFFENSE_FAMILY.profileSha256
-    && contactRepresentationHash(specification) === ND_FIRST_OFFENSE_FAMILY.legacySpecificationCanonicalSha256;
+    && [ND_FIRST_OFFENSE_FAMILY.legacySpecificationCanonicalSha256, ND_FIRST_OFFENSE_FAMILY.successorSpecificationCanonicalSha256]
+      .includes(contactRepresentationHash(specification));
 }
 
 export function packetCollectionFor(input: {
