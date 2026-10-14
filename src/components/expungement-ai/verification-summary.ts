@@ -154,7 +154,12 @@ export function verificationSummary(model: {
     ...reviewAnswerPresentation(fact, questionById.get(fact.id), model.stateCode),
     source: fact.source,
     editId: fact.id === "social_security_number_last_four" && requiresMcicIdentifierAuthority(model.stateCode, model.pathwayId) ? "social_security_number" : !fact.systemContext
-      && (fact.source === "prefilledAnswers" || fact.source === "packetAnswers")
+      && (fact.source === "prefilledAnswers" || fact.source === "packetAnswers"
+        // This existing NY correction remains owner-editable when its original
+        // answer is still held in screening history. Keep all other screening
+        // facts read-only; the protected server policy must also allow this ID.
+        || fact.source === "screeningAnswers" && isNy16059Packet(model.stateCode, model.pathwayId)
+          && fact.id === "ny_16059_grouping")
       && editableIds.has(fact.id)
       ? fact.id
       : null
