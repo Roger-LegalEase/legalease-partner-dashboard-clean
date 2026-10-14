@@ -65,12 +65,18 @@ for(const witness of witnesses){
  const prior=structuredClone(stored);await save({});check('null hold complete no-op '+witness.pathwayId,()=>assert.deepEqual(stored,prior));
  await save({state_exclusion_categories:['I am not sure']});check('ordinary uncertainty save persists and stays held '+witness.pathwayId,()=>{assert.deepEqual(snap().packetAnswers.state_exclusion_categories,['I am not sure']);assert.equal(snap().pathwayId,null);assert.equal(snap().paymentAllowed,false);});
  await save({state_exclusion_categories:['Other named excluded offense']});check('ordinary explicit original category restoration '+witness.pathwayId,()=>assert.deepEqual(snap().packetAnswers.state_exclusion_categories,['Other named excluded offense']));
+ await save({state_exclusion_categories:['None of these']});check('retained original witness tuple restored only by explicit factual correction '+witness.pathwayId,()=>{assert.equal(snap().pathwayId,witness.expected.pathwayId);assert.equal(snap().resultCode,witness.expected.resultCode);assert.equal(snap().paymentAllowed,false);});
+ const restoredTree=await Edit({params,searchParams:Promise.resolve({edit:'state_exclusion_categories'})}),restoredBuilder=nodes(restoredTree).find(n=>n.type===PacketInformationBuilder);check('restored original route still offers saved correction without adult substitution '+witness.pathwayId,()=>{assert(restoredBuilder);assert.equal(restoredBuilder.props.returnToMatterAfterCorrection,true);assert(!model().questions.some(q=>q.id==='de_common_exclusions'));});
+
 }
 install({...witnesses[0].answers,state_exclusion_categories:['Other named excluded offense']});
 const typedHistory={value:'Earlier category retained verbatim',unknown:true};stored.draftSnapshot.prefilledAnswers.state_exclusion_categories=structuredClone(typedHistory);stored.draftHash=P.protectedPacketDraftHash(snap());
 const typedBefore=structuredClone(stored),incompatible=await post({});check('incompatible inserted typed category cannot bypass protected integrity',()=>{assert.equal(incompatible.status,403);assert.deepEqual(stored,typedBefore);});
 install({...witnesses[0].answers,state_exclusion_categories:['Other named excluded offense']});
 const heldBefore=structuredClone(stored),verification=await post({}, {verify:true});check('null-route fact correction does not create verification authority',()=>{assert.equal(verification.status,422);assert.deepEqual(stored,heldBefore);});
+install({...base,de_request:'court',de_common_exclusions:['none'],conviction_date:'2000-01-01'});
+check('accepted court predicate still returns original packet result without verification',()=>{assert.equal(snap().resultCode,'packet_ready_with_caution');assert.notEqual(stored.status,'verified');});
+for(const locale of ['en','es']){const ordinary=html(await Edit({params,searchParams:Promise.resolve({})}),locale);check('ordinary packet-result page does not receive held-correction notice '+locale,()=>assert(!ordinary.includes(locale==='es'?'Puede corregir los hechos guardados del caso que se usan para esta revisión':'You can correct the saved case facts used for this review')));}
 install({...base,de_request:'sbi',de_common_exclusions:['none'],conviction_date:'2000-01-01'});
 check('existing mandatory guidance retains owned corrections with no new packet authority',()=>{assert.equal(snap().resultCode,'guidance_only');assert(P.heldPacketCorrectionInputIds(model(),snap().resultCode).has('de_request'));assert.equal(snap().paymentAllowed,false);});
 const stable=structuredClone(stored);
