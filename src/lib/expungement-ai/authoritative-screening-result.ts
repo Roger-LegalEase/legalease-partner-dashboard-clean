@@ -1,4 +1,5 @@
 import "server-only";
+import { OR_DISPOSITION_COPY } from "@/lib/rcap-engine/oregon-disposition-identity";
 
 import { dispositionFromAnswers, selectComposedRoute } from "@/lib/rcap-engine/composed-route-selector";
 import type {
@@ -45,6 +46,9 @@ export function evaluateAuthoritativeScreeningResult(input: {
     // adopted record covers only one record class cannot be reached by a
     // participant whose record is a different one.
     disposition: dispositionFromAnswers(input.answers as Record<string, unknown> | undefined),
+    ...(firstPass.jurisdiction === "OR" && selectedProfile ? { oregonDispositionSource: {
+      profileVersion: selectedProfile.profileVersion, sourceFingerprint: selectedProfile.source?.sourceCorpusSha256 ?? "", answers: input.answers
+    } } : {}),
     ...(firstPass.jurisdiction === "GA" && selectedProfile ? { georgiaPardonSource: {
       profileVersion: selectedProfile.profileVersion,
       sourceFingerprint: selectedProfile.source?.sourceCorpusSha256 ?? "",
@@ -52,7 +56,28 @@ export function evaluateAuthoritativeScreeningResult(input: {
     } } : {})
   });
 
-  const evaluation: ScreeningEvaluation = selection.status === "identity_unavailable"
+  const evaluation: ScreeningEvaluation = selection.status === "held_configuration"
+    ? {
+      ...firstPass,
+      pathwayId: selection.configuration.pathwayId,
+      pathwayLabel: selection.configuration.label,
+      // Identity is not eligibility. Preserve missing factual predicates and
+      // every current authority hold; never use the retired generic plan.
+      resultCode: firstPass.missingQuestionIds.length ? "needs_more_info" : "needs_review",
+      userLabel: OR_DISPOSITION_COPY.held[0],
+      paymentAllowed: false, packetPlan: undefined, selectedTrackId: selection.trackId,
+      reasons: [...firstPass.reasons.filter(reason => reason.code !== "or.waiting_rule_not_executed"), { code: "or.current_configuration_held", text: OR_DISPOSITION_COPY.held_reason[0] }],
+      cautions: [...firstPass.cautions, OR_DISPOSITION_COPY.caution[0]], nextSteps: [OR_DISPOSITION_COPY.next[0]]
+    }
+    : selection.status === "configuration_clarification"
+    ? {
+      ...firstPass, pathwayId: undefined, pathwayLabel: undefined,
+      resultCode: "needs_more_info", paymentAllowed: false, packetPlan: undefined, selectedTrackId: null,
+      userLabel: OR_DISPOSITION_COPY.clarify[0], nextSteps: [OR_DISPOSITION_COPY.clarify[0]],
+      missingQuestionIds: [...new Set([...firstPass.missingQuestionIds, ...selection.missingQuestionIds])],
+      reasons: [...firstPass.reasons, { code: "or.disposition_configuration_uncertain", text: OR_DISPOSITION_COPY.clarify_reason[0] }]
+    }
+    : selection.status === "identity_unavailable"
     ? {
       ...firstPass,
       resultCode: "guidance_only",
@@ -89,14 +114,14 @@ export function evaluateAuthoritativeScreeningResult(input: {
     throw new Error(`No compiled profile is available for ${evaluation.jurisdiction}.`);
   }
 
-  const pathwayLabel = exactPathwayLabel(profile, evaluation.pathwayId);
+  const pathwayLabel = selection.status === "held_configuration" ? selection.configuration.label : exactPathwayLabel(profile, evaluation.pathwayId);
   const labeledEvaluation = pathwayLabel ? { ...evaluation, pathwayLabel } : evaluation;
   return {
     evaluation: labeledEvaluation,
     profile,
     pathwayLabel,
     packetType: packetTypeForEvaluation(labeledEvaluation),
-    selectedTrackId: selection.status === "selected" ? selection.trackId : null
+    selectedTrackId: selection.status === "selected" || selection.status === "held_configuration" ? selection.trackId : null
   };
 }
 

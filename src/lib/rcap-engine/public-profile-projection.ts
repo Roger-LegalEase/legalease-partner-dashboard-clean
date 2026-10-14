@@ -1,3 +1,4 @@
+import { OR_DISPOSITION_QUESTIONS, OR_DISPOSITION_SOURCE, OR_DISPOSITION_ID } from "@/lib/rcap-engine/oregon-disposition-identity";
 import { MT_DEFERRED_FACT_IDS, MT_DEFERRED_QUESTIONS } from "@/lib/rcap-engine/montana-deferred-facts";
 import { MO_MARIJUANA_FACT_IDS, MO_MARIJUANA_STATUS_QUESTIONS } from "@/lib/rcap-engine/missouri-marijuana-status-facts";
 import { AR_RECORD_ORIGIN_ID, AR_RECORD_ORIGIN_QUESTION } from "@/lib/rcap-engine/arkansas-record-origin";
@@ -73,6 +74,7 @@ const STATE_SPECIFIC_PREPAY_WILMA_FACT_IDS: Record<string, Set<string>> = {
   MD: new Set(["arrest_date"]),
   MO: new Set(["mo_at_least_twenty_two", ...MO_MARIJUANA_FACT_IDS]),
   MT: new Set(MT_DEFERRED_FACT_IDS),
+  OR: new Set([OR_DISPOSITION_ID]),
   MS: new Set([
     ...convictionReliefQuestions("MS").map(q => q.id),
     "ms_program_order",
@@ -1128,6 +1130,7 @@ function withWilmaFactQuestions(
     : profile.jurisdiction.code === "KS" ? [...WILMA_FACT_QUESTIONS, ...KS_RECORD_SCOPE_QUESTIONS]
     : profile.jurisdiction.code === "MO" ? [...WILMA_FACT_QUESTIONS, ...MO_MARIJUANA_STATUS_QUESTIONS]
     : profile.jurisdiction.code === "MT" ? [...WILMA_FACT_QUESTIONS, ...MT_DEFERRED_QUESTIONS]
+    : profile.jurisdiction.code === "OR" ? [...WILMA_FACT_QUESTIONS, ...OR_DISPOSITION_QUESTIONS]
       : WILMA_FACT_QUESTIONS;
   const additions = [...availableWilmaFactQuestions, ...convictionReliefQuestions(profile.jurisdiction.code)]
     .filter((question) => !existingIds.has(question.id))
@@ -1363,7 +1366,12 @@ function buildProfileDraft(profile: EngineProfile): PublicJurisdictionProfile {
         questionIds: stage.questionIds ?? designerProfile.questions.filter((question) => question.stage === stage.id).map((question) => question.id),
         screenType: stage.screenType
       })),
-      questions: designerProfile.questions.map((question) => withDisplayTranslations(normalizePublicQuestion(
+      questions: [...designerProfile.questions,
+        ...(profile.jurisdiction.code === "OR" && profile.profileVersion === OR_DISPOSITION_SOURCE.profileVersion
+          && profile.source?.sourceCorpusSha256 === OR_DISPOSITION_SOURCE.sourceFingerprint
+          && !designerProfile.questions.some(question => question.id === "state_exclusion_categories")
+          ? profile.questions.filter(question => question.id === "state_exclusion_categories") : [])
+      ].map((question) => withDisplayTranslations(normalizePublicQuestion(
         question,
         profile.jurisdiction.code,
         "designer",

@@ -1,4 +1,7 @@
 import "server-only";
+import { createHash } from "node:crypto";
+import oregonConfigurations from "../../../data/record-clearing/packet-specifications/OR-disposition-configurations.v1.json";
+import { OR_DISPOSITION_SOURCE, OR_DISPOSITION_CONFIGURATIONS, OR_RETIRED_NONCONVICTION_PATH, oregonDispositionIdentity, type OregonDispositionConfiguration } from "@/lib/rcap-engine/oregon-disposition-identity";
 import { GA_PARDON_ROUTE, GA_PARDON_SOURCE, GA_PARDON_FACT_IDS, georgiaPardonFacts, georgiaPardonQuestionApplies } from "@/lib/rcap-engine/georgia-pardon-facts";
 
 /**
@@ -18,7 +21,9 @@ export type ComposedRouteSelection =
   | { status: "no_composed_route"; trackId: null }
   | { status: "identity_unavailable"; trackId: null; reason: string }
   | { status: "route_conditions_unmet"; trackId: null; reason: string }
-  | { status: "selected"; trackId: string };
+  | { status: "selected"; trackId: string }
+  | { status: "held_configuration"; trackId: string; configuration: OregonDispositionConfiguration }
+  | { status: "configuration_clarification"; trackId: null; missingQuestionIds: string[] };
 
 /**
  * The record classes a mapped track may require.
@@ -35,6 +40,9 @@ export type ComposedRouteSelectorInput = {
   /** Server-derived from the evaluated answers. Never accepted from a client. */
   disposition?: ComposedRouteDisposition;
   /** Registry identity plus answers already evaluated on the server. Never a requested track. */
+  oregonDispositionSource?: {
+    profileVersion: string; sourceFingerprint: string; answers: Readonly<Record<string, unknown>>;
+  };
   georgiaPardonSource?: {
     profileVersion: string; sourceFingerprint: string; today: string;
     answers: Readonly<Record<string, unknown>>;
@@ -163,6 +171,28 @@ const AUTHORITATIVE_TRACK_BY_PATHWAY: ReadonlyMap<string, AuthoritativeTrack> = 
 export function selectComposedRoute(input: ComposedRouteSelectorInput): ComposedRouteSelection {
   const jurisdiction = String(input.jurisdiction ?? "").trim().toUpperCase();
   const pathwayId = String(input.pathwayId ?? "").trim();
+  if (jurisdiction === "OR" && (!pathwayId || pathwayId === OR_RETIRED_NONCONVICTION_PATH
+    || Object.values(OR_DISPOSITION_CONFIGURATIONS).some(config => config.pathwayId === pathwayId))) {
+    const source = input.oregonDispositionSource;
+    if (!source || source.profileVersion !== OR_DISPOSITION_SOURCE.profileVersion
+      || source.sourceFingerprint !== OR_DISPOSITION_SOURCE.sourceFingerprint
+      || createHash("sha256").update(JSON.stringify(oregonConfigurations)).digest("hex") !== OR_DISPOSITION_SOURCE.configurationSha256) {
+      return { status: "no_composed_route", trackId: null };
+    }
+    // The normal evaluator validates the public IDs first. An exact local case
+    // context is also necessary; federal/other-person answers are not projected.
+    if (typeof source.answers.ownership_scope !== "string"
+      || !["Yes", "I am helping someone complete their own check"].includes(source.answers.ownership_scope)
+      || source.answers.jurisdiction_scope !== "State or local") return { status: "no_composed_route", trackId: null };
+    const identity = oregonDispositionIdentity(source.answers);
+    if (identity.status === "clarification") return { status: "configuration_clarification", trackId: null, missingQuestionIds: identity.ids };
+    if (identity.status === "identified") {
+      if (pathwayId && pathwayId !== OR_RETIRED_NONCONVICTION_PATH && pathwayId !== identity.configuration.pathwayId) {
+        return { status: "configuration_clarification", trackId: null, missingQuestionIds: ["case_outcome", "or_disposition_record"] };
+      }
+      return { status: "held_configuration", trackId: identity.configuration.trackId, configuration: identity.configuration };
+    }
+  }
   if (!jurisdiction || !pathwayId) return { status: "no_composed_route", trackId: null };
 
   if (jurisdiction === "GA" && pathwayId === GA_PARDON_ROUTE) {
