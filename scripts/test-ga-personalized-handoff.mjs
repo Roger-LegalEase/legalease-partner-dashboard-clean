@@ -69,6 +69,13 @@ for(const value of ['2026-02-30','2025-02-29','2026-10-14','01/05/2019']){
  check('actual arrest date rejects '+value,()=>assert.throws(()=>gaPardonDocumentFacts(s),/arrest date invalid/));
  check('actual preparation refuses invalid arrest date '+value,()=>assert.throws(()=>prepareBoundPersonalizedPacket({...input,snapshot:s},binding),/arrest date invalid/));
 }
+const reversedDates=structuredClone(snapshot);reversedDates.screeningAnswers.arrest_date='2022-01-02';
+const reversedBefore=JSON.stringify(reversedDates);
+check('same-case arrest after Board pardon is a record conflict',()=>assert.throws(()=>gaPardonDocumentFacts(reversedDates),/arrest date is after the Board pardon date/));
+check('actual preparation refuses conflicting same-case chronology',()=>assert.throws(()=>prepareBoundPersonalizedPacket({...input,snapshot:reversedDates},binding),/arrest date is after the Board pardon date/));
+check('chronology refusal preserves both original dates',()=>assert.equal(JSON.stringify(reversedDates),reversedBefore));
+const sameDay=structuredClone(snapshot);sameDay.screeningAnswers.arrest_date=facts.ga_pardon_date;
+check('calendar-only facts do not invent within-day chronology',()=>assert.equal(gaPardonDocumentFacts(sameDay).arrest_date,facts.ga_pardon_date));
 for(const value of ['armed robbery','attempt 16-8-41','16-8-14,16-8-41','16-8-14 (not convicted)']){
  const s=structuredClone(snapshot);s.packetAnswers.ga_pardoned_offense_section=value;
  check('exact final citation rejects '+value,()=>assert.throws(()=>gaPardonDocumentFacts(s),/conviction citation invalid/));

@@ -58,6 +58,9 @@ export function gaPardonDocumentFacts(snapshot: Pick<PacketVerificationSnapshot,
       throw new Error(`Georgia pardon document ${id === "ga_pardon_date" ? "Board pardon" : "arrest"} date invalid`);
     }
   }
+  if (facts.arrest_date > facts.ga_pardon_date) {
+    throw new Error("Georgia pardon document arrest date is after the Board pardon date");
+  }
   const captionQuestions = new Map(GA_PARDON_CAPTION_QUESTIONS.map(question => [question.id, {
     ...question, contextOnly: question.contextOnly === true, options: null
   }]));
