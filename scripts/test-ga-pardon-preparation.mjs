@@ -115,6 +115,17 @@ check('explicit protected editor reuses exact source questions without a plan', 
  assert.equal(m.questions.find(q=>q.id==='otn').required, false);
  assert.deepEqual(new Set(P.editablePacketInputIds(m)), new Set([...expected,'otn']));
 });
+for(const [source,value]of [['screeningAnswers','Saved theft label'],['prefilledAnswers',{unknown:true,value:''}],['packetAnswers',['malformed','retained']]])check('existing category remains optional editable context '+source,()=>{
+ const retained=structuredClone(record);retained.draftSnapshot[source].offense_category=value;
+ retained.draftHash=P.protectedPacketDraftHash(retained.draftSnapshot);
+ const before=JSON.stringify(retained),m=P.gaPardonPreparationModelFor(retained);assert(m);
+ const q=m.questions.find(q=>q.id==='offense_category');assert(q);assert.equal(q.required,false);assert(q.translations.es.prompt.includes('opcional'));
+ assert(P.editablePacketInputIds(m).has('offense_category'));assert(!m.missingInputIds.includes('offense_category'));assert.equal(JSON.stringify(retained),before);
+ const update=P.packetInformationPatch({existingItem:{id:'ga-preparation-pure',artifactRefs:{}},protectedVerification:retained,gaPardonPreparation:true,answers:{offense_category:'Owner corrected label'}});
+ assert(update);assert.equal(update.protectedTransition.nextVerification.draftSnapshot.packetAnswers.offense_category,'Owner corrected label');
+ assert.equal(update.protectedTransition.nextVerification.draftSnapshot.packetPlan,null);assert.equal(update.readyToGenerate,false);
+ assert.equal(update.protectedTransition.nextVerification.draftSnapshot.packetAnswers.ga_pardoned_offense_section??update.protectedTransition.nextVerification.draftSnapshot.screeningAnswers.ga_pardoned_offense_section, snapshot.packetAnswers.ga_pardoned_offense_section??snapshot.screeningAnswers.ga_pardoned_offense_section);
+});
 check('partial caption preparation does not impose ordinary correction requirements',()=>{
  const update=P.packetInformationPatch({existingItem:{id:'ga-preparation-pure',artifactRefs:{}},protectedVerification:record,gaPardonPreparation:true,answers:{court:'Municipal Court'}});
  assert(update);const normal=P.protectedPacketInformationModelFor(update.protectedTransition.nextVerification);

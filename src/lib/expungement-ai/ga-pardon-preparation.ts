@@ -2,6 +2,7 @@ import type { EngineProfile } from "@/lib/rcap-engine/contracts";
 import { GA_PARDON_FACT_IDS, GA_PARDON_ROUTE, GA_PARDON_SOURCE, georgiaConvictionCitation, georgiaPardonFacts, georgiaPardonQuestionApplies } from "@/lib/rcap-engine/georgia-pardon-facts";
 import type { ProtectedPacketDraftSnapshot } from "@/lib/expungement-ai/verification-cas";
 import { packetSpecificationFor } from "@/lib/rcap/grade-a/packet-specification";
+import { georgiaPardonCategoryIsContext } from "@/lib/expungement-ai/ga-pardon-category-context";
 
 const REQUIRED_DOCUMENT_FACTS = ["ga_pardoned_offense_section", "ga_pardon_date", "court", "county", "case_number", "arrest_date", "participant_narrative"] as const;
 const SOURCE = "GA-02:2026-10-13;GA.memo:ga-pardon-j7;OCGA35-3-37(j)(7)";
@@ -75,7 +76,8 @@ export function georgiaPardonPreparationFactIds(snapshot: PreparationSnapshot, c
     purpose: "participant_document_preparation" as const,
     source: SOURCE,
     requiredFactIds: [...REQUIRED_DOCUMENT_FACTS],
-    optionalFactIds: ["otn"],
+    optionalFactIds: ["otn", ...([snapshot.screeningAnswers, snapshot.prefilledAnswers, snapshot.packetAnswers].some(map => Object.hasOwn(map, "offense_category"))
+      && georgiaPardonCategoryIsContext(snapshot.jurisdiction, snapshot.pathwayId, specification, profile) ? ["offense_category"] : [])],
     captionConfirmationFactIds: ["court", "county"]
   };
 }
