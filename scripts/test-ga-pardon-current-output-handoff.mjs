@@ -88,6 +88,9 @@ if(process.argv.includes('--boundary-review')){
  const known=await prepareGaCurrentOutputHandoff({...extendedInput,boundaryReviewPath:undefined,boundaryReviewSha256:undefined});
  const extended=await prepareGaCurrentOutputHandoff(extendedInput);
  assert.deepEqual(extended.artifacts,known.artifacts);assert.deepEqual(extended.participantAssemblies.outputs.slice(0,2),known.participantAssemblies.outputs);
+ assert.deepEqual(extended.participantAssemblies.knownAssemblyLimits,known.participantAssemblies.limits);
+ assert.notDeepEqual(extended.participantAssemblies.limits,known.participantAssemblies.limits);
+ for(const phrase of ['Five actual synthetic participant assemblies','six preserved bare court/compositor outputs','exact original Spanish without translation or filing-language approval','pending qualified language review'])assert.ok(extended.participantAssemblies.limits.join(' ').includes(phrase));count++;
  assert.equal(extended.participantAssemblies.outputs.length,5);assert.equal(extended.participantAssemblies.boundaryEvidence.pixelComparisons.length,28);
  assert.equal(extended.participantAssemblies.qualifiedLanguageAcceptance,false);assert.equal(extended.participantAssemblies.protectedGenerationEstablished,false);assert.equal(extended.participantAssemblies.authorizedDeliveryEstablished,false);
  for(const key of ['canonicalRecord','workerAdmission'])assert.equal(extended[key],null);

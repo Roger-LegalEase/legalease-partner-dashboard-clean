@@ -136,6 +136,10 @@ async function participantBoundaryHandoff({boundaryReviewPath,boundaryReviewSha2
   outputs.push({id:'participant-full-'+a.case,locale:a.locale,variant:'full',path:a.file,sha256:a.sha256,byteLength:a.byteLength,pageCount:a.pages,guidePages:a.guidePages,courtPagesPreserved:a.courtPagesPreserved});
  }
  return {...known,scope:'Five actual synthetic participant assemblies: known-OTN EN/ES, unknown-OTN EN/ES and long-boundary ES; six bare court/compositor outputs remain separate evidence',
+  knownAssemblyLimits:known.limits,
+  limits:['Five actual synthetic participant assemblies are bound separately from six preserved bare court/compositor outputs; no protected generation or authorized delivery is established.',
+   'The Spanish guide remains a source-parallel draft pending qualified language review. Court instruments remain English. Known-OTN and unknown-OTN narratives retain their original English; the long-boundary narrative retains its exact original Spanish without translation or filing-language approval.',
+   'No output adoption, canonical admission, final protected verification, worker publication/execution, payment or commercial authority is created.'],
   outputs:[...known.outputs,...outputs],boundaryEvidence:{independentReview:{path:boundaryReviewPath,sha256:boundaryReviewSha256,candidate:review.sourceCommit},executionEvidence:review.actualRenderEvidence,
    sourceInputs:Object.entries(actual.sourceBindings).map(([path,sha256])=>({path,sha256})),pixelComparisons:actual.pixelComparisons,preservedKnownAssemblyReceipt:actual.preservedKnownAssemblyReceipt,limits:review.limits}};
 }
