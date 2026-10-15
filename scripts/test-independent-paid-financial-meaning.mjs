@@ -45,6 +45,13 @@ const guardedGuidanceScopes={
  'SC:pardon-guidance-for-otherwise-ineligible-convictions':{guard:southCarolinaGuidanceFinancialContract,applies:southCarolinaGuidanceFinancialApplies,source:'34d2edab3183e544d742a65e93d26f1803d70f0e762ed1dda73e890e0be12acf'},
 };
 const {wy1401Contract,wy1401QuestionApplies,WY_1401_ROUTE}=await import('../src/lib/rcap-engine/wyoming-1401-facts.ts');
+const {southDakotaGuidanceFinancialContract,southDakotaGuidanceFinancialApplies}=await import('../src/lib/rcap-engine/south-dakota-guidance-financial.ts');
+const {westVirginiaGuidanceFinancialContract,westVirginiaGuidanceFinancialApplies}=await import('../src/lib/rcap-engine/west-virginia-guidance-financial.ts');
+Object.assign(guardedGuidanceScopes,{
+ 'SD:automatic-public-record-removal-for-petty-municipal-and-class-2-misdemeanor-cases':{guard:southDakotaGuidanceFinancialContract,applies:southDakotaGuidanceFinancialApplies,source:'9751a66fc4ad5ef892db26209da7a07121035065b07f216db1bfa6689c6f1100'},
+ 'SD:pardon-based-sealing':{guard:southDakotaGuidanceFinancialContract,applies:southDakotaGuidanceFinancialApplies,source:'9751a66fc4ad5ef892db26209da7a07121035065b07f216db1bfa6689c6f1100'},
+ 'WV:pardon-based-expungement':{guard:westVirginiaGuidanceFinancialContract,applies:westVirginiaGuidanceFinancialApplies,source:'8e1e8ee4cc4663878e60f00976d8f13456911eac223a1d43e43825adebccf1aa'},
+});
 const observedWy1401Scopes=[];
 const observedGuardedScopes=[];
 const observedStatusScopes=[];
@@ -148,4 +155,4 @@ assert.deepEqual(observedGuardedScopes.sort(),Object.keys(guardedGuidanceScopes)
 assert.deepEqual(observedWy1401Scopes,[`WY:${WY_1401_ROUTE}`]);checked++;
 console.log(JSON.stringify({status:'PASS',checked,originalPaidContracts:catalog.independentPaidFactContracts.length,positiveCarryContracts:catalog.contracts.length,
  statusGuidanceRelevanceOnly:observedStatusScopes,sourceGuardedGuidanceRelevanceOnly:observedGuardedScopes,wy1401CollectionRelevanceOnly:observedWy1401Scopes,
- scope:'Isolated actual timing helper,139 exact paid-only contracts; no inferred payment/waiver exception, independent blockers and input bytes preserved. Exact adopted status-guidance relevance scopes and six source-guarded guidance scopes do not infer paid-answer meaning; generic paid-meaning controls for those six execute with source applicability invalidated; unreviewed source/profile/route drift restores financial visibility and changed question meaning refuses both reviewed contracts. This is not139 protected journeys or proof that a waiver satisfies any jurisdiction rule.'}));
+ scope:'Isolated actual timing helper,139 exact paid-only contracts; no inferred payment/waiver exception, independent blockers and input bytes preserved. Exact adopted status-guidance relevance scopes and nine source-guarded guidance scopes do not infer paid-answer meaning; generic paid-meaning controls for those nine execute with source applicability invalidated; unreviewed source/profile/route drift restores financial visibility and changed question meaning refuses both reviewed contracts. This is not139 protected journeys or proof that a waiver satisfies any jurisdiction rule.'}));
