@@ -9,6 +9,7 @@ import {
   QUESTION_CONTRACT_EARLIER_CONTINUITY_PATH, QUESTION_CONTRACT_EARLIER_OUTPUT_PATH,
   QUESTION_CONTRACT_SAME_DATE_PREDECESSOR_CONTINUITY_PATH, QUESTION_CONTRACT_SAME_DATE_PREDECESSOR_OUTPUT_PATH,
   QUESTION_CONTRACT_PREVIOUS_CONTINUITY_PATH, QUESTION_CONTRACT_PREVIOUS_OUTPUT_PATH,
+  QUESTION_CONTRACT_PRIOR_REVISION_CONTINUITY_PATH, QUESTION_CONTRACT_PRIOR_REVISION_OUTPUT_PATH,
   QUESTION_CONTRACT_IMMEDIATE_PREDECESSOR_CONTINUITY_PATH, QUESTION_CONTRACT_IMMEDIATE_PREDECESSOR_OUTPUT_PATH,
   QUESTION_CONTRACT_LATEST_PREDECESSOR_CONTINUITY_PATH, QUESTION_CONTRACT_LATEST_PREDECESSOR_OUTPUT_PATH,
   QUESTION_CONTRACT_OUTPUT_PATH, MS_QUESTION_CONTRACT_PREDECESSOR_PATH
@@ -40,6 +41,8 @@ check('exact executed successor validates complete current inventory', () => {
   assert.deepEqual(actual.latestPredecessorOutput, continuity.latestPredecessorOutput);
   assert.deepEqual(actual.immediatePredecessorContinuity, continuity.immediatePredecessorContinuity);
   assert.deepEqual(actual.immediatePredecessorOutput, continuity.immediatePredecessorOutput);
+  assert.deepEqual(actual.priorRevisionContinuity, continuity.priorRevisionContinuity);
+  assert.deepEqual(actual.priorRevisionOutput, continuity.priorRevisionOutput);
   assert.equal(JSON.parse(readBytes(QUESTION_CONTRACT_EARLIER_OUTPUT_PATH)).sources.length, 113);
 });
 check('all original observed dependencies retained, with added imports', () => {
@@ -49,22 +52,24 @@ check('all original observed dependencies retained, with added imports', () => {
   const previous = JSON.parse(readBytes(QUESTION_CONTRACT_PREVIOUS_OUTPUT_PATH));
   assert.equal(previous.sources.length, 118);
   assert.equal(continuity.previousAddedSourcePaths.length, 3);
-  assert.equal(continuity.previousSourceTransitions.length, 6);
+  assert.equal(continuity.previousSourceTransitions.length, 7);
   const sameDate = JSON.parse(readBytes(QUESTION_CONTRACT_SAME_DATE_PREDECESSOR_OUTPUT_PATH));
   assert.equal(sameDate.sources.length, 119);
   assert.equal(continuity.sameDatePredecessorAddedSourcePaths.length, 2);
-  assert.equal(continuity.sameDatePredecessorSourceTransitions.length, 6);
+  assert.equal(continuity.sameDatePredecessorSourceTransitions.length, 7);
   assert.equal(JSON.parse(readBytes(QUESTION_CONTRACT_LATEST_PREDECESSOR_OUTPUT_PATH)).sources.length, 121);
   assert.deepEqual(continuity.latestPredecessorAddedSourcePaths, []);
-  assert.equal(continuity.latestPredecessorSourceTransitions.length, 6);
+  assert.equal(continuity.latestPredecessorSourceTransitions.length, 7);
   assert.ok(continuity.latestPredecessorSourceTransitions.some(row => row.file === 'src/lib/rcap-engine/california-1203-4-facts.ts'));
   assert.deepEqual(continuity.immediatePredecessorAddedSourcePaths, []);
-  assert.deepEqual(continuity.immediatePredecessorSourceTransitions.map(row => row.file), ["data/record-clearing/packet-specifications/GA-sb-288-misdemeanor-conviction-restriction-and-sealing.v1.json", "src/lib/expungement-ai/reviewed-contact-contracts.json", "src/lib/rcap/grade-a/composer.ts", "src/lib/rcap/grade-a/packet-specification.ts", "src/lib/rcap/grade-a/renderer.ts"]);
+  assert.deepEqual(continuity.immediatePredecessorSourceTransitions.map(row => row.file), ["data/record-clearing/packet-specifications/GA-sb-288-misdemeanor-conviction-restriction-and-sealing.v1.json", "data/record-clearing/packet-specifications/MS-first-offender-nontraffic-misdemeanor-conviction-expungement-99-19-71-1.v1.json", "src/lib/expungement-ai/reviewed-contact-contracts.json", "src/lib/rcap/grade-a/composer.ts", "src/lib/rcap/grade-a/packet-specification.ts", "src/lib/rcap/grade-a/renderer.ts"]);
+  assert.deepEqual(continuity.priorRevisionAddedSourcePaths, []);
+  assert.deepEqual(continuity.priorRevisionSourceTransitions.map(row => row.file), ["data/record-clearing/packet-specifications/MS-first-offender-nontraffic-misdemeanor-conviction-expungement-99-19-71-1.v1.json", "src/lib/expungement-ai/reviewed-contact-contracts.json", "src/lib/rcap/grade-a/composer.ts", "src/lib/rcap/grade-a/packet-specification.ts"]);
   for (const source of sameDate.sources) assert.ok(proof.sources.some(input => input.file === source.file));
   for (const source of previous.sources) assert.ok(proof.sources.some(input => input.file === source.file));
   for (const source of historical.sources) assert.ok(proof.sources.some(input => input.file === source.file));
 });
-for (const path of [QUESTION_CONTRACT_CONTINUITY_PATH, QUESTION_CONTRACT_CURRENT_OUTPUT_PATH, QUESTION_CONTRACT_SUCCESSOR_PATH, QUESTION_CONTRACT_OUTPUT_PATH, QUESTION_CONTRACT_PREVIOUS_CONTINUITY_PATH, QUESTION_CONTRACT_PREVIOUS_OUTPUT_PATH, QUESTION_CONTRACT_EARLIER_CONTINUITY_PATH, QUESTION_CONTRACT_EARLIER_OUTPUT_PATH, QUESTION_CONTRACT_SAME_DATE_PREDECESSOR_CONTINUITY_PATH, QUESTION_CONTRACT_SAME_DATE_PREDECESSOR_OUTPUT_PATH, QUESTION_CONTRACT_LATEST_PREDECESSOR_CONTINUITY_PATH, QUESTION_CONTRACT_LATEST_PREDECESSOR_OUTPUT_PATH, QUESTION_CONTRACT_IMMEDIATE_PREDECESSOR_CONTINUITY_PATH, QUESTION_CONTRACT_IMMEDIATE_PREDECESSOR_OUTPUT_PATH]) {
+for (const path of [QUESTION_CONTRACT_CONTINUITY_PATH, QUESTION_CONTRACT_CURRENT_OUTPUT_PATH, QUESTION_CONTRACT_SUCCESSOR_PATH, QUESTION_CONTRACT_OUTPUT_PATH, QUESTION_CONTRACT_PREVIOUS_CONTINUITY_PATH, QUESTION_CONTRACT_PREVIOUS_OUTPUT_PATH, QUESTION_CONTRACT_EARLIER_CONTINUITY_PATH, QUESTION_CONTRACT_EARLIER_OUTPUT_PATH, QUESTION_CONTRACT_SAME_DATE_PREDECESSOR_CONTINUITY_PATH, QUESTION_CONTRACT_SAME_DATE_PREDECESSOR_OUTPUT_PATH, QUESTION_CONTRACT_LATEST_PREDECESSOR_CONTINUITY_PATH, QUESTION_CONTRACT_LATEST_PREDECESSOR_OUTPUT_PATH, QUESTION_CONTRACT_IMMEDIATE_PREDECESSOR_CONTINUITY_PATH, QUESTION_CONTRACT_IMMEDIATE_PREDECESSOR_OUTPUT_PATH, QUESTION_CONTRACT_PRIOR_REVISION_CONTINUITY_PATH, QUESTION_CONTRACT_PRIOR_REVISION_OUTPUT_PATH]) {
   check(`tampered pinned evidence refused: ${path}`, () => assert.throws(() => assertQuestionContractOutputInputs(file => file === path ? Buffer.from('{}') : readBytes(file)), /bytes changed/));
   check(`missing pinned evidence refuses, never falls back: ${path}`, () => assert.throws(() => assertQuestionContractOutputInputs(file => {
     if (file === path) throw new Error('deliberately missing pinned evidence');
@@ -72,6 +77,12 @@ for (const path of [QUESTION_CONTRACT_CONTINUITY_PATH, QUESTION_CONTRACT_CURRENT
   }), /deliberately missing pinned evidence/));
 }
 const continuityMutations = {
+  'wrong revision continuity': [c => { c.priorRevisionContinuity.sha256 = '0'.repeat(64); }, /revision predecessor ancestry/],
+  'wrong revision output': [c => { c.priorRevisionOutput.sha256 = '0'.repeat(64); }, /revision predecessor ancestry/],
+  'reduced revision inventory': [c => { c.priorRevisionSourceCount--; }, /source inventory/],
+  'omitted revision transition': [c => { c.priorRevisionSourceTransitions.pop(); }, /undeclared revision predecessor source transition/],
+  'fabricated revision transition': [c => { c.priorRevisionSourceTransitions[0].beforeSha256 = '0'.repeat(64); }, /undeclared revision predecessor source transition/],
+  'invented revision addition': [c => { c.priorRevisionAddedSourcePaths.push('invented'); }, /undeclared revision predecessor source transition/],
   'wrong immediate continuity': [c => { c.immediatePredecessorContinuity.sha256 = '0'.repeat(64); }, /immediate predecessor ancestry/],
   'wrong immediate output': [c => { c.immediatePredecessorOutput.sha256 = '0'.repeat(64); }, /immediate predecessor ancestry/],
   'reduced immediate inventory': [c => { c.immediatePredecessorSourceCount--; }, /source inventory/],
