@@ -18,6 +18,7 @@ export const MS_PROOF_EXECUTION_INPUTS=['scripts/lib/rcap-ephemeral-pg.mjs','scr
 // Exact import paths observed by the actual verifier imports-only probe;
 // the full execution must reproduce this set before emitting a current proof.
 export const MS_PROOF_OBSERVED_INPUTS=[
+  "data/rcap-all50/guidance-packets/ca.json",
   "data/rcap-all50/overlays/census-v1/ak/ak-courtview-set--official-pdf-fill/production-field-map.json",
   "data/rcap-all50/overlays/census-v1/ak/ak-mistaken-identity-set--official-pdf-fill/production-field-map.json",
   "data/rcap-all50/overlays/census-v1/ak/composed-treatment:obligation:runtime-only:ak:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085--custom-pleading/production-field-map.json",
@@ -25,6 +26,7 @@ export const MS_PROOF_OBSERVED_INPUTS=[
   "data/rcap-all50/overlays/census-v1/al/al-felony-dwop-set--official-pdf-fill/production-field-map.json",
   "data/rcap-all50/overlays/census-v1/al/al-felony-nonconviction-90-set--official-pdf-fill/production-field-map.json",
   "data/rcap-all50/overlays/census-v1/al/al-misd-conviction-set--official-pdf-fill/production-field-map.json",
+  "data/rcap-all50/overlays/census-v1/al/al-misd-conviction-set--official-pdf-fill/source-receipt.json",
   "data/rcap-all50/overlays/census-v1/al/al-misd-dwop-set--official-pdf-fill/production-field-map.json",
   "data/rcap-all50/overlays/census-v1/al/al-misd-nonconviction-90-set--official-pdf-fill/production-field-map.json",
   "data/rcap-all50/overlays/census-v1/al/al-pardoned-felony-set--official-pdf-fill/production-field-map.json",
@@ -56,6 +58,7 @@ export const MS_PROOF_OBSERVED_INPUTS=[
   "data/record-clearing/packet-specifications/CT-petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202.v1.json",
   "data/record-clearing/packet-specifications/DC-actual-innocence-expungement.v1.json",
   "data/record-clearing/packet-specifications/DC-correct-misattributed-arrest.v1.json",
+  "data/record-clearing/packet-specifications/drafts/CA-prop64-juvenile-review.v1.json",
   "data/record-clearing/packet-specifications/GA-restriction-and-sealing-of-a-pardoned-felony.v1.json",
   "data/record-clearing/packet-specifications/GA-sb-288-misdemeanor-conviction-restriction-and-sealing.v1.json",
   "data/record-clearing/packet-specifications/IL-criminal-identity-theft-mistaken-identity-relief.v1.json",
@@ -72,8 +75,8 @@ export const MS_PROOF_OBSERVED_INPUTS=[
   "data/record-clearing/packet-specifications/SD-suspended-imposition-of-sentence-sealing.v1.json",
   "data/record-clearing/packet-specifications/VA-absolute-pardon-expungement.v1.json",
   "data/record-clearing/packet-specifications/WY-felony-conviction-expungement.v1.json",
-  "data/record-clearing/packet-specifications/drafts/CA-prop64-juvenile-review.v1.json",
   "data/record-clearing/production-factory/packet-proofs/rcap-ak-guidance-implementation.json",
+  "data/record-clearing/production-factory/packet-proofs/rcap-ca-guidance-implementation.json",
   "data/record-clearing/supplemental-guides/DC-actual-innocence-expungement.v1.json",
   "data/record-clearing/supplemental-guides/GA-restriction-and-sealing-of-a-pardoned-felony.v1.json",
   "data/record-clearing/supplemental-guides/GA-sb-288-misdemeanor-conviction-restriction-and-sealing.v1.json",
@@ -95,11 +98,13 @@ export const MS_PROOF_OBSERVED_INPUTS=[
   "src/lib/expungement-ai/ak-courtview-record-context.ts",
   "src/lib/expungement-ai/ak-pardon-record-context.ts",
   "src/lib/expungement-ai/al-record-context.ts",
+  "src/lib/expungement-ai/al-redeemer-classification.ts",
   "src/lib/expungement-ai/ar-felony-record-context.ts",
   "src/lib/expungement-ai/ar-nonconviction-record-context.ts",
   "src/lib/expungement-ai/authoritative-screening-result.ts",
   "src/lib/expungement-ai/ca-1203-4-record-context.ts",
   "src/lib/expungement-ai/ca-1203-4a-record-context.ts",
+  "src/lib/expungement-ai/ca-automatic-record-context.ts",
   "src/lib/expungement-ai/ca-prop64-caption-answer.ts",
   "src/lib/expungement-ai/ca-prop64-caption-facts.ts",
   "src/lib/expungement-ai/ca-prop64-caption-successor.ts",
@@ -308,13 +313,13 @@ export function loadMsPaidPacketProof({readBytes=file=>fs.readFileSync(file), st
   assert.equal(proof.syntheticScenario.factId,'ms_charged_trafficking_distribution_manufacture');
   assert.equal(proof.syntheticScenario.value,'No');
   assert.equal(proof.syntheticScenario.inferredFromLegacyAnswer,false);
-  for(const required of [proof.outputContinuity.path,proof.outputContinuity.continuity.path,proof.outputContinuity.previousContinuity.path,proof.outputContinuity.previousOutput.path,proof.outputContinuity.earlierContinuity.path,proof.outputContinuity.earlierOutput.path,proof.outputContinuity.sameDatePredecessorContinuity.path,proof.outputContinuity.sameDatePredecessorOutput.path,MS_PAID_PACKET_PROOF_20260920,MS_PAID_PACKET_PROOF_RETIRED,QUESTION_CONTRACT_SUCCESSOR_PATH, QUESTION_CONTRACT_OUTPUT_PATH, MS_QUESTION_CONTRACT_PREDECESSOR_PATH, MS_PAID_PACKET_PROOF_PREDECESSOR, proof.generatedBy,approval.decisionPath,approval.supersededDecisionPath,approval.specificationPath,approval.supplementalGuidePath,approval.reviewEvidencePath,approval.historicalApprovalPath,'src/lib/rcap/render/participant-packet-assembly.ts','src/lib/rcap/fulfillment/final-verification-contract.ts'])assert.ok(proof.inputs[required],`missing proof input ${required}`);
+  for(const required of [proof.outputContinuity.path,proof.outputContinuity.continuity.path,proof.outputContinuity.previousContinuity.path,proof.outputContinuity.previousOutput.path,proof.outputContinuity.earlierContinuity.path,proof.outputContinuity.earlierOutput.path,proof.outputContinuity.sameDatePredecessorContinuity.path,proof.outputContinuity.sameDatePredecessorOutput.path,proof.outputContinuity.latestPredecessorContinuity.path,proof.outputContinuity.latestPredecessorOutput.path,MS_PAID_PACKET_PROOF_20260920,MS_PAID_PACKET_PROOF_RETIRED,QUESTION_CONTRACT_SUCCESSOR_PATH, QUESTION_CONTRACT_OUTPUT_PATH, MS_QUESTION_CONTRACT_PREDECESSOR_PATH, MS_PAID_PACKET_PROOF_PREDECESSOR, proof.generatedBy,approval.decisionPath,approval.supersededDecisionPath,approval.specificationPath,approval.supplementalGuidePath,approval.reviewEvidencePath,approval.historicalApprovalPath,'src/lib/rcap/render/participant-packet-assembly.ts','src/lib/rcap/fulfillment/final-verification-contract.ts'])assert.ok(proof.inputs[required],`missing proof input ${required}`);
   const outputBytes=readBytes(proof.outputContinuity.path);
   assert.equal(hash(outputBytes),proof.outputContinuity.sha256,'current output inventory proof changed');
   const currentOutput=JSON.parse(outputBytes);
   assertMsObservedExecution(proof);
   const requiredInventory=[...new Set([...Object.keys(predecessor.inputs),...currentOutput.sources.map(input=>input.file),
-    proof.outputContinuity.path,proof.outputContinuity.continuity.path,proof.outputContinuity.previousContinuity.path,proof.outputContinuity.previousOutput.path,proof.outputContinuity.earlierContinuity.path,proof.outputContinuity.earlierOutput.path,proof.outputContinuity.sameDatePredecessorContinuity.path,proof.outputContinuity.sameDatePredecessorOutput.path,MS_PAID_PACKET_PROOF_PREDECESSOR,...MS_PROOF_EXECUTION_INPUTS,...MS_PROOF_OBSERVED_INPUTS])].sort();
+    proof.outputContinuity.path,proof.outputContinuity.continuity.path,proof.outputContinuity.previousContinuity.path,proof.outputContinuity.previousOutput.path,proof.outputContinuity.earlierContinuity.path,proof.outputContinuity.earlierOutput.path,proof.outputContinuity.sameDatePredecessorContinuity.path,proof.outputContinuity.sameDatePredecessorOutput.path,proof.outputContinuity.latestPredecessorContinuity.path,proof.outputContinuity.latestPredecessorOutput.path,MS_PAID_PACKET_PROOF_PREDECESSOR,...MS_PROOF_EXECUTION_INPUTS,...MS_PROOF_OBSERVED_INPUTS])].sort();
   assert.deepEqual(Object.keys(proof.inputs).sort(),requiredInventory,'incomplete or undeclared MS proof input inventory');
   for(const [file,expected] of Object.entries(proof.inputs))assert.equal(hash(readBytes(file)),expected,`stale MS packet proof: ${file}`);
   const source=proof.sourceAuthority;

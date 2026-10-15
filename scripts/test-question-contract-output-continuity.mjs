@@ -9,6 +9,7 @@ import {
   QUESTION_CONTRACT_EARLIER_CONTINUITY_PATH, QUESTION_CONTRACT_EARLIER_OUTPUT_PATH,
   QUESTION_CONTRACT_SAME_DATE_PREDECESSOR_CONTINUITY_PATH, QUESTION_CONTRACT_SAME_DATE_PREDECESSOR_OUTPUT_PATH,
   QUESTION_CONTRACT_PREVIOUS_CONTINUITY_PATH, QUESTION_CONTRACT_PREVIOUS_OUTPUT_PATH,
+  QUESTION_CONTRACT_LATEST_PREDECESSOR_CONTINUITY_PATH, QUESTION_CONTRACT_LATEST_PREDECESSOR_OUTPUT_PATH,
   QUESTION_CONTRACT_OUTPUT_PATH, MS_QUESTION_CONTRACT_PREDECESSOR_PATH
 } from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 
@@ -34,6 +35,8 @@ check('exact executed successor validates complete current inventory', () => {
   assert.deepEqual(actual.earlierOutput, continuity.earlierOutput);
   assert.deepEqual(actual.sameDatePredecessorContinuity, continuity.sameDatePredecessorContinuity);
   assert.deepEqual(actual.sameDatePredecessorOutput, continuity.sameDatePredecessorOutput);
+  assert.deepEqual(actual.latestPredecessorContinuity, continuity.latestPredecessorContinuity);
+  assert.deepEqual(actual.latestPredecessorOutput, continuity.latestPredecessorOutput);
   assert.equal(JSON.parse(readBytes(QUESTION_CONTRACT_EARLIER_OUTPUT_PATH)).sources.length, 113);
 });
 check('all original observed dependencies retained, with added imports', () => {
@@ -48,11 +51,15 @@ check('all original observed dependencies retained, with added imports', () => {
   assert.equal(sameDate.sources.length, 119);
   assert.equal(continuity.sameDatePredecessorAddedSourcePaths.length, 2);
   assert.equal(continuity.sameDatePredecessorSourceTransitions.length, 1);
+  assert.equal(JSON.parse(readBytes(QUESTION_CONTRACT_LATEST_PREDECESSOR_OUTPUT_PATH)).sources.length, 121);
+  assert.deepEqual(continuity.latestPredecessorAddedSourcePaths, []);
+  assert.equal(continuity.latestPredecessorSourceTransitions.length, 1);
+  assert.equal(continuity.latestPredecessorSourceTransitions[0].file, 'src/lib/rcap-engine/california-1203-4-facts.ts');
   for (const source of sameDate.sources) assert.ok(proof.sources.some(input => input.file === source.file));
   for (const source of previous.sources) assert.ok(proof.sources.some(input => input.file === source.file));
   for (const source of historical.sources) assert.ok(proof.sources.some(input => input.file === source.file));
 });
-for (const path of [QUESTION_CONTRACT_CONTINUITY_PATH, QUESTION_CONTRACT_CURRENT_OUTPUT_PATH, QUESTION_CONTRACT_SUCCESSOR_PATH, QUESTION_CONTRACT_OUTPUT_PATH, QUESTION_CONTRACT_PREVIOUS_CONTINUITY_PATH, QUESTION_CONTRACT_PREVIOUS_OUTPUT_PATH, QUESTION_CONTRACT_EARLIER_CONTINUITY_PATH, QUESTION_CONTRACT_EARLIER_OUTPUT_PATH, QUESTION_CONTRACT_SAME_DATE_PREDECESSOR_CONTINUITY_PATH, QUESTION_CONTRACT_SAME_DATE_PREDECESSOR_OUTPUT_PATH]) {
+for (const path of [QUESTION_CONTRACT_CONTINUITY_PATH, QUESTION_CONTRACT_CURRENT_OUTPUT_PATH, QUESTION_CONTRACT_SUCCESSOR_PATH, QUESTION_CONTRACT_OUTPUT_PATH, QUESTION_CONTRACT_PREVIOUS_CONTINUITY_PATH, QUESTION_CONTRACT_PREVIOUS_OUTPUT_PATH, QUESTION_CONTRACT_EARLIER_CONTINUITY_PATH, QUESTION_CONTRACT_EARLIER_OUTPUT_PATH, QUESTION_CONTRACT_SAME_DATE_PREDECESSOR_CONTINUITY_PATH, QUESTION_CONTRACT_SAME_DATE_PREDECESSOR_OUTPUT_PATH, QUESTION_CONTRACT_LATEST_PREDECESSOR_CONTINUITY_PATH, QUESTION_CONTRACT_LATEST_PREDECESSOR_OUTPUT_PATH]) {
   check(`tampered pinned evidence refused: ${path}`, () => assert.throws(() => assertQuestionContractOutputInputs(file => file === path ? Buffer.from('{}') : readBytes(file)), /bytes changed/));
   check(`missing pinned evidence refuses, never falls back: ${path}`, () => assert.throws(() => assertQuestionContractOutputInputs(file => {
     if (file === path) throw new Error('deliberately missing pinned evidence');
@@ -60,6 +67,12 @@ for (const path of [QUESTION_CONTRACT_CONTINUITY_PATH, QUESTION_CONTRACT_CURRENT
   }), /deliberately missing pinned evidence/));
 }
 const continuityMutations = {
+  'wrong latest continuity': [c => { c.latestPredecessorContinuity.sha256 = '0'.repeat(64); }, /latest predecessor ancestry/],
+  'wrong latest output': [c => { c.latestPredecessorOutput.sha256 = '0'.repeat(64); }, /latest predecessor ancestry/],
+  'reduced latest inventory': [c => { c.latestPredecessorSourceCount--; }, /source inventory/],
+  'omitted latest transition': [c => { c.latestPredecessorSourceTransitions.pop(); }, /undeclared latest predecessor source transition/],
+  'fabricated latest transition': [c => { c.latestPredecessorSourceTransitions[0].beforeSha256 = '0'.repeat(64); }, /undeclared latest predecessor source transition/],
+  'invented latest addition': [c => { c.latestPredecessorAddedSourcePaths.push('invented'); }, /undeclared latest predecessor source transition/],
   'wrong identity': [c => { c.recordId = 'other'; }, /continuity identity/],
   'wrong historical receipt': [c => { c.historicalSuccessor.sha256 = '0'.repeat(64); }, /continuity ancestry/],
   'wrong historical output': [c => { c.historicalOutput.sha256 = '0'.repeat(64); }, /continuity ancestry/],

@@ -49,6 +49,8 @@ const mutations={
  'lost previous output reproduction':p=>{delete p.outputContinuity.previousOutput;},
  'lost same-date predecessor continuity':p=>{delete p.outputContinuity.sameDatePredecessorContinuity;},
  'lost same-date predecessor reproduction':p=>{delete p.outputContinuity.sameDatePredecessorOutput;},
+ 'lost latest predecessor continuity':p=>{delete p.outputContinuity.latestPredecessorContinuity;},
+ 'lost latest predecessor reproduction':p=>{delete p.outputContinuity.latestPredecessorOutput;},
  'altered predecessor pin':p=>{p.supersededProof.sha256='0'.repeat(64);},
  'lost earliest predecessor':p=>delete p.inputs[MS_PAID_PACKET_PROOF_RETIRED],
  'lost immediate predecessor':p=>delete p.inputs[MS_PAID_PACKET_PROOF_PREDECESSOR],
