@@ -7,7 +7,7 @@ register("./lib/ts-esm-loader.mjs", import.meta.url);
 
 const { getAllJurisdictionProfiles } = await import("../src/lib/rcap-engine/profile-registry.ts");
 const { projectPublicProfile } = await import("../src/lib/rcap-engine/public-profile-projection.ts");
-const { evaluateScreening } = await import("../src/lib/rcap-engine/evaluator.ts");
+const { evaluateScreening, InvalidAnswerError } = await import("../src/lib/rcap-engine/evaluator.ts");
 const { selectScreeningQuestionIds } = await import("../src/lib/rcap-engine/screening-question-selection.ts");
 const { caProp64RecordQuestions } = await import("../src/lib/expungement-ai/ca-prop64-record-facts.ts");
 
@@ -39,6 +39,9 @@ function answerFor(question, profile) {
   // These scoped DE questions have stable wire values, not the legacy label
   // "None of these". Use explicit uncertainty; this is not an eligibility fixture.
   if (profile.jurisdiction.code === "DE" && id.startsWith("de_") && question.type === "multi_select") return ["unknown"];
+  // Tool1 current status also uses source-owned wire values. A display label
+  // is invalid here; uncertainty keeps this synthetic fixture non-qualifying.
+  if (profile.jurisdiction.code === "CA" && id === "ca_12034_current_status" && question.type === "multi_select") return ["unknown"];
   if (/pending|new_convictions|sex_offender|ineligible|prior_sealing|identity_error|trafficking|pardon/.test(id)) return "No";
   if (/qualifying|lesser_or_no|special_preconditions|court_order|ordered_at_sentencing|no_probation|treatment_program|prosecutor_consent/.test(id)) return "Yes";
   if (/total_eligible_convictions|felony_convictions|count/.test(id)) return 1;
@@ -249,6 +252,25 @@ for (const profile of profiles) {
   const completionIds = new Set(allCompletionGroups(publicProfile).map((question) => question.id));
   for (const question of postpay) {
     assert(completionIds.has(question.id), `${code}: moved question ${question.id} missing from postPaymentPacketCompletion metadata.`);
+  }
+
+  if (code === "CA") {
+    const answers = completeAnswers(profile, publicProfile);
+    assert(JSON.stringify(answers.ca_12034_current_status) === '["unknown"]', "CA: synthetic current-status fixture must use the canonical uncertain wire.");
+    const before = JSON.stringify(answers);
+    const evaluation = evaluateScreening({ jurisdiction: code, profileVersion: profile.profileVersion,
+      matterId: "prepay-ca-current-status-wire", answers });
+    assert(evaluation.paymentAllowed === false, "CA: uncertain current status opened payment.");
+    assert(JSON.stringify(answers) === before, "CA: evaluating uncertainty mutated the source answers.");
+    let oldDisplayLabelRefused = false;
+    try {
+      evaluateScreening({ jurisdiction: code, profileVersion: profile.profileVersion,
+        matterId: "prepay-ca-current-status-invalid-label", answers: { ...answers, ca_12034_current_status: ["None of these"] } });
+    } catch (error) {
+      oldDisplayLabelRefused = error instanceof InvalidAnswerError
+        && JSON.stringify(error.invalidQuestionIds) === '["ca_12034_current_status"]';
+    }
+    assert(oldDisplayLabelRefused, "CA: display text must not become an accepted current-status wire.");
   }
 
   const requiredGate = prepay.find((question) => question.required === true && question.contextOnly !== true);
