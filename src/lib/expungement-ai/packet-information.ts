@@ -4,6 +4,7 @@ import { ca12034aRecordIsContext, ca12034aRecordContextQuestion } from "@/lib/ex
 import { arFelonyRecordIsContext, arFelonyRecordContextQuestion } from "@/lib/expungement-ai/ar-felony-record-context";
 import { arNonconvictionRecordIsContext, arNonconvictionRecordContextQuestion } from "@/lib/expungement-ai/ar-nonconviction-record-context";
 import { alRecordIsContext, alRecordContextQuestion } from "@/lib/expungement-ai/al-record-context";
+import { AL_REDEEMER_CLASSIFICATION_IDS, alRedeemerClassificationConflicts, alRedeemerClassificationContract, alRedeemerClassificationIds, alRedeemerClassificationQuestions, alRedeemerCategoryQuestion } from "@/lib/expungement-ai/al-redeemer-classification";
 import { ND_FIRST_OFFENSE_FACT_IDS, ndFirstOffenseFactApplies, ndFirstOffenseAnswerState } from "@/lib/rcap-engine/north-dakota-first-offense-facts";
 import { akPardonRecordIsContext, akPardonRecordContextQuestion, akJuvenileRecordIsContext, akJuvenileRecordContextQuestion, akAgencyOrSisRecordIsContext, akAgencyOrSisRecordContextQuestion } from "@/lib/expungement-ai/ak-pardon-record-context";
 import { AK_LEGACY_RECORD_TYPE, akCourtviewRecordIsContext, akCourtviewRecordContextQuestion } from "@/lib/expungement-ai/ak-courtview-record-context";
@@ -378,6 +379,13 @@ export function packetInformationModelFor(item: ConsumerBriefcaseItem): PacketIn
   questions = questions.map(question => ca12034aRecordContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
   questions = questions.map(question => delawareProtectedExclusionQuestion(question, profile, pathwayId, initialAnswers));
   for (const question of questions) questionById.set(question.id, question);
+  if (alRedeemerClassificationContract(profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`))) {
+    questions = questions.map(alRedeemerCategoryQuestion);
+    for (const question of alRedeemerClassificationQuestions(initialAnswers)) {
+      if (!questions.some(existing => existing.id === question.id)) questions.push(question);
+    }
+    for (const question of questions) questionById.set(question.id, question);
+  }
   const builderQuestions = builderQuestionsFor(questions, collection, requiredInputIds, serverFacts);
   const missingInputIds = missingRequiredInputs(
     collectionGateInputIds(collection, requiredInputIds, serverFacts),
@@ -1704,6 +1712,15 @@ export function protectedPacketInformationModelFor(
     // Display-only clarification of retained context; read/no-op preserves raw maps.
     packetAnswers.record_type = { unknown: true };
   }
+  if (alRedeemerClassificationContract(profile, snapshot.pathwayId, packetSpecificationFor(`${snapshot.jurisdiction}:${snapshot.pathwayId}`))) {
+    for (const id of alRedeemerClassificationConflicts(snapshot.screeningAnswers, snapshot.prefilledAnswers, snapshot.packetAnswers)) {
+      // Display-only uncertainty: ordinary no-op keeps every raw copy. Only
+      // explicit correction may archive them through the existing history path.
+      delete screeningAnswers[id];
+      delete prefilledAnswers[id];
+      packetAnswers[id] = { unknown: true };
+    }
+  }
   const initialAnswers = { ...screeningAnswers, ...prefilledAnswers, ...packetAnswers };
   const requiredInputIds = stringArray(snapshot.requiredInputIds);
   if (!canonicalEqual(requiredInputIds, packetPlan?.requiredInputIds ?? [])) return null;
@@ -2111,7 +2128,9 @@ export function packetCollectionFor(input: {
   return resolvePacketCollection({
     jurisdiction: input.jurisdiction,
     pathwayId: input.pathwayId,
-    requiredInputIds: input.requiredInputIds,
+    requiredInputIds: alRedeemerClassificationContract(profile, input.pathwayId, specification)
+      ? [...new Set([...input.requiredInputIds, ...alRedeemerClassificationIds({ ...input.screeningAnswers, ...input.prefilledAnswers, ...input.savedAnswers })])]
+      : input.requiredInputIds,
     serverFacts: input.serverFacts,
     screeningAnswers: input.screeningAnswers,
     prefilledAnswers: input.prefilledAnswers,
@@ -2178,6 +2197,9 @@ export function factualPathwayCorrectionIds(state: string, pathway: string | nul
     ...(includeInactive ? ["contact_information", "residency_or_location"].filter(id => Object.hasOwn(answers, id)) : [])];
   if (profile && ctCleanSlateContactContract(profile, pathway)) return [...extra, ...CT_CLEAN_SLATE_CONTACT_IDS];
   if (profile && ksMunicipalContactContract(profile, pathway)) return [...extra, ...KS_MUNICIPAL_CONTACT_IDS];
+  if (includeInactive && alRedeemerClassificationContract(profile, pathway, packetSpecificationFor(`${state}:${pathway}`))) return [...extra,
+    ...AL_REDEEMER_CLASSIFICATION_IDS.filter(id => Object.hasOwn(answers, id) || alRedeemerClassificationIds(answers).includes(id)),
+    ...["record_type", "offense_category"].filter(id => Object.hasOwn(answers, id))];
   if (alRecordIsContext(profile, pathway, packetSpecificationFor(`${state}:${pathway}`))
     && Object.hasOwn(answers, "record_type")) return [...extra, "record_type"];
   if ((akPardonRecordIsContext(profile, pathway, packetSpecificationFor(`${state}:${pathway}`))
@@ -2487,7 +2509,7 @@ function builderQuestionsFor(
 
   const owed = new Set(prepayGateFactIds(collection));
   const optional = new Set(collection.facts.filter(fact => fact.optional === true
-    && !(["ak_courtview_record_type_history", "ak_pardon_record_type_history", "ak_juvenile_record_type_history", "ak_agency_sis_record_type_history", "al_four_route_record_type_history", "ar_nonconviction_record_type_history", "ar_felony_record_type_history", "ca_12034a_record_type_history", "ca_12034_specific_probation_facts"].includes(fact.source) && fact.active === false)).map(fact => fact.factId));
+    && !(["ak_courtview_record_type_history", "ak_pardon_record_type_history", "ak_juvenile_record_type_history", "ak_agency_sis_record_type_history", "al_four_route_record_type_history", "al_redeemer_category_history", "ar_nonconviction_record_type_history", "ar_felony_record_type_history", "ca_12034a_record_type_history", "ca_12034_specific_probation_facts"].includes(fact.source) && fact.active === false)).map(fact => fact.factId));
   const order = new Map<string, number>();
   let position = 0;
   for (const section of collection.groupedParticipantSections) {
@@ -2642,6 +2664,13 @@ function protectedPacketQuestionSurface(
   questions = questions.map(question => ca12034aRecordContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
   questions = questions.map(question => delawareProtectedExclusionQuestion(question, profile, pathwayId, { ...screeningAnswers, ...prefilledAnswers, ...savedAnswers }));
   for (const question of questions) questionById.set(question.id, question);
+  if (alRedeemerClassificationContract(profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`))) {
+    questions = questions.map(alRedeemerCategoryQuestion);
+    for (const question of alRedeemerClassificationQuestions({ ...screeningAnswers, ...prefilledAnswers, ...savedAnswers })) {
+      if (!questions.some(existing => existing.id === question.id)) questions.push(question);
+    }
+    for (const question of questions) questionById.set(question.id, question);
+  }
   const builderQuestions = builderQuestionsFor(questions, collection, requiredInputIds, serverFacts);
   const builderSections = builderSectionsFor(collection, builderQuestions);
   if (ca12034Context(profile,pathwayId,{...screeningAnswers,...prefilledAnswers,...savedAnswers})) {
@@ -4068,6 +4097,10 @@ function installPacketSpecificationQuestions(
     && (["connected", "other_groups"].includes(String(answers.ny_16059_grouping)) || Object.hasOwn(answers, NY_TRANSACTION_ASSOCIATIONS_ID))) {
     const question = nyTransactionAssociationsQuestion(answers.ny_16059_covered_case_records);
     questions.set(question.id, question);
+  }
+  const alProfile = jurisdiction === "AL" ? getProfileByJurisdiction("AL") : null;
+  if (alRedeemerClassificationContract(alProfile ?? undefined, pathwayId, packetSpecificationFor(routeKey))) {
+    for (const question of alRedeemerClassificationQuestions(answers, true)) questions.set(question.id, question);
   }
   const ctProfile = jurisdiction === "CT" ? getProfileByJurisdiction("CT") : null;
   if (ctProfile && ctCleanSlateContactContract(ctProfile, pathwayId)) for (const question of ctCleanSlateContactQuestions(answers)) questions.set(question.id, question);

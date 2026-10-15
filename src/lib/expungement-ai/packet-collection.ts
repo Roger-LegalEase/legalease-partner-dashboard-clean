@@ -4,6 +4,7 @@ import { ca12034aRecordIsContext } from "@/lib/expungement-ai/ca-1203-4a-record-
 import { arFelonyRecordIsContext } from "@/lib/expungement-ai/ar-felony-record-context";
 import { arNonconvictionRecordIsContext } from "@/lib/expungement-ai/ar-nonconviction-record-context";
 import { alRecordIsContext } from "@/lib/expungement-ai/al-record-context";
+import { alRedeemerClassificationContract, AL_REDEEMER_CLASSIFICATION_IDS } from "@/lib/expungement-ai/al-redeemer-classification";
 import { ND_FIRST_OFFENSE_FACT_IDS } from "@/lib/rcap-engine/north-dakota-first-offense-facts";
 import { akPardonRecordIsContext, akJuvenileRecordIsContext, akAgencyOrSisRecordIsContext } from "@/lib/expungement-ai/ak-pardon-record-context";
 import { akCourtviewRecordIsContext, AK_LEGACY_RECORD_TYPE } from "@/lib/expungement-ai/ak-courtview-record-context";
@@ -639,6 +640,8 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
     && ca12034aRecordIsContext(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
   const arFelonyRecordContext = input.jurisdiction === "AR"
     && arFelonyRecordIsContext(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
+  const alClassification = input.jurisdiction === "AL"
+    && alRedeemerClassificationContract(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
   const alRecordContext = input.jurisdiction === "AL"
     && alRecordIsContext(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
   const dcLocationContext = input.jurisdiction === "DC"
@@ -794,6 +797,24 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
         reason: `the specification assigns this field to ${actor ?? "an external actor"}`
       });
       continue;
+    }
+
+    if (alClassification && !overrideClass && !needsHuman.has(factId)) {
+      if (factId === "offense_category") {
+        const retained = [input.screeningAnswers, input.prefilledAnswers, input.savedAnswers, input.profileFacts]
+          .some(answers => answers && Object.hasOwn(answers, factId));
+        facts.push({ factId, collection: "conditional", phase: retained ? "render" : "known",
+          group: retained ? group : null, active: retained, optional: true,
+          source: "al_redeemer_category_history",
+          reason: "Separate source-defined classifications cannot be supplied by an old generic category or charge grade. Preserve that answer only as optional history; no form condition or route authority is inferred." });
+        continue;
+      }
+      if (AL_REDEEMER_CLASSIFICATION_IDS.includes(factId)) {
+        facts.push({ factId, collection: "prepay_confirmation", phase: "prepay_confirmation", group,
+          source: "al_redeemer_participant_classification",
+          reason: "A participant-supplied statutory classification with its own conditional meaning. Unknown answers remain unresolved; this collection neither selects CR-65 conditions nor establishes eligibility or commercial authority." });
+        continue;
+      }
     }
 
     if (factId === "record_type" && alRecordContext && !overrideClass && !needsHuman.has(factId)) {
