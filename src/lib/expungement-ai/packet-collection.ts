@@ -1,3 +1,4 @@
+import { newJerseyMarijuanaStatusFinancialApplies } from "@/lib/rcap-engine/new-jersey-marijuana-status-financial";
 import { oklahomaCleanSlateFinancialApplies } from "@/lib/rcap-engine/oklahoma-clean-slate-financial";
 import { ohTraffickingCourtIsContext } from "@/lib/expungement-ai/oh-trafficking-court-context";
 import { WY_1401_FACT_IDS, wy1401Context, wy1401QuestionApplies } from "@/lib/rcap-engine/wyoming-1401-facts";
@@ -767,6 +768,16 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
       facts.push({ factId, collection: "conditional", phase: "known", group: null,
         source: "ok_clean_slate_guidance_no_payment_predicate", active: false,
         reason: "Generic payment completeness is not a prerequisite to this exact noncommercial guidance. Saved payment remains history; victim-restitution objections, source categories and operational limitations remain separate." });
+      continue;
+    }
+
+    const njStatusProfile = input.jurisdiction === "NJ" && factId === "financial_obligations"
+      ? getProfileByJurisdiction("NJ") : null;
+    if (njStatusProfile && !newJerseyMarijuanaStatusFinancialApplies(njStatusProfile, input.pathwayId,
+      { ...available, ...input.savedAnswers }, factId)) {
+      facts.push({ factId, collection: "conditional", phase: "known", group: null,
+        source: "nj_marijuana_status_guidance_no_payment_predicate", active: false,
+        reason: "Generic payment completeness does not gate this status/correction guidance. Saved assessments and completion facts remain separate; no statutory branch, eligibility or sealing is inferred." });
       continue;
     }
 
