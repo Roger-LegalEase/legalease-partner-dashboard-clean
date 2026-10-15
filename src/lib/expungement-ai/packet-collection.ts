@@ -1,3 +1,4 @@
+import { akPardonRecordIsContext } from "@/lib/expungement-ai/ak-pardon-record-context";
 import { akCourtviewRecordIsContext, AK_LEGACY_RECORD_TYPE } from "@/lib/expungement-ai/ak-courtview-record-context";
 import { dcInnocenceLocationIsContext, DC_LEGACY_LOCATION } from "@/lib/rcap-engine/dc-innocence-location-context";
 import { ndFirstOffenseRecordIsContext, ND_LEGACY_RECORD_TYPE } from "@/lib/expungement-ai/nd-first-offense-record-context";
@@ -623,6 +624,8 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
 
   const dcLocationContext = input.jurisdiction === "DC"
     && dcInnocenceLocationIsContext(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
+  const akPardonContext = input.jurisdiction === "AK"
+    && akPardonRecordIsContext(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
   const akRecordContext = input.jurisdiction === "AK"
     && akCourtviewRecordIsContext(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
   const ndRecordContext = input.jurisdiction === "ND"
@@ -758,6 +761,16 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
         actor: actor ?? "external",
         reason: `the specification assigns this field to ${actor ?? "an external actor"}`
       });
+      continue;
+    }
+
+    if (factId === AK_LEGACY_RECORD_TYPE && akPardonContext && !overrideClass && !needsHuman.has(factId)) {
+      const retained = [input.screeningAnswers, input.prefilledAnswers, input.savedAnswers, input.profileFacts]
+        .some(answers => answers && Object.hasOwn(answers, factId));
+      facts.push({ factId, collection: "conditional", phase: retained ? "render" : "known",
+        group: retained ? group : null, active: retained, optional: true,
+        source: "ak_pardon_record_type_history",
+        reason: "The exact adopted pardon guidance consumes conviction details and specific source facts, not the overlapping generic record-type menu. Saved answers remain optional history without selecting a remedy or application." });
       continue;
     }
 
