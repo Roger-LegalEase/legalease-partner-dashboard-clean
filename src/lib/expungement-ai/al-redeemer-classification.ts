@@ -52,7 +52,14 @@ export function alRedeemerClassificationConflicts(...maps: Readonly<Record<strin
   });
 }
 const scalar = (answers: Readonly<Record<string, unknown>>, id: string): string | null => {
-  const value = answers[id];
+  const raw = answers[id];
+  // The ordinary protected single-choice transport also accepts this exact
+  // known-value wrapper. Decode it without rewriting its stored representation;
+  // unknown, malformed and extended objects remain unresolved.
+  const value = raw !== null && typeof raw === "object" && !Array.isArray(raw)
+    && Object.keys(raw).length === 2 && Object.hasOwn(raw, "value") && Object.hasOwn(raw, "unknown")
+    && (raw as { unknown: unknown }).unknown === false
+    ? (raw as { value: unknown }).value : raw;
   return typeof value === "string" && value !== "I am not sure" ? value : null;
 };
 /** A saved label, age, charge grade or selected route never supplies conviction.

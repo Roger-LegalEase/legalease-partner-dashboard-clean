@@ -71,6 +71,38 @@ const ordinary=[['al_misd_youthful_offender','No'],['al_misd_record_level','Misd
 for(const [id,value]of ordinary){assert(active().includes(id));await save({[id]:value});check('ordinary source fact save '+id,()=>{assert.equal(snap().packetAnswers[id],value);assert.deepEqual(tuple(snap()),initialTuple);held();});}
 check('coherent supplied classification subset has no completion/eligibility grant',()=>{assert(!model().missingInputIds.some(id=>classificationIds.includes(id)));assert(!active().includes('al_misd_cdl_clp'));assert(!active().includes('al_misd_commercial_vehicle'));assert(!active().includes('al_misd_reclassified'));held();});
 const complete=structuredClone(stored);
+// A genuinely new accepted wrapper must advance the same source condition as
+// its scalar value; the earlier equivalent-scalar no-op does not test this.
+stored=make('Misdemeanor conviction');
+for(const [id,value]of ordinary){
+ const raw={value,unknown:false};await save({[id]:raw});
+ check('fresh known wrapper retains raw and advances source condition '+id,()=>{
+  assert.deepEqual(snap().packetAnswers[id],raw);
+  const merged={...snap().screeningAnswers,...snap().prefilledAnswers,...snap().packetAnswers};
+  const scalars=Object.fromEntries(ordinary.filter(([key])=>Object.hasOwn(merged,key)));
+  assert.deepEqual(active(),H.alRedeemerClassificationIds({...merged,...scalars}));
+  assert(!model().missingInputIds.includes(id));held();
+ });
+}
+const wrapped=structuredClone(stored);await save({});
+check('all known wrappers ordinary no-op preserves complete record',()=>assert.deepEqual(stored,wrapped));
+for(const locale of ['en','es']){
+ const q=model().questions.find(q=>q.id==='al_misd_record_level');
+ const markup=html(React.createElement(PacketInformationBuilder,{itemId:item.id,stateCode:'AL',pathwayId:route,questions:[q],initialAnswers:{[q.id]:model().initialAnswers[q.id]},initiallyMissing:model().missingInputIds,initialRevision:stored.revision,initialResumeSectionId:q.id,editingFromReview:true}),locale);
+ check('known wrapper grade is active with truthful control '+locale,()=>{assert(active().includes(q.id));assert(markup.includes(locale==='es'?'Delito menor':'Misdemeanor'));});
+}
+await save({al_misd_youthful_offender:'Yes'});
+check('explicit wrapper correction archives exact original representation',()=>{
+ assert.deepEqual(snap().dependencies.semanticAnswerHistory.find(h=>h.factId==='al_misd_youthful_offender'&&h.source==='packetAnswers')?.value,{value:'No',unknown:false});
+ assert.equal(snap().packetAnswers.al_misd_youthful_offender,'Yes');held();
+});
+for(const raw of [{value:'No',unknown:true},{value:'No',unknown:false,extra:true},{value:['No'],unknown:false},['No'],{value:'No'},{value:'I am not sure',unknown:false}]){
+ check('noncanonical or uncertain wrapper cannot advance '+JSON.stringify(raw),()=>{
+  const answers={case_outcome:'Misdemeanor conviction',al_misd_youthful_offender:raw};const before=structuredClone(answers);
+  assert.deepEqual(H.alRedeemerClassificationIds(answers),['al_misd_youthful_offender']);assert.deepEqual(answers,before);
+ });
+}
+stored=structuredClone(complete);
 for(const id of ['al_misd_violent_offense','al_misd_sex_offense','al_misd_serious_traffic']){
  stored=structuredClone(complete);const saved=structuredClone(snap().packetAnswers);await save({[id]:'Yes'});check('known adverse suppresses downstream '+id,()=>{assert.equal(active().at(-1),id);for(const [key,value]of Object.entries(saved))if(key!==id)assert.deepEqual(snap().packetAnswers[key],value);held();});await save({[id]:'I am not sure'});check('uncertain distinct raw retained '+id,()=>{assert.equal(active().at(-1),id);assert(model().missingInputIds.includes(id));assert.equal(snap().packetAnswers[id],'I am not sure');held();});await save({[id]:'No'});check('conditional reappearance retains values '+id,()=>{assert.deepEqual(active(),ordinary.map(x=>x[0]));assert.equal(snap().packetAnswers.al_misd_enumerated_driving,'No');assert(snap().dependencies.semanticAnswerHistory.some(h=>h.factId===id&&h.value==='I am not sure'));});
 }
