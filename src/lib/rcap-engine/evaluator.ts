@@ -1,3 +1,4 @@
+import {WY_1501_ROUTE,WY_1501_SOURCE,WY_1501_COPY,wy1501Context,wy1501Facts} from "@/lib/rcap-engine/wyoming-1501-facts";
 import { texasGuidanceFinancialApplies, texasNondisclosureTimingContract, texasNondisclosureClock, TX_ND_ROUTES, TX_ND_TIMING_COPY, TX_ND_FACT_IDS } from "@/lib/rcap-engine/texas-nondisclosure-facts";
 import { westVirginiaGuidanceFinancialApplies } from "@/lib/rcap-engine/west-virginia-guidance-financial";
 import { southDakotaGuidanceFinancialApplies } from "@/lib/rcap-engine/south-dakota-guidance-financial";
@@ -254,6 +255,13 @@ function evaluateProfileRules(profile: EngineProfile, request: ScreeningEvaluati
     // This is preparation for the participant's stated election, not a merits
     // or exclusion-list determination. The actual Grade-A authority gate stays separate.
     return {...evaluated, userLabel:text, nextSteps:[text]};
+  }
+  if (wy1501Context(profile,preselectedPathway?.id,answers)) {
+    const facts=wy1501Facts(answers,evaluationToday().toISOString().slice(0,10));
+    const contextIds=[...(["Yes","I am helping someone complete their own check"].includes(answers.ownership_scope as string)?[]:["ownership_scope"]),...(answers.jurisdiction_scope==="State or local"?[]:["jurisdiction_scope"])];
+    const code=contextIds.length?"missing":facts.code,text=WY_1501_COPY[code][0],plan=contextIds.length?undefined:packetPlanForPathway(profile,WY_1501_ROUTE);
+    const evaluated=result(profile,request,contextIds.length||facts.status==="missing"?"needs_more_info":facts.status==="excluded"?"likely_not_eligible":facts.status==="not_yet"?"not_yet":"needs_review",[reason("WY",`misdemeanor_${code}`,text,WY_1501_SOURCE)],{...(contextIds.length?{}:{pathwayId:WY_1501_ROUTE}),...(plan?{packetPlan:plan}:{}),missingQuestionIds:[...contextIds,...facts.ids],paymentAllowed:false});
+    return {...evaluated,userLabel:text,nextSteps:[text]};
   }
   if (wy1401Context(profile,preselectedPathway?.id,answers)) {
     const facts=wy1401Facts(answers,evaluationToday().toISOString().slice(0,10));

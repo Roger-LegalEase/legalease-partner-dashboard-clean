@@ -1,3 +1,4 @@
+import {wy1501Context,wy1501FactIds,wy1501QuestionApplies} from "@/lib/rcap-engine/wyoming-1501-facts";
 import { texasGuidanceFinancialApplies, texasNondisclosureFactIds, TX_ND_FACT_IDS } from "@/lib/rcap-engine/texas-nondisclosure-facts";
 import { westVirginiaGuidanceFinancialApplies } from "@/lib/rcap-engine/west-virginia-guidance-financial";
 import { southDakotaGuidanceFinancialApplies } from "@/lib/rcap-engine/south-dakota-guidance-financial";
@@ -111,6 +112,7 @@ export function selectScreeningQuestionIds(
       || answers.possible_pathway_context === "")
       && !montanaRecordFinancialApplies(profile, MT_RECORD_FINANCIAL_ROUTES[1], answers, "financial_obligations")
       ? MT_RECORD_FINANCIAL_ROUTES[1] : undefined);
+  const wy1501Ids=new Set(wy1501Context(profile,selectedPathway?.id,answers)?wy1501FactIds(answers):[]);
   const txTimingIds = new Set(texasNondisclosureFactIds(profile, selectedPathway?.id, answers));
   const msTimingIds = new Set(msExactTimingQuestionIds(profile.jurisdiction.code, selectedPathway?.id, answers));
   const recordQuestions = new Map(caProp64RecordQuestions(profile, publicProfile.questions, selectedPathway?.id).map((question) => [question.id, question]));
@@ -144,6 +146,7 @@ export function selectScreeningQuestionIds(
     .filter(question => southDakotaGuidanceFinancialApplies(profile, selectedPathway?.id, answers, question.id))
     .filter(question => southCarolinaGuidanceFinancialApplies(profile, selectedPathway?.id, answers, question.id))
     .filter(question => oklahomaCleanSlateFinancialApplies(profile, selectedPathway?.id, answers, question.id))
+    .filter(question => wy1501QuestionApplies(profile,selectedPathway?.id,answers,question.id))
     .filter(question => wy1401QuestionApplies(profile, selectedPathway?.id, answers, question.id))
     .filter(question => !wy1401Context(profile,selectedPathway?.id,answers) || !["arrest_date","disposition_date"].includes(question.id))
     .filter(question => ca12034QuestionApplies(profile, selectedPathway?.id, answers, question.id))
@@ -191,7 +194,7 @@ export function selectScreeningQuestionIds(
     .filter(({ question }) => lifecycle || (stageOrder.get(question.stage) ?? Number.MAX_SAFE_INTEGER) <= pathwayRoutingOrder)
     .filter(({ question }) => {
       const consumers = lifecycle?.routeConsumers[question.id] ?? [];
-      if (msTimingIds.has(question.id) || txTimingIds.has(question.id)) return true;
+      if (msTimingIds.has(question.id) || txTimingIds.has(question.id) || wy1501Ids.has(question.id)) return true;
       if (profile.jurisdiction.code === "NY" && selectedPathway?.id === NY_16059_ROUTE && NY_16059_TIMING_IDS.includes(question.id)) return true;
       if (profile.jurisdiction.code === "CA" && question.id === "ca_prop64_branch"
         && ["11357", "11358", "11359", "11360", "11362.1"].includes(caProp64Section(answers) ?? "")

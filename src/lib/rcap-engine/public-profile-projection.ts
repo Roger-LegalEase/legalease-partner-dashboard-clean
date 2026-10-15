@@ -1,3 +1,4 @@
+import {WY_1501_QUESTIONS,WY_1501_FACT_IDS} from "@/lib/rcap-engine/wyoming-1501-facts";
 import { TX_ND_QUESTIONS, TX_ND_FACT_IDS } from "@/lib/rcap-engine/texas-nondisclosure-facts";
 import { WY_1401_QUESTIONS, WY_1401_NEW_IDS, wy1401Contract } from "@/lib/rcap-engine/wyoming-1401-facts";
 import { CA_12034_QUESTIONS, CA_12034_FACT_IDS, ca12034Contract } from "@/lib/rcap-engine/california-1203-4-facts";
@@ -81,7 +82,7 @@ const STATE_SPECIFIC_PREPAY_WILMA_FACT_IDS: Record<string, Set<string>> = {
   MT: new Set(MT_DEFERRED_FACT_IDS),
   OR: new Set(OR_DISPOSITION_FACT_IDS),
   ND: new Set(ND_FIRST_OFFENSE_FACT_IDS),
-  WY: new Set([...WY_1401_NEW_IDS, "arrest_date"]),
+  WY: new Set([...WY_1401_NEW_IDS, ...WY_1501_FACT_IDS, "arrest_date"]),
   MS: new Set([
     ...convictionReliefQuestions("MS").map(q => q.id),
     "ms_program_order",
@@ -1143,7 +1144,7 @@ function withWilmaFactQuestions(
     : profile.jurisdiction.code === "MT" ? [...WILMA_FACT_QUESTIONS, ...MT_DEFERRED_QUESTIONS]
     : profile.jurisdiction.code === "OR" ? [...WILMA_FACT_QUESTIONS, ...OR_DISPOSITION_QUESTIONS]
     : profile.jurisdiction.code === "ND" ? [...WILMA_FACT_QUESTIONS, ...ND_FIRST_OFFENSE_QUESTIONS]
-    : wyNonconvictionContract ? [...WILMA_FACT_QUESTIONS, ...WY_1401_QUESTIONS.filter(q=>WY_1401_NEW_IDS.includes(q.id))]
+    : wyNonconvictionContract ? [...WILMA_FACT_QUESTIONS, ...WY_1401_QUESTIONS.filter(q=>WY_1401_NEW_IDS.includes(q.id)), ...WY_1501_QUESTIONS]
       : WILMA_FACT_QUESTIONS;
   const additions = [...availableWilmaFactQuestions, ...convictionReliefQuestions(profile.jurisdiction.code)]
     .filter((question) => !existingIds.has(question.id))

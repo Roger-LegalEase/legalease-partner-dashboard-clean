@@ -5,6 +5,7 @@ import { southCarolinaGuidanceFinancialApplies } from "@/lib/rcap-engine/south-c
 import { newJerseyMarijuanaStatusFinancialApplies } from "@/lib/rcap-engine/new-jersey-marijuana-status-financial";
 import { oklahomaCleanSlateFinancialApplies } from "@/lib/rcap-engine/oklahoma-clean-slate-financial";
 import { ohTraffickingCourtIsContext } from "@/lib/expungement-ai/oh-trafficking-court-context";
+import {WY_1501_FACT_IDS,wy1501Context,wy1501QuestionApplies} from "@/lib/rcap-engine/wyoming-1501-facts";
 import { WY_1401_FACT_IDS, wy1401Context, wy1401QuestionApplies } from "@/lib/rcap-engine/wyoming-1401-facts";
 import { newMexicoGuidanceFinancialApplies } from "@/lib/rcap-engine/new-mexico-guidance-financial";
 import { montanaRecordFinancialApplies } from "@/lib/rcap-engine/montana-record-correction-financial";
@@ -752,6 +753,14 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
     }
 
     const wyProfile=input.jurisdiction==="WY"?getProfileByJurisdiction("WY"):null;
+    if(wyProfile&&wy1501Context(wyProfile,input.pathwayId,{...available,...input.savedAnswers})) {
+      if(!wy1501QuestionApplies(wyProfile,input.pathwayId,{...available,...input.savedAnswers},factId)) {
+        facts.push({factId,collection:"conditional",phase:"known",group:null,source:"wy_1501_inactive_fact_history",active:false,optional:true,reason:"The exact sentence-term expiration facts control this petition. Generic historical payment/completion answers remain unchanged and establish no paid, waived or expired condition."});continue;
+      }
+      if(WY_1501_FACT_IDS.includes(factId)) {
+        facts.push({factId,collection:"prepay_confirmation",phase:"prepay_confirmation",group:"about_you",source:"wy_1501_source_facts",active:true,reason:"Source-owned statute, disposition and expiration facts for this verified petition; no filing, output approval or payment authority is inferred."});continue;
+      }
+    }
     if(wyProfile && wy1401Context(wyProfile,input.pathwayId,{...available,...input.savedAnswers})) {
       if(!wy1401QuestionApplies(wyProfile,input.pathwayId,{...available,...input.savedAnswers},factId)) {
         facts.push({factId,collection:"conditional",phase:"known",group:null,source:"wy_1401_inactive_fact_history",active:false,optional:true,
