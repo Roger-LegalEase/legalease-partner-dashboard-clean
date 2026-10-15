@@ -33,7 +33,7 @@ check('actual current v4 proof validates three exact approved outputs',()=>{
   const actual=load();assert.equal(actual.proof.schemaVersion,'rcap-ms-paid-packet-proof/v4');
   assert.equal(actual.proof.results.length,3);assert.deepEqual(actual.proof.results,prior.results);
   assert.deepEqual(actual.proof.ownerDecision,prior.ownerDecision);
-  assert.equal(actual.proof.outputContinuity.inputCount,121);
+  assert.equal(actual.proof.outputContinuity.inputCount,122);
   assert.equal(actual.proof.currentProtectedJourneyEstablished,false);
 });
 for(const [file,reason] of [[MS_PAID_PACKET_PROOF_PREDECESSOR,/October 11 historical proof changed/],[MS_PAID_PACKET_PROOF_20260920,/September 20 historical proof changed|historical evidence changed/],[MS_PAID_PACKET_PROOF_RETIRED,/September 14 historical proof changed|historical evidence changed/]]){
@@ -49,6 +49,8 @@ const mutations={
  'lost previous output reproduction':p=>{delete p.outputContinuity.previousOutput;},
  'lost same-date predecessor continuity':p=>{delete p.outputContinuity.sameDatePredecessorContinuity;},
  'lost same-date predecessor reproduction':p=>{delete p.outputContinuity.sameDatePredecessorOutput;},
+ 'lost accepted revision continuity':p=>{delete p.outputContinuity.acceptedRevisionContinuity;},
+ 'lost accepted revision reproduction':p=>{delete p.outputContinuity.acceptedRevisionOutput;},
  'lost prior revision continuity':p=>{delete p.outputContinuity.priorRevisionContinuity;},
  'lost prior revision reproduction':p=>{delete p.outputContinuity.priorRevisionOutput;},
  'lost immediate predecessor continuity':p=>{delete p.outputContinuity.immediatePredecessorContinuity;},
