@@ -65,6 +65,7 @@ function date(raw:unknown):Date|null {const v=text(raw);if(!v||!/^\d{4}-\d{2}-\d
 export function wy1501FactIds(a:Readonly<Record<string,unknown>>,includeInactive=false):string[]{
  const ids=["wy_1501_record_origin","wy_1501_disposition"];
  if(!includeInactive&&(a.wy_1501_record_origin!=="state_statute"||!["misdemeanor_conviction","completed_misdemeanor_deferral"].includes(String(a.wy_1501_disposition))))return ids;
+ if(!includeInactive&&/^14-3-(?:304|305)(?:\(|$)/.test(wy1501Section(a.wy_1501_statute_section)??""))return [...ids,"wy_1501_statute_section"];
  ids.push("wy_1501_statute_section","wy_1501_terms_expired","wy_1501_firearm","wy_1501_prior_expungement","wy_1501_lesser_charge");
  if(includeInactive||yesno(a.wy_1501_terms_expired)===true)ids.push("wy_1501_terms_expiration_date");
  if(includeInactive||/^6-2-313(?:\(|$)/.test(wy1501Section(a.wy_1501_statute_section)??""))ids.push("wy_1501_provider_patient");return ids;
@@ -76,6 +77,7 @@ export function wy1501QuestionApplies(profile:EngineProfile,route:string|null|un
  return !context||!["financial_obligations","sentence_completion_date","court_requirements_completed","resolved_timing_bucket"].includes(id);
 }
 export const WY_1501_COPY={
+ nicotine:["W.S. 14-3-304 and 14-3-305 use a separate expungement procedure by operation of law, not a W.S. 7-13-1501 petition. The separate procedure requires payment of the fine and six months after entry of conviction, rather than the one- or five-year period after sentence terms expire. It does not use the lifetime W.S. 7-13-1501 allowance. An earlier general payment answer does not establish that this fine was paid. Payment, the conviction date and the current court-record status remain unverified here; we do not confirm that expungement occurred or that you may deny the conviction. Confirm these facts with the court. This result authorizes no packet or payment through this service.","W.S. 14-3-304 y 14-3-305 tienen un procedimiento separado de eliminación por ministerio de la ley, no una petición conforme a W.S. 7-13-1501. El procedimiento separado exige pagar la multa y que transcurran seis meses desde la entrada de la condena, en lugar del plazo de uno o cinco años desde que terminan los términos de la sentencia. No consume la oportunidad de eliminación de por vida conforme a W.S. 7-13-1501. Una respuesta general anterior sobre pagos no acredita que se haya pagado esta multa. El pago, la fecha de la condena y el estado actual del expediente judicial siguen sin verificarse aquí; no confirmamos que se haya eliminado la condena ni que pueda negarla. Confirme estos datos con el tribunal. Este resultado no autoriza un paquete ni un pago mediante este servicio."],
  missing:["Confirm the court record's statute, misdemeanor disposition and actual sentence-term expiration. Unknown facts remain unknown; payment alone does not establish expiration.","Confirme la ley, la resolución por delito menor y la terminación real de los términos de la sentencia que constan en el expediente. Los datos desconocidos siguen siendo desconocidos; un pago por sí solo no acredita la terminación."],
  municipal:["Whether this city or town ordinance conviction falls within W.S. 7-13-1501 remains unresolved. Keep the ordinance and actual court information; do not substitute a state statute.","Aún no se ha resuelto si esta condena por ordenanza municipal está comprendida en W.S. 7-13-1501. Conserve la ordenanza y la información real del tribunal; no las sustituya por una ley estatal."],
  outside:["These facts do not fit this Wyoming misdemeanor petition. A CHINS adjudication, felony matter or record under another jurisdiction is not converted into this procedure.","Estos hechos no corresponden a esta petición de Wyoming por delito menor. Una adjudicación CHINS, un asunto por delito grave o un expediente de otra jurisdicción no se convierte en este procedimiento."],
@@ -95,9 +97,12 @@ export function wy1501Facts(a:Readonly<Record<string,unknown>>,today:string):Dec
  if(disposition==="active_deferral")return d("not_yet","not_yet",["wy_1501_disposition"]);
  if(origin!=="state_statute"||!["misdemeanor_conviction","completed_misdemeanor_deferral"].includes(disposition??""))return d("missing","missing",[...(origin!=="state_statute"?["wy_1501_record_origin"]:[]),...(!["misdemeanor_conviction","completed_misdemeanor_deferral"].includes(disposition??"")?["wy_1501_disposition"]:[])]);
  if(a.offense_level==="Felony"||disposition==="completed_misdemeanor_deferral"&&["Misdemeanor conviction","Felony conviction"].includes(String(a.case_outcome)))return d("review","conflict",["offense_level","case_outcome","wy_1501_disposition"]);
+ const section=wy1501Section(a.wy_1501_statute_section);
+ // The retained decision assigns these exact sections to their own fine-dependent
+ // six-month mechanism. No generic payment or term date proves its operation.
+ if(/^14-3-(?:304|305)(?:\(|$)/.test(section??""))return d("review","nicotine");
  if(yesno(a.wy_1501_firearm)===true||yesno(a.wy_1501_prior_expungement)===true)return d("excluded","excluded");
  if(yesno(a.wy_1501_lesser_charge)===true)return d("review","lesser");
- const section=wy1501Section(a.wy_1501_statute_section);
  if(!section||/^6-4-305$/.test(section))return d("missing","missing",["wy_1501_statute_section"]);
  if(/^14-6-402(?:\(|$)/.test(section))return d("excluded","outside");
  if(/^6-2-313(?:\(|$)/.test(section)&&yesno(a.wy_1501_provider_patient)===true)return d("excluded","provider");
