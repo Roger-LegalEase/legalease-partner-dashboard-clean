@@ -10,6 +10,7 @@ const { getProfileByJurisdiction } = await import('../src/lib/rcap-engine/profil
 const { projectPublicProfile } = await import('../src/lib/rcap-engine/public-profile-projection.ts');
 const packet = JSON.parse(fs.readFileSync('data/rcap-ledger/public-witness-answer-sets.json'));
 const orPredecessor = JSON.parse(fs.readFileSync('scripts/fixtures/or-disposition-witness-predecessor.json'));
+const caTool1Predecessor = JSON.parse(fs.readFileSync('scripts/fixtures/ca-tool1-witness-predecessor.json'));
 const changed = new Set([
   'AR:situation-a-non-convictions', 'AR:situation-b-misdemeanor-convictions', 'AR:situation-c-felony-convictions',
   'CA:prop-64-completed-sentence-application-11361-8', 'CA:prop-64-currently-serving-petition-11361-8',
@@ -62,10 +63,17 @@ check(()=>assert.equal(packet.witnesses.filter(w=>changed.has(w.pathwayKey)).len
 // Preserve the original 253-row digest. The later source-governed OR bridge
 // changes exactly its retired-route witness; retain that exact historical row
 // for this original comparison and independently check its current successor.
-// No new digest can hide drift in any of the other 252 rows.
+// The later Tool1 correction likewise retires a false no-charge positive. Keep
+// that exact historical row only for the original digest, then assert the
+// current refusal against the real evaluator. No replacement digest hides drift
+// in any of the other 251 rows.
 const orKey = 'OR:set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c';
+const caTool1Key = 'CA:tool-1-dismissal-set-aside';
 check(()=>assert.equal(orPredecessor.witness.pathwayKey,orKey));
-check(()=>assert.equal(sha(JSON.stringify(packet.witnesses.filter(w=>!changed.has(w.pathwayKey)).map(w=>w.pathwayKey===orKey?orPredecessor.witness:w))),'dd48f2daa2b68b38926d3d619c91b92833db494fe5d63ae4f31218c1c5c2dba2'));
+check(()=>assert.equal(caTool1Predecessor.witness.pathwayKey,caTool1Key));
+check(()=>assert.equal(caTool1Predecessor.sourceSha,'67556b6acf3cc6652f5f6ae10bfb0d0366cca63a'));
+check(()=>assert.equal(caTool1Predecessor.sourceSha256,'3d90a8ffeb6c4c45da3f24a19cbffeceaf637647832f340aef1423a68c36e73b'));
+check(()=>assert.equal(sha(JSON.stringify(packet.witnesses.filter(w=>!changed.has(w.pathwayKey)).map(w=>w.pathwayKey===orKey?orPredecessor.witness:w.pathwayKey===caTool1Key?caTool1Predecessor.witness:w))),'dd48f2daa2b68b38926d3d619c91b92833db494fe5d63ae4f31218c1c5c2dba2'));
 const orWitness = packet.witnesses.find(w=>w.pathwayKey===orKey);
 check(()=>assert.ok(orWitness));
 const orCurrent = replay(orWitness,orWitness.finalAnswers);
@@ -77,10 +85,37 @@ check(()=>assert.equal(orCurrent.paymentAllowed,false));
 check(()=>assert.equal(orCurrent.packetPlan,undefined));
 check(()=>assert.equal(orWitness.landedOnThisPathway,false));
 check(()=>assert.ok(!orCurrent.reasons.some(r=>r.code==='or.waiting_rule_not_executed')));
+// Same original synthetic premises: an arrest with no charge cannot establish
+// a conviction or a payable after-probation request. Do not invent new facts
+// merely to make this witness settle on its intended route.
+const caTool1Witness = packet.witnesses.find(w=>w.pathwayKey===caTool1Key);
+check(()=>assert.ok(caTool1Witness));
+check(()=>requireUnresolved(caTool1Witness));
+check(()=>assert.deepEqual(caTool1Witness.seedAnswers,caTool1Predecessor.witness.seedAnswers));
+check(()=>assert.equal(caTool1Witness.finalAnswers.case_outcome,'Arrest or citation with no charge filed'));
+check(()=>assert.equal(caTool1Witness.finalAnswers.offense_level,undefined));
+const caTool1Current = replay(caTool1Witness,caTool1Witness.finalAnswers);
+check(()=>assert.deepEqual(caTool1Current,caTool1Witness.unresolvedEvaluation));
+check(()=>assert.equal(caTool1Current.resultCode,'needs_review'));
+check(()=>assert.deepEqual(caTool1Current.missingQuestionIds,['case_outcome']));
+check(()=>assert.ok(caTool1Current.reasons.some(r=>r.code==='ca.probation_outcome')));
+check(()=>assert.equal(caTool1Current.pathwayId,undefined));
+check(()=>assert.equal(caTool1Current.selectedTrackId,undefined));
+check(()=>assert.equal(caTool1Current.packetPlan,undefined));
+check(()=>assert.equal(caTool1Current.paymentAllowed,false));
+check(()=>assert.equal(caTool1Witness.landedOnThisPathway,false));
+const caProfile=getProfileByJurisdiction('CA');
+const caTool1Run=converge('CA',caProfile,questions(caProfile),caTool1Witness.seedAnswers);
+check(()=>assert.equal(caTool1Run.convergenceStatus,'unresolved_unchanged_answers'));
+check(()=>assert.deepEqual(caTool1Run.transcript,caTool1Witness.rounds));
+check(()=>assert.deepEqual(caTool1Run.answers,caTool1Witness.finalAnswers));
+check(()=>assert.deepEqual(caTool1Run.unresolvedEvaluation,caTool1Current));
+check(()=>assert.ok(caTool1Run.transcript.length<8,'Tool1 no unchanged-answer churn'));
+check(()=>assert.throws(()=>requireUnresolved({...caTool1Witness,terminalEvaluation:caTool1Predecessor.witness.terminalEvaluation}),/must not claim a terminal/));
 const unresolved = packet.witnesses.filter(w=>w.convergenceStatus);
-check(()=>assert.equal(unresolved.length,6));
-check(()=>assert.equal(packet.totals.unresolvedPathways,6));
-check(()=>assert.equal(packet.totals.settledOnATerminalEvaluation,261));
+check(()=>assert.equal(unresolved.length,7));
+check(()=>assert.equal(packet.totals.unresolvedPathways,7));
+check(()=>assert.equal(packet.totals.settledOnATerminalEvaluation,260));
 for(const w of packet.witnesses.filter(w=>changed.has(w.pathwayKey))) {
   const actual=replay(w,w.finalAnswers);
   if(w.terminalEvaluation) check(()=>assert.deepEqual(projection(actual),w.terminalEvaluation));
@@ -130,4 +165,4 @@ check(()=>assert.equal(old.transcript.length,24));
 check(()=>assert.throws(()=>assert.ok(old.transcript.length<8,'no unchanged-answer churn'),/no unchanged-answer churn/));
 check(()=>assert.equal(old.evaluation,null));
 check(()=>assert.equal(packet.totals.additionalSourceBoundSyntheticWitnesses,6));
-console.log(JSON.stringify({status:'PASS',checks,changedRoutes:15,originalChangedRouteCohort:14,currentOrSuccessors:1,unchangedHistoricalRoutes:252,originalHistoricalDigestRows:253,unresolvedGenericWitnesses:6,sourceBoundSyntheticWitnesses:6,limits:'Local actual evaluator replay and mutation controls; not hosted, authenticated, document or offered-scope acceptance. Original253-row digest retains the exact historical OR row; its current successor is separately checked.'},null,2));
+console.log(JSON.stringify({status:'PASS',checks,changedRoutes:16,originalChangedRouteCohort:14,currentOrSuccessors:1,currentCaTool1Successors:1,unchangedHistoricalRoutes:251,originalHistoricalDigestRows:253,unresolvedGenericWitnesses:7,sourceBoundSyntheticWitnesses:6,limits:'Local actual evaluator replay and mutation controls; not hosted, authenticated, document or offered-scope acceptance. Original253-row digest retains exact historical OR and Tool1 rows; their current successors are separately checked. Historical Tool1 positive is a preserved failure, not current authority.'},null,2));
