@@ -300,7 +300,7 @@
     "courtOwnedFields": [
       "primary_filing_judge",
       "proposed_order_judge",
-      "certificate_of_service_judge"
+      "proposed_order_blank_3"
     ],
     "participantCompletesBeforeFilingFields": [
       "participant_narrative",
@@ -321,7 +321,6 @@
       "proposed_order_otn",
       "proposed_order_blank_1",
       "proposed_order_blank_2",
-      "proposed_order_blank_3",
       "certificate_of_service_court",
       "certificate_of_service_county",
       "certificate_of_service_case_number",
@@ -379,7 +378,15 @@
             "matterTitle": "STATE OF GEORGIA,\nv.\n{{participant_full_legal_name}}, Defendant.",
             "caseNumber": "primary_filing_case_number",
             "caseNumberLabel": "CASE NO.:",
-            "documentTitle": "DEFENDANT'S MOTION TO RESTRICT AND SEAL RECORDS OF A MISDEMEANOR CONVICTION\n(O.C.G.A. § 35-3-37(j)(4)(A) and § 35-3-37(m))"
+            "documentTitle": "DEFENDANT'S MOTION TO RESTRICT AND SEAL RECORDS OF A MISDEMEANOR CONVICTION\n(O.C.G.A. § 35-3-37(j)(4)(A) and § 35-3-37(m))",
+            "blankFields": [
+              "primary_filing_otn",
+              "primary_filing_judge"
+            ]
+          },
+          "fieldLabels": {
+            "primary_filing_otn": "OTN (if known):",
+            "primary_filing_judge": "JUDGE (assigned by the court):"
           }
         },
         {
@@ -534,7 +541,15 @@
             "matterTitle": "STATE OF GEORGIA,\nv.\n{{participant_full_legal_name}}, Defendant.",
             "caseNumber": "proposed_order_case_number",
             "caseNumberLabel": "CASE NO.:",
-            "documentTitle": "PROPOSED ORDER RESTRICTING ACCESS TO CRIMINAL HISTORY RECORD INFORMATION AND SEALING THE RECORD OF THE CASE\n(O.C.G.A. § 35-3-37(j)(4)(A) and § 35-3-37(m))"
+            "documentTitle": "PROPOSED ORDER RESTRICTING ACCESS TO CRIMINAL HISTORY RECORD INFORMATION AND SEALING THE RECORD OF THE CASE\n(O.C.G.A. § 35-3-37(j)(4)(A) and § 35-3-37(m))",
+            "blankFields": [
+              "proposed_order_otn",
+              "proposed_order_judge"
+            ]
+          },
+          "fieldLabels": {
+            "proposed_order_otn": "OTN (if known):",
+            "proposed_order_judge": "JUDGE (assigned by the court):"
           }
         },
         {
@@ -578,7 +593,7 @@
             "proposed_order_blank_3": "SO ORDERED, this ............ day of ........................, 20......."
           },
           "fieldTreatments": {
-            "proposed_order_blank_3": "ruled_blank"
+            "proposed_order_blank_3": "court_owned_space"
           }
         },
         {
@@ -630,15 +645,13 @@
             "certificate_of_service_court",
             "certificate_of_service_county",
             "certificate_of_service_case_number",
-            "certificate_of_service_otn",
-            "certificate_of_service_judge"
+            "certificate_of_service_otn"
           ],
           "fieldTreatments": {
             "certificate_of_service_court": "ruled_blank",
             "certificate_of_service_county": "ruled_blank",
             "certificate_of_service_case_number": "ruled_blank",
-            "certificate_of_service_otn": "ruled_blank",
-            "certificate_of_service_judge": "court_owned_space"
+            "certificate_of_service_otn": "ruled_blank"
           },
           "captionContract": {
             "courtLines": [
@@ -657,7 +670,13 @@
             "matterTitle": "STATE OF GEORGIA,\nv.\n{{participant_full_legal_name}}, Defendant.",
             "caseNumber": "certificate_of_service_case_number",
             "caseNumberLabel": "CASE NO.:",
-            "documentTitle": "CERTIFICATE OF SERVICE"
+            "documentTitle": "CERTIFICATE OF SERVICE",
+            "blankFields": [
+              "certificate_of_service_otn"
+            ]
+          },
+          "fieldLabels": {
+            "certificate_of_service_otn": "OTN (if known):"
           }
         },
         {

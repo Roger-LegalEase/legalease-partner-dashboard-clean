@@ -78,6 +78,7 @@ export type GradeABlock =
       captionOrder?: "case_number_first" | "matter_title_first";
       caseNumberInstruction?: string;
       optionalIdentifier?: { label: string; value: string; blank: boolean };
+      blankFields?: Array<{ field: string; label: string; completedBy: "participant" | "court" }>;
       caseNumberBlank?: boolean;
       plaintiff: string;
       defendant: string;
@@ -646,6 +647,30 @@ function composeSection(
     case "pleading_caption": {
       const contract = section.captionContract;
       if (contract) {
+        if (contract.blankFields !== undefined && (!Array.isArray(contract.blankFields)
+          || !contract.courtLines?.length
+          || Array.from({ length: contract.blankFields.length }, (_, index) => index)
+            .some(index => !Object.hasOwn(contract.blankFields!, index)))) {
+          throw new GradeAPacketCompositionError(specification.routeKey, [], "Caption blanks require a dense field list and supported court-line structure");
+        }
+        const blankFields = contract.blankFields?.map((field, index, fields) => {
+          const treatment = section.fieldTreatments?.[field];
+          const label = section.fieldLabels?.[field];
+          const owner = treatment === "court_owned_space"
+            ? specification.fieldOwnership?.courtOwnedFields
+            : specification.fieldOwnership?.participantCompletesBeforeFilingFields;
+          if (typeof field !== "string" || fields.indexOf(field) !== index
+            || !section.fields?.includes(field) || !label?.trim()
+            || !["ruled_blank", "court_owned_space"].includes(treatment ?? "")
+            || !owner?.includes(field)) {
+            throw new GradeAPacketCompositionError(specification.routeKey, [], "Caption blank lacks exact declared treatment, label or later ownership");
+          }
+          const entry = fieldItem(field);
+          if (!entry.blank || entry.value !== "" || !entry.completedBy) {
+            throw new GradeAPacketCompositionError(specification.routeKey, [], "Caption blank cannot consume a supplied value");
+          }
+          return { field, label: entry.label, completedBy: entry.completedBy };
+        });
         if (contract.optionalIdentifier && (!contract.courtLines?.length
           || !specification.requiredFacts.some(entry => entry.factId === contract.optionalIdentifier!.field && entry.requiredForGeneration === false))) {
           throw new GradeAPacketCompositionError(specification.routeKey, [], "Optional caption identifier lacks source permission or supported caption structure");
@@ -662,6 +687,7 @@ function composeSection(
               : {})
           })) } : {}),
           ...(contract.caseNumberLabel ? { caseNumberLabel: contract.caseNumberLabel } : {}),
+          ...(blankFields?.length ? { blankFields } : {}),
           ...(contract.courtInstruction ? { courtInstruction: contract.courtInstruction } : {}),
           ...(contract.matterTitle ? { matterTitle: fill(contract.matterTitle, matter) } : {}),
           ...(contract.captionOrder ? { captionOrder: contract.captionOrder } : {}),

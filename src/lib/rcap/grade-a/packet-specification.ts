@@ -131,6 +131,8 @@ export type PacketSpecificationSection = {
     courtLines?: Array<{ prefix?: string; field?: string; suffix?: string }>;
     /** The adopted label before the number, where it is not "CASE NO.". */
     caseNumberLabel?: string;
+    /** Additional adopted caption blanks; only declared later-owned fields, never supplied values. */
+    blankFields?: string[];
     /** Replaces PLAINTIFF / VS. / DEFENDANT for an in-the-matter-of caption. */
     matterTitle?: string;
     /**

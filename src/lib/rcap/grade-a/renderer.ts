@@ -484,6 +484,13 @@ function drawPleadingCaption(
         }
       }
     }
+    for (const field of block.blankFields ?? []) {
+      ensurePleading(cursor, document, fonts, context, PLEADING_LEADING);
+      cursor.page.drawText(sanitize(field.label), { x: PLEADING_MARGIN, y: cursor.y, size: 12, font: fonts.pleadingBold, color: INK });
+      const start = PLEADING_MARGIN + fonts.pleadingBold.widthOfTextAtSize(`${sanitize(field.label)} `, 12);
+      cursor.page.drawLine({ start: { x: start, y: cursor.y - 2 }, end: { x: Math.min(start + 240, PLEADING_MARGIN + PLEADING_CONTENT_WIDTH), y: cursor.y - 2 }, thickness: 0.75, color: INK });
+      cursor.y -= PLEADING_LEADING;
+    }
     cursor.y -= 14;
     if (!matterFirst && block.matterTitle) {
       cursor.y = drawCenteredWrapped(cursor.page, fonts.pleadingBold, sanitize(block.matterTitle.toUpperCase()), 12, PLEADING_CONTENT_WIDTH, cursor.y, PLEADING_LEADING) - 20;
