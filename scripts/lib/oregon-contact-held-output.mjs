@@ -66,7 +66,10 @@ export function prepareOregonContactHeldOutput(inputRecord, readBytes) {
       return anchor;
     });
     jobs.push({ documentId: OJD, sourceSha256: profile.sha256, pages: 5, sourceWrites: courtWrites,
-      kind: 'flat', args: { expectedSha256: profile.sha256, anchors, selections: [],
+      kind: 'flat', args: { expectedSha256: profile.sha256,
+        // The flat finalizer interprets y as a text baseline. Keep descenders
+        // inside the original source-owned box; its acceptance mask stays exact.
+        anchors: anchors.map(a => ({ ...a, writeBox: { ...a.writeBox, y: a.writeBox.y + 3 } })), selections: [],
         protectedRules: profile.protectedRules ?? [], explicitMappings: Object.fromEntries(anchors.map(a => [a.label, a.factId])),
         facts: Object.fromEntries(courtWrites.map(w => [w.factId, w.value])), documentTextLines: [],
         title: 'Internal held Oregon contact-only review; not a filing packet' },
@@ -85,7 +88,11 @@ export function prepareOregonContactHeldOutput(inputRecord, readBytes) {
       kind: 'acroform', args: { expectedSha256: ospCensus.sha256, census: ospCensus.fields,
         facts: { [write.factId]: write.value }, explicitMappings: { [write.field]: write.factId },
         unwritableFields: ospCensus.fields.filter(f => f.name !== write.field).map(f => f.name),
-        selectionsFromHeldFacts: {}, title: 'Internal held OSP contact-only review; separate agency document' },
+        selectionsFromHeldFacts: {},
+        // Exact source YES/NO widgets are Off without an Off normal appearance.
+        // Preserve that blank state instead of synthesizing unchecked borders.
+        suppressSynthesizedAppearances: true,
+        title: 'Internal held OSP contact-only review; separate agency document' },
       allowedWriteRectangles: field.widgets.map(widget => ({ page: widget.page ?? field.page, rect: widget.rect, field: field.name })),
       reservedFields: ospCensus.fields.filter(f => f.name !== write.field).map(f => f.name) });
   }

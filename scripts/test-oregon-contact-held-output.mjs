@@ -3,12 +3,17 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { register } from 'node:module';
 import { pathToFileURL } from 'node:url';
+import { PDFDocument, StandardFonts } from 'pdf-lib';
 const root = process.cwd(), read = file => fs.readFileSync(path.join(root, file));
 register(pathToFileURL(path.join(root, 'scripts/lib/ts-esm-loader.mjs')));
 const { prepareOregonContactHeldOutput: prepare, renderOregonContactHeldOutput: render } = await import('./lib/oregon-contact-held-output.mjs');
 const P = await import('../src/lib/expungement-ai/packet-information.ts');
 const H = await import('../src/lib/rcap-engine/oregon-disposition-identity.ts');
 const { evaluateAuthoritativeScreeningResult: evaluate } = await import('../src/lib/expungement-ai/authoritative-screening-result.ts');
+// Standard-font metrics only: no source PDF load, finalizer or output render.
+const metricDocument = await PDFDocument.create();
+const metricFont = await metricDocument.embedFont(StandardFonts.Helvetica);
+const originalProfile = JSON.parse(read('data/rcap-all50/overlays/lane-c-candidates/oregon/or-ojd-adult-set-aside-packet-motion-and-declaration/overlay-profile.json'));
 let checks = 0;
 const check = (name, fn) => { try { fn(); checks++; } catch(error) { error.message = name + ': ' + error.message; throw error; } };
 const text = value => ({ value, unknown: false });
@@ -41,6 +46,25 @@ for (const key of ['never_charged', 'acquittal', 'ordinary_dismissal']) {
     assert.deepEqual(prepared.jobs[0].args.anchors.map(a => a.label), ['Address', 'City, State, ZIP', 'Email']);
     assert.equal(prepared.jobs[0].allowedWriteRectangles.length, 3); assert.equal(prepared.jobs[1].allowedWriteRectangles.length, 1);
     assert.deepEqual(prepared.jobs[1].args.explicitMappings, { 'Street, City, State, Zip code': 'participant.city_state_zip' });
+  });
+  check(key + ' original three write masks and fonts stay exact; lifted baselines contain descenders', () => {
+    const court = prepared.jobs[0];
+    for (const anchor of court.args.anchors) {
+      const original = originalProfile.anchors.find(a => a.label === anchor.label && a.factId === anchor.factId);
+      const mask = court.allowedWriteRectangles.find(r => r.field === anchor.label);
+      assert.deepEqual(mask.rect, original.writeBox);
+      assert.equal(anchor.fontSize, original.fontSize);
+      assert.deepEqual(anchor.writeBox, { ...original.writeBox, y: original.writeBox.y + 3 });
+      const ascent = metricFont.heightAtSize(anchor.fontSize, { descender: false });
+      const descent = metricFont.heightAtSize(anchor.fontSize) - ascent;
+      assert(anchor.writeBox.y - descent >= mask.rect.y);
+      assert(anchor.writeBox.y + ascent <= mask.rect.y + mask.rect.height);
+    }
+  });
+  check(key + ' exact OSP missing Off appearances cannot synthesize checkbox borders', () => {
+    assert.equal(prepared.jobs[1].args.suppressSynthesizedAppearances, true);
+    assert.equal(prepared.jobs[0].args.suppressSynthesizedAppearances, undefined);
+    assert.deepEqual(prepared.jobs[1].args.selectionsFromHeldFacts, {});
   });
   check(key + ' all other OSP fields and controls remain unwritable; no NO or court inference', () => {
     const agency = prepared.jobs[1]; assert.equal(agency.args.unwritableFields.length, 21);
