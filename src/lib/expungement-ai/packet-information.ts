@@ -1,3 +1,4 @@
+import { caAutomaticRecordIsContext, caAutomaticRecordContextQuestion } from "@/lib/expungement-ai/ca-automatic-record-context";
 import { ca12034RecordIsContext, ca12034RecordContextQuestion } from "@/lib/expungement-ai/ca-1203-4-record-context";
 import { CA_12034_ROUTE, CA_12034_SOURCE, CA_12034_FACT_IDS, ca12034Context, ca12034Facts, ca12034QuestionApplies } from "@/lib/rcap-engine/california-1203-4-facts";
 import { ca12034aRecordIsContext, ca12034aRecordContextQuestion } from "@/lib/expungement-ai/ca-1203-4a-record-context";
@@ -377,6 +378,7 @@ export function packetInformationModelFor(item: ConsumerBriefcaseItem): PacketIn
   questions = questions.map(question => arFelonyRecordContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
   questions = questions.map(question => ca12034RecordContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
   questions = questions.map(question => ca12034aRecordContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
+  questions = questions.map(question => caAutomaticRecordContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
   questions = questions.map(question => delawareProtectedExclusionQuestion(question, profile, pathwayId, initialAnswers));
   for (const question of questions) questionById.set(question.id, question);
   if (alRedeemerClassificationContract(profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`))) {
@@ -1706,7 +1708,8 @@ export function protectedPacketInformationModelFor(
   if (ca12034RecordIsContext(profile,snapshot.pathwayId,packetSpecificationFor(`${snapshot.jurisdiction}:${snapshot.pathwayId}`))
     && [snapshot.screeningAnswers,snapshot.prefilledAnswers,snapshot.packetAnswers].some(map=>Object.hasOwn(map,"record_type"))
     && ![screeningAnswers,prefilledAnswers,packetAnswers].some(map=>Object.hasOwn(map,"record_type"))) packetAnswers.record_type={unknown:true};
-  if (ca12034aRecordIsContext(profile, snapshot.pathwayId, packetSpecificationFor(`${snapshot.jurisdiction}:${snapshot.pathwayId}`))
+  if ((ca12034aRecordIsContext(profile, snapshot.pathwayId, packetSpecificationFor(`${snapshot.jurisdiction}:${snapshot.pathwayId}`))
+      || caAutomaticRecordIsContext(profile, snapshot.pathwayId, packetSpecificationFor(`${snapshot.jurisdiction}:${snapshot.pathwayId}`)))
     && [snapshot.screeningAnswers, snapshot.prefilledAnswers, snapshot.packetAnswers].some(map => Object.hasOwn(map, "record_type"))
     && ![screeningAnswers, prefilledAnswers, packetAnswers].some(map => Object.hasOwn(map, "record_type"))) {
     // Display-only clarification of retained context; read/no-op preserves raw maps.
@@ -2210,7 +2213,8 @@ export function factualPathwayCorrectionIds(state: string, pathway: string | nul
     ...(akCourtviewRecordIsContext(profile, pathway, packetSpecificationFor(`${state}:${pathway}`))
       && Object.hasOwn(answers, AK_LEGACY_RECORD_TYPE) ? [AK_LEGACY_RECORD_TYPE] : [])];
   // Retained CA taxonomy is editable history only; it does not create a held editor.
-  if (includeInactive && ca12034aRecordIsContext(profile, pathway, packetSpecificationFor(`${state}:${pathway}`))
+  if (includeInactive && (ca12034aRecordIsContext(profile, pathway, packetSpecificationFor(`${state}:${pathway}`))
+      || caAutomaticRecordIsContext(profile, pathway, packetSpecificationFor(`${state}:${pathway}`)))
     && Object.hasOwn(answers, "record_type")) return [...extra, "record_type"];
   // Felony taxonomy participates in explicit history persistence, not the held editor.
   if (arkansasRecordOriginApplies(state, pathway)) return [...extra, AR_RECORD_ORIGIN_ID,
@@ -2509,7 +2513,7 @@ function builderQuestionsFor(
 
   const owed = new Set(prepayGateFactIds(collection));
   const optional = new Set(collection.facts.filter(fact => fact.optional === true
-    && !(["ak_courtview_record_type_history", "ak_pardon_record_type_history", "ak_juvenile_record_type_history", "ak_agency_sis_record_type_history", "al_four_route_record_type_history", "al_redeemer_category_history", "ar_nonconviction_record_type_history", "ar_felony_record_type_history", "ca_12034a_record_type_history", "ca_12034_specific_probation_facts"].includes(fact.source) && fact.active === false)).map(fact => fact.factId));
+    && !(["ak_courtview_record_type_history", "ak_pardon_record_type_history", "ak_juvenile_record_type_history", "ak_agency_sis_record_type_history", "al_four_route_record_type_history", "al_redeemer_category_history", "ar_nonconviction_record_type_history", "ar_felony_record_type_history", "ca_12034a_record_type_history", "ca_automatic_record_type_history", "ca_12034_specific_probation_facts"].includes(fact.source) && fact.active === false)).map(fact => fact.factId));
   const order = new Map<string, number>();
   let position = 0;
   for (const section of collection.groupedParticipantSections) {
@@ -2662,6 +2666,7 @@ function protectedPacketQuestionSurface(
   questions = questions.map(question => arFelonyRecordContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
   questions = questions.map(question => ca12034RecordContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
   questions = questions.map(question => ca12034aRecordContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
+  questions = questions.map(question => caAutomaticRecordContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
   questions = questions.map(question => delawareProtectedExclusionQuestion(question, profile, pathwayId, { ...screeningAnswers, ...prefilledAnswers, ...savedAnswers }));
   for (const question of questions) questionById.set(question.id, question);
   if (alRedeemerClassificationContract(profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`))) {

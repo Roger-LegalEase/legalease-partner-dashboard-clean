@@ -1,3 +1,4 @@
+import { caAutomaticRecordIsContext } from "@/lib/expungement-ai/ca-automatic-record-context";
 import { ca12034RecordIsContext } from "@/lib/expungement-ai/ca-1203-4-record-context";
 import { ca12034QuestionApplies } from "@/lib/rcap-engine/california-1203-4-facts";
 import { ca12034aRecordIsContext } from "@/lib/expungement-ai/ca-1203-4a-record-context";
@@ -638,6 +639,8 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
     && ca12034RecordIsContext(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
   const ca12034aRecordContext = input.jurisdiction === "CA"
     && ca12034aRecordIsContext(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
+  const caAutomaticRecordContext = input.jurisdiction === "CA"
+    && caAutomaticRecordIsContext(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
   const arFelonyRecordContext = input.jurisdiction === "AR"
     && arFelonyRecordIsContext(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
   const alClassification = input.jurisdiction === "AL"
@@ -857,6 +860,16 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
         group:factId === "record_type" && retained ? group:null,
         active:factId === "record_type" && retained,optional:true,source:"ca_12034_specific_probation_facts",
         reason:"The specific conviction, probation, current-status and requested-election facts govern this procedure. Earlier taxonomy and broad completion answers remain history, not substitutes or debt gates."});
+      continue;
+    }
+
+    if (factId === "record_type" && caAutomaticRecordContext && !overrideClass && !needsHuman.has(factId)) {
+      const retained = [input.screeningAnswers, input.prefilledAnswers, input.savedAnswers, input.profileFacts]
+        .some(answers => answers && Object.hasOwn(answers, factId));
+      facts.push({ factId, collection: "conditional", phase: retained ? "render" : "known",
+        group: retained ? group : null, active: retained, optional: true,
+        source: "ca_automatic_record_type_history",
+        reason: "The exact California automatic no-filing guidance does not consume the overlapping generic taxonomy. Saved answers remain optional history, not recordTypeSought, relief status or a selection of the separate DOJ correction branch." });
       continue;
     }
 
