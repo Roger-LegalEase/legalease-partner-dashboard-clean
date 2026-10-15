@@ -1,3 +1,4 @@
+import { ND_FIRST_OFFENSE_FACT_IDS } from "@/lib/rcap-engine/north-dakota-first-offense-facts";
 import { akPardonRecordIsContext, akJuvenileRecordIsContext, akAgencyOrSisRecordIsContext } from "@/lib/expungement-ai/ak-pardon-record-context";
 import { akCourtviewRecordIsContext, AK_LEGACY_RECORD_TYPE } from "@/lib/expungement-ai/ak-courtview-record-context";
 import { dcInnocenceLocationIsContext, DC_LEGACY_LOCATION } from "@/lib/rcap-engine/dc-innocence-location-context";
@@ -324,6 +325,8 @@ export type PacketCollectionInput = {
   ksMunicipalSeparateContact?: boolean;
   /** Exact current ND profile/source family; historical service/caption prose is not a canonical fact. */
   ndFirstOffenseSourceOwnedInputs?: boolean;
+  /** Active legal corrections; the identical filing slots remain source handbacks. */
+  ndFirstOffenseStatutoryFactIds?: ReadonlySet<string>;
   /** Set only by the exact adopted MO status/source contract, never participant data. */
   missouriClosureStatusOnly?: boolean;
   missouriMarijuanaStatusOnly?: boolean;
@@ -755,6 +758,15 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
 
     // 2. Fields another actor fills, later. Never a participant question.
     const actor = externalActorById.get(factId);
+    if (input.ndFirstOffenseSourceOwnedInputs === true
+      && input.jurisdiction === "ND" && input.pathwayId === "first-offense-possession-sealing"
+      && input.ndFirstOffenseStatutoryFactIds?.has(factId)
+      && ND_FIRST_OFFENSE_FACT_IDS.includes(factId) && actor === "participant_before_filing" && !overrideClass) {
+      facts.push({ factId, collection: "prepay_confirmation", phase: "prepay_confirmation", group,
+        source: "nd_first_offense_statutory_correction",
+        reason: "The participant may correct this source-defined legal fact. Its filing slot remains a separate before-filing handback; collection does not populate the document or authorize payment." });
+      continue;
+    }
     if (actor || overrideClass === "external_actor") {
       facts.push({
         factId,

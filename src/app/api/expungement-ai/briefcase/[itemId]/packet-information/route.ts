@@ -1,3 +1,4 @@
+import { ND_FIRST_OFFENSE_FACT_IDS } from "@/lib/rcap-engine/north-dakota-first-offense-facts";
 import { MT_DEFERRED_DOCUMENT_QUESTION_IDS } from "@/lib/expungement-ai/mt-deferred-document-questions";
 import { ny16059CustodyRemovalAvailable } from "@/lib/expungement-ai/ny-custody-correction";
 import { ny16059ProtectedDocumentPreparation } from "@/lib/expungement-ai/ny-16059-document-preparation";
@@ -275,9 +276,12 @@ async function readBody(request: Request): Promise<
     // The adopted MT composed contract has exact camelCase fact IDs. Accept
     // only that finite namespace on its explicit preparation request; the
     // protected owner model and editable-ID checks still decide every write.
+    // The six retained ND statutory IDs use camelCase too; only this finite
+    // namespace passes parsing, never an arbitrary source or participant key.
     const mtPreparation = new URL(request.url).searchParams.get("preparation") === "mt-deferred";
     if (Object.keys(body.answers).some((id) => !/^[a-z][a-z0-9_]*$/.test(id)
-      && !(mtPreparation && MT_DEFERRED_DOCUMENT_QUESTION_IDS.includes(id)))) return { ok: false };
+      && !(mtPreparation && MT_DEFERRED_DOCUMENT_QUESTION_IDS.includes(id))
+      && !ND_FIRST_OFFENSE_FACT_IDS.includes(id))) return { ok: false };
     if (!Object.values(body.answers).every(validDraftValue)) return { ok: false };
     return {
       ok: true,

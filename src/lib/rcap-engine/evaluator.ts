@@ -1,3 +1,4 @@
+import { ndFirstOffenseFacts, ND_FIRST_OFFENSE_SOURCE, ND_FIRST_OFFENSE_COPY } from "@/lib/rcap-engine/north-dakota-first-offense-facts";
 import { oregonDispositionFilingFacts, OR_DISPOSITION_COPY } from "@/lib/rcap-engine/oregon-disposition-identity";
 import { montanaDeferredFacts, MT_DEFERRED_COPY, MT_DEFERRED_SOURCE } from "@/lib/rcap-engine/montana-deferred-facts";
 import { missouriMarijuanaStatusDecision, MO_MARIJUANA_COPY, MO_MARIJUANA_STATUS_SOURCE } from "@/lib/rcap-engine/missouri-marijuana-status-facts";
@@ -223,6 +224,23 @@ function evaluateProfileRules(profile: EngineProfile, request: ScreeningEvaluati
 
   const publicProfile = projectPublicProfile(profile);
   const preselectedPathway = selectPathway(profile, answers);
+  const ndPossession = ndFirstOffenseFacts(profile, preselectedPathway?.id, answers, evaluationToday().toISOString().slice(0, 10));
+  if (preselectedPathway && ndPossession.status !== "not_applicable") {
+    const contextIds = [
+      ...(["Yes", "I am helping someone complete their own check"].includes(answers.ownership_scope as string) ? [] : ["ownership_scope"]),
+      ...(answers.jurisdiction_scope === "State or local" ? [] : ["jurisdiction_scope"])
+    ];
+    const code = contextIds.length || ndPossession.status === "missing" ? "needs_more_info"
+      : ndPossession.status === "excluded" ? "likely_not_eligible" : "needs_review";
+    const text = ND_FIRST_OFFENSE_COPY[contextIds.length ? "missing" : ndPossession.code][0];
+    const plan = packetPlanForPathway(profile, preselectedPathway.id);
+    // Only factual eligibility is classified. No generic timing bucket,
+    // neighbouring-route wait, composed track or commercial permission follows.
+    return result(profile, request, code,
+      [reason("ND", `first_possession_${contextIds.length ? "missing" : ndPossession.code}`, text, ND_FIRST_OFFENSE_SOURCE)],
+      { pathwayId: preselectedPathway.id, ...(plan ? {packetPlan: plan} : {}),
+        missingQuestionIds: [...contextIds, ...ndPossession.ids], paymentAllowed: false });
+  }
   const oregon = jurisdiction === "OR" ? selectComposedRoute({
     jurisdiction, pathwayId: preselectedPathway?.id,
     oregonDispositionSource: { profileVersion: profile.profileVersion,

@@ -1,3 +1,4 @@
+import { ND_FIRST_OFFENSE_FACT_IDS, ndFirstOffenseFactApplies, ndFirstOffenseAnswerState } from "@/lib/rcap-engine/north-dakota-first-offense-facts";
 import { akPardonRecordIsContext, akPardonRecordContextQuestion, akJuvenileRecordIsContext, akJuvenileRecordContextQuestion, akAgencyOrSisRecordIsContext, akAgencyOrSisRecordContextQuestion } from "@/lib/expungement-ai/ak-pardon-record-context";
 import { AK_LEGACY_RECORD_TYPE, akCourtviewRecordIsContext, akCourtviewRecordContextQuestion } from "@/lib/expungement-ai/ak-courtview-record-context";
 import { delawareProtectedCorrectionContract, delawareProtectedCorrectionIds, delawareProtectedExclusionQuestion } from "@/lib/expungement-ai/delaware-protected-corrections";
@@ -1806,6 +1807,12 @@ export function protectedPacketInformationModelFor(
       }
     }
   }
+  if (ndFirstOffenseFamilyContract(profile, snapshot.pathwayId)) for (const id of ND_FIRST_OFFENSE_FACT_IDS) {
+    const question = questionSurface.questionById.get(id);
+    if (question && ndFirstOffenseFactApplies(profile, snapshot.pathwayId, initialAnswers, id)
+      && ndFirstOffenseAnswerState(snapshot.jurisdiction, snapshot.pathwayId, id, initialAnswers[id], initialAnswers,
+        questionAnswerState(question, initialAnswers[id])) !== "known_valid" && !missingInputIds.includes(id)) missingInputIds.push(id);
+  }
   for (const id of msExactTimingQuestionIds(snapshot.jurisdiction, snapshot.pathwayId, toScreeningAnswers(initialAnswers))) {
     const question = questionSurface.questionById.get(id);
     const valid = id === "ms_mip_fine_imposed" ? question && questionAnswerState(question, initialAnswers[id]) === "known_valid"
@@ -2014,6 +2021,7 @@ export function packetCollectionFor(input: {
   const contactContract = reviewedContactRepresentation({ profile, pathwayId: input.pathwayId, specification,
     requiredInputIds: input.requiredInputIds, decidingFactIds, unresolvedFactIds });
   const questionById = new Map(allPublicQuestions(projectPublicProfile(profile))
+    .filter(question => ndFirstOffenseFactApplies(profile, input.pathwayId, { ...input.screeningAnswers, ...input.prefilledAnswers, ...input.savedAnswers }, question.id))
     .map((question) => [question.id, toProfileQuestion(question)]));
   installPacketSpecificationQuestions(questionById, input.jurisdiction, input.pathwayId, input.requiredInputIds, { ...input.screeningAnswers, ...input.prefilledAnswers, ...input.savedAnswers });
   for (const id of input.requiredInputIds) {
@@ -2034,6 +2042,9 @@ export function packetCollectionFor(input: {
     unresolvedRouteFactIds: unresolvedFactIds,
     reviewedContactRepresentation: Boolean(contactContract),
     ndFirstOffenseSourceOwnedInputs: ndFirstOffenseFamilyContract(profile, input.pathwayId),
+    ndFirstOffenseStatutoryFactIds: ndFirstOffenseFamilyContract(profile, input.pathwayId)
+      ? new Set(ND_FIRST_OFFENSE_FACT_IDS.filter(id => ndFirstOffenseFactApplies(profile, input.pathwayId,
+        { ...input.screeningAnswers, ...input.prefilledAnswers, ...input.savedAnswers }, id))) : undefined,
     ctCleanSlateSeparateContact: ctCleanSlateContactContract(profile, input.pathwayId)
       && !decidingFactIds.has("contact_information") && !unresolvedFactIds.has("contact_information"),
     ksMunicipalSeparateContact: ksMunicipalContactContract(profile, input.pathwayId)
@@ -2074,6 +2085,8 @@ export function factualPathwayCorrectionIds(state: string, pathway: string | nul
   if (dcInnocenceLocationIsContext(profile, pathway, packetSpecificationFor(`${state}:${pathway}`))
     && Object.hasOwn(answers, DC_LEGACY_LOCATION)) return [...extra, DC_LEGACY_LOCATION];
   if (profile && ndFirstOffenseFamilyContract(profile, pathway)) return [...extra, ...ND_FIRST_OFFENSE_CONTACT_IDS,
+    ...ND_FIRST_OFFENSE_FACT_IDS.filter(id => includeInactive || ndFirstOffenseFactApplies(profile, pathway, answers, id)),
+    ...(ND_FIRST_OFFENSE_FACT_IDS.some(id => Object.hasOwn(answers, id)) ? ["case_outcome"] : []),
     ...(ndFirstOffenseRecordIsContext(profile, pathway, packetSpecificationFor(`${state}:${pathway}`))
       && Object.hasOwn(answers, ND_LEGACY_RECORD_TYPE) ? [ND_LEGACY_RECORD_TYPE] : []),
     // Ordinary explicit corrections to saved legacy context retain their raw
@@ -2468,6 +2481,7 @@ function protectedPacketQuestionSurface(
 ) {
   const questionById = new Map<string, ProfileQuestion>();
   for (const question of allPublicQuestions(projectPublicProfile(profile))) {
+    if (!ndFirstOffenseFactApplies(profile, pathwayId, { ...screeningAnswers, ...prefilledAnswers, ...savedAnswers }, question.id)) continue;
     questionById.set(question.id, toProfileQuestion(question));
   }
   installPacketSpecificationQuestions(questionById, profile.jurisdiction.code, pathwayId, requiredInputIds, { ...screeningAnswers, ...prefilledAnswers, ...savedAnswers });

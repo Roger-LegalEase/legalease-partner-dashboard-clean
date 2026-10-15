@@ -26,6 +26,7 @@ import { register } from 'node:module';
 register('./lib/ts-esm-loader.mjs', import.meta.url);
 const { evaluateScreening } = await import('../src/lib/rcap-engine/evaluator.ts');
 const { getProfileByJurisdiction } = await import('../src/lib/rcap-engine/profile-registry.ts');
+const { projectPublicProfile } = await import('../src/lib/rcap-engine/public-profile-projection.ts');
 const { routeDecidingFactIds } = await import('../src/lib/rcap-engine/route-fact-relevance.ts');
 
 const SPEC = 'data/record-clearing/packet-specifications/ND-first-offense-possession-sealing.v1.json';
@@ -89,9 +90,9 @@ ok('the summary pardon five-year condition is still fenced out',
 ok('the summary pardon is still described as a separate remedy, not merged',
   /separate remedy administered by the Pardon Advisory Board/.test(doNotImport));
 ok('the route still carries its own statutory facts',
-  ['nd_charged_quantity', 'nd_first_offense_confirmation']
+  ['mjQuantity', 'mjFirstOffence']
     .every((f) => (spec.requiredFacts ?? []).some((x) => x.factId === f)),
-  (spec.requiredFacts ?? []).map((f) => f.factId).filter((f) => f.startsWith('nd_')));
+  (spec.requiredFacts ?? []).map((f) => f.factId).filter((f) => f.startsWith('mj')));
 ok('first offence is not recorded as a generic clean-record requirement',
   !(spec.requiredFacts ?? []).some((f) => /clean_record|no_prior_convictions/.test(f.factId)));
 
@@ -143,14 +144,32 @@ for (const [label, ctx, outcome, level, expected] of CASES) {
     { pathwayId: result?.pathwayId, error: result?.error });
   ok(`${label}: nothing is sellable on it today`, result?.paymentAllowed === false, result?.paymentAllowed);
 }
-// Cases 3 to 6 turn on facts the profile cannot ask. That is the finding, not a pass.
-const questionIds = new Set(profile.questions.map((q) => q.id));
-for (const fact of ['nd_charged_quantity', 'nd_first_offense_confirmation']) {
-  ok(`the screening profile still cannot ask ${fact}, which is why cases 3-6 cannot be distinguished`,
-    !questionIds.has(fact));
+// The retained September record measured an unaskable predecessor. The current
+// source-family successor names mj keys; this control now exercises those real
+// facts instead of claiming quantity/first-offence coverage from outcome labels.
+const questionIds = new Set(projectPublicProfile(profile).questions.map(q => q.id));
+for (const fact of ['mjQuantity', 'mjFirstOffence']) ok(`current screening accepts source-owned ${fact}`, questionIds.has(fact));
+ok('historical measurement remains preserved', /cannot distinguish cases 3 to 6/.test(record.part3_whatTheEvaluatorActuallyDoes?.theHonestLimit ?? ''));
+const actualFacts = {
+  ownership_scope: 'Yes', jurisdiction_scope: 'State or local', possible_pathway_context: CTX.first,
+  case_outcome: 'Misdemeanor conviction', offense_level: 'Misdemeanor',
+  mjJudgmentDate: '2017-10-03', mjSubstance: 'marijuana', mjQuantity: 'one ounce',
+  mjFirstOffence: 'yes', mjSubsequentConviction: 'No', mjOtherCharges: 'No'
+};
+for (const [name, delta, expected] of [
+  ['retained one-ounce fixture', {}, 'supported'],
+  ['same facts with three ounces', {mjQuantity:'3 ounces'}, 'above_threshold'],
+  ['THC two-gram limit', {mjSubstance:'thc',mjQuantity:'2 grams'}, 'supported'],
+  ['not first offence', {mjFirstOffence:'no'}, 'first_offence'],
+  ['later conviction remains unresolved anchor', {mjSubsequentConviction:'Yes'}, 'subsequent'],
+  ['unknown judgment', {mjJudgmentDate:'I am not sure'}, 'missing'],
+  ['unknown quantity', {mjQuantity:'I am not sure'}, 'missing'],
+  ['unknown first offence', {mjFirstOffence:'unknown'}, 'missing']
+]) {
+  const actual=evaluateScreening({jurisdiction:'ND',profileVersion:profile.profileVersion,answers:{...actualFacts,...delta}});
+  ok(`${name}: actual source predicate`, actual.reasons[0]?.code===`nd.first_possession_${expected}`, actual.reasons);
+  ok(`${name}: no commercial authority`, actual.pathwayId===PID && actual.paymentAllowed===false);
 }
-ok('the record says so rather than claiming those cases pass',
-  /cannot distinguish cases 3 to 6/.test(record.part3_whatTheEvaluatorActuallyDoes?.theHonestLimit ?? ''));
 
 // ---------------------------------------------------------------------------
 // The open defect. A disjunction, not a demand that the shared mechanic change.

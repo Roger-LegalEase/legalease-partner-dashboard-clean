@@ -1,3 +1,4 @@
+import { ND_FIRST_OFFENSE_FACT_IDS, ndFirstOffenseFactApplies } from "@/lib/rcap-engine/north-dakota-first-offense-facts";
 import { oregonDispositionQuestionApplies, oregonDispositionLegacyQuestionApplies } from "@/lib/rcap-engine/oregon-disposition-identity";
 import { montanaDeferredFactApplies, montanaDeferredLegacyFinancialApplies } from "@/lib/rcap-engine/montana-deferred-facts";
 import { missouriMarijuanaFactApplies, missouriMarijuanaStatusQuestionApplies } from "@/lib/rcap-engine/missouri-marijuana-status-facts";
@@ -115,6 +116,7 @@ export function selectScreeningQuestionIds(
   }).map(question => question.id));
 
   return publicProfile.questions
+    .filter(question => ndFirstOffenseFactApplies(profile, selectedPathway?.id, answers, question.id))
     .filter(question => oregonDispositionQuestionApplies(profile.jurisdiction.code, answers, question.id))
     .filter(question => oregonDispositionLegacyQuestionApplies(profile, answers, question.id))
     .filter(question => montanaDeferredFactApplies(profile, selectedPathway?.id, answers, question.id))
@@ -148,7 +150,7 @@ export function selectScreeningQuestionIds(
     .filter(question => illinoisCannabisQuestionApplies(profile.jurisdiction.code, answers, question.id))
     .filter(question => nevada176AQuestionApplies(profile.jurisdiction.code, selectedPathway?.id, question.id))
     .map((question, index) => ({ question: recordQuestions.get(question.id) ?? question, index }))
-    .filter(({ question }) => (!lifecycle?.exactPacketFactIds.includes(question.id) || msTimingIds.has(question.id) || completionCorrections.has(question.id) || recordQuestions.has(question.id) || profile.jurisdiction.code === "NY" && selectedPathway?.id === NY_16059_ROUTE && NY_16059_TIMING_IDS.includes(question.id))
+    .filter(({ question }) => (!lifecycle?.exactPacketFactIds.includes(question.id) || profile.jurisdiction.code === "ND" && ND_FIRST_OFFENSE_FACT_IDS.includes(question.id) || msTimingIds.has(question.id) || completionCorrections.has(question.id) || recordQuestions.has(question.id) || profile.jurisdiction.code === "NY" && selectedPathway?.id === NY_16059_ROUTE && NY_16059_TIMING_IDS.includes(question.id))
       && (!lifecycle?.completionAliasIds.includes(question.id)
         || completionCorrections.has(question.id)
         || (selectedPathway ? [selectedPathway] : profile.pathways).some(pathway =>

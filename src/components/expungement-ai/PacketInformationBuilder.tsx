@@ -1,5 +1,7 @@
 "use client";
 
+import { ndFirstOffenseAnswerState } from "@/lib/rcap-engine/north-dakota-first-offense-facts";
+
 import { ctCleanSlateContactAnswerState } from "@/lib/expungement-ai/ct-clean-slate-contact";
 import { ndFirstOffenseContactAnswerState } from "@/lib/expungement-ai/nd-first-offense-family-inputs";
 import { ksMunicipalContactAnswerState } from "@/lib/expungement-ai/ks-municipal-contact";
@@ -346,6 +348,10 @@ export function PacketInformationBuilder({
     if (question.id === "contact_information" && contactReconciliation || recordClarificationIds.includes(question.id) || nyCaseIssues.some(issue => issue.id === question.id)) return "invalid";
     const state = oregonContactAnswerState(stateCode, pathwayId ?? null, question.id, answers[question.id], ndFirstOffenseContactAnswerState(stateCode, pathwayId ?? null, question.id, answers[question.id], ksMunicipalContactAnswerState(stateCode, pathwayId ?? null, question.id, answers[question.id], ctCleanSlateContactAnswerState(stateCode, pathwayId ?? null, question.id, answers[question.id],
       akCourtviewContactAnswerState(stateCode, pathwayId ?? null, question.id, answers[question.id], questionAnswerState(question, answers[question.id]))))), question.savedAnswerNeedsClarification);
+    if (question.stage === "pathway_routing") {
+      const sourceState = ndFirstOffenseAnswerState(stateCode, pathwayId, question.id, answers[question.id], answers, state);
+      if (sourceState !== state) return sourceState;
+    }
     return caJuvenilePreparation && question.id === "ca_prop64_juvenile_additional_count" && state === "known_valid"
       && caProp64JuvenileAdditionalCount(answers[question.id]) === undefined ? "invalid" : state;
   };

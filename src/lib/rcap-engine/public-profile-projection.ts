@@ -1,3 +1,4 @@
+import { ND_FIRST_OFFENSE_FACT_IDS, ND_FIRST_OFFENSE_QUESTIONS } from "@/lib/rcap-engine/north-dakota-first-offense-facts";
 import { OR_DISPOSITION_QUESTIONS, OR_DISPOSITION_SOURCE, OR_DISPOSITION_FACT_IDS } from "@/lib/rcap-engine/oregon-disposition-identity";
 import { MT_DEFERRED_FACT_IDS, MT_DEFERRED_QUESTIONS } from "@/lib/rcap-engine/montana-deferred-facts";
 import { MO_MARIJUANA_FACT_IDS, MO_MARIJUANA_STATUS_QUESTIONS } from "@/lib/rcap-engine/missouri-marijuana-status-facts";
@@ -75,6 +76,7 @@ const STATE_SPECIFIC_PREPAY_WILMA_FACT_IDS: Record<string, Set<string>> = {
   MO: new Set(["mo_at_least_twenty_two", ...MO_MARIJUANA_FACT_IDS]),
   MT: new Set(MT_DEFERRED_FACT_IDS),
   OR: new Set(OR_DISPOSITION_FACT_IDS),
+  ND: new Set(ND_FIRST_OFFENSE_FACT_IDS),
   MS: new Set([
     ...convictionReliefQuestions("MS").map(q => q.id),
     "ms_program_order",
@@ -1131,6 +1133,7 @@ function withWilmaFactQuestions(
     : profile.jurisdiction.code === "MO" ? [...WILMA_FACT_QUESTIONS, ...MO_MARIJUANA_STATUS_QUESTIONS]
     : profile.jurisdiction.code === "MT" ? [...WILMA_FACT_QUESTIONS, ...MT_DEFERRED_QUESTIONS]
     : profile.jurisdiction.code === "OR" ? [...WILMA_FACT_QUESTIONS, ...OR_DISPOSITION_QUESTIONS]
+    : profile.jurisdiction.code === "ND" ? [...WILMA_FACT_QUESTIONS, ...ND_FIRST_OFFENSE_QUESTIONS]
       : WILMA_FACT_QUESTIONS;
   const additions = [...availableWilmaFactQuestions, ...convictionReliefQuestions(profile.jurisdiction.code)]
     .filter((question) => !existingIds.has(question.id))
@@ -1155,6 +1158,8 @@ function withWilmaFactQuestions(
     ? { ...question, optionDisplay: { ...question.optionDisplay, ...Object.fromEntries([GA_PARDON_OLD_LABEL, GA_PARDON_LABEL.en].map(value => [value, { label: GA_PARDON_LABEL.en, translations: { es: { label: GA_PARDON_LABEL.es } } }])) } }
     : profile.jurisdiction.code === "CA" && CA_PROP64_FACT_IDS.includes(question.id)
     ? CA_PROP64_FACT_QUESTIONS.find(fact => fact.id === question.id)!
+    : profile.jurisdiction.code === "ND" && ND_FIRST_OFFENSE_FACT_IDS.includes(question.id)
+    ? ND_FIRST_OFFENSE_QUESTIONS.find(fact => fact.id === question.id)!
     : profile.jurisdiction.code === "NY" && NY_16059_FACT_IDS.includes(question.id)
     ? NY_16059_QUESTIONS.find(fact => fact.id === question.id)!
     : profile.jurisdiction.code === "DE" && DE_CONVICTION_FACT_IDS.includes(question.id)
