@@ -1,3 +1,4 @@
+import { texasGuidanceFinancialApplies } from "@/lib/rcap-engine/texas-nondisclosure-facts";
 import { westVirginiaGuidanceFinancialApplies } from "@/lib/rcap-engine/west-virginia-guidance-financial";
 import { southDakotaGuidanceFinancialApplies } from "@/lib/rcap-engine/south-dakota-guidance-financial";
 import { southCarolinaGuidanceFinancialApplies } from "@/lib/rcap-engine/south-carolina-guidance-financial";
@@ -771,6 +772,16 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
       facts.push({ factId, collection: "conditional", phase: "known", group: null,
         source: "ok_clean_slate_guidance_no_payment_predicate", active: false,
         reason: "Generic payment completeness is not a prerequisite to this exact noncommercial guidance. Saved payment remains history; victim-restitution objections, source categories and operational limitations remain separate." });
+      continue;
+    }
+
+    const txGuidanceProfile = input.jurisdiction === "TX" && factId === "financial_obligations"
+      ? getProfileByJurisdiction("TX") : null;
+    if (txGuidanceProfile && !texasGuidanceFinancialApplies(txGuidanceProfile, input.pathwayId,
+      { ...available, ...input.savedAnswers }, factId)) {
+      facts.push({ factId, collection: "conditional", phase: "known", group: null,
+        source: "tx_informational_guidance_no_payment_predicate", active: false,
+        reason: "Generic payment completeness does not gate this status/correction guidance. Placement, actual discharge, exclusions and the separate $28/Rule145 issuance procedure remain distinct; no completed order or payment authority is inferred." });
       continue;
     }
 
