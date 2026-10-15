@@ -41,6 +41,9 @@ jobs:
       - name: Fetch pinned North Dakota adopted-pleading source
         run: git fetch --no-tags --depth=1 origin 69b215d3673600b18ead7422699eb4e6636de6fe
 
+      - name: Fetch pinned Wyoming saved-answer comparison baseline
+        run: git fetch --no-tags --depth=1 origin 560e8b54b0c03537ad3eaef4b8dbf2edc22ffe95
+
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
@@ -182,6 +185,8 @@ jobs:
           node scripts/test-independent-paid-financial-meaning.mjs
           node scripts/test-reused-completion-review-edit.mjs
           node scripts/test-financial-nonplan-recovery.mjs
+          node scripts/test-nm-guidance-financial.mjs
+          node scripts/test-wyoming-1401-facts.mjs
           node scripts/test-screening-completion-correction-save.mjs
           node scripts/test-protected-legacy-answer-preservation.mjs
           node scripts/test-protected-legacy-presentation.mjs
