@@ -44,7 +44,17 @@ export function ndFirstOffenseFactApplies(profile: EngineProfile, pathwayId: str
  // The neighbouring routes' timing bucket does not decide this source case.
  // This is collection applicability only; retained values are never rewritten.
  if (id === "resolved_timing_bucket" && active) return false;
- return !ND_FIRST_OFFENSE_FACT_IDS.includes(id) || active;
+ if (!ND_FIRST_OFFENSE_FACT_IDS.includes(id)) return true;
+ // Retained facts keep evaluation in an outcome-review hold, but do not make
+ // conviction-specific questions applicable to a dismissed/uncertain case.
+ if (!active || !convictions.includes(answers.case_outcome as string)) return false;
+ // Reuse the retained source order: a known adverse fact stops downstream
+ // collection, not stored history. Unknown facts never supply an adverse value.
+ const normalized = { ...answers, ...Object.fromEntries(ND_FIRST_OFFENSE_FACT_IDS.map(key => [key, sourceText(answers[key])])) };
+ const decision = ndFirstOffenseDecision(normalized, new Date().toISOString().slice(0,10));
+ const stopId = decision.status === "excluded" || decision.code === "subsequent" || decision.code === "other_charges"
+  ? decision.ids[0] : undefined;
+ return !stopId || ND_FIRST_OFFENSE_FACT_IDS.indexOf(id) <= ND_FIRST_OFFENSE_FACT_IDS.indexOf(stopId);
 }
 // Exact source parser body from the completed69b215 family. The caller below
 // first restricts input to one unambiguous amount/unit; it never widens this
@@ -125,22 +135,31 @@ type Code = keyof typeof ND_FIRST_OFFENSE_COPY;
 type Decision = { status: "not_applicable" | "missing" | "review" | "excluded" | "supported"; code: Code; ids: string[] };
 export function ndFirstOffenseFacts(profile: EngineProfile, pathwayId: string | null | undefined, a: Record<string, unknown>, today: string): Decision {
  const fail = (status: Decision["status"], code: Code, ids: string[] = []): Decision => ({status,code,ids});
- if (!ndFirstOffenseFactApplies(profile,pathwayId,a,"mjJudgmentDate")) return fail("not_applicable","missing");
+ if (!ndFirstOffenseFactContract(profile,pathwayId)
+   || !convictions.includes(a.case_outcome as string) && !ND_FIRST_OFFENSE_FACT_IDS.some(id => Object.hasOwn(a,id))) return fail("not_applicable","missing");
  if (!convictions.includes(a.case_outcome as string)) return fail("review","outcome",["case_outcome"]);
- const missing = ND_FIRST_OFFENSE_QUESTIONS.filter(q=>{
-  const raw=a[q.id];
-  if(typeof raw!=="string" || !raw.trim() || ["unknown","I am not sure"].includes(raw)) return true;
-  if(Array.isArray(q.options)) return !q.options.includes(raw);
-  if(q.id==="mjJudgmentDate") return !judgmentDateKnown(raw,today);
-  return false;
- }).map(q=>q.id);
- if(missing.length) return fail("missing","missing",missing);
- if(a.mjSubstance==="other") return fail("excluded","substance",["mjSubstance"]);
- const quantity=sourceQuantity(a.mjQuantity,a.mjSubstance);
- if(!quantity) return fail("missing","quantity",["mjQuantity"]);
- if(quantity.amount>(a.mjSubstance==="marijuana"?1:2)) return fail("excluded","above_threshold",["mjQuantity"]);
- if(a.mjFirstOffence!=="yes") return fail("excluded","first_offence",["mjFirstOffence"]);
- if(a.mjSubsequentConviction!=="No") return fail("review","subsequent",["mjSubsequentConviction"]);
- if(a.mjOtherCharges!=="No") return fail("review","other_charges",["mjOtherCharges"]);
+ return ndFirstOffenseDecision(a,today);
+}
+
+/** The completed69b source reads judgment, substance, quantity, first-offence,
+ * subsequent conviction, then other charges, and stops at each decisive fact. */
+function ndFirstOffenseDecision(a: Record<string, unknown>, today: string): Decision {
+ const fail = (status: Decision["status"], code: Code, ids: string[] = []): Decision => ({status,code,ids});
+ if (!convictions.includes(a.case_outcome as string)) return fail("review","outcome",["case_outcome"]);
+ for (const q of ND_FIRST_OFFENSE_QUESTIONS) {
+  const raw = a[q.id];
+  if (typeof raw !== "string" || !raw.trim() || ["unknown","I am not sure"].includes(raw)
+    || Array.isArray(q.options) && !q.options.includes(raw)
+    || q.id === "mjJudgmentDate" && !judgmentDateKnown(raw,today)) return fail("missing","missing",[q.id]);
+  if (q.id === "mjSubstance" && raw === "other") return fail("excluded","substance",[q.id]);
+  if (q.id === "mjQuantity") {
+   const quantity=sourceQuantity(raw,a.mjSubstance);
+   if (!quantity) return fail("missing","quantity",[q.id]);
+   if (quantity.amount > (a.mjSubstance === "marijuana" ? 1 : 2)) return fail("excluded","above_threshold",[q.id]);
+  }
+  if (q.id === "mjFirstOffence" && raw === "no") return fail("excluded","first_offence",[q.id]);
+  if (q.id === "mjSubsequentConviction" && raw === "Yes") return fail("review","subsequent",[q.id]);
+  if (q.id === "mjOtherCharges" && raw === "Yes") return fail("review","other_charges",[q.id]);
+ }
  return fail("supported","supported");
 }

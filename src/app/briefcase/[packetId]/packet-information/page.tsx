@@ -90,7 +90,9 @@ export default async function PacketInformationPage({
     && item.jurisdiction && item.packetDraft.status === "available"
     ? heldPacketCorrectionInputIds({ ...item.packetDraft, stateCode: item.jurisdiction, pathwayId: item.pathwayId }, item.resultCode) : new Set<string>();
   const correctingCompletion = !preparing && !packetResult && correctionIds.size > 0;
-  const ndStatutoryCorrection = ndContactCorrection && [...correctionIds].some(id => ND_FIRST_OFFENSE_FACT_IDS.includes(id))
+  const ndStatutoryCorrection = ndContactCorrection && ([...correctionIds].some(id => ND_FIRST_OFFENSE_FACT_IDS.includes(id))
+    || correctionIds.has("case_outcome") && item.packetDraft.status === "available"
+      && Object.keys(item.packetDraft.initialAnswers).some(id => ND_FIRST_OFFENSE_FACT_IDS.includes(id)))
     && (!search.edit || ND_FIRST_OFFENSE_FACT_IDS.includes(search.edit) || search.edit === "case_outcome");
   const ndRecordHistoryAvailable = ndContactCorrection && correctionIds.has("record_type");
   const ndRecordHistoryEditing = ndRecordHistoryAvailable && search.edit === "record_type";

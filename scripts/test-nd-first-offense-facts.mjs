@@ -36,6 +36,7 @@ globalThis.__ndFactsTransport={requireConsumerBriefcaseSession:async()=>({userId
 const substitute=(source,bindings,module)=>{const regex=new RegExp('import \\{\\s*'+bindings.join(',\\s*')+'\\s*\\} from "'+module+'";');assert(regex.test(source),module);return source.replace(regex,bindings.map(b=>'const '+b+'=(...args:unknown[])=>(globalThis as any).__ndFactsTransport.'+b+'(...args);').join('\n'));};
 const page=async(path,correction=false)=>{const name=file(path);let source=fs.readFileSync(name,'utf8');source=source.replace(/import \{\s*decorateBriefcaseItemForPresentation,\s*type BriefcasePresentationArtifact,\s*type BriefcasePresentationItem\s*\} from "@\/lib\/expungement-ai\/briefcase-presentation-authority";/,'import { decorateBriefcaseItemForPresentation } from "@/lib/expungement-ai/briefcase-presentation-authority";');source=source.replace('import { BriefcaseShell } from "@/components/expungement-ai/BriefcaseShell";','const BriefcaseShell=({children}:any)=>children;');for(const[b,m]of [['requireConsumerBriefcaseSession','auth'],['getBriefcaseItem','briefcase'],['decorateBriefcaseItemForPresentation','briefcase-presentation-authority'],...(correction?[['readProtectedPacketVerification','verification-cas']]:[])])source=substitute(source,[b],'@/lib/expungement-ai/'+m);compile(name,source);return(await import(pathToFileURL(name).href)).default;};
 const Edit=await page('src/app/briefcase/[packetId]/packet-information/page.tsx',true);
+const Matter=await page('src/app/briefcase/[packetId]/page.tsx');
 const apiFile=file('src/app/api/expungement-ai/briefcase/[itemId]/packet-information/route.ts');let source=fs.readFileSync(apiFile,'utf8');for(const[b,m]of [[['getRcapBriefcaseAuthState'],'@/lib/rcap/briefcase/auth'],[['getBriefcaseItem'],'@/lib/expungement-ai/briefcase'],[['decorateBriefcaseItemForPresentation','protectedPacketVerificationSeedFromTrustedSource','readTrustedBriefcasePresentationSource'],'@/lib/expungement-ai/briefcase-presentation-authority'],[['persistProtectedPacketVerification','readProtectedPacketVerification'],'@/lib/expungement-ai/verification-cas']])source=substitute(source,b,m);compile(apiFile,source);const API=await import(pathToFileURL(apiFile).href);
 const params=Promise.resolve({packetId:item.id}),context={params:Promise.resolve({itemId:item.id})},url='http://local.test/api/expungement-ai/briefcase/'+item.id+'/packet-information';
 const post=(answers,extra={},query='')=>API.POST(new Request(url+query,{method:'POST',body:JSON.stringify({expectedRevision:stored.revision,answers,...extra})}),context);
@@ -53,6 +54,10 @@ const call=async answers=>{const response=await PublicAPI.POST(new Request('http
 const shape=s=>Object.fromEntries(['pathwayId','selectedTrackId','paymentAllowed','packetPlan','requiredInputIds'].map(k=>[k,s[k]]));
 const originalShape=shape(snap());
 check('six deciding facts offered without filing or legacy aliases',()=>{const offered=selectScreeningQuestionIds(profile,publicProfile,sourceAnswers);for(const id of ids)assert(offered.includes(id),id);for(const id of ['resolved_timing_bucket','mjOffenceDate','mjCaseNumber','mjCounty','mjCourtType','nd_charged_quantity','nd_first_offense_confirmation'])assert(!offered.includes(id),id);assert(!model().missingInputIds.includes('resolved_timing_bucket'));});
+const visibleReason=async code=>{
+ const current=await present();check('source-bound presenter reason '+code,()=>assert.equal(current.summary,H.ND_FIRST_OFFENSE_COPY[code][0]));
+ const tree=await Matter({params});for(const locale of ['en','es'])check('actual matter displays specific legal consequence '+locale+'/'+code,()=>assert(html(tree,locale).includes(renderToStaticMarkup(React.createElement('span',null,H.ND_FIRST_OFFENSE_COPY[code][locale==='es'?1:0])).slice(6,-7))));
+};
 const cases=[
  ['one ounce',{},'supported','needs_review'], ['three ounces',{mjQuantity:'3 ounces'},'above_threshold','likely_not_eligible'],
  ['THC two grams',{mjSubstance:'thc',mjQuantity:'2 grams'},'supported','needs_review'],
@@ -75,6 +80,18 @@ const cases=[
  ['dismissed plus supplied facts',{case_outcome:'Dismissed, no-billed, nolle prosequi, or not prosecuted'},'outcome','needs_review']
 ];
 for(const[label,delta,code,resultCode]of cases){const result=await call({...legalAnswers,...fixed,...delta});check('actual public handler '+label,()=>{assert.equal(result.status,200);assert.equal(result.body.resultCode,resultCode);assert.equal(result.body.reasons[0].code,'nd.first_possession_'+code);assert.equal(result.body.pathwayId,route);assert.equal(result.body.paymentAllowed,false);assert.equal(result.body.consumerPacketAvailable,false);assert.equal(result.body.sponsoredPacketAvailable,false);assert.equal(evaluate({jurisdiction:'ND',profileVersion:profile.profileVersion,matterId:item.id,answers:{...legalAnswers,...fixed,...delta}}).selectedTrackId,null);});}
+const conditionalCases=[
+ ['mjQuantity','3 ounces',{mjSubsequentConviction:'unknown',mjOtherCharges:'unknown'},'above_threshold','likely_not_eligible'],
+ ['mjFirstOffence','no',{mjSubsequentConviction:'unknown',mjOtherCharges:'unknown'},'first_offence','likely_not_eligible'],
+ ['mjSubstance','other',{mjQuantity:'unknown'},'substance','likely_not_eligible'],
+ ['mjSubsequentConviction','Yes',{mjOtherCharges:'unknown'},'subsequent','needs_review']
+];
+for(const[id,value,later,reason,result]of conditionalCases){
+ const answers={...legalAnswers,...fixed,...later,[id]:value},response=await call(answers),offered=selectScreeningQuestionIds(profile,publicProfile,answers);
+ check('original source early exit despite later uncertainty '+id,()=>{assert.equal(response.status,200);assert.equal(response.body.resultCode,result);assert.equal(response.body.reasons[0].code,'nd.first_possession_'+reason);assert.equal(response.body.paymentAllowed,false);for(const next of ids.slice(ids.indexOf(id)+1))assert(!offered.includes(next),next);assert(offered.includes(id));});
+ const repaired={...answers,[id]:fixed[id]},after=selectScreeningQuestionIds(profile,publicProfile,repaired);
+ check('explicit source correction restores downstream questions '+id,()=>{for(const next of ids)assert(after.includes(next),next);});
+}
 for(const raw of [{unknown:true},{value:'3 ounces',unknown:false},['one ounce'],4]){const result=await call({...legalAnswers,...fixed,mjQuantity:raw});check('public malformed shapes remain unresolved '+JSON.stringify(raw),()=>{assert.equal(result.status,200);assert.equal(result.body.resultCode,'needs_more_info');assert(result.body.missingQuestionIds.includes('mjQuantity'));assert.equal(result.body.paymentAllowed,false);});}
 for(const delta of [{nd_charged_quantity:'one ounce'},{nd_first_offense_confirmation:'yes'},{client_track:'nd-marijuana-first-offense-seal'}]){const result=await call({...legalAnswers,...delta});check('no legacy alias or unknown ID bypass',()=>assert.equal(result.status,400));}
 for(const mutate of [p=>p.jurisdiction.code='SD',p=>p.profileVersion='other',p=>p.source.sourceCorpusSha256='other',p=>p.pathways.find(p=>p.id===route).sourceRef='other'])check('exact source guard',()=>{const p=structuredClone(profile);mutate(p);assert.equal(H.ndFirstOffenseFacts(p,route,{...legalAnswers,...fixed},'2026-10-15').status,'not_applicable');});
@@ -86,14 +103,14 @@ check('original approved parser and nd-to-mj successor reused',()=>{const old=ex
 check('current missing model exists with exact controls',()=>{assert(model());for(const id of ids)assert(P.editablePacketInputIds(model()).has(id),id);});
 const before=structuredClone(stored);await save({});check('initial no-op protected bytes',()=>assert.deepEqual(stored,before));
 await save(fixed);check('known facts reach held supported result without plan or authority drift',()=>{assert.equal(snap().resultCode,'needs_review');assert.deepEqual(shape(snap()),originalShape);for(const[id,value]of Object.entries(fixed))assert.equal(snap().packetAnswers[id],value);});
-await save({mjQuantity:{value:'3 ounces',unknown:false}});check('protected actual known wrapper contrast',()=>{assert.equal(snap().resultCode,'likely_not_eligible');assert(snap().dependencies.semanticAnswerHistory.some(h=>h.factId==='mjQuantity'&&h.value==='one ounce'));assert.deepEqual(shape(snap()),originalShape);});
-await save({mjQuantity:{unknown:true}});check('protected explicit uncertainty and raw history',()=>{assert.equal(snap().resultCode,'needs_more_info');assert.deepEqual(snap().packetAnswers.mjQuantity,{unknown:true});assert(snap().dependencies.semanticAnswerHistory.some(h=>h.factId==='mjQuantity'&&h.value?.value==='3 ounces'));});
+await save({mjQuantity:{value:'3 ounces',unknown:false}});await visibleReason('above_threshold');check('protected actual known wrapper contrast',()=>{assert.equal(snap().resultCode,'likely_not_eligible');assert(snap().dependencies.semanticAnswerHistory.some(h=>h.factId==='mjQuantity'&&h.value==='one ounce'));assert.deepEqual(shape(snap()),originalShape);});
+await save({mjQuantity:{unknown:true}});await visibleReason('missing');check('protected explicit uncertainty and raw history',()=>{assert.equal(snap().resultCode,'needs_more_info');assert.deepEqual(snap().packetAnswers.mjQuantity,{unknown:true});assert(snap().dependencies.semanticAnswerHistory.some(h=>h.factId==='mjQuantity'&&h.value?.value==='3 ounces'));});
 await save({mjQuantity:{value:'one ounce',unknown:false}});check('protected restored source fact',()=>assert.equal(snap().resultCode,'needs_review'));
 for (const [raw,code] of [[{value:'2017-10-04',unknown:false},'needs_review'],[{value:'2017-10-04',unknown:true},'needs_more_info'],[{unknown:true},'needs_more_info'],[{value:'2017-10-03',unknown:false},'needs_review']]) {
  await save({mjJudgmentDate:raw});check('actual calendar wrapper '+JSON.stringify(raw),()=>{assert.deepEqual(snap().packetAnswers.mjJudgmentDate,raw);assert.equal(snap().resultCode,code);assert.equal(snap().paymentAllowed,false);});
 }
 for(const [id,value,code,reason] of [['mjFirstOffence','no','likely_not_eligible','first_offence'],['mjFirstOffence','yes','needs_review','supported'],['mjSubsequentConviction','Yes','needs_review','subsequent'],['mjSubsequentConviction','No','needs_review','supported']]) {
- const body=await save({[id]:value});check('actual source-choice correction '+id+value,()=>{assert.equal(snap().resultCode,code);assert.equal(P.protectedPacketScreeningAnswers(snap())[id],value);assert.equal(P.evaluateProtectedPacketFacts(snap()).evaluation.reasons[0].code,'nd.first_possession_'+reason);});
+ await save({[id]:value});await visibleReason(reason);check('actual source-choice correction '+id+value,()=>{assert.equal(snap().resultCode,code);assert.equal(P.protectedPacketScreeningAnswers(snap())[id],value);assert.equal(P.evaluateProtectedPacketFacts(snap()).evaluation.reasons[0].code,'nd.first_possession_'+reason);});
 }
 const currentNoop=structuredClone(stored);await save({mjQuantity:{value:'one ounce',unknown:false}});check('same typed value no-op retains exact protected record',()=>assert.deepEqual(stored,currentNoop));
 const typo=await post({mjQuantityGuess:'one ounce'});check('unrecognized camelCase stays rejected',()=>assert.equal(typo.status,400));
@@ -120,6 +137,29 @@ for(const locale of ['en','es']){
 }
 await save({case_outcome:'I am not sure'});check('unknown outcome keeps all source answers for correction',()=>{assert.equal(snap().packetAnswers.mjQuantity.value,'one ounce');assert(P.editablePacketInputIds(model()).has('case_outcome'));assert.equal(snap().paymentAllowed,false);});
 await save({case_outcome:'Misdemeanor conviction'});check('outcome repair restores same held source assessment',()=>assert.equal(snap().resultCode,'needs_review'));
+const beforeOutcome=structuredClone(stored);
+for(const outcome of ['Dismissed, no-billed, nolle prosequi, or not prosecuted','Other conviction or adjudication','I am not sure']) {
+ stored=structuredClone(beforeOutcome);await save({mjQuantity:{unknown:true}});const before=structuredClone(snap());
+ await save({case_outcome:outcome});
+ check('actual outcome uncertainty hides irrelevant conviction facts '+outcome,()=>{assert.equal(snap().resultCode,'needs_review');assert.equal(P.evaluateProtectedPacketFacts(snap()).evaluation.reasons[0].code,'nd.first_possession_outcome');assert(P.editablePacketInputIds(model()).has('case_outcome'));for(const id of ids){assert(!model().builderQuestions.some(q=>q.id===id),id);assert(!model().missingInputIds.includes(id),id);assert(!P.editablePacketInputIds(model()).has(id),id);for(const map of ['screeningAnswers','prefilledAnswers','packetAnswers'])assert.deepEqual(snap()[map][id],before[map][id]);}assert.deepEqual(shape(snap()),originalShape);});
+ const edit=await Edit({params,searchParams:Promise.resolve({edit:'case_outcome'})}),builder=nodes(edit).find(n=>n.type===PacketInformationBuilder);
+ for(const locale of ['en','es'])check('actual outcome repair has statutory meaning and return '+locale+outcome,()=>{assert(builder);assert.equal(builder.props.returnToMatterAfterCorrection,true);assert(builder.props.questions.some(q=>q.id==='case_outcome'));assert(html(edit,locale).includes(locale==='es'?'Revise los hechos de su caso de posesión':'Review your possession case facts'));for(const id of ids)assert(!builder.props.questions.some(q=>q.id===id),id);});
+ const held=structuredClone(stored);await save({});check('nonconviction history no-op '+outcome,()=>assert.deepEqual(stored,held));
+ await save({case_outcome:'Misdemeanor conviction'});
+ check('explicit conviction correction restores source facts without inference '+outcome,()=>{assert.equal(snap().resultCode,'needs_more_info');for(const id of ids){assert(P.editablePacketInputIds(model()).has(id),id);for(const map of ['screeningAnswers','prefilledAnswers','packetAnswers'])assert.deepEqual(snap()[map][id],before[map][id]);}assert(snap().dependencies.semanticAnswerHistory.some(h=>h.factId==='case_outcome'&&h.value===outcome));});
+}
+stored=structuredClone(beforeOutcome);
+const beforeConditional=structuredClone(stored);
+for(const[id,value,later,reason,result]of conditionalCases){
+ stored=structuredClone(beforeConditional);
+ await save(later);const prior=structuredClone(snap());
+ await save({[id]:id==='mjQuantity'?{value,unknown:false}:value});
+ check('actual protected early exit and inactive downstream '+id,()=>{assert.equal(snap().resultCode,result);assert.equal(P.evaluateProtectedPacketFacts(snap()).evaluation.reasons[0].code,'nd.first_possession_'+reason);for(const next of ids.slice(ids.indexOf(id)+1)){assert(!P.editablePacketInputIds(model()).has(next),next);assert(!model().builderQuestions.some(q=>q.id===next),next);assert(!model().missingInputIds.includes(next),next);for(const map of ['screeningAnswers','prefilledAnswers','packetAnswers'])assert.deepEqual(snap()[map][next],prior[map][next]);}assert.deepEqual(shape(snap()),originalShape);});
+ const held=structuredClone(stored);await save({});check('inactive downstream exact no-op '+id,()=>assert.deepEqual(stored,held));
+ await save({[id]:id==='mjQuantity'?{value:fixed[id],unknown:false}:fixed[id]});
+ check('actual reappearance with original unknown/raw history '+id,()=>{assert.equal(snap().resultCode,'needs_more_info');for(const next of ids.slice(ids.indexOf(id)+1)){assert(P.editablePacketInputIds(model()).has(next),next);assert(model().builderQuestions.some(q=>q.id===next),next);for(const map of ['screeningAnswers','prefilledAnswers','packetAnswers'])assert.deepEqual(snap()[map][next],prior[map][next]);}assert(snap().dependencies.semanticAnswerHistory.some(h=>h.factId===id&&(h.value===value||h.value?.value===value)));});
+}
+stored=structuredClone(beforeConditional);
 const stable=structuredClone(stored);
 const foreignWitness=JSON.parse(fs.readFileSync(file('data/rcap-ledger/public-witness-fixtures.json'))).fixtures.find(x=>x.pathwayKey.startsWith('ND:')&&x.pathwayKey!=='ND:'+route);
 const foreignAuthority=evaluate({jurisdiction:'ND',profileVersion:profile.profileVersion,matterId:item.id,answers:foreignWitness.answers});

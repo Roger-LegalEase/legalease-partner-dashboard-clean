@@ -1,3 +1,4 @@
+import { ND_FIRST_OFFENSE_ROUTE, ND_FIRST_OFFENSE_SOURCE, ND_FIRST_OFFENSE_COPY } from "@/lib/rcap-engine/north-dakota-first-offense-facts";
 import { MS_TIMING_MISSING_TEXT, MS_TIMING_MULTIPLE_MISSING_TEXT } from "@/lib/rcap-engine/mississippi-exact-timing";
 import { CONVICTION_RELIEF_COPY } from "@/lib/rcap-engine/conviction-relief-request";
 import { AR_RECORD_ORIGIN_COPY } from "@/lib/rcap-engine/arkansas-record-origin";
@@ -577,13 +578,16 @@ function legalAuthorityFromEvaluation(
     Object.entries(AR_RECORD_ORIGIN_COPY).some(([code, copy]) => item.code === `ar.record_origin_${code}` && item.text === copy[0])) : undefined;
   const registrationReason = evaluation.jurisdiction === "KS" && evaluation.pathwayId === KS_REGISTRATION_ROUTE
     ? evaluation.reasons.find(reason => reason.code === "ks.registration_statutory_facts_review" && reason.text === KS_REGISTRATION_REVIEW_COPY[0]) : undefined;
+  const ndPossessionReason = evaluation.jurisdiction === "ND" && evaluation.pathwayId === ND_FIRST_OFFENSE_ROUTE
+    ? evaluation.reasons.find(item => item.sourceRef === ND_FIRST_OFFENSE_SOURCE && Object.entries(ND_FIRST_OFFENSE_COPY)
+      .some(([code, copy]) => item.code === `nd.first_possession_${code}` && item.text === copy[0])) : undefined;
   return {
     status,
     jurisdiction: evaluation.jurisdiction,
     resultCode: evaluation.resultCode,
     pathwayId: evaluation.pathwayId ?? null,
     pathwayLabel: authoritative.pathwayLabel,
-    summary: convictionRequestReason?.text ?? recordOriginReason?.text ?? registrationReason?.text ?? evaluation.reasons.find(isGeorgiaFirstOffenderGuidance)?.text ?? evaluation.reasons.find(reason => ["il.pathway_conflicts_with_saved_fact", "ga.pathway_conflicts_with_saved_fact"].includes(reason.code) || reason.code === "ms.waiting_anchor_missing" && [...Object.values(MS_TIMING_MISSING_TEXT), MS_TIMING_MULTIPLE_MISSING_TEXT].includes(reason.text))?.text ?? evaluation.userLabel,
+    summary: ndPossessionReason?.text ?? convictionRequestReason?.text ?? recordOriginReason?.text ?? registrationReason?.text ?? evaluation.reasons.find(isGeorgiaFirstOffenderGuidance)?.text ?? evaluation.reasons.find(reason => ["il.pathway_conflicts_with_saved_fact", "ga.pathway_conflicts_with_saved_fact"].includes(reason.code) || reason.code === "ms.waiting_anchor_missing" && [...Object.values(MS_TIMING_MISSING_TEXT), MS_TIMING_MULTIPLE_MISSING_TEXT].includes(reason.text))?.text ?? evaluation.userLabel,
     nextSteps: stringArray(evaluation.nextSteps),
     checklist: stringArray(packetPlan?.packetReadyWhen),
     packetType: authoritative.packetType ?? null,
