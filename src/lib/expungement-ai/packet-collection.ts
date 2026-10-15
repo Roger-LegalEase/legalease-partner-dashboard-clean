@@ -1,3 +1,4 @@
+import { montanaRecordFinancialApplies } from "@/lib/rcap-engine/montana-record-correction-financial";
 import { caAutomaticRecordIsContext } from "@/lib/expungement-ai/ca-automatic-record-context";
 import { ca12034RecordIsContext } from "@/lib/expungement-ai/ca-1203-4-record-context";
 import { ca12034QuestionApplies } from "@/lib/rcap-engine/california-1203-4-facts";
@@ -736,6 +737,17 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
       facts.push({ factId, collection: "conditional", phase: "known", group: null,
         source: "ne_adult_acquittal_no_financial_predicate", active: false,
         reason: "The exact adult acquittal automatic route has no financial predicate; the saved payment answer is retained without inference." });
+      continue;
+    }
+
+    const mtRecordProfile = input.jurisdiction === "MT" && factId === "financial_obligations"
+      ? getProfileByJurisdiction("MT") : null;
+    if (mtRecordProfile && !input.unresolvedSavedFactIds?.has("case_outcome")
+      && !montanaRecordFinancialApplies(mtRecordProfile, input.pathwayId,
+        { ...available, ...input.savedAnswers }, factId)) {
+      facts.push({ factId, collection: "conditional", phase: "known", group: null,
+        source: "mt_nonconviction_record_correction_no_payment_predicate", active: false,
+        reason: "The exact nonconviction administrative record process has no literal-payment prerequisite. The original payment answer remains history and supplies no completion, waiver, restitution status, or authority." });
       continue;
     }
 

@@ -1,3 +1,4 @@
+import { montanaRecordFinancialApplies } from "@/lib/rcap-engine/montana-record-correction-financial";
 import { CA_12034_ROUTE, CA_12034_SOURCE, CA_12034_COPY, ca12034Contract, ca12034Context, ca12034Facts, ca12034KnownConviction } from "@/lib/rcap-engine/california-1203-4-facts";
 import { ndFirstOffenseFacts, ND_FIRST_OFFENSE_SOURCE, ND_FIRST_OFFENSE_COPY } from "@/lib/rcap-engine/north-dakota-first-offense-facts";
 import { oregonDispositionFilingFacts, OR_DISPOSITION_COPY } from "@/lib/rcap-engine/oregon-disposition-identity";
@@ -335,6 +336,7 @@ function evaluateProfileRules(profile: EngineProfile, request: ScreeningEvaluati
   }
 
   const missingQuestionIds = requiredMissingPublicQuestionIds(publicProfile, answers)
+    .filter(id => montanaRecordFinancialApplies(profile, preselectedPathway?.id, answers, id))
     .filter(id => nevada176AQuestionApplies(jurisdiction, preselectedPathway?.id, id))
     .filter(id => missouriClosedRecordQuestionApplies(jurisdiction, preselectedPathway?.id, answers, id, profile))
     .filter(id => maineNonconvictionQuestionApplies(jurisdiction, preselectedPathway?.id, answers, id))
@@ -926,6 +928,7 @@ function ambiguityReason(
   const legalFields = publicProfile.questions.filter((question) => question.contextOnly !== true && isPrepaymentQuestion(question));
   const relevant = relevantFactIds(profile, selectedPathway);
   const ambiguous = legalFields
+    .filter(question => montanaRecordFinancialApplies(profile, selectedPathway?.id, answers, question.id))
     .filter(question => nevada176AQuestionApplies(jurisdiction, selectedPathway?.id, question.id))
     .filter(question => missouriClosedRecordQuestionApplies(jurisdiction, selectedPathway?.id, answers, question.id, profile))
     .filter(question => maineNonconvictionQuestionApplies(jurisdiction, selectedPathway?.id, answers, question.id))
@@ -2403,7 +2406,8 @@ function evaluateCompiledTiming(profile: EngineProfile, answers: Record<string, 
   // exact candidate still reaches the source-contract review below, not payment.
   const cannabisNonfinancialComplete = cannabis?.status === "selected" && cannabis.branch === "conviction"
     && answers.il_cannabis_nonfinancial_complete === "yes";
-  const unpaidFinancialAnswer = isNegative(answers.financial_obligations) && !cannabisNonfinancialComplete;
+  const financialApplies = montanaRecordFinancialApplies(profile, pathway.id, answers, "financial_obligations");
+  const unpaidFinancialAnswer = financialApplies && isNegative(answers.financial_obligations) && !cannabisNonfinancialComplete;
   const paymentMeaningNeedsClarification = unpaidFinancialAnswer && courtRequirement === "yes"
     && isIndependentPaidFinancialFact(routeKey(profile, pathway), profile.questions.find(question => question.id === "financial_obligations"));
   if (courtRequirement === "no" || isNegative(answers.sentence_completion_date) || unpaidFinancialAnswer && !paymentMeaningNeedsClarification || isAffirmative(answers.pending_cases) || isAffirmative(answers.new_convictions_during_waiting_period)) {
@@ -2421,7 +2425,7 @@ function evaluateCompiledTiming(profile: EngineProfile, answers: Record<string, 
   const unresolvedCompletionIds = [
     ...(courtRequirement === "not_sure" ? [COURT_REQUIREMENTS_FIELD_ID] : []),
     ...(isExplicitUnknownAnswer(answers.sentence_completion_date) ? ["sentence_completion_date"] : []),
-    ...(isExplicitUnknownAnswer(answers.financial_obligations) && !cannabisNonfinancialComplete ? ["financial_obligations"] : [])
+    ...(financialApplies && isExplicitUnknownAnswer(answers.financial_obligations) && !cannabisNonfinancialComplete ? ["financial_obligations"] : [])
   ];
   if (unresolvedCompletionIds.length) {
     return {

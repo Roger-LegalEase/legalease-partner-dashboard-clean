@@ -1,3 +1,4 @@
+import { MT_RECORD_FINANCIAL_ROUTES, montanaRecordFinancialApplies } from "@/lib/rcap-engine/montana-record-correction-financial";
 import { ca12034QuestionApplies } from "@/lib/rcap-engine/california-1203-4-facts";
 import { ND_FIRST_OFFENSE_FACT_IDS, ndFirstOffenseFactApplies } from "@/lib/rcap-engine/north-dakota-first-offense-facts";
 import { oregonDispositionQuestionApplies, oregonDispositionLegacyQuestionApplies } from "@/lib/rcap-engine/oregon-disposition-identity";
@@ -94,6 +95,14 @@ export function selectScreeningQuestionIds(
     ?? (profile.jurisdiction.code === "ME" && !selectedLabel
       && !maineNonconvictionQuestionApplies("ME", ME_NONCONVICTION_ROUTE, answers, "financial_obligations")
       ? ME_NONCONVICTION_ROUTE : undefined);
+  // The existing evaluator can select CRISS from a known nonconviction without
+  // an optional hint. Match only that question applicability; never infer a
+  // route from a malformed/contradictory supplied context or a money answer.
+  const mtFinancialQuestionPathway = selectedPathway?.id
+    ?? ((answers.possible_pathway_context === undefined || answers.possible_pathway_context === null
+      || answers.possible_pathway_context === "")
+      && !montanaRecordFinancialApplies(profile, MT_RECORD_FINANCIAL_ROUTES[1], answers, "financial_obligations")
+      ? MT_RECORD_FINANCIAL_ROUTES[1] : undefined);
   const msTimingIds = new Set(msExactTimingQuestionIds(profile.jurisdiction.code, selectedPathway?.id, answers));
   const recordQuestions = new Map(caProp64RecordQuestions(profile, publicProfile.questions, selectedPathway?.id).map((question) => [question.id, question]));
   const stageOrder = new Map(publicProfile.flowStages.map((stage) => [stage.id, stage.order]));
@@ -117,6 +126,7 @@ export function selectScreeningQuestionIds(
   }).map(question => question.id));
 
   return publicProfile.questions
+    .filter(question => montanaRecordFinancialApplies(profile, mtFinancialQuestionPathway, answers, question.id))
     .filter(question => ca12034QuestionApplies(profile, selectedPathway?.id, answers, question.id))
     .filter(question => ndFirstOffenseFactApplies(profile, selectedPathway?.id, answers, question.id))
     .filter(question => oregonDispositionQuestionApplies(profile.jurisdiction.code, answers, question.id))
