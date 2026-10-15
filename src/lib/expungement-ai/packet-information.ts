@@ -3126,7 +3126,15 @@ function deriveProtectedPacketDraftSnapshot(
   const preserveFinancialFacts = (!base.packetPlan || explicitChangedIds.has("financial_obligations"))
     && isIndependentPaidFinancialFact(`${base.jurisdiction}:${base.pathwayId}`,
     getProfileByJurisdiction(base.jurisdiction)?.questions.find(question => question.id === "financial_obligations"));
-  const preserved = isCaProp64Pathway(base.jurisdiction, base.pathwayId) || preserveFinancialFacts || factualIds.length > 0
+  // These administrative successors retire a payment prerequisite, not the
+  // original screening provenance. A projected plan must not make an unrelated
+  // material save normalize away the prior null-plan source maps.
+  const preserveMontanaRecordFacts = base.profileVersion === currentAuthority.profile.profileVersion
+    && base.profileSourceFingerprint === currentAuthority.profile.source?.sourceCorpusSha256
+    && base.profileAuthorityFingerprint === profileAuthorityFingerprint(currentAuthority.profile, base.pathwayId)
+    && !montanaRecordFinancialApplies(currentAuthority.profile, base.pathwayId,
+      { ...base.screeningAnswers, ...base.prefilledAnswers, ...base.packetAnswers }, "financial_obligations");
+  const preserved = isCaProp64Pathway(base.jurisdiction, base.pathwayId) || preserveFinancialFacts || preserveMontanaRecordFacts || factualIds.length > 0
     ? preserveUnchangedProtectedFacts(shapesPreserved, base, new Set([...explicitChangedIds, ...confirmRecordFacts]))
     : shapesPreserved;
   // These exact source-bound successors remove inherited collection dependencies,

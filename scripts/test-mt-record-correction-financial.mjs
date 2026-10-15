@@ -119,6 +119,22 @@ for(const row of predecessors){
  await save({});check('original source-reproduced row no-op '+row.route+row.label,()=>assert.deepEqual(stored,before));
  await save({charge:'Existing charge text, not statutory classification'});
  check('ordinary material save retains old raw financial/completion '+row.route+row.label,()=>{const raw={...snap().screeningAnswers,...snap().prefilledAnswers,...snap().packetAnswers};assert.deepEqual(raw.financial_obligations,row.answers.financial_obligations);assert.equal(raw.court_requirements_completed,'yes');assert.equal(snap().paymentAllowed,false);assert.equal(snap().selectedTrackId,null);assert.equal(stored.status,'unverified');});
+ // Preserve each original source map, not only an effective value assembled
+ // from precedence. The actual absent-payment owner failure lost seven keys.
+ const unchangedMap=value=>Object.fromEntries(Object.entries(value).filter(([id])=>id!=='charge'));
+ for(const map of ['screeningAnswers','prefilledAnswers','packetAnswers'])check('material save preserves complete original map '+row.route+row.label+map,()=>assert.deepEqual(unchangedMap(snap()[map]),unchangedMap(before.draftSnapshot[map])));
+ const material=structuredClone(stored);await save({});check('material whole-record no-op '+row.route+row.label,()=>assert.deepEqual(stored,material));
+ await save({charge:'Explicitly corrected charge text'});
+ for(const map of ['screeningAnswers','prefilledAnswers','packetAnswers'])check('later material save preserves original map '+row.route+row.label+map,()=>assert.deepEqual(unchangedMap(snap()[map]),unchangedMap(before.draftSnapshot[map])));
+ if(row.label==='unknown'){
+  await save({financial_obligations:'No'});
+  check('explicit unknown correction archives original source without other map loss '+row.route,()=>{
+   assert(snap().dependencies.semanticAnswerHistory.some(entry=>entry.factId==='financial_obligations'&&entry.value==='I am not sure'&&entry.source==='screeningAnswers'));
+   const unrelated=value=>Object.fromEntries(Object.entries(value).filter(([id])=>!['charge','financial_obligations'].includes(id)));
+   for(const map of ['screeningAnswers','prefilledAnswers','packetAnswers'])assert.deepEqual(unrelated(snap()[map]),unrelated(before.draftSnapshot[map]));
+   assert.equal(snap().packetAnswers.financial_obligations,'No');assert.equal(snap().paymentAllowed,false);assert.equal(snap().selectedTrackId,null);
+  });
+ }
  for(const [label,mutate]of [['profile',s=>s.profileVersion='drift'],['source',s=>s.profileSourceFingerprint='drift'],['authority',s=>s.profileAuthorityFingerprint='drift'],['old result',s=>s.resultCode='packet_ready'],['payment',s=>s.paymentAllowed=true],['track',s=>s.selectedTrackId='invented'],['old plan',s=>s.packetPlan=a.evaluation.packetPlan],['required ids',s=>s.requiredInputIds=['financial_obligations']],['family',s=>s.packetFamilyIdentifiers={mode:'invented',sourceFormIds:[]}],['server',s=>s.serverFacts.pathway_id='invented'],['verified schema',s=>s.schemaVersion='expungement-ai/protected-packet-verification/v1']]){
   const altered=structuredClone(before.draftSnapshot);mutate(altered);check('predecessor drift refusal '+row.route+row.label+label,()=>assert.equal(P.montanaRecordFinancialDraftSuccessor(altered,a),null));
  }
