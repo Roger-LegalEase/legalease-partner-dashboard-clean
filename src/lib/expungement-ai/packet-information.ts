@@ -1,3 +1,4 @@
+import { ca12034aRecordIsContext, ca12034aRecordContextQuestion } from "@/lib/expungement-ai/ca-1203-4a-record-context";
 import { arFelonyRecordIsContext, arFelonyRecordContextQuestion } from "@/lib/expungement-ai/ar-felony-record-context";
 import { arNonconvictionRecordIsContext, arNonconvictionRecordContextQuestion } from "@/lib/expungement-ai/ar-nonconviction-record-context";
 import { alRecordIsContext, alRecordContextQuestion } from "@/lib/expungement-ai/al-record-context";
@@ -371,6 +372,7 @@ export function packetInformationModelFor(item: ConsumerBriefcaseItem): PacketIn
   questions = questions.map(question => alRecordContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
   questions = questions.map(question => arNonconvictionRecordContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
   questions = questions.map(question => arFelonyRecordContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
+  questions = questions.map(question => ca12034aRecordContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
   questions = questions.map(question => delawareProtectedExclusionQuestion(question, profile, pathwayId, initialAnswers));
   for (const question of questions) questionById.set(question.id, question);
   const builderQuestions = builderQuestionsFor(questions, collection, requiredInputIds, serverFacts);
@@ -1652,6 +1654,12 @@ export function protectedPacketInformationModelFor(
     // Display-only clarification of retained context; read/no-op preserves raw maps.
     packetAnswers.record_type = { unknown: true };
   }
+  if (ca12034aRecordIsContext(profile, snapshot.pathwayId, packetSpecificationFor(`${snapshot.jurisdiction}:${snapshot.pathwayId}`))
+    && [snapshot.screeningAnswers, snapshot.prefilledAnswers, snapshot.packetAnswers].some(map => Object.hasOwn(map, "record_type"))
+    && ![screeningAnswers, prefilledAnswers, packetAnswers].some(map => Object.hasOwn(map, "record_type"))) {
+    // Display-only clarification of retained context; read/no-op preserves raw maps.
+    packetAnswers.record_type = { unknown: true };
+  }
   const initialAnswers = { ...screeningAnswers, ...prefilledAnswers, ...packetAnswers };
   const requiredInputIds = stringArray(snapshot.requiredInputIds);
   if (!canonicalEqual(requiredInputIds, packetPlan?.requiredInputIds ?? [])) return null;
@@ -2127,6 +2135,9 @@ export function factualPathwayCorrectionIds(state: string, pathway: string | nul
   if (isAkCourtviewContact(state, pathway)) return [...extra, ...akCourtviewContactIds(state, pathway, answers, includeInactive),
     ...(akCourtviewRecordIsContext(profile, pathway, packetSpecificationFor(`${state}:${pathway}`))
       && Object.hasOwn(answers, AK_LEGACY_RECORD_TYPE) ? [AK_LEGACY_RECORD_TYPE] : [])];
+  // Retained CA taxonomy is editable history only; it does not create a held editor.
+  if (includeInactive && ca12034aRecordIsContext(profile, pathway, packetSpecificationFor(`${state}:${pathway}`))
+    && Object.hasOwn(answers, "record_type")) return [...extra, "record_type"];
   // Felony taxonomy participates in explicit history persistence, not the held editor.
   if (arkansasRecordOriginApplies(state, pathway)) return [...extra, AR_RECORD_ORIGIN_ID,
     ...((arNonconvictionRecordIsContext(profile, pathway, packetSpecificationFor(`${state}:${pathway}`))
@@ -2424,7 +2435,7 @@ function builderQuestionsFor(
 
   const owed = new Set(prepayGateFactIds(collection));
   const optional = new Set(collection.facts.filter(fact => fact.optional === true
-    && !(["ak_courtview_record_type_history", "ak_pardon_record_type_history", "ak_juvenile_record_type_history", "ak_agency_sis_record_type_history", "al_four_route_record_type_history", "ar_nonconviction_record_type_history", "ar_felony_record_type_history"].includes(fact.source) && fact.active === false)).map(fact => fact.factId));
+    && !(["ak_courtview_record_type_history", "ak_pardon_record_type_history", "ak_juvenile_record_type_history", "ak_agency_sis_record_type_history", "al_four_route_record_type_history", "ar_nonconviction_record_type_history", "ar_felony_record_type_history", "ca_12034a_record_type_history"].includes(fact.source) && fact.active === false)).map(fact => fact.factId));
   const order = new Map<string, number>();
   let position = 0;
   for (const section of collection.groupedParticipantSections) {
@@ -2574,6 +2585,7 @@ function protectedPacketQuestionSurface(
   questions = questions.map(question => alRecordContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
   questions = questions.map(question => arNonconvictionRecordContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
   questions = questions.map(question => arFelonyRecordContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
+  questions = questions.map(question => ca12034aRecordContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
   questions = questions.map(question => delawareProtectedExclusionQuestion(question, profile, pathwayId, { ...screeningAnswers, ...prefilledAnswers, ...savedAnswers }));
   for (const question of questions) questionById.set(question.id, question);
   const builderQuestions = builderQuestionsFor(questions, collection, requiredInputIds, serverFacts);

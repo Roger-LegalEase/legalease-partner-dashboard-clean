@@ -1,3 +1,4 @@
+import { ca12034aRecordIsContext } from "@/lib/expungement-ai/ca-1203-4a-record-context";
 import { arFelonyRecordIsContext } from "@/lib/expungement-ai/ar-felony-record-context";
 import { arNonconvictionRecordIsContext } from "@/lib/expungement-ai/ar-nonconviction-record-context";
 import { alRecordIsContext } from "@/lib/expungement-ai/al-record-context";
@@ -630,6 +631,8 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
 
   const arNonconvictionRecordContext = input.jurisdiction === "AR"
     && arNonconvictionRecordIsContext(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
+  const ca12034aRecordContext = input.jurisdiction === "CA"
+    && ca12034aRecordIsContext(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
   const arFelonyRecordContext = input.jurisdiction === "AR"
     && arFelonyRecordIsContext(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
   const alRecordContext = input.jurisdiction === "AL"
@@ -816,6 +819,16 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
         group: retained ? group : null, active: retained, optional: true,
         source: "ar_felony_record_type_history",
         reason: "The exact retained Arkansas felony family has no destination for the overlapping generic record-type menu. Saved answers remain optional history; conviction, record origin, sentencing facts and current route authority remain separate." });
+      continue;
+    }
+
+    if (factId === "record_type" && ca12034aRecordContext && !overrideClass && !needsHuman.has(factId)) {
+      const retained = [input.screeningAnswers, input.prefilledAnswers, input.savedAnswers, input.profileFacts]
+        .some(answers => answers && Object.hasOwn(answers, factId));
+      facts.push({ factId, collection: "conditional", phase: retained ? "render" : "known",
+        group: retained ? group : null, active: retained, optional: true,
+        source: "ca_12034a_record_type_history",
+        reason: "The exact retained California section 1203.4a family has no destination for the overlapping generic record-type menu. Saved answers remain optional history; probation, conviction, sentence and relief facts and current route authority remain separate." });
       continue;
     }
 
