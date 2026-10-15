@@ -1,3 +1,4 @@
+import { newMexicoGuidanceFinancialApplies } from "@/lib/rcap-engine/new-mexico-guidance-financial";
 import { montanaRecordFinancialApplies } from "@/lib/rcap-engine/montana-record-correction-financial";
 import { caAutomaticRecordIsContext } from "@/lib/expungement-ai/ca-automatic-record-context";
 import { ca12034RecordIsContext } from "@/lib/expungement-ai/ca-1203-4-record-context";
@@ -737,6 +738,16 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
       facts.push({ factId, collection: "conditional", phase: "known", group: null,
         source: "ne_adult_acquittal_no_financial_predicate", active: false,
         reason: "The exact adult acquittal automatic route has no financial predicate; the saved payment answer is retained without inference." });
+      continue;
+    }
+
+    const nmGuidanceProfile = input.jurisdiction === "NM" && factId === "financial_obligations"
+      ? getProfileByJurisdiction("NM") : null;
+    if (nmGuidanceProfile && !newMexicoGuidanceFinancialApplies(nmGuidanceProfile, input.pathwayId,
+      { ...available, ...input.savedAnswers }, factId)) {
+      facts.push({ factId, collection: "conditional", phase: "known", group: null,
+        source: "nm_source_guidance_no_payment_predicate", active: false,
+        reason: "Payment completeness is not required for this exact guidance scope. Saved payment remains history, without completion, waiver, restitution, eligibility or agency-action inference." });
       continue;
     }
 

@@ -1,3 +1,4 @@
+import { newMexicoGuidanceFinancialApplies } from "@/lib/rcap-engine/new-mexico-guidance-financial";
 import { montanaRecordFinancialApplies } from "@/lib/rcap-engine/montana-record-correction-financial";
 import { CA_12034_ROUTE, CA_12034_SOURCE, CA_12034_COPY, ca12034Contract, ca12034Context, ca12034Facts, ca12034KnownConviction } from "@/lib/rcap-engine/california-1203-4-facts";
 import { ndFirstOffenseFacts, ND_FIRST_OFFENSE_SOURCE, ND_FIRST_OFFENSE_COPY } from "@/lib/rcap-engine/north-dakota-first-offense-facts";
@@ -337,6 +338,7 @@ function evaluateProfileRules(profile: EngineProfile, request: ScreeningEvaluati
 
   const missingQuestionIds = requiredMissingPublicQuestionIds(publicProfile, answers)
     .filter(id => montanaRecordFinancialApplies(profile, preselectedPathway?.id, answers, id))
+    .filter(id => newMexicoGuidanceFinancialApplies(profile, preselectedPathway?.id, answers, id))
     .filter(id => nevada176AQuestionApplies(jurisdiction, preselectedPathway?.id, id))
     .filter(id => missouriClosedRecordQuestionApplies(jurisdiction, preselectedPathway?.id, answers, id, profile))
     .filter(id => maineNonconvictionQuestionApplies(jurisdiction, preselectedPathway?.id, answers, id))
@@ -929,6 +931,7 @@ function ambiguityReason(
   const relevant = relevantFactIds(profile, selectedPathway);
   const ambiguous = legalFields
     .filter(question => montanaRecordFinancialApplies(profile, selectedPathway?.id, answers, question.id))
+    .filter(question => newMexicoGuidanceFinancialApplies(profile, selectedPathway?.id, answers, question.id))
     .filter(question => nevada176AQuestionApplies(jurisdiction, selectedPathway?.id, question.id))
     .filter(question => missouriClosedRecordQuestionApplies(jurisdiction, selectedPathway?.id, answers, question.id, profile))
     .filter(question => maineNonconvictionQuestionApplies(jurisdiction, selectedPathway?.id, answers, question.id))
@@ -2406,7 +2409,8 @@ function evaluateCompiledTiming(profile: EngineProfile, answers: Record<string, 
   // exact candidate still reaches the source-contract review below, not payment.
   const cannabisNonfinancialComplete = cannabis?.status === "selected" && cannabis.branch === "conviction"
     && answers.il_cannabis_nonfinancial_complete === "yes";
-  const financialApplies = montanaRecordFinancialApplies(profile, pathway.id, answers, "financial_obligations");
+  const financialApplies = montanaRecordFinancialApplies(profile, pathway.id, answers, "financial_obligations")
+    && newMexicoGuidanceFinancialApplies(profile, pathway.id, answers, "financial_obligations");
   const unpaidFinancialAnswer = financialApplies && isNegative(answers.financial_obligations) && !cannabisNonfinancialComplete;
   const paymentMeaningNeedsClarification = unpaidFinancialAnswer && courtRequirement === "yes"
     && isIndependentPaidFinancialFact(routeKey(profile, pathway), profile.questions.find(question => question.id === "financial_obligations"));

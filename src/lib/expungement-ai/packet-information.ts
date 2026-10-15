@@ -1,3 +1,4 @@
+import { newMexicoGuidanceFinancialApplies, newMexicoGuidanceFinancialContract, NM_GUIDANCE_FINANCIAL_ROUTES } from "@/lib/rcap-engine/new-mexico-guidance-financial";
 import { montanaRecordFinancialApplies, montanaRecordFinancialContract, MT_RECORD_FINANCIAL_ROUTES } from "@/lib/rcap-engine/montana-record-correction-financial";
 import { caAutomaticRecordIsContext, caAutomaticRecordContextQuestion } from "@/lib/expungement-ai/ca-automatic-record-context";
 import { ca12034RecordIsContext, ca12034RecordContextQuestion } from "@/lib/expungement-ai/ca-1203-4-record-context";
@@ -1370,6 +1371,51 @@ export function montanaRecordFinancialDraftSuccessor(snapshot: ProtectedPacketAu
   return seeded ? preserveUnchangedProtectedFacts(seeded.snapshot, snapshot, new Set()) : null;
 }
 
+/** Exact cb8 source-reproduced payment-only draft holds. Current view only;
+ * stored read/no-op bytes and all verified-authority boundaries stay intact. */
+export function newMexicoGuidanceFinancialDraftSuccessor(snapshot: ProtectedPacketAuthoritySnapshot,
+  authoritative: NonNullable<ReturnType<typeof evaluateProtectedPacketFacts>>): ProtectedPacketDraftSnapshot | null {
+  const profile = getProfileByJurisdiction("NM"), evaluation = authoritative.evaluation;
+  const route = evaluation.pathwayId;
+  if (!profile || !route || !newMexicoGuidanceFinancialContract(profile, route)
+    || snapshot.schemaVersion !== "expungement-ai/protected-packet-draft/v1"
+    || snapshot.jurisdiction !== "NM" || ![route, null].includes(snapshot.pathwayId)
+    || snapshot.profileVersion !== profile.profileVersion
+    || snapshot.profileSourceFingerprint !== profile.source?.sourceCorpusSha256
+    || snapshot.profileAuthorityFingerprint !== (snapshot.pathwayId === null
+      ? "a38e12b14a3da3527b7058883a6157c3fc4df2b0739e22d63ac28d5a511ec69e"
+      : route === NM_GUIDANCE_FINANCIAL_ROUTES[0]
+        ? "cee709a91bac2fb36891a7753eb0f80aabb5499a9d93021a8e70f95ab122069b"
+        : "5de76ae5c8c5f3c3de1e81f8f5673ec51239101f52a02aeb9bf604da1dfaa99a")
+    || profileAuthorityFingerprint(profile, snapshot.pathwayId) !== snapshot.profileAuthorityFingerprint
+    || snapshot.paymentAllowed || snapshot.selectedTrackId !== null || snapshot.treatmentClassification !== null
+    || !canonicalEqual(snapshot.deferralComponentIds, [])
+    || !canonicalEqual(snapshot.serverFacts, canonicalServerFacts("NM", snapshot.pathwayId))
+    || snapshot.packetType !== null || snapshot.packetPlan !== null
+    || !canonicalEqual(snapshot.requiredInputIds, [])
+    || !canonicalEqual(snapshot.packetFamilyIdentifiers, { mode: null, sourceFormIds: [] })
+    || evaluation.jurisdiction !== "NM" || evaluation.profileVersion !== snapshot.profileVersion
+    || evaluation.paymentAllowed || authoritative.selectedTrackId || evaluation.treatmentClassification
+    || evaluation.deferralComponentIds?.length || evaluation.missingQuestionIds.length
+    || !canonicalEqual(evaluation.packetPlan, packetPlanForPathway(profile, route))) return null;
+  const answers = protectedPacketScreeningAnswers(snapshot);
+  if (!answers || newMexicoGuidanceFinancialApplies(profile, route, answers, "financial_obligations")) return null;
+  const unknown = snapshot.pathwayId === route && snapshot.resultCode === "needs_review"
+    && isExplicitUnknownAnswer(answers.financial_obligations);
+  const missing = snapshot.pathwayId === null && snapshot.resultCode === "needs_more_info"
+    && !Object.hasOwn(answers, "financial_obligations");
+  if (!unknown && !missing) return null;
+  // Only noncommercial guidance; the old payment hold grants no authority.
+  if (evaluation.resultCode !== "guidance_only" || evaluation.reasons.length !== 1
+    || (route === NM_GUIDANCE_FINANCIAL_ROUTES[0]
+      ? authoritative.packetType !== "guidance_packet" || evaluation.reasons[0].code !== "nm.guidance_only_no_user_filed_court_petition"
+      : authoritative.packetType !== "guidance_packet" || evaluation.reasons[0].code !== "nm.lawrence_hold_guidance_only")) return null;
+  const seeded = protectedPacketDraftSeedFromAuthoritative({ authoritative,
+    screeningAnswers: answerRecord(snapshot.screeningAnswers), prefilledAnswers: answerRecord(snapshot.prefilledAnswers),
+    packetAnswers: answerRecord(snapshot.packetAnswers), dependencies: snapshot.dependencies, capturedAt: snapshot.capturedAt });
+  return seeded ? preserveUnchangedProtectedFacts(seeded.snapshot, snapshot, new Set()) : null;
+}
+
 /** Fresh exact-f20 reproduction, not a captured prior production record. Only
  * the exact nonpayable CR-218 plan or acquittal financial hold may project current guidance.
  * Reads and semantic no-ops leave the original protected record untouched. */
@@ -1655,6 +1701,8 @@ export function protectedPacketInformationModelFor(
   if(caAuthority) snapshot=californiaProbationDraftSuccessor(snapshot,caAuthority) ?? snapshot;
   const orAuthority = snapshot.jurisdiction === "OR" && snapshot.pathwayId === null ? evaluateProtectedPacketFacts(snapshot) : null;
   if (orAuthority) snapshot = oregonDispositionDraftSuccessor(snapshot, orAuthority) ?? snapshot;
+  const nmFinancialAuthority = snapshot.jurisdiction === "NM" ? evaluateProtectedPacketFacts(snapshot) : null;
+  if (nmFinancialAuthority) snapshot = newMexicoGuidanceFinancialDraftSuccessor(snapshot, nmFinancialAuthority) ?? snapshot;
   const mtFinancialAuthority = snapshot.jurisdiction === "MT" ? evaluateProtectedPacketFacts(snapshot) : null;
   if (mtFinancialAuthority) snapshot = montanaRecordFinancialDraftSuccessor(snapshot, mtFinancialAuthority) ?? snapshot;
   const mtAuthority = snapshot.jurisdiction === "MT" && [MT_DEFERRED_ROUTE, null].includes(snapshot.pathwayId)
@@ -2271,6 +2319,8 @@ export function factualPathwayCorrectionIds(state: string, pathway: string | nul
     ...((arNonconvictionRecordIsContext(profile, pathway, packetSpecificationFor(`${state}:${pathway}`))
       || includeInactive && arFelonyRecordIsContext(profile, pathway, packetSpecificationFor(`${state}:${pathway}`)))
       && Object.hasOwn(answers, "record_type") ? ["record_type"] : [])];
+  if (includeInactive && profile && !newMexicoGuidanceFinancialApplies(profile, pathway, answers, "financial_obligations")
+    && Object.hasOwn(answers, "financial_obligations")) return [...extra, "financial_obligations"];
   if (includeInactive && profile && !montanaRecordFinancialApplies(profile, pathway, answers, "financial_obligations")
     && Object.hasOwn(answers, "financial_obligations")) return [...extra, "financial_obligations"];
   if (profile && state === "MT" && isMontanaDeferredContract(profile, pathway)) return [...extra, ...MT_DEFERRED_FACT_IDS.filter(id => includeInactive || montanaDeferredFactApplies(profile, pathway, answers, id)), "case_outcome"];
@@ -2312,6 +2362,7 @@ function routeFactualCorrectionIds(model: { stateCode: string; pathwayId: string
       && missouriClosedRecordQuestionApplies(model.stateCode, model.pathwayId, facts, "financial_obligations", profile ?? undefined)
       && missouriMarijuanaStatusQuestionApplies(model.stateCode, model.pathwayId, facts, "financial_obligations", profile ?? undefined)
       && (!profile || montanaRecordFinancialApplies(profile, model.pathwayId, facts, "financial_obligations"))
+      && (!profile || newMexicoGuidanceFinancialApplies(profile, model.pathwayId, facts, "financial_obligations"))
       && (!profile || montanaDeferredLegacyFinancialApplies(profile, model.pathwayId, facts, "financial_obligations")))
     && isIndependentPaidFinancialFact(`${model.stateCode}:${model.pathwayId}`,
     profile?.questions.find(question => question.id === "financial_obligations")) ? ["financial_obligations"] : [];
@@ -3014,7 +3065,7 @@ function deriveProtectedPacketDraftSnapshot(
   if (mtDeferredPreparation && !mtPreparationIds) return null;
   const caJuvenileIds = caJuvenilePreparation ? caProp64JuvenilePreparationModelFor(verification)?.caJuvenilePreparationFactIds : undefined;
   if (caJuvenilePreparation && !caJuvenileIds) return null;
-  base = montanaRecordFinancialDraftSuccessor(base, currentAuthority) ?? californiaProbationDraftSuccessor(base,currentAuthority) ?? oregonDispositionDraftSuccessor(base, currentAuthority) ?? montanaDeferredDraftSuccessor(base, currentAuthority) ?? missouriMarijuanaDraftSuccessor(base, currentAuthority) ?? missouriClosureDraftSuccessor(base, currentAuthority) ?? maineNonconvictionDraftSuccessor(base, currentAuthority) ?? louisianaAutomationStatusHeldSuccessor(base, currentAuthority) ?? nebraskaAcquittalHeldSuccessor(base, currentAuthority) ?? kansasRegistrationHeldSuccessor(base, currentAuthority) ?? base;
+  base = newMexicoGuidanceFinancialDraftSuccessor(base, currentAuthority) ?? montanaRecordFinancialDraftSuccessor(base, currentAuthority) ?? californiaProbationDraftSuccessor(base,currentAuthority) ?? oregonDispositionDraftSuccessor(base, currentAuthority) ?? montanaDeferredDraftSuccessor(base, currentAuthority) ?? missouriMarijuanaDraftSuccessor(base, currentAuthority) ?? missouriClosureDraftSuccessor(base, currentAuthority) ?? maineNonconvictionDraftSuccessor(base, currentAuthority) ?? louisianaAutomationStatusHeldSuccessor(base, currentAuthority) ?? nebraskaAcquittalHeldSuccessor(base, currentAuthority) ?? kansasRegistrationHeldSuccessor(base, currentAuthority) ?? base;
   const factualIds = [...factualPathwayCorrectionIds(base.jurisdiction, base.pathwayId, { ...base.screeningAnswers, ...base.prefilledAnswers, ...base.packetAnswers }, true), ...msExactTimingQuestionIds(base.jurisdiction, base.pathwayId, { ...base.screeningAnswers, ...base.prefilledAnswers, ...base.packetAnswers }, true), ...oregonUnselectedCorrectionIds(base), ...missouriUnselectedCorrectionIds(base), ...maineUnselectedCorrectionIds(base), ...nebraskaUnselectedCorrectionIds(base), ...louisianaUnselectedCorrectionIds(base)];
   if (gaPreparationIds) factualIds.push(...gaPreparationIds);
   if (mtPreparationIds) factualIds.push(...mtPreparationIds);
@@ -3134,7 +3185,12 @@ function deriveProtectedPacketDraftSnapshot(
     && base.profileAuthorityFingerprint === profileAuthorityFingerprint(currentAuthority.profile, base.pathwayId)
     && !montanaRecordFinancialApplies(currentAuthority.profile, base.pathwayId,
       { ...base.screeningAnswers, ...base.prefilledAnswers, ...base.packetAnswers }, "financial_obligations");
-  const preserved = isCaProp64Pathway(base.jurisdiction, base.pathwayId) || preserveFinancialFacts || preserveMontanaRecordFacts || factualIds.length > 0
+  const preserveNewMexicoGuidanceFacts = base.profileVersion === currentAuthority.profile.profileVersion
+    && base.profileSourceFingerprint === currentAuthority.profile.source?.sourceCorpusSha256
+    && base.profileAuthorityFingerprint === profileAuthorityFingerprint(currentAuthority.profile, base.pathwayId)
+    && !newMexicoGuidanceFinancialApplies(currentAuthority.profile, base.pathwayId,
+      { ...base.screeningAnswers, ...base.prefilledAnswers, ...base.packetAnswers }, "financial_obligations");
+  const preserved = isCaProp64Pathway(base.jurisdiction, base.pathwayId) || preserveFinancialFacts || preserveMontanaRecordFacts || preserveNewMexicoGuidanceFacts || factualIds.length > 0
     ? preserveUnchangedProtectedFacts(shapesPreserved, base, new Set([...explicitChangedIds, ...confirmRecordFacts]))
     : shapesPreserved;
   // These exact source-bound successors remove inherited collection dependencies,

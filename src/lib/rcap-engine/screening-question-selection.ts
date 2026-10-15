@@ -1,3 +1,4 @@
+import { newMexicoGuidanceFinancialApplies } from "@/lib/rcap-engine/new-mexico-guidance-financial";
 import { MT_RECORD_FINANCIAL_ROUTES, montanaRecordFinancialApplies } from "@/lib/rcap-engine/montana-record-correction-financial";
 import { ca12034QuestionApplies } from "@/lib/rcap-engine/california-1203-4-facts";
 import { ND_FIRST_OFFENSE_FACT_IDS, ndFirstOffenseFactApplies } from "@/lib/rcap-engine/north-dakota-first-offense-facts";
@@ -127,6 +128,7 @@ export function selectScreeningQuestionIds(
 
   return publicProfile.questions
     .filter(question => montanaRecordFinancialApplies(profile, mtFinancialQuestionPathway, answers, question.id))
+    .filter(question => newMexicoGuidanceFinancialApplies(profile, selectedPathway?.id, answers, question.id))
     .filter(question => ca12034QuestionApplies(profile, selectedPathway?.id, answers, question.id))
     .filter(question => ndFirstOffenseFactApplies(profile, selectedPathway?.id, answers, question.id))
     .filter(question => oregonDispositionQuestionApplies(profile.jurisdiction.code, answers, question.id))
