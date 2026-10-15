@@ -1,3 +1,4 @@
+import { CA_12034_ROUTE, CA_12034_SOURCE, CA_12034_COPY, ca12034Contract, ca12034Context, ca12034Facts, ca12034KnownConviction } from "@/lib/rcap-engine/california-1203-4-facts";
 import { ndFirstOffenseFacts, ND_FIRST_OFFENSE_SOURCE, ND_FIRST_OFFENSE_COPY } from "@/lib/rcap-engine/north-dakota-first-offense-facts";
 import { oregonDispositionFilingFacts, OR_DISPOSITION_COPY } from "@/lib/rcap-engine/oregon-disposition-identity";
 import { montanaDeferredFacts, MT_DEFERRED_COPY, MT_DEFERRED_SOURCE } from "@/lib/rcap-engine/montana-deferred-facts";
@@ -224,6 +225,27 @@ function evaluateProfileRules(profile: EngineProfile, request: ScreeningEvaluati
 
   const publicProfile = projectPublicProfile(profile);
   const preselectedPathway = selectPathway(profile, answers);
+  if (ca12034Context(profile, preselectedPathway?.id, answers)) {
+    const facts = ca12034Facts(answers);
+    const contextIds = [
+      ...(["Yes", "I am helping someone complete their own check"].includes(answers.ownership_scope as string) ? [] : ["ownership_scope"]),
+      ...(answers.jurisdiction_scope === "State or local" ? [] : ["jurisdiction_scope"])
+    ];
+    const code = contextIds.length ? "missing" : facts.code;
+    const text = CA_12034_COPY[code][0];
+    const selected = !contextIds.length && ca12034KnownConviction(answers);
+    const plan = selected ? packetPlanForPathway(profile, CA_12034_ROUTE) : undefined;
+    const ready = !contextIds.length && facts.status === "preparation";
+    const evaluated = result(profile, request, ready ? "needs_review"
+      : contextIds.length || facts.status === "missing" ? "needs_more_info"
+      : facts.status === "not_yet" ? "not_yet" : "needs_review",
+      [reason("CA", `probation_${code}`, text, CA_12034_SOURCE)],
+      { ...(selected ? { pathwayId: CA_12034_ROUTE } : {}), ...(plan ? {packetPlan:plan} : {}),
+        missingQuestionIds: [...contextIds, ...facts.ids], paymentAllowed:false });
+    // This is preparation for the participant's stated election, not a merits
+    // or exclusion-list determination. The actual Grade-A authority gate stays separate.
+    return {...evaluated, userLabel:text, nextSteps:[text]};
+  }
   const ndPossession = ndFirstOffenseFacts(profile, preselectedPathway?.id, answers, evaluationToday().toISOString().slice(0, 10));
   if (preselectedPathway && ndPossession.status !== "not_applicable") {
     const contextIds = [
@@ -2328,6 +2350,12 @@ function matchCompiledRuleRoute(profile: EngineProfile, publicProfile: PublicJur
       selectedPathwayId: selectedPathway?.id
     };
   }
+  // A singleton/backend source-fragment fallback cannot restore Tool 1 after
+  // the specific conviction contract refused the supplied disposition.
+  if (ca12034Contract(profile, selected.id)) return {
+    ok:false, resultCode:"needs_review",
+    reason:reason("CA", "probation_outcome", CA_12034_COPY.outcome[0], CA_12034_SOURCE)
+  };
   if (sameRank.length > 1 && !selectedPathway) {
     return {
       ok: false,

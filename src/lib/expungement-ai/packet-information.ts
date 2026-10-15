@@ -1,3 +1,5 @@
+import { ca12034RecordIsContext, ca12034RecordContextQuestion } from "@/lib/expungement-ai/ca-1203-4-record-context";
+import { CA_12034_ROUTE, CA_12034_SOURCE, CA_12034_FACT_IDS, ca12034Context, ca12034Facts, ca12034QuestionApplies } from "@/lib/rcap-engine/california-1203-4-facts";
 import { ca12034aRecordIsContext, ca12034aRecordContextQuestion } from "@/lib/expungement-ai/ca-1203-4a-record-context";
 import { arFelonyRecordIsContext, arFelonyRecordContextQuestion } from "@/lib/expungement-ai/ar-felony-record-context";
 import { arNonconvictionRecordIsContext, arNonconvictionRecordContextQuestion } from "@/lib/expungement-ai/ar-nonconviction-record-context";
@@ -372,6 +374,7 @@ export function packetInformationModelFor(item: ConsumerBriefcaseItem): PacketIn
   questions = questions.map(question => alRecordContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
   questions = questions.map(question => arNonconvictionRecordContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
   questions = questions.map(question => arFelonyRecordContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
+  questions = questions.map(question => ca12034RecordContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
   questions = questions.map(question => ca12034aRecordContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
   questions = questions.map(question => delawareProtectedExclusionQuestion(question, profile, pathwayId, initialAnswers));
   for (const question of questions) questionById.set(question.id, question);
@@ -1549,11 +1552,49 @@ function louisianaUnselectedCorrectionIds(snapshot: ProtectedPacketAuthoritySnap
   return prior ? ["case_outcome"] : [];
 }
 
+/** Fresh a386 source-pinned predecessor: tighten only the exact old Tool 1
+ * draft. Reads/no-ops preserve the stored row; material edits archive original facts.
+ * Neither this projection nor the retained source plan grants verification. */
+export function californiaProbationDraftSuccessor(snapshot: ProtectedPacketAuthoritySnapshot,
+  authoritative: NonNullable<ReturnType<typeof evaluateProtectedPacketFacts>>): ProtectedPacketDraftSnapshot | null {
+  const profile=getProfileByJurisdiction("CA"), evaluation=authoritative.evaluation;
+  if (!profile || !ca12034RecordIsContext(profile,CA_12034_ROUTE,packetSpecificationFor(`CA:${CA_12034_ROUTE}`))
+    || snapshot.schemaVersion !== "expungement-ai/protected-packet-draft/v1" || snapshot.jurisdiction !== "CA"
+    || snapshot.pathwayId !== CA_12034_ROUTE || snapshot.profileVersion !== profile.profileVersion
+    || snapshot.profileSourceFingerprint !== profile.source?.sourceCorpusSha256
+    || snapshot.profileAuthorityFingerprint !== "1a4fd9b42cb43b5f118210c6b97450ec237e770fad790c92a2519f301c3cfd49"
+    || snapshot.profileAuthorityFingerprint !== profileAuthorityFingerprint(profile,CA_12034_ROUTE)
+    || snapshot.selectedTrackId !== null || snapshot.treatmentClassification !== null || !canonicalEqual(snapshot.deferralComponentIds,[])
+    || !canonicalEqual(snapshot.serverFacts,canonicalServerFacts("CA",CA_12034_ROUTE))
+    || evaluation.jurisdiction !== "CA" || evaluation.profileVersion !== profile.profileVersion
+    || ![undefined,CA_12034_ROUTE].includes(evaluation.pathwayId) || evaluation.paymentAllowed
+    || !["needs_review","needs_more_info","not_yet"].includes(evaluation.resultCode)
+    || authoritative.selectedTrackId || evaluation.treatmentClassification || evaluation.deferralComponentIds?.length
+    || evaluation.reasons.length !== 1 || !evaluation.reasons[0].code.startsWith("ca.probation_")
+    || evaluation.reasons[0].sourceRef !== CA_12034_SOURCE) return null;
+  const raw={...snapshot.screeningAnswers,...snapshot.prefilledAnswers,...snapshot.packetAnswers};
+  if (CA_12034_FACT_IDS.some(id=>Object.hasOwn(raw,id))) return null;
+  if (snapshot.resultCode === "packet_ready_with_caution" && snapshot.paymentAllowed) {
+    const plan=packetPlanForPathway(profile,CA_12034_ROUTE);
+    if (snapshot.packetType !== "official_pdf_overlay" || !plan || !canonicalEqual(snapshot.packetPlan,plan)
+      || contactRepresentationHash(plan) !== "14214fde1756c27f2d9cff6e567ceff8563dd639178656befbcabd370b61ff7f"
+      || !canonicalEqual(snapshot.requiredInputIds,plan.requiredInputIds)
+      || !canonicalEqual(snapshot.packetFamilyIdentifiers,{mode:plan.mode,sourceFormIds:plan.sourceFormIds})) return null;
+  } else if (snapshot.resultCode !== "needs_review" || snapshot.paymentAllowed || snapshot.packetPlan !== null || snapshot.packetType !== null
+    || raw.case_outcome !== "I am not sure" || !canonicalEqual(snapshot.requiredInputIds,[])
+    || !canonicalEqual(snapshot.packetFamilyIdentifiers,{mode:null,sourceFormIds:[]})) return null;
+  const seeded=protectedPacketDraftSeedFromAuthoritative({authoritative,screeningAnswers:answerRecord(snapshot.screeningAnswers),
+    prefilledAnswers:answerRecord(snapshot.prefilledAnswers),packetAnswers:answerRecord(snapshot.packetAnswers),dependencies:snapshot.dependencies,capturedAt:snapshot.capturedAt});
+  return seeded ? preserveUnchangedProtectedFacts(seeded.snapshot,snapshot,new Set()) : null;
+}
+
 export function protectedPacketInformationModelFor(
   verification: ProtectedPacketVerificationRecord
 ): ProtectedPacketInformationModel | null {
   let snapshot = protectedAuthoritySnapshotFor(verification);
   if (!snapshot) return null;
+  const caAuthority=snapshot.jurisdiction === "CA" && snapshot.pathwayId === CA_12034_ROUTE ? evaluateProtectedPacketFacts(snapshot) : null;
+  if(caAuthority) snapshot=californiaProbationDraftSuccessor(snapshot,caAuthority) ?? snapshot;
   const orAuthority = snapshot.jurisdiction === "OR" && snapshot.pathwayId === null ? evaluateProtectedPacketFacts(snapshot) : null;
   if (orAuthority) snapshot = oregonDispositionDraftSuccessor(snapshot, orAuthority) ?? snapshot;
   const mtAuthority = snapshot.jurisdiction === "MT" && [MT_DEFERRED_ROUTE, null].includes(snapshot.pathwayId)
@@ -1654,6 +1695,9 @@ export function protectedPacketInformationModelFor(
     // Display-only clarification of retained context; read/no-op preserves raw maps.
     packetAnswers.record_type = { unknown: true };
   }
+  if (ca12034RecordIsContext(profile,snapshot.pathwayId,packetSpecificationFor(`${snapshot.jurisdiction}:${snapshot.pathwayId}`))
+    && [snapshot.screeningAnswers,snapshot.prefilledAnswers,snapshot.packetAnswers].some(map=>Object.hasOwn(map,"record_type"))
+    && ![screeningAnswers,prefilledAnswers,packetAnswers].some(map=>Object.hasOwn(map,"record_type"))) packetAnswers.record_type={unknown:true};
   if (ca12034aRecordIsContext(profile, snapshot.pathwayId, packetSpecificationFor(`${snapshot.jurisdiction}:${snapshot.pathwayId}`))
     && [snapshot.screeningAnswers, snapshot.prefilledAnswers, snapshot.packetAnswers].some(map => Object.hasOwn(map, "record_type"))
     && ![screeningAnswers, prefilledAnswers, packetAnswers].some(map => Object.hasOwn(map, "record_type"))) {
@@ -1837,6 +1881,11 @@ export function protectedPacketInformationModelFor(
         && !questionSurface.builderQuestions.some(question => question.id === financial.id)) {
         questionSurface.builderQuestions.push(financial);
       }
+    }
+  }
+  if (ca12034Context(profile,snapshot.pathwayId,initialAnswers)) {
+    for (const id of ca12034Facts(initialAnswers).ids) {
+      if (questionSurface.questionById.has(id) && !missingInputIds.includes(id)) missingInputIds.push(id);
     }
   }
   if (ndFirstOffenseFamilyContract(profile, snapshot.pathwayId)) for (const id of ND_FIRST_OFFENSE_FACT_IDS) {
@@ -2106,6 +2155,9 @@ export function factualPathwayCorrectionIds(state: string, pathway: string | nul
     ? [...convictionReliefQuestions(state).filter(q => includeInactive || convictionReliefQuestionApplies(profile, answers, q.id)).map(q => q.id),
       "case_outcome", ...(state === "GA" ? ["ga_original_first_offender", "pardon_status"] : [])] : [];
 
+  if (profile && ca12034Context(profile, pathway, answers)) return [...extra,"case_outcome","possible_pathway_context",
+    ...CA_12034_FACT_IDS.filter(id=>includeInactive || ca12034QuestionApplies(profile,pathway,answers,id)),
+    ...(Object.hasOwn(answers,"record_type") && ca12034RecordIsContext(profile,pathway,packetSpecificationFor(`${state}:${pathway}`)) ? ["record_type"] : [])];
   if (profile && state === "OR" && oregonDispositionConfigurationSourceMatches(profile.profileVersion, profile.source?.sourceCorpusSha256)
     && (pathway === null || Object.values(OR_DISPOSITION_CONFIGURATIONS).some(config => config.pathwayId === pathway))
     && (pathway !== null || oregonDispositionIdentity(answers).status !== "not_applicable"
@@ -2435,7 +2487,7 @@ function builderQuestionsFor(
 
   const owed = new Set(prepayGateFactIds(collection));
   const optional = new Set(collection.facts.filter(fact => fact.optional === true
-    && !(["ak_courtview_record_type_history", "ak_pardon_record_type_history", "ak_juvenile_record_type_history", "ak_agency_sis_record_type_history", "al_four_route_record_type_history", "ar_nonconviction_record_type_history", "ar_felony_record_type_history", "ca_12034a_record_type_history"].includes(fact.source) && fact.active === false)).map(fact => fact.factId));
+    && !(["ak_courtview_record_type_history", "ak_pardon_record_type_history", "ak_juvenile_record_type_history", "ak_agency_sis_record_type_history", "al_four_route_record_type_history", "ar_nonconviction_record_type_history", "ar_felony_record_type_history", "ca_12034a_record_type_history", "ca_12034_specific_probation_facts"].includes(fact.source) && fact.active === false)).map(fact => fact.factId));
   const order = new Map<string, number>();
   let position = 0;
   for (const section of collection.groupedParticipantSections) {
@@ -2523,6 +2575,7 @@ function protectedPacketQuestionSurface(
   const questionById = new Map<string, ProfileQuestion>();
   for (const question of allPublicQuestions(projectPublicProfile(profile))) {
     if (!ndFirstOffenseFactApplies(profile, pathwayId, { ...screeningAnswers, ...prefilledAnswers, ...savedAnswers }, question.id)) continue;
+    if (CA_12034_FACT_IDS.includes(question.id) && !ca12034QuestionApplies(profile,pathwayId,{...screeningAnswers,...prefilledAnswers,...savedAnswers},question.id)) continue;
     questionById.set(question.id, toProfileQuestion(question));
   }
   installPacketSpecificationQuestions(questionById, profile.jurisdiction.code, pathwayId, requiredInputIds, { ...screeningAnswers, ...prefilledAnswers, ...savedAnswers });
@@ -2585,11 +2638,33 @@ function protectedPacketQuestionSurface(
   questions = questions.map(question => alRecordContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
   questions = questions.map(question => arNonconvictionRecordContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
   questions = questions.map(question => arFelonyRecordContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
+  questions = questions.map(question => ca12034RecordContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
   questions = questions.map(question => ca12034aRecordContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
   questions = questions.map(question => delawareProtectedExclusionQuestion(question, profile, pathwayId, { ...screeningAnswers, ...prefilledAnswers, ...savedAnswers }));
   for (const question of questions) questionById.set(question.id, question);
   const builderQuestions = builderQuestionsFor(questions, collection, requiredInputIds, serverFacts);
   const builderSections = builderSectionsFor(collection, builderQuestions);
+  if (ca12034Context(profile,pathwayId,{...screeningAnswers,...prefilledAnswers,...savedAnswers})) {
+    const ids=correctionIds.filter(id=>["case_outcome","possible_pathway_context"].includes(id) || CA_12034_FACT_IDS.includes(id));
+    const currentAnswers={...screeningAnswers,...prefilledAnswers,...savedAnswers};
+    const unresolved=new Set(ca12034Facts(currentAnswers).ids);
+    for (const id of ids) {
+      const original=questionById.get(id);
+      if(!original) continue;
+      const q=CA_12034_FACT_IDS.includes(id) ? {...original,
+        required: true,
+        ...(unresolved.has(id) && questionAnswerState(original,currentAnswers[id]) === "known_valid" ? {savedAnswerNeedsClarification:true as const}: {})} : original;
+      questionById.set(id,q);
+      const index=questions.findIndex(x=>x.id===id);if(index>=0)questions[index]=q;else questions.push(q);
+      const builderIndex=builderQuestions.findIndex(x=>x.id===id);if(builderIndex>=0)builderQuestions[builderIndex]=q;else builderQuestions.push(q);
+    }
+    for (const section of builderSections) section.questionIds=section.questionIds.filter(id=>!ids.includes(id));
+    for (let i=builderSections.length-1;i>=0;i--) if(!builderSections[i].questionIds.length) builderSections.splice(i,1);
+    builderSections.push({id:"ca_12034_probation_facts",heading:"Conviction and probation facts",
+      description:"Confirm the actual facts and the basis you request. These answers do not decide every statutory exclusion or what the court will grant.",
+      translations:{es:{heading:"Hechos de la condena y la libertad condicional",description:"Confirme los hechos reales y el fundamento que solicita. Estas respuestas no deciden todas las exclusiones legales ni lo que concederá el tribunal."}},questionIds:ids.filter(id=>questionById.has(id))});
+  }
+
   if (ctCleanSlateContactContract(profile, pathwayId)) {
     const descriptors = ctCleanSlateContactQuestions({ ...screeningAnswers, ...prefilledAnswers, ...savedAnswers });
     for (const descriptor of descriptors) {
@@ -2852,7 +2927,7 @@ function deriveProtectedPacketDraftSnapshot(
   if (mtDeferredPreparation && !mtPreparationIds) return null;
   const caJuvenileIds = caJuvenilePreparation ? caProp64JuvenilePreparationModelFor(verification)?.caJuvenilePreparationFactIds : undefined;
   if (caJuvenilePreparation && !caJuvenileIds) return null;
-  base = oregonDispositionDraftSuccessor(base, currentAuthority) ?? montanaDeferredDraftSuccessor(base, currentAuthority) ?? missouriMarijuanaDraftSuccessor(base, currentAuthority) ?? missouriClosureDraftSuccessor(base, currentAuthority) ?? maineNonconvictionDraftSuccessor(base, currentAuthority) ?? louisianaAutomationStatusHeldSuccessor(base, currentAuthority) ?? nebraskaAcquittalHeldSuccessor(base, currentAuthority) ?? kansasRegistrationHeldSuccessor(base, currentAuthority) ?? base;
+  base = californiaProbationDraftSuccessor(base,currentAuthority) ?? oregonDispositionDraftSuccessor(base, currentAuthority) ?? montanaDeferredDraftSuccessor(base, currentAuthority) ?? missouriMarijuanaDraftSuccessor(base, currentAuthority) ?? missouriClosureDraftSuccessor(base, currentAuthority) ?? maineNonconvictionDraftSuccessor(base, currentAuthority) ?? louisianaAutomationStatusHeldSuccessor(base, currentAuthority) ?? nebraskaAcquittalHeldSuccessor(base, currentAuthority) ?? kansasRegistrationHeldSuccessor(base, currentAuthority) ?? base;
   const factualIds = [...factualPathwayCorrectionIds(base.jurisdiction, base.pathwayId, { ...base.screeningAnswers, ...base.prefilledAnswers, ...base.packetAnswers }, true), ...msExactTimingQuestionIds(base.jurisdiction, base.pathwayId, { ...base.screeningAnswers, ...base.prefilledAnswers, ...base.packetAnswers }, true), ...oregonUnselectedCorrectionIds(base), ...missouriUnselectedCorrectionIds(base), ...maineUnselectedCorrectionIds(base), ...nebraskaUnselectedCorrectionIds(base), ...louisianaUnselectedCorrectionIds(base)];
   if (gaPreparationIds) factualIds.push(...gaPreparationIds);
   if (mtPreparationIds) factualIds.push(...mtPreparationIds);

@@ -1,3 +1,4 @@
+import { ca12034QuestionApplies } from "@/lib/rcap-engine/california-1203-4-facts";
 import { ND_FIRST_OFFENSE_FACT_IDS, ndFirstOffenseFactApplies } from "@/lib/rcap-engine/north-dakota-first-offense-facts";
 import { oregonDispositionQuestionApplies, oregonDispositionLegacyQuestionApplies } from "@/lib/rcap-engine/oregon-disposition-identity";
 import { montanaDeferredFactApplies, montanaDeferredLegacyFinancialApplies } from "@/lib/rcap-engine/montana-deferred-facts";
@@ -116,6 +117,7 @@ export function selectScreeningQuestionIds(
   }).map(question => question.id));
 
   return publicProfile.questions
+    .filter(question => ca12034QuestionApplies(profile, selectedPathway?.id, answers, question.id))
     .filter(question => ndFirstOffenseFactApplies(profile, selectedPathway?.id, answers, question.id))
     .filter(question => oregonDispositionQuestionApplies(profile.jurisdiction.code, answers, question.id))
     .filter(question => oregonDispositionLegacyQuestionApplies(profile, answers, question.id))

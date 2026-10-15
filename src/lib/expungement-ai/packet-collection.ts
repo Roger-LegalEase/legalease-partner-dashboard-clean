@@ -1,3 +1,5 @@
+import { ca12034RecordIsContext } from "@/lib/expungement-ai/ca-1203-4-record-context";
+import { ca12034QuestionApplies } from "@/lib/rcap-engine/california-1203-4-facts";
 import { ca12034aRecordIsContext } from "@/lib/expungement-ai/ca-1203-4a-record-context";
 import { arFelonyRecordIsContext } from "@/lib/expungement-ai/ar-felony-record-context";
 import { arNonconvictionRecordIsContext } from "@/lib/expungement-ai/ar-nonconviction-record-context";
@@ -631,6 +633,8 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
 
   const arNonconvictionRecordContext = input.jurisdiction === "AR"
     && arNonconvictionRecordIsContext(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
+  const ca12034RecordContext = input.jurisdiction === "CA"
+    && ca12034RecordIsContext(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
   const ca12034aRecordContext = input.jurisdiction === "CA"
     && ca12034aRecordIsContext(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
   const arFelonyRecordContext = input.jurisdiction === "AR"
@@ -819,6 +823,19 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
         group: retained ? group : null, active: retained, optional: true,
         source: "ar_felony_record_type_history",
         reason: "The exact retained Arkansas felony family has no destination for the overlapping generic record-type menu. Saved answers remain optional history; conviction, record origin, sentencing facts and current route authority remain separate." });
+      continue;
+    }
+
+    if (ca12034RecordContext
+      && !overrideClass && !needsHuman.has(factId)
+      && (factId === "record_type" || !ca12034QuestionApplies(getProfileByJurisdiction(input.jurisdiction)!, input.pathwayId,
+        {...input.screeningAnswers,...input.prefilledAnswers,...input.savedAnswers},factId))) {
+      const retained = [input.screeningAnswers,input.prefilledAnswers,input.savedAnswers,input.profileFacts]
+        .some(map=>map && Object.hasOwn(map,factId));
+      facts.push({factId,collection:"conditional",phase:factId === "record_type" && retained ? "render":"known",
+        group:factId === "record_type" && retained ? group:null,
+        active:factId === "record_type" && retained,optional:true,source:"ca_12034_specific_probation_facts",
+        reason:"The specific conviction, probation, current-status and requested-election facts govern this procedure. Earlier taxonomy and broad completion answers remain history, not substitutes or debt gates."});
       continue;
     }
 

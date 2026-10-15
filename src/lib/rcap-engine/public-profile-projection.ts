@@ -1,3 +1,4 @@
+import { CA_12034_QUESTIONS, CA_12034_FACT_IDS, ca12034Contract } from "@/lib/rcap-engine/california-1203-4-facts";
 import { ND_FIRST_OFFENSE_FACT_IDS, ND_FIRST_OFFENSE_QUESTIONS } from "@/lib/rcap-engine/north-dakota-first-offense-facts";
 import { OR_DISPOSITION_QUESTIONS, OR_DISPOSITION_SOURCE, OR_DISPOSITION_FACT_IDS } from "@/lib/rcap-engine/oregon-disposition-identity";
 import { MT_DEFERRED_FACT_IDS, MT_DEFERRED_QUESTIONS } from "@/lib/rcap-engine/montana-deferred-facts";
@@ -1102,7 +1103,8 @@ const MISSISSIPPI_CORRECTION_FACT_QUESTIONS: PublicQuestion[] = [
 function withWilmaFactQuestions(
   profile: PublicJurisdictionProfile,
   pathways: { id: string; label: string }[] = [],
-  exactPacketFactIds: readonly string[] = []
+  exactPacketFactIds: readonly string[] = [],
+  caProbationContract = false
 ): PublicJurisdictionProfile {
   const existingIds = new Set(profile.questions.map((question) => question.id));
   const exactPacketFacts = new Set(exactPacketFactIds);
@@ -1125,7 +1127,7 @@ function withWilmaFactQuestions(
     : profile.jurisdiction.code === "MS"
     ? [...WILMA_FACT_QUESTIONS, ...MISSISSIPPI_CORRECTION_FACT_QUESTIONS, ...MS_CONDITIONAL_DISCHARGE_QUESTIONS, ...MS_PROGRAM_COMPLETION_QUESTIONS]
     : profile.jurisdiction.code === "AR" ? [...WILMA_FACT_QUESTIONS, AR_RECORD_ORIGIN_QUESTION]
-    : profile.jurisdiction.code === "CA" ? [...WILMA_FACT_QUESTIONS, ...CA_PROP64_FACT_QUESTIONS]
+    : profile.jurisdiction.code === "CA" ? [...WILMA_FACT_QUESTIONS, ...CA_PROP64_FACT_QUESTIONS, ...(caProbationContract ? CA_12034_QUESTIONS : [])]
     : profile.jurisdiction.code === "GA" ? [...WILMA_FACT_QUESTIONS, ...GA_FIRST_OFFENDER_QUESTIONS, ...GA_PARDON_QUESTIONS]
     : profile.jurisdiction.code === "IL" ? [...WILMA_FACT_QUESTIONS, ...IL_CANNABIS_QUESTIONS]
     : profile.jurisdiction.code === "NY" ? [...WILMA_FACT_QUESTIONS, ...NY_16059_QUESTIONS]
@@ -1156,6 +1158,8 @@ function withWilmaFactQuestions(
     );
   const questions = withBroadTimingBucketGate(withAdditions).map(question => profile.jurisdiction.code === "GA" && question.id === "possible_pathway_context"
     ? { ...question, optionDisplay: { ...question.optionDisplay, ...Object.fromEntries([GA_PARDON_OLD_LABEL, GA_PARDON_LABEL.en].map(value => [value, { label: GA_PARDON_LABEL.en, translations: { es: { label: GA_PARDON_LABEL.es } } }])) } }
+    : caProbationContract && CA_12034_FACT_IDS.includes(question.id)
+    ? CA_12034_QUESTIONS.find(fact => fact.id === question.id)!
     : profile.jurisdiction.code === "CA" && CA_PROP64_FACT_IDS.includes(question.id)
     ? CA_PROP64_FACT_QUESTIONS.find(fact => fact.id === question.id)!
     : profile.jurisdiction.code === "ND" && ND_FIRST_OFFENSE_FACT_IDS.includes(question.id)
@@ -1383,7 +1387,7 @@ function buildProfileDraft(profile: EngineProfile): PublicJurisdictionProfile {
         routeScopedPacketFacts.includes(question.id)
       ), profile.jurisdiction.code)),
       caseOutcomeOptions: toPublicCaseOutcomeOptions(designerProfile.caseOutcomeOptions)
-    }, profile.pathways ?? [], routeScopedPacketFacts);
+    }, profile.pathways ?? [], routeScopedPacketFacts, ca12034Contract(profile));
   }
 
   const questionIds = new Set(profile.questions.map((question) => question.id));
@@ -1415,5 +1419,5 @@ function buildProfileDraft(profile: EngineProfile): PublicJurisdictionProfile {
       optionDisplay: question.optionDisplay
     }, profile.jurisdiction.code, "engine", routeScopedPacketFacts.includes(question.id)), profile.jurisdiction.code)),
     caseOutcomeOptions: toPublicCaseOutcomeOptions(profile.caseOutcomeOptions)
-  }, profile.pathways ?? [], routeScopedPacketFacts);
+  }, profile.pathways ?? [], routeScopedPacketFacts, ca12034Contract(profile));
 }

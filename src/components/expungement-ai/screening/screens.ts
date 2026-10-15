@@ -1,3 +1,4 @@
+import { CA_12034_FACT_IDS } from "@/lib/rcap-engine/california-1203-4-facts";
 import { MT_DEFERRED_FACT_IDS } from "@/lib/rcap-engine/montana-deferred-facts";
 import { MO_MARIJUANA_FACT_IDS } from "@/lib/rcap-engine/missouri-marijuana-status-facts";
 import { AR_RECORD_ORIGIN_ID } from "@/lib/rcap-engine/arkansas-record-origin";
@@ -105,6 +106,8 @@ export function sanitizeAnswersForQuestionIds(
     // These are the same case record facts across CA branches, not branch-only answers.
     || Boolean(profile?.questions.some((question) => question.id === questionId && caProp64RecordQuestion(profile.jurisdiction.code, question)))
     || Boolean(profile?.jurisdiction.code === "CA" && [...CA_PROP64_FACT_IDS, ...CA_PROP64_LEGACY_IDS, "ca_prop64_branch", "ca_prop64_relief_requested"].includes(questionId)
+      && profile.questions.some(question => question.id === questionId))
+    || Boolean(profile?.jurisdiction.code === "CA" && CA_12034_FACT_IDS.includes(questionId)
       && profile.questions.some(question => question.id === questionId))
     // NV charge and program-disposition facts still describe the same record
     // when a sibling remedy is selected. Keep their independent raw answers;
