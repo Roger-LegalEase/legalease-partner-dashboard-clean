@@ -98,11 +98,11 @@ export type GradeABlock =
       keepWithNext?: boolean;
       listMarker?: "none";
       /**
-       * `blank` marks a value the participant writes on the printed page. The
+       * `blank` marks a value the declared later actor writes on the printed page. The
        * renderer draws a line for it instead of a value, and the composer never
        * fills one, so an approved blank cannot quietly become a prefilled field.
        */
-      items: Array<{ label: string; value: string; blank?: boolean; completedBy?: "participant" | "court" }>;
+      items: Array<{ label: string; value: string; blank?: boolean; completedBy?: "participant" | "court" | "prosecutor" }>;
     }
   | {
       kind: "pleading_signature";
@@ -632,6 +632,14 @@ function composeSection(
     }
     if (treatment === "ruled_blank") return { label, value: "", blank: true, completedBy: "participant" as const };
     if (treatment === "court_owned_space") return { label, value: "", blank: true, completedBy: "court" as const };
+    if (treatment === "prosecutor_owned_space") {
+      const ownership = specification.fieldOwnership;
+      if (!ownership?.prosecutorOwnedFields.includes(field)
+        || Object.entries(ownership).some(([key, fields]) => key !== "prosecutorOwnedFields" && fields.includes(field))) {
+        throw new GradeAPacketCompositionError(specification.routeKey, [], "Prosecutor blank lacks exclusive source-declared prosecutor ownership");
+      }
+      return { label, value: "", blank: true, completedBy: "prosecutor" as const };
+    }
     if (treatment === "value") {
       return { label, value: fill(section.fieldValueTemplates?.[field] ?? `{{${field}}}`, matter) };
     }
@@ -666,7 +674,7 @@ function composeSection(
             throw new GradeAPacketCompositionError(specification.routeKey, [], "Caption blank lacks exact declared treatment, label or later ownership");
           }
           const entry = fieldItem(field);
-          if (!entry.blank || entry.value !== "" || !entry.completedBy) {
+          if (!entry.blank || entry.value !== "" || (entry.completedBy !== "participant" && entry.completedBy !== "court")) {
             throw new GradeAPacketCompositionError(specification.routeKey, [], "Caption blank cannot consume a supplied value");
           }
           return { field, label: entry.label, completedBy: entry.completedBy };

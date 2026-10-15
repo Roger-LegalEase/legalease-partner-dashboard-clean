@@ -72,8 +72,9 @@ export type PacketSpecificationSection = {
    *   value              the platform's fact, printed.
    *   ruled_blank        a labelled line the participant completes before filing.
    *   court_owned_space  a labelled space the court itself completes.
+   *   prosecutor_owned_space  a labelled blank only the prosecutor completes.
    */
-  fieldTreatments?: Record<string, "value" | "value_or_ruled_blank" | "ruled_blank" | "court_owned_space">;
+  fieldTreatments?: Record<string, "value" | "value_or_ruled_blank" | "ruled_blank" | "court_owned_space" | "prosecutor_owned_space">;
   /**
    * An explicit caption, for a filing whose caption is not the generic
    * two-party one and whose caption values the participant writes on the page.
