@@ -19,11 +19,15 @@ export const MS_PROOF_EXECUTION_INPUTS=['scripts/lib/rcap-ephemeral-pg.mjs','scr
 // the full execution must reproduce this set before emitting a current proof.
 export const MS_PROOF_OBSERVED_INPUTS=[
   "data/rcap-all50/overlays/census-v1/ak/ak-courtview-set--official-pdf-fill/production-field-map.json",
+  "data/rcap-all50/overlays/census-v1/ak/ak-mistaken-identity-set--official-pdf-fill/production-field-map.json",
+  "data/rcap-all50/overlays/census-v1/ak/composed-treatment:obligation:runtime-only:ak:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085--custom-pleading/production-field-map.json",
   "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/production-field-map.json",
+  "data/rcap-grade-a/legal-decisions/OWNER_BATCH_ADOPTION_2026-09-02.json",
   "data/rcap-ledger/packet-correction-required.json",
   "data/rcap-ledger/packet-fulfillment-records.json",
   "data/rcap-ledger/route-kind-adjudications.json",
   "data/rcap-ledger/route-presentation-conflicts.json",
+  "data/record-clearing/legal-decisions/2026-08-28-national-legal-decisions.json",
   "data/record-clearing/legal-decisions/2026-09-25-ms-nonconv-sponsored-preview.json",
   "data/record-clearing/legal-decisions/route-ratification-registry.json",
   "data/record-clearing/legal-design-intake/AK.memo.json",
@@ -183,6 +187,7 @@ export const MS_PROOF_OBSERVED_INPUTS=[
   "src/lib/rcap-engine/nevada-176a-branch.ts",
   "src/lib/rcap-engine/new-york-16059-facts.ts",
   "src/lib/rcap-engine/new-york-16059-questions.ts",
+  "src/lib/rcap-engine/north-dakota-first-offense-facts.ts",
   "src/lib/rcap-engine/oregon-disposition-identity.ts",
   "src/lib/rcap-engine/packet-planner.ts",
   "src/lib/rcap-engine/pathway-context.ts",
