@@ -1,3 +1,4 @@
+import { alRecordIsContext } from "@/lib/expungement-ai/al-record-context";
 import { ND_FIRST_OFFENSE_FACT_IDS } from "@/lib/rcap-engine/north-dakota-first-offense-facts";
 import { akPardonRecordIsContext, akJuvenileRecordIsContext, akAgencyOrSisRecordIsContext } from "@/lib/expungement-ai/ak-pardon-record-context";
 import { akCourtviewRecordIsContext, AK_LEGACY_RECORD_TYPE } from "@/lib/expungement-ai/ak-courtview-record-context";
@@ -625,6 +626,8 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
     return validValue(factId, available[factId]) ? answerString(available[factId]) : "";
   };
 
+  const alRecordContext = input.jurisdiction === "AL"
+    && alRecordIsContext(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
   const dcLocationContext = input.jurisdiction === "DC"
     && dcInnocenceLocationIsContext(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
   const akAgencyOrSisContext = input.jurisdiction === "AK"
@@ -777,6 +780,16 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
         actor: actor ?? "external",
         reason: `the specification assigns this field to ${actor ?? "an external actor"}`
       });
+      continue;
+    }
+
+    if (factId === "record_type" && alRecordContext && !overrideClass && !needsHuman.has(factId)) {
+      const retained = [input.screeningAnswers, input.prefilledAnswers, input.savedAnswers, input.profileFacts]
+        .some(answers => answers && Object.hasOwn(answers, factId));
+      facts.push({ factId, collection: "conditional", phase: retained ? "render" : "known",
+        group: retained ? group : null, active: retained, optional: true,
+        source: "al_four_route_record_type_history",
+        reason: "The exact retained Alabama families have no destination for the overlapping generic record-type menu. Saved answers remain optional history; specific disposition, conviction, pardon and trafficking facts and current route authority remain separate." });
       continue;
     }
 

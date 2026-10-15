@@ -1,3 +1,4 @@
+import { alRecordIsContext, alRecordContextQuestion } from "@/lib/expungement-ai/al-record-context";
 import { ND_FIRST_OFFENSE_FACT_IDS, ndFirstOffenseFactApplies, ndFirstOffenseAnswerState } from "@/lib/rcap-engine/north-dakota-first-offense-facts";
 import { akPardonRecordIsContext, akPardonRecordContextQuestion, akJuvenileRecordIsContext, akJuvenileRecordContextQuestion, akAgencyOrSisRecordIsContext, akAgencyOrSisRecordContextQuestion } from "@/lib/expungement-ai/ak-pardon-record-context";
 import { AK_LEGACY_RECORD_TYPE, akCourtviewRecordIsContext, akCourtviewRecordContextQuestion } from "@/lib/expungement-ai/ak-courtview-record-context";
@@ -365,6 +366,7 @@ export function packetInformationModelFor(item: ConsumerBriefcaseItem): PacketIn
   questions = questions.map(question => akPardonRecordContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
   questions = questions.map(question => akJuvenileRecordContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
   questions = questions.map(question => akAgencyOrSisRecordContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
+  questions = questions.map(question => alRecordContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
   questions = questions.map(question => delawareProtectedExclusionQuestion(question, profile, pathwayId, initialAnswers));
   for (const question of questions) questionById.set(question.id, question);
   const builderQuestions = builderQuestionsFor(questions, collection, requiredInputIds, serverFacts);
@@ -1628,6 +1630,12 @@ export function protectedPacketInformationModelFor(
     // Display-only recovery; no read/no-op rewrite of retained raw history.
     packetAnswers[AK_LEGACY_RECORD_TYPE] = { unknown: true };
   }
+  if (alRecordIsContext(profile, snapshot.pathwayId, packetSpecificationFor(`${snapshot.jurisdiction}:${snapshot.pathwayId}`))
+    && [snapshot.screeningAnswers, snapshot.prefilledAnswers, snapshot.packetAnswers].some(map => Object.hasOwn(map, "record_type"))
+    && ![screeningAnswers, prefilledAnswers, packetAnswers].some(map => Object.hasOwn(map, "record_type"))) {
+    // Display-only clarification of retained context; read/no-op preserves raw maps.
+    packetAnswers.record_type = { unknown: true };
+  }
   const initialAnswers = { ...screeningAnswers, ...prefilledAnswers, ...packetAnswers };
   const requiredInputIds = stringArray(snapshot.requiredInputIds);
   if (!canonicalEqual(requiredInputIds, packetPlan?.requiredInputIds ?? [])) return null;
@@ -2094,6 +2102,8 @@ export function factualPathwayCorrectionIds(state: string, pathway: string | nul
     ...(includeInactive ? ["contact_information", "residency_or_location"].filter(id => Object.hasOwn(answers, id)) : [])];
   if (profile && ctCleanSlateContactContract(profile, pathway)) return [...extra, ...CT_CLEAN_SLATE_CONTACT_IDS];
   if (profile && ksMunicipalContactContract(profile, pathway)) return [...extra, ...KS_MUNICIPAL_CONTACT_IDS];
+  if (alRecordIsContext(profile, pathway, packetSpecificationFor(`${state}:${pathway}`))
+    && Object.hasOwn(answers, "record_type")) return [...extra, "record_type"];
   if ((akPardonRecordIsContext(profile, pathway, packetSpecificationFor(`${state}:${pathway}`))
       || akJuvenileRecordIsContext(profile, pathway, packetSpecificationFor(`${state}:${pathway}`))
       || akAgencyOrSisRecordIsContext(profile, pathway, packetSpecificationFor(`${state}:${pathway}`)))
@@ -2394,7 +2404,7 @@ function builderQuestionsFor(
 
   const owed = new Set(prepayGateFactIds(collection));
   const optional = new Set(collection.facts.filter(fact => fact.optional === true
-    && !(["ak_courtview_record_type_history", "ak_pardon_record_type_history", "ak_juvenile_record_type_history", "ak_agency_sis_record_type_history"].includes(fact.source) && fact.active === false)).map(fact => fact.factId));
+    && !(["ak_courtview_record_type_history", "ak_pardon_record_type_history", "ak_juvenile_record_type_history", "ak_agency_sis_record_type_history", "al_four_route_record_type_history"].includes(fact.source) && fact.active === false)).map(fact => fact.factId));
   const order = new Map<string, number>();
   let position = 0;
   for (const section of collection.groupedParticipantSections) {
@@ -2541,6 +2551,7 @@ function protectedPacketQuestionSurface(
   questions = questions.map(question => akPardonRecordContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
   questions = questions.map(question => akJuvenileRecordContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
   questions = questions.map(question => akAgencyOrSisRecordContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
+  questions = questions.map(question => alRecordContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
   questions = questions.map(question => delawareProtectedExclusionQuestion(question, profile, pathwayId, { ...screeningAnswers, ...prefilledAnswers, ...savedAnswers }));
   for (const question of questions) questionById.set(question.id, question);
   const builderQuestions = builderQuestionsFor(questions, collection, requiredInputIds, serverFacts);
