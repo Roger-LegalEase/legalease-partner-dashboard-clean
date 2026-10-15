@@ -1,3 +1,4 @@
+import { westVirginiaGuidanceFinancialApplies } from "@/lib/rcap-engine/west-virginia-guidance-financial";
 import { southDakotaGuidanceFinancialApplies } from "@/lib/rcap-engine/south-dakota-guidance-financial";
 import { southCarolinaGuidanceFinancialApplies } from "@/lib/rcap-engine/south-carolina-guidance-financial";
 import { newJerseyMarijuanaStatusFinancialApplies } from "@/lib/rcap-engine/new-jersey-marijuana-status-financial";
@@ -355,6 +356,7 @@ function evaluateProfileRules(profile: EngineProfile, request: ScreeningEvaluati
     .filter(id => montanaRecordFinancialApplies(profile, preselectedPathway?.id, answers, id))
     .filter(id => newMexicoGuidanceFinancialApplies(profile, preselectedPathway?.id, answers, id))
     .filter(id => newJerseyMarijuanaStatusFinancialApplies(profile, preselectedPathway?.id, answers, id))
+    .filter(id => westVirginiaGuidanceFinancialApplies(profile, preselectedPathway?.id, answers, id))
     .filter(id => southDakotaGuidanceFinancialApplies(profile, preselectedPathway?.id, answers, id))
     .filter(id => southCarolinaGuidanceFinancialApplies(profile, preselectedPathway?.id, answers, id))
     .filter(id => oklahomaCleanSlateFinancialApplies(profile, preselectedPathway?.id, answers, id))
@@ -952,6 +954,7 @@ function ambiguityReason(
     .filter(question => montanaRecordFinancialApplies(profile, selectedPathway?.id, answers, question.id))
     .filter(question => newMexicoGuidanceFinancialApplies(profile, selectedPathway?.id, answers, question.id))
     .filter(question => newJerseyMarijuanaStatusFinancialApplies(profile, selectedPathway?.id, answers, question.id))
+    .filter(question => westVirginiaGuidanceFinancialApplies(profile, selectedPathway?.id, answers, question.id))
     .filter(question => southDakotaGuidanceFinancialApplies(profile, selectedPathway?.id, answers, question.id))
     .filter(question => southCarolinaGuidanceFinancialApplies(profile, selectedPathway?.id, answers, question.id))
     .filter(question => oklahomaCleanSlateFinancialApplies(profile, selectedPathway?.id, answers, question.id))
@@ -2437,7 +2440,8 @@ function evaluateCompiledTiming(profile: EngineProfile, answers: Record<string, 
     && oklahomaCleanSlateFinancialApplies(profile, pathway.id, answers, "financial_obligations")
     && newJerseyMarijuanaStatusFinancialApplies(profile, pathway.id, answers, "financial_obligations")
     && southCarolinaGuidanceFinancialApplies(profile, pathway.id, answers, "financial_obligations")
-    && southDakotaGuidanceFinancialApplies(profile, pathway.id, answers, "financial_obligations");
+    && southDakotaGuidanceFinancialApplies(profile, pathway.id, answers, "financial_obligations")
+    && westVirginiaGuidanceFinancialApplies(profile, pathway.id, answers, "financial_obligations");
   const unpaidFinancialAnswer = financialApplies && isNegative(answers.financial_obligations) && !cannabisNonfinancialComplete;
   const paymentMeaningNeedsClarification = unpaidFinancialAnswer && courtRequirement === "yes"
     && isIndependentPaidFinancialFact(routeKey(profile, pathway), profile.questions.find(question => question.id === "financial_obligations"));

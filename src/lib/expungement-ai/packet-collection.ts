@@ -1,3 +1,4 @@
+import { westVirginiaGuidanceFinancialApplies } from "@/lib/rcap-engine/west-virginia-guidance-financial";
 import { southDakotaGuidanceFinancialApplies } from "@/lib/rcap-engine/south-dakota-guidance-financial";
 import { southCarolinaGuidanceFinancialApplies } from "@/lib/rcap-engine/south-carolina-guidance-financial";
 import { newJerseyMarijuanaStatusFinancialApplies } from "@/lib/rcap-engine/new-jersey-marijuana-status-financial";
@@ -770,6 +771,16 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
       facts.push({ factId, collection: "conditional", phase: "known", group: null,
         source: "ok_clean_slate_guidance_no_payment_predicate", active: false,
         reason: "Generic payment completeness is not a prerequisite to this exact noncommercial guidance. Saved payment remains history; victim-restitution objections, source categories and operational limitations remain separate." });
+      continue;
+    }
+
+    const wvGuidanceProfile = input.jurisdiction === "WV" && factId === "financial_obligations"
+      ? getProfileByJurisdiction("WV") : null;
+    if (wvGuidanceProfile && !westVirginiaGuidanceFinancialApplies(wvGuidanceProfile, input.pathwayId,
+      { ...available, ...input.savedAnswers }, factId)) {
+      facts.push({ factId, collection: "conditional", phase: "known", group: null,
+        source: "wv_informational_guidance_no_payment_predicate", active: false,
+        reason: "Generic payment completeness does not gate this status/correction guidance. Full pardon, separate pardon/discharge clocks, exclusions and publication/service costs remain separate; no completed relief or universal nondisclosure is inferred." });
       continue;
     }
 
