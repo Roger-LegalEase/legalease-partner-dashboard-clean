@@ -1,3 +1,4 @@
+import { TX_ND_TIMING_COPY } from "@/lib/rcap-engine/texas-nondisclosure-facts";
 import { WY_1401_COPY } from "@/lib/rcap-engine/wyoming-1401-facts";
 import { CA_12034_COPY } from "@/lib/rcap-engine/california-1203-4-facts";
 import { ND_FIRST_OFFENSE_COPY } from "@/lib/rcap-engine/north-dakota-first-offense-facts";
@@ -1170,7 +1171,7 @@ export function t(locale: Locale, key: string, fallback?: string, vars?: Record<
 }
 
 export function resolveRuntimeText(locale: Locale, text: string, options?: { key?: string; vars?: Record<string, string | number | undefined> }): string {
-  const draft = [...Object.values(WY_1401_COPY), ...Object.values(CA_12034_COPY), ...Object.values(ND_FIRST_OFFENSE_COPY), ...Object.values(OR_DISPOSITION_COPY), ...Object.values(MT_DEFERRED_COPY), ...Object.values(MO_MARIJUANA_COPY), ...Object.values(GA_PARDON_COPY), ...Object.values(AR_RECORD_ORIGIN_COPY), ...Object.values(CONVICTION_RELIEF_COPY), ...Object.values(GA_FIRST_OFFENDER_GUIDANCE), KS_REGISTRATION_REVIEW_COPY].find(([en]) => en === text);
+  const draft = [...Object.values(TX_ND_TIMING_COPY), ...Object.values(WY_1401_COPY), ...Object.values(CA_12034_COPY), ...Object.values(ND_FIRST_OFFENSE_COPY), ...Object.values(OR_DISPOSITION_COPY), ...Object.values(MT_DEFERRED_COPY), ...Object.values(MO_MARIJUANA_COPY), ...Object.values(GA_PARDON_COPY), ...Object.values(AR_RECORD_ORIGIN_COPY), ...Object.values(CONVICTION_RELIEF_COPY), ...Object.values(GA_FIRST_OFFENDER_GUIDANCE), KS_REGISTRATION_REVIEW_COPY].find(([en]) => en === text);
   if (draft) return interpolate(draft[locale === "es" ? 1 : 0], options?.vars);
   const reviewed = reviewedResultText(text);
   if (reviewed) return interpolate(reviewed[locale], options?.vars);

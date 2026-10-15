@@ -1,4 +1,4 @@
-import { texasGuidanceFinancialApplies } from "@/lib/rcap-engine/texas-nondisclosure-facts";
+import { texasGuidanceFinancialApplies, texasNondisclosureTimingContract, texasNondisclosureClock, TX_ND_ROUTES, TX_ND_TIMING_COPY, TX_ND_FACT_IDS } from "@/lib/rcap-engine/texas-nondisclosure-facts";
 import { westVirginiaGuidanceFinancialApplies } from "@/lib/rcap-engine/west-virginia-guidance-financial";
 import { southDakotaGuidanceFinancialApplies } from "@/lib/rcap-engine/south-dakota-guidance-financial";
 import { southCarolinaGuidanceFinancialApplies } from "@/lib/rcap-engine/south-carolina-guidance-financial";
@@ -544,6 +544,16 @@ function evaluateProfileRules(profile: EngineProfile, request: ScreeningEvaluati
       paymentAllowed: false
     });
   }
+  // Execute the exact retained TX event/subtype clock before mixed legacy
+  // summaries can classify petitioned nondisclosure as automatic guidance.
+  // Automatic information remains available even with missing timing facts.
+  const txClock = preselectedPathway ? texasNondisclosureClock(profile, preselectedPathway.id, answers, evaluationToday().toISOString().slice(0,10)) : null;
+  if (txClock && preselectedPathway && preselectedPathway.id !== TX_ND_ROUTES[0] && txClock.status !== "elapsed") {
+    const plan = packetPlanForPathway(profile, preselectedPathway.id);
+    return result(profile, request, txClock.status === "missing" ? "needs_more_info" : txClock.status === "not_yet" ? "not_yet" : "needs_review",
+      [reason("TX", `nondisclosure_${txClock.code}`, TX_ND_TIMING_COPY[txClock.status][0], `TX.memo;GovtCode${txClock.section}`)],
+      { pathwayId: preselectedPathway.id, ...(plan ? {packetPlan:plan} : {}), missingQuestionIds: txClock.ids, paymentAllowed: false });
+  }
   const preProductGuidance = preselectedPathway ? productGuidanceReason(profile, answers, preselectedPathway) : undefined;
   if (preselectedPathway && preProductGuidance) {
     const plan = packetPlanForPathway(profile, preselectedPathway.id);
@@ -953,6 +963,7 @@ function ambiguityReason(
   const legalFields = publicProfile.questions.filter((question) => question.contextOnly !== true && isPrepaymentQuestion(question));
   const relevant = relevantFactIds(profile, selectedPathway);
   const ambiguous = legalFields
+    .filter(question => !TX_ND_FACT_IDS.includes(question.id))
     .filter(question => montanaRecordFinancialApplies(profile, selectedPathway?.id, answers, question.id))
     .filter(question => newMexicoGuidanceFinancialApplies(profile, selectedPathway?.id, answers, question.id))
     .filter(question => newJerseyMarijuanaStatusFinancialApplies(profile, selectedPathway?.id, answers, question.id))
@@ -1496,6 +1507,13 @@ function presentationConflictReason(profile: EngineProfile, pathway: CompiledPat
 
 function postTimingPolicyReason(profile: EngineProfile, pathway: CompiledPathway): ScreeningReason | undefined {
   const jurisdiction = profile.jurisdiction.code;
+  // The exact DWI clock replaces the old unexecuted-timing review, not the
+  // separate adopted source predicates absent from this compiled questionnaire.
+  // TX.memo tracks 12/15/17 require qualifying offense, record and collision
+  // evidence. Calendar arithmetic cannot manufacture those facts or readiness.
+  if (pathway.id === TX_ND_ROUTES[3] && texasNondisclosureTimingContract(profile, pathway.id)) {
+    return reason("TX", "nondisclosure_dwi_source_facts_review", TX_ND_TIMING_COPY.dwi_source_review[0], "TX.memo:tracks/12,15,17;GovtCode411.0726,411.0731,411.0736");
+  }
   if (routeIsCorrectedAwaitingReconfirm(profile, pathway)) {
     return reason(jurisdiction, "lawrence_reconfirmation_required", "Lawrence corrected this route's timing or anchor; it must be re-confirmed before a paid packet decision.", pathway.sourceRef);
   }
@@ -1507,6 +1525,10 @@ function postTimingPolicyReason(profile: EngineProfile, pathway: CompiledPathway
 
 function specialRouteTiming(profile: EngineProfile, answers: Record<string, ScreeningAnswerValue>, rule: CompiledRule, pathway: CompiledPathway): TimingResult | undefined {
   const key = routeKey(profile, pathway);
+  const txClock = texasNondisclosureClock(profile, pathway.id, answers, evaluationToday().toISOString().slice(0,10));
+  if (txClock) return txClock.status === "elapsed" ? {status:"satisfied"} : txClock.status === "missing"
+    ? { status:"missing_anchor", missingQuestionIds:txClock.ids, reason:reason("TX", `nondisclosure_${txClock.code}`, TX_ND_TIMING_COPY.missing[0], `TX.memo;GovtCode${txClock.section}`) }
+    : { status:txClock.status === "not_yet" ? "not_yet" : "needs_review", reason:reason("TX", `nondisclosure_${txClock.code}`, TX_ND_TIMING_COPY[txClock.status][0], `TX.memo;GovtCode${txClock.section}`) };
   if (key === "MD:pardoned-conviction-expungement-under-crim-proc-10-105-a-8") {
     // Crim. Proc. § 10-105(a)(8) carries no minimum wait; § 10-105(c)(4) is the
     // opposite constraint — filing is barred more than 10 years AFTER the
@@ -2134,7 +2156,10 @@ function result(
     userLabel: labelForResult(resultCode),
     reasons,
     missingQuestionIds: overrides.missingQuestionIds ?? [],
-    cautions: [...(overrides.cautions ?? []), ...(isCaProp64Pathway(profile.jurisdiction.code, overrides.pathwayId)
+    cautions: [...(overrides.cautions ?? []), ...(overrides.pathwayId === TX_ND_ROUTES[0]
+      && texasNondisclosureTimingContract(profile, overrides.pathwayId)
+      && TX_ND_FACT_IDS.some(id => Object.hasOwn(request.answers, id))
+      ? [TX_ND_TIMING_COPY[texasNondisclosureClock(profile, overrides.pathwayId, request.answers, evaluationToday().toISOString().slice(0,10))!.status][0]] : []), ...(isCaProp64Pathway(profile.jurisdiction.code, overrides.pathwayId)
       ? [CA_PROP64_PROCEDURE_COPY[overrides.pathwayId === CA_PROP64_CURRENT ? "current" : "completed"][0]] : [])],
     nextSteps: specificNextStep ? [specificNextStep.text] : overrides.missingQuestionIds?.includes("financial_obligations")
       ? [FINANCIAL_CLARIFICATION_TEXT, FINANCIAL_OTHER_QUESTIONS_TEXT] : nextStepsForResult(resultCode),
@@ -2762,6 +2787,7 @@ export function isCourtFiledPetitionRoute(
   options?: { ignoreContractDeclaration?: boolean }
 ) {
   const code = profile.jurisdiction.code;
+  if (texasNondisclosureTimingContract(profile, pathway.id)) return pathway.id !== TX_ND_ROUTES[0];
   const text = `${pathway.id} ${pathway.label} ${pathway.summary}`.toLowerCase();
   const plan = packetPlanForPathway(profile, pathway.id);
   // Structural veto before any ratification shortcut: an automatic/no-filing

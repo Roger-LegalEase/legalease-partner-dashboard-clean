@@ -1,3 +1,4 @@
+import { TX_ND_QUESTIONS, TX_ND_FACT_IDS } from "@/lib/rcap-engine/texas-nondisclosure-facts";
 import { WY_1401_QUESTIONS, WY_1401_NEW_IDS, wy1401Contract } from "@/lib/rcap-engine/wyoming-1401-facts";
 import { CA_12034_QUESTIONS, CA_12034_FACT_IDS, ca12034Contract } from "@/lib/rcap-engine/california-1203-4-facts";
 import { ND_FIRST_OFFENSE_FACT_IDS, ND_FIRST_OFFENSE_QUESTIONS } from "@/lib/rcap-engine/north-dakota-first-offense-facts";
@@ -74,6 +75,7 @@ const STATE_SPECIFIC_PREPAY_WILMA_FACT_IDS: Record<string, Set<string>> = {
   ]),
   HI: new Set(["hi_court_order_confirmed"]),
   IN: new Set(["in_prosecutor_consent_confirmed"]),
+  TX: new Set(TX_ND_FACT_IDS),
   MD: new Set(["arrest_date"]),
   MO: new Set(["mo_at_least_twenty_two", ...MO_MARIJUANA_FACT_IDS]),
   MT: new Set(MT_DEFERRED_FACT_IDS),
@@ -120,6 +122,7 @@ const STATE_SPECIFIC_PREPAY_WILMA_FACT_IDS: Record<string, Set<string>> = {
 const STATE_SPECIFIC_EXACT_PREPAY_TIMING_FACT_IDS: Record<string, Set<string>> = {
   CA: new Set(["ca_prop64_offense_date"]),
   NY: new Set(NY_16059_TIMING_IDS),
+  TX: new Set(TX_ND_FACT_IDS),
   MD: new Set(["arrest_date"]),
   MS: new Set([
     "arrest_date",
@@ -1129,6 +1132,7 @@ function withWilmaFactQuestions(
     ? [...WILMA_FACT_QUESTIONS.filter(question => !DE_CONVICTION_FACT_IDS.includes(question.id)), ...DE_CONVICTION_QUESTIONS]
     : profile.jurisdiction.code === "MS"
     ? [...WILMA_FACT_QUESTIONS, ...MISSISSIPPI_CORRECTION_FACT_QUESTIONS, ...MS_CONDITIONAL_DISCHARGE_QUESTIONS, ...MS_PROGRAM_COMPLETION_QUESTIONS]
+    : profile.jurisdiction.code === "TX" ? [...WILMA_FACT_QUESTIONS, ...TX_ND_QUESTIONS]
     : profile.jurisdiction.code === "AR" ? [...WILMA_FACT_QUESTIONS, AR_RECORD_ORIGIN_QUESTION]
     : profile.jurisdiction.code === "CA" ? [...WILMA_FACT_QUESTIONS, ...CA_PROP64_FACT_QUESTIONS, ...(caProbationContract ? CA_12034_QUESTIONS : [])]
     : profile.jurisdiction.code === "GA" ? [...WILMA_FACT_QUESTIONS, ...GA_FIRST_OFFENDER_QUESTIONS, ...GA_PARDON_QUESTIONS]
