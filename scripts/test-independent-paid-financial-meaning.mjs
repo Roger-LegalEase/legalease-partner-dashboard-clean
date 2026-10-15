@@ -29,6 +29,24 @@ const statusGuidanceScopes={
   source:'ddb1a8ea6c0d878f5a81d59e2a7e32cd7927436e9fb6fee8e8e8629ba7c62304',decision:'LD-MO-02',
   rule:'MO-610.105-610.122-610.145-THREE-CORRECTION-MECHANISMS',outcome:'automatic_relief',type:'automatic'}
 };
+// Later source-bound guidance corrections retain the paid-only fact meaning.
+// Reuse their exact contracts and test source/route drift restores financial visibility and question drift
+// refuses the guidance exemption; no state-wide or eligibility/payment exemption.
+const {newMexicoGuidanceFinancialContract,newMexicoGuidanceFinancialApplies}=await import('../src/lib/rcap-engine/new-mexico-guidance-financial.ts');
+const {newJerseyMarijuanaStatusFinancialContract,newJerseyMarijuanaStatusFinancialApplies}=await import('../src/lib/rcap-engine/new-jersey-marijuana-status-financial.ts');
+const {oklahomaCleanSlateFinancialContract,oklahomaCleanSlateFinancialApplies}=await import('../src/lib/rcap-engine/oklahoma-clean-slate-financial.ts');
+const {southCarolinaGuidanceFinancialContract,southCarolinaGuidanceFinancialApplies}=await import('../src/lib/rcap-engine/south-carolina-guidance-financial.ts');
+const guardedGuidanceScopes={
+ 'NJ:marijuana-hashish-expungement-under-n-j-s-a-2c-52-5-1-5-2-and-6-1':{guard:newJerseyMarijuanaStatusFinancialContract,applies:newJerseyMarijuanaStatusFinancialApplies,source:'de497e48a96cd33958cf00f9896c843a5edad96ab164135c22965fe0ca76f302'},
+ 'NM:cannabis-expungement':{guard:newMexicoGuidanceFinancialContract,applies:newMexicoGuidanceFinancialApplies,source:'1db8637956e22f092855ca55f218d7c1fa8026609f5308cea4de746c17aa94ea'},
+ 'NM:dna-sample-profile-expungement':{guard:newMexicoGuidanceFinancialContract,applies:newMexicoGuidanceFinancialApplies,source:'1db8637956e22f092855ca55f218d7c1fa8026609f5308cea4de746c17aa94ea'},
+ 'OK:clean-slate-automatic-expungement':{guard:oklahomaCleanSlateFinancialContract,applies:oklahomaCleanSlateFinancialApplies,source:'789b97517326e5da1664befc1f2d5a88d0e8e0f750e2dcf51c5aca7b2d8b5f8d'},
+ 'SC:diversion-or-program-completion-expungement':{guard:southCarolinaGuidanceFinancialContract,applies:southCarolinaGuidanceFinancialApplies,source:'34d2edab3183e544d742a65e93d26f1803d70f0e762ed1dda73e890e0be12acf'},
+ 'SC:pardon-guidance-for-otherwise-ineligible-convictions':{guard:southCarolinaGuidanceFinancialContract,applies:southCarolinaGuidanceFinancialApplies,source:'34d2edab3183e544d742a65e93d26f1803d70f0e762ed1dda73e890e0be12acf'},
+};
+const {wy1401Contract,wy1401QuestionApplies,WY_1401_ROUTE}=await import('../src/lib/rcap-engine/wyoming-1401-facts.ts');
+const observedWy1401Scopes=[];
+const observedGuardedScopes=[];
 const observedStatusScopes=[];
 let checked=0;
 for(const contract of catalog.independentPaidFactContracts){
@@ -48,29 +66,86 @@ for(const contract of catalog.independentPaidFactContracts){
   assert.equal(route.routeType,statusScope.type);assert.equal(route.filingRequired,false);
   assert.equal(selected.includes(contract.factId),false,contract.routeKey+': payment is irrelevant to the exact status guidance');
   observedStatusScopes.push(contract.routeKey);checked+=10;
+ }else if(guardedGuidanceScopes[contract.routeKey]){
+  const scope=guardedGuidanceScopes[contract.routeKey];
+  assert.equal(contract.factId,'financial_obligations');
+  assert.equal(p.profileVersion,'2026-06-19-source-conversion-1');
+  assert.equal(p.source.sourceCorpusSha256,scope.source);
+  assert.equal(scope.guard(p,route.id),true,contract.routeKey+': exact retained source/question/route projection required');
+  assert.equal(selected.includes(contract.factId),false,contract.routeKey+': exact informational guidance does not require payment completeness');
+  assert.equal(scope.guard(p,'not-the-reviewed-route'),false);checked+=6;
+  for(const [mutationIndex,mutate] of [
+   changed=>{changed.source.sourceCorpusSha256='unreviewed-source';},
+   changed=>{changed.profileVersion='unreviewed-profile';},
+   changed=>{changed.questions.find(q=>q.id===contract.factId).prompt='Are amounts paid or otherwise satisfied?';},
+   changed=>{changed.pathways.find(q=>q.id===route.id).sourceRef='unreviewed-route-source';},
+  ].entries()){
+   const changed=structuredClone(p);mutate(changed);
+   assert.equal(scope.guard(changed,route.id),false,contract.routeKey+': drift cannot inherit guidance applicability');
+   assert.equal(scope.applies(changed,route.id,{},contract.factId),true,contract.routeKey+': drift cannot suppress the financial fact through guidance');checked+=2;
+   // A changed prompt also invalidates the separately pinned paid-only meaning
+   // contract, so the lifecycle alias rule no longer promises its visibility.
+   // Source/profile/route drift leaves that meaning intact and must show it.
+   if(mutationIndex!==2){
+    const driftSelected=selectScreeningQuestionIds(changed,projectPublicProfile(changed),{possible_pathway_context:route.label});
+    assert.ok(driftSelected.includes(contract.factId),contract.routeKey+': source/profile/route drift retains financial visibility');checked++;
+   }else{
+    assert.equal(isIndependentPaidFinancialFact(contract.routeKey,changed.questions.find(q=>q.id===contract.factId)),false);checked++;
+   }
+  }
+  observedGuardedScopes.push(contract.routeKey);
+ }else if(contract.routeKey===`WY:${WY_1401_ROUTE}`){
+  assert.equal(wy1401Contract(p,route.id),true);
+  assert.equal(p.source.sourceCorpusSha256,'8be51e84e828de3bece45e51b68744cc68ba6662c7db7991bba8d70a565e00aa');
+  assert.equal(selected.includes(contract.factId),false,'WY1401 exact incident predicates replace irrelevant conviction-debt collection');
+  assert.equal(route.filingRequired,true);assert.equal(route.automatic,false);checked+=5;
+  const changed=structuredClone(p);changed.source.sourceCorpusSha256='unreviewed-source';
+  assert.equal(wy1401Contract(changed,route.id),false);
+  assert.equal(wy1401QuestionApplies(changed,route.id,{},contract.factId),true);
+  assert.ok(selectScreeningQuestionIds(changed,projectPublicProfile(changed),{possible_pathway_context:route.label}).includes(contract.factId));checked+=3;
+  observedWy1401Scopes.push(contract.routeKey);
  }else{
   assert.ok(selected.includes(contract.factId),contract.routeKey+': independent paid fact must not be hidden as a completion alias');checked++;
  }
- const answers=structuredClone(completed),before=structuredClone(answers),result=evaluateCompiledTiming(p,answers,rule,route);
+ // The exact guidance ignores generic payment completeness. Compare all raw
+ // values without granting an eligibility or waiver result. Then exercise the
+ // retained generic paid-meaning contract with only its source guard invalidated.
+ let timingProfile=p;
+ if(guardedGuidanceScopes[contract.routeKey]){
+  const baseline=evaluateCompiledTiming(p,{...completed,financial_obligations:'Yes'},rule,route);
+  for(const financial of ['Yes','No','I am not sure',undefined,null]){
+   const input={...completed,financial_obligations:financial},before=structuredClone(input);
+   assert.deepEqual(evaluateCompiledTiming(p,input,rule,route),baseline,contract.routeKey+': financial value cannot gate exact guidance');
+   assert.deepEqual(input,before);checked+=2;
+  }
+  for(const change of [{court_requirements_completed:'no'},{sentence_completion_date:'No'},{pending_cases:'Yes'},{new_convictions_during_waiting_period:'Yes'}]){
+   const r=evaluateCompiledTiming(p,{...completed,...change},rule,route);
+   assert.equal(r.status,'not_yet');assert.ok(r.reason.code.endsWith('.timing_or_completion_blocker'));checked+=2;
+  }
+  timingProfile=structuredClone(p);timingProfile.source.sourceCorpusSha256='unreviewed-source';
+ }
+ const answers=structuredClone(completed),before=structuredClone(answers),result=evaluateCompiledTiming(timingProfile,answers,rule,route);
  assert.equal(result.status,'needs_review',contract.routeKey+': satisfaction versus payment needs clarification, not an inferred wait');
  assert.ok(result.reason.code.endsWith('.payment_and_completion_meaning_unconfirmed'));
  assert.deepEqual(answers,before);checked+=3;
  assert.equal(courtCompletionContractsFor(contract.routeKey).filter(c=>c.targetFactId===contract.factId).length,0);checked++;
  // The specific review cannot replace separate known unfinished conditions.
  for(const change of [{court_requirements_completed:'no'},{sentence_completion_date:'No'},{pending_cases:'Yes'},{new_convictions_during_waiting_period:'Yes'}]){
-  const r=evaluateCompiledTiming(p,{...answers,...change},rule,route);assert.equal(r.status,'not_yet');assert.ok(r.reason.code.endsWith('.timing_or_completion_blocker'));checked+=2;
+  const r=evaluateCompiledTiming(timingProfile,{...answers,...change},rule,route);assert.equal(r.status,'not_yet');assert.ok(r.reason.code.endsWith('.timing_or_completion_blocker'));checked+=2;
  }
  for(const completion of [undefined,'no','not_sure','not_applicable']){
-  const r=evaluateCompiledTiming(p,{...answers,court_requirements_completed:completion},rule,route);assert.equal(r.status,'not_yet');checked++;
+  const r=evaluateCompiledTiming(timingProfile,{...answers,court_requirements_completed:completion},rule,route);assert.equal(r.status,'not_yet');checked++;
  }
  for(const financial of ['Yes','I am not sure',undefined]){
-  const r=evaluateCompiledTiming(p,{...answers,financial_obligations:financial},rule,route);assert.ok(!r.reason?.code.endsWith('.payment_and_completion_meaning_unconfirmed'));checked++;
+  const r=evaluateCompiledTiming(timingProfile,{...answers,financial_obligations:financial},rule,route);assert.ok(!r.reason?.code.endsWith('.payment_and_completion_meaning_unconfirmed'));checked++;
  }
  assert.equal(isIndependentPaidFinancialFact(contract.routeKey,{...question,prompt:'Are amounts paid or otherwise satisfied?'}),false);
  assert.equal(isIndependentPaidFinancialFact(contract.routeKey,{...question,helperText:'different meaning'}),false);
  assert.equal(isIndependentPaidFinancialFact('XX:not-a-registered-route',question),false);checked+=3;
 }
 assert.deepEqual(observedStatusScopes.sort(),Object.keys(statusGuidanceScopes).sort());checked++;
+assert.deepEqual(observedGuardedScopes.sort(),Object.keys(guardedGuidanceScopes).sort());checked++;
+assert.deepEqual(observedWy1401Scopes,[`WY:${WY_1401_ROUTE}`]);checked++;
 console.log(JSON.stringify({status:'PASS',checked,originalPaidContracts:catalog.independentPaidFactContracts.length,positiveCarryContracts:catalog.contracts.length,
- statusGuidanceRelevanceOnly:observedStatusScopes,
- scope:'Isolated actual timing helper,139 exact paid-only contracts; no inferred payment/waiver exception, independent blockers and input bytes preserved. Two exact adopted status-guidance relevance scopes do not alter paid-answer meaning. This is not139 protected journeys or proof that a waiver satisfies any jurisdiction rule.'}));
+ statusGuidanceRelevanceOnly:observedStatusScopes,sourceGuardedGuidanceRelevanceOnly:observedGuardedScopes,wy1401CollectionRelevanceOnly:observedWy1401Scopes,
+ scope:'Isolated actual timing helper,139 exact paid-only contracts; no inferred payment/waiver exception, independent blockers and input bytes preserved. Exact adopted status-guidance relevance scopes and six source-guarded guidance scopes do not infer paid-answer meaning; generic paid-meaning controls for those six execute with source applicability invalidated; unreviewed source/profile/route drift restores financial visibility and changed question meaning refuses both reviewed contracts. This is not139 protected journeys or proof that a waiver satisfies any jurisdiction rule.'}));
