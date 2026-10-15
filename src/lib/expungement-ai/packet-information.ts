@@ -1,3 +1,4 @@
+import { WY_1401_ROUTE, WY_1401_SOURCE, WY_1401_FACT_IDS, WY_1401_NEW_IDS, WY_1401_IRRELEVANT_IDS, WY_1401_QUESTIONS, wy1401Contract, wy1401Context, wy1401Facts, wy1401QuestionApplies } from "@/lib/rcap-engine/wyoming-1401-facts";
 import { newMexicoGuidanceFinancialApplies, newMexicoGuidanceFinancialContract, NM_GUIDANCE_FINANCIAL_ROUTES } from "@/lib/rcap-engine/new-mexico-guidance-financial";
 import { montanaRecordFinancialApplies, montanaRecordFinancialContract, MT_RECORD_FINANCIAL_ROUTES } from "@/lib/rcap-engine/montana-record-correction-financial";
 import { caAutomaticRecordIsContext, caAutomaticRecordContextQuestion } from "@/lib/expungement-ai/ca-automatic-record-context";
@@ -1692,11 +1693,49 @@ export function californiaProbationDraftSuccessor(snapshot: ProtectedPacketAutho
   return seeded ? preserveUnchangedProtectedFacts(seeded.snapshot,snapshot,new Set()) : null;
 }
 
+/** Exact source-reproduced legacy guidance drafts, never verified records.
+ * The old automatic classification supplies provenance only. Current incident
+ * facts are still missing, and the retained commercial hold remains closed. */
+export function wyoming1401DraftSuccessor(snapshot: ProtectedPacketAuthoritySnapshot,
+  authoritative: NonNullable<ReturnType<typeof evaluateProtectedPacketFacts>>): ProtectedPacketDraftSnapshot | null {
+  const profile=getProfileByJurisdiction("WY"), evaluation=authoritative.evaluation;
+  if(!profile || !wy1401Contract(profile) || snapshot.schemaVersion!=="expungement-ai/protected-packet-draft/v1"
+    || snapshot.jurisdiction!=="WY" || ![WY_1401_ROUTE,null].includes(snapshot.pathwayId)
+    || snapshot.profileVersion!==profile.profileVersion || snapshot.profileSourceFingerprint!==profile.source?.sourceCorpusSha256
+    || snapshot.profileAuthorityFingerprint!==(snapshot.pathwayId===null?"13fab8f11de1b10b38b0c9e796eaab926e77d11a7e787a624248c4a5bb2ff889":"5920885fa4e4e10a2eb8f92d6cc6156f2ce4bf4d551ea78e4d9197f105a5bd90")
+    || snapshot.paymentAllowed || snapshot.selectedTrackId!==null || snapshot.treatmentClassification!==null
+    || !canonicalEqual(snapshot.deferralComponentIds,[]) || !canonicalEqual(snapshot.serverFacts,canonicalServerFacts("WY",snapshot.pathwayId))
+    || evaluation.jurisdiction!=="WY" || evaluation.profileVersion!==snapshot.profileVersion || evaluation.pathwayId!==WY_1401_ROUTE
+    || evaluation.paymentAllowed || authoritative.selectedTrackId || evaluation.treatmentClassification || evaluation.deferralComponentIds?.length
+    || evaluation.resultCode!=="needs_more_info" || evaluation.reasons.length!==1
+    || evaluation.reasons[0].code!=="wy.nonconviction_missing" || evaluation.reasons[0].sourceRef!==WY_1401_SOURCE
+    || !canonicalEqual(evaluation.missingQuestionIds,["wy_1401_listed_deferral"])
+    || !canonicalEqual(evaluation.packetPlan,packetPlanForPathway(profile,WY_1401_ROUTE)))return null;
+  const raw={...snapshot.screeningAnswers,...snapshot.prefilledAnswers,...snapshot.packetAnswers};
+  if(WY_1401_NEW_IDS.some(id=>Object.hasOwn(raw,id)) || !["Dismissed, no-billed, nolle prosequi, or not prosecuted","Arrest or citation with no charge filed","Acquitted"].includes(String(raw.case_outcome)))return null;
+  if(snapshot.resultCode==="guidance_only" && snapshot.pathwayId===WY_1401_ROUTE) {
+    if(snapshot.packetType!=="guidance_packet" || !snapshot.packetPlan
+      || contactRepresentationHash(snapshot.packetPlan)!=="97fd3f52897a2cef28e51f5fa9397b1268211ef014604359384e8f8f72bab07f"
+      || !canonicalEqual(snapshot.requiredInputIds,snapshot.packetPlan.requiredInputIds)
+      || !canonicalEqual(snapshot.packetFamilyIdentifiers,{mode:"automatic_relief_verification_and_guidance",sourceFormIds:[]}))return null;
+  } else {
+    if(snapshot.packetType!==null || snapshot.packetPlan!==null || !canonicalEqual(snapshot.requiredInputIds,[])
+      || !canonicalEqual(snapshot.packetFamilyIdentifiers,{mode:null,sourceFormIds:[]}))return null;
+    if(snapshot.pathwayId===WY_1401_ROUTE ? snapshot.resultCode!=="needs_review" || !isExplicitUnknownAnswer(toScreeningAnswers(answerRecord(raw)).financial_obligations)
+      : snapshot.resultCode!=="needs_more_info" || Object.hasOwn(raw,"financial_obligations"))return null;
+  }
+  const seeded=protectedPacketDraftSeedFromAuthoritative({authoritative,screeningAnswers:answerRecord(snapshot.screeningAnswers),
+    prefilledAnswers:answerRecord(snapshot.prefilledAnswers),packetAnswers:answerRecord(snapshot.packetAnswers),dependencies:snapshot.dependencies,capturedAt:snapshot.capturedAt});
+  return seeded?preserveUnchangedProtectedFacts(seeded.snapshot,snapshot,new Set()):null;
+}
+
 export function protectedPacketInformationModelFor(
   verification: ProtectedPacketVerificationRecord
 ): ProtectedPacketInformationModel | null {
   let snapshot = protectedAuthoritySnapshotFor(verification);
   if (!snapshot) return null;
+  const wyAuthority=snapshot.jurisdiction==="WY"?evaluateProtectedPacketFacts(snapshot):null;
+  if(wyAuthority)snapshot=wyoming1401DraftSuccessor(snapshot,wyAuthority)??snapshot;
   const caAuthority=snapshot.jurisdiction === "CA" && snapshot.pathwayId === CA_12034_ROUTE ? evaluateProtectedPacketFacts(snapshot) : null;
   if(caAuthority) snapshot=californiaProbationDraftSuccessor(snapshot,caAuthority) ?? snapshot;
   const orAuthority = snapshot.jurisdiction === "OR" && snapshot.pathwayId === null ? evaluateProtectedPacketFacts(snapshot) : null;
@@ -2001,6 +2040,9 @@ export function protectedPacketInformationModelFor(
       }
     }
   }
+  if (wy1401Context(profile,snapshot.pathwayId,initialAnswers)) {
+    for (const id of wy1401Facts(initialAnswers,new Date().toISOString().slice(0,10)).ids) if(questionSurface.questionById.has(id) && !missingInputIds.includes(id)) missingInputIds.push(id);
+  }
   if (ca12034Context(profile,snapshot.pathwayId,initialAnswers)) {
     for (const id of ca12034Facts(initialAnswers).ids) {
       if (questionSurface.questionById.has(id) && !missingInputIds.includes(id)) missingInputIds.push(id);
@@ -2220,6 +2262,7 @@ export function packetCollectionFor(input: {
   const contactContract = reviewedContactRepresentation({ profile, pathwayId: input.pathwayId, specification,
     requiredInputIds: input.requiredInputIds, decidingFactIds, unresolvedFactIds });
   const questionById = new Map(allPublicQuestions(projectPublicProfile(profile))
+    .filter(question => wy1401QuestionApplies(profile,input.pathwayId,{...input.screeningAnswers,...input.prefilledAnswers,...input.savedAnswers},question.id))
     .filter(question => ndFirstOffenseFactApplies(profile, input.pathwayId, { ...input.screeningAnswers, ...input.prefilledAnswers, ...input.savedAnswers }, question.id))
     .map((question) => [question.id, toProfileQuestion(question)]));
   installPacketSpecificationQuestions(questionById, input.jurisdiction, input.pathwayId, input.requiredInputIds, { ...input.screeningAnswers, ...input.prefilledAnswers, ...input.savedAnswers });
@@ -2275,6 +2318,9 @@ export function factualPathwayCorrectionIds(state: string, pathway: string | nul
     ? [...convictionReliefQuestions(state).filter(q => includeInactive || convictionReliefQuestionApplies(profile, answers, q.id)).map(q => q.id),
       "case_outcome", ...(state === "GA" ? ["ga_original_first_offender", "pardon_status"] : [])] : [];
 
+  if (profile && wy1401Context(profile,pathway,answers)) return [...extra,"case_outcome","possible_pathway_context",
+    ...WY_1401_FACT_IDS.filter(id=>includeInactive || wy1401QuestionApplies(profile,pathway,answers,id)),
+    ...(includeInactive ? WY_1401_IRRELEVANT_IDS.filter(id=>Object.hasOwn(answers,id)):[])];
   if (profile && ca12034Context(profile, pathway, answers)) return [...extra,"case_outcome","possible_pathway_context",
     ...CA_12034_FACT_IDS.filter(id=>includeInactive || ca12034QuestionApplies(profile,pathway,answers,id)),
     ...(Object.hasOwn(answers,"record_type") && ca12034RecordIsContext(profile,pathway,packetSpecificationFor(`${state}:${pathway}`)) ? ["record_type"] : [])];
@@ -2363,6 +2409,7 @@ function routeFactualCorrectionIds(model: { stateCode: string; pathwayId: string
       && missouriMarijuanaStatusQuestionApplies(model.stateCode, model.pathwayId, facts, "financial_obligations", profile ?? undefined)
       && (!profile || montanaRecordFinancialApplies(profile, model.pathwayId, facts, "financial_obligations"))
       && (!profile || newMexicoGuidanceFinancialApplies(profile, model.pathwayId, facts, "financial_obligations"))
+      && (!profile || wy1401QuestionApplies(profile, model.pathwayId, facts, "financial_obligations"))
       && (!profile || montanaDeferredLegacyFinancialApplies(profile, model.pathwayId, facts, "financial_obligations")))
     && isIndependentPaidFinancialFact(`${model.stateCode}:${model.pathwayId}`,
     profile?.questions.find(question => question.id === "financial_obligations")) ? ["financial_obligations"] : [];
@@ -2617,7 +2664,7 @@ function builderQuestionsFor(
 
   const owed = new Set(prepayGateFactIds(collection));
   const optional = new Set(collection.facts.filter(fact => fact.optional === true
-    && !(["ak_courtview_record_type_history", "ak_pardon_record_type_history", "ak_juvenile_record_type_history", "ak_agency_sis_record_type_history", "al_four_route_record_type_history", "al_redeemer_category_history", "ar_nonconviction_record_type_history", "ar_felony_record_type_history", "ca_12034a_record_type_history", "ca_automatic_record_type_history", "ca_12034_specific_probation_facts"].includes(fact.source) && fact.active === false)).map(fact => fact.factId));
+    && !(["ak_courtview_record_type_history", "ak_pardon_record_type_history", "ak_juvenile_record_type_history", "ak_agency_sis_record_type_history", "al_four_route_record_type_history", "al_redeemer_category_history", "ar_nonconviction_record_type_history", "ar_felony_record_type_history", "ca_12034a_record_type_history", "ca_automatic_record_type_history", "ca_12034_specific_probation_facts", "wy_1401_inactive_fact_history"].includes(fact.source) && fact.active === false)).map(fact => fact.factId));
   const order = new Map<string, number>();
   let position = 0;
   for (const section of collection.groupedParticipantSections) {
@@ -2705,6 +2752,7 @@ function protectedPacketQuestionSurface(
   const questionById = new Map<string, ProfileQuestion>();
   for (const question of allPublicQuestions(projectPublicProfile(profile))) {
     if (!ndFirstOffenseFactApplies(profile, pathwayId, { ...screeningAnswers, ...prefilledAnswers, ...savedAnswers }, question.id)) continue;
+    if (WY_1401_FACT_IDS.includes(question.id) && !wy1401QuestionApplies(profile,pathwayId,{...screeningAnswers,...prefilledAnswers,...savedAnswers},question.id)) continue;
     if (CA_12034_FACT_IDS.includes(question.id) && !ca12034QuestionApplies(profile,pathwayId,{...screeningAnswers,...prefilledAnswers,...savedAnswers},question.id)) continue;
     questionById.set(question.id, toProfileQuestion(question));
   }
@@ -2782,6 +2830,24 @@ function protectedPacketQuestionSurface(
   }
   const builderQuestions = builderQuestionsFor(questions, collection, requiredInputIds, serverFacts);
   const builderSections = builderSectionsFor(collection, builderQuestions);
+  if (wy1401Context(profile,pathwayId,{...screeningAnswers,...prefilledAnswers,...savedAnswers})) {
+    const currentAnswers={...screeningAnswers,...prefilledAnswers,...savedAnswers};
+    const ids=correctionIds.filter(id=>["case_outcome","possible_pathway_context"].includes(id)||WY_1401_FACT_IDS.includes(id));
+    const unresolved=new Set(wy1401Facts(currentAnswers,new Date().toISOString().slice(0,10)).ids);
+    for(const id of ids) {
+      const descriptor=WY_1401_QUESTIONS.find(q=>q.id===id);
+      const original=descriptor?toProfileQuestion(descriptor):questionById.get(id);
+      if(!original)continue;
+      const q={...original,...(WY_1401_FACT_IDS.includes(id)?{required:true}:{}),
+        ...(unresolved.has(id)&&questionAnswerState(original,currentAnswers[id])==="known_valid"?{savedAnswerNeedsClarification:true as const}:{})};
+      questionById.set(id,q);
+      const i=questions.findIndex(q=>q.id===id);if(i>=0)questions[i]=q;else questions.push(q);
+      const b=builderQuestions.findIndex(q=>q.id===id);if(b>=0)builderQuestions[b]=q;else builderQuestions.push(q);
+    }
+    for(const section of builderSections)section.questionIds=section.questionIds.filter(id=>!ids.includes(id));
+    for(let i=builderSections.length-1;i>=0;i--)if(!builderSections[i].questionIds.length)builderSections.splice(i,1);
+    builderSections.push({id:"wy_1401_incident_facts",heading:"Non-conviction incident facts",description:"Confirm the entire incident and the date for the 180-day period. A verified petition requires review; relief is not automatic.",translations:{es:{heading:"Hechos del incidente sin condena",description:"Confirme todo el incidente y la fecha para el plazo de 180 días. Una petición verificada requiere revisión; la reparación no es automática."}},questionIds:ids.filter(id=>questionById.has(id))});
+  }
   if (ca12034Context(profile,pathwayId,{...screeningAnswers,...prefilledAnswers,...savedAnswers})) {
     const ids=correctionIds.filter(id=>["case_outcome","possible_pathway_context"].includes(id) || CA_12034_FACT_IDS.includes(id));
     const currentAnswers={...screeningAnswers,...prefilledAnswers,...savedAnswers};
@@ -3065,7 +3131,7 @@ function deriveProtectedPacketDraftSnapshot(
   if (mtDeferredPreparation && !mtPreparationIds) return null;
   const caJuvenileIds = caJuvenilePreparation ? caProp64JuvenilePreparationModelFor(verification)?.caJuvenilePreparationFactIds : undefined;
   if (caJuvenilePreparation && !caJuvenileIds) return null;
-  base = newMexicoGuidanceFinancialDraftSuccessor(base, currentAuthority) ?? montanaRecordFinancialDraftSuccessor(base, currentAuthority) ?? californiaProbationDraftSuccessor(base,currentAuthority) ?? oregonDispositionDraftSuccessor(base, currentAuthority) ?? montanaDeferredDraftSuccessor(base, currentAuthority) ?? missouriMarijuanaDraftSuccessor(base, currentAuthority) ?? missouriClosureDraftSuccessor(base, currentAuthority) ?? maineNonconvictionDraftSuccessor(base, currentAuthority) ?? louisianaAutomationStatusHeldSuccessor(base, currentAuthority) ?? nebraskaAcquittalHeldSuccessor(base, currentAuthority) ?? kansasRegistrationHeldSuccessor(base, currentAuthority) ?? base;
+  base = wyoming1401DraftSuccessor(base,currentAuthority) ?? newMexicoGuidanceFinancialDraftSuccessor(base, currentAuthority) ?? montanaRecordFinancialDraftSuccessor(base, currentAuthority) ?? californiaProbationDraftSuccessor(base,currentAuthority) ?? oregonDispositionDraftSuccessor(base, currentAuthority) ?? montanaDeferredDraftSuccessor(base, currentAuthority) ?? missouriMarijuanaDraftSuccessor(base, currentAuthority) ?? missouriClosureDraftSuccessor(base, currentAuthority) ?? maineNonconvictionDraftSuccessor(base, currentAuthority) ?? louisianaAutomationStatusHeldSuccessor(base, currentAuthority) ?? nebraskaAcquittalHeldSuccessor(base, currentAuthority) ?? kansasRegistrationHeldSuccessor(base, currentAuthority) ?? base;
   const factualIds = [...factualPathwayCorrectionIds(base.jurisdiction, base.pathwayId, { ...base.screeningAnswers, ...base.prefilledAnswers, ...base.packetAnswers }, true), ...msExactTimingQuestionIds(base.jurisdiction, base.pathwayId, { ...base.screeningAnswers, ...base.prefilledAnswers, ...base.packetAnswers }, true), ...oregonUnselectedCorrectionIds(base), ...missouriUnselectedCorrectionIds(base), ...maineUnselectedCorrectionIds(base), ...nebraskaUnselectedCorrectionIds(base), ...louisianaUnselectedCorrectionIds(base)];
   if (gaPreparationIds) factualIds.push(...gaPreparationIds);
   if (mtPreparationIds) factualIds.push(...mtPreparationIds);

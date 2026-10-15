@@ -1,3 +1,4 @@
+import { withWyoming1401Procedure } from "@/lib/rcap-engine/wyoming-1401-facts";
 import "server-only";
 import { withGeorgiaPardonPresentation } from "@/lib/rcap-engine/georgia-pardon-facts";
 import { withKansasRegistrationProcedure } from "@/lib/rcap-engine/kansas-district-facts";
@@ -24,7 +25,7 @@ export function getAllJurisdictionProfiles() {
       .readdirSync(profilesRoot)
       .filter((file) => file.endsWith(".json"))
       .sort()
-      .map((file) => withKansasRegistrationProcedure(withGeorgiaPardonPresentation(JSON.parse(fs.readFileSync(path.join(profilesRoot, file), "utf8")) as EngineProfile)));
+      .map((file) => withWyoming1401Procedure(withKansasRegistrationProcedure(withGeorgiaPardonPresentation(JSON.parse(fs.readFileSync(path.join(profilesRoot, file), "utf8")) as EngineProfile))));
   }
   return profileCache;
 }

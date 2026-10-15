@@ -1,3 +1,4 @@
+import { WY_1401_ROUTE, WY_1401_SOURCE, WY_1401_COPY, wy1401Context, wy1401Facts } from "@/lib/rcap-engine/wyoming-1401-facts";
 import { newMexicoGuidanceFinancialApplies } from "@/lib/rcap-engine/new-mexico-guidance-financial";
 import { montanaRecordFinancialApplies } from "@/lib/rcap-engine/montana-record-correction-financial";
 import { CA_12034_ROUTE, CA_12034_SOURCE, CA_12034_COPY, ca12034Contract, ca12034Context, ca12034Facts, ca12034KnownConviction } from "@/lib/rcap-engine/california-1203-4-facts";
@@ -247,6 +248,16 @@ function evaluateProfileRules(profile: EngineProfile, request: ScreeningEvaluati
     // This is preparation for the participant's stated election, not a merits
     // or exclusion-list determination. The actual Grade-A authority gate stays separate.
     return {...evaluated, userLabel:text, nextSteps:[text]};
+  }
+  if (wy1401Context(profile,preselectedPathway?.id,answers)) {
+    const facts=wy1401Facts(answers,evaluationToday().toISOString().slice(0,10));
+    const contextIds=[...(["Yes","I am helping someone complete their own check"].includes(answers.ownership_scope as string)?[]:["ownership_scope"]),...(answers.jurisdiction_scope==="State or local"?[]:["jurisdiction_scope"])];
+    const code=contextIds.length?"missing":facts.code, text=WY_1401_COPY[code][0];
+    const plan=contextIds.length?undefined:packetPlanForPathway(profile,WY_1401_ROUTE);
+    const evaluated=result(profile,request,contextIds.length||facts.status==="missing"?"needs_more_info":facts.status==="excluded"?"likely_not_eligible":facts.status==="not_yet"?"not_yet":"needs_review",
+      [reason("WY",`nonconviction_${code}`,text,WY_1401_SOURCE)],
+      {...(contextIds.length?{}:{pathwayId:WY_1401_ROUTE}),...(plan?{packetPlan:plan}:{}),missingQuestionIds:[...contextIds,...facts.ids],paymentAllowed:false});
+    return {...evaluated,userLabel:text,nextSteps:[text]};
   }
   const ndPossession = ndFirstOffenseFacts(profile, preselectedPathway?.id, answers, evaluationToday().toISOString().slice(0, 10));
   if (preselectedPathway && ndPossession.status !== "not_applicable") {

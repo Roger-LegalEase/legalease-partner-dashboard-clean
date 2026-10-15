@@ -1,3 +1,4 @@
+import { wy1401Context, wy1401QuestionApplies, WY_1401_NEW_IDS, WY_1401_QUESTIONS } from "@/lib/rcap-engine/wyoming-1401-facts";
 import { newMexicoGuidanceFinancialApplies } from "@/lib/rcap-engine/new-mexico-guidance-financial";
 import { MT_RECORD_FINANCIAL_ROUTES, montanaRecordFinancialApplies } from "@/lib/rcap-engine/montana-record-correction-financial";
 import { ca12034QuestionApplies } from "@/lib/rcap-engine/california-1203-4-facts";
@@ -129,6 +130,8 @@ export function selectScreeningQuestionIds(
   return publicProfile.questions
     .filter(question => montanaRecordFinancialApplies(profile, mtFinancialQuestionPathway, answers, question.id))
     .filter(question => newMexicoGuidanceFinancialApplies(profile, selectedPathway?.id, answers, question.id))
+    .filter(question => wy1401QuestionApplies(profile, selectedPathway?.id, answers, question.id))
+    .filter(question => !wy1401Context(profile,selectedPathway?.id,answers) || !["arrest_date","disposition_date"].includes(question.id))
     .filter(question => ca12034QuestionApplies(profile, selectedPathway?.id, answers, question.id))
     .filter(question => ndFirstOffenseFactApplies(profile, selectedPathway?.id, answers, question.id))
     .filter(question => oregonDispositionQuestionApplies(profile.jurisdiction.code, answers, question.id))
@@ -163,8 +166,8 @@ export function selectScreeningQuestionIds(
     .filter(question => georgiaFirstOffenderQuestionApplies(profile.jurisdiction.code, answers, question.id))
     .filter(question => illinoisCannabisQuestionApplies(profile.jurisdiction.code, answers, question.id))
     .filter(question => nevada176AQuestionApplies(profile.jurisdiction.code, selectedPathway?.id, question.id))
-    .map((question, index) => ({ question: recordQuestions.get(question.id) ?? question, index }))
-    .filter(({ question }) => (!lifecycle?.exactPacketFactIds.includes(question.id) || profile.jurisdiction.code === "ND" && ND_FIRST_OFFENSE_FACT_IDS.includes(question.id) || msTimingIds.has(question.id) || completionCorrections.has(question.id) || recordQuestions.has(question.id) || profile.jurisdiction.code === "NY" && selectedPathway?.id === NY_16059_ROUTE && NY_16059_TIMING_IDS.includes(question.id))
+    .map((question, index) => ({ question: wy1401Context(profile,selectedPathway?.id,answers) ? WY_1401_QUESTIONS.find(q=>WY_1401_NEW_IDS.includes(q.id)&&q.id===question.id) ?? recordQuestions.get(question.id) ?? question : recordQuestions.get(question.id) ?? question, index }))
+    .filter(({ question }) => (!lifecycle?.exactPacketFactIds.includes(question.id) || wy1401Context(profile,selectedPathway?.id,answers) && WY_1401_NEW_IDS.includes(question.id) || profile.jurisdiction.code === "ND" && ND_FIRST_OFFENSE_FACT_IDS.includes(question.id) || msTimingIds.has(question.id) || completionCorrections.has(question.id) || recordQuestions.has(question.id) || profile.jurisdiction.code === "NY" && selectedPathway?.id === NY_16059_ROUTE && NY_16059_TIMING_IDS.includes(question.id))
       && (!lifecycle?.completionAliasIds.includes(question.id)
         || completionCorrections.has(question.id)
         || (selectedPathway ? [selectedPathway] : profile.pathways).some(pathway =>

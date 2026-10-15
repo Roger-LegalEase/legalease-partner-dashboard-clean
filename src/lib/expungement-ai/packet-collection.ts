@@ -1,3 +1,4 @@
+import { WY_1401_FACT_IDS, wy1401Context, wy1401QuestionApplies } from "@/lib/rcap-engine/wyoming-1401-facts";
 import { newMexicoGuidanceFinancialApplies } from "@/lib/rcap-engine/new-mexico-guidance-financial";
 import { montanaRecordFinancialApplies } from "@/lib/rcap-engine/montana-record-correction-financial";
 import { caAutomaticRecordIsContext } from "@/lib/expungement-ai/ca-automatic-record-context";
@@ -739,6 +740,20 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
         source: "ne_adult_acquittal_no_financial_predicate", active: false,
         reason: "The exact adult acquittal automatic route has no financial predicate; the saved payment answer is retained without inference." });
       continue;
+    }
+
+    const wyProfile=input.jurisdiction==="WY"?getProfileByJurisdiction("WY"):null;
+    if(wyProfile && wy1401Context(wyProfile,input.pathwayId,{...available,...input.savedAnswers})) {
+      if(!wy1401QuestionApplies(wyProfile,input.pathwayId,{...available,...input.savedAnswers},factId)) {
+        facts.push({factId,collection:"conditional",phase:"known",group:null,source:"wy_1401_inactive_fact_history",active:false,optional:true,
+          reason:"This fact is not active for the current incident branch. Its original raw answer remains history without inferred payment, completion, waiver or disposition."});
+        continue;
+      }
+      if(WY_1401_FACT_IDS.includes(factId)) {
+        facts.push({factId,collection:"prepay_confirmation",phase:"prepay_confirmation",group:"about_you",source:"wy_1401_incident_facts",active:true,
+          reason:"The participant may correct the actual incident facts for the source-bound verified-petition review; this does not complete a document or grant authority."});
+        continue;
+      }
     }
 
     const nmGuidanceProfile = input.jurisdiction === "NM" && factId === "financial_obligations"

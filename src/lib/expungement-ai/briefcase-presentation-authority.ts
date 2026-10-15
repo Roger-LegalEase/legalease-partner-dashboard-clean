@@ -1,10 +1,11 @@
+import { WY_1401_ROUTE, WY_1401_SOURCE, WY_1401_COPY } from "@/lib/rcap-engine/wyoming-1401-facts";
 import { ND_FIRST_OFFENSE_ROUTE, ND_FIRST_OFFENSE_SOURCE, ND_FIRST_OFFENSE_COPY } from "@/lib/rcap-engine/north-dakota-first-offense-facts";
 import { MS_TIMING_MISSING_TEXT, MS_TIMING_MULTIPLE_MISSING_TEXT } from "@/lib/rcap-engine/mississippi-exact-timing";
 import { CONVICTION_RELIEF_COPY } from "@/lib/rcap-engine/conviction-relief-request";
 import { AR_RECORD_ORIGIN_COPY } from "@/lib/rcap-engine/arkansas-record-origin";
 import { KS_REGISTRATION_ROUTE, KS_REGISTRATION_REVIEW_COPY } from "@/lib/rcap-engine/kansas-district-facts";
 import { isGeorgiaFirstOffenderGuidance } from "@/lib/rcap-engine/georgia-first-offender";
-import { newMexicoGuidanceFinancialDraftSuccessor, montanaRecordFinancialDraftSuccessor, californiaProbationDraftSuccessor, louisianaAutomationStatusHeldSuccessor, maineNonconvictionDraftSuccessor, missouriMarijuanaDraftSuccessor, montanaDeferredDraftSuccessor, missouriClosureDraftSuccessor, nebraskaAcquittalHeldSuccessor, kansasRegistrationHeldSuccessor, arkansasRecordOriginHeldSuccessor, convictionFallbackHeldSuccessor, msTimingAnswerHeldSuccessor, factualPathwayHeldSuccessor, financialAnswerHeldSuccessor, ny16059HeldDetailSuccessor } from "@/lib/expungement-ai/packet-information";
+import { wyoming1401DraftSuccessor, newMexicoGuidanceFinancialDraftSuccessor, montanaRecordFinancialDraftSuccessor, californiaProbationDraftSuccessor, louisianaAutomationStatusHeldSuccessor, maineNonconvictionDraftSuccessor, missouriMarijuanaDraftSuccessor, montanaDeferredDraftSuccessor, missouriClosureDraftSuccessor, nebraskaAcquittalHeldSuccessor, kansasRegistrationHeldSuccessor, arkansasRecordOriginHeldSuccessor, convictionFallbackHeldSuccessor, msTimingAnswerHeldSuccessor, factualPathwayHeldSuccessor, financialAnswerHeldSuccessor, ny16059HeldDetailSuccessor } from "@/lib/expungement-ai/packet-information";
 import "server-only";
 import { reviewedPacketContractSuccessor } from "@/lib/expungement-ai/packet-contract-successors";
 import { getProgramPacketFunding } from "@/lib/partners/onboarding/program-packet-funding";
@@ -440,7 +441,7 @@ function legalAuthorityFromProtectedVerification(
   const authoritative = evaluateProtectedPresentationSnapshot(snapshot, itemId, evaluate);
   if (!authoritative) return { status: "unavailable", reason: "protected_snapshot_reevaluation_failed" };
   const evaluation = authoritative.evaluation;
-  snapshot = newMexicoGuidanceFinancialDraftSuccessor(snapshot, authoritative) ?? montanaRecordFinancialDraftSuccessor(snapshot, authoritative) ?? californiaProbationDraftSuccessor(snapshot, authoritative) ?? montanaDeferredDraftSuccessor(snapshot, authoritative) ?? missouriMarijuanaDraftSuccessor(snapshot, authoritative) ?? missouriClosureDraftSuccessor(snapshot, authoritative) ?? maineNonconvictionDraftSuccessor(snapshot, authoritative) ?? louisianaAutomationStatusHeldSuccessor(snapshot, authoritative) ?? nebraskaAcquittalHeldSuccessor(snapshot, authoritative) ?? kansasRegistrationHeldSuccessor(snapshot, authoritative) ?? arkansasRecordOriginHeldSuccessor(snapshot, authoritative) ?? factualPathwayHeldSuccessor(snapshot, authoritative) ?? convictionFallbackHeldSuccessor(snapshot, authoritative) ?? snapshot;
+  snapshot = wyoming1401DraftSuccessor(snapshot,authoritative) ?? newMexicoGuidanceFinancialDraftSuccessor(snapshot, authoritative) ?? montanaRecordFinancialDraftSuccessor(snapshot, authoritative) ?? californiaProbationDraftSuccessor(snapshot, authoritative) ?? montanaDeferredDraftSuccessor(snapshot, authoritative) ?? missouriMarijuanaDraftSuccessor(snapshot, authoritative) ?? missouriClosureDraftSuccessor(snapshot, authoritative) ?? maineNonconvictionDraftSuccessor(snapshot, authoritative) ?? louisianaAutomationStatusHeldSuccessor(snapshot, authoritative) ?? nebraskaAcquittalHeldSuccessor(snapshot, authoritative) ?? kansasRegistrationHeldSuccessor(snapshot, authoritative) ?? arkansasRecordOriginHeldSuccessor(snapshot, authoritative) ?? factualPathwayHeldSuccessor(snapshot, authoritative) ?? convictionFallbackHeldSuccessor(snapshot, authoritative) ?? snapshot;
   const financialSuccessor = financialAnswerHeldSuccessor(snapshot, authoritative);
   const timingSuccessor = msTimingAnswerHeldSuccessor(snapshot, authoritative);
   if (evaluation.jurisdiction !== snapshot.jurisdiction
@@ -578,6 +579,8 @@ function legalAuthorityFromEvaluation(
     Object.entries(AR_RECORD_ORIGIN_COPY).some(([code, copy]) => item.code === `ar.record_origin_${code}` && item.text === copy[0])) : undefined;
   const registrationReason = evaluation.jurisdiction === "KS" && evaluation.pathwayId === KS_REGISTRATION_ROUTE
     ? evaluation.reasons.find(reason => reason.code === "ks.registration_statutory_facts_review" && reason.text === KS_REGISTRATION_REVIEW_COPY[0]) : undefined;
+  const wy1401Reason = evaluation.jurisdiction === "WY" && evaluation.pathwayId === WY_1401_ROUTE
+    ? evaluation.reasons.find(item=>item.sourceRef===WY_1401_SOURCE && Object.entries(WY_1401_COPY).some(([code,copy])=>item.code===`wy.nonconviction_${code}` && item.text===copy[0])) : undefined;
   const ndPossessionReason = evaluation.jurisdiction === "ND" && evaluation.pathwayId === ND_FIRST_OFFENSE_ROUTE
     ? evaluation.reasons.find(item => item.sourceRef === ND_FIRST_OFFENSE_SOURCE && Object.entries(ND_FIRST_OFFENSE_COPY)
       .some(([code, copy]) => item.code === `nd.first_possession_${code}` && item.text === copy[0])) : undefined;
@@ -587,7 +590,7 @@ function legalAuthorityFromEvaluation(
     resultCode: evaluation.resultCode,
     pathwayId: evaluation.pathwayId ?? null,
     pathwayLabel: authoritative.pathwayLabel,
-    summary: ndPossessionReason?.text ?? convictionRequestReason?.text ?? recordOriginReason?.text ?? registrationReason?.text ?? evaluation.reasons.find(isGeorgiaFirstOffenderGuidance)?.text ?? evaluation.reasons.find(reason => ["il.pathway_conflicts_with_saved_fact", "ga.pathway_conflicts_with_saved_fact"].includes(reason.code) || reason.code === "ms.waiting_anchor_missing" && [...Object.values(MS_TIMING_MISSING_TEXT), MS_TIMING_MULTIPLE_MISSING_TEXT].includes(reason.text))?.text ?? evaluation.userLabel,
+    summary: wy1401Reason?.text ?? ndPossessionReason?.text ?? convictionRequestReason?.text ?? recordOriginReason?.text ?? registrationReason?.text ?? evaluation.reasons.find(isGeorgiaFirstOffenderGuidance)?.text ?? evaluation.reasons.find(reason => ["il.pathway_conflicts_with_saved_fact", "ga.pathway_conflicts_with_saved_fact"].includes(reason.code) || reason.code === "ms.waiting_anchor_missing" && [...Object.values(MS_TIMING_MISSING_TEXT), MS_TIMING_MULTIPLE_MISSING_TEXT].includes(reason.text))?.text ?? evaluation.userLabel,
     nextSteps: stringArray(evaluation.nextSteps),
     checklist: stringArray(packetPlan?.packetReadyWhen),
     packetType: authoritative.packetType ?? null,

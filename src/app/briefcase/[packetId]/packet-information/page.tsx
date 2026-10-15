@@ -1,3 +1,4 @@
+import { WY_1401_ROUTE } from "@/lib/rcap-engine/wyoming-1401-facts";
 import { CA_12034_ROUTE } from "@/lib/rcap-engine/california-1203-4-facts";
 import { ND_FIRST_OFFENSE_FACT_IDS } from "@/lib/rcap-engine/north-dakota-first-offense-facts";
 import { OR_DISPOSITION_CONFIGURATIONS } from "@/lib/rcap-engine/oregon-disposition-identity";
@@ -103,9 +104,13 @@ export default async function PacketInformationPage({
   const ndHistoryOverview = ndRecordHistoryAvailable && !search.edit;
   // These protected NE, LA, ME and MO correction surfaces return to the current matter, even
   // when an explicit uncertainty truthfully leaves its legal route unresolved.
+  const wyNonconvictionCorrection = item?.authorityStatus === "protected_draft" && item.jurisdiction === "WY"
+    && item.pathwayId === WY_1401_ROUTE && item.packetDraft.status === "available"
+    && correctionIds.has("wy_1401_listed_deferral")
+    && factualPathwayCorrectionIds("WY",item.pathwayId,item.packetDraft.initialAnswers).includes("wy_1401_listed_deferral");
   const savedCaseMatterCorrection = correctingCompletion && item?.authorityStatus === "protected_draft"
     && item.packetDraft.status === "available"
-    && (caProbationCorrection || deSavedCorrection || ctContactCorrection || ksContactCorrection || ndContactCorrection || orDispositionCorrection || item.jurisdiction === "NE" && (item.pathwayId === "automatic-nonconviction-sealing"
+    && (wyNonconvictionCorrection || caProbationCorrection || deSavedCorrection || ctContactCorrection || ksContactCorrection || ndContactCorrection || orDispositionCorrection || item.jurisdiction === "NE" && (item.pathwayId === "automatic-nonconviction-sealing"
       || item.pathwayId === null && (item.packetDraft.heldFactualCorrectionIds?.length ?? 0) > 0)
       || item.jurisdiction === "MT" && item.pathwayId === "deferred-sentence-dismissal-or-confidentiality-route"
       || item.jurisdiction === "MO" && (item.pathwayId === "closed-record-outcome-under-rsmo-610-105" || item.pathwayId === "marijuana-expungement-under-missouri-constitution-article-xiv"

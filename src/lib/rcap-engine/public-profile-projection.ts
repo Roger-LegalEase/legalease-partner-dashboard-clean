@@ -1,3 +1,4 @@
+import { WY_1401_QUESTIONS, WY_1401_NEW_IDS, wy1401Contract } from "@/lib/rcap-engine/wyoming-1401-facts";
 import { CA_12034_QUESTIONS, CA_12034_FACT_IDS, ca12034Contract } from "@/lib/rcap-engine/california-1203-4-facts";
 import { ND_FIRST_OFFENSE_FACT_IDS, ND_FIRST_OFFENSE_QUESTIONS } from "@/lib/rcap-engine/north-dakota-first-offense-facts";
 import { OR_DISPOSITION_QUESTIONS, OR_DISPOSITION_SOURCE, OR_DISPOSITION_FACT_IDS } from "@/lib/rcap-engine/oregon-disposition-identity";
@@ -78,6 +79,7 @@ const STATE_SPECIFIC_PREPAY_WILMA_FACT_IDS: Record<string, Set<string>> = {
   MT: new Set(MT_DEFERRED_FACT_IDS),
   OR: new Set(OR_DISPOSITION_FACT_IDS),
   ND: new Set(ND_FIRST_OFFENSE_FACT_IDS),
+  WY: new Set([...WY_1401_NEW_IDS, "arrest_date"]),
   MS: new Set([
     ...convictionReliefQuestions("MS").map(q => q.id),
     "ms_program_order",
@@ -1104,7 +1106,8 @@ function withWilmaFactQuestions(
   profile: PublicJurisdictionProfile,
   pathways: { id: string; label: string }[] = [],
   exactPacketFactIds: readonly string[] = [],
-  caProbationContract = false
+  caProbationContract = false,
+  wyNonconvictionContract = false
 ): PublicJurisdictionProfile {
   const existingIds = new Set(profile.questions.map((question) => question.id));
   const exactPacketFacts = new Set(exactPacketFactIds);
@@ -1136,6 +1139,7 @@ function withWilmaFactQuestions(
     : profile.jurisdiction.code === "MT" ? [...WILMA_FACT_QUESTIONS, ...MT_DEFERRED_QUESTIONS]
     : profile.jurisdiction.code === "OR" ? [...WILMA_FACT_QUESTIONS, ...OR_DISPOSITION_QUESTIONS]
     : profile.jurisdiction.code === "ND" ? [...WILMA_FACT_QUESTIONS, ...ND_FIRST_OFFENSE_QUESTIONS]
+    : wyNonconvictionContract ? [...WILMA_FACT_QUESTIONS, ...WY_1401_QUESTIONS.filter(q=>WY_1401_NEW_IDS.includes(q.id))]
       : WILMA_FACT_QUESTIONS;
   const additions = [...availableWilmaFactQuestions, ...convictionReliefQuestions(profile.jurisdiction.code)]
     .filter((question) => !existingIds.has(question.id))
@@ -1158,6 +1162,10 @@ function withWilmaFactQuestions(
     );
   const questions = withBroadTimingBucketGate(withAdditions).map(question => profile.jurisdiction.code === "GA" && question.id === "possible_pathway_context"
     ? { ...question, optionDisplay: { ...question.optionDisplay, ...Object.fromEntries([GA_PARDON_OLD_LABEL, GA_PARDON_LABEL.en].map(value => [value, { label: GA_PARDON_LABEL.en, translations: { es: { label: GA_PARDON_LABEL.es } } }])) } }
+    : wyNonconvictionContract && WY_1401_NEW_IDS.includes(question.id)
+    ? WY_1401_QUESTIONS.find(fact => fact.id === question.id)!
+    : wyNonconvictionContract && question.id === "case_outcome"
+    ? {...question, options:[...new Set([...(Array.isArray(question.options)?question.options:[]),"Acquitted"])],optionDisplay:{...question.optionDisplay,Acquitted:{label:"Acquitted",translations:{es:{label:"Absuelto"}}}}}
     : caProbationContract && CA_12034_FACT_IDS.includes(question.id)
     ? CA_12034_QUESTIONS.find(fact => fact.id === question.id)!
     : profile.jurisdiction.code === "CA" && CA_PROP64_FACT_IDS.includes(question.id)
@@ -1172,6 +1180,13 @@ function withWilmaFactQuestions(
     ? { ...question, options: [...new Set([...(Array.isArray(question.options) ? question.options : []), ...Object.keys(KS_ADDITIONAL_OUTCOME_DISPLAY)])], optionDisplay: { ...question.optionDisplay, ...KS_ADDITIONAL_OUTCOME_DISPLAY } }
     : profile.jurisdiction.code === "DE" && question.id === "case_outcome"
     ? { ...question, options: [...new Set([...(Array.isArray(question.options) ? question.options : []), "Misdemeanor conviction", "Felony conviction", "Other conviction or adjudication", "Juvenile adjudication or offense committed as a minor"])] } : question);
+  // Exact WY incident dates are protected packet facts. Register their types
+  // for saved-record evaluation without offering anonymous date collection.
+  if(wyNonconvictionContract) for(const descriptor of WY_1401_QUESTIONS.filter(q=>!WY_1401_NEW_IDS.includes(q.id))) {
+    const q={...descriptor,stage:"packet_information",lifecyclePhase:"postpay_packet_field" as const};
+    const index=questions.findIndex(existing=>existing.id===q.id);
+    if(index<0)questions.push(q);
+  }
   return {
     ...profile,
     postPaymentPacketCompletion: postPaymentPacketCompletion(questions),
@@ -1387,7 +1402,7 @@ function buildProfileDraft(profile: EngineProfile): PublicJurisdictionProfile {
         routeScopedPacketFacts.includes(question.id)
       ), profile.jurisdiction.code)),
       caseOutcomeOptions: toPublicCaseOutcomeOptions(designerProfile.caseOutcomeOptions)
-    }, profile.pathways ?? [], routeScopedPacketFacts, ca12034Contract(profile));
+    }, profile.pathways ?? [], routeScopedPacketFacts, ca12034Contract(profile), wy1401Contract(profile));
   }
 
   const questionIds = new Set(profile.questions.map((question) => question.id));
@@ -1419,5 +1434,5 @@ function buildProfileDraft(profile: EngineProfile): PublicJurisdictionProfile {
       optionDisplay: question.optionDisplay
     }, profile.jurisdiction.code, "engine", routeScopedPacketFacts.includes(question.id)), profile.jurisdiction.code)),
     caseOutcomeOptions: toPublicCaseOutcomeOptions(profile.caseOutcomeOptions)
-  }, profile.pathways ?? [], routeScopedPacketFacts, ca12034Contract(profile));
+  }, profile.pathways ?? [], routeScopedPacketFacts, ca12034Contract(profile), wy1401Contract(profile));
 }

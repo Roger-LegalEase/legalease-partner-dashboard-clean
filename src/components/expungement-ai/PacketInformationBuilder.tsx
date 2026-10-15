@@ -1,5 +1,6 @@
 "use client";
 
+import { wy1401DateAnswerState } from "@/lib/rcap-engine/wyoming-1401-facts";
 import { ndFirstOffenseAnswerState } from "@/lib/rcap-engine/north-dakota-first-offense-facts";
 
 import { ctCleanSlateContactAnswerState } from "@/lib/expungement-ai/ct-clean-slate-contact";
@@ -349,6 +350,9 @@ export function PacketInformationBuilder({
     const state = oregonContactAnswerState(stateCode, pathwayId ?? null, question.id, answers[question.id], ndFirstOffenseContactAnswerState(stateCode, pathwayId ?? null, question.id, answers[question.id], ksMunicipalContactAnswerState(stateCode, pathwayId ?? null, question.id, answers[question.id], ctCleanSlateContactAnswerState(stateCode, pathwayId ?? null, question.id, answers[question.id],
       akCourtviewContactAnswerState(stateCode, pathwayId ?? null, question.id, answers[question.id], questionAnswerState(question, answers[question.id]))))), question.savedAnswerNeedsClarification);
     if (question.stage === "pathway_routing") {
+      const wyState=wy1401DateAnswerState(stateCode,pathwayId,question.id,answers[question.id],confirmedAnswers[question.id],question.savedAnswerNeedsClarification,state);
+      if(wyState!==state)return wyState;
+
       const sourceState = ndFirstOffenseAnswerState(stateCode, pathwayId, question.id, answers[question.id], answers, state);
       if (sourceState !== state) return sourceState;
     }
