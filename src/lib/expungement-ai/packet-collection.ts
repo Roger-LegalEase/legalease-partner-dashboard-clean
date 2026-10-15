@@ -1,3 +1,4 @@
+import { oklahomaCleanSlateFinancialApplies } from "@/lib/rcap-engine/oklahoma-clean-slate-financial";
 import { ohTraffickingCourtIsContext } from "@/lib/expungement-ai/oh-trafficking-court-context";
 import { WY_1401_FACT_IDS, wy1401Context, wy1401QuestionApplies } from "@/lib/rcap-engine/wyoming-1401-facts";
 import { newMexicoGuidanceFinancialApplies } from "@/lib/rcap-engine/new-mexico-guidance-financial";
@@ -757,6 +758,16 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
           reason:"The participant may correct the actual incident facts for the source-bound verified-petition review; this does not complete a document or grant authority."});
         continue;
       }
+    }
+
+    const okGuidanceProfile = input.jurisdiction === "OK" && factId === "financial_obligations"
+      ? getProfileByJurisdiction("OK") : null;
+    if (okGuidanceProfile && !oklahomaCleanSlateFinancialApplies(okGuidanceProfile, input.pathwayId,
+      { ...available, ...input.savedAnswers }, factId)) {
+      facts.push({ factId, collection: "conditional", phase: "known", group: null,
+        source: "ok_clean_slate_guidance_no_payment_predicate", active: false,
+        reason: "Generic payment completeness is not a prerequisite to this exact noncommercial guidance. Saved payment remains history; victim-restitution objections, source categories and operational limitations remain separate." });
+      continue;
     }
 
     const nmGuidanceProfile = input.jurisdiction === "NM" && factId === "financial_obligations"

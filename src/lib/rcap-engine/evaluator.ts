@@ -1,3 +1,4 @@
+import { oklahomaCleanSlateFinancialApplies } from "@/lib/rcap-engine/oklahoma-clean-slate-financial";
 import { WY_1401_ROUTE, WY_1401_SOURCE, WY_1401_COPY, wy1401Context, wy1401Facts } from "@/lib/rcap-engine/wyoming-1401-facts";
 import { newMexicoGuidanceFinancialApplies } from "@/lib/rcap-engine/new-mexico-guidance-financial";
 import { montanaRecordFinancialApplies } from "@/lib/rcap-engine/montana-record-correction-financial";
@@ -350,6 +351,7 @@ function evaluateProfileRules(profile: EngineProfile, request: ScreeningEvaluati
   const missingQuestionIds = requiredMissingPublicQuestionIds(publicProfile, answers)
     .filter(id => montanaRecordFinancialApplies(profile, preselectedPathway?.id, answers, id))
     .filter(id => newMexicoGuidanceFinancialApplies(profile, preselectedPathway?.id, answers, id))
+    .filter(id => oklahomaCleanSlateFinancialApplies(profile, preselectedPathway?.id, answers, id))
     .filter(id => nevada176AQuestionApplies(jurisdiction, preselectedPathway?.id, id))
     .filter(id => missouriClosedRecordQuestionApplies(jurisdiction, preselectedPathway?.id, answers, id, profile))
     .filter(id => maineNonconvictionQuestionApplies(jurisdiction, preselectedPathway?.id, answers, id))
@@ -943,6 +945,7 @@ function ambiguityReason(
   const ambiguous = legalFields
     .filter(question => montanaRecordFinancialApplies(profile, selectedPathway?.id, answers, question.id))
     .filter(question => newMexicoGuidanceFinancialApplies(profile, selectedPathway?.id, answers, question.id))
+    .filter(question => oklahomaCleanSlateFinancialApplies(profile, selectedPathway?.id, answers, question.id))
     .filter(question => nevada176AQuestionApplies(jurisdiction, selectedPathway?.id, question.id))
     .filter(question => missouriClosedRecordQuestionApplies(jurisdiction, selectedPathway?.id, answers, question.id, profile))
     .filter(question => maineNonconvictionQuestionApplies(jurisdiction, selectedPathway?.id, answers, question.id))
@@ -2421,7 +2424,8 @@ function evaluateCompiledTiming(profile: EngineProfile, answers: Record<string, 
   const cannabisNonfinancialComplete = cannabis?.status === "selected" && cannabis.branch === "conviction"
     && answers.il_cannabis_nonfinancial_complete === "yes";
   const financialApplies = montanaRecordFinancialApplies(profile, pathway.id, answers, "financial_obligations")
-    && newMexicoGuidanceFinancialApplies(profile, pathway.id, answers, "financial_obligations");
+    && newMexicoGuidanceFinancialApplies(profile, pathway.id, answers, "financial_obligations")
+    && oklahomaCleanSlateFinancialApplies(profile, pathway.id, answers, "financial_obligations");
   const unpaidFinancialAnswer = financialApplies && isNegative(answers.financial_obligations) && !cannabisNonfinancialComplete;
   const paymentMeaningNeedsClarification = unpaidFinancialAnswer && courtRequirement === "yes"
     && isIndependentPaidFinancialFact(routeKey(profile, pathway), profile.questions.find(question => question.id === "financial_obligations"));

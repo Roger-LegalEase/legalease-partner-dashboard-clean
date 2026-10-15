@@ -1,3 +1,4 @@
+import { oklahomaCleanSlateFinancialApplies } from "@/lib/rcap-engine/oklahoma-clean-slate-financial";
 import { wy1401Context, wy1401QuestionApplies, WY_1401_NEW_IDS, WY_1401_QUESTIONS } from "@/lib/rcap-engine/wyoming-1401-facts";
 import { newMexicoGuidanceFinancialApplies } from "@/lib/rcap-engine/new-mexico-guidance-financial";
 import { MT_RECORD_FINANCIAL_ROUTES, montanaRecordFinancialApplies } from "@/lib/rcap-engine/montana-record-correction-financial";
@@ -130,6 +131,7 @@ export function selectScreeningQuestionIds(
   return publicProfile.questions
     .filter(question => montanaRecordFinancialApplies(profile, mtFinancialQuestionPathway, answers, question.id))
     .filter(question => newMexicoGuidanceFinancialApplies(profile, selectedPathway?.id, answers, question.id))
+    .filter(question => oklahomaCleanSlateFinancialApplies(profile, selectedPathway?.id, answers, question.id))
     .filter(question => wy1401QuestionApplies(profile, selectedPathway?.id, answers, question.id))
     .filter(question => !wy1401Context(profile,selectedPathway?.id,answers) || !["arrest_date","disposition_date"].includes(question.id))
     .filter(question => ca12034QuestionApplies(profile, selectedPathway?.id, answers, question.id))
