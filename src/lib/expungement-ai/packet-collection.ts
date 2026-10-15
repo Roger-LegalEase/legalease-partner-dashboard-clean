@@ -1,3 +1,4 @@
+import { arFelonyRecordIsContext } from "@/lib/expungement-ai/ar-felony-record-context";
 import { arNonconvictionRecordIsContext } from "@/lib/expungement-ai/ar-nonconviction-record-context";
 import { alRecordIsContext } from "@/lib/expungement-ai/al-record-context";
 import { ND_FIRST_OFFENSE_FACT_IDS } from "@/lib/rcap-engine/north-dakota-first-offense-facts";
@@ -629,6 +630,8 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
 
   const arNonconvictionRecordContext = input.jurisdiction === "AR"
     && arNonconvictionRecordIsContext(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
+  const arFelonyRecordContext = input.jurisdiction === "AR"
+    && arFelonyRecordIsContext(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
   const alRecordContext = input.jurisdiction === "AL"
     && alRecordIsContext(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
   const dcLocationContext = input.jurisdiction === "DC"
@@ -803,6 +806,16 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
         group: retained ? group : null, active: retained, optional: true,
         source: "ar_nonconviction_record_type_history",
         reason: "The exact retained Arkansas nonconviction family has no destination for the overlapping generic record-type menu. Saved answers remain optional history; disposition, record origin, filing facts and current route authority remain separate." });
+      continue;
+    }
+
+    if (factId === "record_type" && arFelonyRecordContext && !overrideClass && !needsHuman.has(factId)) {
+      const retained = [input.screeningAnswers, input.prefilledAnswers, input.savedAnswers, input.profileFacts]
+        .some(answers => answers && Object.hasOwn(answers, factId));
+      facts.push({ factId, collection: "conditional", phase: retained ? "render" : "known",
+        group: retained ? group : null, active: retained, optional: true,
+        source: "ar_felony_record_type_history",
+        reason: "The exact retained Arkansas felony family has no destination for the overlapping generic record-type menu. Saved answers remain optional history; conviction, record origin, sentencing facts and current route authority remain separate." });
       continue;
     }
 
