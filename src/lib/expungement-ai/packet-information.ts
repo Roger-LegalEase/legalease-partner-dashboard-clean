@@ -1,3 +1,4 @@
+import { ohTraffickingCourtIsContext, ohTraffickingCourtContextQuestion } from "@/lib/expungement-ai/oh-trafficking-court-context";
 import { WY_1401_ROUTE, WY_1401_SOURCE, WY_1401_FACT_IDS, WY_1401_NEW_IDS, WY_1401_IRRELEVANT_IDS, WY_1401_QUESTIONS, wy1401Contract, wy1401Context, wy1401Facts, wy1401QuestionApplies } from "@/lib/rcap-engine/wyoming-1401-facts";
 import { newMexicoGuidanceFinancialApplies, newMexicoGuidanceFinancialContract, NM_GUIDANCE_FINANCIAL_ROUTES } from "@/lib/rcap-engine/new-mexico-guidance-financial";
 import { montanaRecordFinancialApplies, montanaRecordFinancialContract, MT_RECORD_FINANCIAL_ROUTES } from "@/lib/rcap-engine/montana-record-correction-financial";
@@ -378,6 +379,7 @@ export function packetInformationModelFor(item: ConsumerBriefcaseItem): PacketIn
   questions = questions.map(question => akAgencyOrSisRecordContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
   questions = questions.map(question => alRecordContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
   questions = questions.map(question => arNonconvictionRecordContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
+  questions = questions.map(question => ohTraffickingCourtContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
   questions = questions.map(question => arFelonyRecordContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
   questions = questions.map(question => ca12034RecordContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
   questions = questions.map(question => ca12034aRecordContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
@@ -1830,6 +1832,12 @@ export function protectedPacketInformationModelFor(
     // Display-only clarification of retained context; read/no-op preserves raw maps.
     packetAnswers.record_type = { unknown: true };
   }
+  if (ohTraffickingCourtIsContext(profile, snapshot.pathwayId, packetSpecificationFor(`${snapshot.jurisdiction}:${snapshot.pathwayId}`))
+    && [snapshot.screeningAnswers, snapshot.prefilledAnswers, snapshot.packetAnswers].some(map => Object.hasOwn(map, "court"))
+    && ![screeningAnswers, prefilledAnswers, packetAnswers].some(map => Object.hasOwn(map, "court"))) {
+    // Display-only retained context; raw maps remain unchanged on read/no-op.
+    packetAnswers.court = { unknown: true };
+  }
   if (arNonconvictionRecordIsContext(profile, snapshot.pathwayId, packetSpecificationFor(`${snapshot.jurisdiction}:${snapshot.pathwayId}`))
     && [snapshot.screeningAnswers, snapshot.prefilledAnswers, snapshot.packetAnswers].some(map => Object.hasOwn(map, "record_type"))
     && ![screeningAnswers, prefilledAnswers, packetAnswers].some(map => Object.hasOwn(map, "record_type"))) {
@@ -2356,6 +2364,10 @@ export function factualPathwayCorrectionIds(state: string, pathway: string | nul
   if (isAkCourtviewContact(state, pathway)) return [...extra, ...akCourtviewContactIds(state, pathway, answers, includeInactive),
     ...(akCourtviewRecordIsContext(profile, pathway, packetSpecificationFor(`${state}:${pathway}`))
       && Object.hasOwn(answers, AK_LEGACY_RECORD_TYPE) ? [AK_LEGACY_RECORD_TYPE] : [])];
+  // Source-approved OH referrals prepare no court filing. Earlier court data
+  // participates only in explicit inactive-history saves, not a held editor.
+  if (includeInactive && ohTraffickingCourtIsContext(profile, pathway, packetSpecificationFor(`${state}:${pathway}`))
+    && Object.hasOwn(answers, "court")) return [...extra, "court"];
   // Retained CA taxonomy is editable history only; it does not create a held editor.
   if (includeInactive && (ca12034aRecordIsContext(profile, pathway, packetSpecificationFor(`${state}:${pathway}`))
       || caAutomaticRecordIsContext(profile, pathway, packetSpecificationFor(`${state}:${pathway}`)))
@@ -2664,7 +2676,7 @@ function builderQuestionsFor(
 
   const owed = new Set(prepayGateFactIds(collection));
   const optional = new Set(collection.facts.filter(fact => fact.optional === true
-    && !(["ak_courtview_record_type_history", "ak_pardon_record_type_history", "ak_juvenile_record_type_history", "ak_agency_sis_record_type_history", "al_four_route_record_type_history", "al_redeemer_category_history", "ar_nonconviction_record_type_history", "ar_felony_record_type_history", "ca_12034a_record_type_history", "ca_automatic_record_type_history", "ca_12034_specific_probation_facts", "wy_1401_inactive_fact_history"].includes(fact.source) && fact.active === false)).map(fact => fact.factId));
+    && !(["oh_trafficking_court_history", "ak_courtview_record_type_history", "ak_pardon_record_type_history", "ak_juvenile_record_type_history", "ak_agency_sis_record_type_history", "al_four_route_record_type_history", "al_redeemer_category_history", "ar_nonconviction_record_type_history", "ar_felony_record_type_history", "ca_12034a_record_type_history", "ca_automatic_record_type_history", "ca_12034_specific_probation_facts", "wy_1401_inactive_fact_history"].includes(fact.source) && fact.active === false)).map(fact => fact.factId));
   const order = new Map<string, number>();
   let position = 0;
   for (const section of collection.groupedParticipantSections) {
@@ -2815,6 +2827,7 @@ function protectedPacketQuestionSurface(
   questions = questions.map(question => akAgencyOrSisRecordContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
   questions = questions.map(question => alRecordContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
   questions = questions.map(question => arNonconvictionRecordContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
+  questions = questions.map(question => ohTraffickingCourtContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
   questions = questions.map(question => arFelonyRecordContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
   questions = questions.map(question => ca12034RecordContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
   questions = questions.map(question => ca12034aRecordContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));

@@ -1,3 +1,4 @@
+import { ohTraffickingCourtIsContext } from "@/lib/expungement-ai/oh-trafficking-court-context";
 import { WY_1401_FACT_IDS, wy1401Context, wy1401QuestionApplies } from "@/lib/rcap-engine/wyoming-1401-facts";
 import { newMexicoGuidanceFinancialApplies } from "@/lib/rcap-engine/new-mexico-guidance-financial";
 import { montanaRecordFinancialApplies } from "@/lib/rcap-engine/montana-record-correction-financial";
@@ -636,6 +637,8 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
     return validValue(factId, available[factId]) ? answerString(available[factId]) : "";
   };
 
+  const ohTraffickingCourtContext = input.jurisdiction === "OH"
+    && ohTraffickingCourtIsContext(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
   const arNonconvictionRecordContext = input.jurisdiction === "AR"
     && arNonconvictionRecordIsContext(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
   const ca12034RecordContext = input.jurisdiction === "CA"
@@ -865,6 +868,16 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
         group: retained ? group : null, active: retained, optional: true,
         source: "al_four_route_record_type_history",
         reason: "The exact retained Alabama families have no destination for the overlapping generic record-type menu. Saved answers remain optional history; specific disposition, conviction, pardon and trafficking facts and current route authority remain separate." });
+      continue;
+    }
+
+    if (factId === "court" && ohTraffickingCourtContext && !overrideClass && !needsHuman.has(factId)) {
+      const retained = [input.screeningAnswers, input.prefilledAnswers, input.savedAnswers, input.profileFacts]
+        .some(answers => answers && Object.hasOwn(answers, factId));
+      facts.push({ factId, collection: "conditional", phase: retained ? "render" : "known",
+        group: retained ? group : null, active: retained, optional: true,
+        source: "oh_trafficking_court_history",
+        reason: "The exact adopted survivor guidance prepares no court application. Earlier court answers remain optional context, not a filing prerequisite, trafficking finding or authorization." });
       continue;
     }
 

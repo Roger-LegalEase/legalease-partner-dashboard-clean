@@ -36,11 +36,7 @@ export function ohTraffickingCourtContextQuestion<T extends ProfileQuestion>(que
   if (question.id !== "court" || question.stage !== "case_details" || question.type !== "text"
     || question.prompt !== "Which court or agency handled the case?"
     || question.options != null || !ohTraffickingCourtIsContext(profile, pathwayId, specification)) return question;
-  return { ...question, required: false, contextOnly: true,
-    prompt: "Earlier court or agency answer (optional history)",
-    helperText: "Your earlier answer remains in your history. This service provides information and referrals for this route and does not prepare a court application. You do not need to supply a court name for this guidance. This answer does not establish eligibility or a connection to trafficking.",
-    translations: { ...question.translations, es: { ...question.translations?.es,
-      prompt: "Respuesta anterior sobre el tribunal o la agencia (historial opcional)",
-      helperText: "Su respuesta anterior se conserva en su historial. Este servicio ofrece información y referencias para esta vía y no prepara una solicitud judicial. No necesita indicar el nombre de un tribunal para esta orientación. Esta respuesta no establece los requisitos para obtener una reparación ni una relación con la trata de personas."
-    } } };
+  // Existing approved prompt and translations are sufficient; only ownership
+  // metadata changes. No new participant wording or editor is introduced.
+  return { ...question, required: false, contextOnly: true };
 }
