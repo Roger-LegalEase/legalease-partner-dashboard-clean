@@ -1,3 +1,4 @@
+import { southDakotaGuidanceFinancialApplies } from "@/lib/rcap-engine/south-dakota-guidance-financial";
 import { southCarolinaGuidanceFinancialApplies } from "@/lib/rcap-engine/south-carolina-guidance-financial";
 import { newJerseyMarijuanaStatusFinancialApplies } from "@/lib/rcap-engine/new-jersey-marijuana-status-financial";
 import { oklahomaCleanSlateFinancialApplies } from "@/lib/rcap-engine/oklahoma-clean-slate-financial";
@@ -769,6 +770,16 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
       facts.push({ factId, collection: "conditional", phase: "known", group: null,
         source: "ok_clean_slate_guidance_no_payment_predicate", active: false,
         reason: "Generic payment completeness is not a prerequisite to this exact noncommercial guidance. Saved payment remains history; victim-restitution objections, source categories and operational limitations remain separate." });
+      continue;
+    }
+
+    const sdGuidanceProfile = input.jurisdiction === "SD" && factId === "financial_obligations"
+      ? getProfileByJurisdiction("SD") : null;
+    if (sdGuidanceProfile && !southDakotaGuidanceFinancialApplies(sdGuidanceProfile, input.pathwayId,
+      { ...available, ...input.savedAnswers }, factId)) {
+      facts.push({ factId, collection: "conditional", phase: "known", group: null,
+        source: "sd_informational_guidance_no_payment_predicate", active: false,
+        reason: "Generic payment completeness does not gate this status/correction guidance. Highest charge, all court conditions, five years/no further convictions and Chapter 24-14 pardon scope/certificate remain separate; no completed relief is inferred." });
       continue;
     }
 
