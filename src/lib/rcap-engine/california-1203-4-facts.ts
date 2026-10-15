@@ -18,10 +18,13 @@ export function ca12034Context(profile: EngineProfile | undefined, pathway: stri
   if (!ca12034Contract(profile)) return false;
   if (pathway === CA_12034_ROUTE) return true;
   if (pathway != null) return false;
+  // An explicit Prop64 application still needs its own branch facts. An old
+  // Tool1 hint or probation answer cannot replace that participant election.
+  if (caProp64ApplicationRequested(a)) return false;
   const route = profile!.pathways.find(p => p.id === CA_12034_ROUTE)!;
   return a.possible_pathway_context === route.label || a.possible_pathway_context === route.id
     || CA_12034_FACT_IDS.some(id => Object.hasOwn(a, id))
-    || (a.possible_pathway_context === undefined || a.possible_pathway_context === "") && ca12034KnownConviction(a) && !caProp64ApplicationRequested(a);
+    || (a.possible_pathway_context === undefined || a.possible_pathway_context === "") && ca12034KnownConviction(a);
 }
 type Choice = [string, string, string];
 const unsure: Choice = ["unknown", "I am not sure", "No estoy seguro"];
