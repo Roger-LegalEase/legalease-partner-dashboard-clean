@@ -35,6 +35,9 @@ jobs:
       - name: Fetch pinned DC protected-save comparison baseline
         run: git fetch --no-tags --depth=1 origin 0983b7fc34d8fa9299b71d4d8775634d0e4007c2
 
+      - name: Fetch pinned Alaska adopted-guidance source
+        run: git fetch --no-tags --depth=1 origin 36509c7377c5653db07fd5c43b3948aad079164a
+
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
@@ -135,6 +138,7 @@ jobs:
           node scripts/test-ca-prop64-family-bridge.mjs
           node scripts/test-ak-courtview-contact.mjs
           node scripts/test-ak-courtview-record-context.mjs
+          node scripts/test-ak-pardon-record-context.mjs
           node scripts/test-ct-clean-slate-contact.mjs
           node scripts/test-dc-innocence-location-context.mjs
           node scripts/test-nationwide-contact-representation.mjs
