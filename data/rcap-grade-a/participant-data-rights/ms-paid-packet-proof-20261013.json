@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-ms-paid-packet-proof/v4",
   "generatedBy": "scripts/verify-ms-paid-packet-proof.mjs",
-  "sourceSha": "bf4e09333180a14e5e4edabf7e80e61a2643045c",
+  "sourceSha": "02e2887a8c9cc23da19d38f714ef89081c9fd77e",
   "routeId": "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
   "trackId": "ms-nonconv",
   "packetFamilyId": "ms-nonconv-set",
@@ -127,6 +127,14 @@
   "observedExecution": {
     "kind": "actual_local_module_loads",
     "modules": [
+      {
+        "file": "data/rcap-all50/overlays/census-v1/ak/ak-courtview-set--official-pdf-fill/production-field-map.json",
+        "sha256": "bc5d50377fc550c27440c2e23ccd24ca440333578b7118735725edce167c3f0e"
+      },
+      {
+        "file": "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/production-field-map.json",
+        "sha256": "21bf83cc2f2b00ae193a5127a217ffe8bf2fb2a27d68d4f203364559146ae4f7"
+      },
       {
         "file": "data/rcap-ledger/packet-correction-required.json",
         "sha256": "8bb49d2d8ff4aaa0bc5525ae520ec13ef0fe677f60ff64d9b40bb95c98785a07"
@@ -285,7 +293,7 @@
       },
       {
         "file": "scripts/lib/ms-paid-packet-proof.mjs",
-        "sha256": "4350d198cce691b2cda04c189f2bbdad538ffe7c871201b3ce027e4b80988de2"
+        "sha256": "35ffc21d596b1fb056c88f3add99971603b0e77592142f6472f956f1df2ed146"
       },
       {
         "file": "scripts/lib/ms-successor-review-matter.mjs",
@@ -314,6 +322,10 @@
       {
         "file": "src/lib/expungement-ai/ak-courtview-contact.ts",
         "sha256": "3716c4a2b023b69c904738b32763a63f2310c7a00b43630577bdb247dd31a014"
+      },
+      {
+        "file": "src/lib/expungement-ai/ak-courtview-record-context.ts",
+        "sha256": "9ebd9867c63616fd7abdd6e547eb44c0b2bc6d313ba8c52a63163aac4e3e4835"
       },
       {
         "file": "src/lib/expungement-ai/authoritative-screening-result.ts",
@@ -388,6 +400,10 @@
         "sha256": "2d5d392cb008a835681b28341dbd50c008494804f4c38632b448faff45c6e2f8"
       },
       {
+        "file": "src/lib/expungement-ai/delaware-protected-corrections.ts",
+        "sha256": "b319ff226192e5125083ec4d045a0c8add2c865411f0518c5a224fa17e0cf7c4"
+      },
+      {
         "file": "src/lib/expungement-ai/frontend/ca-prop64-reviewed-choices.json",
         "sha256": "7734e4428802e89a407bb84f2cf68336070e7e71bfeca2ca31f86f5ece8864a7"
       },
@@ -452,6 +468,10 @@
         "sha256": "53eae24322ce4d94d10c1f2ba7a692959165185f29cd742c55d086c81347663b"
       },
       {
+        "file": "src/lib/expungement-ai/nd-first-offense-record-context.ts",
+        "sha256": "c577329628c5751da24496919e40176857a54cc5d40a318c7472d90d1816109b"
+      },
+      {
         "file": "src/lib/expungement-ai/ny-16059-case-classification.ts",
         "sha256": "f299bca5cf001a24a45a9beb8637564c02c4edf828981e4d31d9e157ffcfba93"
       },
@@ -512,12 +532,20 @@
         "sha256": "4ba1a2aa0d05f3625d4b7eba7b4fce138e9e332f81040cf5c636b1430f852466"
       },
       {
+        "file": "src/lib/expungement-ai/oregon-disposition-contact-answer.ts",
+        "sha256": "1b4804ef10ab4b74e0be134ed5ed2596a4cd0092c993ff88527711ddcc1c3d7d"
+      },
+      {
+        "file": "src/lib/expungement-ai/oregon-disposition-contact.ts",
+        "sha256": "72f18bfe4f40bf965239bf99f792ed0b91c569a286786f0a5969d020d56a345f"
+      },
+      {
         "file": "src/lib/expungement-ai/packet-collection-overrides.ts",
         "sha256": "076741f6a30be913779ff15fbc2e070de55a1fd32f1977632d7a64e85eef1cde"
       },
       {
         "file": "src/lib/expungement-ai/packet-collection.ts",
-        "sha256": "2dcedaa8bf58f78283c0e0e18a940fa15391366a106c41e91c9b972a8631e5a1"
+        "sha256": "e7147c622546d5c8d28b735076b14a08e1256fb0b2f66874a5575c7cf707dcce"
       },
       {
         "file": "src/lib/expungement-ai/packet-contract-successors.ts",
@@ -529,7 +557,7 @@
       },
       {
         "file": "src/lib/expungement-ai/packet-information.ts",
-        "sha256": "f8f07e5154f9a728ea8c67dc396c65b6e04d4dac1bfa4c83087460d2930ef00d"
+        "sha256": "e6500e2e1882833d1ffa318b2ab38fa7f2064983d55fb9f203989e7fa8f13ef8"
       },
       {
         "file": "src/lib/expungement-ai/packet-route-safety.ts",
@@ -1357,13 +1385,15 @@
     "scripts/lib/server-only-shim.mjs": "5d9a32cde7df04054d43a947f49dd5803c60dc9360f9c9bbadc50b1f23b47170",
     "scripts/lib/next-server-esm-bridge.mjs": "925d0398418dfc4f73d6ad66d2f5d0327c12e695708ae50eb904fe88ab471150",
     "scripts/verify-ms-paid-packet-proof.mjs": "feaac7b9dbdb88738759c0dc9adcfcad960b8d74ed31bdfa62f645938bb824c2",
-    "scripts/lib/ms-paid-packet-proof.mjs": "4350d198cce691b2cda04c189f2bbdad538ffe7c871201b3ce027e4b80988de2",
+    "scripts/lib/ms-paid-packet-proof.mjs": "35ffc21d596b1fb056c88f3add99971603b0e77592142f6472f956f1df2ed146",
     "src/lib/rcap/render/personalized-packet.ts": "1312ad3171edb68465e920b9252337df06398b25207c566224320f955237f126",
-    "src/lib/expungement-ai/packet-information.ts": "f8f07e5154f9a728ea8c67dc396c65b6e04d4dac1bfa4c83087460d2930ef00d",
+    "src/lib/expungement-ai/packet-information.ts": "e6500e2e1882833d1ffa318b2ab38fa7f2064983d55fb9f203989e7fa8f13ef8",
     "src/lib/expungement-ai/verification-cas.ts": "833b1a0615c3e70822c19b5b8fbed49adaaffbf7b9ca212de2cd5508259ee142",
     "src/lib/rcap/fulfillment/final-verification-contract.ts": "555a8465e278b6c646d6fb8b188dc210a9ba4c092a4a139ec2615182c6de3603",
     "src/lib/rcap/fulfillment/paid-consumer-successor.ts": "e4f700aec2344cc1f094fd387eb2e06a56efdde2caa41377d63667f358694e02",
     "src/lib/rcap/fulfillment/question-contract-source-successor.mjs": "083db2174b15ba3815bd448fc9b2c3482e5a8f522aee1a38e8d6906e04718470",
+    "data/rcap-all50/overlays/census-v1/ak/ak-courtview-set--official-pdf-fill/production-field-map.json": "bc5d50377fc550c27440c2e23ccd24ca440333578b7118735725edce167c3f0e",
+    "data/rcap-all50/overlays/census-v1/or/rcap-or-official-pdf-fill--official-pdf-fill/production-field-map.json": "21bf83cc2f2b00ae193a5127a217ffe8bf2fb2a27d68d4f203364559146ae4f7",
     "data/rcap-ledger/packet-correction-required.json": "8bb49d2d8ff4aaa0bc5525ae520ec13ef0fe677f60ff64d9b40bb95c98785a07",
     "data/rcap-ledger/packet-fulfillment-records.json": "6da6d0f7b65bf417908677f688d2793b200d9778a87ecdd9238be7bcbe4ddd53",
     "data/rcap-ledger/route-kind-adjudications.json": "e84342613e17a6451d1dcc650d60e1bc15175c6cf05125bb3482adc829691bb2",
@@ -1375,6 +1405,7 @@
     "data/record-clearing/packet-specifications/drafts/CA-prop64-juvenile-review.v1.json": "984ea6eb6bda4a8a06a92d5c5c0204d56b039739b6915f0c0949d8c52454750b",
     "src/components/expungement-ai/screening/answers.ts": "a25f157711618987d1fb53374752d9d25bfb44a727d1811f8e76830772ac21d8",
     "src/lib/expungement-ai/ak-courtview-contact.ts": "3716c4a2b023b69c904738b32763a63f2310c7a00b43630577bdb247dd31a014",
+    "src/lib/expungement-ai/ak-courtview-record-context.ts": "9ebd9867c63616fd7abdd6e547eb44c0b2bc6d313ba8c52a63163aac4e3e4835",
     "src/lib/expungement-ai/authoritative-screening-result.ts": "ac1d1295f576716caff9bca36e0a2fdd9ffc207c803bb9520b923053dfd20c13",
     "src/lib/expungement-ai/ca-prop64-caption-facts.ts": "61cd6a76435112f22f9dc617d942c67b3e1fc5ee178d5d2deca557703d9669ad",
     "src/lib/expungement-ai/ca-prop64-caption-successor.ts": "1c981f3933e1ce4500c0bfb9a36ee9e7d12a5b3a50d448d103d40263b2ba8914",
@@ -1387,6 +1418,7 @@
     "src/lib/expungement-ai/court-completion-fact-meaning.ts": "7bfcb7e5de90dd03acf4a05716ac61ab05553b50464a4547b69ce9ae5bcdbc07",
     "src/lib/expungement-ai/court-completion-reuse.ts": "99d13b7da823a0622537043143b7dc7483c3913f792fce7fcf5468fc0a670fa9",
     "src/lib/expungement-ai/ct-clean-slate-contact.ts": "2d5d392cb008a835681b28341dbd50c008494804f4c38632b448faff45c6e2f8",
+    "src/lib/expungement-ai/delaware-protected-corrections.ts": "b319ff226192e5125083ec4d045a0c8add2c865411f0518c5a224fa17e0cf7c4",
     "src/lib/expungement-ai/frontend/profiles/all51.json": "baf0daeff56a7588021b5d49181b4b6828e38a7ecd545c11348188abefaf2bb5",
     "src/lib/expungement-ai/frontend/reviewed-assisted-contact-copy.json": "939f925a4d978cc6aa9cc644a5df624284c19f9007219774fb8166f56a372e00",
     "src/lib/expungement-ai/frontend/reviewed-participant-copy.json": "446252cf917b230501ef2f36fbb88260bef9d815b8ffc0cdfd718b17889f3ed9",
@@ -1398,14 +1430,17 @@
     "src/lib/expungement-ai/ks-municipal-contact.ts": "0243eba4dbac1ebb8ceaa93cb085ef5711baab5be3a8bc370af6034b6f584e26",
     "src/lib/expungement-ai/mt-deferred-document-inputs.ts": "c7d4724a4058b94f46d6d4ee9eec918a9f5017312c8b2389306a4c5d0333278e",
     "src/lib/expungement-ai/mt-deferred-document-questions.ts": "e9479a1bdfbb2dc9b9322633d3a60dd1fabcfbe262af109149299afc1b5b9633",
+    "src/lib/expungement-ai/nd-first-offense-record-context.ts": "c577329628c5751da24496919e40176857a54cc5d40a318c7472d90d1816109b",
     "src/lib/expungement-ai/ny-16059-current-components.ts": "40cf1e05c9a4b45e3be3f654611194f10e76f80cb9be13298854f8b9b2338eaf",
     "src/lib/expungement-ai/ny-16059-current-document-questions.ts": "f2b4f98c91114d2898fc17f2c5fd22c5312cc988539be55a222c2b7da993d8d0",
     "src/lib/expungement-ai/ny-16059-document-preparation.ts": "a96eb5ccabd6f00e234d73718a14960926baa3de38972169e2258aab684ea3b7",
     "src/lib/expungement-ai/ny-16059-packet-successor.ts": "49a959105b980f089e9a6737e65685f806bea9bc14c6e0adc5391835e0b99b65",
     "src/lib/expungement-ai/ny-16059-transaction-associations.ts": "4dd0ac42aaefd2c9c91e88902b1cdd539cf4f4e7653f82068570b4a1e2d5888a",
     "src/lib/expungement-ai/ny-custody-correction.ts": "4ba1a2aa0d05f3625d4b7eba7b4fce138e9e332f81040cf5c636b1430f852466",
+    "src/lib/expungement-ai/oregon-disposition-contact-answer.ts": "1b4804ef10ab4b74e0be134ed5ed2596a4cd0092c993ff88527711ddcc1c3d7d",
+    "src/lib/expungement-ai/oregon-disposition-contact.ts": "72f18bfe4f40bf965239bf99f792ed0b91c569a286786f0a5969d020d56a345f",
     "src/lib/expungement-ai/packet-collection-overrides.ts": "076741f6a30be913779ff15fbc2e070de55a1fd32f1977632d7a64e85eef1cde",
-    "src/lib/expungement-ai/packet-collection.ts": "2dcedaa8bf58f78283c0e0e18a940fa15391366a106c41e91c9b972a8631e5a1",
+    "src/lib/expungement-ai/packet-collection.ts": "e7147c622546d5c8d28b735076b14a08e1256fb0b2f66874a5575c7cf707dcce",
     "src/lib/expungement-ai/packet-contract-successors.ts": "40dfeb4731018b7a3c7d9f7e0af36e8bb0aa218848f05dfaa8b2f60b59d8d00e",
     "src/lib/expungement-ai/packet-fulfillment-authority.ts": "6fa3fcf19fc31cdc9e40ae7ba7d4114c6f78c30c21b0b143c9dcd32eb5f771e7",
     "src/lib/expungement-ai/protected-legacy-answers.ts": "2c9116c8189c0daa9a0a08fd65f654966f90b3f0b3886c1026c39812c6f679bc",
