@@ -38,7 +38,8 @@ export function alRecordIsContext(profile: EngineProfile | undefined,
     && contactRepresentationHash(current.memo === undefined ? memo : current.memo) === "62ee8eb99e0c1a45090bdd37f838671f9d7637e20f792e60cf0dbdb218bf31de"
     && contactRepresentationHash(current.decision === undefined ? decision : current.decision) === "b3e80db48e72a3387edd84d2df3684592b2ccaa72dc7aa1e2fec50b24e42b988"
     && Array.isArray(currentMaps) && currentMaps.length === mapHashes.length
-    && currentMaps.every((map, index) => contactRepresentationHash(map) === mapHashes[index]);
+    && mapHashes.every((hash, index) => Object.hasOwn(currentMaps, index)
+      && contactRepresentationHash(currentMaps[index]) === hash);
 }
 
 export function alRecordContextQuestion<T extends ProfileQuestion>(question: T,
