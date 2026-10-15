@@ -1,4 +1,4 @@
-import { akPardonRecordIsContext, akJuvenileRecordIsContext } from "@/lib/expungement-ai/ak-pardon-record-context";
+import { akPardonRecordIsContext, akJuvenileRecordIsContext, akAgencyOrSisRecordIsContext } from "@/lib/expungement-ai/ak-pardon-record-context";
 import { akCourtviewRecordIsContext, AK_LEGACY_RECORD_TYPE } from "@/lib/expungement-ai/ak-courtview-record-context";
 import { dcInnocenceLocationIsContext, DC_LEGACY_LOCATION } from "@/lib/rcap-engine/dc-innocence-location-context";
 import { ndFirstOffenseRecordIsContext, ND_LEGACY_RECORD_TYPE } from "@/lib/expungement-ai/nd-first-offense-record-context";
@@ -624,6 +624,8 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
 
   const dcLocationContext = input.jurisdiction === "DC"
     && dcInnocenceLocationIsContext(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
+  const akAgencyOrSisContext = input.jurisdiction === "AK"
+    && akAgencyOrSisRecordIsContext(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
   const akJuvenileContext = input.jurisdiction === "AK"
     && akJuvenileRecordIsContext(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
   const akPardonContext = input.jurisdiction === "AK"
@@ -763,6 +765,16 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
         actor: actor ?? "external",
         reason: `the specification assigns this field to ${actor ?? "an external actor"}`
       });
+      continue;
+    }
+
+    if (factId === AK_LEGACY_RECORD_TYPE && akAgencyOrSisContext && !overrideClass && !needsHuman.has(factId)) {
+      const retained = [input.screeningAnswers, input.prefilledAnswers, input.savedAnswers, input.profileFacts]
+        .some(answers => answers && Object.hasOwn(answers, factId));
+      facts.push({ factId, collection: "conditional", phase: retained ? "render" : "known",
+        group: retained ? group : null, active: retained, optional: true,
+        source: "ak_agency_sis_record_type_history",
+        reason: "The exact retained agency/SIS family has no destination for the overlapping generic record-type menu. Saved answers remain optional history without establishing identity-error or SIS facts or changing current route authority." });
       continue;
     }
 
