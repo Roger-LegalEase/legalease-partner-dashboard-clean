@@ -1,3 +1,4 @@
+import { southCarolinaGuidanceFinancialApplies, southCarolinaGuidanceFinancialContract, SC_GUIDANCE_FINANCIAL_ROUTES } from "@/lib/rcap-engine/south-carolina-guidance-financial";
 import { newJerseyMarijuanaStatusFinancialApplies, newJerseyMarijuanaStatusFinancialContract, NJ_MARIJUANA_STATUS_ROUTE } from "@/lib/rcap-engine/new-jersey-marijuana-status-financial";
 import { oklahomaCleanSlateFinancialApplies, oklahomaCleanSlateFinancialContract, OK_CLEAN_SLATE_ROUTE } from "@/lib/rcap-engine/oklahoma-clean-slate-financial";
 import { ohTraffickingCourtIsContext, ohTraffickingCourtContextQuestion } from "@/lib/expungement-ai/oh-trafficking-court-context";
@@ -1409,6 +1410,48 @@ export function oklahomaCleanSlateFinancialDraftSuccessor(snapshot: ProtectedPac
   return seeded ? preserveUnchangedProtectedFacts(seeded.snapshot, snapshot, new Set()) : null;
 }
 
+/** Exact 272d source-reproduced payment-only status-guidance draft holds. Current view only;
+ * stored read/no-op bytes and all verified-authority boundaries stay intact. */
+export function southCarolinaGuidanceFinancialDraftSuccessor(snapshot: ProtectedPacketAuthoritySnapshot,
+  authoritative: NonNullable<ReturnType<typeof evaluateProtectedPacketFacts>>): ProtectedPacketDraftSnapshot | null {
+  const profile = getProfileByJurisdiction("SC"), evaluation = authoritative.evaluation;
+  const route = evaluation.pathwayId;
+  if (!profile || !route || !southCarolinaGuidanceFinancialContract(profile, route)
+    || snapshot.schemaVersion !== "expungement-ai/protected-packet-draft/v1"
+    || snapshot.jurisdiction !== "SC" || ![route, null].includes(snapshot.pathwayId)
+    || snapshot.profileVersion !== profile.profileVersion
+    || snapshot.profileSourceFingerprint !== profile.source?.sourceCorpusSha256
+    || snapshot.profileAuthorityFingerprint !== (snapshot.pathwayId === null
+      ? "367d1f5a8799c844c95a51e6d46e32d66053c944e345a2fe8fe5f1a3ce1ca932"
+      : (snapshot.pathwayId === SC_GUIDANCE_FINANCIAL_ROUTES[0] ? "0f3be57f27ddba121b5d9998e924079e5dbd99acad5d2cb79a3aa9d7ff3a588f" : "ae55614609867d71e9cfc67879d2b0d454fbc07cf5e6968a75b29553c506f2b2"))
+    || profileAuthorityFingerprint(profile, snapshot.pathwayId) !== snapshot.profileAuthorityFingerprint
+    || snapshot.paymentAllowed || snapshot.selectedTrackId !== null || snapshot.treatmentClassification !== null
+    || !canonicalEqual(snapshot.deferralComponentIds, [])
+    || !canonicalEqual(snapshot.serverFacts, canonicalServerFacts("SC", snapshot.pathwayId))
+    || snapshot.packetType !== null || snapshot.packetPlan !== null
+    || !canonicalEqual(snapshot.requiredInputIds, [])
+    || !canonicalEqual(snapshot.packetFamilyIdentifiers, { mode: null, sourceFormIds: [] })
+    || evaluation.jurisdiction !== "SC" || evaluation.profileVersion !== snapshot.profileVersion
+    || evaluation.paymentAllowed || authoritative.selectedTrackId || evaluation.treatmentClassification
+    || evaluation.deferralComponentIds?.length || evaluation.missingQuestionIds.length
+    || !canonicalEqual(evaluation.packetPlan, packetPlanForPathway(profile, route))) return null;
+  const answers = protectedPacketScreeningAnswers(snapshot);
+  if (!answers || southCarolinaGuidanceFinancialApplies(profile, route, answers, "financial_obligations")) return null;
+  const unknown = snapshot.pathwayId === route && snapshot.resultCode === "needs_review"
+    && isExplicitUnknownAnswer(answers.financial_obligations);
+  const missing = snapshot.pathwayId === null && snapshot.resultCode === "needs_more_info"
+    && !Object.hasOwn(answers, "financial_obligations");
+  if (!unknown && !missing) return null;
+  // Only noncommercial guidance; the old payment hold grants no authority.
+  if (!SC_GUIDANCE_FINANCIAL_ROUTES.some(id => id === route) || evaluation.resultCode !== "guidance_only"
+    || authoritative.packetType !== "guidance_packet" || evaluation.reasons.length !== 1
+    || evaluation.reasons[0].code !== "sc.guidance_only_no_user_filed_court_petition") return null;
+  const seeded = protectedPacketDraftSeedFromAuthoritative({ authoritative,
+    screeningAnswers: answerRecord(snapshot.screeningAnswers), prefilledAnswers: answerRecord(snapshot.prefilledAnswers),
+    packetAnswers: answerRecord(snapshot.packetAnswers), dependencies: snapshot.dependencies, capturedAt: snapshot.capturedAt });
+  return seeded ? preserveUnchangedProtectedFacts(seeded.snapshot, snapshot, new Set()) : null;
+}
+
 /** Exact c09 source-reproduced payment-only status-guidance draft holds. Current view only;
  * stored read/no-op bytes and all verified-authority boundaries stay intact. */
 export function newJerseyMarijuanaStatusFinancialDraftSuccessor(snapshot: ProtectedPacketAuthoritySnapshot,
@@ -1821,6 +1864,8 @@ export function protectedPacketInformationModelFor(
   if (orAuthority) snapshot = oregonDispositionDraftSuccessor(snapshot, orAuthority) ?? snapshot;
   const okFinancialAuthority = snapshot.jurisdiction === "OK" ? evaluateProtectedPacketFacts(snapshot) : null;
   if (okFinancialAuthority) snapshot = oklahomaCleanSlateFinancialDraftSuccessor(snapshot, okFinancialAuthority) ?? snapshot;
+  const scFinancialAuthority = snapshot.jurisdiction === "SC" ? evaluateProtectedPacketFacts(snapshot) : null;
+  if (scFinancialAuthority) snapshot = southCarolinaGuidanceFinancialDraftSuccessor(snapshot, scFinancialAuthority) ?? snapshot;
   const njFinancialAuthority = snapshot.jurisdiction === "NJ" ? evaluateProtectedPacketFacts(snapshot) : null;
   if (njFinancialAuthority) snapshot = newJerseyMarijuanaStatusFinancialDraftSuccessor(snapshot, njFinancialAuthority) ?? snapshot;
   const nmFinancialAuthority = snapshot.jurisdiction === "NM" ? evaluateProtectedPacketFacts(snapshot) : null;
@@ -2458,6 +2503,8 @@ export function factualPathwayCorrectionIds(state: string, pathway: string | nul
     ...((arNonconvictionRecordIsContext(profile, pathway, packetSpecificationFor(`${state}:${pathway}`))
       || includeInactive && arFelonyRecordIsContext(profile, pathway, packetSpecificationFor(`${state}:${pathway}`)))
       && Object.hasOwn(answers, "record_type") ? ["record_type"] : [])];
+  if (includeInactive && profile && !southCarolinaGuidanceFinancialApplies(profile, pathway, answers, "financial_obligations")
+    && Object.hasOwn(answers, "financial_obligations")) return [...extra, "financial_obligations"];
   if (includeInactive && profile && !newJerseyMarijuanaStatusFinancialApplies(profile, pathway, answers, "financial_obligations")
     && Object.hasOwn(answers, "financial_obligations")) return [...extra, "financial_obligations"];
   if (includeInactive && profile && !newMexicoGuidanceFinancialApplies(profile, pathway, answers, "financial_obligations")
@@ -2505,6 +2552,7 @@ function routeFactualCorrectionIds(model: { stateCode: string; pathwayId: string
       && (!profile || montanaRecordFinancialApplies(profile, model.pathwayId, facts, "financial_obligations"))
       && (!profile || newMexicoGuidanceFinancialApplies(profile, model.pathwayId, facts, "financial_obligations"))
       && (!profile || newJerseyMarijuanaStatusFinancialApplies(profile, model.pathwayId, facts, "financial_obligations"))
+      && (!profile || southCarolinaGuidanceFinancialApplies(profile, model.pathwayId, facts, "financial_obligations"))
       && (!profile || oklahomaCleanSlateFinancialApplies(profile, model.pathwayId, facts, "financial_obligations"))
       && (!profile || wy1401QuestionApplies(profile, model.pathwayId, facts, "financial_obligations"))
       && (!profile || montanaDeferredLegacyFinancialApplies(profile, model.pathwayId, facts, "financial_obligations")))
@@ -3229,7 +3277,7 @@ function deriveProtectedPacketDraftSnapshot(
   if (mtDeferredPreparation && !mtPreparationIds) return null;
   const caJuvenileIds = caJuvenilePreparation ? caProp64JuvenilePreparationModelFor(verification)?.caJuvenilePreparationFactIds : undefined;
   if (caJuvenilePreparation && !caJuvenileIds) return null;
-  base = newJerseyMarijuanaStatusFinancialDraftSuccessor(base, currentAuthority) ?? wyoming1401DraftSuccessor(base,currentAuthority) ?? newMexicoGuidanceFinancialDraftSuccessor(base, currentAuthority) ?? montanaRecordFinancialDraftSuccessor(base, currentAuthority) ?? californiaProbationDraftSuccessor(base,currentAuthority) ?? oregonDispositionDraftSuccessor(base, currentAuthority) ?? montanaDeferredDraftSuccessor(base, currentAuthority) ?? missouriMarijuanaDraftSuccessor(base, currentAuthority) ?? missouriClosureDraftSuccessor(base, currentAuthority) ?? maineNonconvictionDraftSuccessor(base, currentAuthority) ?? louisianaAutomationStatusHeldSuccessor(base, currentAuthority) ?? nebraskaAcquittalHeldSuccessor(base, currentAuthority) ?? kansasRegistrationHeldSuccessor(base, currentAuthority) ?? base;
+  base = southCarolinaGuidanceFinancialDraftSuccessor(base, currentAuthority) ?? newJerseyMarijuanaStatusFinancialDraftSuccessor(base, currentAuthority) ?? wyoming1401DraftSuccessor(base,currentAuthority) ?? newMexicoGuidanceFinancialDraftSuccessor(base, currentAuthority) ?? montanaRecordFinancialDraftSuccessor(base, currentAuthority) ?? californiaProbationDraftSuccessor(base,currentAuthority) ?? oregonDispositionDraftSuccessor(base, currentAuthority) ?? montanaDeferredDraftSuccessor(base, currentAuthority) ?? missouriMarijuanaDraftSuccessor(base, currentAuthority) ?? missouriClosureDraftSuccessor(base, currentAuthority) ?? maineNonconvictionDraftSuccessor(base, currentAuthority) ?? louisianaAutomationStatusHeldSuccessor(base, currentAuthority) ?? nebraskaAcquittalHeldSuccessor(base, currentAuthority) ?? kansasRegistrationHeldSuccessor(base, currentAuthority) ?? base;
   const factualIds = [...factualPathwayCorrectionIds(base.jurisdiction, base.pathwayId, { ...base.screeningAnswers, ...base.prefilledAnswers, ...base.packetAnswers }, true), ...msExactTimingQuestionIds(base.jurisdiction, base.pathwayId, { ...base.screeningAnswers, ...base.prefilledAnswers, ...base.packetAnswers }, true), ...oregonUnselectedCorrectionIds(base), ...missouriUnselectedCorrectionIds(base), ...maineUnselectedCorrectionIds(base), ...nebraskaUnselectedCorrectionIds(base), ...louisianaUnselectedCorrectionIds(base)];
   if (gaPreparationIds) factualIds.push(...gaPreparationIds);
   if (mtPreparationIds) factualIds.push(...mtPreparationIds);
@@ -3354,12 +3402,17 @@ function deriveProtectedPacketDraftSnapshot(
     && base.profileAuthorityFingerprint === profileAuthorityFingerprint(currentAuthority.profile, base.pathwayId)
     && !newMexicoGuidanceFinancialApplies(currentAuthority.profile, base.pathwayId,
       { ...base.screeningAnswers, ...base.prefilledAnswers, ...base.packetAnswers }, "financial_obligations");
+  const preserveSouthCarolinaGuidanceFacts = base.profileVersion === currentAuthority.profile.profileVersion
+    && base.profileSourceFingerprint === currentAuthority.profile.source?.sourceCorpusSha256
+    && base.profileAuthorityFingerprint === profileAuthorityFingerprint(currentAuthority.profile, base.pathwayId)
+    && !southCarolinaGuidanceFinancialApplies(currentAuthority.profile, base.pathwayId,
+      { ...base.screeningAnswers, ...base.prefilledAnswers, ...base.packetAnswers }, "financial_obligations");
   const preserveNewJerseyStatusFacts = base.profileVersion === currentAuthority.profile.profileVersion
     && base.profileSourceFingerprint === currentAuthority.profile.source?.sourceCorpusSha256
     && base.profileAuthorityFingerprint === profileAuthorityFingerprint(currentAuthority.profile, base.pathwayId)
     && !newJerseyMarijuanaStatusFinancialApplies(currentAuthority.profile, base.pathwayId,
       { ...base.screeningAnswers, ...base.prefilledAnswers, ...base.packetAnswers }, "financial_obligations");
-  const preserved = isCaProp64Pathway(base.jurisdiction, base.pathwayId) || preserveFinancialFacts || preserveMontanaRecordFacts || preserveNewMexicoGuidanceFacts || preserveNewJerseyStatusFacts || factualIds.length > 0
+  const preserved = isCaProp64Pathway(base.jurisdiction, base.pathwayId) || preserveFinancialFacts || preserveMontanaRecordFacts || preserveNewMexicoGuidanceFacts || preserveNewJerseyStatusFacts || preserveSouthCarolinaGuidanceFacts || factualIds.length > 0
     ? preserveUnchangedProtectedFacts(shapesPreserved, base, new Set([...explicitChangedIds, ...confirmRecordFacts]))
     : shapesPreserved;
   // These exact source-bound successors remove inherited collection dependencies,

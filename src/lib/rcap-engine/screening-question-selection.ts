@@ -1,3 +1,4 @@
+import { southCarolinaGuidanceFinancialApplies } from "@/lib/rcap-engine/south-carolina-guidance-financial";
 import { newJerseyMarijuanaStatusFinancialApplies } from "@/lib/rcap-engine/new-jersey-marijuana-status-financial";
 import { oklahomaCleanSlateFinancialApplies } from "@/lib/rcap-engine/oklahoma-clean-slate-financial";
 import { wy1401Context, wy1401QuestionApplies, WY_1401_NEW_IDS, WY_1401_QUESTIONS } from "@/lib/rcap-engine/wyoming-1401-facts";
@@ -133,6 +134,7 @@ export function selectScreeningQuestionIds(
     .filter(question => montanaRecordFinancialApplies(profile, mtFinancialQuestionPathway, answers, question.id))
     .filter(question => newMexicoGuidanceFinancialApplies(profile, selectedPathway?.id, answers, question.id))
     .filter(question => newJerseyMarijuanaStatusFinancialApplies(profile, selectedPathway?.id, answers, question.id))
+    .filter(question => southCarolinaGuidanceFinancialApplies(profile, selectedPathway?.id, answers, question.id))
     .filter(question => oklahomaCleanSlateFinancialApplies(profile, selectedPathway?.id, answers, question.id))
     .filter(question => wy1401QuestionApplies(profile, selectedPathway?.id, answers, question.id))
     .filter(question => !wy1401Context(profile,selectedPathway?.id,answers) || !["arrest_date","disposition_date"].includes(question.id))
