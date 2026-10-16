@@ -12,6 +12,7 @@ const packet = JSON.parse(fs.readFileSync('data/rcap-ledger/public-witness-answe
 const orPredecessor = JSON.parse(fs.readFileSync('scripts/fixtures/or-disposition-witness-predecessor.json'));
 const caTool1Predecessor = JSON.parse(fs.readFileSync('scripts/fixtures/ca-tool1-witness-predecessor.json'));
 const txPredecessors = JSON.parse(fs.readFileSync('scripts/fixtures/tx-nondisclosure-witness-predecessors.json'));
+const msMipPredecessor = JSON.parse(fs.readFileSync('scripts/fixtures/ms-mip-witness-predecessor.json'));
 const changed = new Set([
   'AR:situation-a-non-convictions', 'AR:situation-b-misdemeanor-convictions', 'AR:situation-c-felony-convictions',
   'CA:prop-64-completed-sentence-application-11361-8', 'CA:prop-64-currently-serving-petition-11361-8',
@@ -67,13 +68,14 @@ check(()=>assert.equal(packet.witnesses.filter(w=>changed.has(w.pathwayKey)).len
 // The later Tool1 correction likewise retires a false no-charge positive. Keep
 // that exact historical row only for the original digest, then assert the
 // current refusal against the real evaluator. No replacement digest hides drift
-// in any of the other 248 rows. The three exact historical TX rows below
+// in any of the other 247 rows. The three exact historical TX rows below
 // likewise preserve this original digest while their current source-clock
 // consumers are asserted separately; the original14-row cohort stays fixed.
 const orKey = 'OR:set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c';
 const caTool1Key = 'CA:tool-1-dismissal-set-aside';
 const txKeys = ['TX:first-offense-dwi-nondisclosure','TX:petitioned-nondisclosure-after-completed-deferred-adjudication-411-0725','TX:petitioned-nondisclosure-for-an-eligible-conviction-411-0735'];
 const txHistorical = new Map(txPredecessors.witnesses.map(w=>[w.pathwayKey,w]));
+const msMipKey = 'MS:minor-in-possession-underage-alcohol-expungement';
 check(()=>assert.equal(txPredecessors.sourceSha,'c1814855e59e4054b08aec97acf28a9acb78ecf1'));
 check(()=>assert.equal(txPredecessors.sourcePath,'data/rcap-ledger/public-witness-answer-sets.json'));
 check(()=>assert.equal(txPredecessors.sourceSha256,'087985053f3c81033a58ca453510d4db6ffc75187238449bcd99ef8ac592d608'));
@@ -83,7 +85,36 @@ check(()=>assert.equal(orPredecessor.witness.pathwayKey,orKey));
 check(()=>assert.equal(caTool1Predecessor.witness.pathwayKey,caTool1Key));
 check(()=>assert.equal(caTool1Predecessor.sourceSha,'67556b6acf3cc6652f5f6ae10bfb0d0366cca63a'));
 check(()=>assert.equal(caTool1Predecessor.sourceSha256,'3d90a8ffeb6c4c45da3f24a19cbffeceaf637647832f340aef1423a68c36e73b'));
-check(()=>assert.equal(sha(JSON.stringify(packet.witnesses.filter(w=>!changed.has(w.pathwayKey)).map(w=>w.pathwayKey===orKey?orPredecessor.witness:w.pathwayKey===caTool1Key?caTool1Predecessor.witness:txHistorical.get(w.pathwayKey)??w))),'dd48f2daa2b68b38926d3d619c91b92833db494fe5d63ae4f31218c1c5c2dba2'));
+// Preserve the original digest with the exact pre-correction synthetic MIP
+// transcript. The current AND-date witness is checked separately below; an
+// older OR-date answer never supplies the newly required meaning.
+check(()=>assert.equal(msMipPredecessor.sourceSha,'933615db47bf54d147fdbe0b32417999849b4155'));
+check(()=>assert.equal(msMipPredecessor.sourcePath,'data/rcap-ledger/public-witness-answer-sets.json'));
+check(()=>assert.equal(msMipPredecessor.sourceSha256,'42ac6dfad098e928c136adb4cbe08106f6bcb6045e30aad8edd6fb0e39ad14ec'));
+check(()=>assert.equal(msMipPredecessor.witness.pathwayKey,msMipKey));
+check(()=>assert.equal(sha(JSON.stringify(packet.witnesses.filter(w=>!changed.has(w.pathwayKey)).map(w=>w.pathwayKey===orKey?orPredecessor.witness:w.pathwayKey===caTool1Key?caTool1Predecessor.witness:w.pathwayKey===msMipKey?msMipPredecessor.witness:txHistorical.get(w.pathwayKey)??w))),'dd48f2daa2b68b38926d3d619c91b92833db494fe5d63ae4f31218c1c5c2dba2'));
+const msMipWitness = packet.witnesses.find(w=>w.pathwayKey===msMipKey);
+check(()=>assert.ok(msMipWitness));
+check(()=>assert.deepEqual(msMipWitness.seedAnswers,msMipPredecessor.witness.seedAnswers));
+check(()=>assert.equal(msMipPredecessor.witness.finalAnswers.ms_mip_dismissal_or_discharge_date,'2012-06-01'));
+check(()=>assert.equal(msMipPredecessor.witness.finalAnswers.ms_mip_dismissal_and_discharge_date,undefined));
+check(()=>assert.equal(msMipWitness.finalAnswers.ms_mip_dismissal_and_discharge_date,'2012-06-01'));
+check(()=>assert.equal(msMipWitness.finalAnswers.ms_mip_dismissal_or_discharge_date,undefined));
+const expectedMsMipWitness=structuredClone(msMipPredecessor.witness);
+expectedMsMipWitness.finalAnswers.ms_mip_dismissal_and_discharge_date=expectedMsMipWitness.finalAnswers.ms_mip_dismissal_or_discharge_date;
+delete expectedMsMipWitness.finalAnswers.ms_mip_dismissal_or_discharge_date;
+expectedMsMipWitness.rounds[2].requested=['ms_mip_dismissal_and_discharge_date'];
+expectedMsMipWitness.rounds[2].supplied={ms_mip_dismissal_and_discharge_date:'2012-06-01'};
+check(()=>assert.deepEqual(msMipWitness,expectedMsMipWitness));
+check(()=>assert.deepEqual(msMipWitness.terminalEvaluation,msMipPredecessor.witness.terminalEvaluation));
+check(()=>assert.deepEqual(projection(replay(msMipWitness,msMipWitness.finalAnswers)),msMipWitness.terminalEvaluation));
+const msMipOldMeaning = replay(msMipWitness,msMipPredecessor.witness.finalAnswers);
+check(()=>assert.ok(msMipOldMeaning.missingQuestionIds.includes('ms_mip_dismissal_and_discharge_date')));
+check(()=>assert.equal(msMipOldMeaning.paymentAllowed,false));
+const msMipProfile=getProfileByJurisdiction('MS');
+const msMipRun=converge('MS',msMipProfile,questions(msMipProfile),msMipWitness.seedAnswers);
+check(()=>assert.deepEqual(msMipRun.transcript,msMipWitness.rounds));
+check(()=>assert.deepEqual(msMipRun.answers,msMipWitness.finalAnswers));
 const orWitness = packet.witnesses.find(w=>w.pathwayKey===orKey);
 check(()=>assert.ok(orWitness));
 const orCurrent = replay(orWitness,orWitness.finalAnswers);
@@ -233,4 +264,4 @@ check(()=>assert.equal(old.transcript.length,24));
 check(()=>assert.throws(()=>assert.ok(old.transcript.length<8,'no unchanged-answer churn'),/no unchanged-answer churn/));
 check(()=>assert.equal(old.evaluation,null));
 check(()=>assert.equal(packet.totals.additionalSourceBoundSyntheticWitnesses,6));
-console.log(JSON.stringify({status:'PASS',checks,changedRoutes:19,originalChangedRouteCohort:14,currentOrSuccessors:1,currentCaTool1Successors:1,currentTxSuccessors:3,unchangedHistoricalRoutes:248,originalHistoricalDigestRows:253,unresolvedGenericWitnesses:8,sourceBoundSyntheticWitnesses:6,limits:'Local actual evaluator replay and mutation controls; not hosted, authenticated, document or offered-scope acceptance. Original253-row digest retains exact historical OR, Tool1 and three TX rows; their current successors are separately checked without changing generic premises. Historical Tool1 positive is a preserved failure, not current authority.'},null,2));
+console.log(JSON.stringify({status:'PASS',checks,changedRoutes:20,originalChangedRouteCohort:14,currentOrSuccessors:1,currentCaTool1Successors:1,currentTxSuccessors:3,currentMsMipSuccessors:1,unchangedHistoricalRoutes:247,originalHistoricalDigestRows:253,unresolvedGenericWitnesses:8,sourceBoundSyntheticWitnesses:6,limits:'Local actual evaluator replay and mutation controls; not hosted, authenticated, document or offered-scope acceptance. Original253-row digest retains exact historical OR, Tool1, three TX and MS MIP rows; their current successors are separately checked without changing generic premises. Historical Tool1 positive is a preserved failure, not current authority.'},null,2));
