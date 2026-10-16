@@ -33,7 +33,7 @@ check('actual current v4 proof validates three exact approved outputs',()=>{
   const actual=load();assert.equal(actual.proof.schemaVersion,'rcap-ms-paid-packet-proof/v4');
   assert.equal(actual.proof.results.length,3);assert.deepEqual(actual.proof.results,prior.results);
   assert.deepEqual(actual.proof.ownerDecision,prior.ownerDecision);
-  assert.equal(actual.proof.outputContinuity.inputCount,122);
+  assert.equal(actual.proof.outputContinuity.inputCount,124);
   assert.equal(actual.proof.currentProtectedJourneyEstablished,false);
 });
 for(const [file,reason] of [[MS_PAID_PACKET_PROOF_PREDECESSOR,/October 11 historical proof changed/],[MS_PAID_PACKET_PROOF_20260920,/September 20 historical proof changed|historical evidence changed/],[MS_PAID_PACKET_PROOF_RETIRED,/September 14 historical proof changed|historical evidence changed/]]){
