@@ -1,3 +1,4 @@
+import { mnTwoCountySourceContract, mnTwoCountyFactIds, mnTwoCountyQuestions, MN_PROSECUTOR_KIND, MN_PROSECUTING_CITY, MN_TWO_COUNTY_SOURCE } from "@/lib/expungement-ai/mn-two-county-source-facts";
 import { mdPoliceContext, mdPoliceFactIds, MD_POLICE_IDS } from "@/lib/rcap-engine/maryland-police-record-facts";
 import { moXivCourtIsContext } from "@/lib/expungement-ai/mo-xiv-court-context";
 import { MO_MARIJUANA_CUSTODY_FACT } from "@/lib/rcap-engine/missouri-marijuana-status-facts";
@@ -696,7 +697,10 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
     && mdPoliceContext(getProfileByJurisdiction("MD"), input.pathwayId);
   const mdPoliceAnswers = Object.fromEntries(["arrest_date", ...MD_POLICE_IDS].map(id => [id, resolvedText(id)]));
   const mdPoliceActiveIds = mdPoliceFactIds(mdPoliceAnswers);
-  const requiredInputIds = dedupe([...input.requiredInputIds, ...(retainedDcLocation ? [DC_LEGACY_LOCATION] : [])]);
+  const mnTwoCountyContext = mnTwoCountySourceContract(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
+  const mnTwoCountyQuestionsById = new Map(mnTwoCountyContext ? mnTwoCountyQuestions(input.pathwayId!).map(question => [question.id, question]) : []);
+  const mnTwoCountyIds = mnTwoCountyContext ? mnTwoCountyFactIds(input.pathwayId!) : [];
+  const requiredInputIds = dedupe([...input.requiredInputIds, ...mnTwoCountyIds, ...(retainedDcLocation ? [DC_LEGACY_LOCATION] : [])]);
   const decidesRouteFor = (factId: string) => input.routeDecidingFactIds?.has(factId) === true;
   const unresolvedScopeFor = (factId: string) => input.unresolvedRouteFactIds?.has(factId) === true;
   const baselineCarried = input.baselineCarriedFactIds ?? new Set<string>();
@@ -747,6 +751,30 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
           phase: active ? value ? "known" : "prepay_confirmation" : "known", group: active ? group : null,
           active, ...(value ? { value } : {}), source: "md_police_source_stage",
           reason: "Source-stage facts distinguish current automatic police-record information from the closed historical request window; ordinary claims do not establish verified relief, timeliness, agency compliance or any filing authority." });
+        continue;
+      }
+    }
+    // The adopted source requires distinct case-county/prosecutor inputs.
+    // No legacy location/county/city answer is an attestation of these facts.
+    if (mnTwoCountyContext && !overrideClass && !needsHuman.has(factId) && !decidesRouteFor(factId) && !unresolvedScopeFor(factId)) {
+      if (factId === "residency_or_location" && mnTwoCountyIds.every(id => requiredInputIds.includes(id))) {
+        facts.push({ factId, collection: "conditional", phase: "known", group: null, active: false,
+          source: "mn_two_county_legacy_context", reason: "Legacy location is retained unchanged. Distinct required case-county and prosecuting-authority facts replace its destination purpose; this value does not establish record origin, venue, agreement or a programme." });
+        continue;
+      }
+      const sourceQuestion = mnTwoCountyQuestionsById.get(factId);
+      if (sourceQuestion) {
+        const saved = input.savedAnswers && Object.hasOwn(input.savedAnswers, factId);
+        const raw = saved ? input.savedAnswers![factId] : available[factId];
+        const value = !input.unresolvedSavedFactIds?.has(factId) && questionAnswerState(sourceQuestion, raw) === "known_valid" ? answerString(raw) : "";
+        const kindRaw = input.savedAnswers && Object.hasOwn(input.savedAnswers, MN_PROSECUTOR_KIND)
+          ? input.savedAnswers[MN_PROSECUTOR_KIND] : available[MN_PROSECUTOR_KIND];
+        const active = factId !== MN_PROSECUTING_CITY || kindRaw === "city_attorney" && !input.unresolvedSavedFactIds?.has(MN_PROSECUTOR_KIND);
+        if (active && value && !saved && mayMaterialize(factId, true)) known[factId] = value;
+        facts.push({ factId, collection: !active ? "conditional" : value && !saved ? "already_known" : "render_required",
+          phase: !active || value && !saved ? "known" : "render", group: active ? "court_and_case_number" : null,
+          active, ...(value ? { value } : {}), source: "mn_two_county_source_fact",
+          reason: MN_TWO_COUNTY_SOURCE + "; collection for review only, not an authority directory, source-stage selection, prosecutor agreement or document mapping" });
         continue;
       }
     }

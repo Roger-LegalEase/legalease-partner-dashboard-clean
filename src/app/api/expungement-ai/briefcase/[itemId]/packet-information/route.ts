@@ -50,6 +50,30 @@ function ownerEditingModelFor(record: Parameters<typeof protectedPacketInformati
   return model?.packetPlan ? model : caProp64ClarificationModelFor(record) ?? model;
 }
 
+/** An exact held juvenile draft has no offered correction editor. Machine-only
+ * context saves remain available; their recovery action returns to the matter.
+ * This does not retire the source-defined juvenile petition or its future venue. */
+function isMdJuvenileHeldMatterOnly(
+  record: Parameters<typeof protectedPacketInformationModelFor>[0],
+  model: NonNullable<ReturnType<typeof ownerEditingModelFor>>
+): boolean {
+  const draft = record.draftSnapshot;
+  return ["unverified", "invalidated"].includes(record.status) && record.hash == null && record.snapshot == null
+    && draft?.schemaVersion === "expungement-ai/protected-packet-draft/v1"
+    && draft.jurisdiction === "MD" && draft.pathwayId === "juvenile-expungement"
+    && draft.profileVersion === "2026-06-19-source-conversion-1"
+    && draft.profileSourceFingerprint === "a88bc998d56cda93130e6f3db92e2545c7a98f87bd4940975c85b68ec664f64c"
+    && draft.profileAuthorityFingerprint === "1d793bff0dd23998a3644752fc1f9cca01072caaa69b05dfaec6f0de70628e07"
+    && draft.resultCode === "not_covered_yet" && draft.paymentAllowed === false
+    && model.stateCode === "MD" && model.pathwayId === draft.pathwayId
+    && model.resultCode === "not_covered_yet" && model.reviewSafety.safe === false
+    && !model.caProp64Clarification && !model.gaPardonPreparationAvailable
+    && !model.mtDeferredPreparationAvailable && !model.caJuvenilePreparationAvailable
+    && !model.gaPardonPreparationFactIds && !model.mtDeferredPreparationFactIds
+    && !model.caJuvenilePreparationFactIds && !model.heldFactualCorrectionIds?.length
+    && heldPacketCorrectionInputIds(model, model.resultCode).size === 0;
+}
+
 /** Owner-only recovery read. It never merges a stale browser draft or verifies it. */
 export async function GET(request: Request, context: { params: Promise<{ itemId: string }> }) {
   const auth = await getRcapBriefcaseAuthState();
@@ -85,7 +109,7 @@ export async function GET(request: Request, context: { params: Promise<{ itemId:
     ny16059Preparation: ny16059ProtectedDocumentPreparation(authority.value),
     ny16059Completion: ny16059OwnedCompletionDiagnostic(item.id, authority.value),
     readyToGenerate: model.stage === "ready_to_generate", reviewReason: model.reviewSafety.reason,
-    nextAction: model.caProp64Clarification ? "continue_packet" : !model.packetPlan || packetDraftStopReason(model) ? "open_matter" : model.missingInputIds.length || model.pendingDerivations.length ? "continue_packet" : "review_packet"
+    nextAction: model.caProp64Clarification ? "continue_packet" : !model.packetPlan || packetDraftStopReason(model) || isMdJuvenileHeldMatterOnly(authority.value, model) ? "open_matter" : model.missingInputIds.length || model.pendingDerivations.length ? "continue_packet" : "review_packet"
   }, { headers: { "Cache-Control": "private, no-store" } });
 }
 
@@ -252,7 +276,7 @@ export async function POST(
     caProp64Clarification: canonical.caProp64Clarification ?? false,
     readyToGenerate: update.readyToGenerate,
     reviewReason: packetDraftStopReason(canonical) ?? update.reviewReason,
-    nextAction: canonical.caProp64Clarification ? "continue_packet" : !canonical.packetPlan || canonical.pathwayId !== protectedModel.pathwayId || packetDraftStopReason(canonical)
+    nextAction: canonical.caProp64Clarification ? "continue_packet" : !canonical.packetPlan || canonical.pathwayId !== protectedModel.pathwayId || packetDraftStopReason(canonical) || isMdJuvenileHeldMatterOnly(saved.value, canonical)
       ? "open_matter" : canonical.missingInputIds.length || canonical.pendingDerivations.length ? "continue_packet" : "review_packet",
     missingInputIds: canonical.missingInputIds,
     reviewPath: `/briefcase/${encodeURIComponent(item.id)}/review`

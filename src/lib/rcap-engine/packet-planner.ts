@@ -1,3 +1,4 @@
+import { mnTwoCountyFactIds, mnTwoCountySourceContract } from "@/lib/expungement-ai/mn-two-county-source-facts";
 import { isMontanaDeferredWithoutMmrtaForm } from "@/lib/rcap-engine/montana-deferred-facts";
 import { isMissouriClosureGuidanceWithoutIdentityForm } from "@/lib/rcap-engine/missouri-closed-record-facts";
 import { isMaineNonconvictionGuidanceWithoutCr218 } from "@/lib/rcap-engine/maine-nonconviction-facts";
@@ -68,6 +69,7 @@ export function packetPlanForPathway(profile: EngineProfile, pathwayId: string):
       ...scopedBaseRequiredInputIds,
       ...routedExactPacketFactIds,
       ...registeredPacketFactIds,
+      ...(mnTwoCountySourceContract(profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)) ? mnTwoCountyFactIds(pathwayId) : []),
       ...(isCaProp64Pathway(profile.jurisdiction.code, pathwayId) ? [...CA_PROP64_CAPTION_FACT_IDS, ...CA_CONTACT_IDS] : []),
       ...(isNy16059Packet(profile.jurisdiction.code, pathwayId) ? [...NY_PACKET_FACT_IDS, ...NY_CASE_FACT_IDS] : [])
     ])].filter(id => (!isCaProp64Pathway(profile.jurisdiction.code, pathwayId) || !CA_PROP64_LEGACY_IDS.includes(id))
