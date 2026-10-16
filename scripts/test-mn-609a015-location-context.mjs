@@ -68,6 +68,24 @@ const assert299PredecessorHash=collection=>{
  assert.equal(comparisonHash(predecessor),frozenBefore.siblings[mn299SiblingRoute],'Every unrelated299C11 collection byte must match original frozen hash');
  return predecessor;
 };
+// Exact617 successor: original full expected hashes remain unchanged.
+const mn617SiblingRoute="automatic-mistaken-identity-expungement-under-609a-017";
+const prior617LocationFact={"factId":"residency_or_location","collection":"unresolved","phase":"prepay_confirmation","group":"about_you","source":"unresolved_route_rule_scope","reason":"a rule references this required fact without an established route consumer; collect it without inferring a value or claiming it decides this route"};
+const current617LocationFact={"factId":"residency_or_location","collection":"conditional","phase":"known","group":null,"active":false,"source":"mn_609a017_location_retained_context","reason":"Generic location is optional retained context. Identity-correction guidance has no participant filing venue; this value does not identify the court record, ID-data agency, source track or legal determination."};
+const assert617PredecessorHash=collection=>{
+ assert.equal(collection.facts.filter(f=>f.factId==='residency_or_location').length,1);
+ assert.deepEqual(collection.facts[14],current617LocationFact,'Exact reviewed617 location fact required');
+ assert.equal(collection.groupedParticipantSections.filter(s=>s.id==='about_you').length,1);
+ assert.equal(collection.groupedParticipantSections[0].id,'about_you');
+ assert.deepEqual(collection.groupedParticipantSections[0].factIds,['contact_information','participant_full_legal_name'],'Exact617 section index required');
+ assert.deepEqual(collection.unresolvedRequiredFacts,[],'Exact617 unresolved index required');
+ const clone=structuredClone(collection);
+ clone.facts[14]=structuredClone(prior617LocationFact);
+ clone.groupedParticipantSections[0].factIds.splice(2,0,'residency_or_location');
+ clone.unresolvedRequiredFacts.splice(0,0,'residency_or_location');
+ assert.equal(comparisonHash(clone),frozenBefore.siblings[mn617SiblingRoute],'All unrelated617 collection bytes must retain original hash');
+ return clone;
+};
 const checks=[],rows=[],check=(name,actual,expected)=>checks.push({name,pass:isDeepStrictEqual(actual,expected),actual,expected});
 // Exact retained original /routes/138/scenarios/B. This is an intentional
 // negative, not a manufactured eligible Clean Slate case or route projection.
@@ -107,7 +125,7 @@ if(!baseline){
  check('exact-five-sibling-identities',Object.keys(siblings),Object.keys(frozenBefore.siblings));
  const {mn299c11LocationIsContext}=await load('src/lib/expungement-ai/mn-299c11-location-context.ts');
  check('reviewed299C11-source-guard',mn299c11LocationIsContext(profile,mn299SiblingRoute,null),true);
- const comparedSiblings={...siblings,[mn299SiblingRoute]:assert299PredecessorHash(siblings[mn299SiblingRoute])};
+ const comparedSiblings={...siblings,[mn299SiblingRoute]:assert299PredecessorHash(siblings[mn299SiblingRoute]),[mn617SiblingRoute]:assert617PredecessorHash(siblings[mn617SiblingRoute])};
  for(const [id,expected]of Object.entries(frozenBefore.siblings))check('independent-frozen-sibling-'+id,comparisonHash(comparedSiblings[id]),expected);
  const refusalMutations=[
   ['wrong-new-fact',c=>{c.facts[14].source='forged';}],
@@ -119,6 +137,16 @@ if(!baseline){
  ];
  for(const [name,mutate]of refusalMutations){const changed=structuredClone(siblings[mn299SiblingRoute]);mutate(changed);assert.throws(()=>assert299PredecessorHash(changed),undefined,name+' must fail');check('299C11-successor-refuses-'+name,true,true);}
 
+ const {mn609a017LocationIsContext}=await load('src/lib/expungement-ai/mn-609a017-location-context.ts');
+ check('617-source-guard',mn609a017LocationIsContext(profile,mn617SiblingRoute,null),true);
+ for(const [name,mutate]of [
+  ['wrong-fact',c=>{c.facts[14].active=true;}],
+  ['index-extra',c=>{c.groupedParticipantSections[0].factIds.push('extra');}],
+  ['index-omission',c=>{c.groupedParticipantSections[0].factIds.pop();}],
+  ['index-order',c=>{c.groupedParticipantSections[0].factIds.reverse();}],
+  ['unresolved-extra',c=>{c.unresolvedRequiredFacts.push('residency_or_location');}],
+  ['unrelated-drift',c=>{c.knownFacts.case_outcome='unrelated changed value';}]
+ ]){const changed=structuredClone(siblings[mn617SiblingRoute]);mutate(changed);assert.throws(()=>assert617PredecessorHash(changed),undefined,name+' must be refused');check('617-successor-refuses-'+name,true,true);}
  check('independent-frozen-source-plan',comparisonHash(plan),frozenBefore.plan);
  for(const row of rows)check(row.variant+'/independent-frozen-court',comparisonHash(row.resolution.facts.find(f=>f.factId==='court')),frozenBefore.court[row.variant]);
  const sourceTrack=JSON.parse(fs.readFileSync('data/record-clearing/legal-design-intake/MN.memo.json','utf8')).tracks.find(t=>t.trackId==='mn_auto_clean_slate');

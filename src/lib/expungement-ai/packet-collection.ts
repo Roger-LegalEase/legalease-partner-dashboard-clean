@@ -1,3 +1,4 @@
+import { mn609a017LocationIsContext } from "@/lib/expungement-ai/mn-609a017-location-context";
 import { mn299c11LocationIsContext } from "@/lib/expungement-ai/mn-299c11-location-context";
 import { mn609a015LocationIsContext } from "@/lib/expungement-ai/mn-609a015-location-context";
 import { mo610105CourtIsContext } from "@/lib/expungement-ai/mo-610105-court-context";
@@ -678,6 +679,7 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
     && ndFirstOffenseRecordIsContext(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
   const retainedDcLocation = dcLocationContext && [input.screeningAnswers, input.prefilledAnswers, input.savedAnswers, input.profileFacts]
     .some(answers => answers && Object.hasOwn(answers, DC_LEGACY_LOCATION));
+  const mn609a017LocationContext = input.jurisdiction === "MN" && mn609a017LocationIsContext(getProfileByJurisdiction("MN"), input.pathwayId, specification);
   const mn299c11LocationContext = input.jurisdiction === "MN" && mn299c11LocationIsContext(getProfileByJurisdiction("MN"), input.pathwayId, specification);
   const mn609a015LocationContext = input.jurisdiction === "MN" && mn609a015LocationIsContext(getProfileByJurisdiction("MN"), input.pathwayId, specification);
   const mo610105CourtContext = input.jurisdiction === "MO" && mo610105CourtIsContext(getProfileByJurisdiction("MO"), input.pathwayId, specification);
@@ -719,6 +721,12 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
       continue;
     }
 
+    if (mn609a017LocationContext && factId === "residency_or_location" && !overrideClass && !needsHuman.has(factId)) {
+      facts.push({ factId, collection: "conditional", phase: "known", group: null, active: false,
+        source: "mn_609a017_location_retained_context",
+        reason: "Generic location is optional retained context. Identity-correction guidance has no participant filing venue; this value does not identify the court record, ID-data agency, source track or legal determination." });
+      continue;
+    }
     if (mn299c11LocationContext && factId === "residency_or_location" && !overrideClass && !needsHuman.has(factId)) {
       facts.push({ factId, collection: "conditional", phase: "known", group: null, active: false,
         source: "mn_299c11_location_retained_context",
