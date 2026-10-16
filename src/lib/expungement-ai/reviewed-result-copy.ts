@@ -16,7 +16,7 @@ export function reviewedResultRouteLabel(jurisdiction: string | null | undefined
   if (adopted) return adopted;
   const matches = catalog.entries.filter((entry) => entry.kind === "route_display_label" && entry.jurisdiction === jurisdiction
     && entry.pathwayId === pathwayId && entry.originalEnglish === english);
-  // One exact source-stage successor. Historical results keep their original
+  // Exact source-stage successors for the two separately bound NY mechanisms. Historical results keep their original
   // display; only the server's current factual-stage reason admits this pair.
   // A duplicate, missing predecessor or conflicting binding still fails closed.
   const successors = matches.filter(entry => entry.supersedesDisplayEntryId !== undefined || entry.requiredReasonCode !== undefined);
@@ -24,11 +24,17 @@ export function reviewedResultRouteLabel(jurisdiction: string | null | undefined
     const successor = successors[0];
     const predecessors = matches.filter(entry => entry.id === successor.supersedesDisplayEntryId
       && entry.supersedesDisplayEntryId === undefined && entry.requiredReasonCode === undefined);
-    if (jurisdiction === "NY" && pathwayId === "automatic-non-conviction-sealing-under-cpl-160-50-160-55"
+    const partialSeal = jurisdiction === "NY" && pathwayId === "automatic-non-conviction-sealing-under-cpl-160-50-160-55"
       && english === "Automatic non-conviction sealing under CPL 160.50 / 160.55"
       && successor.id === "NY16055-CURRENT-ROUTE-DISPLAY"
       && successor.supersedesDisplayEntryId === "NY-RESULT-LABEL-automatic-non-conviction-sealing-under-cpl-160-50-160-55-v1"
-      && successor.requiredReasonCode === "ny.partial_seal_guidance" && predecessors.length === 1) {
+      && successor.requiredReasonCode === "ny.partial_seal_guidance";
+    const mrtaStage = jurisdiction === "NY" && pathwayId === "marijuana-record-destruction-under-the-mrta"
+      && english === "Marijuana-record destruction under the MRTA"
+      && successor.id === "NYMRTA-CURRENT-STAGE-DISPLAY"
+      && successor.supersedesDisplayEntryId === "NY-RESULT-LABEL-marijuana-record-destruction-under-the-mrta-v1"
+      && successor.requiredReasonCode === "ny.mrta_stage_guidance";
+    if ((partialSeal || mrtaStage) && predecessors.length === 1) {
       const selected = reasonCodes.includes(successor.requiredReasonCode) ? successor : predecessors[0];
       return { en: selected.en, es: selected.es };
     }

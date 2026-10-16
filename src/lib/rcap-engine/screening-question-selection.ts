@@ -1,3 +1,4 @@
+import { nyMrtaDecision, nyMrtaQuestionApplies, NY_MRTA_ROUTE } from "@/lib/rcap-engine/ny-mrta-stage-facts";
 import { virginiaVictimQuestionApplies } from "@/lib/rcap-engine/virginia-victim-question";
 import {wy1501Context,wy1501FactIds,wy1501QuestionApplies} from "@/lib/rcap-engine/wyoming-1501-facts";
 import { texasGuidanceFinancialApplies, texasNondisclosureFactIds, TX_ND_FACT_IDS, TX_ND_ROUTES } from "@/lib/rcap-engine/texas-nondisclosure-facts";
@@ -94,8 +95,9 @@ export function selectScreeningQuestionIds(
   const deRoute = profile.jurisdiction.code === "DE" ? delawareConvictionRoute(answers) : undefined;
   const caRoute = profile.jurisdiction.code === "CA" ? caProp64Pathway(answers) : undefined;
   const reliefRequest = convictionReliefRequest(profile, answers);
-  const nyPartialSeal = ny16055Decision(profile, answers);
-  const selectedPathway = reliefRequest.status === "selected" ? profile.pathways.find(p => p.id === reliefRequest.pathwayId) : reliefRequest.status !== "not_applicable" ? undefined : caRoute ? profile.pathways.find(p => p.id === caRoute) : profile.jurisdiction.code === "NY" && ny16059Requested(answers) ? profile.pathways.find(p => p.id === NY_16059_ROUTE) : nyPartialSeal?.status === "guidance" ? profile.pathways.find(p => p.id === NY_16055_ROUTE) : deRoute ? profile.pathways.find(pathway => pathway.id === deRoute) : programRoute?.status === "selected"
+  const nyMrta = nyMrtaDecision(profile, answers);
+  const nyPartialSeal = nyMrta ? null : ny16055Decision(profile, answers);
+  const selectedPathway = reliefRequest.status === "selected" ? profile.pathways.find(p => p.id === reliefRequest.pathwayId) : reliefRequest.status !== "not_applicable" ? undefined : caRoute ? profile.pathways.find(p => p.id === caRoute) : profile.jurisdiction.code === "NY" && ny16059Requested(answers) ? profile.pathways.find(p => p.id === NY_16059_ROUTE) : nyMrta?.status === "guidance" ? profile.pathways.find(p => p.id === NY_MRTA_ROUTE) : nyPartialSeal?.status === "guidance" ? profile.pathways.find(p => p.id === NY_16055_ROUTE) : deRoute ? profile.pathways.find(pathway => pathway.id === deRoute) : programRoute?.status === "selected"
     ? profile.pathways.find(pathway => pathway.id === programRoute.pathwayId)
     : (programRoute?.status === "clarification" || programRoute?.status === "district_arrest" || programRoute?.status === "district_review" || profile.jurisdiction.code === "CA" && caProp64ApplicationRequested(answers)) ? undefined : selectedLabel
     ? ["MS", "GA"].includes(profile.jurisdiction.code) ? pathwayFromContext(profile, selectedLabel) : profile.pathways.find((pathway) => pathway.label === selectedLabel
@@ -144,6 +146,7 @@ export function selectScreeningQuestionIds(
 
   return publicProfile.questions
     .filter(question => ny16055QuestionApplies(profile, answers, question.id))
+    .filter(question => nyMrtaQuestionApplies(profile, answers, question.id))
     .filter(question => virginiaVictimQuestionApplies(profile, selectedPathway?.id, question.id))
     .filter(question => montanaRecordFinancialApplies(profile, mtFinancialQuestionPathway, answers, question.id))
     .filter(question => newMexicoGuidanceFinancialApplies(profile, selectedPathway?.id, answers, question.id))

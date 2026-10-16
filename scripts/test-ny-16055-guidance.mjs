@@ -154,7 +154,11 @@ check('no-reason-keeps-historical-display', reviewedResultRouteLabel('NY', H.NY_
 check('wrong-reason-keeps-historical-display', reviewedResultRouteLabel('NY', H.NY_16055_ROUTE, route.label, ['ny.partial_seal_unknown']), pair(predecessor));
 check('actual-current-reason-admits-exact-successor', reviewedResultRouteLabel('NY', H.NY_16055_ROUTE, route.label, ['ny.partial_seal_guidance']), pair(successor));
 check('wrong-state-does-not-admit-successor', reviewedResultRouteLabel('NJ', H.NY_16055_ROUTE, route.label, ['ny.partial_seal_guidance']), null);
-for (const entry of catalog.entries.filter(e => e.kind === 'route_display_label' && e.jurisdiction === 'NY' && e.pathwayId !== H.NY_16055_ROUTE)) check('other-NY-route-label-unchanged/' + entry.id, reviewedResultRouteLabel('NY', entry.pathwayId, entry.originalEnglish, ['ny.partial_seal_guidance']), pair(entry));
+for (const entry of catalog.entries.filter(e => e.kind === 'route_display_label' && e.jurisdiction === 'NY' && e.pathwayId !== H.NY_16055_ROUTE && e.id !== "NYMRTA-CURRENT-STAGE-DISPLAY")) check('other-NY-route-label-unchanged/' + entry.id, reviewedResultRouteLabel('NY', entry.pathwayId, entry.originalEnglish, ['ny.partial_seal_guidance']), pair(entry));
+const mrtaOld = catalog.entries.find(e => e.id === "NY-RESULT-LABEL-marijuana-record-destruction-under-the-mrta-v1");
+const mrtaCurrent = catalog.entries.find(e => e.id === "NYMRTA-CURRENT-STAGE-DISPLAY");
+check('exact-new-MRTA-successor-wrong-NY116-reason-keeps-predecessor', reviewedResultRouteLabel('NY', mrtaOld.pathwayId, mrtaOld.originalEnglish, ['ny.partial_seal_guidance']), pair(mrtaOld));
+check('exact-new-MRTA-successor-current-reason-only', reviewedResultRouteLabel('NY', mrtaOld.pathwayId, mrtaOld.originalEnglish, ['ny.mrta_stage_guidance']), pair(mrtaCurrent));
 // Feed altered catalog fixtures to the unchanged production reader body. The
 // tracked catalog and every historical entry remain untouched by these probes.
 async function withCatalog(changed) {

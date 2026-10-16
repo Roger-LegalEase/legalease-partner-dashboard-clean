@@ -1,3 +1,4 @@
+import { NY_MRTA_IDS, NY_MRTA_QUESTIONS, nyMrtaSourceContract } from "@/lib/rcap-engine/ny-mrta-stage-facts";
 import { virginiaVictimContextQuestion } from "@/lib/rcap-engine/virginia-victim-question";
 import { NY_16055_JUDGMENT_ID, NY_16055_QUESTION, ny16055SourceContract } from "@/lib/rcap-engine/ny-16055-guidance";
 import {WY_1501_QUESTIONS,WY_1501_FACT_IDS} from "@/lib/rcap-engine/wyoming-1501-facts";
@@ -104,6 +105,7 @@ const STATE_SPECIFIC_PREPAY_WILMA_FACT_IDS: Record<string, Set<string>> = {
   ]),
   NY: new Set([
     NY_16055_JUDGMENT_ID,
+    ...NY_MRTA_IDS,
     ...NY_16059_FACT_IDS,
     "ny_16059_total_eligible_convictions",
     "ny_16059_felony_convictions",
@@ -1128,7 +1130,8 @@ function withWilmaFactQuestions(
   exactPacketFactIds: readonly string[] = [],
   caProbationContract = false,
   wyNonconvictionContract = false,
-  nyPartialSealContract = false
+  nyPartialSealContract = false,
+  nyMrtaContract = false
 ): PublicJurisdictionProfile {
   const existingIds = new Set(profile.questions.map((question) => question.id));
   const exactPacketFacts = new Set(exactPacketFactIds);
@@ -1155,7 +1158,7 @@ function withWilmaFactQuestions(
     : profile.jurisdiction.code === "CA" ? [...WILMA_FACT_QUESTIONS, ...CA_PROP64_FACT_QUESTIONS, ...(caProbationContract ? CA_12034_QUESTIONS : [])]
     : profile.jurisdiction.code === "GA" ? [...WILMA_FACT_QUESTIONS, ...GA_FIRST_OFFENDER_QUESTIONS, ...GA_PARDON_QUESTIONS]
     : profile.jurisdiction.code === "IL" ? [...WILMA_FACT_QUESTIONS, ...IL_CANNABIS_QUESTIONS]
-    : profile.jurisdiction.code === "NY" ? [...WILMA_FACT_QUESTIONS, ...NY_16059_QUESTIONS, ...(nyPartialSealContract ? [NY_16055_QUESTION] : [])]
+    : profile.jurisdiction.code === "NY" ? [...WILMA_FACT_QUESTIONS, ...NY_16059_QUESTIONS, ...(nyPartialSealContract ? [NY_16055_QUESTION] : []), ...(nyMrtaContract ? NY_MRTA_QUESTIONS : [])]
     : profile.jurisdiction.code === "KS" ? [...WILMA_FACT_QUESTIONS, ...KS_RECORD_SCOPE_QUESTIONS]
     : profile.jurisdiction.code === "MO" ? [...WILMA_FACT_QUESTIONS, ...MO_MARIJUANA_STATUS_QUESTIONS]
     : profile.jurisdiction.code === "MT" ? [...WILMA_FACT_QUESTIONS, ...MT_DEFERRED_QUESTIONS]
@@ -1424,7 +1427,7 @@ function buildProfileDraft(profile: EngineProfile): PublicJurisdictionProfile {
         routeScopedPacketFacts.includes(question.id)
       ), profile.jurisdiction.code)),
       caseOutcomeOptions: toPublicCaseOutcomeOptions(designerProfile.caseOutcomeOptions)
-    }, profile.pathways ?? [], routeScopedPacketFacts, ca12034Contract(profile), wy1401Contract(profile), ny16055SourceContract(profile));
+    }, profile.pathways ?? [], routeScopedPacketFacts, ca12034Contract(profile), wy1401Contract(profile), ny16055SourceContract(profile), nyMrtaSourceContract(profile));
   }
 
   const questionIds = new Set(profile.questions.map((question) => question.id));
@@ -1456,5 +1459,5 @@ function buildProfileDraft(profile: EngineProfile): PublicJurisdictionProfile {
       optionDisplay: question.optionDisplay
     }, profile.jurisdiction.code, "engine", routeScopedPacketFacts.includes(question.id)), profile.jurisdiction.code)),
     caseOutcomeOptions: toPublicCaseOutcomeOptions(profile.caseOutcomeOptions)
-  }, profile.pathways ?? [], routeScopedPacketFacts, ca12034Contract(profile), wy1401Contract(profile), ny16055SourceContract(profile));
+  }, profile.pathways ?? [], routeScopedPacketFacts, ca12034Contract(profile), wy1401Contract(profile), ny16055SourceContract(profile), nyMrtaSourceContract(profile));
 }

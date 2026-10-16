@@ -1,3 +1,4 @@
+import { nyMrtaDecision, nyMrtaQuestionApplies, NY_MRTA_COPY, NY_MRTA_ROUTE, NY_MRTA_SOURCE } from "@/lib/rcap-engine/ny-mrta-stage-facts";
 import { ny16059ClockDisplayLines } from "@/lib/rcap-engine/new-york-16059-clock-display";
 import { ny16055Decision, ny16055QuestionApplies, NY_16055_COPY, NY_16055_ROUTE, NY_16055_SOURCE } from "@/lib/rcap-engine/ny-16055-guidance";
 import {WY_1501_ROUTE,WY_1501_SOURCE,WY_1501_COPY,wy1501Context,wy1501Facts} from "@/lib/rcap-engine/wyoming-1501-facts";
@@ -238,7 +239,8 @@ function evaluateProfileRules(profile: EngineProfile, request: ScreeningEvaluati
 
   const publicProfile = projectPublicProfile(profile);
   const preselectedPathway = selectPathway(profile, answers);
-  const nyPartialSeal = ny16055Decision(profile, answers);
+  const nyMrta = nyMrtaDecision(profile, answers);
+  const nyPartialSeal = nyMrta ? null : ny16055Decision(profile, answers);
   // The existing selected source identifies general nonfiling information,
   // not a decision that the supplied case facts qualify for automatic relief.
   // No payment/completion alias is needed to read that explanation, and no
@@ -390,6 +392,7 @@ function evaluateProfileRules(profile: EngineProfile, request: ScreeningEvaluati
 
   const missingQuestionIds = requiredMissingPublicQuestionIds(publicProfile, answers)
     .filter(id => ny16055QuestionApplies(profile, answers, id))
+    .filter(id => nyMrtaQuestionApplies(profile, answers, id))
     .filter(id => montanaRecordFinancialApplies(profile, preselectedPathway?.id, answers, id))
     .filter(id => newMexicoGuidanceFinancialApplies(profile, preselectedPathway?.id, answers, id))
     .filter(id => newJerseyMarijuanaStatusFinancialApplies(profile, preselectedPathway?.id, answers, id))
@@ -404,6 +407,12 @@ function evaluateProfileRules(profile: EngineProfile, request: ScreeningEvaluati
     .filter(id => nebraskaNonconvictionQuestionApplies(jurisdiction, preselectedPathway?.id, answers, id))
     .filter(id => louisianaAutomationStatusQuestionApplies(jurisdiction, preselectedPathway?.id, id));
   if (missingQuestionIds.length > 0) {
+    if (nyMrta) {
+      const text = NY_MRTA_COPY.context[0];
+      return { ...result(profile, request, "needs_more_info", [reason("NY", "mrta_context", text, NY_MRTA_SOURCE)], {
+        missingQuestionIds, paymentAllowed: false
+      }), userLabel: text, nextSteps: [text] };
+    }
     if (nyPartialSeal) {
       const text = NY_16055_COPY.context[0];
       return { ...result(profile, request, "needs_more_info", [reason("NY", "partial_seal_context_missing", text, NY_16055_SOURCE)], {
@@ -416,6 +425,28 @@ function evaluateProfileRules(profile: EngineProfile, request: ScreeningEvaluati
         || maineMissingFinancialCorrectionPathway(jurisdiction, preselectedPathway?.id, answers, missingQuestionIds)
         ? { pathwayId: preselectedPathway!.id } : {})
     });
+  }
+
+  if (nyMrta) {
+    const contextIds = [
+      ...(["Yes", "I am helping someone complete their own check"].includes(String(answers.ownership_scope)) ? [] : ["ownership_scope"]),
+      ...(answers.jurisdiction_scope === "State or local" ? [] : ["jurisdiction_scope"])
+    ];
+    const excluded = !contextIds.length && nyMrta.status === "guidance" ? exclusionReason(profile, answers) : undefined;
+    const code = contextIds.length ? "context" : excluded ? "exclusion" : nyMrta.code;
+    const text = NY_MRTA_COPY[code][0];
+    const guidance = !contextIds.length && nyMrta.status === "guidance" && !excluded;
+    const evaluated = result(profile, request, guidance ? "guidance_only" : !contextIds.length && nyMrta.status === "missing" ? "needs_more_info" : "needs_review",
+      [...(excluded ? [excluded] : []), reason("NY", `mrta_${code}`, text, NY_MRTA_SOURCE),
+        ...(guidance ? [reason("NY", "mrta_stage_guidance", NY_MRTA_COPY.verification[0], NY_MRTA_SOURCE)] : [])], {
+        ...(guidance ? { pathwayId: NY_MRTA_ROUTE } : {}),
+        missingQuestionIds: [...contextIds, ...nyMrta.ids], paymentAllowed: false,
+        cautions: [NY_MRTA_COPY.request_boundary[0]]
+      });
+    // Conditional information only: no destruction action, participant builder,
+    // packet plan, claimed record verification, signature or paid authority.
+    return { ...evaluated, userLabel: text,
+      nextSteps: guidance ? [NY_MRTA_COPY.verification[0], NY_MRTA_COPY.request_boundary[0]] : [text] };
   }
 
   if (nyPartialSeal) {
@@ -1069,7 +1100,9 @@ function selectPathway(profile: EngineProfile, answers: Record<string, Screening
   if (profile.jurisdiction.code === "CA" && caProp64Pathway(answers)) return profile.pathways.find(p => p.id === caProp64Pathway(answers));
   if (profile.jurisdiction.code === "CA" && caProp64ApplicationRequested(answers)) return undefined;
   if (profile.jurisdiction.code === "NY" && ny16059Requested(answers)) return profile.pathways.find(p => p.id === NY_16059_ROUTE);
-  const nyPartialSeal = ny16055Decision(profile, answers);
+  const nyMrta = nyMrtaDecision(profile, answers);
+  const nyPartialSeal = nyMrta ? null : ny16055Decision(profile, answers);
+  if (nyMrta) return nyMrta.status === "guidance" ? profile.pathways.find(p => p.id === NY_MRTA_ROUTE) : undefined;
   if (nyPartialSeal) return nyPartialSeal.status === "guidance" ? profile.pathways.find(p => p.id === NY_16055_ROUTE) : undefined;
   if (profile.jurisdiction.code === "DE" && deAdultConviction(answers) && !isAffirmative(answers.pardon_status)) {
     const id = delawareConvictionRoute(answers);
