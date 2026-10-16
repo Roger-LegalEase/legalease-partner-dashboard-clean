@@ -1,3 +1,6 @@
+import { MS_FIRST_OFFENDER_ROUTE, MS_FIRST_OFFENDER_IDS, MS_FIRST_OFFENDER_SOURCE, msFirstOffenderSourceContract } from "@/lib/rcap-engine/mississippi-first-offender-source-facts";
+import { msFirstOffenderSourceQuestions } from "@/lib/expungement-ai/ms-first-offender-source-questions";
+import { getProfileByJurisdiction } from "@/lib/rcap-engine/profile-registry";
 import "server-only";
 import type { ScreeningAnswerValue } from "@/lib/rcap-engine/contracts";
 import { contactRepresentationHash as hash } from "@/lib/expungement-ai/contact-representation";
@@ -14,6 +17,16 @@ const NY_CONFIRMATION_IDS = [NY_16059_CUSTODY_CONFIRMATION_ID, NY_16059_RELEASE_
 
 const NY_INPUTS = Object.fromEntries(NY_CONFIRMATION_IDS.map(id => [id, NY_CLOCK_CONFIRMATION_INPUT_IDS]));
 
+const MS_FIRST_ROUTE = `MS:${MS_FIRST_OFFENDER_ROUTE}`;
+// History excludes this particular conviction; changing the conviction's
+// identity needs a fresh answer about which convictions are the OTHER ones.
+// Residence/signing county and unrelated contact fields are not dependencies.
+const MS_FIRST_INPUTS = {
+  ms_misd1_conviction_finality: ["charge", "charge_legal_citation", "ms_conviction_court", "cause_number"],
+  ms_misd1_complete_conviction_history: ["charge", "charge_legal_citation", "ms_conviction_court", "cause_number"],
+  ms_misd1_traffic_record_classification: ["charge", "charge_legal_citation"],
+  ms_misd1_official_duty_nexus: ["charge", "charge_legal_citation", "ms_conviction_court", "cause_number"]
+} as const;
 const ROUTE = "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal";
 export const RECORD_FACT_INPUTS: Readonly<Record<string, readonly string[]>> = {
   court_name: ["court"],
@@ -30,7 +43,7 @@ export type RecordFactConfirmation = {
 export type RecordFactConfirmations = Record<string, RecordFactConfirmation>;
 
 function recordFactInputs(routeKey: string): Readonly<Record<string, readonly string[]>> {
-  return routeKey === NY_ROUTE ? NY_INPUTS : routeKey === GA_PARDON_CAPTION_ROUTE ? GA_PARDON_CAPTION_INPUTS : routeKey === ROUTE ? RECORD_FACT_INPUTS : {};
+  return routeKey === MS_FIRST_ROUTE ? MS_FIRST_INPUTS : routeKey === NY_ROUTE ? NY_INPUTS : routeKey === GA_PARDON_CAPTION_ROUTE ? GA_PARDON_CAPTION_INPUTS : routeKey === ROUTE ? RECORD_FACT_INPUTS : {};
 }
 
 function knownText(value: unknown): string | null {
@@ -48,6 +61,7 @@ export function unambiguousMsCourtType(value: unknown): string | null {
 
 /** These original controls retain distinct record meanings; no broad charge/county/name substitution. */
 export function recordFactOwnQuestionIds(routeKey: string, answers: Readonly<Record<string, unknown>>, recorded?: RecordFactConfirmations): Set<string> {
+  if (routeKey === MS_FIRST_ROUTE) return new Set(MS_FIRST_OFFENDER_IDS);
   if (routeKey === NY_ROUTE) return new Set(NY_CONFIRMATION_IDS.filter(id => ny16059QuestionApplies(answers as Record<string, ScreeningAnswerValue>, id)));
   if (routeKey === GA_PARDON_CAPTION_ROUTE) return new Set(Object.keys(GA_PARDON_CAPTION_INPUTS));
   if (routeKey !== ROUTE) return new Set();
@@ -74,6 +88,9 @@ function semanticContract(routeKey: string, factId: string): string | null {
   const inputs = recordFactInputs(routeKey);
   if (!(factId in inputs)) return null;
   const specification = packetSpecificationFor(routeKey);
+  if (routeKey === MS_FIRST_ROUTE) return msFirstOffenderSourceContract(getProfileByJurisdiction("MS"), MS_FIRST_OFFENDER_ROUTE, specification)
+    ? hash({ version: 1, routeKey, factId, source: MS_FIRST_OFFENDER_SOURCE,
+      questionContract: msFirstOffenderSourceQuestions().find(question => question.id === factId), inputFactIds: inputs[factId], specification }) : null;
   if (routeKey === NY_ROUTE) return hash({ version: 1, routeKey, factId, source: NY_16059_SOURCE,
     meaning: "NY02 adopted section 3 inclusive physical days / sentence release relationship / 120 calendar months",
     questionContract: NY_16059_QUESTIONS.find(question => question.id === factId), inputFactIds: inputs[factId], specification });
@@ -86,6 +103,14 @@ function semanticContract(routeKey: string, factId: string): string | null {
 }
 export function recordFactConfirmationFor(routeKey: string, factId: string, answers: Readonly<Record<string, unknown>>, question: ProfileQuestion | undefined): RecordFactConfirmation | null {
   const contractSha256 = semanticContract(routeKey, factId);
+  if (routeKey === MS_FIRST_ROUTE) {
+    const expected = msFirstOffenderSourceQuestions().find(candidate => candidate.id === factId);
+    if (!expected || !question || question.id !== factId || question.type !== expected.type
+      || question.prompt !== expected.prompt || question.helperText !== expected.helperText
+      || question.translations?.es?.prompt !== expected.translations?.es?.prompt
+      || question.translations?.es?.helperText !== expected.translations?.es?.helperText
+      || hash(question.options) !== hash(expected.options)) return null;
+  }
   if (routeKey === NY_ROUTE) {
     const expected = NY_16059_QUESTIONS.find(candidate => candidate.id === factId);
     if (!expected || !question || question.id !== factId || question.type !== expected.type

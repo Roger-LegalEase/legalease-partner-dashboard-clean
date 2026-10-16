@@ -1,3 +1,4 @@
+import { MS_FIRST_OFFENDER_ROUTE, MS_FIRST_OFFENDER_SOURCE, isMsFirstOffenderSourceContext, msFirstOffenderSourceDecision, type MsFirstOffenderSourceContext } from "@/lib/rcap-engine/mississippi-first-offender-source-facts";
 import { MD_POLICE_ROUTE, MD_POLICE_IDS, MD_POLICE_SOURCE, MD_POLICE_COPY, mdPoliceContext, mdPoliceDate, mdPoliceResolutionFacts } from "@/lib/rcap-engine/maryland-police-record-facts";
 import { ny16057Decision, NY_16057_COPY, NY_16057_ROUTE, NY_16057_SOURCE } from "@/lib/rcap-engine/ny-16057-guidance";
 import { nyMrtaDecision, nyMrtaQuestionApplies, NY_MRTA_COPY, NY_MRTA_ROUTE, NY_MRTA_SOURCE } from "@/lib/rcap-engine/ny-mrta-stage-facts";
@@ -206,6 +207,19 @@ export function evaluateScreening(request: ScreeningEvaluationRequest): Screenin
   return evaluateAgainstProfile(profile, request);
 }
 
+/** Server-only source context: public answers still undergo their normal ID
+ * validation. A JSON object cannot mint the admitted protected context. */
+export function evaluateMsFirstOffenderProtected(request: ScreeningEvaluationRequest,
+  context: MsFirstOffenderSourceContext): ScreeningEvaluation {
+  const profile = getProfileByJurisdiction(request.jurisdiction);
+  if (!profile) throw new UnsupportedJurisdictionError(request.jurisdiction);
+  if (!assertProfileVersion(profile, request.profileVersion).ok) throw new ProfileVersionMismatchError(profile.profileVersion);
+  const invalid = validatePublicAnswerQuestionIds(projectPublicProfile(profile), request.answers);
+  if (invalid.length) throw new InvalidAnswerError(invalid);
+  if (!isMsFirstOffenderSourceContext(profile, context)) throw new Error("MS first-offender source context refused.");
+  return evaluateAgainstProfile(profile, request, context);
+}
+
 export function evaluationHash(evaluation: ScreeningEvaluation, answers: Record<string, unknown>) {
   return crypto.createHash("sha256").update(JSON.stringify({
     jurisdiction: evaluation.jurisdiction,
@@ -218,8 +232,8 @@ export function evaluationHash(evaluation: ScreeningEvaluation, answers: Record<
   })).digest("hex");
 }
 
-function evaluateAgainstProfile(profile: EngineProfile, request: ScreeningEvaluationRequest): ScreeningEvaluation {
-  const evaluated = evaluateProfileRules(profile, request);
+function evaluateAgainstProfile(profile: EngineProfile, request: ScreeningEvaluationRequest, msSource?: MsFirstOffenderSourceContext): ScreeningEvaluation {
+  const evaluated = evaluateProfileRules(profile, request, msSource);
   if (!evaluated.pathwayId || !arkansasRecordOriginApplies(profile.jurisdiction.code, evaluated.pathwayId)
     || ["hard_stop", "likely_not_eligible"].includes(evaluated.resultCode)) return evaluated;
   const origin = arkansasRecordOrigin(request.answers);
@@ -233,7 +247,7 @@ function evaluateAgainstProfile(profile: EngineProfile, request: ScreeningEvalua
     missingQuestionIds: code === "unknown" ? [AR_RECORD_ORIGIN_ID] : [], nextSteps: [text], paymentAllowed: false };
 }
 
-function evaluateProfileRules(profile: EngineProfile, request: ScreeningEvaluationRequest): ScreeningEvaluation {
+function evaluateProfileRules(profile: EngineProfile, request: ScreeningEvaluationRequest, msSource?: MsFirstOffenderSourceContext): ScreeningEvaluation {
   const answers = request.answers;
   const jurisdiction = profile.jurisdiction.code;
   const hardStop = hardStopReason(profile, answers);
@@ -563,6 +577,16 @@ function evaluateProfileRules(profile: EngineProfile, request: ScreeningEvaluati
   const exclusion = deDecision?.status === "satisfied" || caDecision?.status === "satisfied" ? undefined : exclusionReason(profile, answers);
   if (exclusion) return result(profile, request, exclusion.code.endsWith("unknown") ? "needs_review" : "likely_not_eligible", [exclusion]);
 
+  if (msSource && preselectedPathway?.id === MS_FIRST_OFFENDER_ROUTE) {
+    const source = msFirstOffenderSourceDecision(profile, preselectedPathway.id, answers, msSource);
+    if (source.status !== "satisfied") {
+      const plan = packetPlanForPathway(profile, preselectedPathway.id);
+      return result(profile, request, "needs_review",
+        [reason("MS", `first_offender_${source.code}`, "The final conviction, complete checked history, nontraffic classification, court and official-duty facts need source-specific review before this procedure can be selected.", MS_FIRST_OFFENDER_SOURCE)],
+        { pathwayId: preselectedPathway.id, ...(plan ? { packetPlan: plan } : {}), missingQuestionIds: source.ids, paymentAllowed: false });
+    }
+  }
+
   const unknownDateQuestionIds = requiredUnknownPublicDateQuestionIds(publicProfile, answers);
   if (unknownDateQuestionIds.length > 0) {
     return result(profile, request, "needs_more_info", [reason(jurisdiction, "waiting_anchor_missing", "We need the case date, dismissal date, disposition date, or completion date used to check the waiting period.")], {
@@ -851,7 +875,7 @@ function evaluateProfileRules(profile: EngineProfile, request: ScreeningEvaluati
   // the right route. Reporting the identity changes no result code, no
   // eligibility conclusion and no payment decision: all three stay exactly as
   // they were, paymentAllowed included.
-  const timing = evaluateCompiledTiming(profile, answers, route.rule, route.pathway);
+  const timing = evaluateCompiledTiming(profile, answers, route.rule, route.pathway, msSource);
   if (timing.status === "missing_anchor") {
     return result(profile, request, "needs_more_info", [timing.reason], {
       pathwayId: pathway.id,
@@ -2351,8 +2375,8 @@ function labelForResult(resultCode: ScreeningResultCode) {
 
 function nextStepsForResult(resultCode: ScreeningResultCode) {
   const nextSteps: Record<ScreeningResultCode, string[]> = {
-    packet_ready: ["Your packet has been started. A few details may still be needed before it is ready to file.", "Complete packet fields in Briefcase after payment.", "External documents affect filing readiness, not checkout eligibility."],
-    packet_ready_with_caution: ["Your packet has been started. A few details may still be needed before it is ready to file.", "Review the cautions and complete packet fields in Briefcase after payment.", "Do not file until external documents, fees, fingerprints, and instructions are complete."],
+    packet_ready: ["Your packet has been started. A few details may still be needed before it is ready to file.", "Complete the required packet facts in Briefcase before verification or payment.", "External documents affect filing readiness, not checkout eligibility."],
+    packet_ready_with_caution: ["Your packet has been started. A few details may still be needed before it is ready to file.", "Review the cautions and complete the required packet facts in Briefcase before verification or payment.", "Before filing, follow the filing instructions and complete any required documents, fees or fingerprint steps."],
     needs_more_info: [
       "We need the case date, dismissal date, disposition date, or completion date used to check the waiting period.",
       "Save your progress and update your answers when you have that detail."
@@ -2604,8 +2628,17 @@ function matchCompiledRuleRoute(profile: EngineProfile, publicProfile: PublicJur
   };
 }
 
-function evaluateCompiledTiming(profile: EngineProfile, answers: Record<string, ScreeningAnswerValue>, rule: CompiledRule, pathway: CompiledPathway): TimingResult {
+function evaluateCompiledTiming(profile: EngineProfile, answers: Record<string, ScreeningAnswerValue>, rule: CompiledRule, pathway: CompiledPathway, msSource?: MsFirstOffenderSourceContext): TimingResult {
   const jurisdiction = profile.jurisdiction.code;
+  // Only the admitted LD-MS-01 facts can execute this event-trigger rule.
+  // Subsection1 has no numeric wait or felony payment/completion prerequisite.
+  // Route selection, exclusions and all independent output/authority gates
+  // still run normally; no result or plan is rewritten here.
+  if (msSource && pathway.id === MS_FIRST_OFFENDER_ROUTE) {
+    const source = msFirstOffenderSourceDecision(profile, pathway.id, answers, msSource);
+    return source.status === "satisfied" ? { status: "satisfied" }
+      : { status: "needs_review", reason: reason("MS", `first_offender_${source.code}`, "The subsection1 source facts remain unresolved.", MS_FIRST_OFFENDER_SOURCE) };
+  }
   // The DE decision has already checked current supervision, restitution,
   // court relief and the precise pending/history statutory exceptions. Do not
   // apply the older blanket Yes/No gates again and erase those exceptions.

@@ -1,3 +1,4 @@
+import type { MsFirstOffenderSourceContext } from "@/lib/rcap-engine/mississippi-first-offender-source-facts";
 import "server-only";
 import { OR_DISPOSITION_COPY } from "@/lib/rcap-engine/oregon-disposition-identity";
 
@@ -23,7 +24,7 @@ export function evaluateAuthoritativeScreeningResult(input: {
   profileVersion: string;
   matterId: string;
   answers: Record<string, ScreeningAnswerValue>;
-}): {
+}, msSource?: MsFirstOffenderSourceContext): {
   evaluation: ScreeningEvaluation;
   profile: EngineProfile;
   pathwayLabel: string | null;
@@ -37,7 +38,7 @@ export function evaluateAuthoritativeScreeningResult(input: {
     answers: input.answers
   };
 
-  const firstPass = evaluateExpungementAiMatter(request);
+  const firstPass = evaluateExpungementAiMatter(request, msSource);
   const selectedProfile = getProfileByJurisdiction(firstPass.jurisdiction);
   const selection = selectComposedRoute({
     jurisdiction: firstPass.jurisdiction,
@@ -102,7 +103,7 @@ export function evaluateAuthoritativeScreeningResult(input: {
         ]
       }
       : selection.status === "selected"
-        ? evaluateExpungementAiMatter({ ...request, selectedTrackId: selection.trackId })
+        ? evaluateExpungementAiMatter({ ...request, selectedTrackId: selection.trackId }, msSource)
         : firstPass;
 
   const profile = getProfileByJurisdiction(evaluation.jurisdiction);

@@ -1,0 +1,44 @@
+{
+  "batch": "ct-cannabis-e4-r2-exact-key-successor",
+  "authority": "Retained E4-R2 resolution, consumed by data/rcap-ledger/crosswalk-resolution-adjudication.json#/canonicalRelationships/0 and track-pathway-crosswalk.json#/compiledPathways/31. CT.memo.json#/tracks/6 supplies the automatic mechanism. This applies existing adopted identity; it is not a new legal decision.",
+  "note": "The historical LD-CT-02 object in single-routes.json remains unchanged. LEGAL-DESIGN-2026-07-30-CT-01 expressly records that later E4-R2 binds this original exact key only to \u00a7 54-142u / ct-cannabis-auto and preserves the separate \u00a7 54-142v petition. This successor replaces current lookup for this one key only.",
+  "routes": [
+    {
+      "routeKey": "CT:cannabis-conviction-erasure",
+      "jurisdiction": "CT",
+      "pathwayId": "cannabis-conviction-erasure",
+      "decisionId": "LD-CT-02",
+      "ruleId": "CT-CANNABIS-AUTOMATIC-VS-PETITION-MAP",
+      "mechanism": "Automatic erasure of certain cannabis possession convictions",
+      "statute": "Conn. Gen. Stat. \u00a7 54-142u",
+      "stage": "automatic",
+      "outcomeMode": "automatic_relief",
+      "timing": {
+        "kind": "event_trigger",
+        "anchorText": "No participant waiting period or filing. Section 54-142u concerns \u00a7 21a-279(c) possession convictions entered on or after 2000-01-01 and before 2015-10-01; this route identity does not establish that a particular conviction or every count qualifies."
+      },
+      "requiredFacts": [
+        "On what date was the cannabis possession conviction entered?",
+        "Which statute section were you convicted under?",
+        "How many counts are on this docket, and is every one of them erasable?"
+      ],
+      "screeningFactIds": [
+        "case_outcome",
+        "offense_level"
+      ],
+      "exclusions": [
+        "Records referencing more than one count unless every count is entitled to erasure. \u00a7 54-142u(b).",
+        "Convictions outside the \u00a7 54-142u window belong to the separate cannabis petition mechanism; this route does not decide that petition."
+      ],
+      "packetFamily": null,
+      "effectiveFrom": "2023-01-01",
+      "commercialPosture": {
+        "checkoutEnabled": false,
+        "sponsoredGenerationEnabled": false,
+        "packetCreditsConsumed": 0,
+        "note": "No participant filing or paid packet on the automatic mechanism."
+      },
+      "notes": "E4-R2 exact-key successor to the historical LD-CT-02 current binding only. No participant filing, venue, service, signature or fee. Exact statute, conviction date and every-count eligibility remain unestablished until the actual record facts are supplied through a supported consumer; a hint, generic disposition, missing fact or this contract does not declare individual eligibility, actual erasure or record clearance. Reuse existing ct-cannabis-auto guidance. Internal criminal-justice-agency copies need not be partially redacted and DMV records need not be erased, \u00a7\u00a7 54-142u(f)-(g); legal effect is subject to \u00a7 54-142u(h). Preserve immigration and records-not-erased-when-expected help boundaries. Separate \u00a7 54-142v route/family and \u00a7 54-142d mechanism remain distinct."
+    }
+  ]
+}

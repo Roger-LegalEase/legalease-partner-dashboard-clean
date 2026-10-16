@@ -1,3 +1,5 @@
+import { MS_FIRST_OFFENDER_COLLECTION_IDS, msFirstOffenderSourceQuestions } from "@/lib/expungement-ai/ms-first-offender-source-questions";
+import { MS_FIRST_OFFENDER_ROUTE, MS_FIRST_OFFENDER_IDS, projectMsFirstOffenderSourceFacts, msFirstOffenderSourceContract } from "@/lib/rcap-engine/mississippi-first-offender-source-facts";
 import { ohJuvenileSourceContract, ohJuvenileStageFactIds } from "@/lib/rcap-engine/ohio-juvenile-source-stage";
 import { OH_JUVENILE_STAGE_QUESTIONS } from "@/lib/expungement-ai/oh-juvenile-stage-questions";
 import { mnTwoCountySourceContract, mnTwoCountyQuestions, mnTwoCountyFactIds } from "@/lib/expungement-ai/mn-two-county-source-facts";
@@ -316,6 +318,9 @@ export function packetInformationModelFor(item: ConsumerBriefcaseItem): PacketIn
     const candidate = { ...screening.packetPlan,
       requiredInputIds: screening.packetPlan.requiredInputIds.filter(id => id !== DC_LEGACY_LOCATION) };
     if (currentPlan && canonicalEqual(candidate, currentPlan)) requiredInputIds = currentPlan.requiredInputIds;
+  }
+  if (msFirstOffenderSourceContract(profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`))) {
+    requiredInputIds = [...new Set([...requiredInputIds, ...MS_FIRST_OFFENDER_COLLECTION_IDS])];
   }
   if (mnTwoCountySourceContract(profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`))) {
     requiredInputIds = [...new Set([...requiredInputIds, ...mnTwoCountyFactIds(pathwayId!)])];
@@ -2391,6 +2396,9 @@ export function protectedPacketInformationModelFor(
   const initialAnswers = { ...screeningAnswers, ...prefilledAnswers, ...packetAnswers };
   let requiredInputIds = stringArray(snapshot.requiredInputIds);
   if (!canonicalEqual(requiredInputIds, packetPlan?.requiredInputIds ?? [])) return null;
+  if (msFirstOffenderSourceContract(profile, snapshot.pathwayId, packetSpecificationFor(`${snapshot.jurisdiction}:${snapshot.pathwayId}`))) {
+    requiredInputIds = [...new Set([...requiredInputIds, ...MS_FIRST_OFFENDER_COLLECTION_IDS])];
+  }
   if (mnTwoCountySourceContract(profile, snapshot.pathwayId, packetSpecificationFor(`${snapshot.jurisdiction}:${snapshot.pathwayId}`))) {
     requiredInputIds = [...new Set([...requiredInputIds, ...mnTwoCountyFactIds(snapshot.pathwayId!),
       ...([snapshot.screeningAnswers, snapshot.prefilledAnswers, snapshot.packetAnswers].some(map => Object.hasOwn(map, "residency_or_location")) ? ["residency_or_location"] : [])])];
@@ -2861,6 +2869,7 @@ export function packetCollectionFor(input: {
  * clarification. A saved fact identifies its control, never a replacement route. */
 export function factualPathwayCorrectionIds(state: string, pathway: string | null, answers: Record<string, unknown>, includeInactive = false): string[] {
   const profile = getProfileByJurisdiction(state);
+  if (msFirstOffenderSourceContract(profile, pathway, packetSpecificationFor(`${state}:${pathway}`))) return [...MS_FIRST_OFFENDER_COLLECTION_IDS];
   if (ohJuvenileSourceContract(profile, pathway, packetSpecificationFor(`${state}:${pathway}`))) return ohJuvenileStageFactIds(answers, includeInactive);
   if (state === "DE") return delawareProtectedCorrectionIds(profile ?? undefined, pathway, answers, includeInactive);
   if (mnTwoCountySourceContract(profile, pathway, packetSpecificationFor(`${state}:${pathway}`))) return [
@@ -3127,6 +3136,11 @@ export function isTexasNondisclosureGuidanceCorrection(model: Parameters<typeof 
 
 export function heldPacketCorrectionInputIds(model: Parameters<typeof heldCourtCompletionInputIds>[0], resultCode: string | null): Set<string> {
   const ids = heldCourtCompletionInputIds(model, resultCode);
+  if (["needs_review", "needs_more_info", "not_yet"].includes(resultCode ?? "")
+    && msFirstOffenderSourceContract(getProfileByJurisdiction(model.stateCode), model.pathwayId, packetSpecificationFor(`${model.stateCode}:${model.pathwayId}`))) {
+    const allowed = editablePacketInputIds(model);
+    for (const id of MS_FIRST_OFFENDER_COLLECTION_IDS) if (allowed.has(id) && model.questions.some(question => question.id === id)) ids.add(id);
+  }
   if (resultCode === "guidance_only" && ohJuvenileSourceContract(getProfileByJurisdiction(model.stateCode), model.pathwayId, packetSpecificationFor(`${model.stateCode}:${model.pathwayId}`))) {
     const allowed = editablePacketInputIds(model);
     for (const id of routeFactualCorrectionIds(model)) if (allowed.has(id) && model.questions.some(question => question.id === id)) ids.add(id);
@@ -3692,7 +3706,12 @@ export function protectedPacketScreeningAnswers(snapshot: ProtectedPacketAuthori
       || !canonicalEqual(snapshot.packetFamilyIdentifiers, { mode: snapshot.packetPlan?.mode ?? null, sourceFormIds: snapshot.packetPlan?.sourceFormIds ?? [] }))) return null;
   const legacy = protectedLegacyAnswerProjection(snapshot);
   const projected = legacy.maps;
-  const answers = toScreeningAnswers({ ...projected.screeningAnswers, ...projected.prefilledAnswers, ...projected.packetAnswers });
+  const raw = { ...projected.screeningAnswers, ...projected.prefilledAnswers, ...projected.packetAnswers };
+  // These source facts travel separately through the internal evaluator. They
+  // are never public screening answers or promoted old category narratives.
+  const answers = toScreeningAnswers(Object.fromEntries(Object.entries(raw)
+    .filter(([id]) => snapshot.jurisdiction !== "MS" || snapshot.pathwayId !== MS_FIRST_OFFENDER_ROUTE
+      || !(MS_FIRST_OFFENDER_IDS as readonly string[]).includes(id))));
   // A malformed saved payment answer is unresolved, not an absent optional
   // fact. Preserve its raw value and correction metadata, while preventing
   // omission from bypassing the existing financial-completion check.
@@ -3717,26 +3736,45 @@ export function protectedPacketScreeningAnswers(snapshot: ProtectedPacketAuthori
   return answers;
 }
 
-function evaluateProtectedPacketFacts(snapshot: ProtectedPacketAuthoritySnapshot) {
+export function evaluateProtectedPacketFacts(snapshot: ProtectedPacketAuthoritySnapshot,
+  evaluate: typeof evaluateAuthoritativeScreeningResult = evaluateAuthoritativeScreeningResult,
+  matterId = `protected:${snapshot.pathwayId ?? "no-pathway"}`) {
   const answers = protectedPacketScreeningAnswers(snapshot);
   if (!answers) return null;
+  const raw = { ...snapshot.screeningAnswers, ...snapshot.prefilledAnswers, ...snapshot.packetAnswers };
+  const hasMsFacts = MS_FIRST_OFFENDER_IDS.some(id => Object.hasOwn(raw, id));
+  const msRoute = snapshot.jurisdiction === "MS" && snapshot.pathwayId === MS_FIRST_OFFENDER_ROUTE;
+  const profile = getProfileByJurisdiction(snapshot.jurisdiction);
+  if (hasMsFacts && !msRoute) return null;
+  if (msRoute && (!profile || snapshot.profileSourceFingerprint !== profile.source?.sourceCorpusSha256
+    || snapshot.profileAuthorityFingerprint !== profileAuthorityFingerprint(profile, snapshot.pathwayId)
+    || !canonicalEqual(snapshot.serverFacts, canonicalServerFacts(snapshot.jurisdiction, snapshot.pathwayId))
+    || !canonicalEqual(snapshot.packetFamilyIdentifiers, { mode: snapshot.packetPlan?.mode ?? null, sourceFormIds: snapshot.packetPlan?.sourceFormIds ?? [] }))) return null;
+  const msQuestions = new Map(msRoute ? msFirstOffenderSourceQuestions().map(question => [question.id, question]) : []);
+  const msUnconfirmed = msRoute ? unresolvedRecordFactConfirmations(`${snapshot.jurisdiction}:${snapshot.pathwayId}`, raw, msQuestions, snapshot.dependencies.recordFactConfirmations) : [];
+  // Only the evaluation projection loses an unconfirmed dependent fact. Raw
+  // copies/history stay intact; an explicit fresh answer reconfirms it through
+  // the existing input/value-hash machinery after an amended charge.
+  const msRaw = { ...raw, ...Object.fromEntries(msUnconfirmed.map(id => [id, undefined])) };
+  const msSource = msRoute && profile ? projectMsFirstOffenderSourceFacts(profile, snapshot.pathwayId, msRaw, packetSpecificationFor(`${snapshot.jurisdiction}:${snapshot.pathwayId}`)) : undefined;
+  if (msRoute && !msSource) return null;
   try {
-    return evaluateAuthoritativeScreeningResult({
+    return evaluate({
       jurisdiction: snapshot.jurisdiction,
       profileVersion: snapshot.profileVersion,
-      matterId: `protected:${snapshot.pathwayId ?? "no-pathway"}`,
+      matterId,
       answers
-    });
+    }, msSource ?? undefined);
   } catch (error) {
     if (!(error instanceof InvalidAnswerError)) return null;
     for (const id of error.invalidQuestionIds) delete answers[id];
     try {
-      return evaluateAuthoritativeScreeningResult({
+      return evaluate({
         jurisdiction: snapshot.jurisdiction,
         profileVersion: snapshot.profileVersion,
-        matterId: `protected:${snapshot.pathwayId ?? "no-pathway"}`,
+        matterId,
         answers
-      });
+      }, msSource ?? undefined);
     } catch {
       return null;
     }
@@ -4952,6 +4990,9 @@ function installPacketSpecificationQuestions(
   answers: Readonly<Record<string, unknown>> = {}
 ) {
   const routeKey = `${jurisdiction}:${pathwayId ?? ""}`;
+  if (msFirstOffenderSourceContract(getProfileByJurisdiction(jurisdiction), pathwayId, packetSpecificationFor(routeKey))) {
+    for (const question of msFirstOffenderSourceQuestions()) questions.set(question.id, question);
+  }
   if (ohJuvenileSourceContract(getProfileByJurisdiction(jurisdiction), pathwayId, packetSpecificationFor(routeKey))) {
     for (const question of OH_JUVENILE_STAGE_QUESTIONS) questions.set(question.id, question);
   }

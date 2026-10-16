@@ -1,4 +1,4 @@
-import { mnTwoCountyDraftSuccessor, marylandPoliceHeldDraftSuccessor, virginiaVictimHeldDraftSuccessor } from "@/lib/expungement-ai/packet-information";
+import { evaluateProtectedPacketFacts, mnTwoCountyDraftSuccessor, marylandPoliceHeldDraftSuccessor, virginiaVictimHeldDraftSuccessor } from "@/lib/expungement-ai/packet-information";
 import { WY_1401_ROUTE, WY_1401_SOURCE, WY_1401_COPY } from "@/lib/rcap-engine/wyoming-1401-facts";
 import { ND_FIRST_OFFENSE_ROUTE, ND_FIRST_OFFENSE_SOURCE, ND_FIRST_OFFENSE_COPY } from "@/lib/rcap-engine/north-dakota-first-offense-facts";
 import { MS_TIMING_MISSING_TEXT, MS_TIMING_MULTIPLE_MISSING_TEXT } from "@/lib/rcap-engine/mississippi-exact-timing";
@@ -33,7 +33,6 @@ import {
 } from "@/lib/expungement-ai/verification-cas";
 import { getSupabaseAdminClient } from "@/lib/supabase/server";
 import type { ScreeningAnswerValue } from "@/lib/rcap-engine/contracts";
-import { InvalidAnswerError } from "@/lib/rcap-engine/evaluator";
 import type { AnswerValue } from "@/lib/expungement-ai/frontend/contracts";
 import {
   protectedPacketInformationModelFor,
@@ -609,19 +608,7 @@ function evaluateProtectedPresentationSnapshot(
   matterId: string,
   evaluate: BriefcasePresentationDependencies["evaluateAuthoritative"]
 ): AuthoritativeEvaluation | null {
-  const answers = protectedPacketScreeningAnswers(snapshot);
-  if (!answers) return null;
-  try {
-    return evaluate({ jurisdiction: snapshot.jurisdiction, profileVersion: snapshot.profileVersion, matterId, answers });
-  } catch (error) {
-    if (!(error instanceof InvalidAnswerError)) return null;
-    for (const id of error.invalidQuestionIds) delete answers[id];
-    try {
-      return evaluate({ jurisdiction: snapshot.jurisdiction, profileVersion: snapshot.profileVersion, matterId, answers });
-    } catch {
-      return null;
-    }
-  }
+  return evaluateProtectedPacketFacts(snapshot, evaluate, matterId);
 }
 
 function evaluationPacketProgress(

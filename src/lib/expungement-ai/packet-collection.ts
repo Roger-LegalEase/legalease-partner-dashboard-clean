@@ -1,3 +1,5 @@
+import { msFirstOffenderSourceContract, MS_FIRST_OFFENDER_SOURCE } from "@/lib/rcap-engine/mississippi-first-offender-source-facts";
+import { MS_FIRST_OFFENDER_COLLECTION_IDS, msFirstOffenderSourceQuestions } from "@/lib/expungement-ai/ms-first-offender-source-questions";
 import { ohJuvenileSourceContract, ohJuvenileStageFactIds, ohJuvenileStageFacts } from "@/lib/rcap-engine/ohio-juvenile-source-stage";
 import { OH_JUVENILE_STAGE_IDS } from "@/lib/expungement-ai/oh-juvenile-stage-questions";
 import { mnTwoCountySourceContract, mnTwoCountyFactIds, mnTwoCountyQuestions, MN_PROSECUTOR_KIND, MN_PROSECUTING_CITY, MN_TWO_COUNTY_SOURCE } from "@/lib/expungement-ai/mn-two-county-source-facts";
@@ -42,7 +44,7 @@ import { louisianaAutomationStatusQuestionApplies } from "@/lib/rcap-engine/loui
 import { nebraskaNonconvictionQuestionApplies } from "@/lib/rcap-engine/nebraska-nonconviction-facts";
 import { georgiaPardonCategoryIsContext } from "@/lib/expungement-ai/ga-pardon-category-context";
 import { fullSsnLastFour } from "@/lib/expungement-ai/sensitive-packet-facts";
-import { answerValueIsKnown, uncertaintyState, isCalendarDate, questionAnswerState } from "@/lib/expungement-ai/question-answer-state";
+import { answerValueIsKnown, uncertaintyState, isCalendarDate, questionAnswerState, scalarAnswerText } from "@/lib/expungement-ai/question-answer-state";
 import type { AnswerValue, ProfileQuestion } from "@/lib/expungement-ai/frontend/contracts";
 import type { PacketSpecificationFact, RegisteredSpecification } from "@/lib/rcap/grade-a/packet-specification";
 
@@ -705,7 +707,9 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
   const mnTwoCountyContext = mnTwoCountySourceContract(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
   const mnTwoCountyQuestionsById = new Map(mnTwoCountyContext ? mnTwoCountyQuestions(input.pathwayId!).map(question => [question.id, question]) : []);
   const mnTwoCountyIds = mnTwoCountyContext ? mnTwoCountyFactIds(input.pathwayId!) : [];
-  const requiredInputIds = dedupe([...input.requiredInputIds, ...(ohJuvenileContext ? OH_JUVENILE_STAGE_IDS : []), ...mnTwoCountyIds, ...(retainedDcLocation ? [DC_LEGACY_LOCATION] : [])]);
+  const msFirstContext = msFirstOffenderSourceContract(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
+  const msFirstQuestions = new Map(msFirstContext ? msFirstOffenderSourceQuestions().map(question => [question.id, question]) : []);
+  const requiredInputIds = dedupe([...input.requiredInputIds, ...(msFirstContext ? MS_FIRST_OFFENDER_COLLECTION_IDS : []), ...(ohJuvenileContext ? OH_JUVENILE_STAGE_IDS : []), ...mnTwoCountyIds, ...(retainedDcLocation ? [DC_LEGACY_LOCATION] : [])]);
   const decidesRouteFor = (factId: string) => input.routeDecidingFactIds?.has(factId) === true;
   const unresolvedScopeFor = (factId: string) => input.unresolvedRouteFactIds?.has(factId) === true;
   const baselineCarried = input.baselineCarriedFactIds ?? new Set<string>();
@@ -742,6 +746,25 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
       continue;
     }
 
+    if (msFirstContext && !overrideClass && !needsHuman.has(factId) && !unresolvedScopeFor(factId)) {
+      if (factId === "offense_category") {
+        facts.push({ factId, collection: "conditional", phase: "known", active: false, optional: true, group,
+          source: "ms_first_offender_legacy_category_context",
+          reason: "The exact offense and separate source facts supply this procedure's classification. Retain the category literally; it supplies no traffic, history, finality or official-duty finding and has no document mapping." });
+        continue;
+      }
+      const question = msFirstQuestions.get(factId);
+      if (question) {
+        const saved = input.savedAnswers && Object.hasOwn(input.savedAnswers, factId);
+        const raw = saved ? input.savedAnswers![factId] : available[factId];
+        const value = !needsSavedAnswerClarification && questionAnswerState(question, raw) === "known_valid" ? scalarAnswerText(raw) : null;
+        if (value && !saved && mayMaterialize(factId, true)) known[factId] = value;
+        facts.push({ factId, collection: value && !saved ? "already_known" : "prepay_confirmation",
+          phase: value && !saved ? "known" : "prepay_confirmation", group, active: true,
+          ...(value ? { value } : {}), source: "ms_first_offender_source_fact", reason: MS_FIRST_OFFENDER_SOURCE + "; participant facts for this conviction; no platform certification, signing, upload or fulfillment authority" });
+        continue;
+      }
+    }
     if (ohJuvenileContext && !overrideClass && !needsHuman.has(factId)) {
       if (factId === "court" && ohJuvenileStageFacts(ohJuvenileAnswers).code === "information") {
         facts.push({ factId, collection: "conditional", phase: "known", group: null, active: false,

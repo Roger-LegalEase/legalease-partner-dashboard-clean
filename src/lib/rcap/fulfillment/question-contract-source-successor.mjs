@@ -128,16 +128,20 @@ export const QUESTION_CONTRACT_CAPTURED_REVISION_CONTINUITY_PATH = 'data/rcap-gr
 export const QUESTION_CONTRACT_CAPTURED_REVISION_CONTINUITY_SHA256 = 'f78549ed770cef114caa4dd61f9cbfe639a6101a9b0812377de262bb2ebdee07';
 export const QUESTION_CONTRACT_CAPTURED_REVISION_OUTPUT_PATH = 'data/rcap-grade-a/participant-data-rights/question-contract-output-reproduction-20261016-v13.json';
 export const QUESTION_CONTRACT_CAPTURED_REVISION_OUTPUT_SHA256 = '4ed443b2b6727881536548eae9f1ca9cfe0e8f408b183c971c31fa3c7e50306c';
-export const QUESTION_CONTRACT_CONTINUITY_PATH = 'data/rcap-grade-a/participant-data-rights/question-contract-output-continuity-20261016-v14.json';
-export const QUESTION_CONTRACT_CONTINUITY_SHA256 = '789c9a393b917069b71e20aa44721cef3e659b3ad2297e0feb858fc7e3980199';
-export const QUESTION_CONTRACT_CURRENT_OUTPUT_PATH = 'data/rcap-grade-a/participant-data-rights/question-contract-output-reproduction-20261016-v14.json';
+export const QUESTION_CONTRACT_RETAINED_REVISION_CONTINUITY_PATH = 'data/rcap-grade-a/participant-data-rights/question-contract-output-continuity-20261016-v14.json';
+export const QUESTION_CONTRACT_RETAINED_REVISION_CONTINUITY_SHA256 = '789c9a393b917069b71e20aa44721cef3e659b3ad2297e0feb858fc7e3980199';
+export const QUESTION_CONTRACT_RETAINED_REVISION_OUTPUT_PATH = 'data/rcap-grade-a/participant-data-rights/question-contract-output-reproduction-20261016-v14.json';
+export const QUESTION_CONTRACT_RETAINED_REVISION_OUTPUT_SHA256 = '472b6cf2fd3e10ae2a84d40efd0c4701c752e804f2857f6dcde7d44f3ae961a1';
+export const QUESTION_CONTRACT_CONTINUITY_PATH = 'data/rcap-grade-a/participant-data-rights/question-contract-output-continuity-20261016-v15.json';
+export const QUESTION_CONTRACT_CONTINUITY_SHA256 = 'c2280e50a6cbde2b5bbef81667fb264eec6d2361e9105c96f52e30f736d902ed';
+export const QUESTION_CONTRACT_CURRENT_OUTPUT_PATH = 'data/rcap-grade-a/participant-data-rights/question-contract-output-reproduction-20261016-v15.json';
 
 /** Exposed below the immutable byte pins for non-vacuous semantic controls. */
 export function assertQuestionContractOutputContinuity({ continuity, proof, readBytes }) {
   const receipt = readQuestionContractSuccessor(readBytes);
   const historical = checkedProof(receipt, readBytes);
   insist(continuity.schemaVersion === 'rcap-question-contract-output-continuity/v1'
-    && continuity.recordId === 'QUESTION-CONTRACT-OUTPUT-CONTINUITY-20261016-V14'
+    && continuity.recordId === 'QUESTION-CONTRACT-OUTPUT-CONTINUITY-20261016-V15'
     && continuity.kind === 'technical_source_and_output_continuity', 'continuity identity');
   for (const key of ['createsOwnerApproval', 'changesApprovedOutputBytes', 'establishesProtectedVerification',
     'establishesProviderOrPublicationProof', 'commercialAuthorityGranted', 'productionAuthorized']) {
@@ -413,6 +417,24 @@ export function assertQuestionContractOutputContinuity({ continuity, proof, read
       'acceptedRevisionContinuity', 'acceptedRevisionOutput', 'executedRevisionContinuity', 'executedRevisionOutput', 'renderedRevisionContinuity', 'renderedRevisionOutput', 'observedRevisionContinuity', 'observedRevisionOutput', 'measuredRevisionContinuity', 'measuredRevisionOutput', 'boundRevisionContinuity', 'boundRevisionOutput', 'validatedRevisionContinuity', 'validatedRevisionOutput', 'recordedRevisionContinuity', 'recordedRevisionOutput']
       .every(key => equal(capturedContinuity[key], continuity[key])), 'captured revision predecessor ancestry');
   const captured = JSON.parse(capturedOutputBytes.toString('utf8'));
+  const retainedRevisionContinuity = { path: QUESTION_CONTRACT_RETAINED_REVISION_CONTINUITY_PATH, sha256: QUESTION_CONTRACT_RETAINED_REVISION_CONTINUITY_SHA256 };
+  const retainedRevisionOutput = { path: QUESTION_CONTRACT_RETAINED_REVISION_OUTPUT_PATH, sha256: QUESTION_CONTRACT_RETAINED_REVISION_OUTPUT_SHA256 };
+  insist(equal(continuity.retainedRevisionContinuity, retainedRevisionContinuity)
+    && equal(continuity.retainedRevisionOutput, retainedRevisionOutput), 'retained revision predecessor ancestry');
+  const retainedContinuityBytes = readBytes(retainedRevisionContinuity.path);
+  const retainedOutputBytes = readBytes(retainedRevisionOutput.path);
+  insist(sha(retainedContinuityBytes) === retainedRevisionContinuity.sha256, 'retained revision predecessor continuity bytes changed');
+  insist(sha(retainedOutputBytes) === retainedRevisionOutput.sha256, 'retained revision predecessor output bytes changed');
+  const retainedContinuity = JSON.parse(retainedContinuityBytes.toString('utf8'));
+  insist(equal(retainedContinuity.currentOutput, retainedRevisionOutput)
+    && equal(retainedContinuity.historicalSuccessor, continuity.historicalSuccessor)
+    && equal(retainedContinuity.historicalOutput, continuity.historicalOutput)
+    && ['previousContinuity', 'previousOutput', 'earlierContinuity', 'earlierOutput',
+      'sameDatePredecessorContinuity', 'sameDatePredecessorOutput', 'latestPredecessorContinuity', 'latestPredecessorOutput',
+      'immediatePredecessorContinuity', 'immediatePredecessorOutput', 'priorRevisionContinuity', 'priorRevisionOutput',
+      'acceptedRevisionContinuity', 'acceptedRevisionOutput', 'executedRevisionContinuity', 'executedRevisionOutput', 'renderedRevisionContinuity', 'renderedRevisionOutput', 'observedRevisionContinuity', 'observedRevisionOutput', 'measuredRevisionContinuity', 'measuredRevisionOutput', 'boundRevisionContinuity', 'boundRevisionOutput', 'validatedRevisionContinuity', 'validatedRevisionOutput', 'recordedRevisionContinuity', 'recordedRevisionOutput', 'capturedRevisionContinuity', 'capturedRevisionOutput']
+      .every(key => equal(retainedContinuity[key], continuity[key])), 'retained revision predecessor ancestry');
+  const retained = JSON.parse(retainedOutputBytes.toString('utf8'));
 
   insist(continuity.currentOutput?.path === QUESTION_CONTRACT_CURRENT_OUTPUT_PATH, 'continuity current output path');
   insist(proof.schemaVersion === historical.schemaVersion
@@ -438,12 +460,13 @@ export function assertQuestionContractOutputContinuity({ continuity, proof, read
     insist(sha(readBytes(current.specificationPath)) === current.specificationSha256, 'current output specification moved');
     for (const artifact of current.artifacts) insist(sha(readBytes(artifact.historical.path)) === artifact.sha256, 'approved output bytes moved');
   }
-  for (const prior of [...earlier.routes, ...previous.routes, ...sameDate.routes, ...latest.routes, ...immediate.routes, ...revision.routes, ...accepted.routes, ...executed.routes, ...rendered.routes, ...observed.routes, ...measured.routes, ...bound.routes, ...validated.routes, ...recorded.routes, ...captured.routes]) {
+  for (const prior of [...earlier.routes, ...previous.routes, ...sameDate.routes, ...latest.routes, ...immediate.routes, ...revision.routes, ...accepted.routes, ...executed.routes, ...rendered.routes, ...observed.routes, ...measured.routes, ...bound.routes, ...validated.routes, ...recorded.routes, ...captured.routes, ...retained.routes]) {
     const current = proof.routes.find(row => row.routeId === prior.routeId);
     insist(current && equal(withoutPrivateOutputLocators(current), withoutPrivateOutputLocators(prior)), `changed previous output semantics: ${prior.routeId}`);
   }
   for (const evidence of receipt.preservedEvidence) insist(sha(readBytes(evidence.path)) === evidence.sha256, `historical evidence changed: ${evidence.path}`);
-  insist(Array.isArray(proof.sources) && proof.sources.length === 129 && continuity.currentSourceCount === 129
+  insist(Array.isArray(proof.sources) && proof.sources.length === 134 && continuity.currentSourceCount === 134
+    && retained.sources.length === 129 && continuity.retainedRevisionSourceCount === 129
     && captured.sources.length === 129 && continuity.capturedRevisionSourceCount === 129
     && recorded.sources.length === 129 && continuity.recordedRevisionSourceCount === 129
     && validated.sources.length === 129 && continuity.validatedRevisionSourceCount === 129
@@ -460,7 +483,7 @@ export function assertQuestionContractOutputContinuity({ continuity, proof, read
     && latest.sources.length === 121 && continuity.latestPredecessorSourceCount === 121
     && sameDate.sources.length === 119 && continuity.sameDatePredecessorSourceCount === 119
     && earlier.sources.length === 113 && continuity.earlierSourceCount === 113
-    && new Set(proof.sources.map(input => input.file)).size === 129, 'current output source inventory');
+    && new Set(proof.sources.map(input => input.file)).size === 134, 'current output source inventory');
   const before = new Map(historical.sources.map(input => [input.file, input.sha256]));
   const after = new Map(proof.sources.map(input => [input.file, input.sha256]));
   insist([...before.keys()].every(file => after.has(file)), 'historical source omitted');
@@ -567,11 +590,18 @@ export function assertQuestionContractOutputContinuity({ continuity, proof, read
     .map(file => ({ file, beforeSha256: capturedInputs.get(file), afterSha256: after.get(file) }));
   insist(equal(capturedAdditions, continuity.capturedRevisionAddedSourcePaths)
     && equal(capturedTransitions, continuity.capturedRevisionSourceTransitions), 'undeclared captured predecessor source transition');
+  const retainedInputs = new Map(retained.sources.map(input => [input.file, input.sha256]));
+  insist([...retainedInputs.keys()].every(file => after.has(file)), 'retained predecessor source omitted');
+  const retainedAdditions = [...after.keys()].filter(file => !retainedInputs.has(file)).sort();
+  const retainedTransitions = [...retainedInputs.keys()].sort().filter(file => retainedInputs.get(file) !== after.get(file))
+    .map(file => ({ file, beforeSha256: retainedInputs.get(file), afterSha256: after.get(file) }));
+  insist(equal(retainedAdditions, continuity.retainedRevisionAddedSourcePaths)
+    && equal(retainedTransitions, continuity.retainedRevisionSourceTransitions), 'undeclared retained predecessor source transition');
   for (const input of proof.sources) insist(sha(readBytes(input.file)) === input.sha256, `stale output input: ${input.file}`);
   return { path: QUESTION_CONTRACT_CURRENT_OUTPUT_PATH, sha256: continuity.currentOutput.sha256,
     inputCount: proof.sources.length, continuity: { path: QUESTION_CONTRACT_CONTINUITY_PATH, sha256: QUESTION_CONTRACT_CONTINUITY_SHA256 },
     previousContinuity, previousOutput, earlierContinuity, earlierOutput, sameDatePredecessorContinuity, sameDatePredecessorOutput,
-    latestPredecessorContinuity, latestPredecessorOutput, immediatePredecessorContinuity, immediatePredecessorOutput, priorRevisionContinuity, priorRevisionOutput, acceptedRevisionContinuity, acceptedRevisionOutput, executedRevisionContinuity, executedRevisionOutput, renderedRevisionContinuity, renderedRevisionOutput, observedRevisionContinuity, observedRevisionOutput, measuredRevisionContinuity, measuredRevisionOutput, boundRevisionContinuity, boundRevisionOutput, validatedRevisionContinuity, validatedRevisionOutput, recordedRevisionContinuity, recordedRevisionOutput, capturedRevisionContinuity, capturedRevisionOutput,
+    latestPredecessorContinuity, latestPredecessorOutput, immediatePredecessorContinuity, immediatePredecessorOutput, priorRevisionContinuity, priorRevisionOutput, acceptedRevisionContinuity, acceptedRevisionOutput, executedRevisionContinuity, executedRevisionOutput, renderedRevisionContinuity, renderedRevisionOutput, observedRevisionContinuity, observedRevisionOutput, measuredRevisionContinuity, measuredRevisionOutput, boundRevisionContinuity, boundRevisionOutput, validatedRevisionContinuity, validatedRevisionOutput, recordedRevisionContinuity, recordedRevisionOutput, capturedRevisionContinuity, capturedRevisionOutput, retainedRevisionContinuity, retainedRevisionOutput,
     historicalOutput: continuity.historicalOutput };
 }
 
