@@ -28,6 +28,7 @@ import {
   loadJurisdictionProfile,
   normalizeStateKey
 } from "@/lib/expungement-ai/frontend/profile-loader";
+import { invalidateNyClockConfirmations } from "@/lib/expungement-ai/ny-16059-clock-confirmation";
 import { evaluateScreening } from "@/lib/expungement-ai/frontend/evaluate";
 import type { WilmaPageContext } from "@/lib/expungement-ai/wilma";
 import { WilmaBubble } from "@/components/expungement-ai/WilmaBubble";
@@ -295,7 +296,7 @@ export function ScreeningFlow({ state, initialSessionId, partnerDisplayName, acq
   const stateName = profile.jurisdiction.name;
 
   function setAnswer(questionId: string, value: AnswerValue) {
-    setAnswers((prev) => ({ ...prev, [questionId]: value }));
+    setAnswers((prev) => ({ ...invalidateNyClockConfirmations(prev, profile.jurisdiction.code, questionId, value), [questionId]: value }));
     setError(null);
   }
 

@@ -40,16 +40,18 @@ for(const [a,ids] of [[{...base,...order},orderIds],[{...base,...connected},grou
 const saved={...base,...order,...connected,ny_16059_prior_sealing:'legacy raw',unrecognized_historical_answer:'retain'};
 const resumed=sanitizeResumedAnswersForQuestionIds(pub,saved,select(base));
 for(const id of [...orderIds,...groupIds,'ny_16059_prior_sealing'])check(id+' resumed raw',resumed[id],saved[id]);
-// Both clocks are independent arithmetic expectations, not evaluator-derived fixtures.
-const timing={...base,sentencing_date:'2016-01-01',ny_16059_earliest_conviction_date:'2014-01-01',ny_16059_incarceration_history:'released'};
+// Adopted section3 replaces the old competing calculations with one physical-
+// custody convention and a separately labeled recommended next day. Historical
+// preimages/receipts are preserved; examples still assume explicit known facts.
+const timing={...base,sentencing_date:'2016-01-01',ny_16059_earliest_conviction_date:'2014-01-01',ny_16059_incarceration_history:'released',ny_16059_physical_custody_days_confirmed:'Yes'};
 const clockCases=[
- ['zero', {...base,sentencing_date:'2016-01-01'},'2026-01-01','2026-01-01',0,0],
- ['pre-anchor',{...timing,ny_16059_incarceration_periods:'2015-01-01/2015-01-11'},'2026-01-01','2026-01-11',0,10],
- ['cross-anchor',{...timing,ny_16059_incarceration_periods:'2015-12-27/2016-01-06'},'2026-01-06','2026-01-11',5,10],
- ['overlap union',{...timing,ny_16059_incarceration_periods:'2015-12-27/2016-01-06;2016-01-01/2016-01-11;2015-12-27/2016-01-06'},'2026-01-11','2026-01-16',10,15],
- ['leap day',{...base,sentencing_date:'2016-02-29'},'2026-03-01','2026-03-01',0,0]
+ ['zero', {...base,sentencing_date:'2016-01-01'},'2026-01-01','2026-01-02',0],
+ ['pre-anchor',{...timing,ny_16059_incarceration_periods:'2015-01-01/2015-01-11'},'2026-01-12','2026-01-13',11],
+ ['cross-anchor',{...timing,ny_16059_incarceration_periods:'2015-12-27/2016-01-06'},'2026-01-12','2026-01-13',11],
+ ['overlap union',{...timing,ny_16059_incarceration_periods:'2015-12-27/2016-01-06;2016-01-01/2016-01-11;2015-12-27/2016-01-06'},'2026-01-17','2026-01-18',16],
+ ['leap day',{...base,sentencing_date:'2016-02-29'},'2026-02-28','2026-03-01',0]
 ];
-for(const [name,a,early,late,anchoredDays,allDays] of clockCases){const d=ny16059Clock(a,'2026-10-12');check(name+' anchored',d.eligibleOn,early);check(name+' literal',d.latestPossibleOn,late);check(name+' anchored days',d.excludedDays,anchoredDays);check(name+' literal days',d.allPostConvictionDays,allDays);for(const delta of [-1,0,1]){const today=new Date(Date.parse(early+'T00:00:00Z')+delta*86400000).toISOString().slice(0,10);const r=ny16059Clock(a,today);check(name+' threshold '+delta,r.status,today<early?'not_yet':today<late?'review':'satisfied');}check(name+' literal threshold',ny16059Clock(a,late).status,'satisfied');}
+for(const [name,a,end,recommended,days] of clockCases){const d=ny16059Clock(a,'2026-10-12');check(name+' computed period end',d.computedPeriodEndDate,end);check(name+' recommended policy date',d.recommendedFilingDate,recommended);check(name+' inclusive physical days',d.qualifyingCustodyDays,days);for(const delta of [-1,0,1]){const today=new Date(Date.parse(end+'T00:00:00Z')+delta*86400000).toISOString().slice(0,10);const r=ny16059Clock(a,today);check(name+' threshold '+delta,r.status,today<end?'not_yet':'satisfied');}check(name+' recommended day not an eligibility gate',ny16059Clock(a,end).status,'satisfied');}
 for(const invalid of ['2016-02-30/2016-03-02','2016-01-11/2016-01-01','unknown','2030-01-01/2030-01-02'])check('invalid '+invalid,ny16059Clock({...timing,ny_16059_incarceration_periods:invalid},'2026-10-12').status,'missing');
 process.env.RCAP_EVALUATOR_TODAY='2026-10-12';
 for(const a of [{...base,...order},{...base,...connected},base]){let canonical;for(const menu of [undefined,'Skip',...profile.pathways.map(p=>p.label)]){const answers={...a,possible_pathway_context:menu}; let r;try{r=evaluateAuthoritativeScreeningResult({jurisdiction:'NY',profileVersion:profile.profileVersion,matterId:'synthetic-ny-residual',answers}).evaluation;}catch(e){check('public evaluator accepts facts '+String(menu),e.name,'no error');continue;}const shape={code:r.resultCode,pathway:r.pathwayId,payment:r.paymentAllowed};canonical??=shape;check('menu independent '+String(menu),shape,canonical);}}
@@ -81,7 +83,7 @@ check('inactive order count hidden in review',P.reviewEditablePacketInputIds(rec
 check('known history has visible correction',P.reviewEditablePacketInputIds(recovered).has('ny_16059_history_total'),true);
 // An explicit factual correction can retire mistaken custody details from the
 // calculation only after saved No/none answers, retaining every original map.
-const custodyAnswers={...base,ny_16059_sentence_incarceration:'Yes',release_date:'2011-01-01',ny_16059_incarceration_history:'released',ny_16059_incarceration_periods:'2010-01-01/2011-01-01'};
+const custodyAnswers={...base,ny_16059_sentence_incarceration:'Yes',release_date:'2011-01-01',ny_16059_incarceration_history:'released',ny_16059_incarceration_periods:'2010-01-01/2011-01-01',ny_16059_physical_custody_days_confirmed:'Yes',ny_16059_release_sentence_relationship_confirmed:'Yes'};
 const custodyAuthority=evaluateAuthoritativeScreeningResult({jurisdiction:'NY',profileVersion:profile.profileVersion,matterId:'synthetic-custody',answers:custodyAnswers});
 const custodySeed=P.protectedPacketDraftSeedFromAuthoritative({authoritative:custodyAuthority,screeningAnswers:custodyAnswers,dependencies:{commercialFlowVersion:1},capturedAt:'2026-10-12T00:00:00Z'});
 const custodyRecord={status:'unverified',revision:0,draftSnapshot:custodySeed.snapshot,draftHash:custodySeed.hash};
@@ -96,7 +98,7 @@ if(noCustody){
  check('explicit removal recovers calculation',retired?.draftSnapshot.resultCode,'packet_ready_with_caution');
  check('explicit removal increments revision',retired?.revision,noCustody.revision+1);
  check('explicit removal does not verify',retired?.status,'unverified');
- for(const id of ['release_date','ny_16059_incarceration_periods']){
+ for(const id of ['release_date','ny_16059_incarceration_periods','ny_16059_physical_custody_days_confirmed','ny_16059_release_sentence_relationship_confirmed']){
   for(const map of ['screeningAnswers','prefilledAnswers','packetAnswers'])check('removed from active '+map+' '+id,Object.hasOwn(retired?.draftSnapshot[map]??{},id),false);
   const entry=retired?.draftSnapshot.dependencies.semanticAnswerHistory.find(e=>e.factId===id&&e.source==='screeningAnswers');
   check('archived original '+id,entry?.value,custodyAnswers[id]);
@@ -121,4 +123,72 @@ for(const name of ['entered-order','connected-transaction']){
  const drift=structuredClone(old);drift.draftSnapshot.resultCode='packet_ready';drift.draftHash=P.protectedPacketDraftHash(drift.draftSnapshot);
  check(name+' unrelated result drift rejected',P.protectedPacketInformationModelFor(drift),null);
 }
+// The existing protected confirmation mechanism binds these new facts to the
+// actual inputs and complete route source/meaning contract, preserving no-ops.
+const C=await import('../src/lib/expungement-ai/record-fact-clarification.ts');
+const routeKey='NY:'+custodyAuthority.evaluation.pathwayId;
+const custodyModel=P.protectedPacketInformationModelFor(custodyRecord);
+const confIds=['ny_16059_physical_custody_days_confirmed','ny_16059_release_sentence_relationship_confirmed'];
+check('both new confirmations are explicitly unresolved',custodyModel.recordClarificationIds,confIds);
+const confirmed=P.packetInformationPatch({existingItem,protectedVerification:custodyRecord,answers:{},confirmRecordFacts:confIds})?.protectedTransition.nextVerification;
+check('explicit confirmation transition exists',Boolean(confirmed),true);
+if(confirmed){
+ const model=P.protectedPacketInformationModelFor(confirmed);
+ check('current explicit confirmations resolve',model.recordClarificationIds,[]);
+ const noOp=P.packetInformationPatch({existingItem,protectedVerification:confirmed,answers:{}})?.protectedTransition.nextVerification;
+ check('unchanged no-op keeps protected draft hash',noOp?.draftHash,confirmed.draftHash);
+ check('unchanged no-op keeps protected revision',noOp?.revision,confirmed.revision);
+ const qs=new Map(model.questions.map(q=>[q.id,q]));
+ for(const [id,value]of [['sentencing_date','2010-01-02'],['release_date','2011-01-02'],['ny_16059_earliest_conviction_date','2001-01-01'],['ny_16059_incarceration_periods','2010-01-02/2011-01-01'],['ny_16059_history_total',2],['ny_16059_later_conviction_entered','Yes'],['sentence_completion_date','No']]){
+  const changed={...model.initialAnswers,[id]:value};
+  check('input change invalidates both protected confirmations '+id,C.unresolvedRecordFactConfirmations(routeKey,changed,qs,confirmed.draftSnapshot.dependencies.recordFactConfirmations),confIds);
+ }
+ const changed=P.packetInformationPatch({existingItem,protectedVerification:confirmed,answers:{ny_16059_history_total:2}})?.protectedTransition.nextVerification;
+ check('real protected material save invalidates confirmations',P.protectedPacketInformationModelFor(changed)?.recordClarificationIds,confIds);
+ check('material save preserves raw old Yes',changed?.draftSnapshot.screeningAnswers[confIds[0]],'Yes');
+ const drift=structuredClone(confirmed);drift.draftSnapshot.profileSourceFingerprint='0'.repeat(64);drift.draftHash=P.protectedPacketDraftHash(drift.draftSnapshot);
+ check('source drift rejects protected consumer',P.protectedPacketInformationModelFor(drift),null);
+ const contractDrift=new Map(qs);contractDrift.set(confIds[0],{...qs.get(confIds[0]),prompt:'Different physical meaning'});
+ check('confirmation question meaning drift rejected',C.recordFactConfirmationFor(routeKey,confIds[0],model.initialAnswers,contractDrift.get(confIds[0])),null);
+ for(const id of confIds)check('explicit confirmation archives original raw '+id,confirmed.draftSnapshot.dependencies.recordFactConfirmations[id].legacyValues.find(e=>e.source==='screeningAnswers').value,'Yes');
+}
+const oldClockFixture=JSON.parse(fs.readFileSync(new URL('./fixtures/ny-protected-baseline/adopted-clock-predecessor.json',import.meta.url)));
+const oldClock=oldClockFixture.record, oldClockRaw=JSON.stringify(oldClock);
+check('pre-policy custody predecessor hash intact',P.protectedPacketDraftHash(oldClock.draftSnapshot),oldClock.draftHash);
+check('pre-policy custody opens as held current-meaning editor',Boolean(P.protectedPacketInformationModelFor(oldClock)),true);
+check('pre-policy custody original bytes immutable',JSON.stringify(oldClock),oldClockRaw);
+const oldHeldModel=P.protectedPacketInformationModelFor(oldClock);
+check('pre-policy custody successor is nonpayable missing-meaning hold',oldHeldModel?.resultCode,'needs_more_info');
+const oldNoOp=P.packetInformationPatch({existingItem,protectedVerification:oldClock,answers:{}})?.protectedTransition.nextVerification;
+check('pre-policy unchanged no-op preserves exact predecessor',oldNoOp,oldClock);
+const oldExplicit=P.packetInformationPatch({existingItem,protectedVerification:oldClock,answers:Object.fromEntries(confIds.map(id=>[id,'Yes'])),confirmRecordFacts:confIds})?.protectedTransition.nextVerification;
+check('pre-policy fresh owner entry creates current draft',Boolean(oldExplicit),true);
+check('pre-policy fresh entry retains every original screening value',oldExplicit?.draftSnapshot.screeningAnswers,oldClock.draftSnapshot.screeningAnswers);
+check('pre-policy fresh entry keeps confirmation exclusively explicit',oldExplicit?.draftSnapshot.packetAnswers[confIds[0]],'Yes');
+check('pre-policy fresh entry remains unverified',oldExplicit?.status,'unverified');
+for(const [key,value]of [['resultCode','not_yet'],['resultCode','packet_ready'],['profileSourceFingerprint','0'.repeat(64)],['profileAuthorityFingerprint','0'.repeat(64)]]){
+ const bad=structuredClone(oldClock);bad.draftSnapshot[key]=value;bad.draftHash=P.protectedPacketDraftHash(bad.draftSnapshot);
+ check('pre-policy unrelated tuple/source drift refused '+key,P.protectedPacketInformationModelFor(bad),null);
+}
+
+// A correctly hashed synthetic OLD final envelope exercises the actual final
+// authority consumer. This is not a claim of historical final verification.
+const oldFinalRecord=structuredClone(oldClock),oldFinal={...oldFinalRecord.draftSnapshot,schemaVersion:'expungement-ai/final-verification/v1',verifiedAt:'2026-10-16T00:00:00Z'};
+delete oldFinal.capturedAt;
+oldFinalRecord.status='verified';oldFinalRecord.snapshot=oldFinal;oldFinalRecord.hash=P.protectedPacketDraftHash(oldFinal);
+const oldFinalBefore=structuredClone(oldFinalRecord),oldFinalModel=P.protectedPacketInformationModelFor(oldFinalRecord);
+check('old final envelope is correctly hashed',P.protectedPacketDraftHash(oldFinalRecord.snapshot),oldFinalRecord.hash);
+check('old final envelope can open correction view',Boolean(oldFinalModel),true);
+check('old final correction view is held for new meaning',oldFinalModel?.resultCode,'needs_more_info');
+check('old final correction view cannot retain verification safety',oldFinalModel?.reviewSafety.safe,false);
+let oldFinalDenied=false;
+try{P.requireCurrentPacketVerificationRecord(existingItem,oldFinalRecord);}catch(error){oldFinalDenied=error instanceof P.CurrentPacketVerificationRequiredError;}
+check('actual current final verification reader denies old payment/generation authority',oldFinalDenied,true);
+for(const verify of [false,true]){
+ const result=P.packetInformationPatch({existingItem,protectedVerification:oldFinalRecord,answers:{},...(verify?{verify:true}:{})});
+ check('old final '+(verify?'verify':'noop')+' does not grant readiness',Boolean(result?.readyToGenerate),false);
+ let denied=false;try{P.requireCurrentPacketVerificationRecord(existingItem,result?.protectedTransition.nextVerification??null);}catch(error){denied=error instanceof P.CurrentPacketVerificationRequiredError;}
+ check('old final '+(verify?'verify':'noop')+' current consumer refuses authority',denied,true);
+}
+check('old final source/draft/raw record immutable',oldFinalRecord,oldFinalBefore);
 const failed=rows.filter(r=>!r.pass);if(process.env.RCAP_NY_RESIDUAL_RECEIPT)fs.writeFileSync(process.env.RCAP_NY_RESIDUAL_RECEIPT,JSON.stringify({rows,failed,layer:'local evaluator/selection/serialization only; not authenticated DB or legal approval'},null,2)+'\n',{flag:'wx'});console.log(JSON.stringify({checks:rows.length,failed}));assert.equal(failed.length,0);

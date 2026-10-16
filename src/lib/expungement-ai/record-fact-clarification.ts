@@ -1,9 +1,18 @@
 import "server-only";
+import type { ScreeningAnswerValue } from "@/lib/rcap-engine/contracts";
 import { contactRepresentationHash as hash } from "@/lib/expungement-ai/contact-representation";
 import { packetSpecificationFor } from "@/lib/rcap/grade-a/packet-specification";
 import { questionAnswerState, scalarAnswerText, uncertaintyState, answerValueIsKnown } from "@/lib/expungement-ai/question-answer-state";
 import type { ProfileQuestion, AnswerValue } from "@/lib/expungement-ai/frontend/contracts";
 import { GA_PARDON_CAPTION_ROUTE, GA_PARDON_CAPTION_INPUTS, GA_PARDON_CAPTION_QUESTIONS } from "@/lib/expungement-ai/ga-pardon-caption";
+
+import { NY_16059_ROUTE, NY_16059_SOURCE, NY_16059_CUSTODY_CONFIRMATION_ID, NY_16059_RELEASE_CONFIRMATION_ID, ny16059QuestionApplies } from "@/lib/rcap-engine/new-york-16059-facts";
+import { NY_16059_QUESTIONS } from "@/lib/rcap-engine/new-york-16059-questions";
+import { NY_CLOCK_CONFIRMATION_INPUT_IDS } from "@/lib/expungement-ai/ny-16059-clock-confirmation";
+const NY_ROUTE = `NY:${NY_16059_ROUTE}`;
+const NY_CONFIRMATION_IDS = [NY_16059_CUSTODY_CONFIRMATION_ID, NY_16059_RELEASE_CONFIRMATION_ID];
+
+const NY_INPUTS = Object.fromEntries(NY_CONFIRMATION_IDS.map(id => [id, NY_CLOCK_CONFIRMATION_INPUT_IDS]));
 
 const ROUTE = "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal";
 export const RECORD_FACT_INPUTS: Readonly<Record<string, readonly string[]>> = {
@@ -21,7 +30,7 @@ export type RecordFactConfirmation = {
 export type RecordFactConfirmations = Record<string, RecordFactConfirmation>;
 
 function recordFactInputs(routeKey: string): Readonly<Record<string, readonly string[]>> {
-  return routeKey === GA_PARDON_CAPTION_ROUTE ? GA_PARDON_CAPTION_INPUTS : routeKey === ROUTE ? RECORD_FACT_INPUTS : {};
+  return routeKey === NY_ROUTE ? NY_INPUTS : routeKey === GA_PARDON_CAPTION_ROUTE ? GA_PARDON_CAPTION_INPUTS : routeKey === ROUTE ? RECORD_FACT_INPUTS : {};
 }
 
 function knownText(value: unknown): string | null {
@@ -39,6 +48,7 @@ export function unambiguousMsCourtType(value: unknown): string | null {
 
 /** These original controls retain distinct record meanings; no broad charge/county/name substitution. */
 export function recordFactOwnQuestionIds(routeKey: string, answers: Readonly<Record<string, unknown>>, recorded?: RecordFactConfirmations): Set<string> {
+  if (routeKey === NY_ROUTE) return new Set(NY_CONFIRMATION_IDS.filter(id => ny16059QuestionApplies(answers as Record<string, ScreeningAnswerValue>, id)));
   if (routeKey === GA_PARDON_CAPTION_ROUTE) return new Set(Object.keys(GA_PARDON_CAPTION_INPUTS));
   if (routeKey !== ROUTE) return new Set();
   const own = new Set(["court_name", "filing_location", "charge_classification"]);
@@ -64,6 +74,9 @@ function semanticContract(routeKey: string, factId: string): string | null {
   const inputs = recordFactInputs(routeKey);
   if (!(factId in inputs)) return null;
   const specification = packetSpecificationFor(routeKey);
+  if (routeKey === NY_ROUTE) return hash({ version: 1, routeKey, factId, source: NY_16059_SOURCE,
+    meaning: "NY02 adopted section 3 inclusive physical days / sentence release relationship / 120 calendar months",
+    questionContract: NY_16059_QUESTIONS.find(question => question.id === factId), inputFactIds: inputs[factId], specification });
   const fact = specification?.requiredFacts?.find((entry) => entry.factId === factId);
   // offense_category is the established scoped public packet question, not a specification alias.
   if (!fact && factId !== "offense_category") return null;
@@ -73,6 +86,13 @@ function semanticContract(routeKey: string, factId: string): string | null {
 }
 export function recordFactConfirmationFor(routeKey: string, factId: string, answers: Readonly<Record<string, unknown>>, question: ProfileQuestion | undefined): RecordFactConfirmation | null {
   const contractSha256 = semanticContract(routeKey, factId);
+  if (routeKey === NY_ROUTE) {
+    const expected = NY_16059_QUESTIONS.find(candidate => candidate.id === factId);
+    if (!expected || !question || question.id !== factId || question.type !== expected.type
+      || question.prompt !== expected.prompt || question.helperText !== expected.helperText
+      || question.translations?.es?.prompt !== expected.translations?.es?.prompt
+      || question.translations?.es?.helperText !== expected.translations?.es?.helperText) return null;
+  }
   if (routeKey === GA_PARDON_CAPTION_ROUTE) {
     const expected = GA_PARDON_CAPTION_QUESTIONS.find(candidate => candidate.id === factId);
     if (!expected || !question || question.id !== factId || question.type !== expected.type

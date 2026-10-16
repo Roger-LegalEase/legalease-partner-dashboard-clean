@@ -622,6 +622,42 @@ export const NY_16059_QUESTIONS: PublicQuestion[] = [
         "helperText": "Use la fecha real del registro. Si no está disponible, elija No estoy seguro; una estimación general no establece este plazo."
       }
     }
+  },
+  {
+    "id": "ny_16059_physical_custody_days_confirmed",
+    "stage": "timing_and_completion",
+    "prompt": "Do the listed periods establish actual physical custody on the days counted after conviction, including admission and release days?",
+    "helperText": "Do not count administrative sentence credits as physical custody. Include each actual day only once. If the conviction-day portion or either endpoint is unclear, choose I am not sure. Keep the original dates.",
+    "type": "yes_no_unsure",
+    "required": false,
+    "contextOnly": false,
+    "doesNotSelectPathway": true,
+    "options": null,
+    "lifecyclePhase": "prepay_timing_gate",
+    "translations": {
+      "es": {
+        "prompt": "¿Los períodos indicados acreditan reclusión física real en los días contados después de la condena, incluidos los días de ingreso y liberación?",
+        "helperText": "No cuente créditos administrativos de la sentencia como reclusión física. Cuente cada día real una sola vez. Si no está clara la parte del día de la condena o alguna fecha inicial o final, elija No estoy seguro. Conserve las fechas originales."
+      }
+    }
+  },
+  {
+    "id": "ny_16059_release_sentence_relationship_confirmed",
+    "stage": "timing_and_completion",
+    "prompt": "Does this release date belong to the latest criminal sentence that included incarceration?",
+    "helperText": "Identify which sentence the release belongs to. A later probation or parole end date is not a substitute. If the relationship is unclear, choose I am not sure.",
+    "type": "yes_no_unsure",
+    "required": false,
+    "contextOnly": false,
+    "doesNotSelectPathway": true,
+    "options": null,
+    "lifecyclePhase": "prepay_timing_gate",
+    "translations": {
+      "es": {
+        "prompt": "¿Esta fecha de liberación corresponde a la última sentencia penal que incluyó encarcelamiento?",
+        "helperText": "Identifique a qué sentencia corresponde la liberación. Una fecha posterior de finalización de la libertad condicional o supervisada no la sustituye. Si la relación no está clara, elija No estoy seguro."
+      }
+    }
   }
 ];
 export const NY_16059_FACT_IDS = NY_16059_QUESTIONS.map(q => q.id);
@@ -629,3 +665,34 @@ export const NY_16059_LEGACY_IDS = ["ny_16059_total_eligible_convictions", "ny_1
 
 
 export const NY_16059_TIMING_IDS = ["sentencing_date", "release_date", "ny_16059_earliest_conviction_date"];
+
+// Shared source-owned question identity and copy are browser-safe; arithmetic stays server-side.
+export const NY_16059_CUSTODY_CONFIRMATION_ID = "ny_16059_physical_custody_days_confirmed";
+export const NY_16059_RELEASE_CONFIRMATION_ID = "ny_16059_release_sentence_relationship_confirmed";
+
+export const NY_16059_REASON_COPY: Record<string, [string, string]> = {
+ '16058_components_missing': ["Check the entered CPL 160.58 order: count treatment-related convictions separately from additional earlier misdemeanors. A pending or denied application is not an entered order.", "Revise la orden concedida bajo CPL 160.58: cuente por separado las condenas relacionadas con el tratamiento y los delitos menores anteriores adicionales. Una solicitud pendiente o denegada no es una orden concedida."],
+ '16058_components_conflict': ["The order components do not agree with the CPL 160.58 treatment-conviction and additional-misdemeanor structure. Check the actual order with a legal reviewer.", "Los componentes de la orden no concuerdan con la estructura de condenas de tratamiento y delitos menores adicionales de CPL 160.58. Revise la orden real con un revisor legal."],
+ grouping_record_facts_unresolved: ["Review the exact conviction members, acts, record references and any disputed or excluded facts in the saved groups. Their connection is not yet established.", "Revise las condenas exactas, los actos, las referencias del expediente y los datos controvertidos o excluidos de los grupos guardados. Su conexión aún no se ha establecido."],
+ grouping_other_history_unresolved: ["The saved groups cover only the requested convictions. The related acts in the rest of the history still need their actual records and associations.", "Los grupos guardados abarcan solo las condenas solicitadas. Los actos relacionados del resto del historial aún necesitan sus registros y asociaciones reales."],
+ grouping_facts_missing: ["Check how the acts were connected in time, circumstances and criminal purpose, whether the only connection is a shared docket or sentence, and whether multiple victims were involved.", "Revise cómo se relacionaron los actos en tiempo, circunstancias y propósito delictivo, si la única conexión es un expediente o sentencia compartidos y si hubo varias víctimas."],
+ grouping_facts_conflict: ["The answers describe both a factual connection and only a shared docket or sentence. Check the underlying acts before asking for transaction review.", "Las respuestas describen tanto una conexión entre los hechos como únicamente un expediente o sentencia compartidos. Revise los actos antes de solicitar la revisión de la transacción."],
+ history_missing: ["Check your complete criminal history, the convictions in this request, and any earlier sealing applications and orders. An old eligible-conviction count does not establish these separate facts.", "Revise todos sus antecedentes penales, las condenas de esta solicitud y las solicitudes y órdenes de sellado anteriores. El recuento anterior de condenas elegibles no establece estos hechos por separado."],
+ history_conflict: ["The history, requested convictions, felony counts or earlier sealing orders do not agree. Check the records before continuing.", "Los antecedentes, las condenas solicitadas, los recuentos de delitos graves o las órdenes de sellado anteriores no concuerdan. Revise los expedientes antes de continuar."],
+ history_limit: ["The complete criminal history exceeds this procedure's two-crime or one-felony limit. This includes convictions outside this sealing request.", "Los antecedentes penales completos superan el límite de dos delitos o un delito grave de este procedimiento. Esto incluye condenas fuera de esta solicitud de sellado."],
+ request_limit: ["This request exceeds the limit of two eligible offenses and no more than one felony.", "Esta solicitud supera el límite de dos delitos elegibles y no más de un delito grave."],
+ grouping_review: ["A shared case number or concurrent sentences do not establish a single criminal transaction. A legal reviewer must check the connected acts and which offenses can be grouped.", "Un número de caso compartido o penas simultáneas no establecen una sola transacción delictiva. Un revisor legal debe examinar los actos relacionados y qué delitos pueden agruparse."],
+ sealing_capacity: ["The convictions already sealed under CPL 160.59 and those requested exceed the remaining statutory capacity.", "Las condenas ya selladas bajo CPL 160.59 y las solicitadas superan la capacidad restante permitida por la ley."],
+ '16058_order_review': ["An order under CPL 160.58 is not automatically the maximum allowed. A legal reviewer must identify the treatment convictions and additional prior misdemeanors sealed before applying CPL 160.59(3)(b).", "Una orden bajo CPL 160.58 no significa automáticamente que se alcanzó el máximo permitido. Un revisor legal debe identificar las condenas del programa de tratamiento y los delitos menores anteriores adicionales sellados antes de aplicar CPL 160.59(3)(b)."],
+ anchor_invalid: ["Check the sentencing and release dates. Each supplied date must be a real calendar date for an event that has already occurred.", "Revise las fechas de la sentencia y de la liberación. Cada fecha proporcionada debe ser una fecha real del calendario de un hecho que ya ocurrió."],
+ clock_missing: ["Check the sentencing, conviction and incarceration records. A broad elapsed-time answer cannot replace the dates and periods needed for this ten-year calculation.", "Revise los registros de sentencia, condena y encarcelamiento. Una respuesta general sobre el tiempo transcurrido no reemplaza las fechas y los períodos necesarios para este cálculo de diez años."],
+ clock_conflict: ["The conviction, sentence, release and incarceration-period answers conflict. Check the records; no release date or missing period can be assumed.", "Las respuestas sobre la condena, la sentencia, la liberación y los períodos de encarcelamiento no concuerdan. Revise los registros; no se puede suponer una fecha de liberación ni un período faltante."],
+ period_invalid: ["Check every incarceration period. Use real admission and release dates, in that order, with no future dates. Keep each period on its own line as YYYY-MM-DD/YYYY-MM-DD.", "Revise cada período de encarcelamiento. Use fechas reales de ingreso y liberación, en ese orden, sin fechas futuras. Escriba cada período en una línea separada como AAAA-MM-DD/AAAA-MM-DD."],
+ incarcerated: ["The incarceration record shows that release has not occurred. Do not estimate a future release date for this calculation.", "El registro de encarcelamiento indica que la liberación aún no ocurrió. No estime una fecha de liberación futura para este cálculo."],
+ clock_not_yet: ["Ten years have not yet elapsed under this procedure after accounting for the applicable anchor and incarceration time.", "Aún no han transcurrido diez años bajo este procedimiento después de considerar la fecha inicial aplicable y el tiempo de encarcelamiento."],
+ clock_custody_confirmation: ["The listed dates do not yet establish the qualifying days of actual physical custody. Keep the dates as recorded; clarify any conviction-day, admission-day or release-day ambiguity before this calculation.", "Las fechas indicadas aún no establecen los días de reclusión física que deben contarse. Conserve las fechas registradas y aclare cualquier duda sobre el día de la condena, del ingreso o de la liberación antes de este cálculo."],
+ clock_release_relationship: ["The release used for this calculation must belong to the latest sentence that included incarceration. Keep the recorded date and clarify that relationship; a bare release date does not establish it.", "La liberación usada para este cálculo debe corresponder a la última sentencia que incluyó encarcelamiento. Conserve la fecha registrada y aclare esa relación; una fecha de liberación por sí sola no la establece."],
+ // Historical text retained for old receipt/catalog identity; current adopted
+ // clock no longer returns this superseded legal-interpretation hold.
+ clock_interpretation: ["The result depends on how incarceration already covered by the sentencing or release anchor is treated under CPL 160.59(5). A qualified legal reviewer must resolve that calculation before this request can proceed.", "El resultado depende de cómo se trate el encarcelamiento ya comprendido en la fecha inicial de sentencia o liberación bajo CPL 160.59(5). Un revisor legal calificado debe resolver ese cálculo antes de que esta solicitud pueda continuar."]
+};

@@ -1,3 +1,4 @@
+import { ny16059PriorClockStatus } from "@/lib/expungement-ai/ny-16059-prior-clock";
 import {WY_1501_ROUTE,WY_1501_SOURCE,WY_1501_FACT_IDS,WY_1501_QUESTIONS,wy1501Contract,wy1501Context,wy1501FactIds,wy1501Facts,wy1501QuestionApplies} from "@/lib/rcap-engine/wyoming-1501-facts";
 import { texasGuidanceFinancialApplies, texasGuidanceFinancialContract, TX_GUIDANCE_FINANCIAL_ROUTES, texasNondisclosureTimingContract, texasNondisclosureFactIds, texasNondisclosureClock, TX_ND_FACT_IDS, TX_ND_ROUTES } from "@/lib/rcap-engine/texas-nondisclosure-facts";
 import { westVirginiaGuidanceFinancialApplies, westVirginiaGuidanceFinancialContract, WV_GUIDANCE_FINANCIAL_ROUTES } from "@/lib/rcap-engine/west-virginia-guidance-financial";
@@ -60,7 +61,7 @@ import { IL_CANNABIS_FACT_IDS, IL_CANNABIS_PATHWAY, illinoisCannabisQuestionAppl
 import { pathwayExcludedByKnownFacts } from "@/lib/rcap-engine/factual-pathway-exclusions";
 import { CA_PROP64_FACT_IDS, CA_PROP64_FACT_QUESTIONS, CA_PROP64_REASON_COPY, caProp64ActiveFactIds } from "@/lib/rcap-engine/california-prop64-facts";
 import { ny16059CustodyRemovalAvailable } from "@/lib/expungement-ai/ny-custody-correction";
-import { NY_16059_FACT_IDS, NY_16059_ROUTE, ny16059QuestionApplies, ny16059History } from "@/lib/rcap-engine/new-york-16059-facts";
+import { NY_16059_FACT_IDS, NY_16059_ROUTE, ny16059QuestionApplies, ny16059History, NY_16059_CUSTODY_CONFIRMATION_ID, NY_16059_RELEASE_CONFIRMATION_ID } from "@/lib/rcap-engine/new-york-16059-facts";
 import { CA_PROP64_QUESTIONS, CA_PROP64_COMPLETED, isCaProp64Pathway, caProp64Choice } from "@/lib/expungement-ai/ca-prop64-choices";
 import { caProp64RecordQuestions } from "@/lib/expungement-ai/ca-prop64-record-facts";
 import { caProp64RecordAnswerState, CA_PROP64_RECORD_FACT_IDS } from "@/lib/expungement-ai/ca-prop64-record-answer";
@@ -2079,6 +2080,34 @@ export function wyoming1501DraftSuccessor(snapshot: ProtectedPacketAuthoritySnap
   return seeded?preserveUnchangedProtectedFacts(seeded.snapshot,snapshot,new Set()):null;
 }
 
+/** Tighten only the retained NY clock tuple; no read creates the newly required attestations. */
+export function ny16059AdoptedClockHeldSuccessor(snapshot: ProtectedPacketAuthoritySnapshot,
+  authoritative: NonNullable<ReturnType<typeof evaluateProtectedPacketFacts>>): boolean {
+  const profile = getProfileByJurisdiction("NY"), evaluation = authoritative.evaluation;
+  if (!profile || snapshot.jurisdiction !== "NY" || snapshot.pathwayId !== NY_16059_ROUTE
+    || snapshot.profileVersion !== "2026-06-19-source-conversion-1" || profile.profileVersion !== snapshot.profileVersion
+    || snapshot.profileSourceFingerprint !== "f69c70a88cf5d810cb49b83d572b070cade4a7e039b92b25f82cc68f647d4d99"
+    || profile.source?.sourceCorpusSha256 !== snapshot.profileSourceFingerprint
+    || snapshot.profileAuthorityFingerprint !== "aeaa5c3b9d1071ad418c72da56ec63a0bf4fb6f8838293dd6dd9e3d5c106bf12"
+    || profileAuthorityFingerprint(profile, NY_16059_ROUTE) !== snapshot.profileAuthorityFingerprint
+    || evaluation.resultCode !== "needs_more_info" || evaluation.paymentAllowed
+    || evaluation.reasons.length !== 1 || evaluation.reasons[0].code !== "ny.ny_16059_clock_missing"
+    || !evaluation.missingQuestionIds.length || evaluation.missingQuestionIds.some(id => ![NY_16059_CUSTODY_CONFIRMATION_ID, NY_16059_RELEASE_CONFIRMATION_ID].includes(id))
+    || !protectedRouteAuthorityMatches({ ...snapshot, resultCode: evaluation.resultCode, paymentAllowed: false }, authoritative)
+    || !canonicalEqual(snapshot.serverFacts, canonicalServerFacts("NY", NY_16059_ROUTE))) return false;
+  const plan = packetPlanForPathway(profile, NY_16059_ROUTE);
+  if (!plan || !canonicalEqual(snapshot.packetPlan, plan) || !canonicalEqual(snapshot.requiredInputIds, plan.requiredInputIds)
+    || !canonicalEqual(snapshot.packetFamilyIdentifiers, { mode: plan.mode, sourceFormIds: plan.sourceFormIds })
+    || [snapshot.screeningAnswers, snapshot.prefilledAnswers, snapshot.packetAnswers].some(map =>
+      [NY_16059_CUSTODY_CONFIRMATION_ID, NY_16059_RELEASE_CONFIRMATION_ID].some(id => Object.hasOwn(map, id)))) return false;
+  const answers = protectedPacketScreeningAnswers(snapshot), captured = ("capturedAt" in snapshot ? snapshot.capturedAt : snapshot.verifiedAt)?.slice(0, 10);
+  if (!answers || !captured || !/^\d{4}-\d{2}-\d{2}$/.test(captured)) return false;
+  const former = ny16059PriorClockStatus(answers, captured);
+  return former === "satisfied" ? snapshot.resultCode === "packet_ready_with_caution" && snapshot.paymentAllowed
+    : former === "not_yet" ? snapshot.resultCode === "not_yet" && !snapshot.paymentAllowed
+      : former === "review" && snapshot.resultCode === "needs_review" && !snapshot.paymentAllowed;
+}
+
 export function protectedPacketInformationModelFor(
   verification: ProtectedPacketVerificationRecord
 ): ProtectedPacketInformationModel | null {
@@ -2146,7 +2175,7 @@ export function protectedPacketInformationModelFor(
     // maps and dependencies; this read grants no readiness or verification.
     snapshot = { ...snapshot, resultCode: evaluation.resultCode };
   }
-  if (!protectedRouteAuthorityMatches(snapshot, authoritative) && (financialAnswerHeldSuccessor(snapshot, authoritative) || msMipBothEventsHeldSuccessor(snapshot, authoritative) || msTimingAnswerHeldSuccessor(snapshot, authoritative) || oregonDispositionTimingHeldSuccessor(snapshot, authoritative))) {
+  if (!protectedRouteAuthorityMatches(snapshot, authoritative) && (financialAnswerHeldSuccessor(snapshot, authoritative) || ny16059AdoptedClockHeldSuccessor(snapshot, authoritative) || msMipBothEventsHeldSuccessor(snapshot, authoritative) || msTimingAnswerHeldSuccessor(snapshot, authoritative) || oregonDispositionTimingHeldSuccessor(snapshot, authoritative))) {
     snapshot = { ...snapshot, resultCode: evaluation.resultCode, paymentAllowed: false };
   }
   if (!protectedRouteAuthorityMatches(snapshot, authoritative)) return null;
@@ -3623,7 +3652,7 @@ function deriveProtectedPacketDraftSnapshot(
     const history = [...(base.dependencies.semanticAnswerHistory ?? [])];
     base = { ...base, screeningAnswers: { ...base.screeningAnswers }, prefilledAnswers: { ...base.prefilledAnswers }, packetAnswers: { ...base.packetAnswers } };
     packetAnswers = { ...packetAnswers };
-    for (const factId of ["release_date", "ny_16059_incarceration_periods"]) {
+    for (const factId of ["release_date", "ny_16059_incarceration_periods", NY_16059_CUSTODY_CONFIRMATION_ID, NY_16059_RELEASE_CONFIRMATION_ID]) {
       for (const source of ["screeningAnswers", "prefilledAnswers", "packetAnswers"] as const) {
         if (!Object.prototype.hasOwnProperty.call(base[source], factId)) continue;
         const entry = { factId, value: base[source][factId], source, meaning: "ny_16059_custody_entered_in_error" as const,

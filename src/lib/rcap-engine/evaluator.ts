@@ -1,3 +1,4 @@
+import { ny16059ClockDisplayLines } from "@/lib/rcap-engine/new-york-16059-clock-display";
 import {WY_1501_ROUTE,WY_1501_SOURCE,WY_1501_COPY,wy1501Context,wy1501Facts} from "@/lib/rcap-engine/wyoming-1501-facts";
 import { texasGuidanceFinancialApplies, texasNondisclosureTimingContract, texasNondisclosureClock, TX_ND_ROUTES, TX_ND_TIMING_COPY, TX_ND_FACT_IDS } from "@/lib/rcap-engine/texas-nondisclosure-facts";
 import { westVirginiaGuidanceFinancialApplies } from "@/lib/rcap-engine/west-virginia-guidance-financial";
@@ -2172,7 +2173,8 @@ function result(
     userLabel: labelForResult(resultCode),
     reasons,
     missingQuestionIds: overrides.missingQuestionIds ?? [],
-    cautions: [...(overrides.cautions ?? []), ...(overrides.pathwayId === TX_ND_ROUTES[0]
+    cautions: [...(overrides.cautions ?? []), ...(profile.jurisdiction.code === "NY" && overrides.pathwayId === NY_16059_ROUTE
+      ? ny16059ClockDisplayLines(ny16059Clock(request.answers, evaluationToday().toISOString().slice(0, 10))) : []), ...(overrides.pathwayId === TX_ND_ROUTES[0]
       && texasNondisclosureTimingContract(profile, overrides.pathwayId)
       && TX_ND_FACT_IDS.some(id => Object.hasOwn(request.answers, id))
       ? [TX_ND_TIMING_COPY[texasNondisclosureClock(profile, overrides.pathwayId, request.answers, evaluationToday().toISOString().slice(0,10))!.status][0]] : []), ...(isCaProp64Pathway(profile.jurisdiction.code, overrides.pathwayId)

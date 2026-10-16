@@ -1,3 +1,5 @@
+import { NY_16059_REASON_COPY, NY_16059_CUSTODY_CONFIRMATION_ID, NY_16059_RELEASE_CONFIRMATION_ID, NY_16059_QUESTIONS } from "@/lib/rcap-engine/new-york-16059-questions";
+import { ny16059ClockDisplayTranslation } from "@/lib/rcap-engine/new-york-16059-clock-display";
 import {WY_1501_COPY} from "@/lib/rcap-engine/wyoming-1501-facts";
 import { TX_ND_TIMING_COPY } from "@/lib/rcap-engine/texas-nondisclosure-facts";
 import { WY_1401_COPY } from "@/lib/rcap-engine/wyoming-1401-facts";
@@ -1172,7 +1174,12 @@ export function t(locale: Locale, key: string, fallback?: string, vars?: Record<
 }
 
 export function resolveRuntimeText(locale: Locale, text: string, options?: { key?: string; vars?: Record<string, string | number | undefined> }): string {
-  const draft = [...Object.values(WY_1501_COPY), ...Object.values(TX_ND_TIMING_COPY), ...Object.values(WY_1401_COPY), ...Object.values(CA_12034_COPY), ...Object.values(ND_FIRST_OFFENSE_COPY), ...Object.values(OR_DISPOSITION_COPY), ...Object.values(MT_DEFERRED_COPY), ...Object.values(MO_MARIJUANA_COPY), ...Object.values(GA_PARDON_COPY), ...Object.values(AR_RECORD_ORIGIN_COPY), ...Object.values(CONVICTION_RELIEF_COPY), ...Object.values(GA_FIRST_OFFENDER_GUIDANCE), KS_REGISTRATION_REVIEW_COPY].find(([en]) => en === text);
+  const nyDateTranslation = locale === "es" ? ny16059ClockDisplayTranslation(text) : undefined;
+  if (nyDateTranslation) return nyDateTranslation;
+  const nyQuestions = NY_16059_QUESTIONS.filter(q => [NY_16059_CUSTODY_CONFIRMATION_ID, NY_16059_RELEASE_CONFIRMATION_ID].includes(q.id));
+  const nyQuestionCopy = nyQuestions.flatMap(q => [[q.prompt, q.translations?.es?.prompt], [q.helperText, q.translations?.es?.helperText]]).find(([en]) => en === text);
+  if (nyQuestionCopy?.[locale === "es" ? 1 : 0]) return nyQuestionCopy[locale === "es" ? 1 : 0]!;
+  const draft = [...Object.values(NY_16059_REASON_COPY), ...Object.values(WY_1501_COPY), ...Object.values(TX_ND_TIMING_COPY), ...Object.values(WY_1401_COPY), ...Object.values(CA_12034_COPY), ...Object.values(ND_FIRST_OFFENSE_COPY), ...Object.values(OR_DISPOSITION_COPY), ...Object.values(MT_DEFERRED_COPY), ...Object.values(MO_MARIJUANA_COPY), ...Object.values(GA_PARDON_COPY), ...Object.values(AR_RECORD_ORIGIN_COPY), ...Object.values(CONVICTION_RELIEF_COPY), ...Object.values(GA_FIRST_OFFENDER_GUIDANCE), KS_REGISTRATION_REVIEW_COPY].find(([en]) => en === text);
   if (draft) return interpolate(draft[locale === "es" ? 1 : 0], options?.vars);
   const reviewed = reviewedResultText(text);
   if (reviewed) return interpolate(reviewed[locale], options?.vars);
@@ -1192,6 +1199,7 @@ export function localizeProfileText(locale: Locale, text: string, meta: { state?
   // Packet copy is resolved from its route contract, including reviewed translations.
   // A screening key for the same fact must not replace its document instructions.
   if (meta.stage === "packet_information") return text;
+  if (meta.state === "NY" && [NY_16059_CUSTODY_CONFIRMATION_ID, NY_16059_RELEASE_CONFIRMATION_ID].includes(meta.questionId ?? "")) return resolveRuntimeText(locale, text);
   const key = `profile.${meta.state ?? "all"}.${meta.questionId ?? "unknown"}.${meta.part ?? "text"}`;
   return t(locale, key, text);
 }

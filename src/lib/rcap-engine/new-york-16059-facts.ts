@@ -1,13 +1,13 @@
 import { NY_TRANSACTION_ASSOCIATIONS_ID, nyTransactionFactsFromAnswers } from "@/lib/expungement-ai/ny-16059-transaction-facts";
-import { NY_16059_QUESTIONS } from "@/lib/rcap-engine/new-york-16059-questions";
-export { NY_16059_QUESTIONS, NY_16059_FACT_IDS, NY_16059_LEGACY_IDS, NY_16059_TIMING_IDS } from "@/lib/rcap-engine/new-york-16059-questions";
+import { NY_16059_QUESTIONS, NY_16059_CUSTODY_CONFIRMATION_ID, NY_16059_RELEASE_CONFIRMATION_ID } from "@/lib/rcap-engine/new-york-16059-questions";
+export { NY_16059_QUESTIONS, NY_16059_FACT_IDS, NY_16059_LEGACY_IDS, NY_16059_TIMING_IDS, NY_16059_REASON_COPY, NY_16059_CUSTODY_CONFIRMATION_ID, NY_16059_RELEASE_CONFIRMATION_ID } from "@/lib/rcap-engine/new-york-16059-questions";
 import type { ScreeningAnswerValue } from "@/lib/rcap-engine/contracts";
 import { isAffirmative, isNegative } from "@/lib/rcap-engine/answer-normalization";
 
 export const NY_16059_ROUTE = "discretionary-conviction-sealing-by-petition-under-cpl-160-59";
 export const NY_16059_SOURCE = "https://www.nysenate.gov/legislation/laws/CPL/160.59";
 type Answers = Record<string, ScreeningAnswerValue>;
-type Decision = { status: "satisfied" | "missing" | "review" | "excluded" | "not_yet"; code?: string; ids?: string[]; eligibleOn?: string; latestPossibleOn?: string; excludedDays?: number; allPostConvictionDays?: number; anchor?: string };
+type Decision = { status: "satisfied" | "missing" | "review" | "excluded" | "not_yet"; code?: string; ids?: string[]; computedPeriodEndDate?: string; recommendedFilingDate?: string; qualifyingCustodyDays?: number; anchor?: string };
 const fail = (status: Decision["status"], code: string, ids: string[] = []): Decision => ({ status, code, ids });
 export function ny16059Requested(a: Answers) { return a.ny_16059_request === "petition"; }
 const integer = (v: ScreeningAnswerValue | undefined): number | undefined => {
@@ -94,10 +94,21 @@ function date(value: ScreeningAnswerValue | undefined, today: string): string | 
   return Number.isFinite(d.getTime()) && d.toISOString().slice(0, 10) === value && value <= today ? value : undefined;
 }
 const day = (s: string) => new Date(s + "T00:00:00Z").getTime() / DAY;
+/** Internal half-open intervals represent confirmed inclusive physical days. */
 function unionDays(intervals: [number, number][]) {
   let end = -Infinity, days = 0;
   for (const [start, finish] of intervals.toSorted((a, b) => a[0] - b[0])) { days += Math.max(0, finish - Math.max(start, end)); end = Math.max(end, finish); }
   return days;
+}
+function calendarMonths(anchor: string, months: number): Date {
+  const result = new Date(anchor + "T00:00:00Z"), originalDay = result.getUTCDate();
+  result.setUTCDate(1);
+  result.setUTCMonth(result.getUTCMonth() + months);
+  const last = new Date(result.getTime());
+  last.setUTCMonth(last.getUTCMonth() + 1);
+  last.setUTCDate(0);
+  result.setUTCDate(Math.min(originalDay, last.getUTCDate()));
+  return result;
 }
 export function ny16059Clock(a: Answers, today: string): Decision {
   const supplied = ["sentencing_date", "release_date", "ny_16059_earliest_conviction_date"];
@@ -117,61 +128,45 @@ export function ny16059Clock(a: Answers, today: string): Decision {
   if (a.ny_16059_incarceration_history === "released") {
     const raw = a.ny_16059_incarceration_periods;
     if (typeof raw !== "string" || !raw.trim()) return fail("missing", "clock_missing", ["ny_16059_incarceration_periods"]);
+    let lastRelease = -Infinity;
     for (const row of raw.split(/[;\n]+/)) {
       const parts = row.trim().split(/\s*\/\s*/);
       const start = date(parts[0], today), end = date(parts[1], today);
       if (parts.length !== 2 || !start || !end || start > end) return fail("missing", "period_invalid", ["ny_16059_incarceration_periods"]);
-      // Retain supplied pre-conviction periods, but exclude only time after
-      // the earliest requested conviction. Admission inclusive/release exclusive.
-      if (end > conviction) periods.push([Math.max(day(start), day(conviction)), day(end)]);
+      lastRelease = Math.max(lastRelease, day(end));
+      // Preserve pre-conviction raw dates. Only qualifying postconviction days
+      // count, including a conviction-day portion only when explicitly known.
+      if (end >= conviction) periods.push([Math.max(day(start), day(conviction)), day(end) + 1]);
     }
-    if (!periods.length) return fail("review", "clock_conflict");
-    if (release && Math.max(...periods.map(p => p[1])) !== day(release)) return fail("review", "clock_conflict");
+    if (!periods.length || release && lastRelease !== day(release)) return fail("review", "clock_conflict");
+    // These new fact IDs are never inferred from old interval/date scalars.
+    // They describe the records' meaning, not a mandatory upload or new form.
+    const confirmations = [NY_16059_CUSTODY_CONFIRMATION_ID,
+      ...(isAffirmative(a.ny_16059_sentence_incarceration) ? [NY_16059_RELEASE_CONFIRMATION_ID] : [])];
+    const absent = confirmations.filter(id => a[id] === undefined);
+    if (absent.length) return fail("missing", "clock_missing", absent);
+    if (!isAffirmative(a[NY_16059_CUSTODY_CONFIRMATION_ID])) return fail("review", "clock_custody_confirmation", [NY_16059_CUSTODY_CONFIRMATION_ID]);
+    if (isAffirmative(a.ny_16059_sentence_incarceration) && !isAffirmative(a[NY_16059_RELEASE_CONFIRMATION_ID])) return fail("review", "clock_release_relationship", [NY_16059_RELEASE_CONFIRMATION_ID]);
   }
   const anchor = isAffirmative(a.ny_16059_sentence_incarceration) ? release! : sentence;
-  const anniversary = new Date(anchor + "T00:00:00Z");
-  // Preserve the existing calendar-year convention: Feb 29 +10 => March 1.
-  anniversary.setUTCFullYear(anniversary.getUTCFullYear() + 10);
-  const afterAnchor = unionDays(periods.map(([s, e]) => [Math.max(s, day(anchor)), Math.max(e, day(anchor))]));
-  const allPostConviction = unionDays(periods);
-  const iso = (days: number) => new Date(anniversary.getTime() + days * DAY).toISOString().slice(0, 10);
-  const earliest = iso(afterAnchor), latest = iso(allPostConviction);
-  // Retained NY memo and §5's second sentence say all post-conviction time;
-  // the first sentence and official form start at release. Do not guess whether
-  // time already outside the anchored clock must be added again. When this
-  // changes today's outcome, hold only this decision for qualified review.
-  const details = { eligibleOn: earliest, latestPossibleOn: latest, excludedDays: afterAnchor, allPostConvictionDays: allPostConviction, anchor };
-  if (today < earliest) return { ...fail("not_yet", "clock_not_yet"), ...details };
-  if (today < latest) return { ...fail("review", "clock_interpretation"), ...details };
-  return { status: "satisfied", ...details };
+  const qualifyingCustodyDays = unionDays(periods);
+  const endpoint = calendarMonths(anchor, 120);
+  endpoint.setUTCDate(endpoint.getUTCDate() + qualifyingCustodyDays);
+  const recommended = new Date(endpoint.getTime());
+  recommended.setUTCDate(recommended.getUTCDate() + 1);
+  const computedPeriodEndDate = endpoint.toISOString().slice(0, 10);
+  const details = { computedPeriodEndDate, recommendedFilingDate: recommended.toISOString().slice(0, 10), qualifyingCustodyDays, anchor };
+  // Adopted section 3: next-day filing is labeled conservative guidance. It
+  // cannot add another statutory eligibility/payment refusal on the endpoint.
+  return today < computedPeriodEndDate ? { ...fail("not_yet", "clock_not_yet"), ...details } : { status: "satisfied", ...details };
 }
 
 export const NY_16059_ORDER_IDS = ["ny_16059_16058_treatment_count", "ny_16059_16058_additional_count"];
 export const NY_16059_TRANSACTION_IDS = ["ny_16059_transaction_time_circumstance", "ny_16059_transaction_integral_purpose", "ny_16059_transaction_shared_docket_only", "ny_16059_transaction_multiple_victims"];
 export function ny16059QuestionApplies(a: Answers, id: string): boolean {
+  if (id === NY_16059_CUSTODY_CONFIRMATION_ID) return a.ny_16059_incarceration_history === "released";
+  if (id === NY_16059_RELEASE_CONFIRMATION_ID) return a.ny_16059_incarceration_history === "released" && isAffirmative(a.ny_16059_sentence_incarceration);
   if (NY_16059_ORDER_IDS.includes(id)) return a.ny_16059_16058_grants === "granted";
   if (NY_16059_TRANSACTION_IDS.includes(id)) return ["connected", "other_groups"].includes(String(a.ny_16059_grouping));
   return true;
 }
-export const NY_16059_REASON_COPY: Record<string, [string, string]> = {
- '16058_components_missing': ["Check the entered CPL 160.58 order: count treatment-related convictions separately from additional earlier misdemeanors. A pending or denied application is not an entered order.", "Revise la orden concedida bajo CPL 160.58: cuente por separado las condenas relacionadas con el tratamiento y los delitos menores anteriores adicionales. Una solicitud pendiente o denegada no es una orden concedida."],
- '16058_components_conflict': ["The order components do not agree with the CPL 160.58 treatment-conviction and additional-misdemeanor structure. Check the actual order with a legal reviewer.", "Los componentes de la orden no concuerdan con la estructura de condenas de tratamiento y delitos menores adicionales de CPL 160.58. Revise la orden real con un revisor legal."],
- grouping_record_facts_unresolved: ["Review the exact conviction members, acts, record references and any disputed or excluded facts in the saved groups. Their connection is not yet established.", "Revise las condenas exactas, los actos, las referencias del expediente y los datos controvertidos o excluidos de los grupos guardados. Su conexión aún no se ha establecido."],
- grouping_other_history_unresolved: ["The saved groups cover only the requested convictions. The related acts in the rest of the history still need their actual records and associations.", "Los grupos guardados abarcan solo las condenas solicitadas. Los actos relacionados del resto del historial aún necesitan sus registros y asociaciones reales."],
- grouping_facts_missing: ["Check how the acts were connected in time, circumstances and criminal purpose, whether the only connection is a shared docket or sentence, and whether multiple victims were involved.", "Revise cómo se relacionaron los actos en tiempo, circunstancias y propósito delictivo, si la única conexión es un expediente o sentencia compartidos y si hubo varias víctimas."],
- grouping_facts_conflict: ["The answers describe both a factual connection and only a shared docket or sentence. Check the underlying acts before asking for transaction review.", "Las respuestas describen tanto una conexión entre los hechos como únicamente un expediente o sentencia compartidos. Revise los actos antes de solicitar la revisión de la transacción."],
- history_missing: ["Check your complete criminal history, the convictions in this request, and any earlier sealing applications and orders. An old eligible-conviction count does not establish these separate facts.", "Revise todos sus antecedentes penales, las condenas de esta solicitud y las solicitudes y órdenes de sellado anteriores. El recuento anterior de condenas elegibles no establece estos hechos por separado."],
- history_conflict: ["The history, requested convictions, felony counts or earlier sealing orders do not agree. Check the records before continuing.", "Los antecedentes, las condenas solicitadas, los recuentos de delitos graves o las órdenes de sellado anteriores no concuerdan. Revise los expedientes antes de continuar."],
- history_limit: ["The complete criminal history exceeds this procedure's two-crime or one-felony limit. This includes convictions outside this sealing request.", "Los antecedentes penales completos superan el límite de dos delitos o un delito grave de este procedimiento. Esto incluye condenas fuera de esta solicitud de sellado."],
- request_limit: ["This request exceeds the limit of two eligible offenses and no more than one felony.", "Esta solicitud supera el límite de dos delitos elegibles y no más de un delito grave."],
- grouping_review: ["A shared case number or concurrent sentences do not establish a single criminal transaction. A legal reviewer must check the connected acts and which offenses can be grouped.", "Un número de caso compartido o penas simultáneas no establecen una sola transacción delictiva. Un revisor legal debe examinar los actos relacionados y qué delitos pueden agruparse."],
- sealing_capacity: ["The convictions already sealed under CPL 160.59 and those requested exceed the remaining statutory capacity.", "Las condenas ya selladas bajo CPL 160.59 y las solicitadas superan la capacidad restante permitida por la ley."],
- '16058_order_review': ["An order under CPL 160.58 is not automatically the maximum allowed. A legal reviewer must identify the treatment convictions and additional prior misdemeanors sealed before applying CPL 160.59(3)(b).", "Una orden bajo CPL 160.58 no significa automáticamente que se alcanzó el máximo permitido. Un revisor legal debe identificar las condenas del programa de tratamiento y los delitos menores anteriores adicionales sellados antes de aplicar CPL 160.59(3)(b)."],
- anchor_invalid: ["Check the sentencing and release dates. Each supplied date must be a real calendar date for an event that has already occurred.", "Revise las fechas de la sentencia y de la liberación. Cada fecha proporcionada debe ser una fecha real del calendario de un hecho que ya ocurrió."],
- clock_missing: ["Check the sentencing, conviction and incarceration records. A broad elapsed-time answer cannot replace the dates and periods needed for this ten-year calculation.", "Revise los registros de sentencia, condena y encarcelamiento. Una respuesta general sobre el tiempo transcurrido no reemplaza las fechas y los períodos necesarios para este cálculo de diez años."],
- clock_conflict: ["The conviction, sentence, release and incarceration-period answers conflict. Check the records; no release date or missing period can be assumed.", "Las respuestas sobre la condena, la sentencia, la liberación y los períodos de encarcelamiento no concuerdan. Revise los registros; no se puede suponer una fecha de liberación ni un período faltante."],
- period_invalid: ["Check every incarceration period. Use real admission and release dates, in that order, with no future dates. Keep each period on its own line as YYYY-MM-DD/YYYY-MM-DD.", "Revise cada período de encarcelamiento. Use fechas reales de ingreso y liberación, en ese orden, sin fechas futuras. Escriba cada período en una línea separada como AAAA-MM-DD/AAAA-MM-DD."],
- incarcerated: ["The incarceration record shows that release has not occurred. Do not estimate a future release date for this calculation.", "El registro de encarcelamiento indica que la liberación aún no ocurrió. No estime una fecha de liberación futura para este cálculo."],
- clock_not_yet: ["Ten years have not yet elapsed under this procedure after accounting for the applicable anchor and incarceration time.", "Aún no han transcurrido diez años bajo este procedimiento después de considerar la fecha inicial aplicable y el tiempo de encarcelamiento."],
- clock_interpretation: ["The result depends on how incarceration already covered by the sentencing or release anchor is treated under CPL 160.59(5). A qualified legal reviewer must resolve that calculation before this request can proceed.", "El resultado depende de cómo se trate el encarcelamiento ya comprendido en la fecha inicial de sentencia o liberación bajo CPL 160.59(5). Un revisor legal calificado debe resolver ese cálculo antes de que esta solicitud pueda continuar."]
-};
