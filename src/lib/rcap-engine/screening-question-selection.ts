@@ -1,5 +1,5 @@
 import {wy1501Context,wy1501FactIds,wy1501QuestionApplies} from "@/lib/rcap-engine/wyoming-1501-facts";
-import { texasGuidanceFinancialApplies, texasNondisclosureFactIds, TX_ND_FACT_IDS } from "@/lib/rcap-engine/texas-nondisclosure-facts";
+import { texasGuidanceFinancialApplies, texasNondisclosureFactIds, TX_ND_FACT_IDS, TX_ND_ROUTES } from "@/lib/rcap-engine/texas-nondisclosure-facts";
 import { westVirginiaGuidanceFinancialApplies } from "@/lib/rcap-engine/west-virginia-guidance-financial";
 import { southDakotaGuidanceFinancialApplies } from "@/lib/rcap-engine/south-dakota-guidance-financial";
 import { southCarolinaGuidanceFinancialApplies } from "@/lib/rcap-engine/south-carolina-guidance-financial";
@@ -113,7 +113,10 @@ export function selectScreeningQuestionIds(
       && !montanaRecordFinancialApplies(profile, MT_RECORD_FINANCIAL_ROUTES[1], answers, "financial_obligations")
       ? MT_RECORD_FINANCIAL_ROUTES[1] : undefined);
   const wy1501Ids=new Set(wy1501Context(profile,selectedPathway?.id,answers)?wy1501FactIds(answers):[]);
-  const txTimingIds = new Set(texasNondisclosureFactIds(profile, selectedPathway?.id, answers));
+  // The automatic informational route does not need exact dates to show guidance.
+  // Its optional clock remains available in the protected post-claim editor.
+  const txTimingIds = new Set(selectedPathway?.id === TX_ND_ROUTES[0]
+    ? [] : texasNondisclosureFactIds(profile, selectedPathway?.id, answers));
   const msTimingIds = new Set(msExactTimingQuestionIds(profile.jurisdiction.code, selectedPathway?.id, answers));
   const recordQuestions = new Map(caProp64RecordQuestions(profile, publicProfile.questions, selectedPathway?.id).map((question) => [question.id, question]));
   const stageOrder = new Map(publicProfile.flowStages.map((stage) => [stage.id, stage.order]));

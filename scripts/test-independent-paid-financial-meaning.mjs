@@ -47,6 +47,7 @@ const guardedGuidanceScopes={
  'SC:pardon-guidance-for-otherwise-ineligible-convictions':{guard:southCarolinaGuidanceFinancialContract,applies:southCarolinaGuidanceFinancialApplies,source:'34d2edab3183e544d742a65e93d26f1803d70f0e762ed1dda73e890e0be12acf'},
 };
 const {wy1401Contract,wy1401QuestionApplies,WY_1401_ROUTE}=await import('../src/lib/rcap-engine/wyoming-1401-facts.ts');
+const {wy1501Contract,wy1501QuestionApplies,WY_1501_ROUTE}=await import('../src/lib/rcap-engine/wyoming-1501-facts.ts');
 const {southDakotaGuidanceFinancialContract,southDakotaGuidanceFinancialApplies}=await import('../src/lib/rcap-engine/south-dakota-guidance-financial.ts');
 const {westVirginiaGuidanceFinancialContract,westVirginiaGuidanceFinancialApplies}=await import('../src/lib/rcap-engine/west-virginia-guidance-financial.ts');
 Object.assign(guardedGuidanceScopes,{
@@ -55,6 +56,7 @@ Object.assign(guardedGuidanceScopes,{
  'WV:pardon-based-expungement':{guard:westVirginiaGuidanceFinancialContract,applies:westVirginiaGuidanceFinancialApplies,source:'8e1e8ee4cc4663878e60f00976d8f13456911eac223a1d43e43825adebccf1aa'},
 });
 const observedWy1401Scopes=[];
+const observedWy1501Scopes=[];
 const observedGuardedScopes=[];
 const observedStatusScopes=[];
 let checked=0;
@@ -103,6 +105,23 @@ for(const contract of catalog.independentPaidFactContracts){
    }
   }
   observedGuardedScopes.push(contract.routeKey);
+ }else if(contract.routeKey===`WY:${WY_1501_ROUTE}`){
+  assert.equal(wy1501Contract(p,route.id),true);
+  assert.equal(p.source.sourceCorpusSha256,'8be51e84e828de3bece45e51b68744cc68ba6662c7db7991bba8d70a565e00aa');
+  assert.equal(selected.includes(contract.factId),false,'WY1501 exact sentence-term expiry facts replace generic paid-balance collection');
+  assert.equal(route.filingRequired,true);assert.equal(route.automatic,false);
+  const plan=p.packetGenerator.pathways.find(candidate=>candidate.pathwayId===route.id);
+  assert.equal(plan.mode,'state_specific_custom_packet_from_source_rules');
+  assert.equal(plan.formMappingStatus,'custom_or_manual_mapping_required');
+  assert.equal(wy1501Contract(p,'not-the-reviewed-route'),false);
+  assert.equal(wy1501QuestionApplies(p,'not-the-reviewed-route',{},contract.factId),true);checked+=9;
+  for(const mutate of [changed=>{changed.source.sourceCorpusSha256='unreviewed-source';},changed=>{changed.profileVersion='unreviewed-profile';},changed=>{changed.pathways.find(candidate=>candidate.id===route.id).sourceRef='unreviewed-route-source';}]){
+   const changed=structuredClone(p);mutate(changed);
+   assert.equal(wy1501Contract(changed,route.id),false);
+   assert.equal(wy1501QuestionApplies(changed,route.id,{},contract.factId),true);
+   assert.ok(selectScreeningQuestionIds(changed,projectPublicProfile(changed),{possible_pathway_context:route.label}).includes(contract.factId),'WY1501 source/profile/route drift restores generic financial visibility');checked+=3;
+  }
+  observedWy1501Scopes.push(contract.routeKey);
  }else if(contract.routeKey===`WY:${WY_1401_ROUTE}`){
   assert.equal(wy1401Contract(p,route.id),true);
   assert.equal(p.source.sourceCorpusSha256,'8be51e84e828de3bece45e51b68744cc68ba6662c7db7991bba8d70a565e00aa');
@@ -155,6 +174,7 @@ for(const contract of catalog.independentPaidFactContracts){
 assert.deepEqual(observedStatusScopes.sort(),Object.keys(statusGuidanceScopes).sort());checked++;
 assert.deepEqual(observedGuardedScopes.sort(),Object.keys(guardedGuidanceScopes).sort());checked++;
 assert.deepEqual(observedWy1401Scopes,[`WY:${WY_1401_ROUTE}`]);checked++;
+assert.deepEqual(observedWy1501Scopes,[`WY:${WY_1501_ROUTE}`]);checked++;
 console.log(JSON.stringify({status:'PASS',checked,originalPaidContracts:catalog.independentPaidFactContracts.length,positiveCarryContracts:catalog.contracts.length,
- statusGuidanceRelevanceOnly:observedStatusScopes,sourceGuardedGuidanceRelevanceOnly:observedGuardedScopes,wy1401CollectionRelevanceOnly:observedWy1401Scopes,
- scope:'Isolated actual timing helper,139 exact paid-only contracts; no inferred payment/waiver exception, independent blockers and input bytes preserved. Exact adopted status-guidance relevance scopes and ten source-guarded guidance scopes do not infer paid-answer meaning; generic paid-meaning controls for those ten execute with source applicability invalidated; unreviewed source/profile/route drift restores financial visibility and changed question meaning refuses both reviewed contracts. This is not139 protected journeys or proof that a waiver satisfies any jurisdiction rule.'}));
+ statusGuidanceRelevanceOnly:observedStatusScopes,sourceGuardedGuidanceRelevanceOnly:observedGuardedScopes,wy1401CollectionRelevanceOnly:observedWy1401Scopes,wy1501PetitionCollectionRelevanceOnly:observedWy1501Scopes,
+ scope:'Isolated actual timing helper,139 exact paid-only contracts; no inferred payment/waiver exception, independent blockers and input bytes preserved. Exact adopted status-guidance relevance scopes and ten source-guarded guidance scopes do not infer paid-answer meaning; generic paid-meaning controls for those ten execute with source applicability invalidated; unreviewed source/profile/route drift restores financial visibility and changed question meaning refuses both reviewed contracts. WY1501 is an exact petition collection scope with its own sentence-term expiry facts; its generic paid-meaning assertions still execute unchanged. This is not139 protected journeys or proof that a waiver satisfies any jurisdiction rule.'}));
