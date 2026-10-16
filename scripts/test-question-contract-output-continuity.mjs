@@ -12,6 +12,7 @@ import {
   QUESTION_CONTRACT_PRIOR_REVISION_CONTINUITY_PATH, QUESTION_CONTRACT_PRIOR_REVISION_OUTPUT_PATH,
   QUESTION_CONTRACT_ACCEPTED_REVISION_CONTINUITY_PATH, QUESTION_CONTRACT_ACCEPTED_REVISION_OUTPUT_PATH,
   QUESTION_CONTRACT_EXECUTED_REVISION_CONTINUITY_PATH, QUESTION_CONTRACT_EXECUTED_REVISION_OUTPUT_PATH,
+  QUESTION_CONTRACT_RENDERED_REVISION_CONTINUITY_PATH, QUESTION_CONTRACT_RENDERED_REVISION_OUTPUT_PATH,
   QUESTION_CONTRACT_IMMEDIATE_PREDECESSOR_CONTINUITY_PATH, QUESTION_CONTRACT_IMMEDIATE_PREDECESSOR_OUTPUT_PATH,
   QUESTION_CONTRACT_LATEST_PREDECESSOR_CONTINUITY_PATH, QUESTION_CONTRACT_LATEST_PREDECESSOR_OUTPUT_PATH,
   QUESTION_CONTRACT_OUTPUT_PATH, MS_QUESTION_CONTRACT_PREDECESSOR_PATH
@@ -49,6 +50,8 @@ check('exact executed successor validates complete current inventory', () => {
   assert.deepEqual(actual.acceptedRevisionOutput, continuity.acceptedRevisionOutput);
   assert.deepEqual(actual.executedRevisionContinuity, continuity.executedRevisionContinuity);
   assert.deepEqual(actual.executedRevisionOutput, continuity.executedRevisionOutput);
+  assert.deepEqual(actual.renderedRevisionContinuity, continuity.renderedRevisionContinuity);
+  assert.deepEqual(actual.renderedRevisionOutput, continuity.renderedRevisionOutput);
   assert.equal(JSON.parse(readBytes(QUESTION_CONTRACT_EARLIER_OUTPUT_PATH)).sources.length, 113);
 });
 check('all original observed dependencies retained, with added imports', () => {
@@ -58,21 +61,21 @@ check('all original observed dependencies retained, with added imports', () => {
   const previous = JSON.parse(readBytes(QUESTION_CONTRACT_PREVIOUS_OUTPUT_PATH));
   assert.equal(previous.sources.length, 118);
   assert.equal(continuity.previousAddedSourcePaths.length, 6);
-  assert.equal(continuity.previousSourceTransitions.length, 7);
+  assert.equal(continuity.previousSourceTransitions.length, 8);
   const sameDate = JSON.parse(readBytes(QUESTION_CONTRACT_SAME_DATE_PREDECESSOR_OUTPUT_PATH));
   assert.equal(sameDate.sources.length, 119);
   assert.equal(continuity.sameDatePredecessorAddedSourcePaths.length, 5);
-  assert.equal(continuity.sameDatePredecessorSourceTransitions.length, 7);
+  assert.equal(continuity.sameDatePredecessorSourceTransitions.length, 8);
   assert.equal(JSON.parse(readBytes(QUESTION_CONTRACT_LATEST_PREDECESSOR_OUTPUT_PATH)).sources.length, 121);
   assert.deepEqual(continuity.latestPredecessorAddedSourcePaths, ['src/lib/rcap-engine/texas-nondisclosure-facts.ts', 'src/lib/rcap-engine/wyoming-1401-facts.ts', 'src/lib/rcap-engine/wyoming-1501-facts.ts']);
-  assert.equal(continuity.latestPredecessorSourceTransitions.length, 8);
+  assert.equal(continuity.latestPredecessorSourceTransitions.length, 9);
   assert.ok(continuity.latestPredecessorSourceTransitions.some(row => row.file === 'src/lib/rcap-engine/california-1203-4-facts.ts'));
   assert.deepEqual(continuity.immediatePredecessorAddedSourcePaths, ['src/lib/rcap-engine/texas-nondisclosure-facts.ts', 'src/lib/rcap-engine/wyoming-1401-facts.ts', 'src/lib/rcap-engine/wyoming-1501-facts.ts']);
-  assert.deepEqual(continuity.immediatePredecessorSourceTransitions.map(row => row.file), ["data/record-clearing/packet-specifications/GA-sb-288-misdemeanor-conviction-restriction-and-sealing.v1.json", "data/record-clearing/packet-specifications/MS-first-offender-nontraffic-misdemeanor-conviction-expungement-99-19-71-1.v1.json", "src/lib/expungement-ai/localization.ts", "src/lib/expungement-ai/reviewed-contact-contracts.json", "src/lib/rcap/grade-a/composer.ts", "src/lib/rcap/grade-a/packet-specification.ts", "src/lib/rcap/grade-a/renderer.ts"]);
+  assert.deepEqual(continuity.immediatePredecessorSourceTransitions.map(row => row.file), ["data/record-clearing/packet-specifications/GA-sb-288-misdemeanor-conviction-restriction-and-sealing.v1.json", "data/record-clearing/packet-specifications/MS-first-offender-nontraffic-misdemeanor-conviction-expungement-99-19-71-1.v1.json", "src/lib/expungement-ai/frontend/reviewed-result-display-copy.json", "src/lib/expungement-ai/localization.ts", "src/lib/expungement-ai/reviewed-contact-contracts.json", "src/lib/rcap/grade-a/composer.ts", "src/lib/rcap/grade-a/packet-specification.ts", "src/lib/rcap/grade-a/renderer.ts"]);
   assert.deepEqual(continuity.priorRevisionAddedSourcePaths, ['src/lib/rcap-engine/texas-nondisclosure-facts.ts', 'src/lib/rcap-engine/wyoming-1401-facts.ts', 'src/lib/rcap-engine/wyoming-1501-facts.ts']);
-  assert.deepEqual(continuity.priorRevisionSourceTransitions.map(row => row.file), ["data/record-clearing/packet-specifications/MS-first-offender-nontraffic-misdemeanor-conviction-expungement-99-19-71-1.v1.json", "src/lib/expungement-ai/localization.ts", "src/lib/expungement-ai/reviewed-contact-contracts.json", "src/lib/rcap/grade-a/composer.ts", "src/lib/rcap/grade-a/packet-specification.ts"]);
+  assert.deepEqual(continuity.priorRevisionSourceTransitions.map(row => row.file), ["data/record-clearing/packet-specifications/MS-first-offender-nontraffic-misdemeanor-conviction-expungement-99-19-71-1.v1.json", "src/lib/expungement-ai/frontend/reviewed-result-display-copy.json", "src/lib/expungement-ai/localization.ts", "src/lib/expungement-ai/reviewed-contact-contracts.json", "src/lib/rcap/grade-a/composer.ts", "src/lib/rcap/grade-a/packet-specification.ts"]);
   assert.deepEqual(continuity.acceptedRevisionAddedSourcePaths, ['src/lib/rcap-engine/texas-nondisclosure-facts.ts', 'src/lib/rcap-engine/wyoming-1401-facts.ts', 'src/lib/rcap-engine/wyoming-1501-facts.ts']);
-  assert.deepEqual(continuity.acceptedRevisionSourceTransitions.map(row => row.file), ['src/lib/expungement-ai/localization.ts']);
+  assert.deepEqual(continuity.acceptedRevisionSourceTransitions.map(row => row.file), ['src/lib/expungement-ai/frontend/reviewed-result-display-copy.json', 'src/lib/expungement-ai/localization.ts']);
   for (const source of sameDate.sources) assert.ok(proof.sources.some(input => input.file === source.file));
   for (const source of previous.sources) assert.ok(proof.sources.some(input => input.file === source.file));
   for (const source of historical.sources) assert.ok(proof.sources.some(input => input.file === source.file));
@@ -82,17 +85,31 @@ check('immediate accepted v6 inventory is preserved with exact TX/WY observed ad
   assert.equal(prior.sources.length, 122);
   assert.equal(continuity.executedRevisionSourceCount, 122);
   assert.deepEqual(continuity.executedRevisionAddedSourcePaths, ['src/lib/rcap-engine/texas-nondisclosure-facts.ts', 'src/lib/rcap-engine/wyoming-1501-facts.ts']);
-  assert.deepEqual(continuity.executedRevisionSourceTransitions, [{file:'src/lib/expungement-ai/localization.ts', beforeSha256:'ffa138a6b897029e5213df311b4c2b3abcc101e8b053da22fd72682c1644c259', afterSha256:'bf5c38efc088531fe2dcf598b32e47c4726a2b844ad2296cee0bc4ef10f469d7'}]);
+  assert.deepEqual(continuity.executedRevisionSourceTransitions, [{file:'src/lib/expungement-ai/frontend/reviewed-result-display-copy.json', beforeSha256:'f961c6fe9d4bd9663cf3b539d46dd96bf2fa1fee2d66f7c8a3b087f5709a1d6f', afterSha256:'4a31457e5aec3f314d99cf574774c94306ec0ceca8ecb4051e2ea7556440709b'}, {file:'src/lib/expungement-ai/localization.ts', beforeSha256:'ffa138a6b897029e5213df311b4c2b3abcc101e8b053da22fd72682c1644c259', afterSha256:'bf5c38efc088531fe2dcf598b32e47c4726a2b844ad2296cee0bc4ef10f469d7'}]);
   for (const input of prior.sources) assert.ok(proof.sources.some(current => current.file === input.file));
 });
-for (const path of [QUESTION_CONTRACT_CONTINUITY_PATH, QUESTION_CONTRACT_CURRENT_OUTPUT_PATH, QUESTION_CONTRACT_SUCCESSOR_PATH, QUESTION_CONTRACT_OUTPUT_PATH, QUESTION_CONTRACT_PREVIOUS_CONTINUITY_PATH, QUESTION_CONTRACT_PREVIOUS_OUTPUT_PATH, QUESTION_CONTRACT_EARLIER_CONTINUITY_PATH, QUESTION_CONTRACT_EARLIER_OUTPUT_PATH, QUESTION_CONTRACT_SAME_DATE_PREDECESSOR_CONTINUITY_PATH, QUESTION_CONTRACT_SAME_DATE_PREDECESSOR_OUTPUT_PATH, QUESTION_CONTRACT_LATEST_PREDECESSOR_CONTINUITY_PATH, QUESTION_CONTRACT_LATEST_PREDECESSOR_OUTPUT_PATH, QUESTION_CONTRACT_IMMEDIATE_PREDECESSOR_CONTINUITY_PATH, QUESTION_CONTRACT_IMMEDIATE_PREDECESSOR_OUTPUT_PATH, QUESTION_CONTRACT_PRIOR_REVISION_CONTINUITY_PATH, QUESTION_CONTRACT_PRIOR_REVISION_OUTPUT_PATH, QUESTION_CONTRACT_ACCEPTED_REVISION_CONTINUITY_PATH, QUESTION_CONTRACT_ACCEPTED_REVISION_OUTPUT_PATH, QUESTION_CONTRACT_EXECUTED_REVISION_CONTINUITY_PATH, QUESTION_CONTRACT_EXECUTED_REVISION_OUTPUT_PATH]) {
+for (const path of [QUESTION_CONTRACT_CONTINUITY_PATH, QUESTION_CONTRACT_CURRENT_OUTPUT_PATH, QUESTION_CONTRACT_SUCCESSOR_PATH, QUESTION_CONTRACT_OUTPUT_PATH, QUESTION_CONTRACT_PREVIOUS_CONTINUITY_PATH, QUESTION_CONTRACT_PREVIOUS_OUTPUT_PATH, QUESTION_CONTRACT_EARLIER_CONTINUITY_PATH, QUESTION_CONTRACT_EARLIER_OUTPUT_PATH, QUESTION_CONTRACT_SAME_DATE_PREDECESSOR_CONTINUITY_PATH, QUESTION_CONTRACT_SAME_DATE_PREDECESSOR_OUTPUT_PATH, QUESTION_CONTRACT_LATEST_PREDECESSOR_CONTINUITY_PATH, QUESTION_CONTRACT_LATEST_PREDECESSOR_OUTPUT_PATH, QUESTION_CONTRACT_IMMEDIATE_PREDECESSOR_CONTINUITY_PATH, QUESTION_CONTRACT_IMMEDIATE_PREDECESSOR_OUTPUT_PATH, QUESTION_CONTRACT_PRIOR_REVISION_CONTINUITY_PATH, QUESTION_CONTRACT_PRIOR_REVISION_OUTPUT_PATH, QUESTION_CONTRACT_ACCEPTED_REVISION_CONTINUITY_PATH, QUESTION_CONTRACT_ACCEPTED_REVISION_OUTPUT_PATH, QUESTION_CONTRACT_EXECUTED_REVISION_CONTINUITY_PATH, QUESTION_CONTRACT_EXECUTED_REVISION_OUTPUT_PATH, QUESTION_CONTRACT_RENDERED_REVISION_CONTINUITY_PATH, QUESTION_CONTRACT_RENDERED_REVISION_OUTPUT_PATH]) {
   check(`tampered pinned evidence refused: ${path}`, () => assert.throws(() => assertQuestionContractOutputInputs(file => file === path ? Buffer.from('{}') : readBytes(file)), /bytes changed/));
   check(`missing pinned evidence refuses, never falls back: ${path}`, () => assert.throws(() => assertQuestionContractOutputInputs(file => {
     if (file === path) throw new Error('deliberately missing pinned evidence');
     return readBytes(file);
   }), /deliberately missing pinned evidence/));
 }
+check('immediate v7 inventory differs only by the accepted appended MIP result catalogue', () => {
+  const prior = JSON.parse(readBytes(QUESTION_CONTRACT_RENDERED_REVISION_OUTPUT_PATH));
+  assert.equal(prior.sources.length, 124);
+  assert.equal(continuity.renderedRevisionSourceCount, 124);
+  assert.deepEqual(continuity.renderedRevisionAddedSourcePaths, []);
+  assert.deepEqual(continuity.renderedRevisionSourceTransitions, [{file:'src/lib/expungement-ai/frontend/reviewed-result-display-copy.json', beforeSha256:'f961c6fe9d4bd9663cf3b539d46dd96bf2fa1fee2d66f7c8a3b087f5709a1d6f', afterSha256:'4a31457e5aec3f314d99cf574774c94306ec0ceca8ecb4051e2ea7556440709b'}]);
+  for (const input of prior.sources) assert.ok(proof.sources.some(current => current.file === input.file));
+});
 const continuityMutations = {
+  'wrong rendered revision continuity': [c => { c.renderedRevisionContinuity.sha256 = '0'.repeat(64); }, /rendered revision predecessor ancestry/],
+  'wrong rendered revision output': [c => { c.renderedRevisionOutput.sha256 = '0'.repeat(64); }, /rendered revision predecessor ancestry/],
+  'reduced rendered revision inventory': [c => { c.renderedRevisionSourceCount--; }, /source inventory/],
+  'omitted rendered revision transition': [c => { c.renderedRevisionSourceTransitions.pop(); }, /undeclared rendered predecessor source transition/],
+  'fabricated rendered revision transition': [c => { c.renderedRevisionSourceTransitions[0].beforeSha256 = '0'.repeat(64); }, /undeclared rendered predecessor source transition/],
+  'invented rendered revision addition': [c => { c.renderedRevisionAddedSourcePaths.push('invented'); }, /undeclared rendered predecessor source transition/],
   'wrong executed revision continuity': [c => { c.executedRevisionContinuity.sha256 = '0'.repeat(64); }, /executed revision predecessor ancestry/],
   'wrong executed revision output': [c => { c.executedRevisionOutput.sha256 = '0'.repeat(64); }, /executed revision predecessor ancestry/],
   'reduced executed revision inventory': [c => { c.executedRevisionSourceCount--; }, /source inventory/],
