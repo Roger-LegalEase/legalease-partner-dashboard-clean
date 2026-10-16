@@ -443,12 +443,23 @@ function drawPleadingCaption(
         PLEADING_CONTENT_WIDTH, cursor.y, PLEADING_LEADING) - 20;
     }
     const docketLabel = block.caseNumberLabel ?? "CASE NO.";
-    cursor.page.drawText(sanitize(docketLabel), { x: PLEADING_MARGIN, y: cursor.y, size: 12, font: fonts.pleadingBold, color: INK });
     const afterDocket = PLEADING_MARGIN + fonts.pleadingBold.widthOfTextAtSize(`${docketLabel} `, 12);
-    if (block.caseNumberBlank) {
-      cursor.page.drawLine({ start: { x: afterDocket, y: cursor.y - 2 }, end: { x: afterDocket + 240, y: cursor.y - 2 }, thickness: 0.75, color: INK });
+    if (block.caseNumberBlank && afterDocket + 240 > PLEADING_MARGIN + PLEADING_CONTENT_WIDTH) {
+      // Keep the source's full label and reserved writing width within the page.
+      for (const line of wrap(sanitize(docketLabel), fonts.pleadingBold, 12, PLEADING_CONTENT_WIDTH)) {
+        ensurePleading(cursor, document, fonts, context, PLEADING_LEADING);
+        cursor.page.drawText(line, { x: PLEADING_MARGIN, y: cursor.y, size: 12, font: fonts.pleadingBold, color: INK });
+        cursor.y -= PLEADING_LEADING;
+      }
+      ensurePleading(cursor, document, fonts, context, PLEADING_LEADING);
+      cursor.page.drawLine({ start: { x: PLEADING_MARGIN, y: cursor.y - 2 }, end: { x: PLEADING_MARGIN + 240, y: cursor.y - 2 }, thickness: 0.75, color: INK });
     } else {
-      cursor.page.drawText(sanitize(block.caseNumber), { x: afterDocket, y: cursor.y, size: 12, font: fonts.pleadingBold, color: INK });
+      cursor.page.drawText(sanitize(docketLabel), { x: PLEADING_MARGIN, y: cursor.y, size: 12, font: fonts.pleadingBold, color: INK });
+      if (block.caseNumberBlank) {
+        cursor.page.drawLine({ start: { x: afterDocket, y: cursor.y - 2 }, end: { x: afterDocket + 240, y: cursor.y - 2 }, thickness: 0.75, color: INK });
+      } else {
+        cursor.page.drawText(sanitize(block.caseNumber), { x: afterDocket, y: cursor.y, size: 12, font: fonts.pleadingBold, color: INK });
+      }
     }
     cursor.y -= PLEADING_LEADING;
     /*

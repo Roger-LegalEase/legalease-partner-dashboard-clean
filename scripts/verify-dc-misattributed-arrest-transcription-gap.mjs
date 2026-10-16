@@ -39,7 +39,7 @@ const spec = json(SPEC);
 const cohortRow = (json(COHORT).allRows ?? []).find((r) => r?.familyId === 'dc_correct_misattributed_arrest-set');
 const primary = (spec.documents ?? []).find((d) => d.role === 'primary_filing');
 
-console.log('DC misattributed arrest — the caption is established, the text is not transcribed\n');
+console.log('DC misattributed arrest — preserved historical finding and current source connection\n');
 
 console.log('1. the family is still the one this record read');
 ok('the specification still carries a primary_filing', Boolean(primary));
@@ -133,5 +133,14 @@ for (const [field, expected] of [
   ['productionTouched', false], ['commercialRoutesOpened', 0], ['opensAnyRoute', false], ['productionAuthorized', false]
 ]) ok(`${field} is ${JSON.stringify(expected)}`, record[field] === expected, record[field]);
 
+console.log('\n6. current DC-only source connection preserves the historical refusal record');
+const successor = json('data/rcap-grade-a/legal-decisions/OWNER_ARTIFACT_REREVIEW_DC_MISATTRIBUTED_2026-10-16.json');
+const audit = json('data/rcap-grade-a/legal-decisions/POST_APPROVAL_CHANGE_AUDIT_DC_MISATTRIBUTED_2026-10-16.json');
+ok('current exact artifact successor is recorded', successor.approvedArtifacts.some(p => p.fixture === 'canonical' && p.sha256 === actual));
+ok('artifact approval grants no composer or commercial authority', successor.scope.currentComposerAcceptanceGranted === false && successor.scope.commercialAuthorityGranted === false);
+ok('seven source sections now bound', spec.legalSectionsBound === true && Object.keys(spec.legalSections).length === 7 && Object.values(spec.legalSections).every(section => section.bound === true && section.sources.length > 0));
+ok('dated audit covers only the exact DC family', audit.families.length === 1 && audit.families[0].familyId === spec.packetFamily && audit.families[0].verdict === 'COVERED_BY_EXISTING_APPROVAL');
+ok('old spec tuple remains ancestry', spec.historicalProductization.legalSectionsBound === false && spec.historicalProductization.postApprovalChangeAudit === null && spec.historicalProductization.legalApproval.shippingArtifactDigestPins[0].sha256 === PINNED_SHA);
+ok('all 25 existing sections remain', spec.documents.reduce((n,d) => n + d.sections.length, 0) === 25);
 console.log(`\n${checks - failures}/${checks} checks passed`);
 if (failures) { console.error(`${failures} check(s) failed`); process.exit(1); }

@@ -1,3 +1,4 @@
+import { MN_PETITION_ROUTE, MN_PROSECUTOR_ROUTE, MN_TARGET_ORIGIN_ID, MN_TARGET_ORIGIN_SOURCE, MN_TARGET_ORIGIN_IDENTITY_INPUTS, mnTargetOriginQuestion } from "@/lib/expungement-ai/mn-two-county-source-facts";
 import { MS_FIRST_OFFENDER_ROUTE, MS_FIRST_OFFENDER_IDS, MS_FIRST_OFFENDER_SOURCE, msFirstOffenderSourceContract } from "@/lib/rcap-engine/mississippi-first-offender-source-facts";
 import { msFirstOffenderSourceQuestions } from "@/lib/expungement-ai/ms-first-offender-source-questions";
 import { getProfileByJurisdiction } from "@/lib/rcap-engine/profile-registry";
@@ -27,6 +28,8 @@ const MS_FIRST_INPUTS = {
   ms_misd1_traffic_record_classification: ["charge", "charge_legal_citation"],
   ms_misd1_official_duty_nexus: ["charge", "charge_legal_citation", "ms_conviction_court", "cause_number"]
 } as const;
+const MN_ORIGIN_ROUTES = new Set([`MN:${MN_PETITION_ROUTE}`, `MN:${MN_PROSECUTOR_ROUTE}`]);
+const MN_ORIGIN_INPUTS = { [MN_TARGET_ORIGIN_ID]: MN_TARGET_ORIGIN_IDENTITY_INPUTS };
 const ROUTE = "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal";
 export const RECORD_FACT_INPUTS: Readonly<Record<string, readonly string[]>> = {
   court_name: ["court"],
@@ -43,7 +46,7 @@ export type RecordFactConfirmation = {
 export type RecordFactConfirmations = Record<string, RecordFactConfirmation>;
 
 function recordFactInputs(routeKey: string): Readonly<Record<string, readonly string[]>> {
-  return routeKey === MS_FIRST_ROUTE ? MS_FIRST_INPUTS : routeKey === NY_ROUTE ? NY_INPUTS : routeKey === GA_PARDON_CAPTION_ROUTE ? GA_PARDON_CAPTION_INPUTS : routeKey === ROUTE ? RECORD_FACT_INPUTS : {};
+  return MN_ORIGIN_ROUTES.has(routeKey) ? MN_ORIGIN_INPUTS : routeKey === MS_FIRST_ROUTE ? MS_FIRST_INPUTS : routeKey === NY_ROUTE ? NY_INPUTS : routeKey === GA_PARDON_CAPTION_ROUTE ? GA_PARDON_CAPTION_INPUTS : routeKey === ROUTE ? RECORD_FACT_INPUTS : {};
 }
 
 function knownText(value: unknown): string | null {
@@ -61,6 +64,7 @@ export function unambiguousMsCourtType(value: unknown): string | null {
 
 /** These original controls retain distinct record meanings; no broad charge/county/name substitution. */
 export function recordFactOwnQuestionIds(routeKey: string, answers: Readonly<Record<string, unknown>>, recorded?: RecordFactConfirmations): Set<string> {
+  if (MN_ORIGIN_ROUTES.has(routeKey)) return new Set([MN_TARGET_ORIGIN_ID]);
   if (routeKey === MS_FIRST_ROUTE) return new Set(MS_FIRST_OFFENDER_IDS);
   if (routeKey === NY_ROUTE) return new Set(NY_CONFIRMATION_IDS.filter(id => ny16059QuestionApplies(answers as Record<string, ScreeningAnswerValue>, id)));
   if (routeKey === GA_PARDON_CAPTION_ROUTE) return new Set(Object.keys(GA_PARDON_CAPTION_INPUTS));
@@ -84,10 +88,28 @@ function answerMeaning(value: unknown): unknown {
   return { state: "unrecognized", value };
 }
 
+/** A later return to old target answers cannot revive an earlier MN confirmation.
+ * Compare the existing normalized meanings, preserving metadata/history. Explicit
+ * confirmation later in the same save may issue a fresh marker. */
+export function mnTargetOriginConfirmationsAfterChange(routeKey: string,
+  before: Readonly<Record<string, unknown>>, after: Readonly<Record<string, unknown>>,
+  recorded: RecordFactConfirmations | undefined): RecordFactConfirmations | undefined {
+  const prior = recorded?.[MN_TARGET_ORIGIN_ID];
+  if (!MN_ORIGIN_ROUTES.has(routeKey) || !prior || prior.status !== "confirmed") return recorded;
+  const changed = [MN_TARGET_ORIGIN_ID, ...MN_TARGET_ORIGIN_IDENTITY_INPUTS]
+    .some(id => hash(answerMeaning(before[id])) !== hash(answerMeaning(after[id])));
+  return changed ? { ...recorded, [MN_TARGET_ORIGIN_ID]: { ...prior, status: "unconfirmed" } } : recorded;
+}
+
 function semanticContract(routeKey: string, factId: string): string | null {
   const inputs = recordFactInputs(routeKey);
   if (!(factId in inputs)) return null;
   const specification = packetSpecificationFor(routeKey);
+  if (MN_ORIGIN_ROUTES.has(routeKey)) {
+    const question = mnTargetOriginQuestion(getProfileByJurisdiction("MN"), routeKey.slice(3), packetSpecificationFor(routeKey));
+    return question ? hash({ version: 1, routeKey, factId, source: MN_TARGET_ORIGIN_SOURCE,
+      questionContract: question, inputFactIds: inputs[factId], specification }) : null;
+  }
   if (routeKey === MS_FIRST_ROUTE) return msFirstOffenderSourceContract(getProfileByJurisdiction("MS"), MS_FIRST_OFFENDER_ROUTE, specification)
     ? hash({ version: 1, routeKey, factId, source: MS_FIRST_OFFENDER_SOURCE,
       questionContract: msFirstOffenderSourceQuestions().find(question => question.id === factId), inputFactIds: inputs[factId], specification }) : null;
@@ -103,6 +125,14 @@ function semanticContract(routeKey: string, factId: string): string | null {
 }
 export function recordFactConfirmationFor(routeKey: string, factId: string, answers: Readonly<Record<string, unknown>>, question: ProfileQuestion | undefined): RecordFactConfirmation | null {
   const contractSha256 = semanticContract(routeKey, factId);
+  if (MN_ORIGIN_ROUTES.has(routeKey)) {
+    const expected = mnTargetOriginQuestion(getProfileByJurisdiction("MN"), routeKey.slice(3), packetSpecificationFor(routeKey));
+    const contract = (candidate: ProfileQuestion) => ({ id: candidate.id, type: candidate.type,
+      stage: candidate.stage, prompt: candidate.prompt, helperText: candidate.helperText,
+      required: candidate.required, contextOnly: candidate.contextOnly,
+      lifecyclePhase: candidate.lifecyclePhase, options: candidate.options, translations: candidate.translations });
+    if (!expected || !question || factId !== MN_TARGET_ORIGIN_ID || hash(contract(question)) !== hash(contract(expected))) return null;
+  }
   if (routeKey === MS_FIRST_ROUTE) {
     const expected = msFirstOffenderSourceQuestions().find(candidate => candidate.id === factId);
     if (!expected || !question || question.id !== factId || question.type !== expected.type

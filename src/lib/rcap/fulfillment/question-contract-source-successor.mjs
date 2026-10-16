@@ -150,16 +150,23 @@ export const QUESTION_CONTRACT_REVALIDATED_REVISION_CONTINUITY_SHA256 = 'db888eb
 export const QUESTION_CONTRACT_REVALIDATED_REVISION_OUTPUT_PATH = 'data/rcap-grade-a/participant-data-rights/question-contract-output-reproduction-20261016-v18.json';
 
 export const QUESTION_CONTRACT_REVALIDATED_REVISION_OUTPUT_SHA256 = 'ab9a16400358b40f7d1e531e659e6e9fedd40f83cf5b3da262887dbc373544d2';
-export const QUESTION_CONTRACT_CONTINUITY_PATH = 'data/rcap-grade-a/participant-data-rights/question-contract-output-continuity-20261016-v19.json';
-export const QUESTION_CONTRACT_CONTINUITY_SHA256 = '62914fad5fca94e1cb4f8d122fdbbed495ebbd0d71e3f4139fb8be92d90a9140';
-export const QUESTION_CONTRACT_CURRENT_OUTPUT_PATH = 'data/rcap-grade-a/participant-data-rights/question-contract-output-reproduction-20261016-v19.json';
+export const QUESTION_CONTRACT_CONTINUITY_PATH = 'data/rcap-grade-a/participant-data-rights/question-contract-output-continuity-20261016-v20.json';
+export const QUESTION_CONTRACT_CONTINUITY_SHA256 = '82b0f06cd126abbbc88d5a92fef4480c47b3e45f5208dd1ba286f9baf736ba92';
+export const QUESTION_CONTRACT_CURRENT_OUTPUT_PATH = 'data/rcap-grade-a/participant-data-rights/question-contract-output-reproduction-20261016-v20.json';
+export const QUESTION_CONTRACT_ARTIFACT_PREDECESSOR_CONTINUITY_PATH = 'data/rcap-grade-a/participant-data-rights/question-contract-output-continuity-20261016-v19.json';
+export const QUESTION_CONTRACT_ARTIFACT_PREDECESSOR_CONTINUITY_SHA256 = '62914fad5fca94e1cb4f8d122fdbbed495ebbd0d71e3f4139fb8be92d90a9140';
+export const QUESTION_CONTRACT_ARTIFACT_PREDECESSOR_OUTPUT_PATH = 'data/rcap-grade-a/participant-data-rights/question-contract-output-reproduction-20261016-v19.json';
+export const QUESTION_CONTRACT_ARTIFACT_PREDECESSOR_OUTPUT_SHA256 = 'e5dfd06708c302427c28819ee7e265fe9987bf42e3d71c586d0ba10199bf2884';
 
 /** Exposed below the immutable byte pins for non-vacuous semantic controls. */
 export function assertQuestionContractOutputContinuity({ continuity, proof, readBytes }) {
   const receipt = readQuestionContractSuccessor(readBytes);
   const historical = checkedProof(receipt, readBytes);
+  // Provisional comparison context only. Exact adoption/raw-byte validation
+  // completes below before any result is returned; no write or authority occurs.
+  let artifactSuccessor = continuity.artifactSuccessor == null ? null : { routeId: DC_INNOCENCE_ROUTE };
   insist(continuity.schemaVersion === 'rcap-question-contract-output-continuity/v1'
-    && continuity.recordId === 'QUESTION-CONTRACT-OUTPUT-CONTINUITY-20261016-V19'
+    && continuity.recordId === 'QUESTION-CONTRACT-OUTPUT-CONTINUITY-20261016-V20'
     && continuity.kind === 'technical_source_and_output_continuity', 'continuity identity');
   for (const key of ['createsOwnerApproval', 'changesApprovedOutputBytes', 'establishesProtectedVerification',
     'establishesProviderOrPublicationProof', 'commercialAuthorityGranted', 'productionAuthorized']) {
@@ -526,36 +533,49 @@ export function assertQuestionContractOutputContinuity({ continuity, proof, read
       .every(key => equal(revalidatedContinuity[key], continuity[key])), 'revalidated revision predecessor ancestry');
   const revalidated = JSON.parse(revalidatedOutputBytes.toString('utf8'));
 
+  const artifactPredecessorContinuity = { path: QUESTION_CONTRACT_ARTIFACT_PREDECESSOR_CONTINUITY_PATH, sha256: QUESTION_CONTRACT_ARTIFACT_PREDECESSOR_CONTINUITY_SHA256 };
+  const artifactPredecessorOutput = { path: QUESTION_CONTRACT_ARTIFACT_PREDECESSOR_OUTPUT_PATH, sha256: QUESTION_CONTRACT_ARTIFACT_PREDECESSOR_OUTPUT_SHA256 };
+  insist(equal(continuity.artifactPredecessorContinuity, artifactPredecessorContinuity)
+    && equal(continuity.artifactPredecessorOutput, artifactPredecessorOutput), 'artifact predecessor ancestry');
+  const artifactContinuityBytes = readBytes(artifactPredecessorContinuity.path);
+  const artifactOutputBytes = readBytes(artifactPredecessorOutput.path);
+  insist(sha(artifactContinuityBytes) === artifactPredecessorContinuity.sha256, 'artifact predecessor continuity bytes changed');
+  insist(sha(artifactOutputBytes) === artifactPredecessorOutput.sha256, 'artifact predecessor output bytes changed');
+  const artifactPrior = JSON.parse(artifactOutputBytes.toString('utf8'));
+  const artifactPriorContinuity = JSON.parse(artifactContinuityBytes.toString('utf8'));
+  insist(equal(artifactPriorContinuity.currentOutput, artifactPredecessorOutput)
+    && Object.keys(artifactPriorContinuity).filter(key => /(?:Continuity|Output)$/.test(key) && key !== 'currentOutput')
+      .every(key => equal(artifactPriorContinuity[key], continuity[key])), 'artifact predecessor retained ancestry');
+
   insist(continuity.currentOutput?.path === QUESTION_CONTRACT_CURRENT_OUTPUT_PATH, 'continuity current output path');
   insist(proof.schemaVersion === historical.schemaVersion
     && ['approvalGranted', 'commercialAuthorityGranted', 'productionAuthorized', 'protectedJourneyProven'].every(key => proof[key] === false), 'current output proof scope');
   insist(proof.headBefore === continuity.reproducedCodeSha && proof.headAfter === proof.headBefore
     && /^[a-f0-9]{40}$/.test(proof.headBefore) && proof.statusBefore === proof.statusAfter, 'reproduction candidate drift');
-  insist(equal(proof.denominator, historical.denominator) && equal(proof.counts, historical.counts)
+  insist(equal(proof.denominator, historical.denominator)
+    && (artifactSuccessor != null || equal(proof.counts, historical.counts))
     && equal(proof.sourceDrift, []) && Array.isArray(proof.checks) && proof.checks.length === 130
-    && proof.checks.every(check => check.status === 'PASS')
+    && proof.checks.every(check => check.status === 'PASS'
+      || (artifactSuccessor != null && check.status === 'FAIL' && check.id.startsWith('dc-actual-innocence:') && check.id.endsWith(':historical-approved-bytes')))
     && new Set(proof.checks.map(check => check.id)).size === 130
     && equal(proof.checks.map(check => check.id).sort(), historical.checks.map(check => check.id).sort()), 'current output acceptance incomplete');
   insist(Array.isArray(proof.routes) && proof.routes.length === 6
     && new Set(proof.routes.map(row => row.routeId)).size === 6, 'current output route inventory');
-  const withoutPrivateOutputLocators = row => ({ ...row, artifacts: row.artifacts.map(artifact => {
-    const identity = { ...artifact };
-    delete identity.path;
-    return identity;
-  }) });
   for (const previous of historical.routes) {
     const current = proof.routes.find(row => row.routeId === previous.routeId);
     insist(current && Array.isArray(current.artifacts) && current.artifacts.length === 3
-      && equal(withoutPrivateOutputLocators(current), withoutPrivateOutputLocators(previous)), `changed output semantics: ${previous.routeId}`);
+      && sameArtifactSuccessorSemantics(current, previous, artifactSuccessor), `changed output semantics: ${previous.routeId}`);
     insist(sha(readBytes(current.specificationPath)) === current.specificationSha256, 'current output specification moved');
-    for (const artifact of current.artifacts) insist(sha(readBytes(artifact.historical.path)) === artifact.sha256, 'approved output bytes moved');
+    for (const artifact of current.artifacts) insist(sha(readBytes(artifact.historical.path))
+      === (artifactSuccessor && current.routeId === artifactSuccessor.routeId ? artifact.historical.sha256 : artifact.sha256), 'approved output bytes moved');
   }
-  for (const prior of [...earlier.routes, ...previous.routes, ...sameDate.routes, ...latest.routes, ...immediate.routes, ...revision.routes, ...accepted.routes, ...executed.routes, ...rendered.routes, ...observed.routes, ...measured.routes, ...bound.routes, ...validated.routes, ...recorded.routes, ...captured.routes, ...retained.routes, ...continued.routes, ...reviewed.routes, ...integrated.routes, ...revalidated.routes]) {
+  for (const prior of [...artifactPrior.routes, ...earlier.routes, ...previous.routes, ...sameDate.routes, ...latest.routes, ...immediate.routes, ...revision.routes, ...accepted.routes, ...executed.routes, ...rendered.routes, ...observed.routes, ...measured.routes, ...bound.routes, ...validated.routes, ...recorded.routes, ...captured.routes, ...retained.routes, ...continued.routes, ...reviewed.routes, ...integrated.routes, ...revalidated.routes]) {
     const current = proof.routes.find(row => row.routeId === prior.routeId);
-    insist(current && equal(withoutPrivateOutputLocators(current), withoutPrivateOutputLocators(prior)), `changed previous output semantics: ${prior.routeId}`);
+    insist(current && sameArtifactSuccessorSemantics(current, prior, artifactSuccessor), `changed previous output semantics: ${prior.routeId}`);
   }
   for (const evidence of receipt.preservedEvidence) insist(sha(readBytes(evidence.path)) === evidence.sha256, `historical evidence changed: ${evidence.path}`);
-  insist(Array.isArray(proof.sources) && proof.sources.length === 134 && continuity.currentSourceCount === 134
+  insist(Array.isArray(proof.sources) && proof.sources.length === (artifactSuccessor ? 195 : 134) && continuity.currentSourceCount === proof.sources.length
+    && artifactPrior.sources.length === 134 && continuity.artifactPredecessorSourceCount === 134
     && revalidated.sources.length === 134 && continuity.revalidatedRevisionSourceCount === 134
     && integrated.sources.length === 134 && continuity.integratedRevisionSourceCount === 134
     && reviewed.sources.length === 134 && continuity.reviewedRevisionSourceCount === 134
@@ -577,7 +597,7 @@ export function assertQuestionContractOutputContinuity({ continuity, proof, read
     && latest.sources.length === 121 && continuity.latestPredecessorSourceCount === 121
     && sameDate.sources.length === 119 && continuity.sameDatePredecessorSourceCount === 119
     && earlier.sources.length === 113 && continuity.earlierSourceCount === 113
-    && new Set(proof.sources.map(input => input.file)).size === 134, 'current output source inventory');
+    && new Set(proof.sources.map(input => input.file)).size === proof.sources.length, 'current output source inventory');
   const before = new Map(historical.sources.map(input => [input.file, input.sha256]));
   const after = new Map(proof.sources.map(input => [input.file, input.sha256]));
   insist([...before.keys()].every(file => after.has(file)), 'historical source omitted');
@@ -719,11 +739,20 @@ export function assertQuestionContractOutputContinuity({ continuity, proof, read
     .map(file => ({ file, beforeSha256: revalidatedInputs.get(file), afterSha256: after.get(file) }));
   insist(equal(revalidatedAdditions, continuity.revalidatedRevisionAddedSourcePaths)
     && equal(revalidatedTransitions, continuity.revalidatedRevisionSourceTransitions), 'undeclared revalidated predecessor source transition');
+  const artifactInputs = new Map(artifactPrior.sources.map(input => [input.file, input.sha256]));
+  insist([...artifactInputs.keys()].every(file => after.has(file)), 'artifact predecessor source omitted');
+  const artifactAdditions = [...after.keys()].filter(file => !artifactInputs.has(file)).sort();
+  const artifactTransitions = [...artifactInputs.keys()].sort().filter(file => artifactInputs.get(file) !== after.get(file))
+    .map(file => ({ file, beforeSha256: artifactInputs.get(file), afterSha256: after.get(file) }));
+  insist(equal(artifactAdditions, continuity.artifactPredecessorAddedSourcePaths)
+    && equal(artifactTransitions, continuity.artifactPredecessorSourceTransitions), 'undeclared artifact predecessor source transition');
   for (const input of proof.sources) insist(sha(readBytes(input.file)) === input.sha256, `stale output input: ${input.file}`);
+  if (artifactSuccessor) artifactSuccessor = assertDcInnocenceArtifactSuccessor({ binding: continuity.artifactSuccessor, proof, readBytes });
   return { path: QUESTION_CONTRACT_CURRENT_OUTPUT_PATH, sha256: continuity.currentOutput.sha256,
     inputCount: proof.sources.length, continuity: { path: QUESTION_CONTRACT_CONTINUITY_PATH, sha256: QUESTION_CONTRACT_CONTINUITY_SHA256 },
     previousContinuity, previousOutput, earlierContinuity, earlierOutput, sameDatePredecessorContinuity, sameDatePredecessorOutput,
     latestPredecessorContinuity, latestPredecessorOutput, immediatePredecessorContinuity, immediatePredecessorOutput, priorRevisionContinuity, priorRevisionOutput, acceptedRevisionContinuity, acceptedRevisionOutput, executedRevisionContinuity, executedRevisionOutput, renderedRevisionContinuity, renderedRevisionOutput, observedRevisionContinuity, observedRevisionOutput, measuredRevisionContinuity, measuredRevisionOutput, boundRevisionContinuity, boundRevisionOutput, validatedRevisionContinuity, validatedRevisionOutput, recordedRevisionContinuity, recordedRevisionOutput, capturedRevisionContinuity, capturedRevisionOutput, retainedRevisionContinuity, retainedRevisionOutput, continuedRevisionContinuity, continuedRevisionOutput, reviewedRevisionContinuity, reviewedRevisionOutput, integratedRevisionContinuity, integratedRevisionOutput, revalidatedRevisionContinuity, revalidatedRevisionOutput,
+    artifactPredecessorContinuity, artifactPredecessorOutput, artifactSuccessor,
     historicalOutput: continuity.historicalOutput };
 }
 
@@ -830,4 +859,184 @@ export function assertQuestionContractSourceSuccessor({ receipt, row, routeId, f
     establishesProtectedVerification: false, establishesProviderOrPublicationProof: false,
     productionAuthorized: false
   };
+}
+
+// Exact artifact-digest successor only. The original output and every approval
+// remain immutable. A move explanation is never an adoption. Admission binds the
+// exact separately recorded owner-approved decision below; callers cannot
+// replace this trusted source pin or infer approval for another digest.
+export const DC_INNOCENCE_ARTIFACT_DECISION_PATH = 'data/rcap-grade-a/legal-decisions/OWNER_CURRENT_COMMERCIAL_ARTIFACT_APPROVAL_DC_ACTUAL_INNOCENCE_2026-10-16.json';
+export const DC_INNOCENCE_ARTIFACT_DECISION_SHA256 = 'e37dcb06f202f35837f9df37e89febfbc9b61f0febf8d1c74bbf602009cb2858';
+export const DC_INNOCENCE_ARTIFACT_MOVE_PATH = 'data/rcap-grade-a/legal-decisions/DC_ACTUAL_INNOCENCE_ARTIFACT_MOVE_2026-10-16.json';
+const DC_INNOCENCE_ROUTE = 'DC:dc_actual_innocence_expungement_16_803';
+const DC_INNOCENCE_RAW_OUTPUT_PATH = 'data/rcap-grade-a/participant-data-rights/question-contract-output-reproduction-20261016-v20.json';
+const DC_INNOCENCE_RAW_OUTPUT_SHA256 = '406d5144b02a994eac974be64c7ed4c5291ad4289a5abe931303d2fc47bdea0a';
+const DC_INNOCENCE_PRIOR_APPROVAL_PATH = 'data/rcap-grade-a/legal-decisions/OWNER_CURRENT_COMMERCIAL_ARTIFACT_APPROVAL_2026-09-20.json';
+const DC_INNOCENCE_PRIOR_APPROVAL_SHA256 = 'f6dfbd5e9336627df5a1beac174a85bf11d95849cf0cef6795ce86a8fd9c30d5';
+const DC_INNOCENCE_SUCCESSOR_ARTIFACTS = [
+  {
+    "id": "full-en",
+    "variant": "full",
+    "locale": "en",
+    "sha256": "bd64b84d93e50c960c5a7e9dcb3814e70d360eefef82d33247cbb5a7ba694c89",
+    "pageCount": 11,
+    "byteLength": 52551,
+    "textSha256": "5a98bec5131f02f3c8d31f4bffd0c1d2d00cf00b15016bce2fce221e706f09d9",
+    "path": "data/rcap-ledger/grade-a/artifacts/current-commercial-review/dc-actual-innocence-2026-10-16/full-en.pdf",
+    "historical": {
+      "path": "data/rcap-ledger/grade-a/artifacts/current-commercial-review/dc-actual-innocence-full-en.pdf",
+      "sha256": "baaf7e489216c8fd7de7cc197afd163351f2909dacddd175b011caa89a1f6b9c",
+      "actualSha256": "baaf7e489216c8fd7de7cc197afd163351f2909dacddd175b011caa89a1f6b9c",
+      "pageCount": 11
+    }
+  },
+  {
+    "id": "full-es",
+    "variant": "full",
+    "locale": "es",
+    "sha256": "93d45d59fb10daa19c8656098d9ddf1fa21f289d5ec31e6f81bbbbc2077e19fd",
+    "pageCount": 11,
+    "byteLength": 53156,
+    "textSha256": "1991d3a052d3989a3e49fb7023a87b12288283e87798bd0f8372aecdfa055959",
+    "path": "data/rcap-ledger/grade-a/artifacts/current-commercial-review/dc-actual-innocence-2026-10-16/full-es.pdf",
+    "historical": {
+      "path": "data/rcap-ledger/grade-a/artifacts/current-commercial-review/dc-actual-innocence-full-es.pdf",
+      "sha256": "d5533512366af8334b242986e65e8d3e9aa1dc23c882028212cb131dce52a509",
+      "actualSha256": "d5533512366af8334b242986e65e8d3e9aa1dc23c882028212cb131dce52a509",
+      "pageCount": 11
+    }
+  },
+  {
+    "id": "court-only",
+    "variant": "court_only",
+    "locale": "en",
+    "sha256": "17170a81ab2aa8a22eaaef25be79372bec9cf6f0095477c268a9e2e96a65de72",
+    "pageCount": 5,
+    "byteLength": 10494,
+    "textSha256": "5ff7d2460d4cfa3d20e786ff2f91fcb514f0f0af5d992261f41ef783d1ea7a73",
+    "path": "data/rcap-ledger/grade-a/artifacts/current-commercial-review/dc-actual-innocence-2026-10-16/court-only.pdf",
+    "historical": {
+      "path": "data/rcap-ledger/grade-a/artifacts/current-commercial-review/dc-actual-innocence-court-only.pdf",
+      "sha256": "761dd42907ca6bb68985fbc6a74f4d19747170ae51ab704b391bf74881565e78",
+      "actualSha256": "761dd42907ca6bb68985fbc6a74f4d19747170ae51ab704b391bf74881565e78",
+      "pageCount": 5
+    }
+  }
+];
+
+/** Exact production admission; semantic controls may transform source only in an isolated test VM. */
+export function assertDcInnocenceArtifactSuccessor({ binding, proof, readBytes }) {
+  // Admission trusts only the reviewed source pin. Caller-supplied properties
+  // cannot replace it, including in below-pin semantic controls.
+  const expectedDecisionSha256 = DC_INNOCENCE_ARTIFACT_DECISION_SHA256;
+  insist(typeof expectedDecisionSha256 === 'string' && /^[a-f0-9]{64}$/.test(expectedDecisionSha256), 'DC artifact adoption pending');
+  insist(equal(binding, { path: DC_INNOCENCE_ARTIFACT_DECISION_PATH, sha256: expectedDecisionSha256 }), 'DC artifact adoption binding');
+  const decisionBytes = readBytes(binding.path);
+  insist(sha(decisionBytes) === expectedDecisionSha256, 'DC artifact adoption bytes changed');
+  const decision = JSON.parse(decisionBytes.toString('utf8'));
+  const move = dcInnocenceArtifactMove(readBytes);
+  insist(move && equal(decision.explainedMove, { path: DC_INNOCENCE_ARTIFACT_MOVE_PATH,
+    sha256: sha(readBytes(DC_INNOCENCE_ARTIFACT_MOVE_PATH)) }), 'DC exact explained move binding');
+  insist(decision.schemaVersion === 'rcap-owner-current-commercial-artifact-approval/v1'
+    && decision.decisionId === 'OWNER-CURRENT-COMMERCIAL-ARTIFACT-APPROVAL-DC-ACTUAL-INNOCENCE-20261016'
+    && decision.status === 'APPROVED_EXACT_CURRENT_COMMERCIAL_ARTIFACTS'
+    && decision.owner === 'Roger Roman' && decision.decidedAt === '2026-10-16'
+    && decision.authenticationKind === 'owner_instruction_in_current_conversation'
+    && decision.approvesComposedBytes === true && decision.exactArtifactSuccessorOnly === true
+    && decision.routeId === DC_INNOCENCE_ROUTE, 'DC artifact adoption identity/scope');
+  for (const key of ['productionAuthorized', 'liveChargesAuthorized', 'commercialAuthorityGranted',
+    'runtimeAuthorized', 'publicationAuthorized', 'workerDeliveryAuthorized', 'eligibilityChanged']) {
+    insist(decision[key] === false, `DC artifact adoption overclaims ${key}`);
+  }
+  insist(equal(decision.supersedesArtifactDigestConditionOnly, {
+    path: DC_INNOCENCE_PRIOR_APPROVAL_PATH, sha256: DC_INNOCENCE_PRIOR_APPROVAL_SHA256,
+    routeId: DC_INNOCENCE_ROUTE, priorDecisionMutated: false }), 'DC prior artifact adoption identity');
+  const priorBytes = readBytes(DC_INNOCENCE_PRIOR_APPROVAL_PATH);
+  insist(sha(priorBytes) === DC_INNOCENCE_PRIOR_APPROVAL_SHA256, 'DC prior artifact adoption changed');
+  const priorDecision = JSON.parse(priorBytes.toString('utf8'));
+  insist(priorDecision.approvedArtifacts.length === 18, 'DC prior artifact inventory');
+  for (const artifact of priorDecision.approvedArtifacts) {
+    insist(sha(readBytes(artifact.path)) === artifact.sha256, `historical approved artifact changed: ${artifact.path}`);
+  }
+  insist(equal(decision.boundTo?.batch, { path: DC_INNOCENCE_RAW_OUTPUT_PATH, sha256: DC_INNOCENCE_RAW_OUTPUT_SHA256 }), 'DC exact measured output binding');
+  const raw = readBytes(DC_INNOCENCE_RAW_OUTPUT_PATH);
+  insist(sha(raw) === DC_INNOCENCE_RAW_OUTPUT_SHA256 && equal(JSON.parse(raw.toString('utf8')), proof), 'DC raw output measurement changed');
+  insist(/^[a-f0-9]{40}$/.test(proof.headBefore) && proof.headAfter === proof.headBefore
+    && proof.statusBefore === proof.statusAfter && decision.boundTo.commit === proof.headBefore
+    && proof.schemaVersion === 'isolated-current-six-commercial-output/v2'
+    && ['approvalGranted', 'commercialAuthorityGranted', 'productionAuthorized', 'protectedJourneyProven']
+      .every(key => proof[key] === false), 'DC source candidate/scope drift');
+  const visual = decision.boundTo?.visualReview;
+  insist(visual?.path === 'data/rcap-grade-a/legal-decisions/CURRENT_COMMERCIAL_ARTIFACT_VISUAL_REVIEW_DC_ACTUAL_INNOCENCE_2026-10-16.json'
+    && /^[a-f0-9]{64}$/.test(visual.sha256) && sha(readBytes(visual.path)) === visual.sha256, 'DC exact visual review binding');
+  const expectedArtifacts = DC_INNOCENCE_SUCCESSOR_ARTIFACTS.map(a => ({ routeId: DC_INNOCENCE_ROUTE,
+    artifactId: a.id, variant: a.variant, locale: a.locale, path: a.path, sha256: a.sha256,
+    pageCount: a.pageCount, visualReviewStatus: 'inspected_no_blocking_defect' }));
+  insist(equal(decision.approvedArtifacts, expectedArtifacts), 'DC exact successor artifact inventory');
+  for (const artifact of expectedArtifacts) insist(sha(readBytes(artifact.path)) === artifact.sha256, 'DC successor artifact bytes changed');
+  insist(equal(proof.counts, { routes: 6, outputs: 18, byteIdentical: 15, pass: 127, fail: 3 })
+    && equal(proof.denominator, { routes: 6, families: 5, variants: 18 })
+    && equal(proof.sourceDrift, []) && proof.checks.length === 130
+    && new Set(proof.checks.map(c => c.id)).size === 130, 'DC raw output disposition');
+  const failedIds = ['court-only', 'full-en', 'full-es'].map(id => `dc-actual-innocence:${id}:historical-approved-bytes`).sort();
+  insist(equal(proof.checks.filter(c => c.status === 'FAIL').map(c => c.id).sort(), failedIds)
+    && proof.checks.every(c => c.status === 'PASS' || failedIds.includes(c.id)), 'DC unadopted output failure');
+  const moved = proof.routes.flatMap(row => row.artifacts.filter(a => a.byteIdenticalToHistoricalApproval !== true)
+    .map(a => ({ routeId: row.routeId, id: a.id, sha256: a.sha256, historical: a.historical })));
+  insist(equal(moved, DC_INNOCENCE_SUCCESSOR_ARTIFACTS.map(a => ({ routeId: DC_INNOCENCE_ROUTE,
+    id: a.id, sha256: a.sha256, historical: a.historical }))), 'DC extra/missing moved artifact');
+  const inputs = new Map(proof.sources.map(input => [input.file, input.sha256]));
+  insist(proof.sources.length === 195 && inputs.size === 195, 'DC exact observed source inventory');
+  for (const [file, digest] of inputs) insist(sha(readBytes(file)) === digest, `DC measured source changed: ${file}`);
+  return { routeId: DC_INNOCENCE_ROUTE, decision: binding, rawOutput: decision.boundTo.batch,
+    rawCounts: proof.counts, artifactDigests: expectedArtifacts, createsOwnerApproval: false,
+    commercialAuthorityGranted: false, productionAuthorized: false };
+}
+
+// A comparison projection only: raw proof counts/status/hashes are never changed.
+function sameArtifactSuccessorSemantics(current, previous, successor) {
+  if (!successor || current.routeId !== successor.routeId) return equal(withoutArtifactPaths(current), withoutArtifactPaths(previous));
+  const projected = { ...current, artifacts: current.artifacts.map(artifact => {
+    const old = previous.artifacts.find(a => a.id === artifact.id);
+    const pinned = DC_INNOCENCE_SUCCESSOR_ARTIFACTS.find(a => a.id === artifact.id);
+    insist(old && pinned && artifact.sha256 === pinned.sha256 && equal(artifact.historical, pinned.historical)
+      && artifact.byteLength === pinned.byteLength && artifact.pageCount === pinned.pageCount
+      && artifact.textSha256 === pinned.textSha256 && artifact.byteIdenticalToHistoricalApproval === false
+      && artifact.visualDisposition === 'Changed bytes require new page review; this runner grants none.', 'changed output semantics: DC exact artifact comparison delta');
+    // Only fields independently validated above differ; every other historical
+    // artifact/route value remains part of the full comparison.
+    return { ...artifact, sha256: old.sha256, byteLength: old.byteLength,
+      textSha256: old.textSha256, byteIdenticalToHistoricalApproval: old.byteIdenticalToHistoricalApproval,
+      visualDisposition: old.visualDisposition };
+  }) };
+  return equal(withoutArtifactPaths(projected), withoutArtifactPaths(previous));
+}
+function withoutArtifactPaths(row) {
+  return { ...row, artifacts: row.artifacts.map(({ path: _path, ...artifact }) => artifact) };
+}
+
+/** Explained custody transition only; never an owner approval or an open route. */
+export function dcInnocenceArtifactMove(readBytes) {
+  try {
+    const record = JSON.parse(readBytes(DC_INNOCENCE_ARTIFACT_MOVE_PATH).toString('utf8'));
+    insist(record.schemaVersion === 'rcap-approved-artifact-move/v1'
+      && record.recordId === 'DC-ACTUAL-INNOCENCE-ARTIFACT-MOVE-20261016'
+      && record.routeId === DC_INNOCENCE_ROUTE && record.createsApproval === false
+      && record.approvesMovedBytes === false && record.opensAnyRoute === false
+      && record.productionAuthorized === false && record.awaitingOwnerDecision === false
+      && record.ownerDecisionRecordedSeparately === true
+      && record.createdAfterOwnerDecision === true, 'DC explained move scope');
+    insist(equal(record.supersedes, { path: DC_INNOCENCE_PRIOR_APPROVAL_PATH,
+      sha256: DC_INNOCENCE_PRIOR_APPROVAL_SHA256, priorDecisionMutated: false }), 'DC explained move predecessor');
+    insist(sha(readBytes(record.supersedes.path)) === record.supersedes.sha256, 'DC explained move historical approval changed');
+    const expected = DC_INNOCENCE_SUCCESSOR_ARTIFACTS.map(a => ({ id: a.id,
+      priorPath: a.historical.path, path: a.path, from: a.historical.sha256, to: a.sha256, moved: true }));
+    insist(equal(record.artifacts, expected), 'DC explained move exact inventory');
+    for (const a of expected) insist(sha(readBytes(a.priorPath)) === a.from
+      && sha(readBytes(a.path)) === a.to, 'DC explained move custody changed');
+    insist(equal(record.measuredOutput, { path: DC_INNOCENCE_RAW_OUTPUT_PATH,
+      sha256: DC_INNOCENCE_RAW_OUTPUT_SHA256 })
+      && sha(readBytes(record.measuredOutput.path)) === record.measuredOutput.sha256, 'DC explained move actual measurement changed');
+    return record;
+  } catch { return null; }
 }

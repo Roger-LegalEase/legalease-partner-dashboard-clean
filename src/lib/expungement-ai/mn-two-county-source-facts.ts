@@ -1,4 +1,5 @@
 import "server-only";
+import { projectPublicProfile } from "@/lib/rcap-engine/public-profile-projection";
 import type { EngineProfile } from "@/lib/rcap-engine/contracts";
 import type { ProfileQuestion } from "@/lib/expungement-ai/frontend/contracts";
 import type { RegisteredSpecification } from "@/lib/rcap/grade-a/packet-specification";
@@ -69,4 +70,38 @@ export function mnTwoCountyQuestions(pathwayId: string): ProfileQuestion[] {
     "Use the city named for the prosecuting attorney in the court papers.",
     "¿La fiscalía de qué ciudad procesó este caso?",
     "Use la ciudad que figura para la fiscalía en los documentos judiciales.")];
+}
+
+/** Current target-case meaning, confirmed explicitly through the existing
+ * record-fact contract. A historical generic State/local scalar is not proof. */
+export const MN_TARGET_ORIGIN_ID = "jurisdiction_scope";
+export const MN_TARGET_ORIGIN_SOURCE = "OWNER-RELAYED-ADOPTION-v4:MN target conviction only; other history evaluated separately";
+// These are existing target-case inputs in the MN profile/held source. The
+// charge/statute source answer is retained literally. No actual case-number
+// value is held here; possession of paperwork is not identity. Missing optional
+// identity remains unanswered, not a new question.
+// No residence, signing county, contact or destination answer supplies origin.
+export const MN_TARGET_ORIGIN_IDENTITY_INPUTS = [
+  "court", "charge",
+  "source_question_04_4-what-were-the-charges-and-statute-numb"
+] as const;
+
+export function mnTargetOriginQuestion(profile: EngineProfile | undefined, pathwayId: string | null | undefined, specification: RegisteredSpecification | null | undefined): ProfileQuestion | null {
+  if (!profile || !mnTwoCountySourceContract(profile, pathwayId, specification)) return null;
+  const question = projectPublicProfile(profile).questions.find(candidate => candidate.id === MN_TARGET_ORIGIN_ID);
+  const options = question?.options;
+  if (!question || question.prompt !== "Did this case happen in Minnesota (not a federal case)?"
+    || question.type !== "single_choice" || !Array.isArray(options) || !options.every(option => typeof option === "string")
+    || JSON.stringify(options) !== JSON.stringify(["State or local", "Federal", "I am not sure"])) return null;
+  return { id: question.id, stage: question.stage, type: question.type, prompt: question.prompt,
+    helperText: question.helperText, required: true, contextOnly: false,
+    lifecyclePhase: question.lifecyclePhase, options,
+    translations: question.translations };
+}
+
+/** Filter a single source-owned inventory entry, never a fact from the
+ * aggregate set: another unresolved rule may reference the same fact. */
+export function mnTargetOriginRule18Entry(entry: { section: string; ruleId: string; factIds: string[] }): boolean {
+  return entry.section === "orderedDecisionRules" && entry.ruleId === "rule-18-federal-or-out-of-state-conviction"
+    && entry.factIds.length === 1 && entry.factIds[0] === "residency_or_location";
 }

@@ -24,9 +24,10 @@ const {packetSpecificationFor}=await load('src/lib/rcap/grade-a/packet-specifica
 const {selectComposedRoute}=await load('src/lib/rcap-engine/composed-route-selector.ts');
 const {evaluateAuthoritativeScreeningResult:evaluate}=await load('src/lib/expungement-ai/authoritative-screening-result.ts');
 const P=await load('src/lib/expungement-ai/packet-information.ts');
+const C=await load('src/lib/expungement-ai/record-fact-clarification.ts');
 const profile=getProfileByJurisdiction('MN'),routes=[H.MN_PETITION_ROUTE,H.MN_PROSECUTOR_ROUTE];
 const fixtures=JSON.parse(fs.readFileSync('data/rcap-ledger/public-witness-fixtures.json')).fixtures;
-const rows=[],observations=[],transportObservations=[],ssrEvidence=[];const test=(name,fn)=>{try{fn();rows.push({name,pass:true});}catch(e){rows.push({name,pass:false,error:e.message,stack:e.stack});}};
+const rows=[],observations=[],transportObservations=[],ssrEvidence=[],originEditableEvidence=[];const test=(name,fn)=>{try{fn();rows.push({name,pass:true});}catch(e){rows.push({name,pass:false,error:e.message,stack:e.stack});}};
 const clone=x=>structuredClone(x);
 const collect=(route,screeningAnswers={},savedAnswers={},extra={})=>resolvePacketCollection({jurisdiction:'MN',pathwayId:route,
  requiredInputIds:packetPlanForPathway(profile,route).requiredInputIds,serverFacts:{},screeningAnswers,savedAnswers,
@@ -60,6 +61,49 @@ for(const route of routes){
   const id=ids[0],saved=value===undefined?{}:{[id]:value};const c=collect(route,{residency_or_location:'Hennepin',county:'Ramsey'},saved);assert.equal(c.knownFacts[id],undefined);assert(c.renderQuestions.includes(id));
  });
  test(route+' fresh fact is same-ID only; saved remains editable',()=>{const id=ids[0],c=collect(route,{[id]:'Ramsey'});assert.equal(c.knownFacts[id],'Ramsey');assert.equal(c.derivedFacts[id],undefined);const saved=collect(route,{}, {[id]:'Ramsey'});assert(saved.renderQuestions.includes(id));});
+
+ const originQuestion=H.mnTargetOriginQuestion(profile,route,packetSpecificationFor('MN:'+route));
+ const originAnswers={jurisdiction_scope:'State or local',court:'Hennepin District Court',charge:'Retained target charge'};
+ const originMarker=C.recordFactConfirmationFor('MN:'+route,H.MN_TARGET_ORIGIN_ID,originAnswers,originQuestion);
+ const clarification=(answers,marker=originMarker,question=originQuestion)=>C.unresolvedRecordFactConfirmations('MN:'+route,answers,new Map([[H.MN_TARGET_ORIGIN_ID,question]]),marker?{[H.MN_TARGET_ORIGIN_ID]:marker}:{});
+ test(route+' exact origin descriptor fails closed on actual non-null spec',()=>{assert(originQuestion);assert.equal(H.mnTargetOriginQuestion(profile,route,{}),null);assert.equal(H.mnTargetOriginQuestion(profile,'other',null),null);const drift=clone(profile);drift.profileVersion+='changed';assert.equal(H.mnTargetOriginQuestion(drift,route,null),null);});
+ test(route+' original historical State/local is not current target confirmation',()=>{assert(clarification(originAnswers,null).includes(H.MN_TARGET_ORIGIN_ID));assert(originMarker);assert.deepEqual(clarification(originAnswers),[]);});
+ test(route+' target identity excludes possession/residence/destination',()=>{
+  assert.deepEqual(H.MN_TARGET_ORIGIN_IDENTITY_INPUTS,['court','charge','source_question_04_4-what-were-the-charges-and-statute-numb']);
+  for(const id of H.MN_TARGET_ORIGIN_IDENTITY_INPUTS){const changed={...originAnswers,[id]:'A different target value'};assert.notDeepEqual(changed,originAnswers);assert(clarification(changed).includes(H.MN_TARGET_ORIGIN_ID));}
+  for(const id of ['source_question_03_3-do-you-have-a-court-file-number','residency_or_location','county','contact_information',H.MN_CASE_COUNTY,H.MN_PROSECUTED_COUNTY])assert.deepEqual(clarification({...originAnswers,[id]:'Unrelated changed context'}),[]);
+ });
+ test(route+' unknown Federal absent malformed and wrong-route markers retain clarification',()=>{
+  for(const value of [undefined,'Federal','I am not sure',{unknown:true},{value:'',unknown:false},{value:['State or local'],unknown:false}])assert(clarification({...originAnswers,jurisdiction_scope:value}).includes(H.MN_TARGET_ORIGIN_ID));
+  for(const marker of [{}, {...originMarker,routeKey:'MN:other'},{...originMarker,contractSha256:'wrong'},{...originMarker,status:'unconfirmed'},{...originMarker,inputSha256:'wrong'}])assert(clarification(originAnswers,marker).includes(H.MN_TARGET_ORIGIN_ID));
+  for(const change of [q=>q.prompt+='changed',q=>q.translations.es.prompt+='changed',q=>q.options=['State or local','Federal']]){const q=clone(originQuestion);change(q);assert.equal(C.recordFactConfirmationFor('MN:'+route,H.MN_TARGET_ORIGIN_ID,originAnswers,q),null);}
+ });
+
+ test(route+' semantic origin/identity changes invalidate retained MN marker monotonically',()=>{
+  const recorded={jurisdiction_scope:{...originMarker,legacyValues:[{source:'screeningAnswers',value:'State or local',meaning:'unconfirmed_record_fact',profileVersion:profile.profileVersion,routeKey:'MN:'+route}]},other_fact:{version:1,status:'confirmed',routeKey:'unrelated'}};
+  for(const [id,value] of [['jurisdiction_scope','I am not sure'],['jurisdiction_scope',''],...H.MN_TARGET_ORIGIN_IDENTITY_INPUTS.map(id=>[id,'Different target'])]){
+   const changed={...originAnswers,[id]:value},invalid=C.mnTargetOriginConfirmationsAfterChange('MN:'+route,originAnswers,changed,recorded);
+   assert.equal(invalid.jurisdiction_scope.status,'unconfirmed');assert.deepEqual({...invalid.jurisdiction_scope,status:'confirmed'},recorded.jurisdiction_scope);assert.deepEqual(invalid.other_fact,recorded.other_fact);
+   const restored=C.mnTargetOriginConfirmationsAfterChange('MN:'+route,changed,originAnswers,invalid);assert.equal(restored.jurisdiction_scope.status,'unconfirmed');assert(clarification(originAnswers,restored.jurisdiction_scope).includes(H.MN_TARGET_ORIGIN_ID));
+  }
+  for(const changed of [{...originAnswers,jurisdiction_scope:{value:' State or local ',unknown:false}},{...originAnswers,court:{value:' Hennepin District Court ',unknown:false}},{...originAnswers,contact_information:'Different unrelated contact'},clone(originAnswers)])assert.strictEqual(C.mnTargetOriginConfirmationsAfterChange('MN:'+route,originAnswers,changed,recorded),recorded);
+  assert.strictEqual(C.mnTargetOriginConfirmationsAfterChange('MS:unrelated',originAnswers,{...originAnswers,charge:'Changed'},recorded),recorded);
+  assert.strictEqual(C.mnTargetOriginConfirmationsAfterChange('NY:unrelated',originAnswers,{...originAnswers,charge:'Changed'},recorded),recorded);
+  assert.strictEqual(C.mnTargetOriginConfirmationsAfterChange('GA:unrelated',originAnswers,{...originAnswers,charge:'Changed'},recorded),recorded);
+ });
+ test(route+' exact rule18 entry removal preserves other unresolved rules sharing same fact',()=>{
+  const exact={section:'orderedDecisionRules',ruleId:'rule-18-federal-or-out-of-state-conviction',factIds:['residency_or_location']};
+  const others=[{...exact,ruleId:'another-rule'},{...exact,section:'another-section'},{...exact,factIds:['residency_or_location','charge']}];
+  assert(H.mnTargetOriginRule18Entry(exact));for(const entry of others)assert.equal(H.mnTargetOriginRule18Entry(entry),false);
+  const remaining=[exact,...others].filter(entry=>!H.mnTargetOriginRule18Entry(entry));assert.deepEqual(remaining,others);assert(new Set(remaining.flatMap(entry=>entry.factIds)).has('residency_or_location'));
+ });
+ test(route+' actual packet caller uses saved precedence and explicit confirmation only',()=>{
+  const input={jurisdiction:'MN',pathwayId:route,requiredInputIds:plan.requiredInputIds,serverFacts:{},screeningAnswers:originAnswers,prefilledAnswers:{},savedAnswers:{},recordFactConfirmations:{jurisdiction_scope:originMarker}};
+  const unconfirmed=P.packetCollectionFor({...input,recordFactConfirmations:{}});assert.equal(unconfirmed.facts.find(f=>f.factId==='residency_or_location').source,'unresolved_route_rule_scope');
+  const confirmed=P.packetCollectionFor(input);assert.notEqual(confirmed.facts.find(f=>f.factId==='residency_or_location').source,'unresolved_route_rule_scope');
+  for(const value of ['Federal','I am not sure',{unknown:true},'',{value:'',unknown:false}]){const held=P.packetCollectionFor({...input,savedAnswers:{jurisdiction_scope:value}});assert.equal(held.facts.find(f=>f.factId==='residency_or_location').source,'unresolved_route_rule_scope');}
+  const explicitlyUnresolved=P.packetCollectionFor({...input,unresolvedSavedFactIds:['jurisdiction_scope']});assert.equal(explicitlyUnresolved.facts.find(f=>f.factId==='residency_or_location').source,'unresolved_route_rule_scope');
+ });
  const fixture=fixtureFor(route);assert(fixture,route);const answers=clone(fixture.answers);
  test(route+' original B counterexample preserves observed source outcome, not entitlement',()=>{
   const answers={ownership_scope:'Yes',jurisdiction_scope:'State or local',case_outcome:'Arrest or citation with no charge filed',offense_level:'Misdemeanor',possible_pathway_context:profile.pathways.find(p=>p.id===route).label,identity_error:'Yes',pending_cases:'No',resolved_timing_bucket:'gt_10_years',court_requirements_completed:'yes'};
@@ -77,6 +121,20 @@ for(const route of routes){
  seed.snapshot.dependencies.semanticAnswerHistory=[{factId:'residency_or_location',value:'Older original location',source:'packetAnswers',meaning:'prior_answer_for_shape_clarification',routeKey:'MN:'+route,profileVersion:profile.profileVersion,profileSourceFingerprint:seed.snapshot.profileSourceFingerprint,profileAuthorityFingerprint:seed.snapshot.profileAuthorityFingerprint}];
  let record={status:'unverified',reason:'synthetic-source-test',revision:3,draftHash:P.protectedPacketDraftHash(seed.snapshot),draftSnapshot:seed.snapshot};
  const original=clone(record),model=P.protectedPacketInformationModelFor(record);
+ test(route+' held model and builder offer exact existing origin ENES confirmation',()=>{
+  assert(model.recordClarificationIds.includes(H.MN_TARGET_ORIGIN_ID));assert(P.editablePacketInputIds(model,true).has(H.MN_TARGET_ORIGIN_ID));
+  assert.deepEqual(model.questions.find(q=>q.id===H.MN_TARGET_ORIGIN_ID),originQuestion);assert(model.builderQuestions.some(q=>q.id===H.MN_TARGET_ORIGIN_ID));assert(originQuestion.translations.es.prompt);
+ });
+ test(route+' protected same-value confirmation is material and preserves raw/history/noop',()=>{
+  const before=clone(original),patch=P.packetInformationPatch({existingItem:{id:'mn-source-test',state:'MN',artifactRefs:{}},answers:{},confirmRecordFacts:[H.MN_TARGET_ORIGIN_ID],protectedVerification:before});assert(patch);
+  const next=patch.protectedTransition.nextVerification;assert.equal(patch.protectedTransition.expectedPriorRevision,before.revision);assert.equal(next.revision,before.revision+1);assert.notEqual(next.status,'verified');
+  assert.deepEqual(next.draftSnapshot.screeningAnswers,before.draftSnapshot.screeningAnswers);assert.deepEqual(next.draftSnapshot.packetAnswers,before.draftSnapshot.packetAnswers);assert.deepEqual(next.draftSnapshot.dependencies.semanticAnswerHistory,before.draftSnapshot.dependencies.semanticAnswerHistory);
+  assert.equal(next.draftSnapshot.dependencies.recordFactConfirmations.jurisdiction_scope.status,'confirmed');assert.equal(next.draftSnapshot.paymentAllowed,before.draftSnapshot.paymentAllowed);assert.equal(next.draftSnapshot.selectedTrackId,before.draftSnapshot.selectedTrackId);
+  const m=P.protectedPacketInformationModelFor(next);assert(!m.recordClarificationIds.includes(H.MN_TARGET_ORIGIN_ID));assert.equal(m.reviewSafety.safe,false,'Independent charge/route hold remains');
+  const noop=P.packetInformationPatch({existingItem:{id:'mn-source-test',state:'MN',artifactRefs:{}},answers:{},protectedVerification:next});assert(noop);assert.deepEqual(noop.protectedTransition.nextVerification,next);
+  for(const id of ['court','charge']){const altered=clone(next);altered.draftSnapshot.packetAnswers[id]='Changed target '+id;altered.draftHash=P.protectedPacketDraftHash(altered.draftSnapshot);const m=P.protectedPacketInformationModelFor(altered);assert(m.recordClarificationIds.includes(H.MN_TARGET_ORIGIN_ID));}
+ });
+
  test(route+' plain model offers the same exact source descriptors',()=>{
   const m=P.packetInformationModelFor({id:'mn-source-test',state:'MN',resultCode:'packet_ready_with_caution',pathwayLabel:profile.pathways.find(p=>p.id===route).label,artifactRefs:{}});
   assert(m);for(const id of ids){assert(m.requiredInputIds.includes(id));assert.deepEqual(m.questions.find(q=>q.id===id),model.questions.find(q=>q.id===id));}
@@ -143,6 +201,7 @@ if(!baseline){
  const post=async(answers,extra={})=>{const before=clone(stored),body={expectedRevision:stored.revision,answers,...extra};const response=await API.POST(new Request(url,{method:'POST',body:JSON.stringify(body)}),context);transportObservations.push({route:before.draftSnapshot.pathwayId,request:body,status:response.status,body:await response.clone().json(),before,after:clone(stored)});return response;};
  const asyncTest=async(name,fn)=>{try{await fn();rows.push({name,pass:true});}catch(e){rows.push({name,pass:false,error:e.message,stack:e.stack});}};
  for(const route of routes){
+  const originQuestion=H.mnTargetOriginQuestion(profile,route,packetSpecificationFor('MN:'+route));
   sourceAnswers=clone(fixtureFor(route).answers);const authoritative=evaluate({jurisdiction:'MN',profileVersion:profile.profileVersion,matterId:item.id,answers:sourceAnswers});
   const seed=P.protectedPacketDraftSeedFromAuthoritative({authoritative,screeningAnswers:sourceAnswers,dependencies:{commercialFlowVersion:1},capturedAt:'2026-10-16T00:00:00Z'});assert(seed);
   if(seed.snapshot.packetPlan){seed.snapshot.packetPlan.requiredInputIds=seed.snapshot.packetPlan.requiredInputIds.filter(id=>!H.mnTwoCountyFactIds(route).includes(id));seed.snapshot.requiredInputIds=seed.snapshot.packetPlan.requiredInputIds;}
@@ -156,8 +215,39 @@ if(!baseline){
   await asyncTest(route+' protected actual noop preserves exact old record',async()=>{const response=await post({});assert.equal(response.status,200);assert.deepEqual(stored,old);});
   await asyncTest(route+' protected actual source-fact material save preserves raw',async()=>{const response=await post({[H.mnTwoCountyFactIds(route)[0]]:'Ramsey'});assert.equal(response.status,200);assert.deepEqual(stored.draftSnapshot.packetAnswers.residency_or_location,old.draftSnapshot.packetAnswers.residency_or_location);assert.equal(stored.draftSnapshot.packetAnswers[H.mnTwoCountyFactIds(route)[0]],'Ramsey');assert.notEqual(stored.status,'verified');if(!old.draftSnapshot.packetPlan)assert.equal(stored.draftSnapshot.packetPlan,null);});
   await asyncTest(route+' posted-field owner/CAS/verify controls remain',async()=>{const revision=stored.revision;assert.equal((await post({unowned_fact:'x'})).status,422);assert.equal((await post({},{expectedRevision:revision-1})).status,409);owner='wrong-owner';assert.equal((await post({})).status,404);owner='synthetic-mn-owner';const verify=await post({},{verify:true});assert.equal(verify.status,200,'The existing API saves a truthful unverified draft; HTTP200 is not verification');const verifiedBody=await verify.json();assert.equal(verifiedBody.ok,true);assert.equal(verifiedBody.readyToGenerate,false);assert.equal(verifiedBody.reviewReason,'packet_information_incomplete');assert.equal(stored.status,'invalidated');assert.equal(stored.reason,'packet_information_incomplete');assert.equal(stored.snapshot,undefined);assert.equal(stored.hash,undefined);assert.equal(stored.revision,revision+1);const present=await presentation();assert.equal(present.commercialActions.checkoutAllowed,false);assert.equal(present.commercialActions.generationAllowed,false);});
+  await asyncTest(route+' actual protected API explicit same-value origin confirmation/CAS/noop',async()=>{
+   const before=clone(stored);const response=await post({},{confirmRecordFacts:[H.MN_TARGET_ORIGIN_ID]});assert.equal(response.status,200);
+   assert.equal(stored.revision,before.revision+1);assert.equal(stored.draftSnapshot.dependencies.recordFactConfirmations.jurisdiction_scope.status,'confirmed');assert.notEqual(stored.status,'verified');
+   assert.deepEqual(stored.draftSnapshot.screeningAnswers,before.draftSnapshot.screeningAnswers);assert.deepEqual(stored.draftSnapshot.packetAnswers,before.draftSnapshot.packetAnswers);assert.deepEqual(stored.draftSnapshot.dependencies.semanticAnswerHistory,before.draftSnapshot.dependencies.semanticAnswerHistory);
+   const confirmed=clone(stored);assert.equal((await post({})).status,200);assert.deepEqual(stored,confirmed);
+   assert.equal((await post({},{expectedRevision:before.revision})).status,409);assert.deepEqual(stored,confirmed);
+   const model=P.protectedPacketInformationModelFor(stored);assert(!model.recordClarificationIds.includes(H.MN_TARGET_ORIGIN_ID));assert.equal(model.reviewSafety.safe,false);
+   for(const locale of ['en','es']){const page=html(await Editor({params:Promise.resolve({packetId:item.id}),searchParams:Promise.resolve({edit:H.MN_TARGET_ORIGIN_ID})}),locale);const prompt=originQuestion.translations?.[locale]?.prompt??originQuestion.prompt;assert(page.includes(renderToStaticMarkup(React.createElement('span',null,prompt)).slice(6,-7)));}
+   assert.equal((await post({jurisdiction_scope:{unknown:true}})).status,422,'Unsupported wrapper is rejected atomically');assert.deepEqual(stored,confirmed);
+   const unknown=await post({jurisdiction_scope:'I am not sure'});assert.equal(unknown.status,200);assert(P.protectedPacketInformationModelFor(stored).recordClarificationIds.includes(H.MN_TARGET_ORIGIN_ID));const uncertain=clone(stored);assert.equal((await post({},{confirmRecordFacts:[H.MN_TARGET_ORIGIN_ID]})).status,422);assert.deepEqual(stored,uncertain);
+   assert.equal((await post({jurisdiction_scope:'State or local'})).status,200);assert(P.protectedPacketInformationModelFor(stored).recordClarificationIds.includes(H.MN_TARGET_ORIGIN_ID),'Saving scalar does not silently reconfirm');
+   assert.equal((await post({},{confirmRecordFacts:[H.MN_TARGET_ORIGIN_ID]})).status,200);
+
+   const beforeIdentityModel=P.protectedPacketInformationModelFor(stored);const editableBeforeIdentity=[...P.editablePacketInputIds(beforeIdentityModel,true)];originEditableEvidence.push({route,revision:stored.revision,pathwayId:stored.draftSnapshot.pathwayId,editableIds:editableBeforeIdentity,courtQuestion:beforeIdentityModel.questions.find(q=>q.id==='court'),recordClarificationIds:beforeIdentityModel.recordClarificationIds});assert(editableBeforeIdentity.includes('court'),'Existing collection must actually own court before any identity POST');
+   for(const [id,value] of [['court','Different target court']]){
+    const beforeChange=clone(stored),originalValue={...stored.draftSnapshot.screeningAnswers,...stored.draftSnapshot.prefilledAnswers,...stored.draftSnapshot.packetAnswers}[id]??'';
+    assert.equal((await post({[id]:value})).status,200);assert.equal(stored.draftSnapshot.dependencies.recordFactConfirmations.jurisdiction_scope.status,'unconfirmed');
+    const invalidated=clone(stored.draftSnapshot.dependencies.recordFactConfirmations.jurisdiction_scope);assert.deepEqual(invalidated.legacyValues,beforeChange.draftSnapshot.dependencies.recordFactConfirmations.jurisdiction_scope.legacyValues);
+    assert.equal((await post({[id]:originalValue})).status,200);assert.equal(stored.draftSnapshot.dependencies.recordFactConfirmations.jurisdiction_scope.status,'unconfirmed');assert(P.protectedPacketInformationModelFor(stored).recordClarificationIds.includes(H.MN_TARGET_ORIGIN_ID));
+    assert.equal((await post({},{confirmRecordFacts:[H.MN_TARGET_ORIGIN_ID]})).status,200);assert.equal(stored.draftSnapshot.dependencies.recordFactConfirmations.jurisdiction_scope.status,'confirmed');
+   }
+   assert.equal((await post({court:'Intermediate target requiring reconfirmation'})).status,200);assert(P.protectedPacketInformationModelFor(stored).recordClarificationIds.includes(H.MN_TARGET_ORIGIN_ID));
+   const sameTransaction=await post({court:'Explicit new target court'},{confirmRecordFacts:[H.MN_TARGET_ORIGIN_ID]});assert.equal(sameTransaction.status,200);assert.equal(stored.draftSnapshot.dependencies.recordFactConfirmations.jurisdiction_scope.status,'confirmed');assert(!P.protectedPacketInformationModelFor(stored).recordClarificationIds.includes(H.MN_TARGET_ORIGIN_ID));
+   const normalizedPrior=clone(stored.draftSnapshot.dependencies.recordFactConfirmations.jurisdiction_scope);assert.equal((await post({court:{value:' Explicit new target court ',unknown:false}})).status,200);assert.deepEqual(stored.draftSnapshot.dependencies.recordFactConfirmations.jurisdiction_scope,normalizedPrior,'Meaning-equivalent wrapper/whitespace does not invalidate');
+   const final=clone(stored);const otherId='another-matter';const foreignContext={params:Promise.resolve({itemId:otherId})};assert.equal((await API.POST(new Request(url.replace(item.id,otherId),{method:'POST',body:JSON.stringify({expectedRevision:stored.revision,answers:{},confirmRecordFacts:[H.MN_TARGET_ORIGIN_ID],recordFactConfirmations:stored.draftSnapshot.dependencies.recordFactConfirmations})}),foreignContext)).status,404);assert.deepEqual(stored,final);
+   const present=await presentation();for(const key of ['checkoutAllowed','generationAllowed','fulfillmentAvailable'])assert.equal(present.commercialActions[key],false);
+   const beforeClear=clone(stored);assert.equal((await post({jurisdiction_scope:''})).status,200);assert.equal(stored.draftSnapshot.pathwayId,null);assert.equal(stored.draftSnapshot.dependencies.recordFactConfirmations.jurisdiction_scope.status,'unconfirmed');assert.deepEqual(stored.draftSnapshot.dependencies.recordFactConfirmations.jurisdiction_scope.legacyValues,beforeClear.draftSnapshot.dependencies.recordFactConfirmations.jurisdiction_scope.legacyValues);
+   const cleared=clone(stored),restore=await post({jurisdiction_scope:'State or local'});assert.equal(restore.status,403);assert.deepEqual(await restore.json(),{ok:false,error:'packet_information_unavailable'});assert.deepEqual(stored,cleared,'No route means no protected correction entry; refused restoration is atomic');
+
+  });
+
  }
 }
-const result={status:rows.some(x=>!x.pass)?'FAIL':'PASS',baseline,passed:rows.filter(x=>x.pass).length,failed:rows.filter(x=>!x.pass),observations,siblings,transportObservations,ssrEvidence,limits:'Pure local source/collector/model/transition checks only; no DB/browser/owner/document mapping/eligibility or commercial authority.'};
+const result={status:rows.some(x=>!x.pass)?'FAIL':'PASS',baseline,passed:rows.filter(x=>x.pass).length,failed:rows.filter(x=>!x.pass),observations,siblings,transportObservations,ssrEvidence,originEditableEvidence,limits:'Pure local source/collector/model/transition checks only; no DB/browser/owner/document mapping/eligibility or commercial authority.'};
 if(out)fs.writeFileSync(out,JSON.stringify(result,null,2)+'\n');
 console.log(JSON.stringify({status:result.status,baseline,passed:result.passed,failed:result.failed},null,2));if(result.status==='FAIL')process.exitCode=1;

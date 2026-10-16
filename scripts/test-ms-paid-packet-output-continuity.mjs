@@ -33,7 +33,27 @@ check('actual current v4 proof validates three exact approved outputs',()=>{
   const actual=load();assert.equal(actual.proof.schemaVersion,'rcap-ms-paid-packet-proof/v4');
   assert.equal(actual.proof.results.length,3);assert.deepEqual(actual.proof.results,prior.results);
   assert.deepEqual(actual.proof.ownerDecision,prior.ownerDecision);
-  assert.equal(actual.proof.outputContinuity.inputCount,134);
+  assert.equal(actual.proof.outputContinuity.inputCount,195);
+  const continuity=actual.proof.outputContinuity;
+  assert.deepEqual(continuity.artifactPredecessorOutput,{
+    path:'data/rcap-grade-a/participant-data-rights/question-contract-output-reproduction-20261016-v19.json',
+    sha256:'e5dfd06708c302427c28819ee7e265fe9987bf42e3d71c586d0ba10199bf2884'});
+  assert.equal(continuity.artifactPredecessorContinuity.path,
+    'data/rcap-grade-a/participant-data-rights/question-contract-output-continuity-20261016-v19.json');
+  const previous=JSON.parse(fs.readFileSync(continuity.artifactPredecessorOutput.path));
+  const current=JSON.parse(fs.readFileSync(continuity.path));
+  assert.deepEqual(previous.counts,{routes:6,outputs:18,byteIdentical:18,pass:130,fail:0});
+  assert.equal(previous.sources.length,134);
+  assert.deepEqual(current.counts,{routes:6,outputs:18,byteIdentical:15,pass:127,fail:3});
+  assert.deepEqual(continuity.artifactSuccessor.rawCounts,current.counts);
+  assert.equal(continuity.artifactSuccessor.routeId,'DC:dc_actual_innocence_expungement_16_803');
+  assert.deepEqual(continuity.artifactSuccessor.decision,{
+    path:'data/rcap-grade-a/legal-decisions/OWNER_CURRENT_COMMERCIAL_ARTIFACT_APPROVAL_DC_ACTUAL_INNOCENCE_2026-10-16.json',
+    sha256:'e37dcb06f202f35837f9df37e89febfbc9b61f0febf8d1c74bbf602009cb2858'});
+  assert.equal(continuity.artifactSuccessor.artifactDigests.length,3);
+  assert.equal(continuity.artifactSuccessor.createsOwnerApproval,false);
+  assert.equal(continuity.artifactSuccessor.commercialAuthorityGranted,false);
+  assert.equal(continuity.artifactSuccessor.productionAuthorized,false);
   assert.equal(actual.proof.currentProtectedJourneyEstablished,false);
 });
 for(const [file,reason] of [[MS_PAID_PACKET_PROOF_PREDECESSOR,/October 11 historical proof changed/],[MS_PAID_PACKET_PROOF_20260920,/September 20 historical proof changed|historical evidence changed/],[MS_PAID_PACKET_PROOF_RETIRED,/September 14 historical proof changed|historical evidence changed/]]){
@@ -43,6 +63,9 @@ const mutations={
  'removed output continuity':p=>delete p.outputContinuity,
  'borrowed old output proof':p=>{p.outputContinuity.path=p.outputContinuity.historicalOutput.path;},
  'invented current count':p=>{p.outputContinuity.inputCount=88;},
+ 'lost artifact predecessor continuity':p=>{delete p.outputContinuity.artifactPredecessorContinuity;},
+ 'lost artifact predecessor reproduction':p=>{delete p.outputContinuity.artifactPredecessorOutput;},
+ 'lost exact DC artifact adoption binding':p=>{delete p.outputContinuity.artifactSuccessor;},
  'lost earlier output continuity':p=>{delete p.outputContinuity.earlierContinuity;},
  'lost earlier output reproduction':p=>{delete p.outputContinuity.earlierOutput;},
  'lost previous output continuity':p=>{delete p.outputContinuity.previousContinuity;},
@@ -80,9 +103,25 @@ check('unknown unexecuted input cannot extend the proof inventory',()=>{
  const candidate=structuredClone(proof);candidate.inputs['scripts/invented-unexecuted-source.mjs']='0'.repeat(64);
  assert.throws(()=>load(candidate),/incomplete or undeclared MS proof input inventory/);
 });
-for(const file of MS_PROOF_EXECUTION_INPUTS)check(`execution helper or lockfile remains source-bound: ${file}`,()=>{
+// These exact six literal reads fail within mandatory DC adoption validation,
+// before the later generic MS proof hash loop. Preserve the precise boundary;
+// an arbitrary error cannot stand in for the expected refusal.
+const dcExecutionRefusals={
+ 'data/rcap-grade-a/legal-decisions/OWNER_CURRENT_COMMERCIAL_ARTIFACT_APPROVAL_DC_ACTUAL_INNOCENCE_2026-10-16.json':/DC artifact adoption bytes changed/,
+ 'data/rcap-grade-a/legal-decisions/DC_ACTUAL_INNOCENCE_ARTIFACT_MOVE_2026-10-16.json':/DC exact explained move binding/,
+ 'data/rcap-grade-a/legal-decisions/CURRENT_COMMERCIAL_ARTIFACT_VISUAL_REVIEW_DC_ACTUAL_INNOCENCE_2026-10-16.json':/DC exact visual review binding/,
+ 'data/rcap-ledger/grade-a/artifacts/current-commercial-review/dc-actual-innocence-2026-10-16/full-en.pdf':/DC exact explained move binding/,
+ 'data/rcap-ledger/grade-a/artifacts/current-commercial-review/dc-actual-innocence-2026-10-16/full-es.pdf':/DC exact explained move binding/,
+ 'data/rcap-ledger/grade-a/artifacts/current-commercial-review/dc-actual-innocence-2026-10-16/court-only.pdf':/DC exact explained move binding/
+};
+check('all six DC artifact adoption/custody reads are explicit execution inputs',()=>{
+ assert.equal(Object.keys(dcExecutionRefusals).length,6);
+ for(const file of Object.keys(dcExecutionRefusals))assert.ok(MS_PROOF_EXECUTION_INPUTS.includes(file),file);
+});
+for(const file of MS_PROOF_EXECUTION_INPUTS)check(`execution dependency remains source-bound: ${file}`,()=>{
  assert.ok(proof.inputs[file]);
- assert.throws(()=>load(proof,{file,bytes:Buffer.from('changed execution dependency')}),/stale MS packet proof|stale output input/);
+ const reason=dcExecutionRefusals[file]??/stale MS packet proof|stale output input/;
+ assert.throws(()=>load(proof,{file,bytes:Buffer.from('changed execution dependency')}),reason);
 });
 for(const file of ['scripts/lib/ms-paid-packet-proof.mjs','scripts/verify-ms-paid-packet-proof.mjs','src/lib/rcap/render/participant-packet-assembly.ts','src/lib/rcap/fulfillment/final-verification-contract.ts'])check(`current exact implementation remains pinned ${file}`,()=>assert.throws(()=>load(proof,{file,bytes:Buffer.concat([fs.readFileSync(file),Buffer.from('\n')])}),/stale MS packet proof|stale output input/));
 check('proof generator refuses existing private output before any PostgreSQL',()=>{

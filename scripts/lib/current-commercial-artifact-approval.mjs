@@ -32,6 +32,9 @@
 import fs from "node:fs";
 import path from "node:path";
 import crypto from "node:crypto";
+import { assertDcInnocenceArtifactSuccessor, dcInnocenceArtifactMove,
+  DC_INNOCENCE_ARTIFACT_DECISION_PATH, DC_INNOCENCE_ARTIFACT_DECISION_SHA256, DC_INNOCENCE_ARTIFACT_MOVE_PATH
+} from '../../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 
 export const CURRENT_COMMERCIAL_ARTIFACT_APPROVAL_PATH =
   "data/rcap-grade-a/legal-decisions/OWNER_CURRENT_COMMERCIAL_ARTIFACT_APPROVAL_2026-09-20.json";
@@ -160,6 +163,43 @@ export function loadCurrentCommercialArtifactApprovals(root = process.cwd()) {
         path: entry.path, sha256: entry.sha256, pageCount: entry.pageCount
       }))
     });
+  }
+  // An explained current move removes only this route's obsolete current-byte
+  // claim. It cannot add an approval. All 18 original approval artifacts remain.
+  const readBytes = file => fs.readFileSync(path.join(root, file));
+  let moveRecordPresent = false;
+  try { readBytes(DC_INNOCENCE_ARTIFACT_MOVE_PATH); moveRecordPresent = true; }
+  catch (error) {
+    if (error?.code !== 'ENOENT') {
+      // Installed/unreadable evidence is not evidence of absence. Never restore
+      // the obsolete DC claim on EACCES, EIO, or another read failure.
+      approvals.delete('DC:dc_actual_innocence_expungement_16_803');
+      return approvals;
+    }
+  }
+  const move = dcInnocenceArtifactMove(readBytes);
+  if (moveRecordPresent) {
+    // Corrupt or incomplete successor evidence cannot fall back to a stale
+    // current-byte claim for the old DC artifact set.
+    approvals.delete('DC:dc_actual_innocence_expungement_16_803');
+    if (!move) return approvals;
+    try {
+      const binding = { path: DC_INNOCENCE_ARTIFACT_DECISION_PATH,
+        sha256: DC_INNOCENCE_ARTIFACT_DECISION_SHA256 };
+      const proof = JSON.parse(readBytes(move.measuredOutput.path).toString('utf8'));
+      const successor = assertDcInnocenceArtifactSuccessor({ binding, proof, readBytes });
+      const nextBytes = readBytes(binding.path), next = JSON.parse(nextBytes.toString('utf8'));
+      const primary = next.approvedArtifacts.find(a => a.variant === 'full' && a.locale === 'en');
+      approvals.set(move.routeId, { path: binding.path, sha256: digest(nextBytes),
+        recordId: next.decisionId, artifactSha256: primary.sha256,
+        artifactPageCount: primary.pageCount, decidedAt: next.decidedAt, owner: next.owner,
+        boundToCommit: next.boundTo.commit, boundToBatchSha256: next.boundTo.batch.sha256,
+        boundToVisualReviewSha256: next.boundTo.visualReview.sha256,
+        approvedArtifacts: next.approvedArtifacts,
+        preservedPriorApproval: next.supersedesArtifactDigestConditionOnly,
+        artifactSuccessor: successor,
+        commercialAuthorityGranted: false, productionAuthorized: false });
+    } catch { /* Exact adoption absent/drifted: this route stays held. */ }
   }
   return approvals;
 }

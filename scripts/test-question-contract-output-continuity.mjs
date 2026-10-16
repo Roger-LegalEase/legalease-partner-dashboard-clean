@@ -5,8 +5,10 @@ import { runInNewContext } from 'node:vm';
 import * as msProofInventory from './lib/ms-paid-packet-proof.mjs';
 import {
   assertQuestionContractOutputInputs, assertQuestionContractOutputContinuity,
+  assertDcInnocenceArtifactSuccessor, dcInnocenceArtifactMove,
   readQuestionContractSuccessor, questionContractSourceSuccessorFor,
   QUESTION_CONTRACT_CONTINUITY_PATH, QUESTION_CONTRACT_CONTINUITY_SHA256,
+  QUESTION_CONTRACT_ARTIFACT_PREDECESSOR_CONTINUITY_PATH, QUESTION_CONTRACT_ARTIFACT_PREDECESSOR_OUTPUT_PATH,
   QUESTION_CONTRACT_REVIEWED_REVISION_CONTINUITY_PATH, QUESTION_CONTRACT_REVIEWED_REVISION_OUTPUT_PATH,
   QUESTION_CONTRACT_INTEGRATED_REVISION_CONTINUITY_PATH, QUESTION_CONTRACT_INTEGRATED_REVISION_OUTPUT_PATH,
   QUESTION_CONTRACT_REVALIDATED_REVISION_CONTINUITY_PATH, QUESTION_CONTRACT_REVALIDATED_REVISION_OUTPUT_PATH,
@@ -56,6 +58,8 @@ const integratedContinuity = JSON.parse(readBytes(QUESTION_CONTRACT_INTEGRATED_R
 const integratedProof = JSON.parse(readBytes(QUESTION_CONTRACT_INTEGRATED_REVISION_OUTPUT_PATH));
 const revalidatedContinuity = JSON.parse(readBytes(QUESTION_CONTRACT_REVALIDATED_REVISION_CONTINUITY_PATH));
 const revalidatedProof = JSON.parse(readBytes(QUESTION_CONTRACT_REVALIDATED_REVISION_OUTPUT_PATH));
+const artifactPriorContinuity = JSON.parse(readBytes(QUESTION_CONTRACT_ARTIFACT_PREDECESSOR_CONTINUITY_PATH));
+const artifactPriorProof = JSON.parse(readBytes(QUESTION_CONTRACT_ARTIFACT_PREDECESSOR_OUTPUT_PATH));
 const historical = JSON.parse(readBytes(QUESTION_CONTRACT_OUTPUT_PATH));
 const receipt = readQuestionContractSuccessor(readBytes);
 let checks = 0;
@@ -63,7 +67,7 @@ function check(name, run) { try { run(); checks++; } catch (error) { error.messa
 const validate = (c = continuity, p = proof, read = readBytes) => assertQuestionContractOutputContinuity({ continuity: c, proof: p, readBytes: read });
 check('exact executed successor validates complete current inventory', () => {
   const actual = assertQuestionContractOutputInputs(readBytes);
-  assert.equal(actual.inputCount, 134);
+  assert.equal(actual.inputCount, 195);
   assert.equal(actual.path, QUESTION_CONTRACT_CURRENT_OUTPUT_PATH);
   assert.equal(actual.sha256, sha(readBytes(QUESTION_CONTRACT_CURRENT_OUTPUT_PATH)));
   assert.equal(actual.continuity.sha256, QUESTION_CONTRACT_CONTINUITY_SHA256);
@@ -110,7 +114,7 @@ check('exact executed successor validates complete current inventory', () => {
   assert.deepEqual(actual.revalidatedRevisionOutput, continuity.revalidatedRevisionOutput);
   assert.equal(JSON.parse(readBytes(QUESTION_CONTRACT_EARLIER_OUTPUT_PATH)).sources.length, 113);
 });
-check('actual continuity reader paths fit the exact MS required inventory union including v14/v15/v16/v17/v18', () => {
+check('actual continuity reader paths fit the exact MS required inventory union including v14/v15/v16/v17/v18/v19', () => {
   const reads = new Set();
   const actual = assertQuestionContractOutputInputs(file => { reads.add(file); return readBytes(file); });
   const source = fs.readFileSync('scripts/lib/ms-paid-packet-proof.mjs', 'utf8');
@@ -122,7 +126,7 @@ check('actual continuity reader paths fit the exact MS required inventory union 
   const inventory = expression => new Set(runInNewContext(expression, context));
   const required = inventory(match[1]);
   assert.ok([...reads].every(file => required.has(file)), 'every actual continuity read must enter MS source inventory');
-  for (const token of ['retainedRevisionContinuity', 'retainedRevisionOutput', 'continuedRevisionContinuity', 'continuedRevisionOutput', 'reviewedRevisionContinuity', 'reviewedRevisionOutput', 'integratedRevisionContinuity', 'integratedRevisionOutput', 'revalidatedRevisionContinuity', 'revalidatedRevisionOutput']) {
+  for (const token of ['retainedRevisionContinuity', 'retainedRevisionOutput', 'continuedRevisionContinuity', 'continuedRevisionOutput', 'reviewedRevisionContinuity', 'reviewedRevisionOutput', 'integratedRevisionContinuity', 'integratedRevisionOutput', 'revalidatedRevisionContinuity', 'revalidatedRevisionOutput', 'artifactPredecessorContinuity', 'artifactPredecessorOutput']) {
     const path = actual[token].path;
     assert.ok(reads.has(path) && required.has(path), 'new predecessor is really read and included');
     const removed = match[1].replace(`proof.outputContinuity.${token}.path,`, '');
@@ -334,6 +338,7 @@ for (const path of [QUESTION_CONTRACT_INTEGRATED_REVISION_CONTINUITY_PATH, QUEST
   check(`missing v17 predecessor refuses: ${path}`, () => assert.throws(() => assertQuestionContractOutputInputs(file => {if(file===path)throw new Error('deliberately missing v17 evidence');return readBytes(file);}), /deliberately missing v17 evidence/));
 }
 check('actual FL v19 preserves all v18 paths and only measured localization transition', () => {
+  const continuity = artifactPriorContinuity, proof = artifactPriorProof;
   assert.equal(revalidatedProof.sources.length,134);
   assert.equal(proof.sources.length,134);
   assert.equal(continuity.revalidatedRevisionSourceCount,134);
@@ -349,7 +354,22 @@ for (const path of [QUESTION_CONTRACT_REVALIDATED_REVISION_CONTINUITY_PATH, QUES
   check(`tampered v18 predecessor refused: ${path}`, () => assert.throws(() => assertQuestionContractOutputInputs(file => file === path ? Buffer.from('{}') : readBytes(file)), /bytes changed/));
   check(`missing v18 predecessor refuses: ${path}`, () => assert.throws(() => assertQuestionContractOutputInputs(file => {if(file===path)throw new Error('deliberately missing v18 evidence');return readBytes(file);}), /deliberately missing v18 evidence/));
 }
+
+check('actual v20 retains195 measured inputs and truthful adopted DC3 raw disposition', () => {
+  assert.equal(proof.sources.length,195);
+  assert.equal(artifactPriorProof.sources.length,134);
+  assert.deepEqual(proof.counts,{routes:6,outputs:18,byteIdentical:15,pass:127,fail:3});
+  assert.equal(continuity.artifactPredecessorSourceCount,134);
+  assert.deepEqual(continuity.artifactPredecessorAddedSourcePaths,["data/rcap-all50/overlays/census-v1/mn/mn-petition-609a02-subd3-set--custom-pleading/product-wiring.json", "data/rcap-all50/overlays/census-v1/mn/mn-petition-609a02-subd3-set--custom-pleading/production-field-map.json", "data/rcap-all50/overlays/census-v1/mn/mn-prosecutor-agreed-set--custom-pleading/product-wiring.json", "data/rcap-all50/overlays/census-v1/mn/mn-prosecutor-agreed-set--custom-pleading/production-field-map.json", "data/rcap-all50/overlays/census-v1/ny/ny-mrta-marijuana-set--official-pdf-fill/product-wiring.json", "data/rcap-all50/overlays/census-v1/ny/ny-mrta-marijuana-set--official-pdf-fill/source-receipt.json", "data/record-clearing/legal-design-intake/MD.memo.json", "data/record-clearing/legal-design-intake/MN.memo.json", "data/record-clearing/legal-design-intake/NY.memo.json", "data/record-clearing/legal-design-intake/VA.memo.json", "data/record-clearing/production-factory/packet-proofs/rcap-md-guidance-implementation.json", "data/record-clearing/production-factory/packet-proofs/rcap-ny-guidance-implementation.json", "src/lib/expungement-ai/ca-prop64-record-facts.ts", "src/lib/expungement-ai/court-completion-fact-meaning.ts", "src/lib/expungement-ai/frontend/profiles/all51.json", "src/lib/expungement-ai/frontend/reviewed-assisted-contact-copy.json", "src/lib/expungement-ai/frontend/reviewed-participant-copy.json", "src/lib/expungement-ai/frontend/reviewed-question-spanish.json", "src/lib/expungement-ai/frontend/reviewed-source-question-copy.json", "src/lib/expungement-ai/ga-pardon-category-context.ts", "src/lib/expungement-ai/mn-two-county-source-facts.ts", "src/lib/expungement-ai/reviewed-court-completion-contracts.json", "src/lib/expungement-ai/reviewed-question-copy.ts", "src/lib/legal-authority/authority.json", "src/lib/legal-authority/index.ts", "src/lib/legal-authority/routes/ct-cannabis-e4-r2-successor.json", "src/lib/legal-authority/routes/national-report-2026-08-28.json", "src/lib/legal-authority/routes/national-report-batch-b.json", "src/lib/legal-authority/routes/national-report-batch-c.json", "src/lib/legal-authority/routes/p0.json", "src/lib/legal-authority/routes/route-splits.json", "src/lib/legal-authority/routes/single-routes.json", "src/lib/legal-authority/types.ts", "src/lib/rcap-engine/composed-route-selector.ts", "src/lib/rcap-engine/dc-innocence-location-context.ts", "src/lib/rcap-engine/delaware-conviction-questions.ts", "src/lib/rcap-engine/delaware-conviction-rules.ts", "src/lib/rcap-engine/factual-pathway-exclusions.ts", "src/lib/rcap-engine/illinois-cannabis-facts.ts", "src/lib/rcap-engine/kansas-record-scope.ts", "src/lib/rcap-engine/louisiana-automation-status.ts", "src/lib/rcap-engine/maine-nonconviction-facts.ts", "src/lib/rcap-engine/maryland-police-record-facts.ts", "src/lib/rcap-engine/mississippi-conditional-discharge.ts", "src/lib/rcap-engine/mississippi-exact-timing.ts", "src/lib/rcap-engine/mississippi-program-completion.ts", "src/lib/rcap-engine/missouri-closed-record-facts.ts", "src/lib/rcap-engine/montana-record-correction-financial.ts", "src/lib/rcap-engine/nebraska-nonconviction-facts.ts", "src/lib/rcap-engine/new-jersey-marijuana-status-financial.ts", "src/lib/rcap-engine/new-mexico-guidance-financial.ts", "src/lib/rcap-engine/ny-16055-guidance.ts", "src/lib/rcap-engine/ny-16057-guidance.ts", "src/lib/rcap-engine/ny-mrta-stage-facts.ts", "src/lib/rcap-engine/oklahoma-clean-slate-financial.ts", "src/lib/rcap-engine/public-profile-projection.ts", "src/lib/rcap-engine/screening-question-selection.ts", "src/lib/rcap-engine/south-carolina-guidance-financial.ts", "src/lib/rcap-engine/south-dakota-guidance-financial.ts", "src/lib/rcap-engine/virginia-victim-question.ts", "src/lib/rcap-engine/west-virginia-guidance-financial.ts"]);
+  assert.deepEqual(continuity.artifactPredecessorSourceTransitions,[{"file": "data/record-clearing/packet-specifications/DC-correct-misattributed-arrest.v1.json", "beforeSha256": "4f687d1cf05b4c858b92af341627433fdad4bf29daf4030bb25d9f7879deef9d", "afterSha256": "ea7d7f0acf71915031366bfde09f7485665596c8992ad913b03a3e6707e07149"}, {"file": "src/lib/expungement-ai/record-fact-clarification.ts", "beforeSha256": "22943fa03665a2cfea63381577bf694a7b2fa4aab520ac8f86552b71eee06dd5", "afterSha256": "4f7a5acd19c5b48bbd873fe612c1a282ccdb3619453346ec90cf5f72ccc5f576"}, {"file": "src/lib/rcap/grade-a/renderer.ts", "beforeSha256": "63cd07f520dc963eff0aa355b34c57d98fd16565ee61675f49784d91e9df2f90", "afterSha256": "af2aefd2aaa2fb6fe08b7cf3ce3298abe6c5b8ba85159929a18d50af6f63a6a9"}]);
+  assert.equal(continuity.currentOutput.sha256,'406d5144b02a994eac974be64c7ed4c5291ad4289a5abe931303d2fc47bdea0a');
+});
 const continuityMutations = {
+  'wrong artifact predecessor continuity': [c => { c.artifactPredecessorContinuity.sha256 = '0'.repeat(64); }, /artifact predecessor ancestry/],
+  'wrong artifact predecessor output': [c => { c.artifactPredecessorOutput.sha256 = '0'.repeat(64); }, /artifact predecessor ancestry/],
+  'reduced artifact predecessor inventory': [c => { c.artifactPredecessorSourceCount--; }, /source inventory/],
+  'omitted artifact predecessor addition': [c => { c.artifactPredecessorAddedSourcePaths.pop(); }, /undeclared artifact predecessor source transition/],
+  'omitted artifact predecessor transition': [c => { c.artifactPredecessorSourceTransitions.pop(); }, /undeclared artifact predecessor source transition/],
   'wrong revalidated revision continuity': [c => { c.revalidatedRevisionContinuity.sha256 = '0'.repeat(64); }, /revalidated revision predecessor ancestry/],
   'wrong revalidated revision output': [c => { c.revalidatedRevisionOutput.sha256 = '0'.repeat(64); }, /revalidated revision predecessor ancestry/],
   'reduced revalidated revision inventory': [c => { c.revalidatedRevisionSourceCount--; }, /source inventory/],
@@ -496,7 +516,7 @@ const proofMutations = {
   'changed synthetic facts': [p => { p.routes[0].fixture.currentFactMapSha256 = '0'.repeat(64); }, /changed output semantics/],
   'missing source': [p => p.sources.pop(), /source inventory/],
   'duplicate source': [p => { p.sources[0] = p.sources[1]; }, /source inventory/],
-  'omitted historical source': [p => { p.sources[0] = { file: 'invented', sha256: '0'.repeat(64) }; }, /historical source omitted/],
+  'omitted historical source': [p => { const index = p.sources.findIndex(input => historical.sources.some(before => before.file === input.file)); assert.ok(index >= 0); p.sources[index] = { file: 'invented', sha256: '0'.repeat(64) }; }, /historical source omitted/],
   'failed check': [p => { p.checks[0].status = 'FAIL'; }, /acceptance incomplete/],
   'NOT_RUN check': [p => { p.checks[0].status = 'NOT_RUN'; }, /acceptance incomplete/],
   'duplicated check': [p => { p.checks[0] = p.checks[1]; }, /acceptance incomplete/],
@@ -549,4 +569,79 @@ check('MS original owner/source transition remains unchanged', () => {
   assert.deepEqual(actual.outputProof, receipt.outputProof);
   for (const key of ['createsOwnerApproval', 'changesApprovedOutputBytes', 'establishesProtectedVerification', 'establishesProviderOrPublicationProof', 'productionAuthorized']) assert.equal(actual[key], false);
 });
+
+check('DC caller cannot replace the production artifact-adoption pin', () => {
+  const forged = '0'.repeat(64);
+  assert.throws(() => assertDcInnocenceArtifactSuccessor({
+    binding: { path: 'data/rcap-grade-a/legal-decisions/OWNER_CURRENT_COMMERCIAL_ARTIFACT_APPROVAL_DC_ACTUAL_INNOCENCE_2026-10-16.json', sha256: forged },
+    proof, readBytes, expectedDecisionSha256: forged }), /adoption pending|adoption binding/);
+});
+// Execute the actual approval-reader body with only its filesystem dependency
+// mocked. No artifact copies or owner decision are manufactured for this control.
+check('DC installed unreadable move holds while true ENOENT preserves baseline', () => {
+  const modulePath = 'scripts/lib/current-commercial-artifact-approval.mjs';
+  const source = readBytes(modulePath).toString('utf8')
+    .replace(/^import[\s\S]*?from ["'][^"']+["'];\s*/gm, '')
+    .replace(/^export /gm, '');
+  const moveSuffix = '/data/rcap-grade-a/legal-decisions/DC_ACTUAL_INNOCENCE_ARTIFACT_MOVE_2026-10-16.json';
+  const root = process.cwd();
+  const loadWith = code => runInNewContext(source + '\nloadCurrentCommercialArtifactApprovals(testRoot)', {
+    testRoot: root, path: { join: (...parts) => parts.join('/') }, crypto,
+    fs: { readFileSync: file => {
+      if (file.endsWith(moveSuffix)) throw Object.assign(new Error('synthetic move read refusal'), { code });
+      return fs.readFileSync(file);
+    } }, dcInnocenceArtifactMove: () => null,
+    assertDcInnocenceArtifactSuccessor: () => { throw new Error('no adoption supplied'); },
+    DC_INNOCENCE_ARTIFACT_MOVE_PATH: moveSuffix.slice(1),
+    DC_INNOCENCE_ARTIFACT_DECISION_PATH: 'unused-pending-decision',
+    DC_INNOCENCE_ARTIFACT_DECISION_SHA256: null
+  });
+  const baseline = loadWith('ENOENT');
+  assert.equal(baseline.has('DC:dc_actual_innocence_expungement_16_803'), true);
+  for (const code of ['EACCES', 'EIO']) {
+    const held = loadWith(code);
+    assert.equal(held.has('DC:dc_actual_innocence_expungement_16_803'), false);
+    assert.deepEqual([...held.keys()], [...baseline.keys()].filter(id => id !== 'DC:dc_actual_innocence_expungement_16_803'));
+  }
+});
+if (continuity.artifactSuccessor != null) {
+  const dcBinding = continuity.artifactSuccessor;
+  check('DC exact adopted transition preserves raw historical-byte failures', () => {
+    assertDcInnocenceArtifactSuccessor({ binding: dcBinding, proof, readBytes });
+    assert.deepEqual(proof.counts, { routes: 6, outputs: 18, byteIdentical: 15, pass: 127, fail: 3 });
+    assert.equal(dcInnocenceArtifactMove(readBytes)?.createsApproval, false);
+  });
+  for (const file of [dcBinding.path,
+    'data/rcap-grade-a/legal-decisions/DC_ACTUAL_INNOCENCE_ARTIFACT_MOVE_2026-10-16.json',
+    'data/rcap-grade-a/legal-decisions/CURRENT_COMMERCIAL_ARTIFACT_VISUAL_REVIEW_DC_ACTUAL_INNOCENCE_2026-10-16.json']) {
+    check(`DC absent exact decision/move/visual refuses: ${file}`, () => {
+      assert.throws(() => assertDcInnocenceArtifactSuccessor({ binding: dcBinding, proof,
+        readBytes: f => { if (f === file) throw new Error('synthetic missing exact evidence'); return readBytes(f); } }));
+    });
+  }
+  for (const [name, mutate] of [
+    ['missing moved variant', p => { p.routes.find(r => r.routeId.startsWith('DC:')).artifacts.pop(); }],
+    ['extra moved variant', p => { const r=p.routes.find(r => r.routeId.startsWith('DC:')); r.artifacts.push(structuredClone(r.artifacts[0])); }],
+    ['fourth moved artifact', p => { p.routes.find(r => !r.routeId.startsWith('DC:')).artifacts[0].byteIdenticalToHistoricalApproval=false; }],
+    ['unrelated failed check', p => { p.checks.find(c => c.status==='PASS').status='FAIL'; }],
+    ['missing observed source', p => { p.sources.pop(); }],
+    ['extra unobserved source', p => { p.sources.push({file:'synthetic-unobserved',sha256:'0'.repeat(64)}); }],
+    ['raw counts relabeled PASS', p => { p.counts={routes:6,outputs:18,byteIdentical:18,pass:130,fail:0}; }]
+  ]) {
+    check(`DC exact successor refuses ${name}`, () => {
+      const changed=structuredClone(proof); mutate(changed);
+      assert.throws(() => assertDcInnocenceArtifactSuccessor({ binding:dcBinding, proof:changed, readBytes }));
+    });
+  }
+  for (const row of proof.routes) for (const artifact of row.artifacts) {
+    const path = row.routeId.startsWith('DC:')
+      ? `data/rcap-ledger/grade-a/artifacts/current-commercial-review/dc-actual-innocence-2026-10-16/${artifact.id}.pdf`
+      : artifact.historical.path;
+    check(`DC successor preserves exact output custody: ${path}`, () => {
+      assert.throws(() => assertDcInnocenceArtifactSuccessor({ binding:dcBinding, proof,
+        readBytes:f => f===path ? Buffer.from('synthetic changed bytes') : readBytes(f) }));
+    });
+  }
+}
+
 console.log(`PASS: ${checks} output-continuity and refusal controls; no new approval, protected journey or commercial authority.`);
