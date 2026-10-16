@@ -15,7 +15,8 @@ const canonical = value => Array.isArray(value) ? value.map(canonical) : value &
 const hash = value => createHash("sha256").update(JSON.stringify(canonical(value))).digest("hex");
 // Synthetic original124/B and five retained placements. Captured predecessor
 // collections: fa7452e6360b9ee5b347cd0345e679ce879f4df139ba48139119b899b5b31bd3.
-// Full hashes preserve every original field; only asserted purpose is removed.
+// Full hashes retain the original baseline. The accepted county-meaning
+// successor is asserted separately before restoring only its county portions.
 const fixtures = [
   {
     "name": "EMPTY",
@@ -348,21 +349,65 @@ const scope = routeDecidingFactScope(profile, pathway);
 const boundary = { specification: null, requiredInputIds: fixtures[0].input.requiredInputIds,
   decidingFactIds: new Set(scope.factIds), unresolvedFactIds: new Set(scope.unresolvedRules.flatMap(row => row.factIds)) };
 assert.deepEqual(contract(profile, pathway.id, boundary), purpose);
+// Accepted county-meaning correction (38b6c519): an old county answer does not
+// establish the original/transferee court meaning without explicit confirmation.
+// These fixtures deliberately retain their original, unconfirmed answers.
+const expectedCountySuccessor = {
+  factId: "county", collection: "prepay_confirmation", phase: "prepay_confirmation",
+  group: "court_and_case_number", source: "distinct_record_question_contract",
+  reason: "the original record question has a distinct meaning; preserve its answer and require scoped review when its source changes",
+  sourcePurpose: expectedPurpose
+};
+function assertCountySuccessor(resolution) {
+  assert.deepEqual(resolution.facts.filter(fact => fact.factId === "county"), [expectedCountySuccessor]);
+  assert.equal(resolution.prepayQuestions.filter(id => id === "county").length, 1);
+  assert(!Object.hasOwn(resolution.knownFacts, "county"));
+  assert(!Object.hasOwn(resolution.derivedFacts, "county"));
+  assert(!resolution.unresolvedRequiredFacts.includes("county"));
+  assert.deepEqual(resolution.groupedParticipantSections.flatMap(section =>
+    section.factIds.filter(id => id === "county").map(() => section.id)), ["court_and_case_number"]);
+  assert(prepayGateFactIds(resolution).includes("county"));
+}
+function restoreHistoricalCounty(resolution, fixture) {
+  assertCountySuccessor(resolution);
+  const restored = structuredClone(resolution);
+  const index = restored.facts.findIndex(fact => fact.factId === "county");
+  restored.facts[index] = structuredClone(fixture.county);
+  restored.prepayQuestions = restored.prepayQuestions.filter(id => id !== "county");
+  if (fixture.county.collection === "already_known") {
+    restored.knownFacts.county = fixture.county.value;
+    restored.groupedParticipantSections.find(section => section.id === "court_and_case_number")
+      .factIds = restored.groupedParticipantSections.find(section => section.id === "court_and_case_number")
+        .factIds.filter(id => id !== "county");
+  } else {
+    assert.equal(fixture.county.collection, "unresolved");
+    restored.unresolvedRequiredFacts.push("county");
+  }
+  return restored;
+}
 for (const fixture of fixtures) {
   const before = structuredClone(fixture.input);
   const resolution = packetCollectionFor(fixture.input);
   assert.deepEqual(fixture.input, before, fixture.name + ": raw input immutable");
   const county = resolution.facts.find(fact => fact.factId === "county");
   assert.deepEqual(county.sourcePurpose, expectedPurpose, fixture.name);
-  const restored = structuredClone(resolution);
-  delete restored.facts.find(fact => fact.factId === "county").sourcePurpose;
-  assert.equal(hash(restored), fixture.predecessorCollectionSha256, fixture.name + ": every historical collection field unchanged");
+  const restored = restoreHistoricalCounty(resolution, fixture);
+  assert.equal(hash(restored), fixture.predecessorCollectionSha256, fixture.name + ": every field outside the asserted county successor unchanged");
   assert.deepEqual(restored.facts.find(fact => fact.factId === "county"), fixture.county);
   assert.equal(resolution.facts.filter(fact => fact.sourcePurpose).length, 1);
-  assert.deepEqual(prepayGateFactIds(resolution), prepayGateFactIds(restored));
+  assert.deepEqual(prepayGateFactIds(resolution).filter(id => id !== "county"), prepayGateFactIds(restored).filter(id => id !== "county"));
   assert.deepEqual(packetCollectionFor(fixture.input), resolution, fixture.name + ": unchanged resume/no-op projection");
   const drift = structuredClone(restored); drift.facts.find(fact => fact.factId !== "county").reason += " drift";
   assert.notEqual(hash(drift), fixture.predecessorCollectionSha256, "unrelated drift cannot be normalized away");
+  for (const mutate of [
+    value => { value.facts.find(fact => fact.factId === "county").reason += " drift"; },
+    value => { value.prepayQuestions = value.prepayQuestions.filter(id => id !== "county"); },
+    value => { value.prepayQuestions.push("county"); },
+    value => { value.knownFacts.county = "Example County"; }
+  ]) {
+    const changed = structuredClone(resolution); mutate(changed);
+    assert.throws(() => restoreHistoricalCounty(changed, fixture), "county drift cannot be normalized away");
+  }
 }
 for (const mutate of [p=>p.jurisdiction.code="VA", p=>p.profileVersion+="drift", p=>delete p.source, p=>p.source.sourceCorpusSha256="drift",
   p=>{const row=p.pathways.find(row=>row.id===pathway.id);row.filingRequired=!row.filingRequired;},
@@ -398,10 +443,13 @@ try {
   const actual=packetCollectionFor({...fixtures[0].input,screeningAnswers:{},prefilledAnswers:{},savedAnswers:{}});
   assert.deepEqual(audit.routes[0].sourcePurposes,actual.facts.filter(f=>f.sourcePurpose).map(f=>({factId:f.factId,sourcePurpose:f.sourcePurpose})));
   assert.deepEqual(audit.routes[0].unresolvedRequiredFacts,actual.unresolvedRequiredFacts);
-  assert(actual.unresolvedRequiredFacts.includes("county"),"unresolved source need is not waived");
-  assert(audit.totals.unresolvedRequiredFacts>0,"focused acceptance is not broad zero-unresolved PASS");
+  assertCountySuccessor(actual);
+  assert.equal(actual.facts.find(fact=>fact.factId==="county").sourcePurpose.currentCourtConsumer,
+    "deferred_under_current_juvenile_source_hold", "confirmation classification does not lift the document-source hold");
+  assert.equal(audit.totals.unresolvedRequiredFacts, actual.unresolvedRequiredFacts.length,
+    "scoped audit reports the actual unresolved classification, not a nationwide acceptance claim");
   execFileSync(process.execPath,[...args,"--check"],{cwd:process.cwd(),stdio:"pipe"});
   for(const bad of [["--route-key","MD:juvenile-expungement"],["--route-key","MD:juvenile-expungement","--output-dir",path.join(process.cwd(),"data")],
     ["--route-key","MD:nonexistent","--output-dir",directory]]) assert.throws(()=>execFileSync(process.execPath,["scripts/generate-packet-collection-audit.mjs",...bad],{stdio:"pipe"}));
 } finally { rmSync(directory,{recursive:true,force:true}); }
-console.log("PASS MD juvenile county source-purpose: five retained collections, scoped production audit parity, source/refusal and unresolved-gate preservation; no owner/output acceptance");
+console.log("PASS MD juvenile county source-purpose: five retained historical baselines, accepted county-confirmation successor, scoped audit parity and source/refusal preservation; no owner/output acceptance");
