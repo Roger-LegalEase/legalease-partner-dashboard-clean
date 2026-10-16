@@ -30,6 +30,29 @@ const rule = { id: 'synthetic-anchor-isolation', sourceRef: 'synthetic-duration-
   when: { duration: { value: 2, unit: 'years' }, sourceConditionText: 'completion; unrelated arrest expunction text' },
   then: { suggestedResultCode: 'packet_ready_with_caution' } };
 const completed = { court_requirements_completed: 'yes', sentence_completion_date: 'Yes', financial_obligations: 'Yes', pending_cases: 'No', new_convictions_during_waiting_period: 'No', special_preconditions_confirmed: 'Yes' };
+// Same source-owned branch facts as test-tx-nondisclosure-source-facts.mjs
+// eventCases. Their earliest dates are October 15, after this test's October 12
+// clock. They test timing only; no statutory eligibility or route hold is lifted.
+const sourceClockCases = new Map([
+  [nd[1].id, [
+    { tx_nd_supervision_type: 'deferred_adjudication', tx_nd_discharge_dismissal_date: '2026-10-15', tx_nd_deferred_offense_class: 'misdemeanor_other_chapter' },
+    { tx_nd_supervision_type: 'deferred_adjudication', tx_nd_discharge_dismissal_date: '2024-10-15', tx_nd_deferred_offense_class: 'misdemeanor_chapter_20_21_22_25_42_43_46' },
+    { tx_nd_supervision_type: 'deferred_adjudication', tx_nd_discharge_dismissal_date: '2021-10-15', tx_nd_deferred_offense_class: 'felony' }
+  ]],
+  [nd[2].id, [
+    { tx_nd_supervision_type: 'conviction_no_probation', tx_nd_completion_confirmed: 'Yes', tx_nd_sentence_completion_date: '2026-10-15', tx_nd_fine_only: 'Yes' },
+    { tx_nd_supervision_type: 'conviction_no_probation', tx_nd_completion_confirmed: 'Yes', tx_nd_sentence_completion_date: '2024-10-15', tx_nd_fine_only: 'No' }
+  ]],
+  [nd[3].id, [
+    { tx_nd_supervision_type: 'deferred_adjudication', tx_nd_discharge_dismissal_date: '2024-10-15' },
+    { tx_nd_supervision_type: 'conviction_probation', tx_nd_completion_confirmed: 'Yes', tx_nd_supervision_completion_date: '2024-10-15', tx_nd_interlock_six_months: 'Yes' },
+    { tx_nd_supervision_type: 'conviction_probation', tx_nd_completion_confirmed: 'Yes', tx_nd_supervision_completion_date: '2021-10-15', tx_nd_interlock_six_months: 'No' },
+    { tx_nd_supervision_type: 'conviction_no_probation', tx_nd_completion_confirmed: 'Yes', tx_nd_sentence_completion_date: '2023-10-15', tx_nd_interlock_six_months: 'Yes' },
+    { tx_nd_supervision_type: 'conviction_no_probation', tx_nd_completion_confirmed: 'Yes', tx_nd_sentence_completion_date: '2021-10-15', tx_nd_interlock_six_months: 'No' },
+    { tx_nd_supervision_type: 'conviction_revoked_probation', tx_nd_completion_confirmed: 'Yes', tx_nd_sentence_completion_date: '2023-10-15', tx_nd_interlock_six_months: 'Yes' },
+    { tx_nd_supervision_type: 'conviction_revoked_probation', tx_nd_completion_confirmed: 'Yes', tx_nd_sentence_completion_date: '2021-10-15', tx_nd_interlock_six_months: 'No' }
+  ]]
+]);
 let checked = 0;
 for (const pathway of process.argv.includes('--replay-only') ? [] : nd) {
   for (const arrest_date of ['2000-01-01', '2026-10-11', 'not a date', 'I am not sure']) {
@@ -43,10 +66,19 @@ for (const pathway of process.argv.includes('--replay-only') ? [] : nd) {
     if (pathway.filingRequired) {
       const result = evaluateCompiledTiming(profile, { ...completed, arrest_date }, rule, pathway);
       assert.notEqual(result.status, 'satisfied'); checked++;
-      const recent = evaluateCompiledTiming(profile, { ...completed, arrest_date, sentence_completion_actual_date: '2026-10-11' }, rule, pathway);
-      assert.equal(recent.status, 'not_yet'); checked++;
-      const old = evaluateCompiledTiming(profile, { ...completed, arrest_date, sentence_completion_actual_date: '2000-01-01' }, rule, pathway);
-      assert.equal(old.status, 'satisfied'); checked++;
+      // A generic completion date supplies neither the source event nor subtype.
+      for (const sentence_completion_actual_date of ['2026-10-11', '2000-01-01']) {
+        const generic = evaluateCompiledTiming(profile, { ...completed, arrest_date, sentence_completion_actual_date }, rule, pathway);
+        assert.equal(generic.status, 'missing_anchor'); checked++;
+        assert.deepEqual(generic.missingQuestionIds, ['tx_nd_supervision_type']); checked++;
+      }
+      for (const facts of sourceClockCases.get(pathway.id)) {
+        const recent = evaluateCompiledTiming(profile, { ...completed, arrest_date, ...facts }, rule, pathway);
+        assert.equal(recent.status, 'not_yet', `${pathway.id}: source event still waiting despite arrest ${arrest_date}`); checked++;
+        const oldFacts = Object.fromEntries(Object.entries(facts).map(([id, value]) => [id, id.endsWith('_date') ? '2000-01-01' : value]));
+        const old = evaluateCompiledTiming(profile, { ...completed, arrest_date, ...oldFacts }, rule, pathway);
+        assert.equal(old.status, 'satisfied', `${pathway.id}: source timing elapsed independently of arrest ${arrest_date}`); checked++;
+      }
     }
   }
   assert.equal(chooseTimingAnchor(rule, pathway, { arrest_date: '2000-01-01' }, undefined, 'OTHER'), 'arrest_date'); checked++;
