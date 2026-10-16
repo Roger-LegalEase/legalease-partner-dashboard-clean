@@ -97,7 +97,7 @@ const conflict=structuredClone(stored);conflict.draftSnapshot.prefilledAnswers.f
 // Five exact participant aliases: GET and no-op do not migrate originals.
 const aliasPairs={fullName:'participant_full_legal_name',dateOfBirth:'date_of_birth',mailingAddress:'mailing_address',phone:'phone_number',email:'email_address'};
 const aliasValues={participant_full_legal_name:{value:'María Example',unknown:false},date_of_birth:{value:'1991-04-17',unknown:false},mailing_address:'42 Synthetic Street, Helena, MT 59601',phone_number:'+1 406 555 0100',email_address:'Owner.Example@example.test'};
-const aliasCurrent=record();aliasCurrent.draftSnapshot.prefilledAnswers=structuredClone(aliasValues);aliasCurrent.draftHash=protectedPacketDraftHash(aliasCurrent.draftSnapshot);
+const aliasCurrent=record();aliasCurrent.draftSnapshot.prefilledAnswers={...aliasCurrent.draftSnapshot.prefilledAnswers,...structuredClone(aliasValues)};assert.equal(aliasCurrent.draftSnapshot.prefilledAnswers.sentence_completion_date,'Yes');aliasCurrent.draftHash=protectedPacketDraftHash(aliasCurrent.draftSnapshot);
 for(const initial of [aliasCurrent,group.documentAliasBaseline.record]){
  stored=structuredClone(initial);const before=structuredClone(stored);
  let r=await API.GET(new Request(url),context);assert.equal(r.status,200);const body=await r.json();for(const[id,alias]of Object.entries(aliasPairs))assert.deepEqual(body.answers[id],aliasValues[alias]);assert.deepEqual(stored,before);

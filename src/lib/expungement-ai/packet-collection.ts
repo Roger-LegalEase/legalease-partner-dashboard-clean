@@ -1,3 +1,4 @@
+import { mo610105CourtIsContext } from "@/lib/expungement-ai/mo-610105-court-context";
 import { virginiaVictimQuestionContract, VA_VICTIM_STATUS_ID } from "@/lib/rcap-engine/virginia-victim-question";
 import { texasGuidanceFinancialApplies } from "@/lib/rcap-engine/texas-nondisclosure-facts";
 import { westVirginiaGuidanceFinancialApplies } from "@/lib/rcap-engine/west-virginia-guidance-financial";
@@ -675,6 +676,7 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
     && ndFirstOffenseRecordIsContext(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
   const retainedDcLocation = dcLocationContext && [input.screeningAnswers, input.prefilledAnswers, input.savedAnswers, input.profileFacts]
     .some(answers => answers && Object.hasOwn(answers, DC_LEGACY_LOCATION));
+  const mo610105CourtContext = input.jurisdiction === "MO" && mo610105CourtIsContext(getProfileByJurisdiction("MO"), input.pathwayId, specification);
   const vaVictimContext = input.jurisdiction === "VA" && virginiaVictimQuestionContract(getProfileByJurisdiction("VA"), input.pathwayId, { specification });
   const requiredInputIds = dedupe([...input.requiredInputIds, ...(retainedDcLocation ? [DC_LEGACY_LOCATION] : [])]);
   const decidesRouteFor = (factId: string) => input.routeDecidingFactIds?.has(factId) === true;
@@ -713,6 +715,12 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
       continue;
     }
 
+    if (mo610105CourtContext && factId === "court" && !overrideClass && !needsHuman.has(factId)) {
+      facts.push({ factId, collection: "conditional", phase: "known", group: null, active: false,
+        source: "mo_610105_court_retained_context",
+        reason: "Generic court text is optional context for locating the originating record. This status-guidance route has no participant court filing or mapped filing destination." });
+      continue;
+    }
     if (vaVictimContext && factId === VA_VICTIM_STATUS_ID && !overrideClass && !needsHuman.has(factId)) {
       facts.push({ factId, collection: "conditional", phase: "known", group: null, active: false,
         source: "va_three_routes_victim_status_retained_context",
