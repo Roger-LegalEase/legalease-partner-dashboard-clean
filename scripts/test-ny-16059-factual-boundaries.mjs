@@ -72,5 +72,15 @@ for (const id of ['sentencing_date', 'release_date']) {
     assert.deepEqual(answers, before); checked++;
   }
 }
-assert.equal(evaluate({ sentencing_date: '2012-02-29', release_date: '2012-03-01', ny_16059_sentence_incarceration: 'Yes', ny_16059_incarceration_history: 'released', ny_16059_incarceration_periods: '2012-02-29/2012-03-01' }).resultCode, 'packet_ready_with_caution'); checked++;
+const custodyDates = { sentencing_date: '2012-02-29', release_date: '2012-03-01', ny_16059_sentence_incarceration: 'Yes', ny_16059_incarceration_history: 'released', ny_16059_incarceration_periods: '2012-02-29/2012-03-01' };
+// Dates alone never attest the adopted physical-custody or release relationship.
+// Keep this older fixture held; only the fresh positive supplies both facts.
+const unconfirmedCustody = evaluate(custodyDates);
+assert.equal(unconfirmedCustody.resultCode, 'needs_more_info');
+assert.equal(unconfirmedCustody.paymentAllowed, false);
+for (const id of ['ny_16059_physical_custody_days_confirmed', 'ny_16059_release_sentence_relationship_confirmed']) {
+  assert.ok(unconfirmedCustody.missingQuestionIds.includes(id));
+}
+assert.ok(unconfirmedCustody.reasons.some(r => r.code === 'ny.ny_16059_clock_missing')); checked++;
+assert.equal(evaluate({ ...custodyDates, ny_16059_physical_custody_days_confirmed: 'Yes', ny_16059_release_sentence_relationship_confirmed: 'Yes' }).resultCode, 'packet_ready_with_caution'); checked++;
 console.log(JSON.stringify({ status: 'PASS', checked, scope: 'CPL 160.59 legacy ambiguity versus actual bars and count integrity; existing positive preserved. History/clock fixtures now supply independent current facts. Offense-table work and qualified review remain separate.' }));
