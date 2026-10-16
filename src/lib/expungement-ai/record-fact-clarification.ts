@@ -1,3 +1,4 @@
+import { MD_JUVENILE_CAPTION_ROUTE, MD_JUVENILE_CAPTION_SOURCE, MD_JUVENILE_CAPTION_IDENTITY_INPUTS, mdJuvenileCaptionQuestion } from "@/lib/expungement-ai/md-juvenile-county-source-purpose";
 import { MN_PETITION_ROUTE, MN_PROSECUTOR_ROUTE, MN_TARGET_ORIGIN_ID, MN_TARGET_ORIGIN_SOURCE, MN_TARGET_ORIGIN_IDENTITY_INPUTS, mnTargetOriginQuestion } from "@/lib/expungement-ai/mn-two-county-source-facts";
 import { MS_FIRST_OFFENDER_ROUTE, MS_FIRST_OFFENDER_IDS, MS_FIRST_OFFENDER_SOURCE, msFirstOffenderSourceContract } from "@/lib/rcap-engine/mississippi-first-offender-source-facts";
 import { msFirstOffenderSourceQuestions } from "@/lib/expungement-ai/ms-first-offender-source-questions";
@@ -46,7 +47,7 @@ export type RecordFactConfirmation = {
 export type RecordFactConfirmations = Record<string, RecordFactConfirmation>;
 
 function recordFactInputs(routeKey: string): Readonly<Record<string, readonly string[]>> {
-  return MN_ORIGIN_ROUTES.has(routeKey) ? MN_ORIGIN_INPUTS : routeKey === MS_FIRST_ROUTE ? MS_FIRST_INPUTS : routeKey === NY_ROUTE ? NY_INPUTS : routeKey === GA_PARDON_CAPTION_ROUTE ? GA_PARDON_CAPTION_INPUTS : routeKey === ROUTE ? RECORD_FACT_INPUTS : {};
+  return routeKey === MD_JUVENILE_CAPTION_ROUTE ? { county: MD_JUVENILE_CAPTION_IDENTITY_INPUTS } : MN_ORIGIN_ROUTES.has(routeKey) ? MN_ORIGIN_INPUTS : routeKey === MS_FIRST_ROUTE ? MS_FIRST_INPUTS : routeKey === NY_ROUTE ? NY_INPUTS : routeKey === GA_PARDON_CAPTION_ROUTE ? GA_PARDON_CAPTION_INPUTS : routeKey === ROUTE ? RECORD_FACT_INPUTS : {};
 }
 
 function knownText(value: unknown): string | null {
@@ -64,6 +65,7 @@ export function unambiguousMsCourtType(value: unknown): string | null {
 
 /** These original controls retain distinct record meanings; no broad charge/county/name substitution. */
 export function recordFactOwnQuestionIds(routeKey: string, answers: Readonly<Record<string, unknown>>, recorded?: RecordFactConfirmations): Set<string> {
+  if (routeKey === MD_JUVENILE_CAPTION_ROUTE) return new Set(mdJuvenileCaptionQuestion(getProfileByJurisdiction("MD"), "juvenile-expungement", packetSpecificationFor(routeKey)) ? ["county"] : []);
   if (MN_ORIGIN_ROUTES.has(routeKey)) return new Set([MN_TARGET_ORIGIN_ID]);
   if (routeKey === MS_FIRST_ROUTE) return new Set(MS_FIRST_OFFENDER_IDS);
   if (routeKey === NY_ROUTE) return new Set(NY_CONFIRMATION_IDS.filter(id => ny16059QuestionApplies(answers as Record<string, ScreeningAnswerValue>, id)));
@@ -105,6 +107,12 @@ function semanticContract(routeKey: string, factId: string): string | null {
   const inputs = recordFactInputs(routeKey);
   if (!(factId in inputs)) return null;
   const specification = packetSpecificationFor(routeKey);
+  if (routeKey === MD_JUVENILE_CAPTION_ROUTE) {
+    const question = mdJuvenileCaptionQuestion(getProfileByJurisdiction("MD"), "juvenile-expungement", specification);
+    return question && factId === "county" ? hash({ version: 1, routeKey, factId,
+      source: MD_JUVENILE_CAPTION_SOURCE, questionContract: question,
+      inputFactIds: MD_JUVENILE_CAPTION_IDENTITY_INPUTS, specification }) : null;
+  }
   if (MN_ORIGIN_ROUTES.has(routeKey)) {
     const question = mnTargetOriginQuestion(getProfileByJurisdiction("MN"), routeKey.slice(3), packetSpecificationFor(routeKey));
     return question ? hash({ version: 1, routeKey, factId, source: MN_TARGET_ORIGIN_SOURCE,
@@ -125,6 +133,14 @@ function semanticContract(routeKey: string, factId: string): string | null {
 }
 export function recordFactConfirmationFor(routeKey: string, factId: string, answers: Readonly<Record<string, unknown>>, question: ProfileQuestion | undefined): RecordFactConfirmation | null {
   const contractSha256 = semanticContract(routeKey, factId);
+  if (routeKey === MD_JUVENILE_CAPTION_ROUTE) {
+    const expected = mdJuvenileCaptionQuestion(getProfileByJurisdiction("MD"), "juvenile-expungement", packetSpecificationFor(routeKey));
+    const meaning = (candidate: ProfileQuestion) => ({ id: candidate.id, stage: candidate.stage,
+      type: candidate.type, prompt: candidate.prompt, helperText: candidate.helperText,
+      required: candidate.required, contextOnly: candidate.contextOnly,
+      lifecyclePhase: candidate.lifecyclePhase, options: candidate.options, optionDisplay: candidate.optionDisplay, translations: candidate.translations });
+    if (!expected || !question || factId !== "county" || hash(meaning(question)) !== hash(meaning(expected))) return null;
+  }
   if (MN_ORIGIN_ROUTES.has(routeKey)) {
     const expected = mnTargetOriginQuestion(getProfileByJurisdiction("MN"), routeKey.slice(3), packetSpecificationFor(routeKey));
     const contract = (candidate: ProfileQuestion) => ({ id: candidate.id, type: candidate.type,
@@ -190,4 +206,16 @@ export function recordFactCourtConflict(routeKey: string, answers: Readonly<Reco
   if (ambiguous(court) || ambiguous(caption)) return true;
   const types = [unambiguousMsCourtType(court), unambiguousMsCourtType(caption), selected].filter(Boolean);
   return new Set(types).size > 1;
+}
+
+
+/** An away-and-back edit cannot revive an old juvenile filing-court meaning. */
+export function mdJuvenileCaptionConfirmationsAfterChange(routeKey: string,
+  before: Readonly<Record<string, unknown>>, after: Readonly<Record<string, unknown>>,
+  recorded?: RecordFactConfirmations): RecordFactConfirmations | undefined {
+  const prior = recorded?.county;
+  if (routeKey !== MD_JUVENILE_CAPTION_ROUTE || !prior || prior.status !== "confirmed") return recorded;
+  const changed = ["county", ...MD_JUVENILE_CAPTION_IDENTITY_INPUTS]
+    .some(id => hash(answerMeaning(before[id])) !== hash(answerMeaning(after[id])));
+  return changed ? { ...recorded, county: { ...prior, status: "unconfirmed" } } : recorded;
 }

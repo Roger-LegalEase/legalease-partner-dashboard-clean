@@ -1,3 +1,4 @@
+import type { ProfileQuestion } from "@/lib/expungement-ai/frontend/contracts";
 import type { EngineProfile } from "@/lib/rcap-engine/contracts";
 import { mdFilingInstructions } from "@/lib/rcap/state-packs/maryland/filing-instructions";
 import { mdRequiredFields } from "@/lib/rcap/state-packs/maryland/required-fields";
@@ -343,4 +344,39 @@ export function mdJuvenileCountySourcePurpose(profile: EngineProfile | undefined
     || !same(profile.orderedDecisionRules.filter(row => row.candidatePathwayIds?.length === 1 && row.candidatePathwayIds[0] === pathwayId), expectedRules)
     || !same(source.instruction, expectedInstruction) || !same(source.fields, expectedFields)) return undefined;
   return MD_JUVENILE_COUNTY_SOURCE_PURPOSE;
+}
+
+
+/** Exact acquired caption identity only; not substantive form/current-law approval. */
+export const MD_JUVENILE_CAPTION_ROUTE = "MD:juvenile-expungement";
+export const MD_JUVENILE_CAPTION_SOURCE = {
+  formNumber: "JUV-11-506.1", revision: "01/2022",
+  sha256: "24fcb98eb0af35906252a424011a00d14ed393ed5451b01219ed5653c4c10a92",
+  url: "https://www.mdcourts.gov/sites/default/files/court-forms/juv-11-506.1.pdf",
+  field: "City/County of Circuit Court",
+  courtRole: "original juvenile petition/citation court or actual transferee juvenile court",
+  serviceOwner: "court", participantCompletedServiceCertification: false
+} as const;
+// Actual existing target-case inputs in this profile. No actual case-number
+// value is held in the exact contract. Missing court/charge stays unanswered;
+// these dependencies do not introduce a document/upload or collection gate.
+export const MD_JUVENILE_CAPTION_IDENTITY_INPUTS = ["court", "charge"] as const;
+const juvenileCourtPlaces = ["Allegany County", "Anne Arundel County", "Baltimore City", "Baltimore County", "Calvert County", "Caroline County", "Carroll County", "Cecil County", "Charles County", "Dorchester County", "Frederick County", "Garrett County", "Harford County", "Howard County", "Kent County", "Montgomery County", "Prince George's County", "Queen Anne's County", "Somerset County", "St. Mary's County", "Talbot County", "Washington County", "Wicomico County", "Worcester County"];
+
+/** Protected reconfirmation of the EXISTING county ID. No public schema change. */
+export function mdJuvenileCaptionQuestion(profile: EngineProfile | undefined,
+  pathwayId: string | null | undefined, specification: unknown): ProfileQuestion | null {
+  if (!mdJuvenileCountySourcePurpose(profile, pathwayId ?? null, { specification,
+    requiredInputIds: expectedRequiredInputIds, decidingFactIds: new Set<string>(),
+    unresolvedFactIds: new Set(["county"]) })) return null;
+  return { id: "county", stage: "packet_information", type: "single_choice",
+    prompt: "For this juvenile case, which city or county is the circuit court where the original petition or citation was filed? If the case was transferred, use the circuit court to which it was transferred.",
+    helperText: "Use the court for this juvenile case. This is not your home address or the place where you sign. Confirm this answer even if the saved city or county is unchanged.",
+    required: true, contextOnly: false, lifecyclePhase: "postpay_official_form_field",
+    options: [...juvenileCourtPlaces, "I am not sure"],
+    optionDisplay: { "I am not sure": { label: "I am not sure", translations: { es: { label: "No estoy seguro" } } } },
+    translations: { es: {
+      prompt: "Para este caso de menores, ¿en qué ciudad o condado está el tribunal de circuito donde se presentó la petición o citación original? Si se trasladó el caso, use el tribunal de circuito al que se trasladó.",
+      helperText: "Use el tribunal de este caso de menores. No es su domicilio ni el lugar donde firma. Confirme la respuesta aunque la ciudad o el condado guardado no haya cambiado."
+    } } };
 }

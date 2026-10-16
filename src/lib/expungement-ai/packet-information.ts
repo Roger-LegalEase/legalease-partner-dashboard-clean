@@ -1,4 +1,4 @@
-import { mdJuvenileCountySourcePurpose } from "@/lib/expungement-ai/md-juvenile-county-source-purpose";
+import { mdJuvenileCountySourcePurpose, MD_JUVENILE_CAPTION_ROUTE, mdJuvenileCaptionQuestion } from "@/lib/expungement-ai/md-juvenile-county-source-purpose";
 import { ksMunicipalCategoryIsContext, ksMunicipalCategoryContextQuestion } from "@/lib/expungement-ai/ks-municipal-category-context";
 import { MS_FIRST_OFFENDER_COLLECTION_IDS, msFirstOffenderSourceQuestions } from "@/lib/expungement-ai/ms-first-offender-source-questions";
 import { MS_FIRST_OFFENDER_ROUTE, MS_FIRST_OFFENDER_IDS, projectMsFirstOffenderSourceFacts, msFirstOffenderSourceContract } from "@/lib/rcap-engine/mississippi-first-offender-source-facts";
@@ -82,7 +82,7 @@ import { CA_PROP64_QUESTIONS, CA_PROP64_COMPLETED, isCaProp64Pathway, caProp64Ch
 import { caProp64RecordQuestions } from "@/lib/expungement-ai/ca-prop64-record-facts";
 import { caProp64RecordAnswerState, CA_PROP64_RECORD_FACT_IDS } from "@/lib/expungement-ai/ca-prop64-record-answer";
 import { isAffirmative, isNegative, isExplicitUnknownAnswer } from "@/lib/rcap-engine/answer-normalization";
-import { recordFactOwnQuestionIds, recordFactConfirmationFor, mnTargetOriginConfirmationsAfterChange, unresolvedRecordFactConfirmations, recordFactCourtConflict, type RecordFactConfirmations } from "@/lib/expungement-ai/record-fact-clarification";
+import { recordFactOwnQuestionIds, recordFactConfirmationFor, mnTargetOriginConfirmationsAfterChange, mdJuvenileCaptionConfirmationsAfterChange, unresolvedRecordFactConfirmations, recordFactCourtConflict, type RecordFactConfirmations } from "@/lib/expungement-ai/record-fact-clarification";
 import { georgiaPardonPreparationFactIds } from "@/lib/expungement-ai/ga-pardon-preparation";
 import { fullSsnLastFour, requiresMcicIdentifierAuthority } from "@/lib/expungement-ai/sensitive-packet-facts";
 import { reviewedContactRepresentation, contactRepresentationHash, contactRepresentationProvenance, isProvenContactOutput } from "@/lib/expungement-ai/contact-representation";
@@ -657,8 +657,11 @@ export function packetInformationPatch(input: {
   // A bare edit/restoration must not auto-confirm a historical generic scalar.
   const mnOriginRequiresExplicitConfirmation = mnTargetOriginQuestion(getProfileByJurisdiction(current.stateCode), current.pathwayId,
     packetSpecificationFor(`${current.stateCode}:${current.pathwayId ?? ""}`)) !== null;
+  const mdCaptionRequiresExplicitConfirmation = mdJuvenileCaptionQuestion(getProfileByJurisdiction(current.stateCode), current.pathwayId,
+    packetSpecificationFor(`${current.stateCode}:${current.pathwayId ?? ""}`)) !== null;
   const automaticConfirmationIds = Object.keys(answerDelta)
-    .filter(id => !(mnOriginRequiresExplicitConfirmation && id === MN_TARGET_ORIGIN_ID));
+    .filter(id => !(mnOriginRequiresExplicitConfirmation && id === MN_TARGET_ORIGIN_ID)
+      && !(mdCaptionRequiresExplicitConfirmation && id === "county"));
   const nextDraft = !materialFactChange && !derivedRepairRequired && canonicalEqual(priorSnapshot.packetPlan, current.packetPlan) && priorProtected.draftSnapshot
     ? priorProtected.draftSnapshot
     : deriveProtectedPacketDraftSnapshot(priorProtected, savedAnswers, now, contactChoice, [...new Set([...automaticConfirmationIds, ...confirmations])], new Set(Object.keys(answerDelta)), clearCustody, input.gaPardonPreparation === true, input.mtDeferredPreparation === true, input.caJuvenilePreparation === true);
@@ -2669,7 +2672,8 @@ export function protectedPacketInformationModelFor(
     pendingDerivations: questionSurface.collection?.pendingDerivations ?? [],
     contactReconciliation: questionSurface.collection?.contactReconciliation,
     recordOwnQuestionIds, recordClarificationIds,
-    ...(mnTargetOriginQuestion(profile, snapshot.pathwayId, packetSpecificationFor(`${snapshot.jurisdiction}:${snapshot.pathwayId}`)) ? { recordFactConfirmations: snapshot.dependencies.recordFactConfirmations } : {}),
+    ...((mnTargetOriginQuestion(profile, snapshot.pathwayId, packetSpecificationFor(`${snapshot.jurisdiction}:${snapshot.pathwayId}`))
+      || mdJuvenileCaptionQuestion(profile, snapshot.pathwayId, packetSpecificationFor(`${snapshot.jurisdiction}:${snapshot.pathwayId}`))) ? { recordFactConfirmations: snapshot.dependencies.recordFactConfirmations } : {}),
     nyCaseIssues,
     courtRecordConflict: recordFactCourtConflict(`${snapshot.jurisdiction}:${snapshot.pathwayId}`, initialAnswers),
     stage: !packetPlan ? "in_progress" : currentlyVerified
@@ -2845,6 +2849,8 @@ export function packetCollectionFor(input: {
     .filter(question => ndFirstOffenseFactApplies(profile, input.pathwayId, { ...input.screeningAnswers, ...input.prefilledAnswers, ...input.savedAnswers }, question.id))
     .map((question) => [question.id, toProfileQuestion(question)]));
   installPacketSpecificationQuestions(questionById, input.jurisdiction, input.pathwayId, input.requiredInputIds, { ...input.screeningAnswers, ...input.prefilledAnswers, ...input.savedAnswers });
+  const juvenileCaptionQuestion = mdJuvenileCaptionQuestion(profile, input.pathwayId, specification);
+  if (juvenileCaptionQuestion) questionById.set("county", juvenileCaptionQuestion);
   for (const id of input.requiredInputIds) {
     if (!questionById.has(id)) questionById.set(id, fallbackPacketQuestion(id));
   }
@@ -3159,6 +3165,16 @@ export function isTexasNondisclosureGuidanceCorrection(model: Parameters<typeof 
 
 export function heldPacketCorrectionInputIds(model: Parameters<typeof heldCourtCompletionInputIds>[0], resultCode: string | null): Set<string> {
   const ids = heldCourtCompletionInputIds(model, resultCode);
+  const mdCaptionQuestion = mdJuvenileCaptionQuestion(getProfileByJurisdiction(model.stateCode), model.pathwayId,
+    packetSpecificationFor(`${model.stateCode}:${model.pathwayId}`));
+  if (resultCode === "not_covered_yet" && mdCaptionQuestion
+    && model.questions.some(question => question.id === "county" && question.prompt === mdCaptionQuestion.prompt)
+    && editablePacketInputIds(model).has("county")) {
+    const collection = packetCollectionFor({ jurisdiction: model.stateCode, pathwayId: model.pathwayId,
+      requiredInputIds: model.requiredInputIds, serverFacts: model.serverFacts,
+      screeningAnswers: model.screeningAnswers, prefilledAnswers: model.prefilledAnswers, savedAnswers: model.packetAnswers });
+    if (collection?.facts.find(fact => fact.factId === "county")?.sourcePurpose) ids.add("county");
+  }
   if (["needs_review", "needs_more_info", "not_yet"].includes(resultCode ?? "")
     && ksMunicipalCategoryIsContext(getProfileByJurisdiction(model.stateCode), model.pathwayId,
       packetSpecificationFor(`${model.stateCode}:${model.pathwayId}`))
@@ -3410,6 +3426,9 @@ function protectedPacketQuestionSurface(
     questionById.set(question.id, toProfileQuestion(question));
   }
   installPacketSpecificationQuestions(questionById, profile.jurisdiction.code, pathwayId, requiredInputIds, { ...screeningAnswers, ...prefilledAnswers, ...savedAnswers });
+  const juvenileCaptionQuestion = mdJuvenileCaptionQuestion(profile, pathwayId,
+    packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`));
+  if (juvenileCaptionQuestion) questionById.set("county", juvenileCaptionQuestion);
   let questions = requiredInputIds
     .filter((id) => !(id in serverFacts))
     .map((id) => questionById.get(id) ?? fallbackPacketQuestion(id))
@@ -3934,6 +3953,20 @@ function deriveProtectedPacketDraftSnapshot(
       ...base.dependencies.ny16059SeparateDeclaration, supersededByAnswerSha256: contactRepresentationHash(packetAnswers[NY_TRANSACTION_ASSOCIATIONS_ID])
     } } };
   }
+  if (mdJuvenileCaptionQuestion(getProfileByJurisdiction(base.jurisdiction), base.pathwayId,
+    packetSpecificationFor(`${base.jurisdiction}:${base.pathwayId}`))
+    && (explicitChangedIds.has("county") || confirmRecordFacts.includes("county"))) {
+    const history = [...(base.dependencies.semanticAnswerHistory ?? [])];
+    for (const source of ["screeningAnswers", "prefilledAnswers", "packetAnswers"] as const) {
+      if (!Object.hasOwn(originalBase[source], "county")) continue;
+      const entry = { factId: "county", value: originalBase[source].county, source,
+        meaning: "prior_factual_pathway_answer" as const, routeKey: MD_JUVENILE_CAPTION_ROUTE,
+        profileVersion: originalBase.profileVersion, profileSourceFingerprint: originalBase.profileSourceFingerprint,
+        profileAuthorityFingerprint: originalBase.profileAuthorityFingerprint };
+      if (!history.some(old => canonicalEqual(old, entry))) history.push(entry);
+    }
+    base = { ...base, dependencies: { ...base.dependencies, semanticAnswerHistory: history } };
+  }
   const legacy = protectedLegacyAnswerProjection(base);
   const replacedLegacyIds = new Set([...explicitChangedIds, ...(useContactComponents ? ["contact_information"] : [])]);
   const blockedLegacyFacts = new Set(legacy.inspection.effectiveInvalidIds.filter(id => !replacedLegacyIds.has(id)));
@@ -4169,6 +4202,8 @@ function refreshedPacketFactMaps(base: PacketDerivationSource, incoming: Partici
   const routeKey = `${base.jurisdiction}:${base.pathwayId ?? ""}`;
   const mnConfirmations = mnTargetOriginConfirmationsAfterChange(routeKey, prior, current, dependencies.recordFactConfirmations);
   if (mnConfirmations !== dependencies.recordFactConfirmations) dependencies = { ...dependencies, recordFactConfirmations: mnConfirmations };
+  const mdConfirmations = mdJuvenileCaptionConfirmationsAfterChange(routeKey, prior, current, dependencies.recordFactConfirmations);
+  if (mdConfirmations !== dependencies.recordFactConfirmations) dependencies = { ...dependencies, recordFactConfirmations: mdConfirmations };
   const hash = (value: unknown) => createHash("sha256").update(JSON.stringify(canonicalize(value))).digest("hex");
   const own = recordFactOwnQuestionIds(routeKey, current, dependencies.recordFactConfirmations);
   for (const id of REFRESHABLE_PACKET_DERIVATIONS) {
