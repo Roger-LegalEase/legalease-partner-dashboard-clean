@@ -1,3 +1,4 @@
+import { CT_CANNABIS_SOURCE, CT_CANNABIS_COPY, ctCannabisGeneralInformationContext, ctCannabisGeneralInformationQuestionApplies } from "@/lib/rcap-engine/connecticut-cannabis-automatic-guidance";
 import { MS_FIRST_OFFENDER_ROUTE, MS_FIRST_OFFENDER_SOURCE, isMsFirstOffenderSourceContext, msFirstOffenderSourceDecision, type MsFirstOffenderSourceContext } from "@/lib/rcap-engine/mississippi-first-offender-source-facts";
 import { MD_POLICE_ROUTE, MD_POLICE_IDS, MD_POLICE_SOURCE, MD_POLICE_COPY, mdPoliceContext, mdPoliceDate, mdPoliceResolutionFacts } from "@/lib/rcap-engine/maryland-police-record-facts";
 import { ny16057Decision, NY_16057_COPY, NY_16057_ROUTE, NY_16057_SOURCE } from "@/lib/rcap-engine/ny-16057-guidance";
@@ -460,6 +461,7 @@ function evaluateProfileRules(profile: EngineProfile, request: ScreeningEvaluati
   }
 
   const missingQuestionIds = requiredMissingPublicQuestionIds(publicProfile, answers)
+    .filter(id => ctCannabisGeneralInformationQuestionApplies(profile, preselectedPathway?.id, answers, id))
     .filter(id => ny16055QuestionApplies(profile, answers, id))
     .filter(id => nyMrtaQuestionApplies(profile, answers, id))
     .filter(id => montanaRecordFinancialApplies(profile, preselectedPathway?.id, answers, id))
@@ -730,11 +732,11 @@ function evaluateProfileRules(profile: EngineProfile, request: ScreeningEvaluati
   const preProductGuidance = preselectedPathway ? productGuidanceReason(profile, answers, preselectedPathway) : undefined;
   if (preselectedPathway && preProductGuidance) {
     const plan = packetPlanForPathway(profile, preselectedPathway.id);
-    return result(profile, request, "guidance_only", [preProductGuidance], {
+    return withCtCannabisGuidancePresentation(result(profile, request, "guidance_only", [preProductGuidance], {
       pathwayId: preselectedPathway.id,
       ...(plan ? { packetPlan: plan } : {}),
       paymentAllowed: false
-    });
+    }));
   }
   // Backstop for the same structural fact when the product-guidance checks
   // above stop firing (e.g. a later ratification flips the court-filed
@@ -825,11 +827,11 @@ function evaluateProfileRules(profile: EngineProfile, request: ScreeningEvaluati
   const guidanceOnlyProduct = productGuidanceReason(profile, answers, pathway);
   if (guidanceOnlyProduct) {
     const plan = packetPlanForPathway(profile, pathway.id);
-    return result(profile, request, "guidance_only", [guidanceOnlyProduct], {
+    return withCtCannabisGuidancePresentation(result(profile, request, "guidance_only", [guidanceOnlyProduct], {
       pathwayId: pathway.id,
       ...(plan ? { packetPlan: plan } : {}),
       paymentAllowed: false
-    });
+    }));
   }
   const plan = packetPlanForPathway(profile, pathway.id);
   // Structural, not plan-driven: an automatic/no-filing route resolves to
@@ -1136,6 +1138,7 @@ function ambiguityReason(
   const legalFields = publicProfile.questions.filter((question) => question.contextOnly !== true && isPrepaymentQuestion(question));
   const relevant = relevantFactIds(profile, selectedPathway);
   const ambiguous = legalFields
+    .filter(question => ctCannabisGeneralInformationQuestionApplies(profile, selectedPathway?.id, answers, question.id))
     .filter(question => !TX_ND_FACT_IDS.includes(question.id))
     .filter(question => montanaRecordFinancialApplies(profile, selectedPathway?.id, answers, question.id))
     .filter(question => newMexicoGuidanceFinancialApplies(profile, selectedPathway?.id, answers, question.id))
@@ -2277,10 +2280,22 @@ function activeProgramReferralReason(profile: EngineProfile, answers: Record<str
   return undefined;
 }
 
+// Both preselected and compiled product-guidance paths use the same exact
+// conditional explanation. Keep existing cautions and next steps intact.
+function withCtCannabisGuidancePresentation(evaluation: ScreeningEvaluation): ScreeningEvaluation {
+  if (!evaluation.reasons.some(item => item.code === "ct.cannabis_automatic_general_information"
+    && item.sourceRef === CT_CANNABIS_SOURCE && item.text === CT_CANNABIS_COPY.general)) return evaluation;
+  return { ...evaluation, nextSteps: [CT_CANNABIS_COPY.checks, ...evaluation.nextSteps],
+    cautions: [...evaluation.cautions, CT_CANNABIS_COPY.boundary, CT_CANNABIS_COPY.effect] };
+}
+
 function productGuidanceReason(profile: EngineProfile, answers: Record<string, ScreeningAnswerValue>, pathway: CompiledPathway): ScreeningReason | undefined {
   const jurisdiction = profile.jurisdiction.code;
   const legalContract = legalRouteContract(jurisdiction, pathway.id);
   if (legalContract?.outcomeMode === "referral") return undefined;
+  if (ctCannabisGeneralInformationContext(profile, pathway.id, answers)) {
+    return reason("CT", "cannabis_automatic_general_information", CT_CANNABIS_COPY.general, CT_CANNABIS_SOURCE);
+  }
   if (routeIsApprovedReleaseGuidance(profile, pathway)) {
     return reason(
       jurisdiction,
