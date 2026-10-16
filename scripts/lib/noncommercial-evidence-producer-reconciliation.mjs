@@ -3,9 +3,11 @@
  * Never an owner approval, and never authority for new shipping bytes. */
 import assert from 'node:assert/strict';
 import crypto from 'node:crypto';
+import { isDeepStrictEqual } from 'node:util';
+import { bindCurrentCommercialArtifact } from './current-commercial-artifact.mjs';
 import fs from 'node:fs';
 import { execFileSync } from 'node:child_process';
-import { readQuestionContractSuccessor, questionContractSourceSuccessorFor, assertQuestionContractOutputInputs } from '../../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
+import { readQuestionContractSuccessor, questionContractSourceSuccessorFor, assertQuestionContractOutputInputs, DC_INNOCENCE_ARTIFACT_DECISION_PATH, DC_INNOCENCE_ARTIFACT_DECISION_SHA256 } from '../../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 
 export const CAPTAIN = '4d00a1ffa16965290d55536787dca85981d0fced';
 export const FOOTER_COMMIT = '95ca90ba99de215d35dcbe06ddeb6528c42d8c7a';
@@ -88,10 +90,89 @@ export function footerOnlyBuilderDelta(before, after) {
 function exactFile(entry, readBytes) {
   assert.equal(digest(readBytes(entry.path)), entry.sha256, `changed evidence: ${entry.path}`);
 }
+// The historical footer receipt pinned this shared container before a
+// change to an unrelated VA family. Keep proving those exact historical bytes;
+// only the unchanged four-family input slice can serve this producer proof.
+export const TASK53_MANIFEST_CONTAINER = Object.freeze({
+  path: 'data/record-clearing/legal-design-packet-set-manifests.json',
+  historicalSha256: '177d5d131b066827e8ae030715edb28ca6729060b60d7865cd2d67ed76f556f0'
+});
+export function reconcileTask53ManifestContainer({ entry, familyId, routeId,
+  readBytes = fs.readFileSync, readGitBlob = defaultGitBlob }) {
+  const c = TASK53_MANIFEST_CONTAINER;
+  const scopes = [...FAMILIES.map(f => ({ familyId: f.familyId, routeIds: f.routeIds })),
+    ...HISTORICAL_PRODUCERS.map(f => ({ familyId: f.familyId, routeIds: [f.routeId] }))];
+  assert.ok(scopes.some(f => f.familyId === familyId && f.routeIds.includes(routeId)),
+    'manifest family/route outside bounded reconciliation');
+  assert.deepEqual(entry, { path: c.path, sha256: c.historicalSha256 }, 'wrong preserved manifest entry');
+  assert.equal(typeof readGitBlob, 'function', 'historical manifest Git reader required');
+  const historical = readGitBlob(CAPTAIN, c.path);
+  assert.ok(historical, 'historical manifest Git bytes absent');
+  assert.equal(digest(historical), entry.sha256, 'historical manifest Git bytes changed');
+  const current = readBytes(c.path), before = JSON.parse(historical), after = JSON.parse(current);
+  const { packetSets: oldSets, ...oldGlobals } = before;
+  const { packetSets: newSets, ...newGlobals } = after;
+  assert.deepEqual(newGlobals, oldGlobals, 'manifest global schema/migrations changed');
+  assert.ok(Array.isArray(oldSets) && Array.isArray(newSets), 'manifest packet sets absent');
+  const ids = sets => sets.map(row => {
+    assert.equal(typeof row.packetSetId, 'string', 'manifest packet-set ID absent');
+    return row.packetSetId;
+  });
+  const oldIds = ids(oldSets), newIds = ids(newSets);
+  assert.equal(new Set(oldIds).size, oldIds.length, 'historical manifest packet-set ID duplicate');
+  assert.equal(new Set(newIds).size, newIds.length, 'current manifest packet-set ID duplicate');
+  assert.deepEqual(newIds, oldIds, 'manifest packet-set inventory/order changed');
+  const selected = [];
+  for (const scope of scopes) {
+    const oldRows = oldSets.filter(row => row.packetSetId === scope.familyId);
+    const newRows = newSets.filter(row => row.packetSetId === scope.familyId);
+    assert.equal(oldRows.length, 1, `historical manifest family missing/duplicate: ${scope.familyId}`);
+    assert.equal(newRows.length, 1, `current manifest family missing/duplicate: ${scope.familyId}`);
+    assert.deepEqual(newRows[0], oldRows[0], `relevant manifest family changed: ${scope.familyId}`);
+    selected.push({ familyId: scope.familyId, routeIds: [...scope.routeIds],
+      unchangedRowSha256: digest(JSON.stringify(oldRows[0])) });
+  }
+  return { contract: 'rcap-task53-unchanged-manifest-container/v1', familyId, routeId,
+    historicalManifest: { path: c.path, commit: CAPTAIN, sha256: entry.sha256 },
+    currentManifest: { path: c.path, sha256: digest(current) }, selected,
+    unrelatedFamilyContentsConsumed: false, createsApproval: false,
+    changesShippingArtifacts: false, revocationCleared: false };
+}
+
 export function classificationInvariant(records) {
   return records.filter(r => r.packetCompleteness?.filingFormatArtifact && 'isCurrentCommercialArtifact' in r.packetCompleteness.filingFormatArtifact)
     .map(r => ({ routeId: r.routeId, packetFamilyId: r.packetFamilyId, artifact: r.packetCompleteness.filingFormatArtifact }));
 }
+/** Retain the historical classification in full; only one separately adopted
+ * current DC review object may succeed it. This grants no route authority. */
+export function assertTask53ClassificationSuccession({ proof, records, readBytes = fs.readFileSync }) {
+  const actual = classificationInvariant(records), historical = proof.filingFormatBindings;
+  // No successor is needed only when the original entire comparison holds.
+  if (isDeepStrictEqual(actual, historical)) return { usedExactDcReviewSuccessor: false, createsApproval: false };
+  const scope = HISTORICAL_PRODUCERS.find(row => row.routeId === 'DC:dc_actual_innocence_expungement_16_803');
+  assert.ok(scope, 'exact DC historical producer scope absent');
+  const matches = historical.filter(row => row.routeId === scope.routeId);
+  assert.equal(matches.length, 1, 'historical DC classification missing/duplicate');
+  const old = matches[0];
+  assert.equal(old.packetFamilyId, scope.familyId, 'historical DC classification family changed');
+  assert.equal(old.artifact.isCurrentCommercialArtifact, false, 'historical DC filing artifact classification changed');
+  const current = bindCurrentCommercialArtifact({ routeId: old.routeId, packetFamilyId: old.packetFamilyId,
+    packetCompleteness: { filingFormatArtifact: structuredClone(old.artifact) } }, process.cwd(), readBytes);
+  const artifact = current.packetCompleteness.filingFormatArtifact;
+  assert.equal(artifact.isCurrentCommercialArtifact, false, 'DC historical artifact relabeled as current');
+  assert.deepEqual({ ...artifact, currentCommercialArtifactReview: old.artifact.currentCommercialArtifactReview },
+    old.artifact, 'DC historical filing artifact changed');
+  const review = artifact.currentCommercialArtifactReview;
+  assert.equal(review?.state, 'approved', 'current DC artifact successor approval absent');
+  assert.equal(review.approval?.path, DC_INNOCENCE_ARTIFACT_DECISION_PATH, 'current DC artifact successor decision path changed');
+  assert.equal(review.approval?.sha256, DC_INNOCENCE_ARTIFACT_DECISION_SHA256, 'current DC artifact successor decision digest changed');
+  const expected = structuredClone(historical);
+  expected.find(row => row.routeId === scope.routeId).artifact.currentCommercialArtifactReview = review;
+  assert.deepEqual(actual, expected, 'filing-format classification/binding changed');
+  return { usedExactDcReviewSuccessor: true, routeId: scope.routeId,
+    decision: { path: review.approval.path, sha256: review.approval.sha256 }, createsApproval: false };
+}
+
 export function commercialInvariant(record) {
   const artifact = record.packetCompleteness.filingFormatArtifact;
   return { routeId: record.routeId, packetFamilyId: record.packetFamilyId,
@@ -253,6 +334,11 @@ export function assertProducerReconciliation({ proof, familyId, routeId, builder
       }
       continue;
     }
+    if (proof.preservedFiles.includes(entry) && entry.path === TASK53_MANIFEST_CONTAINER.path
+      && digest(readBytes(entry.path)) !== entry.sha256) {
+      reconcileTask53ManifestContainer({ entry, familyId, routeId, readBytes, readGitBlob });
+      continue;
+    }
     exactFile(entry, readBytes);
   }
   assert.ok(proof.preservedFiles.some(entry => entry.path === WORKER_EVIDENCE_PATH),
@@ -267,7 +353,7 @@ export function assertProducerReconciliation({ proof, familyId, routeId, builder
     assert.equal(pageCount(readBytes(artifact.path)), artifact.pageCount, 'commercial artifact page count changed');
   }
   const records = JSON.parse(readBytes(REGISTRY_PATH)).records;
-  assert.deepEqual(classificationInvariant(records), proof.filingFormatBindings, 'filing-format classification/binding changed');
+  assertTask53ClassificationSuccession({ proof, records, readBytes });
   for (const expected of proof.commercialBindings) {
     const matches = records.filter(r => r.routeId === expected.routeId);
     assert.equal(matches.length, 1, 'commercial route not unique');

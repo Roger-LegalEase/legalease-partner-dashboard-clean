@@ -63,10 +63,11 @@ const digest = (bytes) => crypto.createHash("sha256").update(bytes).digest("hex"
  * what is missing. A throw here would take the whole build down over a gate that
  * is working correctly.
  */
-export function loadCurrentCommercialArtifactApprovals(root = process.cwd()) {
+export function loadCurrentCommercialArtifactApprovals(root = process.cwd(),
+  readBytes = file => fs.readFileSync(path.join(root, file))) {
   const empty = new Map();
   let bytes;
-  try { bytes = fs.readFileSync(path.join(root, CURRENT_COMMERCIAL_ARTIFACT_APPROVAL_PATH)); }
+  try { bytes = readBytes(CURRENT_COMMERCIAL_ARTIFACT_APPROVAL_PATH); }
   catch { return empty; }
 
   let decision;
@@ -89,8 +90,8 @@ export function loadCurrentCommercialArtifactApprovals(root = process.cwd()) {
   let batchBytes;
   let visualBytes;
   try {
-    batchBytes = fs.readFileSync(path.join(root, BATCH));
-    visualBytes = fs.readFileSync(path.join(root, VISUAL));
+    batchBytes = readBytes(BATCH);
+    visualBytes = readBytes(VISUAL);
   } catch { return empty; }
   if (decision.boundTo?.commit == null
     || decision.boundTo?.batch?.path !== BATCH
@@ -107,13 +108,13 @@ export function loadCurrentCommercialArtifactApprovals(root = process.cwd()) {
    */
   for (const entry of decision.preservedUnedited ?? []) {
     let preserved;
-    try { preserved = fs.readFileSync(path.join(root, entry.path)); } catch { return empty; }
+    try { preserved = readBytes(entry.path); } catch { return empty; }
     if (digest(preserved) !== entry.sha256) return empty;
   }
   for (const entry of decision.supersedes ?? []) {
     if (entry.priorDecisionMutated !== false) return empty;
     let prior;
-    try { prior = fs.readFileSync(path.join(root, entry.path)); } catch { return empty; }
+    try { prior = readBytes(entry.path); } catch { return empty; }
     if (digest(prior) !== entry.sha256) return empty;
   }
 
@@ -124,7 +125,7 @@ export function loadCurrentCommercialArtifactApprovals(root = process.cwd()) {
   for (const entry of approvedArtifacts) {
     // The bytes themselves. This is the check the approval exists to make.
     let artifact;
-    try { artifact = fs.readFileSync(path.join(root, entry.path)); } catch { return empty; }
+    try { artifact = readBytes(entry.path); } catch { return empty; }
     if (digest(artifact) !== entry.sha256) return empty;
     if (!(entry.pageCount > 0)) return empty;
     // And the visual review passed THESE bytes, not bytes that used to be here.
@@ -166,7 +167,6 @@ export function loadCurrentCommercialArtifactApprovals(root = process.cwd()) {
   }
   // An explained current move removes only this route's obsolete current-byte
   // claim. It cannot add an approval. All 18 original approval artifacts remain.
-  const readBytes = file => fs.readFileSync(path.join(root, file));
   let moveRecordPresent = false;
   try { readBytes(DC_INNOCENCE_ARTIFACT_MOVE_PATH); moveRecordPresent = true; }
   catch (error) {
