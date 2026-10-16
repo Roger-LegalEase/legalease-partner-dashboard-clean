@@ -1,4 +1,5 @@
 import { ny16059ClockDisplayLines } from "@/lib/rcap-engine/new-york-16059-clock-display";
+import { ny16055Decision, ny16055QuestionApplies, NY_16055_COPY, NY_16055_ROUTE, NY_16055_SOURCE } from "@/lib/rcap-engine/ny-16055-guidance";
 import {WY_1501_ROUTE,WY_1501_SOURCE,WY_1501_COPY,wy1501Context,wy1501Facts} from "@/lib/rcap-engine/wyoming-1501-facts";
 import { texasGuidanceFinancialApplies, texasNondisclosureTimingContract, texasNondisclosureClock, TX_ND_ROUTES, TX_ND_TIMING_COPY, TX_ND_FACT_IDS } from "@/lib/rcap-engine/texas-nondisclosure-facts";
 import { westVirginiaGuidanceFinancialApplies } from "@/lib/rcap-engine/west-virginia-guidance-financial";
@@ -237,6 +238,7 @@ function evaluateProfileRules(profile: EngineProfile, request: ScreeningEvaluati
 
   const publicProfile = projectPublicProfile(profile);
   const preselectedPathway = selectPathway(profile, answers);
+  const nyPartialSeal = ny16055Decision(profile, answers);
   // The existing selected source identifies general nonfiling information,
   // not a decision that the supplied case facts qualify for automatic relief.
   // No payment/completion alias is needed to read that explanation, and no
@@ -387,6 +389,7 @@ function evaluateProfileRules(profile: EngineProfile, request: ScreeningEvaluati
   }
 
   const missingQuestionIds = requiredMissingPublicQuestionIds(publicProfile, answers)
+    .filter(id => ny16055QuestionApplies(profile, answers, id))
     .filter(id => montanaRecordFinancialApplies(profile, preselectedPathway?.id, answers, id))
     .filter(id => newMexicoGuidanceFinancialApplies(profile, preselectedPathway?.id, answers, id))
     .filter(id => newJerseyMarijuanaStatusFinancialApplies(profile, preselectedPathway?.id, answers, id))
@@ -401,12 +404,39 @@ function evaluateProfileRules(profile: EngineProfile, request: ScreeningEvaluati
     .filter(id => nebraskaNonconvictionQuestionApplies(jurisdiction, preselectedPathway?.id, answers, id))
     .filter(id => louisianaAutomationStatusQuestionApplies(jurisdiction, preselectedPathway?.id, id));
   if (missingQuestionIds.length > 0) {
+    if (nyPartialSeal) {
+      const text = NY_16055_COPY.context[0];
+      return { ...result(profile, request, "needs_more_info", [reason("NY", "partial_seal_context_missing", text, NY_16055_SOURCE)], {
+        missingQuestionIds, paymentAllowed: false
+      }), userLabel: text, nextSteps: [text] };
+    }
     return result(profile, request, "needs_more_info", [reason(jurisdiction, "missing_required_facts", "Required public screening facts are missing.")], {
       missingQuestionIds,
       ...(nebraskaMissingFinancialCorrectionPathway(jurisdiction, preselectedPathway?.id, answers, missingQuestionIds)
         || maineMissingFinancialCorrectionPathway(jurisdiction, preselectedPathway?.id, answers, missingQuestionIds)
         ? { pathwayId: preselectedPathway!.id } : {})
     });
+  }
+
+  if (nyPartialSeal) {
+    const contextIds = [
+      ...(["Yes", "I am helping someone complete their own check"].includes(String(answers.ownership_scope)) ? [] : ["ownership_scope"]),
+      ...(answers.jurisdiction_scope === "State or local" ? [] : ["jurisdiction_scope"])
+    ];
+    const excluded = !contextIds.length && nyPartialSeal.status === "guidance" ? exclusionReason(profile, answers) : undefined;
+    const code = contextIds.length ? "context" : excluded ? "exclusion" : nyPartialSeal.code;
+    const text = NY_16055_COPY[code][0];
+    const guidance = !contextIds.length && nyPartialSeal.status === "guidance" && !excluded;
+    const evaluated = result(profile, request, guidance ? "guidance_only" : !contextIds.length && nyPartialSeal.status === "missing" ? "needs_more_info" : "needs_review",
+      [...(excluded ? [excluded] : []), reason("NY", `partial_seal_${code}`, text, NY_16055_SOURCE)], {
+        ...(guidance ? { pathwayId: NY_16055_ROUTE } : {}),
+        missingQuestionIds: [...contextIds, ...nyPartialSeal.ids], paymentAllowed: false,
+        cautions: [NY_16055_COPY.boundary[0]]
+      });
+    // Information and record review only. This installs no packet plan, family,
+    // authenticated order fact, exact date or completed-sealing assertion.
+    return { ...evaluated, userLabel: text,
+      nextSteps: guidance ? [NY_16055_COPY.record[0], NY_16055_COPY.boundary[0]] : [text] };
   }
 
   if (jurisdiction === "GA" && preselectedPathway?.id === GA_PARDON_ROUTE) {
@@ -1039,6 +1069,8 @@ function selectPathway(profile: EngineProfile, answers: Record<string, Screening
   if (profile.jurisdiction.code === "CA" && caProp64Pathway(answers)) return profile.pathways.find(p => p.id === caProp64Pathway(answers));
   if (profile.jurisdiction.code === "CA" && caProp64ApplicationRequested(answers)) return undefined;
   if (profile.jurisdiction.code === "NY" && ny16059Requested(answers)) return profile.pathways.find(p => p.id === NY_16059_ROUTE);
+  const nyPartialSeal = ny16055Decision(profile, answers);
+  if (nyPartialSeal) return nyPartialSeal.status === "guidance" ? profile.pathways.find(p => p.id === NY_16055_ROUTE) : undefined;
   if (profile.jurisdiction.code === "DE" && deAdultConviction(answers) && !isAffirmative(answers.pardon_status)) {
     const id = delawareConvictionRoute(answers);
     return profile.pathways.find(pathway => pathway.id === id);

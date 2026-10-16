@@ -174,7 +174,7 @@ export function ScreeningResult({
     : (evaluation.nextSteps ?? []).map((step) => safeUserFacingEngineText(step, { locale }));
   const routeLabelKey = routeLabelKeyForState(stateName, evaluation.pathwayId);
   const routeLabel = evaluation.pathwayLabel
-    ? reviewedResultRouteLabel(evaluation.jurisdiction, evaluation.pathwayId, evaluation.pathwayLabel)?.[locale] ?? localizeText(evaluation.pathwayLabel)
+    ? reviewedResultRouteLabel(evaluation.jurisdiction, evaluation.pathwayId, evaluation.pathwayLabel, evaluation.reasons.map(reason => reason.code))?.[locale] ?? localizeText(evaluation.pathwayLabel)
     : translate(routeLabelKey, `${stateName} record-clearing`, { state: stateName });
   const isMississippiClinicPacket = hasScreeningSession
     && stateName === "Mississippi"
