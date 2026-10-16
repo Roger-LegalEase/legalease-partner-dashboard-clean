@@ -90,8 +90,28 @@ for(const row of predecessors){
  }
 }
 // Retained adopted source and exact cb8 source-reproduced fixtures; no captured owner.
-const sourcePins={"data/record-clearing/legal-design-intake/NM.memo.json": "94fe9d381be4e2b03e78397bb67a76c30c5005854d178606604689d19e002f25", "src/lib/legal-authority/routes/single-routes.json": "6ca51b6dbc3a9383636b4b1cbdd19630db401d40c03760b8c91d8ae0357962f8", "src/lib/rcap-engine/compiled/profiles/NM-new-mexico.json": "ec03515fa44ddab02dd1b4d2be31c42752f145f142d2f46841fa73c052634086", "data/rcap-ledger/completed-output-counsel-manifest.json": "fbf9bfef239f466ef6d2c685b17edce724acc8389bf051b8754f709925771e56"};
+const sourcePins={"data/record-clearing/legal-design-intake/NM.memo.json": "94fe9d381be4e2b03e78397bb67a76c30c5005854d178606604689d19e002f25", "src/lib/rcap-engine/compiled/profiles/NM-new-mexico.json": "ec03515fa44ddab02dd1b4d2be31c42752f145f142d2f46841fa73c052634086", "data/rcap-ledger/completed-output-counsel-manifest.json": "fbf9bfef239f466ef6d2c685b17edce724acc8389bf051b8754f709925771e56"};
 for(const[file,expected]of Object.entries(sourcePins))check('retained source bytes '+file,()=>assert.equal(createHash('sha256').update(fs.readFileSync(root+'/'+file)).digest('hex'),expected));
+
+// The original single-routes source pin was6ca51b6dbc3a9383636b4b1cbdd19630db401d40c03760b8c91d8ae0357962f8.
+// The authorized252fc5867 MD-only edit changed that container, not NM. Bind
+// the exact NM object from those original bytes; cannabis has no contract in
+// this container and remains bound by the unchanged NM memo/profile above.
+const nmContractPins={"NM:dna-sample-profile-expungement":"a2740baeff351785eb71c0ed2009fd6c3633129eff8b3e1c80495ce81e0dd3bf"};
+const nmContracts=JSON.parse(fs.readFileSync(root+'/src/lib/legal-authority/routes/single-routes.json','utf8')).routes;
+const assertNmContracts=routes=>{
+ const scoped=routes.filter(route=>Object.hasOwn(nmContractPins,route.routeKey));
+ assert.deepEqual(scoped.map(route=>route.routeKey).sort(),Object.keys(nmContractPins).sort(),'exact retained NM contract set');
+ for(const contract of scoped)assert.equal(createHash('sha256').update(JSON.stringify(contract)).digest('hex'),nmContractPins[contract.routeKey],'retained NM contract changed: '+contract.routeKey);
+};
+check('retained exact NM contract object from original6ca source',()=>assertNmContracts(nmContracts));
+check('unrelated MD source edit does not invalidate NM source identity',()=>{const changed=structuredClone(nmContracts);changed.find(route=>route.jurisdiction==='MD').notes='Unrelated MD isolation mutation only';assertNmContracts(changed);});
+check('unrelated NM route remains independent of exact retained contract',()=>assertNmContracts([...nmContracts,{jurisdiction:'NM',routeKey:'NM:unrelated-isolation-control',timing:{kind:'event_trigger'}}]));
+check('missing NM contract refuses',()=>assert.throws(()=>assertNmContracts(nmContracts.filter(route=>route.jurisdiction!=='NM')),/exact retained NM contract set/));
+check('duplicate NM contract refuses',()=>assert.throws(()=>assertNmContracts([...nmContracts,nmContracts.find(route=>route.jurisdiction==='NM')]),/exact retained NM contract set/));
+check('wrong NM route identity refuses',()=>{const changed=structuredClone(nmContracts);changed.find(route=>route.jurisdiction==='NM').routeKey='NM:invented';assert.throws(()=>assertNmContracts(changed),/exact retained NM contract set/);});
+check('changed NM timing meaning refuses',()=>{const changed=structuredClone(nmContracts);changed.find(route=>route.jurisdiction==='NM').timing.anchorText='Invented universal waiting period';assert.throws(()=>assertNmContracts(changed),/retained NM contract changed/);});
+
 for(const route of H.NM_GUIDANCE_FINANCIAL_ROUTES){
  check('exact adopted source '+route,()=>assert(H.newMexicoGuidanceFinancialContract(profile,route)));
  for(const [label,mutate]of [['state',p=>p.jurisdiction.code='NJ'],['version',p=>p.profileVersion='drift'],['source',p=>p.source.sourceCorpusSha256='drift'],['prompt',p=>p.questions.find(q=>q.id==='financial_obligations').prompt='Complete everything?'],['required',p=>p.questions.find(q=>q.id==='financial_obligations').required=false],['route source',p=>p.pathways.find(x=>x.id===route).sourceRef='drift'],['rule clauses',p=>p.pathways.find(x=>x.id===route).ruleClauses=[]],['filing posture',p=>p.pathways.find(x=>x.id===route).filingRequired=!p.pathways.find(x=>x.id===route).filingRequired]]){
