@@ -1,3 +1,4 @@
+import { DC_INFORMATION_COPY, DC_INFORMATION_SOURCE, dcGeneralInformationContext, dcGeneralInformationQuestionApplies } from "@/lib/rcap-engine/district-of-columbia-general-guidance";
 import { CT_AUTOMATIC_INFORMATION_COPY, CT_AUTOMATIC_INFORMATION_SOURCE, ctAutomaticInformationContext, ctAutomaticInformationQuestionApplies } from "@/lib/rcap-engine/connecticut-automatic-source-guidance";
 import { CT_CANNABIS_SOURCE, CT_CANNABIS_COPY, ctCannabisGeneralInformationContext, ctCannabisGeneralInformationQuestionApplies } from "@/lib/rcap-engine/connecticut-cannabis-automatic-guidance";
 import { MS_FIRST_OFFENDER_ROUTE, MS_FIRST_OFFENDER_SOURCE, isMsFirstOffenderSourceContext, msFirstOffenderSourceDecision, type MsFirstOffenderSourceContext } from "@/lib/rcap-engine/mississippi-first-offender-source-facts";
@@ -462,6 +463,7 @@ function evaluateProfileRules(profile: EngineProfile, request: ScreeningEvaluati
   }
 
   const missingQuestionIds = requiredMissingPublicQuestionIds(publicProfile, answers)
+    .filter(id => dcGeneralInformationQuestionApplies(profile, preselectedPathway?.id, answers, id))
     .filter(id => ctAutomaticInformationQuestionApplies(profile, preselectedPathway?.id, answers, id))
     .filter(id => ctCannabisGeneralInformationQuestionApplies(profile, preselectedPathway?.id, answers, id))
     .filter(id => ny16055QuestionApplies(profile, answers, id))
@@ -734,11 +736,11 @@ function evaluateProfileRules(profile: EngineProfile, request: ScreeningEvaluati
   const preProductGuidance = preselectedPathway ? productGuidanceReason(profile, answers, preselectedPathway) : undefined;
   if (preselectedPathway && preProductGuidance) {
     const plan = packetPlanForPathway(profile, preselectedPathway.id);
-    return withCtAutomaticInformationPresentation(withCtCannabisGuidancePresentation(result(profile, request, "guidance_only", [preProductGuidance], {
+    return withDcGeneralInformationPresentation(withCtAutomaticInformationPresentation(withCtCannabisGuidancePresentation(result(profile, request, "guidance_only", [preProductGuidance], {
       pathwayId: preselectedPathway.id,
       ...(plan ? { packetPlan: plan } : {}),
       paymentAllowed: false
-    })));
+    }))));
   }
   // Backstop for the same structural fact when the product-guidance checks
   // above stop firing (e.g. a later ratification flips the court-filed
@@ -829,11 +831,11 @@ function evaluateProfileRules(profile: EngineProfile, request: ScreeningEvaluati
   const guidanceOnlyProduct = productGuidanceReason(profile, answers, pathway);
   if (guidanceOnlyProduct) {
     const plan = packetPlanForPathway(profile, pathway.id);
-    return withCtAutomaticInformationPresentation(withCtCannabisGuidancePresentation(result(profile, request, "guidance_only", [guidanceOnlyProduct], {
+    return withDcGeneralInformationPresentation(withCtAutomaticInformationPresentation(withCtCannabisGuidancePresentation(result(profile, request, "guidance_only", [guidanceOnlyProduct], {
       pathwayId: pathway.id,
       ...(plan ? { packetPlan: plan } : {}),
       paymentAllowed: false
-    })));
+    }))));
   }
   const plan = packetPlanForPathway(profile, pathway.id);
   // Structural, not plan-driven: an automatic/no-filing route resolves to
@@ -1140,6 +1142,7 @@ function ambiguityReason(
   const legalFields = publicProfile.questions.filter((question) => question.contextOnly !== true && isPrepaymentQuestion(question));
   const relevant = relevantFactIds(profile, selectedPathway);
   const ambiguous = legalFields
+    .filter(question => dcGeneralInformationQuestionApplies(profile, selectedPathway?.id, answers, question.id))
     .filter(question => ctAutomaticInformationQuestionApplies(profile, selectedPathway?.id, answers, question.id))
     .filter(question => ctCannabisGeneralInformationQuestionApplies(profile, selectedPathway?.id, answers, question.id))
     .filter(question => !TX_ND_FACT_IDS.includes(question.id))
@@ -2292,6 +2295,12 @@ function withCtCannabisGuidancePresentation(evaluation: ScreeningEvaluation): Sc
     cautions: [...evaluation.cautions, CT_CANNABIS_COPY.boundary, CT_CANNABIS_COPY.effect] };
 }
 
+function withDcGeneralInformationPresentation(evaluation: ScreeningEvaluation): ScreeningEvaluation {
+  const copy = Object.entries(DC_INFORMATION_COPY).find(([kind, copy]) => evaluation.reasons.some(item =>
+    item.code === `dc.${kind}_general_information` && item.sourceRef === DC_INFORMATION_SOURCE && item.text === copy.general))?.[1];
+  return copy ? { ...evaluation, nextSteps: [...copy.checks, ...evaluation.nextSteps], cautions: [...evaluation.cautions, ...copy.limits] } : evaluation;
+}
+
 function withCtAutomaticInformationPresentation(evaluation: ScreeningEvaluation): ScreeningEvaluation {
   const copy = Object.entries(CT_AUTOMATIC_INFORMATION_COPY).find(([kind, copy]) => evaluation.reasons.some(item =>
     item.code === `ct.automatic_${kind}_general_information` && item.sourceRef === CT_AUTOMATIC_INFORMATION_SOURCE && item.text === copy.general))?.[1];
@@ -2302,6 +2311,8 @@ function productGuidanceReason(profile: EngineProfile, answers: Record<string, S
   const jurisdiction = profile.jurisdiction.code;
   const legalContract = legalRouteContract(jurisdiction, pathway.id);
   if (legalContract?.outcomeMode === "referral") return undefined;
+  const dcInformation = dcGeneralInformationContext(profile, pathway.id, answers);
+  if (dcInformation) return reason("DC", `${dcInformation}_general_information`, DC_INFORMATION_COPY[dcInformation].general, DC_INFORMATION_SOURCE);
   const ctAutomatic = ctAutomaticInformationContext(profile, pathway.id, answers);
   if (ctAutomatic) return reason("CT", `automatic_${ctAutomatic}_general_information`, CT_AUTOMATIC_INFORMATION_COPY[ctAutomatic].general, CT_AUTOMATIC_INFORMATION_SOURCE);
   if (ctCannabisGeneralInformationContext(profile, pathway.id, answers)) {
