@@ -15,6 +15,7 @@ import { oregonDispositionFilingFacts, OR_DISPOSITION_COPY } from "@/lib/rcap-en
 import { montanaDeferredFacts, MT_DEFERRED_COPY, MT_DEFERRED_SOURCE } from "@/lib/rcap-engine/montana-deferred-facts";
 import { missouriMarijuanaStatusDecision, MO_MARIJUANA_COPY, MO_MARIJUANA_STATUS_SOURCE } from "@/lib/rcap-engine/missouri-marijuana-status-facts";
 import { missouriClosedRecordQuestionApplies } from "@/lib/rcap-engine/missouri-closed-record-facts";
+import { MO_AUTOMATIC_DRUG_ROUTE, MO_AUTOMATIC_DRUG_SOURCE, MO_AUTOMATIC_DRUG_GUIDANCE, moAutomaticDrugGuidanceSourceIsCurrent } from "@/lib/rcap-engine/missouri-automatic-drug-guidance";
 import { georgiaPardonPetitionPlan } from "@/lib/expungement-ai/ga-pardon-petition-readiness";
 import { maineNonconvictionQuestionApplies, maineMissingFinancialCorrectionPathway } from "@/lib/rcap-engine/maine-nonconviction-facts";
 import { louisianaAutomationStatusQuestionApplies } from "@/lib/rcap-engine/louisiana-automation-status";
@@ -236,6 +237,29 @@ function evaluateProfileRules(profile: EngineProfile, request: ScreeningEvaluati
 
   const publicProfile = projectPublicProfile(profile);
   const preselectedPathway = selectPathway(profile, answers);
+  // The existing selected source identifies general nonfiling information,
+  // not a decision that the supplied case facts qualify for automatic relief.
+  // No payment/completion alias is needed to read that explanation, and no
+  // historical absence of an implementation notice proves current operation.
+  if (preselectedPathway?.id === MO_AUTOMATIC_DRUG_ROUTE && moAutomaticDrugGuidanceSourceIsCurrent(profile)
+    && ["Yes", "I am helping someone complete their own check"].includes(answers.ownership_scope as string)
+    && answers.jurisdiction_scope === "State or local") {
+    const information = reason("MO", "automatic_drug_general_information", MO_AUTOMATIC_DRUG_GUIDANCE.filing, MO_AUTOMATIC_DRUG_SOURCE);
+    const cautions = [MO_AUTOMATIC_DRUG_GUIDANCE.individualLimit, MO_AUTOMATIC_DRUG_GUIDANCE.operationLimit];
+    // Removing an unoffered alias dead end must not erase an existing adverse
+    // or review result. General information is supplemental to that decision.
+    const excluded = exclusionReason(profile, answers);
+    if (excluded) {
+      const held = result(profile, request, excluded.code.endsWith("unknown") ? "needs_review" : "likely_not_eligible",
+        [excluded, information], { cautions, paymentAllowed: false });
+      return { ...held, nextSteps: [...held.nextSteps, MO_AUTOMATIC_DRUG_GUIDANCE.nextStep] };
+    }
+    const guidance = result(profile, request, "guidance_only", [information], {
+      pathwayId: preselectedPathway.id,
+      cautions, paymentAllowed: false
+    });
+    return { ...guidance, nextSteps: [MO_AUTOMATIC_DRUG_GUIDANCE.nextStep] };
+  }
   if (ca12034Context(profile, preselectedPathway?.id, answers)) {
     const facts = ca12034Facts(answers);
     const contextIds = [

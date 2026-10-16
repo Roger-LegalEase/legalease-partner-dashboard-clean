@@ -162,7 +162,7 @@ function consumerSafeEngineText(text: string, locale: Locale) {
     .replace(/source-listed/gi, "required")
     .replace(/source-specific/gi, "state")
     .replace(/engine decides/gi, "the court or agency makes the final decision");
-  return softened === text ? "" : softened;
+  return softened === text ? "" : resolveRuntimeText(locale, softened);
 }
 
 function looksLikeRawFieldKey(value: string) {
