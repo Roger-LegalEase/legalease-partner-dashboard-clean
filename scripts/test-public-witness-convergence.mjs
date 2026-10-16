@@ -14,6 +14,7 @@ const caTool1Predecessor = JSON.parse(fs.readFileSync('scripts/fixtures/ca-tool1
 const txPredecessors = JSON.parse(fs.readFileSync('scripts/fixtures/tx-nondisclosure-witness-predecessors.json'));
 const msMipPredecessor = JSON.parse(fs.readFileSync('scripts/fixtures/ms-mip-witness-predecessor.json'));
 const mdPolicePredecessor = JSON.parse(fs.readFileSync('scripts/fixtures/md-police-witness-predecessor.json'));
+const packetNextStepsPredecessors = JSON.parse(fs.readFileSync('scripts/fixtures/packet-next-steps-witness-predecessors.json'));
 const changed = new Set([
   'AR:situation-a-non-convictions', 'AR:situation-b-misdemeanor-convictions', 'AR:situation-c-felony-convictions',
   'CA:prop-64-completed-sentence-application-11361-8', 'CA:prop-64-currently-serving-petition-11361-8',
@@ -103,7 +104,54 @@ check(()=>assert.equal(mdPolicePredecessor.sourceSha,'ef0455de16b5789529572358c7
 check(()=>assert.equal(mdPolicePredecessor.sourcePath,'data/rcap-ledger/public-witness-answer-sets.json'));
 check(()=>assert.equal(mdPolicePredecessor.sourceSha256,'86d39e1a4c8b8381604eb0ff025da907ada3e379d04666d80142e6236ecd7b3e'));
 check(()=>assert.equal(mdPolicePredecessor.witness.pathwayKey,mdPoliceKey));
-check(()=>assert.equal(sha(JSON.stringify(packet.witnesses.filter(w=>w.pathwayKey!==mdPoliceKey))),'d76bb5240901c368a301bce1c769cb7cacd724c30af97aecd881cde6196d0538'));
+// These five source-bound examples were already in the original14 cohort,
+// hence outside the253digest. Restore only their exact old records for the
+// immutable266-row comparison; currentcopy is separately literal/replayed.
+const packetNextStepsKeys = [
+  'CA:prop-64-completed-sentence-application-11361-8',
+  'CA:prop-64-currently-serving-petition-11361-8',
+  'MS:first-offense-controlled-substance-conditional-discharge-relief',
+  'MS:nonadjudication-under-99-15-26',
+  'MS:pretrial-intervention-or-diversion-expungement'
+];
+const packetNextStepsHistorical = new Map(packetNextStepsPredecessors.witnesses.map(w=>[w.pathwayKey,w]));
+check(()=>assert.equal(packetNextStepsPredecessors.sourceSha,'1f4c9cc13d373ea6c56753b6e9157d58dcda4815'));
+check(()=>assert.equal(packetNextStepsPredecessors.sourcePath,'data/rcap-ledger/public-witness-answer-sets.json'));
+check(()=>assert.equal(packetNextStepsPredecessors.sourceSha256,'fe56d26708583cdbfc484eb723c78df2411bed17742d03bdb686d4f31bdbe6b7'));
+check(()=>assert.deepEqual([...packetNextStepsHistorical.keys()],packetNextStepsKeys));
+check(()=>assert.equal(packetNextStepsPredecessors.witnesses.length,5));
+check(()=>assert.ok(packetNextStepsKeys.every(key=>changed.has(key))));
+check(()=>assert.equal(sha(JSON.stringify(packet.witnesses.filter(w=>w.pathwayKey!==mdPoliceKey).map(w=>packetNextStepsHistorical.get(w.pathwayKey)??w))),'d76bb5240901c368a301bce1c769cb7cacd724c30af97aecd881cde6196d0538'));
+const packetReadyNextSteps = [
+  'Your packet has been started. A few details may still be needed before it is ready to file.',
+  'Complete the required packet facts in Briefcase before verification or payment.',
+  'External documents affect filing readiness, not checkout eligibility.'
+];
+const packetCautionNextSteps = [
+  'Your packet has been started. A few details may still be needed before it is ready to file.',
+  'Review the cautions and complete the required packet facts in Briefcase before verification or payment.',
+  'Before filing, follow the filing instructions and complete any required documents, fees or fingerprint steps.'
+];
+function requirePacketNextStepsSuccessor(current,prior,steps){
+  const expected=structuredClone(prior);
+  assert.notDeepEqual(expected.sourceBoundSyntheticWitness.actualEvaluation.nextSteps,steps,'actual copy transition required');
+  expected.sourceBoundSyntheticWitness.actualEvaluation.nextSteps=steps;
+  assert.deepEqual(current,expected,'only accepted nextSteps copy may change; every premise/outcome/reference/answer/transcript stays exact');
+}
+for(const key of packetNextStepsKeys){
+  const current=packet.witnesses.find(w=>w.pathwayKey===key),prior=packetNextStepsHistorical.get(key);
+  const steps=key==='CA:prop-64-completed-sentence-application-11361-8'?packetReadyNextSteps:packetCautionNextSteps;
+  check(()=>assert.ok(current&&prior));
+  check(()=>requirePacketNextStepsSuccessor(current,prior,steps));
+  check(()=>assert.throws(()=>requirePacketNextStepsSuccessor(prior,prior,steps),/only accepted nextSteps copy/));
+  const wrongOutcome=structuredClone(current);wrongOutcome.sourceBoundSyntheticWitness.actualEvaluation.paymentAllowed=!current.sourceBoundSyntheticWitness.actualEvaluation.paymentAllowed;
+  check(()=>assert.throws(()=>requirePacketNextStepsSuccessor(wrongOutcome,prior,steps),/only accepted nextSteps copy/));
+  const wrongPremise=structuredClone(current);assert.equal(Object.hasOwn(wrongPremise.seedAnswers,'invented_copy_fact'),false);wrongPremise.seedAnswers.invented_copy_fact='yes';
+  check(()=>assert.throws(()=>requirePacketNextStepsSuccessor(wrongPremise,prior,steps),/only accepted nextSteps copy/));
+  const wrongCopy=structuredClone(current);wrongCopy.sourceBoundSyntheticWitness.actualEvaluation.nextSteps[1]='Complete packet fields in Briefcase after payment.';
+  check(()=>assert.throws(()=>requirePacketNextStepsSuccessor(wrongCopy,prior,steps),/only accepted nextSteps copy/));
+}
+
 const mdPoliceWitness=packet.witnesses.find(w=>w.pathwayKey===mdPoliceKey);
 const expectedMdPoliceWitness=structuredClone(mdPolicePredecessor.witness);
 expectedMdPoliceWitness.rounds=[mdPolicePredecessor.witness.rounds[0],
@@ -310,4 +358,4 @@ check(()=>assert.equal(old.transcript.length,24));
 check(()=>assert.throws(()=>assert.ok(old.transcript.length<8,'no unchanged-answer churn'),/no unchanged-answer churn/));
 check(()=>assert.equal(old.evaluation,null));
 check(()=>assert.equal(packet.totals.additionalSourceBoundSyntheticWitnesses,6));
-console.log(JSON.stringify({status:'PASS',checks,changedRoutes:21,originalChangedRouteCohort:14,currentOrSuccessors:1,currentCaTool1Successors:1,currentTxSuccessors:3,currentMsMipSuccessors:1,currentMdPoliceSuccessors:1,unchangedHistoricalRoutes:246,originalHistoricalDigestRows:253,unresolvedGenericWitnesses:8,sourceBoundSyntheticWitnesses:6,limits:'Local actual evaluator replay and mutation controls; not hosted, authenticated, document or offered-scope acceptance. Original253-row digest retains exact historical OR, Tool1, three TX, MS MIP and MD police rows; their current successors are separately checked without changing generic premises. Historical Tool1 positive is a preserved failure, not current authority.'},null,2));
+console.log(JSON.stringify({status:'PASS',checks,changedRoutes:21,originalChangedRouteCohort:14,currentOrSuccessors:1,currentCaTool1Successors:1,currentTxSuccessors:3,currentMsMipSuccessors:1,currentMdPoliceSuccessors:1,currentPacketNextStepsCopySuccessors:5,unchangedHistoricalRoutes:246,originalHistoricalDigestRows:253,unresolvedGenericWitnesses:8,sourceBoundSyntheticWitnesses:6,limits:'Local actual evaluator replay and mutation controls; not hosted, authenticated, document or offered-scope acceptance. Original253-row digest retains exact historical OR, Tool1, three TX, MS MIP and MD police rows; their current successors are separately checked without changing generic premises. Five nextSteps-copy predecessors retain the old266-row digest while exact currentcopy is independently asserted/replayed; they are already in the original14cohort and excluded from253digest. Historical Tool1 positive is a preserved failure, not current authority.'},null,2));
