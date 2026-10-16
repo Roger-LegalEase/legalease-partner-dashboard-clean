@@ -44,6 +44,25 @@ const frozenBefore={
   }
 };
 const comparisonHash=value=>createHash('sha256').update(JSON.stringify(value)).digest('hex');
+// Exact cannabis successor restores only the measured fact and derived indices.
+// All original full sibling hashes remain unchanged; unrelated drift must fail.
+const mnCannabisSiblingRoute='cannabis-automatic-or-board-reviewed-expungement-under-609a-055-06';
+const priorCannabisLocationFact={"factId":"residency_or_location","collection":"unresolved","phase":"prepay_confirmation","group":"about_you","source":"unresolved_route_rule_scope","reason":"a rule references this required fact without an established route consumer; collect it without inferring a value or claiming it decides this route"};
+const currentCannabisLocationFact={"factId":"residency_or_location","collection":"conditional","phase":"known","group":null,"active":false,"source":"mn_cannabis_location_retained_context","reason":"Generic location is optional retained context. The BCA automatic cannabis and Cannabis Expungement Board stages have no participant application or filing venue; this value does not establish the source stage, actor, cannabis record facts or qualification."};
+const assertCannabisPredecessorHash=collection=>{
+ assert.equal(collection.facts.filter(f=>f.factId==='residency_or_location').length,1);
+ assert.deepEqual(collection.facts[14],currentCannabisLocationFact,'Exact cannabis optional context required');
+ assert.equal(collection.groupedParticipantSections.filter(s=>s.id==='about_you').length,1);
+ assert.equal(collection.groupedParticipantSections[0].id,'about_you');
+ assert.deepEqual(collection.groupedParticipantSections[0].factIds,['contact_information','participant_full_legal_name'],'Exact cannabis section index required');
+ assert.deepEqual(collection.unresolvedRequiredFacts,[],'Exact cannabis unresolved index required');
+ const clone=structuredClone(collection);
+ clone.facts[14]=structuredClone(priorCannabisLocationFact);
+ clone.groupedParticipantSections[0].factIds.splice(2,0,'residency_or_location');
+ clone.unresolvedRequiredFacts.splice(0,0,'residency_or_location');
+ assert.equal(comparisonHash(clone),frozenBefore.siblings[mnCannabisSiblingRoute],'Every unrelated cannabis collection byte must retain original hash');
+ return clone;
+};
 const checks=[],rows=[],check=(name,actual,expected)=>checks.push({name,pass:isDeepStrictEqual(actual,expected),actual,expected});
 // Exact retained original /routes/137/scenarios/B. This is an intentional
 // negative, not a manufactured eligible Clean Slate case or route projection.
@@ -83,7 +102,18 @@ for(const [variant,value]of [['known','Earlier Minnesota location'],['absent',un
 const siblings=Object.fromEntries(profile.pathways.filter(p=>p.id!==route).map(p=>[p.id,P.packetCollectionFor({jurisdiction:'MN',pathwayId:p.id,requiredInputIds:packetPlanForPathway(profile,p.id)?.requiredInputIds??[],serverFacts:{jurisdiction:'MN',pathway_id:p.id},screeningAnswers:original,prefilledAnswers:{},savedAnswers:{}})]));
 if(!baseline){
  check('exact-five-sibling-identities',Object.keys(siblings),Object.keys(frozenBefore.siblings));
- for(const [id,expected]of Object.entries(frozenBefore.siblings))check('independent-frozen-sibling-'+id,comparisonHash(siblings[id]),expected);
+ const comparedSiblings={...siblings,[mnCannabisSiblingRoute]:assertCannabisPredecessorHash(siblings[mnCannabisSiblingRoute])};
+ for(const [id,expected]of Object.entries(frozenBefore.siblings))check('independent-frozen-sibling-'+id,comparisonHash(comparedSiblings[id]),expected);
+ const {mnCannabisLocationIsContext}=await load('src/lib/expungement-ai/mn-cannabis-location-context.ts');
+ check('cannabis-source-guard',mnCannabisLocationIsContext(profile,mnCannabisSiblingRoute,null),true);
+ for(const [name,mutate]of [
+  ['wrong-fact',c=>{c.facts[14].active=true;}],
+  ['index-extra',c=>{c.groupedParticipantSections[0].factIds.push('extra');}],
+  ['index-omission',c=>{c.groupedParticipantSections[0].factIds.pop();}],
+  ['index-order',c=>{c.groupedParticipantSections[0].factIds.reverse();}],
+  ['unresolved-extra',c=>{c.unresolvedRequiredFacts.push('residency_or_location');}],
+  ['unrelated-drift',c=>{c.knownFacts.case_outcome='unrelated changed value';}]
+ ]){const changed=structuredClone(siblings[mnCannabisSiblingRoute]);mutate(changed);assert.throws(()=>assertCannabisPredecessorHash(changed),undefined,name+' must fail');check('cannabis-successor-refuses-'+name,true,true);}
  check('independent-frozen-source-plan',comparisonHash(plan),frozenBefore.plan);
  for(const row of rows)check(row.variant+'/independent-frozen-court',comparisonHash(row.resolution.facts.find(f=>f.factId==='court')),frozenBefore.court[row.variant]);
  const sourceTrack=JSON.parse(fs.readFileSync('data/record-clearing/legal-design-intake/MN.memo.json','utf8')).tracks.find(t=>t.trackId==='mn_mistaken_identity_court');
@@ -92,7 +122,7 @@ if(!baseline){
  check('source-no-location-input',sourceTrack.participantInputs.some(i=>['residency_or_location','county','court'].includes(i.key)),false);
  // Optional author comparison retains complete independent raw equality.
  if(process.env.RCAP_MN609A017_LOCATION_BASELINE){
-  const before=JSON.parse(fs.readFileSync(process.env.RCAP_MN609A017_LOCATION_BASELINE,'utf8'));assert(before.mode==='baseline');check('all-five-sibling-collections-raw-equal',siblings,before.siblings);check('source-plan-byte-meaning-unchanged',plan,before.plan);
+  const before=JSON.parse(fs.readFileSync(process.env.RCAP_MN609A017_LOCATION_BASELINE,'utf8'));assert(before.mode==='baseline');check('all-five-sibling-collections-raw-equal',comparedSiblings,before.siblings);check('source-plan-byte-meaning-unchanged',plan,before.plan);
   for(const [index,row]of rows.entries())check(row.variant+'/independent-court-consumer-unchanged',row.resolution.facts.find(f=>f.factId==='court'),before.rows[index].resolution.facts.find(f=>f.factId==='court'));
  }
  const H=await load('src/lib/expungement-ai/mn-609a017-location-context.ts');check('exact-source-guard',H.mn609a017LocationIsContext(profile,route,null),true);
