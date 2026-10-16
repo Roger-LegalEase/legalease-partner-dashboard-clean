@@ -1,3 +1,4 @@
+import { ny16057Decision, NY_16057_COPY, NY_16057_ROUTE, NY_16057_SOURCE } from "@/lib/rcap-engine/ny-16057-guidance";
 import { nyMrtaDecision, nyMrtaQuestionApplies, NY_MRTA_COPY, NY_MRTA_ROUTE, NY_MRTA_SOURCE } from "@/lib/rcap-engine/ny-mrta-stage-facts";
 import { ny16059ClockDisplayLines } from "@/lib/rcap-engine/new-york-16059-clock-display";
 import { ny16055Decision, ny16055QuestionApplies, NY_16055_COPY, NY_16055_ROUTE, NY_16055_SOURCE } from "@/lib/rcap-engine/ny-16055-guidance";
@@ -241,6 +242,30 @@ function evaluateProfileRules(profile: EngineProfile, request: ScreeningEvaluati
   const preselectedPathway = selectPathway(profile, answers);
   const nyMrta = nyMrtaDecision(profile, answers);
   const nyPartialSeal = nyMrta ? null : ny16055Decision(profile, answers);
+  const nyCleanSlate = ny16057Decision(profile, answers);
+  if (nyCleanSlate) {
+    const contextIds = [
+      ...(["Yes", "I am helping someone complete their own check"].includes(String(answers.ownership_scope)) ? [] : ["ownership_scope"]),
+      ...(answers.jurisdiction_scope === "State or local" ? [] : ["jurisdiction_scope"]),
+      ...(answers.offense_level === undefined ? ["offense_level"] : [])
+    ];
+    const excluded = exclusionReason(profile, answers);
+    const code = contextIds.length ? "context" : nyCleanSlate.code === "conflict" ? "conflict" : excluded ? "referral" : nyCleanSlate.code;
+    const text = NY_16057_COPY[code][0];
+    const information = !contextIds.length && !excluded && nyCleanSlate.status === "information";
+    const evaluated = result(profile, request, information ? "guidance_only" : !contextIds.length && !excluded && nyCleanSlate.status === "missing" ? "needs_more_info" : "needs_review",
+      [...(excluded ? [excluded] : []), reason("NY", `clean_slate_${code}`, text, NY_16057_SOURCE)], {
+        ...(information ? { pathwayId: NY_16057_ROUTE } : {}),
+        missingQuestionIds: contextIds.length ? contextIds : excluded ? [] : nyCleanSlate.ids,
+        cautions: [NY_16057_COPY.limits[0]], paymentAllowed: false
+      });
+    // Neutral operational information only. No eligibility/date computation,
+    // packet plan, builder or authority is created by the stage election.
+    return { ...evaluated, userLabel: text,
+      nextSteps: information ? [NY_16057_COPY.timing[0], NY_16057_COPY.verification[0], NY_16057_COPY.limits[0]]
+        : [text, NY_16057_COPY.information[0], NY_16057_COPY.verification[0]] };
+  }
+
   // The existing selected source identifies general nonfiling information,
   // not a decision that the supplied case facts qualify for automatic relief.
   // No payment/completion alias is needed to read that explanation, and no
