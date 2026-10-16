@@ -1,3 +1,4 @@
+import { mn299c11LocationIsContext } from "@/lib/expungement-ai/mn-299c11-location-context";
 import { mn609a015LocationIsContext } from "@/lib/expungement-ai/mn-609a015-location-context";
 import { mo610105CourtIsContext } from "@/lib/expungement-ai/mo-610105-court-context";
 import { virginiaVictimQuestionContract, VA_VICTIM_STATUS_ID } from "@/lib/rcap-engine/virginia-victim-question";
@@ -677,6 +678,7 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
     && ndFirstOffenseRecordIsContext(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
   const retainedDcLocation = dcLocationContext && [input.screeningAnswers, input.prefilledAnswers, input.savedAnswers, input.profileFacts]
     .some(answers => answers && Object.hasOwn(answers, DC_LEGACY_LOCATION));
+  const mn299c11LocationContext = input.jurisdiction === "MN" && mn299c11LocationIsContext(getProfileByJurisdiction("MN"), input.pathwayId, specification);
   const mn609a015LocationContext = input.jurisdiction === "MN" && mn609a015LocationIsContext(getProfileByJurisdiction("MN"), input.pathwayId, specification);
   const mo610105CourtContext = input.jurisdiction === "MO" && mo610105CourtIsContext(getProfileByJurisdiction("MO"), input.pathwayId, specification);
   const vaVictimContext = input.jurisdiction === "VA" && virginiaVictimQuestionContract(getProfileByJurisdiction("VA"), input.pathwayId, { specification });
@@ -717,6 +719,12 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
       continue;
     }
 
+    if (mn299c11LocationContext && factId === "residency_or_location" && !overrideClass && !needsHuman.has(factId)) {
+      facts.push({ factId, collection: "conditional", phase: "known", group: null, active: false,
+        source: "mn_299c11_location_retained_context",
+        reason: "Generic location is optional retained context. The agency demand has no court venue; this value does not identify the arresting agency, actual records custodians or an independent filing destination." });
+      continue;
+    }
     if (mn609a015LocationContext && factId === "residency_or_location" && !overrideClass && !needsHuman.has(factId)) {
       facts.push({ factId, collection: "conditional", phase: "known", group: null, active: false,
         source: "mn_609a015_location_retained_context",

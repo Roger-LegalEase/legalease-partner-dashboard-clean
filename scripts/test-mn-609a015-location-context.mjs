@@ -44,6 +44,30 @@ const frozenBefore={
   }
 };
 const comparisonHash=value=>createHash('sha256').update(JSON.stringify(value)).digest('hex');
+// Reviewed299C11 successor changes only this fact and its two derived indices.
+// These literals come from independent preserved predecessor/current evidence;
+// the full original sibling hash below stays unchanged.
+const mn299SiblingRoute="arrest-identification-data-destruction-when-no-charges-were-filed-minn-stat-299c-11";
+const prior299LocationFact={"factId":"residency_or_location","collection":"unresolved","phase":"prepay_confirmation","group":"about_you","source":"unresolved_route_rule_scope","reason":"a rule references this required fact without an established route consumer; collect it without inferring a value or claiming it decides this route"};
+const current299LocationFact={"factId":"residency_or_location","collection":"conditional","phase":"known","group":null,"active":false,"source":"mn_299c11_location_retained_context","reason":"Generic location is optional retained context. The agency demand has no court venue; this value does not identify the arresting agency, actual records custodians or an independent filing destination."};
+const restoreExact299Predecessor=collection=>{
+ assert.equal(collection.facts.filter(f=>f.factId==='residency_or_location').length,1);
+ assert.deepEqual(collection.facts[14],current299LocationFact,'Exact reviewed299C11 location fact required');
+ assert.equal(collection.groupedParticipantSections.filter(s=>s.id==='about_you').length,1);
+ assert.equal(collection.groupedParticipantSections[0].id,'about_you');
+ assert.deepEqual(collection.groupedParticipantSections[0].factIds,['contact_information','participant_full_legal_name'],'Exact reviewed location section removal required');
+ assert.deepEqual(collection.unresolvedRequiredFacts,[],'Exact reviewed unresolved-index removal required');
+ const clone=structuredClone(collection);
+ clone.facts[14]=structuredClone(prior299LocationFact);
+ clone.groupedParticipantSections[0].factIds.splice(2,0,'residency_or_location');
+ clone.unresolvedRequiredFacts.splice(0,0,'residency_or_location');
+ return clone;
+};
+const assert299PredecessorHash=collection=>{
+ const predecessor=restoreExact299Predecessor(collection);
+ assert.equal(comparisonHash(predecessor),frozenBefore.siblings[mn299SiblingRoute],'Every unrelated299C11 collection byte must match original frozen hash');
+ return predecessor;
+};
 const checks=[],rows=[],check=(name,actual,expected)=>checks.push({name,pass:isDeepStrictEqual(actual,expected),actual,expected});
 // Exact retained original /routes/138/scenarios/B. This is an intentional
 // negative, not a manufactured eligible Clean Slate case or route projection.
@@ -81,7 +105,20 @@ for(const [variant,value]of [['known','Earlier Minnesota location'],['absent',un
 const siblings=Object.fromEntries(profile.pathways.filter(p=>p.id!==route).map(p=>[p.id,P.packetCollectionFor({jurisdiction:'MN',pathwayId:p.id,requiredInputIds:packetPlanForPathway(profile,p.id)?.requiredInputIds??[],serverFacts:{jurisdiction:'MN',pathway_id:p.id},screeningAnswers:original,prefilledAnswers:{},savedAnswers:{}})]));
 if(!baseline){
  check('exact-five-sibling-identities',Object.keys(siblings),Object.keys(frozenBefore.siblings));
- for(const [id,expected]of Object.entries(frozenBefore.siblings))check('independent-frozen-sibling-'+id,comparisonHash(siblings[id]),expected);
+ const {mn299c11LocationIsContext}=await load('src/lib/expungement-ai/mn-299c11-location-context.ts');
+ check('reviewed299C11-source-guard',mn299c11LocationIsContext(profile,mn299SiblingRoute,null),true);
+ const comparedSiblings={...siblings,[mn299SiblingRoute]:assert299PredecessorHash(siblings[mn299SiblingRoute])};
+ for(const [id,expected]of Object.entries(frozenBefore.siblings))check('independent-frozen-sibling-'+id,comparisonHash(comparedSiblings[id]),expected);
+ const refusalMutations=[
+  ['wrong-new-fact',c=>{c.facts[14].source='forged';}],
+  ['section-extra',c=>{c.groupedParticipantSections[0].factIds.push('unexpected');}],
+  ['section-omission',c=>{c.groupedParticipantSections[0].factIds.pop();}],
+  ['section-order',c=>{c.groupedParticipantSections[0].factIds.reverse();}],
+  ['unresolved-extra',c=>{c.unresolvedRequiredFacts.push('residency_or_location');}],
+  ['unrelated-collection-drift',c=>{c.knownFacts.case_outcome='unrelated changed value';}]
+ ];
+ for(const [name,mutate]of refusalMutations){const changed=structuredClone(siblings[mn299SiblingRoute]);mutate(changed);assert.throws(()=>assert299PredecessorHash(changed),undefined,name+' must fail');check('299C11-successor-refuses-'+name,true,true);}
+
  check('independent-frozen-source-plan',comparisonHash(plan),frozenBefore.plan);
  for(const row of rows)check(row.variant+'/independent-frozen-court',comparisonHash(row.resolution.facts.find(f=>f.factId==='court')),frozenBefore.court[row.variant]);
  const sourceTrack=JSON.parse(fs.readFileSync('data/record-clearing/legal-design-intake/MN.memo.json','utf8')).tracks.find(t=>t.trackId==='mn_auto_clean_slate');
@@ -90,7 +127,7 @@ if(!baseline){
  check('source-no-location-input',sourceTrack.participantInputs.some(i=>['residency_or_location','county','court'].includes(i.key)),false);
  // Optional author comparison retains complete independent raw equality.
  if(process.env.RCAP_MN_LOCATION_BASELINE){
-  const before=JSON.parse(fs.readFileSync(process.env.RCAP_MN_LOCATION_BASELINE,'utf8'));assert(before.mode==='baseline');check('all-five-sibling-collections-raw-equal',siblings,before.siblings);check('source-plan-byte-meaning-unchanged',plan,before.plan);
+  const before=JSON.parse(fs.readFileSync(process.env.RCAP_MN_LOCATION_BASELINE,'utf8'));assert(before.mode==='baseline');check('all-five-predecessor-collections-equal-after-exact-299C11-delta',comparedSiblings,before.siblings);check('source-plan-byte-meaning-unchanged',plan,before.plan);
   for(const [index,row]of rows.entries())check(row.variant+'/independent-court-consumer-unchanged',row.resolution.facts.find(f=>f.factId==='court'),before.rows[index].resolution.facts.find(f=>f.factId==='court'));
  }
  const H=await load('src/lib/expungement-ai/mn-609a015-location-context.ts');check('exact-source-guard',H.mn609a015LocationIsContext(profile,route,null),true);

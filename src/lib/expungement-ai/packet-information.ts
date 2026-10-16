@@ -1,3 +1,4 @@
+import { mn299c11LocationContextQuestion } from "@/lib/expungement-ai/mn-299c11-location-context";
 import { mn609a015LocationContextQuestion } from "@/lib/expungement-ai/mn-609a015-location-context";
 import { mo610105CourtContextQuestion } from "@/lib/expungement-ai/mo-610105-court-context";
 import { virginiaVictimQuestionContract, VA_VICTIM_STATUS_ID } from "@/lib/rcap-engine/virginia-victim-question";
@@ -393,6 +394,7 @@ export function packetInformationModelFor(item: ConsumerBriefcaseItem): PacketIn
   questions = questions.map(question => ohTraffickingCourtContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
   questions = questions.map(question => mo610105CourtContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
   questions = questions.map(question => mn609a015LocationContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
+  questions = questions.map(question => mn299c11LocationContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
   questions = questions.map(question => arFelonyRecordContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
   questions = questions.map(question => ca12034RecordContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
   questions = questions.map(question => ca12034aRecordContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
@@ -3313,6 +3315,7 @@ function protectedPacketQuestionSurface(
   questions = questions.map(question => ohTraffickingCourtContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
   questions = questions.map(question => mo610105CourtContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
   questions = questions.map(question => mn609a015LocationContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
+  questions = questions.map(question => mn299c11LocationContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
   questions = questions.map(question => arFelonyRecordContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
   questions = questions.map(question => ca12034RecordContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
   questions = questions.map(question => ca12034aRecordContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));

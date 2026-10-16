@@ -80,7 +80,7 @@ function allCompletionGroups(publicProfile) {
 const msTimingCases = [
   { pathwayId: 'additional-justice-or-municipal-court-misdemeanor-relief', expected: ['ms_last_conviction_date_any_court'], answers: {} },
   { pathwayId: 'first-offense-dui-expungement', expected: ['ms_successful_sentence_completion_date'], answers: {} },
-  { pathwayId: 'minor-in-possession-underage-alcohol-expungement', expected: ['ms_mip_dismissal_or_discharge_date'], answers: {case_outcome: 'Dismissed / not prosecuted'} },
+  { pathwayId: 'minor-in-possession-underage-alcohol-expungement', expected: ['ms_mip_dismissal_and_discharge_date'], answers: {case_outcome: 'Dismissed / not prosecuted'} },
   { pathwayId: 'minor-in-possession-underage-alcohol-expungement', expected: ['ms_mip_fine_imposed'], answers: {case_outcome: 'Misdemeanor conviction'} },
   { pathwayId: 'minor-in-possession-underage-alcohol-expungement', expected: ['ms_mip_fine_imposed', 'ms_mip_sentence_completion_date'], answers: {case_outcome: 'Misdemeanor conviction', ms_mip_fine_imposed: 'No'} },
   { pathwayId: 'minor-in-possession-underage-alcohol-expungement', expected: ['ms_mip_fine_imposed', 'ms_mip_sentence_completion_date', 'ms_mip_fine_payment_date'], answers: {case_outcome: 'Misdemeanor conviction', ms_mip_fine_imposed: 'Yes'} }
@@ -104,7 +104,18 @@ function screeningContexts(profile) {
     ...(profile.jurisdiction.code === 'MS' ? msTimingCases.map((row, index) => ({
       contextId: 'exact-timing-' + index, pathwayId: row.pathwayId,
       answers: {possible_pathway_context: profile.pathways.find(pathway => pathway.id === row.pathwayId).label, ...row.answers}
-    })) : [])
+    })) : []),
+    // Adopted MS section 6 requires a fresh attestation to both events. The
+    // historical OR value stays raw context and cannot answer the AND control.
+    ...(profile.jurisdiction.code === 'MS' ? [{
+      contextId: 'exact-timing-legacy-or-only',
+      pathwayId: 'minor-in-possession-underage-alcohol-expungement',
+      answers: {
+        possible_pathway_context: profile.pathways.find(pathway => pathway.id === 'minor-in-possession-underage-alcohol-expungement').label,
+        case_outcome: 'Dismissed / not prosecuted',
+        ms_mip_dismissal_or_discharge_date: '2012-06-01'
+      }
+    }] : [])
   ];
 }
 
@@ -177,7 +188,16 @@ for (const profile of profiles) {
     }
     for (const question of recordQuestions) effectiveQuestions.set(question.id, question);
     selectorContextsAudited += 1;
+    const answersBeforeSelection = JSON.stringify(context.answers);
     const selectedIds = selectScreeningQuestionIds(profile, publicProfile, context.answers);
+    if (code === 'MS') {
+      assert(!selectedIds.includes('ms_mip_dismissal_or_discharge_date'), `${code}/${context.contextId}: legacy OR timing control must not be offered.`);
+      if (context.contextId === 'exact-timing-legacy-or-only') {
+        assert(selectedIds.includes('ms_mip_dismissal_and_discharge_date'), 'MS legacy-only raw must still request the current AND timing control.');
+        assert(!Object.hasOwn(context.answers, 'ms_mip_dismissal_and_discharge_date'), 'MS legacy OR raw must not be aliased into an AND attestation.');
+        assert(JSON.stringify(context.answers) === answersBeforeSelection, 'MS legacy-only selection must preserve the exact raw answers.');
+      }
+    }
     selectedContextQuestionCounts.push(selectedIds.length);
     const expectedTiming = code === 'MS' ? expectedMsTiming(context) : [];
     if (code === 'MS') assert(JSON.stringify(selectedIds.filter(id => msTimingIds.has(id)).sort()) === JSON.stringify([...expectedTiming].sort()), `${code}/${context.contextId}: exact timing controls differ from independent branch expectation.`);
