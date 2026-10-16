@@ -21,7 +21,7 @@ import { nebraskaNonconvictionQuestionApplies, nebraskaMissingFinancialCorrectio
 import { AR_RECORD_ORIGIN_ID, AR_RECORD_ORIGIN_SOURCE, AR_RECORD_ORIGIN_COPY, arkansasRecordOrigin, arkansasRecordOriginApplies } from "@/lib/rcap-engine/arkansas-record-origin";
 import { GA_PARDON_ROUTE, GA_PARDON_COPY, GA_PARDON_SOURCE, georgiaPardonFacts } from "@/lib/rcap-engine/georgia-pardon-facts";
 import { convictionReliefRequest, convictionOutcomeCompatible, CONVICTION_RELIEF_COPY, CONVICTION_RELIEF_SOURCE } from "@/lib/rcap-engine/conviction-relief-request";
-import { MS_EXACT_TIMING_FACT_IDS, MS_TIMING_MISSING_TEXT, MS_TIMING_MULTIPLE_MISSING_TEXT, msExactCalendarDate } from "@/lib/rcap-engine/mississippi-exact-timing";
+import { MS_EXACT_TIMING_FACT_IDS, MS_TIMING_MISSING_TEXT, MS_TIMING_MULTIPLE_MISSING_TEXT, MS_MIP_BOTH_DATE_ID, MS_MIP_BOTH_REVIEW_TEXT, msExactCalendarDate } from "@/lib/rcap-engine/mississippi-exact-timing";
 import { pathwayFromContext } from "@/lib/rcap-engine/pathway-context";
 import { caProp64Facts, caProp64Pathway, caProp64ApplicationRequested, CA_PROP64_SOURCE, CA_PROP64_REASON_COPY, CA_PROP64_PROCEDURE_COPY, CA_PROP64_LEGACY_IDS } from "@/lib/rcap-engine/california-prop64-facts";
 import { isCaProp64Pathway, CA_PROP64_COMPLETED } from "@/lib/expungement-ai/ca-prop64-choices";
@@ -1703,7 +1703,15 @@ function specialRouteTiming(profile: EngineProfile, answers: Record<string, Scre
   if (key === "MS:minor-in-possession-underage-alcohol-expungement") {
     const outcome = answerText(answers.case_outcome).toLowerCase();
     if (outcome.includes("dismiss") || outcome.includes("acquit") || outcome.includes("discharge")) {
-      return timingFromExactAnchor(profile, answers, rule, pathway, "ms_mip_dismissal_or_discharge_date", { value: 1, unit: "years", raw: "1 year" }, "Miss. Code Ann. § 67-3-70 requires one year from dismissal or discharge for this underage-alcohol route.");
+      // A historical OR scalar never establishes completion of both events.
+      // Unknown/differing dates or an unclear order require record review;
+      // never select the later date or infer a qualifying disposition.
+      const bothDate = msExactCalendarDate(answerText(answers[MS_MIP_BOTH_DATE_ID]));
+      if (isExplicitUnknownAnswer(answers[MS_MIP_BOTH_DATE_ID]) || bothDate && bothDate > evaluationToday()) {
+        return { status: "needs_review",
+          reason: reason("MS", "mip_dismissal_and_discharge_review", MS_MIP_BOTH_REVIEW_TEXT, rule.sourceRef ?? pathway.sourceRef) };
+      }
+      return timingFromExactAnchor(profile, answers, rule, pathway, MS_MIP_BOTH_DATE_ID, { value: 1, unit: "years", raw: "1 year" }, "For the dismissal-and-discharge branch of Mississippi Code § 67-3-70(6), at least one year must pass after the qualifying dismissal and discharge. We must verify the actual court disposition.");
     }
     const fineImposed = answerText(answers.ms_mip_fine_imposed).toLowerCase();
     if (!fineImposed) {

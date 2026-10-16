@@ -51,7 +51,7 @@ import { NY_CASE_FACT_IDS, NY_HISTORY_FACT_IDS, nyCasePreparationQuestions, nyCa
 import convictionFallbackPrior from "@/lib/expungement-ai/conviction-fallback-prior-contracts.json";
 import { GA_PARDON_ROUTE, GA_PARDON_FACT_IDS, georgiaPardonQuestionApplies, georgiaPardonRequested } from "@/lib/rcap-engine/georgia-pardon-facts";
 import { convictionReliefRequest, convictionReliefQuestionApplies, convictionReliefQuestions, isAdultConvictionAnswer } from "@/lib/rcap-engine/conviction-relief-request";
-import { msExactCalendarDate, msExactTimingQuestionIds } from "@/lib/rcap-engine/mississippi-exact-timing";
+import { msExactCalendarDate, msExactTimingQuestionIds, MS_MIP_ROUTE, MS_MIP_LEGACY_DATE_ID, MS_MIP_BOTH_DATE_ID } from "@/lib/rcap-engine/mississippi-exact-timing";
 import { caProp64ContactQuestions } from "@/lib/expungement-ai/ca-prop64-contact-questions";
 import { CA_CONTACT_IDS, CA_CONTACT_CONTRACT } from "@/lib/expungement-ai/ca-prop64-contact-answer";
 import { CA_PROP64_CAPTION_QUESTIONS, CA_PROP64_CAPTION_FACT_IDS } from "@/lib/expungement-ai/ca-prop64-caption-facts";
@@ -568,7 +568,14 @@ export function packetInformationPatch(input: {
   const freshSensitiveMaps = refreshedSensitiveFactMaps(priorSnapshot.jurisdiction, priorSnapshot.pathwayId, priorSnapshot.requiredInputIds,
     ...participantMapArguments(legacy.maps));
   const freshContact = refreshedProtectedPacketFactMaps(priorSnapshot, freshSensitiveMaps);
-  const derivedRepairRequired = !canonicalEqual(preserveProtectedLegacyShapes(freshContact.maps, legacy.inspection, new Set()), {
+  // A held legacy OR answer is not a request to rederive completion facts.
+  // Read/no-op preserves its protected record; only a material explicit save
+  // may produce a new draft, and never fills the both-events successor itself.
+  const preserveMsMipLegacyNoop = priorSnapshot.jurisdiction === "MS" && priorSnapshot.pathwayId === MS_MIP_ROUTE
+    && current.missingInputIds.includes(MS_MIP_BOTH_DATE_ID)
+    && [priorSnapshot.screeningAnswers, priorSnapshot.prefilledAnswers, priorSnapshot.packetAnswers].some(map => Object.hasOwn(map, MS_MIP_LEGACY_DATE_ID))
+    && ![priorSnapshot.screeningAnswers, priorSnapshot.prefilledAnswers, priorSnapshot.packetAnswers].some(map => Object.hasOwn(map, MS_MIP_BOTH_DATE_ID));
+  const derivedRepairRequired = !preserveMsMipLegacyNoop && !canonicalEqual(preserveProtectedLegacyShapes(freshContact.maps, legacy.inspection, new Set()), {
     screeningAnswers: priorSnapshot.screeningAnswers, prefilledAnswers: priorSnapshot.prefilledAnswers, packetAnswers: priorSnapshot.packetAnswers
   });
   const currentVerification = packetVerificationStateForRecord(input.existingItem, priorProtected, true);
@@ -962,6 +969,38 @@ export function financialAnswerHeldSuccessor(snapshot: ProtectedPacketAuthorityS
   // Require the exact former interpretation too; unrelated result/authority
   // mismatches are not a financial-answer successor.
   const previous = evaluateProtectedPacketFacts({ ...snapshot, ...legacy.maps });
+  return previous !== null && protectedRouteAuthorityMatches(snapshot, previous);
+}
+
+/** A source-matched former OR draft may tighten to the new both-events hold.
+ * The hypothetical date reproduces the former result only; it is never stored
+ * or treated as an answer to the successor question. Verified authority stays stale. */
+export function msMipBothEventsHeldSuccessor(snapshot: ProtectedPacketAuthoritySnapshot,
+  authoritative: NonNullable<ReturnType<typeof evaluateProtectedPacketFacts>>): boolean {
+  const profile = getProfileByJurisdiction("MS"), evaluation = authoritative.evaluation;
+  if (!profile || snapshot.schemaVersion !== "expungement-ai/protected-packet-draft/v1"
+    || snapshot.jurisdiction !== "MS" || snapshot.pathwayId !== MS_MIP_ROUTE
+    || snapshot.profileVersion !== "2026-06-19-source-conversion-1" || profile.profileVersion !== snapshot.profileVersion
+    || snapshot.profileSourceFingerprint !== "459d9c5d3774787130ceb3ab2a5b980f71fe18e6ee214a7066288dadd6ccd991"
+    || profile.source?.sourceCorpusSha256 !== snapshot.profileSourceFingerprint
+    || snapshot.profileAuthorityFingerprint !== "96fa0eb82cc3bad379e0d3aa4c06de50d05bd4c0d7f35b042a89b684126e3b6a"
+    || profileAuthorityFingerprint(profile, MS_MIP_ROUTE) !== snapshot.profileAuthorityFingerprint
+    || !["packet_ready", "packet_ready_with_caution", "not_yet"].includes(snapshot.resultCode ?? "")
+    || evaluation.resultCode !== "needs_more_info" || evaluation.paymentAllowed
+    || evaluation.reasons.length !== 1 || evaluation.reasons[0].code !== "ms.waiting_anchor_missing"
+    || !canonicalEqual(evaluation.missingQuestionIds, [MS_MIP_BOTH_DATE_ID])
+    || !protectedRouteAuthorityMatches({ ...snapshot, resultCode: evaluation.resultCode, paymentAllowed: false }, authoritative)
+    || !canonicalEqual(snapshot.serverFacts, canonicalServerFacts("MS", MS_MIP_ROUTE))) return false;
+  const plan = packetPlanForPathway(profile, MS_MIP_ROUTE);
+  if (!plan || !canonicalEqual(snapshot.packetPlan, plan) || !canonicalEqual(snapshot.requiredInputIds, plan.requiredInputIds)
+    || !canonicalEqual(snapshot.packetFamilyIdentifiers, { mode: plan.mode, sourceFormIds: plan.sourceFormIds })
+    || [snapshot.screeningAnswers, snapshot.prefilledAnswers, snapshot.packetAnswers].some(map => Object.hasOwn(map, MS_MIP_BOTH_DATE_ID))) return false;
+  const answers = protectedPacketScreeningAnswers(snapshot), raw = answers?.[MS_MIP_LEGACY_DATE_ID];
+  if (!answers || typeof raw !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(raw)) return false;
+  const former = new Date(`${raw}T00:00:00.000Z`);
+  if (!Number.isFinite(former.getTime())) return false;
+  const hypothetical = { ...snapshot, packetAnswers: { ...snapshot.packetAnswers, [MS_MIP_BOTH_DATE_ID]: former.toISOString().slice(0, 10) } };
+  const previous = compareAtProtectedSnapshotTime(snapshot.capturedAt, () => evaluateProtectedPacketFacts(hypothetical));
   return previous !== null && protectedRouteAuthorityMatches(snapshot, previous);
 }
 
@@ -2087,7 +2126,7 @@ export function protectedPacketInformationModelFor(
   const neAuthority = snapshot.jurisdiction === "NE" && snapshot.pathwayId === "automatic-nonconviction-sealing"
     ? evaluateProtectedPacketFacts(snapshot) : null;
   if (neAuthority) snapshot = nebraskaAcquittalHeldSuccessor(snapshot, neAuthority) ?? snapshot;
-  if ((isCaProp64Pathway(snapshot.jurisdiction, snapshot.pathwayId) || isNy16059Packet(snapshot.jurisdiction, snapshot.pathwayId) || arkansasRecordOriginApplies(snapshot.jurisdiction, snapshot.pathwayId))
+  if ((isCaProp64Pathway(snapshot.jurisdiction, snapshot.pathwayId) || isNy16059Packet(snapshot.jurisdiction, snapshot.pathwayId) || snapshot.jurisdiction === "MS" && snapshot.pathwayId === MS_MIP_ROUTE || arkansasRecordOriginApplies(snapshot.jurisdiction, snapshot.pathwayId))
     && (!canonicalEqual(snapshot.serverFacts, canonicalServerFacts(snapshot.jurisdiction, snapshot.pathwayId))
       || !canonicalEqual(snapshot.packetFamilyIdentifiers, { mode: snapshot.packetPlan?.mode ?? null, sourceFormIds: snapshot.packetPlan?.sourceFormIds ?? [] }))) return null;
   const profile = getProfileByJurisdiction(snapshot.jurisdiction);
@@ -2107,7 +2146,7 @@ export function protectedPacketInformationModelFor(
     // maps and dependencies; this read grants no readiness or verification.
     snapshot = { ...snapshot, resultCode: evaluation.resultCode };
   }
-  if (!protectedRouteAuthorityMatches(snapshot, authoritative) && (financialAnswerHeldSuccessor(snapshot, authoritative) || msTimingAnswerHeldSuccessor(snapshot, authoritative) || oregonDispositionTimingHeldSuccessor(snapshot, authoritative))) {
+  if (!protectedRouteAuthorityMatches(snapshot, authoritative) && (financialAnswerHeldSuccessor(snapshot, authoritative) || msMipBothEventsHeldSuccessor(snapshot, authoritative) || msTimingAnswerHeldSuccessor(snapshot, authoritative) || oregonDispositionTimingHeldSuccessor(snapshot, authoritative))) {
     snapshot = { ...snapshot, resultCode: evaluation.resultCode, paymentAllowed: false };
   }
   if (!protectedRouteAuthorityMatches(snapshot, authoritative)) return null;
@@ -3445,7 +3484,7 @@ function participantMapArguments(maps: ParticipantFactMaps): [Record<string, Ans
 export function protectedPacketScreeningAnswers(snapshot: ProtectedPacketAuthoritySnapshot) {
   const profile = getProfileByJurisdiction(snapshot.jurisdiction);
   if (!profile || profile.profileVersion !== snapshot.profileVersion) return null;
-  if (isNy16059Packet(snapshot.jurisdiction, snapshot.pathwayId)
+  if ((isNy16059Packet(snapshot.jurisdiction, snapshot.pathwayId) || snapshot.jurisdiction === "MS" && snapshot.pathwayId === MS_MIP_ROUTE)
     && (!canonicalEqual(snapshot.serverFacts, canonicalServerFacts(snapshot.jurisdiction, snapshot.pathwayId))
       || !canonicalEqual(snapshot.packetFamilyIdentifiers, { mode: snapshot.packetPlan?.mode ?? null, sourceFormIds: snapshot.packetPlan?.sourceFormIds ?? [] }))) return null;
   const legacy = protectedLegacyAnswerProjection(snapshot);
@@ -3542,6 +3581,19 @@ function deriveProtectedPacketDraftSnapshot(
       if (!Object.hasOwn(originalBase[source], factId)) continue;
       const entry = { factId, value: originalBase[source][factId], source, meaning: "prior_factual_pathway_answer" as const,
         routeKey: `${originalBase.jurisdiction}:${originalBase.pathwayId}`, profileVersion: originalBase.profileVersion,
+        profileSourceFingerprint: originalBase.profileSourceFingerprint, profileAuthorityFingerprint: originalBase.profileAuthorityFingerprint };
+      if (!history.some(old => canonicalEqual(old, entry))) history.push(entry);
+    }
+    base = { ...base, dependencies: { ...base.dependencies, semanticAnswerHistory: history } };
+  }
+  if (base.jurisdiction === "MS" && base.pathwayId === MS_MIP_ROUTE && explicitChangedIds.has(MS_MIP_BOTH_DATE_ID)) {
+    // An explicit successor entry can equal the old date, but it is a new
+    // attestation. Keep every original OR copy both raw and in source history.
+    const history = [...(base.dependencies.semanticAnswerHistory ?? [])];
+    for (const source of ["screeningAnswers", "prefilledAnswers", "packetAnswers"] as const) {
+      if (!Object.hasOwn(originalBase[source], MS_MIP_LEGACY_DATE_ID)) continue;
+      const entry = { factId: MS_MIP_LEGACY_DATE_ID, value: originalBase[source][MS_MIP_LEGACY_DATE_ID], source,
+        meaning: "prior_factual_pathway_answer" as const, routeKey: `MS:${MS_MIP_ROUTE}`, profileVersion: originalBase.profileVersion,
         profileSourceFingerprint: originalBase.profileSourceFingerprint, profileAuthorityFingerprint: originalBase.profileAuthorityFingerprint };
       if (!history.some(old => canonicalEqual(old, entry))) history.push(entry);
     }

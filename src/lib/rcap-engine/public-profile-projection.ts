@@ -95,6 +95,7 @@ const STATE_SPECIFIC_PREPAY_WILMA_FACT_IDS: Record<string, Set<string>> = {
     "ms_last_conviction_date_any_court",
     "ms_successful_sentence_completion_date",
     "ms_mip_dismissal_or_discharge_date",
+    "ms_mip_dismissal_and_discharge_date",
     "ms_mip_sentence_completion_date",
     "ms_mip_fine_imposed",
     "ms_mip_fine_payment_date"
@@ -130,6 +131,7 @@ const STATE_SPECIFIC_EXACT_PREPAY_TIMING_FACT_IDS: Record<string, Set<string>> =
     "ms_last_conviction_date_any_court",
     "ms_successful_sentence_completion_date",
     "ms_mip_dismissal_or_discharge_date",
+    "ms_mip_dismissal_and_discharge_date",
     "ms_mip_sentence_completion_date",
     "ms_mip_fine_payment_date"
   ])
@@ -1054,6 +1056,17 @@ const MISSISSIPPI_CORRECTION_FACT_QUESTIONS: PublicQuestion[] = [
     stage: "timing_and_completion",
     prompt: "What date did you successfully complete every term and condition of the DUI sentence?",
     helperText: "Use the exact completion date shown in the court or supervision record.",
+    type: "date_or_unknown",
+    required: false,
+    contextOnly: false,
+    doesNotSelectPathway: true,
+    options: null
+  },
+  {
+    id: "ms_mip_dismissal_and_discharge_date",
+    stage: "timing_and_completion",
+    prompt: "What date did the court complete both dismissal and discharge of this qualifying under-21 alcohol matter?",
+    helperText: "Use the court order. If dismissal and discharge have different dates, or the order is unclear, choose “Not sure” so the record can be reviewed.",
     type: "date_or_unknown",
     required: false,
     contextOnly: false,
