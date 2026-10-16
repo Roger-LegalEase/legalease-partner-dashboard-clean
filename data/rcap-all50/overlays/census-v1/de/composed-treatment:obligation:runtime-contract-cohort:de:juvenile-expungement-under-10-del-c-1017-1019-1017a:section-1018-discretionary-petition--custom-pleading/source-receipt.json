@@ -25,21 +25,65 @@
       ],
       "recordId": "route-contract:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a",
       "pathInRepository": "src/lib/legal-authority/routes/single-routes.json",
-      "sha256": "6ca51b6dbc3a9383636b4b1cbdd19630db401d40c03760b8c91d8ae0357962f8",
-      "byteLength": 100125,
+      "sha256": "1bd1efb03ad57f4c6d8efd690532b74d2e2ac53c05a9c3103d15a3de72c80bdd",
+      "byteLength": 102577,
       "instrumentKind": "committed_record_bound_as_authority",
       "role": "the committed route contract: this route's mechanism, statute, outcome mode, timing anchor, recorded conditions, required facts and packet components",
       "anchorStatementsVerified": 17,
       "identityRefresh": {
-        "refreshedOn": "2026-09-05",
+        "refreshedOn": "2026-10-16",
         "was": {
-          "sha256": "6322c66143f51678de8dc00601517b3115b9575e442799fd2d7be1509f541588",
-          "byteLength": 67533
+          "sha256": "6ca51b6dbc3a9383636b4b1cbdd19630db401d40c03760b8c91d8ae0357962f8",
+          "byteLength": 100125
         },
-        "why": "The shared route-contract registry was rewritten by 78e79be41, which appended five new route contracts for other jurisdictions and altered no existing entry. The route contract this receipt binds was recovered from the historical blob carrying the previous pin and compared object-for-object against the bytes on disk, and it was identical, so the bound content is unchanged and only the whole-file identity moved.",
-        "anchorsCompared": 1,
-        "anchorsIdentical": 1,
-        "previousPinLastSeenAtCommit": "38a83db1b"
+        "why": "The record was rewritten around this receipt's anchors. 1 named entry moved between the blob carrying the previous pin and the bytes on disk (MD:police-record-expungement-when-no-charge-was-filed-under-10-103), and this receipt anchors no entry that moved: every entry it binds, and this record's global authority fields, were recovered from that blob and compared object-for-object, order-independent, against the current record, and all 2 were identical.",
+        "anchorsCompared": 2,
+        "anchorDetail": [
+          "route-contract:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a: identical",
+          "routeContractGlobalMetadata: identical"
+        ],
+        "anchorsIdentical": 2,
+        "identicalAnchorSha256": {
+          "route-contract:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a": "4de17607129a2d19a28870cd66eb101c06d7cd6eccb7f642dafae62924d8ced2",
+          "routeContractGlobalMetadata": "825abbf7fffc2046c5d46cb956bf85e743bc61c1eda41e8003093e86f51f6524"
+        },
+        "canonicalisation": "keys sorted recursively, JSON.stringify with no spacing, one trailing newline, UTF-8",
+        "anchorScope": {
+          "anchorIds": [
+            "DE:juvenile-expungement-under-10-del-c-1017-1019-1017a"
+          ],
+          "derivation": {
+            "fromPinRecordId": "route-contract:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a",
+            "fromReceiptRouteKeys": [
+              "obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1018_discretionary_petition"
+            ],
+            "completeRouteAndAllBranchesCompared": true,
+            "globalMetadataComparedAsOneAnchor": true
+          }
+        },
+        "entriesThatMovedInThisRecord": [
+          "MD:police-record-expungement-when-no-charge-was-filed-under-10-103"
+        ],
+        "recoveredFrom": {
+          "method": "git rev-list --all -- <path>, deduplicated by blob id, each blob hashed until the pin matched",
+          "blobId": "81c067c9c2341b9630db6d6bfd86935d770616e8",
+          "commit": "78e79be413c76d31a1bdd52039fb45c2134753b6",
+          "commitsWithThisPath": 7,
+          "distinctBlobs": 7,
+          "blobsHashed": 2
+        },
+        "previousIdentityRefresh": {
+          "refreshedOn": "2026-09-05",
+          "was": {
+            "sha256": "6322c66143f51678de8dc00601517b3115b9575e442799fd2d7be1509f541588",
+            "byteLength": 67533
+          },
+          "why": "The shared route-contract registry was rewritten by 78e79be41, which appended five new route contracts for other jurisdictions and altered no existing entry. The route contract this receipt binds was recovered from the historical blob carrying the previous pin and compared object-for-object against the bytes on disk, and it was identical, so the bound content is unchanged and only the whole-file identity moved.",
+          "anchorsCompared": 1,
+          "anchorsIdentical": 1,
+          "previousPinLastSeenAtCommit": "38a83db1b"
+        },
+        "whatThisDoesNotClaim": "Nothing about the packet's bytes, its obligations, its counters or its verdict. It restores an identity binding that lapsed on an edit to entries this family does not bind, and it opens no route and grants no approval."
       }
     },
     {

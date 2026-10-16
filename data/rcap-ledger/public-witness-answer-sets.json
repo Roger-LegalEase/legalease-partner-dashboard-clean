@@ -41,11 +41,11 @@
     "landedOnTheirOwnPathway": 258,
     "terminalResultCodes": {
       "packet_ready_with_caution": 32,
-      "guidance_only": 89,
+      "guidance_only": 90,
       "not_covered_yet": 22,
       "needs_review": 104,
       "needs_more_info": 9,
-      "likely_not_eligible": 3
+      "likely_not_eligible": 2
     },
     "paymentAllowedAtTheEvaluator": 25
   },
@@ -9093,41 +9093,32 @@
         {
           "round": 1,
           "requested": [
-            "age_at_offense",
-            "case_outcome",
-            "offense_level",
-            "prior_relief"
-          ],
-          "supplied": {
-            "age_at_offense": "30",
-            "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
-            "offense_level": "Misdemeanor",
-            "prior_relief": "Yes"
-          }
-        },
-        {
-          "round": 2,
-          "requested": [
             "arrest_date"
           ],
           "supplied": {
             "arrest_date": "2012-06-01"
           }
+        },
+        {
+          "round": 2,
+          "requested": [
+            "md_10103_released_without_charge"
+          ],
+          "supplied": {
+            "md_10103_released_without_charge": "yes"
+          }
         }
       ],
       "finalAnswers": {
-        "age_at_offense": "30",
         "arrest_date": "2012-06-01",
-        "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
         "financial_obligations": "Yes",
         "jurisdiction_scope": "State or local",
+        "md_10103_released_without_charge": "yes",
         "new_convictions_during_waiting_period": "No",
-        "offense_level": "Misdemeanor",
         "ownership_scope": "Yes",
         "pardon_status": "No",
         "pending_cases": "No",
         "possible_pathway_context": "Police-record expungement when no charge was filed under § 10-103",
-        "prior_relief": "Yes",
         "record_documents": "Yes",
         "resolved_timing_bucket": "gt_10_years",
         "sentence_completion_date": "Yes",
@@ -9137,14 +9128,14 @@
         ]
       },
       "terminalEvaluation": {
-        "resultCode": "likely_not_eligible",
+        "resultCode": "guidance_only",
         "pathwayId": "police-record-expungement-when-no-charge-was-filed-under-10-103",
         "pathwayLabel": "Police-record expungement when no charge was filed under § 10-103",
         "paymentAllowed": false,
         "treatmentClassification": null,
         "selectedTrackId": null,
         "reasonCodes": [
-          "md.md_police_record_deadline_not_eligible"
+          "md.police_source_modern"
         ],
         "missingQuestionIds": []
       },

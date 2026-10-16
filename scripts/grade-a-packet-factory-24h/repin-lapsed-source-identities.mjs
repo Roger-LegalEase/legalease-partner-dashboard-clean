@@ -833,11 +833,84 @@ const compiledProfileAdapter = {
   }
 };
 
+// Whole-file route-contract pins may move for another jurisdiction. Scope is
+// the receipt's exact route-contract identity, corroborated by its own route
+// keys; compare the complete route (including every service/failure branch)
+// and all shared authority metadata. A branch-specific receipt never narrows
+// the comparison to just that branch, and unsupported key shapes refuse.
+const SINGLE_ROUTES = "src/lib/legal-authority/routes/single-routes.json";
+const singleRoutesAdapter = {
+  recordPath: SINGLE_ROUTES,
+  describe: "single-route contracts (shared authority metadata + complete exact route-contract recordId)",
+  index(doc, side) {
+    if (!doc || typeof doc !== "object" || Array.isArray(doc) || !Array.isArray(doc.routes)) {
+      throw new Refusal(`the ${side} route-contract record has no routes array`);
+    }
+    const indexed = new Map();
+    for (const route of doc.routes) {
+      if (!route || typeof route.routeKey !== "string" || !/^[A-Z]{2}:[a-z0-9-]+$/.test(route.routeKey)) {
+        throw new Refusal(`the ${side} route-contract record has a missing or malformed routeKey`);
+      }
+      if (indexed.has(route.routeKey)) throw new Refusal(`the ${side} route-contract record has duplicate route ${route.routeKey}`);
+      indexed.set(route.routeKey, route);
+    }
+    return indexed;
+  },
+  scopeFrom({ receipt, pin, currentDoc }) {
+    if (pin.pathInRepository !== SINGLE_ROUTES || typeof pin.recordId !== "string"
+      || !/^route-contract:[A-Z]{2}:[a-z0-9-]+$/.test(pin.recordId)) {
+      throw new Refusal("route-contract pin must name one exact recordId and repository path");
+    }
+    const routeKey = pin.recordId.slice("route-contract:".length);
+    const route = this.index(currentDoc, "current").get(routeKey);
+    if (!route) throw new Refusal(`the receipt's route-contract ${routeKey} is absent from the current record`);
+    const [jurisdiction, pathwayId] = routeKey.split(":");
+    if (route.jurisdiction !== jurisdiction || route.pathwayId !== pathwayId
+      || receipt.jurisdiction != null && receipt.jurisdiction !== jurisdiction) {
+      throw new Refusal("route-contract recordId, route identity and receipt jurisdiction disagree");
+    }
+    if (!Array.isArray(receipt.routeKeys) || receipt.routeKeys.length === 0
+      || new Set(receipt.routeKeys).size !== receipt.routeKeys.length) {
+      throw new Refusal("route-contract scope requires nonempty unique receipt routeKeys");
+    }
+    // Cohort suffixes identify the receipt's runtime grouping, not a child
+    // object in this source format. Never use them to select a partial anchor:
+    // the complete exact route (including every branch rule in its prose) is
+    // compared below. This proves source continuity, not cohort approval.
+    for (const key of receipt.routeKeys) {
+      if (typeof key !== "string") throw new Refusal("receipt routeKey is not a string");
+      const parts = key.split(":");
+      const common = parts[0] === "obligation" && parts[2] === jurisdiction && parts[3] === pathwayId;
+      const runtime = parts[1] === "runtime-only" && parts.length === 4;
+      const cohort = parts[1] === "runtime-contract-cohort" && parts.length === 5 && /^[a-z0-9_]+$/.test(parts[4]);
+      if (!common || !(runtime || cohort)) {
+        throw new Refusal(`receipt routeKey ${key} does not uniquely corroborate ${routeKey}`);
+      }
+    }
+    return { anchorIds: [routeKey], derivation: {
+      fromPinRecordId: pin.recordId, fromReceiptRouteKeys: [...receipt.routeKeys],
+      completeRouteAndAllBranchesCompared: true, globalMetadataComparedAsOneAnchor: true
+    } };
+  },
+  anchorsOf(doc, scope, side) {
+    const indexed = this.index(doc, side);
+    const globalMetadata = { ...doc };
+    delete globalMetadata.routes;
+    const anchors = new Map([["routeContractGlobalMetadata", globalMetadata]]);
+    for (const routeKey of scope.anchorIds) {
+      if (!indexed.has(routeKey)) throw new Refusal(`route-contract ${routeKey} is absent from the ${side} record`);
+      anchors.set(`route-contract:${routeKey}`, indexed.get(routeKey));
+    }
+    return anchors;
+  }
+};
+
 export const ADAPTERS = new Map([
   [REGISTRY, registryAdapter],
   [PACKET_MANIFESTS, packetManifestAdapter],
   [SOURCE_DETERMINATIONS, sourceDeterminationAdapter],
-  [WV_COMPILED_PROFILE, compiledProfileAdapter]
+  [WV_COMPILED_PROFILE, compiledProfileAdapter],
+  [SINGLE_ROUTES, singleRoutesAdapter]
 ]);
 
 /* ------------------------------------------------------------------ *
@@ -1074,8 +1147,20 @@ export function planFamily({ familyId, directory, on = new Date() }) {
  * which is how the tests exercise it after the tree has already been re-pinned,
  * and how a reviewer can re-run a past decision without restoring the tree.
  */
+// Two retained DE receipts use canonical two-space JSON with escaped Unicode.
+// Permit that exact historical style only for an exact single-route pin repair;
+// the writer replaces its unique committedRecords object, never the whole JSON.
+const escapedJson = value => JSON.stringify(value, null, 2).replace(/[\u007f-\uffff]/g,
+  character => `\\u${character.charCodeAt(0).toString(16).padStart(4, "0")}`);
+const escapedRouteReceipt = (text, receipt) => receipt.jurisdiction === "DE"
+  && Array.isArray(receipt.committedRecords)
+  && text === `${escapedJson(receipt)}\n`
+  && receipt.committedRecords.some(pin => pin.pathInRepository === SINGLE_ROUTES
+    && pin.recordId === "route-contract:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a");
+
 export function planReceipt({ familyId, directory, receiptPath, beforeText, on = new Date() }) {
-  if (beforeText !== `${JSON.stringify(JSON.parse(beforeText), null, 2)}\n`) {
+  if (beforeText !== `${JSON.stringify(JSON.parse(beforeText), null, 2)}\n`
+    && !escapedRouteReceipt(beforeText, JSON.parse(beforeText))) {
     return { familyId, directory, receiptPath, outcome: "REFUSED", why: "the receipt is not two-space-indented JSON with a trailing newline; rewriting it would reformat bytes this tool has no business touching" };
   }
 
@@ -1187,9 +1272,16 @@ export function composeRefreshedReceipt(plan) {
   const receipt = JSON.parse(plan.beforeText);
   const byPathAndPin = new Map(plan.records.map((r) => [`${r.path}\u0000${r.was.sha256}`, r]));
   const applied = [];
+  const lexicalReplacements = [];
+  const preserveEscapes = plan.beforeText !== `${JSON.stringify(receipt, null, 2)}\n`;
+  if (preserveEscapes && (!escapedRouteReceipt(plan.beforeText, receipt)
+    || plan.records.some(record => record.path !== SINGLE_ROUTES))) {
+    throw new Refusal("escaped receipt repair is limited to the exact DE single-route pin");
+  }
   eachPin(receipt, (pin, at) => {
     const record = byPathAndPin.get(`${at}\u0000${pin.sha256}`);
     if (!record) return;
+    const beforePin = structuredClone(pin);
     const block = {
       refreshedOn: new Date(record.on).toISOString().slice(0, 10),
       was: { sha256: record.was.sha256, byteLength: record.was.byteLength },
@@ -1210,12 +1302,27 @@ export function composeRefreshedReceipt(plan) {
     pin.sha256 = record.becomes.sha256;
     pin.byteLength = record.becomes.byteLength;
     pin.identityRefresh = block;
+    if (preserveEscapes) {
+      if (!receipt.committedRecords.includes(pin)) throw new Refusal("escaped repair pin is not a direct committedRecords entry");
+      const indent = value => escapedJson(value).split("\n").map((line,index) => index ? `    ${line}` : line).join("\n");
+      const before = indent(beforePin), after = indent(pin);
+      if (plan.beforeText.split(before).length !== 2) throw new Refusal("escaped repair requires exactly one old pin object at the intended property");
+      lexicalReplacements.push({ before, after });
+    }
     applied.push({ path: at, was: record.was.sha256, now: record.becomes.sha256 });
   });
   if (applied.length !== plan.records.length) {
     throw new Refusal(`planned ${plan.records.length} pin refreshes but matched ${applied.length} pins in the receipt`);
   }
-  return { text: `${JSON.stringify(receipt, null, 2)}\n`, applied };
+  let text = `${JSON.stringify(receipt, null, 2)}\n`;
+  if (preserveEscapes) {
+    text = plan.beforeText;
+    for (const replacement of lexicalReplacements) text = text.replace(replacement.before, replacement.after);
+    if (JSON.stringify(JSON.parse(text)) !== JSON.stringify(receipt)) {
+      throw new Refusal("escaped lexical pin repair does not equal the exact expected semantic receipt");
+    }
+  }
+  return { text, applied };
 }
 
 export function applyFamily(plan) {
