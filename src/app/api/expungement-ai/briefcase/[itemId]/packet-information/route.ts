@@ -74,6 +74,34 @@ function isMdJuvenileHeldMatterOnly(
     && heldPacketCorrectionInputIds(model, model.resultCode).size === 0;
 }
 
+/** Exact current juvenile general-guidance draft: preserve source obligations and
+ * machine saves while returning to the only offered matter view. */
+function isOhJuvenileHeldMatterOnly(
+  record: Parameters<typeof protectedPacketInformationModelFor>[0],
+  model: NonNullable<ReturnType<typeof ownerEditingModelFor>>
+): boolean {
+  const draft = record.draftSnapshot;
+  return ["unverified", "invalidated"].includes(record.status) && record.hash == null && record.snapshot == null
+    && draft?.schemaVersion === "expungement-ai/protected-packet-draft/v1"
+    && draft.jurisdiction === "OH" && draft.pathwayId === "juvenile-sealing-and-expungement"
+    && draft.profileVersion === "2026-06-19-source-conversion-1"
+    && draft.profileSourceFingerprint === "0109b1358bbee282e159113ced5f86734a6c0cf281c51aca4c3703dedb4552e7"
+    && draft.profileAuthorityFingerprint === "ac5c89aed9ec935710e83d43c1e2896cd2b7bda498a1752e8f92a4c40952f97a"
+    && draft.resultCode === "guidance_only" && draft.paymentAllowed === false
+    && draft.packetType === "guidance_packet" && draft.selectedTrackId === null
+    && sameAnswer(draft.serverFacts, { jurisdiction: "OH", pathway_id: "juvenile-sealing-and-expungement" })
+    && sameAnswer(draft.packetFamilyIdentifiers, { mode: "state_specific_custom_packet_from_source_rules", sourceFormIds: [] })
+    && sameAnswer(draft.packetPlan, model.packetPlan)
+    && model.stateCode === "OH" && model.pathwayId === draft.pathwayId
+    && model.resultCode === "guidance_only" && model.reviewSafety.safe === false
+    && model.reviewSafety.reason === "authoritative_route_changed" && model.stage === "in_progress"
+    && !model.caProp64Clarification && !model.gaPardonPreparationAvailable
+    && !model.mtDeferredPreparationAvailable && !model.caJuvenilePreparationAvailable
+    && !model.gaPardonPreparationFactIds && !model.mtDeferredPreparationFactIds
+    && !model.caJuvenilePreparationFactIds && !model.heldFactualCorrectionIds?.length
+    && heldPacketCorrectionInputIds(model, model.resultCode).size === 0;
+}
+
 /** Owner-only recovery read. It never merges a stale browser draft or verifies it. */
 export async function GET(request: Request, context: { params: Promise<{ itemId: string }> }) {
   const auth = await getRcapBriefcaseAuthState();
@@ -109,7 +137,7 @@ export async function GET(request: Request, context: { params: Promise<{ itemId:
     ny16059Preparation: ny16059ProtectedDocumentPreparation(authority.value),
     ny16059Completion: ny16059OwnedCompletionDiagnostic(item.id, authority.value),
     readyToGenerate: model.stage === "ready_to_generate", reviewReason: model.reviewSafety.reason,
-    nextAction: model.caProp64Clarification ? "continue_packet" : !model.packetPlan || packetDraftStopReason(model) || isMdJuvenileHeldMatterOnly(authority.value, model) ? "open_matter" : model.missingInputIds.length || model.pendingDerivations.length ? "continue_packet" : "review_packet"
+    nextAction: model.caProp64Clarification ? "continue_packet" : !model.packetPlan || packetDraftStopReason(model) || isMdJuvenileHeldMatterOnly(authority.value, model) || isOhJuvenileHeldMatterOnly(authority.value, model) ? "open_matter" : model.missingInputIds.length || model.pendingDerivations.length ? "continue_packet" : "review_packet"
   }, { headers: { "Cache-Control": "private, no-store" } });
 }
 
@@ -276,7 +304,7 @@ export async function POST(
     caProp64Clarification: canonical.caProp64Clarification ?? false,
     readyToGenerate: update.readyToGenerate,
     reviewReason: packetDraftStopReason(canonical) ?? update.reviewReason,
-    nextAction: canonical.caProp64Clarification ? "continue_packet" : !canonical.packetPlan || canonical.pathwayId !== protectedModel.pathwayId || packetDraftStopReason(canonical) || isMdJuvenileHeldMatterOnly(saved.value, canonical)
+    nextAction: canonical.caProp64Clarification ? "continue_packet" : !canonical.packetPlan || canonical.pathwayId !== protectedModel.pathwayId || packetDraftStopReason(canonical) || isMdJuvenileHeldMatterOnly(saved.value, canonical) || isOhJuvenileHeldMatterOnly(saved.value, canonical)
       ? "open_matter" : canonical.missingInputIds.length || canonical.pendingDerivations.length ? "continue_packet" : "review_packet",
     missingInputIds: canonical.missingInputIds,
     reviewPath: `/briefcase/${encodeURIComponent(item.id)}/review`
