@@ -25,7 +25,7 @@
  * plan — which is a superset of all of them, so no denominator is left out.
  */
 
-import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, realpathSync, writeFileSync } from "node:fs";
 import { register } from "node:module";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -46,6 +46,19 @@ const { packetCollectionFor } = await import("../src/lib/expungement-ai/packet-i
 const outputFlag = process.argv.indexOf("--output-dir");
 if (outputFlag >= 0 && (!process.argv[outputFlag + 1] || process.argv[outputFlag + 1].startsWith("--"))) throw new Error("--output-dir requires a directory");
 const outputDir = outputFlag >= 0 ? path.resolve(process.argv[outputFlag + 1]) : null;
+// A scoped audit is an explicit external diagnostic, never a partial overwrite
+// of the canonical nationwide audit. Existing default and --check are unchanged.
+const routeFlag = process.argv.indexOf("--route-key");
+const selectedRouteKey = routeFlag >= 0 ? process.argv[routeFlag + 1] : null;
+if (routeFlag >= 0) {
+  if (!selectedRouteKey || selectedRouteKey.startsWith("--") || !/^[A-Z]{2}:[a-z0-9-]+$/.test(selectedRouteKey)) throw new Error("--route-key requires one exact jurisdiction:pathway key");
+  if (!outputDir) throw new Error("--route-key requires explicit outside-source --output-dir");
+  let ancestor = outputDir;
+  while (!existsSync(ancestor)) ancestor = path.dirname(ancestor);
+  const physicalOutput = path.resolve(realpathSync(ancestor), path.relative(ancestor, outputDir));
+  const relative = path.relative(realpathSync(rootDir), physicalOutput);
+  if (relative === "" || (!relative.startsWith(`..${path.sep}`) && relative !== ".." && !path.isAbsolute(relative))) throw new Error("scoped output must be outside the source repository");
+}
 const ARTIFACT = outputDir ? path.join(outputDir, "packet-collection-audit.json") : path.join(rootDir, "data/expungement-ai/reports/packet-collection-audit.json");
 const SUMMARY = outputDir ? path.join(outputDir, "PACKET_COLLECTION_AUDIT.md") : path.join(rootDir, "docs/expungement-ai/PACKET_COLLECTION_AUDIT.md");
 
@@ -66,7 +79,7 @@ function readJson(relativePath) {
  * Each entry says where the number comes from so a future reader can tell
  * which one their question is actually about.
  */
-function denominators(profiles) {
+function denominators(profiles, routeKey = null) {
   const compiled = [];
   const packetCheckout = [];
   for (const profile of profiles) {
@@ -89,14 +102,13 @@ function denominators(profiles) {
     .filter((route) => route.commercialStatus === "commercially_eligible")
     .map((route) => route.routeId);
 
-  const count = (routeKeys) => ({
-    routes: routeKeys.length,
-    jurisdictions: new Set(routeKeys.map((key) => key.split(":")[0])).size,
-    routeKeys: [...routeKeys].sort()
-  });
+  const count = (routeKeys) => {
+    const measured = routeKey ? routeKeys.filter(key => key === routeKey) : routeKeys;
+    return { routes: measured.length, jurisdictions: new Set(measured.map(key => key.split(":")[0])).size, routeKeys: [...measured].sort() };
+  };
 
   return {
-    note: "Five different questions, five different numbers. The 97 in docs/ matches none of them.",
+    note: routeKey ? "All five denominators are restricted to the exact selected route; no nationwide coverage is claimed." : "Five different questions, five different numbers. The 97 in docs/ matches none of them.",
     compiledPathways: { source: "src/lib/rcap-engine/compiled/profiles/*.json", ...count(compiled) },
     packetCheckoutLegalAuthority: {
       source: "pathways[].legalAuthority.paymentAuthority === 'packet_checkout'",
@@ -389,6 +401,7 @@ function auditRoute(profile, pathway) {
     externalActorQuestions: resolution.externalActorFields.filter((entry) => gate.includes(entry.factId)),
     pendingDerivations: resolution.pendingDerivations,
     unresolvedRequiredFacts: resolution.unresolvedRequiredFacts,
+    ...(resolution.facts.some(fact => fact.sourcePurpose) ? { sourcePurposes: resolution.facts.filter(fact => fact.sourcePurpose).map(fact => ({ factId: fact.factId, sourcePurpose: fact.sourcePurpose })) } : {}),
     hardBlockers: resolution.hardBlockers
   };
 }
@@ -399,12 +412,14 @@ const excludedRoutes = [];
 let compiledPathwayCount = 0;
 for (const profile of profiles) {
   for (const pathway of profile.pathways ?? []) {
+    if (selectedRouteKey && `${profile.jurisdiction.code}:${pathway.id}` !== selectedRouteKey) continue;
     compiledPathwayCount += 1;
     const audited = auditRoute(profile, pathway);
     if (audited?.excluded) excludedRoutes.push(audited.excluded);
     else if (audited) routes.push(audited);
   }
 }
+if (selectedRouteKey && compiledPathwayCount !== 1) throw new Error(`Unknown exact --route-key: ${selectedRouteKey}`);
 excludedRoutes.sort((left, right) => left.routeKey.localeCompare(right.routeKey));
 routes.sort((left, right) => left.routeKey.localeCompare(right.routeKey));
 
@@ -432,7 +447,8 @@ const artifact = {
   schemaVersion: "expungement-ai/packet-collection-audit/v1",
   generatedBy: "scripts/generate-packet-collection-audit.mjs",
   note: "Empty-answer production-wrapper source projection; not a universal maximum, completed-screening fixture, or protected journey. Conditional and saved inputs can change the obligations.",
-  denominators: denominators(profiles),
+  ...(selectedRouteKey ? { scope: { routeKey: selectedRouteKey, coverage: "single_route_empty_answer_projection_not_nationwide_acceptance" } } : {}),
+  denominators: denominators(profiles, selectedRouteKey),
   // Every compiled pathway is either audited or explicitly excluded with a
   // deterministic reason. There is no unexplained remainder.
   denominatorReconciliation: {
@@ -512,11 +528,11 @@ const artifact = {
 const serialized = `${JSON.stringify(artifact, null, 2)}\n`;
 
 const summary = [
-  "# Packet collection audit",
+  selectedRouteKey ? `# Scoped packet collection audit: ${selectedRouteKey} (not nationwide acceptance)` : "# Packet collection audit",
   "",
   "Generated by `scripts/generate-packet-collection-audit.mjs`. Do not edit by hand.",
   "",
-  "Every required packet fact of every route with a packet plan, resolved to exactly one",
+  selectedRouteKey ? "Only the explicitly selected route is measured; this is not a nationwide audit." : "Every required packet fact of every route with a packet plan, resolved to exactly one",
   "collection class through the production wrapper. This empty-answer source projection",
   "is not a universal maximum or a protected completed-screening journey. Conditions and",
   "saved answers can change collection. Unresolved and pending-derived facts remain explicit.",
@@ -534,7 +550,7 @@ const summary = [
   `| Product \`paid_now\` | ${artifact.denominators.productPaidNow.routes} | ${artifact.denominators.productPaidNow.jurisdictions} |`,
   `| Grade-A commercially eligible | ${artifact.denominators.gradeACommerciallyEligible.routes} | ${artifact.denominators.gradeACommerciallyEligible.jurisdictions} |`,
   "",
-  "The correction is applied to every route with a packet plan, which is a superset of all of them.",
+  selectedRouteKey ? "This scoped export measures only the selected route; it is not a nationwide correction or acceptance." : "The correction is applied to every route with a packet plan, which is a superset of all of them.",
   "",
   "## Totals",
   "",

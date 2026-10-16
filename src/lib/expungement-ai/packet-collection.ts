@@ -1,3 +1,4 @@
+import { MD_JUVENILE_COUNTY_SOURCE_PURPOSE, type MdJuvenileCountySourcePurpose } from "@/lib/expungement-ai/md-juvenile-county-source-purpose";
 import { ksMunicipalCategoryIsContext } from "@/lib/expungement-ai/ks-municipal-category-context";
 import { msFirstOffenderSourceContract, MS_FIRST_OFFENDER_SOURCE } from "@/lib/rcap-engine/mississippi-first-offender-source-facts";
 import { MS_FIRST_OFFENDER_COLLECTION_IDS, msFirstOffenderSourceQuestions } from "@/lib/expungement-ai/ms-first-offender-source-questions";
@@ -252,6 +253,8 @@ export type PacketSectionStatus = (typeof PACKET_SECTION_STATUSES)[number];
 
 export type ResolvedPacketFact = {
   factId: string;
+  /** Source purpose only; never overrides classification, requiredness or authority. */
+  sourcePurpose?: MdJuvenileCountySourcePurpose;
   collection: PacketCollectionClass;
   phase: PacketCollectionPhase;
   /** The participant section this fact is asked in, where it is asked at all. */
@@ -305,6 +308,7 @@ export type PacketCollectionResolution = {
 };
 
 export type PacketCollectionInput = {
+  mdJuvenileCountySourcePurpose?: MdJuvenileCountySourcePurpose;
   jurisdiction: string;
   pathwayId: string | null;
   requiredInputIds: string[];
@@ -1559,6 +1563,17 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
       source: "none",
       reason: "no existing authority classifies this fact"
     });
+  }
+
+  // Attach only after classification. Known values and unresolved source scope
+  // are different dimensions; neither is changed by this source-purpose bridge.
+  if (input.jurisdiction === "MD" && input.pathwayId === "juvenile-expungement"
+    && specification == null && input.unresolvedRouteFactIds?.has("county")
+    && !input.routeDecidingFactIds?.has("county") && !needsHuman.has("county")
+    && override?.classes?.county == null
+    && JSON.stringify(input.mdJuvenileCountySourcePurpose) === JSON.stringify(MD_JUVENILE_COUNTY_SOURCE_PURPOSE)) {
+    const county = facts.find(fact => fact.factId === "county");
+    if (county) county.sourcePurpose = input.mdJuvenileCountySourcePurpose;
   }
 
   const sections = PACKET_COLLECTION_SECTIONS

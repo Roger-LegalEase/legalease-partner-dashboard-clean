@@ -1,3 +1,4 @@
+import { mdJuvenileCountySourcePurpose } from "@/lib/expungement-ai/md-juvenile-county-source-purpose";
 import { ksMunicipalCategoryIsContext, ksMunicipalCategoryContextQuestion } from "@/lib/expungement-ai/ks-municipal-category-context";
 import { MS_FIRST_OFFENDER_COLLECTION_IDS, msFirstOffenderSourceQuestions } from "@/lib/expungement-ai/ms-first-offender-source-questions";
 import { MS_FIRST_OFFENDER_ROUTE, MS_FIRST_OFFENDER_IDS, projectMsFirstOffenderSourceFacts, msFirstOffenderSourceContract } from "@/lib/rcap-engine/mississippi-first-offender-source-facts";
@@ -2777,8 +2778,12 @@ export function caProp64JuvenilePreparationModelFor(verification: ProtectedPacke
  */
 /** Server-only exact profile guard; the shared contact decoder carries no authority. */
 export function ctCleanSlateContactContract(profile: NonNullable<ReturnType<typeof getProfileByJurisdiction>>, pathwayId: string | null) {
+  // The historical full-profile hash remains recorded with the contact source.
+  // Another CT route's reviewed authority successor does not change JD-CR-202.
   return isCtCleanSlateContact(profile.jurisdiction.code, pathwayId)
-    && contactRepresentationHash(profile) === CT_CLEAN_SLATE_CONTACT_SOURCE.profileSha256;
+    && profile.profileVersion === CT_CLEAN_SLATE_CONTACT_SOURCE.profileVersion
+    && profile.source?.sourceCorpusSha256 === CT_CLEAN_SLATE_CONTACT_SOURCE.profileSourceFingerprint
+    && profileAuthorityFingerprint(profile, pathwayId) === CT_CLEAN_SLATE_CONTACT_SOURCE.profileAuthorityFingerprint;
 }
 export function ksMunicipalContactContract(profile: NonNullable<ReturnType<typeof getProfileByJurisdiction>>, pathwayId: string | null) {
   return isKsMunicipalContact(profile.jurisdiction.code, pathwayId)
@@ -2842,6 +2847,7 @@ export function packetCollectionFor(input: {
     specification,
     routeDecidingFactIds: decidingFactIds,
     unresolvedRouteFactIds: unresolvedFactIds,
+    mdJuvenileCountySourcePurpose: mdJuvenileCountySourcePurpose(profile, input.pathwayId, { specification, requiredInputIds: input.requiredInputIds, decidingFactIds, unresolvedFactIds }),
     reviewedContactRepresentation: Boolean(contactContract),
     ndFirstOffenseSourceOwnedInputs: ndFirstOffenseFamilyContract(profile, input.pathwayId),
     ndFirstOffenseStatutoryFactIds: ndFirstOffenseFamilyContract(profile, input.pathwayId)
