@@ -3,6 +3,7 @@
 //
 //   node scripts/generate-rcap-public-witness-answer-sets.mjs
 //   node scripts/generate-rcap-public-witness-answer-sets.mjs --check
+//   node scripts/generate-rcap-public-witness-answer-sets.mjs --output /absolute/private/file.json
 //
 // A witness is only a witness if someone else can re-run it and get the same
 // answer. Every answer here is chosen by a pinned rule — never randomly — so the
@@ -31,6 +32,14 @@ register("./lib/ts-esm-loader.mjs", import.meta.url);
 
 const CHECK = process.argv.includes("--check");
 const OUT = "data/rcap-ledger/public-witness-answer-sets.json";
+const args = process.argv.slice(2);
+const separateOutput = args.length === 2 && args[0] === "--output";
+if (!(args.length === 0 || args.length === 1 && args[0] === "--check" || separateOutput)
+  || separateOutput && !path.isAbsolute(args[1])) {
+  throw new Error("Usage: generator [--check | --output ABSOLUTE_PATH]; --output is write-only and cannot be combined with --check.");
+}
+const outputPath = separateOutput ? args[1] : path.join(rootDir, OUT);
+
 
 const { getProfileByJurisdiction } = await import("../src/lib/rcap-engine/profile-registry.ts");
 const { projectPublicProfile } = await import("../src/lib/rcap-engine/public-profile-projection.ts");
@@ -312,7 +321,7 @@ if (CHECK) {
   console.log(`public witness answer sets current and deterministic: ${witnesses.length} pathway(s).`);
   process.exit(0);
 }
-fs.writeFileSync(path.join(rootDir, OUT), text);
-console.log(`wrote ${OUT}`);
+fs.writeFileSync(outputPath, text, separateOutput ? { flag: "wx", mode: 0o600 } : undefined);
+console.log(`wrote ${separateOutput ? outputPath : OUT}`);
 console.log(`  ${witnesses.length} pathways, ${settled.length} settled, ${landed.length} landed on their own pathway`);
 console.log(`  terminal result codes: ${JSON.stringify(resultCodes)}`);

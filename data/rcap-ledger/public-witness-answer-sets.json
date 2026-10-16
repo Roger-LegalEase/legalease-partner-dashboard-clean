@@ -35,13 +35,13 @@
   "changesNothing": "Records the current local evaluator under explicit synthetic premises. No hosted observation, participant fact, runtime change, classification, approval or commercial authority is established.",
   "totals": {
     "pathways": 267,
-    "settledOnATerminalEvaluation": 260,
-    "unresolvedPathways": 7,
+    "settledOnATerminalEvaluation": 259,
+    "unresolvedPathways": 8,
     "additionalSourceBoundSyntheticWitnesses": 6,
-    "landedOnTheirOwnPathway": 259,
+    "landedOnTheirOwnPathway": 258,
     "terminalResultCodes": {
       "packet_ready_with_caution": 32,
-      "guidance_only": 90,
+      "guidance_only": 89,
       "not_covered_yet": 22,
       "needs_review": 104,
       "needs_more_info": 9,
@@ -19936,6 +19936,24 @@
             "identity_error": "Yes",
             "offense_level": "Misdemeanor"
           }
+        },
+        {
+          "round": 2,
+          "requested": [
+            "tx_nd_supervision_type"
+          ],
+          "supplied": {
+            "tx_nd_supervision_type": "deferred_adjudication"
+          }
+        },
+        {
+          "round": 3,
+          "requested": [
+            "tx_nd_discharge_dismissal_date"
+          ],
+          "supplied": {
+            "tx_nd_discharge_dismissal_date": "2012-06-01"
+          }
         }
       ],
       "finalAnswers": {
@@ -19956,7 +19974,9 @@
         "special_preconditions_confirmed": "Yes",
         "state_exclusion_categories": [
           "None of these"
-        ]
+        ],
+        "tx_nd_discharge_dismissal_date": "2012-06-01",
+        "tx_nd_supervision_type": "deferred_adjudication"
       },
       "terminalEvaluation": {
         "resultCode": "needs_review",
@@ -19966,7 +19986,7 @@
         "treatmentClassification": null,
         "selectedTrackId": null,
         "reasonCodes": [
-          "tx.waiting_rule_not_executed"
+          "tx.nondisclosure_dwi_source_facts_review"
         ],
         "missingQuestionIds": []
       },
@@ -20019,6 +20039,26 @@
             "identity_error": "Yes",
             "offense_level": "Misdemeanor"
           }
+        },
+        {
+          "round": 2,
+          "requested": [
+            "tx_nd_supervision_type"
+          ],
+          "supplied": {
+            "tx_nd_supervision_type": "deferred_adjudication"
+          }
+        },
+        {
+          "round": 3,
+          "requested": [
+            "tx_nd_deferred_offense_class",
+            "tx_nd_discharge_dismissal_date"
+          ],
+          "supplied": {
+            "tx_nd_deferred_offense_class": "misdemeanor_other_chapter",
+            "tx_nd_discharge_dismissal_date": "2012-06-01"
+          }
         }
       ],
       "finalAnswers": {
@@ -20039,17 +20079,20 @@
         "special_preconditions_confirmed": "Yes",
         "state_exclusion_categories": [
           "None of these"
-        ]
+        ],
+        "tx_nd_deferred_offense_class": "misdemeanor_other_chapter",
+        "tx_nd_discharge_dismissal_date": "2012-06-01",
+        "tx_nd_supervision_type": "deferred_adjudication"
       },
       "terminalEvaluation": {
-        "resultCode": "guidance_only",
+        "resultCode": "needs_review",
         "pathwayId": "petitioned-nondisclosure-after-completed-deferred-adjudication-411-0725",
         "pathwayLabel": "Petitioned nondisclosure after completed deferred adjudication (§ 411.0725)",
         "paymentAllowed": false,
         "treatmentClassification": null,
         "selectedTrackId": null,
         "reasonCodes": [
-          "tx.guidance_only_no_user_filed_court_petition"
+          "tx.route_gate_pending_lawrence_review"
         ],
         "missingQuestionIds": []
       },
@@ -20102,6 +20145,24 @@
             "identity_error": "Yes",
             "offense_level": "Misdemeanor"
           }
+        },
+        {
+          "round": 2,
+          "requested": [
+            "tx_nd_supervision_type"
+          ],
+          "supplied": {
+            "tx_nd_supervision_type": "deferred_adjudication"
+          }
+        },
+        {
+          "round": 3,
+          "requested": [
+            "tx_nd_supervision_type"
+          ],
+          "supplied": {
+            "tx_nd_supervision_type": "deferred_adjudication"
+          }
         }
       ],
       "finalAnswers": {
@@ -20122,22 +20183,92 @@
         "special_preconditions_confirmed": "Yes",
         "state_exclusion_categories": [
           "None of these"
-        ]
-      },
-      "terminalEvaluation": {
-        "resultCode": "needs_review",
-        "pathwayId": "petitioned-nondisclosure-for-an-eligible-conviction-411-0735",
-        "pathwayLabel": "Petitioned nondisclosure for an eligible conviction (§ 411.0735)",
-        "paymentAllowed": false,
-        "treatmentClassification": null,
-        "selectedTrackId": null,
-        "reasonCodes": [
-          "tx.route_gate_pending_lawrence_review"
         ],
-        "missingQuestionIds": []
+        "tx_nd_supervision_type": "deferred_adjudication"
       },
-      "landedOnThisPathway": true,
-      "error": null
+      "terminalEvaluation": null,
+      "landedOnThisPathway": false,
+      "convergenceStatus": "unresolved_unchanged_answers",
+      "unresolvedEvaluation": {
+        "jurisdiction": "TX",
+        "profileVersion": "2026-06-19-source-conversion-1",
+        "matterId": "public-witness",
+        "resultCode": "needs_review",
+        "userLabel": "We need one more detail before we can prepare the right packet.",
+        "reasons": [
+          {
+            "code": "tx.nondisclosure_subtype_conflict",
+            "text": "The saved facts do not establish this nondisclosure timing branch. Review the actual court record; another procedure may apply.",
+            "sourceRef": "TX.memo;GovtCode411.0735"
+          }
+        ],
+        "missingQuestionIds": [
+          "tx_nd_supervision_type"
+        ],
+        "cautions": [],
+        "nextSteps": [
+          "Gather court records.",
+          "Save the result.",
+          "Save your progress and update your answers when you have that detail."
+        ],
+        "paymentAllowed": false,
+        "pathwayId": "petitioned-nondisclosure-for-an-eligible-conviction-411-0735",
+        "packetPlan": {
+          "pathwayId": "petitioned-nondisclosure-for-an-eligible-conviction-411-0735",
+          "mode": "official_form_overlay_or_source_form_set",
+          "formMappingStatus": "source_candidate_identified",
+          "sourceFormIds": [
+            "TX:LegalEase Texas/tx-statewide-expunction-nondisclosure-forms.html:d6f3d47523a2593098bf45c3831aead8265586b31f86200de64eadc30f433abe"
+          ],
+          "requiredInputIds": [
+            "arrest_date",
+            "case_outcome",
+            "charge",
+            "contact_information",
+            "court",
+            "disposition_date",
+            "financial_obligations",
+            "identity_error",
+            "jurisdiction",
+            "offense_category",
+            "offense_level",
+            "pardon_status",
+            "participant_full_legal_name",
+            "pathway_id",
+            "pending_cases",
+            "record_type",
+            "residency_or_location"
+          ],
+          "sourceRuleRefs": [
+            "section:77-124",
+            "section:125-175",
+            "section:176-223",
+            "section:224-270",
+            "section:54-76",
+            "section:271-301",
+            "case_outcomes:224-270",
+            "corpus-unit:50",
+            "corpus-unit:64",
+            "corpus-unit:31",
+            "corpus-unit:43",
+            "waiting_periods:125-175",
+            "exclusions:176-223",
+            "corpus-unit:22",
+            "corpus-unit:30",
+            "corpus-unit:52",
+            "corpus-unit:71"
+          ],
+          "packetReadyWhen": [
+            "backend result is packet_ready or packet_ready_with_caution",
+            "every source-defined pathway fact is answered",
+            "all waiting and completion conditions are satisfied",
+            "no exclusion, ambiguity, or required-review flag remains",
+            "the selected form revision and filing location pass source-freshness checks"
+          ]
+        },
+        "pathwayLabel": "Petitioned nondisclosure for an eligible conviction (§ 411.0735)"
+      },
+      "error": "Required facts remain unresolved under these exact synthetic premises."
     },
     {
       "pathwayKey": "UT:path-d-petition-based-expungement-with-a-bci-certificate-of-eligibility",
