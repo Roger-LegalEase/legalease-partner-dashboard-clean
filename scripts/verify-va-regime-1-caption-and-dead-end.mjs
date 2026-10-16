@@ -31,6 +31,19 @@ const { packetFulfillmentAuthority } = await import('../src/lib/expungement-ai/p
 const { getCurrentFulfillmentRecord } = await import('../src/lib/rcap/fulfillment/grade-a-registry.ts');
 const { ScreeningResult } = await import('../src/components/expungement-ai/screening/ScreeningResult.tsx');
 
+const VA_V3_REGISTER = '3f8998b2fdba92b77c6804934c949bb367bf4c945ca2826d6b119da0e81cdf0b';
+const VA_OLD_REGISTER = '4ffc56d4cc8dfa9b882f64ad51f49be815704fe20009ee7425b429418b54ead2'; // immutable predecessor ancestry
+const VA_SOURCE = '85ac8ea0f2dc40d890fa2b37921a1b24956ed4aecb1555109a0bb5a65793c656';
+const VA_URL = 'https://www.fairfaxcounty.gov/circuit/sites/circuit/files/assets/documents/pdf/expungement-order.pdf';
+// Portable metadata tuple only; private PDF bytes were independently checked in custody.
+// CI has no dependency on the ignored private source path and performs no network acquisition.
+const sourceSuccessor = s => s.procedureAdoption?.registerSha256 === VA_V3_REGISTER
+  && s.procedureAdoption?.supersededRegisterSha256 === VA_OLD_REGISTER
+  && s.procedureAdoption?.currentInstrument?.officialFormId === 'CC-1474'
+  && s.procedureAdoption.currentInstrument.revision === '07/26'
+  && s.procedureAdoption.currentInstrument.sourceUrl === VA_URL
+  && s.procedureAdoption.currentInstrument.sha256 === VA_SOURCE
+  && s.procedureAdoption.currentInstrument.custodyReceipt === 'data/rcap-grade-a/source-custody/court-source-handoff-20261013/va-cc1474-current-source-20261016.json';
 const ROUTE_KEY = 'VA:regime-1-expungement-available-now';
 const PATHWAY_ID = 'regime-1-expungement-available-now';
 const RECORD = 'data/record-clearing/legal-decisions/2026-09-21-va-regime-1-caption-and-advertised-dead-end.json';
@@ -69,7 +82,7 @@ ok('the previously recorded primary filing remains historical evidence', Boolean
 const currentProcedureUnbound = candidate => candidate.procedureAdoption?.decisionId === 'VA-01'
   && candidate.procedureAdoption?.disposition === 'MODIFY'
   && candidate.procedureAdoption?.evidenceKind === 'owner_relayed_counsel_adoption'
-  && candidate.procedureAdoption?.registerSha256 === '4ffc56d4cc8dfa9b882f64ad51f49be815704fe20009ee7425b429418b54ead2'
+  && sourceSuccessor(candidate)
   && candidate.procedureAdoption?.participantPetitionEstablished === false
   && candidate.procedureAdoption?.documentAcceptance === 'NOT_VERIFIED'
   && candidate.legalSectionsBound === false
@@ -77,9 +90,13 @@ const currentProcedureUnbound = candidate => candidate.procedureAdoption?.decisi
   && candidate.documents.every(d => d.role !== 'primary_filing'
     && d.outputStrategy === 'process_guidance' && !d.officialFormId);
 ok('the adopted current procedure selects no unestablished petition or substitute form', currentProcedureUnbound(spec));
-ok('the receiving-court instrument has no invented participant actor or caption', Boolean(primary)
+for (const mutate of [s=>{s.procedureAdoption.currentInstrument.sha256='0'.repeat(64);},s=>{s.procedureAdoption.registerSha256=VA_OLD_REGISTER;},s=>{s.procedureAdoption.currentInstrument.revision='11/15';}]) {const bad=structuredClone(spec);mutate(bad);ok('wrong source/version or older register cannot select current successor',!currentProcedureUnbound(bad));}
+ok('the identified order has source-established court actors without active population', Boolean(primary)
+  && primary.documentContract?.instrumentClass === 'court_generated'
+  && primary.documentContract?.preparedBy === 'court'
+  && primary.documentContract?.signer === 'judge'
   && primary.documentContract?.recipient === 'unresolved'
-  && primary.documentContract?.instrumentClass === 'unresolved');
+  && primary.officialFormId === null && primary.outputStrategy === 'process_guidance');
 for (const change of [
   s => { s.documents[0].role = 'primary_filing'; },
   s => { s.documents[0].officialFormId = 'CC-1473'; },
@@ -104,15 +121,17 @@ const caseMode = primary?.documentContract?.caseMode;
 const caption = primary?.documentContract?.captionTreatment ?? null;
 const caseResolved = typeof caseMode === 'string' && caseMode !== 'unresolved';
 ok('caseMode is resolved from source, or no caption is asserted',
-  caseResolved || caption === null || caption === 'unresolved',
+  caseResolved || caption === null || caption === 'unresolved'
+    || (caption === 'official_form_controls' && sourceSuccessor(spec) && spec.legalSectionsBound === false
+      && primary?.officialFormId === null && primary?.outputStrategy === 'process_guidance'),
   { caseMode, captionTreatment: caption });
 console.log(caseResolved
   ? '            (the case is established; a caption may now be recorded from that same source)'
   : '            (the case is still unestablished, so the refusal is correct)');
 if (!caseResolved) {
-  ok('the specification still records WHY the case is unestablished',
-    /actual receiving-court implementation instrument.*has not been source-bound/i.test(
-      String(primary?.documentContract?.unresolvedReasons?.instrumentClass ?? '')));
+  ok('the actual receiving case stays unreconciled despite source-defined caption structure',
+    /actual receiving-court\/case identifiers/.test(String(primary?.documentContract?.unresolvedReasons?.caseMode ?? ''))
+      && spec.legalSectionsBound === false && primary?.officialFormId === null);
 }
 ok('the contract still forbids inferring a caption from presentation',
   /Nothing is inferred from presentation/.test(contract.theContract?.derivedOnlyWhereASourceFieldStatesIt ?? ''));

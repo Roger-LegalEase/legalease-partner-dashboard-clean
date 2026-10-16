@@ -241,12 +241,255 @@ if(!baseline){
    const normalizedPrior=clone(stored.draftSnapshot.dependencies.recordFactConfirmations.jurisdiction_scope);assert.equal((await post({court:{value:' Explicit new target court ',unknown:false}})).status,200);assert.deepEqual(stored.draftSnapshot.dependencies.recordFactConfirmations.jurisdiction_scope,normalizedPrior,'Meaning-equivalent wrapper/whitespace does not invalidate');
    const final=clone(stored);const otherId='another-matter';const foreignContext={params:Promise.resolve({itemId:otherId})};assert.equal((await API.POST(new Request(url.replace(item.id,otherId),{method:'POST',body:JSON.stringify({expectedRevision:stored.revision,answers:{},confirmRecordFacts:[H.MN_TARGET_ORIGIN_ID],recordFactConfirmations:stored.draftSnapshot.dependencies.recordFactConfirmations})}),foreignContext)).status,404);assert.deepEqual(stored,final);
    const present=await presentation();for(const key of ['checkoutAllowed','generationAllowed','fulfillmentAvailable'])assert.equal(present.commercialActions[key],false);
+   // Original no-charge case stays unchanged. Its inactive prosecutor
+   // response cannot be used to manufacture a source-compatible population.
+   if (route === H.MN_PROSECUTOR_ROUTE) {
+    const beforeStage = clone(stored),stageModel=P.protectedPacketInformationModelFor(stored);
+    assert.equal(stageModel.mnSourceStageCandidate.status,'held');
+    assert.equal(stageModel.mnSourceStageCandidate.candidate,null);
+    assert(!stageModel.questions.some(q=>q.id==='mn_prosecutor_sealing_response'));
+    assert(!stageModel.mnSourceStageCandidate.missingFactIds.includes('case_outcome'));
+    for(const response of ['not_requested','awaiting_response','agreed','declined','negotiation','unknown']) {
+     assert.equal((await post({mn_prosecutor_sealing_response:response})).status,422);
+     assert.deepEqual(stored,beforeStage,'Inactive response refusal preserves complete original record/history');
+    }
+    assert.equal((await post({})).status,200);assert.deepEqual(stored,beforeStage);
+   }
    const beforeClear=clone(stored);assert.equal((await post({jurisdiction_scope:''})).status,200);assert.equal(stored.draftSnapshot.pathwayId,null);assert.equal(stored.draftSnapshot.dependencies.recordFactConfirmations.jurisdiction_scope.status,'unconfirmed');assert.deepEqual(stored.draftSnapshot.dependencies.recordFactConfirmations.jurisdiction_scope.legacyValues,beforeClear.draftSnapshot.dependencies.recordFactConfirmations.jurisdiction_scope.legacyValues);
    const cleared=clone(stored),restore=await post({jurisdiction_scope:'State or local'});assert.equal(restore.status,403);assert.deepEqual(await restore.json(),{ok:false,error:'packet_information_unavailable'});assert.deepEqual(stored,cleared,'No route means no protected correction entry; refused restoration is atomic');
 
   });
 
  }
+ // Separate synthetic conviction premise, never a conversion of original
+ // no-charge evidence. Existing offered answers only; no statutory qualification
+ // or institutional programme/agreement is inferred from these handler checks.
+ for(const route of routes)await asyncTest(route+' synthetic current protected source stage GET POST resume ENES',async()=>{
+  sourceAnswers={...clone(fixtureFor(route).answers),case_outcome:'Misdemeanor conviction',sentence_completion_date:'No'};
+  const beforeSource=clone(sourceAnswers);
+  const authoritative=evaluate({jurisdiction:'MN',profileVersion:profile.profileVersion,matterId:item.id,answers:sourceAnswers});
+  const seeded=P.protectedPacketDraftSeedFromAuthoritative({authoritative,screeningAnswers:sourceAnswers,dependencies:{commercialFlowVersion:1},capturedAt:'2026-10-16T00:00:00Z'});assert(seeded);
+  assert.equal(seeded.snapshot.pathwayId,route,'Require natural route; never override a selector result');
+  stored={status:'unverified',reason:'synthetic-current-source-stage',revision:0,draftHash:P.protectedPacketDraftHash(seeded.snapshot),draftSnapshot:seeded.snapshot};
+  const mapNames=['screeningAnswers','prefilledAnswers','packetAnswers','serverFacts'];
+  const seededMaps=Object.fromEntries(mapNames.map(name=>[name,clone(seeded.snapshot[name])]));
+  const seededUnion={...seededMaps.screeningAnswers,...seededMaps.prefilledAnswers,...seededMaps.packetAnswers,...seededMaps.serverFacts};
+  for(const [id,value] of Object.entries(beforeSource)){assert(Object.hasOwn(seededUnion,id),'Every supplied key retained in actual seeded disjoint union: '+id);assert.deepEqual(seededUnion[id],value);}
+  const seededHistory=clone(seeded.snapshot.dependencies.semanticAnswerHistory??[]);
+  const editedStageIds=new Set(['sentence_completion_date','mn_sentence_discharge_date','mn_new_conviction_since_discharge','mn_prosecutor_sealing_response']);
+  const unedited=map=>Object.fromEntries(Object.entries(map).filter(([id])=>!editedStageIds.has(id)));
+  const assertSeededNoneditedMaps=()=>{
+   for(const name of mapNames)assert.deepEqual(unedited(stored.draftSnapshot[name]),unedited(seededMaps[name]),'All nonedited seeded '+name+' entries stay exact');
+   assert.deepEqual((stored.draftSnapshot.dependencies.semanticAnswerHistory??[]).slice(0,seededHistory.length),seededHistory);
+  };
+  const get=await API.GET(new Request(url),context);assert.equal(get.status,200);const initialBody=await get.json();assert(JSON.stringify(initialBody).includes('sentence_completion_date'));
+  let m=P.protectedPacketInformationModelFor(stored);assert(m.questions.some(q=>q.id==='sentence_completion_date'&&q.type==='yes_no_unsure'));
+  assert(!m.questions.some(q=>q.id==='mn_sentence_discharge_date'));assert(!m.questions.some(q=>q.id==='mn_new_conviction_since_discharge'));
+  for(const locale of ['en','es']){
+   const q=m.questions.find(q=>q.id==='sentence_completion_date');const prompt=q.translations?.[locale]?.prompt??q.prompt;
+   const page=html(await Editor({params:Promise.resolve({packetId:item.id}),searchParams:Promise.resolve({edit:'sentence_completion_date'})}),locale);
+   assert(page.includes(renderToStaticMarkup(React.createElement('span',null,prompt)).slice(6,-7)),'Existing completion control offered in actual '+locale+' held editor');
+  }
+  assert.equal((await post({sentence_completion_date:'Yes'})).status,200);
+  assert.equal(stored.draftSnapshot.packetAnswers.sentence_completion_date,'Yes');
+  for(const name of ['screeningAnswers','prefilledAnswers','packetAnswers'])if(Object.hasOwn(seededMaps[name],'sentence_completion_date')){
+   assert((stored.draftSnapshot.dependencies.semanticAnswerHistory??[]).some(entry=>entry.factId==='sentence_completion_date'
+    && entry.source===name && entry.value===seededMaps[name].sentence_completion_date
+    && entry.meaning==='prior_factual_pathway_answer' && entry.routeKey==='MN:'+route
+    && entry.profileVersion===seeded.snapshot.profileVersion
+    && entry.profileSourceFingerprint===seeded.snapshot.profileSourceFingerprint
+    && entry.profileAuthorityFingerprint===seeded.snapshot.profileAuthorityFingerprint),'Exact prior completionNo retained with actual source provenance');
+  }
+  assertSeededNoneditedMaps();
+  const dateGet=await API.GET(new Request(url),context);assert.equal(dateGet.status,200);assert(JSON.stringify(await dateGet.json()).includes('mn_sentence_discharge_date'));
+  m=P.protectedPacketInformationModelFor(stored);assert(m.questions.some(q=>q.id==='mn_sentence_discharge_date'));assert(!m.questions.some(q=>q.id==='mn_new_conviction_since_discharge'));
+  assert.equal((await post({mn_sentence_discharge_date:{value:'2020-01-01',unknown:false}})).status,200);
+  const sinceGet=await API.GET(new Request(url),context);assert.equal(sinceGet.status,200);assert(JSON.stringify(await sinceGet.json()).includes('mn_new_conviction_since_discharge'));
+  m=P.protectedPacketInformationModelFor(stored);assert(m.questions.some(q=>q.id==='mn_new_conviction_since_discharge'));
+  assert.equal((await post({mn_new_conviction_since_discharge:'no'})).status,200);
+  if(route===H.MN_PROSECUTOR_ROUTE){
+   assert.equal((await post({mn_prosecutor_sealing_response:'not_requested'})).status,200);
+   m=P.protectedPacketInformationModelFor(stored);assert.equal(m.mnSourceStageCandidate.candidate.unitId,'mn_prosecutor_agreed-request-stage');
+   assert.equal(m.mnSourceStageCandidate.candidate.output,'request_guidance');
+  }
+  const saved=clone(stored);assert.equal((await post({})).status,200);assert.deepEqual(stored,saved,'Resume/noop preserves full synthetic record');
+  for(const locale of ['en','es']){
+   const page=html(await Editor({params:Promise.resolve({packetId:item.id}),searchParams:Promise.resolve({edit:'mn_sentence_discharge_date'})}),locale);
+   for(const id of ['mn_sentence_discharge_date',...(route===H.MN_PROSECUTOR_ROUTE?['mn_prosecutor_sealing_response']:[])]){
+    const q=H.mnProtectedStageQuestions(profile,route,{...stored.draftSnapshot.screeningAnswers,...stored.draftSnapshot.prefilledAnswers,...stored.draftSnapshot.packetAnswers}).find(q=>q.id===id);assert(q);
+    const prompt=q.translations?.[locale]?.prompt??q.prompt;assert(page.includes(renderToStaticMarkup(React.createElement('span',null,prompt)).slice(6,-7)),'Actual '+locale+' source-stage editor prompt '+id);
+   }
+   assert(!page.includes('mn_prosecutor_programme'));assert(!page.includes('mn_prosecutor_accepts_written_request'));
+   if(out){const file=out.replace(/\.json$/,'.synthetic-stage.'+(route===H.MN_PETITION_ROUTE?'petition':'prosecutor')+'.'+locale+'.html');fs.writeFileSync(file,page,{flag:'wx'});ssrEvidence.push({route,kind:'synthetic-source-stage-editor',locale,file,bytes:Buffer.byteLength(page)});}
+  }
+  for(const value of [{unknown:true},'']){
+   assert.equal((await post({mn_sentence_discharge_date:value})).status,200);
+   m=P.protectedPacketInformationModelFor(stored);assert(!m.questions.some(q=>q.id==='mn_new_conviction_since_discharge'));
+   assert.equal(stored.draftSnapshot.packetAnswers.mn_new_conviction_since_discharge,'no','Inactive dependent rawanswer retained, never reinterpreted');
+   assert.deepEqual(stored.draftSnapshot.packetAnswers.mn_sentence_discharge_date,value);
+   const nochange=clone(stored);assert.equal((await post({})).status,200);assert.deepEqual(stored,nochange);
+  }
+  assertSeededNoneditedMaps();assert.deepEqual(sourceAnswers,beforeSource,'Trusted input object is never rewritten by protected edits');
+  assert.equal(stored.draftSnapshot.packetAnswers.sentence_completion_date,'Yes');
+  m=P.protectedPacketInformationModelFor(stored);assert.equal(m.mnSourceStageCandidate.authority,false);assert.equal(m.mnSourceStageCandidate.qualificationCheckboxExportAllowed,false);assert.equal(m.reviewSafety.safe,false);
+  const presented=await presentation();for(const key of ['checkoutAllowed','generationAllowed','fulfillmentAvailable'])assert.equal(presented.commercialActions[key],false);
+ });
+
+}
+// Distinct synthetic source-compatible premises, not mutations of retained nine/five/original B evidence.
+for (const route of routes) {
+ const stage = answers => H.mnProtectedStageCandidate(profile,route,null,answers);
+ test(route+' invocation-local reuse retains public guards and fresh answer applicability',()=>{
+  const inputs=[{}, {case_outcome:'Arrest or citation with no charge filed'},
+   {case_outcome:'Misdemeanor conviction',sentence_completion_date:'No'},
+   {case_outcome:'Misdemeanor conviction',sentence_completion_date:'Yes',mn_sentence_discharge_date:'2020-01-01'},
+   {case_outcome:'Diversion, deferred disposition, supervision, or similar program',mn_diversion_completion:'completed'},
+   {case_outcome:'Misdemeanor conviction',mn_prosecutor_sealing_response:'not_requested'}];
+  for(const answers of inputs)for(const unresolved of [[],['sentence_completion_date','mn_diversion_completion']]){
+   const before=structuredClone(answers);const context=H.mnProtectedStageContext(profile,route,null,answers,unresolved);
+   assert(context);assert.deepEqual(context.questions,H.mnProtectedStageQuestions(profile,route,answers,false,unresolved));
+   assert.deepEqual(context.candidate,H.mnProtectedStageCandidate(profile,route,null,answers,unresolved));
+   assert.deepEqual(context.questions.map(q=>q.id),H.mnProtectedStageFactIds(profile,route,answers,false,unresolved));
+   assert.deepEqual(answers,before);assert.equal(context.candidate.authority,false);
+  }
+  const same=structuredClone(profile);const answers=inputs[3];
+  assert(H.mnProtectedStageContext(same,route,null,answers));
+  for(const key of ['profileVersion','pathways','legalAuthority']){
+   const present=Object.hasOwn(same,key),before=same[key];same[key]=key==='profileVersion'?'drift':null;
+   assert.equal(H.mnProtectedStageContext(same,route,null,answers),null);
+   assert.equal(H.mnProtectedStageCandidate(same,route,null,answers),null);
+   assert.deepEqual(H.mnProtectedStageQuestions(same,route,answers),[]);
+   assert.deepEqual(H.mnProtectedStageFactIds(same,route,answers),[]);
+   if(present)same[key]=before;else delete same[key];
+   assert(H.mnProtectedStageContext(same,route,null,answers));
+  }
+  assert.equal(H.mnProtectedStageContext(profile,route,{},answers),null);
+  assert.equal(H.mnProtectedStageContext(profile,'other-route',null,answers),null);
+  const changed={...answers,sentence_completion_date:'No'};
+  assert(!H.mnProtectedStageContext(profile,route,null,changed).questions.some(q=>q.id==='mn_sentence_discharge_date'));
+ });
+ // MN_BOOLEAN_COMPLETION_REGRESSION_BEGIN
+ test(route+' supported primitive completion stays known without broadening saved shapes',()=>{
+  const cases=[
+   [true,true,true], [false,true,false], ['Yes',true,true], ['No',true,false],
+   [{value:'Yes',unknown:false},true,true], [{value:'No',unknown:false},true,false],
+   ['',false,false], ['I am not sure',false,false], [{unknown:true},false,false],
+   [{value:'Yes',unknown:true},false,false], [{value:true,unknown:false},false,false],
+   [{value:false,unknown:false},false,false], [[],false,false]
+  ];
+  for(const [value,known,discharge]of cases){
+   const answers={case_outcome:'Misdemeanor conviction',sentence_completion_date:value};const before=clone(answers);
+   const context=H.mnProtectedStageContext(profile,route,null,answers);assert(context);
+   assert.equal(context.candidate.missingFactIds.includes('sentence_completion_date'),!known,'Known completion state must not be newly missing: '+JSON.stringify(value));
+   assert.equal(context.questions.some(q=>q.id==='mn_sentence_discharge_date'),discharge);
+   assert.equal(context.candidate.authority,false);assert.equal(context.candidate.qualificationCheckboxExportAllowed,false);
+   assert.deepEqual(answers,before);
+   const unresolved=H.mnProtectedStageContext(profile,route,null,answers,['sentence_completion_date']);assert(unresolved);
+   assert(unresolved.candidate.missingFactIds.includes('sentence_completion_date'));
+   assert(!unresolved.questions.some(q=>q.id==='mn_sentence_discharge_date'));
+  }
+  const drift=clone(profile);drift.profileVersion+='-drift';
+  assert.equal(H.mnProtectedStageContext(drift,route,null,{case_outcome:'Misdemeanor conviction',sentence_completion_date:true}),null);
+  assert.equal(H.mnProtectedStageCandidate(profile,route,{}, {case_outcome:'Misdemeanor conviction',sentence_completion_date:true}),null);
+ });
+ // MN_BOOLEAN_COMPLETION_REGRESSION_END
+ test(route+' exact source stage refusal/wrappers/unknown/nocharge',()=>{
+  assert.equal(H.mnProtectedStageCandidate(profile,route,{},{}),null);
+  assert.equal(H.mnProtectedStageCandidate({...profile,profileVersion:'wrong'},route,null,{}),null);
+  for(const case_outcome of [undefined,'Arrest or citation with no charge filed','I am not sure',{unknown:true}, {value:'Misdemeanor conviction',unknown:true}]) {
+   assert.equal(stage({case_outcome}).candidate,null);
+  }
+  const wrapped=stage({case_outcome:{value:'Misdemeanor conviction',unknown:false}});
+  if(route===H.MN_PETITION_ROUTE)assert.equal(wrapped.candidate.clause,'qualification_petty_or_misdemeanor');
+  else assert.equal(wrapped.candidate,null,'Prosecutor response absent is not an agreed/request source stage');
+  assert(!stage({case_outcome:'Arrest or citation with no charge filed'}).missingFactIds.includes('case_outcome'));
+  assert(stage({}).missingFactIds.includes('case_outcome'));
+  assert.equal(wrapped.qualificationCheckboxExportAllowed,false);assert.equal(wrapped.statutoryDeterminationEstablished,false);
+ });
+ test(route+' synthetic ordinary conviction identifies only a held candidate',()=>{
+  const s=stage({case_outcome:'Misdemeanor conviction',sentence_completion_date:'Yes',pending_cases:'No',mn_sentence_discharge_date:'2020-01-01',mn_new_conviction_since_discharge:'no',
+    mn_prosecutor_sealing_response:'not_requested'});
+  assert.equal(s.status,'held');assert.equal(s.authority,false);assert(s.holds.includes('candidate_clause_does_not_compute_wait_or_certify_qualification'));
+  assert(!Object.hasOwn(s,'selectedTrackId'));assert(!Object.hasOwn(s,'paymentAllowed'));
+  if(route===H.MN_PROSECUTOR_ROUTE)assert.equal(s.candidate.unitId,'mn_prosecutor_agreed-request-stage');
+ });
+ test(route+' saved-first applicability preserves clear unknown unresolved and institutional-source boundary',()=>{
+  const outcome='Other conviction or adjudication';
+  const ids=(saved,extra={})=>collect(route,{case_outcome:outcome,mn_record_conviction_class:'felony'},saved,extra).facts.map(f=>f.factId);
+  assert(ids({mn_record_conviction_class:'gross_misdemeanor'}).includes('mn_record_reduction_reference'));
+  for(const value of ['', 'unknown', {value:'felony',unknown:true}])assert(!ids({mn_record_conviction_class:value}).includes('mn_record_felony_section'));
+  assert(!ids({}, {unresolvedSavedFactIds:new Set(['mn_record_conviction_class'])}).includes('mn_record_felony_section'));
+  assert(!H.mnProtectedStageFactIds(profile,route,{case_outcome:outcome,mn_record_conviction_class:{value:'felony',unknown:true}}).includes('mn_record_felony_section'));
+  const all=H.mnProtectedStageFactIds(profile,route,{},true);
+  assert(!all.includes('mn_prosecutor_programme'));assert(!all.includes('mn_prosecutor_accepts_written_request'));
+  for(const response of ['not_requested','awaiting_response','agreed']) {
+   const candidate=stage({case_outcome:'Misdemeanor conviction',mn_prosecutor_sealing_response:response});
+   assert.equal(candidate.qualificationCheckboxExportAllowed,false);assert.equal(candidate.statutoryDeterminationEstablished,false);
+   assert.equal(packetSpecificationFor('MN:'+route),undefined);
+   if(route===H.MN_PROSECUTOR_ROUTE){assert.equal(candidate.candidate.unitId,'mn_prosecutor_agreed-request-stage');assert.equal(candidate.candidate.output,'request_guidance');}
+  }
+ });
+
+ test(route+' diversion completion children require validated completed status and saved-first transitions',()=>{
+  const outcome='Diversion, deferred disposition, supervision, or similar program';
+  const children=['mn_diversion_completion_date','mn_new_charge_since_diversion_completion'];
+  for(const value of ['active','revoked_or_failed','unknown','',undefined,{value:'completed',unknown:true}]) {
+   const ids=H.mnProtectedStageFactIds(profile,route,{case_outcome:outcome,mn_diversion_completion:value});
+   for(const id of children)assert(!ids.includes(id),'Incomplete or uncertain status cannot activate '+id);
+  }
+  for(const value of ['completed',{value:'completed',unknown:false}]) {
+   const ids=H.mnProtectedStageFactIds(profile,route,{case_outcome:outcome,mn_diversion_completion:value});
+   for(const id of children)assert(ids.includes(id),'Validated completion activates '+id);
+  }
+  const screening={case_outcome:outcome,mn_diversion_completion:'completed',mn_diversion_completion_date:'2020-01-01',mn_new_charge_since_diversion_completion:'no'};
+  const original=clone(screening);
+  for(const value of ['active','revoked_or_failed','unknown','',{value:'completed',unknown:true}]) {
+   const saved={mn_diversion_completion:value},raw=clone(saved);
+   const ids=collect(route,screening,saved).facts.map(f=>f.factId);
+   for(const id of children)assert(!ids.includes(id),'Saved changed status cannot fall back to older completion');
+   assert.deepEqual(saved,raw);assert.deepEqual(screening,original,'Inactive children retain raw historic answers');
+  }
+  const unresolved=collect(route,screening,{}, {unresolvedSavedFactIds:new Set(['mn_diversion_completion'])}).facts.map(f=>f.factId);
+  for(const id of children)assert(!unresolved.includes(id));
+  const completed=collect(route,{case_outcome:outcome,mn_diversion_completion:'active'},{mn_diversion_completion:'completed'}).facts.map(f=>f.factId);
+  for(const id of children)assert(completed.includes(id),'Explicit saved completion, never old fallback, enables child');
+ });
+
+ test(route+' existing completion control and current discharge jointly gate since-discharge child',()=>{
+  const outcome='Misdemeanor conviction',date='2020-01-01',since='mn_new_conviction_since_discharge',discharge='mn_sentence_discharge_date';
+  for(const completed of ['No','I am not sure','',undefined,{value:'Yes',unknown:true}]) {
+   const raw={case_outcome:outcome,sentence_completion_date:completed,[discharge]:date},before=clone(raw);
+   const ids=H.mnProtectedStageFactIds(profile,route,raw);
+   assert(ids.includes('sentence_completion_date'),'Existing prerequisite is reachable before date');
+   assert(!ids.includes(discharge));assert(!ids.includes(since));assert.deepEqual(raw,before);
+   const s=stage(raw);assert.equal(s.authority,false);assert.equal(s.qualificationCheckboxExportAllowed,false);
+   if(completed==='No')assert(s.holds.includes('current_incomplete_status_conflicts_with_retained_discharge_date_no_completion_inference'));
+  }
+  for(const value of [undefined,'','unknown',{value:date,unknown:true},'not-a-date']) {
+   const ids=H.mnProtectedStageFactIds(profile,route,{case_outcome:outcome,sentence_completion_date:'Yes',[discharge]:value});
+   assert(ids.includes(discharge));assert(!ids.includes(since));
+  }
+  for(const value of [date,{value:date,unknown:false}])assert(H.mnProtectedStageFactIds(profile,route,{case_outcome:outcome,sentence_completion_date:'Yes',[discharge]:value}).includes(since));
+  const screening={case_outcome:outcome,sentence_completion_date:'Yes',[discharge]:date,[since]:'no'},before=clone(screening);
+  for(const saved of [{sentence_completion_date:'No'},{sentence_completion_date:''},{sentence_completion_date:'I am not sure'},{[discharge]:''},{[discharge]:{value:date,unknown:true}}]) {
+   const ids=collect(route,screening,saved).facts.map(f=>f.factId);assert(!ids.includes(since));assert.deepEqual(screening,before);
+  }
+  const masked=collect(route,screening,{}, {unresolvedSavedFactIds:new Set([discharge])}).facts.map(f=>f.factId);assert(!masked.includes(since));
+  const packet=P.packetCollectionFor({jurisdiction:'MN',pathwayId:route,requiredInputIds:packetPlanForPathway(profile,route).requiredInputIds,serverFacts:{},screeningAnswers:screening,savedAnswers:{sentence_completion_date:'No'}});
+  assert(!packet.facts.some(f=>f.factId===since));assert(!packet.facts.some(f=>f.factId===discharge));
+ });
+ test(route+' separately labeled synthetic conviction has natural held model conditional controls only',()=>{
+  const source={...clone(fixtureFor(route).answers),case_outcome:'Misdemeanor conviction',sentence_completion_date:'No'};
+  const authoritative=evaluate({jurisdiction:'MN',profileVersion:profile.profileVersion,matterId:'mn-stage-synthetic',answers:source});
+  const seeded=P.protectedPacketDraftSeedFromAuthoritative({authoritative,screeningAnswers:source,dependencies:{commercialFlowVersion:1},capturedAt:'2026-10-16T00:00:00Z'});assert(seeded);
+  assert.equal(seeded.snapshot.pathwayId,route,'Natural requested topic remains necessary; never force a route for this control');
+  const current={status:'unverified',reason:'separately-declared-synthetic-stage',revision:0,draftHash:P.protectedPacketDraftHash(seeded.snapshot),draftSnapshot:seeded.snapshot};
+  const m=P.protectedPacketInformationModelFor(current);assert(m);
+  assert(m.questions.some(q=>q.id==='sentence_completion_date'&&q.type==='yes_no_unsure'));
+  assert(!m.questions.some(q=>['mn_sentence_discharge_date','mn_new_conviction_since_discharge'].includes(q.id)));
+  assert.equal(m.mnSourceStageCandidate.authority,false);assert.equal(m.mnSourceStageCandidate.qualificationCheckboxExportAllowed,false);assert.equal(m.reviewSafety.safe,false);
+ });
+
 }
 const result={status:rows.some(x=>!x.pass)?'FAIL':'PASS',baseline,passed:rows.filter(x=>x.pass).length,failed:rows.filter(x=>!x.pass),observations,siblings,transportObservations,ssrEvidence,originEditableEvidence,limits:'Pure local source/collector/model/transition checks only; no DB/browser/owner/document mapping/eligibility or commercial authority.'};
 if(out)fs.writeFileSync(out,JSON.stringify(result,null,2)+'\n');

@@ -99,9 +99,18 @@ function failures({ packet, graph, witness }) {
           "VA-01 adoption may apply only to its exact Virginia route");
         for (const row of [decision, adoption]) {
           fail(row?.decisionId === "VA-01" && row?.disposition === "MODIFY"
-            && row?.registerSha256 === "4ffc56d4cc8dfa9b882f64ad51f49be815704fe20009ee7425b429418b54ead2"
+            && row?.registerSha256 === "3f8998b2fdba92b77c6804934c949bb367bf4c945ca2826d6b119da0e81cdf0b"
+            && row?.supersededRegisterSha256 === "4ffc56d4cc8dfa9b882f64ad51f49be815704fe20009ee7425b429418b54ead2"
             && row?.evidenceKind === "owner_relayed_counsel_adoption" && row?.appliesThrough === "2026-11-30",
           "VA-01 requires the exact adopted register, modified treatment and owner-relayed evidence kind");
+        }
+        for (const row of [decision, adoption]) {
+          fail(row?.currentInstrument?.officialFormId === "CC-1474"
+            && row.currentInstrument.revision === "07/26"
+            && row.currentInstrument.sourceUrl === "https://www.fairfaxcounty.gov/circuit/sites/circuit/files/assets/documents/pdf/expungement-order.pdf"
+            && row.currentInstrument.sha256 === "85ac8ea0f2dc40d890fa2b37921a1b24956ed4aecb1555109a0bb5a65793c656"
+            && row.currentInstrument.custodyReceipt === "data/rcap-grade-a/source-custody/court-source-handoff-20261013/va-cc1474-current-source-20261016.json",
+          "VA v3 source identity must match exact adopted CC1474 revision/digest/portable custody");
         }
         fail(legal.historicalOwnerDecision?.recordId === packet.ownerLegalDecision?.record?.recordId
           && Boolean(legal.historicalOwnerDecision?.recordId)
@@ -109,7 +118,7 @@ function failures({ packet, graph, witness }) {
         "VA-01 must retain historical approval ancestry without promoting it to current document approval");
         fail(legal.documentAcceptance === "NOT_VERIFIED" && adoption?.documentAcceptance === "NOT_VERIFIED"
           && adoption?.participantPetitionEstablished === false && set?.packetSetCompleteness?.state === "incomplete",
-        "VA-01 current document acceptance must remain unverified while the implementation instrument is unbound");
+        "VA v3 source is identified; applicable actual source/guidance/context/nonrequirement consumer/output acceptance remains unverified");
         fail(set?.components?.every(c => c.officialFormId === null && c.outputStrategy === "process_guidance") === true,
           "VA-01 cannot select an unestablished petition or substitute form");
       }
@@ -215,6 +224,7 @@ if (MUTATIONS) {
     ["a witness result quietly rewritten in the packet", (d) => { d.packet.records[0].publicWitness.landedOnThisPathway = !d.packet.records[0].publicWitness.landedOnThisPathway; }],
     ["the packet claiming it creates an approval", (d) => { d.packet.createsApproval = true; }],
     ["VA adoption changed to a different register", (d) => { d.packet.records.find(r => r.pathwayKey === "VA:regime-1-expungement-available-now").ownerApprovedLegal.currentProcedureDecision.registerSha256 = "0".repeat(64); }],
+    ["VA successor source changed", (d) => { d.packet.records.find(r => r.pathwayKey === "VA:regime-1-expungement-available-now").ownerApprovedLegal.currentProcedureDecision.currentInstrument.sha256 = "0".repeat(64); }],
     ["VA modification falsely recorded as blanket approval", (d) => { d.packet.records.find(r => r.pathwayKey === "VA:regime-1-expungement-available-now").ownerApprovedLegal.currentProcedureDecision.disposition = "APPROVE"; }],
     ["owner-relayed adoption changed into an invented direct signature", (d) => { d.packet.records.find(r => r.pathwayKey === "VA:regime-1-expungement-available-now").ownerApprovedLegal.currentProcedureDecision.evidenceKind = "attorney_signed"; }],
     ["VA adopted basis copied onto another route", (d) => { d.packet.records[0].ownerApprovedLegal = structuredClone(d.packet.records.find(r => r.pathwayKey === "VA:regime-1-expungement-available-now").ownerApprovedLegal); }],

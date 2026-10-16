@@ -9,11 +9,11 @@ denominator, changes runtime, or issues an approval.
 
 | Input | Source | sha256 |
 |---|---|---|
-| `sessionAPathwayFamilyGraph` | working_tree | `2107414b68900c64…` |
-| `packetFamilyBridge` | working_tree | `08dddbcd7ad31454…` |
+| `sessionAPathwayFamilyGraph` | working_tree | `c4b9204a5b20dae4…` |
+| `packetFamilyBridge` | working_tree | `fee93664c9795c56…` |
 | `trackSourceRelationships` | working_tree | `c24c9cf4edc2336f…` |
 | `extAdopt01` | working_tree | `7bea6b4c78cde50a…` |
-| `publicWitnessAnswerSets` | working_tree | `c89035dff41631ff…` |
+| `publicWitnessAnswerSets` | working_tree | `092f4d5eab592ad7…` |
 | `problematicPdfRegister` | working_tree | `aee39d15e5ff23c2…` |
 | `completedOutputPacketProofs` | working_tree | `ef771b3051b13e67…` |
 | `ownerLegalDecision` | working_tree | `8b7df128f69dfd2f…` |
@@ -27,12 +27,12 @@ registry tracks with every component's role, requirement, output strategy and of
 
 | Session A disposition | Pathways | After importing the bridge |
 |---|---|---|
-| `family_bridge_missing_no_family` | 156 | **156** now carry an exact packet set |
+| `family_bridge_missing_no_family` | 154 | **154** now carry an exact packet set |
 | `approved_by_decision_owner` | 70 | unchanged |
 | `family_bridge_missing_no_track` | 40 | unchanged |
-| `owner_approval_pending` | 1 | unchanged |
+| `owner_approval_pending` | 3 | unchanged |
 
-**156** pathways move from "no track-to-family bridge" to a named packet set.
+**154** pathways move from "no track-to-family bridge" to a named packet set.
 This changes the **reason**, never the coverage answer. A bridged pathway is one whose
 family can now be named — not one an adoption has been shown to cover.
 
@@ -62,9 +62,9 @@ technical result.
 Answer sets live in `data/rcap-ledger/public-witness-answer-sets.json` — no randomness,
 re-running reproduces the file byte for byte, and `--check` proves it.
 
-- Settled on a terminal evaluation: **261** of 267
-- Landed on their own pathway: **261**
-- Payment allowed at the evaluator: **26**
+- Settled on a terminal evaluation: **259** of 267
+- Landed on their own pathway: **258**
+- Payment allowed at the evaluator: **25**
 
 ## 5 — Owner-approved legal status
 
@@ -72,7 +72,7 @@ Approved by **Roger Roman** under `auth-2026-08-19-owner-legal-approval-complete
 
 **232** of 267 pathways carry owner-approved legal status.
 
-**VA:regime-1-expungement-available-now:** Owner-relayed counsel adoption of VA-01 approves the modified statutory Secretary-to-circuit-court implementation mechanism. The current role of CC-1472 is unestablished; neither CC-1473 nor CC-1474A is substituted. Actual receiving-court implementation documents, field destinations and rendered output remain unverified where needed. Historical August approval is preserved as ancestry, not carried forward as document acceptance.
+**VA:regime-1-expungement-available-now:** Owner-relayed v3 section7 adopts the Secretary-to-circuit-court mechanism, identified CC1474 revision07/26 and seven fact treatments. Exact source identity is privately reviewed and portable metadata is available; actual case/effectiveversion and applicable source/guidance/context/nonrequirement consumer/output proof remain. Geometry is needed only if a demonstrated applicable generated output requires it. Court findings/execution and clerk certification are not participant acts. Historical approvals remain ancestry, not current document acceptance.
 
 | Basis | Pathways |
 |---|---|

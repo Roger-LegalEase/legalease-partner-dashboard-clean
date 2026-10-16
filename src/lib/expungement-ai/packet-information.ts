@@ -4,7 +4,7 @@ import { MS_FIRST_OFFENDER_COLLECTION_IDS, msFirstOffenderSourceQuestions } from
 import { MS_FIRST_OFFENDER_ROUTE, MS_FIRST_OFFENDER_IDS, projectMsFirstOffenderSourceFacts, msFirstOffenderSourceContract } from "@/lib/rcap-engine/mississippi-first-offender-source-facts";
 import { ohJuvenileSourceContract, ohJuvenileStageFactIds } from "@/lib/rcap-engine/ohio-juvenile-source-stage";
 import { OH_JUVENILE_STAGE_QUESTIONS } from "@/lib/expungement-ai/oh-juvenile-stage-questions";
-import { mnTwoCountySourceContract, mnTwoCountyQuestions, mnTwoCountyFactIds, MN_TARGET_ORIGIN_ID, mnTargetOriginQuestion, mnTargetOriginRule18Entry } from "@/lib/expungement-ai/mn-two-county-source-facts";
+import { mnTwoCountySourceContract, mnTwoCountyQuestions, mnTwoCountyFactIds, MN_TARGET_ORIGIN_ID, mnTargetOriginQuestion, mnTargetOriginRule18Entry, mnProtectedStageQuestions, mnProtectedStageFactIds, mnProtectedStageContext, type MnHeldSourceStage } from "@/lib/expungement-ai/mn-two-county-source-facts";
 import { MD_POLICE_IDS, MD_POLICE_ROUTE, MD_POLICE_SOURCE, mdPoliceContext, mdPoliceFactIds } from "@/lib/rcap-engine/maryland-police-record-facts";
 import { moXivCourtContextQuestion } from "@/lib/expungement-ai/mo-xiv-court-context";
 import { mnCannabisLocationContextQuestion } from "@/lib/expungement-ai/mn-cannabis-location-context";
@@ -248,6 +248,8 @@ export type ProtectedPacketInformationModel = Pick<
   /** Explicit preparation editor only; never additions to the protected plan. */
   gaPardonPreparationFactIds?: string[];
   recordFactConfirmations?: RecordFactConfirmations;
+  /** Held source-stage information only, never a client-supplied route/track. */
+  mnSourceStageCandidate?: MnHeldSourceStage;
   revision: number;
   prefilledAnswers: Record<string, AnswerValue>;
   packetAnswers: Record<string, AnswerValue>;
@@ -2411,8 +2413,10 @@ export function protectedPacketInformationModelFor(
   if (msFirstOffenderSourceContract(profile, snapshot.pathwayId, packetSpecificationFor(`${snapshot.jurisdiction}:${snapshot.pathwayId}`))) {
     requiredInputIds = [...new Set([...requiredInputIds, ...MS_FIRST_OFFENDER_COLLECTION_IDS])];
   }
-  if (mnTwoCountySourceContract(profile, snapshot.pathwayId, packetSpecificationFor(`${snapshot.jurisdiction}:${snapshot.pathwayId}`))) {
-    requiredInputIds = [...new Set([...requiredInputIds, ...mnTwoCountyFactIds(snapshot.pathwayId!), MN_TARGET_ORIGIN_ID,
+  const mnStageContext = mnProtectedStageContext(profile, snapshot.pathwayId,
+    packetSpecificationFor(`${snapshot.jurisdiction}:${snapshot.pathwayId}`), initialAnswers, legacy.inspection.effectiveInvalidIds);
+  if (mnStageContext) {
+    requiredInputIds = [...new Set([...requiredInputIds, ...mnTwoCountyFactIds(snapshot.pathwayId!), ...mnStageContext.questions.map(question => question.id), MN_TARGET_ORIGIN_ID,
       ...([snapshot.screeningAnswers, snapshot.prefilledAnswers, snapshot.packetAnswers].some(map => Object.hasOwn(map, "residency_or_location")) ? ["residency_or_location"] : [])])];
   }
   const heldFactualCorrectionIds = [...oregonUnselectedCorrectionIds(snapshot), ...missouriUnselectedCorrectionIds(snapshot), ...maineUnselectedCorrectionIds(snapshot), ...nebraskaUnselectedCorrectionIds(snapshot), ...louisianaUnselectedCorrectionIds(snapshot)];
@@ -2645,12 +2649,16 @@ export function protectedPacketInformationModelFor(
   const reviewSafety = vaHeldSuccessor ? { safe: false, reason: "historical_context_draft_held" }
     : contractSuccessor ? { safe: false, reason: "packet_contract_clarification_required" }
     : protectedPacketDraftReviewSafety(snapshot, "verifiedAt" in snapshot ? snapshot.verifiedAt : new Date().toISOString());
+  const mnStage = mnStageContext?.candidate ?? null;
+  // Existing unsafe reasons win. A held candidate never revives verification.
+  if (mnStage && reviewSafety.safe) { reviewSafety.safe = false; reviewSafety.reason = "mn_source_stage_document_binding_required"; }
   const currentlyVerified = verification.status === "verified" && reviewSafety.safe;
   const gaPreparation = snapshot.jurisdiction === "GA" && snapshot.pathwayId === GA_PARDON_ROUTE
     && canonicalEqual(snapshot.serverFacts, canonicalServerFacts("GA", GA_PARDON_ROUTE))
     ? georgiaPardonPreparationFactIds(snapshot, { profile, profileAuthorityFingerprint: profileAuthorityFingerprint(profile, snapshot.pathwayId), today: new Date().toISOString().slice(0, 10) }) : null;
   return {
     resultCode: snapshot.resultCode,
+    ...(mnStage ? { mnSourceStageCandidate: mnStage } : {}),
     ...(heldFactualCorrectionIds.length ? { heldFactualCorrectionIds } : {}),
     ...(gaPreparation ? { gaPardonPreparationAvailable: true } : {}),
     ...(snapshot.schemaVersion === "expungement-ai/protected-packet-draft/v1" && caProp64JuvenilePreparationScope(snapshot) ? { caJuvenilePreparationAvailable: true } : {}),
@@ -2902,7 +2910,7 @@ export function factualPathwayCorrectionIds(state: string, pathway: string | nul
   if (ohJuvenileSourceContract(profile, pathway, packetSpecificationFor(`${state}:${pathway}`))) return ohJuvenileStageFactIds(answers, includeInactive);
   if (state === "DE") return delawareProtectedCorrectionIds(profile ?? undefined, pathway, answers, includeInactive);
   if (mnTwoCountySourceContract(profile, pathway, packetSpecificationFor(`${state}:${pathway}`))) return [
-    MN_TARGET_ORIGIN_ID, ...mnTwoCountyFactIds(pathway!).filter(id => includeInactive || id !== "mn_prosecuting_city" || answers.mn_prosecuted_by === "city_attorney"),
+    MN_TARGET_ORIGIN_ID, "case_outcome", ...mnProtectedStageFactIds(profile, pathway!, answers, includeInactive), ...mnTwoCountyFactIds(pathway!).filter(id => includeInactive || id !== "mn_prosecuting_city" || answers.mn_prosecuted_by === "city_attorney"),
     ...(Object.hasOwn(answers, "residency_or_location") ? ["residency_or_location"] : [])];
   if (mdPoliceContext(profile, pathway) && packetSpecificationFor(`${state}:${pathway}`) == null) return [
     ...mdPoliceFactIds(answers, includeInactive), "case_outcome",
@@ -3197,7 +3205,7 @@ export function heldPacketCorrectionInputIds(model: Parameters<typeof heldCourtC
   if (mnTwoCountySourceContract(getProfileByJurisdiction(model.stateCode), model.pathwayId,
     packetSpecificationFor(`${model.stateCode}:${model.pathwayId}`))) {
     const allowed = editablePacketInputIds(model);
-    for (const id of [MN_TARGET_ORIGIN_ID, ...mnTwoCountyFactIds(model.pathwayId!)]) if (allowed.has(id) && model.questions.some(question => question.id === id)) ids.add(id);
+    for (const id of [MN_TARGET_ORIGIN_ID, "case_outcome", ...mnProtectedStageFactIds(getProfileByJurisdiction(model.stateCode), model.pathwayId!, { ...model.screeningAnswers, ...model.prefilledAnswers, ...model.packetAnswers }), ...mnTwoCountyFactIds(model.pathwayId!)]) if (allowed.has(id) && model.questions.some(question => question.id === id)) ids.add(id);
   }
   if (mdPoliceContext(getProfileByJurisdiction(model.stateCode), model.pathwayId)
     && ["guidance_only", "needs_more_info", "needs_review"].includes(resultCode ?? "")) {
@@ -5079,7 +5087,7 @@ function installPacketSpecificationQuestions(
     for (const question of OH_JUVENILE_STAGE_QUESTIONS) questions.set(question.id, question);
   }
   if (mnTwoCountySourceContract(getProfileByJurisdiction(jurisdiction), pathwayId, packetSpecificationFor(routeKey))) {
-    for (const question of mnTwoCountyQuestions(pathwayId!)) questions.set(question.id, question);
+    for (const question of [...mnTwoCountyQuestions(pathwayId!), ...mnProtectedStageQuestions(getProfileByJurisdiction(jurisdiction), pathwayId!, answers)]) questions.set(question.id, question);
   }
   for (const factId of requiredInputIds) {
     const fact = packetSpecificationFactFor(routeKey, factId);

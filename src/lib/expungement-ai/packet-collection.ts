@@ -4,7 +4,7 @@ import { msFirstOffenderSourceContract, MS_FIRST_OFFENDER_SOURCE } from "@/lib/r
 import { MS_FIRST_OFFENDER_COLLECTION_IDS, msFirstOffenderSourceQuestions } from "@/lib/expungement-ai/ms-first-offender-source-questions";
 import { ohJuvenileSourceContract, ohJuvenileStageFactIds, ohJuvenileStageFacts } from "@/lib/rcap-engine/ohio-juvenile-source-stage";
 import { OH_JUVENILE_STAGE_IDS } from "@/lib/expungement-ai/oh-juvenile-stage-questions";
-import { mnTwoCountySourceContract, mnTwoCountyFactIds, mnTwoCountyQuestions, MN_PROSECUTOR_KIND, MN_PROSECUTING_CITY, MN_TWO_COUNTY_SOURCE } from "@/lib/expungement-ai/mn-two-county-source-facts";
+import { mnTwoCountyFactIds, mnTwoCountyQuestions, MN_PROSECUTOR_KIND, MN_PROSECUTING_CITY, MN_TWO_COUNTY_SOURCE, mnProtectedStageContext } from "@/lib/expungement-ai/mn-two-county-source-facts";
 import { mdPoliceContext, mdPoliceFactIds, MD_POLICE_IDS } from "@/lib/rcap-engine/maryland-police-record-facts";
 import { moXivCourtIsContext } from "@/lib/expungement-ai/mo-xiv-court-context";
 import { MO_MARIJUANA_CUSTODY_FACT } from "@/lib/rcap-engine/missouri-marijuana-status-facts";
@@ -709,13 +709,23 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
     && mdPoliceContext(getProfileByJurisdiction("MD"), input.pathwayId);
   const mdPoliceAnswers = Object.fromEntries(["arrest_date", ...MD_POLICE_IDS].map(id => [id, resolvedText(id)]));
   const mdPoliceActiveIds = mdPoliceFactIds(mdPoliceAnswers);
-  const mnTwoCountyContext = mnTwoCountySourceContract(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
+  // Saved edits control applicability; an explicit clear/unknown/unresolved
+  // value cannot reactivate an older screening value.
+  const mnStageAnswers = { ...available, ...(input.savedAnswers ?? {}) };
+  for (const id of input.unresolvedSavedFactIds ?? []) delete mnStageAnswers[id];
+  const mnStageContext = mnProtectedStageContext(getProfileByJurisdiction(input.jurisdiction), input.pathwayId,
+    specification, mnStageAnswers, [...input.unresolvedSavedFactIds ?? []]);
+  const mnTwoCountyContext = mnStageContext !== null;
   const mnTwoCountyQuestionsById = new Map(mnTwoCountyContext ? mnTwoCountyQuestions(input.pathwayId!).map(question => [question.id, question]) : []);
   const mnTwoCountyIds = mnTwoCountyContext ? mnTwoCountyFactIds(input.pathwayId!) : [];
+  const mnStageQuestions = mnStageContext?.questions ?? [];
+  const mnStageQuestionsById = new Map(mnStageQuestions.map(question => [question.id, question]));
+  const mnStageCandidate = mnStageContext?.candidate ?? null;
+
   const ksMunicipalCategoryContext = ksMunicipalCategoryIsContext(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
   const msFirstContext = msFirstOffenderSourceContract(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
   const msFirstQuestions = new Map(msFirstContext ? msFirstOffenderSourceQuestions().map(question => [question.id, question]) : []);
-  const requiredInputIds = dedupe([...input.requiredInputIds, ...(msFirstContext ? MS_FIRST_OFFENDER_COLLECTION_IDS : []), ...(ohJuvenileContext ? OH_JUVENILE_STAGE_IDS : []), ...mnTwoCountyIds, ...(retainedDcLocation ? [DC_LEGACY_LOCATION] : [])]);
+  const requiredInputIds = dedupe([...input.requiredInputIds, ...(msFirstContext ? MS_FIRST_OFFENDER_COLLECTION_IDS : []), ...(ohJuvenileContext ? OH_JUVENILE_STAGE_IDS : []), ...mnTwoCountyIds, ...mnStageQuestions.map(question => question.id), ...(retainedDcLocation ? [DC_LEGACY_LOCATION] : [])]);
   const decidesRouteFor = (factId: string) => input.routeDecidingFactIds?.has(factId) === true;
   const unresolvedScopeFor = (factId: string) => input.unresolvedRouteFactIds?.has(factId) === true;
   const baselineCarried = input.baselineCarriedFactIds ?? new Set<string>();
@@ -811,6 +821,21 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
           reason: "Source-stage facts distinguish current automatic police-record information from the closed historical request window; ordinary claims do not establish verified relief, timeliness, agency compliance or any filing authority." });
         continue;
       }
+    }
+    // Protected source-stage controls use the same supported choice/date state
+    // and saved precedence; never parse old narrative source questions.
+    const mnStageQuestion = mnStageQuestionsById.get(factId);
+    if (mnTwoCountyContext && mnStageQuestion && !overrideClass && !needsHuman.has(factId)
+      && !decidesRouteFor(factId) && !unresolvedScopeFor(factId)) {
+      const saved = input.savedAnswers && Object.hasOwn(input.savedAnswers, factId);
+      const raw = saved ? input.savedAnswers![factId] : available[factId];
+      const value = !input.unresolvedSavedFactIds?.has(factId) && questionAnswerState(mnStageQuestion, raw) === "known_valid" ? answerString(raw) : "";
+      if (value && !saved && mayMaterialize(factId, true)) known[factId] = value;
+      facts.push({ factId, collection: value && !saved ? "already_known" : "render_required",
+        phase: value && !saved ? "known" : "render", group: "court_and_case_number", active: true,
+        ...(value ? { value } : {}), source: "mn_protected_source_stage_fact",
+        reason: "Explicit participant record/stage fact; held candidate only. " + (mnStageCandidate?.holds.join("; ") ?? "source stage unresolved") });
+      continue;
     }
     // The adopted source requires distinct case-county/prosecutor inputs.
     // No legacy location/county/city answer is an attestation of these facts.
@@ -1350,8 +1375,10 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
         collection: "prepay_confirmation",
         phase: "prepay_confirmation",
         group,
-        source: "route_decision_facts",
-        reason: "the evaluator reads this fact, so it is asked rather than carried across from a differently worded answer"
+        source: decidesRouteFor(factId) ? "route_decision_facts" : "materialization_protection",
+        reason: decidesRouteFor(factId)
+          ? "the evaluator reads this fact, so it is asked rather than carried across from a differently worded answer"
+          : "this fact is protected against inference, so it is asked rather than carried across from a differently worded answer"
       });
       continue;
     }
@@ -1387,8 +1414,10 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
         collection: "prepay_confirmation",
         phase: "prepay_confirmation",
         group,
-        source: "route_decision_facts",
-        reason: "the evaluator reads this fact, so it is asked rather than computed"
+        source: decidesRouteFor(factId) ? "route_decision_facts" : "materialization_protection",
+        reason: decidesRouteFor(factId)
+          ? "the evaluator reads this fact, so it is asked rather than computed"
+          : "this fact is protected against inference, so it is asked rather than computed"
       });
       continue;
     }

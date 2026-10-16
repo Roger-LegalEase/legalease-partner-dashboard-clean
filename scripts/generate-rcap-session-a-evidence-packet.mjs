@@ -210,9 +210,23 @@ function ownerApprovedLegalStatus({ pathway, sets, trackIds, jurisdictionBound, 
   // A later adopted modification applies only to this exact procedure. Preserve
   // the August record as ancestry; it cannot certify an unestablished form.
   const adopted = sets.find(set => set.packetSetId === "va_exp_absolute_pardon-set")?.procedureAdoption;
-  if (pathway.pathwayKey === "VA:regime-1-expungement-available-now"
-      && adopted?.decisionId === "VA-01"
-      && adopted.registerSha256 === "4ffc56d4cc8dfa9b882f64ad51f49be815704fe20009ee7425b429418b54ead2") {
+  if (pathway.pathwayKey === "VA:regime-1-expungement-available-now") {
+    // Predecessor register 4ffc56d4cc8dfa9b882f64ad51f49be815704fe20009ee7425b429418b54ead2 remains ancestry only.
+    // A malformed successor cannot fall through to older blanket family approval.
+    if (!(adopted?.decisionId === "VA-01" && adopted.disposition === "MODIFY"
+        && adopted.evidenceKind === "owner_relayed_counsel_adoption"
+        && adopted.registerSha256 === "3f8998b2fdba92b77c6804934c949bb367bf4c945ca2826d6b119da0e81cdf0b"
+        && adopted.supersededRegisterSha256 === "4ffc56d4cc8dfa9b882f64ad51f49be815704fe20009ee7425b429418b54ead2"
+        && adopted.appliesThrough === "2026-11-30"
+        && adopted.participantPetitionEstablished === false
+        && adopted.documentAcceptance === "NOT_VERIFIED"
+        && adopted.currentInstrument?.officialFormId === "CC-1474"
+        && adopted.currentInstrument.revision === "07/26"
+        && adopted.currentInstrument.sourceUrl === "https://www.fairfaxcounty.gov/circuit/sites/circuit/files/assets/documents/pdf/expungement-order.pdf"
+        && adopted.currentInstrument.sha256 === "85ac8ea0f2dc40d890fa2b37921a1b24956ed4aecb1555109a0bb5a65793c656"
+        && adopted.currentInstrument.custodyReceipt === "data/rcap-grade-a/source-custody/court-source-handoff-20261013/va-cc1474-current-source-20261016.json")) {
+      throw new Error("VA01 requires exact adopted v3 section7/source successor; no older-approval fallback");
+    }
     return {
       status: OWNER_APPROVED,
       basis: "owner_relayed_counsel_adopted_modified_procedure",
@@ -220,11 +234,12 @@ function ownerApprovedLegalStatus({ pathway, sets, trackIds, jurisdictionBound, 
       currentProcedureDecision: {
         decisionId: adopted.decisionId, disposition: adopted.disposition,
         evidenceKind: adopted.evidenceKind, registerSha256: adopted.registerSha256,
-        appliesThrough: adopted.appliesThrough
+        appliesThrough: adopted.appliesThrough, supersededRegisterSha256: adopted.supersededRegisterSha256,
+        currentInstrument: adopted.currentInstrument
       },
       historicalOwnerDecision: { recordId: ownerDecisionRecord?.recordId ?? null, appliesToCurrentDocument: false },
       documentAcceptance: adopted.documentAcceptance,
-      statement: "Owner-relayed counsel adoption of VA-01 approves the modified statutory Secretary-to-circuit-court implementation mechanism. The current role of CC-1472 is unestablished; neither CC-1473 nor CC-1474A is substituted. Actual receiving-court implementation documents, field destinations and rendered output remain unverified where needed. Historical August approval is preserved as ancestry, not carried forward as document acceptance."
+      statement: "Owner-relayed v3 section7 adopts the Secretary-to-circuit-court mechanism, identified CC1474 revision07/26 and seven fact treatments. Exact source identity is privately reviewed and portable metadata is available; actual case/effectiveversion and applicable source/guidance/context/nonrequirement consumer/output proof remain. Geometry is needed only if a demonstrated applicable generated output requires it. Court findings/execution and clerk certification are not participant acts. Historical approvals remain ancestry, not current document acceptance."
     };
   }
 

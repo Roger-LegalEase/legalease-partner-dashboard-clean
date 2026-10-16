@@ -6,6 +6,19 @@ import fs from 'node:fs';
 import {createHash} from 'node:crypto';
 import {register} from 'node:module';
 register('./lib/ts-esm-loader.mjs',import.meta.url);
+const VA_V3_REGISTER = '3f8998b2fdba92b77c6804934c949bb367bf4c945ca2826d6b119da0e81cdf0b';
+const VA_OLD_REGISTER = '4ffc56d4cc8dfa9b882f64ad51f49be815704fe20009ee7425b429418b54ead2'; // immutable predecessor ancestry
+const VA_SOURCE = '85ac8ea0f2dc40d890fa2b37921a1b24956ed4aecb1555109a0bb5a65793c656';
+const VA_URL = 'https://www.fairfaxcounty.gov/circuit/sites/circuit/files/assets/documents/pdf/expungement-order.pdf';
+// Portable metadata tuple only; private PDF bytes were independently checked in custody.
+// CI has no dependency on the ignored private source path and performs no network acquisition.
+const sourceSuccessor = s => s.procedureAdoption?.registerSha256 === VA_V3_REGISTER
+  && s.procedureAdoption?.supersededRegisterSha256 === VA_OLD_REGISTER
+  && s.procedureAdoption?.currentInstrument?.officialFormId === 'CC-1474'
+  && s.procedureAdoption.currentInstrument.revision === '07/26'
+  && s.procedureAdoption.currentInstrument.sourceUrl === VA_URL
+  && s.procedureAdoption.currentInstrument.sha256 === VA_SOURCE
+  && s.procedureAdoption.currentInstrument.custodyReceipt === 'data/rcap-grade-a/source-custody/court-source-handoff-20261013/va-cc1474-current-source-20261016.json';
 const {specificationDocumentRefusals,documentContractFor}=await import('../src/lib/rcap/grade-a/document-contract.ts');
 const {packetSpecificationFor,composablePacketSpecificationFor,packetSpecificationRequiredFactIdsFor,specificationLegalSectionsBound}=await import('../src/lib/rcap/grade-a/packet-specification.ts');
 const {renderPreflight}=await import('../src/lib/expungement-ai/render-preflight.ts');
@@ -23,9 +36,10 @@ function adoptedTreatment(s){
  assert.match(s.branchModel.branchA.rule,/court shall enter an order/);
  assert.equal(s.statutoryAuthority.reliefIsMandatoryOnMotion,false);
  assert.equal(s.procedureAdoption.decisionId,'VA-01');
- assert.equal(s.procedureAdoption.registerSha256,'4ffc56d4cc8dfa9b882f64ad51f49be815704fe20009ee7425b429418b54ead2');
- assert.equal(s.officialForm.officialFormId,null);
- assert.equal(s.officialForm.status,'CURRENT_ROLE_UNESTABLISHED');
+ assert.ok(sourceSuccessor(s), 'exact adopted v3/source successor');
+ assert.equal(s.officialForm.officialFormId,'CC-1474');
+ assert.equal(s.officialForm.sourceSha256,VA_SOURCE);
+ assert.equal(s.officialForm.status,'NOT_VERIFIED');
  assert.equal(s.legalSectionsBound,false);
  assert.ok(s.documents.every(d=>d.officialFormId===null&&d.outputStrategy!=='official_pdf_fill'));
  assert.ok(!s.participantChecklist.some(c=>c.requiredBeforeFiling));
@@ -61,8 +75,11 @@ check(()=>assert.equal(specificationLegalSectionsBound(registered),false));
 check(()=>assert.equal(composablePacketSpecificationFor(spec.routeKey),undefined));
 check(()=>assert.deepEqual(packetSpecificationRequiredFactIdsFor(spec.routeKey),[]));
 const primary=spec.documents.find(d=>d.documentId==='primary_filing');
-check(()=>assert.equal(documentContractFor(primary).instrumentClass,'unresolved'));
-check(()=>assert.ok(specificationDocumentRefusals(spec).some(s=>s.includes('actual receiving-court implementation instrument')),'actual missing source, not a fake form refusal'));
+check(()=>assert.equal(documentContractFor(primary).instrumentClass,'court_generated'));
+check(()=>assert.equal(documentContractFor(primary).preparedBy,'court'));
+check(()=>assert.equal(documentContractFor(primary).signer,'judge'));
+check(()=>assert.equal(specificationDocumentRefusals(spec).length,0,'court-generated attributes may resolve; actual composition still refuses legalSectionsBoundfalse'));
+check(()=>assert.equal(spec.documents[0].officialFormId,null,'no live official population from source metadata'));
 for(const legacy of [{},{date_of_birth:'1980-01-01',mailing_address:'Synthetic safe address',phone_number:'202-555-0100',email_address:'synthetic@example.invalid',full_name_at_time_of_arrest:'Synthetic prior name'}, {charges_to_be_expunged:'Synthetic covered offense',final_disposition_dates_and_courts:'Synthetic conviction court'}]){
  const facts={participant_full_legal_name:'Synthetic VA participant',...legacy};const before=structuredClone(facts);
  const result=renderPreflight({snapshot:{jurisdiction:'VA',pathwayId:spec.pathwayId,selectedTrackId:spec.trackId},verificationHash:'synthetic-test-not-acceptance',facts});
@@ -73,4 +90,4 @@ for(const form of ['CC-1472','CC-1473','CC-1474A']){
  const mutated=structuredClone(spec);mutated.officialForm.officialFormId=form;
  check(()=>assert.throws(()=>adoptedTreatment(mutated)));
 }
-console.log(JSON.stringify({status:'PASS',checks,refusal:'no_composable_specification_for_route',historicArtifactsVerified:2,limits:'Actual local registered-specification/document-contract/prepayment consumers; no current court instrument, rendered output, hosted journey, signature or commercial acceptance.'},null,2));
+console.log(JSON.stringify({status:'PASS',checks,refusal:'no_composable_specification_for_route',historicArtifactsVerified:2,limits:'Actual local registered-specification/document-contract/prepayment consumers; portable source metadata/court-owned contract only; actual case and applicable source/guidance/context/nonrequirement consumer/output acceptance remain; geometry only if demonstrated applicable output requires it. No hosted journey, official execution or commerce acceptance.'},null,2));

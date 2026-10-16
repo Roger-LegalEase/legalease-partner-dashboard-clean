@@ -67,10 +67,59 @@ const assertMn2PredecessorHash=(collection,routeId)=>{
  assert.equal(comparisonHash(clone),frozenBefore.siblings[routeId],'Every unrelated MN2 sibling byte must retain ORIGINAL full frozen hash');
  return clone;
 };
+// Accepted target-origin successor (623493132): the original no-charge
+// sibling inputs remain unchanged. Only the new explicit confirmation fact and
+// its two asked indices are reversed before the existing county-only inverse.
+// Protected-stage additions are not accepted by this predecessor comparison.
+const mnOriginConfirmationFact={factId:'jurisdiction_scope',collection:'prepay_confirmation',phase:'prepay_confirmation',group:'court_and_case_number',source:'distinct_record_question_contract',reason:'the original record question has a distinct meaning; preserve its answer and require scoped review when its source changes'};
+const restoreExactMnOriginPredecessor=(collection,routeId)=>{
+ assert(Object.hasOwn(mn2AcceptedAppends,routeId),'Only the exact two reviewed MN2 routes');
+ assert.equal(collection.routeKey,'MN:'+routeId);assert.equal(collection.pathwayId,routeId);
+ assert(!collection.facts.some(f=>f.source==='mn_protected_source_stage_fact'),'Unaccepted stage facts cannot be normalized away');
+ const id='jurisdiction_scope';
+ assert.deepEqual(collection.facts.filter(f=>f.factId===id),[mnOriginConfirmationFact],'Exact single target-origin fact required');
+ assert.deepEqual(collection.facts.at(-1),mnOriginConfirmationFact,'Exact target-origin appended fact position required');
+ assert.deepEqual(collection.prepayQuestions.filter(factId=>factId===id),[id],'Exact single origin prepay index required');
+ assert.equal(collection.prepayQuestions.at(-1),id,'Exact origin prepay index position required');
+ const sections=collection.groupedParticipantSections.filter(s=>s.id==='court_and_case_number');assert.equal(sections.length,1);
+ assert.deepEqual(sections[0].factIds.filter(factId=>factId===id),[id],'Exact single origin section index required');
+ assert.equal(sections[0].factIds.at(-1),id,'Exact origin section index position required');
+ for(const section of collection.groupedParticipantSections)if(section.id!=='court_and_case_number')assert(!section.factIds.includes(id),'Origin cannot enter another section');
+ for(const key of ['knownFacts','derivedFacts'])assert(!Object.hasOwn(collection[key],id),'Historical scalar cannot become confirmed origin');
+ for(const key of ['renderQuestions','conditionalQuestions','filingReadinessItems','externalActorFields','unresolvedRequiredFacts','pendingDerivations','hardBlockers'])assert(!JSON.stringify(collection[key]).includes(id),'No other origin index change: '+key);
+ const clone=structuredClone(collection);clone.facts.pop();clone.prepayQuestions.pop();
+ clone.groupedParticipantSections.find(s=>s.id==='court_and_case_number').factIds.pop();
+ return clone;
+};
+const assertMnOriginSuccessorPredecessorHash=(collection,routeId)=>assertMn2PredecessorHash(restoreExactMnOriginPredecessor(collection,routeId),routeId);
+const mnOriginSuccessorMutations=[
+ ['wrong-origin-source',c=>{c.facts.at(-1).source='forged';}],
+ ['wrong-origin-group',c=>{c.facts.at(-1).group='about_you';}],
+ ['invented-origin-value',c=>{c.facts.at(-1).value='State or local';}],
+ ['invented-origin-active',c=>{c.facts.at(-1).active=true;}],
+ ['omitted-origin-fact',c=>{c.facts.pop();}],
+ ['duplicated-origin-fact',c=>{c.facts.push(structuredClone(c.facts.at(-1)));}],
+ ['reordered-origin-fact',c=>{const a=c.facts;[a[a.length-1],a[a.length-2]]=[a[a.length-2],a[a.length-1]];}],
+ ['omitted-origin-prepay-index',c=>{c.prepayQuestions.pop();}],
+ ['duplicated-origin-prepay-index',c=>{c.prepayQuestions.push('jurisdiction_scope');}],
+ ['reordered-origin-prepay-index',c=>{c.prepayQuestions.pop();c.prepayQuestions.unshift('jurisdiction_scope');}],
+ ['omitted-origin-section-index',c=>{c.groupedParticipantSections.find(s=>s.id==='court_and_case_number').factIds.pop();}],
+ ['duplicated-origin-section-index',c=>{c.groupedParticipantSections.find(s=>s.id==='court_and_case_number').factIds.push('jurisdiction_scope');}],
+ ['reordered-origin-section-index',c=>{const a=c.groupedParticipantSections.find(s=>s.id==='court_and_case_number').factIds;a.pop();a.unshift('jurisdiction_scope');}],
+ ['origin-in-other-section',c=>{c.groupedParticipantSections.find(s=>s.id!=='court_and_case_number').factIds.push('jurisdiction_scope');}],
+ ['origin-rendered',c=>{c.renderQuestions.push('jurisdiction_scope');}],
+ ['origin-marked-known',c=>{c.knownFacts.jurisdiction_scope='State or local';}],
+ ['origin-derived',c=>{c.derivedFacts.jurisdiction_scope='State or local';}],
+ ['origin-unresolved-index',c=>{c.unresolvedRequiredFacts.push('jurisdiction_scope');}],
+ ['unaccepted-stage-fact',c=>{c.facts.unshift({factId:'mn_sentence_discharge_date',source:'mn_protected_source_stage_fact'});}],
+ ['unrelated-byte-drift',c=>{c.knownFacts.unrelated_fact='forged';}]
+];
 const mn2SiblingPredecessors=siblings=>{
  const compared={...siblings};
  for(const routeId of Object.keys(mn2AcceptedAppends)){
-  compared[routeId]=assertMn2PredecessorHash(siblings[routeId],routeId);
+  const originPredecessor=restoreExactMnOriginPredecessor(siblings[routeId],routeId);
+  compared[routeId]=assertMn2PredecessorHash(originPredecessor,routeId);
+  for(const[name,mutate]of mnOriginSuccessorMutations){const changed=structuredClone(siblings[routeId]);mutate(changed);assert.notDeepEqual(changed,siblings[routeId],name+' must actually mutate original vector');assert.throws(()=>assertMnOriginSuccessorPredecessorHash(changed,routeId),undefined,name+' must refuse');check('MN-origin-successor-refuses-'+routeId+'-'+name,true,true);}
   const corruptions=[
    ['wrong-new-source',c=>{c.facts.at(-1).source='forged';}],
    ['wrong-new-active',c=>{c.facts.at(-1).active=!c.facts.at(-1).active;}],
@@ -85,7 +134,7 @@ const mn2SiblingPredecessors=siblings=>{
    ['unresolved-origin-changed',c=>{c.unresolvedRequiredFacts.push('unrelated-extra');}]
   ];
   if(routeId.includes('prosecutor-agreed'))corruptions.push(['inactive-city-rendered',c=>{c.renderQuestions.push('mn_prosecuting_city');}]);
-  for(const[name,mutate]of corruptions){const changed=structuredClone(siblings[routeId]);mutate(changed);assert.notDeepEqual(changed,siblings[routeId],name+' must actually mutate original vector');assert.throws(()=>assertMn2PredecessorHash(changed,routeId),undefined,name+' must refuse');check('MN2-successor-refuses-'+routeId+'-'+name,true,true);}
+  for(const[name,mutate]of corruptions){const changed=structuredClone(originPredecessor);mutate(changed);assert.notDeepEqual(changed,originPredecessor,name+' must actually mutate original vector');assert.throws(()=>assertMn2PredecessorHash(changed,routeId),undefined,name+' must refuse');check('MN2-successor-refuses-'+routeId+'-'+name,true,true);}
  }
  return compared;
 };
