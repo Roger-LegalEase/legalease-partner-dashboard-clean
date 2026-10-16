@@ -44,6 +44,52 @@ const frozenBefore={
   }
 };
 const comparisonHash=value=>createHash('sha256').update(JSON.stringify(value)).digest('hex');
+// Accepted MN2 required-collection successor only (43dd1675, TARGET-v7 SHA4135ecf7).
+// Preserve every original full sibling hash; assert exact added facts/indices,
+// then restore only those additions in a clone. No fixture/old-prefix transplant.
+const mn2AcceptedAppends = {"petition-based-expungement-under-609a-02-03":{"facts":[{"factId":"mn_deciding_case_county","collection":"render_required","phase":"render","group":"court_and_case_number","active":true,"source":"mn_two_county_source_fact","reason":"MN.memo:mn_petition_609a02_subd3, mn_prosecutor_agreed; required participant county/prosecutedBy inputs; collection for review only, not an authority directory, source-stage selection, prosecutor agreement or document mapping"}],"activeIds":["mn_deciding_case_county"]},"prosecutor-agreed-sealing-without-a-full-petition-under-609a-025":{"facts":[{"factId":"mn_prosecuted_case_county","collection":"render_required","phase":"render","group":"court_and_case_number","active":true,"source":"mn_two_county_source_fact","reason":"MN.memo:mn_petition_609a02_subd3, mn_prosecutor_agreed; required participant county/prosecutedBy inputs; collection for review only, not an authority directory, source-stage selection, prosecutor agreement or document mapping"},{"factId":"mn_prosecuted_by","collection":"render_required","phase":"render","group":"court_and_case_number","active":true,"source":"mn_two_county_source_fact","reason":"MN.memo:mn_petition_609a02_subd3, mn_prosecutor_agreed; required participant county/prosecutedBy inputs; collection for review only, not an authority directory, source-stage selection, prosecutor agreement or document mapping"},{"factId":"mn_prosecuting_city","collection":"conditional","phase":"known","group":null,"active":false,"source":"mn_two_county_source_fact","reason":"MN.memo:mn_petition_609a02_subd3, mn_prosecutor_agreed; required participant county/prosecutedBy inputs; collection for review only, not an authority directory, source-stage selection, prosecutor agreement or document mapping"}],"activeIds":["mn_prosecuted_case_county","mn_prosecuted_by"]}};
+const assertMn2PredecessorHash=(collection,routeId)=>{
+ const delta=mn2AcceptedAppends[routeId];assert(delta,'Only two exact MN2 sibling routes');
+ assert.equal(collection.routeKey,'MN:'+routeId);assert.equal(collection.pathwayId,routeId);
+ const addedIds=delta.facts.map(f=>f.factId),count=delta.facts.length;
+ assert.deepEqual(collection.facts.slice(-count),delta.facts,'Exact accepted ordered MN2 new fact objects required');
+ assert.deepEqual(collection.facts.filter(f=>addedIds.includes(f.factId)),delta.facts,'No duplicated/reordered MN2 fact');
+ assert.deepEqual(collection.renderQuestions.filter(id=>addedIds.includes(id)),delta.activeIds,'Only active MN2 facts render; inactive city never renders');
+ assert.deepEqual(collection.renderQuestions.slice(-delta.activeIds.length),delta.activeIds,'Exact MN2 render tail/order required');
+ const sections=collection.groupedParticipantSections.filter(s=>s.id==='court_and_case_number');assert.equal(sections.length,1);
+ assert.deepEqual(sections[0].factIds.filter(id=>addedIds.includes(id)),delta.activeIds,'Exact MN2 court section membership');
+ assert.deepEqual(sections[0].factIds.slice(-delta.activeIds.length),delta.activeIds,'Exact MN2 court section tail/order');
+ for(const section of collection.groupedParticipantSections)if(section.id!=='court_and_case_number')assert(!section.factIds.some(id=>addedIds.includes(id)),'No MN2 fact in unrelated section');
+ for(const key of ['knownFacts','derivedFacts'])for(const id of addedIds)assert(!Object.hasOwn(collection[key],id),'No new MN2 known/derived value on this unchanged original sibling fixture');
+ for(const key of ['prepayQuestions','conditionalQuestions','filingReadinessItems','externalActorFields','unresolvedRequiredFacts','pendingDerivations','hardBlockers'])assert(!addedIds.some(id=>JSON.stringify(collection[key]).includes(id)),'No unapproved MN2 index change: '+key);
+ const clone=structuredClone(collection);clone.facts.splice(-count,count);clone.renderQuestions.splice(-delta.activeIds.length,delta.activeIds.length);
+ clone.groupedParticipantSections.find(s=>s.id==='court_and_case_number').factIds.splice(-delta.activeIds.length,delta.activeIds.length);
+ assert.equal(comparisonHash(clone),frozenBefore.siblings[routeId],'Every unrelated MN2 sibling byte must retain ORIGINAL full frozen hash');
+ return clone;
+};
+const mn2SiblingPredecessors=siblings=>{
+ const compared={...siblings};
+ for(const routeId of Object.keys(mn2AcceptedAppends)){
+  compared[routeId]=assertMn2PredecessorHash(siblings[routeId],routeId);
+  const corruptions=[
+   ['wrong-new-source',c=>{c.facts.at(-1).source='forged';}],
+   ['wrong-new-active',c=>{c.facts.at(-1).active=!c.facts.at(-1).active;}],
+   ['omitted-new-fact',c=>{c.facts.pop();}],
+   ['duplicated-new-fact',c=>{c.facts.push(structuredClone(c.facts.at(-1)));}],
+   ['wrong-new-placement',c=>{[c.facts[c.facts.length-1],c.facts[c.facts.length-2]]=[c.facts[c.facts.length-2],c.facts[c.facts.length-1]];}],
+   ['omitted-render-index',c=>{c.renderQuestions.pop();}],
+   ['extra-render-index',c=>{c.renderQuestions.push('unrelated-extra');}],
+   ['omitted-section-index',c=>{c.groupedParticipantSections.find(s=>s.id==='court_and_case_number').factIds.pop();}],
+   ['extra-section-index',c=>{c.groupedParticipantSections.find(s=>s.id==='court_and_case_number').factIds.push('unrelated-extra');}],
+   ['unrelated-known-drift',c=>{c.knownFacts.unrelated_fact='forged';}],
+   ['unresolved-origin-changed',c=>{c.unresolvedRequiredFacts.push('unrelated-extra');}]
+  ];
+  if(routeId.includes('prosecutor-agreed'))corruptions.push(['inactive-city-rendered',c=>{c.renderQuestions.push('mn_prosecuting_city');}]);
+  for(const[name,mutate]of corruptions){const changed=structuredClone(siblings[routeId]);mutate(changed);assert.notDeepEqual(changed,siblings[routeId],name+' must actually mutate original vector');assert.throws(()=>assertMn2PredecessorHash(changed,routeId),undefined,name+' must refuse');check('MN2-successor-refuses-'+routeId+'-'+name,true,true);}
+ }
+ return compared;
+};
+
 // Exact cannabis successor restores only the measured fact and derived indices.
 // All original full sibling hashes remain unchanged; unrelated drift must fail.
 const mnCannabisSiblingRoute='cannabis-automatic-or-board-reviewed-expungement-under-609a-055-06';
@@ -102,7 +148,7 @@ for(const [variant,value]of [['known','Earlier Minnesota location'],['absent',un
 const siblings=Object.fromEntries(profile.pathways.filter(p=>p.id!==route).map(p=>[p.id,P.packetCollectionFor({jurisdiction:'MN',pathwayId:p.id,requiredInputIds:packetPlanForPathway(profile,p.id)?.requiredInputIds??[],serverFacts:{jurisdiction:'MN',pathway_id:p.id},screeningAnswers:original,prefilledAnswers:{},savedAnswers:{}})]));
 if(!baseline){
  check('exact-five-sibling-identities',Object.keys(siblings),Object.keys(frozenBefore.siblings));
- const comparedSiblings={...siblings,[mnCannabisSiblingRoute]:assertCannabisPredecessorHash(siblings[mnCannabisSiblingRoute])};
+ const comparedSiblings={...mn2SiblingPredecessors(siblings),[mnCannabisSiblingRoute]:assertCannabisPredecessorHash(siblings[mnCannabisSiblingRoute])};
  for(const [id,expected]of Object.entries(frozenBefore.siblings))check('independent-frozen-sibling-'+id,comparisonHash(comparedSiblings[id]),expected);
  const {mnCannabisLocationIsContext}=await load('src/lib/expungement-ai/mn-cannabis-location-context.ts');
  check('cannabis-source-guard',mnCannabisLocationIsContext(profile,mnCannabisSiblingRoute,null),true);
