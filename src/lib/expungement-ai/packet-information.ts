@@ -3671,12 +3671,19 @@ function deriveProtectedPacketDraftSnapshot(
     && base.profileAuthorityFingerprint === profileAuthorityFingerprint(currentAuthority.profile, base.pathwayId)
     && !southCarolinaGuidanceFinancialApplies(currentAuthority.profile, base.pathwayId,
       { ...base.screeningAnswers, ...base.prefilledAnswers, ...base.packetAnswers }, "financial_obligations");
+  const preserveNebraskaJuvenileRoutingFacts = base.jurisdiction === "NE"
+    && base.pathwayId === "juvenile-automatic-sealing"
+    && base.profileVersion === currentAuthority.profile.profileVersion
+    && base.profileSourceFingerprint === currentAuthority.profile.source?.sourceCorpusSha256
+    && base.profileAuthorityFingerprint === profileAuthorityFingerprint(currentAuthority.profile, base.pathwayId)
+    && !nebraskaNonconvictionQuestionApplies("NE", base.pathwayId,
+      { ...base.screeningAnswers, ...base.prefilledAnswers, ...base.packetAnswers }, "financial_obligations");
   const preserveNewJerseyStatusFacts = base.profileVersion === currentAuthority.profile.profileVersion
     && base.profileSourceFingerprint === currentAuthority.profile.source?.sourceCorpusSha256
     && base.profileAuthorityFingerprint === profileAuthorityFingerprint(currentAuthority.profile, base.pathwayId)
     && !newJerseyMarijuanaStatusFinancialApplies(currentAuthority.profile, base.pathwayId,
       { ...base.screeningAnswers, ...base.prefilledAnswers, ...base.packetAnswers }, "financial_obligations");
-  const preserved = isCaProp64Pathway(base.jurisdiction, base.pathwayId) || preserveFinancialFacts || preserveMontanaRecordFacts || preserveNewMexicoGuidanceFacts || preserveNewJerseyStatusFacts || preserveTexasClockFacts || preserveTexasGuidanceFacts || preserveWestVirginiaGuidanceFacts || preserveSouthDakotaGuidanceFacts || preserveSouthCarolinaGuidanceFacts || factualIds.length > 0
+  const preserved = isCaProp64Pathway(base.jurisdiction, base.pathwayId) || preserveFinancialFacts || preserveMontanaRecordFacts || preserveNewMexicoGuidanceFacts || preserveNewJerseyStatusFacts || preserveTexasClockFacts || preserveTexasGuidanceFacts || preserveWestVirginiaGuidanceFacts || preserveSouthDakotaGuidanceFacts || preserveSouthCarolinaGuidanceFacts || preserveNebraskaJuvenileRoutingFacts || factualIds.length > 0
     ? preserveUnchangedProtectedFacts(shapesPreserved, base, new Set([...explicitChangedIds, ...confirmRecordFacts]))
     : shapesPreserved;
   // These exact source-bound successors remove inherited collection dependencies,

@@ -741,14 +741,18 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
     }
 
     // §29-3523(3)(c)(iii), (7) has no payment predicate for an adult
-    // acquittal's automatic record process. Keep the raw answer as history;
+    // acquittal's automatic record process. The separately guarded juvenile
+    // routing-only guidance node likewise asks no financial input. Keep raw history;
     // its inactive disposition supplies no paid/waived value or authority.
     if (!nebraskaNonconvictionQuestionApplies(input.jurisdiction, input.pathwayId, {
       case_outcome: resolvedText("case_outcome"), age_at_offense: resolvedText("age_at_offense")
     }, factId)) {
       facts.push({ factId, collection: "conditional", phase: "known", group: null,
-        source: "ne_adult_acquittal_no_financial_predicate", active: false,
-        reason: "The exact adult acquittal automatic route has no financial predicate; the saved payment answer is retained without inference." });
+        source: input.pathwayId === "juvenile-automatic-sealing"
+          ? "ne_juvenile_routing_guidance_no_financial_input" : "ne_adult_acquittal_no_financial_predicate", active: false,
+        reason: input.pathwayId === "juvenile-automatic-sealing"
+          ? "The exact juvenile routing-only guidance node asks no financial input; retain the saved payment answer without inferring completion or sealing eligibility."
+          : "The exact adult acquittal automatic route has no financial predicate; the saved payment answer is retained without inference." });
       continue;
     }
 

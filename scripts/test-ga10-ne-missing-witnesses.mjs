@@ -32,6 +32,10 @@ assert.equal(inventory.originalMissingWitnesses.length, 22);
 assert.equal(inventory.currentBatch.routeKey, 'KS:drug-registration-relief-coordination', 'Kansas batch remains intact');
 assert.equal(memo.tracks.find(t => t.trackId === 'ne-nonconviction-auto').participantInputs.some(i => /financial|fine|restitution/i.test(i.key + i.question)), false);
 assert(memo.tracks.find(t => t.trackId === 'ne-juvenile-sealing-routing').legalDesignDecision.limitations.some(l => l.classification === 'scope_restriction'));
+const juvenileNode = memo.tracks.find(t => t.trackId === 'ne-juvenile-sealing-routing');
+assert.equal(juvenileNode.outputStrategy, 'process_guidance');
+assert.equal(juvenileNode.participantInputs.some(i => /financial|fine|payment|restitution/i.test(i.key + i.question)), false,
+  'the exact routing-only node has no financial input; this does not classify substantive juvenile completion');
 const p = getProfileByJurisdiction('NE'), pub = projectPublicProfile(p);
 const q = pub.questions.find(q => q.id === 'financial_obligations');
 assert.equal(q.prompt, 'Have you paid off everything the court charged?');
@@ -48,7 +52,7 @@ for (const [index, routeKey] of subgroup.routeKeys.entries()) {
     court_requirements_completed: 'yes', pending_cases: 'No', sentence_completion_date: 'Yes',
     special_preconditions_confirmed: 'Yes', new_convictions_during_waiting_period: 'No', record_documents: 'Yes',
     resolved_timing_bucket: '5_to_10_years', age_at_offense: juvenile ? 15 : 30, pardon_status: 'No', identity_error: 'No' };
-  for (const [name, financial, completion] of [['paid', 'Yes', 'yes'], ['unpaid', 'No', 'no'], ['partly_paid', 'No', 'no'], ['waived_not_paid_hypothesis', 'No', 'yes'], ['unknown', 'I am not sure', 'yes'], ...(!juvenile ? [['not_asked', undefined, 'yes']] : [])]) {
+  for (const [name, financial, completion] of [['paid', 'Yes', 'yes'], ['unpaid', 'No', 'no'], ['partly_paid', 'No', 'no'], ['waived_not_paid_hypothesis', 'No', 'yes'], ['unknown', 'I am not sure', 'yes'], ['not_asked', undefined, 'yes']]) {
     const answers = { ...base, financial_obligations: financial, court_requirements_completed: completion };
     const before = JSON.stringify(answers);
     const actual = evaluate({ jurisdiction: 'NE', profileVersion: p.profileVersion, matterId: 'synthetic-ga10-ne', answers });
@@ -56,11 +60,9 @@ for (const [index, routeKey] of subgroup.routeKeys.entries()) {
     assert.equal(actual.evaluation.paymentAllowed, false);
     assert.equal(JSON.stringify(answers), before);
     const selected = selectScreeningQuestionIds(p, pub, answers);
-    assert.equal(selected.includes(q.id), juvenile, "financial control is inactive only for proven adult acquittal");
-    if (!juvenile) {
+    assert.equal(selected.includes(q.id), false, 'financial control is inactive only for these exact adult-acquittal or juvenile-guidance facts');
       assert.equal(actual.evaluation.resultCode, "guidance_only");
       assert(!actual.evaluation.missingQuestionIds.includes(q.id));
-    }
     assert.equal(sanitizeResumedAnswersForQuestionIds(pub, JSON.parse(before), selected).financial_obligations, financial);
     const seed = P.protectedPacketDraftSeedFromAuthoritative({ authoritative: actual, screeningAnswers: answers,
       dependencies: { commercialFlowVersion: null, entitlementSource: null, productId: null }, capturedAt: '2026-10-14T00:00:00Z' });
@@ -69,12 +71,25 @@ for (const [index, routeKey] of subgroup.routeKeys.entries()) {
     const priorBytes = JSON.stringify(prior), model = P.protectedPacketInformationModelFor(JSON.parse(priorBytes));
     assert(model);
     assert.equal(model.initialAnswers.financial_obligations, financial);
-    if (!juvenile) {
+    const noop = P.packetInformationPatch({ existingItem: { id: 'synthetic-ga10-ne', jurisdiction: 'NE', artifactRefs: {} },
+      protectedVerification: prior, answers: {} });
+    assert.deepEqual(noop?.protectedTransition.nextVerification, prior, 'inactive financial history has a whole-record no-op');
+    const material = P.packetInformationPatch({ existingItem: { id: 'synthetic-ga10-ne', jurisdiction: 'NE', artifactRefs: {} },
+      protectedVerification: prior, answers: { charge: 'Explicit unrelated charge text correction' } });
+    assert(material);
+    for (const source of ['screeningAnswers', 'prefilledAnswers', 'packetAnswers']) {
+      const unrelated = map => Object.fromEntries(Object.entries(map).filter(([id]) => id !== 'charge'));
+      assert.deepEqual(unrelated(material.protectedTransition.nextVerification.draftSnapshot[source]), unrelated(seed.snapshot[source]),
+        'unrelated material save preserves raw financial/completion maps');
+    }
+    {
       const collection = P.packetCollectionFor({ jurisdiction: 'NE', pathwayId: route, requiredInputIds: model.requiredInputIds,
         serverFacts: model.serverFacts, screeningAnswers: model.screeningAnswers, prefilledAnswers: model.prefilledAnswers, savedAnswers: model.packetAnswers });
       const disposition = collection.facts.find(f => f.factId === q.id);
       assert.equal(disposition?.collection, 'conditional', 'retained financial fact has an explicit inactive disposition');
       assert.equal(disposition?.active, false);
+      assert.equal(disposition?.source, juvenile ? 'ne_juvenile_routing_guidance_no_financial_input' : 'ne_adult_acquittal_no_financial_predicate');
+      assert(disposition.reason.includes(juvenile ? 'without inferring completion or sealing eligibility' : 'adult acquittal automatic route has no financial predicate'));
       assert(!model.builderQuestions.some(q => q.id === 'financial_obligations'));
       assert(!model.missingInputIds.includes('financial_obligations'));
       assert(!P.reviewEditablePacketInputIds(model).has('financial_obligations'), 'inactive financial fact has no stale review edit link');
@@ -83,6 +98,7 @@ for (const [index, routeKey] of subgroup.routeKeys.entries()) {
     assert(!seed.snapshot.dependencies.courtCompletionImplications?.financial_obligations);
     let state = prior;
     for (const value of ['I am not sure', 'No']) {
+      const previousHistory = structuredClone(state.draftSnapshot.dependencies.semanticAnswerHistory ?? []);
       const patch = P.packetInformationPatch({ existingItem: { id: 'synthetic-ga10-ne', jurisdiction: 'NE', artifactRefs: {} }, protectedVerification: state, answers: { financial_obligations: value } });
       assert(patch, 'real protected correction accepted');
       state = patch.protectedTransition.nextVerification;
@@ -92,6 +108,12 @@ for (const [index, routeKey] of subgroup.routeKeys.entries()) {
       assert(nextModel);
       assert.equal(nextModel.initialAnswers.financial_obligations, value);
       assert.equal(nextModel.initialAnswers.court_requirements_completed, completion);
+      const unrelated = map => Object.fromEntries(Object.entries(map).filter(([id]) => id !== q.id));
+      for (const source of ['screeningAnswers', 'prefilledAnswers', 'packetAnswers']) {
+        assert.deepEqual(unrelated(state.draftSnapshot[source]), unrelated(seed.snapshot[source]), 'explicit correction preserves every unrelated raw map');
+      }
+      for (const entry of previousHistory) assert(state.draftSnapshot.dependencies.semanticAnswerHistory.some(next => JSON.stringify(next) === JSON.stringify(entry)),
+        'explicit financial correction preserves every existing protected history entry');
     }
     assert.equal(JSON.stringify(prior), priorBytes);
     if (!juvenile && name === 'waived_not_paid_hypothesis') {
@@ -146,6 +168,56 @@ for (const sibling of p.pathways.filter(p => p.id !== adultRoute)) assert(nebras
 assert(nebraskaNonconvictionQuestionApplies('KS', adultRoute, facts, q.id));
 assert(nebraskaNonconvictionQuestionApplies('NE', adultRoute, facts, 'court_requirements_completed'));
 console.log('PASS: exact NE adult-acquittal gate; unknown age/disposition, siblings and all independent facts retained; hidden No/unknown survive and reappear');
+
+const juvenileRoute = 'juvenile-automatic-sealing';
+const juvenileFacts = { case_outcome: 'Juvenile adjudication or offense committed as a minor', age_at_offense: 15 };
+for (const age of [0, 15, 17, '17', { value: '15', unknown: false }]) {
+  assert.equal(nebraskaNonconvictionQuestionApplies('NE', juvenileRoute, { ...juvenileFacts, age_at_offense: age }, q.id), false);
+}
+for (const age of [undefined, null, '', 'I am not sure', 'minor', '17+', -1, 18, 30, 15.5, Infinity,
+  { value: 15 }, { value: 15, unknown: true }, { value: 15, unknown: false, extra: true }]) {
+  assert.equal(nebraskaNonconvictionQuestionApplies('NE', juvenileRoute, { ...juvenileFacts, age_at_offense: age }, q.id), true,
+    `juvenile routing applicability requires explicit known minor age: ${JSON.stringify(age)}`);
+}
+for (const outcome of [undefined, 'I am not sure', 'Mixed charges or different case outcomes', 'Misdemeanor conviction', 'Acquitted or found not guilty']) {
+  assert(nebraskaNonconvictionQuestionApplies('NE', juvenileRoute, { ...juvenileFacts, case_outcome: outcome }, q.id));
+}
+for (const way of p.pathways.filter(way => way.id !== juvenileRoute)) {
+  assert(nebraskaNonconvictionQuestionApplies('NE', way.id, juvenileFacts, q.id), 'no other NE route inherits a juvenile finance bypass');
+}
+assert(nebraskaNonconvictionQuestionApplies('KS', juvenileRoute, juvenileFacts, q.id));
+for (const id of ['case_outcome', 'age_at_offense', 'sentence_completion_date', 'court_requirements_completed', 'county', 'court']) {
+  assert(nebraskaNonconvictionQuestionApplies('NE', juvenileRoute, juvenileFacts, id), 'actual routing/completion facts remain applicable');
+}
+// Independently uncertain completion remains held; an irrelevant payment answer
+// supplies neither that fact nor a claim that the juvenile record was sealed.
+const juvenileSeedFacts = { ...rows.find(row => row.routeKey === 'NE:' + juvenileRoute && row.name === 'unknown') };
+assert.equal(juvenileSeedFacts.observedUnknownFinancialHold, false, 'preserved before-example no longer holds solely on payment');
+const juvenileBase = { ownership_scope: 'Yes', jurisdiction_scope: 'State or local',
+  possible_pathway_context: p.pathways.find(way => way.id === juvenileRoute).label,
+  ...juvenileFacts, court: 'County court', charge: 'Misdemeanor charge', offense_level: 'Misdemeanor',
+  court_requirements_completed: 'yes', pending_cases: 'No', sentence_completion_date: 'Yes',
+  special_preconditions_confirmed: 'Yes', new_convictions_during_waiting_period: 'No', record_documents: 'Yes',
+  resolved_timing_bucket: '5_to_10_years', pardon_status: 'No', identity_error: 'No', financial_obligations: 'I am not sure' };
+for (const completion of ['No', 'I am not sure']) {
+  const answers = { ...juvenileBase, sentence_completion_date: completion };
+  const before = structuredClone(answers), actual = evaluate({ jurisdiction: 'NE', profileVersion: p.profileVersion,
+    matterId: 'synthetic-ne-juvenile-completion', answers });
+  assert.equal(actual.evaluation.paymentAllowed, false);
+  assert.notEqual(actual.evaluation.resultCode, 'packet_ready');
+  if (completion === 'I am not sure') assert.equal(actual.evaluation.resultCode, 'needs_review');
+  assert(!actual.evaluation.reasons.some(reason => reason.text.includes('financial_obligations')));
+  assert.deepEqual(answers, before, 'completion and raw financial uncertainty are not rewritten');
+}
+for (const facts of [{ age_at_offense: 'I am not sure' }, { case_outcome: 'Mixed charges or different case outcomes' }]) {
+  const answers = { ...juvenileBase, ...facts }, before = structuredClone(answers);
+  const actual = evaluate({ jurisdiction: 'NE', profileVersion: p.profileVersion, matterId: 'synthetic-ne-juvenile-review', answers });
+  assert.equal(actual.evaluation.paymentAllowed, false);
+  assert.notEqual(actual.evaluation.resultCode, 'guidance_only', 'unknown age or mixed disposition retains its own review');
+  assert(selectScreeningQuestionIds(p, pub, answers).includes(q.id), 'uncertain route facts do not acquire the exact juvenile applicability exception');
+  assert.deepEqual(answers, before);
+}
+console.log('PASS: juvenile routing-only financial applicability, minor/mixed boundaries and independent completion uncertainty retained');
 
 // Reconstructed now by executing exact a74 source, not a historical capture.
 const reproduction = subgroup.freshBaselineReproduction;
