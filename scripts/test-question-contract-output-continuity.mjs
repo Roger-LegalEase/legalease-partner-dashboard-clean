@@ -13,6 +13,7 @@ import {
   QUESTION_CONTRACT_ACCEPTED_REVISION_CONTINUITY_PATH, QUESTION_CONTRACT_ACCEPTED_REVISION_OUTPUT_PATH,
   QUESTION_CONTRACT_EXECUTED_REVISION_CONTINUITY_PATH, QUESTION_CONTRACT_EXECUTED_REVISION_OUTPUT_PATH,
   QUESTION_CONTRACT_OBSERVED_REVISION_CONTINUITY_PATH, QUESTION_CONTRACT_OBSERVED_REVISION_OUTPUT_PATH,
+  QUESTION_CONTRACT_BOUND_REVISION_CONTINUITY_PATH, QUESTION_CONTRACT_BOUND_REVISION_OUTPUT_PATH,
   QUESTION_CONTRACT_MEASURED_REVISION_CONTINUITY_PATH, QUESTION_CONTRACT_MEASURED_REVISION_OUTPUT_PATH,
   QUESTION_CONTRACT_RENDERED_REVISION_CONTINUITY_PATH, QUESTION_CONTRACT_RENDERED_REVISION_OUTPUT_PATH,
   QUESTION_CONTRACT_IMMEDIATE_PREDECESSOR_CONTINUITY_PATH, QUESTION_CONTRACT_IMMEDIATE_PREDECESSOR_OUTPUT_PATH,
@@ -28,6 +29,8 @@ const observedContinuity = JSON.parse(readBytes(QUESTION_CONTRACT_OBSERVED_REVIS
 const observedProof = JSON.parse(readBytes(QUESTION_CONTRACT_OBSERVED_REVISION_OUTPUT_PATH));
 const measuredContinuity = JSON.parse(readBytes(QUESTION_CONTRACT_MEASURED_REVISION_CONTINUITY_PATH));
 const measuredProof = JSON.parse(readBytes(QUESTION_CONTRACT_MEASURED_REVISION_OUTPUT_PATH));
+const boundContinuity = JSON.parse(readBytes(QUESTION_CONTRACT_BOUND_REVISION_CONTINUITY_PATH));
+const boundProof = JSON.parse(readBytes(QUESTION_CONTRACT_BOUND_REVISION_OUTPUT_PATH));
 const historical = JSON.parse(readBytes(QUESTION_CONTRACT_OUTPUT_PATH));
 const receipt = readQuestionContractSuccessor(readBytes);
 let checks = 0;
@@ -62,6 +65,8 @@ check('exact executed successor validates complete current inventory', () => {
   assert.deepEqual(actual.observedRevisionOutput, continuity.observedRevisionOutput);
   assert.deepEqual(actual.measuredRevisionContinuity, continuity.measuredRevisionContinuity);
   assert.deepEqual(actual.measuredRevisionOutput, continuity.measuredRevisionOutput);
+  assert.deepEqual(actual.boundRevisionContinuity, continuity.boundRevisionContinuity);
+  assert.deepEqual(actual.boundRevisionOutput, continuity.boundRevisionOutput);
   assert.equal(JSON.parse(readBytes(QUESTION_CONTRACT_EARLIER_OUTPUT_PATH)).sources.length, 113);
 });
 check('all original observed dependencies retained, with added imports', () => {
@@ -102,7 +107,7 @@ check('immediate accepted v6 inventory is preserved with exact TX/WY observed ad
   assert.deepEqual(continuity.executedRevisionSourceTransitions, [{file:'src/lib/expungement-ai/frontend/reviewed-result-display-copy.json', beforeSha256:'f961c6fe9d4bd9663cf3b539d46dd96bf2fa1fee2d66f7c8a3b087f5709a1d6f', afterSha256:'4a31457e5aec3f314d99cf574774c94306ec0ceca8ecb4051e2ea7556440709b'}, {file:'src/lib/expungement-ai/localization.ts', beforeSha256:'ffa138a6b897029e5213df311b4c2b3abcc101e8b053da22fd72682c1644c259', afterSha256:'bf5c38efc088531fe2dcf598b32e47c4726a2b844ad2296cee0bc4ef10f469d7'}]);
   for (const input of prior.sources) assert.ok(proof.sources.some(current => current.file === input.file));
 });
-for (const path of [QUESTION_CONTRACT_MEASURED_REVISION_CONTINUITY_PATH, QUESTION_CONTRACT_MEASURED_REVISION_OUTPUT_PATH, QUESTION_CONTRACT_OBSERVED_REVISION_CONTINUITY_PATH, QUESTION_CONTRACT_OBSERVED_REVISION_OUTPUT_PATH, QUESTION_CONTRACT_CONTINUITY_PATH, QUESTION_CONTRACT_CURRENT_OUTPUT_PATH, QUESTION_CONTRACT_SUCCESSOR_PATH, QUESTION_CONTRACT_OUTPUT_PATH, QUESTION_CONTRACT_PREVIOUS_CONTINUITY_PATH, QUESTION_CONTRACT_PREVIOUS_OUTPUT_PATH, QUESTION_CONTRACT_EARLIER_CONTINUITY_PATH, QUESTION_CONTRACT_EARLIER_OUTPUT_PATH, QUESTION_CONTRACT_SAME_DATE_PREDECESSOR_CONTINUITY_PATH, QUESTION_CONTRACT_SAME_DATE_PREDECESSOR_OUTPUT_PATH, QUESTION_CONTRACT_LATEST_PREDECESSOR_CONTINUITY_PATH, QUESTION_CONTRACT_LATEST_PREDECESSOR_OUTPUT_PATH, QUESTION_CONTRACT_IMMEDIATE_PREDECESSOR_CONTINUITY_PATH, QUESTION_CONTRACT_IMMEDIATE_PREDECESSOR_OUTPUT_PATH, QUESTION_CONTRACT_PRIOR_REVISION_CONTINUITY_PATH, QUESTION_CONTRACT_PRIOR_REVISION_OUTPUT_PATH, QUESTION_CONTRACT_ACCEPTED_REVISION_CONTINUITY_PATH, QUESTION_CONTRACT_ACCEPTED_REVISION_OUTPUT_PATH, QUESTION_CONTRACT_EXECUTED_REVISION_CONTINUITY_PATH, QUESTION_CONTRACT_EXECUTED_REVISION_OUTPUT_PATH, QUESTION_CONTRACT_RENDERED_REVISION_CONTINUITY_PATH, QUESTION_CONTRACT_RENDERED_REVISION_OUTPUT_PATH]) {
+for (const path of [QUESTION_CONTRACT_BOUND_REVISION_CONTINUITY_PATH, QUESTION_CONTRACT_BOUND_REVISION_OUTPUT_PATH, QUESTION_CONTRACT_MEASURED_REVISION_CONTINUITY_PATH, QUESTION_CONTRACT_MEASURED_REVISION_OUTPUT_PATH, QUESTION_CONTRACT_OBSERVED_REVISION_CONTINUITY_PATH, QUESTION_CONTRACT_OBSERVED_REVISION_OUTPUT_PATH, QUESTION_CONTRACT_CONTINUITY_PATH, QUESTION_CONTRACT_CURRENT_OUTPUT_PATH, QUESTION_CONTRACT_SUCCESSOR_PATH, QUESTION_CONTRACT_OUTPUT_PATH, QUESTION_CONTRACT_PREVIOUS_CONTINUITY_PATH, QUESTION_CONTRACT_PREVIOUS_OUTPUT_PATH, QUESTION_CONTRACT_EARLIER_CONTINUITY_PATH, QUESTION_CONTRACT_EARLIER_OUTPUT_PATH, QUESTION_CONTRACT_SAME_DATE_PREDECESSOR_CONTINUITY_PATH, QUESTION_CONTRACT_SAME_DATE_PREDECESSOR_OUTPUT_PATH, QUESTION_CONTRACT_LATEST_PREDECESSOR_CONTINUITY_PATH, QUESTION_CONTRACT_LATEST_PREDECESSOR_OUTPUT_PATH, QUESTION_CONTRACT_IMMEDIATE_PREDECESSOR_CONTINUITY_PATH, QUESTION_CONTRACT_IMMEDIATE_PREDECESSOR_OUTPUT_PATH, QUESTION_CONTRACT_PRIOR_REVISION_CONTINUITY_PATH, QUESTION_CONTRACT_PRIOR_REVISION_OUTPUT_PATH, QUESTION_CONTRACT_ACCEPTED_REVISION_CONTINUITY_PATH, QUESTION_CONTRACT_ACCEPTED_REVISION_OUTPUT_PATH, QUESTION_CONTRACT_EXECUTED_REVISION_CONTINUITY_PATH, QUESTION_CONTRACT_EXECUTED_REVISION_OUTPUT_PATH, QUESTION_CONTRACT_RENDERED_REVISION_CONTINUITY_PATH, QUESTION_CONTRACT_RENDERED_REVISION_OUTPUT_PATH]) {
   check(`tampered pinned evidence refused: ${path}`, () => assert.throws(() => assertQuestionContractOutputInputs(file => file === path ? Buffer.from('{}') : readBytes(file)), /bytes changed/));
   check(`missing pinned evidence refuses, never falls back: ${path}`, () => assert.throws(() => assertQuestionContractOutputInputs(file => {
     if (file === path) throw new Error('deliberately missing pinned evidence');
@@ -132,6 +137,8 @@ check('executed NY02 v9 retains v8 with exact observed five additions and two ch
   assert.ok(observedProof.sources.every(input => proof.sources.some(current => current.file === input.file)));
 });
 check('actual MO610141 v10 preserves v9 and changes only measured localization', () => {
+  // Preserve immutable v10 expectations against its own actual receipt.
+  const continuity=boundContinuity, proof=boundProof;
   assert.equal(measuredProof.sources.length,129);
   assert.equal(proof.sources.length,129);
   assert.equal(continuity.measuredRevisionSourceCount,129);
@@ -144,7 +151,25 @@ check('actual MO610141 v10 preserves v9 and changes only measured localization',
   assert.ok(proof.statusBefore.includes('src/lib/expungement-ai/localization.ts'),'retain actual precommit dirty render custody');
   assert.ok(measuredProof.sources.every(input=>proof.sources.some(current=>current.file===input.file)));
 });
+check('actual NY16055 v11 preserves v10 with two measured display changes only', () => {
+  assert.equal(boundProof.sources.length,129);
+  assert.equal(proof.sources.length,129);
+  assert.equal(continuity.boundRevisionSourceCount,129);
+  assert.deepEqual(continuity.boundRevisionAddedSourcePaths,[]);
+  assert.deepEqual(continuity.boundRevisionSourceTransitions,[{"file":"src/lib/expungement-ai/frontend/reviewed-result-display-copy.json","beforeSha256":"4a31457e5aec3f314d99cf574774c94306ec0ceca8ecb4051e2ea7556440709b","afterSha256":"f1265cb2b749a3fffacc567c4d6a79442e2e7ca6203cc49f57880586ba7d2cb4"},{"file":"src/lib/expungement-ai/reviewed-result-copy.ts","beforeSha256":"80b5414257fce5546bff747e5635470b618c42541467955314c78af7c7d26cc4","afterSha256":"54fc6f1deebe3576a3d5774a735aa587643daaf368b2b3cddecfd78b5e882ee5"}]);
+  assert.equal(continuity.currentOutput.sha256,'e6e928e4ab51a16e39ac8dd859a7b5b882ef73847addbe31797fd9234acd53c1');
+  assert.equal(proof.headBefore,'73766e4683056ad03d2decaf1ecf832446c7ce8c');
+  assert.equal(proof.headAfter,proof.headBefore);
+  assert.equal(proof.statusAfter,proof.statusBefore);
+  assert.ok(boundProof.sources.every(input=>proof.sources.some(current=>current.file===input.file)));
+});
 const continuityMutations = {
+  'wrong bound revision continuity': [c => { c.boundRevisionContinuity.sha256 = '0'.repeat(64); }, /bound revision predecessor ancestry/],
+  'wrong bound revision output': [c => { c.boundRevisionOutput.sha256 = '0'.repeat(64); }, /bound revision predecessor ancestry/],
+  'reduced bound revision inventory': [c => { c.boundRevisionSourceCount--; }, /source inventory/],
+  'omitted bound revision transition': [c => { c.boundRevisionSourceTransitions.pop(); }, /undeclared bound predecessor source transition/],
+  'fabricated bound revision transition': [c => { c.boundRevisionSourceTransitions[0].beforeSha256 = '0'.repeat(64); }, /undeclared bound predecessor source transition/],
+  'invented bound revision addition': [c => { c.boundRevisionAddedSourcePaths.push('invented'); }, /undeclared bound predecessor source transition/],
   'wrong measured revision continuity': [c => { c.measuredRevisionContinuity.sha256 = '0'.repeat(64); }, /measured revision predecessor ancestry/],
   'wrong measured revision output': [c => { c.measuredRevisionOutput.sha256 = '0'.repeat(64); }, /measured revision predecessor ancestry/],
   'reduced measured revision inventory': [c => { c.measuredRevisionSourceCount--; }, /source inventory/],
