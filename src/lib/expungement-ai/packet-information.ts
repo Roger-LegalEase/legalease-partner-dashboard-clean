@@ -1,3 +1,4 @@
+import { ksMunicipalCategoryIsContext, ksMunicipalCategoryContextQuestion } from "@/lib/expungement-ai/ks-municipal-category-context";
 import { MS_FIRST_OFFENDER_COLLECTION_IDS, msFirstOffenderSourceQuestions } from "@/lib/expungement-ai/ms-first-offender-source-questions";
 import { MS_FIRST_OFFENDER_ROUTE, MS_FIRST_OFFENDER_IDS, projectMsFirstOffenderSourceFacts, msFirstOffenderSourceContract } from "@/lib/rcap-engine/mississippi-first-offender-source-facts";
 import { ohJuvenileSourceContract, ohJuvenileStageFactIds } from "@/lib/rcap-engine/ohio-juvenile-source-stage";
@@ -3137,6 +3138,16 @@ export function isTexasNondisclosureGuidanceCorrection(model: Parameters<typeof 
 export function heldPacketCorrectionInputIds(model: Parameters<typeof heldCourtCompletionInputIds>[0], resultCode: string | null): Set<string> {
   const ids = heldCourtCompletionInputIds(model, resultCode);
   if (["needs_review", "needs_more_info", "not_yet"].includes(resultCode ?? "")
+    && ksMunicipalCategoryIsContext(getProfileByJurisdiction(model.stateCode), model.pathwayId,
+      packetSpecificationFor(`${model.stateCode}:${model.pathwayId}`))
+    && model.questions.some(question => question.id === "offense_category")
+    && editablePacketInputIds(model).has("offense_category")) {
+    // Exact original municipal category context remains correctable while held.
+    // No other held fact, route, eligibility or commercial authority is added.
+    ids.add("offense_category");
+  }
+
+  if (["needs_review", "needs_more_info", "not_yet"].includes(resultCode ?? "")
     && msFirstOffenderSourceContract(getProfileByJurisdiction(model.stateCode), model.pathwayId, packetSpecificationFor(`${model.stateCode}:${model.pathwayId}`))) {
     const allowed = editablePacketInputIds(model);
     for (const id of MS_FIRST_OFFENDER_COLLECTION_IDS) if (allowed.has(id) && model.questions.some(question => question.id === id)) ids.add(id);
@@ -3434,6 +3445,9 @@ function protectedPacketQuestionSurface(
   questions = questions.map(question => akAgencyOrSisRecordContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
   questions = questions.map(question => alRecordContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
   questions = questions.map(question => arNonconvictionRecordContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
+  questions = questions.map(question => ksMunicipalCategoryContextQuestion(question,
+    ksMunicipalCategoryIsContext(profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`) ?? null)
+    && collection?.facts.some(fact => fact.factId === question.id && fact.source === "ks_municipal_literal_category_context" && fact.optional === true) === true));
   questions = questions.map(question => collection?.facts.some(fact => fact.factId === question.id && fact.source === "oh_juvenile_information_court_context")
     ? { ...question, required: false, contextOnly: true, lifecyclePhase: "guidance_only" as const } : question);
   questions = questions.map(question => ohTraffickingCourtContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));

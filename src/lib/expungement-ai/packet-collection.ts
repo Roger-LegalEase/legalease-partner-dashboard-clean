@@ -1,3 +1,4 @@
+import { ksMunicipalCategoryIsContext } from "@/lib/expungement-ai/ks-municipal-category-context";
 import { msFirstOffenderSourceContract, MS_FIRST_OFFENDER_SOURCE } from "@/lib/rcap-engine/mississippi-first-offender-source-facts";
 import { MS_FIRST_OFFENDER_COLLECTION_IDS, msFirstOffenderSourceQuestions } from "@/lib/expungement-ai/ms-first-offender-source-questions";
 import { ohJuvenileSourceContract, ohJuvenileStageFactIds, ohJuvenileStageFacts } from "@/lib/rcap-engine/ohio-juvenile-source-stage";
@@ -707,6 +708,7 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
   const mnTwoCountyContext = mnTwoCountySourceContract(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
   const mnTwoCountyQuestionsById = new Map(mnTwoCountyContext ? mnTwoCountyQuestions(input.pathwayId!).map(question => [question.id, question]) : []);
   const mnTwoCountyIds = mnTwoCountyContext ? mnTwoCountyFactIds(input.pathwayId!) : [];
+  const ksMunicipalCategoryContext = ksMunicipalCategoryIsContext(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
   const msFirstContext = msFirstOffenderSourceContract(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
   const msFirstQuestions = new Map(msFirstContext ? msFirstOffenderSourceQuestions().map(question => [question.id, question]) : []);
   const requiredInputIds = dedupe([...input.requiredInputIds, ...(msFirstContext ? MS_FIRST_OFFENDER_COLLECTION_IDS : []), ...(ohJuvenileContext ? OH_JUVENILE_STAGE_IDS : []), ...mnTwoCountyIds, ...(retainedDcLocation ? [DC_LEGACY_LOCATION] : [])]);
@@ -746,6 +748,14 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
       continue;
     }
 
+    if (ksMunicipalCategoryContext && factId === "offense_category" && !overrideClass
+      && !needsHuman.has(factId) && !decidesRouteFor(factId) && !unresolvedScopeFor(factId)
+      && !needsSavedAnswerClarification) {
+      facts.push({ factId, collection: "conditional", phase: "render", active: true, optional: true, group,
+        source: "ks_municipal_literal_category_context",
+        reason: "The category is optional literal context with no document mapping. It supplies no ordinance, statutory ground or state-equivalent offense finding; those source requirements remain separate." });
+      continue;
+    }
     if (msFirstContext && !overrideClass && !needsHuman.has(factId) && !unresolvedScopeFor(factId)) {
       if (factId === "offense_category") {
         facts.push({ factId, collection: "conditional", phase: "known", active: false, optional: true, group,
