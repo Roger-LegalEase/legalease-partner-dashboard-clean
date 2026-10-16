@@ -1,3 +1,5 @@
+import { moXivCourtIsContext } from "@/lib/expungement-ai/mo-xiv-court-context";
+import { MO_MARIJUANA_CUSTODY_FACT } from "@/lib/rcap-engine/missouri-marijuana-status-facts";
 import { mnCannabisLocationIsContext } from "@/lib/expungement-ai/mn-cannabis-location-context";
 import { mn609a017LocationIsContext } from "@/lib/expungement-ai/mn-609a017-location-context";
 import { mn299c11LocationIsContext } from "@/lib/expungement-ai/mn-299c11-location-context";
@@ -685,6 +687,7 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
   const mn609a017LocationContext = input.jurisdiction === "MN" && mn609a017LocationIsContext(getProfileByJurisdiction("MN"), input.pathwayId, specification);
   const mn299c11LocationContext = input.jurisdiction === "MN" && mn299c11LocationIsContext(getProfileByJurisdiction("MN"), input.pathwayId, specification);
   const mn609a015LocationContext = input.jurisdiction === "MN" && mn609a015LocationIsContext(getProfileByJurisdiction("MN"), input.pathwayId, specification);
+  const moXivCourtContext = input.jurisdiction === "MO" && moXivCourtIsContext(getProfileByJurisdiction("MO"), input.pathwayId, specification, resolvedText(MO_MARIJUANA_CUSTODY_FACT));
   const mo610122CourtContext = input.jurisdiction === "MO" && mo610122CourtIsContext(getProfileByJurisdiction("MO"), input.pathwayId, specification);
   const mo610105CourtContext = input.jurisdiction === "MO" && mo610105CourtIsContext(getProfileByJurisdiction("MO"), input.pathwayId, specification);
   const vaVictimContext = input.jurisdiction === "VA" && virginiaVictimQuestionContract(getProfileByJurisdiction("VA"), input.pathwayId, { specification });
@@ -747,6 +750,12 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
       facts.push({ factId, collection: "conditional", phase: "known", group: null, active: false,
         source: "mn_609a015_location_retained_context",
         reason: "Generic location is optional retained context. This automatic track has no participant filing or venue; the value does not supply record origin or an independent petition destination." });
+      continue;
+    }
+    if (moXivCourtContext && factId === "court" && !overrideClass && !needsHuman.has(factId)) {
+      facts.push({ factId, collection: "conditional", phase: "known", group: null, active: false,
+        source: "mo_xiv_court_retained_context",
+        reason: "Generic court text is optional record-location context for this completed-incarceration-and-supervision status check; it does not establish a conditional CR375 filing destination or per-conviction court." });
       continue;
     }
     if (mo610122CourtContext && factId === "court" && !overrideClass && !needsHuman.has(factId)) {
