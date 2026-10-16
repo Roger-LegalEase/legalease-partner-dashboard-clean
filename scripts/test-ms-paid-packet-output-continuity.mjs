@@ -33,8 +33,11 @@ check('actual current v4 proof validates three exact approved outputs',()=>{
   const actual=load();assert.equal(actual.proof.schemaVersion,'rcap-ms-paid-packet-proof/v4');
   assert.equal(actual.proof.results.length,3);assert.deepEqual(actual.proof.results,prior.results);
   assert.deepEqual(actual.proof.ownerDecision,prior.ownerDecision);
-  assert.equal(actual.proof.outputContinuity.inputCount,195);
+  assert.equal(actual.proof.outputContinuity.inputCount,198);
   const continuity=actual.proof.outputContinuity;
+  assert.equal(continuity.sourcePredecessorOutput.path,'data/rcap-grade-a/participant-data-rights/question-contract-output-reproduction-20261016-v20.json');
+  assert.equal(continuity.sourcePredecessorContinuity.path,'data/rcap-grade-a/participant-data-rights/question-contract-output-continuity-20261016-v20.json');
+  assert.equal(JSON.parse(fs.readFileSync(continuity.sourcePredecessorOutput.path)).sources.length,195);
   assert.deepEqual(continuity.artifactPredecessorOutput,{
     path:'data/rcap-grade-a/participant-data-rights/question-contract-output-reproduction-20261016-v19.json',
     sha256:'e5dfd06708c302427c28819ee7e265fe9987bf42e3d71c586d0ba10199bf2884'});

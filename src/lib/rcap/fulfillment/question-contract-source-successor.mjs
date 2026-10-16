@@ -150,9 +150,14 @@ export const QUESTION_CONTRACT_REVALIDATED_REVISION_CONTINUITY_SHA256 = 'db888eb
 export const QUESTION_CONTRACT_REVALIDATED_REVISION_OUTPUT_PATH = 'data/rcap-grade-a/participant-data-rights/question-contract-output-reproduction-20261016-v18.json';
 
 export const QUESTION_CONTRACT_REVALIDATED_REVISION_OUTPUT_SHA256 = 'ab9a16400358b40f7d1e531e659e6e9fedd40f83cf5b3da262887dbc373544d2';
-export const QUESTION_CONTRACT_CONTINUITY_PATH = 'data/rcap-grade-a/participant-data-rights/question-contract-output-continuity-20261016-v20.json';
-export const QUESTION_CONTRACT_CONTINUITY_SHA256 = '82b0f06cd126abbbc88d5a92fef4480c47b3e45f5208dd1ba286f9baf736ba92';
-export const QUESTION_CONTRACT_CURRENT_OUTPUT_PATH = 'data/rcap-grade-a/participant-data-rights/question-contract-output-reproduction-20261016-v20.json';
+export const QUESTION_CONTRACT_SOURCE_PREDECESSOR_CONTINUITY_PATH = 'data/rcap-grade-a/participant-data-rights/question-contract-output-continuity-20261016-v20.json';
+export const QUESTION_CONTRACT_SOURCE_PREDECESSOR_CONTINUITY_SHA256 = '82b0f06cd126abbbc88d5a92fef4480c47b3e45f5208dd1ba286f9baf736ba92';
+export const QUESTION_CONTRACT_SOURCE_PREDECESSOR_OUTPUT_PATH = 'data/rcap-grade-a/participant-data-rights/question-contract-output-reproduction-20261016-v20.json';
+export const QUESTION_CONTRACT_SOURCE_PREDECESSOR_OUTPUT_SHA256 = '406d5144b02a994eac974be64c7ed4c5291ad4289a5abe931303d2fc47bdea0a';
+export const QUESTION_CONTRACT_CONTINUITY_PATH = 'data/rcap-grade-a/participant-data-rights/question-contract-output-continuity-20261016-v21.json';
+export const QUESTION_CONTRACT_CONTINUITY_SHA256 = '9f5962bf1dfc1cf8522e25d16e04852eb50cdacbf97bc8a56f132eec1f63f65e';
+export const QUESTION_CONTRACT_CURRENT_OUTPUT_PATH = 'data/rcap-grade-a/participant-data-rights/question-contract-output-reproduction-20261016-v21.json';
+const QUESTION_CONTRACT_CURRENT_OUTPUT_SHA256 = '3dbbb0d844f4de0195472162af7a3f4da44ab69eeaf6fffd064dabdf741478d7';
 export const QUESTION_CONTRACT_ARTIFACT_PREDECESSOR_CONTINUITY_PATH = 'data/rcap-grade-a/participant-data-rights/question-contract-output-continuity-20261016-v19.json';
 export const QUESTION_CONTRACT_ARTIFACT_PREDECESSOR_CONTINUITY_SHA256 = '62914fad5fca94e1cb4f8d122fdbbed495ebbd0d71e3f4139fb8be92d90a9140';
 export const QUESTION_CONTRACT_ARTIFACT_PREDECESSOR_OUTPUT_PATH = 'data/rcap-grade-a/participant-data-rights/question-contract-output-reproduction-20261016-v19.json';
@@ -166,7 +171,7 @@ export function assertQuestionContractOutputContinuity({ continuity, proof, read
   // completes below before any result is returned; no write or authority occurs.
   let artifactSuccessor = continuity.artifactSuccessor == null ? null : { routeId: DC_INNOCENCE_ROUTE };
   insist(continuity.schemaVersion === 'rcap-question-contract-output-continuity/v1'
-    && continuity.recordId === 'QUESTION-CONTRACT-OUTPUT-CONTINUITY-20261016-V20'
+    && continuity.recordId === 'QUESTION-CONTRACT-OUTPUT-CONTINUITY-20261016-V21'
     && continuity.kind === 'technical_source_and_output_continuity', 'continuity identity');
   for (const key of ['createsOwnerApproval', 'changesApprovedOutputBytes', 'establishesProtectedVerification',
     'establishesProviderOrPublicationProof', 'commercialAuthorityGranted', 'productionAuthorized']) {
@@ -574,7 +579,7 @@ export function assertQuestionContractOutputContinuity({ continuity, proof, read
     insist(current && sameArtifactSuccessorSemantics(current, prior, artifactSuccessor), `changed previous output semantics: ${prior.routeId}`);
   }
   for (const evidence of receipt.preservedEvidence) insist(sha(readBytes(evidence.path)) === evidence.sha256, `historical evidence changed: ${evidence.path}`);
-  insist(Array.isArray(proof.sources) && proof.sources.length === (artifactSuccessor ? 195 : 134) && continuity.currentSourceCount === proof.sources.length
+  insist(Array.isArray(proof.sources) && proof.sources.length === (artifactSuccessor ? 198 : 134) && continuity.currentSourceCount === proof.sources.length
     && artifactPrior.sources.length === 134 && continuity.artifactPredecessorSourceCount === 134
     && revalidated.sources.length === 134 && continuity.revalidatedRevisionSourceCount === 134
     && integrated.sources.length === 134 && continuity.integratedRevisionSourceCount === 134
@@ -747,12 +752,16 @@ export function assertQuestionContractOutputContinuity({ continuity, proof, read
   insist(equal(artifactAdditions, continuity.artifactPredecessorAddedSourcePaths)
     && equal(artifactTransitions, continuity.artifactPredecessorSourceTransitions), 'undeclared artifact predecessor source transition');
   for (const input of proof.sources) insist(sha(readBytes(input.file)) === input.sha256, `stale output input: ${input.file}`);
-  if (artifactSuccessor) artifactSuccessor = assertDcInnocenceArtifactSuccessor({ binding: continuity.artifactSuccessor, proof, readBytes });
+  const currentSource = dcInnocenceCurrentSourceSuccession(readBytes);
+  insist(equal(currentSource.continuity, continuity) && equal(currentSource.proof, proof), 'current source succession supplied proof/continuity changed');
+  if (artifactSuccessor) artifactSuccessor = assertDcInnocenceArtifactSuccessor({
+    binding: continuity.artifactSuccessor, proof: currentSource.adoptedProof, readBytes });
   return { path: QUESTION_CONTRACT_CURRENT_OUTPUT_PATH, sha256: continuity.currentOutput.sha256,
     inputCount: proof.sources.length, continuity: { path: QUESTION_CONTRACT_CONTINUITY_PATH, sha256: QUESTION_CONTRACT_CONTINUITY_SHA256 },
     previousContinuity, previousOutput, earlierContinuity, earlierOutput, sameDatePredecessorContinuity, sameDatePredecessorOutput,
     latestPredecessorContinuity, latestPredecessorOutput, immediatePredecessorContinuity, immediatePredecessorOutput, priorRevisionContinuity, priorRevisionOutput, acceptedRevisionContinuity, acceptedRevisionOutput, executedRevisionContinuity, executedRevisionOutput, renderedRevisionContinuity, renderedRevisionOutput, observedRevisionContinuity, observedRevisionOutput, measuredRevisionContinuity, measuredRevisionOutput, boundRevisionContinuity, boundRevisionOutput, validatedRevisionContinuity, validatedRevisionOutput, recordedRevisionContinuity, recordedRevisionOutput, capturedRevisionContinuity, capturedRevisionOutput, retainedRevisionContinuity, retainedRevisionOutput, continuedRevisionContinuity, continuedRevisionOutput, reviewedRevisionContinuity, reviewedRevisionOutput, integratedRevisionContinuity, integratedRevisionOutput, revalidatedRevisionContinuity, revalidatedRevisionOutput,
     artifactPredecessorContinuity, artifactPredecessorOutput, artifactSuccessor,
+    sourcePredecessorContinuity: continuity.sourcePredecessorContinuity, sourcePredecessorOutput: continuity.sourcePredecessorOutput,
     historicalOutput: continuity.historicalOutput };
 }
 
@@ -987,10 +996,65 @@ export function assertDcInnocenceArtifactSuccessor({ binding, proof, readBytes }
     id: a.id, sha256: a.sha256, historical: a.historical }))), 'DC extra/missing moved artifact');
   const inputs = new Map(proof.sources.map(input => [input.file, input.sha256]));
   insist(proof.sources.length === 195 && inputs.size === 195, 'DC exact observed source inventory');
-  for (const [file, digest] of inputs) insist(sha(readBytes(file)) === digest, `DC measured source changed: ${file}`);
+  // The approval remains bound to its immutable v20 batch. Current freshness
+  // is established separately by the exact measured source-only successor.
+  const currentSource = dcInnocenceCurrentSourceSuccession(readBytes);
+  insist(equal(currentSource.adoptedProof, proof), 'DC adopted source batch changed');
   return { routeId: DC_INNOCENCE_ROUTE, decision: binding, rawOutput: decision.boundTo.batch,
     rawCounts: proof.counts, artifactDigests: expectedArtifacts, createsOwnerApproval: false,
     commercialAuthorityGranted: false, productionAuthorized: false };
+}
+
+// Private, acyclic freshness validation: never a caller-controlled approval
+// override. The adopted v20 batch and its approval are not rewritten for v21.
+function dcInnocenceCurrentSourceSuccession(readBytes) {
+  const continuityBytes = readBytes(QUESTION_CONTRACT_CONTINUITY_PATH);
+  insist(sha(continuityBytes) === QUESTION_CONTRACT_CONTINUITY_SHA256, 'current source succession continuity bytes changed');
+  const continuity = JSON.parse(continuityBytes.toString('utf8'));
+  const proofBytes = readBytes(QUESTION_CONTRACT_CURRENT_OUTPUT_PATH);
+  insist(sha(proofBytes) === QUESTION_CONTRACT_CURRENT_OUTPUT_SHA256, 'current source succession proof bytes changed');
+  const proof = JSON.parse(proofBytes.toString('utf8'));
+  const predecessor = { path: QUESTION_CONTRACT_SOURCE_PREDECESSOR_OUTPUT_PATH, sha256: QUESTION_CONTRACT_SOURCE_PREDECESSOR_OUTPUT_SHA256 };
+  const predecessorContinuity = { path: QUESTION_CONTRACT_SOURCE_PREDECESSOR_CONTINUITY_PATH, sha256: QUESTION_CONTRACT_SOURCE_PREDECESSOR_CONTINUITY_SHA256 };
+  insist(equal(continuity.currentOutput, { path: QUESTION_CONTRACT_CURRENT_OUTPUT_PATH, sha256: QUESTION_CONTRACT_CURRENT_OUTPUT_SHA256 })
+    && equal(continuity.sourcePredecessorOutput, predecessor)
+    && equal(continuity.sourcePredecessorContinuity, predecessorContinuity), 'current source succession ancestry');
+  const adoptedBytes = readBytes(predecessor.path), priorContinuityBytes = readBytes(predecessorContinuity.path);
+  insist(sha(adoptedBytes) === predecessor.sha256 && sha(priorContinuityBytes) === predecessorContinuity.sha256, 'current source succession predecessor bytes changed');
+  const adoptedProof = JSON.parse(adoptedBytes.toString('utf8')), priorContinuity = JSON.parse(priorContinuityBytes.toString('utf8'));
+  insist(equal(priorContinuity.currentOutput, predecessor)
+    && Object.keys(priorContinuity).filter(key => /(?:Continuity|Output)$/.test(key) && key !== 'currentOutput')
+      .every(key => equal(priorContinuity[key], continuity[key]))
+    && equal(priorContinuity.artifactSuccessor, continuity.artifactSuccessor), 'current source succession retained ancestry');
+  insist(proof.schemaVersion === adoptedProof.schemaVersion
+    && proof.headBefore === '38b6c519957e1b6e82a800490613e7aa0f111db1'
+    && proof.headAfter === proof.headBefore && continuity.reproducedCodeSha === proof.headBefore
+    && proof.statusBefore === proof.statusAfter
+    && ['approvalGranted', 'commercialAuthorityGranted', 'productionAuthorized', 'protectedJourneyProven'].every(key => proof[key] === false)
+    && equal(proof.denominator, adoptedProof.denominator) && equal(proof.counts, adoptedProof.counts)
+    && equal(proof.checks, adoptedProof.checks) && equal(proof.sourceDrift, [])
+    && equal(proof.reproductionScripts, adoptedProof.reproductionScripts), 'current source succession candidate/scope');
+  // Only run-relative artifact custody paths differ. Every text/byte/page and
+  // all route, fixture, specification and control semantics remain exact.
+  insist(equal(proof.routes.map(withoutArtifactPaths), adoptedProof.routes.map(withoutArtifactPaths)), 'current source succession changed output semantics');
+  const before = new Map(adoptedProof.sources.map(input => [input.file, input.sha256]));
+  const after = new Map(proof.sources.map(input => [input.file, input.sha256]));
+  insist(adoptedProof.sources.length === 195 && before.size === 195
+    && proof.sources.length === 198 && after.size === 198 && continuity.currentSourceCount === 198
+    && continuity.sourcePredecessorSourceCount === 195
+    && [...before.keys()].every(file => after.has(file)), 'current source succession inventory');
+  const additions = [...after.keys()].filter(file => !before.has(file)).sort();
+  const transitions = [...before.keys()].sort().filter(file => before.get(file) !== after.get(file))
+    .map(file => ({ file, beforeSha256: before.get(file), afterSha256: after.get(file) }));
+  insist(equal(additions, ['src/lib/expungement-ai/md-juvenile-county-source-purpose.ts',
+    'src/lib/rcap/state-packs/maryland/filing-instructions.ts', 'src/lib/rcap/state-packs/maryland/required-fields.ts'])
+    && equal(transitions, [{ file: 'src/lib/expungement-ai/record-fact-clarification.ts',
+      beforeSha256: '4f7a5acd19c5b48bbd873fe612c1a282ccdb3619453346ec90cf5f72ccc5f576',
+      afterSha256: '7910a4866db9a154c9eaf32e3a218d27584b0c65de4807851cf37ad85b3f27a8' }])
+    && equal(additions, continuity.sourcePredecessorAddedSourcePaths)
+    && equal(transitions, continuity.sourcePredecessorSourceTransitions), 'current source succession undeclared transition');
+  for (const [file, digest] of after) insist(sha(readBytes(file)) === digest, `current source succession stale input: ${file}`);
+  return { continuity, proof, adoptedProof };
 }
 
 // A comparison projection only: raw proof counts/status/hashes are never changed.

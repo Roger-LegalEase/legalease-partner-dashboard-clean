@@ -6,6 +6,7 @@ import * as msProofInventory from './lib/ms-paid-packet-proof.mjs';
 import {
   assertQuestionContractOutputInputs, assertQuestionContractOutputContinuity,
   assertDcInnocenceArtifactSuccessor, dcInnocenceArtifactMove,
+  QUESTION_CONTRACT_SOURCE_PREDECESSOR_CONTINUITY_PATH, QUESTION_CONTRACT_SOURCE_PREDECESSOR_OUTPUT_PATH,
   readQuestionContractSuccessor, questionContractSourceSuccessorFor,
   QUESTION_CONTRACT_CONTINUITY_PATH, QUESTION_CONTRACT_CONTINUITY_SHA256,
   QUESTION_CONTRACT_ARTIFACT_PREDECESSOR_CONTINUITY_PATH, QUESTION_CONTRACT_ARTIFACT_PREDECESSOR_OUTPUT_PATH,
@@ -67,7 +68,9 @@ function check(name, run) { try { run(); checks++; } catch (error) { error.messa
 const validate = (c = continuity, p = proof, read = readBytes) => assertQuestionContractOutputContinuity({ continuity: c, proof: p, readBytes: read });
 check('exact executed successor validates complete current inventory', () => {
   const actual = assertQuestionContractOutputInputs(readBytes);
-  assert.equal(actual.inputCount, 195);
+  assert.equal(actual.inputCount, 198);
+  assert.deepEqual(actual.sourcePredecessorContinuity, continuity.sourcePredecessorContinuity);
+  assert.deepEqual(actual.sourcePredecessorOutput, continuity.sourcePredecessorOutput);
   assert.equal(actual.path, QUESTION_CONTRACT_CURRENT_OUTPUT_PATH);
   assert.equal(actual.sha256, sha(readBytes(QUESTION_CONTRACT_CURRENT_OUTPUT_PATH)));
   assert.equal(actual.continuity.sha256, QUESTION_CONTRACT_CONTINUITY_SHA256);
@@ -126,7 +129,7 @@ check('actual continuity reader paths fit the exact MS required inventory union 
   const inventory = expression => new Set(runInNewContext(expression, context));
   const required = inventory(match[1]);
   assert.ok([...reads].every(file => required.has(file)), 'every actual continuity read must enter MS source inventory');
-  for (const token of ['retainedRevisionContinuity', 'retainedRevisionOutput', 'continuedRevisionContinuity', 'continuedRevisionOutput', 'reviewedRevisionContinuity', 'reviewedRevisionOutput', 'integratedRevisionContinuity', 'integratedRevisionOutput', 'revalidatedRevisionContinuity', 'revalidatedRevisionOutput', 'artifactPredecessorContinuity', 'artifactPredecessorOutput']) {
+  for (const token of ['retainedRevisionContinuity', 'retainedRevisionOutput', 'continuedRevisionContinuity', 'continuedRevisionOutput', 'reviewedRevisionContinuity', 'reviewedRevisionOutput', 'integratedRevisionContinuity', 'integratedRevisionOutput', 'revalidatedRevisionContinuity', 'revalidatedRevisionOutput', 'artifactPredecessorContinuity', 'artifactPredecessorOutput', 'sourcePredecessorContinuity', 'sourcePredecessorOutput']) {
     const path = actual[token].path;
     assert.ok(reads.has(path) && required.has(path), 'new predecessor is really read and included');
     const removed = match[1].replace(`proof.outputContinuity.${token}.path,`, '');
@@ -356,6 +359,8 @@ for (const path of [QUESTION_CONTRACT_REVALIDATED_REVISION_CONTINUITY_PATH, QUES
 }
 
 check('actual v20 retains195 measured inputs and truthful adopted DC3 raw disposition', () => {
+  const proof = JSON.parse(readBytes(QUESTION_CONTRACT_SOURCE_PREDECESSOR_OUTPUT_PATH));
+  const continuity = JSON.parse(readBytes(QUESTION_CONTRACT_SOURCE_PREDECESSOR_CONTINUITY_PATH));
   assert.equal(proof.sources.length,195);
   assert.equal(artifactPriorProof.sources.length,134);
   assert.deepEqual(proof.counts,{routes:6,outputs:18,byteIdentical:15,pass:127,fail:3});
@@ -605,6 +610,8 @@ check('DC installed unreadable move holds while true ENOENT preserves baseline',
   }
 });
 if (continuity.artifactSuccessor != null) {
+  // Exported approval admission remains strictly the immutable adopted v20 batch.
+  const proof = JSON.parse(readBytes(QUESTION_CONTRACT_SOURCE_PREDECESSOR_OUTPUT_PATH));
   const dcBinding = continuity.artifactSuccessor;
   check('DC exact adopted transition preserves raw historical-byte failures', () => {
     assertDcInnocenceArtifactSuccessor({ binding: dcBinding, proof, readBytes });
@@ -643,5 +650,66 @@ if (continuity.artifactSuccessor != null) {
     });
   }
 }
+
+check('v21 source-only transition retains195 adds3 changes1 and all18 current artifacts', () => {
+  const prior = JSON.parse(readBytes(QUESTION_CONTRACT_SOURCE_PREDECESSOR_OUTPUT_PATH));
+  assert.equal(proof.sources.length,198);
+  assert.equal(continuity.sourcePredecessorSourceCount,195);
+  assert.equal(continuity.sourcePredecessorAddedSourcePaths.length,3);
+  assert.deepEqual(continuity.sourcePredecessorSourceTransitions,[{
+    file:'src/lib/expungement-ai/record-fact-clarification.ts',
+    beforeSha256:'4f7a5acd19c5b48bbd873fe612c1a282ccdb3619453346ec90cf5f72ccc5f576',
+    afterSha256:'7910a4866db9a154c9eaf32e3a218d27584b0c65de4807851cf37ad85b3f27a8'}]);
+  const pathsOnly = rows => rows.map(row=>({...row,artifacts:row.artifacts.map(({path: _path,...artifact})=>artifact)}));
+  assert.deepEqual(pathsOnly(proof.routes),pathsOnly(prior.routes));
+  assert.deepEqual(proof.counts,prior.counts);
+  assert.throws(()=>assertDcInnocenceArtifactSuccessor({binding:continuity.artifactSuccessor,proof,readBytes}),/DC raw output measurement changed/);
+});
+for (const file of [QUESTION_CONTRACT_SOURCE_PREDECESSOR_CONTINUITY_PATH,QUESTION_CONTRACT_SOURCE_PREDECESSOR_OUTPUT_PATH]) {
+  check('v21 rejects corrupt immutable source predecessor '+file,()=>assert.throws(()=>assertQuestionContractOutputInputs(f=>f===file?Buffer.from('{}'):readBytes(f)),/source succession predecessor bytes changed/));
+}
+// Test-only source transformation permits semantic controls beneath *new*
+// technical proof pins; production exports have no caller-controlled pin.
+function sourceSuccessionBelowPins(c,p,read=readBytes) {
+  const pb=Buffer.from(JSON.stringify(p)),comparison=structuredClone(c);
+  comparison.currentOutput.sha256=sha(pb);
+  const cb=Buffer.from(JSON.stringify(comparison));
+  let source=readBytes('src/lib/rcap/fulfillment/question-contract-source-successor.mjs').toString('utf8')
+    .replace(/^import crypto from 'node:crypto';\n/,'').replace(/^export /gm,'');
+  source=source.replace(QUESTION_CONTRACT_CONTINUITY_SHA256,sha(cb))
+    .replace('3dbbb0d844f4de0195472162af7a3f4da44ab69eeaf6fffd064dabdf741478d7',sha(pb));
+  const validate=runInNewContext(source+'\ndcInnocenceCurrentSourceSuccession',{crypto,structuredClone});
+  return validate(f=>f===QUESTION_CONTRACT_CONTINUITY_PATH?cb:f===QUESTION_CONTRACT_CURRENT_OUTPUT_PATH?pb:read(f));
+}
+check('v21 source succession below-pin control has nonvacuous baseline',()=>assert.equal(sourceSuccessionBelowPins(continuity,proof).proof.sources.length,198));
+for (const [name,mutate,pattern] of [
+  ['wrong candidate',(c,p)=>{p.headBefore=p.headAfter='0'.repeat(40);},/candidate/],
+  ['scope overclaim',(c,p)=>{p.commercialAuthorityGranted=true;},/candidate/],
+  ['raw counts promoted',(c,p)=>{p.counts.fail=0;},/candidate/],
+  ['changed output byte',(c,p)=>{p.routes[0].artifacts[0].sha256='0'.repeat(64);},/output semantics/],
+  ['changed output text',(c,p)=>{p.routes[0].artifacts[0].textSha256='0'.repeat(64);},/output semantics/],
+  ['extra output',(c,p)=>{p.routes[0].artifacts.push(p.routes[0].artifacts[0]);},/output semantics/],
+  ['omitted output',(c,p)=>{p.routes[0].artifacts.pop();},/output semantics/],
+  ['new source omitted',(c,p)=>{p.sources.pop();},/inventory/],
+  ['duplicate source',(c,p)=>{p.sources[0]=p.sources[1];},/inventory/],
+  ['foreign source path',(c,p)=>{p.sources.at(-1).file='unexecuted.ts';},/inventory|transition/],
+  ['wrong source count',(c)=>{c.currentSourceCount--;},/inventory/],
+  ['missing addition',(c)=>{c.sourcePredecessorAddedSourcePaths.pop();},/transition/],
+  ['wrong transition before',(c)=>{c.sourcePredecessorSourceTransitions[0].beforeSha256='0'.repeat(64);},/transition/],
+  ['wrong transition after',(c)=>{c.sourcePredecessorSourceTransitions[0].afterSha256='0'.repeat(64);},/transition/],
+  ['unlisted old source change',(c,p)=>{p.sources[0].sha256='0'.repeat(64);},/transition/],
+  ['wrong predecessor binding',(c)=>{c.sourcePredecessorOutput.sha256='0'.repeat(64);},/ancestry/]
+]) check('v21 rejects '+name+' below technical pins',()=>{
+  const c=structuredClone(continuity),p=structuredClone(proof);mutate(c,p);
+  // Keep the source proof reference consistent so each semantic assertion is reached.
+  c.currentOutput.sha256=sha(Buffer.from(JSON.stringify(p)));
+  assert.throws(()=>sourceSuccessionBelowPins(c,p),pattern);
+});
+check('v21 injected reads bypass no freshness and retain no failed-read cache',()=>{
+  const file=continuity.sourcePredecessorAddedSourcePaths[0];let seen=0;
+  assert.throws(()=>assertQuestionContractOutputInputs(f=>{if(f===file){seen++;return Buffer.from('changed');}return readBytes(f);}),/stale output input|stale input/);
+  assert.ok(seen>0);
+  assert.equal(assertQuestionContractOutputInputs(readBytes).inputCount,198);
+});
 
 console.log(`PASS: ${checks} output-continuity and refusal controls; no new approval, protected journey or commercial authority.`);
