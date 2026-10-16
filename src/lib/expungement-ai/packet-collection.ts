@@ -1,3 +1,5 @@
+import { ohJuvenileSourceContract, ohJuvenileStageFactIds, ohJuvenileStageFacts } from "@/lib/rcap-engine/ohio-juvenile-source-stage";
+import { OH_JUVENILE_STAGE_IDS } from "@/lib/expungement-ai/oh-juvenile-stage-questions";
 import { mnTwoCountySourceContract, mnTwoCountyFactIds, mnTwoCountyQuestions, MN_PROSECUTOR_KIND, MN_PROSECUTING_CITY, MN_TWO_COUNTY_SOURCE } from "@/lib/expungement-ai/mn-two-county-source-facts";
 import { mdPoliceContext, mdPoliceFactIds, MD_POLICE_IDS } from "@/lib/rcap-engine/maryland-police-record-facts";
 import { moXivCourtIsContext } from "@/lib/expungement-ai/mo-xiv-court-context";
@@ -693,6 +695,9 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
   const mo610122CourtContext = input.jurisdiction === "MO" && mo610122CourtIsContext(getProfileByJurisdiction("MO"), input.pathwayId, specification);
   const mo610105CourtContext = input.jurisdiction === "MO" && mo610105CourtIsContext(getProfileByJurisdiction("MO"), input.pathwayId, specification);
   const vaVictimContext = input.jurisdiction === "VA" && virginiaVictimQuestionContract(getProfileByJurisdiction("VA"), input.pathwayId, { specification });
+  const ohJuvenileContext = ohJuvenileSourceContract(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
+  const ohJuvenileAnswers = Object.fromEntries(OH_JUVENILE_STAGE_IDS.map(id => [id, resolvedText(id)]));
+  const ohJuvenileActiveIds = ohJuvenileStageFactIds(ohJuvenileAnswers);
   const mdPoliceSourceContext = input.jurisdiction === "MD" && specification == null
     && mdPoliceContext(getProfileByJurisdiction("MD"), input.pathwayId);
   const mdPoliceAnswers = Object.fromEntries(["arrest_date", ...MD_POLICE_IDS].map(id => [id, resolvedText(id)]));
@@ -700,7 +705,7 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
   const mnTwoCountyContext = mnTwoCountySourceContract(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
   const mnTwoCountyQuestionsById = new Map(mnTwoCountyContext ? mnTwoCountyQuestions(input.pathwayId!).map(question => [question.id, question]) : []);
   const mnTwoCountyIds = mnTwoCountyContext ? mnTwoCountyFactIds(input.pathwayId!) : [];
-  const requiredInputIds = dedupe([...input.requiredInputIds, ...mnTwoCountyIds, ...(retainedDcLocation ? [DC_LEGACY_LOCATION] : [])]);
+  const requiredInputIds = dedupe([...input.requiredInputIds, ...(ohJuvenileContext ? OH_JUVENILE_STAGE_IDS : []), ...mnTwoCountyIds, ...(retainedDcLocation ? [DC_LEGACY_LOCATION] : [])]);
   const decidesRouteFor = (factId: string) => input.routeDecidingFactIds?.has(factId) === true;
   const unresolvedScopeFor = (factId: string) => input.unresolvedRouteFactIds?.has(factId) === true;
   const baselineCarried = input.baselineCarriedFactIds ?? new Set<string>();
@@ -737,6 +742,22 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
       continue;
     }
 
+    if (ohJuvenileContext && !overrideClass && !needsHuman.has(factId)) {
+      if (factId === "court" && ohJuvenileStageFacts(ohJuvenileAnswers).code === "information") {
+        facts.push({ factId, collection: "conditional", phase: "known", group: null, active: false,
+          source: "oh_juvenile_information_court_context", reason: "The explicit information request retains the generic court answer without treating it as a juvenile court, filing destination or application fact. Application timing, venue and documents remain unresolved." });
+        continue;
+      }
+      if ((OH_JUVENILE_STAGE_IDS as readonly string[]).includes(factId)) {
+        const active = ohJuvenileActiveIds.includes(factId);
+        const value = resolvedText(factId);
+        facts.push({ factId, collection: active ? value ? "already_known" : "prepay_confirmation" : "conditional",
+          phase: active ? value ? "known" : "prepay_confirmation" : "known", group: active ? group : null,
+          active, ...(active ? { optional: true as const } : {}), ...(value ? { value } : {}), source: "oh_juvenile_requested_stage",
+          reason: "The requested service, actual record forum and existing sealing order are distinct participant facts. Saving them does not establish eligibility, timing, venue, rehabilitation, a prepared application or payment authority." });
+        continue;
+      }
+    }
     if (mdPoliceSourceContext && !overrideClass && !needsHuman.has(factId)) {
       if (["county", "court", "financial_obligations", "sentence_completion_date", "court_requirements_completed", "resolved_timing_bucket"].includes(factId)) {
         facts.push({ factId, collection: "conditional", phase: "known", group: null, active: false,

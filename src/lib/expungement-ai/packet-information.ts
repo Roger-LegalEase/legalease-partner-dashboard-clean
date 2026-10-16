@@ -1,3 +1,5 @@
+import { ohJuvenileSourceContract, ohJuvenileStageFactIds } from "@/lib/rcap-engine/ohio-juvenile-source-stage";
+import { OH_JUVENILE_STAGE_QUESTIONS } from "@/lib/expungement-ai/oh-juvenile-stage-questions";
 import { mnTwoCountySourceContract, mnTwoCountyQuestions, mnTwoCountyFactIds } from "@/lib/expungement-ai/mn-two-county-source-facts";
 import { MD_POLICE_IDS, MD_POLICE_ROUTE, MD_POLICE_SOURCE, mdPoliceContext, mdPoliceFactIds } from "@/lib/rcap-engine/maryland-police-record-facts";
 import { moXivCourtContextQuestion } from "@/lib/expungement-ai/mo-xiv-court-context";
@@ -2859,6 +2861,7 @@ export function packetCollectionFor(input: {
  * clarification. A saved fact identifies its control, never a replacement route. */
 export function factualPathwayCorrectionIds(state: string, pathway: string | null, answers: Record<string, unknown>, includeInactive = false): string[] {
   const profile = getProfileByJurisdiction(state);
+  if (ohJuvenileSourceContract(profile, pathway, packetSpecificationFor(`${state}:${pathway}`))) return ohJuvenileStageFactIds(answers, includeInactive);
   if (state === "DE") return delawareProtectedCorrectionIds(profile ?? undefined, pathway, answers, includeInactive);
   if (mnTwoCountySourceContract(profile, pathway, packetSpecificationFor(`${state}:${pathway}`))) return [
     ...mnTwoCountyFactIds(pathway!).filter(id => includeInactive || id !== "mn_prosecuting_city" || answers.mn_prosecuted_by === "city_attorney"),
@@ -3124,6 +3127,10 @@ export function isTexasNondisclosureGuidanceCorrection(model: Parameters<typeof 
 
 export function heldPacketCorrectionInputIds(model: Parameters<typeof heldCourtCompletionInputIds>[0], resultCode: string | null): Set<string> {
   const ids = heldCourtCompletionInputIds(model, resultCode);
+  if (resultCode === "guidance_only" && ohJuvenileSourceContract(getProfileByJurisdiction(model.stateCode), model.pathwayId, packetSpecificationFor(`${model.stateCode}:${model.pathwayId}`))) {
+    const allowed = editablePacketInputIds(model);
+    for (const id of routeFactualCorrectionIds(model)) if (allowed.has(id) && model.questions.some(question => question.id === id)) ids.add(id);
+  }
   if (mnTwoCountySourceContract(getProfileByJurisdiction(model.stateCode), model.pathwayId,
     packetSpecificationFor(`${model.stateCode}:${model.pathwayId}`))) {
     const allowed = editablePacketInputIds(model);
@@ -3261,7 +3268,7 @@ function builderQuestionsFor(
 
   const owed = new Set(prepayGateFactIds(collection));
   const optional = new Set(collection.facts.filter(fact => fact.optional === true
-    && !(["oh_trafficking_court_history", "ak_courtview_record_type_history", "ak_pardon_record_type_history", "ak_juvenile_record_type_history", "ak_agency_sis_record_type_history", "al_four_route_record_type_history", "al_redeemer_category_history", "ar_nonconviction_record_type_history", "ar_felony_record_type_history", "ca_12034a_record_type_history", "ca_automatic_record_type_history", "ca_12034_specific_probation_facts", "wy_1401_inactive_fact_history", "wy_1501_inactive_fact_history"].includes(fact.source) && fact.active === false)).map(fact => fact.factId));
+    && !(["oh_juvenile_information_court_context", "oh_trafficking_court_history", "ak_courtview_record_type_history", "ak_pardon_record_type_history", "ak_juvenile_record_type_history", "ak_agency_sis_record_type_history", "al_four_route_record_type_history", "al_redeemer_category_history", "ar_nonconviction_record_type_history", "ar_felony_record_type_history", "ca_12034a_record_type_history", "ca_automatic_record_type_history", "ca_12034_specific_probation_facts", "wy_1401_inactive_fact_history", "wy_1501_inactive_fact_history"].includes(fact.source) && fact.active === false)).map(fact => fact.factId));
   const order = new Map<string, number>();
   let position = 0;
   for (const section of collection.groupedParticipantSections) {
@@ -3413,6 +3420,8 @@ function protectedPacketQuestionSurface(
   questions = questions.map(question => akAgencyOrSisRecordContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
   questions = questions.map(question => alRecordContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
   questions = questions.map(question => arNonconvictionRecordContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
+  questions = questions.map(question => collection?.facts.some(fact => fact.factId === question.id && fact.source === "oh_juvenile_information_court_context")
+    ? { ...question, required: false, contextOnly: true, lifecyclePhase: "guidance_only" as const } : question);
   questions = questions.map(question => ohTraffickingCourtContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
   questions = questions.map(question => mo610105CourtContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
   questions = questions.map(question => mo610122CourtContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
@@ -4943,6 +4952,9 @@ function installPacketSpecificationQuestions(
   answers: Readonly<Record<string, unknown>> = {}
 ) {
   const routeKey = `${jurisdiction}:${pathwayId ?? ""}`;
+  if (ohJuvenileSourceContract(getProfileByJurisdiction(jurisdiction), pathwayId, packetSpecificationFor(routeKey))) {
+    for (const question of OH_JUVENILE_STAGE_QUESTIONS) questions.set(question.id, question);
+  }
   if (mnTwoCountySourceContract(getProfileByJurisdiction(jurisdiction), pathwayId, packetSpecificationFor(routeKey))) {
     for (const question of mnTwoCountyQuestions(pathwayId!)) questions.set(question.id, question);
   }
