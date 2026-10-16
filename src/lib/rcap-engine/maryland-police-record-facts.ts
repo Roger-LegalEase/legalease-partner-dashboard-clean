@@ -1,3 +1,4 @@
+import { questionAnswerState, scalarAnswerText } from "@/lib/expungement-ai/question-answer-state";
 import type { EngineProfile, PublicQuestion } from "@/lib/rcap-engine/contracts";
 import type { FactSnapshotMap } from "@/lib/legal-authority/conditions";
 import contracts from "@/lib/legal-authority/routes/single-routes.json";
@@ -29,9 +30,13 @@ export function mdPoliceSourceContract(profile: EngineProfile | undefined,
 }
 export const mdPoliceContext = (profile: EngineProfile | undefined, pathway: string | null | undefined) => pathway === MD_POLICE_ROUTE && mdPoliceSourceContract(profile);
 export function mdPoliceDate(value: unknown): string | null {
-  if (typeof value !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(value)) return null;
-  const parsed = new Date(value + "T00:00:00Z");
-  return Number.isFinite(parsed.getTime()) && parsed.toISOString().slice(0, 10) === value ? value : null;
+  // CalendarDateField emits the existing {value, unknown} wire. Read its
+  // validated scalar without rewriting raw maps or reviving an unsure value.
+  if (questionAnswerState({ id: "arrest_date", type: "date_or_unknown" }, value) !== "known_valid") return null;
+  const text = scalarAnswerText(value);
+  if (text === null || !/^\d{4}-\d{2}-\d{2}$/.test(text)) return null;
+  const parsed = new Date(text + "T00:00:00Z");
+  return Number.isFinite(parsed.getTime()) && parsed.toISOString().slice(0, 10) === text ? text : null;
 }
 export function mdPoliceResolutionFacts(a: Answers): FactSnapshotMap {
   const facts: FactSnapshotMap = {}, date = mdPoliceDate(a.arrest_date);

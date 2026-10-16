@@ -149,5 +149,30 @@ check('date-retains-protected-phase',pub.questions.find(q=>q.id==='arrest_date')
 check('date-retains-packet-information-stage',pub.questions.find(q=>q.id==='arrest_date').stage,'packet_information');
 check('sixty-days-after-release-EN',H.MD_POLICE_COPY.modern[0].includes('within 60 days after release'),true);check('sixty-days-after-release-ES',H.MD_POLICE_COPY.modern[1].includes('dentro de 60 días después de la puesta en libertad'),true);
 
+
+// Actual CalendarDateField wire, not a primitive-only stand-in. Stage questions,
+// raw protected saves and current reentry must agree with the existing scalar.
+for(const date of ['2000-01-01','2007-09-30','2007-10-01','2010-01-01']){
+ const wrapped={value:date,unknown:false},a={...original,arrest_date:wrapped,md_10103_released_without_charge:'yes'},before=structuredClone(a);
+ check('calendar-wire-date/'+date,H.mdPoliceDate(wrapped),date);check('calendar-wire-facts/'+date,H.mdPoliceFactIds(a),H.mdPoliceFactIds({...a,arrest_date:date}));check('calendar-wire-resolver/'+date,H.mdPoliceResolutionFacts(a),H.mdPoliceResolutionFacts({...a,arrest_date:date}));check('calendar-wire-raw/'+date,a,before);
+}
+for(const date of ['2000-01-01','2010-01-01']){
+ const auth=evaluate({jurisdiction:'MD',profileVersion:profile.profileVersion,matterId:item.id,answers:original});
+ const seed=P.protectedPacketDraftSeedFromAuthoritative({authoritative:auth,screeningAnswers:original,dependencies:{commercialFlowVersion:1},capturedAt:'2026-10-16T00:00:00Z'});
+ stored={status:'unverified',revision:0,draftHash:P.protectedPacketDraftHash(seed.snapshot),draftSnapshot:seed.snapshot};sourceAnswers=original;
+ const wrapped={value:date,unknown:false},response=await post({arrest_date:wrapped,...(date>='2007-10-01'?{md_10103_released_without_charge:'yes'}:{})}),body=await response.json();
+ check('actual-calendar-save/'+date,response.status,200);check('actual-calendar-receipt/'+date,isPacketSaveReceipt(body),true);check('actual-calendar-stored/'+date,stored.draftSnapshot.packetAnswers.arrest_date,{unknown:false,value:date});
+ const prior=date<'2007-10-01',ids=body.questions.map(q=>q.id);check('actual-calendar-offered-prior/'+date,ids.includes(H.MD_POLICE_IDS[2]),prior);check('actual-calendar-offered-release/'+date,ids.includes(H.MD_POLICE_IDS[0]),!prior);check('actual-calendar-offered-status/'+date,ids.includes(H.MD_POLICE_IDS[1]),!prior);
+ check('actual-calendar-GET/'+date,(await API.GET(new Request(url),context)).status,200);const m=P.protectedPacketInformationModelFor(stored);check('actual-calendar-model-prior/'+date,m.builderQuestions.some(q=>q.id===H.MD_POLICE_IDS[2]),prior);check('actual-calendar-no-authority/'+date,body.readyToGenerate,false);
+ const knownRow=structuredClone(stored);check('calendar-known-noop/'+date,(await post({})).status,200);check('calendar-known-noop-exact/'+date,stored,knownRow);
+ for(const value of [{value:date,unknown:true},{value:'',unknown:false}]){
+  const response=await post({arrest_date:value}),body=await response.json();check('calendar-unknown-clear-save/'+date+'/'+String(value.unknown),response.status,200);check('calendar-unknown-clear-model/'+date,!!P.protectedPacketInformationModelFor(stored),true);check('calendar-unknown-clear-not-prior/'+date,body.questions.some(q=>q.id===H.MD_POLICE_IDS[2]),false);check('calendar-unknown-clear-no-ready/'+date,body.readyToGenerate,false);check('calendar-unknown-clear-date/'+date,H.mdPoliceDate(stored.draftSnapshot.packetAnswers.arrest_date),null);check('calendar-unknown-clear-GET/'+date,(await API.GET(new Request(url),context)).status,200);
+  const row=structuredClone(stored);check('calendar-unknown-clear-noop/'+date,(await post({})).status,200);check('calendar-unknown-clear-noop-exact/'+date,stored,row);
+ }
+}
+for(const value of [{value:'2000-01-01',unknown:true},{value:'',unknown:false},{value:'2000-02-30',unknown:false},{value:'2000-01-01',unknown:'false'},{value:'2000-01-01',unknown:false,extra:true},['2000-01-01'],{value:20000101,unknown:false}]){
+ check('calendar-invalid-unknown-no-date/'+JSON.stringify(value),H.mdPoliceDate(value),null);check('calendar-invalid-no-prior/'+JSON.stringify(value),H.mdPoliceFactIds({arrest_date:value}).includes(H.MD_POLICE_IDS[2]),false);
+}
+
 const result={status:checks.every(c=>c.pass)?'PASS':'FAIL',checks:checks.length,failed:checks.filter(c=>!c.pass),rows,surfaces,httpObservations,limits:['Synthetic isolated production API/page transport, no authenticated owner/DB/browser.','Modern sourced controls are synthetic; original120/B and12scalarrefusals are distinct.','No individual expungement, agency compliance, timeliness, fresh filing or commercial authority established.']};
 if(receipt)fs.writeFileSync(receipt,JSON.stringify(result,null,2)+'\n',{flag:'wx',mode:0o600});console.log(JSON.stringify({status:result.status,checks:result.checks,failed:result.failed}));assert.equal(result.failed.length,0);
