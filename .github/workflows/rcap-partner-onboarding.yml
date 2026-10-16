@@ -24,7 +24,9 @@ jobs:
   onboarding:
     name: Verify RCAP partner onboarding
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    # The retained boundary suite reached the 60-minute job cap while still progressing.
+    # Keep all acceptance steps; allow the following onboarding and build gates to finish.
+    timeout-minutes: 120
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
