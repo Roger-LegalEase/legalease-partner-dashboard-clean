@@ -103,6 +103,10 @@ export function sanitizeAnswersForQuestionIds(
     // A corrected completion answer may disappear from the correction plan;
     // it remains a fact of this case and must survive that transition.
     || Boolean(profile?.questions.some(question => question.id === questionId && isCompletionStatusQuestion(question)))
+    // The exact VA server projection retires compulsory victim disclosure.
+    // Keep every prior raw answer when that screen leaves the plan.
+    || Boolean(profile?.jurisdiction.code === "VA" && questionId === "trafficking_status"
+      && profile.questions.some(question => question.id === questionId && question.contextOnly === true && question.required === false))
     // These are the same case record facts across CA branches, not branch-only answers.
     || Boolean(profile?.questions.some((question) => question.id === questionId && caProp64RecordQuestion(profile.jurisdiction.code, question)))
     || Boolean(profile?.jurisdiction.code === "CA" && [...CA_PROP64_FACT_IDS, ...CA_PROP64_LEGACY_IDS, "ca_prop64_branch", "ca_prop64_relief_requested"].includes(questionId)
@@ -147,6 +151,6 @@ export function sanitizeResumedAnswersForQuestionIds(
     answers,
     deriveScreens(profile).map((question) => question.id),
     selectedQuestionIds,
-    ["AR", "CA", "NV", "GA", "IL", "KS", "MS", "DE", "NY", "NE", "LA", "ME", "MO", "MT"].includes(profile.jurisdiction.code) ? profile : undefined
+    ["AR", "CA", "NV", "GA", "IL", "KS", "MS", "DE", "NY", "NE", "LA", "ME", "MO", "MT", "VA"].includes(profile.jurisdiction.code) ? profile : undefined
   );
 }

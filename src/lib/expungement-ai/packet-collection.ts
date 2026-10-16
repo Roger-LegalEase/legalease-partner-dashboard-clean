@@ -1,3 +1,4 @@
+import { virginiaVictimQuestionContract, VA_VICTIM_STATUS_ID } from "@/lib/rcap-engine/virginia-victim-question";
 import { texasGuidanceFinancialApplies } from "@/lib/rcap-engine/texas-nondisclosure-facts";
 import { westVirginiaGuidanceFinancialApplies } from "@/lib/rcap-engine/west-virginia-guidance-financial";
 import { southDakotaGuidanceFinancialApplies } from "@/lib/rcap-engine/south-dakota-guidance-financial";
@@ -674,6 +675,7 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
     && ndFirstOffenseRecordIsContext(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
   const retainedDcLocation = dcLocationContext && [input.screeningAnswers, input.prefilledAnswers, input.savedAnswers, input.profileFacts]
     .some(answers => answers && Object.hasOwn(answers, DC_LEGACY_LOCATION));
+  const vaVictimContext = input.jurisdiction === "VA" && virginiaVictimQuestionContract(getProfileByJurisdiction("VA"), input.pathwayId, { specification });
   const requiredInputIds = dedupe([...input.requiredInputIds, ...(retainedDcLocation ? [DC_LEGACY_LOCATION] : [])]);
   const decidesRouteFor = (factId: string) => input.routeDecidingFactIds?.has(factId) === true;
   const unresolvedScopeFor = (factId: string) => input.unresolvedRouteFactIds?.has(factId) === true;
@@ -708,6 +710,13 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
         value,
         reason: "the server owns this route fact; it is never asked"
       });
+      continue;
+    }
+
+    if (vaVictimContext && factId === VA_VICTIM_STATUS_ID && !overrideClass && !needsHuman.has(factId)) {
+      facts.push({ factId, collection: "conditional", phase: "known", group: null, active: false,
+        source: "va_three_routes_victim_status_retained_context",
+        reason: "Victim status is not an offense classification or a required fact of these exact procedures. Saved answers remain context without supplying a charge, exclusion, statutory qualification or authority." });
       continue;
     }
 

@@ -1,3 +1,4 @@
+import { virginiaVictimContextQuestion } from "@/lib/rcap-engine/virginia-victim-question";
 import {WY_1501_QUESTIONS,WY_1501_FACT_IDS} from "@/lib/rcap-engine/wyoming-1501-facts";
 import { TX_ND_QUESTIONS, TX_ND_FACT_IDS } from "@/lib/rcap-engine/texas-nondisclosure-facts";
 import { WY_1401_QUESTIONS, WY_1401_NEW_IDS, wy1401Contract } from "@/lib/rcap-engine/wyoming-1401-facts";
@@ -1362,10 +1363,10 @@ function toPublicJurisdictionProfile(draft: PublicJurisdictionProfile): PublicJu
 export function projectPublicProfile(profile: EngineProfile): PublicJurisdictionProfile {
   const projected = toPublicJurisdictionProfile(buildProfileDraft(profile));
   const context = { state: profile.jurisdiction.code };
-  projected.questions = projected.questions.map((question) => reviewedScreeningQuestion(question, context));
+  projected.questions = projected.questions.map((question) => virginiaVictimContextQuestion(profile, reviewedScreeningQuestion(question, context)));
   const completion = projected.postPaymentPacketCompletion;
   if (completion) for (const questions of Object.values(completion)) {
-    for (let index = 0; index < questions.length; index++) questions[index] = reviewedScreeningQuestion(questions[index], context);
+    for (let index = 0; index < questions.length; index++) questions[index] = virginiaVictimContextQuestion(profile, reviewedScreeningQuestion(questions[index], context));
   }
   const lifecycle = validateQuestionLifecycleMetadata(profile, [
     ...projected.questions,

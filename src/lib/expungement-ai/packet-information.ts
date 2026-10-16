@@ -1,3 +1,4 @@
+import { virginiaVictimQuestionContract, VA_VICTIM_STATUS_ID } from "@/lib/rcap-engine/virginia-victim-question";
 import { ny16059PriorClockStatus } from "@/lib/expungement-ai/ny-16059-prior-clock";
 import {WY_1501_ROUTE,WY_1501_SOURCE,WY_1501_FACT_IDS,WY_1501_QUESTIONS,wy1501Contract,wy1501Context,wy1501FactIds,wy1501Facts,wy1501QuestionApplies} from "@/lib/rcap-engine/wyoming-1501-facts";
 import { texasGuidanceFinancialApplies, texasGuidanceFinancialContract, TX_GUIDANCE_FINANCIAL_ROUTES, texasNondisclosureTimingContract, texasNondisclosureFactIds, texasNondisclosureClock, TX_ND_FACT_IDS, TX_ND_ROUTES } from "@/lib/rcap-engine/texas-nondisclosure-facts";
@@ -2108,6 +2109,44 @@ export function ny16059AdoptedClockHeldSuccessor(snapshot: ProtectedPacketAuthor
       : former === "review" && snapshot.resultCode === "needs_review" && !snapshot.paymentAllowed;
 }
 
+/** Read-only successor for exact historical compulsory-victim draft holds.
+ * Keep their original route/result and null plan; current ready facts cannot
+ * upgrade an old held record or infer the absent record's route. */
+export function virginiaVictimHeldDraftSuccessor(snapshot: ProtectedPacketAuthoritySnapshot,
+  authoritative: NonNullable<ReturnType<typeof evaluateProtectedPacketFacts>>,
+  status: ProtectedPacketVerificationRecord["status"]): NonNullable<ReturnType<typeof evaluateProtectedPacketFacts>> | null {
+  const profile = getProfileByJurisdiction("VA"), evaluation = authoritative.evaluation, route = evaluation.pathwayId;
+  if (!["unverified", "invalidated"].includes(status) || snapshot.schemaVersion !== "expungement-ai/protected-packet-draft/v1"
+    || snapshot.jurisdiction !== "VA" || !profile || !route || !virginiaVictimQuestionContract(profile, route)
+    || !virginiaVictimQuestionContract(authoritative.profile, route)
+    || snapshot.profileVersion !== profile.profileVersion || snapshot.profileSourceFingerprint !== profile.source?.sourceCorpusSha256
+    || snapshot.profileAuthorityFingerprint !== profileAuthorityFingerprint(profile, snapshot.pathwayId)
+    || !canonicalEqual(snapshot.serverFacts, canonicalServerFacts("VA", snapshot.pathwayId))
+    || snapshot.packetType !== null || snapshot.packetPlan !== null || snapshot.paymentAllowed
+    || snapshot.selectedTrackId !== null || snapshot.treatmentClassification !== null
+    || !canonicalEqual(snapshot.deferralComponentIds, []) || !canonicalEqual(snapshot.requiredInputIds, [])
+    || !canonicalEqual(snapshot.packetFamilyIdentifiers, { mode: null, sourceFormIds: [] })
+    || evaluation.jurisdiction !== "VA" || evaluation.profileVersion !== snapshot.profileVersion
+    || authoritative.selectedTrackId !== null || evaluation.treatmentClassification || evaluation.deferralComponentIds?.length
+    || evaluation.missingQuestionIds.length || !canonicalEqual(evaluation.packetPlan, packetPlanForPathway(profile, route))) return null;
+  const automatic = route === "automatic-sealing-no-filing";
+  if (evaluation.resultCode !== (automatic ? "guidance_only" : "packet_ready_with_caution")
+    || evaluation.paymentAllowed !== !automatic || authoritative.packetType !== (automatic ? "guidance_packet" : "custom_pleading")) return null;
+  const copies = [snapshot.screeningAnswers, snapshot.prefilledAnswers, snapshot.packetAnswers]
+    .filter(map => Object.hasOwn(map, VA_VICTIM_STATUS_ID)).map(map => map[VA_VICTIM_STATUS_ID]);
+  const uncertain = snapshot.pathwayId === route && snapshot.resultCode === "needs_review"
+    && copies.length > 0 && copies.every(value => isAnswerValue(value) && isExplicitUnknownAnswer(toScreeningAnswers({ [VA_VICTIM_STATUS_ID]: value })[VA_VICTIM_STATUS_ID]));
+  const absent = snapshot.pathwayId === null && snapshot.resultCode === "needs_more_info" && copies.length === 0;
+  if (!uncertain && !absent) return null;
+  return { ...authoritative, pathwayLabel: snapshot.pathwayId ? authoritative.pathwayLabel : null,
+    packetType: undefined, selectedTrackId: null,
+    evaluation: { ...evaluation, resultCode: uncertain ? "needs_review" : "needs_more_info",
+      pathwayId: snapshot.pathwayId ?? undefined, pathwayLabel: snapshot.pathwayId ? evaluation.pathwayLabel : undefined,
+      userLabel: "Your eligibility result is saved. A packet is not available for this route yet.",
+      paymentAllowed: false, packetPlan: undefined, selectedTrackId: null,
+      treatmentClassification: null, deferralComponentIds: [], reasons: [], missingQuestionIds: [], cautions: [], nextSteps: [] } };
+}
+
 export function protectedPacketInformationModelFor(
   verification: ProtectedPacketVerificationRecord
 ): ProtectedPacketInformationModel | null {
@@ -2162,8 +2201,10 @@ export function protectedPacketInformationModelFor(
   if (!profile || profile.profileVersion !== snapshot.profileVersion) return null;
   if (snapshot.profileSourceFingerprint !== (profile.source?.sourceCorpusSha256 ?? null)
     || snapshot.profileAuthorityFingerprint !== profileAuthorityFingerprint(profile, snapshot.pathwayId)) return null;
-  const authoritative = evaluateProtectedPacketFacts(snapshot);
-  if (!authoritative) return null;
+  const currentAuthoritative = evaluateProtectedPacketFacts(snapshot);
+  if (!currentAuthoritative) return null;
+  const vaHeldSuccessor = virginiaVictimHeldDraftSuccessor(snapshot, currentAuthoritative, verification.status);
+  const authoritative = vaHeldSuccessor ?? currentAuthoritative;
   const evaluation = authoritative.evaluation;
   const factualSuccessor = factualPathwayHeldSuccessor(snapshot, authoritative) ?? convictionFallbackHeldSuccessor(snapshot, authoritative) ?? arkansasRecordOriginHeldSuccessor(snapshot, authoritative);
   if (factualSuccessor) snapshot = factualSuccessor;
@@ -2488,7 +2529,8 @@ export function protectedPacketInformationModelFor(
     factKeys: verificationSummary.map((fact) => fact.key),
     systemContextKeys: verificationContext.map((entry) => entry.key)
   };
-  const reviewSafety = contractSuccessor ? { safe: false, reason: "packet_contract_clarification_required" }
+  const reviewSafety = vaHeldSuccessor ? { safe: false, reason: "historical_context_draft_held" }
+    : contractSuccessor ? { safe: false, reason: "packet_contract_clarification_required" }
     : protectedPacketDraftReviewSafety(snapshot, "verifiedAt" in snapshot ? snapshot.verifiedAt : new Date().toISOString());
   const currentlyVerified = verification.status === "verified" && reviewSafety.safe;
   const gaPreparation = snapshot.jurisdiction === "GA" && snapshot.pathwayId === GA_PARDON_ROUTE
