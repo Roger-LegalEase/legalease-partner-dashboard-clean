@@ -1,3 +1,4 @@
+import { FL_INFORMATION_COPY, FL_INFORMATION_SOURCE, flConditionalInformationContext, flConditionalInformationQuestionApplies, withFlConditionalInformation } from "@/lib/rcap-engine/florida-conditional-source-information";
 import { DC_INFORMATION_COPY, DC_INFORMATION_SOURCE, dcGeneralInformationContext, dcGeneralInformationQuestionApplies } from "@/lib/rcap-engine/district-of-columbia-general-guidance";
 import { CT_AUTOMATIC_INFORMATION_COPY, CT_AUTOMATIC_INFORMATION_SOURCE, ctAutomaticInformationContext, ctAutomaticInformationQuestionApplies } from "@/lib/rcap-engine/connecticut-automatic-source-guidance";
 import { CT_CANNABIS_SOURCE, CT_CANNABIS_COPY, ctCannabisGeneralInformationContext, ctCannabisGeneralInformationQuestionApplies } from "@/lib/rcap-engine/connecticut-cannabis-automatic-guidance";
@@ -258,6 +259,7 @@ function evaluateProfileRules(profile: EngineProfile, request: ScreeningEvaluati
 
   const publicProfile = projectPublicProfile(profile);
   const preselectedPathway = selectPathway(profile, answers);
+  const flInformation = flConditionalInformationContext(profile, preselectedPathway?.id, answers);
   if (mdPoliceContext(profile, preselectedPathway?.id)) {
     const contextIds = [
       ...(["Yes", "I am helping someone complete their own check"].includes(String(answers.ownership_scope)) ? [] : ["ownership_scope"]),
@@ -463,6 +465,7 @@ function evaluateProfileRules(profile: EngineProfile, request: ScreeningEvaluati
   }
 
   const missingQuestionIds = requiredMissingPublicQuestionIds(publicProfile, answers)
+    .filter(id => flConditionalInformationQuestionApplies(profile, preselectedPathway?.id, answers, id))
     .filter(id => dcGeneralInformationQuestionApplies(profile, preselectedPathway?.id, answers, id))
     .filter(id => ctAutomaticInformationQuestionApplies(profile, preselectedPathway?.id, answers, id))
     .filter(id => ctCannabisGeneralInformationQuestionApplies(profile, preselectedPathway?.id, answers, id))
@@ -494,12 +497,12 @@ function evaluateProfileRules(profile: EngineProfile, request: ScreeningEvaluati
         missingQuestionIds, paymentAllowed: false
       }), userLabel: text, nextSteps: [text] };
     }
-    return result(profile, request, "needs_more_info", [reason(jurisdiction, "missing_required_facts", "Required public screening facts are missing.")], {
+    return withFlConditionalInformation(result(profile, request, "needs_more_info", [reason(jurisdiction, "missing_required_facts", "Required public screening facts are missing.")], {
       missingQuestionIds,
       ...(nebraskaMissingFinancialCorrectionPathway(jurisdiction, preselectedPathway?.id, answers, missingQuestionIds)
         || maineMissingFinancialCorrectionPathway(jurisdiction, preselectedPathway?.id, answers, missingQuestionIds)
         ? { pathwayId: preselectedPathway!.id } : {})
-    });
+    }), flInformation);
   }
 
   if (nyMrta) {
@@ -593,7 +596,8 @@ function evaluateProfileRules(profile: EngineProfile, request: ScreeningEvaluati
     }
   }
 
-  const unknownDateQuestionIds = requiredUnknownPublicDateQuestionIds(publicProfile, answers);
+  const unknownDateQuestionIds = requiredUnknownPublicDateQuestionIds(publicProfile, answers)
+    .filter(id => flConditionalInformationQuestionApplies(profile, preselectedPathway?.id, answers, id));
   if (unknownDateQuestionIds.length > 0) {
     return result(profile, request, "needs_more_info", [reason(jurisdiction, "waiting_anchor_missing", "We need the case date, dismissal date, disposition date, or completion date used to check the waiting period.")], {
       missingQuestionIds: unknownDateQuestionIds,
@@ -654,10 +658,10 @@ function evaluateProfileRules(profile: EngineProfile, request: ScreeningEvaluati
   const ambiguity = ambiguityReason(profile, publicProfile, answers, preselectedPathway);
   if (ambiguity) {
     const financialUnknown = ambiguity.text === "financial_obligations is uncertain and requires source review.";
-    return result(profile, request, "needs_review", [financialUnknown ? { ...ambiguity, text: FINANCIAL_CLARIFICATION_TEXT } : ambiguity], {
+    return withFlConditionalInformation(result(profile, request, "needs_review", [financialUnknown ? { ...ambiguity, text: FINANCIAL_CLARIFICATION_TEXT } : ambiguity], {
       ...(financialUnknown ? { missingQuestionIds: ["financial_obligations"] } : {}),
       ...(preselectedPathway ? { pathwayId: preselectedPathway.id } : {})
-    });
+    }), flInformation);
   }
 
   if (jurisdiction === "KS" && preselectedPathway?.id === KS_REGISTRATION_ROUTE) {
@@ -736,11 +740,11 @@ function evaluateProfileRules(profile: EngineProfile, request: ScreeningEvaluati
   const preProductGuidance = preselectedPathway ? productGuidanceReason(profile, answers, preselectedPathway) : undefined;
   if (preselectedPathway && preProductGuidance) {
     const plan = packetPlanForPathway(profile, preselectedPathway.id);
-    return withDcGeneralInformationPresentation(withCtAutomaticInformationPresentation(withCtCannabisGuidancePresentation(result(profile, request, "guidance_only", [preProductGuidance], {
+    return withFlConditionalInformation(withDcGeneralInformationPresentation(withCtAutomaticInformationPresentation(withCtCannabisGuidancePresentation(result(profile, request, "guidance_only", [preProductGuidance], {
       pathwayId: preselectedPathway.id,
       ...(plan ? { packetPlan: plan } : {}),
       paymentAllowed: false
-    }))));
+    })))), flConditionalInformationContext(profile, preselectedPathway.id, answers));
   }
   // Backstop for the same structural fact when the product-guidance checks
   // above stop firing (e.g. a later ratification flips the court-filed
@@ -831,11 +835,11 @@ function evaluateProfileRules(profile: EngineProfile, request: ScreeningEvaluati
   const guidanceOnlyProduct = productGuidanceReason(profile, answers, pathway);
   if (guidanceOnlyProduct) {
     const plan = packetPlanForPathway(profile, pathway.id);
-    return withDcGeneralInformationPresentation(withCtAutomaticInformationPresentation(withCtCannabisGuidancePresentation(result(profile, request, "guidance_only", [guidanceOnlyProduct], {
+    return withFlConditionalInformation(withDcGeneralInformationPresentation(withCtAutomaticInformationPresentation(withCtCannabisGuidancePresentation(result(profile, request, "guidance_only", [guidanceOnlyProduct], {
       pathwayId: pathway.id,
       ...(plan ? { packetPlan: plan } : {}),
       paymentAllowed: false
-    }))));
+    })))), flConditionalInformationContext(profile, pathway.id, answers));
   }
   const plan = packetPlanForPathway(profile, pathway.id);
   // Structural, not plan-driven: an automatic/no-filing route resolves to
@@ -1139,7 +1143,8 @@ function ambiguityReason(
   // internal `source_question_*` questions that are never shown and never answered; scanning those
   // would treat every completed screening as ambiguous. Missing/empty public answers are not
   // ambiguity here — required public answers are enforced by requiredMissingPublicQuestionIds().
-  const legalFields = publicProfile.questions.filter((question) => question.contextOnly !== true && isPrepaymentQuestion(question));
+  const legalFields = publicProfile.questions.filter(question => flConditionalInformationQuestionApplies(profile, selectedPathway?.id, answers, question.id))
+    .filter((question) => question.contextOnly !== true && isPrepaymentQuestion(question));
   const relevant = relevantFactIds(profile, selectedPathway);
   const ambiguous = legalFields
     .filter(question => dcGeneralInformationQuestionApplies(profile, selectedPathway?.id, answers, question.id))
@@ -2311,6 +2316,8 @@ function productGuidanceReason(profile: EngineProfile, answers: Record<string, S
   const jurisdiction = profile.jurisdiction.code;
   const legalContract = legalRouteContract(jurisdiction, pathway.id);
   if (legalContract?.outcomeMode === "referral") return undefined;
+  const flInformation = flConditionalInformationContext(profile, pathway.id, answers);
+  if (flInformation) return reason("FL", `${flInformation}_conditional_information`, FL_INFORMATION_COPY[flInformation].general, FL_INFORMATION_SOURCE);
   const dcInformation = dcGeneralInformationContext(profile, pathway.id, answers);
   if (dcInformation) return reason("DC", `${dcInformation}_general_information`, DC_INFORMATION_COPY[dcInformation].general, DC_INFORMATION_SOURCE);
   const ctAutomatic = ctAutomaticInformationContext(profile, pathway.id, answers);

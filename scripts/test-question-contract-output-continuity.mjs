@@ -9,6 +9,7 @@ import {
   QUESTION_CONTRACT_CONTINUITY_PATH, QUESTION_CONTRACT_CONTINUITY_SHA256,
   QUESTION_CONTRACT_REVIEWED_REVISION_CONTINUITY_PATH, QUESTION_CONTRACT_REVIEWED_REVISION_OUTPUT_PATH,
   QUESTION_CONTRACT_INTEGRATED_REVISION_CONTINUITY_PATH, QUESTION_CONTRACT_INTEGRATED_REVISION_OUTPUT_PATH,
+  QUESTION_CONTRACT_REVALIDATED_REVISION_CONTINUITY_PATH, QUESTION_CONTRACT_REVALIDATED_REVISION_OUTPUT_PATH,
   QUESTION_CONTRACT_CURRENT_OUTPUT_PATH, QUESTION_CONTRACT_SUCCESSOR_PATH,
   QUESTION_CONTRACT_EARLIER_CONTINUITY_PATH, QUESTION_CONTRACT_EARLIER_OUTPUT_PATH,
   QUESTION_CONTRACT_SAME_DATE_PREDECESSOR_CONTINUITY_PATH, QUESTION_CONTRACT_SAME_DATE_PREDECESSOR_OUTPUT_PATH,
@@ -53,6 +54,8 @@ const reviewedContinuity = JSON.parse(readBytes(QUESTION_CONTRACT_REVIEWED_REVIS
 const reviewedProof = JSON.parse(readBytes(QUESTION_CONTRACT_REVIEWED_REVISION_OUTPUT_PATH));
 const integratedContinuity = JSON.parse(readBytes(QUESTION_CONTRACT_INTEGRATED_REVISION_CONTINUITY_PATH));
 const integratedProof = JSON.parse(readBytes(QUESTION_CONTRACT_INTEGRATED_REVISION_OUTPUT_PATH));
+const revalidatedContinuity = JSON.parse(readBytes(QUESTION_CONTRACT_REVALIDATED_REVISION_CONTINUITY_PATH));
+const revalidatedProof = JSON.parse(readBytes(QUESTION_CONTRACT_REVALIDATED_REVISION_OUTPUT_PATH));
 const historical = JSON.parse(readBytes(QUESTION_CONTRACT_OUTPUT_PATH));
 const receipt = readQuestionContractSuccessor(readBytes);
 let checks = 0;
@@ -103,9 +106,11 @@ check('exact executed successor validates complete current inventory', () => {
   assert.deepEqual(actual.reviewedRevisionOutput, continuity.reviewedRevisionOutput);
   assert.deepEqual(actual.integratedRevisionContinuity, continuity.integratedRevisionContinuity);
   assert.deepEqual(actual.integratedRevisionOutput, continuity.integratedRevisionOutput);
+  assert.deepEqual(actual.revalidatedRevisionContinuity, continuity.revalidatedRevisionContinuity);
+  assert.deepEqual(actual.revalidatedRevisionOutput, continuity.revalidatedRevisionOutput);
   assert.equal(JSON.parse(readBytes(QUESTION_CONTRACT_EARLIER_OUTPUT_PATH)).sources.length, 113);
 });
-check('actual continuity reader paths fit the exact MS required inventory union including v14/v15/v16/v17', () => {
+check('actual continuity reader paths fit the exact MS required inventory union including v14/v15/v16/v17/v18', () => {
   const reads = new Set();
   const actual = assertQuestionContractOutputInputs(file => { reads.add(file); return readBytes(file); });
   const source = fs.readFileSync('scripts/lib/ms-paid-packet-proof.mjs', 'utf8');
@@ -117,7 +122,7 @@ check('actual continuity reader paths fit the exact MS required inventory union 
   const inventory = expression => new Set(runInNewContext(expression, context));
   const required = inventory(match[1]);
   assert.ok([...reads].every(file => required.has(file)), 'every actual continuity read must enter MS source inventory');
-  for (const token of ['retainedRevisionContinuity', 'retainedRevisionOutput', 'continuedRevisionContinuity', 'continuedRevisionOutput', 'reviewedRevisionContinuity', 'reviewedRevisionOutput', 'integratedRevisionContinuity', 'integratedRevisionOutput']) {
+  for (const token of ['retainedRevisionContinuity', 'retainedRevisionOutput', 'continuedRevisionContinuity', 'continuedRevisionOutput', 'reviewedRevisionContinuity', 'reviewedRevisionOutput', 'integratedRevisionContinuity', 'integratedRevisionOutput', 'revalidatedRevisionContinuity', 'revalidatedRevisionOutput']) {
     const path = actual[token].path;
     assert.ok(reads.has(path) && required.has(path), 'new predecessor is really read and included');
     const removed = match[1].replace(`proof.outputContinuity.${token}.path,`, '');
@@ -312,6 +317,7 @@ for (const path of [QUESTION_CONTRACT_REVIEWED_REVISION_CONTINUITY_PATH, QUESTIO
   check(`missing v16 predecessor refuses: ${path}`, () => assert.throws(() => assertQuestionContractOutputInputs(file => {if(file===path)throw new Error('deliberately missing v16 evidence');return readBytes(file);}), /deliberately missing v16 evidence/));
 }
 check('actual DC v18 preserves all v17 paths and only measured localization transition', () => {
+  const continuity = revalidatedContinuity, proof = revalidatedProof;
   assert.equal(integratedProof.sources.length,134);
   assert.equal(proof.sources.length,134);
   assert.equal(continuity.integratedRevisionSourceCount,134);
@@ -327,7 +333,29 @@ for (const path of [QUESTION_CONTRACT_INTEGRATED_REVISION_CONTINUITY_PATH, QUEST
   check(`tampered v17 predecessor refused: ${path}`, () => assert.throws(() => assertQuestionContractOutputInputs(file => file === path ? Buffer.from('{}') : readBytes(file)), /bytes changed/));
   check(`missing v17 predecessor refuses: ${path}`, () => assert.throws(() => assertQuestionContractOutputInputs(file => {if(file===path)throw new Error('deliberately missing v17 evidence');return readBytes(file);}), /deliberately missing v17 evidence/));
 }
+check('actual FL v19 preserves all v18 paths and only measured localization transition', () => {
+  assert.equal(revalidatedProof.sources.length,134);
+  assert.equal(proof.sources.length,134);
+  assert.equal(continuity.revalidatedRevisionSourceCount,134);
+  assert.deepEqual(continuity.revalidatedRevisionAddedSourcePaths,[]);
+  assert.deepEqual(continuity.revalidatedRevisionSourceTransitions,[{file:'src/lib/expungement-ai/localization.ts',beforeSha256:'9be090f00cc6b4e5c8fd4b0bfe35ae9ce31ff99ad5edd132883eb238d8f59642',afterSha256:'55935b4248a985ef10d53cddabe9af72f600bf8318815aa212329d9c68351d4a'}]);
+  assert.equal(continuity.currentOutput.sha256,'e5dfd06708c302427c28819ee7e265fe9987bf42e3d71c586d0ba10199bf2884');
+  assert.equal(proof.headBefore,'e1d9e8729c8d0a0a3de11d0967dee6bb719c8e14');
+  assert.equal(proof.headAfter,proof.headBefore);
+  assert.equal(proof.statusAfter,proof.statusBefore);
+  assert.deepEqual(proof.sources.map(row=>row.file),revalidatedProof.sources.map(row=>row.file));
+});
+for (const path of [QUESTION_CONTRACT_REVALIDATED_REVISION_CONTINUITY_PATH, QUESTION_CONTRACT_REVALIDATED_REVISION_OUTPUT_PATH]) {
+  check(`tampered v18 predecessor refused: ${path}`, () => assert.throws(() => assertQuestionContractOutputInputs(file => file === path ? Buffer.from('{}') : readBytes(file)), /bytes changed/));
+  check(`missing v18 predecessor refuses: ${path}`, () => assert.throws(() => assertQuestionContractOutputInputs(file => {if(file===path)throw new Error('deliberately missing v18 evidence');return readBytes(file);}), /deliberately missing v18 evidence/));
+}
 const continuityMutations = {
+  'wrong revalidated revision continuity': [c => { c.revalidatedRevisionContinuity.sha256 = '0'.repeat(64); }, /revalidated revision predecessor ancestry/],
+  'wrong revalidated revision output': [c => { c.revalidatedRevisionOutput.sha256 = '0'.repeat(64); }, /revalidated revision predecessor ancestry/],
+  'reduced revalidated revision inventory': [c => { c.revalidatedRevisionSourceCount--; }, /source inventory/],
+  'omitted revalidated revision transition': [c => { c.revalidatedRevisionSourceTransitions.pop(); }, /undeclared revalidated predecessor source transition/],
+  'fabricated revalidated revision transition': [c => { c.revalidatedRevisionSourceTransitions[0].beforeSha256 = '0'.repeat(64); }, /undeclared revalidated predecessor source transition/],
+  'invented revalidated revision addition': [c => { c.revalidatedRevisionAddedSourcePaths.push('invented'); }, /undeclared revalidated predecessor source transition/],
   'wrong integrated revision continuity': [c => { c.integratedRevisionContinuity.sha256 = '0'.repeat(64); }, /integrated revision predecessor ancestry/],
   'wrong integrated revision output': [c => { c.integratedRevisionOutput.sha256 = '0'.repeat(64); }, /integrated revision predecessor ancestry/],
   'reduced integrated revision inventory': [c => { c.integratedRevisionSourceCount--; }, /source inventory/],
