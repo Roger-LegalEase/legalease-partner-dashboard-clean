@@ -16,6 +16,7 @@ import {
   QUESTION_CONTRACT_BOUND_REVISION_CONTINUITY_PATH, QUESTION_CONTRACT_BOUND_REVISION_OUTPUT_PATH,
   QUESTION_CONTRACT_VALIDATED_REVISION_CONTINUITY_PATH, QUESTION_CONTRACT_VALIDATED_REVISION_OUTPUT_PATH,
   QUESTION_CONTRACT_RECORDED_REVISION_CONTINUITY_PATH, QUESTION_CONTRACT_RECORDED_REVISION_OUTPUT_PATH,
+  QUESTION_CONTRACT_CAPTURED_REVISION_CONTINUITY_PATH, QUESTION_CONTRACT_CAPTURED_REVISION_OUTPUT_PATH,
   QUESTION_CONTRACT_MEASURED_REVISION_CONTINUITY_PATH, QUESTION_CONTRACT_MEASURED_REVISION_OUTPUT_PATH,
   QUESTION_CONTRACT_RENDERED_REVISION_CONTINUITY_PATH, QUESTION_CONTRACT_RENDERED_REVISION_OUTPUT_PATH,
   QUESTION_CONTRACT_IMMEDIATE_PREDECESSOR_CONTINUITY_PATH, QUESTION_CONTRACT_IMMEDIATE_PREDECESSOR_OUTPUT_PATH,
@@ -37,6 +38,8 @@ const validatedContinuity = JSON.parse(readBytes(QUESTION_CONTRACT_VALIDATED_REV
 const validatedProof = JSON.parse(readBytes(QUESTION_CONTRACT_VALIDATED_REVISION_OUTPUT_PATH));
 const recordedContinuity = JSON.parse(readBytes(QUESTION_CONTRACT_RECORDED_REVISION_CONTINUITY_PATH));
 const recordedProof = JSON.parse(readBytes(QUESTION_CONTRACT_RECORDED_REVISION_OUTPUT_PATH));
+const capturedContinuity = JSON.parse(readBytes(QUESTION_CONTRACT_CAPTURED_REVISION_CONTINUITY_PATH));
+const capturedProof = JSON.parse(readBytes(QUESTION_CONTRACT_CAPTURED_REVISION_OUTPUT_PATH));
 const historical = JSON.parse(readBytes(QUESTION_CONTRACT_OUTPUT_PATH));
 const receipt = readQuestionContractSuccessor(readBytes);
 let checks = 0;
@@ -77,6 +80,8 @@ check('exact executed successor validates complete current inventory', () => {
   assert.deepEqual(actual.validatedRevisionOutput, continuity.validatedRevisionOutput);
   assert.deepEqual(actual.recordedRevisionContinuity, continuity.recordedRevisionContinuity);
   assert.deepEqual(actual.recordedRevisionOutput, continuity.recordedRevisionOutput);
+  assert.deepEqual(actual.capturedRevisionContinuity, continuity.capturedRevisionContinuity);
+  assert.deepEqual(actual.capturedRevisionOutput, continuity.capturedRevisionOutput);
   assert.equal(JSON.parse(readBytes(QUESTION_CONTRACT_EARLIER_OUTPUT_PATH)).sources.length, 113);
 });
 check('all original observed dependencies retained, with added imports', () => {
@@ -189,6 +194,7 @@ check('actual NY117 v12 preserves v11 with two measured display changes only', (
   assert.ok(validatedProof.sources.every(input=>proof.sources.some(current=>current.file===input.file)));
 });
 check('actual NY120 v13 preserves v12 with one measured catalog change only', () => {
+  const continuity = capturedContinuity, proof = capturedProof;
   assert.equal(recordedProof.sources.length,129);
   assert.equal(proof.sources.length,129);
   assert.equal(continuity.recordedRevisionSourceCount,129);
@@ -200,7 +206,25 @@ check('actual NY120 v13 preserves v12 with one measured catalog change only', ()
   assert.equal(proof.statusAfter,proof.statusBefore);
   assert.ok(recordedProof.sources.every(input=>proof.sources.some(current=>current.file===input.file)));
 });
+check('actual MD police v14 preserves v13 with one measured catalog change only', () => {
+  assert.equal(capturedProof.sources.length,129);
+  assert.equal(proof.sources.length,129);
+  assert.equal(continuity.capturedRevisionSourceCount,129);
+  assert.deepEqual(continuity.capturedRevisionAddedSourcePaths,[]);
+  assert.deepEqual(continuity.capturedRevisionSourceTransitions,[{"file":"src/lib/expungement-ai/frontend/reviewed-result-display-copy.json","beforeSha256":"c1e52aced34d07083567f14cd97fcd880eea8fe65da356715c63beea9a797a40","afterSha256":"e8387d12520458361a715637221c2dce8a8493745eded595f766727fb3c8021b"}]);
+  assert.equal(continuity.currentOutput.sha256,'472b6cf2fd3e10ae2a84d40efd0c4701c752e804f2857f6dcde7d44f3ae961a1');
+  assert.equal(proof.headBefore,'252fc586781ffc5c75c2f514de7a8f5b1344e40d');
+  assert.equal(proof.headAfter,proof.headBefore);
+  assert.equal(proof.statusAfter,proof.statusBefore);
+  assert.ok(capturedProof.sources.every(input=>proof.sources.some(current=>current.file===input.file)));
+});
 const continuityMutations = {
+  'wrong captured revision continuity': [c => { c.capturedRevisionContinuity.sha256 = '0'.repeat(64); }, /captured revision predecessor ancestry/],
+  'wrong captured revision output': [c => { c.capturedRevisionOutput.sha256 = '0'.repeat(64); }, /captured revision predecessor ancestry/],
+  'reduced captured revision inventory': [c => { c.capturedRevisionSourceCount--; }, /source inventory/],
+  'omitted captured revision transition': [c => { c.capturedRevisionSourceTransitions.pop(); }, /undeclared captured predecessor source transition/],
+  'fabricated captured revision transition': [c => { c.capturedRevisionSourceTransitions[0].beforeSha256 = '0'.repeat(64); }, /undeclared captured predecessor source transition/],
+  'invented captured revision addition': [c => { c.capturedRevisionAddedSourcePaths.push('invented'); }, /undeclared captured predecessor source transition/],
   'wrong recorded revision continuity': [c => { c.recordedRevisionContinuity.sha256 = '0'.repeat(64); }, /recorded revision predecessor ancestry/],
   'wrong recorded revision output': [c => { c.recordedRevisionOutput.sha256 = '0'.repeat(64); }, /recorded revision predecessor ancestry/],
   'reduced recorded revision inventory': [c => { c.recordedRevisionSourceCount--; }, /source inventory/],
