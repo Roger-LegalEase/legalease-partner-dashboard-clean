@@ -35,6 +35,7 @@ import { exclusiveOptionsFor, hasIncompatibleAnswerShape, scalarAnswerText } fro
 import { readOrUnknown, type OrUnknownValue } from "@/components/expungement-ai/screening/answers";
 import { ContextOnlyBanner } from "@/components/expungement-ai/screening/ContextOnlyBanner";
 import { OptionGroup } from "@/components/expungement-ai/screening/fields/OptionGroup";
+import { OptionalPathwayContextField } from "@/components/expungement-ai/screening/fields/OptionalPathwayContextField";
 import { OrUnknownField } from "@/components/expungement-ai/screening/fields/OrUnknownField";
 import { isCaProp64QuantityQuestion } from "@/lib/expungement-ai/ca-prop64-quantity";
 import { useLocalization } from "@/components/expungement-ai/LocalizationProvider";
@@ -172,6 +173,8 @@ export function QuestionField({
       const normalized = caChoice ? caProp64Choice(question.id, value) : null;
       const unrecognized = caChoice && value !== undefined && value !== null && value !== "" && normalized === null;
       const caCopy = (key: keyof typeof CA_PROP64_CLARIFICATION_COPY) => CA_PROP64_CLARIFICATION_COPY[key][locale];
+      const ChoiceField = question.id === "possible_pathway_context" && question.contextOnly === true && question.required === false
+        ? OptionalPathwayContextField : OptionGroup;
 
       return (
         <div className="grid gap-3">
@@ -187,7 +190,8 @@ export function QuestionField({
             <p className="mt-2 whitespace-pre-wrap break-words">{caCopy("saved_answer_label")}: {typeof value === "string" ? value : JSON.stringify(value)}</p>
             <p className="mt-2">{caCopy("ambiguous_scope")}</p>
           </div> : null}
-          <OptionGroup
+          <ChoiceField
+            key={stateCode}
             mode="single"
             name={fieldId}
             options={options}

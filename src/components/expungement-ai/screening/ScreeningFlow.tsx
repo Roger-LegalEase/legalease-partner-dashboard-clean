@@ -560,6 +560,14 @@ export function ScreeningFlow({ state, initialSessionId, partnerDisplayName, acq
           </p>
         ) : null}
         <div className="mt-7 flex flex-col gap-3 sm:flex-row-reverse">
+          {question.id === "possible_pathway_context" && question.contextOnly === true && question.required === false ? <button
+            type="button"
+            onClick={() => void handleContinue()}
+            disabled={selectingQuestions}
+            className="min-h-[48px] rounded-[14px] border border-[#D7DEE8] px-6 py-3 text-base font-bold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00A99D] focus-visible:ring-offset-2 disabled:cursor-wait disabled:opacity-60"
+          >
+            {locale === "es" ? "Omitir / No estoy seguro" : "Skip / Not sure"}
+          </button> : null}
           <button
             type="button"
             onClick={() => void handleContinue()}
