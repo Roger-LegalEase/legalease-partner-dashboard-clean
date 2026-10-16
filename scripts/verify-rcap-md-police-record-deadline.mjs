@@ -6,7 +6,9 @@ import { register } from "node:module";
 process.env.RCAP_EVALUATOR_TODAY = "2026-08-25";
 register("./lib/ts-esm-loader.mjs", import.meta.url);
 
-const { evaluateScreening } = await import("@/lib/rcap-engine/evaluator");
+const { registerMarylandDeadlineTestExport } = await import("./lib/md-police-deadline-test-hook.mjs");
+registerMarylandDeadlineTestExport();
+const { evaluateScreening, mdPoliceRecordDeadlineSafetyGate } = await import("@/lib/rcap-engine/evaluator");
 const { getProfileByJurisdiction } = await import("@/lib/rcap-engine/profile-registry");
 const { packetPlanForPathway } = await import("@/lib/rcap-engine/packet-planner");
 const { projectPublicProfile } = await import("@/lib/rcap-engine/public-profile-projection");
@@ -61,31 +63,44 @@ function evaluate(id, patch) {
   });
 }
 
-const missing = evaluate("missing", {});
-assert.equal(missing.pathwayId, PATHWAY_ID, "missing-date case stays on the police-record route");
-assert.equal(missing.resultCode, "needs_more_info", "missing arrest date asks for information");
-assert.equal(missing.paymentAllowed, false, "missing arrest date keeps checkout closed");
-assert.ok(missing.missingQuestionIds.includes("arrest_date"), "missing-date result asks for arrest_date");
+// Preserve the original wire fixture. It is no longer a valid multi-select
+// shape, and cannot silently become a qualified modern/legacy source case.
+for (const [id, patch] of [["missing", {}], ["within", {arrest_date:"2020-08-25"}], ["boundary", {arrest_date:"2018-08-25"}], ["expired", {arrest_date:"2018-08-24"}]]) {
+  assert.throws(() => evaluate(id, patch), error => error.name === "InvalidAnswerError"
+    && JSON.stringify(error.invalidQuestionIds) === JSON.stringify(["state_exclusion_categories"]));
+  // Historical arithmetic only: invoke the actual unchanged internal gate.
+  // This does not classify a modern arrest or establish prior-request timeliness.
+  const held = mdPoliceRecordDeadlineSafetyGate(profile, {...BASE, ...patch}, pathway);
+  assert.equal(Boolean(held?.code.endsWith("md_police_record_deadline_not_eligible")), id === "expired", id);
+}
+const originalWire = structuredClone(BASE);
+const currentShapeOnly = {...BASE, state_exclusion_categories:["None of these"]};
+assert.deepEqual(BASE, originalWire);
+const shapeOnly = evaluateScreening({jurisdiction:"MD",profileVersion:profile.profileVersion,answers:currentShapeOnly});
+assert.equal(shapeOnly.paymentAllowed,false);
+assert.equal(shapeOnly.resultCode,"needs_more_info");
+assert.deepEqual(shapeOnly.missingQuestionIds,["ownership_scope","jurisdiction_scope"]);
 
-const selectedFreeAnswers = Object.fromEntries(Object.entries({ ...BASE, resolved_timing_bucket: "gt_10_years" })
-  .filter(([id]) => selectScreeningQuestionIds(profile, publicProfile, { possible_pathway_context: pathway.label }).includes(id)));
-const selectedFree = evaluate("selected-free", selectedFreeAnswers);
-assert.equal(selectedFree.resultCode, "needs_more_info", "accepted preliminary terminal remains fail-closed without protected arrest-date authority");
-assert.equal(selectedFree.paymentAllowed, false, "preliminary free screening cannot open checkout without the exact protected deadline fact");
-
-const within = evaluate("within", { arrest_date: "2020-08-25" });
-assert.equal(within.pathwayId, PATHWAY_ID, "within-deadline case stays on the police-record route");
-assert.ok(["packet_ready", "packet_ready_with_caution"].includes(within.resultCode), "within eight years reaches the agency-request packet");
-assert.equal(within.paymentAllowed, true, "within eight years opens approved agency-application checkout");
-
-const boundary = evaluate("boundary", { arrest_date: "2018-08-25" });
-assert.ok(["packet_ready", "packet_ready_with_caution"].includes(boundary.resultCode), "exact eight-year boundary remains timely");
-assert.equal(boundary.paymentAllowed, true, "exact eight-year boundary remains checkout eligible");
-
-const expired = evaluate("expired", { arrest_date: "2018-08-24" });
-assert.equal(expired.pathwayId, PATHWAY_ID, "expired case stays on the police-record route");
-assert.equal(expired.resultCode, "likely_not_eligible", "after eight years is a filing bar, not not_yet");
-assert.equal(expired.paymentAllowed, false, "expired filing deadline keeps checkout closed");
-assert.ok(expired.reasons.some((reason) => reason.code.endsWith("md_police_record_deadline_not_eligible")), "expired case names the § 10-103 deadline bar");
-
-console.log("verify-rcap-md-police-record-deadline: GREEN (missing, within, boundary, expired)");
+// New, explicitly synthetic source-stage controls use actual current options.
+// They do not rewrite any original recorded premise or declare eligibility.
+const SOURCE = {ownership_scope:"Yes",jurisdiction_scope:"State or local",case_outcome:BASE.case_outcome,
+  possible_pathway_context:pathway.label,offense_level:"Misdemeanor",pending_cases:"No",state_exclusion_categories:["None of these"]};
+const sourceResult = patch => evaluateScreening({jurisdiction:"MD",profileVersion:profile.profileVersion,answers:{...SOURCE,...patch}});
+const missing = sourceResult({});
+assert.equal(missing.pathwayId,PATHWAY_ID);assert.equal(missing.resultCode,"needs_more_info");
+assert.deepEqual(missing.missingQuestionIds,["arrest_date"]);assert.equal(missing.paymentAllowed,false);
+for (const date of ["2020-08-25","2018-08-25","2018-08-24"]) {
+  const modern = sourceResult({arrest_date:date,md_10103_released_without_charge:"yes"});
+  assert.equal(modern.resultCode,"guidance_only");assert.equal(modern.pathwayId,PATHWAY_ID);
+  assert.equal(modern.paymentAllowed,false);assert.equal(modern.packetPlan,undefined);
+  assert(modern.reasons.some(r=>r.code==="md.police_source_modern"));
+}
+for (const release of [undefined,"unknown","no"]) {
+  const held=sourceResult({arrest_date:"2020-08-25",md_10103_released_without_charge:release});
+  assert(["needs_more_info","needs_review"].includes(held.resultCode));assert.equal(held.paymentAllowed,false);assert.equal(held.packetPlan,undefined);
+}
+for(const [prior,code]of [[undefined,"guidance_only"],["no","guidance_only"],["unknown","guidance_only"],["yes","needs_review"]]){
+  const legacy=sourceResult({arrest_date:"2000-01-01",md_10103_prior_written_request:prior});
+  assert.equal(legacy.resultCode,code);assert.equal(legacy.packetPlan,undefined);assert.equal(legacy.paymentAllowed,false);
+}
+console.log("verify-rcap-md-police-record-deadline: GREEN (historical actual-gate arithmetic; protected date; current source stages/no commerce; original wire refusals)");
