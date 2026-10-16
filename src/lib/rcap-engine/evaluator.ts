@@ -1,3 +1,4 @@
+import { MD_POLICE_ROUTE, MD_POLICE_IDS, MD_POLICE_SOURCE, MD_POLICE_COPY, mdPoliceContext, mdPoliceDate, mdPoliceResolutionFacts } from "@/lib/rcap-engine/maryland-police-record-facts";
 import { ny16057Decision, NY_16057_COPY, NY_16057_ROUTE, NY_16057_SOURCE } from "@/lib/rcap-engine/ny-16057-guidance";
 import { nyMrtaDecision, nyMrtaQuestionApplies, NY_MRTA_COPY, NY_MRTA_ROUTE, NY_MRTA_SOURCE } from "@/lib/rcap-engine/ny-mrta-stage-facts";
 import { ny16059ClockDisplayLines } from "@/lib/rcap-engine/new-york-16059-clock-display";
@@ -240,6 +241,35 @@ function evaluateProfileRules(profile: EngineProfile, request: ScreeningEvaluati
 
   const publicProfile = projectPublicProfile(profile);
   const preselectedPathway = selectPathway(profile, answers);
+  if (mdPoliceContext(profile, preselectedPathway?.id)) {
+    const contextIds = [
+      ...(["Yes", "I am helping someone complete their own check"].includes(String(answers.ownership_scope)) ? [] : ["ownership_scope"]),
+      ...(answers.jurisdiction_scope === "State or local" ? [] : ["jurisdiction_scope"])
+    ];
+    const resolution = resolveRoute({ jurisdiction: "MD", pathwayId: MD_POLICE_ROUTE,
+      facts: mdPoliceResolutionFacts(answers), on: evaluationToday(), phase: "PRELIMINARY_SCREENING" });
+    const date = mdPoliceDate(answers.arrest_date);
+    // The actual broad option includes "not prosecuted". It is neither proof
+    // nor contradiction of release without charge; the new explicit fact decides.
+    const conflict = Boolean(date && date > evaluationToday().toISOString().slice(0, 10)) || ["Misdemeanor conviction", "Felony conviction", "Other conviction or adjudication", "Acquitted or found not guilty", "Pardoned conviction",
+      "Diversion, deferred disposition, supervision, or similar program", "Juvenile adjudication or offense committed as a minor"].includes(String(answers.case_outcome));
+    const excluded = exclusionReason(profile, answers);
+    const modern = resolution.selectedBranchId === "automatic-status-correction-guidance";
+    const legacy = resolution.selectedBranchId === "agency-request";
+    const code = contextIds.length || !date ? "missing" : conflict ? "conflict" : modern ? "modern"
+      : legacy ? resolution.serviceDisposition === "handoff" ? "prior" : "legacy"
+      : answers[MD_POLICE_IDS[0]] === undefined || answers[MD_POLICE_IDS[0]] === "" ? "missing" : "conflict";
+    const text = MD_POLICE_COPY[code][0];
+    const missingQuestionIds = contextIds.length ? contextIds : !date ? ["arrest_date"]
+      : code === "missing" ? [MD_POLICE_IDS[0]] : [];
+    const information = !excluded && !contextIds.length && (code === "modern" || code === "legacy");
+    const evaluated = result(profile, request, excluded ? "needs_review" : missingQuestionIds.length ? "needs_more_info" : information ? "guidance_only" : "needs_review",
+      [...(excluded ? [excluded] : []), reason("MD", `police_source_${code}`, text, MD_POLICE_SOURCE)],
+      { pathwayId: MD_POLICE_ROUTE, missingQuestionIds, paymentAllowed: false });
+    // No packet plan, no selected-family authority, no deadline extrapolation.
+    return { ...evaluated, userLabel: text, nextSteps: modern ? [MD_POLICE_COPY[answers[MD_POLICE_IDS[1]] === "yes" ? "status" : answers[MD_POLICE_IDS[1]] === "no" ? "status_absent" : "status_unknown"][0]]
+      : legacy ? [MD_POLICE_COPY.prior[0]] : [text] };
+  }
   const nyMrta = nyMrtaDecision(profile, answers);
   const nyPartialSeal = nyMrta ? null : ny16055Decision(profile, answers);
   const nyCleanSlate = ny16057Decision(profile, answers);

@@ -1,3 +1,4 @@
+import { mdPoliceContext, mdPoliceFactIds, MD_POLICE_IDS } from "@/lib/rcap-engine/maryland-police-record-facts";
 import { moXivCourtIsContext } from "@/lib/expungement-ai/mo-xiv-court-context";
 import { MO_MARIJUANA_CUSTODY_FACT } from "@/lib/rcap-engine/missouri-marijuana-status-facts";
 import { mnCannabisLocationIsContext } from "@/lib/expungement-ai/mn-cannabis-location-context";
@@ -691,6 +692,10 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
   const mo610122CourtContext = input.jurisdiction === "MO" && mo610122CourtIsContext(getProfileByJurisdiction("MO"), input.pathwayId, specification);
   const mo610105CourtContext = input.jurisdiction === "MO" && mo610105CourtIsContext(getProfileByJurisdiction("MO"), input.pathwayId, specification);
   const vaVictimContext = input.jurisdiction === "VA" && virginiaVictimQuestionContract(getProfileByJurisdiction("VA"), input.pathwayId, { specification });
+  const mdPoliceSourceContext = input.jurisdiction === "MD" && specification == null
+    && mdPoliceContext(getProfileByJurisdiction("MD"), input.pathwayId);
+  const mdPoliceAnswers = Object.fromEntries(["arrest_date", ...MD_POLICE_IDS].map(id => [id, resolvedText(id)]));
+  const mdPoliceActiveIds = mdPoliceFactIds(mdPoliceAnswers);
   const requiredInputIds = dedupe([...input.requiredInputIds, ...(retainedDcLocation ? [DC_LEGACY_LOCATION] : [])]);
   const decidesRouteFor = (factId: string) => input.routeDecidingFactIds?.has(factId) === true;
   const unresolvedScopeFor = (factId: string) => input.unresolvedRouteFactIds?.has(factId) === true;
@@ -728,6 +733,23 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
       continue;
     }
 
+    if (mdPoliceSourceContext && !overrideClass && !needsHuman.has(factId)) {
+      if (["county", "court", "financial_obligations", "sentence_completion_date", "court_requirements_completed", "resolved_timing_bucket"].includes(factId)) {
+        facts.push({ factId, collection: "conditional", phase: "known", group: null, active: false,
+          source: "md_police_retained_context", reason: "Earlier generic context is retained without selecting an agency, denial court, new request, filing venue or individual relief. The adopted source stages do not require this fact for their current information or help consumer." });
+        continue;
+      }
+      if (["arrest_date", ...MD_POLICE_IDS].includes(factId)) {
+        const active = mdPoliceActiveIds.includes(factId);
+        const value = resolvedText(factId);
+        if (active && value && mayMaterialize(factId, true)) known[factId] = value;
+        facts.push({ factId, collection: active ? value ? "already_known" : "prepay_confirmation" : "conditional",
+          phase: active ? value ? "known" : "prepay_confirmation" : "known", group: active ? group : null,
+          active, ...(value ? { value } : {}), source: "md_police_source_stage",
+          reason: "Source-stage facts distinguish current automatic police-record information from the closed historical request window; ordinary claims do not establish verified relief, timeliness, agency compliance or any filing authority." });
+        continue;
+      }
+    }
     if (mnCannabisLocationContext && factId === "residency_or_location" && !overrideClass && !needsHuman.has(factId)) {
       facts.push({ factId, collection: "conditional", phase: "known", group: null, active: false,
         source: "mn_cannabis_location_retained_context",

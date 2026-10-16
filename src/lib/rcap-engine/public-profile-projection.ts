@@ -1,3 +1,4 @@
+import { MD_POLICE_IDS, MD_POLICE_QUESTIONS, mdPoliceSourceContract } from "@/lib/rcap-engine/maryland-police-record-facts";
 import { NY_16057_IDS, NY_16057_QUESTIONS, ny16057SourceContract } from "@/lib/rcap-engine/ny-16057-guidance";
 import { NY_MRTA_IDS, NY_MRTA_QUESTIONS, nyMrtaSourceContract } from "@/lib/rcap-engine/ny-mrta-stage-facts";
 import { virginiaVictimContextQuestion } from "@/lib/rcap-engine/virginia-victim-question";
@@ -81,7 +82,7 @@ const STATE_SPECIFIC_PREPAY_WILMA_FACT_IDS: Record<string, Set<string>> = {
   HI: new Set(["hi_court_order_confirmed"]),
   IN: new Set(["in_prosecutor_consent_confirmed"]),
   TX: new Set(TX_ND_FACT_IDS),
-  MD: new Set(["arrest_date"]),
+  MD: new Set(["arrest_date", ...MD_POLICE_IDS]),
   MO: new Set(["mo_at_least_twenty_two", ...MO_MARIJUANA_FACT_IDS]),
   MT: new Set(MT_DEFERRED_FACT_IDS),
   OR: new Set(OR_DISPOSITION_FACT_IDS),
@@ -132,7 +133,7 @@ const STATE_SPECIFIC_EXACT_PREPAY_TIMING_FACT_IDS: Record<string, Set<string>> =
   CA: new Set(["ca_prop64_offense_date"]),
   NY: new Set(NY_16059_TIMING_IDS),
   TX: new Set(TX_ND_FACT_IDS),
-  MD: new Set(["arrest_date"]),
+  MD: new Set(["arrest_date", ...MD_POLICE_IDS]),
   MS: new Set([
     "arrest_date",
     "ms_last_conviction_date_any_court",
@@ -1134,7 +1135,8 @@ function withWilmaFactQuestions(
   wyNonconvictionContract = false,
   nyPartialSealContract = false,
   nyMrtaContract = false,
-  nyCleanSlateContract = false
+  nyCleanSlateContract = false,
+  mdPoliceContract = false
 ): PublicJurisdictionProfile {
   const existingIds = new Set(profile.questions.map((question) => question.id));
   const exactPacketFacts = new Set(exactPacketFactIds);
@@ -1152,7 +1154,8 @@ function withWilmaFactQuestions(
     ...PACKET_RELEASE_FACT_QUESTIONS.filter((question) => packetReleaseFactIds.has(question.id) && !existingIds.has(question.id))
       .map((question) => normalizePublicQuestion(question, profile.jurisdiction.code, "wilma", exactPacketFacts.has(question.id)))
   ];
-  const availableWilmaFactQuestions = profile.jurisdiction.code === "DE"
+  const availableWilmaFactQuestions = mdPoliceContract ? [...WILMA_FACT_QUESTIONS, ...MD_POLICE_QUESTIONS]
+    : profile.jurisdiction.code === "DE"
     ? [...WILMA_FACT_QUESTIONS.filter(question => !DE_CONVICTION_FACT_IDS.includes(question.id)), ...DE_CONVICTION_QUESTIONS]
     : profile.jurisdiction.code === "MS"
     ? [...WILMA_FACT_QUESTIONS, ...MISSISSIPPI_CORRECTION_FACT_QUESTIONS, ...MS_CONDITIONAL_DISCHARGE_QUESTIONS, ...MS_PROGRAM_COMPLETION_QUESTIONS]
@@ -1430,7 +1433,7 @@ function buildProfileDraft(profile: EngineProfile): PublicJurisdictionProfile {
         routeScopedPacketFacts.includes(question.id)
       ), profile.jurisdiction.code)),
       caseOutcomeOptions: toPublicCaseOutcomeOptions(designerProfile.caseOutcomeOptions)
-    }, profile.pathways ?? [], routeScopedPacketFacts, ca12034Contract(profile), wy1401Contract(profile), ny16055SourceContract(profile), nyMrtaSourceContract(profile), ny16057SourceContract(profile));
+    }, profile.pathways ?? [], routeScopedPacketFacts, ca12034Contract(profile), wy1401Contract(profile), ny16055SourceContract(profile), nyMrtaSourceContract(profile), ny16057SourceContract(profile), mdPoliceSourceContract(profile));
   }
 
   const questionIds = new Set(profile.questions.map((question) => question.id));
@@ -1462,5 +1465,5 @@ function buildProfileDraft(profile: EngineProfile): PublicJurisdictionProfile {
       optionDisplay: question.optionDisplay
     }, profile.jurisdiction.code, "engine", routeScopedPacketFacts.includes(question.id)), profile.jurisdiction.code)),
     caseOutcomeOptions: toPublicCaseOutcomeOptions(profile.caseOutcomeOptions)
-  }, profile.pathways ?? [], routeScopedPacketFacts, ca12034Contract(profile), wy1401Contract(profile), ny16055SourceContract(profile), nyMrtaSourceContract(profile), ny16057SourceContract(profile));
+  }, profile.pathways ?? [], routeScopedPacketFacts, ca12034Contract(profile), wy1401Contract(profile), ny16055SourceContract(profile), nyMrtaSourceContract(profile), ny16057SourceContract(profile), mdPoliceSourceContract(profile));
 }

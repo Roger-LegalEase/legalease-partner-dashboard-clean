@@ -1,3 +1,4 @@
+import { mdPoliceQuestionApplies } from "@/lib/rcap-engine/maryland-police-record-facts";
 import { ny16057QuestionApplies } from "@/lib/rcap-engine/ny-16057-guidance";
 import { nyMrtaDecision, nyMrtaQuestionApplies, NY_MRTA_ROUTE } from "@/lib/rcap-engine/ny-mrta-stage-facts";
 import { virginiaVictimQuestionApplies } from "@/lib/rcap-engine/virginia-victim-question";
@@ -146,6 +147,7 @@ export function selectScreeningQuestionIds(
   }).map(question => question.id));
 
   return publicProfile.questions
+    .filter(question => mdPoliceQuestionApplies(profile, selectedPathway?.id, answers, question.id))
     .filter(question => ny16057QuestionApplies(profile, answers, question.id))
     .filter(question => ny16055QuestionApplies(profile, answers, question.id))
     .filter(question => nyMrtaQuestionApplies(profile, answers, question.id))

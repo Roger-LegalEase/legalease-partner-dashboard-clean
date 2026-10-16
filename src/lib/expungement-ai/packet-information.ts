@@ -1,3 +1,4 @@
+import { MD_POLICE_IDS, MD_POLICE_ROUTE, MD_POLICE_SOURCE, mdPoliceContext, mdPoliceFactIds } from "@/lib/rcap-engine/maryland-police-record-facts";
 import { moXivCourtContextQuestion } from "@/lib/expungement-ai/mo-xiv-court-context";
 import { mnCannabisLocationContextQuestion } from "@/lib/expungement-ai/mn-cannabis-location-context";
 import { mn609a017LocationContextQuestion } from "@/lib/expungement-ai/mn-609a017-location-context";
@@ -398,6 +399,9 @@ export function packetInformationModelFor(item: ConsumerBriefcaseItem): PacketIn
   questions = questions.map(question => ohTraffickingCourtContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
   questions = questions.map(question => mo610105CourtContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
   questions = questions.map(question => mo610122CourtContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
+  questions = questions.map(question => collection?.facts.some(fact => fact.factId === question.id && fact.source === "md_police_retained_context")
+    || mdPoliceContext(profile, pathwayId) && packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`) == null && ["county", "court"].includes(question.id)
+    ? { ...question, required: false, contextOnly: true, lifecyclePhase: "guidance_only" as const } : question);
   questions = questions.map(question => moXivCourtContextQuestion(question, collection?.facts.some(fact => fact.factId === "court" && fact.source === "mo_xiv_court_retained_context") === true));
   questions = questions.map(question => mn609a015LocationContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
   questions = questions.map(question => mn299c11LocationContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
@@ -2161,11 +2165,40 @@ export function virginiaVictimHeldDraftSuccessor(snapshot: ProtectedPacketAuthor
       treatmentClassification: null, deferralComponentIds: [], reasons: [], missingQuestionIds: [], cautions: [], nextSteps: [] } };
 }
 
+/** Exact captured original120/B predecessor, not a generic planless migration.
+ * Only the old unverified draft may open a current source-facts held view.
+ * No read/no-op changes stored maps, and a final envelope gains no authority. */
+const MD_POLICE_OLD_DRAFT = {"schemaVersion":"expungement-ai/protected-packet-draft/v1","jurisdiction":"MD","profileVersion":"2026-06-19-source-conversion-1","profileSourceFingerprint":"a88bc998d56cda93130e6f3db92e2545c7a98f87bd4940975c85b68ec664f64c","profileAuthorityFingerprint":"439ccffe2dbfe611cc84b1f87273fc49ddf8d245caef0dcd0ff5dad21a437747","pathwayId":"police-record-expungement-when-no-charge-was-filed-under-10-103","resultCode":"needs_more_info","paymentAllowed":false,"packetType":"custom_pleading","packetPlan":{"formMappingStatus":"custom_or_manual_mapping_required","mode":"state_specific_custom_packet_from_source_rules","packetReadyWhen":["backend result is packet_ready or packet_ready_with_caution","every source-defined pathway fact is answered","all waiting and completion conditions are satisfied","no exclusion, ambiguity, or required-review flag remains","the selected form revision and filing location pass source-freshness checks"],"pathwayId":"police-record-expungement-when-no-charge-was-filed-under-10-103","requiredInputIds":["age_at_offense","case_outcome","charge","contact_information","county","court","financial_obligations","jurisdiction","offense_category","offense_level","pardon_status","participant_full_legal_name","pathway_id","pending_cases","prior_relief","record_type","residency_or_location","sentence_completion_date","arrest_date"],"sourceFormIds":[],"sourceRuleRefs":["section:181-196","section:9-28","section:39-52","overview:9-28","corpus-unit:9","corpus-unit:29","corpus-unit:66","corpus-unit:4","corpus-unit:19","corpus-unit:20"]},"requiredInputIds":["age_at_offense","case_outcome","charge","contact_information","county","court","financial_obligations","jurisdiction","offense_category","offense_level","pardon_status","participant_full_legal_name","pathway_id","pending_cases","prior_relief","record_type","residency_or_location","sentence_completion_date","arrest_date"],"packetFamilyIdentifiers":{"mode":"state_specific_custom_packet_from_source_rules","sourceFormIds":[]},"selectedTrackId":null,"treatmentClassification":null,"deferralComponentIds":[],"serverFacts":{"jurisdiction":"MD","pathway_id":"police-record-expungement-when-no-charge-was-filed-under-10-103"}};
+export function marylandPoliceHeldDraftSuccessor(snapshot: ProtectedPacketAuthoritySnapshot,
+  authoritative: NonNullable<ReturnType<typeof evaluateProtectedPacketFacts>>,
+  status: ProtectedPacketVerificationRecord["status"]): ProtectedPacketDraftSnapshot | null {
+  const profile = getProfileByJurisdiction("MD"), evaluation = authoritative.evaluation;
+  if (!["unverified", "invalidated"].includes(status) || !mdPoliceContext(profile, snapshot.pathwayId)
+    || !mdPoliceContext(authoritative.profile, snapshot.pathwayId)
+    || !Object.entries(MD_POLICE_OLD_DRAFT).every(([key, value]) => canonicalEqual(snapshot[key as keyof ProtectedPacketAuthoritySnapshot], value))
+    || snapshot.profileAuthorityFingerprint !== profileAuthorityFingerprint(profile!, MD_POLICE_ROUTE)
+    || !canonicalEqual(snapshot.packetPlan, packetPlanForPathway(profile!, MD_POLICE_ROUTE))
+    || [snapshot.screeningAnswers, snapshot.prefilledAnswers, snapshot.packetAnswers].some(map => MD_POLICE_IDS.some(id => Object.hasOwn(map, id)))
+    || evaluation.jurisdiction !== "MD" || evaluation.profileVersion !== snapshot.profileVersion
+    || evaluation.pathwayId !== MD_POLICE_ROUTE || evaluation.resultCode !== "needs_more_info" || evaluation.paymentAllowed
+    || evaluation.packetPlan || authoritative.packetType || authoritative.selectedTrackId
+    || evaluation.treatmentClassification || evaluation.deferralComponentIds?.length
+    || !canonicalEqual(evaluation.missingQuestionIds, ["arrest_date"])
+    || evaluation.reasons.length !== 1 || evaluation.reasons[0].code !== "md.police_source_missing"
+    || evaluation.reasons[0].sourceRef !== MD_POLICE_SOURCE) return null;
+  const seeded = protectedPacketDraftSeedFromAuthoritative({ authoritative,
+    screeningAnswers: answerRecord(snapshot.screeningAnswers), prefilledAnswers: answerRecord(snapshot.prefilledAnswers),
+    packetAnswers: answerRecord(snapshot.packetAnswers), dependencies: snapshot.dependencies, capturedAt: (snapshot as ProtectedPacketDraftSnapshot).capturedAt });
+  return seeded ? preserveUnchangedProtectedFacts(seeded.snapshot, snapshot, new Set()) : null;
+}
+
 export function protectedPacketInformationModelFor(
   verification: ProtectedPacketVerificationRecord
 ): ProtectedPacketInformationModel | null {
   let snapshot = protectedAuthoritySnapshotFor(verification);
   if (!snapshot) return null;
+  const mdAuthority = snapshot.jurisdiction === "MD" ? evaluateProtectedPacketFacts(snapshot) : null;
+  if (mdAuthority) snapshot = marylandPoliceHeldDraftSuccessor(snapshot, mdAuthority, verification.status) ?? snapshot;
   const wyAuthority=snapshot.jurisdiction==="WY"?evaluateProtectedPacketFacts(snapshot):null;
   if(wyAuthority)snapshot=wyoming1501DraftSuccessor(snapshot,wyAuthority)??wyoming1401DraftSuccessor(snapshot,wyAuthority)??snapshot;
   const caAuthority=snapshot.jurisdiction === "CA" && snapshot.pathwayId === CA_12034_ROUTE ? evaluateProtectedPacketFacts(snapshot) : null;
@@ -2783,6 +2816,9 @@ export function packetCollectionFor(input: {
 export function factualPathwayCorrectionIds(state: string, pathway: string | null, answers: Record<string, unknown>, includeInactive = false): string[] {
   const profile = getProfileByJurisdiction(state);
   if (state === "DE") return delawareProtectedCorrectionIds(profile ?? undefined, pathway, answers, includeInactive);
+  if (mdPoliceContext(profile, pathway) && packetSpecificationFor(`${state}:${pathway}`) == null) return [
+    ...mdPoliceFactIds(answers, includeInactive), "case_outcome",
+    ...(includeInactive ? ["county", "court", ...["financial_obligations", "sentence_completion_date", "court_requirements_completed", "resolved_timing_bucket"].filter(id => Object.hasOwn(answers, id))] : [])];
   const relief = profile ? convictionReliefRequest(profile, answers) : null;
   const extra = profile && relief && relief.status !== "not_applicable"
     ? [...convictionReliefQuestions(state).filter(q => includeInactive || convictionReliefQuestionApplies(profile, answers, q.id)).map(q => q.id),
@@ -3041,6 +3077,11 @@ export function isTexasNondisclosureGuidanceCorrection(model: Parameters<typeof 
 
 export function heldPacketCorrectionInputIds(model: Parameters<typeof heldCourtCompletionInputIds>[0], resultCode: string | null): Set<string> {
   const ids = heldCourtCompletionInputIds(model, resultCode);
+  if (mdPoliceContext(getProfileByJurisdiction(model.stateCode), model.pathwayId)
+    && ["guidance_only", "needs_more_info", "needs_review"].includes(resultCode ?? "")) {
+    const allowed = editablePacketInputIds(model);
+    for (const id of routeFactualCorrectionIds(model)) if (allowed.has(id) && model.questions.some(q => q.id === id)) ids.add(id);
+  }
   if (isTexasNondisclosureGuidanceCorrection(model,resultCode)) {
     const allowed=editablePacketInputIds(model);
     for(const id of routeFactualCorrectionIds(model)) if (id.startsWith("tx_nd_") && allowed.has(id)) ids.add(id);
@@ -3290,7 +3331,7 @@ function protectedPacketQuestionSurface(
     }
   }
   const correctionIds = routeFactualCorrectionIds({ stateCode: profile.jurisdiction.code, pathwayId, requiredInputIds, screeningAnswers, prefilledAnswers, packetAnswers: savedAnswers, heldFactualCorrectionIds });
-  for (const id of correctionIds) {
+  for (const id of [...correctionIds, ...(mdPoliceContext(profile, pathwayId) && packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`) == null ? ["county", "court"] : [])]) {
     const question = questionById.get(id);
     if (question && !questions.some(q => q.id === id)) questions.push({ ...question, required: false, contextOnly: false });
   }
@@ -3323,6 +3364,9 @@ function protectedPacketQuestionSurface(
   questions = questions.map(question => ohTraffickingCourtContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
   questions = questions.map(question => mo610105CourtContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
   questions = questions.map(question => mo610122CourtContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
+  questions = questions.map(question => collection?.facts.some(fact => fact.factId === question.id && fact.source === "md_police_retained_context")
+    || mdPoliceContext(profile, pathwayId) && packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`) == null && ["county", "court"].includes(question.id)
+    ? { ...question, required: false, contextOnly: true, lifecyclePhase: "guidance_only" as const } : question);
   questions = questions.map(question => moXivCourtContextQuestion(question, collection?.facts.some(fact => fact.factId === "court" && fact.source === "mo_xiv_court_retained_context") === true));
   questions = questions.map(question => mn609a015LocationContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
   questions = questions.map(question => mn299c11LocationContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
@@ -3655,7 +3699,7 @@ function deriveProtectedPacketDraftSnapshot(
   if (mtDeferredPreparation && !mtPreparationIds) return null;
   const caJuvenileIds = caJuvenilePreparation ? caProp64JuvenilePreparationModelFor(verification)?.caJuvenilePreparationFactIds : undefined;
   if (caJuvenilePreparation && !caJuvenileIds) return null;
-  base = wyoming1501DraftSuccessor(base,currentAuthority) ?? texasNondisclosureClockDraftSuccessor(base, currentAuthority) ?? texasGuidanceFinancialDraftSuccessor(base, currentAuthority) ?? westVirginiaGuidanceFinancialDraftSuccessor(base, currentAuthority) ?? southDakotaGuidanceFinancialDraftSuccessor(base, currentAuthority) ?? southCarolinaGuidanceFinancialDraftSuccessor(base, currentAuthority) ?? newJerseyMarijuanaStatusFinancialDraftSuccessor(base, currentAuthority) ?? wyoming1401DraftSuccessor(base,currentAuthority) ?? newMexicoGuidanceFinancialDraftSuccessor(base, currentAuthority) ?? montanaRecordFinancialDraftSuccessor(base, currentAuthority) ?? californiaProbationDraftSuccessor(base,currentAuthority) ?? oregonDispositionDraftSuccessor(base, currentAuthority) ?? montanaDeferredDraftSuccessor(base, currentAuthority) ?? missouriMarijuanaDraftSuccessor(base, currentAuthority) ?? missouriClosureDraftSuccessor(base, currentAuthority) ?? maineNonconvictionDraftSuccessor(base, currentAuthority) ?? louisianaAutomationStatusHeldSuccessor(base, currentAuthority) ?? nebraskaAcquittalHeldSuccessor(base, currentAuthority) ?? kansasRegistrationHeldSuccessor(base, currentAuthority) ?? base;
+  base = marylandPoliceHeldDraftSuccessor(base, currentAuthority, verification.status) ?? wyoming1501DraftSuccessor(base,currentAuthority) ?? texasNondisclosureClockDraftSuccessor(base, currentAuthority) ?? texasGuidanceFinancialDraftSuccessor(base, currentAuthority) ?? westVirginiaGuidanceFinancialDraftSuccessor(base, currentAuthority) ?? southDakotaGuidanceFinancialDraftSuccessor(base, currentAuthority) ?? southCarolinaGuidanceFinancialDraftSuccessor(base, currentAuthority) ?? newJerseyMarijuanaStatusFinancialDraftSuccessor(base, currentAuthority) ?? wyoming1401DraftSuccessor(base,currentAuthority) ?? newMexicoGuidanceFinancialDraftSuccessor(base, currentAuthority) ?? montanaRecordFinancialDraftSuccessor(base, currentAuthority) ?? californiaProbationDraftSuccessor(base,currentAuthority) ?? oregonDispositionDraftSuccessor(base, currentAuthority) ?? montanaDeferredDraftSuccessor(base, currentAuthority) ?? missouriMarijuanaDraftSuccessor(base, currentAuthority) ?? missouriClosureDraftSuccessor(base, currentAuthority) ?? maineNonconvictionDraftSuccessor(base, currentAuthority) ?? louisianaAutomationStatusHeldSuccessor(base, currentAuthority) ?? nebraskaAcquittalHeldSuccessor(base, currentAuthority) ?? kansasRegistrationHeldSuccessor(base, currentAuthority) ?? base;
   const factualIds = [...factualPathwayCorrectionIds(base.jurisdiction, base.pathwayId, { ...base.screeningAnswers, ...base.prefilledAnswers, ...base.packetAnswers }, true), ...msExactTimingQuestionIds(base.jurisdiction, base.pathwayId, { ...base.screeningAnswers, ...base.prefilledAnswers, ...base.packetAnswers }, true), ...oregonUnselectedCorrectionIds(base), ...missouriUnselectedCorrectionIds(base), ...maineUnselectedCorrectionIds(base), ...nebraskaUnselectedCorrectionIds(base), ...louisianaUnselectedCorrectionIds(base)];
   if (gaPreparationIds) factualIds.push(...gaPreparationIds);
   if (mtPreparationIds) factualIds.push(...mtPreparationIds);
