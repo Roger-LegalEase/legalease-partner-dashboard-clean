@@ -19,11 +19,28 @@ const {selectScreeningQuestionIds}=await import('../src/lib/rcap-engine/screenin
 const {sanitizeResumedAnswersForQuestionIds}=await import('../src/components/expungement-ai/screening/screens.ts');
 const {POST}=await import('../src/app/api/expungement-ai/evaluate/route.ts');
 const {resolveRuntimeText,t}=await import('../src/lib/expungement-ai/localization.ts');
+const {reviewedResultText}=await import('../src/lib/expungement-ai/reviewed-result-copy.ts');
 const {ScreeningResult}=await import('../src/components/expungement-ai/screening/ScreeningResult.tsx');
 const {LocalizationContext}=await import('../src/components/expungement-ai/LocalizationProvider.tsx');
 const profile=getProfileByJurisdiction('CA'),pub=projectPublicProfile(profile),checks=[],scenarios=[],renders=[];
 function check(name,actual,expected){checks.push({name,actual,expected,pass:JSON.stringify(actual)===JSON.stringify(expected)});}
 const facts={charge:'HSC11357',ca_prop64_next_step:'apply',ca_prop64_offense_date:'2000-01-01',ca_prop64_age_at_offense:21,ca_prop64_court_type:'adult',ca_prop64_existing_relief:'none',ca_prop64_substance:'flower',ca_prop64_flower_grams:28.5,ca_prop64_possession_context:'ordinary'};
+
+// Exact returned two-entry Spanish candidates; final qualified language review
+// remains pending. English and current source/decision meanings stay unchanged.
+const exactCaResultPairs=[{"id":"CA-PROP64-cross_border_conduct","copy":"reason","key":"cross_border_conduct","en":"Review the exact import or export conduct before treating it as lawful possession or a lesser offense.","es":"Revise la conducta exacta de importación o exportación antes de tratarla como posesión legal o un delito de menor gravedad."},{"id":"CA-PROP64-current","copy":"procedure","key":"current","en":"For a sentence still being served, including probation, parole, PRCS or mandatory supervision, the court presumes eligibility unless the opposing party proves otherwise by clear and convincing evidence. The court may deny relief for an unreasonable risk of danger to public safety. These are court decisions, not facts you must certify.","es":"Para una sentencia que aún se cumple, incluidas la libertad a prueba (probation), la libertad condicional (parole), supervisión comunitaria posterior a la liberación (PRCS) o supervisión obligatoria, el tribunal presume la elegibilidad salvo prueba clara y convincente en contrario de la parte opositora. El tribunal puede denegar la reparación por un riesgo irrazonable de peligro para la seguridad pública. Son decisiones judiciales, no hechos que usted deba certificar."}];
+const resultCatalog=JSON.parse(fs.readFileSync('src/lib/expungement-ai/frontend/reviewed-result-display-copy.json'));
+for(const pair of exactCaResultPairs){
+ const sourcePair=(pair.copy==='reason'?F.CA_PROP64_REASON_COPY:F.CA_PROP64_PROCEDURE_COPY)[pair.key];
+ check(pair.id+' exact direct source EN/ES',sourcePair,[pair.en,pair.es]);
+ check(pair.id+' actual reviewed consumer',reviewedResultText(pair.en),{en:pair.en,es:pair.es});
+ for(const locale of ['en','es'])check(pair.id+' actual runtime consumer '+locale,resolveRuntimeText(locale,pair.en),pair[locale]);
+ const matches=resultCatalog.entries.filter(entry=>entry.id===pair.id);
+ check(pair.id+' unique unchanged identity/English/review status',matches.map(({id,originalEnglish,en,reviewStatus})=>({id,originalEnglish,en,reviewStatus})),[{id:pair.id,originalEnglish:pair.en,en:pair.en,reviewStatus:'SOURCE_BACKED_DRAFT_INDEPENDENT_LANGUAGE_REVIEW_PENDING'}]);
+}
+// Reuse the existing conduct test's literal 11360 unpaid-gift facts with the
+// retained cross-border 'other' review branch, keeping both procedure branches.
+const crossBorderReviewFacts={...facts,charge:'HSC11360',ca_prop64_transfer_conduct:'unpaid_gift',ca_prop64_cross_border:'other',ca_prop64_recipient_age:21,ca_prop64_prior_superstrike:'No',ca_prop64_prior_290c:'No',ca_prop64_same_section_priors:0,ca_prop64_knowing_minor_transaction:'No'};
 const evaluateAnswers=answers=>evaluate({jurisdiction:'CA',profileVersion:profile.profileVersion,matterId:'synthetic-ca-conduct',answers});
 for(const name of ['currently-serving','completed']){
  const fixture=JSON.parse(fs.readFileSync(new URL(`./fixtures/ca-prop64-protected-baseline/${name}.json`,import.meta.url)));
@@ -47,10 +64,19 @@ for(const name of ['currently-serving','completed']){
  const selected=selectScreeningQuestionIds(profile,pub,positive);for(const id of F.CA_PROP64_LEGACY_IDS)check(name+' legal conclusion not asked '+id,selected.includes(id),false);
  for(const id of F.caProp64ActiveFactIds(positive))check(name+' active fact asked '+id,selected.includes(id),true);
  const hidden={...positive,ca_prop64_plant_count:22,ca_prop64_prior_superstrike:'Yes'};const resumed=sanitizeResumedAnswersForQuestionIds(pub,hidden,selected);for(const id of ['ca_prop64_plant_count','ca_prop64_prior_superstrike',...F.CA_PROP64_LEGACY_IDS])check(name+' hidden raw retained '+id,resumed[id],hidden[id]);
- for(const [label,patch,expected]of [['legacy',{},'needs_more_info'],['positive',facts,target],['zero',{...facts,ca_prop64_flower_grams:0},'needs_review'],['juvenile',{...facts,ca_prop64_court_type:'juvenile'},'needs_review'],['oldrelief',{...facts,ca_prop64_existing_relief:'dismissed',ca_prop64_additional_benefit:'sealing'},'needs_review'],['school',{...facts,ca_prop64_possession_context:'school_children'},name==='completed'?'needs_review':target]]){
-  const answers={...base,...patch},evaluation=evaluateAnswers(answers).evaluation;scenarios.push({name,label,answers,evaluation});check(name+'/'+label,evaluation.resultCode,expected);
+ for(const [label,patch,expected]of [['legacy',{},'needs_more_info'],['positive',facts,target],['zero',{...facts,ca_prop64_flower_grams:0},'needs_review'],['juvenile',{...facts,ca_prop64_court_type:'juvenile'},'needs_review'],['oldrelief',{...facts,ca_prop64_existing_relief:'dismissed',ca_prop64_additional_benefit:'sealing'},'needs_review'],['school',{...facts,ca_prop64_possession_context:'school_children'},name==='completed'?'needs_review':target],['cross-border-other',crossBorderReviewFacts,'needs_review']]){
+  const answers={...base,...patch},rawBefore=structuredClone(answers),evaluation=evaluateAnswers(answers).evaluation;scenarios.push({name,label,answers,evaluation});check(name+'/'+label,evaluation.resultCode,expected);
+  const exactPair=label==='cross-border-other'?exactCaResultPairs[0]:name==='currently-serving'&&label==='positive'?exactCaResultPairs[1]:null;
+  if(exactPair){
+   const generated=exactPair.copy==='reason'?evaluation.reasons.map(reason=>reason.text):evaluation.cautions;
+   check(name+'/'+label+' natural unchanged English branch',generated.filter(text=>text===exactPair.en),[exactPair.en]);
+   check(name+'/'+label+' raw answers unchanged',answers,rawBefore);
+   check(name+'/'+label+' unchanged conduct decision',F.caProp64Facts(answers,'2026-10-12'),label==='cross-border-other'?{status:'review',code:'cross_border_conduct',ids:['ca_prop64_cross_border']}:{status:'satisfied',ids:[],classification:'no_offense'});
+   if(label==='cross-border-other')check(name+'/'+label+' review remains unpaid',evaluation.paymentAllowed,false);
+  }
+
   const response=await POST(new Request('http://localhost/api/expungement-ai/evaluate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({jurisdiction:'CA',profileVersion:profile.profileVersion,matterId:'synthetic-ca-handler',answers})}));const body=await response.json();check(name+'/'+label+' actual handler',[response.status,body.resultCode],[200,expected]);
-  for(const locale of ['en','es']){const value={locale,setLocale:()=>{},t:(key,fallback,vars)=>t(locale,key,fallback,vars),text:(text,options)=>resolveRuntimeText(locale,text,options)};const markup=renderToStaticMarkup(React.createElement(LocalizationContext.Provider,{value},React.createElement(ScreeningResult,{evaluation,stateName:'California',questionPromptById:Object.fromEntries(pub.questions.map(q=>[q.id,q.prompt])),hasScreeningSession:false,onEditAnswers:()=>{},onPacketAction:()=>{}})));renders.push({name,label,locale,markup});for(const reason of evaluation.reasons.filter(r=>Object.values(F.CA_PROP64_REASON_COPY).some(([en])=>en===r.text))){const text=resolveRuntimeText(locale,reason.text);check(name+'/'+label+'/'+locale+' reason rendered',markup.includes(renderToStaticMarkup(React.createElement('span',null,text)).slice(6,-7)),true);if(locale==='es')check(name+'/'+label+' Spanish reason',text!==reason.text,true);}}
+  for(const locale of ['en','es']){const value={locale,setLocale:()=>{},t:(key,fallback,vars)=>t(locale,key,fallback,vars),text:(text,options)=>resolveRuntimeText(locale,text,options)};const markup=renderToStaticMarkup(React.createElement(LocalizationContext.Provider,{value},React.createElement(ScreeningResult,{evaluation,stateName:'California',questionPromptById:Object.fromEntries(pub.questions.map(q=>[q.id,q.prompt])),hasScreeningSession:false,onEditAnswers:()=>{},onPacketAction:()=>{}})));renders.push({name,label,locale,markup});if(exactPair){const exactRendered=renderToStaticMarkup(React.createElement('span',null,exactPair[locale])).slice(6,-7);check(name+'/'+label+'/'+locale+' exact literal generated copy rendered',markup.includes(exactRendered),true);} for(const reason of evaluation.reasons.filter(r=>Object.values(F.CA_PROP64_REASON_COPY).some(([en])=>en===r.text))){const text=resolveRuntimeText(locale,reason.text);check(name+'/'+label+'/'+locale+' reason rendered',markup.includes(renderToStaticMarkup(React.createElement('span',null,text)).slice(6,-7)),true);if(locale==='es')check(name+'/'+label+' Spanish reason',text!==reason.text,true);}}
  }
 }
 const failed=checks.filter(c=>!c.pass),report={status:failed.length?'FAIL':'PASS',checks:checks.length,scenarios:scenarios.length,renders:renders.length,failed,details:checks,scenarioDetails:scenarios,renderDetails:renders,limits:['Pure protected transitions and real stateless handlers/SSR; not DB/browser/RLS acceptance or professional approval.']};
