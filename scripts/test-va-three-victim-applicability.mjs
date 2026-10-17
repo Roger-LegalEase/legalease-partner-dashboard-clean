@@ -233,6 +233,58 @@ for(const row of rows){
  check(row.originalMember+'/'+row.variant+'/old-final-current-authority-denied',denied,true);
  const forgedStatus={...oldBefore,status:'verified'};check(row.originalMember+'/'+row.variant+'/verified-status-with-only-draft-denied',P.protectedPacketInformationModelFor(forgedStatus),null);
 }
+// GA-14-M01070/M01071/M01072 residency_or_location on the same three routes:
+// legacy location stays an unresolved retained obligation, known values are kept,
+// it is never a screening/record-origin or output consumer (origin is jurisdiction_scope).
+{
+const {packetPlanForPathway}=await import('../src/lib/rcap-engine/packet-planner.ts');
+const {prepayGateFactIds}=await import('../src/lib/expungement-ai/packet-collection.ts');
+const {renderPreflight}=await import('../src/lib/expungement-ai/render-preflight.ts');
+const read=p=>JSON.parse(fs.readFileSync(p,'utf8')),W=read('data/rcap-ledger/public-witness-answer-sets.json').witnesses;
+const locationCheck=(name,fn)=>{let pass=true;try{fn();}catch{pass=false;}check(name,pass,true);};
+const C='data/rcap-all50/overlays/census-v1/va/',PR='data/rcap-all50/overlays/production/virginia/';
+const LEGACY=['residency_or_location','county_or_filing_location','court','jurisdiction_scope','county'];
+// Every existing family/destination per route (registry + memo track corroboration, case-insensitive search).
+const members={
+ 'GA-14-M01070':{route:'automatic-sealing-no-filing',maps:[],guidance:['va_auto_seal_clean_record','va_auto_seal_nonconvictions','va_auto_seal_without_order']},
+ 'GA-14-M01071':{route:'petition-based-sealing',maps:[C+'va-seal-ancillary-matter-only-set--official-pdf-fill',C+'va-seal-petition-misdemeanor-set--official-pdf-fill',C+'va-seal-petition-felony-set--official-pdf-fill',C+'va-seal-enumerated-seven-year-set--official-pdf-fill',PR+'cc-1201-form-en',PR+'cc-1201-a-form-en',PR+'cc-1203-form-en',PR+'cc-1203-a-form-en',PR+'cc-1203-b-form-en']},
+ 'GA-14-M01072':{route:'regime-1-expungement-available-now',maps:[C+'va-exp-absolute-pardon-set--custom-pleading',C+'va-exp-nonconviction-set--official-pdf-fill',C+'va-exp-identity-used-by-another-set--custom-pleading',PR+'cc-1473-form-en',PR+'cc1473'],spec:'data/record-clearing/packet-specifications/VA-absolute-pardon-expungement.v1.json',guidance:['va_exp_actual_innocence']}};
+const ids=o=>{const out=[];const w=x=>{if(Array.isArray(x))x.forEach(w);else if(x&&typeof x==='object'){for(const k of ['factId','sourceFactId','canonicalFactId'])if(typeof x[k]==='string')out.push(x[k]);Object.values(x).forEach(w);}};w(o);return out;};
+function assertMap(map,label){
+ const f=ids(map);
+ locationCheck(label+'/no-legacy-location-consumer',()=>assert(!f.some(id=>LEGACY.includes(id)),JSON.stringify(f.filter(id=>LEGACY.includes(id)))));
+}
+for(const [member,{route,maps,guidance,spec}] of Object.entries(members)){
+ const plan=packetPlanForPathway(profile,route),sf={jurisdiction:'VA',pathway_id:route};
+ const collect=(map,v)=>{const input={jurisdiction:'VA',pathwayId:route,requiredInputIds:plan.requiredInputIds,serverFacts:sf,screeningAnswers:{},prefilledAnswers:{},savedAnswers:{}};if(v!==undefined)input[map]={residency_or_location:v};const before=JSON.stringify(input);const c=P.packetCollectionFor(input);assert.equal(JSON.stringify(input),before);return c;};
+ locationCheck(member+'/plan-retains-legacy-obligation',()=>assert(plan.requiredInputIds.includes('residency_or_location')));
+ for(const [label,v] of [['absent',undefined],['typed-unknown',{unknown:true}],['not-sure','I am not sure'],['empty','']]){
+  const c=collect('screeningAnswers',v),f=c.facts.filter(x=>x.factId==='residency_or_location');
+  locationCheck(member+'/'+label+'/unresolved-scope',()=>{assert.equal(f.length,1);assert.equal(f[0].collection,'unresolved');assert.equal(f[0].source,'unresolved_route_rule_scope');assert(!Object.hasOwn(f[0],'value'));assert(c.unresolvedRequiredFacts.includes('residency_or_location'));assert(prepayGateFactIds(c).includes('residency_or_location'));});
+ }
+ for(const v of ['Fairfax County',{value:'Earlier location',unknown:false}]){const f=collect('prefilledAnswers',v).facts.find(x=>x.factId==='residency_or_location');locationCheck(member+'/known-raw-preserved/'+JSON.stringify(v),()=>{assert.equal(f.collection,'already_known');assert.deepEqual(f.value,v);});}
+ const retainedVa=W.find(x=>x.pathwayKey==='VA:'+route),firstVa=W.find(x=>x.jurisdiction==='VA');
+ const w={finalAnswers:retainedVa?.finalAnswers??{...firstVa.finalAnswers,possible_pathway_context:profile.pathways.find(x=>x.id===route).label,case_outcome:'Dismissed, no-billed, nolle prosequi, or not prosecuted',identity_error:'No'}};
+ {
+  const authoritative=evaluate({jurisdiction:'VA',profileVersion:profile.profileVersion,matterId:'synthetic-va-location',answers:w.finalAnswers});
+  locationCheck(member+'/location-is-not-a-screening-consumer',()=>assert.throws(()=>evaluate({jurisdiction:'VA',profileVersion:profile.profileVersion,matterId:'m',answers:{...w.finalAnswers,residency_or_location:'Maryland'}}),e=>JSON.stringify(e.invalidQuestionIds)==='["residency_or_location"]'));
+  locationCheck(member+'/federal-origin-hard-stop',()=>{const e=evaluate({jurisdiction:'VA',profileVersion:profile.profileVersion,matterId:'m',answers:{...w.finalAnswers,jurisdiction_scope:'Federal'}}).evaluation;assert.equal(e.resultCode,'hard_stop');assert.equal(e.reasons[0].code,'va.federal_or_out_of_scope');assert.equal(e.paymentAllowed,false);});
+  for(const v of [undefined,{unknown:true},'Fairfax County','Maryland',{value:'Earlier location',unknown:false}]){
+   const seed=P.protectedPacketDraftSeedFromAuthoritative({authoritative,screeningAnswers:w.finalAnswers,dependencies:{commercialFlowVersion:1},capturedAt:'2026-10-16T00:00:00Z'});
+   if(v!==undefined)seed.snapshot.packetAnswers.residency_or_location=v;
+   const rec={status:'unverified',reason:'synthetic',revision:0,draftHash:P.protectedPacketDraftHash(seed.snapshot),draftSnapshot:seed.snapshot},before=JSON.stringify(rec),m=P.protectedPacketInformationModelFor(rec);
+   const known=typeof v==='string'||(v&&v.unknown===false);
+   locationCheck(member+'/model/'+JSON.stringify(v),()=>{assert.equal(authoritative.evaluation.pathwayId,route);assert.equal(m.pathwayId,route);assert.equal(m.missingInputIds.includes('residency_or_location'),!known);assert.deepEqual(m.initialAnswers.residency_or_location,v);assert.equal(JSON.stringify(rec),before);});
+  }
+ }
+ for(const s of ['checkout creation','packet generation'])locationCheck(member+'/no-output/'+s,()=>{const a=packetFulfillmentAuthority('VA',route,s,{trackId:null});assert.equal(a.allowed,false);assert(a.reason.includes('NO_RECORD'),a.reason);});
+ locationCheck(member+'/no-render-authority',()=>assert.equal(renderPreflight({snapshot:{jurisdiction:'VA',pathwayId:route,selectedTrackId:null},verificationHash:'x',facts:{residency_or_location:'Fairfax County'}}).reason,'no_composable_specification_for_route'));
+ for(const dir of maps){const map=read(dir+'/production-field-map.json');assertMap(map,member+'/'+dir.split('/').pop());}
+ if(guidance){const g=read('data/rcap-all50/guidance-packets/va.json').packets;for(const t of guidance)locationCheck(member+'/guidance-binds-no-facts/'+t,()=>{const p=g.find(x=>x.trackId===t);assert(p);assert.deepEqual(ids(p),[]);});}
+ if(spec){const j=read(spec),d=j.procedureAdoption.originalFactDispositions.find(x=>x.factId==='final_disposition_dates_and_courts');
+  locationCheck(member+'/v3s7-court-owned-venue',()=>{assert.equal(j.officialForm.sourceSha256,'85ac8ea0f2dc40d890fa2b37921a1b24956ed4aecb1555109a0bb5a65793c656');assert.equal(j.legalSectionsBound,false);assert.equal(j.procedureAdoption.participantPetitionEstablished,false);assert.equal(d.participantPetitionRequired,false);assert.equal(d.historicalRawAnswerPreserved,true);assert.equal(j.procedureAdoption.mechanism.implementationActor,'receiving circuit court');assert.equal(d.officialFormDestination,null);assert(!j.requiredFacts.some(f=>LEGACY.includes(f.factId)));});}
+}
+}
 const failed=checks.filter(c=>!c.pass);
 if(process.env.RCAP_VA_VICTIM_RECEIPT)fs.writeFileSync(process.env.RCAP_VA_VICTIM_RECEIPT,JSON.stringify({head:process.env.RCAP_VA_VICTIM_SOURCE_HEAD,checks,rows,offered,historical,clientDependencyClosure:{files:[...clientSeen].map(p=>path.relative(root,p)),serverOnlyPaths:serverPaths},limits:['Synthetic evaluator/projection/model/persistence only; no authenticated owner, DB, legal eligibility, currentness expansion, language or output acceptance.']},null,2)+'\n',{flag:'wx'});
 console.log(JSON.stringify({checks:checks.length,rows:rows.length,failed:failed.map(({name,actual,expected})=>({name,actual:typeof actual==='object'?actual?.resultCode:actual,expected:typeof expected==='object'?expected?.resultCode:expected}))}));
