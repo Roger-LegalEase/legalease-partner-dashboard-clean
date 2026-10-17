@@ -1,19 +1,20 @@
 import { caProp64CaptionAnswerState } from "@/lib/expungement-ai/ca-prop64-caption-answer";
 /** Source-specific caption facts. This wire carries owner declarations only;
  * it cannot infer account contact, service consent, or filing authority. */
-export const CA_CONTACT_CONTRACT = "ca_prop64_contacts_v1" as const;
+export const CA_CONTACT_CONTRACT = "ca_prop64_contacts_v2" as const;
+export const CA_CONTACT_LEGACY_CONTRACT = "ca_prop64_contacts_v1" as const;
 export const CA_FILER_CONTACT = "ca_prop64_filer_contact";
 export const CA_COURT_CONTACT = "ca_prop64_court_address";
 export const CA_CONTACT_IDS = [CA_FILER_CONTACT, CA_COURT_CONTACT];
 export type CaContactContext = { representation: string; defendantName: string; county: string };
 export type CaOptionalContact = { status: "" | "known" | "absent" | "unknown"; value: string };
 export type CaFilerContact = {
-  version: typeof CA_CONTACT_CONTRACT; kind: "filer"; representation: string; defendantName: string;
-  attorneyName: string; barNumber: string; street: string; city: string; state: string; zip: string; phone: string;
+  version: typeof CA_CONTACT_CONTRACT | typeof CA_CONTACT_LEGACY_CONTRACT; kind: "filer"; representation: string; defendantName: string;
+  attorneyName: string; barNumber: string; street: string; city: string; state: string; zip: string; phone: string | CaOptionalContact;
   fax: CaOptionalContact; email: CaOptionalContact; firm: CaOptionalContact;
 };
 export type CaCourtContact = {
-  version: typeof CA_CONTACT_CONTRACT; kind: "court"; county: string; street: string; cityStateZip: string;
+  version: typeof CA_CONTACT_CONTRACT | typeof CA_CONTACT_LEGACY_CONTRACT; kind: "court"; county: string; street: string; cityStateZip: string;
   mailingRelationship: "" | "same" | "distinct" | "unknown"; mailingAddress: string;
 };
 export type CaContact = CaFilerContact | CaCourtContact;
@@ -22,6 +23,9 @@ const object = (v: unknown, keys: string[]): v is Record<string, unknown> => Boo
   && [Object.prototype, null].includes(Object.getPrototypeOf(v)) && Object.keys(v).length === keys.length && keys.every(k => Object.hasOwn(v, k)));
 const optional = (v: unknown) => object(v, ["status", "value"]) && ["", "known", "absent", "unknown"].includes(String(v.status)) && typeof v.status === "string" && line(v.value);
 export const caContactKnownText = (v: string) => Boolean(v.trim()) && !["unknown", "unsure", "not sure", "i am not sure", "i'm not sure", "no sé", "no se", "no estoy seguro", "no estoy segura", "prefer not to say"].includes(v.trim().toLowerCase().replace(/\u2019/g, "'"));
+// In v2, no-phone declarations belong to the explicit status, not the number.
+export const caContactPhoneText = (value: string) => caContactKnownText(value)
+  && !/^(?:none|n\/?a|no phone|no phone number|no telephone|no telephone number|ninguno|ninguna|sin teléfono|sin número de teléfono)$/i.test(value.trim());
 export function caContactContext(answers: Readonly<Record<string, unknown>>): CaContactContext {
   const held = (id: string) => {
     const raw = answers[id];
@@ -34,7 +38,7 @@ export function caContactContext(answers: Readonly<Record<string, unknown>>): Ca
 }
 export function emptyCaContact(id: string, context: CaContactContext): CaContact {
   return id === CA_FILER_CONTACT ? { version: CA_CONTACT_CONTRACT, kind: "filer", representation: context.representation, defendantName: context.defendantName,
-    attorneyName: "", barNumber: "", street: "", city: "", state: "", zip: "", phone: "", fax: { status: "", value: "" }, email: { status: "", value: "" }, firm: { status: "", value: "" } }
+    attorneyName: "", barNumber: "", street: "", city: "", state: "", zip: "", phone: { status: "", value: "" }, fax: { status: "", value: "" }, email: { status: "", value: "" }, firm: { status: "", value: "" } }
     : { version: CA_CONTACT_CONTRACT, kind: "court", county: context.county, street: "", cityStateZip: "", mailingRelationship: "", mailingAddress: "" };
 }
 export function parseCaContact(id: string, raw: unknown): CaContact | null {
@@ -43,9 +47,10 @@ export function parseCaContact(id: string, raw: unknown): CaContact | null {
   const keys = id === CA_FILER_CONTACT
     ? ["version", "kind", "representation", "defendantName", "attorneyName", "barNumber", "street", "city", "state", "zip", "phone", "fax", "email", "firm"]
     : ["version", "kind", "county", "street", "cityStateZip", "mailingRelationship", "mailingAddress"];
-  if (!object(v, keys) || v.version !== CA_CONTACT_CONTRACT || v.kind !== (id === CA_FILER_CONTACT ? "filer" : "court") || JSON.stringify(v) !== raw[0]) return null;
-  for (const k of keys) if (!["fax", "email", "firm"].includes(k) && !line(v[k])) return null;
+  if (!object(v, keys) || (v.version !== CA_CONTACT_CONTRACT && v.version !== CA_CONTACT_LEGACY_CONTRACT) || v.kind !== (id === CA_FILER_CONTACT ? "filer" : "court") || JSON.stringify(v) !== raw[0]) return null;
+  for (const k of keys) if (!["fax", "email", "firm", ...(v.version === CA_CONTACT_CONTRACT && id === CA_FILER_CONTACT ? ["phone"] : [])].includes(k) && !line(v[k])) return null;
   if (id === CA_FILER_CONTACT && (!["", "self_represented", "attorney", "unknown"].includes(String(v.representation)) || ![v.fax, v.email, v.firm].every(optional))) return null;
+  if (id === CA_FILER_CONTACT && v.version === CA_CONTACT_CONTRACT && !optional(v.phone)) return null;
   if (id === CA_COURT_CONTACT && !["", "same", "distinct", "unknown"].includes(String(v.mailingRelationship))) return null;
   return v as unknown as CaContact;
 }
@@ -59,9 +64,11 @@ export function caContactAnswerState(id: string, raw: unknown, context?: CaConta
   if (raw === null || raw === undefined || raw === "" || Array.isArray(raw) && raw.length === 0) return "unanswered";
   const v = parseCaContact(id, raw); if (!v) return "invalid";
   if (!caContactCurrent(v, context)) return "uncertain";
-  const required = v.kind === "filer" ? [v.street, v.city, v.state, v.zip, v.phone, ...(v.representation === "attorney" ? [v.attorneyName, v.barNumber] : [])]
+  const required = v.kind === "filer" ? [v.street, v.city, v.state, v.zip, ...(typeof v.phone === "string" ? [v.phone] : []), ...(v.representation === "attorney" ? [v.attorneyName, v.barNumber] : [])]
     : [v.street, v.cityStateZip, ...(["same", "distinct"].includes(v.mailingRelationship) ? [] : ["" ]), ...(v.mailingRelationship === "distinct" ? [v.mailingAddress] : [])];
   if (!required.every(caContactKnownText)) return "uncertain";
+  if (v.kind === "filer" && typeof v.phone !== "string" && v.phone.status !== "absent"
+    && (v.phone.status !== "known" || !caContactPhoneText(v.phone.value))) return "uncertain";
   if (v.kind === "filer" && [v.fax, v.email, ...(v.representation === "attorney" ? [v.firm] : [])].some(f => f.status === "known" && !caContactKnownText(f.value))) return "uncertain";
   return "known_valid";
 }

@@ -19,13 +19,16 @@ export function caProp64HeldText(value) {
 
 export function caProp64CaptionBindings({ familyId, facts, absentContactFactIds = [] }) {
   if (familyId !== "ca-prop64-set") return null;
+  facts = { ...facts };
+  if (Array.isArray(absentContactFactIds)) for (const id of absentContactFactIds)
+    if (/^(participant|attorney)\.phone$/.test(id)) facts[id] = "None";
   const role = caProp64HeldText(facts["filer.representation"]);
   const actor = role === "self_represented" ? "participant" : role === "attorney" ? "attorney" : null;
   const mappings = Object.fromEntries(forms.map(form => [form, {}]));
   const missing = [];
   const bind = (form, field, factId) => {
     if (caProp64HeldText(facts[factId]) !== undefined) mappings[form][field] = factId;
-    else if (!(Array.isArray(absentContactFactIds) && absentContactFactIds.includes(factId) && /^(participant|attorney)\.(fax|email|firm)$/.test(factId))) missing.push({ formNumber: form, fieldName: field, factId, status: "MISSING_HELD_FACT_APPLICABILITY_REVIEW" });
+    else if (!(Array.isArray(absentContactFactIds) && absentContactFactIds.includes(factId) && /^(participant|attorney)\.(phone|fax|email|firm)$/.test(factId))) missing.push({ formNumber: form, fieldName: field, factId, status: "MISSING_HELD_FACT_APPLICABILITY_REVIEW" });
   };
   for (const form of forms) {
     const prefix = captions[form];

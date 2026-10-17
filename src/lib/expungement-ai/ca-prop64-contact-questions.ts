@@ -1,5 +1,5 @@
 import type { ProfileQuestion } from "@/lib/expungement-ai/frontend/contracts";
-import { CA_CONTACT_CONTRACT, CA_FILER_CONTACT, CA_COURT_CONTACT, caContactContext, parseCaContact, caContactCurrent, caContactKnownText } from "@/lib/expungement-ai/ca-prop64-contact-answer";
+import { CA_CONTACT_CONTRACT, CA_FILER_CONTACT, CA_COURT_CONTACT, caContactContext, parseCaContact, caContactCurrent, caContactKnownText, caContactPhoneText } from "@/lib/expungement-ai/ca-prop64-contact-answer";
 export function caProp64ContactQuestions(answers: Readonly<Record<string, unknown>>): ProfileQuestion[] {
   const contactContext = caContactContext(answers);
   return [
@@ -19,7 +19,10 @@ export function caProp64ContactFacts(answers: Readonly<Record<string, unknown>>)
   if (filer?.kind === "filer" && caContactCurrent(filer, context)) {
     const actor = filer.representation === "attorney" ? "attorney" : "participant";
     for (const [key, value] of Object.entries({ full_legal_name: actor === "attorney" ? filer.attorneyName : context.defendantName,
-      street_address: filer.street, city: filer.city, state: filer.state, zip: filer.zip, phone: filer.phone })) put(`${actor}.${key}`, value);
+      street_address: filer.street, city: filer.city, state: filer.state, zip: filer.zip })) put(`${actor}.${key}`, value);
+    if (typeof filer.phone === "string") put(`${actor}.phone`, filer.phone);
+    else if (filer.phone.status === "absent") { facts[`${actor}.phone`] = "None"; absent.push(`${actor}.phone`); }
+    else if (filer.phone.status === "known" && caContactPhoneText(filer.phone.value)) put(`${actor}.phone`, filer.phone.value);
     if (actor === "attorney") { put("attorney.bar_number", filer.barNumber); put("attorney.represented_party", context.defendantName); }
     else facts["participant.represented_party"] = "Self-represented";
     for (const key of ["fax", "email", ...(actor === "attorney" ? ["firm"] : [])] as Array<"fax" | "email" | "firm">) {
