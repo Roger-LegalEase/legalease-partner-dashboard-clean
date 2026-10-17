@@ -527,6 +527,21 @@ export function ilIdentityCategoryIsHistory(
     && contactRepresentationHash(specification) === "e2407963972350e6bca336f1efd55d1e26a2eb51055f8f3cb4c6696ecd474c2b";
 }
 
+// GA-12 / Q-02b21081ef9ffebfc474 and Q-59616e6bc8916f7a961f:
+// the distinct lower-court branches use conviction lists and last-conviction
+// facts; their registered shared specification has no category consumer.
+export function msAdditionalCategoryIsHistory(
+  profile: EngineProfile | undefined, pathwayId: string | null | undefined,
+  specification: RegisteredSpecification | null | undefined
+): boolean {
+  return profile?.jurisdiction.code === "MS" && (
+    pathwayId === "additional-justice-court-misdemeanor-relief-9-11-15-3"
+    || pathwayId === "additional-municipal-court-misdemeanor-relief-21-23-7-6")
+    && specification?.routeKey === "MS:additional-justice-court-misdemeanor-relief-9-11-15-3"
+    && contactRepresentationHash(profile) === "da85c0c5994978a437454ef5d4d4f039c317ce619742d842751446d39e79178f"
+    && contactRepresentationHash(specification) === "a2a384540b85d58b1033d01e2edf782b951603dec0a0509302b15f1182895c7e";
+}
+
 const DERIVATIONS: Readonly<Record<string, Derivation>> = {
   // The last four digits are a projection of the number itself, never a
   // separate thing to ask for.
@@ -767,6 +782,7 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
   const mnStageCandidate = mnStageContext?.candidate ?? null;
 
   const ksMunicipalCategoryContext = ksMunicipalCategoryIsContext(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
+  const msCategoryHistory = msAdditionalCategoryIsHistory(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
   const ilCategoryHistory = ilIdentityCategoryIsHistory(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
   const dcCategoryHistory = dcInnocenceCategoryIsHistory(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
   const ctCategoryHistory = ctInformationCategoryIsHistory(getProfileByJurisdiction(input.jurisdiction), input.pathwayId ?? null,
@@ -810,14 +826,16 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
       continue;
     }
 
-    if ((ctCategoryHistory || dcCategoryHistory || ilCategoryHistory) && factId === "offense_category" && !overrideClass
+    if ((ctCategoryHistory || dcCategoryHistory || ilCategoryHistory || msCategoryHistory) && factId === "offense_category" && !overrideClass
       && !needsHuman.has(factId) && !input.recordOwnQuestionIds?.has(factId)) {
       const retained = needsSavedAnswerClarification || [input.screeningAnswers, input.prefilledAnswers, input.savedAnswers, input.profileFacts]
         .some(answers => answers && Object.hasOwn(answers, factId));
       facts.push({ factId, collection: "conditional", phase: retained ? "render" : "known",
         group: retained ? group : null, active: retained, optional: true,
-        source: ilCategoryHistory ? "il_identity_category_history" : dcCategoryHistory ? "dc_innocence_category_history" : "ct_information_category_history",
-        reason: ilCategoryHistory
+        source: msCategoryHistory ? "ms_additional_category_history" : ilCategoryHistory ? "il_identity_category_history" : dcCategoryHistory ? "dc_innocence_category_history" : "ct_information_category_history",
+        reason: msCategoryHistory
+          ? "These source-bound lower-court branches use the target court, conviction list and last-conviction facts. Earlier category answers remain optional literal history; they establish neither the court branch, good conduct, timing nor a discretionary finding."
+          : ilCategoryHistory
           ? "This source-bound mistaken-identity petition uses the separate identity report, mismatched identifiers and arrest circuit. Earlier category answers remain optional literal history; they establish neither identity theft nor ordinary expungement eligibility."
           : dcCategoryHistory ? "This source-bound actual-innocence motion uses the separate innocence basis and exact charge/level facts. Earlier category answers remain optional literal history with no document binding or innocence finding."
           : "This source-bound consumer gives general erasure information, not an individual classification or filing. Earlier category answers remain optional literal history; exact statutory, count, date and exclusion facts remain unestablished." });
