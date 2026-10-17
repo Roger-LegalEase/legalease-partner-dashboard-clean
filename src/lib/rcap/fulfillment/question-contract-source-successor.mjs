@@ -235,6 +235,13 @@ export function assertCaTwoResultCopySourceSuccession(readBytes) {
 export const NY16055_TERMINOLOGY_SOURCE_PATH = 'data/rcap-grade-a/participant-data-rights/question-contract-source-succession-ny16055-three-terminology-20261017-v1.json';
 export const NY16055_TERMINOLOGY_SOURCE_SHA256 = '030a7c4637e9c1544e4f1302b977dfb572053f1f4617ac180bf7625487621e77';
 export function assertNy16055TerminologySourceSuccession(readBytes) {
+  const { record } = ny16055TerminologyChain(readBytes);
+  // Retain the immutable NY13/185 scope; the separately pinned GA hop checks
+  // the complete current fourteen-source chain without rewriting prior records.
+  assertGaPardonSpecPinSourceSuccession(readBytes);
+  return record;
+}
+function ny16055TerminologyChain(readBytes) {
   const bytes=readBytes(NY16055_TERMINOLOGY_SOURCE_PATH);
   insist(sha(bytes)===NY16055_TERMINOLOGY_SOURCE_SHA256,'NY16055 terminology source succession record bytes changed');
   const record=JSON.parse(bytes.toString('utf8'));
@@ -269,9 +276,36 @@ export function assertNy16055TerminologySourceSuccession(readBytes) {
   insist(current.size===13 && equal(record.catalogChain,{historicalProofSha256:ca.catalogChain.historicalProofSha256,
     firstNamedSha256:ca.catalogChain.previousNamedSha256,previousNamedSha256:ca.catalogChain.currentSha256,
     currentSha256:current.get('src/lib/expungement-ai/frontend/reviewed-result-display-copy.json')}),'NY16055 exact catalog chain');
+  return { record, current };
+}
+
+// Exact GA-12-M00730 reviewed specification-pin hop; no category consumer.
+export const GA_PARDON_SPEC_PIN_SOURCE_PATH = 'data/rcap-grade-a/participant-data-rights/question-contract-source-succession-ga-pardon-spec-pin-20261017-v1.json';
+export const GA_PARDON_SPEC_PIN_SOURCE_SHA256 = '33d7dd7dbd21456003a3aacb5417c01a5c28e84edfeeb0e1f6f0904970aab723';
+export function assertGaPardonSpecPinSourceSuccession(readBytes) {
+  const bytes=readBytes(GA_PARDON_SPEC_PIN_SOURCE_PATH);
+  insist(sha(bytes)===GA_PARDON_SPEC_PIN_SOURCE_SHA256,'GA pardon spec-pin source succession record bytes changed');
+  const record=JSON.parse(bytes.toString('utf8'));
+  const { record: ny, current }=ny16055TerminologyChain(readBytes);
+  insist(record.schemaVersion==='rcap-question-contract-ga-pardon-spec-pin-source-succession/v1'
+    && record.recordId==='GA12-M00730-PARDON-SPEC-PIN-SOURCE-SUCCESSION-20261017'
+    && record.kind==='technical_source_only' && record.engineeringCommit==='6e7426c667ce86f344cf06f377008602a789e625'
+    && equal(record.previousNamedSource,{path:NY16055_TERMINOLOGY_SOURCE_PATH,sha256:NY16055_TERMINOLOGY_SOURCE_SHA256,currentChangedSourceCount:13,currentUnchangedSourceCount:185})
+    && equal(record.historicalContinuity,ny.historicalContinuity) && equal(record.historicalOutput,ny.historicalOutput)
+    && record.sourceCount===198 && record.currentChangedSourceCount===14 && record.currentUnchangedSourceCount===184
+    && equal(record.historicalArtifactScope,{routeCount:6,artifactCount:18,reexecuted:false,changed:false})
+    && ['createsOwnerApproval','changesHistoricalOutputEvidence','establishesCurrentOutputReproduction','establishesProtectedVerification','establishesProviderOrPublicationProof','commercialAuthorityGranted','productionAuthorized'].every(key=>record[key]===false),'GA pardon spec-pin source succession scope');
+  insist(Array.isArray(record.transitions) && equal(record.transitions.map(row=>row.file),[
+    'src/lib/expungement-ai/ga-pardon-category-context.ts']),'GA pardon spec-pin source succession inventory');
+  insist(current.size===13,'GA pardon spec-pin prior thirteen-source inventory');
+  for(const row of record.transitions){
+    const predecessor=current.get(row.file)??(row.file==='src/lib/expungement-ai/ga-pardon-category-context.ts'?'248f51c31b3110647196b80f700bfb8cb5c2ec3a8f8635e9c57135db11a90508':null);
+    insist(row.beforeSha256===predecessor,'GA pardon spec-pin disconnected source hop');current.set(row.file,row.afterSha256);
+  }
+  insist(current.size===14,'GA pardon spec-pin current fourteen-source inventory');
   // Always fresh, including after success or a previous failed read. No accessor
-  // recursion: prior records above are read as exact pinned raw bytes.
-  for(const [file,digest]of current)insist(sha(readBytes(file))===digest,`stale output input: ${file}; exact NY16055 terminology source succession`);
+  // recursion: prior records are read as exact pinned raw bytes.
+  for(const [file,digest]of current)insist(sha(readBytes(file))===digest,`stale output input: ${file}; exact GA pardon spec-pin source succession`);
   return record;
 }
 
@@ -283,11 +317,13 @@ function assertCurrentOutputSourceInput(file, expectedSha256, readBytes, label) 
   const ca = assertCaTwoResultCopySourceSuccession(readBytes).transitions.find(input => input.file === file);
   const previousDigest = row ? row.afterSha256 : expectedSha256;
   const ny = assertNy16055TerminologySourceSuccession(readBytes).transitions.find(input => input.file === file);
+  const ga = assertGaPardonSpecPinSourceSuccession(readBytes).transitions.find(input => input.file === file);
   const caDigest = ca ? ca.afterSha256 : previousDigest;
-  const currentDigest = ny ? ny.afterSha256 : ca?.afterSha256 ?? row?.afterSha256;
-  insist((row ? row.beforeSha256 === expectedSha256 : ca != null || ny != null)
+  const nyDigest = ny ? ny.afterSha256 : caDigest;
+  const currentDigest = ga ? ga.afterSha256 : ny ? ny.afterSha256 : ca?.afterSha256 ?? row?.afterSha256;
+  insist((row ? row.beforeSha256 === expectedSha256 : ca != null || ny != null || ga != null)
     && (!ca || ca.beforeSha256 === previousDigest) && (!ny || ny.beforeSha256 === caDigest)
-    && currentDigest === actual, `${label}: ${file}`);
+    && (!ga || ga.beforeSha256 === nyDigest) && currentDigest === actual, `${label}: ${file}`);
 }
 
 /** Exposed below the immutable byte pins for non-vacuous semantic controls. */

@@ -1,3 +1,4 @@
+import {assertGaPardonSpecPinSourceSuccession,GA_PARDON_SPEC_PIN_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertNy16055TerminologySourceSuccession,NY16055_TERMINOLOGY_SOURCE_PATH,NY16055_TERMINOLOGY_SOURCE_SHA256} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertCaTwoResultCopySourceSuccession,CA_TWO_RESULT_COPY_SOURCE_PATH,CA_TWO_RESULT_COPY_SOURCE_SHA256} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertMsGaVaMnSourceSuccession,MS_GA_VA_MN_SOURCE_SUCCESSION_PATH,MS_GA_VA_MN_SOURCE_SUCCESSION_SHA256} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
@@ -799,6 +800,28 @@ check('NY current thirteen reads stay fresh after success and failed read',()=>{
 });
 check('NY terminology record adds no route/packet/authority',()=>{
  assert.equal(questionContractSourceSuccessorFor({routeId:'NY:automatic-non-conviction-sealing-under-cpl-160-50-160-55',familyId:'not-existing',trackId:'not-existing',specificationPath:'not-existing',readBytes}),null);
+});
+
+check('GA pardon spec-pin hop preserves historical NY13/CA12/MS11 records and paid API shape',()=>{
+ const ga=assertGaPardonSpecPinSourceSuccession(readBytes),ny=assertNy16055TerminologySourceSuccession(readBytes);
+ assert.equal(ga.currentChangedSourceCount,14);assert.equal(ga.currentUnchangedSourceCount,184);
+ assert.equal(ny.currentChangedSourceCount,13);assert.equal(ny.currentUnchangedSourceCount,185);
+ assert.deepEqual(ga.transitions.map(row=>row.file),['src/lib/expungement-ai/ga-pardon-category-context.ts']);
+});
+check('GA pardon spec-pin mandatory record refuses missing/tampered bytes',()=>{
+ assert.throws(()=>assertQuestionContractOutputInputs(file=>file===GA_PARDON_SPEC_PIN_SOURCE_PATH?Buffer.from('{}'):readBytes(file)),/GA pardon spec-pin source succession record bytes changed/);
+ assert.throws(()=>assertNy16055TerminologySourceSuccession(file=>{if(file===GA_PARDON_SPEC_PIN_SOURCE_PATH)throw Error('missing GA spec-pin record');return readBytes(file);}),/missing GA spec-pin record/);
+});
+const gaSourcePaths=new Set([...nySourcePaths,...assertGaPardonSpecPinSourceSuccession(readBytes).transitions.map(row=>row.file)]);
+check('GA current fourteen reads stay fresh after success and failed read',()=>{
+ assert.equal(gaSourcePaths.size,14);
+ const seen=new Set();assertGaPardonSpecPinSourceSuccession(file=>{if(gaSourcePaths.has(file))seen.add(file);return readBytes(file);});assert.equal(seen.size,14);
+ let fail=false;const reader=file=>fail&&file==='src/lib/expungement-ai/ga-pardon-category-context.ts'?Buffer.from('drift'):readBytes(file);
+ assert.equal(assertGaPardonSpecPinSourceSuccession(reader).transitions.length,1);fail=true;
+ assert.throws(()=>assertQuestionContractOutputInputs(reader),/stale output input/);fail=false;assert.equal(assertGaPardonSpecPinSourceSuccession(reader).transitions.length,1);
+});
+check('GA pardon spec-pin record adds no route/packet/authority',()=>{
+ assert.equal(questionContractSourceSuccessorFor({routeId:'GA:restriction-and-sealing-of-a-pardoned-felony',familyId:'not-existing',trackId:'not-existing',specificationPath:'not-existing',readBytes}),null);
 });
 
 console.log(`PASS: ${checks} output-continuity and refusal controls; no new approval, protected journey or commercial authority.`);
