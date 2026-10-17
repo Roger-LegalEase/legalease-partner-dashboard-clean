@@ -163,6 +163,41 @@ export const QUESTION_CONTRACT_ARTIFACT_PREDECESSOR_CONTINUITY_SHA256 = '62914fa
 export const QUESTION_CONTRACT_ARTIFACT_PREDECESSOR_OUTPUT_PATH = 'data/rcap-grade-a/participant-data-rights/question-contract-output-reproduction-20261016-v19.json';
 export const QUESTION_CONTRACT_ARTIFACT_PREDECESSOR_OUTPUT_SHA256 = 'e5dfd06708c302427c28819ee7e265fe9987bf42e3d71c586d0ba10199bf2884';
 
+
+// Exact named source-only successor. Historical execution/proof/artifact bytes
+// remain immutable; this validates current source identity, not another render.
+export const MS_GA_VA_MN_SOURCE_SUCCESSION_PATH = 'data/rcap-grade-a/participant-data-rights/question-contract-source-succession-ms-ga-va-mn-20261017-v1.json';
+export const MS_GA_VA_MN_SOURCE_SUCCESSION_SHA256 = '879323739fe5c68e352b52bef66db00183fd055788a3829ac8ed00e21c4eb8a0';
+export function assertMsGaVaMnSourceSuccession(readBytes) {
+  const bytes = readBytes(MS_GA_VA_MN_SOURCE_SUCCESSION_PATH);
+  insist(sha(bytes) === MS_GA_VA_MN_SOURCE_SUCCESSION_SHA256, 'MS/GA/VA/MN source succession record bytes changed');
+  const record = JSON.parse(bytes.toString('utf8'));
+  insist(record.schemaVersion === 'rcap-question-contract-named-source-succession/v1'
+    && record.recordId === 'MS-GA-VA-MN-SOURCE-SUCCESSION-20261017'
+    && record.kind === 'technical_source_only'
+    && record.engineeringCommit === '2207c357aa4e1a920ae98611fe8c69307aac5123'
+    && equal(record.historicalContinuity, { path: 'data/rcap-grade-a/participant-data-rights/question-contract-output-continuity-20261016-v21.json', sha256: '9f5962bf1dfc1cf8522e25d16e04852eb50cdacbf97bc8a56f132eec1f63f65e' })
+    && equal(record.historicalOutput, { path: 'data/rcap-grade-a/participant-data-rights/question-contract-output-reproduction-20261016-v21.json', sha256: '3dbbb0d844f4de0195472162af7a3f4da44ab69eeaf6fffd064dabdf741478d7' })
+    && record.sourceCount === 198 && record.transitionCount === 11 && record.unchangedSourceCount === 187
+    && equal(record.historicalArtifactScope, { routeCount: 6, artifactCount: 18, reexecuted: false, changed: false })
+    && ['createsOwnerApproval', 'changesHistoricalOutputEvidence', 'establishesCurrentOutputReproduction',
+      'establishesProtectedVerification', 'establishesProviderOrPublicationProof', 'commercialAuthorityGranted',
+      'productionAuthorized'].every(key => record[key] === false), 'MS/GA/VA/MN source succession scope');
+  insist(Array.isArray(record.transitions) && record.transitions.length === 11
+    && new Set(record.transitions.map(row => row.file)).size === 11, 'MS/GA/VA/MN source succession inventory');
+  // Always fresh reads of all eleven, including after a previous failed read.
+  for (const row of record.transitions) insist(sha(readBytes(row.file)) === row.afterSha256,
+    `stale output input: ${row.file}; exact MS/GA/VA/MN source succession`);
+  return record;
+}
+function assertCurrentOutputSourceInput(file, expectedSha256, readBytes, label) {
+  const actual = sha(readBytes(file));
+  if (actual === expectedSha256) return;
+  const record = assertMsGaVaMnSourceSuccession(readBytes);
+  const row = record.transitions.find(input => input.file === file);
+  insist(row && row.beforeSha256 === expectedSha256 && row.afterSha256 === actual, `${label}: ${file}`);
+}
+
 /** Exposed below the immutable byte pins for non-vacuous semantic controls. */
 export function assertQuestionContractOutputContinuity({ continuity, proof, readBytes }) {
   const receipt = readQuestionContractSuccessor(readBytes);
@@ -751,11 +786,14 @@ export function assertQuestionContractOutputContinuity({ continuity, proof, read
     .map(file => ({ file, beforeSha256: artifactInputs.get(file), afterSha256: after.get(file) }));
   insist(equal(artifactAdditions, continuity.artifactPredecessorAddedSourcePaths)
     && equal(artifactTransitions, continuity.artifactPredecessorSourceTransitions), 'undeclared artifact predecessor source transition');
-  for (const input of proof.sources) insist(sha(readBytes(input.file)) === input.sha256, `stale output input: ${input.file}`);
+  for (const input of proof.sources) assertCurrentOutputSourceInput(input.file, input.sha256, readBytes, 'stale output input');
   const currentSource = dcInnocenceCurrentSourceSuccession(readBytes);
   insist(equal(currentSource.continuity, continuity) && equal(currentSource.proof, proof), 'current source succession supplied proof/continuity changed');
   if (artifactSuccessor) artifactSuccessor = assertDcInnocenceArtifactSuccessor({
     binding: continuity.artifactSuccessor, proof: currentSource.adoptedProof, readBytes });
+  // Preserve the frozen historical continuity API shape. The separately named
+  // source-only record/accessor carries the current-source qualification.
+  assertMsGaVaMnSourceSuccession(readBytes);
   return { path: QUESTION_CONTRACT_CURRENT_OUTPUT_PATH, sha256: continuity.currentOutput.sha256,
     inputCount: proof.sources.length, continuity: { path: QUESTION_CONTRACT_CONTINUITY_PATH, sha256: QUESTION_CONTRACT_CONTINUITY_SHA256 },
     previousContinuity, previousOutput, earlierContinuity, earlierOutput, sameDatePredecessorContinuity, sameDatePredecessorOutput,
@@ -1053,7 +1091,7 @@ function dcInnocenceCurrentSourceSuccession(readBytes) {
       afterSha256: '7910a4866db9a154c9eaf32e3a218d27584b0c65de4807851cf37ad85b3f27a8' }])
     && equal(additions, continuity.sourcePredecessorAddedSourcePaths)
     && equal(transitions, continuity.sourcePredecessorSourceTransitions), 'current source succession undeclared transition');
-  for (const [file, digest] of after) insist(sha(readBytes(file)) === digest, `current source succession stale input: ${file}`);
+  for (const [file, digest] of after) assertCurrentOutputSourceInput(file, digest, readBytes, 'current source succession stale input');
   return { continuity, proof, adoptedProof };
 }
 

@@ -1,3 +1,4 @@
+import {assertMsGaVaMnSourceSuccession,MS_GA_VA_MN_SOURCE_SUCCESSION_PATH,MS_GA_VA_MN_SOURCE_SUCCESSION_SHA256} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import crypto from 'node:crypto';
@@ -67,4 +68,14 @@ check('stale source input is not equivalent to byte-identical historical PDFs', 
   const input = JSON.parse(readBytes(QUESTION_CONTRACT_OUTPUT_PATH)).sources.find(source => source.file.endsWith('question-answer-state.ts'));
   assert.throws(() => assertQuestionContractOutputInputs(file => file === input.file ? Buffer.from('changed dependency') : readBytes(file)), /stale output input/);
 });
+
+check('MS/GA/VA/MN technical source successor never replaces historical output proof',()=>{
+ const actual=assertQuestionContractOutputInputs(readBytes),record=assertMsGaVaMnSourceSuccession(readBytes);
+ assert.equal(Object.hasOwn(actual,'sourceSuccession'),false);
+ assert.equal(sha(readBytes(MS_GA_VA_MN_SOURCE_SUCCESSION_PATH)),MS_GA_VA_MN_SOURCE_SUCCESSION_SHA256);
+ assert.equal(record.historicalArtifactScope.reexecuted,false);
+ assert.equal(actual.path,record.historicalOutput.path);assert.equal(actual.sha256,record.historicalOutput.sha256);
+ for(const key of ['createsOwnerApproval','changesHistoricalOutputEvidence','establishesCurrentOutputReproduction','establishesProtectedVerification','establishesProviderOrPublicationProof','commercialAuthorityGranted','productionAuthorized'])assert.equal(record[key],false);
+});
+
 console.log(`PASS: ${checks} exact source, full-delta, preserved-history, output and negative controls. Technical continuity only; no protected journey, provider or release authority.`);

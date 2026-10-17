@@ -1,3 +1,4 @@
+import {assertMsGaVaMnSourceSuccession,MS_GA_VA_MN_SOURCE_SUCCESSION_PATH,MS_GA_VA_MN_SOURCE_SUCCESSION_SHA256} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import crypto from 'node:crypto';
@@ -710,6 +711,41 @@ check('v21 injected reads bypass no freshness and retain no failed-read cache',(
   assert.throws(()=>assertQuestionContractOutputInputs(f=>{if(f===file){seen++;return Buffer.from('changed');}return readBytes(f);}),/stale output input|stale input/);
   assert.ok(seen>0);
   assert.equal(assertQuestionContractOutputInputs(readBytes).inputCount,198);
+});
+
+
+check('MS/GA/VA/MN named source-only succession preserves historical execution scope',()=>{
+ const result=assertQuestionContractOutputInputs(readBytes),record=assertMsGaVaMnSourceSuccession(readBytes);
+ assert.equal(Object.hasOwn(result,'sourceSuccession'),false,'Historical continuity return shape is not silently expanded');
+ assert.deepEqual(result,JSON.parse(readBytes('data/rcap-grade-a/participant-data-rights/ms-paid-packet-proof-20261013.json')).outputContinuity,'Exact frozen paidproof continuity value/shape remains compatible');
+ assert.equal(record.kind,'technical_source_only');assert.equal(record.establishesCurrentOutputReproduction,false);
+ assert.equal(record.transitions.length,11);assert.equal(record.unchangedSourceCount,187);
+ assert.equal(record.historicalArtifactScope.reexecuted,false);
+ assert.equal(sha(readBytes(QUESTION_CONTRACT_CURRENT_OUTPUT_PATH)),record.historicalOutput.sha256);
+ assert.equal(sha(readBytes(QUESTION_CONTRACT_CONTINUITY_PATH)),record.historicalContinuity.sha256);
+});
+check('MS/GA/VA/MN source succession refuses modified/missing record without fallback',()=>{
+ for(const read of [file=>file===MS_GA_VA_MN_SOURCE_SUCCESSION_PATH?Buffer.from('{}'):readBytes(file),file=>{if(file===MS_GA_VA_MN_SOURCE_SUCCESSION_PATH)throw Error('missing named source record');return readBytes(file);}])
+  assert.throws(()=>assertQuestionContractOutputInputs(read),/source succession record bytes changed|missing named source record/);
+});
+for(const row of assertMsGaVaMnSourceSuccession(readBytes).transitions)check('MS/GA/VA/MN refuses current source drift '+row.file,()=>{
+ let reads=0;assert.throws(()=>assertQuestionContractOutputInputs(file=>{if(file===row.file){reads++;return Buffer.from('unreviewed current source');}return readBytes(file);}),/stale output input/);assert.ok(reads>0);
+ assert.equal(assertQuestionContractOutputInputs(readBytes).inputCount,198);
+});
+check('MS/GA/VA/MN all eleven are fresh on every named validation and no failure is cached',()=>{
+ const record=assertMsGaVaMnSourceSuccession(readBytes),paths=new Set(record.transitions.map(row=>row.file)),seen=new Set();
+ assertMsGaVaMnSourceSuccession(file=>{if(paths.has(file))seen.add(file);return readBytes(file);});assert.equal(seen.size,11);
+ let fail=true;const reader=file=>fail&&file===record.transitions[0].file?Buffer.from('drift'):readBytes(file);
+ assert.throws(()=>assertMsGaVaMnSourceSuccession(reader),/stale output input/);fail=false;assert.equal(assertMsGaVaMnSourceSuccession(reader).transitions.length,11);
+});
+
+
+check('named source succession adds no GA/VA/MN route authority',()=>{
+ for(const routeId of ['GA:restriction-and-sealing-of-a-pardoned-felony','VA:regime-1-expungement-available-now','MN:petition-based-expungement-under-609a-02-03','MN:prosecutor-agreed-sealing-without-a-full-petition-under-609a-025']){
+  const receipt=readQuestionContractSuccessor(readBytes);
+  assert.equal(receipt.routes.some(row=>row.routeId===routeId),false,'No immutable receipt route added: '+routeId);
+  assert.equal(questionContractSourceSuccessorFor({routeId,familyId:'not-an-existing-family',trackId:'not-an-existing-track',specificationPath:'not-an-existing-specification',expectedPriorSha256:'0'.repeat(64),priorSpecificationBytes:Buffer.from('{}'),currentSpecificationBytes:Buffer.from('{}'),readBytes}),null);
+ }
 });
 
 console.log(`PASS: ${checks} output-continuity and refusal controls; no new approval, protected journey or commercial authority.`);
