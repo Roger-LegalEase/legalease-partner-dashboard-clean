@@ -21,7 +21,15 @@ function unrelatedCollectionProjection(value){const v=structuredClone(value),c=v
  for(const key of ['prepayQuestions','renderQuestions','conditionalQuestions','filingReadinessItems','externalActorFields','unresolvedRequiredFacts'])c[key]=c[key].filter(id=>id!=='county');
  for(const section of c.groupedParticipantSections)section.factIds=section.factIds.filter(id=>id!=='county');
  for(const key of ['prepayGateFactIds','filingReadinessFactIds','renderGateFactIds'])v.exportProjection[key]=v.exportProjection[key].filter(id=>id!=='county');
- delete v.exportProjection.resolvedValues.county;return v;}
+ delete v.exportProjection.resolvedValues.county;
+ // Accepted shared diagnostic correction: assert the exact current fact before
+ // undoing only its two diagnostic fields for the frozen predecessor oracle.
+ const contactFacts=c.facts.filter(f=>f.factId==='contact_information');
+ assert.equal(contactFacts.length,1,'Exactly one contact diagnostic fact');
+ assert.deepEqual(contactFacts[0],{factId:'contact_information',collection:'prepay_confirmation',phase:'prepay_confirmation',group:'about_you',source:'materialization_protection',reason:'this fact is protected against inference, so it is asked rather than computed'});
+ contactFacts[0].source='route_decision_facts';
+ contactFacts[0].reason='the evaluator reads this fact, so it is asked rather than computed';
+ return v;}
 
 const head=()=>execFileSync('git',['rev-parse','HEAD'],{cwd:root,encoding:'utf8'}).trim(),headBefore=head();
 const sourcePaths=['src/lib/expungement-ai/md-juvenile-county-source-purpose.ts','src/lib/expungement-ai/record-fact-clarification.ts','src/lib/rcap-engine/compiled/profiles/MD-maryland.json','src/lib/rcap-engine/evaluator.ts','src/lib/rcap-engine/public-profile-projection.ts','src/lib/rcap-engine/screening-question-selection.ts','src/lib/rcap-engine/packet-planner.ts','src/lib/rcap-engine/route-fact-relevance.ts','src/lib/expungement-ai/packet-information.ts','src/lib/expungement-ai/packet-collection.ts','src/lib/expungement-ai/briefcase-presentation-authority.ts','src/lib/expungement-ai/authoritative-screening-result.ts','src/app/api/expungement-ai/briefcase/[itemId]/packet-information/route.ts','src/app/briefcase/[packetId]/page.tsx','src/app/briefcase/[packetId]/packet-information/page.tsx','scripts/lib/ts-esm-loader.mjs'],pins=()=>Object.fromEntries(sourcePaths.map(p=>[p,sha(fs.readFileSync(file(p)))])),diff=()=>sha(execFileSync('git',['diff','HEAD','--','src','data'],{cwd:root})),untracked=()=>Object.fromEntries(execFileSync('git',['ls-files','--others','--exclude-standard','src','data'],{cwd:root,encoding:'utf8'}).trim().split('\n').filter(Boolean).map(p=>[p,fs.lstatSync(file(p)).isSymbolicLink()?{linkSha256:sha(fs.readlinkSync(file(p),{encoding:'buffer'}))}:sha(fs.readFileSync(file(p)))])),before={pins:pins(),diff:diff(),untracked:untracked()};
@@ -106,6 +114,22 @@ for(const row of rows.filter(r=>'collection'in r)){
  check(row.name+'/unresolved county obligation retained',row.exportProjection.prepayGateFactIds.includes('county'),true);
  check(row.name+'/source safety hold retained',row.model.reviewSafety.safe,false);
  check(row.name+'/legacy raw does not confirm court meaning',row.model.recordClarificationIds.includes('county'),true);
+}
+// Counterfactual controls for the exact diagnostic inverse; original hashes
+// remain frozen and every field outside that accepted delta remains measured.
+const diagnosticBase=rows.find(r=>r.name==='EMPTY/initial');
+for(const[key,value]of [['source','route_decision_facts'],['reason','different reason'],['collection','already_known'],['phase','known'],['value','invented value']]){
+ const mutant=structuredClone({collection:diagnosticBase.collection,exportProjection:diagnosticBase.exportProjection});
+ mutant.collection.facts.find(f=>f.factId==='contact_information')[key]=value;
+ assert.throws(()=>unrelatedCollectionProjection(mutant),undefined,'Diagnostic inverse rejects '+key);
+}
+for(const[label,mutate]of [
+ ['other fact',v=>{v.collection.facts.find(f=>f.factId!=='county'&&f.factId!=='contact_information').reason='unrelated drift';}],
+ ['export gate',v=>{v.exportProjection.prepayGateFactIds.push('unexpected_gate');}],
+ ['resolved value',v=>{v.exportProjection.resolvedValues.unexpected_fact='unexpected';}]
+]){
+ const mutant=structuredClone({collection:diagnosticBase.collection,exportProjection:diagnosticBase.exportProjection});mutate(mutant);
+ assert.notEqual(hashValue(unrelatedCollectionProjection(mutant)),predecessorUnrelatedCollectionHashes[diagnosticBase.name],label+' must remain visible to the frozen hash');
 }
 const first=rows.find(r=>r.name==='EMPTY/initial'),guard=API.__actualMdJuvenileGuard;
 check('actual accepted editor owns exactly county',[...P.heldPacketCorrectionInputIds(first.model,first.model.resultCode)],['county']);

@@ -1,3 +1,4 @@
+import { VA_PARDON_ROUTE, VA_PARDON_TYPE_ID, VA_PARDON_TYPE_INPUTS, VA_PARDON_TYPE_SOURCE, vaPardonTypeDescriptor, vaPardonTypeQuestion } from "@/lib/expungement-ai/va-pardon-type-source";
 import { MD_JUVENILE_CAPTION_ROUTE, MD_JUVENILE_CAPTION_SOURCE, MD_JUVENILE_CAPTION_IDENTITY_INPUTS, mdJuvenileCaptionQuestion } from "@/lib/expungement-ai/md-juvenile-county-source-purpose";
 import { MN_PETITION_ROUTE, MN_PROSECUTOR_ROUTE, MN_TARGET_ORIGIN_ID, MN_TARGET_ORIGIN_SOURCE, MN_TARGET_ORIGIN_IDENTITY_INPUTS, mnTargetOriginQuestion } from "@/lib/expungement-ai/mn-two-county-source-facts";
 import { MS_FIRST_OFFENDER_ROUTE, MS_FIRST_OFFENDER_IDS, MS_FIRST_OFFENDER_SOURCE, msFirstOffenderSourceContract } from "@/lib/rcap-engine/mississippi-first-offender-source-facts";
@@ -47,7 +48,7 @@ export type RecordFactConfirmation = {
 export type RecordFactConfirmations = Record<string, RecordFactConfirmation>;
 
 function recordFactInputs(routeKey: string): Readonly<Record<string, readonly string[]>> {
-  return routeKey === MD_JUVENILE_CAPTION_ROUTE ? { county: MD_JUVENILE_CAPTION_IDENTITY_INPUTS } : MN_ORIGIN_ROUTES.has(routeKey) ? MN_ORIGIN_INPUTS : routeKey === MS_FIRST_ROUTE ? MS_FIRST_INPUTS : routeKey === NY_ROUTE ? NY_INPUTS : routeKey === GA_PARDON_CAPTION_ROUTE ? GA_PARDON_CAPTION_INPUTS : routeKey === ROUTE ? RECORD_FACT_INPUTS : {};
+  return routeKey === VA_PARDON_ROUTE ? { [VA_PARDON_TYPE_ID]: VA_PARDON_TYPE_INPUTS } : routeKey === MD_JUVENILE_CAPTION_ROUTE ? { county: MD_JUVENILE_CAPTION_IDENTITY_INPUTS } : MN_ORIGIN_ROUTES.has(routeKey) ? MN_ORIGIN_INPUTS : routeKey === MS_FIRST_ROUTE ? MS_FIRST_INPUTS : routeKey === NY_ROUTE ? NY_INPUTS : routeKey === GA_PARDON_CAPTION_ROUTE ? GA_PARDON_CAPTION_INPUTS : routeKey === ROUTE ? RECORD_FACT_INPUTS : {};
 }
 
 function knownText(value: unknown): string | null {
@@ -64,7 +65,8 @@ export function unambiguousMsCourtType(value: unknown): string | null {
 }
 
 /** These original controls retain distinct record meanings; no broad charge/county/name substitution. */
-export function recordFactOwnQuestionIds(routeKey: string, answers: Readonly<Record<string, unknown>>, recorded?: RecordFactConfirmations): Set<string> {
+export function recordFactOwnQuestionIds(routeKey: string, answers: Readonly<Record<string, unknown>>, recorded?: RecordFactConfirmations, unresolvedInputIds: readonly string[] = []): Set<string> {
+  if (routeKey === VA_PARDON_ROUTE) return new Set(vaPardonTypeQuestion(getProfileByJurisdiction("VA"), routeKey.slice(3), packetSpecificationFor(routeKey), answers, unresolvedInputIds) ? [VA_PARDON_TYPE_ID] : []);
   if (routeKey === MD_JUVENILE_CAPTION_ROUTE) return new Set(mdJuvenileCaptionQuestion(getProfileByJurisdiction("MD"), "juvenile-expungement", packetSpecificationFor(routeKey)) ? ["county"] : []);
   if (MN_ORIGIN_ROUTES.has(routeKey)) return new Set([MN_TARGET_ORIGIN_ID]);
   if (routeKey === MS_FIRST_ROUTE) return new Set(MS_FIRST_OFFENDER_IDS);
@@ -107,6 +109,11 @@ function semanticContract(routeKey: string, factId: string): string | null {
   const inputs = recordFactInputs(routeKey);
   if (!(factId in inputs)) return null;
   const specification = packetSpecificationFor(routeKey);
+  if (routeKey === VA_PARDON_ROUTE) {
+    const question = vaPardonTypeDescriptor(getProfileByJurisdiction("VA"), routeKey.slice(3), specification);
+    return question && factId === VA_PARDON_TYPE_ID ? hash({ version: 1, routeKey, factId,
+      source: VA_PARDON_TYPE_SOURCE, questionContract: question, inputFactIds: VA_PARDON_TYPE_INPUTS, specification }) : null;
+  }
   if (routeKey === MD_JUVENILE_CAPTION_ROUTE) {
     const question = mdJuvenileCaptionQuestion(getProfileByJurisdiction("MD"), "juvenile-expungement", specification);
     return question && factId === "county" ? hash({ version: 1, routeKey, factId,
@@ -131,8 +138,15 @@ function semanticContract(routeKey: string, factId: string): string | null {
     ...(routeKey === GA_PARDON_CAPTION_ROUTE ? { questionContract: GA_PARDON_CAPTION_QUESTIONS.find(question => question.id === factId) } : {}),
     meaning: fact ? { factId: fact.factId, use: fact.use, ownership: fact.ownership, questionType: fact.questionType, options: fact.options } : { factId: "offense_category", meaning: "MS baseline charge category; independently differing record answer requires review" } });
 }
-export function recordFactConfirmationFor(routeKey: string, factId: string, answers: Readonly<Record<string, unknown>>, question: ProfileQuestion | undefined): RecordFactConfirmation | null {
+export function recordFactConfirmationFor(routeKey: string, factId: string, answers: Readonly<Record<string, unknown>>, question: ProfileQuestion | undefined, unresolvedInputIds: readonly string[] = []): RecordFactConfirmation | null {
   const contractSha256 = semanticContract(routeKey, factId);
+  if (routeKey === VA_PARDON_ROUTE) {
+    const expected = vaPardonTypeQuestion(getProfileByJurisdiction("VA"), routeKey.slice(3), packetSpecificationFor(routeKey), answers, unresolvedInputIds);
+    const meaning = (candidate: ProfileQuestion) => ({ id: candidate.id, stage: candidate.stage, type: candidate.type,
+      prompt: candidate.prompt, helperText: candidate.helperText, required: candidate.required,
+      contextOnly: candidate.contextOnly, options: candidate.options, translations: candidate.translations });
+    if (!expected || !question || factId !== VA_PARDON_TYPE_ID || hash(meaning(question)) !== hash(meaning(expected))) return null;
+  }
   if (routeKey === MD_JUVENILE_CAPTION_ROUTE) {
     const expected = mdJuvenileCaptionQuestion(getProfileByJurisdiction("MD"), "juvenile-expungement", packetSpecificationFor(routeKey));
     const meaning = (candidate: ProfileQuestion) => ({ id: candidate.id, stage: candidate.stage,
@@ -182,13 +196,13 @@ export function recordFactConfirmationFor(routeKey: string, factId: string, answ
   return { version: 1, routeKey, status: "confirmed", contractSha256,
     inputSha256: hash(recordFactInputs(routeKey)[factId].map((id) => [id, answerMeaning(answers[id])])), valueSha256: hash(answerMeaning(answers[factId])) };
 }
-export function unresolvedRecordFactConfirmations(routeKey: string, answers: Readonly<Record<string, unknown>>, questions: ReadonlyMap<string, ProfileQuestion>, recorded?: RecordFactConfirmations): string[] {
+export function unresolvedRecordFactConfirmations(routeKey: string, answers: Readonly<Record<string, unknown>>, questions: ReadonlyMap<string, ProfileQuestion>, recorded?: RecordFactConfirmations, unresolvedInputIds: readonly string[] = []): string[] {
   const unresolved: string[] = [];
-  for (const id of recordFactOwnQuestionIds(routeKey, answers, recorded)) {
+  for (const id of recordFactOwnQuestionIds(routeKey, answers, recorded, unresolvedInputIds)) {
     // A held Georgia result has no packet plan. Do not collect caption facts
     // before a document preparation surface actually requires these fields.
     if (routeKey === GA_PARDON_CAPTION_ROUTE && questions.get(id)?.stage !== "packet_information") continue;
-    const current = recordFactConfirmationFor(routeKey, id, answers, questions.get(id));
+    const current = recordFactConfirmationFor(routeKey, id, answers, questions.get(id), unresolvedInputIds);
     if (!current) { unresolved.push(id); continue; } // One requirement per original fact, including an unknown/invalid draft.
     const prior = recorded?.[id];
     if (!prior || prior.status !== "confirmed" || prior.version !== current.version || prior.routeKey !== current.routeKey || prior.contractSha256 !== current.contractSha256
@@ -218,4 +232,15 @@ export function mdJuvenileCaptionConfirmationsAfterChange(routeKey: string,
   const changed = ["county", ...MD_JUVENILE_CAPTION_IDENTITY_INPUTS]
     .some(id => hash(answerMeaning(before[id])) !== hash(answerMeaning(after[id])));
   return changed ? { ...recorded, county: { ...prior, status: "unconfirmed" } } : recorded;
+}
+
+/** Explicitly revisiting a changed pardon/target cannot resurrect an earlier meaning marker. */
+export function vaPardonTypeConfirmationsAfterChange(routeKey: string,
+  before: Readonly<Record<string, unknown>>, after: Readonly<Record<string, unknown>>,
+  recorded?: RecordFactConfirmations): RecordFactConfirmations | undefined {
+  const prior = recorded?.[VA_PARDON_TYPE_ID];
+  if (routeKey !== VA_PARDON_ROUTE || !prior || prior.status !== "confirmed") return recorded;
+  const changed = [VA_PARDON_TYPE_ID, ...VA_PARDON_TYPE_INPUTS]
+    .some(id => hash(answerMeaning(before[id])) !== hash(answerMeaning(after[id])));
+  return changed ? { ...recorded, [VA_PARDON_TYPE_ID]: { ...prior, status: "unconfirmed" } } : recorded;
 }

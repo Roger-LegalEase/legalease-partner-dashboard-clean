@@ -36,13 +36,13 @@
     {
       "path": "data/record-clearing/legal-design-packet-set-manifests.json",
       "pathInRepository": "data/record-clearing/legal-design-packet-set-manifests.json",
-      "sha256": "08dddbcd7ad3145497c4ad9f7a85cc903e1124654630af34803e96aa65d0cf51",
-      "byteLength": 3737741,
+      "sha256": "fee93664c9795c569acb6b7b92f688f519ccacbf981465b599327f590d3dfb82",
+      "byteLength": 3738732,
       "identityRefresh": {
-        "refreshedOn": "2026-10-13",
+        "refreshedOn": "2026-10-17",
         "was": {
-          "sha256": "177d5d131b066827e8ae030715edb28ca6729060b60d7865cd2d67ed76f556f0",
-          "byteLength": 3737113
+          "sha256": "08dddbcd7ad3145497c4ad9f7a85cc903e1124654630af34803e96aa65d0cf51",
+          "byteLength": 3737741
         },
         "why": "The record was rewritten around this receipt's anchors. 1 named entry moved between the blob carrying the previous pin and the bytes on disk (va_exp_absolute_pardon-set), and this receipt anchors no entry that moved: every entry it binds, and this record's global authority fields, were recovered from that blob and compared object-for-object, order-independent, against the current record, and all 5 were identical.",
         "anchorsCompared": 5,
@@ -85,19 +85,19 @@
         ],
         "recoveredFrom": {
           "method": "git rev-list --all -- <path>, deduplicated by blob id, each blob hashed until the pin matched",
-          "blobId": "dd6417c551eb99aa284d464fd28594c275f79978",
-          "commit": "e093cfef44f63e69321bd4384deb1cadacda2170",
-          "commitsWithThisPath": 71,
-          "distinctBlobs": 63,
+          "blobId": "eb4ec573387c8c2fe3448f85d1829a5035275f5f",
+          "commit": "6ec5f2284e7c7171fe782ea08a8a1538502ce811",
+          "commitsWithThisPath": 72,
+          "distinctBlobs": 64,
           "blobsHashed": 2
         },
         "previousIdentityRefresh": {
           "refreshedOn": "2026-10-13",
           "was": {
-            "sha256": "83d91d31bf8b0b6c76c5623f4c39cffddcf6b154c1d8de96ffbcb74073d6befb",
-            "byteLength": 3711585
+            "sha256": "177d5d131b066827e8ae030715edb28ca6729060b60d7865cd2d67ed76f556f0",
+            "byteLength": 3737113
           },
-          "why": "The record was rewritten around this receipt's anchors. 3 named entries moved between the blob carrying the previous pin and the bytes on disk (co_motion_seal_conviction-set, co_petition_seal_arrest-set, va_exp_absolute_pardon-set), and this receipt anchors no entry that moved: every entry it binds, and this record's global authority fields, were recovered from that blob and compared object-for-object, order-independent, against the current record, and all 5 were identical.",
+          "why": "The record was rewritten around this receipt's anchors. 1 named entry moved between the blob carrying the previous pin and the bytes on disk (va_exp_absolute_pardon-set), and this receipt anchors no entry that moved: every entry it binds, and this record's global authority fields, were recovered from that blob and compared object-for-object, order-independent, against the current record, and all 5 were identical.",
           "anchorsCompared": 5,
           "anchorDetail": [
             "packetManifestSharedMetadata: identical",
@@ -134,19 +134,74 @@
             }
           },
           "entriesThatMovedInThisRecord": [
-            "co_motion_seal_conviction-set",
-            "co_petition_seal_arrest-set",
             "va_exp_absolute_pardon-set"
           ],
           "recoveredFrom": {
             "method": "git rev-list --all -- <path>, deduplicated by blob id, each blob hashed until the pin matched",
-            "blobId": "091b0da6d065202366a267c83932cba8f20a85e8",
-            "commit": "9ad720a34407639fe3bbada728414ddd4cceb19f",
-            "commitsWithThisPath": 69,
-            "distinctBlobs": 62,
-            "blobsHashed": 3
+            "blobId": "dd6417c551eb99aa284d464fd28594c275f79978",
+            "commit": "e093cfef44f63e69321bd4384deb1cadacda2170",
+            "commitsWithThisPath": 71,
+            "distinctBlobs": 63,
+            "blobsHashed": 2
           },
-          "previousIdentityRefresh": null,
+          "previousIdentityRefresh": {
+            "refreshedOn": "2026-10-13",
+            "was": {
+              "sha256": "83d91d31bf8b0b6c76c5623f4c39cffddcf6b154c1d8de96ffbcb74073d6befb",
+              "byteLength": 3711585
+            },
+            "why": "The record was rewritten around this receipt's anchors. 3 named entries moved between the blob carrying the previous pin and the bytes on disk (co_motion_seal_conviction-set, co_petition_seal_arrest-set, va_exp_absolute_pardon-set), and this receipt anchors no entry that moved: every entry it binds, and this record's global authority fields, were recovered from that blob and compared object-for-object, order-independent, against the current record, and all 5 were identical.",
+            "anchorsCompared": 5,
+            "anchorDetail": [
+              "packetManifestSharedMetadata: identical",
+              "packetSet:dc_innocence_expungement-set: identical",
+              "packetSet:il-prostitution-j-vacate-set: identical",
+              "packetSet:ms-misd-addl-set: identical",
+              "packetSet:nc_auto_146_a4_agency_followup-set: identical"
+            ],
+            "anchorsIdentical": 5,
+            "identicalAnchorSha256": {
+              "packetManifestSharedMetadata": "cb026b3c9058bf43be30ef637b88a3819076dce69cda50b9ab42968aecf79298",
+              "packetSet:dc_innocence_expungement-set": "1534c812ff61dd053c78273e92b99c0fd7424407f9a0a0f35f5b2cb2a7cf2374",
+              "packetSet:il-prostitution-j-vacate-set": "7979cb3ffa4903e16a943b12772d110fa4a0d83af5f36d431b0c06cd89881257",
+              "packetSet:ms-misd-addl-set": "c2213f54e772adf855ac2c04cabf6a65678dfd7d89de463d9fd23eb5f20b7f7a",
+              "packetSet:nc_auto_146_a4_agency_followup-set": "5bae0fd02e37fb53165a11817e1f26689b855b05b6565987a627b0a07eb80df0"
+            },
+            "canonicalisation": "keys sorted recursively, JSON.stringify with no spacing, one trailing newline, UTF-8",
+            "anchorScope": {
+              "anchorIds": [
+                "nc_auto_146_a4_agency_followup-set"
+              ],
+              "derivation": {
+                "declarations": [
+                  {
+                    "basis": "receipt.familyId exact packetSetId",
+                    "packetSetId": "nc_auto_146_a4_agency_followup-set"
+                  },
+                  {
+                    "basis": "receipt.routeKeys:obligation:track-only:NC:nc_auto_146_a4_agency_followup",
+                    "packetSetId": "nc_auto_146_a4_agency_followup-set"
+                  }
+                ],
+                "globalMetadataComparedAsOneAnchor": true
+              }
+            },
+            "entriesThatMovedInThisRecord": [
+              "co_motion_seal_conviction-set",
+              "co_petition_seal_arrest-set",
+              "va_exp_absolute_pardon-set"
+            ],
+            "recoveredFrom": {
+              "method": "git rev-list --all -- <path>, deduplicated by blob id, each blob hashed until the pin matched",
+              "blobId": "091b0da6d065202366a267c83932cba8f20a85e8",
+              "commit": "9ad720a34407639fe3bbada728414ddd4cceb19f",
+              "commitsWithThisPath": 69,
+              "distinctBlobs": 62,
+              "blobsHashed": 3
+            },
+            "previousIdentityRefresh": null,
+            "whatThisDoesNotClaim": "Nothing about the packet's bytes, its obligations, its counters or its verdict. It restores an identity binding that lapsed on an edit to entries this family does not bind, and it opens no route and grants no approval."
+          },
           "whatThisDoesNotClaim": "Nothing about the packet's bytes, its obligations, its counters or its verdict. It restores an identity binding that lapsed on an edit to entries this family does not bind, and it opens no route and grants no approval."
         },
         "whatThisDoesNotClaim": "Nothing about the packet's bytes, its obligations, its counters or its verdict. It restores an identity binding that lapsed on an edit to entries this family does not bind, and it opens no route and grants no approval."
