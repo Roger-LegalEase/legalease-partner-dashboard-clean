@@ -41,6 +41,11 @@ const { prepayGateFactIds, PACKET_COLLECTION_CLASSES } = await import(
   "../src/lib/expungement-ai/packet-collection.ts"
 );
 const { packetCollectionFor } = await import("../src/lib/expungement-ai/packet-information.ts");
+const { mnTargetOriginQuestion, mnProtectedStageContext, MN_TARGET_ORIGIN_ID } = await import("../src/lib/expungement-ai/mn-two-county-source-facts.ts");
+const { msFirstOffenderSourceContract } = await import("../src/lib/rcap-engine/mississippi-first-offender-source-facts.ts");
+const { MS_FIRST_OFFENDER_COLLECTION_IDS } = await import("../src/lib/expungement-ai/ms-first-offender-source-questions.ts");
+const { ohJuvenileSourceContract } = await import("../src/lib/rcap-engine/ohio-juvenile-source-stage.ts");
+const { OH_JUVENILE_STAGE_IDS } = await import("../src/lib/expungement-ai/oh-juvenile-stage-questions.ts");
 
 // Audit runs can preserve tracked historical reports in an isolated output directory.
 const outputFlag = process.argv.indexOf("--output-dir");
@@ -275,7 +280,15 @@ function auditRoute(profile, pathway) {
   const byClass = Object.fromEntries(PACKET_COLLECTION_CLASSES.map((name) => [name, []]));
   for (const fact of resolution.facts) byClass[fact.collection].push(fact.factId);
 
-  const beforeFactIds = [...new Set(plan.requiredInputIds)].sort();
+  // Inputs an accepted source contract declares beyond the plan are expected,
+  // computed from the same contracts, never taken from the resolver's output.
+  const declaredSourceAdditions = [...new Set([
+    ...(mnTargetOriginQuestion(profile, pathway.id, specification) ? [MN_TARGET_ORIGIN_ID] : []),
+    ...(mnProtectedStageContext(profile, pathway.id, specification, serverFacts, [])?.questions.map((q) => q.id) ?? []),
+    ...(msFirstOffenderSourceContract(profile, pathway.id, specification) ? MS_FIRST_OFFENDER_COLLECTION_IDS : []),
+    ...(ohJuvenileSourceContract(profile, pathway.id, specification) ? OH_JUVENILE_STAGE_IDS : [])
+  ])].filter((id) => !plan.requiredInputIds.includes(id)).sort();
+  const beforeFactIds = [...new Set([...plan.requiredInputIds, ...declaredSourceAdditions])].sort();
   const afterFactIds = resolution.facts.map((fact) => fact.factId).sort();
   const accountedFor = beforeFactIds.length === afterFactIds.length
     && beforeFactIds.every((factId, index) => factId === afterFactIds[index]);
@@ -346,6 +359,7 @@ function auditRoute(profile, pathway) {
     counts: Object.fromEntries(PACKET_COLLECTION_CLASSES.map((name) => [name, byClass[name].length])),
     reconciliation: {
       beforeCount: beforeFactIds.length,
+      declaredSourceAdditions,
       afterCount: afterFactIds.length,
       accountedFor,
       droppedFactIds: beforeFactIds.filter((factId) => !afterFactIds.includes(factId)),
