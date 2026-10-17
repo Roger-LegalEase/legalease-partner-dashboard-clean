@@ -1,4 +1,53 @@
-import type { AnswerValue } from "@/lib/expungement-ai/frontend/contracts";
+import { MD_JUVENILE_COUNTY_SOURCE_PURPOSE, type MdJuvenileCountySourcePurpose } from "@/lib/expungement-ai/md-juvenile-county-source-purpose";
+import { ksMunicipalCategoryIsContext } from "@/lib/expungement-ai/ks-municipal-category-context";
+import { msFirstOffenderSourceContract, MS_FIRST_OFFENDER_SOURCE } from "@/lib/rcap-engine/mississippi-first-offender-source-facts";
+import { MS_FIRST_OFFENDER_COLLECTION_IDS, msFirstOffenderSourceQuestions } from "@/lib/expungement-ai/ms-first-offender-source-questions";
+import { ohJuvenileSourceContract, ohJuvenileStageFactIds, ohJuvenileStageFacts } from "@/lib/rcap-engine/ohio-juvenile-source-stage";
+import { OH_JUVENILE_STAGE_IDS } from "@/lib/expungement-ai/oh-juvenile-stage-questions";
+import { mnTwoCountyFactIds, mnTwoCountyQuestions, MN_PROSECUTOR_KIND, MN_PROSECUTING_CITY, MN_TWO_COUNTY_SOURCE, mnProtectedStageContext } from "@/lib/expungement-ai/mn-two-county-source-facts";
+import { mdPoliceContext, mdPoliceFactIds, MD_POLICE_IDS } from "@/lib/rcap-engine/maryland-police-record-facts";
+import { moXivCourtIsContext } from "@/lib/expungement-ai/mo-xiv-court-context";
+import { MO_MARIJUANA_CUSTODY_FACT } from "@/lib/rcap-engine/missouri-marijuana-status-facts";
+import { mnCannabisLocationIsContext } from "@/lib/expungement-ai/mn-cannabis-location-context";
+import { mn609a017LocationIsContext } from "@/lib/expungement-ai/mn-609a017-location-context";
+import { mn299c11LocationIsContext } from "@/lib/expungement-ai/mn-299c11-location-context";
+import { mn609a015LocationIsContext } from "@/lib/expungement-ai/mn-609a015-location-context";
+import { mo610122CourtIsContext } from "@/lib/expungement-ai/mo-610122-court-context";
+import { mo610105CourtIsContext } from "@/lib/expungement-ai/mo-610105-court-context";
+import { virginiaVictimQuestionContract, VA_VICTIM_STATUS_ID } from "@/lib/rcap-engine/virginia-victim-question";
+import { texasGuidanceFinancialApplies } from "@/lib/rcap-engine/texas-nondisclosure-facts";
+import { westVirginiaGuidanceFinancialApplies } from "@/lib/rcap-engine/west-virginia-guidance-financial";
+import { southDakotaGuidanceFinancialApplies } from "@/lib/rcap-engine/south-dakota-guidance-financial";
+import { southCarolinaGuidanceFinancialApplies } from "@/lib/rcap-engine/south-carolina-guidance-financial";
+import { newJerseyMarijuanaStatusFinancialApplies } from "@/lib/rcap-engine/new-jersey-marijuana-status-financial";
+import { oklahomaCleanSlateFinancialApplies } from "@/lib/rcap-engine/oklahoma-clean-slate-financial";
+import { ohTraffickingCourtIsContext } from "@/lib/expungement-ai/oh-trafficking-court-context";
+import {WY_1501_FACT_IDS,wy1501Context,wy1501QuestionApplies} from "@/lib/rcap-engine/wyoming-1501-facts";
+import { WY_1401_FACT_IDS, wy1401Context, wy1401QuestionApplies } from "@/lib/rcap-engine/wyoming-1401-facts";
+import { newMexicoGuidanceFinancialApplies } from "@/lib/rcap-engine/new-mexico-guidance-financial";
+import { montanaRecordFinancialApplies } from "@/lib/rcap-engine/montana-record-correction-financial";
+import { caAutomaticRecordIsContext } from "@/lib/expungement-ai/ca-automatic-record-context";
+import { ca12034RecordIsContext } from "@/lib/expungement-ai/ca-1203-4-record-context";
+import { ca12034QuestionApplies } from "@/lib/rcap-engine/california-1203-4-facts";
+import { ca12034aRecordIsContext } from "@/lib/expungement-ai/ca-1203-4a-record-context";
+import { arFelonyRecordIsContext } from "@/lib/expungement-ai/ar-felony-record-context";
+import { arNonconvictionRecordIsContext } from "@/lib/expungement-ai/ar-nonconviction-record-context";
+import { alRecordIsContext } from "@/lib/expungement-ai/al-record-context";
+import { alRedeemerClassificationContract, AL_REDEEMER_CLASSIFICATION_IDS } from "@/lib/expungement-ai/al-redeemer-classification";
+import { ND_FIRST_OFFENSE_FACT_IDS } from "@/lib/rcap-engine/north-dakota-first-offense-facts";
+import { akPardonRecordIsContext, akJuvenileRecordIsContext, akAgencyOrSisRecordIsContext } from "@/lib/expungement-ai/ak-pardon-record-context";
+import { akCourtviewRecordIsContext, AK_LEGACY_RECORD_TYPE } from "@/lib/expungement-ai/ak-courtview-record-context";
+import { dcInnocenceLocationIsContext, DC_LEGACY_LOCATION } from "@/lib/rcap-engine/dc-innocence-location-context";
+import { ndFirstOffenseRecordIsContext, ND_LEGACY_RECORD_TYPE } from "@/lib/expungement-ai/nd-first-offense-record-context";
+import { getProfileByJurisdiction } from "@/lib/rcap-engine/profile-registry";
+import { isKsMunicipalContact } from "@/lib/expungement-ai/ks-municipal-contact";
+import { maineNonconvictionQuestionApplies } from "@/lib/rcap-engine/maine-nonconviction-facts";
+import { louisianaAutomationStatusQuestionApplies } from "@/lib/rcap-engine/louisiana-automation-status";
+import { nebraskaNonconvictionQuestionApplies } from "@/lib/rcap-engine/nebraska-nonconviction-facts";
+import { georgiaPardonCategoryIsContext } from "@/lib/expungement-ai/ga-pardon-category-context";
+import { fullSsnLastFour } from "@/lib/expungement-ai/sensitive-packet-facts";
+import { answerValueIsKnown, uncertaintyState, isCalendarDate, questionAnswerState, scalarAnswerText } from "@/lib/expungement-ai/question-answer-state";
+import type { AnswerValue, ProfileQuestion } from "@/lib/expungement-ai/frontend/contracts";
 import type { PacketSpecificationFact, RegisteredSpecification } from "@/lib/rcap/grade-a/packet-specification";
 
 /**
@@ -152,11 +201,11 @@ export const PACKET_COLLECTION_SECTIONS: ReadonlyArray<{
   {
     id: "financial_obligations",
     heading: "Financial obligations",
-    description: "Whether the fines, fees, costs and restitution on this case are paid or waived.",
+    description: "Payments, remaining balances and any court orders changing financial requirements.",
     translations: {
       es: {
         heading: "Obligaciones económicas",
-        description: "Si las multas, cuotas, costos y restitución de este caso están pagados o exonerados."
+        description: "Pagos, saldos pendientes y cualquier orden judicial que modifique los requisitos económicos."
       }
     }
   },
@@ -204,6 +253,8 @@ export type PacketSectionStatus = (typeof PACKET_SECTION_STATUSES)[number];
 
 export type ResolvedPacketFact = {
   factId: string;
+  /** Source purpose only; never overrides classification, requiredness or authority. */
+  sourcePurpose?: MdJuvenileCountySourcePurpose;
   collection: PacketCollectionClass;
   phase: PacketCollectionPhase;
   /** The participant section this fact is asked in, where it is asked at all. */
@@ -212,10 +263,16 @@ export type ResolvedPacketFact = {
   source: string;
   /** Present for `already_known` and `derived` only. */
   value?: AnswerValue;
+  /** A planned derivation is not a usable output or a second participant prompt. */
+  derivation?: { state: "pending" | "valid"; inputFactIds: string[] };
+  /** A retained independent answer needs one informed replacement, not a silent merge. */
+  reconciliation?: "contact_components";
   /** Present for `external_actor` only: the actor who fills this field, later. */
   actor?: string;
+  /** Source permits an unknown participant value without blocking generation. */
+  optional?: true;
   /** Present for `conditional`: the fact that decides whether this is asked. */
-  condition?: { factId: string; satisfiedWhen: "affirmative" };
+  condition?: { factId: string; satisfiedWhen: "affirmative" | "equals"; value?: string };
   /** For a conditional fact, whether the condition currently makes it relevant. */
   active?: boolean;
   /** Why this fact landed in this class. Carried into the audit artifact. */
@@ -241,14 +298,17 @@ export type PacketCollectionResolution = {
   prepayQuestions: string[];
   renderQuestions: string[];
   groupedParticipantSections: PacketCollectionSection[];
-  conditionalQuestions: Array<{ factId: string; condition: { factId: string; satisfiedWhen: "affirmative" }; active: boolean }>;
+  conditionalQuestions: Array<{ factId: string; condition: { factId: string; satisfiedWhen: "affirmative" | "equals"; value?: string }; active: boolean }>;
   filingReadinessItems: string[];
   externalActorFields: Array<{ factId: string; actor: string }>;
   unresolvedRequiredFacts: string[];
+  pendingDerivations: Array<{ factId: string; inputFactIds: string[] }>;
+  contactReconciliation?: { canUseComponents: boolean };
   hardBlockers: Array<{ factId: string; reason: string }>;
 };
 
 export type PacketCollectionInput = {
+  mdJuvenileCountySourcePurpose?: MdJuvenileCountySourcePurpose;
   jurisdiction: string;
   pathwayId: string | null;
   requiredInputIds: string[];
@@ -270,6 +330,8 @@ export type PacketCollectionInput = {
   savedAnswers?: Record<string, AnswerValue>;
   /** Account/profile facts the participant has already given elsewhere. */
   profileFacts?: Record<string, AnswerValue>;
+  /** Operational input contracts; invalid nonempty values cannot retire a control. */
+  questionById?: ReadonlyMap<string, ProfileQuestion>;
   /** The registered packet specification for this route, where one exists. */
   specification?: RegisteredSpecification | null;
   /** Fact ids the evaluator or a route-safety gate actually reads for this route. */
@@ -291,6 +353,23 @@ export type PacketCollectionInput = {
    * baseline already carried it. Anything else is asked.
    */
   baselineCarriedFactIds?: ReadonlySet<string>;
+  /** Original record controls whose meanings cannot safely be inferred from another fact. */
+  recordOwnQuestionIds?: ReadonlySet<string>;
+  /** An incompatible protected answer exists; absence in its safe projection is not permission to infer a replacement. */
+  unresolvedSavedFactIds?: ReadonlySet<string>;
+  /** Set only by the exact reviewed route/specification/consumer predicate. */
+  reviewedContactRepresentation?: boolean;
+  /** Server-checked exact JD-CR-202 profile; does not change any legal predicate. */
+  ctCleanSlateSeparateContact?: boolean;
+  ksMunicipalSeparateContact?: boolean;
+  /** Exact current ND profile/source family; historical service/caption prose is not a canonical fact. */
+  ndFirstOffenseSourceOwnedInputs?: boolean;
+  /** Active legal corrections; the identical filing slots remain source handbacks. */
+  ndFirstOffenseStatutoryFactIds?: ReadonlySet<string>;
+  /** Set only by the exact adopted MO status/source contract, never participant data. */
+  missouriClosureStatusOnly?: boolean;
+  missouriMarijuanaStatusOnly?: boolean;
+  montanaDeferredFinancialFacts?: boolean;
   /** Per-route corrections, used only where the generic policy cannot be right. */
   override?: RouteCollectionOverride | null;
 };
@@ -306,6 +385,7 @@ export type RouteCollectionOverride = {
   classes?: Record<string, PacketCollectionClass>;
   groups?: Record<string, PacketCollectionSectionId>;
   conditions?: Record<string, string>;
+  conditionValues?: Record<string, string>;
   /** Facts a human must classify. They resolve as `unresolved`, never as asked-by-default. */
   needsHumanClassification?: string[];
 };
@@ -324,6 +404,7 @@ export type RouteCollectionOverride = {
  * first pattern that accepts a fact wins, so the order is specificity order.
  */
 const SECTION_RULES: ReadonlyArray<{ section: PacketCollectionSectionId; test: RegExp }> = [
+  { section: "about_you", test: /^mcic_identifier_(delivery_method|method_confirmation_source)$/ },
   { section: "required_documents", test: /exhibit|attachment|certified|docket_sheet|recordkeeping|record_source|criminal_history/ },
   { section: "filing_details", test: /prosecut|service_address|service_method|_service_|identifier_delivery|_delivery_method|identifier_method|personal_impact|filing_fee|fee_waiver|narrative|hardship/ },
   { section: "financial_obligations", test: /financial_obligation|restitution|fines|fees_paid|costs_paid/ },
@@ -393,15 +474,21 @@ const USE_RULES: ReadonlyArray<{ collection: PacketCollectionClass; test: RegExp
  */
 type Derivation = { from: string[]; derive: (values: Record<string, string>) => string | null };
 
+/** The reviewed graph reads leaf facts only. Reject new chains/cycles before any value can be trusted. */
+export function assertLeafPacketDerivationGraph(graph: Readonly<Record<string, { from: readonly string[] }>>): void {
+  for (const [factId, rule] of Object.entries(graph)) {
+    if (rule.from.some((inputId) => Object.prototype.hasOwnProperty.call(graph, inputId))) {
+      throw new Error(`packet_derivation_contract_requires_review:${factId}`);
+    }
+  }
+}
+
 const DERIVATIONS: Readonly<Record<string, Derivation>> = {
   // The last four digits are a projection of the number itself, never a
   // separate thing to ask for.
   social_security_number_last_four: {
     from: ["social_security_number"],
-    derive: ({ social_security_number: ssn }) => {
-      const digits = ssn.replace(/\D/g, "");
-      return digits.length >= 4 ? digits.slice(-4) : null;
-    }
+    derive: ({ social_security_number: ssn }) => fullSsnLastFour(ssn)
   },
   // Deliberately NOT derived, though each looks inferable:
   //
@@ -474,6 +561,7 @@ const DERIVATIONS: Readonly<Record<string, Derivation>> = {
     }
   }
 };
+assertLeafPacketDerivationGraph(DERIVATIONS);
 
 /**
  * Screening ids that already carry a packet fact's answer. This is a naming
@@ -506,6 +594,7 @@ const GENERIC_CONDITIONS: Readonly<Record<string, string>> = {
 };
 
 const EXTERNAL_ACTOR_BY_OWNERSHIP_KEY: Readonly<Record<string, string>> = {
+  participantCompletesBeforeFilingFields: "participant_before_filing",
   participantAtSigningFields: "participant_at_signing",
   participantAtServiceFields: "participant_at_service",
   notaryOwnedFields: "notary",
@@ -540,6 +629,11 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
   const known: Record<string, AnswerValue> = {};
   const derived: Record<string, AnswerValue> = {};
   const facts: ResolvedPacketFact[] = [];
+  let contactReconciliation: PacketCollectionResolution["contactReconciliation"];
+  const validValue = (id: string, value: AnswerValue | undefined) => {
+    const question = input.questionById?.get(id);
+    return question ? questionAnswerState(question, value) === "known_valid" : valueIsKnown(value);
+  };
 
   /**
    * Values that make a fact ALREADY KNOWN — that is, known from somewhere
@@ -560,14 +654,78 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
 
   /** Everything resolved so far, for reading a derivation's or a condition's inputs. */
   const resolvedText = (factId: string): string => {
+    if (input.unresolvedSavedFactIds?.has(factId)) return "";
+    const saved = input.savedAnswers?.[factId];
+    // An explicitly edited invalid/unknown answer cannot fall back to an older
+    // valid value and silently feed a calculation or condition.
+    if (input.savedAnswers && factId in input.savedAnswers) return validValue(factId, saved) ? answerString(saved) : "";
     if (factId in derived) return answerString(derived[factId]);
     if (factId in known) return answerString(known[factId]);
-    const saved = input.savedAnswers?.[factId];
-    if (valueIsKnown(saved)) return answerString(saved);
-    return answerString(available[factId]);
+    return validValue(factId, available[factId]) ? answerString(available[factId]) : "";
   };
 
-  const requiredInputIds = dedupe(input.requiredInputIds);
+  const ohTraffickingCourtContext = input.jurisdiction === "OH"
+    && ohTraffickingCourtIsContext(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
+  const arNonconvictionRecordContext = input.jurisdiction === "AR"
+    && arNonconvictionRecordIsContext(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
+  const ca12034RecordContext = input.jurisdiction === "CA"
+    && ca12034RecordIsContext(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
+  const ca12034aRecordContext = input.jurisdiction === "CA"
+    && ca12034aRecordIsContext(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
+  const caAutomaticRecordContext = input.jurisdiction === "CA"
+    && caAutomaticRecordIsContext(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
+  const arFelonyRecordContext = input.jurisdiction === "AR"
+    && arFelonyRecordIsContext(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
+  const alClassification = input.jurisdiction === "AL"
+    && alRedeemerClassificationContract(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
+  const alRecordContext = input.jurisdiction === "AL"
+    && alRecordIsContext(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
+  const dcLocationContext = input.jurisdiction === "DC"
+    && dcInnocenceLocationIsContext(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
+  const akAgencyOrSisContext = input.jurisdiction === "AK"
+    && akAgencyOrSisRecordIsContext(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
+  const akJuvenileContext = input.jurisdiction === "AK"
+    && akJuvenileRecordIsContext(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
+  const akPardonContext = input.jurisdiction === "AK"
+    && akPardonRecordIsContext(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
+  const akRecordContext = input.jurisdiction === "AK"
+    && akCourtviewRecordIsContext(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
+  const ndRecordContext = input.jurisdiction === "ND"
+    && ndFirstOffenseRecordIsContext(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
+  const retainedDcLocation = dcLocationContext && [input.screeningAnswers, input.prefilledAnswers, input.savedAnswers, input.profileFacts]
+    .some(answers => answers && Object.hasOwn(answers, DC_LEGACY_LOCATION));
+  const mnCannabisLocationContext = input.jurisdiction === "MN" && mnCannabisLocationIsContext(getProfileByJurisdiction("MN"), input.pathwayId, specification);
+  const mn609a017LocationContext = input.jurisdiction === "MN" && mn609a017LocationIsContext(getProfileByJurisdiction("MN"), input.pathwayId, specification);
+  const mn299c11LocationContext = input.jurisdiction === "MN" && mn299c11LocationIsContext(getProfileByJurisdiction("MN"), input.pathwayId, specification);
+  const mn609a015LocationContext = input.jurisdiction === "MN" && mn609a015LocationIsContext(getProfileByJurisdiction("MN"), input.pathwayId, specification);
+  const moXivCourtContext = input.jurisdiction === "MO" && moXivCourtIsContext(getProfileByJurisdiction("MO"), input.pathwayId, specification, resolvedText(MO_MARIJUANA_CUSTODY_FACT));
+  const mo610122CourtContext = input.jurisdiction === "MO" && mo610122CourtIsContext(getProfileByJurisdiction("MO"), input.pathwayId, specification);
+  const mo610105CourtContext = input.jurisdiction === "MO" && mo610105CourtIsContext(getProfileByJurisdiction("MO"), input.pathwayId, specification);
+  const vaVictimContext = input.jurisdiction === "VA" && virginiaVictimQuestionContract(getProfileByJurisdiction("VA"), input.pathwayId, { specification });
+  const ohJuvenileContext = ohJuvenileSourceContract(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
+  const ohJuvenileAnswers = Object.fromEntries(OH_JUVENILE_STAGE_IDS.map(id => [id, resolvedText(id)]));
+  const ohJuvenileActiveIds = ohJuvenileStageFactIds(ohJuvenileAnswers);
+  const mdPoliceSourceContext = input.jurisdiction === "MD" && specification == null
+    && mdPoliceContext(getProfileByJurisdiction("MD"), input.pathwayId);
+  const mdPoliceAnswers = Object.fromEntries(["arrest_date", ...MD_POLICE_IDS].map(id => [id, resolvedText(id)]));
+  const mdPoliceActiveIds = mdPoliceFactIds(mdPoliceAnswers);
+  // Saved edits control applicability; an explicit clear/unknown/unresolved
+  // value cannot reactivate an older screening value.
+  const mnStageAnswers = { ...available, ...(input.savedAnswers ?? {}) };
+  for (const id of input.unresolvedSavedFactIds ?? []) delete mnStageAnswers[id];
+  const mnStageContext = mnProtectedStageContext(getProfileByJurisdiction(input.jurisdiction), input.pathwayId,
+    specification, mnStageAnswers, [...input.unresolvedSavedFactIds ?? []]);
+  const mnTwoCountyContext = mnStageContext !== null;
+  const mnTwoCountyQuestionsById = new Map(mnTwoCountyContext ? mnTwoCountyQuestions(input.pathwayId!).map(question => [question.id, question]) : []);
+  const mnTwoCountyIds = mnTwoCountyContext ? mnTwoCountyFactIds(input.pathwayId!) : [];
+  const mnStageQuestions = mnStageContext?.questions ?? [];
+  const mnStageQuestionsById = new Map(mnStageQuestions.map(question => [question.id, question]));
+  const mnStageCandidate = mnStageContext?.candidate ?? null;
+
+  const ksMunicipalCategoryContext = ksMunicipalCategoryIsContext(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
+  const msFirstContext = msFirstOffenderSourceContract(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
+  const msFirstQuestions = new Map(msFirstContext ? msFirstOffenderSourceQuestions().map(question => [question.id, question]) : []);
+  const requiredInputIds = dedupe([...input.requiredInputIds, ...(msFirstContext ? MS_FIRST_OFFENDER_COLLECTION_IDS : []), ...(ohJuvenileContext ? OH_JUVENILE_STAGE_IDS : []), ...mnTwoCountyIds, ...mnStageQuestions.map(question => question.id), ...(retainedDcLocation ? [DC_LEGACY_LOCATION] : [])]);
   const decidesRouteFor = (factId: string) => input.routeDecidingFactIds?.has(factId) === true;
   const unresolvedScopeFor = (factId: string) => input.unresolvedRouteFactIds?.has(factId) === true;
   const baselineCarried = input.baselineCarriedFactIds ?? new Set<string>();
@@ -583,6 +741,7 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
     );
 
   for (const factId of requiredInputIds) {
+    const needsSavedAnswerClarification = input.unresolvedSavedFactIds?.has(factId) === true;
     const specFact = factById.get(factId);
     const overrideClass = override?.classes?.[factId];
     const group = sectionFor(factId, override?.groups?.[factId]);
@@ -603,8 +762,352 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
       continue;
     }
 
+    if (ksMunicipalCategoryContext && factId === "offense_category" && !overrideClass
+      && !needsHuman.has(factId) && !decidesRouteFor(factId) && !unresolvedScopeFor(factId)
+      && !needsSavedAnswerClarification) {
+      facts.push({ factId, collection: "conditional", phase: "render", active: true, optional: true, group,
+        source: "ks_municipal_literal_category_context",
+        reason: "The category is optional literal context with no document mapping. It supplies no ordinance, statutory ground or state-equivalent offense finding; those source requirements remain separate." });
+      continue;
+    }
+    if (msFirstContext && !overrideClass && !needsHuman.has(factId) && !unresolvedScopeFor(factId)) {
+      if (factId === "offense_category") {
+        facts.push({ factId, collection: "conditional", phase: "known", active: false, optional: true, group,
+          source: "ms_first_offender_legacy_category_context",
+          reason: "The exact offense and separate source facts supply this procedure's classification. Retain the category literally; it supplies no traffic, history, finality or official-duty finding and has no document mapping." });
+        continue;
+      }
+      const question = msFirstQuestions.get(factId);
+      if (question) {
+        const saved = input.savedAnswers && Object.hasOwn(input.savedAnswers, factId);
+        const raw = saved ? input.savedAnswers![factId] : available[factId];
+        const value = !needsSavedAnswerClarification && questionAnswerState(question, raw) === "known_valid" ? scalarAnswerText(raw) : null;
+        if (value && !saved && mayMaterialize(factId, true)) known[factId] = value;
+        facts.push({ factId, collection: value && !saved ? "already_known" : "prepay_confirmation",
+          phase: value && !saved ? "known" : "prepay_confirmation", group, active: true,
+          ...(value ? { value } : {}), source: "ms_first_offender_source_fact", reason: MS_FIRST_OFFENDER_SOURCE + "; participant facts for this conviction; no platform certification, signing, upload or fulfillment authority" });
+        continue;
+      }
+    }
+    if (ohJuvenileContext && !overrideClass && !needsHuman.has(factId)) {
+      if (factId === "court" && ohJuvenileStageFacts(ohJuvenileAnswers).code === "information") {
+        facts.push({ factId, collection: "conditional", phase: "known", group: null, active: false,
+          source: "oh_juvenile_information_court_context", reason: "The explicit information request retains the generic court answer without treating it as a juvenile court, filing destination or application fact. Application timing, venue and documents remain unresolved." });
+        continue;
+      }
+      if ((OH_JUVENILE_STAGE_IDS as readonly string[]).includes(factId)) {
+        const active = ohJuvenileActiveIds.includes(factId);
+        const value = resolvedText(factId);
+        facts.push({ factId, collection: active ? value ? "already_known" : "prepay_confirmation" : "conditional",
+          phase: active ? value ? "known" : "prepay_confirmation" : "known", group: active ? group : null,
+          active, ...(active ? { optional: true as const } : {}), ...(value ? { value } : {}), source: "oh_juvenile_requested_stage",
+          reason: "The requested service, actual record forum and existing sealing order are distinct participant facts. Saving them does not establish eligibility, timing, venue, rehabilitation, a prepared application or payment authority." });
+        continue;
+      }
+    }
+    if (mdPoliceSourceContext && !overrideClass && !needsHuman.has(factId)) {
+      if (["county", "court", "financial_obligations", "sentence_completion_date", "court_requirements_completed", "resolved_timing_bucket"].includes(factId)) {
+        facts.push({ factId, collection: "conditional", phase: "known", group: null, active: false,
+          source: "md_police_retained_context", reason: "Earlier generic context is retained without selecting an agency, denial court, new request, filing venue or individual relief. The adopted source stages do not require this fact for their current information or help consumer." });
+        continue;
+      }
+      if (["arrest_date", ...MD_POLICE_IDS].includes(factId)) {
+        const active = mdPoliceActiveIds.includes(factId);
+        const value = resolvedText(factId);
+        if (active && value && mayMaterialize(factId, true)) known[factId] = value;
+        facts.push({ factId, collection: active ? value ? "already_known" : "prepay_confirmation" : "conditional",
+          phase: active ? value ? "known" : "prepay_confirmation" : "known", group: active ? group : null,
+          active, ...(value ? { value } : {}), source: "md_police_source_stage",
+          reason: "Source-stage facts distinguish current automatic police-record information from the closed historical request window; ordinary claims do not establish verified relief, timeliness, agency compliance or any filing authority." });
+        continue;
+      }
+    }
+    // Protected source-stage controls use the same supported choice/date state
+    // and saved precedence; never parse old narrative source questions.
+    const mnStageQuestion = mnStageQuestionsById.get(factId);
+    if (mnTwoCountyContext && mnStageQuestion && !overrideClass && !needsHuman.has(factId)
+      && !decidesRouteFor(factId) && !unresolvedScopeFor(factId)) {
+      const saved = input.savedAnswers && Object.hasOwn(input.savedAnswers, factId);
+      const raw = saved ? input.savedAnswers![factId] : available[factId];
+      const value = !input.unresolvedSavedFactIds?.has(factId) && questionAnswerState(mnStageQuestion, raw) === "known_valid" ? answerString(raw) : "";
+      if (value && !saved && mayMaterialize(factId, true)) known[factId] = value;
+      facts.push({ factId, collection: value && !saved ? "already_known" : "render_required",
+        phase: value && !saved ? "known" : "render", group: "court_and_case_number", active: true,
+        ...(value ? { value } : {}), source: "mn_protected_source_stage_fact",
+        reason: "Explicit participant record/stage fact; held candidate only. " + (mnStageCandidate?.holds.join("; ") ?? "source stage unresolved") });
+      continue;
+    }
+    // The adopted source requires distinct case-county/prosecutor inputs.
+    // No legacy location/county/city answer is an attestation of these facts.
+    if (mnTwoCountyContext && !overrideClass && !needsHuman.has(factId) && !decidesRouteFor(factId) && !unresolvedScopeFor(factId)) {
+      if (factId === "residency_or_location" && mnTwoCountyIds.every(id => requiredInputIds.includes(id))) {
+        facts.push({ factId, collection: "conditional", phase: "known", group: null, active: false,
+          source: "mn_two_county_legacy_context", reason: "Legacy location is retained unchanged. Distinct required case-county and prosecuting-authority facts replace its destination purpose; this value does not establish record origin, venue, agreement or a programme." });
+        continue;
+      }
+      const sourceQuestion = mnTwoCountyQuestionsById.get(factId);
+      if (sourceQuestion) {
+        const saved = input.savedAnswers && Object.hasOwn(input.savedAnswers, factId);
+        const raw = saved ? input.savedAnswers![factId] : available[factId];
+        const value = !input.unresolvedSavedFactIds?.has(factId) && questionAnswerState(sourceQuestion, raw) === "known_valid" ? answerString(raw) : "";
+        const kindRaw = input.savedAnswers && Object.hasOwn(input.savedAnswers, MN_PROSECUTOR_KIND)
+          ? input.savedAnswers[MN_PROSECUTOR_KIND] : available[MN_PROSECUTOR_KIND];
+        const active = factId !== MN_PROSECUTING_CITY || kindRaw === "city_attorney" && !input.unresolvedSavedFactIds?.has(MN_PROSECUTOR_KIND);
+        if (active && value && !saved && mayMaterialize(factId, true)) known[factId] = value;
+        facts.push({ factId, collection: !active ? "conditional" : value && !saved ? "already_known" : "render_required",
+          phase: !active || value && !saved ? "known" : "render", group: active ? "court_and_case_number" : null,
+          active, ...(value ? { value } : {}), source: "mn_two_county_source_fact",
+          reason: MN_TWO_COUNTY_SOURCE + "; collection for review only, not an authority directory, source-stage selection, prosecutor agreement or document mapping" });
+        continue;
+      }
+    }
+    if (mnCannabisLocationContext && factId === "residency_or_location" && !overrideClass && !needsHuman.has(factId)) {
+      facts.push({ factId, collection: "conditional", phase: "known", group: null, active: false,
+        source: "mn_cannabis_location_retained_context",
+        reason: "Generic location is optional retained context. The BCA automatic cannabis and Cannabis Expungement Board stages have no participant application or filing venue; this value does not establish the source stage, actor, cannabis record facts or qualification." });
+      continue;
+    }
+    if (mn609a017LocationContext && factId === "residency_or_location" && !overrideClass && !needsHuman.has(factId)) {
+      facts.push({ factId, collection: "conditional", phase: "known", group: null, active: false,
+        source: "mn_609a017_location_retained_context",
+        reason: "Generic location is optional retained context. Identity-correction guidance has no participant filing venue; this value does not identify the court record, ID-data agency, source track or legal determination." });
+      continue;
+    }
+    if (mn299c11LocationContext && factId === "residency_or_location" && !overrideClass && !needsHuman.has(factId)) {
+      facts.push({ factId, collection: "conditional", phase: "known", group: null, active: false,
+        source: "mn_299c11_location_retained_context",
+        reason: "Generic location is optional retained context. The agency demand has no court venue; this value does not identify the arresting agency, actual records custodians or an independent filing destination." });
+      continue;
+    }
+    if (mn609a015LocationContext && factId === "residency_or_location" && !overrideClass && !needsHuman.has(factId)) {
+      facts.push({ factId, collection: "conditional", phase: "known", group: null, active: false,
+        source: "mn_609a015_location_retained_context",
+        reason: "Generic location is optional retained context. This automatic track has no participant filing or venue; the value does not supply record origin or an independent petition destination." });
+      continue;
+    }
+    if (moXivCourtContext && factId === "court" && !overrideClass && !needsHuman.has(factId)) {
+      facts.push({ factId, collection: "conditional", phase: "known", group: null, active: false,
+        source: "mo_xiv_court_retained_context",
+        reason: "Generic court text is optional record-location context for this completed-incarceration-and-supervision status check; it does not establish a conditional CR375 filing destination or per-conviction court." });
+      continue;
+    }
+    if (mo610122CourtContext && factId === "court" && !overrideClass && !needsHuman.has(factId)) {
+      facts.push({ factId, collection: "conditional", phase: "known", group: null, active: false,
+        source: "mo_610122_court_retained_context",
+        reason: "Generic historical court text is optional retained context in this held, unmapped consumer; it does not establish the county-of-arrest civil-division filing destination or distinct source-form court fields." });
+      continue;
+    }
+    if (mo610105CourtContext && factId === "court" && !overrideClass && !needsHuman.has(factId)) {
+      facts.push({ factId, collection: "conditional", phase: "known", group: null, active: false,
+        source: "mo_610105_court_retained_context",
+        reason: "Generic court text is optional context for locating the originating record. This status-guidance route has no participant court filing or mapped filing destination." });
+      continue;
+    }
+    if (vaVictimContext && factId === VA_VICTIM_STATUS_ID && !overrideClass && !needsHuman.has(factId)) {
+      facts.push({ factId, collection: "conditional", phase: "known", group: null, active: false,
+        source: "va_three_routes_victim_status_retained_context",
+        reason: "Victim status is not an offense classification or a required fact of these exact procedures. Saved answers remain context without supplying a charge, exclusion, statutory qualification or authority." });
+      continue;
+    }
+
+    if (input.ndFirstOffenseSourceOwnedInputs === true && input.jurisdiction === "ND"
+      && input.pathwayId === "first-offense-possession-sealing"
+      && ["contact_information", "residency_or_location"].includes(factId)
+      && !input.routeDecidingFactIds?.has(factId) && !input.unresolvedRouteFactIds?.has(factId)) {
+      facts.push({ factId, collection: "conditional", phase: "known", group: null, active: false,
+        source: "nd_first_offense_existing_family_owned_destinations",
+        reason: factId === "contact_information"
+          ? "The adopted first-offense motion has separate optional participant contact destinations, with no service duty stated by the subsection. Earlier service-address prose remains history and is not treated as mailing address."
+          : "The adopted motion has distinct county and court-type blanks for completion before filing. Earlier county-or-district prose remains history; it supplies neither fact and creates no new intake gate." });
+      continue;
+    }
+
+    if (input.ctCleanSlateSeparateContact === true && input.jurisdiction === "CT"
+      && input.pathwayId === "petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202"
+      && factId === "contact_information" && !input.routeDecidingFactIds?.has(factId) && !input.unresolvedRouteFactIds?.has(factId)) {
+      facts.push({ factId, collection: "conditional", phase: "known", group: null, active: false,
+        source: "ct_jdcr202_separate_defendant_contact_fields",
+        reason: "JD-CR-202 has separate defendant address, phone and email fields. The earlier aggregate remains history, is never parsed, and is not an eligibility predicate." });
+      continue;
+    }
+
+    if (input.ksMunicipalSeparateContact === true && isKsMunicipalContact(input.jurisdiction, input.pathwayId)
+      && factId === "contact_information" && !input.routeDecidingFactIds?.has(factId) && !input.unresolvedRouteFactIds?.has(factId)) {
+      facts.push({ factId, collection: "conditional", phase: "known", group: null, active: false,
+        source: "ks_municipal_separate_petitioner_contact_fields",
+        reason: "The existing municipal pleading map has separate petitioner address, phone and email fields. The earlier aggregate remains history, is never parsed, and is not an eligibility predicate." });
+      continue;
+    }
+
+    // §29-3523(3)(c)(iii), (7) has no payment predicate for an adult
+    // acquittal's automatic record process. The separately guarded juvenile
+    // routing-only guidance node likewise asks no financial input. Keep raw history;
+    // its inactive disposition supplies no paid/waived value or authority.
+    if (!nebraskaNonconvictionQuestionApplies(input.jurisdiction, input.pathwayId, {
+      case_outcome: resolvedText("case_outcome"), age_at_offense: resolvedText("age_at_offense")
+    }, factId)) {
+      facts.push({ factId, collection: "conditional", phase: "known", group: null,
+        source: input.pathwayId === "juvenile-automatic-sealing"
+          ? "ne_juvenile_routing_guidance_no_financial_input" : "ne_adult_acquittal_no_financial_predicate", active: false,
+        reason: input.pathwayId === "juvenile-automatic-sealing"
+          ? "The exact juvenile routing-only guidance node asks no financial input; retain the saved payment answer without inferring completion or sealing eligibility."
+          : "The exact adult acquittal automatic route has no financial predicate; the saved payment answer is retained without inference." });
+      continue;
+    }
+
+    const wyProfile=input.jurisdiction==="WY"?getProfileByJurisdiction("WY"):null;
+    if(wyProfile&&wy1501Context(wyProfile,input.pathwayId,{...available,...input.savedAnswers})) {
+      if(!wy1501QuestionApplies(wyProfile,input.pathwayId,{...available,...input.savedAnswers},factId)) {
+        facts.push({factId,collection:"conditional",phase:"known",group:null,source:"wy_1501_inactive_fact_history",active:false,optional:true,reason:"The exact sentence-term expiration facts control this petition. Generic historical payment/completion answers remain unchanged and establish no paid, waived or expired condition."});continue;
+      }
+      if(WY_1501_FACT_IDS.includes(factId)) {
+        facts.push({factId,collection:"prepay_confirmation",phase:"prepay_confirmation",group:"about_you",source:"wy_1501_source_facts",active:true,reason:"Source-owned statute, disposition and expiration facts for this verified petition; no filing, output approval or payment authority is inferred."});continue;
+      }
+    }
+    if(wyProfile && wy1401Context(wyProfile,input.pathwayId,{...available,...input.savedAnswers})) {
+      if(!wy1401QuestionApplies(wyProfile,input.pathwayId,{...available,...input.savedAnswers},factId)) {
+        facts.push({factId,collection:"conditional",phase:"known",group:null,source:"wy_1401_inactive_fact_history",active:false,optional:true,
+          reason:"This fact is not active for the current incident branch. Its original raw answer remains history without inferred payment, completion, waiver or disposition."});
+        continue;
+      }
+      if(WY_1401_FACT_IDS.includes(factId)) {
+        facts.push({factId,collection:"prepay_confirmation",phase:"prepay_confirmation",group:"about_you",source:"wy_1401_incident_facts",active:true,
+          reason:"The participant may correct the actual incident facts for the source-bound verified-petition review; this does not complete a document or grant authority."});
+        continue;
+      }
+    }
+
+    const okGuidanceProfile = input.jurisdiction === "OK" && factId === "financial_obligations"
+      ? getProfileByJurisdiction("OK") : null;
+    if (okGuidanceProfile && !oklahomaCleanSlateFinancialApplies(okGuidanceProfile, input.pathwayId,
+      { ...available, ...input.savedAnswers }, factId)) {
+      facts.push({ factId, collection: "conditional", phase: "known", group: null,
+        source: "ok_clean_slate_guidance_no_payment_predicate", active: false,
+        reason: "Generic payment completeness is not a prerequisite to this exact noncommercial guidance. Saved payment remains history; victim-restitution objections, source categories and operational limitations remain separate." });
+      continue;
+    }
+
+    const txGuidanceProfile = input.jurisdiction === "TX" && factId === "financial_obligations"
+      ? getProfileByJurisdiction("TX") : null;
+    if (txGuidanceProfile && !texasGuidanceFinancialApplies(txGuidanceProfile, input.pathwayId,
+      { ...available, ...input.savedAnswers }, factId)) {
+      facts.push({ factId, collection: "conditional", phase: "known", group: null,
+        source: "tx_informational_guidance_no_payment_predicate", active: false,
+        reason: "Generic payment completeness does not gate this status/correction guidance. Placement, actual discharge, exclusions and the separate $28/Rule145 issuance procedure remain distinct; no completed order or payment authority is inferred." });
+      continue;
+    }
+
+    const wvGuidanceProfile = input.jurisdiction === "WV" && factId === "financial_obligations"
+      ? getProfileByJurisdiction("WV") : null;
+    if (wvGuidanceProfile && !westVirginiaGuidanceFinancialApplies(wvGuidanceProfile, input.pathwayId,
+      { ...available, ...input.savedAnswers }, factId)) {
+      facts.push({ factId, collection: "conditional", phase: "known", group: null,
+        source: "wv_informational_guidance_no_payment_predicate", active: false,
+        reason: "Generic payment completeness does not gate this status/correction guidance. Full pardon, separate pardon/discharge clocks, exclusions and publication/service costs remain separate; no completed relief or universal nondisclosure is inferred." });
+      continue;
+    }
+
+    const sdGuidanceProfile = input.jurisdiction === "SD" && factId === "financial_obligations"
+      ? getProfileByJurisdiction("SD") : null;
+    if (sdGuidanceProfile && !southDakotaGuidanceFinancialApplies(sdGuidanceProfile, input.pathwayId,
+      { ...available, ...input.savedAnswers }, factId)) {
+      facts.push({ factId, collection: "conditional", phase: "known", group: null,
+        source: "sd_informational_guidance_no_payment_predicate", active: false,
+        reason: "Generic payment completeness does not gate this status/correction guidance. Highest charge, all court conditions, five years/no further convictions and Chapter 24-14 pardon scope/certificate remain separate; no completed relief is inferred." });
+      continue;
+    }
+
+    const scGuidanceProfile = input.jurisdiction === "SC" && factId === "financial_obligations"
+      ? getProfileByJurisdiction("SC") : null;
+    if (scGuidanceProfile && !southCarolinaGuidanceFinancialApplies(scGuidanceProfile, input.pathwayId,
+      { ...available, ...input.savedAnswers }, factId)) {
+      facts.push({ factId, collection: "conditional", phase: "known", group: null,
+        source: "sc_informational_guidance_no_payment_predicate", active: false,
+        reason: "Generic payment completeness does not gate this status/correction guidance. Distinct program completion/fees and pardon conditions remain separate; no statutory branch, eligibility, erasure or sealing is inferred." });
+      continue;
+    }
+
+    const njStatusProfile = input.jurisdiction === "NJ" && factId === "financial_obligations"
+      ? getProfileByJurisdiction("NJ") : null;
+    if (njStatusProfile && !newJerseyMarijuanaStatusFinancialApplies(njStatusProfile, input.pathwayId,
+      { ...available, ...input.savedAnswers }, factId)) {
+      facts.push({ factId, collection: "conditional", phase: "known", group: null,
+        source: "nj_marijuana_status_guidance_no_payment_predicate", active: false,
+        reason: "Generic payment completeness does not gate this status/correction guidance. Saved assessments and completion facts remain separate; no statutory branch, eligibility or sealing is inferred." });
+      continue;
+    }
+
+    const nmGuidanceProfile = input.jurisdiction === "NM" && factId === "financial_obligations"
+      ? getProfileByJurisdiction("NM") : null;
+    if (nmGuidanceProfile && !newMexicoGuidanceFinancialApplies(nmGuidanceProfile, input.pathwayId,
+      { ...available, ...input.savedAnswers }, factId)) {
+      facts.push({ factId, collection: "conditional", phase: "known", group: null,
+        source: "nm_source_guidance_no_payment_predicate", active: false,
+        reason: "Payment completeness is not required for this exact guidance scope. Saved payment remains history, without completion, waiver, restitution, eligibility or agency-action inference." });
+      continue;
+    }
+
+    const mtRecordProfile = input.jurisdiction === "MT" && factId === "financial_obligations"
+      ? getProfileByJurisdiction("MT") : null;
+    if (mtRecordProfile && !input.unresolvedSavedFactIds?.has("case_outcome")
+      && !montanaRecordFinancialApplies(mtRecordProfile, input.pathwayId,
+        { ...available, ...input.savedAnswers }, factId)) {
+      facts.push({ factId, collection: "conditional", phase: "known", group: null,
+        source: "mt_nonconviction_record_correction_no_payment_predicate", active: false,
+        reason: "The exact nonconviction administrative record process has no literal-payment prerequisite. The original payment answer remains history and supplies no completion, waiver, restitution status, or authority." });
+      continue;
+    }
+
+    if (input.montanaDeferredFinancialFacts === true && input.jurisdiction === "MT"
+      && input.pathwayId === "deferred-sentence-dismissal-or-confidentiality-route" && factId === "financial_obligations") {
+      facts.push({ factId, collection: "conditional", phase: "known", group: null,
+        source: "mt_deferred_current_order_financial_facts", active: false,
+        reason: "Exact deferred-order facts use the current court-order financial status; the historical paid-only answer remains preserved." });
+      continue;
+    }
+    if (input.missouriMarijuanaStatusOnly === true && input.jurisdiction === "MO"
+      && input.pathwayId === "marijuana-expungement-under-missouri-constitution-article-xiv" && factId === "financial_obligations") {
+      facts.push({ factId, collection: "conditional", phase: "known", group: null,
+        source: "mo_article_xiv_nonincarcerated_status_no_financial_predicate", active: false,
+        reason: "The exact nonincarcerated Article XIV status branch has no financial predicate; the original answer is retained without inference." });
+      continue;
+    }
+
+    if (input.missouriClosureStatusOnly === true && input.jurisdiction === "MO"
+      && input.pathwayId === "closed-record-outcome-under-rsmo-610-105" && factId === "financial_obligations") {
+      facts.push({ factId, collection: "conditional", phase: "known", group: null,
+        source: "mo_closure_status_no_financial_predicate", active: false,
+        reason: "The adopted selected Missouri closure-status guidance has no financial predicate; the original payment answer is retained without inference." });
+      continue;
+    }
+
+    if (!maineNonconvictionQuestionApplies(input.jurisdiction, input.pathwayId, {
+      case_outcome: resolvedText("case_outcome"), age_at_offense: resolvedText("age_at_offense")
+    }, factId)) {
+      facts.push({ factId, collection: "conditional", phase: "known", group: null,
+        source: "me_adult_acquittal_no_financial_predicate", active: false,
+        reason: "The adult acquittal record-information guidance has no financial predicate; the original payment answer is retained without inference." });
+      continue;
+    }
+
+    if (!louisianaAutomationStatusQuestionApplies(input.jurisdiction, input.pathwayId, factId)) {
+      facts.push({ factId, collection: "conditional", phase: "known", group: null,
+        source: "la_985_2_operationally_gated_status_guidance", active: false,
+        reason: "Payment is not required to read the operationally gated status guidance; the original financial answer is retained without inference." });
+      continue;
+    }
+
     // 2. Fields another actor fills, later. Never a participant question.
     const actor = externalActorById.get(factId);
+    if (input.ndFirstOffenseSourceOwnedInputs === true
+      && input.jurisdiction === "ND" && input.pathwayId === "first-offense-possession-sealing"
+      && input.ndFirstOffenseStatutoryFactIds?.has(factId)
+      && ND_FIRST_OFFENSE_FACT_IDS.includes(factId) && actor === "participant_before_filing" && !overrideClass) {
+      facts.push({ factId, collection: "prepay_confirmation", phase: "prepay_confirmation", group,
+        source: "nd_first_offense_statutory_correction",
+        reason: "The participant may correct this source-defined legal fact. Its filing slot remains a separate before-filing handback; collection does not populate the document or authorize payment." });
+      continue;
+    }
     if (actor || overrideClass === "external_actor") {
       facts.push({
         factId,
@@ -615,6 +1118,170 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
         actor: actor ?? "external",
         reason: `the specification assigns this field to ${actor ?? "an external actor"}`
       });
+      continue;
+    }
+
+    if (alClassification && !overrideClass && !needsHuman.has(factId)) {
+      if (factId === "offense_category") {
+        const retained = [input.screeningAnswers, input.prefilledAnswers, input.savedAnswers, input.profileFacts]
+          .some(answers => answers && Object.hasOwn(answers, factId));
+        facts.push({ factId, collection: "conditional", phase: retained ? "render" : "known",
+          group: retained ? group : null, active: retained, optional: true,
+          source: "al_redeemer_category_history",
+          reason: "Separate source-defined classifications cannot be supplied by an old generic category or charge grade. Preserve that answer only as optional history; no form condition or route authority is inferred." });
+        continue;
+      }
+      if (AL_REDEEMER_CLASSIFICATION_IDS.includes(factId)) {
+        facts.push({ factId, collection: "prepay_confirmation", phase: "prepay_confirmation", group,
+          source: "al_redeemer_participant_classification",
+          reason: "A participant-supplied statutory classification with its own conditional meaning. Unknown answers remain unresolved; this collection neither selects CR-65 conditions nor establishes eligibility or commercial authority." });
+        continue;
+      }
+    }
+
+    if (factId === "record_type" && alRecordContext && !overrideClass && !needsHuman.has(factId)) {
+      const retained = [input.screeningAnswers, input.prefilledAnswers, input.savedAnswers, input.profileFacts]
+        .some(answers => answers && Object.hasOwn(answers, factId));
+      facts.push({ factId, collection: "conditional", phase: retained ? "render" : "known",
+        group: retained ? group : null, active: retained, optional: true,
+        source: "al_four_route_record_type_history",
+        reason: "The exact retained Alabama families have no destination for the overlapping generic record-type menu. Saved answers remain optional history; specific disposition, conviction, pardon and trafficking facts and current route authority remain separate." });
+      continue;
+    }
+
+    if (factId === "court" && ohTraffickingCourtContext && !overrideClass && !needsHuman.has(factId)) {
+      const retained = [input.screeningAnswers, input.prefilledAnswers, input.savedAnswers, input.profileFacts]
+        .some(answers => answers && Object.hasOwn(answers, factId));
+      facts.push({ factId, collection: "conditional", phase: retained ? "render" : "known",
+        group: retained ? group : null, active: retained, optional: true,
+        source: "oh_trafficking_court_history",
+        reason: "The exact adopted survivor guidance prepares no court application. Earlier court answers remain optional context, not a filing prerequisite, trafficking finding or authorization." });
+      continue;
+    }
+
+    if (factId === "record_type" && arNonconvictionRecordContext && !overrideClass && !needsHuman.has(factId)) {
+      const retained = [input.screeningAnswers, input.prefilledAnswers, input.savedAnswers, input.profileFacts]
+        .some(answers => answers && Object.hasOwn(answers, factId));
+      facts.push({ factId, collection: "conditional", phase: retained ? "render" : "known",
+        group: retained ? group : null, active: retained, optional: true,
+        source: "ar_nonconviction_record_type_history",
+        reason: "The exact retained Arkansas nonconviction family has no destination for the overlapping generic record-type menu. Saved answers remain optional history; disposition, record origin, filing facts and current route authority remain separate." });
+      continue;
+    }
+
+    if (factId === "record_type" && arFelonyRecordContext && !overrideClass && !needsHuman.has(factId)) {
+      const retained = [input.screeningAnswers, input.prefilledAnswers, input.savedAnswers, input.profileFacts]
+        .some(answers => answers && Object.hasOwn(answers, factId));
+      facts.push({ factId, collection: "conditional", phase: retained ? "render" : "known",
+        group: retained ? group : null, active: retained, optional: true,
+        source: "ar_felony_record_type_history",
+        reason: "The exact retained Arkansas felony family has no destination for the overlapping generic record-type menu. Saved answers remain optional history; conviction, record origin, sentencing facts and current route authority remain separate." });
+      continue;
+    }
+
+    if (ca12034RecordContext
+      && !overrideClass && !needsHuman.has(factId)
+      && (factId === "record_type" || !ca12034QuestionApplies(getProfileByJurisdiction(input.jurisdiction)!, input.pathwayId,
+        {...input.screeningAnswers,...input.prefilledAnswers,...input.savedAnswers},factId))) {
+      const retained = [input.screeningAnswers,input.prefilledAnswers,input.savedAnswers,input.profileFacts]
+        .some(map=>map && Object.hasOwn(map,factId));
+      facts.push({factId,collection:"conditional",phase:factId === "record_type" && retained ? "render":"known",
+        group:factId === "record_type" && retained ? group:null,
+        active:factId === "record_type" && retained,optional:true,source:"ca_12034_specific_probation_facts",
+        reason:"The specific conviction, probation, current-status and requested-election facts govern this procedure. Earlier taxonomy and broad completion answers remain history, not substitutes or debt gates."});
+      continue;
+    }
+
+    if (factId === "record_type" && caAutomaticRecordContext && !overrideClass && !needsHuman.has(factId)) {
+      const retained = [input.screeningAnswers, input.prefilledAnswers, input.savedAnswers, input.profileFacts]
+        .some(answers => answers && Object.hasOwn(answers, factId));
+      facts.push({ factId, collection: "conditional", phase: retained ? "render" : "known",
+        group: retained ? group : null, active: retained, optional: true,
+        source: "ca_automatic_record_type_history",
+        reason: "The exact California automatic no-filing guidance does not consume the overlapping generic taxonomy. Saved answers remain optional history, not recordTypeSought, relief status or a selection of the separate DOJ correction branch." });
+      continue;
+    }
+
+    if (factId === "record_type" && ca12034aRecordContext && !overrideClass && !needsHuman.has(factId)) {
+      const retained = [input.screeningAnswers, input.prefilledAnswers, input.savedAnswers, input.profileFacts]
+        .some(answers => answers && Object.hasOwn(answers, factId));
+      facts.push({ factId, collection: "conditional", phase: retained ? "render" : "known",
+        group: retained ? group : null, active: retained, optional: true,
+        source: "ca_12034a_record_type_history",
+        reason: "The exact retained California section 1203.4a family has no destination for the overlapping generic record-type menu. Saved answers remain optional history; probation, conviction, sentence and relief facts and current route authority remain separate." });
+      continue;
+    }
+
+    if (factId === AK_LEGACY_RECORD_TYPE && akAgencyOrSisContext && !overrideClass && !needsHuman.has(factId)) {
+      const retained = [input.screeningAnswers, input.prefilledAnswers, input.savedAnswers, input.profileFacts]
+        .some(answers => answers && Object.hasOwn(answers, factId));
+      facts.push({ factId, collection: "conditional", phase: retained ? "render" : "known",
+        group: retained ? group : null, active: retained, optional: true,
+        source: "ak_agency_sis_record_type_history",
+        reason: "The exact retained agency/SIS family has no destination for the overlapping generic record-type menu. Saved answers remain optional history without establishing identity-error or SIS facts or changing current route authority." });
+      continue;
+    }
+
+    if (factId === AK_LEGACY_RECORD_TYPE && akJuvenileContext && !overrideClass && !needsHuman.has(factId)) {
+      const retained = [input.screeningAnswers, input.prefilledAnswers, input.savedAnswers, input.profileFacts]
+        .some(answers => answers && Object.hasOwn(answers, factId));
+      facts.push({ factId, collection: "conditional", phase: retained ? "render" : "known",
+        group: retained ? group : null, active: retained, optional: true,
+        source: "ak_juvenile_record_type_history",
+        reason: "The exact adopted juvenile guidance uses the distinct juvenileRecord fact, not the overlapping generic record-type menu. Saved answers remain optional history without establishing juvenile status or changing the unsupported filing scope." });
+      continue;
+    }
+
+    if (factId === AK_LEGACY_RECORD_TYPE && akPardonContext && !overrideClass && !needsHuman.has(factId)) {
+      const retained = [input.screeningAnswers, input.prefilledAnswers, input.savedAnswers, input.profileFacts]
+        .some(answers => answers && Object.hasOwn(answers, factId));
+      facts.push({ factId, collection: "conditional", phase: retained ? "render" : "known",
+        group: retained ? group : null, active: retained, optional: true,
+        source: "ak_pardon_record_type_history",
+        reason: "The exact adopted pardon guidance consumes conviction details and specific source facts, not the overlapping generic record-type menu. Saved answers remain optional history without selecting a remedy or application." });
+      continue;
+    }
+
+    if (factId === AK_LEGACY_RECORD_TYPE && akRecordContext && !overrideClass && !needsHuman.has(factId)) {
+      const retained = [input.screeningAnswers, input.prefilledAnswers, input.savedAnswers, input.profileFacts]
+        .some(answers => answers && Object.hasOwn(answers, factId));
+      facts.push({ factId, collection: "conditional", phase: retained ? "render" : "known",
+        group: retained ? group : null, active: retained, optional: true,
+        source: "ak_courtview_record_type_history",
+        reason: "The exact retained TF-810 source map does not consume the generic record-type menu. Earlier answers remain optional history; no removal ground, disposition or document value is inferred." });
+      continue;
+    }
+
+    if (factId === ND_LEGACY_RECORD_TYPE && ndRecordContext && !overrideClass && !needsHuman.has(factId)) {
+      const retained = [input.screeningAnswers, input.prefilledAnswers, input.savedAnswers, input.profileFacts]
+        .some(answers => answers && Object.hasOwn(answers, factId));
+      facts.push({ factId, collection: "conditional", phase: retained ? "render" : "known",
+        group: retained ? group : null, active: retained, ...(retained ? { optional: true } : {}),
+        source: "nd_first_offense_record_type_history",
+        reason: "The exact adopted four-component packet does not consume the inherited record-type menu. An earlier independent answer remains optional history; no answer, disposition or eligibility is inferred." });
+      continue;
+    }
+
+    if (factId === DC_LEGACY_LOCATION && dcLocationContext && !overrideClass && !needsHuman.has(factId)
+      && !decidesRouteFor(factId) && !unresolvedScopeFor(factId)) {
+      facts.push({ factId, collection: "conditional", phase: retainedDcLocation ? "render" : "known",
+        group: retainedDcLocation ? group : null, active: retainedDcLocation,
+        ...(retainedDcLocation ? { optional: true } : {}), source: "dc_fixed_caption_location_context",
+        reason: "The motion has a fixed court caption and separate mailing and prosecutor-service facts; an earlier generic location remains optional editable context, never a document value." });
+      continue;
+    }
+
+    // GA-02 replaced a broad category inference with exact conviction and
+    // exception questions. Retain every old category answer without making
+    // a new participant answer a gate, or deriving it from offense_level.
+    if (factId === "offense_category" && !overrideClass && !needsHuman.has(factId)
+      && georgiaPardonCategoryIsContext(input.jurisdiction, input.pathwayId, specification)) {
+      const retained = [input.screeningAnswers, input.prefilledAnswers, input.savedAnswers, input.profileFacts]
+        .some(answers => answers && Object.prototype.hasOwnProperty.call(answers, factId));
+      facts.push({ factId, collection: "conditional", phase: retained ? "render" : "known",
+        group: retained ? group : null, active: retained, ...(retained ? { optional: true } : {}),
+        source: "ga_pardon_exact_record_category_context",
+        reason: "The exact final citation and specific statutory facts decide this pardon route; an earlier independent category remains optional editable context, never a derived legal classification." });
       continue;
     }
 
@@ -631,17 +1298,71 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
       continue;
     }
 
+    // Only an explicit source declaration can make a visible participant
+    // control optional. A route predicate or mandatory document consumer wins.
+    const mandatoryConsumer = specFact?.requiredForGeneration === false && input.specification?.documents.some(document => (document.sections ?? []).some(section =>
+      (section.fields?.includes(factId) && section.fieldTreatments?.[factId] !== "value_or_ruled_blank")
+      || JSON.stringify(section).includes(`{{${factId}}}`)
+      || section.assertions?.some(assertion => assertion.facts.includes(factId))
+      || section.captionContract?.court === factId || section.captionContract?.caseNumber === factId
+      || section.captionContract?.courtLines?.some(line => line.field === factId)));
+    if (specFact?.requiredForGeneration === false && specFact.ownership === "participant"
+      && !mandatoryConsumer && !decidesRouteFor(factId) && !unresolvedScopeFor(factId)
+      && !input.materializationProtectedFactIds?.has(factId) && !overrideClass) {
+      facts.push({ factId, collection: "conditional", phase: "render", group, optional: true,
+        source: "packet_specification_optional_generation",
+        reason: "the source permits an unknown value; the participant may supply or edit it without blocking generation" });
+      continue;
+    }
+
+    // The aggregate is only a representation on these reviewed contracts. All
+    // three participant-owned components remain independently required/editable.
+    if (factId === "contact_information" && input.reviewedContactRepresentation === true
+      && !decidesRouteFor(factId) && !unresolvedScopeFor(factId) && overrideClass !== "prepay_confirmation") {
+      const rule = DERIVATIONS.contact_information;
+      const components = Object.fromEntries(rule.from.map((id) => [id, resolvedText(id)]));
+      const value = rule.from.every((id) => components[id] && !isUnknownText(components[id])) ? rule.derive(components) : null;
+      const retained = input.savedAnswers && factId in input.savedAnswers ? input.savedAnswers[factId] : available[factId];
+      if (needsSavedAnswerClarification || retained !== undefined && retained !== null && retained !== ""
+        && (!validValue(factId, retained) || !value || answerString(retained) !== value)) {
+        contactReconciliation = { canUseComponents: value !== null };
+        facts.push({ factId, collection: "prepay_confirmation", phase: "prepay_confirmation", group,
+          source: "legacy_contact_conflict", reconciliation: "contact_components",
+          reason: "the earlier contact answer differs; retain it until the participant explicitly chooses the component values" });
+      } else {
+        if (value) derived[factId] = value;
+        facts.push({ factId, collection: "derived", phase: "derived", group: null,
+          source: "derived_from:mailing_address+phone_number+email_address", ...(value ? { value } : {}),
+          derivation: { state: value ? "valid" : "pending", inputFactIds: [...rule.from] },
+          reason: "the reviewed document contract uses these three contact components; the legacy aggregate is their exact representation" });
+      }
+      continue;
+    }
+
+    if (input.recordOwnQuestionIds?.has(factId)) {
+      facts.push({ factId, collection: "prepay_confirmation", phase: "prepay_confirmation", group,
+        source: "distinct_record_question_contract", reason: "the original record question has a distinct meaning; preserve its answer and require scoped review when its source changes" });
+      continue;
+    }
+
     // 4. Something the participant has already told us, under this id or a
     //    screening id that carries the same answer.
-    const carried = carriedValue(factId, available, input.screeningAnswers);
+    const candidateCarry = needsSavedAnswerClarification || factId === "social_security_number_last_four" && requiredInputIds.includes("social_security_number") || input.savedAnswers && factId in input.savedAnswers
+      ? null : carriedValue(factId, available, input.screeningAnswers);
+    const carried = candidateCarry && validValue(factId, candidateCarry.value) ? candidateCarry : null;
     if (unresolvedScopeFor(factId) && !decidesRouteFor(factId) && !carried?.sameId) {
+      // A reviewed route-specific document consumer can establish collection
+      // purpose without resolving the source rule as an eligibility predicate.
+      // Keep this before cross-fact carry/derivation: the original unresolved
+      // materialization guard still applies even when the purpose is known.
+      const reviewedRender = overrideClass === "render_required" && Boolean(override?.note?.trim());
       facts.push({
         factId,
-        collection: "unresolved",
-        phase: "prepay_confirmation",
+        collection: reviewedRender ? "render_required" : "unresolved",
+        phase: reviewedRender ? "render" : "prepay_confirmation",
         group,
-        source: "unresolved_route_rule_scope",
-        reason: "a rule references this required fact without an established route consumer; collect it without inferring a value or claiming it decides this route"
+        source: reviewedRender ? "route_override" : "unresolved_route_rule_scope",
+        reason: reviewedRender ? override!.note! : "a rule references this required fact without an established route consumer; collect it without inferring a value or claiming it decides this route"
       });
       continue;
     }
@@ -654,8 +1375,10 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
         collection: "prepay_confirmation",
         phase: "prepay_confirmation",
         group,
-        source: "route_decision_facts",
-        reason: "the evaluator reads this fact, so it is asked rather than carried across from a differently worded answer"
+        source: decidesRouteFor(factId) ? "route_decision_facts" : "materialization_protection",
+        reason: decidesRouteFor(factId)
+          ? "the evaluator reads this fact, so it is asked rather than carried across from a differently worded answer"
+          : "this fact is protected against inference, so it is asked rather than carried across from a differently worded answer"
       });
       continue;
     }
@@ -684,15 +1407,17 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
     //    its inputs do, and completeness is carried by the inputs, which stay
     //    in the gate. A derivation whose inputs are NOT all collected here
     //    resolves only when it actually can, and otherwise the fact is asked.
-    const derivation = DERIVATIONS[factId];
+    const derivation = needsSavedAnswerClarification ? undefined : DERIVATIONS[factId];
     if (derivation && !mayMaterialize(factId, false)) {
       facts.push({
         factId,
         collection: "prepay_confirmation",
         phase: "prepay_confirmation",
         group,
-        source: "route_decision_facts",
-        reason: "the evaluator reads this fact, so it is asked rather than computed"
+        source: decidesRouteFor(factId) ? "route_decision_facts" : "materialization_protection",
+        reason: decidesRouteFor(factId)
+          ? "the evaluator reads this fact, so it is asked rather than computed"
+          : "this fact is protected against inference, so it is asked rather than computed"
       });
       continue;
     }
@@ -714,6 +1439,7 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
           group: null,
           source: `derived_from:${derivation.from.join("+")}`,
           value,
+          derivation: { state: "valid", inputFactIds: [...derivation.from] },
           reason: `this fact follows deterministically from ${derivation.from.join(" and ")}`
         });
         continue;
@@ -725,6 +1451,7 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
           phase: "derived",
           group: null,
           source: `derived_from:${derivation.from.join("+")}`,
+          derivation: { state: "pending", inputFactIds: [...derivation.from] },
           reason: `this fact follows deterministically from ${derivation.from.join(" and ")},`
             + " which this route collects, so it is computed rather than asked for a second time"
         });
@@ -737,16 +1464,18 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
     const conditionFactId = override?.conditions?.[factId] ?? GENERIC_CONDITIONS[factId];
     if (conditionFactId && requiredInputIds.includes(conditionFactId)) {
       const gate = resolvedText(conditionFactId);
-      const active = gate.length === 0 || isAffirmativeText(gate);
+      const expected = override?.conditionValues?.[factId];
+      const active = gate.length === 0 || (expected === undefined ? isAffirmativeText(gate) : gate === expected);
       facts.push({
         factId,
         collection: "conditional",
         phase: active ? "render" : "known",
         group: active ? group : null,
         source: `conditional_on:${conditionFactId}`,
-        condition: { factId: conditionFactId, satisfiedWhen: "affirmative" },
+        condition: expected === undefined ? { factId: conditionFactId, satisfiedWhen: "affirmative" }
+          : { factId: conditionFactId, satisfiedWhen: "equals", value: expected },
         active,
-        reason: active
+        reason: expected !== undefined ? `asked only when ${conditionFactId} is ${expected}; currently ${active ? "active" : "inactive"}` : active
           ? `asked only while ${conditionFactId} is affirmative, which it currently is or is not yet answered`
           : `${conditionFactId} is not affirmative, so this fact does not apply to this matter`
       });
@@ -865,6 +1594,17 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
     });
   }
 
+  // Attach only after classification. Known values and unresolved source scope
+  // are different dimensions; neither is changed by this source-purpose bridge.
+  if (input.jurisdiction === "MD" && input.pathwayId === "juvenile-expungement"
+    && specification == null && input.unresolvedRouteFactIds?.has("county")
+    && !input.routeDecidingFactIds?.has("county") && !needsHuman.has("county")
+    && override?.classes?.county == null
+    && JSON.stringify(input.mdJuvenileCountySourcePurpose) === JSON.stringify(MD_JUVENILE_COUNTY_SOURCE_PURPOSE)) {
+    const county = facts.find(fact => fact.factId === "county");
+    if (county) county.sourcePurpose = input.mdJuvenileCountySourcePurpose;
+  }
+
   const sections = PACKET_COLLECTION_SECTIONS
     .map((section) => ({
       ...section,
@@ -894,6 +1634,10 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
       .filter((fact) => fact.collection === "external_actor")
       .map((fact) => ({ factId: fact.factId, actor: fact.actor ?? "external" })),
     unresolvedRequiredFacts: facts.filter((fact) => fact.collection === "unresolved").map((fact) => fact.factId),
+    pendingDerivations: facts
+      .filter((fact) => fact.derivation?.state === "pending")
+      .map((fact) => ({ factId: fact.factId, inputFactIds: [...fact.derivation!.inputFactIds] })),
+    ...(contactReconciliation ? { contactReconciliation } : {}),
     hardBlockers: input.requiredInputIds.length === 0
       ? [{ factId: "*", reason: "the route publishes no required packet inputs" }]
       : []
@@ -975,7 +1719,7 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
  */
 export function prepayGateFactIds(resolution: PacketCollectionResolution): string[] {
   return resolution.facts
-    .filter((fact) => participantOwesFact(fact))
+    .filter((fact) => participantOwesFact(fact) && fact.optional !== true)
     .map((fact) => fact.factId);
 }
 
@@ -1109,31 +1853,18 @@ function isoDate(text: string): Date | null {
   const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(text.trim());
   if (!match) return null;
   const value = new Date(`${match[0]}T00:00:00.000Z`);
-  return Number.isNaN(value.getTime()) ? null : value;
+  return isCalendarDate(text.trim()) ? value : null;
 }
 
 function isUnknownText(text: string) {
-  const normalized = text.toLowerCase();
-  return normalized === "i am not sure"
-    || normalized === "i'm not sure"
-    || normalized === "not sure"
-    || normalized === "unknown"
-    || normalized === "prefer not to say";
+  return uncertaintyState(text) !== null;
 }
 
 function isAffirmativeText(text: string) {
   return /^(yes|y|true)\b/i.test(text.trim());
 }
 
-function valueIsKnown(value: AnswerValue | undefined): boolean {
-  if (value === null || value === undefined) return false;
-  if (typeof value === "object" && !Array.isArray(value)) {
-    if ((value as { unknown?: boolean }).unknown === true) return false;
-    return valueIsKnown((value as { value?: AnswerValue }).value);
-  }
-  const text = answerString(value);
-  return text.length > 0 && !isUnknownText(text);
-}
+const valueIsKnown = answerValueIsKnown;
 
 function dedupe(values: string[]) {
   return [...new Set(values)];

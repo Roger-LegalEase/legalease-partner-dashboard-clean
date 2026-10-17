@@ -27,3 +27,34 @@ test('restoring either ownership 403/unauthorized branch makes the executable co
   const mutant=declaration.slice(0,start)+changed+declaration.slice(end);const js=ts.transpileModule(mutant.replace('export async','async'),{compilerOptions:{target:ts.ScriptTarget.ES2022,module:ts.ModuleKind.ESNext}}).outputText;const authorize=new Function(js+'\nreturn authorizePacketDownload;')();await assert.rejects(proof(authorize),{code:'ERR_ASSERTION'});
  }
 });
+
+const routeSource=fs.readFileSync('src/app/api/rcap/packets/[jobId]/download/route.ts','utf8');
+async function provePrivateRouteDenials(source) {
+ const ast=ts.createSourceFile('route.ts',source,ts.ScriptTarget.Latest,true);
+ const functions=ast.statements.filter(ts.isFunctionDeclaration).map(node=>node.getText(ast).replace(/^export /,'')).join('\n');
+ const js=ts.transpileModule(functions,{compilerOptions:{target:ts.ScriptTarget.ES2022,module:ts.ModuleKind.ESNext}}).outputText;
+ for(const scenario of [{authenticated:false,storage:true,status:401},{authenticated:true,storage:true,status:404},{authenticated:false,storage:false,status:503}]) {
+  const dependencies={
+   NextResponse:{json:Response.json},
+   getRcapBriefcaseAuthState:async()=>({isAuthenticated:scenario.authenticated,userId:scenario.authenticated?'stranger':null}),
+   getPacketArtifactStorage:()=>scenario.storage?{}:null,
+   getRenderJob:async()=>null,
+   authorizePacketDownload,
+   streamAuthorizedPacket:()=>{throw Error('A denied request must not stream bytes');},
+   recordDeliveryEvent:()=>{throw Error('A denied request must not record delivery');}
+  };
+  const GET=new Function(...Object.keys(dependencies),js+'\nreturn GET;')(...Object.values(dependencies));
+  const response=await GET(new Request('http://isolated.test/api/rcap/packets/'+missing+'/download'),{params:Promise.resolve({jobId:missing})});
+  assert.equal(response.status,scenario.status);
+  assert.equal(response.headers.get('cache-control'),'private, no-store, max-age=0','Every protected download denial must prohibit caching');
+  assert.equal(response.headers.get('pragma'),'no-cache');
+  assert.equal(response.headers.get('content-type'),'application/json');
+  assert(!/storagePath|packet-artifacts\//.test(await response.text()));
+ }
+}
+test('actual download handler makes unauthenticated, unavailable and missing-object denials private',()=>provePrivateRouteDenials(routeSource));
+test('restoring the original missing-cache-header route fails for the cache requirement',async()=>{
+ const old=routeSource.replaceAll(', headers: privateDownloadHeaders()','');
+ assert.notEqual(old,routeSource);
+ await assert.rejects(provePrivateRouteDenials(old),error=>error.code==='ERR_ASSERTION'&&error.message.includes('prohibit caching'));
+});

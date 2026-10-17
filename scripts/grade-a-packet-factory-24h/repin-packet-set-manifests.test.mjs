@@ -105,3 +105,42 @@ test('unavailable prior manifest refuses without composing any refresh', () => {
   const plan = planReceipt({ familyId: before.familyId, directory: '/tmp/unused', receiptPath: '/tmp/unused/source-receipt.json', beforeText: JSON.stringify(before, null, 2) + '\n' });
   assert.equal(plan.outcome, 'REFUSED'); assert.ok(plan.records.some((r) => /could not be recovered/.test(r.why))); assert.throws(() => composeRefreshedReceipt(plan));
 });
+
+// Adoption is part of the complete packet-set anchor, never an annotation to
+// discard. Its nested dependency semantics use the same strict recursive walk.
+test('unrelated procedure adoption is allowed without hiding own adoption changes', () => {
+  const old = fixture(), current = clone(old);
+  current.packetSets[1].procedureAdoption = { decisionId: 'VA-01', disposition: 'MODIFY' };
+  assert.deepEqual(compare(old, current).differing, []);
+  current.packetSets[0].procedureAdoption = { decisionId: 'VA-01', disposition: 'MODIFY' };
+  assert.deepEqual(compare(old, current).differing, ['packetSet:a']);
+});
+test('adoption dependency declarations remain transitive and ambiguous references refuse', () => {
+  const old = fixture(); old.packetSets[0].procedureAdoption = { dependsOn: 'b' };
+  const current = clone(old); current.packetSets[1].version = '2';
+  assert.ok(compare(old, current).differing.includes('packetSet:b'));
+  const missing = fixture(); missing.packetSets[0].procedureAdoption = { dependsOn: 'unavailable-set' };
+  assert.throws(() => compare(missing, clone(missing)), /ambiguous or unavailable dependency/);
+  const structured = fixture(); structured.packetSets[0].procedureAdoption = { dependsOn: { unknown: 'b' } };
+  assert.throws(() => compare(structured, clone(structured)), /ambiguous structured dependency/);
+  const unknown = fixture(); unknown.packetSets[0].unknownAdoption = { decisionId: 'VA-01' };
+  assert.throws(() => compare(unknown, clone(unknown)), /unsupported fields unknownAdoption/);
+});
+test('actual retained VA petition predecessor cannot refresh as unchanged adopted VA-01', () => {
+  const old = JSON.parse(oldManifest), current = JSON.parse(fs.readFileSync(manifestPath));
+  const beforeVa = old.packetSets.find(row => row.packetSetId === 'va_exp_absolute_pardon-set');
+  const currentVa = current.packetSets.find(row => row.packetSetId === 'va_exp_absolute_pardon-set');
+  assert.ok(beforeVa.components.some(c => c.role === 'primary_filing'), 'real retained predecessor has the former petition premise');
+  assert.equal(currentVa.procedureAdoption.decisionId, 'VA-01');
+  const r = { familyId: 'va_exp_absolute_pardon-set' }, p = { recordId: 'packet-set-manifest:va_exp_absolute_pardon-set' };
+  assert.ok(compare(old, current, r, p).differing.includes('packetSet:va_exp_absolute_pardon-set'));
+});
+test('predecessor schema refusal is reproduced by removing only adoption support', () => {
+  const current = JSON.parse(fs.readFileSync(manifestPath));
+  const source = adapter.index.toString();
+  const predecessor = source.replace(', "procedureAdoption"', '');
+  assert.notEqual(predecessor, source);
+  const index = new Function('Refusal', `return function ${predecessor};`)(Refusal);
+  assert.throws(() => index(current, 'current'), /unsupported fields procedureAdoption/);
+  assert.ok(adapter.index(current, 'current').has('va_exp_absolute_pardon-set'));
+});

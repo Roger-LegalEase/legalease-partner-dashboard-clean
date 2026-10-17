@@ -24,10 +24,33 @@ jobs:
   onboarding:
     name: Verify RCAP partner onboarding
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    # The retained boundary suite reached the 60-minute job cap while still progressing.
+    # Keep all acceptance steps; allow the following onboarding and build gates to finish.
+    timeout-minutes: 120
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
+
+      - name: Fetch pinned Georgia assembly comparison baseline
+        run: git fetch --no-tags --depth=1 origin 8af7a0641c8ff7ad126c40b1333994737e76dbe7
+
+      - name: Fetch pinned DC protected-save comparison baseline
+        run: git fetch --no-tags --depth=1 origin 0983b7fc34d8fa9299b71d4d8775634d0e4007c2
+
+      - name: Fetch pinned Alaska adopted-guidance source
+        run: git fetch --no-tags --depth=1 origin 36509c7377c5653db07fd5c43b3948aad079164a
+
+      - name: Fetch pinned North Dakota adopted-pleading source
+        run: git fetch --no-tags --depth=1 origin 69b215d3673600b18ead7422699eb4e6636de6fe
+
+      - name: Fetch pinned Wyoming saved-answer comparison baseline
+        run: git fetch --no-tags --depth=1 origin 560e8b54b0c03537ad3eaef4b8dbf2edc22ffe95
+
+      - name: Fetch pinned factory producer comparison baseline
+        run: git fetch --no-tags --depth=1 origin 4d00a1ffa16965290d55536787dca85981d0fced
+
+      - name: Fetch pinned Georgia pre-correction specification witness
+        run: git fetch --no-tags --depth=1 origin 75dcf56df74b2f3b00829a32bb90d99516bedafa
 
       - name: Set up Node
         uses: actions/setup-node@v4
@@ -43,6 +66,178 @@ jobs:
 
       - name: Typecheck
         run: npm run typecheck
+
+      - name: Verify Clinic acceptance harness controls
+        run: node --test scripts/test-typescript-mock-loader.mjs scripts/clinic-qa/artifact-journey.test.mjs scripts/clinic-qa/fixture.test.mjs scripts/clinic-qa/generation-refusal.test.mjs scripts/clinic-qa/sponsored-cleanup.test.mjs scripts/test-private-download-denial.mjs
+
+      - name: Install PDF text verification dependency
+        run: |
+          if ! command -v pdftotext >/dev/null 2>&1; then
+            sudo apt-get update
+            sudo apt-get install -y --no-install-recommends poppler-utils
+          fi
+
+      - name: Verify nationwide correction boundaries
+        run: |
+          node scripts/generate-rcap-public-witness-answer-sets.mjs --check
+          node scripts/test-public-witness-convergence.mjs
+          node scripts/test-ar-record-origin.mjs
+          node scripts/test-ar-record-origin-render.mjs
+          node scripts/test-ar-record-origin-presentation.mjs
+          node scripts/test-composed-route-final-disposition.mjs
+          node scripts/test-md-automatic-county-collection.mjs
+          node scripts/test-md-10103-source-stage.mjs
+          node scripts/test-md-juvenile-held-county-consumer.mjs
+          node scripts/test-md-juvenile-county-source-purpose.mjs
+          node scripts/test-oh-juvenile-source-stage.mjs
+          node scripts/test-oh-juvenile-held-court-consumer.mjs
+          node scripts/test-ms-exact-timing-recovery.mjs
+          node scripts/test-ms-adopted-timing-display.mjs
+          node scripts/test-ms-first-offender-source-facts.mjs
+          node scripts/test-ms-program-factual-routing.mjs
+          node scripts/test-ms-program-final-disposition.mjs
+          node scripts/test-ms-conditional-discharge-event.mjs
+          node scripts/test-ms-program-completion-events.mjs
+          node scripts/test-guidance-result-packet-claims.mjs
+          node scripts/test-ga-first-offender-factual-routing.mjs
+          node scripts/test-il-cannabis-factual-boundaries.mjs
+          node scripts/test-il-ga-factual-pathway-exclusions.mjs
+          node scripts/test-il-ga-protected-exclusion-recovery.mjs
+          node scripts/test-conviction-relief-request.mjs
+          node scripts/test-ga-pardon-facts.mjs
+          node scripts/test-ga-pardon-caption.mjs
+          node scripts/test-ga-agency-county-context.mjs
+          node scripts/test-ga-agency-protected-county-successor.mjs
+          node scripts/test-ga-pardon-category-context.mjs
+          node scripts/test-ga-pardon-preparation.mjs
+          node scripts/test-ga-pardon-petition-readiness.mjs
+          node scripts/test-ga-participant-assembly.mjs --mapping-only
+          node scripts/test-ga-pardon-track-selection.mjs
+          node scripts/test-ga-pardon-packet-label.mjs
+          node scripts/test-ga-personalized-handoff.mjs "$RUNNER_TEMP/ga-personalized-handoff"
+          node scripts/test-ga-personalized-dispatch.mjs
+          node scripts/test-question-contract-output-continuity.mjs
+          node scripts/test-noncommercial-evidence-producer-reconciliation.mjs --task53-source-successor-controls-only
+          node scripts/test-ms-paid-packet-output-continuity.mjs
+          node scripts/test-ms-paid-packet-proof.mjs --proof-only
+          node scripts/verify-personalized-route-refusal.mjs
+          node scripts/test-ks-municipal-factual-boundaries.mjs
+          node scripts/test-ks-municipal-contact.mjs
+          node scripts/test-ks-municipal-category-context.mjs
+          node scripts/test-ks-district-factual-routing.mjs
+          node scripts/test-ga10-missing-witnesses.mjs
+          node scripts/test-ga10-ne-missing-witnesses.mjs
+          node scripts/test-ga10-la9852-missing-witness.mjs
+          node scripts/test-ga10-me-nonconviction-witness.mjs
+          node scripts/test-ga10-mo-closure-witness.mjs
+          node scripts/test-ga10-mo-marijuana-custody.mjs
+          node scripts/test-ga10-mt-deferred-facts.mjs
+          node scripts/test-mt-deferred-document-inputs.mjs
+          node scripts/test-mt-deferred-document-preparation.mjs
+          node scripts/test-mo-610105-court-context.mjs
+          node scripts/test-mo-610122-court-context.mjs
+          node scripts/test-mo-xiv-court-context.mjs
+          node scripts/test-mn-609a015-location-context.mjs
+          node scripts/test-mn-299c11-location-context.mjs
+          node scripts/test-mn-609a017-location-context.mjs
+          node scripts/test-mn-cannabis-location-context.mjs
+          node scripts/test-mo-610141-guidance-boundary.mjs
+          node scripts/test-ny-16055-guidance.mjs
+          node scripts/test-ny-mrta-stage-guidance.mjs
+          node scripts/test-ny-16057-guidance.mjs
+          node scripts/test-ny-16059-factual-boundaries.mjs
+          node scripts/test-ny-16059-guidance.mjs
+          node scripts/test-ny-16059-typed-completion.mjs
+          node scripts/test-ny-16059-packet-preparation.mjs
+          node scripts/test-ny-16059-case-records.mjs
+          node scripts/test-ny-16059-case-classification.mjs
+          node scripts/test-ny-16059-filing-venue.mjs
+          node scripts/test-ny-16059-sealing-history.mjs
+          node scripts/test-ny-16059-future-applications.mjs
+          node scripts/test-ny-16059-owned-completion.mjs
+          node scripts/test-ny-16059-current-document-review.mjs --inputs-only
+          node scripts/test-ny-16059-transaction-associations.mjs
+          node scripts/test-ny-16059-current-document-questions.mjs
+          node scripts/test-ny-16059-review-corrections.mjs
+          node scripts/test-ny-later-conviction-fact.mjs
+          node scripts/test-ny-adopted-clock-policy.mjs
+          node scripts/test-ny-history-clock.mjs
+          node scripts/test-ny-residual-order-transactions.mjs
+          node scripts/test-ca-prop64-conduct.mjs
+          node scripts/test-ca-prop64-integration.mjs
+          node scripts/test-ca-prop64-form-ownership.mjs
+          node scripts/test-ca-prop64-completeness-actors.mjs
+          node scripts/test-ca-prop64-caption-bindings.mjs
+          node scripts/test-ca-prop64-caption-collection.mjs
+          node scripts/test-ca-prop64-contact-collection.mjs
+          node scripts/test-ca-prop64-family-bridge.mjs
+          node scripts/test-ak-courtview-contact.mjs
+          node scripts/test-ak-courtview-record-context.mjs
+          node scripts/test-ak-pardon-record-context.mjs
+          node scripts/test-ak-juvenile-record-context.mjs
+          node scripts/test-ak-agency-sis-record-context.mjs
+          node scripts/test-ak-agency-sis-record-context-consumers.mjs
+          node scripts/test-al-record-context.mjs
+          node scripts/test-al-record-context-consumers.mjs
+          node scripts/test-ar-nonconviction-record-context.mjs
+          node scripts/test-ar-nonconviction-record-context-consumers.mjs
+          node scripts/test-ar-felony-record-context.mjs
+          node scripts/test-ar-felony-record-context-consumers.mjs
+          node scripts/test-ca-1203-4a-record-context.mjs
+          node scripts/test-ca-1203-4a-record-context-consumers.mjs
+          node scripts/test-ca-1203-4-facts.mjs
+          node scripts/test-ct-clean-slate-contact.mjs
+          node scripts/test-ct-cannabis-automatic-authority.mjs
+          node scripts/test-ct-cannabis-automatic-guidance.mjs
+          node scripts/test-ct-automatic-source-guidance.mjs
+          node scripts/test-dc-general-source-guidance.mjs
+          node scripts/test-dc-misattributed-current-composer.mjs
+          node scripts/test-fl-conditional-source-information.mjs
+          node scripts/test-mn-two-county-source-facts.mjs
+          node scripts/test-dc-innocence-location-context.mjs
+          node scripts/test-nationwide-contact-representation.mjs
+          node scripts/test-nd-first-offense-family-inputs.mjs
+          node scripts/test-nd-first-offense-family-consumer.mjs
+          node scripts/test-nd-first-offense-participant-family.mjs
+          node scripts/test-nd-first-offense-contract-successor.mjs
+          node scripts/test-nd-first-offense-record-context.mjs
+          node scripts/test-nd-first-offense-facts.mjs
+          node scripts/verify-nd-first-offense-possession-scope.mjs
+          node scripts/test-nd-record-context-save-receipt.mjs
+          node scripts/test-oregon-disposition-identity.mjs
+          node scripts/test-oregon-disposition-protected-consumer.mjs
+          node scripts/test-oregon-disposition-contact.mjs
+          node scripts/test-oregon-contact-held-output.mjs
+          node scripts/test-packet-initial-save-revision.mjs
+          node scripts/test-tx-nondisclosure-arrest-anchor.mjs
+          node scripts/test-nevada-program-question-scope.mjs
+          node scripts/test-ms-felony-record-class-safety.mjs
+          node scripts/verify-de-exclusion-mechanism-boundary.mjs
+          node scripts/test-de-discretionary-date-anchor.mjs
+          node scripts/test-de-conviction-predicates.mjs
+          node scripts/test-de-public-profile-dates.mjs
+          node scripts/test-de-protected-corrections.mjs
+          node scripts/test-ks-document-responsibilities.mjs
+          node scripts/test-independent-paid-financial-meaning.mjs
+          node scripts/test-reused-completion-review-edit.mjs
+          node scripts/test-court-completion-source-successor.mjs
+          node scripts/test-financial-nonplan-recovery.mjs
+          node scripts/test-nm-guidance-financial.mjs
+          node scripts/test-wyoming-1401-facts.mjs
+          node scripts/test-oh-trafficking-court-context.mjs
+          node scripts/test-oh-trafficking-court-context-consumers.mjs
+          node scripts/test-ok-clean-slate-financial.mjs
+          node scripts/test-screening-completion-correction-save.mjs
+          node scripts/test-protected-legacy-answer-preservation.mjs
+          node scripts/test-protected-legacy-presentation.mjs
+          node scripts/test-protected-legacy-derivation-guard.mjs
+          node scripts/test-va-cc1472-fact-ownership.mjs
+          node scripts/test-va-absolute-pardon-procedure.mjs
+          node scripts/test-va-three-victim-applicability.mjs
+          node scripts/test-va-protected-pardon-type-source.mjs
+          node scripts/verify-va-cc1472-two-branch-treatment.mjs
+          node scripts/verify-va-regime-1-caption-and-dead-end.mjs
+          node scripts/verify-rcap-prepay-question-gate.mjs
 
       # Every deterministic onboarding verifier, through the one entry point that also
       # fails when a verifier exists that no group owns.

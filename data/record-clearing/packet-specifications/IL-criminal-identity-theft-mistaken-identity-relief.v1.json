@@ -143,6 +143,27 @@
   ],
   "requiredFacts": [
     {
+      "factId": "mailing_address",
+      "use": "petitioner mailing address, printed in the mistaken-identity petition signature contact block",
+      "inRegistryRequiredInputs": false,
+      "ownership": "participant",
+      "gapNote": "The registry groups this under contact_information; the approved production field map writes the mailing address separately."
+    },
+    {
+      "factId": "phone_number",
+      "use": "petitioner telephone number, printed in the mistaken-identity petition signature contact block",
+      "inRegistryRequiredInputs": false,
+      "ownership": "participant",
+      "gapNote": "The registry groups this under contact_information; the approved production field map writes the telephone separately."
+    },
+    {
+      "factId": "email_address",
+      "use": "petitioner email address, printed in the mistaken-identity petition signature contact block",
+      "inRegistryRequiredInputs": false,
+      "ownership": "participant",
+      "gapNote": "The registry groups this under contact_information; the approved production field map writes the email separately."
+    },
+    {
       "factId": "participant_full_legal_name",
       "use": "the person named in the caption of the petition",
       "inRegistryRequiredInputs": true,
@@ -201,6 +222,9 @@
   ],
   "fieldOwnership": {
     "participantOwnedFacts": [
+      "mailing_address",
+      "phone_number",
+      "email_address",
       "participant_full_legal_name",
       "date_of_birth",
       "contact_information",

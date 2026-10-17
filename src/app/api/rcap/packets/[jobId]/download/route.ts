@@ -29,7 +29,7 @@ export async function GET(
   const auth = await getRcapBriefcaseAuthState();
   const storage = getPacketArtifactStorage();
   if (!storage) {
-    return NextResponse.json({ error: "Packet downloads are not available right now." }, { status: 503 });
+    return NextResponse.json({ error: "Packet downloads are not available right now." }, { status: 503, headers: privateDownloadHeaders() });
   }
 
   const ports: DeliveryPorts = {
@@ -69,7 +69,7 @@ export async function GET(
   });
 
   if (!decision.ok) {
-    return NextResponse.json({ error: decision.message, code: decision.code }, { status: decision.status });
+    return NextResponse.json({ error: decision.message, code: decision.code }, { status: decision.status, headers: privateDownloadHeaders() });
   }
 
   return streamAuthorizedPacket(ports, decision, {
@@ -80,4 +80,8 @@ export async function GET(
       userAgentClass: /mobile|iphone|android/i.test(request.headers.get("user-agent") ?? "") ? "mobile" : "desktop"
     }
   });
+}
+
+function privateDownloadHeaders() {
+  return { "cache-control": "private, no-store, max-age=0", pragma: "no-cache" };
 }

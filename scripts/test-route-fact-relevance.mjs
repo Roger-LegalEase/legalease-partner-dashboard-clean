@@ -21,10 +21,15 @@ function checks(api) {
   const { routeDecidingFactIds: ids, routeDecidingFactScope: scope } = api;
   const facts = (code, id) => ids(profile(code), profile(code).pathways.find(p => p.id === id));
   const ndFirst = facts('ND', 'first-offense-possession-sealing');
-  assert.equal(ndFirst.size, 20, 'ND first possession: exactly authored/shared facts');
   const expectedND = 'age_at_offense case_outcome charge court court_requirements_completed criminal_history disposition_date financial_obligations jurisdiction_scope new_convictions_during_waiting_period offense_category offense_level ownership_scope pardon_status pending_cases record_type resolved_timing_bucket sentence_completion_date special_preconditions_confirmed state_exclusion_categories'.split(' ');
-  assert.deepEqual([...ndFirst].sort(), expectedND.sort());
-  for (const id of ['residency_or_location', 'trafficking_status', 'county', 'prior_relief']) assert(!ndFirst.has(id), `ND first possession excludes ${id}`);
+  // Committed 99d647bd shared result-caution consumer, also read by
+  // evaluator.sourceCaution. This does not create an ND eligibility condition.
+  // Keep the original 20-member contract and permit only this exact successor.
+  assert.deepEqual([...ndFirst].sort(), [...expectedND, 'prior_relief'].sort(), 'ND exact original facts plus shared prior-relief caution only');
+  const originalND = new Set(ndFirst);assert(originalND.delete('prior_relief'), 'shared caution consumer is retained');
+  assert.equal(originalND.size, 20, 'ND original authored/shared membership remains complete');
+  assert.deepEqual([...originalND].sort(), [...expectedND].sort());
+  for (const id of ['residency_or_location', 'trafficking_status', 'county']) assert(!ndFirst.has(id), `ND first possession excludes ${id}`);
   const general = facts('ND', 'general-conviction-sealing-under-n-d-c-c-chapter-12-60-1');
   const pardon = facts('ND', 'marijuana-specific-summary-pardon-or-sealing-relief');
   for (const id of ['disposition_date', 'sentence_completion_date', 'court', 'residency_or_location']) assert(general.has(id), `ND general preserves ${id}`);
@@ -86,6 +91,7 @@ if (process.argv.includes('--mutations')) {
     ['ignore candidatePathwayIds', source.replace('if (rule.candidatePathwayIds?.length) return rule.candidatePathwayIds;', '')],
     ['ignore routeConsumers', source.replace('Object.entries(profile.questionLifecycle?.routeConsumers ?? {})', 'Object.entries({})').replace('return profile.questionLifecycle?.routeConsumers[questionId] ?? [];', 'return [];')],
     ['drop universal fact', inject('  factIds.delete("ownership_scope");')],
+    ['drop shared result-caution fact', inject('  factIds.delete("prior_relief");')],
     ['drop legitimate waiting fact', inject('  factIds.delete("scoped_wait_fact");')],
     ['ND general cross-route', inject('  if (profile.jurisdiction.code === "ND" && pathway.id === "first-offense-possession-sealing") factIds.add("residency_or_location");')],
     ['ND pardon cross-route', inject('  if (profile.jurisdiction.code === "ND" && pathway.id === "first-offense-possession-sealing") factIds.add("trafficking_status");')],
@@ -119,6 +125,33 @@ const protectedInput = { jurisdiction: 'TEST', pathwayId: 'alpha', requiredInput
 const protectedCollection = resolvePacketCollection(protectedInput);
 assert.deepEqual(prepayGateFactIds(protectedCollection), ['age_at_offense']);
 assert.deepEqual(resolvedFactValues(protectedCollection), {}, 'narrowing route identity cannot introduce a new evaluator input');
+// Broad preservation is not evidence that the evaluator consumes this fact.
+// Both protection modes keep the exact collection/gate/value behavior; only
+// their diagnostic source and explanation may differ.
+const withoutDiagnostic = value => ({ ...value, facts: value.facts.map(({ source, reason, ...fact }) => fact) });
+assert.equal(protectedCollection.facts[0].source, 'materialization_protection');
+assert(!protectedCollection.facts[0].reason.includes('evaluator reads'));
+const narrowProtection = resolvePacketCollection({ ...protectedInput, routeDecidingFactIds: new Set(['age_at_offense']) });
+assert.equal(narrowProtection.facts[0].source, 'route_decision_facts');
+assert.deepEqual(withoutDiagnostic(protectedCollection), withoutDiagnostic(narrowProtection));
+const carriedInput = { ...protectedInput, requiredInputIds: ['financial_obligations'],
+  screeningAnswers: { court_requirements_completed: 'Yes' },
+  materializationProtectedFactIds: new Set(['financial_obligations']) };
+const carriedBefore = structuredClone(carriedInput);
+const broadCarry = resolvePacketCollection(carriedInput);
+assert.deepEqual(carriedInput, carriedBefore, 'blocked carry preserves original answers and guard inputs');
+assert.equal(broadCarry.facts[0].source, 'materialization_protection');
+assert(!broadCarry.facts[0].reason.includes('evaluator reads'));
+assert.deepEqual(prepayGateFactIds(broadCarry), ['financial_obligations']);
+assert.deepEqual(resolvedFactValues(broadCarry), {});
+const narrowCarry = resolvePacketCollection({ ...carriedInput, routeDecidingFactIds: new Set(['financial_obligations']) });
+assert.equal(narrowCarry.facts[0].source, 'route_decision_facts');
+assert.deepEqual(withoutDiagnostic(broadCarry), withoutDiagnostic(narrowCarry));
+const exactCarry = resolvePacketCollection({ ...carriedInput, screeningAnswers: { financial_obligations: 'Yes' } });
+assert.equal(resolvedFactValues(exactCarry).financial_obligations, 'Yes');
+assert.deepEqual(prepayGateFactIds(exactCarry), [], 'same-ID reuse remains permitted');
+const baselineDerivation = resolvePacketCollection({ ...protectedInput, baselineCarriedFactIds: new Set(['age_at_offense']) });
+assert.equal(resolvedFactValues(baselineDerivation).age_at_offense, '20', 'existing baseline materialization exception remains unchanged');
 const unresolvedDerivation = resolvePacketCollection({ ...protectedInput, materializationProtectedFactIds: new Set(), unresolvedRouteFactIds: new Set(['age_at_offense']) });
 assert.equal(unresolvedDerivation.facts[0].collection, 'unresolved');
 assert.deepEqual(resolvedFactValues(unresolvedDerivation), {});
@@ -133,10 +166,27 @@ const ny = profile('NY');
 const nyWay = ny.pathways.find(p => p.id === 'discretionary-conviction-sealing-by-petition-under-cpl-160-59');
 const nyAnswers = Object.fromEntries(projectPublicProfile(ny).questions.map(q => [q.id, q.type === 'multi_select' ? ['None of these'] : q.type === 'number_or_range' ? 1 : 'No']));
 Object.assign(nyAnswers, { ownership_scope: 'Yes', jurisdiction_scope: 'State or local', possible_pathway_context: nyWay.label, case_outcome: 'Misdemeanor conviction', offense_level: 'Misdemeanor', sentence_completion_date: 'Yes', financial_obligations: 'Yes', court_requirements_completed: 'Yes', special_preconditions_confirmed: 'Yes', resolved_timing_bucket: 'lt_1_year', disposition_date: '2026-01-01', ny_16059_total_eligible_convictions: 1, ny_16059_felony_convictions: 0 });
-const waiting = evaluateScreening({ jurisdiction: 'NY', profileVersion: ny.profileVersion, answers: nyAnswers });
+// Preserve the original blanket-default fixture. Since committed ddf788fa1 it
+// supplies multiple New York procedure keys and must remain a conflict hold.
+const originalNyAnswers = structuredClone(nyAnswers);
+const retainedNyConflict = evaluateScreening({ jurisdiction: 'NY', profileVersion: ny.profileVersion, answers: nyAnswers });
+assert.deepEqual(nyAnswers, originalNyAnswers, 'retained NY input is never rewritten into an eligible case');
+assert.equal(retainedNyConflict.pathwayId, undefined);
+assert.equal(retainedNyConflict.resultCode, 'needs_review');
+assert.equal(retainedNyConflict.paymentAllowed, false);
+assert(retainedNyConflict.reasons.some(r => r.code === 'ny.clean_slate_conflict'));
+// Separate existing typed history/clock premise from test-ny-history-clock:
+// one day before its ten-year date, with no incarceration. This checks the
+// actual evaluator wait without removing the original conflict guard.
+const { NY_HISTORY_CLOCK_BASE } = await import('./lib/ny-history-clock-fixture.mjs');
+process.env.RCAP_EVALUATOR_TODAY = '2026-10-12';
+const typedNyWaitingAnswers = { ...NY_HISTORY_CLOCK_BASE, sentencing_date: '2016-10-13' };
+const typedNyBefore = structuredClone(typedNyWaitingAnswers);
+const waiting = evaluateScreening({ jurisdiction: 'NY', profileVersion: ny.profileVersion, answers: typedNyWaitingAnswers });
+assert.deepEqual(typedNyWaitingAnswers, typedNyBefore, 'fully specified waiting premise remains unchanged');
 assert.equal(waiting.pathwayId, nyWay.id);
 assert.equal(waiting.resultCode, 'not_yet');
 assert.equal(waiting.paymentAllowed, false);
-assert(waiting.reasons.some(r => r.code === 'ny.timing_bucket_too_recent'));
+assert(waiting.reasons.some(r => r.code === 'ny.ny_16059_clock_not_yet'));
 assert(load(source).routeDecidingFactIds(ny, nyWay).has('resolved_timing_bucket'));
-console.log('PASS: real NY waiting-period case retains route identity and blocks payment as not_yet');
+console.log('PASS: original NY procedure-conflict input remains held; separate existing typed clock control retains route and blocks payment as not_yet');

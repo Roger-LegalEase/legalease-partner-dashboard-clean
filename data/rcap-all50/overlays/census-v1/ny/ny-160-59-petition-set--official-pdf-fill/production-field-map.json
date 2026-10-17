@@ -32,7 +32,7 @@
           "field": "Applicant_AKA",
           "decision": "refuse",
           "factId": null,
-          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "reason": "The retained six-page form asks for any AKA, including a name used on the case. The current and retained pro-se instructions concern names used in the covered case. Preserve that distinction; never invent an alias.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -47,17 +47,35 @@
             }
           ],
           "effectiveLabel": "AKA(s)",
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
+          "blankTreatment": null,
+          "requiredBeforeFiling": false,
           "routeDetermined": false,
           "identity": "NY-CPL-160.59-APPLICATION field Applicant_AKA",
-          "captionBasis": "read from the printed face of NY-CPL-160.59-APPLICATION; the geometric capture reached a different printed line"
+          "captionBasis": "read from the printed face of NY-CPL-160.59-APPLICATION; the geometric capture reached a different printed line",
+          "nyCompletion": {
+            "schemaVersion": "ny-held-completion/v1",
+            "documentId": "NY-CPL-160.59-APPLICATION",
+            "field": "Applicant_AKA",
+            "sourceSha256": "73a5eeaf73ed647b9cf6ae786823aaa3cf8b3a7e483ea4aad154d7c2275caae4",
+            "condition": [
+              "any_alias_exists"
+            ],
+            "actor": "participant_from_record",
+            "stage": "record_preparation",
+            "event": "applicant_alias",
+            "sourceAnchor": "held application p4 item2",
+            "obligation": "Actual aliases, including case-used names, remain distinct from a signature.",
+            "knownValuePolicy": "preserve_and_bind_applicable_owned_fact",
+            "intakeOrPurchaseGate": false,
+            "conditionDescription": "The retained six-page form asks for any AKA, including a name used on the case. The current and retained pro-se instructions concern names used in the covered case. Preserve that distinction; never invent an alias."
+          },
+          "refusalClass": "ny_source_conditional_completion"
         },
         {
           "field": "NYSID",
           "decision": "refuse",
           "factId": null,
-          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "reason": "The retained six-page instruction does not say if known; the current and retained pro-se instructions do. Resolve the form revision before using this blank; never invent a NYSID.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -72,17 +90,35 @@
             }
           ],
           "effectiveLabel": "NYSID",
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
+          "blankTreatment": null,
+          "requiredBeforeFiling": false,
           "routeDetermined": false,
           "identity": "NY-CPL-160.59-APPLICATION field NYSID",
-          "captionBasis": "read from the printed face of NY-CPL-160.59-APPLICATION; the geometric capture reached a different printed line"
+          "captionBasis": "read from the printed face of NY-CPL-160.59-APPLICATION; the geometric capture reached a different printed line",
+          "nyCompletion": {
+            "schemaVersion": "ny-held-completion/v1",
+            "documentId": "NY-CPL-160.59-APPLICATION",
+            "field": "NYSID",
+            "sourceSha256": "73a5eeaf73ed647b9cf6ae786823aaa3cf8b3a7e483ea4aad154d7c2275caae4",
+            "condition": [
+              "source_revision_review"
+            ],
+            "actor": "participant_from_record",
+            "stage": "record_preparation",
+            "event": "criminal_history_identifier",
+            "sourceAnchor": "held application p4 item3; differs from pro-se if-known wording",
+            "obligation": "Resolve source wording/currentness; do not borrow another revision's knownness rule.",
+            "knownValuePolicy": "preserve_and_bind_applicable_owned_fact",
+            "intakeOrPurchaseGate": false,
+            "conditionDescription": "The retained six-page instruction does not say if known; the current and retained pro-se instructions do. Resolve the form revision before using this blank; never invent a NYSID."
+          },
+          "refusalClass": "ny_source_conditional_completion"
         },
         {
           "field": "Motorist_ID",
           "decision": "refuse",
           "factId": null,
-          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "reason": "The retained application labels this for VTL crimes; use an applicable actual identifier, not a made-up value.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -97,11 +133,29 @@
             }
           ],
           "effectiveLabel": "Motorist ID # (VTL Crimes)",
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
+          "blankTreatment": null,
+          "requiredBeforeFiling": false,
           "routeDetermined": false,
           "identity": "NY-CPL-160.59-APPLICATION field Motorist_ID",
-          "captionBasis": "read from the printed face of NY-CPL-160.59-APPLICATION; the geometric capture reached a different printed line"
+          "captionBasis": "read from the printed face of NY-CPL-160.59-APPLICATION; the geometric capture reached a different printed line",
+          "nyCompletion": {
+            "schemaVersion": "ny-held-completion/v1",
+            "documentId": "NY-CPL-160.59-APPLICATION",
+            "field": "Motorist_ID",
+            "sourceSha256": "73a5eeaf73ed647b9cf6ae786823aaa3cf8b3a7e483ea4aad154d7c2275caae4",
+            "condition": [
+              "covered_vtl_conviction"
+            ],
+            "actor": "participant_from_record",
+            "stage": "record_preparation",
+            "event": "motorist_identifier",
+            "sourceAnchor": "held application p4 item4",
+            "obligation": "Actual applicable motorist identifier; no invented identifier for a non-VTL case.",
+            "knownValuePolicy": "preserve_and_bind_applicable_owned_fact",
+            "intakeOrPurchaseGate": false,
+            "conditionDescription": "The retained application labels this for VTL crimes; use an applicable actual identifier, not a made-up value."
+          },
+          "refusalClass": "ny_source_conditional_completion"
         },
         {
           "field": "Date_of_Birth",
@@ -126,7 +180,7 @@
           "field": "Docket_Indictment_SCI_Number_2",
           "decision": "refuse",
           "factId": null,
-          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "reason": "Complete the second row only for an additional case included in this application; retain every applicable conviction and its own facts.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -141,11 +195,29 @@
             }
           ],
           "effectiveLabel": "Docket, Indictment, or SCI Number - second case row",
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
+          "blankTreatment": null,
+          "requiredBeforeFiling": false,
           "routeDetermined": false,
           "identity": "NY-CPL-160.59-APPLICATION field Docket_Indictment_SCI_Number_2",
-          "captionBasis": "read from the printed face of NY-CPL-160.59-APPLICATION; the geometric capture reached a different printed line"
+          "captionBasis": "read from the printed face of NY-CPL-160.59-APPLICATION; the geometric capture reached a different printed line",
+          "nyCompletion": {
+            "schemaVersion": "ny-held-completion/v1",
+            "documentId": "NY-CPL-160.59-APPLICATION",
+            "field": "Docket_Indictment_SCI_Number_2",
+            "sourceSha256": "73a5eeaf73ed647b9cf6ae786823aaa3cf8b3a7e483ea4aad154d7c2275caae4",
+            "condition": [
+              "second_covered_case"
+            ],
+            "actor": "participant_from_record",
+            "stage": "record_preparation",
+            "event": "second_covered_case",
+            "sourceAnchor": "held application p4 item6",
+            "obligation": "Keep every actual covered case and its own case numbers; printed rows do not establish transaction grouping.",
+            "knownValuePolicy": "preserve_and_bind_applicable_owned_fact",
+            "intakeOrPurchaseGate": false,
+            "conditionDescription": "Complete the second row only for an additional case included in this application; retain every applicable conviction and its own facts."
+          },
+          "refusalClass": "ny_source_conditional_completion"
         },
         {
           "field": "Docket_Indictment_SCI_Number_1",
@@ -189,7 +261,7 @@
           "field": "Court_Name_2",
           "decision": "refuse",
           "factId": null,
-          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "reason": "Complete the second row only for an additional case included in this application; retain every applicable conviction and its own facts.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -204,11 +276,29 @@
             }
           ],
           "effectiveLabel": "Court Name - second case row",
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
+          "blankTreatment": null,
+          "requiredBeforeFiling": false,
           "routeDetermined": false,
           "identity": "NY-CPL-160.59-APPLICATION field Court_Name_2",
-          "captionBasis": "read from the printed face of NY-CPL-160.59-APPLICATION; the geometric capture reached a different printed line"
+          "captionBasis": "read from the printed face of NY-CPL-160.59-APPLICATION; the geometric capture reached a different printed line",
+          "nyCompletion": {
+            "schemaVersion": "ny-held-completion/v1",
+            "documentId": "NY-CPL-160.59-APPLICATION",
+            "field": "Court_Name_2",
+            "sourceSha256": "73a5eeaf73ed647b9cf6ae786823aaa3cf8b3a7e483ea4aad154d7c2275caae4",
+            "condition": [
+              "second_covered_case"
+            ],
+            "actor": "participant_from_record",
+            "stage": "record_preparation",
+            "event": "second_covered_case",
+            "sourceAnchor": "held application p4 item6",
+            "obligation": "Keep every actual covered case and its own case numbers; printed rows do not establish transaction grouping.",
+            "knownValuePolicy": "preserve_and_bind_applicable_owned_fact",
+            "intakeOrPurchaseGate": false,
+            "conditionDescription": "Complete the second row only for an additional case included in this application; retain every applicable conviction and its own facts."
+          },
+          "refusalClass": "ny_source_conditional_completion"
         },
         {
           "field": "Conviction_Charge_1",
@@ -233,7 +323,7 @@
           "field": "Conviction_Charge_2",
           "decision": "refuse",
           "factId": null,
-          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "reason": "Complete the second row only for an additional case included in this application; retain every applicable conviction and its own facts.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -248,17 +338,35 @@
             }
           ],
           "effectiveLabel": "Conviction Charge Description - second case row",
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
+          "blankTreatment": null,
+          "requiredBeforeFiling": false,
           "routeDetermined": false,
           "identity": "NY-CPL-160.59-APPLICATION field Conviction_Charge_2",
-          "captionBasis": "read from the printed face of NY-CPL-160.59-APPLICATION; the geometric capture reached a different printed line"
+          "captionBasis": "read from the printed face of NY-CPL-160.59-APPLICATION; the geometric capture reached a different printed line",
+          "nyCompletion": {
+            "schemaVersion": "ny-held-completion/v1",
+            "documentId": "NY-CPL-160.59-APPLICATION",
+            "field": "Conviction_Charge_2",
+            "sourceSha256": "73a5eeaf73ed647b9cf6ae786823aaa3cf8b3a7e483ea4aad154d7c2275caae4",
+            "condition": [
+              "second_covered_case"
+            ],
+            "actor": "participant_from_record",
+            "stage": "record_preparation",
+            "event": "second_covered_case",
+            "sourceAnchor": "held application p4 item6",
+            "obligation": "Keep every actual covered case and its own case numbers; printed rows do not establish transaction grouping.",
+            "knownValuePolicy": "preserve_and_bind_applicable_owned_fact",
+            "intakeOrPurchaseGate": false,
+            "conditionDescription": "Complete the second row only for an additional case included in this application; retain every applicable conviction and its own facts."
+          },
+          "refusalClass": "ny_source_conditional_completion"
         },
         {
           "field": "Law_Section_Subsection_2",
           "decision": "refuse",
           "factId": null,
-          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "reason": "Complete the second row only for an additional case included in this application; retain every applicable conviction and its own facts.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -273,17 +381,35 @@
             }
           ],
           "effectiveLabel": "Conviction Charge Law/Section/Subsection - second case row",
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
+          "blankTreatment": null,
+          "requiredBeforeFiling": false,
           "routeDetermined": false,
           "identity": "NY-CPL-160.59-APPLICATION field Law_Section_Subsection_2",
-          "captionBasis": "read from the printed face of NY-CPL-160.59-APPLICATION; the geometric capture reached a different printed line"
+          "captionBasis": "read from the printed face of NY-CPL-160.59-APPLICATION; the geometric capture reached a different printed line",
+          "nyCompletion": {
+            "schemaVersion": "ny-held-completion/v1",
+            "documentId": "NY-CPL-160.59-APPLICATION",
+            "field": "Law_Section_Subsection_2",
+            "sourceSha256": "73a5eeaf73ed647b9cf6ae786823aaa3cf8b3a7e483ea4aad154d7c2275caae4",
+            "condition": [
+              "second_covered_case"
+            ],
+            "actor": "participant_from_record",
+            "stage": "record_preparation",
+            "event": "second_covered_case",
+            "sourceAnchor": "held application p4 item6",
+            "obligation": "Keep every actual covered case and its own case numbers; printed rows do not establish transaction grouping.",
+            "knownValuePolicy": "preserve_and_bind_applicable_owned_fact",
+            "intakeOrPurchaseGate": false,
+            "conditionDescription": "Complete the second row only for an additional case included in this application; retain every applicable conviction and its own facts."
+          },
+          "refusalClass": "ny_source_conditional_completion"
         },
         {
           "field": "Law_Section_Subsection_1",
           "decision": "refuse",
           "factId": null,
-          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "reason": "Copy the applicable first case's exact conviction section and sentence facts from its record; never substitute another event or another case.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -302,7 +428,23 @@
           "requiredBeforeFiling": true,
           "routeDetermined": false,
           "identity": "NY-CPL-160.59-APPLICATION field Law_Section_Subsection_1",
-          "captionBasis": "read from the printed face of NY-CPL-160.59-APPLICATION; the geometric capture reached a different printed line"
+          "captionBasis": "read from the printed face of NY-CPL-160.59-APPLICATION; the geometric capture reached a different printed line",
+          "nyCompletion": {
+            "schemaVersion": "ny-held-completion/v1",
+            "documentId": "NY-CPL-160.59-APPLICATION",
+            "field": "Law_Section_Subsection_1",
+            "sourceSha256": "73a5eeaf73ed647b9cf6ae786823aaa3cf8b3a7e483ea4aad154d7c2275caae4",
+            "condition": [],
+            "actor": "participant_from_record",
+            "stage": "record_preparation",
+            "event": "first_covered_case",
+            "sourceAnchor": "held application p4 case table; p5 sentence instructions",
+            "obligation": "First-case section and sentence facts remain owed even when no second case exists.",
+            "knownValuePolicy": "preserve_and_bind_applicable_owned_fact",
+            "intakeOrPurchaseGate": false,
+            "conditionDescription": "Copy the applicable first case's exact conviction section and sentence facts from its record; never substitute another event or another case."
+          },
+          "refusalClass": "ny_source_conditional_completion"
         },
         {
           "field": "Conviction_Date_1",
@@ -327,7 +469,7 @@
           "field": "Sentence_Date_1",
           "decision": "refuse",
           "factId": null,
-          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "reason": "Copy the applicable first case's exact conviction section and sentence facts from its record; never substitute another event or another case.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -346,13 +488,29 @@
           "requiredBeforeFiling": true,
           "routeDetermined": false,
           "identity": "NY-CPL-160.59-APPLICATION field Sentence_Date_1",
-          "captionBasis": "read from the printed face of NY-CPL-160.59-APPLICATION; the geometric capture reached a different printed line"
+          "captionBasis": "read from the printed face of NY-CPL-160.59-APPLICATION; the geometric capture reached a different printed line",
+          "nyCompletion": {
+            "schemaVersion": "ny-held-completion/v1",
+            "documentId": "NY-CPL-160.59-APPLICATION",
+            "field": "Sentence_Date_1",
+            "sourceSha256": "73a5eeaf73ed647b9cf6ae786823aaa3cf8b3a7e483ea4aad154d7c2275caae4",
+            "condition": [],
+            "actor": "participant_from_record",
+            "stage": "record_preparation",
+            "event": "first_covered_case",
+            "sourceAnchor": "held application p4 case table; p5 sentence instructions",
+            "obligation": "First-case section and sentence facts remain owed even when no second case exists.",
+            "knownValuePolicy": "preserve_and_bind_applicable_owned_fact",
+            "intakeOrPurchaseGate": false,
+            "conditionDescription": "Copy the applicable first case's exact conviction section and sentence facts from its record; never substitute another event or another case."
+          },
+          "refusalClass": "ny_source_conditional_completion"
         },
         {
           "field": "Sentence_Term_1",
           "decision": "refuse",
           "factId": null,
-          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "reason": "Copy the applicable first case's exact conviction section and sentence facts from its record; never substitute another event or another case.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -371,13 +529,29 @@
           "requiredBeforeFiling": true,
           "routeDetermined": false,
           "identity": "NY-CPL-160.59-APPLICATION field Sentence_Term_1",
-          "captionBasis": "read from the printed face of NY-CPL-160.59-APPLICATION; the geometric capture reached a different printed line"
+          "captionBasis": "read from the printed face of NY-CPL-160.59-APPLICATION; the geometric capture reached a different printed line",
+          "nyCompletion": {
+            "schemaVersion": "ny-held-completion/v1",
+            "documentId": "NY-CPL-160.59-APPLICATION",
+            "field": "Sentence_Term_1",
+            "sourceSha256": "73a5eeaf73ed647b9cf6ae786823aaa3cf8b3a7e483ea4aad154d7c2275caae4",
+            "condition": [],
+            "actor": "participant_from_record",
+            "stage": "record_preparation",
+            "event": "first_covered_case",
+            "sourceAnchor": "held application p4 case table; p5 sentence instructions",
+            "obligation": "First-case section and sentence facts remain owed even when no second case exists.",
+            "knownValuePolicy": "preserve_and_bind_applicable_owned_fact",
+            "intakeOrPurchaseGate": false,
+            "conditionDescription": "Copy the applicable first case's exact conviction section and sentence facts from its record; never substitute another event or another case."
+          },
+          "refusalClass": "ny_source_conditional_completion"
         },
         {
           "field": "Sentence_Term_2",
           "decision": "refuse",
           "factId": null,
-          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "reason": "Complete the second row only for an additional case included in this application; retain every applicable conviction and its own facts.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -392,17 +566,35 @@
             }
           ],
           "effectiveLabel": "Sentence Term - second case row",
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
+          "blankTreatment": null,
+          "requiredBeforeFiling": false,
           "routeDetermined": false,
           "identity": "NY-CPL-160.59-APPLICATION field Sentence_Term_2",
-          "captionBasis": "read from the printed face of NY-CPL-160.59-APPLICATION; the geometric capture reached a different printed line"
+          "captionBasis": "read from the printed face of NY-CPL-160.59-APPLICATION; the geometric capture reached a different printed line",
+          "nyCompletion": {
+            "schemaVersion": "ny-held-completion/v1",
+            "documentId": "NY-CPL-160.59-APPLICATION",
+            "field": "Sentence_Term_2",
+            "sourceSha256": "73a5eeaf73ed647b9cf6ae786823aaa3cf8b3a7e483ea4aad154d7c2275caae4",
+            "condition": [
+              "second_covered_case"
+            ],
+            "actor": "participant_from_record",
+            "stage": "record_preparation",
+            "event": "second_covered_case",
+            "sourceAnchor": "held application p4 item6",
+            "obligation": "Keep every actual covered case and its own case numbers; printed rows do not establish transaction grouping.",
+            "knownValuePolicy": "preserve_and_bind_applicable_owned_fact",
+            "intakeOrPurchaseGate": false,
+            "conditionDescription": "Complete the second row only for an additional case included in this application; retain every applicable conviction and its own facts."
+          },
+          "refusalClass": "ny_source_conditional_completion"
         },
         {
           "field": "Release_Date_1",
           "decision": "refuse",
           "factId": null,
-          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "reason": "Use the actual release date only when the applicable sentence involved incarceration; do not invent release for a noncustodial sentence or substitute probation/parole completion. A second-row release also requires an actual second covered case.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -417,17 +609,35 @@
             }
           ],
           "effectiveLabel": "Release Date from any incarceration - first case row",
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
+          "blankTreatment": null,
+          "requiredBeforeFiling": false,
           "routeDetermined": false,
           "identity": "NY-CPL-160.59-APPLICATION field Release_Date_1",
-          "captionBasis": "read from the printed face of NY-CPL-160.59-APPLICATION; the geometric capture reached a different printed line"
+          "captionBasis": "read from the printed face of NY-CPL-160.59-APPLICATION; the geometric capture reached a different printed line",
+          "nyCompletion": {
+            "schemaVersion": "ny-held-completion/v1",
+            "documentId": "NY-CPL-160.59-APPLICATION",
+            "field": "Release_Date_1",
+            "sourceSha256": "73a5eeaf73ed647b9cf6ae786823aaa3cf8b3a7e483ea4aad154d7c2275caae4",
+            "condition": [
+              "first_case_postsentence_incarceration"
+            ],
+            "actor": "participant_from_record",
+            "stage": "record_preparation",
+            "event": "first_case_release",
+            "sourceAnchor": "held application p5 item13",
+            "obligation": "Actual first-case release, not probation/parole completion.",
+            "knownValuePolicy": "preserve_and_bind_applicable_owned_fact",
+            "intakeOrPurchaseGate": false,
+            "conditionDescription": "Use the actual release date only when the applicable sentence involved incarceration; do not invent release for a noncustodial sentence or substitute probation/parole completion. A second-row release also requires an actual second covered case."
+          },
+          "refusalClass": "ny_source_conditional_completion"
         },
         {
           "field": "Release_Date_2",
           "decision": "refuse",
           "factId": null,
-          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "reason": "Use the actual release date only when the applicable sentence involved incarceration; do not invent release for a noncustodial sentence or substitute probation/parole completion. A second-row release also requires an actual second covered case.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -442,17 +652,36 @@
             }
           ],
           "effectiveLabel": "Release Date from any incarceration - second case row",
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
+          "blankTreatment": null,
+          "requiredBeforeFiling": false,
           "routeDetermined": false,
           "identity": "NY-CPL-160.59-APPLICATION field Release_Date_2",
-          "captionBasis": "read from the printed face of NY-CPL-160.59-APPLICATION; the geometric capture reached a different printed line"
+          "captionBasis": "read from the printed face of NY-CPL-160.59-APPLICATION; the geometric capture reached a different printed line",
+          "nyCompletion": {
+            "schemaVersion": "ny-held-completion/v1",
+            "documentId": "NY-CPL-160.59-APPLICATION",
+            "field": "Release_Date_2",
+            "sourceSha256": "73a5eeaf73ed647b9cf6ae786823aaa3cf8b3a7e483ea4aad154d7c2275caae4",
+            "condition": [
+              "second_covered_case",
+              "second_case_postsentence_incarceration"
+            ],
+            "actor": "participant_from_record",
+            "stage": "record_preparation",
+            "event": "second_case_release",
+            "sourceAnchor": "held application p5 item13",
+            "obligation": "Actual second-case release, never copied from another case.",
+            "knownValuePolicy": "preserve_and_bind_applicable_owned_fact",
+            "intakeOrPurchaseGate": false,
+            "conditionDescription": "Use the actual release date only when the applicable sentence involved incarceration; do not invent release for a noncustodial sentence or substitute probation/parole completion. A second-row release also requires an actual second covered case."
+          },
+          "refusalClass": "ny_source_conditional_completion"
         },
         {
           "field": "Attachment_4",
           "decision": "refuse",
           "factId": null,
-          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "reason": "List an additional attachment only when actually included. Optional supporting evidence does not require filling every numbered line.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -467,17 +696,35 @@
             }
           ],
           "effectiveLabel": "Attachments, numbered line 4",
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
+          "blankTreatment": null,
+          "requiredBeforeFiling": false,
           "routeDetermined": false,
           "identity": "NY-CPL-160.59-APPLICATION field Attachment_4",
-          "captionBasis": "read from the printed face of NY-CPL-160.59-APPLICATION; the geometric capture reached a different printed line"
+          "captionBasis": "read from the printed face of NY-CPL-160.59-APPLICATION; the geometric capture reached a different printed line",
+          "nyCompletion": {
+            "schemaVersion": "ny-held-completion/v1",
+            "documentId": "NY-CPL-160.59-APPLICATION",
+            "field": "Attachment_4",
+            "sourceSha256": "73a5eeaf73ed647b9cf6ae786823aaa3cf8b3a7e483ea4aad154d7c2275caae4",
+            "condition": [
+              "application_attachment_4_included"
+            ],
+            "actor": "participant_from_record",
+            "stage": "record_preparation",
+            "event": "application_attachment_4",
+            "sourceAnchor": "held application p5 attachments4-10",
+            "obligation": "Only actual supporting attachments; optional evidence does not replace the required statement.",
+            "knownValuePolicy": "preserve_and_bind_applicable_owned_fact",
+            "intakeOrPurchaseGate": false,
+            "conditionDescription": "List an additional attachment only when actually included. Optional supporting evidence does not require filling every numbered line."
+          },
+          "refusalClass": "ny_source_conditional_completion"
         },
         {
           "field": "Attachment_5",
           "decision": "refuse",
           "factId": null,
-          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "reason": "List an additional attachment only when actually included. Optional supporting evidence does not require filling every numbered line.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -492,17 +739,35 @@
             }
           ],
           "effectiveLabel": "Attachments, numbered line 5",
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
+          "blankTreatment": null,
+          "requiredBeforeFiling": false,
           "routeDetermined": false,
           "identity": "NY-CPL-160.59-APPLICATION field Attachment_5",
-          "captionBasis": "read from the printed face of NY-CPL-160.59-APPLICATION; the geometric capture reached a different printed line"
+          "captionBasis": "read from the printed face of NY-CPL-160.59-APPLICATION; the geometric capture reached a different printed line",
+          "nyCompletion": {
+            "schemaVersion": "ny-held-completion/v1",
+            "documentId": "NY-CPL-160.59-APPLICATION",
+            "field": "Attachment_5",
+            "sourceSha256": "73a5eeaf73ed647b9cf6ae786823aaa3cf8b3a7e483ea4aad154d7c2275caae4",
+            "condition": [
+              "application_attachment_5_included"
+            ],
+            "actor": "participant_from_record",
+            "stage": "record_preparation",
+            "event": "application_attachment_5",
+            "sourceAnchor": "held application p5 attachments4-10",
+            "obligation": "Only actual supporting attachments; optional evidence does not replace the required statement.",
+            "knownValuePolicy": "preserve_and_bind_applicable_owned_fact",
+            "intakeOrPurchaseGate": false,
+            "conditionDescription": "List an additional attachment only when actually included. Optional supporting evidence does not require filling every numbered line."
+          },
+          "refusalClass": "ny_source_conditional_completion"
         },
         {
           "field": "Attachment_6",
           "decision": "refuse",
           "factId": null,
-          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "reason": "List an additional attachment only when actually included. Optional supporting evidence does not require filling every numbered line.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -517,17 +782,35 @@
             }
           ],
           "effectiveLabel": "Attachments, numbered line 6",
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
+          "blankTreatment": null,
+          "requiredBeforeFiling": false,
           "routeDetermined": false,
           "identity": "NY-CPL-160.59-APPLICATION field Attachment_6",
-          "captionBasis": "read from the printed face of NY-CPL-160.59-APPLICATION; the geometric capture reached a different printed line"
+          "captionBasis": "read from the printed face of NY-CPL-160.59-APPLICATION; the geometric capture reached a different printed line",
+          "nyCompletion": {
+            "schemaVersion": "ny-held-completion/v1",
+            "documentId": "NY-CPL-160.59-APPLICATION",
+            "field": "Attachment_6",
+            "sourceSha256": "73a5eeaf73ed647b9cf6ae786823aaa3cf8b3a7e483ea4aad154d7c2275caae4",
+            "condition": [
+              "application_attachment_6_included"
+            ],
+            "actor": "participant_from_record",
+            "stage": "record_preparation",
+            "event": "application_attachment_6",
+            "sourceAnchor": "held application p5 attachments4-10",
+            "obligation": "Only actual supporting attachments; optional evidence does not replace the required statement.",
+            "knownValuePolicy": "preserve_and_bind_applicable_owned_fact",
+            "intakeOrPurchaseGate": false,
+            "conditionDescription": "List an additional attachment only when actually included. Optional supporting evidence does not require filling every numbered line."
+          },
+          "refusalClass": "ny_source_conditional_completion"
         },
         {
           "field": "Attachment_7",
           "decision": "refuse",
           "factId": null,
-          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "reason": "List an additional attachment only when actually included. Optional supporting evidence does not require filling every numbered line.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -542,17 +825,35 @@
             }
           ],
           "effectiveLabel": "Attachments, numbered line 7",
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
+          "blankTreatment": null,
+          "requiredBeforeFiling": false,
           "routeDetermined": false,
           "identity": "NY-CPL-160.59-APPLICATION field Attachment_7",
-          "captionBasis": "read from the printed face of NY-CPL-160.59-APPLICATION; the geometric capture reached a different printed line"
+          "captionBasis": "read from the printed face of NY-CPL-160.59-APPLICATION; the geometric capture reached a different printed line",
+          "nyCompletion": {
+            "schemaVersion": "ny-held-completion/v1",
+            "documentId": "NY-CPL-160.59-APPLICATION",
+            "field": "Attachment_7",
+            "sourceSha256": "73a5eeaf73ed647b9cf6ae786823aaa3cf8b3a7e483ea4aad154d7c2275caae4",
+            "condition": [
+              "application_attachment_7_included"
+            ],
+            "actor": "participant_from_record",
+            "stage": "record_preparation",
+            "event": "application_attachment_7",
+            "sourceAnchor": "held application p5 attachments4-10",
+            "obligation": "Only actual supporting attachments; optional evidence does not replace the required statement.",
+            "knownValuePolicy": "preserve_and_bind_applicable_owned_fact",
+            "intakeOrPurchaseGate": false,
+            "conditionDescription": "List an additional attachment only when actually included. Optional supporting evidence does not require filling every numbered line."
+          },
+          "refusalClass": "ny_source_conditional_completion"
         },
         {
           "field": "Attachment_8",
           "decision": "refuse",
           "factId": null,
-          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "reason": "List an additional attachment only when actually included. Optional supporting evidence does not require filling every numbered line.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -567,17 +868,35 @@
             }
           ],
           "effectiveLabel": "Attachments, numbered line 8",
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
+          "blankTreatment": null,
+          "requiredBeforeFiling": false,
           "routeDetermined": false,
           "identity": "NY-CPL-160.59-APPLICATION field Attachment_8",
-          "captionBasis": "read from the printed face of NY-CPL-160.59-APPLICATION; the geometric capture reached a different printed line"
+          "captionBasis": "read from the printed face of NY-CPL-160.59-APPLICATION; the geometric capture reached a different printed line",
+          "nyCompletion": {
+            "schemaVersion": "ny-held-completion/v1",
+            "documentId": "NY-CPL-160.59-APPLICATION",
+            "field": "Attachment_8",
+            "sourceSha256": "73a5eeaf73ed647b9cf6ae786823aaa3cf8b3a7e483ea4aad154d7c2275caae4",
+            "condition": [
+              "application_attachment_8_included"
+            ],
+            "actor": "participant_from_record",
+            "stage": "record_preparation",
+            "event": "application_attachment_8",
+            "sourceAnchor": "held application p5 attachments4-10",
+            "obligation": "Only actual supporting attachments; optional evidence does not replace the required statement.",
+            "knownValuePolicy": "preserve_and_bind_applicable_owned_fact",
+            "intakeOrPurchaseGate": false,
+            "conditionDescription": "List an additional attachment only when actually included. Optional supporting evidence does not require filling every numbered line."
+          },
+          "refusalClass": "ny_source_conditional_completion"
         },
         {
           "field": "Attachment_9",
           "decision": "refuse",
           "factId": null,
-          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "reason": "List an additional attachment only when actually included. Optional supporting evidence does not require filling every numbered line.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -592,17 +911,35 @@
             }
           ],
           "effectiveLabel": "Attachments, numbered line 9",
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
+          "blankTreatment": null,
+          "requiredBeforeFiling": false,
           "routeDetermined": false,
           "identity": "NY-CPL-160.59-APPLICATION field Attachment_9",
-          "captionBasis": "read from the printed face of NY-CPL-160.59-APPLICATION; the geometric capture reached a different printed line"
+          "captionBasis": "read from the printed face of NY-CPL-160.59-APPLICATION; the geometric capture reached a different printed line",
+          "nyCompletion": {
+            "schemaVersion": "ny-held-completion/v1",
+            "documentId": "NY-CPL-160.59-APPLICATION",
+            "field": "Attachment_9",
+            "sourceSha256": "73a5eeaf73ed647b9cf6ae786823aaa3cf8b3a7e483ea4aad154d7c2275caae4",
+            "condition": [
+              "application_attachment_9_included"
+            ],
+            "actor": "participant_from_record",
+            "stage": "record_preparation",
+            "event": "application_attachment_9",
+            "sourceAnchor": "held application p5 attachments4-10",
+            "obligation": "Only actual supporting attachments; optional evidence does not replace the required statement.",
+            "knownValuePolicy": "preserve_and_bind_applicable_owned_fact",
+            "intakeOrPurchaseGate": false,
+            "conditionDescription": "List an additional attachment only when actually included. Optional supporting evidence does not require filling every numbered line."
+          },
+          "refusalClass": "ny_source_conditional_completion"
         },
         {
           "field": "Attachment_10",
           "decision": "refuse",
           "factId": null,
-          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "reason": "List an additional attachment only when actually included. Optional supporting evidence does not require filling every numbered line.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -617,11 +954,29 @@
             }
           ],
           "effectiveLabel": "Attachments, numbered line 10",
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
+          "blankTreatment": null,
+          "requiredBeforeFiling": false,
           "routeDetermined": false,
           "identity": "NY-CPL-160.59-APPLICATION field Attachment_10",
-          "captionBasis": "read from the printed face of NY-CPL-160.59-APPLICATION; the geometric capture reached a different printed line"
+          "captionBasis": "read from the printed face of NY-CPL-160.59-APPLICATION; the geometric capture reached a different printed line",
+          "nyCompletion": {
+            "schemaVersion": "ny-held-completion/v1",
+            "documentId": "NY-CPL-160.59-APPLICATION",
+            "field": "Attachment_10",
+            "sourceSha256": "73a5eeaf73ed647b9cf6ae786823aaa3cf8b3a7e483ea4aad154d7c2275caae4",
+            "condition": [
+              "application_attachment_10_included"
+            ],
+            "actor": "participant_from_record",
+            "stage": "record_preparation",
+            "event": "application_attachment_10",
+            "sourceAnchor": "held application p5 attachments4-10",
+            "obligation": "Only actual supporting attachments; optional evidence does not replace the required statement.",
+            "knownValuePolicy": "preserve_and_bind_applicable_owned_fact",
+            "intakeOrPurchaseGate": false,
+            "conditionDescription": "List an additional attachment only when actually included. Optional supporting evidence does not require filling every numbered line."
+          },
+          "refusalClass": "ny_source_conditional_completion"
         },
         {
           "field": "Intends_to_File_Application",
@@ -692,7 +1047,7 @@
           "field": "Conviction_Date_2",
           "decision": "refuse",
           "factId": null,
-          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "reason": "Complete the second row only for an additional case included in this application; retain every applicable conviction and its own facts.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -707,17 +1062,35 @@
             }
           ],
           "effectiveLabel": "Conviction Date - second case row",
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
+          "blankTreatment": null,
+          "requiredBeforeFiling": false,
           "routeDetermined": false,
           "identity": "NY-CPL-160.59-APPLICATION field Conviction_Date_2",
-          "captionBasis": "read from the printed face of NY-CPL-160.59-APPLICATION; the geometric capture reached a different printed line"
+          "captionBasis": "read from the printed face of NY-CPL-160.59-APPLICATION; the geometric capture reached a different printed line",
+          "nyCompletion": {
+            "schemaVersion": "ny-held-completion/v1",
+            "documentId": "NY-CPL-160.59-APPLICATION",
+            "field": "Conviction_Date_2",
+            "sourceSha256": "73a5eeaf73ed647b9cf6ae786823aaa3cf8b3a7e483ea4aad154d7c2275caae4",
+            "condition": [
+              "second_covered_case"
+            ],
+            "actor": "participant_from_record",
+            "stage": "record_preparation",
+            "event": "second_covered_case",
+            "sourceAnchor": "held application p4 item6",
+            "obligation": "Keep every actual covered case and its own case numbers; printed rows do not establish transaction grouping.",
+            "knownValuePolicy": "preserve_and_bind_applicable_owned_fact",
+            "intakeOrPurchaseGate": false,
+            "conditionDescription": "Complete the second row only for an additional case included in this application; retain every applicable conviction and its own facts."
+          },
+          "refusalClass": "ny_source_conditional_completion"
         },
         {
           "field": "Sentence_Date_2",
           "decision": "refuse",
           "factId": null,
-          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "reason": "Complete the second row only for an additional case included in this application; retain every applicable conviction and its own facts.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -732,11 +1105,29 @@
             }
           ],
           "effectiveLabel": "Sentence Date - second case row",
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
+          "blankTreatment": null,
+          "requiredBeforeFiling": false,
           "routeDetermined": false,
           "identity": "NY-CPL-160.59-APPLICATION field Sentence_Date_2",
-          "captionBasis": "read from the printed face of NY-CPL-160.59-APPLICATION; the geometric capture reached a different printed line"
+          "captionBasis": "read from the printed face of NY-CPL-160.59-APPLICATION; the geometric capture reached a different printed line",
+          "nyCompletion": {
+            "schemaVersion": "ny-held-completion/v1",
+            "documentId": "NY-CPL-160.59-APPLICATION",
+            "field": "Sentence_Date_2",
+            "sourceSha256": "73a5eeaf73ed647b9cf6ae786823aaa3cf8b3a7e483ea4aad154d7c2275caae4",
+            "condition": [
+              "second_covered_case"
+            ],
+            "actor": "participant_from_record",
+            "stage": "record_preparation",
+            "event": "second_covered_case",
+            "sourceAnchor": "held application p4 item6",
+            "obligation": "Keep every actual covered case and its own case numbers; printed rows do not establish transaction grouping.",
+            "knownValuePolicy": "preserve_and_bind_applicable_owned_fact",
+            "intakeOrPurchaseGate": false,
+            "conditionDescription": "Complete the second row only for an additional case included in this application; retain every applicable conviction and its own facts."
+          },
+          "refusalClass": "ny_source_conditional_completion"
         },
         {
           "field": "Docket_Indictment_SCI_Number",
@@ -762,7 +1153,7 @@
           "field": "Court_Name",
           "decision": "refuse",
           "factId": null,
-          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "reason": "This row concerns a separate future sealing application; complete it only if you actually intend that application.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -777,11 +1168,29 @@
             }
           ],
           "effectiveLabel": "Court Name - the conviction you intend to ask to have sealed in a later application",
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
+          "blankTreatment": null,
+          "requiredBeforeFiling": false,
           "routeDetermined": false,
           "identity": "NY-CPL-160.59-APPLICATION field Court_Name",
-          "captionBasis": "read from the printed face of NY-CPL-160.59-APPLICATION; the geometric capture reached a different printed line"
+          "captionBasis": "read from the printed face of NY-CPL-160.59-APPLICATION; the geometric capture reached a different printed line",
+          "nyCompletion": {
+            "schemaVersion": "ny-held-completion/v1",
+            "documentId": "NY-CPL-160.59-APPLICATION",
+            "field": "Court_Name",
+            "sourceSha256": "73a5eeaf73ed647b9cf6ae786823aaa3cf8b3a7e483ea4aad154d7c2275caae4",
+            "condition": [
+              "future_sealing_application_intended"
+            ],
+            "actor": "participant_from_record",
+            "stage": "record_preparation",
+            "event": "future_case",
+            "sourceAnchor": "held application p2 item19",
+            "obligation": "Future intent is separate from prior applications and current cases.",
+            "knownValuePolicy": "preserve_and_bind_applicable_owned_fact",
+            "intakeOrPurchaseGate": false,
+            "conditionDescription": "This row concerns a separate future sealing application; complete it only if you actually intend that application."
+          },
+          "refusalClass": "ny_source_conditional_completion"
         },
         {
           "field": "Conviction_Charge",
@@ -847,7 +1256,7 @@
           "field": "Conviction_Date",
           "decision": "refuse",
           "factId": null,
-          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "reason": "This row concerns a separate future sealing application; complete it only if you actually intend that application.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -862,17 +1271,35 @@
             }
           ],
           "effectiveLabel": "Conviction Date - the conviction you intend to ask to have sealed in a later application",
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
+          "blankTreatment": null,
+          "requiredBeforeFiling": false,
           "routeDetermined": false,
           "identity": "NY-CPL-160.59-APPLICATION field Conviction_Date",
-          "captionBasis": "read from the printed face of NY-CPL-160.59-APPLICATION; the geometric capture reached a different printed line"
+          "captionBasis": "read from the printed face of NY-CPL-160.59-APPLICATION; the geometric capture reached a different printed line",
+          "nyCompletion": {
+            "schemaVersion": "ny-held-completion/v1",
+            "documentId": "NY-CPL-160.59-APPLICATION",
+            "field": "Conviction_Date",
+            "sourceSha256": "73a5eeaf73ed647b9cf6ae786823aaa3cf8b3a7e483ea4aad154d7c2275caae4",
+            "condition": [
+              "future_sealing_application_intended"
+            ],
+            "actor": "participant_from_record",
+            "stage": "record_preparation",
+            "event": "future_case",
+            "sourceAnchor": "held application p2 item19",
+            "obligation": "Future intent is separate from prior applications and current cases.",
+            "knownValuePolicy": "preserve_and_bind_applicable_owned_fact",
+            "intakeOrPurchaseGate": false,
+            "conditionDescription": "This row concerns a separate future sealing application; complete it only if you actually intend that application."
+          },
+          "refusalClass": "ny_source_conditional_completion"
         },
         {
           "field": "Sentence_Date",
           "decision": "refuse",
           "factId": null,
-          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "reason": "This row concerns a separate future sealing application; complete it only if you actually intend that application.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -887,11 +1314,29 @@
             }
           ],
           "effectiveLabel": "Sentence Date - the conviction you intend to ask to have sealed in a later application",
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
+          "blankTreatment": null,
+          "requiredBeforeFiling": false,
           "routeDetermined": false,
           "identity": "NY-CPL-160.59-APPLICATION field Sentence_Date",
-          "captionBasis": "read from the printed face of NY-CPL-160.59-APPLICATION; the geometric capture reached a different printed line"
+          "captionBasis": "read from the printed face of NY-CPL-160.59-APPLICATION; the geometric capture reached a different printed line",
+          "nyCompletion": {
+            "schemaVersion": "ny-held-completion/v1",
+            "documentId": "NY-CPL-160.59-APPLICATION",
+            "field": "Sentence_Date",
+            "sourceSha256": "73a5eeaf73ed647b9cf6ae786823aaa3cf8b3a7e483ea4aad154d7c2275caae4",
+            "condition": [
+              "future_sealing_application_intended"
+            ],
+            "actor": "participant_from_record",
+            "stage": "record_preparation",
+            "event": "future_case",
+            "sourceAnchor": "held application p2 item19",
+            "obligation": "Future intent is separate from prior applications and current cases.",
+            "knownValuePolicy": "preserve_and_bind_applicable_owned_fact",
+            "intakeOrPurchaseGate": false,
+            "conditionDescription": "This row concerns a separate future sealing application; complete it only if you actually intend that application."
+          },
+          "refusalClass": "ny_source_conditional_completion"
         },
         {
           "field": "Sealing_Section",
@@ -950,7 +1395,7 @@
           "field": "County_of",
           "decision": "refuse",
           "factId": null,
-          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "reason": "Use the actual venue of the service affidavit. Do not substitute the applicant's residence or the prosecuting county without evidence.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -965,10 +1410,29 @@
             }
           ],
           "effectiveLabel": "COUNTY OF",
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
+          "blankTreatment": null,
+          "requiredBeforeFiling": false,
           "routeDetermined": false,
-          "identity": "NY-CPL-160.59-APPLICATION field County_of"
+          "identity": "NY-CPL-160.59-APPLICATION field County_of",
+          "nyCompletion": {
+            "schemaVersion": "ny-held-completion/v1",
+            "documentId": "NY-CPL-160.59-APPLICATION",
+            "field": "County_of",
+            "sourceSha256": "73a5eeaf73ed647b9cf6ae786823aaa3cf8b3a7e483ea4aad154d7c2275caae4",
+            "condition": [
+              "service_affidavit_needed",
+              "service_completed"
+            ],
+            "actor": "actual_server",
+            "stage": "actual_service_proof",
+            "event": "affidavit_execution_venue",
+            "sourceAnchor": "held application p3 affidavit COUNTY OF",
+            "obligation": "Actual affidavit venue; do not infer it from residence or prosecuting county.",
+            "knownValuePolicy": "preserve_and_bind_applicable_owned_fact",
+            "intakeOrPurchaseGate": false,
+            "conditionDescription": "Use the actual venue of the service affidavit. Do not substitute the applicant's residence or the prosecuting county without evidence."
+          },
+          "refusalClass": "ny_source_conditional_completion"
         },
         {
           "field": "Name_of_Person_Serving",
@@ -994,7 +1458,7 @@
           "field": "Address_of_Person_Serving",
           "decision": "refuse",
           "factId": null,
-          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "reason": "The actual server records only applicable recipients, documents and completed service. Additional recipient/address space is used only when needed.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -1009,17 +1473,36 @@
             }
           ],
           "effectiveLabel": "[address of person serving/mailing]",
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
+          "blankTreatment": null,
+          "requiredBeforeFiling": false,
           "routeDetermined": false,
           "identity": "NY-CPL-160.59-APPLICATION field Address_of_Person_Serving",
-          "captionBasis": "read from the printed face of NY-CPL-160.59-APPLICATION; the geometric capture reached a different printed line"
+          "captionBasis": "read from the printed face of NY-CPL-160.59-APPLICATION; the geometric capture reached a different printed line",
+          "nyCompletion": {
+            "schemaVersion": "ny-held-completion/v1",
+            "documentId": "NY-CPL-160.59-APPLICATION",
+            "field": "Address_of_Person_Serving",
+            "sourceSha256": "73a5eeaf73ed647b9cf6ae786823aaa3cf8b3a7e483ea4aad154d7c2275caae4",
+            "condition": [
+              "service_affidavit_needed",
+              "service_completed"
+            ],
+            "actor": "actual_server",
+            "stage": "actual_service_proof",
+            "event": "actual_service",
+            "sourceAnchor": "held application p3 service affidavit; p6 service instructions",
+            "obligation": "Keep actual server, recipient, documents and event distinct; future service remains owed.",
+            "knownValuePolicy": "preserve_and_bind_applicable_owned_fact",
+            "intakeOrPurchaseGate": false,
+            "conditionDescription": "The actual server records only applicable recipients, documents and completed service. Additional recipient/address space is used only when needed."
+          },
+          "refusalClass": "ny_source_conditional_completion"
         },
         {
           "field": "Date_of_Service",
           "decision": "refuse",
           "factId": null,
-          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "reason": "The actual server records only applicable recipients, documents and completed service. Additional recipient/address space is used only when needed.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -1034,17 +1517,36 @@
             }
           ],
           "effectiveLabel": "[date of service/mailing]",
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
+          "blankTreatment": null,
+          "requiredBeforeFiling": false,
           "routeDetermined": false,
           "identity": "NY-CPL-160.59-APPLICATION field Date_of_Service",
-          "captionBasis": "read from the printed face of NY-CPL-160.59-APPLICATION; the geometric capture reached a different printed line"
+          "captionBasis": "read from the printed face of NY-CPL-160.59-APPLICATION; the geometric capture reached a different printed line",
+          "nyCompletion": {
+            "schemaVersion": "ny-held-completion/v1",
+            "documentId": "NY-CPL-160.59-APPLICATION",
+            "field": "Date_of_Service",
+            "sourceSha256": "73a5eeaf73ed647b9cf6ae786823aaa3cf8b3a7e483ea4aad154d7c2275caae4",
+            "condition": [
+              "service_affidavit_needed",
+              "service_completed"
+            ],
+            "actor": "actual_server",
+            "stage": "actual_service_proof",
+            "event": "actual_service",
+            "sourceAnchor": "held application p3 service affidavit; p6 service instructions",
+            "obligation": "Keep actual server, recipient, documents and event distinct; future service remains owed.",
+            "knownValuePolicy": "preserve_and_bind_applicable_owned_fact",
+            "intakeOrPurchaseGate": false,
+            "conditionDescription": "The actual server records only applicable recipients, documents and completed service. Additional recipient/address space is used only when needed."
+          },
+          "refusalClass": "ny_source_conditional_completion"
         },
         {
           "field": "Documents_in_Support",
           "decision": "refuse",
           "factId": null,
-          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "reason": "The actual server records only applicable recipients, documents and completed service. Additional recipient/address space is used only when needed.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -1059,11 +1561,30 @@
             }
           ],
           "effectiveLabel": "the supporting documents served with the Notice of Motion and Affidavit in Support of Sealing Pursuant to CPL 160.59",
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
+          "blankTreatment": null,
+          "requiredBeforeFiling": false,
           "routeDetermined": false,
           "identity": "NY-CPL-160.59-APPLICATION field Documents_in_Support",
-          "captionBasis": "read from the printed face of NY-CPL-160.59-APPLICATION; the geometric capture reached a different printed line"
+          "captionBasis": "read from the printed face of NY-CPL-160.59-APPLICATION; the geometric capture reached a different printed line",
+          "nyCompletion": {
+            "schemaVersion": "ny-held-completion/v1",
+            "documentId": "NY-CPL-160.59-APPLICATION",
+            "field": "Documents_in_Support",
+            "sourceSha256": "73a5eeaf73ed647b9cf6ae786823aaa3cf8b3a7e483ea4aad154d7c2275caae4",
+            "condition": [
+              "service_affidavit_needed",
+              "service_completed"
+            ],
+            "actor": "actual_server",
+            "stage": "actual_service_proof",
+            "event": "actual_service",
+            "sourceAnchor": "held application p3 service affidavit; p6 service instructions",
+            "obligation": "Keep actual server, recipient, documents and event distinct; future service remains owed.",
+            "knownValuePolicy": "preserve_and_bind_applicable_owned_fact",
+            "intakeOrPurchaseGate": false,
+            "conditionDescription": "The actual server records only applicable recipients, documents and completed service. Additional recipient/address space is used only when needed."
+          },
+          "refusalClass": "ny_source_conditional_completion"
         },
         {
           "field": "Name_of_DA_County",
@@ -1089,7 +1610,7 @@
           "field": "Address_of_DA_1",
           "decision": "refuse",
           "factId": null,
-          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "reason": "The actual server records only applicable recipients, documents and completed service. Additional recipient/address space is used only when needed.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -1104,16 +1625,35 @@
             }
           ],
           "effectiveLabel": "at the following address(es)",
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
+          "blankTreatment": null,
+          "requiredBeforeFiling": false,
           "routeDetermined": false,
-          "identity": "NY-CPL-160.59-APPLICATION field Address_of_DA_1"
+          "identity": "NY-CPL-160.59-APPLICATION field Address_of_DA_1",
+          "nyCompletion": {
+            "schemaVersion": "ny-held-completion/v1",
+            "documentId": "NY-CPL-160.59-APPLICATION",
+            "field": "Address_of_DA_1",
+            "sourceSha256": "73a5eeaf73ed647b9cf6ae786823aaa3cf8b3a7e483ea4aad154d7c2275caae4",
+            "condition": [
+              "service_affidavit_needed",
+              "service_completed"
+            ],
+            "actor": "actual_server",
+            "stage": "actual_service_proof",
+            "event": "actual_service",
+            "sourceAnchor": "held application p3 service affidavit; p6 service instructions",
+            "obligation": "Keep actual server, recipient, documents and event distinct; future service remains owed.",
+            "knownValuePolicy": "preserve_and_bind_applicable_owned_fact",
+            "intakeOrPurchaseGate": false,
+            "conditionDescription": "The actual server records only applicable recipients, documents and completed service. Additional recipient/address space is used only when needed."
+          },
+          "refusalClass": "ny_source_conditional_completion"
         },
         {
           "field": "Address_of_DA_2",
           "decision": "refuse",
           "factId": null,
-          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "reason": "Use the second address line only for actual required recipient-address content. A second printed line does not establish a second prosecutor; keep the real service recipient and event distinct.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -1128,11 +1668,31 @@
             }
           ],
           "effectiveLabel": "at the following address(es) - second line",
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
+          "blankTreatment": null,
+          "requiredBeforeFiling": false,
           "routeDetermined": false,
           "identity": "NY-CPL-160.59-APPLICATION field Address_of_DA_2",
-          "captionBasis": "read from the printed face of NY-CPL-160.59-APPLICATION; the geometric capture reached a different printed line"
+          "captionBasis": "read from the printed face of NY-CPL-160.59-APPLICATION; the geometric capture reached a different printed line",
+          "nyCompletion": {
+            "schemaVersion": "ny-held-completion/v1",
+            "documentId": "NY-CPL-160.59-APPLICATION",
+            "field": "Address_of_DA_2",
+            "sourceSha256": "73a5eeaf73ed647b9cf6ae786823aaa3cf8b3a7e483ea4aad154d7c2275caae4",
+            "condition": [
+              "service_affidavit_needed",
+              "service_completed",
+              "second_service_address_line_needed"
+            ],
+            "actor": "actual_server",
+            "stage": "actual_service_proof",
+            "event": "actual_recipient_address_continuation",
+            "sourceAnchor": "held application p3 second address line; p6 proof instructions",
+            "obligation": "Second printed address line does not establish a second prosecutor.",
+            "knownValuePolicy": "preserve_and_bind_applicable_owned_fact",
+            "intakeOrPurchaseGate": false,
+            "conditionDescription": "Use the second address line only for actual required recipient-address content. A second printed line does not establish a second prosecutor; keep the real service recipient and event distinct."
+          },
+          "refusalClass": "ny_source_conditional_completion"
         },
         {
           "field": "Service_Type",
@@ -1388,7 +1948,7 @@
           "field": "CourtAddress",
           "decision": "refuse",
           "factId": null,
-          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "reason": "Use the actual court address, not your home address.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -1403,17 +1963,35 @@
             }
           ],
           "effectiveLabel": "Street Address",
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
+          "blankTreatment": null,
+          "requiredBeforeFiling": false,
           "routeDetermined": false,
           "identity": "NY-CPL-160.59-COD-REQUEST field CourtAddress",
-          "captionBasis": "read from the printed face of NY-CPL-160.59-COD-REQUEST; the geometric capture reached a different printed line"
+          "captionBasis": "read from the printed face of NY-CPL-160.59-COD-REQUEST; the geometric capture reached a different printed line",
+          "nyCompletion": {
+            "schemaVersion": "ny-held-completion/v1",
+            "documentId": "NY-CPL-160.59-COD-REQUEST",
+            "field": "CourtAddress",
+            "sourceSha256": "68b14570db220ed79aac13a20161ddf807357dc888e524e08a1c17d410762774",
+            "condition": [
+              "new_certificate_request_needed"
+            ],
+            "actor": "actual_requester",
+            "stage": "record_preparation",
+            "event": "requested_court_destination",
+            "sourceAnchor": "held July2024 CoD p1 court heading",
+            "obligation": "If a new request is unnecessary, the certificate-or-explanation obligation still remains.",
+            "knownValuePolicy": "preserve_and_bind_applicable_owned_fact",
+            "intakeOrPurchaseGate": false,
+            "conditionDescription": "Use the actual court address, not your home address."
+          },
+          "refusalClass": "ny_source_conditional_completion"
         },
         {
           "field": "CourtCityStateZip",
           "decision": "refuse",
           "factId": null,
-          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "reason": "Use the actual court address, not your home address.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -1428,11 +2006,29 @@
             }
           ],
           "effectiveLabel": "City, State & Zip",
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
+          "blankTreatment": null,
+          "requiredBeforeFiling": false,
           "routeDetermined": false,
           "identity": "NY-CPL-160.59-COD-REQUEST field CourtCityStateZip",
-          "captionBasis": "read from the printed face of NY-CPL-160.59-COD-REQUEST; the geometric capture reached a different printed line"
+          "captionBasis": "read from the printed face of NY-CPL-160.59-COD-REQUEST; the geometric capture reached a different printed line",
+          "nyCompletion": {
+            "schemaVersion": "ny-held-completion/v1",
+            "documentId": "NY-CPL-160.59-COD-REQUEST",
+            "field": "CourtCityStateZip",
+            "sourceSha256": "68b14570db220ed79aac13a20161ddf807357dc888e524e08a1c17d410762774",
+            "condition": [
+              "new_certificate_request_needed"
+            ],
+            "actor": "actual_requester",
+            "stage": "record_preparation",
+            "event": "requested_court_destination",
+            "sourceAnchor": "held July2024 CoD p1 court heading",
+            "obligation": "If a new request is unnecessary, the certificate-or-explanation obligation still remains.",
+            "knownValuePolicy": "preserve_and_bind_applicable_owned_fact",
+            "intakeOrPurchaseGate": false,
+            "conditionDescription": "Use the actual court address, not your home address."
+          },
+          "refusalClass": "ny_source_conditional_completion"
         },
         {
           "field": "RequestorName",
@@ -1591,8 +2187,8 @@
           "field": "AKA(s)",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "signature_or_date_participant_completion",
-          "reason": "No write is authorized for this field in this family build.",
+          "refusalClass": "ny_source_conditional_completion",
+          "reason": "Use an actual applicable alias of the defendant. This is a record fact, not a signature or signing date. Never invent an alias.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -1605,7 +2201,28 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "nyCompletion": {
+            "schemaVersion": "ny-held-completion/v1",
+            "documentId": "NY-CPL-160.59-COD-REQUEST",
+            "field": "AKA(s)",
+            "sourceSha256": "68b14570db220ed79aac13a20161ddf807357dc888e524e08a1c17d410762774",
+            "condition": [
+              "defendant_alias_exists"
+            ],
+            "actor": "actual_requester",
+            "stage": "record_preparation",
+            "event": "defendant_alias",
+            "sourceAnchor": "held July2024 CoD p1 Defendant Information",
+            "obligation": "An alias is not a signature/date; an owned applicable alias remains a binding obligation.",
+            "knownValuePolicy": "preserve_and_bind_applicable_owned_fact",
+            "intakeOrPurchaseGate": false,
+            "conditionDescription": "Use an actual applicable alias of the defendant. This is a record fact, not a signature or signing date. Never invent an alias."
+          },
+          "effectiveLabel": "AKA(s)",
+          "requiredBeforeFiling": false,
+          "blankTreatment": null,
+          "routeDetermined": false
         },
         {
           "field": "Date of Birth",
@@ -1649,7 +2266,7 @@
           "field": "IDVNumber",
           "decision": "refuse",
           "factId": null,
-          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "reason": "The request asks for any case identifiers if known. Supply applicable known details; a range end applies only when providing a range, not an exact date. Keep arrest and incident dates distinct. Every listed identifier is not required.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -1664,17 +2281,35 @@
             }
           ],
           "effectiveLabel": "IDV Number",
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
+          "blankTreatment": null,
+          "requiredBeforeFiling": false,
           "routeDetermined": false,
           "identity": "NY-CPL-160.59-COD-REQUEST field IDVNumber",
-          "captionBasis": "read from the printed face of NY-CPL-160.59-COD-REQUEST; the geometric capture reached a different printed line"
+          "captionBasis": "read from the printed face of NY-CPL-160.59-COD-REQUEST; the geometric capture reached a different printed line",
+          "nyCompletion": {
+            "schemaVersion": "ny-held-completion/v1",
+            "documentId": "NY-CPL-160.59-COD-REQUEST",
+            "field": "IDVNumber",
+            "sourceSha256": "68b14570db220ed79aac13a20161ddf807357dc888e524e08a1c17d410762774",
+            "condition": [
+              "known_applicable_identifier:IDVNumber"
+            ],
+            "actor": "actual_requester",
+            "stage": "record_preparation",
+            "event": "case_identifier:IDVNumber",
+            "sourceAnchor": "held July2024 CoD p2 Case Identifiers: any if known",
+            "obligation": "Reuse this actual applicable identifier if known; never require every listed identifier.",
+            "knownValuePolicy": "preserve_and_bind_applicable_owned_fact",
+            "intakeOrPurchaseGate": false,
+            "conditionDescription": "The request asks for any case identifiers if known. Supply applicable known details; a range end applies only when providing a range, not an exact date. Keep arrest and incident dates distinct. Every listed identifier is not required."
+          },
+          "refusalClass": "ny_source_conditional_completion"
         },
         {
           "field": "ArrestNumber",
           "decision": "refuse",
           "factId": null,
-          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "reason": "The request asks for any case identifiers if known. Supply applicable known details; a range end applies only when providing a range, not an exact date. Keep arrest and incident dates distinct. Every listed identifier is not required.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -1689,17 +2324,35 @@
             }
           ],
           "effectiveLabel": "Arrest Number",
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
+          "blankTreatment": null,
+          "requiredBeforeFiling": false,
           "routeDetermined": false,
           "identity": "NY-CPL-160.59-COD-REQUEST field ArrestNumber",
-          "captionBasis": "read from the printed face of NY-CPL-160.59-COD-REQUEST; the geometric capture reached a different printed line"
+          "captionBasis": "read from the printed face of NY-CPL-160.59-COD-REQUEST; the geometric capture reached a different printed line",
+          "nyCompletion": {
+            "schemaVersion": "ny-held-completion/v1",
+            "documentId": "NY-CPL-160.59-COD-REQUEST",
+            "field": "ArrestNumber",
+            "sourceSha256": "68b14570db220ed79aac13a20161ddf807357dc888e524e08a1c17d410762774",
+            "condition": [
+              "known_applicable_identifier:ArrestNumber"
+            ],
+            "actor": "actual_requester",
+            "stage": "record_preparation",
+            "event": "case_identifier:ArrestNumber",
+            "sourceAnchor": "held July2024 CoD p2 Case Identifiers: any if known",
+            "obligation": "Reuse this actual applicable identifier if known; never require every listed identifier.",
+            "knownValuePolicy": "preserve_and_bind_applicable_owned_fact",
+            "intakeOrPurchaseGate": false,
+            "conditionDescription": "The request asks for any case identifiers if known. Supply applicable known details; a range end applies only when providing a range, not an exact date. Keep arrest and incident dates distinct. Every listed identifier is not required."
+          },
+          "refusalClass": "ny_source_conditional_completion"
         },
         {
           "field": "OrderofProtectionNumber",
           "decision": "refuse",
           "factId": null,
-          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "reason": "The request asks for any case identifiers if known. Supply applicable known details; a range end applies only when providing a range, not an exact date. Keep arrest and incident dates distinct. Every listed identifier is not required.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -1714,17 +2367,35 @@
             }
           ],
           "effectiveLabel": "Order of Protection Number",
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
+          "blankTreatment": null,
+          "requiredBeforeFiling": false,
           "routeDetermined": false,
           "identity": "NY-CPL-160.59-COD-REQUEST field OrderofProtectionNumber",
-          "captionBasis": "read from the printed face of NY-CPL-160.59-COD-REQUEST; the geometric capture reached a different printed line"
+          "captionBasis": "read from the printed face of NY-CPL-160.59-COD-REQUEST; the geometric capture reached a different printed line",
+          "nyCompletion": {
+            "schemaVersion": "ny-held-completion/v1",
+            "documentId": "NY-CPL-160.59-COD-REQUEST",
+            "field": "OrderofProtectionNumber",
+            "sourceSha256": "68b14570db220ed79aac13a20161ddf807357dc888e524e08a1c17d410762774",
+            "condition": [
+              "known_applicable_identifier:OrderofProtectionNumber"
+            ],
+            "actor": "actual_requester",
+            "stage": "record_preparation",
+            "event": "case_identifier:OrderofProtectionNumber",
+            "sourceAnchor": "held July2024 CoD p2 Case Identifiers: any if known",
+            "obligation": "Reuse this actual applicable identifier if known; never require every listed identifier.",
+            "knownValuePolicy": "preserve_and_bind_applicable_owned_fact",
+            "intakeOrPurchaseGate": false,
+            "conditionDescription": "The request asks for any case identifiers if known. Supply applicable known details; a range end applies only when providing a range, not an exact date. Keep arrest and incident dates distinct. Every listed identifier is not required."
+          },
+          "refusalClass": "ny_source_conditional_completion"
         },
         {
           "field": "CertificateofDispositionNumber",
           "decision": "refuse",
           "factId": null,
-          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "reason": "The request asks for any case identifiers if known. Supply applicable known details; a range end applies only when providing a range, not an exact date. Keep arrest and incident dates distinct. Every listed identifier is not required.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -1739,17 +2410,35 @@
             }
           ],
           "effectiveLabel": "Certificate of Disposition Number",
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
+          "blankTreatment": null,
+          "requiredBeforeFiling": false,
           "routeDetermined": false,
           "identity": "NY-CPL-160.59-COD-REQUEST field CertificateofDispositionNumber",
-          "captionBasis": "read from the printed face of NY-CPL-160.59-COD-REQUEST; the geometric capture reached a different printed line"
+          "captionBasis": "read from the printed face of NY-CPL-160.59-COD-REQUEST; the geometric capture reached a different printed line",
+          "nyCompletion": {
+            "schemaVersion": "ny-held-completion/v1",
+            "documentId": "NY-CPL-160.59-COD-REQUEST",
+            "field": "CertificateofDispositionNumber",
+            "sourceSha256": "68b14570db220ed79aac13a20161ddf807357dc888e524e08a1c17d410762774",
+            "condition": [
+              "known_applicable_identifier:CertificateofDispositionNumber"
+            ],
+            "actor": "actual_requester",
+            "stage": "record_preparation",
+            "event": "case_identifier:CertificateofDispositionNumber",
+            "sourceAnchor": "held July2024 CoD p2 Case Identifiers: any if known",
+            "obligation": "Reuse this actual applicable identifier if known; never require every listed identifier.",
+            "knownValuePolicy": "preserve_and_bind_applicable_owned_fact",
+            "intakeOrPurchaseGate": false,
+            "conditionDescription": "The request asks for any case identifiers if known. Supply applicable known details; a range end applies only when providing a range, not an exact date. Keep arrest and incident dates distinct. Every listed identifier is not required."
+          },
+          "refusalClass": "ny_source_conditional_completion"
         },
         {
           "field": "CriminalJusticeTrackingNumber(CJTN)",
           "decision": "refuse",
           "factId": null,
-          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "reason": "The request asks for any case identifiers if known. Supply applicable known details; a range end applies only when providing a range, not an exact date. Keep arrest and incident dates distinct. Every listed identifier is not required.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -1764,17 +2453,35 @@
             }
           ],
           "effectiveLabel": "Criminal Justice Tracking Number (CJTN)",
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
+          "blankTreatment": null,
+          "requiredBeforeFiling": false,
           "routeDetermined": false,
           "identity": "NY-CPL-160.59-COD-REQUEST field CriminalJusticeTrackingNumber(CJTN)",
-          "captionBasis": "read from the printed face of NY-CPL-160.59-COD-REQUEST; the geometric capture reached a different printed line"
+          "captionBasis": "read from the printed face of NY-CPL-160.59-COD-REQUEST; the geometric capture reached a different printed line",
+          "nyCompletion": {
+            "schemaVersion": "ny-held-completion/v1",
+            "documentId": "NY-CPL-160.59-COD-REQUEST",
+            "field": "CriminalJusticeTrackingNumber(CJTN)",
+            "sourceSha256": "68b14570db220ed79aac13a20161ddf807357dc888e524e08a1c17d410762774",
+            "condition": [
+              "known_applicable_identifier:CriminalJusticeTrackingNumber(CJTN)"
+            ],
+            "actor": "actual_requester",
+            "stage": "record_preparation",
+            "event": "case_identifier:CriminalJusticeTrackingNumber(CJTN)",
+            "sourceAnchor": "held July2024 CoD p2 Case Identifiers: any if known",
+            "obligation": "Reuse this actual applicable identifier if known; never require every listed identifier.",
+            "knownValuePolicy": "preserve_and_bind_applicable_owned_fact",
+            "intakeOrPurchaseGate": false,
+            "conditionDescription": "The request asks for any case identifiers if known. Supply applicable known details; a range end applies only when providing a range, not an exact date. Keep arrest and incident dates distinct. Every listed identifier is not required."
+          },
+          "refusalClass": "ny_source_conditional_completion"
         },
         {
           "field": "ComplaintNumber",
           "decision": "refuse",
           "factId": null,
-          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "reason": "The request asks for any case identifiers if known. Supply applicable known details; a range end applies only when providing a range, not an exact date. Keep arrest and incident dates distinct. Every listed identifier is not required.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -1789,16 +2496,34 @@
             }
           ],
           "effectiveLabel": "Complaint Number",
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
+          "blankTreatment": null,
+          "requiredBeforeFiling": false,
           "routeDetermined": false,
-          "identity": "NY-CPL-160.59-COD-REQUEST field ComplaintNumber"
+          "identity": "NY-CPL-160.59-COD-REQUEST field ComplaintNumber",
+          "nyCompletion": {
+            "schemaVersion": "ny-held-completion/v1",
+            "documentId": "NY-CPL-160.59-COD-REQUEST",
+            "field": "ComplaintNumber",
+            "sourceSha256": "68b14570db220ed79aac13a20161ddf807357dc888e524e08a1c17d410762774",
+            "condition": [
+              "known_applicable_identifier:ComplaintNumber"
+            ],
+            "actor": "actual_requester",
+            "stage": "record_preparation",
+            "event": "case_identifier:ComplaintNumber",
+            "sourceAnchor": "held July2024 CoD p2 Case Identifiers: any if known",
+            "obligation": "Reuse this actual applicable identifier if known; never require every listed identifier.",
+            "knownValuePolicy": "preserve_and_bind_applicable_owned_fact",
+            "intakeOrPurchaseGate": false,
+            "conditionDescription": "The request asks for any case identifiers if known. Supply applicable known details; a range end applies only when providing a range, not an exact date. Keep arrest and incident dates distinct. Every listed identifier is not required."
+          },
+          "refusalClass": "ny_source_conditional_completion"
         },
         {
           "field": "TicketNumber",
           "decision": "refuse",
           "factId": null,
-          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "reason": "The request asks for any case identifiers if known. Supply applicable known details; a range end applies only when providing a range, not an exact date. Keep arrest and incident dates distinct. Every listed identifier is not required.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -1813,17 +2538,35 @@
             }
           ],
           "effectiveLabel": "Ticket Number",
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
+          "blankTreatment": null,
+          "requiredBeforeFiling": false,
           "routeDetermined": false,
           "identity": "NY-CPL-160.59-COD-REQUEST field TicketNumber",
-          "captionBasis": "read from the printed face of NY-CPL-160.59-COD-REQUEST; the geometric capture reached a different printed line"
+          "captionBasis": "read from the printed face of NY-CPL-160.59-COD-REQUEST; the geometric capture reached a different printed line",
+          "nyCompletion": {
+            "schemaVersion": "ny-held-completion/v1",
+            "documentId": "NY-CPL-160.59-COD-REQUEST",
+            "field": "TicketNumber",
+            "sourceSha256": "68b14570db220ed79aac13a20161ddf807357dc888e524e08a1c17d410762774",
+            "condition": [
+              "known_applicable_identifier:TicketNumber"
+            ],
+            "actor": "actual_requester",
+            "stage": "record_preparation",
+            "event": "case_identifier:TicketNumber",
+            "sourceAnchor": "held July2024 CoD p2 Case Identifiers: any if known",
+            "obligation": "Reuse this actual applicable identifier if known; never require every listed identifier.",
+            "knownValuePolicy": "preserve_and_bind_applicable_owned_fact",
+            "intakeOrPurchaseGate": false,
+            "conditionDescription": "The request asks for any case identifiers if known. Supply applicable known details; a range end applies only when providing a range, not an exact date. Keep arrest and incident dates distinct. Every listed identifier is not required."
+          },
+          "refusalClass": "ny_source_conditional_completion"
         },
         {
           "field": "NYSIDNumber",
           "decision": "refuse",
           "factId": null,
-          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "reason": "The request asks for any case identifiers if known. Supply applicable known details; a range end applies only when providing a range, not an exact date. Keep arrest and incident dates distinct. Every listed identifier is not required.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -1838,17 +2581,35 @@
             }
           ],
           "effectiveLabel": "NYSID Number",
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
+          "blankTreatment": null,
+          "requiredBeforeFiling": false,
           "routeDetermined": false,
           "identity": "NY-CPL-160.59-COD-REQUEST field NYSIDNumber",
-          "captionBasis": "read from the printed face of NY-CPL-160.59-COD-REQUEST; the geometric capture reached a different printed line"
+          "captionBasis": "read from the printed face of NY-CPL-160.59-COD-REQUEST; the geometric capture reached a different printed line",
+          "nyCompletion": {
+            "schemaVersion": "ny-held-completion/v1",
+            "documentId": "NY-CPL-160.59-COD-REQUEST",
+            "field": "NYSIDNumber",
+            "sourceSha256": "68b14570db220ed79aac13a20161ddf807357dc888e524e08a1c17d410762774",
+            "condition": [
+              "known_applicable_identifier:NYSIDNumber"
+            ],
+            "actor": "actual_requester",
+            "stage": "record_preparation",
+            "event": "case_identifier:NYSIDNumber",
+            "sourceAnchor": "held July2024 CoD p2 Case Identifiers: any if known",
+            "obligation": "Reuse this actual applicable identifier if known; never require every listed identifier.",
+            "knownValuePolicy": "preserve_and_bind_applicable_owned_fact",
+            "intakeOrPurchaseGate": false,
+            "conditionDescription": "The request asks for any case identifiers if known. Supply applicable known details; a range end applies only when providing a range, not an exact date. Keep arrest and incident dates distinct. Every listed identifier is not required."
+          },
+          "refusalClass": "ny_source_conditional_completion"
         },
         {
           "field": "PartialDocketNumber",
           "decision": "refuse",
           "factId": null,
-          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "reason": "The request asks for any case identifiers if known. Supply applicable known details; a range end applies only when providing a range, not an exact date. Keep arrest and incident dates distinct. Every listed identifier is not required.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -1863,17 +2624,35 @@
             }
           ],
           "effectiveLabel": "Partial Docket Number",
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
+          "blankTreatment": null,
+          "requiredBeforeFiling": false,
           "routeDetermined": false,
           "identity": "NY-CPL-160.59-COD-REQUEST field PartialDocketNumber",
-          "captionBasis": "read from the printed face of NY-CPL-160.59-COD-REQUEST; the geometric capture reached a different printed line"
+          "captionBasis": "read from the printed face of NY-CPL-160.59-COD-REQUEST; the geometric capture reached a different printed line",
+          "nyCompletion": {
+            "schemaVersion": "ny-held-completion/v1",
+            "documentId": "NY-CPL-160.59-COD-REQUEST",
+            "field": "PartialDocketNumber",
+            "sourceSha256": "68b14570db220ed79aac13a20161ddf807357dc888e524e08a1c17d410762774",
+            "condition": [
+              "known_applicable_identifier:PartialDocketNumber"
+            ],
+            "actor": "actual_requester",
+            "stage": "record_preparation",
+            "event": "case_identifier:PartialDocketNumber",
+            "sourceAnchor": "held July2024 CoD p2 Case Identifiers: any if known",
+            "obligation": "Reuse this actual applicable identifier if known; never require every listed identifier.",
+            "knownValuePolicy": "preserve_and_bind_applicable_owned_fact",
+            "intakeOrPurchaseGate": false,
+            "conditionDescription": "The request asks for any case identifiers if known. Supply applicable known details; a range end applies only when providing a range, not an exact date. Keep arrest and incident dates distinct. Every listed identifier is not required."
+          },
+          "refusalClass": "ny_source_conditional_completion"
         },
         {
           "field": "DMVIDNumber",
           "decision": "refuse",
           "factId": null,
-          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "reason": "The request asks for any case identifiers if known. Supply applicable known details; a range end applies only when providing a range, not an exact date. Keep arrest and incident dates distinct. Every listed identifier is not required.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -1888,10 +2667,28 @@
             }
           ],
           "effectiveLabel": "Driver’Licenses  or Non-Driver ID Number",
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
+          "blankTreatment": null,
+          "requiredBeforeFiling": false,
           "routeDetermined": false,
-          "identity": "NY-CPL-160.59-COD-REQUEST field DMVIDNumber"
+          "identity": "NY-CPL-160.59-COD-REQUEST field DMVIDNumber",
+          "nyCompletion": {
+            "schemaVersion": "ny-held-completion/v1",
+            "documentId": "NY-CPL-160.59-COD-REQUEST",
+            "field": "DMVIDNumber",
+            "sourceSha256": "68b14570db220ed79aac13a20161ddf807357dc888e524e08a1c17d410762774",
+            "condition": [
+              "known_applicable_identifier:DMVIDNumber"
+            ],
+            "actor": "actual_requester",
+            "stage": "record_preparation",
+            "event": "case_identifier:DMVIDNumber",
+            "sourceAnchor": "held July2024 CoD p2 Case Identifiers: any if known",
+            "obligation": "Reuse this actual applicable identifier if known; never require every listed identifier.",
+            "knownValuePolicy": "preserve_and_bind_applicable_owned_fact",
+            "intakeOrPurchaseGate": false,
+            "conditionDescription": "The request asks for any case identifiers if known. Supply applicable known details; a range end applies only when providing a range, not an exact date. Keep arrest and incident dates distinct. Every listed identifier is not required."
+          },
+          "refusalClass": "ny_source_conditional_completion"
         },
         {
           "field": "ArrestDate",
@@ -1936,7 +2733,7 @@
           "field": "ArrestDateRangeEnd",
           "decision": "refuse",
           "factId": null,
-          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "reason": "The request asks for any case identifiers if known. Supply applicable known details; a range end applies only when providing a range, not an exact date. Keep arrest and incident dates distinct. Every listed identifier is not required.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -1951,11 +2748,29 @@
             }
           ],
           "effectiveLabel": "Arrest Date - OR Date Range, the second box",
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
+          "blankTreatment": null,
+          "requiredBeforeFiling": false,
           "routeDetermined": false,
           "identity": "NY-CPL-160.59-COD-REQUEST field ArrestDateRangeEnd",
-          "captionBasis": "read from the printed face of NY-CPL-160.59-COD-REQUEST; the geometric capture reached a different printed line"
+          "captionBasis": "read from the printed face of NY-CPL-160.59-COD-REQUEST; the geometric capture reached a different printed line",
+          "nyCompletion": {
+            "schemaVersion": "ny-held-completion/v1",
+            "documentId": "NY-CPL-160.59-COD-REQUEST",
+            "field": "ArrestDateRangeEnd",
+            "sourceSha256": "68b14570db220ed79aac13a20161ddf807357dc888e524e08a1c17d410762774",
+            "condition": [
+              "arrest_date_is_range"
+            ],
+            "actor": "actual_requester",
+            "stage": "record_preparation",
+            "event": "arrest_date_range",
+            "sourceAnchor": "held July2024 CoD p2 Arrest Date OR Date Range",
+            "obligation": "An exact arrest date needs no range end; keep the incident event separate.",
+            "knownValuePolicy": "preserve_and_bind_applicable_owned_fact",
+            "intakeOrPurchaseGate": false,
+            "conditionDescription": "The request asks for any case identifiers if known. Supply applicable known details; a range end applies only when providing a range, not an exact date. Keep arrest and incident dates distinct. Every listed identifier is not required."
+          },
+          "refusalClass": "ny_source_conditional_completion"
         },
         {
           "field": "IncidentDate",
@@ -2000,7 +2815,7 @@
           "field": "IncidentDateRangeEnd",
           "decision": "refuse",
           "factId": null,
-          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "reason": "The request asks for any case identifiers if known. Supply applicable known details; a range end applies only when providing a range, not an exact date. Keep arrest and incident dates distinct. Every listed identifier is not required.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -2015,11 +2830,29 @@
             }
           ],
           "effectiveLabel": "Incident Date - OR Date Range, the second box",
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
+          "blankTreatment": null,
+          "requiredBeforeFiling": false,
           "routeDetermined": false,
           "identity": "NY-CPL-160.59-COD-REQUEST field IncidentDateRangeEnd",
-          "captionBasis": "read from the printed face of NY-CPL-160.59-COD-REQUEST; the geometric capture reached a different printed line"
+          "captionBasis": "read from the printed face of NY-CPL-160.59-COD-REQUEST; the geometric capture reached a different printed line",
+          "nyCompletion": {
+            "schemaVersion": "ny-held-completion/v1",
+            "documentId": "NY-CPL-160.59-COD-REQUEST",
+            "field": "IncidentDateRangeEnd",
+            "sourceSha256": "68b14570db220ed79aac13a20161ddf807357dc888e524e08a1c17d410762774",
+            "condition": [
+              "incident_date_is_range"
+            ],
+            "actor": "actual_requester",
+            "stage": "record_preparation",
+            "event": "incident_date_range",
+            "sourceAnchor": "held July2024 CoD p2 Incident Date OR Date Range",
+            "obligation": "An exact incident date needs no range end; do not substitute the arrest date.",
+            "knownValuePolicy": "preserve_and_bind_applicable_owned_fact",
+            "intakeOrPurchaseGate": false,
+            "conditionDescription": "The request asks for any case identifiers if known. Supply applicable known details; a range end applies only when providing a range, not an exact date. Keep arrest and incident dates distinct. Every listed identifier is not required."
+          },
+          "refusalClass": "ny_source_conditional_completion"
         },
         {
           "field": "DefendantAddress",
@@ -2063,7 +2896,7 @@
           "field": "Other",
           "decision": "refuse",
           "factId": null,
-          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "reason": "The request asks for any case identifiers if known. Supply applicable known details; a range end applies only when providing a range, not an exact date. Keep arrest and incident dates distinct. Every listed identifier is not required.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -2083,10 +2916,28 @@
             "basis": "re-read first-hand from the pinned source bytes of NY__SUPPORT__CPL-160.59-COD-REQUEST__criminal-certificate-of-disposition-request-form__REV-2024-07__EN.pdf: the word box 'Other:' sits at page 2 top-origin y 390.3, inside this widget's own band (top-origin 384.9 to 405.1, from /Rect y 386.872 height 20.198 on a 792pt page), while 'Charges:' sits at y 370.0 inside the band of the widget named Charges directly above (top-origin 364.3 to 384.9), whose value this packet writes from matter.charge. The census caption association was off by one row in this grid; the caption 'Charges' belongs to the written terminal, not to this blank.",
             "measuredAt": "2026-09-01"
           },
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
+          "blankTreatment": null,
+          "requiredBeforeFiling": false,
           "routeDetermined": false,
-          "identity": "NY-CPL-160.59-COD-REQUEST field Other"
+          "identity": "NY-CPL-160.59-COD-REQUEST field Other",
+          "nyCompletion": {
+            "schemaVersion": "ny-held-completion/v1",
+            "documentId": "NY-CPL-160.59-COD-REQUEST",
+            "field": "Other",
+            "sourceSha256": "68b14570db220ed79aac13a20161ddf807357dc888e524e08a1c17d410762774",
+            "condition": [
+              "known_applicable_identifier:Other"
+            ],
+            "actor": "actual_requester",
+            "stage": "record_preparation",
+            "event": "case_identifier:Other",
+            "sourceAnchor": "held July2024 CoD p2 Case Identifiers: any if known",
+            "obligation": "Reuse this actual applicable identifier if known; never require every listed identifier.",
+            "knownValuePolicy": "preserve_and_bind_applicable_owned_fact",
+            "intakeOrPurchaseGate": false,
+            "conditionDescription": "The request asks for any case identifiers if known. Supply applicable known details; a range end applies only when providing a range, not an exact date. Keep arrest and incident dates distinct. Every listed identifier is not required."
+          },
+          "refusalClass": "ny_source_conditional_completion"
         },
         {
           "field": "Print_Form",
@@ -2328,7 +3179,7 @@
           "field": "AKAs",
           "decision": "refuse",
           "factId": null,
-          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "reason": "List another name only if used in a case covered by the application.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -2343,17 +3194,35 @@
             }
           ],
           "effectiveLabel": "AKA(s)",
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
+          "blankTreatment": null,
+          "requiredBeforeFiling": false,
           "routeDetermined": false,
           "identity": "NY-CPL-160.59-PRO-SE-PACKET field AKAs",
-          "captionBasis": "read from the printed face of NY-CPL-160.59-PRO-SE-PACKET; the geometric capture reached a different printed line"
+          "captionBasis": "read from the printed face of NY-CPL-160.59-PRO-SE-PACKET; the geometric capture reached a different printed line",
+          "nyCompletion": {
+            "schemaVersion": "ny-held-completion/v1",
+            "documentId": "NY-CPL-160.59-PRO-SE-PACKET",
+            "field": "AKAs",
+            "sourceSha256": "cf22b8ea0cb8661c8e3f17cc0f16e6b95ca889f1e994e3772dfaf867b6da0298",
+            "condition": [
+              "covered_case_alias_exists"
+            ],
+            "actor": "participant_from_record",
+            "stage": "record_preparation",
+            "event": "covered_case_alias",
+            "sourceAnchor": "held pro-se instructions item2",
+            "obligation": "Use only actual names used in a covered case; preserve source-specific alias scope.",
+            "knownValuePolicy": "preserve_and_bind_applicable_owned_fact",
+            "intakeOrPurchaseGate": false,
+            "conditionDescription": "List another name only if used in a case covered by the application."
+          },
+          "refusalClass": "ny_source_conditional_completion"
         },
         {
           "field": "NYSID",
           "decision": "refuse",
           "factId": null,
-          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "reason": "Supply the NYSID if known; do not invent a number.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -2368,11 +3237,29 @@
             }
           ],
           "effectiveLabel": "NYSID",
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
+          "blankTreatment": null,
+          "requiredBeforeFiling": false,
           "routeDetermined": false,
           "identity": "NY-CPL-160.59-PRO-SE-PACKET field NYSID",
-          "captionBasis": "read from the printed face of NY-CPL-160.59-PRO-SE-PACKET; the geometric capture reached a different printed line"
+          "captionBasis": "read from the printed face of NY-CPL-160.59-PRO-SE-PACKET; the geometric capture reached a different printed line",
+          "nyCompletion": {
+            "schemaVersion": "ny-held-completion/v1",
+            "documentId": "NY-CPL-160.59-PRO-SE-PACKET",
+            "field": "NYSID",
+            "sourceSha256": "cf22b8ea0cb8661c8e3f17cc0f16e6b95ca889f1e994e3772dfaf867b6da0298",
+            "condition": [
+              "nysid_known"
+            ],
+            "actor": "participant_from_record",
+            "stage": "record_preparation",
+            "event": "criminal_history_identifier",
+            "sourceAnchor": "held pro-se instructions item3: if known",
+            "obligation": "An unknown NYSID must not be invented; six-page wording remains a separate source issue.",
+            "knownValuePolicy": "preserve_and_bind_applicable_owned_fact",
+            "intakeOrPurchaseGate": false,
+            "conditionDescription": "Supply the NYSID if known; do not invent a number."
+          },
+          "refusalClass": "ny_source_conditional_completion"
         },
         {
           "field": "Date of Birth",
@@ -2505,8 +3392,8 @@
           "field": "Serve the prosecutor",
           "decision": "refuse",
           "factId": null,
-          "refusalClass": "court_prosecutor_clerk_or_agency_owned",
-          "reason": "No write is authorized for this field in this family build.",
+          "refusalClass": "ny_source_conditional_completion",
+          "reason": "The applicant or actual server performs service; the prosecutor is the recipient. Check this task only after actual service, never merely because papers were prepared.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -2519,13 +3406,34 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "nyCompletion": {
+            "schemaVersion": "ny-held-completion/v1",
+            "documentId": "NY-CPL-160.59-PRO-SE-PACKET",
+            "field": "Serve the prosecutor",
+            "sourceSha256": "cf22b8ea0cb8661c8e3f17cc0f16e6b95ca889f1e994e3772dfaf867b6da0298",
+            "condition": [
+              "service_completed"
+            ],
+            "actor": "applicant_or_actual_server",
+            "stage": "actual_service_task",
+            "event": "actual_service_task",
+            "sourceAnchor": "held pro-se checklist and service instructions",
+            "obligation": "Prosecutor is recipient, not service actor; actual service remains owed.",
+            "knownValuePolicy": "preserve_and_bind_applicable_owned_fact",
+            "intakeOrPurchaseGate": false,
+            "conditionDescription": "The applicant or actual server performs service; the prosecutor is the recipient. Check this task only after actual service, never merely because papers were prepared."
+          },
+          "effectiveLabel": "Serve the prosecutor",
+          "requiredBeforeFiling": false,
+          "blankTreatment": null,
+          "routeDetermined": false
         },
         {
           "field": "Complete the affidavit of service",
           "decision": "refuse",
           "factId": null,
-          "reason": "REQUIRED_BEFORE_FILING: service has not occurred, so the platform holds no fact for this field; the participant completes it after service and does not guess.",
+          "reason": "This is a task checkbox. Complete proof after actual service only when stamped in-person proof does not satisfy the source instructions.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -2540,10 +3448,29 @@
             }
           ],
           "effectiveLabel": "Complete the affidavit of service",
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
+          "blankTreatment": null,
+          "requiredBeforeFiling": false,
           "routeDetermined": false,
-          "identity": "NY-CPL-160.59-PRO-SE-PACKET field Complete the affidavit of service"
+          "identity": "NY-CPL-160.59-PRO-SE-PACKET field Complete the affidavit of service",
+          "nyCompletion": {
+            "schemaVersion": "ny-held-completion/v1",
+            "documentId": "NY-CPL-160.59-PRO-SE-PACKET",
+            "field": "Complete the affidavit of service",
+            "sourceSha256": "cf22b8ea0cb8661c8e3f17cc0f16e6b95ca889f1e994e3772dfaf867b6da0298",
+            "condition": [
+              "service_affidavit_needed",
+              "service_completed"
+            ],
+            "actor": "actual_server",
+            "stage": "actual_service_task",
+            "event": "actual_service_proof_task",
+            "sourceAnchor": "held pro-se checklist and proof instructions",
+            "obligation": "Stamped in-person proof may satisfy the stated alternative; do not claim an affidavit was completed.",
+            "knownValuePolicy": "preserve_and_bind_applicable_owned_fact",
+            "intakeOrPurchaseGate": false,
+            "conditionDescription": "This is a task checkbox. Complete proof after actual service only when stamped in-person proof does not satisfy the source instructions."
+          },
+          "refusalClass": "ny_source_conditional_completion"
         },
         {
           "field": "File your original application",
@@ -2571,12 +3498,12 @@
           "field": "Keep copies for your records",
           "decision": "refuse",
           "factId": null,
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
+          "blankTreatment": null,
+          "requiredBeforeFiling": false,
           "routeDetermined": false,
           "identity": "NY-CPL-160.59-PRO-SE-PACKET field Keep copies for your records",
           "effectiveLabel": "Keep copies for your records",
-          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "reason": "This is a reminder to retain copies after filing, not a missing personal fact or a purchase prerequisite.",
           "completesAfterService": false,
           "widgets": [
             {
@@ -2590,7 +3517,26 @@
               },
               "geometryBasis": "AcroForm widget /Rect read first-hand from the pinned source binary"
             }
-          ]
+          ],
+          "nyCompletion": {
+            "schemaVersion": "ny-held-completion/v1",
+            "documentId": "NY-CPL-160.59-PRO-SE-PACKET",
+            "field": "Keep copies for your records",
+            "sourceSha256": "cf22b8ea0cb8661c8e3f17cc0f16e6b95ca889f1e994e3772dfaf867b6da0298",
+            "condition": [
+              "filing_completed",
+              "copies_retained"
+            ],
+            "actor": "participant",
+            "stage": "postfiling_task",
+            "event": "actual_copy_retention",
+            "sourceAnchor": "held pro-se checklist",
+            "obligation": "Copy retention remains a later task, never an unknown personal fact or purchase gate.",
+            "knownValuePolicy": "preserve_and_bind_applicable_owned_fact",
+            "intakeOrPurchaseGate": false,
+            "conditionDescription": "This is a reminder to retain copies after filing, not a missing personal fact or a purchase prerequisite."
+          },
+          "refusalClass": "ny_source_conditional_completion"
         },
         {
           "field": "More than two criminal convictions",
@@ -2996,7 +3942,7 @@
           "field": "Case Number 3",
           "decision": "refuse",
           "factId": null,
-          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "reason": "Complete this future-application row only if you intend to ask to seal that separate case later.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3011,17 +3957,35 @@
             }
           ],
           "effectiveLabel": "Case Number (Docket, Indictment, or SCI Number) - the conviction you intend to ask to have sealed in a later application",
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
+          "blankTreatment": null,
+          "requiredBeforeFiling": false,
           "routeDetermined": false,
           "identity": "NY-CPL-160.59-PRO-SE-PACKET field Case Number 3",
-          "captionBasis": "read from the printed face of NY-CPL-160.59-PRO-SE-PACKET; the geometric capture reached a different printed line"
+          "captionBasis": "read from the printed face of NY-CPL-160.59-PRO-SE-PACKET; the geometric capture reached a different printed line",
+          "nyCompletion": {
+            "schemaVersion": "ny-held-completion/v1",
+            "documentId": "NY-CPL-160.59-PRO-SE-PACKET",
+            "field": "Case Number 3",
+            "sourceSha256": "cf22b8ea0cb8661c8e3f17cc0f16e6b95ca889f1e994e3772dfaf867b6da0298",
+            "condition": [
+              "future_sealing_application_intended"
+            ],
+            "actor": "participant_from_record",
+            "stage": "record_preparation",
+            "event": "future_case",
+            "sourceAnchor": "held pro-se p10 item11",
+            "obligation": "Future-application details do not reuse current-case values or prior-application answers.",
+            "knownValuePolicy": "preserve_and_bind_applicable_owned_fact",
+            "intakeOrPurchaseGate": false,
+            "conditionDescription": "Complete this future-application row only if you intend to ask to seal that separate case later."
+          },
+          "refusalClass": "ny_source_conditional_completion"
         },
         {
           "field": "Court Name 3",
           "decision": "refuse",
           "factId": null,
-          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "reason": "Complete this future-application row only if you intend to ask to seal that separate case later.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3036,17 +4000,35 @@
             }
           ],
           "effectiveLabel": "Court Name - the conviction you intend to ask to have sealed in a later application",
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
+          "blankTreatment": null,
+          "requiredBeforeFiling": false,
           "routeDetermined": false,
           "identity": "NY-CPL-160.59-PRO-SE-PACKET field Court Name 3",
-          "captionBasis": "read from the printed face of NY-CPL-160.59-PRO-SE-PACKET; the geometric capture reached a different printed line"
+          "captionBasis": "read from the printed face of NY-CPL-160.59-PRO-SE-PACKET; the geometric capture reached a different printed line",
+          "nyCompletion": {
+            "schemaVersion": "ny-held-completion/v1",
+            "documentId": "NY-CPL-160.59-PRO-SE-PACKET",
+            "field": "Court Name 3",
+            "sourceSha256": "cf22b8ea0cb8661c8e3f17cc0f16e6b95ca889f1e994e3772dfaf867b6da0298",
+            "condition": [
+              "future_sealing_application_intended"
+            ],
+            "actor": "participant_from_record",
+            "stage": "record_preparation",
+            "event": "future_case",
+            "sourceAnchor": "held pro-se p10 item11",
+            "obligation": "Future-application details do not reuse current-case values or prior-application answers.",
+            "knownValuePolicy": "preserve_and_bind_applicable_owned_fact",
+            "intakeOrPurchaseGate": false,
+            "conditionDescription": "Complete this future-application row only if you intend to ask to seal that separate case later."
+          },
+          "refusalClass": "ny_source_conditional_completion"
         },
         {
           "field": "Document 3",
           "decision": "refuse",
           "factId": null,
-          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "reason": "List an additional document only when actually included; optional evidence does not make every numbered attachment line mandatory.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3061,17 +4043,35 @@
             }
           ],
           "effectiveLabel": "REQUIRED AND ADDITIONAL DOCUMENTS, numbered line 3",
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
+          "blankTreatment": null,
+          "requiredBeforeFiling": false,
           "routeDetermined": false,
           "identity": "NY-CPL-160.59-PRO-SE-PACKET field Document 3",
-          "captionBasis": "read from the printed face of NY-CPL-160.59-PRO-SE-PACKET; the geometric capture reached a different printed line"
+          "captionBasis": "read from the printed face of NY-CPL-160.59-PRO-SE-PACKET; the geometric capture reached a different printed line",
+          "nyCompletion": {
+            "schemaVersion": "ny-held-completion/v1",
+            "documentId": "NY-CPL-160.59-PRO-SE-PACKET",
+            "field": "Document 3",
+            "sourceSha256": "cf22b8ea0cb8661c8e3f17cc0f16e6b95ca889f1e994e3772dfaf867b6da0298",
+            "condition": [
+              "prose_document_3_included"
+            ],
+            "actor": "participant_from_record",
+            "stage": "record_preparation",
+            "event": "prose_document_3",
+            "sourceAnchor": "held pro-se additional-documents instruction",
+            "obligation": "Name only actual optional documents; the required applicant statement remains owed.",
+            "knownValuePolicy": "preserve_and_bind_applicable_owned_fact",
+            "intakeOrPurchaseGate": false,
+            "conditionDescription": "List an additional document only when actually included; optional evidence does not make every numbered attachment line mandatory."
+          },
+          "refusalClass": "ny_source_conditional_completion"
         },
         {
           "field": "Document 4",
           "decision": "refuse",
           "factId": null,
-          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "reason": "List an additional document only when actually included; optional evidence does not make every numbered attachment line mandatory.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3086,17 +4086,35 @@
             }
           ],
           "effectiveLabel": "REQUIRED AND ADDITIONAL DOCUMENTS, numbered line 4",
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
+          "blankTreatment": null,
+          "requiredBeforeFiling": false,
           "routeDetermined": false,
           "identity": "NY-CPL-160.59-PRO-SE-PACKET field Document 4",
-          "captionBasis": "read from the printed face of NY-CPL-160.59-PRO-SE-PACKET; the geometric capture reached a different printed line"
+          "captionBasis": "read from the printed face of NY-CPL-160.59-PRO-SE-PACKET; the geometric capture reached a different printed line",
+          "nyCompletion": {
+            "schemaVersion": "ny-held-completion/v1",
+            "documentId": "NY-CPL-160.59-PRO-SE-PACKET",
+            "field": "Document 4",
+            "sourceSha256": "cf22b8ea0cb8661c8e3f17cc0f16e6b95ca889f1e994e3772dfaf867b6da0298",
+            "condition": [
+              "prose_document_4_included"
+            ],
+            "actor": "participant_from_record",
+            "stage": "record_preparation",
+            "event": "prose_document_4",
+            "sourceAnchor": "held pro-se additional-documents instruction",
+            "obligation": "Name only actual optional documents; the required applicant statement remains owed.",
+            "knownValuePolicy": "preserve_and_bind_applicable_owned_fact",
+            "intakeOrPurchaseGate": false,
+            "conditionDescription": "List an additional document only when actually included; optional evidence does not make every numbered attachment line mandatory."
+          },
+          "refusalClass": "ny_source_conditional_completion"
         },
         {
           "field": "Document 5",
           "decision": "refuse",
           "factId": null,
-          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "reason": "List an additional document only when actually included; optional evidence does not make every numbered attachment line mandatory.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3111,17 +4129,35 @@
             }
           ],
           "effectiveLabel": "REQUIRED AND ADDITIONAL DOCUMENTS, numbered line 5",
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
+          "blankTreatment": null,
+          "requiredBeforeFiling": false,
           "routeDetermined": false,
           "identity": "NY-CPL-160.59-PRO-SE-PACKET field Document 5",
-          "captionBasis": "read from the printed face of NY-CPL-160.59-PRO-SE-PACKET; the geometric capture reached a different printed line"
+          "captionBasis": "read from the printed face of NY-CPL-160.59-PRO-SE-PACKET; the geometric capture reached a different printed line",
+          "nyCompletion": {
+            "schemaVersion": "ny-held-completion/v1",
+            "documentId": "NY-CPL-160.59-PRO-SE-PACKET",
+            "field": "Document 5",
+            "sourceSha256": "cf22b8ea0cb8661c8e3f17cc0f16e6b95ca889f1e994e3772dfaf867b6da0298",
+            "condition": [
+              "prose_document_5_included"
+            ],
+            "actor": "participant_from_record",
+            "stage": "record_preparation",
+            "event": "prose_document_5",
+            "sourceAnchor": "held pro-se additional-documents instruction",
+            "obligation": "Name only actual optional documents; the required applicant statement remains owed.",
+            "knownValuePolicy": "preserve_and_bind_applicable_owned_fact",
+            "intakeOrPurchaseGate": false,
+            "conditionDescription": "List an additional document only when actually included; optional evidence does not make every numbered attachment line mandatory."
+          },
+          "refusalClass": "ny_source_conditional_completion"
         },
         {
           "field": "Document 6",
           "decision": "refuse",
           "factId": null,
-          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "reason": "List an additional document only when actually included; optional evidence does not make every numbered attachment line mandatory.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3136,17 +4172,35 @@
             }
           ],
           "effectiveLabel": "REQUIRED AND ADDITIONAL DOCUMENTS, numbered line 6",
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
+          "blankTreatment": null,
+          "requiredBeforeFiling": false,
           "routeDetermined": false,
           "identity": "NY-CPL-160.59-PRO-SE-PACKET field Document 6",
-          "captionBasis": "read from the printed face of NY-CPL-160.59-PRO-SE-PACKET; the geometric capture reached a different printed line"
+          "captionBasis": "read from the printed face of NY-CPL-160.59-PRO-SE-PACKET; the geometric capture reached a different printed line",
+          "nyCompletion": {
+            "schemaVersion": "ny-held-completion/v1",
+            "documentId": "NY-CPL-160.59-PRO-SE-PACKET",
+            "field": "Document 6",
+            "sourceSha256": "cf22b8ea0cb8661c8e3f17cc0f16e6b95ca889f1e994e3772dfaf867b6da0298",
+            "condition": [
+              "prose_document_6_included"
+            ],
+            "actor": "participant_from_record",
+            "stage": "record_preparation",
+            "event": "prose_document_6",
+            "sourceAnchor": "held pro-se additional-documents instruction",
+            "obligation": "Name only actual optional documents; the required applicant statement remains owed.",
+            "knownValuePolicy": "preserve_and_bind_applicable_owned_fact",
+            "intakeOrPurchaseGate": false,
+            "conditionDescription": "List an additional document only when actually included; optional evidence does not make every numbered attachment line mandatory."
+          },
+          "refusalClass": "ny_source_conditional_completion"
         },
         {
           "field": "Document 7",
           "decision": "refuse",
           "factId": null,
-          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "reason": "List an additional document only when actually included; optional evidence does not make every numbered attachment line mandatory.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3161,17 +4215,35 @@
             }
           ],
           "effectiveLabel": "REQUIRED AND ADDITIONAL DOCUMENTS, numbered line 7",
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
+          "blankTreatment": null,
+          "requiredBeforeFiling": false,
           "routeDetermined": false,
           "identity": "NY-CPL-160.59-PRO-SE-PACKET field Document 7",
-          "captionBasis": "read from the printed face of NY-CPL-160.59-PRO-SE-PACKET; the geometric capture reached a different printed line"
+          "captionBasis": "read from the printed face of NY-CPL-160.59-PRO-SE-PACKET; the geometric capture reached a different printed line",
+          "nyCompletion": {
+            "schemaVersion": "ny-held-completion/v1",
+            "documentId": "NY-CPL-160.59-PRO-SE-PACKET",
+            "field": "Document 7",
+            "sourceSha256": "cf22b8ea0cb8661c8e3f17cc0f16e6b95ca889f1e994e3772dfaf867b6da0298",
+            "condition": [
+              "prose_document_7_included"
+            ],
+            "actor": "participant_from_record",
+            "stage": "record_preparation",
+            "event": "prose_document_7",
+            "sourceAnchor": "held pro-se additional-documents instruction",
+            "obligation": "Name only actual optional documents; the required applicant statement remains owed.",
+            "knownValuePolicy": "preserve_and_bind_applicable_owned_fact",
+            "intakeOrPurchaseGate": false,
+            "conditionDescription": "List an additional document only when actually included; optional evidence does not make every numbered attachment line mandatory."
+          },
+          "refusalClass": "ny_source_conditional_completion"
         },
         {
           "field": "Document 8",
           "decision": "refuse",
           "factId": null,
-          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "reason": "List an additional document only when actually included; optional evidence does not make every numbered attachment line mandatory.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3186,17 +4258,35 @@
             }
           ],
           "effectiveLabel": "REQUIRED AND ADDITIONAL DOCUMENTS, numbered line 8",
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
+          "blankTreatment": null,
+          "requiredBeforeFiling": false,
           "routeDetermined": false,
           "identity": "NY-CPL-160.59-PRO-SE-PACKET field Document 8",
-          "captionBasis": "read from the printed face of NY-CPL-160.59-PRO-SE-PACKET; the geometric capture reached a different printed line"
+          "captionBasis": "read from the printed face of NY-CPL-160.59-PRO-SE-PACKET; the geometric capture reached a different printed line",
+          "nyCompletion": {
+            "schemaVersion": "ny-held-completion/v1",
+            "documentId": "NY-CPL-160.59-PRO-SE-PACKET",
+            "field": "Document 8",
+            "sourceSha256": "cf22b8ea0cb8661c8e3f17cc0f16e6b95ca889f1e994e3772dfaf867b6da0298",
+            "condition": [
+              "prose_document_8_included"
+            ],
+            "actor": "participant_from_record",
+            "stage": "record_preparation",
+            "event": "prose_document_8",
+            "sourceAnchor": "held pro-se additional-documents instruction",
+            "obligation": "Name only actual optional documents; the required applicant statement remains owed.",
+            "knownValuePolicy": "preserve_and_bind_applicable_owned_fact",
+            "intakeOrPurchaseGate": false,
+            "conditionDescription": "List an additional document only when actually included; optional evidence does not make every numbered attachment line mandatory."
+          },
+          "refusalClass": "ny_source_conditional_completion"
         },
         {
           "field": "Document 9",
           "decision": "refuse",
           "factId": null,
-          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "reason": "List an additional document only when actually included; optional evidence does not make every numbered attachment line mandatory.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3211,17 +4301,35 @@
             }
           ],
           "effectiveLabel": "REQUIRED AND ADDITIONAL DOCUMENTS, numbered line 9",
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
+          "blankTreatment": null,
+          "requiredBeforeFiling": false,
           "routeDetermined": false,
           "identity": "NY-CPL-160.59-PRO-SE-PACKET field Document 9",
-          "captionBasis": "read from the printed face of NY-CPL-160.59-PRO-SE-PACKET; the geometric capture reached a different printed line"
+          "captionBasis": "read from the printed face of NY-CPL-160.59-PRO-SE-PACKET; the geometric capture reached a different printed line",
+          "nyCompletion": {
+            "schemaVersion": "ny-held-completion/v1",
+            "documentId": "NY-CPL-160.59-PRO-SE-PACKET",
+            "field": "Document 9",
+            "sourceSha256": "cf22b8ea0cb8661c8e3f17cc0f16e6b95ca889f1e994e3772dfaf867b6da0298",
+            "condition": [
+              "prose_document_9_included"
+            ],
+            "actor": "participant_from_record",
+            "stage": "record_preparation",
+            "event": "prose_document_9",
+            "sourceAnchor": "held pro-se additional-documents instruction",
+            "obligation": "Name only actual optional documents; the required applicant statement remains owed.",
+            "knownValuePolicy": "preserve_and_bind_applicable_owned_fact",
+            "intakeOrPurchaseGate": false,
+            "conditionDescription": "List an additional document only when actually included; optional evidence does not make every numbered attachment line mandatory."
+          },
+          "refusalClass": "ny_source_conditional_completion"
         },
         {
           "field": "Document 10",
           "decision": "refuse",
           "factId": null,
-          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "reason": "List an additional document only when actually included; optional evidence does not make every numbered attachment line mandatory.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3236,11 +4344,29 @@
             }
           ],
           "effectiveLabel": "REQUIRED AND ADDITIONAL DOCUMENTS, numbered line 10",
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
+          "blankTreatment": null,
+          "requiredBeforeFiling": false,
           "routeDetermined": false,
           "identity": "NY-CPL-160.59-PRO-SE-PACKET field Document 10",
-          "captionBasis": "read from the printed face of NY-CPL-160.59-PRO-SE-PACKET; the geometric capture reached a different printed line"
+          "captionBasis": "read from the printed face of NY-CPL-160.59-PRO-SE-PACKET; the geometric capture reached a different printed line",
+          "nyCompletion": {
+            "schemaVersion": "ny-held-completion/v1",
+            "documentId": "NY-CPL-160.59-PRO-SE-PACKET",
+            "field": "Document 10",
+            "sourceSha256": "cf22b8ea0cb8661c8e3f17cc0f16e6b95ca889f1e994e3772dfaf867b6da0298",
+            "condition": [
+              "prose_document_10_included"
+            ],
+            "actor": "participant_from_record",
+            "stage": "record_preparation",
+            "event": "prose_document_10",
+            "sourceAnchor": "held pro-se additional-documents instruction",
+            "obligation": "Name only actual optional documents; the required applicant statement remains owed.",
+            "knownValuePolicy": "preserve_and_bind_applicable_owned_fact",
+            "intakeOrPurchaseGate": false,
+            "conditionDescription": "List an additional document only when actually included; optional evidence does not make every numbered attachment line mandatory."
+          },
+          "refusalClass": "ny_source_conditional_completion"
         },
         {
           "field": "Reasons for sealing",
@@ -3416,7 +4542,7 @@
           "field": "Case Number 2",
           "decision": "refuse",
           "factId": null,
-          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "reason": "Complete this row only for an additional case included in this application.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3442,17 +4568,35 @@
             }
           ],
           "effectiveLabel": "Case Number (Docket, Indictment, or SCI Number) - second row",
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
+          "blankTreatment": null,
+          "requiredBeforeFiling": false,
           "routeDetermined": false,
           "identity": "NY-CPL-160.59-PRO-SE-PACKET field Case Number 2",
-          "captionBasis": "read from the printed face of NY-CPL-160.59-PRO-SE-PACKET; the geometric capture reached a different printed line"
+          "captionBasis": "read from the printed face of NY-CPL-160.59-PRO-SE-PACKET; the geometric capture reached a different printed line",
+          "nyCompletion": {
+            "schemaVersion": "ny-held-completion/v1",
+            "documentId": "NY-CPL-160.59-PRO-SE-PACKET",
+            "field": "Case Number 2",
+            "sourceSha256": "cf22b8ea0cb8661c8e3f17cc0f16e6b95ca889f1e994e3772dfaf867b6da0298",
+            "condition": [
+              "second_covered_case"
+            ],
+            "actor": "participant_from_record",
+            "stage": "record_preparation",
+            "event": "second_covered_case",
+            "sourceAnchor": "held pro-se current-case table",
+            "obligation": "Preserve each actual additional case and all relevant numbers; do not infer transaction counts.",
+            "knownValuePolicy": "preserve_and_bind_applicable_owned_fact",
+            "intakeOrPurchaseGate": false,
+            "conditionDescription": "Complete this row only for an additional case included in this application."
+          },
+          "refusalClass": "ny_source_conditional_completion"
         },
         {
           "field": "Court Name 2",
           "decision": "refuse",
           "factId": null,
-          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "reason": "Complete this row only for an additional case included in this application.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3478,11 +4622,29 @@
             }
           ],
           "effectiveLabel": "Court Name - second row",
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
+          "blankTreatment": null,
+          "requiredBeforeFiling": false,
           "routeDetermined": false,
           "identity": "NY-CPL-160.59-PRO-SE-PACKET field Court Name 2",
-          "captionBasis": "read from the printed face of NY-CPL-160.59-PRO-SE-PACKET; the geometric capture reached a different printed line"
+          "captionBasis": "read from the printed face of NY-CPL-160.59-PRO-SE-PACKET; the geometric capture reached a different printed line",
+          "nyCompletion": {
+            "schemaVersion": "ny-held-completion/v1",
+            "documentId": "NY-CPL-160.59-PRO-SE-PACKET",
+            "field": "Court Name 2",
+            "sourceSha256": "cf22b8ea0cb8661c8e3f17cc0f16e6b95ca889f1e994e3772dfaf867b6da0298",
+            "condition": [
+              "second_covered_case"
+            ],
+            "actor": "participant_from_record",
+            "stage": "record_preparation",
+            "event": "second_covered_case",
+            "sourceAnchor": "held pro-se current-case table",
+            "obligation": "Preserve each actual additional case and all relevant numbers; do not infer transaction counts.",
+            "knownValuePolicy": "preserve_and_bind_applicable_owned_fact",
+            "intakeOrPurchaseGate": false,
+            "conditionDescription": "Complete this row only for an additional case included in this application."
+          },
+          "refusalClass": "ny_source_conditional_completion"
         },
         {
           "field": "Notary day - Application",
@@ -3548,7 +4710,7 @@
           "field": "Type of Service",
           "decision": "refuse",
           "factId": null,
-          "reason": "REQUIRED_BEFORE_FILING: service has not occurred, so the platform holds no fact for this field; the participant completes it after service and does not guess.",
+          "reason": "The person who actually serves supplies the actual method, identity, address and date after service; do not infer them from the applicant's contact information.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3574,16 +4736,35 @@
             }
           ],
           "effectiveLabel": "Select one",
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
+          "blankTreatment": null,
+          "requiredBeforeFiling": false,
           "routeDetermined": false,
-          "identity": "NY-CPL-160.59-PRO-SE-PACKET field Type of Service"
+          "identity": "NY-CPL-160.59-PRO-SE-PACKET field Type of Service",
+          "nyCompletion": {
+            "schemaVersion": "ny-held-completion/v1",
+            "documentId": "NY-CPL-160.59-PRO-SE-PACKET",
+            "field": "Type of Service",
+            "sourceSha256": "cf22b8ea0cb8661c8e3f17cc0f16e6b95ca889f1e994e3772dfaf867b6da0298",
+            "condition": [
+              "service_affidavit_needed",
+              "service_completed"
+            ],
+            "actor": "actual_server",
+            "stage": "actual_service_proof",
+            "event": "actual_service",
+            "sourceAnchor": "held pro-se service affidavit and separate-proof instructions",
+            "obligation": "Actual method, server and date after service; separate source-era proof rules remain distinct.",
+            "knownValuePolicy": "preserve_and_bind_applicable_owned_fact",
+            "intakeOrPurchaseGate": false,
+            "conditionDescription": "The person who actually serves supplies the actual method, identity, address and date after service; do not infer them from the applicant's contact information."
+          },
+          "refusalClass": "ny_source_conditional_completion"
         },
         {
           "field": "Server Name",
           "decision": "refuse",
           "factId": null,
-          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "reason": "The person who actually serves supplies the actual method, identity, address and date after service; do not infer them from the applicant's contact information.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3598,17 +4779,36 @@
             }
           ],
           "effectiveLabel": "(Name of Person Serving/Mailing)",
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
+          "blankTreatment": null,
+          "requiredBeforeFiling": false,
           "routeDetermined": false,
           "identity": "NY-CPL-160.59-PRO-SE-PACKET field Server Name",
-          "captionBasis": "read from the printed face of NY-CPL-160.59-PRO-SE-PACKET; the geometric capture reached a different printed line"
+          "captionBasis": "read from the printed face of NY-CPL-160.59-PRO-SE-PACKET; the geometric capture reached a different printed line",
+          "nyCompletion": {
+            "schemaVersion": "ny-held-completion/v1",
+            "documentId": "NY-CPL-160.59-PRO-SE-PACKET",
+            "field": "Server Name",
+            "sourceSha256": "cf22b8ea0cb8661c8e3f17cc0f16e6b95ca889f1e994e3772dfaf867b6da0298",
+            "condition": [
+              "service_affidavit_needed",
+              "service_completed"
+            ],
+            "actor": "actual_server",
+            "stage": "actual_service_proof",
+            "event": "actual_service",
+            "sourceAnchor": "held pro-se service affidavit and separate-proof instructions",
+            "obligation": "Actual method, server and date after service; separate source-era proof rules remain distinct.",
+            "knownValuePolicy": "preserve_and_bind_applicable_owned_fact",
+            "intakeOrPurchaseGate": false,
+            "conditionDescription": "The person who actually serves supplies the actual method, identity, address and date after service; do not infer them from the applicant's contact information."
+          },
+          "refusalClass": "ny_source_conditional_completion"
         },
         {
           "field": "Server Address",
           "decision": "refuse",
           "factId": null,
-          "reason": "REQUIRED_BEFORE_FILING: the platform holds no exact fact for this field; surface it to the participant and do not guess.",
+          "reason": "The person who actually serves supplies the actual method, identity, address and date after service; do not infer them from the applicant's contact information.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3623,17 +4823,36 @@
             }
           ],
           "effectiveLabel": "(Address of Person Serving/Mailing)",
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
+          "blankTreatment": null,
+          "requiredBeforeFiling": false,
           "routeDetermined": false,
           "identity": "NY-CPL-160.59-PRO-SE-PACKET field Server Address",
-          "captionBasis": "read from the printed face of NY-CPL-160.59-PRO-SE-PACKET; the geometric capture reached a different printed line"
+          "captionBasis": "read from the printed face of NY-CPL-160.59-PRO-SE-PACKET; the geometric capture reached a different printed line",
+          "nyCompletion": {
+            "schemaVersion": "ny-held-completion/v1",
+            "documentId": "NY-CPL-160.59-PRO-SE-PACKET",
+            "field": "Server Address",
+            "sourceSha256": "cf22b8ea0cb8661c8e3f17cc0f16e6b95ca889f1e994e3772dfaf867b6da0298",
+            "condition": [
+              "service_affidavit_needed",
+              "service_completed"
+            ],
+            "actor": "actual_server",
+            "stage": "actual_service_proof",
+            "event": "actual_service",
+            "sourceAnchor": "held pro-se service affidavit and separate-proof instructions",
+            "obligation": "Actual method, server and date after service; separate source-era proof rules remain distinct.",
+            "knownValuePolicy": "preserve_and_bind_applicable_owned_fact",
+            "intakeOrPurchaseGate": false,
+            "conditionDescription": "The person who actually serves supplies the actual method, identity, address and date after service; do not infer them from the applicant's contact information."
+          },
+          "refusalClass": "ny_source_conditional_completion"
         },
         {
           "field": "Service Date",
           "decision": "refuse",
           "factId": null,
-          "reason": "REQUIRED_BEFORE_FILING: service has not occurred, so the platform holds no fact for this field; the participant completes it after service and does not guess.",
+          "reason": "The person who actually serves supplies the actual method, identity, address and date after service; do not infer them from the applicant's contact information.",
           "widgets": [
             {
               "widgetIndex": 0,
@@ -3648,11 +4867,30 @@
             }
           ],
           "effectiveLabel": "(Date of Service/Mailing)",
-          "blankTreatment": "REQUIRED_BEFORE_FILING",
-          "requiredBeforeFiling": true,
+          "blankTreatment": null,
+          "requiredBeforeFiling": false,
           "routeDetermined": false,
           "identity": "NY-CPL-160.59-PRO-SE-PACKET field Service Date",
-          "captionBasis": "read from the printed face of NY-CPL-160.59-PRO-SE-PACKET; the geometric capture reached a different printed line"
+          "captionBasis": "read from the printed face of NY-CPL-160.59-PRO-SE-PACKET; the geometric capture reached a different printed line",
+          "nyCompletion": {
+            "schemaVersion": "ny-held-completion/v1",
+            "documentId": "NY-CPL-160.59-PRO-SE-PACKET",
+            "field": "Service Date",
+            "sourceSha256": "cf22b8ea0cb8661c8e3f17cc0f16e6b95ca889f1e994e3772dfaf867b6da0298",
+            "condition": [
+              "service_affidavit_needed",
+              "service_completed"
+            ],
+            "actor": "actual_server",
+            "stage": "actual_service_proof",
+            "event": "actual_service",
+            "sourceAnchor": "held pro-se service affidavit and separate-proof instructions",
+            "obligation": "Actual method, server and date after service; separate source-era proof rules remain distinct.",
+            "knownValuePolicy": "preserve_and_bind_applicable_owned_fact",
+            "intakeOrPurchaseGate": false,
+            "conditionDescription": "The person who actually serves supplies the actual method, identity, address and date after service; do not infer them from the applicant's contact information."
+          },
+          "refusalClass": "ny_source_conditional_completion"
         },
         {
           "field": "Prosecutor Address",

@@ -1,0 +1,20 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import {createHash} from 'node:crypto';
+import {register} from 'node:module';
+import {DE_CONVICTION_BASE} from './lib/de-conviction-fixture.mjs';
+register('./lib/ts-esm-loader.mjs',import.meta.url);
+const {GET}=await import('../src/app/api/expungement-ai/profiles/[state]/route.ts');
+const {getProfileByJurisdiction}=await import('../src/lib/rcap-engine/profile-registry.ts');
+const {parseJurisdictionProfile}=await import('../src/lib/expungement-ai/frontend/schemas.ts');
+const {selectScreeningQuestionIds}=await import('../src/lib/rcap-engine/screening-question-selection.ts');
+const {screensFromQuestionIds,sanitizeResumedAnswersForQuestionIds}=await import('../src/components/expungement-ai/screening/screens.ts');
+const profile=getProfileByJurisdiction('DE'),response=await GET(new Request('http://localhost/api/expungement-ai/profiles/DE'),{params:Promise.resolve({state:'DE'})}),pub=await response.json(),parsed=parseJurisdictionProfile(pub),checks=[];
+const check=(name,pass)=>checks.push({name,pass:!!pass});
+check('actual profile handler succeeds',response.status===200);
+check('actual frontend schema accepts profile',parsed.ok);
+const cases=[['conviction_date',{}],['release_date',{de_incarceration:'released'}],['de_prior_expungement_date',{de_prior_expungement:'conviction'}],['de_latest_unresolved_charge_date',{de_all_charges:'old_unresolved'}]];
+for(const [id,patch]of cases){const q=pub.questions.find(q=>q.id===id);check(id+'/explicit-null-options',q?.options===null);check(id+'/same-optional-date-control',q?.type==='date_or_unknown'&&q.required===false);check(id+'/Spanish-prompt',!!q?.translations?.es?.prompt);
+if(parsed.ok){for(const value of [{value:'2000-01-01',unknown:false},{unknown:true}]){const answers={...DE_CONVICTION_BASE,...patch,[id]:value},wire={...answers,[id]:value.unknown?'I am not sure':value.value},ids=selectScreeningQuestionIds(profile,pub,wire),screens=screensFromQuestionIds(parsed.data,ids);check(id+'/actual-schema-to-screen',screens.some(q=>q.id===id));check(id+'/raw-resume-preservation',JSON.stringify(sanitizeResumedAnswersForQuestionIds(parsed.data,answers,ids)[id])===JSON.stringify(value));}}}
+const result={status:checks.every(c=>c.pass)?'PASS':'FAIL',profileSha256:createHash('sha256').update(JSON.stringify(profile)).digest('hex'),checks:checks.length,failed:checks.filter(c=>!c.pass),details:checks,schemaErrors:parsed.ok?[]:parsed,scope:'Actual profile HTTP handler, unchanged strict frontend schema, four existing optional date controls, EN/ES descriptors and raw resume. No legal timing, form or approval changes.'};
+const output=process.argv.find(x=>x.endsWith('.json'));if(output)fs.writeFileSync(output,JSON.stringify(result,null,2)+'\n',{flag:'wx'});console.log(JSON.stringify(result,null,2));if(!process.argv.includes('--baseline'))assert.equal(result.failed.length,0);

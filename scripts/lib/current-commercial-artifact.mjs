@@ -36,7 +36,7 @@ function approvals(root) {
 /** For controls that need to observe a changed tree in the same process. */
 export function resetCurrentCommercialArtifactApprovalCache() { approvalsCache = null; }
 
-export function bindCurrentCommercialArtifact(record, root = process.cwd()) {
+export function bindCurrentCommercialArtifact(record, root = process.cwd(), readBytes) {
   const artifact = record?.packetCompleteness?.filingFormatArtifact;
   if (!artifact) return record;
   const renderer = String(artifact.producedBy?.renderer ?? "");
@@ -52,7 +52,12 @@ export function bindCurrentCommercialArtifact(record, root = process.cwd()) {
    * and re-derives every digest from disk, so this is a lookup, not a claim:
    * move an artifact and the approval stops loading, and the route closes again.
    */
-  const approval = approvals(root).get(record.routeId) ?? null;
+  // Injected evidence readers must observe every refusal in this invocation;
+  // they cannot borrow a prior filesystem/cache approval. Default builds keep
+  // the existing once-per-build cache and the same exact approval validation.
+  const byRoute = readBytes === undefined ? approvals(root)
+    : loadCurrentCommercialArtifactApprovals(root, readBytes);
+  const approval = byRoute.get(record.routeId) ?? null;
   artifact.currentCommercialArtifactReview = approval ? {
     state: "approved",
     composedBy: COMPOSED_BY,

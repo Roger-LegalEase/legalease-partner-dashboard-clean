@@ -64,7 +64,7 @@ export type CaseMode = "existing_case" | "new_case";
 export type ExecutionType = "signature" | "verified" | "sworn_notarised" | "none";
 
 /** What the component does about service or notice. */
-export type ServiceTreatment = "participant_serves" | "clerk_serves" | "no_service" ;
+export type ServiceTreatment = "participant_serves" | "clerk_serves" | "court_causes_notice" | "no_service" ;
 
 /** What the component does about a proposed order. */
 export type OrderTreatment = "submits_proposed_order" | "no_proposed_order";

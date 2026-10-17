@@ -1,4 +1,15 @@
+import { msTimingDisplayContext, reviewedResultText, type MsTimingGeneratedSummary } from "@/lib/expungement-ai/reviewed-result-copy";
+import { evaluateProtectedPacketFacts, mnTwoCountyDraftSuccessor, marylandPoliceHeldDraftSuccessor, virginiaVictimHeldDraftSuccessor } from "@/lib/expungement-ai/packet-information";
+import { WY_1401_ROUTE, WY_1401_SOURCE, WY_1401_COPY } from "@/lib/rcap-engine/wyoming-1401-facts";
+import { ND_FIRST_OFFENSE_ROUTE, ND_FIRST_OFFENSE_SOURCE, ND_FIRST_OFFENSE_COPY } from "@/lib/rcap-engine/north-dakota-first-offense-facts";
+import { MS_TIMING_MISSING_TEXT, MS_TIMING_MULTIPLE_MISSING_TEXT } from "@/lib/rcap-engine/mississippi-exact-timing";
+import { CONVICTION_RELIEF_COPY } from "@/lib/rcap-engine/conviction-relief-request";
+import { AR_RECORD_ORIGIN_COPY } from "@/lib/rcap-engine/arkansas-record-origin";
+import { KS_REGISTRATION_ROUTE, KS_REGISTRATION_REVIEW_COPY } from "@/lib/rcap-engine/kansas-district-facts";
+import { isGeorgiaFirstOffenderGuidance } from "@/lib/rcap-engine/georgia-first-offender";
+import { wyoming1501DraftSuccessor, texasNondisclosureClockDraftSuccessor, texasGuidanceFinancialDraftSuccessor, westVirginiaGuidanceFinancialDraftSuccessor, southDakotaGuidanceFinancialDraftSuccessor, southCarolinaGuidanceFinancialDraftSuccessor, newJerseyMarijuanaStatusFinancialDraftSuccessor, oklahomaCleanSlateFinancialDraftSuccessor, wyoming1401DraftSuccessor, newMexicoGuidanceFinancialDraftSuccessor, montanaRecordFinancialDraftSuccessor, californiaProbationDraftSuccessor, louisianaAutomationStatusHeldSuccessor, maineNonconvictionDraftSuccessor, missouriMarijuanaDraftSuccessor, montanaDeferredDraftSuccessor, missouriClosureDraftSuccessor, nebraskaAcquittalHeldSuccessor, kansasRegistrationHeldSuccessor, arkansasRecordOriginHeldSuccessor, convictionFallbackHeldSuccessor, msTimingAnswerHeldSuccessor, factualPathwayHeldSuccessor, financialAnswerHeldSuccessor, ny16059HeldDetailSuccessor } from "@/lib/expungement-ai/packet-information";
 import "server-only";
+import { reviewedPacketContractSuccessor } from "@/lib/expungement-ai/packet-contract-successors";
 import { getProgramPacketFunding } from "@/lib/partners/onboarding/program-packet-funding";
 
 import { createHash } from "node:crypto";
@@ -23,12 +34,11 @@ import {
 } from "@/lib/expungement-ai/verification-cas";
 import { getSupabaseAdminClient } from "@/lib/supabase/server";
 import type { ScreeningAnswerValue } from "@/lib/rcap-engine/contracts";
-import { InvalidAnswerError } from "@/lib/rcap-engine/evaluator";
 import type { AnswerValue } from "@/lib/expungement-ai/frontend/contracts";
-import { toScreeningAnswers } from "@/components/expungement-ai/screening/answers";
 import {
   protectedPacketInformationModelFor,
   protectedPacketDraftSeedFromAuthoritative,
+  protectedPacketScreeningAnswers,
   type ProtectedPacketInformationModel
 } from "@/lib/expungement-ai/packet-information";
 
@@ -77,6 +87,7 @@ export type BriefcasePresentationItem = {
   pathwayId: string | null;
   pathwayLabel: string | null;
   summary: string | null;
+  msTimingSummary?: MsTimingGeneratedSummary;
   nextSteps: string[];
   checklist: string[];
   packetType: ExpungementAiEligibilityResult["packetType"] | null;
@@ -87,6 +98,7 @@ export type BriefcasePresentationItem = {
   packetDraft:
     | {
       status: "available";
+      revision: number;
       capturedAt: string;
       initialAnswers: Record<string, AnswerValue>;
       screeningAnswers: Record<string, AnswerValue>;
@@ -95,6 +107,16 @@ export type BriefcasePresentationItem = {
       serverFacts: Record<string, AnswerValue>;
       requiredInputIds: string[];
       missingInputIds: string[];
+      pendingDerivations: ProtectedPacketInformationModel["pendingDerivations"];
+      contactReconciliation?: ProtectedPacketInformationModel["contactReconciliation"];
+      recordOwnQuestionIds?: string[];
+      recordClarificationIds?: string[];
+      courtRecordConflict?: boolean;
+      heldFactualCorrectionIds?: string[];
+      gaPardonPreparationAvailable?: boolean;
+      mtDeferredPreparationAvailable?: boolean;
+      caJuvenilePreparationAvailable?: boolean;
+      nyCaseIssues?: Array<{ id: string; code: string; en: string; es: string }>;
       questions: ProtectedPacketInformationModel["questions"];
       builderQuestions: ProtectedPacketInformationModel["builderQuestions"];
       /** The Stage 6 sections the builder renders, headings and Spanish included. */
@@ -121,6 +143,7 @@ export type BriefcaseLegalPresentationAuthority =
     pathwayId: string | null;
     pathwayLabel: string | null;
     summary: string;
+    msTimingSummary?: MsTimingGeneratedSummary;
     nextSteps: string[];
     checklist: string[];
     packetType: ExpungementAiEligibilityResult["packetType"] | null;
@@ -178,6 +201,7 @@ export function assembleBriefcasePresentationItem(input: {
     pathwayId: input.legalAuthority.pathwayId,
     pathwayLabel: input.legalAuthority.pathwayLabel,
     summary: input.legalAuthority.summary,
+    ...(input.legalAuthority.msTimingSummary ? { msTimingSummary: input.legalAuthority.msTimingSummary } : {}),
     nextSteps: [...input.legalAuthority.nextSteps],
     checklist: [...input.legalAuthority.checklist],
     packetType: input.legalAuthority.packetType,
@@ -414,23 +438,28 @@ function legalAuthorityFromProtectedVerification(
 ): BriefcaseLegalPresentationAuthority {
   const model = protectedPacketInformationModelFor(verification);
   if (!model) return { status: "unavailable", reason: "protected_packet_draft_invalid" };
-  const snapshot = verification.status === "verified"
+  let snapshot = verification.status === "verified"
     ? verification.snapshot
     : verification.draftSnapshot;
   if (!snapshot) return { status: "unavailable", reason: "protected_packet_draft_missing" };
-  const authoritative = evaluateProtectedPresentationSnapshot(snapshot, itemId, evaluate);
-  if (!authoritative) return { status: "unavailable", reason: "protected_snapshot_reevaluation_failed" };
+  const currentAuthoritative = evaluateProtectedPresentationSnapshot(snapshot, itemId, evaluate);
+  if (!currentAuthoritative) return { status: "unavailable", reason: "protected_snapshot_reevaluation_failed" };
+  const authoritative = virginiaVictimHeldDraftSuccessor(snapshot, currentAuthoritative, verification.status) ?? currentAuthoritative;
   const evaluation = authoritative.evaluation;
+  snapshot = mnTwoCountyDraftSuccessor(snapshot, authoritative, verification.status) ?? marylandPoliceHeldDraftSuccessor(snapshot, authoritative, verification.status) ?? wyoming1501DraftSuccessor(snapshot,authoritative) ?? texasNondisclosureClockDraftSuccessor(snapshot, authoritative) ?? texasGuidanceFinancialDraftSuccessor(snapshot, authoritative) ?? westVirginiaGuidanceFinancialDraftSuccessor(snapshot, authoritative) ?? southDakotaGuidanceFinancialDraftSuccessor(snapshot, authoritative) ?? southCarolinaGuidanceFinancialDraftSuccessor(snapshot, authoritative) ?? newJerseyMarijuanaStatusFinancialDraftSuccessor(snapshot, authoritative) ?? oklahomaCleanSlateFinancialDraftSuccessor(snapshot, authoritative) ?? wyoming1401DraftSuccessor(snapshot,authoritative) ?? newMexicoGuidanceFinancialDraftSuccessor(snapshot, authoritative) ?? montanaRecordFinancialDraftSuccessor(snapshot, authoritative) ?? californiaProbationDraftSuccessor(snapshot, authoritative) ?? montanaDeferredDraftSuccessor(snapshot, authoritative) ?? missouriMarijuanaDraftSuccessor(snapshot, authoritative) ?? missouriClosureDraftSuccessor(snapshot, authoritative) ?? maineNonconvictionDraftSuccessor(snapshot, authoritative) ?? louisianaAutomationStatusHeldSuccessor(snapshot, authoritative) ?? nebraskaAcquittalHeldSuccessor(snapshot, authoritative) ?? kansasRegistrationHeldSuccessor(snapshot, authoritative) ?? arkansasRecordOriginHeldSuccessor(snapshot, authoritative) ?? factualPathwayHeldSuccessor(snapshot, authoritative) ?? convictionFallbackHeldSuccessor(snapshot, authoritative) ?? snapshot;
+  const financialSuccessor = financialAnswerHeldSuccessor(snapshot, authoritative);
+  const timingSuccessor = msTimingAnswerHeldSuccessor(snapshot, authoritative);
   if (evaluation.jurisdiction !== snapshot.jurisdiction
     || evaluation.profileVersion !== snapshot.profileVersion
     || (evaluation.pathwayId ?? null) !== snapshot.pathwayId
-    || evaluation.resultCode !== snapshot.resultCode
-    || evaluation.paymentAllowed !== snapshot.paymentAllowed
+    || evaluation.resultCode !== snapshot.resultCode && !ny16059HeldDetailSuccessor(snapshot, authoritative) && !financialSuccessor && !timingSuccessor
+    || evaluation.paymentAllowed !== snapshot.paymentAllowed && !financialSuccessor && !timingSuccessor
     || (authoritative.packetType ?? null) !== (snapshot.packetType ?? null)
     || (authoritative.selectedTrackId ?? null) !== snapshot.selectedTrackId
     || (evaluation.treatmentClassification ?? null) !== snapshot.treatmentClassification
     || !canonicalEqual(evaluation.deferralComponentIds ?? [], snapshot.deferralComponentIds)
-    || !canonicalEqual(evaluation.packetPlan ?? null, snapshot.packetPlan)) {
+    || !canonicalEqual(evaluation.packetPlan ?? null, snapshot.packetPlan)
+      && !reviewedPacketContractSuccessor(snapshot, evaluation.packetPlan)) {
     return { status: "unavailable", reason: "protected_snapshot_authority_mismatch" };
   }
   const verificationStatus = verification.status === "verified" && !model.reviewSafety.safe
@@ -438,13 +467,15 @@ function legalAuthorityFromProtectedVerification(
   const protectedStatus = verificationStatus === "verified" ? "protected_verified" : "protected_draft";
   const packetProgress: BriefcasePresentationItem["packetProgress"] = verificationStatus === "verified"
     ? "verified"
-    : model.missingInputIds.length === 0
+    : !model.packetPlan ? "in_progress" : model.missingInputIds.length === 0 && model.pendingDerivations.length === 0
       ? "facts_complete"
       : Object.keys(model.packetAnswers).length > 0 ? "in_progress" : "not_started";
   return legalAuthorityFromEvaluation(protectedStatus, authoritative, {
     verificationStatus,
     packetProgress,
-    packetDraft: presentationDraftForModel(model)
+    packetDraft: presentationDraftForModel(model),
+    displayAnswers: model.initialAnswers,
+    displayUnresolvedIds: [...(model.recordClarificationIds ?? []), ...model.questions.filter(q => q.savedAnswerNeedsClarification).map(q => q.id)]
   });
 }
 
@@ -460,7 +491,9 @@ function legalAuthorityFromTrustedSource(
   return legalAuthorityFromEvaluation("trusted_source", seeded.authoritative, {
     verificationStatus: "trusted_source",
     packetProgress: model ? "not_started" : evaluationPacketProgress(seeded.authoritative),
-    packetDraft: model ? presentationDraftForModel(model) : { status: "unavailable" }
+    packetDraft: model ? presentationDraftForModel(model) : { status: "unavailable" },
+    displayAnswers: model?.initialAnswers ?? source.answers,
+    displayUnresolvedIds: model ? [...(model.recordClarificationIds ?? []), ...model.questions.filter(q => q.savedAnswerNeedsClarification).map(q => q.id)] : []
   });
 }
 
@@ -508,6 +541,7 @@ function presentationDraftForModel(
 ): Extract<BriefcasePresentationItem["packetDraft"], { status: "available" }> {
   return {
     status: "available",
+    revision: model.revision,
     capturedAt: model.capturedAt,
     initialAnswers: model.initialAnswers,
     screeningAnswers: model.screeningAnswers,
@@ -516,7 +550,16 @@ function presentationDraftForModel(
     serverFacts: model.serverFacts,
     requiredInputIds: [...model.requiredInputIds],
     missingInputIds: [...model.missingInputIds],
+    pendingDerivations: model.pendingDerivations,
+    contactReconciliation: model.contactReconciliation,
+    recordOwnQuestionIds: model.recordOwnQuestionIds, recordClarificationIds: model.recordClarificationIds,
+    courtRecordConflict: model.courtRecordConflict,
+    nyCaseIssues: model.nyCaseIssues,
     questions: model.questions,
+    ...(model.heldFactualCorrectionIds?.length ? { heldFactualCorrectionIds: model.heldFactualCorrectionIds } : {}),
+    ...(model.gaPardonPreparationAvailable ? { gaPardonPreparationAvailable: true } : {}),
+    ...(model.caJuvenilePreparationAvailable ? { caJuvenilePreparationAvailable: true } : {}),
+    ...(model.mtDeferredPreparationAvailable ? { mtDeferredPreparationAvailable: true } : {}),
     builderQuestions: model.builderQuestions,
     builderSections: model.builderSections,
     verificationSummary: model.verificationSummary,
@@ -535,17 +578,39 @@ function legalAuthorityFromEvaluation(
     verificationStatus: BriefcasePresentationItem["verificationStatus"];
     packetProgress: BriefcasePresentationItem["packetProgress"];
     packetDraft: BriefcasePresentationItem["packetDraft"];
+    displayAnswers: Readonly<Record<string, unknown>>;
+    displayUnresolvedIds: readonly string[];
   }
 ): BriefcaseLegalPresentationAuthority {
   const evaluation = authoritative.evaluation;
   const packetPlan = evaluation.packetPlan as (typeof evaluation.packetPlan & { packetReadyWhen?: unknown }) | undefined;
+  const convictionRequestReason = evaluation.reasons.find(item => Object.keys(CONVICTION_RELIEF_COPY)
+    .some(code => item.code === `${evaluation.jurisdiction.toLowerCase()}.conviction_relief_${code}`));
+  const recordOriginReason = evaluation.jurisdiction === "AR" ? evaluation.reasons.find(item =>
+    Object.entries(AR_RECORD_ORIGIN_COPY).some(([code, copy]) => item.code === `ar.record_origin_${code}` && item.text === copy[0])) : undefined;
+  const registrationReason = evaluation.jurisdiction === "KS" && evaluation.pathwayId === KS_REGISTRATION_ROUTE
+    ? evaluation.reasons.find(reason => reason.code === "ks.registration_statutory_facts_review" && reason.text === KS_REGISTRATION_REVIEW_COPY[0]) : undefined;
+  const wy1401Reason = evaluation.jurisdiction === "WY" && evaluation.pathwayId === WY_1401_ROUTE
+    ? evaluation.reasons.find(item=>item.sourceRef===WY_1401_SOURCE && Object.entries(WY_1401_COPY).some(([code,copy])=>item.code===`wy.nonconviction_${code}` && item.text===copy[0])) : undefined;
+  const ndPossessionReason = evaluation.jurisdiction === "ND" && evaluation.pathwayId === ND_FIRST_OFFENSE_ROUTE
+    ? evaluation.reasons.find(item => item.sourceRef === ND_FIRST_OFFENSE_SOURCE && Object.entries(ND_FIRST_OFFENSE_COPY)
+      .some(([code, copy]) => item.code === `nd.first_possession_${code}` && item.text === copy[0])) : undefined;
+  const summary = wy1401Reason?.text ?? ndPossessionReason?.text ?? convictionRequestReason?.text ?? recordOriginReason?.text ?? registrationReason?.text ?? evaluation.reasons.find(isGeorgiaFirstOffenderGuidance)?.text ?? evaluation.reasons.find(reason => ["il.pathway_conflicts_with_saved_fact", "ga.pathway_conflicts_with_saved_fact"].includes(reason.code) || reason.code === "ms.waiting_anchor_missing" && [...Object.values(MS_TIMING_MISSING_TEXT), MS_TIMING_MULTIPLE_MISSING_TEXT].includes(reason.text))?.text ?? evaluation.userLabel;
+  // This mark is presentation-only and originates in the current server
+  // reevaluation. Never infer generated provenance from a saved text match.
+  const timingContext = msTimingDisplayContext({ evaluation, answers: options.displayAnswers,
+    unresolvedFactIds: options.displayUnresolvedIds });
+  const msTimingSummary: MsTimingGeneratedSummary | undefined = timingContext
+    && timingContext.reasons.some(reason => reason.text === summary)
+    && reviewedResultText(summary, timingContext) ? { originalEnglish: summary, context: timingContext } : undefined;
   return {
     status,
     jurisdiction: evaluation.jurisdiction,
     resultCode: evaluation.resultCode,
     pathwayId: evaluation.pathwayId ?? null,
     pathwayLabel: authoritative.pathwayLabel,
-    summary: evaluation.userLabel,
+    summary,
+    ...(msTimingSummary ? { msTimingSummary } : {}),
     nextSteps: stringArray(evaluation.nextSteps),
     checklist: stringArray(packetPlan?.packetReadyWhen),
     packetType: authoritative.packetType ?? null,
@@ -558,34 +623,11 @@ function legalAuthorityFromEvaluation(
 }
 
 function evaluateProtectedPresentationSnapshot(
-  snapshot: Parameters<typeof screeningAnswersForProtectedSnapshot>[0] & { jurisdiction: string; profileVersion: string },
+  snapshot: Parameters<typeof protectedPacketScreeningAnswers>[0],
   matterId: string,
   evaluate: BriefcasePresentationDependencies["evaluateAuthoritative"]
 ): AuthoritativeEvaluation | null {
-  const answers = screeningAnswersForProtectedSnapshot(snapshot);
-  try {
-    return evaluate({ jurisdiction: snapshot.jurisdiction, profileVersion: snapshot.profileVersion, matterId, answers });
-  } catch (error) {
-    if (!(error instanceof InvalidAnswerError)) return null;
-    for (const id of error.invalidQuestionIds) delete answers[id];
-    try {
-      return evaluate({ jurisdiction: snapshot.jurisdiction, profileVersion: snapshot.profileVersion, matterId, answers });
-    } catch {
-      return null;
-    }
-  }
-}
-
-function screeningAnswersForProtectedSnapshot(snapshot: {
-  screeningAnswers: Record<string, unknown>;
-  prefilledAnswers: Record<string, unknown>;
-  packetAnswers: Record<string, unknown>;
-}): Record<string, ScreeningAnswerValue> {
-  return toScreeningAnswers({
-    ...snapshot.screeningAnswers,
-    ...snapshot.prefilledAnswers,
-    ...snapshot.packetAnswers
-  } as Record<string, AnswerValue>);
+  return evaluateProtectedPacketFacts(snapshot, evaluate, matterId);
 }
 
 function evaluationPacketProgress(

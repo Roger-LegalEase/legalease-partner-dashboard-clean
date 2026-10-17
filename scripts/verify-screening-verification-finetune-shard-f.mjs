@@ -144,6 +144,39 @@ const projectionPacketFacts = new Set([
   "MS:ms_mip_fine_payment_date"
 ]);
 
+// Historical Lane F evidence is immutable. Later exact source contracts are
+// checked separately; these do not turn a legacy hint/completion into a fact.
+// Reuse accepted GA10 original139/373, MS timing e30e/1522, MS program-event,
+// MO custody and MT deferred source controls; no new legal meaning is inferred.
+const historicalSelectedQuestionCounts = {LA:{emptyContext:9,maxExactRoute:9},ME:{emptyContext:11,maxExactRoute:11},MD:{emptyContext:13,maxExactRoute:13},MA:{emptyContext:9,maxExactRoute:9},MI:{emptyContext:10,maxExactRoute:10},MN:{emptyContext:9,maxExactRoute:9},MS:{emptyContext:7,maxExactRoute:7},MO:{emptyContext:11,maxExactRoute:12},MT:{emptyContext:11,maxExactRoute:11}};
+const sourceMsTimingCases = [
+  {pathwayId:'additional-justice-or-municipal-court-misdemeanor-relief',answers:{},expected:['ms_last_conviction_date_any_court']},
+  {pathwayId:'first-offense-dui-expungement',answers:{},expected:['ms_successful_sentence_completion_date']},
+  {pathwayId:'minor-in-possession-underage-alcohol-expungement',answers:{case_outcome:'Dismissed / not prosecuted'},expected:['ms_mip_dismissal_and_discharge_date']},
+  {pathwayId:'minor-in-possession-underage-alcohol-expungement',answers:{case_outcome:'Misdemeanor conviction'},expected:['ms_mip_fine_imposed']},
+  {pathwayId:'minor-in-possession-underage-alcohol-expungement',answers:{case_outcome:'Misdemeanor conviction',ms_mip_fine_imposed:'No'},expected:['ms_mip_fine_imposed','ms_mip_sentence_completion_date']},
+  {pathwayId:'minor-in-possession-underage-alcohol-expungement',answers:{case_outcome:'Misdemeanor conviction',ms_mip_fine_imposed:'Yes'},expected:['ms_mip_fine_imposed','ms_mip_sentence_completion_date','ms_mip_fine_payment_date']}
+];
+const sourceMsTimingIds = new Set(sourceMsTimingCases.flatMap(row=>row.expected));
+const baseMsTimingFor = pathwayId => pathwayId===sourceMsTimingCases[0].pathwayId ? sourceMsTimingCases[0].expected
+  : pathwayId===sourceMsTimingCases[1].pathwayId ? sourceMsTimingCases[1].expected
+    : pathwayId===sourceMsTimingCases[3].pathwayId ? sourceMsTimingCases[3].expected : [];
+// Literal paid money is independent of nonfinancial completion. This exception
+// is only the exact unchanged question in these four original Lane F profiles.
+const literalFinancialStates = new Set(['LA','ME','MO','MT']);
+const literalFinancialControl = (state,question) => literalFinancialStates.has(state)
+  && question?.id==='financial_obligations' && question.type==='yes_no_unsure'
+  && question.prompt==='Have you paid off everything the court charged?';
+const currentFlowSuccessors = {
+ 'EXPAI-MO-1bfe3f224f': {rawSha:'d0ee19438bad783732ee3fb1d2081ef77ebaf2689ad2320c973e7b70b200abc8',terminal:'needs_more_info',reason:'mo.marijuana_custody_missing',missing:['mo_marijuana_custody_posture'],basis:'LD-MO-03 / accepted test-ga10-mo-marijuana-custody'},
+ 'EXPAI-MS-167b6649e0': {rawSha:'dd7bac50d237cddac9f778294960cb89f338c5e07f4d3e8eb3859e0a09570592',terminal:'needs_more_info',reason:'ms.conditional_discharge_record_facts_missing',missing:['ms_program_order','ms_program_record_status'],basis:'LD-MS-01 / accepted test-ms-conditional-discharge-event'},
+ 'EXPAI-MS-82b9254c9f': {rawSha:'0c28e917749c8082d72d97ccc370192ee6657c62f083734b488eeeea8fc5a88c',terminal:'needs_more_info',reason:'ms.program_completion_event_missing',missing:['ms_program_order','ms_program_record_status','ms_program_final_disposition','ms_program_arrest_release'],basis:'LD-MS-01 / accepted test-ms-program-completion-events'},
+ 'EXPAI-MS-9c7d692811': {rawSha:'0199a9afa6374dea45ccab8b5c92d2b6312362f0bfb1371be424712a6fc5586f',terminal:'needs_review',reason:'ms.felony_route_case_outcome_conflict',missing:[],basis:'LD-MS-01 / accepted test-ms-felony-record-class-safety'},
+ 'EXPAI-MS-c80f911e03': {rawSha:'dc158ad6c558e0b626422dc067b915bde1ceb252629e3cb63bfc544b4e622bec',terminal:'needs_more_info',reason:'ms.program_completion_event_missing',missing:['ms_program_order','ms_program_record_status','ms_program_final_disposition','ms_program_arrest_release'],basis:'LD-MS-01 / accepted test-ms-program-completion-events'},
+ 'EXPAI-MT-50958fd557': {rawSha:'fe88cd4f9796ac4eba352f7631e258ea2c9954c2e8a00dacdddbe6e22bafc27e',terminal:'needs_more_info',reason:'mt.deferred_facts_unresolved',missing:['mt_deferred_order_type'],basis:'LD-MT-03 / accepted test-ga10-mt-deferred-facts'}
+};
+const currentSourceSelectionObservations = {};
+
 const failures = [];
 const check = (condition, message) => { if (!condition) failures.push(message); };
 const readJson = (file) => JSON.parse(fs.readFileSync(file, "utf8"));
@@ -199,12 +232,13 @@ const exactClockMutations = [
 for (const [index, mutation] of exactClockMutations.entries()) {
   check(missouriMipExactClockViolations(mutation).length > 0, `MO §311.326 exact-clock mutation ${index + 1} survived`);
 }
-const selectPublicQuestionIds = (profile, publicProfile, selectedPathwayLabel = "") => {
+const selectPublicQuestionIds = (profile, publicProfile, selectedPathwayLabel = "", additionalAnswers = {}) => {
   return selectScreeningQuestionIds(profile, publicProfile, selectedPathwayLabel
-    ? { possible_pathway_context: selectedPathwayLabel }
-    : {});
+    ? { possible_pathway_context: selectedPathwayLabel, ...additionalAnswers }
+    : additionalAnswers);
 };
 const selectedQuestionCounts = {};
+const normalizedSelectedQuestionCounts = {};
 
 for (const [state, spec] of Object.entries(expected)) {
   const profile = readJson(path.join(PROFILE_ROOT, spec.file));
@@ -266,19 +300,61 @@ for (const [state, spec] of Object.entries(expected)) {
     check(publicQuestionIds.has(questionId), `${state}:${questionId}: exact packet fact is not a public profile question`);
     const structural = question?.stage === "case_details" || question?.stage === "record_readiness" || question?.type === "date_or_unknown";
     check(structural || projectionPacketFacts.has(`${state}:${questionId}`), `${state}:${questionId}: exact packet fact lacks structural/date authority`);
-    check(!emptyContextIds.has(questionId) && [...pathwaySelections.values()].every((ids) => !ids.has(questionId)), `${state}:${questionId}: exact packet fact leaked into screening`);
+    const sourceTiming = state==='MS' && sourceMsTimingIds.has(questionId);
+    check(!emptyContextIds.has(questionId) && [...pathwaySelections].every(([id,ids]) => !ids.has(questionId) || sourceTiming && baseMsTimingFor(id).includes(questionId)), `${state}:${questionId}: exact packet fact leaked outside its accepted source timing consumer`);
   }
   for (const [pathwayId, selectedIds] of pathwaySelections) {
     for (const questionId of selectedIds) {
       const question = publicProfile.questions.find((candidate) => candidate.id === questionId);
-      check(question?.type !== "date_or_unknown", `${state}:${pathwayId}: exact date ${questionId} remains in free screening`);
+      check(question?.type !== "date_or_unknown" || state==='MS' && baseMsTimingFor(pathwayId).includes(questionId), `${state}:${pathwayId}: exact date ${questionId} lacks an accepted source screening clock`);
     }
   }
   for (const questionId of lifecycle.completionAliasIds) {
     check(rawQuestionById.has(questionId), `${state}:${questionId}: completion alias is not a compiled question`);
     check(publicQuestionIds.has("court_requirements_completed"), `${state}:${questionId}: completion alias lacks canonical completion authority`);
     check(["sentence_completion_date", "financial_obligations"].includes(questionId), `${state}:${questionId}: completion alias is not approved`);
-    check(!emptyContextIds.has(questionId) && [...pathwaySelections.values()].every((ids) => !ids.has(questionId)), `${state}:${questionId}: completion alias leaked into screening`);
+    check(!emptyContextIds.has(questionId) && [...pathwaySelections.values()].every((ids) => !ids.has(questionId))
+      || literalFinancialControl(state,rawQuestionById.get(questionId)), `${state}:${questionId}: unsupported completion alias leaked into screening`);
+  }
+
+  // Reconstruct the original count boundary by removing ONLY the named,
+  // accepted later controls. An unrelated selector addition/removal still fails
+  // the immutable per-state baseline instead of blessing a new observed total.
+  const laterControl = id => literalFinancialStates.has(state) && id==='financial_obligations'
+    || state==='MS' && (id==='ms_program_order' || sourceMsTimingIds.has(id))
+    || state==='MO' && id==='mo_marijuana_custody_posture'
+    || state==='MT' && id==='mt_deferred_order_type';
+  const originalCount = ids => [...ids].filter(id=>!laterControl(id)).length;
+  normalizedSelectedQuestionCounts[state]={emptyContext:originalCount(emptyContextIds),maxExactRoute:Math.max(originalCount(emptyContextIds),...[...pathwaySelections.values()].map(originalCount))};
+  for(const [pathwayId,ids] of pathwaySelections) {
+    if(state==='MO') check(ids.has('mo_marijuana_custody_posture')===(pathwayId==='marijuana-expungement-under-missouri-constitution-article-xiv'),`MO:${pathwayId}: custody source-control scope changed`);
+    if(state==='MT') check(ids.has('mt_deferred_order_type')===(pathwayId==='deferred-sentence-dismissal-or-confidentiality-route'),`MT:${pathwayId}: order source-control scope changed`);
+  }
+  // Current counts are selector observations, never replacements for the
+  // historical evidence totals. Record the exact approved source-control delta.
+  currentSourceSelectionObservations[state] = {
+    financialConsumers:[...pathwaySelections].filter(([,ids])=>ids.has('financial_obligations')).map(([id])=>id),
+    msTimingConsumers:[...pathwaySelections].map(([id,ids])=>({id,fields:[...ids].filter(q=>sourceMsTimingIds.has(q))})).filter(row=>row.fields.length)
+  };
+  if(literalFinancialStates.has(state)) {
+    const routeId={LA:'misdemeanor-five-year-clean-period-expungement',ME:'adult-conviction-sealing',MO:'general-arrest-charge-plea-trial-or-conviction-expungement-under-rsmo-610-140',MT:'misdemeanor-conviction-expungement-under-mont-code-46-18-1104'}[state];
+    const label=profile.pathways.find(row=>row.id===routeId)?.label;
+    check(Boolean(label) && literalFinancialControl(state,rawQuestionById.get('financial_obligations')), `${state}: literal paid financial control lost exact identity`);
+    for(const financial_obligations of ['No','I am not sure']) check(selectPublicQuestionIds(profile,publicProfile,label,{court_requirements_completed:'yes',financial_obligations}).includes('financial_obligations'),`${state}: broad completion cannot erase independent ${financial_obligations} money answer`);
+  }
+  if(state==='MS') {
+    for(const [id,ids] of pathwaySelections) equal([...ids].filter(q=>sourceMsTimingIds.has(q)).sort(),[...baseMsTimingFor(id)].sort(),`MS:${id}: exact source timing applicability changed`);
+    for(const row of sourceMsTimingCases) {
+      const label=profile.pathways.find(p=>p.id===row.pathwayId).label;
+      const ids=selectPublicQuestionIds(profile,publicProfile,label,row.answers);
+      equal(ids.filter(id=>sourceMsTimingIds.has(id)).sort(),[...row.expected].sort(),`MS:${row.pathwayId}: independent factual timing branch changed`);
+      check(!ids.includes('ms_mip_dismissal_or_discharge_date'),'MS legacy OR control offered');
+    }
+    const raw={case_outcome:'Dismissed / not prosecuted',ms_mip_dismissal_or_discharge_date:'2012-06-01'},prior=JSON.stringify(raw);
+    const label=profile.pathways.find(p=>p.id===sourceMsTimingCases[2].pathwayId).label;
+    const ids=selectPublicQuestionIds(profile,publicProfile,label,raw);
+    check(ids.includes('ms_mip_dismissal_and_discharge_date')&&!ids.includes('ms_mip_dismissal_or_discharge_date'),'MS old-only answer must require fresh AND control');
+    check(JSON.stringify(raw)===prior&&!Object.hasOwn(raw,'ms_mip_dismissal_and_discharge_date'),'MS old OR raw was mutated or silently attested as AND');
   }
 
 // The legal/route/packet surface, minus two fields it is not about.
@@ -300,6 +376,19 @@ for (const [state, spec] of Object.entries(expected)) {
 
 const manifest = readJson(MANIFEST_PATH);
 const reconciliation = readJson(RECONCILIATION_PATH);
+check(crypto.createHash('sha256').update(fs.readFileSync(MANIFEST_PATH)).digest('hex')==='8b96deb5121986c8dc3020750e676694f05e67caa87e23ad7ba6178ff3246c08','Original80-flow manifest/premises/history changed');
+check(crypto.createHash('sha256').update(fs.readFileSync(EVIDENCE_PATH)).digest('hex')==='401db94e0d9b07401bddf6c10cdedcf5dca1579d2c528aa2b0927a0a5e20e213','Original LaneF evidence changed');
+const assertCurrentFlowSuccessor=(flow,result,selected=false)=>{
+ const contract=currentFlowSuccessors[flow.flowId];if(!contract)return false;
+ check(crypto.createHash('sha256').update(JSON.stringify(flow.fixture.answers)).digest('hex')===contract.rawSha,`${flow.flowId}: original premises changed`);
+ check(result.resultCode===contract.terminal,`${flow.flowId}: precise current source outcome changed`);
+ check(result.paymentAllowed===false,`${flow.flowId}: unsupported payment uplift`);
+ check(result.reasons.some(reason=>reason.code===contract.reason),`${flow.flowId}: exact source refusal/missing reason changed`);
+ equal([...(result.missingQuestionIds??[])].sort(),[...contract.missing].sort(),`${flow.flowId}: exact source fact request changed`);
+ if(selected)check(!result.packetPlan,`${flow.flowId}: conflicting selected-answer record gained packet plan`);
+ return true;
+};
+
 const stateSet = new Set(Object.keys(expected));
 const flows = manifest.flows.filter((flow) => stateSet.has(flow.jurisdiction));
 const reconciliationRows = reconciliation.rows.filter((row) => stateSet.has(row.jurisdiction));
@@ -315,8 +404,10 @@ for (const flow of flows) {
     answers: flow.fixture.answers
   });
   check(result.pathwayId === flow.remedy.pathwayId, `${flow.flowId}: pathway ${result.pathwayId} != ${flow.remedy.pathwayId}`);
-  check(result.resultCode === flow.terminalOutcome.effectiveTerminal, `${flow.flowId}: terminal ${result.resultCode} != ${flow.terminalOutcome.effectiveTerminal}`);
-  check(result.paymentAllowed === (flow.paymentMode === "dtc_paid"), `${flow.flowId}: payment witness changed`);
+  if(!assertCurrentFlowSuccessor(flow,result)) {
+    check(result.resultCode === flow.terminalOutcome.effectiveTerminal, `${flow.flowId}: terminal ${result.resultCode} != ${flow.terminalOutcome.effectiveTerminal}`);
+    check(result.paymentAllowed === (flow.paymentMode === "dtc_paid"), `${flow.flowId}: payment witness changed`);
+  }
   if (["packet_ready", "packet_ready_with_caution"].includes(result.resultCode)) {
     check(result.packetPlan?.pathwayId === flow.remedy.pathwayId, `${flow.flowId}: packet witness missing or changed`);
   }
@@ -336,8 +427,10 @@ for (const flowId of representativeSelectedFlowIds) {
   const selectedAnswers = Object.fromEntries(Object.entries(flow.fixture.answers).filter(([questionId]) => selectedIds.has(questionId)));
   const result = evaluateScreening({ jurisdiction: flow.jurisdiction, profileVersion: profile.profileVersion, matterId: `shard-f-selected-${flowId}`, answers: selectedAnswers });
   check(result.pathwayId === flow.remedy.pathwayId, `${flowId}: selected-answer pathway changed`);
-  check(result.resultCode === flow.terminalOutcome.effectiveTerminal, `${flowId}: selected-answer terminal changed`);
-  check(result.paymentAllowed === (flow.paymentMode === "dtc_paid"), `${flowId}: selected-answer payment changed`);
+  if(!assertCurrentFlowSuccessor(flow,result,true)) {
+    check(result.resultCode === flow.terminalOutcome.effectiveTerminal, `${flowId}: selected-answer terminal changed`);
+    check(result.paymentAllowed === (flow.paymentMode === "dtc_paid"), `${flowId}: selected-answer payment changed`);
+  }
   if (flow.jurisdiction === "MS") {
     check(selectedAnswers.resolved_timing_bucket === "gt_10_years", `${flowId}: Mississippi coarse timing bucket was not retained`);
     check(expected.MS.exactPacketFactIds.every((questionId) => !(questionId in selectedAnswers)), `${flowId}: unsupported Mississippi exact fact leaked into selected answers`);
@@ -365,20 +458,22 @@ if (!fs.existsSync(EVIDENCE_PATH)) {
    */
   const specs = Object.values(expected);
   const sum = (fn) => specs.reduce((total, spec) => total + fn(spec), 0);
-  const stateCounts = Object.values(selectedQuestionCounts);
   equal(evidence.after, {
     flows: 80,
     browserWitnessVariants: 156,
     freeQuestions: {
-      emptyContext: stateCounts.reduce((total, row) => total + row.emptyContext, 0),
-      maxExactRoute: stateCounts.reduce((total, row) => total + row.maxExactRoute, 0)
+      emptyContext: Object.values(historicalSelectedQuestionCounts).reduce((total,row)=>total+row.emptyContext,0),
+      maxExactRoute: Object.values(historicalSelectedQuestionCounts).reduce((total,row)=>total+row.maxExactRoute,0)
     },
     routeConsumerFacts: sum((spec) => Object.keys(spec.routeConsumers).length),
     routeConsumerEdges: sum((spec) => Object.values(spec.routeConsumers).flat().length),
     exactPacketFactIds: sum((spec) => spec.exactPacketFactIds.length),
     completionAliasIds: sum((spec) => spec.completionAliasIds.length)
   }, "evidence result counts changed");
-  equal(evidence.selectedQuestionCounts, selectedQuestionCounts, "evidence selected-question counts changed");
+  equal(evidence.selectedQuestionCounts, historicalSelectedQuestionCounts, "historical evidence selected-question counts changed");
+  equal(normalizedSelectedQuestionCounts,historicalSelectedQuestionCounts,'Unrelated selector count drift after only accepted source-control deltas');
+  check(Object.keys(currentFlowSuccessors).length===6 && flows.filter(flow=>!currentFlowSuccessors[flow.flowId]).length===74,"Exact six source successors /74 untouched witness expectations changed");
+  console.log(JSON.stringify({currentSelectedQuestionCounts:selectedQuestionCounts,normalizedSelectedQuestionCounts,historicalSelectedQuestionCounts,sourceScopedSelectionDelta:currentSourceSelectionObservations,qualification:"Derived current observations and exact accepted source-control assertions; no historical expected-total replacement or new approval."}));
   equal(evidence.representativeSelectedFlowIds, representativeSelectedFlowIds, "evidence selected-answer witnesses changed");
   equal(evidence.authorityLimitedNoncommercialFlowIds, authorityLimitedNoncommercialFlowIds, "evidence authority-limited route witnesses changed");
   equal(evidence.packetOnlyExactRouteFacts, { MD: ["pardon_signed_date", "arrest_date"], MO: ["date_of_birth"] }, "evidence packet-only exact route facts changed");

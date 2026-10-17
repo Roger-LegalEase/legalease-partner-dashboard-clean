@@ -106,7 +106,15 @@ export function composeIlProstitutionJVacateParticipantPacket(
       + "was built from.");
   }
 
-  const missing = [...new Set(specification.requiredFacts.map((required) => required.factId))]
+  // The approved family leaves participant-authored filing requirements as
+  // explicit blanks. Keep those requirements without demanding a value this
+  // adapter never prints. Actual identity/contact consumers always remain
+  // required, even if ownership metadata is accidentally broadened later.
+  const beforeFiling = new Set(specification.fieldOwnership?.participantCompletesBeforeFilingFields ?? []);
+  const missing = [...new Set([
+    ...specification.requiredFacts.map((required) => required.factId).filter((factId) => !beforeFiling.has(factId)),
+    ...Object.values(PARTICIPANT_FACTS)
+  ])]
     .filter((factId) => trimmedFact(matter, factId) === "")
     .sort();
   if (missing.length > 0) {

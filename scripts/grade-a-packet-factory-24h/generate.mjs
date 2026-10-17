@@ -17,6 +17,7 @@
  * conveyor is for, and it is reported rather than smoothed.
  */
 import { onlyReviewBoundReportChanged } from "./review-bound-report-currentness.mjs";
+import { changedAcceptanceCycle, retainedVerificationLaneCount } from "./verification-cycle.mjs";
 import { assessWaSudCustomMapping } from "./wa-sud-custom-mapping.mjs";
 import { visualOnlyRasterPending } from "./visual-only-raster-pending.mjs";
 import { applyUnresolvedSourceConstraints } from "./source-readiness-constraints.mjs";
@@ -82,6 +83,7 @@ function reconcileGeneratedClaimsWithPriorOwnership(generatedClaims, priorClaims
     if (prior?.released === true) {
       row.released = true;
       row.releasedAt = prior.releasedAt;
+      if (Object.hasOwn(prior, "releaseReason")) row.releaseReason = prior.releaseReason;
       carriedReleases++;
     }
   }
@@ -163,8 +165,8 @@ function consumedVerificationVerdicts() {
   return consumed;
 }
 
-function reportUnassertableVerificationDispatch(assignments, claims) {
-  const problems = verificationClaimProblems(assignments, claims, consumedVerificationVerdicts());
+function reportUnassertableVerificationDispatch(assignments, claims, consumed = consumedVerificationVerdicts()) {
+  const problems = verificationClaimProblems(assignments, claims, consumed);
   if (!problems.length) return false;
   console.error(`REFUSED_UNASSERTABLE_VERIFICATION_DISPATCH ${problems.length}`);
   for (const problem of problems.slice(0, 12)) console.error(`  ${problem}`);
@@ -3130,7 +3132,7 @@ const ELASTICITY = [
     creates: ["PF17", "PF18", "PF19", "PF20", "PF21", "PF22", "PF23", "PF24"] }
 ];
 const laneCount = (id) => { const e = ELASTICITY.find((x) => x.id === id); return e.triggered ? e.lanesWith : e.lanesWithout; };
-const VF_LANES = laneCount("verification");
+
 const FIX_LANES = laneCount("repair");
 let packetClaimsForPacking = [];
 try {
@@ -3138,6 +3140,7 @@ try {
     fs.readFileSync(path.join(ROOT, `${OUT_DIR}/claim-ledger.json`), "utf8")
   ).claims ?? [];
 } catch { /* no ledger yet */ }
+const VF_LANES = retainedVerificationLaneCount(laneCount("verification"), VF_LANES_ELASTIC, packetClaimsForPacking, families);
 const livePacketLane = livePacketLaneByFamily(packetClaimsForPacking);
 const PF_LANES = effectivePacketLaneCount(laneCount("build"), livePacketLane);
 
@@ -4185,6 +4188,7 @@ for (const e of ELASTICITY) {
     : assignments.filter((a) => e.creates.includes(a.assignmentId)).length;
   const expected = e.id === "build"
     ? PF_LANES - e.lanesWithout
+    : e.id === "verification" ? VF_LANES - e.lanesWithout
     : e.triggered ? e.creates.length : 0;
   if (have !== expected) problems.push(`${e.id} capacity requires ${expected} extra lane(s) at ${e.measured}, but ${have} exist`);
 }
@@ -4514,7 +4518,7 @@ const promptFor = (a) => {
   return p.join("\n");
 };
 
-const OUT = makeEmitter({ root: ROOT, check: CHECK, label: "packet factory 24h" });
+const OUT = makeEmitter({ root: ROOT, check: CHECK, label: "packet factory 24h", candidateDirectory: process.env.FACTORY_CANDIDATE_DIR || null });
 
 /* Queue writes; flush after the destruction guard. See the guard below. */
 const PENDING_EMITS = [];
@@ -4776,6 +4780,8 @@ const OPERATION_THE_STATE_OWES = {
   SOURCE_READY: "packet-build"
 };
 const reissuedNow = [];
+const previousFamilyStates = new Map(JSON.parse(fs.readFileSync(path.join(ROOT, `${OUT_DIR}/MASTER_QUEUE.json`), "utf8")).families.map(row => [row.familyId, row]));
+const currentFamilyStates = new Map(families.map(row => [row.familyId, row]));
 const stateOfFamily = new Map(families.map((r) => [r.familyId, r.state]));
 const sourceFamilyOfItem = new Map(assignments
   .filter((a) => a.itemKind === "sourceObligation")
@@ -4833,6 +4839,8 @@ for (const asg of assignments) {
       .sort((x, y) => String(x.reissuedAt).localeCompare(String(y.reissuedAt)))
       .pop();
     const holdReclassification = legalHoldReclassifications.get(id) ?? null;
+    const acceptanceCycle = dispatchedOperation === "independent-verification"
+      ? changedAcceptanceCycle(previousFamilyStates.get(familyId), currentFamilyStates.get(familyId)) : null;
     const reclassificationAlreadyReissued = (priorLedger.reissues ?? []).some((r) =>
       r.subjectId === id
       && r.operation === dispatchedOperation
@@ -4843,7 +4851,7 @@ for (const asg of assignments) {
        * not the just-completed cycle this guard protects. Re-open it once,
        * name the decision record, and then restore the ordinary anti-loop
        * rule on every later regeneration. */
-      if (releasedAfter && (!holdReclassification || reclassificationAlreadyReissued)) continue;
+      if (releasedAfter && (!holdReclassification || reclassificationAlreadyReissued) && !acceptanceCycle) continue;
     }
     /*
      * ONLY the claim the current dispatch's own lane holds.
@@ -4867,6 +4875,7 @@ for (const asg of assignments) {
       familyState,
       reissuedAt: new Date().toISOString().replace(/\.\d{3}Z$/, "Z"),
       reason: `the current dispatch names ${asg.assignmentId} for this subject, its family is ${familyState} and owes ${owed}, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster.`,
+      ...(acceptanceCycle ? { acceptanceCycle } : {}),
       ...(holdReclassification ? { decisionRecord: LEGAL_HOLD_RECLASSIFICATION,
         reclassificationDisposition: holdReclassification.disposition } : {})
     });
@@ -4919,7 +4928,8 @@ if (artifactsOnlyRereadProblems.length > 0) {
  * to reopen a just-completed work cycle; this guard keeps that anti-loop rule
  * while refusing to publish the unassertable assignment it leaves behind.
  */
-if (reportUnassertableVerificationDispatch(assignments, mergedClaims)) process.exit(1);
+// A historical verdict cannot make a newly dispatched, released grant usable.
+if (reportUnassertableVerificationDispatch(assignments, mergedClaims, new Set())) process.exit(1);
 
 const claimLedgerRecord = {
   schemaVersion: "rcap-claim-ledger/v2",

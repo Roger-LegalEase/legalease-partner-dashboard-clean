@@ -10,6 +10,12 @@ on:
       - scripts/grade-a-launch-control/reconcile-release-evidence.mjs
       - scripts/lib/corpus-index-paths.mjs
       - scripts/rcap-corpus/bootstrap-private-corpus.sh
+      - scripts/rcap-corpus/*adopted-sources.py
+      - scripts/rcap-corpus/*sc-guidance-sources.py
+      - scripts/rcap-corpus/*oh-exact-font.py
+      - scripts/rcap-corpus/*generator-source*
+      - scripts/rcap-corpus/check-generator-convergence.mjs
+      - data/rcap-grade-a/source-custody/generator-preflight-20261013/**
       - data/record-clearing/legal-decisions/2026-09-14-nc-146-core-and-conditional-dna-scope.json
       - scripts/verify-packet-build-environment.mjs
       - scripts/rcap-*.mjs
@@ -31,6 +37,12 @@ on:
       - scripts/grade-a-launch-control/reconcile-release-evidence.mjs
       - scripts/lib/corpus-index-paths.mjs
       - scripts/rcap-corpus/bootstrap-private-corpus.sh
+      - scripts/rcap-corpus/*adopted-sources.py
+      - scripts/rcap-corpus/*sc-guidance-sources.py
+      - scripts/rcap-corpus/*oh-exact-font.py
+      - scripts/rcap-corpus/*generator-source*
+      - scripts/rcap-corpus/check-generator-convergence.mjs
+      - data/rcap-grade-a/source-custody/generator-preflight-20261013/**
       - data/record-clearing/legal-decisions/2026-09-14-nc-146-core-and-conditional-dna-scope.json
       - scripts/verify-packet-build-environment.mjs
       - scripts/rcap-*.mjs
@@ -53,17 +65,20 @@ permissions:
 jobs:
   READY_TO_RUN:
     runs-on: ubuntu-latest
+    env:
+      PYTHONDONTWRITEBYTECODE: "1"
+      FACTORY_APPLICATION_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ github.sha }}
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
           # The ancestry gate requires the real commit graph, not a shallow clone.
           fetch-depth: 0
       - uses: actions/setup-node@v4
         with: { node-version: 22 }
       - name: Prove exact checked-out commit
         id: exact_commit
-        run: test "$(git rev-parse HEAD)" = "${GITHUB_SHA}"
+        run: test "$(git rev-parse HEAD)" = "${FACTORY_APPLICATION_SHA}"
       - name: Syntax checks
         id: syntax
         run: |
@@ -72,8 +87,7 @@ jobs:
       - name: Workflow YAML validation
         id: yaml
         run: ruby -e 'require "yaml"; Dir[".github/workflows/*.yml"].each { |f| YAML.parse_file(f) }'
-      # A checkout has no ignored corpus. Restore only the pinned Master Library;
-      # this does not provide Nationwide or the later private custody supplements.
+      # The pinned Master Library is separate from the later adopted supplements.
       - name: Establish verified corpus environment
         id: corpus_environment
         env:
@@ -95,15 +109,57 @@ jobs:
       - name: Acquisition requires explicit dispatch
         id: manual_acquisition
         run: node scripts/grade-a-packet-factory-24h/test-manual-acquisition.mjs
-      - name: Generator convergence
-        id: convergence
+      - name: Adopted-source restoration guard regressions
+        id: adoption_controls
+        run: PYTHONDONTWRITEBYTECODE=1 python3 scripts/rcap-corpus/test-restore-adopted-sources.py
+      - name: Restore exact adopted source bytes
+        id: adopted_sources
+        env:
+          GH_TOKEN: ${{ secrets.SOURCE_CORPUS_READ_TOKEN }}
+          SOURCE_ADOPTION_BUNDLE_REPOSITORY: ${{ vars.SOURCE_ADOPTION_BUNDLE_REPOSITORY }}
+          SOURCE_ADOPTION_BUNDLE_RELEASE_TAG: ${{ vars.SOURCE_ADOPTION_BUNDLE_RELEASE_TAG }}
         run: |
           set -euo pipefail
-          node scripts/grade-a-packet-factory-24h/generate-source-relationship-registry.mjs --check
-          node scripts/grade-a-packet-factory-24h/generate-raster-workflow-bindings.mjs --check
-          node scripts/grade-a-packet-factory-24h/generate.mjs --check
-          node scripts/grade-a-packet-factory-24h/generate-source-conveyor.mjs --check
-          node scripts/grade-a-packet-factory-24h/generate-washington-repair.mjs --check
+          python3 scripts/rcap-corpus/restore-adopted-sources.py
+          node --input-type=module -e 'import { loadUserSourceAdoption, AZ_ATTACHMENT_ADOPTION_PATH } from "./scripts/grade-a-packet-factory-24h/user-source-adoption.mjs"; loadUserSourceAdoption(process.cwd()); loadUserSourceAdoption(process.cwd(), {recordPath: AZ_ATTACHMENT_ADOPTION_PATH});'
+      - name: South Carolina source restoration guard regressions
+        id: sc_source_controls
+        run: PYTHONDONTWRITEBYTECODE=1 python3 scripts/rcap-corpus/test-sc-guidance-sources.py
+      - name: Restore South Carolina guidance private sources
+        id: sc_sources
+        run: python3 scripts/rcap-corpus/restore-sc-guidance-sources.py
+      - name: South Carolina runtime successor guards
+        id: sc_runtime_controls
+        run: node scripts/grade-a-packet-factory-24h/test-sc-runtime-successor.mjs --current
+      - name: Install PDF inspection dependency
+        id: pdf_inspection
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends poppler-utils cabextract
+          pdfinfo -v
+      - name: Restore exact Ohio Arial from original package
+        id: oh_font
+        run: python3 scripts/rcap-corpus/restore-oh-exact-font.py
+      - name: Ohio font restoration guard regressions
+        id: oh_font_controls
+        run: python3 scripts/rcap-corpus/test-oh-exact-font.py
+      - name: Verify new acceptance-cycle dispatch regression guards
+        run: node --test scripts/grade-a-packet-factory-24h/verification-cycle.test.mjs scripts/grade-a-packet-factory-24h/repin-packet-set-manifests.test.mjs
+      - name: Generator source preflight guard regressions
+        id: generator_source_controls
+        run: |
+          python3 scripts/rcap-corpus/test-generator-sources.py
+          node --test scripts/grade-a-packet-factory-24h/test-convergence-workflow-contract.mjs scripts/rcap-corpus/test-generator-source-corroboration.mjs
+      - name: Restore and preflight complete generator source inventory
+        id: generator_sources
+        run: python3 scripts/rcap-corpus/restore-generator-sources.py --report "$RUNNER_TEMP/generator-source-preflight/report.json"
+      - name: Generator convergence
+        id: convergence
+        env:
+          GENERATOR_SOURCE_AUDIT_DIR: ${{ runner.temp }}/generator-source-preflight/reads
+        run: |
+          set -euo pipefail
+          node scripts/rcap-corpus/check-generator-convergence.mjs
       - name: Factory checks
         id: factory_checks
         run: node scripts/grade-a-packet-factory-24h/verify.mjs
@@ -133,8 +189,8 @@ jobs:
         run: |
           git diff --check
           test -z "$(git status --porcelain)"
-      # Rendering is checked in the raster workflow, not this dependency-free
-      # source-conveyor job. These are the same source-lane contract checks.
+      # PDF inspection above checks existing source/output page counts. Rendering
+      # remains in the raster workflow; source lanes do not require rasterization.
       - name: A source-lane preflight requires no rasterizer
         id: source_preflight
         run: |
@@ -169,6 +225,14 @@ jobs:
         id: lane_mutations
         run: node scripts/grade-a-packet-factory-24h/verify-lane-contracts.mjs --mutations
       # Report after ALL checks. Skipped or absent is NOT_RUN, never PASS.
+      - name: Preserve generator source preflight evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: generator-source-preflight-${{ github.job }}-${{ github.run_id }}
+          path: ${{ runner.temp }}/generator-source-preflight/
+          retention-days: 14
+          if-no-files-found: warn
       - name: READY_TO_RUN summary
         if: always()
         env:

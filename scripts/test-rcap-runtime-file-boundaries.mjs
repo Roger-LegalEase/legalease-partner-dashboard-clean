@@ -27,16 +27,22 @@ for (const p of treatments('data/rcap-all50/composed-routes')) {
 assert.ok(refs.size > 0,'current evidence references must be enumerated');
 for(const ref of refs){assert.equal(exists(ref),true,ref);missing=path.join(root,ref);assert.equal(exists(ref),false,`missing original evidence refuses: ${ref}`);missing=undefined;}
 for(const p of ['package.json','data/rcap-all50/composed-routes/../review-artifacts/c-dependency-correction-assignment.json','data/rcap-all50/composed-routes/../../package.json','data/rcap-all50/composed-routes//route.json','/etc/passwd','data/rcap-all50/composed-routes/..\\package.json']) assert.equal(exists(p),false,p);
-const {loadMsPaidConsumerSuccessor,MS_PAID_SUCCESSOR_DECISION_PATH:decisionPath,MS_PAID_SUCCESSOR_PRIOR_DECISION_PATH:priorDecisionPath}=await import('../src/lib/rcap/fulfillment/paid-consumer-successor.ts');
+const {loadMsPaidConsumerSuccessor,MS_PAID_SUCCESSOR_DECISION_PATH:decisionPath,MS_PAID_SUCCESSOR_PRIOR_DECISION_PATH:priorDecisionPath,MS_PAID_SUCCESSOR_FIRST_DECISION_PATH:firstDecisionPath}=await import('../src/lib/rcap/fulfillment/paid-consumer-successor.ts');
 const approval=JSON.parse(fs.readFileSync(decisionPath));
+const {QUESTION_CONTRACT_SUCCESSOR_PATH,QUESTION_CONTRACT_OUTPUT_PATH,MS_QUESTION_CONTRACT_PREDECESSOR_PATH}=await import('../src/lib/rcap/fulfillment/question-contract-source-successor.mjs');
+const successor=JSON.parse(fs.readFileSync(QUESTION_CONTRACT_SUCCESSOR_PATH));
+const closure=[...new Set([decisionPath,priorDecisionPath,firstDecisionPath,
+ ...approval.preservedEvidence.map(e=>e.path),...approval.approvedArtifacts.map(a=>a.path),
+ QUESTION_CONTRACT_SUCCESSOR_PATH,QUESTION_CONTRACT_OUTPUT_PATH,MS_QUESTION_CONTRACT_PREDECESSOR_PATH,
+ ...successor.preservedEvidence.map(e=>e.path)])];
 const scratch=fs.mkdtempSync(path.join(os.tmpdir(),'rcap-original-evidence-'));
 try {
  // The successor closure is the decision, the decision it supersedes, the
  // preserved evidence and the approved bytes themselves; the loader reads all
  // of it and every part must be present for it to admit anything.
- for(const rel of [decisionPath,priorDecisionPath,...approval.preservedEvidence.map(e=>e.path),...approval.approvedArtifacts.map(a=>a.path)]){fs.mkdirSync(path.dirname(path.join(scratch,rel)),{recursive:true});fs.copyFileSync(rel,path.join(scratch,rel));}
+ for(const rel of closure){fs.mkdirSync(path.dirname(path.join(scratch,rel)),{recursive:true});fs.copyFileSync(rel,path.join(scratch,rel));}
  assert.deepEqual(loadMsPaidConsumerSuccessor(scratch),loadMsPaidConsumerSuccessor(root));
  assert.ok(loadMsPaidConsumerSuccessor(scratch));
- for(const e of [...approval.preservedEvidence,...approval.approvedArtifacts]){const p=path.join(scratch,e.path),b=fs.readFileSync(p);fs.appendFileSync(p,'\n');assert.equal(loadMsPaidConsumerSuccessor(scratch),null,'original-byte digest must refuse '+e.path);fs.unlinkSync(p);assert.equal(loadMsPaidConsumerSuccessor(scratch),null,'missing evidence must refuse '+e.path);fs.writeFileSync(p,b);}
+ for(const rel of closure){assert.ok(loadMsPaidConsumerSuccessor(scratch),'positive before '+rel);const e={path:rel};const p=path.join(scratch,e.path),b=fs.readFileSync(p);fs.appendFileSync(p,'\n');assert.equal(loadMsPaidConsumerSuccessor(scratch),null,'original-byte digest must refuse '+e.path);fs.unlinkSync(p);assert.equal(loadMsPaidConsumerSuccessor(scratch),null,'missing evidence must refuse '+e.path);fs.writeFileSync(p,b);}
 } finally {fs.rmSync(scratch,{recursive:true,force:true});}
-console.log(`PASS: ${refs.size} original component evidence references; missing evidence and traversal refusal; ${approval.preservedEvidence.length + approval.approvedArtifacts.length} MS evidence and approved-artifact byte hash and presence checks.`);
+console.log(`PASS: ${refs.size} original component evidence references; missing evidence and traversal refusal; ${closure.length} MS evidence and approved-artifact byte hash and presence checks.`);

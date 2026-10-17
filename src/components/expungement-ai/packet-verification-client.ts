@@ -1,8 +1,11 @@
+import { isPacketSaveReceipt } from "@/lib/expungement-ai/packet-save-contract";
 import type { BriefcaseCommercialActions } from "@/lib/expungement-ai/briefcase-presentation-authority";
 import type { AnswerValue } from "@/lib/expungement-ai/frontend/contracts";
 
 export type PacketVerificationClientResult = {
   ok: boolean;
+  status: number;
+  errorCode: string | null;
   commercialActions: BriefcaseCommercialActions;
   readyToGenerate: boolean;
   reviewReason: string | null;
@@ -70,11 +73,13 @@ function responseRecord(payload: unknown): Record<string, unknown> | null {
 /** Cross the final-verification boundary using the server-owned Lane B contract. */
 export async function requestPacketVerification({
   itemId,
+  expectedRevision,
   answers,
   endpoint,
   fetchImpl = fetch
 }: {
   itemId: string;
+  expectedRevision: number;
   answers: Record<string, AnswerValue>;
   endpoint?: string;
   fetchImpl?: typeof fetch;
@@ -84,22 +89,28 @@ export async function requestPacketVerification({
     {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ answers, verify: true })
+      body: JSON.stringify({ answers, verify: true, expectedRevision })
     }
   ).catch(() => null);
   const result = responseRecord(await response?.json().catch(() => null));
   const actions = result?.commercialActions && typeof result.commercialActions === "object"
     ? result.commercialActions as Record<string, unknown> : {};
+  const valid = response?.ok === true && isPacketSaveReceipt(result)
+    && result.reviewPath === `/briefcase/${encodeURIComponent(itemId)}/review`
+    && result.revision >= expectedRevision
+    && ["fulfillmentAvailable", "checkoutAllowed", "generationAllowed"].every((key) => typeof actions[key] === "boolean");
   return {
     commercialActions: {
-      fulfillmentAvailable: response?.ok === true && actions.fulfillmentAvailable === true,
-      checkoutAllowed: response?.ok === true && actions.checkoutAllowed === true,
-      generationAllowed: response?.ok === true && actions.generationAllowed === true
+      fulfillmentAvailable: valid && actions.fulfillmentAvailable === true,
+      checkoutAllowed: valid && actions.checkoutAllowed === true,
+      generationAllowed: valid && actions.generationAllowed === true
     },
-    ok: response?.ok === true,
-    readyToGenerate: result?.readyToGenerate === true,
+    ok: valid,
+    status: response?.ok && !valid ? 0 : response?.status ?? 0,
+    errorCode: typeof result?.error === "string" ? result.error : null,
+    readyToGenerate: valid && result?.readyToGenerate === true,
     reviewReason: typeof result?.reviewReason === "string" ? result.reviewReason : null,
-    missingInputIds: Array.isArray(result?.missingInputIds)
+    missingInputIds: valid && Array.isArray(result?.missingInputIds)
       ? result.missingInputIds.filter((id): id is string => typeof id === "string")
       : []
   };

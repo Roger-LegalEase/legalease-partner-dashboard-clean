@@ -33,6 +33,7 @@ const BASE: BriefcasePresentationItem = {
 
 const AVAILABLE_PACKET_DRAFT: Extract<BriefcasePresentationItem["packetDraft"], { status: "available" }> = {
   status: "available",
+  revision: 0,
   capturedAt: "2026-06-01T12:00:00.000Z",
   initialAnswers: {},
   screeningAnswers: {},
@@ -42,6 +43,7 @@ const AVAILABLE_PACKET_DRAFT: Extract<BriefcasePresentationItem["packetDraft"], 
   builderSections: [],
   requiredInputIds: [],
   missingInputIds: [],
+  pendingDerivations: [],
   questions: [],
   builderQuestions: [],
   verificationSummary: [],

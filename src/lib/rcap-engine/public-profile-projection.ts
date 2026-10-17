@@ -1,4 +1,32 @@
+import { MD_POLICE_IDS, MD_POLICE_QUESTIONS, mdPoliceSourceContract } from "@/lib/rcap-engine/maryland-police-record-facts";
+import { NY_16057_IDS, NY_16057_QUESTIONS, ny16057SourceContract } from "@/lib/rcap-engine/ny-16057-guidance";
+import { NY_MRTA_IDS, NY_MRTA_QUESTIONS, nyMrtaSourceContract } from "@/lib/rcap-engine/ny-mrta-stage-facts";
+import { virginiaVictimContextQuestion } from "@/lib/rcap-engine/virginia-victim-question";
+import { NY_16055_JUDGMENT_ID, NY_16055_QUESTION, ny16055SourceContract } from "@/lib/rcap-engine/ny-16055-guidance";
+import {WY_1501_QUESTIONS,WY_1501_FACT_IDS} from "@/lib/rcap-engine/wyoming-1501-facts";
+import { TX_ND_QUESTIONS, TX_ND_FACT_IDS } from "@/lib/rcap-engine/texas-nondisclosure-facts";
+import { WY_1401_QUESTIONS, WY_1401_NEW_IDS, wy1401Contract } from "@/lib/rcap-engine/wyoming-1401-facts";
+import { CA_12034_QUESTIONS, CA_12034_FACT_IDS, ca12034Contract } from "@/lib/rcap-engine/california-1203-4-facts";
+import { ND_FIRST_OFFENSE_FACT_IDS, ND_FIRST_OFFENSE_QUESTIONS } from "@/lib/rcap-engine/north-dakota-first-offense-facts";
+import { OR_DISPOSITION_QUESTIONS, OR_DISPOSITION_SOURCE, OR_DISPOSITION_FACT_IDS } from "@/lib/rcap-engine/oregon-disposition-identity";
+import { MT_DEFERRED_FACT_IDS, MT_DEFERRED_QUESTIONS } from "@/lib/rcap-engine/montana-deferred-facts";
+import { MO_MARIJUANA_FACT_IDS, MO_MARIJUANA_STATUS_QUESTIONS } from "@/lib/rcap-engine/missouri-marijuana-status-facts";
+import { AR_RECORD_ORIGIN_ID, AR_RECORD_ORIGIN_QUESTION } from "@/lib/rcap-engine/arkansas-record-origin";
+import { GA_PARDON_FACT_IDS, GA_PARDON_QUESTIONS, GA_PARDON_LABEL, GA_PARDON_OLD_LABEL } from "@/lib/rcap-engine/georgia-pardon-facts";
+import { convictionReliefQuestions } from "@/lib/rcap-engine/conviction-relief-request";
+import { CA_PROP64_FACT_IDS, CA_PROP64_FACT_QUESTIONS } from "@/lib/rcap-engine/california-prop64-facts";
+import { isCaProp64QuantityQuestion, CA_PROP64_QUANTITY_CONTRACT } from "@/lib/expungement-ai/ca-prop64-quantity";
+import { NY_16059_FACT_IDS, NY_16059_QUESTIONS, NY_16059_TIMING_IDS } from "@/lib/rcap-engine/new-york-16059-facts";
+import { DE_CONVICTION_FACT_IDS, DE_CONVICTION_QUESTIONS } from "@/lib/rcap-engine/delaware-conviction-rules";
+import { MS_PROGRAM_COMPLETION_FACT_IDS, MS_PROGRAM_COMPLETION_QUESTIONS } from "@/lib/rcap-engine/mississippi-program-completion";
+import { MS_CONDITIONAL_DISCHARGE_FACT_IDS, MS_CONDITIONAL_DISCHARGE_QUESTIONS } from "@/lib/rcap-engine/mississippi-conditional-discharge";
+import { KS_RECORD_SCOPE_FACT_IDS, KS_RECORD_SCOPE_QUESTIONS } from "@/lib/rcap-engine/kansas-record-scope";
+import { CA_PROP64_QUESTIONS } from "@/lib/expungement-ai/ca-prop64-choices";
+import { GA_FIRST_OFFENDER_FACT_IDS, GA_FIRST_OFFENDER_QUESTIONS } from "@/lib/rcap-engine/georgia-first-offender";
+import { IL_CANNABIS_FACT_IDS, IL_CANNABIS_QUESTIONS } from "@/lib/rcap-engine/illinois-cannabis-facts";
 import "server-only";
+import { reviewedScreeningQuestion } from "@/lib/expungement-ai/reviewed-question-copy";
+import { normalizeQuestionChoices, exclusiveOptionsFor } from "@/lib/expungement-ai/question-answer-state";
 
 import type { EngineProfile, PublicCaseOutcomeOption, PublicJurisdictionProfile, PublicQuestion } from "@/lib/rcap-engine/contracts";
 import translatedProfiles from "@/lib/expungement-ai/frontend/profiles/all51.json";
@@ -39,7 +67,13 @@ const PREPAY_PHASES = new Set<QuestionLifecyclePhase>([
 ]);
 
 const STATE_SPECIFIC_PREPAY_WILMA_FACT_IDS: Record<string, Set<string>> = {
+  AR: new Set([AR_RECORD_ORIGIN_ID]),
+  DE: new Set(DE_CONVICTION_FACT_IDS),
+  KS: new Set(KS_RECORD_SCOPE_FACT_IDS),
+  GA: new Set([...GA_PARDON_FACT_IDS, ...GA_FIRST_OFFENDER_FACT_IDS, ...convictionReliefQuestions("GA").map(q => q.id)]),
+  IL: new Set([...IL_CANNABIS_FACT_IDS, ...convictionReliefQuestions("IL").map(q => q.id)]),
   CA: new Set([
+    ...CA_PROP64_FACT_IDS,
     "ca_prop64_qualifying_marijuana_offense",
     "ca_prop64_lesser_or_no_offense",
     "ca_prop64_branch",
@@ -47,25 +81,43 @@ const STATE_SPECIFIC_PREPAY_WILMA_FACT_IDS: Record<string, Set<string>> = {
   ]),
   HI: new Set(["hi_court_order_confirmed"]),
   IN: new Set(["in_prosecutor_consent_confirmed"]),
-  MD: new Set(["arrest_date"]),
-  MO: new Set(["mo_at_least_twenty_two"]),
+  TX: new Set(TX_ND_FACT_IDS),
+  MD: new Set(["arrest_date", ...MD_POLICE_IDS]),
+  MO: new Set(["mo_at_least_twenty_two", ...MO_MARIJUANA_FACT_IDS]),
+  MT: new Set(MT_DEFERRED_FACT_IDS),
+  OR: new Set(OR_DISPOSITION_FACT_IDS),
+  ND: new Set(ND_FIRST_OFFENSE_FACT_IDS),
+  WY: new Set([...WY_1401_NEW_IDS, ...WY_1501_FACT_IDS, "arrest_date"]),
   MS: new Set([
+    ...convictionReliefQuestions("MS").map(q => q.id),
+    "ms_program_order",
+    "ms_program_record_status",
+    "ms_program_final_disposition",
+    ...MS_CONDITIONAL_DISCHARGE_FACT_IDS,
+    ...MS_PROGRAM_COMPLETION_FACT_IDS,
     "disposition_date",
     "arrest_date",
     "ms_last_conviction_date_any_court",
     "ms_successful_sentence_completion_date",
     "ms_mip_dismissal_or_discharge_date",
+    "ms_mip_dismissal_and_discharge_date",
     "ms_mip_sentence_completion_date",
     "ms_mip_fine_imposed",
     "ms_mip_fine_payment_date"
   ]),
   NY: new Set([
+    NY_16055_JUDGMENT_ID,
+    ...NY_MRTA_IDS,
+    ...NY_16057_IDS,
+    ...NY_16059_FACT_IDS,
     "ny_16059_total_eligible_convictions",
     "ny_16059_felony_convictions",
     "ny_16059_ineligible_offense",
     "ny_16059_sex_offender_registration",
     "ny_16059_pending_charge",
+    "ny_16059_undisposed_arrest",
     "ny_16059_post_last_conviction_crime",
+    "ny_16059_later_conviction_entered",
     "ny_16059_prior_sealing",
     "ny_16058_treatment_program_completed"
   ]),
@@ -78,12 +130,16 @@ const STATE_SPECIFIC_PREPAY_WILMA_FACT_IDS: Record<string, Set<string>> = {
 // here as an exact birth date in free screening; it is now an approximate
 // threshold prepay and an exact date of birth at final verification only.
 const STATE_SPECIFIC_EXACT_PREPAY_TIMING_FACT_IDS: Record<string, Set<string>> = {
-  MD: new Set(["arrest_date"]),
+  CA: new Set(["ca_prop64_offense_date"]),
+  NY: new Set(NY_16059_TIMING_IDS),
+  TX: new Set(TX_ND_FACT_IDS),
+  MD: new Set(["arrest_date", ...MD_POLICE_IDS]),
   MS: new Set([
     "arrest_date",
     "ms_last_conviction_date_any_court",
     "ms_successful_sentence_completion_date",
     "ms_mip_dismissal_or_discharge_date",
+    "ms_mip_dismissal_and_discharge_date",
     "ms_mip_sentence_completion_date",
     "ms_mip_fine_payment_date"
   ])
@@ -296,12 +352,6 @@ const PACKET_RELEASE_FACT_QUESTIONS: PublicQuestion[] = [
  * value to `null` keeps real choice lists intact while turning malformed/empty options into the
  * correct "no options" signal for text/number/date questions.
  */
-function normalizeQuestionOptions(options: unknown): string[] | null {
-  if (Array.isArray(options) && options.length > 0 && options.every((opt) => typeof opt === "string")) {
-    return options as string[];
-  }
-  return null;
-}
 
 function questionText(question: PublicQuestion) {
   const options = Array.isArray(question.options) ? question.options.join(" ") : "";
@@ -367,7 +417,7 @@ function normalizePublicQuestion(
       ...question,
       lifecyclePhase: "postpay_packet_field",
       stage: "packet_information",
-      options: normalizeQuestionOptions(question.options),
+      ...normalizeQuestionChoices(question.options, question.optionDisplay),
       contextOnly: false,
       doesNotSelectPathway: true
     };
@@ -383,7 +433,7 @@ function normalizePublicQuestion(
       ...question,
       lifecyclePhase: "prepay_timing_gate",
       stage: question.stage,
-      options: normalizeQuestionOptions(question.options),
+      ...normalizeQuestionChoices(question.options, question.optionDisplay),
       required: question.required,
       contextOnly: false,
       doesNotSelectPathway: true
@@ -399,7 +449,7 @@ function normalizePublicQuestion(
     ...question,
     lifecyclePhase,
     stage: PREPAY_PHASES.has(lifecyclePhase) ? question.stage : postpayStageForPhase(lifecyclePhase),
-    options: normalizeQuestionOptions(question.options),
+    ...normalizeQuestionChoices(question.options, question.optionDisplay),
     required: requiredPrepayFact ? true : question.required,
     contextOnly: question.contextOnly === true,
     doesNotSelectPathway: question.contextOnly === true || question.doesNotSelectPathway === true
@@ -415,6 +465,50 @@ function dedupeQuestionsById(questions: PublicQuestion[]) {
     return true;
   });
 }
+
+// Existing EN/ES display vocabulary for newly reachable Kansas outcomes.
+const KS_ADDITIONAL_OUTCOME_DISPLAY = {
+  "Misdemeanor conviction": {
+    "label": "Convicted of a misdemeanor",
+    "helperText": "a less serious conviction",
+    "translations": {
+      "es": {
+        "label": "Condenado por un delito menor",
+        "helperText": "una condena menos grave"
+      }
+    }
+  },
+  "Arrest or citation with no charge filed": {
+    "label": "Arrest or citation with no charge filed",
+    "helperText": "The record shows an arrest or a citation, and no charge was filed.",
+    "translations": {
+      "es": {
+        "label": "Arresto o citación sin cargos presentados",
+        "helperText": "El registro muestra un arresto o una citación y que no se presentaron cargos."
+      }
+    }
+  },
+  "Dismissed, no-billed, nolle prosequi, or not prosecuted": {
+    "label": "The case was dropped or thrown out",
+    "helperText": "dismissed, no-billed, nolle prosequi, or not prosecuted",
+    "translations": {
+      "es": {
+        "label": "El caso fue retirado o desestimado",
+        "helperText": "desestimado, no acusado, retirado por la fiscalía o no procesado"
+      }
+    }
+  },
+  "Acquitted or found not guilty": {
+    "label": "Found not guilty",
+    "helperText": "acquitted or found not guilty",
+    "translations": {
+      "es": {
+        "label": "Fue declarado no culpable",
+        "helperText": "absuelto o declarado no culpable"
+      }
+    }
+  }
+};
 
 /**
  * The evaluator's waiting-period gate falls back to `resolved_timing_bucket`
@@ -472,7 +566,7 @@ function withCompletePathwayContextOptions(questions: PublicQuestion[], pathways
     if (question.id !== "possible_pathway_context") return question;
     const options: string[] = Array.isArray(question.options) ? question.options.filter((option): option is string => typeof option === "string") : [];
     if (options.length === 0) return question;
-    const covered = (label: string) => options.some((option) => option === label || option.includes(label));
+    const covered = (label: string) => label === GA_PARDON_LABEL.en && options.includes(GA_PARDON_OLD_LABEL) || options.some((option) => option === label || option.includes(label));
     const missing = pathways.map((pathway) => pathway.label).filter((label) => label.trim() !== "" && !covered(label));
     if (missing.length === 0) return question;
     const lastIsNoneOfThese = options.length > 0 && /^none of these/i.test(options[options.length - 1]);
@@ -797,6 +891,17 @@ const WILMA_FACT_QUESTIONS: PublicQuestion[] = [
     options: null
   },
   {
+    id: "ny_16059_undisposed_arrest", stage: "timing_and_completion",
+    prompt: "Do you have an arrest that is still unresolved, even if no charge has been filed?",
+    helperText: "Check the current status of the arrest. This is separate from a pending charge and from probation or supervision after a resolved case. Choose I am not sure if you cannot confirm its status.",
+    type: "yes_no_unsure", required: false, contextOnly: false, doesNotSelectPathway: true,
+    lifecyclePhase: "prepay_route_splitter", options: null,
+    translations: { es: {
+      prompt: "¿Tiene algún arresto que siga sin resolverse, aunque no se haya presentado un cargo?",
+      helperText: "Consulte el estado actual del arresto. Esto es distinto de un cargo pendiente y de la libertad condicional o supervisión después de un caso resuelto. Elija No estoy seguro si no puede confirmar su estado."
+    } }
+  },
+  {
     id: "ny_16059_pending_charge",
     stage: "timing_and_completion",
     prompt: "For NY CPL 160.59, is any criminal charge currently pending?",
@@ -808,13 +913,24 @@ const WILMA_FACT_QUESTIONS: PublicQuestion[] = [
     options: null
   },
   {
+    id: "ny_16059_later_conviction_entered", stage: "timing_and_completion",
+    prompt: "After the judgment was entered for the most recent conviction you want sealed, were you convicted of another crime?",
+    helperText: "Compare the conviction dates in the court records, even if the conduct happened earlier. An arrest, accusation or pending charge alone is not a conviction. If you cannot confirm the later case's result, choose I am not sure.",
+    type: "yes_no_unsure", required: false, contextOnly: false, doesNotSelectPathway: true,
+    lifecyclePhase: "prepay_route_splitter", options: null,
+    translations: { es: {
+      prompt: "Después de que se dictó la sentencia de la condena más reciente que quiere sellar, ¿fue condenado por otro delito?",
+      helperText: "Compare las fechas de las condenas en los expedientes judiciales, incluso si la conducta ocurrió antes. Un arresto, una acusación o un cargo pendiente por sí solo no es una condena. Si no puede confirmar el resultado del caso posterior, elija No estoy seguro."
+    } }
+  },
+  {
     id: "ny_16059_post_last_conviction_crime",
     stage: "timing_and_completion",
     prompt: "For NY CPL 160.59, has there been any crime after the most recent conviction?",
     helperText: "fact collection only; if unsure, route to review before any packet decision",
     type: "yes_no_unsure",
     required: false,
-    contextOnly: false,
+    contextOnly: true,
     doesNotSelectPathway: true,
     options: null
   },
@@ -873,31 +989,65 @@ const WILMA_FACT_QUESTIONS: PublicQuestion[] = [
     doesNotSelectPathway: true,
     options: null
   },
-  {
-    id: "ca_prop64_branch",
-    stage: "timing_and_completion",
-    prompt: "Which California HSC 11361.8 branch applies?",
-    helperText: "currently-serving petition, completed-sentence application, or automatic/background guidance",
-    type: "text_or_unknown",
-    required: false,
-    contextOnly: false,
-    doesNotSelectPathway: true,
-    options: null
-  },
-  {
-    id: "ca_prop64_relief_requested",
-    stage: "timing_and_completion",
-    prompt: "For a completed-sentence HSC 11361.8 application, what relief is requested?",
-    helperText: "dismissal/sealing, redesignation, or not sure",
-    type: "text_or_unknown",
-    required: false,
-    contextOnly: false,
-    doesNotSelectPathway: true,
-    options: null
-  }
+  ...CA_PROP64_QUESTIONS
 ];
 
 const MISSISSIPPI_CORRECTION_FACT_QUESTIONS: PublicQuestion[] = [
+  {
+    id: "ms_program_order", stage: "pathway_routing", type: "single_choice",
+    prompt: "Which program is named in this case's order or written admission request?",
+    helperText: "Read the program or statute from the case record. A completed class or supervision period alone does not identify the court's program. Choose Other or not sure if the record does not identify one of these.",
+    required: false, contextOnly: false, doesNotSelectPathway: false, lifecyclePhase: "prepay_route_splitter",
+    options: ["no_program_order", "99-15-26", "99-15-101", "41-29-150", "other_or_unknown"],
+    optionDisplay: {
+      no_program_order: { label: "No program order or admission request", translations: { es: { label: "No hay orden de programa ni solicitud de admisión" } } },
+      "99-15-26": { label: "Nonadjudication — § 99-15-26", translations: { es: { label: "No adjudicación — sección 99-15-26" } } },
+      "99-15-101": { label: "Pretrial intervention — §§ 99-15-101 through 99-15-127", translations: { es: { label: "Intervención previa al juicio — secciones 99-15-101 a 99-15-127" } } },
+      "41-29-150": { label: "Controlled-substance conditional discharge — § 41-29-150", translations: { es: { label: "Descargo condicional por sustancias controladas — sección 41-29-150" } } },
+      other_or_unknown: { label: "Another program or I am not sure", translations: { es: { label: "Otro programa o no estoy seguro" } } }
+    },
+    translations: { es: {
+      prompt: "¿Qué programa se indica en la orden o solicitud escrita de admisión de este caso?",
+      helperText: "Consulte el programa o la ley que aparece en el expediente. Completar una clase o un período de supervisión no identifica por sí solo el programa judicial. Elija Otro o no estoy seguro si el expediente no identifica uno de estos programas."
+    } }
+  },
+  {
+    id: "ms_program_record_status", stage: "pathway_routing", type: "single_choice",
+    prompt: "What does the case record show about the program and case closure?",
+    helperText: "Use the actual record. Completing tasks is different from a court order dismissing or closing the case. For conditional discharge, confirm both discharge and dismissal.",
+    required: false, contextOnly: false, doesNotSelectPathway: false, lifecyclePhase: "prepay_route_splitter",
+    options: ["active", "completed_and_closed", "completed_without_closure", "revoked_or_unsuccessful", "other_or_unknown"],
+    optionDisplay: {
+      active: { label: "Admission requested or program still active", translations: { es: { label: "Admisión solicitada o programa aún activo" } } },
+      completed_and_closed: { label: "Requirements completed and dismissal or closure entered", translations: { es: { label: "Requisitos cumplidos y desestimación o cierre dictado" } } },
+      completed_without_closure: { label: "Requirements completed, but no dismissal or closure entered", translations: { es: { label: "Requisitos cumplidos, pero sin desestimación ni cierre dictado" } } },
+      revoked_or_unsuccessful: { label: "Program revoked or ended unsuccessfully", translations: { es: { label: "Programa revocado o terminado sin éxito" } } },
+      other_or_unknown: { label: "Another status or I am not sure", translations: { es: { label: "Otro estado o no estoy seguro" } } }
+    },
+    translations: { es: {
+      prompt: "¿Qué indica el expediente sobre el programa y el cierre del caso?",
+      helperText: "Consulte el expediente. Cumplir tareas es diferente de una orden judicial que desestima o cierra el caso. Para el descargo condicional, confirme tanto el descargo como la desestimación."
+    } }
+  },
+  {
+    id: "ms_program_final_disposition", stage: "pathway_routing", type: "single_choice",
+    prompt: "After completing the program, what does this case's final court record show?",
+    helperText: "Copy the actual disposition, not the program's expected result. Discharge and dismissal are separate events. If there is no recorded disposition, say so; do not treat that as a dismissal.",
+    required: false, contextOnly: false, doesNotSelectPathway: false, lifecyclePhase: "prepay_route_splitter",
+    options: ["dismissed_and_closed", "charges_dropped", "no_disposition", "discharged_and_dismissed", "discharged_only", "other_or_unknown"],
+    optionDisplay: {
+      dismissed_and_closed: { label: "The case was dismissed and closed", translations: { es: { label: "El caso fue desestimado y cerrado" } } },
+      charges_dropped: { label: "The charges were dropped", translations: { es: { label: "Se retiraron los cargos" } } },
+      no_disposition: { label: "There is no disposition recorded", translations: { es: { label: "No hay una resolución registrada" } } },
+      discharged_and_dismissed: { label: "Both conditional discharge and dismissal were entered", translations: { es: { label: "Se dictaron tanto el descargo condicional como la desestimación" } } },
+      discharged_only: { label: "A discharge was entered, but no dismissal", translations: { es: { label: "Se dictó un descargo, pero no una desestimación" } } },
+      other_or_unknown: { label: "Another result or I am not sure", translations: { es: { label: "Otro resultado o no estoy seguro" } } }
+    },
+    translations: { es: {
+      prompt: "Después de completar el programa, ¿qué indica el expediente judicial final de este caso?",
+      helperText: "Copie la resolución real, no el resultado esperado del programa. El descargo y la desestimación son actos distintos. Si no hay una resolución registrada, indíquelo; no lo trate como una desestimación."
+    } }
+  },
   {
     id: "ms_last_conviction_date_any_court",
     stage: "timing_and_completion",
@@ -914,6 +1064,17 @@ const MISSISSIPPI_CORRECTION_FACT_QUESTIONS: PublicQuestion[] = [
     stage: "timing_and_completion",
     prompt: "What date did you successfully complete every term and condition of the DUI sentence?",
     helperText: "Use the exact completion date shown in the court or supervision record.",
+    type: "date_or_unknown",
+    required: false,
+    contextOnly: false,
+    doesNotSelectPathway: true,
+    options: null
+  },
+  {
+    id: "ms_mip_dismissal_and_discharge_date",
+    stage: "timing_and_completion",
+    prompt: "What date did the court complete both dismissal and discharge of this qualifying under-21 alcohol matter?",
+    helperText: "Use the court order. If dismissal and discharge have different dates, or the order is unclear, choose “Not sure” so the record can be reviewed.",
     type: "date_or_unknown",
     required: false,
     contextOnly: false,
@@ -969,7 +1130,13 @@ const MISSISSIPPI_CORRECTION_FACT_QUESTIONS: PublicQuestion[] = [
 function withWilmaFactQuestions(
   profile: PublicJurisdictionProfile,
   pathways: { id: string; label: string }[] = [],
-  exactPacketFactIds: readonly string[] = []
+  exactPacketFactIds: readonly string[] = [],
+  caProbationContract = false,
+  wyNonconvictionContract = false,
+  nyPartialSealContract = false,
+  nyMrtaContract = false,
+  nyCleanSlateContract = false,
+  mdPoliceContract = false
 ): PublicJurisdictionProfile {
   const existingIds = new Set(profile.questions.map((question) => question.id));
   const exactPacketFacts = new Set(exactPacketFactIds);
@@ -987,10 +1154,25 @@ function withWilmaFactQuestions(
     ...PACKET_RELEASE_FACT_QUESTIONS.filter((question) => packetReleaseFactIds.has(question.id) && !existingIds.has(question.id))
       .map((question) => normalizePublicQuestion(question, profile.jurisdiction.code, "wilma", exactPacketFacts.has(question.id)))
   ];
-  const availableWilmaFactQuestions = profile.jurisdiction.code === "MS"
-    ? [...WILMA_FACT_QUESTIONS, ...MISSISSIPPI_CORRECTION_FACT_QUESTIONS]
-    : WILMA_FACT_QUESTIONS;
-  const additions = availableWilmaFactQuestions
+  const availableWilmaFactQuestions = mdPoliceContract ? [...WILMA_FACT_QUESTIONS, ...MD_POLICE_QUESTIONS]
+    : profile.jurisdiction.code === "DE"
+    ? [...WILMA_FACT_QUESTIONS.filter(question => !DE_CONVICTION_FACT_IDS.includes(question.id)), ...DE_CONVICTION_QUESTIONS]
+    : profile.jurisdiction.code === "MS"
+    ? [...WILMA_FACT_QUESTIONS, ...MISSISSIPPI_CORRECTION_FACT_QUESTIONS, ...MS_CONDITIONAL_DISCHARGE_QUESTIONS, ...MS_PROGRAM_COMPLETION_QUESTIONS]
+    : profile.jurisdiction.code === "TX" ? [...WILMA_FACT_QUESTIONS, ...TX_ND_QUESTIONS]
+    : profile.jurisdiction.code === "AR" ? [...WILMA_FACT_QUESTIONS, AR_RECORD_ORIGIN_QUESTION]
+    : profile.jurisdiction.code === "CA" ? [...WILMA_FACT_QUESTIONS, ...CA_PROP64_FACT_QUESTIONS, ...(caProbationContract ? CA_12034_QUESTIONS : [])]
+    : profile.jurisdiction.code === "GA" ? [...WILMA_FACT_QUESTIONS, ...GA_FIRST_OFFENDER_QUESTIONS, ...GA_PARDON_QUESTIONS]
+    : profile.jurisdiction.code === "IL" ? [...WILMA_FACT_QUESTIONS, ...IL_CANNABIS_QUESTIONS]
+    : profile.jurisdiction.code === "NY" ? [...WILMA_FACT_QUESTIONS, ...NY_16059_QUESTIONS, ...(nyPartialSealContract ? [NY_16055_QUESTION] : []), ...(nyMrtaContract ? NY_MRTA_QUESTIONS : []), ...(nyCleanSlateContract ? NY_16057_QUESTIONS : [])]
+    : profile.jurisdiction.code === "KS" ? [...WILMA_FACT_QUESTIONS, ...KS_RECORD_SCOPE_QUESTIONS]
+    : profile.jurisdiction.code === "MO" ? [...WILMA_FACT_QUESTIONS, ...MO_MARIJUANA_STATUS_QUESTIONS]
+    : profile.jurisdiction.code === "MT" ? [...WILMA_FACT_QUESTIONS, ...MT_DEFERRED_QUESTIONS]
+    : profile.jurisdiction.code === "OR" ? [...WILMA_FACT_QUESTIONS, ...OR_DISPOSITION_QUESTIONS]
+    : profile.jurisdiction.code === "ND" ? [...WILMA_FACT_QUESTIONS, ...ND_FIRST_OFFENSE_QUESTIONS]
+    : wyNonconvictionContract ? [...WILMA_FACT_QUESTIONS, ...WY_1401_QUESTIONS.filter(q=>WY_1401_NEW_IDS.includes(q.id)), ...WY_1501_QUESTIONS]
+      : WILMA_FACT_QUESTIONS;
+  const additions = [...availableWilmaFactQuestions, ...convictionReliefQuestions(profile.jurisdiction.code)]
     .filter((question) => !existingIds.has(question.id))
     .map((question) => normalizePublicQuestion(question, profile.jurisdiction.code, "wilma", exactPacketFacts.has(question.id)));
   const baseQuestions = withCompletePathwayContextOptions(
@@ -1009,7 +1191,33 @@ function withWilmaFactQuestions(
       withBroadCourtRequirementsGate(dedupeQuestionsById([...baseQuestions, ...additions])),
       pathways
     );
-  const questions = withBroadTimingBucketGate(withAdditions);
+  const questions = withBroadTimingBucketGate(withAdditions).map(question => profile.jurisdiction.code === "GA" && question.id === "possible_pathway_context"
+    ? { ...question, optionDisplay: { ...question.optionDisplay, ...Object.fromEntries([GA_PARDON_OLD_LABEL, GA_PARDON_LABEL.en].map(value => [value, { label: GA_PARDON_LABEL.en, translations: { es: { label: GA_PARDON_LABEL.es } } }])) } }
+    : wyNonconvictionContract && WY_1401_NEW_IDS.includes(question.id)
+    ? WY_1401_QUESTIONS.find(fact => fact.id === question.id)!
+    : wyNonconvictionContract && question.id === "case_outcome"
+    ? {...question, options:[...new Set([...(Array.isArray(question.options)?question.options:[]),"Acquitted"])],optionDisplay:{...question.optionDisplay,Acquitted:{label:"Acquitted",translations:{es:{label:"Absuelto"}}}}}
+    : caProbationContract && CA_12034_FACT_IDS.includes(question.id)
+    ? CA_12034_QUESTIONS.find(fact => fact.id === question.id)!
+    : profile.jurisdiction.code === "CA" && CA_PROP64_FACT_IDS.includes(question.id)
+    ? CA_PROP64_FACT_QUESTIONS.find(fact => fact.id === question.id)!
+    : profile.jurisdiction.code === "ND" && ND_FIRST_OFFENSE_FACT_IDS.includes(question.id)
+    ? ND_FIRST_OFFENSE_QUESTIONS.find(fact => fact.id === question.id)!
+    : profile.jurisdiction.code === "NY" && NY_16059_FACT_IDS.includes(question.id)
+    ? NY_16059_QUESTIONS.find(fact => fact.id === question.id)!
+    : profile.jurisdiction.code === "DE" && DE_CONVICTION_FACT_IDS.includes(question.id)
+    ? DE_CONVICTION_QUESTIONS.find(fact => fact.id === question.id)!
+    : profile.jurisdiction.code === "KS" && question.id === "case_outcome"
+    ? { ...question, options: [...new Set([...(Array.isArray(question.options) ? question.options : []), ...Object.keys(KS_ADDITIONAL_OUTCOME_DISPLAY)])], optionDisplay: { ...question.optionDisplay, ...KS_ADDITIONAL_OUTCOME_DISPLAY } }
+    : profile.jurisdiction.code === "DE" && question.id === "case_outcome"
+    ? { ...question, options: [...new Set([...(Array.isArray(question.options) ? question.options : []), "Misdemeanor conviction", "Felony conviction", "Other conviction or adjudication", "Juvenile adjudication or offense committed as a minor"])] } : question);
+  // Exact WY incident dates are protected packet facts. Register their types
+  // for saved-record evaluation without offering anonymous date collection.
+  if(wyNonconvictionContract) for(const descriptor of WY_1401_QUESTIONS.filter(q=>!WY_1401_NEW_IDS.includes(q.id))) {
+    const q={...descriptor,stage:"packet_information",lifecyclePhase:"postpay_packet_field" as const};
+    const index=questions.findIndex(existing=>existing.id===q.id);
+    if(index<0)questions.push(q);
+  }
   return {
     ...profile,
     postPaymentPacketCompletion: postPaymentPacketCompletion(questions),
@@ -1051,7 +1259,10 @@ function toPublicQuestion(question: PublicQuestion): PublicQuestion {
   if (question.contextOnly !== undefined) publicQuestion.contextOnly = question.contextOnly;
   if (question.doesNotSelectPathway !== undefined) publicQuestion.doesNotSelectPathway = question.doesNotSelectPathway;
   if (question.lifecyclePhase !== undefined) publicQuestion.lifecyclePhase = question.lifecyclePhase;
+  if (isCaProp64QuantityQuestion(question)) publicQuestion.answerContract = CA_PROP64_QUANTITY_CONTRACT;
   if (question.options !== undefined) publicQuestion.options = question.options;
+  const exclusive = exclusiveOptionsFor(question);
+  if (exclusive.length) publicQuestion.exclusiveOptions = [...exclusive];
   if (question.optionDisplay !== undefined) publicQuestion.optionDisplay = toPublicOptionDisplay(question.optionDisplay);
   if (question.translations !== undefined) publicQuestion.translations = toPublicQuestionTranslations(question.translations);
 
@@ -1163,7 +1374,12 @@ function toPublicJurisdictionProfile(draft: PublicJurisdictionProfile): PublicJu
  */
 export function projectPublicProfile(profile: EngineProfile): PublicJurisdictionProfile {
   const projected = toPublicJurisdictionProfile(buildProfileDraft(profile));
+  const context = { state: profile.jurisdiction.code };
+  projected.questions = projected.questions.map((question) => virginiaVictimContextQuestion(profile, reviewedScreeningQuestion(question, context)));
   const completion = projected.postPaymentPacketCompletion;
+  if (completion) for (const questions of Object.values(completion)) {
+    for (let index = 0; index < questions.length; index++) questions[index] = virginiaVictimContextQuestion(profile, reviewedScreeningQuestion(questions[index], context));
+  }
   const lifecycle = validateQuestionLifecycleMetadata(profile, [
     ...projected.questions,
     ...(completion?.requiredPacketCompletionFields ?? []),
@@ -1205,14 +1421,19 @@ function buildProfileDraft(profile: EngineProfile): PublicJurisdictionProfile {
         questionIds: stage.questionIds ?? designerProfile.questions.filter((question) => question.stage === stage.id).map((question) => question.id),
         screenType: stage.screenType
       })),
-      questions: designerProfile.questions.map((question) => withDisplayTranslations(normalizePublicQuestion(
+      questions: [...designerProfile.questions,
+        ...(profile.jurisdiction.code === "OR" && profile.profileVersion === OR_DISPOSITION_SOURCE.profileVersion
+          && profile.source?.sourceCorpusSha256 === OR_DISPOSITION_SOURCE.sourceFingerprint
+          && !designerProfile.questions.some(question => question.id === "state_exclusion_categories")
+          ? profile.questions.filter(question => question.id === "state_exclusion_categories") : [])
+      ].map((question) => withDisplayTranslations(normalizePublicQuestion(
         question,
         profile.jurisdiction.code,
         "designer",
         routeScopedPacketFacts.includes(question.id)
       ), profile.jurisdiction.code)),
       caseOutcomeOptions: toPublicCaseOutcomeOptions(designerProfile.caseOutcomeOptions)
-    }, profile.pathways ?? [], routeScopedPacketFacts);
+    }, profile.pathways ?? [], routeScopedPacketFacts, ca12034Contract(profile), wy1401Contract(profile), ny16055SourceContract(profile), nyMrtaSourceContract(profile), ny16057SourceContract(profile), mdPoliceSourceContract(profile));
   }
 
   const questionIds = new Set(profile.questions.map((question) => question.id));
@@ -1244,5 +1465,5 @@ function buildProfileDraft(profile: EngineProfile): PublicJurisdictionProfile {
       optionDisplay: question.optionDisplay
     }, profile.jurisdiction.code, "engine", routeScopedPacketFacts.includes(question.id)), profile.jurisdiction.code)),
     caseOutcomeOptions: toPublicCaseOutcomeOptions(profile.caseOutcomeOptions)
-  }, profile.pathways ?? [], routeScopedPacketFacts);
+  }, profile.pathways ?? [], routeScopedPacketFacts, ca12034Contract(profile), wy1401Contract(profile), ny16055SourceContract(profile), nyMrtaSourceContract(profile), ny16057SourceContract(profile), mdPoliceSourceContract(profile));
 }

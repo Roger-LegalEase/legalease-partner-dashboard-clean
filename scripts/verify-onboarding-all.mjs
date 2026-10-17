@@ -29,6 +29,9 @@ const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
  * coverage check at the bottom fails when a matching script exists but is absent here.
  */
 const REGISTRY = [
+  { file: "clinic-qa/generation-refusal.test.mjs", group: "local", note: "Existing generation refusal stays closed and returns a safe response" },
+  { file: "clinic-qa/fixture.test.mjs", group: "local", note: "Refuse hosted or malformed Clinic QA targets; no authenticated acceptance claimed" },
+  { file: "clinic-qa/acceptance.mjs", group: "clinic", note: "Existing isolated Auth/API/RLS/browser acceptance with synthetic actors and exact cleanup" },
   // --- local: deterministic, credential-free -------------------------------------------
   { file: "verify-rcap-partner-onboarding.mjs", group: "local" },
   { file: "verify-rcap-partner-onboarding-domain.mjs", group: "local" },

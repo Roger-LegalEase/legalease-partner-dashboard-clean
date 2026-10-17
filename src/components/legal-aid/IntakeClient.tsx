@@ -250,9 +250,13 @@ function FieldInput({ field, answer, error, onChange }: { field: IntakeFieldSpec
   const unknown = answer?.state === "unknown";
   const required = field.product.requirement === "required" || field.product.requirement === "conditional";
   const id = `f-${field.key.replace(/\W/g, "-")}`;
+  const description = [field.help ? `${id}-help` : null, error ? `${id}-error` : null].filter(Boolean).join(" ") || undefined;
   const control = (() => {
     if (field.control === "radio") return (
-      <div className="mt-2 grid gap-2 sm:grid-cols-3">{(field.options ?? []).map((option) => <label key={option.value} className="flex min-h-11 items-center gap-2 rounded-md border border-[#E8E1EE] bg-white px-3 text-sm"><input type="radio" name={field.key} value={option.value} checked={value === option.value} onChange={() => onChange({ state: "answered", value: option.value })} />{field.key === "address.state" ? option.label : <LegalAidText text={option.label} />}</label>)}</div>
+      <div id={id} role="radiogroup" aria-labelledby={`${id}-label`} aria-describedby={description} aria-required={required} aria-invalid={Boolean(error)} className="mt-2 grid gap-2 sm:grid-cols-3">
+        {(field.options ?? []).map((option) => <label key={option.value} className="flex min-h-11 items-center gap-2 rounded-md border border-[#E8E1EE] bg-white px-3 text-sm"><input type="radio" name={field.key} value={option.value} checked={value === option.value} onChange={() => onChange({ state: "answered", value: option.value })} />{field.key === "address.state" ? option.label : <LegalAidText text={option.label} />}</label>)}
+        {field.product.allowUnknown ? <label className="flex min-h-11 items-center gap-2 rounded-md border border-[#E8E1EE] bg-white px-3 text-sm"><input id={`${id}-unknown`} type="radio" name={field.key} checked={unknown} onChange={() => onChange({ state: "unknown" })} /><LegalAidText text="I don't know" /></label> : null}
+      </div>
     );
     if (field.control === "dropdown") return (
       <select id={id} className={laInput} value={value} onChange={(event) => onChange(event.target.value ? { state: "answered", value: event.target.value } : null)}><option value=""><LegalAidText text={"Choose…"} /></option>{(field.options ?? []).map((option) => <option key={option.value} value={option.value}>{field.key === "address.state" ? option.label : <LegalAidText text={option.label} />}</option>)}</select>
@@ -271,10 +275,10 @@ function FieldInput({ field, answer, error, onChange }: { field: IntakeFieldSpec
   })();
   return (
     <div>
-      <label htmlFor={id} className="block text-sm font-bold"><LegalAidText text={field.label} />{required ? <span className="text-[var(--la-brand)]"> *</span> : <span className="font-normal text-[#7A6E85]"><LegalAidText text={" (optional)"} /></span>}</label>
-      {field.help ? <p className="mt-1 text-xs leading-5 text-[#5B4E66]"><LegalAidText text={field.help} /></p> : null}
+      {field.control === "radio" ? <span id={`${id}-label`} className="block text-sm font-bold"><LegalAidText text={field.label} />{required ? <span className="text-[var(--la-brand)]"> *</span> : <span className="font-normal text-[#7A6E85]"><LegalAidText text={" (optional)"} /></span>}</span> : <label htmlFor={id} className="block text-sm font-bold"><LegalAidText text={field.label} />{required ? <span className="text-[var(--la-brand)]"> *</span> : <span className="font-normal text-[#7A6E85]"><LegalAidText text={" (optional)"} /></span>}</label>}
+      {field.help ? <p id={`${id}-help`} className="mt-1 text-xs leading-5 text-[#5B4E66]"><LegalAidText text={field.help} /></p> : null}
       {control}
-      {error ? <p role="alert" className="mt-1 text-xs font-semibold text-[#8A1F1F]"><LegalAidText text={error} /></p> : null}
+      {error ? <p id={`${id}-error`} role="alert" className="mt-1 text-xs font-semibold text-[#8A1F1F]"><LegalAidText text={error} /></p> : null}
     </div>
   );
 }

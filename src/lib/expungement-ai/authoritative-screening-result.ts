@@ -1,4 +1,6 @@
+import type { MsFirstOffenderSourceContext } from "@/lib/rcap-engine/mississippi-first-offender-source-facts";
 import "server-only";
+import { OR_DISPOSITION_COPY } from "@/lib/rcap-engine/oregon-disposition-identity";
 
 import { dispositionFromAnswers, selectComposedRoute } from "@/lib/rcap-engine/composed-route-selector";
 import type {
@@ -22,7 +24,7 @@ export function evaluateAuthoritativeScreeningResult(input: {
   profileVersion: string;
   matterId: string;
   answers: Record<string, ScreeningAnswerValue>;
-}): {
+}, msSource?: MsFirstOffenderSourceContext): {
   evaluation: ScreeningEvaluation;
   profile: EngineProfile;
   pathwayLabel: string | null;
@@ -36,17 +38,43 @@ export function evaluateAuthoritativeScreeningResult(input: {
     answers: input.answers
   };
 
-  const firstPass = evaluateExpungementAiMatter(request);
+  const firstPass = evaluateExpungementAiMatter(request, msSource);
+  const selectedProfile = getProfileByJurisdiction(firstPass.jurisdiction);
   const selection = selectComposedRoute({
     jurisdiction: firstPass.jurisdiction,
     pathwayId: firstPass.pathwayId ?? null,
     // Derived from the answers the server just evaluated, so a track whose
     // adopted record covers only one record class cannot be reached by a
     // participant whose record is a different one.
-    disposition: dispositionFromAnswers(input.answers as Record<string, unknown> | undefined)
+    disposition: dispositionFromAnswers(input.answers as Record<string, unknown> | undefined),
+    ...(firstPass.jurisdiction === "OR" && selectedProfile ? { oregonDispositionSource: {
+      profileVersion: selectedProfile.profileVersion, sourceFingerprint: selectedProfile.source?.sourceCorpusSha256 ?? "", answers: input.answers
+    } } : {}),
+    ...(firstPass.jurisdiction === "GA" && selectedProfile ? { georgiaPardonSource: {
+      profileVersion: selectedProfile.profileVersion,
+      sourceFingerprint: selectedProfile.source?.sourceCorpusSha256 ?? "",
+      today: new Date().toISOString().slice(0, 10), answers: input.answers
+    } } : {})
   });
 
-  const evaluation: ScreeningEvaluation = selection.status === "identity_unavailable"
+  const evaluation: ScreeningEvaluation = selection.status === "held_configuration"
+    ? {
+      ...firstPass,
+      pathwayId: selection.configuration.pathwayId,
+      pathwayLabel: selection.configuration.label,
+      // The current source-specific evaluator has checked the applicable
+      // disposition facts. Selection still cannot install a plan or authority.
+      paymentAllowed: false, packetPlan: undefined, selectedTrackId: selection.trackId
+    }
+    : selection.status === "configuration_clarification"
+    ? {
+      ...firstPass, pathwayId: undefined, pathwayLabel: undefined,
+      resultCode: "needs_more_info", paymentAllowed: false, packetPlan: undefined, selectedTrackId: null,
+      userLabel: OR_DISPOSITION_COPY.clarify[0], nextSteps: [OR_DISPOSITION_COPY.clarify[0]],
+      missingQuestionIds: [...new Set([...firstPass.missingQuestionIds, ...selection.missingQuestionIds])],
+      reasons: [...firstPass.reasons, { code: "or.disposition_configuration_uncertain", text: OR_DISPOSITION_COPY.clarify_reason[0] }]
+    }
+    : selection.status === "identity_unavailable"
     ? {
       ...firstPass,
       resultCode: "guidance_only",
@@ -75,7 +103,7 @@ export function evaluateAuthoritativeScreeningResult(input: {
         ]
       }
       : selection.status === "selected"
-        ? evaluateExpungementAiMatter({ ...request, selectedTrackId: selection.trackId })
+        ? evaluateExpungementAiMatter({ ...request, selectedTrackId: selection.trackId }, msSource)
         : firstPass;
 
   const profile = getProfileByJurisdiction(evaluation.jurisdiction);
@@ -83,14 +111,14 @@ export function evaluateAuthoritativeScreeningResult(input: {
     throw new Error(`No compiled profile is available for ${evaluation.jurisdiction}.`);
   }
 
-  const pathwayLabel = exactPathwayLabel(profile, evaluation.pathwayId);
+  const pathwayLabel = selection.status === "held_configuration" ? selection.configuration.label : exactPathwayLabel(profile, evaluation.pathwayId);
   const labeledEvaluation = pathwayLabel ? { ...evaluation, pathwayLabel } : evaluation;
   return {
     evaluation: labeledEvaluation,
     profile,
     pathwayLabel,
     packetType: packetTypeForEvaluation(labeledEvaluation),
-    selectedTrackId: selection.status === "selected" ? selection.trackId : null
+    selectedTrackId: selection.status === "selected" || selection.status === "held_configuration" ? selection.trackId : null
   };
 }
 

@@ -207,6 +207,42 @@ function ownerApprovedLegalStatus({ pathway, sets, trackIds, jurisdictionBound, 
     ? `${ownerDecisionRecord.decisionOwner} under ${ownerDecisionRecord.recordId}, effective ${ownerDecisionRecord.effectiveDate}`
     : null;
 
+  // A later adopted modification applies only to this exact procedure. Preserve
+  // the August record as ancestry; it cannot certify an unestablished form.
+  const adopted = sets.find(set => set.packetSetId === "va_exp_absolute_pardon-set")?.procedureAdoption;
+  if (pathway.pathwayKey === "VA:regime-1-expungement-available-now") {
+    // Predecessor register 4ffc56d4cc8dfa9b882f64ad51f49be815704fe20009ee7425b429418b54ead2 remains ancestry only.
+    // A malformed successor cannot fall through to older blanket family approval.
+    if (!(adopted?.decisionId === "VA-01" && adopted.disposition === "MODIFY"
+        && adopted.evidenceKind === "owner_relayed_counsel_adoption"
+        && adopted.registerSha256 === "3f8998b2fdba92b77c6804934c949bb367bf4c945ca2826d6b119da0e81cdf0b"
+        && adopted.supersededRegisterSha256 === "4ffc56d4cc8dfa9b882f64ad51f49be815704fe20009ee7425b429418b54ead2"
+        && adopted.appliesThrough === "2026-11-30"
+        && adopted.participantPetitionEstablished === false
+        && adopted.documentAcceptance === "NOT_VERIFIED"
+        && adopted.currentInstrument?.officialFormId === "CC-1474"
+        && adopted.currentInstrument.revision === "07/26"
+        && adopted.currentInstrument.sourceUrl === "https://www.fairfaxcounty.gov/circuit/sites/circuit/files/assets/documents/pdf/expungement-order.pdf"
+        && adopted.currentInstrument.sha256 === "85ac8ea0f2dc40d890fa2b37921a1b24956ed4aecb1555109a0bb5a65793c656"
+        && adopted.currentInstrument.custodyReceipt === "data/rcap-grade-a/source-custody/court-source-handoff-20261013/va-cc1474-current-source-20261016.json")) {
+      throw new Error("VA01 requires exact adopted v3 section7/source successor; no older-approval fallback");
+    }
+    return {
+      status: OWNER_APPROVED,
+      basis: "owner_relayed_counsel_adopted_modified_procedure",
+      escalationRequired: false,
+      currentProcedureDecision: {
+        decisionId: adopted.decisionId, disposition: adopted.disposition,
+        evidenceKind: adopted.evidenceKind, registerSha256: adopted.registerSha256,
+        appliesThrough: adopted.appliesThrough, supersededRegisterSha256: adopted.supersededRegisterSha256,
+        currentInstrument: adopted.currentInstrument
+      },
+      historicalOwnerDecision: { recordId: ownerDecisionRecord?.recordId ?? null, appliesToCurrentDocument: false },
+      documentAcceptance: adopted.documentAcceptance,
+      statement: "Owner-relayed v3 section7 adopts the Secretary-to-circuit-court mechanism, identified CC1474 revision07/26 and seven fact treatments. Exact source identity is privately reviewed and portable metadata is available; actual case/effectiveversion and applicable source/guidance/context/nonrequirement consumer/output proof remain. Geometry is needed only if a demonstrated applicable generated output requires it. Court findings/execution and clerk certification are not participant acts. Historical approvals remain ancestry, not current document acceptance."
+    };
+  }
+
   if (!ownerDecisionRecord) {
     return {
       status: OWNER_PENDING,
@@ -292,6 +328,7 @@ for (const pathway of graph.pathways) {
       packetSetId: s.packetSetId,
       trackId: s.trackId,
       version: s.version,
+      ...(s.procedureAdoption ? { procedureAdoption: s.procedureAdoption, packetSetCompleteness: s.packetSetCompleteness } : {}),
       components: (s.components ?? []).map((c) => ({
         componentId: c.componentId,
         role: c.role,
@@ -478,7 +515,7 @@ const packet = {
         approved: true,
         result: OWNER_APPROVED,
         record: ownerDecisionRecord,
-        note: "There is no counsel queue. The decision owner approved the existing legal designs, the completed outputs, the exception set and the application of those approved designs across the intended-paid corpus. No signature or separate counsel artifact is required or represented.",
+        note: "This preserves the historical owner decision for its recorded scope. Later adopted procedure modifications are stated on the affected pathway and do not carry this historical approval forward onto an unestablished document. No attorney identity, signature or separate counsel artifact is invented.",
         escalateOnly: SUBSTANTIVE_LEGAL_CHOICES,
         missingAdoptionMetadataIsNotAnEscalation:
           "Missing EXT-ADOPT-01 family metadata is not a new legal decision where the all-497 legal-design packet-set manifest already defines the treatment."
@@ -561,10 +598,14 @@ function md() {
   l.push("## 5 — Owner-approved legal status");
   l.push("");
   l.push(ownerDecisionRecord
-    ? `Approved by **${ownerDecisionRecord.decisionOwner}** under \`${ownerDecisionRecord.recordId}\`, effective ${ownerDecisionRecord.effectiveDate}. There is no counsel queue here: the existing legal designs, the completed outputs, the exception set and the application of those approved designs across the intended-paid corpus are all approved, and no signature or separate counsel artifact is required.`
+    ? `Approved by **${ownerDecisionRecord.decisionOwner}** under \`${ownerDecisionRecord.recordId}\`, effective ${ownerDecisionRecord.effectiveDate}. This historical decision remains evidence for its recorded scope. Later adopted modifications are stated on the affected pathway; historical approval does not certify an unestablished successor document.`
     : "No approved `owner_legal_decision` entry exists in the authorization queue, so every pathway reads back `owner_approval_pending`.");
   l.push("");
   l.push(`**${ownerApproved.length}** of ${records.length} pathways carry owner-approved legal status.`);
+  for (const row of records.filter(r => r.ownerApprovedLegal.basis === "owner_relayed_counsel_adopted_modified_procedure")) {
+    l.push("");
+    l.push(`**${row.pathwayKey}:** ${row.ownerApprovedLegal.statement}`);
+  }
   l.push("");
   l.push("| Basis | Pathways |");
   l.push("|---|---|");

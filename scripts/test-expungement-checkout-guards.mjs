@@ -59,7 +59,7 @@ function requireFor(mocks, importer) {
 
 function loadTsFile(resolved, mocks, source) {
   const cached = REAL_MODULE_CACHE.get(resolved);
-  if (cached) return cached;
+  if (cached) return cached.exports;
   const transpiled = ts.transpileModule(source ?? fs.readFileSync(resolved, "utf8"), {
     compilerOptions: {
       esModuleInterop: true,
@@ -73,19 +73,28 @@ function loadTsFile(resolved, mocks, source) {
   mod.filename = compiledFilename;
   mod.paths = Module._nodeModulePaths(path.dirname(resolved));
   mod.require = requireFor(mocks, resolved);
-  mod._compile(transpiled, compiledFilename);
-  // Only dependencies loaded for real are cached. The module under test is
-  // loaded fresh each time, because each case gives it different doubles.
-  REAL_MODULE_CACHE.set(resolved, mod.exports);
+  // Match CommonJS: a cycle receives the in-progress module's exports rather
+  // than compiling the same dependency recursively. Keep the Module itself so
+  // a later module.exports assignment is visible to subsequent requires.
+  REAL_MODULE_CACHE.set(resolved, mod);
+  try {
+    mod._compile(transpiled, compiledFilename);
+  } catch (error) {
+    REAL_MODULE_CACHE.delete(resolved);
+    throw error;
+  }
   return mod.exports;
 }
 
 export function loadTsWithMocks(relPath, mocks, source) {
   const resolved = path.join(rootDir, relPath);
   REAL_MODULE_CACHE.delete(resolved);
-  const loaded = loadTsFile(resolved, mocks, source);
-  REAL_MODULE_CACHE.delete(resolved);
-  return loaded;
+  // Each tested module remains fresh for its explicit doubles, even on failure.
+  try {
+    return loadTsFile(resolved, mocks, source);
+  } finally {
+    REAL_MODULE_CACHE.delete(resolved);
+  }
 }
 
 function read(relPath) {

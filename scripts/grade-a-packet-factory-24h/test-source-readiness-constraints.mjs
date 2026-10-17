@@ -18,6 +18,13 @@ test("missing bytes are also blocked by an unresolved identity", () => assert.eq
 test("unrelated settled family stays untouched", () => assert.equal(apply(readiness,null),readiness));
 test("a superseding settled decision removes only this constraint", () => assert.equal(apply(readiness,{...decision,disposition:"SOURCE_READY"}),readiness));
 test("source constraints do not mutate their inputs", () => { const before=JSON.stringify({readiness,decision});apply(readiness,decision);assert.equal(JSON.stringify({readiness,decision}),before); });
+test("settling source custody cannot clear separately recorded packet failures", () => {
+  const withFailure = {...readiness, failedObligationNames: ["SERVICE"]};
+  const before = structuredClone(withFailure);
+  const settled = apply(withFailure, {...decision, disposition: "SOURCE_READY"});
+  assert.deepEqual(settled.failedObligationNames, ["SERVICE"]);
+  assert.deepEqual(withFailure, before);
+});
 const historicalDeterminations=JSON.parse(fs.readFileSync("data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json","utf8"));
 const determinations=applyUserSourceDeterminations(process.cwd(),historicalDeterminations);
 for (const family of determinations.reconciliation42.families.filter(f=>f.unresolvedObligations?.length)) {
@@ -32,7 +39,11 @@ if (process.argv.includes("--generated")) {
     assert.ok(family.sourceReadiness.boundSources.some(x=>x.sourceId==="official-form:4-222"
       && x.path==="private/source-imports/user-upload-20260911/ef54fbdc9485157d8c85735ff3d66d5a39968ebde68c60de8a7eb094107348de.pdf"
       && x.sha256==="ef54fbdc9485157d8c85735ff3d66d5a39968ebde68c60de8a7eb094107348de"));
-    assert.ok(family.failedObligationNames.length>0,"separate measured packet defects must remain");
+    // These three packets were already COMPLETE_PACKET_PROVEN with no failed
+    // obligations at c63e420199b6bf953b5d53c114869997631d3807. Source custody
+    // must not require a repaired packet to retain an obsolete failure. The
+    // explicit failure-preservation control above covers that separate rule;
+    // the factory verifier still enforces current packet/review evidence.
     assert.notEqual(family.state,"SOURCE_BLOCKED");
   });
  }

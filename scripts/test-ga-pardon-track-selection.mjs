@@ -1,0 +1,48 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import {register} from 'node:module';
+register('./lib/ts-esm-loader.mjs',import.meta.url);
+const {selectComposedRoute,forbiddenRouteIdentityFields}=await import('../src/lib/rcap-engine/composed-route-selector.ts');
+const {getProfileByJurisdiction}=await import('../src/lib/rcap-engine/profile-registry.ts');
+const {evaluateAuthoritativeScreeningResult}=await import('../src/lib/expungement-ai/authoritative-screening-result.ts');
+const {packetFulfillmentAuthority}=await import('../src/lib/expungement-ai/packet-fulfillment-authority.ts');
+const {workerStaticPacketBinding}=await import('../src/lib/rcap/fulfillment/worker-static-authority.ts');
+const P=await import('../src/lib/expungement-ai/packet-information.ts');
+const profile=getProfileByJurisdiction('GA'),route='restriction-and-sealing-of-a-pardoned-felony';
+const fixture=JSON.parse(fs.readFileSync('scripts/fixtures/conviction-fallback-predecessors.json')).rows.find(r=>r.id.startsWith('GA')&&r.id.endsWith('/omitted'));
+const answers={...fixture.answers,case_outcome:'Misdemeanor conviction',ga_record_help:'pardon_record',pardon_status:'Yes',ga_board_pardon:'yes',ga_pardon_date:'2021-01-02',ga_pardoned_offense_section:'16-8-14(a)',ga_convictions_since_pardon:'none',ga_pardon_pending_charges:'no',pending_cases:'No'};
+const input={jurisdiction:'GA',pathwayId:route,georgiaPardonSource:{profileVersion:profile.profileVersion,sourceFingerprint:profile.source.sourceCorpusSha256,today:'2026-10-14',answers}};
+const checks=[];function check(name,fn){fn();checks.push({name,pass:true});}
+const selected={status:'selected',trackId:'ga-pardon-j7'},none={status:'no_composed_route',trackId:null};
+check('server source and qualifying pardon facts select exact track',()=>assert.deepEqual(selectComposedRoute(input),selected));
+check('route alone never selects shared Georgia pathway',()=>assert.deepEqual(selectComposedRoute({jurisdiction:'GA',pathwayId:route}),none));
+for(const patch of [{profileVersion:'other'},{sourceFingerprint:'0'.repeat(64)},{today:'2026-02-30'},{today:'bad'}])check('changed source/date '+JSON.stringify(patch),()=>assert.deepEqual(selectComposedRoute({...input,georgiaPardonSource:{...input.georgiaPardonSource,...patch}}),none));
+for(const [id,value]of [['ga_record_help','court_sealing'],['ga_record_help',undefined],['case_outcome','Pardoned conviction'],['case_outcome','Acquitted or found not guilty'],['ga_board_pardon','no'],['ga_pardon_date',{unknown:true,value:'2021-01-02'}],['ga_pardon_date','2027-01-01'],['ga_pardoned_offense_section',{}],['ga_pardoned_offense_section','16-8-41'],['ga_convictions_since_pardon','other'],['ga_pardon_pending_charges','yes'],['pending_cases','Yes'],['pending_cases',{unknown:true,value:'No'}],['pending_cases',[]],['case_outcome',['Misdemeanor conviction']]])check('unselected legal fact '+id+'/'+JSON.stringify(value),()=>assert.deepEqual(selectComposedRoute({...input,georgiaPardonSource:{...input.georgiaPardonSource,answers:{...answers,[id]:value}}}),none));
+check('explicit known wrappers preserved without mutation',()=>{const i=structuredClone(input);i.georgiaPardonSource.answers.ga_pardon_date={value:'2021-01-02',unknown:false};const before=JSON.stringify(i);assert.deepEqual(selectComposedRoute(i),selected);assert.equal(JSON.stringify(i),before);});
+check('actual felony is supported independently of historical pathway label',()=>assert.deepEqual(selectComposedRoute({...input,georgiaPardonSource:{...input.georgiaPardonSource,answers:{...answers,case_outcome:'Felony conviction'}}}),selected));
+const traffic={...answers,ga_convictions_since_pardon:'traffic_only',ga_post_pardon_traffic_records:'Georgia speeding 40-6-181(b)(2), convicted 2024-01-03',ga_post_pardon_traffic_jurisdictions:'all_georgia',ga_post_pardon_traffic_citations:'40-6-181(b)(2)'};
+check('source matched nonserious traffic selects same candidate',()=>assert.deepEqual(selectComposedRoute({...input,georgiaPardonSource:{...input.georgiaPardonSource,answers:traffic}}),selected));
+for(const patch of [{ga_post_pardon_traffic_citations:'40-6-391'},{ga_post_pardon_traffic_jurisdictions:'other_jurisdiction'}])check('traffic hold '+JSON.stringify(patch),()=>assert.deepEqual(selectComposedRoute({...input,georgiaPardonSource:{...input.georgiaPardonSource,answers:{...traffic,...patch}}}),none));
+check('request track remains forbidden and ignored by selector',()=>{assert(forbiddenRouteIdentityFields({selectedTrackId:'ga-pardon-j7'}).includes('selectedTrackId'));assert.deepEqual(selectComposedRoute({jurisdiction:'GA',pathwayId:route,selectedTrackId:'ga-pardon-j7'}),none);});
+check('GA source cannot affect MS or IL defaults',()=>{for(const i of [{jurisdiction:'MS',pathwayId:'non-conviction-expungement-for-dismissal-no-disposition-or-acquittal'},{jurisdiction:'IL',pathwayId:'felony-prostitution-relief',disposition:'felony_conviction'},{jurisdiction:'IL',pathwayId:'felony-prostitution-relief',disposition:'non_conviction'},{jurisdiction:'GA',pathwayId:'sealing-court-records'}])assert.deepEqual(selectComposedRoute({...i,georgiaPardonSource:input.georgiaPardonSource}),selectComposedRoute(i));});
+const evaluated=evaluateAuthoritativeScreeningResult({jurisdiction:'GA',profileVersion:profile.profileVersion,matterId:'synthetic-ga-track',answers});
+check('actual authoritative caller selects identity while court hold remains',()=>{assert.equal(evaluated.selectedTrackId,'ga-pardon-j7');assert.equal(evaluated.evaluation.resultCode,'needs_review');assert.equal(evaluated.evaluation.paymentAllowed,false);assert.equal(evaluated.evaluation.packetPlan,undefined);});
+const seed=P.protectedPacketDraftSeedFromAuthoritative({authoritative:evaluated,screeningAnswers:answers,packetAnswers:{},dependencies:{commercialFlowVersion:null,entitlementSource:null,productId:null},capturedAt:'2026-10-14T00:00:00Z'});
+check('protected seed has only source-selected identity and no document authority',()=>{assert.equal(seed.snapshot.selectedTrackId,'ga-pardon-j7');assert.equal(seed.snapshot.packetPlan,null);assert.equal(seed.snapshot.paymentAllowed,false);assert.deepEqual(seed.snapshot.requiredInputIds,[]);});
+check('canonical and worker admission stay refused',()=>{assert.equal(packetFulfillmentAuthority('GA',route,'packet generation',{trackId:'ga-pardon-j7'}).allowed,false);assert.equal(workerStaticPacketBinding('GA:'+route,'ga-pardon-j7'),null);});
+// Execute the actual saved-session resolver with only its database read transport
+// replaced. The stored answers, evaluator and selector remain the real modules.
+const {pathToFileURL}=await import('node:url'),ts=(await import('typescript')).default;
+const sessionFile=process.cwd()+'/src/lib/expungement-ai/screening-session-route-identity.ts';
+let sessionSource=fs.readFileSync(sessionFile,'utf8');const oldImport='import { getSupabaseAdminClient } from "@/lib/supabase/server";';assert(sessionSource.includes(oldImport));
+sessionSource=sessionSource.replace(oldImport,'const getSupabaseAdminClient=()=> (globalThis as any).__gaTrackSessionTransport;');
+const compiled=ts.transpileModule(sessionSource,{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022}}).outputText;
+register('data:text/javascript,'+encodeURIComponent('let d;export function initialize(data){d=data}export async function load(u,c,n){return u===d.url?{format:"module",source:d.source,shortCircuit:true}:n(u,c)}'),{data:{url:pathToFileURL(sessionFile).href,source:compiled}});
+const {resolveSessionRouteIdentity}=await import(pathToFileURL(sessionFile).href);
+let stored={session_id:'synthetic-ga-track-session',jurisdiction:'GA',answers};
+const query={select:()=>query,eq:()=>query,maybeSingle:async()=>({data:stored,error:null})};globalThis.__gaTrackSessionTransport={from:(table)=>{assert.equal(table,'screening_sessions');return query;}};
+let result=await resolveSessionRouteIdentity(stored.session_id,'GA');check('actual stored session selects from evaluated saved facts',()=>assert.deepEqual(result,{status:'resolved',jurisdiction:'GA',trackId:'ga-pardon-j7'}));
+stored={...stored,answers:{...answers,ga_board_pardon:'no',selectedTrackId:'ga-pardon-j7'}};result=await resolveSessionRouteIdentity(stored.session_id,'GA');check('actual stored adverse facts cannot select request-like track field',()=>assert.equal(result.trackId,null));
+result=await resolveSessionRouteIdentity(stored.session_id,'MS');check('stored jurisdiction mismatch refuses',()=>assert.equal(result.status,'jurisdiction_mismatch'));
+delete globalThis.__gaTrackSessionTransport;
+console.log(JSON.stringify({status:'PASS',checks:checks.length,scope:'source-selected Georgia pardon candidate only; no admission or delivery'}));

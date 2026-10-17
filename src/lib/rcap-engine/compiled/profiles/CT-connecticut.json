@@ -862,12 +862,13 @@
         "convicted_misdemeanor",
         "convicted_other"
       ],
-      "automatic": false,
-      "filingRequired": true,
+      "automatic": true,
+      "filingRequired": false,
       "routeType": "automatic",
       "suggestedResultCode": "guidance_only",
       "waitingRules": [
-        "no general elapsed wait; eligibility is unlocked by the offense, conviction date, quantity, and statutory category"
+        "No participant waiting period or filing. Section 54-142u concerns § 21a-279(c) possession convictions entered on or after 2000-01-01 and before 2015-10-01; this route identity does not establish that a particular conviction or every count qualifies.",
+        "This rule took effect on 2023-01-01."
       ],
       "exclusionRules": [
         "Clean Slate erasure is offense-limited; the pardon route is broader but discretionary.",
@@ -894,49 +895,37 @@
       "legalAuthority": {
         "decisionId": "LD-CT-02",
         "ruleId": "CT-CANNABIS-AUTOMATIC-VS-PETITION-MAP",
-        "mechanism": "Cannabis conviction erasure — petition branch outside the automatic date window",
-        "statute": "Conn. Gen. Stat. §§ 21a-279, 21a-267(a), 21a-277(b)",
-        "stage": "single_stage",
-        "outcomeMode": "participant_packet",
-        "paymentAuthority": "packet_checkout",
+        "mechanism": "Automatic erasure of certain cannabis possession convictions",
+        "statute": "Conn. Gen. Stat. § 54-142u",
+        "stage": "automatic",
+        "outcomeMode": "automatic_relief",
+        "paymentAuthority": "closed",
         "timing": {
           "kind": "event_trigger",
-          "anchorFactId": "conviction_date",
-          "anchorText": "no general elapsed wait; eligibility is unlocked by the offense, conviction date, quantity, and statutory category"
+          "anchorText": "No participant waiting period or filing. Section 54-142u concerns § 21a-279(c) possession convictions entered on or after 2000-01-01 and before 2015-10-01; this route identity does not establish that a particular conviction or every count qualifies."
         },
         "requiredFacts": [
-          "Statute?",
-          "Conviction date?",
-          "Marijuana quantity or plant count?",
-          "Paraphernalia/sale facts?",
-          "Whether the record was already erased?",
-          "Correction evidence?"
+          "On what date was the cannabis possession conviction entered?",
+          "Which statute section were you convicted under?",
+          "How many counts are on this docket, and is every one of them erasable?"
         ],
         "screeningFactIds": [
           "case_outcome",
-          "offense_level",
-          "conviction_date"
+          "offense_level"
         ],
         "exclusions": [
-          "Exact cannabis statute, conviction date, quantity/conduct, and automatic-versus-petition category"
+          "Records referencing more than one count unless every count is entitled to erasure. § 54-142u(b).",
+          "Convictions outside the § 54-142u window belong to the separate cannabis petition mechanism; this route does not decide that petition."
         ],
-        "packetFamily": "Connecticut Cannabis Erasure Petition",
-        "packetComponents": [
-          "Petition under the applicable cannabis-erasure provision",
-          "Conviction record",
-          "Quantity or conduct evidence"
-        ],
-        "serviceBranches": [
-          {
-            "id": "automatic-status-correction-guidance",
-            "when": "the matter's disposition selects the AUTOMATIC STATUS/CORRECTION GUIDANCE treatment named by LD-CT-02",
-            "outcomeMode": "automatic_relief",
-            "packetFamily": null,
-            "stage": "automatic",
-            "note": "LD-CT-02 states this route's output treatment as \"AUTOMATIC STATUS/CORRECTION GUIDANCE OR COURT PETITION PACKET\". Each branch carries its own stable branch id and is selected by its own disposition predicate. Two branches may not resolve to one undifferentiated configuration, and may not share a checkout path. Installed by the Wave 2 integration from R2_ALREADY_ANSWERED_ENGINEERING with no selector and a null packet family: the branch identity is the decision, and its disposition predicate and packet configuration are owed by the branch-identity and packet-factory lanes. It therefore records the requirement without opening anything or inventing a predicate."
-          }
-        ],
-        "notes": "Automatic erasure covers § 21a-279(c) convictions entered from 2000-01-01 through 2015-09-30; that cohort files nothing and must never share this checkout path. Ask whether the record should already have been erased before offering this petition."
+        "packetFamily": null,
+        "effectiveFrom": "2023-01-01",
+        "commercialPosture": {
+          "checkoutEnabled": false,
+          "sponsoredGenerationEnabled": false,
+          "packetCreditsConsumed": 0,
+          "note": "No participant filing or paid packet on the automatic mechanism."
+        },
+        "notes": "E4-R2 exact-key successor to the historical LD-CT-02 current binding only. No participant filing, venue, service, signature or fee. Exact statute, conviction date and every-count eligibility remain unestablished until the actual record facts are supplied through a supported consumer; a hint, generic disposition, missing fact or this contract does not declare individual eligibility, actual erasure or record clearance. Reuse existing ct-cannabis-auto guidance. Internal criminal-justice-agency copies need not be partially redacted and DMV records need not be erased, §§ 54-142u(f)-(g); legal effect is subject to § 54-142u(h). Preserve immigration and records-not-erased-when-expected help boundaries. Separate § 54-142v route/family and § 54-142d mechanism remain distinct."
       }
     },
     {
@@ -2885,8 +2874,7 @@
           "convicted_misdemeanor",
           "convicted_other"
         ],
-        "sourceConditionText": "no general elapsed wait; eligibility is unlocked by the offense, conviction date, quantity, and statutory category",
-        "timingAnchorFactId": "conviction_date"
+        "sourceConditionText": "No participant waiting period or filing. Section 54-142u concerns § 21a-279(c) possession convictions entered on or after 2000-01-01 and before 2015-10-01; this route identity does not establish that a particular conviction or every count qualifies."
       },
       "then": {
         "suggestedResultCode": "guidance_only",
@@ -2900,8 +2888,8 @@
       "legalAuthority": {
         "decisionId": "LD-CT-02",
         "ruleId": "CT-CANNABIS-AUTOMATIC-VS-PETITION-MAP",
-        "statute": "Conn. Gen. Stat. §§ 21a-279, 21a-267(a), 21a-277(b)",
-        "mechanism": "Cannabis conviction erasure — petition branch outside the automatic date window"
+        "statute": "Conn. Gen. Stat. § 54-142u",
+        "mechanism": "Automatic erasure of certain cannabis possession convictions"
       }
     },
     {

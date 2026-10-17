@@ -3,6 +3,7 @@
 // seven California families assigned to this work packet. Sibling entrypoints
 // import only runWestFamilyCli from this file; no shared helper is modified.
 import assert from "node:assert/strict";
+import { caProp64CaptionBindings } from "./lib/ca-prop64-caption-bindings.mjs";
 import crypto from "node:crypto";
 import fs from "node:fs";
 import os from "node:os";
@@ -29,6 +30,8 @@ import { loadAppearanceSemantics, dispositionsForFamily }
   from "./rcap-official-forms/rcap-appearance-semantics.mjs";
 import { stampDeterministic } from "./rcap-official-forms/rcap-deterministic-pdf-date.mjs";
 import { strokedRectangles } from "./lib/pdf-stroked-boxes.mjs";
+import { CA_PROP64_FAMILY, CA_PROP64_COMPLETION_OBLIGATIONS, caProp64RefusalDisposition, caProp64ParticipantInstructions }
+  from "./lib/ca-prop64-form-ownership.mjs";
 import {
   CA17_FAMILY_ID,
   CA17_COURT_CAPTION_COMPLETION,
@@ -1583,6 +1586,8 @@ function caFinalizerCensus(formCensus) {
 function caRefusalDisposition(source, field, {
   familyId = null, formNumber = null, measuredMc031Labels = false,
 } = {}) {
+  const prop64 = caProp64RefusalDisposition(field, { familyId, formNumber });
+  if (prop64) return prop64;
   const subject = `${field.name} ${field.tooltip ?? ""}`;
   const pushButton = field.fieldType === "/Btn" && field.flags?.includes("pushButton") === true;
   const markControl = field.fieldType === "/Btn" && !pushButton;
@@ -1990,6 +1995,7 @@ function caMapAndCensus(familyId, config, bridge) {
       },
       dispositionVocabulary: "rcap-packet-completeness/closed-blank-dispositions",
       requiredBeforeFilingCount: refusals.filter((row) => row.requiredBeforeFiling === true).length,
+      ...(familyId === CA_PROP64_FAMILY ? { completionObligations: CA_PROP64_COMPLETION_OBLIGATIONS } : {}),
     },
   };
 }
@@ -2886,6 +2892,10 @@ function caParticipantInstructions(familyId, config, fieldMap) {
   if (familyId === CA17_FAMILY_ID) return ca17ParticipantInstructions();
   const guidance = CA_PARTICIPANT_GUIDANCE[familyId];
   assert.ok(guidance, `${familyId}: no participant guidance is configured`);
+  if (familyId === CA_PROP64_FAMILY) return caProp64ParticipantInstructions(config, fieldMap, {
+    stopConditions: caRegistryStopConditionSection(config, guidance),
+    heldGuidance: caHeldGuidanceSections(familyId, config, guidance),
+  });
   const companionNames = config.formNumbers
     .filter((formNumber) => formNumber !== config.primaryForm)
     .map((formNumber) => `${formNumber} (${CA_FORMS[formNumber].officialTitle ?? CA_FORMS[formNumber].role.replace(/_/g, " ")})`);
@@ -6328,6 +6338,113 @@ async function selfTest(requestedFamily = FIRST_FAMILY) {
       "WEST production rastering must not launch Chromium");
   }
   console.log(`SELF_TEST_OK ${requestedFamily}`);
+}
+
+// Read-only entrypoint for a guidance/ownership correction. It never invokes
+// buildCa, regenerates reviewed PDFs, clears approvals, or promotes a route.
+export function caProp64CompletionInstructionsForReview(fieldMap) {
+  assert.equal(fieldMap.familyId, CA_PROP64_FAMILY);
+  return caParticipantInstructions(CA_PROP64_FAMILY, requireFamily(CA_PROP64_FAMILY), fieldMap);
+}
+
+export function caProp64CompletionMetadataForReview(census) {
+  assert.equal(census.familyId, CA_PROP64_FAMILY);
+  for (const document of census.documents)
+    assert.equal(document.pinnedOfficialSha256, CA_FORMS[document.formNumber]?.sha256,
+      `${document.formNumber}: source pin changed`);
+  return caMapAndCensus(CA_PROP64_FAMILY, requireFamily(CA_PROP64_FAMILY), {
+    forms: Object.fromEntries(census.documents.map((document) => [document.formNumber, document])),
+  });
+}
+
+// A successor review goes into a fresh directory. Existing official sources,
+// fixture PDFs, rasters, field maps and approvals are never reset or rewritten.
+// This uses the same transport, finalizer and saved-byte verifier as buildCa.
+export async function renderCaProp64CaptionReview({ sourcePaths, outputDirectory, facts, variantId, recordSection, absentContactFactIds }) {
+  const sourceFiles = ["scripts/build-census-v1-az_marijuana_expungement_arrest_no_charges-set.mjs", "scripts/lib/ca-prop64-caption-bindings.mjs"];
+  const sourceCodeSha256 = Object.fromEntries(sourceFiles.map(file => [file, sha256(fs.readFileSync(abs(file)))]));
+  assert.ok(path.isAbsolute(outputDirectory), "review output must be absolute");
+  const reviewedDirectory = fs.realpathSync(abs(outputDir(CA_PROP64_FAMILY)));
+  const destination = path.join(fs.realpathSync(path.dirname(outputDirectory)), path.basename(outputDirectory));
+  assert.ok(destination !== reviewedDirectory && !destination.startsWith(reviewedDirectory + path.sep), "preserve reviewed artifacts");
+  assert.equal(fs.existsSync(destination), false, "review destination must be new; no overwrite");
+  const config = requireFamily(CA_PROP64_FAMILY);
+  const held = caProp64CaptionBindings({ familyId: CA_PROP64_FAMILY, facts, absentContactFactIds });
+  const variant = structuredClone(routeControlForFamily(CA_PROP64_FAMILY, variantId));
+  const sectionIndex = ["11357", "11358", "11359", "11360", "11362.1"].indexOf(recordSection);
+  assert.ok(recordSection === undefined || sectionIndex >= 0, "unresolved record section cannot select a control");
+  if (sectionIndex >= 0) variant.selections.push({
+    fieldName: `CR-400[0].Page1[0].LI1[0].li1${"abcde"[sectionIndex]}[0].Checkbox[0]`,
+    onState: "Yes", tooltipIncludes: recordSection,
+  });
+  const targets = config.formNumbers.map(formNumber => {
+    const sourcePath = sourcePaths[formNumber];
+    assert.ok(sourcePath && path.isAbsolute(sourcePath), `${formNumber}: exact source path required`);
+    assert.equal(sha256(fs.readFileSync(sourcePath)), CA_FORMS[formNumber].sha256, `${formNumber}: official source bytes changed`);
+    return { formNumber, sourcePath, sha256: CA_FORMS[formNumber].sha256,
+      derivedPath: path.join(destination, "derived-sources", `${formNumber.toLowerCase()}.pdf`) };
+  });
+  fs.mkdirSync(destination, { recursive: false });
+  const bridge = runPikepdfBridge({ mode: "create", writeScratch: true,
+    scratchDir: path.join(destination, "official-content-streams"), targets });
+  for (const derivative of bridge.derivatives) enhancedFidelityContract(derivative);
+  const original = caMapAndCensus(CA_PROP64_FAMILY, config, bridge);
+  const fieldMap = structuredClone(original.fieldMap);
+  // This review map is specific to the supplied factual record and variant.
+  const rows = original.documents.flatMap(document => document.dispositions);
+  fieldMap.writes = [];
+  for (const [formNumber, mappings] of Object.entries(held.mappings)) {
+    for (const [fieldName, factId] of Object.entries(mappings)) {
+      const row = rows.find(candidate => candidate.fieldName === fieldName && candidate.formNumber === formNumber);
+      assert.ok(row && row.fieldType === "/Tx", `${fieldName}: exact source text field absent`);
+      fieldMap.writes.push({ ...row, disposition: "WRITE", factId, routeSpecific: false,
+        appliesToVariants: [variantId], reason: "Explicit structured fact bound to the actual filer or neutral case caption; review only." });
+    }
+  }
+  fieldMap.selections = variant.selections.map(selection => {
+    const row = rows.find(candidate => candidate.fieldName === selection.fieldName);
+    assert.ok(row && row.fieldType === "/Btn", `${selection.fieldName}: source control absent`);
+    return { ...row, disposition: "SELECT", factId: row.factId ?? "record.confirmed_section",
+      variantSelections: [{ ...selection, variantId, routeKey: variant.routeKey }] };
+  });
+  const bound = new Set([...fieldMap.writes, ...fieldMap.selections].map(row => row.fieldName));
+  fieldMap.refusals = rows.filter(row => !bound.has(row.fieldName)).map(row => ({ ...row, disposition: "REFUSE" }));
+  fieldMap.coverage = { terminalFields: rows.length, writes: fieldMap.writes.length,
+    selections: fieldMap.selections.length, refusals: fieldMap.refusals.length,
+    unmapped: rows.length - bound.size - fieldMap.refusals.length };
+  assert.equal(fieldMap.coverage.unmapped, 0, "every source field remains owned");
+  fieldMap.explicitMappingsByVariant = { [variantId]: Object.assign({}, ...Object.values(held.mappings)) };
+  fieldMap.statutorySelectionsByVariant = { [variantId]: variant.selections };
+  fieldMap.reviewStatus = "CANDIDATE_REQUIRES_INDEPENDENT_SOURCE_VISUAL_AND_QUALIFIED_REVIEW";
+  const artifacts = [];
+  for (const formNumber of config.formNumbers) {
+    const formCensus = bridge.forms[formNumber];
+    const derivative = bridge.derivatives.find(row => row.formNumber === formNumber);
+    assert.ok(derivative, `${formNumber}: source transport absent`);
+    const sourceBytes = fs.readFileSync(derivative.derivedPath);
+    const census = caFinalizerCensus(formCensus), explicitMappings = held.mappings[formNumber];
+    const formVariant = { ...variant, selections: variant.selections.filter(row => row.fieldName.startsWith(`${formNumber}[0].`)) };
+    const result = await finalizeCaPrimaryFixture({ formCensus, variant: formVariant, officialOptions: {
+      sourceBytes, expectedSha256: derivative.derivedSha256, census, facts: held.facts, explicitMappings,
+      unwritableFields: census.filter(row => !Object.hasOwn(explicitMappings, row.name)).map(row => ({ field: row.name })),
+      captionOnly: false, documentAcceptsFill: true, documentTextLines: [], maxFontSize: 9, minFontSize: 6,
+      title: CA_FORMS[formNumber].documentId, ...caScopedFinalizerOptions(config, formCensus), appearanceDispositions: new Map(),
+    } });
+    const outputFile = path.join(destination, `${formNumber.toLowerCase()}-candidate.pdf`);
+    fs.writeFileSync(outputFile, result.bytes, { flag: "wx" });
+    artifacts.push(await verifyCaArtifact({ familyId: CA_PROP64_FAMILY, formNumber, formCensus, fieldMap,
+      outputFile: path.relative(rootDir, outputFile), outputBytes: result.bytes, report: result.report, facts: held.facts, fixture: "structured-caption-review", variant: formVariant,
+      routeTextReport: result.routeTextReport, selectionReport: result.selectionReport, pdfLibWarnings: result.pdfLibWarnings }));
+  }
+  const knownFactsNotWritten = artifacts.flatMap(artifact => Object.entries(held.mappings[artifact.formNumber])
+    .filter(([field]) => !artifact.finalizerWritten.some(row => row.field === field))
+    .map(([fieldName, factId]) => ({ formNumber: artifact.formNumber, fieldName, factId })));
+  assert.deepEqual(Object.fromEntries(sourceFiles.map(file => [file, sha256(fs.readFileSync(abs(file)))])), sourceCodeSha256,
+    "source changed during rendering; candidate evidence must be rerun");
+  const report = { ...GATES, sourceCodeSha256, knownFactsNotWritten, reviewStatus: fieldMap.reviewStatus, variantId, recordSection: recordSection ?? null,
+    inputFacts: held.facts, unresolved: held.missing, fieldMap, sourceFidelity: bridge.derivatives, artifacts };
+  fs.writeFileSync(path.join(destination, "caption-review.json"), JSON.stringify(report, null, 2) + "\n", { flag: "wx" });
+  return report;
 }
 
 export async function runWestFamilyCli(familyId) {

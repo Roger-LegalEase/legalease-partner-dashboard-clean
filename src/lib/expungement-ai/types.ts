@@ -79,6 +79,34 @@ export type PacketVerificationSnapshot = {
     commercialFlowVersion: number | null;
     entitlementSource: string | null;
     productId: string | null;
+    recordFactConfirmations?: import("@/lib/expungement-ai/record-fact-clarification").RecordFactConfirmations;
+    accountContactSources?: { email_address: { version: 1; source: "same_owner_account_email"; purpose: "this_packet_contact";
+      valueSha256: string; confirmedAt: string; status: "adopted" | "superseded" } };
+    contactRepresentation?: import("@/lib/expungement-ai/contact-representation").ContactRepresentationProvenance;
+    courtCompletionImplications?: Record<string, import("@/lib/expungement-ai/court-completion-reuse").CourtCompletionImplication>;
+    semanticAnswerHistory?: Array<{ factId: string; value: unknown; source: "screeningAnswers" | "prefilledAnswers" | "packetAnswers";
+      meaning: "ambiguous_victimhood_or_charged_conduct" | "ca_prop64_prior_choice_wording" | "ca_prop64_prior_record_detail" | "ca_prop64_prior_completion_answer" | "ca_prop64_prior_conduct_answer" | "prior_answer_for_shape_clarification" | "ny_16059_custody_entered_in_error" | "prior_factual_pathway_answer"; routeKey: string; profileVersion: string;
+      profileSourceFingerprint: string | null; profileAuthorityFingerprint: string }>;
+    /** Server-derived linkage of an explicit NY separate-incidents answer to
+     * the unchanged covered convictions. This grants no legal authority. */
+    ny16059SeparateDeclaration?: {
+      version: 1; routeKey: string; profileVersion: string;
+      profileSourceFingerprint: string | null; profileAuthorityFingerprint: string;
+      priorSnapshotHash: string; coveredUniverseHash: string; answerSha256: string;
+      /** Explicit owner replacement retains this old provenance as history. */
+      supersededByAnswerSha256?: string;
+      rawAnswerCopies: Array<{ source: "screeningAnswers" | "prefilledAnswers" | "packetAnswers"; raw: unknown }>;
+      basis: "explicit_separate_incidents_with_unchanged_covered_universe";
+    };
+    packetDerivations?: Record<string, {
+      version: 1;
+      routeKey: string;
+      inputFactIds: string[];
+      inputSha256: string;
+      outputSha256: string;
+      legacyValues?: Array<{ source: "screeningAnswers" | "prefilledAnswers" | "packetAnswers"; value: unknown;
+        meaning: "exact_prior_derived_representation"; profileVersion: string; routeKey: string }>;
+    }>;
   };
 };
 
@@ -113,6 +141,8 @@ export type ConsumerBriefcaseItem = {
   createdAt: string;
   summary: string;
   nextSteps: string[];
+  /** Display-only resume anchor, saved atomically with packet progress metadata. */
+  packetResumeSectionId?: string | null;
   paymentAllowed: boolean;
   pathwayLabel?: string;
   packetType?: ExpungementAiEligibilityResult["packetType"];

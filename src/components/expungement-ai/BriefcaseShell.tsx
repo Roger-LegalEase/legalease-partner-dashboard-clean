@@ -121,7 +121,7 @@ export function BriefcaseShell({
             </div>
           </header>
 
-          <main className="flex-1 overflow-auto px-5 pb-24 pt-6 md:px-7 md:pb-7">{children}</main>
+          <main className="flex-1 overflow-auto scroll-pb-24 px-5 pb-24 pt-6 [&_input]:scroll-mb-24 [&_textarea]:scroll-mb-24 [&_select]:scroll-mb-24 [&_button]:scroll-mb-24 [&_a]:scroll-mb-24 md:scroll-pb-7 md:px-7 md:pb-7 md:[&_input]:scroll-mb-7 md:[&_textarea]:scroll-mb-7 md:[&_select]:scroll-mb-7 md:[&_button]:scroll-mb-7 md:[&_a]:scroll-mb-7">{children}</main>
         </div>
       </div>
 

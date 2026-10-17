@@ -123,14 +123,43 @@
     "trackToFamilyScope": "D",
     "tracksWithAFamilyBridge": 260,
     "adoptedFamilyProofsRead": 57,
-    "note": "The only track-to-family bridge in this repository covers lane D. A pathway whose tracks are outside it cannot be joined to a counsel record here, and is reported as bridge-missing rather than as covered or as a new review."
+    "exactRouteFamilyInputs": {
+      "queue": {
+        "path": "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
+        "identityProjection": "exact CA family identity only; excludes generated dependencies, states and verdicts",
+        "identityProjectionFields": [
+          "familyId",
+          "jurisdiction",
+          "implementationStrategy",
+          "routeKeys",
+          "packetComponents",
+          "forms",
+          "instrumentKinds",
+          "sourceHashes"
+        ],
+        "identityProjectionSha256": "1ea9bf1e6204e12088ed8fdecfcfc0cd6bb99f4e19d01a3ac2ed4d76b721cc9c"
+      },
+      "manifests": {
+        "path": "data/record-clearing/legal-design-packet-set-manifests.json",
+        "sha256": "fee93664c9795c569acb6b7b92f688f519ccacbf981465b599327f590d3dfb82"
+      },
+      "wiring": {
+        "path": "data/rcap-all50/overlays/census-v1/ca/ca-prop64-set--official-pdf-fill/product-wiring.json",
+        "sha256": "4cbfc7799f5efb811d6800ab980f1c5d52776638f53894ba0fd54dcbd8721f6c"
+      }
+    },
+    "exactRouteFamilyScope": [
+      "CA:prop-64-completed-sentence-application-11361-8",
+      "CA:prop-64-currently-serving-petition-11361-8"
+    ],
+    "note": "Adopted packet proofs and the lane-D map retain their existing scope. The exact two CA Prop64 adult routes additionally reuse matching canonical family, component, source and held product-wiring identities. This evidence link creates no approval, fixture, runtime admission or commercial authority; unjoined routes remain bridge-missing."
   },
   "intendedPaidPathways": 267,
   "counts": {
-    "family_bridge_missing_no_family": 156,
+    "family_bridge_missing_no_family": 154,
     "approved_by_decision_owner": 70,
     "family_bridge_missing_no_track": 40,
-    "owner_approval_pending": 1
+    "owner_approval_pending": 3
   },
   "pathways": [
     {
@@ -637,7 +666,9 @@
       "registryTrackIds": [
         "ca-prop64"
       ],
-      "packetFamilies": [],
+      "packetFamilies": [
+        "ca-prop64-set"
+      ],
       "adoptionRecordId": null,
       "adoptionRecordSha256": null,
       "adoptedOn": null,
@@ -646,15 +677,15 @@
       "ownerLegalDecisionRecordId": null,
       "ownerApprovedFamilies": [],
       "legalStatus": "owner_approval_pending",
-      "legalStatement": "No packet family is reachable from this pathway, so no owner decision reaches it either.",
+      "legalStatement": "The pathway resolves to packet family ca-prop64-set, and 1 of them is not named by any owner legal decision.",
       "namedLegalActionRequired": false,
-      "familyBridgePresent": false,
+      "familyBridgePresent": true,
       "onlyPathwayProjectionMissing": false,
       "familyGates": [],
       "lawrenceRatification": "ratified_deployable",
       "ledgerSaysLegalReviewPending": false,
-      "disposition": "family_bridge_missing_no_family",
-      "statement": "Tracks ca-prop64 map to this pathway, but this repository carries no track-to-family bridge for them. No packet family is reachable from this pathway, so no owner decision reaches it either."
+      "disposition": "owner_approval_pending",
+      "statement": "The pathway resolves to packet family ca-prop64-set, and 1 of them is not named by any owner legal decision."
     },
     {
       "pathwayKey": "CA:prop-64-currently-serving-petition-11361-8",
@@ -664,7 +695,9 @@
       "registryTrackIds": [
         "ca-prop64"
       ],
-      "packetFamilies": [],
+      "packetFamilies": [
+        "ca-prop64-set"
+      ],
       "adoptionRecordId": null,
       "adoptionRecordSha256": null,
       "adoptedOn": null,
@@ -673,15 +706,15 @@
       "ownerLegalDecisionRecordId": null,
       "ownerApprovedFamilies": [],
       "legalStatus": "owner_approval_pending",
-      "legalStatement": "No packet family is reachable from this pathway, so no owner decision reaches it either.",
+      "legalStatement": "The pathway resolves to packet family ca-prop64-set, and 1 of them is not named by any owner legal decision.",
       "namedLegalActionRequired": false,
-      "familyBridgePresent": false,
+      "familyBridgePresent": true,
       "onlyPathwayProjectionMissing": false,
       "familyGates": [],
       "lawrenceRatification": "ratified_deployable",
       "ledgerSaysLegalReviewPending": false,
-      "disposition": "family_bridge_missing_no_family",
-      "statement": "Tracks ca-prop64 map to this pathway, but this repository carries no track-to-family bridge for them. No packet family is reachable from this pathway, so no owner decision reaches it either."
+      "disposition": "owner_approval_pending",
+      "statement": "The pathway resolves to packet family ca-prop64-set, and 1 of them is not named by any owner legal decision."
     },
     {
       "pathwayKey": "CA:tool-1-dismissal-set-aside",

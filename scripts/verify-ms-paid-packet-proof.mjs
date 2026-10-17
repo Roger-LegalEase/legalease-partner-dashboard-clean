@@ -1,50 +1,75 @@
 #!/usr/bin/env node
-/**
- * Bounded re-verification of the approved MS successor packet set.
+/** Current-source technical proof for the exact approved MS packet set.
+ * Reproduce the same owner-approved output bytes after the explicitly reviewed
+ * question-contract transition. Preserve both historical proof generations,
+ * fixtures and owner decisions. Synthetic charged-conduct/control additions
+ * are declared separately and never represent protected participant approval.
  *
- * WHAT CHANGED, AND WHY THIS PROOF IS A NEW GENERATION
- *
- * The 2026-09-14 proof measured two participant-delivery artifacts composed and
- * rendered WITHOUT the shared §7 guide, under an owner decision that recorded
- * `packetContentsChanged: false`. Those bytes no longer reproduce: the guide is
- * now assembled into the full packet and the specification's own
- * ms-filing-and-next-steps page is retired in its favour. That is a real,
- * intentional, owner-approved change to the packet, not drift to be re-pinned.
- *
- * So this proof is bound to the 2026-09-20 decision and to the three artifacts
- * it names, and it renders them through `assembleParticipantPacket` -- the one
- * production assembly a participant's own download goes through -- rather than
- * through the renderer alone. The old proof is retired, not repaired; the
- * reconciliation ledger records that retirement.
- *
- * No packet, raster, legal approval, source inventory or hosted state is
- * rewritten here, and nothing below authorizes publication or delivery.
- *
- *   node scripts/verify-ms-paid-packet-proof.mjs [--write]
+ * node scripts/verify-ms-paid-packet-proof.mjs [--output <external-file>|--write]
+ * No hosted acceptance, publication, delivery or Production authority.
  */
 import fs from 'node:fs';
 import path from 'node:path';
+import os from 'node:os';
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 import { execFileSync } from 'node:child_process';
 import { register } from 'node:module';
 import { PDFDocument } from 'pdf-lib';
-import { startEphemeralPg } from './lib/rcap-ephemeral-pg.mjs';
-import { MS_SUCCESSOR_REVIEW_OUTPUTS, msSuccessorReviewMatter } from './lib/ms-successor-review-matter.mjs';
+const executionHead=execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim();
 register('./lib/ts-esm-loader.mjs', import.meta.url);
+// Observe only modules actually loaded by this process, before any local
+// verifier dependency is imported. Preserve the trace beside isolated output.
+const observedDirectory=fs.mkdtempSync(path.join(os.tmpdir(),'ms-paid-proof-imports-'));
+const observedLog=path.join(observedDirectory,'modules.jsonl');fs.writeFileSync(observedLog,'');
+const observer=`import fs from 'node:fs';import path from 'node:path';import {fileURLToPath} from 'node:url';import crypto from 'node:crypto';let d;export function initialize(data){d=data}export async function load(url,context,next){let entry;if(url.startsWith('file:')){const file=fileURLToPath(url);if(file.startsWith(d.root+path.sep)&&!file.startsWith(d.root+path.sep+'node_modules'+path.sep)&&/\\.(?:[cm]?js|tsx?|json)$/.test(file)){entry={file:path.relative(d.root,file),sha256:crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex')};}}const result=await next(url,context);if(entry)fs.appendFileSync(d.log,JSON.stringify(entry)+'\\n');return result}`;
+register(`data:text/javascript,${encodeURIComponent(observer)}`,{data:{root:process.cwd(),log:observedLog}});
+const { MS_PAID_PACKET_PROOF, MS_PAID_PACKET_PROOF_PREDECESSOR, MS_PAID_PACKET_PROOF_20260920, MS_PAID_PACKET_PROOF_RETIRED, MS_PROOF_EXECUTION_INPUTS, MS_PROOF_OBSERVED_INPUTS, loadMsPaidPacketProof } = await import('./lib/ms-paid-packet-proof.mjs');
+const { QUESTION_CONTRACT_SUCCESSOR_PATH, QUESTION_CONTRACT_OUTPUT_PATH, MS_QUESTION_CONTRACT_PREDECESSOR_PATH, assertQuestionContractOutputInputs } = await import('../src/lib/rcap/fulfillment/question-contract-source-successor.mjs');
+const { startEphemeralPg } = await import('./lib/rcap-ephemeral-pg.mjs');
+const { MS_SUCCESSOR_REVIEW_OUTPUTS, msSuccessorReviewMatter } = await import('./lib/ms-successor-review-matter.mjs');
 const { loadMsPaidConsumerSuccessor } = await import('../src/lib/rcap/fulfillment/paid-consumer-successor.ts');
+const { MISSISSIPPI_NON_CONVICTION_NEUTRAL_FACTS } = await import('../src/lib/expungement-ai/packet-route-safety.ts');
+const { mississippiNonConvictionPacketSafety } = await import('../src/lib/expungement-ai/packet-information.ts');
 const { composeParticipantDeliveryPacket } = await import('../src/lib/rcap/grade-a/participant-packet.ts');
 const { assembleParticipantPacket, participantGuideDate } = await import('../src/lib/rcap/render/participant-packet-assembly.ts');
 const { specificationCaseIdentifierFactId } = await import('../src/lib/rcap/grade-a/packet-specification.ts');
 const { stableStringify } = await import('../src/lib/rcap/fulfillment/grade-a-registry.ts');
 const { finalVerificationBoundInputsSha256 } = await import('../src/lib/rcap/fulfillment/final-verification-contract.ts');
 const sha = value => createHash('sha256').update(value).digest('hex');
+function observedModules(){
+  const modules=new Map();
+  for(const line of fs.readFileSync(observedLog,'utf8').trim().split('\n').filter(Boolean)){
+    const entry=JSON.parse(line);assert.ok(!modules.has(entry.file)||modules.get(entry.file)===entry.sha256,'loaded module drift: '+entry.file);
+    assert.equal(sha(fs.readFileSync(entry.file)),entry.sha256,'observed module changed: '+entry.file);modules.set(entry.file,entry.sha256);
+  }
+  return [...modules].sort(([a],[b])=>a.localeCompare(b)).map(([file,sha256])=>({file,sha256}));
+}
+const importsOnly=process.argv.indexOf('--observe-imports');
+if(importsOnly>=0){
+  const output=path.resolve(process.argv[importsOnly+1]??'');assert.ok(!output.startsWith(path.resolve('.')+path.sep),'observed imports must stay outside source tree');
+  fs.writeFileSync(output,JSON.stringify({kind:'actual_module_load_observation',databaseStarted:false,modules:observedModules()},null,2)+'\n',{flag:'wx'});
+  console.log('Observed actual verifier imports without database execution: '+output);process.exit(0);
+}
+
 const inputs = {};
 const read = file => { const bytes=fs.readFileSync(file); inputs[file]=sha(bytes); return bytes; };
 const json = file => JSON.parse(read(file));
+const outputFlag=process.argv.indexOf('--output');
+const out=outputFlag>=0?path.resolve(process.argv[outputFlag+1]??''):MS_PAID_PACKET_PROOF;
+if(outputFlag>=0)assert.ok(!out.startsWith(path.resolve('.')+path.sep),'preview output must be outside source tree');
+if(process.argv.includes('--write')||outputFlag>=0)assert.ok(!fs.existsSync(out),'refusing to overwrite an existing proof');
 const approval = loadMsPaidConsumerSuccessor(); assert.ok(approval, 'exact owner approval refused');
 assert.equal(approval.packetContentsChanged, true, 'this proof measures the changed packet set');
 read(approval.decisionPath); read(approval.supersededDecisionPath);
+const outputContinuity=assertQuestionContractOutputInputs(read);
+const successor=json(QUESTION_CONTRACT_SUCCESSOR_PATH);
+const outputProof=json(QUESTION_CONTRACT_OUTPUT_PATH);
+read(MS_QUESTION_CONTRACT_PREDECESSOR_PATH);
+for(const entry of successor.preservedEvidence)read(entry.path);
+for(const entry of outputProof.sources)read(entry.file);
+const predecessorProofBytes=read(MS_PAID_PACKET_PROOF_PREDECESSOR);
+read(MS_PAID_PACKET_PROOF_20260920); read(MS_PAID_PACKET_PROOF_RETIRED);
 const spec = json(approval.specificationPath);
 assert.equal(spec.routeKey, approval.routeId); assert.equal(spec.trackId,'ms-nonconv'); assert.equal(spec.packetSetId,'ms-nonconv-set');
 assert.equal(spec.legalSectionsBound,true);
@@ -74,6 +99,7 @@ assert.equal(superseded.participantDeliveryReview.productionAuthorized,false);
  * instructions, and the specification retired its own page on that promise. A
  * source authority that did not name it would bind the wrong set of words. */
 const sourceInputs={contract:'rcap-codified-authority-bound-inputs/v1',routeId:approval.routeId,familyId:spec.packetFamily,trackId:spec.trackId,packetSetId:spec.packetSetId,implementationStrategy:'custom_pleading',officialBinaryComponentsExpected:false,
+  questionContractSourceSuccessor:approval.questionContractSourceSuccessor,
   supplementalGuideSupersession:{supersededPacketComponentId:'ms-filing-and-next-steps',assemblyKind:approval.assemblyKind,assemblyVersion:approval.assemblyVersion,guideContentSha256:approval.supplementalGuideContentSha256},
   authorityInputs:[
     {role:'track_authority',path:memoPath,selector:{trackId:spec.trackId},sha256:sha(stableStringify(track))},
@@ -86,7 +112,9 @@ const sourceInputs={contract:'rcap-codified-authority-bound-inputs/v1',routeId:a
   ], officialRuleClaims:'The specification retains its asserted-by-ingestion administrative/notary references. This proves adopted custom-pleading authority, not possession of an official binary or a new legal review.'};
 const sourceHash=sha(stableStringify(sourceInputs));
 
-const fixture=json(approval.reviewFixturePath);
+const syntheticScenario={factId:'ms_charged_trafficking_distribution_manufacture',value:'No',inferredFromLegacyAnswer:false,meaning:'Explicit synthetic charged-conduct scenario. Historical dates/hash retained for PDF comparison only; no current protected participant verification asserted.'};
+const withSyntheticScenario=source=>({...source,facts:{...source.facts,[syntheticScenario.factId]:syntheticScenario.value}});
+const fixture=withSyntheticScenario(json(approval.reviewFixturePath));
 assert.equal(fixture.routeKey,approval.routeId); assert.equal(fixture.generationPurpose,'participant_delivery');
 const caseIdentifierFactId=specificationCaseIdentifierFactId(spec);
 const matterFor=(source,locale)=>msSuccessorReviewMatter({fixture:source,specification:spec,locale,participantGuideDate,caseIdentifierFactId});
@@ -94,6 +122,21 @@ const assembleFor=async(source,output)=>(await assembleParticipantPacket(compose
   routeKey:approval.routeId,specification:spec,variant:output.variant,locale:output.locale,
   verifiedAt:source.verifiedAt,matter:matterFor(source,output.locale)})).bytes;
 
+const chargedConductSafetyControls=[];
+const routeSafetyControlBase={...fixture,facts:{...fixture.facts,...Object.fromEntries(MISSISSIPPI_NON_CONVICTION_NEUTRAL_FACTS)}};
+const routeSafetySyntheticAdditions=Object.fromEntries(MISSISSIPPI_NON_CONVICTION_NEUTRAL_FACTS.filter(([id])=>fixture.facts[id]===undefined));
+for(const [id,value] of MISSISSIPPI_NON_CONVICTION_NEUTRAL_FACTS)if(fixture.facts[id]!==undefined)assert.equal(fixture.facts[id],value,'existing synthetic fixture conflicts with neutral control');
+assert.equal(mississippiNonConvictionPacketSafety(routeSafetyControlBase.facts,fixture.verifiedAt).safe,true,'separately declared synthetic positive route-safety control');
+for(const [scenario,value] of [['yes','Yes'],['unknown',{unknown:true}],['absent',undefined],['legacy_only',undefined]]) {
+  const negative=structuredClone(routeSafetyControlBase);
+  delete negative.facts[syntheticScenario.factId];
+  if(value!==undefined)negative.facts[syntheticScenario.factId]=value;
+  if(scenario==='legacy_only')negative.facts.trafficking_status='No';
+  const safety=mississippiNonConvictionPacketSafety(negative.facts,negative.verifiedAt);
+  assert.equal(safety.safe,false,`${scenario} must be refused at the protected pre-readiness route safety gate`);
+  assert.equal(safety.reason,'route_changing_answer:'+syntheticScenario.factId);
+  chargedConductSafetyControls.push({scenario,refused:true,layer:'mississippiNonConvictionPacketSafety',reason:safety.reason});
+}
 const results=[]; const unapproved=[]; const db=startEphemeralPg();
 const roundTrip=value=>db.json(`select '${JSON.stringify(value).replaceAll("'","''")}'::jsonb`);
 try {
@@ -136,7 +179,7 @@ try {
    * approves nothing.
    */
   const boundaryPath='data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.participant-b.fixture.json';
-  const boundary=json(boundaryPath);
+  const boundary=withSyntheticScenario(json(boundaryPath));
   assert.equal(boundary.generationPurpose,'participant_delivery');
   for(const output of MS_SUCCESSOR_REVIEW_OUTPUTS) {
     const first=await assembleFor(boundary,output);
@@ -155,11 +198,19 @@ assert.equal(results.find(r=>r.variant==='court_only').guideAssembled,false,'the
 function bindTree(dir){for(const entry of fs.readdirSync(dir,{withFileTypes:true})){const file=path.join(dir,entry.name); if(entry.isDirectory())bindTree(file);else if(file.endsWith('.ts'))read(file);}}
 bindTree('src/lib/rcap/grade-a');
 bindTree('src/lib/rcap/supplemental');
-for(const file of ['scripts/verify-ms-paid-packet-proof.mjs','scripts/lib/ms-paid-packet-proof.mjs','scripts/lib/ms-successor-review-matter.mjs','src/lib/rcap/render/participant-packet-assembly.ts','src/lib/rcap/render/personalized-packet.ts','src/lib/expungement-ai/packet-information.ts','src/lib/expungement-ai/verification-cas.ts','src/lib/rcap/fulfillment/final-verification-contract.ts','src/lib/rcap/fulfillment/paid-consumer-successor.ts'])read(file);
-const proof={schemaVersion:'rcap-ms-paid-packet-proof/v2',generatedBy:'scripts/verify-ms-paid-packet-proof.mjs',sourceSha:execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),routeId:approval.routeId,trackId:spec.trackId,packetFamilyId:spec.packetFamily,ownerDecision:approval,
+for(const file of MS_PROOF_EXECUTION_INPUTS)read(file);
+for(const file of ['scripts/verify-ms-paid-packet-proof.mjs','scripts/lib/ms-paid-packet-proof.mjs','scripts/lib/ms-successor-review-matter.mjs','src/lib/rcap/render/participant-packet-assembly.ts','src/lib/rcap/render/personalized-packet.ts','src/lib/expungement-ai/packet-information.ts','src/lib/expungement-ai/verification-cas.ts','src/lib/rcap/fulfillment/final-verification-contract.ts','src/lib/rcap/fulfillment/paid-consumer-successor.ts','src/lib/rcap/fulfillment/question-contract-source-successor.mjs'])read(file);
+assert.equal(execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),executionHead,'verifier candidate changed during execution');
+const observed=observedModules();assert.deepEqual(observed.map(entry=>entry.file).sort(),[...MS_PROOF_OBSERVED_INPUTS].sort(),'actual verifier imports differ from reviewed observed inventory');
+for(const entry of observed)read(entry.file);
+const proof={schemaVersion:'rcap-ms-paid-packet-proof/v4',generatedBy:'scripts/verify-ms-paid-packet-proof.mjs',sourceSha:executionHead,routeId:approval.routeId,trackId:spec.trackId,packetFamilyId:spec.packetFamily,ownerDecision:approval,
   assemblyIdentity:{assemblyKind:approval.assemblyKind,assemblyVersion:approval.assemblyVersion,supplementalGuidePath:approval.supplementalGuidePath,supplementalGuideSha256:approval.supplementalGuideSha256,supplementalGuideContentSha256:approval.supplementalGuideContentSha256,assembledThrough:'src/lib/rcap/render/participant-packet-assembly.ts'},
-  supersededProof:{path:'data/rcap-grade-a/participant-data-rights/ms-paid-packet-proof-20260914.json',decisionPath:approval.supersededDecisionPath,decisionSha256:approval.supersededDecisionSha256,artifactBytesStillReproduce:false,resolvedBy:'retirement_not_repinning'},
+  supersededProof:{path:MS_PAID_PACKET_PROOF_PREDECESSOR,sha256:sha(predecessorProofBytes),artifactBytesStillReproduce:true,resolvedBy:'exact_current_output_continuity'},
+  outputContinuity,
+  observedExecution:{kind:"actual_local_module_loads",modules:observed},
+  questionContractSourceSuccessor:approval.questionContractSourceSuccessor,syntheticScenario,routeSafetySyntheticAdditions,chargedConductSafetyControls,currentProtectedJourneyEstablished:false,productionAuthorized:false,
   sourceAuthority:{boundInputs:sourceInputs,boundInputsSha256:sourceHash},results,unapprovedDeterminismControls:unapproved,inputs,scope:'Local exact approved packet/assembly/source-authority verification only; no hosted acceptance, publication, participant delivery, new legal review or Production authority.'};
-const out='data/rcap-grade-a/participant-data-rights/ms-paid-packet-proof-20260920.json';
-if(process.argv.includes('--write'))fs.writeFileSync(out,JSON.stringify(proof,null,2)+'\n');
-console.log(JSON.stringify({routeId:proof.routeId,artifacts:results.map(r=>({id:r.id,variant:r.variant,locale:r.locale,pages:r.pageCount,sha256:r.artifactSha256,verificationHash:r.verificationBoundInputsSha256})),sourceAuthorityHash:sourceHash,postgresRoundTrip:'PASS',negativeBindingControls:results.reduce((t,r)=>t+r.negativeBindingControls,0),unapprovedDeterminismControls:unapproved.length,proofWritten:process.argv.includes('--write')},null,2));
+const bytes=Buffer.from(JSON.stringify(proof,null,2)+'\n');
+loadMsPaidPacketProof({readBytes:file=>file===MS_PAID_PACKET_PROOF?bytes:fs.readFileSync(file),stableStringify,approval});
+if(process.argv.includes('--write')||outputFlag>=0)fs.writeFileSync(out,bytes,{flag:'wx'});
+console.log(JSON.stringify({routeId:proof.routeId,artifacts:results.map(r=>({id:r.id,variant:r.variant,locale:r.locale,pages:r.pageCount,sha256:r.artifactSha256,verificationHash:r.verificationBoundInputsSha256})),sourceAuthorityHash:sourceHash,postgresRoundTrip:'PASS',negativeBindingControls:results.reduce((t,r)=>t+r.negativeBindingControls,0),unapprovedDeterminismControls:unapproved.length,chargedConductSafetyControls:chargedConductSafetyControls.length,proofWritten:process.argv.includes('--write')||outputFlag>=0,proofPath:out},null,2));

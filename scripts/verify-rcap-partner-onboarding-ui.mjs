@@ -336,6 +336,9 @@ function render(Component, props) {
 function loadTsModule(filePath) {
   const resolved = path.resolve(filePath);
   if (moduleCache.has(resolved)) return moduleCache.get(resolved).exports;
+  if (path.extname(resolved) === ".json") {
+    return require(resolved);
+  }
 
   const source = fs.readFileSync(resolved, "utf8");
   const transpiled = ts.transpileModule(source, {

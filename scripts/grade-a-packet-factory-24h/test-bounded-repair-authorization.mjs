@@ -2,13 +2,13 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import { boundedRepairAuthorization } from './bounded-repair-authorization.mjs';
 const read = p => JSON.parse(fs.readFileSync(p, 'utf8'));
-const master = read('data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json');
-const ledger = read('data/rcap-grade-a/packet-factory-24h/claim-ledger.json');
+// This positive control is the exact original legal-hold/repair tenure. The
+// current Wyoming family subsequently received a legal resolution and released
+// FIX114; testing authorization must not require reopening that finished work.
+const historical = read(new URL('./fixtures/bounded-repair-wy.json', import.meta.url));
+const {family, claim, ledger, decision} = historical;
 const id = 'composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708';
-const family = master.families.find(f => f.familyId === id);
-const claim = ledger.claims.find(c => c.subjectId === id && c.laneKind === 'repair' && !c.released);
 const decisionPath = 'data/record-clearing/legal-decisions/2026-09-06-owner-relayed-research-batch-03.json';
-const decision = read(decisionPath);
 const original = JSON.stringify({family, claim, ledger, decision});
 const fixture = () => structuredClone({family, claim, ledger, decision});
 const evaluate = x => boundedRepairAuthorization(x.family, x.claim, x.ledger, p => {
@@ -48,4 +48,11 @@ for (const [name, mutate] of cases) {
   const x = fixture(); mutate(x); assert.equal(evaluate(x), null, name);
 }
 assert.equal(JSON.stringify({family, claim, ledger, decision}), original);
-console.log(JSON.stringify({positiveControls:1, negativeControls:cases.length, inputsUnchanged:true, legalHoldRetained:true, approvalGranted:false}));
+const currentMaster = read('data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json');
+const currentLedger = read('data/rcap-grade-a/packet-factory-24h/claim-ledger.json');
+const currentFamily = currentMaster.families.find(f => f.familyId === id);
+const retiredClaim = currentLedger.claims.find(c => c.subjectId === id && c.lane === 'FIX114' && c.laneKind === 'repair');
+assert.equal(retiredClaim?.released, true, 'Historical FIX114 authorization has ended');
+assert.equal(boundedRepairAuthorization(currentFamily, retiredClaim, currentLedger, read), null,
+  'A historical repair instruction cannot revive current authority');
+console.log(JSON.stringify({positiveControls:1, negativeControls:cases.length+1, inputsUnchanged:true, legalHoldRetained:true, approvalGranted:false}));

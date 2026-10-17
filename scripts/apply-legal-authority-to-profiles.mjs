@@ -57,6 +57,15 @@ const PROFILE_DIR = "src/lib/rcap-engine/compiled/profiles";
  */
 const BLOCKED_JURISDICTIONS = {};
 const checkOnly = process.argv.includes("--check");
+// A scoped correction must not regenerate another writer's jurisdiction.
+const jurisdictionArgs = process.argv.filter((arg) => arg.startsWith("--jurisdiction="));
+if (jurisdictionArgs.length > 1 || process.argv.includes("--jurisdiction")) {
+  throw new Error("Use exactly one --jurisdiction=XX selector.");
+}
+const jurisdictionOnly = jurisdictionArgs[0]?.slice("--jurisdiction=".length);
+if (jurisdictionOnly !== undefined && !/^[A-Z]{2}$/.test(jurisdictionOnly)) {
+  throw new Error("The jurisdiction selector must be an exact two-letter uppercase code.");
+}
 
 const profilePaths = new Map();
 for (const file of readdirSync(PROFILE_DIR)) {
@@ -85,7 +94,9 @@ function routeTypeFor(contract, current) {
 function waitingRulesFor(contract) {
   const lines = [contract.timing.anchorText];
   if (contract.effectiveFrom) {
-    lines.push(`This rule governs filings on or after ${contract.effectiveFrom}.`);
+    lines.push(routeIsAutomaticOrNoFiling(contract)
+      ? `This rule took effect on ${contract.effectiveFrom}.`
+      : `This rule governs filings on or after ${contract.effectiveFrom}.`);
   }
   if (contract.supersedes) {
     const duration = typeof contract.supersedes.value === "number"
@@ -360,7 +371,11 @@ for (const contract of LEGAL_AUTHORITY.routes) {
   byJurisdiction.get(contract.jurisdiction).push(contract);
 }
 
+if (jurisdictionOnly && (!byJurisdiction.has(jurisdictionOnly) || !profilePaths.has(jurisdictionOnly))) {
+  throw new Error(`No contract/profile target exists for jurisdiction ${jurisdictionOnly}.`);
+}
 for (const [code, contracts] of [...byJurisdiction].sort(([a], [b]) => a.localeCompare(b))) {
+  if (jurisdictionOnly && code !== jurisdictionOnly) continue;
   if (BLOCKED_JURISDICTIONS[code]) {
     blocked.push(`${code} (${contracts.length} contracts): ${BLOCKED_JURISDICTIONS[code]}`);
     continue;

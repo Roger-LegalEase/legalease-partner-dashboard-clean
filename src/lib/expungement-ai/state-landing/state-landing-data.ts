@@ -15,6 +15,7 @@
  */
 
 import generated from "./generated-state-content.json";
+import { GA_PARDON_ROUTE, georgiaPardonDisplay } from "@/lib/rcap-engine/georgia-pardon-facts";
 import { getStateTermOverride } from "@/lib/expungement-ai/state-landing/state-terminology";
 import { productionExpungementAiUrl } from "@/lib/app-url";
 
@@ -202,7 +203,8 @@ function buildStateLandingData(content: GeneratedStateContent): StateLandingData
   const { name, code, slug, pathwayHighlights, allowedStateTerms } = content;
   const { termLabel, termBlurb: sourceTermBlurb } = displayTermFor(content);
   const termBlurb = publicMarketingCopy(sourceTermBlurb);
-  const publicPathwayHighlights = pathwayHighlights.map(publicMarketingCopy);
+  const publicPathwayHighlights = pathwayHighlights.map(value =>
+    publicMarketingCopy(georgiaPardonDisplay(code, GA_PARDON_ROUTE, value)?.en ?? value));
   const canonical = `${productionExpungementAiUrl}/states/${slug}`;
 
   const headline = `Explore record-clearing options in ${name} with clear self-help steps.`;
