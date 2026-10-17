@@ -121,9 +121,14 @@ check('all six DC artifact adoption/custody reads are explicit execution inputs'
  assert.equal(Object.keys(dcExecutionRefusals).length,6);
  for(const file of Object.keys(dcExecutionRefusals))assert.ok(MS_PROOF_EXECUTION_INPUTS.includes(file),file);
 });
+// The mandatory named source record refuses altered bytes before the generic
+// proof-input loop. Keep this exact path/message separate from the six DC cases.
+const namedSourceExecutionRefusals={
+ 'data/rcap-grade-a/participant-data-rights/question-contract-source-succession-ms-ga-va-mn-20261017-v1.json':{name:'Error',message:'Question-contract source successor refused: MS/GA/VA/MN source succession record bytes changed'}
+};
 for(const file of MS_PROOF_EXECUTION_INPUTS)check(`execution dependency remains source-bound: ${file}`,()=>{
  assert.ok(proof.inputs[file]);
- const reason=dcExecutionRefusals[file]??/stale MS packet proof|stale output input/;
+ const reason=namedSourceExecutionRefusals[file]??dcExecutionRefusals[file]??/stale MS packet proof|stale output input/;
  assert.throws(()=>load(proof,{file,bytes:Buffer.from('changed execution dependency')}),reason);
 });
 for(const file of ['scripts/lib/ms-paid-packet-proof.mjs','scripts/verify-ms-paid-packet-proof.mjs','src/lib/rcap/render/participant-packet-assembly.ts','src/lib/rcap/fulfillment/final-verification-contract.ts'])check(`current exact implementation remains pinned ${file}`,()=>assert.throws(()=>load(proof,{file,bytes:Buffer.concat([fs.readFileSync(file),Buffer.from('\n')])}),/stale MS packet proof|stale output input/));
