@@ -15,6 +15,7 @@ const { packetPlanForPathway } = await import('../src/lib/rcap-engine/packet-pla
 const { evaluateScreening } = await import('../src/lib/rcap-engine/evaluator.ts');
 const { evaluateAuthoritativeScreeningResult } = await import('../src/lib/expungement-ai/authoritative-screening-result.ts');
 const { packetSpecificationFor } = await import('../src/lib/rcap/grade-a/packet-specification.ts');
+const { stableStringify } = await import('../src/lib/rcap/fulfillment/grade-a-registry.ts');
 const { prepayGateFactIds, renderGateFactIds, resolvePacketCollection } = await import('../src/lib/expungement-ai/packet-collection.ts');
 const { reviewedPacketQuestion } = await import('../src/lib/expungement-ai/reviewed-question-copy.ts');
 const { composeParticipantDeliveryPacket } = await import('../src/lib/rcap/grade-a/participant-packet.ts');
@@ -35,6 +36,15 @@ check('original source asks the conviction Code section, not broad category', ()
  assert(!inputs.some(i => /category/i.test(i.key)));
  assert(spec.statutoryAuthority.ruleStatement.includes('§ 17-10-6.1'));
  assert(spec.statutoryAuthority.ruleStatement.includes('§ 17-10-6.2'));
+});
+// The guard pins the declared digest; it is only a review fingerprint if the
+// declared value is the actual content digest of the registered specification.
+check('reviewed specification pin is the actual content digest', () => {
+ const content = JSON.parse(fs.readFileSync('data/record-clearing/packet-specifications/GA-restriction-and-sealing-of-a-pardoned-felony.v1.json'));
+ const declared = content.specificationSha256; delete content.specificationSha256;
+ assert.equal(declared, spec.specificationSha256);
+ assert.equal(createHash('sha256').update(stableStringify(content)).digest('hex'), declared);
+ assert(H.georgiaPardonCategoryIsContext('GA', id, spec));
 });
 const rawQuestion = { id: 'offense_category', stage: 'packet_information', prompt: 'What category does the court record use for this offense?', type: 'text_or_unknown', required: true, contextOnly: false, lifecyclePhase: 'postpay_packet_field', options: null };
 const values = [undefined, 'Possession', 'Amended theft count', 'Count 1 theft; Count 2 possession', 'Felony', { value: '', unknown: true }, { value: 'Categoría guardada', unknown: false }];

@@ -20,7 +20,8 @@ export function georgiaPardonCategoryIsContext(
     && GA_PARDON_SOURCE === "GA-02:2026-10-13;GA.memo:ga-pardon-j7;OCGA35-3-37(j)(7)"
     && specification?.routeKey === `GA:${GA_PARDON_ROUTE}`
     && specification.trackId === "ga-pardon-j7"
-    && specification.specificationSha256 === "75ccdf5a48c9ee30b0e4cf197edcd4e6ad967a9425470ed96bc47cb974cfb061"
+    // 2207c357a adopted-correction successor; reviewed: no category consumer added.
+    && specification.specificationSha256 === "08fb09613f95f09510d6f6c6e120248ef80c828926a9c08fb9fc9e41b1e71fc9"
     // The technical fingerprint is this reviewed consumer scope, not an
     // approval. A new declared/conditional document consumer must be reviewed.
     && !JSON.stringify(specification).includes("offense_category");

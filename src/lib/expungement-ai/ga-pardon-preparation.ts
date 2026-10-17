@@ -34,7 +34,8 @@ export function georgiaPardonPreparationFactIds(snapshot: PreparationSnapshot, c
     || GA_PARDON_SOURCE !== SOURCE || snapshot.resultCode !== "needs_review" || snapshot.paymentAllowed !== false
     || snapshot.packetPlan !== null || ![null, "ga-pardon-j7"].includes(snapshot.selectedTrackId)
     || specification?.routeKey !== `GA:${GA_PARDON_ROUTE}` || specification.trackId !== "ga-pardon-j7"
-    || specification.specificationSha256 !== "75ccdf5a48c9ee30b0e4cf197edcd4e6ad967a9425470ed96bc47cb974cfb061") return null;
+    // 2207c357a adopted-correction successor; required/OTN facts rechecked below.
+    || specification.specificationSha256 !== "08fb09613f95f09510d6f6c6e120248ef80c828926a9c08fb9fc9e41b1e71fc9") return null;
   const requiredFacts = specification.requiredFacts;
   if (!requiredFacts || REQUIRED_DOCUMENT_FACTS.some(id => !requiredFacts.some(fact => fact.factId === id && fact.ownership === "participant"))
     || !requiredFacts.some(fact => fact.factId === "otn" && fact.ownership === "participant" && fact.requiredForGeneration === false)) return null;
