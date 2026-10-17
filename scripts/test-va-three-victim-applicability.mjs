@@ -87,6 +87,13 @@ for(const {pathway,base}of seeds.filter(x=>x.variant==='no')){
 }
 const {resolvePacketCollection}=await import('../src/lib/expungement-ai/packet-collection.ts');
 const {packetSpecificationFor}=await import('../src/lib/rcap/grade-a/packet-specification.ts');
+// Only the observed regime1 identity and its one declared adopted successor;
+// a further change, or a successor that consumes victim status, is refused.
+{const regime1=H.VA_VICTIM_CONTEXT_ROUTES[0],spec=packetSpecificationFor('VA:'+regime1);
+ check('declared-successor-spec-accepted',H.virginiaVictimQuestionContract(profile,regime1,{specification:spec}),true);
+ for(const [label,changed] of [['unreviewed-third-spec',{...spec,specificationNote:'changed'}],['successor-consumes-victim-status',{...spec,requiredFacts:[...(spec.requiredFacts??[]),{factId:'trafficking_status'}]}]])
+  check('exact-guard-refuses-'+label,H.virginiaVictimQuestionContract(profile,regime1,{specification:changed}),false);
+ check('exact-guard-refuses-successor-on-specless-route',H.virginiaVictimQuestionContract(profile,H.VA_VICTIM_CONTEXT_ROUTES[1],{specification:spec}),false);}
 for(const pathway of profile.pathways){
  for(const value of [undefined,'Yes','No','I am not sure','Prefer not to say']){
   const answers=value===undefined?{}:{trafficking_status:value};
