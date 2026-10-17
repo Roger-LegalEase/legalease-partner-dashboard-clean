@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import {a9e4ContactPredecessor,a9e4DiagnosticDriftRefusals} from './lib/a9e4-contact-diagnostic.mjs';
 import fs from 'node:fs';
 import path from 'node:path';
 import {register,createRequire} from 'node:module';
@@ -106,7 +107,8 @@ for(const row of rows){
 
 // Frozen predecessor full sibling collections and plan. No current-output substitution.
 const expectedSiblingHashes={"general-arrest-charge-plea-trial-or-conviction-expungement-under-rsmo-610-140":"20230d880d04eb03d424c584688b7c68103fa55353d8d49b735c8c2bc1b45d98","closed-record-outcome-under-rsmo-610-105":"61f85ac41aec88c9b81379631b7caca1291b09862610c11d9ac8cc6b2537546a","first-intoxication-related-traffic-or-boating-expungement-under-610-130":"5c6b9f6ab8c475344ea348b0257fec30dc6565663c0bf66f4f4b270f55e60f40","marijuana-expungement-under-missouri-constitution-article-xiv":"0a6389943c84c133b9047a9fbd9da16da67b21ed89e0d8821fcc231013581de1","stolen-or-mistaken-identity-expungement-under-610-145":"56452e2a80549bb267bce1d0e1aa4d8135bc51de28183d9f0bdea1381e79c294","first-minor-in-possession-alcohol-expungement-under-311-326":"bd9239b289f333b5e4976a74bcebcf53b3e7c87b8cb500dc23b57d8170c14d0b","state-initiated-automatic-expungement-of-eligible-drug-offenses-under-610-141":"3ae309838b1579e609fd950ec2a7049bb83b4e06da8a6ef6ec3baba475369503"};
-for(const [id,expected]of Object.entries(expectedSiblingHashes))check('unrelated-sibling-full-collection/'+id,hashJSON(siblings[id]),expected);
+for(const [id,expected]of Object.entries(expectedSiblingHashes))check('unrelated-sibling-full-collection/'+id,hashJSON(a9e4ContactPredecessor(siblings[id],id)),expected);
+{const carrier=Object.values(siblings).find(c=>c.facts.some(f=>f.factId==='contact_information'));for(const [key,refused]of a9e4DiagnosticDriftRefusals(carrier))check('a9e4-contact-diagnostic-refuses-'+key,refused,true);}
 check('source-plan-unchanged',hashJSON(plan),'914aeac3255eaecd6c9b35b74f5c73714d7793891cfee3572eb79c3f7adf095d');
 const H=await load('src/lib/expungement-ai/mo-610122-court-context.ts');
 check('exact-held-unmapped-source-guard',H.mo610122CourtIsContext(profile,route,null),true);

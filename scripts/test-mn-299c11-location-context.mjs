@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import {a9e4SiblingPredecessors,a9e4DiagnosticDriftRefusals} from './lib/a9e4-contact-diagnostic.mjs';
 import fs from 'node:fs';
 import {createHash} from 'node:crypto';
 import path from 'node:path';
@@ -214,7 +215,9 @@ for(const [variant,value]of [['known','Earlier Minnesota location'],['absent',un
 const siblings=Object.fromEntries(profile.pathways.filter(p=>p.id!==route).map(p=>[p.id,P.packetCollectionFor({jurisdiction:'MN',pathwayId:p.id,requiredInputIds:packetPlanForPathway(profile,p.id)?.requiredInputIds??[],serverFacts:{jurisdiction:'MN',pathway_id:p.id},screeningAnswers:original,prefilledAnswers:{},savedAnswers:{}})]));
 if(!baseline){
  check('exact-five-sibling-identities',Object.keys(siblings),Object.keys(frozenBefore.siblings));
- const comparedSiblings={...mn2SiblingPredecessors(siblings),[mnCannabisSiblingRoute]:assertCannabisPredecessorHash(siblings[mnCannabisSiblingRoute]),[mn617SiblingRoute]:assert617PredecessorHash(siblings[mn617SiblingRoute])};
+ const a9e4Siblings=a9e4SiblingPredecessors(siblings);
+ {const carrier=Object.values(siblings).find(c=>c.facts.some(f=>f.factId==='contact_information'));for(const [key,refused]of a9e4DiagnosticDriftRefusals(carrier))check('a9e4-contact-diagnostic-refuses-'+key,refused,true);}
+ const comparedSiblings={...mn2SiblingPredecessors(a9e4Siblings),[mnCannabisSiblingRoute]:assertCannabisPredecessorHash(a9e4Siblings[mnCannabisSiblingRoute]),[mn617SiblingRoute]:assert617PredecessorHash(a9e4Siblings[mn617SiblingRoute])};
  for(const [id,expected]of Object.entries(frozenBefore.siblings))check('independent-frozen-sibling-'+id,comparisonHash(comparedSiblings[id]),expected);
  const {mn609a017LocationIsContext}=await load('src/lib/expungement-ai/mn-609a017-location-context.ts');
  check('617-source-guard',mn609a017LocationIsContext(profile,mn617SiblingRoute,null),true);
@@ -225,7 +228,7 @@ if(!baseline){
   ['index-order',c=>{c.groupedParticipantSections[0].factIds.reverse();}],
   ['unresolved-extra',c=>{c.unresolvedRequiredFacts.push('residency_or_location');}],
   ['unrelated-drift',c=>{c.knownFacts.case_outcome='unrelated changed value';}]
- ]){const changed=structuredClone(siblings[mn617SiblingRoute]);mutate(changed);assert.throws(()=>assert617PredecessorHash(changed),undefined,name+' must be refused');check('617-successor-refuses-'+name,true,true);}
+ ]){const changed=structuredClone(a9e4Siblings[mn617SiblingRoute]);mutate(changed);assert.throws(()=>assert617PredecessorHash(changed),undefined,name+' must be refused');check('617-successor-refuses-'+name,true,true);}
  const {mnCannabisLocationIsContext}=await load('src/lib/expungement-ai/mn-cannabis-location-context.ts');
  check('cannabis-source-guard',mnCannabisLocationIsContext(profile,mnCannabisSiblingRoute,null),true);
  for(const [name,mutate]of [
@@ -235,7 +238,7 @@ if(!baseline){
   ['index-order',c=>{c.groupedParticipantSections[0].factIds.reverse();}],
   ['unresolved-extra',c=>{c.unresolvedRequiredFacts.push('residency_or_location');}],
   ['unrelated-drift',c=>{c.knownFacts.case_outcome='unrelated changed value';}]
- ]){const changed=structuredClone(siblings[mnCannabisSiblingRoute]);mutate(changed);assert.throws(()=>assertCannabisPredecessorHash(changed),undefined,name+' must fail');check('cannabis-successor-refuses-'+name,true,true);}
+ ]){const changed=structuredClone(a9e4Siblings[mnCannabisSiblingRoute]);mutate(changed);assert.throws(()=>assertCannabisPredecessorHash(changed),undefined,name+' must fail');check('cannabis-successor-refuses-'+name,true,true);}
  check('independent-frozen-source-plan',comparisonHash(plan),frozenBefore.plan);
  for(const row of rows)check(row.variant+'/independent-frozen-court',comparisonHash(row.resolution.facts.find(f=>f.factId==='court')),frozenBefore.court[row.variant]);
  const sourceTrack=JSON.parse(fs.readFileSync('data/record-clearing/legal-design-intake/MN.memo.json','utf8')).tracks.find(t=>t.trackId==='mn_299c11_arrest_demand');
