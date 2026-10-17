@@ -1,4 +1,4 @@
-import { VA_PARDON_ROUTE, VA_PARDON_TYPE_ID, vaPardonTypeContract, vaPardonTypeQuestion } from "@/lib/expungement-ai/va-pardon-type-source";
+import { VA_PARDON_ROUTE, VA_PARDON_TYPE_ID, vaPardonTypeContract, vaPardonTypeQuestion, vaPardonTypeReportedState } from "@/lib/expungement-ai/va-pardon-type-source";
 import { mdJuvenileCountySourcePurpose, MD_JUVENILE_CAPTION_ROUTE, mdJuvenileCaptionQuestion } from "@/lib/expungement-ai/md-juvenile-county-source-purpose";
 import { ksMunicipalCategoryIsContext, ksMunicipalCategoryContextQuestion } from "@/lib/expungement-ai/ks-municipal-category-context";
 import { MS_FIRST_OFFENDER_COLLECTION_IDS, msFirstOffenderSourceQuestions } from "@/lib/expungement-ai/ms-first-offender-source-questions";
@@ -250,6 +250,13 @@ export type ProtectedPacketInformationModel = Pick<
   /** Explicit preparation editor only; never additions to the protected plan. */
   gaPardonPreparationFactIds?: string[];
   recordFactConfirmations?: RecordFactConfirmations;
+  /** Reported document wording plus adopted checklist; no qualification or court finding. */
+  vaPardonTypeHeldContext?: {
+    status: "HELD_CONTEXT";
+    reportedState: ReturnType<typeof vaPardonTypeReportedState>;
+    participantChecklistItem: { id: string; text: string; requiredBeforeFiling: boolean };
+    languageHold: "es_translation_not_adopted";
+  };
   /** Held source-stage information only, never a client-supplied route/track. */
   mnSourceStageCandidate?: MnHeldSourceStage;
   revision: number;
@@ -2419,7 +2426,11 @@ export function protectedPacketInformationModelFor(
   if (msFirstOffenderSourceContract(profile, snapshot.pathwayId, packetSpecificationFor(`${snapshot.jurisdiction}:${snapshot.pathwayId}`))) {
     requiredInputIds = [...new Set([...requiredInputIds, ...MS_FIRST_OFFENDER_COLLECTION_IDS])];
   }
-  if (vaPardonTypeQuestion(profile, snapshot.pathwayId, packetSpecificationFor(`${snapshot.jurisdiction}:${snapshot.pathwayId}`), initialAnswers, legacy.inspection.effectiveInvalidIds)) {
+  const vaPardonSpecification = packetSpecificationFor(`${snapshot.jurisdiction}:${snapshot.pathwayId}`);
+  const vaPardonQuestion = vaPardonTypeQuestion(profile, snapshot.pathwayId, vaPardonSpecification, initialAnswers, legacy.inspection.effectiveInvalidIds);
+  const vaPardonChecklist = vaPardonQuestion && vaPardonSpecification && "participantChecklist" in vaPardonSpecification
+    ? vaPardonSpecification.participantChecklist.find(item => item.id === "implementation-check-1") : undefined;
+  if (vaPardonQuestion) {
     requiredInputIds = [...new Set([...requiredInputIds, VA_PARDON_TYPE_ID])];
   }
   const mnStageContext = mnProtectedStageContext(profile, snapshot.pathwayId,
@@ -2667,6 +2678,12 @@ export function protectedPacketInformationModelFor(
     ? georgiaPardonPreparationFactIds(snapshot, { profile, profileAuthorityFingerprint: profileAuthorityFingerprint(profile, snapshot.pathwayId), today: new Date().toISOString().slice(0, 10) }) : null;
   return {
     resultCode: snapshot.resultCode,
+    ...(vaPardonChecklist ? { vaPardonTypeHeldContext: {
+      status: "HELD_CONTEXT" as const,
+      reportedState: vaPardonTypeReportedState(vaPardonQuestion, initialAnswers[VA_PARDON_TYPE_ID]),
+      participantChecklistItem: { ...vaPardonChecklist },
+      languageHold: "es_translation_not_adopted" as const
+    } } : {}),
     ...(mnStage ? { mnSourceStageCandidate: mnStage } : {}),
     ...(heldFactualCorrectionIds.length ? { heldFactualCorrectionIds } : {}),
     ...(gaPreparation ? { gaPardonPreparationAvailable: true } : {}),
@@ -2691,7 +2708,7 @@ export function protectedPacketInformationModelFor(
     recordOwnQuestionIds, recordClarificationIds,
     ...((mnTargetOriginQuestion(profile, snapshot.pathwayId, packetSpecificationFor(`${snapshot.jurisdiction}:${snapshot.pathwayId}`))
       || mdJuvenileCaptionQuestion(profile, snapshot.pathwayId, packetSpecificationFor(`${snapshot.jurisdiction}:${snapshot.pathwayId}`))
-      || vaPardonTypeQuestion(profile, snapshot.pathwayId, packetSpecificationFor(`${snapshot.jurisdiction}:${snapshot.pathwayId}`), initialAnswers, legacy.inspection.effectiveInvalidIds)) ? { recordFactConfirmations: snapshot.dependencies.recordFactConfirmations } : {}),
+      || vaPardonQuestion) ? { recordFactConfirmations: snapshot.dependencies.recordFactConfirmations } : {}),
     nyCaseIssues,
     courtRecordConflict: recordFactCourtConflict(`${snapshot.jurisdiction}:${snapshot.pathwayId}`, initialAnswers),
     stage: !packetPlan ? "in_progress" : currentlyVerified
