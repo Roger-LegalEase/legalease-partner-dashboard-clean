@@ -1,3 +1,4 @@
+import {assertGaPardonContactSuccessorSourceSuccession,GA_PARDON_CONTACT_SUCCESSOR_SOURCE_PATH,GA_PARDON_CONTACT_SUCCESSOR_SOURCE_SHA256} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertGaPardonSpecPinSourceSuccession,GA_PARDON_SPEC_PIN_SOURCE_PATH,GA_PARDON_SPEC_PIN_SOURCE_SHA256} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertNy16055TerminologySourceSuccession,NY16055_TERMINOLOGY_SOURCE_PATH,NY16055_TERMINOLOGY_SOURCE_SHA256} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertCaTwoResultCopySourceSuccession,CA_TWO_RESULT_COPY_SOURCE_PATH,CA_TWO_RESULT_COPY_SOURCE_SHA256} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
@@ -105,6 +106,14 @@ check('GA pardon spec-pin qualification is separate from immutable historical ou
  assert.equal(sha(readBytes(GA_PARDON_SPEC_PIN_SOURCE_PATH)),GA_PARDON_SPEC_PIN_SOURCE_SHA256);
  assert.equal(actual.path,record.historicalOutput.path);assert.equal(actual.sha256,record.historicalOutput.sha256);assert.equal(Object.hasOwn(actual,'gaSourceSuccession'),false);
  assert.equal(record.historicalArtifactScope.reexecuted,false);assert.equal(record.historicalArtifactScope.artifactCount,18);
+ for(const key of ['createsOwnerApproval','changesHistoricalOutputEvidence','establishesCurrentOutputReproduction','establishesProtectedVerification','establishesProviderOrPublicationProof','commercialAuthorityGranted','productionAuthorized'])assert.equal(record[key],false);
+});
+
+check('GA contact successor qualification is separate from immutable historical output',()=>{
+ const record=assertGaPardonContactSuccessorSourceSuccession(readBytes),actual=assertQuestionContractOutputInputs(readBytes);
+ assert.equal(sha(readBytes(GA_PARDON_CONTACT_SUCCESSOR_SOURCE_PATH)),GA_PARDON_CONTACT_SUCCESSOR_SOURCE_SHA256);
+ assert.equal(actual.path,record.historicalOutput.path);assert.equal(actual.sha256,record.historicalOutput.sha256);
+ assert.equal(record.historicalArtifactScope.reexecuted,false);
  for(const key of ['createsOwnerApproval','changesHistoricalOutputEvidence','establishesCurrentOutputReproduction','establishesProtectedVerification','establishesProviderOrPublicationProof','commercialAuthorityGranted','productionAuthorized'])assert.equal(record[key],false);
 });
 

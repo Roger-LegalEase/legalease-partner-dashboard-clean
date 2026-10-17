@@ -283,6 +283,13 @@ function ny16055TerminologyChain(readBytes) {
 export const GA_PARDON_SPEC_PIN_SOURCE_PATH = 'data/rcap-grade-a/participant-data-rights/question-contract-source-succession-ga-pardon-spec-pin-20261017-v1.json';
 export const GA_PARDON_SPEC_PIN_SOURCE_SHA256 = '33d7dd7dbd21456003a3aacb5417c01a5c28e84edfeeb0e1f6f0904970aab723';
 export function assertGaPardonSpecPinSourceSuccession(readBytes) {
+  const { record } = gaPardonSpecPinChain(readBytes);
+  // Retain the immutable GA14/184 scope; the separately pinned contact hop
+  // checks the complete current fifteen-source chain without rewriting it.
+  assertGaPardonContactSuccessorSourceSuccession(readBytes);
+  return record;
+}
+function gaPardonSpecPinChain(readBytes) {
   const bytes=readBytes(GA_PARDON_SPEC_PIN_SOURCE_PATH);
   insist(sha(bytes)===GA_PARDON_SPEC_PIN_SOURCE_SHA256,'GA pardon spec-pin source succession record bytes changed');
   const record=JSON.parse(bytes.toString('utf8'));
@@ -303,9 +310,36 @@ export function assertGaPardonSpecPinSourceSuccession(readBytes) {
     insist(row.beforeSha256===predecessor,'GA pardon spec-pin disconnected source hop');current.set(row.file,row.afterSha256);
   }
   insist(current.size===14,'GA pardon spec-pin current fourteen-source inventory');
+  return { record, current };
+}
+
+// Exact GA pardon contact-contract successor hop; original identity retained.
+export const GA_PARDON_CONTACT_SUCCESSOR_SOURCE_PATH = 'data/rcap-grade-a/participant-data-rights/question-contract-source-succession-ga-pardon-contact-successor-20261017-v1.json';
+export const GA_PARDON_CONTACT_SUCCESSOR_SOURCE_SHA256 = '99b5e6333caa0bc2110da3230e3027efdcb3ed02c936ef80bbfcce279ca6d56b';
+export function assertGaPardonContactSuccessorSourceSuccession(readBytes) {
+  const bytes=readBytes(GA_PARDON_CONTACT_SUCCESSOR_SOURCE_PATH);
+  insist(sha(bytes)===GA_PARDON_CONTACT_SUCCESSOR_SOURCE_SHA256,'GA pardon contact successor source succession record bytes changed');
+  const record=JSON.parse(bytes.toString('utf8'));
+  const { record: ga, current }=gaPardonSpecPinChain(readBytes);
+  insist(record.schemaVersion==='rcap-question-contract-ga-pardon-contact-successor-source-succession/v1'
+    && record.recordId==='GA-PARDON-CONTACT-SUCCESSOR-SOURCE-SUCCESSION-20261017'
+    && record.kind==='technical_source_only' && record.engineeringCommit==='ed6da73c85ee7539544bcb3735eeeacfc38d9d72'
+    && equal(record.previousNamedSource,{path:GA_PARDON_SPEC_PIN_SOURCE_PATH,sha256:GA_PARDON_SPEC_PIN_SOURCE_SHA256,currentChangedSourceCount:14,currentUnchangedSourceCount:184})
+    && equal(record.historicalContinuity,ga.historicalContinuity) && equal(record.historicalOutput,ga.historicalOutput)
+    && record.sourceCount===198 && record.currentChangedSourceCount===15 && record.currentUnchangedSourceCount===183
+    && equal(record.historicalArtifactScope,{routeCount:6,artifactCount:18,reexecuted:false,changed:false})
+    && ['createsOwnerApproval','changesHistoricalOutputEvidence','establishesCurrentOutputReproduction','establishesProtectedVerification','establishesProviderOrPublicationProof','commercialAuthorityGranted','productionAuthorized'].every(key=>record[key]===false),'GA pardon contact successor source succession scope');
+  insist(Array.isArray(record.transitions) && equal(record.transitions.map(row=>row.file),[
+    'src/lib/expungement-ai/reviewed-contact-contracts.json']),'GA pardon contact successor source succession inventory');
+  insist(current.size===14,'GA pardon contact successor prior fourteen-source inventory');
+  for(const row of record.transitions){
+    const predecessor=current.get(row.file)??(row.file==='src/lib/expungement-ai/reviewed-contact-contracts.json'?'86fe2640ff8654ddc481cb52afd10fb03f14315d1f17b48f84a816b5d5d7d4f1':null);
+    insist(row.beforeSha256===predecessor,'GA pardon contact successor disconnected source hop');current.set(row.file,row.afterSha256);
+  }
+  insist(current.size===15,'GA pardon contact successor current fifteen-source inventory');
   // Always fresh, including after success or a previous failed read. No accessor
   // recursion: prior records are read as exact pinned raw bytes.
-  for(const [file,digest]of current)insist(sha(readBytes(file))===digest,`stale output input: ${file}; exact GA pardon spec-pin source succession`);
+  for(const [file,digest]of current)insist(sha(readBytes(file))===digest,`stale output input: ${file}; exact GA pardon contact successor source succession`);
   return record;
 }
 
@@ -318,12 +352,15 @@ function assertCurrentOutputSourceInput(file, expectedSha256, readBytes, label) 
   const previousDigest = row ? row.afterSha256 : expectedSha256;
   const ny = assertNy16055TerminologySourceSuccession(readBytes).transitions.find(input => input.file === file);
   const ga = assertGaPardonSpecPinSourceSuccession(readBytes).transitions.find(input => input.file === file);
+  const gaContact = assertGaPardonContactSuccessorSourceSuccession(readBytes).transitions.find(input => input.file === file);
   const caDigest = ca ? ca.afterSha256 : previousDigest;
   const nyDigest = ny ? ny.afterSha256 : caDigest;
-  const currentDigest = ga ? ga.afterSha256 : ny ? ny.afterSha256 : ca?.afterSha256 ?? row?.afterSha256;
-  insist((row ? row.beforeSha256 === expectedSha256 : ca != null || ny != null || ga != null)
+  const gaDigest = ga ? ga.afterSha256 : nyDigest;
+  const currentDigest = gaContact ? gaContact.afterSha256 : ga ? ga.afterSha256 : ny ? ny.afterSha256 : ca?.afterSha256 ?? row?.afterSha256;
+  insist((row ? row.beforeSha256 === expectedSha256 : ca != null || ny != null || ga != null || gaContact != null)
     && (!ca || ca.beforeSha256 === previousDigest) && (!ny || ny.beforeSha256 === caDigest)
-    && (!ga || ga.beforeSha256 === nyDigest) && currentDigest === actual, `${label}: ${file}`);
+    && (!ga || ga.beforeSha256 === nyDigest) && (!gaContact || gaContact.beforeSha256 === gaDigest)
+    && currentDigest === actual, `${label}: ${file}`);
 }
 
 /** Exposed below the immutable byte pins for non-vacuous semantic controls. */

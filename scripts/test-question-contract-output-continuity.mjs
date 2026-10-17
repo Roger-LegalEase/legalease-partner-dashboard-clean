@@ -1,3 +1,4 @@
+import {assertGaPardonContactSuccessorSourceSuccession,GA_PARDON_CONTACT_SUCCESSOR_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertGaPardonSpecPinSourceSuccession,GA_PARDON_SPEC_PIN_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertNy16055TerminologySourceSuccession,NY16055_TERMINOLOGY_SOURCE_PATH,NY16055_TERMINOLOGY_SOURCE_SHA256} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertCaTwoResultCopySourceSuccession,CA_TWO_RESULT_COPY_SOURCE_PATH,CA_TWO_RESULT_COPY_SOURCE_SHA256} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
@@ -822,6 +823,23 @@ check('GA current fourteen reads stay fresh after success and failed read',()=>{
 });
 check('GA pardon spec-pin record adds no route/packet/authority',()=>{
  assert.equal(questionContractSourceSuccessorFor({routeId:'GA:restriction-and-sealing-of-a-pardoned-felony',familyId:'not-existing',trackId:'not-existing',specificationPath:'not-existing',readBytes}),null);
+});
+
+check('GA contact successor hop preserves historical GA14/NY13/CA12/MS11 records',()=>{
+ const c=assertGaPardonContactSuccessorSourceSuccession(readBytes),ga=assertGaPardonSpecPinSourceSuccession(readBytes);
+ assert.equal(c.currentChangedSourceCount,15);assert.equal(c.currentUnchangedSourceCount,183);
+ assert.equal(ga.currentChangedSourceCount,14);assert.deepEqual(c.transitions.map(row=>row.file),['src/lib/expungement-ai/reviewed-contact-contracts.json']);
+});
+check('GA contact successor mandatory record refuses missing/tampered bytes',()=>{
+ assert.throws(()=>assertQuestionContractOutputInputs(file=>file===GA_PARDON_CONTACT_SUCCESSOR_SOURCE_PATH?Buffer.from('{}'):readBytes(file)),/GA pardon contact successor source succession record bytes changed/);
+ assert.throws(()=>assertGaPardonSpecPinSourceSuccession(file=>{if(file===GA_PARDON_CONTACT_SUCCESSOR_SOURCE_PATH)throw Error('missing GA contact record');return readBytes(file);}),/missing GA contact record/);
+});
+check('GA current fifteen reads stay fresh after success and failed read',()=>{
+ const all=new Set([...gaSourcePaths,'src/lib/expungement-ai/reviewed-contact-contracts.json']);assert.equal(all.size,15);
+ const seen=new Set();assertGaPardonContactSuccessorSourceSuccession(file=>{if(all.has(file))seen.add(file);return readBytes(file);});assert.equal(seen.size,15);
+ let fail=false;const reader=file=>fail&&file==='src/lib/expungement-ai/reviewed-contact-contracts.json'?Buffer.from('drift'):readBytes(file);
+ assert.equal(assertGaPardonContactSuccessorSourceSuccession(reader).transitions.length,1);fail=true;
+ assert.throws(()=>assertQuestionContractOutputInputs(reader),/stale output input/);fail=false;assert.equal(assertGaPardonContactSuccessorSourceSuccession(reader).transitions.length,1);
 });
 
 console.log(`PASS: ${checks} output-continuity and refusal controls; no new approval, protected journey or commercial authority.`);
