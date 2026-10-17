@@ -491,6 +491,32 @@ for (const route of routes) {
  });
 
 }
+// GA-14-M01039 / M01040: pinned MN petition and prosecutor-agreed routes keep the v4
+// target-court outcomes, only their pinned family references them, and no instrument or
+// render authority exists (the caption adapter is blocked on geometry, sources and design).
+if(!baseline){
+const root=process.cwd();
+const loadModule=p=>import(pathToFileURL(root+'/'+p).href),read=p=>JSON.parse(fs.readFileSync(root+'/'+p,'utf8'));
+const H=await loadModule('src/lib/expungement-ai/mn-two-county-source-facts.ts'),{getProfileByJurisdiction}=await loadModule('src/lib/rcap-engine/profile-registry.ts');
+const {evaluateAuthoritativeScreeningResult:evaluate}=await loadModule('src/lib/expungement-ai/authoritative-screening-result.ts');
+const {packetFulfillmentAuthority}=await loadModule('src/lib/expungement-ai/packet-fulfillment-authority.ts'),{renderPreflight}=await loadModule('src/lib/expungement-ai/render-preflight.ts');
+const profile=getProfileByJurisdiction('MN'),reg=read('data/record-clearing/factory-v2-route-registry.json').routes,W=read('data/rcap-ledger/public-witness-answer-sets.json').witnesses;
+const MN='data/rcap-all50/overlays/census-v1/mn/';
+const members={'GA-14-M01039':{route:'petition-based-expungement-under-609a-02-03',track:'mn_petition_609a02_subd3',family:'mn-petition-609a02-subd3-set--custom-pleading',state:'packet_ready_with_caution'},
+ 'GA-14-M01040':{route:'prosecutor-agreed-sealing-without-a-full-petition-under-609a-025',track:'mn_prosecutor_agreed',family:'mn-prosecutor-agreed-set--custom-pleading',state:'guidance_only'}};
+test('route-constants-pinned',()=>{assert.equal(H.MN_PETITION_ROUTE,members['GA-14-M01039'].route);assert.equal(H.MN_PROSECUTOR_ROUTE,members['GA-14-M01040'].route);assert.deepEqual(H.mnTwoCountyFactIds(members['GA-14-M01039'].route),['mn_deciding_case_county']);assert.deepEqual(H.mnTwoCountyFactIds(members['GA-14-M01040'].route),['mn_prosecuted_case_county','mn_prosecuted_by','mn_prosecuting_city']);});
+for(const [m,{route,track,family,state}] of Object.entries(members)){
+ test(m+'/registry-identity',()=>{const r=reg.find(x=>x.pathwayKey==='MN:'+route);assert.deepEqual(r.registryTrackIds,[track]);assert.deepEqual(r.packetSetIds,[track+'-set']);});
+ // Every MN family, case-insensitive: only the pinned family references this route or track.
+ for(const d of fs.readdirSync(root+'/'+MN))test(m+'/family-scope/'+d,()=>{let blob='';for(const f of fs.readdirSync(root+'/'+MN+d))if(f.endsWith('.json'))blob+=fs.readFileSync(root+'/'+MN+d+'/'+f,'utf8');const refs=new RegExp(route+'|"obligation:[^"]*:'+track+'[:"]','i').test(blob);assert.equal(refs,d===family);});
+ // v4: target-court origin; residence is not origin; unknown stays unknown; no checkout for an outside target.
+ const w=W.find(x=>x.pathwayKey==='MN:'+route);assert(w);
+ for(const [scope,code,result] of [['Federal','mn.federal_or_out_of_scope','hard_stop'],['I am not sure','mn.source_fact_unknown','needs_review']])test(m+'/v4-target/'+scope,()=>{const e=evaluate({jurisdiction:'MN',profileVersion:profile.profileVersion,matterId:'m',answers:{...w.finalAnswers,jurisdiction_scope:scope}}).evaluation;assert.equal(e.resultCode,result);assert.equal(e.reasons[0].code,code);assert.equal(e.paymentAllowed,false);});
+ test(m+'/v4-in-state-natural',()=>{const e=evaluate({jurisdiction:'MN',profileVersion:profile.profileVersion,matterId:'m',answers:{...w.finalAnswers,jurisdiction_scope:'State or local'}}).evaluation;assert.equal(e.resultCode,state);assert.equal(e.pathwayId,route);});
+ for(const s of ['checkout creation','packet generation'])test(m+'/no-instrument/'+s,()=>{const a=packetFulfillmentAuthority('MN',route,s,{trackId:track});assert.equal(a.allowed,false);assert(a.reason.startsWith('MN:'+route+': NO_RECORD.'),a.reason);});
+ test(m+'/no-render-authority',()=>assert.deepEqual(renderPreflight({snapshot:{jurisdiction:'MN',pathwayId:route,selectedTrackId:track},verificationHash:'x',facts:{residency_or_location:'Hennepin residence'}}),{ready:false,reason:'no_composable_specification_for_route',missingFactIds:[]}));
+}
+}
 const result={status:rows.some(x=>!x.pass)?'FAIL':'PASS',baseline,passed:rows.filter(x=>x.pass).length,failed:rows.filter(x=>!x.pass),observations,siblings,transportObservations,ssrEvidence,originEditableEvidence,limits:'Pure local source/collector/model/transition checks only; no DB/browser/owner/document mapping/eligibility or commercial authority.'};
 if(out)fs.writeFileSync(out,JSON.stringify(result,null,2)+'\n');
 console.log(JSON.stringify({status:result.status,baseline,passed:result.passed,failed:result.failed},null,2));if(result.status==='FAIL')process.exitCode=1;
