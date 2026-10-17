@@ -692,11 +692,11 @@
   "participantWorkload": {
     "note": "Source-model workload estimates under empty answers and screening-answerability metadata. These do not establish actual post-screening visibility or completed entry burden.",
     "totalParticipantEnteredFactsBefore": 5146,
-    "totalParticipantEnteredFactsAfter": 3131,
+    "totalParticipantEnteredFactsAfter": 3130,
     "totalFactsReusedFromScreening": 1885,
     "totalFactsDeterministicallyDerived": 14,
     "totalDuplicateAsksEliminated": 1885,
-    "totalConditionalFacts": 88,
+    "totalConditionalFacts": 89,
     "totalFilingReadinessFactsBeforeCheckout": 0,
     "totalExternalActorFieldsNeverAsked": 61,
     "enteredFactsBefore": {
@@ -14859,7 +14859,6 @@
           "age_at_offense",
           "case_outcome",
           "charge",
-          "offense_category",
           "offense_level",
           "pardon_status",
           "sentence_completion_date"
@@ -14876,7 +14875,9 @@
           "email_address",
           "date_of_birth"
         ],
-        "conditional": [],
+        "conditional": [
+          "offense_category"
+        ],
         "filingReadiness": [],
         "externalActor": [
           "identity_theft_report_and_mismatched_identifiers",
@@ -14889,9 +14890,9 @@
       "counts": {
         "already_known": 2,
         "derived": 1,
-        "prepay_confirmation": 7,
+        "prepay_confirmation": 6,
         "render_required": 10,
-        "conditional": 0,
+        "conditional": 1,
         "filing_readiness": 0,
         "external_actor": 4,
         "unresolved": 0
@@ -14924,7 +14925,6 @@
             "factIds": [
               "age_at_offense",
               "charge",
-              "offense_category",
               "offense_level",
               "record_type"
             ]
@@ -14962,7 +14962,7 @@
         "currentVisibleScreens": 22,
         "newVisibleSections": 6,
         "currentParticipantEnteredFacts": 22,
-        "newParticipantEnteredFacts": 11,
+        "newParticipantEnteredFacts": 10,
         "factsReusedFromScreening": 6,
         "factsReusedFromScreeningIds": [
           "age_at_offense",
@@ -14981,22 +14981,23 @@
           "contact_information"
         ],
         "duplicateAsksEliminated": 6,
-        "conditionalFacts": 0,
-        "conditionalFactsSuppressedWhenIrrelevant": [],
+        "conditionalFacts": 1,
+        "conditionalFactsSuppressedWhenIrrelevant": [
+          "offense_category"
+        ],
         "filingReadinessFactsStillRequiredBeforeCheckout": 0,
         "externalActorFieldsNeverAsked": 4,
-        "totalAdditionalParticipantInteractionsAfterScreening": 11,
+        "totalAdditionalParticipantInteractionsAfterScreening": 10,
         "coherentParticipantInteractionsAfterScreening": 6,
-        "participantEnteredFactsDelta": 11,
+        "participantEnteredFactsDelta": 12,
         "uxNotActuallyReduced": false,
         "reductionLimitedBy": null
       },
       "prepayBudget": {
-        "confirmationFacts": 7,
-        "additionalConfirmationFacts": 2,
+        "confirmationFacts": 6,
+        "additionalConfirmationFacts": 1,
         "additionalFactIds": [
-          "charge",
-          "offense_category"
+          "charge"
         ],
         "target": 8,
         "cap": 12,

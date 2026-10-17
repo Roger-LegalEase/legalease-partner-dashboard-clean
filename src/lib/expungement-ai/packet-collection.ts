@@ -515,6 +515,18 @@ export function dcInnocenceCategoryIsHistory(
     && contactRepresentationHash(specification) === "e996552f778a29335da79c309cf319b8fcd4560a47c6db15b4a77a454372dc83";
 }
 
+// GA-12 / Q-c1c8e2c369e81fbe1caf: LD-IL-04 identity correction uses
+// the report/mismatched identifiers and arrest circuit, not generic categories.
+export function ilIdentityCategoryIsHistory(
+  profile: EngineProfile | undefined, pathwayId: string | null | undefined,
+  specification: RegisteredSpecification | null | undefined
+): boolean {
+  return profile?.jurisdiction.code === "IL" && pathwayId === "criminal-identity-theft-mistaken-identity-relief"
+    && specification?.routeKey === `IL:${pathwayId}`
+    && contactRepresentationHash(profile) === "b16978a1748ee80363763340a864f5ea8a2a5160bb8f76093440c02beda70afd"
+    && contactRepresentationHash(specification) === "e2407963972350e6bca336f1efd55d1e26a2eb51055f8f3cb4c6696ecd474c2b";
+}
+
 const DERIVATIONS: Readonly<Record<string, Derivation>> = {
   // The last four digits are a projection of the number itself, never a
   // separate thing to ask for.
@@ -755,6 +767,7 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
   const mnStageCandidate = mnStageContext?.candidate ?? null;
 
   const ksMunicipalCategoryContext = ksMunicipalCategoryIsContext(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
+  const ilCategoryHistory = ilIdentityCategoryIsHistory(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
   const dcCategoryHistory = dcInnocenceCategoryIsHistory(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
   const ctCategoryHistory = ctInformationCategoryIsHistory(getProfileByJurisdiction(input.jurisdiction), input.pathwayId ?? null,
     specification, { ...available, ...input.savedAnswers }, [...input.unresolvedSavedFactIds ?? []]);
@@ -797,14 +810,17 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
       continue;
     }
 
-    if ((ctCategoryHistory || dcCategoryHistory) && factId === "offense_category" && !overrideClass
+    if ((ctCategoryHistory || dcCategoryHistory || ilCategoryHistory) && factId === "offense_category" && !overrideClass
       && !needsHuman.has(factId) && !input.recordOwnQuestionIds?.has(factId)) {
       const retained = needsSavedAnswerClarification || [input.screeningAnswers, input.prefilledAnswers, input.savedAnswers, input.profileFacts]
         .some(answers => answers && Object.hasOwn(answers, factId));
       facts.push({ factId, collection: "conditional", phase: retained ? "render" : "known",
         group: retained ? group : null, active: retained, optional: true,
-        source: dcCategoryHistory ? "dc_innocence_category_history" : "ct_information_category_history",
-        reason: dcCategoryHistory ? "This source-bound actual-innocence motion uses the separate innocence basis and exact charge/level facts. Earlier category answers remain optional literal history with no document binding or innocence finding." : "This source-bound consumer gives general erasure information, not an individual classification or filing. Earlier category answers remain optional literal history; exact statutory, count, date and exclusion facts remain unestablished." });
+        source: ilCategoryHistory ? "il_identity_category_history" : dcCategoryHistory ? "dc_innocence_category_history" : "ct_information_category_history",
+        reason: ilCategoryHistory
+          ? "This source-bound mistaken-identity petition uses the separate identity report, mismatched identifiers and arrest circuit. Earlier category answers remain optional literal history; they establish neither identity theft nor ordinary expungement eligibility."
+          : dcCategoryHistory ? "This source-bound actual-innocence motion uses the separate innocence basis and exact charge/level facts. Earlier category answers remain optional literal history with no document binding or innocence finding."
+          : "This source-bound consumer gives general erasure information, not an individual classification or filing. Earlier category answers remain optional literal history; exact statutory, count, date and exclusion facts remain unestablished." });
       continue;
     }
     if (ksMunicipalCategoryContext && factId === "offense_category" && !overrideClass
