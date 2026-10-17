@@ -23,7 +23,7 @@ const { ScreeningResult } = await import('../src/components/expungement-ai/scree
 const { QuestionField } = await import('../src/components/expungement-ai/screening/QuestionField.tsx');
 const { t, resolveRuntimeText } = await import('../src/lib/expungement-ai/localization.ts');
 const { safeUserFacingEngineText } = await import('../src/lib/expungement-ai/missing-fields.ts');
-const { reviewedResultRouteLabel } = await import('../src/lib/expungement-ai/reviewed-result-copy.ts');
+const { reviewedResultRouteLabel, reviewedResultText } = await import('../src/lib/expungement-ai/reviewed-result-copy.ts');
 const { POST } = await import('../src/app/api/expungement-ai/evaluate/route.ts');
 const { getProfileByJurisdiction } = await import('../src/lib/rcap-engine/profile-registry.ts');
 const { projectPublicProfile } = await import('../src/lib/rcap-engine/public-profile-projection.ts');
@@ -146,6 +146,28 @@ check('canonical-guidance-unchanged', canonical.serviceDisposition, 'process_gui
 check('canonical-no-family', canonical.packetFamily, null);
 for (const key of ['paymentAuthority', 'sponsorshipAuthority', 'generationAuthority', 'commercialDeliveryAuthority']) check('canonical-' + key, canonical[key], 'closed');
 const catalog = JSON.parse(fs.readFileSync('src/lib/expungement-ai/frontend/reviewed-result-display-copy.json', 'utf8'));
+// Exact three returned draft terminology values; qualified NY08 finished-copy
+// review remains pending. Preserve every binding and the adopted English.
+const exactNyTerminologyEntries = [{"index":548,"copyKey":"other","entry":{"id":"NY16055-SOURCE-OTHER","originalEnglish":"This answer does not establish a final violation or traffic-infraction judgment. A favorable termination, criminal conviction or case without a final judgment needs its own procedure reviewed; no other route has been selected.","kind":"result_reason","en":"This answer does not establish a final violation or traffic-infraction judgment. A favorable termination, criminal conviction or case without a final judgment needs its own procedure reviewed; no other route has been selected.","es":"Esta respuesta no establece una resolución final por una infracción (violation) o infracción de tránsito. Una terminación favorable, una condena penal o un caso sin resolución final requiere revisar su propio procedimiento; no se ha seleccionado otra vía.","reviewStatus":"ENGINEERING_COPY_EXISTING_NY08_QUALIFIED_FINISHED_VERSION_REVIEW_PENDING","adoptedEnglishBasis":"NATIONAL-2026-08-28-C-NY-01;ny_160_55_violation"}},{"index":549,"copyKey":"guidance","entry":{"id":"NY16055-SOURCE-GUIDANCE","originalEnglish":"For a qualifying violation or traffic-infraction judgment, CPL 160.55 provides automatic partial sealing of specified records. It does not seal the court file or confirm that your record has been sealed. No initial petition is ordinarily filed for a qualifying disposition after November 1, 1991.","kind":"result_reason","en":"For a qualifying violation or traffic-infraction judgment, CPL 160.55 provides automatic partial sealing of specified records. It does not seal the court file or confirm that your record has been sealed. No initial petition is ordinarily filed for a qualifying disposition after November 1, 1991.","es":"Para una resolución que reúne los requisitos por una infracción (violation) o infracción de tránsito, CPL 160.55 dispone el sellado parcial automático de determinados registros. No sella el expediente del tribunal ni confirma que sus registros hayan sido sellados. Normalmente no se presenta una petición inicial para una resolución que reúne los requisitos posterior al 1 de noviembre de 1991.","reviewStatus":"ENGINEERING_COPY_EXISTING_NY08_QUALIFIED_FINISHED_VERSION_REVIEW_PENDING","adoptedEnglishBasis":"NATIONAL-2026-08-28-C-NY-01;ny_160_55_violation"}},{"index":554,"copyKey":null,"entry":{"id":"NY16055-CURRENT-ROUTE-DISPLAY","supersedesDisplayEntryId":"NY-RESULT-LABEL-automatic-non-conviction-sealing-under-cpl-160-50-160-55-v1","requiredReasonCode":"ny.partial_seal_guidance","originalEnglish":"Automatic non-conviction sealing under CPL 160.50 / 160.55","kind":"route_display_label","jurisdiction":"NY","pathwayId":"automatic-non-conviction-sealing-under-cpl-160-50-160-55","en":"Partial-sealing guidance for a New York violation or traffic infraction (CPL 160.55)","es":"Orientación sobre el sellado parcial por una infracción (violation) o infracción de tránsito en Nueva York (CPL 160.55)","reviewStatus":"ENGINEERING_COPY_EXISTING_NY08_QUALIFIED_FINISHED_VERSION_REVIEW_PENDING","adoptedEnglishBasis":"NATIONAL-2026-08-28-C-NY-01;ny_160_55_violation"}}];
+for(const declared of exactNyTerminologyEntries){
+  const {entry,index,copyKey}=declared;
+  check(entry.id+'/unique exact catalog entry',catalog.entries.filter(value=>value.id===entry.id),[entry]);
+  check(entry.id+'/stable original index',catalog.entries[index],entry);
+  if(copyKey){
+    check(entry.id+'/literal current source pair',H.NY_16055_COPY[copyKey],[entry.en,entry.es]);
+    check(entry.id+'/actual reviewed result consumer',reviewedResultText(entry.originalEnglish),{en:entry.en,es:entry.es});
+    for(const locale of ['en','es'])check(entry.id+'/actual runtime translation/'+locale,resolveRuntimeText(locale,entry.originalEnglish),entry[locale]);
+  }
+}
+for(const [rowId,copyKey,reasonCode,status] of [
+  ['violation/undefined','guidance','ny.partial_seal_guidance','guidance_only'],
+  ['other-procedure/favorable_termination','other','ny.partial_seal_other','needs_review']
+]){
+  const row=rows.find(value=>value.id===rowId),entry=exactNyTerminologyEntries.find(value=>value.copyKey===copyKey).entry;
+  check(rowId+'/natural exact English reason',row.result.reasons.filter(value=>value.code===reasonCode).map(value=>value.text),[entry.en]);
+  check(rowId+'/unchanged result and closed authority',[row.result.resultCode,row.result.paymentAllowed,row.result.consumerPacketAvailable,row.result.sponsoredPacketAvailable],[status,false,false,false]);
+}
+
 const msCopyPredecessor=msAdoptedCopyPredecessorView(catalog);
 check('all545-existing-copy-entries-unchanged', hash(msCopyPredecessor.entries.slice(0, 545)), 'c0a98d4e5a5816d01c073daa49078fd1c9a39ff270094c8c2667b367ce17990f');
 check('all-existing-catalog-metadata-unchanged', hash(Object.fromEntries(Object.entries(msCopyPredecessor).filter(([k]) => k !== 'entries'))), '9cc075b062460eff354757dd50e3e96fab503ba5cc823407b92a707f9ca868b0');
@@ -155,6 +177,8 @@ const pair = e => ({ en: e.en, es: e.es });
 check('no-reason-keeps-historical-display', reviewedResultRouteLabel('NY', H.NY_16055_ROUTE, route.label), pair(predecessor));
 check('wrong-reason-keeps-historical-display', reviewedResultRouteLabel('NY', H.NY_16055_ROUTE, route.label, ['ny.partial_seal_unknown']), pair(predecessor));
 check('actual-current-reason-admits-exact-successor', reviewedResultRouteLabel('NY', H.NY_16055_ROUTE, route.label, ['ny.partial_seal_guidance']), pair(successor));
+const exactRouteTerminology=exactNyTerminologyEntries.find(value=>value.entry.id==='NY16055-CURRENT-ROUTE-DISPLAY').entry;
+check('actual-current-route exact returned ENES',reviewedResultRouteLabel('NY',H.NY_16055_ROUTE,route.label,['ny.partial_seal_guidance']),{en:exactRouteTerminology.en,es:exactRouteTerminology.es});
 check('wrong-state-does-not-admit-successor', reviewedResultRouteLabel('NJ', H.NY_16055_ROUTE, route.label, ['ny.partial_seal_guidance']), null);
 for (const entry of catalog.entries.filter(e => e.kind === 'route_display_label' && e.jurisdiction === 'NY' && e.pathwayId !== H.NY_16055_ROUTE && e.id !== "NYMRTA-CURRENT-STAGE-DISPLAY")) check('other-NY-route-label-unchanged/' + entry.id, reviewedResultRouteLabel('NY', entry.pathwayId, entry.originalEnglish, ['ny.partial_seal_guidance']), pair(entry));
 const mrtaOld = catalog.entries.find(e => e.id === "NY-RESULT-LABEL-marijuana-record-destruction-under-the-mrta-v1");
@@ -194,14 +218,19 @@ for (const locale of ['en', 'es']) {
   for (const option of question.options) check(locale + '/all-source-category-options/' + option, markup.includes(locale === 'en' ? question.optionDisplay[option].label : question.optionDisplay[option].translations.es.label), true);
   rendered.push({ id: 'actual-question-field', locale, markup });
 }
-for (const row of [rows.find(r => r.id === 'original-B'), rows.find(r => r.id === 'violation/undefined'), rows.find(r => r.id === 'unknown/"unknown"')]) {
+for (const row of [rows.find(r => r.id === 'original-B'), rows.find(r => r.id === 'violation/undefined'), rows.find(r => r.id === 'unknown/"unknown"'), rows.find(r => r.id === 'other-procedure/favorable_termination')]) {
   for (const locale of ['en', 'es']) {
     const markup = renderToStaticMarkup(React.createElement(LocalizationContext.Provider, { value: { locale, setLocale() {}, t: (k, fallback, vars) => t(locale, k, fallback, vars), text: (text, options) => resolveRuntimeText(locale, text, options) } }, React.createElement(ScreeningResult, { evaluation: row.result, stateName: 'New York', questionPromptById: Object.fromEntries(pub.questions.map(q => [q.id, q.prompt])), onEditAnswers() {}, onPacketAction() {} })));
     check(row.id + '/' + locale + '/no-packet-promise', /prepare the right packet|preparar el paquete correcto/.test(markup), false);
     if (row.result.pathwayId === H.NY_16055_ROUTE) {
-      check(locale + '/current-partial-seal-label', markup.includes(locale === 'en' ? 'Partial-sealing guidance for a New York violation or traffic infraction' : 'Orientación sobre el sellado parcial por una violación o infracción de tránsito'), true);
+      check(locale + '/current-partial-seal-label', markup.includes(locale === 'en' ? 'Partial-sealing guidance for a New York violation or traffic infraction' : 'Orientación sobre el sellado parcial por una infracción (violation) o infracción de tránsito'), true);
       check(locale + '/no-old-16050-result-label', markup.includes('CPL 160.50 / 160.55'), false);
       check(locale + '/partial-effect-boundary', markup.includes(locale === 'en' ? 'It does not seal the court file' : 'No sella el expediente del tribunal'), true);
+    }
+    const literalTerminology=exactNyTerminologyEntries.find(value=>value.copyKey && row.result.reasons.some(reason=>reason.text===value.entry.en));
+    if(literalTerminology){
+      const expected=renderToStaticMarkup(React.createElement('span',null,literalTerminology.entry[locale])).slice(6,-7);
+      check(row.id+'/'+locale+'/exact returned terminology rendered',markup.includes(expected),true);
     }
     const text = row.result.reasons.find(r => r.code.startsWith('ny.partial_seal_'))?.text;
     const expected = Object.values(H.NY_16055_COPY).find(pair => pair[0] === text)?.[locale === 'en' ? 0 : 1];
