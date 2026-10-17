@@ -1,3 +1,4 @@
+import {msAdoptedCopyPredecessorView} from './lib/ms-adopted-copy-predecessor.mjs';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -88,8 +89,9 @@ for (const [suffix, expected] of [['160-58', '4ce79f060eebb597e992b5dbb6caa53a0f
   check('sibling-' + suffix + '-new-control-inactive', selectScreeningQuestionIds(profile, pub, fixture.finalAnswers).includes('ny_16055_final_judgment'), false);
 }
 const catalog=JSON.parse(fs.readFileSync('src/lib/expungement-ai/frontend/reviewed-result-display-copy.json','utf8'));
-check('all556-predecessor-entries-preserved',hash(catalog.entries.slice(0,556)),'dcd7d764c0babf97bd3efe4aa0fa61108d4e7e974001f6108563785e6dd12aee');
-check('catalog-metadata-unchanged',hash(Object.fromEntries(Object.entries(catalog).filter(([k])=>k!=='entries'))),'9cc075b062460eff354757dd50e3e96fab503ba5cc823407b92a707f9ca868b0');
+const msCopyPredecessor=msAdoptedCopyPredecessorView(catalog);
+check('all556-predecessor-entries-preserved',hash(msCopyPredecessor.entries.slice(0,556)),'dcd7d764c0babf97bd3efe4aa0fa61108d4e7e974001f6108563785e6dd12aee');
+check('catalog-metadata-unchanged',hash(Object.fromEntries(Object.entries(msCopyPredecessor).filter(([k])=>k!=='entries'))),'9cc075b062460eff354757dd50e3e96fab503ba5cc823407b92a707f9ca868b0');
 const pair=e=>({en:e.en,es:e.es});
 for(const [route,oldId,newId,code]of [['marijuana-record-destruction-under-the-mrta','NY-RESULT-LABEL-marijuana-record-destruction-under-the-mrta-v1','NYMRTA-CURRENT-STAGE-DISPLAY','ny.mrta_stage_guidance'],['automatic-non-conviction-sealing-under-cpl-160-50-160-55','NY-RESULT-LABEL-automatic-non-conviction-sealing-under-cpl-160-50-160-55-v1','NY16055-CURRENT-ROUTE-DISPLAY','ny.partial_seal_guidance']]){
  const pred=catalog.entries.find(e=>e.id===oldId),succ=catalog.entries.find(e=>e.id===newId);

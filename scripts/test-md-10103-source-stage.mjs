@@ -1,3 +1,4 @@
+import {msAdoptedCopyPredecessorView,MS_ADOPTED_COPY_SUCCESSORS} from './lib/ms-adopted-copy-predecessor.mjs';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';import path from 'node:path';import {createHash} from 'node:crypto';import {register,createRequire} from 'node:module';import {pathToFileURL} from 'node:url';import {isDeepStrictEqual} from 'node:util';
 const root=process.cwd(),file=p=>path.join(root,p),sha=b=>createHash('sha256').update(b).digest('hex');
@@ -142,7 +143,25 @@ for(const old of oldRows){
 // Existing no-plan factual guard explicitly denies verification (API line150),
 // rather than treating a raw save as verified or commercial authority.
 for(const observation of httpObservations.filter(o=>o.status===200))for(const key of ['fulfillmentAvailable','checkoutAllowed','generationAllowed'])check('receipt-commerce/'+key,observation.body.commercialActions[key],false);
-const catalog=JSON.parse(fs.readFileSync(file('src/lib/expungement-ai/frontend/reviewed-result-display-copy.json')));check('all587-predecessor-copy',sha(JSON.stringify(catalog.entries.slice(0,587))),'0dd51077c7cce81050d148bb18cee8f317fb07f8904d18e904c09f008debd36a');check('predecessor-copy-metadata',sha(JSON.stringify(Object.fromEntries(Object.entries(catalog).filter(([k])=>k!=='entries')))),'9cc075b062460eff354757dd50e3e96fab503ba5cc823407b92a707f9ca868b0');
+const catalog=JSON.parse(fs.readFileSync(file('src/lib/expungement-ai/frontend/reviewed-result-display-copy.json')));
+const mdCopyPredecessor=msAdoptedCopyPredecessorView(catalog);
+check('all587-predecessor-copy',sha(JSON.stringify(mdCopyPredecessor.entries.slice(0,587))),'0dd51077c7cce81050d148bb18cee8f317fb07f8904d18e904c09f008debd36a');
+check('predecessor-copy-metadata',sha(JSON.stringify(Object.fromEntries(Object.entries(mdCopyPredecessor).filter(([k])=>k!=='entries')))),'9cc075b062460eff354757dd50e3e96fab503ba5cc823407b92a707f9ca868b0');
+for(const change of MS_ADOPTED_COPY_SUCCESSORS)for(const key of ['en','es','reviewStatus']){
+ const changed=structuredClone(catalog);changed.entries[change.index][key]+=' [unreviewed drift]';
+ check('MS-successor-refuses-drift/'+change.after.id+'/'+key,(()=>{try{msAdoptedCopyPredecessorView(changed);return false;}catch{return true;}})(),true);
+}
+for(const [name,mutate]of [
+ ['moved-index',c=>{[c.entries[531],c.entries[532]]=[c.entries[532],c.entries[531]];}],
+ ['changed-original-meaning',c=>{c.entries[531].originalEnglish+=' [drift]';}],
+ ['changed-suffix',c=>{c.msTimingDatedSuffix.es+=' [drift]';}],
+ ['duplicate-id',c=>{c.entries.push(structuredClone(c.entries[531]));}]
+]){const changed=structuredClone(catalog);mutate(changed);check('MS-successor-refuses/'+name,(()=>{try{msAdoptedCopyPredecessorView(changed);return false;}catch{return true;}})(),true);}
+for(const [name,mutate]of [
+ ['unrelated-entry',c=>{c.entries[0].en+=' [drift]';}],
+ ['unchanged-AND-entry',c=>{c.entries[533].en+=' [drift]';}],
+ ['unrelated-metadata',c=>{c.unreviewedMetadata='drift';}]
+]){const changed=structuredClone(catalog);mutate(changed);const inverse=msAdoptedCopyPredecessorView(changed);check('MD-predecessor-still-refuses/'+name,sha(JSON.stringify(inverse.entries.slice(0,587)))!=='0dd51077c7cce81050d148bb18cee8f317fb07f8904d18e904c09f008debd36a'||sha(JSON.stringify(Object.fromEntries(Object.entries(inverse).filter(([k])=>k!=='entries'))))!=='9cc075b062460eff354757dd50e3e96fab503ba5cc823407b92a707f9ca868b0',true);}
 const {safeUserFacingEngineText}=await load('src/lib/expungement-ai/missing-fields.ts');
 for(const[key,pair]of Object.entries(H.MD_POLICE_COPY)){check('actual-EN-result/'+key,safeUserFacingEngineText(pair[0],{locale:'en'}),pair[0]);check('actual-ES-result/'+key,safeUserFacingEngineText(pair[0],{locale:'es'}),pair[1]);}
 const {ScreeningResult}=await load('src/components/expungement-ai/screening/ScreeningResult.tsx');const {QuestionField}=await load('src/components/expungement-ai/screening/QuestionField.tsx');

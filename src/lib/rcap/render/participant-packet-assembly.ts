@@ -12,7 +12,6 @@ import {
 } from "@/lib/rcap/supplemental/guide-registry";
 import type { PacketVerificationSnapshot } from "@/lib/expungement-ai/types";
 import { normalizeLocale } from "@/lib/expungement-ai/localization";
-import { GA_PARDON_LABEL } from "@/lib/rcap-engine/georgia-pardon-facts";
 import { gaPardonDocumentFacts, GA_PERSONALIZED_DELIVERY_ROUTE } from "@/lib/rcap/render/ga-pardon-facts";
 
 /**
@@ -396,7 +395,7 @@ export function participantGuideMatter(
      * established in this language, rather than printing English on a Spanish
      * page or inventing a legal translation here.
      */
-    remedy: gaFacts ? GA_PARDON_LABEL[locale] : locale === "es"
+    remedy: locale === "es"
       ? specification?.pathwayLabelEs ?? null
       : specification?.pathwayLabel ?? null,
     packetId

@@ -9,9 +9,9 @@
   ],
   "jurisdiction": "GA",
   "pathwayId": "restriction-and-sealing-of-a-pardoned-felony",
-  "pathwayLabel": "Restriction and sealing of a pardoned conviction",
+  "pathwayLabel": "Request to restrict a pardoned conviction, with instructions for requesting court-record sealing",
   "packetFamily": "ga-pardon-j7-set",
-  "packetFamilyLabel": "Petition to Restrict Access to Criminal History Record Information Following a Pardon",
+  "packetFamilyLabel": "Request to restrict a pardoned conviction, with instructions for requesting court-record sealing",
   "trackId": "ga-pardon-j7",
   "packetSetId": "ga-pardon-j7-set",
   "packetSetVersion": "1.0.0",
@@ -429,7 +429,7 @@
         {
           "heading": "READ EACH NUMBERED STATEMENT BEFORE SIGNING. Each is pleaded as your o",
           "kind": "pleading_paragraph",
-          "body": "READ EACH NUMBERED STATEMENT BEFORE SIGNING. Each is pleaded as your own statement. If any numbered statement is not true of your case, do not file this petition; the instructions page tells you where to get help instead.\n\nWHEREFORE, the defendant asks the Court to enter an order directing the Georgia Crime Information Center (GCIC) and every agency in the county named in the caption, including the arresting agency and the jail or detention center, to restrict all criminal history record information pertaining to this case, pursuant to O.C.G.A. Sec. 35-3-37(j)(7), with disclosure limited to what O.C.G.A. Sec. 35-3-37(t) and (v) permit; and, in the alternative, that the petition be set for hearing within 90 days of filing.\n\nDATE ..............................   SIGNATURE OF DEFENDANT ......................................\n\n(The defendant signs and dates this petition personally. Nothing on this page is signed or dated for the defendant. No verification and no notary block is required by statute, and none is added.)\n\nPRINTED NAME: {{participant_full_legal_name}}\n\nMAILING ADDRESS: {{mailing_address}}\n\nTELEPHONE: {{phone_number}}\n\nEMAIL: {{email_address}}\n\nDefendant, Pro Se (where unrepresented)"
+          "body": "READ EACH NUMBERED STATEMENT BEFORE SIGNING. Each is pleaded as your own statement. If any numbered statement is not true of your case, do not file this petition; the instructions page tells you where to get help instead.\n\nWHEREFORE, the defendant requests restriction under O.C.G.A. Sec. 35-3-37(j)(7) only of the criminal-history record information associated with the qualifying pardoned conviction identified by the exact O.C.G.A. Code section stated above. The defendant does not request relief for other counts merely because they share an arrest or case number. Access and disclosure authorized by applicable law remain available; and, in the alternative, that the petition be set for hearing within 90 days of filing.\n\nDATE ..............................   SIGNATURE OF DEFENDANT ......................................\n\n(The defendant signs and dates this petition personally. Nothing on this page is signed or dated for the defendant. No verification and no notary block is required by statute, and none is added.)\n\nPRINTED NAME: {{participant_full_legal_name}}\n\nMAILING ADDRESS: {{mailing_address}}\n\nTELEPHONE: {{phone_number}}\n\nEMAIL: {{email_address}}\n\nDefendant, Pro Se (where unrepresented)"
         }
       ],
       "documentContract": {
@@ -514,16 +514,30 @@
         {
           "heading": "(This page is proposed by the defendant for the Court's consideration,",
           "kind": "pleading_paragraph",
-          "body": "(This page is proposed by the defendant for the Court's consideration, as the controlling practice directs a proposed order always accompany the filing. The case identifiers below come from the case record. The Court decides whether to enter this order and completes its findings, date and signature.)\n\nBefore the Court is the defendant's Petition to Restrict Access to Criminal History Record Information Following Pardon under O.C.G.A. Sec. 35-3-37(j)(7).\n\nIT IS ORDERED that the Georgia Crime Information Center (GCIC) and every agency in the county named in the caption, including the arresting agency and the jail or detention center, restrict all criminal history record information pertaining to this case, identified by the OTN and the date of arrest stated below, pursuant to O.C.G.A. Sec. 35-3-37(j)(7).\n\nDisclosure of the restricted information remains limited to what O.C.G.A. Sec. 35-3-37(t) and (v) permit."
+          "body": "(This page is proposed by the defendant for the Court's consideration, as the controlling practice directs a proposed order always accompany the filing. The case identifiers below come from the case record. The Court decides whether to enter this order and completes its findings, date and signature.)\n\nBefore the Court is the defendant's Petition to Restrict Access to Criminal History Record Information Following Pardon under O.C.G.A. Sec. 35-3-37(j)(7).\n\nIT IS ORDERED that the Georgia Crime Information Center (GCIC) and the applicable agencies restrict criminal-history record information associated only with the qualifying pardoned conviction identified by the exact O.C.G.A. Code section below, with the other case identifiers stated below, pursuant to O.C.G.A. Sec. 35-3-37(j)(7). This order does not adjudicate relief concerning other counts.\n\nAccess and disclosure authorized by applicable law remain available.\n\nThis order does not itself grant clerk-record sealing under O.C.G.A. Sec. 35-3-37(m)."
         },
         {
-          "heading": "OTN of the case (needed for this order to be actionable by GCIC):",
+          "heading": "Qualifying pardoned conviction covered by this proposed order",
+          "kind": "pleading_identity_list",
+          "fields": [
+            "ga_pardoned_offense_section"
+          ],
+          "fieldLabels": {
+            "ga_pardoned_offense_section": "Exact O.C.G.A. Code section of the qualifying pardoned conviction covered by this order:"
+          },
+          "fieldTreatments": {
+            "ga_pardoned_offense_section": "value"
+          },
+          "listMarker": "none"
+        },
+        {
+          "heading": "OTN of the case, if known (do not invent an unknown number):",
           "kind": "pleading_identity_list",
           "fields": [
             "otn"
           ],
           "fieldLabels": {
-            "otn": "OTN of the case (needed for this order to be actionable by GCIC):"
+            "otn": "OTN of the case, if known (do not invent an unknown number):"
           },
           "fieldTreatments": {
             "otn": "value_or_ruled_blank"
@@ -657,7 +671,7 @@
             "certificate_of_service_blank_2"
           ],
           "fieldLabels": {
-            "certificate_of_service_blank_1": "NAME AND MAILING ADDRESS OF THE PROSECUTING ATTORNEY SERVED, IDENTIFIED AS DISTRICT ATTORNEY OR SOLICITOR-GENERAL FOR THE COUNTY (you write it here before service; the clerk's office can provide it):",
+            "certificate_of_service_blank_1": "NAME AND MAILING ADDRESS OF THE ACTUAL PROSECUTING ATTORNEY FOR THIS COURT AND OFFENSE (confirm the office and address with the clerk before service):",
             "certificate_of_service_blank_2": "NAME AND MAILING ADDRESS OF THE PROSECUTING ATTORNEY SERVED, (continued)"
           },
           "fieldTreatments": {
@@ -700,7 +714,7 @@
         {
           "heading": "DATE OF SERVICE ........................................",
           "kind": "pleading_paragraph",
-          "body": "DATE OF SERVICE ........................................\n\nSIGNATURE OF DEFENDANT ................................................\n\nThis page is not proof of service and does not say that anything has been served. It is completed and signed when the copies actually go out. A date or a signature written before the copies go out would be false."
+          "body": "DATE OF SERVICE ........................................\n\nSIGNATURE OF DEFENDANT ................................................\n\nUntil completed and signed, this page does not establish that service occurred. Complete it from the actual service facts and sign only when service has occurred. A date or a signature written before the copies go out would be false."
         }
       ],
       "documentContract": {
@@ -1210,7 +1224,7 @@
   },
   "serviceAndNotice": {
     "serviceRequired": true,
-    "statement": "Notice to the prosecuting attorney, identified as District Attorney or Solicitor-General for the county; practice also serves the clerk of court. Serve by certified mail, e-filing or hand delivery, certified in the certificate of service. A hearing, where requested, is held within 90 days.",
+    "statement": "Notice to the actual prosecuting attorney for the relevant court and offense (confirm the office and address with the clerk; do not always substitute the county District Attorney or Solicitor-General); practice also serves the clerk of court. Serve by certified mail, e-filing or hand delivery, certified in the certificate of service. A hearing, where requested, is held within 90 days.",
     "certificateOfServiceIncluded": true,
     "sourceOfRule": "GA.memo.json track ga-pardon-j7, destination, rules.notice and rules.service"
   },
@@ -1309,7 +1323,7 @@
     },
     {
       "id": "gather_the_records",
-      "text": "Gather the final disposition and, where relied on, the Georgia criminal history report, and fill every dotted blank from them.",
+      "text": "Gather the final disposition and, where relied on, the Georgia criminal history report. Complete only applicable participant-owned blanks from those records; leave court findings, court dates and signatures to the court, and record service only after it occurs.",
       "requiredBeforeFiling": true
     },
     {
@@ -1326,7 +1340,13 @@
       "id": "sign_serve_and_certify",
       "text": "Sign and date the petition yourself as Defendant, Pro Se where unrepresented; serve the prosecuting attorney and the clerk of court, and complete the certificate only when the copies actually go out.",
       "requiredBeforeFiling": true
+    },
+    {
+      "id": "participant_narrative_filing_language",
+      "text": "Preserve your original account. If it is written in Spanish, obtain a faithful English rendering unless the receiving court's acceptance of that Spanish account as filed has been established. Do not replace your original with an invented translation.",
+      "source": "OWNER-RELAYED-ADOPTION-v3 section1; Spanish-authored narrative correction"
     }
   ],
-  "specificationSha256": "75ccdf5a48c9ee30b0e4cf197edcd4e6ad967a9425470ed96bc47cb974cfb061"
+  "pathwayLabelEs": "Solicitud para restringir una condena indultada, con instrucciones para solicitar el sellado del expediente judicial",
+  "specificationSha256": "08fb09613f95f09510d6f6c6e120248ef80c828926a9c08fb9fc9e41b1e71fc9"
 }

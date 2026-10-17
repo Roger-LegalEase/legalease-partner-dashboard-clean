@@ -1,3 +1,4 @@
+import {msAdoptedCopyPredecessorView} from './lib/ms-adopted-copy-predecessor.mjs';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -72,8 +73,9 @@ for(const id of ['sentence_completion_date','court_requirements_completed','reso
 for(const extra of [{ownership_scope:'No'},{jurisdiction_scope:'Federal'}]){const answers={...known,...extra},response=await POST(new Request('http://local.test/api/expungement-ai/evaluate',{method:'POST',body:JSON.stringify({jurisdiction:'NY',profileVersion:profile.profileVersion,matterId:'ny120-hard-stop',answers})})),result=await response.json();check('hard-stop-retained',result.resultCode,'hard_stop');}
 check('other-state-inactive',H.ny16057Decision(getProfileByJurisdiction('NJ'),known),null);
 const catalog=JSON.parse(fs.readFileSync('src/lib/expungement-ai/frontend/reviewed-result-display-copy.json'));
-check('all574-oldentries',hash(catalog.entries.slice(0,574)), "81246481e77ca0839660eca57dd4c9e6a50a3366749cd8e00b23f064048b30f8");
-check('all-oldmetadata',hash(Object.fromEntries(Object.entries(catalog).filter(([k])=>k!=='entries'))),"9cc075b062460eff354757dd50e3e96fab503ba5cc823407b92a707f9ca868b0");
+const msCopyPredecessor=msAdoptedCopyPredecessorView(catalog);
+check('all574-oldentries',hash(msCopyPredecessor.entries.slice(0,574)), "81246481e77ca0839660eca57dd4c9e6a50a3366749cd8e00b23f064048b30f8");
+check('all-oldmetadata',hash(Object.fromEntries(Object.entries(msCopyPredecessor).filter(([k])=>k!=='entries'))),"9cc075b062460eff354757dd50e3e96fab503ba5cc823407b92a707f9ca868b0");
 // Independent retained memo formula: felony LAST release belongs to that
 // conviction's sentence; the misdemeanor and no-incarceration branches differ.
 check('source-misdemeanor-release-anchor',H.NY_16057_COPY.timing[0].includes('three years from release from incarceration, or sentencing if there was no incarceration'),true);

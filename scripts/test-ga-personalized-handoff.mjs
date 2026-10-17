@@ -130,7 +130,13 @@ for(const [key,next] of Object.entries({arrest_date:'2019-01-06',ga_pardon_date:
  const beforeDocs=new Map(packet.documents.map(d=>[d.documentId,d]));
  check('explicit '+key+' correction affects only source-defined document destinations',()=>{
   assert.notDeepEqual(corrected.documents.find(d=>d.documentId==='primary_filing'),beforeDocs.get('primary_filing'));
-  for(const doc of corrected.documents.filter(d=>d.documentId!=='primary_filing')){if(key==='arrest_date'&&doc.documentId==='proposed_order'){assert.notDeepEqual(doc,beforeDocs.get(doc.documentId));assert.ok(JSON.stringify(doc).includes(next));}else assert.deepEqual(doc,beforeDocs.get(doc.documentId));}
+  for(const doc of corrected.documents.filter(d=>d.documentId!=='primary_filing')){if(key==='arrest_date'&&doc.documentId==='proposed_order'){assert.notDeepEqual(doc,beforeDocs.get(doc.documentId));assert.ok(JSON.stringify(doc).includes(next));}else if(key==='ga_pardoned_offense_section'&&doc.documentId==='proposed_order'){
+   assert.notDeepEqual(doc,beforeDocs.get(doc.documentId));
+   const inverse=structuredClone(doc),destinations=inverse.blocks.flatMap(block=>block.kind==='pleading_identity_list'?block.items:[]).filter(item=>item.label==='Exact O.C.G.A. Code section of the qualifying pardoned conviction covered by this order:');
+   assert.equal(destinations.length,1,'exactly one new adopted order citation destination');assert.equal(destinations[0].value,next);
+   destinations[0].value=currentFacts.ga_pardoned_offense_section;
+   assert.deepEqual(inverse,beforeDocs.get(doc.documentId),'every other proposed-order block/property unchanged');
+  }else assert.deepEqual(doc,beforeDocs.get(doc.documentId));}
   const changed=JSON.stringify(corrected.documents.find(d=>d.documentId==='primary_filing'));
   assert.ok(changed.includes(next));assert.ok(!changed.includes(currentFacts[key]));
  });
@@ -167,28 +173,55 @@ for(const consumer of ['value','template','field_template','assertion']){
 }
 const undeclared=structuredClone(spec);delete undeclared.requiredFacts.find(f=>f.factId==='otn').requiredForGeneration;
 check('optional presentation requires explicit source permission',()=>assert.throws(()=>composeParticipantDeliveryPacket(undeclared,{...matter,facts:currentFacts}),/no source-declared generation permission|Optional caption identifier lacks source permission/));
+// Adopted seven-clause successor, asserted at the actual spec/composer seam.
+const adoptedScopeText = JSON.stringify(spec.documents);
+const historicalSpec=JSON.parse(execFileSync('git',['show','75dcf56df74b2f3b00829a32bb90d99516bedafa:'+specFile],{encoding:'utf8'}));
+const oldPetitionBody=historicalSpec.documents[0].sections[6].body;
+const oldPetitionSuffix=oldPetitionBody.slice(oldPetitionBody.indexOf('\n\nDATE '));
+check('petition unaffected signer date and contact suffix exact',()=>assert.equal(spec.documents[0].sections[6].body.slice(spec.documents[0].sections[6].body.indexOf('\n\nDATE ')),oldPetitionSuffix));
+check('actor ownership and required fact contracts unchanged',()=>{assert.deepEqual(spec.fieldOwnership,historicalSpec.fieldOwnership);assert.deepEqual(spec.requiredFacts,historicalSpec.requiredFacts);});
+function inspectPageBounds(file,variant){
+ const xml=execFileSync('pdftotext',['-bbox',file,'-'],{encoding:'utf8'});
+ const pages=[...xml.matchAll(/<page width="([0-9.]+)" height="([0-9.]+)">([\s\S]*?)<\/page>/g)];assert.ok(pages.length>0);
+ for(const [,w,h,body]of pages)for(const word of body.matchAll(/<word xMin="([0-9.\-]+)" yMin="([0-9.\-]+)" xMax="([0-9.\-]+)" yMax="([0-9.\-]+)">/g)){
+  const [x0,y0,x1,y1]=word.slice(1).map(Number);assert.ok(x0>=-0.01&&y0>=-0.01&&x1<=Number(w)+0.01&&y1<=Number(h)+0.01&&x1>=x0&&y1>=y0,variant+' text lies within actual page bounds');
+ }
+ return pages.length;
+}
+check('identified conviction scope excludes unrelated counts',()=>{assert.ok(adoptedScopeText.includes('other counts'));assert.ok(!adoptedScopeText.includes('restrict all criminal history record information pertaining to this case'));});
+check('order identifies actual held conviction section',()=>assert.ok(spec.documents.find(d=>d.documentId==='proposed_order').sections.some(s=>s.fields?.includes('ga_pardoned_offense_section'))));
+check('actual prosecutor and optional OTN labels',()=>{assert.ok(adoptedScopeText.includes('ACTUAL PROSECUTING ATTORNEY'));assert.ok(!adoptedScopeText.includes('IDENTIFIED AS DISTRICT ATTORNEY OR SOLICITOR-GENERAL'));assert.ok(!adoptedScopeText.includes('needed for this order to be actionable'));});
+check('lawful access and conditional service preserved',()=>{assert.ok(adoptedScopeText.includes('Access and disclosure authorized by applicable law remain available'));assert.ok(!adoptedScopeText.includes('Disclosure of the restricted information remains limited'));assert.ok(adoptedScopeText.includes('Until completed and signed, this page does not establish that service occurred.'));});
+check('no phantom Schedule A or translated narrative facts',()=>{assert.ok(!adoptedScopeText.includes('Schedule A'));assert.ok(!spec.requiredFacts.some(f=>f.factId==='translated_narrative'));});
 const hostSource=fs.readFileSync('scripts/build-census-v1-ga-host.mjs','utf8');
-for(const sourceLabel of ['OTN of the case (needed for this order to be actionable by GCIC):','Date of arrest identified in this order:'])check('preserved host exact unlettered label '+sourceLabel,()=>assert.ok(hostSource.includes('L.push("'+sourceLabel+'")')));
+check('scoped host optional OTN successor retains sibling original',()=>{assert.ok(hostSource.includes('F.trackId === "ga-pardon-j7" ? "OTN of the case, if known'));assert.ok(hostSource.includes('OTN of the case (needed for this order to be actionable by GCIC):'));assert.ok(hostSource.includes('L.push("Date of arrest identified in this order:")'));});
+const inventedCaseFieldMarker = /(?:^|\n)[ \t]*\([a-z]\)[ \t]+(?:OTN of the case|Date of arrest|SO ORDERED|Exact O\.C\.G\.A\.|Your own statement|NAME AND MAILING ADDRESS|OFFICE OF THE CLERK|Method used to serve)/;
+check('same-line invented field marker still refused',()=>{for(const label of ['OTN of the case','Date of arrest','Exact O.C.G.A.','NAME AND MAILING ADDRESS'])assert.ok(inventedCaseFieldMarker.test('  (a) '+label+': value'));});
+check('actual conviction subsection before next field is not a list marker',()=>assert.ok(!inventedCaseFieldMarker.test('16-8-14(a)\n\n     OTN of the case, if known:')));
+check('all actual identity-list blocks preserve explicit no-marker contract',()=>{for(const doc of packet.documents)for(const block of doc.blocks)if(block.kind==='pleading_identity_list')assert.equal(block.listMarker,'none');});
 const renders=[];
-function inspectOrderGrouping(text,variant){check(variant+' no invented lettered case fields',()=>assert.ok(!/\([a-z]\)\s+(?:OTN of the case|Date of arrest|SO ORDERED|Exact O\.C\.G\.A\.|Your own statement|NAME AND MAILING ADDRESS|OFFICE OF THE CLERK|Method used to serve)/.test(text)));const pages=text.split('\f');check(variant+' court execution rule and judge label share one page',()=>assert.ok(pages.some(page=>page.includes('SO ORDERED, this')&&page.includes('JUDGE, COURT NAMED IN THE CAPTION'))));}
+function inspectOrderGrouping(text,variant){const n=text.replace(/\s+/g,' ');check(variant+' exact conditional service statement',()=>assert.ok(n.includes('Until completed and signed, this page does not establish that service occurred.')));check(variant+' identified offense and lawful access',()=>{assert.ok(n.includes('This order does not adjudicate relief concerning other counts.'));assert.ok(n.includes('This order does not itself grant clerk-record sealing'));assert.ok(n.includes('Access and disclosure authorized by applicable law remain available.'));assert.ok(!n.includes('needed for this order to be actionable by GCIC'));});check(variant+' no invented lettered case fields',()=>assert.ok(!inventedCaseFieldMarker.test(text)));const pages=text.split('\f');check(variant+' court execution rule and judge label share one page',()=>assert.ok(pages.some(page=>page.includes('SO ORDERED, this')&&page.includes('JUDGE, COURT NAMED IN THE CAPTION'))));}
 
 for(const variant of ['full','court_only']){
  const bytes=await renderGradeAPacketPdf(packet,{variant}),file=path.join(output,variant+'.pdf');fs.writeFileSync(file,bytes,{flag:'wx'});
  const text=execFileSync('pdftotext',['-layout',file,'-'],{encoding:'utf8'});
  inspectOrderGrouping(text,variant);
+ const pageCount=inspectPageBounds(file,variant);
+ const petitionText=text.split('PROPOSED ORDER RESTRICTING')[0].replace(/\s+/g,' ');for(const label of ['SIGNATURE OF DEFENDANT','PRINTED NAME:','MAILING ADDRESS:','TELEPHONE:','EMAIL:','Defendant, Pro Se'])check(variant+' preserved petition '+label,()=>assert.ok(petitionText.includes(label)));check(variant+' petition date remains participant-owned',()=>assert.ok(/DATE \.+/.test(petitionText)));
  for(const [key,value] of Object.entries(expected))check(variant+' supplied fact '+key,()=>assert.ok(text.replace(/\s+/g,' ').includes(['court','county'].includes(key)?value.toUpperCase():value)));
  check(variant+' no duplicated court label',()=>assert.ok(!text.includes('COURT COURT')));
  check(variant+' no felony-only label/internal wire',()=>assert.ok(!/pardoned[- ]felony|restriction-and-sealing-of-a-pardoned-felony/i.test(text)));
  check(variant+' no protected sentinel',()=>assert.ok(!text.includes('PROTECTED_MUST_REMAIN_BLANK')));
- renders.push({variant,file,sha256:hash(bytes),byteLength:bytes.length});
+ renders.push({variant,file,sha256:hash(bytes),byteLength:bytes.length,pageCount,textBoundsChecked:true});
 }
 for(const variant of ['full','court_only']){
  const bytes=await renderGradeAPacketPdf(noOtnPacket,{variant}),file=path.join(output,'unknown-otn-'+variant+'.pdf');fs.writeFileSync(file,bytes,{flag:'wx'});
  const text=execFileSync('pdftotext',['-layout',file,'-'],{encoding:'utf8'});
  inspectOrderGrouping(text,'unknown OTN '+variant);
+ const pageCount=inspectPageBounds(file,'unknown OTN '+variant);
  check(variant+' unknown OTN stays blank in actual PDF',()=>assert.ok(!text.includes(currentFacts.otn)&&!text.includes('undefined')&&!text.includes('null')));
  check(variant+' order arrest date still prints when OTN unknown',()=>assert.ok(text.includes(currentFacts.arrest_date)));
- renders.push({variant:'unknown-otn-'+variant,file,sha256:hash(bytes),byteLength:bytes.length});
+ renders.push({variant:'unknown-otn-'+variant,file,sha256:hash(bytes),byteLength:bytes.length,pageCount,textBoundsChecked:true});
 }
 // Boundary values are participant-authored; the renderer may wrap, never
 // truncate, invent a legal narrative or put it into a judge/service block.
@@ -198,11 +231,12 @@ for(const variant of ['full','court_only']){
  const bytes=await renderGradeAPacketPdf(boundaryPacket,{variant}),file=path.join(output,'boundary-es-'+variant+'.pdf');fs.writeFileSync(file,bytes,{flag:'wx'});
  const text=execFileSync('pdftotext',['-layout',file,'-'],{encoding:'utf8'}).replace(/\s+/g,' ');
  inspectOrderGrouping(execFileSync('pdftotext',['-layout',file,'-'],{encoding:'utf8'}),'boundary '+variant);
+ const pageCount=inspectPageBounds(file,'boundary '+variant);
  check(variant+' complete long optional OTN survives',()=>assert.ok(text.replace(/\s+/g,'').includes(boundaryFacts.otn)));
  check(variant+' complete long court caption survives',()=>assert.ok(text.includes(('IN THE '+boundaryFacts.court).toUpperCase())));
  check(variant+' participant Spanish narrative preserved without invented translation',()=>assert.ok(text.includes(boundaryFacts.participant_narrative)));
  check(variant+' short continuation identifies component',()=>assert.ok(text.includes('PETITION FOLLOWING PARDON')));
- renders.push({variant:'boundary-es-'+variant,file,sha256:hash(bytes),byteLength:bytes.length});
+ renders.push({variant:'boundary-es-'+variant,file,sha256:hash(bytes),byteLength:bytes.length,pageCount,textBoundsChecked:true});
 }
 for(const artifact of spec.approvedArtifacts){const bytes=fs.readFileSync(artifact.file);check('original PDF hash '+artifact.file,()=>assert.equal(hash(bytes),artifact.sha256));check('original PDF size '+artifact.file,()=>assert.equal(bytes.length,artifact.byteLength));}
 check('raw snapshot still unchanged',()=>assert.equal(JSON.stringify(snapshot),before));

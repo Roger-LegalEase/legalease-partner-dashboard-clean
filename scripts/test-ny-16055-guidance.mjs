@@ -1,3 +1,4 @@
+import {msAdoptedCopyPredecessorView} from './lib/ms-adopted-copy-predecessor.mjs';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -145,8 +146,9 @@ check('canonical-guidance-unchanged', canonical.serviceDisposition, 'process_gui
 check('canonical-no-family', canonical.packetFamily, null);
 for (const key of ['paymentAuthority', 'sponsorshipAuthority', 'generationAuthority', 'commercialDeliveryAuthority']) check('canonical-' + key, canonical[key], 'closed');
 const catalog = JSON.parse(fs.readFileSync('src/lib/expungement-ai/frontend/reviewed-result-display-copy.json', 'utf8'));
-check('all545-existing-copy-entries-unchanged', hash(catalog.entries.slice(0, 545)), 'c0a98d4e5a5816d01c073daa49078fd1c9a39ff270094c8c2667b367ce17990f');
-check('all-existing-catalog-metadata-unchanged', hash(Object.fromEntries(Object.entries(catalog).filter(([k]) => k !== 'entries'))), '9cc075b062460eff354757dd50e3e96fab503ba5cc823407b92a707f9ca868b0');
+const msCopyPredecessor=msAdoptedCopyPredecessorView(catalog);
+check('all545-existing-copy-entries-unchanged', hash(msCopyPredecessor.entries.slice(0, 545)), 'c0a98d4e5a5816d01c073daa49078fd1c9a39ff270094c8c2667b367ce17990f');
+check('all-existing-catalog-metadata-unchanged', hash(Object.fromEntries(Object.entries(msCopyPredecessor).filter(([k]) => k !== 'entries'))), '9cc075b062460eff354757dd50e3e96fab503ba5cc823407b92a707f9ca868b0');
 const predecessor = catalog.entries.find(e => e.id === 'NY-RESULT-LABEL-automatic-non-conviction-sealing-under-cpl-160-50-160-55-v1');
 const successor = catalog.entries.find(e => e.id === 'NY16055-CURRENT-ROUTE-DISPLAY');
 const pair = e => ({ en: e.en, es: e.es });
