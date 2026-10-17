@@ -1,3 +1,4 @@
+import {assertCaNoPhoneContactSourceSuccession,CA_NO_PHONE_CONTACT_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertGaVaSpecSuccessorGatesSourceSuccession,GA_VA_SPEC_SUCCESSOR_GATES_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertGaPardonContactSuccessorSourceSuccession,GA_PARDON_CONTACT_SUCCESSOR_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertGaPardonSpecPinSourceSuccession,GA_PARDON_SPEC_PIN_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
@@ -850,6 +851,13 @@ check('GA/VA gates hop preserves prior chain and refuses missing/tampered bytes'
 });
 for(const file of assertGaVaSpecSuccessorGatesSourceSuccession(readBytes).transitions.map(row=>row.file))check('GA/VA gates drift refuses '+file,()=>{
  assert.throws(()=>assertQuestionContractOutputInputs(input=>input===file?Buffer.from('drift'):readBytes(input)),/stale output input/);
+});
+
+check('CA no-phone hop preserves prior chain and refuses missing/tampered bytes',()=>{
+ const c=assertCaNoPhoneContactSourceSuccession(readBytes);assert.equal(c.currentChangedSourceCount,18);assert.equal(c.currentUnchangedSourceCount,180);
+ assert.throws(()=>assertQuestionContractOutputInputs(file=>file===CA_NO_PHONE_CONTACT_SOURCE_PATH?Buffer.from('{}'):readBytes(file)),/CA no-phone contact source succession record bytes changed/);
+ assert.throws(()=>assertGaVaSpecSuccessorGatesSourceSuccession(file=>{if(file===CA_NO_PHONE_CONTACT_SOURCE_PATH)throw Error('missing CA no-phone record');return readBytes(file);}),/missing CA no-phone record/);
+ assert.throws(()=>assertQuestionContractOutputInputs(input=>input==='src/lib/expungement-ai/ca-prop64-contact-answer.ts'?Buffer.from('drift'):readBytes(input)),/stale output input/);
 });
 
 console.log(`PASS: ${checks} output-continuity and refusal controls; no new approval, protected journey or commercial authority.`);

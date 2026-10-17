@@ -351,6 +351,13 @@ function gaPardonContactSuccessorChain(readBytes) {
 export const GA_VA_SPEC_SUCCESSOR_GATES_SOURCE_PATH = 'data/rcap-grade-a/participant-data-rights/question-contract-source-succession-ga-va-spec-successor-gates-20261017-v1.json';
 export const GA_VA_SPEC_SUCCESSOR_GATES_SOURCE_SHA256 = 'e86025b305aa6d4f0b0e34ec4d9fcb6d41538ca9af49c097cd5143743198fdc8';
 export function assertGaVaSpecSuccessorGatesSourceSuccession(readBytes) {
+  const { record } = gaVaSpecSuccessorGatesChain(readBytes);
+  // Retain the immutable GA/VA17/181 scope; the separately pinned CA no-phone hop
+  // checks the complete current eighteen-source chain without rewriting it.
+  assertCaNoPhoneContactSourceSuccession(readBytes);
+  return record;
+}
+function gaVaSpecSuccessorGatesChain(readBytes) {
   const bytes=readBytes(GA_VA_SPEC_SUCCESSOR_GATES_SOURCE_PATH);
   insist(sha(bytes)===GA_VA_SPEC_SUCCESSOR_GATES_SOURCE_SHA256,'GA/VA spec successor gates source succession record bytes changed');
   const record=JSON.parse(bytes.toString('utf8'));
@@ -373,9 +380,34 @@ export function assertGaVaSpecSuccessorGatesSourceSuccession(readBytes) {
     insist(row.beforeSha256===(current.get(row.file)??v21[row.file]??null),'GA/VA spec successor gates disconnected source hop');current.set(row.file,row.afterSha256);
   }
   insist(current.size===17,'GA/VA spec successor gates current seventeen-source inventory');
+  return { record, current };
+}
+
+// Exact CA explicit-absent phone contact successor hop (adopted v4 truthful none).
+export const CA_NO_PHONE_CONTACT_SOURCE_PATH = 'data/rcap-grade-a/participant-data-rights/question-contract-source-succession-ca-no-phone-contact-20261017-v1.json';
+export const CA_NO_PHONE_CONTACT_SOURCE_SHA256 = 'd7e1ccbaa3e602513dacc3a9f5bafd42b7e8714fa0b37b3b95dd21b7772a20e2';
+export function assertCaNoPhoneContactSourceSuccession(readBytes) {
+  const bytes=readBytes(CA_NO_PHONE_CONTACT_SOURCE_PATH);
+  insist(sha(bytes)===CA_NO_PHONE_CONTACT_SOURCE_SHA256,'CA no-phone contact source succession record bytes changed');
+  const record=JSON.parse(bytes.toString('utf8'));
+  const { record: gates, current }=gaVaSpecSuccessorGatesChain(readBytes);
+  insist(record.schemaVersion==='rcap-question-contract-ca-no-phone-contact-source-succession/v1'
+    && record.recordId==='CA-NO-PHONE-CONTACT-SOURCE-SUCCESSION-20261017'
+    && record.kind==='technical_source_only' && record.engineeringCommit==='ccbdd8b95254156cfee07a6eb841b147469967e7'
+    && equal(record.previousNamedSource,{path:GA_VA_SPEC_SUCCESSOR_GATES_SOURCE_PATH,sha256:GA_VA_SPEC_SUCCESSOR_GATES_SOURCE_SHA256,currentChangedSourceCount:17,currentUnchangedSourceCount:181})
+    && equal(record.historicalContinuity,gates.historicalContinuity) && equal(record.historicalOutput,gates.historicalOutput)
+    && record.sourceCount===198 && record.currentChangedSourceCount===18 && record.currentUnchangedSourceCount===180
+    && equal(record.historicalArtifactScope,{routeCount:6,artifactCount:18,reexecuted:false,changed:false})
+    && ['createsOwnerApproval','changesHistoricalOutputEvidence','establishesCurrentOutputReproduction','establishesProtectedVerification','establishesProviderOrPublicationProof','commercialAuthorityGranted','productionAuthorized'].every(key=>record[key]===false),'CA no-phone contact source succession scope');
+  insist(Array.isArray(record.transitions) && equal(record.transitions.map(row=>row.file),['src/lib/expungement-ai/ca-prop64-contact-answer.ts']),'CA no-phone contact source succession inventory');
+  insist(current.size===17,'CA no-phone contact prior seventeen-source inventory');
+  for(const row of record.transitions){
+    insist(row.beforeSha256===(current.get(row.file)??(row.file==='src/lib/expungement-ai/ca-prop64-contact-answer.ts'?'a58c7412563351190a6f7774ab2fa8948569ea7b1e6c6f41e15881e4bca85072':null)),'CA no-phone contact disconnected source hop');current.set(row.file,row.afterSha256);
+  }
+  insist(current.size===18,'CA no-phone contact current eighteen-source inventory');
   // Always fresh, including after success or a previous failed read. No accessor
   // recursion: prior records are read as exact pinned raw bytes.
-  for(const [file,digest]of current)insist(sha(readBytes(file))===digest,`stale output input: ${file}; exact GA/VA spec successor gates source succession`);
+  for(const [file,digest]of current)insist(sha(readBytes(file))===digest,`stale output input: ${file}; exact CA no-phone contact source succession`);
   return record;
 }
 
@@ -390,15 +422,18 @@ function assertCurrentOutputSourceInput(file, expectedSha256, readBytes, label) 
   const ga = assertGaPardonSpecPinSourceSuccession(readBytes).transitions.find(input => input.file === file);
   const gaContact = assertGaPardonContactSuccessorSourceSuccession(readBytes).transitions.find(input => input.file === file);
   const gates = assertGaVaSpecSuccessorGatesSourceSuccession(readBytes).transitions.find(input => input.file === file);
+  const caNoPhone = assertCaNoPhoneContactSourceSuccession(readBytes).transitions.find(input => input.file === file);
   const caDigest = ca ? ca.afterSha256 : previousDigest;
   const nyDigest = ny ? ny.afterSha256 : caDigest;
   const gaDigest = ga ? ga.afterSha256 : nyDigest;
   const contactDigest = gaContact ? gaContact.afterSha256 : gaDigest;
-  const currentDigest = gates ? gates.afterSha256 : gaContact ? gaContact.afterSha256 : ga ? ga.afterSha256 : ny ? ny.afterSha256 : ca?.afterSha256 ?? row?.afterSha256;
-  insist((row ? row.beforeSha256 === expectedSha256 : ca != null || ny != null || ga != null || gaContact != null || gates != null)
+  const gatesDigest = gates ? gates.afterSha256 : contactDigest;
+  const currentDigest = caNoPhone ? caNoPhone.afterSha256 : gates ? gates.afterSha256 : gaContact ? gaContact.afterSha256 : ga ? ga.afterSha256 : ny ? ny.afterSha256 : ca?.afterSha256 ?? row?.afterSha256;
+  insist((row ? row.beforeSha256 === expectedSha256 : ca != null || ny != null || ga != null || gaContact != null || gates != null || caNoPhone != null)
     && (!ca || ca.beforeSha256 === previousDigest) && (!ny || ny.beforeSha256 === caDigest)
     && (!ga || ga.beforeSha256 === nyDigest) && (!gaContact || gaContact.beforeSha256 === gaDigest)
-    && (!gates || gates.beforeSha256 === contactDigest) && currentDigest === actual, `${label}: ${file}`);
+    && (!gates || gates.beforeSha256 === contactDigest) && (!caNoPhone || caNoPhone.beforeSha256 === gatesDigest)
+    && currentDigest === actual, `${label}: ${file}`);
 }
 
 /** Exposed below the immutable byte pins for non-vacuous semantic controls. */
