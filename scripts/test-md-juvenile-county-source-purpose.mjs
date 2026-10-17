@@ -16,7 +16,8 @@ const hash = value => createHash("sha256").update(JSON.stringify(canonical(value
 // Synthetic original124/B and five retained placements. Captured predecessor
 // collections: fa7452e6360b9ee5b347cd0345e679ce879f4df139ba48139119b899b5b31bd3.
 // Full hashes retain the original baseline. The accepted county-meaning
-// successor is asserted separately before restoring only its county portions.
+// successor is asserted separately. Only the exact accepted contact diagnostic
+// source/reason is also inverted; all original expected hashes remain unchanged.
 const fixtures = [
   {
     "name": "EMPTY",
@@ -368,9 +369,24 @@ function assertCountySuccessor(resolution) {
     section.factIds.filter(id => id === "county").map(() => section.id)), ["court_and_case_number"]);
   assert(prepayGateFactIds(resolution).includes("county"));
 }
+// Accepted shared materialization diagnostic successor (a9e4): this exact
+// protected contact fact is not an actual route-deciding fact. Assert its full
+// current contract before restoring only source/reason for the original hash.
+const expectedContactDiagnostic = {
+  factId: "contact_information", collection: "prepay_confirmation", phase: "prepay_confirmation",
+  group: "about_you", source: "materialization_protection",
+  reason: "this fact is protected against inference, so it is asked rather than computed"
+};
+function assertContactDiagnostic(resolution) {
+  assert.deepEqual(resolution.facts.filter(fact => fact.factId === "contact_information"), [expectedContactDiagnostic]);
+}
 function restoreHistoricalCounty(resolution, fixture) {
+  assertContactDiagnostic(resolution);
   assertCountySuccessor(resolution);
   const restored = structuredClone(resolution);
+  const contact = restored.facts.find(fact => fact.factId === "contact_information");
+  contact.source = "route_decision_facts";
+  contact.reason = "the evaluator reads this fact, so it is asked rather than computed";
   const index = restored.facts.findIndex(fact => fact.factId === "county");
   restored.facts[index] = structuredClone(fixture.county);
   restored.prepayQuestions = restored.prepayQuestions.filter(id => id !== "county");
@@ -392,7 +408,7 @@ for (const fixture of fixtures) {
   const county = resolution.facts.find(fact => fact.factId === "county");
   assert.deepEqual(county.sourcePurpose, expectedPurpose, fixture.name);
   const restored = restoreHistoricalCounty(resolution, fixture);
-  assert.equal(hash(restored), fixture.predecessorCollectionSha256, fixture.name + ": every field outside the asserted county successor unchanged");
+  assert.equal(hash(restored), fixture.predecessorCollectionSha256, fixture.name + ": every field outside the asserted county and exact source/reason diagnostic successors unchanged");
   assert.deepEqual(restored.facts.find(fact => fact.factId === "county"), fixture.county);
   assert.equal(resolution.facts.filter(fact => fact.sourcePurpose).length, 1);
   assert.deepEqual(prepayGateFactIds(resolution).filter(id => id !== "county"), prepayGateFactIds(restored).filter(id => id !== "county"));
@@ -400,13 +416,21 @@ for (const fixture of fixtures) {
   const drift = structuredClone(restored); drift.facts.find(fact => fact.factId !== "county").reason += " drift";
   assert.notEqual(hash(drift), fixture.predecessorCollectionSha256, "unrelated drift cannot be normalized away");
   for (const mutate of [
+    value => { value.facts.find(fact => fact.factId === "contact_information").source = "route_decision_facts"; },
+    value => { value.facts.find(fact => fact.factId === "contact_information").reason += " drift"; },
+    value => { value.facts.find(fact => fact.factId === "contact_information").collection = "already_known"; },
+    value => { value.facts.find(fact => fact.factId === "contact_information").phase = "known"; },
+    value => { value.facts.find(fact => fact.factId === "contact_information").group = "court_and_case_number"; },
+    value => { value.facts.find(fact => fact.factId === "contact_information").value = "invented"; },
+    value => { value.facts = value.facts.filter(fact => fact.factId !== "contact_information"); },
+    value => { value.facts.push(structuredClone(value.facts.find(fact => fact.factId === "contact_information"))); },
     value => { value.facts.find(fact => fact.factId === "county").reason += " drift"; },
     value => { value.prepayQuestions = value.prepayQuestions.filter(id => id !== "county"); },
     value => { value.prepayQuestions.push("county"); },
     value => { value.knownFacts.county = "Example County"; }
   ]) {
     const changed = structuredClone(resolution); mutate(changed);
-    assert.throws(() => restoreHistoricalCounty(changed, fixture), "county drift cannot be normalized away");
+    assert.throws(() => restoreHistoricalCounty(changed, fixture), "county/contact contract drift cannot be normalized away");
   }
 }
 for (const mutate of [p=>p.jurisdiction.code="VA", p=>p.profileVersion+="drift", p=>delete p.source, p=>p.source.sourceCorpusSha256="drift",

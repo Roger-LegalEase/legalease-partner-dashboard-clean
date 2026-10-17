@@ -20,7 +20,7 @@ import {
 import { friendlyMissingFieldLabel, safeUserFacingEngineText } from "@/lib/expungement-ai/missing-fields";
 import { useLocalization } from "@/components/expungement-ai/LocalizationProvider";
 import { routeLabelKeyForState } from "@/lib/expungement-ai/localization";
-import { reviewedResultRouteLabel } from "@/lib/expungement-ai/reviewed-result-copy";
+import { msTimingDisplayContext, reviewedResultRouteLabel } from "@/lib/expungement-ai/reviewed-result-copy";
 
 const UPL_DISCLAIMER =
   "Expungement.ai is not a law firm and this is not legal advice. We prepare self-help materials and information; the court or agency makes the final decision. Review everything before filing.";
@@ -140,6 +140,7 @@ function packetWhyText(stateName: string, evaluation: ScreeningEvaluation, route
 
 export function ScreeningResult({
   evaluation,
+  evaluatedAnswers = {},
   stateName,
   questionPromptById,
   onEditAnswers,
@@ -149,6 +150,7 @@ export function ScreeningResult({
   partnerDisplayName
 }: {
   evaluation: ScreeningEvaluation;
+  evaluatedAnswers?: Readonly<Record<string, unknown>>;
   stateName: string;
   questionPromptById: Record<string, string>;
   onEditAnswers: (focusQuestionId?: string) => void;
@@ -161,6 +163,7 @@ export function ScreeningResult({
   partnerDisplayName?: string;
 }) {
   const { locale, t: translate, text: localizeText } = useLocalization();
+  const timingDisplayContext = msTimingDisplayContext({ evaluation, answers: evaluatedAnswers });
   const presentation = RESULT_PRESENTATION[evaluation.resultCode];
   const accent = TONE_ACCENT[presentation.tone];
   const packetAvailable = hasScreeningSession ? evaluation.sponsoredPacketAvailable === true : evaluation.consumerPacketAvailable === true;
@@ -171,7 +174,7 @@ export function ScreeningResult({
   // helper, which is what that helper is for.
   const nextSteps = isPacketReady
     ? (packetAvailable ? PACKET_READY_NEXT_STEPS : PACKET_READY_NEXT_STEPS.slice(0, 1)).map((step) => translate(step.key, step.fallback))
-    : (evaluation.nextSteps ?? []).map((step) => safeUserFacingEngineText(step, { locale }));
+    : (evaluation.nextSteps ?? []).map((step) => safeUserFacingEngineText(step, { locale, msTimingContext: timingDisplayContext }));
   const routeLabelKey = routeLabelKeyForState(stateName, evaluation.pathwayId);
   const routeLabel = evaluation.pathwayLabel
     ? reviewedResultRouteLabel(evaluation.jurisdiction, evaluation.pathwayId, evaluation.pathwayLabel, evaluation.reasons.map(reason => reason.code))?.[locale] ?? localizeText(evaluation.pathwayLabel)
@@ -217,7 +220,7 @@ export function ScreeningResult({
             {evaluation.reasons.map((reason, index) => (
               <li key={`${reason.code}-${index}`} className="flex items-start gap-2 text-sm leading-6 text-[#475A6E]">
                 <span aria-hidden="true" className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[#CBD5E1]" />
-                <span>{safeUserFacingEngineText(reason.text, { locale })}</span>
+                <span>{safeUserFacingEngineText(reason.text, { locale, msTimingContext: timingDisplayContext })}</span>
               </li>
             ))}
           </ul>
@@ -235,7 +238,7 @@ export function ScreeningResult({
             {evaluation.cautions.map((caution, index) => (
               <li key={index} className="flex items-start gap-2 rounded-xl bg-[#FDF1E8] px-3 py-2 text-sm leading-6 text-[#9A3412]">
                 <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
-                <span>{safeUserFacingEngineText(caution, { locale })}</span>
+                <span>{safeUserFacingEngineText(caution, { locale, msTimingContext: timingDisplayContext })}</span>
               </li>
             ))}
           </ul>

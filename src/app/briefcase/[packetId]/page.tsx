@@ -1,8 +1,9 @@
+import { isMsTimingDisplayText } from "@/lib/expungement-ai/reviewed-result-copy";
 import { msExactTimingQuestionIds } from "@/lib/rcap-engine/mississippi-exact-timing";
 import { readProtectedPacketVerification } from "@/lib/expungement-ai/verification-cas";
 import { caProp64ClarificationModelFor, factualPathwayCorrectionIds, heldPacketCorrectionInputIds, isNebraskaNonconvictionGuidanceCorrection, isLouisianaAutomationStatusGuidanceCorrection, isMaineNonconvictionGuidanceCorrection, isMissouriClosureGuidanceCorrection, isMissouriMarijuanaGuidanceCorrection, isTexasNondisclosureGuidanceCorrection, isMontanaDeferredGuidanceCorrection } from "@/lib/expungement-ai/packet-information";
 import { CA_PROP64_CLARIFICATION_COPY } from "@/lib/expungement-ai/ca-prop64-choices";
-import { packetDisplayCopy, packetMatterTitleCopy } from "@/lib/expungement-ai/packet-display-copy";
+import { packetDisplayCopy, packetMatterTitleCopy, packetMatterSummaryCopy } from "@/lib/expungement-ai/packet-display-copy";
 import { SponsorCapacityNotice } from "@/components/expungement-ai/SponsorCapacityNotice";
 import Link from "next/link";
 import { Download, MessageCircle } from "lucide-react";
@@ -38,6 +39,7 @@ export default async function BriefcasePacketPage({
   const clarificationRead = storedItem?.state === "CA" && (item?.authorityStatus === "unavailable" || item?.resultCode === "needs_review")
     ? await readProtectedPacketVerification({ consumerAuthUserId: auth.userId, briefcaseItemId: storedItem.id }) : null;
   const clarification = clarificationRead?.ok ? caProp64ClarificationModelFor(clarificationRead.value) : null;
+  const msTimingSummary = item?.jurisdiction === "MS" && isMsTimingDisplayText(item.summary ?? "");
   const available = item?.authorityStatus !== "unavailable";
   const eligibilityCorrection = ["NY", "CA", "IL", "GA"].includes(item?.jurisdiction ?? "")
     || item?.packetDraft.status === "available" && (msExactTimingQuestionIds(item.jurisdiction ?? "", item.pathwayId, item.packetDraft.initialAnswers).length > 0
@@ -102,7 +104,7 @@ export default async function BriefcasePacketPage({
             <div className="min-w-0">
               <p className="text-xs font-bold uppercase tracking-[0.08em] text-[#08786F]">{item.jurisdiction}</p>
               <h1 className="mt-2 text-[24px] font-extrabold tracking-[-0.02em] text-[#0B1320]"><LocalizedCopy {...packetMatterTitleCopy(item)} /></h1>
-              <p className="mt-2 text-[13px] leading-6 text-[#5A6275]"><LocalizedRuntimeText text={item.summary ?? ""} /></p>
+              <p className="mt-2 text-[13px] leading-6 text-[#5A6275]">{msTimingSummary ? <LocalizedCopy {...packetMatterSummaryCopy(item)} /> : <LocalizedRuntimeText text={item.summary ?? ""} />}</p>
             </div>
             <MatterStatusBadge item={item} />
           </div>

@@ -1,3 +1,4 @@
+import { isMsTimingDisplayText, reviewedResultText, type MsTimingDisplayContext } from "@/lib/expungement-ai/reviewed-result-copy";
 import type { ProfileQuestion, QuestionType } from "@/lib/expungement-ai/frontend/contracts";
 import { resolveRuntimeText, t, type Locale } from "@/lib/expungement-ai/localization";
 
@@ -125,14 +126,18 @@ export function questionForMissingField(fieldId: string, profileQuestion?: Profi
   };
 }
 
-export function safeUserFacingEngineText(text: string, options?: { locale?: Locale }) {
+export function safeUserFacingEngineText(text: string, options?: { locale?: Locale; msTimingContext?: MsTimingDisplayContext | null }) {
   const locale = options?.locale ?? "en";
+  // Exact generated MS timing copy precedes the generic diagnostic sanitizer.
+  // Unknown text/context still follows every existing consumer-safe fallback.
+  const reviewed = options?.msTimingContext && isMsTimingDisplayText(text) ? reviewedResultText(text, options.msTimingContext) : null;
+  if (reviewed) return reviewed[locale];
   const plain = consumerSafeEngineText(text, locale);
   const sanitized = text
     .replace(/source_question_[a-z0-9_-]+/gi, "A source detail")
     .replace(/\b(age_at_offense|trafficking_status|pardon_status|disposition_date|resolved_timing_bucket|court_requirements_completed)\b/g, (fieldId) => friendlyMissingFieldLabel(fieldId, null, locale));
   if (plain) return plain;
-  return resolveRuntimeText(locale, sanitized);
+  return resolveRuntimeText(locale, sanitized, { msTimingContext: options?.msTimingContext });
 }
 
 function consumerSafeEngineText(text: string, locale: Locale) {

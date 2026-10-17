@@ -517,6 +517,7 @@ export function ScreeningFlow({ state, initialSessionId, partnerDisplayName, acq
         <div ref={focusRef} tabIndex={-1} className="outline-none">
           <ScreeningResult
             evaluation={evaluation}
+            evaluatedAnswers={evaluatedAnswers ?? {}}
             stateName={stateName}
             questionPromptById={questionPromptById}
             onEditAnswers={goToQuestions}

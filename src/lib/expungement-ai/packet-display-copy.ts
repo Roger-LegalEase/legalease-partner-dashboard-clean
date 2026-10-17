@@ -1,7 +1,7 @@
 import { georgiaPardonDisplay } from "@/lib/rcap-engine/georgia-pardon-facts";
 import "server-only";
 import type { BriefcasePresentationItem } from "@/lib/expungement-ai/briefcase-presentation-authority";
-import { reviewedResultRouteLabel, reviewedResultText } from "@/lib/expungement-ai/reviewed-result-copy";
+import { isMsTimingDisplayText, msTimingDisplayContext, reviewedResultRouteLabel, reviewedResultText } from "@/lib/expungement-ai/reviewed-result-copy";
 import { interpolate, resolveRuntimeText } from "@/lib/expungement-ai/localization";
 import catalog from "@/lib/expungement-ai/frontend/reviewed-packet-display-copy.json";
 
@@ -39,9 +39,32 @@ type MatterDisplayIdentity = Pick<BriefcasePresentationItem,
   "authorityStatus" | "title" | "pathwayLabel" | "jurisdiction" | "pathwayId" | "createdAt" | "summary"
 >;
 
-export function packetMatterSummaryCopy(item: Pick<MatterDisplayIdentity, "authorityStatus" | "summary">): { en: string; es?: string } {
+export function packetMatterSummaryCopy(item: Pick<MatterDisplayIdentity, "authorityStatus" | "summary">
+  & Partial<Pick<BriefcasePresentationItem, "jurisdiction" | "pathwayId" | "msTimingSummary" | "packetDraft">>): { en: string; es?: string } {
   const en = item.summary ?? "";
-  const reviewed = item.authorityStatus === "unavailable" ? null : reviewedResultText(en);
+  if (item.authorityStatus === "unavailable") return { en };
+  if (isMsTimingDisplayText(en)) {
+    const generated = item.msTimingSummary;
+    if (!generated || generated.context.kind !== "ms_generated_timing_display" || generated.context.jurisdiction !== "MS"
+      || generated.originalEnglish !== en || item.jurisdiction !== "MS"
+      || item.pathwayId !== generated.context.pathwayId || item.packetDraft?.status !== "available"
+      || !generated.context.reasons.some(reason => reason.text === en)) return { en };
+    // Recheck the current presented facts as well as the generated reason.
+    // A copied/stale mark cannot carry an old fine/court interpretation forward.
+    const current = msTimingDisplayContext({
+      evaluation: { jurisdiction: item.jurisdiction, pathwayId: item.pathwayId,
+        reasons: generated.context.reasons, missingQuestionIds: generated.context.missingQuestionIds },
+      answers: item.packetDraft.initialAnswers,
+      unresolvedFactIds: [...item.packetDraft.recordClarificationIds ?? [],
+        ...item.packetDraft.questions.filter(q => q.savedAnswerNeedsClarification).map(q => q.id)]
+    });
+    if (!current || current.fineImposed !== generated.context.fineImposed
+      || current.convictionCourt !== generated.context.convictionCourt
+      || current.sentenceDate !== generated.context.sentenceDate
+      || current.paymentDate !== generated.context.paymentDate) return { en };
+    return reviewedResultText(en, current) ?? { en };
+  }
+  const reviewed = reviewedResultText(en);
   return reviewed ? { en, es: reviewed.es } : { en };
 }
 

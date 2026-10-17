@@ -1,3 +1,4 @@
+import { msTimingDisplayContext, reviewedResultText, type MsTimingGeneratedSummary } from "@/lib/expungement-ai/reviewed-result-copy";
 import { evaluateProtectedPacketFacts, mnTwoCountyDraftSuccessor, marylandPoliceHeldDraftSuccessor, virginiaVictimHeldDraftSuccessor } from "@/lib/expungement-ai/packet-information";
 import { WY_1401_ROUTE, WY_1401_SOURCE, WY_1401_COPY } from "@/lib/rcap-engine/wyoming-1401-facts";
 import { ND_FIRST_OFFENSE_ROUTE, ND_FIRST_OFFENSE_SOURCE, ND_FIRST_OFFENSE_COPY } from "@/lib/rcap-engine/north-dakota-first-offense-facts";
@@ -86,6 +87,7 @@ export type BriefcasePresentationItem = {
   pathwayId: string | null;
   pathwayLabel: string | null;
   summary: string | null;
+  msTimingSummary?: MsTimingGeneratedSummary;
   nextSteps: string[];
   checklist: string[];
   packetType: ExpungementAiEligibilityResult["packetType"] | null;
@@ -141,6 +143,7 @@ export type BriefcaseLegalPresentationAuthority =
     pathwayId: string | null;
     pathwayLabel: string | null;
     summary: string;
+    msTimingSummary?: MsTimingGeneratedSummary;
     nextSteps: string[];
     checklist: string[];
     packetType: ExpungementAiEligibilityResult["packetType"] | null;
@@ -198,6 +201,7 @@ export function assembleBriefcasePresentationItem(input: {
     pathwayId: input.legalAuthority.pathwayId,
     pathwayLabel: input.legalAuthority.pathwayLabel,
     summary: input.legalAuthority.summary,
+    ...(input.legalAuthority.msTimingSummary ? { msTimingSummary: input.legalAuthority.msTimingSummary } : {}),
     nextSteps: [...input.legalAuthority.nextSteps],
     checklist: [...input.legalAuthority.checklist],
     packetType: input.legalAuthority.packetType,
@@ -469,7 +473,9 @@ function legalAuthorityFromProtectedVerification(
   return legalAuthorityFromEvaluation(protectedStatus, authoritative, {
     verificationStatus,
     packetProgress,
-    packetDraft: presentationDraftForModel(model)
+    packetDraft: presentationDraftForModel(model),
+    displayAnswers: model.initialAnswers,
+    displayUnresolvedIds: [...(model.recordClarificationIds ?? []), ...model.questions.filter(q => q.savedAnswerNeedsClarification).map(q => q.id)]
   });
 }
 
@@ -485,7 +491,9 @@ function legalAuthorityFromTrustedSource(
   return legalAuthorityFromEvaluation("trusted_source", seeded.authoritative, {
     verificationStatus: "trusted_source",
     packetProgress: model ? "not_started" : evaluationPacketProgress(seeded.authoritative),
-    packetDraft: model ? presentationDraftForModel(model) : { status: "unavailable" }
+    packetDraft: model ? presentationDraftForModel(model) : { status: "unavailable" },
+    displayAnswers: model?.initialAnswers ?? source.answers,
+    displayUnresolvedIds: model ? [...(model.recordClarificationIds ?? []), ...model.questions.filter(q => q.savedAnswerNeedsClarification).map(q => q.id)] : []
   });
 }
 
@@ -570,6 +578,8 @@ function legalAuthorityFromEvaluation(
     verificationStatus: BriefcasePresentationItem["verificationStatus"];
     packetProgress: BriefcasePresentationItem["packetProgress"];
     packetDraft: BriefcasePresentationItem["packetDraft"];
+    displayAnswers: Readonly<Record<string, unknown>>;
+    displayUnresolvedIds: readonly string[];
   }
 ): BriefcaseLegalPresentationAuthority {
   const evaluation = authoritative.evaluation;
@@ -585,13 +595,22 @@ function legalAuthorityFromEvaluation(
   const ndPossessionReason = evaluation.jurisdiction === "ND" && evaluation.pathwayId === ND_FIRST_OFFENSE_ROUTE
     ? evaluation.reasons.find(item => item.sourceRef === ND_FIRST_OFFENSE_SOURCE && Object.entries(ND_FIRST_OFFENSE_COPY)
       .some(([code, copy]) => item.code === `nd.first_possession_${code}` && item.text === copy[0])) : undefined;
+  const summary = wy1401Reason?.text ?? ndPossessionReason?.text ?? convictionRequestReason?.text ?? recordOriginReason?.text ?? registrationReason?.text ?? evaluation.reasons.find(isGeorgiaFirstOffenderGuidance)?.text ?? evaluation.reasons.find(reason => ["il.pathway_conflicts_with_saved_fact", "ga.pathway_conflicts_with_saved_fact"].includes(reason.code) || reason.code === "ms.waiting_anchor_missing" && [...Object.values(MS_TIMING_MISSING_TEXT), MS_TIMING_MULTIPLE_MISSING_TEXT].includes(reason.text))?.text ?? evaluation.userLabel;
+  // This mark is presentation-only and originates in the current server
+  // reevaluation. Never infer generated provenance from a saved text match.
+  const timingContext = msTimingDisplayContext({ evaluation, answers: options.displayAnswers,
+    unresolvedFactIds: options.displayUnresolvedIds });
+  const msTimingSummary: MsTimingGeneratedSummary | undefined = timingContext
+    && timingContext.reasons.some(reason => reason.text === summary)
+    && reviewedResultText(summary, timingContext) ? { originalEnglish: summary, context: timingContext } : undefined;
   return {
     status,
     jurisdiction: evaluation.jurisdiction,
     resultCode: evaluation.resultCode,
     pathwayId: evaluation.pathwayId ?? null,
     pathwayLabel: authoritative.pathwayLabel,
-    summary: wy1401Reason?.text ?? ndPossessionReason?.text ?? convictionRequestReason?.text ?? recordOriginReason?.text ?? registrationReason?.text ?? evaluation.reasons.find(isGeorgiaFirstOffenderGuidance)?.text ?? evaluation.reasons.find(reason => ["il.pathway_conflicts_with_saved_fact", "ga.pathway_conflicts_with_saved_fact"].includes(reason.code) || reason.code === "ms.waiting_anchor_missing" && [...Object.values(MS_TIMING_MISSING_TEXT), MS_TIMING_MULTIPLE_MISSING_TEXT].includes(reason.text))?.text ?? evaluation.userLabel,
+    summary,
+    ...(msTimingSummary ? { msTimingSummary } : {}),
     nextSteps: stringArray(evaluation.nextSteps),
     checklist: stringArray(packetPlan?.packetReadyWhen),
     packetType: authoritative.packetType ?? null,
