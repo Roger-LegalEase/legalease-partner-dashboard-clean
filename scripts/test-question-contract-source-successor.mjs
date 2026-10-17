@@ -1,3 +1,4 @@
+import {assertCaTwoResultCopySourceSuccession,CA_TWO_RESULT_COPY_SOURCE_PATH,CA_TWO_RESULT_COPY_SOURCE_SHA256} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertMsGaVaMnSourceSuccession,MS_GA_VA_MN_SOURCE_SUCCESSION_PATH,MS_GA_VA_MN_SOURCE_SUCCESSION_SHA256} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
@@ -75,6 +76,16 @@ check('MS/GA/VA/MN technical source successor never replaces historical output p
  assert.equal(sha(readBytes(MS_GA_VA_MN_SOURCE_SUCCESSION_PATH)),MS_GA_VA_MN_SOURCE_SUCCESSION_SHA256);
  assert.equal(record.historicalArtifactScope.reexecuted,false);
  assert.equal(actual.path,record.historicalOutput.path);assert.equal(actual.sha256,record.historicalOutput.sha256);
+ for(const key of ['createsOwnerApproval','changesHistoricalOutputEvidence','establishesCurrentOutputReproduction','establishesProtectedVerification','establishesProviderOrPublicationProof','commercialAuthorityGranted','productionAuthorized'])assert.equal(record[key],false);
+});
+
+
+check('CA two-copy source qualification remains separate from historical output execution',()=>{
+ const record=assertCaTwoResultCopySourceSuccession(readBytes),actual=assertQuestionContractOutputInputs(readBytes);
+ assert.equal(sha(readBytes(CA_TWO_RESULT_COPY_SOURCE_PATH)),CA_TWO_RESULT_COPY_SOURCE_SHA256);
+ assert.equal(record.historicalArtifactScope.reexecuted,false);assert.equal(record.historicalArtifactScope.artifactCount,18);
+ assert.equal(actual.path,record.historicalOutput.path);assert.equal(actual.sha256,record.historicalOutput.sha256);
+ assert.equal(Object.hasOwn(actual,'caSourceSuccession'),false);
  for(const key of ['createsOwnerApproval','changesHistoricalOutputEvidence','establishesCurrentOutputReproduction','establishesProtectedVerification','establishesProviderOrPublicationProof','commercialAuthorityGranted','productionAuthorized'])assert.equal(record[key],false);
 });
 

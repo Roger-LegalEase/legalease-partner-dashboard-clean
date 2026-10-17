@@ -28,7 +28,9 @@ export const MS_PROOF_EXECUTION_INPUTS=['scripts/lib/rcap-ephemeral-pg.mjs','scr
   'data/rcap-ledger/grade-a/artifacts/current-commercial-review/dc-actual-innocence-2026-10-16/full-es.pdf',
   'data/rcap-ledger/grade-a/artifacts/current-commercial-review/dc-actual-innocence-2026-10-16/court-only.pdf',
   // Mandatory literal source-only succession read, distinct from observed modules.
-  'data/rcap-grade-a/participant-data-rights/question-contract-source-succession-ms-ga-va-mn-20261017-v1.json'];
+  'data/rcap-grade-a/participant-data-rights/question-contract-source-succession-ms-ga-va-mn-20261017-v1.json',
+  // Separate current CA display-only source hop; retain the old named record.
+  'data/rcap-grade-a/participant-data-rights/question-contract-source-succession-ca-two-result-copies-20261017-v1.json'];
 // Exact import paths observed by the actual verifier imports-only probe;
 // the full execution must reproduce this set before emitting a current proof.
 export const MS_PROOF_OBSERVED_INPUTS=[

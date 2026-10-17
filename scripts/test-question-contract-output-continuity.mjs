@@ -1,3 +1,4 @@
+import {assertCaTwoResultCopySourceSuccession,CA_TWO_RESULT_COPY_SOURCE_PATH,CA_TWO_RESULT_COPY_SOURCE_SHA256} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertMsGaVaMnSourceSuccession,MS_GA_VA_MN_SOURCE_SUCCESSION_PATH,MS_GA_VA_MN_SOURCE_SUCCESSION_SHA256} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
@@ -746,6 +747,32 @@ check('named source succession adds no GA/VA/MN route authority',()=>{
   assert.equal(receipt.routes.some(row=>row.routeId===routeId),false,'No immutable receipt route added: '+routeId);
   assert.equal(questionContractSourceSuccessorFor({routeId,familyId:'not-an-existing-family',trackId:'not-an-existing-track',specificationPath:'not-an-existing-specification',expectedPriorSha256:'0'.repeat(64),priorSpecificationBytes:Buffer.from('{}'),currentSpecificationBytes:Buffer.from('{}'),readBytes}),null);
  }
+});
+
+
+check('CA current source hop retains immutable eleven-source record and historical output API',()=>{
+ const ca=assertCaTwoResultCopySourceSuccession(readBytes),previous=assertMsGaVaMnSourceSuccession(readBytes);
+ assert.equal(previous.transitions.length,11);assert.equal(previous.unchangedSourceCount,187);
+ assert.equal(ca.currentChangedSourceCount,12);assert.equal(ca.currentUnchangedSourceCount,186);
+ assert.equal(sha(readBytes(MS_GA_VA_MN_SOURCE_SUCCESSION_PATH)),MS_GA_VA_MN_SOURCE_SUCCESSION_SHA256);
+ assert.deepEqual(ca.catalogChain,{historicalProofSha256:'820ebb0b569c09082f93c43869bd3f0488e8f9a0f0fcf7cfa96ec61d2d342b89',previousNamedSha256:'6b006caa6ad367fffb2f3a25be88d3f1e304d983656f66bdacb8771fff13f612',currentSha256:'43ca0ab76281394b0ee9d6cc4dd63c4431f1b3889c53ce307ba0b02cc46bb6bb'});
+ assert.deepEqual(assertQuestionContractOutputInputs(readBytes),JSON.parse(readBytes('data/rcap-grade-a/participant-data-rights/ms-paid-packet-proof-20261013.json')).outputContinuity);
+});
+check('CA current source record refuses tamper/missing input without fallback',()=>{
+ assert.throws(()=>assertQuestionContractOutputInputs(file=>file===CA_TWO_RESULT_COPY_SOURCE_PATH?Buffer.from('{}'):readBytes(file)),/CA two-result copy source succession record bytes changed/);
+ assert.throws(()=>assertCaTwoResultCopySourceSuccession(file=>{if(file===CA_TWO_RESULT_COPY_SOURCE_PATH)throw Error('missing CA copy source record');return readBytes(file);}),/missing CA copy source record/);
+});
+for(const row of assertCaTwoResultCopySourceSuccession(readBytes).transitions)check('CA current source hop refuses changed '+row.file,()=>{
+ assert.throws(()=>assertQuestionContractOutputInputs(file=>file===row.file?Buffer.from('changed CA source'):readBytes(file)),/stale output input/);
+});
+check('CA current source accessor reads all twelve freshly and recovers after failed read',()=>{
+ const prior=assertMsGaVaMnSourceSuccession(readBytes),ca=assertCaTwoResultCopySourceSuccession(readBytes),paths=new Set([...prior.transitions,...ca.transitions].map(row=>row.file)),seen=new Set();
+ assertCaTwoResultCopySourceSuccession(file=>{if(paths.has(file))seen.add(file);return readBytes(file);});assert.equal(paths.size,12);assert.equal(seen.size,12);
+ let failed=true;const reader=file=>failed&&file===ca.transitions[0].file?Buffer.from('changed'):readBytes(file);
+ assert.throws(()=>assertCaTwoResultCopySourceSuccession(reader),/stale output input/);failed=false;assert.equal(assertCaTwoResultCopySourceSuccession(reader).transitions.length,2);
+});
+check('CA copy source hop adds no court procedure route authority',()=>{
+ for(const routeId of ['CA:prop-64-currently-serving-petition-11361-8','CA:prop-64-completed-sentence-application-11361-8'])assert.equal(questionContractSourceSuccessorFor({routeId,familyId:'not-an-existing-family',trackId:'not-an-existing-track',specificationPath:'not-an-existing-spec',readBytes}),null);
 });
 
 console.log(`PASS: ${checks} output-continuity and refusal controls; no new approval, protected journey or commercial authority.`);

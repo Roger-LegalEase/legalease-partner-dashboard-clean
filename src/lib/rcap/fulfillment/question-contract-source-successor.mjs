@@ -185,17 +185,62 @@ export function assertMsGaVaMnSourceSuccession(readBytes) {
       'productionAuthorized'].every(key => record[key] === false), 'MS/GA/VA/MN source succession scope');
   insist(Array.isArray(record.transitions) && record.transitions.length === 11
     && new Set(record.transitions.map(row => row.file)).size === 11, 'MS/GA/VA/MN source succession inventory');
-  // Always fresh reads of all eleven, including after a previous failed read.
-  for (const row of record.transitions) insist(sha(readBytes(row.file)) === row.afterSha256,
-    `stale output input: ${row.file}; exact MS/GA/VA/MN source succession`);
+  // This record retains its historical eleven-source scope. The separately
+  // pinned CA successor validates the complete current twelve-source chain.
+  assertCaTwoResultCopySourceSuccession(readBytes);
   return record;
 }
+// Exact CA display-only source hop; no historical record or byte is projected.
+export const CA_TWO_RESULT_COPY_SOURCE_PATH = 'data/rcap-grade-a/participant-data-rights/question-contract-source-succession-ca-two-result-copies-20261017-v1.json';
+export const CA_TWO_RESULT_COPY_SOURCE_SHA256 = 'c210172511d6897232962cc9e4944f353744f67736376a9b4199f97c4ead1853';
+export function assertCaTwoResultCopySourceSuccession(readBytes) {
+  const bytes = readBytes(CA_TWO_RESULT_COPY_SOURCE_PATH);
+  insist(sha(bytes) === CA_TWO_RESULT_COPY_SOURCE_SHA256, 'CA two-result copy source succession record bytes changed');
+  const record = JSON.parse(bytes.toString('utf8'));
+  const previousBytes = readBytes(MS_GA_VA_MN_SOURCE_SUCCESSION_PATH);
+  insist(sha(previousBytes) === MS_GA_VA_MN_SOURCE_SUCCESSION_SHA256, 'MS/GA/VA/MN source succession record bytes changed');
+  const previous = JSON.parse(previousBytes.toString('utf8'));
+  insist(record.schemaVersion === 'rcap-question-contract-ca-copy-source-succession/v1'
+    && record.recordId === 'CA-TWO-RESULT-COPIES-SOURCE-SUCCESSION-20261017'
+    && record.kind === 'technical_source_only' && record.engineeringCommit === '7a634bf310b4d3e4b5fe351afbc74dca127dc22a'
+    && equal(record.previousNamedSource, { path: MS_GA_VA_MN_SOURCE_SUCCESSION_PATH, sha256: MS_GA_VA_MN_SOURCE_SUCCESSION_SHA256,
+      transitionCount: 11, unchangedSourceCountAtPriorScope: 187 })
+    && equal(record.historicalContinuity, previous.historicalContinuity)
+    && equal(record.historicalOutput, previous.historicalOutput)
+    && record.sourceCount === 198 && record.currentChangedSourceCount === 12 && record.currentUnchangedSourceCount === 186
+    && equal(record.historicalArtifactScope, { routeCount: 6, artifactCount: 18, reexecuted: false, changed: false })
+    && ['createsOwnerApproval', 'changesHistoricalOutputEvidence', 'establishesCurrentOutputReproduction',
+      'establishesProtectedVerification', 'establishesProviderOrPublicationProof', 'commercialAuthorityGranted',
+      'productionAuthorized'].every(key => record[key] === false), 'CA two-result copy source succession scope');
+  insist(Array.isArray(record.transitions) && equal(record.transitions.map(row => row.file), [
+    'src/lib/expungement-ai/frontend/reviewed-result-display-copy.json', 'src/lib/rcap-engine/california-prop64-facts.ts']), 'CA two-result copy source succession inventory');
+  const current = new Map(previous.transitions.map(row => [row.file, row.afterSha256]));
+  insist(current.size === 11 && previous.transitions.length === 11, 'CA source succession prior inventory');
+  for (const row of record.transitions) {
+    const predecessor = current.get(row.file) ?? (row.file === 'src/lib/rcap-engine/california-prop64-facts.ts' ? '8bcaf7809c7e636758fb1509ab4d7a681426b01608fcb6d22c1d97dfe80815d9' : null);
+    insist(row.beforeSha256 === predecessor, 'CA source succession disconnected source hop');
+    current.set(row.file, row.afterSha256);
+  }
+  const priorCatalog = previous.transitions.find(row => row.file === 'src/lib/expungement-ai/frontend/reviewed-result-display-copy.json');
+  insist(priorCatalog && equal(record.catalogChain, { historicalProofSha256: priorCatalog.beforeSha256,
+    previousNamedSha256: priorCatalog.afterSha256, currentSha256: current.get('src/lib/expungement-ai/frontend/reviewed-result-display-copy.json') })
+    && current.size === 12, 'CA source succession exact catalog chain');
+  // Fresh reads of all twelve on every call, including after failed reads.
+  for (const [file, digest] of current) insist(sha(readBytes(file)) === digest,
+    `stale output input: ${file}; exact CA two-result copy source succession`);
+  return record;
+}
+
 function assertCurrentOutputSourceInput(file, expectedSha256, readBytes, label) {
   const actual = sha(readBytes(file));
   if (actual === expectedSha256) return;
   const record = assertMsGaVaMnSourceSuccession(readBytes);
   const row = record.transitions.find(input => input.file === file);
-  insist(row && row.beforeSha256 === expectedSha256 && row.afterSha256 === actual, `${label}: ${file}`);
+  const ca = assertCaTwoResultCopySourceSuccession(readBytes).transitions.find(input => input.file === file);
+  const previousDigest = row ? row.afterSha256 : expectedSha256;
+  const currentDigest = ca ? ca.afterSha256 : row?.afterSha256;
+  insist((row ? row.beforeSha256 === expectedSha256 : ca != null)
+    && (!ca || ca.beforeSha256 === previousDigest) && currentDigest === actual, `${label}: ${file}`);
 }
 
 /** Exposed below the immutable byte pins for non-vacuous semantic controls. */
