@@ -80,6 +80,54 @@ for (const sibling of profile.pathways.filter(p => p.id !== id)) {
   assert.deepEqual(packetPlanForPathway(profile, sibling.id), packetPlanForPathway(noException, sibling.id));
   assert(packetPlanForPathway(profile, sibling.id).requiredInputIds.includes('county'));
 }
+// Sibling GA-14 county members M01021/M01024/M01026: county stays an unresolved
+// participant fact, known values are kept, and no output or family is inferred.
+{
+  const { packetCollectionFor: collectFor } = await import('../src/lib/expungement-ai/packet-information.ts');
+  const registry = read('data/record-clearing/factory-v2-route-registry.json'), GA = 'data/rcap-all50/overlays/census-v1/ga/';
+  const members = {
+    'GA-14-M01021': { route: 'automatic-restriction-of-qualifying-post-july-1-2013-non-convictions', families: { 'ga-nonconv-post2013-set--custom-pleading': ['primary_filing.county_of_arrest'] } },
+    'GA-14-M01024': { route: 'retroactive-first-offender-treatment-under-42-8-66', absentSet: 'ga-rfo-set', families: {
+      'rcap-ga-guidance-implementation--custom-pleading': ['ga-rfo-participant-factual-record-1.fact_convictingCourtAndCounty'] } },
+    'GA-14-M01026': { route: 'youthful-first-offender-restriction-route', families: {
+      'composed-treatment:obligation:runtime-only:ga:youthful-first-offender-restriction-route--custom-pleading': ['ga-retroactive-first-offender-42-8-66-petition-1.court_of_conviction'],
+      'ga-fo-active-pre2026-set--custom-pleading': ['primary_filing.caption_court_and_county', 'proposed_order.order_caption_court_and_county'],
+      'ga-fo-discharged-pre2026-set--custom-pleading': ['primary_filing.caption_court_and_county', 'proposed_order.order_caption_court_and_county'] } } };
+  const countyFields = o => { const out = []; const w = x => { if (Array.isArray(x)) x.forEach(w); else if (x && typeof x === 'object') { if (typeof x.field === 'string' && /county|court_of_conviction/i.test(x.field)) out.push(x); Object.values(x).forEach(w); } }; w(o); return out; };
+  for (const [member, { route, families, absentSet }] of Object.entries(members)) {
+    const plan = packetPlanForPathway(profile, route);
+    const collect = answers => collectFor({ jurisdiction: 'GA', pathwayId: route, requiredInputIds: plan.requiredInputIds, serverFacts: { jurisdiction: 'GA', pathway_id: route }, screeningAnswers: answers });
+    for (const [label, value] of [['absent', undefined], ['typed-unknown', { unknown: true }], ['not-sure', 'I am not sure'], ['empty', '']]) {
+      const c = collect(value === undefined ? {} : { county: value }), facts = c.facts.filter(f => f.factId === 'county');
+      assert.equal(facts.length, 1, member + '/' + label);
+      assert.equal(facts[0].collection, 'unresolved', member + '/' + label);
+      assert.equal(facts[0].source, 'unresolved_route_rule_scope', member + '/' + label);
+      assert(!Object.hasOwn(facts[0], 'value') && !Object.hasOwn(c.knownFacts, 'county'), member + '/' + label + ' no inferred value');
+      assert(c.unresolvedRequiredFacts.includes('county') && prepayGateFactIds(c).includes('county'), member + '/' + label + ' requirement retained');
+    }
+    for (const known of ['Fulton', 'Condado de DeKalb']) {
+      const c = collect({ county: known }), fact = c.facts.find(f => f.factId === 'county');
+      assert.equal(fact.collection, 'already_known', member + '/' + known); assert.equal(fact.value, known); assert.equal(c.knownFacts.county, known);
+      assert(!c.unresolvedRequiredFacts.includes('county'), member + '/' + known);
+    }
+    assert.deepEqual(renderPreflight({ snapshot: { jurisdiction: 'GA', pathwayId: route, selectedTrackId: null }, verificationHash: 'synthetic', facts: { county: 'Fulton' } }),
+      { ready: false, reason: 'no_composable_specification_for_route', missingFactIds: [] }, member + ' no render authority');
+    for (const [dir, expected] of Object.entries(families)) {
+      const familyMap = read(GA + dir + '/production-field-map.json'), fields = countyFields(familyMap);
+      for (const field of expected) {
+        const xs = fields.filter(x => x.field === field);
+        assert(xs.length && xs.every(x => x.factId == null) && xs.some(x => typeof x.participantMustSupply === 'string' && x.participantMustSupply.length > 0), member + '/' + field + ' participant-supplied');
+      }
+      assert(!JSON.stringify(familyMap).includes('"factId":"county"'), member + '/' + dir + ' generic county never bound');
+      assert.equal(read(GA + dir + '/product-wiring.json').binding.paymentEligible, false, member + '/' + dir);
+    }
+    if (absentSet) {
+      const r = registry.routes.find(x => x.pathwayKey === 'GA:' + route);
+      assert.deepEqual(r.packetSetIds, [absentSet]); assert(r.separateGates.openBlockerIds.includes('renderer_unavailable'));
+      assert(!fs.readdirSync(GA).some(d => d.startsWith(absentSet + '--')), member + ' no family inferred');
+    }
+  }
+}
 for (const [name, change] of [
   ['jurisdiction', p => { p.jurisdiction.code = 'MD'; }],
   ['explicit route input', p => { p.packetGenerator.pathways.find(x => x.pathwayId === id).requiredInputIds = [...p.packetGenerator.requiredInputs]; }],
