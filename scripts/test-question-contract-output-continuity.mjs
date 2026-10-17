@@ -1,3 +1,4 @@
+import {assertNy16055TerminologySourceSuccession,NY16055_TERMINOLOGY_SOURCE_PATH,NY16055_TERMINOLOGY_SOURCE_SHA256} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertCaTwoResultCopySourceSuccession,CA_TWO_RESULT_COPY_SOURCE_PATH,CA_TWO_RESULT_COPY_SOURCE_SHA256} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertMsGaVaMnSourceSuccession,MS_GA_VA_MN_SOURCE_SUCCESSION_PATH,MS_GA_VA_MN_SOURCE_SUCCESSION_SHA256} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import assert from 'node:assert/strict';
@@ -773,6 +774,31 @@ check('CA current source accessor reads all twelve freshly and recovers after fa
 });
 check('CA copy source hop adds no court procedure route authority',()=>{
  for(const routeId of ['CA:prop-64-currently-serving-petition-11361-8','CA:prop-64-completed-sentence-application-11361-8'])assert.equal(questionContractSourceSuccessorFor({routeId,familyId:'not-an-existing-family',trackId:'not-an-existing-track',specificationPath:'not-an-existing-spec',readBytes}),null);
+});
+
+
+check('NY terminology hop preserves historical CA12/MS11 records and paid API shape',()=>{
+ const ny=assertNy16055TerminologySourceSuccession(readBytes),ca=assertCaTwoResultCopySourceSuccession(readBytes),old=assertMsGaVaMnSourceSuccession(readBytes);
+ assert.equal(ny.currentChangedSourceCount,13);assert.equal(ny.currentUnchangedSourceCount,185);
+ assert.equal(ca.currentChangedSourceCount,12);assert.equal(ca.currentUnchangedSourceCount,186);assert.equal(old.transitionCount,11);assert.equal(old.unchangedSourceCount,187);
+ assert.deepEqual(assertQuestionContractOutputInputs(readBytes),JSON.parse(readBytes('data/rcap-grade-a/participant-data-rights/ms-paid-packet-proof-20261013.json')).outputContinuity);
+});
+check('NY terminology mandatory record refuses missing/tampered bytes',()=>{
+ assert.throws(()=>assertQuestionContractOutputInputs(file=>file===NY16055_TERMINOLOGY_SOURCE_PATH?Buffer.from('{}'):readBytes(file)),/NY16055 terminology source succession record bytes changed/);
+ assert.throws(()=>assertNy16055TerminologySourceSuccession(file=>{if(file===NY16055_TERMINOLOGY_SOURCE_PATH)throw Error('missing NY terminology record');return readBytes(file);}),/missing NY terminology record/);
+});
+const nySourcePaths=new Set([...assertMsGaVaMnSourceSuccession(readBytes).transitions,...assertCaTwoResultCopySourceSuccession(readBytes).transitions,...assertNy16055TerminologySourceSuccession(readBytes).transitions].map(row=>row.file));
+for(const file of nySourcePaths)check('NY current thirteen-source drift refuses '+file,()=>{
+ assert.throws(()=>assertQuestionContractOutputInputs(input=>input===file?Buffer.from('changed NY source dependency'):readBytes(input)),/stale output input/);
+});
+check('NY current thirteen reads stay fresh after success and failed read',()=>{
+ const seen=new Set();assertNy16055TerminologySourceSuccession(file=>{if(nySourcePaths.has(file))seen.add(file);return readBytes(file);});assert.equal(seen.size,13);
+ let fail=false;const reader=file=>fail&&file==='src/lib/rcap-engine/ny-16055-guidance.ts'?Buffer.from('drift'):readBytes(file);
+ assert.equal(assertNy16055TerminologySourceSuccession(reader).transitions.length,2);fail=true;
+ assert.throws(()=>assertNy16055TerminologySourceSuccession(reader),/stale output input/);fail=false;assert.equal(assertNy16055TerminologySourceSuccession(reader).transitions.length,2);
+});
+check('NY terminology record adds no route/packet/authority',()=>{
+ assert.equal(questionContractSourceSuccessorFor({routeId:'NY:automatic-non-conviction-sealing-under-cpl-160-50-160-55',familyId:'not-existing',trackId:'not-existing',specificationPath:'not-existing',readBytes}),null);
 });
 
 console.log(`PASS: ${checks} output-continuity and refusal controls; no new approval, protected journey or commercial authority.`);

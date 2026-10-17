@@ -1,4 +1,4 @@
-import {msAdoptedCopyPredecessorView,MS_ADOPTED_COPY_SUCCESSORS,CA_TWO_RESULT_COPY_SUCCESSORS} from './lib/ms-adopted-copy-predecessor.mjs';
+import {msAdoptedCopyPredecessorView,MS_ADOPTED_COPY_SUCCESSORS,CA_TWO_RESULT_COPY_SUCCESSORS,NY16055_TERMINOLOGY_SUCCESSORS} from './lib/ms-adopted-copy-predecessor.mjs';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';import path from 'node:path';import {createHash} from 'node:crypto';import {register,createRequire} from 'node:module';import {pathToFileURL} from 'node:url';import {isDeepStrictEqual} from 'node:util';
 const root=process.cwd(),file=p=>path.join(root,p),sha=b=>createHash('sha256').update(b).digest('hex');
@@ -147,6 +147,15 @@ const catalog=JSON.parse(fs.readFileSync(file('src/lib/expungement-ai/frontend/r
 const mdCopyPredecessor=msAdoptedCopyPredecessorView(catalog);
 check('all587-predecessor-copy',sha(JSON.stringify(mdCopyPredecessor.entries.slice(0,587))),'0dd51077c7cce81050d148bb18cee8f317fb07f8904d18e904c09f008debd36a');
 check('predecessor-copy-metadata',sha(JSON.stringify(Object.fromEntries(Object.entries(mdCopyPredecessor).filter(([k])=>k!=='entries')))),'9cc075b062460eff354757dd50e3e96fab503ba5cc823407b92a707f9ca868b0');
+for(const change of NY16055_TERMINOLOGY_SUCCESSORS)for(const key of ['en','es','originalEnglish','reviewStatus','id']){
+ const changed=structuredClone(catalog);changed.entries[change.index][key]+=' [unreviewed NY drift]';
+ check('NY-terminology-refuses-drift/'+change.after.id+'/'+key,(()=>{try{msAdoptedCopyPredecessorView(changed);return false;}catch{return true;}})(),true);
+}
+for(const[name,mutate]of[
+ ['moved-NY-index',c=>{[c.entries[548],c.entries[549]]=[c.entries[549],c.entries[548]];}],
+ ['duplicate-NY-id',c=>{c.entries.push(structuredClone(c.entries[554]));}]
+]){const changed=structuredClone(catalog);mutate(changed);check('NY-terminology-refuses/'+name,(()=>{try{msAdoptedCopyPredecessorView(changed);return false;}catch{return true;}})(),true);}
+const nyRawBefore=structuredClone(catalog);msAdoptedCopyPredecessorView(catalog);check('NY/CA/MS inverse preserves raw current catalog',catalog,nyRawBefore);
 for(const change of CA_TWO_RESULT_COPY_SUCCESSORS)for(const key of ['en','es','originalEnglish','reviewStatus','id']){
  const changed=structuredClone(catalog);changed.entries[change.index][key]+=' [unreviewed drift]';
  check('CA-successor-refuses-drift/'+change.after.id+'/'+key,(()=>{try{msAdoptedCopyPredecessorView(changed);return false;}catch{return true;}})(),true);

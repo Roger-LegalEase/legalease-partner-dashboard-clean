@@ -225,9 +225,53 @@ export function assertCaTwoResultCopySourceSuccession(readBytes) {
   insist(priorCatalog && equal(record.catalogChain, { historicalProofSha256: priorCatalog.beforeSha256,
     previousNamedSha256: priorCatalog.afterSha256, currentSha256: current.get('src/lib/expungement-ai/frontend/reviewed-result-display-copy.json') })
     && current.size === 12, 'CA source succession exact catalog chain');
-  // Fresh reads of all twelve on every call, including after failed reads.
-  for (const [file, digest] of current) insist(sha(readBytes(file)) === digest,
-    `stale output input: ${file}; exact CA two-result copy source succession`);
+  // Retain the immutable CA12/186 scope; the separately pinned NY hop checks
+  // the complete current13-source chain without rewriting prior records.
+  assertNy16055TerminologySourceSuccession(readBytes);
+  return record;
+}
+
+// Exact NY draft terminology source hop, separate from historical output proof.
+export const NY16055_TERMINOLOGY_SOURCE_PATH = 'data/rcap-grade-a/participant-data-rights/question-contract-source-succession-ny16055-three-terminology-20261017-v1.json';
+export const NY16055_TERMINOLOGY_SOURCE_SHA256 = '030a7c4637e9c1544e4f1302b977dfb572053f1f4617ac180bf7625487621e77';
+export function assertNy16055TerminologySourceSuccession(readBytes) {
+  const bytes=readBytes(NY16055_TERMINOLOGY_SOURCE_PATH);
+  insist(sha(bytes)===NY16055_TERMINOLOGY_SOURCE_SHA256,'NY16055 terminology source succession record bytes changed');
+  const record=JSON.parse(bytes.toString('utf8'));
+  const caBytes=readBytes(CA_TWO_RESULT_COPY_SOURCE_PATH);
+  insist(sha(caBytes)===CA_TWO_RESULT_COPY_SOURCE_SHA256,'CA two-result copy source succession record bytes changed');
+  const ca=JSON.parse(caBytes.toString('utf8'));
+  const oldBytes=readBytes(MS_GA_VA_MN_SOURCE_SUCCESSION_PATH);
+  insist(sha(oldBytes)===MS_GA_VA_MN_SOURCE_SUCCESSION_SHA256,'MS/GA/VA/MN source succession record bytes changed');
+  const previous=JSON.parse(oldBytes.toString('utf8'));
+  insist(record.schemaVersion==='rcap-question-contract-ny16055-terminology-source-succession/v1'
+    && record.recordId==='NY16055-THREE-TERMINOLOGY-SOURCE-SUCCESSION-20261017'
+    && record.kind==='technical_source_only' && record.engineeringCommit==='ceab068e49598c35e99b7c2abb7b9fd9a274d3ea'
+    && equal(record.previousNamedSource,{path:CA_TWO_RESULT_COPY_SOURCE_PATH,sha256:CA_TWO_RESULT_COPY_SOURCE_SHA256,currentChangedSourceCount:12,currentUnchangedSourceCount:186})
+    && equal(record.historicalContinuity,ca.historicalContinuity) && equal(record.historicalOutput,ca.historicalOutput)
+    && record.sourceCount===198 && record.currentChangedSourceCount===13 && record.currentUnchangedSourceCount===185
+    && equal(record.historicalArtifactScope,{routeCount:6,artifactCount:18,reexecuted:false,changed:false})
+    && ['createsOwnerApproval','changesHistoricalOutputEvidence','establishesCurrentOutputReproduction','establishesProtectedVerification','establishesProviderOrPublicationProof','commercialAuthorityGranted','productionAuthorized'].every(key=>record[key]===false),'NY16055 terminology source succession scope');
+  insist(Array.isArray(record.transitions) && equal(record.transitions.map(row=>row.file),[
+    'src/lib/expungement-ai/frontend/reviewed-result-display-copy.json','src/lib/rcap-engine/ny-16055-guidance.ts']),'NY16055 terminology source succession inventory');
+  insist(previous.transitions.length===11 && new Set(previous.transitions.map(row=>row.file)).size===11
+    && ca.transitions.length===2 && ca.previousNamedSource.sha256===MS_GA_VA_MN_SOURCE_SUCCESSION_SHA256,'NY16055 prior source chain inventory');
+  const current=new Map(previous.transitions.map(row=>[row.file,row.afterSha256]));
+  for(const row of ca.transitions){
+    const predecessor=current.get(row.file)??(row.file==='src/lib/rcap-engine/california-prop64-facts.ts'?'8bcaf7809c7e636758fb1509ab4d7a681426b01608fcb6d22c1d97dfe80815d9':null);
+    insist(row.beforeSha256===predecessor,'NY16055 disconnected prior CA hop');current.set(row.file,row.afterSha256);
+  }
+  insist(current.size===12,'NY16055 prior twelve-source inventory');
+  for(const row of record.transitions){
+    const predecessor=current.get(row.file)??(row.file==='src/lib/rcap-engine/ny-16055-guidance.ts'?'0809ecf6d75a10557d0dac416c663896a09883c6492bbf05c7adfce344735cff':null);
+    insist(row.beforeSha256===predecessor,'NY16055 disconnected source hop');current.set(row.file,row.afterSha256);
+  }
+  insist(current.size===13 && equal(record.catalogChain,{historicalProofSha256:ca.catalogChain.historicalProofSha256,
+    firstNamedSha256:ca.catalogChain.previousNamedSha256,previousNamedSha256:ca.catalogChain.currentSha256,
+    currentSha256:current.get('src/lib/expungement-ai/frontend/reviewed-result-display-copy.json')}),'NY16055 exact catalog chain');
+  // Always fresh, including after success or a previous failed read. No accessor
+  // recursion: prior records above are read as exact pinned raw bytes.
+  for(const [file,digest]of current)insist(sha(readBytes(file))===digest,`stale output input: ${file}; exact NY16055 terminology source succession`);
   return record;
 }
 
@@ -238,9 +282,12 @@ function assertCurrentOutputSourceInput(file, expectedSha256, readBytes, label) 
   const row = record.transitions.find(input => input.file === file);
   const ca = assertCaTwoResultCopySourceSuccession(readBytes).transitions.find(input => input.file === file);
   const previousDigest = row ? row.afterSha256 : expectedSha256;
-  const currentDigest = ca ? ca.afterSha256 : row?.afterSha256;
-  insist((row ? row.beforeSha256 === expectedSha256 : ca != null)
-    && (!ca || ca.beforeSha256 === previousDigest) && currentDigest === actual, `${label}: ${file}`);
+  const ny = assertNy16055TerminologySourceSuccession(readBytes).transitions.find(input => input.file === file);
+  const caDigest = ca ? ca.afterSha256 : previousDigest;
+  const currentDigest = ny ? ny.afterSha256 : ca?.afterSha256 ?? row?.afterSha256;
+  insist((row ? row.beforeSha256 === expectedSha256 : ca != null || ny != null)
+    && (!ca || ca.beforeSha256 === previousDigest) && (!ny || ny.beforeSha256 === caDigest)
+    && currentDigest === actual, `${label}: ${file}`);
 }
 
 /** Exposed below the immutable byte pins for non-vacuous semantic controls. */
