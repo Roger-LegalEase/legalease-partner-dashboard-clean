@@ -107,4 +107,37 @@ for (const q of Q.OH_JUVENILE_STAGE_QUESTIONS) {
 }
 const browserModule = fs.readFileSync('src/lib/expungement-ai/oh-juvenile-stage-questions.ts', 'utf8');
 assert(!browserModule.match(/^import(?! type).*from/gm)); checks.push('browser-descriptors-no-runtime-imports');
+// GA-14-M01059 / Q-da1aeae32132608fb1f4: OH juvenile `court` on the application,
+// 2151.358 and unknown branches stays an unresolved obligation (known kept); no juvenile
+// instrument, family, guidance, spec or participant service/fee/docket copy exists (v4).
+{
+const path=(await import('node:path')).default,root=process.cwd();
+const ohCheck=(name,fn)=>{let pass=true;try{fn();}catch{pass=false;}check(name,pass,true);};
+process.env.RCAP_EVALUATOR_TODAY='2026-10-16';
+const loadModule=p=>import(pathToFileURL(root+'/'+p).href);
+const P=await loadModule('src/lib/expungement-ai/packet-information.ts'),Q=await loadModule('src/lib/expungement-ai/oh-juvenile-stage-questions.ts');
+const {getProfileByJurisdiction}=await loadModule('src/lib/rcap-engine/profile-registry.ts'),{packetPlanForPathway}=await loadModule('src/lib/rcap-engine/packet-planner.ts');
+const {packetFulfillmentAuthority}=await loadModule('src/lib/expungement-ai/packet-fulfillment-authority.ts'),{renderPreflight}=await loadModule('src/lib/expungement-ai/render-preflight.ts');
+const {packetSpecificationFor}=await loadModule('src/lib/rcap/grade-a/packet-specification.ts'),{prepayGateFactIds}=await loadModule('src/lib/expungement-ai/packet-collection.ts');
+const route='juvenile-sealing-and-expungement',profile=getProfileByJurisdiction('OH'),plan=packetPlanForPathway(profile,route),[request,forum]=Q.OH_JUVENILE_STAGE_IDS;
+ohCheck('M01059/route-identity',()=>{assert.equal(Q.OH_JUVENILE_ROUTE,route);assert.equal(profile.pathways.find(p=>p.id===route)?.routeType,'juvenile');assert(plan.requiredInputIds.includes('court'));assert.equal(packetSpecificationFor('OH:'+route),undefined);});
+const original={ownership_scope:'Yes',jurisdiction_scope:'State or local',case_outcome:'Dismissed, no-billed, nolle prosequi, or not prosecuted',offense_level:'Misdemeanor',possible_pathway_context:'Juvenile sealing and expungement',age_at_offense:'30',trafficking_status:'No',pardon_status:'No',sentence_completion_date:'Yes',pending_cases:'No',resolved_timing_bucket:'gt_10_years'};
+// v4: (C) person application and 2151.358 earlier expungement have no bound juvenile court/instrument here; court stays an unresolved obligation.
+for(const [branch,stage] of [['C-application-unknown-forum',{[request]:'sealing_application'}],['C-application-juvenile',{[request]:'sealing_application',[forum]:'juvenile_court_record'}],['2151.358-earlier',{[request]:'earlier_expungement_request',[forum]:'juvenile_court_record'}],['unknown-service',{[request]:'unknown'}]]){
+ for(const [placement,court,known] of [['absent',undefined,false],['typed-unknown',{value:'Example County District Court',unknown:true},false],['known','Example County District Court',true]]){
+  const input={jurisdiction:'OH',pathwayId:route,requiredInputIds:plan.requiredInputIds,serverFacts:{jurisdiction:'OH',pathway_id:route},screeningAnswers:court===undefined?{...original}:{...original,court},prefilledAnswers:{},savedAnswers:{...stage}};
+  const c=P.packetCollectionFor(input),f=c.facts.filter(x=>x.factId==='court');
+  ohCheck(`M01059/${branch}/${placement}/court-disposition`,()=>{assert.equal(f.length,1);if(known){assert.equal(f[0].collection,'already_known');assert.deepEqual(f[0].value,court);assert(!c.unresolvedRequiredFacts.includes('court'));}else{assert.equal(f[0].collection,'unresolved');assert.equal(f[0].source,'unresolved_route_rule_scope');assert(!Object.hasOwn(f[0],'value'));assert(prepayGateFactIds(c).includes('court'));}});
+ }
+}
+for(const s of ['checkout creation','packet generation'])ohCheck('M01059/no-instrument/'+s,()=>{const a=packetFulfillmentAuthority('OH',route,s,{trackId:null});assert.equal(a.allowed,false);assert(a.reason.startsWith('OH:'+route+': NO_RECORD.'),a.reason);});
+ohCheck('M01059/no-render-authority',()=>assert.deepEqual(renderPreflight({snapshot:{jurisdiction:'OH',pathwayId:route,selectedTrackId:null},verificationHash:'x',facts:{court:'Example County District Court'}}),{ready:false,reason:'no_composable_specification_for_route',missingFactIds:[]}));
+// Every existing OH family/destination, case-insensitive: none binds this juvenile route or a 2151.356/.358 instrument.
+const ohDir='data/rcap-all50/overlays/census-v1/oh/';
+for(const d of fs.readdirSync(root+'/'+ohDir)){ohCheck('M01059/family-not-bound/'+d,()=>{let blob='';for(const f of fs.readdirSync(root+'/'+ohDir+d))if(f.endsWith('.json'))blob+=fs.readFileSync(root+'/'+ohDir+d+'/'+f,'utf8');assert(!/juvenile|2151\.35[68]|oh-ls-[12]/i.test(blob));});}
+ohCheck('M01059/guidance-and-specs-not-bound',()=>{assert(!/juvenile|2151/i.test(fs.readFileSync(root+'/data/rcap-all50/guidance-packets/oh.json','utf8')));assert(!fs.readdirSync(root+'/data/record-clearing/packet-specifications').some(f=>/^OH-/i.test(f)));});
+ohCheck('M01059/legacy-state-pack-not-runtime',()=>{const hits=[];const walk=d=>{for(const e of fs.readdirSync(d,{withFileTypes:true})){const p=path.join(d,e.name);if(e.isDirectory()){if(!p.endsWith(path.join('state-packs','ohio')))walk(p);}else if(/\.(ts|tsx)$/.test(e.name)&&/state-packs\/ohio/.test(fs.readFileSync(p,'utf8')))hits.push(p);}};walk(root+'/src');assert.deepEqual(hits,[]);});
+// v4: no invented docket/application fee and no participant prosecutor service in the current EN/ES stage copy.
+ohCheck('M01059/stage-copy-no-participant-service-fee-docket',()=>{const text=JSON.stringify(Q.OH_JUVENILE_STAGE_QUESTIONS);assert(!/\bserv(e|ice)\b|prosecut|\bfee\b|docket|court costs|county attorney|(mail|deliver) a copy|notif|tarifa|cuota|fiscal|arancel|honorarios|costas|ministerio p[uú]blico|n[uú]mero de causa/i.test(text),text.match(/\bserv(e|ice)\b|prosecut|\bfee\b|docket|notif|tarifa|cuota|fiscal/i)?.[0]);});
+}
 console.log(JSON.stringify({ status: 'PASS', checks: checks.length, scope: 'Original Qda stage-only protected controls; timing, venue, components, final qualified copy and actual owner acceptance remain separate. No authority granted.' }));
