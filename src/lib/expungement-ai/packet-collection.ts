@@ -40,6 +40,9 @@ import { akCourtviewRecordIsContext, AK_LEGACY_RECORD_TYPE } from "@/lib/expunge
 import { dcInnocenceLocationIsContext, DC_LEGACY_LOCATION } from "@/lib/rcap-engine/dc-innocence-location-context";
 import { ndFirstOffenseRecordIsContext, ND_LEGACY_RECORD_TYPE } from "@/lib/expungement-ai/nd-first-offense-record-context";
 import { getProfileByJurisdiction } from "@/lib/rcap-engine/profile-registry";
+import type { EngineProfile } from "@/lib/rcap-engine/contracts";
+import { ctAutomaticInformationContext } from "@/lib/rcap-engine/connecticut-automatic-source-guidance";
+import { ctCannabisGeneralInformationContext } from "@/lib/rcap-engine/connecticut-cannabis-automatic-guidance";
 import { isKsMunicipalContact } from "@/lib/expungement-ai/ks-municipal-contact";
 import { maineNonconvictionQuestionApplies } from "@/lib/rcap-engine/maine-nonconviction-facts";
 import { louisianaAutomationStatusQuestionApplies } from "@/lib/rcap-engine/louisiana-automation-status";
@@ -483,6 +486,21 @@ export function assertLeafPacketDerivationGraph(graph: Readonly<Record<string, {
   }
 }
 
+// GA-12: the three source-bound CT information consumers establish no personal
+// erasure eligibility. Their inherited category remains literal saved history.
+export function ctInformationCategoryIsHistory(
+  profile: EngineProfile | undefined, pathwayId: string | null,
+  specification: RegisteredSpecification | null | undefined,
+  answers: Record<string, unknown>, unresolvedSavedFactIds: readonly string[] = []
+): boolean {
+  if (!profile || profile.jurisdiction.code !== "CT" || !pathwayId || specification
+    || profile.questions.some(question => question.id === "offense_category")) return false;
+  const context = Object.fromEntries(["ownership_scope", "jurisdiction_scope", "case_outcome", "offense_level"]
+    .map(id => [id, unresolvedSavedFactIds.includes(id) || !answerValueIsKnown(answers[id]) ? "" : scalarAnswerText(answers[id]) ?? ""]));
+  return ctAutomaticInformationContext(profile, pathwayId, context) !== null
+    || ctCannabisGeneralInformationContext(profile, pathwayId, context);
+}
+
 const DERIVATIONS: Readonly<Record<string, Derivation>> = {
   // The last four digits are a projection of the number itself, never a
   // separate thing to ask for.
@@ -723,6 +741,8 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
   const mnStageCandidate = mnStageContext?.candidate ?? null;
 
   const ksMunicipalCategoryContext = ksMunicipalCategoryIsContext(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
+  const ctCategoryHistory = ctInformationCategoryIsHistory(getProfileByJurisdiction(input.jurisdiction), input.pathwayId ?? null,
+    specification, { ...available, ...input.savedAnswers }, [...input.unresolvedSavedFactIds ?? []]);
   const msFirstContext = msFirstOffenderSourceContract(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
   const msFirstQuestions = new Map(msFirstContext ? msFirstOffenderSourceQuestions().map(question => [question.id, question]) : []);
   const requiredInputIds = dedupe([...input.requiredInputIds, ...(msFirstContext ? MS_FIRST_OFFENDER_COLLECTION_IDS : []), ...(ohJuvenileContext ? OH_JUVENILE_STAGE_IDS : []), ...mnTwoCountyIds, ...mnStageQuestions.map(question => question.id), ...(retainedDcLocation ? [DC_LEGACY_LOCATION] : [])]);
@@ -762,6 +782,16 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
       continue;
     }
 
+    if (ctCategoryHistory && factId === "offense_category" && !overrideClass
+      && !needsHuman.has(factId) && !input.recordOwnQuestionIds?.has(factId)) {
+      const retained = needsSavedAnswerClarification || [input.screeningAnswers, input.prefilledAnswers, input.savedAnswers, input.profileFacts]
+        .some(answers => answers && Object.hasOwn(answers, factId));
+      facts.push({ factId, collection: "conditional", phase: retained ? "render" : "known",
+        group: retained ? group : null, active: retained, optional: true,
+        source: "ct_information_category_history",
+        reason: "This source-bound consumer gives general erasure information, not an individual classification or filing. Earlier category answers remain optional literal history; exact statutory, count, date and exclusion facts remain unestablished." });
+      continue;
+    }
     if (ksMunicipalCategoryContext && factId === "offense_category" && !overrideClass
       && !needsHuman.has(factId) && !decidesRouteFor(factId) && !unresolvedScopeFor(factId)
       && !needsSavedAnswerClarification) {
