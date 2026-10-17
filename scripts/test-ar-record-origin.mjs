@@ -111,6 +111,47 @@ for(const fixture of predecessors.rows) {
   check(prefix+'/reject-tampered-'+field,P.protectedPacketInformationModelFor(bad)===null);
  }
 }
+// Filing-venue/output branch of the same members: venue stays source-owned and
+// distinct from origin and residence; no AR output reads the legacy answers.
+{
+ const { packetPlanForPathway } = await import('../src/lib/rcap-engine/packet-planner.ts');
+ const { packetFulfillmentAuthority } = await import('../src/lib/expungement-ai/packet-fulfillment-authority.ts');
+ const read=p=>JSON.parse(fs.readFileSync(p)), ok=fn=>{try{fn();return true;}catch{return false;}};
+ const memo=read('data/record-clearing/legal-design-intake/AR.memo.json'), registry=read('data/record-clearing/factory-v2-route-registry.json');
+ const finals=read('data/rcap-ledger/public-witness-answer-sets.json').witnesses;
+ const LEGACY=['residency_or_location','ar_record_origin','jurisdiction_scope','county_or_filing_location','court'];
+ const factIds=o=>{const out=[];const w=x=>{if(Array.isArray(x))x.forEach(w);else if(x&&typeof x==='object'){if(typeof x.factId==='string')out.push(x.factId);Object.values(x).forEach(w);}};w(o);return out;};
+ const convicted=/offense was committed and the person was convicted/i;
+ const venueTracks={'situation-a-non-convictions':{'ar-arrest-seal':/county of arrest/i,'ar-nonconviction-seal':/nolle prosequi or dismissal/i},
+  'situation-b-misdemeanor-convictions':{'ar-misdemeanor-dwi-seal':convicted,'ar-misdemeanor-seal':convicted},
+  'situation-c-felony-convictions':{'ar-felony-seal':convicted,'ar-cs-possession-seal':convicted}};
+ for(const [route,tracks] of Object.entries(venueTracks)){
+  check(route+'/venue/registry-track-is-reviewed-candidate',registry.routes.find(x=>x.pathwayKey==='AR:'+route).registryTrackIds.every(t=>Object.hasOwn(tracks,t)));
+  for(const [trackId,venue] of Object.entries(tracks)){
+   const t=memo.tracks.find(x=>x.trackId===trackId), dir=`data/rcap-all50/overlays/census-v1/ar/${trackId}-set--official-pdf-fill/`;
+   check(route+'/'+trackId+'/source-owned-court-venue',t.destination.kind==='court'&&venue.test(t.geography.venue+' '+t.destination.name));
+   if(trackId==='ar-nonconviction-seal')check(route+'/'+trackId+'/unresolved-acquittal-venue-not-invented',/acquittals and never-filed charges remains unresolved/i.test(t.geography.venue+' '+t.destination.name));
+   check(route+'/'+trackId+'/memo-inputs-never-legacy-location',!t.participantInputs.some(q=>LEGACY.includes(q.key)));
+   if(!fs.existsSync(dir))continue;
+   const ids=factIds(read(dir+'production-field-map.json'));
+   check(route+'/'+trackId+'/map-has-no-legacy-alias',!ids.some(id=>LEGACY.includes(id)));
+   check(route+'/'+trackId+'/no-commercial-output-binding',read(dir+'product-wiring.json').binding.paymentEligible===false);
+  }
+  for(const trackId of Object.keys(tracks))for(const surface of ['checkout creation','packet generation','participant delivery'])
+   check(route+'/'+trackId+'/'+surface+'/no-output',ok(()=>{const r=packetFulfillmentAuthority('AR',route,surface,{trackId});assert.equal(r.allowed,false);assert.deepEqual(r.missing,['fulfillment record']);}));
+  const plan=packetPlanForPathway(profile,route), base=finals.find(w=>w.pathwayKey==='AR:'+route).finalAnswers;
+  const collect=extra=>P.packetCollectionFor({jurisdiction:'AR',pathwayId:route,requiredInputIds:plan.requiredInputIds,serverFacts:{jurisdiction:'AR',pathway_id:route},screeningAnswers:{...base,...extra},prefilledAnswers:{},savedAnswers:{}});
+  const fact=(c,id)=>c.facts.find(f=>f.factId===id);
+  const blank=fact(collect({residency_or_location:undefined,court:undefined}),'residency_or_location');
+  check(route+'/venue/blank-legacy-location-stays-unresolved',blank?.collection==='unresolved'&&blank.source==='unresolved_route_rule_scope'&&!('value' in blank));
+  const distinct={ar_record_origin:'arkansas',residency_or_location:'Memphis, Tennessee',county_or_filing_location:'Pulaski',court:'Pulaski Circuit Court'}, before=structuredClone(distinct), c=collect(distinct);
+  check(route+'/venue/distinct-residence-retained-not-venue',fact(c,'residency_or_location')?.value==='Memphis, Tennessee');
+  check(route+'/venue/distinct-filing-court-retained',fact(c,'court')?.value==='Pulaski Circuit Court');
+  const nested={ar_record_origin:'arkansas',residency_or_location:{value:'Memphis, Tennessee',unknown:false},county_or_filing_location:{value:'Pulaski',unknown:false},court:'Pulaski Circuit Court'}, nestedBefore=structuredClone(nested);collect(nested);
+  check(route+'/venue/raw-inputs-unmutated',ok(()=>{assert.deepEqual(distinct,before);assert.deepEqual(nested,nestedBefore);}));
+  for(const unknown of [{unknown:true},'I am not sure']){const u=collect({residency_or_location:unknown});check(route+'/venue/unknown-location-never-becomes-venue/'+JSON.stringify(unknown),!ok(()=>assert.deepEqual(fact(u,'court')?.value,unknown))&&!ok(()=>assert.deepEqual(u.knownFacts?.court,unknown))&&!Object.values(u.knownFacts??{}).includes('Pulaski'));}
+ }
+}
 const failed=checks.filter(c=>!c.pass), report={status:failed.length?'FAIL':'PASS',checks:checks.length,failed,details:checks,scope:'AR original GA-14-M01018/19/20 record-origin clarification and lossless legacy/venue preservation. No authenticated database, legal/copy approval, rendering or commercial acceptance claimed.'};
 if(process.argv[2]) fs.writeFileSync(process.argv[2],JSON.stringify(report,null,2)+'\n',{flag:'wx'});
 console.log(JSON.stringify({status:report.status,checks:checks.length,failed}));assert.equal(failed.length,0);
