@@ -1,3 +1,4 @@
+import { contactRepresentationHash } from "@/lib/expungement-ai/contact-representation";
 import { MD_JUVENILE_COUNTY_SOURCE_PURPOSE, type MdJuvenileCountySourcePurpose } from "@/lib/expungement-ai/md-juvenile-county-source-purpose";
 import { ksMunicipalCategoryIsContext } from "@/lib/expungement-ai/ks-municipal-category-context";
 import { msFirstOffenderSourceContract, MS_FIRST_OFFENDER_SOURCE } from "@/lib/rcap-engine/mississippi-first-offender-source-facts";
@@ -501,6 +502,19 @@ export function ctInformationCategoryIsHistory(
     || ctCannabisGeneralInformationContext(profile, pathwayId, context);
 }
 
+// GA-12 / Q-b5cb31d59f48190f9e12: the retained §16-803 consumer uses
+// actual_innocence_basis and exact charge/level facts, not an offense category.
+// Pin the complete reviewed profile/specification: new consumers fail closed.
+export function dcInnocenceCategoryIsHistory(
+  profile: EngineProfile | undefined, pathwayId: string | null | undefined,
+  specification: RegisteredSpecification | null | undefined
+): boolean {
+  return profile?.jurisdiction.code === "DC" && pathwayId === "dc_actual_innocence_expungement_16_803"
+    && specification?.routeKey === `DC:${pathwayId}`
+    && contactRepresentationHash(profile) === "bcc070d365fb97ad2cd7a5296ca4c8ba516dcf37708fb2b5c852c0d5d1566830"
+    && contactRepresentationHash(specification) === "e996552f778a29335da79c309cf319b8fcd4560a47c6db15b4a77a454372dc83";
+}
+
 const DERIVATIONS: Readonly<Record<string, Derivation>> = {
   // The last four digits are a projection of the number itself, never a
   // separate thing to ask for.
@@ -741,6 +755,7 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
   const mnStageCandidate = mnStageContext?.candidate ?? null;
 
   const ksMunicipalCategoryContext = ksMunicipalCategoryIsContext(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
+  const dcCategoryHistory = dcInnocenceCategoryIsHistory(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
   const ctCategoryHistory = ctInformationCategoryIsHistory(getProfileByJurisdiction(input.jurisdiction), input.pathwayId ?? null,
     specification, { ...available, ...input.savedAnswers }, [...input.unresolvedSavedFactIds ?? []]);
   const msFirstContext = msFirstOffenderSourceContract(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
@@ -782,14 +797,14 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
       continue;
     }
 
-    if (ctCategoryHistory && factId === "offense_category" && !overrideClass
+    if ((ctCategoryHistory || dcCategoryHistory) && factId === "offense_category" && !overrideClass
       && !needsHuman.has(factId) && !input.recordOwnQuestionIds?.has(factId)) {
       const retained = needsSavedAnswerClarification || [input.screeningAnswers, input.prefilledAnswers, input.savedAnswers, input.profileFacts]
         .some(answers => answers && Object.hasOwn(answers, factId));
       facts.push({ factId, collection: "conditional", phase: retained ? "render" : "known",
         group: retained ? group : null, active: retained, optional: true,
-        source: "ct_information_category_history",
-        reason: "This source-bound consumer gives general erasure information, not an individual classification or filing. Earlier category answers remain optional literal history; exact statutory, count, date and exclusion facts remain unestablished." });
+        source: dcCategoryHistory ? "dc_innocence_category_history" : "ct_information_category_history",
+        reason: dcCategoryHistory ? "This source-bound actual-innocence motion uses the separate innocence basis and exact charge/level facts. Earlier category answers remain optional literal history with no document binding or innocence finding." : "This source-bound consumer gives general erasure information, not an individual classification or filing. Earlier category answers remain optional literal history; exact statutory, count, date and exclusion facts remain unestablished." });
       continue;
     }
     if (ksMunicipalCategoryContext && factId === "offense_category" && !overrideClass
