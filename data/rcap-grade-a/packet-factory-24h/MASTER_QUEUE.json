@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "9736783a2787933daf78b637c80c821747562fa9",
+  "minimumCaptainSha": "e0eeff358266ade842a2bd110eb88ecbaa4dc9ea",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
@@ -13928,8 +13928,19 @@
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": {
-        "lapse": "FAMILY_MOVED_SINCE_THE_VERDICT",
-        "meaning": "The packet's own artefacts or its build script changed after the verdict was read, so the verdict describes bytes that no longer exist."
+        "lapse": "BOUND_SOURCE_DRIFTED",
+        "path": "data/record-clearing/legal-design-packet-set-manifests.json",
+        "pinned": "08dddbcd7ad3145497c4ad9f7a85cc903e1124654630af34803e96aa65d0cf51",
+        "now": "fee93664c9795c569acb6b7b92f688f519ccacbf981465b599327f590d3dfb82",
+        "allDriftedRecords": [
+          {
+            "path": "data/record-clearing/legal-design-packet-set-manifests.json",
+            "pinned": "08dddbcd7ad3145497c4ad9f7a85cc903e1124654630af34803e96aa65d0cf51",
+            "now": "fee93664c9795c569acb6b7b92f688f519ccacbf981465b599327f590d3dfb82"
+          }
+        ],
+        "driftedRecordCount": 1,
+        "meaning": "The receipt pins this record by SHA-256 and the bytes on disk no longer match it, so SOURCE_IDENTITY as verified no longer holds. Usually a re-pin; a rebuild when an anchor the packet names has left the source."
       },
       "terminalTreatment": null,
       "legalInputBasis": null,
@@ -22410,12 +22421,12 @@
         "lapse": "BOUND_SOURCE_DRIFTED",
         "path": "data/record-clearing/legal-design-packet-set-manifests.json",
         "pinned": "83d91d31bf8b0b6c76c5623f4c39cffddcf6b154c1d8de96ffbcb74073d6befb",
-        "now": "08dddbcd7ad3145497c4ad9f7a85cc903e1124654630af34803e96aa65d0cf51",
+        "now": "fee93664c9795c569acb6b7b92f688f519ccacbf981465b599327f590d3dfb82",
         "allDriftedRecords": [
           {
             "path": "data/record-clearing/legal-design-packet-set-manifests.json",
             "pinned": "83d91d31bf8b0b6c76c5623f4c39cffddcf6b154c1d8de96ffbcb74073d6befb",
-            "now": "08dddbcd7ad3145497c4ad9f7a85cc903e1124654630af34803e96aa65d0cf51"
+            "now": "fee93664c9795c569acb6b7b92f688f519ccacbf981465b599327f590d3dfb82"
           }
         ],
         "driftedRecordCount": 1,
@@ -30120,12 +30131,12 @@
         "lapse": "BOUND_SOURCE_DRIFTED",
         "path": "data/record-clearing/legal-design-packet-set-manifests.json",
         "pinned": "83d91d31bf8b0b6c76c5623f4c39cffddcf6b154c1d8de96ffbcb74073d6befb",
-        "now": "08dddbcd7ad3145497c4ad9f7a85cc903e1124654630af34803e96aa65d0cf51",
+        "now": "fee93664c9795c569acb6b7b92f688f519ccacbf981465b599327f590d3dfb82",
         "allDriftedRecords": [
           {
             "path": "data/record-clearing/legal-design-packet-set-manifests.json",
             "pinned": "83d91d31bf8b0b6c76c5623f4c39cffddcf6b154c1d8de96ffbcb74073d6befb",
-            "now": "08dddbcd7ad3145497c4ad9f7a85cc903e1124654630af34803e96aa65d0cf51"
+            "now": "fee93664c9795c569acb6b7b92f688f519ccacbf981465b599327f590d3dfb82"
           }
         ],
         "driftedRecordCount": 1,
@@ -32410,12 +32421,12 @@
         "lapse": "BOUND_SOURCE_DRIFTED",
         "path": "data/record-clearing/legal-design-packet-set-manifests.json",
         "pinned": "83d91d31bf8b0b6c76c5623f4c39cffddcf6b154c1d8de96ffbcb74073d6befb",
-        "now": "08dddbcd7ad3145497c4ad9f7a85cc903e1124654630af34803e96aa65d0cf51",
+        "now": "fee93664c9795c569acb6b7b92f688f519ccacbf981465b599327f590d3dfb82",
         "allDriftedRecords": [
           {
             "path": "data/record-clearing/legal-design-packet-set-manifests.json",
             "pinned": "83d91d31bf8b0b6c76c5623f4c39cffddcf6b154c1d8de96ffbcb74073d6befb",
-            "now": "08dddbcd7ad3145497c4ad9f7a85cc903e1124654630af34803e96aa65d0cf51"
+            "now": "fee93664c9795c569acb6b7b92f688f519ccacbf981465b599327f590d3dfb82"
           }
         ],
         "driftedRecordCount": 1,

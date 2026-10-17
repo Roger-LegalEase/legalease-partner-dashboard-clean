@@ -62,20 +62,21 @@ function singleRouteContractTests() {
     // recover an actual pre-refresh receipt rather than comparing current to itself.
     const revisions = ["HEAD", ...execFileSync("git", ["log", "--format=%H", "-12", "--", receiptPath],
       { cwd: ROOT, encoding: "utf8" }).trim().split("\n").filter(Boolean)];
-    let receipt, pin;
+    let receipt, pin, beforeText;
     for (const revision of [...new Set(revisions)]) {
-      const candidate = JSON.parse(execFileSync("git", ["show", `${revision}:${receiptPath}`],
-        { cwd: ROOT, encoding: "utf8", maxBuffer: 1 << 24 }));
+      const candidateText = execFileSync("git", ["show", `${revision}:${receiptPath}`],
+        { cwd: ROOT, encoding: "utf8", maxBuffer: 1 << 24 });
+      const candidate = JSON.parse(candidateText);
       const binding = candidate.committedRecords.find(row => row.pathInRepository === recordPath);
       if (binding && binding.sha256 !== sha256(fs.readFileSync(path.join(ROOT, recordPath)))) {
-        receipt = candidate; pin = binding; break;
+        receipt = candidate; pin = binding; beforeText = candidateText; break;
       }
     }
     assert.ok(pin, `no actual stale route-contract receipt found for ${familyId}`);
     const recovered = recoverBytesByDigest(recordPath, pin.sha256);
     assert.ok(recovered.bytes, recovered.why);
     assert.equal(sha256(recovered.bytes), pin.sha256);
-    return { family, receipt, pin, old: JSON.parse(recovered.bytes.toString("utf8")) };
+    return { family, receipt, pin, beforeText, old: JSON.parse(recovered.bytes.toString("utf8")) };
   });
   const compare = (oldDoc, currentDoc, receipt, pin) => compareAnchors({
     adapter: routeAdapter, oldDoc, currentDoc,
@@ -149,7 +150,7 @@ function singleRouteContractTests() {
     assert.deepEqual(compare(current, unrelated, receipt, pin).differing, []);
   });
   for (const example of examples.slice(1,3)) test(`route-contract escaped DE lexical repair preserves all unrelated bytes: ${example.family.familyId}`, () => {
-    const beforeText = fs.readFileSync(path.join(ROOT, example.family.directory, "source-receipt.json"), "utf8");
+    const beforeText = example.beforeText; // exact recovered pre-refresh bytes, including escaped Unicode
     const plan = planReceipt({familyId: example.family.familyId, directory:example.family.directory,
       receiptPath:`${example.family.directory}/source-receipt.json`,beforeText,on:new Date("2026-10-16T00:00:00Z")});
     assert.equal(plan.outcome,"REFRESHABLE",plan.why);
@@ -199,8 +200,12 @@ if (process.argv.includes("--single-routes-only")) {
  * ------------------------------------------------------------------ */
 
 const families = lapsedFamilies();
-assert.ok(families.length > 0, "the queue reports no lapsed family; these tests need at least one");
-const sample = families.find((f) => f.familyId === "rcap-wi-custom-pleading") ?? families[0];
+// The original WI registry fixture remains valid after its live lapse clears.
+// Dispatch order and unrelated lapsed families cannot choose this fixture.
+const sample = JSON.parse(fs.readFileSync(path.join(ROOT,
+  "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json"), "utf8"))
+  .families.find((f) => f.familyId === "rcap-wi-custom-pleading");
+assert.ok(sample, "the retained WI registry fixture must exist in the queue");
 const receiptPath = `${sample.directory}/source-receipt.json`;
 const currentBytes = currentBytesOf(REGISTRY).bytes;
 const NOW = JSON.parse(currentBytes.toString("utf8"));
@@ -216,7 +221,11 @@ const NOW = JSON.parse(currentBytes.toString("utf8"));
  */
 const gitText = (rev) => execFileSync("git", ["show", `${rev}:${receiptPath}`], { cwd: ROOT, encoding: "utf8", maxBuffer: 1 << 26 });
 const prePinRevision = (() => {
-  for (const rev of ["HEAD", "HEAD~1", "HEAD~2", "HEAD~3", "HEAD~4", "HEAD~5"]) {
+  // Search this receipt's actual history; six unrelated recent commits say
+  // nothing about whether its retained pre-refresh revision exists.
+  const revisions = execFileSync("git", ["rev-list", "HEAD", "--", receiptPath],
+    { cwd: ROOT, encoding: "utf8" }).trim().split("\n").filter(Boolean);
+  for (const rev of ["HEAD", ...revisions]) {
     try {
       const pin = JSON.parse(gitText(rev)).committedRecords.find((r) => r.pathInRepository === REGISTRY);
       if (pin && pin.sha256 !== sha256(currentBytes)) return rev;
@@ -465,8 +474,25 @@ test("a pin that is not repository-relative is resolved against the bases its re
 test("a pin whose own receipt declares its custody unmounted is reported, not counted as drift", () => {
   const dir = "data/rcap-all50/overlays/census-v1/co/co-motion-seal-conviction-set--official-pdf-fill";
   if (!fs.existsSync(path.join(ROOT, dir, "source-receipt.json"))) return;
-  const p = planFamily({ familyId: "co_motion_seal_conviction-set", directory: dir });
-  assert.ok(Array.isArray(p.unmeasurablePins) && p.unmeasurablePins.length > 0, "expected unmounted-custody pins to be reported");
+  // Current CO custody was later supplied. Exercise the original unmounted
+  // declaration using its actual retained receipt, never a fabricated flag.
+  const receiptPath = `${dir}/source-receipt.json`;
+  const revisions = execFileSync("git", ["rev-list", "HEAD", "--", receiptPath],
+    { cwd: ROOT, encoding: "utf8" }).trim().split("\n").filter(Boolean);
+  let beforeText;
+  for (const revision of revisions) {
+    const candidate = execFileSync("git", ["show", `${revision}:${receiptPath}`],
+      { cwd: ROOT, encoding: "utf8", maxBuffer: 1 << 24 });
+    const receipt = JSON.parse(candidate);
+    if (receipt.componentSetDelivery?.undelivered?.some(component =>
+      component.binaryRecordedInCommittedIndex?.mountedHere === false)) {
+      beforeText = candidate; break;
+    }
+  }
+  assert.ok(beforeText, "actual historical CO unmounted-custody receipt required");
+  const p = planReceipt({ familyId: "co_motion_seal_conviction-set", directory: dir,
+    receiptPath, beforeText });
+  assert.equal(p.unmeasurablePins.length, 2, "both retained unmounted order pins must be reported");
   for (const u of p.unmeasurablePins) {
     assert.ok(u.receiptSays, "each unmeasurable pin must carry the receipt's own words about why");
     assert.equal((p.records ?? []).some((r) => r.path === u.path), false, "an unmeasurable pin must not be reported as a drifted record");
