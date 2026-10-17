@@ -132,11 +132,28 @@ const packetCautionNextSteps = [
   'Review the cautions and complete the required packet facts in Briefcase before verification or payment.',
   'Before filing, follow the filing instructions and complete any required documents, fees or fingerprint steps.'
 ];
+// Exact current reference succession for the two accepted CA display-copy examples.
+// This restores only four pinned SHA fields for the existing historical full-row
+// comparison. Answers, transcript, treatment and output text remain untouched.
+const caCopySourceReferenceSuccessors = [{"pathwayKey":"CA:prop-64-completed-sentence-application-11361-8","before":[{"file":"scripts/test-ca-prop64-integration.mjs","sha256":"dfcff9c58f54aac72afe58bc5172b8ffb4d69df686664561caa6bdee22ede8df"},{"file":"scripts/fixtures/ca-prop64-protected-baseline/completed.json","sha256":"f81fd9d09ff9607a018125a971e35669d2b69c9757238fe62380fadb9e9b59c5"},{"file":"src/lib/rcap-engine/california-prop64-facts.ts","sha256":"8bcaf7809c7e636758fb1509ab4d7a681426b01608fcb6d22c1d97dfe80815d9"}],"after":[{"file":"scripts/test-ca-prop64-integration.mjs","sha256":"775a0f3f90c4aabe1fdb9c666f777059776a356e0915a57e94c23225468b2efe"},{"file":"scripts/fixtures/ca-prop64-protected-baseline/completed.json","sha256":"f81fd9d09ff9607a018125a971e35669d2b69c9757238fe62380fadb9e9b59c5"},{"file":"src/lib/rcap-engine/california-prop64-facts.ts","sha256":"739d2d0d9df05bca24109efd8ed559330078072026fa158b0b27766eb793192f"}]},{"pathwayKey":"CA:prop-64-currently-serving-petition-11361-8","before":[{"file":"scripts/test-ca-prop64-integration.mjs","sha256":"dfcff9c58f54aac72afe58bc5172b8ffb4d69df686664561caa6bdee22ede8df"},{"file":"scripts/fixtures/ca-prop64-protected-baseline/currently-serving.json","sha256":"b57358e1730f285f35503e057ce81f89c49c05d96face51489e49bafabb5567c"},{"file":"src/lib/rcap-engine/california-prop64-facts.ts","sha256":"8bcaf7809c7e636758fb1509ab4d7a681426b01608fcb6d22c1d97dfe80815d9"}],"after":[{"file":"scripts/test-ca-prop64-integration.mjs","sha256":"775a0f3f90c4aabe1fdb9c666f777059776a356e0915a57e94c23225468b2efe"},{"file":"scripts/fixtures/ca-prop64-protected-baseline/currently-serving.json","sha256":"b57358e1730f285f35503e057ce81f89c49c05d96face51489e49bafabb5567c"},{"file":"src/lib/rcap-engine/california-prop64-facts.ts","sha256":"739d2d0d9df05bca24109efd8ed559330078072026fa158b0b27766eb793192f"}]}];
+function exactCaCopyReferencePredecessor(current,prior){
+  const change=caCopySourceReferenceSuccessors.find(row=>row.pathwayKey===current.pathwayKey);
+  if(!change)return current;
+  const message='only accepted nextSteps copy: exact CA source-reference successor';
+  assert.deepEqual(prior.sourceBoundSyntheticWitness.references,change.before,message+' predecessor');
+  assert.deepEqual(current.sourceBoundSyntheticWitness.references,change.after,message+' current full descriptors');
+  for(const reference of current.sourceBoundSyntheticWitness.references)
+    assert.equal(sha(fs.readFileSync(reference.file)),reference.sha256,message+' live bytes');
+  const restored=structuredClone(current);
+  for(const index of [0,2])restored.sourceBoundSyntheticWitness.references[index].sha256=change.before[index].sha256;
+  return restored;
+}
 function requirePacketNextStepsSuccessor(current,prior,steps){
+  const comparable=exactCaCopyReferencePredecessor(current,prior);
   const expected=structuredClone(prior);
   assert.notDeepEqual(expected.sourceBoundSyntheticWitness.actualEvaluation.nextSteps,steps,'actual copy transition required');
   expected.sourceBoundSyntheticWitness.actualEvaluation.nextSteps=steps;
-  assert.deepEqual(current,expected,'only accepted nextSteps copy may change; every premise/outcome/reference/answer/transcript stays exact');
+  assert.deepEqual(comparable,expected,'only accepted nextSteps copy may change; every premise/outcome/reference/answer/transcript stays exact');
 }
 for(const key of packetNextStepsKeys){
   const current=packet.witnesses.find(w=>w.pathwayKey===key),prior=packetNextStepsHistorical.get(key);
@@ -150,6 +167,24 @@ for(const key of packetNextStepsKeys){
   check(()=>assert.throws(()=>requirePacketNextStepsSuccessor(wrongPremise,prior,steps),/only accepted nextSteps copy/));
   const wrongCopy=structuredClone(current);wrongCopy.sourceBoundSyntheticWitness.actualEvaluation.nextSteps[1]='Complete packet fields in Briefcase after payment.';
   check(()=>assert.throws(()=>requirePacketNextStepsSuccessor(wrongCopy,prior,steps),/only accepted nextSteps copy/));
+}
+
+
+// Full reference descriptors, index order and live hashes must match before the
+// four-field inverse. Existing wrong-outcome/premise/copy refusals remain above.
+for(const change of caCopySourceReferenceSuccessors){
+  const current=packet.witnesses.find(row=>row.pathwayKey===change.pathwayKey),prior=packetNextStepsHistorical.get(change.pathwayKey);
+  for(const index of [0,2])for(const field of ['file','sha256']){
+    const altered=structuredClone(current);altered.sourceBoundSyntheticWitness.references[index][field]+=' unaccepted';
+    check(()=>assert.throws(()=>exactCaCopyReferencePredecessor(altered,prior),/exact CA source-reference successor/));
+  }
+  const previousBytes=structuredClone(current);previousBytes.sourceBoundSyntheticWitness.references=structuredClone(change.before);
+  check(()=>assert.throws(()=>exactCaCopyReferencePredecessor(previousBytes,prior),/exact CA source-reference successor/));
+  const extraKey=structuredClone(current);extraKey.sourceBoundSyntheticWitness.references[0].unreviewed=true;
+  check(()=>assert.throws(()=>exactCaCopyReferencePredecessor(extraKey,prior),/exact CA source-reference successor/));
+  const reordered=structuredClone(current);[reordered.sourceBoundSyntheticWitness.references[0],reordered.sourceBoundSyntheticWitness.references[2]]=[reordered.sourceBoundSyntheticWitness.references[2],reordered.sourceBoundSyntheticWitness.references[0]];
+  check(()=>assert.throws(()=>exactCaCopyReferencePredecessor(reordered,prior),/exact CA source-reference successor/));
+  const rawBefore=structuredClone(current);exactCaCopyReferencePredecessor(current,prior);check(()=>assert.deepEqual(current,rawBefore));
 }
 
 const mdPoliceWitness=packet.witnesses.find(w=>w.pathwayKey===mdPoliceKey);
