@@ -40,6 +40,14 @@ for (const routeKey of Object.keys(contracts.routes)) {
       const changed = structuredClone(args); changed.specification.documents[0].includeWhen = 'different_condition';
       assert.equal(reviewedContactRepresentation(changed), null);
     });
+    // The adopted 2207c357a successor changed only text before the signature
+    // block; any change to the contact-bearing lines themselves is refused.
+    for (const [from, to] of [['MAILING ADDRESS: {{mailing_address}}', 'ADDRESS: {{mailing_address}}'], ['TELEPHONE: {{phone_number}}', 'TELEPHONE: {{email_address}}'], ['\n\nEMAIL: {{email_address}}', '']])
+      check('GA adopted successor rejects a changed contact line ' + JSON.stringify(from), () => {
+        const changed = structuredClone(args), section = changed.specification.documents[0].sections[6];
+        assert.ok(section.body.includes(from)); section.body = section.body.replace(from, to);
+        assert.equal(reviewedContactRepresentation(changed), null);
+      });
   }
   check(`${routeKey}: pending without fourth prompt`, () => { const r = resolve(); assert.ok(r.pendingDerivations.some(f => f.factId === 'contact_information')); assert.ok(!r.prepayQuestions.includes('contact_information')); });
   check(`${routeKey}: complete components`, () => { const r = resolve(components); assert.equal(r.derivedFacts.contact_information, aggregate); assert.ok(!r.contactReconciliation); });

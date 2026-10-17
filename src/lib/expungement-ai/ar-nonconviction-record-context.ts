@@ -7,6 +7,12 @@ import fieldMap from "../../../data/rcap-all50/overlays/census-v1/ar/ar-nonconvi
 import sourceReceipt from "../../../data/rcap-all50/overlays/census-v1/ar/ar-nonconviction-seal-set--official-pdf-fill/source-receipt.json";
 
 export const AR_NONCONVICTION_CONTEXT_ROUTE = "situation-a-non-convictions";
+// Reviewed source receipt and its one exact reviewed successor: e0eeff358
+// refreshed only the shared manifest pin, whose AR packet-set entry is identical.
+const AR_SOURCE_RECEIPT_REPRESENTATIONS = new Set([
+  "0b7e47beb605ee13963902f0ba1cdca12ed0671fa33fedb037c8cfc6c47df483",
+  "41b66962752c1cdbbe165215b5b7126df3dedd62e69061096c451c2956f4dc26"
+]);
 /** Original GA17 Q-1ab16c42dd48e5b516f6. The exact retained ACIC family
  * uses disposition, filing and record-origin facts, never this overlapping menu.
  * Optional historical context grants no relief, venue, editor or output authority.
@@ -19,7 +25,7 @@ export function arNonconvictionRecordIsContext(profile: EngineProfile | undefine
     && contactRepresentationHash(profile) === "6d5af336305f8c60425e8a085e35434de4af8c3f79988f50781ca18c11bacd4d"
     && contactRepresentationHash(current.memo === undefined ? memo : current.memo) === "972dfc81242973d0795068cca97efda0c05e9171a1946bec158057a511780838"
     && contactRepresentationHash(current.fieldMap === undefined ? fieldMap : current.fieldMap) === "279d521704f3bae470bffc49be42bc9bbaab39fe908017ea999da3e0775b0b23"
-    && contactRepresentationHash(current.sourceReceipt === undefined ? sourceReceipt : current.sourceReceipt) === "0b7e47beb605ee13963902f0ba1cdca12ed0671fa33fedb037c8cfc6c47df483";
+    && AR_SOURCE_RECEIPT_REPRESENTATIONS.has(contactRepresentationHash(current.sourceReceipt === undefined ? sourceReceipt : current.sourceReceipt));
 }
 
 export function arNonconvictionRecordContextQuestion<T extends ProfileQuestion>(question: T,
