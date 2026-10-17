@@ -16,7 +16,8 @@ export const AK_TF810_PUBLIC_ID = "ak_tf810_case_still_public";
 export const AK_TF810_CONTACT_FIELDS = [
   { id: "ak_tf810_contact_address", field: "address", participantKey: "street_address", optional: false },
   { id: "ak_tf810_contact_phone", field: "phoneNo", participantKey: "phone", optional: false },
-  { id: "ak_tf810_contact_email", field: "email", participantKey: "email", optional: true }
+  { id: "ak_tf810_contact_email", field: "email", participantKey: "email", optional: true },
+  { id: "ak_tf810_case_number", field: "caseNo", matterKey: "case_number", optional: false }
 ] as const;
 export const AK_TF810_CONTACT_IDS = [AK_TF810_PUBLIC_ID, ...AK_TF810_CONTACT_FIELDS.map(f => f.id)];
 export function isAkCourtviewContact(state: string, pathwayId: string | null) {
@@ -66,6 +67,10 @@ const QUESTIONS: ProfileQuestion[] = [
     optionDisplay: { Yes: { label: "Yes", translations: { es: { label: "Sí" } } }, No: { label: "No", translations: { es: { label: "No" } } }, "I am not sure": { label: "I am not sure", translations: { es: { label: "No estoy seguro" } } } },
     translations: { es: { prompt: "¿Este caso todavía aparece en el sitio web público de CourtView?",
       helperText: "TF-810 es una solicitud para corregir un caso que debería haberse retirado pero que todavía aparece. Verifique el caso real. Esta respuesta no establece un fundamento legal para retirarlo ni permiso para presentar la solicitud." } } },
+  textQuestion("ak_tf810_case_number", "What is the case number for this TF-810 request?",
+    "Copy the case number from the actual court record. If you do not know it, keep that answer; do not substitute another case number.",
+    "¿Cuál es el número de caso para esta solicitud TF-810?",
+    "Copie el número de caso del expediente judicial correspondiente. Si no lo conoce, conserve esa respuesta; no sustituya el número de otro caso.", true),
   textQuestion("ak_tf810_contact_address", "What address should appear for the person requesting removal on TF-810?",
     "Enter the requester’s contact address exactly as it should appear. Do not substitute the court address, residence history or arrest location. If unavailable, confidential or unknown, keep that answer and obtain the court’s applicable instructions; do not invent an address.",
     "¿Qué dirección debe aparecer en TF-810 para la persona que solicita retirar el caso?",
@@ -104,7 +109,8 @@ export function akCourtviewContactInputs(snapshot: {
   if (read(AK_TF810_PUBLIC_ID) !== "Yes") return null;
   const writes = AK_TF810_CONTACT_FIELDS.flatMap(field => {
     const value = akCourtviewContactText(field.id, read(field.id));
-    return value === null ? [] : [{ factId: field.id, documentId: "TF-810", field: field.field, participantKey: field.participantKey, value }];
+    const destination = "participantKey" in field ? { participantKey: field.participantKey } : { matterKey: field.matterKey };
+    return value === null ? [] : [{ factId: field.id, documentId: "TF-810", field: field.field, ...destination, value }];
   });
   return { source: AK_TF810_CONTACT_SOURCE, writes,
     unresolvedIds: AK_TF810_CONTACT_FIELDS.filter(field => !field.optional && !writes.some(w => w.factId === field.id)).map(f => f.id),
