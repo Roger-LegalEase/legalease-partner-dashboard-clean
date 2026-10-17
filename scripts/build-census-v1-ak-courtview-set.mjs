@@ -746,6 +746,11 @@ function participantInstructions(map, source, rbf) {
     + "order on it and nothing to argue \u2014 you tick the ground that is true of your case and file it at your local "
     + "trial court.", ""
   );
+  // OWNER-RELAYED-ADOPTION-v3 section 8: describe the result as public-index removal only.
+  out.push(
+    "If the clerk agrees, the result is removal from **CourtView's public index**. It does not erase the court file, "
+    + "your criminal-history record, or copies held in private databases.", ""
+  );
   out.push("The form routes two neighbouring requests away from itself, and it is right to:", "");
   out.push("- To ask a judge to make a **still-public case, or records inside it, confidential or sealed**, use **TF-800**.");
   out.push("- To remove **only your name** rather than the whole case, use **TF-805**.", "");
