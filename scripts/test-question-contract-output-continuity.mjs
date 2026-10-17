@@ -1,3 +1,4 @@
+import {assertGaVaSpecSuccessorGatesSourceSuccession,GA_VA_SPEC_SUCCESSOR_GATES_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertGaPardonContactSuccessorSourceSuccession,GA_PARDON_CONTACT_SUCCESSOR_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertGaPardonSpecPinSourceSuccession,GA_PARDON_SPEC_PIN_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertNy16055TerminologySourceSuccession,NY16055_TERMINOLOGY_SOURCE_PATH,NY16055_TERMINOLOGY_SOURCE_SHA256} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
@@ -840,6 +841,15 @@ check('GA current fifteen reads stay fresh after success and failed read',()=>{
  let fail=false;const reader=file=>fail&&file==='src/lib/expungement-ai/reviewed-contact-contracts.json'?Buffer.from('drift'):readBytes(file);
  assert.equal(assertGaPardonContactSuccessorSourceSuccession(reader).transitions.length,1);fail=true;
  assert.throws(()=>assertQuestionContractOutputInputs(reader),/stale output input/);fail=false;assert.equal(assertGaPardonContactSuccessorSourceSuccession(reader).transitions.length,1);
+});
+
+check('GA/VA gates hop preserves prior chain and refuses missing/tampered bytes',()=>{
+ const g=assertGaVaSpecSuccessorGatesSourceSuccession(readBytes);assert.equal(g.currentChangedSourceCount,17);assert.equal(g.currentUnchangedSourceCount,181);
+ assert.throws(()=>assertQuestionContractOutputInputs(file=>file===GA_VA_SPEC_SUCCESSOR_GATES_SOURCE_PATH?Buffer.from('{}'):readBytes(file)),/GA\/VA spec successor gates source succession record bytes changed/);
+ assert.throws(()=>assertGaPardonContactSuccessorSourceSuccession(file=>{if(file===GA_VA_SPEC_SUCCESSOR_GATES_SOURCE_PATH)throw Error('missing GA/VA gates record');return readBytes(file);}),/missing GA\/VA gates record/);
+});
+for(const file of assertGaVaSpecSuccessorGatesSourceSuccession(readBytes).transitions.map(row=>row.file))check('GA/VA gates drift refuses '+file,()=>{
+ assert.throws(()=>assertQuestionContractOutputInputs(input=>input===file?Buffer.from('drift'):readBytes(input)),/stale output input/);
 });
 
 console.log(`PASS: ${checks} output-continuity and refusal controls; no new approval, protected journey or commercial authority.`);
