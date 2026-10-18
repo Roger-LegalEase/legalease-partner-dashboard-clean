@@ -6,8 +6,6 @@ This packet is the Alaska Court System's form **TF-810**, _Request to Exclude Ca
 
 It is a **correction request**, not a petition. The form says so on its own face: the ten grounds listed on it are removals **the court system performs automatically**, and this form is for a requester who believes the court made an error and their case should already have come off the online public index (CourtView). There is no judge's order on it and nothing to argue — you tick the ground that is true of your case and file it at your local trial court.
 
-If the clerk agrees, the result is removal from **CourtView's public index**. It does not erase the court file, your criminal-history record, or copies held in private databases.
-
 The form routes two neighbouring requests away from itself, and it is right to:
 
 - To ask a judge to make a **still-public case, or records inside it, confidential or sealed**, use **TF-800**.
