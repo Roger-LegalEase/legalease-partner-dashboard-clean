@@ -10,7 +10,7 @@ const mutation=process.argv.find(a=>a.startsWith('--mutation='))?.slice(11);
 const mutations={
  missing:['evaluator.ts','...facts.ids.filter(id => {','...[].filter(id => {'],
  disposition:['wyoming-1502-facts.ts','a.case_outcome !== "Felony conviction"','false'],
- next_step:['evaluator.ts','nextSteps: [WY_1502_COPY[facts.code]]','nextSteps: evaluated.nextSteps'],
+ next_step:['evaluator.ts','nextSteps: [WY_1502_COPY[facts.code][0]]','nextSteps: evaluated.nextSteps'],
  consumer:['evaluator.ts','if (wy1502Context(profile, pathway.id)) {','if (false) {'],
  deferral:['wyoming-1502-facts.ts','a.wy1502_completed_deferral === "Yes"','false'],
  completion:['wyoming-1502-facts.ts','a.wy1502_program_complete !== "Yes" || a.wy1502_restitution_paid !== "Yes"','false'],
@@ -86,7 +86,7 @@ check('citation text never classifies an exclusion or grants readiness',()=>{
 check('one ten-year rule is held, no neighboring clock or generic alias',()=>{
  for(const [date,code] of [['2010-10-18','record_review'],['2020-10-18','timing'],['2030-10-18','timing']])decision({wy1502_terms_ended:{value:date,unknown:false}},code);
  decision({sentence_completion_date:'Yes',prior_relief:'Yes',financial_obligations:'Yes',wy1502_terms_ended:undefined},'missing');
- assert(G.WY_1502_COPY.record_review.includes('ten-year'));assert(!G.WY_1502_COPY.record_review.includes('one-year'));
+ assert(G.WY_1502_COPY.record_review[0].includes('ten-year'));assert(!G.WY_1502_COPY.record_review[0].includes('one-year'));
 });
 check('actual fulfillment remains STALE without a new record or authority',()=>{const a=F.packetFulfillmentAuthority('WY',route,'checkout creation');assert.equal(a.allowed,false);assert.equal(a.reason,`${key}: STALE. ${key} holds every proof, but the server could not observe the current world to confirm they still hold.`);});
 check('existing WY1401/1501 public controls remain registered',()=>{for(const id of [...WY_1401_NEW_IDS,...WY_1501_FACT_IDS])assert(pub.questions.some(q=>q.id===id),id);});

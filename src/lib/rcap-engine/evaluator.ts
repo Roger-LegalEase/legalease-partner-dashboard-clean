@@ -263,7 +263,7 @@ function evaluateAgainstProfile(profile: EngineProfile, request: ScreeningEvalua
         const question = questions.find(q => q.id === id);
         return question && ["unanswered", "invalid"].includes(questionAnswerState(question, request.answers[id]));
       }) : [])])],
-      nextSteps: [IL_PROSTITUTION_COPY[code]], paymentAllowed: false };
+      nextSteps: [IL_PROSTITUTION_COPY[code][0]], paymentAllowed: false };
   }
   if (wy1502Context(profile, evaluated.pathwayId) && evaluated.reasons.some(r => r.code.startsWith("wy.felony1502_"))) {
     const facts = wy1502Facts(request.answers, evaluationToday().toISOString().slice(0, 10));
@@ -272,7 +272,7 @@ function evaluateAgainstProfile(profile: EngineProfile, request: ScreeningEvalua
       const question = questions.find(q => q.id === id);
       return question && ["unanswered", "invalid"].includes(questionAnswerState(question, request.answers[id]));
     })])],
-      nextSteps: [WY_1502_COPY[facts.code]], paymentAllowed: false };
+      nextSteps: [WY_1502_COPY[facts.code][0]], paymentAllowed: false };
   }
   if (ctPetitionContext(profile, evaluated.pathwayId) && evaluated.reasons.some(r => r.code === "ct.waiting_rule_not_executed")) {
     if (nonconviction) return evaluated;
@@ -1391,7 +1391,7 @@ function routeSpecificSafetyGate(profile: EngineProfile, answers: Record<string,
   }
   if (wy1502Context(profile, pathway.id)) {
     const facts = wy1502Facts(answers, evaluationToday().toISOString().slice(0, 10));
-    return reason("WY", `felony1502_${facts.code}`, WY_1502_COPY[facts.code], WY_1502_SOURCE);
+    return reason("WY", `felony1502_${facts.code}`, WY_1502_COPY[facts.code][0], WY_1502_SOURCE);
   }
   const msRecordClassGate = msFelonyRecordClassSafetyGate(profile, answers, pathway);
   if (msRecordClassGate) return msRecordClassGate;
@@ -1569,7 +1569,7 @@ function hiAdminApplicationSafetyGate(profile: EngineProfile, answers: Record<st
 function ilFelonyProstitutionSafetyGate(profile: EngineProfile, answers: Record<string, ScreeningAnswerValue>, pathway: CompiledPathway): ScreeningReason | undefined {
   if (profile.jurisdiction.code !== "IL" || pathway.id !== "felony-prostitution-relief") return undefined;
   const code = illinoisProstitutionContext(profile, pathway.id) ? illinoisProstitutionFacts(answers) : "source_review";
-  return reason("IL", `prostitution_${code}`, IL_PROSTITUTION_COPY[code], IL_PROSTITUTION_SOURCE);
+  return reason("IL", `prostitution_${code}`, IL_PROSTITUTION_COPY[code][0], IL_PROSTITUTION_SOURCE);
 }
 
 function caRouteSafetyGate(profile: EngineProfile, answers: Record<string, ScreeningAnswerValue>, pathway: CompiledPathway): ScreeningReason | undefined {

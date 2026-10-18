@@ -12,7 +12,7 @@ const mutations={
  final:['illinois-prostitution-facts.ts','answers.case_outcome !== "Felony conviction"','false'],
  missing:['evaluator.ts','code === "missing" ? [IL_PROSTITUTION_FACT_ID, "court_requirements_completed"].filter','false ? [IL_PROSTITUTION_FACT_ID, "court_requirements_completed"].filter'],
  completion:['illinois-prostitution-facts.ts','return completion === "yes" ? "record_review" : "completion";','return "record_review";'],
- next_step:['evaluator.ts','nextSteps: [IL_PROSTITUTION_COPY[code]]','nextSteps: evaluated.nextSteps'],
+ next_step:['evaluator.ts','nextSteps: [IL_PROSTITUTION_COPY[code][0]]','nextSteps: evaluated.nextSteps'],
  history:['packet-collection.ts','const ilProstitutionCategoryHistory = ilProstitutionCategoryIsHistory(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);','const ilProstitutionCategoryHistory = false;'],
  retained_editor:['packet-information.ts','ilProstitutionCategoryIsHistory(profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`))','false'],
  resume:['screens.ts','profile?.jurisdiction.code === "IL" && questionId === IL_PROSTITUTION_FACT_ID','false && questionId === IL_PROSTITUTION_FACT_ID']
