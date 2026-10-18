@@ -102,6 +102,7 @@ for (const [questionRecordId, route] of cases) {
   check(`${route}: no new category gate or inferred classification`, () => {
     const m = model(original);
     assert(m);
+    if(historicalGate)assert.equal(m.questions.find(q => q.id === 'offense_level')?.required, true);
     assert(!m.builderQuestions.some(q => q.id === category));
     assert(!m.missingInputIds.includes(category));
     for (const map of maps) assert(!Object.hasOwn(seed.snapshot[map], category));
@@ -157,6 +158,7 @@ for (const [questionRecordId, route] of cases) {
     const input = { jurisdiction: 'AR', pathwayId: route, requiredInputIds: [category, 'offense_level'],
       serverFacts: {}, screeningAnswers: answers, savedAnswers: {}, specification: null, questionById: new Map() };
     const resolved = resolvePacketCollection(input);
+    assert.notEqual(resolved.facts.find(f => f.factId === 'offense_level')?.source, 'ar_bound_category_history');
     assert.deepEqual(resolved.facts.find(f => f.factId === category), {
       factId: category, collection: 'conditional', phase: 'known', group: null, active: false, optional: true,
       source: 'ar_bound_category_history',
