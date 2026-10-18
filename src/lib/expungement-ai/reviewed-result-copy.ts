@@ -1,4 +1,3 @@
-import { GA_SB288_COPY } from "@/lib/rcap-engine/georgia-sb288-facts";
 import { questionAnswerState, scalarAnswerText } from "@/lib/expungement-ai/question-answer-state";
 import { msExactCalendarDate } from "@/lib/rcap-engine/mississippi-exact-timing";
 import { georgiaPardonDisplay } from "@/lib/rcap-engine/georgia-pardon-facts";
@@ -90,9 +89,6 @@ export function isMsTimingDisplayText(english: string): boolean {
 
 /** Exact display copy only. Contextual MS successors never rewrite literal text. */
 export function reviewedResultText(english: string, msContext?: MsTimingDisplayContext | null): { en: string; es: string } | null {
-  // Source-grounded supplemental copy; qualified translation review remains pending.
-  const draft = Object.values(GA_SB288_COPY).find(([en]) => en === english);
-  if (draft) return { en: draft[0], es: draft[1] };
   const matches = catalog.entries.filter((entry) => entry.kind !== "route_display_label" && entry.originalEnglish === english);
   if (matches.length === 1) {
     const entry = matches[0];

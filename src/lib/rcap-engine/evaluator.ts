@@ -1,5 +1,5 @@
 import { CT_PETITION_ROUTE, CT_PETITION_SOURCE, CT_PETITION_COPY, ctPetitionContext, ctPetitionFacts } from "@/lib/rcap-engine/connecticut-clean-slate-petition-facts";
-import { GA_SB288_FACT_IDS, GA_SB288_SOURCE, GA_SB288_COPY, georgiaSb288Context, georgiaSb288Facts } from "@/lib/rcap-engine/georgia-sb288-facts";
+import { GA_SB288_ROUTE, GA_SB288_SOURCE, GA_SB288_COPY, georgiaSb288Context, georgiaSb288Facts } from "@/lib/rcap-engine/georgia-sb288-facts";
 import { FL_INFORMATION_COPY, FL_INFORMATION_SOURCE, flConditionalInformationContext, flConditionalInformationQuestionApplies, withFlConditionalInformation } from "@/lib/rcap-engine/florida-conditional-source-information";
 import { DC_INFORMATION_COPY, DC_INFORMATION_SOURCE, dcGeneralInformationContext, dcGeneralInformationQuestionApplies } from "@/lib/rcap-engine/district-of-columbia-general-guidance";
 import { CT_AUTOMATIC_INFORMATION_COPY, CT_AUTOMATIC_INFORMATION_SOURCE, ctAutomaticInformationContext, ctAutomaticInformationQuestionApplies } from "@/lib/rcap-engine/connecticut-automatic-source-guidance";
@@ -240,22 +240,6 @@ export function evaluationHash(evaluation: ScreeningEvaluation, answers: Record<
 
 function evaluateAgainstProfile(profile: EngineProfile, request: ScreeningEvaluationRequest, msSource?: MsFirstOffenderSourceContext): ScreeningEvaluation {
   const evaluated = evaluateProfileRules(profile, request, msSource);
-<<<<<<< HEAD
-=======
-  if (georgiaSb288Context(profile, evaluated.pathwayId) && evaluated.reasons.some(r => r.code === "ga.waiting_rule_not_executed")) {
-    const facts = georgiaSb288Facts(request.answers);
-    const text = GA_SB288_COPY[facts.code][0];
-    return { ...evaluated, resultCode: facts.status === "missing" ? "needs_more_info" : "needs_review",
-      reasons: [reason("GA", `sb288_${facts.code}`, text, GA_SB288_SOURCE), ...evaluated.reasons],
-      missingQuestionIds: [...new Set([...evaluated.missingQuestionIds, ...facts.ids])], nextSteps: [text], paymentAllowed: false };
-  }
-  if (southDakotaSisContext(profile, evaluated.pathwayId) && evaluated.resultCode === "guidance_only") {
-    const facts = southDakotaSisFacts(request.answers);
-    return { ...evaluated, reasons: [...evaluated.reasons, reason("SD", `sis_${facts.code}`, SD_SIS_COPY[facts.code], SD_SIS_SOURCE)],
-      missingQuestionIds: [...new Set([...evaluated.missingQuestionIds, ...facts.ids])],
-      nextSteps: [SD_SIS_COPY[facts.code], ...evaluated.nextSteps], paymentAllowed: false };
-  }
->>>>>>> c4fecb06b (fix: preserve GA SB288 adverse gates and result translations)
   if (!evaluated.pathwayId || !arkansasRecordOriginApplies(profile.jurisdiction.code, evaluated.pathwayId)
     || ["hard_stop", "likely_not_eligible"].includes(evaluated.resultCode)) return evaluated;
   const origin = arkansasRecordOrigin(request.answers);
@@ -580,6 +564,15 @@ function evaluateProfileRules(profile: EngineProfile, request: ScreeningEvaluati
       nextSteps: guidance ? [NY_16055_COPY.record[0], NY_16055_COPY.boundary[0]] : [text] };
   }
 
+  if (georgiaSb288Context(profile, preselectedPathway?.id)) {
+    const facts = georgiaSb288Facts(answers);
+    const plan = packetPlanForPathway(profile, GA_SB288_ROUTE);
+    const held = result(profile, request, facts.status === "missing" ? "needs_more_info" : "needs_review",
+      [reason("GA", `sb288_${facts.code}`, GA_SB288_COPY[facts.code], GA_SB288_SOURCE),
+        reason("GA", "waiting_rule_not_executed", "The source-specific waiting period needs review before a packet decision.", "GA.memo:ga-misd-j4:waitingPeriods")],
+      { pathwayId: GA_SB288_ROUTE, missingQuestionIds: facts.ids, paymentAllowed: false, ...(plan ? { packetPlan: plan } : {}) });
+    return { ...held, nextSteps: [GA_SB288_COPY[facts.code]] };
+  }
 
   if (jurisdiction === "GA" && preselectedPathway?.id === GA_PARDON_ROUTE) {
     const facts = georgiaPardonFacts(answers, evaluationToday().toISOString().slice(0, 10));
@@ -1184,7 +1177,6 @@ function ambiguityReason(
     .filter(question => ctAutomaticInformationQuestionApplies(profile, selectedPathway?.id, answers, question.id))
     .filter(question => ctCannabisGeneralInformationQuestionApplies(profile, selectedPathway?.id, answers, question.id))
     .filter(question => !TX_ND_FACT_IDS.includes(question.id))
-    .filter(question => !georgiaSb288Context(profile, selectedPathway?.id) || !GA_SB288_FACT_IDS.includes(question.id))
     .filter(question => montanaRecordFinancialApplies(profile, selectedPathway?.id, answers, question.id))
     .filter(question => newMexicoGuidanceFinancialApplies(profile, selectedPathway?.id, answers, question.id))
     .filter(question => newJerseyMarijuanaStatusFinancialApplies(profile, selectedPathway?.id, answers, question.id))
