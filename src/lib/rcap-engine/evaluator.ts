@@ -1,3 +1,4 @@
+import { illinoisProstitutionContext, illinoisProstitutionFacts, IL_PROSTITUTION_COPY, IL_PROSTITUTION_SOURCE } from "@/lib/rcap-engine/illinois-prostitution-facts";
 import { questionAnswerState } from "@/lib/expungement-ai/question-answer-state";
 import { CT_PETITION_FACT_IDS, CT_PETITION_SOURCE, CT_PETITION_COPY, ctPetitionContext, ctPetitionFacts } from "@/lib/rcap-engine/connecticut-clean-slate-petition-facts";
 import { GA_SB288_FACT_IDS, GA_SB288_SOURCE, GA_SB288_COPY, georgiaSb288Context, georgiaSb288Facts } from "@/lib/rcap-engine/georgia-sb288-facts";
@@ -1536,14 +1537,8 @@ function hiAdminApplicationSafetyGate(profile: EngineProfile, answers: Record<st
 
 function ilFelonyProstitutionSafetyGate(profile: EngineProfile, answers: Record<string, ScreeningAnswerValue>, pathway: CompiledPathway): ScreeningReason | undefined {
   if (profile.jurisdiction.code !== "IL" || pathway.id !== "felony-prostitution-relief") return undefined;
-  // 20 ILCS 2630/5.2(j) relief is limited to a Class 4 felony prostitution conviction. A non-felony
-  // prostitution record uses a different sealing route, so the felony-prostitution packet must not
-  // open for a misdemeanor. Ratified by Lawrence 2026-07-01.
-  const level = `${answerText(answers.offense_level)} ${answerText(answers.charge)}`.toLowerCase();
-  if (!/felony/.test(level)) {
-    return reason(profile.jurisdiction.code, "il_prostitution_felony_required_not_eligible", "20 ILCS 2630/5.2(j) prostitution-conviction relief is limited to a Class 4 felony conviction; a misdemeanor prostitution record uses a different sealing route.", pathway.sourceRef);
-  }
-  return undefined;
+  const code = illinoisProstitutionContext(profile, pathway.id) ? illinoisProstitutionFacts(answers) : "source_review";
+  return reason("IL", `prostitution_${code}`, IL_PROSTITUTION_COPY[code], IL_PROSTITUTION_SOURCE);
 }
 
 function caRouteSafetyGate(profile: EngineProfile, answers: Record<string, ScreeningAnswerValue>, pathway: CompiledPathway): ScreeningReason | undefined {

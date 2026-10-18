@@ -1,3 +1,4 @@
+import { illinoisProstitutionContext } from "@/lib/rcap-engine/illinois-prostitution-facts";
 import { NEVADA_176A_ROUTE_KEY } from "@/lib/rcap-engine/nevada-176a-branch";
 import { ctPetitionContext } from "@/lib/rcap-engine/connecticut-clean-slate-petition-facts";
 import { georgiaSb288Context } from "@/lib/rcap-engine/georgia-sb288-facts";
@@ -569,6 +570,14 @@ export function nvProgramCategoryIsHistory(profile: EngineProfile | undefined, p
     && contactRepresentationHash(specification) === "94ed0589dab1e02886759605f2eac2afd4baf7bb3f0a1f6d4f18fcb24603182c";
 }
 
+// GA-12 Q-3ab8bb479903ec6dc680: retain broad categories without classifying the final conviction.
+export function ilProstitutionCategoryIsHistory(profile: EngineProfile | undefined, pathwayId: string | null | undefined, specification: RegisteredSpecification | null | undefined): boolean {
+  return illinoisProstitutionContext(profile, pathwayId)
+    && specification?.routeKey === `IL:${pathwayId}`
+    && contactRepresentationHash(profile) === "b16978a1748ee80363763340a864f5ea8a2a5160bb8f76093440c02beda70afd"
+    && contactRepresentationHash(specification) === "57a02cd4a796ba6f76f15dcb54b72d57ef89260e89d4b8e55178b096f244af66";
+}
+
 const DERIVATIONS: Readonly<Record<string, Derivation>> = {
   // The last four digits are a projection of the number itself, never a
   // separate thing to ask for.
@@ -809,6 +818,7 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
   const mnStageCandidate = mnStageContext?.candidate ?? null;
 
   const ksMunicipalCategoryContext = ksMunicipalCategoryIsContext(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
+  const ilProstitutionCategoryHistory = ilProstitutionCategoryIsHistory(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
   const nvProgramCategoryHistory = nvProgramCategoryIsHistory(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
   const ctPetitionCategoryHistory = ctPetitionCategoryIsHistory(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
   const gaSb288CategoryHistory = gaSb288CategoryIsHistory(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
@@ -856,14 +866,16 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
       continue;
     }
 
-    if ((ctCategoryHistory || dcCategoryHistory || ilCategoryHistory || msCategoryHistory || gaSb288CategoryHistory || ctPetitionCategoryHistory || nvProgramCategoryHistory) && factId === "offense_category" && !overrideClass
+    if ((ilProstitutionCategoryHistory || ctCategoryHistory || dcCategoryHistory || ilCategoryHistory || msCategoryHistory || gaSb288CategoryHistory || ctPetitionCategoryHistory || nvProgramCategoryHistory) && factId === "offense_category" && !overrideClass
       && !needsHuman.has(factId) && !input.recordOwnQuestionIds?.has(factId)) {
       const retained = needsSavedAnswerClarification || [input.screeningAnswers, input.prefilledAnswers, input.savedAnswers, input.profileFacts]
         .some(answers => answers && Object.hasOwn(answers, factId));
       facts.push({ factId, collection: "conditional", phase: retained ? "render" : "known",
         group: retained ? group : null, active: retained, optional: true,
-        source: nvProgramCategoryHistory ? "nv_program_category_history" : ctPetitionCategoryHistory ? "ct_petition_category_history" : gaSb288CategoryHistory ? "ga_sb288_category_history" : msCategoryHistory ? "ms_additional_category_history" : ilCategoryHistory ? "il_identity_category_history" : dcCategoryHistory ? "dc_innocence_category_history" : "ct_information_category_history",
-        reason: nvProgramCategoryHistory
+        source: ilProstitutionCategoryHistory ? "il_prostitution_category_history" : nvProgramCategoryHistory ? "nv_program_category_history" : ctPetitionCategoryHistory ? "ct_petition_category_history" : gaSb288CategoryHistory ? "ga_sb288_category_history" : msCategoryHistory ? "ms_additional_category_history" : ilCategoryHistory ? "il_identity_category_history" : dcCategoryHistory ? "dc_innocence_category_history" : "ct_information_category_history",
+        reason: ilProstitutionCategoryHistory
+          ? "The final conviction record fact is separate from earlier broad categories. Retained categories establish neither Class 4 prostitution, trafficking circumstances, sentence completion nor eligibility."
+          : nvProgramCategoryHistory
           ? "This program family uses its separate named-charge, final-disposition and subsection 3 facts. Earlier broad categories remain optional literal history; they establish neither program participation, the branch, a statutory bar nor the waiting period."
           : ctPetitionCategoryHistory
           ? "Final per-count citations, conduct dates and recorded historical class/maximum are separate review inputs. Earlier categories remain optional literal history and establish no eligibility, exclusions or waiting period."

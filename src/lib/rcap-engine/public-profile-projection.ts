@@ -1,3 +1,4 @@
+import { IL_PROSTITUTION_FACT_ID, IL_PROSTITUTION_QUESTION } from "@/lib/rcap-engine/illinois-prostitution-facts";
 import { CT_PETITION_FACT_IDS, CT_PETITION_QUESTIONS, CT_PETITION_MULTILINE_IDS } from "@/lib/rcap-engine/connecticut-clean-slate-petition-facts";
 import { GA_SB288_FACT_IDS, GA_SB288_QUESTIONS } from "@/lib/rcap-engine/georgia-sb288-facts";
 import { MD_POLICE_IDS, MD_POLICE_QUESTIONS, mdPoliceSourceContract } from "@/lib/rcap-engine/maryland-police-record-facts";
@@ -74,7 +75,7 @@ const STATE_SPECIFIC_PREPAY_WILMA_FACT_IDS: Record<string, Set<string>> = {
   DE: new Set(DE_CONVICTION_FACT_IDS),
   KS: new Set(KS_RECORD_SCOPE_FACT_IDS),
   GA: new Set([...GA_SB288_FACT_IDS, ...GA_PARDON_FACT_IDS, ...GA_FIRST_OFFENDER_FACT_IDS, ...convictionReliefQuestions("GA").map(q => q.id)]),
-  IL: new Set([...IL_CANNABIS_FACT_IDS, ...convictionReliefQuestions("IL").map(q => q.id)]),
+  IL: new Set([IL_PROSTITUTION_FACT_ID, ...IL_CANNABIS_FACT_IDS, ...convictionReliefQuestions("IL").map(q => q.id)]),
   CA: new Set([
     ...CA_PROP64_FACT_IDS,
     "ca_prop64_qualifying_marijuana_offense",
@@ -1167,7 +1168,7 @@ function withWilmaFactQuestions(
     : profile.jurisdiction.code === "AR" ? [...WILMA_FACT_QUESTIONS, AR_RECORD_ORIGIN_QUESTION]
     : profile.jurisdiction.code === "CA" ? [...WILMA_FACT_QUESTIONS, ...CA_PROP64_FACT_QUESTIONS, ...(caProbationContract ? CA_12034_QUESTIONS : [])]
     : profile.jurisdiction.code === "GA" ? [...WILMA_FACT_QUESTIONS, ...GA_FIRST_OFFENDER_QUESTIONS, ...GA_PARDON_QUESTIONS, ...GA_SB288_QUESTIONS]
-    : profile.jurisdiction.code === "IL" ? [...WILMA_FACT_QUESTIONS, ...IL_CANNABIS_QUESTIONS]
+    : profile.jurisdiction.code === "IL" ? [...WILMA_FACT_QUESTIONS, ...IL_CANNABIS_QUESTIONS, IL_PROSTITUTION_QUESTION]
     : profile.jurisdiction.code === "NY" ? [...WILMA_FACT_QUESTIONS, ...NY_16059_QUESTIONS, ...(nyPartialSealContract ? [NY_16055_QUESTION] : []), ...(nyMrtaContract ? NY_MRTA_QUESTIONS : []), ...(nyCleanSlateContract ? NY_16057_QUESTIONS : [])]
     : profile.jurisdiction.code === "KS" ? [...WILMA_FACT_QUESTIONS, ...KS_RECORD_SCOPE_QUESTIONS]
     : profile.jurisdiction.code === "MO" ? [...WILMA_FACT_QUESTIONS, ...MO_MARIJUANA_STATUS_QUESTIONS]

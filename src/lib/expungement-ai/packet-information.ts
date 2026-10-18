@@ -1,3 +1,4 @@
+import { IL_PROSTITUTION_FACT_ID, illinoisProstitutionContext } from "@/lib/rcap-engine/illinois-prostitution-facts";
 import { CT_PETITION_FACT_IDS, CT_PETITION_MULTILINE_IDS, ctPetitionContext, ctPetitionQuestionApplies, ctPetitionDateQuestion } from "@/lib/rcap-engine/connecticut-clean-slate-petition-facts";
 import { GA_SB288_FACT_IDS, georgiaSb288Context, georgiaSb288QuestionApplies } from "@/lib/rcap-engine/georgia-sb288-facts";
 import { VA_PARDON_ROUTE, VA_PARDON_TYPE_ID, vaPardonTypeContract, vaPardonTypeQuestion, vaPardonTypeReportedState } from "@/lib/expungement-ai/va-pardon-type-source";
@@ -129,6 +130,7 @@ import { MISSISSIPPI_NON_CONVICTION_NEUTRAL_FACTS, mississippiParticipantDeliver
 import { baselineCarriedFactIds, routeCollectionOverrideFor } from "@/lib/expungement-ai/packet-collection-overrides";
 import {
   prepayGateFactIds,
+  ilProstitutionCategoryIsHistory,
   nvProgramCategoryIsHistory,
   ctPetitionCategoryIsHistory,
   gaSb288CategoryIsHistory,
@@ -429,7 +431,7 @@ export function packetInformationModelFor(item: ConsumerBriefcaseItem): PacketIn
   questions = questions.map(question => akAgencyOrSisRecordContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
   questions = questions.map(question => alRecordContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
   questions = questions.map(question => arNonconvictionRecordContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
-  questions = questions.map(question => collection?.facts.some(fact => fact.factId === question.id && ["nv_program_category_history", "ct_petition_category_history", "ga_sb288_category_history", "ct_information_category_history", "dc_innocence_category_history", "il_identity_category_history", "ms_additional_category_history"].includes(fact.source))
+  questions = questions.map(question => collection?.facts.some(fact => fact.factId === question.id && ["il_prostitution_category_history", "nv_program_category_history", "ct_petition_category_history", "ga_sb288_category_history", "ct_information_category_history", "dc_innocence_category_history", "il_identity_category_history", "ms_additional_category_history"].includes(fact.source))
     ? { ...question, required: false, contextOnly: true, lifecyclePhase: "guidance_only" as const } : question);
   questions = questions.map(question => ohTraffickingCourtContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
   questions = questions.map(question => mo610105CourtContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
@@ -1134,6 +1136,33 @@ export function arkansasRecordOriginHeldSuccessor(snapshot: ProtectedPacketAutho
     prefilledAnswers: answerRecord(snapshot.prefilledAnswers), packetAnswers: answerRecord(snapshot.packetAnswers), dependencies: snapshot.dependencies,
     capturedAt: "capturedAt" in snapshot ? snapshot.capturedAt : snapshot.verifiedAt });
   return seeded ? preserveUnchangedProtectedFacts(seeded.snapshot, snapshot, new Set()) : null;
+}
+
+/** Source-reproduced unverified predecessor; withdrawing readiness never rewrites its raw answers. */
+export function illinoisProstitutionHeldDraftSuccessor(snapshot: ProtectedPacketAuthoritySnapshot,
+  authoritative: NonNullable<ReturnType<typeof evaluateProtectedPacketFacts>>, status: string): ProtectedPacketDraftSnapshot | null {
+  const profile = getProfileByJurisdiction("IL"), evaluation = authoritative.evaluation;
+  if (status !== "unverified" || snapshot.schemaVersion !== "expungement-ai/protected-packet-draft/v1"
+    || snapshot.resultCode !== "packet_ready_with_caution" || snapshot.paymentAllowed !== true
+    || snapshot.packetType !== "official_pdf_overlay" || snapshot.selectedTrackId !== "il-prostitution-j-vacate"
+    || snapshot.jurisdiction !== "IL" || !ilProstitutionCategoryIsHistory(profile, snapshot.pathwayId, packetSpecificationFor(`IL:${snapshot.pathwayId}`))
+    || snapshot.profileVersion !== profile?.profileVersion || snapshot.profileSourceFingerprint !== profile.source?.sourceCorpusSha256
+    || snapshot.profileAuthorityFingerprint !== "92d1161fb1d9c6234123ea4c222494855e3bd0cb7000c8b4ff76fcf7ee65793e"
+    || snapshot.profileAuthorityFingerprint !== profileAuthorityFingerprint(profile, snapshot.pathwayId)
+    || snapshot.treatmentClassification !== null || !canonicalEqual(snapshot.deferralComponentIds, [])
+    || evaluation.jurisdiction !== "IL" || evaluation.profileVersion !== snapshot.profileVersion
+    || evaluation.pathwayId !== snapshot.pathwayId || evaluation.resultCode !== "needs_review" || evaluation.paymentAllowed
+    || evaluation.packetPlan || authoritative.packetType || authoritative.selectedTrackId !== snapshot.selectedTrackId
+    || [snapshot.screeningAnswers, snapshot.prefilledAnswers, snapshot.packetAnswers].some(map => Object.hasOwn(map, IL_PROSTITUTION_FACT_ID))
+    || evaluation.reasons.length !== 1 || evaluation.reasons[0].code !== "il.prostitution_missing") return null;
+  const plan = packetPlanForPathway(profile, snapshot.pathwayId!);
+  if (!plan || !canonicalEqual(snapshot.packetPlan, plan) || !canonicalEqual(snapshot.requiredInputIds, plan.requiredInputIds)
+    || !canonicalEqual(snapshot.packetFamilyIdentifiers, { mode: plan.mode, sourceFormIds: plan.sourceFormIds })
+    || !canonicalEqual(snapshot.serverFacts, canonicalServerFacts("IL", snapshot.pathwayId))) return null;
+  const seed = protectedPacketDraftSeedFromAuthoritative({ authoritative, screeningAnswers: answerRecord(snapshot.screeningAnswers),
+    prefilledAnswers: answerRecord(snapshot.prefilledAnswers), packetAnswers: answerRecord(snapshot.packetAnswers),
+    dependencies: snapshot.dependencies, capturedAt: (snapshot as ProtectedPacketDraftSnapshot).capturedAt });
+  return seed ? preserveUnchangedProtectedFacts(seed.snapshot, snapshot, new Set()) : null;
 }
 
 /** Exact pre-correction contracts at bd4f9715b. This proves historical held
@@ -2336,7 +2365,7 @@ export function protectedPacketInformationModelFor(
   const vaHeldSuccessor = virginiaVictimHeldDraftSuccessor(snapshot, currentAuthoritative, verification.status);
   const authoritative = vaHeldSuccessor ?? currentAuthoritative;
   const evaluation = authoritative.evaluation;
-  const factualSuccessor = factualPathwayHeldSuccessor(snapshot, authoritative) ?? convictionFallbackHeldSuccessor(snapshot, authoritative) ?? arkansasRecordOriginHeldSuccessor(snapshot, authoritative);
+  const factualSuccessor = illinoisProstitutionHeldDraftSuccessor(snapshot, authoritative, verification.status) ?? factualPathwayHeldSuccessor(snapshot, authoritative) ?? convictionFallbackHeldSuccessor(snapshot, authoritative) ?? arkansasRecordOriginHeldSuccessor(snapshot, authoritative);
   if (factualSuccessor) snapshot = factualSuccessor;
   const contractSuccessor = !canonicalEqual(evaluation.packetPlan ?? null, snapshot.packetPlan)
     ? mnTwoCountyDraftSuccessor(snapshot, authoritative, verification.status) ?? reviewedPacketContractSuccessor(snapshot, evaluation.packetPlan) : null;
@@ -2968,7 +2997,8 @@ export function factualPathwayCorrectionIds(state: string, pathway: string | nul
     ? [...convictionReliefQuestions(state).filter(q => includeInactive || convictionReliefQuestionApplies(profile, answers, q.id)).map(q => q.id),
       "case_outcome", ...(state === "GA" ? ["ga_original_first_offender", "pardon_status"] : [])] : [];
   if (includeInactive && Object.hasOwn(answers, "offense_category")
-    && (nvProgramCategoryIsHistory(profile, pathway, packetSpecificationFor(`${state}:${pathway}`))
+    && (ilProstitutionCategoryIsHistory(profile, pathway, packetSpecificationFor(`${state}:${pathway}`))
+      || nvProgramCategoryIsHistory(profile, pathway, packetSpecificationFor(`${state}:${pathway}`))
       || ctPetitionCategoryIsHistory(profile, pathway, packetSpecificationFor(`${state}:${pathway}`))
       || gaSb288CategoryIsHistory(profile, pathway, packetSpecificationFor(`${state}:${pathway}`))
       || ctInformationCategoryIsHistory(profile, pathway, packetSpecificationFor(`${state}:${pathway}`), answers)
@@ -3051,6 +3081,8 @@ export function factualPathwayCorrectionIds(state: string, pathway: string | nul
   if (state === "ME" && pathway === ME_NONCONVICTION_ROUTE) return [...extra, "case_outcome", "age_at_offense"];
   if (state === "LA" && pathway === LA_AUTOMATION_STATUS_ROUTE) return [...extra, "case_outcome"];
   if (state === "NE" && pathway === "automatic-nonconviction-sealing") return [...extra, "case_outcome", "age_at_offense"];
+  if (illinoisProstitutionContext(profile, pathway)) return [...extra, IL_PROSTITUTION_FACT_ID, "case_outcome",
+    ...(Object.hasOwn(answers, "offense_category") && ilProstitutionCategoryIsHistory(profile, pathway, packetSpecificationFor(`${state}:${pathway}`)) ? ["offense_category"] : [])];
   if (georgiaSb288Context(profile, pathway)) return [...extra, ...GA_SB288_FACT_IDS.filter(id => includeInactive || georgiaSb288QuestionApplies(profile, pathway, answers, id)), "case_outcome"];
   if (state === "GA" && (pathway === GA_PARDON_ROUTE || georgiaPardonRequested(answers, pathway))) {
     return [...extra, ...GA_PARDON_FACT_IDS.filter(id => includeInactive || georgiaPardonQuestionApplies(state, answers, id, pathway)), "pending_cases", "case_outcome"];
@@ -3398,7 +3430,7 @@ function builderQuestionsFor(
 
   const owed = new Set(prepayGateFactIds(collection));
   const optional = new Set(collection.facts.filter(fact => fact.optional === true
-    && !(["nv_program_category_history", "ct_petition_category_history", "ga_sb288_category_history", "ms_additional_category_history", "il_identity_category_history", "dc_innocence_category_history", "ct_information_category_history", "oh_juvenile_information_court_context", "oh_trafficking_court_history", "ak_courtview_record_type_history", "ak_pardon_record_type_history", "ak_juvenile_record_type_history", "ak_agency_sis_record_type_history", "al_four_route_record_type_history", "al_redeemer_category_history", "ar_nonconviction_record_type_history", "ar_felony_record_type_history", "ca_12034a_record_type_history", "ca_automatic_record_type_history", "ca_12034_specific_probation_facts", "wy_1401_inactive_fact_history", "wy_1501_inactive_fact_history"].includes(fact.source) && fact.active === false)).map(fact => fact.factId));
+    && !(["il_prostitution_category_history", "nv_program_category_history", "ct_petition_category_history", "ga_sb288_category_history", "ms_additional_category_history", "il_identity_category_history", "dc_innocence_category_history", "ct_information_category_history", "oh_juvenile_information_court_context", "oh_trafficking_court_history", "ak_courtview_record_type_history", "ak_pardon_record_type_history", "ak_juvenile_record_type_history", "ak_agency_sis_record_type_history", "al_four_route_record_type_history", "al_redeemer_category_history", "ar_nonconviction_record_type_history", "ar_felony_record_type_history", "ca_12034a_record_type_history", "ca_automatic_record_type_history", "ca_12034_specific_probation_facts", "wy_1401_inactive_fact_history", "wy_1501_inactive_fact_history"].includes(fact.source) && fact.active === false)).map(fact => fact.factId));
   const order = new Map<string, number>();
   let position = 0;
   for (const section of collection.groupedParticipantSections) {
@@ -3525,7 +3557,9 @@ function protectedPacketQuestionSurface(
   }
   const correctionIds = routeFactualCorrectionIds({ stateCode: profile.jurisdiction.code, pathwayId, requiredInputIds, screeningAnswers, prefilledAnswers, packetAnswers: savedAnswers, heldFactualCorrectionIds });
   for (const id of [...correctionIds, ...(mdPoliceContext(profile, pathwayId) && packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`) == null ? ["county", "court"] : [])]) {
-    const question = questionById.get(id);
+    const question = questionById.get(id) ?? (id === "offense_category"
+      && ilProstitutionCategoryIsHistory(profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`))
+      ? fallbackPacketQuestion(id) : undefined);
     if (question && !questions.some(q => q.id === id)) questions.push({ ...question, required: false, contextOnly: false });
   }
   const mnOrigin = mnTargetOriginQuestion(profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`));
@@ -3566,7 +3600,7 @@ function protectedPacketQuestionSurface(
     && collection?.facts.some(fact => fact.factId === question.id && fact.source === "ks_municipal_literal_category_context" && fact.optional === true) === true));
   questions = questions.map(question => collection?.facts.some(fact => fact.factId === question.id && fact.source === "oh_juvenile_information_court_context")
     ? { ...question, required: false, contextOnly: true, lifecyclePhase: "guidance_only" as const } : question);
-  questions = questions.map(question => collection?.facts.some(fact => fact.factId === question.id && ["nv_program_category_history", "ct_petition_category_history", "ga_sb288_category_history", "ct_information_category_history", "dc_innocence_category_history", "il_identity_category_history", "ms_additional_category_history"].includes(fact.source))
+  questions = questions.map(question => collection?.facts.some(fact => fact.factId === question.id && ["il_prostitution_category_history", "nv_program_category_history", "ct_petition_category_history", "ga_sb288_category_history", "ct_information_category_history", "dc_innocence_category_history", "il_identity_category_history", "ms_additional_category_history"].includes(fact.source))
     ? { ...question, required: false, contextOnly: true, lifecyclePhase: "guidance_only" as const } : question);
   questions = questions.map(question => ohTraffickingCourtContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
   questions = questions.map(question => mo610105CourtContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
@@ -3937,7 +3971,7 @@ function deriveProtectedPacketDraftSnapshot(
   if (mtDeferredPreparation && !mtPreparationIds) return null;
   const caJuvenileIds = caJuvenilePreparation ? caProp64JuvenilePreparationModelFor(verification)?.caJuvenilePreparationFactIds : undefined;
   if (caJuvenilePreparation && !caJuvenileIds) return null;
-  base = mnTwoCountyDraftSuccessor(base, currentAuthority, verification.status) ?? marylandPoliceHeldDraftSuccessor(base, currentAuthority, verification.status) ?? wyoming1501DraftSuccessor(base,currentAuthority) ?? texasNondisclosureClockDraftSuccessor(base, currentAuthority) ?? texasGuidanceFinancialDraftSuccessor(base, currentAuthority) ?? westVirginiaGuidanceFinancialDraftSuccessor(base, currentAuthority) ?? southDakotaGuidanceFinancialDraftSuccessor(base, currentAuthority) ?? southCarolinaGuidanceFinancialDraftSuccessor(base, currentAuthority) ?? newJerseyMarijuanaStatusFinancialDraftSuccessor(base, currentAuthority) ?? wyoming1401DraftSuccessor(base,currentAuthority) ?? newMexicoGuidanceFinancialDraftSuccessor(base, currentAuthority) ?? montanaRecordFinancialDraftSuccessor(base, currentAuthority) ?? californiaProbationDraftSuccessor(base,currentAuthority) ?? oregonDispositionDraftSuccessor(base, currentAuthority) ?? montanaDeferredDraftSuccessor(base, currentAuthority) ?? missouriMarijuanaDraftSuccessor(base, currentAuthority) ?? missouriClosureDraftSuccessor(base, currentAuthority) ?? maineNonconvictionDraftSuccessor(base, currentAuthority) ?? louisianaAutomationStatusHeldSuccessor(base, currentAuthority) ?? nebraskaAcquittalHeldSuccessor(base, currentAuthority) ?? kansasRegistrationHeldSuccessor(base, currentAuthority) ?? base;
+  base = illinoisProstitutionHeldDraftSuccessor(base, currentAuthority, verification.status) ?? mnTwoCountyDraftSuccessor(base, currentAuthority, verification.status) ?? marylandPoliceHeldDraftSuccessor(base, currentAuthority, verification.status) ?? wyoming1501DraftSuccessor(base,currentAuthority) ?? texasNondisclosureClockDraftSuccessor(base, currentAuthority) ?? texasGuidanceFinancialDraftSuccessor(base, currentAuthority) ?? westVirginiaGuidanceFinancialDraftSuccessor(base, currentAuthority) ?? southDakotaGuidanceFinancialDraftSuccessor(base, currentAuthority) ?? southCarolinaGuidanceFinancialDraftSuccessor(base, currentAuthority) ?? newJerseyMarijuanaStatusFinancialDraftSuccessor(base, currentAuthority) ?? wyoming1401DraftSuccessor(base,currentAuthority) ?? newMexicoGuidanceFinancialDraftSuccessor(base, currentAuthority) ?? montanaRecordFinancialDraftSuccessor(base, currentAuthority) ?? californiaProbationDraftSuccessor(base,currentAuthority) ?? oregonDispositionDraftSuccessor(base, currentAuthority) ?? montanaDeferredDraftSuccessor(base, currentAuthority) ?? missouriMarijuanaDraftSuccessor(base, currentAuthority) ?? missouriClosureDraftSuccessor(base, currentAuthority) ?? maineNonconvictionDraftSuccessor(base, currentAuthority) ?? louisianaAutomationStatusHeldSuccessor(base, currentAuthority) ?? nebraskaAcquittalHeldSuccessor(base, currentAuthority) ?? kansasRegistrationHeldSuccessor(base, currentAuthority) ?? base;
   const factualIds = [...factualPathwayCorrectionIds(base.jurisdiction, base.pathwayId, { ...base.screeningAnswers, ...base.prefilledAnswers, ...base.packetAnswers }, true), ...msExactTimingQuestionIds(base.jurisdiction, base.pathwayId, { ...base.screeningAnswers, ...base.prefilledAnswers, ...base.packetAnswers }, true), ...oregonUnselectedCorrectionIds(base), ...missouriUnselectedCorrectionIds(base), ...maineUnselectedCorrectionIds(base), ...nebraskaUnselectedCorrectionIds(base), ...louisianaUnselectedCorrectionIds(base)];
   if (gaPreparationIds) factualIds.push(...gaPreparationIds);
   if (mtPreparationIds) factualIds.push(...mtPreparationIds);

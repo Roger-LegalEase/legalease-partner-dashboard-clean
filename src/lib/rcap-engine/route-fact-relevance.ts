@@ -1,3 +1,4 @@
+import { IL_PROSTITUTION_ROUTE, IL_PROSTITUTION_FACT_ID } from "@/lib/rcap-engine/illinois-prostitution-facts";
 import { CT_PETITION_ROUTE, CT_PETITION_FACT_IDS } from "@/lib/rcap-engine/connecticut-clean-slate-petition-facts";
 import { GA_SB288_ROUTE, GA_SB288_FACT_IDS } from "@/lib/rcap-engine/georgia-sb288-facts";
 import type { EngineProfile } from "@/lib/rcap-engine/contracts";
@@ -65,7 +66,7 @@ export const ROUTE_ESCALATION_FACT_IDS: Readonly<Record<string, readonly string[
   "NY:conditional-treatment-sealing-under-cpl-160-58": ["ny_16058_treatment_program_completed", "sentence_completion_date"],
   "DC:dc_actual_innocence_expungement_16_803": ["actual_innocence_basis"],
   "DC:dc_motion_seal_felony_conviction_8yr_16_806": ["dc_offense_severity_group"],
-  "IL:felony-prostitution-relief": ["charge", "offense_level"],
+  [`IL:${IL_PROSTITUTION_ROUTE}`]: [IL_PROSTITUTION_FACT_ID, "case_outcome", "charge", "offense_level"],
   "HI:nonconviction-arrest-expungement": ["case_outcome"],
   "HI:first-time-drug-conviction": ["hi_court_order_confirmed"],
   "HI:dui-under-21-conviction": ["hi_court_order_confirmed"],
