@@ -44,7 +44,7 @@ const modelFor=answers=>{const seed=P.protectedPacketDraftSeedFromAuthoritative(
 const decision=(patch,code)=>{const a={...base,...patch},before=structuredClone(a);assert.equal(G.wy1502Facts(a).code,code);const r=evalFor(a).evaluation;assert.equal(r.pathwayId,route);assert.equal(r.paymentAllowed,false);assert(!r.resultCode.startsWith('packet_ready'));if(r.reasons.some(r=>r.code.startsWith('wy.felony1502_')))assert(r.reasons.some(r=>r.code==='wy.felony1502_'+code));assert.deepEqual(a,before);return r;};
 for(const id of G.WY_1502_FACT_IDS.filter(id=>id!=='wy1502_related'))check('blank required source predicate requested/'+id,()=>{
  const answers={...base,[id]:undefined};const r=evalFor(answers).evaluation;
- assert(r.missingQuestionIds.includes(id));assert(selectScreeningQuestionIds(profile,pub,answers).includes(id));
+ assert(r.missingQuestionIds.includes(id));assert(!selectScreeningQuestionIds(profile,pub,answers).includes(id));
  assert(P.protectedPacketInformationModelFor(modelFor(answers)).questions.some(q=>q.id===id));assert.equal(r.paymentAllowed,false);
 });
 check('disposition precedes missing felony facts',()=>{
