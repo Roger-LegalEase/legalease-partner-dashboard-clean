@@ -17,7 +17,7 @@ export async function GET(request: NextRequest) {
   const briefcaseItemId = request.nextUrl.searchParams.get("briefcaseItemId")?.trim();
 
   if (!briefcaseItemId) {
-    return NextResponse.json({ error: "briefcaseItemId is required." }, { status: 400 });
+    return NextResponse.json({ error: "briefcaseItemId is required." }, { status: 400, headers: privateHeaders() });
   }
 
   try {
@@ -32,26 +32,31 @@ export async function GET(request: NextRequest) {
     const binary = typeof body !== "string";
     return new NextResponse(body, {
       headers: {
+        ...privateHeaders(),
         "content-type": binary ? packet.contentType : `${packet.contentType}; charset=utf-8`,
         "content-disposition": `attachment; filename="${packet.fileName.replaceAll('"', "")}"`
       }
     });
   } catch (error) {
     if (error instanceof ConsumerPacketArtifactAuthorityUnavailableError) {
-      return NextResponse.json({ error: "Packet download authority is temporarily unavailable." }, { status: 503 });
+      return NextResponse.json({ error: "Packet download authority is temporarily unavailable." }, { status: 503, headers: privateHeaders() });
     }
     if (error instanceof ConsumerPacketNotFoundError) {
-      return NextResponse.json({ error: "We couldn’t find this case. Return to your Briefcase and try again. Contact support if the problem continues." }, { status: 404 });
+      return NextResponse.json({ error: "We couldn’t find this case. Return to your Briefcase and try again. Contact support if the problem continues." }, { status: 404, headers: privateHeaders() });
     }
     if (error instanceof ConsumerPacketPaymentRequiredError) {
-      return NextResponse.json({ error: "Payment confirmation is required before packet download." }, { status: 402 });
+      return NextResponse.json({ error: "Payment confirmation is required before packet download." }, { status: 402, headers: privateHeaders() });
     }
     if (error instanceof ConsumerPacketNotAllowedError) {
-      return NextResponse.json({ error: "This packet isn’t available to download. Your information is still saved. Return to your Briefcase or contact support." }, { status: 403 });
+      return NextResponse.json({ error: "This packet isn’t available to download. Your information is still saved. Return to your Briefcase or contact support." }, { status: 403, headers: privateHeaders() });
     }
     if (error instanceof ConsumerPacketNotReadyError) {
-      return NextResponse.json({ error: "Your packet is still being prepared. Your information is saved. Return to your Briefcase and try again in a few minutes." }, { status: 409 });
+      return NextResponse.json({ error: "Your packet is still being prepared. Your information is saved. Return to your Briefcase and try again in a few minutes." }, { status: 409, headers: privateHeaders() });
     }
-    throw error;
+    return NextResponse.json({ error: "Packet downloads are not available right now." }, { status: 500, headers: privateHeaders() });
   }
+}
+
+function privateHeaders() {
+  return { "cache-control": "private, no-store, max-age=0", pragma: "no-cache" };
 }
