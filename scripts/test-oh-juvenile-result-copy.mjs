@@ -1,5 +1,6 @@
 // GA14-OH-JUVENILE_SOURCE_SCOPE_AND_CURRENT_BINDING_OPEN / M01059 / Q-da1aeae32132608fb1f4.
 import fs from 'node:fs';import assert from 'node:assert/strict';import {createHash}from'node:crypto';import {register}from'node:module';
+process.env.RCAP_EVALUATOR_TODAY='2026-10-18';
 register('./lib/ts-esm-loader.mjs',import.meta.url);
 const {getProfileByJurisdiction}=await import('../src/lib/rcap-engine/profile-registry.ts');
 const {evaluateAuthoritativeScreeningResult:evaluate}=await import('../src/lib/expungement-ai/authoritative-screening-result.ts');
