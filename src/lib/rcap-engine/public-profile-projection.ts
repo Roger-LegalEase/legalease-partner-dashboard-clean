@@ -1,4 +1,3 @@
-import { CT_PETITION_FACT_IDS, CT_PETITION_QUESTIONS, CT_PETITION_MULTILINE_IDS } from "@/lib/rcap-engine/connecticut-clean-slate-petition-facts";
 import { GA_SB288_FACT_IDS, GA_SB288_QUESTIONS } from "@/lib/rcap-engine/georgia-sb288-facts";
 import { MD_POLICE_IDS, MD_POLICE_QUESTIONS, mdPoliceSourceContract } from "@/lib/rcap-engine/maryland-police-record-facts";
 import { NY_16057_IDS, NY_16057_QUESTIONS, ny16057SourceContract } from "@/lib/rcap-engine/ny-16057-guidance";
@@ -69,7 +68,6 @@ const PREPAY_PHASES = new Set<QuestionLifecyclePhase>([
 ]);
 
 const STATE_SPECIFIC_PREPAY_WILMA_FACT_IDS: Record<string, Set<string>> = {
-  CT: new Set(CT_PETITION_FACT_IDS.filter(id => id !== "last_conviction_date")),
   AR: new Set([AR_RECORD_ORIGIN_ID]),
   DE: new Set(DE_CONVICTION_FACT_IDS),
   KS: new Set(KS_RECORD_SCOPE_FACT_IDS),
@@ -1162,7 +1160,6 @@ function withWilmaFactQuestions(
     ? [...WILMA_FACT_QUESTIONS.filter(question => !DE_CONVICTION_FACT_IDS.includes(question.id)), ...DE_CONVICTION_QUESTIONS]
     : profile.jurisdiction.code === "MS"
     ? [...WILMA_FACT_QUESTIONS, ...MISSISSIPPI_CORRECTION_FACT_QUESTIONS, ...MS_CONDITIONAL_DISCHARGE_QUESTIONS, ...MS_PROGRAM_COMPLETION_QUESTIONS]
-    : profile.jurisdiction.code === "CT" ? [...WILMA_FACT_QUESTIONS, ...CT_PETITION_QUESTIONS]
     : profile.jurisdiction.code === "TX" ? [...WILMA_FACT_QUESTIONS, ...TX_ND_QUESTIONS]
     : profile.jurisdiction.code === "AR" ? [...WILMA_FACT_QUESTIONS, AR_RECORD_ORIGIN_QUESTION]
     : profile.jurisdiction.code === "CA" ? [...WILMA_FACT_QUESTIONS, ...CA_PROP64_FACT_QUESTIONS, ...(caProbationContract ? CA_12034_QUESTIONS : [])]
@@ -1380,12 +1377,6 @@ export function projectPublicProfile(profile: EngineProfile): PublicJurisdiction
   const projected = toPublicJurisdictionProfile(buildProfileDraft(profile));
   if (profile.jurisdiction.code === "GA") projected.questions = projected.questions.map(question =>
     question.id === "ga_sb288_final_citations" ? { ...question, multiline: true } : question);
-  if (profile.jurisdiction.code === "CT") projected.questions = projected.questions.map(question =>
-    CT_PETITION_MULTILINE_IDS.includes(question.id) ? { ...question, multiline: true }
-      : question.id === "last_conviction_date" ? { ...question, lifecyclePhase: "prepay_route_splitter", stage: "pathway_routing",
-        prompt: "What is the date of your most recent judgment of conviction for any crime?",
-        helperText: "Reuse the latest judgment date shown in your criminal history, not just this case's conviction or sentence-completion date. No waiting period is calculated from this answer.",
-        translations: { es: { prompt: "¿Cuál es la fecha de su sentencia de condena más reciente por cualquier delito?", helperText: "Use la fecha más reciente en sus antecedentes, no solo la condena de este caso ni la fecha de cumplimiento de la pena. Esta respuesta no calcula ningún plazo." } } } : question);
   const context = { state: profile.jurisdiction.code };
   projected.questions = projected.questions.map((question) => virginiaVictimContextQuestion(profile, reviewedScreeningQuestion(question, context)));
   const completion = projected.postPaymentPacketCompletion;

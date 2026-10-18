@@ -1,4 +1,3 @@
-import { CT_PETITION_FACT_IDS } from "@/lib/rcap-engine/connecticut-clean-slate-petition-facts";
 import { GA_SB288_FACT_IDS } from "@/lib/rcap-engine/georgia-sb288-facts";
 import { MD_POLICE_IDS } from "@/lib/rcap-engine/maryland-police-record-facts";
 import { CA_12034_FACT_IDS } from "@/lib/rcap-engine/california-1203-4-facts";
@@ -122,8 +121,6 @@ export function sanitizeAnswersForQuestionIds(
     || Boolean(profile?.jurisdiction.code === "NV" && NEVADA_176A_ROUTE_SAFETY_FACT_IDS.includes(questionId)
       && profile.questions.some(question => question.id === questionId))
     || Boolean(profile?.jurisdiction.code === "AR" && [AR_RECORD_ORIGIN_ID, "residency_or_location", "court", "county_or_filing_location"].includes(questionId))
-    || Boolean(profile?.jurisdiction.code === "CT" && CT_PETITION_FACT_IDS.includes(questionId)
-      && profile.questions.some(question => question.id === questionId))
     || Boolean(profile?.jurisdiction.code === "GA" && [...GA_SB288_FACT_IDS, ...GA_FIRST_OFFENDER_FACT_IDS, ...GA_PARDON_FACT_IDS].some(id => id === questionId)
       && profile.questions.some(question => question.id === questionId))
     || Boolean(profile?.jurisdiction.code === "NY" && [...NY_16059_FACT_IDS, ...NY_16059_LEGACY_IDS, "ny_16059_later_conviction_entered", "ny_16059_undisposed_arrest", "sentencing_date", "release_date"].includes(questionId)
@@ -158,6 +155,6 @@ export function sanitizeResumedAnswersForQuestionIds(
     answers,
     deriveScreens(profile).map((question) => question.id),
     selectedQuestionIds,
-    ["CT", "AR", "CA", "NV", "GA", "IL", "KS", "MS", "DE", "NY", "NE", "LA", "ME", "MO", "MT", "VA", "MD"].includes(profile.jurisdiction.code) ? profile : undefined
+    ["AR", "CA", "NV", "GA", "IL", "KS", "MS", "DE", "NY", "NE", "LA", "ME", "MO", "MT", "VA", "MD"].includes(profile.jurisdiction.code) ? profile : undefined
   );
 }

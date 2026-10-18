@@ -1,4 +1,3 @@
-import { ctPetitionContext } from "@/lib/rcap-engine/connecticut-clean-slate-petition-facts";
 import { georgiaSb288Context } from "@/lib/rcap-engine/georgia-sb288-facts";
 import { contactRepresentationHash } from "@/lib/expungement-ai/contact-representation";
 import { MD_JUVENILE_COUNTY_SOURCE_PURPOSE, type MdJuvenileCountySourcePurpose } from "@/lib/expungement-ai/md-juvenile-county-source-purpose";
@@ -552,14 +551,6 @@ export function gaSb288CategoryIsHistory(profile: EngineProfile | undefined, pat
     && contactRepresentationHash(specification) === "7a568c20fa4099ee03bceb3cafd31b306e534d0a3b306c37afb1bb72a65c8ec3";
 }
 
-// GA-12 Q-d33e933319baaaaf750b: category history only for the reviewed CT consumer.
-export function ctPetitionCategoryIsHistory(profile: EngineProfile | undefined, pathwayId: string | null | undefined, specification: RegisteredSpecification | null | undefined): boolean {
-  return ctPetitionContext(profile, pathwayId)
-    && specification?.routeKey === `CT:${pathwayId}`
-    && contactRepresentationHash(profile) === "7a0dadd32497d4be04bfad21e8ee8cf3b735168a84a3cd5baf70dcd7039f348c"
-    && contactRepresentationHash(specification) === "63847c550055ffc14860252999bba536044b66e3de120f4db638815da928a7f8";
-}
-
 const DERIVATIONS: Readonly<Record<string, Derivation>> = {
   // The last four digits are a projection of the number itself, never a
   // separate thing to ask for.
@@ -800,7 +791,6 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
   const mnStageCandidate = mnStageContext?.candidate ?? null;
 
   const ksMunicipalCategoryContext = ksMunicipalCategoryIsContext(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
-  const ctPetitionCategoryHistory = ctPetitionCategoryIsHistory(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
   const gaSb288CategoryHistory = gaSb288CategoryIsHistory(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
   const msCategoryHistory = msAdditionalCategoryIsHistory(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
   const ilCategoryHistory = ilIdentityCategoryIsHistory(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
@@ -846,16 +836,14 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
       continue;
     }
 
-    if ((ctCategoryHistory || dcCategoryHistory || ilCategoryHistory || msCategoryHistory || gaSb288CategoryHistory || ctPetitionCategoryHistory) && factId === "offense_category" && !overrideClass
+    if ((ctCategoryHistory || dcCategoryHistory || ilCategoryHistory || msCategoryHistory || gaSb288CategoryHistory) && factId === "offense_category" && !overrideClass
       && !needsHuman.has(factId) && !input.recordOwnQuestionIds?.has(factId)) {
       const retained = needsSavedAnswerClarification || [input.screeningAnswers, input.prefilledAnswers, input.savedAnswers, input.profileFacts]
         .some(answers => answers && Object.hasOwn(answers, factId));
       facts.push({ factId, collection: "conditional", phase: retained ? "render" : "known",
         group: retained ? group : null, active: retained, optional: true,
-        source: ctPetitionCategoryHistory ? "ct_petition_category_history" : gaSb288CategoryHistory ? "ga_sb288_category_history" : msCategoryHistory ? "ms_additional_category_history" : ilCategoryHistory ? "il_identity_category_history" : dcCategoryHistory ? "dc_innocence_category_history" : "ct_information_category_history",
-        reason: ctPetitionCategoryHistory
-          ? "Final per-count citations, conduct dates and recorded historical class/maximum are separate review inputs. Earlier categories remain optional literal history and establish no eligibility, exclusions or waiting period."
-          : gaSb288CategoryHistory
+        source: gaSb288CategoryHistory ? "ga_sb288_category_history" : msCategoryHistory ? "ms_additional_category_history" : ilCategoryHistory ? "il_identity_category_history" : dcCategoryHistory ? "dc_innocence_category_history" : "ct_information_category_history",
+        reason: gaSb288CategoryHistory
           ? "The final conviction citations, count and specific arrest-age and four-year facts are separate review inputs. Earlier broad categories remain optional literal history and establish no statutory classification."
           : msCategoryHistory
           ? "These source-bound lower-court branches use the target court, conviction list and last-conviction facts. Earlier category answers remain optional literal history; they establish neither the court branch, good conduct, timing nor a discretionary finding."
