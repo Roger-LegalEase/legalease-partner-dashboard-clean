@@ -7,7 +7,7 @@ register('./lib/ts-esm-loader.mjs', import.meta.url);
 const mutation=process.argv.find(arg=>arg.startsWith('--mutation='))?.slice(11);
 const mutations={
  unknown_marker:['dcFelonyRecordIsHistory(profile, snapshot.pathwayId, packetSpecificationFor(`${snapshot.jurisdiction}:${snapshot.pathwayId}`))','false'],
- context:['contactRepresentationHash(profile) === "bcc070d365fb97ad2cd7a5296ca4c8ba516dcf37708fb2b5c852c0d5d1566830"','true'],
+ context:['pathwayId === "dc_motion_seal_felony_conviction_8yr_16_806"\n        && specification == null && contactRepresentationHash(profile) === "bcc070d365fb97ad2cd7a5296ca4c8ba516dcf37708fb2b5c852c0d5d1566830"','pathwayId === "dc_motion_seal_felony_conviction_8yr_16_806" && specification == null'],
  ownership:['dcFelonyRecordHistory && !overrideClass && !needsHuman.has(factId)','dcFelonyRecordHistory'],
  collection:['if (factId === "record_type" && dcFelonyRecordHistory','if (factId === "record_type" && false'],
  loss:['const shapesPreserved = preserveProtectedLegacyShapes(seeded, legacy.inspection, replacedLegacyIds);','const shapesPreserved = preserveProtectedLegacyShapes(seeded, legacy.inspection, replacedLegacyIds); delete shapesPreserved.packetAnswers.record_type;'],
