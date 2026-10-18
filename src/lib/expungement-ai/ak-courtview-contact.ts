@@ -109,8 +109,8 @@ const QUESTIONS: ProfileQuestion[] = [
     "Use el número de contacto real de la persona solicitante, incluida cualquier extensión. Si no tiene teléfono o desconoce el número, conserve esa respuesta y consulte las instrucciones del tribunal. No use el número del tribunal ni de otra parte.", true),
   textQuestion("ak_tf810_contact_email", "What email address, if any, does the requester choose to provide on TF-810?",
     "Email is optional. TF-810 says: “By providing an email address, you agree that the court and other parties can send court documents to you at this email address.” Leave it blank if you do not choose this delivery method. An account email or earlier contact answer is not selected automatically.",
-    "¿Qué dirección de correo electrónico, si alguna, decide proporcionar la persona solicitante en TF-810?",
-    "El correo electrónico es opcional. Al proporcionar una dirección, acepta que el tribunal y las demás partes le envíen documentos judiciales a esa dirección. Déjela en blanco si no elige este método de envío. No se selecciona automáticamente el correo de una cuenta ni una respuesta de contacto anterior.", false)
+    "¿Qué dirección de correo electrónico, si la hay, decide proporcionar la persona solicitante en TF-810?",
+    "El correo electrónico es opcional. El formulario TF-810 dice (traducción): «Al proporcionar una dirección de correo electrónico, usted acepta que el tribunal y las demás partes puedan enviarle documentos judiciales a esta dirección de correo electrónico». Déjela en blanco si no elige este método de envío. No se selecciona automáticamente el correo de una cuenta ni una respuesta de contacto anterior.", false)
 ];
 export function akCourtviewContactQuestions(state: string, pathwayId: string | null, answers: Record<string, unknown>, includeInactive = false,
   copies: AkCourtviewSalesAnswers = { packetAnswers: answers }): ProfileQuestion[] {
