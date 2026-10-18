@@ -244,14 +244,19 @@ export function evaluationHash(evaluation: ScreeningEvaluation, answers: Record<
 
 function evaluateAgainstProfile(profile: EngineProfile, request: ScreeningEvaluationRequest, msSource?: MsFirstOffenderSourceContext): ScreeningEvaluation {
   const evaluated = evaluateProfileRules(profile, request, msSource);
-  const nonconviction = ["arrest_no_charge", "dismissed", "acquitted"].includes(normalizeCaseOutcome(request.answers.case_outcome));
+  const nonconviction = ["GA", "CT"].includes(profile.jurisdiction.code)
+    && ["arrest_no_charge", "dismissed", "acquitted"].includes(normalizeCaseOutcome(request.answers.case_outcome))
+    && projectPublicProfile(profile).questions.some(question => question.id === "case_outcome"
+      && questionAnswerState(question, request.answers.case_outcome) === "known_valid");
   // An answered review fact may remain uncertain or adverse without becoming another intake request.
-  const reviewInputIds = (ids: string[]) => {
+  const reviewInputIds = (ids: string[], missing: boolean) => {
     const questions = projectPublicProfile(profile).questions;
     return ids.filter(id => {
       const question = questions.find(q => q.id === id);
       if (!question) return true;
       const state = questionAnswerState(question, request.answers[id]);
+      // The source facts reject some wire values that the generic number/Yes-No controls accept.
+      if (missing && state === "known_valid" && (question.type === "number_or_range" || question.type === "single_choice")) return true;
       return state === "unanswered" || state === "invalid";
     });
   };
@@ -277,7 +282,7 @@ function evaluateAgainstProfile(profile: EngineProfile, request: ScreeningEvalua
   if (ctPetitionContext(profile, evaluated.pathwayId) && evaluated.reasons.some(r => r.code === "ct.waiting_rule_not_executed")) {
     if (nonconviction) return evaluated;
     const facts = ctPetitionFacts(request.answers);
-    const outstanding = reviewInputIds(facts.ids);
+    const outstanding = reviewInputIds(facts.ids, facts.code === "missing");
     const text = CT_PETITION_COPY[facts.code][0];
     return { ...evaluated, reasons: [reason("CT", `petition_${facts.code}`, text, CT_PETITION_SOURCE), ...evaluated.reasons],
       missingQuestionIds: [...new Set([...evaluated.missingQuestionIds, ...outstanding])], nextSteps: [text], paymentAllowed: false };
@@ -285,7 +290,7 @@ function evaluateAgainstProfile(profile: EngineProfile, request: ScreeningEvalua
   if (georgiaSb288Context(profile, evaluated.pathwayId) && evaluated.reasons.some(r => r.code === "ga.waiting_rule_not_executed")) {
     if (nonconviction) return evaluated;
     const facts = georgiaSb288Facts(request.answers);
-    const outstanding = reviewInputIds(facts.ids);
+    const outstanding = reviewInputIds(facts.ids, facts.code === "missing");
     const text = GA_SB288_COPY[facts.code][0];
     return { ...evaluated, resultCode: facts.status === "missing" && outstanding.length ? "needs_more_info" : "needs_review",
       reasons: [reason("GA", `sb288_${facts.code}`, text, GA_SB288_SOURCE), ...evaluated.reasons],

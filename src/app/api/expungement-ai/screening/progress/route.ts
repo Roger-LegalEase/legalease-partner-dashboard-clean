@@ -1,5 +1,6 @@
 import { SD_SIS_FACT_IDS, SD_SIS_ROUTE, southDakotaSisContext } from "@/lib/rcap-engine/south-dakota-sis-facts";
 import { WY_1502_FACT_IDS, WY_1502_ROUTE, wy1502Context } from "@/lib/rcap-engine/wyoming-1502-facts";
+import { CT_PETITION_FACT_IDS, CT_PETITION_ROUTE, ctPetitionContext } from "@/lib/rcap-engine/connecticut-clean-slate-petition-facts";
 import { MS_EXACT_TIMING_FACT_IDS } from "@/lib/rcap-engine/mississippi-exact-timing";
 import { convictionReliefQuestions } from "@/lib/rcap-engine/conviction-relief-request";
 import { NextRequest, NextResponse } from "next/server";
@@ -61,6 +62,9 @@ export async function PUT(request: NextRequest) {
     // A changed service request can hide a previously answered record fact.
     // Preserve only the identical stored value for this state's exact controls;
     // this never permits inserting or changing a currently hidden answer.
+    const retainedCtRecordIds = new Set(ctPetitionContext(profile, CT_PETITION_ROUTE)
+      ? CT_PETITION_FACT_IDS.filter(id => Object.hasOwn(draft.row.answers ?? {}, id)
+        && isDeepStrictEqual(answers[id], draft.row.answers[id])) : []);
     const retainedReliefIds = new Set(convictionReliefQuestions(profile.jurisdiction.code)
       .filter(question => Object.hasOwn(draft.row.answers ?? {}, question.id)
         && isDeepStrictEqual(answers[question.id], draft.row.answers[question.id])).map(question => question.id));
@@ -68,7 +72,7 @@ export async function PUT(request: NextRequest) {
       : wy1502Context(profile, WY_1502_ROUTE) ? WY_1502_FACT_IDS : []).filter(id => Object.hasOwn(draft.row.answers ?? {}, id)
         && isDeepStrictEqual(answers[id], draft.row.answers[id])));
     if (typeof body.currentQuestionId !== "string" || !ids.includes(body.currentQuestionId)
-      || Object.keys(answers).some(id => !ids.includes(id) && !retainedCompletionIds.has(id) && !retainedTimingIds.has(id) && !retainedReliefIds.has(id) && !retainedRecordIds.has(id)))
+      || Object.keys(answers).some(id => !ids.includes(id) && !retainedCompletionIds.has(id) && !retainedTimingIds.has(id) && !retainedReliefIds.has(id) && !retainedRecordIds.has(id) && !retainedCtRecordIds.has(id)))
       return NextResponse.json({error: "The saved answers do not match these screening questions."}, {status: 400, headers: privateHeaders});
     // An exact retry is a read, including a lost-response retry. A different
     // tab's update cannot silently overwrite the saved draft.

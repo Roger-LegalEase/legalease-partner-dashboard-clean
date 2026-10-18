@@ -1,0 +1,58 @@
+{
+  "schemaVersion": "rcap-question-contract-ct-prepay-record-facts-source-succession/v1",
+  "recordId": "CT-PREPAY-RECORD-FACTS-SOURCE-SUCCESSION-20261018",
+  "kind": "technical_source_only",
+  "engineeringCommit": "8d72ff3406f99ccc92692aa9853e0d1a4d83000b",
+  "previousNamedSource": {
+    "path": "data/rcap-grade-a/participant-data-rights/question-contract-source-succession-ga-guide-spanish-20261018-v1.json",
+    "sha256": "2faf1c2c271731f89fe4d8d61308458149d5005f617743ebf60857e726e82a86",
+    "currentChangedSourceCount": 21,
+    "currentUnchangedSourceCount": 177
+  },
+  "historicalContinuity": {
+    "path": "data/rcap-grade-a/participant-data-rights/question-contract-output-continuity-20261016-v21.json",
+    "sha256": "9f5962bf1dfc1cf8522e25d16e04852eb50cdacbf97bc8a56f132eec1f63f65e"
+  },
+  "historicalOutput": {
+    "path": "data/rcap-grade-a/participant-data-rights/question-contract-output-reproduction-20261016-v21.json",
+    "sha256": "3dbbb0d844f4de0195472162af7a3f4da44ab69eeaf6fffd064dabdf741478d7"
+  },
+  "sourceCount": 198,
+  "currentChangedSourceCount": 21,
+  "currentUnchangedSourceCount": 177,
+  "transitions": [
+    {
+      "file": "src/lib/rcap-engine/public-profile-projection.ts",
+      "beforeSha256": "07a33c3f7bf4f04aa86787d21fa5074937dd2a167de3ee6c57197714204ba70f",
+      "afterSha256": "fda0ff5ce4651a5bf7ec057cc48c59eb2a43f8f44964efd03d3c2efef0ee31eb"
+    },
+    {
+      "file": "src/lib/rcap-engine/screening-question-selection.ts",
+      "beforeSha256": "39d1798c59a92f56ec71c4665e9b21c8feca01222eb82579db5b1ae19ac0775e",
+      "afterSha256": "4e7089755efd85a30508fe65eeece5de545fc2a52ed877710141d3432418afb8"
+    }
+  ],
+  "historicalArtifactScope": {
+    "routeCount": 6,
+    "artifactCount": 18,
+    "reexecuted": false,
+    "changed": false
+  },
+  "engineeringBounds": {
+    "testPaths": [
+      "scripts/test-ga12-ct-petition-facts.mjs",
+      "scripts/test-ga12-ct-petition-review-counterexamples.mjs",
+      "scripts/verify-rcap-prepay-question-gate.mjs",
+      "scripts/test-question-contract-output-continuity.mjs"
+    ],
+    "scope": "CT petition (Q-d33e933319baaaaf750b) exact record facts move from free screening to the protected packet-information stage (prepay-question gate); selection drops the CT last_conviction_date exception and projection marks post-payment CT multiline rows. No copy, eligibility or payment change."
+  },
+  "createsOwnerApproval": false,
+  "changesHistoricalOutputEvidence": false,
+  "establishesCurrentOutputReproduction": false,
+  "establishesProtectedVerification": false,
+  "establishesProviderOrPublicationProof": false,
+  "commercialAuthorityGranted": false,
+  "productionAuthorized": false,
+  "countingNote": "Both files were already transitioned by the GA SB288/CT petition record; this hop re-transitions them, so the distinct changed-source count stays 21 (unchanged 177)."
+}

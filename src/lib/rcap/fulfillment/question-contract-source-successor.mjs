@@ -419,6 +419,13 @@ function caNoPhoneContactChain(readBytes) {
 export const GA_SB288_CT_PETITION_SOURCE_PATH = 'data/rcap-grade-a/participant-data-rights/question-contract-source-succession-ga-sb288-ct-petition-20261018-v1.json';
 export const GA_SB288_CT_PETITION_SOURCE_SHA256 = 'e18478ad392f8577b87cc6f8209f027404062b7dbf593a8f1eda4c297b671b1f';
 export function assertGaSb288CtPetitionSourceSuccession(readBytes) {
+  const { record } = gaSb288CtPetitionChain(readBytes);
+  // Retain the immutable GA SB288/CT 20/178 scope; the separately pinned GA guide
+  // Spanish hop checks the complete current twenty-one-source chain without rewriting it.
+  assertGaGuideSpanishSourceSuccession(readBytes);
+  return record;
+}
+function gaSb288CtPetitionChain(readBytes) {
   const bytes=readBytes(GA_SB288_CT_PETITION_SOURCE_PATH);
   insist(sha(bytes)===GA_SB288_CT_PETITION_SOURCE_SHA256,'GA SB288/CT petition source succession record bytes changed');
   const record=JSON.parse(bytes.toString('utf8'));
@@ -441,9 +448,67 @@ export function assertGaSb288CtPetitionSourceSuccession(readBytes) {
     insist(row.beforeSha256===(current.get(row.file)??v21[row.file]??null),'GA SB288/CT petition disconnected source hop');current.set(row.file,row.afterSha256);
   }
   insist(current.size===20,'GA SB288/CT petition current twenty-source inventory');
+  return { record, current };
+}
+
+// Exact GA guide Spanish-text hop (owner-designated lead Spanish review).
+export const GA_GUIDE_SPANISH_SOURCE_PATH = 'data/rcap-grade-a/participant-data-rights/question-contract-source-succession-ga-guide-spanish-20261018-v1.json';
+export const GA_GUIDE_SPANISH_SOURCE_SHA256 = '2faf1c2c271731f89fe4d8d61308458149d5005f617743ebf60857e726e82a86';
+export function assertGaGuideSpanishSourceSuccession(readBytes) {
+  const { record } = gaGuideSpanishChain(readBytes);
+  // Retain the immutable GA guide Spanish 21/177 scope; the separately pinned CT prepay
+  // record-facts hop checks the complete current twenty-one-source chain without rewriting it.
+  assertCtPrepayRecordFactsSourceSuccession(readBytes);
+  return record;
+}
+function gaGuideSpanishChain(readBytes) {
+  const bytes=readBytes(GA_GUIDE_SPANISH_SOURCE_PATH);
+  insist(sha(bytes)===GA_GUIDE_SPANISH_SOURCE_SHA256,'GA guide Spanish source succession record bytes changed');
+  const record=JSON.parse(bytes.toString('utf8'));
+  const { record: gaCt, current }=gaSb288CtPetitionChain(readBytes);
+  insist(record.schemaVersion==='rcap-question-contract-ga-guide-spanish-source-succession/v1'
+    && record.recordId==='GA-GUIDE-SPANISH-SOURCE-SUCCESSION-20261018'
+    && record.kind==='technical_source_only' && record.engineeringCommit==='2499d09fe9b9775ad0175945e4385f0ae85acd7c'
+    && equal(record.previousNamedSource,{path:GA_SB288_CT_PETITION_SOURCE_PATH,sha256:GA_SB288_CT_PETITION_SOURCE_SHA256,currentChangedSourceCount:20,currentUnchangedSourceCount:178})
+    && equal(record.historicalContinuity,gaCt.historicalContinuity) && equal(record.historicalOutput,gaCt.historicalOutput)
+    && record.sourceCount===198 && record.currentChangedSourceCount===21 && record.currentUnchangedSourceCount===177
+    && equal(record.historicalArtifactScope,{routeCount:6,artifactCount:18,reexecuted:false,changed:false})
+    && ['createsOwnerApproval','changesHistoricalOutputEvidence','establishesCurrentOutputReproduction','establishesProtectedVerification','establishesProviderOrPublicationProof','commercialAuthorityGranted','productionAuthorized'].every(key=>record[key]===false),'GA guide Spanish source succession scope');
+  insist(Array.isArray(record.transitions) && equal(record.transitions.map(row=>row.file),["data/record-clearing/supplemental-guides/GA-restriction-and-sealing-of-a-pardoned-felony.v1.json", "data/record-clearing/supplemental-guides/GA-sb-288-misdemeanor-conviction-restriction-and-sealing.v1.json"]),'GA guide Spanish source succession inventory');
+  insist(current.size===20,'GA guide Spanish prior twenty-source inventory');
+  const v21={'data/record-clearing/supplemental-guides/GA-sb-288-misdemeanor-conviction-restriction-and-sealing.v1.json':'48662d73341a68d429cbab7071d411ac5cbd509dcafa059d8d210413e1f363ff'};
+  for(const row of record.transitions){
+    insist(row.beforeSha256===(current.get(row.file)??v21[row.file]??null),'GA guide Spanish disconnected source hop');current.set(row.file,row.afterSha256);
+  }
+  insist(current.size===21,'GA guide Spanish current twenty-one-source inventory');
+  return { record, current };
+}
+
+// Exact CT petition prepay record-facts hop (protected-intake move for the prepay gate).
+export const CT_PREPAY_RECORD_FACTS_SOURCE_PATH = 'data/rcap-grade-a/participant-data-rights/question-contract-source-succession-ct-prepay-record-facts-20261018-v1.json';
+export const CT_PREPAY_RECORD_FACTS_SOURCE_SHA256 = '5e4184ad7ac4a887fd4543acddbdac657e7af26890a9ffd80f843ba007da3e11';
+export function assertCtPrepayRecordFactsSourceSuccession(readBytes) {
+  const bytes=readBytes(CT_PREPAY_RECORD_FACTS_SOURCE_PATH);
+  insist(sha(bytes)===CT_PREPAY_RECORD_FACTS_SOURCE_SHA256,'CT prepay record-facts source succession record bytes changed');
+  const record=JSON.parse(bytes.toString('utf8'));
+  const { record: gaGuide, current }=gaGuideSpanishChain(readBytes);
+  insist(record.schemaVersion==='rcap-question-contract-ct-prepay-record-facts-source-succession/v1'
+    && record.recordId==='CT-PREPAY-RECORD-FACTS-SOURCE-SUCCESSION-20261018'
+    && record.kind==='technical_source_only' && record.engineeringCommit==='8d72ff3406f99ccc92692aa9853e0d1a4d83000b'
+    && equal(record.previousNamedSource,{path:GA_GUIDE_SPANISH_SOURCE_PATH,sha256:GA_GUIDE_SPANISH_SOURCE_SHA256,currentChangedSourceCount:21,currentUnchangedSourceCount:177})
+    && equal(record.historicalContinuity,gaGuide.historicalContinuity) && equal(record.historicalOutput,gaGuide.historicalOutput)
+    && record.sourceCount===198 && record.currentChangedSourceCount===21 && record.currentUnchangedSourceCount===177
+    && equal(record.historicalArtifactScope,{routeCount:6,artifactCount:18,reexecuted:false,changed:false})
+    && ['createsOwnerApproval','changesHistoricalOutputEvidence','establishesCurrentOutputReproduction','establishesProtectedVerification','establishesProviderOrPublicationProof','commercialAuthorityGranted','productionAuthorized'].every(key=>record[key]===false),'CT prepay record-facts source succession scope');
+  insist(Array.isArray(record.transitions) && equal(record.transitions.map(row=>row.file),["src/lib/rcap-engine/public-profile-projection.ts", "src/lib/rcap-engine/screening-question-selection.ts"]),'CT prepay record-facts source succession inventory');
+  insist(current.size===21,'CT prepay record-facts prior twenty-one-source inventory');
+  for(const row of record.transitions){
+    insist(row.beforeSha256===(current.get(row.file)??null),'CT prepay record-facts disconnected source hop');current.set(row.file,row.afterSha256);
+  }
+  insist(current.size===21,'CT prepay record-facts current twenty-one-source inventory');
   // Always fresh, including after success or a previous failed read. No accessor
   // recursion: prior records are read as exact pinned raw bytes.
-  for(const [file,digest]of current)insist(sha(readBytes(file))===digest,`stale output input: ${file}; exact GA SB288/CT petition source succession`);
+  for(const [file,digest]of current)insist(sha(readBytes(file))===digest,`stale output input: ${file}; exact CT prepay record-facts source succession`);
   return record;
 }
 
@@ -460,18 +525,22 @@ function assertCurrentOutputSourceInput(file, expectedSha256, readBytes, label) 
   const gates = assertGaVaSpecSuccessorGatesSourceSuccession(readBytes).transitions.find(input => input.file === file);
   const caNoPhone = assertCaNoPhoneContactSourceSuccession(readBytes).transitions.find(input => input.file === file);
   const gaCt = assertGaSb288CtPetitionSourceSuccession(readBytes).transitions.find(input => input.file === file);
+  const gaGuide = assertGaGuideSpanishSourceSuccession(readBytes).transitions.find(input => input.file === file);
+  const ctPrepay = assertCtPrepayRecordFactsSourceSuccession(readBytes).transitions.find(input => input.file === file);
   const caDigest = ca ? ca.afterSha256 : previousDigest;
   const nyDigest = ny ? ny.afterSha256 : caDigest;
   const gaDigest = ga ? ga.afterSha256 : nyDigest;
   const contactDigest = gaContact ? gaContact.afterSha256 : gaDigest;
   const gatesDigest = gates ? gates.afterSha256 : contactDigest;
   const caNoPhoneDigest = caNoPhone ? caNoPhone.afterSha256 : gatesDigest;
-  const currentDigest = gaCt ? gaCt.afterSha256 : caNoPhone ? caNoPhone.afterSha256 : gates ? gates.afterSha256 : gaContact ? gaContact.afterSha256 : ga ? ga.afterSha256 : ny ? ny.afterSha256 : ca?.afterSha256 ?? row?.afterSha256;
-  insist((row ? row.beforeSha256 === expectedSha256 : ca != null || ny != null || ga != null || gaContact != null || gates != null || caNoPhone != null || gaCt != null)
+  const gaCtDigest = gaCt ? gaCt.afterSha256 : caNoPhoneDigest;
+  const gaGuideDigest = gaGuide ? gaGuide.afterSha256 : gaCtDigest;
+  const currentDigest = ctPrepay ? ctPrepay.afterSha256 : gaGuide ? gaGuide.afterSha256 : gaCt ? gaCt.afterSha256 : caNoPhone ? caNoPhone.afterSha256 : gates ? gates.afterSha256 : gaContact ? gaContact.afterSha256 : ga ? ga.afterSha256 : ny ? ny.afterSha256 : ca?.afterSha256 ?? row?.afterSha256;
+  insist((row ? row.beforeSha256 === expectedSha256 : ca != null || ny != null || ga != null || gaContact != null || gates != null || caNoPhone != null || gaCt != null || gaGuide != null || ctPrepay != null)
     && (!ca || ca.beforeSha256 === previousDigest) && (!ny || ny.beforeSha256 === caDigest)
     && (!ga || ga.beforeSha256 === nyDigest) && (!gaContact || gaContact.beforeSha256 === gaDigest)
     && (!gates || gates.beforeSha256 === contactDigest) && (!caNoPhone || caNoPhone.beforeSha256 === gatesDigest)
-    && (!gaCt || gaCt.beforeSha256 === caNoPhoneDigest)
+    && (!gaCt || gaCt.beforeSha256 === caNoPhoneDigest) && (!gaGuide || gaGuide.beforeSha256 === gaCtDigest) && (!ctPrepay || ctPrepay.beforeSha256 === gaGuideDigest)
     && currentDigest === actual, `${label}: ${file}`);
 }
 

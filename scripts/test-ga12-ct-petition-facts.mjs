@@ -10,8 +10,11 @@ const mutations={
  precedence:['evaluator.ts','ctPetitionContext(profile, evaluated.pathwayId) && evaluated.reasons.some(r => r.code === "ct.waiting_rule_not_executed")','ctPetitionContext(profile, selectPathway(profile, request.answers)?.id)'],
  translation:['reviewed-result-copy.ts','...Object.values(CT_PETITION_COPY)','...[]'],
  resume_scope:['screens.ts','profile.jurisdiction.code !== "CT" || nextQuestionIds.some','true || nextQuestionIds.some'],
- date_screen:['screens.ts','profile.jurisdiction.code === "CT" && questionIds.includes("ct_petition_count")','false'],
- date_selection:['screening-question-selection.ts','ctPetitionDateQuestion(question, ctPetitionContext(profile, selectedPathway?.id))','question'],
+ date_selection:['connecticut-clean-slate-petition-facts.ts','return { ...question, lifecyclePhase: "postpay_packet_field", stage: "packet_information",','return { ...question, lifecyclePhase: "prepay_route_splitter", stage: "pathway_routing",'],
+ packet_stage:['connecticut-clean-slate-petition-facts.ts','type === "single_choice" ? "prepay_route_splitter" : "postpay_packet_field"','"prepay_route_splitter"'],
+ public_missing:['api/expungement-ai/evaluate/route.ts','evaluation.missingQuestionIds.filter(id => !packetFactIds.has(id))','evaluation.missingQuestionIds'],
+ retained_progress:['api/expungement-ai/screening/progress/route.ts','!retainedCtRecordIds.has(id)','true'],
+ hidden_progress:['api/expungement-ai/screening/progress/route.ts','isDeepStrictEqual(answers[id], draft.row.answers[id])','true'],
  date_editor:['packet-information.ts','questions = questions.map(question => ctPetitionDateQuestion(question, ctPetitionContext(profile, pathwayId)));','questions = questions.map(question => question);'],
  corrections_missing:['packet-information.ts','if (ctPetitionContext(profile, pathway))','if (false)'],
  corrections_leak:['packet-information.ts','if (ctPetitionContext(profile, pathway))','if (true)'],
@@ -22,7 +25,7 @@ const mutations={
  consumer:['evaluator.ts','ctPetitionContext(profile, evaluated.pathwayId)','false'],
  history:['packet-collection.ts','const ctPetitionCategoryHistory = ctPetitionCategoryIsHistory(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);','const ctPetitionCategoryHistory = false;'],
  resume:['screens.ts','profile?.jurisdiction.code === "CT" && CT_PETITION_FACT_IDS.includes(questionId)','false'],
- multiline:['public-profile-projection.ts','CT_PETITION_MULTILINE_IDS.includes(question.id) ? { ...question, multiline: true }','CT_PETITION_MULTILINE_IDS.includes(question.id) ? question']
+ multiline:['public-profile-projection.ts','CT_PETITION_MULTILINE_IDS.includes(questions[index].id)','false']
 };
 if(mutation){assert(mutations[mutation]);register('data:text/javascript,'+encodeURIComponent(`let m;export function initialize(x){m=x}export async function load(u,c,n){const r=await n(u,c);if(u.endsWith('/'+m[0])){if(!r.source.includes(m[1]))throw Error('mutation target absent');return {...r,source:r.source.replaceAll(m[1],m[2])}}return r}`),{data:mutations[mutation]});}
 const {createElement}=await import('react');
@@ -35,7 +38,7 @@ const {evaluateAuthoritativeScreeningResult:evaluate}=await import('../src/lib/e
 const {getProfileByJurisdiction}=await import('../src/lib/rcap-engine/profile-registry.ts');
 const {projectPublicProfile}=await import('../src/lib/rcap-engine/public-profile-projection.ts');
 const {selectScreeningQuestionIds}=await import('../src/lib/rcap-engine/screening-question-selection.ts');
-const {sanitizeResumedAnswersForQuestionIds,screensFromQuestionIds}=await import('../src/components/expungement-ai/screening/screens.ts');
+const {sanitizeResumedAnswersForQuestionIds,screensFromQuestionIds,deriveScreens}=await import('../src/components/expungement-ai/screening/screens.ts');
 const {parseJurisdictionProfile}=await import('../src/lib/expungement-ai/frontend/schemas.ts');
 const {ctPetitionCategoryIsHistory:history,resolvePacketCollection}=await import('../src/lib/expungement-ai/packet-collection.ts');
 const {packetSpecificationFor}=await import('../src/lib/rcap/grade-a/packet-specification.ts');
@@ -104,13 +107,22 @@ for(const [sibling,resultCode,reasonCode] of siblingCases) check('sibling pre-pe
   for(const includeInactive of [false,true]) assert(!P.factualPathwayCorrectionIds('CT',sibling,base,includeInactive).includes(id));
  }
 });
-check('petition date prompt and completion retention have a positive route control',()=>{
- const ids=selectScreeningQuestionIds(profile,pub,base);assert(ids.includes('last_conviction_date'));
- const q=screensFromQuestionIds(parsedProfile.data,ids).find(q=>q.id==='last_conviction_date');assert(q);assert(q.prompt.includes('for any crime'));assert(q.translations.es.prompt.includes('cualquier delito'));
- assert.equal(P.protectedPacketInformationModelFor(modelFor(base)).questions.find(q=>q.id==='last_conviction_date')?.prompt,q.prompt);
- assert(P.protectedPacketInformationModelFor(modelFor({...base,last_conviction_date:undefined})).questions.some(q=>q.id==='last_conviction_date'));
- const resumed=sanitizeResumedAnswersForQuestionIds(parsedProfile.data,base,['ownership_scope','ct_petition_count']);
- assert.equal(resumed.financial_obligations,base.financial_obligations);assert.equal(resumed.sentence_completion_date,base.sentence_completion_date);
+const packetFactIds=['ct_petition_count','ct_petition_citations','ct_petition_offense_dates','ct_petition_historical_classes','ct_petition_historical_maxima','last_conviction_date'];
+check('exact record facts are protected intake, with preserved date meaning and raw resume',()=>{
+ const ids=selectScreeningQuestionIds(profile,pub,base);
+ for(const id of packetFactIds){
+  assert(!ids.includes(id));assert(!deriveScreens(parsedProfile.data).some(q=>q.id===id));
+  assert(!screensFromQuestionIds(parsedProfile.data,[...ids,id]).some(q=>q.id===id));
+  assert(pub.postPaymentPacketCompletion.requiredPacketCompletionFields.some(q=>q.id===id));
+ }
+ const q=P.protectedPacketInformationModelFor(modelFor(base)).questions.find(q=>q.id==='last_conviction_date');
+ assert(q);assert(q.prompt.includes('for any crime'));assert(q.translations.es.prompt.includes('cualquier delito'));
+ assert.equal(q.lifecyclePhase,'postpay_packet_field');assert.equal(q.stage,'packet_information');
+ const blank={...base};for(const id of packetFactIds)delete blank[id];
+ const protectedModel=P.protectedPacketInformationModelFor(modelFor(blank));assert(protectedModel);
+ for(const id of packetFactIds)assert(protectedModel.questions.some(q=>q.id===id));
+ const resumed=sanitizeResumedAnswersForQuestionIds(parsedProfile.data,base,ids);
+ for(const id of [...packetFactIds,'financial_obligations','sentence_completion_date'])assert.deepEqual(resumed[id],base[id]);
 });
 check('original witness separate from synthetic record probes',()=>{
  // The pinned dismissed witness must settle; only conviction probes enter record review.
@@ -174,12 +186,12 @@ check('multiple and repeated final counts consume every row',()=>{
 for(const q of C.CT_PETITION_QUESTIONS)check('public/protected correction/'+q.id,()=>{
  assert(pub.questions.some(x=>x.id===q.id));assert(q.translations.es.prompt);
  const a={...base,ct_petition_citations:'14-227a',ct_petition_repeat_14227a:'No'};
- assert(selectScreeningQuestionIds(profile,pub,a).includes(q.id));assert(P.factualPathwayCorrectionIds('CT',route,a).includes(q.id));
+ assert.equal(selectScreeningQuestionIds(profile,pub,a).includes(q.id),q.type==='single_choice');assert(P.factualPathwayCorrectionIds('CT',route,a).includes(q.id));
  assert(!P.factualPathwayCorrectionIds('CT','automatic-clean-slate-erasure-for-eligible-post-2000-convictions',a).includes(q.id));
 });
 check('repeat control is conditional in screening and protected editor',()=>{
  const ids=selectScreeningQuestionIds(profile,pub,base);assert(!ids.includes('ct_petition_repeat_14227a'));
- assert(ids.includes('last_conviction_date'));
+ assert(!ids.includes('last_conviction_date'));
  const protectedIds=P.protectedPacketInformationModelFor(modelFor(base)).questions.map(q=>q.id);
  assert(!protectedIds.includes('ct_petition_repeat_14227a'));
 });
@@ -299,5 +311,50 @@ for(const id of records.keys()) {
  }
  authenticated=true;verified=true;owner='TEST-ct-owner';
 }
+const publicAPI=await import('../src/app/api/expungement-ai/evaluate/route.ts');
+for(const patch of [{},Object.fromEntries(packetFactIds.map(id=>[id,undefined])),{ct_petition_count:'0',last_conviction_date:{unexpected:true}},{ct_petition_historical_classes:'unknown'}]){
+ const answers={...base,...patch},before=structuredClone(answers);
+ const response=await publicAPI.POST(new Request('http://isolated.invalid/api/expungement-ai/evaluate',{method:'POST',body:JSON.stringify({jurisdiction:'CT',profileVersion:profile.profileVersion,matterId:'TEST-ct-prepay',answers})}));
+ const result=await response.json();
+ check('public result excludes protected correction links '+JSON.stringify(patch),()=>{
+  assert.equal(response.status,200);assert.equal(result.resultCode,'needs_review');assert.equal(result.paymentAllowed,false);
+  assert(!result.missingQuestionIds.some(id=>packetFactIds.includes(id)));assert.deepEqual(answers,before);
+  const internal=evalFor(answers).evaluation;assert.deepEqual(result.reasons,internal.reasons);
+  const record=modelFor(answers);assert(P.protectedPacketInformationModelFor(record));
+  assert.deepEqual(P.packetInformationPatch({protectedVerification:record,answers:{}}).protectedTransition.nextVerification,record);
+ });
+}
+const broad={...base,ct_petition_supervision_complete:undefined};
+const broadResponse=await publicAPI.POST(new Request('http://isolated.invalid/api/expungement-ai/evaluate',{method:'POST',body:JSON.stringify({jurisdiction:'CT',profileVersion:profile.profileVersion,matterId:'TEST-ct-prepay',answers:broad})}));
+check('public result still requests a missing screening predicate',()=>assert((evalFor(broad).evaluation.missingQuestionIds).includes('ct_petition_supervision_complete')));
+assert((await broadResponse.json()).missingQuestionIds.includes('ct_petition_supervision_complete'));
+// Existing anonymous drafts may retain exact record facts, but cannot insert or edit hidden values.
+const progressUrl=pathToFileURL(`${process.cwd()}/src/app/api/expungement-ai/screening/progress/route.ts`).href;
+let progressSource=fs.readFileSync(new URL(progressUrl),'utf8');
+const draftImport='import { RCAP_DRAFT_COOKIE, authorizedRcapDraft, sealRcapDraft, rcapDraftCookieOptions } from "@/lib/expungement-ai/rcap-screening-draft";';
+assert(progressSource.includes(draftImport));
+progressSource=progressSource.replace(draftImport,`const RCAP_DRAFT_COOKIE='test-draft';
+ const authorizedRcapDraft=async()=> (globalThis as any).__ctProgressDraft;
+ const sealRcapDraft=()=> 'isolated';const rcapDraftCookieOptions={httpOnly:true};`);
+// Apply any relevant in-memory fault before transpilation; no probe writes to this tree.
+if(mutation&&mutations[mutation][0]==='api/expungement-ai/screening/progress/route.ts'){
+ const [,from,to]=mutations[mutation];assert(progressSource.includes(from));progressSource=progressSource.replaceAll(from,to);
+}
+register('data:text/javascript,'+encodeURIComponent('let d;export function initialize(x){d=x}export async function load(u,c,n){return u===d.url?{format:"module",source:d.source,shortCircuit:true}:n(u,c)}'),{data:{url:progressUrl,source:ts.transpileModule(progressSource,{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022}}).outputText}});
+const progressAPI=await import(progressUrl);
+const {NextRequest}=await import('next/server');
+const selected=selectScreeningQuestionIds(profile,pub,base);
+const saved=Object.fromEntries([...selected,...packetFactIds].filter(id=>Object.hasOwn(base,id)).map(id=>[id,base[id]]));
+const draft={row:{session_id:'TEST-ct-progress',jurisdiction:'CT',answers:saved,current_question_id:'ownership_scope',updated_at:'2026-10-18T00:00:00Z'},db:{from:()=>{throw Error('Unexpected draft write');}}};
+globalThis.__ctProgressDraft=draft;
+for(const [name,answers,status]of [['unchanged retained raw',saved,200],['hidden count edit',{...saved,ct_petition_count:'2'},400],['hidden date edit',{...saved,last_conviction_date:'2002-01-01'},400]]){
+ const before=structuredClone(draft.row);
+ const response=await progressAPI.PUT(new NextRequest('http://isolated.invalid/api/expungement-ai/screening/progress',{method:'PUT',headers:{host:'isolated.invalid',origin:'http://isolated.invalid','content-type':'application/json'},body:JSON.stringify({sessionId:'TEST-ct-progress',profileVersion:profile.profileVersion,currentQuestionId:'ownership_scope',answers})}));
+ check('progress '+name,()=>{assert.equal(response.status,status);assert.deepEqual(draft.row,before);});
+}
+delete draft.row.answers.ct_petition_count;
+const injected=await progressAPI.PUT(new NextRequest('http://isolated.invalid/api/expungement-ai/screening/progress',{method:'PUT',headers:{host:'isolated.invalid',origin:'http://isolated.invalid','content-type':'application/json'},body:JSON.stringify({sessionId:'TEST-ct-progress',profileVersion:profile.profileVersion,currentQuestionId:'ownership_scope',answers:{...draft.row.answers,ct_petition_count:'1'}})}));
+check('progress hidden insertion refused',()=>assert.equal(injected.status,400));
+delete globalThis.__ctProgressDraft;
 delete globalThis.__ctPetitionTransport;
-console.log(JSON.stringify({status:'PASS',checks,isolatedHttpCases:18,originalId:'Q-d33e933319baaaaf750b',route:key,liveCalls:0,limits:['Review-only; no historical law classification, date routing or eligibility inference.','Exact authority/timing holds retained; no output regeneration.','Supplemental EN/ES draft pending qualified review.']}));
+console.log(JSON.stringify({status:'PASS',checks,isolatedHttpCases:27,originalId:'Q-d33e933319baaaaf750b',route:key,liveCalls:0,limits:['Review-only; no historical law classification, date routing or eligibility inference.','Exact authority/timing holds retained; no output regeneration.','Supplemental EN/ES draft pending qualified review.']}));

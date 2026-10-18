@@ -1391,8 +1391,11 @@ export function projectPublicProfile(profile: EngineProfile): PublicJurisdiction
       if (questions[index].id === "wy1502_citations") questions[index] = { ...questions[index], multiline: true };
     }
   }
-  if (profile.jurisdiction.code === "CT") projected.questions = projected.questions.map(question =>
-    CT_PETITION_MULTILINE_IDS.includes(question.id) ? { ...question, multiline: true } : question);
+  if (profile.jurisdiction.code === "CT") for (const questions of [projected.questions, ...Object.values(projected.postPaymentPacketCompletion ?? {})]) {
+    for (let index = 0; index < questions.length; index++) {
+      if (CT_PETITION_MULTILINE_IDS.includes(questions[index].id)) questions[index] = { ...questions[index], multiline: true };
+    }
+  }
   const context = { state: profile.jurisdiction.code };
   projected.questions = projected.questions.map((question) => virginiaVictimContextQuestion(profile, reviewedScreeningQuestion(question, context)));
   const completion = projected.postPaymentPacketCompletion;
