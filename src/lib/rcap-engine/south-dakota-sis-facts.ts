@@ -11,8 +11,8 @@ export function southDakotaSisContext(profile: EngineProfile | undefined, pathwa
     && profile.pathways.some(p => p.id === SD_SIS_ROUTE);
 }
 function question(id: string, prompt: string, helperText: string, esPrompt: string, esHelper: string): PublicQuestion {
-  return { id, prompt, helperText, stage: "pathway_routing", type: "single_choice", required: false,
-    contextOnly: false, doesNotSelectPathway: true, lifecyclePhase: "prepay_route_splitter", options: ["Yes", "No", "I am not sure"],
+  return { id, prompt, helperText, stage: "packet_information", type: "single_choice", required: false,
+    contextOnly: false, doesNotSelectPathway: true, lifecyclePhase: "postpay_packet_field", options: ["Yes", "No", "I am not sure"],
     optionDisplay: { Yes: { label: "Yes", translations: { es: { label: "Sí" } } }, No: { label: "No", translations: { es: { label: "No" } } }, "I am not sure": { label: "I am not sure", translations: { es: { label: "No estoy seguro" } } } },
     translations: { es: { prompt: esPrompt, helperText: esHelper } } };
 }

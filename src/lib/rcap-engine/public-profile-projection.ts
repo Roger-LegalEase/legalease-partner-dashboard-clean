@@ -1386,8 +1386,11 @@ export function projectPublicProfile(profile: EngineProfile): PublicJurisdiction
   const projected = toPublicJurisdictionProfile(buildProfileDraft(profile));
   if (profile.jurisdiction.code === "GA") projected.questions = projected.questions.map(question =>
     question.id === "ga_sb288_final_citations" ? { ...question, multiline: true } : question);
-  if (profile.jurisdiction.code === "WY") projected.questions = projected.questions.map(question =>
-    question.id === "wy1502_citations" ? { ...question, multiline: true } : question);
+  if (profile.jurisdiction.code === "WY") for (const questions of [projected.questions, ...Object.values(projected.postPaymentPacketCompletion ?? {})]) {
+    for (let index = 0; index < questions.length; index++) {
+      if (questions[index].id === "wy1502_citations") questions[index] = { ...questions[index], multiline: true };
+    }
+  }
   if (profile.jurisdiction.code === "CT") projected.questions = projected.questions.map(question =>
     CT_PETITION_MULTILINE_IDS.includes(question.id) ? { ...question, multiline: true } : question);
   const context = { state: profile.jurisdiction.code };

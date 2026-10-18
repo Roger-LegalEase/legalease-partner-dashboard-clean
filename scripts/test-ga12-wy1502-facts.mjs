@@ -59,11 +59,12 @@ for(const [patch,code]of [[{wy1502_completed_deferral:'Yes'},'deferral'],[{case_
 for(const id of G.WY_1502_FACT_IDS)for(const value of [undefined,'I am not sure',true,['Yes'],{value:'Yes',unknown:true}])check('no inferred fact/'+id+'/'+JSON.stringify(value),()=>{const a={...base,wy1502_multiple:'Yes',wy1502_related:'Yes',[id]:value};const d=G.wy1502Facts(a);assert.equal(d.code,'missing');assert(d.ids.includes(id));});
 check('completed deferral remains an explicit stop even without other facts',()=>{assert.equal(G.wy1502Facts({wy1502_completed_deferral:'Yes'}).code,'deferral');const r=decision({wy1502_completed_deferral:'Yes'},'deferral');assert.equal(r.reasons[0].code,'wy.felony1502_deferral');assert(r.reasons[0].text.includes('not an expungement packet'));});
 check('multi-felony relationship conditional; hidden raw answer survives resume',()=>{
- assert(!selectScreeningQuestionIds(profile,pub,base).includes('wy1502_related'));assert(selectScreeningQuestionIds(profile,pub,{...base,wy1502_multiple:'Yes'}).includes('wy1502_related'));
+ assert(!selectScreeningQuestionIds(profile,pub,base).includes('wy1502_related'));assert(!selectScreeningQuestionIds(profile,pub,{...base,wy1502_multiple:'Yes'}).includes('wy1502_related'));
+ assert(!P.factualPathwayCorrectionIds('WY',route,base).includes('wy1502_related'));assert(P.factualPathwayCorrectionIds('WY',route,{...base,wy1502_multiple:'Yes'}).includes('wy1502_related'));
  const a={...base,wy1502_related:'No'};assert.equal(sanitizeResumedAnswersForQuestionIds(parsed.data,a,['ownership_scope']).wy1502_related,'No');assert.equal(G.wy1502Facts(a).code,'record_review');
 });
-for(const q of G.WY_1502_QUESTIONS)check('public and protected fact/'+q.id,()=>{
- const a={...base,wy1502_multiple:'Yes'};assert(selectScreeningQuestionIds(profile,pub,a).includes(q.id));assert(P.factualPathwayCorrectionIds('WY',route,a).includes(q.id));
+for(const q of G.WY_1502_QUESTIONS)check('protected record fact/'+q.id,()=>{
+ const a={...base,wy1502_multiple:'Yes'};assert(!selectScreeningQuestionIds(profile,pub,a).includes(q.id));assert.equal(q.stage,'packet_information');assert.equal(q.lifecyclePhase,'postpay_packet_field');assert(P.factualPathwayCorrectionIds('WY',route,a).includes(q.id));
  const m=P.protectedPacketInformationModelFor(modelFor(a));assert(m.questions.some(x=>x.id===q.id));assert(q.translations.es.prompt);
  const value=q.type==='single_choice'?'No':{value:'verbatim raw',unknown:false};assert.deepEqual(sanitizeResumedAnswersForQuestionIds(parsed.data,{...a,[q.id]:value},['ownership_scope'])[q.id],value);
  if(q.id==='wy1502_citations')assert(m.questions.find(x=>x.id===q.id).multiline);

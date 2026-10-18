@@ -11,8 +11,8 @@ export function wy1502Context(profile: EngineProfile | undefined, pathway: strin
     && profile.pathways.some(p => p.id === WY_1502_ROUTE);
 }
 function question(id: string, prompt: string, helperText: string, esPrompt: string, esHelper: string, type = "single_choice"): PublicQuestion {
-  return { id, prompt, helperText, type, stage: "pathway_routing", required: false, contextOnly: false,
-    doesNotSelectPathway: true, lifecyclePhase: "prepay_route_splitter",
+  return { id, prompt, helperText, type, stage: "packet_information", required: false, contextOnly: false,
+    doesNotSelectPathway: true, lifecyclePhase: "postpay_packet_field",
     options: type === "single_choice" ? ["Yes", "No", "I am not sure"] : null,
     ...(type === "single_choice" ? { optionDisplay: {
       Yes: { label: "Yes", translations: { es: { label: "Sí" } } }, No: { label: "No", translations: { es: { label: "No" } } },

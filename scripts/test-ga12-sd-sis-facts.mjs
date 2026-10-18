@@ -77,12 +77,13 @@ for(const [patch,code]of [[{sd_sis_granted:'No'},'order_review'],[{sd_sis_discha
 for(const id of G.SD_SIS_FACT_IDS)for(const value of [undefined,'I am not sure',true,['Yes'],{value:'Yes',unknown:true}])check('no inferred fact/'+id+'/'+JSON.stringify(value),()=>{const a={...base,sd_sis_teaching_licence:'Yes',sd_sis_specified_charge:'No',[id]:value};const d=G.southDakotaSisFacts(a);assert.equal(d.code,'missing');assert(d.ids.includes(id));});
 check('teacher charge is conditional and retains hidden saved raw',()=>{
  assert(!selectScreeningQuestionIds(profile,pub,base).includes('sd_sis_specified_charge'));
- assert(selectScreeningQuestionIds(profile,pub,{...base,sd_sis_teaching_licence:'Yes'}).includes('sd_sis_specified_charge'));
+ assert(!selectScreeningQuestionIds(profile,pub,{...base,sd_sis_teaching_licence:'Yes'}).includes('sd_sis_specified_charge'));
+ assert(!P.factualPathwayCorrectionIds('SD',route,base).includes('sd_sis_specified_charge'));assert(P.factualPathwayCorrectionIds('SD',route,{...base,sd_sis_teaching_licence:'Yes'}).includes('sd_sis_specified_charge'));
  const a={...base,sd_sis_specified_charge:'Yes'};assert.equal(sanitizeResumedAnswersForQuestionIds(parsed.data,a,['ownership_scope']).sd_sis_specified_charge,'Yes');
  assert.equal(G.southDakotaSisFacts(a).code,'record_review');
 });
-for(const q of G.SD_SIS_QUESTIONS)check('public and protected fact/'+q.id,()=>{
- const a={...base,sd_sis_teaching_licence:'Yes'};assert(selectScreeningQuestionIds(profile,pub,a).includes(q.id));assert(P.factualPathwayCorrectionIds('SD',route,a).includes(q.id));
+for(const q of G.SD_SIS_QUESTIONS)check('protected record fact/'+q.id,()=>{
+ const a={...base,sd_sis_teaching_licence:'Yes'};assert(!selectScreeningQuestionIds(profile,pub,a).includes(q.id));assert.equal(q.stage,'packet_information');assert.equal(q.lifecyclePhase,'postpay_packet_field');assert(P.factualPathwayCorrectionIds('SD',route,a).includes(q.id));
  assert(P.protectedPacketInformationModelFor(modelFor(a)).questions.some(x=>x.id===q.id));assert(q.translations.es.prompt);
  assert.deepEqual(sanitizeResumedAnswersForQuestionIds(parsed.data,{...a,[q.id]:'No'},['ownership_scope'])[q.id],'No');
  for(const sibling of profile.pathways.filter(p=>p.id!==route))assert(!G.southDakotaSisQuestionApplies(profile,sibling.id,a,q.id));
