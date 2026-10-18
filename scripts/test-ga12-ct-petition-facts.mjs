@@ -7,10 +7,17 @@ import {register} from 'node:module';
 register('./lib/ts-esm-loader.mjs',import.meta.url);
 const mutation=process.argv.find(a=>a.startsWith('--mutation='))?.slice(11);
 const mutations={
+ precedence:['evaluator.ts','ctPetitionContext(profile, evaluated.pathwayId) && evaluated.reasons.some(r => r.code === "ct.waiting_rule_not_executed")','ctPetitionContext(profile, selectPathway(profile, request.answers)?.id)'],
+ translation:['reviewed-result-copy.ts','...Object.values(CT_PETITION_COPY)','...[]'],
+ resume_scope:['screens.ts','profile.jurisdiction.code !== "CT" || nextQuestionIds.some','true || nextQuestionIds.some'],
+ date_scope:['connecticut-clean-slate-petition-facts.ts','if (profile?.jurisdiction.code === "CT" && id === "last_conviction_date")','if (false)'],
+ corrections_missing:['packet-information.ts','if (ctPetitionContext(profile, pathway))','if (false)'],
+ corrections_leak:['packet-information.ts','if (ctPetitionContext(profile, pathway))','if (true)'],
+
  count:['connecticut-clean-slate-petition-facts.ts','lines(a[id]).length !== Number(count)','false'],
  date:['connecticut-clean-slate-petition-facts.ts','lines(a.ct_petition_offense_dates).some(d => !date(d))','false'],
  repeat:['connecticut-clean-slate-petition-facts.ts','known(a.ct_petition_repeat_14227a) === "Yes"','false'],
- consumer:['evaluator.ts','ctPetitionContext(profile, preselectedPathway?.id)','false'],
+ consumer:['evaluator.ts','ctPetitionContext(profile, evaluated.pathwayId)','false'],
  history:['packet-collection.ts','const ctPetitionCategoryHistory = ctPetitionCategoryIsHistory(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);','const ctPetitionCategoryHistory = false;'],
  resume:['screens.ts','profile?.jurisdiction.code === "CT" && CT_PETITION_FACT_IDS.includes(questionId)','false'],
  multiline:['public-profile-projection.ts','CT_PETITION_MULTILINE_IDS.includes(question.id) ? { ...question, multiline: true }','CT_PETITION_MULTILINE_IDS.includes(question.id) ? question']
@@ -48,8 +55,60 @@ const modelFor=answers=>{
 const decision=(patch,code)=>{
  const a={...base,...patch},before=structuredClone(a);assert.equal(C.ctPetitionFacts(a).code,code);assert.deepEqual(a,before);
  const r=evalFor(a).evaluation;assert.equal(r.pathwayId,route);assert.equal(r.reasons[0].code,'ct.petition_'+code);assert(r.reasons.some(x=>x.code==='ct.waiting_rule_not_executed'));assert.equal(r.paymentAllowed,false);assert.equal(r.resultCode,'needs_review');
- assert.deepEqual(r.nextSteps,[C.CT_PETITION_COPY[code]]);
+ assert.deepEqual(r.nextSteps,[C.CT_PETITION_COPY[code][0]]);
 };
+// Outcomes captured from immutable pre-petition evaluator 65d2f1712; S1 evidence includes full reasons.
+for(const [patch,resultCode,reasonCode] of [
+ [{state_exclusion_categories:['Sex offense or registration']},'likely_not_eligible','ct.state_exclusion_selected'],
+ [{state_exclusion_categories:['Firearm or weapons']},'likely_not_eligible','ct.state_exclusion_selected'],
+ [{state_exclusion_categories:['Other named excluded offense']},'likely_not_eligible','ct.state_exclusion_selected'],
+ [{sentence_completion_date:'No'},'not_yet','ct.timing_or_completion_blocker']
+]) check('pre-petition adverse outcome and reason equality/'+JSON.stringify(patch),()=>{
+ for(const extra of [{},{ct_petition_supervision_complete:'I am not sure'}]) {
+  const r=evalFor({...base,...extra,...patch}).evaluation;
+  assert.equal(r.resultCode,resultCode);assert.deepEqual(r.reasons.map(r=>r.code),[reasonCode]);assert.equal(r.paymentAllowed,false);
+ }
+});
+check('original waiting source reference retained',()=>{
+ for(const a of [witness.answers,base]) assert.equal(evalFor(a).evaluation.reasons.find(r=>r.code==='ct.waiting_rule_not_executed').sourceRef,
+  'source:overview; section:75-102; section:48-74; section:163-202; section:239-249; section:323-333; corpus-unit:123; corpus-unit:24');
+});
+const {reviewedResultText}=await import('../src/lib/expungement-ai/reviewed-result-copy.ts');
+const {resolveRuntimeText}=await import('../src/lib/expungement-ai/localization.ts');
+const {packetMatterSummaryCopy}=await import('../src/lib/expungement-ai/packet-display-copy.ts');
+for(const [code,[en,es]] of Object.entries(C.CT_PETITION_COPY))check('result display EN/ES/'+code,()=>{
+ assert(es&&es!==en);assert.deepEqual(reviewedResultText(en),{en,es});
+ assert.equal(resolveRuntimeText('es',en),es);assert.equal(resolveRuntimeText('en',en),en);
+ assert.deepEqual(packetMatterSummaryCopy({authorityStatus:'available',summary:en}),{en,es});
+ assert.deepEqual(packetMatterSummaryCopy({authorityStatus:'unavailable',summary:en}),{en});
+});
+const siblingCases=[
+ ['absolute-pardon-resulting-in-erasure','guidance_only','ct.guidance_only_no_user_filed_court_petition'],
+ ['petition-for-erasure-of-cannabis-conviction-records-under-54-142v','needs_review','ct.selected_pathway_rule_not_matched']
+];
+for(const [sibling,resultCode,reasonCode] of siblingCases) check('sibling pre-petition screening/editor/resume equality/'+sibling,()=>{
+ const w=JSON.parse(fs.readFileSync('data/rcap-ledger/public-witness-fixtures.json')).fixtures.find(f=>f.pathwayKey==='CT:'+sibling);
+ const answers={...w.answers,last_conviction_date:'2001-01-02'};
+ const ids=selectScreeningQuestionIds(profile,pub,answers);
+ assert.deepEqual(ids,['ownership_scope','jurisdiction_scope','case_outcome','offense_level','possible_pathway_context','pardon_status','sentence_completion_date','financial_obligations','resolved_timing_bucket','state_exclusion_categories']);
+ const r=evalFor(answers).evaluation;assert.equal(r.resultCode,resultCode);assert.deepEqual(r.reasons.map(r=>r.code),[reasonCode]);
+ assert(!P.protectedPacketInformationModelFor(modelFor(answers)).questions.some(q=>q.id==='last_conviction_date'));
+ assert.deepEqual(sanitizeResumedAnswersForQuestionIds(parsedProfile.data,answers,['ownership_scope']),{
+  new_convictions_during_waiting_period:'No',ownership_scope:'Yes',pending_cases:'No',record_documents:'Yes',special_preconditions_confirmed:'Yes',last_conviction_date:'2001-01-02'
+ });
+ const positive=P.factualPathwayCorrectionIds('CT',route,base);assert(positive.includes('ct_petition_count'));assert(positive.includes('last_conviction_date'));
+ for(const id of C.CT_PETITION_FACT_IDS){
+  assert(P.factualPathwayCorrectionIds('CT',route,base,true).includes(id));
+  for(const includeInactive of [false,true]) assert(!P.factualPathwayCorrectionIds('CT',sibling,base,includeInactive).includes(id));
+ }
+});
+check('petition date prompt and completion retention have a positive route control',()=>{
+ const ids=selectScreeningQuestionIds(profile,pub,base);assert(ids.includes('last_conviction_date'));
+ const q=pub.questions.find(q=>q.id==='last_conviction_date');assert(q.prompt.includes('for any crime'));assert(q.translations.es.prompt.includes('cualquier delito'));
+ assert(P.protectedPacketInformationModelFor(modelFor({...base,last_conviction_date:undefined})).questions.some(q=>q.id==='last_conviction_date'));
+ const resumed=sanitizeResumedAnswersForQuestionIds(parsedProfile.data,base,['ownership_scope','ct_petition_count']);
+ assert.equal(resumed.financial_obligations,base.financial_obligations);assert.equal(resumed.sentence_completion_date,base.sentence_completion_date);
+});
 check('original witness separate from synthetic record probes',()=>{
  const before=structuredClone(witness);assert.equal(evalFor(witness.answers).evaluation.reasons[0].code,'ct.petition_missing');assert.deepEqual(witness,before);
 });
@@ -58,7 +117,7 @@ for(const [patch,code] of [[{ownership_scope:'No'},'ct.ownership_scope_hard_stop
  const r=evalFor({...base,...patch}).evaluation;assert.equal(r.resultCode,'hard_stop');assert.equal(r.reasons[0].code,code);assert.equal(r.paymentAllowed,false);assert.equal(r.packetPlan,undefined);
 });
 check('unknown ownership cannot select a packet plan',()=>{
- const r=evalFor({...base,ownership_scope:undefined}).evaluation;assert.equal(r.resultCode,'needs_review');assert(r.missingQuestionIds.includes('ownership_scope'));assert.equal(r.pathwayId,undefined);assert.equal(r.packetPlan,undefined);assert.equal(r.paymentAllowed,false);
+ const r=evalFor({...base,ownership_scope:undefined}).evaluation;assert.equal(r.resultCode,'needs_more_info');assert.deepEqual(r.reasons.map(r=>r.code),['ct.missing_required_facts']);assert(r.missingQuestionIds.includes('ownership_scope'));assert.equal(r.pathwayId,undefined);assert.equal(r.packetPlan,undefined);assert.equal(r.paymentAllowed,false);
 });
 check('numeric count preserves meaning',()=>decision({ct_petition_count:1},'record_review'));
 check('count mismatch needs review',()=>decision({ct_petition_count:2},'count_review'));
@@ -114,10 +173,10 @@ for(const q of C.CT_PETITION_QUESTIONS)check('public/protected correction/'+q.id
  assert(selectScreeningQuestionIds(profile,pub,a).includes(q.id));assert(P.factualPathwayCorrectionIds('CT',route,a).includes(q.id));
  assert(!P.factualPathwayCorrectionIds('CT','automatic-clean-slate-erasure-for-eligible-post-2000-convictions',a).includes(q.id));
 });
-check('conditional repeat control and old legal-conclusion count are not asked',()=>{
- const ids=selectScreeningQuestionIds(profile,pub,base);assert(!ids.includes('ct_petition_repeat_14227a'));assert(!ids.includes('eligible_conviction_count'));assert(!ids.includes('eligible_conviction_class'));
+check('repeat control is conditional in screening and protected editor',()=>{
+ const ids=selectScreeningQuestionIds(profile,pub,base);assert(!ids.includes('ct_petition_repeat_14227a'));
  assert(ids.includes('last_conviction_date'));
- const protectedIds=P.protectedPacketInformationModelFor(modelFor(base)).questions.map(q=>q.id);assert(!protectedIds.includes('eligible_conviction_count'));assert(!protectedIds.includes('eligible_conviction_class'));
+ const protectedIds=P.protectedPacketInformationModelFor(modelFor(base)).questions.map(q=>q.id);
  assert(!protectedIds.includes('ct_petition_repeat_14227a'));
 });
 check('source/category guard fails closed',()=>{

@@ -105,7 +105,8 @@ export function sanitizeAnswersForQuestionIds(
     || Boolean(profile && convictionReliefQuestions(profile.jurisdiction.code).some(q => q.id === questionId))
     // A corrected completion answer may disappear from the correction plan;
     // it remains a fact of this case and must survive that transition.
-    || Boolean(profile?.questions.some(question => question.id === questionId && isCompletionStatusQuestion(question)))
+    || Boolean(profile?.questions.some(question => question.id === questionId && isCompletionStatusQuestion(question))
+      && (profile.jurisdiction.code !== "CT" || nextQuestionIds.some(id => CT_PETITION_FACT_IDS.includes(id))))
     // The exact VA server projection retires compulsory victim disclosure.
     // Keep every prior raw answer when that screen leaves the plan.
     || Boolean(profile?.jurisdiction.code === "VA" && questionId === "trafficking_status"
