@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { unstable_rethrow } from "next/navigation";
 import { requireConsumerBriefcaseSession } from "@/lib/expungement-ai/auth";
 import {
   ConsumerPacketArtifactAuthorityUnavailableError,
@@ -13,14 +14,14 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 export async function GET(request: NextRequest) {
-  const auth = await requireConsumerBriefcaseSession();
-  const briefcaseItemId = request.nextUrl.searchParams.get("briefcaseItemId")?.trim();
-
-  if (!briefcaseItemId) {
-    return NextResponse.json({ error: "briefcaseItemId is required." }, { status: 400, headers: privateHeaders() });
-  }
-
   try {
+    const auth = await requireConsumerBriefcaseSession();
+    const briefcaseItemId = request.nextUrl.searchParams.get("briefcaseItemId")?.trim();
+
+    if (!briefcaseItemId) {
+      return NextResponse.json({ error: "briefcaseItemId is required." }, { status: 400, headers: privateHeaders() });
+    }
+
     const packet = await getConsumerPacketDownload({ userId: auth.userId, briefcaseItemId });
     // A rendered packet is bytes and a legacy summary is text. Only the text
     // one carries a charset: appending one to application/pdf tells the browser
@@ -38,6 +39,7 @@ export async function GET(request: NextRequest) {
       }
     });
   } catch (error) {
+    unstable_rethrow(error);
     if (error instanceof ConsumerPacketArtifactAuthorityUnavailableError) {
       return NextResponse.json({ error: "Packet download authority is temporarily unavailable." }, { status: 503, headers: privateHeaders() });
     }
@@ -53,6 +55,7 @@ export async function GET(request: NextRequest) {
     if (error instanceof ConsumerPacketNotReadyError) {
       return NextResponse.json({ error: "Your packet is still being prepared. Your information is saved. Return to your Briefcase and try again in a few minutes." }, { status: 409, headers: privateHeaders() });
     }
+    console.error("[packet-download] unclassified failure", error);
     return NextResponse.json({ error: "Packet downloads are not available right now." }, { status: 500, headers: privateHeaders() });
   }
 }
