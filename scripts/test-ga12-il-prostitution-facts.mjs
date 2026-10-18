@@ -9,7 +9,10 @@ const mutation=process.argv.find(a=>a.startsWith('--mutation='))?.slice(11);
 const mutations={
  predecessor:['packet-information.ts','illinoisProstitutionHeldDraftSuccessor(snapshot, authoritative, verification.status) ?? ',' '],
  consumer:['evaluator.ts','illinoisProstitutionFacts(answers) : "source_review"','"record_review" : "source_review"'],
- final:['illinois-prostitution-facts.ts','value === "Yes" && answers.case_outcome === "Felony conviction"','value === "Yes"'],
+ final:['illinois-prostitution-facts.ts','if (answers.case_outcome !== "Felony conviction") return "record_conflict";',''],
+ missing:['evaluator.ts','code === "missing" ? [IL_PROSTITUTION_FACT_ID, "court_requirements_completed"].filter','false ? [IL_PROSTITUTION_FACT_ID, "court_requirements_completed"].filter'],
+ completion:['illinois-prostitution-facts.ts','return completion === "yes" ? "record_review" : "completion";','return "record_review";'],
+ next_step:['evaluator.ts','nextSteps: [IL_PROSTITUTION_COPY[code]]','nextSteps: evaluated.nextSteps'],
  history:['packet-collection.ts','const ilProstitutionCategoryHistory = ilProstitutionCategoryIsHistory(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);','const ilProstitutionCategoryHistory = false;'],
  retained_editor:['packet-information.ts','ilProstitutionCategoryIsHistory(profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`))','false'],
  resume:['screens.ts','profile?.jurisdiction.code === "IL" && questionId === IL_PROSTITUTION_FACT_ID','false && questionId === IL_PROSTITUTION_FACT_ID']
@@ -42,6 +45,22 @@ const check=(name,fn)=>{try{fn();checks++;}catch(e){console.error(JSON.stringify
 const evalFor=answers=>evaluate({jurisdiction:'IL',profileVersion:profile.profileVersion,matterId:'TEST-il-prostitution',answers});
 const modelFor=answers=>{const seed=P.protectedPacketDraftSeedFromAuthoritative({authoritative:evalFor(answers),screeningAnswers:answers,dependencies:{},capturedAt:'2026-10-18T00:00:00Z'});assert(seed);return{status:'unverified',revision:0,draftHash:seed.hash,draftSnapshot:seed.snapshot};};
 const decision=(patch,code)=>{const answers={...base,...patch},before=structuredClone(answers);assert.equal(G.illinoisProstitutionFacts(answers),code);const r=evalFor(answers).evaluation;assert.equal(r.pathwayId,route);assert.equal(r.resultCode,'needs_review');assert.equal(r.reasons[0].code,answers[idFact]==='I am not sure'?'il.source_fact_unknown':'il.prostitution_'+code);assert.equal(r.paymentAllowed,false);assert.deepEqual(answers,before);};
+for(const id of [idFact,'court_requirements_completed'])check('blank required source predicate requested/'+id,()=>{
+ const answers={...base,[id]:undefined};const r=evalFor(answers).evaluation;
+ assert(r.missingQuestionIds.includes(id));assert(selectScreeningQuestionIds(profile,pub,answers).includes(id));
+ assert(P.protectedPacketInformationModelFor(modelFor(answers)).questions.some(q=>q.id===id));assert.equal(r.paymentAllowed,false);
+});
+check('disposition precedes missing conviction record',()=>{
+ const r=evalFor({...base,case_outcome:'Dismissed, no-billed, nolle prosequi, or not prosecuted',[idFact]:undefined}).evaluation;
+ assert.equal(r.reasons[0].code,'il.prostitution_record_conflict');assert.deepEqual(r.missingQuestionIds,[]);
+});
+check('all sentence conditions must be complete',()=>decision({court_requirements_completed:'no'},'completion'));
+for(const raw of ['not_sure','not_applicable'])check('answered completion uncertainty settles/'+raw,()=>{
+ const r=evalFor({...base,court_requirements_completed:raw}).evaluation;assert.equal(r.paymentAllowed,false);assert.deepEqual(r.missingQuestionIds,[]);assert(!r.resultCode.startsWith('packet_ready'));
+});
+check('supported motion preparation retains individualized attorney review',()=>{
+ const r=evalFor(base).evaluation;assert.equal(r.reasons[0].code,'il.prostitution_record_review');assert.match(r.nextSteps.join(' '),/motion to vacate and expunge/);assert.match(r.nextSteps.join(' '),/Attorney review is required by default/);assert.equal(r.paymentAllowed,false);
+});
 check('confirmed final record remains review only',()=>decision({},'record_review'));
 check('negative final record is consumed',()=>decision({[idFact]:'No'},'record_conflict'));
 for(const value of [undefined,'I am not sure'])check('unknown is not supplied by generic felony/'+value,()=>decision({[idFact]:value},'missing'));

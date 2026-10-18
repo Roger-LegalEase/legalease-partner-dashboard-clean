@@ -1161,7 +1161,7 @@ export function wyoming1502HeldDraftSuccessor(snapshot: ProtectedPacketAuthority
     || evaluation.pathwayId !== snapshot.pathwayId || evaluation.resultCode !== "needs_review" || evaluation.paymentAllowed
     || evaluation.packetPlan || authoritative.packetType || authoritative.selectedTrackId !== snapshot.selectedTrackId
     || [snapshot.screeningAnswers, snapshot.prefilledAnswers, snapshot.packetAnswers].some(map => WY_1502_FACT_IDS.some(id => Object.hasOwn(map, id)))
-    || evaluation.reasons.length !== 1 || evaluation.reasons[0].code !== "wy.felony1502_missing") return null;
+    || evaluation.reasons.length !== 1 || !["wy.felony1502_missing", "wy.felony1502_disposition"].includes(evaluation.reasons[0].code)) return null;
   const plan = packetPlanForPathway(profile, snapshot.pathwayId!);
   if (!plan || !canonicalEqual(snapshot.packetPlan, plan) || !canonicalEqual(snapshot.requiredInputIds, plan.requiredInputIds)
     || !canonicalEqual(snapshot.packetFamilyIdentifiers, { mode: plan.mode, sourceFormIds: plan.sourceFormIds })
@@ -3120,7 +3120,7 @@ export function factualPathwayCorrectionIds(state: string, pathway: string | nul
     ...(Object.hasOwn(answers, "offense_category") && wy1502CategoryIsHistory(profile, pathway, packetSpecificationFor(`${state}:${pathway}`)) ? ["offense_category"] : [])];
   if (southDakotaSisContext(profile, pathway)) return [...extra, ...SD_SIS_FACT_IDS.filter(id => includeInactive || southDakotaSisQuestionApplies(profile, pathway, answers, id)), "offense_level", "court_requirements_completed",
     ...(Object.hasOwn(answers, "offense_category") && sdSisCategoryIsHistory(profile, pathway, packetSpecificationFor(`${state}:${pathway}`)) ? ["offense_category"] : [])];
-  if (illinoisProstitutionContext(profile, pathway)) return [...extra, IL_PROSTITUTION_FACT_ID, "case_outcome",
+  if (illinoisProstitutionContext(profile, pathway)) return [...extra, IL_PROSTITUTION_FACT_ID, "court_requirements_completed", "case_outcome",
     ...(Object.hasOwn(answers, "offense_category") && ilProstitutionCategoryIsHistory(profile, pathway, packetSpecificationFor(`${state}:${pathway}`)) ? ["offense_category"] : [])];
   if (georgiaSb288Context(profile, pathway)) return [...extra, ...GA_SB288_FACT_IDS.filter(id => includeInactive || georgiaSb288QuestionApplies(profile, pathway, answers, id)), "case_outcome"];
   if (state === "GA" && (pathway === GA_PARDON_ROUTE || georgiaPardonRequested(answers, pathway))) {

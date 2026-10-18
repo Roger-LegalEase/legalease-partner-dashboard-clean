@@ -7,6 +7,9 @@ import ts from 'typescript';
 register('./lib/ts-esm-loader.mjs',import.meta.url);
 const mutation=process.argv.find(a=>a.startsWith('--mutation='))?.slice(11);
 const mutations={
+ missing:['evaluator.ts','...facts.ids.filter(id => {','...[].filter(id => {'],
+ disposition:['wyoming-1502-facts.ts','if (a.case_outcome !== "Felony conviction") return { code: "disposition", ids: [] };',''],
+ next_step:['evaluator.ts','nextSteps: [WY_1502_COPY[facts.code]]','nextSteps: evaluated.nextSteps'],
  consumer:['evaluator.ts','if (wy1502Context(profile, pathway.id)) {','if (false) {'],
  deferral:['wyoming-1502-facts.ts','a.wy1502_completed_deferral === "Yes"','false'],
  completion:['wyoming-1502-facts.ts','a.wy1502_program_complete !== "Yes" || a.wy1502_restitution_paid !== "Yes"','false'],
@@ -39,6 +42,18 @@ const check=(name,fn)=>{try{fn();checks++;}catch(e){console.error(JSON.stringify
 const evalFor=answers=>evaluate({jurisdiction:'WY',profileVersion:profile.profileVersion,matterId:'TEST-wy1502',answers});
 const modelFor=answers=>{const seed=P.protectedPacketDraftSeedFromAuthoritative({authoritative:evalFor(answers),screeningAnswers:answers,dependencies:{},capturedAt:'2026-10-18T00:00:00Z'});assert(seed);return{status:'unverified',revision:0,draftHash:seed.hash,draftSnapshot:seed.snapshot};};
 const decision=(patch,code)=>{const a={...base,...patch},before=structuredClone(a);assert.equal(G.wy1502Facts(a).code,code);const r=evalFor(a).evaluation;assert.equal(r.pathwayId,route);assert.equal(r.paymentAllowed,false);assert(!r.resultCode.startsWith('packet_ready'));if(r.reasons.some(r=>r.code.startsWith('wy.felony1502_')))assert(r.reasons.some(r=>r.code==='wy.felony1502_'+code));assert.deepEqual(a,before);return r;};
+for(const id of G.WY_1502_FACT_IDS.filter(id=>id!=='wy1502_related'))check('blank required source predicate requested/'+id,()=>{
+ const answers={...base,[id]:undefined};const r=evalFor(answers).evaluation;
+ assert(r.missingQuestionIds.includes(id));assert(selectScreeningQuestionIds(profile,pub,answers).includes(id));
+ assert(P.protectedPacketInformationModelFor(modelFor(answers)).questions.some(q=>q.id===id));assert.equal(r.paymentAllowed,false);
+});
+check('disposition precedes missing felony facts',()=>{
+ const r=evalFor({...base,case_outcome:'Dismissed, no-billed, nolle prosequi, or not prosecuted',wy1502_citations:undefined}).evaluation;
+ assert.equal(r.reasons[0].code,'wy.felony1502_disposition');assert.deepEqual(r.missingQuestionIds,[]);
+});
+check('supported petition remains subject to mandatory review before offer',()=>{
+ const r=evalFor(base).evaluation;assert.equal(r.reasons[0].code,'wy.felony1502_record_review');assert.match(r.nextSteps.join(' '),/petition to the convicting court/);assert.match(r.nextSteps.join(' '),/Mandatory attorney review/);assert.equal(r.paymentAllowed,false);
+});
 check('coherent conviction held for exact source facts and review',()=>{const r=decision({},'record_review');assert.equal(r.resultCode,'needs_review');assert.equal(r.reasons[0].code,'wy.felony1502_record_review');assert(!r.packetPlan);});
 for(const [patch,code]of [[{wy1502_completed_deferral:'Yes'},'deferral'],[{case_outcome:'Dismissed, no-billed, nolle prosequi, or not prosecuted'},'disposition'],[{wy1502_multiple:'Yes',wy1502_related:'No'},'grouping'],[{wy1502_program_complete:'No'},'completion'],[{wy1502_restitution_paid:'No'},'completion'],[{wy1502_other_felony:'Yes'},'history'],[{wy1502_prior_relief:'Yes'},'history'],[{wy1502_registration:'Yes'},'history'],[{wy1502_firearm:'Yes'},'firearm'],[{wy1502_terms_ended:{value:'2010-02-30',unknown:false}},'date']])check(code+'/'+JSON.stringify(patch),()=>decision(patch,code));
 for(const id of G.WY_1502_FACT_IDS)for(const value of [undefined,'I am not sure',true,['Yes'],{value:'Yes',unknown:true}])check('no inferred fact/'+id+'/'+JSON.stringify(value),()=>{const a={...base,wy1502_multiple:'Yes',wy1502_related:'Yes',[id]:value};const d=G.wy1502Facts(a);assert.equal(d.code,'missing');assert(d.ids.includes(id));});

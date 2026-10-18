@@ -152,10 +152,10 @@ const before = [
   },
   {
     "pathwayId": "felony-prostitution-relief",
-    "resultCode": "likely_not_eligible",
+    "resultCode": "needs_review",
     "paymentAllowed": false,
     "reasons": [
-      "il.il_prostitution_felony_required_not_eligible"
+      "il.prostitution_record_conflict"
     ]
   },
   {

@@ -55,17 +55,17 @@ export const WY_1502_COPY = {
   history: "Another felony plea or conviction, registration for this offense, or prior relief under 7-13-1502 requires attorney review. General history answers and other Wyoming sections cannot replace these facts.",
   firearm: "Reported use or attempted use of a firearm requires attorney review, even if a Title 23 exception is claimed. No exception or eligibility has been established.",
   date: "Copy a real sentence-term expiration date from the record, including all probation. The ten-year period cannot be inferred from a conviction date, custody release or general timing bucket.",
-  record_review: "The final citations and complete statutory exclusion list still require attorney review, including violent, sexual, domestic, child, weapons, corrections, escape, bribery and other listed offenses. The ten-year period runs from expiration of all sentence terms, including probation. The court decides grouping and danger; victim notice and objections remain separate. No eligibility, rights restoration, packet readiness or payment is established."
+  record_review: "These recorded facts support review for a petition to expunge the felony conviction under W.S. 7-13-1502. Mandatory attorney review must confirm the final citations against the full statutory exclusion list, the entire felony history and completion of the ten-year period since all sentence terms expired, including probation, before a packet can be offered. After that review, the supported procedure is a petition to the convicting court; the court decides eligibility, grouping and danger, and victim notice and objections remain separate. This result establishes no eligibility, rights restoration, packet readiness or payment authority."
 } as const;
 export function wy1502Facts(a: Record<string, unknown>): { code: keyof typeof WY_1502_COPY; ids: string[] } {
   if (a.wy1502_completed_deferral === "Yes") return { code: "deferral", ids: [] };
+  if (a.case_outcome !== "Felony conviction") return { code: "disposition", ids: [] };
   const ids = WY_1502_FACT_IDS.filter(id => {
     if (id === "wy1502_related" && a.wy1502_multiple !== "Yes") return false;
     return ["wy1502_citations", "wy1502_terms_ended"].includes(id) ? !text(a[id]) : !(typeof a[id] === "string" && ["Yes", "No"].includes(a[id] as string));
   });
   if (ids.length) return { code: "missing", ids };
   const review = (code: keyof typeof WY_1502_COPY) => ({ code, ids: [] });
-  if (a.case_outcome !== "Felony conviction") return review("disposition");
   if (a.wy1502_multiple === "Yes" && a.wy1502_related !== "Yes") return review("grouping");
   if (a.wy1502_program_complete !== "Yes" || a.wy1502_restitution_paid !== "Yes") return review("completion");
   if (a.wy1502_other_felony === "Yes" || a.wy1502_prior_relief === "Yes" || a.wy1502_registration === "Yes") return review("history");

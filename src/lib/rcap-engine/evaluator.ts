@@ -1,6 +1,6 @@
 import { wy1502Context, wy1502Facts, WY_1502_SOURCE, WY_1502_COPY } from "@/lib/rcap-engine/wyoming-1502-facts";
 import { southDakotaSisContext, southDakotaSisFacts, SD_SIS_COPY, SD_SIS_SOURCE } from "@/lib/rcap-engine/south-dakota-sis-facts";
-import { illinoisProstitutionContext, illinoisProstitutionFacts, IL_PROSTITUTION_COPY, IL_PROSTITUTION_SOURCE } from "@/lib/rcap-engine/illinois-prostitution-facts";
+import { illinoisProstitutionContext, illinoisProstitutionFacts, IL_PROSTITUTION_FACT_ID, IL_PROSTITUTION_COPY, IL_PROSTITUTION_SOURCE } from "@/lib/rcap-engine/illinois-prostitution-facts";
 import { questionAnswerState } from "@/lib/expungement-ai/question-answer-state";
 import { CT_PETITION_FACT_IDS, CT_PETITION_SOURCE, CT_PETITION_COPY, ctPetitionContext, ctPetitionFacts } from "@/lib/rcap-engine/connecticut-clean-slate-petition-facts";
 import { GA_SB288_FACT_IDS, GA_SB288_SOURCE, GA_SB288_COPY, georgiaSb288Context, georgiaSb288Facts } from "@/lib/rcap-engine/georgia-sb288-facts";
@@ -255,6 +255,25 @@ function evaluateAgainstProfile(profile: EngineProfile, request: ScreeningEvalua
       return state === "unanswered" || state === "invalid";
     });
   };
+  if (illinoisProstitutionContext(profile, evaluated.pathwayId) && evaluated.reasons.some(r => r.code.startsWith("il.prostitution_"))) {
+    const code = illinoisProstitutionFacts(request.answers);
+    const questions = projectPublicProfile(profile).questions;
+    return { ...evaluated, missingQuestionIds: [...new Set([...evaluated.missingQuestionIds,
+      ...(code === "missing" ? [IL_PROSTITUTION_FACT_ID, "court_requirements_completed"].filter(id => {
+        const question = questions.find(q => q.id === id);
+        return question && ["unanswered", "invalid"].includes(questionAnswerState(question, request.answers[id]));
+      }) : [])])],
+      nextSteps: [IL_PROSTITUTION_COPY[code]], paymentAllowed: false };
+  }
+  if (wy1502Context(profile, evaluated.pathwayId) && evaluated.reasons.some(r => r.code.startsWith("wy.felony1502_"))) {
+    const facts = wy1502Facts(request.answers);
+    const questions = projectPublicProfile(profile).questions;
+    return { ...evaluated, missingQuestionIds: [...new Set([...evaluated.missingQuestionIds, ...facts.ids.filter(id => {
+      const question = questions.find(q => q.id === id);
+      return question && ["unanswered", "invalid"].includes(questionAnswerState(question, request.answers[id]));
+    })])],
+      nextSteps: [WY_1502_COPY[facts.code]], paymentAllowed: false };
+  }
   if (ctPetitionContext(profile, evaluated.pathwayId) && evaluated.reasons.some(r => r.code === "ct.waiting_rule_not_executed")) {
     if (nonconviction) return evaluated;
     const facts = ctPetitionFacts(request.answers);
