@@ -9,6 +9,7 @@ register('./lib/ts-esm-loader.mjs',import.meta.url);
 const mutation=process.argv.find(a=>a.startsWith('--mutation='))?.slice(11);
 // Resume preservation is still asserted; the old screening-arm mutant is equivalent after the protected-field move.
 const mutations={
+ card_successor:['briefcase-presentation-authority.ts','wyoming1502HeldDraftSuccessor(snapshot, authoritative, verification.status) ?? ',''],
  trafficking_predecessor:['packet-information.ts','"wy.felony1502_trafficking"','"test_removed_trafficking_allowance"'],
  missing:['evaluator.ts','...facts.ids.filter(id => {','...[].filter(id => {'],
  disposition:['wyoming-1502-facts.ts','a.case_outcome !== "Felony conviction"','false'],
@@ -98,6 +99,25 @@ check('new facts do not select or change sibling WY routes',()=>{
 for(const id of ['first','second'])records.set('synthetic-'+id,modelFor(base));
 // Exact synthetic unverified draft executed at 9af670541; original bytes are preserved on read/no-op.
 const priorDraft={"status":"unverified","revision":0,"draftHash":"7edec7e4e44e9d15c11fbf253c568998f6ecdc95eb6c04a7b5a2993c8c1e780f","draftSnapshot":{"capturedAt":"2026-10-18T00:00:00Z","deferralComponentIds":[],"dependencies":{},"jurisdiction":"WY","packetAnswers":{},"packetFamilyIdentifiers":{"mode":"state_specific_custom_packet_from_source_rules","sourceFormIds":[]},"packetPlan":{"formMappingStatus":"custom_or_manual_mapping_required","mode":"state_specific_custom_packet_from_source_rules","packetReadyWhen":["backend result is packet_ready or packet_ready_with_caution","every source-defined pathway fact is answered","all waiting and completion conditions are satisfied","no exclusion, ambiguity, or required-review flag remains","the selected form revision and filing location pass source-freshness checks"],"pathwayId":"felony-conviction-expungement-w-s-7-13-1502","requiredInputIds":["age_at_offense","case_outcome","charge","contact_information","court","disposition_date","financial_obligations","jurisdiction","offense_category","offense_level","pardon_status","participant_full_legal_name","pathway_id","pending_cases","prior_relief","sentence_completion_date","trafficking_status","mailing_address","phone_number","email_address","date_of_birth","other_felony_history","statutory_exclusion_review","service_details"],"sourceFormIds":[],"sourceRuleRefs":["section:83-119"]},"packetType":"custom_pleading","pathwayId":"felony-conviction-expungement-w-s-7-13-1502","paymentAllowed":true,"prefilledAnswers":{"age_at_offense":"30","case_outcome":"Felony conviction","financial_obligations":"Yes","offense_level":"Felony","pardon_status":"No","pending_cases":"No","prior_relief":"Yes","sentence_completion_date":"Yes","trafficking_status":"No"},"profileAuthorityFingerprint":"7e725ca292d4e7d9b8d076a740abfe5462a4d678ba0b8cb849f45d7faf69dc0e","profileSourceFingerprint":"8be51e84e828de3bece45e51b68744cc68ba6662c7db7991bba8d70a565e00aa","profileVersion":"2026-06-19-source-conversion-1","requiredInputIds":["age_at_offense","case_outcome","charge","contact_information","court","disposition_date","financial_obligations","jurisdiction","offense_category","offense_level","pardon_status","participant_full_legal_name","pathway_id","pending_cases","prior_relief","sentence_completion_date","trafficking_status","mailing_address","phone_number","email_address","date_of_birth","other_felony_history","statutory_exclusion_review","service_details"],"resultCode":"packet_ready_with_caution","schemaVersion":"expungement-ai/protected-packet-draft/v1","screeningAnswers":{"court_requirements_completed":"yes","jurisdiction_scope":"State or local","new_convictions_during_waiting_period":"No","ownership_scope":"Yes","possible_pathway_context":"Felony conviction expungement - W.S. 7-13-1502","record_documents":"Yes","resolved_timing_bucket":"gt_10_years","special_preconditions_confirmed":"Yes"},"selectedTrackId":null,"serverFacts":{"jurisdiction":"WY","pathway_id":"felony-conviction-expungement-w-s-7-13-1502"},"treatmentClassification":null}};
+// GA-12 review N2: retain the exact historical draft while presenting its current hold.
+const {decorateBriefcaseItemForPresentationWithDependencies:decorateLegacy}=await import('../src/lib/expungement-ai/briefcase-presentation-authority.ts');
+const presentLegacy=record=>decorateLegacy({consumerAuthUserId:'synthetic-owner',item:{id:'synthetic-legacy-card',jurisdiction:'WY',artifactRefs:{}}},{readProtectedArtifact:async()=>({ok:true,value:null}),readProtectedVerification:async()=>({ok:true,value:record}),readTrustedPendingSource:async()=>({ok:false,reason:'synthetic_absent'}),readPaymentAuthority:async()=>({valid:false,reason:'unpaid'}),evaluateAuthoritative:request=>evaluate(request),readCommercialActions:async()=>({fulfillmentAvailable:false,checkoutAllowed:false,generationAllowed:false})});
+for(const value of ['No','Yes',true,' Yes',{value:'Yes'},{value:'Yes',unknown:false}]){
+ const record=structuredClone(priorDraft);record.draftSnapshot.prefilledAnswers.trafficking_status=value;record.draftHash=P.protectedPacketDraftHash(record.draftSnapshot);const before=structuredClone(record);
+ const view=await presentLegacy(record);
+ check('legacy card opens held without changing saved answers/'+JSON.stringify(value),()=>{
+  assert.equal(view.authorityStatus,'protected_draft');assert.equal(view.resultCode,'needs_review');assert.notEqual(view.verificationStatus,'verified');assert.equal(Object.values(view.commercialActions).some(Boolean),false);
+  assert.deepEqual(record,before);assert.deepEqual(P.packetInformationPatch({protectedVerification:record,answers:{}}).protectedTransition.nextVerification,before);
+ });
+}
+for(const variant of ['wrong-hash','wrong-profile','verified']){
+ const record=structuredClone(priorDraft);
+ if(variant==='wrong-hash')record.draftHash='changed';
+ if(variant==='wrong-profile'){record.draftSnapshot.profileAuthorityFingerprint='changed';record.draftHash=P.protectedPacketDraftHash(record.draftSnapshot);}
+ if(variant==='verified')record.status='verified';
+ const view=await presentLegacy(record);check('card successor refuses '+variant,()=>assert.equal(view.authorityStatus,'unavailable'));
+}
+
 check('legacy paid-ready trafficking draft opens held and no-op preserves exact history',()=>{
  for(const value of ['Yes',true,' Yes']){
   const record=structuredClone(priorDraft);record.draftSnapshot.prefilledAnswers.trafficking_status=value;

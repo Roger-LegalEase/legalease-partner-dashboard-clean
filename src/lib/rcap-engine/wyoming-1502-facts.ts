@@ -1,5 +1,5 @@
 import type { EngineProfile, PublicQuestion } from "@/lib/rcap-engine/contracts";
-import { uncertaintyState } from "@/lib/expungement-ai/question-answer-state";
+import { sameKnownQuestionAnswer, uncertaintyState } from "@/lib/expungement-ai/question-answer-state";
 
 // GA-12 Q-51b8ea53b02426f2f685 / QD-bd6b15fff22cbe1501cb; adopted WY.memo wy_fel_1502 only.
 export const WY_1502_ROUTE = "felony-conviction-expungement-w-s-7-13-1502";
@@ -62,7 +62,7 @@ export const WY_1502_COPY = {
 export function wy1502Facts(a: Record<string, unknown>, today: string): { code: keyof typeof WY_1502_COPY; ids: string[] } {
   if (a.wy1502_completed_deferral === "Yes") return { code: "deferral", ids: [] };
   if (a.case_outcome !== "Felony conviction") return { code: "disposition", ids: [] };
-  if (a.trafficking_status === true || typeof a.trafficking_status === "string" && a.trafficking_status.trim() === "Yes") return { code: "trafficking", ids: [] };
+  if (sameKnownQuestionAnswer({ id: "trafficking_status", type: "yes_no_prefer_not_to_say" }, a.trafficking_status, "Yes")) return { code: "trafficking", ids: [] };
   const ids = WY_1502_FACT_IDS.filter(id => {
     if (id === "wy1502_related" && a.wy1502_multiple !== "Yes") return false;
     return ["wy1502_citations", "wy1502_terms_ended"].includes(id) ? !text(a[id]) : !(typeof a[id] === "string" && ["Yes", "No"].includes(a[id] as string));
