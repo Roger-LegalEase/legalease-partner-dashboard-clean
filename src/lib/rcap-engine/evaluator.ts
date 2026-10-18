@@ -241,7 +241,8 @@ export function evaluationHash(evaluation: ScreeningEvaluation, answers: Record<
 
 function evaluateAgainstProfile(profile: EngineProfile, request: ScreeningEvaluationRequest, msSource?: MsFirstOffenderSourceContext): ScreeningEvaluation {
   const evaluated = evaluateProfileRules(profile, request, msSource);
-  const nonconviction = ["arrest_no_charge", "dismissed", "acquitted"].includes(normalizeCaseOutcome(request.answers.case_outcome))
+  const nonconviction = ["GA", "CT"].includes(profile.jurisdiction.code)
+    && ["arrest_no_charge", "dismissed", "acquitted"].includes(normalizeCaseOutcome(request.answers.case_outcome))
     && projectPublicProfile(profile).questions.some(question => question.id === "case_outcome"
       && questionAnswerState(question, request.answers.case_outcome) === "known_valid");
   // An answered review fact may remain uncertain or adverse without becoming another intake request.
