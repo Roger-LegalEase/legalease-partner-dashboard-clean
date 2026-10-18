@@ -161,13 +161,14 @@ for(const choice of Object.keys(C.AK_TF810_GROUND_BOXES)){
  response=await post({[C.AK_TF810_GROUND_ID]:main});assert.equal(response.status,200);groundHttpCases++;
  if(choice!==main){response=await post({['ak_tf810_ground_'+main+'_detail']:choice});assert.equal(response.status,200);groundHttpCases++;}
  if(main==='10'){response=await post({ak_tf810_ground_rule:'Alaska Administrative Rule 40(a)'});assert.equal(response.status,200);groundHttpCases++;}
+ const responseBody=await response.json();
  const expected=[C.AK_TF810_GROUND_BOXES[main],...(choice!==main?[C.AK_TF810_GROUND_BOXES[choice]]:[])];
  // A heading-only fixture deliberately has no sub-choice, even if an earlier saved answer exists.
  const explicit={ak_tf810_case_still_public:'Yes',ak_tf810_ground:main,...(choice!==main?{['ak_tf810_ground_'+main+'_detail']:choice}:{}),...(main==='10'?{ak_tf810_ground_rule:'Alaska Administrative Rule 40(a)'}:{})};
  const actual=await inspectPdf('ground-'+choice,explicit,expected,main==='10'?'Alaska Administrative Rule 40(a)':null);
  check('explicit ground '+choice+' remains held and saved',()=>{
   assert.equal(snap().packetAnswers[C.AK_TF810_GROUND_ID],main);assert.equal(C.akCourtviewContactInputs(snap()).generationAllowed,false);
-  assert.equal(model().readyToGenerate??false,false);assert.notEqual(stored.status,'verified');
+  assert.equal(responseBody.readyToGenerate,false);assert.notEqual(stored.status,'verified');
   if(main==='2'||main==='3')assert.equal(actual.ground.unresolvedIds.includes('ak_tf810_ground_'+main+'_detail'),choice===main);
  });
 }
@@ -196,10 +197,21 @@ check('changed saved choice replaces box and preserves prior answer history',()=
  assert.equal(selectedBefore.draftSnapshot.packetAnswers[C.AK_TF810_GROUND_ID],'1');
 });
 await inspectPdf('changed-saved-choice',snap().packetAnswers,['Check Box8.1']);
-for(const raw of ['',{value:'9',unknown:true}]){
+for(const raw of ['', 'I am not sure']){
  response=await post({[C.AK_TF810_GROUND_ID]:raw});assert.equal(response.status,200);groundHttpCases++;
  const before=structuredClone(stored);response=await post({});assert.equal(response.status,200);groundHttpCases++;
  check('saved unknown/blank raw and no-op preserved '+JSON.stringify(raw),()=>{assert.deepEqual(stored,before);assert.deepEqual(snap().packetAnswers[C.AK_TF810_GROUND_ID],raw);assert.deepEqual(C.akCourtviewContactInputs(snap()).selectionsFromHeldFacts,{});assert(model().missingInputIds.includes(C.AK_TF810_GROUND_ID));});
 }
+const legacyUnknown={value:'9',unknown:true},stableBeforeUnsupported=structuredClone(stored);
+response=await post({[C.AK_TF810_GROUND_ID]:legacyUnknown});assert.equal(response.status,422);groundHttpCases++;
+assert.deepEqual(stored,stableBeforeUnsupported);
+stored.draftSnapshot.packetAnswers[C.AK_TF810_GROUND_ID]=legacyUnknown;stored.draftHash=P.protectedPacketDraftHash(stored.draftSnapshot);
+const historicalUnknown=structuredClone(stored);body=await read();
+assert.deepEqual(stored,historicalUnknown);assert.deepEqual(body.answers[C.AK_TF810_GROUND_ID],legacyUnknown);
+response=await post({});assert.equal(response.status,200);groundHttpCases++;
+check('historical unknown wrapper remains raw and incomplete without accepting a new invalid shape',()=>{
+ assert.deepEqual(stored,historicalUnknown);assert(model().missingInputIds.includes(C.AK_TF810_GROUND_ID));
+ assert.deepEqual(C.akCourtviewContactInputs(snap()).selectionsFromHeldFacts,{});
+});
 fs.writeFileSync(path.join(output,'ground-readbacks.json'),JSON.stringify({sourceSha256:pdfSource.sha256,reports},null,2)+'\n');
 console.log(JSON.stringify({status:'PASS_AK_TF810_MODE2',checks,groundHttpCases,pdfCases:reports.length,output,rawPreserved:true,signatureAndClerkFieldsBlank:true,noInference:true,noPaymentOrFilingAuthority:true}));
