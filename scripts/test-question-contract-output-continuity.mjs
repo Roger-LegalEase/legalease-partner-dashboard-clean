@@ -2,6 +2,7 @@ import {assertCaNoPhoneContactSourceSuccession,CA_NO_PHONE_CONTACT_SOURCE_PATH} 
 import {assertGaSb288CtPetitionSourceSuccession,GA_SB288_CT_PETITION_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertGaGuideSpanishSourceSuccession,GA_GUIDE_SPANISH_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertCtPrepayRecordFactsSourceSuccession,CT_PREPAY_RECORD_FACTS_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
+import {assertIlSdWyRecordFactsSourceSuccession,IL_SD_WY_RECORD_FACTS_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertGaVaSpecSuccessorGatesSourceSuccession,GA_VA_SPEC_SUCCESSOR_GATES_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertGaPardonContactSuccessorSourceSuccession,GA_PARDON_CONTACT_SUCCESSOR_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertGaPardonSpecPinSourceSuccession,GA_PARDON_SPEC_PIN_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
@@ -882,6 +883,13 @@ check('CT prepay record-facts hop preserves prior chain and refuses missing/tamp
  assert.throws(()=>assertQuestionContractOutputInputs(file=>file===CT_PREPAY_RECORD_FACTS_SOURCE_PATH?Buffer.from('{}'):readBytes(file)),/CT prepay record-facts source succession record bytes changed/);
  assert.throws(()=>assertGaGuideSpanishSourceSuccession(file=>{if(file===CT_PREPAY_RECORD_FACTS_SOURCE_PATH)throw Error('missing CT prepay record');return readBytes(file);}),/missing CT prepay record/);
  for(const input of ["src/lib/rcap-engine/public-profile-projection.ts", "src/lib/rcap-engine/screening-question-selection.ts"])
+  assert.throws(()=>assertQuestionContractOutputInputs(file=>file===input?Buffer.from('drift'):readBytes(file)),/stale output input/);
+});
+check('IL/SD/WY record-facts hop preserves prior chain and refuses missing/tampered bytes',()=>{
+ const c=assertIlSdWyRecordFactsSourceSuccession(readBytes);assert.equal(c.currentChangedSourceCount,21);assert.equal(c.currentUnchangedSourceCount,177);
+ assert.throws(()=>assertQuestionContractOutputInputs(file=>file===IL_SD_WY_RECORD_FACTS_SOURCE_PATH?Buffer.from('{}'):readBytes(file)),/IL\/SD\/WY record-facts source succession record bytes changed/);
+ assert.throws(()=>assertCtPrepayRecordFactsSourceSuccession(file=>{if(file===IL_SD_WY_RECORD_FACTS_SOURCE_PATH)throw Error('missing IL/SD/WY record');return readBytes(file);}),/missing IL\/SD\/WY record/);
+ for(const input of ["src/lib/expungement-ai/reviewed-result-copy.ts", "src/lib/rcap-engine/public-profile-projection.ts", "src/lib/rcap-engine/screening-question-selection.ts"])
   assert.throws(()=>assertQuestionContractOutputInputs(file=>file===input?Buffer.from('drift'):readBytes(file)),/stale output input/);
 });
 

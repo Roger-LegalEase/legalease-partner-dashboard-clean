@@ -488,6 +488,13 @@ function gaGuideSpanishChain(readBytes) {
 export const CT_PREPAY_RECORD_FACTS_SOURCE_PATH = 'data/rcap-grade-a/participant-data-rights/question-contract-source-succession-ct-prepay-record-facts-20261018-v1.json';
 export const CT_PREPAY_RECORD_FACTS_SOURCE_SHA256 = '5e4184ad7ac4a887fd4543acddbdac657e7af26890a9ffd80f843ba007da3e11';
 export function assertCtPrepayRecordFactsSourceSuccession(readBytes) {
+  const { record } = ctPrepayRecordFactsChain(readBytes);
+  // Retain the immutable CT prepay 21/177 scope; the separately pinned IL/SD/WY
+  // record-facts hop checks the complete current twenty-one-source chain without rewriting it.
+  assertIlSdWyRecordFactsSourceSuccession(readBytes);
+  return record;
+}
+function ctPrepayRecordFactsChain(readBytes) {
   const bytes=readBytes(CT_PREPAY_RECORD_FACTS_SOURCE_PATH);
   insist(sha(bytes)===CT_PREPAY_RECORD_FACTS_SOURCE_SHA256,'CT prepay record-facts source succession record bytes changed');
   const record=JSON.parse(bytes.toString('utf8'));
@@ -506,9 +513,34 @@ export function assertCtPrepayRecordFactsSourceSuccession(readBytes) {
     insist(row.beforeSha256===(current.get(row.file)??null),'CT prepay record-facts disconnected source hop');current.set(row.file,row.afterSha256);
   }
   insist(current.size===21,'CT prepay record-facts current twenty-one-source inventory');
+  return { record, current };
+}
+
+// Exact IL/SD/WY record-facts hop (protected-intake move, trafficking/ten-year boundaries, EN/ES copy).
+export const IL_SD_WY_RECORD_FACTS_SOURCE_PATH = 'data/rcap-grade-a/participant-data-rights/question-contract-source-succession-il-sd-wy-record-facts-20261018-v1.json';
+export const IL_SD_WY_RECORD_FACTS_SOURCE_SHA256 = '752cd4c1972e1e853a8c07fc23cd492342264d066e1cc764260aa2bd3881af5a';
+export function assertIlSdWyRecordFactsSourceSuccession(readBytes) {
+  const bytes=readBytes(IL_SD_WY_RECORD_FACTS_SOURCE_PATH);
+  insist(sha(bytes)===IL_SD_WY_RECORD_FACTS_SOURCE_SHA256,'IL/SD/WY record-facts source succession record bytes changed');
+  const record=JSON.parse(bytes.toString('utf8'));
+  const { record: ctPrepay, current }=ctPrepayRecordFactsChain(readBytes);
+  insist(record.schemaVersion==='rcap-question-contract-il-sd-wy-record-facts-source-succession/v1'
+    && record.recordId==='IL-SD-WY-RECORD-FACTS-SOURCE-SUCCESSION-20261018'
+    && record.kind==='technical_source_only' && record.engineeringCommit==='a97f5c1c98c179132eb07593f8b53c64f9b0b80e'
+    && equal(record.previousNamedSource,{path:CT_PREPAY_RECORD_FACTS_SOURCE_PATH,sha256:CT_PREPAY_RECORD_FACTS_SOURCE_SHA256,currentChangedSourceCount:21,currentUnchangedSourceCount:177})
+    && equal(record.historicalContinuity,ctPrepay.historicalContinuity) && equal(record.historicalOutput,ctPrepay.historicalOutput)
+    && record.sourceCount===198 && record.currentChangedSourceCount===21 && record.currentUnchangedSourceCount===177
+    && equal(record.historicalArtifactScope,{routeCount:6,artifactCount:18,reexecuted:false,changed:false})
+    && ['createsOwnerApproval','changesHistoricalOutputEvidence','establishesCurrentOutputReproduction','establishesProtectedVerification','establishesProviderOrPublicationProof','commercialAuthorityGranted','productionAuthorized'].every(key=>record[key]===false),'IL/SD/WY record-facts source succession identity');
+  insist(Array.isArray(record.transitions) && equal(record.transitions.map(row=>row.file),["src/lib/expungement-ai/reviewed-result-copy.ts", "src/lib/rcap-engine/public-profile-projection.ts", "src/lib/rcap-engine/screening-question-selection.ts"]),'IL/SD/WY record-facts source succession inventory');
+  insist(current.size===21,'IL/SD/WY record-facts prior twenty-one-source inventory');
+  for(const row of record.transitions){
+    insist(row.beforeSha256===(current.get(row.file)??null),'IL/SD/WY record-facts disconnected source hop');current.set(row.file,row.afterSha256);
+  }
+  insist(current.size===21,'IL/SD/WY record-facts current twenty-one-source inventory');
   // Always fresh, including after success or a previous failed read. No accessor
   // recursion: prior records are read as exact pinned raw bytes.
-  for(const [file,digest]of current)insist(sha(readBytes(file))===digest,`stale output input: ${file}; exact CT prepay record-facts source succession`);
+  for(const [file,digest]of current)insist(sha(readBytes(file))===digest,`stale output input: ${file}; exact IL/SD/WY record-facts source succession`);
   return record;
 }
 
@@ -527,6 +559,7 @@ function assertCurrentOutputSourceInput(file, expectedSha256, readBytes, label) 
   const gaCt = assertGaSb288CtPetitionSourceSuccession(readBytes).transitions.find(input => input.file === file);
   const gaGuide = assertGaGuideSpanishSourceSuccession(readBytes).transitions.find(input => input.file === file);
   const ctPrepay = assertCtPrepayRecordFactsSourceSuccession(readBytes).transitions.find(input => input.file === file);
+  const ilSdWy = assertIlSdWyRecordFactsSourceSuccession(readBytes).transitions.find(input => input.file === file);
   const caDigest = ca ? ca.afterSha256 : previousDigest;
   const nyDigest = ny ? ny.afterSha256 : caDigest;
   const gaDigest = ga ? ga.afterSha256 : nyDigest;
@@ -535,12 +568,13 @@ function assertCurrentOutputSourceInput(file, expectedSha256, readBytes, label) 
   const caNoPhoneDigest = caNoPhone ? caNoPhone.afterSha256 : gatesDigest;
   const gaCtDigest = gaCt ? gaCt.afterSha256 : caNoPhoneDigest;
   const gaGuideDigest = gaGuide ? gaGuide.afterSha256 : gaCtDigest;
-  const currentDigest = ctPrepay ? ctPrepay.afterSha256 : gaGuide ? gaGuide.afterSha256 : gaCt ? gaCt.afterSha256 : caNoPhone ? caNoPhone.afterSha256 : gates ? gates.afterSha256 : gaContact ? gaContact.afterSha256 : ga ? ga.afterSha256 : ny ? ny.afterSha256 : ca?.afterSha256 ?? row?.afterSha256;
-  insist((row ? row.beforeSha256 === expectedSha256 : ca != null || ny != null || ga != null || gaContact != null || gates != null || caNoPhone != null || gaCt != null || gaGuide != null || ctPrepay != null)
+  const ctPrepayDigest = ctPrepay ? ctPrepay.afterSha256 : gaGuideDigest;
+  const currentDigest = ilSdWy ? ilSdWy.afterSha256 : ctPrepay ? ctPrepay.afterSha256 : gaGuide ? gaGuide.afterSha256 : gaCt ? gaCt.afterSha256 : caNoPhone ? caNoPhone.afterSha256 : gates ? gates.afterSha256 : gaContact ? gaContact.afterSha256 : ga ? ga.afterSha256 : ny ? ny.afterSha256 : ca?.afterSha256 ?? row?.afterSha256;
+  insist((row ? row.beforeSha256 === expectedSha256 : ca != null || ny != null || ga != null || gaContact != null || gates != null || caNoPhone != null || gaCt != null || gaGuide != null || ctPrepay != null || ilSdWy != null)
     && (!ca || ca.beforeSha256 === previousDigest) && (!ny || ny.beforeSha256 === caDigest)
     && (!ga || ga.beforeSha256 === nyDigest) && (!gaContact || gaContact.beforeSha256 === gaDigest)
     && (!gates || gates.beforeSha256 === contactDigest) && (!caNoPhone || caNoPhone.beforeSha256 === gatesDigest)
-    && (!gaCt || gaCt.beforeSha256 === caNoPhoneDigest) && (!gaGuide || gaGuide.beforeSha256 === gaCtDigest) && (!ctPrepay || ctPrepay.beforeSha256 === gaGuideDigest)
+    && (!gaCt || gaCt.beforeSha256 === caNoPhoneDigest) && (!gaGuide || gaGuide.beforeSha256 === gaCtDigest) && (!ctPrepay || ctPrepay.beforeSha256 === gaGuideDigest) && (!ilSdWy || ilSdWy.beforeSha256 === ctPrepayDigest)
     && currentDigest === actual, `${label}: ${file}`);
 }
 
