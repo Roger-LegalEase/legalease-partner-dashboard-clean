@@ -608,9 +608,16 @@ export function packetInformationPatch(input: {
   const acceptedAnswers = Object.fromEntries(
     Object.entries(input.answers).filter(([id, answer]) => allowedIds.has(id) && isAnswerValue(answer))
   );
+  const priorSnapshot = protectedAuthoritySnapshotFor(priorProtected)!;
+  const sourceProfile = getProfileByJurisdiction(current.stateCode);
+  const gaCtFactIds = georgiaSb288Context(sourceProfile, current.pathwayId) ? ["case_outcome", ...GA_SB288_FACT_IDS]
+    : ctPetitionContext(sourceProfile, current.pathwayId) ? ["case_outcome", ...CT_PETITION_FACT_IDS] : [];
+  const savedSourceFacts = { ...priorSnapshot.screeningAnswers, ...priorSnapshot.prefilledAnswers, ...priorSnapshot.packetAnswers };
   const answerDelta = Object.fromEntries(
     Object.entries(acceptedAnswers).filter(([id, answer]) => {
       const question = current.questions.find((candidate) => candidate.id === id);
+      // A hidden invalid display value is not a new answer when its saved raw value is unchanged.
+      if (gaCtFactIds.includes(id) && Object.hasOwn(savedSourceFacts, id) && canonicalEqual(savedSourceFacts[id], answer)) return false;
       return !canonicalEqual(current.initialAnswers[id], answer)
         && !(question && sameKnownQuestionAnswer(question, current.initialAnswers[id], answer));
     })
@@ -634,7 +641,6 @@ export function packetInformationPatch(input: {
     || !answerValueIsKnown({ ...current.initialAnswers, ...answerDelta }[id])
     || questionAnswerState(current.questions.find((question) => question.id === id)!, { ...current.initialAnswers, ...answerDelta }[id]) !== "known_valid")) return null;
   const materialFactChange = clearCustody || Object.keys(answerDelta).length > 0 || contactChoice || confirmations.length > 0 || accountEmail !== null;
-  const priorSnapshot = protectedAuthoritySnapshotFor(priorProtected)!;
   const legacy = protectedLegacyAnswerProjection(priorSnapshot);
   const freshSensitiveMaps = refreshedSensitiveFactMaps(priorSnapshot.jurisdiction, priorSnapshot.pathwayId, priorSnapshot.requiredInputIds,
     ...participantMapArguments(legacy.maps));

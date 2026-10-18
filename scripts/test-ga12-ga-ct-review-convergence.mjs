@@ -7,6 +7,8 @@ process.env.RCAP_EVALUATOR_TODAY='2026-07-01';
 register('./lib/ts-esm-loader.mjs',import.meta.url);
 const mutation=process.argv.find(a=>a.startsWith('--mutation='))?.slice(11);
 const mutations={
+ disposition_correction:['outstanding.push(...reviewInputIds(["case_outcome"], false));',''],
+ repeated_invalid:['if (gaCtFactIds.includes(id)','if (false','packet-information.ts'],
  correction_delta:['delete initialAnswers[id];\n            const question = questionSurface.questionById.get(id);','const question = questionSurface.questionById.get(id);','packet-information.ts'],
  disposition_history:['return [...extra, "case_outcome", ...CT_PETITION_FACT_IDS','return [...extra, ...CT_PETITION_FACT_IDS','packet-information.ts'],
  protected_projection:['if (sourceFacts?.code === "missing")','if (false)','packet-information.ts'],
@@ -23,6 +25,7 @@ const {evaluateAuthoritativeScreeningResult:evaluate}=await import('../src/lib/e
 const {getProfileByJurisdiction}=await import('../src/lib/rcap-engine/profile-registry.ts');
 const {projectPublicProfile}=await import('../src/lib/rcap-engine/public-profile-projection.ts');
 const P=await import('../src/lib/expungement-ai/packet-information.ts');
+const publicAPI=await import('../src/app/api/expungement-ai/evaluate/route.ts');
 const C=await import('../src/lib/rcap-engine/connecticut-clean-slate-petition-facts.ts');
 const G=await import('../src/lib/rcap-engine/georgia-sb288-facts.ts');
 const ledger=JSON.parse(fs.readFileSync('data/rcap-ledger/public-witness-answer-sets.json'));
@@ -55,16 +58,33 @@ for(const [state,route] of [['GA',G.GA_SB288_ROUTE],['CT',C.CT_PETITION_ROUTE]])
  for(const raw of ['Arrest or citation with no charge filed','dismissed',['Dismissed, no-billed, nolle prosequi, or not prosecuted'],{value:'Dismissed, no-billed, nolle prosequi, or not prosecuted',unknown:true}])check(state+' invalid nonconviction cannot use settled shortcut '+JSON.stringify(raw),()=>{
   const r=evalFor({...base,case_outcome:raw}).evaluation;
   assert.notDeepEqual(r.reasons.map(x=>x.code),[state.toLowerCase()+'.waiting_rule_not_executed']);assert.equal(r.paymentAllowed,false);
+  if(state==='CT'&&!(raw&&typeof raw==='object'&&!Array.isArray(raw)&&raw.unknown===true))assert(r.missingQuestionIds.includes('case_outcome'));
  });
+ if(state==='CT')check('CT answered uncertain disposition is held without repeating intake',()=>{
+  const r=evalFor({...base,case_outcome:'I am not sure'}).evaluation;assert(!r.missingQuestionIds.includes('case_outcome'));assert.equal(r.paymentAllowed,false);assert.equal(r.resultCode,'needs_review');
+ });
+ if(state==='CT')for(const [raw,correction]of [[['Dismissed, no-billed, nolle prosequi, or not prosecuted'],true],['dismissed',true],['I am not sure',false],['Misdemeanor conviction',false],['Dismissed, no-billed, nolle prosequi, or not prosecuted',false]]){
+  const response=await publicAPI.POST(new Request('http://isolated.invalid/api/expungement-ai/evaluate',{method:'POST',body:JSON.stringify({jurisdiction:state,profileVersion:profile.profileVersion,matterId:'TEST-ct-disposition-correction',answers:{...base,case_outcome:raw}})}));
+  const result=await response.json();
+  check('CT public disposition correction/'+JSON.stringify(raw),()=>{assert.equal(response.status,200);assert.equal(result.missingQuestionIds.includes('case_outcome'),correction);assert.equal(result.paymentAllowed,false);assert.equal(result.consumerPacketAvailable,false);});
+ }
  const countId=state==='GA'?'ga_sb288_conviction_count':'ct_petition_count';
  const yesId=state==='GA'?'ga_sb288_convictions_before_filing':'ct_petition_supervision_complete';
- for(const [factId,values]of [[countId,['0',0,'00','01',' 1 ',{value:'1'}]],[yesId,[true,false,'Yes ',{value:'Yes'}]]])for(const raw of values)check(state+' source-invalid shape requests correction '+factId+'/'+JSON.stringify(raw),()=>{
+ for(const [factId,values]of [[countId,['0',0,'00','01',' 1 ',{value:'1'},'invalid-count']],[yesId,[true,false,'Yes ',{value:'Yes'}]]])for(const raw of values)check(state+' source-invalid shape requests correction '+factId+'/'+JSON.stringify(raw),()=>{
   const a={...base,[factId]:raw};const facts=state==='GA'?G.georgiaSb288Facts(a):C.ctPetitionFacts(a);
   assert.equal(facts.code,'missing');assert(facts.ids.includes(factId));
   const r=evalFor(a).evaluation;assert(r.missingQuestionIds.includes(factId));assert.equal(r.paymentAllowed,false);
   const seed=P.protectedPacketDraftSeedFromAuthoritative({authoritative:evalFor(a),screeningAnswers:a,dependencies:{},capturedAt:'2026-10-18T00:00:00Z'});assert(seed);
   assert.deepEqual({...seed.snapshot.screeningAnswers,...seed.snapshot.prefilledAnswers,...seed.snapshot.packetAnswers}[factId],raw);
   const record={status:'unverified',revision:0,draftHash:seed.hash,draftSnapshot:seed.snapshot};assert.deepEqual(P.packetInformationPatch({protectedVerification:record,answers:{}}).protectedTransition.nextVerification,record);
+  const before=structuredClone(record);
+  for(let attempt=0;attempt<3;attempt++){
+   const repeat=P.packetInformationPatch({protectedVerification:record,answers:{[factId]:raw}});assert(repeat);
+   assert.deepEqual(repeat.protectedTransition.answerDelta,{});assert.deepEqual(repeat.protectedTransition.nextVerification,before);assert.deepEqual(record,before);
+  }
+  const correction=P.packetInformationPatch({protectedVerification:record,answers:{[factId]:factId===countId?'1':'Yes'}});assert(correction);
+  const next=correction.protectedTransition.nextVerification;assert.equal(next.revision,record.revision+1);assert.equal(next.draftSnapshot.paymentAllowed,false);
+  assert(next.draftSnapshot.dependencies.semanticAnswerHistory.some(h=>h.factId===factId&&JSON.stringify(h.value)===JSON.stringify(raw)));
  });
  if(state==='GA')for(const outcome of ['Felony conviction','Other conviction or adjudication','Pardoned conviction'])check('GA supported alternate disposition settles '+outcome,()=>{
   const a={...base,case_outcome:outcome};const r=evalFor(a).evaluation;
