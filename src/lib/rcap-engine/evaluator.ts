@@ -283,6 +283,7 @@ function evaluateAgainstProfile(profile: EngineProfile, request: ScreeningEvalua
     if (nonconviction) return evaluated;
     const facts = ctPetitionFacts(request.answers);
     const outstanding = reviewInputIds(facts.ids, facts.code === "missing");
+    outstanding.push(...reviewInputIds(["case_outcome"], false));
     const text = CT_PETITION_COPY[facts.code][0];
     return { ...evaluated, reasons: [reason("CT", `petition_${facts.code}`, text, CT_PETITION_SOURCE), ...evaluated.reasons],
       missingQuestionIds: [...new Set([...evaluated.missingQuestionIds, ...outstanding])], nextSteps: [text], paymentAllowed: false };
