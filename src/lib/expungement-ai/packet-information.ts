@@ -5304,7 +5304,7 @@ function dcFlPetitionRecordHistoryQuestion<T extends ProfileQuestion>(question: 
     helperText: "These labels can overlap. Your earlier answer is optional history. It does not establish the final disposition, choose a procedure, or show that a record has been cleared.",
     translations: { ...question.translations, es: { ...question.translations?.es,
       prompt: "Respuesta anterior sobre el tipo de expediente (historial opcional)",
-      helperText: "Estas categorías pueden coincidir. Su respuesta anterior es un historial opcional. No establece la resolución final, no selecciona un procedimiento ni demuestra que algún expediente haya quedado sellado o eliminado."
+      helperText: "Estas categorías pueden coincidir. Su respuesta anterior es un historial opcional. No establece la resolución final, no selecciona un procedimiento ni demuestra que algún expediente haya quedado sellado, restringido o eliminado."
     } } };
 }
 
