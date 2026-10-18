@@ -42,6 +42,7 @@ check('repeat-invalid filter scope uses only adopted GA/CT routes and source con
  if(mutation==='route_scope'){const m=mutations[mutation];assert(source.includes(m[0]));source=source.replaceAll(m[0],m[1]);}
  const ast=ts.createSourceFile('packet-information.ts',source,ts.ScriptTarget.Latest,true);let expression;
  function visit(n){if(ts.isVariableDeclaration(n)&&n.name.getText(ast)==='gaCtFactIds')expression=n.initializer.getText(ast);ts.forEachChild(n,visit);}visit(ast);assert(expression);
+ let guard;(function find(n){if(ts.isIfStatement(n)&&n.expression.getText(ast).includes('canonicalEqual(savedSourceFacts[id], answer)'))guard=n.expression.getText(ast);ts.forEachChild(n,find);})(ast);assert(guard?.startsWith('gaCtFactIds.includes(id) &&'),'no-op filter is gated by gaCtFactIds');
  const scope=new Function('sourceProfile','current','georgiaSb288Context','ctPetitionContext','GA_SB288_FACT_IDS','CT_PETITION_FACT_IDS','return '+expression);
  const read=(profile,pathwayId)=>scope(profile,{pathwayId},G.georgiaSb288Context,C.ctPetitionContext,G.GA_SB288_FACT_IDS,C.CT_PETITION_FACT_IDS);
  for(const state of ['GA','CT','IL']){
