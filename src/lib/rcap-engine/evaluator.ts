@@ -1,3 +1,4 @@
+import { wy1502Context, wy1502Facts, WY_1502_SOURCE, WY_1502_COPY } from "@/lib/rcap-engine/wyoming-1502-facts";
 import { southDakotaSisContext, southDakotaSisFacts, SD_SIS_COPY, SD_SIS_SOURCE } from "@/lib/rcap-engine/south-dakota-sis-facts";
 import { illinoisProstitutionContext, illinoisProstitutionFacts, IL_PROSTITUTION_COPY, IL_PROSTITUTION_SOURCE } from "@/lib/rcap-engine/illinois-prostitution-facts";
 import { questionAnswerState } from "@/lib/expungement-ai/question-answer-state";
@@ -1368,6 +1369,10 @@ function routeSpecificSafetyGate(profile: EngineProfile, answers: Record<string,
     if (firstOffender.status === "selected" && firstOffender.pathwayId === pathway.id && firstOffender.branch === "revoked") {
       return reason("GA", "original_first_offender_revoked", "The record says the First Offender sentence was revoked and guilt was adjudicated. The original First Offender restriction and sealing procedure cannot be treated as a successful discharge. Get help reviewing the final order and any other available procedure.", "HB162:section3:42-8-62.1(c),(g); GA.memo:ga-fo-*");
     }
+  }
+  if (wy1502Context(profile, pathway.id)) {
+    const facts = wy1502Facts(answers);
+    return reason("WY", `felony1502_${facts.code}`, WY_1502_COPY[facts.code], WY_1502_SOURCE);
   }
   const msRecordClassGate = msFelonyRecordClassSafetyGate(profile, answers, pathway);
   if (msRecordClassGate) return msRecordClassGate;

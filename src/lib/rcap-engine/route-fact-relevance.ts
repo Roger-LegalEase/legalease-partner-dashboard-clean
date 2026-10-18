@@ -1,3 +1,4 @@
+import { WY_1502_ROUTE, WY_1502_FACT_IDS } from "@/lib/rcap-engine/wyoming-1502-facts";
 import { SD_SIS_ROUTE, SD_SIS_FACT_IDS } from "@/lib/rcap-engine/south-dakota-sis-facts";
 import { IL_PROSTITUTION_ROUTE, IL_PROSTITUTION_FACT_ID } from "@/lib/rcap-engine/illinois-prostitution-facts";
 import { CT_PETITION_ROUTE, CT_PETITION_FACT_IDS } from "@/lib/rcap-engine/connecticut-clean-slate-petition-facts";
@@ -53,6 +54,7 @@ export const UNIVERSAL_PREPAY_FACT_IDS: ReadonlySet<string> = new Set([
  * it. Keyed by `<JURISDICTION>:<pathway id>`, mirroring `routeSpecificSafetyGate`.
  */
 export const ROUTE_ESCALATION_FACT_IDS: Readonly<Record<string, readonly string[]>> = {
+  [`WY:${WY_1502_ROUTE}`]: [...WY_1502_FACT_IDS, "case_outcome"],
   [`SD:${SD_SIS_ROUTE}`]: [...SD_SIS_FACT_IDS, "offense_level", "court_requirements_completed"],
   [`CT:${CT_PETITION_ROUTE}`]: CT_PETITION_FACT_IDS,
   [`GA:${GA_SB288_ROUTE}`]: GA_SB288_FACT_IDS,

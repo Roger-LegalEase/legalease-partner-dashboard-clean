@@ -1,3 +1,4 @@
+import { WY_1502_FACT_IDS } from "@/lib/rcap-engine/wyoming-1502-facts";
 import { SD_SIS_FACT_IDS } from "@/lib/rcap-engine/south-dakota-sis-facts";
 import { IL_PROSTITUTION_FACT_ID } from "@/lib/rcap-engine/illinois-prostitution-facts";
 import { CT_PETITION_FACT_IDS, ctPetitionDateQuestion } from "@/lib/rcap-engine/connecticut-clean-slate-petition-facts";
@@ -128,6 +129,8 @@ export function sanitizeAnswersForQuestionIds(
     || Boolean(profile?.jurisdiction.code === "AR" && [AR_RECORD_ORIGIN_ID, "residency_or_location", "court", "county_or_filing_location"].includes(questionId))
     || Boolean(profile?.jurisdiction.code === "IL" && questionId === IL_PROSTITUTION_FACT_ID
       && profile.questions.some(question => question.id === questionId))
+    || Boolean(profile?.jurisdiction.code === "WY" && WY_1502_FACT_IDS.includes(questionId)
+      && profile.questions.some(question => question.id === questionId))
     || Boolean(profile?.jurisdiction.code === "SD" && SD_SIS_FACT_IDS.includes(questionId)
       && profile.questions.some(question => question.id === questionId))
     || Boolean(profile?.jurisdiction.code === "CT" && CT_PETITION_FACT_IDS.includes(questionId)
@@ -166,6 +169,6 @@ export function sanitizeResumedAnswersForQuestionIds(
     answers,
     deriveScreens(profile).map((question) => question.id),
     selectedQuestionIds,
-    ["SD", "CT", "AR", "CA", "NV", "GA", "IL", "KS", "MS", "DE", "NY", "NE", "LA", "ME", "MO", "MT", "VA", "MD"].includes(profile.jurisdiction.code) ? profile : undefined
+    ["WY", "SD", "CT", "AR", "CA", "NV", "GA", "IL", "KS", "MS", "DE", "NY", "NE", "LA", "ME", "MO", "MT", "VA", "MD"].includes(profile.jurisdiction.code) ? profile : undefined
   );
 }

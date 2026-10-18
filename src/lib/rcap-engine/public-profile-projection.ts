@@ -1,3 +1,4 @@
+import { WY_1502_FACT_IDS, WY_1502_QUESTIONS } from "@/lib/rcap-engine/wyoming-1502-facts";
 import { SD_SIS_FACT_IDS, SD_SIS_QUESTIONS } from "@/lib/rcap-engine/south-dakota-sis-facts";
 import { IL_PROSTITUTION_FACT_ID, IL_PROSTITUTION_QUESTION } from "@/lib/rcap-engine/illinois-prostitution-facts";
 import { CT_PETITION_FACT_IDS, CT_PETITION_QUESTIONS, CT_PETITION_MULTILINE_IDS } from "@/lib/rcap-engine/connecticut-clean-slate-petition-facts";
@@ -93,7 +94,7 @@ const STATE_SPECIFIC_PREPAY_WILMA_FACT_IDS: Record<string, Set<string>> = {
   MT: new Set(MT_DEFERRED_FACT_IDS),
   OR: new Set(OR_DISPOSITION_FACT_IDS),
   ND: new Set(ND_FIRST_OFFENSE_FACT_IDS),
-  WY: new Set([...WY_1401_NEW_IDS, ...WY_1501_FACT_IDS, "arrest_date"]),
+  WY: new Set([...WY_1502_FACT_IDS, ...WY_1401_NEW_IDS, ...WY_1501_FACT_IDS, "arrest_date"]),
   MS: new Set([
     ...convictionReliefQuestions("MS").map(q => q.id),
     "ms_program_order",
@@ -1178,7 +1179,8 @@ function withWilmaFactQuestions(
     : profile.jurisdiction.code === "MT" ? [...WILMA_FACT_QUESTIONS, ...MT_DEFERRED_QUESTIONS]
     : profile.jurisdiction.code === "OR" ? [...WILMA_FACT_QUESTIONS, ...OR_DISPOSITION_QUESTIONS]
     : profile.jurisdiction.code === "ND" ? [...WILMA_FACT_QUESTIONS, ...ND_FIRST_OFFENSE_QUESTIONS]
-    : wyNonconvictionContract ? [...WILMA_FACT_QUESTIONS, ...WY_1401_QUESTIONS.filter(q=>WY_1401_NEW_IDS.includes(q.id)), ...WY_1501_QUESTIONS]
+    : wyNonconvictionContract ? [...WILMA_FACT_QUESTIONS, ...WY_1401_QUESTIONS.filter(q=>WY_1401_NEW_IDS.includes(q.id)), ...WY_1501_QUESTIONS, ...WY_1502_QUESTIONS]
+    : profile.jurisdiction.code === "WY" ? [...WILMA_FACT_QUESTIONS, ...WY_1502_QUESTIONS]
       : WILMA_FACT_QUESTIONS;
   const additions = [...availableWilmaFactQuestions, ...convictionReliefQuestions(profile.jurisdiction.code)]
     .filter((question) => !existingIds.has(question.id))
@@ -1384,6 +1386,8 @@ export function projectPublicProfile(profile: EngineProfile): PublicJurisdiction
   const projected = toPublicJurisdictionProfile(buildProfileDraft(profile));
   if (profile.jurisdiction.code === "GA") projected.questions = projected.questions.map(question =>
     question.id === "ga_sb288_final_citations" ? { ...question, multiline: true } : question);
+  if (profile.jurisdiction.code === "WY") projected.questions = projected.questions.map(question =>
+    question.id === "wy1502_citations" ? { ...question, multiline: true } : question);
   if (profile.jurisdiction.code === "CT") projected.questions = projected.questions.map(question =>
     CT_PETITION_MULTILINE_IDS.includes(question.id) ? { ...question, multiline: true } : question);
   const context = { state: profile.jurisdiction.code };
