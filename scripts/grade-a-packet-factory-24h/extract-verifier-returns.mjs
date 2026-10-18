@@ -492,6 +492,37 @@ const isAncestorOf = (a, b) => {
   return answer;
 };
 /*
+ * A DECLARED BASE THAT NO LONGER EXISTS ANYWHERE CANNOT BE REORDERED.
+ *
+ * Some bases are Codex Cloud worker commits that were never pushed, so no
+ * reachable history contains them and merge-base answers "not an ancestor" for
+ * pairs it once ordered. Lane precedence would then silently pick a different
+ * current verdict (DE pardon and FL bridge PASS -> BLOCKED_SOURCE). For a pair
+ * where either declared base is absent, keep the order this file recorded when
+ * it could still be computed; pairs with present bases are decided as before.
+ */
+const presentCommit = new Map();
+const isPresentCommit = (c) => {
+  if (!presentCommit.has(c)) {
+    try { execFileSync("git", ["cat-file", "-e", `${c}^{commit}`], { cwd: ROOT, stdio: "ignore" }); presentCommit.set(c, true); }
+    catch { presentCommit.set(c, false); }
+  }
+  return presentCommit.get(c);
+};
+const recordedKey = (r) => [r.lane, r.familyId, r.verifiedAtBase, r.evidencePath].join("\0");
+const recordedSuperseded = new Map();
+try {
+  for (const r of JSON.parse(fs.readFileSync(path.join(ROOT, OUT), "utf8")).rows ?? []) recordedSuperseded.set(recordedKey(r), r.superseded);
+} catch { /* no earlier extraction to remember */ }
+const recordedOrder = (r, prior) => {
+  if (!isCommit(r.verifiedAtBase) || !isCommit(prior.verifiedAtBase)
+    || (isPresentCommit(r.verifiedAtBase) && isPresentCommit(prior.verifiedAtBase))) return undefined;
+  const rWas = recordedSuperseded.get(recordedKey(r)), priorWas = recordedSuperseded.get(recordedKey(prior));
+  if (rWas === false && priorWas === true) return true;
+  if (rWas === true && priorWas === false) return false;
+  return undefined;
+};
+/*
  * Only the base a lane DECLARES is used. The commit that last wrote a lane's
  * rows file looks like the same signal and is not: a merge that touches an old
  * lane's file incidentally makes a stale read look fresh, and using it put
@@ -505,6 +536,8 @@ const supersedes = (r, prior) => {
   if (prior.supersedesEvidencePath === r.evidencePath || prior.supersedesEvidencePaths?.includes(r.evidencePath)) return false;
   if (isAncestorOf(prior.verifiedAtBase, r.verifiedAtBase)) return true;
   if (isAncestorOf(r.verifiedAtBase, prior.verifiedAtBase)) return false;
+  const recorded = recordedOrder(r, prior);
+  if (recorded !== undefined) return recorded;
   /*
    * A row that states the commit it read at has made a checkable claim about
    * when it read; one that states nothing has not. Lane number is only a proxy
