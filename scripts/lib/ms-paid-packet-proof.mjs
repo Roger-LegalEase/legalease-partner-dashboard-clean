@@ -277,6 +277,10 @@ export const MS_PROOF_OBSERVED_INPUTS=[
   // GA SB288 and CT clean-slate petition record facts: imported by evaluator.ts for the GA-12 registered members; inert for every other route.
   "src/lib/rcap-engine/georgia-sb288-facts.ts",
   "src/lib/rcap-engine/connecticut-clean-slate-petition-facts.ts",
+  // IL prostitution, SD SIS and WY 7-13-1502 record facts: imported by evaluator.ts for the GA-12 registered members; inert for every other route.
+  "src/lib/rcap-engine/illinois-prostitution-facts.ts",
+  "src/lib/rcap-engine/south-dakota-sis-facts.ts",
+  "src/lib/rcap-engine/wyoming-1502-facts.ts",
   "src/lib/rcap-engine/illinois-cannabis-facts.ts",
   "src/lib/rcap-engine/kansas-district-facts.ts",
   "src/lib/rcap-engine/kansas-record-scope.ts",
