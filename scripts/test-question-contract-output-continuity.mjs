@@ -1,6 +1,7 @@
 import {assertCaNoPhoneContactSourceSuccession,CA_NO_PHONE_CONTACT_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertGaSb288CtPetitionSourceSuccession,GA_SB288_CT_PETITION_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertGaGuideSpanishSourceSuccession,GA_GUIDE_SPANISH_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
+import {assertCtPrepayRecordFactsSourceSuccession,CT_PREPAY_RECORD_FACTS_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertGaVaSpecSuccessorGatesSourceSuccession,GA_VA_SPEC_SUCCESSOR_GATES_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertGaPardonContactSuccessorSourceSuccession,GA_PARDON_CONTACT_SUCCESSOR_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertGaPardonSpecPinSourceSuccession,GA_PARDON_SPEC_PIN_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
@@ -874,6 +875,13 @@ check('GA guide Spanish hop preserves prior chain and refuses missing/tampered b
  assert.throws(()=>assertQuestionContractOutputInputs(file=>file===GA_GUIDE_SPANISH_SOURCE_PATH?Buffer.from('{}'):readBytes(file)),/GA guide Spanish source succession record bytes changed/);
  assert.throws(()=>assertGaSb288CtPetitionSourceSuccession(file=>{if(file===GA_GUIDE_SPANISH_SOURCE_PATH)throw Error('missing GA guide Spanish record');return readBytes(file);}),/missing GA guide Spanish record/);
  for(const input of ["data/record-clearing/supplemental-guides/GA-restriction-and-sealing-of-a-pardoned-felony.v1.json", "data/record-clearing/supplemental-guides/GA-sb-288-misdemeanor-conviction-restriction-and-sealing.v1.json"])
+  assert.throws(()=>assertQuestionContractOutputInputs(file=>file===input?Buffer.from('drift'):readBytes(file)),/stale output input/);
+});
+check('CT prepay record-facts hop preserves prior chain and refuses missing/tampered bytes',()=>{
+ const c=assertCtPrepayRecordFactsSourceSuccession(readBytes);assert.equal(c.currentChangedSourceCount,21);assert.equal(c.currentUnchangedSourceCount,177);
+ assert.throws(()=>assertQuestionContractOutputInputs(file=>file===CT_PREPAY_RECORD_FACTS_SOURCE_PATH?Buffer.from('{}'):readBytes(file)),/CT prepay record-facts source succession record bytes changed/);
+ assert.throws(()=>assertGaGuideSpanishSourceSuccession(file=>{if(file===CT_PREPAY_RECORD_FACTS_SOURCE_PATH)throw Error('missing CT prepay record');return readBytes(file);}),/missing CT prepay record/);
+ for(const input of ["src/lib/rcap-engine/public-profile-projection.ts", "src/lib/rcap-engine/screening-question-selection.ts"])
   assert.throws(()=>assertQuestionContractOutputInputs(file=>file===input?Buffer.from('drift'):readBytes(file)),/stale output input/);
 });
 
