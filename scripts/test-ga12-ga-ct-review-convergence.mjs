@@ -7,6 +7,7 @@ process.env.RCAP_EVALUATOR_TODAY='2026-07-01';
 register('./lib/ts-esm-loader.mjs',import.meta.url);
 const mutation=process.argv.find(a=>a.startsWith('--mutation='))?.slice(11);
 const mutations={
+ route_scope:[': ctPetitionContext(sourceProfile, current.pathwayId) ? ["case_outcome", ...CT_PETITION_FACT_IDS] : [];',': ctPetitionContext(sourceProfile, current.pathwayId) ? ["case_outcome", ...CT_PETITION_FACT_IDS] : ["case_outcome"];','packet-information.ts'],
  disposition_correction:['outstanding.push(...reviewInputIds(["case_outcome"], false));',''],
  repeated_invalid:['if (gaCtFactIds.includes(id)','if (false','packet-information.ts'],
  correction_delta:['delete initialAnswers[id];\n            const question = questionSurface.questionById.get(id);','const question = questionSurface.questionById.get(id);','packet-information.ts'],
@@ -36,6 +37,19 @@ const converge=new Function('evaluateAuthoritativeScreeningResult','CLEAR_RECORD
 const projection=e=>({resultCode:e.resultCode,pathwayId:e.pathwayId??null,pathwayLabel:e.pathwayLabel??null,paymentAllowed:e.paymentAllowed===true,treatmentClassification:e.treatmentClassification??null,selectedTrackId:e.selectedTrackId??null,reasonCodes:e.reasons.map(r=>r.code).sort(),missingQuestionIds:[...e.missingQuestionIds].sort()});
 let checks=0,failures=0;
 function check(name,fn){try{fn();checks++;console.log(JSON.stringify({case:name,status:'PASS'}));}catch(e){failures++;console.error(JSON.stringify({failedCheck:name,assertion:e.message,actual:e.actual,expected:e.expected}));if(mutation)throw e;}}
+check('repeat-invalid filter scope uses only adopted GA/CT routes and source contexts',()=>{
+ let source=fs.readFileSync('src/lib/expungement-ai/packet-information.ts','utf8');
+ if(mutation==='route_scope'){const m=mutations[mutation];assert(source.includes(m[0]));source=source.replaceAll(m[0],m[1]);}
+ const ast=ts.createSourceFile('packet-information.ts',source,ts.ScriptTarget.Latest,true);let expression;
+ function visit(n){if(ts.isVariableDeclaration(n)&&n.name.getText(ast)==='gaCtFactIds')expression=n.initializer.getText(ast);ts.forEachChild(n,visit);}visit(ast);assert(expression);
+ const scope=new Function('sourceProfile','current','georgiaSb288Context','ctPetitionContext','GA_SB288_FACT_IDS','CT_PETITION_FACT_IDS','return '+expression);
+ const read=(profile,pathwayId)=>scope(profile,{pathwayId},G.georgiaSb288Context,C.ctPetitionContext,G.GA_SB288_FACT_IDS,C.CT_PETITION_FACT_IDS);
+ for(const state of ['GA','CT','IL']){
+  const profile=getProfileByJurisdiction(state);
+  for(const pathway of profile.pathways){const expected=state==='GA'&&pathway.id===G.GA_SB288_ROUTE?['case_outcome',...G.GA_SB288_FACT_IDS]:state==='CT'&&pathway.id===C.CT_PETITION_ROUTE?['case_outcome',...C.CT_PETITION_FACT_IDS]:[];assert.deepEqual(read(profile,pathway.id),expected,state+':'+pathway.id);}
+  for(const key of ['profileVersion','source']){const changed=structuredClone(profile);if(key==='source')changed.source.sourceCorpusSha256='changed';else changed.profileVersion='changed';assert.deepEqual(read(changed,state==='GA'?G.GA_SB288_ROUTE:C.CT_PETITION_ROUTE),[]);}
+ }
+});
 const allFixtures=JSON.parse(fs.readFileSync('data/rcap-ledger/public-witness-fixtures.json')).fixtures;
 // Captured from c98; these immutable hashes prove that the reconstructed held drafts are the actual predecessors.
 const predecessorCases=[{"state":"GA","id":"case_outcome","raw":"dismissed","draftHash":"3ad7cfbdd6a822ca16895d32d9db433ab45c9b8aa81697648c6eee0b72a0cb31","wasReadable":true},{"state":"GA","id":"case_outcome","raw":["Dismissed, no-billed, nolle prosequi, or not prosecuted"],"draftHash":"052c635427f75c8d4d1f91da2a50f03e158c7a51cccaf7b56954d8aebd9b9d27","wasReadable":false},{"state":"GA","id":"ga_sb288_conviction_count","raw":"0","draftHash":"97afec6d4d877853bdc127c8e3a2a2b3a2a018598e24a4649ea25af4fbb495d3","wasReadable":true},{"state":"GA","id":"ga_sb288_conviction_count","raw":{"value":"1"},"draftHash":"85ebf9cdb6d2b4b83b1fabb184ec5f531c3a3b3437be507bc5c7b21f20f6d26b","wasReadable":true},{"state":"GA","id":"ga_sb288_convictions_before_filing","raw":true,"draftHash":"5788009babd20bcc5e37b724ea6cd89b48338b92d41338abfc2a9b1b67b7765d","wasReadable":true},{"state":"GA","id":"ga_sb288_convictions_before_filing","raw":false,"draftHash":"fdc8dec046f04e6748ec5400d903b7aa69d9e414e0f4b73225665fb5729354f0","wasReadable":true},{"state":"GA","id":"ga_sb288_convictions_before_filing","raw":{"value":"Yes"},"draftHash":"1394bba28e2ca07eafeb3e5703ee6818d8fd50cc70a34e92652dcc87db97acc0","wasReadable":true},{"state":"CT","id":"case_outcome","raw":"dismissed","draftHash":"5e3b8ba5b086991610c5c9587d63d6d305cb4379607c9ee63c95c3f19b727f70","wasReadable":true},{"state":"CT","id":"case_outcome","raw":["Dismissed, no-billed, nolle prosequi, or not prosecuted"],"draftHash":"09d44e6d040faaf5e285140bcecf7d5038be230c22c20c0274f2d14e61bcfbd4","wasReadable":false},{"state":"CT","id":"ct_petition_count","raw":"0","draftHash":"10f52faff71d22fc7cbabfc3c6022bee0f2c36bc011d10be7570a9948d36076f","wasReadable":true},{"state":"CT","id":"ct_petition_count","raw":{"value":"1"},"draftHash":"d6d1ffb8dd67210e55f734e508c89a745181c3acda905c2c21b7fb665094a6d6","wasReadable":true},{"state":"CT","id":"ct_petition_supervision_complete","raw":true,"draftHash":"e9bd08a05dbf539e983165c4f636d1e09ee5be98e04e54aa66c5d80c0e7d5eed","wasReadable":true},{"state":"CT","id":"ct_petition_supervision_complete","raw":false,"draftHash":"3a8a1f067f3f8a1a116f50a72001195b9ef0788e8d2db10dbc3bc17a66f45852","wasReadable":true},{"state":"CT","id":"ct_petition_supervision_complete","raw":{"value":"Yes"},"draftHash":"7cf56e58dca566ddb1d1645526a1da1a2ad2405d416b2f6303a2b8dc9bb8d36c","wasReadable":true}];
@@ -76,13 +90,25 @@ for(const [state,route] of [['GA',G.GA_SB288_ROUTE],['CT',C.CT_PETITION_ROUTE]])
   const r=evalFor(a).evaluation;assert(r.missingQuestionIds.includes(factId));assert.equal(r.paymentAllowed,false);
   const seed=P.protectedPacketDraftSeedFromAuthoritative({authoritative:evalFor(a),screeningAnswers:a,dependencies:{},capturedAt:'2026-10-18T00:00:00Z'});assert(seed);
   assert.deepEqual({...seed.snapshot.screeningAnswers,...seed.snapshot.prefilledAnswers,...seed.snapshot.packetAnswers}[factId],raw);
-  const record={status:'unverified',revision:0,draftHash:seed.hash,draftSnapshot:seed.snapshot};assert.deepEqual(P.packetInformationPatch({protectedVerification:record,answers:{}}).protectedTransition.nextVerification,record);
+  const record={status:'unverified',revision:0,draftHash:seed.hash,draftSnapshot:seed.snapshot};const noOp=P.packetInformationPatch({protectedVerification:record,answers:{}});assert(noOp,'Saved invalid facts retain a readable no-op transition');assert.deepEqual(noOp.protectedTransition.nextVerification,record);
   const before=structuredClone(record);
-  const repeat=P.packetInformationPatch({protectedVerification:record,answers:{[factId]:raw}});assert(repeat);
-  assert.deepEqual(repeat.protectedTransition.answerDelta,{});assert.deepEqual(repeat.protectedTransition.nextVerification,before);assert.deepEqual(record,before);
+  if(typeof raw!=='boolean'){
+   const repeat=P.packetInformationPatch({protectedVerification:record,answers:{[factId]:raw}});assert(repeat);
+   assert.deepEqual(repeat.protectedTransition.answerDelta,{});assert.deepEqual(repeat.protectedTransition.nextVerification,before);assert.deepEqual(record,before);
+  }
   const correction=P.packetInformationPatch({protectedVerification:record,answers:{[factId]:factId===countId?'1':'Yes'}});assert(correction);
   const next=correction.protectedTransition.nextVerification;assert.equal(next.revision,record.revision+1);assert.equal(next.draftSnapshot.paymentAllowed,false);
   assert(next.draftSnapshot.dependencies.semanticAnswerHistory.some(h=>h.factId===factId&&JSON.stringify(h.value)===JSON.stringify(raw)));
+ });
+ check(state+' actual packet save then repeated invalid count is a no-op',()=>{
+  const seed=P.protectedPacketDraftSeedFromAuthoritative({authoritative:evalFor(base),screeningAnswers:base,dependencies:{},capturedAt:'2026-10-18T00:00:00Z'});assert(seed);
+  const original={status:'unverified',revision:0,draftHash:seed.hash,draftSnapshot:seed.snapshot};
+  const first=P.packetInformationPatch({protectedVerification:original,answers:{[countId]:'0'}});assert(first);
+  const saved=first.protectedTransition.nextVerification,before=structuredClone(saved);assert.equal(saved.revision,1);assert.equal(saved.draftSnapshot.packetAnswers[countId],'0');
+  assert(P.protectedPacketInformationModelFor(saved).missingInputIds.includes(countId));
+  const repeat=P.packetInformationPatch({protectedVerification:saved,answers:{[countId]:'0'}});assert(repeat);assert.deepEqual(repeat.protectedTransition.answerDelta,{});assert.deepEqual(repeat.protectedTransition.nextVerification,before);assert.deepEqual(saved,before);
+  const correction=P.packetInformationPatch({protectedVerification:saved,answers:{[countId]:'1'}});assert(correction);const next=correction.protectedTransition.nextVerification;
+  assert.equal(next.revision,2);assert.equal(next.draftSnapshot.packetAnswers[countId],'1');assert.equal(next.draftSnapshot.paymentAllowed,false);assert(Array.isArray(next.draftSnapshot.dependencies.semanticAnswerHistory));assert(next.draftSnapshot.dependencies.semanticAnswerHistory.some(h=>h.factId===countId&&h.source==='packetAnswers'&&h.value==='0'));assert.deepEqual(saved,before);
  });
  if(state==='GA')for(const outcome of ['Felony conviction','Other conviction or adjudication','Pardoned conviction'])check('GA supported alternate disposition settles '+outcome,()=>{
   const a={...base,case_outcome:outcome};const r=evalFor(a).evaluation;
@@ -133,6 +159,7 @@ for(const [state,route] of [['GA',G.GA_SB288_ROUTE],['CT',C.CT_PETITION_ROUTE]])
    const patch=P.packetInformationPatch({protectedVerification:record,answers:{[id]:value}});assert(patch);
    const next=patch.protectedTransition.nextVerification.draftSnapshot;assert.equal(next.packetAnswers[id],value);assert.equal(next.paymentAllowed,false);
    for(const source of ['screeningAnswers','prefilledAnswers','packetAnswers'])if(Object.hasOwn(before.draftSnapshot[source],id)){
+    assert(Array.isArray(next.dependencies.semanticAnswerHistory),'Explicit correction retains a semantic history array');
     const history=next.dependencies.semanticAnswerHistory.find(h=>h.factId===id&&h.source===source);assert(history);assert.deepEqual(history.value,before.draftSnapshot[source][id]);
    }
   }else assert.equal(model,null);
