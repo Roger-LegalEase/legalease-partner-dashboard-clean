@@ -1,4 +1,3 @@
-import { NEVADA_176A_ROUTE_KEY } from "@/lib/rcap-engine/nevada-176a-branch";
 import { ctPetitionContext } from "@/lib/rcap-engine/connecticut-clean-slate-petition-facts";
 import { georgiaSb288Context } from "@/lib/rcap-engine/georgia-sb288-facts";
 import { contactRepresentationHash } from "@/lib/expungement-ai/contact-representation";
@@ -561,14 +560,6 @@ export function ctPetitionCategoryIsHistory(profile: EngineProfile | undefined, 
     && contactRepresentationHash(specification) === "63847c550055ffc14860252999bba536044b66e3de120f4db638815da928a7f8";
 }
 
-// GA-12 Q-f739580167b3303bcdcf / QD-bd6b15fff22cbe1501cb: exact adopted program consumer.
-export function nvProgramCategoryIsHistory(profile: EngineProfile | undefined, pathwayId: string | null | undefined, specification: RegisteredSpecification | null | undefined): boolean {
-  return profile?.jurisdiction.code === "NV" && `NV:${pathwayId}` === NEVADA_176A_ROUTE_KEY
-    && specification?.routeKey === NEVADA_176A_ROUTE_KEY
-    && contactRepresentationHash(profile) === "964eecfe7a5c3ffd4bae54636520141ff20d25c904401b4eab6941de5d3dd651"
-    && contactRepresentationHash(specification) === "94ed0589dab1e02886759605f2eac2afd4baf7bb3f0a1f6d4f18fcb24603182c";
-}
-
 const DERIVATIONS: Readonly<Record<string, Derivation>> = {
   // The last four digits are a projection of the number itself, never a
   // separate thing to ask for.
@@ -809,7 +800,6 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
   const mnStageCandidate = mnStageContext?.candidate ?? null;
 
   const ksMunicipalCategoryContext = ksMunicipalCategoryIsContext(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
-  const nvProgramCategoryHistory = nvProgramCategoryIsHistory(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
   const ctPetitionCategoryHistory = ctPetitionCategoryIsHistory(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
   const gaSb288CategoryHistory = gaSb288CategoryIsHistory(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
   const msCategoryHistory = msAdditionalCategoryIsHistory(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
@@ -856,16 +846,14 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
       continue;
     }
 
-    if ((ctCategoryHistory || dcCategoryHistory || ilCategoryHistory || msCategoryHistory || gaSb288CategoryHistory || ctPetitionCategoryHistory || nvProgramCategoryHistory) && factId === "offense_category" && !overrideClass
+    if ((ctCategoryHistory || dcCategoryHistory || ilCategoryHistory || msCategoryHistory || gaSb288CategoryHistory || ctPetitionCategoryHistory) && factId === "offense_category" && !overrideClass
       && !needsHuman.has(factId) && !input.recordOwnQuestionIds?.has(factId)) {
       const retained = needsSavedAnswerClarification || [input.screeningAnswers, input.prefilledAnswers, input.savedAnswers, input.profileFacts]
         .some(answers => answers && Object.hasOwn(answers, factId));
       facts.push({ factId, collection: "conditional", phase: retained ? "render" : "known",
         group: retained ? group : null, active: retained, optional: true,
-        source: nvProgramCategoryHistory ? "nv_program_category_history" : ctPetitionCategoryHistory ? "ct_petition_category_history" : gaSb288CategoryHistory ? "ga_sb288_category_history" : msCategoryHistory ? "ms_additional_category_history" : ilCategoryHistory ? "il_identity_category_history" : dcCategoryHistory ? "dc_innocence_category_history" : "ct_information_category_history",
-        reason: nvProgramCategoryHistory
-          ? "This program family uses its separate named-charge, final-disposition and subsection 3 facts. Earlier broad categories remain optional literal history; they establish neither program participation, the branch, a statutory bar nor the waiting period."
-          : ctPetitionCategoryHistory
+        source: ctPetitionCategoryHistory ? "ct_petition_category_history" : gaSb288CategoryHistory ? "ga_sb288_category_history" : msCategoryHistory ? "ms_additional_category_history" : ilCategoryHistory ? "il_identity_category_history" : dcCategoryHistory ? "dc_innocence_category_history" : "ct_information_category_history",
+        reason: ctPetitionCategoryHistory
           ? "Final per-count citations, conduct dates and recorded historical class/maximum are separate review inputs. Earlier categories remain optional literal history and establish no eligibility, exclusions or waiting period."
           : gaSb288CategoryHistory
           ? "The final conviction citations, count and specific arrest-age and four-year facts are separate review inputs. Earlier broad categories remain optional literal history and establish no statutory classification."
