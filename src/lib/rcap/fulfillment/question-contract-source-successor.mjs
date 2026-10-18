@@ -520,6 +520,13 @@ function ctPrepayRecordFactsChain(readBytes) {
 export const IL_SD_WY_RECORD_FACTS_SOURCE_PATH = 'data/rcap-grade-a/participant-data-rights/question-contract-source-succession-il-sd-wy-record-facts-20261018-v1.json';
 export const IL_SD_WY_RECORD_FACTS_SOURCE_SHA256 = '752cd4c1972e1e853a8c07fc23cd492342264d066e1cc764260aa2bd3881af5a';
 export function assertIlSdWyRecordFactsSourceSuccession(readBytes) {
+  const { record } = ilSdWyRecordFactsChain(readBytes);
+  // Retain the immutable IL/SD/WY 21/177 scope; the separately pinned OH juvenile copy
+  // hop checks the complete current twenty-one-source chain without rewriting it.
+  assertOhJuvenileCopySourceSuccession(readBytes);
+  return record;
+}
+function ilSdWyRecordFactsChain(readBytes) {
   const bytes=readBytes(IL_SD_WY_RECORD_FACTS_SOURCE_PATH);
   insist(sha(bytes)===IL_SD_WY_RECORD_FACTS_SOURCE_SHA256,'IL/SD/WY record-facts source succession record bytes changed');
   const record=JSON.parse(bytes.toString('utf8'));
@@ -538,9 +545,34 @@ export function assertIlSdWyRecordFactsSourceSuccession(readBytes) {
     insist(row.beforeSha256===(current.get(row.file)??null),'IL/SD/WY record-facts disconnected source hop');current.set(row.file,row.afterSha256);
   }
   insist(current.size===21,'IL/SD/WY record-facts current twenty-one-source inventory');
+  return { record, current };
+}
+
+// Exact OH juvenile adopted result-copy hop (shared reviewed-result lookup).
+export const OH_JUVENILE_COPY_SOURCE_PATH = 'data/rcap-grade-a/participant-data-rights/question-contract-source-succession-oh-juvenile-copy-20261018-v1.json';
+export const OH_JUVENILE_COPY_SOURCE_SHA256 = 'd4839a2454672062ed970a3ba367436bacddcbd56aec726841baae0fd8dc6c6b';
+export function assertOhJuvenileCopySourceSuccession(readBytes) {
+  const bytes=readBytes(OH_JUVENILE_COPY_SOURCE_PATH);
+  insist(sha(bytes)===OH_JUVENILE_COPY_SOURCE_SHA256,'OH juvenile copy source succession record bytes changed');
+  const record=JSON.parse(bytes.toString('utf8'));
+  const { record: ilSdWy, current }=ilSdWyRecordFactsChain(readBytes);
+  insist(record.schemaVersion==='rcap-question-contract-oh-juvenile-copy-source-succession/v1'
+    && record.recordId==='OH-JUVENILE-COPY-SOURCE-SUCCESSION-20261018'
+    && record.kind==='technical_source_only' && record.engineeringCommit==='4a390f3011ee2820b47fdce55725e96296679027'
+    && equal(record.previousNamedSource,{path:IL_SD_WY_RECORD_FACTS_SOURCE_PATH,sha256:IL_SD_WY_RECORD_FACTS_SOURCE_SHA256,currentChangedSourceCount:21,currentUnchangedSourceCount:177})
+    && equal(record.historicalContinuity,ilSdWy.historicalContinuity) && equal(record.historicalOutput,ilSdWy.historicalOutput)
+    && record.sourceCount===198 && record.currentChangedSourceCount===21 && record.currentUnchangedSourceCount===177
+    && equal(record.historicalArtifactScope,{routeCount:6,artifactCount:18,reexecuted:false,changed:false})
+    && ['createsOwnerApproval','changesHistoricalOutputEvidence','establishesCurrentOutputReproduction','establishesProtectedVerification','establishesProviderOrPublicationProof','commercialAuthorityGranted','productionAuthorized'].every(key=>record[key]===false),'OH juvenile copy source succession identity');
+  insist(Array.isArray(record.transitions) && equal(record.transitions.map(row=>row.file),["src/lib/expungement-ai/reviewed-result-copy.ts"]),'OH juvenile copy source succession inventory');
+  insist(current.size===21,'OH juvenile copy prior twenty-one-source inventory');
+  for(const row of record.transitions){
+    insist(row.beforeSha256===(current.get(row.file)??null),'OH juvenile copy disconnected source hop');current.set(row.file,row.afterSha256);
+  }
+  insist(current.size===21,'OH juvenile copy current twenty-one-source inventory');
   // Always fresh, including after success or a previous failed read. No accessor
   // recursion: prior records are read as exact pinned raw bytes.
-  for(const [file,digest]of current)insist(sha(readBytes(file))===digest,`stale output input: ${file}; exact IL/SD/WY record-facts source succession`);
+  for(const [file,digest]of current)insist(sha(readBytes(file))===digest,`stale output input: ${file}; exact OH juvenile copy source succession`);
   return record;
 }
 
@@ -560,6 +592,7 @@ function assertCurrentOutputSourceInput(file, expectedSha256, readBytes, label) 
   const gaGuide = assertGaGuideSpanishSourceSuccession(readBytes).transitions.find(input => input.file === file);
   const ctPrepay = assertCtPrepayRecordFactsSourceSuccession(readBytes).transitions.find(input => input.file === file);
   const ilSdWy = assertIlSdWyRecordFactsSourceSuccession(readBytes).transitions.find(input => input.file === file);
+  const ohCopy = assertOhJuvenileCopySourceSuccession(readBytes).transitions.find(input => input.file === file);
   const caDigest = ca ? ca.afterSha256 : previousDigest;
   const nyDigest = ny ? ny.afterSha256 : caDigest;
   const gaDigest = ga ? ga.afterSha256 : nyDigest;
@@ -569,12 +602,13 @@ function assertCurrentOutputSourceInput(file, expectedSha256, readBytes, label) 
   const gaCtDigest = gaCt ? gaCt.afterSha256 : caNoPhoneDigest;
   const gaGuideDigest = gaGuide ? gaGuide.afterSha256 : gaCtDigest;
   const ctPrepayDigest = ctPrepay ? ctPrepay.afterSha256 : gaGuideDigest;
-  const currentDigest = ilSdWy ? ilSdWy.afterSha256 : ctPrepay ? ctPrepay.afterSha256 : gaGuide ? gaGuide.afterSha256 : gaCt ? gaCt.afterSha256 : caNoPhone ? caNoPhone.afterSha256 : gates ? gates.afterSha256 : gaContact ? gaContact.afterSha256 : ga ? ga.afterSha256 : ny ? ny.afterSha256 : ca?.afterSha256 ?? row?.afterSha256;
-  insist((row ? row.beforeSha256 === expectedSha256 : ca != null || ny != null || ga != null || gaContact != null || gates != null || caNoPhone != null || gaCt != null || gaGuide != null || ctPrepay != null || ilSdWy != null)
+  const ilSdWyDigest = ilSdWy ? ilSdWy.afterSha256 : ctPrepayDigest;
+  const currentDigest = ohCopy ? ohCopy.afterSha256 : ilSdWy ? ilSdWy.afterSha256 : ctPrepay ? ctPrepay.afterSha256 : gaGuide ? gaGuide.afterSha256 : gaCt ? gaCt.afterSha256 : caNoPhone ? caNoPhone.afterSha256 : gates ? gates.afterSha256 : gaContact ? gaContact.afterSha256 : ga ? ga.afterSha256 : ny ? ny.afterSha256 : ca?.afterSha256 ?? row?.afterSha256;
+  insist((row ? row.beforeSha256 === expectedSha256 : ca != null || ny != null || ga != null || gaContact != null || gates != null || caNoPhone != null || gaCt != null || gaGuide != null || ctPrepay != null || ilSdWy != null || ohCopy != null)
     && (!ca || ca.beforeSha256 === previousDigest) && (!ny || ny.beforeSha256 === caDigest)
     && (!ga || ga.beforeSha256 === nyDigest) && (!gaContact || gaContact.beforeSha256 === gaDigest)
     && (!gates || gates.beforeSha256 === contactDigest) && (!caNoPhone || caNoPhone.beforeSha256 === gatesDigest)
-    && (!gaCt || gaCt.beforeSha256 === caNoPhoneDigest) && (!gaGuide || gaGuide.beforeSha256 === gaCtDigest) && (!ctPrepay || ctPrepay.beforeSha256 === gaGuideDigest) && (!ilSdWy || ilSdWy.beforeSha256 === ctPrepayDigest)
+    && (!gaCt || gaCt.beforeSha256 === caNoPhoneDigest) && (!gaGuide || gaGuide.beforeSha256 === gaCtDigest) && (!ctPrepay || ctPrepay.beforeSha256 === gaGuideDigest) && (!ilSdWy || ilSdWy.beforeSha256 === ctPrepayDigest) && (!ohCopy || ohCopy.beforeSha256 === ilSdWyDigest)
     && currentDigest === actual, `${label}: ${file}`);
 }
 
