@@ -1,3 +1,4 @@
+import { sameKnownQuestionAnswer } from "@/lib/expungement-ai/question-answer-state";
 import type { EngineProfile, PublicQuestion } from "@/lib/rcap-engine/contracts";
 
 // GA-12 Q-3ab8bb479903ec6dc680 / QD-bd6b15fff22cbe1501cb; IL.memo il-prostitution-j-vacate.
@@ -37,7 +38,7 @@ export const IL_PROSTITUTION_COPY = {
 export function illinoisProstitutionFacts(answers: Record<string, unknown>): "missing" | "record_conflict" | "completion" | "record_review" | "trafficking" {
   // A choice is an account of the final record, never a classification from prose.
   if (answers.case_outcome !== "Felony conviction") return "record_conflict";
-  if (answers.trafficking_status === true || typeof answers.trafficking_status === "string" && answers.trafficking_status.trim() === "Yes") return "trafficking";
+  if (sameKnownQuestionAnswer({ id: "trafficking_status", type: "yes_no_prefer_not_to_say" }, answers.trafficking_status, "Yes")) return "trafficking";
   const value = answers[IL_PROSTITUTION_FACT_ID];
   if (value === "No") return "record_conflict";
   if (value !== "Yes") return "missing";

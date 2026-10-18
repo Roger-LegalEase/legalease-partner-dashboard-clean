@@ -2,17 +2,21 @@
 import fs from 'node:fs';import assert from 'node:assert/strict';import {register}from'node:module';
 process.env.RCAP_EVALUATOR_TODAY='2026-10-18';register('./lib/ts-esm-loader.mjs',import.meta.url);
 const mutations={
+ wy_wrapped:['wyoming-1502-facts.ts','if (sameKnownQuestionAnswer({ id: "trafficking_status", type: "yes_no_prefer_not_to_say" }, a.trafficking_status, "Yes"))','if (a.trafficking_status === true || typeof a.trafficking_status === "string" && a.trafficking_status.trim() === "Yes")'],
+
+ il_wrapped:['illinois-prostitution-facts.ts','if (sameKnownQuestionAnswer({ id: "trafficking_status", type: "yes_no_prefer_not_to_say" }, answers.trafficking_status, "Yes"))','if (answers.trafficking_status === true || typeof answers.trafficking_status === "string" && answers.trafficking_status.trim() === "Yes")'],
+
  il_copy:['illinois-prostitution-facts.ts','20 ILCS 2630/5.2(h)','W.S. 6-2-708'],
  wy_copy:['wyoming-1502-facts.ts','W.S. 6-2-708','20 ILCS 2630/5.2(h)'],
- il_order:['illinois-prostitution-facts.ts','if (answers.trafficking_status === true || typeof answers.trafficking_status === "string" && answers.trafficking_status.trim() === "Yes")','if ((answers.trafficking_status === true || typeof answers.trafficking_status === "string" && answers.trafficking_status.trim() === "Yes") && answers.il_prostitution_final_record === "Yes")'],
- wy_order:['wyoming-1502-facts.ts','if (a.trafficking_status === true || typeof a.trafficking_status === "string" && a.trafficking_status.trim() === "Yes")','if ((a.trafficking_status === true || typeof a.trafficking_status === "string" && a.trafficking_status.trim() === "Yes") && a.wy1502_citations !== undefined)'],
- wy_affirmative:['wyoming-1502-facts.ts','if (a.trafficking_status === true || typeof a.trafficking_status === "string" && a.trafficking_status.trim() === "Yes")','if (a.trafficking_status === "Yes")'],
- il_affirmative:['illinois-prostitution-facts.ts','if (answers.trafficking_status === true || typeof answers.trafficking_status === "string" && answers.trafficking_status.trim() === "Yes")','if (answers.trafficking_status === "Yes")'],
+ il_order:['illinois-prostitution-facts.ts','if (sameKnownQuestionAnswer({ id: "trafficking_status", type: "yes_no_prefer_not_to_say" }, answers.trafficking_status, "Yes"))','if ((sameKnownQuestionAnswer({ id: "trafficking_status", type: "yes_no_prefer_not_to_say" }, answers.trafficking_status, "Yes")) && answers.il_prostitution_final_record === "Yes")'],
+ wy_order:['wyoming-1502-facts.ts','if (sameKnownQuestionAnswer({ id: "trafficking_status", type: "yes_no_prefer_not_to_say" }, a.trafficking_status, "Yes"))','if ((sameKnownQuestionAnswer({ id: "trafficking_status", type: "yes_no_prefer_not_to_say" }, a.trafficking_status, "Yes")) && a.wy1502_citations !== undefined)'],
+ wy_affirmative:['wyoming-1502-facts.ts','if (sameKnownQuestionAnswer({ id: "trafficking_status", type: "yes_no_prefer_not_to_say" }, a.trafficking_status, "Yes"))','if (a.trafficking_status === "Yes")'],
+ il_affirmative:['illinois-prostitution-facts.ts','if (sameKnownQuestionAnswer({ id: "trafficking_status", type: "yes_no_prefer_not_to_say" }, answers.trafficking_status, "Yes"))','if (answers.trafficking_status === "Yes")'],
  timing:['wyoming-1502-facts.ts','if (parsed > new Date','if (false && parsed > new Date'],
  reason_clock:['evaluator.ts','wy1502Facts(answers, evaluationToday().toISOString().slice(0, 10))','wy1502Facts(answers, "2099-01-01")'],
  next_step_clock:['evaluator.ts','wy1502Facts(request.answers, evaluationToday().toISOString().slice(0, 10))','wy1502Facts(request.answers, "2099-01-01")'],
- il_trafficking:['illinois-prostitution-facts.ts','if (answers.trafficking_status === true || typeof answers.trafficking_status === "string" && answers.trafficking_status.trim() === "Yes")','if (false)'],
- wy_trafficking:['wyoming-1502-facts.ts','if (a.trafficking_status === true || typeof a.trafficking_status === "string" && a.trafficking_status.trim() === "Yes")','if (false)'],
+ il_trafficking:['illinois-prostitution-facts.ts','if (sameKnownQuestionAnswer({ id: "trafficking_status", type: "yes_no_prefer_not_to_say" }, answers.trafficking_status, "Yes"))','if (false)'],
+ wy_trafficking:['wyoming-1502-facts.ts','if (sameKnownQuestionAnswer({ id: "trafficking_status", type: "yes_no_prefer_not_to_say" }, a.trafficking_status, "Yes"))','if (false)'],
  completion:['illinois-prostitution-facts.ts','return completion === "yes" ? "record_review" : "completion";','return completion === "yes" ? "record_review" : "missing";']
 };
 const mutation=process.argv.find(x=>x.startsWith('--mutation='))?.slice(11);
@@ -28,7 +32,7 @@ for(const state of ['IL','WY']){
  const base={...w.answers,case_outcome:'Felony conviction',offense_level:'Felony',...(state==='IL'?{il_prostitution_final_record:'Yes'}:{wy1502_citations:{value:'6-3-402',unknown:false},wy1502_completed_deferral:'No',wy1502_multiple:'No',wy1502_terms_ended:{value:'2010-10-18',unknown:false},wy1502_program_complete:'Yes',wy1502_restitution_paid:'Yes',wy1502_other_felony:'No',wy1502_firearm:'No',wy1502_prior_relief:'No',wy1502_victim:'Yes',wy1502_registration:'No'})};
  const evalFor=answers=>evaluate({jurisdiction:state,profileVersion:profile.profileVersion,matterId:'TEST-il-wy-review-boundary',answers});
  const expected=(answers,code)=>{const before=structuredClone(answers),a=evalFor(answers),r=a.evaluation,copy=state==='IL'?I.IL_PROSTITUTION_COPY:W.WY_1502_COPY;assert.equal(r.pathwayId,route);assert.equal(r.paymentAllowed,false);assert.equal(r.reasons[0].code,(state==='IL'?'il.prostitution_':'wy.felony1502_')+code);assert.equal(r.reasons[0].text,copy[code][0]);assert.deepEqual(r.nextSteps,[copy[code][0]]);assert.deepEqual(answers,before);return a;};
- for(const value of ['Yes',true,' Yes'])for(const missing of [false,true])check(state+'/affirmative trafficking precedence/'+JSON.stringify(value)+'/'+missing,()=>{
+ for(const value of ['Yes',true,' Yes',{value:'Yes'},{value:'Yes',unknown:false}])for(const missing of [false,true])check(state+'/affirmative trafficking precedence/'+JSON.stringify(value)+'/'+missing,()=>{
   const answers={...base,trafficking_status:value};if(missing)delete answers[state==='IL'?'il_prostitution_final_record':'wy1502_citations'];
   const result=expected(answers,'trafficking').evaluation;
   assert(result.reasons[0].text.includes(state==='IL'?'20 ILCS 2630/5.2(h)':'W.S. 6-2-708'));
