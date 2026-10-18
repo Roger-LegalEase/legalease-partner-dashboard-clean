@@ -130,6 +130,7 @@ import { baselineCarriedFactIds, routeCollectionOverrideFor } from "@/lib/expung
 import {
   prepayGateFactIds,
   caTool4RecordIsHistory,
+  coPetitionRecordIsHistory,
   nvProgramCategoryIsHistory,
   ctPetitionCategoryIsHistory,
   gaSb288CategoryIsHistory,
@@ -455,6 +456,7 @@ export function packetInformationModelFor(item: ConsumerBriefcaseItem): PacketIn
   questions = questions.map(question => caAutomaticRecordContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
   questions = questions.map(question => ctPetitionDateQuestion(question, ctPetitionContext(profile, pathwayId)));
   questions = questions.map(question => caTool4RecordHistoryQuestion(question, collection?.facts.some(fact => fact.factId === question.id && fact.source === "ca_tool4_record_type_history") === true));
+  questions = questions.map(question => coPetitionRecordHistoryQuestion(question, collection?.facts.some(fact => fact.factId === question.id && fact.source === "co_petition_record_type_history") === true));
   questions = questions.map(question => delawareProtectedExclusionQuestion(question, profile, pathwayId, initialAnswers));
   for (const question of questions) questionById.set(question.id, question);
   if (alRedeemerClassificationContract(profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`))) {
@@ -2415,7 +2417,8 @@ export function protectedPacketInformationModelFor(
   if (ca12034RecordIsContext(profile,snapshot.pathwayId,packetSpecificationFor(`${snapshot.jurisdiction}:${snapshot.pathwayId}`))
     && [snapshot.screeningAnswers,snapshot.prefilledAnswers,snapshot.packetAnswers].some(map=>Object.hasOwn(map,"record_type"))
     && ![screeningAnswers,prefilledAnswers,packetAnswers].some(map=>Object.hasOwn(map,"record_type"))) packetAnswers.record_type={unknown:true};
-  if ((caTool4RecordIsHistory(profile, snapshot.pathwayId, packetSpecificationFor(`${snapshot.jurisdiction}:${snapshot.pathwayId}`))
+  if ((coPetitionRecordIsHistory(profile, snapshot.pathwayId, packetSpecificationFor(`${snapshot.jurisdiction}:${snapshot.pathwayId}`))
+      || caTool4RecordIsHistory(profile, snapshot.pathwayId, packetSpecificationFor(`${snapshot.jurisdiction}:${snapshot.pathwayId}`))
       || ca12034aRecordIsContext(profile, snapshot.pathwayId, packetSpecificationFor(`${snapshot.jurisdiction}:${snapshot.pathwayId}`))
       || caAutomaticRecordIsContext(profile, snapshot.pathwayId, packetSpecificationFor(`${snapshot.jurisdiction}:${snapshot.pathwayId}`)))
     && [snapshot.screeningAnswers, snapshot.prefilledAnswers, snapshot.packetAnswers].some(map => Object.hasOwn(map, "record_type"))
@@ -3401,7 +3404,7 @@ function builderQuestionsFor(
 
   const owed = new Set(prepayGateFactIds(collection));
   const optional = new Set(collection.facts.filter(fact => fact.optional === true
-    && !(["nv_program_category_history", "ct_petition_category_history", "ga_sb288_category_history", "ms_additional_category_history", "il_identity_category_history", "dc_innocence_category_history", "ct_information_category_history", "oh_juvenile_information_court_context", "oh_trafficking_court_history", "ak_courtview_record_type_history", "ak_pardon_record_type_history", "ak_juvenile_record_type_history", "ak_agency_sis_record_type_history", "al_four_route_record_type_history", "al_redeemer_category_history", "ar_nonconviction_record_type_history", "ar_felony_record_type_history", "ca_12034a_record_type_history", "ca_tool4_record_type_history", "ca_automatic_record_type_history", "ca_12034_specific_probation_facts", "wy_1401_inactive_fact_history", "wy_1501_inactive_fact_history"].includes(fact.source) && fact.active === false)).map(fact => fact.factId));
+    && !(["nv_program_category_history", "ct_petition_category_history", "ga_sb288_category_history", "ms_additional_category_history", "il_identity_category_history", "dc_innocence_category_history", "ct_information_category_history", "oh_juvenile_information_court_context", "oh_trafficking_court_history", "ak_courtview_record_type_history", "ak_pardon_record_type_history", "ak_juvenile_record_type_history", "ak_agency_sis_record_type_history", "al_four_route_record_type_history", "al_redeemer_category_history", "ar_nonconviction_record_type_history", "ar_felony_record_type_history", "ca_12034a_record_type_history", "ca_tool4_record_type_history", "co_petition_record_type_history", "ca_automatic_record_type_history", "ca_12034_specific_probation_facts", "wy_1401_inactive_fact_history", "wy_1501_inactive_fact_history"].includes(fact.source) && fact.active === false)).map(fact => fact.factId));
   const order = new Map<string, number>();
   let position = 0;
   for (const section of collection.groupedParticipantSections) {
@@ -3594,6 +3597,7 @@ function protectedPacketQuestionSurface(
   questions = questions.map(question => caAutomaticRecordContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
   questions = questions.map(question => ctPetitionDateQuestion(question, ctPetitionContext(profile, pathwayId)));
   questions = questions.map(question => caTool4RecordHistoryQuestion(question, collection?.facts.some(fact => fact.factId === question.id && fact.source === "ca_tool4_record_type_history") === true));
+  questions = questions.map(question => coPetitionRecordHistoryQuestion(question, collection?.facts.some(fact => fact.factId === question.id && fact.source === "co_petition_record_type_history") === true));
   questions = questions.map(question => delawareProtectedExclusionQuestion(question, profile, pathwayId, { ...screeningAnswers, ...prefilledAnswers, ...savedAnswers }));
   for (const question of questions) questionById.set(question.id, question);
   if (alRedeemerClassificationContract(profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`))) {
@@ -5111,6 +5115,20 @@ function caTool4RecordHistoryQuestion<T extends ProfileQuestion>(question: T, hi
     translations: { ...question.translations, es: { ...question.translations?.es,
       prompt: "Respuesta anterior sobre el tipo de expediente (historial opcional)",
       helperText: "Estas categorías pueden coincidir. Su respuesta anterior es un historial opcional. No selecciona un procedimiento de sellado de arrestos, no sustituye la resolución final ni demuestra que se haya sellado algún expediente."
+    } } };
+}
+
+// Supplemental EN/ES optional-history copy; qualified review pending.
+function coPetitionRecordHistoryQuestion<T extends ProfileQuestion>(question: T, history: boolean): T {
+  if (!history || question.id !== "record_type" || question.stage !== "packet_information"
+    || question.type !== "single_choice" || question.prompt !== "What type of record is this?"
+    || !canonicalEqual(question.options, ["Arrest or charge", "Court case", "Conviction", "Juvenile matter", "I am not sure"])) return question;
+  return { ...question, required: false,
+    prompt: "Earlier record-type answer (optional history)",
+    helperText: "These labels can overlap. Your earlier answer is optional history. It does not choose a sealing procedure, replace the final disposition, or show that any record has been sealed.",
+    translations: { ...question.translations, es: { ...question.translations?.es,
+      prompt: "Respuesta anterior sobre el tipo de expediente (historial opcional)",
+      helperText: "Estas categorías pueden coincidir. Su respuesta anterior es un historial opcional. No selecciona un procedimiento de sellado, no sustituye la resolución final ni demuestra que se haya sellado algún expediente."
     } } };
 }
 

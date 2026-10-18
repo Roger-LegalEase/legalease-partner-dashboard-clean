@@ -576,6 +576,15 @@ export function caTool4RecordIsHistory(profile: EngineProfile | undefined, pathw
     && specification == null && contactRepresentationHash(profile) === "754b7bb08f3b9010549c686c1571eeeb850afc8ac256cf28b20f25a1c6ef4a0f";
 }
 
+// GA-17 Q-b2e5abdea1cd7427e7ac / Q-34595b6432c5e669f38b: overlapping labels are not a disposition.
+export function coPetitionRecordIsHistory(profile: EngineProfile | undefined, pathwayId: string | null | undefined,
+  specification: RegisteredSpecification | null | undefined): boolean {
+  return profile?.jurisdiction.code === "CO"
+    && (pathwayId === "petition-based-conviction-sealing-jdf-612-24-72-706"
+      || pathwayId === "petition-based-non-conviction-sealing-jdf-417-24-72-704")
+    && specification == null && contactRepresentationHash(profile) === "1e74ae18e3815426ae28001f741a954826a985d08164d8ab77820cda0d90d909";
+}
+
 const DERIVATIONS: Readonly<Record<string, Derivation>> = {
   // The last four digits are a projection of the number itself, never a
   // separate thing to ask for.
@@ -766,6 +775,7 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
   const ca12034aRecordContext = input.jurisdiction === "CA"
     && ca12034aRecordIsContext(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
   const caTool4RecordHistory = caTool4RecordIsHistory(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
+  const coPetitionRecordHistory = coPetitionRecordIsHistory(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
   const caAutomaticRecordContext = input.jurisdiction === "CA"
     && caAutomaticRecordIsContext(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
   const arFelonyRecordContext = input.jurisdiction === "AR"
@@ -1323,6 +1333,17 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
         group: retained ? group : null, active: retained, optional: true,
         source: "ca_tool4_record_type_history",
         reason: "The earlier overlapping labels do not select an arrest-sealing procedure or establish a final disposition. They remain optional history; current route results and fulfillment authority remain separate." });
+      continue;
+    }
+
+    if (factId === "record_type" && coPetitionRecordHistory && !overrideClass && !needsHuman.has(factId)
+      && !input.recordOwnQuestionIds?.has(factId)) {
+      const retained = [input.screeningAnswers, input.prefilledAnswers, input.savedAnswers, input.profileFacts]
+        .some(answers => answers && Object.hasOwn(answers, factId));
+      facts.push({ factId, collection: "conditional", phase: retained ? "render" : "known",
+        group: retained ? group : null, active: retained, optional: true,
+        source: "co_petition_record_type_history",
+        reason: "Earlier overlapping labels do not establish a disposition or select a sealing procedure. They remain optional history; the existing petition result and fulfillment authority remain separate." });
       continue;
     }
 
