@@ -1,3 +1,4 @@
+import { southDakotaSisContext, southDakotaSisFacts, SD_SIS_COPY, SD_SIS_SOURCE } from "@/lib/rcap-engine/south-dakota-sis-facts";
 import { illinoisProstitutionContext, illinoisProstitutionFacts, IL_PROSTITUTION_COPY, IL_PROSTITUTION_SOURCE } from "@/lib/rcap-engine/illinois-prostitution-facts";
 import { questionAnswerState } from "@/lib/expungement-ai/question-answer-state";
 import { CT_PETITION_FACT_IDS, CT_PETITION_SOURCE, CT_PETITION_COPY, ctPetitionContext, ctPetitionFacts } from "@/lib/rcap-engine/connecticut-clean-slate-petition-facts";
@@ -269,6 +270,12 @@ function evaluateAgainstProfile(profile: EngineProfile, request: ScreeningEvalua
     return { ...evaluated, resultCode: facts.status === "missing" && outstanding.length ? "needs_more_info" : "needs_review",
       reasons: [reason("GA", `sb288_${facts.code}`, text, GA_SB288_SOURCE), ...evaluated.reasons],
       missingQuestionIds: [...new Set([...evaluated.missingQuestionIds, ...outstanding])], nextSteps: [text], paymentAllowed: false };
+  }
+  if (southDakotaSisContext(profile, evaluated.pathwayId) && evaluated.resultCode === "guidance_only") {
+    const facts = southDakotaSisFacts(request.answers);
+    return { ...evaluated, reasons: [...evaluated.reasons, reason("SD", `sis_${facts.code}`, SD_SIS_COPY[facts.code], SD_SIS_SOURCE)],
+      missingQuestionIds: [...new Set([...evaluated.missingQuestionIds, ...facts.ids])],
+      nextSteps: [SD_SIS_COPY[facts.code], ...evaluated.nextSteps], paymentAllowed: false };
   }
   if (!evaluated.pathwayId || !arkansasRecordOriginApplies(profile.jurisdiction.code, evaluated.pathwayId)
     || ["hard_stop", "likely_not_eligible"].includes(evaluated.resultCode)) return evaluated;

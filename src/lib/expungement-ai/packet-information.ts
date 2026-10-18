@@ -1,3 +1,4 @@
+import { SD_SIS_FACT_IDS, southDakotaSisContext, southDakotaSisQuestionApplies } from "@/lib/rcap-engine/south-dakota-sis-facts";
 import { IL_PROSTITUTION_FACT_ID, illinoisProstitutionContext } from "@/lib/rcap-engine/illinois-prostitution-facts";
 import { CT_PETITION_FACT_IDS, CT_PETITION_MULTILINE_IDS, ctPetitionContext, ctPetitionQuestionApplies, ctPetitionDateQuestion } from "@/lib/rcap-engine/connecticut-clean-slate-petition-facts";
 import { GA_SB288_FACT_IDS, georgiaSb288Context, georgiaSb288QuestionApplies } from "@/lib/rcap-engine/georgia-sb288-facts";
@@ -130,6 +131,7 @@ import { MISSISSIPPI_NON_CONVICTION_NEUTRAL_FACTS, mississippiParticipantDeliver
 import { baselineCarriedFactIds, routeCollectionOverrideFor } from "@/lib/expungement-ai/packet-collection-overrides";
 import {
   prepayGateFactIds,
+  sdSisCategoryIsHistory,
   ilProstitutionCategoryIsHistory,
   nvProgramCategoryIsHistory,
   ctPetitionCategoryIsHistory,
@@ -431,7 +433,7 @@ export function packetInformationModelFor(item: ConsumerBriefcaseItem): PacketIn
   questions = questions.map(question => akAgencyOrSisRecordContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
   questions = questions.map(question => alRecordContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
   questions = questions.map(question => arNonconvictionRecordContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
-  questions = questions.map(question => collection?.facts.some(fact => fact.factId === question.id && ["il_prostitution_category_history", "nv_program_category_history", "ct_petition_category_history", "ga_sb288_category_history", "ct_information_category_history", "dc_innocence_category_history", "il_identity_category_history", "ms_additional_category_history"].includes(fact.source))
+  questions = questions.map(question => collection?.facts.some(fact => fact.factId === question.id && ["sd_sis_category_history", "il_prostitution_category_history", "nv_program_category_history", "ct_petition_category_history", "ga_sb288_category_history", "ct_information_category_history", "dc_innocence_category_history", "il_identity_category_history", "ms_additional_category_history"].includes(fact.source))
     ? { ...question, required: false, contextOnly: true, lifecyclePhase: "guidance_only" as const } : question);
   questions = questions.map(question => ohTraffickingCourtContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
   questions = questions.map(question => mo610105CourtContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
@@ -3081,6 +3083,8 @@ export function factualPathwayCorrectionIds(state: string, pathway: string | nul
   if (state === "ME" && pathway === ME_NONCONVICTION_ROUTE) return [...extra, "case_outcome", "age_at_offense"];
   if (state === "LA" && pathway === LA_AUTOMATION_STATUS_ROUTE) return [...extra, "case_outcome"];
   if (state === "NE" && pathway === "automatic-nonconviction-sealing") return [...extra, "case_outcome", "age_at_offense"];
+  if (southDakotaSisContext(profile, pathway)) return [...extra, ...SD_SIS_FACT_IDS.filter(id => includeInactive || southDakotaSisQuestionApplies(profile, pathway, answers, id)), "offense_level", "court_requirements_completed",
+    ...(Object.hasOwn(answers, "offense_category") && sdSisCategoryIsHistory(profile, pathway, packetSpecificationFor(`${state}:${pathway}`)) ? ["offense_category"] : [])];
   if (illinoisProstitutionContext(profile, pathway)) return [...extra, IL_PROSTITUTION_FACT_ID, "case_outcome",
     ...(Object.hasOwn(answers, "offense_category") && ilProstitutionCategoryIsHistory(profile, pathway, packetSpecificationFor(`${state}:${pathway}`)) ? ["offense_category"] : [])];
   if (georgiaSb288Context(profile, pathway)) return [...extra, ...GA_SB288_FACT_IDS.filter(id => includeInactive || georgiaSb288QuestionApplies(profile, pathway, answers, id)), "case_outcome"];
@@ -3430,7 +3434,7 @@ function builderQuestionsFor(
 
   const owed = new Set(prepayGateFactIds(collection));
   const optional = new Set(collection.facts.filter(fact => fact.optional === true
-    && !(["il_prostitution_category_history", "nv_program_category_history", "ct_petition_category_history", "ga_sb288_category_history", "ms_additional_category_history", "il_identity_category_history", "dc_innocence_category_history", "ct_information_category_history", "oh_juvenile_information_court_context", "oh_trafficking_court_history", "ak_courtview_record_type_history", "ak_pardon_record_type_history", "ak_juvenile_record_type_history", "ak_agency_sis_record_type_history", "al_four_route_record_type_history", "al_redeemer_category_history", "ar_nonconviction_record_type_history", "ar_felony_record_type_history", "ca_12034a_record_type_history", "ca_automatic_record_type_history", "ca_12034_specific_probation_facts", "wy_1401_inactive_fact_history", "wy_1501_inactive_fact_history"].includes(fact.source) && fact.active === false)).map(fact => fact.factId));
+    && !(["sd_sis_category_history", "il_prostitution_category_history", "nv_program_category_history", "ct_petition_category_history", "ga_sb288_category_history", "ms_additional_category_history", "il_identity_category_history", "dc_innocence_category_history", "ct_information_category_history", "oh_juvenile_information_court_context", "oh_trafficking_court_history", "ak_courtview_record_type_history", "ak_pardon_record_type_history", "ak_juvenile_record_type_history", "ak_agency_sis_record_type_history", "al_four_route_record_type_history", "al_redeemer_category_history", "ar_nonconviction_record_type_history", "ar_felony_record_type_history", "ca_12034a_record_type_history", "ca_automatic_record_type_history", "ca_12034_specific_probation_facts", "wy_1401_inactive_fact_history", "wy_1501_inactive_fact_history"].includes(fact.source) && fact.active === false)).map(fact => fact.factId));
   const order = new Map<string, number>();
   let position = 0;
   for (const section of collection.groupedParticipantSections) {
@@ -3558,7 +3562,8 @@ function protectedPacketQuestionSurface(
   const correctionIds = routeFactualCorrectionIds({ stateCode: profile.jurisdiction.code, pathwayId, requiredInputIds, screeningAnswers, prefilledAnswers, packetAnswers: savedAnswers, heldFactualCorrectionIds });
   for (const id of [...correctionIds, ...(mdPoliceContext(profile, pathwayId) && packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`) == null ? ["county", "court"] : [])]) {
     const question = questionById.get(id) ?? (id === "offense_category"
-      && ilProstitutionCategoryIsHistory(profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`))
+      && (ilProstitutionCategoryIsHistory(profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`))
+        || sdSisCategoryIsHistory(profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)))
       ? fallbackPacketQuestion(id) : undefined);
     if (question && !questions.some(q => q.id === id)) questions.push({ ...question, required: false, contextOnly: false });
   }
@@ -3600,7 +3605,7 @@ function protectedPacketQuestionSurface(
     && collection?.facts.some(fact => fact.factId === question.id && fact.source === "ks_municipal_literal_category_context" && fact.optional === true) === true));
   questions = questions.map(question => collection?.facts.some(fact => fact.factId === question.id && fact.source === "oh_juvenile_information_court_context")
     ? { ...question, required: false, contextOnly: true, lifecyclePhase: "guidance_only" as const } : question);
-  questions = questions.map(question => collection?.facts.some(fact => fact.factId === question.id && ["il_prostitution_category_history", "nv_program_category_history", "ct_petition_category_history", "ga_sb288_category_history", "ct_information_category_history", "dc_innocence_category_history", "il_identity_category_history", "ms_additional_category_history"].includes(fact.source))
+  questions = questions.map(question => collection?.facts.some(fact => fact.factId === question.id && ["sd_sis_category_history", "il_prostitution_category_history", "nv_program_category_history", "ct_petition_category_history", "ga_sb288_category_history", "ct_information_category_history", "dc_innocence_category_history", "il_identity_category_history", "ms_additional_category_history"].includes(fact.source))
     ? { ...question, required: false, contextOnly: true, lifecyclePhase: "guidance_only" as const } : question);
   questions = questions.map(question => ohTraffickingCourtContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
   questions = questions.map(question => mo610105CourtContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));

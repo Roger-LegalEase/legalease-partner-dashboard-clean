@@ -1,3 +1,4 @@
+import { southDakotaSisQuestionApplies } from "@/lib/rcap-engine/south-dakota-sis-facts";
 import { illinoisProstitutionQuestionApplies } from "@/lib/rcap-engine/illinois-prostitution-facts";
 import { ctPetitionContext, ctPetitionQuestionApplies, ctPetitionDateQuestion } from "@/lib/rcap-engine/connecticut-clean-slate-petition-facts";
 import { georgiaSb288QuestionApplies } from "@/lib/rcap-engine/georgia-sb288-facts";
@@ -198,6 +199,7 @@ export function selectScreeningQuestionIds(
     .filter(question => msProgramCompletionQuestionApplies(profile.jurisdiction.code, answers, question.id))
     .filter(question => msConditionalDischargeQuestionApplies(profile.jurisdiction.code, answers, question.id))
     .filter(question => kansasRecordScopeQuestionApplies(profile.jurisdiction.code, answers, question.id))
+    .filter(question => southDakotaSisQuestionApplies(profile, selectedPathway?.id, answers, question.id))
     .filter(question => illinoisProstitutionQuestionApplies(profile, selectedPathway?.id, question.id))
     .filter(question => ctPetitionQuestionApplies(profile, selectedPathway?.id, answers, question.id))
     .filter(question => georgiaSb288QuestionApplies(profile, selectedPathway?.id, answers, question.id))
