@@ -9,6 +9,10 @@ const mutations={
  fl_sealing:['"court-ordered-sealing-943-059"','"unassigned-route"'],
  fl_juvenile:['"early-juvenile-expunction-943-0515"','"unassigned-route"'],
  fl_trafficking:['"human-trafficking-victim-expunction-943-0583"','"unassigned-route"'],
+ fl_diversion:['"juvenile-diversion-expunction-943-0582"','"unassigned-route"'],
+ fl_defense:['"lawful-self-defense-expunction-943-0578"','"unassigned-route"'],
+ ga_automatic:['"automatic-restriction-of-qualifying-post-july-1-2013-non-convictions"','"unassigned-route"'],
+ ga_context:['pathwayId === "automatic-restriction-of-qualifying-post-july-1-2013-non-convictions"\n            && contactRepresentationHash(profile) === "2c60e17a1f424dc325d41bd3533fbf5e10ed8e65316c1920fb809faea4b07cef"','pathwayId === "automatic-restriction-of-qualifying-post-july-1-2013-non-convictions"'],
 
  inactive:['"co_petition_record_type_history", "dc_fl_petition_record_type_history",','"co_petition_record_type_history",'],
  unknown_marker:['dcFlPetitionRecordIsHistory(profile, snapshot.pathwayId, packetSpecificationFor(`${snapshot.jurisdiction}:${snapshot.pathwayId}`))','false'],
@@ -20,7 +24,7 @@ const mutations={
  priority:['const shapesPreserved = preserveProtectedLegacyShapes(seeded, legacy.inspection, replacedLegacyIds);','const shapesPreserved = preserveProtectedLegacyShapes(seeded, legacy.inspection, replacedLegacyIds); if (Array.isArray(shapesPreserved.packetAnswers.record_type)) shapesPreserved.packetAnswers.record_type = "Conviction";'],
  question:['function dcFlPetitionRecordHistoryQuestion(question, history) {','function dcFlPetitionRecordHistoryQuestion(question, history) { return question;']
 };
-if(mutation){assert(mutations[mutation]);register('data:text/javascript,'+encodeURIComponent(`let d;export function initialize(x){d=x}export async function load(u,c,n){const r=await n(u,c);if(u.endsWith(d[2])){if(!r.source.includes(d[0]))throw Error('mutation target absent');return {...r,source:r.source.replace(d[0],d[1])}}return r}`),{data:[...mutations[mutation],['collection','context','fl_context','ownership','fl_sealing','fl_juvenile','fl_trafficking'].includes(mutation)?'/packet-collection.ts':'/packet-information.ts']});}
+if(mutation){assert(mutations[mutation]);register('data:text/javascript,'+encodeURIComponent(`import {writeSync} from 'node:fs';let d;export function initialize(x){d=x}export async function load(u,c,n){const r=await n(u,c);if(u.endsWith(d[2])){if(!r.source.includes(d[0]))throw Error('mutation target absent');writeSync(2,JSON.stringify({appliedMutation:d[3]})+'\\n');return {...r,source:r.source.replace(d[0],d[1])}}return r}`),{data:[...mutations[mutation],['collection','context','fl_context','ownership','fl_sealing','fl_juvenile','fl_trafficking','fl_diversion','fl_defense','ga_automatic','ga_context'].includes(mutation)?'/packet-collection.ts':'/packet-information.ts',mutation]});}
 const P = await import('../src/lib/expungement-ai/packet-information.ts');
 const { evaluateAuthoritativeScreeningResult: evaluate } = await import('../src/lib/expungement-ai/authoritative-screening-result.ts');
 const {createConsumerPaymentPlaceholder}=await import('../src/lib/expungement-ai/payment-adapter.ts');
@@ -29,6 +33,7 @@ const {getProfileByJurisdiction}=await import('../src/lib/rcap-engine/profile-re
 const {dcFlPetitionRecordIsHistory:history,resolvePacketCollection}=await import('../src/lib/expungement-ai/packet-collection.ts');
 const { packetSpecificationFor } = await import('../src/lib/rcap/grade-a/packet-specification.ts');
 // GA-17 Q-8105d5d0b28ebd1e4a67 / Q-c8633872a982712e7803 / Q-94c8f0620f0384854d98.
+// GA-17 Q-ab7cc6744570b24e17d4 / Q-481c00319478c8236160 / Q-1ee2fb0eca77febaf2b6.
 // GA-17 Q-748f73bc4bcf41923fcc / Q-6acd9d8d275e7be59682 / Q-8c94453e5af32f59406d / QD-fb5a90b4c42ab7e486c1.
 // Current held consumer proof; the historical blank builder is not re-certified.
 const read=p=>JSON.parse(fs.readFileSync(p));
@@ -38,10 +43,93 @@ const cases=[
  {state:'FL',route:'court-ordered-expunction-943-0585',result:'needs_review',payment:false,reason:'fl.waiting_rule_not_executed'},
  {"state":"FL","route":"court-ordered-sealing-943-059","result":"guidance_only","payment":false,"reason":"fl.guidance_only_no_user_filed_court_petition"},
  {"state":"FL","route":"early-juvenile-expunction-943-0515","result":"not_covered_yet","payment":false,"reason":"fl.intentional_unsupported_route"},
- {"state":"FL","route":"human-trafficking-victim-expunction-943-0583","result":"needs_review","payment":false,"reason":"fl.waiting_rule_not_executed"}
+ {"state":"FL","route":"human-trafficking-victim-expunction-943-0583","result":"needs_review","payment":false,"reason":"fl.waiting_rule_not_executed"},
+ {"state": "FL", "route": "juvenile-diversion-expunction-943-0582", "result": "guidance_only", "payment": false, "reason": "fl.juvenileDiversion_conditional_information"},
+ {"state": "FL", "route": "lawful-self-defense-expunction-943-0578", "result": "guidance_only", "payment": false, "reason": "fl.selfDefense_conditional_information"},
+ {"state": "GA", "route": "automatic-restriction-of-qualifying-post-july-1-2013-non-convictions", "result": "guidance_only", "payment": false, "reason": "ga.guidance_only_no_user_filed_court_petition"}
 ];
-const predecessorHashes={"dc_motion_seal_misdemeanor_conviction_5yr_16_806": "2151f25f31aa842d96d4cf4eae4e51c4c06f723a4b990f9e8922dd8c9f6d3fbd", "dc_motion_seal_nonconviction_16_806": "da1a999021ebf099a165e1d30f62c25c58bcb0c4e5ca709f0ccf57f39d8089fb", "court-ordered-expunction-943-0585": "89d9f01b4f3283b3760e4a21fca075bc948a96d2c5d973aa78f023c4dee107c1", "court-ordered-sealing-943-059": "b91cd98fe3b9f673023369ff6f28eee0e5b61282a527b0aa97b96605b90d9df1", "early-juvenile-expunction-943-0515": "f073d4e9daabbfb2953196c4a069094062f9f3ced9ad764c8a2926ec916210b1", "human-trafficking-victim-expunction-943-0583": "e6502befee04de2d1258dc7bffcfa40081f3f49c49be74ed7c792b04275378de"};
+const predecessorHashes={"dc_motion_seal_misdemeanor_conviction_5yr_16_806": "2151f25f31aa842d96d4cf4eae4e51c4c06f723a4b990f9e8922dd8c9f6d3fbd", "dc_motion_seal_nonconviction_16_806": "da1a999021ebf099a165e1d30f62c25c58bcb0c4e5ca709f0ccf57f39d8089fb", "court-ordered-expunction-943-0585": "89d9f01b4f3283b3760e4a21fca075bc948a96d2c5d973aa78f023c4dee107c1", "court-ordered-sealing-943-059": "b91cd98fe3b9f673023369ff6f28eee0e5b61282a527b0aa97b96605b90d9df1", "early-juvenile-expunction-943-0515": "f073d4e9daabbfb2953196c4a069094062f9f3ced9ad764c8a2926ec916210b1", "human-trafficking-victim-expunction-943-0583": "e6502befee04de2d1258dc7bffcfa40081f3f49c49be74ed7c792b04275378de", "juvenile-diversion-expunction-943-0582": "0835b875bbe4d563029141334795658e1784baacd5c72c9b90b2b03647a7cd76", "lawful-self-defense-expunction-943-0578": "2167351db9f9e46b127b24b0120f8aea47f568417dd07bd703679ccccfeef1e5", "automatic-restriction-of-qualifying-post-july-1-2013-non-convictions": "e84c65022897f61a29de80a8dd9615737b38e3d9245a17879c1f301bfd52f21c"};
 const witnesses=read('data/rcap-ledger/public-witness-fixtures.json').fixtures;
+// Synthetic inputs reuse FL conditional-information cases and GA public screening facts.
+// They do not establish diversion, certification, restriction, or fulfillment authority.
+witnesses.push(...[
+  {
+    "pathwayKey": "FL:juvenile-diversion-expunction-943-0582",
+    "profileVersion": "2026-06-19-source-conversion-1",
+    "answers": {
+      "age_at_offense": 17,
+      "case_outcome": "Juvenile adjudication or offense committed as a minor",
+      "court_requirements_completed": "yes",
+      "financial_obligations": "Yes",
+      "identity_error": "Yes",
+      "jurisdiction_scope": "State or local",
+      "new_convictions_during_waiting_period": "No",
+      "offense_level": "Misdemeanor",
+      "ownership_scope": "Yes",
+      "pending_cases": "No",
+      "possible_pathway_context": "Juvenile diversion expunction - 943.0582",
+      "prior_relief": "Yes",
+      "record_documents": "Yes",
+      "resolved_timing_bucket": "gt_10_years",
+      "sentence_completion_date": "Yes",
+      "special_preconditions_confirmed": "Yes",
+      "state_exclusion_categories": [
+        "None of these"
+      ],
+      "trafficking_status": "No"
+    }
+  },
+  {
+    "pathwayKey": "FL:lawful-self-defense-expunction-943-0578",
+    "profileVersion": "2026-06-19-source-conversion-1",
+    "answers": {
+      "age_at_offense": 30,
+      "case_outcome": "Arrest or citation with no charge filed",
+      "court_requirements_completed": "yes",
+      "financial_obligations": "Yes",
+      "identity_error": "Yes",
+      "jurisdiction_scope": "State or local",
+      "new_convictions_during_waiting_period": "No",
+      "offense_level": "Misdemeanor",
+      "ownership_scope": "Yes",
+      "pending_cases": "No",
+      "possible_pathway_context": "Lawful self-defense expunction - 943.0578",
+      "prior_relief": "Yes",
+      "record_documents": "Yes",
+      "resolved_timing_bucket": "gt_10_years",
+      "sentence_completion_date": "Yes",
+      "special_preconditions_confirmed": "Yes",
+      "state_exclusion_categories": [
+        "None of these"
+      ],
+      "trafficking_status": "No"
+    }
+  },
+  {
+    "pathwayKey": "GA:automatic-restriction-of-qualifying-post-july-1-2013-non-convictions",
+    "profileVersion": "2026-06-19-source-conversion-1",
+    "answers": {
+      "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+      "court_requirements_completed": "yes",
+      "financial_obligations": "Yes",
+      "jurisdiction_scope": "State or local",
+      "new_convictions_during_waiting_period": "No",
+      "offense_level": "Misdemeanor",
+      "ownership_scope": "Yes",
+      "pardon_status": "No",
+      "pending_cases": "No",
+      "possible_pathway_context": "Automatic restriction of qualifying post-July 1, 2013 non-convictions",
+      "prior_relief": "Yes",
+      "record_documents": "Yes",
+      "resolved_timing_bucket": "gt_10_years",
+      "sentence_completion_date": "Yes",
+      "special_preconditions_confirmed": "Yes",
+      "state_exclusion_categories": [
+        "None of these"
+      ]
+    }
+  }
+]);
 // Run this same behavioural assertion on the predecessor before implementing the correction.
 if(process.argv.includes('--regression-only')){
  let failures=0;
@@ -222,4 +310,4 @@ for(const [id,original] of [...records]){
  authenticated=true;verified=true;owner='synthetic-dc-fl-owner';
 }
 delete globalThis.__dcFlPetitionHistoryTransport;
-console.log(JSON.stringify({status:'PASS_DC_FL_PETITION_OPTIONAL_HISTORY',checks,httpCases,originalIds:['Q-748f73bc4bcf41923fcc','Q-6acd9d8d275e7be59682','Q-8c94453e5af32f59406d','Q-8105d5d0b28ebd1e4a67','Q-c8633872a982712e7803','Q-94c8f0620f0384854d98','QD-fb5a90b4c42ab7e486c1'],routes:cases.map(c=>c.state+':'+c.route),limits:['Existing DC unsupported and FL held outcomes retained; actual NO_RECORD/payment refusal unchanged; no whole GA17 closure.','No database, output rendering, source change, hosted authorization or commercial delivery; draft EN/ES needs qualified review.']}));
+console.log(JSON.stringify({status:'PASS_DC_FL_PETITION_OPTIONAL_HISTORY',checks,httpCases,originalIds:['Q-748f73bc4bcf41923fcc','Q-6acd9d8d275e7be59682','Q-8c94453e5af32f59406d','Q-8105d5d0b28ebd1e4a67','Q-c8633872a982712e7803','Q-94c8f0620f0384854d98','Q-ab7cc6744570b24e17d4','Q-481c00319478c8236160','Q-1ee2fb0eca77febaf2b6','QD-fb5a90b4c42ab7e486c1'],routes:cases.map(c=>c.state+':'+c.route),limits:['Existing DC/FL/GA unsupported, held and guidance outcomes retained; actual NO_RECORD/payment refusal unchanged; no whole GA17 closure.','No database, output rendering, source change, hosted authorization or commercial delivery; draft EN/ES needs qualified review.']}));

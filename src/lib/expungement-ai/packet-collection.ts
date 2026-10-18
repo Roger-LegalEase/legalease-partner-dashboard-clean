@@ -626,14 +626,18 @@ export function dcFelonyRecordIsHistory(profile: EngineProfile | undefined, path
 
 // GA-17 Q-8105d5d0b28ebd1e4a67 / Q-c8633872a982712e7803 / Q-94c8f0620f0384854d98.
 // GA-17 Q-748f73bc4bcf41923fcc / Q-6acd9d8d275e7be59682 / Q-8c94453e5af32f59406d.
+// Q-ab7cc6744570b24e17d4 / Q-481c00319478c8236160 / Q-1ee2fb0eca77febaf2b6: the same history-only consumer.
 export function dcFlPetitionRecordIsHistory(profile: EngineProfile | undefined, pathwayId: string | null | undefined,
   specification: RegisteredSpecification | null | undefined): boolean {
   if (specification != null) return false;
   return profile?.jurisdiction.code === "DC"
     && ["dc_motion_seal_misdemeanor_conviction_5yr_16_806", "dc_motion_seal_nonconviction_16_806"].includes(pathwayId ?? "")
     && contactRepresentationHash(profile) === "bcc070d365fb97ad2cd7a5296ca4c8ba516dcf37708fb2b5c852c0d5d1566830"
-    || profile?.jurisdiction.code === "FL" && ["court-ordered-expunction-943-0585", "court-ordered-sealing-943-059", "early-juvenile-expunction-943-0515", "human-trafficking-victim-expunction-943-0583"].includes(pathwayId ?? "")
-    && contactRepresentationHash(profile) === "aca558d3077491f0c09abe838d08b926c0cbe8b194ac1c4500d93520d9a32034";
+    || profile?.jurisdiction.code === "FL"
+      && ["court-ordered-expunction-943-0585", "court-ordered-sealing-943-059", "early-juvenile-expunction-943-0515", "human-trafficking-victim-expunction-943-0583", "juvenile-diversion-expunction-943-0582", "lawful-self-defense-expunction-943-0578"].includes(pathwayId ?? "")
+      && contactRepresentationHash(profile) === "aca558d3077491f0c09abe838d08b926c0cbe8b194ac1c4500d93520d9a32034"
+    || profile?.jurisdiction.code === "GA" && pathwayId === "automatic-restriction-of-qualifying-post-july-1-2013-non-convictions"
+      && contactRepresentationHash(profile) === "2c60e17a1f424dc325d41bd3533fbf5e10ed8e65316c1920fb809faea4b07cef";
 }
 
 // GA-12 Q-ce34aa2230f68728a3ca / Q-71b990754b6c4d4ab55b / Q-1c1d81d2035e0ec75e0f: no category document binding.
