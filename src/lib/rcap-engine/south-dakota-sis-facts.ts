@@ -44,10 +44,11 @@ export const SD_SIS_COPY = {
 } as const;
 export function southDakotaSisFacts(a: Record<string, unknown>): { code: keyof typeof SD_SIS_COPY; ids: string[] } {
   const ids = SD_SIS_FACT_IDS.filter(id => (id !== "sd_sis_specified_charge" || a.sd_sis_teaching_licence === "Yes") && !(typeof a[id] === "string" && ["Yes", "No"].includes(a[id] as string)));
-  if (typeof a.offense_level !== "string" || !["Felony", "Misdemeanor"].includes(a.offense_level)) ids.push("offense_level");
-  if (typeof a.court_requirements_completed !== "string" || !["yes", "no"].includes(a.court_requirements_completed)) ids.push("court_requirements_completed");
+  if (typeof a.offense_level !== "string" || !["Felony", "Misdemeanor", "Infraction or violation", "Traffic or driving matter", "Municipal or ordinance matter"].includes(a.offense_level)) ids.push("offense_level");
+  if (typeof a.court_requirements_completed !== "string" || !["yes", "no", "not_sure", "not_applicable"].includes(a.court_requirements_completed)) ids.push("court_requirements_completed");
   if (ids.length) return { code: "missing", ids };
   const review = (code: keyof typeof SD_SIS_COPY) => ({ code, ids: [] });
+  if (a.offense_level !== "Misdemeanor" && a.offense_level !== "Felony") return review("record_review");
   if (a.sd_sis_granted !== "Yes") return review("order_review");
   if (a.court_requirements_completed !== "yes" || a.sd_sis_discharge_dismissal !== "Yes") return review("duty_review");
   if (a.offense_level === "Felony") return review("felony_review");

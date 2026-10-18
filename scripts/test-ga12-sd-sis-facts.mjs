@@ -7,6 +7,8 @@ import ts from 'typescript';
 register('./lib/ts-esm-loader.mjs',import.meta.url);
 const mutation=process.argv.find(a=>a.startsWith('--mutation='))?.slice(11);
 const mutations={
+ completion_settles:['south-dakota-sis-facts.ts','["yes", "no", "not_sure", "not_applicable"].includes(a.court_requirements_completed)','["yes", "no"].includes(a.court_requirements_completed)'],
+ level_settles:['south-dakota-sis-facts.ts','["Felony", "Misdemeanor", "Infraction or violation", "Traffic or driving matter", "Municipal or ordinance matter"].includes(a.offense_level)','["Felony", "Misdemeanor"].includes(a.offense_level)'],
  consumer:['evaluator.ts','southDakotaSisContext(profile, evaluated.pathwayId) && evaluated.resultCode === "guidance_only"','false'],
  order:['south-dakota-sis-facts.ts','a.sd_sis_granted !== "Yes"','false'],
  duty:['south-dakota-sis-facts.ts','a.court_requirements_completed !== "yes" || a.sd_sis_discharge_dismissal !== "Yes"','false'],
@@ -39,6 +41,33 @@ const check=(name,fn)=>{try{fn();checks++;}catch(e){console.error(JSON.stringify
 const evalFor=answers=>evaluate({jurisdiction:'SD',profileVersion:profile.profileVersion,matterId:'TEST-sd-sis',answers});
 const modelFor=answers=>{const seed=P.protectedPacketDraftSeedFromAuthoritative({authoritative:evalFor(answers),screeningAnswers:answers,dependencies:{},capturedAt:'2026-10-18T00:00:00Z'});assert(seed);return{status:'unverified',revision:0,draftHash:seed.hash,draftSnapshot:seed.snapshot};};
 const decision=(patch,code)=>{const a={...base,...patch},before=structuredClone(a);assert.equal(G.southDakotaSisFacts(a).code,code);const r=evalFor(a).evaluation;assert.equal(r.pathwayId,route);assert.equal(r.paymentAllowed,false);assert(!r.resultCode.startsWith('packet_ready'));if(r.resultCode==='guidance_only'){assert(r.reasons.some(r=>r.code==='sd.guidance_only_no_user_filed_court_petition'));assert(r.reasons.some(r=>r.code==='sd.sis_'+code));}assert.deepEqual(a,before);return r;};
+// Reviewer counterexamples: valid answered values settle; they are not missing intake.
+const ledger=JSON.parse(fs.readFileSync('data/rcap-ledger/public-witness-answer-sets.json'));
+const generator=fs.readFileSync('scripts/generate-rcap-public-witness-answer-sets.mjs','utf8');
+const ast=ts.createSourceFile('generator.mjs',generator,ts.ScriptTarget.Latest,true,ts.ScriptKind.JS);
+const declaration=name=>{const n=ast.statements.find(n=>ts.isFunctionDeclaration(n)&&n.name?.text===name);assert(n);return n.getText(ast);};
+const converge=new Function('evaluateAuthoritativeScreeningResult','CLEAR_RECORD',declaration('answerFor')+'\n'+declaration('converge')+'\nreturn converge;')(evaluate,ledger.determinism.clearRecord);
+const questions=new Map();function visit(n){if(!n||typeof n!=='object')return;if(n.id&&n.type&&(n.prompt||n.label)&&!questions.has(n.id))questions.set(n.id,n);Object.values(n).forEach(visit);}visit(pub);
+check('reviewed SD witness still settles to prior review',()=>{
+ const w=ledger.witnesses.find(w=>w.pathwayKey===key);assert(w);const run=converge('SD',profile,questions,w.seedAnswers);
+ assert.equal(run.error,null);assert.equal(run.evaluation.resultCode,'guidance_only');assert.equal(run.evaluation.paymentAllowed,false);
+ assert.deepEqual(run.evaluation.missingQuestionIds,[]);assert(run.evaluation.reasons.some(r=>r.code==='sd.sis_prior_review'));
+});
+const predecessorCases=[{"id":"court_requirements_completed","value":"not_sure","draftHash":"98c030ca6257c9a511f7632d07b34a3cb86715c6f139a32a78f04fc9ed844075"},{"id":"court_requirements_completed","value":"not_applicable","draftHash":"e9edee6292d572909cb35edb923ccfdcbef7277c6ddfeb68df89a4a3f2a33964"},{"id":"offense_level","value":"Infraction or violation","draftHash":"c9ba9f2ade246ae93f8b58b4559980cfe78e4053c36e9b123b9cfaeee0b24e87"},{"id":"offense_level","value":"Traffic or driving matter","draftHash":"8fcdcfc36151cc4a7e65ca4665a0f78976e96d2b411578d93ef179af369845d1"},{"id":"offense_level","value":"Municipal or ordinance matter","draftHash":"9f92c098db276dcc8cd2b8b50e4040cf1913f4ab19c1bf5f79ea11dde0a04342"}];
+for(const {id,value,draftHash}of predecessorCases)check('reviewer answered value settles/'+id+'/'+value,()=>{
+ const answers={...base,[id]:value},before=structuredClone(answers),run=converge('SD',profile,questions,answers,answers);
+ assert.equal(run.error,null,JSON.stringify(run.unresolvedEvaluation));assert.deepEqual(run.answers,answers);
+ const code=id==='court_requirements_completed'?'duty_review':'record_review',r=run.evaluation;
+ assert.equal(G.southDakotaSisFacts(answers).code,code);assert.equal(r.resultCode,'guidance_only');assert.equal(r.paymentAllowed,false);
+ assert.deepEqual(r.missingQuestionIds,[]);assert(r.reasons.some(r=>r.code==='sd.sis_'+code));assert(r.nextSteps.includes(G.SD_SIS_COPY[code]));assert(!r.nextSteps.some(x=>/add these details/i.test(x)));
+ const record=modelFor(answers);assert.equal(record.draftHash,draftHash);const saved=structuredClone(record);assert(P.protectedPacketInformationModelFor(record));
+ assert.deepEqual(P.packetInformationPatch({protectedVerification:record,answers:{}}).protectedTransition.nextVerification,saved);
+ assert.deepEqual(record,saved);assert.deepEqual(answers,before);
+ for(const map of maps)if(Object.hasOwn(saved.draftSnapshot[map],id))assert.deepEqual(record.draftSnapshot[map][id],value);
+});
+for(const id of ['court_requirements_completed','offense_level'])for(const raw of [undefined,'',[],{unexpected:true}])check('blank or malformed remains requested/'+id+'/'+JSON.stringify(raw),()=>{
+ const answers={...base,[id]:raw},facts=G.southDakotaSisFacts(answers);assert.equal(facts.code,'missing');assert(facts.ids.includes(id));assert(evalFor(answers).evaluation.missingQuestionIds.includes(id));
+});
 check('complete record facts retain the original guidance hold',()=>{const r=decision({},'record_review');assert.equal(r.resultCode,'guidance_only');assert(r.reasons.some(r=>r.code==='sd.sis_record_review'));});
 for(const [patch,code]of [[{sd_sis_granted:'No'},'order_review'],[{sd_sis_discharge_dismissal:'No'},'duty_review'],[{court_requirements_completed:'no'},'duty_review'],[{offense_level:'Felony'},'felony_review'],[{sd_sis_prior_felony:'Yes'},'prior_review'],[{sd_sis_prior_sis:'Yes'},'prior_review'],[{sd_sis_teaching_licence:'Yes',sd_sis_specified_charge:'Yes'},'licence_review'],[{sd_sis_record_public:'No'},'public_status_review'],[{[Stage.SD_SIS_STAGE_FACT_ID]:Stage.SD_SIS_STAGE_RECORD_CORRECTED},'stage_review']])check(code+'/'+JSON.stringify(patch),()=>decision(patch,code));
 for(const id of G.SD_SIS_FACT_IDS)for(const value of [undefined,'I am not sure',true,['Yes'],{value:'Yes',unknown:true}])check('no inferred fact/'+id+'/'+JSON.stringify(value),()=>{const a={...base,sd_sis_teaching_licence:'Yes',sd_sis_specified_charge:'No',[id]:value};const d=G.southDakotaSisFacts(a);assert.equal(d.code,'missing');assert(d.ids.includes(id));});
