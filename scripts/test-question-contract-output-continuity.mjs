@@ -4,6 +4,7 @@ import {assertGaGuideSpanishSourceSuccession,GA_GUIDE_SPANISH_SOURCE_PATH} from 
 import {assertCtPrepayRecordFactsSourceSuccession,CT_PREPAY_RECORD_FACTS_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertIlSdWyRecordFactsSourceSuccession,IL_SD_WY_RECORD_FACTS_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertOhJuvenileCopySourceSuccession,OH_JUVENILE_COPY_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
+import {assertCaSafeAtHomeSourceSuccession,CA_SAFE_AT_HOME_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertGaVaSpecSuccessorGatesSourceSuccession,GA_VA_SPEC_SUCCESSOR_GATES_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertGaPardonContactSuccessorSourceSuccession,GA_PARDON_CONTACT_SUCCESSOR_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertGaPardonSpecPinSourceSuccession,GA_PARDON_SPEC_PIN_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
@@ -898,6 +899,13 @@ check('OH juvenile copy hop preserves prior chain and refuses missing/tampered b
  assert.throws(()=>assertQuestionContractOutputInputs(file=>file===OH_JUVENILE_COPY_SOURCE_PATH?Buffer.from('{}'):readBytes(file)),/OH juvenile copy source succession record bytes changed/);
  assert.throws(()=>assertIlSdWyRecordFactsSourceSuccession(file=>{if(file===OH_JUVENILE_COPY_SOURCE_PATH)throw Error('missing OH juvenile copy record');return readBytes(file);}),/missing OH juvenile copy record/);
  for(const input of ["src/lib/expungement-ai/reviewed-result-copy.ts"])
+  assert.throws(()=>assertQuestionContractOutputInputs(file=>file===input?Buffer.from('drift'):readBytes(file)),/stale output input/);
+});
+check('CA Safe at Home hop preserves prior chain and refuses missing/tampered bytes',()=>{
+ const c=assertCaSafeAtHomeSourceSuccession(readBytes);assert.equal(c.currentChangedSourceCount,21);assert.equal(c.currentUnchangedSourceCount,177);
+ assert.throws(()=>assertQuestionContractOutputInputs(file=>file===CA_SAFE_AT_HOME_SOURCE_PATH?Buffer.from('{}'):readBytes(file)),/CA Safe at Home source succession record bytes changed/);
+ assert.throws(()=>assertOhJuvenileCopySourceSuccession(file=>{if(file===CA_SAFE_AT_HOME_SOURCE_PATH)throw Error('missing CA Safe at Home record');return readBytes(file);}),/missing CA Safe at Home record/);
+ for(const input of ["src/lib/expungement-ai/ca-prop64-contact-answer.ts"])
   assert.throws(()=>assertQuestionContractOutputInputs(file=>file===input?Buffer.from('drift'):readBytes(file)),/stale output input/);
 });
 
