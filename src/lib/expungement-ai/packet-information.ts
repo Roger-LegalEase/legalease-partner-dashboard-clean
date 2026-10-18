@@ -1,5 +1,5 @@
-import { CT_PETITION_FACT_IDS, CT_PETITION_MULTILINE_IDS, ctPetitionContext, ctPetitionQuestionApplies, ctPetitionDateQuestion } from "@/lib/rcap-engine/connecticut-clean-slate-petition-facts";
-import { GA_SB288_FACT_IDS, georgiaSb288Context, georgiaSb288QuestionApplies } from "@/lib/rcap-engine/georgia-sb288-facts";
+import { CT_PETITION_FACT_IDS, CT_PETITION_MULTILINE_IDS, ctPetitionFacts, ctPetitionContext, ctPetitionQuestionApplies, ctPetitionDateQuestion } from "@/lib/rcap-engine/connecticut-clean-slate-petition-facts";
+import { GA_SB288_FACT_IDS, GA_SB288_SOURCE, georgiaSb288Facts, georgiaSb288Context, georgiaSb288QuestionApplies } from "@/lib/rcap-engine/georgia-sb288-facts";
 import { VA_PARDON_ROUTE, VA_PARDON_TYPE_ID, vaPardonTypeContract, vaPardonTypeQuestion, vaPardonTypeReportedState } from "@/lib/expungement-ai/va-pardon-type-source";
 import { mdJuvenileCountySourcePurpose, MD_JUVENILE_CAPTION_ROUTE, mdJuvenileCaptionQuestion } from "@/lib/expungement-ai/md-juvenile-county-source-purpose";
 import { ksMunicipalCategoryIsContext, ksMunicipalCategoryContextQuestion } from "@/lib/expungement-ai/ks-municipal-category-context";
@@ -2340,6 +2340,16 @@ export function protectedPacketInformationModelFor(
   const vaHeldSuccessor = virginiaVictimHeldDraftSuccessor(snapshot, currentAuthoritative, verification.status);
   const authoritative = vaHeldSuccessor ?? currentAuthoritative;
   const evaluation = authoritative.evaluation;
+  const gaCtSourceFactReview = georgiaSb288Context(profile, snapshot.pathwayId) || ctPetitionContext(profile, snapshot.pathwayId);
+  // Tighten an unverified held draft only; its source, plan, route, raw maps and payment refusal must still match.
+  if (gaCtSourceFactReview && ["unverified", "invalidated"].includes(verification.status) && snapshot.resultCode === "needs_review" && !snapshot.paymentAllowed
+    && evaluation.resultCode === "needs_more_info" && !evaluation.paymentAllowed
+    && ["ga.sb288_missing", "ga.sb288_classification"].includes(evaluation.reasons[0]?.code)
+    && evaluation.reasons[0]?.sourceRef === GA_SB288_SOURCE && evaluation.missingQuestionIds.length > 0
+    && evaluation.missingQuestionIds.every(id => id === "case_outcome" || GA_SB288_FACT_IDS.includes(id))
+    && protectedRouteAuthorityMatches({ ...snapshot, resultCode: evaluation.resultCode }, authoritative)) {
+    snapshot = { ...snapshot, resultCode: evaluation.resultCode };
+  }
   const factualSuccessor = factualPathwayHeldSuccessor(snapshot, authoritative) ?? convictionFallbackHeldSuccessor(snapshot, authoritative) ?? arkansasRecordOriginHeldSuccessor(snapshot, authoritative);
   if (factualSuccessor) snapshot = factualSuccessor;
   const contractSuccessor = !canonicalEqual(evaluation.packetPlan ?? null, snapshot.packetPlan)
@@ -2503,6 +2513,19 @@ export function protectedPacketInformationModelFor(
     initialAnswers,
     new Map(questionSurface.questions.map((question) => [question.id, question]))
   );
+  if (gaCtSourceFactReview) for (const id of evaluation.missingQuestionIds) {
+    if (!missingInputIds.includes(id)) missingInputIds.push(id);
+    // A source-invalid value is not an equivalent known answer when the owner explicitly corrects it.
+    delete initialAnswers[id];
+    const question = questionSurface.questionById.get(id);
+    if (question && [snapshot.screeningAnswers, snapshot.prefilledAnswers, snapshot.packetAnswers].some(map => Object.hasOwn(map, id))) {
+      const correction = { ...question, savedAnswerNeedsClarification: true };
+      questionSurface.questionById.set(id, correction);
+      questionSurface.questions = questionSurface.questions.map(q => q.id === id ? correction : q);
+      questionSurface.builderQuestions = questionSurface.builderQuestions.map(q => q.id === id ? correction : q);
+      if (!questionSurface.builderQuestions.some(q => q.id === id)) questionSurface.builderQuestions.push(correction);
+    }
+  }
   if (arkansasRecordOriginApplies(snapshot.jurisdiction, snapshot.pathwayId) && arkansasRecordOrigin(initialAnswers) === "unknown"
     && !missingInputIds.includes(AR_RECORD_ORIGIN_ID)) missingInputIds.push(AR_RECORD_ORIGIN_ID);
   // Current source completion facts do not alter the evaluator's route/result
@@ -3008,7 +3031,7 @@ export function factualPathwayCorrectionIds(state: string, pathway: string | nul
     // Ordinary explicit corrections to saved legacy context retain their raw
     // history, without offering those obsolete purposes as active intake.
     ...(includeInactive ? ["contact_information", "residency_or_location"].filter(id => Object.hasOwn(answers, id)) : [])];
-  if (ctPetitionContext(profile, pathway)) return [...extra, ...CT_PETITION_FACT_IDS.filter(id => includeInactive || ctPetitionQuestionApplies(profile, pathway, answers, id)),
+  if (ctPetitionContext(profile, pathway)) return [...extra, "case_outcome", ...CT_PETITION_FACT_IDS.filter(id => includeInactive || ctPetitionQuestionApplies(profile, pathway, answers, id)),
     ...(profile && ctCleanSlateContactContract(profile, pathway) ? CT_CLEAN_SLATE_CONTACT_IDS : [])];
   if (profile && ctCleanSlateContactContract(profile, pathway)) return [...extra, ...CT_CLEAN_SLATE_CONTACT_IDS];
   if (profile && ksMunicipalContactContract(profile, pathway)) return [...extra, ...KS_MUNICIPAL_CONTACT_IDS];
@@ -3853,6 +3876,18 @@ export function protectedPacketScreeningAnswers(snapshot: ProtectedPacketAuthori
   const answers = toScreeningAnswers(Object.fromEntries(Object.entries(raw)
     .filter(([id]) => snapshot.jurisdiction !== "MS" || snapshot.pathwayId !== MS_FIRST_OFFENDER_ROUTE
       || !(MS_FIRST_OFFENDER_IDS as readonly string[]).includes(id))));
+  const savedSourceFacts = { ...snapshot.screeningAnswers, ...snapshot.prefilledAnswers, ...snapshot.packetAnswers };
+  const sourceFacts = georgiaSb288Context(profile, snapshot.pathwayId) ? georgiaSb288Facts(savedSourceFacts)
+    : ctPetitionContext(profile, snapshot.pathwayId) ? ctPetitionFacts(savedSourceFacts) : null;
+  if (sourceFacts?.code === "missing") {
+    const questions = projectPublicProfile(profile).questions;
+    for (const id of sourceFacts.ids) {
+      const question = questions.find(q => q.id === id);
+      // Preserve the wire value in storage; a generic conversion cannot make an invalid source fact known.
+      if (question && questionAnswerState(question, savedSourceFacts[id]) === "known_valid"
+        && (question.type === "number_or_range" || question.type === "single_choice")) answers[id] = null;
+    }
+  }
   // A malformed saved payment answer is unresolved, not an absent optional
   // fact. Preserve its raw value and correction metadata, while preventing
   // omission from bypassing the existing financial-completion check.
