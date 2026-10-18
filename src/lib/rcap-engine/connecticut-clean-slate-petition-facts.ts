@@ -10,6 +10,14 @@ export function ctPetitionContext(profile: EngineProfile | undefined, pathway: s
     && profile.source?.sourceCorpusSha256 === "9417e1863420e1df725060c38960b7ac19da40f59f1f329e30436a0d31a8589a"
     && profile.pathways.some(p => p.id === CT_PETITION_ROUTE);
 }
+// Petition-only metadata for the shared saved field; EN/ES remains pending qualified review.
+export function ctPetitionDateQuestion<T extends { id: string }>(question: T, petitionSelected: boolean): T {
+  if (!petitionSelected || question.id !== "last_conviction_date") return question;
+  return { ...question, lifecyclePhase: "prepay_route_splitter", stage: "pathway_routing",
+    prompt: "What is the date of your most recent judgment of conviction for any crime?",
+    helperText: "Reuse the latest judgment date shown in your criminal history, not just this case's conviction or sentence-completion date. No waiting period is calculated from this answer.",
+    translations: { es: { prompt: "¿Cuál es la fecha de su sentencia de condena más reciente por cualquier delito?", helperText: "Use la fecha más reciente en sus antecedentes, no solo la condena de este caso ni la fecha de cumplimiento de la pena. Esta respuesta no calcula ningún plazo." } } };
+}
 function question(id: string, prompt: string, helperText: string, type: string, esPrompt: string, esHelper: string): PublicQuestion {
   return { id, prompt, helperText, type, stage: "pathway_routing", required: false, contextOnly: false,
     doesNotSelectPathway: true, lifecyclePhase: "prepay_route_splitter",

@@ -1,4 +1,4 @@
-import { CT_PETITION_FACT_IDS } from "@/lib/rcap-engine/connecticut-clean-slate-petition-facts";
+import { CT_PETITION_FACT_IDS, ctPetitionDateQuestion } from "@/lib/rcap-engine/connecticut-clean-slate-petition-facts";
 import { GA_SB288_FACT_IDS } from "@/lib/rcap-engine/georgia-sb288-facts";
 import { MD_POLICE_IDS } from "@/lib/rcap-engine/maryland-police-record-facts";
 import { CA_12034_FACT_IDS } from "@/lib/rcap-engine/california-1203-4-facts";
@@ -78,7 +78,8 @@ export function screensFromQuestionIds(
     if (seen.has(questionId)) continue;
     seen.add(questionId);
     const original = questionsById.get(questionId);
-    const question = original ? caProp64RecordQuestion(profile.jurisdiction.code, original) ?? original : undefined;
+    const question = original ? ctPetitionDateQuestion(caProp64RecordQuestion(profile.jurisdiction.code, original) ?? original,
+      profile.jurisdiction.code === "CT" && questionIds.includes("ct_petition_count")) : undefined;
     if (!question || question.id.startsWith(SOURCE_QUESTION_PREFIX)
       || (!isPrepayQuestion(question) && !isCompletionStatusQuestion(question))) continue;
     selected.push(question);

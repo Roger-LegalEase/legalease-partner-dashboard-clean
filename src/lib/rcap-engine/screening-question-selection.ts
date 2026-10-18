@@ -1,4 +1,4 @@
-import { ctPetitionContext, ctPetitionQuestionApplies } from "@/lib/rcap-engine/connecticut-clean-slate-petition-facts";
+import { ctPetitionContext, ctPetitionQuestionApplies, ctPetitionDateQuestion } from "@/lib/rcap-engine/connecticut-clean-slate-petition-facts";
 import { georgiaSb288QuestionApplies } from "@/lib/rcap-engine/georgia-sb288-facts";
 import { mdPoliceQuestionApplies } from "@/lib/rcap-engine/maryland-police-record-facts";
 import { ny16057QuestionApplies } from "@/lib/rcap-engine/ny-16057-guidance";
@@ -149,6 +149,7 @@ export function selectScreeningQuestionIds(
   }).map(question => question.id));
 
   return publicProfile.questions
+    .map(question => ctPetitionDateQuestion(question, ctPetitionContext(profile, selectedPathway?.id)))
     .filter(question => mdPoliceQuestionApplies(profile, selectedPathway?.id, answers, question.id))
     .filter(question => ny16057QuestionApplies(profile, answers, question.id))
     .filter(question => ny16055QuestionApplies(profile, answers, question.id))

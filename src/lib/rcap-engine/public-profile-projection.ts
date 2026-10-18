@@ -1381,11 +1381,7 @@ export function projectPublicProfile(profile: EngineProfile): PublicJurisdiction
   if (profile.jurisdiction.code === "GA") projected.questions = projected.questions.map(question =>
     question.id === "ga_sb288_final_citations" ? { ...question, multiline: true } : question);
   if (profile.jurisdiction.code === "CT") projected.questions = projected.questions.map(question =>
-    CT_PETITION_MULTILINE_IDS.includes(question.id) ? { ...question, multiline: true }
-      : question.id === "last_conviction_date" ? { ...question, lifecyclePhase: "prepay_route_splitter", stage: "pathway_routing",
-        prompt: "What is the date of your most recent judgment of conviction for any crime?",
-        helperText: "Reuse the latest judgment date shown in your criminal history, not just this case's conviction or sentence-completion date. No waiting period is calculated from this answer.",
-        translations: { es: { prompt: "¿Cuál es la fecha de su sentencia de condena más reciente por cualquier delito?", helperText: "Use la fecha más reciente en sus antecedentes, no solo la condena de este caso ni la fecha de cumplimiento de la pena. Esta respuesta no calcula ningún plazo." } } } : question);
+    CT_PETITION_MULTILINE_IDS.includes(question.id) ? { ...question, multiline: true } : question);
   const context = { state: profile.jurisdiction.code };
   projected.questions = projected.questions.map((question) => virginiaVictimContextQuestion(profile, reviewedScreeningQuestion(question, context)));
   const completion = projected.postPaymentPacketCompletion;

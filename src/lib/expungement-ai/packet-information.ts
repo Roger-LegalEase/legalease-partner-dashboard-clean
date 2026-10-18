@@ -1,4 +1,4 @@
-import { CT_PETITION_FACT_IDS, CT_PETITION_MULTILINE_IDS, ctPetitionContext, ctPetitionQuestionApplies } from "@/lib/rcap-engine/connecticut-clean-slate-petition-facts";
+import { CT_PETITION_FACT_IDS, CT_PETITION_MULTILINE_IDS, ctPetitionContext, ctPetitionQuestionApplies, ctPetitionDateQuestion } from "@/lib/rcap-engine/connecticut-clean-slate-petition-facts";
 import { GA_SB288_FACT_IDS, georgiaSb288Context, georgiaSb288QuestionApplies } from "@/lib/rcap-engine/georgia-sb288-facts";
 import { VA_PARDON_ROUTE, VA_PARDON_TYPE_ID, vaPardonTypeContract, vaPardonTypeQuestion, vaPardonTypeReportedState } from "@/lib/expungement-ai/va-pardon-type-source";
 import { mdJuvenileCountySourcePurpose, MD_JUVENILE_CAPTION_ROUTE, mdJuvenileCaptionQuestion } from "@/lib/expungement-ai/md-juvenile-county-source-purpose";
@@ -452,6 +452,7 @@ export function packetInformationModelFor(item: ConsumerBriefcaseItem): PacketIn
   questions = questions.map(question => ca12034RecordContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
   questions = questions.map(question => ca12034aRecordContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
   questions = questions.map(question => caAutomaticRecordContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
+  questions = questions.map(question => ctPetitionDateQuestion(question, ctPetitionContext(profile, pathwayId)));
   questions = questions.map(question => delawareProtectedExclusionQuestion(question, profile, pathwayId, initialAnswers));
   for (const question of questions) questionById.set(question.id, question);
   if (alRedeemerClassificationContract(profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`))) {
@@ -3588,6 +3589,7 @@ function protectedPacketQuestionSurface(
   questions = questions.map(question => ca12034RecordContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
   questions = questions.map(question => ca12034aRecordContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
   questions = questions.map(question => caAutomaticRecordContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
+  questions = questions.map(question => ctPetitionDateQuestion(question, ctPetitionContext(profile, pathwayId)));
   questions = questions.map(question => delawareProtectedExclusionQuestion(question, profile, pathwayId, { ...screeningAnswers, ...prefilledAnswers, ...savedAnswers }));
   for (const question of questions) questionById.set(question.id, question);
   if (alRedeemerClassificationContract(profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`))) {

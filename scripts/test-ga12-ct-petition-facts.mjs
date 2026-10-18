@@ -10,7 +10,9 @@ const mutations={
  precedence:['evaluator.ts','ctPetitionContext(profile, evaluated.pathwayId) && evaluated.reasons.some(r => r.code === "ct.waiting_rule_not_executed")','ctPetitionContext(profile, selectPathway(profile, request.answers)?.id)'],
  translation:['reviewed-result-copy.ts','...Object.values(CT_PETITION_COPY)','...[]'],
  resume_scope:['screens.ts','profile.jurisdiction.code !== "CT" || nextQuestionIds.some','true || nextQuestionIds.some'],
- date_scope:['connecticut-clean-slate-petition-facts.ts','if (profile?.jurisdiction.code === "CT" && id === "last_conviction_date")','if (false)'],
+ date_screen:['screens.ts','profile.jurisdiction.code === "CT" && questionIds.includes("ct_petition_count")','false'],
+ date_selection:['screening-question-selection.ts','ctPetitionDateQuestion(question, ctPetitionContext(profile, selectedPathway?.id))','question'],
+ date_editor:['packet-information.ts','questions = questions.map(question => ctPetitionDateQuestion(question, ctPetitionContext(profile, pathwayId)));','questions = questions.map(question => question);'],
  corrections_missing:['packet-information.ts','if (ctPetitionContext(profile, pathway))','if (false)'],
  corrections_leak:['packet-information.ts','if (ctPetitionContext(profile, pathway))','if (true)'],
 
@@ -22,7 +24,7 @@ const mutations={
  resume:['screens.ts','profile?.jurisdiction.code === "CT" && CT_PETITION_FACT_IDS.includes(questionId)','false'],
  multiline:['public-profile-projection.ts','CT_PETITION_MULTILINE_IDS.includes(question.id) ? { ...question, multiline: true }','CT_PETITION_MULTILINE_IDS.includes(question.id) ? question']
 };
-if(mutation){assert(mutations[mutation]);register('data:text/javascript,'+encodeURIComponent(`let m;export function initialize(x){m=x}export async function load(u,c,n){const r=await n(u,c);if(u.endsWith('/'+m[0])){if(!r.source.includes(m[1]))throw Error('mutation target absent');return {...r,source:r.source.replace(m[1],m[2])}}return r}`),{data:mutations[mutation]});}
+if(mutation){assert(mutations[mutation]);register('data:text/javascript,'+encodeURIComponent(`let m;export function initialize(x){m=x}export async function load(u,c,n){const r=await n(u,c);if(u.endsWith('/'+m[0])){if(!r.source.includes(m[1]))throw Error('mutation target absent');return {...r,source:r.source.replaceAll(m[1],m[2])}}return r}`),{data:mutations[mutation]});}
 const {createElement}=await import('react');
 const {renderToStaticMarkup}=await import('react-dom/server');
 const {QuestionField}=await import('../src/components/expungement-ai/screening/QuestionField.tsx');
@@ -33,7 +35,7 @@ const {evaluateAuthoritativeScreeningResult:evaluate}=await import('../src/lib/e
 const {getProfileByJurisdiction}=await import('../src/lib/rcap-engine/profile-registry.ts');
 const {projectPublicProfile}=await import('../src/lib/rcap-engine/public-profile-projection.ts');
 const {selectScreeningQuestionIds}=await import('../src/lib/rcap-engine/screening-question-selection.ts');
-const {sanitizeResumedAnswersForQuestionIds}=await import('../src/components/expungement-ai/screening/screens.ts');
+const {sanitizeResumedAnswersForQuestionIds,screensFromQuestionIds}=await import('../src/components/expungement-ai/screening/screens.ts');
 const {parseJurisdictionProfile}=await import('../src/lib/expungement-ai/frontend/schemas.ts');
 const {ctPetitionCategoryIsHistory:history,resolvePacketCollection}=await import('../src/lib/expungement-ai/packet-collection.ts');
 const {packetSpecificationFor}=await import('../src/lib/rcap/grade-a/packet-specification.ts');
@@ -104,7 +106,8 @@ for(const [sibling,resultCode,reasonCode] of siblingCases) check('sibling pre-pe
 });
 check('petition date prompt and completion retention have a positive route control',()=>{
  const ids=selectScreeningQuestionIds(profile,pub,base);assert(ids.includes('last_conviction_date'));
- const q=pub.questions.find(q=>q.id==='last_conviction_date');assert(q.prompt.includes('for any crime'));assert(q.translations.es.prompt.includes('cualquier delito'));
+ const q=screensFromQuestionIds(parsedProfile.data,ids).find(q=>q.id==='last_conviction_date');assert(q);assert(q.prompt.includes('for any crime'));assert(q.translations.es.prompt.includes('cualquier delito'));
+ assert.equal(P.protectedPacketInformationModelFor(modelFor(base)).questions.find(q=>q.id==='last_conviction_date')?.prompt,q.prompt);
  assert(P.protectedPacketInformationModelFor(modelFor({...base,last_conviction_date:undefined})).questions.some(q=>q.id==='last_conviction_date'));
  const resumed=sanitizeResumedAnswersForQuestionIds(parsedProfile.data,base,['ownership_scope','ct_petition_count']);
  assert.equal(resumed.financial_obligations,base.financial_obligations);assert.equal(resumed.sentence_completion_date,base.sentence_completion_date);
