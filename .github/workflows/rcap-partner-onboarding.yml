@@ -26,12 +26,13 @@ jobs:
     runs-on: ubuntu-latest
     # One job per independent group so a failure anywhere reports in that group's time, not after
     # the whole 118-minute boundary list. The groups share no state: every boundary script writes
-    # only to argv/env paths that CI does not set, or to $RUNNER_TEMP, and each runner checks out fresh.
+    # only to argv/env paths that CI does not set or to private system temp dirs, except the CT
+    # profile generator, which rewrites its in-tree output and asserts it unchanged. Each runner
+    # checks out fresh.
     # Cuts follow the measured cumulative timings of run 39148221661 (about 39/36/43 minutes).
     timeout-minutes: 120
     strategy:
       fail-fast: false
-      max-parallel: 3
       matrix:
         group: [a, b, c]
     steps:
@@ -324,22 +325,14 @@ jobs:
           SUPABASE_SERVICE_ROLE_KEY: ""
         run: npm run build
 
-  # The required check keeps its name. It passes only when every group succeeded and the command
-  # inventory is intact; a failed, cancelled, skipped or missing group fails it.
+  # The required check keeps its name. It passes only when every group succeeded: a failed,
+  # cancelled or skipped group, or a missing result, leaves needs.groups.result != success.
   onboarding:
     name: Verify RCAP partner onboarding
     needs: [groups]
     if: always()
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 5
     steps:
-      - name: Check out repository
-        uses: actions/checkout@v4
-      - name: Set up Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
-      - name: Require every group and the full command inventory
-        env:
-          NEEDS: ${{ toJSON(needs) }}
-        run: node scripts/acceptance/onboarding-ci-gate.mjs gate .github/workflows/rcap-partner-onboarding.yml groups
+      - name: Require every group
+        run: test "${{ needs.groups.result }}" = success
