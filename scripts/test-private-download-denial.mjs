@@ -5,6 +5,7 @@ import ts from 'typescript';
 import {register} from 'node:module';
 register('./lib/ts-esm-loader.mjs',import.meta.url);
 const {unstable_rethrow,redirect,permanentRedirect}=await import('next/navigation.js');
+const {privacyJson}=await import('../src/lib/expungement-ai/privacy/request-security.ts');
 const {authorizePacketDownload}=await import('../src/lib/rcap/render/packet-delivery.ts');
 const id='b7252f57-c042-4d3e-805e-fd783380f246';
 const missing='00000000-0000-4000-8000-000000000000';
@@ -34,20 +35,21 @@ async function provePrivateRouteDenials(source) {
  const ast=ts.createSourceFile('route.ts',source,ts.ScriptTarget.Latest,true);
  const functions=ast.statements.filter(ts.isFunctionDeclaration).map(node=>node.getText(ast).replace(/^export /,'')).join('\n');
  const js=ts.transpileModule(functions,{compilerOptions:{target:ts.ScriptTarget.ES2022,module:ts.ModuleKind.ESNext}}).outputText;
- for(const scenario of [{authenticated:false,storage:true,status:401},{authenticated:true,storage:true,status:404},{authenticated:false,storage:false,status:503}]) {
+ for(const scenario of [{authenticated:false,storage:true,status:401},{authenticated:true,storage:true,status:404},{authenticated:false,storage:false,status:401},{authenticated:true,storage:false,status:503}]) {
   const dependencies={
    NextResponse:{json:Response.json},
-   getRcapBriefcaseAuthState:async()=>({isAuthenticated:scenario.authenticated,userId:scenario.authenticated?'stranger':null}),
+   getRcapBriefcaseAuthState:async()=>({isAuthenticated:scenario.authenticated,isVerified:true,userId:scenario.authenticated?'stranger':null}),
    getPacketArtifactStorage:()=>scenario.storage?{}:null,
    getRenderJob:async()=>null,
    authorizePacketDownload,
    streamAuthorizedPacket:()=>{throw Error('A denied request must not stream bytes');},
    recordDeliveryEvent:()=>{throw Error('A denied request must not record delivery');}
   };
+  dependencies.requireConsumerBriefcaseApiSession=functionsFromSource('src/lib/expungement-ai/privacy/api-session.ts',{getRcapBriefcaseAuthState:dependencies.getRcapBriefcaseAuthState,isParticipantAccountBlocked:async()=>false,privacyJson}).requireConsumerBriefcaseApiSession;
   const GET=new Function(...Object.keys(dependencies),js+'\nreturn GET;')(...Object.values(dependencies));
   const response=await GET(new Request('http://isolated.test/api/rcap/packets/'+missing+'/download'),{params:Promise.resolve({jobId:missing})});
   assert.equal(response.status,scenario.status);
-  assert.equal(response.headers.get('cache-control'),'private, no-store, max-age=0','Every protected download denial must prohibit caching');
+  privateResponse(response);
   assert.equal(response.headers.get('pragma'),'no-cache');
   assert.equal(response.headers.get('content-type'),'application/json');
   assert(!/storagePath|packet-artifacts\//.test(await response.text()));
@@ -57,7 +59,7 @@ test('actual download handler makes unauthenticated, unavailable and missing-obj
 test('restoring the original missing-cache-header route fails for the cache requirement',async()=>{
  const old=routeSource.replaceAll(', headers: privateDownloadHeaders()','');
  assert.notEqual(old,routeSource);
- await assert.rejects(provePrivateRouteDenials(old),error=>error.code==='ERR_ASSERTION'&&error.message.includes('prohibit caching'));
+ await assert.rejects(provePrivateRouteDenials(old),error=>error.code==='ERR_ASSERTION'&&/response must (be private|prohibit caching)/.test(error.message));
 });
 
 // GA-43 / AT-GA-43 / CT09 / CT12: synthetic bound jobs exercise the shipped
@@ -79,14 +81,14 @@ function functionsFromSource(file,dependencies,overrides={}) {
 function boundDelivery(overrides={}) {
  const bytes=Buffer.from('%PDF-1.7\nsynthetic owner packet\n%%EOF\n');
  const hash=sha256(bytes),routeId='MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal';
- const state={user:'owner',currentHash:'current',verificationMissing:false,finalized:true,admissionDenied:false,throwAt:null,
+ const state={user:'owner',authenticated:true,verified:true,accountStatus:'active',jobReads:0,storageConfigurations:0,currentHash:'current',verificationMissing:false,finalized:true,admissionDenied:false,throwAt:null,
   bytes,reads:0,events:[],receipts:[],admissions:0,loggedErrors:[],failure:Error('private-internal: packet-artifacts/secret-token'),
   job:{id,briefcaseItemId:'owner-item',consumerBriefcaseItemId:'owner-item',consumerAuthUserId:'owner',partnerId:null,
    routeId,matterId:'matter-owner-item',status:'artifact_validated',deliveryEligibility:'eligible',accountingResult:'consumed',
    outputSha256:hash,outputStoragePath:`packet-artifacts/${id}/${hash}.pdf`,consumerVerificationHash:'current'}};
  const fail=place=>{if(state.throwAt===place)throw state.failure;};
  const current=()=>state.verificationMissing?null:{snapshot:{jurisdiction:'MS',pathwayId:routeId.split(':')[1]},hash:state.currentHash,ownerUserId:'owner',matterId:'matter-owner-item',alreadyDownloaded:false};
- const ports={getJob:async()=>{fail('job');return state.job;},userOwnsBriefcaseItem:async(user,item)=>user==='owner'&&item==='owner-item',
+ const ports={getJob:async()=>{state.jobReads++;fail('job');return state.job;},userOwnsBriefcaseItem:async(user,item)=>user==='owner'&&item==='owner-item',
   getCurrentVerification:async()=>current(),sponsoredDeliveryReady:async()=>state.finalized,
   storage:{read:async()=>{state.reads++;fail('storage');return state.bytes;}},
   recordEvent:async event=>{fail('receipt');state.events.push(event.eventType);return 'synthetic-receipt';}};
@@ -94,13 +96,13 @@ function boundDelivery(overrides={}) {
   governPacketDownloadAdmission:()=>{state.admissions++;if(state.admissionDenied)throw Error('held authority');},
   sponsoredRenderDeliveryReady:async()=>state.finalized},overrides);
  const deps={NextResponse:Response,console:{error:(...args)=>state.loggedErrors.push(args)},after:p=>state.receipts.push(p),...core,
-  getRcapBriefcaseAuthState:async()=>{fail('auth');return {isAuthenticated:true,userId:state.user};},
-  requireConsumerBriefcaseApiSession:async()=>{fail('auth');return {ok:true,userId:state.user};},
+  getRcapBriefcaseAuthState:async()=>{fail('auth');return {isAuthenticated:state.authenticated,isVerified:state.verified,userId:state.user};},
   authorizeConsumerArtifactDownload:async()=>{fail('grant');return state.user==='owner'?{renderJobId:id,storagePath:state.job.outputStoragePath,expectedSha256:hash,fileName:'packet.pdf',grantId:'grant'}:null;},
-  getPacketArtifactStorage:()=>{fail('storage-config');return ports.storage;},getRenderJob:ports.getJob,recordDeliveryEvent:ports.recordEvent,
+  getPacketArtifactStorage:()=>{state.storageConfigurations++;fail('storage-config');return ports.storage;},getRenderJob:ports.getJob,recordDeliveryEvent:ports.recordEvent,
   getBriefcaseItem:async(user,item)=>{fail('item');return user==='owner'&&item==='owner-item'?{id:item}:null;},
   requireCurrentPacketVerification:async()=>{if(state.verificationMissing)throw Error('private verification is stale');return current();},
   consumerMatterIdForItem:item=>'matter-'+item,resolveConsumerDeliveryAccess:()=>({allowed:false})};
+ deps.requireConsumerBriefcaseApiSession=functionsFromSource('src/lib/expungement-ai/privacy/api-session.ts',{getRcapBriefcaseAuthState:deps.getRcapBriefcaseAuthState,isParticipantAccountBlocked:async userId=>{assert.equal(userId,state.user);return state.accountStatus!=='active';},privacyJson}).requireConsumerBriefcaseApiSession;
  const jobGET=functionsFromSource(jobRoutePath,deps,overrides).GET;
  const grantGET=functionsFromSource(grantRoutePath,deps,overrides).GET;
  return {state,ports,core,bytes,
@@ -149,12 +151,29 @@ async function deliveryBoundaries(overrides={}) {
 }
 test('bound non-IL owner delivery, stranger denial, current verification, integrity and finalization',()=>deliveryBoundaries());
 
+// GA-43 / CT09 / CT12: use the real API session gate; only its auth/account reads are isolated.
+for(const [label,setup,status,code]of[
+ ['unverified',h=>{h.state.verified=false;},403,'account_unverified'],
+ ['deleted',h=>{h.state.accountStatus='deleted';},403,'account_deleted'],
+ ['frozen',h=>{h.state.accountStatus='frozen';},403,'account_deleted'],
+ ['anonymous',h=>{h.state.authenticated=false;h.state.user=null;},401,'not_authenticated'],
+ ['missing user',h=>{h.state.user=null;},401,'not_authenticated']
+])test('job download session: '+label+' refuses before packet access',async()=>{
+ for(const kind of ['job','grant']){
+  const h=boundDelivery();setup(h);const {response,body}=await h.hit(kind);
+  assert.equal(response.status,status,kind+' '+label+' session must refuse; observed packet reads='+h.state.reads);
+  assert.equal(JSON.parse(body).code,code);privateResponse(response);assert.equal(response.headers.get('pragma'),'no-cache');
+  assert.equal(h.state.jobReads,0);assert.equal(h.state.storageConfigurations,0);assert.equal(h.state.reads,0);
+  assert.equal(h.state.admissions,0);assert.deepEqual(h.state.events,[]);assert.deepEqual(h.state.loggedErrors,[]);
+ }
+});
+
 // Exact reviewer M4–M12 counterexamples, applied only to in-memory source.
 const deliveryMutants=[
  ['M4',jobRoutePath,[['userOwnsBriefcaseItem: async (userId, briefcaseItemId) => Boolean(await getBriefcaseItem(userId, briefcaseItemId)),','userOwnsBriefcaseItem: async () => true,']]],
- ['M5',jobRoutePath,[['userOwnsBriefcaseItem: async (userId, briefcaseItemId) => Boolean(await getBriefcaseItem(userId, briefcaseItemId)),','userOwnsBriefcaseItem: async () => true,'],['getBriefcaseItem(auth.userId, itemId)','getBriefcaseItem(job.consumerAuthUserId ?? auth.userId, itemId)'],['requireCurrentPacketVerification(auth.userId, item)','requireCurrentPacketVerification(job.consumerAuthUserId ?? auth.userId, item)']]],
+ ['M5',jobRoutePath,[['userOwnsBriefcaseItem: async (userId, briefcaseItemId) => Boolean(await getBriefcaseItem(userId, briefcaseItemId)),','userOwnsBriefcaseItem: async () => true,'],['getBriefcaseItem(session.userId, itemId)','getBriefcaseItem(job.consumerAuthUserId ?? session.userId, itemId)'],['requireCurrentPacketVerification(session.userId, item)','requireCurrentPacketVerification(job.consumerAuthUserId ?? session.userId, item)']]],
  ['M6',corePath,[['if (!jobVerificationHash || jobVerificationHash !== current.hash) {','if (!jobVerificationHash) {']]],
- ['M7',jobRoutePath,[[fs.readFileSync(jobRoutePath,'utf8').match(/} catch \{\s+return null;/)[0],'} catch {\n            const binding = job.sponsoredBinding;\n            return binding ? { snapshot: { jurisdiction: job.routeId.split(":")[0], pathwayId: job.routeId.split(":")[1] }, hash: binding.verificationHash, ownerUserId: auth.userId, matterId: consumerMatterIdForItem(item.id), alreadyDownloaded: false } : null;']]],
+ ['M7',jobRoutePath,[[fs.readFileSync(jobRoutePath,'utf8').match(/} catch \{\s+return null;/)[0],'} catch {\n            const binding = job.sponsoredBinding;\n            return binding ? { snapshot: { jurisdiction: job.routeId.split(":")[0], pathwayId: job.routeId.split(":")[1] }, hash: binding.verificationHash, ownerUserId: session.userId, matterId: consumerMatterIdForItem(item.id), alreadyDownloaded: false } : null;']]],
  ['M8',corePath,[['if (!isDeliverable(job)) {','if (false && !isDeliverable(job)) {']]],
  ['M9',corePath,[['if (sha256(bytes) !== job.outputSha256) {','if (false && sha256(bytes) !== job.outputSha256) {']]],
  ['M10',corePath,[['if (job.partnerId && !await (ports.sponsoredDeliveryReady ?? sponsoredRenderDeliveryReady)(job, input.userId)) {','if (false) {']]],
@@ -167,17 +186,19 @@ for(const [name,file,edits]of deliveryMutants)test('reviewer '+name+' is caught 
  await assert.rejects(deliveryBoundaries({[file]:source}),error=>error.code==='ERR_ASSERTION');
 });
 
-test('both modern download handlers sanitize exceptions before response streaming',async()=>{
+async function modernExceptionBoundaries(overrides={}) {
  for(const kind of ['job','grant'])for(const place of ['auth','storage-config','job','item','storage','receipt',...(kind==='grant'?['grant']:[])]){
-  const h=boundDelivery();h.state.throwAt=place;const {response,body}=await h.hit(kind);
+  const h=boundDelivery(overrides);h.state.throwAt=place;const {response,body}=await h.hit(kind);
   assert.equal(response.status,500,kind+' '+place);privateResponse(response);
   assert.deepEqual(JSON.parse(body),{error:'Packet downloads are not available right now.'});
   assert.equal(response.headers.get('pragma'),'no-cache');
   assert.deepEqual(h.state.loggedErrors,[['[packet-download] unclassified failure',h.state.failure]],kind+' '+place+' logs the original error once');
+  assert.equal(h.state.loggedErrors[0]?.[1],h.state.failure);
  }
-});
+}
+test('both modern download handlers sanitize exceptions before response streaming',()=>modernExceptionBoundaries());
 
-test('every legacy download response is private, for PDF/text and typed refusals',async()=>{
+async function legacyResponseBoundaries(overrides={}) {
  const errorStatuses={ConsumerPacketArtifactAuthorityUnavailableError:503,ConsumerPacketNotFoundError:404,ConsumerPacketPaymentRequiredError:402,ConsumerPacketNotAllowedError:403,ConsumerPacketNotReadyError:409};
  const errors=Object.fromEntries(Object.keys(errorStatuses).map(name=>[name,class extends Error{}]));
  for(const [kind,status]of [['pdf',200],['text',200],['missing-id',400],['session-throws',500],['unexpected',500],...Object.entries(errorStatuses)]){
@@ -186,14 +207,24 @@ test('every legacy download response is private, for PDF/text and typed refusals
    reads++;
    if(errors[kind])throw new errors[kind]();if(kind==='unexpected')throw failure;return {body:kind==='text'?'preserved legacy summary':Buffer.from('%PDF-1.7\nlegacy'),contentType:kind==='text'?'text/plain':'application/pdf',fileName:'legacy.pdf'};
   }};
-  const GET=functionsFromSource(legacyRoutePath,dependencies).GET;
+  const GET=functionsFromSource(legacyRoutePath,dependencies,overrides).GET;
   const request=new Request('http://isolated.test/download'+(kind==='missing-id'?'':'?briefcaseItemId=owner-item'));request.nextUrl=new URL(request.url);
   let response;await assert.doesNotReject(async()=>{response=await GET(request);},kind+' must return a private response');assert.equal(response.status,status,kind);privateResponse(response);assert.equal(response.headers.get('pragma'),'no-cache');
   if(status===500)assert.deepEqual(await response.json(),{error:'Packet downloads are not available right now.'});
   assert.deepEqual(loggedErrors,status===500?[['[packet-download] unclassified failure',failure]]:[],kind+' logs only unclassified failures');
+  if(status===500)assert.equal(loggedErrors[0]?.[1],failure);
   if(kind==='session-throws')assert.equal(reads,0,'session failure never reads a packet');
   if(status===200){assert.equal(response.headers.get('content-type'),kind==='text'?'text/plain; charset=utf-8':'application/pdf');assert.equal(await response.text(),kind==='text'?'preserved legacy summary':'%PDF-1.7\nlegacy');}
  }
+}
+test('every legacy download response is private, for PDF/text and typed refusals',()=>legacyResponseBoundaries());
+
+// B-F1: an equal-message Error is not the original diagnostic object.
+for(const [name,file,prove]of[['O7',jobRoutePath,modernExceptionBoundaries],['O8',legacyRoutePath,legacyResponseBoundaries],['O9',grantRoutePath,modernExceptionBoundaries]])test('reviewer '+name+' loses error identity and is caught',async()=>{
+ const source=fs.readFileSync(file,'utf8'),from='console.error("[packet-download] unclassified failure", error);';
+ assert.equal(source.split(from).length,2,name+' unique mutation target');
+ const mutant=source.replace(from,'console.error("[packet-download] unclassified failure", new Error((error as Error).message));');
+ await assert.rejects(prove({[file]:mutant}),error=>error.code==='ERR_ASSERTION'&&error.operator==='strictEqual');
 });
 
 // R1/R2: use Next's actual redirect/rethrow functions, including wrapped redirects.
