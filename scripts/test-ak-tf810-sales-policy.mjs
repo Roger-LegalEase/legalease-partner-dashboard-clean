@@ -12,6 +12,7 @@ const P = await import('../src/lib/expungement-ai/packet-information.ts');
 const F = await import('../src/lib/expungement-ai/packet-fulfillment-authority.ts');
 const A = await import('../src/lib/rcap/fulfillment/grade-a-authority.ts');
 const payment = await import('../src/lib/expungement-ai/payment-adapter.ts');
+const commercial = await import('../src/lib/rcap/render/commercial-admission.ts');
 const { evaluateAuthoritativeScreeningResult: evaluate } = await import('../src/lib/expungement-ai/authoritative-screening-result.ts');
 const { getCurrentFulfillmentRecord } = await import('../src/lib/rcap/fulfillment/grade-a-registry.ts');
 const { getProfileByJurisdiction } = await import('../src/lib/rcap-engine/profile-registry.ts');
@@ -40,7 +41,7 @@ const snapshotFor = (raw, map = 'packetAnswers') => {
 const cases = [
   ['yes', 'Yes', true], ['known-yes', { value: 'Yes', unknown: false }, true],
   ['no', 'No', false, true], ['known-no', { value: 'No', unknown: false }, false, true],
-  ['unsure', 'I am not sure'], ['not-sure', 'Not sure'], ['missing', undefined], ['blank', ''],
+  ['unsure', 'I am not sure'], ['not-sure', 'Not sure'], ['spanish-unsure', 'No estoy seguro'], ['missing', undefined], ['blank', ''],
   ['unknown-yes', { value: 'Yes', unknown: true }], ['unknown-no', { value: 'No', unknown: true }],
   ['missing-unknown-flag', { value: 'Yes' }], ['extra-property', { value: 'Yes', unknown: false, injected: true }],
   ['array', ['Yes']], ['nested', { value: { value: 'Yes', unknown: false }, unknown: false }],
@@ -64,6 +65,7 @@ let checks = 0;
 const check = async (name, fn) => { try { await fn(); checks++; } catch (e) { e.message = `${name}: ${e.message}`; throw e; } };
 const price = (adapter, snapshot) => adapter.createConsumerPaymentPlaceholder({ ...snapshot, state: snapshot.jurisdiction }, snapshot.pathwayId);
 const noPrice = p => { assert.equal(p.enabled, false); assert.equal(p.amountCents, undefined); assert(!p.label.includes('$50')); };
+const genericRefusal = p => { noPrice(p); assert.equal(p.label, 'No payment available for this result'); };
 for (const c of cases) await check(`guidance/raw/${c.name}`, () => {
   const before = structuredClone(c.snapshot), policy = C.akCourtviewSalesPolicy('AK', route, c.snapshot);
   assert.equal(policy.allowed, c.allowed);
@@ -73,7 +75,7 @@ for (const c of cases) await check(`guidance/raw/${c.name}`, () => {
   }
   assert.deepEqual(c.snapshot, before);
 });
-for (const [raw, en, es] of [['No', no, noEs], ['I am not sure', unsure, unsureEs], [undefined, unsure, unsureEs]]) {
+for (const [raw, en, es] of [['No', no, noEs], ['I am not sure', unsure, unsureEs], ['No estoy seguro', unsure, unsureEs], [undefined, unsure, unsureEs]]) {
   await check(`participant question/${raw}`, () => {
     const q = C.akCourtviewContactQuestions('AK', route, raw === undefined ? {} : { [id]: raw }).find(q => q.id === id);
     assert(q.helperText.endsWith(en)); assert(q.translations.es.helperText.endsWith(es));
@@ -91,12 +93,13 @@ assert.equal(missing.allowed, false); assert(missing.reason.includes(': NO_RECOR
 for (const c of cases) await check(`actual NO_RECORD/${c.name}`, () => {
   const before = structuredClone(c.snapshot);
   assert.throws(() => payment.assertCheckoutAllowed(c.snapshot), e => e instanceof F.PacketFulfillmentNotProvenError && e.detail === missing.reason);
-  noPrice(price(payment, c.snapshot)); assert.deepEqual(c.snapshot, before);
+  genericRefusal(price(payment, c.snapshot)); assert.deepEqual(c.snapshot, before);
 });
 
 // Same imported-reader seam as the historical caution test. The successful
 // verdict is scoped to the exact route + track + surfaces, never persisted.
-let mode = 'valid', verificationFailure = false, preflightReady = true, sponsored = false;
+let mode = 'valid', verificationFailure = false, preflightReady = true, sponsored = false, routeSellable = true;
+let admissionRefusal = null;
 let currentSnapshot = snapshotFor('Yes'), preflightCalls = 0, authorityReads = 0;
 const invalid = A.evaluateFulfillmentAuthority({ schemaVersion: 'TEST_INVALID_SCHEMA', routeId }, null, routeId);
 assert.equal(invalid.authorized, false);
@@ -106,13 +109,14 @@ const scopedRead = (state, pathway, surface, binding) => {
   assert.equal(binding?.trackId, seed.snapshot.selectedTrackId);
   assert(['participant delivery', 'checkout creation', 'consumer payment authority'].includes(surface));
   authorityReads++;
+  if (mode === 'missing') return F.assertPacketFulfillmentProven(state, pathway, surface, binding);
   if (mode === 'invalid') throw new F.PacketFulfillmentNotProvenError(routeId, ['canonical authority'], surface, invalidReason);
 };
 const stub = code => 'data:text/javascript,' + encodeURIComponent(code);
 const fileUrl = file => pathToFileURL(path.join(root, file)).href;
 const hooks = {
   assertPacketFulfillmentProven: scopedRead,
-  isOperationallySellable: key => { assert.equal(key, routeId); return mode === 'valid'; },
+  isOperationallySellable: key => { assert.equal(key, routeId); return mode === 'valid' && routeSellable; },
   requireCurrentPacketVerification: async (user, candidate) => {
     assert.equal(candidate.id, item.id);
     if (verificationFailure || user !== owner) throw new Error('TEST protected verification refused');
@@ -122,6 +126,7 @@ const hooks = {
     assert.equal(point, 'consumer_checkout'); assert.equal(identity.routeId, routeId);
     assert.equal(context.participantUserId, owner); assert.equal(context.matterOwnerUserId, owner);
     assert.equal(mode, 'valid');
+    if (admissionRefusal) throw admissionRefusal;
   },
   readyToPurchase: input => {
     assert.deepEqual(input.snapshot, currentSnapshot); preflightCalls++;
@@ -154,45 +159,76 @@ for (const [specifier, file, names] of replacements) {
 const mutation = process.argv.find(a => a.startsWith('--mutation='))?.split('=')[1];
 if (mutation === 'checkout') source = source.replace('if (salesPolicy?.allowed === false)', 'if (false)');
 if (mutation === 'price') source = source.replace('salesPolicy?.allowed !== false && ', '');
+if (mutation === 'precedence') {
+  const gate = source.match(/  const salesPolicy = akCourtviewSalesPolicy\(verifiedSnapshot[\s\S]*?\n  }\n/)[0];
+  source = source.replace(gate, '').replace('  const checkoutMatterId =', gate + '  const checkoutMatterId =');
+}
+if (mutation === 'label') source = source.replace('otherwiseEnabled && salesPolicy?.allowed === false', 'salesPolicy?.allowed === false');
 const hypothetical = await loadSource(paymentFile, source, 'scoped-readers');
-for (mode of ['valid', 'invalid']) for (const c of cases) await check(`${mode}/${c.name}`, () => {
+for (mode of ['valid', 'missing', 'invalid']) for (const c of cases) await check(`${mode}/${c.name}`, async () => {
   const before = structuredClone(c.snapshot);
-  if (mode === 'invalid') {
-    assert.throws(() => hypothetical.assertCheckoutAllowed(c.snapshot), e => e instanceof F.PacketFulfillmentNotProvenError && e.detail === invalidReason);
-    noPrice(price(hypothetical, c.snapshot));
+  currentSnapshot = c.snapshot;
+  if (mode !== 'valid') {
+    const expectedReason = mode === 'missing' ? missing.reason : invalidReason;
+    await assert.rejects(hypothetical.requireConsumerPacketPurchaseReadiness(owner, item), e => e instanceof F.PacketFulfillmentNotProvenError && e.detail === expectedReason);
+    genericRefusal(price(hypothetical, c.snapshot));
   } else if (c.allowed) {
-    hypothetical.assertCheckoutAllowed(c.snapshot);
+    assert.equal((await hypothetical.requireConsumerPacketPurchaseReadiness(owner, item)).purchaseReadiness.ready, true);
     assert.deepEqual(price(hypothetical, c.snapshot), { enabled: true, amountCents: 5000, label: '$50 one-time self-help packet payment' });
   } else {
-    assert.throws(() => hypothetical.assertCheckoutAllowed(c.snapshot), e => e instanceof hypothetical.ConsumerCheckoutNotAllowedError && e.resultCode === c.reason && e.message === c.guidance && e.participantMessage === c.guidance);
+    await assert.rejects(hypothetical.requireConsumerPacketPurchaseReadiness(owner, item), e => e instanceof hypothetical.ConsumerCheckoutNotAllowedError && e.resultCode === c.reason && e.message === c.guidance && e.participantMessage === c.guidance);
     const p = price(hypothetical, c.snapshot); noPrice(p); assert.equal(p.label, c.guidance);
   }
   assert.deepEqual(c.snapshot, before);
 });
-mode = 'valid';
-await check('Yes never overrides eligibility', () => {
-  const snapshot = { ...snapshotFor('Yes'), paymentAllowed: false };
-  assert.throws(() => hypothetical.assertCheckoutAllowed(snapshot), e => e.resultCode === snapshot.resultCode);
-  noPrice(price(hypothetical, snapshot));
+mode = 'valid'; currentSnapshot = snapshotFor('Yes');
+await check('Yes never overrides eligibility', async () => {
+  currentSnapshot = { ...snapshotFor('Yes'), paymentAllowed: false };
+  await assert.rejects(hypothetical.requireConsumerPacketPurchaseReadiness(owner, item), e => e.resultCode === currentSnapshot.resultCode);
+  genericRefusal(price(hypothetical, currentSnapshot));
+  currentSnapshot = snapshotFor('Yes');
 });
 await check('Yes still requires protected verification and owner', async () => {
+  const before = preflightCalls;
   verificationFailure = true;
   await assert.rejects(hypothetical.requireConsumerPacketPurchaseReadiness(owner, item), { name: 'ConsumerCheckoutReviewRequiredError' });
   verificationFailure = false;
   await assert.rejects(hypothetical.requireConsumerPacketPurchaseReadiness('TEST-other-owner', item), { name: 'ConsumerCheckoutReviewRequiredError' });
-  assert.equal(preflightCalls, 0);
+  assert.equal(preflightCalls, before);
 });
-await check('Yes still requires render readiness', async () => {
-  preflightReady = false;
-  await assert.rejects(hypothetical.requireConsumerPacketPurchaseReadiness(owner, item), e => e.name === 'ConsumerCheckoutRenderPreflightError' && e.reason === 'TEST_required_case_number_missing');
-  assert.equal(preflightCalls, 1);
-  preflightReady = true;
-  assert.equal((await hypothetical.requireConsumerPacketPurchaseReadiness(owner, item)).purchaseReadiness.ready, true);
-});
-await check('No cannot reach preflight', async () => {
+for (const raw of ['Yes', 'No', 'Not sure', 'No estoy seguro', undefined]) {
+  currentSnapshot = snapshotFor(raw);
+  await check(`admission refusal precedes AK policy/${raw}`, async () => {
+    const before = preflightCalls;
+    admissionRefusal = new commercial.CommercialAdmissionDeniedError(A.admitCommercialAction({
+      admissionPoint: 'consumer_checkout', request: commercial.commercialRouteIdentity({ jurisdiction: 'AK', pathwayId: route }), record: null, observation: null
+    }));
+    assert.equal(admissionRefusal.denialCode, 'fulfillment_no_record');
+    await assert.rejects(hypothetical.requireConsumerPacketPurchaseReadiness(owner, item), e => e === admissionRefusal);
+    assert.equal(preflightCalls, before);
+    admissionRefusal = null;
+  });
+  await check(`readiness refusal precedes AK policy/${raw}`, async () => {
+    const before = preflightCalls;
+    preflightReady = false;
+    await assert.rejects(hypothetical.requireConsumerPacketPurchaseReadiness(owner, item), e => e.name === 'ConsumerCheckoutRenderPreflightError'
+      && e.reason === 'TEST_required_case_number_missing' && e.missingFactIds.length === 1 && e.missingFactIds[0] === 'ak_tf810_case_number');
+    assert.equal(preflightCalls, before + 1);
+    preflightReady = true;
+  });
+  await check(`placeholder keeps existing refusal label/${raw}`, () => {
+    genericRefusal(price(hypothetical, { ...currentSnapshot, paymentAllowed: false }));
+    routeSellable = false;
+    genericRefusal(price(hypothetical, currentSnapshot));
+    routeSellable = true;
+  });
+}
+await check('AK policy follows successful preflight', async () => {
   currentSnapshot = snapshotFor('No'); const before = preflightCalls;
   await assert.rejects(hypothetical.requireConsumerPacketPurchaseReadiness(owner, item), e => e.resultCode === 'ak_tf810_request_not_needed');
-  assert.equal(preflightCalls, before); currentSnapshot = snapshotFor('Yes');
+  assert.equal(preflightCalls, before + 1);
+  currentSnapshot = snapshotFor('Yes');
+  assert.equal((await hypothetical.requireConsumerPacketPurchaseReadiness(owner, item)).purchaseReadiness.ready, true);
 });
 await check('sponsored policy unchanged, no new checkout', async () => {
   sponsored = true;

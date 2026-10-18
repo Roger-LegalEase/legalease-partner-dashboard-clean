@@ -167,14 +167,15 @@ export function createConsumerPaymentPlaceholder(
     commercialRouteIdentity({ jurisdiction: result.state, pathwayId }).routeId
   );
   const salesPolicy = akCourtviewSalesPolicy(result.state, pathwayId, result);
-  const enabled = salesPolicy?.allowed !== false && !deferred && canDeliver && fulfillmentProven && routeSellable
+  const otherwiseEnabled = !deferred && canDeliver && fulfillmentProven && routeSellable
     && isConsumerPaymentAllowed(result.resultCode, result.paymentAllowed);
+  const enabled = salesPolicy?.allowed !== false && otherwiseEnabled;
 
   return {
     enabled,
     amountCents: enabled ? consumerPacketPriceCents : undefined,
     label: enabled ? "$50 one-time self-help packet payment"
-      : salesPolicy?.allowed === false ? salesPolicy.guidance.en : "No payment available for this result"
+      : otherwiseEnabled && salesPolicy?.allowed === false ? salesPolicy.guidance.en : "No payment available for this result"
   };
 }
 
@@ -250,6 +251,11 @@ export async function requireConsumerPacketPurchaseReadiness(userId: string, ite
   });
   if (!purchaseReadiness.ready) {
     throw new ConsumerCheckoutRenderPreflightError(purchaseReadiness.reason, purchaseReadiness.missingFactIds);
+  }
+
+  const salesPolicy = akCourtviewSalesPolicy(verifiedSnapshot.jurisdiction, verifiedSnapshot.pathwayId, verifiedSnapshot);
+  if (salesPolicy?.allowed === false) {
+    throw new ConsumerCheckoutNotAllowedError(salesPolicy.reason, salesPolicy.guidance.en);
   }
 
   return { verification, verifiedSnapshot, purchaseReadiness };
@@ -1205,10 +1211,6 @@ export function assertCheckoutAllowed(
     || !snapshot.paymentAllowed
     || !isConsumerPaymentAllowed(snapshot.resultCode ?? "guidance_only", snapshot.paymentAllowed)) {
     throw new ConsumerCheckoutNotAllowedError(snapshot.resultCode ?? "missing_result_code");
-  }
-  const salesPolicy = akCourtviewSalesPolicy(snapshot.jurisdiction, snapshot.pathwayId, snapshot);
-  if (salesPolicy?.allowed === false) {
-    throw new ConsumerCheckoutNotAllowedError(salesPolicy.reason, salesPolicy.guidance.en);
   }
 }
 
