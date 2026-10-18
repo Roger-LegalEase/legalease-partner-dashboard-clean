@@ -5,12 +5,16 @@ import {register} from 'node:module';
 register('./lib/ts-esm-loader.mjs',import.meta.url);
 const mutation=process.argv.find(a=>a.startsWith('--mutation='))?.slice(11);
 const mutations={
+ precedence:['evaluator.ts','georgiaSb288Context(profile, evaluated.pathwayId) && evaluated.reasons.some(r => r.code === "ga.waiting_rule_not_executed")','georgiaSb288Context(profile, selectPathway(profile, request.answers)?.id)'],
+ paragraphs:['georgia-sb288-facts.ts','c.subsection?.startsWith(subsection)','c.subsection === subsection'],
+ translation:['reviewed-result-copy.ts','if (draft)','if (false)'],
+
  resume:['screens.ts','...GA_SB288_FACT_IDS, ...GA_FIRST_OFFENDER_FACT_IDS','...GA_FIRST_OFFENDER_FACT_IDS'],
  multiline:['public-profile-projection.ts','{ ...question, multiline: true }','question'],
  age:['georgia-sb288-facts.ts','known(a.ga_sb288_under21_at_arrest) === "No"','known(a.age_at_offense) === "21 or older"'],
  count:['georgia-sb288-facts.ts','parsed.length !== Number(count)','false'],
  later:['georgia-sb288-facts.ts','known(a.ga_sb288_convictions_before_filing) === "Yes"','false'],
- consumer:['evaluator.ts','georgiaSb288Context(profile, preselectedPathway?.id)','false'],
+ consumer:['evaluator.ts','georgiaSb288Context(profile, evaluated.pathwayId)','false'],
  history:['packet-collection.ts','const gaSb288CategoryHistory = gaSb288CategoryIsHistory(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);','const gaSb288CategoryHistory = false;']
 };
 if(mutation){assert(mutations[mutation]);register('data:text/javascript,'+encodeURIComponent(`let m;export function initialize(x){m=x}export async function load(u,c,n){const r=await n(u,c);if(u.endsWith('/'+m[0])){if(!r.source.includes(m[1]))throw Error('mutation target absent');return {...r,source:r.source.replace(m[1],m[2])}}return r}`),{data:mutations[mutation]});}
@@ -46,8 +50,35 @@ const modelFor=answers=>{
 const decision=(patch,code)=>{
  const a={...base,...patch},before=structuredClone(a);assert.equal(G.georgiaSb288Facts(a).code,code);assert.deepEqual(a,before);
  const r=evalFor(a).evaluation;assert.equal(r.pathwayId,route);assert.equal(r.reasons[0].code,'ga.sb288_'+code);assert(r.reasons.some(x=>x.code==='ga.waiting_rule_not_executed'));assert.equal(r.paymentAllowed,false);assert(!r.resultCode.startsWith('packet_ready'));
- assert.deepEqual(r.nextSteps,[G.GA_SB288_COPY[code]]);
+ assert.deepEqual(r.nextSteps,[G.GA_SB288_COPY[code][0]]);
 };
+// Captured against immutable pre-SB288 evaluator 9a4313ed8; full before/after evidence accompanies S1.
+for(const [patch, resultCode, reasonCode] of [
+ [{state_exclusion_categories:['DUI/DWI or serious traffic']},'likely_not_eligible','ga.state_exclusion_selected'],
+ [{state_exclusion_categories:['Other named excluded offense']},'likely_not_eligible','ga.state_exclusion_selected'],
+ [{resolved_timing_bucket:'still_open'},'not_yet','ga.case_still_open'],
+ [{court_requirements_completed:'no'},'not_yet','ga.timing_or_completion_blocker'],
+ [{new_convictions_during_waiting_period:'Yes'},'not_yet','ga.timing_or_completion_blocker']
+]) check('pre-SB288 adverse outcome and reason equality/'+JSON.stringify(patch),()=>{
+ const r=evalFor({...base,...patch}).evaluation;
+ assert.equal(r.resultCode,resultCode);assert.deepEqual(r.reasons.map(x=>x.code),[reasonCode]);assert.equal(r.paymentAllowed,false);
+ const unknown=evalFor({...base,ga_sb288_convictions_before_filing:'I am not sure',...patch}).evaluation;
+ assert.equal(unknown.resultCode,resultCode);assert.deepEqual(unknown.reasons.map(x=>x.code),[reasonCode]);
+});
+check('original waiting source references retained',()=>{
+ for(const [answers,sourceRef] of [[witness.answers,'waiting_periods:116-150'],[base,'pathways:68-115']]) {
+  assert.equal(evalFor(answers).evaluation.reasons.find(r=>r.code==='ga.waiting_rule_not_executed').sourceRef,sourceRef);
+ }
+});
+const {reviewedResultText}=await import('../src/lib/expungement-ai/reviewed-result-copy.ts');
+const {resolveRuntimeText}=await import('../src/lib/expungement-ai/localization.ts');
+const {packetMatterSummaryCopy}=await import('../src/lib/expungement-ai/packet-display-copy.ts');
+for(const [code,[en,es]] of Object.entries(G.GA_SB288_COPY)) check('result display EN/ES/'+code,()=>{
+ assert(es&&es!==en);assert.deepEqual(reviewedResultText(en),{en,es});
+ assert.equal(resolveRuntimeText('es',en),es);assert.equal(resolveRuntimeText('en',en),en);
+ assert.deepEqual(packetMatterSummaryCopy({authorityStatus:'available',summary:en}),{en,es});
+ assert.deepEqual(packetMatterSummaryCopy({authorityStatus:'unavailable',summary:en}),{en});
+});
 check('original witness retained separately from synthetic conviction probes',()=>{
  assert.notEqual(witness.answers.case_outcome,'Misdemeanor conviction');
  const before=structuredClone(witness);assert.equal(evalFor(witness.answers).evaluation.reasons[0].code,'ga.sb288_classification');assert.deepEqual(witness,before);
@@ -57,10 +88,10 @@ check('numeric count uses the same factual contract without rewriting raw',()=>d
 for(const value of [undefined,'I am not sure'])check('distinct prefiling fact/'+value,()=>decision({ga_sb288_convictions_before_filing:value},'missing'));
 check('four years before filing is consumed',()=>decision({ga_sb288_convictions_before_filing:'Yes'},'later_conviction_review'));
 check('old timing answer cannot supply or replace new fact',()=>{
- decision({new_convictions_during_waiting_period:'Yes'},'record_review');
+ assert.equal(evalFor({...base,new_convictions_during_waiting_period:'Yes'}).evaluation.resultCode,'not_yet');
  decision({new_convictions_during_waiting_period:'No',ga_sb288_convictions_before_filing:undefined},'missing');
 });
-for(const citation of ['16-5-20(d)','16-5-23(f)','16-5-23.1(f)']) {
+for(const citation of ['16-5-20(d)','16-5-23(f)','16-5-23.1(f)','16-5-20(d)(1)','16-5-23(f)(1)','16-5-23.1(f)(1)']) {
  check(citation+'/arrest age required',()=>decision({ga_sb288_final_citations:citation},'missing'));
  check(citation+'/21 or older at arrest',()=>decision({ga_sb288_final_citations:citation,ga_sb288_under21_at_arrest:'No'},'offense_review'));
  check(citation+'/under21 arrest never proves eligibility',()=>decision({ga_sb288_final_citations:citation,ga_sb288_under21_at_arrest:'Yes'},'record_review'));
