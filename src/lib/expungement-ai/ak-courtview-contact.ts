@@ -285,7 +285,7 @@ export function akCourtviewContactInputs(snapshot: {
     const destination = "participantKey" in field ? { participantKey: field.participantKey } : { matterKey: field.matterKey };
     return value === null ? [] : [{ factId: field.id, documentId: "TF-810", field: field.field, ...destination, value }];
   });
-  const ground = akCourtviewGroundInputs(Object.fromEntries([AK_TF810_PUBLIC_ID, ...AK_TF810_GROUND_IDS].map(id => [id, read(id)])));
+  const ground = akCourtviewGroundInputs({ ...snapshot.packetAnswers, [AK_TF810_PUBLIC_ID]: read(AK_TF810_PUBLIC_ID) });
   return { source: AK_TF810_CONTACT_SOURCE,
     writes: [...writes, ...(ground.rule === null ? [] : [{ factId: "ak_tf810_ground_rule", documentId: "TF-810", field: "rule", matterKey: "ak_tf810_ground_rule", value: ground.rule }])],
     selectionsFromHeldFacts: ground.selectionsFromHeldFacts,

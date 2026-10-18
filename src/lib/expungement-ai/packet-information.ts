@@ -49,7 +49,7 @@ import { ND_FIRST_OFFENSE_FAMILY, ND_FIRST_OFFENSE_CONTACT_FIELDS, ND_FIRST_OFFE
 import { dcInnocenceLocationIsContext, DC_LEGACY_LOCATION } from "@/lib/rcap-engine/dc-innocence-location-context";
 import { KS_MUNICIPAL_CONTACT_FIELDS, KS_MUNICIPAL_CONTACT_IDS, KS_MUNICIPAL_CONTACT_SOURCE, isKsMunicipalContact, ksMunicipalContactQuestions, ksMunicipalContactInputs } from "@/lib/expungement-ai/ks-municipal-contact";
 import { CT_CLEAN_SLATE_CONTACT_FIELDS, CT_CLEAN_SLATE_CONTACT_IDS, CT_CLEAN_SLATE_CONTACT_SOURCE, isCtCleanSlateContact, ctCleanSlateContactQuestions, ctCleanSlateContactInputs } from "@/lib/expungement-ai/ct-clean-slate-contact";
-import { akCourtviewContactQuestions, akCourtviewContactIds, akCourtviewContactInputs, akCourtviewContactAnswerState, isAkCourtviewContact, AK_TF810_CONTACT_FIELDS, AK_TF810_PUBLIC_ID } from "@/lib/expungement-ai/ak-courtview-contact";
+import { akCourtviewContactQuestions, akCourtviewContactIds, akCourtviewContactInputs, akCourtviewContactAnswerState, isAkCourtviewContact, AK_TF810_CONTACT_FIELDS, AK_TF810_GROUND_IDS, AK_TF810_PUBLIC_ID } from "@/lib/expungement-ai/ak-courtview-contact";
 import { caProp64JuvenilePreparationScope } from "@/lib/expungement-ai/ca-prop64-juvenile-document-preparation";
 import { caProp64JuvenileDocumentQuestions, caProp64JuvenileAdditionalCount } from "@/lib/expungement-ai/ca-prop64-juvenile-document-questions";
 import { montanaDeferredDocumentInputs, montanaDeferredAliasDisplay, MT_DEFERRED_PARTICIPANT_ALIASES, MT_DEFERRED_CURRENT_DOCUMENT_CONTRACT } from "@/lib/expungement-ai/mt-deferred-document-inputs";
@@ -2447,6 +2447,11 @@ export function protectedPacketInformationModelFor(
       delete prefilledAnswers[id];
       packetAnswers[id] = { unknown: true };
     }
+  }
+  // Earlier-map ground values are history, never a preselected packet-stage answer.
+  if (isAkCourtviewContact(snapshot.jurisdiction, snapshot.pathwayId)) for (const id of AK_TF810_GROUND_IDS) {
+    delete screeningAnswers[id];
+    delete prefilledAnswers[id];
   }
   const initialAnswers = { ...screeningAnswers, ...prefilledAnswers, ...packetAnswers };
   let requiredInputIds = stringArray(snapshot.requiredInputIds);
