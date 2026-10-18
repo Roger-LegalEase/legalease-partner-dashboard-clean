@@ -5219,7 +5219,7 @@ function allPublicQuestions(profile: ReturnType<typeof projectPublicProfile>) {
   ];
 }
 
-// Retained labels may overlap; this optional history does not classify the case.
+// Supplemental EN/ES optional-history copy; qualified review pending.
 function caTool4RecordHistoryQuestion<T extends ProfileQuestion>(question: T, history: boolean): T {
   if (!history || question.id !== "record_type" || question.stage !== "packet_information"
     || question.type !== "single_choice" || question.prompt !== "What type of record is this?"
@@ -5233,6 +5233,7 @@ function caTool4RecordHistoryQuestion<T extends ProfileQuestion>(question: T, hi
     } } };
 }
 
+// Supplemental EN/ES optional-history copy; qualified review pending.
 function coPetitionRecordHistoryQuestion<T extends ProfileQuestion>(question: T, history: boolean): T {
   if (!history || question.id !== "record_type" || question.stage !== "packet_information"
     || question.type !== "single_choice" || question.prompt !== "What type of record is this?"
@@ -5246,6 +5247,7 @@ function coPetitionRecordHistoryQuestion<T extends ProfileQuestion>(question: T,
     } } };
 }
 
+// Optional-history copy reused from CO; Spanish for lead review.
 function dcFelonyRecordHistoryQuestion<T extends ProfileQuestion>(question: T, history: boolean): T {
   if (!history || question.id !== "record_type" || question.stage !== "packet_information"
     || question.type !== "single_choice" || question.prompt !== "What type of record is this?"
@@ -5259,6 +5261,7 @@ function dcFelonyRecordHistoryQuestion<T extends ProfileQuestion>(question: T, h
     } } };
 }
 
+// Retained labels may overlap; this optional history does not classify the case.
 function caTool3RecordHistoryQuestion<T extends ProfileQuestion>(question: T, history: boolean): T {
   if (!history || question.id !== "record_type" || question.stage !== "packet_information"
     || question.type !== "single_choice" || question.prompt !== "What type of record is this?"

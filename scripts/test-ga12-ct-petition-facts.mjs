@@ -12,7 +12,7 @@ const mutations={
  resume_scope:['screens.ts','profile.jurisdiction.code !== "CT" || nextQuestionIds.some','true || nextQuestionIds.some'],
  date_selection:['connecticut-clean-slate-petition-facts.ts','return { ...question, lifecyclePhase: "postpay_packet_field", stage: "packet_information",','return { ...question, lifecyclePhase: "prepay_route_splitter", stage: "pathway_routing",'],
  packet_stage:['connecticut-clean-slate-petition-facts.ts','type === "single_choice" ? "prepay_route_splitter" : "postpay_packet_field"','"prepay_route_splitter"'],
- public_missing:['api/expungement-ai/evaluate/route.ts','evaluation.missingQuestionIds.filter(id => !packetFactIds.has(id))','evaluation.missingQuestionIds'],
+ public_missing:['api/expungement-ai/evaluate/route.ts',' && !packetFactIds.has(id)',''],
  retained_progress:['api/expungement-ai/screening/progress/route.ts','!retainedCtRecordIds.has(id)','true'],
  hidden_progress:['api/expungement-ai/screening/progress/route.ts','isDeepStrictEqual(answers[id], draft.row.answers[id])','true'],
  date_editor:['packet-information.ts','questions = questions.map(question => ctPetitionDateQuestion(question, ctPetitionContext(profile, pathwayId)));','questions = questions.map(question => question);'],
