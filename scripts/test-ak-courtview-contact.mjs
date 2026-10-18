@@ -207,7 +207,9 @@ response=await post({[C.AK_TF810_GROUND_ID]:legacyUnknown});assert.equal(respons
 assert.deepEqual(stored,stableBeforeUnsupported);
 stored.draftSnapshot.packetAnswers[C.AK_TF810_GROUND_ID]=legacyUnknown;stored.draftHash=P.protectedPacketDraftHash(stored.draftSnapshot);
 const historicalUnknown=structuredClone(stored);body=await read();
-assert.deepEqual(stored,historicalUnknown);assert.deepEqual(body.answers[C.AK_TF810_GROUND_ID],legacyUnknown);
+assert.deepEqual(stored,historicalUnknown);assert.equal(body.answers[C.AK_TF810_GROUND_ID],undefined);
+assert(body.questions.some(q=>q.id===C.AK_TF810_GROUND_ID));
+assert.deepEqual(snap().packetAnswers[C.AK_TF810_GROUND_ID],legacyUnknown);
 response=await post({});assert.equal(response.status,200);groundHttpCases++;
 check('historical unknown wrapper remains raw and incomplete without accepting a new invalid shape',()=>{
  assert.deepEqual(stored,historicalUnknown);assert(model().missingInputIds.includes(C.AK_TF810_GROUND_ID));
