@@ -8,7 +8,7 @@ register('./lib/ts-esm-loader.mjs',import.meta.url);
 const mutation=process.argv.find(a=>a.startsWith('--mutation='))?.slice(11);
 const mutations={
  missing:['evaluator.ts','...facts.ids.filter(id => {','...[].filter(id => {'],
- disposition:['wyoming-1502-facts.ts','if (a.case_outcome !== "Felony conviction") return { code: "disposition", ids: [] };',''],
+ disposition:['wyoming-1502-facts.ts','a.case_outcome !== "Felony conviction"','false'],
  next_step:['evaluator.ts','nextSteps: [WY_1502_COPY[facts.code]]','nextSteps: evaluated.nextSteps'],
  consumer:['evaluator.ts','if (wy1502Context(profile, pathway.id)) {','if (false) {'],
  deferral:['wyoming-1502-facts.ts','a.wy1502_completed_deferral === "Yes"','false'],

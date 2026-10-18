@@ -9,7 +9,7 @@ const mutation=process.argv.find(a=>a.startsWith('--mutation='))?.slice(11);
 const mutations={
  predecessor:['packet-information.ts','illinoisProstitutionHeldDraftSuccessor(snapshot, authoritative, verification.status) ?? ',' '],
  consumer:['evaluator.ts','illinoisProstitutionFacts(answers) : "source_review"','"record_review" : "source_review"'],
- final:['illinois-prostitution-facts.ts','if (answers.case_outcome !== "Felony conviction") return "record_conflict";',''],
+ final:['illinois-prostitution-facts.ts','answers.case_outcome !== "Felony conviction"','false'],
  missing:['evaluator.ts','code === "missing" ? [IL_PROSTITUTION_FACT_ID, "court_requirements_completed"].filter','false ? [IL_PROSTITUTION_FACT_ID, "court_requirements_completed"].filter'],
  completion:['illinois-prostitution-facts.ts','return completion === "yes" ? "record_review" : "completion";','return "record_review";'],
  next_step:['evaluator.ts','nextSteps: [IL_PROSTITUTION_COPY[code]]','nextSteps: evaluated.nextSteps'],
