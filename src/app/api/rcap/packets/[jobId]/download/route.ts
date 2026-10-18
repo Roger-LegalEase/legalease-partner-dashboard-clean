@@ -81,7 +81,8 @@ export async function GET(
         userAgentClass: /mobile|iphone|android/i.test(request.headers.get("user-agent") ?? "") ? "mobile" : "desktop"
       }
     });
-  } catch {
+  } catch (error) {
+    console.error("[packet-download] unclassified failure", error);
     return NextResponse.json({ error: "Packet downloads are not available right now." }, { status: 500, headers: privateDownloadHeaders() });
   }
 }

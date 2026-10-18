@@ -4,6 +4,7 @@ import fs from 'node:fs';
 import ts from 'typescript';
 import {register} from 'node:module';
 register('./lib/ts-esm-loader.mjs',import.meta.url);
+const {unstable_rethrow,redirect,permanentRedirect}=await import('next/navigation.js');
 const {authorizePacketDownload}=await import('../src/lib/rcap/render/packet-delivery.ts');
 const id='b7252f57-c042-4d3e-805e-fd783380f246';
 const missing='00000000-0000-4000-8000-000000000000';
@@ -79,11 +80,11 @@ function boundDelivery(overrides={}) {
  const bytes=Buffer.from('%PDF-1.7\nsynthetic owner packet\n%%EOF\n');
  const hash=sha256(bytes),routeId='MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal';
  const state={user:'owner',currentHash:'current',verificationMissing:false,finalized:true,admissionDenied:false,throwAt:null,
-  bytes,reads:0,events:[],receipts:[],admissions:0,
+  bytes,reads:0,events:[],receipts:[],admissions:0,loggedErrors:[],failure:Error('private-internal: packet-artifacts/secret-token'),
   job:{id,briefcaseItemId:'owner-item',consumerBriefcaseItemId:'owner-item',consumerAuthUserId:'owner',partnerId:null,
    routeId,matterId:'matter-owner-item',status:'artifact_validated',deliveryEligibility:'eligible',accountingResult:'consumed',
    outputSha256:hash,outputStoragePath:`packet-artifacts/${id}/${hash}.pdf`,consumerVerificationHash:'current'}};
- const fail=place=>{if(state.throwAt===place)throw Error('private-internal: packet-artifacts/secret-token');};
+ const fail=place=>{if(state.throwAt===place)throw state.failure;};
  const current=()=>state.verificationMissing?null:{snapshot:{jurisdiction:'MS',pathwayId:routeId.split(':')[1]},hash:state.currentHash,ownerUserId:'owner',matterId:'matter-owner-item',alreadyDownloaded:false};
  const ports={getJob:async()=>{fail('job');return state.job;},userOwnsBriefcaseItem:async(user,item)=>user==='owner'&&item==='owner-item',
   getCurrentVerification:async()=>current(),sponsoredDeliveryReady:async()=>state.finalized,
@@ -92,7 +93,7 @@ function boundDelivery(overrides={}) {
  const core=functionsFromSource(corePath,{isDeliverable,sha256,
   governPacketDownloadAdmission:()=>{state.admissions++;if(state.admissionDenied)throw Error('held authority');},
   sponsoredRenderDeliveryReady:async()=>state.finalized},overrides);
- const deps={NextResponse:Response,after:p=>state.receipts.push(p),...core,
+ const deps={NextResponse:Response,console:{error:(...args)=>state.loggedErrors.push(args)},after:p=>state.receipts.push(p),...core,
   getRcapBriefcaseAuthState:async()=>{fail('auth');return {isAuthenticated:true,userId:state.user};},
   requireConsumerBriefcaseApiSession:async()=>{fail('auth');return {ok:true,userId:state.user};},
   authorizeConsumerArtifactDownload:async()=>{fail('grant');return state.user==='owner'?{renderJobId:id,storagePath:state.job.outputStoragePath,expectedSha256:hash,fileName:'packet.pdf',grantId:'grant'}:null;},
@@ -172,20 +173,41 @@ test('both modern download handlers sanitize exceptions before response streamin
   assert.equal(response.status,500,kind+' '+place);privateResponse(response);
   assert.deepEqual(JSON.parse(body),{error:'Packet downloads are not available right now.'});
   assert.equal(response.headers.get('pragma'),'no-cache');
+  assert.deepEqual(h.state.loggedErrors,[['[packet-download] unclassified failure',h.state.failure]],kind+' '+place+' logs the original error once');
  }
 });
 
 test('every legacy download response is private, for PDF/text and typed refusals',async()=>{
  const errorStatuses={ConsumerPacketArtifactAuthorityUnavailableError:503,ConsumerPacketNotFoundError:404,ConsumerPacketPaymentRequiredError:402,ConsumerPacketNotAllowedError:403,ConsumerPacketNotReadyError:409};
  const errors=Object.fromEntries(Object.keys(errorStatuses).map(name=>[name,class extends Error{}]));
- for(const [kind,status]of [['pdf',200],['text',200],['missing-id',400],['unexpected',500],...Object.entries(errorStatuses)]){
-  const dependencies={NextResponse:Response,...errors,requireConsumerBriefcaseSession:async()=>({userId:'owner'}),getConsumerPacketDownload:async()=>{
-   if(errors[kind])throw new errors[kind]();if(kind==='unexpected')throw Error('private-internal: secret');return {body:kind==='text'?'preserved legacy summary':Buffer.from('%PDF-1.7\nlegacy'),contentType:kind==='text'?'text/plain':'application/pdf',fileName:'legacy.pdf'};
+ for(const [kind,status]of [['pdf',200],['text',200],['missing-id',400],['session-throws',500],['unexpected',500],...Object.entries(errorStatuses)]){
+  const failure=Error('private-internal: secret'),loggedErrors=[];let reads=0;
+  const dependencies={NextResponse:Response,...errors,unstable_rethrow,console:{error:(...args)=>loggedErrors.push(args)},requireConsumerBriefcaseSession:async()=>{if(kind==='session-throws')throw failure;return {userId:'owner'};},getConsumerPacketDownload:async()=>{
+   reads++;
+   if(errors[kind])throw new errors[kind]();if(kind==='unexpected')throw failure;return {body:kind==='text'?'preserved legacy summary':Buffer.from('%PDF-1.7\nlegacy'),contentType:kind==='text'?'text/plain':'application/pdf',fileName:'legacy.pdf'};
   }};
   const GET=functionsFromSource(legacyRoutePath,dependencies).GET;
   const request=new Request('http://isolated.test/download'+(kind==='missing-id'?'':'?briefcaseItemId=owner-item'));request.nextUrl=new URL(request.url);
-  const response=await GET(request);assert.equal(response.status,status,kind);privateResponse(response);assert.equal(response.headers.get('pragma'),'no-cache');
+  let response;await assert.doesNotReject(async()=>{response=await GET(request);},kind+' must return a private response');assert.equal(response.status,status,kind);privateResponse(response);assert.equal(response.headers.get('pragma'),'no-cache');
   if(status===500)assert.deepEqual(await response.json(),{error:'Packet downloads are not available right now.'});
+  assert.deepEqual(loggedErrors,status===500?[['[packet-download] unclassified failure',failure]]:[],kind+' logs only unclassified failures');
+  if(kind==='session-throws')assert.equal(reads,0,'session failure never reads a packet');
   if(status===200){assert.equal(response.headers.get('content-type'),kind==='text'?'text/plain; charset=utf-8':'application/pdf');assert.equal(await response.text(),kind==='text'?'preserved legacy summary':'%PDF-1.7\nlegacy');}
+ }
+});
+
+// R1/R2: use Next's actual redirect/rethrow functions, including wrapped redirects.
+test('legacy session redirects retain their exact identity before validation or packet access',async()=>{
+ const source=fs.readFileSync(legacyRoutePath,'utf8');
+ assert.match(source,/import \{ unstable_rethrow \} from "next\/navigation"/);
+ for(const redirectTo of [redirect,permanentRedirect])for(const wrapped of [false,true])for(const suffix of ['', '?briefcaseItemId=owner-item']){
+  let redirectError;try{redirectTo('/sign-in?next=%2Fbriefcase');}catch(error){redirectError=error;}
+  assert(redirectError?.digest?.startsWith('NEXT_REDIRECT;'));
+  const sessionError=wrapped?Error('wrapped redirect',{cause:redirectError}):redirectError;
+  const loggedErrors=[];let reads=0;
+  const GET=functionsFromSource(legacyRoutePath,{NextResponse:Response,unstable_rethrow,console:{error:(...args)=>loggedErrors.push(args)},requireConsumerBriefcaseSession:async()=>{throw sessionError;},getConsumerPacketDownload:async()=>{reads++;throw Error('redirect reached packet');}}).GET;
+  const request=new Request('http://isolated.test/download'+suffix);request.nextUrl=new URL(request.url);
+  await assert.rejects(GET(request),error=>error===redirectError);
+  assert.equal(reads,0);assert.deepEqual(loggedErrors,[],'Next redirects are not logged as unclassified failures');
  }
 });

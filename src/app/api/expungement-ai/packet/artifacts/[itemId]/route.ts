@@ -80,7 +80,8 @@ export async function GET(
     response.headers.set("content-disposition", `attachment; filename="${safeFileName(authority.fileName)}"`);
     response.headers.set("x-content-type-options", "nosniff");
     return response;
-  } catch {
+  } catch (error) {
+    console.error("[packet-download] unclassified failure", error);
     return NextResponse.json({ error: "Packet downloads are not available right now." }, { status: 500, headers: privateHeaders() });
   }
 }
