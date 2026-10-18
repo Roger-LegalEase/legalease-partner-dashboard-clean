@@ -1,5 +1,6 @@
 import { IL_PROSTITUTION_COPY } from "@/lib/rcap-engine/illinois-prostitution-facts";
 import { WY_1502_COPY } from "@/lib/rcap-engine/wyoming-1502-facts";
+import { OH_JUVENILE_RESULT_COPY } from "@/lib/expungement-ai/oh-juvenile-stage-questions";
 import { CT_PETITION_COPY } from "@/lib/rcap-engine/connecticut-clean-slate-petition-facts";
 import { GA_SB288_COPY } from "@/lib/rcap-engine/georgia-sb288-facts";
 import { questionAnswerState, scalarAnswerText } from "@/lib/expungement-ai/question-answer-state";
@@ -94,7 +95,7 @@ export function isMsTimingDisplayText(english: string): boolean {
 /** Exact display copy only. Contextual MS successors never rewrite literal text. */
 export function reviewedResultText(english: string, msContext?: MsTimingDisplayContext | null): { en: string; es: string } | null {
   // Source-grounded supplemental copy; qualified translation review remains pending.
-  const draft = [...Object.values(GA_SB288_COPY), ...Object.values(CT_PETITION_COPY), ...Object.values(IL_PROSTITUTION_COPY), ...Object.values(WY_1502_COPY)].find(([en]) => en === english);
+  const draft = [OH_JUVENILE_RESULT_COPY, ...Object.values(GA_SB288_COPY), ...Object.values(CT_PETITION_COPY), ...Object.values(IL_PROSTITUTION_COPY), ...Object.values(WY_1502_COPY)].find(([en]) => en === english);
   if (draft) return { en: draft[0], es: draft[1] };
   const matches = catalog.entries.filter((entry) => entry.kind !== "route_display_label" && entry.originalEnglish === english);
   if (matches.length === 1) {

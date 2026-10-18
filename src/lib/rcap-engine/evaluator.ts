@@ -1,6 +1,7 @@
 import { wy1502Context, wy1502Facts, WY_1502_SOURCE, WY_1502_COPY } from "@/lib/rcap-engine/wyoming-1502-facts";
 import { southDakotaSisContext, southDakotaSisFacts, SD_SIS_COPY, SD_SIS_SOURCE } from "@/lib/rcap-engine/south-dakota-sis-facts";
 import { illinoisProstitutionContext, illinoisProstitutionFacts, IL_PROSTITUTION_FACT_ID, IL_PROSTITUTION_COPY, IL_PROSTITUTION_SOURCE } from "@/lib/rcap-engine/illinois-prostitution-facts";
+import { OH_JUVENILE_ROUTE, OH_JUVENILE_RESULT_COPY } from "@/lib/expungement-ai/oh-juvenile-stage-questions";
 import { questionAnswerState } from "@/lib/expungement-ai/question-answer-state";
 import { CT_PETITION_FACT_IDS, CT_PETITION_SOURCE, CT_PETITION_COPY, ctPetitionContext, ctPetitionFacts } from "@/lib/rcap-engine/connecticut-clean-slate-petition-facts";
 import { GA_SB288_FACT_IDS, GA_SB288_SOURCE, GA_SB288_COPY, georgiaSb288Context, georgiaSb288Facts } from "@/lib/rcap-engine/georgia-sb288-facts";
@@ -2417,6 +2418,7 @@ function productGuidanceReason(profile: EngineProfile, answers: Record<string, S
 }
 
 function guidanceTextForProductRoute(profile: EngineProfile, pathway: CompiledPathway) {
+  if (profile.jurisdiction.code === "OH" && pathway.id === OH_JUVENILE_ROUTE) return OH_JUVENILE_RESULT_COPY[0];
   if (profile.jurisdiction.code === "DC" && (pathway.id === "dc_auto_expungement_16_802" || pathway.id === "dc_auto_sealing_16_805")) {
     return "DC has an automatic sealing law, but the court says automatic sealing is not currently operating. You may still have a motion-based option.";
   }

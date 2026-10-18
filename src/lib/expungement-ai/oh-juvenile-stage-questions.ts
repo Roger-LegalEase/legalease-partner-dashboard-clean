@@ -2,6 +2,8 @@ import type { ProfileQuestion } from "@/lib/expungement-ai/frontend/contracts";
 
 // Browser-safe descriptors only. These new meanings never reinterpret a saved court answer.
 export const OH_JUVENILE_ROUTE = "juvenile-sealing-and-expungement";
+// GA14 M01059 / Q-da1aeae32132608fb1f4: current capability only; the application obligation remains open.
+export const OH_JUVENILE_RESULT_COPY = ["Ohio law allows the juvenile court to seal records on its own motion or on the person's application when the statutory requirements are met (R.C. 2151.356). This service currently provides guidance but does not prepare that application. The court, not you, is responsible for notifying the prosecutor. There is no court filing fee for this application. Expungement under R.C. 2151.358 is a separate process with its own timing.", "La ley de Ohio permite que el tribunal de menores ordene el sellado de los expedientes por iniciativa propia o a solicitud de la persona, cuando se cumplan los requisitos legales (R.C. 2151.356). Actualmente, este servicio ofrece orientación, pero no prepara esa solicitud. El tribunal, no usted, se encarga de notificar al fiscal. No se cobra una tasa judicial por presentar esta solicitud. La eliminación de los expedientes («expungement») conforme a R.C. 2151.358 es un trámite distinto, sujeto a sus propios plazos."] as const;
 export const OH_JUVENILE_STAGE_IDS = ["oh_juvenile_requested_service", "oh_juvenile_record_forum", "oh_juvenile_sealed_record_status"] as const;
 const labels = {
   court_status_information: ["Information about court action or record status", "Información sobre las actuaciones del tribunal o el estado del registro"],
