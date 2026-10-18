@@ -42,7 +42,9 @@ export const MS_PROOF_EXECUTION_INPUTS=['scripts/lib/rcap-ephemeral-pg.mjs','scr
   // Mandatory current CA no-phone contact source-only record, distinct from modules.
   'data/rcap-grade-a/participant-data-rights/question-contract-source-succession-ca-no-phone-contact-20261017-v1.json',
   // Mandatory current GA SB288 / CT petition source-only record, distinct from modules.
-  'data/rcap-grade-a/participant-data-rights/question-contract-source-succession-ga-sb288-ct-petition-20261018-v1.json'];
+  'data/rcap-grade-a/participant-data-rights/question-contract-source-succession-ga-sb288-ct-petition-20261018-v1.json',
+  // Mandatory current GA guide Spanish source-only record, distinct from modules.
+  'data/rcap-grade-a/participant-data-rights/question-contract-source-succession-ga-guide-spanish-20261018-v1.json'];
 // Exact import paths observed by the actual verifier imports-only probe;
 // the full execution must reproduce this set before emitting a current proof.
 export const MS_PROOF_OBSERVED_INPUTS=[
