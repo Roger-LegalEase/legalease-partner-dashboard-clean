@@ -1,3 +1,5 @@
+import { CT_PETITION_FACT_IDS, ctPetitionContext } from "@/lib/rcap-engine/connecticut-clean-slate-petition-facts";
+import { projectPublicProfile } from "@/lib/rcap-engine/public-profile-projection";
 import { packetFulfillmentAuthority } from "@/lib/expungement-ai/packet-fulfillment-authority";
 import { NextResponse } from "next/server";
 import type { ScreeningEvaluationRequest } from "@/lib/rcap-engine/contracts";
@@ -37,10 +39,15 @@ export async function POST(request: Request) {
     const authoritative = evaluateAuthoritativeScreeningResult(clientInput);
     const evaluation = authoritative.evaluation;
     const binding = { trackId: authoritative.selectedTrackId };
+    // Record details remain review requirements in the protected editor, not anonymous correction screens.
+    const packetFactIds = new Set(ctPetitionContext(authoritative.profile, evaluation.pathwayId)
+      ? projectPublicProfile(authoritative.profile).questions.filter(question => CT_PETITION_FACT_IDS.includes(question.id)
+        && question.lifecyclePhase === "postpay_packet_field").map(question => question.id) : []);
     // Legal evaluator signals remain intact. Availability is read separately
     // from Grade-A authority; neither field authorizes an anonymous checkout.
     return NextResponse.json({
       ...evaluation,
+      missingQuestionIds: evaluation.missingQuestionIds.filter(id => !packetFactIds.has(id)),
       consumerPacketAvailable: packetFulfillmentAuthority(evaluation.jurisdiction, evaluation.pathwayId, "checkout creation", binding).allowed,
       sponsoredPacketAvailable: packetFulfillmentAuthority(evaluation.jurisdiction, evaluation.pathwayId, "sponsored entitlement", binding).allowed
     });
