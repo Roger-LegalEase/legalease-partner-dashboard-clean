@@ -6,6 +6,7 @@ import ts from 'typescript';
 register('./lib/ts-esm-loader.mjs', import.meta.url);
 const mutation=process.argv.find(arg=>arg.startsWith('--mutation='))?.slice(11);
 const mutations={
+ unknown_marker:['coPetitionRecordIsHistory(profile, snapshot.pathwayId, packetSpecificationFor(`${snapshot.jurisdiction}:${snapshot.pathwayId}`))','false'],
  context:['contactRepresentationHash(profile) === "1e74ae18e3815426ae28001f741a954826a985d08164d8ab77820cda0d90d909"','true'],
  ownership:['coPetitionRecordHistory && !overrideClass && !needsHuman.has(factId)','coPetitionRecordHistory'],
  collection:['if (factId === "record_type" && coPetitionRecordHistory','if (factId === "record_type" && false'],
@@ -118,6 +119,7 @@ for(const [label,outcome] of [['original-witness',witness.answers.case_outcome],
   check(`${label}/${map}/${JSON.stringify(raw)}: no exclusive-value or juvenile inference`,()=>{
    const m=P.protectedPacketInformationModelFor(record);assert(m);const q=m.questions.find(q=>q.id==='record_type');assert(q);assert.equal(q.required,false);assert(q.helperText.includes('overlap'));assert(q.translations.es.helperText.includes('coincidir'));
    assert(!m.missingInputIds.includes('record_type'));
+   if(JSON.stringify(raw)===JSON.stringify(['Juvenile matter','Conviction'])){const retained=m.builderQuestions.find(q=>q.id==='record_type');assert(retained);assert.equal(retained.required,false);}
    const r=P.evaluateProtectedPacketFacts(record.draftSnapshot).evaluation;
    assert.equal(r.pathwayId,route);assert.equal(r.resultCode,result);assert.equal(r.paymentAllowed,payment);const price=createConsumerPaymentPlaceholder({...record.draftSnapshot,state:'CO'},route);assert.equal(price.enabled,false);
    assert.equal(r.reasons[0].code,reason);

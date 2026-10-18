@@ -6,6 +6,7 @@ import ts from 'typescript';
 register('./lib/ts-esm-loader.mjs', import.meta.url);
 const mutation=process.argv.find(arg=>arg.startsWith('--mutation='))?.slice(11);
 const mutations={
+ unknown_marker:['caTool4RecordIsHistory(profile, snapshot.pathwayId, packetSpecificationFor(`${snapshot.jurisdiction}:${snapshot.pathwayId}`))','false'],
  collection:['if (factId === "record_type" && caTool4RecordHistory','if (factId === "record_type" && false'],
  loss:['const shapesPreserved = preserveProtectedLegacyShapes(seeded, legacy.inspection, replacedLegacyIds);','const shapesPreserved = preserveProtectedLegacyShapes(seeded, legacy.inspection, replacedLegacyIds); delete shapesPreserved.packetAnswers.record_type;'],
  priority:['const shapesPreserved = preserveProtectedLegacyShapes(seeded, legacy.inspection, replacedLegacyIds);','const shapesPreserved = preserveProtectedLegacyShapes(seeded, legacy.inspection, replacedLegacyIds); if (Array.isArray(shapesPreserved.packetAnswers.record_type)) shapesPreserved.packetAnswers.record_type = "Conviction";'],
@@ -64,6 +65,7 @@ for(const [label,outcome] of [['original-witness',witness.answers.case_outcome],
   check(`${label}/${map}/${JSON.stringify(raw)}: no exclusive-value or juvenile inference`,()=>{
    const m=P.protectedPacketInformationModelFor(record);assert(m);const q=m.questions.find(q=>q.id==='record_type');assert(q);assert.equal(q.required,false);assert(q.helperText.includes('overlap'));assert(q.translations.es.helperText.includes('coincidir'));
    assert(!m.missingInputIds.includes('record_type'));
+   if(Array.isArray(raw)){const retained=m.builderQuestions.find(q=>q.id==='record_type');assert(retained);assert.equal(retained.required,false);}
    const r=P.evaluateProtectedPacketFacts(record.draftSnapshot).evaluation;
    assert.equal(r.pathwayId,route);assert.equal(r.resultCode,'packet_ready_with_caution');assert.equal(r.paymentAllowed,true);const price=createConsumerPaymentPlaceholder({...record.draftSnapshot,state:'CA'},route);assert.equal(price.enabled,false);
    assert.equal(r.reasons[0].code,'ca.compiled_rule_match.rule-15-tool-4-arrest-record-sealing-pc-851-91-factual-innocenc');
