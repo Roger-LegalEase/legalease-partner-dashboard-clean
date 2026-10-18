@@ -1,4 +1,3 @@
-import { GA_SB288_ROUTE, GA_SB288_SOURCE, GA_SB288_COPY, georgiaSb288Context, georgiaSb288Facts } from "@/lib/rcap-engine/georgia-sb288-facts";
 import { FL_INFORMATION_COPY, FL_INFORMATION_SOURCE, flConditionalInformationContext, flConditionalInformationQuestionApplies, withFlConditionalInformation } from "@/lib/rcap-engine/florida-conditional-source-information";
 import { DC_INFORMATION_COPY, DC_INFORMATION_SOURCE, dcGeneralInformationContext, dcGeneralInformationQuestionApplies } from "@/lib/rcap-engine/district-of-columbia-general-guidance";
 import { CT_AUTOMATIC_INFORMATION_COPY, CT_AUTOMATIC_INFORMATION_SOURCE, ctAutomaticInformationContext, ctAutomaticInformationQuestionApplies } from "@/lib/rcap-engine/connecticut-automatic-source-guidance";
@@ -547,16 +546,6 @@ function evaluateProfileRules(profile: EngineProfile, request: ScreeningEvaluati
     // authenticated order fact, exact date or completed-sealing assertion.
     return { ...evaluated, userLabel: text,
       nextSteps: guidance ? [NY_16055_COPY.record[0], NY_16055_COPY.boundary[0]] : [text] };
-  }
-
-  if (georgiaSb288Context(profile, preselectedPathway?.id)) {
-    const facts = georgiaSb288Facts(answers);
-    const plan = packetPlanForPathway(profile, GA_SB288_ROUTE);
-    const held = result(profile, request, facts.status === "missing" ? "needs_more_info" : "needs_review",
-      [reason("GA", `sb288_${facts.code}`, GA_SB288_COPY[facts.code], GA_SB288_SOURCE),
-        reason("GA", "waiting_rule_not_executed", "The source-specific waiting period needs review before a packet decision.", "GA.memo:ga-misd-j4:waitingPeriods")],
-      { pathwayId: GA_SB288_ROUTE, missingQuestionIds: facts.ids, paymentAllowed: false, ...(plan ? { packetPlan: plan } : {}) });
-    return { ...held, nextSteps: [GA_SB288_COPY[facts.code]] };
   }
 
   if (jurisdiction === "GA" && preselectedPathway?.id === GA_PARDON_ROUTE) {
