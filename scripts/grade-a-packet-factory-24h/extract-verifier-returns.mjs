@@ -507,18 +507,26 @@ const isAncestorOf = (a, b) => {
  * a listed base that becomes reachable is a stale record entry, refused here.
  */
 const UNREACHABLE_BASES = "data/rcap-grade-a/packet-factory-24h/UNREACHABLE_VERIFIER_BASES.json";
-const commitExists = (c) => { try { execFileSync("git", ["cat-file", "-e", `${c}^{commit}`], { cwd: ROOT, stdio: "ignore" }); return true; } catch { return false; } };
+// Reachability from HEAD, not mere object existence: a dangling worker object must not read as "reachable again",
+// and a stand-in on a side branch could validate yet never order a fresh read.
+const reachableFromHead = (c) => { try { execFileSync("git", ["merge-base", "--is-ancestor", c, "HEAD"], { cwd: ROOT, stdio: "ignore" }); return true; } catch { return false; } };
 const standInBase = new Map();
 if (fs.existsSync(path.join(ROOT, UNREACHABLE_BASES))) {
   const record = JSON.parse(fs.readFileSync(path.join(ROOT, UNREACHABLE_BASES), "utf8"));
   if (record.schemaVersion !== "rcap-unreachable-verifier-bases/v1") throw new Error(`${UNREACHABLE_BASES}: unknown schemaVersion`);
   for (const row of record.rows) {
     if (!isCommit(row.verifiedAtBase) || !isCommit(row.standInBase)) throw new Error(`${UNREACHABLE_BASES}: ${row.evidencePath}: bases must be commit-shaped`);
-    if (commitExists(row.verifiedAtBase)) throw new Error(`${UNREACHABLE_BASES}: ${row.verifiedAtBase} is reachable again; remove its stale entry`);
-    if (!commitExists(row.standInBase)) throw new Error(`${UNREACHABLE_BASES}: stand-in ${row.standInBase} is not a reachable commit`);
+    if (reachableFromHead(row.verifiedAtBase)) throw new Error(`${UNREACHABLE_BASES}: ${row.verifiedAtBase} is reachable from HEAD again; remove its stale entry`);
+    if (!reachableFromHead(row.standInBase)) throw new Error(`${UNREACHABLE_BASES}: stand-in ${row.standInBase} is not an ancestor of HEAD`);
     if (!fs.existsSync(path.join(ROOT, row.evidencePath))) throw new Error(`${UNREACHABLE_BASES}: ${row.evidencePath} no longer exists; a moved return would silently lose its stand-in`);
     standInBase.set(`${row.verifiedAtBase}\0${row.evidencePath}`, row.standInBase);
   }
+}
+// An entry that matches no extracted row (a typo, a moved return) would be silently unused and the family would
+// fall back to lane precedence; require exactly one match.
+for (const key of standInBase.keys()) {
+  const matches = rows.filter((r) => `${r.verifiedAtBase}\0${r.evidencePath}` === key).length;
+  if (matches !== 1) throw new Error(`${UNREACHABLE_BASES}: entry ${key.split("\0").join(" @ ")} matches ${matches} extracted row(s), not one`);
 }
 const orderingBase = (r) => standInBase.get(`${r.verifiedAtBase}\0${r.evidencePath}`) ?? r.verifiedAtBase;
 /*
