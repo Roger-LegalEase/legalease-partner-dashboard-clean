@@ -1,3 +1,4 @@
+import { GA_SB288_FACT_IDS, GA_SB288_QUESTIONS } from "@/lib/rcap-engine/georgia-sb288-facts";
 import { MD_POLICE_IDS, MD_POLICE_QUESTIONS, mdPoliceSourceContract } from "@/lib/rcap-engine/maryland-police-record-facts";
 import { NY_16057_IDS, NY_16057_QUESTIONS, ny16057SourceContract } from "@/lib/rcap-engine/ny-16057-guidance";
 import { NY_MRTA_IDS, NY_MRTA_QUESTIONS, nyMrtaSourceContract } from "@/lib/rcap-engine/ny-mrta-stage-facts";
@@ -70,7 +71,7 @@ const STATE_SPECIFIC_PREPAY_WILMA_FACT_IDS: Record<string, Set<string>> = {
   AR: new Set([AR_RECORD_ORIGIN_ID]),
   DE: new Set(DE_CONVICTION_FACT_IDS),
   KS: new Set(KS_RECORD_SCOPE_FACT_IDS),
-  GA: new Set([...GA_PARDON_FACT_IDS, ...GA_FIRST_OFFENDER_FACT_IDS, ...convictionReliefQuestions("GA").map(q => q.id)]),
+  GA: new Set([...GA_SB288_FACT_IDS, ...GA_PARDON_FACT_IDS, ...GA_FIRST_OFFENDER_FACT_IDS, ...convictionReliefQuestions("GA").map(q => q.id)]),
   IL: new Set([...IL_CANNABIS_FACT_IDS, ...convictionReliefQuestions("IL").map(q => q.id)]),
   CA: new Set([
     ...CA_PROP64_FACT_IDS,
@@ -1162,7 +1163,7 @@ function withWilmaFactQuestions(
     : profile.jurisdiction.code === "TX" ? [...WILMA_FACT_QUESTIONS, ...TX_ND_QUESTIONS]
     : profile.jurisdiction.code === "AR" ? [...WILMA_FACT_QUESTIONS, AR_RECORD_ORIGIN_QUESTION]
     : profile.jurisdiction.code === "CA" ? [...WILMA_FACT_QUESTIONS, ...CA_PROP64_FACT_QUESTIONS, ...(caProbationContract ? CA_12034_QUESTIONS : [])]
-    : profile.jurisdiction.code === "GA" ? [...WILMA_FACT_QUESTIONS, ...GA_FIRST_OFFENDER_QUESTIONS, ...GA_PARDON_QUESTIONS]
+    : profile.jurisdiction.code === "GA" ? [...WILMA_FACT_QUESTIONS, ...GA_FIRST_OFFENDER_QUESTIONS, ...GA_PARDON_QUESTIONS, ...GA_SB288_QUESTIONS]
     : profile.jurisdiction.code === "IL" ? [...WILMA_FACT_QUESTIONS, ...IL_CANNABIS_QUESTIONS]
     : profile.jurisdiction.code === "NY" ? [...WILMA_FACT_QUESTIONS, ...NY_16059_QUESTIONS, ...(nyPartialSealContract ? [NY_16055_QUESTION] : []), ...(nyMrtaContract ? NY_MRTA_QUESTIONS : []), ...(nyCleanSlateContract ? NY_16057_QUESTIONS : [])]
     : profile.jurisdiction.code === "KS" ? [...WILMA_FACT_QUESTIONS, ...KS_RECORD_SCOPE_QUESTIONS]
@@ -1374,6 +1375,8 @@ function toPublicJurisdictionProfile(draft: PublicJurisdictionProfile): PublicJu
  */
 export function projectPublicProfile(profile: EngineProfile): PublicJurisdictionProfile {
   const projected = toPublicJurisdictionProfile(buildProfileDraft(profile));
+  if (profile.jurisdiction.code === "GA") projected.questions = projected.questions.map(question =>
+    question.id === "ga_sb288_final_citations" ? { ...question, multiline: true } : question);
   const context = { state: profile.jurisdiction.code };
   projected.questions = projected.questions.map((question) => virginiaVictimContextQuestion(profile, reviewedScreeningQuestion(question, context)));
   const completion = projected.postPaymentPacketCompletion;

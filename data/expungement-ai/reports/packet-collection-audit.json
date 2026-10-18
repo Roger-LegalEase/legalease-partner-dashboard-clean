@@ -692,11 +692,11 @@
   "participantWorkload": {
     "note": "Source-model workload estimates under empty answers and screening-answerability metadata. These do not establish actual post-screening visibility or completed entry burden.",
     "totalParticipantEnteredFactsBefore": 5146,
-    "totalParticipantEnteredFactsAfter": 3128,
+    "totalParticipantEnteredFactsAfter": 3127,
     "totalFactsReusedFromScreening": 1885,
     "totalFactsDeterministicallyDerived": 14,
     "totalDuplicateAsksEliminated": 1885,
-    "totalConditionalFacts": 91,
+    "totalConditionalFacts": 92,
     "totalFilingReadinessFactsBeforeCheckout": 0,
     "totalExternalActorFieldsNeverAsked": 61,
     "enteredFactsBefore": {
@@ -11332,7 +11332,6 @@
           "court",
           "criminal_history",
           "disposition_date",
-          "offense_category",
           "offense_level",
           "pardon_status",
           "pending_cases",
@@ -11351,7 +11350,9 @@
           "otn",
           "prosecuting_authority"
         ],
-        "conditional": [],
+        "conditional": [
+          "offense_category"
+        ],
         "filingReadiness": [],
         "externalActor": [
           "participant_narrative",
@@ -11362,9 +11363,9 @@
       "counts": {
         "already_known": 2,
         "derived": 1,
-        "prepay_confirmation": 14,
+        "prepay_confirmation": 13,
         "render_required": 8,
-        "conditional": 0,
+        "conditional": 1,
         "filing_readiness": 0,
         "external_actor": 2,
         "unresolved": 0
@@ -11396,7 +11397,6 @@
             "factIds": [
               "arrest_date",
               "charge",
-              "offense_category",
               "offense_level",
               "record_type",
               "otn"
@@ -11450,7 +11450,7 @@
         "currentVisibleScreens": 25,
         "newVisibleSections": 8,
         "currentParticipantEnteredFacts": 25,
-        "newParticipantEnteredFacts": 16,
+        "newParticipantEnteredFacts": 15,
         "factsReusedFromScreening": 6,
         "factsReusedFromScreeningIds": [
           "case_outcome",
@@ -11469,26 +11469,27 @@
           "contact_information"
         ],
         "duplicateAsksEliminated": 6,
-        "conditionalFacts": 0,
-        "conditionalFactsSuppressedWhenIrrelevant": [],
+        "conditionalFacts": 1,
+        "conditionalFactsSuppressedWhenIrrelevant": [
+          "offense_category"
+        ],
         "filingReadinessFactsStillRequiredBeforeCheckout": 0,
         "externalActorFieldsNeverAsked": 2,
-        "totalAdditionalParticipantInteractionsAfterScreening": 16,
+        "totalAdditionalParticipantInteractionsAfterScreening": 15,
         "coherentParticipantInteractionsAfterScreening": 8,
-        "participantEnteredFactsDelta": 9,
+        "participantEnteredFactsDelta": 10,
         "uxNotActuallyReduced": false,
         "reductionLimitedBy": null
       },
       "prepayBudget": {
-        "confirmationFacts": 14,
-        "additionalConfirmationFacts": 8,
+        "confirmationFacts": 13,
+        "additionalConfirmationFacts": 7,
         "additionalFactIds": [
           "arrest_date",
           "charge",
           "court",
           "criminal_history",
           "disposition_date",
-          "offense_category",
           "record_type",
           "residency_or_location"
         ],
