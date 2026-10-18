@@ -7,7 +7,7 @@ import ts from 'typescript';
 register('./lib/ts-esm-loader.mjs',import.meta.url);
 const mutation=process.argv.find(a=>a.startsWith('--mutation='))?.slice(11);
 const mutations={
- predecessor:['packet-information.ts','const factualSuccessor = illinoisProstitutionHeldDraftSuccessor(snapshot, authoritative, verification.status) ?? factualPathwayHeldSuccessor(snapshot, authoritative)','const factualSuccessor = factualPathwayHeldSuccessor(snapshot, authoritative)'],
+ predecessor:['packet-information.ts','illinoisProstitutionHeldDraftSuccessor(snapshot, authoritative, verification.status) ?? ',' '],
  consumer:['evaluator.ts','illinoisProstitutionFacts(answers) : "source_review"','"record_review" : "source_review"'],
  final:['illinois-prostitution-facts.ts','value === "Yes" && answers.case_outcome === "Felony conviction"','value === "Yes"'],
  history:['packet-collection.ts','const ilProstitutionCategoryHistory = ilProstitutionCategoryIsHistory(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);','const ilProstitutionCategoryHistory = false;'],

@@ -7,8 +7,8 @@ register('./lib/ts-esm-loader.mjs', import.meta.url);
 const mutation=process.argv.find(arg=>arg.startsWith('--mutation='))?.slice(11);
 const mutations={
  collection:['if (factId === "record_type" && caTool3RecordHistory','if (factId === "record_type" && false'],
- loss:['if (Object.hasOwn(prior[source], id))','if (id !== "record_type" && Object.hasOwn(prior[source], id))'],
- priority:['maps[source][id] = prior[source][id];','maps[source][id] = id === "record_type" && Array.isArray(prior[source][id]) ? "Conviction" : prior[source][id];'],
+ loss:['const shapesPreserved = preserveProtectedLegacyShapes(seeded, legacy.inspection, replacedLegacyIds);','const shapesPreserved = preserveProtectedLegacyShapes(seeded, legacy.inspection, replacedLegacyIds); delete shapesPreserved.packetAnswers.record_type;'],
+ priority:['const shapesPreserved = preserveProtectedLegacyShapes(seeded, legacy.inspection, replacedLegacyIds);','const shapesPreserved = preserveProtectedLegacyShapes(seeded, legacy.inspection, replacedLegacyIds); if (Array.isArray(shapesPreserved.packetAnswers.record_type)) shapesPreserved.packetAnswers.record_type = "Conviction";'],
  question:['if (!history || question.id !== "record_type"','if (true || question.id !== "record_type"']
 };
 if(mutation){assert(mutations[mutation]);register('data:text/javascript,'+encodeURIComponent(`let d;export function initialize(x){d=x}export async function load(u,c,n){const r=await n(u,c);if(u.endsWith(d[2])){if(!r.source.includes(d[0]))throw Error('mutation target absent');return {...r,source:r.source.replace(d[0],d[1])}}return r}`),{data:[...mutations[mutation],mutation==='collection'?'/packet-collection.ts':'/packet-information.ts']});}
