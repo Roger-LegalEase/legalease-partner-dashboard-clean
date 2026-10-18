@@ -46,6 +46,8 @@ const { msFirstOffenderSourceContract } = await import("../src/lib/rcap-engine/m
 const { MS_FIRST_OFFENDER_COLLECTION_IDS } = await import("../src/lib/expungement-ai/ms-first-offender-source-questions.ts");
 const { ohJuvenileSourceContract } = await import("../src/lib/rcap-engine/ohio-juvenile-source-stage.ts");
 const { OH_JUVENILE_STAGE_IDS } = await import("../src/lib/expungement-ai/oh-juvenile-stage-questions.ts");
+const { CA_SAFE_AT_HOME_ID } = await import("../src/lib/expungement-ai/ca-prop64-contact-answer.ts");
+const { isCaProp64Pathway } = await import("../src/lib/expungement-ai/ca-prop64-choices.ts");
 
 // Audit runs can preserve tracked historical reports in an isolated output directory.
 const outputFlag = process.argv.indexOf("--output-dir");
@@ -286,7 +288,8 @@ function auditRoute(profile, pathway) {
     ...(mnTargetOriginQuestion(profile, pathway.id, specification) ? [MN_TARGET_ORIGIN_ID] : []),
     ...(mnProtectedStageContext(profile, pathway.id, specification, serverFacts, [])?.questions.map((q) => q.id) ?? []),
     ...(msFirstOffenderSourceContract(profile, pathway.id, specification) ? MS_FIRST_OFFENDER_COLLECTION_IDS : []),
-    ...(ohJuvenileSourceContract(profile, pathway.id, specification) ? OH_JUVENILE_STAGE_IDS : [])
+    ...(ohJuvenileSourceContract(profile, pathway.id, specification) ? OH_JUVENILE_STAGE_IDS : []),
+    ...(isCaProp64Pathway(jurisdiction, pathway.id) ? [CA_SAFE_AT_HOME_ID] : [])
   ])].filter((id) => !plan.requiredInputIds.includes(id)).sort();
   const beforeFactIds = [...new Set([...plan.requiredInputIds, ...declaredSourceAdditions])].sort();
   const afterFactIds = resolution.facts.map((fact) => fact.factId).sort();

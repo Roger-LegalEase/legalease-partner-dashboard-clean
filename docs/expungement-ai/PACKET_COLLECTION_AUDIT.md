@@ -25,8 +25,8 @@ The correction is applied to every route with a packet plan, which is a superset
 ## Totals
 
 - Routes with a packet plan: **343** across **51** jurisdictions
-- Required facts before: **5843**
-- Required facts with a disposition after: **5843**
+- Required facts before: **5845**
+- Required facts with a disposition after: **5845**
 - Dropped required facts: **0**
 - Routes whose facts do not reconcile: **0**
 - Routes still asking an external-actor field: **0**
