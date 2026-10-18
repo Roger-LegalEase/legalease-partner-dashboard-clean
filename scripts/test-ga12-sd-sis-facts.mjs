@@ -6,6 +6,7 @@ import {pathToFileURL} from 'node:url';
 import ts from 'typescript';
 register('./lib/ts-esm-loader.mjs',import.meta.url);
 const mutation=process.argv.find(a=>a.startsWith('--mutation='))?.slice(11);
+// Resume preservation is still asserted; the old screening-arm mutant is equivalent after the protected-field move.
 const mutations={
  precedence:['south-dakota-sis-facts.ts','if (a.sd_sis_granted !== "Yes")','if (a.offense_level !== "Misdemeanor" && a.offense_level !== "Felony") return review("record_review"); if (a.sd_sis_granted !== "Yes")'],
  completion_settles:['south-dakota-sis-facts.ts','["yes", "no", "not_sure", "not_applicable"].includes(a.court_requirements_completed)','["yes", "no"].includes(a.court_requirements_completed)'],
@@ -16,7 +17,6 @@ const mutations={
  licence:['south-dakota-sis-facts.ts','a.sd_sis_teaching_licence === "Yes" && a.sd_sis_specified_charge === "Yes"','false'],
  history:['packet-collection.ts','const sdSisCategoryHistory = sdSisCategoryIsHistory(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);','const sdSisCategoryHistory = false;'],
  retained_editor:['packet-information.ts','sdSisCategoryIsHistory(profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`))','false'],
- resume:['screens.ts','profile?.jurisdiction.code === "SD" && SD_SIS_FACT_IDS.includes(questionId)','false']
 };
 if(mutation){assert(mutations[mutation]);register('data:text/javascript,'+encodeURIComponent(`let m;export function initialize(x){m=x}export async function load(u,c,n){const r=await n(u,c);if(u.endsWith('/'+m[0])){if(!r.source.includes(m[1]))throw Error('mutation target absent');return {...r,source:r.source.replace(m[1],m[2])}}return r}`),{data:mutations[mutation]});}
 const G=await import('../src/lib/rcap-engine/south-dakota-sis-facts.ts');
@@ -100,6 +100,15 @@ for(const map of maps)for(const raw of ['SDCL 23A-27-53 drug deferred','SIS unde
  const record=modelFor(base);record.draftSnapshot[map].offense_category=raw;record.draftHash=P.protectedPacketDraftHash(record.draftSnapshot);const before=structuredClone(record),m=P.protectedPacketInformationModelFor(record);assert(m);assert(!m.missingInputIds.includes('offense_category'));
  const r=P.evaluateProtectedPacketFacts(record.draftSnapshot).evaluation;assert(r.reasons.some(r=>r.code==='sd.sis_record_review'));assert.equal(r.paymentAllowed,false);
  assert.deepEqual(P.packetInformationPatch({protectedVerification:record,answers:{}}).protectedTransition.nextVerification,before);
+});
+// B-1b: offense-level uncertainty still has no packet plan, so the retained-editor fallback is required.
+check('held offense-level uncertainty keeps the editable literal category and its history',()=>{
+ const record=modelFor({...base,offense_level:'I am not sure'});assert.equal(record.draftSnapshot.resultCode,'needs_review');assert(!record.draftSnapshot.packetPlan);
+ record.draftSnapshot.packetAnswers.offense_category='Old SIS category';record.draftSnapshot.prefilledAnswers.offense_category={value:'Old drug category',unknown:true};record.draftHash=P.protectedPacketDraftHash(record.draftSnapshot);const before=structuredClone(record);
+ const model=P.protectedPacketInformationModelFor(record);assert(model);assert(model.questions.some(q=>q.id==='offense_category'));
+ const patch=P.packetInformationPatch({protectedVerification:record,answers:{offense_category:{value:'Participant amended literal category',unknown:false}}});assert(patch);const next=patch.protectedTransition.nextVerification;
+ assert.equal(next.revision,record.revision+1);assert.equal(next.draftSnapshot.paymentAllowed,false);assert.equal(P.evaluateProtectedPacketFacts(next.draftSnapshot).evaluation.resultCode,'needs_review');
+ for(const map of ['prefilledAnswers','packetAnswers']){const h=next.draftSnapshot.dependencies.semanticAnswerHistory.find(h=>h.factId==='offense_category'&&h.source===map);assert(h);assert.deepEqual(h.value,before.draftSnapshot[map].offense_category);}assert.deepEqual(record,before);
 });
 check('existing stage selection unchanged and never inferred from new facts',()=>{
  for(const stage of [undefined,Stage.SD_SIS_STAGE_REQUEST_NOT_MADE,Stage.SD_SIS_STAGE_RECORD_CORRECTED,Stage.SD_SIS_STAGE_RECORD_NOT_CORRECTED]){

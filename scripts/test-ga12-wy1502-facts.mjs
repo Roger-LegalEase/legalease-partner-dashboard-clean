@@ -7,6 +7,7 @@ import ts from 'typescript';
 process.env.RCAP_EVALUATOR_TODAY='2026-10-18';
 register('./lib/ts-esm-loader.mjs',import.meta.url);
 const mutation=process.argv.find(a=>a.startsWith('--mutation='))?.slice(11);
+// Resume preservation is still asserted; the old screening-arm mutant is equivalent after the protected-field move.
 const mutations={
  missing:['evaluator.ts','...facts.ids.filter(id => {','...[].filter(id => {'],
  disposition:['wyoming-1502-facts.ts','a.case_outcome !== "Felony conviction"','false'],
@@ -16,7 +17,6 @@ const mutations={
  completion:['wyoming-1502-facts.ts','a.wy1502_program_complete !== "Yes" || a.wy1502_restitution_paid !== "Yes"','false'],
  firearm:['wyoming-1502-facts.ts','a.wy1502_firearm === "Yes"','false'],
  history:['packet-collection.ts','const wy1502CategoryHistory = wy1502CategoryIsHistory(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);','const wy1502CategoryHistory = false;'],
- resume:['screens.ts','profile?.jurisdiction.code === "WY" && WY_1502_FACT_IDS.includes(questionId)','false'],
  retained_editor:['packet-information.ts','wy1502CategoryIsHistory(profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`))','false'],
  predecessor:['packet-information.ts','const factualSuccessor = wyoming1502HeldDraftSuccessor(snapshot, authoritative, verification.status) ?? illinoisProstitutionHeldDraftSuccessor','const factualSuccessor = illinoisProstitutionHeldDraftSuccessor']
 };
