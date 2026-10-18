@@ -73,7 +73,7 @@ import { GA_PARDON_ROUTE, GA_PARDON_FACT_IDS, georgiaPardonQuestionApplies, geor
 import { convictionReliefRequest, convictionReliefQuestionApplies, convictionReliefQuestions, isAdultConvictionAnswer } from "@/lib/rcap-engine/conviction-relief-request";
 import { msExactCalendarDate, msExactTimingQuestionIds, MS_MIP_ROUTE, MS_MIP_LEGACY_DATE_ID, MS_MIP_BOTH_DATE_ID } from "@/lib/rcap-engine/mississippi-exact-timing";
 import { caSafeAtHomeQuestion, caProp64ContactQuestions } from "@/lib/expungement-ai/ca-prop64-contact-questions";
-import { CA_SAFE_AT_HOME_ID, CA_CONTACT_IDS, CA_CONTACT_CONTRACT } from "@/lib/expungement-ai/ca-prop64-contact-answer";
+import { CA_SAFE_AT_HOME_ID, CA_FILER_CONTACT, CA_CONTACT_IDS, CA_CONTACT_CONTRACT } from "@/lib/expungement-ai/ca-prop64-contact-answer";
 import { CA_PROP64_CAPTION_QUESTIONS, CA_PROP64_CAPTION_FACT_IDS } from "@/lib/expungement-ai/ca-prop64-caption-facts";
 import { GA_FIRST_OFFENDER_FACT_IDS, GA_ORIGINAL_FIRST_OFFENDER_PATHWAY, georgiaFirstOffenderQuestionApplies } from "@/lib/rcap-engine/georgia-first-offender";
 import { IL_CANNABIS_FACT_IDS, IL_CANNABIS_PATHWAY, illinoisCannabisQuestionApplies } from "@/lib/rcap-engine/illinois-cannabis-facts";
@@ -3113,9 +3113,9 @@ function routeFactualCorrectionIds(model: { stateCode: string; pathwayId: string
   if (isCaProp64Pathway(model.stateCode, model.pathwayId)) {
     const answers = { ...model.screeningAnswers, ...model.prefilledAnswers, ...model.packetAnswers };
     return [...(includeInactive ? CA_PROP64_FACT_IDS : caProp64ActiveFactIds(answers)),
-      CA_SAFE_AT_HOME_ID, "offense_level", "case_outcome", "court", "charge", "ca_prop64_branch", "sentence_completion_date",
+      "offense_level", "case_outcome", "court", "charge", "ca_prop64_branch", "sentence_completion_date",
       ...(model.pathwayId === CA_PROP64_COMPLETED ? ["ca_prop64_relief_requested"] : []),
-      ...(model.requiredInputIds?.length === 0 ? [...CA_PROP64_CAPTION_FACT_IDS, ...CA_CONTACT_IDS].filter(id => Object.hasOwn(answers, id)) : [])];
+      ...(model.requiredInputIds?.length === 0 ? [...CA_PROP64_CAPTION_FACT_IDS, ...CA_CONTACT_IDS, CA_SAFE_AT_HOME_ID].filter(id => Object.hasOwn(answers, id)) : [CA_SAFE_AT_HOME_ID])];
   }
   const facts = { ...model.screeningAnswers, ...model.prefilledAnswers, ...model.packetAnswers };
   const factual = [...factualPathwayCorrectionIds(model.stateCode, model.pathwayId, facts, includeInactive), ...msExactTimingQuestionIds(model.stateCode, model.pathwayId, facts, includeInactive), ...(model.heldFactualCorrectionIds ?? [])];
@@ -5312,7 +5312,9 @@ function installPacketSpecificationQuestions(
     if (requiredInputIds.includes(question.id) || Object.hasOwn(answers, question.id) || !requiredInputIds.length && [...NY_HISTORY_FACT_IDS, ...NY_FUTURE_FACT_IDS].includes(question.id)) questions.set(question.id, question);
   }
   if (isCaProp64Pathway(jurisdiction, pathwayId)) {
-    questions.set(CA_SAFE_AT_HOME_ID, caSafeAtHomeQuestion(answers));
+    if (requiredInputIds.includes(CA_FILER_CONTACT) || Object.hasOwn(answers, CA_FILER_CONTACT) || Object.hasOwn(answers, CA_SAFE_AT_HOME_ID)) {
+      questions.set(CA_SAFE_AT_HOME_ID, caSafeAtHomeQuestion(answers));
+    }
     for (const question of caProp64ContactQuestions(answers)) {
       if (requiredInputIds.includes(question.id) || Object.hasOwn(answers, question.id)) questions.set(question.id, question);
     }

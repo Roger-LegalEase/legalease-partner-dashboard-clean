@@ -869,7 +869,7 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
     specification, { ...available, ...input.savedAnswers }, [...input.unresolvedSavedFactIds ?? []]);
   const msFirstContext = msFirstOffenderSourceContract(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
   const msFirstQuestions = new Map(msFirstContext ? msFirstOffenderSourceQuestions().map(question => [question.id, question]) : []);
-  const requiredInputIds = dedupe([...input.requiredInputIds, ...(isCaProp64Pathway(input.jurisdiction, input.pathwayId) ? [CA_SAFE_AT_HOME_ID] : []), ...(msFirstContext ? MS_FIRST_OFFENDER_COLLECTION_IDS : []), ...(ohJuvenileContext ? OH_JUVENILE_STAGE_IDS : []), ...mnTwoCountyIds, ...mnStageQuestions.map(question => question.id), ...(retainedDcLocation ? [DC_LEGACY_LOCATION] : [])]);
+  const requiredInputIds = dedupe([...(isCaProp64Pathway(input.jurisdiction, input.pathwayId) ? [CA_SAFE_AT_HOME_ID] : []), ...input.requiredInputIds, ...(msFirstContext ? MS_FIRST_OFFENDER_COLLECTION_IDS : []), ...(ohJuvenileContext ? OH_JUVENILE_STAGE_IDS : []), ...mnTwoCountyIds, ...mnStageQuestions.map(question => question.id), ...(retainedDcLocation ? [DC_LEGACY_LOCATION] : [])]);
   const decidesRouteFor = (factId: string) => input.routeDecidingFactIds?.has(factId) === true;
   const unresolvedScopeFor = (factId: string) => input.unresolvedRouteFactIds?.has(factId) === true;
   const baselineCarried = input.baselineCarriedFactIds ?? new Set<string>();
@@ -892,7 +892,7 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
 
     // CA-CAPTION-CONTACT-01: participant-reported privacy context never decides eligibility or prepay.
     if (factId === CA_SAFE_AT_HOME_ID && isCaProp64Pathway(input.jurisdiction, input.pathwayId)) {
-      facts.push({ factId, collection: "conditional", phase: "render", group, active: true, optional: true,
+      facts.push({ factId, collection: "conditional", phase: "render", group: "about_you", active: true, optional: true,
         source: "ca_participant_address_privacy_context", reason: "Optional participant-reported address context; no enrollment verification, account address or electronic-service consent." });
       continue;
     }

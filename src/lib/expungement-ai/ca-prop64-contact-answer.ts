@@ -39,7 +39,7 @@ export function caContactContext(answers: Readonly<Record<string, unknown>>): Ca
     ? raw.unknown === true ? "" : raw.value : raw;
     return line(v) && caContactKnownText(v) ? v : ""; };
   return { representation: held("ca_prop64_filer_representation"), defendantName: held("participant_full_legal_name"), county: held("ca_prop64_filing_court_county"),
-    ...(sameKnownQuestionAnswer({ id: CA_SAFE_AT_HOME_ID, type: "yes_no_unsure" }, answers[CA_SAFE_AT_HOME_ID], "Yes") ? { safeAtHome: true } : {}) };
+    ...(held("ca_prop64_filer_representation") === "self_represented" && sameKnownQuestionAnswer({ id: CA_SAFE_AT_HOME_ID, type: "yes_no_unsure" }, answers[CA_SAFE_AT_HOME_ID], "Yes") ? { safeAtHome: true } : {}) };
 }
 export function emptyCaContact(id: string, context: CaContactContext): CaContact {
   return id === CA_FILER_CONTACT ? { version: context.safeAtHome ? CA_DESIGNATED_ADDRESS_VERSION : CA_CONTACT_CONTRACT, kind: "filer", representation: context.representation, defendantName: context.defendantName,

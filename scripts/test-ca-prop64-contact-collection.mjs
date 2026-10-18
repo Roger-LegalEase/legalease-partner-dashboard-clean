@@ -99,26 +99,31 @@ assert.deepEqual(CA_SAFE_AT_HOME_COPY,adopted,'exact adopted CA-08 English/Spani
 const privacyId=C.CA_SAFE_AT_HOME_ID,yesShapes=['Yes',true,' Yes ',{value:'Yes'},{value:'Yes',unknown:false}];
 for(const {id,record}of current){
  const snapshot=record.draftSnapshot,base=P.protectedPacketInformationModelFor(record),prior=base.initialAnswers[C.CA_FILER_CONTACT],old=C.parseCaContact(C.CA_FILER_CONTACT,prior);assert(old?.kind==='filer');
- const actor=old.representation==='attorney'?'attorney':'participant';
+ const selfRepresented=old.representation==='self_represented',actor=selfRepresented?'participant':'attorney';
  assert.equal(base.builderQuestions.find(q=>q.id===privacyId)?.required,false,'privacy question is optional in the actual builder');assert(P.editablePacketInputIds(base).has(privacyId));
  const collection=P.packetCollectionFor({jurisdiction:snapshot.jurisdiction,pathwayId:snapshot.pathwayId,requiredInputIds:snapshot.requiredInputIds,serverFacts:snapshot.serverFacts,screeningAnswers:snapshot.screeningAnswers,prefilledAnswers:snapshot.prefilledAnswers,savedAnswers:snapshot.packetAnswers});
+ const about=base.builderSections.find(section=>section.id==='about_you');
+ assert(about?.questionIds.includes(privacyId),'F2 privacy is on the address screen');
+ assert(about.questionIds.indexOf(privacyId)<about.questionIds.indexOf(C.CA_FILER_CONTACT),'F2 privacy precedes filer address');
  const contextFact=collection.facts.find(f=>f.factId===privacyId);assert(contextFact?.active&&contextFact.optional);assert(!prepayGateFactIds(collection).includes(privacyId));assert(!snapshot.requiredInputIds.includes(privacyId));
  for(const participation of yesShapes)for(const version of ['ca_prop64_contacts_v1','ca_prop64_contacts_v2']){
   const ordinary={...old,version,...(version.endsWith('_v1')?{phone:'530-555-0100'}:{})},wire=[JSON.stringify(ordinary)];
   const input={...base.initialAnswers,[privacyId]:participation,[C.CA_FILER_CONTACT]:wire,account_address:'Must not be copied',residential_address:'Must not be copied'};
   const before=structuredClone(input),ctx=C.caContactContext(input),facts=caProp64ContactFacts(input).facts;
-  assert.equal(ctx.safeAtHome,true);assert.equal(C.caContactAnswerState(C.CA_FILER_CONTACT,wire,ctx),'uncertain');
-  for(const key of ['street_address','city','state','zip'])assert.equal(facts[actor+'.'+key],undefined,'old ordinary address never becomes designated');
-  assert.deepEqual(input,before);checks.push({name:id+'/legacy-address-refused/'+version+'/'+JSON.stringify(participation),pass:true});
+  assert.equal(Boolean(ctx.safeAtHome),selfRepresented,'F1 only self-represented address is designated');assert.equal(C.caContactAnswerState(C.CA_FILER_CONTACT,wire,ctx),selfRepresented?'uncertain':'known_valid');
+  for(const key of ['street_address','city','state','zip'])assert.equal(facts[actor+'.'+key],selfRepresented?undefined:ordinary[key==='street_address'?'street':key],'old self address refused; counsel office remains ordinary');
+  assert.deepEqual(input,before);checks.push({name:id+'/role-specific-ordinary-address/'+version+'/'+JSON.stringify(participation),pass:true});
  }
+ for(const q of questions({...base.initialAnswers,[privacyId]:'Yes'}))assert(profileQuestionSchema.safeParse(q).success,'F5 contact question schema under Yes: '+q.id);
  const choice=caSafeAtHomeQuestion({...base.initialAnswers,[privacyId]:'Yes'});assert(profileQuestionSchema.safeParse(choice).success);assert.equal(choice.required,false);
- for(const locale of ['en','es']){const copy=locale==='en'?choice:choice.translations.es;assert.equal(copy.prompt,adopted[locale].prompt);assert.equal(copy.helperText,adopted[locale].helperYes);}
+ for(const locale of ['en','es']){const copy=locale==='en'?choice:choice.translations.es;assert.equal(copy.prompt,adopted[locale].prompt);assert.equal(copy.helperText,selfRepresented?adopted[locale].helperYes:undefined);}
  const patch=P.packetInformationPatch({protectedVerification:record,answers:{[privacyId]:'Yes'}});assert(patch);const held=patch.protectedTransition.nextVerification;
- const model=P.protectedPacketInformationModelFor(held);assert(model);assert(model.missingInputIds.includes(C.CA_FILER_CONTACT));assert(!model.missingInputIds.includes(privacyId));
+ const model=P.protectedPacketInformationModelFor(held);assert(model);assert.equal(model.missingInputIds.includes(C.CA_FILER_CONTACT),selfRepresented);assert(!model.missingInputIds.includes(privacyId));
  assert.deepEqual(held.draftSnapshot.requiredInputIds,snapshot.requiredInputIds);assert.deepEqual(held.draftSnapshot.packetPlan,snapshot.packetPlan);assert.deepEqual(model.initialAnswers[C.CA_FILER_CONTACT],prior);
  assert.deepEqual(P.packetInformationPatch({protectedVerification:held,answers:{}}).protectedTransition.nextVerification,held);
- const refused=prepare(held);assert(refused);assert.equal(refused.facts[actor+'.street_address'],undefined);assert.equal(refused.generationAllowed,false);
- for(const form of ['CR-400','CR-401','CR-403'])assert(bind({familyId:'ca-prop64-set',facts:refused.facts}).missing.some(x=>x.formNumber===form&&x.factId===actor+'.street_address'));
+ const refused=prepare(held);assert(refused);assert.equal(refused.facts[actor+'.street_address'],selfRepresented?undefined:old.street);assert.equal(refused.generationAllowed,false);
+ for(const form of ['CR-400','CR-401','CR-403'])assert.equal(bind({familyId:'ca-prop64-set',facts:refused.facts}).missing.some(x=>x.formNumber===form&&x.factId===actor+'.street_address'),selfRepresented);
+ if(selfRepresented){
  const ctx=C.caContactContext(model.initialAnswers),designated={...C.emptyCaContact(C.CA_FILER_CONTACT,ctx),attorneyName:old.attorneyName,barNumber:old.barNumber,street:'PO Box 990099',city:'Sacramento',state:'CA',zip:'95899',phone:{status:'known',value:'916-555-0100'},fax:old.fax,email:old.email,firm:old.firm};
  assert.equal(designated.version,C.CA_DESIGNATED_ADDRESS_VERSION);
  for(const field of ['street','city','state','zip'])for(const missing of ['', 'unknown']){
@@ -129,6 +134,10 @@ for(const {id,record}of current){
  const wire=[JSON.stringify(designated)],saved=P.packetInformationPatch({protectedVerification:held,answers:{[C.CA_FILER_CONTACT]:wire}})?.protectedTransition.nextVerification;assert(saved);
  assert.equal(prepare(saved).facts[actor+'.street_address'],designated.street);assert.deepEqual(P.packetInformationPatch({protectedVerification:saved,answers:{}}).protectedTransition.nextVerification,saved);
  assert(Array.isArray(saved.draftSnapshot.dependencies.semanticAnswerHistory));assert(saved.draftSnapshot.dependencies.semanticAnswerHistory.some(h=>h.factId===C.CA_FILER_CONTACT&&JSON.stringify(h.value)===JSON.stringify(prior)));
+ }else{
+  assert.equal(C.emptyCaContact(C.CA_FILER_CONTACT,C.caContactContext(model.initialAnswers)).version,C.CA_CONTACT_CONTRACT,'F1 counsel address stays ordinary');
+  assert(!questions(model.initialAnswers).find(q=>q.id===C.CA_FILER_CONTACT).helperText.includes(adopted.en.helperYes),'F1 counsel is not told to substitute a PO box');
+ }
  for(const value of ['No','I am not sure']){
   const ordinary=P.packetInformationPatch({protectedVerification:record,answers:{[privacyId]:value}})?.protectedTransition.nextVerification;assert(ordinary);
   assert.equal(prepare(ordinary).facts[actor+'.street_address'],old.street);assert.deepEqual(P.protectedPacketInformationModelFor(ordinary).initialAnswers[C.CA_FILER_CONTACT],prior);
@@ -143,7 +152,22 @@ for(const {id,record}of current){
 const declared=C.emptyCaContact(C.CA_FILER_CONTACT,{representation:'self_represented',defendantName:'Synthetic Filer',county:'Yolo',safeAtHome:true});
 for(const malformed of [{...declared,phone:'legacy string'},{...declared,extra:'unexpected'},{...declared,street:'bad\naddress'}])assert.equal(C.parseCaContact(C.CA_FILER_CONTACT,[JSON.stringify(malformed)]),null,'designated wire retains strict boundary validation');
 assert.equal(C.parseCaContact(C.CA_COURT_CONTACT,[JSON.stringify({...C.emptyCaContact(C.CA_COURT_CONTACT,{representation:'self_represented',defendantName:'Synthetic Filer',county:'Yolo'}),version:C.CA_DESIGNATED_ADDRESS_VERSION})]),null,'designated participant wire never applies to court address');
-for(const raw of ['No',false,'I am not sure',{value:'Yes',unknown:true},{value:'Yes',extra:true},['Yes'],1])assert.notEqual(C.caContactContext({[privacyId]:raw}).safeAtHome,true);
+for(const raw of ['No',false,'I am not sure',{value:'Yes',unknown:true},{value:'Yes',extra:true},['Yes'],1])assert.notEqual(C.caContactContext({ca_prop64_filer_representation:'self_represented',[privacyId]:raw}).safeAtHome,true);
+// F3: a held no-plan draft does not newly collect address context, but retains saved answers.
+const {evaluateAuthoritativeScreeningResult:evaluate}=await import('../src/lib/expungement-ai/authoritative-screening-result.ts');
+const witness=JSON.parse(fs.readFileSync('data/rcap-ledger/public-witness-fixtures.json')).fixtures.find(f=>f.pathwayKey==='CA:prop-64-currently-serving-petition-11361-8');
+for(const retained of [false,true]){
+ const answers=witness.answers;
+ const authoritative=evaluate({jurisdiction:'CA',profileVersion:witness.profileVersion,matterId:'safe-home-held-probe',answers});
+ const seed=P.protectedPacketDraftSeedFromAuthoritative({authoritative,screeningAnswers:answers,packetAnswers:retained?{[privacyId]:'I am not sure'}:{},dependencies:{},capturedAt:'2026-10-18T00:00:00Z'});
+ const record={status:'unverified',revision:0,draftHash:seed.hash,draftSnapshot:seed.snapshot};
+ const model=P.protectedPacketInformationModelFor(record);assert(model);assert.deepEqual(model.requiredInputIds,[]);
+ assert.equal(model.builderQuestions.some(q=>q.id===privacyId),retained,'F3 no new privacy question on a no-plan draft');
+ assert.equal(P.heldPacketCorrectionInputIds({...model,stateCode:'CA',pathwayId:seed.snapshot.pathwayId},authoritative.evaluation.resultCode).has(privacyId),retained,'F3 only held privacy corrections');
+ assert.deepEqual(P.packetInformationPatch({protectedVerification:record,answers:{}})?.protectedTransition.nextVerification,record,'F3 no-op preserves held answer');
+ if(retained)assert.equal(model.initialAnswers[privacyId],'I am not sure');
+ checks.push({name:'held no-plan privacy retained='+retained,pass:true});
+}
 // Actual controlled callbacks; only the locale hook is replaced, with no writes on mount.
 register('data:text/javascript,'+encodeURIComponent('export async function load(u,c,n){return u.endsWith("/LocalizationProvider.tsx")?{format:"module",source:"export function useLocalization(){return {locale:globalThis.__caSafeHomeLocale}}",shortCircuit:true}:n(u,c)}'));
 const {FilingContactFields}=await import('../src/components/expungement-ai/screening/fields/FilingContactFields.tsx');
@@ -151,10 +175,17 @@ const {renderToStaticMarkup}=await import('react-dom/server');
 const nodes=tree=>Array.isArray(tree)?tree.flatMap(nodes):tree&&typeof tree==='object'&&tree.props?[tree,...nodes(tree.props.children)]:[];
 for(const locale of ['en','es'])for(const representation of ['self_represented','attorney'])for(const version of ['ca_prop64_contacts_v1','ca_prop64_contacts_v2']){
  globalThis.__caSafeHomeLocale=locale;
- const context={representation,defendantName:'Synthetic Filer',county:'Yolo',safeAtHome:true},old={...C.emptyCaContact(C.CA_FILER_CONTACT,{...context,safeAtHome:false}),version,street:'Old confidential residence',city:'Old city',state:'CA',zip:'95695',...(version.endsWith('_v1')?{phone:'530-555-0100'}:{})};
+ const context=C.caContactContext({ca_prop64_filer_representation:representation,participant_full_legal_name:'Synthetic Filer',ca_prop64_filing_court_county:'Yolo',[privacyId]:'Yes'}),old={...C.emptyCaContact(C.CA_FILER_CONTACT,{...context,safeAtHome:false}),version,street:'Old confidential residence',city:'Old city',state:'CA',zip:'95695',...(version.endsWith('_v1')?{phone:'530-555-0100'}:{})};
  const raw=[JSON.stringify(old)],before=structuredClone(raw),saves=[];
  const props={id:'privacy',factId:C.CA_FILER_CONTACT,value:raw,context,onChange:v=>saves.push(v),ariaLabelledBy:'privacy-question'};
  const tree=FilingContactFields(props);renderToStaticMarkup(tree);assert.equal(saves.length,0);assert.deepEqual(raw,before);
+ if(representation==='attorney'){
+  assert.equal(nodes(tree).find(n=>n.props.id==='privacy-street')?.props.value,old.street,'F1 attorney office remains editable');
+  assert(!nodes(tree).some(n=>n.props.role==='status'&&String(n.props.children).includes('Safe at Home')));
+  checks.push({name:'privacy editor ordinary counsel '+locale+'/'+version,pass:true});continue;
+ }
+ const status=nodes(tree).find(n=>n.props.role==='status');
+ assert.equal(status?.props.children,locale==='es'?'Ingrese la dirección postal designada por Safe at Home; su dirección anterior seguirá guardada y no se usará en estos formularios.':'Enter your Safe at Home designated mailing address; your earlier address will stay saved and will not be used on these forms.','F4 accurate address re-entry reason');
  const reset=nodes(tree).find(n=>n.type==='button');assert(reset&&!reset.props.disabled);reset.props.onClick();assert.equal(saves.length,1);
  const fresh=C.parseCaContact(C.CA_FILER_CONTACT,saves[0]);assert(fresh?.kind==='filer');assert.equal(fresh.version,C.CA_DESIGNATED_ADDRESS_VERSION);for(const key of ['street','city','state','zip'])assert.equal(fresh[key],'','explicit re-entry never copies old address');assert.deepEqual(raw,before);
  const designated={...fresh,street:'PO Box 990099',city:'Sacramento',state:'CA',zip:'95899'},saved=[JSON.stringify(designated)];
