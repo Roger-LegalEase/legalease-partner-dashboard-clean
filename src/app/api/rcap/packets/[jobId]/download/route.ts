@@ -24,62 +24,66 @@ export async function GET(
     params: Promise<{ jobId: string }>;
   }
 ) {
-  const { jobId } = await params;
+  try {
+    const { jobId } = await params;
 
-  const auth = await getRcapBriefcaseAuthState();
-  const storage = getPacketArtifactStorage();
-  if (!storage) {
-    return NextResponse.json({ error: "Packet downloads are not available right now." }, { status: 503, headers: privateDownloadHeaders() });
-  }
-
-  const ports: DeliveryPorts = {
-    getJob: async (id) => {
-      const job = await getRenderJob(id);
-      if (job?.routeId === "IL:felony-prostitution-relief"
-        && !resolveConsumerDeliveryAccess({ subjectId: auth.userId ?? null }).allowed) return null;
-      if (job) {
-        ports.getCurrentVerification = async (itemId) => {
-          if (!auth.userId) return null;
-          const item = await getBriefcaseItem(auth.userId, itemId);
-          if (!item) return null;
-          try {
-            const verification = await requireCurrentPacketVerification(auth.userId, item);
-            return {
-              snapshot: verification.snapshot,
-              hash: verification.hash,
-              ownerUserId: auth.userId,
-              matterId: consumerMatterIdForItem(item.id),
-              alreadyDownloaded: job.status === "delivered"
-            };
-          } catch {
-            return null;
-          }
-        };
-      }
-      return job;
-    },
-    userOwnsBriefcaseItem: async (userId, briefcaseItemId) => Boolean(await getBriefcaseItem(userId, briefcaseItemId)),
-    storage,
-    recordEvent: (input) => recordDeliveryEvent(input)
-  };
-
-  const decision = await authorizePacketDownload(ports, {
-    jobId,
-    userId: auth.isAuthenticated && auth.userId ? auth.userId : null
-  });
-
-  if (!decision.ok) {
-    return NextResponse.json({ error: decision.message, code: decision.code }, { status: decision.status, headers: privateDownloadHeaders() });
-  }
-
-  return streamAuthorizedPacket(ports, decision, {
-    waitUntil: after,
-    userId: auth.userId as string,
-    requestContext: {
-      surface: "briefcase_download",
-      userAgentClass: /mobile|iphone|android/i.test(request.headers.get("user-agent") ?? "") ? "mobile" : "desktop"
+    const auth = await getRcapBriefcaseAuthState();
+    const storage = getPacketArtifactStorage();
+    if (!storage) {
+      return NextResponse.json({ error: "Packet downloads are not available right now." }, { status: 503, headers: privateDownloadHeaders() });
     }
-  });
+
+    const ports: DeliveryPorts = {
+      getJob: async (id) => {
+        const job = await getRenderJob(id);
+        if (job?.routeId === "IL:felony-prostitution-relief"
+          && !resolveConsumerDeliveryAccess({ subjectId: auth.userId ?? null }).allowed) return null;
+        if (job) {
+          ports.getCurrentVerification = async (itemId) => {
+            if (!auth.userId) return null;
+            const item = await getBriefcaseItem(auth.userId, itemId);
+            if (!item) return null;
+            try {
+              const verification = await requireCurrentPacketVerification(auth.userId, item);
+              return {
+                snapshot: verification.snapshot,
+                hash: verification.hash,
+                ownerUserId: auth.userId,
+                matterId: consumerMatterIdForItem(item.id),
+                alreadyDownloaded: job.status === "delivered"
+              };
+            } catch {
+              return null;
+            }
+          };
+        }
+        return job;
+      },
+      userOwnsBriefcaseItem: async (userId, briefcaseItemId) => Boolean(await getBriefcaseItem(userId, briefcaseItemId)),
+      storage,
+      recordEvent: (input) => recordDeliveryEvent(input)
+    };
+
+    const decision = await authorizePacketDownload(ports, {
+      jobId,
+      userId: auth.isAuthenticated && auth.userId ? auth.userId : null
+    });
+
+    if (!decision.ok) {
+      return NextResponse.json({ error: decision.message, code: decision.code }, { status: decision.status, headers: privateDownloadHeaders() });
+    }
+
+    return await streamAuthorizedPacket(ports, decision, {
+      waitUntil: after,
+      userId: auth.userId as string,
+      requestContext: {
+        surface: "briefcase_download",
+        userAgentClass: /mobile|iphone|android/i.test(request.headers.get("user-agent") ?? "") ? "mobile" : "desktop"
+      }
+    });
+  } catch {
+    return NextResponse.json({ error: "Packet downloads are not available right now." }, { status: 500, headers: privateDownloadHeaders() });
+  }
 }
 
 function privateDownloadHeaders() {

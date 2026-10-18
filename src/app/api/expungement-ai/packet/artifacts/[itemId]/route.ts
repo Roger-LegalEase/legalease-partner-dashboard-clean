@@ -16,69 +16,73 @@ export async function GET(
   request: NextRequest,
   context: { params: Promise<{ itemId: string }> }
 ) {
-  const session = await requireConsumerBriefcaseApiSession();
-  if (!session.ok) return session.response;
-  const { itemId } = await context.params;
-  const token = request.nextUrl.searchParams.get("grant") ?? "";
-  const authority = await authorizeConsumerArtifactDownload({
-    userId: session.userId,
-    briefcaseItemId: itemId,
-    token
-  });
-  if (!authority?.renderJobId) return unavailable();
+  try {
+    const session = await requireConsumerBriefcaseApiSession();
+    if (!session.ok) return session.response;
+    const { itemId } = await context.params;
+    const token = request.nextUrl.searchParams.get("grant") ?? "";
+    const authority = await authorizeConsumerArtifactDownload({
+      userId: session.userId,
+      briefcaseItemId: itemId,
+      token
+    });
+    if (!authority?.renderJobId) return unavailable();
 
-  const storage = getPacketArtifactStorage();
-  if (!storage) return unavailable();
-  const ports: DeliveryPorts = {
-    getJob: async (id) => {
-      const job = await getRenderJob(id);
-      if (job) {
-        ports.getCurrentVerification = async (currentItemId) => {
-          const item = await getBriefcaseItem(session.userId, currentItemId);
-          if (!item) return null;
-          try {
-            const verification = await requireCurrentPacketVerification(session.userId, item);
-            return {
-              snapshot: verification.snapshot,
-              hash: verification.hash,
-              ownerUserId: session.userId,
-              matterId: consumerMatterIdForItem(item.id),
-              alreadyDownloaded: job.status === "delivered"
-            };
-          } catch {
-            return null;
-          }
-        };
+    const storage = getPacketArtifactStorage();
+    if (!storage) return unavailable();
+    const ports: DeliveryPorts = {
+      getJob: async (id) => {
+        const job = await getRenderJob(id);
+        if (job) {
+          ports.getCurrentVerification = async (currentItemId) => {
+            const item = await getBriefcaseItem(session.userId, currentItemId);
+            if (!item) return null;
+            try {
+              const verification = await requireCurrentPacketVerification(session.userId, item);
+              return {
+                snapshot: verification.snapshot,
+                hash: verification.hash,
+                ownerUserId: session.userId,
+                matterId: consumerMatterIdForItem(item.id),
+                alreadyDownloaded: job.status === "delivered"
+              };
+            } catch {
+              return null;
+            }
+          };
+        }
+        return job;
+      },
+      userOwnsBriefcaseItem: async (userId, briefcaseItemId) => Boolean(await getBriefcaseItem(userId, briefcaseItemId)),
+      storage,
+      recordEvent: (input) => recordDeliveryEvent(input)
+    };
+    const decision = await authorizePacketDownload(ports, {
+      jobId: authority.renderJobId,
+      userId: session.userId
+    });
+    if (!decision.ok
+      || decision.job.consumerBriefcaseItemId !== itemId
+      || decision.job.outputStoragePath !== authority.storagePath
+      || decision.job.outputSha256 !== authority.expectedSha256) return unavailable();
+
+    const response = await streamAuthorizedPacket(ports, decision, {
+      waitUntil: after,
+      userId: session.userId,
+      requestContext: {
+        surface: "consumer_briefcase_grant",
+        grantId: authority.grantId,
+        userAgentClass: /mobile|iphone|android/i.test(request.headers.get("user-agent") ?? "") ? "mobile" : "desktop"
       }
-      return job;
-    },
-    userOwnsBriefcaseItem: async (userId, briefcaseItemId) => Boolean(await getBriefcaseItem(userId, briefcaseItemId)),
-    storage,
-    recordEvent: (input) => recordDeliveryEvent(input)
-  };
-  const decision = await authorizePacketDownload(ports, {
-    jobId: authority.renderJobId,
-    userId: session.userId
-  });
-  if (!decision.ok
-    || decision.job.consumerBriefcaseItemId !== itemId
-    || decision.job.outputStoragePath !== authority.storagePath
-    || decision.job.outputSha256 !== authority.expectedSha256) return unavailable();
-
-  const response = await streamAuthorizedPacket(ports, decision, {
-    waitUntil: after,
-    userId: session.userId,
-    requestContext: {
-      surface: "consumer_briefcase_grant",
-      grantId: authority.grantId,
-      userAgentClass: /mobile|iphone|android/i.test(request.headers.get("user-agent") ?? "") ? "mobile" : "desktop"
-    }
-  });
-  response.headers.set("cache-control", "private, no-store, max-age=0");
-  response.headers.set("pragma", "no-cache");
-  response.headers.set("content-disposition", `attachment; filename="${safeFileName(authority.fileName)}"`);
-  response.headers.set("x-content-type-options", "nosniff");
-  return response;
+    });
+    response.headers.set("cache-control", "private, no-store, max-age=0");
+    response.headers.set("pragma", "no-cache");
+    response.headers.set("content-disposition", `attachment; filename="${safeFileName(authority.fileName)}"`);
+    response.headers.set("x-content-type-options", "nosniff");
+    return response;
+  } catch {
+    return NextResponse.json({ error: "Packet downloads are not available right now." }, { status: 500, headers: privateHeaders() });
+  }
 }
 
 function unavailable() {
