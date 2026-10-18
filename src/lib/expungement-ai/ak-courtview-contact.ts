@@ -50,8 +50,8 @@ export function akCourtviewSalesPolicy(state: string, pathwayId: string | null, 
       en: "Because this case no longer appears on CourtView's public index, TF-810 is not needed for it. No payment is taken for this request.",
       es: "Como este caso ya no aparece en el índice público de CourtView, no se necesita el formulario TF-810 para este caso. No se cobra por esta solicitud."
     } : conflicting ? {
-      en: "Your saved answers to this question do not match each other, so no payment is taken. Your answers have not been changed.",
-      es: "Sus respuestas guardadas para esta pregunta no coinciden entre sí, así que no se cobra. Sus respuestas no se han cambiado."
+      en: "Your saved answers to this question do not match each other, so no payment is taken. Your answers have not been changed. Contact support for help.",
+      es: "Sus respuestas guardadas para esta pregunta no coinciden entre sí, así que no se cobra. Sus respuestas no se han cambiado. Contacte a soporte para recibir ayuda."
     } : {
       en: "Check CourtView, the Alaska court system's public case search, for this case first. If it still appears there, come back and answer Yes. No payment is taken until you confirm that.",
       es: "Primero busque este caso en CourtView, la búsqueda pública de casos del sistema judicial de Alaska. Si todavía aparece, vuelva y responda Sí. No se cobra hasta que lo confirme."
@@ -122,7 +122,8 @@ export function akCourtviewContactQuestions(state: string, pathwayId: string | n
       // A saved value outside the choices (e.g. an older Spanish label) stays saved;
       // the shared notice asks for an explicit current choice instead of guessing one.
       const saved = answers[AK_TF810_PUBLIC_ID];
-      if (typeof saved === "string" && saved.trim() && !question.options!.includes(saved)) question.savedAnswerNeedsClarification = true;
+      const text = saved && typeof saved === "object" && !Array.isArray(saved) ? (saved as Record<string, unknown>).value : saved;
+      if (typeof text === "string" && text.trim() && !question.options!.includes(text)) question.savedAnswerNeedsClarification = true;
       if (policy?.allowed === false) {
         question.helperText += ` ${policy.guidance.en}`;
         question.translations!.es!.helperText += ` ${policy.guidance.es}`;

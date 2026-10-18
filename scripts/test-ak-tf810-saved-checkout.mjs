@@ -143,8 +143,8 @@ const reload = async()=>{
   const question=body.questions.find(q=>q.id===id);assert(question,'reload publishes the TF-810 question');
   return {question,value:body.answers[id]};
 };
-const conflictText='Your saved answers to this question do not match each other, so no payment is taken. Your answers have not been changed.';
-const conflictTextEs='Sus respuestas guardadas para esta pregunta no coinciden entre sí, así que no se cobra. Sus respuestas no se han cambiado.';
+const conflictText='Your saved answers to this question do not match each other, so no payment is taken. Your answers have not been changed. Contact support for help.';
+const conflictTextEs='Sus respuestas guardadas para esta pregunta no coinciden entre sí, así que no se cobra. Sus respuestas no se han cambiado. Contacte a soporte para recibir ayuda.';
 // Spanish interaction through the real QuestionField/OptionGroup in Chromium (house pattern: test-ga21-optional-context-ui.mjs).
 let browser,page;
 const spanishUi = async(question,saved)=>{
@@ -171,7 +171,7 @@ const spanishUi = async(question,saved)=>{
 };
 const rows=[];
 const selected = process.argv.find(a=>a.startsWith('--case='))?.slice(7);
-if(selected)assert(['yes','no','unsure','spanish-unsure','spanish-legacy','missing','conflicting','spanish-label-post'].includes(selected),'unknown case selector');
+if(selected)assert(['yes','no','unsure','spanish-unsure','spanish-legacy','missing','conflicting','spanish-label-post','legacy-shapes'].includes(selected),'unknown case selector');
 // The control submits the canonical option, never its Spanish label; no adopted contract
 // accepts localized values, so a raw label submission stays an explicit refusal.
 if(!selected||selected==='spanish-label-post'){
@@ -184,6 +184,18 @@ if(!selected||selected==='spanish-label-post'){
 const priorDryRun=process.env.EXPUNGEMENT_AI_CHECKOUT_DRY_RUN;
 process.env.EXPUNGEMENT_AI_CHECKOUT_DRY_RUN='true';
 try {
+  // Older saved shapes outside the choices keep their raw value and get the shared clarification notice.
+  if(!selected||selected==='legacy-shapes')for(const older of [{unknown:true},{value:'No estoy seguro',unknown:false},['Yes']]){
+    stored=structuredClone(original);writes=0;
+    stored.draftSnapshot.packetAnswers[id]=older;stored.draftHash=P.protectedPacketDraftHash(stored.draftSnapshot);
+    const before=structuredClone(stored),again=await reload();
+    assert.equal(again.question.savedAnswerNeedsClarification,true,`older ${JSON.stringify(older)} asks for clarification`);
+    const ui=await spanishUi(again.question,again.value);
+    assert.equal(await ui.locator('input[type=radio]:checked').count(),0);
+    assert((await ui.locator('[data-saved-answer-clarification]').innerText()).includes('Una respuesta anterior no se puede mostrar aquí'));
+    assert.deepEqual(stored,before,'reading never rewrites the older answer');assert.equal(writes,0);
+    console.log(JSON.stringify({step:'legacy_shape_clarification',older,clarification:true}));
+  }
   for (let [name,raw,conflict] of [['yes','Yes'],['no','No'],['unsure','I am not sure'],['spanish-unsure',null],['spanish-legacy','No estoy seguro'],['missing',undefined],['conflicting','Yes',true]]) {
     if(selected&&selected!==name)continue;
     stored=structuredClone(original);trace=[];bindings=[];providerAttempts=0;writes=0;
@@ -276,5 +288,5 @@ try {
   await browser?.close();
   if(priorDryRun===undefined)delete process.env.EXPUNGEMENT_AI_CHECKOUT_DRY_RUN;else process.env.EXPUNGEMENT_AI_CHECKOUT_DRY_RUN=priorDryRun;
 }
-assert.equal(rows.length,selected==='spanish-label-post'?0:selected?3:21,'all requested observed HTTP cases ran');
+assert.equal(rows.length,['spanish-label-post','legacy-shapes'].includes(selected)?0:selected?3:21,'all requested observed HTTP cases ran');
 console.log(JSON.stringify({status:'PASS',cases:rows.length,rows,liveCalls:0,registryWrites:0,stripeSessions:0,entitlements:0,verification:'real save verify transition, hash check and protected reload; transport only in memory'}));

@@ -2585,7 +2585,10 @@ export function protectedPacketInformationModelFor(
   }
   // Display maps are source-disjoint; the raw saved copies decide whether TF-810 answers disagree.
   for (const question of akCourtviewContactQuestions(snapshot.jurisdiction, snapshot.pathwayId, initialAnswers, false, snapshot)) {
-    if (question.id !== AK_TF810_PUBLIC_ID || !questionSurface.questionById.has(question.id)) continue;
+    const existing = questionSurface.questionById.get(question.id);
+    if (question.id !== AK_TF810_PUBLIC_ID || !existing) continue;
+    // Keep a clarification the legacy-shape projection already set on this question.
+    if (existing.savedAnswerNeedsClarification) question.savedAnswerNeedsClarification = true;
     questionSurface.questionById.set(question.id, question);
     questionSurface.questions = questionSurface.questions.map(q => q.id === question.id ? question : q);
     questionSurface.builderQuestions = questionSurface.builderQuestions.map(q => q.id === question.id ? question : q);
