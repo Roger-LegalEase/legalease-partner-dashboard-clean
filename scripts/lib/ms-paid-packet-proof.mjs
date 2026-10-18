@@ -268,6 +268,9 @@ export const MS_PROOF_OBSERVED_INPUTS=[
   "src/lib/rcap-engine/georgia-agency-county-context.ts",
   "src/lib/rcap-engine/georgia-first-offender.ts",
   "src/lib/rcap-engine/georgia-pardon-facts.ts",
+  // GA SB288 and CT clean-slate petition record facts: imported by evaluator.ts for the GA-12 registered members; inert for every other route.
+  "src/lib/rcap-engine/georgia-sb288-facts.ts",
+  "src/lib/rcap-engine/connecticut-clean-slate-petition-facts.ts",
   "src/lib/rcap-engine/illinois-cannabis-facts.ts",
   "src/lib/rcap-engine/kansas-district-facts.ts",
   "src/lib/rcap-engine/kansas-record-scope.ts",
