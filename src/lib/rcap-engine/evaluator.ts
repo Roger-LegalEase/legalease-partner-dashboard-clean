@@ -1,4 +1,3 @@
-import { CT_PETITION_ROUTE, CT_PETITION_SOURCE, CT_PETITION_COPY, ctPetitionContext, ctPetitionFacts } from "@/lib/rcap-engine/connecticut-clean-slate-petition-facts";
 import { GA_SB288_ROUTE, GA_SB288_SOURCE, GA_SB288_COPY, georgiaSb288Context, georgiaSb288Facts } from "@/lib/rcap-engine/georgia-sb288-facts";
 import { FL_INFORMATION_COPY, FL_INFORMATION_SOURCE, flConditionalInformationContext, flConditionalInformationQuestionApplies, withFlConditionalInformation } from "@/lib/rcap-engine/florida-conditional-source-information";
 import { DC_INFORMATION_COPY, DC_INFORMATION_SOURCE, dcGeneralInformationContext, dcGeneralInformationQuestionApplies } from "@/lib/rcap-engine/district-of-columbia-general-guidance";
@@ -464,20 +463,6 @@ function evaluateProfileRules(profile: EngineProfile, request: ScreeningEvaluati
       [reason("MO", `marijuana_${moMarijuana.code}`, text, MO_MARIJUANA_STATUS_SOURCE)],
       { pathwayId: preselectedPathway.id, missingQuestionIds: moMarijuana.ids,
         ...(plan ? { packetPlan: plan } : {}), paymentAllowed: false });
-  }
-
-  if (ctPetitionContext(profile, preselectedPathway?.id)) {
-    const facts = ctPetitionFacts(answers);
-    const contextIds = [
-      ...(["Yes", "I am helping someone complete their own check"].includes(String(answers.ownership_scope)) ? [] : ["ownership_scope"]),
-      ...(answers.jurisdiction_scope === "State or local" ? [] : ["jurisdiction_scope"])
-    ];
-    const plan = contextIds.length ? undefined : packetPlanForPathway(profile, CT_PETITION_ROUTE);
-    const held = result(profile, request, "needs_review",
-      [reason("CT", `petition_${facts.code}`, CT_PETITION_COPY[facts.code], CT_PETITION_SOURCE),
-        reason("CT", "waiting_rule_not_executed", "The source-specific waiting period needs review before a packet decision.", "CT.memo:ct-cleanslate-petition:waitingPeriods")],
-      { ...(contextIds.length ? {} : { pathwayId: CT_PETITION_ROUTE }), missingQuestionIds: [...contextIds, ...facts.ids], paymentAllowed: false, ...(plan ? { packetPlan: plan } : {}) });
-    return { ...held, nextSteps: [CT_PETITION_COPY[facts.code]] };
   }
 
   const missingQuestionIds = requiredMissingPublicQuestionIds(publicProfile, answers)
