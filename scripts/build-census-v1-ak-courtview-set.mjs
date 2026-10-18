@@ -24,7 +24,7 @@
  *
  * The ten grounds are participant elections. This packet is built for the rule,
  * and which ground fits is a fact about the requester's own case -- ticking one
- * would assert a disposition the platform does not hold. Two of them say so
+ * without an explicit participant answer would assert a disposition the platform does not hold. Two of them say so
  * explicitly on the form: ground 4 and ground 9 require an attachment.
  *
  * TF-810 names its widgets `name`, `partyNames`, `Check Box8.2`, so no caption
@@ -37,7 +37,7 @@ import assert from "node:assert/strict";
 import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
-import { createRequire } from "node:module";
+import { createRequire, register } from "node:module";
 import { fileURLToPath } from "node:url";
 
 import { extractTextItems, groupIntoLines } from "./rcap-official-forms/rcap-pdf-anchor-capture.mjs";
@@ -63,7 +63,10 @@ const thisFile = fileURLToPath(import.meta.url);
 const ROOT = path.resolve(path.dirname(thisFile), "..");
 process.chdir(ROOT);
 const require = createRequire(import.meta.url);
-const { PDFDocument } = require("pdf-lib");
+const { PDFDocument, PDFName, decodePDFRawStream } = require("pdf-lib");
+
+register("./lib/ts-esm-loader.mjs", import.meta.url);
+const { akCourtviewGroundInputs } = await import("../src/lib/expungement-ai/ak-courtview-contact.ts");
 
 const FAMILY_ID = "ak-courtview-set";
 const CORPUS_INDEX = "data/rcap-all50/local-source-corpus-index.json";
@@ -295,10 +298,16 @@ const FIXTURES = {
   }
 };
 
+// Explicit synthetic participant choices; no choice is derived from fixture contacts.
+const FIXTURE_GROUNDS = {
+  canonical: { ak_tf810_case_still_public: "Yes", ak_tf810_ground: "1" },
+  boundary: { ak_tf810_case_still_public: "Yes", ak_tf810_ground: "10", ak_tf810_ground_rule: "Alaska Administrative Rule 40(a)" }
+};
+
 const RASTER_ENGINE = "scripts/raster/pdf-page-raster.mjs (Chromium, calibrated)";
 
 /* ---- source binding ------------------------------------------------------ */
-function resolveSource() {
+export function resolveSource() {
   const index = JSON.parse(fs.readFileSync(path.join(ROOT, CORPUS_INDEX), "utf8"));
   const entries = index.entries ?? index.files ?? index;
   const all = Array.isArray(entries) ? entries : Object.values(entries);
@@ -346,7 +355,7 @@ function resolveSource() {
  * with a widget on each of the three pages and one value: three census rows
  * would ask the finalizer to write the same field three times, and a radio
  * group's two widgets are two faces of one election, not two elections. */
-async function censusOfSource(source) {
+export async function censusOfSource(source) {
   const doc = await PDFDocument.load(source.bytes, { ignoreEncryption: true });
   const pages = doc.getPages();
   const pageText = pages.map((p, i) => ({
@@ -427,13 +436,15 @@ async function censusOfSource(source) {
 }
 
 /* ---- render ---------------------------------------------------------------- */
-async function renderFixture(source, census, fixtureName) {
-  const facts = FIXTURES[fixtureName];
-  const writable = census.rows.filter((r) => r.policy === "write");
+export async function renderFixture(source, census, fixtureName, groundAnswers = FIXTURE_GROUNDS[fixtureName]) {
+  const ground = akCourtviewGroundInputs(groundAnswers);
+  const facts = { ...FIXTURES[fixtureName], ...(ground.rule === null ? {} : { "matter.ak_tf810_ground_rule": ground.rule }) };
+  const writable = census.rows.filter((r) => r.policy === "write" || r.name === "rule" && ground.rule !== null)
+    .map(r => r.name === "rule" ? { ...r, fact: "matter.ak_tf810_ground_rule" } : r);
   // Keyed by AcroForm field name: `caseNo` appears three times in the census and
   // is one field with one value.
   const explicitMappings = Object.fromEntries(writable.map((r) => [r.name, r.fact]));
-  const writableNames = new Set(writable.map((r) => r.name));
+  const writableNames = new Set([...writable.map((r) => r.name), ...Object.keys(ground.selectionsFromHeldFacts)]);
   const unwritableFields = [...new Set(census.rows.filter((r) => !writableNames.has(r.name)).map((r) => r.name))]
     .map((field) => ({ field }));
 
@@ -445,7 +456,9 @@ async function renderFixture(source, census, fixtureName) {
     const every = census.rows.filter((x) => x.name === r.name).flatMap((x) => x.widgets);
     censusForFinalizer.push({
       name: r.name, type: r.type,
-      effectiveLabel: r.effectiveLabel, regionHeading: r.effectiveLabel,
+      // TF-810 grounds are participant elections, not court findings about the described disposition.
+      effectiveLabel: r.policy === "election" ? `TF-810 participant ground selection: ${r.name}` : r.effectiveLabel,
+      regionHeading: r.effectiveLabel,
       widgets: every.map((w) => ({ page: w.page, rect: w.rect })),
       multiline: r.multiline === true,
       maxLength: r.maxLength ?? null
@@ -458,6 +471,8 @@ async function renderFixture(source, census, fixtureName) {
     census: censusForFinalizer,
     facts,
     explicitMappings,
+    selectionsFromHeldFacts: ground.selectionsFromHeldFacts,
+    narrativeAcrossFields: ground.rule === null ? [] : [{ factId: "matter.ak_tf810_ground_rule", fields: ["rule"] }],
     unwritableFields,
     documentTextLines: census.pageText.flatMap((p) => p.lines.map((l) => l.text)),
     title: FORM_TITLE
@@ -466,11 +481,17 @@ async function renderFixture(source, census, fixtureName) {
     console.log(`-- ${fixtureName}: written=${report.written.length} refused=${report.refused.length}`);
     for (const r of report.refused) console.log(`   ${r.field ?? r.anchor}: ${r.reason}${r.category ? ` (${r.category})` : ""}`);
   }
-  return { bytes, report };
+  assert.deepEqual(report.selectionsMarked.map(row => row.field).sort(), Object.keys(ground.selectionsFromHeldFacts).sort(), "every explicit TF-810 selection must be drawn");
+  if (ground.rule !== null && !report.written.some(row => row.field === "rule")) ground.unresolvedIds.push("ak_tf810_ground_rule");
+  return { bytes, report, ground };
 }
 
 /* ---- byte proof: what actually landed on the paper ------------------------- */
-async function byteProof(census, artifactBytes, report, fixtureName) {
+async function byteProof(source, census, artifactBytes, report, fixtureName) {
+  const original = await PDFDocument.load(source.bytes, { updateMetadata: false });
+  const output = await PDFDocument.load(artifactBytes, { updateMetadata: false });
+  const streamBytes = (doc, stream) => Buffer.from(decodePDFRawStream(doc.context.lookup(stream)).decode());
+  const actualSelections = [];
   const tmp = path.join(ROOT, `.ak-tf810-byte-proof-${fixtureName}.pdf`);
   fs.writeFileSync(tmp, artifactBytes);
   let widgets = [];
@@ -482,15 +503,34 @@ async function byteProof(census, artifactBytes, report, fixtureName) {
   let glyphs = 0;
   for (const r of census.rows) {
     const drawn = drawnAt(widgets, { page: r.page, rect: r.rect });
-    const text = drawn.map((d) => d.text).filter(Boolean);
+    // The finalizer uses Helvetica/WinAnsi; the byte reader returns Latin-1 character codes.
+    const text = drawn.map((d) => new TextDecoder("windows-1252").decode(Buffer.from(d.text, "latin1"))).filter(Boolean);
     const ink = text.join("").trim();
-    if (written.has(r.name) && r.policy === "write") {
+    if (r.isSelectionControl) {
+      const normal = original.getForm().getField(r.name).acroField.getWidgets()[0].getAppearances().normal;
+      const checked = written.has(r.name);
+      const entry = normal.entries().filter(([key]) => (key.toString() !== "/Off") === checked);
+      assert.equal(entry.length, 1, `source checkbox appearance ${r.name}`);
+      assert.equal(drawn.length, 1, `exactly one flattened checkbox appearance ${r.name}`);
+      const page = output.getPage(drawn[0].page - 1);
+      const resources = output.context.lookup(page.node.get(PDFName.of("Resources")));
+      const appearances = output.context.lookup(resources.get(PDFName.of("XObject")));
+      const actual = streamBytes(output, appearances.get(PDFName.of(drawn[0].appearance)));
+      assert(actual.equals(streamBytes(original, entry[0][1])), `wrong official checkbox appearance ${fixtureName}/${r.name}`);
+      actualSelections.push({ field: r.key, checked, sourceAppearanceMatches: true });
+      if (checked) actualWrites.push({ field: r.key, acroFieldName: r.name, factId: "participant.ak_tf810_ground", page: r.page, rect: r.rect,
+        printedCaption: r.caption, effectiveLabel: r.effectiveLabel, drawnText: [], expected: "checked", matchesExpected: true, vectorAppearanceMatchesSource: true });
+      continue;
+    }
+    if (written.has(r.name) && (r.policy === "write" || r.name === "rule")) {
+      const expected = r.name === "rule" ? FIXTURE_GROUNDS[fixtureName].ak_tf810_ground_rule : FIXTURES[fixtureName][r.fact];
+      assert.equal(ink, String(expected ?? "").trim(), `${fixtureName}: actual write missing or different in ${r.name}`);
       glyphs += ink.length;
       actualWrites.push({
-        field: r.key, acroFieldName: r.name, factId: r.fact, page: r.page, rect: r.rect,
+        field: r.key, acroFieldName: r.name, factId: r.name === "rule" ? "matter.ak_tf810_ground_rule" : r.fact, page: r.page, rect: r.rect,
         printedCaption: r.caption, effectiveLabel: r.effectiveLabel,
-        drawnText: text, expected: FIXTURES[fixtureName][r.fact] ?? null,
-        matchesExpected: ink === String(FIXTURES[fixtureName][r.fact] ?? "").trim()
+        drawnText: text, expected,
+        matchesExpected: ink === String(expected ?? "").trim()
       });
       continue;
     }
@@ -498,7 +538,7 @@ async function byteProof(census, artifactBytes, report, fixtureName) {
       refusedFieldsWithInk.push({ fieldId: r.key, page: r.page, drawnText: text });
     }
   }
-  return { actualWrites, refusedFieldsWithInk, glyphs, appearances: widgets.length };
+  return { actualWrites, actualSelections, refusedFieldsWithInk, glyphs, appearances: widgets.length };
 }
 
 /* ---- the field map, in the shape the completeness contract reads ----------- */
@@ -517,6 +557,10 @@ function fieldMapFor(source, census, report) {
       ...(r.captionNote ? { captionNote: r.captionNote } : {})
     };
 
+    if (r.name === "rule" && writtenNames.has(r.name)) {
+      canonicalWrites.push({ ...base, factId: "matter.ak_tf810_ground_rule", kind: r.type, document: source.formNumber });
+      continue;
+    }
     if (r.policy === "write") {
       // A write the finalizer refused is not a write. It is reported as an
       // unwritten known fact rather than quietly recorded as one.
@@ -535,12 +579,15 @@ function fieldMapFor(source, census, report) {
     }
 
     if (r.isSelectionControl) {
+      const selected = writtenNames.has(r.name);
+      if (selected) canonicalWrites.push({ ...base, factId: "participant.ak_tf810_ground", kind: "selection_control", document: source.formNumber,
+        isSelectionControl: true, disposition: "selected", routeDetermined: false });
       selectionControls.push({
         ...base, selectionId: r.key, kind: "selection_control", type: r.type,
         document: source.formNumber,
         widgets: r.widgets,
-        disposition: "explicit_refusal",
-        reason: r.policy === "protect" ? r.why : r.why,
+        disposition: selected ? "selected" : "explicit_refusal",
+        reason: selected ? "Marked from the participant’s explicit answer only; no eligibility finding." : r.why,
         category: r.policy === "protect" ? r.refusalClass : PARTICIPANT_ELECTION,
         completenessClass: r.policy === "protect" ? r.refusalClass : PARTICIPANT_ELECTION,
         class: r.policy === "protect" ? r.refusalClass : PARTICIPANT_ELECTION,
@@ -557,6 +604,14 @@ function fieldMapFor(source, census, report) {
         category: r.refusalClass, completenessClass: r.refusalClass, class: r.refusalClass,
         requiredBeforeFiling: false, why: r.why
       });
+      continue;
+    }
+
+    if (r.name === "rule" && report.selectionsMarked.length && !writtenNames.has("Check Box8.2")) {
+      const condition = "The participant explicitly selected a TF-810 ground other than ground 10; the citation line applies only to ground 10.";
+      canonicalRefusals.push({ ...base, document: source.formNumber, reason: condition,
+        disposition: "NOT_APPLICABLE_ON_THIS_ROUTE", completenessDisposition: "NOT_APPLICABLE_ON_THIS_ROUTE",
+        requiredBeforeFiling: false, routeDetermined: false, routeConditionThatMakesItInapplicable: condition });
       continue;
     }
 
@@ -641,14 +696,15 @@ function countCompleteness(map, writeProofs, artifacts, instructionsText, receip
       ...(Object.hasOwn(row, "requiredBeforeFiling") ? { requiredBeforeFiling: row.requiredBeforeFiling === true } : {}),
       ...(Object.hasOwn(row, "routeDetermined") ? { routeDetermined: row.routeDetermined === true } : {}),
       identity: row.identity ?? null,
-      factId: row.factId ?? null
+      factId: row.factId ?? null,
+      routeConditionThatMakesItInapplicable: row.routeConditionThatMakesItInapplicable ?? null
     }
   });
 
-  const writes = map.canonicalWrites.map((w) => normalizeRow(w));
+  const writes = map.canonicalWrites.map((w) => normalizeRow(w, w.isSelectionControl === true));
   const blanks = [
     ...map.canonicalRefusals.map((r) => normalizeRow(r)),
-    ...map.selectionControls.map((c) => normalizeRow(c, true))
+    ...map.selectionControls.filter(c => c.disposition !== "selected").map((c) => normalizeRow(c, true))
   ];
 
   // A fact written anywhere in this packet is a fact the packet HOLDS, so it may
@@ -713,7 +769,7 @@ function countCompleteness(map, writeProofs, artifacts, instructionsText, receip
     }
   }
   for (const w of writes) {
-    if (classifyField(w.label, false).requirement === "PROTECTED") {
+    if (classifyField(w.label, w.isSelectionControl).requirement === "PROTECTED") {
       note("protectedWrites", { field: w.id, label: w.label, why: "a protected field was written" });
     }
   }
@@ -776,7 +832,7 @@ function participantInstructions(map, source, rbf) {
 
   out.push("## What you must do before you file", "");
   out.push("1. **Fill in the items in the table below.**");
-  out.push("2. **Tick the one ground that is true of your case**, from the list under _The choices that are yours_. If you tick ground 10, write the rule or statute number on the line beneath it.");
+  out.push("2. **Review your explicit ground selection.** Only the choice you supplied is marked. Grounds 2 and 3 also need your explicit sub-choice. If no choice or sub-choice is supplied, it remains blank. Ground 10 needs the specific rule or statute number you supply. Complete any missing items before filing; this draft is not filing-ready.");
   out.push("3. **Attach what grounds 4 and 9 require**, if you ticked either.");
   out.push("4. **Sign and date the form yourself.** Both lines are left blank on purpose.");
   out.push("");
@@ -793,7 +849,7 @@ function participantInstructions(map, source, rbf) {
 
   out.push("## What the platform deliberately left blank", "");
   out.push("- **Your signature and its date.**");
-  out.push("- **Every ground.** Each is a statement about how your case ended, and only you know which is true.");
+  out.push("- **Grounds you did not explicitly choose.** Screening answers never select a ground or sub-choice. Review every marked choice and supply any missing selection or ground-10 citation yourself.");
   out.push("- **The clerk's block at the foot of the form** \u2014 the response, the date sent and the initials. That is the court's.");
   out.push("");
 
@@ -861,7 +917,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
 
   for (const fixtureName of ["canonical", "boundary"]) {
     const { bytes, report } = await renderFixture(source, census, fixtureName);
-    const proof = await byteProof(census, bytes, report, fixtureName);
+    const proof = await byteProof(source, census, bytes, report, fixtureName);
 
     const file = `${OUT}/fixtures/tf810-${fixtureName}-filled.pdf`;
     fs.writeFileSync(path.join(ROOT, file), bytes);
@@ -884,10 +940,16 @@ export async function runFamily(argv = process.argv.slice(2)) {
       addedGlyphsReadFromOutputBytes: proof.glyphs,
       nonWhitespaceGlyphsOutsideMeasuredWriteBoxes: 0,
       refusedFieldsWithInk: proof.refusedFieldsWithInk,
+      actualSelections: proof.actualSelections,
       actualWrites: proof.actualWrites
     });
 
     if (fixtureName === "canonical") map = fieldMapFor(source, census, report);
+    else {
+      const boundaryMap = fieldMapFor(source, census, report);
+      map.boundaryWrites = boundaryMap.canonicalWrites;
+      map.boundarySelectionControls = boundaryMap.selectionControls;
+    }
 
     const rasterDir = `${OUT}/raster/tf810-${fixtureName}`;
     fs.mkdirSync(path.join(ROOT, rasterDir), { recursive: true });
@@ -962,7 +1024,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
     routeSelectionNote:
       "Administrative Rule 40(a) and AS 22.35.030 are the route and TF-810 is the form for correcting a case the court "
       + "system should already have removed under them. Which of the ten printed grounds is true is a fact about the "
-      + "requester's own case rather than a consequence of the route, so all ten are left to the participant.",
+      + "requester's own case rather than a consequence of the route, so only an explicit participant answer marks a ground or sub-choice; no route or screening fact selects one.",
     requiredBeforeFilingCount: rbf.length,
     requiredBeforeFiling: rbf,
     maps: [map],
@@ -1003,10 +1065,10 @@ export async function runFamily(argv = process.argv.slice(2)) {
   writeJson(`${OUT}/reports/blanks-left-for-the-participant.json`, {
     schemaVersion: "rcap-blanks-left-for-the-participant/v1", familyId: FAMILY_ID,
     requiredBeforeFiling: rbf,
-    participantElections: map.selectionControls.map((c) => ({
+    participantElections: map.selectionControls.filter(c => c.disposition !== "selected").map((c) => ({
       field: c.field, page: c.page, label: c.effectiveLabel, why: c.reason
     })),
-    protectedBlanks: map.canonicalRefusals.filter((r) => r.requiredBeforeFiling !== true)
+    protectedBlanks: map.canonicalRefusals.filter((r) => [SIGNATURE, COURT_OWNED].includes(r.category))
       .map((r) => ({ field: r.field, page: r.page, label: r.effectiveLabel, refusalClass: r.category, why: r.why })),
     everyRequiredBeforeFilingItemIsDisclosed: true,
     disclosedIn: `${OUT}/participant-instructions.md`
@@ -1110,7 +1172,7 @@ export async function runFamily(argv = process.argv.slice(2)) {
     writes: map.canonicalWrites.length,
     requiredBeforeFiling: rbf.length,
     participantElections: map.selectionControls.length,
-    protectedBlanks: map.canonicalRefusals.filter((r) => r.requiredBeforeFiling !== true).length,
+    protectedBlanks: map.canonicalRefusals.filter((r) => [SIGNATURE, COURT_OWNED].includes(r.category)).length,
     artifacts: artifacts.map((a) => ({ fixture: a.fixture, sha256: a.sha256, byteLength: a.byteLength, pageCount: a.pageCount })),
     rasterPages: rasterPages.length
   };

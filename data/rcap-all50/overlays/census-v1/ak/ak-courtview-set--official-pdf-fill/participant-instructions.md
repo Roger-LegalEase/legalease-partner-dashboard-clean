@@ -29,7 +29,7 @@ The platform holds neither attachment and does not attach them for you.
 ## What you must do before you file
 
 1. **Fill in the items in the table below.**
-2. **Tick the one ground that is true of your case**, from the list under _The choices that are yours_. If you tick ground 10, write the rule or statute number on the line beneath it.
+2. **Review your explicit ground selection.** Only the choice you supplied is marked. Grounds 2 and 3 also need your explicit sub-choice. If no choice or sub-choice is supplied, it remains blank. Ground 10 needs the specific rule or statute number you supply. Complete any missing items before filing; this draft is not filing-ready.
 3. **Attach what grounds 4 and 9 require**, if you ticked either.
 4. **Sign and date the form yourself.** Both lines are left blank on purpose.
 
@@ -38,13 +38,12 @@ The platform holds neither attachment and does not attach them for you.
 | Page | The blank on the form | What to write |
 | --- | --- | --- |
 | 1 | Case Name | the case name exactly as it appears on your court paperwork — in a criminal case that is usually the State of Alaska against your name |
-| 1 | Ground 10 — the specific rule or statute number | the specific Alaska statute or court rule number that takes your case off the public index, if you ticked ground 10 |
 
 ## The choices that are yours
 
 | Page | The choice | What it means |
 | --- | --- | --- |
-| 1 | Ground 1 — 60 days have passed since acquittal or dismissal (selection) | tick this if you were acquitted of all charges, or all charges were dismissed and the dismissal was not part of a plea agreement in another criminal case, or a combination of the two — and 60 days have passed |
+| 1 | Ground 1 — 60 days have passed since acquittal or dismissal (selection) | Marked from the participant’s explicit answer only; no eligibility finding. |
 | 1 | Ground 2 — a criminal case dismissed for one of the two reasons below (selection) | tick this heading if one of the two reasons printed under it is why your case was dismissed |
 | 1 | Ground 2 — a judicial officer found no probable cause (selection) | tick this if a judicial officer found no probable cause under Criminal Rule 4(a)(1) or 5(d) |
 | 1 | Ground 2 — the defendant was a minor wrongly charged in adult court (selection) | tick this if the defendant was a minor and was wrongly charged in adult court with an offence within the jurisdiction for delinquency proceedings under AS 47.12.020 |
@@ -62,7 +61,7 @@ The platform holds neither attachment and does not attach them for you.
 ## What the platform deliberately left blank
 
 - **Your signature and its date.**
-- **Every ground.** Each is a statement about how your case ended, and only you know which is true.
+- **Grounds you did not explicitly choose.** Screening answers never select a ground or sub-choice. Review every marked choice and supply any missing selection or ground-10 citation yourself.
 - **The clerk's block at the foot of the form** — the response, the date sent and the initials. That is the court's.
 
 ## What this packet is not

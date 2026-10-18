@@ -4,6 +4,9 @@ on:
   push:
     branches: [claude/legalease-sprint-captain-utucnw]
     paths:
+      - src/lib/expungement-ai/ak-courtview-*.ts
+      - scripts/build-census-v1-ak-courtview-set.mjs
+      - scripts/test-ak-*.mjs
       - scripts/grade-a-packet-factory-24h/**
       - scripts/grade-a-launch-control/conditional-family-scope*.mjs
       - scripts/grade-a-launch-control/preserved-family-baseline*.mjs
@@ -19,6 +22,9 @@ on:
       - data/record-clearing/legal-decisions/2026-09-14-nc-146-core-and-conditional-dna-scope.json
       - scripts/verify-packet-build-environment.mjs
       - scripts/rcap-*.mjs
+      - scripts/rcap-official-forms/*.mjs
+      - scripts/rcap-packet-completeness/*.mjs
+      - data/rcap-all50/local-source-corpus-index.json
       - scripts/lib/**
       - scripts/raster/**
       - scripts/codex-cloud/**
@@ -31,6 +37,9 @@ on:
       - .github/workflows/rcap-*.yml
   pull_request:
     paths:
+      - src/lib/expungement-ai/ak-courtview-*.ts
+      - scripts/build-census-v1-ak-courtview-set.mjs
+      - scripts/test-ak-*.mjs
       - scripts/grade-a-packet-factory-24h/**
       - scripts/grade-a-launch-control/conditional-family-scope*.mjs
       - scripts/grade-a-launch-control/preserved-family-baseline*.mjs
@@ -46,6 +55,9 @@ on:
       - data/record-clearing/legal-decisions/2026-09-14-nc-146-core-and-conditional-dna-scope.json
       - scripts/verify-packet-build-environment.mjs
       - scripts/rcap-*.mjs
+      - scripts/rcap-official-forms/*.mjs
+      - scripts/rcap-packet-completeness/*.mjs
+      - data/rcap-all50/local-source-corpus-index.json
       - scripts/lib/**
       - scripts/raster/**
       - scripts/codex-cloud/**
@@ -87,6 +99,9 @@ jobs:
       - name: Workflow YAML validation
         id: yaml
         run: ruby -e 'require "yaml"; Dir[".github/workflows/*.yml"].each { |f| YAML.parse_file(f) }'
+      - name: Install locked AK PDF test dependencies
+        id: ak_pdf_dependencies
+        run: npm ci --ignore-scripts --no-audit --no-fund
       # The pinned Master Library is separate from the later adopted supplements.
       - name: Establish verified corpus environment
         id: corpus_environment
@@ -103,6 +118,11 @@ jobs:
           export RCAP_BUNDLE_EXTRACT="$corpus"
           node --input-type=module -e 'import { requireMasterLibraryEnvironment } from "./scripts/lib/corpus-index-paths.mjs"; requireMasterLibraryEnvironment({repoRoot:process.cwd()});'
           printf 'MASTER_LIBRARY_SOURCE_DIR=%s\nRCAP_BUNDLE_EXTRACT=%s\n' "$corpus" "$corpus" >> "$GITHUB_ENV"
+      - name: Verify AK TF-810 MODE 2 against the official PDF
+        id: ak_tf810_mode2_pdf
+        env:
+          AK_TF810_TEST_OUTPUT_DIR: ${{ runner.temp }}/ak-tf810-mode2
+        run: node scripts/test-ak-tf810-mode2-pdf.mjs
       - name: Conditional scope and corpus guard regressions
         id: scope_controls
         run: node --test scripts/grade-a-launch-control/conditional-family-scope.test.mjs scripts/grade-a-launch-control/preserved-family-baseline.test.mjs scripts/grade-a-packet-factory-24h/review-bound-report-currentness.test.mjs scripts/lib/corpus-audit-environment.test.mjs scripts/grade-a-packet-factory-24h/raster-workflow-bindings.test.mjs
@@ -189,8 +209,8 @@ jobs:
         run: |
           git diff --check
           test -z "$(git status --porcelain)"
-      # PDF inspection above checks existing source/output page counts. Rendering
-      # remains in the raster workflow; source lanes do not require rasterization.
+      # PDF checks include form-fill appearances and existing source/output page counts.
+      # Page rasterization remains in the raster workflow.
       - name: A source-lane preflight requires no rasterizer
         id: source_preflight
         run: |
@@ -225,6 +245,14 @@ jobs:
         id: lane_mutations
         run: node scripts/grade-a-packet-factory-24h/verify-lane-contracts.mjs --mutations
       # Report after ALL checks. Skipped or absent is NOT_RUN, never PASS.
+      - name: Preserve AK TF-810 PDF proof
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ak-tf810-mode2-${{ github.job }}-${{ github.run_id }}
+          path: ${{ runner.temp }}/ak-tf810-mode2/
+          retention-days: 14
+          if-no-files-found: warn
       - name: Preserve generator source preflight evidence
         if: always()
         uses: actions/upload-artifact@v4
