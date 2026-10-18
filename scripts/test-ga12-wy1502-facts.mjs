@@ -4,6 +4,7 @@ import fs from 'node:fs';
 import {register} from 'node:module';
 import {pathToFileURL} from 'node:url';
 import ts from 'typescript';
+process.env.RCAP_EVALUATOR_TODAY='2026-10-18';
 register('./lib/ts-esm-loader.mjs',import.meta.url);
 const mutation=process.argv.find(a=>a.startsWith('--mutation='))?.slice(11);
 const mutations={
@@ -41,7 +42,7 @@ let checks=0,httpCases=0;const records=new Map(),maps=['screeningAnswers','prefi
 const check=(name,fn)=>{try{fn();checks++;}catch(e){console.error(JSON.stringify({failedCheck:name,checks}));throw e;}};
 const evalFor=answers=>evaluate({jurisdiction:'WY',profileVersion:profile.profileVersion,matterId:'TEST-wy1502',answers});
 const modelFor=answers=>{const seed=P.protectedPacketDraftSeedFromAuthoritative({authoritative:evalFor(answers),screeningAnswers:answers,dependencies:{},capturedAt:'2026-10-18T00:00:00Z'});assert(seed);return{status:'unverified',revision:0,draftHash:seed.hash,draftSnapshot:seed.snapshot};};
-const decision=(patch,code)=>{const a={...base,...patch},before=structuredClone(a);assert.equal(G.wy1502Facts(a).code,code);const r=evalFor(a).evaluation;assert.equal(r.pathwayId,route);assert.equal(r.paymentAllowed,false);assert(!r.resultCode.startsWith('packet_ready'));if(r.reasons.some(r=>r.code.startsWith('wy.felony1502_')))assert(r.reasons.some(r=>r.code==='wy.felony1502_'+code));assert.deepEqual(a,before);return r;};
+const decision=(patch,code)=>{const a={...base,...patch},before=structuredClone(a);assert.equal(G.wy1502Facts(a,process.env.RCAP_EVALUATOR_TODAY).code,code);const r=evalFor(a).evaluation;assert.equal(r.pathwayId,route);assert.equal(r.paymentAllowed,false);assert(!r.resultCode.startsWith('packet_ready'));if(r.reasons.some(r=>r.code.startsWith('wy.felony1502_')))assert(r.reasons.some(r=>r.code==='wy.felony1502_'+code));assert.deepEqual(a,before);return r;};
 for(const id of G.WY_1502_FACT_IDS.filter(id=>id!=='wy1502_related'))check('blank required source predicate requested/'+id,()=>{
  const answers={...base,[id]:undefined};const r=evalFor(answers).evaluation;
  assert(r.missingQuestionIds.includes(id));assert(!selectScreeningQuestionIds(profile,pub,answers).includes(id));
@@ -56,12 +57,12 @@ check('supported petition remains subject to mandatory review before offer',()=>
 });
 check('coherent conviction held for exact source facts and review',()=>{const r=decision({},'record_review');assert.equal(r.resultCode,'needs_review');assert.equal(r.reasons[0].code,'wy.felony1502_record_review');assert(!r.packetPlan);});
 for(const [patch,code]of [[{wy1502_completed_deferral:'Yes'},'deferral'],[{case_outcome:'Dismissed, no-billed, nolle prosequi, or not prosecuted'},'disposition'],[{wy1502_multiple:'Yes',wy1502_related:'No'},'grouping'],[{wy1502_program_complete:'No'},'completion'],[{wy1502_restitution_paid:'No'},'completion'],[{wy1502_other_felony:'Yes'},'history'],[{wy1502_prior_relief:'Yes'},'history'],[{wy1502_registration:'Yes'},'history'],[{wy1502_firearm:'Yes'},'firearm'],[{wy1502_terms_ended:{value:'2010-02-30',unknown:false}},'date']])check(code+'/'+JSON.stringify(patch),()=>decision(patch,code));
-for(const id of G.WY_1502_FACT_IDS)for(const value of [undefined,'I am not sure',true,['Yes'],{value:'Yes',unknown:true}])check('no inferred fact/'+id+'/'+JSON.stringify(value),()=>{const a={...base,wy1502_multiple:'Yes',wy1502_related:'Yes',[id]:value};const d=G.wy1502Facts(a);assert.equal(d.code,'missing');assert(d.ids.includes(id));});
-check('completed deferral remains an explicit stop even without other facts',()=>{assert.equal(G.wy1502Facts({wy1502_completed_deferral:'Yes'}).code,'deferral');const r=decision({wy1502_completed_deferral:'Yes'},'deferral');assert.equal(r.reasons[0].code,'wy.felony1502_deferral');assert(r.reasons[0].text.includes('not an expungement packet'));});
+for(const id of G.WY_1502_FACT_IDS)for(const value of [undefined,'I am not sure',true,['Yes'],{value:'Yes',unknown:true}])check('no inferred fact/'+id+'/'+JSON.stringify(value),()=>{const a={...base,wy1502_multiple:'Yes',wy1502_related:'Yes',[id]:value};const d=G.wy1502Facts(a,process.env.RCAP_EVALUATOR_TODAY);assert.equal(d.code,'missing');assert(d.ids.includes(id));});
+check('completed deferral remains an explicit stop even without other facts',()=>{assert.equal(G.wy1502Facts({wy1502_completed_deferral:'Yes'},process.env.RCAP_EVALUATOR_TODAY).code,'deferral');const r=decision({wy1502_completed_deferral:'Yes'},'deferral');assert.equal(r.reasons[0].code,'wy.felony1502_deferral');assert(r.reasons[0].text.includes('not an expungement packet'));});
 check('multi-felony relationship conditional; hidden raw answer survives resume',()=>{
  assert(!selectScreeningQuestionIds(profile,pub,base).includes('wy1502_related'));assert(!selectScreeningQuestionIds(profile,pub,{...base,wy1502_multiple:'Yes'}).includes('wy1502_related'));
  assert(!P.factualPathwayCorrectionIds('WY',route,base).includes('wy1502_related'));assert(P.factualPathwayCorrectionIds('WY',route,{...base,wy1502_multiple:'Yes'}).includes('wy1502_related'));
- const a={...base,wy1502_related:'No'};assert.equal(sanitizeResumedAnswersForQuestionIds(parsed.data,a,['ownership_scope']).wy1502_related,'No');assert.equal(G.wy1502Facts(a).code,'record_review');
+ const a={...base,wy1502_related:'No'};assert.equal(sanitizeResumedAnswersForQuestionIds(parsed.data,a,['ownership_scope']).wy1502_related,'No');assert.equal(G.wy1502Facts(a,process.env.RCAP_EVALUATOR_TODAY).code,'record_review');
 });
 for(const q of G.WY_1502_QUESTIONS)check('protected record fact/'+q.id,()=>{
  const a={...base,wy1502_multiple:'Yes'};assert(!selectScreeningQuestionIds(profile,pub,a).includes(q.id));assert.equal(q.stage,'packet_information');assert.equal(q.lifecyclePhase,'postpay_packet_field');assert(P.factualPathwayCorrectionIds('WY',route,a).includes(q.id));
@@ -79,11 +80,11 @@ for(const map of maps)for(const raw of ['Weapons offense','W.S. 6-8-101',{unknow
 });
 check('citation text never classifies an exclusion or grants readiness',()=>{
  for(const citation of ['6-8-101','6-8-102','6-2-301','Title 23 firearm exception','6-3-402\n6-3-402','Amended final judgment under review']){
-  const a={...base,wy1502_citations:{value:citation,unknown:false}};const before=structuredClone(a);assert.equal(evalFor(a).evaluation.paymentAllowed,false);assert.equal(G.wy1502Facts(a).code,'record_review');assert.deepEqual(a,before);
+  const a={...base,wy1502_citations:{value:citation,unknown:false}};const before=structuredClone(a);assert.equal(evalFor(a).evaluation.paymentAllowed,false);assert.equal(G.wy1502Facts(a,process.env.RCAP_EVALUATOR_TODAY).code,'record_review');assert.deepEqual(a,before);
  }
 });
 check('one ten-year rule is held, no neighboring clock or generic alias',()=>{
- for(const date of ['2010-10-18','2020-10-18','2030-10-18'])decision({wy1502_terms_ended:{value:date,unknown:false}},'record_review');
+ for(const [date,code] of [['2010-10-18','record_review'],['2020-10-18','timing'],['2030-10-18','timing']])decision({wy1502_terms_ended:{value:date,unknown:false}},code);
  decision({sentence_completion_date:'Yes',prior_relief:'Yes',financial_obligations:'Yes',wy1502_terms_ended:undefined},'missing');
  assert(G.WY_1502_COPY.record_review.includes('ten-year'));assert(!G.WY_1502_COPY.record_review.includes('one-year'));
 });

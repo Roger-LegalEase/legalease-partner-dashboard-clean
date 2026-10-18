@@ -56,7 +56,7 @@ check('disposition precedes missing conviction record',()=>{
 });
 check('all sentence conditions must be complete',()=>decision({court_requirements_completed:'no'},'completion'));
 for(const raw of ['not_sure','not_applicable'])check('answered completion uncertainty settles/'+raw,()=>{
- const r=evalFor({...base,court_requirements_completed:raw}).evaluation;assert.equal(r.paymentAllowed,false);assert.deepEqual(r.missingQuestionIds,[]);assert(!r.resultCode.startsWith('packet_ready'));
+ const r=evalFor({...base,court_requirements_completed:raw}).evaluation;assert.equal(r.paymentAllowed,false);assert.equal(r.reasons[0].code,'il.prostitution_completion');assert.deepEqual(r.missingQuestionIds,[]);assert(!r.resultCode.startsWith('packet_ready'));
 });
 check('supported motion preparation retains individualized attorney review',()=>{
  const r=evalFor(base).evaluation;assert.equal(r.reasons[0].code,'il.prostitution_record_review');assert.match(r.nextSteps.join(' '),/motion to vacate and expunge/);assert.match(r.nextSteps.join(' '),/Attorney review is required by default/);assert.equal(r.paymentAllowed,false);

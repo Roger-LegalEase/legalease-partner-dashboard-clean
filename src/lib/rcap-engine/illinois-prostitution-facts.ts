@@ -27,15 +27,17 @@ export function illinoisProstitutionQuestionApplies(profile: EngineProfile | und
   return id !== IL_PROSTITUTION_FACT_ID || illinoisProstitutionContext(profile, pathway);
 }
 export const IL_PROSTITUTION_COPY = {
+  trafficking: "The reported trafficking-related circumstances need review under the separate trafficking-survivor procedure in 20 ILCS 2630/5.2(h) before the ordinary Class 4 felony prostitution motion. Different questions apply. No eligibility, filing readiness or payment authority is established.",
   missing: "Confirm that the final conviction record says Class 4 felony prostitution and that every sentence or condition imposed is complete. A general felony label, an earlier category or a completion date alone does not establish these facts.",
   record_conflict: "The reported final record does not establish a Class 4 felony prostitution conviction. Review the final disposition and applicable procedure; this is not a decision about every record-clearing option.",
   completion: "The sentence and every condition imposed by this conviction must be complete before using the Class 4 felony prostitution procedure. Confirm completion from your records; an earlier category or completion date alone does not establish it.",
   record_review: "The reported final Class 4 felony prostitution conviction and completion of every court-ordered requirement support preparing a motion to vacate and expunge under 20 ILCS 2630/5.2(j)(3). Attorney review is required by default because the court weighs discretionary factors and survivor circumstances. You supply your own adverse-consequences statement; no court finding is made here. Confirm local filing and service requirements. This result does not authorize payment or claim that the motion is ready to file.",
   source_review: "The source for this record question needs review before continuing. No eligibility or payment authority is established."
 } as const;
-export function illinoisProstitutionFacts(answers: Record<string, unknown>): "missing" | "record_conflict" | "completion" | "record_review" {
+export function illinoisProstitutionFacts(answers: Record<string, unknown>): "missing" | "record_conflict" | "completion" | "record_review" | "trafficking" {
   // A choice is an account of the final record, never a classification from prose.
   if (answers.case_outcome !== "Felony conviction") return "record_conflict";
+  if (answers.trafficking_status === "Yes") return "trafficking";
   const value = answers[IL_PROSTITUTION_FACT_ID];
   if (value === "No") return "record_conflict";
   if (value !== "Yes") return "missing";

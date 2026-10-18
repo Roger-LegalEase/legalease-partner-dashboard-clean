@@ -47,6 +47,8 @@ function text(value: unknown): string | undefined {
   return typeof value === "string" && value.trim() && !uncertaintyState(value) ? value.trim() : undefined;
 }
 export const WY_1502_COPY = {
+  trafficking: "Reported trafficking or coercion needs review under the separate W.S. 6-2-708 vacatur procedure before using this felony-conviction petition. The ordinary 7-13-1502 record facts do not establish the requirements for that separate procedure. No eligibility, filing readiness or payment authority is established.",
+  timing: "At least ten years must pass after all terms of the sentence, including probation, expire. The recorded expiration date does not yet meet that period. Review the final expiration date; this result does not establish petition readiness or permission to purchase.",
   missing: "The final judgment, deferral, grouping, sentence-term date and separate history facts need confirmation. Old categories and generic completion or prior-relief answers cannot supply these facts. No eligibility or payment is established.",
   deferral: "A completed felony deferral ending in discharge and dismissal is not a conviction for 7-13-1502. The adopted review identifies no Wyoming expungement route for that completed felony deferral. Correction of an inaccurate criminal-history record is different and is not an expungement packet offered here. Stop for review.",
   disposition: "The saved disposition does not establish a final felony conviction for this route. Check the final judgment and any deferral or dismissal; do not classify the case from an old charge or category.",
@@ -57,9 +59,10 @@ export const WY_1502_COPY = {
   date: "Copy a real sentence-term expiration date from the record, including all probation. The ten-year period cannot be inferred from a conviction date, custody release or general timing bucket.",
   record_review: "These recorded facts support review for a petition to expunge the felony conviction under W.S. 7-13-1502. Mandatory attorney review must confirm the final citations against the full statutory exclusion list, the entire felony history and completion of the ten-year period since all sentence terms expired, including probation, before a packet can be offered. After that review, the supported procedure is a petition to the convicting court; the court decides eligibility, grouping and danger, and victim notice and objections remain separate. This result establishes no eligibility, rights restoration, packet readiness or payment authority."
 } as const;
-export function wy1502Facts(a: Record<string, unknown>): { code: keyof typeof WY_1502_COPY; ids: string[] } {
+export function wy1502Facts(a: Record<string, unknown>, today: string): { code: keyof typeof WY_1502_COPY; ids: string[] } {
   if (a.wy1502_completed_deferral === "Yes") return { code: "deferral", ids: [] };
   if (a.case_outcome !== "Felony conviction") return { code: "disposition", ids: [] };
+  if (a.trafficking_status === "Yes") return { code: "trafficking", ids: [] };
   const ids = WY_1502_FACT_IDS.filter(id => {
     if (id === "wy1502_related" && a.wy1502_multiple !== "Yes") return false;
     return ["wy1502_citations", "wy1502_terms_ended"].includes(id) ? !text(a[id]) : !(typeof a[id] === "string" && ["Yes", "No"].includes(a[id] as string));
@@ -73,5 +76,7 @@ export function wy1502Facts(a: Record<string, unknown>): { code: keyof typeof WY
   const date = text(a.wy1502_terms_ended)!;
   const parsed = new Date(date + "T00:00:00Z");
   if (!/^\d{4}-\d{2}-\d{2}$/.test(date) || !Number.isFinite(parsed.getTime()) || parsed.toISOString().slice(0, 10) !== date) return { code: "date", ids: ["wy1502_terms_ended"] };
+  parsed.setUTCFullYear(parsed.getUTCFullYear() + 10);
+  if (parsed > new Date(`${today}T00:00:00Z`)) return review("timing");
   return review("record_review");
 }

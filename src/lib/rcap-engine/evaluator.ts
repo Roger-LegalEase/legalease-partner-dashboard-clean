@@ -266,7 +266,7 @@ function evaluateAgainstProfile(profile: EngineProfile, request: ScreeningEvalua
       nextSteps: [IL_PROSTITUTION_COPY[code]], paymentAllowed: false };
   }
   if (wy1502Context(profile, evaluated.pathwayId) && evaluated.reasons.some(r => r.code.startsWith("wy.felony1502_"))) {
-    const facts = wy1502Facts(request.answers);
+    const facts = wy1502Facts(request.answers, evaluationToday().toISOString().slice(0, 10));
     const questions = projectPublicProfile(profile).questions;
     return { ...evaluated, missingQuestionIds: [...new Set([...evaluated.missingQuestionIds, ...facts.ids.filter(id => {
       const question = questions.find(q => q.id === id);
@@ -1390,7 +1390,7 @@ function routeSpecificSafetyGate(profile: EngineProfile, answers: Record<string,
     }
   }
   if (wy1502Context(profile, pathway.id)) {
-    const facts = wy1502Facts(answers);
+    const facts = wy1502Facts(answers, evaluationToday().toISOString().slice(0, 10));
     return reason("WY", `felony1502_${facts.code}`, WY_1502_COPY[facts.code], WY_1502_SOURCE);
   }
   const msRecordClassGate = msFelonyRecordClassSafetyGate(profile, answers, pathway);
