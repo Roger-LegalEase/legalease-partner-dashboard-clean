@@ -34,8 +34,8 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 
 ### ak-courtview-set
 
-- canonical `data/rcap-all50/overlays/census-v1/ak/ak-courtview-set--official-pdf-fill/fixtures/tf810-canonical-filled.pdf` — `ac2111fa8215881775b35f198d5098aab766703ad55cf24a74a1e5aba843df83`
-- boundary `data/rcap-all50/overlays/census-v1/ak/ak-courtview-set--official-pdf-fill/fixtures/tf810-boundary-filled.pdf` — `03b335a1c82762e2e3a98a9fe0e2d5dc8bd74896ade06b5c88100cd9afdd0e1e`
+- canonical `data/rcap-all50/overlays/census-v1/ak/ak-courtview-set--official-pdf-fill/fixtures/tf810-canonical-filled.pdf` — `a72b97a7b86f00104ee7aab5f67ec8334b1aa9ad6b57232e42f3617d09d17b4f`
+- boundary `data/rcap-all50/overlays/census-v1/ak/ak-courtview-set--official-pdf-fill/fixtures/tf810-boundary-filled.pdf` — `6eafd49dba8dd15c1e87707aae7fd9f12295ef17da0234a81fcca9055adbb469`
 - expected pages 1 · requested scale 2.5
 - built by (no builder lane recorded)
 
