@@ -62,7 +62,7 @@ export const WY_1502_COPY = {
 export function wy1502Facts(a: Record<string, unknown>, today: string): { code: keyof typeof WY_1502_COPY; ids: string[] } {
   if (a.wy1502_completed_deferral === "Yes") return { code: "deferral", ids: [] };
   if (a.case_outcome !== "Felony conviction") return { code: "disposition", ids: [] };
-  if (a.trafficking_status === "Yes") return { code: "trafficking", ids: [] };
+  if (a.trafficking_status === true || typeof a.trafficking_status === "string" && a.trafficking_status.trim() === "Yes") return { code: "trafficking", ids: [] };
   const ids = WY_1502_FACT_IDS.filter(id => {
     if (id === "wy1502_related" && a.wy1502_multiple !== "Yes") return false;
     return ["wy1502_citations", "wy1502_terms_ended"].includes(id) ? !text(a[id]) : !(typeof a[id] === "string" && ["Yes", "No"].includes(a[id] as string));

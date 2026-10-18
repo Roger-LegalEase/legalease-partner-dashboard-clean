@@ -37,7 +37,7 @@ export const IL_PROSTITUTION_COPY = {
 export function illinoisProstitutionFacts(answers: Record<string, unknown>): "missing" | "record_conflict" | "completion" | "record_review" | "trafficking" {
   // A choice is an account of the final record, never a classification from prose.
   if (answers.case_outcome !== "Felony conviction") return "record_conflict";
-  if (answers.trafficking_status === "Yes") return "trafficking";
+  if (answers.trafficking_status === true || typeof answers.trafficking_status === "string" && answers.trafficking_status.trim() === "Yes") return "trafficking";
   const value = answers[IL_PROSTITUTION_FACT_ID];
   if (value === "No") return "record_conflict";
   if (value !== "Yes") return "missing";

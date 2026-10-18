@@ -1167,7 +1167,7 @@ export function wyoming1502HeldDraftSuccessor(snapshot: ProtectedPacketAuthority
     || evaluation.pathwayId !== snapshot.pathwayId || evaluation.resultCode !== "needs_review" || evaluation.paymentAllowed
     || evaluation.packetPlan || authoritative.packetType || authoritative.selectedTrackId !== snapshot.selectedTrackId
     || [snapshot.screeningAnswers, snapshot.prefilledAnswers, snapshot.packetAnswers].some(map => WY_1502_FACT_IDS.some(id => Object.hasOwn(map, id)))
-    || evaluation.reasons.length !== 1 || !["wy.felony1502_missing", "wy.felony1502_disposition"].includes(evaluation.reasons[0].code)) return null;
+    || evaluation.reasons.length !== 1 || !["wy.felony1502_missing", "wy.felony1502_disposition", "wy.felony1502_trafficking"].includes(evaluation.reasons[0].code)) return null;
   const plan = packetPlanForPathway(profile, snapshot.pathwayId!);
   if (!plan || !canonicalEqual(snapshot.packetPlan, plan) || !canonicalEqual(snapshot.requiredInputIds, plan.requiredInputIds)
     || !canonicalEqual(snapshot.packetFamilyIdentifiers, { mode: plan.mode, sourceFormIds: plan.sourceFormIds })
@@ -1194,7 +1194,7 @@ export function illinoisProstitutionHeldDraftSuccessor(snapshot: ProtectedPacket
     || evaluation.pathwayId !== snapshot.pathwayId || evaluation.resultCode !== "needs_review" || evaluation.paymentAllowed
     || evaluation.packetPlan || authoritative.packetType || authoritative.selectedTrackId !== snapshot.selectedTrackId
     || [snapshot.screeningAnswers, snapshot.prefilledAnswers, snapshot.packetAnswers].some(map => Object.hasOwn(map, IL_PROSTITUTION_FACT_ID))
-    || evaluation.reasons.length !== 1 || evaluation.reasons[0].code !== "il.prostitution_missing") return null;
+    || evaluation.reasons.length !== 1 || !["il.prostitution_missing", "il.prostitution_trafficking"].includes(evaluation.reasons[0].code)) return null;
   const plan = packetPlanForPathway(profile, snapshot.pathwayId!);
   if (!plan || !canonicalEqual(snapshot.packetPlan, plan) || !canonicalEqual(snapshot.requiredInputIds, plan.requiredInputIds)
     || !canonicalEqual(snapshot.packetFamilyIdentifiers, { mode: plan.mode, sourceFormIds: plan.sourceFormIds })
