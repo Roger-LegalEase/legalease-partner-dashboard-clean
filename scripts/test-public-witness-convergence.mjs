@@ -15,6 +15,7 @@ const txPredecessors = JSON.parse(fs.readFileSync('scripts/fixtures/tx-nondisclo
 const msMipPredecessor = JSON.parse(fs.readFileSync('scripts/fixtures/ms-mip-witness-predecessor.json'));
 const mdPolicePredecessor = JSON.parse(fs.readFileSync('scripts/fixtures/md-police-witness-predecessor.json'));
 const packetNextStepsPredecessors = JSON.parse(fs.readFileSync('scripts/fixtures/packet-next-steps-witness-predecessors.json'));
+const ilSdWyPredecessors = JSON.parse(fs.readFileSync('scripts/fixtures/il-sd-wy-witness-predecessors.json'));
 const changed = new Set([
   'AR:situation-a-non-convictions', 'AR:situation-b-misdemeanor-convictions', 'AR:situation-c-felony-convictions',
   'CA:prop-64-completed-sentence-application-11361-8', 'CA:prop-64-currently-serving-petition-11361-8',
@@ -84,6 +85,16 @@ check(()=>assert.equal(txPredecessors.sourcePath,'data/rcap-ledger/public-witnes
 check(()=>assert.equal(txPredecessors.sourceSha256,'087985053f3c81033a58ca453510d4db6ffc75187238449bcd99ef8ac592d608'));
 check(()=>assert.deepEqual([...txHistorical.keys()],txKeys));
 check(()=>assert.equal(txPredecessors.witnesses.length,3));
+// The reviewed IL/SD/WY record-fact corrections change exactly these three witnesses.
+// Their exact e1fa651 rows reconstruct both original digests; current successors are
+// checked separately below.
+const ilSdWyKeys = ['IL:felony-prostitution-relief','SD:suspended-imposition-of-sentence-sealing','WY:felony-conviction-expungement-w-s-7-13-1502'];
+const ilSdWyHistorical = new Map(ilSdWyPredecessors.witnesses.map(w=>[w.pathwayKey,w]));
+check(()=>assert.equal(ilSdWyPredecessors.sourceSha,'e1fa6513783c764aef1468eb3488a374b77b3242'));
+check(()=>assert.equal(ilSdWyPredecessors.sourcePath,'data/rcap-ledger/public-witness-answer-sets.json'));
+check(()=>assert.equal(ilSdWyPredecessors.sourceSha256,'3cb4a2e87e0fbd88e10aae79c0456401029c044b8b747493237adc9ceb889ca8'));
+check(()=>assert.deepEqual([...ilSdWyHistorical.keys()],ilSdWyKeys));
+check(()=>assert.ok(ilSdWyKeys.every(key=>!changed.has(key))));
 check(()=>assert.equal(orPredecessor.witness.pathwayKey,orKey));
 check(()=>assert.equal(caTool1Predecessor.witness.pathwayKey,caTool1Key));
 check(()=>assert.equal(caTool1Predecessor.sourceSha,'67556b6acf3cc6652f5f6ae10bfb0d0366cca63a'));
@@ -95,7 +106,7 @@ check(()=>assert.equal(msMipPredecessor.sourceSha,'933615db47bf54d147fdbe0b32417
 check(()=>assert.equal(msMipPredecessor.sourcePath,'data/rcap-ledger/public-witness-answer-sets.json'));
 check(()=>assert.equal(msMipPredecessor.sourceSha256,'42ac6dfad098e928c136adb4cbe08106f6bcb6045e30aad8edd6fb0e39ad14ec'));
 check(()=>assert.equal(msMipPredecessor.witness.pathwayKey,msMipKey));
-check(()=>assert.equal(sha(JSON.stringify(packet.witnesses.filter(w=>!changed.has(w.pathwayKey)).map(w=>w.pathwayKey===orKey?orPredecessor.witness:w.pathwayKey===caTool1Key?caTool1Predecessor.witness:w.pathwayKey===msMipKey?msMipPredecessor.witness:w.pathwayKey===mdPoliceKey?mdPolicePredecessor.witness:txHistorical.get(w.pathwayKey)??w))),'dd48f2daa2b68b38926d3d619c91b92833db494fe5d63ae4f31218c1c5c2dba2'));
+check(()=>assert.equal(sha(JSON.stringify(packet.witnesses.filter(w=>!changed.has(w.pathwayKey)).map(w=>w.pathwayKey===orKey?orPredecessor.witness:w.pathwayKey===caTool1Key?caTool1Predecessor.witness:w.pathwayKey===msMipKey?msMipPredecessor.witness:w.pathwayKey===mdPoliceKey?mdPolicePredecessor.witness:txHistorical.get(w.pathwayKey)??ilSdWyHistorical.get(w.pathwayKey)??w))),'dd48f2daa2b68b38926d3d619c91b92833db494fe5d63ae4f31218c1c5c2dba2'));
 // The MD source-stage successor changes only this synthetic transcript. Its
 // freshly answered release fact is not inferred from the former broad outcome.
 // Keep the ef0455 row in the original 253-row digest and pin all 266 other rows
@@ -121,7 +132,14 @@ check(()=>assert.equal(packetNextStepsPredecessors.sourceSha256,'fe56d26708583cd
 check(()=>assert.deepEqual([...packetNextStepsHistorical.keys()],packetNextStepsKeys));
 check(()=>assert.equal(packetNextStepsPredecessors.witnesses.length,5));
 check(()=>assert.ok(packetNextStepsKeys.every(key=>changed.has(key))));
-check(()=>assert.equal(sha(JSON.stringify(packet.witnesses.filter(w=>w.pathwayKey!==mdPoliceKey).map(w=>packetNextStepsHistorical.get(w.pathwayKey)??w))),'d76bb5240901c368a301bce1c769cb7cacd724c30af97aecd881cde6196d0538'));
+check(()=>assert.equal(sha(JSON.stringify(packet.witnesses.filter(w=>w.pathwayKey!==mdPoliceKey).map(w=>packetNextStepsHistorical.get(w.pathwayKey)??ilSdWyHistorical.get(w.pathwayKey)??w))),'d76bb5240901c368a301bce1c769cb7cacd724c30af97aecd881cde6196d0538'));
+// Current IL/SD/WY successors: the reviewed reason codes, payment still closed.
+for(const [key,code] of [[ilSdWyKeys[0],'il.prostitution_record_conflict'],[ilSdWyKeys[1],'sd.sis_prior_review'],[ilSdWyKeys[2],'wy.felony1502_disposition']])check(()=>{
+  const w=packet.witnesses.find(w=>w.pathwayKey===key);
+  assert.ok(w.terminalEvaluation.reasonCodes.includes(code),key);
+  assert.equal(w.terminalEvaluation.paymentAllowed,false,key);
+  assert.notDeepEqual(w,ilSdWyHistorical.get(key),key);
+});
 const packetReadyNextSteps = [
   'Your packet has been started. A few details may still be needed before it is ready to file.',
   'Complete the required packet facts in Briefcase before verification or payment.',

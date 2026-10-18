@@ -6054,7 +6054,7 @@
         "treatmentClassification": null,
         "selectedTrackId": null,
         "reasonCodes": [
-          "il.il_prostitution_felony_required_not_eligible"
+          "il.prostitution_record_conflict"
         ],
         "missingQuestionIds": []
       },
@@ -19099,6 +19099,34 @@
             "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
             "offense_level": "Misdemeanor"
           }
+        },
+        {
+          "round": 2,
+          "requested": [
+            "sd_sis_discharge_dismissal",
+            "sd_sis_granted",
+            "sd_sis_prior_felony",
+            "sd_sis_prior_sis",
+            "sd_sis_record_public",
+            "sd_sis_teaching_licence"
+          ],
+          "supplied": {
+            "sd_sis_discharge_dismissal": "Yes",
+            "sd_sis_granted": "Yes",
+            "sd_sis_prior_felony": "Yes",
+            "sd_sis_prior_sis": "Yes",
+            "sd_sis_record_public": "Yes",
+            "sd_sis_teaching_licence": "Yes"
+          }
+        },
+        {
+          "round": 3,
+          "requested": [
+            "sd_sis_specified_charge"
+          ],
+          "supplied": {
+            "sd_sis_specified_charge": "Yes"
+          }
         }
       ],
       "finalAnswers": {
@@ -19115,6 +19143,13 @@
         "possible_pathway_context": "Suspended-imposition-of-sentence sealing",
         "record_documents": "Yes",
         "resolved_timing_bucket": "gt_10_years",
+        "sd_sis_discharge_dismissal": "Yes",
+        "sd_sis_granted": "Yes",
+        "sd_sis_prior_felony": "Yes",
+        "sd_sis_prior_sis": "Yes",
+        "sd_sis_record_public": "Yes",
+        "sd_sis_specified_charge": "Yes",
+        "sd_sis_teaching_licence": "Yes",
         "sentence_completion_date": "Yes",
         "special_preconditions_confirmed": "Yes",
         "trafficking_status": "No"
@@ -19127,7 +19162,8 @@
         "treatmentClassification": null,
         "selectedTrackId": null,
         "reasonCodes": [
-          "sd.guidance_only_no_user_filed_court_petition"
+          "sd.guidance_only_no_user_filed_court_petition",
+          "sd.sis_prior_review"
         ],
         "missingQuestionIds": []
       },
@@ -23201,7 +23237,7 @@
         "treatmentClassification": null,
         "selectedTrackId": null,
         "reasonCodes": [
-          "wy.selected_pathway_rule_not_matched"
+          "wy.felony1502_disposition"
         ],
         "missingQuestionIds": []
       },
