@@ -1,4 +1,3 @@
-import { georgiaSb288QuestionApplies } from "@/lib/rcap-engine/georgia-sb288-facts";
 import { mdPoliceQuestionApplies } from "@/lib/rcap-engine/maryland-police-record-facts";
 import { ny16057QuestionApplies } from "@/lib/rcap-engine/ny-16057-guidance";
 import { nyMrtaDecision, nyMrtaQuestionApplies, NY_MRTA_ROUTE } from "@/lib/rcap-engine/ny-mrta-stage-facts";
@@ -195,7 +194,6 @@ export function selectScreeningQuestionIds(
     .filter(question => msProgramCompletionQuestionApplies(profile.jurisdiction.code, answers, question.id))
     .filter(question => msConditionalDischargeQuestionApplies(profile.jurisdiction.code, answers, question.id))
     .filter(question => kansasRecordScopeQuestionApplies(profile.jurisdiction.code, answers, question.id))
-    .filter(question => georgiaSb288QuestionApplies(profile, selectedPathway?.id, answers, question.id))
     .filter(question => georgiaPardonQuestionApplies(profile.jurisdiction.code, answers, question.id, selectedPathway?.id))
     .filter(question => georgiaFirstOffenderQuestionApplies(profile.jurisdiction.code, answers, question.id))
     .filter(question => illinoisCannabisQuestionApplies(profile.jurisdiction.code, answers, question.id))
