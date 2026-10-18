@@ -692,11 +692,11 @@
   "participantWorkload": {
     "note": "Source-model workload estimates under empty answers and screening-answerability metadata. These do not establish actual post-screening visibility or completed entry burden.",
     "totalParticipantEnteredFactsBefore": 5146,
-    "totalParticipantEnteredFactsAfter": 3105,
+    "totalParticipantEnteredFactsAfter": 3102,
     "totalFactsReusedFromScreening": 1885,
     "totalFactsDeterministicallyDerived": 14,
     "totalDuplicateAsksEliminated": 1885,
-    "totalConditionalFacts": 114,
+    "totalConditionalFacts": 117,
     "totalFilingReadinessFactsBeforeCheckout": 0,
     "totalExternalActorFieldsNeverAsked": 61,
     "enteredFactsBefore": {
@@ -707,7 +707,7 @@
     "enteredFactsAfter": {
       "max": 46,
       "median": 8,
-      "average": 9.05
+      "average": 9.04
     },
     "routesFlaggedUxNotActuallyReduced": 1
   },
@@ -11767,14 +11767,15 @@
           "charge",
           "contact_information",
           "court",
-          "offense_category",
           "offense_level"
         ],
         "renderRequired": [
           "participant_full_legal_name",
           "record_type"
         ],
-        "conditional": [],
+        "conditional": [
+          "offense_category"
+        ],
         "filingReadiness": [],
         "externalActor": [],
         "unresolved": []
@@ -11782,9 +11783,9 @@
       "counts": {
         "already_known": 2,
         "derived": 0,
-        "prepay_confirmation": 7,
+        "prepay_confirmation": 6,
         "render_required": 2,
-        "conditional": 0,
+        "conditional": 1,
         "filing_readiness": 0,
         "external_actor": 0,
         "unresolved": 0
@@ -11813,7 +11814,6 @@
             "factIds": [
               "age_at_offense",
               "charge",
-              "offense_category",
               "offense_level",
               "record_type"
             ]
@@ -11837,7 +11837,7 @@
         "currentVisibleScreens": 9,
         "newVisibleSections": 4,
         "currentParticipantEnteredFacts": 9,
-        "newParticipantEnteredFacts": 6,
+        "newParticipantEnteredFacts": 5,
         "factsReusedFromScreening": 3,
         "factsReusedFromScreeningIds": [
           "age_at_offense",
@@ -11849,24 +11849,25 @@
         "factsDeterministicallyDerivedIds": [],
         "pendingDerivedFactIds": [],
         "duplicateAsksEliminated": 3,
-        "conditionalFacts": 0,
-        "conditionalFactsSuppressedWhenIrrelevant": [],
+        "conditionalFacts": 1,
+        "conditionalFactsSuppressedWhenIrrelevant": [
+          "offense_category"
+        ],
         "filingReadinessFactsStillRequiredBeforeCheckout": 0,
         "externalActorFieldsNeverAsked": 0,
-        "totalAdditionalParticipantInteractionsAfterScreening": 6,
+        "totalAdditionalParticipantInteractionsAfterScreening": 5,
         "coherentParticipantInteractionsAfterScreening": 4,
-        "participantEnteredFactsDelta": 3,
+        "participantEnteredFactsDelta": 4,
         "uxNotActuallyReduced": false,
         "reductionLimitedBy": null
       },
       "prepayBudget": {
-        "confirmationFacts": 7,
-        "additionalConfirmationFacts": 4,
+        "confirmationFacts": 6,
+        "additionalConfirmationFacts": 3,
         "additionalFactIds": [
           "charge",
           "contact_information",
-          "court",
-          "offense_category"
+          "court"
         ],
         "target": 8,
         "cap": 12,
@@ -11914,7 +11915,6 @@
           "case_outcome",
           "charge",
           "contact_information",
-          "offense_category",
           "offense_level"
         ],
         "renderRequired": [
@@ -11922,7 +11922,9 @@
           "participant_full_legal_name",
           "record_type"
         ],
-        "conditional": [],
+        "conditional": [
+          "offense_category"
+        ],
         "filingReadiness": [],
         "externalActor": [],
         "unresolved": []
@@ -11930,9 +11932,9 @@
       "counts": {
         "already_known": 2,
         "derived": 0,
-        "prepay_confirmation": 6,
+        "prepay_confirmation": 5,
         "render_required": 3,
-        "conditional": 0,
+        "conditional": 1,
         "filing_readiness": 0,
         "external_actor": 0,
         "unresolved": 0
@@ -11961,7 +11963,6 @@
             "factIds": [
               "age_at_offense",
               "charge",
-              "offense_category",
               "offense_level",
               "record_type"
             ]
@@ -11985,7 +11986,7 @@
         "currentVisibleScreens": 9,
         "newVisibleSections": 4,
         "currentParticipantEnteredFacts": 9,
-        "newParticipantEnteredFacts": 6,
+        "newParticipantEnteredFacts": 5,
         "factsReusedFromScreening": 3,
         "factsReusedFromScreeningIds": [
           "age_at_offense",
@@ -11997,23 +11998,24 @@
         "factsDeterministicallyDerivedIds": [],
         "pendingDerivedFactIds": [],
         "duplicateAsksEliminated": 3,
-        "conditionalFacts": 0,
-        "conditionalFactsSuppressedWhenIrrelevant": [],
+        "conditionalFacts": 1,
+        "conditionalFactsSuppressedWhenIrrelevant": [
+          "offense_category"
+        ],
         "filingReadinessFactsStillRequiredBeforeCheckout": 0,
         "externalActorFieldsNeverAsked": 0,
-        "totalAdditionalParticipantInteractionsAfterScreening": 6,
+        "totalAdditionalParticipantInteractionsAfterScreening": 5,
         "coherentParticipantInteractionsAfterScreening": 4,
-        "participantEnteredFactsDelta": 3,
+        "participantEnteredFactsDelta": 4,
         "uxNotActuallyReduced": false,
         "reductionLimitedBy": null
       },
       "prepayBudget": {
-        "confirmationFacts": 6,
-        "additionalConfirmationFacts": 3,
+        "confirmationFacts": 5,
+        "additionalConfirmationFacts": 2,
         "additionalFactIds": [
           "charge",
-          "contact_information",
-          "offense_category"
+          "contact_information"
         ],
         "target": 8,
         "cap": 12,
@@ -12360,14 +12362,15 @@
           "charge",
           "contact_information",
           "court",
-          "offense_category",
           "offense_level",
           "record_type"
         ],
         "renderRequired": [
           "participant_full_legal_name"
         ],
-        "conditional": [],
+        "conditional": [
+          "offense_category"
+        ],
         "filingReadiness": [],
         "externalActor": [],
         "unresolved": []
@@ -12375,9 +12378,9 @@
       "counts": {
         "already_known": 2,
         "derived": 0,
-        "prepay_confirmation": 8,
+        "prepay_confirmation": 7,
         "render_required": 1,
-        "conditional": 0,
+        "conditional": 1,
         "filing_readiness": 0,
         "external_actor": 0,
         "unresolved": 0
@@ -12406,7 +12409,6 @@
             "factIds": [
               "age_at_offense",
               "charge",
-              "offense_category",
               "offense_level",
               "record_type"
             ]
@@ -12430,7 +12432,7 @@
         "currentVisibleScreens": 9,
         "newVisibleSections": 4,
         "currentParticipantEnteredFacts": 9,
-        "newParticipantEnteredFacts": 6,
+        "newParticipantEnteredFacts": 5,
         "factsReusedFromScreening": 3,
         "factsReusedFromScreeningIds": [
           "age_at_offense",
@@ -12442,24 +12444,25 @@
         "factsDeterministicallyDerivedIds": [],
         "pendingDerivedFactIds": [],
         "duplicateAsksEliminated": 3,
-        "conditionalFacts": 0,
-        "conditionalFactsSuppressedWhenIrrelevant": [],
+        "conditionalFacts": 1,
+        "conditionalFactsSuppressedWhenIrrelevant": [
+          "offense_category"
+        ],
         "filingReadinessFactsStillRequiredBeforeCheckout": 0,
         "externalActorFieldsNeverAsked": 0,
-        "totalAdditionalParticipantInteractionsAfterScreening": 6,
+        "totalAdditionalParticipantInteractionsAfterScreening": 5,
         "coherentParticipantInteractionsAfterScreening": 4,
-        "participantEnteredFactsDelta": 3,
+        "participantEnteredFactsDelta": 4,
         "uxNotActuallyReduced": false,
         "reductionLimitedBy": null
       },
       "prepayBudget": {
-        "confirmationFacts": 8,
-        "additionalConfirmationFacts": 5,
+        "confirmationFacts": 7,
+        "additionalConfirmationFacts": 4,
         "additionalFactIds": [
           "charge",
           "contact_information",
           "court",
-          "offense_category",
           "record_type"
         ],
         "target": 8,
