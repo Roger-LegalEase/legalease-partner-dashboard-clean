@@ -48,7 +48,6 @@ export function southDakotaSisFacts(a: Record<string, unknown>): { code: keyof t
   if (typeof a.court_requirements_completed !== "string" || !["yes", "no", "not_sure", "not_applicable"].includes(a.court_requirements_completed)) ids.push("court_requirements_completed");
   if (ids.length) return { code: "missing", ids };
   const review = (code: keyof typeof SD_SIS_COPY) => ({ code, ids: [] });
-  if (a.offense_level !== "Misdemeanor" && a.offense_level !== "Felony") return review("record_review");
   if (a.sd_sis_granted !== "Yes") return review("order_review");
   if (a.court_requirements_completed !== "yes" || a.sd_sis_discharge_dismissal !== "Yes") return review("duty_review");
   if (a.offense_level === "Felony") return review("felony_review");

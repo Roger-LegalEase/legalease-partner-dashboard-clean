@@ -7,6 +7,7 @@ import ts from 'typescript';
 register('./lib/ts-esm-loader.mjs',import.meta.url);
 const mutation=process.argv.find(a=>a.startsWith('--mutation='))?.slice(11);
 const mutations={
+ precedence:['south-dakota-sis-facts.ts','if (a.sd_sis_granted !== "Yes")','if (a.offense_level !== "Misdemeanor" && a.offense_level !== "Felony") return review("record_review"); if (a.sd_sis_granted !== "Yes")'],
  completion_settles:['south-dakota-sis-facts.ts','["yes", "no", "not_sure", "not_applicable"].includes(a.court_requirements_completed)','["yes", "no"].includes(a.court_requirements_completed)'],
  level_settles:['south-dakota-sis-facts.ts','["Felony", "Misdemeanor", "Infraction or violation", "Traffic or driving matter", "Municipal or ordinance matter"].includes(a.offense_level)','["Felony", "Misdemeanor"].includes(a.offense_level)'],
  consumer:['evaluator.ts','southDakotaSisContext(profile, evaluated.pathwayId) && evaluated.resultCode === "guidance_only"','false'],
@@ -67,6 +68,9 @@ for(const {id,value,draftHash}of predecessorCases)check('reviewer answered value
 });
 for(const id of ['court_requirements_completed','offense_level'])for(const raw of [undefined,'',[],{unexpected:true}])check('blank or malformed remains requested/'+id+'/'+JSON.stringify(raw),()=>{
  const answers={...base,[id]:raw},facts=G.southDakotaSisFacts(answers);assert.equal(facts.code,'missing');assert(facts.ids.includes(id));assert(evalFor(answers).evaluation.missingQuestionIds.includes(id));
+});
+for(const level of ['Infraction or violation','Traffic or driving matter','Municipal or ordinance matter'])for(const [patch,code]of [[{sd_sis_granted:'No'},'order_review'],[{court_requirements_completed:'no'},'duty_review'],[{sd_sis_prior_felony:'Yes'},'prior_review'],[{sd_sis_teaching_licence:'Yes',sd_sis_specified_charge:'Yes'},'licence_review'],[{[Stage.SD_SIS_STAGE_FACT_ID]:Stage.SD_SIS_STAGE_RECORD_CORRECTED},'stage_review'],[{sd_sis_record_public:'No'},'public_status_review']])check('specific SIS hold precedes general level review/'+level+'/'+code,()=>{
+ const r=decision({...patch,offense_level:level},code);assert.deepEqual(r.missingQuestionIds,[]);assert.equal(r.paymentAllowed,false);
 });
 check('complete record facts retain the original guidance hold',()=>{const r=decision({},'record_review');assert.equal(r.resultCode,'guidance_only');assert(r.reasons.some(r=>r.code==='sd.sis_record_review'));});
 for(const [patch,code]of [[{sd_sis_granted:'No'},'order_review'],[{sd_sis_discharge_dismissal:'No'},'duty_review'],[{court_requirements_completed:'no'},'duty_review'],[{offense_level:'Felony'},'felony_review'],[{sd_sis_prior_felony:'Yes'},'prior_review'],[{sd_sis_prior_sis:'Yes'},'prior_review'],[{sd_sis_teaching_licence:'Yes',sd_sis_specified_charge:'Yes'},'licence_review'],[{sd_sis_record_public:'No'},'public_status_review'],[{[Stage.SD_SIS_STAGE_FACT_ID]:Stage.SD_SIS_STAGE_RECORD_CORRECTED},'stage_review']])check(code+'/'+JSON.stringify(patch),()=>decision(patch,code));
