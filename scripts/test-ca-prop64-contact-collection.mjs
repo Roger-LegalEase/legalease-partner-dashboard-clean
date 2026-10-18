@@ -173,6 +173,22 @@ register('data:text/javascript,'+encodeURIComponent('export async function load(
 const {FilingContactFields}=await import('../src/components/expungement-ai/screening/fields/FilingContactFields.tsx');
 const {renderToStaticMarkup}=await import('react-dom/server');
 const nodes=tree=>Array.isArray(tree)?tree.flatMap(nodes):tree&&typeof tree==='object'&&tree.props?[tree,...nodes(tree.props.children)]:[];
+// N1: the privacy helper precedes filer selection; the address editor still needs the filer.
+{
+ const answers={[privacyId]:'Yes',participant_full_legal_name:'Synthetic Filer',ca_prop64_filing_court_county:'Yolo'},before=structuredClone(answers);
+ const question=caSafeAtHomeQuestion(answers),context=C.caContactContext(answers),saves=[];
+ assert.equal(question.helperText,adopted.en.helperYes,'N1 fresh Yes shows the adopted English helper');
+ assert.equal(question.translations.es.helperText,adopted.es.helperYes,'N1 fresh Yes shows the adopted Spanish helper');
+ assert.equal(context.representation,'');assert.equal(Boolean(context.safeAtHome),false);
+ for(const locale of ['en','es']){
+  globalThis.__caSafeHomeLocale=locale;
+  const tree=FilingContactFields({id:'fresh-privacy',factId:C.CA_FILER_CONTACT,value:[],context,onChange:v=>saves.push(v),ariaLabelledBy:'fresh-privacy-question'});
+  assert(nodes(tree).some(n=>n.props.role==='status'),'N1 editor still asks for filer confirmation');
+  assert(!renderToStaticMarkup(tree).includes('<input'),'N1 address inputs remain locked before filer selection');
+ }
+ assert.equal(saves.length,0);assert.deepEqual(answers,before);
+ checks.push({name:'N1 fresh Yes helper before filer selection; editor locked',pass:true});
+}
 for(const locale of ['en','es'])for(const representation of ['self_represented','attorney'])for(const version of ['ca_prop64_contacts_v1','ca_prop64_contacts_v2']){
  globalThis.__caSafeHomeLocale=locale;
  const context=C.caContactContext({ca_prop64_filer_representation:representation,participant_full_legal_name:'Synthetic Filer',ca_prop64_filing_court_county:'Yolo',[privacyId]:'Yes'}),old={...C.emptyCaContact(C.CA_FILER_CONTACT,{...context,safeAtHome:false}),version,street:'Old confidential residence',city:'Old city',state:'CA',zip:'95695',...(version.endsWith('_v1')?{phone:'530-555-0100'}:{})};
