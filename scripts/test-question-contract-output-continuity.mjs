@@ -1,5 +1,4 @@
 import {assertCaNoPhoneContactSourceSuccession,CA_NO_PHONE_CONTACT_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
-import {assertGaSb288CtPetitionSourceSuccession,GA_SB288_CT_PETITION_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertGaVaSpecSuccessorGatesSourceSuccession,GA_VA_SPEC_SUCCESSOR_GATES_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertGaPardonContactSuccessorSourceSuccession,GA_PARDON_CONTACT_SUCCESSOR_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertGaPardonSpecPinSourceSuccession,GA_PARDON_SPEC_PIN_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
@@ -859,14 +858,6 @@ check('CA no-phone hop preserves prior chain and refuses missing/tampered bytes'
  assert.throws(()=>assertQuestionContractOutputInputs(file=>file===CA_NO_PHONE_CONTACT_SOURCE_PATH?Buffer.from('{}'):readBytes(file)),/CA no-phone contact source succession record bytes changed/);
  assert.throws(()=>assertGaVaSpecSuccessorGatesSourceSuccession(file=>{if(file===CA_NO_PHONE_CONTACT_SOURCE_PATH)throw Error('missing CA no-phone record');return readBytes(file);}),/missing CA no-phone record/);
  assert.throws(()=>assertQuestionContractOutputInputs(input=>input==='src/lib/expungement-ai/ca-prop64-contact-answer.ts'?Buffer.from('drift'):readBytes(input)),/stale output input/);
-});
-
-check('GA SB288/CT petition hop preserves prior chain and refuses missing/tampered bytes',()=>{
- const c=assertGaSb288CtPetitionSourceSuccession(readBytes);assert.equal(c.currentChangedSourceCount,20);assert.equal(c.currentUnchangedSourceCount,178);
- assert.throws(()=>assertQuestionContractOutputInputs(file=>file===GA_SB288_CT_PETITION_SOURCE_PATH?Buffer.from('{}'):readBytes(file)),/GA SB288\/CT petition source succession record bytes changed/);
- assert.throws(()=>assertCaNoPhoneContactSourceSuccession(file=>{if(file===GA_SB288_CT_PETITION_SOURCE_PATH)throw Error('missing GA SB288/CT record');return readBytes(file);}),/missing GA SB288\/CT record/);
- for(const input of ['src/lib/rcap-engine/public-profile-projection.ts','src/lib/rcap-engine/screening-question-selection.ts'])
-  assert.throws(()=>assertQuestionContractOutputInputs(file=>file===input?Buffer.from('drift'):readBytes(file)),/stale output input/);
 });
 
 console.log(`PASS: ${checks} output-continuity and refusal controls; no new approval, protected journey or commercial authority.`);

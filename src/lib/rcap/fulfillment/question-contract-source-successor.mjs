@@ -387,13 +387,6 @@ function gaVaSpecSuccessorGatesChain(readBytes) {
 export const CA_NO_PHONE_CONTACT_SOURCE_PATH = 'data/rcap-grade-a/participant-data-rights/question-contract-source-succession-ca-no-phone-contact-20261017-v1.json';
 export const CA_NO_PHONE_CONTACT_SOURCE_SHA256 = 'd7e1ccbaa3e602513dacc3a9f5bafd42b7e8714fa0b37b3b95dd21b7772a20e2';
 export function assertCaNoPhoneContactSourceSuccession(readBytes) {
-  const { record } = caNoPhoneContactChain(readBytes);
-  // Retain the immutable CA no-phone 18/180 scope; the separately pinned GA SB288 /
-  // CT petition hop checks the complete current twenty-source chain without rewriting it.
-  assertGaSb288CtPetitionSourceSuccession(readBytes);
-  return record;
-}
-function caNoPhoneContactChain(readBytes) {
   const bytes=readBytes(CA_NO_PHONE_CONTACT_SOURCE_PATH);
   insist(sha(bytes)===CA_NO_PHONE_CONTACT_SOURCE_SHA256,'CA no-phone contact source succession record bytes changed');
   const record=JSON.parse(bytes.toString('utf8'));
@@ -412,38 +405,9 @@ function caNoPhoneContactChain(readBytes) {
     insist(row.beforeSha256===(current.get(row.file)??(row.file==='src/lib/expungement-ai/ca-prop64-contact-answer.ts'?'a58c7412563351190a6f7774ab2fa8948569ea7b1e6c6f41e15881e4bca85072':null)),'CA no-phone contact disconnected source hop');current.set(row.file,row.afterSha256);
   }
   insist(current.size===18,'CA no-phone contact current eighteen-source inventory');
-  return { record, current };
-}
-
-// Exact GA SB288 / CT clean-slate petition record-fact question hop (GA-12 registered members).
-export const GA_SB288_CT_PETITION_SOURCE_PATH = 'data/rcap-grade-a/participant-data-rights/question-contract-source-succession-ga-sb288-ct-petition-20261018-v1.json';
-export const GA_SB288_CT_PETITION_SOURCE_SHA256 = '34a11db937b9fbbb7e6307bb01a6bcda8fb459974b47e5f310e8908084803f56';
-export function assertGaSb288CtPetitionSourceSuccession(readBytes) {
-  const bytes=readBytes(GA_SB288_CT_PETITION_SOURCE_PATH);
-  insist(sha(bytes)===GA_SB288_CT_PETITION_SOURCE_SHA256,'GA SB288/CT petition source succession record bytes changed');
-  const record=JSON.parse(bytes.toString('utf8'));
-  const { record: caNoPhone, current }=caNoPhoneContactChain(readBytes);
-  insist(record.schemaVersion==='rcap-question-contract-ga-sb288-ct-petition-source-succession/v1'
-    && record.recordId==='GA-SB288-CT-PETITION-SOURCE-SUCCESSION-20261018'
-    && record.kind==='technical_source_only' && record.engineeringCommit==='e3005392c82b31c419ad7ff91d77b12fd65a722b'
-    && equal(record.previousNamedSource,{path:CA_NO_PHONE_CONTACT_SOURCE_PATH,sha256:CA_NO_PHONE_CONTACT_SOURCE_SHA256,currentChangedSourceCount:18,currentUnchangedSourceCount:180})
-    && equal(record.historicalContinuity,caNoPhone.historicalContinuity) && equal(record.historicalOutput,caNoPhone.historicalOutput)
-    && record.sourceCount===198 && record.currentChangedSourceCount===20 && record.currentUnchangedSourceCount===178
-    && equal(record.historicalArtifactScope,{routeCount:6,artifactCount:18,reexecuted:false,changed:false})
-    && ['createsOwnerApproval','changesHistoricalOutputEvidence','establishesCurrentOutputReproduction','establishesProtectedVerification','establishesProviderOrPublicationProof','commercialAuthorityGranted','productionAuthorized'].every(key=>record[key]===false),'GA SB288/CT petition source succession scope');
-  insist(Array.isArray(record.transitions) && equal(record.transitions.map(row=>row.file),['src/lib/rcap-engine/public-profile-projection.ts','src/lib/rcap-engine/screening-question-selection.ts']),'GA SB288/CT petition source succession inventory');
-  insist(current.size===18,'GA SB288/CT petition prior eighteen-source inventory');
-  const v21={
-      'src/lib/rcap-engine/public-profile-projection.ts':'6d8c35cbfc08cb52e6e48660ac64ca3bcca23dcbd9e0eec1a412089b0e043483',
-      'src/lib/rcap-engine/screening-question-selection.ts':'a1b5089b63d68ae921223164567b9206f514b7592222666e7b57f19c23531879',
-  };
-  for(const row of record.transitions){
-    insist(row.beforeSha256===(current.get(row.file)??v21[row.file]??null),'GA SB288/CT petition disconnected source hop');current.set(row.file,row.afterSha256);
-  }
-  insist(current.size===20,'GA SB288/CT petition current twenty-source inventory');
   // Always fresh, including after success or a previous failed read. No accessor
   // recursion: prior records are read as exact pinned raw bytes.
-  for(const [file,digest]of current)insist(sha(readBytes(file))===digest,`stale output input: ${file}; exact GA SB288/CT petition source succession`);
+  for(const [file,digest]of current)insist(sha(readBytes(file))===digest,`stale output input: ${file}; exact CA no-phone contact source succession`);
   return record;
 }
 
@@ -459,19 +423,16 @@ function assertCurrentOutputSourceInput(file, expectedSha256, readBytes, label) 
   const gaContact = assertGaPardonContactSuccessorSourceSuccession(readBytes).transitions.find(input => input.file === file);
   const gates = assertGaVaSpecSuccessorGatesSourceSuccession(readBytes).transitions.find(input => input.file === file);
   const caNoPhone = assertCaNoPhoneContactSourceSuccession(readBytes).transitions.find(input => input.file === file);
-  const gaCt = assertGaSb288CtPetitionSourceSuccession(readBytes).transitions.find(input => input.file === file);
   const caDigest = ca ? ca.afterSha256 : previousDigest;
   const nyDigest = ny ? ny.afterSha256 : caDigest;
   const gaDigest = ga ? ga.afterSha256 : nyDigest;
   const contactDigest = gaContact ? gaContact.afterSha256 : gaDigest;
   const gatesDigest = gates ? gates.afterSha256 : contactDigest;
-  const caNoPhoneDigest = caNoPhone ? caNoPhone.afterSha256 : gatesDigest;
-  const currentDigest = gaCt ? gaCt.afterSha256 : caNoPhone ? caNoPhone.afterSha256 : gates ? gates.afterSha256 : gaContact ? gaContact.afterSha256 : ga ? ga.afterSha256 : ny ? ny.afterSha256 : ca?.afterSha256 ?? row?.afterSha256;
-  insist((row ? row.beforeSha256 === expectedSha256 : ca != null || ny != null || ga != null || gaContact != null || gates != null || caNoPhone != null || gaCt != null)
+  const currentDigest = caNoPhone ? caNoPhone.afterSha256 : gates ? gates.afterSha256 : gaContact ? gaContact.afterSha256 : ga ? ga.afterSha256 : ny ? ny.afterSha256 : ca?.afterSha256 ?? row?.afterSha256;
+  insist((row ? row.beforeSha256 === expectedSha256 : ca != null || ny != null || ga != null || gaContact != null || gates != null || caNoPhone != null)
     && (!ca || ca.beforeSha256 === previousDigest) && (!ny || ny.beforeSha256 === caDigest)
     && (!ga || ga.beforeSha256 === nyDigest) && (!gaContact || gaContact.beforeSha256 === gaDigest)
     && (!gates || gates.beforeSha256 === contactDigest) && (!caNoPhone || caNoPhone.beforeSha256 === gatesDigest)
-    && (!gaCt || gaCt.beforeSha256 === caNoPhoneDigest)
     && currentDigest === actual, `${label}: ${file}`);
 }
 
