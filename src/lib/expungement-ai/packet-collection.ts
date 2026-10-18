@@ -569,6 +569,13 @@ export function nvProgramCategoryIsHistory(profile: EngineProfile | undefined, p
     && contactRepresentationHash(specification) === "94ed0589dab1e02886759605f2eac2afd4baf7bb3f0a1f6d4f18fcb24603182c";
 }
 
+// GA-17 Q-a5553f6ecf41c327337e: compiled metadata does not authorize an exclusive record taxonomy.
+export function caTool4RecordIsHistory(profile: EngineProfile | undefined, pathwayId: string | null | undefined,
+  specification: RegisteredSpecification | null | undefined): boolean {
+  return profile?.jurisdiction.code === "CA" && pathwayId === "tool-4-arrest-record-sealing"
+    && specification == null && contactRepresentationHash(profile) === "754b7bb08f3b9010549c686c1571eeeb850afc8ac256cf28b20f25a1c6ef4a0f";
+}
+
 const DERIVATIONS: Readonly<Record<string, Derivation>> = {
   // The last four digits are a projection of the number itself, never a
   // separate thing to ask for.
@@ -758,6 +765,7 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
     && ca12034RecordIsContext(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
   const ca12034aRecordContext = input.jurisdiction === "CA"
     && ca12034aRecordIsContext(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
+  const caTool4RecordHistory = caTool4RecordIsHistory(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
   const caAutomaticRecordContext = input.jurisdiction === "CA"
     && caAutomaticRecordIsContext(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
   const arFelonyRecordContext = input.jurisdiction === "AR"
@@ -1304,6 +1312,17 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
         group:factId === "record_type" && retained ? group:null,
         active:factId === "record_type" && retained,optional:true,source:"ca_12034_specific_probation_facts",
         reason:"The specific conviction, probation, current-status and requested-election facts govern this procedure. Earlier taxonomy and broad completion answers remain history, not substitutes or debt gates."});
+      continue;
+    }
+
+    if (factId === "record_type" && caTool4RecordHistory && !overrideClass && !needsHuman.has(factId)
+      && !input.recordOwnQuestionIds?.has(factId)) {
+      const retained = [input.screeningAnswers, input.prefilledAnswers, input.savedAnswers, input.profileFacts]
+        .some(answers => answers && Object.hasOwn(answers, factId));
+      facts.push({ factId, collection: "conditional", phase: retained ? "render" : "known",
+        group: retained ? group : null, active: retained, optional: true,
+        source: "ca_tool4_record_type_history",
+        reason: "The earlier overlapping labels do not select an arrest-sealing procedure or establish a final disposition. They remain optional history; current route results and fulfillment authority remain separate." });
       continue;
     }
 
