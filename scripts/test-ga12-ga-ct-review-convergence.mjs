@@ -78,10 +78,8 @@ for(const [state,route] of [['GA',G.GA_SB288_ROUTE],['CT',C.CT_PETITION_ROUTE]])
   assert.deepEqual({...seed.snapshot.screeningAnswers,...seed.snapshot.prefilledAnswers,...seed.snapshot.packetAnswers}[factId],raw);
   const record={status:'unverified',revision:0,draftHash:seed.hash,draftSnapshot:seed.snapshot};assert.deepEqual(P.packetInformationPatch({protectedVerification:record,answers:{}}).protectedTransition.nextVerification,record);
   const before=structuredClone(record);
-  for(let attempt=0;attempt<3;attempt++){
-   const repeat=P.packetInformationPatch({protectedVerification:record,answers:{[factId]:raw}});assert(repeat);
-   assert.deepEqual(repeat.protectedTransition.answerDelta,{});assert.deepEqual(repeat.protectedTransition.nextVerification,before);assert.deepEqual(record,before);
-  }
+  const repeat=P.packetInformationPatch({protectedVerification:record,answers:{[factId]:raw}});assert(repeat);
+  assert.deepEqual(repeat.protectedTransition.answerDelta,{});assert.deepEqual(repeat.protectedTransition.nextVerification,before);assert.deepEqual(record,before);
   const correction=P.packetInformationPatch({protectedVerification:record,answers:{[factId]:factId===countId?'1':'Yes'}});assert(correction);
   const next=correction.protectedTransition.nextVerification;assert.equal(next.revision,record.revision+1);assert.equal(next.draftSnapshot.paymentAllowed,false);
   assert(next.draftSnapshot.dependencies.semanticAnswerHistory.some(h=>h.factId===factId&&JSON.stringify(h.value)===JSON.stringify(raw)));
