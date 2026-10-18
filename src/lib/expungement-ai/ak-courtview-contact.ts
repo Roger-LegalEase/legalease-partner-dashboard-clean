@@ -42,12 +42,16 @@ export function akCourtviewSalesPolicy(state: string, pathwayId: string | null, 
   const confirmed = values.length > 0 && values.every(value => value !== null && value === values[0]);
   if (confirmed && values[0] === "Yes") return { allowed: true as const };
   const notNeeded = confirmed && values[0] === "No";
+  const conflicting = values.some(value => value !== values[0]);
   return {
     allowed: false as const,
     reason: notNeeded ? "ak_tf810_request_not_needed" : "ak_tf810_public_status_unconfirmed",
     guidance: notNeeded ? {
       en: "Because this case no longer appears on CourtView's public index, TF-810 is not needed for it. No payment is taken for this request.",
       es: "Como este caso ya no aparece en el índice público de CourtView, no se necesita el formulario TF-810 para este caso. No se cobra por esta solicitud."
+    } : conflicting ? {
+      en: "Your saved answers to this question do not match each other, so no payment is taken. Your answers have not been changed.",
+      es: "Sus respuestas guardadas para esta pregunta no coinciden entre sí, así que no se cobra. Sus respuestas no se han cambiado."
     } : {
       en: "Check CourtView, the Alaska court system's public case search, for this case first. If it still appears there, come back and answer Yes. No payment is taken until you confirm that.",
       es: "Primero busque este caso en CourtView, la búsqueda pública de casos del sistema judicial de Alaska. Si todavía aparece, vuelva y responda Sí. No se cobra hasta que lo confirme."
@@ -108,14 +112,21 @@ const QUESTIONS: ProfileQuestion[] = [
     "¿Qué dirección de correo electrónico, si alguna, decide proporcionar la persona solicitante en TF-810?",
     "El correo electrónico es opcional. Al proporcionar una dirección, acepta que el tribunal y las demás partes le envíen documentos judiciales a esa dirección. Déjela en blanco si no elige este método de envío. No se selecciona automáticamente el correo de una cuenta ni una respuesta de contacto anterior.", false)
 ];
-export function akCourtviewContactQuestions(state: string, pathwayId: string | null, answers: Record<string, unknown>, includeInactive = false): ProfileQuestion[] {
+export function akCourtviewContactQuestions(state: string, pathwayId: string | null, answers: Record<string, unknown>, includeInactive = false,
+  copies: AkCourtviewSalesAnswers = { packetAnswers: answers }): ProfileQuestion[] {
   const ids = new Set(akCourtviewContactIds(state, pathwayId, answers, includeInactive));
-  const policy = akCourtviewSalesPolicy(state, pathwayId, { packetAnswers: answers });
+  const policy = akCourtviewSalesPolicy(state, pathwayId, copies);
   return QUESTIONS.filter(q => ids.has(q.id)).map(q => {
     const question = structuredClone(q);
-    if (question.id === AK_TF810_PUBLIC_ID && policy?.allowed === false) {
-      question.helperText += ` ${policy.guidance.en}`;
-      question.translations!.es!.helperText += ` ${policy.guidance.es}`;
+    if (question.id === AK_TF810_PUBLIC_ID) {
+      // A saved value outside the choices (e.g. an older Spanish label) stays saved;
+      // the shared notice asks for an explicit current choice instead of guessing one.
+      const saved = answers[AK_TF810_PUBLIC_ID];
+      if (typeof saved === "string" && saved.trim() && !question.options!.includes(saved)) question.savedAnswerNeedsClarification = true;
+      if (policy?.allowed === false) {
+        question.helperText += ` ${policy.guidance.en}`;
+        question.translations!.es!.helperText += ` ${policy.guidance.es}`;
+      }
     }
     return question;
   });

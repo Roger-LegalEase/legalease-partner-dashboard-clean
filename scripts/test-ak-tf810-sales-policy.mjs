@@ -31,6 +31,8 @@ const no = "Because this case no longer appears on CourtView's public index, TF-
 const unsure = "Check CourtView, the Alaska court system's public case search, for this case first. If it still appears there, come back and answer Yes. No payment is taken until you confirm that.";
 const noEs = 'Como este caso ya no aparece en el índice público de CourtView, no se necesita el formulario TF-810 para este caso. No se cobra por esta solicitud.';
 const unsureEs = 'Primero busque este caso en CourtView, la búsqueda pública de casos del sistema judicial de Alaska. Si todavía aparece, vuelva y responda Sí. No se cobra hasta que lo confirme.';
+const conflict = 'Your saved answers to this question do not match each other, so no payment is taken. Your answers have not been changed.';
+const conflictEs = 'Sus respuestas guardadas para esta pregunta no coinciden entre sí, así que no se cobra. Sus respuestas no se han cambiado.';
 const maps = ['screeningAnswers', 'prefilledAnswers', 'packetAnswers'];
 const snapshotFor = (raw, map = 'packetAnswers') => {
   const snapshot = structuredClone(seed.snapshot);
@@ -59,7 +61,8 @@ for (const [name, copies, allowed] of [
 ]) {
   const snapshot = snapshotFor(undefined);
   maps.forEach((map, i) => { snapshot[map][id] = copies[i]; });
-  cases.push({ name, snapshot, allowed, reason: 'ak_tf810_public_status_unconfirmed', guidance: unsure, es: unsureEs });
+  // Disagreeing copies keep the same refusal code but explain the disagreement itself.
+  cases.push({ name, snapshot, allowed, reason: 'ak_tf810_public_status_unconfirmed', guidance: conflict, es: conflictEs });
 }
 let checks = 0;
 const check = async (name, fn) => { try { await fn(); checks++; } catch (e) { e.message = `${name}: ${e.message}`; throw e; } };

@@ -143,6 +143,8 @@ const reload = async()=>{
   const question=body.questions.find(q=>q.id===id);assert(question,'reload publishes the TF-810 question');
   return {question,value:body.answers[id]};
 };
+const conflictText='Your saved answers to this question do not match each other, so no payment is taken. Your answers have not been changed.';
+const conflictTextEs='Sus respuestas guardadas para esta pregunta no coinciden entre sí, así que no se cobra. Sus respuestas no se han cambiado.';
 // Spanish interaction through the real QuestionField/OptionGroup in Chromium (house pattern: test-ga21-optional-context-ui.mjs).
 let browser,page;
 const spanishUi = async(question,saved)=>{
@@ -218,6 +220,23 @@ try {
       assert((await ui.locator('[data-test-question]').innerText()).includes('No se cobra hasta que lo confirme'),'Spanish payment guidance shown for the unsure answer');
       console.log(JSON.stringify({step:'spanish_reload_display',name,reloaded:again.value,displayed:'No estoy seguro'}));
     }
+    if(name==='conflicting'){
+      const again=await reload();
+      assert(again.question.helperText.includes(conflictText),'reload explains the disagreeing copies');
+      assert(again.question.translations.es.helperText.includes(conflictTextEs));
+      const ui=await spanishUi(again.question,again.value);
+      assert((await ui.locator('[data-test-question]').innerText()).includes(conflictTextEs),'Spanish UI shows the disagreement');
+      console.log(JSON.stringify({step:'conflict_reload_display',name,explained:true}));
+    }
+    if(name==='spanish-legacy'){
+      const again=await reload();assert.equal(again.value,'No estoy seguro','reload keeps the older raw answer');
+      assert.equal(again.question.savedAnswerNeedsClarification,true);
+      const ui=await spanishUi(again.question,again.value);
+      assert.equal(await ui.locator('input[type=radio]:checked').count(),0,'an unreadable older answer is never shown as a guessed choice');
+      const notice=await ui.locator('[data-saved-answer-clarification]').innerText();
+      assert(notice.includes('Una respuesta anterior no se puede mostrar aquí')&&notice.includes('indicar que no lo sabe'),'actionable clarification in Spanish');
+      console.log(JSON.stringify({step:'legacy_reload_display',name,reloaded:again.value,clarification:true}));
+    }
     const verifiedBefore=structuredClone(stored);
     for(mode of ['valid','missing','invalid']) {
       trace=[];bindings=[];providerAttempts=0;
@@ -237,7 +256,20 @@ try {
       } else {
         assert.equal(response.status,403,`${name}: actual checkout HTTP policy refusal`);
         assert.equal(body.resultCode,name==='no'?'ak_tf810_request_not_needed':'ak_tf810_public_status_unconfirmed');assert.equal(body.amountCents,undefined);assert.equal(bindings.length,0);assert.equal(providerAttempts,0);
+        if(name==='conflicting')assert.equal(body.error,conflictText,'checkout refusal explains the disagreeing copies');
       }
+    }
+    if(name==='spanish-legacy'){
+      // The clarification is actionable: an explicit choice through the real control replaces the older value.
+      const ui=await spanishUi((await reload()).question,'No estoy seguro');
+      await ui.getByRole('radio',{name:'No estoy seguro',exact:true}).click();
+      await ui.waitForFunction(()=>window.__raw()==='I am not sure');
+      const replaced=await save({[id]:await ui.evaluate(()=>window.__raw())});assert.equal(replaced.status,200);
+      const after=await reload();assert.equal(after.value,'I am not sure');assert.notEqual(after.question.savedAnswerNeedsClarification,true);
+      const shown=await spanishUi(after.question,after.value);
+      assert((await shown.locator('label:has(input[type=radio]:checked)').innerText()).includes('No estoy seguro'));
+      assert.equal(await shown.locator('[data-saved-answer-clarification]').count(),0);
+      console.log(JSON.stringify({step:'legacy_explicit_replacement',name,saved:after.value}));
     }
   }
 } finally {
