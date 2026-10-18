@@ -231,8 +231,8 @@ const COPY: Record<GuideLocale, Words> = {
     inside: [
       { title: "Pasos siguientes", description: "Adónde ir, qué hacer y qué ocurre después de presentar." },
       { title: "Lista de verificación", description: "Una revisión final antes, durante y después de presentar." },
-      { title: "Tarifas y costos", description: "Tarifas del tribunal o agencia, pagos e información sobre exención." },
-      { title: "Documentos para el tribunal", description: "Sus formularios, escritos, mociones y órdenes comienzan después de esta guía." }
+      { title: "Tarifas y costos", description: "Tarifas conocidas del tribunal o de la agencia, detalles de pago e información sobre la exención de tarifas." },
+      { title: "Documentos para el tribunal", description: "Sus formularios, escritos, mociones, órdenes y anexos comienzan después de esta guía." }
     ],
     important: "IMPORTANTE",
     importantBody: "Estas páginas complementarias son para usted. No las presente ante el secretario ni el tribunal. "
@@ -247,7 +247,7 @@ const COPY: Record<GuideLocale, Words> = {
     colDocument: "DOCUMENTO PARA EL TRIBUNAL", colSigned: "¿FIRMADO?", colCopies: "COPIAS", colAttach: "¿ADJUNTAR / PRESENTAR?",
     fees: "Tarifas y costos",
     feesLead: "Separe el costo de su paquete de Expungement.ai de los costos del tribunal, la agencia, "
-      + "la notificación, las certificaciones y otros terceros.",
+      + "la notificación, las certificaciones y otros costos de terceros que puedan aplicarse a su presentación.",
     estimate: "COSTO ESTIMADO DE PRESENTACIÓN",
     lastVerified: "Verificado por última vez", officialSource: "Fuente oficial",
     breakdown: "DESGLOSE DE TARIFAS",
