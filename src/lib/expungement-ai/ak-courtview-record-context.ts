@@ -21,7 +21,7 @@ export function akCourtviewRecordIsContext(
   return profile?.jurisdiction.code === "AK" && pathwayId === AK_COURTVIEW_PATHWAY
     && contactRepresentationHash(profile) === "7489686e1c7c6ed4b4406cb8d81f712ba199da49b7211dec92be030610da1bc7"
     && specification == null
-    && contactRepresentationHash(currentMap) === "c032e7c13efe2db6111da24d8531d28e623a523c1d764e360dbdd95e616afa82"
+    && contactRepresentationHash(currentMap) === "d983964d526fc6579809076ec76d4ea089f0bc63ab969f1bb5d57940d8eaabb3"
     && !JSON.stringify(currentMap).includes(AK_LEGACY_RECORD_TYPE);
 }
 
