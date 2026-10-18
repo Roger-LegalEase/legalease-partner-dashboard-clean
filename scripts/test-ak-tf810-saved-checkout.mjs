@@ -131,7 +131,7 @@ assert.equal(id,'ak_tf810_case_still_public');
 assert(seed);assert.equal(seed.snapshot.pathwayId,route);assert.equal(getCurrentFulfillmentRecord(routeId),null);
 const original={status:'unverified',revision:0,draftHash:seed.hash,draftSnapshot:seed.snapshot};
 const common={participant_full_legal_name:'TEST Requester',contact_information:'TEST requester contact',residency_or_location:'TEST Anchorage',charge:'TEST dismissed misdemeanor',court:'TEST Anchorage District Court',criminal_history:'No'};
-const contact={ak_tf810_case_number:'TEST-3AN-00001',ak_tf810_contact_address:'TEST 10 Example Lane',ak_tf810_contact_phone:'+1 907 555 0100'};
+const contact={ak_tf810_ground:"1",ak_tf810_case_number:'TEST-3AN-00001',ak_tf810_contact_address:'TEST 10 Example Lane',ak_tf810_contact_phone:'+1 907 555 0100'};
 const saveUrl=`http://local.test/api/expungement-ai/briefcase/${item.id}/packet-information`, context={params:Promise.resolve({itemId:item.id})};
 const save = async(answers,verify=false)=>{
   const response=await saveApi.POST(new Request(saveUrl,{method:'POST',body:JSON.stringify({expectedRevision:stored.revision,answers,verify})}),context);

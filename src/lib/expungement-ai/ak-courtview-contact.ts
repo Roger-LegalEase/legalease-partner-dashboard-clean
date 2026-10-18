@@ -200,23 +200,28 @@ const textQuestion = (id: string, prompt: string, helperText: string, es: string
   lifecyclePhase: "postpay_official_form_field", options: null, prompt, helperText,
   translations: { es: { prompt: es, helperText: esHelper } }
 });
-function groundQuestion(id: string, choices: string[], promptId: string, helperText: string): ProfileQuestion {
+function groundQuestion(id: string, choices: string[], promptId: string, helperText: string, esHelper: string): ProfileQuestion {
   const prompt = AK_TF810_GROUND_CHOICES.find(c => c.id === promptId)!;
   return { id, stage: "packet_information", type: "single_choice", required: true, contextOnly: false,
     lifecyclePhase: "postpay_official_form_field", prompt: prompt.en, helperText,
-    translations: { es: { prompt: prompt.es } }, options: [...choices, "I am not sure"],
+    translations: { es: { prompt: prompt.es, helperText: esHelper } }, options: [...choices, "I am not sure"],
     optionDisplay: Object.fromEntries([...AK_TF810_GROUND_CHOICES.filter(c => choices.includes(c.id)).map(c =>
       [c.id, { label: c.en, translations: { es: { label: c.es } } }]),
       ["I am not sure", { label: "I am not sure", translations: { es: { label: "No estoy seguro" } } }]]) };
 }
 const QUESTIONS: ProfileQuestion[] = [
   groundQuestion(AK_TF810_GROUND_ID, ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"], "lead-in",
-    "Choose the printed ground you believe applies. Only your explicit choice marks the form; earlier screening answers never select it. An incomplete draft is not ready to file. For ground 4 you supply proof of SIS and/or the order setting aside; for ground 9 you supply the sealing or confidentiality order. Sign and date the form yourself; the clerk completes the Response block."),
-  groundQuestion("ak_tf810_ground_2_detail", ["2a", "2b"], "2", "Select the printed reason for ground 2. No sub-choice is inferred from the main ground or earlier answers."),
-  groundQuestion("ak_tf810_ground_3_detail", ["3a", "3b"], "3", "Select the printed reason for ground 3. No sub-choice is inferred from the main ground or earlier answers."),
+    "Choose the printed ground you believe applies. Only your explicit choice marks the form; earlier screening answers never select it. An incomplete draft is not ready to file. For ground 4 you supply proof of SIS and/or the order setting aside; for ground 9 you supply the sealing or confidentiality order. Sign and date the form yourself; the clerk completes the Response block.",
+    "Elija el motivo impreso que usted considere aplicable. Solo su elección explícita marca el formulario; las respuestas anteriores de la evaluación nunca lo seleccionan. Un borrador incompleto no está listo para presentarse. Para el motivo 4, usted aporta la prueba de la SIS, de la orden de anulación, o de ambas; para el motivo 9, usted aporta la orden de sellado o de confidencialidad. Firme y feche el formulario personalmente; la secretaría del tribunal completa el bloque de respuesta (Response)."),
+  groundQuestion("ak_tf810_ground_2_detail", ["2a", "2b"], "2", "Select the printed reason for ground 2. No sub-choice is inferred from the main ground or earlier answers.",
+    "Seleccione la razón impresa para el motivo 2. No se deduce ninguna subopción a partir del motivo principal ni de respuestas anteriores."),
+  groundQuestion("ak_tf810_ground_3_detail", ["3a", "3b"], "3", "Select the printed reason for ground 3. No sub-choice is inferred from the main ground or earlier answers.",
+    "Seleccione la razón impresa para el motivo 3. No se deduce ninguna subopción a partir del motivo principal ni de respuestas anteriores."),
   { id: "ak_tf810_ground_rule", stage: "packet_information", type: "text_or_unknown", required: true, contextOnly: false,
     lifecyclePhase: "postpay_official_form_field", options: null, prompt: "List specific rule or statute number.",
-    helperText: "For ground 10, enter the specific Alaska rule or statute you rely on. It is copied as your answer, not supplied or verified by the platform. If unknown, leave the draft incomplete." },
+    helperText: "For ground 10, enter the specific Alaska rule or statute you rely on. It is copied as your answer, not supplied or verified by the platform. If unknown, leave the draft incomplete.",
+    translations: { es: { prompt: "Indique el número específico de la regla o la ley.",
+      helperText: "Para el motivo 10, indique la regla o ley específica de Alaska en la que se basa. Se copia como su respuesta; la plataforma no la proporciona ni la verifica. Si no la sabe, deje el borrador incompleto." } } },
   { id: AK_TF810_PUBLIC_ID, stage: "packet_information", type: "single_choice", required: false, contextOnly: false,
     lifecyclePhase: "postpay_official_form_field", options: ["Yes", "No", "I am not sure"],
     prompt: "Is this case still showing on the public CourtView website?",
