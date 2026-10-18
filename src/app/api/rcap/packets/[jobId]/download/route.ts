@@ -1,5 +1,5 @@
 import { after, NextResponse } from "next/server";
-import { getRcapBriefcaseAuthState } from "@/lib/rcap/briefcase/auth";
+import { requireConsumerBriefcaseApiSession } from "@/lib/expungement-ai/privacy/api-session";
 import { getBriefcaseItem } from "@/lib/expungement-ai/briefcase";
 import { requireCurrentPacketVerification } from "@/lib/expungement-ai/packet-information";
 import { consumerMatterIdForItem } from "@/lib/expungement-ai/consumer-identity";
@@ -27,7 +27,8 @@ export async function GET(
   try {
     const { jobId } = await params;
 
-    const auth = await getRcapBriefcaseAuthState();
+    const session = await requireConsumerBriefcaseApiSession();
+    if (!session.ok) return session.response;
     const storage = getPacketArtifactStorage();
     if (!storage) {
       return NextResponse.json({ error: "Packet downloads are not available right now." }, { status: 503, headers: privateDownloadHeaders() });
@@ -37,18 +38,17 @@ export async function GET(
       getJob: async (id) => {
         const job = await getRenderJob(id);
         if (job?.routeId === "IL:felony-prostitution-relief"
-          && !resolveConsumerDeliveryAccess({ subjectId: auth.userId ?? null }).allowed) return null;
+          && !resolveConsumerDeliveryAccess({ subjectId: session.userId }).allowed) return null;
         if (job) {
           ports.getCurrentVerification = async (itemId) => {
-            if (!auth.userId) return null;
-            const item = await getBriefcaseItem(auth.userId, itemId);
+            const item = await getBriefcaseItem(session.userId, itemId);
             if (!item) return null;
             try {
-              const verification = await requireCurrentPacketVerification(auth.userId, item);
+              const verification = await requireCurrentPacketVerification(session.userId, item);
               return {
                 snapshot: verification.snapshot,
                 hash: verification.hash,
-                ownerUserId: auth.userId,
+                ownerUserId: session.userId,
                 matterId: consumerMatterIdForItem(item.id),
                 alreadyDownloaded: job.status === "delivered"
               };
@@ -66,7 +66,7 @@ export async function GET(
 
     const decision = await authorizePacketDownload(ports, {
       jobId,
-      userId: auth.isAuthenticated && auth.userId ? auth.userId : null
+      userId: session.userId
     });
 
     if (!decision.ok) {
@@ -75,7 +75,7 @@ export async function GET(
 
     return await streamAuthorizedPacket(ports, decision, {
       waitUntil: after,
-      userId: auth.userId as string,
+      userId: session.userId,
       requestContext: {
         surface: "briefcase_download",
         userAgentClass: /mobile|iphone|android/i.test(request.headers.get("user-agent") ?? "") ? "mobile" : "desktop"
