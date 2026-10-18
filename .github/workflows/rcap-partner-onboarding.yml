@@ -77,6 +77,11 @@ jobs:
             sudo apt-get install -y --no-install-recommends poppler-utils
           fi
 
+      # The TF-810 saved-checkout check drives the real Spanish control in Chromium;
+      # the browser comes from the committed package-lock's Playwright.
+      - name: Install the browser the Spanish control check drives
+        run: npx --yes playwright install --with-deps chromium
+
       - name: Verify nationwide correction boundaries
         run: |
           node scripts/generate-rcap-public-witness-answer-sets.mjs --check
@@ -173,6 +178,7 @@ jobs:
           node scripts/test-ca-prop64-family-bridge.mjs
           node scripts/test-ak-courtview-contact.mjs
           node scripts/test-ak-tf810-sales-policy.mjs
+          node scripts/test-ak-tf810-saved-checkout.mjs
           node scripts/test-ak-courtview-record-context.mjs
           node scripts/test-ak-pardon-record-context.mjs
           node scripts/test-ak-juvenile-record-context.mjs

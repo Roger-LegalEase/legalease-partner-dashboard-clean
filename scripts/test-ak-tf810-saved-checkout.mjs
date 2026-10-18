@@ -2,9 +2,10 @@
 // Only transport/authority/render prerequisites are process-local fixtures.
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
+import os from 'node:os';
 import path from 'node:path';
 import {createHash} from 'node:crypto';
-import {register} from 'node:module';
+import {createRequire, register} from 'node:module';
 import {pathToFileURL} from 'node:url';
 import ts from 'typescript';
 register('./lib/ts-esm-loader.mjs', import.meta.url);
@@ -136,15 +137,62 @@ const save = async(answers,verify=false)=>{
   const response=await saveApi.POST(new Request(saveUrl,{method:'POST',body:JSON.stringify({expectedRevision:stored.revision,answers,verify})}),context);
   return {status:response.status,body:await response.json()};
 };
+const reload = async()=>{
+  const response=await saveApi.GET(new Request(saveUrl),context);
+  const body=await response.json();assert.equal(response.status,200,JSON.stringify(body));
+  const question=body.questions.find(q=>q.id===id);assert(question,'reload publishes the TF-810 question');
+  return {question,value:body.answers[id]};
+};
+// Spanish interaction through the real QuestionField/OptionGroup in Chromium (house pattern: test-ga21-optional-context-ui.mjs).
+let browser,page;
+const spanishUi = async(question,saved)=>{
+  if(!page){
+    const require=createRequire(import.meta.url),{webpack}=require('next/dist/compiled/webpack/webpack'),{chromium}=require('playwright');
+    const temp=fs.mkdtempSync(path.join(os.tmpdir(),'ak-tf810-spanish-ui-'));
+    try {
+      fs.writeFileSync(path.join(temp,'loader.cjs'),`const ts=require(${JSON.stringify(require.resolve('typescript'))});module.exports=function(s){return ts.transpileModule(s,{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022,jsx:ts.JsxEmit.ReactJSX}}).outputText}`);
+      fs.writeFileSync(path.join(temp,'entry.tsx'),`import React,{useState} from 'react';import{createRoot}from 'react-dom/client';import{QuestionField}from ${JSON.stringify(root+'/src/components/expungement-ai/screening/QuestionField.tsx')};import{LocalizationProvider,useLocalization}from ${JSON.stringify(root+'/src/components/expungement-ai/LocalizationProvider.tsx')};function Case(){const{locale,setLocale}=useLocalization();const[c,setCase]=useState(null);const[value,setValue]=useState(undefined);window.__mount=(question,saved)=>{setCase({question,seq:Math.random()});setValue(saved)};window.__raw=()=>value;return <><button onClick={()=>setLocale('es')}>Spanish test locale</button>{c?<section data-test-question><QuestionField key={c.seq} question={c.question} stateCode="AK" value={value} onChange={setValue}/></section>:null}<output data-locale>{locale}</output></>};createRoot(document.getElementById('root')).render(<LocalizationProvider><Case/></LocalizationProvider>);`);
+      await new Promise((resolve,reject)=>{const compiler=webpack({mode:'none',devtool:false,entry:path.join(temp,'entry.tsx'),target:'web',output:{path:temp,filename:'browser.js'},resolve:{extensions:['.tsx','.ts','.js','.json'],alias:{'@':root+'/src'},modules:[root+'/node_modules','node_modules']},module:{rules:[{test:/\.tsx?$/,exclude:/node_modules/,use:path.join(temp,'loader.cjs')}]},plugins:[new webpack.DefinePlugin({'process.env.NODE_ENV':JSON.stringify('development'),'process.env':JSON.stringify({NODE_ENV:'development'})})],optimization:{minimize:false}});compiler.run((e,stats)=>compiler.close(close=>e||close||stats.hasErrors()?reject(e||close||Error(stats.toString({all:false,errors:true}))):resolve()));});
+      browser=await chromium.launch({headless:true});
+      const ctx=await browser.newContext({viewport:{width:390,height:844},serviceWorkers:'block'});
+      await ctx.route('**/*',r=>r.request().url()==='https://ak-tf810-component.invalid/'?r.fulfill({contentType:'text/html',body:'<div id="root"></div>'}):r.abort());
+      page=await ctx.newPage();await page.goto('https://ak-tf810-component.invalid/');
+      await page.addScriptTag({content:fs.readFileSync(path.join(temp,'browser.js'),'utf8')});
+      await page.waitForFunction(()=>typeof window.__mount==='function');
+      await page.getByRole('button',{name:'Spanish test locale',exact:true}).click();
+      await page.locator('output[data-locale]').filter({hasText:'es'}).waitFor();
+    } finally {fs.rmSync(temp,{recursive:true,force:true});}
+  }
+  await page.evaluate(([q,v])=>window.__mount(q,v),[question,saved]);
+  await page.locator('[data-test-question]').waitFor();
+  return page;
+};
 const rows=[];
 const selected = process.argv.find(a=>a.startsWith('--case='))?.slice(7);
-if(selected)assert(['yes','no','unsure','spanish-unsure','spanish-legacy','missing','conflicting'].includes(selected),'unknown case selector');
+if(selected)assert(['yes','no','unsure','spanish-unsure','spanish-legacy','missing','conflicting','spanish-label-post'].includes(selected),'unknown case selector');
+// The control submits the canonical option, never its Spanish label; no adopted contract
+// accepts localized values, so a raw label submission stays an explicit refusal.
+if(!selected||selected==='spanish-label-post'){
+  stored=structuredClone(original);writes=0;
+  const literal=await save({[id]:'No estoy seguro'});
+  console.log(JSON.stringify({step:'answer_save',name:'spanish-label-post',status:literal.status,error:literal.body.error??null,invalidFactIds:literal.body.invalidFactIds??[]}));
+  assert.equal(literal.status,422);assert.equal(literal.body.error,'invalid_packet_answers');assert.deepEqual(literal.body.invalidFactIds,[id]);
+  assert.deepEqual(stored,original,'a refused label submission saves nothing');assert.equal(writes,0);
+}
 const priorDryRun=process.env.EXPUNGEMENT_AI_CHECKOUT_DRY_RUN;
 process.env.EXPUNGEMENT_AI_CHECKOUT_DRY_RUN='true';
 try {
-  for (const [name,raw,conflict] of [['yes','Yes'],['no','No'],['unsure','I am not sure'],['spanish-unsure','No estoy seguro'],['spanish-legacy','No estoy seguro'],['missing',undefined],['conflicting','Yes',true]]) {
+  for (let [name,raw,conflict] of [['yes','Yes'],['no','No'],['unsure','I am not sure'],['spanish-unsure',null],['spanish-legacy','No estoy seguro'],['missing',undefined],['conflicting','Yes',true]]) {
     if(selected&&selected!==name)continue;
     stored=structuredClone(original);trace=[];bindings=[];providerAttempts=0;writes=0;
+    if(name==='spanish-unsure'){
+      const ui=await spanishUi((await reload()).question,undefined);
+      await ui.getByRole('radio',{name:'No estoy seguro',exact:true}).click();
+      await ui.waitForFunction(()=>window.__raw()!==undefined);
+      raw=await ui.evaluate(()=>window.__raw());
+      console.log(JSON.stringify({step:'spanish_control',name,displayed:'No estoy seguro',submitted:raw}));
+      assert.equal(raw,'I am not sure','the Spanish control submits its canonical option');
+    }
     if(conflict){stored.draftSnapshot.prefilledAnswers[id]='No';stored.draftSnapshot.packetAnswers[id]='Yes';stored.draftHash=P.protectedPacketDraftHash(stored.draftSnapshot);}
     if(name==='spanish-legacy'){stored.draftSnapshot.packetAnswers[id]=raw;stored.draftHash=P.protectedPacketDraftHash(stored.draftSnapshot);}
     const answerSave=await save(raw===undefined||name==='spanish-legacy'?{}:{[id]:raw});
@@ -161,6 +209,15 @@ try {
     assert.deepEqual(stored.snapshot.packetAnswers,stored.draftSnapshot.packetAnswers);
     assert.deepEqual(['screeningAnswers','prefilledAnswers','packetAnswers'].map(map=>stored.snapshot[map][id]),savedPublicCopies,'save and verification preserve each raw answer copy');
     assert.equal(P.requireCurrentPacketVerificationRecord(item,stored).hash,stored.hash);
+    if(name==='spanish-unsure'){
+      const again=await reload();assert.equal(again.value,'I am not sure','reload keeps the saved uncertainty');
+      const ui=await spanishUi(again.question,again.value);
+      assert.equal(await ui.locator('input[type=radio]:checked').count(),1);
+      assert.equal(await ui.locator('input[type=radio]:checked').getAttribute('value'),'I am not sure');
+      assert((await ui.locator('label:has(input[type=radio]:checked)').innerText()).includes('No estoy seguro'),'reloaded answer displays its Spanish label');
+      assert((await ui.locator('[data-test-question]').innerText()).includes('No se cobra hasta que lo confirme'),'Spanish payment guidance shown for the unsure answer');
+      console.log(JSON.stringify({step:'spanish_reload_display',name,reloaded:again.value,displayed:'No estoy seguro'}));
+    }
     const verifiedBefore=structuredClone(stored);
     for(mode of ['valid','missing','invalid']) {
       trace=[];bindings=[];providerAttempts=0;
@@ -184,7 +241,8 @@ try {
     }
   }
 } finally {
+  await browser?.close();
   if(priorDryRun===undefined)delete process.env.EXPUNGEMENT_AI_CHECKOUT_DRY_RUN;else process.env.EXPUNGEMENT_AI_CHECKOUT_DRY_RUN=priorDryRun;
 }
-assert.equal(rows.length,selected?3:21,'all requested observed HTTP cases ran');
+assert.equal(rows.length,selected==='spanish-label-post'?0:selected?3:21,'all requested observed HTTP cases ran');
 console.log(JSON.stringify({status:'PASS',cases:rows.length,rows,liveCalls:0,registryWrites:0,stripeSessions:0,entitlements:0,verification:'real save verify transition, hash check and protected reload; transport only in memory'}));
