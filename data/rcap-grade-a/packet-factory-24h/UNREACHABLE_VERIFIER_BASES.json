@@ -1,0 +1,61 @@
+{
+  "schemaVersion": "rcap-unreachable-verifier-bases/v1",
+  "purpose": "Explicit ordering input for extract-verifier-returns.mjs. Each row below declared a verifiedAtBase that exists in no reachable history (worker commits never pushed; GitHub returns 422 for every one), so git cannot order it against other reads. The commit that first added the row's evidence file is the latest point its read can have happened, and is used as the stand-in base for ordering only. Verdicts, evidence and lanes are untouched; a fresh read whose base descends from the stand-in supersedes the row as usual.",
+  "recordedAt": "2026-10-18",
+  "recordedBy": "integrating lead, PR #268",
+  "reviewedBy": "independent extractor review (ACCEPT_WITH_CONDITIONS -> explicit committed record requested)",
+  "verifiedAgainst": "gh api repos/Roger-LegalEase/legalease-partner-dashboard-clean/commits/<sha> -> 422 for each base; git cat-file -e fails in the unshallowed checkout",
+  "rows": [
+    {
+      "verifiedAtBase": "ec913f1b613da6bc4918b149efa03f54b95974c6",
+      "lane": "vf68",
+      "familyId": "az_record_sealing_arrest_no_charges-set",
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf68/rows-vf68-20260911-az-arrest-closed-proof-final.json",
+      "standInBase": "a29ae2469a08b43ead1f5ec4cb07acf15251dad6",
+      "standInKind": "first_commit_that_added_the_evidence_file"
+    },
+    {
+      "verifiedAtBase": "6dc2b67cae9d466ad9244ccff7b937b5319cd36f",
+      "lane": "vf68",
+      "familyId": "az_record_sealing_arrest_no_charges-set",
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf68/rows-vf68-20260911-az-arrest-requirements-final.json",
+      "standInBase": "301d44f366eb9177d15d609ddb3493dbca730703",
+      "standInKind": "first_commit_that_added_the_evidence_file"
+    },
+    {
+      "verifiedAtBase": "5ec5b9d743d4c780db344e0f0465580d90631df4",
+      "lane": "vf01",
+      "familyId": "composed-treatment:nd-nonconviction-auto-close-verify",
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-20260911-nd-binding-final.json",
+      "standInBase": "9f661a50b5baf01d03c428fbb9bb5dbb2b083576",
+      "standInKind": "first_commit_that_added_the_evidence_file"
+    },
+    {
+      "verifiedAtBase": "a9d0acdf0f37d18d9b469ffaf18dbecc9b514596",
+      "lane": "vf62",
+      "familyId": "de_mandatory_expungement-set",
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf62/rows-vf62-20260911-de-mandatory-final.json",
+      "standInBase": "fa725990afd46b4da5e61ff12e608f9028b456c9",
+      "standInKind": "first_commit_that_added_the_evidence_file"
+    },
+    {
+      "verifiedAtBase": "ca8ffa9fb57041ee0d113e7cfb72f244fd17d75c",
+      "lane": "vf02",
+      "familyId": "de_pardon_expungement-set",
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-20260911-de-pardon-restored.json",
+      "standInBase": "cc2bd5505e5599e35d28897da1a6525438ac77b7",
+      "standInKind": "first_commit_that_added_the_evidence_file"
+    },
+    {
+      "verifiedAtBase": "7dc4c078409979b5aa480d83fbd4294332d4bbdb",
+      "lane": "vf01",
+      "familyId": "fl-10yr-bridge-set",
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-20260911-fl-bridge-current.json",
+      "standInBase": "d429f991c4b35fd9c1d632f05cbfa04211e6f6eb",
+      "standInKind": "first_commit_that_added_the_evidence_file"
+    }
+  ],
+  "grantsNothing": true,
+  "commercialRoutesOpened": 0,
+  "productionTouched": false
+}

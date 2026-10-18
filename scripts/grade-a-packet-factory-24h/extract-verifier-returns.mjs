@@ -492,36 +492,34 @@ const isAncestorOf = (a, b) => {
   return answer;
 };
 /*
- * A DECLARED BASE THAT NO LONGER EXISTS ANYWHERE CANNOT BE REORDERED.
+ * A DECLARED BASE THAT EXISTS IN NO REACHABLE HISTORY IS ORDERED BY AN
+ * EXPLICIT, REVIEWED STAND-IN — NEVER BY THIS FILE'S OWN PREVIOUS OUTPUT.
  *
- * Some bases are Codex Cloud worker commits that were never pushed, so no
- * reachable history contains them and merge-base answers "not an ancestor" for
- * pairs it once ordered. Lane precedence would then silently pick a different
- * current verdict (DE pardon and FL bridge PASS -> BLOCKED_SOURCE). For a pair
- * where either declared base is absent, keep the order this file recorded when
- * it could still be computed; pairs with present bases are decided as before.
+ * Six rows declared worker commits that were never pushed (GitHub answers 422;
+ * the unshallowed checkout has no object). merge-base answers "not an
+ * ancestor" for every pair that touches them, lane precedence takes over, and
+ * three accepted families silently change verdict (DE pardon and FL bridge
+ * PASS -> BLOCKED_SOURCE; ND row swap). UNREACHABLE_VERIFIER_BASES.json names
+ * each such row and the commit that first added its evidence file — the
+ * latest point that read can have happened — and that commit stands in for
+ * ordering only. A fresh read whose base descends from the stand-in therefore
+ * supersedes the row as usual. Any other content of the row is untouched, and
+ * a listed base that becomes reachable is a stale record entry, refused here.
  */
-const presentCommit = new Map();
-const isPresentCommit = (c) => {
-  if (!presentCommit.has(c)) {
-    try { execFileSync("git", ["cat-file", "-e", `${c}^{commit}`], { cwd: ROOT, stdio: "ignore" }); presentCommit.set(c, true); }
-    catch { presentCommit.set(c, false); }
+const UNREACHABLE_BASES = "data/rcap-grade-a/packet-factory-24h/UNREACHABLE_VERIFIER_BASES.json";
+const commitExists = (c) => { try { execFileSync("git", ["cat-file", "-e", `${c}^{commit}`], { cwd: ROOT, stdio: "ignore" }); return true; } catch { return false; } };
+const standInBase = new Map();
+if (fs.existsSync(path.join(ROOT, UNREACHABLE_BASES))) {
+  const record = JSON.parse(fs.readFileSync(path.join(ROOT, UNREACHABLE_BASES), "utf8"));
+  if (record.schemaVersion !== "rcap-unreachable-verifier-bases/v1") throw new Error(`${UNREACHABLE_BASES}: unknown schemaVersion`);
+  for (const row of record.rows) {
+    if (!isCommit(row.verifiedAtBase) || !isCommit(row.standInBase)) throw new Error(`${UNREACHABLE_BASES}: ${row.evidencePath}: bases must be commit-shaped`);
+    if (commitExists(row.verifiedAtBase)) throw new Error(`${UNREACHABLE_BASES}: ${row.verifiedAtBase} is reachable again; remove its stale entry`);
+    if (!commitExists(row.standInBase)) throw new Error(`${UNREACHABLE_BASES}: stand-in ${row.standInBase} is not a reachable commit`);
+    standInBase.set(`${row.verifiedAtBase}\0${row.evidencePath}`, row.standInBase);
   }
-  return presentCommit.get(c);
-};
-const recordedKey = (r) => [r.lane, r.familyId, r.verifiedAtBase, r.evidencePath].join("\0");
-const recordedSuperseded = new Map();
-try {
-  for (const r of JSON.parse(fs.readFileSync(path.join(ROOT, OUT), "utf8")).rows ?? []) recordedSuperseded.set(recordedKey(r), r.superseded);
-} catch { /* no earlier extraction to remember */ }
-const recordedOrder = (r, prior) => {
-  if (!isCommit(r.verifiedAtBase) || !isCommit(prior.verifiedAtBase)
-    || (isPresentCommit(r.verifiedAtBase) && isPresentCommit(prior.verifiedAtBase))) return undefined;
-  const rWas = recordedSuperseded.get(recordedKey(r)), priorWas = recordedSuperseded.get(recordedKey(prior));
-  if (rWas === false && priorWas === true) return true;
-  if (rWas === true && priorWas === false) return false;
-  return undefined;
-};
+}
+const orderingBase = (r) => standInBase.get(`${r.verifiedAtBase}\0${r.evidencePath}`) ?? r.verifiedAtBase;
 /*
  * Only the base a lane DECLARES is used. The commit that last wrote a lane's
  * rows file looks like the same signal and is not: a merge that touches an old
@@ -534,10 +532,8 @@ const recordedOrder = (r, prior) => {
 const supersedes = (r, prior) => {
   if (r.supersedesEvidencePath === prior.evidencePath || r.supersedesEvidencePaths?.includes(prior.evidencePath)) return true;
   if (prior.supersedesEvidencePath === r.evidencePath || prior.supersedesEvidencePaths?.includes(r.evidencePath)) return false;
-  if (isAncestorOf(prior.verifiedAtBase, r.verifiedAtBase)) return true;
-  if (isAncestorOf(r.verifiedAtBase, prior.verifiedAtBase)) return false;
-  const recorded = recordedOrder(r, prior);
-  if (recorded !== undefined) return recorded;
+  if (isAncestorOf(orderingBase(prior), orderingBase(r))) return true;
+  if (isAncestorOf(orderingBase(r), orderingBase(prior))) return false;
   /*
    * A row that states the commit it read at has made a checkable claim about
    * when it read; one that states nothing has not. Lane number is only a proxy
