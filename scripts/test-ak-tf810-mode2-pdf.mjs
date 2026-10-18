@@ -61,7 +61,7 @@ const longRule={ak_tf810_case_still_public:'Yes',ak_tf810_ground:'10',ak_tf810_g
 const longRuleBefore=structuredClone(longRule),overflow=await inspectPdf('overlong-rule',longRule,['Check Box8.2']);
 assert(overflow.ground.unresolvedIds.includes('ak_tf810_ground_rule'));assert.deepEqual(longRule,longRuleBefore);
 // The protected save/history sequence is checked in the corpus-free companion.
-await inspectPdf('changed-saved-choice',{ak_tf810_case_still_public:'Yes',ak_tf810_ground:'9'},['Check Box8.1']);
+await inspectPdf('changed-saved-choice',{ak_tf810_case_still_public:'Yes',ak_tf810_ground:'9',ak_tf810_ground_2_detail:'2b',ak_tf810_ground_3_detail:'3b',ak_tf810_ground_rule:'Alaska Administrative Rule 40(a)'},['Check Box8.1']);
 assert.equal(reports.length,25);
 fs.writeFileSync(path.join(output,'ground-readbacks.json'),JSON.stringify({sourceSha256:pdfSource.sha256,reports},null,2)+'\n');
 console.log(JSON.stringify({status:'PASS_AK_TF810_MODE2_PDF',pdfCases:reports.length,output,sourceSha256:pdfSource.sha256,signatureAndClerkFieldsBlank:true,noInference:true,noPaymentOrFilingAuthority:true}));

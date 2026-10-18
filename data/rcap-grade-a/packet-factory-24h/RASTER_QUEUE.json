@@ -372,8 +372,8 @@
     "byState": {
       "RASTER_BLOCKED_ENVIRONMENT": 0,
       "RASTER_FAIL": 0,
-      "RASTER_PASS": 344,
-      "RASTER_PENDING": 0,
+      "RASTER_PASS": 343,
+      "RASTER_PENDING": 1,
       "RASTER_RUNNING": 0
     },
     "notEligible": 2,
@@ -1548,10 +1548,10 @@
     },
     {
       "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/ak/ak-courtview-set--official-pdf-fill/fixtures/tf810-boundary-filled.pdf",
-      "boundaryPdfSha256": "03b335a1c82762e2e3a98a9fe0e2d5dc8bd74896ade06b5c88100cd9afdd0e1e",
+      "boundaryPdfSha256": "6eafd49dba8dd15c1e87707aae7fd9f12295ef17da0234a81fcca9055adbb469",
       "builderAssignment": null,
       "canonicalPdfPath": "data/rcap-all50/overlays/census-v1/ak/ak-courtview-set--official-pdf-fill/fixtures/tf810-canonical-filled.pdf",
-      "canonicalPdfSha256": "ac2111fa8215881775b35f198d5098aab766703ad55cf24a74a1e5aba843df83",
+      "canonicalPdfSha256": "a72b97a7b86f00104ee7aab5f67ec8334b1aa9ad6b57232e42f3617d09d17b4f",
       "coverage": {
         "basis": "the family ships 1 canonical document(s) with no assembled packet, and the row renders all of them",
         "complete": true,
@@ -1567,7 +1567,7 @@
         ],
         "whatCompleteMeansHere": "every PDF this family declares is queued to the gate and rendered, canonical and boundary alike. `complete` remains the narrower question -- every canonical document rendered -- because that is what promotion depends on."
       },
-      "currentRasterState": "RASTER_PASS",
+      "currentRasterState": "RASTER_PENDING",
       "documents": [
         {
           "name": "tf810-canonical-filled.pdf",
@@ -1576,12 +1576,12 @@
           "pageCountEvidence": {
             "method": "pdf-lib",
             "pageCount": 1,
-            "sourceSha256": "ac2111fa8215881775b35f198d5098aab766703ad55cf24a74a1e5aba843df83",
+            "sourceSha256": "a72b97a7b86f00104ee7aab5f67ec8334b1aa9ad6b57232e42f3617d09d17b4f",
             "version": "1.17.1"
           },
           "path": "data/rcap-all50/overlays/census-v1/ak/ak-courtview-set--official-pdf-fill/fixtures/tf810-canonical-filled.pdf",
           "role": "canonical",
-          "sha256": "ac2111fa8215881775b35f198d5098aab766703ad55cf24a74a1e5aba843df83"
+          "sha256": "a72b97a7b86f00104ee7aab5f67ec8334b1aa9ad6b57232e42f3617d09d17b4f"
         },
         {
           "name": "tf810-boundary-filled.pdf",
@@ -1590,15 +1590,15 @@
           "pageCountEvidence": {
             "method": "pdf-lib",
             "pageCount": 1,
-            "sourceSha256": "03b335a1c82762e2e3a98a9fe0e2d5dc8bd74896ade06b5c88100cd9afdd0e1e",
+            "sourceSha256": "6eafd49dba8dd15c1e87707aae7fd9f12295ef17da0234a81fcca9055adbb469",
             "version": "1.17.1"
           },
           "path": "data/rcap-all50/overlays/census-v1/ak/ak-courtview-set--official-pdf-fill/fixtures/tf810-boundary-filled.pdf",
           "role": "boundary",
-          "sha256": "03b335a1c82762e2e3a98a9fe0e2d5dc8bd74896ade06b5c88100cd9afdd0e1e"
+          "sha256": "6eafd49dba8dd15c1e87707aae7fd9f12295ef17da0234a81fcca9055adbb469"
         }
       ],
-      "documentsDigest": "254772184e4c002bf9e0f0fe957214cf9c3b4cf2761f3bd1ba61a9882670a97f",
+      "documentsDigest": "dacc58302cec5caabd52657b0f06a818aa4809a981e2417a53607c607d53f347",
       "expectedPages": 1,
       "familyId": "ak-courtview-set",
       "fixtureSelection": {
@@ -1607,48 +1607,52 @@
       },
       "nextOwner": "RAS01",
       "packetCommitSha": "909a99b935d5d5abd7e2d5c1be94b98f68dae072",
-      "rasterReceipt": {
-        "boundToBoundarySha256": "03b335a1c82762e2e3a98a9fe0e2d5dc8bd74896ade06b5c88100cd9afdd0e1e",
-        "boundToCanonicalSha256": "ac2111fa8215881775b35f198d5098aab766703ad55cf24a74a1e5aba843df83",
-        "canaryPrecondition": "the canary job and its live negative controls passed in the same run; the family matrix depends on that job, so no family verdict exists without it",
-        "coverageBasis": "the family ships 1 canonical document(s) with no assembled packet, and the row renders all of them",
-        "coverageReconciledFromTheRow": {
-          "wasClaimed": {
-            "coversTheWholeFamily": true,
-            "documentsCovered": [
-              "tf810-canonical-filled.pdf"
-            ],
-            "documentsNotCovered": [],
-            "whatThisGateDidNotRender": [
-              "tf810-boundary-filled.pdf"
-            ]
+      "requestedScale": 2.5,
+      "supersededReceipts": [
+        {
+          "boundToBoundarySha256": "03b335a1c82762e2e3a98a9fe0e2d5dc8bd74896ade06b5c88100cd9afdd0e1e",
+          "boundToCanonicalSha256": "ac2111fa8215881775b35f198d5098aab766703ad55cf24a74a1e5aba843df83",
+          "canaryPrecondition": "the canary job and its live negative controls passed in the same run; the family matrix depends on that job, so no family verdict exists without it",
+          "coverageBasis": "the family ships 1 canonical document(s) with no assembled packet, and the row renders all of them",
+          "coverageReconciledFromTheRow": {
+            "wasClaimed": {
+              "coversTheWholeFamily": true,
+              "documentsCovered": [
+                "tf810-canonical-filled.pdf"
+              ],
+              "documentsNotCovered": [],
+              "whatThisGateDidNotRender": [
+                "tf810-boundary-filled.pdf"
+              ]
+            },
+            "why": "the ingested receipt claimed a coverage the row does not measure; the row is the measurement and the receipt is a record of one run"
           },
-          "why": "the ingested receipt claimed a coverage the row does not measure; the row is the measurement and the receipt is a record of one run"
-        },
-        "coversTheWholeFamily": true,
-        "documentsCovered": [
-          "tf810-canonical-filled.pdf",
-          "tf810-boundary-filled.pdf"
-        ],
-        "documentsNotCovered": [],
-        "everyCanonicalDocumentRendered": true,
-        "jobConclusion": "success",
-        "jobId": "99815920106",
-        "receiptArtifact": {
-          "expiresAt": "2026-09-15T10:03:22Z",
-          "id": "9795493081",
-          "name": "rcap-raster-ak-courtview-set-33495068504",
-          "zipSha256": "sha256:ee130196e147f3ead770de0b8fc7af08aadbc7a535abbdd02e2e1322cfbf6fe0"
-        },
-        "renderedCommitSha": "5f144ec10d2bf7404faf0811e98418e0b13f06ba",
-        "theTwoCoverageQuestions": "documentsNotCovered names canonical documents this gate was asked for and did not render. whatThisGateDidNotRender names declared fixtures it never renders by design, which is normally the boundary artifact. An empty documentsNotCovered beside a populated whatThisGateDidNotRender is the ordinary, correct shape.",
-        "verdict": "RASTER_PASS",
-        "whatCompleteMeansHere": "every PDF this family declares is queued to the gate and rendered, canonical and boundary alike. `complete` remains the narrower question -- every canonical document rendered -- because that is what promotion depends on.",
-        "whatThisGateDidNotRender": [],
-        "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
-        "workflowRunId": "33495068504"
-      },
-      "requestedScale": 2.5
+          "coversTheWholeFamily": true,
+          "documentsCovered": [
+            "tf810-canonical-filled.pdf",
+            "tf810-boundary-filled.pdf"
+          ],
+          "documentsNotCovered": [],
+          "everyCanonicalDocumentRendered": true,
+          "jobConclusion": "success",
+          "jobId": "99815920106",
+          "receiptArtifact": {
+            "expiresAt": "2026-09-15T10:03:22Z",
+            "id": "9795493081",
+            "name": "rcap-raster-ak-courtview-set-33495068504",
+            "zipSha256": "sha256:ee130196e147f3ead770de0b8fc7af08aadbc7a535abbdd02e2e1322cfbf6fe0"
+          },
+          "renderedCommitSha": "5f144ec10d2bf7404faf0811e98418e0b13f06ba",
+          "supersededAt": "2026-10-18T18:02:13Z",
+          "supersededBecause": "the row now renders a different set of documents",
+          "theTwoCoverageQuestions": "documentsNotCovered names canonical documents this gate was asked for and did not render. whatThisGateDidNotRender names declared fixtures it never renders by design, which is normally the boundary artifact. An empty documentsNotCovered beside a populated whatThisGateDidNotRender is the ordinary, correct shape.",
+          "verdict": "RASTER_PASS",
+          "whatCompleteMeansHere": "every PDF this family declares is queued to the gate and rendered, canonical and boundary alike. `complete` remains the narrower question -- every canonical document rendered -- because that is what promotion depends on.",
+          "whatThisGateDidNotRender": [],
+          "workflow": ".github/workflows/rcap-packet-raster-acceptance-batch.yml",
+          "workflowRunId": "33495068504"
+        }
+      ]
     },
     {
       "boundaryPdfPath": "data/rcap-all50/overlays/census-v1/ak/ak-mistaken-identity-set--official-pdf-fill/fixtures/boundary.pdf",

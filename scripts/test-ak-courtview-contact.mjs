@@ -186,6 +186,7 @@ const selectedBefore=structuredClone(stored);
 response=await post({[C.AK_TF810_GROUND_ID]:'9'});assert.equal(response.status,200);groundHttpCases++;
 check('changed saved choice replaces box and preserves prior answer history',()=>{
  const facts=C.akCourtviewContactInputs(snap());assert.deepEqual(Object.keys(facts.selectionsFromHeldFacts),['Check Box8.1']);
+  assert(snap().packetAnswers.ak_tf810_ground_rule);assert(!facts.writes.some(w=>w.field==='rule'));
  assert(snap().dependencies.semanticAnswerHistory.some(h=>h.factId===C.AK_TF810_GROUND_ID&&h.value==='1'));
  assert.equal(selectedBefore.draftSnapshot.packetAnswers[C.AK_TF810_GROUND_ID],'1');
 });

@@ -22,6 +22,9 @@ on:
       - data/record-clearing/legal-decisions/2026-09-14-nc-146-core-and-conditional-dna-scope.json
       - scripts/verify-packet-build-environment.mjs
       - scripts/rcap-*.mjs
+      - scripts/rcap-official-forms/*.mjs
+      - scripts/rcap-packet-completeness/*.mjs
+      - data/rcap-all50/local-source-corpus-index.json
       - scripts/lib/**
       - scripts/raster/**
       - scripts/codex-cloud/**
@@ -52,6 +55,9 @@ on:
       - data/record-clearing/legal-decisions/2026-09-14-nc-146-core-and-conditional-dna-scope.json
       - scripts/verify-packet-build-environment.mjs
       - scripts/rcap-*.mjs
+      - scripts/rcap-official-forms/*.mjs
+      - scripts/rcap-packet-completeness/*.mjs
+      - data/rcap-all50/local-source-corpus-index.json
       - scripts/lib/**
       - scripts/raster/**
       - scripts/codex-cloud/**
@@ -95,7 +101,7 @@ jobs:
         run: ruby -e 'require "yaml"; Dir[".github/workflows/*.yml"].each { |f| YAML.parse_file(f) }'
       - name: Install locked AK PDF test dependencies
         id: ak_pdf_dependencies
-        run: npm ci
+        run: npm ci --ignore-scripts --no-audit --no-fund
       # The pinned Master Library is separate from the later adopted supplements.
       - name: Establish verified corpus environment
         id: corpus_environment
