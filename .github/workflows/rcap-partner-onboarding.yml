@@ -21,13 +21,20 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  onboarding:
-    name: Verify RCAP partner onboarding
+  groups:
+    name: Onboarding group ${{ matrix.group }}
     runs-on: ubuntu-latest
-    # The retained boundary suite reached the 60-minute job cap while still progressing.
-    # Keep all acceptance steps; allow the following onboarding and build gates to finish.
-    # Boundary step measured 54-95 min on green heads (102-min job at 1f2839876) and is still growing.
-    timeout-minutes: 180
+    # One job per independent group so a failure anywhere reports in that group's time, not after
+    # the whole 118-minute boundary list. The groups share no state: every boundary script writes
+    # only to argv/env paths that CI does not set or to private system temp dirs, except the CT
+    # profile generator, which rewrites its in-tree output and asserts it unchanged. Each runner
+    # checks out fresh.
+    # Cuts follow the measured cumulative timings of run 39148221661 (about 39/36/43 minutes).
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      matrix:
+        group: [a, b, c]
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
@@ -62,14 +69,30 @@ jobs:
       - name: Install dependencies from lockfile
         run: npm ci
 
+      # Every result is bound to the exact merge-ref commit this run tests; a checkout that drifted
+      # from GITHUB_SHA fails here before any command runs.
+      - name: Bind the tested source to the merge ref
+        run: |
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          echo "tested merge-ref $GITHUB_SHA (pull request head ${{ github.event.pull_request.head.sha || github.sha }})"
+
       - name: Lint
+        if: matrix.group == 'a'
         run: npm run lint
 
       - name: Typecheck
+        if: matrix.group == 'a'
         run: npm run typecheck
 
       - name: Verify Clinic acceptance harness controls
+        if: matrix.group == 'a'
         run: node --test scripts/test-typescript-mock-loader.mjs scripts/clinic-qa/artifact-journey.test.mjs scripts/clinic-qa/fixture.test.mjs scripts/clinic-qa/generation-refusal.test.mjs scripts/clinic-qa/sponsored-cleanup.test.mjs scripts/test-private-download-denial.mjs
+
+      # Cheapest known failure first: this gate failed at the END of a 105-minute step on c98e7d422.
+      # Its only inputs are the lockfile install and committed report/metadata files.
+      - name: Verify prepayment question gate
+        if: matrix.group == 'a'
+        run: node scripts/verify-rcap-prepay-question-gate.mjs
 
       - name: Install PDF text verification dependency
         run: |
@@ -83,7 +106,8 @@ jobs:
       - name: Install the browser the Spanish control check drives
         run: npx --yes playwright install --with-deps chromium
 
-      - name: Verify nationwide correction boundaries
+      - name: Verify nationwide correction boundaries (group a)
+        if: matrix.group == 'a'
         run: |
           node scripts/generate-rcap-public-witness-answer-sets.mjs --check
           node scripts/test-public-witness-convergence.mjs
@@ -139,6 +163,10 @@ jobs:
           node scripts/test-ga10-mo-closure-witness.mjs
           node scripts/test-ga10-mo-marijuana-custody.mjs
           node scripts/test-ga10-mt-deferred-facts.mjs
+
+      - name: Verify nationwide correction boundaries (group b)
+        if: matrix.group == 'b'
+        run: |
           node scripts/test-mt-deferred-document-inputs.mjs
           node scripts/test-mt-deferred-document-preparation.mjs
           node scripts/test-mo-610105-court-context.mjs
@@ -202,6 +230,10 @@ jobs:
           node scripts/test-dc-general-source-guidance.mjs
           node scripts/test-dc-misattributed-current-composer.mjs
           node scripts/test-fl-conditional-source-information.mjs
+
+      - name: Verify nationwide correction boundaries (group c)
+        if: matrix.group == 'c'
+        run: |
           node scripts/test-mn-two-county-source-facts.mjs
           node scripts/test-dc-innocence-location-context.mjs
           node scripts/test-nationwide-contact-representation.mjs
@@ -271,22 +303,37 @@ jobs:
           node scripts/test-al-redeemer-classification.mjs
           node scripts/verify-va-cc1472-two-branch-treatment.mjs
           node scripts/verify-va-regime-1-caption-and-dead-end.mjs
-          node scripts/verify-rcap-prepay-question-gate.mjs
+
 
       # Every deterministic onboarding verifier, through the one entry point that also
       # fails when a verifier exists that no group owns.
       - name: Verify onboarding (local group)
+        if: matrix.group == 'c'
         run: npm run partners:verify-onboarding-all
 
       - name: Verify partner launch readiness
+        if: matrix.group == 'c'
         run: npm run partners:verify-launch-readiness
 
       # The contract the README and the partner setup checklist both promise: the
       # production build completes with no Supabase credentials present. Running it with
       # the variables explicitly empty is the point of the step.
       - name: Credential-free production build
+        if: matrix.group == 'c'
         env:
           NEXT_PUBLIC_SUPABASE_URL: ""
           NEXT_PUBLIC_SUPABASE_ANON_KEY: ""
           SUPABASE_SERVICE_ROLE_KEY: ""
         run: npm run build
+
+  # The required check keeps its name. It passes only when every group succeeded: a failed,
+  # cancelled or skipped group, or a missing result, leaves needs.groups.result != success.
+  onboarding:
+    name: Verify RCAP partner onboarding
+    needs: [groups]
+    if: always()
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Require every group
+        run: test "${{ needs.groups.result }}" = success
