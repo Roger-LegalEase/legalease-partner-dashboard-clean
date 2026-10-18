@@ -91,4 +91,77 @@ for(const locale of ['en','es']){
  const court={...C.emptyCaContact(C.CA_COURT_CONTACT,context),mailingRelationship:'same',mailingAddress:'Earlier court address'};
  check(locale+' inactive court address meaning',C.formatCaContact(C.CA_COURT_CONTACT,[JSON.stringify(court)],locale).includes(retained+': Earlier court address'),true);
 }
+// CA-CAPTION-CONTACT-01 / GA-15 / CA-08: an enrollment answer never relabels an old address.
+const {caProp64ContactFacts,caSafeAtHomeQuestion,CA_SAFE_AT_HOME_COPY}=await import('../src/lib/expungement-ai/ca-prop64-contact-questions.ts');
+const {prepayGateFactIds}=await import('../src/lib/expungement-ai/packet-collection.ts');
+const adopted={"en": {"prompt": "Are you enrolled in California's Safe at Home address confidentiality program?", "helperYes": "Use the substitute mailing address designated by Safe at Home for these forms. Do not enter your confidential home address. California courts generally must accept the designated address, subject to the applicable legal exceptions. This service does not verify your enrollment. If the court raises a question about your address, contact the Safe at Home program and the court clerk for the applicable instructions.", "helperNotSure": "If you are not sure, check with the Safe at Home program before you file. Until then, do not enter a home address you need to keep confidential."}, "es": {"prompt": "¿Está inscrito en Safe at Home, el programa de confidencialidad de direcciones de California?", "helperYes": "Use en estos formularios la dirección postal sustituta que le haya asignado Safe at Home. No ingrese su domicilio confidencial. Por regla general, los tribunales de California deben aceptar la dirección designada, salvo las excepciones legales aplicables. Este servicio no verifica su inscripción. Si el tribunal tiene alguna duda sobre su dirección, consulte al programa Safe at Home y a la secretaría del tribunal para obtener las instrucciones aplicables.", "helperNotSure": "Si no está seguro, consulte al programa Safe at Home antes de presentar los documentos. Mientras tanto, no ingrese un domicilio que necesite mantener confidencial."}, "options": ["Yes", "No", "I am not sure"], "spanishLabels": {"Yes": "Sí", "No": "No", "I am not sure": "No estoy seguro"}};
+assert.deepEqual(CA_SAFE_AT_HOME_COPY,adopted,'exact adopted CA-08 English/Spanish');
+const privacyId=C.CA_SAFE_AT_HOME_ID,yesShapes=['Yes',true,' Yes ',{value:'Yes'},{value:'Yes',unknown:false}];
+for(const {id,record}of current){
+ const snapshot=record.draftSnapshot,base=P.protectedPacketInformationModelFor(record),prior=base.initialAnswers[C.CA_FILER_CONTACT],old=C.parseCaContact(C.CA_FILER_CONTACT,prior);assert(old?.kind==='filer');
+ const actor=old.representation==='attorney'?'attorney':'participant';
+ assert.equal(base.builderQuestions.find(q=>q.id===privacyId)?.required,false,'privacy question is optional in the actual builder');assert(P.editablePacketInputIds(base).has(privacyId));
+ const collection=P.packetCollectionFor({jurisdiction:snapshot.jurisdiction,pathwayId:snapshot.pathwayId,requiredInputIds:snapshot.requiredInputIds,serverFacts:snapshot.serverFacts,screeningAnswers:snapshot.screeningAnswers,prefilledAnswers:snapshot.prefilledAnswers,savedAnswers:snapshot.packetAnswers});
+ const contextFact=collection.facts.find(f=>f.factId===privacyId);assert(contextFact?.active&&contextFact.optional);assert(!prepayGateFactIds(collection).includes(privacyId));assert(!snapshot.requiredInputIds.includes(privacyId));
+ for(const participation of yesShapes)for(const version of ['ca_prop64_contacts_v1','ca_prop64_contacts_v2']){
+  const ordinary={...old,version,...(version.endsWith('_v1')?{phone:'530-555-0100'}:{})},wire=[JSON.stringify(ordinary)];
+  const input={...base.initialAnswers,[privacyId]:participation,[C.CA_FILER_CONTACT]:wire,account_address:'Must not be copied',residential_address:'Must not be copied'};
+  const before=structuredClone(input),ctx=C.caContactContext(input),facts=caProp64ContactFacts(input).facts;
+  assert.equal(ctx.safeAtHome,true);assert.equal(C.caContactAnswerState(C.CA_FILER_CONTACT,wire,ctx),'uncertain');
+  for(const key of ['street_address','city','state','zip'])assert.equal(facts[actor+'.'+key],undefined,'old ordinary address never becomes designated');
+  assert.deepEqual(input,before);checks.push({name:id+'/legacy-address-refused/'+version+'/'+JSON.stringify(participation),pass:true});
+ }
+ const choice=caSafeAtHomeQuestion({...base.initialAnswers,[privacyId]:'Yes'});assert(profileQuestionSchema.safeParse(choice).success);assert.equal(choice.required,false);
+ for(const locale of ['en','es']){const copy=locale==='en'?choice:choice.translations.es;assert.equal(copy.prompt,adopted[locale].prompt);assert.equal(copy.helperText,adopted[locale].helperYes);}
+ const patch=P.packetInformationPatch({protectedVerification:record,answers:{[privacyId]:'Yes'}});assert(patch);const held=patch.protectedTransition.nextVerification;
+ const model=P.protectedPacketInformationModelFor(held);assert(model);assert(model.missingInputIds.includes(C.CA_FILER_CONTACT));assert(!model.missingInputIds.includes(privacyId));
+ assert.deepEqual(held.draftSnapshot.requiredInputIds,snapshot.requiredInputIds);assert.deepEqual(held.draftSnapshot.packetPlan,snapshot.packetPlan);assert.deepEqual(model.initialAnswers[C.CA_FILER_CONTACT],prior);
+ assert.deepEqual(P.packetInformationPatch({protectedVerification:held,answers:{}}).protectedTransition.nextVerification,held);
+ const refused=prepare(held);assert(refused);assert.equal(refused.facts[actor+'.street_address'],undefined);assert.equal(refused.generationAllowed,false);
+ for(const form of ['CR-400','CR-401','CR-403'])assert(bind({familyId:'ca-prop64-set',facts:refused.facts}).missing.some(x=>x.formNumber===form&&x.factId===actor+'.street_address'));
+ const ctx=C.caContactContext(model.initialAnswers),designated={...C.emptyCaContact(C.CA_FILER_CONTACT,ctx),attorneyName:old.attorneyName,barNumber:old.barNumber,street:'PO Box 990099',city:'Sacramento',state:'CA',zip:'95899',phone:{status:'known',value:'916-555-0100'},fax:old.fax,email:old.email,firm:old.firm};
+ assert.equal(designated.version,C.CA_DESIGNATED_ADDRESS_VERSION);
+ for(const field of ['street','city','state','zip'])for(const missing of ['', 'unknown']){
+  const wire=[JSON.stringify({...designated,[field]:missing})],facts=caProp64ContactFacts({...model.initialAnswers,[C.CA_FILER_CONTACT]:wire}).facts;
+  assert.equal(C.caContactAnswerState(C.CA_FILER_CONTACT,wire,ctx),'uncertain');
+  for(const key of ['street_address','city','state','zip'])assert.equal(facts[actor+'.'+key],undefined,'all designated mailing fields required before projection');
+ }
+ const wire=[JSON.stringify(designated)],saved=P.packetInformationPatch({protectedVerification:held,answers:{[C.CA_FILER_CONTACT]:wire}})?.protectedTransition.nextVerification;assert(saved);
+ assert.equal(prepare(saved).facts[actor+'.street_address'],designated.street);assert.deepEqual(P.packetInformationPatch({protectedVerification:saved,answers:{}}).protectedTransition.nextVerification,saved);
+ assert(Array.isArray(saved.draftSnapshot.dependencies.semanticAnswerHistory));assert(saved.draftSnapshot.dependencies.semanticAnswerHistory.some(h=>h.factId===C.CA_FILER_CONTACT&&JSON.stringify(h.value)===JSON.stringify(prior)));
+ for(const value of ['No','I am not sure']){
+  const ordinary=P.packetInformationPatch({protectedVerification:record,answers:{[privacyId]:value}})?.protectedTransition.nextVerification;assert(ordinary);
+  assert.equal(prepare(ordinary).facts[actor+'.street_address'],old.street);assert.deepEqual(P.protectedPacketInformationModelFor(ordinary).initialAnswers[C.CA_FILER_CONTACT],prior);
+  const question=caSafeAtHomeQuestion({...base.initialAnswers,[privacyId]:value});
+  if(value==='I am not sure'){
+   assert.equal(question.helperText,adopted.en.helperNotSure);assert.equal(question.translations.es.helperText,adopted.es.helperNotSure);
+   const incomplete=[JSON.stringify({...old,street:'unknown'})],accepted=P.packetInformationPatch({protectedVerification:ordinary,answers:{[C.CA_FILER_CONTACT]:incomplete}})?.protectedTransition.nextVerification;assert(accepted,'uncertainty saves without disclosing a home address');assert.deepEqual(P.protectedPacketInformationModelFor(accepted).initialAnswers[C.CA_FILER_CONTACT],incomplete);
+  }
+ }
+ checks.push({name:id+'/designated-positive-protected-history-plan-prepay-and-uncertainty',pass:true});
+}
+const declared=C.emptyCaContact(C.CA_FILER_CONTACT,{representation:'self_represented',defendantName:'Synthetic Filer',county:'Yolo',safeAtHome:true});
+for(const malformed of [{...declared,phone:'legacy string'},{...declared,extra:'unexpected'},{...declared,street:'bad\naddress'}])assert.equal(C.parseCaContact(C.CA_FILER_CONTACT,[JSON.stringify(malformed)]),null,'designated wire retains strict boundary validation');
+assert.equal(C.parseCaContact(C.CA_COURT_CONTACT,[JSON.stringify({...C.emptyCaContact(C.CA_COURT_CONTACT,{representation:'self_represented',defendantName:'Synthetic Filer',county:'Yolo'}),version:C.CA_DESIGNATED_ADDRESS_VERSION})]),null,'designated participant wire never applies to court address');
+for(const raw of ['No',false,'I am not sure',{value:'Yes',unknown:true},{value:'Yes',extra:true},['Yes'],1])assert.notEqual(C.caContactContext({[privacyId]:raw}).safeAtHome,true);
+// Actual controlled callbacks; only the locale hook is replaced, with no writes on mount.
+register('data:text/javascript,'+encodeURIComponent('export async function load(u,c,n){return u.endsWith("/LocalizationProvider.tsx")?{format:"module",source:"export function useLocalization(){return {locale:globalThis.__caSafeHomeLocale}}",shortCircuit:true}:n(u,c)}'));
+const {FilingContactFields}=await import('../src/components/expungement-ai/screening/fields/FilingContactFields.tsx');
+const {renderToStaticMarkup}=await import('react-dom/server');
+const nodes=tree=>Array.isArray(tree)?tree.flatMap(nodes):tree&&typeof tree==='object'&&tree.props?[tree,...nodes(tree.props.children)]:[];
+for(const locale of ['en','es'])for(const representation of ['self_represented','attorney'])for(const version of ['ca_prop64_contacts_v1','ca_prop64_contacts_v2']){
+ globalThis.__caSafeHomeLocale=locale;
+ const context={representation,defendantName:'Synthetic Filer',county:'Yolo',safeAtHome:true},old={...C.emptyCaContact(C.CA_FILER_CONTACT,{...context,safeAtHome:false}),version,street:'Old confidential residence',city:'Old city',state:'CA',zip:'95695',...(version.endsWith('_v1')?{phone:'530-555-0100'}:{})};
+ const raw=[JSON.stringify(old)],before=structuredClone(raw),saves=[];
+ const props={id:'privacy',factId:C.CA_FILER_CONTACT,value:raw,context,onChange:v=>saves.push(v),ariaLabelledBy:'privacy-question'};
+ const tree=FilingContactFields(props);renderToStaticMarkup(tree);assert.equal(saves.length,0);assert.deepEqual(raw,before);
+ const reset=nodes(tree).find(n=>n.type==='button');assert(reset&&!reset.props.disabled);reset.props.onClick();assert.equal(saves.length,1);
+ const fresh=C.parseCaContact(C.CA_FILER_CONTACT,saves[0]);assert(fresh?.kind==='filer');assert.equal(fresh.version,C.CA_DESIGNATED_ADDRESS_VERSION);for(const key of ['street','city','state','zip'])assert.equal(fresh[key],'','explicit re-entry never copies old address');assert.deepEqual(raw,before);
+ const designated={...fresh,street:'PO Box 990099',city:'Sacramento',state:'CA',zip:'95899'},saved=[JSON.stringify(designated)];
+ const ordinaryTree=FilingContactFields({...props,value:saved,context:{...context,safeAtHome:false}});
+ const street=nodes(ordinaryTree).find(n=>n.props.id==='privacy-street');assert.equal(typeof street?.props.change,'function');street.props.change('New ordinary address');
+ const edited=C.parseCaContact(C.CA_FILER_CONTACT,saves.at(-1));assert(edited);assert.equal(edited.version,C.CA_CONTACT_CONTRACT);assert.equal(C.caContactCurrent(edited,context),false,'switching back to Yes cannot reuse an ordinary edit');assert.deepEqual(saved,[JSON.stringify(designated)]);
+ checks.push({name:'privacy editor '+locale+'/'+representation+'/'+version,pass:true});
+}
+
 const failed=checks.filter(x=>!x.pass),report={status:failed.length?'FAIL':'PASS',checks:checks.length,failed,details:checks,current,limits:['Engineering fact collection only. Source/legal/language/visual/fulfillment approvals pending.','Authenticated owner and rendered source PDF acceptance separately required.']};if(process.argv[2])fs.writeFileSync(process.argv[2],JSON.stringify(report,null,2)+'\n',{flag:'wx'});console.log(JSON.stringify({status:report.status,checks:checks.length,failed:failed.map(x=>({name:x.name,actual:x.actual,expected:x.expected}))}));assert.equal(failed.length,0);
