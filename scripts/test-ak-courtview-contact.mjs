@@ -5,7 +5,7 @@ import {register} from 'node:module';
 register('./lib/ts-esm-loader.mjs', import.meta.url);
 const mutation=process.argv.find(a=>a.startsWith('--mutation='))?.slice(11);
 const mutations={
- packet_confirmation:['packet-information.ts','if (isAkCourtviewContact(snapshot.jurisdiction, snapshot.pathwayId)) for (const id of AK_TF810_GROUND_IDS)','if (false) for (const id of AK_TF810_GROUND_IDS)'],
+ packet_confirmation:['packet-information.ts','for (const id of AK_TF810_GROUND_IDS)','for (const id of [])'],
  packet_ground_only:['ak-courtview-contact.ts','akCourtviewGroundInputs({ ...snapshot.packetAnswers,','akCourtviewGroundInputs({ ...snapshot.screeningAnswers, ...snapshot.prefilledAnswers, ...snapshot.packetAnswers,'],
  official_box:['ak-courtview-contact.ts','"2a": "Check Box2.1"','"2a": "Check Box2.2"'],
  exact_ground:['ak-courtview-contact.ts','const ground = knownText(answers[AK_TF810_GROUND_ID]);','const ground = knownText(String(answers[AK_TF810_GROUND_ID]).trim().replace(/^Ground /, ""));'],
