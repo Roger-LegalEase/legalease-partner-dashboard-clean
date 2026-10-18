@@ -26,13 +26,13 @@ check('current source ordinary model exposes conditional purpose only',()=>{cons
 check('no-op preserves original protected bytes',()=>{save({});assert.deepEqual(stored,original)});
 check('explicit visible case offers only current source contacts',()=>{save({[ids[0]]:'Yes'});const m=model();for(const f of fields){assert(m.builderQuestions.some(q=>q.id===f.id));assert(P.editablePacketInputIds(m).has(f.id));assert.equal(m.missingInputIds.includes(f.id),!f.optional);}assert.equal(m.builderQuestions.find(q=>q.id===fields[2].id).required,false);});
 const values={ak_tf810_contact_address:{value:'10 Exact Court Contact Ave, Unit 4',unknown:false},ak_tf810_contact_phone:'+1 907 555 0100 ext 12',ak_tf810_contact_email:'Exact.Local+Court@Example.ORG',ak_tf810_case_number:{value:' 3AN-26-00123 CR ',unknown:false}};
-check('source-owned contacts save without authority or alias',()=>{save(values);const mapped=C.akCourtviewContactInputs(snap());assert.equal(mapped.writes.length,4);assert.deepEqual(mapped.unresolvedIds,[]);for(const f of fields)assert.equal(mapped.writes.find(w=>w.factId===f.id).value,typeof values[f.id]==='object'?values[f.id].value:values[f.id]);for(const map of ['screeningAnswers','prefilledAnswers','packetAnswers'])for(const id of ['contact_information','residency_or_location'])assert.deepEqual(snap()[map][id],original.draftSnapshot[map][id]);assert.deepEqual(snap().packetPlan,original.draftSnapshot.packetPlan);assert.equal(snap().paymentAllowed,original.draftSnapshot.paymentAllowed);assert.equal(snap().selectedTrackId,original.draftSnapshot.selectedTrackId);assert.notEqual(stored.status,'verified');assert.equal(mapped.generationAllowed,false);assert.equal(mapped.deliveryAllowed,false);assert.equal(mapped.admissionGranted,false);});
+check('source-owned contacts save without authority or alias',()=>{save(values);const mapped=C.akCourtviewContactInputs(snap());assert.equal(mapped.writes.length,4);assert.deepEqual(mapped.unresolvedIds,[C.AK_TF810_GROUND_ID]);for(const f of fields)assert.equal(mapped.writes.find(w=>w.factId===f.id).value,typeof values[f.id]==='object'?values[f.id].value:values[f.id]);for(const map of ['screeningAnswers','prefilledAnswers','packetAnswers'])for(const id of ['contact_information','residency_or_location'])assert.deepEqual(snap()[map][id],original.draftSnapshot[map][id]);assert.deepEqual(snap().packetPlan,original.draftSnapshot.packetPlan);assert.equal(snap().paymentAllowed,original.draftSnapshot.paymentAllowed);assert.equal(snap().selectedTrackId,original.draftSnapshot.selectedTrackId);assert.notEqual(stored.status,'verified');assert.equal(mapped.generationAllowed,false);assert.equal(mapped.deliveryAllowed,false);assert.equal(mapped.admissionGranted,false);});
 for(const inactive of ['No','I am not sure'])check('inactive '+inactive+' preserves contacts and reentry',()=>{save({[ids[0]]:inactive});assert.equal(C.akCourtviewContactInputs(snap()),null);for(const f of fields){assert(!model().builderQuestions.some(q=>q.id===f.id));assert(!P.editablePacketInputIds(model()).has(f.id));assert.deepEqual(snap().packetAnswers[f.id],values[f.id]);assert(!model().missingInputIds.includes(f.id));}assert.deepEqual(P.packetInformationPatch({protectedVerification:stored,answers:{ak_tf810_contact_email:'inactive@example.test'}}).protectedTransition.nextVerification,stored);save({[ids[0]]:'Yes'});assert.equal(C.akCourtviewContactInputs(snap()).writes.length,4);});
 for(const f of fields)check('unknown '+f.id+' remains editable and is not written',()=>{const known=values[f.id],raw={value:typeof known==='object'?known.value:known,unknown:true};save({[f.id]:raw});assert.deepEqual(snap().packetAnswers[f.id],raw);assert(!C.akCourtviewContactInputs(snap()).writes.some(w=>w.factId===f.id));assert.equal(model().missingInputIds.includes(f.id),!f.optional);assert(snap().dependencies.semanticAnswerHistory.some(h=>h.factId===f.id));save({[f.id]:known});});
 check('case number uses only explicit case fact and exact matter destination',()=>{const x=structuredClone(snap());delete x.packetAnswers[caseId];x.screeningAnswers.case_identifier='Unrelated prior case';x.prefilledAnswers.case_number='Generic old case';const unresolved=C.akCourtviewContactInputs(x);assert(unresolved.unresolvedIds.includes(caseId));assert(!unresolved.writes.some(w=>w.field==='caseNo'));const write=C.akCourtviewContactInputs(snap()).writes.find(w=>w.factId===caseId);assert.deepEqual(write,{factId:caseId,documentId:'TF-810',field:'caseNo',matterKey:'case_number',value:values[caseId].value});});
 for(const raw of ['', '   ', 'I am not sure', {value:'3AN-26-00123 CR',unknown:true}, ['bad shape']])check('blank/unknown case stays required and raw preserved '+JSON.stringify(raw),()=>{save({[caseId]:raw});assert.deepEqual(snap().packetAnswers[caseId],raw);assert(model().missingInputIds.includes(caseId));const mapped=C.akCourtviewContactInputs(snap());assert(mapped.unresolvedIds.includes(caseId));assert(!mapped.writes.some(w=>w.field==='caseNo'));save({[caseId]:values[caseId]});});
 check('optional email can be explicitly removed',()=>{save({ak_tf810_contact_email:''});assert(!model().missingInputIds.includes('ak_tf810_contact_email'));assert(!C.akCourtviewContactInputs(snap()).writes.some(w=>w.field==='email'));save({ak_tf810_contact_email:values.ak_tf810_contact_email});});
-check('known text and paired source-consent copy',()=>{const qs=C.akCourtviewContactQuestions('AK',route,{[ids[0]]:'Yes'});for(const q of qs){assert(q.prompt&&q.translations.es.prompt);assert(q.helperText&&q.translations.es.helperText);}const email=qs.find(q=>q.id===fields[2].id);assert(email.helperText.includes('court and other parties'));assert(email.helperText.includes('court documents'));assert(email.translations.es.helperText.includes('documentos judiciales'));assert(email.helperText.includes('optional'));assert(!email.required);assert.equal(questionAnswerState(email,['not a scalar']),'invalid');});
+check('known text and paired source-consent copy',()=>{const qs=C.akCourtviewContactQuestions('AK',route,{[ids[0]]:'Yes'});for(const q of qs.filter(q=>!C.AK_TF810_GROUND_IDS.includes(q.id))){assert(q.prompt&&q.translations.es.prompt);assert(q.helperText&&q.translations.es.helperText);}const email=qs.find(q=>q.id===fields[2].id);assert(email.helperText.includes('court and other parties'));assert(email.helperText.includes('court documents'));assert(email.translations.es.helperText.includes('documentos judiciales'));assert(email.helperText.includes('optional'));assert(!email.required);assert.equal(questionAnswerState(email,['not a scalar']),'invalid');});
 for(const patch of [{jurisdiction:'GA'},{pathwayId:'executive-pardon-backstop'},{selectedTrackId:'ak-tf800'}])check('wrong route or track no source mapping',()=>assert.equal(C.akCourtviewContactInputs({...snap(),...patch}),null));
 for(const key of ['profileVersion','profileSourceFingerprint','profileAuthorityFingerprint'])check('held source projection refuses stale '+key,()=>assert.equal(C.akCourtviewContactInputs({...snap(),[key]:'stale'}),null));
 for(const raw of [{unknown:true},{value:'Yes',unknown:true},['Yes'],{value:'Yes',unknown:false,extra:true}])check('uncertain purpose refuses writes '+JSON.stringify(raw),()=>assert.equal(C.akCourtviewContactInputs({...snap(),packetAnswers:{...snap().packetAnswers,[ids[0]]:raw}}),null));
@@ -104,3 +104,116 @@ let ssrCases=0;for(const locale of ['en','es'])for(const [id,raw,status]of [
  const generic=questionAnswerState(question,raw),expected=enabled?status:generic==='known_valid'?'complete':generic==='unanswered'?'not_started':'needs_attention';assert(html.includes('data-packet-section-status="'+expected+'"'),JSON.stringify({locale,state,path,id,raw,expected,actual:html.match(/data-packet-section-status="([^"]+)/)?.[1]}));assert(html.includes(expected==='complete'?(locale==='es'?'Completo':'Complete'):expected==='not_started'?(locale==='es'?'Sin empezar':'Not started'):(locale==='es'?'Necesita atención':'Needs attention')));ssrCases++;
 }
 console.log(JSON.stringify({status:'PASS_AK_TF810_UNAVAILABLE_AND_DISPLAY',checks,ssrCases,rawPreserved:true,defaultStatesPreserved:true,databaseRuns:0,renderRuns:0}));
+
+// AK TF-810 MODE 2: explicit official grounds, never a screening inference.
+const B=await import('./build-census-v1-ak-courtview-set.mjs');
+const {PDFDocument,PDFName,decodePDFRawStream}=await import('pdf-lib');
+const {flattenedWidgets,drawnAt}=await import('./rcap-official-forms/pdf-flattened-widgets.mjs');
+const {source:pdfSource,failures:sourceFailures}=B.resolveSource();assert(pdfSource,JSON.stringify(sourceFailures));
+assert.equal(pdfSource.sha256,C.AK_TF810_CONTACT_SOURCE.sourceSha256);
+const census=await B.censusOfSource(pdfSource);assert.deepEqual(census.unmapped,[]);assert.deepEqual(census.captionDrift,[]);
+const {default:path}=await import('node:path'),{default:os}=await import('node:os');
+const output=process.env.AK_TF810_TEST_OUTPUT_DIR??fs.mkdtempSync(path.join(os.tmpdir(),'ak-tf810-mode2-'));fs.mkdirSync(output,{recursive:true});
+const reports=[];let groundHttpCases=0;
+async function inspectPdf(label,answers,expected,rule=null){
+ const rendered=await B.renderFixture(pdfSource,census,'canonical',answers);
+ const file=path.join(output,label+'.pdf');fs.writeFileSync(file,rendered.bytes);
+ const appearances=await flattenedWidgets(file),marked=[];
+ const originalPdf=await PDFDocument.load(pdfSource.bytes,{updateMetadata:false}),resultPdf=await PDFDocument.load(rendered.bytes,{updateMetadata:false});
+ const decoded=(doc,ref)=>Buffer.from(decodePDFRawStream(doc.context.lookup(ref)).decode());
+ for(const row of census.rows){
+  const text=drawnAt(appearances,{page:row.page,rect:row.rect}).map(a=>new TextDecoder('windows-1252').decode(Buffer.from(a.text,'latin1'))).join('').trim();
+  if(Object.values(C.AK_TF810_GROUND_BOXES).includes(row.name)){
+   const at=drawnAt(appearances,{page:row.page,rect:row.rect});assert.equal(at.length,1);
+   const normal=originalPdf.getForm().getCheckBox(row.name).acroField.getWidgets()[0].getAppearances().normal;
+   const on=normal.entries().find(([key])=>key.toString()!=="/Off")[1],off=normal.get(PDFName.of('Off'));
+   const page=resultPdf.getPage(at[0].page-1),resources=resultPdf.context.lookup(page.node.get(PDFName.of('Resources'))),objects=resultPdf.context.lookup(resources.get(PDFName.of('XObject')));
+   const actual=decoded(resultPdf,objects.get(PDFName.of(at[0].appearance))),isOn=actual.equals(decoded(originalPdf,on));
+   assert(actual.equals(decoded(originalPdf,expected.includes(row.name)?on:off)),label+'/'+row.name+'/exact official appearance');
+   if(isOn)marked.push(row.name);
+  }
+  if(row.policy==='protect')assert.equal(text,'',label+'/protected/'+row.name);
+  if(row.name==='rule')assert.equal(text,rule??'',label+'/rule');
+ }
+ assert.deepEqual(marked.sort(),[...expected].sort());
+ assert.deepEqual(rendered.report.selectionsMarked.map(x=>x.field).sort(),[...expected].sort());
+ reports.push({label,file,sha256:createHash('sha256').update(rendered.bytes).digest('hex'),marked,rule,unresolvedIds:rendered.ground.unresolvedIds});
+ return rendered;
+}
+owner='synthetic-ak-owner';stored=structuredClone(original);
+response=await post({[ids[0]]:'Yes'});assert.equal(response.status,200);groundHttpCases++;
+check('blank ground is required without inventing a choice',()=>{
+ assert(model().builderQuestions.some(q=>q.id===C.AK_TF810_GROUND_ID));assert(model().missingInputIds.includes(C.AK_TF810_GROUND_ID));
+ assert.deepEqual(C.akCourtviewContactInputs(snap()).selectionsFromHeldFacts,{});
+});
+// SHA-256 of the exact 15-text AK-TF810-GROUND-OPTIONS-EN-ES-v1 choices array adopted by the lead.
+assert.equal(createHash('sha256').update(JSON.stringify(C.AK_TF810_GROUND_CHOICES)).digest('hex'),'8f1f4435e7b72002557050bba5f9e00b87f6f5c723a48dafd4896942cccfa3bd');
+const questions=C.akCourtviewContactQuestions('AK',route,{[ids[0]]:'Yes'},true);
+for(const qid of [C.AK_TF810_GROUND_ID,'ak_tf810_ground_2_detail','ak_tf810_ground_3_detail'])check('official choices EN/lead-approved ES '+qid,()=>{
+ const q=questions.find(q=>q.id===qid);assert(q);
+ for(const choice of q.options.filter(x=>x!=='I am not sure')){
+  const official=C.AK_TF810_GROUND_CHOICES.find(x=>x.id===choice);assert(official);
+  assert.equal(q.optionDisplay[choice].label,official.en);assert.equal(q.optionDisplay[choice].translations.es.label,official.es);
+ }
+});
+for(const choice of Object.keys(C.AK_TF810_GROUND_BOXES)){
+ const main=choice.length===2&&/[ab]$/.test(choice)?choice[0]:choice;
+ response=await post({[C.AK_TF810_GROUND_ID]:main});assert.equal(response.status,200);groundHttpCases++;
+ if(choice!==main){response=await post({['ak_tf810_ground_'+main+'_detail']:choice});assert.equal(response.status,200);groundHttpCases++;}
+ if(main==='10'){response=await post({ak_tf810_ground_rule:'Alaska Administrative Rule 40(a)'});assert.equal(response.status,200);groundHttpCases++;}
+ const responseBody=await response.json();
+ const expected=[C.AK_TF810_GROUND_BOXES[main],...(choice!==main?[C.AK_TF810_GROUND_BOXES[choice]]:[])];
+ // A heading-only fixture deliberately has no sub-choice, even if an earlier saved answer exists.
+ const explicit={ak_tf810_case_still_public:'Yes',ak_tf810_ground:main,...(choice!==main?{['ak_tf810_ground_'+main+'_detail']:choice}:{}),...(main==='10'?{ak_tf810_ground_rule:'Alaska Administrative Rule 40(a)'}:{})};
+ const actual=await inspectPdf('ground-'+choice,explicit,expected,main==='10'?'Alaska Administrative Rule 40(a)':null);
+ check('explicit ground '+choice+' remains held and saved',()=>{
+  assert.equal(snap().packetAnswers[C.AK_TF810_GROUND_ID],main);assert.equal(C.akCourtviewContactInputs(snap()).generationAllowed,false);
+  assert.equal(responseBody.readyToGenerate,false);assert.notEqual(stored.status,'verified');
+  if(main==='2'||main==='3')assert.equal(actual.ground.unresolvedIds.includes('ak_tf810_ground_'+main+'_detail'),choice===main);
+ });
+}
+for(const raw of ['', 'I am not sure', {value:'1',unknown:true}, ['1','2'], {value:'1',unknown:false,unexpected:true}]){
+ const input={ak_tf810_case_still_public:'Yes',ak_tf810_ground:raw,case_outcome:'Acquitted',court_requirements_completed:'yes',ak_tf810_ground_2_detail:'2a'};
+ const before=structuredClone(input);const out=await inspectPdf('unknown-'+reports.length,input,[]);
+ check('blank malformed or unknown never infers ground '+JSON.stringify(raw),()=>{assert(out.ground.unresolvedIds.includes(C.AK_TF810_GROUND_ID));assert.deepEqual(input,before);});
+}
+await inspectPdf('no-explicit-choice',{ak_tf810_case_still_public:'Yes',case_outcome:'Acquitted',court_requirements_completed:'yes'},[]);
+await inspectPdf('not-public-retained-choice',{ak_tf810_case_still_public:'No',ak_tf810_ground:'1'},[]);
+const wrongSub=await inspectPdf('wrong-parent',{ak_tf810_case_still_public:'Yes',ak_tf810_ground:'2',ak_tf810_ground_2_detail:'3a'},['Check Box2.0']);assert(wrongSub.ground.unresolvedIds.includes('ak_tf810_ground_2_detail'));
+const missingRule=await inspectPdf('missing-rule',{ak_tf810_case_still_public:'Yes',ak_tf810_ground:'10',ak_tf810_ground_rule:{value:'rule supplied but unknown',unknown:true}},['Check Box8.2']);assert(missingRule.ground.unresolvedIds.includes('ak_tf810_ground_rule'));
+const longRule={ak_tf810_case_still_public:'Yes',ak_tf810_ground:'10',ak_tf810_ground_rule:'AS '+('participant-supplied citation '.repeat(100))};
+const longRuleBefore=structuredClone(longRule),overflow=await inspectPdf('overlong-rule',longRule,['Check Box8.2']);
+assert(overflow.ground.unresolvedIds.includes('ak_tf810_ground_rule'));assert.deepEqual(longRule,longRuleBefore);
+for(const map of ['screeningAnswers','prefilledAnswers'])check('conflicting saved ground is not selected '+map,()=>{
+ const snapshot=structuredClone(snap());snapshot[map][C.AK_TF810_GROUND_ID]='1';snapshot.packetAnswers[C.AK_TF810_GROUND_ID]='10';const before=structuredClone(snapshot);
+ const facts=C.akCourtviewContactInputs(snapshot);assert.deepEqual(facts.selectionsFromHeldFacts,{});assert(facts.unresolvedIds.includes(C.AK_TF810_GROUND_ID));assert.deepEqual(snapshot,before);
+});
+response=await post({[C.AK_TF810_GROUND_ID]:'1'});assert.equal(response.status,200);groundHttpCases++;
+const selectedBefore=structuredClone(stored);
+response=await post({[C.AK_TF810_GROUND_ID]:'9'});assert.equal(response.status,200);groundHttpCases++;
+check('changed saved choice replaces box and preserves prior answer history',()=>{
+ const facts=C.akCourtviewContactInputs(snap());assert.deepEqual(Object.keys(facts.selectionsFromHeldFacts),['Check Box8.1']);
+ assert(snap().dependencies.semanticAnswerHistory.some(h=>h.factId===C.AK_TF810_GROUND_ID&&h.value==='1'));
+ assert.equal(selectedBefore.draftSnapshot.packetAnswers[C.AK_TF810_GROUND_ID],'1');
+});
+await inspectPdf('changed-saved-choice',snap().packetAnswers,['Check Box8.1']);
+for(const raw of ['', 'I am not sure']){
+ response=await post({[C.AK_TF810_GROUND_ID]:raw});assert.equal(response.status,200);groundHttpCases++;
+ const before=structuredClone(stored);response=await post({});assert.equal(response.status,200);groundHttpCases++;
+ check('saved unknown/blank raw and no-op preserved '+JSON.stringify(raw),()=>{assert.deepEqual(stored,before);assert.deepEqual(snap().packetAnswers[C.AK_TF810_GROUND_ID],raw);assert.deepEqual(C.akCourtviewContactInputs(snap()).selectionsFromHeldFacts,{});assert(model().missingInputIds.includes(C.AK_TF810_GROUND_ID));});
+}
+const legacyUnknown={value:'9',unknown:true},stableBeforeUnsupported=structuredClone(stored);
+response=await post({[C.AK_TF810_GROUND_ID]:legacyUnknown});assert.equal(response.status,422);groundHttpCases++;
+assert.deepEqual(stored,stableBeforeUnsupported);
+stored.draftSnapshot.packetAnswers[C.AK_TF810_GROUND_ID]=legacyUnknown;stored.draftHash=P.protectedPacketDraftHash(stored.draftSnapshot);
+const historicalUnknown=structuredClone(stored);body=await read();
+assert.deepEqual(stored,historicalUnknown);assert.equal(body.answers[C.AK_TF810_GROUND_ID],undefined);
+assert(body.questions.some(q=>q.id===C.AK_TF810_GROUND_ID));
+assert.deepEqual(snap().packetAnswers[C.AK_TF810_GROUND_ID],legacyUnknown);
+response=await post({});assert.equal(response.status,200);groundHttpCases++;
+check('historical unknown wrapper remains raw and incomplete without accepting a new invalid shape',()=>{
+ assert.deepEqual(stored,historicalUnknown);assert(model().missingInputIds.includes(C.AK_TF810_GROUND_ID));
+ assert.deepEqual(C.akCourtviewContactInputs(snap()).selectionsFromHeldFacts,{});
+});
+fs.writeFileSync(path.join(output,'ground-readbacks.json'),JSON.stringify({sourceSha256:pdfSource.sha256,reports},null,2)+'\n');
+console.log(JSON.stringify({status:'PASS_AK_TF810_MODE2',checks,groundHttpCases,pdfCases:reports.length,output,rawPreserved:true,signatureAndClerkFieldsBlank:true,noInference:true,noPaymentOrFilingAuthority:true}));
