@@ -81,7 +81,8 @@ for(const [code,[en,es]] of Object.entries(G.GA_SB288_COPY)) check('result displ
 });
 check('original witness retained separately from synthetic conviction probes',()=>{
  assert.notEqual(witness.answers.case_outcome,'Misdemeanor conviction');
- const before=structuredClone(witness);assert.equal(evalFor(witness.answers).evaluation.reasons[0].code,'ga.sb288_classification');assert.deepEqual(witness,before);
+ // The pinned dismissed witness must settle; only conviction probes enter record review.
+ const before=structuredClone(witness),r=evalFor(witness.answers).evaluation;assert.equal(r.resultCode,'needs_review');assert.deepEqual(r.reasons.map(r=>r.code),['ga.waiting_rule_not_executed']);assert.deepEqual(r.missingQuestionIds,[]);assert.equal(r.paymentAllowed,false);assert.deepEqual(witness,before);
 });
 check('record review holds even when exact facts are complete',()=>decision({},'record_review'));
 check('numeric count uses the same factual contract without rewriting raw',()=>decision({ga_sb288_conviction_count:1},'record_review'));

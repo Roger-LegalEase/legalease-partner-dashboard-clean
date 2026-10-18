@@ -113,7 +113,8 @@ check('petition date prompt and completion retention have a positive route contr
  assert.equal(resumed.financial_obligations,base.financial_obligations);assert.equal(resumed.sentence_completion_date,base.sentence_completion_date);
 });
 check('original witness separate from synthetic record probes',()=>{
- const before=structuredClone(witness);assert.equal(evalFor(witness.answers).evaluation.reasons[0].code,'ct.petition_missing');assert.deepEqual(witness,before);
+ // The pinned dismissed witness must settle; only conviction probes enter record review.
+ const before=structuredClone(witness),r=evalFor(witness.answers).evaluation;assert.equal(r.resultCode,'needs_review');assert.deepEqual(r.reasons.map(r=>r.code),['ct.waiting_rule_not_executed']);assert.deepEqual(r.missingQuestionIds,[]);assert.equal(r.paymentAllowed,false);assert.deepEqual(witness,before);
 });
 check('complete recorded facts never establish eligibility',()=>decision({},'record_review'));
 for(const [patch,code] of [[{ownership_scope:'No'},'ct.ownership_scope_hard_stop'],[{jurisdiction_scope:'Federal'},'ct.federal_or_out_of_scope']])check('existing context safeguard/'+code,()=>{

@@ -1,3 +1,4 @@
+import { questionAnswerState } from "@/lib/expungement-ai/question-answer-state";
 import { CT_PETITION_FACT_IDS, CT_PETITION_SOURCE, CT_PETITION_COPY, ctPetitionContext, ctPetitionFacts } from "@/lib/rcap-engine/connecticut-clean-slate-petition-facts";
 import { GA_SB288_FACT_IDS, GA_SB288_SOURCE, GA_SB288_COPY, georgiaSb288Context, georgiaSb288Facts } from "@/lib/rcap-engine/georgia-sb288-facts";
 import { FL_INFORMATION_COPY, FL_INFORMATION_SOURCE, flConditionalInformationContext, flConditionalInformationQuestionApplies, withFlConditionalInformation } from "@/lib/rcap-engine/florida-conditional-source-information";
@@ -240,18 +241,33 @@ export function evaluationHash(evaluation: ScreeningEvaluation, answers: Record<
 
 function evaluateAgainstProfile(profile: EngineProfile, request: ScreeningEvaluationRequest, msSource?: MsFirstOffenderSourceContext): ScreeningEvaluation {
   const evaluated = evaluateProfileRules(profile, request, msSource);
+  const nonconviction = ["arrest_no_charge", "dismissed", "acquitted"].includes(normalizeCaseOutcome(request.answers.case_outcome));
+  // An answered review fact may remain uncertain or adverse without becoming another intake request.
+  const reviewInputIds = (ids: string[]) => {
+    const questions = projectPublicProfile(profile).questions;
+    return ids.filter(id => {
+      const question = questions.find(q => q.id === id);
+      if (!question) return true;
+      const state = questionAnswerState(question, request.answers[id]);
+      return state === "unanswered" || state === "invalid";
+    });
+  };
   if (ctPetitionContext(profile, evaluated.pathwayId) && evaluated.reasons.some(r => r.code === "ct.waiting_rule_not_executed")) {
+    if (nonconviction) return evaluated;
     const facts = ctPetitionFacts(request.answers);
+    const outstanding = reviewInputIds(facts.ids);
     const text = CT_PETITION_COPY[facts.code][0];
     return { ...evaluated, reasons: [reason("CT", `petition_${facts.code}`, text, CT_PETITION_SOURCE), ...evaluated.reasons],
-      missingQuestionIds: [...new Set([...evaluated.missingQuestionIds, ...facts.ids])], nextSteps: [text], paymentAllowed: false };
+      missingQuestionIds: [...new Set([...evaluated.missingQuestionIds, ...outstanding])], nextSteps: [text], paymentAllowed: false };
   }
   if (georgiaSb288Context(profile, evaluated.pathwayId) && evaluated.reasons.some(r => r.code === "ga.waiting_rule_not_executed")) {
+    if (nonconviction) return evaluated;
     const facts = georgiaSb288Facts(request.answers);
+    const outstanding = reviewInputIds(facts.ids);
     const text = GA_SB288_COPY[facts.code][0];
-    return { ...evaluated, resultCode: facts.status === "missing" ? "needs_more_info" : "needs_review",
+    return { ...evaluated, resultCode: facts.status === "missing" && outstanding.length ? "needs_more_info" : "needs_review",
       reasons: [reason("GA", `sb288_${facts.code}`, text, GA_SB288_SOURCE), ...evaluated.reasons],
-      missingQuestionIds: [...new Set([...evaluated.missingQuestionIds, ...facts.ids])], nextSteps: [text], paymentAllowed: false };
+      missingQuestionIds: [...new Set([...evaluated.missingQuestionIds, ...outstanding])], nextSteps: [text], paymentAllowed: false };
   }
   if (!evaluated.pathwayId || !arkansasRecordOriginApplies(profile.jurisdiction.code, evaluated.pathwayId)
     || ["hard_stop", "likely_not_eligible"].includes(evaluated.resultCode)) return evaluated;
