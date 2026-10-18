@@ -1,15 +1,19 @@
+import { sameKnownQuestionAnswer } from "@/lib/expungement-ai/question-answer-state";
 import { caProp64CaptionAnswerState } from "@/lib/expungement-ai/ca-prop64-caption-answer";
 /** Source-specific caption facts. This wire carries owner declarations only;
  * it cannot infer account contact, service consent, or filing authority. */
 export const CA_CONTACT_CONTRACT = "ca_prop64_contacts_v2" as const;
 export const CA_CONTACT_LEGACY_CONTRACT = "ca_prop64_contacts_v1" as const;
+// CA-CAPTION-CONTACT-01 / GA-15: this version records an explicit substitute-address declaration, never verified enrollment.
+export const CA_DESIGNATED_ADDRESS_VERSION = "ca_prop64_designated_address_v1" as const;
+export const CA_SAFE_AT_HOME_ID = "ca_safe_at_home_participation";
 export const CA_FILER_CONTACT = "ca_prop64_filer_contact";
 export const CA_COURT_CONTACT = "ca_prop64_court_address";
 export const CA_CONTACT_IDS = [CA_FILER_CONTACT, CA_COURT_CONTACT];
-export type CaContactContext = { representation: string; defendantName: string; county: string };
+export type CaContactContext = { representation: string; defendantName: string; county: string; safeAtHome?: boolean };
 export type CaOptionalContact = { status: "" | "known" | "absent" | "unknown"; value: string };
 export type CaFilerContact = {
-  version: typeof CA_CONTACT_CONTRACT | typeof CA_CONTACT_LEGACY_CONTRACT; kind: "filer"; representation: string; defendantName: string;
+  version: typeof CA_CONTACT_CONTRACT | typeof CA_CONTACT_LEGACY_CONTRACT | typeof CA_DESIGNATED_ADDRESS_VERSION; kind: "filer"; representation: string; defendantName: string;
   attorneyName: string; barNumber: string; street: string; city: string; state: string; zip: string; phone: string | CaOptionalContact;
   fax: CaOptionalContact; email: CaOptionalContact; firm: CaOptionalContact;
 };
@@ -34,10 +38,11 @@ export function caContactContext(answers: Readonly<Record<string, unknown>>): Ca
     const v = raw && typeof raw === "object" && !Array.isArray(raw) && object(raw, Object.hasOwn(raw, "unknown") ? ["value", "unknown"] : ["value"])
     ? raw.unknown === true ? "" : raw.value : raw;
     return line(v) && caContactKnownText(v) ? v : ""; };
-  return { representation: held("ca_prop64_filer_representation"), defendantName: held("participant_full_legal_name"), county: held("ca_prop64_filing_court_county") };
+  return { representation: held("ca_prop64_filer_representation"), defendantName: held("participant_full_legal_name"), county: held("ca_prop64_filing_court_county"),
+    ...(held("ca_prop64_filer_representation") === "self_represented" && sameKnownQuestionAnswer({ id: CA_SAFE_AT_HOME_ID, type: "yes_no_unsure" }, answers[CA_SAFE_AT_HOME_ID], "Yes") ? { safeAtHome: true } : {}) };
 }
 export function emptyCaContact(id: string, context: CaContactContext): CaContact {
-  return id === CA_FILER_CONTACT ? { version: CA_CONTACT_CONTRACT, kind: "filer", representation: context.representation, defendantName: context.defendantName,
+  return id === CA_FILER_CONTACT ? { version: context.safeAtHome ? CA_DESIGNATED_ADDRESS_VERSION : CA_CONTACT_CONTRACT, kind: "filer", representation: context.representation, defendantName: context.defendantName,
     attorneyName: "", barNumber: "", street: "", city: "", state: "", zip: "", phone: { status: "", value: "" }, fax: { status: "", value: "" }, email: { status: "", value: "" }, firm: { status: "", value: "" } }
     : { version: CA_CONTACT_CONTRACT, kind: "court", county: context.county, street: "", cityStateZip: "", mailingRelationship: "", mailingAddress: "" };
 }
@@ -47,10 +52,10 @@ export function parseCaContact(id: string, raw: unknown): CaContact | null {
   const keys = id === CA_FILER_CONTACT
     ? ["version", "kind", "representation", "defendantName", "attorneyName", "barNumber", "street", "city", "state", "zip", "phone", "fax", "email", "firm"]
     : ["version", "kind", "county", "street", "cityStateZip", "mailingRelationship", "mailingAddress"];
-  if (!object(v, keys) || (v.version !== CA_CONTACT_CONTRACT && v.version !== CA_CONTACT_LEGACY_CONTRACT) || v.kind !== (id === CA_FILER_CONTACT ? "filer" : "court") || JSON.stringify(v) !== raw[0]) return null;
-  for (const k of keys) if (!["fax", "email", "firm", ...(v.version === CA_CONTACT_CONTRACT && id === CA_FILER_CONTACT ? ["phone"] : [])].includes(k) && !line(v[k])) return null;
+  if (!object(v, keys) || (v.version !== CA_CONTACT_CONTRACT && v.version !== CA_CONTACT_LEGACY_CONTRACT && !(id === CA_FILER_CONTACT && v.version === CA_DESIGNATED_ADDRESS_VERSION)) || v.kind !== (id === CA_FILER_CONTACT ? "filer" : "court") || JSON.stringify(v) !== raw[0]) return null;
+  for (const k of keys) if (!["fax", "email", "firm", ...(v.version !== CA_CONTACT_LEGACY_CONTRACT && id === CA_FILER_CONTACT ? ["phone"] : [])].includes(k) && !line(v[k])) return null;
   if (id === CA_FILER_CONTACT && (!["", "self_represented", "attorney", "unknown"].includes(String(v.representation)) || ![v.fax, v.email, v.firm].every(optional))) return null;
-  if (id === CA_FILER_CONTACT && v.version === CA_CONTACT_CONTRACT && !optional(v.phone)) return null;
+  if (id === CA_FILER_CONTACT && v.version !== CA_CONTACT_LEGACY_CONTRACT && !optional(v.phone)) return null;
   if (id === CA_COURT_CONTACT && !["", "same", "distinct", "unknown"].includes(String(v.mailingRelationship))) return null;
   return v as unknown as CaContact;
 }
@@ -58,6 +63,7 @@ export function caContactCurrent(value: CaContact, context?: CaContactContext): 
   if (!context) return false;
   return value.kind === "filer" ? ["self_represented", "attorney"].includes(context.representation) && caContactKnownText(context.defendantName)
     && value.representation === context.representation && value.defendantName === context.defendantName
+    && (!context.safeAtHome || value.version === CA_DESIGNATED_ADDRESS_VERSION)
     : caContactKnownText(context.county) && value.county === context.county;
 }
 export function caContactAnswerState(id: string, raw: unknown, context?: CaContactContext): "unanswered" | "invalid" | "known_valid" | "uncertain" {

@@ -1,6 +1,8 @@
 import { wy1502Context } from "@/lib/rcap-engine/wyoming-1502-facts";
 import { southDakotaSisContext } from "@/lib/rcap-engine/south-dakota-sis-facts";
 import { illinoisProstitutionContext } from "@/lib/rcap-engine/illinois-prostitution-facts";
+import { CA_SAFE_AT_HOME_ID } from "@/lib/expungement-ai/ca-prop64-contact-answer";
+import { isCaProp64Pathway } from "@/lib/expungement-ai/ca-prop64-choices";
 import { NEVADA_176A_ROUTE_KEY } from "@/lib/rcap-engine/nevada-176a-branch";
 import { ctPetitionContext } from "@/lib/rcap-engine/connecticut-clean-slate-petition-facts";
 import { georgiaSb288Context } from "@/lib/rcap-engine/georgia-sb288-facts";
@@ -908,7 +910,7 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
     specification, { ...available, ...input.savedAnswers }, [...input.unresolvedSavedFactIds ?? []]);
   const msFirstContext = msFirstOffenderSourceContract(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
   const msFirstQuestions = new Map(msFirstContext ? msFirstOffenderSourceQuestions().map(question => [question.id, question]) : []);
-  const requiredInputIds = dedupe([...input.requiredInputIds, ...(msFirstContext ? MS_FIRST_OFFENDER_COLLECTION_IDS : []), ...(ohJuvenileContext ? OH_JUVENILE_STAGE_IDS : []), ...mnTwoCountyIds, ...mnStageQuestions.map(question => question.id), ...(retainedDcLocation ? [DC_LEGACY_LOCATION] : [])]);
+  const requiredInputIds = dedupe([...(isCaProp64Pathway(input.jurisdiction, input.pathwayId) ? [CA_SAFE_AT_HOME_ID] : []), ...input.requiredInputIds, ...(msFirstContext ? MS_FIRST_OFFENDER_COLLECTION_IDS : []), ...(ohJuvenileContext ? OH_JUVENILE_STAGE_IDS : []), ...mnTwoCountyIds, ...mnStageQuestions.map(question => question.id), ...(retainedDcLocation ? [DC_LEGACY_LOCATION] : [])]);
   const decidesRouteFor = (factId: string) => input.routeDecidingFactIds?.has(factId) === true;
   const unresolvedScopeFor = (factId: string) => input.unresolvedRouteFactIds?.has(factId) === true;
   const baselineCarried = input.baselineCarriedFactIds ?? new Set<string>();
@@ -929,6 +931,12 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
     const overrideClass = override?.classes?.[factId];
     const group = sectionFor(factId, override?.groups?.[factId]);
 
+    // CA-CAPTION-CONTACT-01: participant-reported privacy context never decides eligibility or prepay.
+    if (factId === CA_SAFE_AT_HOME_ID && isCaProp64Pathway(input.jurisdiction, input.pathwayId)) {
+      facts.push({ factId, collection: "conditional", phase: "render", group: "about_you", active: true, optional: true,
+        source: "ca_participant_address_privacy_context", reason: "Optional participant-reported address context; no enrollment verification, account address or electronic-service consent." });
+      continue;
+    }
     // 1. Server-owned route facts.
     if (factId in input.serverFacts || serverOwned.has(factId)) {
       const value = input.serverFacts[factId] ?? available[factId] ?? null;

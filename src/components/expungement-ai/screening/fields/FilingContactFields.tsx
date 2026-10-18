@@ -1,6 +1,6 @@
 "use client";
 import { useLocalization } from "@/components/expungement-ai/LocalizationProvider";
-import { CA_FILER_CONTACT, CA_CONTACT_CONTRACT, caContactPhoneText, CA_CONTACT_LABELS as labels, CA_CONTACT_OPTION_LABELS as options, parseCaContact, emptyCaContact, caContactCurrent, formatCaContact,
+import { CA_FILER_CONTACT, CA_CONTACT_CONTRACT, CA_DESIGNATED_ADDRESS_VERSION, caContactPhoneText, CA_CONTACT_LABELS as labels, CA_CONTACT_OPTION_LABELS as options, parseCaContact, emptyCaContact, caContactCurrent, formatCaContact,
   type CaContact, type CaContactContext, type CaOptionalContact } from "@/lib/expungement-ai/ca-prop64-contact-answer";
 const inputClass = "min-h-[48px] w-full rounded-xl border border-[#D1D5DB] bg-white px-3 py-2 text-base focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00A99D]";
 const buttonClass = "min-h-[44px] rounded-lg border px-3 py-2 text-sm font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00A99D]";
@@ -24,17 +24,20 @@ export function FilingContactFields({ id, factId, value, context, onChange, aria
     <pre className="max-h-72 overflow-auto whitespace-pre-wrap rounded border p-3">{JSON.stringify(value, null, 2)}</pre>
     <button type="button" className={buttonClass} onClick={() => save(emptyCaContact(factId, context))}>{es ? "Reemplazar estos datos en mi borrador" : "Replace these details in my draft"}</button></div>;
   const saved = parsed ?? emptyCaContact(factId, context);
-  // Present v1 values in the new editor; only an explicit edit saves v2.
-  const contact = saved.kind === "filer" && typeof saved.phone === "string"
-    ? { ...saved, version: CA_CONTACT_CONTRACT, phone: { status: saved.phone.trim() ? caContactPhoneText(saved.phone) ? "known" as const : "unknown" as const : "" as const, value: saved.phone } }
+  // Mounting preserves old bytes; an ordinary edit cannot retain a designated-address label.
+  const contact = saved.kind === "filer"
+    ? { ...saved, version: context.safeAtHome && saved.version === CA_DESIGNATED_ADDRESS_VERSION ? CA_DESIGNATED_ADDRESS_VERSION : CA_CONTACT_CONTRACT,
+      phone: typeof saved.phone === "string" ? { status: saved.phone.trim() ? caContactPhoneText(saved.phone) ? "known" as const : "unknown" as const : "" as const, value: saved.phone } : saved.phone }
     : saved;
-  const current = caContactCurrent(contact, context);
+  const current = caContactCurrent(saved, context);
   const roleChanged = contact.kind === "filer" && contact.representation !== context.representation;
+  const newDesignatedAddress = saved.kind === "filer" && context.safeAtHome && saved.version !== CA_DESIGNATED_ADDRESS_VERSION;
+  const needsFreshDetails = roleChanged || newDesignatedAddress;
   if (!current) return <div role="group" aria-labelledby={ariaLabelledBy} className="grid gap-3">
-    <p role="status">{caJuvenilePreparation ? es ? "Confirme primero el presentante, el nombre del solicitante y el condado del tribunal. Los datos anteriores no se asignarán automáticamente a otra persona o tribunal." : "First confirm the filer, applicant name, and court county. Earlier details will not automatically be assigned to another person or court." : es ? "Confirme primero el presentante, el nombre del acusado y el condado del tribunal. Los datos anteriores no se asignarán automáticamente a otra persona o tribunal." : "First confirm the filer, defendant name, and court county. Earlier details will not automatically be assigned to another person or court."}</p>
+    <p role="status">{newDesignatedAddress ? es ? "Ingrese la dirección postal designada por Safe at Home; su dirección anterior seguirá guardada y no se usará en estos formularios." : "Enter your Safe at Home designated mailing address; your earlier address will stay saved and will not be used on these forms." : caJuvenilePreparation ? es ? "Confirme primero el presentante, el nombre del solicitante y el condado del tribunal. Los datos anteriores no se asignarán automáticamente a otra persona o tribunal." : "First confirm the filer, applicant name, and court county. Earlier details will not automatically be assigned to another person or court." : es ? "Confirme primero el presentante, el nombre del acusado y el condado del tribunal. Los datos anteriores no se asignarán automáticamente a otra persona o tribunal." : "First confirm the filer, defendant name, and court county. Earlier details will not automatically be assigned to another person or court."}</p>
     {parsed ? <><pre className="whitespace-pre-wrap rounded border p-3">{formatCaContact(factId, value, locale, caJuvenilePreparation)}</pre>
-      <button type="button" className={buttonClass} disabled={!caContactCurrent(emptyCaContact(factId, context), context)} onClick={() => save(roleChanged ? emptyCaContact(factId, context) : contact.kind === "filer" ? { ...contact, representation: context.representation, defendantName: context.defendantName } : { ...contact, county: context.county })}>
-        {roleChanged ? es ? "Ingresar los datos del presentante actual" : "Enter details for the current filer" : es ? "Revisé estos datos para el nombre o tribunal actual" : "I reviewed these details for the current name or court"}</button></> : null}</div>;
+      <button type="button" className={buttonClass} disabled={!caContactCurrent(emptyCaContact(factId, context), context)} onClick={() => save(needsFreshDetails ? emptyCaContact(factId, context) : contact.kind === "filer" ? { ...contact, representation: context.representation, defendantName: context.defendantName } : { ...contact, county: context.county })}>
+        {needsFreshDetails ? es ? "Ingresar los datos del presentante actual" : "Enter details for the current filer" : es ? "Revisé estos datos para el nombre o tribunal actual" : "I reviewed these details for the current name or court"}</button></> : null}</div>;
   const update = (key: string, v: string | CaOptionalContact) => save({ ...contact, [key]: v });
   const textFields = contact.kind === "filer" ? [...(contact.representation === "attorney" ? ["attorneyName", "barNumber"] : []), "street", "city", "state", "zip"] : ["street", "cityStateZip"];
   return <div role="group" aria-labelledby={ariaLabelledBy} aria-describedby={ariaDescribedBy} className="grid gap-4">

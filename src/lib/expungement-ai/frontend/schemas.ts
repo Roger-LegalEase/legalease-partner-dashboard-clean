@@ -65,7 +65,7 @@ export const profileQuestionSchema = z
     helperText: z.string().optional(),
     multiline: z.boolean().optional(),
     clearEarlierReleaseDate: z.literal(true).optional(),
-    contactContext: z.object({ representation: z.string(), defendantName: z.string(), county: z.string() }).strict().optional(),
+    contactContext: z.object({ representation: z.string(), defendantName: z.string(), county: z.string(), safeAtHome: z.boolean().optional() }).strict().optional(),
     prior16058ApplicationKnown: z.literal(true).optional(),
     futureApplicationReferences: z.object({ caseNumbers: z.string().optional(), courtName: z.string().optional(), reviewToken: z.string().optional() }).strict().optional(),
     answerContract: z.enum(["ny_16059_transaction_associations_v1", "ny_16059_future_applications_v1", "ny_16059_sealing_history_v1", "ca_prop64_contacts_v1", "ca_prop64_contacts_v2", "ca_prop64_record_fact_v1", "ca_prop64_decimal_grams_v1", "ca_prop64_caption_fact_v1", "ny_16059_packet_text_v1", "ny_16059_case_records_v2", "ny_16059_applicant_statement_v1", "ny_16059_case_court_text_v1"]).optional(),
