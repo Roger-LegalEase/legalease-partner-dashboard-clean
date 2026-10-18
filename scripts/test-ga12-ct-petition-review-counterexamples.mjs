@@ -55,13 +55,14 @@ cases.set('CT-7-catalog',()=>{
  assert.deepEqual({prompt:q.prompt,stage:q.stage,lifecyclePhase:q.lifecyclePhase},{prompt:'What is the most recent conviction date shown in the record?',stage:'packet_information',lifecyclePhase:'postpay_packet_field'});
 });
 cases.set('CT-7-petition',()=>{
- const ids=selectScreeningQuestionIds(profile,pub,base);assert(ids.includes('last_conviction_date'));
- const q=screensFromQuestionIds(parsed.data,ids).find(q=>q.id==='last_conviction_date');assert(q);
- assert.equal(q.prompt,'What is the date of your most recent judgment of conviction for any crime?');assert.equal(q.lifecyclePhase,'prepay_route_splitter');
+ const ids=selectScreeningQuestionIds(profile,pub,base);assert(!ids.includes('last_conviction_date'));
+ assert(!screensFromQuestionIds(parsed.data,[...ids,'last_conviction_date']).some(q=>q.id==='last_conviction_date'));
  const a=evaluate({jurisdiction:'CT',profileVersion:profile.profileVersion,matterId:'synthetic-ct-date',answers:base});
  const seed=P.protectedPacketDraftSeedFromAuthoritative({authoritative:a,screeningAnswers:base,dependencies:{},capturedAt:'2026-10-18T00:00:00Z'});assert(seed);
  const model=P.protectedPacketInformationModelFor({status:'unverified',revision:0,draftHash:seed.hash,draftSnapshot:seed.snapshot});
- assert.equal(model.questions.find(q=>q.id==='last_conviction_date')?.prompt,q.prompt);
+ const q=model.questions.find(q=>q.id==='last_conviction_date');assert(q);
+ assert.equal(q.prompt,'What is the date of your most recent judgment of conviction for any crime?');
+ assert.equal(q.lifecyclePhase,'postpay_packet_field');assert.equal(q.stage,'packet_information');
  for(const sibling of siblings){const w=fixtures.find(f=>f.pathwayKey==='CT:'+sibling);assert(!screensFromQuestionIds(parsed.data,selectScreeningQuestionIds(profile,pub,w.answers)).some(q=>q.id==='last_conviction_date'));}
 });
 cases.set('CT-9',()=>assert.equal(evaluated(witness.answers).reasons.find(r=>r.code==='ct.waiting_rule_not_executed')?.sourceRef,'source:overview; section:75-102; section:48-74; section:163-202; section:239-249; section:323-333; corpus-unit:123; corpus-unit:24'));
