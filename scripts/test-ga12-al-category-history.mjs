@@ -228,6 +228,7 @@ for (const [id, original] of [...records]) {
     const next = records.get(id);
     assert.deepEqual(next.draftSnapshot.packetAnswers[category], { value: 'Participant amendment', unknown: false });
     for (const map of maps) {
+      assert(Array.isArray(next.draftSnapshot.dependencies.semanticAnswerHistory), "explicit amendment must retain semantic answer history");
       const history = next.draftSnapshot.dependencies.semanticAnswerHistory.find(h =>
         h.factId === category && h.source === map && h.meaning === 'prior_factual_pathway_answer');
       assert(history, `${map} history retained`);
