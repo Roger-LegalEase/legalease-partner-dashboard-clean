@@ -26,7 +26,8 @@ jobs:
     runs-on: ubuntu-latest
     # The retained boundary suite reached the 60-minute job cap while still progressing.
     # Keep all acceptance steps; allow the following onboarding and build gates to finish.
-    timeout-minutes: 120
+    # Boundary step measured 54-95 min on green heads (102-min job at 1f2839876) and is still growing.
+    timeout-minutes: 180
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
