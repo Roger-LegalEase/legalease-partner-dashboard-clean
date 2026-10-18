@@ -6,6 +6,10 @@ import ts from 'typescript';
 register('./lib/ts-esm-loader.mjs', import.meta.url);
 const mutation=process.argv.find(arg=>arg.startsWith('--mutation='))?.slice(11);
 const mutations={
+ fl_sealing:['"court-ordered-sealing-943-059"','"unassigned-route"'],
+ fl_juvenile:['"early-juvenile-expunction-943-0515"','"unassigned-route"'],
+ fl_trafficking:['"human-trafficking-victim-expunction-943-0583"','"unassigned-route"'],
+
  inactive:['"co_petition_record_type_history", "dc_fl_petition_record_type_history",','"co_petition_record_type_history",'],
  unknown_marker:['dcFlPetitionRecordIsHistory(profile, snapshot.pathwayId, packetSpecificationFor(`${snapshot.jurisdiction}:${snapshot.pathwayId}`))','false'],
  context:['["dc_motion_seal_misdemeanor_conviction_5yr_16_806", "dc_motion_seal_nonconviction_16_806"].includes(pathwayId ?? "")\n        && contactRepresentationHash(profile) === "bcc070d365fb97ad2cd7a5296ca4c8ba516dcf37708fb2b5c852c0d5d1566830"','["dc_motion_seal_misdemeanor_conviction_5yr_16_806", "dc_motion_seal_nonconviction_16_806"].includes(pathwayId ?? "")'],
@@ -16,7 +20,7 @@ const mutations={
  priority:['const shapesPreserved = preserveProtectedLegacyShapes(seeded, legacy.inspection, replacedLegacyIds);','const shapesPreserved = preserveProtectedLegacyShapes(seeded, legacy.inspection, replacedLegacyIds); if (Array.isArray(shapesPreserved.packetAnswers.record_type)) shapesPreserved.packetAnswers.record_type = "Conviction";'],
  question:['function dcFlPetitionRecordHistoryQuestion(question, history) {','function dcFlPetitionRecordHistoryQuestion(question, history) { return question;']
 };
-if(mutation){assert(mutations[mutation]);register('data:text/javascript,'+encodeURIComponent(`let d;export function initialize(x){d=x}export async function load(u,c,n){const r=await n(u,c);if(u.endsWith(d[2])){if(!r.source.includes(d[0]))throw Error('mutation target absent');return {...r,source:r.source.replace(d[0],d[1])}}return r}`),{data:[...mutations[mutation],['collection','context','fl_context','ownership'].includes(mutation)?'/packet-collection.ts':'/packet-information.ts']});}
+if(mutation){assert(mutations[mutation]);register('data:text/javascript,'+encodeURIComponent(`let d;export function initialize(x){d=x}export async function load(u,c,n){const r=await n(u,c);if(u.endsWith(d[2])){if(!r.source.includes(d[0]))throw Error('mutation target absent');return {...r,source:r.source.replace(d[0],d[1])}}return r}`),{data:[...mutations[mutation],['collection','context','fl_context','ownership','fl_sealing','fl_juvenile','fl_trafficking'].includes(mutation)?'/packet-collection.ts':'/packet-information.ts']});}
 const P = await import('../src/lib/expungement-ai/packet-information.ts');
 const { evaluateAuthoritativeScreeningResult: evaluate } = await import('../src/lib/expungement-ai/authoritative-screening-result.ts');
 const {createConsumerPaymentPlaceholder}=await import('../src/lib/expungement-ai/payment-adapter.ts');
@@ -24,15 +28,19 @@ const { packetFulfillmentAuthority } = await import('../src/lib/expungement-ai/p
 const {getProfileByJurisdiction}=await import('../src/lib/rcap-engine/profile-registry.ts');
 const {dcFlPetitionRecordIsHistory:history,resolvePacketCollection}=await import('../src/lib/expungement-ai/packet-collection.ts');
 const { packetSpecificationFor } = await import('../src/lib/rcap/grade-a/packet-specification.ts');
+// GA-17 Q-8105d5d0b28ebd1e4a67 / Q-c8633872a982712e7803 / Q-94c8f0620f0384854d98.
 // GA-17 Q-748f73bc4bcf41923fcc / Q-6acd9d8d275e7be59682 / Q-8c94453e5af32f59406d / QD-fb5a90b4c42ab7e486c1.
 // Current held consumer proof; the historical blank builder is not re-certified.
 const read=p=>JSON.parse(fs.readFileSync(p));
 const cases=[
  {state:'DC',route:'dc_motion_seal_misdemeanor_conviction_5yr_16_806',result:'not_covered_yet',payment:false,reason:'dc.intentional_unsupported_route'},
  {state:'DC',route:'dc_motion_seal_nonconviction_16_806',result:'not_covered_yet',payment:false,reason:'dc.intentional_unsupported_route'},
- {state:'FL',route:'court-ordered-expunction-943-0585',result:'needs_review',payment:false,reason:'fl.waiting_rule_not_executed'}
+ {state:'FL',route:'court-ordered-expunction-943-0585',result:'needs_review',payment:false,reason:'fl.waiting_rule_not_executed'},
+ {"state":"FL","route":"court-ordered-sealing-943-059","result":"guidance_only","payment":false,"reason":"fl.guidance_only_no_user_filed_court_petition"},
+ {"state":"FL","route":"early-juvenile-expunction-943-0515","result":"not_covered_yet","payment":false,"reason":"fl.intentional_unsupported_route"},
+ {"state":"FL","route":"human-trafficking-victim-expunction-943-0583","result":"needs_review","payment":false,"reason":"fl.waiting_rule_not_executed"}
 ];
-const predecessorHashes={"dc_motion_seal_misdemeanor_conviction_5yr_16_806": "2151f25f31aa842d96d4cf4eae4e51c4c06f723a4b990f9e8922dd8c9f6d3fbd", "dc_motion_seal_nonconviction_16_806": "da1a999021ebf099a165e1d30f62c25c58bcb0c4e5ca709f0ccf57f39d8089fb", "court-ordered-expunction-943-0585": "89d9f01b4f3283b3760e4a21fca075bc948a96d2c5d973aa78f023c4dee107c1"};
+const predecessorHashes={"dc_motion_seal_misdemeanor_conviction_5yr_16_806": "2151f25f31aa842d96d4cf4eae4e51c4c06f723a4b990f9e8922dd8c9f6d3fbd", "dc_motion_seal_nonconviction_16_806": "da1a999021ebf099a165e1d30f62c25c58bcb0c4e5ca709f0ccf57f39d8089fb", "court-ordered-expunction-943-0585": "89d9f01b4f3283b3760e4a21fca075bc948a96d2c5d973aa78f023c4dee107c1", "court-ordered-sealing-943-059": "b91cd98fe3b9f673023369ff6f28eee0e5b61282a527b0aa97b96605b90d9df1", "early-juvenile-expunction-943-0515": "f073d4e9daabbfb2953196c4a069094062f9f3ced9ad764c8a2926ec916210b1", "human-trafficking-victim-expunction-943-0583": "e6502befee04de2d1258dc7bffcfa40081f3f49c49be74ed7c792b04275378de"};
 const witnesses=read('data/rcap-ledger/public-witness-fixtures.json').fixtures;
 // Run this same behavioural assertion on the predecessor before implementing the correction.
 if(process.argv.includes('--regression-only')){
@@ -95,7 +103,7 @@ for(const [label,outcome] of [['original-witness',witness.answers.case_outcome],
  const answers={...witness.answers,case_outcome:outcome};
  const a=evaluate({jurisdiction:state,profileVersion:witness.profileVersion,matterId:'synthetic-'+route+'-'+label,answers});
  const seed=P.protectedPacketDraftSeedFromAuthoritative({authoritative:a,screeningAnswers:answers,dependencies:{},capturedAt:'2026-10-18T00:00:00Z'});assert(seed);
- assert.equal(seed.hash,predecessorHashes[route],"actual cebb15c56 predecessor draft hash unchanged");
+ assert.equal(seed.hash,predecessorHashes[route],"actual captured predecessor draft hash unchanged");
  const original={status:'unverified',revision:0,draftHash:seed.hash,draftSnapshot:seed.snapshot};
  records.set('synthetic-'+route+'-'+label,original);
  check(key+'/'+label+': public packet surface retains optional overlapping history',()=>{
@@ -214,4 +222,4 @@ for(const [id,original] of [...records]){
  authenticated=true;verified=true;owner='synthetic-dc-fl-owner';
 }
 delete globalThis.__dcFlPetitionHistoryTransport;
-console.log(JSON.stringify({status:'PASS_DC_FL_PETITION_OPTIONAL_HISTORY',checks,httpCases,originalIds:['Q-748f73bc4bcf41923fcc','Q-6acd9d8d275e7be59682','Q-8c94453e5af32f59406d','QD-fb5a90b4c42ab7e486c1'],routes:cases.map(c=>c.state+':'+c.route),limits:['Existing DC unsupported and FL held outcomes retained; actual NO_RECORD/payment refusal unchanged; no whole GA17 closure.','No database, output rendering, source change, hosted authorization or commercial delivery; draft EN/ES needs qualified review.']}));
+console.log(JSON.stringify({status:'PASS_DC_FL_PETITION_OPTIONAL_HISTORY',checks,httpCases,originalIds:['Q-748f73bc4bcf41923fcc','Q-6acd9d8d275e7be59682','Q-8c94453e5af32f59406d','Q-8105d5d0b28ebd1e4a67','Q-c8633872a982712e7803','Q-94c8f0620f0384854d98','QD-fb5a90b4c42ab7e486c1'],routes:cases.map(c=>c.state+':'+c.route),limits:['Existing DC unsupported and FL held outcomes retained; actual NO_RECORD/payment refusal unchanged; no whole GA17 closure.','No database, output rendering, source change, hosted authorization or commercial delivery; draft EN/ES needs qualified review.']}));

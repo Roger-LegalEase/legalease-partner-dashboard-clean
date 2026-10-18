@@ -42,8 +42,8 @@ The correction is applied to every route with a packet plan, which is a superset
 
 ## Prepayment confirmation budget
 
-- Within the target of 8: **279**
-- Over the target: **64**
+- Within the target of 8: **280**
+- Over the target: **63**
 - Over the hard cap of 12: **12**
 
 Routes over the cap:
