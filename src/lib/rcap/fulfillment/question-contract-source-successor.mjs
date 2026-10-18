@@ -389,7 +389,7 @@ export const CA_NO_PHONE_CONTACT_SOURCE_SHA256 = 'd7e1ccbaa3e602513dacc3a9f5bafd
 export function assertCaNoPhoneContactSourceSuccession(readBytes) {
   const { record } = caNoPhoneContactChain(readBytes);
   // Retain the immutable CA no-phone 18/180 scope; the separately pinned GA SB288 /
-  // CT petition hop checks the complete current twenty-one-source chain without rewriting it.
+  // CT petition hop checks the complete current twenty-source chain without rewriting it.
   assertGaSb288CtPetitionSourceSuccession(readBytes);
   return record;
 }
@@ -417,7 +417,7 @@ function caNoPhoneContactChain(readBytes) {
 
 // Exact GA SB288 / CT clean-slate petition / NV question hop (GA-12 registered members).
 export const GA_SB288_CT_PETITION_SOURCE_PATH = 'data/rcap-grade-a/participant-data-rights/question-contract-source-succession-ga-sb288-ct-petition-20261018-v1.json';
-export const GA_SB288_CT_PETITION_SOURCE_SHA256 = '6754da349dbc8efd9c5647a11bccec149ae23ecf8d91f4332310b6a539d6a964';
+export const GA_SB288_CT_PETITION_SOURCE_SHA256 = 'e18478ad392f8577b87cc6f8209f027404062b7dbf593a8f1eda4c297b671b1f';
 export function assertGaSb288CtPetitionSourceSuccession(readBytes) {
   const bytes=readBytes(GA_SB288_CT_PETITION_SOURCE_PATH);
   insist(sha(bytes)===GA_SB288_CT_PETITION_SOURCE_SHA256,'GA SB288/CT petition source succession record bytes changed');
@@ -428,20 +428,19 @@ export function assertGaSb288CtPetitionSourceSuccession(readBytes) {
     && record.kind==='technical_source_only' && record.engineeringCommit==='c0ffa217f767bfdd7fae727017c182157d657867'
     && equal(record.previousNamedSource,{path:CA_NO_PHONE_CONTACT_SOURCE_PATH,sha256:CA_NO_PHONE_CONTACT_SOURCE_SHA256,currentChangedSourceCount:18,currentUnchangedSourceCount:180})
     && equal(record.historicalContinuity,caNoPhone.historicalContinuity) && equal(record.historicalOutput,caNoPhone.historicalOutput)
-    && record.sourceCount===198 && record.currentChangedSourceCount===21 && record.currentUnchangedSourceCount===177
+    && record.sourceCount===198 && record.currentChangedSourceCount===20 && record.currentUnchangedSourceCount===178
     && equal(record.historicalArtifactScope,{routeCount:6,artifactCount:18,reexecuted:false,changed:false})
     && ['createsOwnerApproval','changesHistoricalOutputEvidence','establishesCurrentOutputReproduction','establishesProtectedVerification','establishesProviderOrPublicationProof','commercialAuthorityGranted','productionAuthorized'].every(key=>record[key]===false),'GA SB288/CT petition source succession scope');
   insist(Array.isArray(record.transitions) && equal(record.transitions.map(row=>row.file),["src/lib/expungement-ai/reviewed-result-copy.ts", "src/lib/rcap-engine/public-profile-projection.ts", "src/lib/rcap-engine/screening-question-selection.ts"]),'GA SB288/CT petition source succession inventory');
   insist(current.size===18,'GA SB288/CT petition prior eighteen-source inventory');
   const v21={
-      'src/lib/expungement-ai/reviewed-result-copy.ts':'deba4d419adf9e49da744cc49abf60d3d56e7e33fd1a15293df537f6c9042acb',
       'src/lib/rcap-engine/public-profile-projection.ts':'6d8c35cbfc08cb52e6e48660ac64ca3bcca23dcbd9e0eec1a412089b0e043483',
       'src/lib/rcap-engine/screening-question-selection.ts':'a1b5089b63d68ae921223164567b9206f514b7592222666e7b57f19c23531879',
   };
   for(const row of record.transitions){
     insist(row.beforeSha256===(current.get(row.file)??v21[row.file]??null),'GA SB288/CT petition disconnected source hop');current.set(row.file,row.afterSha256);
   }
-  insist(current.size===21,'GA SB288/CT petition current twenty-one-source inventory');
+  insist(current.size===20,'GA SB288/CT petition current twenty-source inventory');
   // Always fresh, including after success or a previous failed read. No accessor
   // recursion: prior records are read as exact pinned raw bytes.
   for(const [file,digest]of current)insist(sha(readBytes(file))===digest,`stale output input: ${file}; exact GA SB288/CT petition source succession`);

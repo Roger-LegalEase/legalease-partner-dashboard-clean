@@ -862,7 +862,7 @@ check('CA no-phone hop preserves prior chain and refuses missing/tampered bytes'
 });
 
 check('GA SB288/CT petition hop preserves prior chain and refuses missing/tampered bytes',()=>{
- const c=assertGaSb288CtPetitionSourceSuccession(readBytes);assert.equal(c.currentChangedSourceCount,21);assert.equal(c.currentUnchangedSourceCount,177);
+ const c=assertGaSb288CtPetitionSourceSuccession(readBytes);assert.equal(c.currentChangedSourceCount,20);assert.equal(c.currentUnchangedSourceCount,178);
  assert.throws(()=>assertQuestionContractOutputInputs(file=>file===GA_SB288_CT_PETITION_SOURCE_PATH?Buffer.from('{}'):readBytes(file)),/GA SB288\/CT petition source succession record bytes changed/);
  assert.throws(()=>assertCaNoPhoneContactSourceSuccession(file=>{if(file===GA_SB288_CT_PETITION_SOURCE_PATH)throw Error('missing GA SB288/CT record');return readBytes(file);}),/missing GA SB288\/CT record/);
  for(const input of ["src/lib/expungement-ai/reviewed-result-copy.ts", "src/lib/rcap-engine/public-profile-projection.ts", "src/lib/rcap-engine/screening-question-selection.ts"])
