@@ -1,3 +1,4 @@
+import { CT_PETITION_ROUTE, CT_PETITION_FACT_IDS } from "@/lib/rcap-engine/connecticut-clean-slate-petition-facts";
 import { GA_SB288_ROUTE, GA_SB288_FACT_IDS } from "@/lib/rcap-engine/georgia-sb288-facts";
 import type { EngineProfile } from "@/lib/rcap-engine/contracts";
 
@@ -50,6 +51,7 @@ export const UNIVERSAL_PREPAY_FACT_IDS: ReadonlySet<string> = new Set([
  * it. Keyed by `<JURISDICTION>:<pathway id>`, mirroring `routeSpecificSafetyGate`.
  */
 export const ROUTE_ESCALATION_FACT_IDS: Readonly<Record<string, readonly string[]>> = {
+  [`CT:${CT_PETITION_ROUTE}`]: CT_PETITION_FACT_IDS,
   [`GA:${GA_SB288_ROUTE}`]: GA_SB288_FACT_IDS,
   "CA:tool-4-arrest-record-sealing": ["case_outcome"],
   "CA:prop-64-currently-serving-petition-11361-8": ["ca_prop64_branch", "ca_prop64_qualifying_marijuana_offense", "ca_prop64_lesser_or_no_offense"],
