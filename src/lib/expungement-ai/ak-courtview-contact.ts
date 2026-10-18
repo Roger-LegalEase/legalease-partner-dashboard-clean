@@ -7,7 +7,7 @@ export const AK_TF810_CONTACT_SOURCE = {
   familyId: "ak-courtview-set", formId: "TF-810", revision: "5/25",
   sourceSha256: "c5e55ce0c0bb2a008ad9cde5e62c4900f413c8fb64a913e94c81554c64b69582",
   mapPath: "data/rcap-all50/overlays/census-v1/ak/ak-courtview-set--official-pdf-fill/production-field-map.json",
-  mapSha256: "bc5d50377fc550c27440c2e23ccd24ca440333578b7118735725edce167c3f0e",
+  mapSha256: "81a8b5b107e728884555c313c1bbb797d2cb06512dab4094c0b1246650f1225b",
   profileVersion: "2026-06-19-source-conversion-1",
   profileSourceFingerprint: "8b11231dee9fe53f5a41a541dd07ff435778d94aa410ed6064783ecb5e6ea40a",
   profileAuthorityFingerprint: "558957e7eb015305f3db9ce1ceaf266869151ed9138afe3ef9d3d37f6b7e807a"
@@ -19,7 +19,115 @@ export const AK_TF810_CONTACT_FIELDS = [
   { id: "ak_tf810_contact_email", field: "email", participantKey: "email", optional: true },
   { id: "ak_tf810_case_number", field: "caseNo", matterKey: "case_number", optional: false }
 ] as const;
-export const AK_TF810_CONTACT_IDS = [AK_TF810_PUBLIC_ID, ...AK_TF810_CONTACT_FIELDS.map(f => f.id)];
+// AK TF-810 MODE 2: official 5/25 choices; only the participant selects a ground.
+export const AK_TF810_GROUND_ID = "ak_tf810_ground";
+export const AK_TF810_GROUND_IDS = [AK_TF810_GROUND_ID, "ak_tf810_ground_2_detail", "ak_tf810_ground_3_detail", "ak_tf810_ground_rule"];
+export const AK_TF810_GROUND_CHOICES = [
+  {
+    "id": "lead-in",
+    "en": "The above case should be removed from the online public index (CourtView), because it is",
+    "es": "El caso indicado arriba debe retirarse del índice público en línea (CourtView) porque es"
+  },
+  {
+    "id": "1",
+    "en": "A criminal case in which 60 days have passed since the date of acquittal or dismissal, and • Defendant was acquitted of all charges; or • all charges against Defendant were dismissed (including after suspended entry of judgment), and dismissal was not part of a plea agreement in another criminal case; or • all charges against Defendant were resolved by a combination of the above.",
+    "es": "Un caso penal en el que han pasado 60 días desde la fecha de la absolución o de la desestimación, y • el acusado fue absuelto de todos los cargos; o • todos los cargos contra el acusado fueron desestimados (incluso después de una suspensión del dictado de la sentencia [suspended entry of judgment]), y la desestimación no formó parte de un acuerdo de culpabilidad en otro caso penal; o • todos los cargos contra el acusado se resolvieron mediante una combinación de lo anterior."
+  },
+  {
+    "id": "2",
+    "en": "A criminal case that was dismissed, because",
+    "es": "Un caso penal que fue desestimado porque"
+  },
+  {
+    "id": "2a",
+    "en": "a judicial officer found no probable cause under Criminal Rule 4(a)(1) or 5(d).",
+    "es": "un funcionario judicial determinó que no había causa probable conforme a Criminal Rule 4(a)(1) o 5(d)."
+  },
+  {
+    "id": "2b",
+    "en": "Defendant was a minor and was wrongly charged in adult court with an offense within the jurisdiction for delinquency proceedings under AS 47.12.020.",
+    "es": "el acusado era menor de edad y fue acusado por error en un tribunal de adultos de un delito que correspondía a la jurisdicción de los procedimientos de delincuencia juvenil conforme a AS 47.12.020."
+  },
+  {
+    "id": "3",
+    "en": "A criminal or minor offense case that was dismissed, because",
+    "es": "Un caso penal o de infracción menor (minor offense) que fue desestimado porque"
+  },
+  {
+    "id": "3a",
+    "en": "the prosecutor decided not to file a charging document.",
+    "es": "la fiscalía decidió no presentar un documento de acusación."
+  },
+  {
+    "id": "3b",
+    "en": "there was an identity error under Criminal Rule 43(d) or Minor Offense Rule 11(c).",
+    "es": "hubo un error de identidad conforme a Criminal Rule 43(d) o Minor Offense Rule 11(c)."
+  },
+  {
+    "id": "4",
+    "en": "A criminal case in which Defendant (1) received a suspended imposition of sentence (SIS), (2) completed the terms of the sentence, and (3) was acquitted of (or had dismissed or set aside) all other charges in the same case. [Attach proof of SIS and/or order setting aside.]",
+    "es": "Un caso penal en el que el acusado (1) recibió una suspensión de la imposición de la sentencia (SIS), (2) cumplió los términos de la sentencia y (3) fue absuelto de todos los demás cargos del mismo caso (o estos fueron desestimados o anulados). [Adjunte prueba de la SIS, de la orden de anulación, o de ambas.]"
+  },
+  {
+    "id": "5",
+    "en": "A criminal or minor offense case in which all of the charges were one of the following underage alcohol offenses (or equivalent municipal ordinance): AS 04.16.049, AS 04.16.050, AS 04.16.060(g), AS 28.35.280, AS 28.35.285, or AS 28.35.290.",
+    "es": "Un caso penal o de infracción menor en el que todos los cargos fueron alguno de los siguientes delitos relacionados con el alcohol cometidos por personas menores de la edad legal (o una ordenanza municipal equivalente): AS 04.16.049, AS 04.16.050, AS 04.16.060(g), AS 28.35.280, AS 28.35.285 o AS 28.35.290."
+  },
+  {
+    "id": "6",
+    "en": "A criminal case in which Defendant (1) was convicted for possessing less than one ounce of marijuana, (2) was at least 21 years old at the time of offense, and (3) was not convicted of any other criminal charges in the same case. [Conviction under current or prior version of AS 11.71.060 or equivalent municipal ordinance.]",
+    "es": "Un caso penal en el que el acusado (1) fue condenado por poseer menos de una onza de marihuana, (2) tenía al menos 21 años en el momento del delito y (3) no fue condenado por ningún otro cargo penal en el mismo caso. [Condena conforme a la versión actual o anterior de AS 11.71.060 o una ordenanza municipal equivalente.]"
+  },
+  {
+    "id": "7",
+    "en": "A domestic violence, stalking, or sexual assault protective order case that is closed, and no protective order was issued at any time in the case.",
+    "es": "Un caso de orden de protección por violencia doméstica, acecho (stalking) o agresión sexual que está cerrado y en el que nunca se emitió una orden de protección."
+  },
+  {
+    "id": "8",
+    "en": "A domestic violence protective order issued by a United States (US) federal court, another state or territorial court of the US, a tribal court in the US, or a US military tribunal.",
+    "es": "Una orden de protección por violencia doméstica emitida por un tribunal federal de los Estados Unidos (EE. UU.), un tribunal de otro estado o territorio de EE. UU., un tribunal tribal en EE. UU. o un tribunal militar de EE. UU."
+  },
+  {
+    "id": "9",
+    "en": "Confidential or sealed by judicial order under Admin. Rule 37.6. [Attach copy of order.]",
+    "es": "Confidencial o sellado por orden judicial conforme a Admin. Rule 37.6. [Adjunte una copia de la orden.]"
+  },
+  {
+    "id": "10",
+    "en": "Otherwise subject to removal from the public index by Alaska statute or court rule: [List specific rule or statute number.]",
+    "es": "Sujeto de otro modo a retiro del índice público por una ley de Alaska o una regla judicial: [Indique el número específico de la regla o la ley.]"
+  }
+] as const;
+export const AK_TF810_GROUND_BOXES: Readonly<Record<string, string>> = {
+  "1": "Check Box1.0", "2": "Check Box2.0", "2a": "Check Box2.1", "2b": "Check Box2.2",
+  "3": "Check Box3.0", "3a": "Check Box3.1", "3b": "Check Box3.2", "4": "Check Box4.0",
+  "5": "Check Box5.0", "6": "Check Box6.0", "7": "Check Box7.0", "8": "Check Box8.0",
+  "9": "Check Box8.1", "10": "Check Box8.2"
+};
+export function akCourtviewGroundInputs(answers: Record<string, unknown>) {
+  const selectionsFromHeldFacts: Record<string, { checked: true; basis: string }> = {};
+  const unresolvedIds: string[] = [];
+  let rule: string | null = null;
+  if (knownText(answers[AK_TF810_PUBLIC_ID]) !== "Yes") return { selectionsFromHeldFacts, unresolvedIds, rule };
+  const ground = knownText(answers[AK_TF810_GROUND_ID]);
+  if (!ground || !["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"].includes(ground)) {
+    return { selectionsFromHeldFacts, unresolvedIds: [AK_TF810_GROUND_ID], rule };
+  }
+  selectionsFromHeldFacts[AK_TF810_GROUND_BOXES[ground]] = { checked: true, basis: `Explicit participant answer ${AK_TF810_GROUND_ID}=${ground}; no eligibility inference.` };
+  if (ground === "2" || ground === "3") {
+    const id = `ak_tf810_ground_${ground}_detail`, detail = knownText(answers[id]);
+    if (detail && [ground + "a", ground + "b"].includes(detail)) {
+      selectionsFromHeldFacts[AK_TF810_GROUND_BOXES[detail]] = { checked: true, basis: `Explicit participant answer ${id}=${detail}.` };
+    } else unresolvedIds.push(id);
+  }
+  if (ground === "10") {
+    rule = knownText(answers.ak_tf810_ground_rule);
+    if (rule === null) unresolvedIds.push("ak_tf810_ground_rule");
+  }
+  return { selectionsFromHeldFacts, unresolvedIds, rule };
+}
+export const AK_TF810_CONTACT_IDS = [AK_TF810_PUBLIC_ID, ...AK_TF810_CONTACT_FIELDS.map(f => f.id), ...AK_TF810_GROUND_IDS];
 export function isAkCourtviewContact(state: string, pathwayId: string | null) {
   return state === "AK" && pathwayId === AK_COURTVIEW_PATHWAY;
 }
@@ -80,14 +188,35 @@ export function akCourtviewContactAnswerState(
 }
 export function akCourtviewContactIds(state: string, pathwayId: string | null, answers: Record<string, unknown>, includeInactive = false): string[] {
   if (!isAkCourtviewContact(state, pathwayId)) return [];
-  return includeInactive || knownText(answers[AK_TF810_PUBLIC_ID]) === "Yes" ? [...AK_TF810_CONTACT_IDS] : [AK_TF810_PUBLIC_ID];
+  if (includeInactive) return [...AK_TF810_CONTACT_IDS];
+  if (knownText(answers[AK_TF810_PUBLIC_ID]) !== "Yes") return [AK_TF810_PUBLIC_ID];
+  const ground = knownText(answers[AK_TF810_GROUND_ID]);
+  return [AK_TF810_PUBLIC_ID, ...AK_TF810_CONTACT_FIELDS.map(f => f.id), AK_TF810_GROUND_ID,
+    ...(ground === "2" || ground === "3" ? [`ak_tf810_ground_${ground}_detail`] : []),
+    ...(ground === "10" ? ["ak_tf810_ground_rule"] : [])];
 }
 const textQuestion = (id: string, prompt: string, helperText: string, es: string, esHelper: string, required: boolean): ProfileQuestion => ({
   id, stage: "packet_information", type: "text_or_unknown", required, contextOnly: false,
   lifecyclePhase: "postpay_official_form_field", options: null, prompt, helperText,
   translations: { es: { prompt: es, helperText: esHelper } }
 });
+function groundQuestion(id: string, choices: string[], promptId: string, helperText: string): ProfileQuestion {
+  const prompt = AK_TF810_GROUND_CHOICES.find(c => c.id === promptId)!;
+  return { id, stage: "packet_information", type: "single_choice", required: true, contextOnly: false,
+    lifecyclePhase: "postpay_official_form_field", prompt: prompt.en, helperText,
+    translations: { es: { prompt: prompt.es } }, options: [...choices, "I am not sure"],
+    optionDisplay: Object.fromEntries([...AK_TF810_GROUND_CHOICES.filter(c => choices.includes(c.id)).map(c =>
+      [c.id, { label: c.en, translations: { es: { label: c.es } } }]),
+      ["I am not sure", { label: "I am not sure", translations: { es: { label: "No estoy seguro" } } }]]) };
+}
 const QUESTIONS: ProfileQuestion[] = [
+  groundQuestion(AK_TF810_GROUND_ID, ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"], "lead-in",
+    "Choose the printed ground you believe applies. Only your explicit choice marks the form; earlier screening answers never select it. An incomplete draft is not ready to file. For ground 4 you supply proof of SIS and/or the order setting aside; for ground 9 you supply the sealing or confidentiality order. Sign and date the form yourself; the clerk completes the Response block."),
+  groundQuestion("ak_tf810_ground_2_detail", ["2a", "2b"], "2", "Select the printed reason for ground 2. No sub-choice is inferred from the main ground or earlier answers."),
+  groundQuestion("ak_tf810_ground_3_detail", ["3a", "3b"], "3", "Select the printed reason for ground 3. No sub-choice is inferred from the main ground or earlier answers."),
+  { id: "ak_tf810_ground_rule", stage: "packet_information", type: "text_or_unknown", required: true, contextOnly: false,
+    lifecyclePhase: "postpay_official_form_field", options: null, prompt: "List specific rule or statute number.",
+    helperText: "For ground 10, enter the specific Alaska rule or statute you rely on. It is copied as your answer, not supplied or verified by the platform. If unknown, leave the draft incomplete." },
   { id: AK_TF810_PUBLIC_ID, stage: "packet_information", type: "single_choice", required: false, contextOnly: false,
     lifecyclePhase: "postpay_official_form_field", options: ["Yes", "No", "I am not sure"],
     prompt: "Is this case still showing on the public CourtView website?",
@@ -156,8 +285,11 @@ export function akCourtviewContactInputs(snapshot: {
     const destination = "participantKey" in field ? { participantKey: field.participantKey } : { matterKey: field.matterKey };
     return value === null ? [] : [{ factId: field.id, documentId: "TF-810", field: field.field, ...destination, value }];
   });
-  return { source: AK_TF810_CONTACT_SOURCE, writes,
-    unresolvedIds: AK_TF810_CONTACT_FIELDS.filter(field => !field.optional && !writes.some(w => w.factId === field.id)).map(f => f.id),
+  const ground = akCourtviewGroundInputs(Object.fromEntries([AK_TF810_PUBLIC_ID, ...AK_TF810_GROUND_IDS].map(id => [id, read(id)])));
+  return { source: AK_TF810_CONTACT_SOURCE,
+    writes: [...writes, ...(ground.rule === null ? [] : [{ factId: "ak_tf810_ground_rule", documentId: "TF-810", field: "rule", matterKey: "ak_tf810_ground_rule", value: ground.rule }])],
+    selectionsFromHeldFacts: ground.selectionsFromHeldFacts,
+    unresolvedIds: [...AK_TF810_CONTACT_FIELDS.filter(field => !field.optional && !writes.some(w => w.factId === field.id)).map(f => f.id), ...ground.unresolvedIds],
     sourceCurrency: "existing_hold_preserved" as const, qualifiedSpanishReview: "pending" as const,
     generationAllowed: false as const, deliveryAllowed: false as const, admissionGranted: false as const };
 }
