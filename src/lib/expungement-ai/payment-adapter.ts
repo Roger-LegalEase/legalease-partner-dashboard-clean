@@ -1,6 +1,7 @@
 import "server-only";
 
 import { createHash } from "node:crypto";
+import { akCourtviewSalesPolicy, type AkCourtviewSalesAnswers } from "@/lib/expungement-ai/ak-courtview-contact";
 
 import type Stripe from "stripe";
 import { absoluteExpungementAiUrl } from "@/lib/app-url";
@@ -108,7 +109,7 @@ export type ConsumerCheckoutStatus = {
 };
 
 export function createConsumerPaymentPlaceholder(
-  result: ExpungementAiEligibilityResult,
+  result: ExpungementAiEligibilityResult & AkCourtviewSalesAnswers,
   pathwayId: string | null
 ): ConsumerPaymentIntent {
   // The placeholder is the first surface a participant sees. A component
@@ -165,13 +166,15 @@ export function createConsumerPaymentPlaceholder(
   const routeSellable = isOperationallySellable(
     commercialRouteIdentity({ jurisdiction: result.state, pathwayId }).routeId
   );
-  const enabled = !deferred && canDeliver && fulfillmentProven && routeSellable
+  const salesPolicy = akCourtviewSalesPolicy(result.state, pathwayId, result);
+  const enabled = salesPolicy?.allowed !== false && !deferred && canDeliver && fulfillmentProven && routeSellable
     && isConsumerPaymentAllowed(result.resultCode, result.paymentAllowed);
 
   return {
     enabled,
     amountCents: enabled ? consumerPacketPriceCents : undefined,
-    label: enabled ? "$50 one-time self-help packet payment" : "No payment available for this result"
+    label: enabled ? "$50 one-time self-help packet payment"
+      : salesPolicy?.allowed === false ? salesPolicy.guidance.en : "No payment available for this result"
   };
 }
 
@@ -1203,6 +1206,10 @@ export function assertCheckoutAllowed(
     || !isConsumerPaymentAllowed(snapshot.resultCode ?? "guidance_only", snapshot.paymentAllowed)) {
     throw new ConsumerCheckoutNotAllowedError(snapshot.resultCode ?? "missing_result_code");
   }
+  const salesPolicy = akCourtviewSalesPolicy(snapshot.jurisdiction, snapshot.pathwayId, snapshot);
+  if (salesPolicy?.allowed === false) {
+    throw new ConsumerCheckoutNotAllowedError(salesPolicy.reason, salesPolicy.guidance.en);
+  }
 }
 
 export function isConsumerCheckoutDryRunEnabled(): boolean {
@@ -1210,8 +1217,8 @@ export function isConsumerCheckoutDryRunEnabled(): boolean {
 }
 
 export class ConsumerCheckoutNotAllowedError extends Error {
-  constructor(readonly resultCode: string) {
-    super(`Consumer checkout is not allowed for ${resultCode}.`);
+  constructor(readonly resultCode: string, readonly participantMessage?: string) {
+    super(participantMessage ?? `Consumer checkout is not allowed for ${resultCode}.`);
     this.name = "ConsumerCheckoutNotAllowedError";
   }
 }

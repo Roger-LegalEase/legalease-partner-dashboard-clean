@@ -73,6 +73,9 @@ export async function POST(request: NextRequest) {
     }
 
     if (error instanceof ConsumerCheckoutNotAllowedError) {
+      if (error.participantMessage) {
+        return NextResponse.json({ error: error.participantMessage, resultCode: error.resultCode }, { status: 403 });
+      }
       return NextResponse.json({ error: "Payment isn’t available for this case. Your information is still saved. Return to your Briefcase to review the next step." }, { status: 403 });
     }
 

@@ -31,6 +31,30 @@ function knownText(raw: unknown): string | null {
   }
   return typeof raw === "string" && raw.trim() && !/^(?:unknown|i am not sure|not sure|no estoy seguro)$/i.test(raw.trim()) ? raw : null;
 }
+export type AkCourtviewSalesAnswers = Partial<Record<"screeningAnswers" | "prefilledAnswers" | "packetAnswers", Record<string, unknown>>>;
+
+/** AK-TF810-SALES-POLICY: an explicit public case is necessary, never authority to charge. */
+export function akCourtviewSalesPolicy(state: string, pathwayId: string | null, answers: AkCourtviewSalesAnswers) {
+  if (!isAkCourtviewContact(state, pathwayId)) return null;
+  const values = [answers.screeningAnswers, answers.prefilledAnswers, answers.packetAnswers]
+    .filter(map => map && Object.hasOwn(map, AK_TF810_PUBLIC_ID))
+    .map(map => knownText(map![AK_TF810_PUBLIC_ID]));
+  const confirmed = values.length > 0 && values.every(value => value !== null && value === values[0]);
+  if (confirmed && values[0] === "Yes") return { allowed: true as const };
+  const notNeeded = confirmed && values[0] === "No";
+  return {
+    allowed: false as const,
+    reason: notNeeded ? "ak_tf810_request_not_needed" : "ak_tf810_public_status_unconfirmed",
+    guidance: notNeeded ? {
+      en: "Because this case no longer appears on CourtView's public index, TF-810 is not needed for it. No payment is taken for this request.",
+      es: "Como este caso ya no aparece en el índice público de CourtView, no se necesita el formulario TF-810 para este caso. No se cobra por esta solicitud."
+    } : {
+      en: "Check CourtView, the Alaska court system's public case search, for this case first. If it still appears there, come back and answer Yes. No payment is taken until you confirm that.",
+      es: "Primero busque este caso en CourtView, la búsqueda pública de casos del sistema judicial de Alaska. Si todavía aparece, vuelva y responda Sí. No se cobra hasta que lo confirme."
+    },
+    qualifiedSpanishReview: "pending" as const
+  };
+}
 // Exact standalone non-facts only: never inspect substrings, infer an address,
 // require court approval for ordinary contact facts, or rewrite saved answers.
 const UNAVAILABLE_CONTACT = ["none", "ninguno", "ninguna", "unavailable", "not available", "no disponible", "confidential", "confidencial"];
@@ -86,7 +110,15 @@ const QUESTIONS: ProfileQuestion[] = [
 ];
 export function akCourtviewContactQuestions(state: string, pathwayId: string | null, answers: Record<string, unknown>, includeInactive = false): ProfileQuestion[] {
   const ids = new Set(akCourtviewContactIds(state, pathwayId, answers, includeInactive));
-  return QUESTIONS.filter(q => ids.has(q.id)).map(q => structuredClone(q));
+  const policy = akCourtviewSalesPolicy(state, pathwayId, { packetAnswers: answers });
+  return QUESTIONS.filter(q => ids.has(q.id)).map(q => {
+    const question = structuredClone(q);
+    if (question.id === AK_TF810_PUBLIC_ID && policy?.allowed === false) {
+      question.helperText += ` ${policy.guidance.en}`;
+      question.translations!.es!.helperText += ` ${policy.guidance.es}`;
+    }
+    return question;
+  });
 }
 
 /** Resolve only explicit source-owned facts across protected maps. No parsing of
