@@ -592,6 +592,17 @@ export function dcFelonyRecordIsHistory(profile: EngineProfile | undefined, path
     && specification == null && contactRepresentationHash(profile) === "bcc070d365fb97ad2cd7a5296ca4c8ba516dcf37708fb2b5c852c0d5d1566830";
 }
 
+// GA-17 Q-748f73bc4bcf41923fcc / Q-6acd9d8d275e7be59682 / Q-8c94453e5af32f59406d.
+export function dcFlPetitionRecordIsHistory(profile: EngineProfile | undefined, pathwayId: string | null | undefined,
+  specification: RegisteredSpecification | null | undefined): boolean {
+  if (specification != null) return false;
+  return profile?.jurisdiction.code === "DC"
+    && ["dc_motion_seal_misdemeanor_conviction_5yr_16_806", "dc_motion_seal_nonconviction_16_806"].includes(pathwayId ?? "")
+    && contactRepresentationHash(profile) === "bcc070d365fb97ad2cd7a5296ca4c8ba516dcf37708fb2b5c852c0d5d1566830"
+    || profile?.jurisdiction.code === "FL" && pathwayId === "court-ordered-expunction-943-0585"
+    && contactRepresentationHash(profile) === "aca558d3077491f0c09abe838d08b926c0cbe8b194ac1c4500d93520d9a32034";
+}
+
 // GA-12 Q-ce34aa2230f68728a3ca / Q-71b990754b6c4d4ab55b / Q-1c1d81d2035e0ec75e0f: no category document binding.
 export function alThreeRouteCategoryIsHistory(profile: EngineProfile | undefined, pathwayId: string | null | undefined,
   specification: RegisteredSpecification | null | undefined): boolean {
@@ -792,6 +803,7 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
     && ca12034aRecordIsContext(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
   const caTool4RecordHistory = caTool4RecordIsHistory(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
   const coPetitionRecordHistory = coPetitionRecordIsHistory(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
+  const dcFlPetitionRecordHistory = dcFlPetitionRecordIsHistory(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
   const dcFelonyRecordHistory = dcFelonyRecordIsHistory(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
   const caAutomaticRecordContext = input.jurisdiction === "CA"
     && caAutomaticRecordIsContext(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
@@ -1364,6 +1376,17 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
         group: retained ? group : null, active: retained, optional: true,
         source: "co_petition_record_type_history",
         reason: "Earlier overlapping labels do not establish a disposition or select a sealing procedure. They remain optional history; the existing petition result and fulfillment authority remain separate." });
+      continue;
+    }
+
+    if (factId === "record_type" && dcFlPetitionRecordHistory && !overrideClass && !needsHuman.has(factId)
+      && !input.recordOwnQuestionIds?.has(factId)) {
+      const retained = [input.screeningAnswers, input.prefilledAnswers, input.savedAnswers, input.profileFacts]
+        .some(answers => answers && Object.hasOwn(answers, factId));
+      facts.push({ factId, collection: "conditional", phase: retained ? "render" : "known",
+        group: retained ? group : null, active: retained, optional: true,
+        source: "dc_fl_petition_record_type_history",
+        reason: "Earlier overlapping labels do not establish a disposition or select a procedure. They remain optional history; the existing route result and fulfillment refusal remain unchanged." });
       continue;
     }
 
