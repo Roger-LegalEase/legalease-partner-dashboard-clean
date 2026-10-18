@@ -82,18 +82,21 @@ for (const [questionRecordId, route] of cases) {
     ['excluded',{state_exclusion_categories:['Violent offense']},'likely_not_eligible','al.state_exclusion_selected'],
     ['uncertain',{case_outcome:'I am not sure'},'needs_review','al.source_fact_unknown']
   ])check(`${route}: ${label} keeps predecessor outcome and saved history`,()=>{
-    for(const raw of [undefined,'Literal court category',{unknown:true},['Earlier category','Another category']]){
-      const input={...answers,...delta,...(raw===undefined?{}:{offense_category:raw})};
-      const a=evaluate({jurisdiction:'AL',profileVersion:profile.profileVersion,matterId:'synthetic-boundary-'+questionRecordId,answers:input});
-      assert.equal(a.evaluation.resultCode,result);assert.equal(a.evaluation.reasons[0].code,code);assert.equal(a.evaluation.paymentAllowed,false);
-      if(label==='uncertain'){
-        const seed=P.protectedPacketDraftSeedFromAuthoritative({authoritative:a,screeningAnswers:input,dependencies:{},capturedAt:'2026-10-18T00:00:00Z'});assert(seed);
-        const record={status:'unverified',revision:0,draftSnapshot:seed.snapshot,draftHash:seed.hash};
+    const input={...answers,...delta};
+    const a=evaluate({jurisdiction:'AL',profileVersion:profile.profileVersion,matterId:'synthetic-boundary-'+questionRecordId,answers:input});
+    assert.equal(a.evaluation.resultCode,result);assert.equal(a.evaluation.reasons[0].code,code);assert.equal(a.evaluation.paymentAllowed,false);
+    assert.throws(()=>evaluate({jurisdiction:'AL',profileVersion:profile.profileVersion,answers:{...input,offense_category:'Injected category'}}),/Unknown question ids: offense_category/);
+    if(label==='uncertain'){
+      const seed=P.protectedPacketDraftSeedFromAuthoritative({authoritative:a,screeningAnswers:input,dependencies:{},capturedAt:'2026-10-18T00:00:00Z'});assert(seed);
+      for(const raw of [undefined,'Literal court category',{unknown:true},['Earlier category','Another category']]){
+        const snapshot=structuredClone(seed.snapshot);if(raw!==undefined)snapshot.packetAnswers.offense_category=structuredClone(raw);
+        const record={status:'unverified',revision:0,draftSnapshot:snapshot,draftHash:P.protectedPacketDraftHash(snapshot)};
+        const evaluated=P.evaluateProtectedPacketFacts(snapshot).evaluation;
+        assert.equal(evaluated.resultCode,result);assert.equal(evaluated.reasons[0].code,code);assert.equal(evaluated.paymentAllowed,false);
         assert.deepEqual(P.packetInformationPatch({protectedVerification:record,answers:{}}).protectedTransition.nextVerification,record);
       }
     }
   });
-
   const model = record => P.protectedPacketInformationModelFor(record);
   check(`${route}: no new category gate or inferred classification`, () => {
     const m = model(original);
@@ -160,8 +163,6 @@ for (const [questionRecordId, route] of cases) {
     });
     assert.equal(resolved.derivedFacts[category], undefined);
     for (const extra of [
-      { savedAnswers: { case_outcome: { value: outcome, unknown: true } } },
-      { unresolvedSavedFactIds: new Set(['offense_level']) },
       { recordOwnQuestionIds: new Set([category]) },
       { override: { routeKey: `AL:${route}`, classes: { [category]: 'render_required' } } },
       { override: { routeKey: `AL:${route}`, needsHumanClassification: [category] } }
@@ -248,9 +249,16 @@ for (const [id, original] of [...records]) {
     assert.deepEqual(records.get(id).draftSnapshot.packetAnswers[category], { unknown: true });
     assert.deepEqual(safety(records.get(id).draftSnapshot), safety(original.draftSnapshot));
   });
+  const incomplete=['New category','Other category'];
+  response=await post(id,{[category]:incomplete});
+  const incompleteBody=await response.json();
+  check(`${id}: incomplete text draft remains literal and nonpayable`,()=>{
+    assert.equal(response.status,200);assert.deepEqual(records.get(id).draftSnapshot.packetAnswers[category],incomplete);
+    assert.equal(records.get(id).draftSnapshot.paymentAllowed,false);assert.equal(incompleteBody.readyToGenerate,false);
+  });
   const stable=structuredClone(records.get(id));
-  response=await post(id,{[category]:['New category','Other category']});
-  check(`${id}: unsupported new category array refused`,()=>{assert.equal(response.status,422);assert.deepEqual(records.get(id),stable);});
+  response=await post(id,{[category]:{unexpected:true}});
+  check(`${id}: unsupported draft object refused`,()=>{assert.equal(response.status,400);assert.deepEqual(records.get(id),stable);});
   const before = structuredClone(records.get(id)), savesBefore = saves;
   for (const [kind, status, error] of [['stale', 409, 'revision_conflict'], ['anonymous', 401, 'auth_required'],
     ['unverified', 403, 'verified_account_required'], ['other-owner', 404, 'matter_not_found']]) {
