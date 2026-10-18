@@ -516,6 +516,7 @@ if (fs.existsSync(path.join(ROOT, UNREACHABLE_BASES))) {
     if (!isCommit(row.verifiedAtBase) || !isCommit(row.standInBase)) throw new Error(`${UNREACHABLE_BASES}: ${row.evidencePath}: bases must be commit-shaped`);
     if (commitExists(row.verifiedAtBase)) throw new Error(`${UNREACHABLE_BASES}: ${row.verifiedAtBase} is reachable again; remove its stale entry`);
     if (!commitExists(row.standInBase)) throw new Error(`${UNREACHABLE_BASES}: stand-in ${row.standInBase} is not a reachable commit`);
+    if (!fs.existsSync(path.join(ROOT, row.evidencePath))) throw new Error(`${UNREACHABLE_BASES}: ${row.evidencePath} no longer exists; a moved return would silently lose its stand-in`);
     standInBase.set(`${row.verifiedAtBase}\0${row.evidencePath}`, row.standInBase);
   }
 }
