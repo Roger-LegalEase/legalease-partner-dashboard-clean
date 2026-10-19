@@ -17,7 +17,7 @@ export function caProp64ContactQuestions(answers: Readonly<Record<string, unknow
       translations: { es: { prompt: "¿Qué datos de contacto deben aparecer para la parte o el abogado que presenta esta solicitud?", helperText: "Use los datos de contacto para esta presentación. Son distintos de los datos de su cuenta y de cualquier persona que entregue documentos. Puede guardar datos incompletos. El fax y el correo electrónico opcionales no dan consentimiento para la notificación electrónica." } } },
     { id: CA_COURT_CONTACT, prompt: "What is the address of the court receiving this filing?", helperText: "Use the actual courthouse address for this filing. The county alone does not identify a courthouse. Check whether its mailing address is the same or different.",
       translations: { es: { prompt: "¿Cuál es la dirección del tribunal que recibirá esta presentación?", helperText: "Use la dirección del tribunal correspondiente a esta presentación. El condado por sí solo no identifica el edificio del tribunal. Compruebe si su dirección postal es la misma o una diferente." } } }
-  ].map(q => ({ ...q, ...(q.id === CA_FILER_CONTACT && privacy.helperText ? {
+  ].map(q => ({ ...q, ...(q.id === CA_FILER_CONTACT && privacy.helperText && !sameKnownQuestionAnswer(privacy, answers[CA_SAFE_AT_HOME_ID], "Yes") ? {
     helperText: `${q.helperText} ${privacy.helperText}`,
     translations: { es: { prompt: q.translations.es.prompt, helperText: `${q.translations.es.helperText} ${privacy.translations!.es!.helperText}` } }
   } : {}), stage: "packet_information", type: "filing_contact", required: true, contextOnly: false, options: null, answerContract: CA_CONTACT_CONTRACT, contactContext }));

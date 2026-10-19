@@ -169,7 +169,7 @@ for(const retained of [false,true]){
  checks.push({name:'held no-plan privacy retained='+retained,pass:true});
 }
 // Actual controlled callbacks; only the locale hook is replaced, with no writes on mount.
-register('data:text/javascript,'+encodeURIComponent('export async function load(u,c,n){return u.endsWith("/LocalizationProvider.tsx")?{format:"module",source:"export function useLocalization(){return {locale:globalThis.__caSafeHomeLocale}}",shortCircuit:true}:n(u,c)}'));
+register('data:text/javascript,'+encodeURIComponent('export async function load(u,c,n){return u.endsWith("/LocalizationProvider.tsx")?{format:"module",source:"export function useLocalization(){return {locale:globalThis.__caSafeHomeLocale,t:(_key,fallback)=>fallback,text:value=>value}}",shortCircuit:true}:n(u,c)}'));
 const {FilingContactFields}=await import('../src/components/expungement-ai/screening/fields/FilingContactFields.tsx');
 const {renderToStaticMarkup}=await import('react-dom/server');
 const nodes=tree=>Array.isArray(tree)?tree.flatMap(nodes):tree&&typeof tree==='object'&&tree.props?[tree,...nodes(tree.props.children)]:[];
@@ -211,4 +211,18 @@ for(const locale of ['en','es'])for(const representation of ['self_represented',
  checks.push({name:'privacy editor '+locale+'/'+representation+'/'+version,pass:true});
 }
 
+// CA-08: count the helper across the actual question renderer, including the fresh N1 state.
+const React=(await import('react')).default;
+const {QuestionField}=await import('../src/components/expungement-ai/screening/QuestionField.tsx');
+for(const locale of ['en','es'])for(const representation of [undefined,'self_represented','attorney']){
+ globalThis.__caSafeHomeLocale=locale;
+ const answers={[privacyId]:'Yes',ca_prop64_filer_representation:representation,participant_full_legal_name:'Synthetic Filer',ca_prop64_filing_court_county:'Yolo'},before=structuredClone(answers);
+ const all=[caSafeAtHomeQuestion(answers),...questions(answers)];
+ const html=renderToStaticMarkup(React.createElement(React.Fragment,null,...all.map(question=>React.createElement(QuestionField,{key:question.id,question,stateCode:'CA',value:answers[question.id],onChange(){throw Error('render must not save')}}))));
+ const needle=renderToStaticMarkup(React.createElement('p',null,adopted[locale].helperYes)).slice(3,-4);
+ check('CA-08 actual helper count '+locale+'/'+representation,html.split(needle).length-1,representation==='attorney'?0:1);assert.deepEqual(answers,before);
+ // Uncertain enrollment keeps the existing filer warning; no new address claim.
+ const unknown=questions({...answers,[privacyId]:'I am not sure'}).find(q=>q.id===C.CA_FILER_CONTACT);
+ assert((locale==='es'?unknown.translations.es.helperText:unknown.helperText).includes(adopted[locale].helperNotSure));
+}
 const failed=checks.filter(x=>!x.pass),report={status:failed.length?'FAIL':'PASS',checks:checks.length,failed,details:checks,current,limits:['Engineering fact collection only. Source/legal/language/visual/fulfillment approvals pending.','Authenticated owner and rendered source PDF acceptance separately required.']};if(process.argv[2])fs.writeFileSync(process.argv[2],JSON.stringify(report,null,2)+'\n',{flag:'wx'});console.log(JSON.stringify({status:report.status,checks:checks.length,failed:failed.map(x=>({name:x.name,actual:x.actual,expected:x.expected}))}));assert.equal(failed.length,0);
