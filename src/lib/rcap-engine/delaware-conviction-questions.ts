@@ -871,7 +871,7 @@ export const DE_CONVICTION_QUESTIONS: PublicQuestion[] = [
         "label": "Title 21 motor vehicle offenses",
         "translations": {
           "es": {
-            "label": "Delitos de vehículos del título 21"
+            "label": "Delitos de tránsito del título 21"
           }
         }
       },
@@ -879,7 +879,7 @@ export const DE_CONVICTION_QUESTIONS: PublicQuestion[] = [
         "label": "Other cases each independently eligible for mandatory expungement",
         "translations": {
           "es": {
-            "label": "Otros casos, cada uno admisible de forma independiente para eliminación obligatoria"
+            "label": "Otros casos, cada uno de los cuales reúne por sí solo los requisitos para la eliminación obligatoria"
           }
         }
       },
@@ -952,7 +952,7 @@ export const DE_CONVICTION_QUESTIONS: PublicQuestion[] = [
     },
     "translations": {
       "es": {
-        "prompt": "¿Se ha establecido de forma independiente la admisibilidad de todos los cargos de cada otro caso según §4373?"
+        "prompt": "¿Se ha establecido por separado que todos los cargos de cada uno de los demás casos reúnen los requisitos según §4373?"
       }
     }
   },
@@ -1002,7 +1002,7 @@ export const DE_CONVICTION_QUESTIONS: PublicQuestion[] = [
         "label": "Title 21 motor vehicle offenses",
         "translations": {
           "es": {
-            "label": "Delitos de vehículos del título 21"
+            "label": "Delitos de tránsito del título 21"
           }
         }
       },
@@ -1127,7 +1127,7 @@ export const DE_CONVICTION_QUESTIONS: PublicQuestion[] = [
         "label": "Restitution is paid; an actual court order waived fines/fees or converted them to a civil judgment",
         "translations": {
           "es": {
-            "label": "La restitución está pagada; una orden judicial real eximió las multas o tasas, o las convirtió en sentencia civil"
+            "label": "La restitución está pagada; una orden del tribunal eximió las multas o tasas, o las convirtió en sentencia civil"
           }
         }
       },
@@ -1166,7 +1166,7 @@ export const DE_CONVICTION_QUESTIONS: PublicQuestion[] = [
     },
     "translations": {
       "es": {
-        "prompt": "¿Cuál es el estado de las obligaciones de dinero de estas condenas?"
+        "prompt": "¿Cuál es la situación del dinero adeudado por estas condenas?"
       }
     }
   },
