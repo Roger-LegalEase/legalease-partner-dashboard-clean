@@ -18,6 +18,7 @@ type CanonicalVerificationFact = {
   value: unknown;
   source: VerificationFactSource;
   systemContext: boolean;
+  purpose?: { en: string; es: string };
 };
 
 type CanonicalVerificationContextFact = {
@@ -43,6 +44,7 @@ export type VerificationSummaryRow = {
   /** Display-only Spanish; canonical labels, values and manifest keys stay intact. */
   labelEs?: string;
   valueEs?: string;
+  purpose?: { en: string; es: string };
 };
 
 export type VerificationContextRow = {
@@ -153,6 +155,7 @@ export function verificationSummary(model: {
       questionById.get(fact.id)?.prompt === fact.label ? questionById.get(fact.id) : undefined),
     ...reviewAnswerPresentation(fact, questionById.get(fact.id), model.stateCode),
     source: fact.source,
+    ...(fact.purpose ? { purpose: { ...fact.purpose } } : {}),
     editId: fact.id === "social_security_number_last_four" && requiresMcicIdentifierAuthority(model.stateCode, model.pathwayId) ? "social_security_number" : !fact.systemContext
       && (fact.source === "prefilledAnswers" || fact.source === "packetAnswers"
         // This existing NY correction remains owner-editable when its original
@@ -214,7 +217,12 @@ function readCanonicalFacts(value: unknown): CanonicalVerificationFact[] | null 
   for (const candidate of value) {
     if (!candidate || typeof candidate !== "object" || Array.isArray(candidate)) return null;
     const fact = candidate as Record<string, unknown>;
-    if (!hasExactKeys(fact, ["id", "key", "label", "source", "systemContext", "value"])
+    const hasPurpose = Object.hasOwn(fact, "purpose");
+    const purpose = fact.purpose;
+    if (hasPurpose && (!purpose || typeof purpose !== "object" || Array.isArray(purpose)
+      || !hasExactKeys(purpose as Record<string, unknown>, ["en", "es"])
+      || Object.values(purpose).some(text => typeof text !== "string" || text.trim().length === 0))) return null;
+    if (!hasExactKeys(fact, ["id", "key", "label", "source", "systemContext", "value", ...(hasPurpose ? ["purpose"] : [])])
       || typeof fact.id !== "string" || fact.id.length === 0
       || typeof fact.label !== "string" || fact.label.length === 0
       || typeof fact.source !== "string" || !SOURCES.includes(fact.source as VerificationFactSource)

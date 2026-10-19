@@ -206,7 +206,7 @@ function AnswerSection({ title, itemId, rows }: { title: string; itemId: string;
         {rows.map((entry) => (
           <div className="grid gap-2 py-4 sm:grid-cols-[1fr_1fr_auto] sm:items-center" key={entry.key}>
             <dt className="text-sm font-bold text-[#334155]"><LocalizedCopy en={entry.label} es={entry.labelEs} /></dt>
-            <dd className={`whitespace-pre-wrap break-words ${entry.value === "Missing" ? "text-sm font-semibold text-[#B42318]" : "text-sm text-[#475A6E]"}`}><LocalizedCopy en={entry.value} es={entry.valueEs} /></dd>
+            <dd className={`whitespace-pre-wrap break-words ${entry.value === "Missing" ? "text-sm font-semibold text-[#B42318]" : "text-sm text-[#475A6E]"}`}><LocalizedCopy en={entry.value} es={entry.valueEs} />{entry.purpose ? <p data-fact-purpose={entry.id} className="mt-2 text-sm leading-6 text-[#475A6E]"><LocalizedCopy {...entry.purpose} /></p> : null}</dd>
             {entry.editId ? (
               <dd><Link className="inline-flex min-h-10 items-center rounded-[10px] border border-[#D9DEE8] px-4 text-sm font-bold text-[#0B1320]" href={`/briefcase/${itemId}/packet-information?edit=${encodeURIComponent(entry.editId)}`}><LocalizedRuntimeText text={"Edit"} /></Link></dd>
             ) : null}
