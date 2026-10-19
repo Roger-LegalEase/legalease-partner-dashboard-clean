@@ -19,8 +19,78 @@
   "compositionSources": [
     {
       "path": "data/record-clearing/legal-decisions/2026-08-28-national-legal-decisions.json",
-      "sha256": "0aad88eff0e3d12ea9b10de9c80edcc5b3134508f097c9e85f0e35d34a9c74ef",
-      "byteLength": 184365
+      "sha256": "63fe0b16adc4c2debd8b583cf02ba365b8b2045d86f53af5c5be720c86e74373",
+      "byteLength": 184885,
+      "identityRefresh": {
+        "refreshedOn": "2026-10-19",
+        "was": {
+          "sha256": "0aad88eff0e3d12ea9b10de9c80edcc5b3134508f097c9e85f0e35d34a9c74ef",
+          "byteLength": 184365
+        },
+        "why": "The record was rewritten around this receipt's anchors. 13 named entries moved between the blob carrying the previous pin and the bytes on disk (question:Q-002:ky_felony_expungement_after_pardon, question:Q-003:ky_felony_vacatur_expungement, question:Q-004:ky_nonconviction_expungement, question:Q-006:la-978-felony-conviction, question:Q-007:la-985-3-immediate-expungement, question:Q-008:la-985-expungement-by-redaction, question:Q-019:nd-dui-record-seal, question:Q-020:nd-dui-record-seal, question:Q-023:ne-expunge-le-error, question:Q-024:ne-expunge-le-error, question:Q-025:ne-expunge-le-error, question:Q-026:ne-seal-pardoned, question:Q-027:ne-seal-pardoned), and this receipt anchors no entry that moved: every entry it binds, and this record's global authority fields, were recovered from that blob and compared object-for-object, order-independent, against the current record, and all 2 were identical.",
+        "anchorsCompared": 2,
+        "anchorDetail": [
+          "decisionsSharedAuthority: identical",
+          "research-track:al-uncharged-arrest: identical"
+        ],
+        "anchorsIdentical": 2,
+        "identicalAnchorSha256": {
+          "decisionsSharedAuthority": "00934d2e8d0a1605e7757bdbe21e77e4e37d5cf86610f5b4e3ef5fdcf876fa60",
+          "research-track:al-uncharged-arrest": "633386ca944f2c65bb9e9090398bfa2b0dcd45ea6909de55f1578b1f362edf10"
+        },
+        "canonicalisation": "keys sorted recursively, JSON.stringify with no spacing, one trailing newline, UTF-8",
+        "anchorScope": {
+          "anchorIds": [
+            "research-track:al-uncharged-arrest"
+          ],
+          "derivation": {
+            "fromPinRecordId": null,
+            "fromRouteKeys": {
+              "routeKeys": [
+                "obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge"
+              ],
+              "from": "receipt",
+              "tracks": [
+                "al-uncharged-arrest"
+              ]
+            },
+            "sharedAuthorityComparedAsOneAnchor": true,
+            "implementationMatrixRowsComparedForQuestions": true,
+            "measuredReVerification": [
+              {
+                "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-20261019-reverify-1b48eb358.json",
+                "lane": "VF01",
+                "verifiedAtBase": "1b48eb358e2dec7b5b016a4e028be0a2d81b8996"
+              }
+            ]
+          }
+        },
+        "entriesThatMovedInThisRecord": [
+          "question:Q-002:ky_felony_expungement_after_pardon",
+          "question:Q-003:ky_felony_vacatur_expungement",
+          "question:Q-004:ky_nonconviction_expungement",
+          "question:Q-006:la-978-felony-conviction",
+          "question:Q-007:la-985-3-immediate-expungement",
+          "question:Q-008:la-985-expungement-by-redaction",
+          "question:Q-019:nd-dui-record-seal",
+          "question:Q-020:nd-dui-record-seal",
+          "question:Q-023:ne-expunge-le-error",
+          "question:Q-024:ne-expunge-le-error",
+          "question:Q-025:ne-expunge-le-error",
+          "question:Q-026:ne-seal-pardoned",
+          "question:Q-027:ne-seal-pardoned"
+        ],
+        "recoveredFrom": {
+          "method": "git rev-list --all -- <path>, deduplicated by blob id, each blob hashed until the pin matched",
+          "blobId": "d316c19be26d5ffbef04260dd484c08984f2cec7",
+          "commit": "2375800649ba76eebc40adf4674c4112cd8d1d22",
+          "commitsWithThisPath": 5,
+          "distinctBlobs": 5,
+          "blobsHashed": 2
+        },
+        "previousIdentityRefresh": null,
+        "whatThisDoesNotClaim": "Nothing about the packet's bytes, its obligations, its counters or its verdict. It restores an identity binding that lapsed on an edit to entries this family does not bind, and it opens no route and grants no approval."
+      }
     },
     {
       "path": "data/record-clearing/legal-decisions/2026-08-30-lawrence-four-counsel-determinations.json",
@@ -34,8 +104,90 @@
     },
     {
       "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
-      "sha256": "9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1",
-      "byteLength": 2607149
+      "sha256": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
+      "byteLength": 2629290,
+      "identityRefresh": {
+        "refreshedOn": "2026-10-19",
+        "was": {
+          "sha256": "9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1",
+          "byteLength": 2607149
+        },
+        "why": "The record was rewritten around this receipt's anchors. 32 named entries moved between the blob carrying the previous pin and the bytes on disk (obligation:decision-branch:SD:sd_sis_sealing:contested_refusal_handoff, obligation:decision-branch:SD:sd_sis_sealing:original_case_enforcement_motion, obligation:decision-branch:SD:sd_sis_sealing:written_implementation_request, obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief, obligation:track-only:AZ:az_wrongful_arrest_clearance, obligation:track-only:CA:ca-1203-4a, obligation:track-only:CT:ct-cannabis-petition, obligation:track-only:DC:dc_correct_misattributed_arrest, obligation:track-only:KY:ky_void_seal_marijuana_synthetic_salvia, obligation:track-only:NV:nv_repository_removal, obligation:track-pathway:AZ:az_wrongful_arrest_clearance:notation-of-clearance-after-a-wrongful-arrest-under-13-4051, obligation:track-pathway:CA:ca-1203-4a:dismissal-and-set-aside-without-probation-under-penal-code-1203-4a, obligation:track-pathway:CT:ct-cannabis-petition:petition-for-erasure-of-cannabis-conviction-records-under-54-142v, obligation:track-pathway:CT:ct-cleanslate-petition:petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202, obligation:track-pathway:DC:dc_innocence_expungement:dc_actual_innocence_expungement_16_803, obligation:track-pathway:GA:ga-misd-j4:sb-288-misdemeanor-conviction-restriction-and-sealing, obligation:track-pathway:GA:ga-pardon-j7:restriction-and-sealing-of-a-pardoned-felony, obligation:track-pathway:IL:il-prostitution-j-auto:felony-prostitution-relief, obligation:track-pathway:IL:il-prostitution-j-vacate:felony-prostitution-relief, obligation:track-pathway:KY:ky_void_seal_marijuana_synthetic_salvia:void-and-seal-a-first-marijuana-synthetic-drug-or-salvia-possession-conviction-under-218a-276, obligation:track-pathway:MS:ms-misd-1st:first-offender-nontraffic-misdemeanor-conviction-expungement-99-19-71-1, obligation:track-pathway:MS:ms-misd-addl:additional-justice-court-misdemeanor-relief-9-11-15-3, obligation:track-pathway:MS:ms-misd-addl:additional-justice-or-municipal-court-misdemeanor-relief, obligation:track-pathway:MS:ms-misd-addl:additional-municipal-court-misdemeanor-relief-21-23-7-6, obligation:track-pathway:MS:ms-nonconv:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal, obligation:track-pathway:NE:ne-expunge-le-error:law-enforcement-error-expungement, obligation:track-pathway:NV:nv_repository_removal:removal-of-a-record-from-the-central-repository-after-a-favourable-disposition-under-179a-160, obligation:track-pathway:NV:nv_seal_probation_family:probation-or-specialty-court-dismissal-set-aside-sealing, obligation:track-pathway:OR:or_conviction_setaside:marijuana-specific-set-aside-redesignation, obligation:track-pathway:SD:sd_sis_sealing:suspended-imposition-of-sentence-sealing, obligation:track-pathway:VA:va_exp_absolute_pardon:regime-1-expungement-available-now, obligation:track-pathway:WY:wy_fel_1502:felony-conviction-expungement-w-s-7-13-1502), and this receipt anchors no entry that moved: every entry it binds, and this record's global authority fields, were recovered from that blob and compared object-for-object, order-independent, against the current record, and all 2 were identical.",
+        "anchorsCompared": 2,
+        "anchorDetail": [
+          "censusSharedMetadata: identical",
+          "route:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge: identical"
+        ],
+        "anchorsIdentical": 2,
+        "identicalAnchorSha256": {
+          "censusSharedMetadata": "dc6cae03cce1813b786ae0a8693a33f25dc46794b14535d5259949b496c0b5e0",
+          "route:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge": "9c83bb15fdc5e9e117e76741d8fbc725ec6c5cc2b74ecae29160362c3678c358"
+        },
+        "canonicalisation": "keys sorted recursively, JSON.stringify with no spacing, one trailing newline, UTF-8",
+        "anchorScope": {
+          "anchorIds": [
+            "obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge"
+          ],
+          "derivation": {
+            "fromReceiptRouteKeys": [
+              "obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge"
+            ],
+            "sharedMetadataComparedExceptSourceFingerprint": true,
+            "countsNotCompared": true,
+            "measuredReVerification": [
+              {
+                "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-20261019-reverify-1b48eb358.json",
+                "lane": "VF01",
+                "verifiedAtBase": "1b48eb358e2dec7b5b016a4e028be0a2d81b8996"
+              }
+            ]
+          }
+        },
+        "entriesThatMovedInThisRecord": [
+          "obligation:decision-branch:SD:sd_sis_sealing:contested_refusal_handoff",
+          "obligation:decision-branch:SD:sd_sis_sealing:original_case_enforcement_motion",
+          "obligation:decision-branch:SD:sd_sis_sealing:written_implementation_request",
+          "obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief",
+          "obligation:track-only:AZ:az_wrongful_arrest_clearance",
+          "obligation:track-only:CA:ca-1203-4a",
+          "obligation:track-only:CT:ct-cannabis-petition",
+          "obligation:track-only:DC:dc_correct_misattributed_arrest",
+          "obligation:track-only:KY:ky_void_seal_marijuana_synthetic_salvia",
+          "obligation:track-only:NV:nv_repository_removal",
+          "obligation:track-pathway:AZ:az_wrongful_arrest_clearance:notation-of-clearance-after-a-wrongful-arrest-under-13-4051",
+          "obligation:track-pathway:CA:ca-1203-4a:dismissal-and-set-aside-without-probation-under-penal-code-1203-4a",
+          "obligation:track-pathway:CT:ct-cannabis-petition:petition-for-erasure-of-cannabis-conviction-records-under-54-142v",
+          "obligation:track-pathway:CT:ct-cleanslate-petition:petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202",
+          "obligation:track-pathway:DC:dc_innocence_expungement:dc_actual_innocence_expungement_16_803",
+          "obligation:track-pathway:GA:ga-misd-j4:sb-288-misdemeanor-conviction-restriction-and-sealing",
+          "obligation:track-pathway:GA:ga-pardon-j7:restriction-and-sealing-of-a-pardoned-felony",
+          "obligation:track-pathway:IL:il-prostitution-j-auto:felony-prostitution-relief",
+          "obligation:track-pathway:IL:il-prostitution-j-vacate:felony-prostitution-relief",
+          "obligation:track-pathway:KY:ky_void_seal_marijuana_synthetic_salvia:void-and-seal-a-first-marijuana-synthetic-drug-or-salvia-possession-conviction-under-218a-276",
+          "obligation:track-pathway:MS:ms-misd-1st:first-offender-nontraffic-misdemeanor-conviction-expungement-99-19-71-1",
+          "obligation:track-pathway:MS:ms-misd-addl:additional-justice-court-misdemeanor-relief-9-11-15-3",
+          "obligation:track-pathway:MS:ms-misd-addl:additional-justice-or-municipal-court-misdemeanor-relief",
+          "obligation:track-pathway:MS:ms-misd-addl:additional-municipal-court-misdemeanor-relief-21-23-7-6",
+          "obligation:track-pathway:MS:ms-nonconv:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
+          "obligation:track-pathway:NE:ne-expunge-le-error:law-enforcement-error-expungement",
+          "obligation:track-pathway:NV:nv_repository_removal:removal-of-a-record-from-the-central-repository-after-a-favourable-disposition-under-179a-160",
+          "obligation:track-pathway:NV:nv_seal_probation_family:probation-or-specialty-court-dismissal-set-aside-sealing",
+          "obligation:track-pathway:OR:or_conviction_setaside:marijuana-specific-set-aside-redesignation",
+          "obligation:track-pathway:SD:sd_sis_sealing:suspended-imposition-of-sentence-sealing",
+          "obligation:track-pathway:VA:va_exp_absolute_pardon:regime-1-expungement-available-now",
+          "obligation:track-pathway:WY:wy_fel_1502:felony-conviction-expungement-w-s-7-13-1502"
+        ],
+        "recoveredFrom": {
+          "method": "git rev-list --all -- <path>, deduplicated by blob id, each blob hashed until the pin matched",
+          "blobId": "e1448bf6dfaba0d0b2afc1bc0a13ad801688fed3",
+          "commit": "ecd2bde7980de4c5c33c4db956acec6a37102588",
+          "commitsWithThisPath": 14,
+          "distinctBlobs": 13,
+          "blobsHashed": 6
+        },
+        "previousIdentityRefresh": null,
+        "whatThisDoesNotClaim": "Nothing about the packet's bytes, its obligations, its counters or its verdict. It restores an identity binding that lapsed on an edit to entries this family does not bind, and it opens no route and grants no approval."
+      }
     }
   ],
   "formIdentityNote": "No private source byte is bound to this PF17 family. The output is plainly labelled as a preparation guide and is not assigned an Alabama form number.",
