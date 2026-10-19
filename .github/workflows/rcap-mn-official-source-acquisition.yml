@@ -1,0 +1,109 @@
+name: RCAP MN official source acquisition receipt
+
+# Fetches the four Minnesota Judicial Branch forms the GA14-MN blocker MN-OFFICIAL-SOURCE-BYTES names
+# (EXP102, EXP104, EXP105, FEE102) from the official site, records sha256, byteLength, finalUrl and
+# retrievedAt for each, compares the digest to the one the committed corpus index records at the pinned
+# commit, and uploads the receipt as an artifact. It writes nothing into the repository, private/, the
+# corpus index or any custody manifest: a MATCH is provenance the custodian may bind afterwards; a
+# different byte string is a SOURCE-VERSION-FINDING, never a substitution. Dispatch only; no push trigger.
+on:
+  workflow_dispatch:
+    inputs:
+      commit_sha:
+        description: The exact commit whose corpus index supplies the expected digests. Not a branch.
+        required: true
+        type: string
+      form_page_url:
+        description: The official Minnesota Judicial Branch forms page that lists the four forms (each form's PDF link is found on it by form number).
+        required: false
+        default: https://www.mncourts.gov/GetForms.aspx?c=19&p=73
+        type: string
+      form_numbers:
+        description: Comma-separated form numbers to acquire.
+        required: false
+        default: EXP102,EXP104,EXP105,FEE102
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  receipt:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.commit_sha }}
+      - name: Refuse a movable ref and prove the checkout is the pinned commit
+        env:
+          PINNED: ${{ inputs.commit_sha }}
+        run: |
+          set -euo pipefail
+          case "$PINNED" in *[!0-9a-f]*|"") echo "commit_sha must be a full or abbreviated hex commit, got '$PINNED'"; exit 1;; esac
+          test "$(git rev-parse HEAD)" = "$(git rev-parse "$PINNED")"
+          echo "pinned commit $(git rev-parse HEAD)"
+      - name: Fetch the official forms, hash the bytes, compare to the committed index
+        env:
+          FORM_PAGE_URL: ${{ inputs.form_page_url }}
+          FORM_NUMBERS: ${{ inputs.form_numbers }}
+          OUT_DIR: ${{ runner.temp }}/mn-official-source-receipt
+        run: |
+          set -euo pipefail
+          mkdir -p "$OUT_DIR"
+          PYTHONDONTWRITEBYTECODE=1 python3 - <<'PY'
+          import hashlib, json, os, re, subprocess, sys, urllib.request, urllib.parse
+          from datetime import datetime, timezone
+          out = os.environ["OUT_DIR"]; page_url = os.environ["FORM_PAGE_URL"]
+          forms = [f.strip().upper() for f in os.environ["FORM_NUMBERS"].split(",") if f.strip()]
+          commit = subprocess.run(["git", "rev-parse", "HEAD"], capture_output=True, text=True, check=True).stdout.strip()
+          index = json.load(open("data/rcap-all50/local-source-corpus-index.json"))
+          def expected(form):
+              rows = [e for e in index["entries"] if e.get("state") == "MN" and (str(e.get("formNumber") or "").upper() == form or str(e.get("fileName") or "").upper().startswith(form))]
+              digests = sorted({(e["sha256"], e["byteLength"]) for e in rows})
+              return {"indexedPaths": [e["path"] for e in rows], "sha256": digests[0][0] if len(digests) == 1 else None, "byteLength": digests[0][1] if len(digests) == 1 else None, "ambiguous": len(digests) > 1}
+          UA = {"User-Agent": "LegalEase-source-receipt/1.0 (+github-actions; exact-byte acquisition with retrieval receipt)"}
+          def fetch(url):
+              req = urllib.request.Request(url, headers=UA)
+              with urllib.request.urlopen(req, timeout=60) as r:
+                  return r.geturl(), r.status, r.headers.get("Content-Type", ""), r.read()
+          receipt = {"schemaVersion": "rcap-official-source-retrieval-receipt/v1", "commit": commit, "formPageUrl": page_url, "runId": os.environ.get("GITHUB_RUN_ID"), "retrievedAt": datetime.now(timezone.utc).isoformat(), "writesToCustody": False, "forms": []}
+          try:
+              page_final, page_status, page_type, page_bytes = fetch(page_url); page_html = page_bytes.decode("utf-8", "replace")
+              receipt["formPage"] = {"finalUrl": page_final, "httpStatus": page_status, "contentType": page_type, "byteLength": len(page_bytes), "sha256": hashlib.sha256(page_bytes).hexdigest()}
+          except Exception as e:
+              receipt["formPage"] = {"error": repr(e)[:300]}; page_html = ""; page_final = page_url
+          for form in forms:
+              row = {"formNumber": form, "expected": expected(form), "result": None}
+              hrefs = [urllib.parse.urljoin(page_final, h) for h in re.findall(r'href="([^"]+)"', page_html, flags=re.I) if form.lower() in h.lower()]
+              pdfs = [h for h in hrefs if ".pdf" in h.lower()] or hrefs
+              row["candidateLinks"] = pdfs[:5]
+              if not pdfs:
+                  row["result"] = "LINK-NOT-FOUND-ON-FORM-PAGE"; receipt["forms"].append(row); continue
+              try:
+                  final, status, ctype, data = fetch(pdfs[0])
+                  row.update({"requestedUrl": pdfs[0], "finalUrl": final, "httpStatus": status, "contentType": ctype, "byteLength": len(data), "sha256": hashlib.sha256(data).hexdigest(), "retrievedAt": datetime.now(timezone.utc).isoformat()})
+                  if "pdf" not in ctype.lower() and not data.startswith(b"%PDF"):
+                      row["result"] = "FETCHED-NOT-A-PDF"
+                  elif row["expected"]["sha256"] is None:
+                      row["result"] = "NO-SINGLE-INDEXED-DIGEST-TO-COMPARE"
+                  elif row["sha256"] == row["expected"]["sha256"] and row["byteLength"] == row["expected"]["byteLength"]:
+                      row["result"] = "MATCH"
+                  else:
+                      row["result"] = "SOURCE-VERSION-FINDING"
+              except Exception as e:
+                  row.update({"requestedUrl": pdfs[0], "error": repr(e)[:300], "result": "FETCH-FAILED"})
+              receipt["forms"].append(row)
+          json.dump(receipt, open(os.path.join(out, "receipt.json"), "w"), indent=2)
+          for r in receipt["forms"]:
+              print(f'{r["formNumber"]:8s} {r["result"]:34s} {r.get("sha256","-")[:16]:16s} {str(r.get("byteLength","-")):>8s} {r.get("finalUrl","-")}')
+          print("receipt written; nothing was written into the repository, private/, the index or any manifest")
+          PY
+      - name: Prove the checkout is untouched
+        run: test -z "$(git status --porcelain)" && echo "worktree clean"
+      - name: Upload the retrieval receipt
+        uses: actions/upload-artifact@v4
+        with:
+          name: mn-official-source-receipt-${{ github.run_id }}
+          path: ${{ runner.temp }}/mn-official-source-receipt/
+          retention-days: 30
+          if-no-files-found: error
