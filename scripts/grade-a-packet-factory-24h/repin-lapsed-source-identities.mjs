@@ -1081,6 +1081,71 @@ const censusAdapter = {
   }
 };
 
+const MEMO_DIR = "data/record-clearing/legal-design-intake";
+/*
+ * A state legal-design memo (<JUR>.memo.json): memo metadata plus `tracks`
+ * keyed by trackId. Scope comes from the family's own records: the pin's
+ * recordId `legal-design-intake:<JUR>#<trackId>` when it names one, and the
+ * receipt's routeKeys `obligation:<mode>:<JUR>:<trackId>[:...]` whose fourth
+ * segment is a track in this memo. Route keys naming a decision or cohort id
+ * there are recorded, not guessed at.
+ *
+ * MEMO METADATA IS AN ANCHOR. Everything outside `tracks` -- memoVersion,
+ * submittedAt and every _review / _accounting / _correction block -- is the
+ * memo's authority over every track and is compared whole. Another track's
+ * edit is exactly the drift this adapter exists to see past.
+ */
+const memoAdapter = {
+  describe: "state legal-design memo (memo metadata + the receipt's own tracks)",
+
+  index(doc, side) {
+    if (!doc || typeof doc !== "object" || doc.schemaVersion !== 1 || typeof doc.jurisdiction !== "string" || !Array.isArray(doc.tracks)) {
+      throw new Refusal(`the ${side} memo is not the shape this adapter describes`);
+    }
+    const out = new Map();
+    for (const t of doc.tracks) {
+      const id = t?.trackId;
+      if (typeof id !== "string" || !id) throw new Refusal(`the ${side} memo holds a track with no trackId`);
+      if (out.has(id)) throw new Refusal(`the ${side} memo holds duplicate track ${id}; an anchor that is not unique cannot be compared`);
+      out.set(id, t);
+    }
+    return out;
+  },
+
+  scopeFrom({ receipt, pin, currentDoc }) {
+    const byId = this.index(currentDoc, "current");
+    const anchors = new Set();
+    const recordId = typeof pin.recordId === "string" ? pin.recordId : "";
+    const fromRecordId = /^legal-design-intake:[A-Z]{2}#(.+)$/.exec(recordId)?.[1] ?? null;
+    if (recordId && !fromRecordId) throw new Refusal(`the pin's recordId ${JSON.stringify(recordId)} is not legal-design-intake:<JUR>#<trackId>`, { recordId });
+    if (fromRecordId) {
+      if (!byId.has(fromRecordId)) throw new Refusal(`the pin's recordId names track ${fromRecordId}, which the current memo does not carry`, { recordId });
+      anchors.add(fromRecordId);
+    }
+    const fromRouteKeys = [];
+    const routeKeysNamingNoTrack = [];
+    for (const routeKey of receipt.routeKeys ?? []) {
+      const s = String(routeKey).split(":");
+      if (s[2] === currentDoc.jurisdiction && byId.has(s[3])) { anchors.add(s[3]); if (!fromRouteKeys.includes(s[3])) fromRouteKeys.push(s[3]); }
+      else routeKeysNamingNoTrack.push(routeKey);
+    }
+    if (anchors.size === 0) throw new Refusal("the family's own records name no track in this memo, so there is nothing to compare", { recordId, routeKeys: receipt.routeKeys ?? [] });
+    return { anchorIds: [...anchors].sort(), derivation: { fromPinRecordId: fromRecordId, fromReceiptRouteKeys: fromRouteKeys, routeKeysNamingNoTrack, memoMetadataComparedAsOneAnchor: true } };
+  },
+
+  anchorsOf(doc, scope, side) {
+    const byId = this.index(doc, side);
+    const { tracks: _tracks, ...memoMetadata } = doc;
+    const out = new Map([["memoMetadata", memoMetadata]]);
+    for (const id of scope.anchorIds) {
+      if (!byId.has(id)) throw new Refusal(`anchor track ${id} is absent from the ${side} memo; the entry this family binds left the record and it owes a fresh read`, { anchor: `track:${id}`, side });
+      out.set(`track:${id}`, byId.get(id));
+    }
+    return out;
+  }
+};
+const memoPaths = (() => { try { return fs.readdirSync(path.join(ROOT, MEMO_DIR)).filter((n) => /^[A-Z]{2}\.memo\.json$/.test(n)).map((n) => `${MEMO_DIR}/${n}`); } catch { return []; } })();
+
 export const ADAPTERS = new Map([
   [REGISTRY, registryAdapter],
   [PACKET_MANIFESTS, packetManifestAdapter],
@@ -1088,7 +1153,8 @@ export const ADAPTERS = new Map([
   [WV_COMPILED_PROFILE, compiledProfileAdapter],
   [SINGLE_ROUTES, singleRoutesAdapter],
   [DECISIONS, decisionsAdapter],
-  [CENSUS, censusAdapter]
+  [CENSUS, censusAdapter],
+  ...memoPaths.map((p) => [p, { ...memoAdapter, recordPath: p }])
 ]);
 
 /* ------------------------------------------------------------------ *
