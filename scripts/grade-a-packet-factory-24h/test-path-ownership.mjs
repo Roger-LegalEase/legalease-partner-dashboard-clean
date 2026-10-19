@@ -56,4 +56,11 @@ assert.deepEqual(
   "any modern repair claim supersedes its historical pseudo-owner; only work with no modern claim stays protected"
 );
 
+/* A withdrawn modern claim, read from the ledger's withdrawals log as generate.mjs
+ * now passes it, ends the historical hold just as a released one does. */
+const withdrawal = { subjectType: "packet-family", subjectId: "legacy_without_modern_claim-set", operation: "rapid-repair",
+  lane: "FIX05", withdrawnAt: "2026-09-02T17:51:55Z", reason: "obligation dissolved" };
+assert.deepEqual(unresolvedHistoricalRepairPaths(historical, [...claims, withdrawal]), [],
+  "a withdrawn modern repair claim proves the handoff and retires the historical pseudo-owner");
+
 console.log("OK path ownership recognizes glob collisions and retires only superseded historical holds");

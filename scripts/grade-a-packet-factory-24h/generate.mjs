@@ -1335,12 +1335,14 @@ for (const a of ACTIVE_LANES) {
 }
 /* Historical Wave 2 rows remain protective until a modern repair claim proves
  * who took custody. Once every such claim is released, keeping the historical
- * glob active would make the next repair own and prohibit the same family. */
+ * glob active would make the next repair own and prohibit the same family.
+ * A withdrawn modern claim is the same proof: withdrawal moves it out of
+ * `claims` into `withdrawals`, and reading `claims` alone kept
+ * ny_160_59_petition-set's Wave 2 glob alive after FIX05 had held it. */
 let priorClaimsForOwnership = [];
 try {
-  priorClaimsForOwnership = JSON.parse(
-    fs.readFileSync(path.join(ROOT, `${OUT_DIR}/claim-ledger.json`), "utf8")
-  ).claims ?? [];
+  const priorLedger = JSON.parse(fs.readFileSync(path.join(ROOT, `${OUT_DIR}/claim-ledger.json`), "utf8"));
+  priorClaimsForOwnership = [...(priorLedger.claims ?? []), ...(priorLedger.withdrawals ?? [])];
 } catch { /* first generation: every historical hold stays conservative */ }
 activePaths.push(...unresolvedHistoricalRepairPaths(IN.wave2Repairs.assignments, priorClaimsForOwnership));
 
