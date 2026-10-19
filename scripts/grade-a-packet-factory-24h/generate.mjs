@@ -1484,8 +1484,17 @@ function boundSourceDriftedSinceVerdict(directory) {
   const all = [];
   try {
     const receipt = JSON.parse(fs.readFileSync(path.join(ROOT, directory, "source-receipt.json"), "utf8"));
-    for (const rec of receipt.committedRecords ?? []) {
-      const rel = rec.pathInRepository;
+    /* compositionSources pin repository records the same way committedRecords
+     * do (DE pins CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS there and lapsed on
+     * 2026-09-12 unseen). A private/ path is custody the conveyor measures,
+     * not a committed record, so it is not read here. */
+    const pinnedRecords = [
+      ...(receipt.committedRecords ?? []).map((rec) => ({ rel: rec?.pathInRepository, sha256: rec?.sha256 })),
+      ...(receipt.compositionSources ?? []).map((rec) => ({ rel: rec?.pathInRepository ?? rec?.path, sha256: rec?.sha256 }))
+        .filter((rec) => typeof rec.rel === "string" && !rec.rel.startsWith("private/"))
+    ];
+    for (const rec of pinnedRecords) {
+      const rel = rec.rel;
       if (!rel || !/^[0-9a-f]{64}$/.test(String(rec.sha256 ?? ""))) continue;
       const now = hashOnDisk(rel);
       /* A record that is GONE is a different failure -- the conveyor reports a
