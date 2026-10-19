@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `0e7d23540aafa65ac3b6963cf4ebcf117ca07fdd` (or the newer dispatch base)
+**Minimum required ancestor:** `260dd87098d60ef54ccd86df161ae923c88c4c85` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -21,7 +21,7 @@ source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --family 'agency-application-treatment:obligation:runtime-only:NM:dna-sample-profile-expungement' \
   --codex-cloud \
-  --minimum-captain-sha 0e7d23540aafa65ac3b6963cf4ebcf117ca07fdd
+  --minimum-captain-sha 260dd87098d60ef54ccd86df161ae923c88c4c85
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -41,8 +41,8 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 - Assert only these 4 exact families before reading or writing family content:
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'agency-application-treatment:obligation:runtime-only:NM:dna-sample-profile-expungement'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'census-pending-family:ME:juvenile-sealing'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'ms-nonconv-set'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'rcap-wa-custom-pleading-clean-tracks'`
 - A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.
 - Do not release a claim in a worker return. Captain releases it centrally after integrating the bounded return.
 
@@ -67,8 +67,8 @@ Repair exactly the proof obligations a verifier failed, on exactly the families 
 
 - `agency-application-treatment:obligation:runtime-only:NM:dna-sample-profile-expungement`
 - `census-pending-family:ME:juvenile-sealing`
+- `agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon`
 - `ms-nonconv-set`
-- `rcap-wa-custom-pleading-clean-tracks`
 
 ## What you receive
 
@@ -83,12 +83,12 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 - `data/rcap-grade-a/packet-factory-24h/fix02/**`
 - `data/rcap-all50/overlays/census-v1/nm/agency-application-treatment:obligation:runtime-only:nm:dna-sample-profile-expungement--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/me/census-pending-family:me:juvenile-sealing--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/ct/agency-application-treatment:obligation:track-only:ct:ct-provisional-pardon--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/ms/ms-nonconv-set--custom-pleading/**`
-- `data/rcap-all50/overlays/census-v1/wa/rcap-wa-custom-pleading-clean-tracks--custom-pleading/**`
 - `scripts/build-census-v1-agency-application-treatment:obligation:runtime-only:NM:dna-sample-profile-expungement.mjs`
 - `scripts/build-census-v1-census-pending-family:ME:juvenile-sealing.mjs`
+- `scripts/build-census-v1-agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon.mjs`
 - `scripts/build-census-v1-ms-nonconv-set.mjs`
-- `scripts/build-census-v1-rcap-wa-custom-pleading-clean-tracks.mjs`
 
 ## Never write here
 
