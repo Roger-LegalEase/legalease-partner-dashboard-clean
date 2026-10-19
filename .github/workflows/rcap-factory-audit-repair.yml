@@ -92,6 +92,8 @@ jobs:
         run: python3 scripts/rcap-corpus/test-oh-exact-font.py
       - name: Verify new acceptance-cycle dispatch regression guards
         run: node --test scripts/grade-a-packet-factory-24h/verification-cycle.test.mjs scripts/grade-a-packet-factory-24h/repin-packet-set-manifests.test.mjs && node scripts/grade-a-packet-factory-24h/test-unreachable-base-stand-ins.mjs
+      - name: Verifier returns are the extractor's current output
+        run: node scripts/grade-a-packet-factory-24h/extract-verifier-returns.mjs --check
       - name: Generator source preflight guard regressions
         id: generator_source_controls
         run: |
