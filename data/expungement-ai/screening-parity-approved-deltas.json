@@ -304,7 +304,7 @@
           },
           "src/lib/rcap-engine/evaluator.ts": {
             "priorSha256": "7e0a2ff3fb9dc580e81ebc31dbf96c5c8a255da301f106423620087ddacc9a95",
-            "newSha256": "fa9c65d573161f0acad08515fcede30fd8c83963d703dd5f2c3cb5e1dcb7ba94"
+            "newSha256": "4d8d1b08cfe85780a91b2e74a60c7c500ffc56eaef6fe24e18d913d721cde9b8"
           },
           "src/lib/rcap-engine/public-profile-projection.ts": {
             "priorSha256": "50b74b22af960407689291f5fc1c283b11e77224568454fc0a1ecdba3a1fe0d3",
@@ -318,6 +318,21 @@
           "scripts/test-ok-clean-slate-financial.mjs",
           "scripts/test-sc-guidance-financial.mjs",
           "scripts/verify-md-10-103-signed-approval.mjs"
+        ],
+        "sharedSourceContinuity": [
+          {
+            "originalRequirement": "GA-12 HI, accepted DUI rule-citation successor",
+            "path": "src/lib/rcap-engine/evaluator.ts",
+            "previousSha256": "fa9c65d573161f0acad08515fcede30fd8c83963d703dd5f2c3cb5e1dcb7ba94",
+            "currentSha256": "4d8d1b08cfe85780a91b2e74a60c7c500ffc56eaef6fe24e18d913d721cde9b8",
+            "acceptedRange": "f3ff92ac270cf3ac252469d84cba0390e0233208..3d5df5e337949c703747a730dd211f7a76f1da49",
+            "independentReview": "review-evidence/codex-stack-20261019/REVIEW.json",
+            "independentReviewSha256": "43bd2a0e1c2b470ef13055d6428a51dddd69b1185a05b856ce06f02a233b8aab",
+            "independentVerdict": "ACCEPT",
+            "behavioralProof": "scripts/test-hi-dui-rule-citation.mjs",
+            "behavioralProofSha256": "f98066e0aa3ed72fc9cf3fbc3c974c4bf229ed0294982d2ac2b467a8d6d893cb",
+            "statement": "This shared-file transition is the independently accepted GA-12 HI DUI rule-citation successor. It is not MD scope or a new MD authorization. The MD signed statement, historical chain and source-stage scope remain unchanged. The re-cut must rerun the MD proof and the HI citation test against the published batch22 candidate."
+          }
         ]
       },
       "projections": [

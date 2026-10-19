@@ -427,7 +427,7 @@ function validateMdScopeRestatement(delta, rootDir) {
   const record = delta.scopeRestatement;
   if (record === undefined) return;
   if (delta.id !== "md-pardon-signed-date-2026-08-25" || delta.jurisdiction !== "MD"
-    || sha256(canonicalJson(record)) !== "1de992819e8d0b5606312769db05f8f85cf5db248df418f530418a23d4c2d074") {
+    || sha256(canonicalJson(record)) !== "c31c252436295a62ba08c0ebb4520ca877e7b2554390cd377e9118caa3ec2318") {
     reject(`${delta.id} is not the exact Item 11 MD scope restatement`);
   }
   const signed = Object.fromEntries(["id", "statutoryAuthority", "purpose", "routeBehavior", "authorization"].map(key => [key, delta[key]]));

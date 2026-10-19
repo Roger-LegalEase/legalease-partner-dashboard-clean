@@ -29,6 +29,8 @@ try {
   save(fixture);assert.equal(loadApprovedParityDeltas({rootDir:dir}).deltas.length,1);checks++;
   for (const [name, mutate, marker] of [
     ['scope omitted',r=>{delete r.deltas[0].scopeRestatement},/approval does not cover these bytes/],
+    ['HI continuity omitted',r=>{delete r.deltas[0].scopeRestatement.sharedSourceContinuity},/exact Item 11/],
+    ['HI review forged',r=>r.deltas[0].scopeRestatement.sharedSourceContinuity[0].independentReviewSha256='0'.repeat(64),/exact Item 11/],
     ['scope widened',r=>r.deltas[0].scopeRestatement.scope.push('all jurisdictions'),/exact Item 11/],
     ['foreign jurisdiction',r=>r.deltas[0].jurisdiction='VA',/exact Item 11/],
     ['foreign path',r=>r.deltas[0].scopeRestatement.bindings['src/foreign.ts']={priorSha256:'0'.repeat(64),newSha256:'1'.repeat(64)},/exact Item 11/],
@@ -42,5 +44,5 @@ try {
     const changed=structuredClone(fixture);mutate(changed);save(changed);
     assert.throws(()=>loadApprovedParityDeltas({rootDir:dir}),marker,name);checks++;
   }
-  console.log(JSON.stringify({status:'PASS',checks,mutants:9,scope:'MD only; original approval and other delta records unchanged'}));
+  console.log(JSON.stringify({status:'PASS',checks,mutants:11,scope:'MD only; original approval and other delta records unchanged'}));
 } finally { fs.rmSync(dir,{recursive:true,force:true}); }
