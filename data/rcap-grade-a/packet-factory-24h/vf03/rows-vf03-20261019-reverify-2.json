@@ -1,0 +1,137 @@
+{
+  "schemaVersion": "rcap-independent-verification-rows/v1",
+  "lane": "VF03",
+  "laneKind": "independent-verification",
+  "generatedAtBase": "f3ff92ac270cf3ac252469d84cba0390e0233208",
+  "verifier": "CI-FACTORY-CLAUDE-VT (independent; built, repaired and rendered none of these packets)",
+  "preflight": "claim.mjs --assert was run per subject at assembly and its result is recorded per family in claimAssertions (CLAIM_OK: the lane holds the live claim; ALREADY_RELEASED, GRANTED_ELSEWHERE_BUT_RELEASED, NOT_GRANTED: no live claim exists and this return is filed under the lane that holds the family's current verdict, the generator's claim invariant applying to active assignments only); the packet-build environment preflight is not applicable to a verification reading on this machine",
+  "claimAssertions": {
+    "ny_160_59_petition-set": "CLAIM_OK VF03 ny_160_59_petition-set (independent-verification, grant set 52a510c1c5e9e338)"
+  },
+  "obligationSet": [
+    "ROUTE_IDENTITY",
+    "SOURCE_IDENTITY",
+    "COMPONENT_SET",
+    "KNOWN_PREFILLS",
+    "REQUIRED_BEFORE_FILING",
+    "ROUTE_OPTIONS",
+    "REPEATING_ROWS",
+    "PROTECTED_FIELDS",
+    "ARTIFACTS",
+    "PAGE_ORDER",
+    "CLIPPING_AND_OVERLAP",
+    "FILING_DESTINATION",
+    "FEE_AND_WAIVER",
+    "SERVICE",
+    "SELF_HELP_STOP"
+  ],
+  "standardApplied": {
+    "measuredHere": "Every obligation was measured in this lane from the committed artifacts at the base sha named above: artifact hashes recomputed from bytes, page counts read with pdfinfo, every recorded write read back from pdftotext output, word geometry from pdftotext -bbox checked against the page box and same-band pairs, committed-record pins recomputed from disk, the repository completeness verifier run here for the nine counters. No counter was copied from a builder self-report.",
+    "lapsedPins": "Where a receipt's whole-file pin had drifted, the pinned blob was recovered from git history, the family's own entries were compared between the pinned and current versions, and the row records the CURRENT digest and byte length as the pin it verified against; receipts on disk are not edited by this lane.",
+    "SOURCE_IDENTITY": "Met only by recomputing every bound record hash from bytes; these families bind committed repository records and no corpus bytes.",
+    "FEE_AND_WAIVER": "DET-FEE-AND-WAIVER-001 (data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json) applied as written.",
+    "SERVICE": "Met by a named rule, or an affirmative statement that nobody is served with the mechanism that replaces it; silence or an unnamed office does not meet it.",
+    "SELF_HELP_STOP": "Met when the packet states where the platform stops and a lawyer takes over, measured against the controlling decision's stop conditions.",
+    "FILING_DESTINATION": "Met when the participant-facing instructions name the court, clerk or agency the route names."
+  },
+  "rows": [
+    {
+      "itemId": "ny_160_59_petition-set",
+      "lane": "VF03",
+      "worker": "CI-FACTORY-CLAUDE-VT (independent; built, repaired and rendered none of these packets)",
+      "verifiedAtBase": "f3ff92ac270cf3ac252469d84cba0390e0233208",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ny/ny-160-59-petition-set--official-pdf-fill",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 68,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": false,
+        "measuredHere": true,
+        "howMeasured": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ny_160_59_petition-set run here at f3ff92ac2 with MASTER_LIBRARY_SOURCE_DIR set: FAIL_MISSING_PREFILLS, 34/148 written, unclassifiedBlanks 68, the six other counters 0, invisibleWrites and visualDefects printed UNMEASURED because reports/actual-writes.json is on the older record shape (proof.writtenProof / appearanceCount) that carries none of the output-byte keys the verifier reads. Those two were measured in this lane from the fixture bytes instead. invisibleWrites 0: all 60 recorded writtenProof values (10+6 application, 13+12 COD request, 10+9 pro se packet) were found by pdftotext -bbox inside their own AcroForm widget rects (rects from production-field-map.json, page height from the PDF). visualDefects 0: 0 words outside the page box in any of the six fixtures; 0 same-band overlaps between a written value and any printed word other than the form's own underscore rule lines (the 123 band overlaps counted are all value-on-rule); 0 written words beyond their widget by more than 1pt except the last word of the boundary name on pro-se-packet-boundary p12 ('III', 1.95pt past the right edge, fully visible on raster/pro-se-packet-boundary/page-12.png, colliding with nothing). protectedWrites 0 is the verifier's absence-means-empty rule and was re-measured: no refused widget on the COD request or pro se packet carries a word the pristine source lacks at the same rect; on the application (no pristine mounted here) the only non-rule token inside any refused widget is the form's own '20____.' in Sworn_Year, identical in both fixtures. incompleteRows 0 is vacuous on this schema (rowsInspected 0) and the rows were read directly; see REPEATING_ROWS."
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "detail": "One routeKey, obligation:track-pathway:NY:ny_160_59_petition:discretionary-conviction-sealing-by-petition-under-cpl-160-59, identical in source-receipt.json, product-wiring.json (routeKeys and binding.routeKeys), the MASTER_QUEUE row (families[248]) and scripts/lib/ny-16059-participant-guidance.mjs NY_16059_ROUTE; the field map's documents-and-decisions schema carries familyId only. It resolves at route-obligation-candidate.json routes[490] (trackId ny_160_59_petition, runtimePathwayId discretionary-conviction-sealing-by-petition-under-cpl-160-59, destination 'The New York court of conviction', packetSetId ny_160_59_petition-set, requiredSourceIds naming compiled-profile NY-new-york.json and the four official forms) and in NY.memo.json track ny_160_59_petition (CPL 160.59). familyId 'ny_160_59_petition-set' agrees across source-receipt, product-wiring (familyId and binding.family), production-field-map, field-census, rendered-artifacts, actual-writes, approval-request, build-findings and the queue row; the facts file's familyIdAgrees:false is an artifact of the absent reports/completeness-counters.json, not a disagreement. Flag, not scored: participant-instructions.md prints the bare route key ('Route scope: ...'), the dispatched PARTICIPANT_DOCUMENT_PRINTS_ROUTE_KEYS class."
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "detail": "Four official sources pinned by source-receipt.json documents[], product-wiring binding.sourceVersion, the MASTER_QUEUE sourceHashes and boundSources, field-census sourceSha256, scripts/lib NY_16059_HELD_SOURCES and every nyCompletion.sourceSha256; all six records agree. Three recomputed here from the mounted Master Library bytes with sha256sum, stat and pdfinfo, all exact: COD-REQUEST 68b14570db220ed79aac13a20161ddf807357dc888e524e08a1c17d410762774 / 198814 B / 2 pp; PRO-SE-PACKET cf22b8ea0cb8661c8e3f17cc0f16e6b95ca889f1e994e3772dfaf867b6da0298 / 519607 B / 12 pp; SEAL-VERIFICATION 76c0c54ed0a80c8b5b5fddd64e2087b31f9615d5ebe7524ead803352fba3cca3 / 79928 B / 1 p. The fourth, NY-CPL-160.59-APPLICATION 73a5eeaf73ed647b9cf6ae786823aaa3cf8b3a7e483ea4aad154d7c2275caae4 / 1234105 B, is not mounted here (STATES/NY/02_PACKET_FORMS holds only the pro se packet; no file of that name or size anywhere under the library) and was not recomputed: it binds by the committed hash record only, which is exact and consistent across the six records. The verifier's sourceCurrentness reads EXACT. Said plainly: this lane did not read the application's source bytes, and the 31 application blanks the verifier cannot source-prove here are the consequence (recorded under KNOWN_PREFILLS)."
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "detail": "Five components declared identically by product-wiring binding.packetComponents and the MASTER_QUEUE row (primary-filing-1, pro-se-instructions-2, certificate-of-disposition-request-3, sworn-prior-applications-statement-4, post-order-verification-7) against four forms, the application supplying both the primary filing and the sworn prior-applications statement. Three documents rendered in both fixtures (application 6 pp, COD request 2 pp, pro se packet 12 pp); the seal-verification form is recorded in rendered-artifacts.componentsNotGenerated as post-order source evidence, which build-findings and the instructions state. requiredComponentsMissing 0 measured here. Recorded, not scored: the track and census also list three process_guidance roles (record_verification-5, service_instructions-6, routing_comparison-8) that are no family component; service and the Clean Slate routing contrast are carried in the instructions' prose, while the DCJS record review is no longer mentioned anywhere in participant-instructions.md after bcb1e69f0."
+        },
+        "KNOWN_PREFILLS": {
+          "result": "FAIL",
+          "detail": "The verifier's completeness result for the family is FAIL_MISSING_PREFILLS: 148 terminal fields, 34 written, 114 blank, and 68 blanks earn no disposition (blanksByDisposition UNCLASSIFIED_BLANK 68, PARTICIPANT_ELECTION_GENUINE 23, PROTECTED_FIELD 21, NOT_APPLICABLE_ON_THIS_ROUTE 2). What the 68 are, read from the findings and from the field map diffed against f898a765f~1: exactly the 68 rows that commit re-typed from blankTreatment REQUIRED_BEFORE_FILING (66; two COD rows were null) with no refusalClass to refusalClass ny_source_conditional_completion with an nyCompletion declaration (31 APPLICATION, 16 COD-REQUEST, 21 PRO-SE-PACKET; 65 conditional, 3 unconditional first-case facts Law_Section_Subsection_1, Sentence_Date_1, Sentence_Term_1; requiredBeforeFiling true->false on 65). None is a held fact left unwritten: factId is null on all 68, knownRequiredFieldsMissing is 0 and none resolved KNOWN_FACT_NOT_WRITTEN. None is undisclosed: all 68 field names and conditionDescriptions appear in the instructions' 'When the retained blanks apply' table (checked here) and requiredFactsNotCollected is 0. They fail for two measured reasons. (a) 31 application blanks, the 3 unconditional ones included, return SOURCE_PROOF_UNRESOLVED because scripts/rcap-packet-completeness/ny-16059-source-conditions.mjs reads the APPLICATION binary from the corpus and it is not mounted here (ENOENT on the realpath of private/source-imports/...). (b) The other 37 (COD request and pro se packet) are source-proven and disclosed but return 'An active or unknown owner condition does not excuse an unwritten field': the module resolves a condition only through a resolveOwnedField callback that f330ca64a wired into the server route and the CLI never supplies, so applicability is 'unknown' and the verifier refuses the blank by design. As committed, no CLI or CI run of the verifier can return zero for this family. The 34 writes themselves are sound: 60/60 recorded values read back from the fixture bytes inside their own widgets, identity and docket facts only."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "detail": "Measured on what the packet tells the participant: a certificate of disposition per case (reuse, or request one with the COD form, or give the form's written explanation if it cannot be obtained), the applicant's own statement of reasons, prior-application attachments, execution (affirmation on the current form, notarized affidavit on the retained forms, the last statement page signed and dated), and service before filing, each named with the office or actor; and every one of the 68 declared blanks is named by its source field name with its condition and actor in the 'When the retained blanks apply' table (68/68 field names and conditionDescriptions found in the file here; the verifier's requiredFactsNotCollected 0). The track's keystone 'Certificate of Disposition, one per case, from the court of conviction' is carried. The field map now declares only 3 blanks requiredBeforeFiling (the first-case law section, sentence date and sentence term on the application); the verifier cannot prove them here because the application's source bytes are not mounted, which is recorded under SOURCE_IDENTITY and KNOWN_PREFILLS rather than scored twice."
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "detail": "16 selection controls in the field map (Has_Filed_Application, Sealing_Section, Service_Type; RequestorRole, CODDelivery, Sex; the pro se checklist and eligibility boxes), all refused as participant elections, 23 PARTICIPANT_ELECTION_GENUINE in the ledger; actual-writes choiceNeutralization shows every radio, dropdown and checkbox neutralized before flatten (the source placeholder ' ' removed from the three court dropdowns). The elections are named in the instructions: prior and intended future applications answered separately, Type of Service in the table, the COD requester identity, sealed-case option and mail-or-pickup preference. requiredOptionsMissing 0 measured here."
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "detail": "incompleteRows 0 measured here, but the verifier's row grouping inspected 0 rows on this schema, so that zero is vacuous and the rows were read directly from the fixtures and the field map: on the application's case table the first-case row carries four written cells (docket, court, charge, conviction date) beside the three first-case blanks the field map declares required-before-filing and the instructions name ('Copy the applicable first case's exact conviction section and sentence facts from its record'), plus a conditional release date; the second-case row, the future-application row and attachment lines 4-10 are wholly blank and each is a declared conditional blank. No row carries written cells beside an undeclared blank. The per-prosecutor rule (a separate affidavit or affirmation of service per office served) is stated."
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "detail": "21 PROTECTED_FIELD dispositions (signatures, sworn dates, notary jurats, court-use and prosecutor fields); actual-writes refuses 45/49 application, 26/27 COD and 44/45 pro se fields by role. Measured here with pdftotext -bbox against each refused widget's rect: no refused widget on the COD request or pro se packet carries a word the pristine source lacks at the same rect; on the application the only non-rule token inside a refused widget is the form's own '20____.' in Sworn_Year, identical in both fixtures. protectedWrites 0."
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "detail": "6 PDFs on disk, 6 recorded; every SHA-256 and byte length recomputed here equals reports/rendered-artifacts.json and the RASTER_QUEUE row's documents[]: application-canonical d5c8fbc835385d9eb2bbc6d45cc8886a89330f170fa4d4b5fcabcb49d8af7021 / 1239801, application-boundary cda7142cd49f0dd4ed89f32e29227d7d440981371678411f82b3bb3f3ff84b6d / 1238792, cod-request-canonical 316a241c14f6aac3b145bb87408d927c7161fc02d5d2c696e71b0f7fa3c5231a / 172746, cod-request-boundary 2b2c073033e0b20b3dd3448fd87a314f9d04dc533cfd99730e30a0ee6afba274 / 172632, pro-se-packet-canonical f15d406fec2df9ebfa64db772c3c99f0c2101ae49bfa4be4293a25d50826b01f / 496967, pro-se-packet-boundary 6b59f8b7c5b90e79c8a2684fda032f3b71efa275fa0ceaf965d85020b4fe63f4 / 496665; 0 unrecorded, 0 missing. All 46 committed raster files (40 page PNGs at 72 dpi, 6 contact sheets) recomputed exact against rendered-artifacts.rasters, none looksBlank. Acceptance receipt RASTER_PASS, workflow run 33598433649, job 100147214112 (success), artifact 9834529157, bound to the current canonical d5c8fbc8... and boundary cda7142c...; the queue row's own reconciliation records that the gate rendered all six fixtures and that `complete` is the canonical-only question. Fixtures, reports and raster are unchanged since the vf10 base (git log eb643bc09..f3ff92ac2 over those paths is empty)."
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "detail": "pdfinfo reads 6 / 2 / 12 pages for application / COD request / pro se packet in both fixtures, equal to rendered-artifacts.json, the source receipt's pageCount and the field census pageGeometry (all portrait 612x792). Page by page against the pristine held sources: the pro se packet fixtures lose none of the source's words and add only the written values; the COD request fixtures lose only the 'Reset Form' and 'Print Form' push-button captions (widgets dropped on flatten; Reset_Form is a refused field) and add only the written values. The application's six pages differ between canonical and boundary only on pages 1-2 and only in the written values; the embedded application inside the pro se packet (pp 9-12) is in order."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "detail": "pdftotext -bbox over all six fixtures: 0 words outside the page box (3374/3368 application, 397/415 COD, 5090/5122 pro se words); the vf02 overflow on pro-se-packet-boundary pp 9/11 is gone and raster/pro-se-packet-boundary/page-11.png shows the long name, address, city line and email complete on their rules. Band overlaps counted 12/9, 0/0, 35/67, every one a written value sitting on the form's own underscore rule line; 0 value-on-value or value-on-caption overlaps; the pristine pro se packet and COD request read 0 overlaps and 0 outside. Written glyphs stay inside their widget rects to within 1pt everywhere except 'III' on pro-se-packet-boundary p12 (1.95pt past the Name of Applicant widget's right edge, visible and colliding with nothing on the raster). visualDefects 0 measured here."
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "detail": "The route names the New York court of conviction (track destination and census; the venue rule for several offences in rules.filing). The packet states it: the instructions say 'File in one appropriate court, using the most serious conviction or the most recent conviction of equal level as the source instructions direct' and name 'the clerk's office of the court where you were convicted and sentenced' as the office that answers what to file and where; the delivered application's own page 1 says 'this motion must be filed in the court where the most serious conviction was entered' and the delivered pro se packet says the filing court 'is the court where you were convicted and sentenced'. Advisory for the builder, not scored: since bcb1e69f0 the instructions' filing sentence no longer says 'court of conviction' in terms; the explicit phrase survives only in the who-to-ask paragraph."
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "detail": "DET-FEE-AND-WAIVER-001 as amended: the repository holds the answer and the packet states it. 'The retained compiled profile records no separate CPL 160.59 motion filing fee' is verified in src/lib/rcap-engine/compiled/profiles/NY-new-york.json packetGenerator.feeRules ('CPL 160.59 sealing application No separate filing fee Court motion; notarization needed'), keyed to this exact route (A3) and named as the route's first requiredSourceId; the track's rules.fees and rules.feeWaiver ('not applicable. There is no separate filing fee to waive') agree. The certificate-of-disposition cost is stated from the form's face ($5 outside New York City, $10 in the five boroughs; read here from the pristine COD request bytes) with the court named for payment method and fee-exempt or poor-person-order treatment, and a record-request charge is distinguished from a motion fee. Internal consistency (A4): the delivered COD form prints the same figures. Noted: the DCJS record-review fee and notary cost the track lists are no longer itemised after bcb1e69f0; neither is a filing fee."
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "detail": "Named rule with mechanism: serve a complete copy before filing on each applicable prosecutor, the District Attorney or the Attorney General or Special Narcotics Prosecutor where that office prosecuted, by mail or personal delivery by the applicant or an actual server over 18; proof by a stamped in-person copy or a service affidavit or affirmation completed after service, one per prosecutor served, recipients, methods and dates kept distinct; the 45-day prosecutor response period and the hearing on opposition. Matches the track (rules.service 'Service on the district attorney with proof of service', rules.notice, rules.filing) and the delivered forms' faces (application p1: 'must be served on the District Attorney of each county where a conviction listed above was entered ... 45 days'; pro se packet pp 4 and 10). The packet records, rather than resolves, the source discrepancy between the retained application's combined-proof rule and the pro se and current packets' separate-proof rule."
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "detail": "Measured against NY.memo.json track ny_160_59_petition selfHelpStopConditions (10): exclusion-list offences including attempt or conspiracy; any class A felony even where Clean Slate would qualify; single-criminal-transaction arguments; district attorney objection and the hearing; any pending charge; more than two convictions or more than one felony; the rehabilitation and interests-of-justice showing; immigration exposure with the registry's own sentence that sealed records remain reachable; firearms licensing; federal and out-of-state convictions. 10/10 carried under 'Where self-help ends', with 'not legal advice', 'not filed for you' and 'the court decides, and it is discretionary' stated, the clerk/lawyer split, and legal-aid organisations and county DA sealing units named from the profile. Nothing in the packet inverts a stop."
+        }
+      },
+      "evidence": {
+        "verifierRun": "FAIL_MISSING_PREFILLS, 34/148 written; unclassifiedBlanks 68, six counters 0, invisibleWrites and visualDefects UNMEASURED by the verifier (older actual-writes shape) and measured 0 in this lane from the fixture bytes",
+        "sourceRecomputation": "3/4 official sources exact from bytes (COD request, pro se packet, seal verification); the APPLICATION binary is not mounted here and binds by the committed hash record only, which is exact across six records",
+        "artifactRecomputation": "6/6 PDFs and 46/46 raster files hash to record; RASTER_PASS run 33598433649 bound to the current canonical and boundary hashes",
+        "byteReadBack": "60/60 recorded writtenProof values (33 across the three canonical fixtures, 27 across the three boundary fixtures; the field map's 34 candidate_write decisions include one COD value the artifact refused as not among the field's options) read back from the fixture bytes inside their own widget rects",
+        "stopConditions": "10/10 track stops carried; fee, service and destination each stated from a held source",
+        "lapseResolved": "FAMILY_MOVED_SINCE_THE_VERDICT read against git: between the vf10 base eb643bc09 and f3ff92ac2 the family's own files that moved are participant-instructions.md (bcb1e69f0, f898a765f, 52080c169), production-field-map.json (f898a765f: 68 rows re-typed to ny_source_conditional_completion with nyCompletion declarations, requiredBeforeFiling true->false on 65) and product-wiring.json (ee6a9fc79 and 1e95f1f06: only the lastIndependentVerification pointer, net +3/-3); fixtures/, reports/, raster/, field-census.census-v1.json and source-receipt.json did not move. Outside the directory the shared build host gained 4 lines and the verifier gained scripts/rcap-packet-completeness/ny-16059-source-conditions.mjs (absent at the vf10 base) plus scripts/lib/ny-16059-*.mjs; the build script itself is unchanged since c01b87d15. Re-verified here at f3ff92ac2: the bytes vf10 measured still exist, the field map it read does not, and the verifier's answer at this base is FAIL_MISSING_PREFILLS, so the PASS does not carry forward. The MASTER_QUEUE row's own counters (unclassifiedBlanks 0; invisibleWrites and visualDefects null) are stale against this reading."
+      },
+      "failedObligationNames": [
+        "KNOWN_PREFILLS"
+      ],
+      "commercialRoutesOpened": false,
+      "overlayDirectoriesModified": false,
+      "grantsNothing": "This row is a verification reading. It opens no route, sets no price and authorises no promotion."
+    }
+  ]
+}

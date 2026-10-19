@@ -1,0 +1,135 @@
+{
+  "schemaVersion": "rcap-independent-verification-rows/v1",
+  "lane": "VF01",
+  "laneKind": "independent-verification",
+  "generatedAtBase": "1b48eb358e2dec7b5b016a4e028be0a2d81b8996",
+  "verifier": "CI-FACTORY-CLAUDE-VT (independent; built, repaired and rendered none of these packets)",
+  "preflight": "claim.mjs --assert was run per subject at assembly and its result is recorded per family in claimAssertions (CLAIM_OK: the lane holds the live claim; ALREADY_RELEASED, GRANTED_ELSEWHERE_BUT_RELEASED, NOT_GRANTED: no live claim exists and this return is filed under the lane that holds the family's current verdict, the generator's claim invariant applying to active assignments only); the packet-build environment preflight is not applicable to a verification reading on this machine",
+  "claimAssertions": {
+    "agency-application-treatment:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge": "ALREADY_RELEASED: agency-application-treatment:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge at 2026-09-05T00:17:36.739Z"
+  },
+  "obligationSet": [
+    "ROUTE_IDENTITY",
+    "SOURCE_IDENTITY",
+    "COMPONENT_SET",
+    "KNOWN_PREFILLS",
+    "REQUIRED_BEFORE_FILING",
+    "ROUTE_OPTIONS",
+    "REPEATING_ROWS",
+    "PROTECTED_FIELDS",
+    "ARTIFACTS",
+    "PAGE_ORDER",
+    "CLIPPING_AND_OVERLAP",
+    "FILING_DESTINATION",
+    "FEE_AND_WAIVER",
+    "SERVICE",
+    "SELF_HELP_STOP"
+  ],
+  "standardApplied": {
+    "measuredHere": "Every obligation was measured in this lane from the committed artifacts at the base sha named above: artifact hashes recomputed from bytes, page counts read with pdfinfo, every recorded write read back from pdftotext output, word geometry from pdftotext -bbox checked against the page box and same-band pairs, committed-record pins recomputed from disk, the repository completeness verifier run here for the nine counters. No counter was copied from a builder self-report.",
+    "lapsedPins": "Where a receipt's whole-file pin had drifted, the pinned blob was recovered from git history, the family's own entries were compared between the pinned and current versions, and the row records the CURRENT digest and byte length as the pin it verified against; receipts on disk are not edited by this lane.",
+    "SOURCE_IDENTITY": "Met only by recomputing every bound record hash from bytes; these families bind committed repository records and no corpus bytes.",
+    "FEE_AND_WAIVER": "DET-FEE-AND-WAIVER-001 (data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json) applied as written.",
+    "SERVICE": "Met by a named rule, or an affirmative statement that nobody is served with the mechanism that replaces it; silence or an unnamed office does not meet it.",
+    "SELF_HELP_STOP": "Met when the packet states where the platform stops and a lawyer takes over, measured against the controlling decision's stop conditions.",
+    "FILING_DESTINATION": "Met when the participant-facing instructions name the court, clerk or agency the route names."
+  },
+  "rows": [
+    {
+      "itemId": "agency-application-treatment:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge",
+      "lane": "VF01",
+      "worker": "CI-FACTORY-CLAUDE-VT (independent; built, repaired and rendered none of these packets)",
+      "verifiedAtBase": "1b48eb358e2dec7b5b016a4e028be0a2d81b8996",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/al/agency-application-treatment:obligation:research-decision-route:al:al-uncharged-arrest:agency-record-challenge--official-pdf-fill",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "howMeasured": "verify-packet-completeness.mjs --family agency-application-treatment:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge run here at 1b48eb358 with MASTER_LIBRARY_SOURCE_DIR set to the 5-file stub: PASS_COMPLETE, 5/10 written; counters read from the verifier's own output line, not from the builder's completeness-counters.json"
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "detail": "familyId agrees across product-wiring, source-receipt, production-field-map, build-status, rendered-artifacts and the MASTER_QUEUE row. The single routeKey obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge is declared identically by all four and resolves in the committed route-obligation census (routes[23], trackId null, destination 'ALEA/ACJIC or the originating criminal justice agency') and in canonical-route-universe.json canonicalObligations (708 keys). The route line is printed in the header and footer of both fixture PDFs, read from the bytes with pdftotext. A research-decision route with no track-registry entry, which is the declared shape."
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "detail": "All 4 compositionSources recomputed from disk here (sha256 + byteLength). Exact: 2026-08-30-lawrence-four-counsel-determinations.json 764d59c2965e5cfe272edbe5648be84e45194343865d3fbc43e45aa8751a49da (32881 B); AL.memo.json 7d484d636a1612c8a6c4648d1f070e1a21d2e3c0a0255afadd7780949e353391 (112172 B). Drifted whole-file pins, bound anchors compared object-for-object between the recovered pinned version and the current file: (1) 2026-08-28-national-legal-decisions.json pinned 0aad88ef (184365 B) -> current 63fe0b16adc4c2debd8b583cf02ba365b8b2045d86f53af5c5be720c86e74373 (184885 B); the controlling researchTrackDecisions[4] (trackId al-uncharged-arrest: governing mechanism, route distinction, product disposition) is IDENTICAL (canonical anchor sha256 b566e6e68c5b673e6fbb4673b286f765179c7dfb999ec84f586eb1bf785fc532), as are authority, crosswalk, expected, deliveryCounts, immediateAssignments and all 9 researchTrackDecisions and all 49 implementationMatrix entries; the drift is confined to scope.registerQuestionsOutOfReportScope (Q-057 reason rewritten to Kentucky, Q-058 Kentucky added, registerOpenQuestions 37->38) and 13 questionDecisions memoSha256 refreshes, none touching Alabama. (2) route-obligation-candidate.json pinned 9816a479 (2607149 B) -> current f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81 (2629290 B); this family's census entry routes[23] is IDENTICAL (anchor 9282fb1d6e6b9aa2c4932e4d7ce2d4bfe78da451fa8757117c49e7caec6d266e); the drift is 5 track-only AZ/CA/CT/KY/NV entries replaced by track-pathway entries, 22 other routes' entries changed (none AL), plus metadata.sourceFingerprint and counts. No official document byte is bound (CUSTOM_PLEADING_FROM_CODIFIED_TEXT), so the unmounted Master Library does not reach this family. The receipt's whole-file pins are stale for 2 of 4 entries while every bound anchor is unchanged; the current sha256/byteLength above is the new pin value, recorded for the lead and NOT re-pinned here."
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "detail": "Declared componentSet [agency_preparation_guide] equals the rendered page manifest of both fixtures (pages 1-2, one component). No packet-set manifest exists for this research-decision route (census trackId null) and the MASTER_QUEUE row declares no packetComponents, so the single guide is the whole of what the route names. requiredComponentsMissing=0 measured here."
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "detail": "5/5 written values per fixture (name, DOB, address, phone, email) read back by this lane from pdftotext over the fixture bytes; 0 not found; 0 reported invisible. knownRequiredFieldsMissing=0 measured here."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "detail": "The field map declares 5 REQUIRED_BEFORE_FILING blanks; all 5 disclosure labels are in participant-instructions.md with what to supply and whom to confirm it with, and the PDF prints the same 5 blanks each with a 'Check with' line. reports/blanks-left-for-the-participant.json records the same 5. requiredFactsNotCollected=0, unclassifiedBlanks=0 measured here."
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "detail": "0 selectionControls in the field map; routeSelectionsMade is empty with the note that the route is fixed and no alternate instrument is offered. The guide carries no printed election. requiredOptionsMissing=0 measured here."
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "detail": "The composed guide has no repeating row structure (no row-indexed fields in the map, no table on the page). incompleteRows=0 measured here."
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "detail": "refusedFieldsWithInk is empty in both fixtures; the extracted text carries no signature, signature-date, notary or agency/clerk/prosecutor/court value, and the page states 'Do not sign or date this guide' and that no court, clerk, prosecutor, agency, notary or hearing-officer field is completed. The map's dispositionVocabulary names the three protected categories and its 5 refusals are all REQUIRED_BEFORE_FILING blanks. protectedWrites=0 measured here."
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "detail": "2 PDFs on disk, both recorded; canonical 95fed142e8fab838496cc9bf531e2268a4d45c9e3c375f8dab1e70a7ec1303c5 (5918 B) and boundary c9a3b9b16e77d75105628785ea19e9168e3d0a2318a43efd8a253e4450e39ea7 (6041 B) recomputed here and matching reports/rendered-artifacts.json exactly. 0 unrecorded PDFs, 0 recorded PDFs missing. The canonical sha256 appears in RASTER_QUEUE.json and product-wiring's acceptanceReceipt records RASTER_PASS (workflow run 33923497915) bound to it."
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "detail": "Both fixtures' page manifests run packetPage 1..2 for the single component; recorded pageCount 2 equals pdfinfo read from the bytes here (2 and 2)."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "detail": "pdftotext -bbox over both fixtures: 370 (canonical) and 377 (boundary) words, 0 outside the page box, 0 same-band overlapping word pairs; nonWhitespaceGlyphsOutsideMeasuredWriteBoxes=0 in both; no placeholder text. visualDefects=0 measured here. No raster was produced in this lane; the RASTER_PASS receipt is cited as the thing checked, not as this lane's measurement."
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "detail": "The instructions name ALEA/ACJIC or the originating agency as the receiving authority, which is the destination the census records for this route ('ALEA/ACJIC or the originating criminal justice agency'), and state that nothing is filed with a court. The record does not fix the exact record-holding agency for a given participant, and the packet makes that a required blank confirmed with the criminal-history record and the agency's records unit rather than inventing one."
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "detail": "No held source states an agency fee for the \u00a7\u00a7 41-9-645/-646 challenge (the decision's no-advance-costs-or-bond statement concerns the later circuit-court review, which this packet does not open). Under DET-FEE-AND-WAIVER-001 the packet meets the obligation by stating that the guide does not replace any fee or submission rule the agency requires and by naming the checkable authority: 'fee if any; confirm it with ALEA/ACJIC or the originating agency'. A waiver route does not arise where no fee is established. No figure is invented."
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "detail": "The controlling decision records no service workflow (serviceWorkflow is empty) and an agency record challenge serves no opposing party. The packet does not carry a literal 'nobody is served' sentence; it states the mechanism that stands in for service \u2014 a submission to ALEA/ACJIC or the originating agency under that agency's current procedure, confirmed with that named agency before sending, with every submission and delivery record kept \u2014 and that nothing is filed with a court. Under DET-FEE-AND-WAIVER-001 as extended to SERVICE, a named checkable authority standing in for a rule no held source establishes satisfies the obligation. This is the thinnest of the fifteen on this family and is scored PASS on that standard."
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "detail": "Measured against the controlling committed decision, researchTrackDecisions[4] (selfHelpBoundary is empty; the stops live in its product disposition and route distinction): ACCURATE UNCHARGED ARREST -> SEPARATE EXPUNGEMENT ROUTE, CONTESTED APPEAL -> ATTORNEY HANDOFF, COURT OUTPUT only after final denial, identity theft/disputed biometrics -> counsel if unresolved. All four are carried: the instructions send an accurate arrest to a different Alabama route, make a disputed material fact or final denial an attorney handoff, and state the packet does not prepare the circuit-court appeal; the PDF adds the identity-theft/biometrics counsel stop. The packet also states which fields it will not sign and that it is not an official form. AL.memo.json's own al-uncharged-arrest track still records a route-existence blocker and the stop 'refer the participant rather than promise relief'; the later 2026-08-28 controlling decision resolves the route as a research-decision route and the queue row records legalInputStatus SETTLED, so the memo stop is noted and not scored against the packet. No inversion found."
+        }
+      },
+      "evidence": {
+        "verifierRun": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family agency-application-treatment:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge run here at 1b48eb358: PASS_COMPLETE, 5/10 written, all nine counters zero",
+        "sourceRecomputation": "4/4 compositionSources recomputed from disk: 2 exact; 2 whole-file pins drifted (2026-08-28-national-legal-decisions.json 0aad88ef->63fe0b16 184885 B; route-obligation-candidate.json 9816a479->f6fc0814 2629290 B) with this family's controlling researchTrackDecision and census route entry compared object-for-object and identical; no official document byte bound",
+        "artifactRecomputation": "2/2 PDFs hash to record (sha256 and byteLength); pdfinfo 2 pages each",
+        "byteReadBack": "10/10 written values (5 per fixture) read back from pdftotext over the fixture bytes by this lane",
+        "stopConditions": "4/4 stops held by the controlling decision's product disposition and route distinction carried in the instructions and on the page; memo-level route-existence stop noted as superseded by the controlling decision",
+        "lapseResolved": "No lapse is recorded on the queue row (verificationLapsedBecause null). The extended drift flag is answered by this reading: both drifted pins' bound anchors are identical to the pinned versions; the current sha256/byteLength values are recorded above for the lead's re-pin decision and nothing was re-pinned here."
+      },
+      "failedObligationNames": [],
+      "commercialRoutesOpened": false,
+      "overlayDirectoriesModified": false,
+      "grantsNothing": "This row is a verification reading. It opens no route, sets no price and authorises no promotion."
+    }
+  ]
+}

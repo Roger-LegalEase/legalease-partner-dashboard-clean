@@ -1,0 +1,276 @@
+{
+  "schemaVersion": "rcap-independent-verification-rows/v1",
+  "lane": "VF11",
+  "laneKind": "independent-verification",
+  "generatedAtBase": "1b48eb358e2dec7b5b016a4e028be0a2d81b8996",
+  "verifier": "CI-FACTORY-CLAUDE-VT (independent; built, repaired and rendered none of these packets)",
+  "preflight": "claim.mjs --assert was run per subject at assembly and its result is recorded per family in claimAssertions (CLAIM_OK: the lane holds the live claim; ALREADY_RELEASED, GRANTED_ELSEWHERE_BUT_RELEASED, NOT_GRANTED: no live claim exists and this return is filed under the lane that holds the family's current verdict, the generator's claim invariant applying to active assignments only); the packet-build environment preflight is not applicable to a verification reading on this machine",
+  "claimAssertions": {
+    "me-nonconv-set": "GRANTED_ELSEWHERE_BUT_RELEASED: me-nonconv-set is recorded on VF09, not VF11, and VF09 RELEASED it at 2026-09-01T23:57:48.846Z. No lane is executing it. Captain can hand it over with: --transfer VF09 VF11 me-nonconv-set --reason \"...\". Do not transfer it to yourself -- choosing a released grant's destination is a dispatch act."
+  },
+  "obligationSet": [
+    "ROUTE_IDENTITY",
+    "SOURCE_IDENTITY",
+    "COMPONENT_SET",
+    "KNOWN_PREFILLS",
+    "REQUIRED_BEFORE_FILING",
+    "ROUTE_OPTIONS",
+    "REPEATING_ROWS",
+    "PROTECTED_FIELDS",
+    "ARTIFACTS",
+    "PAGE_ORDER",
+    "CLIPPING_AND_OVERLAP",
+    "FILING_DESTINATION",
+    "FEE_AND_WAIVER",
+    "SERVICE",
+    "SELF_HELP_STOP"
+  ],
+  "standardApplied": {
+    "measuredHere": "Every obligation was measured in this lane from the committed artifacts at the base sha named above: artifact hashes recomputed from bytes, page counts read with pdfinfo, every recorded write read back from pdftotext output, word geometry from pdftotext -bbox checked against the page box and same-band pairs, committed-record pins recomputed from disk, the repository completeness verifier run here for the nine counters. No counter was copied from a builder self-report.",
+    "lapsedPins": "Where a receipt's whole-file pin had drifted, the pinned blob was recovered from git history, the family's own entries were compared between the pinned and current versions, and the row records the CURRENT digest and byte length as the pin it verified against; receipts on disk are not edited by this lane.",
+    "SOURCE_IDENTITY": "Met only by recomputing every bound record hash from bytes; these families bind committed repository records and no corpus bytes.",
+    "FEE_AND_WAIVER": "DET-FEE-AND-WAIVER-001 (data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json) applied as written.",
+    "SERVICE": "Met by a named rule, or an affirmative statement that nobody is served with the mechanism that replaces it; silence or an unnamed office does not meet it.",
+    "SELF_HELP_STOP": "Met when the packet states where the platform stops and a lawyer takes over, measured against the controlling decision's stop conditions.",
+    "FILING_DESTINATION": "Met when the participant-facing instructions name the court, clerk or agency the route names."
+  },
+  "rows": [
+    {
+      "itemId": "me-nonconv-set",
+      "lane": "VF11",
+      "worker": "CI-FACTORY-CLAUDE-VT (independent; built, repaired and rendered none of these packets)",
+      "verifiedAtBase": "1b48eb358e2dec7b5b016a4e028be0a2d81b8996",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/me/me-nonconv-set--custom-pleading",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "howMeasured": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <id> run by this verifier at base 1b48eb358 with MASTER_LIBRARY_SOURCE_DIR pointed at the 5-file stub; the counter line was parsed from that run, not read from reports/completeness-counters.json (that report was read only as the thing being checked and agrees)."
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "detail": "production-field-map.json, source-receipt.json, product-wiring.json and the MASTER_QUEUE family row declare the identical route key set ['obligation:unit:ME:me-nonconv:me-nonconv-709-correction-request', 'obligation:unit:ME:me-nonconv:me-nonconv-confidential-by-operation-of-law']; every key is present in canonical-route-universe.json (708 keys, read here); familyId agrees across field map, receipt, wiring, rendered-artifacts, actual-writes, completeness-counters and the queue row."
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "detail": "Fully measurable here: the family binds no Master Library bytes and no official form (queue row officialFormFamily NONE, boundSources []; receipt sourceBinaryCommitted false). Both compositionSources rehashed from disk at base 1b48eb358: data/record-clearing/legal-design-intake/ME.memo.json exact (fadc5e312ee3\u2026, 203341 B); data/record-clearing/legal-design-packet-set-manifests.json drifted b28edfb9 -> fee93664 (3708050 -> 3738732 B; last moved at a9e4ee852, 2026-10-16). Read against the recovered pinned blob: packetSets[packetSetId=me-nonconv-set] is identical object-for-object (anchor sha 5003b5a567de\u2026 both sides, keys sorted, no spacing, UTF-8), the record's non-packetSets content (schemaVersion, factoryV2RouteMigrations) is identical (anchor eb4a53fc38ac\u2026), packetSets count 497 -> 497, and every line mentioning me-nonconv is the same set in both versions. Nothing this family depends on moved; the drift is other packet sets' entries (Virginia and Minnesota commits). No controlling entry drifted in substance. Not re-pinned here; the current sha256/byteLength are recorded under evidence.sourceRecomputation.newPinsIfAccepted."
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "detail": "The packet-set manifest entry (identical pinned and current) names four components - process_guidance (required), primary_filing (conditional: only where the agency record is demonstrably inaccurate), attachment (conditional: wherever a disposition order is held), instructions (required); the field map, receipt (composedComponentsAuthoredByThisBuild) and rendered page manifest carry exactly those four, in that order, in both fixtures (pages 1-2, 3-4, 5, 6-7), and the two conditions are printed on the pages themselves ('USE THIS PAGE ONLY IF...'). requiredComponentsMissing 0."
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "detail": "Read back here, not trusted: every value actual-writes.json records as written was searched for in pdftotext -layout output of that fixture's own bytes - canonical 8/8 found; boundary 8/8 found. refusedFieldsWithInk is empty in both fixtures; the fresh run measured invisibleWrites 0 and knownRequiredFieldsMissing 0."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "detail": "The field map declares 8 required-before-filing item(s); each disclosureLabel was found verbatim in participant-instructions.md's 'items you must supply' table (read here), and the fresh run measured requiredFactsNotCollected 0 and unclassifiedBlanks 0."
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "detail": "routeSelectionsMade [] and no election control on the composed pages: the two units are alternatives explained on the instructions page ('WHICH UNIT IS YOURS ... at most one applies'), the base branch sends nothing, and the only participant-answered question (where the record is causing the problem) is a required-before-filing blank, not a route election made for them. requiredOptionsMissing 0."
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "detail": "The fresh run measured incompleteRows 0: no row band carries written cells beside a required cell left blank in either fixture."
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "detail": "protectedWrites 0; refusedFieldsWithInk [] in both fixtures; read here, the 'DATE .... SIGNATURE ....' line of the Sec. 709 request is dotted in both fixtures, no with-prejudice or plea-agreement assertion is written, and no agency-owned value appears."
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "detail": "canonical.pdf sha256 d9ea11c3b618\u2026 and 18842 bytes recomputed here = reports/rendered-artifacts.json; boundary.pdf sha256 4f7c2fad8a0c\u2026 and 19005 bytes recomputed here = reports/rendered-artifacts.json. No unrecorded PDF exists under fixtures/ and no recorded PDF is missing."
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "detail": "canonical: pdfinfo 7 = recorded 7 = manifest 7 pages, packetPage 1..7 contiguous, documents in order ['process_guidance', 'primary_filing', 'attachment', 'instructions']; boundary: pdfinfo 7 = recorded 7 = manifest 7 pages, packetPage 1..7 contiguous, documents in order ['process_guidance', 'primary_filing', 'attachment', 'instructions']; that order is the receipt's composedComponentsAuthoredByThisBuild order."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "detail": "Measured geometrically here with pdftotext -bbox: canonical 1791 words on 7 pages, 0 outside the page box, 0 same-band overlapping pairs; boundary 1794 words on 7 pages, 0 outside the page box, 0 same-band overlapping pairs. The builder's byte proof records nonWhitespaceGlyphsOutsideMeasuredWriteBoxes 0 in both fixtures and the fresh run measured visualDefects 0. No raster was inspected here (rendered-artifacts.json records rasterSkipped true); this is a geometry reading, not a visual one."
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "detail": "The route names an agency destination - Maine State Police, State Bureau of Identification, in person or by mail at State House Station #42, Augusta, ME 04333-0042 - for unit 2 and nothing to file for unit 1. The Sec. 709 request prints that addressee and address on its own face ('To: ... Maine State Police, State Bureau of Identification / State House Station #42, Augusta, ME 04333-0042 (delivered in person or by mail)'), the instructions page says the base branch files nothing and the correction branch is sent to the agency holding the record, and participant-instructions.md names the same office."
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "detail": "Met twice under DET-FEE-AND-WAIVER-001: clause 2 for the request itself - 'No fee attaches to the confidentiality itself and none to a Sec. 709 request' on the packet page, sourced by the track rule pay_fee ('None for the confidentiality itself and none for a Sec. 709 request'); and clause 3 for the only cost on the route, the Bureau's record search - 'The Bureau charges a fee for the standard record search and a higher fee for a notarised background check; confirm the current amounts with the Bureau, because no figure is published here', with the Bureau named by office, postal address and online service, and the instructions saying 'Every fee figure. The Bureau's current search fees are confirmed with the Bureau.' Same reading DET-FEE-AND-WAIVER-001.alsoRecorded gives for this family."
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "detail": "An affirmative nobody-is-served statement with the mechanism that replaces it, on the packet's instructions page: 'You send the Sec. 709 request in this packet, in writing, to the agency that holds the record - principally the State Bureau of Identification, in person or by mail ... No one else is served, and no fee attaches to a Sec. 709 request'; the attachment checklist says 'Send copies, not your only originals'. Source held: the track rule serve_party 'Not applicable. The participant sends the request directly to the agency and serves no one else.'"
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "detail": "The registry's six stops - prejudice/plea-agreement status unclear; a court record rather than a Bureau record; a not-criminally-responsible verdict or plea; a deferred disposition; the agency refuses and the participant wants to appeal or seek Superior Court review; not a US citizen - are the six items of the instructions' 'When to stop and get help instead' and of the packet page's 'WHEN TO STOP AND GET HELP INSTEAD OF SENDING ANYTHING', read here. The instructions also list what the platform deliberately left blank (signature and date; any prejudice/plea assertion; the appeal and any court filing; every fee figure) and say the packet is not a court filing, not legal advice and promises no confidentiality. approval-request.json: approvedForLive false, live false, commercialRoutesOpened 0."
+        }
+      },
+      "evidence": {
+        "verifierRun": "ok   me-nonconv-set                                 PASS_COMPLETE                8/18 written | counters: knownRequiredFieldsMissing 0 \u00b7 requiredFactsNotCollected 0 \u00b7 unclassifiedBlanks 0 \u00b7 incompleteRows 0 \u00b7 requiredOptionsMissing 0 \u00b7 requiredComponentsMissing 0 \u00b7 invisibleWrites 0 \u00b7 protectedWrites 0 \u00b7 visualDefects 0",
+        "sourceRecomputation": {
+          "officialSourcesBound": 0,
+          "masterLibraryBytesBound": false,
+          "compositionSources": [
+            {
+              "path": "data/record-clearing/legal-design-intake/ME.memo.json",
+              "pinnedSha256": "fadc5e312ee3f225d27359efb3c89c7eb2336d919201afd00be39f0b1c7f798b",
+              "pinnedByteLength": 203341,
+              "recomputedSha256": "fadc5e312ee3f225d27359efb3c89c7eb2336d919201afd00be39f0b1c7f798b",
+              "byteLengthOnDisk": 203341,
+              "exact": true
+            },
+            {
+              "path": "data/record-clearing/legal-design-packet-set-manifests.json",
+              "pinnedSha256": "b28edfb93eb2e3953dea5bdbe2915476c9752c12df2a46cb61f98e786a77cc5c",
+              "pinnedByteLength": 3708050,
+              "recomputedSha256": "fee93664c9795c569acb6b7b92f688f519ccacbf981465b599327f590d3dfb82",
+              "byteLengthOnDisk": 3738732,
+              "exact": false
+            }
+          ],
+          "driftAnchors": {
+            "legal-design-packet-set-manifests.json": {
+              "packetSetEntry": {
+                "pinnedAnchorSha256": "5003b5a567de45a6c6242ffa5a2eca4f64db6e02800a54a7b2e05d3d23eb2d9f",
+                "currentAnchorSha256": "5003b5a567de45a6c6242ffa5a2eca4f64db6e02800a54a7b2e05d3d23eb2d9f",
+                "identical": true,
+                "pinnedBlobSha256": "b28edfb93eb2e3953dea5bdbe2915476c9752c12df2a46cb61f98e786a77cc5c",
+                "currentSha256": "fee93664c9795c569acb6b7b92f688f519ccacbf981465b599327f590d3dfb82",
+                "currentByteLength": 3738732
+              },
+              "nonPacketSetsContent": {
+                "pinnedAnchorSha256": "eb4a53fc38ac633369b073f1e43e3d322389a4add7a0f3deec0f0ef90a145ead",
+                "currentAnchorSha256": "eb4a53fc38ac633369b073f1e43e3d322389a4add7a0f3deec0f0ef90a145ead",
+                "identical": true,
+                "pinnedBlobSha256": "b28edfb93eb2e3953dea5bdbe2915476c9752c12df2a46cb61f98e786a77cc5c",
+                "currentSha256": "fee93664c9795c569acb6b7b92f688f519ccacbf981465b599327f590d3dfb82",
+                "currentByteLength": 3738732
+              },
+              "packetSetsCountPinnedToCurrent": [
+                497,
+                497
+              ]
+            }
+          },
+          "newPinsIfAccepted": [
+            {
+              "path": "data/record-clearing/legal-design-packet-set-manifests.json",
+              "sha256": "fee93664c9795c569acb6b7b92f688f519ccacbf981465b599327f590d3dfb82",
+              "byteLength": 3738732
+            }
+          ]
+        },
+        "artifactRecomputation": [
+          {
+            "fixture": "canonical",
+            "file": "data/rcap-all50/overlays/census-v1/me/me-nonconv-set--custom-pleading/fixtures/canonical.pdf",
+            "recordedSha256": "d9ea11c3b618cf92863f653ef964f32bf893ef91a602269d1950cbda68c5b007",
+            "recomputedSha256": "d9ea11c3b618cf92863f653ef964f32bf893ef91a602269d1950cbda68c5b007",
+            "recordedByteLength": 18842,
+            "byteLengthOnDisk": 18842,
+            "recordedPageCount": 7,
+            "pdfinfoPages": 7,
+            "manifestPages": 7,
+            "contiguousFromOne": true,
+            "documentsInOrder": [
+              "process_guidance",
+              "primary_filing",
+              "attachment",
+              "instructions"
+            ],
+            "matched": true
+          },
+          {
+            "fixture": "boundary",
+            "file": "data/rcap-all50/overlays/census-v1/me/me-nonconv-set--custom-pleading/fixtures/boundary.pdf",
+            "recordedSha256": "4f7c2fad8a0c2a2dbd0681b5c48bea156401b82cd87746659cd8077b9df4d665",
+            "recomputedSha256": "4f7c2fad8a0c2a2dbd0681b5c48bea156401b82cd87746659cd8077b9df4d665",
+            "recordedByteLength": 19005,
+            "byteLengthOnDisk": 19005,
+            "recordedPageCount": 7,
+            "pdfinfoPages": 7,
+            "manifestPages": 7,
+            "contiguousFromOne": true,
+            "documentsInOrder": [
+              "process_guidance",
+              "primary_filing",
+              "attachment",
+              "instructions"
+            ],
+            "matched": true
+          }
+        ],
+        "byteReadBack": [
+          {
+            "fixture": "canonical",
+            "writesRecorded": 8,
+            "foundInExtractedText": 8,
+            "notFound": [],
+            "valuesReportedByFinalizer": 8,
+            "builderGlyphsOutsideWriteBoxes": 0,
+            "refusedFieldsWithInk": [],
+            "signatureLinesBlank": true
+          },
+          {
+            "fixture": "boundary",
+            "writesRecorded": 8,
+            "foundInExtractedText": 8,
+            "notFound": [],
+            "valuesReportedByFinalizer": 8,
+            "builderGlyphsOutsideWriteBoxes": 0,
+            "refusedFieldsWithInk": [],
+            "signatureLinesBlank": true
+          }
+        ],
+        "wordGeometry": [
+          {
+            "fixture": "canonical",
+            "pages": 7,
+            "words": 1791,
+            "wordsOutsidePageBox": 0,
+            "sameBandOverlappingWordPairs": 0
+          },
+          {
+            "fixture": "boundary",
+            "pages": 7,
+            "words": 1794,
+            "wordsOutsidePageBox": 0,
+            "sameBandOverlappingWordPairs": 0
+          }
+        ],
+        "stopConditions": {
+          "registry": [
+            "The prejudice status or plea-agreement status of a dismissal is unclear from the participant's documents.",
+            "The participant needs a court record restricted rather than a Bureau record treated as confidential. That is governed by 16 M.R.S. \u00a7 708 and Supreme Judicial Court rule and is outside this track.",
+            "The record involves a not-criminally-responsible verdict or plea.",
+            "The case was a deferred disposition, whose \u00a7 703(2) status is not established.",
+            "The agency refuses the correction and the participant wants to take an administrative appeal or seek Superior Court review.",
+            "The participant is not a US citizen. A non-conviction disposition still carries immigration consequences in some circumstances."
+          ],
+          "instructionsSection": "When to stop and get help instead",
+          "approvedForLive": false,
+          "live": false,
+          "commercialRoutesOpened": 0
+        },
+        "lapseResolved": "No lapse is recorded: the MASTER_QUEUE row carries verificationLapsedBecause null and verifierSourceHold null; the receipt drift is the only reason this family was re-read."
+      },
+      "failedObligationNames": [],
+      "commercialRoutesOpened": false,
+      "overlayDirectoriesModified": false,
+      "grantsNothing": "This row is a verification reading. It opens no route, sets no price and authorises no promotion."
+    }
+  ]
+}

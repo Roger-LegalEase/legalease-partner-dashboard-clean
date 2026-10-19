@@ -1,0 +1,135 @@
+{
+  "schemaVersion": "rcap-independent-verification-rows/v1",
+  "lane": "VF05",
+  "laneKind": "independent-verification",
+  "generatedAtBase": "1b48eb358e2dec7b5b016a4e028be0a2d81b8996",
+  "verifier": "CI-FACTORY-CLAUDE-VT (independent; built, repaired and rendered none of these packets)",
+  "preflight": "claim.mjs --assert was run per subject at assembly and its result is recorded per family in claimAssertions (CLAIM_OK: the lane holds the live claim; ALREADY_RELEASED, GRANTED_ELSEWHERE_BUT_RELEASED, NOT_GRANTED: no live claim exists and this return is filed under the lane that holds the family's current verdict, the generator's claim invariant applying to active assignments only); the packet-build environment preflight is not applicable to a verification reading on this machine",
+  "claimAssertions": {
+    "vt_seal_under_25-set": "ALREADY_RELEASED: vt_seal_under_25-set at 2026-09-04T15:23:13.166Z"
+  },
+  "obligationSet": [
+    "ROUTE_IDENTITY",
+    "SOURCE_IDENTITY",
+    "COMPONENT_SET",
+    "KNOWN_PREFILLS",
+    "REQUIRED_BEFORE_FILING",
+    "ROUTE_OPTIONS",
+    "REPEATING_ROWS",
+    "PROTECTED_FIELDS",
+    "ARTIFACTS",
+    "PAGE_ORDER",
+    "CLIPPING_AND_OVERLAP",
+    "FILING_DESTINATION",
+    "FEE_AND_WAIVER",
+    "SERVICE",
+    "SELF_HELP_STOP"
+  ],
+  "standardApplied": {
+    "measuredHere": "Every obligation was measured in this lane from the committed artifacts at the base sha named above: artifact hashes recomputed from bytes, page counts read with pdfinfo, every recorded write read back from pdftotext output, word geometry from pdftotext -bbox checked against the page box and same-band pairs, committed-record pins recomputed from disk, the repository completeness verifier run here for the nine counters. No counter was copied from a builder self-report.",
+    "lapsedPins": "Where a receipt's whole-file pin had drifted, the pinned blob was recovered from git history, the family's own entries were compared between the pinned and current versions, and the row records the CURRENT digest and byte length as the pin it verified against; receipts on disk are not edited by this lane.",
+    "SOURCE_IDENTITY": "Met only by recomputing every bound record hash from bytes; these families bind committed repository records and no corpus bytes.",
+    "FEE_AND_WAIVER": "DET-FEE-AND-WAIVER-001 (data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json) applied as written.",
+    "SERVICE": "Met by a named rule, or an affirmative statement that nobody is served with the mechanism that replaces it; silence or an unnamed office does not meet it.",
+    "SELF_HELP_STOP": "Met when the packet states where the platform stops and a lawyer takes over, measured against the controlling decision's stop conditions.",
+    "FILING_DESTINATION": "Met when the participant-facing instructions name the court, clerk or agency the route names."
+  },
+  "rows": [
+    {
+      "itemId": "vt_seal_under_25-set",
+      "lane": "VF05",
+      "worker": "CI-FACTORY-CLAUDE-VT (independent; built, repaired and rendered none of these packets)",
+      "verifiedAtBase": "1b48eb358e2dec7b5b016a4e028be0a2d81b8996",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/vt/vt-seal-under-25-set--custom-pleading",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "howMeasured": "verify-packet-completeness.mjs --family vt_seal_under_25-set run here at 1b48eb358 with MASTER_LIBRARY_SOURCE_DIR set and PYTHONDONTWRITEBYTECODE=1: PASS_COMPLETE, 7/14 written, all nine counters 0; exit 0; worktree unchanged afterwards (git status shows only the pre-existing untracked private/)."
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "detail": "The single routeKey obligation:track-pathway:VT:vt_seal_under_25:offense-before-age-25-sealing-under-33-v-s-a-5119-g is declared identically by source-receipt.json, product-wiring.json, production-field-map.json and the MASTER_QUEUE family row (state COMPLETE_PACKET_PROVEN, sourceStatus CUSTOM_PLEADING_FROM_CODIFIED_TEXT); familyId agrees across every record read. The packet face prints that routeKey on all five pages of both fixtures and titles the application 'APPLICATION FOR SEALING UNDER 33 V.S.A. SEC. 5119(G)', not chapter 230."
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "detail": "No official-form binary is bound (custodyClass CUSTOM_PLEADING_FROM_CODIFIED_TEXT, sourceBinaryCommitted false). Both compositionSources recomputed from disk at 1b48eb358 and both drifted at whole-file level: data/record-clearing/legal-design-intake/VT.memo.json pinned 4bcd3fa16e73781234c2ebaabbd24e20dc25967049a86c66b6064aaa25fab079 / 283822 B, current c274dbd6b586ed619d3e49ae0062d7e3de652d72c9f12e53a4fa5524df80769c / 287541 B; data/record-clearing/legal-design-packet-set-manifests.json pinned b28edfb93eb2e3953dea5bdbe2915476c9752c12df2a46cb61f98e786a77cc5c / 3708050 B, current fee93664c9795c569acb6b7b92f688f519ccacbf981465b599327f590d3dfb82 / 3738732 B. The recovered pinned blobs in drift/ hash exactly to their pins. Object-for-object comparison (keys sorted recursively, compact JSON, UTF-8): VT.memo.json global metadata identical (43a321435d99...), the family's own track vt_seal_under_25 identical, canonical sha256 f9a8a2fb010414f7ef33403b24d3e7564d44897983af9ac31a0492c086b7823e in both versions (and equal to the memoTrackObjectSha256 VF05 recorded at 46360ba12); of the 11 tracks only vt_seal_dui changed (rules.fees and rules.feeWaiver extended with the 2026-09-06 owner-relayed research disposition, rules.researchParticipantText added, unresolvedQuestions 1 to 0, researchResolvedQuestions added) and that DUI text itself states 'the separate under-25 route keeps its own no-fee treatment'. Manifests: global metadata identical (eb4a53fc38ac...), the vt_seal_under_25-set entry identical, canonical sha256 4cb238805dc7a47d55d43cf7e13841270b6cc81b598379df04a384df092c108e in both (equal to the receipt's identityRefresh anchor); 497 entries in both, none added or removed, 8 unrelated entries changed (co_petition_seal_arrest-set, co_motion_seal_conviction-set, de_discretionary_superior_court-set, de_discretionary_family_court-set, il-seal-edu-set, va_exp_absolute_pardon-set, wv_nc_acquittal_dismissal-set, wv_nc_diversion_deferred-set). No controlling entry drifted in substance. New pin values recorded here for the lead, not written to the worktree: VT.memo.json c274dbd6b586ed619d3e49ae0062d7e3de652d72c9f12e53a4fa5524df80769c / 287541; legal-design-packet-set-manifests.json fee93664c9795c569acb6b7b92f688f519ccacbf981465b599327f590d3dfb82 / 3738732."
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "detail": "3 declared components (application_for_sealing, rehabilitation_statement_prompts, hearing_and_notice_instructions) equal the 3 listed in the memo track, the manifests entry, composedComponentsAuthoredByThisBuild, production-field-map maps and rendered-artifacts componentSet; all three are present in declared order in the page manifest of both fixtures and each is visible in the extracted text. requiredComponentsMissing=0 measured here."
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "detail": "7/7 written values per fixture (name x3, date of birth, mailing address, telephone, email) read back here from pdftotext of the fixture bytes, canonical and boundary, including the long boundary address and 'ext. 6618' telephone; 0 missing, 0 reported invisible. knownRequiredFieldsMissing=0 measured here."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "detail": "The 5 declared participant blanks (age at offence, Superior Court unit, docket number, date of final discharge, rehabilitation account) are each printed as a labelled dotted blank on the application and each named in participant-instructions.md with what to write and which record confirms it. The documents the memo track requires are each named with the office that supplies them: record of final discharge (Criminal Division clerk, required before filing), VCIC conviction record (VCIC), Restitution Unit statement (Restitution Unit of the Vermont Center for Crime Victim Services, required before filing), plus the conditional rehabilitation material. everyRequiredBeforeFilingItemIsDisclosed is true in the blanks report and was confirmed against the instructions text. requiredFactsNotCollected=0 and unclassifiedBlanks=0 measured here."
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "detail": "0 selection controls in the field map; the composed application carries no printed election and names \u00a7 5119(g) in its title and body. requiredOptionsMissing=0 measured here."
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "detail": "The packet contains no repeating row structure; incompleteRows=0 measured here."
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "detail": "The applicant signature and date lines are dotted blanks with no value in the extracted text of both fixtures; the four rehabilitation lines, the court unit and the docket number are blank; refusedFieldsWithInk is empty in both fixtures' byte proof; nonWhitespaceGlyphsOutsideMeasuredWriteBoxes=0 in both; protectedWrites=0 measured here. The blanks report lists the 2 signature/date protected blanks and the counters report records 3 PROTECTED_FIELD dispositions."
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "detail": "2 PDFs on disk, both recorded; recomputed here: canonical.pdf cd71dce93a3404558c3d2fc33e55a3838867868781c801c7487ebad8ea049a07 / 13802 B / 5 pages, boundary.pdf ddf00f9ef8f86bb54495dd12a379d7edfc906a03c6e94a37a3b1e8a8df832492 / 14012 B / 5 pages, each equal to rendered-artifacts.json and product-wiring; pdfinfo page counts equal the recorded 5/5. 0 mismatches, 0 unrecorded files."
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "detail": "Both page manifests run 1..5 contiguously: application_for_sealing pages 1-2, rehabilitation_statement_prompts page 3, hearing_and_notice_instructions pages 4-5, the declared order; pdftotext shows the same sequence and pdfinfo reads 5 pages for both fixtures."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "detail": "Word geometry extracted here with pdftotext -bbox: canonical 1285 words, boundary 1288 words, 0 words outside the page box and 0 same-band overlapping word pairs in either; nonWhitespaceGlyphsOutsideMeasuredWriteBoxes=0 in both byte proofs; visualDefects=0 measured here. The hash-bound RASTER_PASS receipt in product-wiring (run 33923497915) binds canonical sha cd71dce9..., which equals the current bytes; no raster was produced or inspected in this lane."
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "detail": "participant-instructions.md and the hearing-and-notice page both say to file the application 'with the Criminal Division of the Superior Court in the county that handled the case', which is the destination the memo track records (venue: Criminal Division of the Vermont Superior Court in the county that handled the case). The application caption carries the Superior Court / Criminal Division heading with the unit left for the participant."
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "detail": "Met on the sourced no-fee limb of DET-FEE-AND-WAIVER-001: the instructions and the hearing page state 'NO FILING FEE is payable: under 32 V.S.A. Sec. 1431(e) the $90 fee applies only to a motion to seal a DUI record and expressly does not apply to a motion under 33 V.S.A. Sec. 5119(g)', which is what the memo track's rules.fees and the manifests entry's pay_fee record hold. No waiver route is needed and the packet says so. The separate VCIC record fee is a figure no held record states (the memo directs it be read live); the packet names VCIC as the office that answers it rather than inventing an amount."
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "detail": "Affirmative nobody-is-served statement with the replacing mechanism: 'The notice to all parties of record is the Court's step under the section, not yours; this packet carries no service page because the statute assigns the notice to the Court.' That matches the memo track's rules.notice and rules.service and the manifests serve_party entry."
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "detail": "The memo track's 5 selfHelpStopConditions (contested rehabilitation at the hearing; listed-crime conviction or delinquency in the ten-year lookback or such a proceeding pending; restitution or surcharges owed; unsure whether an offence is a listed crime under 13 V.S.A. \u00a7 5301; immigration consequences) are all carried in the 'When to stop and get help instead of filing' list in participant-instructions.md and on the hearing page, and the contested-showing stop is repeated on the prompts page. The packet also states that rehabilitation words and the signature are never supplied and that it carries no approval."
+        }
+      },
+      "evidence": {
+        "verifierRun": "PASS_COMPLETE, 7/14 written, all nine counters zero (run here at 1b48eb358)",
+        "sourceRecomputation": "0 official sources; 2/2 compositionSources rehashed from disk, both drifted at whole-file level; family track vt_seal_under_25 and the vt_seal_under_25-set manifests entry identical pinned vs current (canonical sha f9a8a2fb... and 4cb23880...); only vt_seal_dui and 8 unrelated packet sets changed; new pins c274dbd6... / 287541 and fee93664... / 3738732 recorded for the lead",
+        "artifactRecomputation": "2/2 PDFs hash and byte-length to record; pdfinfo 5/5 pages equal the record",
+        "byteReadBack": "14/14 written values (7 per fixture) read back from the fixture bytes by this lane; word geometry 0 outside page box, 0 same-band overlaps on all 10 pages",
+        "stopConditions": "5/5 stops held by the controlling memo track carried in the packet",
+        "lapseResolved": "No lapse recorded (queue lapse null); the two whole-file pin drifts are explained above and leave the controlling entries unchanged"
+      },
+      "failedObligationNames": [],
+      "commercialRoutesOpened": false,
+      "overlayDirectoriesModified": false,
+      "grantsNothing": "This row is a verification reading. It opens no route, sets no price and authorises no promotion."
+    }
+  ]
+}
