@@ -7,6 +7,9 @@ import memo from "../../../data/record-clearing/legal-design-intake/VA.memo.json
 
 export const VA_VICTIM_CONTEXT_ROUTES = ["regime-1-expungement-available-now", "automatic-sealing-no-filing", "petition-based-sealing"];
 export const VA_VICTIM_STATUS_ID = "trafficking_status";
+/** Hash of the imported memo, computed once per process on first use.
+ * Anything passed in current.memo is hashed live, so overrides stay exact. */
+let importedMemoHash: string | undefined;
 const VA_REGIME1_SPECIFICATION_REPRESENTATIONS = new Set([
   "15f00b98121bfc500a5f3be0d25fe4860b0f6bea1046cf61522ae58a90df40b2",
   "1a86cdc4709753cb09fa4753a700f18a37feb4b9a6094a46f2db2e6244fe501e"
@@ -19,7 +22,7 @@ export function virginiaVictimQuestionContract(profile: EngineProfile | undefine
   current: { memo?: unknown; specification?: RegisteredSpecification | null } = {}): boolean {
   if (profile?.jurisdiction.code !== "VA" || pathwayId != null && !VA_VICTIM_CONTEXT_ROUTES.includes(pathwayId)
     || contactRepresentationHash(profile) !== "8b9e5e8eb7100788dae197f75a552d4e831918fc11d5fa74218652c1f8a7ca1c"
-    || contactRepresentationHash(current.memo === undefined ? memo : current.memo) !== "58eb8edd74515bbce9f737b4a749230f3568cc30b9cb578a9d0aa3d206ce1d6e") return false;
+    || (current.memo === undefined ? importedMemoHash ??= contactRepresentationHash(memo) : contactRepresentationHash(current.memo)) !== "58eb8edd74515bbce9f737b4a749230f3568cc30b9cb578a9d0aa3d206ce1d6e") return false;
   // The current broad Regime1 route resolves to the existing absolute-pardon
   // specification. Pin that observed identity without borrowing its approval
   // for the other mechanisms. The two other original routes have no spec.
