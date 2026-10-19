@@ -1,19 +1,19 @@
 {
   "schemaVersion": "rcap-ct-current-guidance-independent-review/v1",
-  "reviewer": "seven_independent_review (independent Astra xhigh)",
-  "lane": "VFCT1",
-  "verifiedAtBase": "bb02308abf397e53edb97d2438d289a0756745df",
+  "reviewer": "Acceptance Claude (PR #268 Acceptance lane)",
+  "lane": "ACCEPTANCE-CT-V3",
+  "verifiedAtBase": "59bb944b440b1dcfb20d2f48386ba4e42cea4eeb",
   "reviewedCandidate": {
-    "path": "data/rcap-grade-a/packet-factory-24h/warp-20260912/ct-three-guidance/repair-current/current-candidate-v2.json",
-    "sha256": "cfc20fe29964613e04c521200bb6f8a98cfbe804be423318c344252dd5021880",
-    "byteLength": 23427,
-    "candidateVersion": "CT-GUIDANCE-DIRECT-PARTICIPANT-COPY-20260912-V2"
+    "path": "data/rcap-grade-a/packet-factory-24h/warp-20260912/ct-three-guidance/repair-current/current-candidate-v3.json",
+    "sha256": "446107ef707329af2088df94fc747f8ae010ce72a6c41eb41916bc1ed22c8618",
+    "byteLength": 25011,
+    "candidateVersion": "CT-GUIDANCE-DIRECT-PARTICIPANT-COPY-20261019-V3"
   },
   "authoredByADifferentLaneThanTheCandidate": true,
   "editsNothingItVerifies": true,
   "createsNoApproval": true,
   "opensNoRoute": true,
-  "reviewDate": "2026-09-12",
+  "reviewDate": "2026-10-19",
   "families": [
     {
       "familyId": "agency-application-treatment:obligation:track-only:CT:ct-destruction-request",
@@ -73,13 +73,13 @@
         },
         {
           "path": "scripts/grade-a-packet-factory-24h/ct-reviewed-guidance.mjs",
-          "sha256": "5b9f16dc249e68a556dc76137af0e079bb248e27c7988dfb2f3683e12963dbae",
+          "sha256": "703b1a277a3f84c354c77515e3ee86900d6f91c63091adfe495bb234182d63e4",
           "byteLength": 28700
         },
         {
           "path": "scripts/rcap-custom-pleading/composed-family-host.mjs",
-          "sha256": "39757c71339be5b3a21950b21a93e752f45c31d5c95b7204a34f1f43d1e3fd63",
-          "byteLength": 39753
+          "sha256": "811c6e20d5c56039f0b49bb6a10d7113703fd974929a9bdd687f01308ed3283e",
+          "byteLength": 39829
         },
         {
           "path": "scripts/rcap-packet-completeness/identity-refresh.mjs",
@@ -140,7 +140,7 @@
           "priorFindingSha256": "4621bb1de8c6b304e3af0280f7b7d50b2a62975dda1bb4facfba23431fe90f9c",
           "priorResult": "FAIL",
           "result": "CLOSED_BY_INDEPENDENT_DELTA",
-          "finding": "The exact 12 prior participant-copy occurrences are absent from current PDF and Markdown. Current canonical/boundary originals independently confirm complete readable guidance, known facts and all authority handbacks. Closure is limited to ARTIFACTS for the current static guidance treatment; the receiving authority request/application remains the participant\u2019s separate action.",
+          "finding": "The exact 12 prior participant-copy occurrences are absent from current PDF and Markdown. Current canonical/boundary originals independently confirm complete readable guidance, known facts and all authority handbacks. Closure is limited to ARTIFACTS for the current static guidance treatment; the receiving authority request/application remains the participant’s separate action.",
           "evidence": [
             {
               "path": "data/rcap-grade-a/packet-factory-24h/warp-20260912/ct-three-guidance/repair-current/independent-review/current-original-review.json",
@@ -235,6 +235,11 @@
           "path": "data/rcap-grade-a/packet-factory-24h/warp-20260912/ct-three-guidance/repair-current/independent-review/legacy-selected-verdict-closure.json",
           "sha256": "bb51a7b6513ef28f5a2c179db31cdb3adcc3ccf885bc9e2616a19c7d06be9598",
           "byteLength": 43541
+        },
+        {
+          "path": "data/rcap-grade-a/packet-factory-24h/warp-20260912/ct-three-guidance/repair-current/current-host-rebuild-proof-v3.json",
+          "sha256": "055190df8e73ffd6df1108995a140d90f80d8525d013c0758594aad09cff2b81",
+          "byteLength": 5305
         }
       ],
       "proofObligations": {
@@ -529,6 +534,16 @@
         "path": "data/rcap-grade-a/packet-factory-24h/vfct1/rows-vfct1-ct-three-current-semantic-fail-20260912.json",
         "sha256": "8bad5878c15e534ec20053d4cc3571cb8f9126b513f5ea9e84fc759e761937b8",
         "preserved": true
+      },
+      "v3Delta": {
+        "changedInputs": [
+          "scripts/rcap-custom-pleading/composed-family-host.mjs 39757c71 -> 811c6e20 (task53 footer fix, 86006af26)",
+          "scripts/grade-a-packet-factory-24h/ct-reviewed-guidance.mjs 5b9f16dc -> 703b1a27 (candidate path and version only)"
+        ],
+        "outputsByteIdenticalToV2Review": true,
+        "sourceBindingsIdenticalToV2": true,
+        "rebuiltByThisReviewer": "Each family builder re-run at 59bb944b4 with the current host in a disposable worktree: all three outputs reproduce the pinned bytes and no tracked file changes; nine counters zero; commercialRoutesOpened 0.",
+        "guidanceOnlyAndCheckoutClosed": "The queue treatment reconciliation keeps implementationStrategyOverride process_guidance under CT.memo.json; no route, price, runtime or fulfilment is created; the review grants only the existing static GUIDANCE_READY treatment."
       }
     },
     {
@@ -589,13 +604,13 @@
         },
         {
           "path": "scripts/grade-a-packet-factory-24h/ct-reviewed-guidance.mjs",
-          "sha256": "5b9f16dc249e68a556dc76137af0e079bb248e27c7988dfb2f3683e12963dbae",
+          "sha256": "703b1a277a3f84c354c77515e3ee86900d6f91c63091adfe495bb234182d63e4",
           "byteLength": 28700
         },
         {
           "path": "scripts/rcap-custom-pleading/composed-family-host.mjs",
-          "sha256": "39757c71339be5b3a21950b21a93e752f45c31d5c95b7204a34f1f43d1e3fd63",
-          "byteLength": 39753
+          "sha256": "811c6e20d5c56039f0b49bb6a10d7113703fd974929a9bdd687f01308ed3283e",
+          "byteLength": 39829
         },
         {
           "path": "scripts/rcap-packet-completeness/identity-refresh.mjs",
@@ -671,7 +686,7 @@
           "priorFindingSha256": "e4a09376324a0570fa5a98a668643bda6e0c00fe9f961c0d24404e1043b59e90",
           "priorResult": "FAIL",
           "result": "CLOSED_BY_INDEPENDENT_DELTA",
-          "finding": "The exact 10 prior participant-copy occurrences are absent from current PDF and Markdown. Current canonical/boundary originals independently confirm complete readable guidance, known facts and all authority handbacks. Closure is limited to ARTIFACTS for the current static guidance treatment; the receiving authority request/application remains the participant\u2019s separate action.",
+          "finding": "The exact 10 prior participant-copy occurrences are absent from current PDF and Markdown. Current canonical/boundary originals independently confirm complete readable guidance, known facts and all authority handbacks. Closure is limited to ARTIFACTS for the current static guidance treatment; the receiving authority request/application remains the participant’s separate action.",
           "evidence": [
             {
               "path": "data/rcap-grade-a/packet-factory-24h/warp-20260912/ct-three-guidance/repair-current/independent-review/current-original-review.json",
@@ -766,6 +781,11 @@
           "path": "data/rcap-grade-a/packet-factory-24h/warp-20260912/ct-three-guidance/repair-current/independent-review/legacy-selected-verdict-closure.json",
           "sha256": "bb51a7b6513ef28f5a2c179db31cdb3adcc3ccf885bc9e2616a19c7d06be9598",
           "byteLength": 43541
+        },
+        {
+          "path": "data/rcap-grade-a/packet-factory-24h/warp-20260912/ct-three-guidance/repair-current/current-host-rebuild-proof-v3.json",
+          "sha256": "055190df8e73ffd6df1108995a140d90f80d8525d013c0758594aad09cff2b81",
+          "byteLength": 5305
         }
       ],
       "proofObligations": {
@@ -1060,6 +1080,16 @@
         "path": "data/rcap-grade-a/packet-factory-24h/vfct1/rows-vfct1-ct-three-current-semantic-fail-20260912.json",
         "sha256": "8bad5878c15e534ec20053d4cc3571cb8f9126b513f5ea9e84fc759e761937b8",
         "preserved": true
+      },
+      "v3Delta": {
+        "changedInputs": [
+          "scripts/rcap-custom-pleading/composed-family-host.mjs 39757c71 -> 811c6e20 (task53 footer fix, 86006af26)",
+          "scripts/grade-a-packet-factory-24h/ct-reviewed-guidance.mjs 5b9f16dc -> 703b1a27 (candidate path and version only)"
+        ],
+        "outputsByteIdenticalToV2Review": true,
+        "sourceBindingsIdenticalToV2": true,
+        "rebuiltByThisReviewer": "Each family builder re-run at 59bb944b4 with the current host in a disposable worktree: all three outputs reproduce the pinned bytes and no tracked file changes; nine counters zero; commercialRoutesOpened 0.",
+        "guidanceOnlyAndCheckoutClosed": "The queue treatment reconciliation keeps implementationStrategyOverride process_guidance under CT.memo.json; no route, price, runtime or fulfilment is created; the review grants only the existing static GUIDANCE_READY treatment."
       }
     },
     {
@@ -1120,13 +1150,13 @@
         },
         {
           "path": "scripts/grade-a-packet-factory-24h/ct-reviewed-guidance.mjs",
-          "sha256": "5b9f16dc249e68a556dc76137af0e079bb248e27c7988dfb2f3683e12963dbae",
+          "sha256": "703b1a277a3f84c354c77515e3ee86900d6f91c63091adfe495bb234182d63e4",
           "byteLength": 28700
         },
         {
           "path": "scripts/rcap-custom-pleading/composed-family-host.mjs",
-          "sha256": "39757c71339be5b3a21950b21a93e752f45c31d5c95b7204a34f1f43d1e3fd63",
-          "byteLength": 39753
+          "sha256": "811c6e20d5c56039f0b49bb6a10d7113703fd974929a9bdd687f01308ed3283e",
+          "byteLength": 39829
         },
         {
           "path": "scripts/rcap-packet-completeness/identity-refresh.mjs",
@@ -1192,7 +1222,7 @@
           "priorFindingSha256": "3dd798045c3c24d4dccfad85656744a9e4da24e0b6e17fb09ea2d7677a021266",
           "priorResult": "FAIL",
           "result": "CLOSED_BY_INDEPENDENT_DELTA",
-          "finding": "The exact 12 prior participant-copy occurrences are absent from current PDF and Markdown. Current canonical/boundary originals independently confirm complete readable guidance, known facts and all authority handbacks. Closure is limited to ARTIFACTS for the current static guidance treatment; the receiving authority request/application remains the participant\u2019s separate action.",
+          "finding": "The exact 12 prior participant-copy occurrences are absent from current PDF and Markdown. Current canonical/boundary originals independently confirm complete readable guidance, known facts and all authority handbacks. Closure is limited to ARTIFACTS for the current static guidance treatment; the receiving authority request/application remains the participant’s separate action.",
           "evidence": [
             {
               "path": "data/rcap-grade-a/packet-factory-24h/warp-20260912/ct-three-guidance/repair-current/independent-review/current-original-review.json",
@@ -1287,6 +1317,11 @@
           "path": "data/rcap-grade-a/packet-factory-24h/warp-20260912/ct-three-guidance/repair-current/independent-review/legacy-selected-verdict-closure.json",
           "sha256": "bb51a7b6513ef28f5a2c179db31cdb3adcc3ccf885bc9e2616a19c7d06be9598",
           "byteLength": 43541
+        },
+        {
+          "path": "data/rcap-grade-a/packet-factory-24h/warp-20260912/ct-three-guidance/repair-current/current-host-rebuild-proof-v3.json",
+          "sha256": "055190df8e73ffd6df1108995a140d90f80d8525d013c0758594aad09cff2b81",
+          "byteLength": 5305
         }
       ],
       "proofObligations": {
@@ -1581,11 +1616,21 @@
         "path": "data/rcap-grade-a/packet-factory-24h/vfct1/rows-vfct1-ct-three-current-semantic-fail-20260912.json",
         "sha256": "8bad5878c15e534ec20053d4cc3571cb8f9126b513f5ea9e84fc759e761937b8",
         "preserved": true
+      },
+      "v3Delta": {
+        "changedInputs": [
+          "scripts/rcap-custom-pleading/composed-family-host.mjs 39757c71 -> 811c6e20 (task53 footer fix, 86006af26)",
+          "scripts/grade-a-packet-factory-24h/ct-reviewed-guidance.mjs 5b9f16dc -> 703b1a27 (candidate path and version only)"
+        ],
+        "outputsByteIdenticalToV2Review": true,
+        "sourceBindingsIdenticalToV2": true,
+        "rebuiltByThisReviewer": "Each family builder re-run at 59bb944b4 with the current host in a disposable worktree: all three outputs reproduce the pinned bytes and no tracked file changes; nine counters zero; commercialRoutesOpened 0.",
+        "guidanceOnlyAndCheckoutClosed": "The queue treatment reconciliation keeps implementationStrategyOverride process_guidance under CT.memo.json; no route, price, runtime or fulfilment is created; the review grants only the existing static GUIDANCE_READY treatment."
       }
     }
   ],
-  "independence": "Implementation and V2 adapter safeguards were authored by other lanes. This independent review binds the exact committed current candidate, all source/input/output identities, original-page review and separate native measurements. It grants only static GUIDANCE_READY treatment and creates no runtime, fulfillment, relief or production authority.",
-  "publicationRequirement": "All supporting evidence was committed at verifiedAtBase before this review was authored. The existing V2 adapter must still verify publication at the actual integration HEAD; no overridden or synthetic acceptance is used.",
+  "independence": "Acceptance lane review of candidate V3, authored by the CI and factory lane. V3 differs from the V2 candidate that the earlier independent review (VFCT1) accepted only in two reviewed inputs: the shared host script (task53 footer fix) and the adapter's candidate path and version. This reviewer checked V2 against V3 leaf by leaf, recomputed every reviewed output from the tree (byte-identical to the V2-reviewed pins), rebuilt all three families with the current host in a disposable worktree (no tracked change), confirmed the source bindings are unchanged, and ran test-ct-reviewed-guidance (46/46) and test-ct-guidance-delta. The per-family findings, proof obligations and raster bindings of the V2 review are carried because the outputs they measured are byte-identical. It grants only static GUIDANCE_READY treatment and creates no runtime, fulfilment, relief, price or production authority.",
+  "publicationRequirement": "All supporting evidence is committed at verifiedAtBase (59bb944b4). The current adapter must verify publication of this file at the actual integration head.",
   "selectedHistoricalVerdictClosureEvidence": {
     "path": "data/rcap-grade-a/packet-factory-24h/warp-20260912/ct-three-guidance/repair-current/independent-review/legacy-selected-verdict-closure.json",
     "sha256": "bb51a7b6513ef28f5a2c179db31cdb3adcc3ccf885bc9e2616a19c7d06be9598",
@@ -1593,9 +1638,15 @@
   },
   "previousReviewPreserved": {
     "path": "data/rcap-grade-a/packet-factory-24h/warp-20260912/ct-three-guidance/repair-current/independent-review/current-guidance-review.json",
-    "sha256": "f440e66274409b8ebfa75b066ceae861df52ae09a70c98c1388de7d34539f6c4",
-    "byteLength": 100717,
-    "gitCommit": "3646fbcdf9fab775b88c9fda3239ef342628db7b",
-    "disposition": "Preserved in immutable Git history and original supporting measurements; update adds only exact selected historical verdict closures and the necessary new reviewed evidence base."
+    "sha256": "5166780335c98d1f192fb01a1a89f98a5a8ff0849a995d5e43e815dde206bb8e",
+    "byteLength": 109069,
+    "gitCommit": "c674aa6e427220d0a942632d5009d1964ca50305",
+    "reviewedCandidate": {
+      "path": "data/rcap-grade-a/packet-factory-24h/warp-20260912/ct-three-guidance/repair-current/current-candidate-v2.json",
+      "sha256": "cfc20fe29964613e04c521200bb6f8a98cfbe804be423318c344252dd5021880",
+      "byteLength": 23427,
+      "candidateVersion": "CT-GUIDANCE-DIRECT-PARTICIPANT-COPY-20260912-V2"
+    },
+    "note": "The V2 review (lane VFCT1) remains in git history at gitCommit; this V3 review replaces it at the same path."
   }
 }
