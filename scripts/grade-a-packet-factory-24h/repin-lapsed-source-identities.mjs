@@ -1024,13 +1024,71 @@ const decisionsAdapter = {
   }
 };
 
+const CENSUS = "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json";
+/*
+ * The national route-obligation census: metadata, whole-universe counts, and
+ * routes[] keyed by a unique routeKey. A receipt's own routeKeys are the routes
+ * its packet answers; those entries are the anchors, compared whole.
+ *
+ * Shared metadata is an anchor except `sourceFingerprint`, the digest of the
+ * generator's inputs, which by construction moves on any input change anywhere
+ * in the universe; `counts` are tallies of the whole universe and move with it.
+ * Neither says anything about one route. Every other metadata field (schema,
+ * generator, asOf, the createsApproval/changesRuntime/productionTouched
+ * statements, source inventory availability) is compared.
+ *
+ * A receipt with no routeKeys, or naming a routeKey the census does not carry,
+ * is a refusal: there is nothing to compare, or the route left the census.
+ */
+const censusAdapter = {
+  recordPath: CENSUS,
+  describe: "national route-obligation census (metadata except sourceFingerprint + the receipt's own routes)",
+
+  index(doc, side) {
+    const top = ["metadata", "counts", "routes"];
+    if (!doc || typeof doc !== "object" || Object.keys(doc).some((k) => !top.includes(k)) || !Array.isArray(doc.routes)
+      || doc.metadata?.schemaVersion !== "rcap-national-route-obligation-census/v1") {
+      throw new Refusal(`the ${side} census is not the shape this adapter describes`);
+    }
+    const out = new Map();
+    for (const r of doc.routes) {
+      const key = r?.routeKey;
+      if (typeof key !== "string" || !key) throw new Refusal(`the ${side} census holds a route with no routeKey`);
+      if (out.has(key)) throw new Refusal(`the ${side} census holds duplicate route ${key}; an anchor that is not unique cannot be compared`);
+      out.set(key, r);
+    }
+    return out;
+  },
+
+  scopeFrom({ receipt, currentDoc }) {
+    const byKey = this.index(currentDoc, "current");
+    const routeKeys = Array.isArray(receipt.routeKeys) ? receipt.routeKeys.filter((k) => typeof k === "string" && k) : [];
+    if (routeKeys.length === 0) throw new Refusal("the receipt names no routeKeys, so which census routes this family binds cannot be decided");
+    const absent = routeKeys.filter((k) => !byKey.has(k));
+    if (absent.length) throw new Refusal(`the receipt names ${absent.length} route(s) the current census does not carry: ${absent.join(", ")}`, { absent });
+    return { anchorIds: [...new Set(routeKeys)].sort(), derivation: { fromReceiptRouteKeys: routeKeys, sharedMetadataComparedExceptSourceFingerprint: true, countsNotCompared: true } };
+  },
+
+  anchorsOf(doc, scope, side) {
+    const byKey = this.index(doc, side);
+    const { sourceFingerprint: _f, ...metadata } = doc.metadata;
+    const out = new Map([["censusSharedMetadata", metadata]]);
+    for (const key of scope.anchorIds) {
+      if (!byKey.has(key)) throw new Refusal(`route ${key} is absent from the ${side} census; the entry this family binds left the record and it owes a fresh read`, { anchor: key, side });
+      out.set(`route:${key}`, byKey.get(key));
+    }
+    return out;
+  }
+};
+
 export const ADAPTERS = new Map([
   [REGISTRY, registryAdapter],
   [PACKET_MANIFESTS, packetManifestAdapter],
   [SOURCE_DETERMINATIONS, sourceDeterminationAdapter],
   [WV_COMPILED_PROFILE, compiledProfileAdapter],
   [SINGLE_ROUTES, singleRoutesAdapter],
-  [DECISIONS, decisionsAdapter]
+  [DECISIONS, decisionsAdapter],
+  [CENSUS, censusAdapter]
 ]);
 
 /* ------------------------------------------------------------------ *
