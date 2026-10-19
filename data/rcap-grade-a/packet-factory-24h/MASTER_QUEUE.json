@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "7d15c08bdce9faa289b6bc5b09e689d4fa5d37ce",
+  "minimumCaptainSha": "0cd9bfc9b8d01f50abbfa49301c23b3e901c13f4",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
@@ -80,19 +80,20 @@
     "sourceReady": 1,
     "sourceBlocked": 0,
     "legalBlocked": 0,
-    "verifyPending": 27,
-    "repairRequired": 0,
+    "verifyPending": 14,
+    "repairRequired": 4,
     "sumsToDenominator": true
   },
   "byState": {
-    "VERIFY_PENDING": 27,
+    "VERIFY_PENDING": 14,
+    "COMPLETE_PACKET_PROVEN": 303,
     "PRODUCT_PATH_PENDING": 4,
     "BUILT_RASTER_PENDING": 2,
     "OUT_OF_SCOPE": 5,
-    "COMPLETE_PACKET_PROVEN": 294,
     "GUIDANCE_READY": 11,
     "SOURCE_READY": 1,
-    "HANDOFF_READY": 2
+    "HANDOFF_READY": 2,
+    "FAIL_REPAIR_REQUIRED": 4
   },
   "bySourceStatus": {
     "CUSTOM_PLEADING_FROM_CODIFIED_TEXT": 86,
@@ -153,7 +154,7 @@
         "roster": "P2V03_WASHINGTON_INDEPENDENT_VERIFICATION"
       }
     ],
-    "paths": 5,
+    "paths": 4,
     "rule": "Excluded from every new assignment. A collision with active ownership fails this generator rather than appearing as a note."
   },
   "theHonestShape": {
@@ -161,7 +162,7 @@
     "sourceReadyFamilies": 1,
     "familiesPerBuilder": 0,
     "targetPerBuilder": "15 to 25",
-    "finding": "41 packet-factory lanes are created and queued as instructed. The builders are limited by how many families hold an exactly-identified official source: 1 do, so a full roster of 25 builders averages 0.0 families each rather than 15 to 25.",
+    "finding": "40 packet-factory lanes are created and queued as instructed. The builders are limited by how many families hold an exactly-identified official source: 1 do, so a full roster of 25 builders averages 0.0 families each rather than 15 to 25.",
     "whatWouldChangeIt": "The source conveyor. 0 source obligations across 0 families stand between this dispatch and a full builder roster, and the 16-lane source swarm holds every one of them.",
     "whyNotFewerBuilders": "The roster is kept at 25: 16 lanes come from rolling-factory capacity, and any higher numbered lane exists only while a live packet-build grant requires it. An empty lane can accept the next released family without waiting another cycle.",
     "noFalsePass": "No source-blocked or legally blocked family is assigned to a builder. Each carries one exact blocker, one owner and one next action instead."
@@ -206,8 +207,8 @@
       "selectedIndependentVerdict": {
         "verdict": "PASS_COMPLETE_INDEPENDENT",
         "lane": "vf01",
-        "verifiedAtBase": "21d53521ff4d6a1dd24f9d5fb0fd56a6258a6f14",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json"
+        "verifiedAtBase": "1b48eb358e2dec7b5b016a4e028be0a2d81b8996",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-20261019-reverify-1b48eb358.json"
       },
       "currentLegalResolution": null,
       "rasterEnrolmentRefusal": null,
@@ -321,29 +322,15 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
         "verdict": "PASS_COMPLETE_INDEPENDENT",
-        "lane": "vf05",
-        "verifiedAtBase": "b3467e894",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json"
+        "lane": "vf01",
+        "verifiedAtBase": "f3ff92ac270cf3ac252469d84cba0390e0233208",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-20261019-reverify.json"
       },
       "currentLegalResolution": null,
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
-      "verificationLapsedBecause": {
-        "lapse": "BOUND_SOURCE_DRIFTED",
-        "path": "data/record-clearing/legal-decisions/2026-08-28-national-legal-decisions.json",
-        "pinned": "0aad88eff0e3d12ea9b10de9c80edcc5b3134508f097c9e85f0e35d34a9c74ef",
-        "now": "63fe0b16adc4c2debd8b583cf02ba365b8b2045d86f53af5c5be720c86e74373",
-        "allDriftedRecords": [
-          {
-            "path": "data/record-clearing/legal-decisions/2026-08-28-national-legal-decisions.json",
-            "pinned": "0aad88eff0e3d12ea9b10de9c80edcc5b3134508f097c9e85f0e35d34a9c74ef",
-            "now": "63fe0b16adc4c2debd8b583cf02ba365b8b2045d86f53af5c5be720c86e74373"
-          }
-        ],
-        "driftedRecordCount": 1,
-        "meaning": "The receipt pins this record by SHA-256 and the bytes on disk no longer match it, so SOURCE_IDENTITY as verified no longer holds. Usually a re-pin; a rebuild when an anchor the packet names has left the source."
-      },
+      "verificationLapsedBecause": null,
       "terminalTreatment": null,
       "legalInputBasis": null,
       "wave2LegalBlock": null,
@@ -373,7 +360,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-agency-application-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_investigation_and_finding_request.mjs",
@@ -426,9 +413,9 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
         "verdict": "PASS_COMPLETE_INDEPENDENT",
-        "lane": "vf01",
-        "verifiedAtBase": "553966eaa41173d16111f55ca53216c6bf88b1f1",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json"
+        "lane": "vf02",
+        "verifiedAtBase": "f3ff92ac270cf3ac252469d84cba0390e0233208",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-20261019-reverify.json"
       },
       "currentLegalResolution": null,
       "rasterEnrolmentRefusal": null,
@@ -537,8 +524,8 @@
       "selectedIndependentVerdict": {
         "verdict": "PASS_COMPLETE_INDEPENDENT",
         "lane": "vf02",
-        "verifiedAtBase": "21d53521ff4d6a1dd24f9d5fb0fd56a6258a6f14",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows.json"
+        "verifiedAtBase": "1b48eb358e2dec7b5b016a4e028be0a2d81b8996",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-20261019-reverify-1b48eb358.json"
       },
       "currentLegalResolution": null,
       "rasterEnrolmentRefusal": null,
@@ -9704,9 +9691,9 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
         "verdict": "PASS_COMPLETE_INDEPENDENT",
-        "lane": "vf01",
-        "verifiedAtBase": "5ec5b9d743d4c780db344e0f0465580d90631df4",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-20260911-nd-binding-final.json"
+        "lane": "vf07",
+        "verifiedAtBase": "f3ff92ac270cf3ac252469d84cba0390e0233208",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/rows-vf07-20261019-reverify.json"
       },
       "currentLegalResolution": {
         "disposition": "LEGAL_CLEAR",
@@ -9725,18 +9712,19 @@
         "documentaryPermissionStoredInRepository": null,
         "owner": null,
         "independentReviewSawExactDecisionRecord": {
-          "verifiedAtBase": "5ec5b9d743d4c780db344e0f0465580d90631df4",
+          "verifiedAtBase": "f3ff92ac270cf3ac252469d84cba0390e0233208",
           "decisionRecord": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
           "decisionRecords": [
             "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json"
           ],
-          "available": false,
-          "reason": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json was unavailable at verifiedAtBase",
+          "available": true,
+          "reason": "exact authoritative decision record bytes were available to the independent review",
           "recordBindings": [
             {
               "path": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
               "currentSha256": "5e3b6fb6bdeff849949d1d2c44d9b4e7badfdf6e7ba38be6135c388df176b1f2",
-              "matches": false
+              "reviewedSha256": "5e3b6fb6bdeff849949d1d2c44d9b4e7badfdf6e7ba38be6135c388df176b1f2",
+              "matches": true
             }
           ]
         },
@@ -9746,21 +9734,7 @@
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
-      "verificationLapsedBecause": {
-        "lapse": "BOUND_SOURCE_DRIFTED",
-        "path": "data/record-clearing/legal-decisions/2026-08-28-national-legal-decisions.json",
-        "pinned": "0aad88eff0e3d12ea9b10de9c80edcc5b3134508f097c9e85f0e35d34a9c74ef",
-        "now": "63fe0b16adc4c2debd8b583cf02ba365b8b2045d86f53af5c5be720c86e74373",
-        "allDriftedRecords": [
-          {
-            "path": "data/record-clearing/legal-decisions/2026-08-28-national-legal-decisions.json",
-            "pinned": "0aad88eff0e3d12ea9b10de9c80edcc5b3134508f097c9e85f0e35d34a9c74ef",
-            "now": "63fe0b16adc4c2debd8b583cf02ba365b8b2045d86f53af5c5be720c86e74373"
-          }
-        ],
-        "driftedRecordCount": 1,
-        "meaning": "The receipt pins this record by SHA-256 and the bytes on disk no longer match it, so SOURCE_IDENTITY as verified no longer holds. Usually a re-pin; a rebuild when an anchor the packet names has left the source."
-      },
+      "verificationLapsedBecause": null,
       "terminalTreatment": null,
       "legalInputBasis": null,
       "wave2LegalBlock": null,
@@ -9795,7 +9769,7 @@
       "laneReturnLegalHold": null,
       "executionReclassification": null,
       "executionOwner": null,
-      "nextExecutableAction": "Continue from the current nonlegal state VERIFY_PENDING; all ordinary gates remain. Binding product rule ND-NONCONVICTION-61-DAY-AUTO-CLOSE: Use 61 days from entry of the order of nonconviction. For qualifying orders entered on or after August 1, 2025, automatic closure controls after the statutory period; older cases use the petition mechanism. Preserve statutory exceptions, whole-case treatment and appeal gates. If a qualifying post-2025 record stays public after the period, use enforcement/correction rather than pretending an initial petition is required. Decision record: data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json.",
+      "nextExecutableAction": "Continue from the current nonlegal state COMPLETE_PACKET_PROVEN; all ordinary gates remain. Binding product rule ND-NONCONVICTION-61-DAY-AUTO-CLOSE: Use 61 days from entry of the order of nonconviction. For qualifying orders entered on or after August 1, 2025, automatic closure controls after the statutory period; older cases use the petition mechanism. Preserve statutory exceptions, whole-case treatment and appeal gates. If a qualifying post-2025 record stays public after the period, use enforcement/correction rather than pretending an initial petition is required. Decision record: data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json.",
       "routeMappingStatus": "BOUND",
       "artifactStatus": "RENDERED",
       "completenessStatus": "PASS_COMPLETE",
@@ -9816,7 +9790,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-composed-treatment:nd-nonconviction-auto-close-verify.mjs",
@@ -9869,29 +9843,15 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
         "verdict": "PASS_COMPLETE_INDEPENDENT",
-        "lane": "vf05",
-        "verifiedAtBase": "b3467e894",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json"
+        "lane": "vf08",
+        "verifiedAtBase": "f3ff92ac270cf3ac252469d84cba0390e0233208",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows-vf08-20261019-reverify.json"
       },
       "currentLegalResolution": null,
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
-      "verificationLapsedBecause": {
-        "lapse": "BOUND_SOURCE_DRIFTED",
-        "path": "data/record-clearing/legal-decisions/2026-08-28-national-legal-decisions.json",
-        "pinned": "0aad88eff0e3d12ea9b10de9c80edcc5b3134508f097c9e85f0e35d34a9c74ef",
-        "now": "63fe0b16adc4c2debd8b583cf02ba365b8b2045d86f53af5c5be720c86e74373",
-        "allDriftedRecords": [
-          {
-            "path": "data/record-clearing/legal-decisions/2026-08-28-national-legal-decisions.json",
-            "pinned": "0aad88eff0e3d12ea9b10de9c80edcc5b3134508f097c9e85f0e35d34a9c74ef",
-            "now": "63fe0b16adc4c2debd8b583cf02ba365b8b2045d86f53af5c5be720c86e74373"
-          }
-        ],
-        "driftedRecordCount": 1,
-        "meaning": "The receipt pins this record by SHA-256 and the bytes on disk no longer match it, so SOURCE_IDENTITY as verified no longer holds. Usually a re-pin; a rebuild when an anchor the packet names has left the source."
-      },
+      "verificationLapsedBecause": null,
       "terminalTreatment": null,
       "legalInputBasis": null,
       "wave2LegalBlock": null,
@@ -9921,7 +9881,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-composed-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_court_petition_after_90_days.mjs",
@@ -9974,9 +9934,9 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
         "verdict": "PASS_COMPLETE_INDEPENDENT",
-        "lane": "vf05",
-        "verifiedAtBase": "b3467e894",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json"
+        "lane": "vf09",
+        "verifiedAtBase": "f3ff92ac270cf3ac252469d84cba0390e0233208",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf09/rows-vf09-20261019-reverify.json"
       },
       "currentLegalResolution": null,
       "rasterEnrolmentRefusal": null,
@@ -10261,29 +10221,15 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
         "verdict": "PASS_COMPLETE_INDEPENDENT",
-        "lane": "vf01",
-        "verifiedAtBase": "c3c1b92db5770fe2e22ea2098988de9c933e09bd",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows.json"
+        "lane": "vf10",
+        "verifiedAtBase": "f3ff92ac270cf3ac252469d84cba0390e0233208",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf10/rows-vf10-20261019-reverify.json"
       },
       "currentLegalResolution": null,
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
-      "verificationLapsedBecause": {
-        "lapse": "BOUND_SOURCE_DRIFTED",
-        "path": "data/record-clearing/legal-decisions/2026-08-28-national-legal-decisions.json",
-        "pinned": "0aad88eff0e3d12ea9b10de9c80edcc5b3134508f097c9e85f0e35d34a9c74ef",
-        "now": "63fe0b16adc4c2debd8b583cf02ba365b8b2045d86f53af5c5be720c86e74373",
-        "allDriftedRecords": [
-          {
-            "path": "data/record-clearing/legal-decisions/2026-08-28-national-legal-decisions.json",
-            "pinned": "0aad88eff0e3d12ea9b10de9c80edcc5b3134508f097c9e85f0e35d34a9c74ef",
-            "now": "63fe0b16adc4c2debd8b583cf02ba365b8b2045d86f53af5c5be720c86e74373"
-          }
-        ],
-        "driftedRecordCount": 1,
-        "meaning": "The receipt pins this record by SHA-256 and the bytes on disk no longer match it, so SOURCE_IDENTITY as verified no longer holds. Usually a re-pin; a rebuild when an anchor the packet names has left the source."
-      },
+      "verificationLapsedBecause": null,
       "terminalTreatment": null,
       "legalInputBasis": null,
       "wave2LegalBlock": null,
@@ -10313,7 +10259,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-composed-treatment:obligation:runtime-only:AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085.mjs",
@@ -11742,29 +11688,15 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
         "verdict": "PASS_COMPLETE_INDEPENDENT",
-        "lane": "vf10",
-        "verifiedAtBase": "ebc44031ec7eab29058bfc79a7bc5e1cff089414",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf10/rows.json"
+        "lane": "vf11",
+        "verifiedAtBase": "f3ff92ac270cf3ac252469d84cba0390e0233208",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf11/rows-vf11-20261019-reverify.json"
       },
       "currentLegalResolution": null,
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
-      "verificationLapsedBecause": {
-        "lapse": "BOUND_SOURCE_DRIFTED",
-        "path": "data/record-clearing/legal-decisions/2026-08-28-national-legal-decisions.json",
-        "pinned": "0aad88eff0e3d12ea9b10de9c80edcc5b3134508f097c9e85f0e35d34a9c74ef",
-        "now": "63fe0b16adc4c2debd8b583cf02ba365b8b2045d86f53af5c5be720c86e74373",
-        "allDriftedRecords": [
-          {
-            "path": "data/record-clearing/legal-decisions/2026-08-28-national-legal-decisions.json",
-            "pinned": "0aad88eff0e3d12ea9b10de9c80edcc5b3134508f097c9e85f0e35d34a9c74ef",
-            "now": "63fe0b16adc4c2debd8b583cf02ba365b8b2045d86f53af5c5be720c86e74373"
-          }
-        ],
-        "driftedRecordCount": 1,
-        "meaning": "The receipt pins this record by SHA-256 and the bytes on disk no longer match it, so SOURCE_IDENTITY as verified no longer holds. Usually a re-pin; a rebuild when an anchor the packet names has left the source."
-      },
+      "verificationLapsedBecause": null,
       "terminalTreatment": null,
       "legalInputBasis": null,
       "wave2LegalBlock": null,
@@ -11794,7 +11726,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-composed-treatment:sc_17_22_950_summary.mjs",
@@ -11848,29 +11780,15 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
         "verdict": "PASS_COMPLETE_INDEPENDENT",
-        "lane": "vf11",
-        "verifiedAtBase": "ebc44031ec7eab29058bfc79a7bc5e1cff089414",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf11/rows.json"
+        "lane": "vf12",
+        "verifiedAtBase": "f3ff92ac270cf3ac252469d84cba0390e0233208",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf12/rows-vf12-20261019-reverify.json"
       },
       "currentLegalResolution": null,
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
-      "verificationLapsedBecause": {
-        "lapse": "BOUND_SOURCE_DRIFTED",
-        "path": "data/record-clearing/legal-decisions/2026-08-28-national-legal-decisions.json",
-        "pinned": "0aad88eff0e3d12ea9b10de9c80edcc5b3134508f097c9e85f0e35d34a9c74ef",
-        "now": "63fe0b16adc4c2debd8b583cf02ba365b8b2045d86f53af5c5be720c86e74373",
-        "allDriftedRecords": [
-          {
-            "path": "data/record-clearing/legal-decisions/2026-08-28-national-legal-decisions.json",
-            "pinned": "0aad88eff0e3d12ea9b10de9c80edcc5b3134508f097c9e85f0e35d34a9c74ef",
-            "now": "63fe0b16adc4c2debd8b583cf02ba365b8b2045d86f53af5c5be720c86e74373"
-          }
-        ],
-        "driftedRecordCount": 1,
-        "meaning": "The receipt pins this record by SHA-256 and the bytes on disk no longer match it, so SOURCE_IDENTITY as verified no longer holds. Usually a re-pin; a rebuild when an anchor the packet names has left the source."
-      },
+      "verificationLapsedBecause": null,
       "terminalTreatment": null,
       "legalInputBasis": null,
       "wave2LegalBlock": null,
@@ -11900,7 +11818,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-composed-treatment:sd_sis_sealing.mjs",
@@ -12573,8 +12491,8 @@
       "selectedIndependentVerdict": {
         "verdict": "PASS_COMPLETE_INDEPENDENT",
         "lane": "vf08",
-        "verifiedAtBase": "f1cb31429",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows.json"
+        "verifiedAtBase": "1b48eb358e2dec7b5b016a4e028be0a2d81b8996",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows-vf08-20261019-reverify-1b48eb358.json"
       },
       "currentLegalResolution": null,
       "rasterEnrolmentRefusal": null,
@@ -13755,9 +13673,9 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
         "verdict": "PASS_COMPLETE_INDEPENDENT",
-        "lane": "vf62",
-        "verifiedAtBase": "a9d0acdf0f37d18d9b469ffaf18dbecc9b514596",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf62/rows-vf62-20260911-de-mandatory-final.json"
+        "lane": "vf02",
+        "verifiedAtBase": "f3ff92ac270cf3ac252469d84cba0390e0233208",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-20261019-reverify.json"
       },
       "currentLegalResolution": {
         "disposition": "LEGAL_CLEAR",
@@ -13776,18 +13694,19 @@
         "documentaryPermissionStoredInRepository": null,
         "owner": null,
         "independentReviewSawExactDecisionRecord": {
-          "verifiedAtBase": "a9d0acdf0f37d18d9b469ffaf18dbecc9b514596",
+          "verifiedAtBase": "f3ff92ac270cf3ac252469d84cba0390e0233208",
           "decisionRecord": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
           "decisionRecords": [
             "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json"
           ],
-          "available": false,
-          "reason": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json was unavailable at verifiedAtBase",
+          "available": true,
+          "reason": "exact authoritative decision record bytes were available to the independent review",
           "recordBindings": [
             {
               "path": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
               "currentSha256": "5e3b6fb6bdeff849949d1d2c44d9b4e7badfdf6e7ba38be6135c388df176b1f2",
-              "matches": false
+              "reviewedSha256": "5e3b6fb6bdeff849949d1d2c44d9b4e7badfdf6e7ba38be6135c388df176b1f2",
+              "matches": true
             }
           ]
         },
@@ -13796,8 +13715,8 @@
       },
       "reviewedGuidanceAdmission": {
         "eligible": false,
-        "reason": "Command failed: git show a9d0acdf0f37d18d9b469ffaf18dbecc9b514596:data/rcap-all50/overlays/census-v1/de/de-mandatory-expungement-set--official-pdf-fill/fixtures/canonical.pdf",
-        "reviewPath": "data/rcap-grade-a/packet-factory-24h/vf62/rows-vf62-20260911-de-mandatory-final.json"
+        "reason": "this admission consumes only the reconciled guidance review\n+ actual - expected\n\n+ 'data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-20261019-reverify.json'\n- 'data/rcap-grade-a/chat-parallel-2026-09-07/review/de-current-review-reconciliation.json'\n",
+        "reviewPath": "data/rcap-grade-a/chat-parallel-2026-09-07/review/de-current-review-reconciliation.json"
       },
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
@@ -14241,40 +14160,16 @@
       },
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "verdict": "FAIL_REPAIR_REQUIRED",
         "lane": "vf03",
-        "verifiedAtBase": "21d53521ff4d6a1dd24f9d5fb0fd56a6258a6f14",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json"
+        "verifiedAtBase": "1b48eb358e2dec7b5b016a4e028be0a2d81b8996",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows-vf03-20261019-reverify-1b48eb358.json"
       },
       "currentLegalResolution": null,
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
-      "verificationLapsedBecause": {
-        "lapse": "BOUND_SOURCE_DRIFTED",
-        "path": "data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json",
-        "pinned": "cda4420e55b6d0604bf24e1e4624ba8258cf769456e3a5545af65ca9626701c3",
-        "now": "ef7ac045778cbb1e3ef340e2bddb2545b7662cb9a6381896f95d7254d12815e1",
-        "allDriftedRecords": [
-          {
-            "path": "data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json",
-            "pinned": "cda4420e55b6d0604bf24e1e4624ba8258cf769456e3a5545af65ca9626701c3",
-            "now": "ef7ac045778cbb1e3ef340e2bddb2545b7662cb9a6381896f95d7254d12815e1"
-          },
-          {
-            "path": "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
-            "pinned": "18ef72bca1d649fe0010f14a8e13bcfb9e19b77de2155b7f4daa53342c731559",
-            "now": "07d9f61487e9de735888e3caf75aa962ed65a5b7b459180a032987d23729f224"
-          },
-          {
-            "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
-            "pinned": "9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1",
-            "now": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81"
-          }
-        ],
-        "driftedRecordCount": 3,
-        "meaning": "The receipt pins this record by SHA-256 and the bytes on disk no longer match it, so SOURCE_IDENTITY as verified no longer holds. Usually a re-pin; a rebuild when an anchor the packet names has left the source."
-      },
+      "verificationLapsedBecause": null,
       "terminalTreatment": null,
       "legalInputBasis": null,
       "wave2LegalBlock": null,
@@ -14300,11 +14195,20 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "SERVICE"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "SERVICE",
+          "finding": "Silence. The packet nowhere states who is served or that nobody is served: a case-insensitive search of participant-instructions.md, filing-instructions.md and the pdftotext output of both fixtures for serv/no one/nobody/copy to/notice finds no service statement at all (the only hit is the 'Current FDLE submission method...' blank). The held rule is 'The source review does not state a service requirement', so the honest deliverable is an affirmative nobody-is-served sentence with the mechanism that replaces it (the application goes to FDLE and the endorsement is obtained directly from the agency head or State Attorney), which the packet already has the facts for but does not say. Under the standard applied here - silence does not meet SERVICE - this is the decisive defect. VF03 passed this obligation on 2026-09-05 as 'the packet asserts none', before the SERVICE standard was written down in VF11; the bytes have not changed, the yardstick has. Repair is one sentence in participant-instructions.md (and ideally on the submission-mechanics block of the page).",
+          "findingReadFrom": "detail",
+          "evidence": null
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-fl-administrative-set.mjs",
@@ -25064,8 +24968,8 @@
       "selectedIndependentVerdict": {
         "verdict": "PASS_COMPLETE_INDEPENDENT",
         "lane": "vf09",
-        "verifiedAtBase": "dad37e7f8cf72b9085cbe99462b486c8cc4a1ece",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf09/rows-vf09-ma-bmc-current-20260912.json"
+        "verifiedAtBase": "1b48eb358e2dec7b5b016a4e028be0a2d81b8996",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf09/rows-vf09-20261019-reverify-1b48eb358.json"
       },
       "currentLegalResolution": {
         "disposition": "LEGAL_CLEAR",
@@ -25084,7 +24988,7 @@
         "documentaryPermissionStoredInRepository": null,
         "owner": null,
         "independentReviewSawExactDecisionRecord": {
-          "verifiedAtBase": "dad37e7f8cf72b9085cbe99462b486c8cc4a1ece",
+          "verifiedAtBase": "1b48eb358e2dec7b5b016a4e028be0a2d81b8996",
           "decisionRecord": "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json",
           "decisionRecords": [
             "data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json"
@@ -25106,21 +25010,7 @@
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
-      "verificationLapsedBecause": {
-        "lapse": "BOUND_SOURCE_DRIFTED",
-        "path": "data/record-clearing/legal-design-packet-set-manifests.json",
-        "pinned": "b28edfb93eb2e3953dea5bdbe2915476c9752c12df2a46cb61f98e786a77cc5c",
-        "now": "fee93664c9795c569acb6b7b92f688f519ccacbf981465b599327f590d3dfb82",
-        "allDriftedRecords": [
-          {
-            "path": "data/record-clearing/legal-design-packet-set-manifests.json",
-            "pinned": "b28edfb93eb2e3953dea5bdbe2915476c9752c12df2a46cb61f98e786a77cc5c",
-            "now": "fee93664c9795c569acb6b7b92f688f519ccacbf981465b599327f590d3dfb82"
-          }
-        ],
-        "driftedRecordCount": 1,
-        "meaning": "The receipt pins this record by SHA-256 and the bytes on disk no longer match it, so SOURCE_IDENTITY as verified no longer holds. Usually a re-pin; a rebuild when an anchor the packet names has left the source."
-      },
+      "verificationLapsedBecause": null,
       "terminalTreatment": null,
       "legalInputBasis": null,
       "wave2LegalBlock": null,
@@ -25156,7 +25046,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ma-bmc-multi-set.mjs",
@@ -26780,8 +26670,8 @@
       "selectedIndependentVerdict": {
         "verdict": "PASS_COMPLETE_INDEPENDENT",
         "lane": "vf11",
-        "verifiedAtBase": null,
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf11/rows.json"
+        "verifiedAtBase": "1b48eb358e2dec7b5b016a4e028be0a2d81b8996",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf11/rows-vf11-20261019-reverify-1b48eb358.json"
       },
       "currentLegalResolution": null,
       "rasterEnrolmentRefusal": null,
@@ -29793,33 +29683,14 @@
       "selectedIndependentVerdict": {
         "verdict": "PASS_COMPLETE_INDEPENDENT",
         "lane": "vf06",
-        "verifiedAtBase": "b3467e894",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf06/rows.json"
+        "verifiedAtBase": "1b48eb358e2dec7b5b016a4e028be0a2d81b8996",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf06/rows-vf06-20261019-reverify-1b48eb358.json"
       },
       "currentLegalResolution": null,
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
-      "verificationLapsedBecause": {
-        "lapse": "BOUND_SOURCE_DRIFTED",
-        "path": "data/record-clearing/legal-design-intake/MS.memo.json",
-        "pinned": "6982ae0c69373c196b763c84ebd8f8ff85ce1a6954a2806953591f82ff7845f2",
-        "now": "01c4a9586cf2eeae96b3da17437bb407e1e70f042a0a0785ace5353802022bb2",
-        "allDriftedRecords": [
-          {
-            "path": "data/record-clearing/legal-design-intake/MS.memo.json",
-            "pinned": "6982ae0c69373c196b763c84ebd8f8ff85ce1a6954a2806953591f82ff7845f2",
-            "now": "01c4a9586cf2eeae96b3da17437bb407e1e70f042a0a0785ace5353802022bb2"
-          },
-          {
-            "path": "data/record-clearing/legal-design-packet-set-manifests.json",
-            "pinned": "b28edfb93eb2e3953dea5bdbe2915476c9752c12df2a46cb61f98e786a77cc5c",
-            "now": "fee93664c9795c569acb6b7b92f688f519ccacbf981465b599327f590d3dfb82"
-          }
-        ],
-        "driftedRecordCount": 2,
-        "meaning": "The receipt pins this record by SHA-256 and the bytes on disk no longer match it, so SOURCE_IDENTITY as verified no longer holds. Usually a re-pin; a rebuild when an anchor the packet names has left the source."
-      },
+      "verificationLapsedBecause": null,
       "terminalTreatment": null,
       "legalInputBasis": null,
       "wave2LegalBlock": null,
@@ -29849,7 +29720,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ms-misd-1st-set.mjs",
@@ -30095,35 +29966,16 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "verdict": "FAIL_REPAIR_REQUIRED",
         "lane": "vf16",
-        "verifiedAtBase": "8eb587840",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf16/rows.json"
+        "verifiedAtBase": "1b48eb358e2dec7b5b016a4e028be0a2d81b8996",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf16/rows-vf16-20261019-reverify-1b48eb358.json"
       },
       "currentLegalResolution": null,
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
-      "verificationLapsedBecause": {
-        "lapse": "BOUND_SOURCE_DRIFTED",
-        "path": "data/record-clearing/legal-design-packet-set-manifests.json",
-        "pinned": "b28edfb93eb2e3953dea5bdbe2915476c9752c12df2a46cb61f98e786a77cc5c",
-        "now": "fee93664c9795c569acb6b7b92f688f519ccacbf981465b599327f590d3dfb82",
-        "allDriftedRecords": [
-          {
-            "path": "data/record-clearing/legal-design-packet-set-manifests.json",
-            "pinned": "b28edfb93eb2e3953dea5bdbe2915476c9752c12df2a46cb61f98e786a77cc5c",
-            "now": "fee93664c9795c569acb6b7b92f688f519ccacbf981465b599327f590d3dfb82"
-          },
-          {
-            "path": "data/record-clearing/packet-specifications/MS-nonconviction-expungement-99-19-71-4.v1.json",
-            "pinned": "3a1bed79e3760feb84563a638893942ab557683f6bbe7fb0fddec7e74723257f",
-            "now": "23426df251aa31bfd5215edbfe547d5f56c2349ed4c4bb5e7b407bc25405e126"
-          }
-        ],
-        "driftedRecordCount": 2,
-        "meaning": "The receipt pins this record by SHA-256 and the bytes on disk no longer match it, so SOURCE_IDENTITY as verified no longer holds. Usually a re-pin; a rebuild when an anchor the packet names has left the source."
-      },
+      "verificationLapsedBecause": null,
       "terminalTreatment": null,
       "legalInputBasis": null,
       "wave2LegalBlock": null,
@@ -30180,11 +30032,41 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "COMPONENT_SET",
+        "REQUIRED_BEFORE_FILING",
+        "SERVICE",
+        "SOURCE_IDENTITY"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "SOURCE_IDENTITY",
+          "finding": "Measured against the CURRENT specification: data/record-clearing/packet-specifications/MS-nonconviction-expungement-99-19-71-4.v1.json recomputed from disk at 1b48eb358e2dec7b5b016a4e028be0a2d81b8996 = 23426df251aa31bfd5215edbfe547d5f56c2349ed4c4bb5e7b407bc25405e126 / 64896 B (git history of the path: 3a1bed79e3760feb84563a638893942ab557683f6bbe7fb0fddec7e74723257f committed 2026-09-03 at 9035ebbd, nine revisions to 1cd7947e… on 2026-09-20 at 32d0bf2f, then 23426df251aa31bfd5215edbfe547d5f56c2349ed4c4bb5e7b407bc25405e126 on 2026-10-11 at aa6392bc). The receipt (compositionSources[2]), product-wiring.json (lines 102, 193, 231) and reports/rendered-artifacts.json specificationConformance all pin 3a1bed79e3760feb84563a638893942ab557683f6bbe7fb0fddec7e74723257f / 59843 B: that pin is stale and owes a refresh to 23426df251aa31bfd5215edbfe547d5f56c2349ed4c4bb5e7b407bc25405e126 / 64896 B; the lead's ruling is no re-pin of the old specification. Other sources: MS.memo.json 01c4a9586cf2eeae96b3da17437bb407e1e70f042a0a0785ace5353802022bb2 / 399654 B EXACT at its pin (and the ms-nonconv track's sorted-key digest dba3db00… reproduces the frozen proof's track_authority); legal-design-packet-set-manifests.json current fee93664c9795c569acb6b7b92f688f519ccacbf981465b599327f590d3dfb82 / 3738732 B vs pinned b28edfb9… / 3708050 B, with both receipt anchors reproduced here (packetSet:ms-nonconv-set 87f4fe657e4064ee9a624eabf924fa3cf5a911a4c6e9b984e4b40f668f44ba5f, recordGlobalMetadata eb4a53fc38ac633369b073f1e43e3d322389a4add7a0f3deec0f0ef90a145ead) so the family entry did not move. The bytes do not satisfy the current specification's text where it changed: page 1 of canonical.pdf and boundary.pdf prints the PINNED cover body ('This is a five-part self-help packet … prepared from the facts you verified against your records.'); the current 'What this packet is' static body is 'This is a self-help packet … It is prepared from the facts you verified against your records. The contents list below names every document it contains.' Page 1 prints the pinned limits sentence '…a stopping condition in the instructions applies'; the current 'Important limits' body ends '…a stopping condition in your guide applies.' The current proven artifacts (data/rcap-ledger/grade-a/artifacts/ms-nonconviction-successor-review-{full-en,full-es,court-only}.pdf, recomputed here 9bbe447c8c3eb5ac3967bdbe308a1f19e07a711b21d9b1106f9bcef92dbb4dfd / 69769 B / 16 pp, 28b5dfcb2d9c8d47d14558f45eeabb3aecfdc870539878452dde2c6d81566e04 / 71652 B / 17 pp, 18a452b04d6c26e04cbc26c9f1e0b3d7139de3dcc63f0f9dd8871f9c4e847dfe / 20758 B / 8 pp, equal to the proof) print the current text (full-en page 7 carries both current sentences). They are DIFFERENT BYTES from the family fixtures (732e7f47… / 87e4bf90…, 11 pp each), bound by data/rcap-grade-a/participant-data-rights/ms-paid-packet-proof-20261013.json (sha256 8ed1b29507ea2093e3242aab56e4a898684b90480c4b320b58693eec2b11be20, the digest fulfillment-authority-registry.json and worker-static-authority.json cite; the -20261011 file is its superseded predecessor at 887235f1…), whose verificationBoundInputs bind each artifact to specificationSha256 23426df251aa31bfd5215edbfe547d5f56c2349ed4c4bb5e7b407bc25405e126, whose inputs inventory (483 paths) names this family's production-field-map.json and participant-instructions.md but NOT its fixtures, receipt, product-wiring or rendered-artifacts, and which states productionAuthorized false. The proof therefore proves its own three artifacts against the current specification; it does not prove the family's fixtures. Official sources: none bound (sourceStatus CUSTOM_PLEADING_FROM_CODIFIED_TEXT).",
+          "findingReadFrom": "detail",
+          "evidence": null
+        },
+        {
+          "obligation": "COMPONENT_SET",
+          "finding": "Document level: the current specification names five documents; rendered-artifacts.json maps them onto the six rendered components and every heading was read on both fixtures (cover 1-2, petition 3-5, order 6-7, certificate 8, exhibit checklist 9, instructions 10-11); requiredComponentsMissing=0 measured here. ms-filing-and-next-steps is marked supersededBy supplemental_guide in the current specification 'only until that guide is assembled with the delivery'; these fixtures assemble no guide, so pages 10-11 rendering is inside that clause, not a defect. Section level against the current specification FAILS: (1) the proposed order (pages 6-7) carries no 'CERTIFIED TRUE COPY' clerk_certification_block and no 'CONFIDENTIAL MCIC IDENTIFIER ADDENDUM' confidential_identifier_addendum — both declared sections of ms-proposed-order, and the petition, order and certificate documentContracts all declare privacyTreatment sealed_or_confidential_addendum; the packet's own page 1 instructs 'remove the confidential addendum from participant and service copies' and page 2 (petition SIXTH) and page 8 refer to nothing that exists. (2) The petition (pages 3-5) renders the specification's VERIFICATION body and jurat word for word on page 5 but none of its other sections as written: no 'Introduction' (COMES NOW …), no 'AUTO' pleading_identity_list (name used at arrest, aliases, SSN last four, race, sex), no 'Prayer for relief' naming other_recordkeeping_agencies; the pleading_caption's case_caption_plaintiff_name is printed as fixed text 'STATE OF MISSISSIPPI' on pages 3, 5, 6 and 8 although the caption note tells a municipal-court participant to write the city. (3) The page 5 VERIFICATION refers to 'the foregoing Petition for Expunction of Record' (the specification's petition title) while the petition on page 3 is headed 'PETITION FOR EXPUNGEMENT OF CRIMINAL RECORD UNDER MISS. CODE ANN. SEC. 99-19-71(4)'. The drift diff shows every one of these sections present and only re-indented between 3a1bed79e3760feb84563a638893942ab557683f6bbe7fb0fddec7e74723257f and 23426df251aa31bfd5215edbfe547d5f56c2349ed4c4bb5e7b407bc25405e126, so the omissions predate the drift; they are recorded now because this read measures the current specification section by section. The proven full-en artifact prints all of them (pages 8-15).",
+          "findingReadFrom": "detail",
+          "evidence": null
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "The Exhibit B contradiction, resolved against the current specification: the specification requires ONE statement — certified disposition = Exhibit A, docket sheet = Exhibit B, both 'required' attachments (attachments[0..1]), indictment 'conditional' and unlettered (attachments[2]) — in the petition assertion arrest-release-and-disposition ('A certified copy of the disposition is attached as Exhibit A. A copy of the docket sheet is attached as Exhibit B.'), participantChecklist insert-exhibits, finalVerificationRequirements[5], postFilingTimeline[1] and copyRequirements.originalPlusCopies. The packet prints two: page 1 (checklist) 'Insert the participant-supplied certified disposition as Exhibit A and docket sheet as Exhibit B' (the required statement) and page 9 (EXHIBIT CHECKLIST) 'EXHIBIT B - ONLY WHERE THE CASE WAS INDICTED. A copy of the indictment…' with the docket sheet under 'ADVISABLE' (the memo track's supportingDocuments, which the current specification does not adopt). The petition on pages 3-4 attaches no Exhibit A or B sentence at all. Identical on both fixtures. The current specification's removal of the ATTACHMENT ASSEMBLY STATUS section does not remove the Exhibit B requirement; it moved the readiness gate off the page. Separately, current-specification facts the pages never collect as labelled blanks: case_caption_plaintiff_name, arrest_location, charge_classification, release_date_or_record_source, disposition_record_wording, name_used_at_arrest, aliases, social_security_number_last_four, race, sex, personal_impact_statement, other_recordkeeping_agencies, mcic_identifier_delivery_method, mcic_identifier_method_confirmation_source (pages 3-9 read in full; production-field-map.json names none of the specification's 44 participantOwnedFacts by factId and its requiredBeforeFiling list of 19 blanks is the build's own vocabulary). requiredFactsNotCollected=0 and unclassifiedBlanks=0 measured here against that field map; the counters do not see the specification.",
+          "findingReadFrom": "detail",
+          "evidence": null
+        },
+        {
+          "obligation": "SERVICE",
+          "finding": "Mechanism named on the face and consistent with the memo track: page 8 CERTIFICATE OF SERVICE records delivery of the petition and proposed order to the prosecuting authority at a stated mailing address, by United States mail or hand delivery, contemporaneously with filing; Step Seven (page 10) repeats it, names the city prosecutor for a municipal case, and states that § 99-19-71(2)(b)'s ten-day notice is not imported; page 1 tells the participant to confirm the office, address and timing with the court of origin. That meets the named-rule standard. Against the CURRENT specification's service_certificate body it FAILS: the specification body is 'I, {{participant_full_legal_name}}, Petitioner pro se, certify that on the date stated below, I caused a true and correct copy of the foregoing Petition for Expunction of Record and proposed Order Granting Expunction of Record to be delivered to {{prosecuting_authority_name}}. Service address: {{prosecuting_authority_service_address}}. The confidential MCIC identifier addendum must not be included in the service copy.' Page 8 prints 'I, Latoya Renee Jefferson, certify that a true and correct copy of the Petition for Expungement of Criminal Record and of the proposed Order of Expungement in this cause was delivered to the prosecuting authority named below, contemporaneously with the filing of the petition:' followed by labelled blanks; the sentence 'The confidential MCIC identifier addendum must not be included in the service copy' is absent, and the certificate names documents by titles the specification does not use. The serviceAndNotice statement's 'Deliver it only after the court or prosecutor confirms the address' is carried only as the page 1 checklist item. The proven full-en artifact prints the specification body on page 15 (court-only page 8).",
+          "findingReadFrom": "detail",
+          "evidence": null
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ms-nonconv-set.mjs",
@@ -32079,35 +31961,16 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "verdict": "FAIL_REPAIR_REQUIRED",
         "lane": "vf04",
-        "verifiedAtBase": "edf5ff14b9bb418dfafc57b75e4a7acc6ece1666",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows.json"
+        "verifiedAtBase": "1b48eb358e2dec7b5b016a4e028be0a2d81b8996",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf04/rows-vf04-20261019-reverify-1b48eb358.json"
       },
       "currentLegalResolution": null,
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
-      "verificationLapsedBecause": {
-        "lapse": "BOUND_SOURCE_DRIFTED",
-        "path": "data/record-clearing/legal-design-intake/ND.memo.json",
-        "pinned": "b39b420c37ac318ca070cb13eaf402ece23d6af90755827bba0647410276e8a0",
-        "now": "ed7115190428a940d401d97614df85bcc17c1f511b807cf2cda7b8b462d231c3",
-        "allDriftedRecords": [
-          {
-            "path": "data/record-clearing/legal-design-intake/ND.memo.json",
-            "pinned": "b39b420c37ac318ca070cb13eaf402ece23d6af90755827bba0647410276e8a0",
-            "now": "ed7115190428a940d401d97614df85bcc17c1f511b807cf2cda7b8b462d231c3"
-          },
-          {
-            "path": "data/record-clearing/legal-design-packet-set-manifests.json",
-            "pinned": "b28edfb93eb2e3953dea5bdbe2915476c9752c12df2a46cb61f98e786a77cc5c",
-            "now": "fee93664c9795c569acb6b7b92f688f519ccacbf981465b599327f590d3dfb82"
-          }
-        ],
-        "driftedRecordCount": 2,
-        "meaning": "The receipt pins this record by SHA-256 and the bytes on disk no longer match it, so SOURCE_IDENTITY as verified no longer holds. Usually a re-pin; a rebuild when an anchor the packet names has left the source."
-      },
+      "verificationLapsedBecause": null,
       "terminalTreatment": null,
       "legalInputBasis": null,
       "wave2LegalBlock": null,
@@ -32133,11 +31996,20 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "SERVICE"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "SERVICE",
+          "finding": "The held record (memo track rules.service and rules.notice) reads \"None stated by the rule or the statute\", so no held source establishes a service duty and the packet must either state affirmatively that nobody is served, with the mechanism, or name a checkable authority for the question. Verification unit: met — page 1 states \"On this unit NOTHING IS FILED, because the court acts under a term of its own order.\" Motion unit: silent — neither fixture nor participant-instructions.md says who, if anyone, receives a copy of the § 12.1-32-07.1 motion filed in the existing criminal case, by what method, or that nobody does, and no office is named for that question; the words serve/service do not occur in any participant-facing record of this family. Under the standard applied in this lane (VF11 standardApplied.SERVICE and DET-FEE-AND-WAIVER-001: silence does not meet it) the motion unit fails. VF04 passed this obligation on a different formulation (\"the packet imposes no invented service duty, matching that record\"); this is a standard-application difference on unchanged bytes, flagged for the lead rather than decided quietly. The repair is one sentence on the motion page and in the instructions: either the service treatment the record establishes (none is held) or the clerk of court of the sentencing court as the office that answers whether the state's attorney must receive a copy.",
+          "findingReadFrom": "detail",
+          "evidence": null
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-nd-deferred-imposition-records-set.mjs",
@@ -32472,9 +32344,9 @@
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
         "verdict": "PASS_COMPLETE_INDEPENDENT",
-        "lane": "vfndfinal2",
-        "verifiedAtBase": "0db583223bb7283266fed3da318bacde99c48bd3",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfndfinal2/rows-vfndfinal2-nd-original-final-pass-20260913.json"
+        "lane": "vf02",
+        "verifiedAtBase": "f3ff92ac270cf3ac252469d84cba0390e0233208",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-20261019-reverify-2.json"
       },
       "currentLegalResolution": null,
       "packetSourceAdoption": {
@@ -36644,19 +36516,16 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "PASS_COMPLETE_INDEPENDENT",
-        "lane": "vf10",
-        "verifiedAtBase": "eb643bc098420809a6e2d5f9297a961027ac713a",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf10/rows.json"
+        "verdict": "FAIL_REPAIR_REQUIRED",
+        "lane": "vf03",
+        "verifiedAtBase": "f3ff92ac270cf3ac252469d84cba0390e0233208",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows-vf03-20261019-reverify-2.json"
       },
       "currentLegalResolution": null,
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
-      "verificationLapsedBecause": {
-        "lapse": "FAMILY_MOVED_SINCE_THE_VERDICT",
-        "meaning": "The packet's own artefacts or its build script changed after the verdict was read, so the verdict describes bytes that no longer exist."
-      },
+      "verificationLapsedBecause": null,
       "terminalTreatment": null,
       "legalInputBasis": null,
       "wave2LegalBlock": null,
@@ -36682,11 +36551,20 @@
         "visualDefects": null
       },
       "failingCounters": [],
-      "failedObligationNames": [],
-      "failedObligations": [],
+      "failedObligationNames": [
+        "KNOWN_PREFILLS"
+      ],
+      "failedObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "The verifier's completeness result for the family is FAIL_MISSING_PREFILLS: 148 terminal fields, 34 written, 114 blank, and 68 blanks earn no disposition (blanksByDisposition UNCLASSIFIED_BLANK 68, PARTICIPANT_ELECTION_GENUINE 23, PROTECTED_FIELD 21, NOT_APPLICABLE_ON_THIS_ROUTE 2). What the 68 are, read from the findings and from the field map diffed against f898a765f~1: exactly the 68 rows that commit re-typed from blankTreatment REQUIRED_BEFORE_FILING (66; two COD rows were null) with no refusalClass to refusalClass ny_source_conditional_completion with an nyCompletion declaration (31 APPLICATION, 16 COD-REQUEST, 21 PRO-SE-PACKET; 65 conditional, 3 unconditional first-case facts Law_Section_Subsection_1, Sentence_Date_1, Sentence_Term_1; requiredBeforeFiling true->false on 65). None is a held fact left unwritten: factId is null on all 68, knownRequiredFieldsMissing is 0 and none resolved KNOWN_FACT_NOT_WRITTEN. None is undisclosed: all 68 field names and conditionDescriptions appear in the instructions' 'When the retained blanks apply' table (checked here) and requiredFactsNotCollected is 0. They fail for two measured reasons. (a) 31 application blanks, the 3 unconditional ones included, return SOURCE_PROOF_UNRESOLVED because scripts/rcap-packet-completeness/ny-16059-source-conditions.mjs reads the APPLICATION binary from the corpus and it is not mounted here (ENOENT on the realpath of private/source-imports/...). (b) The other 37 (COD request and pro se packet) are source-proven and disclosed but return 'An active or unknown owner condition does not excuse an unwritten field': the module resolves a condition only through a resolveOwnedField callback that f330ca64a wired into the server route and the CLI never supplies, so applicability is 'unknown' and the verifier refuses the blank by design. As committed, no CLI or CI run of the verifier can return zero for this family. The 34 writes themselves are sound: 60/60 recorded values read back from the fixture bytes inside their own widgets, identity and docket facts only.",
+          "findingReadFrom": "detail",
+          "evidence": null
+        }
+      ],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "FAIL_REPAIR_REQUIRED",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ny_160_59_petition-set.mjs",
@@ -48281,33 +48159,14 @@
       "selectedIndependentVerdict": {
         "verdict": "PASS_COMPLETE_INDEPENDENT",
         "lane": "vf05",
-        "verifiedAtBase": "46360ba121e0a1cba35893c0adc2601d8e72146c",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows.json"
+        "verifiedAtBase": "1b48eb358e2dec7b5b016a4e028be0a2d81b8996",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows-vf05-20261019-reverify-1b48eb358.json"
       },
       "currentLegalResolution": null,
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
-      "verificationLapsedBecause": {
-        "lapse": "BOUND_SOURCE_DRIFTED",
-        "path": "data/record-clearing/legal-design-intake/VT.memo.json",
-        "pinned": "4bcd3fa16e73781234c2ebaabbd24e20dc25967049a86c66b6064aaa25fab079",
-        "now": "c274dbd6b586ed619d3e49ae0062d7e3de652d72c9f12e53a4fa5524df80769c",
-        "allDriftedRecords": [
-          {
-            "path": "data/record-clearing/legal-design-intake/VT.memo.json",
-            "pinned": "4bcd3fa16e73781234c2ebaabbd24e20dc25967049a86c66b6064aaa25fab079",
-            "now": "c274dbd6b586ed619d3e49ae0062d7e3de652d72c9f12e53a4fa5524df80769c"
-          },
-          {
-            "path": "data/record-clearing/legal-design-packet-set-manifests.json",
-            "pinned": "b28edfb93eb2e3953dea5bdbe2915476c9752c12df2a46cb61f98e786a77cc5c",
-            "now": "fee93664c9795c569acb6b7b92f688f519ccacbf981465b599327f590d3dfb82"
-          }
-        ],
-        "driftedRecordCount": 2,
-        "meaning": "The receipt pins this record by SHA-256 and the bytes on disk no longer match it, so SOURCE_IDENTITY as verified no longer holds. Usually a re-pin; a rebuild when an anchor the packet names has left the source."
-      },
+      "verificationLapsedBecause": null,
       "terminalTreatment": null,
       "legalInputBasis": null,
       "wave2LegalBlock": null,
@@ -48343,7 +48202,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-vt_seal_under_25-set.mjs",
@@ -51390,8 +51249,8 @@
       "selectedIndependentVerdict": {
         "verdict": "PASS_COMPLETE_INDEPENDENT",
         "lane": "vfwv1",
-        "verifiedAtBase": "4a06a48d4385b7537b621fd2324e14013946ddfe",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfwv1/rows-vfwv1-original-final-34805276590.json"
+        "verifiedAtBase": "1b48eb358e2dec7b5b016a4e028be0a2d81b8996",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfwv1/rows-vfwv1-20261019-reverify-1b48eb358.json"
       },
       "currentLegalResolution": null,
       "rasterEnrolmentRefusal": null,
@@ -51555,9 +51414,9 @@
     }
   ],
   "totals": {
-    "lanes": 57,
+    "lanes": 56,
     "builders": 25,
-    "verifiers": 12,
+    "verifiers": 11,
     "sourceLanes": 16,
     "repairLanes": 4,
     "familiesAssignedToBuilders": 1,
