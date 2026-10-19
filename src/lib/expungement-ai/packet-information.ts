@@ -174,16 +174,16 @@ export type PacketVerificationSummaryFact = {
 // GA15 / VA-01 adopted v3 section7: preserve seven saved facts without creating court fields.
 const VA_PARDON_FACT_PURPOSES: Record<string, { en: string; es: string }> = {
   "date_of_birth": {
-    "en": "Saved for pardon and case identity matching only if needed. CC-1474 has no date-of-birth field.",
-    "es": "Se conserva para cotejar la identidad en el indulto y el caso solo si hace falta. El formulario CC-1474 no tiene un campo de fecha de nacimiento."
+    "en": "Saved only if needed to match the pardon and case identity. It is not added to CC-1474.",
+    "es": "Se conserva solo si hace falta para cotejar la identidad con el indulto y el caso. No se añade al formulario CC-1474."
   },
   "mailing_address": {
     "en": "Saved as correspondence information. This adds no CC-1474 field or participant filing requirement.",
     "es": "Se conserva como información para correspondencia. Esto no añade un campo al formulario CC-1474 ni un requisito de presentación para usted."
   },
   "phone_number": {
-    "en": "Saved as contact information, not an eligibility condition. CC-1474 has no phone-number field.",
-    "es": "Se conserva como información de contacto, no como condición de elegibilidad. El formulario CC-1474 no tiene un campo de número de teléfono."
+    "en": "Saved as contact information, not an eligibility condition. It is not added to CC-1474.",
+    "es": "Se conserva como información de contacto, no como condición de elegibilidad. No se añade al formulario CC-1474."
   },
   "email_address": {
     "en": "Saved as your independent contact choice. This gives no consent to electronic service and adds no CC-1474 field.",
@@ -191,7 +191,7 @@ const VA_PARDON_FACT_PURPOSES: Record<string, { en: string; es: string }> = {
   },
   "full_name_at_time_of_arrest": {
     "en": "Saved to match the actual pardon and case identity, including needed aliases. An earlier name is not automatically used as the CC-1474 subject name.",
-    "es": "Se conserva para cotejar la identidad en el indulto y el caso, incluidos los alias necesarios. Un nombre anterior no se usa automáticamente como nombre de la persona en el formulario CC-1474."
+    "es": "Se conserva para cotejar la identidad con el indulto y el caso, incluidos los alias necesarios. Un nombre anterior no se usa automáticamente como nombre de la persona en el formulario CC-1474."
   },
   "charges_to_be_expunged": {
     "en": "Saved to identify the actual offenses and case numbers covered by the pardon. This does not confirm that a court order has been prepared.",

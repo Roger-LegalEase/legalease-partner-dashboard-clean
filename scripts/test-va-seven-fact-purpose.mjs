@@ -52,6 +52,16 @@ if(process.argv.includes('--regression-only')){
 }
 const purposeData=Object.fromEntries(rows(first).map(row=>[row.id,row.purpose]));
 for(const id of ids)check(id+': adopted display pair',()=>{assert.equal(typeof purposeData[id]?.en,'string');assert(purposeData[id].en.length>30);assert.equal(typeof purposeData[id]?.es,'string');assert(purposeData[id].es.length>30);});
+// Exact lead-reviewed EN/ES copy (LEAD-SPANISH-REVIEW-LOG-v1.json, 2026-10-19 VA seven-fact entry); a copy change needs a new review.
+const REVIEWED_PURPOSES={
+ date_of_birth:{en:'Saved only if needed to match the pardon and case identity. It is not added to CC-1474.',es:'Se conserva solo si hace falta para cotejar la identidad con el indulto y el caso. No se añade al formulario CC-1474.'},
+ mailing_address:{en:'Saved as correspondence information. This adds no CC-1474 field or participant filing requirement.',es:'Se conserva como información para correspondencia. Esto no añade un campo al formulario CC-1474 ni un requisito de presentación para usted.'},
+ phone_number:{en:'Saved as contact information, not an eligibility condition. It is not added to CC-1474.',es:'Se conserva como información de contacto, no como condición de elegibilidad. No se añade al formulario CC-1474.'},
+ email_address:{en:'Saved as your independent contact choice. This gives no consent to electronic service and adds no CC-1474 field.',es:'Se conserva como su elección independiente de contacto. Esto no otorga consentimiento para la notificación procesal electrónica ni añade un campo al formulario CC-1474.'},
+ full_name_at_time_of_arrest:{en:'Saved to match the actual pardon and case identity, including needed aliases. An earlier name is not automatically used as the CC-1474 subject name.',es:'Se conserva para cotejar la identidad con el indulto y el caso, incluidos los alias necesarios. Un nombre anterior no se usa automáticamente como nombre de la persona en el formulario CC-1474.'},
+ charges_to_be_expunged:{en:'Saved to identify the actual offenses and case numbers covered by the pardon. This does not confirm that a court order has been prepared.',es:'Se conserva para identificar los delitos y números de caso que realmente abarca el indulto. Esto no confirma que se haya preparado una orden judicial.'},
+ final_disposition_dates_and_courts:{en:'Saved to confirm the proper receiving court and case. An original conviction or disposition date is not the new court-order or clerk-forwarding date.',es:'Se conserva para confirmar el tribunal receptor y el caso correctos. La fecha original de condena o resolución no es la fecha de la nueva orden judicial ni la fecha de envío por la secretaría del tribunal.'}};
+check('exact reviewed purpose copy for all seven facts',()=>{assert.deepEqual(Object.keys(REVIEWED_PURPOSES).sort(),[...ids].sort());for(const id of ids)assert.deepEqual(purposeData[id],REVIEWED_PURPOSES[id],id);});
 for(const locale of ['en','es']){
  const before=structuredClone(stored),html=await render(locale);
  check(locale+': actual review renders all seven purposes once',()=>{
