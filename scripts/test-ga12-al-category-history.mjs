@@ -16,7 +16,7 @@ const mutations={
  ia_collection:['iaCategoryHistory ||','false ||'],
  ia_level:['factId === "offense_category" && !overrideClass','(factId === "offense_category" || iaCategoryHistory && factId === "offense_level") && !overrideClass'],
  ia_question:['"ia_three_route_category_history", "hi_three_route_category_history"','"disabled_ia_category_history", "hi_three_route_category_history"'],
- ia_history:['iaThreeRouteCategoryIsHistory(profile, pathway, packetSpecificationFor(`${state}:${pathway}`))','false'],
+ ia_history:['iaCategoryIsHistory(profile, pathway, packetSpecificationFor(`${state}:${pathway}`))','false'],
  context:['export function alThreeRouteCategoryIsHistory(profile, pathwayId, specification) {','export function alThreeRouteCategoryIsHistory(profile, pathwayId, specification) { return true;'],
  collection:['alCategoryHistory || hiCategoryHistory','false || hiCategoryHistory'],
  ownership:['factId === "offense_category" && !overrideClass','factId === "offense_category"'],
@@ -31,7 +31,7 @@ const { evaluateAuthoritativeScreeningResult: evaluate } = await import('../src/
 const {packetFulfillmentAuthority}=await import('../src/lib/expungement-ai/packet-fulfillment-authority.ts');
 const {createConsumerPaymentPlaceholder}=await import('../src/lib/expungement-ai/payment-adapter.ts');
 const { getProfileByJurisdiction } = await import('../src/lib/rcap-engine/profile-registry.ts');
-const { alThreeRouteCategoryIsHistory, hiThreeRouteCategoryIsHistory, iaThreeRouteCategoryIsHistory, resolvePacketCollection } = await import('../src/lib/expungement-ai/packet-collection.ts');
+const { alThreeRouteCategoryIsHistory, hiThreeRouteCategoryIsHistory, iaCategoryIsHistory, resolvePacketCollection } = await import('../src/lib/expungement-ai/packet-collection.ts');
 
 // GA-12 / QD-bd6b15fff22cbe1501cb: three source-bound AL guidance consumers.
 // GA12 HI Q-49c293131f5eba7089d9 / Q-4fbcf8810b325d290849 / Q-6a2e1331cb59164e4634.
@@ -75,7 +75,7 @@ function check(name, fn) {
 }
 for (const [questionRecordId, route, state = 'AL'] of cases) {
   const profile=getProfileByJurisdiction(state);
-  const historyContext={HI:hiThreeRouteCategoryIsHistory,IA:iaThreeRouteCategoryIsHistory}[state]??alThreeRouteCategoryIsHistory;
+  const historyContext={HI:hiThreeRouteCategoryIsHistory,IA:iaCategoryIsHistory}[state]??alThreeRouteCategoryIsHistory;
   const result=state==='HI'&&route==='nonconviction-arrest-expungement'?'packet_ready_with_caution':state==='IA'&&route!=='minor-prostitution-7251'?'needs_review':'guidance_only';
   const payment=result==='packet_ready_with_caution';
   const historySource={HI:'hi_three_route_category_history',IA:'ia_three_route_category_history'}[state]??'al_three_route_category_history';
