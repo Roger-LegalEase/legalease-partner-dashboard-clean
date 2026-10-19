@@ -659,6 +659,14 @@ export function arBoundCategoryIsHistory(profile: EngineProfile | undefined, pat
     || arFelonyRecordIsContext(profile, pathwayId ?? null, specification);
 }
 
+// GA12 Q-49c293131f5eba7089d9 / Q-4fbcf8810b325d290849 / Q-6a2e1331cb59164e4634: no generic category document consumer.
+export function hiThreeRouteCategoryIsHistory(profile: EngineProfile | undefined, pathwayId: string | null | undefined,
+  specification: RegisteredSpecification | null | undefined): boolean {
+  return profile?.jurisdiction.code === "HI"
+    && ["deferred-acceptance-one-year", "deferred-prostitution-three-year", "nonconviction-arrest-expungement"].includes(pathwayId ?? "")
+    && specification == null && contactRepresentationHash(profile) === "9b1a121be377fa34e6425d96f7edb82428321b60a757870f8dc4878ebfb27ece";
+}
+
 const DERIVATIONS: Readonly<Record<string, Derivation>> = {
   // The last four digits are a projection of the number itself, never a
   // separate thing to ask for.
@@ -915,6 +923,7 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
   const dcCategoryHistory = dcInnocenceCategoryIsHistory(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
   const arCategoryHistory = arBoundCategoryIsHistory(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
   const alCategoryHistory = alThreeRouteCategoryIsHistory(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
+  const hiCategoryHistory = hiThreeRouteCategoryIsHistory(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
   const ctCategoryHistory = ctInformationCategoryIsHistory(getProfileByJurisdiction(input.jurisdiction), input.pathwayId ?? null,
     specification, { ...available, ...input.savedAnswers }, [...input.unresolvedSavedFactIds ?? []]);
   const msFirstContext = msFirstOffenderSourceContract(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
@@ -962,13 +971,13 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
       continue;
     }
 
-    if ((arCategoryHistory || alCategoryHistory || ctCategoryHistory || wy1502CategoryHistory || sdSisCategoryHistory || ilProstitutionCategoryHistory || dcCategoryHistory || ilCategoryHistory || msCategoryHistory || gaSb288CategoryHistory || ctPetitionCategoryHistory || nvProgramCategoryHistory) && factId === "offense_category" && !overrideClass
+    if ((arCategoryHistory || alCategoryHistory || hiCategoryHistory || ctCategoryHistory || wy1502CategoryHistory || sdSisCategoryHistory || ilProstitutionCategoryHistory || dcCategoryHistory || ilCategoryHistory || msCategoryHistory || gaSb288CategoryHistory || ctPetitionCategoryHistory || nvProgramCategoryHistory) && factId === "offense_category" && !overrideClass
       && !needsHuman.has(factId) && !input.recordOwnQuestionIds?.has(factId)) {
       const retained = needsSavedAnswerClarification || [input.screeningAnswers, input.prefilledAnswers, input.savedAnswers, input.profileFacts]
         .some(answers => answers && Object.hasOwn(answers, factId));
       facts.push({ factId, collection: "conditional", phase: retained ? "render" : "known",
         group: retained ? group : null, active: retained, optional: true,
-        source: arCategoryHistory ? "ar_bound_category_history" : wy1502CategoryHistory ? "wy1502_category_history" : sdSisCategoryHistory ? "sd_sis_category_history" : ilProstitutionCategoryHistory ? "il_prostitution_category_history" : alCategoryHistory ? "al_three_route_category_history" : nvProgramCategoryHistory ? "nv_program_category_history" : ctPetitionCategoryHistory ? "ct_petition_category_history" : gaSb288CategoryHistory ? "ga_sb288_category_history" : msCategoryHistory ? "ms_additional_category_history" : ilCategoryHistory ? "il_identity_category_history" : dcCategoryHistory ? "dc_innocence_category_history" : "ct_information_category_history",
+        source: arCategoryHistory ? "ar_bound_category_history" : wy1502CategoryHistory ? "wy1502_category_history" : sdSisCategoryHistory ? "sd_sis_category_history" : ilProstitutionCategoryHistory ? "il_prostitution_category_history" : hiCategoryHistory ? "hi_three_route_category_history" : alCategoryHistory ? "al_three_route_category_history" : nvProgramCategoryHistory ? "nv_program_category_history" : ctPetitionCategoryHistory ? "ct_petition_category_history" : gaSb288CategoryHistory ? "ga_sb288_category_history" : msCategoryHistory ? "ms_additional_category_history" : ilCategoryHistory ? "il_identity_category_history" : dcCategoryHistory ? "dc_innocence_category_history" : "ct_information_category_history",
         reason: arCategoryHistory
           ? "These source-bound Arkansas consumers do not bind a generic offense category to a document or a value-level rule. Earlier answers remain optional literal history; record origin, disposition, offense level, timing and exclusion facts remain separate."
           : wy1502CategoryHistory
@@ -977,6 +986,8 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
           ? "The SIS order, discharge and dismissal, public status, prior history and conditional licence facts are separate inputs. Earlier categories remain literal history and establish neither SIS nor the deferred drug procedure."
           : ilProstitutionCategoryHistory
           ? "The final conviction record fact is separate from earlier broad categories. Retained categories establish neither Class 4 prostitution, trafficking circumstances, sentence completion nor eligibility."
+          : hiCategoryHistory
+          ? "These source-bound Hawaii consumers use separate disposition, charge and court-order facts. Earlier offense categories remain optional literal history and establish neither statutory classification nor eligibility."
           : alCategoryHistory
           ? "These source-bound Alabama guidance consumers do not bind an offense category to a document. Earlier category answers remain optional literal history; disposition, pardon, trafficking and exclusion facts remain separate."
           : nvProgramCategoryHistory
