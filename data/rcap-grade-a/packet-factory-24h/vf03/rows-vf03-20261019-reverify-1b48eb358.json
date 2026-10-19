@@ -1,0 +1,337 @@
+{
+  "schemaVersion": "rcap-independent-verification-rows/v1",
+  "lane": "VF03",
+  "laneKind": "independent-verification",
+  "generatedAtBase": "1b48eb358e2dec7b5b016a4e028be0a2d81b8996",
+  "verifier": "CI-FACTORY-CLAUDE-VT (independent; built, repaired and rendered none of these packets)",
+  "preflight": "claim.mjs --assert was run per subject at assembly and its result is recorded per family in claimAssertions (CLAIM_OK: the lane holds the live claim; ALREADY_RELEASED, GRANTED_ELSEWHERE_BUT_RELEASED, NOT_GRANTED: no live claim exists and this return is filed under the lane that holds the family's current verdict, the generator's claim invariant applying to active assignments only); the packet-build environment preflight is not applicable to a verification reading on this machine",
+  "claimAssertions": {
+    "fl-administrative-set": "ALREADY_RELEASED: fl-administrative-set at 2026-09-05T00:17:37.466Z"
+  },
+  "obligationSet": [
+    "ROUTE_IDENTITY",
+    "SOURCE_IDENTITY",
+    "COMPONENT_SET",
+    "KNOWN_PREFILLS",
+    "REQUIRED_BEFORE_FILING",
+    "ROUTE_OPTIONS",
+    "REPEATING_ROWS",
+    "PROTECTED_FIELDS",
+    "ARTIFACTS",
+    "PAGE_ORDER",
+    "CLIPPING_AND_OVERLAP",
+    "FILING_DESTINATION",
+    "FEE_AND_WAIVER",
+    "SERVICE",
+    "SELF_HELP_STOP"
+  ],
+  "standardApplied": {
+    "measuredHere": "Every obligation was measured in this lane from the committed artifacts at the base sha named above: artifact hashes recomputed from bytes, page counts read with pdfinfo, every recorded write read back from pdftotext output, word geometry from pdftotext -bbox checked against the page box and same-band pairs, committed-record pins recomputed from disk, the repository completeness verifier run here for the nine counters. No counter was copied from a builder self-report.",
+    "lapsedPins": "Where a receipt's whole-file pin had drifted, the pinned blob was recovered from git history, the family's own entries were compared between the pinned and current versions, and the row records the CURRENT digest and byte length as the pin it verified against; receipts on disk are not edited by this lane.",
+    "SOURCE_IDENTITY": "Met only by recomputing every bound record hash from bytes; these families bind committed repository records and no corpus bytes.",
+    "FEE_AND_WAIVER": "DET-FEE-AND-WAIVER-001 (data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json) applied as written.",
+    "SERVICE": "Met by a named rule, or an affirmative statement that nobody is served with the mechanism that replaces it; silence or an unnamed office does not meet it.",
+    "SELF_HELP_STOP": "Met when the packet states where the platform stops and a lawyer takes over, measured against the controlling decision's stop conditions.",
+    "FILING_DESTINATION": "Met when the participant-facing instructions name the court, clerk or agency the route names."
+  },
+  "rows": [
+    {
+      "itemId": "fl-administrative-set",
+      "lane": "VF03",
+      "worker": "CI-FACTORY-CLAUDE-VT (independent; built, repaired and rendered none of these packets)",
+      "verifiedAtBase": "1b48eb358e2dec7b5b016a4e028be0a2d81b8996",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/fl/fl-administrative-set--official-pdf-fill",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "howMeasured": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <id> run by this verifier at base 1b48eb358 with MASTER_LIBRARY_SOURCE_DIR pointed at the 5-file stub; the counter line was parsed from that run, not read from reports/completeness-counters.json (that report was read only as the thing being checked and agrees)."
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "detail": "production-field-map.json, source-receipt.json, product-wiring.json and the MASTER_QUEUE family row declare the identical route key set ['obligation:track-pathway:FL:fl-administrative:administrative-expunction-mistaken-or-unlawful-arrest']; every key is present in canonical-route-universe.json (708 keys, read here); familyId agrees across field map, receipt, wiring, rendered-artifacts, actual-writes, completeness-counters and the queue row."
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "detail": "Fully measurable here: this family binds no Master Library bytes and no official PDF at all. The lead's brief says fl-administrative binds an official_pdf_fill source; the committed records say otherwise and were read here - source-receipt.json records sourceBinaryCommitted false and bindingMethod 'no official form exists for this route and the MASTER_QUEUE row binds no corpus bytes'; the MASTER_QUEUE row records officialFormFamily NONE, sourceHashes [] and boundSources []; and Captain determination DET-FL-ADMINISTRATIVE-EXPUNCTION-HAS-NO-FDLE-FORM removed the dependency on a published FDLE form (ACQUIRE_EXACT_SOURCE -> COMPOSE_FROM_AUTHORITY). The directory suffix --official-pdf-fill and the track registry's outputStrategy official_pdf_fill / officialFormId FDLE-ADMINISTRATIVE-EXPUNCTION-APPLICATION are the superseded declaration, and the composed page prints 'COMPOSED APPLICATION - NOT AN OFFICIAL FDLE FORM AND NOT A COURT FILING'. So nothing here is bound by hash record only. All 6 compositionSources were rehashed from disk at base 1b48eb358: 3 exact (disc03/CODEX_CS2_SRC2_ACQUISITION.json, legal-design-intake/FL.memo.json, compiled/profiles/FL-florida.json) and 3 drifted - not the 2 the queue's drift check flagged: route-obligation-candidate.json also moved (9816a479 -> f6fc0814, 2629290 B). Drift read entry-for-entry against the recovered pinned blobs: (1) CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json cda4420e -> ef7ac045 (82712 B): determinations[id=DET-FL-ADMINISTRATIVE-EXPUNCTION-HAS-NO-FDLE-FORM], reconciliation42.families[fl-administrative-set] and the record's global scalars are identical object-for-object (anchor sha 9260ae868dce\u2026 both sides; 3 lines mention fl-administrative in both versions, same set). (2) route-obligation-candidate.json 9816a479 -> f6fc0814: routes[packetSetId=fl-administrative-set] identical (anchor 1d8d9437fbf5\u2026; 5 lines, same set); only metadata.sourceFingerprint and other families moved. (3) SOURCE_RELATIONSHIP_REGISTRY.json 18ef72bc -> e7011ef3 (53641 B): the family's only entry, reconciliation42.families[fl-administrative-set], is NOT identical - projectedState moved 'SOURCE_READY' -> 'COMPLETE_PACKET_PROVEN' and a new field advancement: null was added; decidedDisposition 'SOURCE_READY', group 'A', exactNextAction ('Build the written application and endorsement treatment required by Rule 11C-7.008; no uniform FDLE form exists.') and exactResidual null are unchanged (anchor 052b5d31b72e\u2026 -> 4b04272d2b85\u2026). The registry as a whole was regenerated at fffc43864 (2026-10-13): records went 26 -> 0 and counts.uniqueCanonicalArtifacts 26 -> 0; no records[] row named fl-administrative-set in either version. Scored PASS because the changed field is a projection of this family's own later queue state, not a change to what the packet was composed from: the disposition, the next action and the Captain determination the row points at are byte-identical. Flagged, not decided: the lead's rule reserves the call on a changed family row, so this reading is offered with the one field named and no re-pin is made here. New pins if the lead accepts them are recorded under evidence.sourceRecomputation. Lead's ruling (2026-10-19): the two changed fields are derived, not source facts \u2014 scripts/grade-a-packet-factory-24h/generate-source-relationship-registry.mjs at 1b48eb358, line 418 `advancement: sourceDispositionAdvancement(ROOT, r, master.families.find(f => f.familyId === r.familyId))` and line 419 `projectedState: master.families.find((f) => f.familyId === r.familyId)?.state ?? null`, both computed from the MASTER_QUEUE row's state by the registry generator; the family's decidedDisposition, group, exactNextAction and exactResidual are unchanged."
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "detail": "The packet-set manifest (current and pinned, identical for this family) names one component, fl-administrative-primary-filing-1 role primary_filing, still carrying the superseded officialFormId FDLE-ADMINISTRATIVE-EXPUNCTION-APPLICATION; the Captain determination resolves it as a composed written application, and the field map, receipt and rendered page manifest all carry exactly FDLE-ADMINISTRATIVE-WRITTEN-APPLICATION, present as pages 1-2 of both fixtures. The fresh run measured requiredComponentsMissing 0."
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "detail": "Read back here, not trusted: every value actual-writes.json records as written was searched for in pdftotext -layout output of that fixture's own bytes - canonical 10/10 found; boundary 10/10 found. refusedFieldsWithInk is empty in both fixtures; the fresh run measured invisibleWrites 0 and knownRequiredFieldsMissing 0."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "detail": "The field map declares 4 required-before-filing item(s); each disclosureLabel was found verbatim in participant-instructions.md's 'items you must supply' table (read here), and the fresh run measured requiredFactsNotCollected 0 and unclassifiedBlanks 0."
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "detail": "The field map records one routeSelectionsMade entry - the administrative route for an arrest contrary to law or by mistake, supported by the committed FL track, compiled pathway, census route and the Rule 11C-7.008 determination - and no selection control is left to the participant; the two endorsement checkboxes are the endorser's, printed unchecked in both fixtures. The fresh run measured requiredOptionsMissing 0."
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "detail": "The fresh run measured incompleteRows 0: no row band carries written cells beside a required cell left blank in either fixture."
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "detail": "protectedWrites 0; refusedFieldsWithInk [] in both fixtures; read here from both fixtures' text, the applicant signature and date lines, and every endorser line (printed name, title and office, both support checkboxes, statement, signature, date) are dotted rules or empty boxes with no value."
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "detail": "canonical.pdf sha256 232aa2581086\u2026 and 5476 bytes recomputed here = reports/rendered-artifacts.json; boundary.pdf sha256 c09404577e4e\u2026 and 5578 bytes recomputed here = reports/rendered-artifacts.json. No unrecorded PDF exists under fixtures/ and no recorded PDF is missing."
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "detail": "canonical: pdfinfo 2 = recorded 2 = manifest 2 pages, packetPage 1..2 contiguous, documents in order ['FDLE-ADMINISTRATIVE-WRITTEN-APPLICATION']; boundary: pdfinfo 2 = recorded 2 = manifest 2 pages, packetPage 1..2 contiguous, documents in order ['FDLE-ADMINISTRATIVE-WRITTEN-APPLICATION']; that order is the receipt's composedComponentsAuthoredByThisBuild order."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "detail": "Measured geometrically here with pdftotext -bbox: canonical 237 words on 2 pages, 0 outside the page box, 0 same-band overlapping pairs; boundary 251 words on 2 pages, 0 outside the page box, 0 same-band overlapping pairs. The builder's byte proof records nonWhitespaceGlyphsOutsideMeasuredWriteBoxes 0 in both fixtures and the fresh run measured visualDefects 0. No raster was inspected here (rendered-artifacts.json records rasterSkipped true); this is a geometry reading, not a visual one."
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "detail": "The route names an agency destination, 'Florida Department of Law Enforcement', with no address or office held in any committed record. participant-instructions.md and filing-instructions.md name FDLE as the agency the application goes to ('This is an FDLE agency process, not a court filing'; 'Submit the application and completed written endorsement through the process FDLE confirms') and name the head of the arresting agency or the State Attorney for the endorsement. Per DET-FEE-AND-WAIVER-001-A1 the packet states what the record holds (the agency) and tells the participant to confirm with that named agency the mechanics the record does not hold."
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "detail": "Met under DET-FEE-AND-WAIVER-001 clause 3, thinly. The track rule reads 'The source review does not state a fee for this application' and 'does not address a fee waiver'; filing-instructions.md says 'Before sending, confirm FDLE's current submission method, destination, required attachments, and any fee. The committed record does not establish those mechanics, so this packet does not guess them', the instructions table says 'any fee confirmed by FDLE', and the composed page carries the blank 'Current FDLE submission method, destination, attachments, and fee if any'. That states that no held source establishes the fee and names who answers - FDLE, by agency name only: no office, desk, address or telephone, because no committed record holds one. Recorded so the lead can weigh it: this is a named agency, not a gesture, but it is the least specific authority that still passes the clause."
+        },
+        "SERVICE": {
+          "result": "FAIL",
+          "detail": "Silence. The packet nowhere states who is served or that nobody is served: a case-insensitive search of participant-instructions.md, filing-instructions.md and the pdftotext output of both fixtures for serv/no one/nobody/copy to/notice finds no service statement at all (the only hit is the 'Current FDLE submission method...' blank). The held rule is 'The source review does not state a service requirement', so the honest deliverable is an affirmative nobody-is-served sentence with the mechanism that replaces it (the application goes to FDLE and the endorsement is obtained directly from the agency head or State Attorney), which the packet already has the facts for but does not say. Under the standard applied here - silence does not meet SERVICE - this is the decisive defect. VF03 passed this obligation on 2026-09-05 as 'the packet asserts none', before the SERVICE standard was written down in VF11; the bytes have not changed, the yardstick has. Repair is one sentence in participant-instructions.md (and ideally on the submission-mechanics block of the page)."
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "detail": "The track registry's three stops - the agency head or prosecutor declines to certify; any immigration matter; anything the participant wants to argue rather than assert - are all in the instructions' 'Stop conditions' section ('if the official declines to endorse, disputes a material fact, the issue requires advocacy rather than a factual application, or any immigration matter is pending or possible'), with a fourth (disputed material fact) added. The instructions also state what the platform did not write (narrative, endorsement outcome, signatures, dates, official-owned fields). approval-request.json: approvedForLive false, live false, commercialRoutesOpened 0."
+        }
+      },
+      "evidence": {
+        "verifierRun": "ok   fl-administrative-set                          PASS_COMPLETE                10/22 written | counters: knownRequiredFieldsMissing 0 \u00b7 requiredFactsNotCollected 0 \u00b7 unclassifiedBlanks 0 \u00b7 incompleteRows 0 \u00b7 requiredOptionsMissing 0 \u00b7 requiredComponentsMissing 0 \u00b7 invisibleWrites 0 \u00b7 protectedWrites 0 \u00b7 visualDefects 0",
+        "sourceRecomputation": {
+          "officialSourcesBound": 0,
+          "masterLibraryBytesBound": false,
+          "compositionSources": [
+            {
+              "path": "data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json",
+              "pinnedSha256": "cda4420e55b6d0604bf24e1e4624ba8258cf769456e3a5545af65ca9626701c3",
+              "pinnedByteLength": 61590,
+              "recomputedSha256": "ef7ac045778cbb1e3ef340e2bddb2545b7662cb9a6381896f95d7254d12815e1",
+              "byteLengthOnDisk": 82712,
+              "exact": false
+            },
+            {
+              "path": "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+              "pinnedSha256": "18ef72bca1d649fe0010f14a8e13bcfb9e19b77de2155b7f4daa53342c731559",
+              "pinnedByteLength": 88848,
+              "recomputedSha256": "e7011ef33696985381858dd97e80c5e04010cf985e66513910bb3feccea05ce7",
+              "byteLengthOnDisk": 53641,
+              "exact": false
+            },
+            {
+              "path": "data/rcap-grade-a/packet-factory-24h/disc03/CODEX_CS2_SRC2_ACQUISITION.json",
+              "pinnedSha256": "061f4c5fe7921b388f79e9029095d8e77eafc810a273e20c292871c1bd0e846f",
+              "pinnedByteLength": 39995,
+              "recomputedSha256": "061f4c5fe7921b388f79e9029095d8e77eafc810a273e20c292871c1bd0e846f",
+              "byteLengthOnDisk": 39995,
+              "exact": true
+            },
+            {
+              "path": "data/record-clearing/legal-design-intake/FL.memo.json",
+              "pinnedSha256": "9b497440290abd5e254b3bd9e1ff6e5dda56abf4c2bfca63dc351090d76e4065",
+              "pinnedByteLength": 121810,
+              "recomputedSha256": "9b497440290abd5e254b3bd9e1ff6e5dda56abf4c2bfca63dc351090d76e4065",
+              "byteLengthOnDisk": 121810,
+              "exact": true
+            },
+            {
+              "path": "src/lib/rcap-engine/compiled/profiles/FL-florida.json",
+              "pinnedSha256": "ffef299bd19d2045453b03a2735b804f511b3a95310cd6be69bb45e36eacc679",
+              "pinnedByteLength": 236236,
+              "recomputedSha256": "ffef299bd19d2045453b03a2735b804f511b3a95310cd6be69bb45e36eacc679",
+              "byteLengthOnDisk": 236236,
+              "exact": true
+            },
+            {
+              "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+              "pinnedSha256": "9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1",
+              "pinnedByteLength": 2607149,
+              "recomputedSha256": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
+              "byteLengthOnDisk": 2629290,
+              "exact": false
+            }
+          ],
+          "driftAnchors": {
+            "CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json": {
+              "pinnedAnchorSha256": "9260ae868dced57973a97c46ed8f7c77ec1c91e089d463019e0db77f659f77a9",
+              "currentAnchorSha256": "9260ae868dced57973a97c46ed8f7c77ec1c91e089d463019e0db77f659f77a9",
+              "identical": true,
+              "pinnedBlobSha256": "cda4420e55b6d0604bf24e1e4624ba8258cf769456e3a5545af65ca9626701c3",
+              "currentSha256": "ef7ac045778cbb1e3ef340e2bddb2545b7662cb9a6381896f95d7254d12815e1",
+              "currentByteLength": 82712
+            },
+            "SOURCE_RELATIONSHIP_REGISTRY.json": {
+              "pinnedAnchorSha256": "052b5d31b72ea9ef25ace221848906aaf25aad6df655b3d3d5b93d571322bb69",
+              "currentAnchorSha256": "4b04272d2b8541176d1080fefc64602eb821e00735fda79c4433b8a90dfd6ca9",
+              "identical": false,
+              "pinnedBlobSha256": "18ef72bca1d649fe0010f14a8e13bcfb9e19b77de2155b7f4daa53342c731559",
+              "currentSha256": "e7011ef33696985381858dd97e80c5e04010cf985e66513910bb3feccea05ce7",
+              "currentByteLength": 53641,
+              "changedFields": {
+                "projectedState": [
+                  "SOURCE_READY",
+                  "COMPLETE_PACKET_PROVEN"
+                ]
+              },
+              "addedFields": {
+                "advancement": null
+              },
+              "removedFields": [],
+              "controllingFieldsUnchanged": [
+                "decidedDisposition",
+                "group",
+                "exactNextAction",
+                "exactResidual"
+              ]
+            },
+            "route-obligation-candidate.json": {
+              "pinnedAnchorSha256": "1d8d9437fbf5ee2634f9492164f8fb6b4e5f3dab8984dd67468f00d46977c954",
+              "currentAnchorSha256": "1d8d9437fbf5ee2634f9492164f8fb6b4e5f3dab8984dd67468f00d46977c954",
+              "identical": true,
+              "pinnedBlobSha256": "9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1",
+              "currentSha256": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
+              "currentByteLength": 2629290
+            }
+          },
+          "newPinsIfAccepted": [
+            {
+              "path": "data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json",
+              "sha256": "ef7ac045778cbb1e3ef340e2bddb2545b7662cb9a6381896f95d7254d12815e1",
+              "byteLength": 82712
+            },
+            {
+              "path": "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+              "sha256": "e7011ef33696985381858dd97e80c5e04010cf985e66513910bb3feccea05ce7",
+              "byteLength": 53641
+            },
+            {
+              "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+              "sha256": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
+              "byteLength": 2629290
+            }
+          ],
+          "registryDerivedFieldsChanged": {
+            "fields": [
+              "projectedState",
+              "advancement"
+            ],
+            "derivedBy": "scripts/grade-a-packet-factory-24h/generate-source-relationship-registry.mjs lines 418-419 (from the MASTER_QUEUE row state and source-disposition-advancement.mjs)",
+            "sourceFact": false
+          }
+        },
+        "artifactRecomputation": [
+          {
+            "fixture": "canonical",
+            "file": "data/rcap-all50/overlays/census-v1/fl/fl-administrative-set--official-pdf-fill/fixtures/canonical.pdf",
+            "recordedSha256": "232aa2581086d5c9cf371fc439ee15883ca63829522bc2d6101b12f2a494f6e0",
+            "recomputedSha256": "232aa2581086d5c9cf371fc439ee15883ca63829522bc2d6101b12f2a494f6e0",
+            "recordedByteLength": 5476,
+            "byteLengthOnDisk": 5476,
+            "recordedPageCount": 2,
+            "pdfinfoPages": 2,
+            "manifestPages": 2,
+            "contiguousFromOne": true,
+            "documentsInOrder": [
+              "FDLE-ADMINISTRATIVE-WRITTEN-APPLICATION"
+            ],
+            "matched": true
+          },
+          {
+            "fixture": "boundary",
+            "file": "data/rcap-all50/overlays/census-v1/fl/fl-administrative-set--official-pdf-fill/fixtures/boundary.pdf",
+            "recordedSha256": "c09404577e4eff32ea6aab244b479c15307bb7ec6917144c68aa78948cafc09e",
+            "recomputedSha256": "c09404577e4eff32ea6aab244b479c15307bb7ec6917144c68aa78948cafc09e",
+            "recordedByteLength": 5578,
+            "byteLengthOnDisk": 5578,
+            "recordedPageCount": 2,
+            "pdfinfoPages": 2,
+            "manifestPages": 2,
+            "contiguousFromOne": true,
+            "documentsInOrder": [
+              "FDLE-ADMINISTRATIVE-WRITTEN-APPLICATION"
+            ],
+            "matched": true
+          }
+        ],
+        "byteReadBack": [
+          {
+            "fixture": "canonical",
+            "writesRecorded": 10,
+            "foundInExtractedText": 10,
+            "notFound": [],
+            "valuesReportedByFinalizer": 10,
+            "builderGlyphsOutsideWriteBoxes": 0,
+            "refusedFieldsWithInk": [],
+            "signatureLinesBlank": true
+          },
+          {
+            "fixture": "boundary",
+            "writesRecorded": 10,
+            "foundInExtractedText": 10,
+            "notFound": [],
+            "valuesReportedByFinalizer": 10,
+            "builderGlyphsOutsideWriteBoxes": 0,
+            "refusedFieldsWithInk": [],
+            "signatureLinesBlank": true
+          }
+        ],
+        "wordGeometry": [
+          {
+            "fixture": "canonical",
+            "pages": 2,
+            "words": 237,
+            "wordsOutsidePageBox": 0,
+            "sameBandOverlappingWordPairs": 0
+          },
+          {
+            "fixture": "boundary",
+            "pages": 2,
+            "words": 251,
+            "wordsOutsidePageBox": 0,
+            "sameBandOverlappingWordPairs": 0
+          }
+        ],
+        "stopConditions": {
+          "registry": [
+            "The agency head or prosecutor declines to certify.",
+            "Any immigration matter.",
+            "Anything the participant wants to argue rather than assert."
+          ],
+          "instructionsSection": "Stop conditions",
+          "approvedForLive": false,
+          "live": false,
+          "commercialRoutesOpened": 0
+        },
+        "lapseResolved": "No lapse is recorded: the MASTER_QUEUE row carries verificationLapsedBecause null and verifierSourceHold null; the receipt drift is the only reason this family was re-read."
+      },
+      "failedObligationNames": [
+        "SERVICE"
+      ],
+      "commercialRoutesOpened": false,
+      "overlayDirectoriesModified": false,
+      "grantsNothing": "This row is a verification reading. It opens no route, sets no price and authorises no promotion."
+    }
+  ]
+}

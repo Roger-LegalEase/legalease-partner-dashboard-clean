@@ -1,0 +1,135 @@
+{
+  "schemaVersion": "rcap-independent-verification-rows/v1",
+  "lane": "VF08",
+  "laneKind": "independent-verification",
+  "generatedAtBase": "1b48eb358e2dec7b5b016a4e028be0a2d81b8996",
+  "verifier": "CI-FACTORY-CLAUDE-VT (independent; built, repaired and rendered none of these packets)",
+  "preflight": "claim.mjs --assert was run per subject at assembly and its result is recorded per family in claimAssertions (CLAIM_OK: the lane holds the live claim; ALREADY_RELEASED, GRANTED_ELSEWHERE_BUT_RELEASED, NOT_GRANTED: no live claim exists and this return is filed under the lane that holds the family's current verdict, the generator's claim invariant applying to active assignments only); the packet-build environment preflight is not applicable to a verification reading on this machine",
+  "claimAssertions": {
+    "ct-under18-misdemeanor-set": "GRANTED_ELSEWHERE_BUT_RELEASED: ct-under18-misdemeanor-set is recorded on VF07, not VF08, and VF07 RELEASED it at 2026-09-01T23:58:15.877Z. No lane is executing it. Captain can hand it over with: --transfer VF07 VF08 ct-under18-misdemeanor-set --reason \"...\". Do not transfer it to yourself -- choosing a released grant's destination is a dispatch act."
+  },
+  "obligationSet": [
+    "ROUTE_IDENTITY",
+    "SOURCE_IDENTITY",
+    "COMPONENT_SET",
+    "KNOWN_PREFILLS",
+    "REQUIRED_BEFORE_FILING",
+    "ROUTE_OPTIONS",
+    "REPEATING_ROWS",
+    "PROTECTED_FIELDS",
+    "ARTIFACTS",
+    "PAGE_ORDER",
+    "CLIPPING_AND_OVERLAP",
+    "FILING_DESTINATION",
+    "FEE_AND_WAIVER",
+    "SERVICE",
+    "SELF_HELP_STOP"
+  ],
+  "standardApplied": {
+    "measuredHere": "Every obligation was measured in this lane from the committed artifacts at the base sha named above: artifact hashes recomputed from bytes, page counts read with pdfinfo, every recorded write read back from pdftotext output, word geometry from pdftotext -bbox checked against the page box and same-band pairs, committed-record pins recomputed from disk, the repository completeness verifier run here for the nine counters. No counter was copied from a builder self-report.",
+    "lapsedPins": "Where a receipt's whole-file pin had drifted, the pinned blob was recovered from git history, the family's own entries were compared between the pinned and current versions, and the row records the CURRENT digest and byte length as the pin it verified against; receipts on disk are not edited by this lane.",
+    "SOURCE_IDENTITY": "Met only by recomputing every bound record hash from bytes; these families bind committed repository records and no corpus bytes.",
+    "FEE_AND_WAIVER": "DET-FEE-AND-WAIVER-001 (data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json) applied as written.",
+    "SERVICE": "Met by a named rule, or an affirmative statement that nobody is served with the mechanism that replaces it; silence or an unnamed office does not meet it.",
+    "SELF_HELP_STOP": "Met when the packet states where the platform stops and a lawyer takes over, measured against the controlling decision's stop conditions.",
+    "FILING_DESTINATION": "Met when the participant-facing instructions name the court, clerk or agency the route names."
+  },
+  "rows": [
+    {
+      "itemId": "ct-under18-misdemeanor-set",
+      "lane": "VF08",
+      "worker": "CI-FACTORY-CLAUDE-VT (independent; built, repaired and rendered none of these packets)",
+      "verifiedAtBase": "1b48eb358e2dec7b5b016a4e028be0a2d81b8996",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ct/ct-under18-misdemeanor-set--custom-pleading",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "howMeasured": "verify-packet-completeness.mjs --family ct-under18-misdemeanor-set run here at 1b48eb358 with MASTER_LIBRARY_SOURCE_DIR set to the 5-file stub: PASS_COMPLETE, 1/6 written; counters read from the verifier's own output line, not from the builder's completeness-counters.json"
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "detail": "familyId agrees across product-wiring, source-receipt, production-field-map, build-status, rendered-artifacts and the MASTER_QUEUE row. Both routeKeys (\u2026branch-automatic, \u2026branch-petition) are declared identically by all four, resolve in the committed route-obligation census (trackId ct-under18-misdemeanor, destination Superior Court at the location where the conviction was effected) and are in canonical-route-universe.json canonicalObligations (708 keys). The instructions' footer names both keys; the PDF footer prints only the automatic-branch key (product-wiring's primary routeKey) in both fixtures while the page body describes both branches by statute subsection \u2014 recorded as an observation, since every record agrees on the two-route set the packet serves."
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "detail": "Both compositionSources recomputed from disk here (sha256 + byteLength). Exact: CT.memo.json 90d96d9d8a25ed7d64b86c3777f753eecfdb651ac083c0f9b53cbda06db5d448 (171609 B). Drifted whole-file pin: data/record-clearing/legal-design-packet-set-manifests.json pinned b28edfb9 (3708050 B) -> current fee93664c9795c569acb6b7b92f688f519ccacbf981465b599327f590d3dfb82 (3738732 B). Bound anchors compared object-for-object between the recovered pinned version and the current file: packetSets entry ct-under18-misdemeanor-set (one process_guidance component, 8 participantActionRequired entries, 5 requiredBeforeFiling lines) is IDENTICAL, with canonical anchor sha256 2d0c334930af8425d55d45e474ccaac1df6ca6f6179d0646dd8c38f629d1cfb9 in both versions \u2014 the same value the receipt's 2026-09-10 identityRefresh recorded, so the entry has been stable across three whole-file versions (6076f734 -> b28edfb9 -> fee93664); recordGlobalMetadata (schemaVersion, factoryV2RouteMigrations) is IDENTICAL (eb4a53fc38ac633369b073f1e43e3d322389a4add7a0f3deec0f0ef90a145ead, also matching the receipt). 497 packetSets in both versions, 0 added, 0 removed; the 8 changed entries are other families (co_motion_seal_conviction-set, co_petition_seal_arrest-set, de_discretionary_family_court-set, de_discretionary_superior_court-set, il-seal-edu-set, va_exp_absolute_pardon-set, wv_nc_acquittal_dismissal-set, wv_nc_diversion_deferred-set). No official document byte is bound (CUSTOM_PLEADING_FROM_CODIFIED_TEXT). The receipt's whole-file pin is stale for 1 of 2 entries while every bound anchor is unchanged; the current sha256/byteLength above is the new pin value, recorded for the lead and NOT re-pinned here."
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "detail": "The packet-set manifest names exactly one component, process_guidance; declared componentSet [process_guidance] equals the rendered page manifest of both fixtures (pages 1-2). The MASTER_QUEUE row's instrumentKinds still mention an (f)(2) petition instrument that the manifest and the legal-design decision withhold; the receipt and approval-request record that discrepancy as a counsel question rather than composing a petition no record authorises, and the page says in terms that it generates no petition. requiredComponentsMissing=0 measured here."
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "detail": "1/1 written value per fixture (participant name) read back by this lane from pdftotext over the fixture bytes; 0 not found; 0 reported invisible. knownRequiredFieldsMissing=0 measured here."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "detail": "The field map declares 5 REQUIRED_BEFORE_FILING blanks; all 5 disclosure labels are in participant-instructions.md with what to write, and the worksheet prints the same 5 blanks. The manifest's own 5 requiredBeforeFiling lines are carried: confirm the offense date against the Judicial Branch case look-up (instructions name the look-up as the document to obtain), no fee under \u00a7 54-142a(k), waiver not applicable, no participant signature on the automatic branch ('you file nothing, you sign nothing'), and notarization unstated for the petition branch, which the packet does not generate. requiredFactsNotCollected=0, unclassifiedBlanks=0 measured here."
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "detail": "0 selectionControls; routeSelectionsMade is empty with the note that the two branches are alternatives selected by the offense date on the participant's own record, so nothing is pre-marked and the worksheet asks for the date and explains both branches. requiredOptionsMissing=0 measured here."
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "detail": "The worksheet is a composed narrative with labelled dotted blanks and no repeating row structure. incompleteRows=0 measured here."
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "detail": "refusedFieldsWithInk is empty in both fixtures; the extracted text carries no signature, signature-date, court, clerk or prosecutor value; the automatic branch is stated as 'you sign nothing' and no instrument exists on the petition branch. The map's 5 refusals are all REQUIRED_BEFORE_FILING blanks. protectedWrites=0 measured here."
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "detail": "2 PDFs on disk, both recorded; canonical 590845d99eebe8690b046e6e165e2774307f008eb81def64b009603b70b556ae (7233 B) and boundary 3a951c8005870a9f49b4f426d2602fb4400430ff40c85af54b87adf5a7bb5888 (7249 B) recomputed here and matching reports/rendered-artifacts.json exactly. 0 unrecorded PDFs, 0 recorded PDFs missing. The canonical sha256 appears in RASTER_QUEUE.json against this familyId and product-wiring's acceptanceReceipt records RASTER_PASS (workflow run 33547709781) bound to it."
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "detail": "Both fixtures' page manifests run packetPage 1..2 for the single component; recorded pageCount 2 equals pdfinfo read from the bytes here (2 and 2)."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "detail": "pdftotext -bbox over both fixtures: 724 (canonical) and 723 (boundary) words, 0 outside the page box, 0 same-band overlapping word pairs; nonWhitespaceGlyphsOutsideMeasuredWriteBoxes=0 in both; no placeholder text. visualDefects=0 measured here. No raster was produced in this lane."
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "detail": "Met by the packet stating that there is nothing to file and why: on the \u00a7 54-142a(f)(1) automatic branch the conviction is erased or deemed erased by operation of law and nothing is filed; on the \u00a7 54-142a(f)(2) petition branch the packet generates no petition (no identified Judicial Branch form, JD-CR-202 is a Clean Slate form on its face, no established custom pleading, legal-design blocker retained) and names the Superior Court at the location where the conviction was effected and its clerk's office \u2014 the destination the track registry and census record \u2014 as the authority on what filings that court accepts."
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "detail": "'No fee is charged on this route. \u00a7 54-142a(k).' in the instructions and 'No fee is charged at any point on this route (Sec. 54-142a(k))' on the page: a sourced no-fee statement matching the manifest's pay_fee entry; apply_fee_waiver is not applicable and the packet does not invent one."
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "detail": "Stated affirmatively with the mechanism: 'It generates no filing on either branch' \u2014 the automatic branch erases by operation of law and the petition branch produces no instrument \u2014 so there is nothing to serve and nobody is served. The manifest's serve_party entry records that the source review states no service requirement, which the packet does not contradict."
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "detail": "Measured against the track registry's four selfHelpStopConditions for ct-under18-misdemeanor: pre-1 January 2000 offense (petition branch, no accepted filing vehicle), another same-information charge that could not be erased (\u00a7 54-142a(f)(3)), motor-vehicle / title 14 / \u00a7 51-164r offense on the automatic branch, and an immigration matter. All 4 are carried verbatim in substance in the instructions' 'When to stop and get help' list and on the page, and 'What this packet is not' records that it generates no filing, is not legal advice and does not decide the branch. 4/4; no inversion."
+        }
+      },
+      "evidence": {
+        "verifierRun": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ct-under18-misdemeanor-set run here at 1b48eb358: PASS_COMPLETE, 1/6 written, all nine counters zero",
+        "sourceRecomputation": "2/2 compositionSources recomputed from disk: 1 exact; 1 whole-file pin drifted (legal-design-packet-set-manifests.json b28edfb9->fee93664 3738732 B) with this family's packetSet entry and the record's global metadata compared object-for-object and identical, anchor hashes equal to the receipt's own identityRefresh values; no official document byte bound",
+        "artifactRecomputation": "2/2 PDFs hash to record (sha256 and byteLength); pdfinfo 2 pages each",
+        "byteReadBack": "2/2 written values (1 per fixture) read back from pdftotext over the fixture bytes by this lane",
+        "stopConditions": "4/4 track-registry stops carried in the instructions and on the page",
+        "lapseResolved": "No lapse is recorded on the queue row (verificationLapsedBecause null). The extended drift flag is answered by this reading: the drifted pin's bound anchors are identical to the pinned version (and to the 2026-09-10 refresh); the current sha256/byteLength is recorded above for the lead's re-pin decision and nothing was re-pinned here."
+      },
+      "failedObligationNames": [],
+      "commercialRoutesOpened": false,
+      "overlayDirectoriesModified": false,
+      "grantsNothing": "This row is a verification reading. It opens no route, sets no price and authorises no promotion."
+    }
+  ]
+}
