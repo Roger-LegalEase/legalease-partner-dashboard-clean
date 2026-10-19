@@ -661,8 +661,9 @@ export function dcFlPetitionRecordIsHistory(profile: EngineProfile | undefined, 
     || profile?.jurisdiction.code === "MA"
       && ["adult-conviction-sealing-under-m-g-l-c-276-100a", "automatic-non-conviction-sealing-for-not-guilty-no-bill-or-no-probable-cause-outcomes-100c", "court-requested-sealing-for-dismissal-or-nolle-prosequi-100c", "juvenile-record-sealing-under-100b", "marijuana-only-expungement", "non-time-based-expungement-for-false-identity-error-fraud-or-decriminalized-conduct-100k", "time-based-expungement-under-100f-100j"].includes(pathwayId ?? "")
       && contactRepresentationHash(profile) === "f81a71dd750ea489f1c29074b571512bd5cb7c78c5dd924c1f6e7cb7122c0f0d"
+    // GA17 Q-688bf057ef651e46a54b / Q-6e06a84342a41f34e1d2 / Q-7ed646d227c26f9acc32: preserve literal history without a record-type consumer.
     || profile?.jurisdiction.code === "ME"
-      && ["adult-conviction-sealing", "adult-non-conviction-record-relief"].includes(pathwayId ?? "")
+      && ["adult-conviction-sealing", "adult-non-conviction-record-relief", "juvenile-sealing", "pardon-route", "sex-trafficking-sexual-exploitation-survivor-sealing"].includes(pathwayId ?? "")
       && contactRepresentationHash(profile) === "d49e7b9cb025700b9c352d78e1e9044c41b99bd0695b61eda373215034d78f5a";
 }
 
