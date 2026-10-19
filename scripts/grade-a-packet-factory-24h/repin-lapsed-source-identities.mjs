@@ -348,7 +348,9 @@ const packetManifestAdapter = {
     if (typeof receipt.familyId === "string" && byId.has(receipt.familyId)) add(receipt.familyId, "receipt.familyId exact packetSetId");
     for (const key of receipt.routeKeys ?? []) {
       const parts = String(key).split(":");
-      if (parts[0] !== "obligation" || !["track-only", "track-pathway"].includes(parts[1]) || !parts[3]) {
+      /* A unit route (obligation:unit:<JUR>:<trackId>:<unit>) names its track
+       * in the same position, so the same exactly-one-packet-set rule applies. */
+      if (parts[0] !== "obligation" || !["track-only", "track-pathway", "unit"].includes(parts[1]) || !parts[3]) {
         throw new Refusal(`ambiguous manifest dependency for route ${JSON.stringify(key)}`);
       }
       const matches = [...byId.values()].filter((entry) => entry.trackId === parts[3] && entry.jurisdiction === parts[2]);
