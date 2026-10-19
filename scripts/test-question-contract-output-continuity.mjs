@@ -920,6 +920,7 @@ check('lead Spanish hop preserves prior chain and refuses missing/tampered bytes
 check('lead Spanish layer-2 hop preserves prior chain and refuses missing/tampered bytes',()=>{
  const c=assertLeadSpanishLayer2SourceSuccession(readBytes);assert.equal(c.currentChangedSourceCount,25);assert.equal(c.currentUnchangedSourceCount,173);
  assert.throws(()=>assertQuestionContractOutputInputs(file=>file===LEAD_SPANISH_L2_SOURCE_PATH?Buffer.from('{}'):readBytes(file)),/lead Spanish layer-2 source succession record bytes changed/);
+ assert.throws(()=>assertLeadSpanishSourceSuccession(file=>{if(file===LEAD_SPANISH_L2_SOURCE_PATH)throw Error('missing lead Spanish layer-2 record');return readBytes(file);}),/missing lead Spanish layer-2 record/);
  for(const input of ["src/lib/expungement-ai/frontend/reviewed-result-display-copy.json", "src/lib/rcap-engine/delaware-conviction-questions.ts", "src/lib/rcap-engine/new-york-16059-questions.ts"])
   assert.throws(()=>assertQuestionContractOutputInputs(file=>file===input?Buffer.from('drift'):readBytes(file)),/stale output input/);
 });
