@@ -57,6 +57,14 @@ test('ambiguous route and record-id scopes refuse', () => {
   assert.throws(() => compare(fixture(), fixture(), receipt, { recordId: 'guess:a' }), Refusal);
   assert.throws(() => compare(fixture(), fixture(), { ...receipt, routeKeys: ['runtime:unknown'] }), Refusal);
 });
+test('a unit route resolves through its track like a track route, and refuses when the track is not unique', () => {
+  const unitReceipt = { familyId: 'a', routeKeys: ['obligation:unit:ZZ:a-track:a-unit-one', 'obligation:unit:ZZ:a-track:a-unit-two'] };
+  assert.deepEqual(adapter.scopeFrom({ receipt: unitReceipt, pin: {}, currentDoc: fixture() }).anchorIds, ['a']);
+  const duplicateTrack = fixture(); duplicateTrack.packetSets[1].trackId = 'a-track';
+  assert.throws(() => adapter.scopeFrom({ receipt: { familyId: 'zz', routeKeys: ['obligation:unit:ZZ:a-track:a-unit-one'] }, pin: {}, currentDoc: duplicateTrack }), /ambiguous packet-set dependencies/);
+  assert.throws(() => adapter.scopeFrom({ receipt: { familyId: 'zz', routeKeys: ['obligation:unit:ZZ:no-such-track:x'] }, pin: {}, currentDoc: fixture() }), /names no current packet-set track/);
+  assert.throws(() => adapter.scopeFrom({ receipt: { ...unitReceipt, routeKeys: ['obligation:runtime-only:ZZ:a-track'] }, pin: {}, currentDoc: fixture() }), /ambiguous manifest dependency for route/);
+});
 test('nonunique track or component dependency refuses instead of guessing', () => {
   const duplicateTrack = fixture(); duplicateTrack.packetSets[1].trackId = 'a-track';
   assert.throws(() => compare(duplicateTrack, clone(duplicateTrack)), Refusal);
