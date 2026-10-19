@@ -1,13 +1,13 @@
 {
   "schemaVersion": "rcap-ct-current-guidance-independent-review/v1",
   "reviewer": "Acceptance Claude (PR #268 Acceptance lane)",
-  "lane": "ACCEPTANCE-CT-V3",
-  "verifiedAtBase": "59bb944b440b1dcfb20d2f48386ba4e42cea4eeb",
+  "lane": "ACCEPTANCE-CT-V4",
+  "verifiedAtBase": "90eabd1c128bf265080c6f9db50702219d941411",
   "reviewedCandidate": {
-    "path": "data/rcap-grade-a/packet-factory-24h/warp-20260912/ct-three-guidance/repair-current/current-candidate-v3.json",
-    "sha256": "446107ef707329af2088df94fc747f8ae010ce72a6c41eb41916bc1ed22c8618",
-    "byteLength": 25011,
-    "candidateVersion": "CT-GUIDANCE-DIRECT-PARTICIPANT-COPY-20261019-V3"
+    "path": "data/rcap-grade-a/packet-factory-24h/warp-20260912/ct-three-guidance/repair-current/current-candidate-v4.json",
+    "sha256": "67d3ed35a315625c31f3326d9f4cc8a326a70153924c4f4e7d03e516232c144e",
+    "byteLength": 25087,
+    "candidateVersion": "CT-GUIDANCE-DIRECT-PARTICIPANT-COPY-20261019-V4"
   },
   "authoredByADifferentLaneThanTheCandidate": true,
   "editsNothingItVerifies": true,
@@ -73,13 +73,13 @@
         },
         {
           "path": "scripts/grade-a-packet-factory-24h/ct-reviewed-guidance.mjs",
-          "sha256": "703b1a277a3f84c354c77515e3ee86900d6f91c63091adfe495bb234182d63e4",
+          "sha256": "06d93806ab4a5a44e010646826536cec043c2188cb6c77a6e6f9bf11d0934c5e",
           "byteLength": 28700
         },
         {
           "path": "scripts/rcap-custom-pleading/composed-family-host.mjs",
-          "sha256": "811c6e20d5c56039f0b49bb6a10d7113703fd974929a9bdd687f01308ed3283e",
-          "byteLength": 39829
+          "sha256": "dbd27da93a2c3d9c424daf68baa721b27f5893456e83450091089443575da814",
+          "byteLength": 39968
         },
         {
           "path": "scripts/rcap-packet-completeness/identity-refresh.mjs",
@@ -544,6 +544,16 @@
         "sourceBindingsIdenticalToV2": true,
         "rebuiltByThisReviewer": "Each family builder re-run at 59bb944b4 with the current host in a disposable worktree: all three outputs reproduce the pinned bytes and no tracked file changes; nine counters zero; commercialRoutesOpened 0.",
         "guidanceOnlyAndCheckoutClosed": "The queue treatment reconciliation keeps implementationStrategyOverride process_guidance under CT.memo.json; no route, price, runtime or fulfilment is created; the review grants only the existing static GUIDANCE_READY treatment."
+      },
+      "v4Delta": {
+        "changedInputs": [
+          "scripts/rcap-custom-pleading/composed-family-host.mjs 811c6e20 -> dbd27da9 (MS VF16 hunks: per-fixture byteProof writes; counselQuestionsSettled passthrough; 10fc49ed1, Acceptance ACCEPT)",
+          "scripts/grade-a-packet-factory-24h/ct-reviewed-guidance.mjs 703b1a27 -> 06d93806 (candidate path and version only)"
+        ],
+        "outputsByteIdenticalToV3Review": true,
+        "sourceBindingsIdenticalToV3": true,
+        "rebuiltByThisReviewer": "Each family builder re-run at 90eabd1c1 with host dbd27da9 in a disposable worktree: no tracked file changes, so every reviewed output reproduces its pinned bytes; commercialRoutesOpened 0.",
+        "newerIndependentReturnsNotAnswered": "census-landing vfct1 reads at 5e7fe802c (FAIL: destruction-request SERVICE; provisional FEE; absolute FEE and SERVICE) are newer selected returns and govern the factory state once landed; they are for CT V5."
       }
     },
     {
@@ -604,13 +614,13 @@
         },
         {
           "path": "scripts/grade-a-packet-factory-24h/ct-reviewed-guidance.mjs",
-          "sha256": "703b1a277a3f84c354c77515e3ee86900d6f91c63091adfe495bb234182d63e4",
+          "sha256": "06d93806ab4a5a44e010646826536cec043c2188cb6c77a6e6f9bf11d0934c5e",
           "byteLength": 28700
         },
         {
           "path": "scripts/rcap-custom-pleading/composed-family-host.mjs",
-          "sha256": "811c6e20d5c56039f0b49bb6a10d7113703fd974929a9bdd687f01308ed3283e",
-          "byteLength": 39829
+          "sha256": "dbd27da93a2c3d9c424daf68baa721b27f5893456e83450091089443575da814",
+          "byteLength": 39968
         },
         {
           "path": "scripts/rcap-packet-completeness/identity-refresh.mjs",
@@ -1090,6 +1100,16 @@
         "sourceBindingsIdenticalToV2": true,
         "rebuiltByThisReviewer": "Each family builder re-run at 59bb944b4 with the current host in a disposable worktree: all three outputs reproduce the pinned bytes and no tracked file changes; nine counters zero; commercialRoutesOpened 0.",
         "guidanceOnlyAndCheckoutClosed": "The queue treatment reconciliation keeps implementationStrategyOverride process_guidance under CT.memo.json; no route, price, runtime or fulfilment is created; the review grants only the existing static GUIDANCE_READY treatment."
+      },
+      "v4Delta": {
+        "changedInputs": [
+          "scripts/rcap-custom-pleading/composed-family-host.mjs 811c6e20 -> dbd27da9 (MS VF16 hunks: per-fixture byteProof writes; counselQuestionsSettled passthrough; 10fc49ed1, Acceptance ACCEPT)",
+          "scripts/grade-a-packet-factory-24h/ct-reviewed-guidance.mjs 703b1a27 -> 06d93806 (candidate path and version only)"
+        ],
+        "outputsByteIdenticalToV3Review": true,
+        "sourceBindingsIdenticalToV3": true,
+        "rebuiltByThisReviewer": "Each family builder re-run at 90eabd1c1 with host dbd27da9 in a disposable worktree: no tracked file changes, so every reviewed output reproduces its pinned bytes; commercialRoutesOpened 0.",
+        "newerIndependentReturnsNotAnswered": "census-landing vfct1 reads at 5e7fe802c (FAIL: destruction-request SERVICE; provisional FEE; absolute FEE and SERVICE) are newer selected returns and govern the factory state once landed; they are for CT V5."
       }
     },
     {
@@ -1150,13 +1170,13 @@
         },
         {
           "path": "scripts/grade-a-packet-factory-24h/ct-reviewed-guidance.mjs",
-          "sha256": "703b1a277a3f84c354c77515e3ee86900d6f91c63091adfe495bb234182d63e4",
+          "sha256": "06d93806ab4a5a44e010646826536cec043c2188cb6c77a6e6f9bf11d0934c5e",
           "byteLength": 28700
         },
         {
           "path": "scripts/rcap-custom-pleading/composed-family-host.mjs",
-          "sha256": "811c6e20d5c56039f0b49bb6a10d7113703fd974929a9bdd687f01308ed3283e",
-          "byteLength": 39829
+          "sha256": "dbd27da93a2c3d9c424daf68baa721b27f5893456e83450091089443575da814",
+          "byteLength": 39968
         },
         {
           "path": "scripts/rcap-packet-completeness/identity-refresh.mjs",
@@ -1626,11 +1646,21 @@
         "sourceBindingsIdenticalToV2": true,
         "rebuiltByThisReviewer": "Each family builder re-run at 59bb944b4 with the current host in a disposable worktree: all three outputs reproduce the pinned bytes and no tracked file changes; nine counters zero; commercialRoutesOpened 0.",
         "guidanceOnlyAndCheckoutClosed": "The queue treatment reconciliation keeps implementationStrategyOverride process_guidance under CT.memo.json; no route, price, runtime or fulfilment is created; the review grants only the existing static GUIDANCE_READY treatment."
+      },
+      "v4Delta": {
+        "changedInputs": [
+          "scripts/rcap-custom-pleading/composed-family-host.mjs 811c6e20 -> dbd27da9 (MS VF16 hunks: per-fixture byteProof writes; counselQuestionsSettled passthrough; 10fc49ed1, Acceptance ACCEPT)",
+          "scripts/grade-a-packet-factory-24h/ct-reviewed-guidance.mjs 703b1a27 -> 06d93806 (candidate path and version only)"
+        ],
+        "outputsByteIdenticalToV3Review": true,
+        "sourceBindingsIdenticalToV3": true,
+        "rebuiltByThisReviewer": "Each family builder re-run at 90eabd1c1 with host dbd27da9 in a disposable worktree: no tracked file changes, so every reviewed output reproduces its pinned bytes; commercialRoutesOpened 0.",
+        "newerIndependentReturnsNotAnswered": "census-landing vfct1 reads at 5e7fe802c (FAIL: destruction-request SERVICE; provisional FEE; absolute FEE and SERVICE) are newer selected returns and govern the factory state once landed; they are for CT V5."
       }
     }
   ],
-  "independence": "Acceptance lane review of candidate V3, authored by the CI and factory lane. V3 differs from the V2 candidate that the earlier independent review (VFCT1) accepted only in two reviewed inputs: the shared host script (task53 footer fix) and the adapter's candidate path and version. This reviewer checked V2 against V3 leaf by leaf, recomputed every reviewed output from the tree (byte-identical to the V2-reviewed pins), rebuilt all three families with the current host in a disposable worktree (no tracked change), confirmed the source bindings are unchanged, and ran test-ct-reviewed-guidance (46/46) and test-ct-guidance-delta. The per-family findings, proof obligations and raster bindings of the V2 review are carried because the outputs they measured are byte-identical. It grants only static GUIDANCE_READY treatment and creates no runtime, fulfilment, relief, price or production authority.",
-  "publicationRequirement": "All supporting evidence is committed at verifiedAtBase (59bb944b4). The current adapter must verify publication of this file at the actual integration head.",
+  "independence": "Acceptance lane review of candidate V4, authored by the CI and factory lane. V4 differs from the V3 candidate that this lane accepted only in two reviewed inputs: the shared host script (the two granted MS VF16 hunks, 10fc49ed1, accepted by this lane) and the adapter's candidate path and version. This reviewer checked V3 against V4 leaf by leaf (18 leaves: version, rebuild base/proof, the two input digests per family, supersedes), rebuilt all three families with host dbd27da9 at the V4 head in a disposable worktree (no tracked file changes, so every reviewed output equals its pin), confirmed the generator preflight pins match the head bytes, and confirmed the 14 other shared-host families rebuild byte-identically across the host change. The per-family findings, proof obligations and raster bindings are carried because the outputs they measured are byte-identical. It grants only static GUIDANCE_READY treatment and creates no runtime, fulfilment, relief, price or production authority. The census-landing vfct1 re-reads (SERVICE/FEE) are separate, newer independent returns; this review does not answer them.",
+  "publicationRequirement": "All supporting evidence is committed at verifiedAtBase (90eabd1c1). The current adapter must verify publication of this file at the actual integration head.",
   "selectedHistoricalVerdictClosureEvidence": {
     "path": "data/rcap-grade-a/packet-factory-24h/warp-20260912/ct-three-guidance/repair-current/independent-review/legacy-selected-verdict-closure.json",
     "sha256": "bb51a7b6513ef28f5a2c179db31cdb3adcc3ccf885bc9e2616a19c7d06be9598",
@@ -1638,15 +1668,15 @@
   },
   "previousReviewPreserved": {
     "path": "data/rcap-grade-a/packet-factory-24h/warp-20260912/ct-three-guidance/repair-current/independent-review/current-guidance-review.json",
-    "sha256": "5166780335c98d1f192fb01a1a89f98a5a8ff0849a995d5e43e815dde206bb8e",
-    "byteLength": 109069,
-    "gitCommit": "c674aa6e427220d0a942632d5009d1964ca50305",
+    "sha256": "c02336f9821053c6bfbf35e60fa8995579e88348bfc4a5973261522184a0a278",
+    "byteLength": 113418,
+    "gitCommit": "c2246711d82982cc41304c07be54a7d4b5583ce6",
     "reviewedCandidate": {
-      "path": "data/rcap-grade-a/packet-factory-24h/warp-20260912/ct-three-guidance/repair-current/current-candidate-v2.json",
-      "sha256": "cfc20fe29964613e04c521200bb6f8a98cfbe804be423318c344252dd5021880",
-      "byteLength": 23427,
-      "candidateVersion": "CT-GUIDANCE-DIRECT-PARTICIPANT-COPY-20260912-V2"
+      "path": "data/rcap-grade-a/packet-factory-24h/warp-20260912/ct-three-guidance/repair-current/current-candidate-v3.json",
+      "sha256": "446107ef707329af2088df94fc747f8ae010ce72a6c41eb41916bc1ed22c8618",
+      "byteLength": 25011,
+      "candidateVersion": "CT-GUIDANCE-DIRECT-PARTICIPANT-COPY-20261019-V3"
     },
-    "note": "The V2 review (lane VFCT1) remains in git history at gitCommit; this V3 review replaces it at the same path."
+    "note": "The V3 review (lane ACCEPTANCE-CT-V3) remains in git history at gitCommit; this V4 review replaces it at the same path."
   }
 }
