@@ -859,11 +859,25 @@ const singleRoutesAdapter = {
     return indexed;
   },
   scopeFrom({ receipt, pin, currentDoc }) {
-    if (pin.pathInRepository !== SINGLE_ROUTES || typeof pin.recordId !== "string"
-      || !/^route-contract:[A-Z]{2}:[a-z0-9-]+$/.test(pin.recordId)) {
+    let recordId = pin.recordId;
+    /* A compositionSources pin ({path, sha256, byteLength}) has no recordId
+     * field by design. Only that shape is scoped here by the route contract
+     * every receipt route key names (JUR and pathway, runtime forms only);
+     * several, or none, refuse, and the corroboration below still runs on
+     * every key. A committedRecords pin (pathInRepository) must still name its
+     * recordId. */
+    if (recordId == null && pin.pathInRepository === undefined && pin.path === SINGLE_ROUTES) {
+      const named = new Set((receipt.routeKeys ?? []).map((key) => String(key).split(":"))
+        .filter((parts) => parts[0] === "obligation" && ["runtime-only", "runtime-contract-cohort"].includes(parts[1]) && parts[2] && parts[3])
+        .map((parts) => `${parts[2]}:${parts[3]}`));
+      if (named.size !== 1) throw new Refusal(`route-contract pin names no recordId and the receipt's route keys name ${named.size} route contracts; exactly one is needed`);
+      recordId = `route-contract:${[...named][0]}`;
+    } else if (pin.pathInRepository !== SINGLE_ROUTES || typeof recordId !== "string"
+      || !/^route-contract:[A-Z]{2}:[a-z0-9-]+$/.test(recordId)) {
       throw new Refusal("route-contract pin must name one exact recordId and repository path");
     }
-    const routeKey = pin.recordId.slice("route-contract:".length);
+    if (!/^route-contract:[A-Z]{2}:[a-z0-9-]+$/.test(recordId)) throw new Refusal("route-contract pin must name one exact recordId and repository path");
+    const routeKey = recordId.slice("route-contract:".length);
     const route = this.index(currentDoc, "current").get(routeKey);
     if (!route) throw new Refusal(`the receipt's route-contract ${routeKey} is absent from the current record`);
     const [jurisdiction, pathwayId] = routeKey.split(":");
@@ -890,7 +904,7 @@ const singleRoutesAdapter = {
       }
     }
     return { anchorIds: [routeKey], derivation: {
-      fromPinRecordId: pin.recordId, fromReceiptRouteKeys: [...receipt.routeKeys],
+      fromPinRecordId: pin.recordId ?? null, routeContractFromReceiptRouteKeys: pin.recordId == null ? recordId : null, fromReceiptRouteKeys: [...receipt.routeKeys],
       completeRouteAndAllBranchesCompared: true, globalMetadataComparedAsOneAnchor: true
     } };
   },
