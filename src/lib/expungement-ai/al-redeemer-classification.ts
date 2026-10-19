@@ -7,6 +7,11 @@ import fieldMap from "../../../data/rcap-all50/overlays/census-v1/al/al-misd-con
 import sourceReceipt from "../../../data/rcap-all50/overlays/census-v1/al/al-misd-conviction-set--official-pdf-fill/source-receipt.json";
 
 export const AL_REDEEMER_ROUTE = "eligible-conviction-expungement-under-the-redeemer-act";
+/** Hashes of the imported constants, computed once per process on first use.
+ * Anything passed in current.* is hashed live, so overrides stay exact. */
+let imported: { memo: string; fieldMap: string; sourceReceipt: string } | undefined;
+const importedHashes = () => imported ??= { memo: contactRepresentationHash(memo),
+  fieldMap: contactRepresentationHash(fieldMap), sourceReceipt: contactRepresentationHash(sourceReceipt) };
 /** GA12 Q0e115 / GA21 Q2f7b / exact GA42 route / GA49 Q0e115. The
  * retained al-misd-conviction memo requires independent participant answers,
  * not a category inferred from charge grade. This is a protected collection
@@ -16,9 +21,9 @@ export function alRedeemerClassificationContract(profile: EngineProfile | undefi
   current: { memo?: unknown; fieldMap?: unknown; sourceReceipt?: unknown } = {}): boolean {
   return profile?.jurisdiction.code === "AL" && pathwayId === AL_REDEEMER_ROUTE && specification == null
     && contactRepresentationHash(profile) === "ca219c1a1419f8b2900fd6368ac7202ba779ac084dae7e4dd507be943a29011c"
-    && contactRepresentationHash(current.memo === undefined ? memo : current.memo) === "62ee8eb99e0c1a45090bdd37f838671f9d7637e20f792e60cf0dbdb218bf31de"
-    && contactRepresentationHash(current.fieldMap === undefined ? fieldMap : current.fieldMap) === "db1c36bd38093d471de517c143444e51b980703e93248f67f9bc94622647d752"
-    && contactRepresentationHash(current.sourceReceipt === undefined ? sourceReceipt : current.sourceReceipt) === "f1f8e8c5512878d9673df913d51c17dfc52707dc4acd75e927cde7771be32cad";
+    && (current.memo === undefined ? importedHashes().memo : contactRepresentationHash(current.memo)) === "62ee8eb99e0c1a45090bdd37f838671f9d7637e20f792e60cf0dbdb218bf31de"
+    && (current.fieldMap === undefined ? importedHashes().fieldMap : contactRepresentationHash(current.fieldMap)) === "db1c36bd38093d471de517c143444e51b980703e93248f67f9bc94622647d752"
+    && (current.sourceReceipt === undefined ? importedHashes().sourceReceipt : contactRepresentationHash(current.sourceReceipt)) === "f1f8e8c5512878d9673df913d51c17dfc52707dc4acd75e927cde7771be32cad";
 }
 const yesNo = ["Yes", "No", "I am not sure"];
 const note = "Answer from the record. If unclear, keep that answer and seek legal advice about the classification. These answers do not establish eligibility, select the seven conditions on CR-65, or change the current limits of this service.";

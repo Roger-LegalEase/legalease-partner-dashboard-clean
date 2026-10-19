@@ -21,6 +21,11 @@ export const AL_RECORD_CONTEXT_ROUTES = [
 ] as const;
 const maps = [map0, map1, map2, map3, map4, map5, map6, map7];
 const mapHashes = ["db1c36bd38093d471de517c143444e51b980703e93248f67f9bc94622647d752", "31d561e3223fe6e08f6e28f30c1485275d28c7cf3e44568be49004e27662cb55", "0d6eb39cde7891b5a4a74e7b512b8cb480de52cb1dab3cd3453d680a4b1e9077", "0c83630010f09f603bae663793ae3b6403c082e67b02ce657c6a0aba9193597d", "f59a10d0f9b6e2daf66f1a847ce5f64ae05159a5193e4101ce2bb2d001fde188", "a73a914afaf8ac3da35a195bcf9f7be7660875dd7451b2ab7fe632ce6afe2b50", "9eab2cc5e1351da080ed560d59c65aaecb365c0c31abc2d9973d6d01bd37bc33", "86d8360de85fe8f47eb72e73632172fcdfd2bb72ac64fc9c0a175d1c8ba2ce98"];
+/** Hashes of the imported constants, computed once per process on first use.
+ * Anything passed in current.* is hashed live, so overrides stay exact. */
+let imported: { memo: string; decision: string; maps: string[] } | undefined;
+const importedHashes = () => imported ??= { memo: contactRepresentationHash(memo),
+  decision: contactRepresentationHash(decision), maps: maps.map(map => contactRepresentationHash(map)) };
 
 /** Original GA17 Q2dd99/Qed8eb/Q829a/Q2ddd. Existing AL source maps consume
  * specific legal facts, never the overlapping generic record_type menu. This
@@ -35,11 +40,11 @@ export function alRecordIsContext(profile: EngineProfile | undefined,
   const currentMaps = current.maps === undefined ? maps : current.maps;
   return profile?.jurisdiction.code === "AL" && specification == null
     && contactRepresentationHash(profile) === "ca219c1a1419f8b2900fd6368ac7202ba779ac084dae7e4dd507be943a29011c"
-    && contactRepresentationHash(current.memo === undefined ? memo : current.memo) === "62ee8eb99e0c1a45090bdd37f838671f9d7637e20f792e60cf0dbdb218bf31de"
-    && contactRepresentationHash(current.decision === undefined ? decision : current.decision) === "b3e80db48e72a3387edd84d2df3684592b2ccaa72dc7aa1e2fec50b24e42b988"
+    && (current.memo === undefined ? importedHashes().memo : contactRepresentationHash(current.memo)) === "62ee8eb99e0c1a45090bdd37f838671f9d7637e20f792e60cf0dbdb218bf31de"
+    && (current.decision === undefined ? importedHashes().decision : contactRepresentationHash(current.decision)) === "b3e80db48e72a3387edd84d2df3684592b2ccaa72dc7aa1e2fec50b24e42b988"
     && Array.isArray(currentMaps) && currentMaps.length === mapHashes.length
     && mapHashes.every((hash, index) => Object.hasOwn(currentMaps, index)
-      && contactRepresentationHash(currentMaps[index]) === hash);
+      && (current.maps === undefined ? importedHashes().maps[index] : contactRepresentationHash(currentMaps[index])) === hash);
 }
 
 export function alRecordContextQuestion<T extends ProfileQuestion>(question: T,
