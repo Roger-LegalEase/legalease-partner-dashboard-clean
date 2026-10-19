@@ -1,3 +1,4 @@
+import {legalAuthorityMetadataPredecessor} from './lib/legal-authority-metadata-predecessor.mjs';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {createHash} from 'node:crypto';
@@ -110,7 +111,7 @@ const sourcePins={
  'data/record-clearing/legal-design-intake/OK.memo.json':'142af97ccdd241832b04ff153093ced0dc6d51c1b8e7d20ee20261d117fe9909',
  'data/record-clearing/production-factory/packet-proofs/rcap-ok-guidance-implementation.json':'8307aeb135d0571aa30c17fa07f8c7a53d26ba400c9e19c079fbf3ac84f5d7b1'
 };
-for(const [path,hash]of Object.entries(sourcePins))check('retained exact source '+path,()=>assert.equal(createHash('sha256').update(fs.readFileSync(root+'/'+path)).digest('hex'),hash));
+for(const [path,hash]of Object.entries(sourcePins))check('retained exact source '+path,()=>assert.equal(createHash('sha256').update(legalAuthorityMetadataPredecessor(path, fs.readFileSync(root+'/'+path))).digest('hex'),hash));
 for(const value of ['waived','partially_paid','complete']){const answers={...answersFor(),financial_obligations:value},before=structuredClone(answers);check('unused nonliteral text supplies no financial finding '+value,()=>{const e=run(answers).evaluation;assert.equal(e.paymentAllowed,false);assert.equal(e.resultCode,'guidance_only');assert.deepEqual(answers,before);});}
 // Already-retained semantic history is custody, not a newly created correction.
 stored=recordFor(route,'I am not sure');snap().dependencies.semanticAnswerHistory=[{factId:'financial_obligations',value:{value:'No',unknown:true},source:'packetAnswers',meaning:'prior_factual_pathway_answer',routeKey:'OK:'+route,profileVersion:snap().profileVersion,profileSourceFingerprint:snap().profileSourceFingerprint,profileAuthorityFingerprint:snap().profileAuthorityFingerprint}];stored.draftHash=P.protectedPacketDraftHash(snap());const historical=structuredClone(stored);await save({});check('prior typed source history intact',()=>assert.deepEqual(stored,historical));

@@ -22,7 +22,7 @@ const EXPECTED = {
   "suggestedResultCode": "guidance_only",
   "waitingRules": [
     "a no-petition statutory process; the participant files nothing",
-    "This rule governs filings on or after 2026-07-01.",
+    "This rule took effect on 2026-07-01.",
     "Expedited portal due 2026-11-01 — an implementation deadline for the state, not a participant wait.",
     "Automated identification due to begin 2027-11-01 — an implementation deadline for the state, not a participant wait.",
     "Eligible electronic backlog due 2029-11-01 — an implementation deadline for the state, not a participant wait."

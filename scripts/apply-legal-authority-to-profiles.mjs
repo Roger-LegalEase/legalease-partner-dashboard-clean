@@ -53,7 +53,8 @@ const PROFILE_DIR = "src/lib/rcap-engine/compiled/profiles";
  * Jurisdictions whose compiled profile a governance control currently pins.
  * Maryland's 2026-08-25 approval explicitly covers the final legal-contract
  * profile bytes and retains before/after evidence, so LD-MD-03 is no longer
- * exempt from runtime profile binding.
+ * exempt from runtime profile binding. Item 11 (2026-10-19) reconciles its
+ * source-stage branches and the MD/OK/SC exact consumer bindings in one batch.
  */
 const BLOCKED_JURISDICTIONS = {};
 const checkOnly = process.argv.includes("--check");

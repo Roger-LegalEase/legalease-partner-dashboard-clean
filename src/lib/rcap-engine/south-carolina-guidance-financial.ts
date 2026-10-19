@@ -26,7 +26,7 @@ const EXPECTED = {
     "routeType": "automatic_guidance",
     "waitingRules": [
       "the solicitor's office administers the expungement on successful completion of pretrial intervention; the participant files no pleading and sits through no elapsed wait",
-      "This rule governs filings on or after 2026-08-28.",
+      "This rule took effect on 2026-08-28.",
       "Supersedes The rescinded $150 single-incident administrative figure. It must not appear anywhere on this route.."
     ],
     "legalAuthority": {

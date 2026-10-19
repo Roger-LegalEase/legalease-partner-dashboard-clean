@@ -1622,7 +1622,7 @@ export function montanaRecordFinancialDraftSuccessor(snapshot: ProtectedPacketAu
       : route === MT_RECORD_FINANCIAL_ROUTES[0]
         ? "852ad67fae4987a5ff7820cd313fdd6b662dded3a326ae61606f7dde6bfe9a98"
         : "370d5f8c614749314e556c10d5ac5cd29c554b2dfe665177a4814edae48a5744")
-    || profileAuthorityFingerprint(profile, snapshot.pathwayId) !== snapshot.profileAuthorityFingerprint
+    || !matchesDeclaredMetadataPredecessor(profile, snapshot.pathwayId, snapshot.profileAuthorityFingerprint)
     || snapshot.paymentAllowed || snapshot.selectedTrackId !== null || snapshot.treatmentClassification !== null
     || !canonicalEqual(snapshot.deferralComponentIds, [])
     || !canonicalEqual(snapshot.serverFacts, canonicalServerFacts("MT", snapshot.pathwayId))
@@ -1653,6 +1653,69 @@ export function montanaRecordFinancialDraftSuccessor(snapshot: ProtectedPacketAu
   return seeded ? preserveUnchangedProtectedFacts(seeded.snapshot, snapshot, new Set()) : null;
 }
 
+// Owner Item 11: exact metadata-only predecessor pairs; no future profile change is covered.
+const LEGAL_AUTHORITY_METADATA_SUCCESSORS = [
+  {
+    "jurisdiction": "GA",
+    "pathwayId": "automatic-restriction-of-qualifying-post-july-1-2013-non-convictions",
+    "priorSha256": "3fc05cf0288443f5da21a2040f27b2ce9af949b48e94c00f93b1420b974bb6b5",
+    "newSha256": "91e04b6f576b0455b0a8f21f6ab6f7c1b6a0b7f72ebb3bc75316da20f68f9e3d"
+  },
+  {
+    "jurisdiction": "MD",
+    "pathwayId": "police-record-expungement-when-no-charge-was-filed-under-10-103",
+    "priorSha256": "439ccffe2dbfe611cc84b1f87273fc49ddf8d245caef0dcd0ff5dad21a437747",
+    "newSha256": "7a3f882d2b04e3dc94e7bd642c795d77e21d04f271cd30997375dc4f12cd1530"
+  },
+  {
+    "jurisdiction": "MT",
+    "pathwayId": "non-conviction-criminal-history-removal-through-criss",
+    "priorSha256": "370d5f8c614749314e556c10d5ac5cd29c554b2dfe665177a4814edae48a5744",
+    "newSha256": "e79f11747aa54073db122c87328332a16d8342b8206a6ee320d72b9816cf756f"
+  },
+  {
+    "jurisdiction": "ND",
+    "pathwayId": "non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05",
+    "priorSha256": "d3334073152e346d17a6bb09ca90abac924b499d57ee4190ecec746528ae7143",
+    "newSha256": "c43b1f34f41c932ec2cc83102f79b4cbb127fb9cf5a39bb5a975e7aae2d7f8fc"
+  },
+  {
+    "jurisdiction": "OK",
+    "pathwayId": "clean-slate-automatic-expungement",
+    "priorSha256": "a9afc32a44fa6be09b395340ec6f73e967e1e557db67580fae4b56a0a33eaa01",
+    "newSha256": "3811fdef961bf59176a8c1847bd25c45d77025c89bd4f38cfd76a9ad6b3f0a97"
+  },
+  {
+    "jurisdiction": "SC",
+    "pathwayId": "diversion-or-program-completion-expungement",
+    "priorSha256": "0f3be57f27ddba121b5d9998e924079e5dbd99acad5d2cb79a3aa9d7ff3a588f",
+    "newSha256": "ff5acc6ef34950c0ae0ce5205af29cedb51cc025cb9dde6b02b654b8cb13f0c6"
+  }
+] as const;
+
+function matchesDeclaredMetadataPredecessor(profile: NonNullable<ReturnType<typeof getProfileByJurisdiction>>, pathwayId: string | null, fingerprint: string | null) {
+  const current = profileAuthorityFingerprint(profile, pathwayId);
+  return current === fingerprint || LEGAL_AUTHORITY_METADATA_SUCCESSORS.some(row => row.jurisdiction === profile.jurisdiction.code
+    && row.pathwayId === pathwayId && row.priorSha256 === fingerprint && row.newSha256 === current);
+}
+
+/** Only a draft's declared metadata fingerprint moves. Raw maps/history and all
+ * downstream route checks remain intact; final verification cannot carry over. */
+export function legalAuthorityMetadataDraftSuccessor(snapshot: ProtectedPacketAuthoritySnapshot,
+  authoritative: NonNullable<ReturnType<typeof evaluateProtectedPacketFacts>>,
+  status: ProtectedPacketVerificationRecord["status"]): ProtectedPacketDraftSnapshot | null {
+  const profile = authoritative.profile, evaluation = authoritative.evaluation;
+  if (!["unverified", "invalidated"].includes(status)
+    || snapshot.schemaVersion !== "expungement-ai/protected-packet-draft/v1"
+    || snapshot.jurisdiction !== profile.jurisdiction.code || snapshot.profileVersion !== profile.profileVersion
+    || snapshot.profileSourceFingerprint !== profile.source?.sourceCorpusSha256
+    || snapshot.pathwayId !== evaluation.pathwayId || snapshot.paymentAllowed || evaluation.paymentAllowed) return null;
+  const pair = LEGAL_AUTHORITY_METADATA_SUCCESSORS.find(row => row.jurisdiction === snapshot.jurisdiction
+    && row.pathwayId === snapshot.pathwayId && row.priorSha256 === snapshot.profileAuthorityFingerprint);
+  if (!pair || profileAuthorityFingerprint(profile, snapshot.pathwayId) !== pair.newSha256) return null;
+  return { ...snapshot, profileAuthorityFingerprint: pair.newSha256 } as ProtectedPacketDraftSnapshot;
+}
+
 /** Exact source-reproduced absent-payment draft. Projects only the already
  * approved noncommercial guidance; reads/no-ops retain the original record. */
 export function oklahomaCleanSlateFinancialDraftSuccessor(snapshot: ProtectedPacketAuthoritySnapshot,
@@ -1664,7 +1727,7 @@ export function oklahomaCleanSlateFinancialDraftSuccessor(snapshot: ProtectedPac
     || snapshot.profileVersion !== profile.profileVersion
     || snapshot.profileSourceFingerprint !== profile.source?.sourceCorpusSha256
     || snapshot.profileAuthorityFingerprint !== "08444132fa9ff9ac99279856ab17010c0d56008c9d704b6aa1cef3b6f5a7ff18"
-    || profileAuthorityFingerprint(profile, null) !== snapshot.profileAuthorityFingerprint
+    || !matchesDeclaredMetadataPredecessor(profile, null, snapshot.profileAuthorityFingerprint)
     || snapshot.paymentAllowed || snapshot.selectedTrackId !== null || snapshot.treatmentClassification !== null
     || !canonicalEqual(snapshot.deferralComponentIds, [])
     || !canonicalEqual(snapshot.serverFacts, canonicalServerFacts("OK", null))
@@ -1851,7 +1914,7 @@ export function southCarolinaGuidanceFinancialDraftSuccessor(snapshot: Protected
     || snapshot.profileAuthorityFingerprint !== (snapshot.pathwayId === null
       ? "367d1f5a8799c844c95a51e6d46e32d66053c944e345a2fe8fe5f1a3ce1ca932"
       : (snapshot.pathwayId === SC_GUIDANCE_FINANCIAL_ROUTES[0] ? "0f3be57f27ddba121b5d9998e924079e5dbd99acad5d2cb79a3aa9d7ff3a588f" : "ae55614609867d71e9cfc67879d2b0d454fbc07cf5e6968a75b29553c506f2b2"))
-    || profileAuthorityFingerprint(profile, snapshot.pathwayId) !== snapshot.profileAuthorityFingerprint
+    || !matchesDeclaredMetadataPredecessor(profile, snapshot.pathwayId, snapshot.profileAuthorityFingerprint)
     || snapshot.paymentAllowed || snapshot.selectedTrackId !== null || snapshot.treatmentClassification !== null
     || !canonicalEqual(snapshot.deferralComponentIds, [])
     || !canonicalEqual(snapshot.serverFacts, canonicalServerFacts("SC", snapshot.pathwayId))
@@ -2389,7 +2452,7 @@ export function marylandPoliceHeldDraftSuccessor(snapshot: ProtectedPacketAuthor
   if (!["unverified", "invalidated"].includes(status) || !mdPoliceContext(profile, snapshot.pathwayId)
     || !mdPoliceContext(authoritative.profile, snapshot.pathwayId)
     || !Object.entries(MD_POLICE_OLD_DRAFT).every(([key, value]) => canonicalEqual(snapshot[key as keyof ProtectedPacketAuthoritySnapshot], value))
-    || snapshot.profileAuthorityFingerprint !== profileAuthorityFingerprint(profile!, MD_POLICE_ROUTE)
+    || !matchesDeclaredMetadataPredecessor(profile!, MD_POLICE_ROUTE, snapshot.profileAuthorityFingerprint)
     || !canonicalEqual(snapshot.packetPlan, packetPlanForPathway(profile!, MD_POLICE_ROUTE))
     || [snapshot.screeningAnswers, snapshot.prefilledAnswers, snapshot.packetAnswers].some(map => MD_POLICE_IDS.some(id => Object.hasOwn(map, id)))
     || evaluation.jurisdiction !== "MD" || evaluation.profileVersion !== snapshot.profileVersion
@@ -2487,6 +2550,11 @@ export function protectedPacketInformationModelFor(
   if ((isCaProp64Pathway(snapshot.jurisdiction, snapshot.pathwayId) || isNy16059Packet(snapshot.jurisdiction, snapshot.pathwayId) || snapshot.jurisdiction === "MS" && snapshot.pathwayId === MS_MIP_ROUTE || arkansasRecordOriginApplies(snapshot.jurisdiction, snapshot.pathwayId))
     && (!canonicalEqual(snapshot.serverFacts, canonicalServerFacts(snapshot.jurisdiction, snapshot.pathwayId))
       || !canonicalEqual(snapshot.packetFamilyIdentifiers, { mode: snapshot.packetPlan?.mode ?? null, sourceFormIds: snapshot.packetPlan?.sourceFormIds ?? [] }))) return null;
+  if (LEGAL_AUTHORITY_METADATA_SUCCESSORS.some(row => row.jurisdiction === snapshot!.jurisdiction
+    && row.pathwayId === snapshot!.pathwayId && row.priorSha256 === snapshot!.profileAuthorityFingerprint)) {
+    const metadataAuthority = evaluateProtectedPacketFacts(snapshot);
+    if (metadataAuthority) snapshot = legalAuthorityMetadataDraftSuccessor(snapshot, metadataAuthority, verification.status) ?? snapshot;
+  }
   const profile = getProfileByJurisdiction(snapshot.jurisdiction);
   if (!profile || profile.profileVersion !== snapshot.profileVersion) return null;
   if (snapshot.profileSourceFingerprint !== (profile.source?.sourceCorpusSha256 ?? null)
@@ -4178,6 +4246,7 @@ function deriveProtectedPacketDraftSnapshot(
   const caJuvenileIds = caJuvenilePreparation ? caProp64JuvenilePreparationModelFor(verification)?.caJuvenilePreparationFactIds : undefined;
   if (caJuvenilePreparation && !caJuvenileIds) return null;
   base = wyoming1502HeldDraftSuccessor(base, currentAuthority, verification.status) ?? illinoisProstitutionHeldDraftSuccessor(base, currentAuthority, verification.status) ?? ohioDiversionDraftSuccessor(base, currentAuthority) ?? mnTwoCountyDraftSuccessor(base, currentAuthority, verification.status) ?? marylandPoliceHeldDraftSuccessor(base, currentAuthority, verification.status) ?? wyoming1501DraftSuccessor(base,currentAuthority) ?? texasNondisclosureClockDraftSuccessor(base, currentAuthority) ?? texasGuidanceFinancialDraftSuccessor(base, currentAuthority) ?? westVirginiaGuidanceFinancialDraftSuccessor(base, currentAuthority) ?? southDakotaGuidanceFinancialDraftSuccessor(base, currentAuthority) ?? southCarolinaGuidanceFinancialDraftSuccessor(base, currentAuthority) ?? newJerseyMarijuanaStatusFinancialDraftSuccessor(base, currentAuthority) ?? wyoming1401DraftSuccessor(base,currentAuthority) ?? newMexicoGuidanceFinancialDraftSuccessor(base, currentAuthority) ?? montanaRecordFinancialDraftSuccessor(base, currentAuthority) ?? californiaProbationDraftSuccessor(base,currentAuthority) ?? oregonDispositionDraftSuccessor(base, currentAuthority) ?? montanaDeferredDraftSuccessor(base, currentAuthority) ?? missouriMarijuanaDraftSuccessor(base, currentAuthority) ?? missouriClosureDraftSuccessor(base, currentAuthority) ?? maineNonconvictionDraftSuccessor(base, currentAuthority) ?? louisianaAutomationStatusHeldSuccessor(base, currentAuthority) ?? nebraskaAcquittalHeldSuccessor(base, currentAuthority) ?? kansasRegistrationHeldSuccessor(base, currentAuthority) ?? base;
+  base = legalAuthorityMetadataDraftSuccessor(base, currentAuthority, verification.status) ?? base;
   const factualIds = [...factualPathwayCorrectionIds(base.jurisdiction, base.pathwayId, { ...base.screeningAnswers, ...base.prefilledAnswers, ...base.packetAnswers }, true), ...msExactTimingQuestionIds(base.jurisdiction, base.pathwayId, { ...base.screeningAnswers, ...base.prefilledAnswers, ...base.packetAnswers }, true), ...oregonUnselectedCorrectionIds(base), ...missouriUnselectedCorrectionIds(base), ...maineUnselectedCorrectionIds(base), ...nebraskaUnselectedCorrectionIds(base), ...louisianaUnselectedCorrectionIds(base), ...ohioDiversionCorrectionIds(base, currentAuthority)];
   if (gaPreparationIds) factualIds.push(...gaPreparationIds);
   if (mtPreparationIds) factualIds.push(...mtPreparationIds);
