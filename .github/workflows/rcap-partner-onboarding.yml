@@ -29,14 +29,14 @@ jobs:
     # only to argv/env paths that CI does not set or to private system temp dirs, except the CT
     # profile generator, which rewrites its in-tree output and asserts it unchanged. Each runner
     # checks out fresh.
-    # Cuts are a contiguous re-cut of the original list by the per-command timings of run 39175002547;
-    # the single 21-minute MS output-continuity check bounds the floor. The cheap checks and the
-    # build sit on the lightest leg.
+    # Cuts are a contiguous re-cut of the original list by the per-command timings of run 39200186911
+    # (the first push after the MS output-continuity check lost its 21-minute floor). The cheap
+    # checks and the build sit on the lightest leg.
     timeout-minutes: 120
     strategy:
       fail-fast: false
       matrix:
-        group: [a, b, c, d, e, f]
+        group: [a, b, c, d, e, f, g]
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
@@ -79,21 +79,21 @@ jobs:
           echo "tested merge-ref $GITHUB_SHA (pull request head ${{ github.event.pull_request.head.sha || github.sha }})"
 
       - name: Lint
-        if: matrix.group == 'a'
+        if: matrix.group == 'g'
         run: npm run lint
 
       - name: Typecheck
-        if: matrix.group == 'a'
+        if: matrix.group == 'g'
         run: npm run typecheck
 
       - name: Verify Clinic acceptance harness controls
-        if: matrix.group == 'a'
+        if: matrix.group == 'g'
         run: node --test scripts/test-typescript-mock-loader.mjs scripts/clinic-qa/artifact-journey.test.mjs scripts/clinic-qa/fixture.test.mjs scripts/clinic-qa/generation-refusal.test.mjs scripts/clinic-qa/sponsored-cleanup.test.mjs scripts/test-private-download-denial.mjs
 
       # Cheapest known failure first: this gate failed at the END of a 105-minute step on c98e7d422.
       # Its only inputs are the lockfile install and committed report/metadata files.
       - name: Verify prepayment question gate
-        if: matrix.group == 'a'
+        if: matrix.group == 'g'
         run: node scripts/verify-rcap-prepay-question-gate.mjs
 
       - name: Install PDF text verification dependency
@@ -151,25 +151,21 @@ jobs:
           node scripts/test-ga-personalized-dispatch.mjs
           node scripts/test-question-contract-output-continuity.mjs
           node scripts/test-noncommercial-evidence-producer-reconciliation.mjs --task53-source-successor-controls-only
-
-      - name: Verify nationwide correction boundaries (group b)
-        if: matrix.group == 'b'
-        run: |
           node scripts/test-ms-paid-packet-output-continuity.mjs
           node scripts/test-ms-paid-packet-proof.mjs --proof-only
           node scripts/verify-personalized-route-refusal.mjs
           node scripts/test-ks-municipal-factual-boundaries.mjs
           node scripts/test-ks-municipal-contact.mjs
-
-      - name: Verify nationwide correction boundaries (group c)
-        if: matrix.group == 'c'
-        run: |
           node scripts/test-ks-municipal-category-context.mjs
           node scripts/test-ks-district-factual-routing.mjs
           node scripts/test-ga10-missing-witnesses.mjs
           node scripts/test-ga10-ne-missing-witnesses.mjs
           node scripts/test-ga10-la9852-missing-witness.mjs
           node scripts/test-ga10-me-nonconviction-witness.mjs
+
+      - name: Verify nationwide correction boundaries (group b)
+        if: matrix.group == 'b'
+        run: |
           node scripts/test-ga10-mo-closure-witness.mjs
           node scripts/test-ga10-mo-marijuana-custody.mjs
           node scripts/test-ga10-mt-deferred-facts.mjs
@@ -208,15 +204,15 @@ jobs:
           node scripts/test-ca-prop64-integration.mjs
           node scripts/test-ca-prop64-form-ownership.mjs
           node scripts/test-ca-prop64-completeness-actors.mjs
+
+      - name: Verify nationwide correction boundaries (group c)
+        if: matrix.group == 'c'
+        run: |
           node scripts/test-ca-prop64-caption-bindings.mjs
           node scripts/test-ca-prop64-caption-collection.mjs
           node scripts/test-ca-prop64-contact-collection.mjs
           node scripts/test-ca-prop64-family-bridge.mjs
           node scripts/test-ak-courtview-contact.mjs
-
-      - name: Verify nationwide correction boundaries (group d)
-        if: matrix.group == 'd'
-        run: |
           node scripts/test-ak-tf810-sales-policy.mjs
           node scripts/test-ak-tf810-saved-checkout.mjs
           node scripts/test-ak-courtview-record-context.mjs
@@ -226,6 +222,10 @@ jobs:
           node scripts/test-ak-agency-sis-record-context-consumers.mjs
           node scripts/test-al-record-context.mjs
           node scripts/test-al-record-context-consumers.mjs
+
+      - name: Verify nationwide correction boundaries (group d)
+        if: matrix.group == 'd'
+        run: |
           node scripts/test-ar-nonconviction-record-context.mjs
           node scripts/test-ar-nonconviction-record-context-consumers.mjs
           node scripts/test-ar-felony-record-context.mjs
@@ -240,10 +240,6 @@ jobs:
           node scripts/test-dc-general-source-guidance.mjs
           node scripts/test-dc-misattributed-current-composer.mjs
           node scripts/test-fl-conditional-source-information.mjs
-
-      - name: Verify nationwide correction boundaries (group e)
-        if: matrix.group == 'e'
-        run: |
           node scripts/test-mn-two-county-source-facts.mjs
           node scripts/test-dc-innocence-location-context.mjs
           node scripts/test-nationwide-contact-representation.mjs
@@ -251,6 +247,10 @@ jobs:
           node scripts/test-nd-first-offense-family-consumer.mjs
           node scripts/test-nd-first-offense-participant-family.mjs
           node scripts/test-nd-first-offense-contract-successor.mjs
+
+      - name: Verify nationwide correction boundaries (group e)
+        if: matrix.group == 'e'
+        run: |
           node scripts/test-nd-first-offense-record-context.mjs
           node scripts/test-nd-first-offense-facts.mjs
           node scripts/verify-nd-first-offense-possession-scope.mjs
@@ -306,6 +306,10 @@ jobs:
           node scripts/test-ga17-dc-felony-record-history.mjs
           node scripts/test-ga17-dc-fl-record-history.mjs
           node scripts/test-ga12-al-category-history.mjs
+
+      - name: Verify nationwide correction boundaries (group g)
+        if: matrix.group == 'g'
+        run: |
           node scripts/test-ga12-ar-category-history.mjs
           node scripts/test-ga12-sd-sis-facts.mjs
           node scripts/test-ga12-wy1502-facts.mjs
@@ -323,18 +327,18 @@ jobs:
       # Every deterministic onboarding verifier, through the one entry point that also
       # fails when a verifier exists that no group owns.
       - name: Verify onboarding (local group)
-        if: matrix.group == 'a'
+        if: matrix.group == 'g'
         run: npm run partners:verify-onboarding-all
 
       - name: Verify partner launch readiness
-        if: matrix.group == 'a'
+        if: matrix.group == 'g'
         run: npm run partners:verify-launch-readiness
 
       # The contract the README and the partner setup checklist both promise: the
       # production build completes with no Supabase credentials present. Running it with
       # the variables explicitly empty is the point of the step.
       - name: Credential-free production build
-        if: matrix.group == 'a'
+        if: matrix.group == 'g'
         env:
           NEXT_PUBLIC_SUPABASE_URL: ""
           NEXT_PUBLIC_SUPABASE_ANON_KEY: ""
