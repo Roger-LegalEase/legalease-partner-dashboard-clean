@@ -961,6 +961,38 @@ const CONTRADICTION_BASELINE = {
       pathwayKey: "WV:pardon-based-expungement",
       decisionId: "NATIONAL-2026-08-28-C-WV-04",
       reason: "Batch C gave West Virginia § 5-1-16a its first route contract, and the report releases it as guidance with a narrow statutory effect. Same shape as the Maine row: a route whose first contract says guidance while the closure ledger still counts it as a paid packet. Also a proposal."
+    },
+    // The six routes 38a83db1b terminalized on 2026-09-02; each reason restates the owner
+    // delivery-type decision recorded in the route's authority notes. Each is a proposal.
+    {
+      pathwayKey: "MA:marijuana-only-expungement",
+      decisionId: "OWN-DT-2026-09-02-Q1",
+      reason: "The owner's delivery-type decision kept this route guidance / out of scope (ratification held_guidance, Lawrence first-pass hold) while the closure ledger still counts it as a paid packet. A proposal."
+    },
+    {
+      pathwayKey: "NE:law-enforcement-error-expungement",
+      decisionId: "OWN-DT-2026-09-02-Q1",
+      reason: "The owner's delivery-type decision kept this route guidance / out of scope (ratification held_guidance, Lawrence first-pass hold) while the closure ledger still counts it as a paid packet. A proposal."
+    },
+    {
+      pathwayKey: "NJ:clean-slate-petition-under-n-j-s-a-2c-52-5-3",
+      decisionId: "OWN-DT-2026-09-02-Q1",
+      reason: "The owner's delivery-type decision kept this route guidance / out of scope (ratification held_guidance, Lawrence first-pass hold) while the closure ledger still counts it as a paid packet. A proposal."
+    },
+    {
+      pathwayKey: "NV:trafficking-victim-vacatur-and-sealing-under-nrs-179-247",
+      decisionId: "OWN-DT-2026-09-02-Q2",
+      reason: "The owner's delivery-type decision made this route referral guidance only (no participant-filed composed petition without counsel approval) while the closure ledger still counts it as a paid packet. A proposal."
+    },
+    {
+      pathwayKey: "OR:marijuana-specific-set-aside-redesignation",
+      decisionId: "OWN-DT-2026-09-02-Q1",
+      reason: "The owner's delivery-type decision kept this route guidance / out of scope (ratification held_guidance, Lawrence first-pass hold) while the closure ledger still counts it as a paid packet. A proposal."
+    },
+    {
+      pathwayKey: "SD:juvenile-trafficking-expungement",
+      decisionId: "OWN-DT-2026-09-02-Q2",
+      reason: "The owner's delivery-type decision made this route referral guidance only (no participant-filed composed petition without counsel approval) while the closure ledger still counts it as a paid packet. A proposal."
     }
   ]
 };
