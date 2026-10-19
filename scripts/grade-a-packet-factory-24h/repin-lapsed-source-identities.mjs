@@ -1024,13 +1024,193 @@ const decisionsAdapter = {
   }
 };
 
+const CENSUS = "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json";
+/*
+ * The national route-obligation census: metadata, whole-universe counts, and
+ * routes[] keyed by a unique routeKey. A receipt's own routeKeys are the routes
+ * its packet answers; those entries are the anchors, compared whole.
+ *
+ * Shared metadata is an anchor except `sourceFingerprint`, the digest of the
+ * generator's inputs, which by construction moves on any input change anywhere
+ * in the universe; `counts` are tallies of the whole universe and move with it.
+ * Neither says anything about one route. Every other metadata field (schema,
+ * generator, asOf, the createsApproval/changesRuntime/productionTouched
+ * statements, source inventory availability) is compared.
+ *
+ * A receipt with no routeKeys, or naming a routeKey the census does not carry,
+ * is a refusal: there is nothing to compare, or the route left the census.
+ */
+const censusAdapter = {
+  recordPath: CENSUS,
+  describe: "national route-obligation census (metadata except sourceFingerprint + the receipt's own routes)",
+
+  index(doc, side) {
+    const top = ["metadata", "counts", "routes"];
+    if (!doc || typeof doc !== "object" || Object.keys(doc).some((k) => !top.includes(k)) || !Array.isArray(doc.routes)
+      || doc.metadata?.schemaVersion !== "rcap-national-route-obligation-census/v1") {
+      throw new Refusal(`the ${side} census is not the shape this adapter describes`);
+    }
+    const out = new Map();
+    for (const r of doc.routes) {
+      const key = r?.routeKey;
+      if (typeof key !== "string" || !key) throw new Refusal(`the ${side} census holds a route with no routeKey`);
+      if (out.has(key)) throw new Refusal(`the ${side} census holds duplicate route ${key}; an anchor that is not unique cannot be compared`);
+      out.set(key, r);
+    }
+    return out;
+  },
+
+  scopeFrom({ receipt, currentDoc }) {
+    const byKey = this.index(currentDoc, "current");
+    const routeKeys = Array.isArray(receipt.routeKeys) ? receipt.routeKeys.filter((k) => typeof k === "string" && k) : [];
+    if (routeKeys.length === 0) throw new Refusal("the receipt names no routeKeys, so which census routes this family binds cannot be decided");
+    const absent = routeKeys.filter((k) => !byKey.has(k));
+    if (absent.length) throw new Refusal(`the receipt names ${absent.length} route(s) the current census does not carry: ${absent.join(", ")}`, { absent });
+    return { anchorIds: [...new Set(routeKeys)].sort(), derivation: { fromReceiptRouteKeys: routeKeys, sharedMetadataComparedExceptSourceFingerprint: true, countsNotCompared: true } };
+  },
+
+  anchorsOf(doc, scope, side) {
+    const byKey = this.index(doc, side);
+    const { sourceFingerprint: _f, ...metadata } = doc.metadata;
+    const out = new Map([["censusSharedMetadata", metadata]]);
+    for (const key of scope.anchorIds) {
+      if (!byKey.has(key)) throw new Refusal(`route ${key} is absent from the ${side} census; the entry this family binds left the record and it owes a fresh read`, { anchor: key, side });
+      out.set(`route:${key}`, byKey.get(key));
+    }
+    return out;
+  }
+};
+
+const MEMO_DIR = "data/record-clearing/legal-design-intake";
+/*
+ * A state legal-design memo (<JUR>.memo.json): memo metadata plus `tracks`
+ * keyed by trackId. Scope comes from the family's own records: the pin's
+ * recordId `legal-design-intake:<JUR>#<trackId>` when it names one, and the
+ * receipt's routeKeys `obligation:<mode>:<JUR>:<trackId>[:...]` whose fourth
+ * segment is a track in this memo. Route keys naming a decision or cohort id
+ * there are recorded, not guessed at.
+ *
+ * MEMO METADATA IS AN ANCHOR. Everything outside `tracks` -- memoVersion,
+ * submittedAt and every _review / _accounting / _correction block -- is the
+ * memo's authority over every track and is compared whole. Another track's
+ * edit is exactly the drift this adapter exists to see past.
+ */
+const memoAdapter = {
+  describe: "state legal-design memo (memo metadata + the receipt's own tracks)",
+
+  index(doc, side) {
+    if (!doc || typeof doc !== "object" || doc.schemaVersion !== 1 || typeof doc.jurisdiction !== "string" || !Array.isArray(doc.tracks)) {
+      throw new Refusal(`the ${side} memo is not the shape this adapter describes`);
+    }
+    const out = new Map();
+    for (const t of doc.tracks) {
+      const id = t?.trackId;
+      if (typeof id !== "string" || !id) throw new Refusal(`the ${side} memo holds a track with no trackId`);
+      if (out.has(id)) throw new Refusal(`the ${side} memo holds duplicate track ${id}; an anchor that is not unique cannot be compared`);
+      out.set(id, t);
+    }
+    return out;
+  },
+
+  scopeFrom({ receipt, pin, currentDoc }) {
+    const byId = this.index(currentDoc, "current");
+    const anchors = new Set();
+    const recordId = typeof pin.recordId === "string" ? pin.recordId : "";
+    const parsed = /^legal-design-intake:([A-Z]{2})#(.+)$/.exec(recordId);
+    const fromRecordId = parsed?.[2] ?? null;
+    if (recordId && !fromRecordId) throw new Refusal(`the pin's recordId ${JSON.stringify(recordId)} is not legal-design-intake:<JUR>#<trackId>`, { recordId });
+    if (parsed && parsed[1] !== currentDoc.jurisdiction) throw new Refusal(`the pin's recordId names jurisdiction ${parsed[1]}, but this memo is ${currentDoc.jurisdiction}`, { recordId });
+    if (fromRecordId) {
+      if (!byId.has(fromRecordId)) throw new Refusal(`the pin's recordId names track ${fromRecordId}, which the current memo does not carry`, { recordId });
+      anchors.add(fromRecordId);
+    }
+    const fromRouteKeys = [];
+    const routeKeysNamingNoTrack = [];
+    for (const routeKey of receipt.routeKeys ?? []) {
+      const s = String(routeKey).split(":");
+      if (s[2] === currentDoc.jurisdiction && byId.has(s[3])) { anchors.add(s[3]); if (!fromRouteKeys.includes(s[3])) fromRouteKeys.push(s[3]); }
+      else routeKeysNamingNoTrack.push(routeKey);
+    }
+    if (anchors.size === 0) throw new Refusal("the family's own records name no track in this memo, so there is nothing to compare", { recordId, routeKeys: receipt.routeKeys ?? [] });
+    return { anchorIds: [...anchors].sort(), derivation: { fromPinRecordId: fromRecordId, fromReceiptRouteKeys: fromRouteKeys, routeKeysNamingNoTrack, memoMetadataComparedAsOneAnchor: true } };
+  },
+
+  anchorsOf(doc, scope, side) {
+    const byId = this.index(doc, side);
+    const { tracks: _tracks, ...memoMetadata } = doc;
+    const out = new Map([["memoMetadata", memoMetadata]]);
+    for (const id of scope.anchorIds) {
+      if (!byId.has(id)) throw new Refusal(`anchor track ${id} is absent from the ${side} memo; the entry this family binds left the record and it owes a fresh read`, { anchor: `track:${id}`, side });
+      out.set(`track:${id}`, byId.get(id));
+    }
+    return out;
+  }
+};
+const memoPaths = (() => { try { return fs.readdirSync(path.join(ROOT, MEMO_DIR)).filter((n) => /^[A-Z]{2}\.memo\.json$/.test(n)).map((n) => `${MEMO_DIR}/${n}`); } catch { return []; } })();
+
+const WORKLIST = "data/rcap-grade-a/route-obligation-census-candidate/packet-family-build-worklist.json";
+/*
+ * The census's packet-family build worklist, an output of the same
+ * regeneration: metadata, counts, the allowed work types and deliverable
+ * fields, and packetFamilies[] whose worklistGroupId is NOT unique -- but every
+ * routeKey sits in exactly one entry. So the scope rule is the census
+ * adapter's: the receipt's own routeKeys, each resolving to the one entry that
+ * carries it, compared whole. Shared anchor: metadata except sourceFingerprint,
+ * plus allowedWorkTypes and deliverableFields; counts are not compared.
+ */
+const worklistAdapter = {
+  recordPath: WORKLIST,
+  describe: "census packet-family build worklist (shared schema fields + the entry carrying each receipt routeKey)",
+
+  index(doc, side) {
+    const top = ["metadata", "counts", "allowedWorkTypes", "deliverableFields", "packetFamilies"];
+    if (!doc || typeof doc !== "object" || Object.keys(doc).some((k) => !top.includes(k)) || !Array.isArray(doc.packetFamilies)
+      || doc.metadata?.schemaVersion !== "rcap-national-route-obligation-census/v1") {
+      throw new Refusal(`the ${side} worklist is not the shape this adapter describes`);
+    }
+    const out = new Map();
+    for (const entry of doc.packetFamilies) {
+      const keys = Array.isArray(entry?.routeKeys) ? entry.routeKeys : null;
+      if (!keys || keys.some((k) => typeof k !== "string" || !k)) throw new Refusal(`the ${side} worklist holds an entry without routeKeys`);
+      for (const k of keys) {
+        if (out.has(k)) throw new Refusal(`the ${side} worklist carries route ${k} in more than one entry; an anchor that is not unique cannot be compared`);
+        out.set(k, entry);
+      }
+    }
+    return out;
+  },
+
+  scopeFrom({ receipt, currentDoc }) {
+    const byKey = this.index(currentDoc, "current");
+    const routeKeys = Array.isArray(receipt.routeKeys) ? receipt.routeKeys.filter((k) => typeof k === "string" && k) : [];
+    if (routeKeys.length === 0) throw new Refusal("the receipt names no routeKeys, so which worklist entries this family binds cannot be decided");
+    const absent = routeKeys.filter((k) => !byKey.has(k));
+    if (absent.length) throw new Refusal(`the receipt names ${absent.length} route(s) the current worklist does not carry: ${absent.join(", ")}`, { absent });
+    return { anchorIds: [...new Set(routeKeys)].sort(), derivation: { fromReceiptRouteKeys: routeKeys, sharedFieldsComparedExceptSourceFingerprint: true, countsNotCompared: true } };
+  },
+
+  anchorsOf(doc, scope, side) {
+    const byKey = this.index(doc, side);
+    const { sourceFingerprint: _f, ...metadata } = doc.metadata;
+    const out = new Map([["worklistSharedFields", { metadata, allowedWorkTypes: doc.allowedWorkTypes, deliverableFields: doc.deliverableFields }]]);
+    for (const key of scope.anchorIds) {
+      if (!byKey.has(key)) throw new Refusal(`route ${key} is absent from the ${side} worklist; the entry this family binds left the record and it owes a fresh read`, { anchor: key, side });
+      out.set(`entryFor:${key}`, byKey.get(key));
+    }
+    return out;
+  }
+};
+
 export const ADAPTERS = new Map([
   [REGISTRY, registryAdapter],
   [PACKET_MANIFESTS, packetManifestAdapter],
   [SOURCE_DETERMINATIONS, sourceDeterminationAdapter],
   [WV_COMPILED_PROFILE, compiledProfileAdapter],
   [SINGLE_ROUTES, singleRoutesAdapter],
-  [DECISIONS, decisionsAdapter]
+  [DECISIONS, decisionsAdapter],
+  [CENSUS, censusAdapter],
+  [WORKLIST, worklistAdapter],
+  ...memoPaths.map((p) => [p, { ...memoAdapter, recordPath: p }])
 ]);
 
 /* ------------------------------------------------------------------ *

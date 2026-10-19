@@ -20,33 +20,140 @@
   "compositionSources": [
     {
       "path": "data/record-clearing/legal-design-intake/MS.memo.json",
-      "sha256": "6982ae0c69373c196b763c84ebd8f8ff85ce1a6954a2806953591f82ff7845f2",
-      "byteLength": 395826
-    },
-    {
-      "path": "data/record-clearing/legal-design-packet-set-manifests.json",
-      "sha256": "b28edfb93eb2e3953dea5bdbe2915476c9752c12df2a46cb61f98e786a77cc5c",
-      "byteLength": 3708050,
+      "sha256": "01c4a9586cf2eeae96b3da17437bb407e1e70f042a0a0785ace5353802022bb2",
+      "byteLength": 399654,
       "identityRefresh": {
-        "refreshedOn": "2026-09-10",
+        "refreshedOn": "2026-10-19",
         "was": {
-          "sha256": "6076f7346c41bbef18623060c8c0397bded4149e55c2e975693b0da217541eec",
-          "byteLength": 3683419
+          "sha256": "6982ae0c69373c196b763c84ebd8f8ff85ce1a6954a2806953591f82ff7845f2",
+          "byteLength": 395826
         },
-        "why": "data/record-clearing/legal-design-packet-set-manifests.json was rewritten around this receipt's anchors. This receipt binds no part of it that moved: the entry for ms-misd-1st-set and the record's global authority fields were recovered from the blob carrying the previous pin (d798dc66bb305d0ccdc79d7f0450dd4e4f333d9c) and compared object-for-object, order-independent, against the current record, and all 2 were identical.",
-        "recoveredFromCommit": "d798dc66bb305d0ccdc79d7f0450dd4e4f333d9c",
+        "why": "The record was rewritten around this receipt's anchors. 1 named entry moved between the blob carrying the previous pin and the bytes on disk (ms-nonconv), and this receipt anchors no entry that moved: every entry it binds, and this record's global authority fields, were recovered from that blob and compared object-for-object, order-independent, against the current record, and all 2 were identical.",
         "anchorsCompared": 2,
         "anchorDetail": [
-          "recordGlobalMetadata: identical",
-          "packetSet:ms-misd-1st-set: identical"
+          "memoMetadata: identical",
+          "track:ms-misd-1st: identical"
         ],
         "anchorsIdentical": 2,
         "identicalAnchorSha256": {
-          "recordGlobalMetadata": "eb4a53fc38ac633369b073f1e43e3d322389a4add7a0f3deec0f0ef90a145ead",
-          "packetSet:ms-misd-1st-set": "a597634135939f887e5d21148d3df9136ea750aaaa0f78999c947b21964ecb5d"
+          "memoMetadata": "544c10b02723e440bbccd729f620111cefe950e7fc3cf6061462ee0f4122f545",
+          "track:ms-misd-1st": "65d5441503387ec5ed5fad12ceae8e711518afa851c7a1d34a2922ddc5efd3a1"
         },
-        "canonicalisation": "keys sorted recursively, JSON.stringify with no spacing, UTF-8",
-        "whatThisDoesNotEstablish": "It re-anchors a whole-file pin whose bound content did not move. It renews no independent verification, no raster acceptance and no approval, and it opens no route."
+        "canonicalisation": "keys sorted recursively, JSON.stringify with no spacing, one trailing newline, UTF-8",
+        "anchorScope": {
+          "anchorIds": [
+            "ms-misd-1st"
+          ],
+          "derivation": {
+            "fromPinRecordId": null,
+            "fromReceiptRouteKeys": [
+              "ms-misd-1st"
+            ],
+            "routeKeysNamingNoTrack": [],
+            "memoMetadataComparedAsOneAnchor": true
+          }
+        },
+        "entriesThatMovedInThisRecord": [
+          "ms-nonconv"
+        ],
+        "recoveredFrom": {
+          "method": "git rev-list --all -- <path>, deduplicated by blob id, each blob hashed until the pin matched",
+          "blobId": "d68097f57c9cffd95a0740a8e1e43e7841407c37",
+          "commit": "93ba021bbbb84f6a11f5802a9471c6e5767a9f21",
+          "commitsWithThisPath": 4,
+          "distinctBlobs": 3,
+          "blobsHashed": 3
+        },
+        "previousIdentityRefresh": null,
+        "whatThisDoesNotClaim": "Nothing about the packet's bytes, its obligations, its counters or its verdict. It restores an identity binding that lapsed on an edit to entries this family does not bind, and it opens no route and grants no approval."
+      }
+    },
+    {
+      "path": "data/record-clearing/legal-design-packet-set-manifests.json",
+      "sha256": "fee93664c9795c569acb6b7b92f688f519ccacbf981465b599327f590d3dfb82",
+      "byteLength": 3738732,
+      "identityRefresh": {
+        "refreshedOn": "2026-10-19",
+        "was": {
+          "sha256": "b28edfb93eb2e3953dea5bdbe2915476c9752c12df2a46cb61f98e786a77cc5c",
+          "byteLength": 3708050
+        },
+        "why": "The record was rewritten around this receipt's anchors. 8 named entries moved between the blob carrying the previous pin and the bytes on disk (co_motion_seal_conviction-set, co_petition_seal_arrest-set, de_discretionary_family_court-set, de_discretionary_superior_court-set, il-seal-edu-set, va_exp_absolute_pardon-set, wv_nc_acquittal_dismissal-set, wv_nc_diversion_deferred-set), and this receipt anchors no entry that moved: every entry it binds, and this record's global authority fields, were recovered from that blob and compared object-for-object, order-independent, against the current record, and all 5 were identical.",
+        "anchorsCompared": 5,
+        "anchorDetail": [
+          "packetManifestSharedMetadata: identical",
+          "packetSet:dc_innocence_expungement-set: identical",
+          "packetSet:il-prostitution-j-vacate-set: identical",
+          "packetSet:ms-misd-1st-set: identical",
+          "packetSet:ms-misd-addl-set: identical"
+        ],
+        "anchorsIdentical": 5,
+        "identicalAnchorSha256": {
+          "packetManifestSharedMetadata": "cb026b3c9058bf43be30ef637b88a3819076dce69cda50b9ab42968aecf79298",
+          "packetSet:dc_innocence_expungement-set": "1534c812ff61dd053c78273e92b99c0fd7424407f9a0a0f35f5b2cb2a7cf2374",
+          "packetSet:il-prostitution-j-vacate-set": "7979cb3ffa4903e16a943b12772d110fa4a0d83af5f36d431b0c06cd89881257",
+          "packetSet:ms-misd-1st-set": "a694a265fe8ed905e95461644c60c78b0cba2676ae50d65fd6dc01afc7ac7939",
+          "packetSet:ms-misd-addl-set": "c2213f54e772adf855ac2c04cabf6a65678dfd7d89de463d9fd23eb5f20b7f7a"
+        },
+        "canonicalisation": "keys sorted recursively, JSON.stringify with no spacing, one trailing newline, UTF-8",
+        "anchorScope": {
+          "anchorIds": [
+            "ms-misd-1st-set"
+          ],
+          "derivation": {
+            "declarations": [
+              {
+                "basis": "receipt.familyId exact packetSetId",
+                "packetSetId": "ms-misd-1st-set"
+              },
+              {
+                "basis": "receipt.routeKeys:obligation:track-pathway:MS:ms-misd-1st:first-offender-nontraffic-misdemeanor-conviction-expungement-99-19-71-1",
+                "packetSetId": "ms-misd-1st-set"
+              }
+            ],
+            "globalMetadataComparedAsOneAnchor": true
+          }
+        },
+        "entriesThatMovedInThisRecord": [
+          "co_motion_seal_conviction-set",
+          "co_petition_seal_arrest-set",
+          "de_discretionary_family_court-set",
+          "de_discretionary_superior_court-set",
+          "il-seal-edu-set",
+          "va_exp_absolute_pardon-set",
+          "wv_nc_acquittal_dismissal-set",
+          "wv_nc_diversion_deferred-set"
+        ],
+        "recoveredFrom": {
+          "method": "git rev-list --all -- <path>, deduplicated by blob id, each blob hashed until the pin matched",
+          "blobId": "d744a59beb35f31bb71f66e6c57acc7886410fbc",
+          "commit": "b3f6fbc7acda9c96295eaa66636b49dc7ca2c656",
+          "commitsWithThisPath": 72,
+          "distinctBlobs": 64,
+          "blobsHashed": 9
+        },
+        "previousIdentityRefresh": {
+          "refreshedOn": "2026-09-10",
+          "was": {
+            "sha256": "6076f7346c41bbef18623060c8c0397bded4149e55c2e975693b0da217541eec",
+            "byteLength": 3683419
+          },
+          "why": "data/record-clearing/legal-design-packet-set-manifests.json was rewritten around this receipt's anchors. This receipt binds no part of it that moved: the entry for ms-misd-1st-set and the record's global authority fields were recovered from the blob carrying the previous pin (d798dc66bb305d0ccdc79d7f0450dd4e4f333d9c) and compared object-for-object, order-independent, against the current record, and all 2 were identical.",
+          "recoveredFromCommit": "d798dc66bb305d0ccdc79d7f0450dd4e4f333d9c",
+          "anchorsCompared": 2,
+          "anchorDetail": [
+            "recordGlobalMetadata: identical",
+            "packetSet:ms-misd-1st-set: identical"
+          ],
+          "anchorsIdentical": 2,
+          "identicalAnchorSha256": {
+            "recordGlobalMetadata": "eb4a53fc38ac633369b073f1e43e3d322389a4add7a0f3deec0f0ef90a145ead",
+            "packetSet:ms-misd-1st-set": "a597634135939f887e5d21148d3df9136ea750aaaa0f78999c947b21964ecb5d"
+          },
+          "canonicalisation": "keys sorted recursively, JSON.stringify with no spacing, UTF-8",
+          "whatThisDoesNotEstablish": "It re-anchors a whole-file pin whose bound content did not move. It renews no independent verification, no raster acceptance and no approval, and it opens no route."
+        },
+        "whatThisDoesNotClaim": "Nothing about the packet's bytes, its obligations, its counters or its verdict. It restores an identity binding that lapsed on an edit to entries this family does not bind, and it opens no route and grants no approval."
       }
     }
   ],
