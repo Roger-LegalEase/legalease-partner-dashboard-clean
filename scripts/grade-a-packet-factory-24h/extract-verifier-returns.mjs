@@ -195,18 +195,22 @@ const returnFilesIn = (base, dir) => {
   }
   return out;
 };
+/* A directory whose only return is the canonical name keeps its original
+ * shape, so a lane that never wrote one is still reported as silent rather
+ * than quietly dropped from the sweep. The canonical rows.json is swept even
+ * when it fails the shape test above: vf10/rows.json carries rows with no
+ * verdict, and it used to be read only because nothing else in vf10 had the
+ * shape -- the first well-shaped return written alongside it dropped all of
+ * its verdicts from the sweep. */
+const sweepDir = (s) => {
+  const found = returnFilesIn(s.base, s.name);
+  const canonical = `${s.base}/${s.name}/rows.json`;
+  return found.length === 0 ? [s]
+    : found.some((f) => f.file === canonical) || !fs.existsSync(path.join(ROOT, canonical)) ? found : [...found, s];
+};
 const sweep = [
-  ...dirsUnder(RETURNS, () => true).flatMap((s) => {
-    const found = returnFilesIn(s.base, s.name);
-    /* A directory whose only return is the canonical name keeps its original
-     * shape, so a lane that never wrote one is still reported as silent
-     * rather than quietly dropped from the sweep. */
-    return found.length ? found : [s];
-  }),
-  ...dirsUnder(FACTORY_RETURNS, (n) => /^vf[a-z0-9]+$/i.test(n)).flatMap((s) => {
-    const found = returnFilesIn(s.base, s.name);
-    return found.length ? found : [s];
-  }),
+  ...dirsUnder(RETURNS, () => true).flatMap(sweepDir),
+  ...dirsUnder(FACTORY_RETURNS, (n) => /^vf[a-z0-9]+$/i.test(n)).flatMap(sweepDir),
   ...chatReviewInputs(ROOT)
 ];
 const dirs = sweep.map((s) => s.name);
