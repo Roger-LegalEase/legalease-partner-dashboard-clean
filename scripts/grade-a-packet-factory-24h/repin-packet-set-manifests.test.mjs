@@ -58,6 +58,10 @@ test('ambiguous route and record-id scopes refuse', () => {
   assert.throws(() => compare(fixture(), fixture(), receipt, { recordId: 'guess:a' }), Refusal);
   assert.throws(() => compare(fixture(), fixture(), { ...receipt, routeKeys: ['runtime:unknown'] }), Refusal);
 });
+test('the singular legal-design-packet-set-manifest pin prefix names its packet set like the other two', () => {
+  assert.deepEqual(adapter.scopeFrom({ receipt: { familyId: 'zz' }, pin: { recordId: 'legal-design-packet-set-manifest:b' }, currentDoc: fixture() }).anchorIds, ['b']);
+  assert.throws(() => adapter.scopeFrom({ receipt: { familyId: 'zz' }, pin: { recordId: 'legal-design-packet-set:b' }, currentDoc: fixture() }), Refusal);
+});
 test('a unit route resolves through its track like a track route, and refuses when the track is not unique', () => {
   const unitReceipt = { familyId: 'a', routeKeys: ['obligation:unit:ZZ:a-track:a-unit-one', 'obligation:unit:ZZ:a-track:a-unit-two'] };
   assert.deepEqual(adapter.scopeFrom({ receipt: unitReceipt, pin: {}, currentDoc: fixture() }).anchorIds, ['a']);

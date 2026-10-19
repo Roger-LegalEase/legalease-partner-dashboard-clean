@@ -340,7 +340,8 @@ const packetManifestAdapter = {
       anchors.add(id); declarations.push({ basis, packetSetId: id });
     };
     if (pin.recordId != null) {
-      const match = /^(?:packet-set-manifest|legal-design-packet-set-manifests):(.+)$/.exec(pin.recordId);
+      // Three spellings occur in committed receipts; ks-22-4908 uses the singular legal-design-packet-set-manifest.
+      const match = /^(?:packet-set-manifest|legal-design-packet-set-manifests?):(.+)$/.exec(pin.recordId);
       if (!match) throw new Refusal(`ambiguous packet-manifest recordId ${JSON.stringify(pin.recordId)}`);
       for (const id of match[1].split("+")) add(id, "pin.recordId");
     }
