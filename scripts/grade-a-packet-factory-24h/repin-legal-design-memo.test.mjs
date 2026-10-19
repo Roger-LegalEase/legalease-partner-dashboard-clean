@@ -28,6 +28,7 @@ test('recordId names its track; malformed or absent ids, no track in scope, dupl
   assert.deepEqual(adapter.scopeFrom({receipt:{routeKeys:[]},pin:{recordId:'legal-design-intake:MS#ms-misd-1st'},currentDoc:current}).anchorIds,['ms-misd-1st']);
   assert.throws(()=>adapter.scopeFrom({receipt:{routeKeys:[]},pin:{recordId:'legal-design-intake:MS#no-such'},currentDoc:current}),/does not carry/);
   assert.throws(()=>adapter.scopeFrom({receipt:{routeKeys:[]},pin:{recordId:'memo:ms-misd-1st'},currentDoc:current}),/is not legal-design-intake/);
+  assert.throws(()=>adapter.scopeFrom({receipt:{routeKeys:[]},pin:{recordId:'legal-design-intake:VT#ms-misd-1st'},currentDoc:current}),/names jurisdiction VT, but this memo is MS/);
   assert.throws(()=>adapter.scopeFrom({receipt:{routeKeys:['obligation:research-decision-route:MS:not-a-track']},pin:{},currentDoc:current}),/name no track/);
   assert.throws(()=>adapter.scopeFrom({receipt:{routeKeys:['obligation:track-only:VT:ms-misd-1st']},pin:{},currentDoc:current}),/name no track/);
   const dup=structuredClone(current);dup.tracks.push(dup.tracks[0]);assert.throws(()=>compare(current,dup),/duplicate track/);
