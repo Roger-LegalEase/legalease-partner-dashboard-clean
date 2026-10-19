@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "66581490b1fe95fa9254024d42c77891e584ece0",
+  "minimumCaptainSha": "cb097e9dd799baf41f75a989446b16b90ddd4349",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
@@ -80,16 +80,16 @@
     "sourceReady": 1,
     "sourceBlocked": 0,
     "legalBlocked": 0,
-    "verifyPending": 16,
+    "verifyPending": 27,
     "repairRequired": 0,
     "sumsToDenominator": true
   },
   "byState": {
-    "COMPLETE_PACKET_PROVEN": 305,
-    "VERIFY_PENDING": 16,
+    "VERIFY_PENDING": 27,
     "PRODUCT_PATH_PENDING": 4,
     "BUILT_RASTER_PENDING": 2,
     "OUT_OF_SCOPE": 5,
+    "COMPLETE_PACKET_PROVEN": 294,
     "GUIDANCE_READY": 11,
     "SOURCE_READY": 1,
     "HANDOFF_READY": 2
@@ -213,7 +213,26 @@
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
-      "verificationLapsedBecause": null,
+      "verificationLapsedBecause": {
+        "lapse": "BOUND_SOURCE_DRIFTED",
+        "path": "data/record-clearing/legal-decisions/2026-08-28-national-legal-decisions.json",
+        "pinned": "0aad88eff0e3d12ea9b10de9c80edcc5b3134508f097c9e85f0e35d34a9c74ef",
+        "now": "63fe0b16adc4c2debd8b583cf02ba365b8b2045d86f53af5c5be720c86e74373",
+        "allDriftedRecords": [
+          {
+            "path": "data/record-clearing/legal-decisions/2026-08-28-national-legal-decisions.json",
+            "pinned": "0aad88eff0e3d12ea9b10de9c80edcc5b3134508f097c9e85f0e35d34a9c74ef",
+            "now": "63fe0b16adc4c2debd8b583cf02ba365b8b2045d86f53af5c5be720c86e74373"
+          },
+          {
+            "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+            "pinned": "9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1",
+            "now": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81"
+          }
+        ],
+        "driftedRecordCount": 2,
+        "meaning": "The receipt pins this record by SHA-256 and the bytes on disk no longer match it, so SOURCE_IDENTITY as verified no longer holds. Usually a re-pin; a rebuild when an anchor the packet names has left the source."
+      },
       "terminalTreatment": null,
       "legalInputBasis": null,
       "wave2LegalBlock": null,
@@ -243,7 +262,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "COMPLETE_PACKET_PROVEN",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-agency-application-treatment:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge.mjs",
@@ -525,7 +544,26 @@
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
-      "verificationLapsedBecause": null,
+      "verificationLapsedBecause": {
+        "lapse": "BOUND_SOURCE_DRIFTED",
+        "path": "src/lib/legal-authority/routes/single-routes.json",
+        "pinned": "6322c66143f51678de8dc00601517b3115b9575e442799fd2d7be1509f541588",
+        "now": "1bd1efb03ad57f4c6d8efd690532b74d2e2ac53c05a9c3103d15a3de72c80bdd",
+        "allDriftedRecords": [
+          {
+            "path": "src/lib/legal-authority/routes/single-routes.json",
+            "pinned": "6322c66143f51678de8dc00601517b3115b9575e442799fd2d7be1509f541588",
+            "now": "1bd1efb03ad57f4c6d8efd690532b74d2e2ac53c05a9c3103d15a3de72c80bdd"
+          },
+          {
+            "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+            "pinned": "9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1",
+            "now": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81"
+          }
+        ],
+        "driftedRecordCount": 2,
+        "meaning": "The receipt pins this record by SHA-256 and the bytes on disk no longer match it, so SOURCE_IDENTITY as verified no longer holds. Usually a re-pin; a rebuild when an anchor the packet names has left the source."
+      },
       "terminalTreatment": null,
       "legalInputBasis": null,
       "wave2LegalBlock": null,
@@ -555,7 +593,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "COMPLETE_PACKET_PROVEN",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-agency-application-treatment:obligation:runtime-only:NM:dna-sample-profile-expungement.mjs",
@@ -9479,21 +9517,21 @@
       "sourceHashes": [
         {
           "sourceId": "official-form:AOC-CR-287",
-          "path": "STATES/NC/02_PACKET_FORMS/NC__FORM__AOC-CR-287__aoc-cr-287-petition-and-order-of-expunction__REV-2025-12__EN.pdf",
+          "path": "reference/north-carolina/AOC-CR-287-2025-12.pdf",
           "sha256": "a876229328f9ee8325890b597633b661711fe606da1be8ddb573cd50791365ed",
-          "tier": "exact_form_number"
+          "tier": "exact_content_hash"
         },
         {
           "sourceId": "official-form:AOC-CR-287-INSTRUCTIONS",
-          "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D1/STATES/NC/03_INSTRUCTIONS/NC__INSTRUCTIONS__AOC-CR-287__aoc-cr-287-instructions__REV-2025-12__EN.pdf",
+          "path": "reference/north-carolina/AOC-CR-287-instructions-2025-12.pdf",
           "sha256": "fe22270401aa22ee5c801871aeb1c00f3b98cfb6867f7155681bab4af9c990d7",
-          "tier": "exact_identity_confirmed_from_document_text"
+          "tier": "exact_content_hash"
         },
         {
           "sourceId": "official-form:AOC-CV-226",
-          "path": "STATES/NC/04_SUPPORTING_PROCESS/NC__SUPPORT__AOC-CV-226__aoc-cv-226-affidavit-of-indigency__REV-2023-04__EN.pdf",
+          "path": "reference/north-carolina/AOC-CV-226-2023-04.pdf",
           "sha256": "74057a13e4bccccbbac785c845b4996b322c6219e1c45f1ab42dca2377755a8f",
-          "tier": "exact_form_number"
+          "tier": "exact_content_hash"
         },
         {
           "sourceId": "source-sha256:74057a13e4bccccbbac785c845b4996b322c6219e1c45f1ab42dca2377755a8f",
@@ -9522,24 +9560,27 @@
         "boundSources": [
           {
             "sourceId": "official-form:AOC-CR-287",
-            "path": "STATES/NC/02_PACKET_FORMS/NC__FORM__AOC-CR-287__aoc-cr-287-petition-and-order-of-expunction__REV-2025-12__EN.pdf",
+            "path": "reference/north-carolina/AOC-CR-287-2025-12.pdf",
             "sha256": "a876229328f9ee8325890b597633b661711fe606da1be8ddb573cd50791365ed",
-            "tier": "exact_form_number",
-            "resolvedBy": "custody_reconciliation"
+            "tier": "exact_content_hash",
+            "resolvedBy": "committed_acquisition_return_and_governed_custody",
+            "evidencePath": "data/rcap-grade-a/launch-recovery-2026-09-07/pass-2/nc-source-adoption.json"
           },
           {
             "sourceId": "official-form:AOC-CR-287-INSTRUCTIONS",
-            "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D1/STATES/NC/03_INSTRUCTIONS/NC__INSTRUCTIONS__AOC-CR-287__aoc-cr-287-instructions__REV-2025-12__EN.pdf",
+            "path": "reference/north-carolina/AOC-CR-287-instructions-2025-12.pdf",
             "sha256": "fe22270401aa22ee5c801871aeb1c00f3b98cfb6867f7155681bab4af9c990d7",
-            "tier": "exact_identity_confirmed_from_document_text",
-            "resolvedBy": "custody_reconciliation"
+            "tier": "exact_content_hash",
+            "resolvedBy": "committed_acquisition_return_and_governed_custody",
+            "evidencePath": "data/rcap-grade-a/launch-recovery-2026-09-07/pass-2/nc-source-adoption.json"
           },
           {
             "sourceId": "official-form:AOC-CV-226",
-            "path": "STATES/NC/04_SUPPORTING_PROCESS/NC__SUPPORT__AOC-CV-226__aoc-cv-226-affidavit-of-indigency__REV-2023-04__EN.pdf",
+            "path": "reference/north-carolina/AOC-CV-226-2023-04.pdf",
             "sha256": "74057a13e4bccccbbac785c845b4996b322c6219e1c45f1ab42dca2377755a8f",
-            "tier": "exact_form_number",
-            "resolvedBy": "custody_reconciliation"
+            "tier": "exact_content_hash",
+            "resolvedBy": "committed_acquisition_return_and_governed_custody",
+            "evidencePath": "data/rcap-grade-a/launch-recovery-2026-09-07/pass-2/nc-source-adoption.json"
           },
           {
             "sourceId": "source-sha256:74057a13e4bccccbbac785c845b4996b322c6219e1c45f1ab42dca2377755a8f",
@@ -12539,7 +12580,21 @@
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
-      "verificationLapsedBecause": null,
+      "verificationLapsedBecause": {
+        "lapse": "BOUND_SOURCE_DRIFTED",
+        "path": "data/record-clearing/legal-design-packet-set-manifests.json",
+        "pinned": "b28edfb93eb2e3953dea5bdbe2915476c9752c12df2a46cb61f98e786a77cc5c",
+        "now": "fee93664c9795c569acb6b7b92f688f519ccacbf981465b599327f590d3dfb82",
+        "allDriftedRecords": [
+          {
+            "path": "data/record-clearing/legal-design-packet-set-manifests.json",
+            "pinned": "b28edfb93eb2e3953dea5bdbe2915476c9752c12df2a46cb61f98e786a77cc5c",
+            "now": "fee93664c9795c569acb6b7b92f688f519ccacbf981465b599327f590d3dfb82"
+          }
+        ],
+        "driftedRecordCount": 1,
+        "meaning": "The receipt pins this record by SHA-256 and the bytes on disk no longer match it, so SOURCE_IDENTITY as verified no longer holds. Usually a re-pin; a rebuild when an anchor the packet names has left the source."
+      },
       "terminalTreatment": null,
       "legalInputBasis": null,
       "wave2LegalBlock": null,
@@ -12569,7 +12624,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "COMPLETE_PACKET_PROVEN",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ct-under18-misdemeanor-set.mjs",
@@ -14195,7 +14250,31 @@
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
-      "verificationLapsedBecause": null,
+      "verificationLapsedBecause": {
+        "lapse": "BOUND_SOURCE_DRIFTED",
+        "path": "data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json",
+        "pinned": "cda4420e55b6d0604bf24e1e4624ba8258cf769456e3a5545af65ca9626701c3",
+        "now": "ef7ac045778cbb1e3ef340e2bddb2545b7662cb9a6381896f95d7254d12815e1",
+        "allDriftedRecords": [
+          {
+            "path": "data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json",
+            "pinned": "cda4420e55b6d0604bf24e1e4624ba8258cf769456e3a5545af65ca9626701c3",
+            "now": "ef7ac045778cbb1e3ef340e2bddb2545b7662cb9a6381896f95d7254d12815e1"
+          },
+          {
+            "path": "data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json",
+            "pinned": "18ef72bca1d649fe0010f14a8e13bcfb9e19b77de2155b7f4daa53342c731559",
+            "now": "e7011ef33696985381858dd97e80c5e04010cf985e66513910bb3feccea05ce7"
+          },
+          {
+            "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+            "pinned": "9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1",
+            "now": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81"
+          }
+        ],
+        "driftedRecordCount": 3,
+        "meaning": "The receipt pins this record by SHA-256 and the bytes on disk no longer match it, so SOURCE_IDENTITY as verified no longer holds. Usually a re-pin; a rebuild when an anchor the packet names has left the source."
+      },
       "terminalTreatment": null,
       "legalInputBasis": null,
       "wave2LegalBlock": null,
@@ -14225,7 +14304,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "COMPLETE_PACKET_PROVEN",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-fl-administrative-set.mjs",
@@ -25027,7 +25106,21 @@
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
-      "verificationLapsedBecause": null,
+      "verificationLapsedBecause": {
+        "lapse": "BOUND_SOURCE_DRIFTED",
+        "path": "data/record-clearing/legal-design-packet-set-manifests.json",
+        "pinned": "b28edfb93eb2e3953dea5bdbe2915476c9752c12df2a46cb61f98e786a77cc5c",
+        "now": "fee93664c9795c569acb6b7b92f688f519ccacbf981465b599327f590d3dfb82",
+        "allDriftedRecords": [
+          {
+            "path": "data/record-clearing/legal-design-packet-set-manifests.json",
+            "pinned": "b28edfb93eb2e3953dea5bdbe2915476c9752c12df2a46cb61f98e786a77cc5c",
+            "now": "fee93664c9795c569acb6b7b92f688f519ccacbf981465b599327f590d3dfb82"
+          }
+        ],
+        "driftedRecordCount": 1,
+        "meaning": "The receipt pins this record by SHA-256 and the bytes on disk no longer match it, so SOURCE_IDENTITY as verified no longer holds. Usually a re-pin; a rebuild when an anchor the packet names has left the source."
+      },
       "terminalTreatment": null,
       "legalInputBasis": null,
       "wave2LegalBlock": null,
@@ -25063,7 +25156,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "COMPLETE_PACKET_PROVEN",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ma-bmc-multi-set.mjs",
@@ -26694,7 +26787,21 @@
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
-      "verificationLapsedBecause": null,
+      "verificationLapsedBecause": {
+        "lapse": "BOUND_SOURCE_DRIFTED",
+        "path": "data/record-clearing/legal-design-packet-set-manifests.json",
+        "pinned": "b28edfb93eb2e3953dea5bdbe2915476c9752c12df2a46cb61f98e786a77cc5c",
+        "now": "fee93664c9795c569acb6b7b92f688f519ccacbf981465b599327f590d3dfb82",
+        "allDriftedRecords": [
+          {
+            "path": "data/record-clearing/legal-design-packet-set-manifests.json",
+            "pinned": "b28edfb93eb2e3953dea5bdbe2915476c9752c12df2a46cb61f98e786a77cc5c",
+            "now": "fee93664c9795c569acb6b7b92f688f519ccacbf981465b599327f590d3dfb82"
+          }
+        ],
+        "driftedRecordCount": 1,
+        "meaning": "The receipt pins this record by SHA-256 and the bytes on disk no longer match it, so SOURCE_IDENTITY as verified no longer holds. Usually a re-pin; a rebuild when an anchor the packet names has left the source."
+      },
       "terminalTreatment": null,
       "legalInputBasis": null,
       "wave2LegalBlock": null,
@@ -26724,7 +26831,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "COMPLETE_PACKET_PROVEN",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-me-nonconv-set.mjs",
@@ -29693,7 +29800,26 @@
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
-      "verificationLapsedBecause": null,
+      "verificationLapsedBecause": {
+        "lapse": "BOUND_SOURCE_DRIFTED",
+        "path": "data/record-clearing/legal-design-intake/MS.memo.json",
+        "pinned": "6982ae0c69373c196b763c84ebd8f8ff85ce1a6954a2806953591f82ff7845f2",
+        "now": "01c4a9586cf2eeae96b3da17437bb407e1e70f042a0a0785ace5353802022bb2",
+        "allDriftedRecords": [
+          {
+            "path": "data/record-clearing/legal-design-intake/MS.memo.json",
+            "pinned": "6982ae0c69373c196b763c84ebd8f8ff85ce1a6954a2806953591f82ff7845f2",
+            "now": "01c4a9586cf2eeae96b3da17437bb407e1e70f042a0a0785ace5353802022bb2"
+          },
+          {
+            "path": "data/record-clearing/legal-design-packet-set-manifests.json",
+            "pinned": "b28edfb93eb2e3953dea5bdbe2915476c9752c12df2a46cb61f98e786a77cc5c",
+            "now": "fee93664c9795c569acb6b7b92f688f519ccacbf981465b599327f590d3dfb82"
+          }
+        ],
+        "driftedRecordCount": 2,
+        "meaning": "The receipt pins this record by SHA-256 and the bytes on disk no longer match it, so SOURCE_IDENTITY as verified no longer holds. Usually a re-pin; a rebuild when an anchor the packet names has left the source."
+      },
       "terminalTreatment": null,
       "legalInputBasis": null,
       "wave2LegalBlock": null,
@@ -29723,7 +29849,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "COMPLETE_PACKET_PROVEN",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ms-misd-1st-set.mjs",
@@ -29978,7 +30104,26 @@
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
-      "verificationLapsedBecause": null,
+      "verificationLapsedBecause": {
+        "lapse": "BOUND_SOURCE_DRIFTED",
+        "path": "data/record-clearing/legal-design-packet-set-manifests.json",
+        "pinned": "b28edfb93eb2e3953dea5bdbe2915476c9752c12df2a46cb61f98e786a77cc5c",
+        "now": "fee93664c9795c569acb6b7b92f688f519ccacbf981465b599327f590d3dfb82",
+        "allDriftedRecords": [
+          {
+            "path": "data/record-clearing/legal-design-packet-set-manifests.json",
+            "pinned": "b28edfb93eb2e3953dea5bdbe2915476c9752c12df2a46cb61f98e786a77cc5c",
+            "now": "fee93664c9795c569acb6b7b92f688f519ccacbf981465b599327f590d3dfb82"
+          },
+          {
+            "path": "data/record-clearing/packet-specifications/MS-nonconviction-expungement-99-19-71-4.v1.json",
+            "pinned": "3a1bed79e3760feb84563a638893942ab557683f6bbe7fb0fddec7e74723257f",
+            "now": "23426df251aa31bfd5215edbfe547d5f56c2349ed4c4bb5e7b407bc25405e126"
+          }
+        ],
+        "driftedRecordCount": 2,
+        "meaning": "The receipt pins this record by SHA-256 and the bytes on disk no longer match it, so SOURCE_IDENTITY as verified no longer holds. Usually a re-pin; a rebuild when an anchor the packet names has left the source."
+      },
       "terminalTreatment": null,
       "legalInputBasis": null,
       "wave2LegalBlock": null,
@@ -30039,7 +30184,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "COMPLETE_PACKET_PROVEN",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-ms-nonconv-set.mjs",
@@ -31943,7 +32088,26 @@
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
-      "verificationLapsedBecause": null,
+      "verificationLapsedBecause": {
+        "lapse": "BOUND_SOURCE_DRIFTED",
+        "path": "data/record-clearing/legal-design-intake/ND.memo.json",
+        "pinned": "b39b420c37ac318ca070cb13eaf402ece23d6af90755827bba0647410276e8a0",
+        "now": "ed7115190428a940d401d97614df85bcc17c1f511b807cf2cda7b8b462d231c3",
+        "allDriftedRecords": [
+          {
+            "path": "data/record-clearing/legal-design-intake/ND.memo.json",
+            "pinned": "b39b420c37ac318ca070cb13eaf402ece23d6af90755827bba0647410276e8a0",
+            "now": "ed7115190428a940d401d97614df85bcc17c1f511b807cf2cda7b8b462d231c3"
+          },
+          {
+            "path": "data/record-clearing/legal-design-packet-set-manifests.json",
+            "pinned": "b28edfb93eb2e3953dea5bdbe2915476c9752c12df2a46cb61f98e786a77cc5c",
+            "now": "fee93664c9795c569acb6b7b92f688f519ccacbf981465b599327f590d3dfb82"
+          }
+        ],
+        "driftedRecordCount": 2,
+        "meaning": "The receipt pins this record by SHA-256 and the bytes on disk no longer match it, so SOURCE_IDENTITY as verified no longer holds. Usually a re-pin; a rebuild when an anchor the packet names has left the source."
+      },
       "terminalTreatment": null,
       "legalInputBasis": null,
       "wave2LegalBlock": null,
@@ -31973,7 +32137,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "COMPLETE_PACKET_PROVEN",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-nd-deferred-imposition-records-set.mjs",
@@ -48124,7 +48288,26 @@
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
-      "verificationLapsedBecause": null,
+      "verificationLapsedBecause": {
+        "lapse": "BOUND_SOURCE_DRIFTED",
+        "path": "data/record-clearing/legal-design-intake/VT.memo.json",
+        "pinned": "4bcd3fa16e73781234c2ebaabbd24e20dc25967049a86c66b6064aaa25fab079",
+        "now": "c274dbd6b586ed619d3e49ae0062d7e3de652d72c9f12e53a4fa5524df80769c",
+        "allDriftedRecords": [
+          {
+            "path": "data/record-clearing/legal-design-intake/VT.memo.json",
+            "pinned": "4bcd3fa16e73781234c2ebaabbd24e20dc25967049a86c66b6064aaa25fab079",
+            "now": "c274dbd6b586ed619d3e49ae0062d7e3de652d72c9f12e53a4fa5524df80769c"
+          },
+          {
+            "path": "data/record-clearing/legal-design-packet-set-manifests.json",
+            "pinned": "b28edfb93eb2e3953dea5bdbe2915476c9752c12df2a46cb61f98e786a77cc5c",
+            "now": "fee93664c9795c569acb6b7b92f688f519ccacbf981465b599327f590d3dfb82"
+          }
+        ],
+        "driftedRecordCount": 2,
+        "meaning": "The receipt pins this record by SHA-256 and the bytes on disk no longer match it, so SOURCE_IDENTITY as verified no longer holds. Usually a re-pin; a rebuild when an anchor the packet names has left the source."
+      },
       "terminalTreatment": null,
       "legalInputBasis": null,
       "wave2LegalBlock": null,
@@ -48160,7 +48343,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "COMPLETE_PACKET_PROVEN",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-vt_seal_under_25-set.mjs",
@@ -51214,7 +51397,21 @@
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
-      "verificationLapsedBecause": null,
+      "verificationLapsedBecause": {
+        "lapse": "BOUND_SOURCE_DRIFTED",
+        "path": "data/record-clearing/legal-decisions/2026-08-28-national-legal-decisions.json",
+        "pinned": "0aad88eff0e3d12ea9b10de9c80edcc5b3134508f097c9e85f0e35d34a9c74ef",
+        "now": "63fe0b16adc4c2debd8b583cf02ba365b8b2045d86f53af5c5be720c86e74373",
+        "allDriftedRecords": [
+          {
+            "path": "data/record-clearing/legal-decisions/2026-08-28-national-legal-decisions.json",
+            "pinned": "0aad88eff0e3d12ea9b10de9c80edcc5b3134508f097c9e85f0e35d34a9c74ef",
+            "now": "63fe0b16adc4c2debd8b583cf02ba365b8b2045d86f53af5c5be720c86e74373"
+          }
+        ],
+        "driftedRecordCount": 1,
+        "meaning": "The receipt pins this record by SHA-256 and the bytes on disk no longer match it, so SOURCE_IDENTITY as verified no longer holds. Usually a re-pin; a rebuild when an anchor the packet names has left the source."
+      },
       "terminalTreatment": null,
       "legalInputBasis": null,
       "wave2LegalBlock": null,
@@ -51244,7 +51441,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "COMPLETE_PACKET_PROVEN",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-wv_nc_diversion_deferred-set.mjs",
