@@ -656,8 +656,9 @@ export function dcFlPetitionRecordIsHistory(profile: EngineProfile | undefined, 
       && ["misdemeanor-violation-traffic-conviction", "nonconviction-431076", "void-and-seal-a-first-marijuana-synthetic-drug-or-salvia-possession-conviction-under-218a-276", "juvenile-automatic-dismissal", "juvenile-petition-610330"].includes(pathwayId ?? "")
       && contactRepresentationHash(profile) === "4e84c6d8ba6469a095c50f09cacfb5518c4132d049fbf068513c6eb925e6a364"
     // GA17 Q-50dcf8b1a91162a70705 / Q-5ec575d17ded0b87051d / Q-79e780778f4a487dd39b: preserve overlapping labels without a record-type consumer.
+    // GA17 Q-fb2109e5a0379589fe4c / Q-9026faa3fca7a143a0df / Q-bf040ed86c19172840d6: preserve overlapping labels without a record-type consumer.
     || profile?.jurisdiction.code === "MA"
-      && ["adult-conviction-sealing-under-m-g-l-c-276-100a", "automatic-non-conviction-sealing-for-not-guilty-no-bill-or-no-probable-cause-outcomes-100c", "court-requested-sealing-for-dismissal-or-nolle-prosequi-100c"].includes(pathwayId ?? "")
+      && ["adult-conviction-sealing-under-m-g-l-c-276-100a", "automatic-non-conviction-sealing-for-not-guilty-no-bill-or-no-probable-cause-outcomes-100c", "court-requested-sealing-for-dismissal-or-nolle-prosequi-100c", "juvenile-record-sealing-under-100b", "marijuana-only-expungement", "non-time-based-expungement-for-false-identity-error-fraud-or-decriminalized-conduct-100k"].includes(pathwayId ?? "")
       && contactRepresentationHash(profile) === "f81a71dd750ea489f1c29074b571512bd5cb7c78c5dd924c1f6e7cb7122c0f0d";
 }
 
