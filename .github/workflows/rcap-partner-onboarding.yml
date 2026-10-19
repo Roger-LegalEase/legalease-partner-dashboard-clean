@@ -29,9 +29,8 @@ jobs:
     # only to argv/env paths that CI does not set or to private system temp dirs, except the CT
     # profile generator, which rewrites its in-tree output and asserts it unchanged. Each runner
     # checks out fresh.
-    # Cuts are a contiguous re-cut of the original list by the per-command timings of run 39200186911
-    # (the first push after the MS output-continuity check lost its 21-minute floor). The cheap
-    # checks and the build sit on the lightest leg.
+    # Cuts are a contiguous re-cut of the original list by the per-command timings of run 39268048249.
+    # The cheap checks and the build sit on the leg the partition chose for them.
     timeout-minutes: 120
     strategy:
       fail-fast: false
@@ -152,6 +151,10 @@ jobs:
           node scripts/test-question-contract-output-continuity.mjs
           node scripts/test-noncommercial-evidence-producer-reconciliation.mjs --task53-source-successor-controls-only
           node scripts/test-ms-paid-packet-output-continuity.mjs
+
+      - name: Verify nationwide correction boundaries (group b)
+        if: matrix.group == 'b'
+        run: |
           node scripts/test-ms-paid-packet-proof.mjs --proof-only
           node scripts/verify-personalized-route-refusal.mjs
           node scripts/test-ks-municipal-factual-boundaries.mjs
@@ -162,10 +165,6 @@ jobs:
           node scripts/test-ga10-ne-missing-witnesses.mjs
           node scripts/test-ga10-la9852-missing-witness.mjs
           node scripts/test-ga10-me-nonconviction-witness.mjs
-
-      - name: Verify nationwide correction boundaries (group b)
-        if: matrix.group == 'b'
-        run: |
           node scripts/test-ga10-mo-closure-witness.mjs
           node scripts/test-ga10-mo-marijuana-custody.mjs
           node scripts/test-ga10-mt-deferred-facts.mjs
@@ -179,6 +178,10 @@ jobs:
           node scripts/test-mn-609a017-location-context.mjs
           node scripts/test-mn-cannabis-location-context.mjs
           node scripts/test-mo-610141-guidance-boundary.mjs
+
+      - name: Verify nationwide correction boundaries (group c)
+        if: matrix.group == 'c'
+        run: |
           node scripts/test-ny-16055-guidance.mjs
           node scripts/test-ny-mrta-stage-guidance.mjs
           node scripts/test-ny-16057-guidance.mjs
@@ -204,10 +207,6 @@ jobs:
           node scripts/test-ca-prop64-integration.mjs
           node scripts/test-ca-prop64-form-ownership.mjs
           node scripts/test-ca-prop64-completeness-actors.mjs
-
-      - name: Verify nationwide correction boundaries (group c)
-        if: matrix.group == 'c'
-        run: |
           node scripts/test-ca-prop64-caption-bindings.mjs
           node scripts/test-ca-prop64-caption-collection.mjs
           node scripts/test-ca-prop64-contact-collection.mjs
@@ -216,16 +215,16 @@ jobs:
           node scripts/test-ak-tf810-sales-policy.mjs
           node scripts/test-ak-tf810-saved-checkout.mjs
           node scripts/test-ak-courtview-record-context.mjs
+
+      - name: Verify nationwide correction boundaries (group d)
+        if: matrix.group == 'd'
+        run: |
           node scripts/test-ak-pardon-record-context.mjs
           node scripts/test-ak-juvenile-record-context.mjs
           node scripts/test-ak-agency-sis-record-context.mjs
           node scripts/test-ak-agency-sis-record-context-consumers.mjs
           node scripts/test-al-record-context.mjs
           node scripts/test-al-record-context-consumers.mjs
-
-      - name: Verify nationwide correction boundaries (group d)
-        if: matrix.group == 'd'
-        run: |
           node scripts/test-ar-nonconviction-record-context.mjs
           node scripts/test-ar-nonconviction-record-context-consumers.mjs
           node scripts/test-ar-felony-record-context.mjs
@@ -240,6 +239,10 @@ jobs:
           node scripts/test-dc-general-source-guidance.mjs
           node scripts/test-dc-misattributed-current-composer.mjs
           node scripts/test-fl-conditional-source-information.mjs
+
+      - name: Verify nationwide correction boundaries (group e)
+        if: matrix.group == 'e'
+        run: |
           node scripts/test-mn-two-county-source-facts.mjs
           node scripts/test-dc-innocence-location-context.mjs
           node scripts/test-nationwide-contact-representation.mjs
@@ -247,10 +250,6 @@ jobs:
           node scripts/test-nd-first-offense-family-consumer.mjs
           node scripts/test-nd-first-offense-participant-family.mjs
           node scripts/test-nd-first-offense-contract-successor.mjs
-
-      - name: Verify nationwide correction boundaries (group e)
-        if: matrix.group == 'e'
-        run: |
           node scripts/test-nd-first-offense-record-context.mjs
           node scripts/test-nd-first-offense-facts.mjs
           node scripts/verify-nd-first-offense-possession-scope.mjs
@@ -278,6 +277,10 @@ jobs:
           node scripts/test-oh-trafficking-court-context.mjs
           node scripts/test-oh-trafficking-court-context-consumers.mjs
           node scripts/test-ok-clean-slate-financial.mjs
+
+      - name: Verify nationwide correction boundaries (group f)
+        if: matrix.group == 'f'
+        run: |
           node scripts/test-screening-completion-correction-save.mjs
           node scripts/test-protected-legacy-answer-preservation.mjs
           node scripts/test-protected-legacy-presentation.mjs
@@ -286,10 +289,6 @@ jobs:
           node scripts/test-va-absolute-pardon-procedure.mjs
           node scripts/test-va-three-victim-applicability.mjs
           node scripts/test-va-protected-pardon-type-source.mjs
-
-      - name: Verify nationwide correction boundaries (group f)
-        if: matrix.group == 'f'
-        run: |
           node scripts/test-va-pardon-held-context.mjs
           node scripts/test-ga12-ct-information-category-history.mjs
           node scripts/test-ga12-dc-innocence-category-history.mjs
@@ -305,11 +304,11 @@ jobs:
           node scripts/test-ga17-co-record-history.mjs
           node scripts/test-ga17-dc-felony-record-history.mjs
           node scripts/test-ga17-dc-fl-record-history.mjs
-          node scripts/test-ga12-al-category-history.mjs
 
       - name: Verify nationwide correction boundaries (group g)
         if: matrix.group == 'g'
         run: |
+          node scripts/test-ga12-al-category-history.mjs
           node scripts/test-ga12-ar-category-history.mjs
           node scripts/test-ga12-sd-sis-facts.mjs
           node scripts/test-ga12-wy1502-facts.mjs
