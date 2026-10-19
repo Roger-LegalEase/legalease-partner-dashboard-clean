@@ -7,7 +7,7 @@ import { CT_DESTRUCTION, CT_PROVISIONAL, CT_ABSOLUTE } from './treatment-reconci
 
 export const CT_GUIDANCE_REVIEW = 'data/rcap-grade-a/terminal-treatment-verification/SESSION10_CT_GUIDANCE_ROWS.json';
 export const CT_GUIDANCE_CANDIDATE = '52785b1c8d82aae25a92ed03788d037a0c96933d';
-export const CT_CURRENT_GUIDANCE_CANDIDATE = 'data/rcap-grade-a/packet-factory-24h/warp-20260912/ct-three-guidance/repair-current/current-candidate-v2.json';
+export const CT_CURRENT_GUIDANCE_CANDIDATE = 'data/rcap-grade-a/packet-factory-24h/warp-20260912/ct-three-guidance/repair-current/current-candidate-v3.json';
 export const CT_CURRENT_GUIDANCE_REVIEW = 'data/rcap-grade-a/packet-factory-24h/warp-20260912/ct-three-guidance/repair-current/independent-review/current-guidance-review.json';
 export const CT_GUIDANCE_FAMILIES = Object.freeze([CT_DESTRUCTION, CT_PROVISIONAL, CT_ABSOLUTE]);
 const EVIDENCE = 'data/rcap-grade-a/chat-parallel-2026-09-07/chat1-integration/session10/treatment-reconciliation/ct-guidance';
@@ -206,7 +206,7 @@ export function connecticutCurrentGuidanceCandidate(root, familyId, overrides = 
   const candidateBytes = read(CT_CURRENT_GUIDANCE_CANDIDATE);
   const candidate = JSON.parse(candidateBytes);
   assert.equal(candidate.schemaVersion, 'rcap-ct-current-guidance-candidate/v1');
-  assert.equal(candidate.candidateVersion, 'CT-GUIDANCE-DIRECT-PARTICIPANT-COPY-20260912-V2');
+  assert.equal(candidate.candidateVersion, 'CT-GUIDANCE-DIRECT-PARTICIPANT-COPY-20261019-V3');
   assert.deepEqual(candidate.families.map(row => row.familyId).sort(), [...CT_GUIDANCE_FAMILIES].sort());
   assert.equal(candidate.historicalTrustAnchor.candidateCommit, CT_GUIDANCE_CANDIDATE);
   assert.equal(candidate.historicalTrustAnchor.reviewPath, CT_GUIDANCE_REVIEW);
