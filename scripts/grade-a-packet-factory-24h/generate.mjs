@@ -52,7 +52,7 @@ import { fileURLToPath } from "node:url";
 import { makeEmitter } from "../lib/generator-emit.mjs";
 import { preferOfficialForm, nonFormCandidatesSetAside } from "../lib/official-form-asset-class.mjs";
 import { effectivePacketLaneCount, livePacketLaneByFamily } from "./pf-lane-retention.mjs";
-import { pathsOverlap, unresolvedHistoricalRepairPaths } from "./path-ownership.mjs";
+import { handoffClaimsFromLedger, pathsOverlap, unresolvedHistoricalRepairPaths } from "./path-ownership.mjs";
 import { captainDealtLiveGrant } from "./captain-dealt-grants.mjs";
 import {
   repairRowDischargesFailure,
@@ -1341,8 +1341,7 @@ for (const a of ACTIVE_LANES) {
  * ny_160_59_petition-set's Wave 2 glob alive after FIX05 had held it. */
 let priorClaimsForOwnership = [];
 try {
-  const priorLedger = JSON.parse(fs.readFileSync(path.join(ROOT, `${OUT_DIR}/claim-ledger.json`), "utf8"));
-  priorClaimsForOwnership = [...(priorLedger.claims ?? []), ...(priorLedger.withdrawals ?? [])];
+  priorClaimsForOwnership = handoffClaimsFromLedger(JSON.parse(fs.readFileSync(path.join(ROOT, `${OUT_DIR}/claim-ledger.json`), "utf8")));
 } catch { /* first generation: every historical hold stays conservative */ }
 activePaths.push(...unresolvedHistoricalRepairPaths(IN.wave2Repairs.assignments, priorClaimsForOwnership));
 
