@@ -68,8 +68,8 @@ const ROUTE = Object.freeze({
 
 const COMPONENTS = [
   { id: "cover_and_contents", role: "cover_and_contents", title: "Your Mississippi Non-Conviction Expungement Packet" },
-  { id: "primary_filing", role: "primary_filing", title: "Petition for Expungement of Criminal Record Under Miss. Code Ann. Sec. 99-19-71(4)" },
-  { id: "proposed_order", role: "proposed_order", title: "Proposed Order of Expungement" },
+  { id: "primary_filing", role: "primary_filing", title: "Petition for Expunction of Record" },
+  { id: "proposed_order", role: "proposed_order", title: "Order Granting Expunction of Record" },
   { id: "certificate_of_service", role: "certificate_of_service", title: "Certificate of Service" },
   { id: "attachment", role: "attachment", title: "Exhibit Checklist" },
   { id: "instructions", role: "instructions", title: "Filing Instructions" }
@@ -144,6 +144,29 @@ assert.deepEqual(COVER_HEADINGS,
  */
 const PETITION_DOC = SPEC.documents.find((d) => d.documentId === "ms-petition-for-expungement");
 assert.ok(PETITION_DOC, `${PACKET_SPECIFICATION}: no document ms-petition-for-expungement`);
+const INTRODUCTION = PETITION_DOC.sections.find((s) => s.heading === "Introduction");
+const IDENTITY = PETITION_DOC.sections.find((s) => s.kind === "pleading_identity_list");
+const PRAYER = PETITION_DOC.sections.find((s) => s.heading === "Prayer for relief");
+const ORDER_DOC = SPEC.documents.find((d) => d.documentId === "ms-proposed-order");
+const CERTIFICATION = ORDER_DOC?.sections.find((s) => s.kind === "clerk_certification_block");
+const MCIC = ORDER_DOC?.sections.find((s) => s.kind === "confidential_identifier_addendum");
+const SERVICE = SPEC.documents.find((d) => d.documentId === "ms-service-and-attachments")?.sections.find((s) => s.kind === "service_certificate");
+for (const section of [INTRODUCTION, IDENTITY, PRAYER, CERTIFICATION, MCIC, SERVICE]) assert.ok(section?.body, "Current specification section must be present");
+assert.equal(IDENTITY.fields.length, 12);
+assert.equal(MCIC.fields.length, 16);
+const EXTRA_PETITION_FACTS = {
+  case_caption_plaintiff_name: "Plaintiff name exactly as shown on the docket",
+  arrest_location: "Location of arrest",
+  charge_classification: "Charge Classification",
+  release_date_or_record_source: "Release date or record source confirming release after arrest",
+  disposition_record_wording: "Exact wording of the certified disposition",
+  name_used_at_arrest: "Name used at the time of arrest",
+  aliases: "Aliases shown on the record",
+  social_security_number_last_four: "Social Security Number",
+  race: "Race", sex: "Sex",
+  other_recordkeeping_agencies: "Other recordkeeping agencies identified from the record",
+};
+for (const id of [...Object.keys(EXTRA_PETITION_FACTS), ...MCIC.fields]) assert.ok(SPEC.requiredFacts.some(f => f.factId === id), `Current specification fact absent: ${id}`);
 const VERIFICATION = PETITION_DOC.sections.find((s) => s.heading === "VERIFICATION");
 assert.ok(VERIFICATION, `${PACKET_SPECIFICATION}: the petition document names no VERIFICATION section`);
 assert.equal(VERIFICATION.kind, "verification_on_oath",
@@ -187,7 +210,7 @@ const DELIVERY_ORDER = [
   { component: "certificate_of_service", specificationDocumentId: "ms-service-and-attachments",
     what: "your record that a copy went to the prosecuting authority, completed only when the copy actually goes out" },
   { component: "attachment", specificationDocumentId: "ms-service-and-attachments",
-    what: "the checklist of what you attach - the certified disposition in every case, the indictment only where one exists; the checklist itself is not an attachment" },
+    what: "the checklist of what you attach - certified disposition as Exhibit A and docket sheet as Exhibit B in every case; an indictment is conditional and unlettered" },
   { component: "instructions", specificationDocumentId: "ms-filing-and-next-steps",
     what: "what you do, in order, what the order does once entered, and when to stop and get help instead of filing" }
 ];
@@ -203,6 +226,13 @@ assert.ok(CHECKLIST.length > 0, `${PACKET_SPECIFICATION}: participantChecklist c
  *   [MEMO]     data/record-clearing/legal-design-intake/MS.memo.json, track ms-nonconv
  *   [MANIFEST] data/record-clearing/legal-design-packet-set-manifests.json, ms-nonconv-set
  */
+// The adopted specification includes impact only after the participant confirms it.
+function optionalImpact(facts) {
+  const value = typeof facts.personal_impact_statement === "string" ? facts.personal_impact_statement.trim() : "";
+  const paragraph = facts.personal_impact_confirmed === "Yes" && value ? value : null;
+  return { paragraph, open: facts.personal_impact_confirmed !== "No" && !paragraph };
+}
+
 function composedBody(componentId, facts) {
   const name = facts["participant.full_legal_name"];
   const dob = facts["participant.date_of_birth"];
@@ -227,7 +257,7 @@ function composedBody(componentId, facts) {
     if (!compact) {
       L.push("(WRITE THE COURT IN WHICH THE CASE WAS PENDING - JUSTICE, COUNTY, CIRCUIT OR MUNICIPAL - AND ITS COUNTY, OR FOR A MUNICIPAL COURT ITS CITY)", "");
     }
-    L.push("STATE OF MISSISSIPPI");
+    L.push(compact ? "STATE OF MISSISSIPPI" : "Plaintiff name exactly as shown on the docket: " + DOTS(25));
     L.push("v.");
     L.push(`${name}, ${partyLine}`, "");
     L.push("Cause No. " + DOTS(44));
@@ -270,8 +300,8 @@ function composedBody(componentId, facts) {
     L.push(coverStatic("Important limits"), "");
   } else if (componentId === "primary_filing") {
     caption("PETITIONER");
-    L.push("PETITION FOR EXPUNGEMENT OF CRIMINAL RECORD UNDER MISS. CODE ANN. Sec. 99-19-71(4)", "");
-    L.push(`The petitioner, ${name}, petitions this Court for an order expunging the record of the case described below, and states:`, "");
+    L.push("PETITION FOR EXPUNCTION OF RECORD", "");
+    L.push(fillVerification(INTRODUCTION.body, name), "");
     L.push("FIRST. Miss. Code Ann. Sec. 99-19-71(4) provides: 'Upon petition therefor, a justice, county, circuit or municipal court shall expunge the record of any case in which an arrest was made, the person arrested was released and the case was dismissed or the charges were dropped or there was no disposition of such case, or the person was found not guilty at trial.'", "");
     L.push("SECOND. The identifying facts of the case, each taken from the court record:", "");
     L.push(`Petitioner's date of birth: ${dob}`, "");
@@ -288,6 +318,13 @@ function composedBody(componentId, facts) {
     L.push(DOTS(), "");
     L.push("Date on which the case ended, from the record:");
     L.push(DOTS(), "");
+    for (const id of ["arrest_location", "release_date_or_record_source", "disposition_record_wording"]) {
+      L.push(EXTRA_PETITION_FACTS[id] + ":", DOTS(), "");
+    }
+    L.push("A certified copy of the disposition is attached as Exhibit A. A copy of the docket sheet is attached as Exhibit B.", "");
+    L.push(IDENTITY.body, "");
+    for (const id of IDENTITY.fields) L.push(IDENTITY.fieldLabels[id] + ": " + (id === "date_of_birth" ? dob : id === "social_security_number_last_four" ? "XXX-XX-...." : DOTS(36)));
+    L.push("");
     L.push("THIRD. The case ended without a conviction, in the statutory category marked below. Mark EXACTLY ONE, and only the one your own court paperwork shows; nothing is marked for you, and an entry such as 'passed to the file' or 'retired to the file' is a reason to stop and get advice rather than to mark any box:", "");
     L.push("[  ]  An arrest was made, the petitioner was released, and the case was dismissed.");
     L.push("[  ]  The charges were dropped.");
@@ -296,7 +333,10 @@ function composedBody(componentId, facts) {
     L.push("FOURTH. Where a grand jury returned an indictment in the case, and only then, its date and court are stated here from the record (leave blank where the case was never indicted; most are not):");
     L.push(DOTS(), "");
     L.push("FIFTH. Subsection (4) imposes no waiting period, no completion requirement and no first-offender requirement, and none is asserted here. The one-felony-per-lifetime cap of subsection (2)(a) applies to felony conviction expungement only and is not spent by this petition.", "");
-    L.push("SIXTH. The petitioner therefore requests that the Court enter an order expunging the record of the case described above, as Sec. 99-19-71(4) directs, with a nonpublic record retained by the Mississippi Criminal Information Center solely for the purpose Sec. 99-19-71(3) states.", "");
+    if (optionalImpact(facts).paragraph) L.push(optionalImpact(facts).paragraph, "");
+    L.push("PRAYER FOR RELIEF", fillVerification(PRAYER.body
+      .replaceAll("{{arresting_agency}}", "Arresting agency: " + DOTS(24))
+      .replaceAll("{{other_recordkeeping_agencies}}", DOTS(30)), name), "");
     L.push("I declare that the facts stated in this petition are true and correct.", "");
     L.push("DATE " + DOTS(30) + "   SIGNATURE OF PETITIONER " + DOTS(36), "");
     L.push("(The petitioner signs and dates this petition personally, in the notary's presence and at the same time as the verification on the next page - never in advance. Nothing on this page is signed or dated for the petitioner.)", "");
@@ -347,7 +387,7 @@ function composedBody(componentId, facts) {
       + "Code Ann. Sec. 25-34-31. An acknowledgment is not the same notarial act.)");
   } else if (componentId === "proposed_order") {
     caption("PETITIONER");
-    L.push("PROPOSED ORDER OF EXPUNGEMENT", "");
+    L.push("ORDER GRANTING EXPUNCTION OF RECORD", "");
     L.push("(This order is tendered with the petition for the Court's consideration, which is Mississippi practice. Every finding below is a proposal for the Court to make; nothing in it is an assertion of fact by the preparer, and nothing on this page is completed for the Court.)", "");
     L.push(`THIS CAUSE came before the Court on the petition of ${name} for expungement of the record of a case under Miss. Code Ann. Sec. 99-19-71(4), and the Court, having considered the petition, would find that the case falls within Sec. 99-19-71(4): an arrest was made, the person arrested was released, and the case was dismissed or the charges were dropped or there was no disposition of the case, or the person was found not guilty at trial.`, "");
     L.push("IT IS THEREFORE ORDERED that the record of the case described in the petition is expunged, and that every person and agency keeping an official record of the arrest or the case shall expunge it, including the following, each named by the petitioner from the case record:", "");
@@ -375,10 +415,16 @@ function composedBody(componentId, facts) {
     L.push("APPROVED AS TO FORM, for the prosecuting authority:");
     L.push(DOTS());
     L.push("(some districts expect the prosecuting authority to approve the order as to form before it is presented; this block is never completed by the preparer and is never pre-signed)");
+    L.push("", CERTIFICATION.heading, CERTIFICATION.body, "");
+    L.push("CLERK SIGNATURE " + DOTS(42), "CERTIFICATION DATE " + DOTS(38), "COURT SEAL - left blank for the clerk", "");
+    L.push(KEEP_ON_ONE_PAGE, MCIC.heading, "", MCIC.body, "");
+    for (const id of MCIC.fields) L.push(MCIC.fieldLabels[id] + ": " + (id === "date_of_birth" ? dob : DOTS(36)));
   } else if (componentId === "certificate_of_service") {
     caption("PETITIONER");
     L.push("CERTIFICATE OF SERVICE", "");
-    L.push(`I, ${name}, certify that a true and correct copy of the Petition for Expungement of Criminal Record and of the proposed Order of Expungement in this cause was delivered to the prosecuting authority named below, contemporaneously with the filing of the petition:`, "");
+    L.push(fillVerification(SERVICE.body
+      .replaceAll("{{prosecuting_authority_name}}", "Prosecuting authority: " + DOTS(30))
+      .replaceAll("{{prosecuting_authority_service_address}}", DOTS(36)), name), "");
     L.push("Prosecuting authority served - for a circuit court case the district attorney for the circuit district, for a county, justice or municipal court case the county or municipal prosecuting attorney (write the office as the court record names it):");
     L.push(DOTS(), "");
     L.push("Mailing address at which that office was served:");
@@ -394,13 +440,15 @@ function composedBody(componentId, facts) {
     L.push(`Prepared for: ${name}`, "");
     L.push("Attach these exhibits to the petition. Each is named here and obtained by you; nothing is obtained, inspected or authenticated for you.", "");
     L.push("EXHIBIT A - IN EVERY CASE. A certified copy of the disposition or sentencing order showing how the case ended, from the records office of the court that heard the case. Mississippi has no central portal and each court holds its own file, so identify the right court first.", "");
-    L.push("EXHIBIT B - ONLY WHERE THE CASE WAS INDICTED. A copy of the indictment, from the circuit records office of the county. Attach it only if a grand jury actually returned an indictment; most cases are never indicted, and the petition pleads an indictment only where one exists.", "");
+    L.push("EXHIBIT B - IN EVERY CASE. A copy of the docket sheet, from the records office of the court that heard the case. Its wording matters: 'passed to the file' or 'retired to the file' is a reason to stop and get advice.", "");
+    L.push("CONDITIONAL, UNLETTERED: A copy of the indictment from the circuit records office, only if a grand jury returned an indictment in this case. Leave it out if the case was never indicted.", "");
     L.push("ADVISABLE:", "");
-    L.push("- The docket sheet for the case, from the records office of the court that heard the case. It shows exactly how the case ended, and its wording matters: 'passed to the file' or 'retired to the file' is a reason to stop and get advice.");
+
     L.push("- Your own Mississippi criminal history record, from the Mississippi Criminal Information Center, so you can see every case on your record before you file.");
   } else if (componentId === "instructions") {
     L.push(`This packet is prepared for ${ROUTE.routeName}.`, "");
     L.push(`Prepared for: ${name}`, "");
+    if (optionalImpact(facts).open) L.push("Participant-owned open item: Optional personal impact statement not provided; not required to file.", "");
     L.push("WHAT YOU DO, IN ORDER", "");
     L.push("STEP ONE. Identify the correct court and county first. Mississippi has four trial court levels - justice, county, circuit and municipal - and the petition goes to the court in which the case was pending.");
     L.push("STEP TWO. Ask that court's records office for the case file, the docket sheet, and a certified copy of the order showing how the case ended. Copy the docket wording exactly; do not paraphrase it.");
@@ -451,7 +499,8 @@ function composedBody(componentId, facts) {
   }
   /* primary_filing prints its own trailer above the verification; the proposed
    * order prints its own above the execution band. */
-  if (componentId !== "proposed_order" && componentId !== "primary_filing") {
+  // Hidden provenance rows on instructions can create a trailing blank page; the receipt records the route.
+  if (componentId !== "proposed_order" && componentId !== "primary_filing" && componentId !== "instructions") {
     L.push("", `Route: ${ROUTE.routeKeys[0]}`);
   }
   return L.join("\n");
@@ -574,11 +623,19 @@ function maps() {
       NOTARY_BLANK("notary_official_stamp", "Seal - the space for the notary's official stamp",
         "Miss. Code Ann. Sec. 25-34-31 requires the notary's official stamp on the certificate; the notary affixes it")
     ];
-    out.push(composedMapOf("primary_filing", FAMILY, writes, refusals));
+    for (const [id, label] of Object.entries(EXTRA_PETITION_FACTS)) refusals.push(h.rbf(id, label,
+      SPEC.requiredFacts.find(f => f.factId === id).prompt, "Current specification fact is not held; preserve a labelled blank until the participant supplies it."));
+    const map = composedMapOf("primary_filing", FAMILY, writes, refusals);
+    for (const fixture of ["canonical", "boundary"]) {
+      if (optionalImpact(FAMILY.fixtures[fixture]).paragraph) map[fixture + "Writes"] = [...writes,
+        h.write("personal_impact_statement", "Optional personal impact statement", "personal_impact_statement")];
+    }
+    out.push(map);
   }
   {
     const h = mapHelpers("proposed_order");
-    const writes = [h.write("petitioner_name", "Petitioner named in the caption of this proposed order", "participant.full_legal_name")];
+    const writes = [h.write("petitioner_name", "Petitioner named in the caption of this proposed order", "participant.full_legal_name"),
+      h.write("date_of_birth", MCIC.fieldLabels.date_of_birth, "participant.date_of_birth")];
     const refusals = [
       h.rbf("order_court", "Court named in the caption of the proposed order, with its county or city",
         "the same court and county (or city) as the petition's caption",
@@ -602,6 +659,12 @@ function maps() {
       h.courtBlank("approved_as_to_form", "Approved as to form block for the prosecuting authority",
         "some districts expect the prosecuting authority to approve the order as to form; the block is never pre-signed or pre-filled")
     ];
+    refusals.push(h.rbf("case_caption_plaintiff_name", EXTRA_PETITION_FACTS.case_caption_plaintiff_name,
+      SPEC.requiredFacts.find(f => f.factId === "case_caption_plaintiff_name").prompt, "Copy the exact docket caption; do not infer the plaintiff."));
+    for (const id of MCIC.fields.filter(id => id !== "date_of_birth")) refusals.push(h.rbf(id, MCIC.fieldLabels[id],
+      SPEC.requiredFacts.find(f => f.factId === id).prompt, "Court/MCIC processing copy only; confirm the identifier-delivery method before participant delivery."));
+    for (const [id, label] of [["clerk_signature", "Clerk signature"], ["certification_date", "Certification date"], ["court_seal", "Court seal"]])
+      refusals.push(h.courtBlank(id, label, CERTIFICATION.body));
     out.push(composedMapOf("proposed_order", FAMILY, writes, refusals));
   }
   {
@@ -629,6 +692,8 @@ function maps() {
       h.protectedBlank("service_signature", "Signature of the petitioner on the certificate of service",
         "the petitioner signs the certificate when the copy actually goes out")
     ];
+    refusals.push(h.rbf("case_caption_plaintiff_name", EXTRA_PETITION_FACTS.case_caption_plaintiff_name,
+      SPEC.requiredFacts.find(f => f.factId === "case_caption_plaintiff_name").prompt, "Copy the exact docket caption; do not infer the plaintiff."));
     out.push(composedMapOf("certificate_of_service", FAMILY, writes, refusals));
   }
   {
@@ -661,15 +726,19 @@ function participantInstructions(rbf) {
   out.push("| `primary_filing` | the composed petition under § 99-19-71(4), quoting the statute's own mandatory words |");
   out.push("| `proposed_order` | the proposed order tendered with the petition; the Court alone completes it |");
   out.push("| `certificate_of_service` | the record of delivery of a copy to the prosecuting authority, contemporaneous with filing |");
-  out.push("| `attachment` | the exhibit checklist — the disposition order in every case, the indictment only where one exists |");
+  out.push("| `attachment` | the exhibit checklist — certified disposition as Exhibit A and docket sheet as Exhibit B in every case; indictment only where one exists, unlettered |");
   out.push("| `instructions` | what you do, in order, and when to stop and get help |");
   out.push("");
 
+  if (Object.values(FAMILY.fixtures).some(facts => optionalImpact(facts).open)) {
+    out.push("## Participant-owned open items", "", "Optional personal impact statement not provided. This is optional and is not a filing prerequisite.", "");
+  }
+
   out.push("## Documents you must obtain before filing", "");
   out.push("| Document | Where you get it |", "| --- | --- |");
-  out.push("| Certified copy of the disposition or sentencing order showing how the case ended — check your cause number against it, and correct the packet if they disagree | the records office of the court that heard the case |");
-  out.push("| Copy of the indictment — only where a grand jury actually returned one; check your answer about the indictment against it | the circuit records office of the county |");
-  out.push("| Docket sheet for the case — copy its exact wording; 'passed to the file' or 'retired to the file' is a reason to stop and get advice | the records office of the court that heard the case |");
+  out.push("| Exhibit A (required): certified copy of the disposition or sentencing order showing how the case ended — check your cause number against it, and correct the packet if they disagree | the records office of the court that heard the case |");
+  out.push("| Conditional, unlettered: copy of the indictment — only where a grand jury actually returned one; check your answer about the indictment against it | the circuit records office of the county |");
+  out.push("| Exhibit B (required): docket sheet for the case — copy its exact wording; 'passed to the file' or 'retired to the file' is a reason to stop and get advice | the records office of the court that heard the case |");
   out.push("| Your own Mississippi criminal history record — advisable, so you see every case before you file | Mississippi Criminal Information Center |");
   out.push("");
 
@@ -868,11 +937,19 @@ const FAMILY = {
         + "from the record, and the exhibit checklist attaches the indictment only in that case."
     }
   ],
+  counselQuestionsSettled: [
+    {
+      "question": "Whether any Mississippi district requires verification or notarization of an expungement petition, where neither archived model is verified or notarized and the petition carries a simple truth statement.",
+      "settledOn": "2026-09-08",
+      "answer": "The packet carries the mandatory verification and jurat. The controlling inputs are packet specification MS-nonconviction-expungement-99-19-71-4 (specificationVersion 2.0.0, notarisationRequired true) and Roger Roman's direction of 2026-09-03, SHA-256 88497978c1411950ea3977a7ae32087e29fc375017cadc87b20d700c60623866; the legal-design intake memo's unresolved note is not permission to omit it. Recorded on the ms-nonconv track as rules.notarization Required.",
+      "scope": "This settles what LegalEase's own output must contain. It is not a determination that a Mississippi district requires verification or notarisation of a Sec. 99-19-71(4) petition, and it grants no approval. The four other questions in this record remain raised.",
+      "implementedBy": "FIX107; measured on the delivered bytes by VF04 at 513f43c82"
+    }
+  ],
   counselQuestions: [
     "Does Miss. Code Ann. § 99-19-72's $150 fee, levied on 'each petition to expunge an offense under Section 99-19-71' and collected by the circuit clerk, reach a § 99-19-71(4) non-conviction petition, and does it reach a petition filed in justice or municipal court?",
     "Does a Mississippi case 'passed to the file' or 'retired to the file' fall within § 99-19-71(4)'s 'there was no disposition of such case'?",
     "Does the ten days' written notice to the district attorney in § 99-19-71(2)(b) apply outside the felony conviction subsection, and is contemporaneous service on the prosecuting authority the right treatment for subsection (4)?",
-    "Whether any Mississippi district requires verification or notarization of an expungement petition, where neither archived model is verified or notarized and the petition carries a simple truth statement.",
     "Whether the composed petition, proposed order and certificate of service are sufficient in form for the least standardized courts (justice and municipal), given localFormOverride."
   ],
   reviewerAttention: [
