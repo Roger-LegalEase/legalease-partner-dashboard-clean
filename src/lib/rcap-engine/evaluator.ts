@@ -2,7 +2,7 @@ import { wy1502Context, wy1502Facts, WY_1502_SOURCE, WY_1502_COPY } from "@/lib/
 import { southDakotaSisContext, southDakotaSisFacts, SD_SIS_COPY, SD_SIS_SOURCE } from "@/lib/rcap-engine/south-dakota-sis-facts";
 import { illinoisProstitutionContext, illinoisProstitutionFacts, IL_PROSTITUTION_FACT_ID, IL_PROSTITUTION_COPY, IL_PROSTITUTION_SOURCE } from "@/lib/rcap-engine/illinois-prostitution-facts";
 import { OH_JUVENILE_ROUTE, OH_JUVENILE_RESULT_COPY } from "@/lib/expungement-ai/oh-juvenile-stage-questions";
-import { questionAnswerState } from "@/lib/expungement-ai/question-answer-state";
+import { questionAnswerState, scalarAnswerText } from "@/lib/expungement-ai/question-answer-state";
 import { CT_PETITION_FACT_IDS, CT_PETITION_SOURCE, CT_PETITION_COPY, ctPetitionContext, ctPetitionFacts } from "@/lib/rcap-engine/connecticut-clean-slate-petition-facts";
 import { GA_SB288_FACT_IDS, GA_SB288_SOURCE, GA_SB288_COPY, georgiaSb288Context, georgiaSb288Facts } from "@/lib/rcap-engine/georgia-sb288-facts";
 import { FL_INFORMATION_COPY, FL_INFORMATION_SOURCE, flConditionalInformationContext, flConditionalInformationQuestionApplies, withFlConditionalInformation } from "@/lib/rcap-engine/florida-conditional-source-information";
@@ -722,6 +722,18 @@ function evaluateProfileRules(profile: EngineProfile, request: ScreeningEvaluati
         missingQuestionIds: reliefRequest.status === "clarification" ? reliefRequest.missingQuestionIds : [], paymentAllowed: false
       });
   }
+  // GA14 M01059: diversion alone cannot establish the Ohio juvenile singleton.
+  const ohDiversionAgeQuestion = jurisdiction === "OH" && !preselectedPathway
+    && normalizeCaseOutcome(answers.case_outcome) === "diversion_or_deferred"
+    ? publicProfile.questions.find(question => question.id === "age_at_offense") : undefined;
+  const ohDiversionAge = ohDiversionAgeQuestion
+    && questionAnswerState(ohDiversionAgeQuestion, answers.age_at_offense) === "known_valid"
+    ? Number(scalarAnswerText(answers.age_at_offense)) : undefined;
+  if (ohDiversionAgeQuestion && ohDiversionAge === undefined) {
+    return result(profile, request, "needs_more_info", [reason("OH", "missing_required_facts", "Required public screening facts are missing.")], {
+      missingQuestionIds: ["age_at_offense"], paymentAllowed: false
+    });
+  }
   const ambiguity = ambiguityReason(profile, publicProfile, answers, preselectedPathway);
   if (ambiguity) {
     const financialUnknown = ambiguity.text === "financial_obligations is uncertain and requires source review.";
@@ -729,6 +741,10 @@ function evaluateProfileRules(profile: EngineProfile, request: ScreeningEvaluati
       ...(financialUnknown ? { missingQuestionIds: ["financial_obligations"] } : {}),
       ...(preselectedPathway ? { pathwayId: preselectedPathway.id } : {})
     }), flInformation);
+  }
+
+  if (ohDiversionAge !== undefined && ohDiversionAge >= 18) {
+    return result(profile, request, "guidance_only", [reason("OH", "diversion_guidance", labelForResult("guidance_only"))], { paymentAllowed: false });
   }
 
   if (jurisdiction === "KS" && preselectedPathway?.id === KS_REGISTRATION_ROUTE) {
@@ -2931,7 +2947,7 @@ function fieldsPresentOrInternal(fields: string[], publicQuestionIds: Set<string
   });
 }
 
-function normalizeCaseOutcome(value: ScreeningAnswerValue | undefined) {
+export function normalizeCaseOutcome(value: ScreeningAnswerValue | undefined) {
   const text = answerText(value).toLowerCase();
   if (/arrest|citation/.test(text) && /no charge/.test(text)) return "arrest_no_charge";
   if (/dismiss|nolle|no-bill|not prosecuted|quash/.test(text)) return "dismissed";
