@@ -682,6 +682,13 @@ function leadSpanishLayer2SourceSuccessionChain(readBytes) {
 export const MN_GUARD_MEMO_SOURCE_PATH = 'data/rcap-grade-a/participant-data-rights/question-contract-source-succession-mn-guard-memo-20261019-v1.json';
 export const MN_GUARD_MEMO_SOURCE_SHA256 = '847b6efa41ebe9da518e0da52f264f55947ba043f57a8d446b4dd1672e8af307';
 export function assertMnGuardMemoSourceSuccession(readBytes) {
+  const { record } = mnGuardMemoSourceSuccessionChain(readBytes);
+  // Retain the immutable MN guard memo 25/173 scope; the separately pinned VA guard memo
+  // hop checks the complete current chain without rewriting it.
+  assertVaGuardMemoSourceSuccession(readBytes);
+  return record;
+}
+function mnGuardMemoSourceSuccessionChain(readBytes) {
   const bytes=readBytes(MN_GUARD_MEMO_SOURCE_PATH);
   insist(sha(bytes)===MN_GUARD_MEMO_SOURCE_SHA256,'MN guard memo source succession record bytes changed');
   const record=JSON.parse(bytes.toString('utf8'));
@@ -701,9 +708,35 @@ export function assertMnGuardMemoSourceSuccession(readBytes) {
     insist(row.beforeSha256===(current.get(row.file)??v21[row.file]??null),'MN guard memo disconnected source hop');current.set(row.file,row.afterSha256);
   }
   insist(current.size===25,'MN guard memo current twenty-five-source inventory');
+  return { record, current };
+}
+
+// CI agent performance change (009ec5bef): the VA victim guard hashes its imported constants once per process; every overr
+export const VA_GUARD_MEMO_SOURCE_PATH = 'data/rcap-grade-a/participant-data-rights/question-contract-source-succession-va-guard-memo-20261019-v1.json';
+export const VA_GUARD_MEMO_SOURCE_SHA256 = 'facfd6b0e585b37d6ffb14a4890c35342ea18f80b3515254e8a7094247a7cdb1';
+export function assertVaGuardMemoSourceSuccession(readBytes) {
+  const bytes=readBytes(VA_GUARD_MEMO_SOURCE_PATH);
+  insist(sha(bytes)===VA_GUARD_MEMO_SOURCE_SHA256,'VA guard memo source succession record bytes changed');
+  const record=JSON.parse(bytes.toString('utf8'));
+  const { record: prior, current }=mnGuardMemoSourceSuccessionChain(readBytes);
+  insist(record.schemaVersion==='rcap-question-contract-va-guard-memo-source-succession/v1'
+    && record.recordId==='VA-GUARD-MEMO-SOURCE-SUCCESSION-20261019'
+    && record.kind==='technical_source_only' && record.engineeringCommit==='009ec5bef1f3d67f806016eb0770e1509ae5c41c'
+    && equal(record.previousNamedSource,{path:MN_GUARD_MEMO_SOURCE_PATH,sha256:MN_GUARD_MEMO_SOURCE_SHA256,currentChangedSourceCount:25,currentUnchangedSourceCount:173})
+    && equal(record.historicalContinuity,prior.historicalContinuity) && equal(record.historicalOutput,prior.historicalOutput)
+    && record.sourceCount===198 && record.currentChangedSourceCount===25 && record.currentUnchangedSourceCount===173
+    && equal(record.historicalArtifactScope,{routeCount:6,artifactCount:18,reexecuted:false,changed:false})
+    && ['createsOwnerApproval','changesHistoricalOutputEvidence','establishesCurrentOutputReproduction','establishesProtectedVerification','establishesProviderOrPublicationProof','commercialAuthorityGranted','productionAuthorized'].every(key=>record[key]===false),'VA guard memo source succession scope');
+  insist(Array.isArray(record.transitions) && equal(record.transitions.map(row=>row.file),["src/lib/rcap-engine/virginia-victim-question.ts"]),'VA guard memo source succession inventory');
+  insist(current.size===25,'VA guard memo prior twenty-five-source inventory');
+  const v21={};
+  for(const row of record.transitions){
+    insist(row.beforeSha256===(current.get(row.file)??v21[row.file]??null),'VA guard memo disconnected source hop');current.set(row.file,row.afterSha256);
+  }
+  insist(current.size===25,'VA guard memo current twenty-five-source inventory');
   // Always fresh, including after success or a previous failed read. No accessor
   // recursion: prior records are read as exact pinned raw bytes.
-  for(const [file,digest]of current)insist(sha(readBytes(file))===digest,`stale output input: ${file}; exact MN guard memo source succession`);
+  for(const [file,digest]of current)insist(sha(readBytes(file))===digest,`stale output input: ${file}; exact VA guard memo source succession`);
   return record;
 }
 
@@ -716,7 +749,7 @@ function currentSourceSuccessions(readBytes) {
     caNoPhone: assertCaNoPhoneContactSourceSuccession(readBytes), gaCt: assertGaSb288CtPetitionSourceSuccession(readBytes),
     gaGuide: assertGaGuideSpanishSourceSuccession(readBytes), ctPrepay: assertCtPrepayRecordFactsSourceSuccession(readBytes),
     ilSdWy: assertIlSdWyRecordFactsSourceSuccession(readBytes), ohCopy: assertOhJuvenileCopySourceSuccession(readBytes),
-    caSafe: assertCaSafeAtHomeSourceSuccession(readBytes), leadEs: assertLeadSpanishSourceSuccession(readBytes), leadEs2: assertLeadSpanishLayer2SourceSuccession(readBytes), mnMemo: assertMnGuardMemoSourceSuccession(readBytes) };
+    caSafe: assertCaSafeAtHomeSourceSuccession(readBytes), leadEs: assertLeadSpanishSourceSuccession(readBytes), leadEs2: assertLeadSpanishLayer2SourceSuccession(readBytes), mnMemo: assertMnGuardMemoSourceSuccession(readBytes), vaMemo: assertVaGuardMemoSourceSuccession(readBytes) };
 }
 const onceSuccessions = readBytes => { let value; return () => value ??= currentSourceSuccessions(readBytes); };
 
@@ -743,6 +776,7 @@ function assertCurrentOutputSourceInput(file, expectedSha256, readBytes, label, 
   const leadEs = atFile(s.leadEs);
   const leadEs2 = atFile(s.leadEs2);
   const mnMemo = atFile(s.mnMemo);
+  const vaMemo = atFile(s.vaMemo);
   const caDigest = ca ? ca.afterSha256 : previousDigest;
   const nyDigest = ny ? ny.afterSha256 : caDigest;
   const gaDigest = ga ? ga.afterSha256 : nyDigest;
@@ -757,12 +791,13 @@ function assertCurrentOutputSourceInput(file, expectedSha256, readBytes, label, 
   const caSafeDigest = caSafe ? caSafe.afterSha256 : ohCopyDigest;
   const leadEsDigest = leadEs ? leadEs.afterSha256 : caSafeDigest;
   const leadEs2Digest = leadEs2 ? leadEs2.afterSha256 : leadEsDigest;
-  const currentDigest = mnMemo ? mnMemo.afterSha256 : leadEs2 ? leadEs2.afterSha256 : leadEs ? leadEs.afterSha256 : caSafe ? caSafe.afterSha256 : ohCopy ? ohCopy.afterSha256 : ilSdWy ? ilSdWy.afterSha256 : ctPrepay ? ctPrepay.afterSha256 : gaGuide ? gaGuide.afterSha256 : gaCt ? gaCt.afterSha256 : caNoPhone ? caNoPhone.afterSha256 : gates ? gates.afterSha256 : gaContact ? gaContact.afterSha256 : ga ? ga.afterSha256 : ny ? ny.afterSha256 : ca?.afterSha256 ?? row?.afterSha256;
-  insist((row ? row.beforeSha256 === expectedSha256 : ca != null || ny != null || ga != null || gaContact != null || gates != null || caNoPhone != null || gaCt != null || gaGuide != null || ctPrepay != null || ilSdWy != null || ohCopy != null || caSafe != null || leadEs != null || leadEs2 != null || mnMemo != null)
+  const mnMemoDigest = mnMemo ? mnMemo.afterSha256 : leadEs2Digest;
+  const currentDigest = vaMemo ? vaMemo.afterSha256 : mnMemo ? mnMemo.afterSha256 : leadEs2 ? leadEs2.afterSha256 : leadEs ? leadEs.afterSha256 : caSafe ? caSafe.afterSha256 : ohCopy ? ohCopy.afterSha256 : ilSdWy ? ilSdWy.afterSha256 : ctPrepay ? ctPrepay.afterSha256 : gaGuide ? gaGuide.afterSha256 : gaCt ? gaCt.afterSha256 : caNoPhone ? caNoPhone.afterSha256 : gates ? gates.afterSha256 : gaContact ? gaContact.afterSha256 : ga ? ga.afterSha256 : ny ? ny.afterSha256 : ca?.afterSha256 ?? row?.afterSha256;
+  insist((row ? row.beforeSha256 === expectedSha256 : ca != null || ny != null || ga != null || gaContact != null || gates != null || caNoPhone != null || gaCt != null || gaGuide != null || ctPrepay != null || ilSdWy != null || ohCopy != null || caSafe != null || leadEs != null || leadEs2 != null || mnMemo != null || vaMemo != null)
     && (!ca || ca.beforeSha256 === previousDigest) && (!ny || ny.beforeSha256 === caDigest)
     && (!ga || ga.beforeSha256 === nyDigest) && (!gaContact || gaContact.beforeSha256 === gaDigest)
     && (!gates || gates.beforeSha256 === contactDigest) && (!caNoPhone || caNoPhone.beforeSha256 === gatesDigest)
-    && (!gaCt || gaCt.beforeSha256 === caNoPhoneDigest) && (!gaGuide || gaGuide.beforeSha256 === gaCtDigest) && (!ctPrepay || ctPrepay.beforeSha256 === gaGuideDigest) && (!ilSdWy || ilSdWy.beforeSha256 === ctPrepayDigest) && (!ohCopy || ohCopy.beforeSha256 === ilSdWyDigest) && (!caSafe || caSafe.beforeSha256 === ohCopyDigest) && (!leadEs || leadEs.beforeSha256 === caSafeDigest) && (!leadEs2 || leadEs2.beforeSha256 === leadEsDigest) && (!mnMemo || mnMemo.beforeSha256 === leadEs2Digest)
+    && (!gaCt || gaCt.beforeSha256 === caNoPhoneDigest) && (!gaGuide || gaGuide.beforeSha256 === gaCtDigest) && (!ctPrepay || ctPrepay.beforeSha256 === gaGuideDigest) && (!ilSdWy || ilSdWy.beforeSha256 === ctPrepayDigest) && (!ohCopy || ohCopy.beforeSha256 === ilSdWyDigest) && (!caSafe || caSafe.beforeSha256 === ohCopyDigest) && (!leadEs || leadEs.beforeSha256 === caSafeDigest) && (!leadEs2 || leadEs2.beforeSha256 === leadEsDigest) && (!mnMemo || mnMemo.beforeSha256 === leadEs2Digest) && (!vaMemo || vaMemo.beforeSha256 === mnMemoDigest)
     && currentDigest === actual, `${label}: ${file}`);
 }
 

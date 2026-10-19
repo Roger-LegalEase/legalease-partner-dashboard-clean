@@ -6,6 +6,7 @@ import {assertIlSdWyRecordFactsSourceSuccession,IL_SD_WY_RECORD_FACTS_SOURCE_PAT
 import {assertOhJuvenileCopySourceSuccession,OH_JUVENILE_COPY_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertLeadSpanishLayer2SourceSuccession,LEAD_SPANISH_L2_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertMnGuardMemoSourceSuccession,MN_GUARD_MEMO_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
+import {assertVaGuardMemoSourceSuccession,VA_GUARD_MEMO_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertCaSafeAtHomeSourceSuccession,CA_SAFE_AT_HOME_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertLeadSpanishSourceSuccession,LEAD_SPANISH_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertGaVaSpecSuccessorGatesSourceSuccession,GA_VA_SPEC_SUCCESSOR_GATES_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
@@ -930,6 +931,13 @@ check('MN guard memo hop preserves prior chain and refuses missing/tampered byte
  assert.throws(()=>assertQuestionContractOutputInputs(file=>file===MN_GUARD_MEMO_SOURCE_PATH?Buffer.from('{}'):readBytes(file)),/MN guard memo source succession record bytes changed/);
  assert.throws(()=>assertLeadSpanishLayer2SourceSuccession(file=>{if(file===MN_GUARD_MEMO_SOURCE_PATH)throw Error('missing MN guard memo record');return readBytes(file);}),/missing MN guard memo record/);
  for(const input of ["src/lib/expungement-ai/mn-two-county-source-facts.ts"])
+  assert.throws(()=>assertQuestionContractOutputInputs(file=>file===input?Buffer.from('drift'):readBytes(file)),/stale output input/);
+});
+check('VA guard memo hop preserves prior chain and refuses missing/tampered bytes',()=>{
+ const c=assertVaGuardMemoSourceSuccession(readBytes);assert.equal(c.currentChangedSourceCount,25);assert.equal(c.currentUnchangedSourceCount,173);
+ assert.throws(()=>assertQuestionContractOutputInputs(file=>file===VA_GUARD_MEMO_SOURCE_PATH?Buffer.from('{}'):readBytes(file)),/VA guard memo source succession record bytes changed/);
+ assert.throws(()=>assertMnGuardMemoSourceSuccession(file=>{if(file===VA_GUARD_MEMO_SOURCE_PATH)throw Error('missing VA guard memo record');return readBytes(file);}),/missing VA guard memo record/);
+ for(const input of ["src/lib/rcap-engine/virginia-victim-question.ts"])
   assert.throws(()=>assertQuestionContractOutputInputs(file=>file===input?Buffer.from('drift'):readBytes(file)),/stale output input/);
 });
 // A succession record set must never outlive its call: after an honest load, a later drift still
