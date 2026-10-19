@@ -643,7 +643,12 @@ export function dcFlPetitionRecordIsHistory(profile: EngineProfile | undefined, 
       && contactRepresentationHash(profile) === "2c60e17a1f424dc325d41bd3533fbf5e10ed8e65316c1920fb809faea4b07cef"
     || profile?.jurisdiction.code === "HI"
       && ["dui-under-21-conviction", "first-time-drug-conviction", "nonconviction-arrest-expungement"].includes(pathwayId ?? "")
-      && contactRepresentationHash(profile) === "9b1a121be377fa34e6425d96f7edb82428321b60a757870f8dc4878ebfb27ece";
+      && contactRepresentationHash(profile) === "9b1a121be377fa34e6425d96f7edb82428321b60a757870f8dc4878ebfb27ece"
+    // GA17 Q-213a19004dbda41dfce2 / Q-e7a0b9cbb9047649e8e0 / Q-6b16d8ce7d8fc029c19e: literal record history, no exclusive type consumer.
+    || profile?.jurisdiction.code === "LA"
+      && ["automated-expungement-status-verification-art-985-2", "expungement-by-redaction-for-multi-person-records",
+        "non-conviction-arrest-expungement"].includes(pathwayId ?? "")
+      && contactRepresentationHash(profile) === "a0bf1a76b91c555e5b0cca05b96d6b9a34721db466c7beffdc20fbd86f1e36e6";
 }
 
 // GA12 Q-954756996d44111dd6f6 / Q-11a00e1e894ff5efe5f9 / Q-91de493bf957b599962f: no category document binding.
