@@ -12,6 +12,10 @@ import wiring from "../../../data/rcap-all50/overlays/census-v1/mo/mo-art-xiv-ma
 import sourceReceipt from "../../../data/rcap-all50/overlays/census-v1/mo/mo-art-xiv-marijuana-set--official-pdf-fill/source-receipt.json";
 
 const family = manifest.families.find(row => row.familyId === "rcap-mo-guidance-implementation");
+/** Hashes of the imported constants, computed once per process on first use.
+ * Anything passed in current.* is hashed live, so overrides stay exact. */
+let imported: { memo: string; proof: string; family: string; fieldMap: string; wiring: string; sourceReceipt: string } | undefined;
+const importedHashes = () => imported ??= { memo: contactRepresentationHash(memo), proof: contactRepresentationHash(proof), family: contactRepresentationHash(family), fieldMap: contactRepresentationHash(fieldMap), wiring: contactRepresentationHash(wiring), sourceReceipt: contactRepresentationHash(sourceReceipt) };
 
 /** Original GA14 Q-f57ac5d91f3085beddd1. Unit 1 status verification has no
  * participant filing venue. Generic historical court text may help locate the
@@ -25,12 +29,12 @@ export function moXivCourtIsContext(profile: EngineProfile | undefined,
   return Boolean(profile) && specification == null && family != null
     && missouriMarijuanaCustodyContext(profile!, pathwayId, { [MO_MARIJUANA_CUSTODY_FACT]: resolvedCustody }) === "completed_status_check"
     && contactRepresentationHash(profile) === "88e33a1958a25c8bd1082df4fccc1ebcba24938d8a4545af68c1a65820c8a750"
-    && contactRepresentationHash((current.memo === undefined ? memo : current.memo)) === "37c15117017d2c24fa57d1a9f53231626c14978f190073c044d35b6599a8c27f"
-    && contactRepresentationHash((current.proof === undefined ? proof : current.proof)) === "1296944c258e497d7fee6260bab11e9392f68c572da5862e3409f77bb8fbdfd7"
-    && contactRepresentationHash((current.family === undefined ? family : current.family)) === "e4696eaaa02e68dd1971aa7591d8e47f492aa2ab5f2ef566d1b4fac37dc0d87a"
-    && contactRepresentationHash((current.fieldMap === undefined ? fieldMap : current.fieldMap)) === "e4d850412c745f1e4552209830964c2525f2fd2d3e33a611db007288fbfba940"
-    && contactRepresentationHash((current.wiring === undefined ? wiring : current.wiring)) === "c196819a7627cb276adeec282af679fd618c17e136f291d0aab9657bab895ec0"
-    && contactRepresentationHash((current.sourceReceipt === undefined ? sourceReceipt : current.sourceReceipt)) === "66ebb14adb5baaf8b40089fa34de4a1d45ac10bd5eac743fc7f0c994bc020339";
+    && (current.memo === undefined ? importedHashes().memo : contactRepresentationHash(current.memo)) === "37c15117017d2c24fa57d1a9f53231626c14978f190073c044d35b6599a8c27f"
+    && (current.proof === undefined ? importedHashes().proof : contactRepresentationHash(current.proof)) === "1296944c258e497d7fee6260bab11e9392f68c572da5862e3409f77bb8fbdfd7"
+    && (current.family === undefined ? importedHashes().family : contactRepresentationHash(current.family)) === "e4696eaaa02e68dd1971aa7591d8e47f492aa2ab5f2ef566d1b4fac37dc0d87a"
+    && (current.fieldMap === undefined ? importedHashes().fieldMap : contactRepresentationHash(current.fieldMap)) === "e4d850412c745f1e4552209830964c2525f2fd2d3e33a611db007288fbfba940"
+    && (current.wiring === undefined ? importedHashes().wiring : contactRepresentationHash(current.wiring)) === "c196819a7627cb276adeec282af679fd618c17e136f291d0aab9657bab895ec0"
+    && (current.sourceReceipt === undefined ? importedHashes().sourceReceipt : contactRepresentationHash(current.sourceReceipt)) === "66ebb14adb5baaf8b40089fa34de4a1d45ac10bd5eac743fc7f0c994bc020339";
 }
 
 /** Use the collection's source-bound disposition so question metadata cannot

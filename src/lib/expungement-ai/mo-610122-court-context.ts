@@ -11,6 +11,10 @@ import ratifications from "../../../data/record-clearing/legal-decisions/route-r
 
 export const MO_610122_COURT_CONTEXT_ROUTE = "false-information-or-qualifying-arrest-record-expungement-under-610-122-123";
 const ratification = ratifications.routes.find(row => row.routeKey === `MO:${MO_610122_COURT_CONTEXT_ROUTE}`);
+/** Hashes of the imported constants, computed once per process on first use.
+ * Anything passed in current.* is hashed live, so overrides stay exact. */
+let imported: { memo: string; sourceReceipt: string; fieldMap: string; wiring: string; ratification: string } | undefined;
+const importedHashes = () => imported ??= { memo: contactRepresentationHash(memo), sourceReceipt: contactRepresentationHash(sourceReceipt), fieldMap: contactRepresentationHash(fieldMap), wiring: contactRepresentationHash(wiring), ratification: contactRepresentationHash(ratification) };
 
 /** Original GA14 Q-09aa40a73d4a52efba7c. The retained filing contract requires
  * the civil division of the circuit court in the county of arrest. Generic
@@ -24,11 +28,11 @@ export function mo610122CourtIsContext(profile: EngineProfile | undefined,
   return profile?.jurisdiction.code === "MO" && pathwayId === MO_610122_COURT_CONTEXT_ROUTE
     && specification == null && ratification != null
     && contactRepresentationHash(profile) === "88e33a1958a25c8bd1082df4fccc1ebcba24938d8a4545af68c1a65820c8a750"
-    && contactRepresentationHash((current.memo === undefined ? memo : current.memo)) === "37c15117017d2c24fa57d1a9f53231626c14978f190073c044d35b6599a8c27f"
-    && contactRepresentationHash((current.sourceReceipt === undefined ? sourceReceipt : current.sourceReceipt)) === "d21dd472cbd693b8c1d0692ef1f51d44dc44d25e7ac8606a71b5632790436ec8"
-    && contactRepresentationHash((current.fieldMap === undefined ? fieldMap : current.fieldMap)) === "437a4ae05010aef489a4c80789d73322323cd3a16c78799c9fec1fbdfafd9bc1"
-    && contactRepresentationHash((current.wiring === undefined ? wiring : current.wiring)) === "e2a764f8456926fc276727fe8c25dde09e850c6a2cd9a0c23a6ab595ff676883"
-    && contactRepresentationHash((current.ratification === undefined ? ratification : current.ratification)) === "2a932ce4fe192e0ebf6648278c7d2d87219df65068750ec847def53c116c224f";
+    && (current.memo === undefined ? importedHashes().memo : contactRepresentationHash(current.memo)) === "37c15117017d2c24fa57d1a9f53231626c14978f190073c044d35b6599a8c27f"
+    && (current.sourceReceipt === undefined ? importedHashes().sourceReceipt : contactRepresentationHash(current.sourceReceipt)) === "d21dd472cbd693b8c1d0692ef1f51d44dc44d25e7ac8606a71b5632790436ec8"
+    && (current.fieldMap === undefined ? importedHashes().fieldMap : contactRepresentationHash(current.fieldMap)) === "437a4ae05010aef489a4c80789d73322323cd3a16c78799c9fec1fbdfafd9bc1"
+    && (current.wiring === undefined ? importedHashes().wiring : contactRepresentationHash(current.wiring)) === "e2a764f8456926fc276727fe8c25dde09e850c6a2cd9a0c23a6ab595ff676883"
+    && (current.ratification === undefined ? importedHashes().ratification : contactRepresentationHash(current.ratification)) === "2a932ce4fe192e0ebf6648278c7d2d87219df65068750ec847def53c116c224f";
 }
 
 export function mo610122CourtContextQuestion<T extends ProfileQuestion>(question: T,
