@@ -7,6 +7,15 @@ import ts from 'typescript';
 register('./lib/ts-esm-loader.mjs', import.meta.url);
 const mutation=process.argv.find(arg=>arg.startsWith('--mutation='))?.slice(11);
 const mutations={
+ ky_context:["specification == null && contactRepresentationHash(profile) === \"4e84c6d8ba6469a095c50f09cacfb5518c4132d049fbf068513c6eb925e6a364\"", "true"],
+ ky_collection:["kyCategoryHistory ||", "false ||"],
+ ky_level:["factId === \"offense_category\" && !overrideClass", "(factId === \"offense_category\" || kyCategoryHistory && factId === \"offense_level\") && !overrideClass"],
+ ky_question:["\"ky_three_route_category_history\", \"ia_three_route_category_history\"", "\"disabled_ky_category_history\", \"ia_three_route_category_history\""],
+ ky_history:["kyThreeRouteCategoryIsHistory(profile, pathway, packetSpecificationFor(`${state}:${pathway}`))", "false"],
+ ky_route_0:["profile?.jurisdiction.code === \"KY\" && [\"misdemeanor-violation-traffic-conviction\", \"nonconviction-431076\", \"void-and-seal-a-first-marijuana-synthetic-drug-or-salvia-possession-conviction-under-218a-276\"]", "profile?.jurisdiction.code === \"KY\" && [\"unassigned-route\", \"nonconviction-431076\", \"void-and-seal-a-first-marijuana-synthetic-drug-or-salvia-possession-conviction-under-218a-276\"]"],
+ ky_route_1:["profile?.jurisdiction.code === \"KY\" && [\"misdemeanor-violation-traffic-conviction\", \"nonconviction-431076\", \"void-and-seal-a-first-marijuana-synthetic-drug-or-salvia-possession-conviction-under-218a-276\"]", "profile?.jurisdiction.code === \"KY\" && [\"misdemeanor-violation-traffic-conviction\", \"unassigned-route\", \"void-and-seal-a-first-marijuana-synthetic-drug-or-salvia-possession-conviction-under-218a-276\"]"],
+ ky_route_2:["profile?.jurisdiction.code === \"KY\" && [\"misdemeanor-violation-traffic-conviction\", \"nonconviction-431076\", \"void-and-seal-a-first-marijuana-synthetic-drug-or-salvia-possession-conviction-under-218a-276\"]", "profile?.jurisdiction.code === \"KY\" && [\"misdemeanor-violation-traffic-conviction\", \"nonconviction-431076\", \"unassigned-route\"]"],
+
  hi_context:['specification == null && contactRepresentationHash(profile) === "9b1a121be377fa34e6425d96f7edb82428321b60a757870f8dc4878ebfb27ece"','specification == null && true'],
  hi_collection:['hiCategoryHistory ||','false ||'],
  hi_level:['factId === "offense_category" && !overrideClass','(factId === "offense_category" || hiCategoryHistory && factId === "offense_level") && !overrideClass'],
@@ -27,20 +36,25 @@ const mutations={
  loss:['const shapesPreserved = preserveProtectedLegacyShapes(seeded, legacy.inspection, replacedLegacyIds);','const shapesPreserved = preserveProtectedLegacyShapes(seeded, legacy.inspection, replacedLegacyIds); delete shapesPreserved.packetAnswers.offense_category;'],
  priority:['const shapesPreserved = preserveProtectedLegacyShapes(seeded, legacy.inspection, replacedLegacyIds);','const shapesPreserved = preserveProtectedLegacyShapes(seeded, legacy.inspection, replacedLegacyIds); shapesPreserved.packetAnswers.offense_category = "Inferred category";']
 };
-if(mutation){assert(mutations[mutation]);register('data:text/javascript,'+encodeURIComponent(`import {writeSync} from 'node:fs';let d;export function initialize(x){d=x}export async function load(u,c,n){const r=await n(u,c);if(u.endsWith(d[2])){if(!r.source.includes(d[0]))throw Error('mutation target absent');writeSync(2,JSON.stringify({appliedMutation:d[3]})+'\\n');return {...r,source:r.source.replace(d[0],d[1])}}return r}`),{data:[...mutations[mutation],['hi_context','hi_collection','hi_level','hi_dui','hi_drug','ia_context','ia_collection','ia_level','collection','context','ownership'].includes(mutation)?'/packet-collection.ts':'/packet-information.ts',mutation]});}
+if(mutation){assert(mutations[mutation]);register('data:text/javascript,'+encodeURIComponent(`import {writeSync} from 'node:fs';let d;export function initialize(x){d=x}export async function load(u,c,n){const r=await n(u,c);if(u.endsWith(d[2])){if(!r.source.includes(d[0]))throw Error('mutation target absent');writeSync(2,JSON.stringify({appliedMutation:d[3]})+'\\n');return {...r,source:r.source.replace(d[0],d[1])}}return r}`),{data:[...mutations[mutation],['ky_context','ky_collection','ky_level','ky_route_0','ky_route_1','ky_route_2','hi_context','hi_collection','hi_level','hi_dui','hi_drug','ia_context','ia_collection','ia_level','collection','context','ownership'].includes(mutation)?'/packet-collection.ts':'/packet-information.ts',mutation]});}
 const P = await import('../src/lib/expungement-ai/packet-information.ts');
 const { evaluateAuthoritativeScreeningResult: evaluate } = await import('../src/lib/expungement-ai/authoritative-screening-result.ts');
 const {packetFulfillmentAuthority}=await import('../src/lib/expungement-ai/packet-fulfillment-authority.ts');
 const {createConsumerPaymentPlaceholder}=await import('../src/lib/expungement-ai/payment-adapter.ts');
 const { getProfileByJurisdiction } = await import('../src/lib/rcap-engine/profile-registry.ts');
-const { alThreeRouteCategoryIsHistory, hiThreeRouteCategoryIsHistory, iaCategoryIsHistory, resolvePacketCollection } = await import('../src/lib/expungement-ai/packet-collection.ts');
+const { kyThreeRouteCategoryIsHistory, alThreeRouteCategoryIsHistory, hiThreeRouteCategoryIsHistory, iaCategoryIsHistory, resolvePacketCollection } = await import('../src/lib/expungement-ai/packet-collection.ts');
 
 // GA-12 / QD-bd6b15fff22cbe1501cb: three source-bound AL guidance consumers.
 // GA12 HI Q-49c293131f5eba7089d9 / Q-4fbcf8810b325d290849 / Q-6a2e1331cb59164e4634.
 // GA12 HI Q-4b42a49baff24e9dcae6 / Q-8a28b159789e3e372c69: court-order conviction routes; the order, not a category, decides.
 // GA12 IA Q-377830ef29f46987d4b3 / Q-da97aa3887af5a623b94: preserve the existing source-form reference.
 // GA12 IA Q-954756996d44111dd6f6 / Q-11a00e1e894ff5efe5f9 / Q-91de493bf957b599962f.
+// GA12 Q-afb21e87bf5f515361d3 / Q-e5235e1dd8cc84bbc183 / Q-85cf769eef915fa16dd9: exact Kentucky optional category history.
 const cases = [
+  ["Q-afb21e87bf5f515361d3", "misdemeanor-violation-traffic-conviction", "KY"],
+  ["Q-e5235e1dd8cc84bbc183", "nonconviction-431076", "KY"],
+  ["Q-85cf769eef915fa16dd9", "void-and-seal-a-first-marijuana-synthetic-drug-or-salvia-possession-conviction-under-218a-276", "KY"],
+
   ['Q-49c293131f5eba7089d9','deferred-acceptance-one-year','HI'],
   ['Q-4fbcf8810b325d290849','deferred-prostitution-three-year','HI'],
   ['Q-6a2e1331cb59164e4634','nonconviction-arrest-expungement','HI'],
@@ -80,16 +94,16 @@ function check(name, fn) {
 }
 for (const [questionRecordId, route, state = 'AL'] of cases) {
   const profile=getProfileByJurisdiction(state);
-  const historyContext={HI:hiThreeRouteCategoryIsHistory,IA:iaCategoryIsHistory}[state]??alThreeRouteCategoryIsHistory;
+  const historyContext={KY:kyThreeRouteCategoryIsHistory,HI:hiThreeRouteCategoryIsHistory,IA:iaCategoryIsHistory}[state]??alThreeRouteCategoryIsHistory;
   const hiCourtOrder=state==='HI'&&['dui-under-21-conviction','first-time-drug-conviction'].includes(route);
-  const result=state==='HI'&&(route==='nonconviction-arrest-expungement'||hiCourtOrder)?'packet_ready_with_caution':state==='IA'&&route!=='minor-prostitution-7251'?'needs_review':'guidance_only';
+  const result=state==='KY'?(route==='misdemeanor-violation-traffic-conviction'?'not_covered_yet':'needs_review'):state==='HI'&&(route==='nonconviction-arrest-expungement'||hiCourtOrder)?'packet_ready_with_caution':state==='IA'&&route!=='minor-prostitution-7251'?'needs_review':'guidance_only';
   const payment=result==='packet_ready_with_caution';
-  const historySource={HI:'hi_three_route_category_history',IA:'ia_three_route_category_history'}[state]??'al_three_route_category_history';
-  const historyReason={HI:'These source-bound Hawaii consumers use separate disposition, charge and court-order facts. Earlier offense categories remain optional literal history and establish neither statutory classification nor eligibility.',IA:'These source-bound Iowa consumers use separate charge, disposition, age and timing facts. Earlier offense categories remain optional literal history and establish neither statutory classification nor eligibility.'}[state]??'These source-bound Alabama guidance consumers do not bind an offense category to a document. Earlier category answers remain optional literal history; disposition, pardon, trafficking and exclusion facts remain separate.';
+  const historySource={KY:'ky_three_route_category_history',HI:'hi_three_route_category_history',IA:'ia_three_route_category_history'}[state]??'al_three_route_category_history';
+  const historyReason={KY:"These source-bound Kentucky consumers use separate charge, disposition, offense-level and timing facts. Earlier categories remain optional literal history and establish neither statutory classification nor eligibility.",HI:'These source-bound Hawaii consumers use separate disposition, charge and court-order facts. Earlier offense categories remain optional literal history and establish neither statutory classification nor eligibility.',IA:'These source-bound Iowa consumers use separate charge, disposition, age and timing facts. Earlier offense categories remain optional literal history and establish neither statutory classification nor eligibility.'}[state]??'These source-bound Alabama guidance consumers do not bind an offense category to a document. Earlier category answers remain optional literal history; disposition, pardon, trafficking and exclusion facts remain separate.';
   const witness=fixtures.find(f=>f.pathwayKey===`${state}:${route}`);assert(witness);
   // The HI conviction witnesses omit the required court-order confirmation; with it the paid packet opens.
   const answers=hiCourtOrder?{...structuredClone(witness.answers),hi_court_order_confirmed:'Yes'}:structuredClone(witness.answers);
-  const reason=hiCourtOrder?'hi.compiled_rule_match.rule-09-the-source-identifies-hrs-706-622-5-and-706-622-8-first':payment?'hi.compiled_rule_match.rule-04-a-complete-application-valid-government-photo-id-paymen':result==='needs_review'?'ia.waiting_rule_not_executed':state.toLowerCase()+'.guidance_only_no_user_filed_court_petition';
+  const reason=state==='KY'?(result==='not_covered_yet'?'ky.intentional_unsupported_route':'ky.waiting_rule_not_executed'):hiCourtOrder?'hi.compiled_rule_match.rule-09-the-source-identifies-hrs-706-622-5-and-706-622-8-first':payment?'hi.compiled_rule_match.rule-04-a-complete-application-valid-government-photo-id-paymen':result==='needs_review'?'ia.waiting_rule_not_executed':state.toLowerCase()+'.guidance_only_no_user_filed_court_petition';
   const authoritative = evaluate({ jurisdiction: state, profileVersion: profile.profileVersion,
     matterId: `synthetic-${questionRecordId}`, answers });
   check(`${route}: exact conditional information authority`, () => {
@@ -142,7 +156,7 @@ for (const [questionRecordId, route, state = 'AL'] of cases) {
   check(`${route}: no new category gate or inferred classification`, () => {
     const m = model(original);
     assert(m);
-    if(state==='HI'||state==='IA')assert.equal(m.questions.find(q=>q.id==='offense_level')?.required,true);
+    if(state==='HI'||state==='IA'||state==='KY')assert.equal(m.questions.find(q=>q.id==='offense_level')?.required,true);
     assert(!m.builderQuestions.some(q => q.id === category));
     assert(!m.missingInputIds.includes(category));
     for (const map of maps) assert(!Object.hasOwn(seed.snapshot[map], category));
