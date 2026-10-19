@@ -6,6 +6,8 @@
 4. Before sending, confirm FDLE's current submission method, destination, required attachments, and any fee. The committed record does not establish those mechanics, so this packet does not guess them.
 5. Submit the application and completed written endorsement through the process FDLE confirms. Keep a copy of the complete submission and proof of delivery.
 
+No one is served with this application. It is submitted to the Florida Department of Law Enforcement, and the written endorsement is obtained directly from the head of the arresting agency or designee, or the State Attorney or designee, who completes the endorsement section; the committed record states no service requirement.
+
 This is an FDLE agency process, not a court filing. No route is opened by this review artifact.
 
 Route: obligation:track-pathway:FL:fl-administrative:administrative-expunction-mistaken-or-unlawful-arrest
