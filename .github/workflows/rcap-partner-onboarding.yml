@@ -29,12 +29,14 @@ jobs:
     # only to argv/env paths that CI does not set or to private system temp dirs, except the CT
     # profile generator, which rewrites its in-tree output and asserts it unchanged. Each runner
     # checks out fresh.
-    # Cuts follow the measured cumulative timings of run 39148221661 (about 39/36/43 minutes).
+    # Cuts are a contiguous re-cut of the original list by the per-command timings of run 39175002547;
+    # the single 21-minute MS output-continuity check bounds the floor. The cheap checks and the
+    # build sit on the lightest leg.
     timeout-minutes: 120
     strategy:
       fail-fast: false
       matrix:
-        group: [a, b, c]
+        group: [a, b, c, d, e, f]
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
@@ -149,11 +151,19 @@ jobs:
           node scripts/test-ga-personalized-dispatch.mjs
           node scripts/test-question-contract-output-continuity.mjs
           node scripts/test-noncommercial-evidence-producer-reconciliation.mjs --task53-source-successor-controls-only
+
+      - name: Verify nationwide correction boundaries (group b)
+        if: matrix.group == 'b'
+        run: |
           node scripts/test-ms-paid-packet-output-continuity.mjs
           node scripts/test-ms-paid-packet-proof.mjs --proof-only
           node scripts/verify-personalized-route-refusal.mjs
           node scripts/test-ks-municipal-factual-boundaries.mjs
           node scripts/test-ks-municipal-contact.mjs
+
+      - name: Verify nationwide correction boundaries (group c)
+        if: matrix.group == 'c'
+        run: |
           node scripts/test-ks-municipal-category-context.mjs
           node scripts/test-ks-district-factual-routing.mjs
           node scripts/test-ga10-missing-witnesses.mjs
@@ -163,10 +173,6 @@ jobs:
           node scripts/test-ga10-mo-closure-witness.mjs
           node scripts/test-ga10-mo-marijuana-custody.mjs
           node scripts/test-ga10-mt-deferred-facts.mjs
-
-      - name: Verify nationwide correction boundaries (group b)
-        if: matrix.group == 'b'
-        run: |
           node scripts/test-mt-deferred-document-inputs.mjs
           node scripts/test-mt-deferred-document-preparation.mjs
           node scripts/test-mo-610105-court-context.mjs
@@ -207,6 +213,10 @@ jobs:
           node scripts/test-ca-prop64-contact-collection.mjs
           node scripts/test-ca-prop64-family-bridge.mjs
           node scripts/test-ak-courtview-contact.mjs
+
+      - name: Verify nationwide correction boundaries (group d)
+        if: matrix.group == 'd'
+        run: |
           node scripts/test-ak-tf810-sales-policy.mjs
           node scripts/test-ak-tf810-saved-checkout.mjs
           node scripts/test-ak-courtview-record-context.mjs
@@ -231,8 +241,8 @@ jobs:
           node scripts/test-dc-misattributed-current-composer.mjs
           node scripts/test-fl-conditional-source-information.mjs
 
-      - name: Verify nationwide correction boundaries (group c)
-        if: matrix.group == 'c'
+      - name: Verify nationwide correction boundaries (group e)
+        if: matrix.group == 'e'
         run: |
           node scripts/test-mn-two-county-source-facts.mjs
           node scripts/test-dc-innocence-location-context.mjs
@@ -276,6 +286,10 @@ jobs:
           node scripts/test-va-absolute-pardon-procedure.mjs
           node scripts/test-va-three-victim-applicability.mjs
           node scripts/test-va-protected-pardon-type-source.mjs
+
+      - name: Verify nationwide correction boundaries (group f)
+        if: matrix.group == 'f'
+        run: |
           node scripts/test-va-pardon-held-context.mjs
           node scripts/test-ga12-ct-information-category-history.mjs
           node scripts/test-ga12-dc-innocence-category-history.mjs
@@ -309,18 +323,18 @@ jobs:
       # Every deterministic onboarding verifier, through the one entry point that also
       # fails when a verifier exists that no group owns.
       - name: Verify onboarding (local group)
-        if: matrix.group == 'c'
+        if: matrix.group == 'a'
         run: npm run partners:verify-onboarding-all
 
       - name: Verify partner launch readiness
-        if: matrix.group == 'c'
+        if: matrix.group == 'a'
         run: npm run partners:verify-launch-readiness
 
       # The contract the README and the partner setup checklist both promise: the
       # production build completes with no Supabase credentials present. Running it with
       # the variables explicitly empty is the point of the step.
       - name: Credential-free production build
-        if: matrix.group == 'c'
+        if: matrix.group == 'a'
         env:
           NEXT_PUBLIC_SUPABASE_URL: ""
           NEXT_PUBLIC_SUPABASE_ANON_KEY: ""
