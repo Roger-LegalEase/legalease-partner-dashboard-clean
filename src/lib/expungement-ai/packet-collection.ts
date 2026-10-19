@@ -631,14 +631,15 @@ export function dcFelonyRecordIsHistory(profile: EngineProfile | undefined, path
 // Q-ab7cc6744570b24e17d4 / Q-481c00319478c8236160 / Q-1ee2fb0eca77febaf2b6: the same history-only consumer.
 // HI Q-4c4d60127b04b08d3f41 / Q-d6c2af7ef42f979932f3 / Q-50a58ca23c5c2ba26a76: holder/disposition uses do not make these labels exclusive.
 // Q-6add858b65f867a82b70 / Q-502bf587f9925e5e6e79 / Q-00caec14a5a59750b527: Kentucky uses separate disposition/statutory facts.
+// GA17 Q-46a17f0eb164e9cdcf27 / Q-47d5c5f19e70f0fbcbec / Q-73e3915ed9d087f8b531 / Q-6fce98651a27d2a3b8c6 / Q-65a2e556a51d224b2917: the same source-bound optional history.
 export function dcFlPetitionRecordIsHistory(profile: EngineProfile | undefined, pathwayId: string | null | undefined,
   specification: RegisteredSpecification | null | undefined): boolean {
   if (specification != null) return false;
   return profile?.jurisdiction.code === "DC"
-    && ["dc_motion_seal_misdemeanor_conviction_5yr_16_806", "dc_motion_seal_nonconviction_16_806"].includes(pathwayId ?? "")
+    && ["dc_motion_seal_misdemeanor_conviction_5yr_16_806", "dc_motion_seal_nonconviction_16_806", "dc_auto_expungement_16_802", "dc_auto_sealing_16_805", "dc_juvenile_sealing_16_2335"].includes(pathwayId ?? "")
     && contactRepresentationHash(profile) === "bcc070d365fb97ad2cd7a5296ca4c8ba516dcf37708fb2b5c852c0d5d1566830"
     || profile?.jurisdiction.code === "FL"
-      && ["court-ordered-expunction-943-0585", "court-ordered-sealing-943-059", "early-juvenile-expunction-943-0515", "human-trafficking-victim-expunction-943-0583", "juvenile-diversion-expunction-943-0582", "lawful-self-defense-expunction-943-0578"].includes(pathwayId ?? "")
+      && ["court-ordered-expunction-943-0585", "court-ordered-sealing-943-059", "early-juvenile-expunction-943-0515", "human-trafficking-victim-expunction-943-0583", "juvenile-diversion-expunction-943-0582", "lawful-self-defense-expunction-943-0578", "administrative-expunction-mistaken-or-unlawful-arrest", "automatic-sealing-943-0595"].includes(pathwayId ?? "")
       && contactRepresentationHash(profile) === "aca558d3077491f0c09abe838d08b926c0cbe8b194ac1c4500d93520d9a32034"
     || profile?.jurisdiction.code === "GA" && pathwayId === "automatic-restriction-of-qualifying-post-july-1-2013-non-convictions"
       && contactRepresentationHash(profile) === "2c60e17a1f424dc325d41bd3533fbf5e10ed8e65316c1920fb809faea4b07cef"
