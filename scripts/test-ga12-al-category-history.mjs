@@ -35,6 +35,7 @@ const { alThreeRouteCategoryIsHistory, hiThreeRouteCategoryIsHistory, iaThreeRou
 
 // GA-12 / QD-bd6b15fff22cbe1501cb: three source-bound AL guidance consumers.
 // GA12 HI Q-49c293131f5eba7089d9 / Q-4fbcf8810b325d290849 / Q-6a2e1331cb59164e4634.
+// GA12 IA Q-377830ef29f46987d4b3 / Q-da97aa3887af5a623b94: preserve the existing source-form reference.
 // GA12 IA Q-954756996d44111dd6f6 / Q-11a00e1e894ff5efe5f9 / Q-91de493bf957b599962f.
 const cases = [
   ['Q-49c293131f5eba7089d9','deferred-acceptance-one-year','HI'],
@@ -43,6 +44,8 @@ const cases = [
   ['Q-954756996d44111dd6f6','minor-prostitution-7251','IA'],
   ['Q-11a00e1e894ff5efe5f9','misdemeanor-901c3','IA'],
   ['Q-91de493bf957b599962f','nonconviction-901c2','IA'],
+  ['Q-377830ef29f46987d4b3','public-intoxication-12346','IA'],
+  ['Q-da97aa3887af5a623b94','underage-alcohol-12347','IA'],
   [
     "Q-ce34aa2230f68728a3ca",
     "human-trafficking-victim-expungement"
@@ -87,7 +90,9 @@ for (const [questionRecordId, route, state = 'AL'] of cases) {
     assert.equal(authoritative.evaluation.resultCode, result);
     assert.equal(authoritative.evaluation.reasons[0].code, reason);
     assert.equal(authoritative.evaluation.paymentAllowed, payment);
-    assert.deepEqual(authoritative.evaluation.packetPlan.sourceFormIds, []);
+    assert.deepEqual(authoritative.evaluation.packetPlan.sourceFormIds,
+      state === 'IA' && ['public-intoxication-12346', 'underage-alcohol-12347'].includes(route)
+        ? ['IA:LegalEase Iowa/2_86_4_123_PAULA_Expungement_18A04436D4107.pdf:8b2c33815548615733f01f964340fc39efcd8c252ad8c3ee50b97b0639753ffc'] : []);
   });
   const seed = P.protectedPacketDraftSeedFromAuthoritative({ authoritative, screeningAnswers: answers,
     packetAnswers: {}, dependencies: {}, capturedAt: '2026-10-17T00:00:00.000Z' });
