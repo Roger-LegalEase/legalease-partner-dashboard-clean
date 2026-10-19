@@ -639,7 +639,12 @@ export function dcFlPetitionRecordIsHistory(profile: EngineProfile | undefined, 
       && ["court-ordered-expunction-943-0585", "court-ordered-sealing-943-059", "early-juvenile-expunction-943-0515", "human-trafficking-victim-expunction-943-0583", "juvenile-diversion-expunction-943-0582", "lawful-self-defense-expunction-943-0578"].includes(pathwayId ?? "")
       && contactRepresentationHash(profile) === "aca558d3077491f0c09abe838d08b926c0cbe8b194ac1c4500d93520d9a32034"
     || profile?.jurisdiction.code === "GA" && pathwayId === "automatic-restriction-of-qualifying-post-july-1-2013-non-convictions"
-      && contactRepresentationHash(profile) === "2c60e17a1f424dc325d41bd3533fbf5e10ed8e65316c1920fb809faea4b07cef";
+      && contactRepresentationHash(profile) === "2c60e17a1f424dc325d41bd3533fbf5e10ed8e65316c1920fb809faea4b07cef"
+    // GA17 Q-213a19004dbda41dfce2 / Q-e7a0b9cbb9047649e8e0 / Q-6b16d8ce7d8fc029c19e: literal record history, no exclusive type consumer.
+    || profile?.jurisdiction.code === "LA"
+      && ["automated-expungement-status-verification-art-985-2", "expungement-by-redaction-for-multi-person-records",
+        "non-conviction-arrest-expungement"].includes(pathwayId ?? "")
+      && contactRepresentationHash(profile) === "a0bf1a76b91c555e5b0cca05b96d6b9a34721db466c7beffdc20fbd86f1e36e6";
 }
 
 // GA-12 Q-ce34aa2230f68728a3ca / Q-71b990754b6c4d4ab55b / Q-1c1d81d2035e0ec75e0f: no category document binding.

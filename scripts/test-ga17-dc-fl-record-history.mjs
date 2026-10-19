@@ -6,6 +6,11 @@ import ts from 'typescript';
 register('./lib/ts-esm-loader.mjs', import.meta.url);
 const mutation=process.argv.find(arg=>arg.startsWith('--mutation='))?.slice(11);
 const mutations={
+ la_0:['"expungement-by-redaction-for-multi-person-records"','"unassigned-route"'],
+ la_1:['"non-conviction-arrest-expungement"','"unassigned-route"'],
+ la_2:['"automated-expungement-status-verification-art-985-2"','"unassigned-route"'],
+ la_context:['contactRepresentationHash(profile) === "a0bf1a76b91c555e5b0cca05b96d6b9a34721db466c7beffdc20fbd86f1e36e6"','true'],
+
  fl_sealing:['"court-ordered-sealing-943-059"','"unassigned-route"'],
  fl_juvenile:['"early-juvenile-expunction-943-0515"','"unassigned-route"'],
  fl_trafficking:['"human-trafficking-victim-expunction-943-0583"','"unassigned-route"'],
@@ -24,7 +29,7 @@ const mutations={
  priority:['const shapesPreserved = preserveProtectedLegacyShapes(seeded, legacy.inspection, replacedLegacyIds);','const shapesPreserved = preserveProtectedLegacyShapes(seeded, legacy.inspection, replacedLegacyIds); if (Array.isArray(shapesPreserved.packetAnswers.record_type)) shapesPreserved.packetAnswers.record_type = "Conviction";'],
  question:['function dcFlPetitionRecordHistoryQuestion(question, history) {','function dcFlPetitionRecordHistoryQuestion(question, history) { return question;']
 };
-if(mutation){assert(mutations[mutation]);register('data:text/javascript,'+encodeURIComponent(`import {writeSync} from 'node:fs';let d;export function initialize(x){d=x}export async function load(u,c,n){const r=await n(u,c);if(u.endsWith(d[2])){if(!r.source.includes(d[0]))throw Error('mutation target absent');writeSync(2,JSON.stringify({appliedMutation:d[3]})+'\\n');return {...r,source:r.source.replace(d[0],d[1])}}return r}`),{data:[...mutations[mutation],['collection','context','fl_context','ownership','fl_sealing','fl_juvenile','fl_trafficking','fl_diversion','fl_defense','ga_automatic','ga_context'].includes(mutation)?'/packet-collection.ts':'/packet-information.ts',mutation]});}
+if(mutation){assert(mutations[mutation]);register('data:text/javascript,'+encodeURIComponent(`import {writeSync} from 'node:fs';let d;export function initialize(x){d=x}export async function load(u,c,n){const r=await n(u,c);if(u.endsWith(d[2])){if(!r.source.includes(d[0]))throw Error('mutation target absent');writeSync(2,JSON.stringify({appliedMutation:d[3]})+'\\n');return {...r,source:r.source.replace(d[0],d[1])}}return r}`),{data:[...mutations[mutation],['la_0','la_1','la_2','la_context','collection','context','fl_context','ownership','fl_sealing','fl_juvenile','fl_trafficking','fl_diversion','fl_defense','ga_automatic','ga_context'].includes(mutation)?'/packet-collection.ts':'/packet-information.ts',mutation]});}
 const P = await import('../src/lib/expungement-ai/packet-information.ts');
 const { evaluateAuthoritativeScreeningResult: evaluate } = await import('../src/lib/expungement-ai/authoritative-screening-result.ts');
 const {createConsumerPaymentPlaceholder}=await import('../src/lib/expungement-ai/payment-adapter.ts');
@@ -35,9 +40,14 @@ const { packetSpecificationFor } = await import('../src/lib/rcap/grade-a/packet-
 // GA-17 Q-8105d5d0b28ebd1e4a67 / Q-c8633872a982712e7803 / Q-94c8f0620f0384854d98.
 // GA-17 Q-ab7cc6744570b24e17d4 / Q-481c00319478c8236160 / Q-1ee2fb0eca77febaf2b6.
 // GA-17 Q-748f73bc4bcf41923fcc / Q-6acd9d8d275e7be59682 / Q-8c94453e5af32f59406d / QD-fb5a90b4c42ab7e486c1.
+// GA-17 Q-213a19004dbda41dfce2 / Q-e7a0b9cbb9047649e8e0 / Q-6b16d8ce7d8fc029c19e.
 // Current held consumer proof; the historical blank builder is not re-certified.
 const read=p=>JSON.parse(fs.readFileSync(p));
 const cases=[
+ {"state": "LA", "route": "expungement-by-redaction-for-multi-person-records", "result": "guidance_only", "payment": false, "reason": "la.lawrence_hold_guidance_only"},
+ {"state": "LA", "route": "non-conviction-arrest-expungement", "result": "packet_ready_with_caution", "payment": true, "reason": "la.compiled_rule_match.rule-09-if-article-894-b-was-not-already-completed-but-appears-"},
+ {"state": "LA", "route": "automated-expungement-status-verification-art-985-2", "result": "guidance_only", "payment": false, "reason": "la.guidance_only_no_user_filed_court_petition"},
+
  {state:'DC',route:'dc_motion_seal_misdemeanor_conviction_5yr_16_806',result:'not_covered_yet',payment:false,reason:'dc.intentional_unsupported_route'},
  {state:'DC',route:'dc_motion_seal_nonconviction_16_806',result:'not_covered_yet',payment:false,reason:'dc.intentional_unsupported_route'},
  {state:'FL',route:'court-ordered-expunction-943-0585',result:'needs_review',payment:false,reason:'fl.waiting_rule_not_executed'},
@@ -48,7 +58,7 @@ const cases=[
  {"state": "FL", "route": "lawful-self-defense-expunction-943-0578", "result": "guidance_only", "payment": false, "reason": "fl.selfDefense_conditional_information"},
  {"state": "GA", "route": "automatic-restriction-of-qualifying-post-july-1-2013-non-convictions", "result": "guidance_only", "payment": false, "reason": "ga.guidance_only_no_user_filed_court_petition"}
 ];
-const predecessorHashes={"dc_motion_seal_misdemeanor_conviction_5yr_16_806": "2151f25f31aa842d96d4cf4eae4e51c4c06f723a4b990f9e8922dd8c9f6d3fbd", "dc_motion_seal_nonconviction_16_806": "da1a999021ebf099a165e1d30f62c25c58bcb0c4e5ca709f0ccf57f39d8089fb", "court-ordered-expunction-943-0585": "89d9f01b4f3283b3760e4a21fca075bc948a96d2c5d973aa78f023c4dee107c1", "court-ordered-sealing-943-059": "b91cd98fe3b9f673023369ff6f28eee0e5b61282a527b0aa97b96605b90d9df1", "early-juvenile-expunction-943-0515": "f073d4e9daabbfb2953196c4a069094062f9f3ced9ad764c8a2926ec916210b1", "human-trafficking-victim-expunction-943-0583": "e6502befee04de2d1258dc7bffcfa40081f3f49c49be74ed7c792b04275378de", "juvenile-diversion-expunction-943-0582": "0835b875bbe4d563029141334795658e1784baacd5c72c9b90b2b03647a7cd76", "lawful-self-defense-expunction-943-0578": "2167351db9f9e46b127b24b0120f8aea47f568417dd07bd703679ccccfeef1e5", "automatic-restriction-of-qualifying-post-july-1-2013-non-convictions": "e84c65022897f61a29de80a8dd9615737b38e3d9245a17879c1f301bfd52f21c"};
+const predecessorHashes={"expungement-by-redaction-for-multi-person-records":"fac5462a969717f29f8487e5e121f0dd5cee11ae88b4a7eccad7ff1686123397","non-conviction-arrest-expungement":"022c3d72f61a6fabde08904670972cba90b57fab4f8e33c366902ca5cbcf2929","automated-expungement-status-verification-art-985-2":"49a76568f19070cfd1856e9306cc935d05439b0359a239a6fb2e648158ce310e","dc_motion_seal_misdemeanor_conviction_5yr_16_806": "2151f25f31aa842d96d4cf4eae4e51c4c06f723a4b990f9e8922dd8c9f6d3fbd", "dc_motion_seal_nonconviction_16_806": "da1a999021ebf099a165e1d30f62c25c58bcb0c4e5ca709f0ccf57f39d8089fb", "court-ordered-expunction-943-0585": "89d9f01b4f3283b3760e4a21fca075bc948a96d2c5d973aa78f023c4dee107c1", "court-ordered-sealing-943-059": "b91cd98fe3b9f673023369ff6f28eee0e5b61282a527b0aa97b96605b90d9df1", "early-juvenile-expunction-943-0515": "f073d4e9daabbfb2953196c4a069094062f9f3ced9ad764c8a2926ec916210b1", "human-trafficking-victim-expunction-943-0583": "e6502befee04de2d1258dc7bffcfa40081f3f49c49be74ed7c792b04275378de", "juvenile-diversion-expunction-943-0582": "0835b875bbe4d563029141334795658e1784baacd5c72c9b90b2b03647a7cd76", "lawful-self-defense-expunction-943-0578": "2167351db9f9e46b127b24b0120f8aea47f568417dd07bd703679ccccfeef1e5", "automatic-restriction-of-qualifying-post-july-1-2013-non-convictions": "e84c65022897f61a29de80a8dd9615737b38e3d9245a17879c1f301bfd52f21c"};
 const witnesses=read('data/rcap-ledger/public-witness-fixtures.json').fixtures;
 // Synthetic inputs reuse FL conditional-information cases and GA public screening facts.
 // They do not establish diversion, certification, restriction, or fulfillment authority.
@@ -130,6 +140,10 @@ witnesses.push(...[
     }
   }
 ]);
+// Reuse the retained LA status-guidance witness; no automation or funding is inferred.
+const laStatus=read('data/rcap-grade-a/question-corrections/ga10-missing-witnesses-20261013.json').additionalSubgroups.find(s=>s.id==='LA-9852-status-financial-witness-20261014');
+assert(laStatus);
+witnesses.push({pathwayKey:'LA:automated-expungement-status-verification-art-985-2',profileVersion:'2026-06-19-source-conversion-1',answers:structuredClone(laStatus.freshBaselineReproduction.answers)});
 // Run this same behavioural assertion on the predecessor before implementing the correction.
 if(process.argv.includes('--regression-only')){
  let failures=0;
@@ -166,6 +180,8 @@ check(key+': exact source purpose and unchanged authority',()=>{
   const protectedFact=resolvePacketCollection({...input,override:{routeKey:key,note:'synthetic explicit ownership',...override}}).facts[0];
   assert.notEqual(protectedFact.source,fact.source);assert.equal(protectedFact.collection,'unresolved');
  }
+ if(state==='LA')for(const factId of ['case_outcome','offense_level','court','criminal_history','financial_obligations'])
+  assert.notEqual(resolvePacketCollection({...input,requiredInputIds:[factId]}).facts[0].source,fact.source);
  for(const other of profile.pathways.filter(p=>!cases.some(c=>c.state===state&&c.route===p.id)))assert.notEqual(resolvePacketCollection({...input,pathwayId:other.id}).facts[0].source,fact.source);
  const authority=packetFulfillmentAuthority(state,route,'checkout creation');
  assert.equal(authority.allowed,false);
@@ -173,7 +189,8 @@ check(key+': exact source purpose and unchanged authority',()=>{
 });
 for(const [label,delta,expectedResult,expectedReason]of [
  ['refused ownership',{ownership_scope:'No'},'hard_stop',state.toLowerCase()+'.ownership_scope_hard_stop'],
- ['uncertain disposition',{case_outcome:'I am not sure'},'needs_review',state.toLowerCase()+'.source_fact_unknown']
+ ['uncertain disposition',{case_outcome:'I am not sure'},'needs_review',state.toLowerCase()+'.source_fact_unknown'],
+ ...(state==='LA'?[['federal refusal',{jurisdiction_scope:'Federal'},'hard_stop','la.federal_or_out_of_scope']]:[])
 ])check(key+': '+label+' keeps its actual predecessor outcome and raw history',()=>{
  const answers={...witness.answers,...delta};
  const a=evaluate({jurisdiction:state,profileVersion:witness.profileVersion,matterId:'synthetic-boundary-'+route,answers});
@@ -310,4 +327,4 @@ for(const [id,original] of [...records]){
  authenticated=true;verified=true;owner='synthetic-dc-fl-owner';
 }
 delete globalThis.__dcFlPetitionHistoryTransport;
-console.log(JSON.stringify({status:'PASS_DC_FL_PETITION_OPTIONAL_HISTORY',checks,httpCases,originalIds:['Q-748f73bc4bcf41923fcc','Q-6acd9d8d275e7be59682','Q-8c94453e5af32f59406d','Q-8105d5d0b28ebd1e4a67','Q-c8633872a982712e7803','Q-94c8f0620f0384854d98','Q-ab7cc6744570b24e17d4','Q-481c00319478c8236160','Q-1ee2fb0eca77febaf2b6','QD-fb5a90b4c42ab7e486c1'],routes:cases.map(c=>c.state+':'+c.route),limits:['Existing DC/FL/GA unsupported, held and guidance outcomes retained; actual NO_RECORD/payment refusal unchanged; no whole GA17 closure.','No database, output rendering, source change, hosted authorization or commercial delivery; draft EN/ES needs qualified review.']}));
+console.log(JSON.stringify({status:'PASS_DC_FL_PETITION_OPTIONAL_HISTORY',checks,httpCases,originalIds:['Q-213a19004dbda41dfce2','Q-e7a0b9cbb9047649e8e0','Q-6b16d8ce7d8fc029c19e','Q-748f73bc4bcf41923fcc','Q-6acd9d8d275e7be59682','Q-8c94453e5af32f59406d','Q-8105d5d0b28ebd1e4a67','Q-c8633872a982712e7803','Q-94c8f0620f0384854d98','Q-ab7cc6744570b24e17d4','Q-481c00319478c8236160','Q-1ee2fb0eca77febaf2b6','QD-fb5a90b4c42ab7e486c1'],routes:cases.map(c=>c.state+':'+c.route),limits:['Existing DC/FL/GA outcomes and LA screening readiness retained; actual NO_RECORD checkout refusal unchanged; no whole GA17 closure.','No database, output rendering, source change, hosted authorization or commercial delivery; draft EN/ES needs qualified review.']}));
