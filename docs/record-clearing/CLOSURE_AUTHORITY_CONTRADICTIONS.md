@@ -6,8 +6,9 @@ data/rcap-ledger/sellable-pathway-reclassifications.json states that the only wa
 
 | Authority outcome mode | Pathways |
 |---|---:|
-| referral | 1 |
-| **TOTAL** | **1** |
+| guidance_status | 4 |
+| referral | 3 |
+| **TOTAL** | **7** |
 
 ## Deliberately not proposed
 
@@ -15,6 +16,7 @@ These routes are also non-court, and they are **not** contradictions. The author
 
 - `HI:nonconviction-arrest-expungement` — agency_application, packet family "Hawaii Attorney General Expungement Application under § 831-3.2"
 - `MD:police-record-expungement-when-no-charge-was-filed-under-10-103` — agency_application, packet family "Maryland § 10-103 Written Request to the Police Agency"
+- `NV:removal-of-a-record-from-the-central-repository-after-a-favourable-disposition-under-179a-160` — agency_application, packet family "Nevada NRS 179A.160 written application for removal from the Central Repository"
 
 ## The proposed batch, for the decision owner
 
@@ -24,7 +26,42 @@ Eleven rows, adjudicated individually. The approval changes the paid-packet deno
 
 | Pathway | Commercial | Service disposition | Children to keep | Decision |
 |---|---|---|---|---|
+| `MA:marijuana-only-expungement` | paid_packet_intended → non_paid_service | process_guidance | — | LD-MA-02 |
 | `MN:cannabis-automatic-or-board-reviewed-expungement-under-609a-055-06` | paid_packet_intended → non_paid_service | selection_only | — | LD-MN-01 |
+| `NE:law-enforcement-error-expungement` | paid_packet_intended → non_paid_service | process_guidance | — | LD-NE-05 |
+| `NJ:clean-slate-petition-under-n-j-s-a-2c-52-5-3` | paid_packet_intended → non_paid_service | process_guidance | — | LD-NJ-01 |
+| `NV:trafficking-victim-vacatur-and-sealing-under-nrs-179-247` | paid_packet_intended → non_paid_service | handoff | — | LD-NV-04 |
+| `OR:marijuana-specific-set-aside-redesignation` | paid_packet_intended → non_paid_service | process_guidance | — | LD-OR-03 |
+| `SD:juvenile-trafficking-expungement` | paid_packet_intended → non_paid_service | handoff | — | LD-SD-02 |
+
+## `MA:marijuana-only-expungement`
+
+- **Closure says**: paid_packet_intended — Route metadata records a participant-filed court_petition route in product scope.
+- **Route authority says**: outcomeMode guidance_status, packetFamily null (LD-MA-02 / MA-276-100C-100K-100KQUARTER-THREE-PROCESS-MAP)
+- **The record's own note**: A special route; no general conviction-sealing period applies. Terminalized on 2026-09-02 by owner delivery-type decision OWN-DT-2026-09-02-Q1-route-treatment-guidance-or-packet-ma-expunge-mj-set (Roger Roman): "GUIDANCE / OUT-OF-SCOPE STANDS. A completed packet does not override the controlling route-ratification decision. Keep the packet as an internal review fixture and keep checkout disabled unless a later route-specific owner or counsel approval expressly authorizes packet delivery." The controlling per-route ratification is held_guidance in data/record-clearing/legal-decisions/route-ratification-registry.json — "Lawrence first-pass hold; show substantive guidance only for this release". outcomeMode moved from participant_packet to guidance_status and packetFamily to null so routePaymentAuthority derives closed. The retired binding is preserved for history: packetFamily "Massachusetts Marijuana Expungement Petition under §§ 100K / 100K¼", packetComponents ["Petition to expunge","Offense record showing the marijuana category"]. The rendered packet is retained as an internal review fixture; it is not participant-deliverable and no checkout, packet credit or render job opens on this route. Reopening requires a later route-specific owner or counsel approval expressly authorising packet delivery.
+- **Open blockers**: route_metadata, packet_spec_incomplete, legal_review_pending, renderer_unavailable
+- **Cannot close while the categorisation stands**: packet_spec_incomplete, renderer_unavailable — each demands a packet the authority says this route does not produce.
+- **Service disposition preserved**: process_guidance (outcome mode guidance_status). Leaving paid_packet_intended changes what this route is counted as, not what it does. It remains a guidance_status route serving a process_guidance outcome, and any consumer that reads the new classification must read this field with it.
+- **Proposed commercial classification**: non_paid_service
+- **Implementation effect**: Terminalized on 2026-09-02 by owner delivery-type decision OWN-DT-2026-09-02-Q1 (ma-expunge-mj-set): guidance / out-of-scope stands, and the controlling route ratification is held_guidance (Lawrence first-pass hold). The completed packet stays an internal review fixture with checkout disabled. The closure ledger still counts the route as paid_packet_intended, which is the contradiction; leaving that category changes what the route is counted as, not what it does.
+- **Do not**: Do not enable checkout or deliver the review-fixture packet without a later route-specific owner or counsel approval that expressly authorizes packet delivery.
+- **Prepared proposal** (authority and decidedOn are for the decision owner):
+
+```json
+{
+  "id": "PROPOSED-MA-MARIJUANA-ONLY-EXPUNGEMENT",
+  "pathwayKey": "MA:marijuana-only-expungement",
+  "previousClassification": "paid_packet_intended",
+  "newClassification": "non_filing_guidance",
+  "reason": "no_participant_filing",
+  "evidence": "src/lib/legal-authority/routes/route-splits.json records MA:marijuana-only-expungement under LD-MA-02 / MA-276-100C-100K-100KQUARTER-THREE-PROCESS-MAP as outcomeMode=guidance_status with packetFamily=null, citing Mass. Gen. Laws ch. 276, §§ 100K, 100K¼. The route reports or verifies a status; nothing is filed. The record's own note: \"A special route; no general conviction-sealing period applies. Terminalized on 2026-09-02 by owner delivery-type decision OWN-DT-2026-09-02-Q1-route-treatment-guidance-or-packet-ma-expunge-mj-set (Roger Roman): \"GUIDANCE / OUT-OF-SCOPE STANDS. A completed packet does not override the controlling route-ratification decision. Keep the packet as an internal review fixture and keep checkout disabled unless a later route-specific owner or counsel approval expressly authorizes packet delivery.\" The controlling per-route ratification is held_guidance in data/record-clearing/legal-decisions/route-ratification-registry.json — \"Lawrence first-pass hold; show substantive guidance only for this release\". outcomeMode moved from participant_packet to guidance_status and packetFamily to null so routePaymentAuthority derives closed. The retired binding is preserved for history: packetFamily \"Massachusetts Marijuana Expungement Petition under §§ 100K / 100K¼\", packetComponents [\"Petition to expunge\",\"Offense record showing the marijuana category\"]. The rendered packet is retained as an internal review fixture; it is not participant-deliverable and no checkout, packet credit or render job opens on this route. Reopening requires a later route-specific owner or counsel approval expressly authorising packet delivery.\"",
+  "authority": null,
+  "decidedOn": null,
+  "preservedServiceDisposition": "process_guidance",
+  "preservedOutcomeMode": "guidance_status",
+  "preservationNote": "Leaving paid_packet_intended changes what this route is counted as, not what it does. It remains a guidance_status route serving a process_guidance outcome, and any consumer that reads the new classification must read this field with it."
+}
+```
 
 ## `MN:cannabis-automatic-or-board-reviewed-expungement-under-609a-055-06`
 
@@ -54,6 +91,151 @@ Eleven rows, adjudicated individually. The approval changes the paid-packet deno
   "preservedServiceDisposition": "selection_only",
   "preservedOutcomeMode": "referral",
   "preservationNote": "Leaving paid_packet_intended changes what this route is counted as, not what it does. It remains a referral route serving a selection_only outcome, and any consumer that reads the new classification must read this field with it."
+}
+```
+
+## `NE:law-enforcement-error-expungement`
+
+- **Closure says**: paid_packet_intended — Route metadata records a participant-filed court_petition route in product scope.
+- **Route authority says**: outcomeMode guidance_status, packetFamily null (LD-NE-05 / NE-29-3523-ERROR-VS-29-2264-SET-ASIDE)
+- **The record's own note**: The clear-and-convincing proof standard must be collected before the packet is offered. Terminalized on 2026-09-02 by owner delivery-type decision OWN-DT-2026-09-02-Q1-route-treatment-guidance-or-packet-ne-expunge-le-error-set (Roger Roman): "GUIDANCE / OUT-OF-SCOPE STANDS. A completed packet does not override the controlling route-ratification decision. Keep the packet as an internal review fixture and keep checkout disabled unless a later route-specific owner or counsel approval expressly authorizes packet delivery." The controlling per-route ratification is held_guidance in data/record-clearing/legal-decisions/route-ratification-registry.json — "Lawrence first-pass hold; show substantive guidance only for this release". outcomeMode moved from participant_packet to guidance_status and packetFamily to null so routePaymentAuthority derives closed. The retired binding is preserved for history: packetFamily "Nebraska § 29-3523(6) Error Petition", packetComponents ["Petition under § 29-3523(6)","Clear-and-convincing proof of the error"]. The rendered packet is retained as an internal review fixture; it is not participant-deliverable and no checkout, packet credit or render job opens on this route. Reopening requires a later route-specific owner or counsel approval expressly authorising packet delivery.
+- **Open blockers**: legal_reconfirmation, packet_spec_incomplete, legal_review_pending, renderer_unavailable
+- **Cannot close while the categorisation stands**: packet_spec_incomplete, renderer_unavailable — each demands a packet the authority says this route does not produce.
+- **Service disposition preserved**: process_guidance (outcome mode guidance_status). Leaving paid_packet_intended changes what this route is counted as, not what it does. It remains a guidance_status route serving a process_guidance outcome, and any consumer that reads the new classification must read this field with it.
+- **Proposed commercial classification**: non_paid_service
+- **Implementation effect**: Terminalized on 2026-09-02 by owner delivery-type decision OWN-DT-2026-09-02-Q1 (ne-expunge-le-error-set): guidance / out-of-scope stands, and the controlling route ratification is held_guidance (Lawrence first-pass hold). The completed packet stays an internal review fixture with checkout disabled. The closure ledger still counts the route as paid_packet_intended, which is the contradiction; leaving that category changes what the route is counted as, not what it does.
+- **Do not**: Do not enable checkout or deliver the review-fixture packet without a later route-specific owner or counsel approval that expressly authorizes packet delivery.
+- **Prepared proposal** (authority and decidedOn are for the decision owner):
+
+```json
+{
+  "id": "PROPOSED-NE-LAW-ENFORCEMENT-ERROR-EXPUNGEMENT",
+  "pathwayKey": "NE:law-enforcement-error-expungement",
+  "previousClassification": "paid_packet_intended",
+  "newClassification": "non_filing_guidance",
+  "reason": "no_participant_filing",
+  "evidence": "src/lib/legal-authority/routes/route-splits.json records NE:law-enforcement-error-expungement under LD-NE-05 / NE-29-3523-ERROR-VS-29-2264-SET-ASIDE as outcomeMode=guidance_status with packetFamily=null, citing Neb. Rev. Stat. § 29-3523(6). The route reports or verifies a status; nothing is filed. The record's own note: \"The clear-and-convincing proof standard must be collected before the packet is offered. Terminalized on 2026-09-02 by owner delivery-type decision OWN-DT-2026-09-02-Q1-route-treatment-guidance-or-packet-ne-expunge-le-error-set (Roger Roman): \"GUIDANCE / OUT-OF-SCOPE STANDS. A completed packet does not override the controlling route-ratification decision. Keep the packet as an internal review fixture and keep checkout disabled unless a later route-specific owner or counsel approval expressly authorizes packet delivery.\" The controlling per-route ratification is held_guidance in data/record-clearing/legal-decisions/route-ratification-registry.json — \"Lawrence first-pass hold; show substantive guidance only for this release\". outcomeMode moved from participant_packet to guidance_status and packetFamily to null so routePaymentAuthority derives closed. The retired binding is preserved for history: packetFamily \"Nebraska § 29-3523(6) Error Petition\", packetComponents [\"Petition under § 29-3523(6)\",\"Clear-and-convincing proof of the error\"]. The rendered packet is retained as an internal review fixture; it is not participant-deliverable and no checkout, packet credit or render job opens on this route. Reopening requires a later route-specific owner or counsel approval expressly authorising packet delivery.\"",
+  "authority": null,
+  "decidedOn": null,
+  "preservedServiceDisposition": "process_guidance",
+  "preservedOutcomeMode": "guidance_status",
+  "preservationNote": "Leaving paid_packet_intended changes what this route is counted as, not what it does. It remains a guidance_status route serving a process_guidance outcome, and any consumer that reads the new classification must read this field with it."
+}
+```
+
+## `NJ:clean-slate-petition-under-n-j-s-a-2c-52-5-3`
+
+- **Closure says**: paid_packet_intended — Route metadata records a participant-filed court_petition route in product scope.
+- **Route authority says**: outcomeMode guidance_status, packetFamily null (LD-NJ-01 / NJ-2C52-NONCONVICTION-REGULAR-CLEANSLATE-MARIJUANA-MAP)
+- **The record's own note**: Use the current ten-year statute as of 2026-08-24; do not implement pending 2026 bills as enacted law. Terminalized on 2026-09-02 by owner delivery-type decision OWN-DT-2026-09-02-Q1-route-treatment-guidance-or-packet-nj_clean_slate-set (Roger Roman): "GUIDANCE / OUT-OF-SCOPE STANDS. A completed packet does not override the controlling route-ratification decision. Keep the packet as an internal review fixture and keep checkout disabled unless a later route-specific owner or counsel approval expressly authorizes packet delivery." The controlling per-route ratification is held_guidance in data/record-clearing/legal-decisions/route-ratification-registry.json — "Lawrence first-pass hold; show substantive guidance only for this release". outcomeMode moved from participant_packet to guidance_status and packetFamily to null so routePaymentAuthority derives closed. The retired binding is preserved for history: packetFamily "New Jersey Clean Slate Petition under 2C:52-5.3", packetComponents ["Verified petition","Complete case history","Service on the required agencies"]. The rendered packet is retained as an internal review fixture; it is not participant-deliverable and no checkout, packet credit or render job opens on this route. Reopening requires a later route-specific owner or counsel approval expressly authorising packet delivery.
+- **Open blockers**: legal_reconfirmation, packet_spec_incomplete, legal_review_pending, renderer_unavailable
+- **Cannot close while the categorisation stands**: packet_spec_incomplete, renderer_unavailable — each demands a packet the authority says this route does not produce.
+- **Service disposition preserved**: process_guidance (outcome mode guidance_status). Leaving paid_packet_intended changes what this route is counted as, not what it does. It remains a guidance_status route serving a process_guidance outcome, and any consumer that reads the new classification must read this field with it.
+- **Proposed commercial classification**: non_paid_service
+- **Implementation effect**: Terminalized on 2026-09-02 by owner delivery-type decision OWN-DT-2026-09-02-Q1 (nj_clean_slate-set): guidance / out-of-scope stands, and the controlling route ratification is held_guidance (Lawrence first-pass hold). The completed packet stays an internal review fixture with checkout disabled. The closure ledger still counts the route as paid_packet_intended, which is the contradiction; leaving that category changes what the route is counted as, not what it does.
+- **Do not**: Do not enable checkout or deliver the review-fixture packet without a later route-specific owner or counsel approval that expressly authorizes packet delivery.
+- **Prepared proposal** (authority and decidedOn are for the decision owner):
+
+```json
+{
+  "id": "PROPOSED-NJ-CLEAN-SLATE-PETITION-UNDER-N-J-S-A-2C-52-5-3",
+  "pathwayKey": "NJ:clean-slate-petition-under-n-j-s-a-2c-52-5-3",
+  "previousClassification": "paid_packet_intended",
+  "newClassification": "non_filing_guidance",
+  "reason": "no_participant_filing",
+  "evidence": "src/lib/legal-authority/routes/route-splits.json records NJ:clean-slate-petition-under-n-j-s-a-2c-52-5-3 under LD-NJ-01 / NJ-2C52-NONCONVICTION-REGULAR-CLEANSLATE-MARIJUANA-MAP as outcomeMode=guidance_status with packetFamily=null, citing N.J.S.A. 2C:52-5.3. The route reports or verifies a status; nothing is filed. The record's own note: \"Use the current ten-year statute as of 2026-08-24; do not implement pending 2026 bills as enacted law. Terminalized on 2026-09-02 by owner delivery-type decision OWN-DT-2026-09-02-Q1-route-treatment-guidance-or-packet-nj_clean_slate-set (Roger Roman): \"GUIDANCE / OUT-OF-SCOPE STANDS. A completed packet does not override the controlling route-ratification decision. Keep the packet as an internal review fixture and keep checkout disabled unless a later route-specific owner or counsel approval expressly authorizes packet delivery.\" The controlling per-route ratification is held_guidance in data/record-clearing/legal-decisions/route-ratification-registry.json — \"Lawrence first-pass hold; show substantive guidance only for this release\". outcomeMode moved from participant_packet to guidance_status and packetFamily to null so routePaymentAuthority derives closed. The retired binding is preserved for history: packetFamily \"New Jersey Clean Slate Petition under 2C:52-5.3\", packetComponents [\"Verified petition\",\"Complete case history\",\"Service on the required agencies\"]. The rendered packet is retained as an internal review fixture; it is not participant-deliverable and no checkout, packet credit or render job opens on this route. Reopening requires a later route-specific owner or counsel approval expressly authorising packet delivery.\"",
+  "authority": null,
+  "decidedOn": null,
+  "preservedServiceDisposition": "process_guidance",
+  "preservedOutcomeMode": "guidance_status",
+  "preservationNote": "Leaving paid_packet_intended changes what this route is counted as, not what it does. It remains a guidance_status route serving a process_guidance outcome, and any consumer that reads the new classification must read this field with it."
+}
+```
+
+## `NV:trafficking-victim-vacatur-and-sealing-under-nrs-179-247`
+
+- **Closure says**: paid_packet_intended — Route metadata records a participant-filed court_motion route in product scope.
+- **Route authority says**: outcomeMode referral, packetFamily null (LD-NV-04 / NV-176.211-DEFERRED-EVENT-AND-179.247-TRAFFICKING-EVENT)
+- **The record's own note**: Its own nexus and safety conditions; never inherits the deferred-judgment rule. Terminalized on 2026-09-02 by owner delivery-type decision OWN-DT-2026-09-02-Q2-composed-petition-or-attorney-referral-composed-treatment:obligation:runtime-only:NV:trafficking-vi (Roger Roman): "REFERRAL GUIDANCE ONLY. Where the compiled profile routes the matter to legal aid or an attorney, do not ship a participant-filed composed petition without route-specific counsel approval. Keep checkout disabled." data/record-clearing/legal-decisions/route-ratification-registry.json carries no row for this route; the owner decision is the controlling record. outcomeMode moved from participant_packet to referral and packetFamily to null so routePaymentAuthority derives closed. The retired binding is preserved for history: packetFamily "Nevada Trafficking-Victim Vacatur and Sealing Petition under NRS 179.247", packetComponents ["Petition to vacate and seal","Victimization nexus evidence","Due-diligence and safety showing"]. The rendered packet is retained as an internal review fixture; it is not participant-deliverable and no checkout, packet credit or render job opens on this route. Reopening requires a later route-specific owner or counsel approval expressly authorising packet delivery.
+- **Open blockers**: intake_fix, packet_spec_incomplete, legal_review_pending, renderer_unavailable
+- **Cannot close while the categorisation stands**: packet_spec_incomplete, renderer_unavailable — each demands a packet the authority says this route does not produce.
+- **Service disposition preserved**: handoff (outcome mode referral). Leaving paid_packet_intended changes what this route is counted as, not what it does. It remains a referral route serving a handoff outcome, and any consumer that reads the new classification must read this field with it.
+- **Proposed commercial classification**: non_paid_service
+- **Implementation effect**: Terminalized on 2026-09-02 by owner delivery-type decision OWN-DT-2026-09-02-Q2 (composed petition or attorney referral): referral guidance only. outcomeMode moved from participant_packet to referral and packetFamily to null; the route-ratification registry carries no row, so the owner decision is the controlling record. The closure ledger still counts the route as paid_packet_intended, which is the contradiction.
+- **Do not**: Do not ship a participant-filed composed petition without route-specific counsel approval; keep checkout disabled.
+- **Prepared proposal** (authority and decidedOn are for the decision owner):
+
+```json
+{
+  "id": "PROPOSED-NV-TRAFFICKING-VICTIM-VACATUR-AND-SEALING-UNDER-NRS-179-247",
+  "pathwayKey": "NV:trafficking-victim-vacatur-and-sealing-under-nrs-179-247",
+  "previousClassification": "paid_packet_intended",
+  "newClassification": "non_filing_guidance",
+  "reason": "no_participant_filing",
+  "evidence": "src/lib/legal-authority/routes/route-splits.json records NV:trafficking-victim-vacatur-and-sealing-under-nrs-179-247 under LD-NV-04 / NV-176.211-DEFERRED-EVENT-AND-179.247-TRAFFICKING-EVENT as outcomeMode=referral with packetFamily=null, citing Nev. Rev. Stat. § 179.247. The route refers the participant elsewhere; it prepares no filing of its own. The record's own note: \"Its own nexus and safety conditions; never inherits the deferred-judgment rule. Terminalized on 2026-09-02 by owner delivery-type decision OWN-DT-2026-09-02-Q2-composed-petition-or-attorney-referral-composed-treatment:obligation:runtime-only:NV:trafficking-vi (Roger Roman): \"REFERRAL GUIDANCE ONLY. Where the compiled profile routes the matter to legal aid or an attorney, do not ship a participant-filed composed petition without route-specific counsel approval. Keep checkout disabled.\" data/record-clearing/legal-decisions/route-ratification-registry.json carries no row for this route; the owner decision is the controlling record. outcomeMode moved from participant_packet to referral and packetFamily to null so routePaymentAuthority derives closed. The retired binding is preserved for history: packetFamily \"Nevada Trafficking-Victim Vacatur and Sealing Petition under NRS 179.247\", packetComponents [\"Petition to vacate and seal\",\"Victimization nexus evidence\",\"Due-diligence and safety showing\"]. The rendered packet is retained as an internal review fixture; it is not participant-deliverable and no checkout, packet credit or render job opens on this route. Reopening requires a later route-specific owner or counsel approval expressly authorising packet delivery.\"",
+  "authority": null,
+  "decidedOn": null,
+  "preservedServiceDisposition": "handoff",
+  "preservedOutcomeMode": "referral",
+  "preservationNote": "Leaving paid_packet_intended changes what this route is counted as, not what it does. It remains a referral route serving a handoff outcome, and any consumer that reads the new classification must read this field with it."
+}
+```
+
+## `OR:marijuana-specific-set-aside-redesignation`
+
+- **Closure says**: paid_packet_intended — Route metadata records a participant-filed court_motion route in product scope.
+- **Route authority says**: outcomeMode guidance_status, packetFamily null (LD-OR-03 / OR-475C.397-SPECIAL-MARIJUANA-VS-137.225-CLASS-MAP)
+- **The record's own note**: Marijuana convictions outside § 475C.397 use the current § 137.225 class map: one year for Class B/C misdemeanors or violations, three years for Class A misdemeanors, five years for Class C felonies, seven years for Class B felonies. Offense class and date are mandatory intake facts for that fallback. Terminalized on 2026-09-02 by owner delivery-type decision OWN-DT-2026-09-02-Q1-route-treatment-guidance-or-packet-or_conviction_setaside-set (Roger Roman): "GUIDANCE / OUT-OF-SCOPE STANDS. A completed packet does not override the controlling route-ratification decision. Keep the packet as an internal review fixture and keep checkout disabled unless a later route-specific owner or counsel approval expressly authorizes packet delivery." The controlling per-route ratification is held_guidance in data/record-clearing/legal-decisions/route-ratification-registry.json — "Lawrence first-pass hold; show substantive guidance only for this release". outcomeMode moved from participant_packet to guidance_status and packetFamily to null so routePaymentAuthority derives closed. The retired binding is preserved for history: packetFamily "Oregon Marijuana Set-Aside Motion under ORS 475C.397", packetComponents ["Motion under § 475C.397","Judgment","Sentence compliance proof"]. The rendered packet is retained as an internal review fixture; it is not participant-deliverable and no checkout, packet credit or render job opens on this route. Reopening requires a later route-specific owner or counsel approval expressly authorising packet delivery. Terminalized on 2026-09-02 by owner delivery-type decision OWN-DT-2026-09-02-Q1-route-treatment-guidance-or-packet-or_conviction_setaside-set (Roger Roman): "GUIDANCE / OUT-OF-SCOPE STANDS. A completed packet does not override the controlling route-ratification decision. Keep the packet as an internal review fixture and keep checkout disabled unless a later route-specific owner or counsel approval expressly authorizes packet delivery." The controlling per-route ratification is held_guidance in data/record-clearing/legal-decisions/route-ratification-registry.json — "Lawrence first-pass hold; show substantive guidance only for this release". outcomeMode moved from participant_packet to guidance_status and packetFamily to null so routePaymentAuthority derives closed. The retired binding is preserved for history: packetFamily "null". The rendered packet is retained as an internal review fixture; it is not participant-deliverable and no checkout, packet credit or render job opens on this route. Reopening requires a later route-specific owner or counsel approval expressly authorising packet delivery.
+- **Open blockers**: legal_reconfirmation, packet_spec_incomplete, legal_review_pending, renderer_unavailable
+- **Cannot close while the categorisation stands**: packet_spec_incomplete, renderer_unavailable — each demands a packet the authority says this route does not produce.
+- **Service disposition preserved**: process_guidance (outcome mode guidance_status). Leaving paid_packet_intended changes what this route is counted as, not what it does. It remains a guidance_status route serving a process_guidance outcome, and any consumer that reads the new classification must read this field with it.
+- **Proposed commercial classification**: non_paid_service
+- **Implementation effect**: Terminalized on 2026-09-02 by owner delivery-type decision OWN-DT-2026-09-02-Q1 (or_conviction_setaside-set): guidance / out-of-scope stands, and the controlling route ratification is held_guidance (Lawrence first-pass hold). The completed packet stays an internal review fixture with checkout disabled. The closure ledger still counts the route as paid_packet_intended, which is the contradiction; leaving that category changes what the route is counted as, not what it does.
+- **Do not**: Do not enable checkout or deliver the review-fixture packet without a later route-specific owner or counsel approval that expressly authorizes packet delivery.
+- **Prepared proposal** (authority and decidedOn are for the decision owner):
+
+```json
+{
+  "id": "PROPOSED-OR-MARIJUANA-SPECIFIC-SET-ASIDE-REDESIGNATION",
+  "pathwayKey": "OR:marijuana-specific-set-aside-redesignation",
+  "previousClassification": "paid_packet_intended",
+  "newClassification": "non_filing_guidance",
+  "reason": "no_participant_filing",
+  "evidence": "src/lib/legal-authority/routes/single-routes.json records OR:marijuana-specific-set-aside-redesignation under LD-OR-03 / OR-475C.397-SPECIAL-MARIJUANA-VS-137.225-CLASS-MAP as outcomeMode=guidance_status with packetFamily=null, citing ORS 475C.397. The route reports or verifies a status; nothing is filed. The record's own note: \"Marijuana convictions outside § 475C.397 use the current § 137.225 class map: one year for Class B/C misdemeanors or violations, three years for Class A misdemeanors, five years for Class C felonies, seven years for Class B felonies. Offense class and date are mandatory intake facts for that fallback. Terminalized on 2026-09-02 by owner delivery-type decision OWN-DT-2026-09-02-Q1-route-treatment-guidance-or-packet-or_conviction_setaside-set (Roger Roman): \"GUIDANCE / OUT-OF-SCOPE STANDS. A completed packet does not override the controlling route-ratification decision. Keep the packet as an internal review fixture and keep checkout disabled unless a later route-specific owner or counsel approval expressly authorizes packet delivery.\" The controlling per-route ratification is held_guidance in data/record-clearing/legal-decisions/route-ratification-registry.json — \"Lawrence first-pass hold; show substantive guidance only for this release\". outcomeMode moved from participant_packet to guidance_status and packetFamily to null so routePaymentAuthority derives closed. The retired binding is preserved for history: packetFamily \"Oregon Marijuana Set-Aside Motion under ORS 475C.397\", packetComponents [\"Motion under § 475C.397\",\"Judgment\",\"Sentence compliance proof\"]. The rendered packet is retained as an internal review fixture; it is not participant-deliverable and no checkout, packet credit or render job opens on this route. Reopening requires a later route-specific owner or counsel approval expressly authorising packet delivery. Terminalized on 2026-09-02 by owner delivery-type decision OWN-DT-2026-09-02-Q1-route-treatment-guidance-or-packet-or_conviction_setaside-set (Roger Roman): \"GUIDANCE / OUT-OF-SCOPE STANDS. A completed packet does not override the controlling route-ratification decision. Keep the packet as an internal review fixture and keep checkout disabled unless a later route-specific owner or counsel approval expressly authorizes packet delivery.\" The controlling per-route ratification is held_guidance in data/record-clearing/legal-decisions/route-ratification-registry.json — \"Lawrence first-pass hold; show substantive guidance only for this release\". outcomeMode moved from participant_packet to guidance_status and packetFamily to null so routePaymentAuthority derives closed. The retired binding is preserved for history: packetFamily \"null\". The rendered packet is retained as an internal review fixture; it is not participant-deliverable and no checkout, packet credit or render job opens on this route. Reopening requires a later route-specific owner or counsel approval expressly authorising packet delivery.\"",
+  "authority": null,
+  "decidedOn": null,
+  "preservedServiceDisposition": "process_guidance",
+  "preservedOutcomeMode": "guidance_status",
+  "preservationNote": "Leaving paid_packet_intended changes what this route is counted as, not what it does. It remains a guidance_status route serving a process_guidance outcome, and any consumer that reads the new classification must read this field with it."
+}
+```
+
+## `SD:juvenile-trafficking-expungement`
+
+- **Closure says**: paid_packet_intended — Route metadata records a participant-filed court_petition route in product scope.
+- **Route authority says**: outcomeMode referral, packetFamily null (LD-SD-02 / SD-26-7A-115.1-TRAFFICKING-AND-23A-27-13-SIS-SPLIT)
+- **The record's own note**: Do not preserve the prior blanket attorney-referral treatment for an otherwise complete intake. Terminalized on 2026-09-02 by owner delivery-type decision OWN-DT-2026-09-02-Q2-composed-petition-or-attorney-referral-composed-treatment:obligation:runtime-only:SD:juvenile-traff (Roger Roman): "REFERRAL GUIDANCE ONLY. Where the compiled profile routes the matter to legal aid or an attorney, do not ship a participant-filed composed petition without route-specific counsel approval. Keep checkout disabled." data/record-clearing/legal-decisions/route-ratification-registry.json carries no row for this route; the owner decision is the controlling record. outcomeMode moved from participant_packet to referral and packetFamily to null so routePaymentAuthority derives closed. The retired binding is preserved for history: packetFamily "South Dakota Juvenile Trafficking Expungement Petition under § 26-7A-115.1", packetComponents ["Petition under § 26-7A-115.1","Victimization nexus evidence"]. The rendered packet is retained as an internal review fixture; it is not participant-deliverable and no checkout, packet credit or render job opens on this route. Reopening requires a later route-specific owner or counsel approval expressly authorising packet delivery.
+- **Open blockers**: intake_fix, packet_spec_incomplete, legal_review_pending, renderer_unavailable
+- **Cannot close while the categorisation stands**: packet_spec_incomplete, renderer_unavailable — each demands a packet the authority says this route does not produce.
+- **Service disposition preserved**: handoff (outcome mode referral). Leaving paid_packet_intended changes what this route is counted as, not what it does. It remains a referral route serving a handoff outcome, and any consumer that reads the new classification must read this field with it.
+- **Proposed commercial classification**: non_paid_service
+- **Implementation effect**: Terminalized on 2026-09-02 by owner delivery-type decision OWN-DT-2026-09-02-Q2 (composed petition or attorney referral): referral guidance only. outcomeMode moved from participant_packet to referral and packetFamily to null; the route-ratification registry carries no row, so the owner decision is the controlling record. The closure ledger still counts the route as paid_packet_intended, which is the contradiction.
+- **Do not**: Do not ship a participant-filed composed petition without route-specific counsel approval; keep checkout disabled.
+- **Prepared proposal** (authority and decidedOn are for the decision owner):
+
+```json
+{
+  "id": "PROPOSED-SD-JUVENILE-TRAFFICKING-EXPUNGEMENT",
+  "pathwayKey": "SD:juvenile-trafficking-expungement",
+  "previousClassification": "paid_packet_intended",
+  "newClassification": "non_filing_guidance",
+  "reason": "no_participant_filing",
+  "evidence": "src/lib/legal-authority/routes/route-splits.json records SD:juvenile-trafficking-expungement under LD-SD-02 / SD-26-7A-115.1-TRAFFICKING-AND-23A-27-13-SIS-SPLIT as outcomeMode=referral with packetFamily=null, citing S.D. Codified Laws § 26-7A-115.1. The route refers the participant elsewhere; it prepares no filing of its own. The record's own note: \"Do not preserve the prior blanket attorney-referral treatment for an otherwise complete intake. Terminalized on 2026-09-02 by owner delivery-type decision OWN-DT-2026-09-02-Q2-composed-petition-or-attorney-referral-composed-treatment:obligation:runtime-only:SD:juvenile-traff (Roger Roman): \"REFERRAL GUIDANCE ONLY. Where the compiled profile routes the matter to legal aid or an attorney, do not ship a participant-filed composed petition without route-specific counsel approval. Keep checkout disabled.\" data/record-clearing/legal-decisions/route-ratification-registry.json carries no row for this route; the owner decision is the controlling record. outcomeMode moved from participant_packet to referral and packetFamily to null so routePaymentAuthority derives closed. The retired binding is preserved for history: packetFamily \"South Dakota Juvenile Trafficking Expungement Petition under § 26-7A-115.1\", packetComponents [\"Petition under § 26-7A-115.1\",\"Victimization nexus evidence\"]. The rendered packet is retained as an internal review fixture; it is not participant-deliverable and no checkout, packet credit or render job opens on this route. Reopening requires a later route-specific owner or counsel approval expressly authorising packet delivery.\"",
+  "authority": null,
+  "decidedOn": null,
+  "preservedServiceDisposition": "handoff",
+  "preservedOutcomeMode": "referral",
+  "preservationNote": "Leaving paid_packet_intended changes what this route is counted as, not what it does. It remains a referral route serving a handoff outcome, and any consumer that reads the new classification must read this field with it."
 }
 ```
 
