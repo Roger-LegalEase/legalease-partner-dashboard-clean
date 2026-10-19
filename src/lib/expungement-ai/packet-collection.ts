@@ -684,10 +684,12 @@ export function arBoundCategoryIsHistory(profile: EngineProfile | undefined, pat
 }
 
 // GA12 Q-49c293131f5eba7089d9 / Q-4fbcf8810b325d290849 / Q-6a2e1331cb59164e4634: no generic category document consumer.
+// GA12 Q-4b42a49baff24e9dcae6 / Q-8a28b159789e3e372c69: the attached court order, not a category, decides these conviction routes.
 export function hiThreeRouteCategoryIsHistory(profile: EngineProfile | undefined, pathwayId: string | null | undefined,
   specification: RegisteredSpecification | null | undefined): boolean {
   return profile?.jurisdiction.code === "HI"
-    && ["deferred-acceptance-one-year", "deferred-prostitution-three-year", "nonconviction-arrest-expungement"].includes(pathwayId ?? "")
+    && ["deferred-acceptance-one-year", "deferred-prostitution-three-year", "nonconviction-arrest-expungement",
+      "dui-under-21-conviction", "first-time-drug-conviction"].includes(pathwayId ?? "")
     && specification == null && contactRepresentationHash(profile) === "9b1a121be377fa34e6425d96f7edb82428321b60a757870f8dc4878ebfb27ece";
 }
 

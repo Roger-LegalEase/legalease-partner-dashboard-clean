@@ -12,6 +12,8 @@ const mutations={
  hi_level:['factId === "offense_category" && !overrideClass','(factId === "offense_category" || hiCategoryHistory && factId === "offense_level") && !overrideClass'],
  hi_question:['"hi_three_route_category_history", "ar_bound_category_history"','"disabled_hi_category_history", "ar_bound_category_history"'],
  hi_history:['hiThreeRouteCategoryIsHistory(profile, pathway, packetSpecificationFor(`${state}:${pathway}`))','false'],
+ hi_dui:['"dui-under-21-conviction", "first-time-drug-conviction"].includes','"unassigned-route", "first-time-drug-conviction"].includes'],
+ hi_drug:['"first-time-drug-conviction"].includes','"unassigned-route"].includes'],
  ia_context:['specification == null && contactRepresentationHash(profile) === "ffdbac49e5a1e96f22cb8cd6f4842e9b9c367b988901fa061091fc6d9107ed9e"','true'],
  ia_collection:['iaCategoryHistory ||','false ||'],
  ia_level:['factId === "offense_category" && !overrideClass','(factId === "offense_category" || iaCategoryHistory && factId === "offense_level") && !overrideClass'],
@@ -25,7 +27,7 @@ const mutations={
  loss:['const shapesPreserved = preserveProtectedLegacyShapes(seeded, legacy.inspection, replacedLegacyIds);','const shapesPreserved = preserveProtectedLegacyShapes(seeded, legacy.inspection, replacedLegacyIds); delete shapesPreserved.packetAnswers.offense_category;'],
  priority:['const shapesPreserved = preserveProtectedLegacyShapes(seeded, legacy.inspection, replacedLegacyIds);','const shapesPreserved = preserveProtectedLegacyShapes(seeded, legacy.inspection, replacedLegacyIds); shapesPreserved.packetAnswers.offense_category = "Inferred category";']
 };
-if(mutation){assert(mutations[mutation]);register('data:text/javascript,'+encodeURIComponent(`import {writeSync} from 'node:fs';let d;export function initialize(x){d=x}export async function load(u,c,n){const r=await n(u,c);if(u.endsWith(d[2])){if(!r.source.includes(d[0]))throw Error('mutation target absent');writeSync(2,JSON.stringify({appliedMutation:d[3]})+'\\n');return {...r,source:r.source.replace(d[0],d[1])}}return r}`),{data:[...mutations[mutation],['hi_context','hi_collection','hi_level','ia_context','ia_collection','ia_level','collection','context','ownership'].includes(mutation)?'/packet-collection.ts':'/packet-information.ts',mutation]});}
+if(mutation){assert(mutations[mutation]);register('data:text/javascript,'+encodeURIComponent(`import {writeSync} from 'node:fs';let d;export function initialize(x){d=x}export async function load(u,c,n){const r=await n(u,c);if(u.endsWith(d[2])){if(!r.source.includes(d[0]))throw Error('mutation target absent');writeSync(2,JSON.stringify({appliedMutation:d[3]})+'\\n');return {...r,source:r.source.replace(d[0],d[1])}}return r}`),{data:[...mutations[mutation],['hi_context','hi_collection','hi_level','hi_dui','hi_drug','ia_context','ia_collection','ia_level','collection','context','ownership'].includes(mutation)?'/packet-collection.ts':'/packet-information.ts',mutation]});}
 const P = await import('../src/lib/expungement-ai/packet-information.ts');
 const { evaluateAuthoritativeScreeningResult: evaluate } = await import('../src/lib/expungement-ai/authoritative-screening-result.ts');
 const {packetFulfillmentAuthority}=await import('../src/lib/expungement-ai/packet-fulfillment-authority.ts');
@@ -35,12 +37,15 @@ const { alThreeRouteCategoryIsHistory, hiThreeRouteCategoryIsHistory, iaCategory
 
 // GA-12 / QD-bd6b15fff22cbe1501cb: three source-bound AL guidance consumers.
 // GA12 HI Q-49c293131f5eba7089d9 / Q-4fbcf8810b325d290849 / Q-6a2e1331cb59164e4634.
+// GA12 HI Q-4b42a49baff24e9dcae6 / Q-8a28b159789e3e372c69: court-order conviction routes; the order, not a category, decides.
 // GA12 IA Q-377830ef29f46987d4b3 / Q-da97aa3887af5a623b94: preserve the existing source-form reference.
 // GA12 IA Q-954756996d44111dd6f6 / Q-11a00e1e894ff5efe5f9 / Q-91de493bf957b599962f.
 const cases = [
   ['Q-49c293131f5eba7089d9','deferred-acceptance-one-year','HI'],
   ['Q-4fbcf8810b325d290849','deferred-prostitution-three-year','HI'],
   ['Q-6a2e1331cb59164e4634','nonconviction-arrest-expungement','HI'],
+  ['Q-4b42a49baff24e9dcae6','dui-under-21-conviction','HI'],
+  ['Q-8a28b159789e3e372c69','first-time-drug-conviction','HI'],
   ['Q-954756996d44111dd6f6','minor-prostitution-7251','IA'],
   ['Q-11a00e1e894ff5efe5f9','misdemeanor-901c3','IA'],
   ['Q-91de493bf957b599962f','nonconviction-901c2','IA'],
@@ -76,13 +81,15 @@ function check(name, fn) {
 for (const [questionRecordId, route, state = 'AL'] of cases) {
   const profile=getProfileByJurisdiction(state);
   const historyContext={HI:hiThreeRouteCategoryIsHistory,IA:iaCategoryIsHistory}[state]??alThreeRouteCategoryIsHistory;
-  const result=state==='HI'&&route==='nonconviction-arrest-expungement'?'packet_ready_with_caution':state==='IA'&&route!=='minor-prostitution-7251'?'needs_review':'guidance_only';
+  const hiCourtOrder=state==='HI'&&['dui-under-21-conviction','first-time-drug-conviction'].includes(route);
+  const result=state==='HI'&&(route==='nonconviction-arrest-expungement'||hiCourtOrder)?'packet_ready_with_caution':state==='IA'&&route!=='minor-prostitution-7251'?'needs_review':'guidance_only';
   const payment=result==='packet_ready_with_caution';
   const historySource={HI:'hi_three_route_category_history',IA:'ia_three_route_category_history'}[state]??'al_three_route_category_history';
   const historyReason={HI:'These source-bound Hawaii consumers use separate disposition, charge and court-order facts. Earlier offense categories remain optional literal history and establish neither statutory classification nor eligibility.',IA:'These source-bound Iowa consumers use separate charge, disposition, age and timing facts. Earlier offense categories remain optional literal history and establish neither statutory classification nor eligibility.'}[state]??'These source-bound Alabama guidance consumers do not bind an offense category to a document. Earlier category answers remain optional literal history; disposition, pardon, trafficking and exclusion facts remain separate.';
   const witness=fixtures.find(f=>f.pathwayKey===`${state}:${route}`);assert(witness);
-  const answers=structuredClone(witness.answers);
-  const reason=payment?'hi.compiled_rule_match.rule-04-a-complete-application-valid-government-photo-id-paymen':result==='needs_review'?'ia.waiting_rule_not_executed':state.toLowerCase()+'.guidance_only_no_user_filed_court_petition';
+  // The HI conviction witnesses omit the required court-order confirmation; with it the paid packet opens.
+  const answers=hiCourtOrder?{...structuredClone(witness.answers),hi_court_order_confirmed:'Yes'}:structuredClone(witness.answers);
+  const reason=hiCourtOrder?'hi.compiled_rule_match.rule-09-the-source-identifies-hrs-706-622-5-and-706-622-8-first':payment?'hi.compiled_rule_match.rule-04-a-complete-application-valid-government-photo-id-paymen':result==='needs_review'?'ia.waiting_rule_not_executed':state.toLowerCase()+'.guidance_only_no_user_filed_court_petition';
   const authoritative = evaluate({ jurisdiction: state, profileVersion: profile.profileVersion,
     matterId: `synthetic-${questionRecordId}`, answers });
   check(`${route}: exact conditional information authority`, () => {
