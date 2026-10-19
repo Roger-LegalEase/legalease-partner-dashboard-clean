@@ -657,9 +657,13 @@ export function dcFlPetitionRecordIsHistory(profile: EngineProfile | undefined, 
       && contactRepresentationHash(profile) === "4e84c6d8ba6469a095c50f09cacfb5518c4132d049fbf068513c6eb925e6a364"
     // GA17 Q-50dcf8b1a91162a70705 / Q-5ec575d17ded0b87051d / Q-79e780778f4a487dd39b: preserve overlapping labels without a record-type consumer.
     // GA17 Q-fb2109e5a0379589fe4c / Q-9026faa3fca7a143a0df / Q-bf040ed86c19172840d6: preserve overlapping labels without a record-type consumer.
+    // GA17 Q-0c86d50a75c852085df7 / Q-f66a6b6b457285d85751 / Q-8a323b249717d2c2b890: preserve literal history without a record-type consumer.
     || profile?.jurisdiction.code === "MA"
-      && ["adult-conviction-sealing-under-m-g-l-c-276-100a", "automatic-non-conviction-sealing-for-not-guilty-no-bill-or-no-probable-cause-outcomes-100c", "court-requested-sealing-for-dismissal-or-nolle-prosequi-100c", "juvenile-record-sealing-under-100b", "marijuana-only-expungement", "non-time-based-expungement-for-false-identity-error-fraud-or-decriminalized-conduct-100k"].includes(pathwayId ?? "")
-      && contactRepresentationHash(profile) === "f81a71dd750ea489f1c29074b571512bd5cb7c78c5dd924c1f6e7cb7122c0f0d";
+      && ["adult-conviction-sealing-under-m-g-l-c-276-100a", "automatic-non-conviction-sealing-for-not-guilty-no-bill-or-no-probable-cause-outcomes-100c", "court-requested-sealing-for-dismissal-or-nolle-prosequi-100c", "juvenile-record-sealing-under-100b", "marijuana-only-expungement", "non-time-based-expungement-for-false-identity-error-fraud-or-decriminalized-conduct-100k", "time-based-expungement-under-100f-100j"].includes(pathwayId ?? "")
+      && contactRepresentationHash(profile) === "f81a71dd750ea489f1c29074b571512bd5cb7c78c5dd924c1f6e7cb7122c0f0d"
+    || profile?.jurisdiction.code === "ME"
+      && ["adult-conviction-sealing", "adult-non-conviction-record-relief"].includes(pathwayId ?? "")
+      && contactRepresentationHash(profile) === "d49e7b9cb025700b9c352d78e1e9044c41b99bd0695b61eda373215034d78f5a";
 }
 
 // GA12 Q-afb21e87bf5f515361d3 / Q-e5235e1dd8cc84bbc183 / Q-85cf769eef915fa16dd9: no category value or document binding.
