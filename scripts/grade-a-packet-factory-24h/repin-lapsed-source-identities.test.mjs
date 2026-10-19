@@ -25,6 +25,7 @@ import {
   doctrineRefreshedPaths, planFamily, planReceipt, composeRefreshedReceipt,
   readsAsUnmoved, recoverBytesByDigest, sha256, lapsedFamilies, currentBytesOf
 } from "./repin-lapsed-source-identities.mjs";
+import { isolateDrift } from "./repin-test-fixtures.mjs";
 
 const ROOT = path.resolve(fileURLToPath(new URL("../..", import.meta.url)));
 const REGISTRY = "data/record-clearing/legal-design-track-registry.json";
@@ -69,7 +70,7 @@ function singleRouteContractTests() {
       const candidate = JSON.parse(candidateText);
       const binding = candidate.committedRecords.find(row => row.pathInRepository === recordPath);
       if (binding && binding.sha256 !== sha256(fs.readFileSync(path.join(ROOT, recordPath)))) {
-        receipt = candidate; pin = binding; beforeText = candidateText; break;
+        receipt = candidate; pin = binding; beforeText = isolateDrift(candidateText, recordPath, ROOT); break;
       }
     }
     assert.ok(pin, `no actual stale route-contract receipt found for ${familyId}`);
@@ -234,7 +235,7 @@ const prePinRevision = (() => {
   return null;
 })();
 assert.ok(prePinRevision, "no revision of this receipt carries a stale registry pin, so the accept path has no fixture");
-const beforeText = gitText(prePinRevision);
+const beforeText = isolateDrift(gitText(prePinRevision), REGISTRY, ROOT);
 const sampleReceipt = JSON.parse(beforeText);
 const samplePin = sampleReceipt.committedRecords.find((r) => r.pathInRepository === REGISTRY);
 assert.ok(samplePin, "the sample family does not pin the registry");

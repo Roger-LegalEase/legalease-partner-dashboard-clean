@@ -4,6 +4,7 @@ import fs from 'node:fs';
 import { execFileSync } from 'node:child_process';
 import { test } from 'node:test';
 import { ADAPTERS, Refusal, compareAnchors, planReceipt, composeRefreshedReceipt, readsAsUnmoved, sha256 } from './repin-lapsed-source-identities.mjs';
+import { isolateDrift } from './repin-test-fixtures.mjs';
 
 const manifestPath = 'data/record-clearing/legal-design-packet-set-manifests.json';
 const adapter = ADAPTERS.get(manifestPath);
@@ -85,7 +86,7 @@ const oldManifest = fromGit(manifestPath);
 const queue = JSON.parse(fs.readFileSync('data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json', 'utf8'));
 const wv = queue.families.find((f) => f.familyId === 'wv_conv_nonviolent_felony-set');
 const receiptPath = `${wv.directory}/source-receipt.json`;
-const beforeText = fromGit(receiptPath).toString('utf8');
+const beforeText = isolateDrift(fromGit(receiptPath).toString('utf8'), manifestPath, process.cwd());
 const measuredPlan = () => planReceipt({ familyId: wv.familyId, directory: wv.directory, receiptPath, beforeText });
 
 test('native planner recovers real prior manifest and safely refreshes unchanged WV dependencies', () => {
