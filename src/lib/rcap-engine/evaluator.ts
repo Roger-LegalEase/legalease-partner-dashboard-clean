@@ -1081,7 +1081,13 @@ function evaluateProfileRules(profile: EngineProfile, request: ScreeningEvaluati
     });
   }
 
-  return result(profile, request, selectedCode, [reason(jurisdiction, `compiled_rule_match.${route.rule.id}`, `Compiled source rule ${route.rule.id} matches ${pathway.label}.`, route.rule.sourceRef ?? pathway.sourceRef)], {
+  // Broad candidate lists can match another HI pathway; do not present that rule as DUI authority.
+  const successReason = jurisdiction === "HI" && pathway.id === "dui-under-21-conviction"
+    && !compiledRouteRuleMatchesPathway(route.rule, pathway)
+    && route.rule.sourceRef !== `manual_source_conversion:HI:${pathway.id}`
+    ? reason(jurisdiction, "dui_pathway_context", "The Hawaii DUI-under-21 pathway was selected for this packet decision.", pathway.sourceRef)
+    : reason(jurisdiction, `compiled_rule_match.${route.rule.id}`, `Compiled source rule ${route.rule.id} matches ${pathway.label}.`, route.rule.sourceRef ?? pathway.sourceRef);
+  return result(profile, request, selectedCode, [successReason], {
     pathwayId: pathway.id,
     packetPlan: plan,
     paymentAllowed: paymentAllowed && legallyAuthorizedPayment

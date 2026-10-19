@@ -68,6 +68,7 @@ const read=p=>JSON.parse(fs.readFileSync(p));
 // GA-17 Q-f998590180601fe00713 / Q-30353f219d82ca7eeb62: existing juvenile collection, not relief authority.
 // GA-17 Q-46a17f0eb164e9cdcf27 / Q-47d5c5f19e70f0fbcbec / Q-73e3915ed9d087f8b531 / Q-6fce98651a27d2a3b8c6 / Q-65a2e556a51d224b2917: literal record history on existing guidance surfaces.
 // GA-17 Q-50dcf8b1a91162a70705 / Q-5ec575d17ded0b87051d / Q-79e780778f4a487dd39b: literal history on exact Massachusetts consumers.
+// HI DUI reason-only successor is declared in test-hi-dui-rule-citation.mjs; predecessor hashes below remain fixed.
 const cases=[
  {"state": "KY", "route": "juvenile-automatic-dismissal", "result": "guidance_only", "payment": false, "reason": "ky.guidance_only_no_user_filed_court_petition"},
  {"state": "KY", "route": "juvenile-petition-610330", "result": "guidance_only", "payment": false, "reason": "ky.guidance_only_no_user_filed_court_petition"},
@@ -80,7 +81,7 @@ const cases=[
  {"state": "MA", "route": "automatic-non-conviction-sealing-for-not-guilty-no-bill-or-no-probable-cause-outcomes-100c", "result": "guidance_only", "payment": false, "reason": "ma.guidance_only_no_user_filed_court_petition"},
  {"state": "MA", "route": "court-requested-sealing-for-dismissal-or-nolle-prosequi-100c", "result": "guidance_only", "payment": false, "reason": "ma.lawrence_hold_guidance_only"},
 
- {"state": "HI", "route": "dui-under-21-conviction", "result": "packet_ready_with_caution", "payment": true, "reason": "hi.compiled_rule_match.rule-01-a-written-hcjdc-application-may-cover-qualifying-arrest"},
+ {"state": "HI", "route": "dui-under-21-conviction", "result": "packet_ready_with_caution", "payment": true, "predecessorReason": "hi.compiled_rule_match.rule-01-a-written-hcjdc-application-may-cover-qualifying-arrest", "reason": "hi.dui_pathway_context"},
  {"state": "HI", "route": "first-time-drug-conviction", "result": "packet_ready_with_caution", "payment": true, "reason": "hi.compiled_rule_match.route-first-time-drug-conviction"},
  {"state": "HI", "route": "nonconviction-arrest-expungement", "result": "packet_ready_with_caution", "payment": true, "reason": "hi.compiled_rule_match.rule-04-a-complete-application-valid-government-photo-id-paymen"},
  {"state": "LA", "route": "expungement-by-redaction-for-multi-person-records", "result": "guidance_only", "payment": false, "reason": "la.lawrence_hold_guidance_only"},
