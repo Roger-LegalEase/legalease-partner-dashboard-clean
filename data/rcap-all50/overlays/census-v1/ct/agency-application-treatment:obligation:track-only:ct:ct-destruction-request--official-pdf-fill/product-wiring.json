@@ -38,18 +38,11 @@
     "renderedArtifacts": "data/rcap-all50/overlays/census-v1/ct/agency-application-treatment:obligation:track-only:ct:ct-destruction-request--official-pdf-fill/reports/rendered-artifacts.json",
     "sourceReceipt": "data/rcap-all50/overlays/census-v1/ct/agency-application-treatment:obligation:track-only:ct:ct-destruction-request--official-pdf-fill/source-receipt.json",
     "sourceVersion": [],
-    "acceptanceReceipt": {
-      "verdict": "RASTER_PASS",
-      "workflowRunId": "34679350291",
-      "jobId": "103515384868",
-      "artifactId": "10293662146",
-      "boundToCanonicalSha256": "f4202551dba55116bcd9ead310b38700909ce453290aeca5d334a68b969b482c",
-      "coversTheWholeFamily": true
-    },
+    "acceptanceReceipt": null,
     "lastIndependentVerification": {
-      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vfct1",
-      "verifiedAtBase": "f0106bea68707bc0a8418e049fde06a6a5c43732"
+      "verifiedAtBase": "5e7fe802ca21d39c444d5e110b8e8f63be1a1f27"
     },
     "paymentEligible": false,
     "sponsorshipEligible": false,
@@ -73,6 +66,19 @@
           "boundToCanonicalSha256": "5ecda8851a55db44ff78338c5ff75d2a618e48010986697d5568876d922cf948",
           "coversTheWholeFamily": true
         }
+      },
+      {
+        "why": "The acceptance receipt binds an exact canonical SHA-256 and this write's canonical bytes are not those bytes, so the receipt does not describe this packet. It is withdrawn and kept as history rather than deleted, and it is not carried forward as though it still applied. Only the central raster acceptance workflow issues a receipt; nothing here issues one and nothing here sets a verdict.",
+        "boundToCanonicalSha256": "f4202551dba55116bcd9ead310b38700909ce453290aeca5d334a68b969b482c",
+        "replacedByCanonicalSha256": "7883f7a0748de173b5e424e9d67d45dce742222bb6493443a1a0118f42120c3c",
+        "withdrawnReceipt": {
+          "verdict": "RASTER_PASS",
+          "workflowRunId": "34679350291",
+          "jobId": "103515384868",
+          "artifactId": "10293662146",
+          "boundToCanonicalSha256": "f4202551dba55116bcd9ead310b38700909ce453290aeca5d334a68b969b482c",
+          "coversTheWholeFamily": true
+        }
       }
     ]
   },
@@ -87,7 +93,7 @@
         "order": 1,
         "documentId": "agency_preparation_guide",
         "file": "data/rcap-all50/overlays/census-v1/ct/agency-application-treatment:obligation:track-only:ct:ct-destruction-request--official-pdf-fill/fixtures/canonical.pdf",
-        "sha256": "f4202551dba55116bcd9ead310b38700909ce453290aeca5d334a68b969b482c",
+        "sha256": "7883f7a0748de173b5e424e9d67d45dce742222bb6493443a1a0118f42120c3c",
         "requirement": "required"
       }
     ]
