@@ -56,7 +56,7 @@ const contactAnswerText = (answer: AnswerValue | undefined): string => answer ==
 /** Explicit saves; every navigation waits for persistence and canonical conditions. */
 export function PacketInformationBuilder({
   itemId, stateCode, pathwayId, questions: initialQuestions, sections: initialSections = [], initialAnswers,
-  initiallyMissing, initialRevision, initialResumeSectionId = null, initialPendingDerivations = [], initialContactReconciliation = null, initialRecordClarificationIds = [], initialCourtRecordConflict = false, initialAccountEmailSuggestion = null, initialCaProp64Clarification = false, initialRouteChanged = false, editingFromReview = false, returnToMatterAfterCorrection = false, gaPardonPreparation = false, mtDeferredPreparation = false, caJuvenilePreparation = false
+  initiallyMissing, initialRevision, initialResumeSectionId = null, initialPendingDerivations = [], initialContactReconciliation = null, initialRecordClarificationIds = [], initialCourtRecordConflict = false, initialAccountEmailSuggestion = null, initialCaProp64Clarification = false, initialRouteChanged = false, editingFromReview = false, returnToMatterAfterCorrection = false, gaPardonPreparation = false, mtDeferredPreparation = false, caJuvenilePreparation = false, mdJuvenilePreparation = false
 }: {
   itemId: string;
   stateCode: string;
@@ -80,6 +80,7 @@ export function PacketInformationBuilder({
   gaPardonPreparation?: boolean;
   mtDeferredPreparation?: boolean;
   caJuvenilePreparation?: boolean;
+  mdJuvenilePreparation?: boolean;
 }) {
   const { locale, text: localizeText } = useLocalization();
   const copy = (en: string, es: string) => locale === "es" ? es : en;
@@ -183,7 +184,7 @@ export function PacketInformationBuilder({
           const submittedRevision = revision.current;
           const submittedRecordChoices = [...recordChoices.current];
           const submittedAccountEmailChoice = accountEmailChoice.current;
-          const response = await fetch(`/api/expungement-ai/briefcase/${encodeURIComponent(itemId)}/packet-information${caJuvenilePreparation ? "?preparation=ca-prop64-juvenile" : mtDeferredPreparation ? "?preparation=mt-deferred" : gaPardonPreparation ? "?preparation=ga-pardon" : ""}`, {
+          const response = await fetch(`/api/expungement-ai/briefcase/${encodeURIComponent(itemId)}/packet-information${mdJuvenilePreparation ? "?preparation=md-juvenile" : caJuvenilePreparation ? "?preparation=ca-prop64-juvenile" : mtDeferredPreparation ? "?preparation=mt-deferred" : gaPardonPreparation ? "?preparation=ga-pardon" : ""}`, {
             method: "POST", headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ answers: changedPacketAnswers(submitted, confirmed.current), useContactComponents: contactChoice.current, clearInactiveCustodyFacts: clearCustodyChoice.current, confirmRecordFacts: submittedRecordChoices, useAccountEmail: submittedAccountEmailChoice !== null && submitted.email_address === submittedAccountEmailChoice, expectedRevision: submittedRevision, resumeSectionId: editingFromReview ? null : resumeSectionId, navigationIntent: editingFromReview ? "stay" : navigationIntent, editingFact: editingSensitiveIdentifier ? "social_security_number" : undefined })
           });
@@ -259,7 +260,7 @@ export function PacketInformationBuilder({
   async function loadSavedForComparison() {
     const requestSequence = ++recoverySequence.current;
     try {
-      const response = await fetch(`/api/expungement-ai/briefcase/${encodeURIComponent(itemId)}/packet-information${caJuvenilePreparation ? "?preparation=ca-prop64-juvenile" : mtDeferredPreparation ? "?preparation=mt-deferred" : gaPardonPreparation ? "?preparation=ga-pardon" : editingSensitiveIdentifier ? "?editingFact=social_security_number" : ""}`, { cache: "no-store" });
+      const response = await fetch(`/api/expungement-ai/briefcase/${encodeURIComponent(itemId)}/packet-information${mdJuvenilePreparation ? "?preparation=md-juvenile" : caJuvenilePreparation ? "?preparation=ca-prop64-juvenile" : mtDeferredPreparation ? "?preparation=mt-deferred" : gaPardonPreparation ? "?preparation=ga-pardon" : editingSensitiveIdentifier ? "?editingFact=social_security_number" : ""}`, { cache: "no-store" });
       const payload: unknown = await response.json();
       if (requestSequence !== recoverySequence.current) return;
       if (!response.ok || !isPacketSaveReceipt(payload) || payload.revision < revision.current || payload.reviewPath !== `/briefcase/${encodeURIComponent(itemId)}/review`) throw new Error("recovery_unavailable");
@@ -459,7 +460,7 @@ export function PacketInformationBuilder({
               focusQuestion("email_address");
             }}>{copy("Use this email in my draft", "Usar este correo electrónico en mi borrador")}</button>
           </div> : null}{recordClarificationIds.includes(question.id) && questionAnswerState(question, answers[question.id]) === "known_valid" && answerValueIsKnown(answers[question.id]) ? <div className="mt-3" data-record-clarification={question.id}>
-            <p className="text-sm" id={`record-clarification-${question.id}`}>{(mtDeferredPreparation || caJuvenilePreparation) ? copy("Compare these saved details with your current records. Keep the displayed answer if it is correct, or edit it before confirming. The previous values will remain in your saved history.", "Compare estos datos guardados con sus expedientes actuales. Conserve la respuesta mostrada si es correcta o edítela antes de confirmarla. Los valores anteriores permanecerán en su historial guardado.") : copy("Compare this saved answer with the court record. Keep it if it is correct, or edit it before confirming. We will not replace it automatically.", "Compare esta respuesta guardada con el expediente judicial. Consérvela si es correcta o edítela antes de confirmarla. No la reemplazaremos automáticamente.")}</p>
+            <p className="text-sm" id={`record-clarification-${question.id}`}>{(mtDeferredPreparation || caJuvenilePreparation || mdJuvenilePreparation) ? copy("Compare these saved details with your current records. Keep the displayed answer if it is correct, or edit it before confirming. The previous values will remain in your saved history.", "Compare estos datos guardados con sus expedientes actuales. Conserve la respuesta mostrada si es correcta o edítela antes de confirmarla. Los valores anteriores permanecerán en su historial guardado.") : copy("Compare this saved answer with the court record. Keep it if it is correct, or edit it before confirming. We will not replace it automatically.", "Compare esta respuesta guardada con el expediente judicial. Consérvela si es correcta o edítela antes de confirmarla. No la reemplazaremos automáticamente.")}</p>
             <button type="button" aria-describedby={`record-clarification-${question.id}`} className="mt-3 min-h-11 rounded border px-4 py-2 font-semibold disabled:opacity-50" disabled={saving} onClick={() => { recordChoices.current = [question.id]; setRecordChoicePending(true); void save(screenId, "stay"); }}>{copy("Confirm this answer", "Confirmar esta respuesta")}</button>
           </div> : null}{question.required && ["uncertain", "declined"].includes(questionAnswerState(question, answers[question.id])) ? <p className="mt-3 text-sm" role="status">{copy("You can continue with other questions. This answer still needs to be resolved before your packet can be prepared.", "Puede continuar con las demás preguntas. Esta respuesta aún debe aclararse antes de preparar su paquete.")}</p> : null}</div>)}
         </fieldset>

@@ -1,7 +1,7 @@
 import { isMsTimingDisplayText } from "@/lib/expungement-ai/reviewed-result-copy";
 import { msExactTimingQuestionIds } from "@/lib/rcap-engine/mississippi-exact-timing";
 import { readProtectedPacketVerification } from "@/lib/expungement-ai/verification-cas";
-import { caProp64ClarificationModelFor, factualPathwayCorrectionIds, heldPacketCorrectionInputIds, isNebraskaNonconvictionGuidanceCorrection, isLouisianaAutomationStatusGuidanceCorrection, isMaineNonconvictionGuidanceCorrection, isMissouriClosureGuidanceCorrection, isMissouriMarijuanaGuidanceCorrection, isTexasNondisclosureGuidanceCorrection, isMontanaDeferredGuidanceCorrection } from "@/lib/expungement-ai/packet-information";
+import { caProp64ClarificationModelFor, mdJuvenilePreparationModelFor, factualPathwayCorrectionIds, heldPacketCorrectionInputIds, isNebraskaNonconvictionGuidanceCorrection, isLouisianaAutomationStatusGuidanceCorrection, isMaineNonconvictionGuidanceCorrection, isMissouriClosureGuidanceCorrection, isMissouriMarijuanaGuidanceCorrection, isTexasNondisclosureGuidanceCorrection, isMontanaDeferredGuidanceCorrection } from "@/lib/expungement-ai/packet-information";
 import { CA_PROP64_CLARIFICATION_COPY } from "@/lib/expungement-ai/ca-prop64-choices";
 import { packetDisplayCopy, packetMatterTitleCopy, packetMatterSummaryCopy } from "@/lib/expungement-ai/packet-display-copy";
 import { SponsorCapacityNotice } from "@/components/expungement-ai/SponsorCapacityNotice";
@@ -39,6 +39,9 @@ export default async function BriefcasePacketPage({
   const clarificationRead = storedItem?.state === "CA" && (item?.authorityStatus === "unavailable" || item?.resultCode === "needs_review")
     ? await readProtectedPacketVerification({ consumerAuthUserId: auth.userId, briefcaseItemId: storedItem.id }) : null;
   const clarification = clarificationRead?.ok ? caProp64ClarificationModelFor(clarificationRead.value) : null;
+  const mdPreparationRead = item?.jurisdiction === "MD" && item.pathwayId === "juvenile-expungement" && item.authorityStatus === "protected_draft"
+    ? await readProtectedPacketVerification({ consumerAuthUserId: auth.userId, briefcaseItemId: item.id }) : null;
+  const mdPreparation = mdPreparationRead?.ok ? mdJuvenilePreparationModelFor(mdPreparationRead.value) : null;
   const msTimingSummary = item?.jurisdiction === "MS" && isMsTimingDisplayText(item.summary ?? "");
   const available = item?.authorityStatus !== "unavailable";
   const eligibilityCorrection = ["NY", "CA", "IL", "GA"].includes(item?.jurisdiction ?? "")
@@ -92,6 +95,10 @@ export default async function BriefcasePacketPage({
       {item?.packetDraft.status === "available" && item.packetDraft.caJuvenilePreparationAvailable ? <p className="mb-5 rounded border border-slate-300 p-4">
         <LocalizedCopy en="You can save the details for your juvenile court request. Each additional finding needs its own conduct date and court record. Saving these details does not sign or file forms; a packet is not available to download." es="Puede guardar los datos de su solicitud al tribunal de menores. Cada determinación adicional necesita su propia fecha de los hechos y expediente judicial. Guardar estos datos no firma ni presenta formularios; no hay un paquete disponible para descargar." />{" "}
         <Link className="underline" href={`/briefcase/${encodeURIComponent(item.id)}/packet-information?preparation=ca-prop64-juvenile`}><LocalizedCopy en="Prepare juvenile court details" es="Preparar los datos del tribunal de menores" /></Link>
+      </p> : null}
+      {mdPreparation && item ? <p className="mb-5 rounded border border-slate-300 p-4">
+        <Link className="inline-flex min-h-11 items-center font-semibold underline" href={`/briefcase/${encodeURIComponent(item.id)}/packet-information?preparation=md-juvenile`}><LocalizedCopy en="Prepare juvenile court details" es="Preparar los datos del tribunal de menores" /></Link>
+        <span className="block text-sm"><LocalizedCopy en="Save details from your juvenile case records. Saving does not verify eligibility, sign or file a form, or make a packet available to download." es="Guarde los datos de los expedientes de su caso de menores. Guardar no verifica la elegibilidad, no firma ni presenta un formulario y no habilita un paquete para descargar." /></span>
       </p> : null}
       {item?.packetDraft.status === "available" && item.packetDraft.mtDeferredPreparationAvailable ? <p className="mb-5 rounded border border-slate-300 p-4">
         <Link className="inline-flex min-h-11 items-center font-semibold underline" href={`/briefcase/${item.id}/packet-information?preparation=mt-deferred`}><LocalizedCopy en="Prepare your deferred-sentence document details" es="Prepare los datos de sus documentos de sentencia aplazada" /></Link>
