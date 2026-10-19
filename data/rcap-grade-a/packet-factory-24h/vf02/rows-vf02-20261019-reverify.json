@@ -1,0 +1,228 @@
+{
+  "schemaVersion": "rcap-independent-verification-rows/v1",
+  "lane": "VF02",
+  "laneKind": "independent-verification",
+  "generatedAtBase": "f3ff92ac270cf3ac252469d84cba0390e0233208",
+  "verifier": "CI-FACTORY-CLAUDE-VT (independent; built, repaired and rendered none of these packets)",
+  "preflight": "claims asserted per subject via claim.mjs --assert before any artifact was read; every assertion returned CLAIM_OK; the packet-build environment preflight is not applicable to a verification reading on this machine (no corpus mounted), and no family here binds corpus bytes",
+  "obligationSet": [
+    "ROUTE_IDENTITY",
+    "SOURCE_IDENTITY",
+    "COMPONENT_SET",
+    "KNOWN_PREFILLS",
+    "REQUIRED_BEFORE_FILING",
+    "ROUTE_OPTIONS",
+    "REPEATING_ROWS",
+    "PROTECTED_FIELDS",
+    "ARTIFACTS",
+    "PAGE_ORDER",
+    "CLIPPING_AND_OVERLAP",
+    "FILING_DESTINATION",
+    "FEE_AND_WAIVER",
+    "SERVICE",
+    "SELF_HELP_STOP"
+  ],
+  "standardApplied": {
+    "measuredHere": "Every obligation was measured in this lane from the committed artifacts at the base sha named above: artifact hashes recomputed from bytes, page counts read with pdfinfo, every recorded write read back from pdftotext output, word geometry from pdftotext -bbox checked against the page box and same-band pairs, committed-record pins recomputed from disk, the repository completeness verifier run here for the nine counters. No counter was copied from a builder self-report.",
+    "lapsedPins": "Where a receipt's whole-file pin had drifted, the pinned blob was recovered from git history, the family's own entries were compared between the pinned and current versions, and the row records the CURRENT digest and byte length as the pin it verified against; receipts on disk are not edited by this lane.",
+    "SOURCE_IDENTITY": "Met only by recomputing every bound record hash from bytes; these families bind committed repository records and no corpus bytes.",
+    "FEE_AND_WAIVER": "DET-FEE-AND-WAIVER-001 (data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json) applied as written.",
+    "SERVICE": "Met by a named rule, or an affirmative statement that nobody is served with the mechanism that replaces it; silence or an unnamed office does not meet it.",
+    "SELF_HELP_STOP": "Met when the packet states where the platform stops and a lawyer takes over, measured against the controlling decision's stop conditions.",
+    "FILING_DESTINATION": "Met when the participant-facing instructions name the court, clerk or agency the route names."
+  },
+  "rows": [
+    {
+      "itemId": "agency-application-treatment:obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission",
+      "lane": "VF02",
+      "worker": "CI-FACTORY-CLAUDE-VT (independent; built, repaired and rendered none of these packets)",
+      "verifiedAtBase": "f3ff92ac270cf3ac252469d84cba0390e0233208",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ny/agency-application-treatment:obligation:research-decision-route:ny:ny-160-55-violation:dcjs-correction-submission--official-pdf-fill",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "howMeasured": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <id> run here at f3ff92ac2 with MASTER_LIBRARY_SOURCE_DIR set: PASS_COMPLETE, 6/13 written, all nine counters printed 0. The builder's reports/completeness-counters.json was read only as the thing being checked; it agrees."
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "detail": "familyId agrees across product-wiring, source-receipt, production-field-map, rendered-artifacts, actual-writes, completeness-counters and the MASTER_QUEUE row. The single routeKey obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission is declared identically in all four route-bearing records, occurs exactly once in route-obligation-candidate.json (routes[31]: destination 'New York State Division of Criminal Justice Services', instrument 'certified-disposition correction submission to DCJS', legalDecisionRecordIds research-track-decision:ny_160_55_violation, requiredSourceIds []) and 5 times in canonical-route-universe.json. Research-decision route: trackId null and runtimePathwayId null, the declared shape. The sibling sentencing-court route is named in the receipt and field map as a separate family and no component of it is in these bytes."
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "detail": "Two committedRecords, both drifted, no official-source binaries. (1) data/record-clearing/legal-decisions/2026-08-28-national-legal-decisions.json: pinned 0aad88ef.../184365 B, recomputed here sha256 63fe0b16adc4c2debd8b583cf02ba365b8b2045d86f53af5c5be720c86e74373 / 184885 B. The controlling decision is researchTrackDecisions[7] (trackId ny_160_55_violation; heading 'New York - `ny_160_55_violation`'); its completeSectionText (1756 chars) is byte-identical between the pinned blob and the current file (sha256 prefix c4d0488a in both); all 12 build-script anchors present verbatim in both. The +21/-16 line drift is confined to the open-question register (Q-057 reworded, Q-058 added, count 37 to 38) and 14 memoSha256 values of other tracks. (2) src/lib/rcap-engine/compiled/profiles/NY-new-york.json: pinned ee4926a11e1035c530f3e1cabd71783c260332c799726b175dc2f529f108fa1e / 188645 B, recovered from git history at commit 8cd6b6385 and its sha256 recomputed equal to the pin; current sha256 1639e5832d5efa8f0aab8ee13adbcaae4ea8f2f2181e14ab2677da76d98eac78 / 188890 B (commit f5204e12d, 'fix: distinguish New York conviction and arrest facts'). Unified diff pinned to current: +6 lines, 0 removed, adding two keys (ny_16059_undisposed_arrest, ny_16059_later_conviction_entered) to a CPL 160.59 track mapping; all 6 build-script anchors (the three fee-table lines, the DCJS record-review line and the two 160.55 workflow statements) present verbatim in both. New pins: 63fe0b16... / 184885 and 1639e583... / 188890."
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "detail": "2 declared components (dcjs_correction_submission, agency_route_sheet) = 2 composedComponentsAuthoredByThisBuild = 2 in the rendered componentSet; the page manifest of both fixtures places the letter on packet pages 1-2 and the route sheet on 3-4, and the first line of each page read from the bytes agrees ('CORRECTION SUBMISSION TO THE DIVISION OF CRIMINAL JUSTICE SERVICES' on page 1, 'WHO HOLDS WHAT, WHAT IT COSTS, AND WHAT YOU DO NOT FILE' on page 3). No sentencing-court component remains in the bytes. requiredComponentsMissing=0 here."
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "detail": "6 actual writes per fixture (subject_name, subject_date_of_birth, subject_mailing_address, subject_telephone, subject_email on the letter; prepared_for on the route sheet). All 12 located by me in pdftotext -layout output of the fixture bytes (12/12 found, 0 missing), including the boundary values '1188 Upper Chenango Bridge Crossing Road, Apartment 14B, Binghamton, New York 13901-2214' and '(607) 555-0199 ext. 4417'. knownRequiredFieldsMissing=0 and requiredFactsNotCollected=0 here."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "detail": "5 requiredBeforeFiling blanks declared in the field map and the blanks report (DCJS address, disposing court, what the criminal-history result shows and its date, disposition date, docket number); all 5 printed as labelled dotted blanks on page 1 and all 5 named in participant-instructions.md with what to write. Three documents to obtain first are named with their office and, where held, their price (certificate of disposition $5/$10 from the court's records office; criminal-history result via a DCJS record review; disposition papers), and the separate sentencing-court packet is named as the prerequisite step. A4 check: the packet says the repository does not hold the DCJS Record Review Unit's street address; the compiled NY profile mentions 'DCJS Record Review' only as a procedure and holds no address for it, so the statement is true as measured."
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "detail": "0 selection controls. routeSelectionsMade records two build-time selections (the post-November 1, 1991 automatic branch; the DCJS letter as the final step of the recorded workflow), each determined by a quoted sentence of the controlling decision; the pre-1991 legacy branch is a stop condition, not an election. No printed election on any page. requiredOptionsMissing=0 here."
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "detail": "0 repeating-row structures in the field map; incompleteRows=0 here."
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "detail": "2 protected blanks (dcjs_correction_submission.submission_signature, submission_signature_date; refusalClass signature_or_date_participant_completion). refusedFieldsWithInk=[] in both fixtures; the delivered line reads 'DATE ..... SIGNATURE OF WRITER .....' followed by '(The writer signs and dates this letter personally. Nothing on this page is signed or dated for the writer.)'. protectedWrites=0 here."
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "detail": "2 PDFs on disk, 2 recorded, 0 unrecorded, 0 missing. Recomputed here: canonical.pdf sha256 8abff71f85f09f7c248daa088286855253f3b95172837efa2fcd69a0c51e57ec / 10190 B; boundary.pdf sha256 c48c6e8cea3616ada41949087580f4db52ea94a0613fa55942f4f62de5fe4878 / 10517 B; both equal to reports/rendered-artifacts.json. The acceptance receipt in product-wiring (RASTER_PASS, run 33839480114) binds canonical 8abff71f..., the current bytes. vf01/rows.json holds four rows for this family; the latest (base 553966eaa, PASS_COMPLETE_INDEPENDENT) names the current canonical and boundary hashes, and the three older rows describe the superseded six-page three-component build."
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "detail": "pdfinfo reads 4 pages for both fixtures = recorded pageCount 4 = manifest length 4. Manifest packetPage runs 1..4 contiguous with the two components contiguous and in declared order; the first line of every page, read from the bytes, confirms the letter on pages 1-2 and the route sheet on pages 3-4 in both fixtures."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "detail": "pdftotext -bbox run here: canonical 891 words, boundary 902 words; 0 words outside the page box and 0 same-band overlapping word pairs in either fixture. nonWhitespaceGlyphsOutsideMeasuredWriteBoxes=0 in both fixtures; visualDefects=0 here."
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "detail": "The census destination is 'New York State Division of Criminal Justice Services' and the decision's workflow ends 'send certified disposition to DCJS for correction'. The letter is addressed 'TO: NEW YORK STATE DIVISION OF CRIMINAL JUSTICE SERVICES - RECORD REVIEW UNIT', the route sheet names which office holds which record (the disposing court originates the sealing notice; DCJS holds the statewide criminal-history record), and the packet states that nothing is filed in any court and that the sentencing-court step belongs to the sibling family. The one destination fact the repository does not hold (the unit's street address) is named as such with the unit itself as the office that publishes it (A1)."
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "detail": "All three limbs engaged, each sourced to a held record and each confirmed in the current profile bytes: 'Automatic sealing (160.50/160.55/Clean Slate) $0 No filing' (NY profile fee table, keyed to 160.55, this route's statute) is quoted for the seal itself; the certificate of disposition is priced $5 per case outside NYC / $10 within the five boroughs from the same table, and the page discloses that the table annotates the line 'Required for each 160.59 case' and tells the participant to ask the issuing court's records office what it charges today; 'DCJS record review (your own record) DCJS fee' is carried with the honest statement that no held source states the amount and the DCJS Record Review Unit named as the office that publishes it. Waiver: 'There is no fee waiver on this route, because there is no fee to waive', with the profile's legal-aid organisations and county DA sealing units named for a participant who cannot pay the certificate charge. The three fee-table lines are present in both the pinned and current profile bytes (anchor check), so the drift did not touch them."
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "detail": "Affirmative statement plus mechanism on the delivered route sheet and in the instructions: 'Nobody. There is no opposing party, no district attorney to notify and no affidavit of service. Complete the separate sentencing-court request first, then send this DCJS submission and keep dated proof.' Checked against held sources: the decision's workflow is a transmission to DCJS with no service step and the NY profile states no service requirement for a DCJS correction, so 'no held record states any service requirement for this submission' is true as measured."
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "detail": "Measured against the controlling decision at researchTrackDecisions[7]: 'motion or counsel if court previously entered an interests-of-justice nonsealing order'; 'A pre-November 1, 1991 qualifying case may require a motion under the statute's legacy branch'; product disposition 'CONTESTED NONSEALING: ATTORNEY HANDOFF'; and 'Do not promise that ordinary 160.55 violations will receive full court-file sealing'. The delivered route sheet prints six stops (interests-of-justice non-sealing order -> motion or counsel; pre-November 1, 1991 disposition; wanting the courthouse file sealed; a disposition other than a violation or traffic infraction, with Clean Slate named as separate; either office refuses; immigration) and opens with 'CPL Sec. 160.55 DOES NOT SEAL THE COURT FILE'. All three recorded stops are carried, the no-promise rule is honoured on the page, and no sentence sends the participant to file anything."
+        }
+      },
+      "evidence": {
+        "verifierRun": "PASS_COMPLETE, 6/13 written, all nine counters zero, run here at f3ff92ac2",
+        "sourceRecomputation": "2/2 committedRecords recomputed from disk, both drifted: national legal decisions 0aad88ef.../184365 B to 63fe0b16.../184885 B with researchTrackDecisions[7] byte-identical and 12/12 anchors present; NY profile ee4926a1.../188645 B to 1639e583.../188890 B with a +6/-0 line diff in a 160.59 track mapping and 6/6 anchors present; 0 official-source binaries bound",
+        "artifactRecomputation": "2/2 PDFs hash and byte-length to rendered-artifacts.json; pdfinfo 4 pages each",
+        "byteReadBack": "12/12 written values (6 per fixture) located by this lane in pdftotext output of the fixture bytes; 0 refused fields with ink; 0 glyphs outside measured write boxes",
+        "stopConditions": "3/3 stop conditions held by the controlling decision (interests-of-justice non-sealing order, pre-1991 legacy branch, contested non-sealing) carried on the delivered route sheet with the motion-or-counsel escalation; the court-file no-promise rule is printed first",
+        "lapseResolved": "BOUND_SOURCE_DRIFTED on two records. 2026-08-28-national-legal-decisions.json: pinned blob (drift/2026-08-28-national-legal-decisions.json.pinned.0aad88ef, sha256 recomputed equal to the pin) vs current is +21/-16 lines in the open-question register and other tracks' memoSha256 values; the three strings carrying ny_160_55_violation are identical. NY-new-york.json: the pinned blob was recovered from commit 8cd6b6385 (sha256 recomputed equal to the pin) and differs from current by +6/-0 lines in a 160.59 mapping; no anchor moved. Re-verified against current bytes; the new pins are 63fe0b16adc4c2debd8b583cf02ba365b8b2045d86f53af5c5be720c86e74373 / 184885 and 1639e5832d5efa8f0aab8ee13adbcaae4ea8f2f2181e14ab2677da76d98eac78 / 188890. This row records the pins; it does not edit the receipt."
+      },
+      "failedObligationNames": [],
+      "commercialRoutesOpened": false,
+      "overlayDirectoriesModified": false,
+      "grantsNothing": "This row is a verification reading. It opens no route, sets no price and authorises no promotion."
+    },
+    {
+      "itemId": "de_mandatory_expungement-set",
+      "lane": "VF02",
+      "worker": "CI-FACTORY-CLAUDE-VT (independent; built, repaired and rendered none of these packets)",
+      "verifiedAtBase": "f3ff92ac270cf3ac252469d84cba0390e0233208",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/de/de-mandatory-expungement-set--official-pdf-fill",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "howMeasured": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family de_mandatory_expungement-set run here at f3ff92ac2 with MASTER_LIBRARY_SOURCE_DIR set: PASS_COMPLETE, 5/12 written, all nine counters printed 0. The builder's reports/completeness-counters.json (9 zeros, blankDispositions REQUIRED_BEFORE_FILING 7) was read as the thing being checked, not as the measurement."
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "detail": "One routeKey, obligation:track-pathway:DE:de_mandatory_expungement:mandatory-and-automatic-expungement-under-11-del-c-4373-and-4373a, identical in product-wiring.json (routeKey and routeKeys), source-receipt.json, production-field-map.json and the MASTER_QUEUE row, printed on page 1 ('ROUTE:') and page 4 ('Route:') of both fixtures, and resolving at route-obligation-candidate.json routes[345] (trackId de_mandatory_expungement, destination agency 'State Bureau of Identification', currentServiceDisposition non_filing_guidance, requiredSourceIds including compiled-profile DE-delaware.json) and in route-obligation-census-v1/category-a-implementation-waves.json. route-product-metadata.json 'DE:mandatory-and-automatic-expungement-under-11-del-c-4373-and-4373a' is userFiled false, formStrategy guidance_only, checkoutEligibility not_eligible. Statutory authority 11 Del. C. Secs. 4373 and 4373A matches DE.memo.json track de_mandatory_expungement; nothing in the guide pleads the discretionary, juvenile or pardon track."
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "detail": "The receipt binds no committedRecords and no source binary (GUIDANCE_AUTHORITY_BOUND; no public application binary exists, per the DE-SBI-MANDATORY receipt) and instead hashes nine compositionSources. All nine recomputed here with sha256sum: eight exact - 2026-09-07-de-sbi-fee-scope-correction.json 75c5466a.../2448, reference/delaware/DE-Service-Code-Form_27S23V.pdf 963c8583.../276670, reference/delaware/sbi-process-20260907.html 47c8cc44.../64690, DE-SBI-MANDATORY/receipt.json 1a26621d.../2184, DE.memo.json fdb976a3.../83644, compiled/profiles/DE-delaware.json 6e86afdb.../140777, route-product-metadata.json b4db39f6.../264608, route-obligation-candidate.json f6fc0814.../2629290 - and ONE drifted: data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json pinned 054e593f77130eb76100edd8239c8781a6d6a1032ed1017b839b5eeb8bc03982 / 82180 B (the tree at c4fc31ba, 2026-09-11 21:15), now ef7ac045778cbb1e3ef340e2bddb2545b7662cb9a6381896f95d7254d12815e1 / 82712 B (since d70e5995, 2026-09-12 'Adopt independently checked DE Family Court source facts'). I diffed the pinned bytes (git show, read-only) against the current file: the parsed JSON differs at exactly five paths, all inside /reconciliation42/families/44 (de_discretionary_family_court-set: relationshipNote, exactNextAction, added additionalRequiredSourceIds and requiredPacketSourceBindings for Form 283) plus one appended /reconciliation42/acquisitionEvidencePaths entry; the de_mandatory_expungement-set row at /reconciliation42/families/46 and every other value are canonical-identical, and the unified diff has 0 lines mentioning de_mandatory, DE-SBI or Delaware. The queue's boundGuidanceAuthorityRecord LEGAL_BLOCKED_RESOLUTION_2026-09-11.json recomputes exactly at 5e3b6fb6bdeff849949d1d2c44d9b4e7badfdf6e7ba38be6135c388df176b1f2 and carries decisions[12] DE-MANDATORY-SBI-ADMINISTRATIVE-PATHWAY (P1, LEGAL_CLEAR). Consequence stated plainly: the receipt's allSourcesExact true is no longer literally true for 1 of 9, the receipt on disk was not refreshed, and the MASTER_QUEUE row shows no verificationLapsedBecause because its lapse detection reads committedRecords (empty here), not compositionSources. Re-verified here the same way the receipt's own 2026-09-11 identityRefresh did (anchors identical by structural comparison). New pin: sha256 ef7ac045778cbb1e3ef340e2bddb2545b7662cb9a6381896f95d7254d12815e1, byteLength 82712; an identityRefresh entry in the receipt is the builder's follow-up."
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "detail": "One component, agency_preparation_guide, declared identically in production-field-map componentSet, reports/rendered-artifacts.json, source-receipt composedComponentsAuthoredByThisBuild, product-wiring binding packetComponents (deliveryType process_guidance, instrumentKinds 'no filing - process guidance') and the MASTER_QUEUE row, covering all 4 pages of both fixtures. Judged against the binding product rule DE-MANDATORY-SBI-ADMINISTRATIVE-PATHWAY ('may prepare information/instructions and route the person through SBI but must not manufacture a fictional court application'): the guide says on page 1 'NOT AN OFFICIAL FORM AND NOT A COURT FILING', 'is not a Delaware SBI application, is not a court form, and is not filed or submitted anywhere', and that DE-SBI-MANDATORY-EXPUNGEMENT-APPLICATION is 'an internal repository description, not a title or form number assigned by Delaware'; no application or court pleading is composed. The census's legacy 'primary_filing' label is answered by the queue's satisfiedByRelationship entry for that source id. requiredComponentsMissing 0 measured here."
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "detail": "5 writes per fixture - participant_name, participant_dob, participant_address, participant_phone, participant_email - only identity and contact facts the platform holds. I ran pdftotext -layout on both fixtures and found every recorded value: 10/10, including the boundary fixture's \"Maria-Alejandra O'Shaughnessy-Whitfield\", '1968-12-31', the 83-character Wilmington address and '(302) 555-0199 ext. 4417'. nonWhitespaceGlyphsOutsideMeasuredWriteBoxes 0 for both fixtures. knownRequiredFieldsMissing 0 and invisibleWrites 0 measured here."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "detail": "requiredBeforeFilingCount 7, each a dotted blank on page 4 under 'FACTS YOU MUST CONFIRM BEFORE ACTING' with its own 'Check with:' source line, and each in the participant-instructions.md table. Measured against the memo: supportingDocuments has exactly one entry with requiredBeforeFiling true, 'Certified Delaware criminal history', and that name appears on page 1 of both fixtures and in instructions.md in the memo's own words ('Obtain the certified SBI history and submit it with the mandatory-expungement application ...', IdentoGo service code 27S23V, 'at about $72', 'Save the PDF at first opening'); the conditional SBI eligibility letter is carried as a blank. Nothing is filed on this route and the guide says so. requiredFactsNotCollected 0 and unclassifiedBlanks 0 measured here."
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "detail": "selectionControls 0, routeSelectionsMade [], routeSelectionNote 'presents no alternate instrument for the participant to elect'; the discretionary court petition is named only as a different route the participant does not take from this guide. requiredOptionsMissing 0 measured here."
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "detail": "No repeating row structure exists on any of the four pages; incompleteRows 0 measured here."
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "detail": "No signature line, date line, notary jurat or agency block exists on any page to be written into; the field map has 0 protected-field refusals because there is nothing to refuse, and the 7 refusals are all REQUIRED_BEFORE_FILING. Page 4 'PROTECTED ITEMS' states it: 'Do not sign or date this guide. Sign and date only the agency's own request or application, in the manner that agency directs. No court, clerk, prosecutor, agency, notary, or hearing-officer field is completed anywhere in this guide.' refusedFieldsWithInk [] in both fixtures; protectedWrites 0 measured here."
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "detail": "2 PDFs on disk, both recorded. canonical.pdf fe6116767ab21cd12f5448c6cb389072f32e4650e3a3b7f8d8bb82168e124f00 / 13688 B / 4 pages; boundary.pdf 45f57fe5ba073034ce2f3e3411c1b87410123ae51a56f235fbbb4e1d8656d3bb / 13761 B / 4 pages; both match reports/rendered-artifacts.json and product-wiring's fixtureBindings, and the canonical hash is the one the current acceptanceReceipt binds (RASTER_PASS, run 34628970364, job 103361882553); the earlier receipt bound to f08e5968... is recorded as withdrawn and is not relied on. 0 mismatches, 0 unrecorded, 0 missing."
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "detail": "Both manifests run packetPage 1..4, all agency_preparation_guide, sourcePage 1..4. My pdftotext page split confirms the title on page 1 and 'FACTS YOU MUST CONFIRM BEFORE ACTING' on page 4 in both fixtures, with the self-help stops on page 3. pdfinfo reads 4 pages, equal to the recorded 4, for both."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "detail": "pdftotext -bbox recomputed here: canonical 1374 words, boundary 1380 words, 0 words outside the 612x792 page box and 0 same-band overlapping word pairs in either; this agrees with the facts file. nonWhitespaceGlyphsOutsideMeasuredWriteBoxes 0 both fixtures; visualDefects 0 measured here; the current acceptance receipt is RASTER_PASS bound to the canonical hash."
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "detail": "Memo destination: kind agency, 'State Bureau of Identification'; compiled profile: 'on request to the SBI (302-739-5884). No court filing.' The guide names it on page 2 of both fixtures: 'Start with the Delaware State Police, State Bureau of Identification, Expungement Section. Call 302-739-5884. The official process page is https://dsp.delaware.gov/expungements/', and states its own silence rather than inventing an address: 'No mailing address, portal, or submission method is asserted here.' instructions.md 'Route boundary' says the same and that nothing is filed from the guide. This is the SBI-controlled administrative pathway the binding product rule names."
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "detail": "Met on the sourced-amount branch. I read the amounts from the retained DSP page bytes (sbi-process-20260907.html, 47c8cc44...): 'The fee for a certified State of Delaware Criminal History is $72.00' and 'If you qualify for a mandatory expungement, you must return your signed paperwork within 30 days of receipt and a money order payable to the Delaware State Police for $75.00'; the 2026-09-07 fee-scope correction (75c5466a...) carries the same two charges and supersedes, for this family only, the memo's extra $75 court filing fee. The guide prints exactly that: 'SBI PROCESS COSTS. The initial expungement application charge is $72. The additional $75 money order is due only if SBI's notice finds you mandatory-eligible ... Do not add a separate court filing fee', and instructions.md agrees ($72, conditional $75, 30 days, no separate court fee). Waiver: the memo's section 4372(l) waiver-or-conversion rule is quoted on page 2 and in instructions.md, with unpaid fines/fees/restitution as a stop. The guide also names the authority to confirm current amounts (SBI, 302-739-5884) and states, rather than resolves, the one thing the record does not establish (whether the certified history and the application are one enrolment or two). Honest nuance: pdftotext of the 27S23V sheet yields identification requirements only, no amounts; the amounts rest on the DSP page, which is hash-bound. No contradiction between instructions and PDF."
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "detail": "Memo rules.service: 'The source review does not state a service requirement for the SBI application'; the route is processActor agency, serviceBehavior automatic. The guide states affirmatively that nothing is filed, submitted or sent from it ('Do not send this guide, invent an application, or send a payment based on this guide'), that SBI supplies its own subsequent paperwork and eligibility letter (the mechanism that replaces any service), composes no certificate of service or service list, and names the checkable authority for the current process (SBI Expungement Section, 302-739-5884, dsp.delaware.gov/expungements). Nothing is claimed about service that the record does not establish."
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "detail": "DE.memo.json track de_mandatory_expungement declares nine selfHelpStopConditions; all nine are present in the committed record's own words on page 3 of both fixtures and in participant-instructions.md (the memo's section sign rendered 'Sec.'): pending charges outside the three carve-outs; serving incarceration, parole or probation; prior expungement within ten years or felony post-dating a felony expungement; Sec. 4373(b) domestic violence or child/vulnerable-adult victim; Sec. 4201(c) felony or Beau Biden Act offense (pardon only); Title 21 mix (Cornette and Gieck); unpaid fines, fees or restitution needing Sec. 4372(l); immigration, firearm, licensing, registry or law-enforcement employment; attacking the conviction. The route-boundary stops are added (SBI denies mandatory eligibility, directs a court petition, or the record does not clear), and the binding product rule's boundary is carried (no court application manufactured; a discretionary petition is 'a different court process, not a court filing made with this guide'). Protected items and the no-approval posture are stated ('LegalEase does not offer checkout or a filing packet on this route'). 9/9 memo stops carried."
+        }
+      },
+      "evidence": {
+        "verifierRun": "PASS_COMPLETE, 5/12 written, all nine counters zero, run here at f3ff92ac2",
+        "sourceRecomputation": "9/9 compositionSources rehashed here: 8 exact, 1 drifted (CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json 054e593f/82180 -> ef7ac045/82712) with the de_mandatory_expungement-set row and every DE-relevant value canonical-identical; the queue's bound guidance-authority record LEGAL_BLOCKED_RESOLUTION_2026-09-11.json exact at 5e3b6fb6; route key present in the census; the $72 / $75 / 30-day facts read from the retained DSP page bytes",
+        "artifactRecomputation": "2/2 PDFs hash to record; pdfinfo 4/4 pages both",
+        "byteReadBack": "10/10 written values (5 per fixture) read back from pdftotext -layout output produced here; bbox geometry 0 outside / 0 overlapping in both",
+        "stopConditions": "9/9 memo stop conditions carried verbatim on page 3 and in instructions.md; binding product rule DE-MANDATORY-SBI-ADMINISTRATIVE-PATHWAY boundary carried (no court application manufactured)",
+        "lapseResolved": "No lapse is recorded in MASTER_QUEUE, but one exists: compositionSource CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json drifted after the vf62 verdict (pinned 054e593f at c4fc31ba; current ef7ac045 since d70e5995, 2026-09-12). Re-verified here by git-show of the pinned bytes and a structural comparison of the parsed JSON: 5 differing paths, all in the de_discretionary_family_court-set row (families[44]) and one appended acquisitionEvidencePaths entry; the de_mandatory_expungement-set row (families[46]) is canonical-identical and no DE-mandatory or DE-SBI text appears in the diff. New pin recorded here: ef7ac045778cbb1e3ef340e2bddb2545b7662cb9a6381896f95d7254d12815e1 / 82712. The receipt on disk still says 054e593f and allSourcesExact true; an identityRefresh entry like the receipt's 2026-09-11 one is the builder's follow-up, and the queue's lapse detection does not reach compositionSources, which is why this went unrecorded."
+      },
+      "failedObligationNames": [],
+      "commercialRoutesOpened": false,
+      "overlayDirectoriesModified": false,
+      "grantsNothing": "This row is a verification reading. It opens no route, sets no price and authorises no promotion."
+    }
+  ]
+}
