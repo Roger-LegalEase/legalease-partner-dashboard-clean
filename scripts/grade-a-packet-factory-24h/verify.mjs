@@ -2009,7 +2009,13 @@ if (MUTATIONS) {
     { on: "stale", id: "F26", name: "a legally blocked family handed to a builder is caught", mutate: (j) => { const legal = j.rows.find((r) => r.destination === "LEGAL"); const built = read(ACTIVE).assignments.find((x) => x.lane === "packet-build" && x.items.length); legal.familyId = built.items[0]; return j; } },
     { on: "stale", id: "F26", name: "dropping every legal finding is caught by the master queue still holding them", mutate: (j) => { j.rows = j.rows.map((r) => (r.destination === "LEGAL" ? { ...r, destination: "SOURCE" } : r)); return j; } },
     { on: "ledger", id: "F24", name: "one family granted to two verifiers is caught", mutate: (j) => { const v = j.claims.find(c => c.laneKind === "independent-verification"); if (!v) throw new Error("F24 needs a grant schema"); j.claims.push({ ...v, lane: "VF99" }); return withClaimsDigest(j); } },
-    { on: "ledger", id: "F24", name: "a dispatched family missing from the ledger is caught", mutate: (j) => { const ids=new Set(read(ACTIVE).assignments.flatMap(a=>a.items??[])); const index=j.claims.findIndex(c=>ids.has(c.subjectId)); if(index<0)throw new Error("F24 requires a dispatched grant");j.claims.splice(index,1);return withClaimsDigest(j); } },
+    { on: "ledger", id: "F24", name: "a dispatched family missing from the ledger is caught", mutate: (j) => {
+      // Remove a grant F24 requires: the one whose kind, subject and operation a dispatch names, derived as F24
+      // derives them. A claim that merely shares a dispatched subject (an older released grant) is not that grant.
+      const dispatched = new Set(read(ACTIVE).assignments.flatMap((x) => (x.items ?? []).map((id) => `${x.itemKind === "sourceObligation" ? "source-obligation" : "packet-family"}::${id}::${x.itemKind === "sourceObligation" ? x.operation : x.lane}`)));
+      const index = j.claims.findIndex((c) => dispatched.has(`${c.subjectType}::${c.subjectId}::${c.operation}`));
+      if (index < 0) throw new Error("F24 requires a dispatched grant");
+      j.claims.splice(index, 1); return withClaimsDigest(j); } },
     /* Both of these ADD a grant, which moves claimsDigest, and F24 checks the
      * digest too. Without recomputing it the "caught" case would be caught for
      * the wrong reason and the "stays green" case could never stay green, so
